@@ -253,51 +253,50 @@ static void
 setup_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	send_mail_input_t *input = (send_mail_input_t *) in_data;
-
+	
 	if (!input->xport_uri) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     /* doesn't really need i18n */
 				     "No transport URI specified for send_mail operation.");
 		return;
 	}
-
+	
 	if (!CAMEL_IS_MIME_MESSAGE (input->message)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     "No message specified for send_mail operation.");
 		return;
 	}
-
+	
 	/* NOTE THE EARLY EXIT!! */
-
+	
 	if (input->done_folder == NULL) {
 		camel_object_ref (CAMEL_OBJECT (input->message));
-		gtk_object_ref (GTK_OBJECT (input->composer));
-		gtk_widget_hide (GTK_WIDGET (input->composer));
+		if (input->composer) {
+			gtk_object_ref (GTK_OBJECT (input->composer));
+			gtk_widget_hide (GTK_WIDGET (input->composer));
+		}
 		return;
 	}
-
+	
 	if (!CAMEL_IS_FOLDER (input->done_folder)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     "Bad done_folder specified for send_mail operation.");
 		return;
 	}
-
+	
 	if (input->done_uid == NULL) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     "No done_uid specified for send_mail operation.");
 		return;
 	}
-
-	if (!GTK_IS_WIDGET (input->composer)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No composer specified for send_mail operation.");
-		return;
-	}
-
+	
 	camel_object_ref (CAMEL_OBJECT (input->message));
 	camel_object_ref (CAMEL_OBJECT (input->done_folder));
-	gtk_object_ref (GTK_OBJECT (input->composer));
-	gtk_widget_hide (GTK_WIDGET (input->composer));
+	
+	if (input->composer) {
+		gtk_object_ref (GTK_OBJECT (input->composer));
+		gtk_widget_hide (GTK_WIDGET (input->composer));
+	}
 }
 
 static void
@@ -344,7 +343,7 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	/* now to save the message in Sentbox */
 	if (sentbox_folder) {
 		CamelMessageInfo *info;
-
+		
 		mail_tool_camel_lock_up ();
 		
 		info = g_new0 (CamelMessageInfo, 1);
@@ -368,10 +367,12 @@ cleanup_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	g_free (input->xport_uri);
 	g_free (input->done_uid);
 	
-	if (!camel_exception_is_set (ex))
-		gtk_widget_destroy (input->composer);
-	else
-		gtk_widget_show (input->composer);
+	if (input->composer) {
+		if (!camel_exception_is_set (ex))
+			gtk_widget_destroy (input->composer);
+		else
+			gtk_widget_show (input->composer);
+	}
 }
 
 static const mail_operation_spec op_send_mail = {
@@ -401,6 +402,160 @@ mail_do_send_mail (const char *xport_uri,
 	
 	mail_operation_queue (&op_send_mail, input, TRUE);
 }
+
+/* ** SEND MAIL QUEUE ***************************************************** */
+
+typedef struct send_queue_input_s
+{
+	CamelFolder *folder_queue;
+	gchar *xport_uri;
+}
+send_queue_input_t;
+
+static gchar *describe_send_queue (gpointer in_data, gboolean gerund);
+static void setup_send_queue (gpointer in_data, gpointer op_data,
+			      CamelException *ex);
+static void do_send_queue (gpointer in_data, gpointer op_data,
+			   CamelException *ex);
+static void cleanup_send_queue (gpointer in_data, gpointer op_data,
+				CamelException *ex);
+
+static gchar *
+describe_send_queue (gpointer in_data, gboolean gerund)
+{
+	/*send_queue_input_t *input = (send_queue_input_t *) in_data;*/
+	
+	if (gerund) {
+		return g_strdup_printf (_("Sending queue"));
+	} else {
+		return g_strdup_printf (_("Send queue"));
+	}
+}
+
+static void
+setup_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	send_queue_input_t *input = (send_queue_input_t *) in_data;
+	
+	if (!input->xport_uri) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     /* doesn't really need i18n */
+				     "No transport URI specified for send_queue operation.");
+		return;
+	}
+	
+	if (!CAMEL_IS_FOLDER (input->folder_queue)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     "No queue specified for send_queue operation.");
+		return;
+	}
+	
+	camel_object_ref (CAMEL_OBJECT (input->folder_queue));
+}
+
+static void
+do_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	send_queue_input_t *input = (send_queue_input_t *) in_data;
+	extern CamelFolder *sentbox_folder;
+	CamelTransport *xport;
+	GPtrArray *uids;
+	char *x_mailer;
+	guint32 set;
+	int i;
+	
+	uids = camel_folder_get_uids (input->folder_queue);
+	if (!uids)
+		return;
+	
+	x_mailer = g_strdup_printf ("Evolution %s (Developer Preview)",
+				    VERSION);
+	
+	for (i = 0; i < uids->len; i++) {
+		CamelMimeMessage *message;
+		
+		mail_tool_camel_lock_up ();
+		
+		message = camel_folder_get_message (input->folder_queue, uids->pdata[i], ex);
+		if (camel_exception_is_set (ex))
+			break;
+		
+		camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", x_mailer);
+		
+		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+		
+		xport = camel_session_get_transport (session, input->xport_uri, ex);
+		mail_tool_camel_lock_down ();
+		if (camel_exception_is_set (ex))
+			break;
+		
+		mail_tool_send_via_transport (xport, CAMEL_MEDIUM (message), ex);
+		camel_object_unref (CAMEL_OBJECT (xport));
+		
+		if (camel_exception_is_set (ex))
+			break;
+		
+		mail_tool_camel_lock_up ();
+		set = camel_folder_get_message_flags (input->folder_queue,
+						      uids->pdata[i]);
+		camel_folder_set_message_flags (input->folder_queue,
+						uids->pdata[i],
+						CAMEL_MESSAGE_DELETED, ~set);
+		mail_tool_camel_lock_down ();
+		
+		/* now to save the message in Sentbox */
+		if (sentbox_folder) {
+			CamelMessageInfo *info;
+			
+			mail_tool_camel_lock_up ();
+			
+			info = g_new0 (CamelMessageInfo, 1);
+			info->flags = 0;
+			camel_folder_append_message (sentbox_folder, message, info, ex);
+			g_free (info);
+			
+			mail_tool_camel_lock_down ();
+		}
+	}
+	
+	g_free (x_mailer);
+	
+	for (i = 0; i < uids->len; i++)
+		g_free (uids->pdata[i]);
+	g_ptr_array_free (uids, TRUE);
+}
+
+static void
+cleanup_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	send_queue_input_t *input = (send_queue_input_t *) in_data;
+	
+	camel_object_unref (CAMEL_OBJECT (input->folder_queue));
+	
+	g_free (input->xport_uri);
+}
+
+static const mail_operation_spec op_send_queue = {
+	describe_send_queue,
+	0,
+	setup_send_queue,
+	do_send_queue,
+	cleanup_send_queue
+};
+
+void
+mail_do_send_queue (CamelFolder *folder_queue,
+		    const char *xport_uri)
+{
+	send_queue_input_t *input;
+	
+	input = g_new (send_queue_input_t, 1);
+	input->xport_uri = g_strdup (xport_uri);
+	input->folder_queue = folder_queue;
+	
+	mail_operation_queue (&op_send_queue, input, TRUE);
+}
+
 
 /* ** APPEND MESSAGE TO FOLDER ******************************************** */
 

@@ -1,3 +1,19 @@
+2000-09-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser-factory.c: Change the "Get Mail" toolbar button
+	to become "Send & Receieve"
+
+	* mail-callbacks.c (send_queued_mail): New callback function for
+	sending queued mail
+	(send_receieve_mail): New callback for Send & Receieve that
+	basically just calls send_queued_mail and then fetch_mail
+
+	* mail-ops.c (cleanup_send_mail): Mod to be able to handle a NULL
+	composer window
+	(setup_send_mail): Modified to handle a NULL composer widget
+	(mail_do_send_queue): New convenience async function to send all
+	messages in a folder (aka all messages in a queue)
+
 2000-09-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-tools.c (mail_tool_move_folder_contents): Since POP3

@@ -135,44 +135,90 @@ select_first_unread (CamelObject *object, gpointer event_data, gpointer data)
 }
 
 void
-fetch_mail (GtkWidget *button, gpointer user_data)
+fetch_mail (GtkWidget *widget, gpointer user_data)
 {
 	GSList *sources;
-
+	
 	if (!check_configured (FOLDER_BROWSER (user_data))) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
 							  GTK_TYPE_WINDOW);
-
+		
 		gnome_error_dialog_parented ("You have no mail sources "
 					     "configured", GTK_WINDOW (win));
 		return;
 	}
-
+	
 	sources = mail_config_get_sources ();
-
+	
 	if (!sources || !sources->data) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
 							  GTK_TYPE_WINDOW);
-
+		
 		gnome_error_dialog_parented ("You have no mail sources "
 					     "configured", GTK_WINDOW (win));
 		return;
 	}
-
+	
 	while (sources) {
 		MailConfigService *source;
-
+		
 		source = (MailConfigService *) sources->data;
 		sources = sources->next;
-
+		
 		if (!source || !source->url) {
 			g_warning ("Bad source in fetch_mail??");
 			continue;
 		}
-
+		
 		mail_do_fetch_mail (source->url, source->keep_on_server, 
 				    NULL, select_first_unread, user_data);
 	}
+}
+
+void
+send_queued_mail (GtkWidget *widget, gpointer user_data)
+{
+	extern CamelFolder *outbox_folder;
+	MailConfigService *transport;
+	
+	if (!mail_config_is_configured ()) {
+		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
+							  GTK_TYPE_WINDOW);
+		
+		gnome_error_dialog_parented ("You have not set any configuration settings",
+					     GTK_WINDOW (win));
+		return;
+	}
+	
+	transport = mail_config_get_transport ();
+	if (!transport) {
+		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
+							  GTK_TYPE_WINDOW);
+		
+		gnome_error_dialog_parented ("You have not set a transport method",
+					     GTK_WINDOW (win));
+		return;
+	}
+	
+	if (!outbox_folder) {
+		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
+							  GTK_TYPE_WINDOW);
+		
+		gnome_error_dialog_parented ("You have no Outbox configured",
+					     GTK_WINDOW (win));
+		return;
+	}
+	
+	mail_do_send_queue (outbox_folder, transport->url);
+	
+	mail_do_expunge_folder (outbox_folder);
+}
+
+void
+send_receieve_mail (GtkWidget *widget, gpointer user_data)
+{
+	send_queued_mail (widget, user_data);
+	fetch_mail (widget, user_data);
 }
 
 static gboolean
@@ -180,14 +226,14 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
 	GtkWidget *message_box;
 	int button;
-
+	
 	message_box = gnome_message_box_new (_("This message has no subject.\nReally send?"),
 					     GNOME_MESSAGE_BOX_QUESTION,
 					     GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO,
 					     NULL);
-
+	
 	button = gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
-
+	
 	if (button == 0)
 		return TRUE;
 	else
@@ -198,7 +244,7 @@ static void
 free_psd (GtkWidget *composer, gpointer user_data)
 {
 	struct post_send_data *psd = user_data;
-
+	
 	if (psd->folder)
 		camel_object_unref (CAMEL_OBJECT (psd->folder));
 	if (psd->uid)

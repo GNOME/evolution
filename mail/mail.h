@@ -54,6 +54,9 @@ char *mail_identify_mime_part (CamelMimePart *part);
 
 /* mail-callbacks */
 void fetch_mail (GtkWidget *widget, gpointer user_data);
+void send_queued_mail (GtkWidget *widget, gpointer user_data);
+void send_receieve_mail (GtkWidget *widget, gpointer user_data);
+
 void compose_msg (GtkWidget *widget, gpointer user_data);
 void send_to_url (const char *url);
 void forward_msg (GtkWidget *widget, gpointer user_data);
