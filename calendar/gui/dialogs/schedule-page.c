@@ -364,7 +364,7 @@ get_widgets (SchedulePage *spage)
 	}
 
 	gtk_widget_ref (priv->main);
-	gtk_widget_unparent (priv->main);
+	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
 
 #undef GW
 

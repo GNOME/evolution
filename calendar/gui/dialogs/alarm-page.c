@@ -664,7 +664,7 @@ get_widgets (AlarmPage *apage)
 	}
 
 	gtk_widget_ref (priv->main);
-	gtk_widget_unparent (priv->main);
+	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
 
 	priv->summary = GW ("summary");
 	priv->date_time = GW ("date-time");

@@ -1,3 +1,15 @@
+2003-03-03  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/dialogs/alarm-page.c
+	* gui/dialogs/event-page.c
+	* gui/dialogs/meeting-page.c
+	* gui/dialogs/recurrence-page.c
+	* gui/dialogs/schedule-page.c
+	* gui/dialogs/task-details-page.c
+	* gui/dialogs/task-page.c (get_widgets): gtk_widget_unparent() ->
+	gtk_container_remove(). The former caused crashes in the
+	addressbook's name-selector.
+
 2003-03-01  Hans Petter Jansson  <hpj@ximian.com>
 
 	* Makefile.am: Do importers after the other dirs, as it relies on

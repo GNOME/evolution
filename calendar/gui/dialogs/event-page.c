@@ -770,7 +770,7 @@ get_widgets (EventPage *epage)
 	}
 
 	gtk_widget_ref (priv->main);
-	gtk_widget_unparent (priv->main);
+	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
 
 	priv->summary = GW ("general-summary");
 	priv->location = GW ("location");

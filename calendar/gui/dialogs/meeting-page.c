@@ -454,7 +454,7 @@ get_widgets (MeetingPage *mpage)
 	}
 
 	gtk_widget_ref (priv->main);
-	gtk_widget_unparent (priv->main);
+	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
 
 	/* For making the user the organizer */
 	priv->organizer_table = GW ("organizer-table");
