@@ -913,6 +913,19 @@ comp_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 }
 
 CalComponent *
+comp_editor_get_comp (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+
+	g_return_val_if_fail (editor != NULL, NULL);
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
+
+	priv = editor->priv;
+
+	return priv->comp;
+}
+
+CalComponent *
 comp_editor_get_current_comp (CompEditor *editor)
 {
 	CompEditorPrivate *priv;

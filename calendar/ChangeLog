@@ -1,5 +1,20 @@
 2002-05-26  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/comp-editor.h: update proto
+
+	* gui/dialogs/comp-editor.c (comp_editor_get_comp): new function
+	to get base comp
+
+	* gui/e-comp-editor-registry.c (e_comp_editor_registry_add): get
+	the base comp, not the current comp, don't unref it
+	(foreach_close_cb): block the signal, unblock it if the editor
+	could not be closed
+	(e_comp_editor_registry_close_all): fix preconditions
+	(editor_destroy_cb): get the base comp, not the current comp,
+	don't unref it
+
+2002-05-26  JP Rosevear  <jpr@ximian.com>
+
 	* gui/e-comp-editor-registry.c (e_comp_editor_registry_close_all):
 	if there are remaining items, return false
 	(foreach_close_cb): don't remove the item if it couldn't be closed

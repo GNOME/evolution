@@ -128,7 +128,7 @@ e_comp_editor_registry_add (ECompEditorRegistry *reg, CompEditor *editor, gboole
 
 	priv = reg->priv;
 	
-	comp = comp_editor_get_current_comp (editor);
+	comp = comp_editor_get_comp (editor);
 	cal_component_get_uid (comp, &uid);
 
 	rdata = g_new0 (ECompEditorRegistryData, 1);
@@ -138,8 +138,7 @@ e_comp_editor_registry_add (ECompEditorRegistry *reg, CompEditor *editor, gboole
 	g_hash_table_insert (priv->editors, rdata->uid, rdata);
 
 	gtk_signal_connect (GTK_OBJECT (editor), "destroy", editor_destroy_cb, reg);
-	
-	gtk_object_unref (GTK_OBJECT (comp));
+
 }
 
 CompEditor *
@@ -168,12 +167,14 @@ foreach_close_cb (gpointer key, gpointer value, gpointer data)
 
 	rdata = value;
 
-	gtk_signal_disconnect_by_data (GTK_OBJECT (rdata->editor), data);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (rdata->editor), data);
 	
 	comp_editor_focus (rdata->editor);
-	if (!comp_editor_close (rdata->editor))
+	if (!comp_editor_close (rdata->editor)) {
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (rdata->editor), data);
 		return FALSE;
-		
+	}
+	
 	g_free (rdata->uid);
 	g_free (rdata);
 		
@@ -185,8 +186,8 @@ e_comp_editor_registry_close_all (ECompEditorRegistry *reg)
 {
 	ECompEditorRegistryPrivate *priv;
 	
-	g_return_if_fail (reg != NULL);
-	g_return_if_fail (E_IS_COMP_EDITOR_REGISTRY (reg));
+	g_return_val_if_fail (reg != NULL, FALSE);
+	g_return_val_if_fail (E_IS_COMP_EDITOR_REGISTRY (reg), FALSE);
 
 	priv = reg->priv;
 
@@ -209,7 +210,7 @@ editor_destroy_cb (GtkWidget *widget, gpointer data)
 	reg = E_COMP_EDITOR_REGISTRY (data);
 	priv = reg->priv;
 	
-	comp = comp_editor_get_current_comp (COMP_EDITOR (widget));
+	comp = comp_editor_get_comp (COMP_EDITOR (widget));
 	cal_component_get_uid (comp, &uid);
 
 	rdata = g_hash_table_lookup (priv->editors, uid);
@@ -218,7 +219,5 @@ editor_destroy_cb (GtkWidget *widget, gpointer data)
 	g_hash_table_remove (priv->editors, rdata->uid);
 	g_free (rdata->uid);
 	g_free (rdata);
-
-	gtk_object_unref (GTK_OBJECT (comp));
 }
 
