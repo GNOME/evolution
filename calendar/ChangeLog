@@ -1,3 +1,15 @@
+2004-10-06  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #65932
+
+	* common/authentication.c: keep a hash table of all the source lists.
+	(auth_new_cal_from_uri): do a search in the source list for the given
+	URI, and use that ESource if we find it. Also, keep the hash table of
+	source lists up to date.
+
+	* gui/comp-editor-factory.c (cal_opened_cb): don't assert on error
+	cases, just display an error dialog.
+
 2004-10-06  Not Zed  <NotZed@Ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_setup_view_popup): rename to
