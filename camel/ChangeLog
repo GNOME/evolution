@@ -1,3 +1,10 @@
+2000-06-17  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_free_summary): We were
+	leaking memory - but not anymore!
+	(imap_get_summary): We now get the UIDs and the beginnings of the
+	code to get the message flags as well.
+
 2000-06-17  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-parser.c (folder_scan_header): Don't copy newlines

@@ -666,7 +666,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 	GPtrArray *array = NULL;
 	CamelMessageInfo *info;
 	int i, num, status;
-	char *result, *datestr;
+	char *result, *datestr, *p, *q;
 	
 	num = imap_get_message_count (folder, ex);
 	
@@ -696,11 +696,110 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 		datestr = get_header_field (result, "\nDate:");
 		info->date_sent = header_decode_date (datestr, NULL);
 		g_free (datestr);
+		g_free (result);
+
+		/* now to get the UID */
+		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
+						      &result, "FETCH %d UID", i);
 		
-		info->uid = NULL;  /* FIXME: how can we get the UID? */
+		if (status != CAMEL_IMAP_OK) {
+			CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "Could not get summary for %s on IMAP server %s: %s",
+					      folder->full_name, service->url->host,
+					      status == CAMEL_IMAP_ERR ? result :
+					      "Unknown error");
+			g_free (result);
+
+			g_free (info->subject);
+			g_free (info->to);
+			g_free (info->from);
+			g_free (info);
+
+			break;
+		}
+
+		if (!result || *result != '*') {
+			g_free (result);
+			fprintf (stderr, "Warning: UID for message %d not found\n", i);
+
+			g_free (info->subject);
+			g_free (info->to);
+			g_free (info->from);
+			g_free (info);
+			
+			break;
+		}
+
+		p = strchr (result, '(') + 1;
+		if (strncasecmp (p, "UID", 3)) {
+			g_free (result);
+			fprintf (stderr, "Warning: UID for message %d not found\n", i);
+
+			g_free (info->subject);
+			g_free (info->to);
+			g_free (info->from);
+			g_free (info);
+			
+			break;
+		}
+
+		for (p += 4; *p && *p != ' '; p++);             /* advance to <uid> */
+		for (q = p; *q && *q != ')' && *q != ' '; q++); /* find the end of the <uid> */
+		info->uid = g_strndup (p, (gint)(q - p));
 		g_free (result);
 		
-		/* still need to get flags */
+		/* now to get the flags */
+		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
+						      &result, "FETCH %d FLAGS", i);
+		
+		if (status != CAMEL_IMAP_OK) {
+			CamelService *service = CAMEL_SERVICE (folder->parent_store);
+		
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "Could not get summary for %s on IMAP server %s: %s",
+					      folder->full_name, service->url->host,
+					      status == CAMEL_IMAP_ERR ? result :
+					      "Unknown error");
+			g_free (result);
+
+			g_free (info->subject);
+			g_free (info->to);
+			g_free (info->from);
+			g_free (info);
+
+			break;
+		}
+
+		if (!result || *result != '*') {
+			g_free (result);
+			fprintf (stderr, "Warning: FLAGS for message %d not found\n", i);
+
+			g_free (info->subject);
+			g_free (info->to);
+			g_free (info->from);
+			g_free (info);
+			
+			break;
+		}
+
+		p = strchr (result, '(') + 1;
+		if (strncasecmp (p, "FLAGS", 5)) {
+			g_free (result);
+			fprintf (stderr, "Warning: FLAGS for message %d not found\n", i);
+
+			g_free (info->subject);
+			g_free (info->to);
+			g_free (info->from);
+			g_free (info);
+			
+			break;
+		}
+
+		/* now we gotta parse for the flags */
+		
+		g_free (result);
 
 		g_ptr_array_add (array, info);
 	}
@@ -721,6 +820,8 @@ imap_free_summary (CamelFolder *folder, GPtrArray *array)
 		g_free (info->to);
 		g_free (info->from);
 		g_free (info->uid);
+		g_free (info);
+		info = NULL;
 	}
 
 	g_ptr_array_free (array, TRUE);
