@@ -387,7 +387,7 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 	if (blpriv->ldap)
 		ldap_unbind (blpriv->ldap);
 
-	blpriv->ldap = ldap_open (blpriv->ldap_host, blpriv->ldap_port);
+	blpriv->ldap = ldap_init (blpriv->ldap_host, blpriv->ldap_port);
 #ifdef DEBUG
 	{
 		int debug_level = ~0;

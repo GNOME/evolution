@@ -1,3 +1,8 @@
+2001-09-13  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect): use
+	ldap_init.  ldap_open is deprecated in openldap 2.x.
+
 2001-09-12  Iain Holmes  <iain@ximian.com>
 
 	* backends/ebook/evolution-vcard-importer.c (check_file_is_vcard):
