@@ -84,8 +84,8 @@ e_completion_view_paint (GtkWidget *widget, GdkRectangle *area)
 		gdk_draw_rectangle (widget->window,
 				    widget->style->black_gc,
 				    FALSE, i, i, 
-				    widget->allocation.width-1-i,
-				    widget->allocation.height-1-i);
+				    widget->allocation.width-1-2*i,
+				    widget->allocation.height-1-2*i);
 
 	}
 	

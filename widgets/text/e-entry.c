@@ -58,7 +58,6 @@
 #endif
 
 #define MIN_ENTRY_WIDTH  150
-#define INNER_BORDER     2
 
 #define PARENT_TYPE gtk_table_get_type ()
 
@@ -143,8 +142,6 @@ static void
 canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 		      EEntry *entry)
 {
-	gint xthick;
-	gint ythick;
 	gnome_canvas_set_scroll_region (entry->canvas,
 					0, 0, alloc->width, alloc->height);
 	gtk_object_set (GTK_OBJECT (entry->item),
@@ -152,26 +149,18 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 			"clip_height", (double) (alloc->height),
 			NULL);
 
-	if (!entry->priv->draw_borders) {
-		xthick = 0;
-		ythick = 0;
-	} else {
-		xthick = widget->style->klass->xthickness;
-		ythick = widget->style->klass->ythickness;
-	}
-
 	switch (entry->priv->justification) {
 	case GTK_JUSTIFY_RIGHT:
 		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->item),
-					    alloc->width - xthick, ythick);
+					    alloc->width, 0);
 		break;
 	case GTK_JUSTIFY_CENTER:
 		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->item),
-					    alloc->width / 2, ythick);
+					    alloc->width / 2, 0);
 		break;
 	default:
 		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->item),
-					    xthick, ythick);
+					    0, 0);
 		break;
 	}
 }
@@ -180,21 +169,23 @@ static void
 canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 		     EEntry *entry)
 {
-	int border;
+	int xthick, ythick;
 	
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS (widget));
 	g_return_if_fail (requisition != NULL);
 
-	if (entry->priv->draw_borders)
-		border = INNER_BORDER;
-	else
-		border = 0;
+	if (entry->priv->draw_borders) {
+		xthick = 2 * widget->style->klass->xthickness;
+		ythick = 2 * widget->style->klass->ythickness;
+	} else {
+		xthick = ythick = 0;
+	}
 	
-	requisition->width = MIN_ENTRY_WIDTH + (widget->style->klass->xthickness + border) * 2;
-	requisition->height = (widget->style->font->ascent +
+	requisition->width = 2 + MIN_ENTRY_WIDTH + xthick;
+	requisition->height = (2 + widget->style->font->ascent +
 			       widget->style->font->descent +
-			       (widget->style->klass->ythickness + border) * 2);
+			       ythick);
 }
 
 static gint
