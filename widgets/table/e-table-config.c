@@ -28,13 +28,17 @@ config_destroy (GtkObject *object)
 
 	if (config->state) {
 		if (config->sorting_changed_id)
-			gtk_signal_disconnect(GTK_OBJECT(config->state->sort_info), config->sorting_changed_id);
+			gtk_signal_disconnect (
+				GTK_OBJECT (config->state->sort_info),
+				config->sorting_changed_id);
 		if (config->grouping_changed_id)
-			gtk_signal_disconnect(GTK_OBJECT(config->state->sort_info), config->grouping_changed_id);
-		gtk_object_unref(GTK_OBJECT(config->state));
+			gtk_signal_disconnect (
+				GTK_OBJECT(config->state->sort_info),
+				config->grouping_changed_id);
+		gtk_object_unref (GTK_OBJECT (config->state));
 	}
 
-	gtk_object_unref(GTK_OBJECT(config->spec));
+	gtk_object_unref (GTK_OBJECT (config->spec));
 
 	GTK_OBJECT_CLASS (config_parent_class)->destroy (object);
 }
@@ -51,14 +55,14 @@ static void
 config_clear_sort (GtkWidget *widget, ETableConfig *config)
 {
 	config->sort_dialog = NULL;
-	gtk_object_unref(GTK_OBJECT(config));
+	gtk_object_unref (GTK_OBJECT(config));
 }
 
 static void
 config_clear_group (GtkWidget *widget, ETableConfig *config)
 {
 	config->group_dialog = NULL;
-	gtk_object_unref(GTK_OBJECT(config));
+	gtk_object_unref (GTK_OBJECT (config));
 }
 
 static void
@@ -68,30 +72,37 @@ config_sort_config_show (GtkWidget *widget, ETableConfig *config)
 		gdk_window_raise (GTK_WIDGET (config->sort_dialog)->window);
 	else {
 		GtkWidget *etcf;
-		config->sort_dialog = gnome_dialog_new(_("Sort"),
-						     GNOME_STOCK_BUTTON_OK,
-						     NULL);
-		etcf = GTK_WIDGET(e_table_config_field_new(config->spec,
-							   config->state->sort_info,
-							   FALSE));
-		gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(config->sort_dialog)->vbox), etcf, FALSE, FALSE, 0);
-		gnome_dialog_set_parent(GNOME_DIALOG(config->sort_dialog),
-					GTK_WINDOW(config));
+		config->sort_dialog = gnome_dialog_new (
+			_("Sort"),
+			GNOME_STOCK_BUTTON_OK,
+			NULL);
+		etcf = GTK_WIDGET (e_table_config_field_new
+				   (config->spec,
+				    config->state->sort_info,
+				    FALSE));
+		gtk_box_pack_start (
+			GTK_BOX (GNOME_DIALOG (config->sort_dialog)->vbox),
+			etcf, FALSE, FALSE, 0);
+		gnome_dialog_set_parent (
+			GNOME_DIALOG (config->sort_dialog),
+			GTK_WINDOW(config));
 
-		gtk_signal_connect(GTK_OBJECT(config->sort_dialog), "destroy",
-				   GTK_SIGNAL_FUNC(config_clear_sort), config);
-		gtk_object_ref(GTK_OBJECT(config));
+		gtk_signal_connect (
+			GTK_OBJECT (config->sort_dialog), "destroy",
+			GTK_SIGNAL_FUNC (config_clear_sort), config);
+		gtk_object_ref (GTK_OBJECT (config));
 
-		gtk_signal_connect(GTK_OBJECT(config->sort_dialog), "clicked",
-				   GTK_SIGNAL_FUNC(gnome_dialog_close), config);
+		gtk_signal_connect (
+			GTK_OBJECT (config->sort_dialog), "clicked",
+			GTK_SIGNAL_FUNC(gnome_dialog_close), config);
 
-		gtk_widget_show(GTK_WIDGET(etcf));
-		gtk_widget_show(GTK_WIDGET(config->sort_dialog));
+		gtk_widget_show (GTK_WIDGET (etcf));
+		gtk_widget_show (GTK_WIDGET (config->sort_dialog));
 	}
 }
 
 static void
-config_group_config_show(GtkWidget *widget, ETableConfig *config)
+config_group_config_show (GtkWidget *widget, ETableConfig *config)
 {
 	if (config->group_dialog)
 		gdk_window_raise(GTK_WIDGET(config->group_dialog)->window);
@@ -292,24 +303,6 @@ config_init (ETableConfig *config)
 	config->grouping_changed_id = 0;
 }
 
-E_MAKE_TYPE(e_table_config, "ETableConfig", ETableConfig, config_class_init, config_init, PARENT_TYPE);
-
-ETableConfig *
-e_table_config_new (const char          *header,
-		    ETableSpecification *spec,
-		    ETableState         *state)
-{
-	ETableConfig *config = gtk_type_new (E_TABLE_CONFIG_TYPE);
-
-	if (e_table_config_construct (config, config, spec, state) == NULL){
-		gtk_object_destroy (GTK_OBJECT (config));
-		return NULL;
-	}
-
-	gtk_widget_show (config->dialog_toplevel);
-	return E_TABLE_CONFIG (config);
-}
-
 ETableConfig *
 e_table_config_construct (ETableConfig        *config,
 			  const char          *header,
@@ -345,8 +338,26 @@ e_table_config_construct (ETableConfig        *config,
 	return E_TABLE_CONFIG (config);
 }
 
+ETableConfig *
+e_table_config_new (const char          *header,
+		    ETableSpecification *spec,
+		    ETableState         *state)
+{
+	ETableConfig *config = gtk_type_new (E_TABLE_CONFIG_TYPE);
+
+	if (e_table_config_construct (config, header, spec, state) == NULL){
+		gtk_object_destroy (GTK_OBJECT (config));
+		return NULL;
+	}
+
+	gtk_widget_show (config->dialog_toplevel);
+	return E_TABLE_CONFIG (config);
+}
+
 void
 e_table_config_raise (ETableConfig *config)
 {
 	gdk_window_raise (GTK_WIDGET (config->dialog_toplevel)->window);
 }
+
+E_MAKE_TYPE(e_table_config, "ETableConfig", ETableConfig, config_class_init, config_init, PARENT_TYPE);

@@ -888,7 +888,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		ete = e_table_extras_new();
 
 	e_table->use_click_to_add = specification->click_to_add;
-	e_table->click_to_add_message = g_strdup(specification->click_to_add_message_);
+	e_table->click_to_add_message = g_strdup (_(specification->click_to_add_message));
 	e_table->draw_grid = specification->draw_grid;
 	e_table->cursor_mode = specification->cursor_mode;
 	e_table->full_header = et_spec_to_full_header(e_table, specification, ete);

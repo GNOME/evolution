@@ -25,7 +25,8 @@ typedef struct {
 	guint draw_grid : 1;
 	GtkSelectionMode selection_mode;
 	ETableCursorMode cursor_mode;
-	char *click_to_add_message_;
+
+	char *click_to_add_message;
 } ETableSpecification;
 
 typedef struct {
@@ -37,17 +38,16 @@ ETableSpecification *e_table_specification_new               (void);
 
 gboolean             e_table_specification_load_from_file    (ETableSpecification *specification,
 							      const char          *filename);
-void                 e_table_specification_load_from_string  (ETableSpecification *specification,
+gboolean             e_table_specification_load_from_string  (ETableSpecification *specification,
 							      const char          *xml);
 void                 e_table_specification_load_from_node    (ETableSpecification *specification,
 							      const xmlNode       *node);
 
-#if 0
-void                 e_table_specification_save_to_file      (ETableSpecification *specification,
+int                  e_table_specification_save_to_file      (ETableSpecification *specification,
 							      const char          *filename);
 char                *e_table_specification_save_to_string    (ETableSpecification *specification);
 xmlNode             *e_table_specification_save_to_node      (ETableSpecification *specification,
 							      xmlDoc              *doc);
-#endif
+ETableSpecification *e_table_specification_duplicate         (ETableSpecification *spec);
 
 #endif /* _E_TABLE_SPECIFICATION_H_ */
