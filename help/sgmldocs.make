@@ -59,7 +59,7 @@ index.html: $(docname)/index.html
 	-cp $(docname)/index.html .
 
 $(docname).sgml: $(sgml_ents)
-        -ourdir=`pwd`;  \
+	-ourdir=`pwd`;  \
         cd $(srcdir);   \
         cp $(sgml_ents) $$ourdir
 

@@ -1,3 +1,11 @@
+2001-09-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Patch for Automake 1.5 compatibility pointed out by Richard
+	Boulton <richard@tartarus.org>, as per #9258.]
+
+	* sgmldocs.make ($(docname).sgml): Indent the rule with a tab
+	instead of 8 spaces.
+
 2001-09-25  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: Added Right-click-bginfo a little.
