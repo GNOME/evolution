@@ -1,3 +1,8 @@
+1998-08-02  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome.m4 (GNOME_CONFIG): Use the `gnome-config' program if it
+	exists. 
+
 1998-08-01  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* Makefile.am (EXTRA_DIST): Remove `macros.dep'.
