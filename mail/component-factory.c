@@ -697,6 +697,21 @@ handle_external_uri_cb (EvolutionShellComponent *shell_component,
 	send_to_url (uri);
 }
 
+static void
+user_create_new_item_cb (EvolutionShellComponent *shell_component,
+			 const char *id,
+			 const char *parent_folder_physical_uri,
+			 const char *parent_folder_type,
+			 gpointer data)
+{
+	if (!strcmp (id, "message")) {
+		send_to_url (NULL);
+		return;
+	} 
+
+	g_warning ("Don't know how to create item of type \"%s\"", id);
+}
+
 static BonoboObject *
 component_fn (BonoboGenericFactory *factory, void *closure)
 {
@@ -720,6 +735,8 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 	bonobo_object_add_interface (BONOBO_OBJECT (shell_component),
 				     BONOBO_OBJECT (destination_interface));
 	
+	evolution_shell_component_add_user_creatable_item (shell_component, "message", _("New Mail Message"), _("New _Mail Message"), 'm');
+
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
@@ -730,6 +747,8 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "handle_external_uri",
 			    GTK_SIGNAL_FUNC (handle_external_uri_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
+			    GTK_SIGNAL_FUNC (user_create_new_item_cb), NULL);
 	
 	offline_handler = mail_offline_handler_new ();
 	bonobo_object_add_interface (BONOBO_OBJECT (shell_component), BONOBO_OBJECT (offline_handler));

@@ -1,3 +1,10 @@
+2001-08-13  Peter Williams  <peterw@ximian.com>
+
+	* component-factory.c (user_create_new_item_cb): New function,
+	handle "user creatable items".
+	(component_fn): Tell the shell that we're capable of creating
+	mail messages.
+
 2001-08-13  Jason Leach  <jleach@ximian.com>
 
 	* mail-local.c (get_folder): Fix this so it can actually get
