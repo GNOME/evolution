@@ -1,5 +1,10 @@
 2001-02-05  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/addressbook-config.c (table_add_elem): Save the
+	help_text in the closure.
+
+2001-02-05  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/widgets/Makefile.am (libeminicard_a_SOURCES): Added
 	gal-view-factory-minicard.c, gal-view-factory-minicard.h,
 	gal-view-minicard.c, and gal-view-minicard.h.
@@ -13,6 +18,8 @@
 	* gui/widgets/e-addressbook-view.c: Deploy gal-view stuff
 	properly.
 	
+2001-02-05  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-card.c (e_card_get_vcard): Make the Note field
 	be quoted printable.
 

@@ -263,6 +263,14 @@ typedef struct {
 	char *help_text;
 } FocusHelpClosure;
 
+static void
+free_focus_help_closure (gpointer data)
+{
+	FocusHelpClosure *closure = data;
+	g_free(closure->help_text);
+	g_free(closure);
+}
+
 static gint
 focus_help (GtkWidget *widget, GdkEventFocus *event, FocusHelpClosure *closure)
 {
@@ -293,13 +301,13 @@ table_add_elem (AddressbookSourceDialog *dialog, GtkWidget *table,
 
 	focus_closure = g_new0 (FocusHelpClosure, 1);
 	focus_closure->dialog = dialog;
-	focus_closure->help_text = help_text;
+	focus_closure->help_text = g_strdup(help_text);
 
 	gtk_signal_connect_full (GTK_OBJECT (entry),
 				 "focus_in_event" /* XXX */,
 				 (GtkSignalFunc) focus_help, NULL,
 				 focus_closure,
-				 (GtkDestroyNotify) g_free,
+				 (GtkDestroyNotify) free_focus_help_closure,
 				 FALSE, FALSE);
 	return entry;
 }
