@@ -829,13 +829,13 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	CamelStreamFilter *filter_stream;
 	CamelMimeFilterCharset *filter;
 	const char *charset = NULL;
+	CamelMimeFilterWindows *windows = NULL;
 	
 	if (emf->charset) {
 		charset = emf->charset;
 	} else if (dw->mime_type
 		   && (charset = camel_content_type_param (dw->mime_type, "charset"))
 		   && g_ascii_strncasecmp(charset, "iso-8859-", 9) == 0) {
-		CamelMimeFilterWindows *windows;
 		CamelStream *null;
 
 		/* Since a few Windows mailers like to claim they sent
@@ -855,7 +855,6 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 		camel_object_unref(filter_stream);
 		
 		charset = camel_mime_filter_windows_real_charset (windows);
-		camel_object_unref(windows);
 	} else if (charset == NULL) {
 		charset = emf->default_charset;
 	}
@@ -870,6 +869,9 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	camel_data_wrapper_decode_to_stream(dw, (CamelStream *)filter_stream);
 	camel_stream_flush((CamelStream *)filter_stream);
 	camel_object_unref(filter_stream);
+
+	if (windows)
+		camel_object_unref(windows);
 }
 
 /**

@@ -42,6 +42,8 @@ typedef struct _EMInlineFilter {
 	int state;
 
 	CamelTransferEncoding base_encoding;
+	CamelContentType *base_type;
+
 	GByteArray *data;
 	char *filename;
 	GSList *parts;
@@ -52,7 +54,7 @@ typedef struct _EMInlineFilterClass {
 } EMInlineFilterClass;
 
 CamelType    em_inline_filter_get_type(void);
-EMInlineFilter *em_inline_filter_new(CamelTransferEncoding base_encoding);
+EMInlineFilter *em_inline_filter_new(CamelTransferEncoding base_encoding, CamelContentType *type);
 struct _CamelMultipart *em_inline_filter_get_multipart(EMInlineFilter *emif);
 
 #ifdef __cplusplus

@@ -698,7 +698,7 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 		null = camel_stream_null_new();
 		filtered_stream = camel_stream_filter_new_with_stream(null);
 		camel_object_unref(null);
-		inline_filter = em_inline_filter_new(camel_mime_part_get_encoding(part));
+		inline_filter = em_inline_filter_new(camel_mime_part_get_encoding(part), ((CamelDataWrapper *)part)->mime_type);
 		camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)inline_filter);
 		camel_data_wrapper_write_to_stream(camel_medium_get_content_object((CamelMedium *)part), (CamelStream *)filtered_stream);
 		camel_stream_close((CamelStream *)filtered_stream);

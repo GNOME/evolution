@@ -86,6 +86,9 @@ em_inline_filter_finalize (CamelObject *object)
 {
 	EMInlineFilter *emif = (EMInlineFilter *)object;
 
+	if (emif->base_type)
+		camel_content_type_unref(emif->base_type);
+
 	emif_reset((CamelMimeFilter *)emif);
 	g_byte_array_free(emif->data, TRUE);
 	g_free(emif->filename);
@@ -101,12 +104,13 @@ enum {
 const struct {
 	const char *name;
 	CamelTransferEncoding type;
+	int plain:1;
 } emif_types[] = {
-	{ "text/plain", CAMEL_TRANSFER_ENCODING_DEFAULT, },
+	{ "text/plain", CAMEL_TRANSFER_ENCODING_DEFAULT, 1, },
 	{ "application/octet-stream", CAMEL_TRANSFER_ENCODING_UUENCODE, },
 	{ "application/mac-binhex40", CAMEL_TRANSFER_ENCODING_7BIT, },
 	{ "application/postscript", CAMEL_TRANSFER_ENCODING_7BIT, },
-	{ "text/plain", CAMEL_TRANSFER_ENCODING_7BIT, },
+	{ "text/plain", CAMEL_TRANSFER_ENCODING_7BIT, 1, },
 };
 
 static void
@@ -129,7 +133,10 @@ emif_add_part(EMInlineFilter *emif, const char *data, int len)
 	dw = camel_data_wrapper_new();
 	camel_data_wrapper_construct_from_stream(dw, mem);
 	camel_object_unref(mem);
-	camel_data_wrapper_set_mime_type(dw, emif_types[emif->state].name);
+	if (emif_types[emif->state].plain && emif->base_type)
+		camel_data_wrapper_set_mime_type_field(dw, emif->base_type);
+	else
+		camel_data_wrapper_set_mime_type(dw, emif_types[emif->state].name);
 	dw->encoding = type;
 
 	part = camel_mime_part_new();
@@ -301,6 +308,8 @@ emif_reset(CamelMimeFilter *f)
  * em_inline_filter_new:
  * @base_encoding: The base transfer-encoding of the
  * raw data being processed.
+ * @base_type: The base content-type of the raw data, should always be
+ * text/plain.
  * 
  * Create a filter which will scan a (text) stream for
  * embedded parts.  You can then retrieve the contents
@@ -309,12 +318,16 @@ emif_reset(CamelMimeFilter *f)
  * Return value: 
  **/
 EMInlineFilter *
-em_inline_filter_new(CamelTransferEncoding base_encoding)
+em_inline_filter_new(CamelTransferEncoding base_encoding, CamelContentType *base_type)
 {
 	EMInlineFilter *emif;
 
 	emif = (EMInlineFilter *)camel_object_new(em_inline_filter_get_type());
 	emif->base_encoding = base_encoding;
+	if (base_type) {
+		emif->base_type = base_type;
+		camel_content_type_ref(emif->base_type);
+	}
 
 	return emif;
 }
