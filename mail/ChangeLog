@@ -1,7 +1,7 @@
 2000-07-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (real_fetch_mail): Back to the old way to avoid
-	g_warnings, yay
+	g_warnings, yay. Also fix append to send a flags argument (0)
 
 2000-07-12  Chris Toshok  <toshok@helixcode.com>
 

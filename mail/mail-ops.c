@@ -255,7 +255,8 @@ real_fetch_mail (gpointer user_data)
 					goto cleanup;
 				}
 
-				camel_folder_append_message (folder, msg, ex);
+				/* append with flags = 0 since this is a new message */
+				camel_folder_append_message (folder, msg, 0, ex);
  				if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
  					async_mail_exception_dialog ("Unable to write message", ex, fb);
  					gtk_object_unref (GTK_OBJECT (msg));
