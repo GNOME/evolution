@@ -1,3 +1,8 @@
+2002-07-26  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (do_exit): don't assert on default, when ESC is
+	pressed, the dialog is closed as well and we get button number -1
+
 2002-07-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (pixbuf_for_mime_type):

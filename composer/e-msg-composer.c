@@ -950,9 +950,12 @@ get_signature_html (EMsgComposer *composer)
 		 * section 4.3.2.
 		 */
 		html = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
+					"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"%s%s\">-->"
 					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD>"
 					"%s%s%s%s"
 					"</TD></TR></TABLE>",
+					composer->signature ? "name:" : "auto",
+					composer->signature ? composer->signature->name : "",
 					format_html ? "" : "<PRE>\n",
 					format_html || (!strncmp ("-- \n", text, 4) || strstr(text, "\n-- \n")) ? "" : "-- \n",
 					text,
@@ -1433,10 +1436,8 @@ do_exit (EMsgComposer *composer)
 	case 1:			/* Don't save */
 		gtk_widget_destroy (GTK_WIDGET (composer));
 		break;
-	case 2:			/* Cancel */
+	default:			/* Cancel */
 		break;
-	default:
-		g_assert_not_reached ();
 	}
 }
 
