@@ -380,6 +380,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 		if (out) {
 			/* converted ok, use this data instead */
 			g_byte_array_free(buffer, TRUE);
+			dw->rawtext = FALSE;
 			buffer = out;
 		} else {
 			/* else failed to convert, leave as raw? */

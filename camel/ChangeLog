@@ -1,3 +1,16 @@
+2003-06-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Partial fix for bug #44457.
+
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): Make sure to set
+	rawtext to FALSE if we successfully convert the text to UTF-8.
+
+	* camel-data-wrapper.c (camel_data_wrapper_init): Default the
+	value of rawtext to TRUE instead of FALSE. This way if the mailer
+	decides to try displaying a non-textual part as text, it knows
+	that it needs to convert the content to UTF-8.
+
 2003-06-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-uid-cache.c (camel_uid_cache_new): Create the directory
@@ -20,7 +33,8 @@
 
 2003-06-11  Larry Ewing  <lewing@ximian.com>
 
-	* camel-text-index.c (text_index_normalise): use g_utf8_strdown properly.
+	* camel-text-index.c (text_index_normalise): use g_utf8_strdown
+	properly.
 
 2003-06-09  Jeffrey Stedfast  <fejj@ximian.com>
 
