@@ -112,6 +112,18 @@ canvas_focus_in_event (GtkWidget *widget, GdkEventFocus *focus, EEntry *e_entry)
 }
 
 static void
+e_entry_proxy_changed (EText *text, EEntry *ee)
+{
+	gtk_signal_emit (GTK_OBJECT (ee), e_entry_signals [E_ENTRY_CHANGED]);
+}
+
+static void
+e_entry_proxy_activate (EText *text, EEntry *ee)
+{
+	gtk_signal_emit (GTK_OBJECT (ee), e_entry_signals [E_ENTRY_ACTIVATE]);
+}
+
+static void
 e_entry_init (GtkObject *object)
 {
 	EEntry *e_entry = E_ENTRY (object);
@@ -134,6 +146,16 @@ e_entry_init (GtkObject *object)
 	gtk_table_attach_defaults(gtk_table, GTK_WIDGET(e_entry->canvas),
 				  0, 1, 0, 1);
 	gtk_widget_show(GTK_WIDGET(e_entry->canvas));
+
+	/*
+	 * Proxy functions: we proxy the changed and activate signals
+	 * from the item to outselves
+	 */
+	gtk_signal_connect (GTK_OBJECT (e_entry->item), "changed",
+			    GTK_SIGNAL_FUNC (e_entry_proxy_changed), e_entry);
+	gtk_signal_connect (GTK_OBJECT (e_entry->item), "activate",
+			    GTK_SIGNAL_FUNC (e_entry_proxy_activate), e_entry);
+
 }
 
 EEntry *
