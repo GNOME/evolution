@@ -1,4 +1,18 @@
-2000-06-22  Peter Williams  <peterw@curious-george.helixcode.com>
+2000-06-22  Peter Williams  <peterw@helixcode.com>
+
+	* test-thread.c (op_5): New tests for the get_password
+	hook.
+
+	* mail-threads.[ch]: New hook, mail_op_get_password, for
+	getting a user response from an async operation. The operation
+	blocks while waiting for the response. A big whole mutex 
+	condition threading blocking dealie to make sure that it 
+	works.
+
+	Also the error hook creates a dialog again, which also needs
+	to block its caller while we wait for the user to press ok.
+
+2000-06-22  Peter Williams  <peterw@helixcode.com>
 
 	* mail-threads.c (various functions): Prettify the UI
 	so that the progress bar doesn't become all huge 'n stuff.

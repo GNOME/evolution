@@ -38,8 +38,11 @@ void mail_op_hide_progressbar( void );
 void mail_op_show_progressbar( void );
 void mail_op_set_message( gchar *fmt, ... ) G_GNUC_PRINTF( 1, 2 );
 void mail_op_error( gchar *fmt, ... ) G_GNUC_PRINTF( 1, 2 );
+gboolean mail_op_get_password( gchar *prompt, gboolean secret, gchar **dest );
 
 /* Wait for the async operations to finish */
 void mail_operation_wait_for_finish( void );
+
+gboolean mail_operations_are_executing( void );
 
 #endif /* defined _MAIL_THREADS_H_ */

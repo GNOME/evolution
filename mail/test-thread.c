@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <glib.h>
 #include <gtk/gtk.h>
+#include <libgnomeui/libgnomeui.h>
 #include <stdio.h>
 #include "mail-threads.h"
 
@@ -11,6 +12,7 @@ static void op_1( gpointer userdata );
 static void op_2( gpointer userdata );
 static void op_3( gpointer userdata );
 static void op_4( gpointer userdata );
+static void op_5( gpointer userdata );
 static gboolean queue_ops( void );
 
 static gboolean queue_ops( void )
@@ -24,7 +26,7 @@ static gboolean queue_ops( void )
 	mail_operation_try( "The Mysterious Message Setter", op_2, NULL );
 	mail_operation_try( "The Error Dialog of No Return", op_3, NULL );
 
-	for( i = 0; i < 7; i++ ) {
+	for( i = 0; i < 3; i++ ) {
 		sprintf( buf, "Queue Filler %d", i );
 		mail_operation_try( buf, op_4, GINT_TO_POINTER( i ) );
 	}
@@ -40,6 +42,8 @@ static gboolean queue_ops( void )
 	mail_operation_wait_for_finish();
 
 	g_message( "Ops done -- more, more!" );
+
+	mail_operation_try( "Dastardly Password Stealer", op_5, NULL );
 
 	for( i = 0; i < 3; i++ ) {
 		sprintf( buf, "Queue Filler %d", i );
@@ -60,7 +64,7 @@ static void op_1( gpointer userdata )
 	mail_op_show_progressbar();
 	mail_op_set_message( "Watch the progress bar!" );
 
-	for( pct = 0.0; pct < 1.0; pct += 0.1 ) {
+	for( pct = 0.0; pct < 1.0; pct += 0.2 ) {
 		sleep( 1 );
 		mail_op_set_percentage( pct );
 	}
@@ -71,7 +75,7 @@ static void op_2( gpointer userdata )
 	int i;
 
 	mail_op_hide_progressbar();
-	for( i = 10; i > 0; i-- ) {
+	for( i = 5; i > 0; i-- ) {
 		mail_op_set_message( "%d", i );
 		sleep( 1 );
 	}
@@ -103,10 +107,28 @@ static void op_4( gpointer userdata )
 	sleep( 1 );
 }
 
+static void op_5( gpointer userdata )
+{
+	gchar *pass;
+	gboolean ret;
+
+	mail_op_show_progressbar();
+	mail_op_set_percentage( 0.5 );
+
+	ret = mail_op_get_password( "What is your super-secret password?", TRUE, &pass );
+
+	if( ret == FALSE )
+		mail_op_set_message( "Oh no, you cancelled! : %s", pass );
+	else
+		mail_op_set_message( "\"%s\", you said?", pass );
+
+	sleep( 1 );
+}
+
 int main( int argc, char **argv )
 {
 	g_thread_init( NULL );
-	gtk_init( &argc, &argv );
+	gnome_init( "test-thread", "0.0", argc, argv );
 	gtk_idle_add( (GtkFunction) queue_ops, NULL );
 	gtk_main();
 	return 0;

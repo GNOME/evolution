@@ -29,9 +29,6 @@
 #include "mail.h"
 #include "mail-threads.h"
 
-/* FIXME: support other thread types!!!! */
-#define USE_PTHREADS
-
 /* FIXME TODO: Do we need operations that don't get a progress window because
  * they're quick, but we still want camel to be locked? We need some kind
  * of flag to mail_operation_try, but then we also need some kind of monitor
@@ -56,9 +53,14 @@ typedef struct closure_s {
  **/
 
 typedef struct com_msg_s {
-	enum com_msg_type_e { STARTING, PERCENTAGE, HIDE_PBAR, SHOW_PBAR, MESSAGE, ERROR, FINISHED } type;
+	enum com_msg_type_e { STARTING, PERCENTAGE, HIDE_PBAR, SHOW_PBAR, MESSAGE, PASSWORD, ERROR, FINISHED } type;
 	gfloat percentage;
 	gchar *message;
+	
+	/* Password stuff */
+	gchar **reply;
+	gboolean secret;
+	gboolean *success;
 } com_msg_t;
 
 /** 
@@ -117,6 +119,22 @@ static int compipe[2] = { -1, -1 };
 GIOChannel *chan_reader = NULL;
 
 /**
+ * @modal_cond: a condition maintained so that the
+ * calling thread (the dispatch thread) blocks correctly
+ * until the user has responded to some kind of modal
+ * dialog boxy thing.
+ *
+ * @modal_lock: a mutex for said condition
+ *
+ * @modal_may_proceed: a gboolean telling us whether
+ * the dispatch thread may proceed its operations.
+ */
+
+G_LOCK_DEFINE_STATIC( modal_lock );
+static GCond *modal_cond = NULL;
+static gboolean modal_may_proceed = FALSE;
+
+/**
  * Static prototypes
  **/
 
@@ -126,9 +144,14 @@ static void *dispatch_func( void *data );
 static void check_compipe( void );
 static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer userdata );
 static void remove_next_pending( void );
+static void show_error( com_msg_t *msg );
+static void get_password( com_msg_t *msg );
+static void get_password_cb( gchar *string, gpointer data );
 
 /* Pthread code */
-#ifdef USE_PTHREADS
+/* FIXME: support other thread types!!!! */
+
+#ifdef G_THREADS_IMPL_POSIX
 
 #include <pthread.h>
 
@@ -306,6 +329,44 @@ void mail_op_set_message( gchar *fmt, ... )
 }
 
 /**
+ * mail_op_get_password:
+ * @prompt: the question put to the user
+ * @secret: whether the dialog box shold print stars when the user types
+ * @dest: where to store the reply
+ *
+ * Asks the user for a password (or string entry in general). Waits for
+ * the user's response. On success, returns TRUE and @dest contains the
+ * response. On failure, returns FALSE and @dest contains the error
+ * message.
+ **/
+
+gboolean mail_op_get_password( gchar *prompt, gboolean secret, gchar **dest )
+{
+	com_msg_t msg;
+	gboolean result;
+
+	msg.type = PASSWORD;
+	msg.secret = secret;
+	msg.message = prompt;
+	msg.reply = dest;
+	msg.success = &result;
+	
+	(*dest) = NULL;
+
+	G_LOCK( modal_lock );
+
+	write( WRITER, &msg, sizeof( msg ) );
+	modal_may_proceed = FALSE;
+
+	while( modal_may_proceed == FALSE )
+		g_cond_wait( modal_cond, g_static_mutex_get_mutex( &G_LOCK_NAME( modal_lock ) ) );
+
+	G_UNLOCK( modal_lock );
+
+	return result;
+}
+
+/**
  * mail_op_error:
  * @fmt: printf-style format string for the error
  * @...: arguments to the format string
@@ -318,13 +379,21 @@ void mail_op_error( gchar *fmt, ... )
 {
 	com_msg_t msg;
 	va_list val;
-
+	
 	va_start( val, fmt );
 	msg.type = ERROR;
 	msg.message = g_strdup_vprintf( fmt, val );
 	va_end( val );
 
+	G_LOCK( modal_lock );
+
+	modal_may_proceed = FALSE;
 	write( WRITER, &msg, sizeof( msg ) );
+
+	while( modal_may_proceed == FALSE )
+		g_cond_wait( modal_cond, g_static_mutex_get_mutex( &G_LOCK_NAME( modal_lock ) ) );
+
+	G_UNLOCK( modal_lock );
 }
 
 /**
@@ -340,6 +409,18 @@ void mail_operation_wait_for_finish( void )
 		while( gtk_events_pending() )
 			gtk_main_iteration();
 	}
+}
+
+/**
+ * mail_operations_are_executing:
+ *
+ * Returns TRUE if operations are being executed asynchronously
+ * when called, FALSE if not.
+ */
+
+gboolean mail_operations_are_executing( void )
+{
+	return mail_operation_in_progress;
 }
 
 /* ** Static functions **************************************************** */
@@ -418,6 +499,10 @@ static void check_compipe( void )
 
 	chan_reader = g_io_channel_unix_new( READER );
 	g_io_add_watch( chan_reader, G_IO_IN, read_msg, NULL );
+
+	/* Misc */
+	modal_cond = g_cond_new();
+
 }
 
 /**
@@ -480,33 +565,36 @@ static void *dispatch_func( void *data )
 
 static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer userdata )
 {
-	com_msg_t msg;
+	com_msg_t *msg;
 	closure_t *clur;
 	GSList *temp;
 	guint size;
-	#if 0
-	GtkWidget *err_dialog;
-	#else
-	gchar *errmsg;
-	#endif
 
-	g_io_channel_read( source, (gchar *) &msg, 
-			   sizeof( msg ) / sizeof( gchar ), 
+	msg = g_new0( com_msg_t, 1 );
+
+	g_io_channel_read( source, (gchar *) msg, 
+			   sizeof( com_msg_t ) / sizeof( gchar ), 
 			   &size );
 
-	if( size != sizeof( msg ) ) {
+	if( size != sizeof( com_msg_t ) ) {
 		g_warning( _("Incomplete message written on pipe!") );
-		msg.type = ERROR;
-		msg.message = g_strdup( _("Error reading commands from dispatching thread.") );
+		msg->type = ERROR;
+		msg->message = g_strdup( _("Error reading commands from dispatching thread.") );
 	}
 
-	switch( msg.type ) {
+	/* This is very important, though I'm not quite sure why
+	 * it is as we are in the main thread right now.
+	 */
+
+	GDK_THREADS_ENTER();
+
+	switch( msg->type ) {
 	case STARTING:
-		gtk_label_set_text( GTK_LABEL( queue_window_message ), msg.message );
+		gtk_label_set_text( GTK_LABEL( queue_window_message ), msg->message );
 		gtk_progress_bar_update( GTK_PROGRESS_BAR( queue_window_progress ), 0.0 );
 		break;
 	case PERCENTAGE:
-		gtk_progress_bar_update( GTK_PROGRESS_BAR( queue_window_progress ), msg.percentage );
+		gtk_progress_bar_update( GTK_PROGRESS_BAR( queue_window_progress ), msg->percentage );
 		break;
 	case HIDE_PBAR:
 		gtk_widget_hide( GTK_WIDGET( queue_window_progress ) );
@@ -516,28 +604,22 @@ static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer u
 		break;
 	case MESSAGE:
 		gtk_label_set_text( GTK_LABEL( queue_window_message ),
-				    msg.message );
-		g_free( msg.message );
+				    msg->message );
+		g_free( msg->message );
+		break;
+	case PASSWORD:
+		g_assert( msg->reply );
+		g_assert( msg->success );
+		get_password( msg );
 		break;
 	case ERROR:
-		#if 0
-		/* FIXME FIXME: the gnome_dialog_ functions are causing coredumps
-		 * on my machine! Every time, threads or not... "IMLIB ERROR: Cannot
-		 * allocate XImage buffer". Until then, work around
-		 */
-		err_dialog = gnome_error_dialog( msg.message );
-		gnome_dialog_run_and_close( GNOME_DIALOG( err_dialog ) );
-		#else
-		errmsg = g_strdup_printf( "ERROR: %s", msg.message );
-		gtk_label_set_text( GTK_LABEL( queue_window_message ),
-				    errmsg );
-		g_free( errmsg );
-		#endif
-		g_free( msg.message );
+		show_error( msg );
 		break;
+
 		/* Don't fall through; dispatch_func does the FINISHED
 		 * call for us 
 		 */
+
 	case FINISHED:
 		if( op_queue == NULL ) {
 			/* All done! */
@@ -564,7 +646,32 @@ static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer u
 		break;
 	}
 
+	GDK_THREADS_LEAVE();
+	g_free( msg );
 	return TRUE;
+}
+
+/**
+ * show_error:
+ *
+ * Show the error dialog and wait for user OK
+ **/
+
+static void show_error( com_msg_t *msg )
+{
+	GtkWidget *err_dialog;
+
+	err_dialog = gnome_error_dialog( msg->message );
+	g_free( msg->message );
+
+	G_LOCK( modal_lock );
+
+	modal_may_proceed = FALSE;
+	gnome_dialog_run_and_close( GNOME_DIALOG( err_dialog ) );
+	modal_may_proceed = TRUE;
+
+	g_cond_signal( modal_cond );
+	G_UNLOCK( modal_lock );
 }
 
 /**
@@ -592,4 +699,58 @@ static void remove_next_pending( void )
 	/* Hide it? */
 	if( g_list_next( children ) == NULL )
 		gtk_widget_hide( queue_window_pending );
+}
+
+/**
+ * get_password:
+ *
+ * Ask for a password and put the answer in *(msg->reply)
+ **/
+
+static void get_password( com_msg_t *msg )
+{
+	GtkWidget *dialog;
+	gint ret;
+
+	dialog = gnome_request_dialog( msg->secret, msg->message, NULL,
+				       0, get_password_cb, msg,
+				       NULL );
+
+
+	G_LOCK( modal_lock );
+
+	modal_may_proceed = FALSE;
+
+	if( dialog == NULL ) {
+		*(msg->success) = FALSE;
+		*(msg->reply) = g_strdup( _("Could not create dialog box.") );
+		goto done;
+	}
+
+	*(msg->reply) = NULL;
+	ret = gnome_dialog_run_and_close( GNOME_DIALOG(dialog) );
+
+	/* The -1 check doesn't seem to work too well. */
+	if( /*ret == -1 ||*/ *(msg->reply) == NULL ) {
+		*(msg->success) = FALSE;
+		*(msg->reply) = g_strdup( _("User cancelled query.") );
+		goto done;
+	}
+
+	*(msg->success) = TRUE;
+
+ done:
+	modal_may_proceed = TRUE;
+	g_cond_signal( modal_cond );
+	G_UNLOCK( modal_lock );
+}
+
+static void get_password_cb( gchar *string, gpointer data )
+{
+	com_msg_t *msg = (com_msg_t *) data;
+
+        if (string)
+                *(msg->reply) = g_strdup( string );
+        else
+                *(msg->reply) = NULL;
 }
