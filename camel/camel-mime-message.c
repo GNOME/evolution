@@ -702,6 +702,7 @@ find_best_encoding (CamelMimePart *part, CamelBestencRequired required, CamelBes
 	istext = header_content_type_is (part->content_type, "text", "*");
 	if (istext) {
 		flags = CAMEL_BESTENC_GET_CHARSET | CAMEL_BESTENC_GET_ENCODING;
+		enctype |= CAMEL_BESTENC_TEXT;
 	} else {
 		flags = CAMEL_BESTENC_GET_ENCODING;
 	}

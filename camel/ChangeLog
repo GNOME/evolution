@@ -1,0 +1,9 @@
+2003-06-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-message.c (find_best_encoding): Add the
+	CAMEL_BESTENC_TEXT bit to enctype if the part is a text part.
+
+	* camel-mime-filter-bestenc.c
+	(camel_mime_filter_bestenc_get_best_encoding): If we have any
+	nul-bytes or if the content is non-text and contains any 8bit
+	octets, we need to use base64. Fixes bug #44344.

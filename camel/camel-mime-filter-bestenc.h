@@ -52,6 +52,9 @@ enum _CamelBestencEncoding {
 	CAMEL_BESTENC_7BIT,
 	CAMEL_BESTENC_8BIT,
 	CAMEL_BESTENC_BINARY,
+	
+	/* is the content stream to be treated as text? */
+	CAMEL_BESTENC_TEXT = 1<<8,
 };
 typedef enum _CamelBestencEncoding CamelBestencEncoding;
 
@@ -70,7 +73,7 @@ struct _CamelMimeFilterBestenc {
 	int startofline;	/* are we at the start of a new line? */
 
 	int fromcount;
-	char fromsave[6];	/* save a few characters if we found an \nF near the end of the buffer */
+	char fromsave[6];	/* save a few characters if we found an \n near the end of the buffer */
 	int hadfrom;		/* did we encounter a "\nFrom " in the data? */
 
 	unsigned int countline;	/* current count of characters on a given line */

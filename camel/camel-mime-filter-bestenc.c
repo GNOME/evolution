@@ -23,6 +23,7 @@
 #include <config.h>
 #endif
 
+#include <stdio.h>
 #include <string.h>
 
 #include "camel-mime-filter-bestenc.h"
@@ -210,7 +211,7 @@ camel_mime_filter_bestenc_new (unsigned int flags)
 
 /**
  * camel_mime_filter_bestenc_get_best_encoding:
- * @f: 
+ * @f: bestenc filter object
  * @required: maximum level of output encoding allowed.
  * 
  * Return the best encoding, given specific constraints, that can be used to
@@ -222,7 +223,11 @@ CamelMimePartEncodingType
 camel_mime_filter_bestenc_get_best_encoding(CamelMimeFilterBestenc *f, CamelBestencEncoding required)
 {
 	CamelMimePartEncodingType bestenc;
-
+	int istext;
+	
+	istext = (required & CAMEL_BESTENC_TEXT) ? 1 : 0;
+	required = required & ~CAMEL_BESTENC_TEXT;
+	
 #if 0
 	printf("count0 = %d, count8 = %d, total = %d\n", f->count0, f->count8, f->total);
 	printf("maxline = %d, crlfnoorder = %s\n", f->maxline, f->crlfnoorder?"TRUE":"FALSE");
@@ -238,10 +243,10 @@ camel_mime_filter_bestenc_get_best_encoding(CamelMimeFilterBestenc *f, CamelBest
 	/* if we need to encode, see how we do it */
 	if (required == CAMEL_BESTENC_BINARY)
 		bestenc = CAMEL_MIME_PART_ENCODING_BINARY;
-	else if (f->count8 + f->count0 >= (f->total*17/100))
-		bestenc = CAMEL_MIME_PART_ENCODING_BASE64;
-	else
+	else if (istext && (f->count0 == 0 && f->count8 < (f->total * 17 / 100)))
 		bestenc = CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
+	else
+		bestenc = CAMEL_MIME_PART_ENCODING_BASE64;
 	
 	/* if we have nocrlf order, or long lines, we need to encode always */
 	if (f->crlfnoorder || f->maxline >= 998)
@@ -257,6 +262,7 @@ camel_mime_filter_bestenc_get_best_encoding(CamelMimeFilterBestenc *f, CamelBest
 		return bestenc;
 	case CAMEL_BESTENC_8BIT:
 	case CAMEL_BESTENC_BINARY:
+	default:
 		if (f->count0 == 0)
 			return CAMEL_MIME_PART_ENCODING_8BIT;
 		else
@@ -268,7 +274,7 @@ camel_mime_filter_bestenc_get_best_encoding(CamelMimeFilterBestenc *f, CamelBest
 
 /**
  * camel_mime_filter_bestenc_get_best_charset:
- * @f: 
+ * @f: bestenc filter object
  * 
  * Gets the best charset that can be used to contain this content.
  * 
