@@ -1806,10 +1806,8 @@ addrbook_sender (GtkWidget *widget, gpointer user_data)
 						 popup_listener_cb, NULL, NULL, win);
 	
 	socket = find_socket (GTK_CONTAINER (control));
-	gtk_signal_connect_object (GTK_OBJECT (socket),
-				   "destroy",
-				   G_CALLBACK (gtk_widget_destroy),
-				   GTK_OBJECT (win));
+	
+	g_object_weak_ref ((GObject *) socket, (GWeakNotify) gtk_widget_destroy, win);
 	
 	gtk_container_add (GTK_CONTAINER (win), control);
 	gtk_widget_show_all (win);
@@ -3225,8 +3223,10 @@ static GtkObject *subscribe_dialog = NULL;
 static void
 subscribe_dialog_destroy (GtkWidget *widget, gpointer user_data)
 {
-	g_object_unref (subscribe_dialog);
-	subscribe_dialog = NULL;
+	if (subscribe_dialog) {
+		g_object_unref (subscribe_dialog);
+		subscribe_dialog = NULL;
+	}
 }
 
 void
@@ -3234,8 +3234,8 @@ manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	if (!subscribe_dialog) {
 		subscribe_dialog = subscribe_dialog_new ();
-		g_signal_connect(SUBSCRIBE_DIALOG (subscribe_dialog)->app, "destroy",
-				 G_CALLBACK(subscribe_dialog_destroy), NULL);
+		g_signal_connect (SUBSCRIBE_DIALOG (subscribe_dialog)->app, "destroy",
+				  G_CALLBACK (subscribe_dialog_destroy), NULL);
 		
 		subscribe_dialog_show (subscribe_dialog);
 	} else {

@@ -171,7 +171,7 @@ toggled_fwd_cb (GtkToggleButton *b, MailSearch *ms)
 #endif
 
 static void
-dialog_destroy_cb (GtkWidget *w, MailSearch *ms) 
+dialog_destroy_cb (GtkWidget *w, MailSearch *ms)
 {
 	ESearchingTokenizer *st = mail_search_tokenizer (ms);
 

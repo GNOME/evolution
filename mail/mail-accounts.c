@@ -121,20 +121,18 @@ mail_accounts_tab_finalise (GObject *obj)
 }
 
 static void
-account_add_finished (GtkWidget *widget, gpointer user_data)
+account_add_finished (MailAccountsTab *prefs, GObject *deadbeef)
 {
 	/* Either Cancel or Finished was clicked in the druid so reload the accounts */
-	MailAccountsTab *prefs = user_data;
-	
 	prefs->druid = NULL;
-
+	
 #warning "GTK_OBJECT_DESTROYED"
 #if 0	
 	if (!GTK_OBJECT_DESTROYED (prefs))
 #endif
 		mail_accounts_load (prefs);
 	
-	g_object_unref ((GtkObject *) prefs);
+	g_object_unref (prefs);
 }
 
 static void
@@ -144,29 +142,28 @@ account_add_clicked (GtkButton *button, gpointer user_data)
 	
 	if (prefs->druid == NULL) {
 		prefs->druid = (GtkWidget *) mail_config_druid_new (prefs->shell);
-		g_signal_connect((prefs->druid), "destroy",
-				    G_CALLBACK (account_add_finished), prefs);
+		g_object_weak_ref ((GObject *) prefs->druid,
+				   (GWeakNotify) account_add_finished, prefs);
 		
 		gtk_widget_show (prefs->druid);
-		g_object_ref ((GtkObject *) prefs);
+		g_object_ref (prefs);
 	} else {
 		gdk_window_raise (prefs->druid->window);
 	}
 }
 
 static void
-account_edit_finished (GtkWidget *widget, gpointer user_data)
+account_edit_finished (MailAccountsTab *prefs, GObject *deadbeef)
 {
-	MailAccountsTab *prefs = user_data;
-	
 	prefs->editor = NULL;
 	
+#warning "GTK_OBJECT_DESTROYED"
 #if 0
 	if (!GTK_OBJECT_DESTROYED (prefs))
 #endif
 		mail_accounts_load (prefs);
 	
-	g_object_unref(prefs);
+	g_object_unref (prefs);
 }
 
 static void
@@ -193,11 +190,9 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 			account = gtk_clist_get_row_data (prefs->table, row);
 #endif
 			prefs->editor = (GtkWidget *) mail_account_editor_new (account, GTK_WINDOW (window), prefs);
-			g_signal_connect((prefs->editor), "destroy",
-					    G_CALLBACK (account_edit_finished),
-					    prefs);
+			g_object_weak_notify ((GObject *) prefs->editor, (GWeakNotify) account_edit_finished, prefs);
 			gtk_widget_show (prefs->editor);
-			g_object_ref ((GtkObject *) prefs);
+			g_object_ref (prefs);
 		}
 	} else {
 		gdk_window_raise (prefs->editor->window);

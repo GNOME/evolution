@@ -48,16 +48,14 @@ struct _config_data {
 };
 
 static void
-config_control_destroy_callback (EvolutionConfigControl *config_control, void *user_data)
+config_control_destroy_cb (struct _config_data *data, GObject *deadbeef)
 {
-	struct _config_data *data = user_data;
-	
 	g_object_unref (data->prefs);
 	g_free (data);
 }
 
 static void
-config_control_apply_callback (EvolutionConfigControl *config_control, void *user_data)
+config_control_apply_cb (EvolutionConfigControl *config_control, void *user_data)
 {
 	struct _config_data *data = user_data;
 	
@@ -116,8 +114,8 @@ config_control_factory_cb (BonoboGenericFactory *factory, const char *component_
 		g_assert_not_reached ();
 	}
 	
-	g_signal_connect(control, "apply", G_CALLBACK (config_control_apply_callback), data);
-	g_signal_connect(control, "destroy", G_CALLBACK (config_control_destroy_callback), data);
+	g_signal_connect (control, "apply", G_CALLBACK (config_control_apply_cb), data);
+	g_object_weak_ref (control, (GWeakNotify) config_control_destroy_cb, data);
 	
 	return BONOBO_OBJECT (control);
 }

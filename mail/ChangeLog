@@ -1,3 +1,25 @@
+2002-11-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (account_edit_clicked): Use g_object_weak_ref
+	rather than connecting to destroy.
+	(account_add_clicked): Same.
+
+	* mail-callbacks.c (addrbook_sender): Make this use
+	g_object_weak_notify also.
+	(subscribe_dialog_destroy): Add NULL guards here since I think we
+	really do want to connect to the "destroy" signal in the function
+	that connects us to that signal.
+
+	* mail-config-factory.c (config_control_factory_cb): Same.
+
+	* mail-display.c (save_part): Here too.
+	(make_popup_window): And here.
+
+	* mail-send-recv.c (build_dialogue): Same here.
+
+	* mail-summary.c (create_summary_view): Use g_object_weak_notify
+	instead of connecting to the destroy signal.
+
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (owner_set_cb): Want a (GWeakNotify) cast

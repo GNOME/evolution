@@ -274,7 +274,7 @@ request_password(struct _pass_msg *m)
 	title = e_utf8_to_gtk_string (GTK_WIDGET (check_label), m->prompt);
 	password_dialogue = (GnomeDialog *)dialogue = gnome_request_dialog (m->secret, title, NULL, 0, pass_got, m, NULL);
 	g_free(title);
-	password_destroy_id = g_signal_connect((GtkObject *)dialogue, "destroy", request_password_deleted, m);
+	password_destroy_id = g_signal_connect (dialogue, "destroy", request_password_deleted, m);
 
 	check = gtk_check_button_new ();
 	gtk_misc_set_alignment (GTK_MISC (check_label), 0.0, 0.5);

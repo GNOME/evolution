@@ -162,8 +162,7 @@ summary_free (MailSummary *summary)
 }
 
 static void
-view_destroy_cb (GtkObject *object,
-		 MailSummary *summary)
+view_destroy_cb (MailSummary *summary, GObject *deadbeef)
 {
 	summary_free (summary);
 	g_free (summary);
@@ -478,8 +477,8 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	view = executive_summary_html_view_new_full (event_source);
 	bonobo_object_add_interface (component, view);
 	summary->view = view;
-	gtk_signal_connect (GTK_OBJECT (view), "destroy",
-			    GTK_SIGNAL_FUNC (view_destroy_cb), summary);
+	
+	g_object_weak_notify ((GObject *) view, (GWeakNotify) view_destroy_cb, summary);
 
 	bag = bonobo_property_bag_new_full (get_property, NULL, 
 					    event_source, summary);

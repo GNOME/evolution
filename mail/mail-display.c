@@ -252,7 +252,7 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-save_destroy_cb (GtkWidget *widget, CamelMimePart *part) 
+save_destroy_cb (CamelMimePart *part, GObject *deadbeef) 
 {
 	camel_object_unref (part);
 }
@@ -330,9 +330,8 @@ save_part (CamelMimePart *part)
 				   G_CALLBACK (gtk_widget_destroy),
 				   GTK_OBJECT (file_select));
 	
-	g_signal_connect(file_select, "destroy",
-			 G_CALLBACK (save_destroy_cb), part);
-
+	g_object_weak_ref ((GObject *) file_select, (GWeakNotify) save_destroy_cb, part);
+	
 	gtk_widget_show (GTK_WIDGET (file_select));
 }
 
@@ -1114,13 +1113,13 @@ do_signature (GtkHTML *html, GtkHTMLEmbedded *eb,
   	gtk_widget_set_size_request (pbl->pixmap, 24, 24);
 	pbl->eb = eb;
 	pbl->destroy_id = g_signal_connect(eb, "destroy", G_CALLBACK(embeddable_destroy_cb), pbl);
-
+	
 	g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, pbl, NULL);
-
+	
 	button = gtk_button_new ();
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
-	g_object_set_data(G_OBJECT(button), "MailDisplay", md);
-	g_signal_connect(button, "clicked", G_CALLBACK (button_press), part);
+	g_object_set_data ((GObject *) button, "MailDisplay", md);
+	g_signal_connect (button, "clicked", G_CALLBACK (button_press), part);
 	gtk_container_add (GTK_CONTAINER (button), pbl->pixmap);
 	gtk_widget_show_all (button);
 	gtk_container_add (GTK_CONTAINER (eb), button);
@@ -2144,12 +2143,10 @@ popup_info_free (PopupInfo *pop)
 }
 
 static void
-popup_window_destroy_cb (GtkWidget *w, gpointer user_data)
+popup_window_destroy_cb (PopupInfo *pop, GObject *deadbeef)
 {
-	PopupInfo *pop = (PopupInfo *) user_data;
-
 	the_popup = NULL;
-
+	
 	popup_info_free (pop);
 }
 
@@ -2228,30 +2225,31 @@ make_popup_window (GtkWidget *w)
 {
 	PopupInfo *pop = g_new0 (PopupInfo, 1);
 	GtkWidget *fr;
-
+	
 	/* Only allow for one popup at a time.  Ugly. */
 	if (the_popup)
 		gtk_widget_destroy (the_popup);
-
+	
 	pop->w = w;
 	the_popup = pop->win = gtk_window_new (GTK_WINDOW_POPUP);
 	fr = gtk_frame_new (NULL);
-
+	
 	gtk_container_add (GTK_CONTAINER (pop->win), fr);
 	gtk_container_add (GTK_CONTAINER (fr), w);
-
+	
 	gtk_window_set_policy (GTK_WINDOW (pop->win), FALSE, FALSE, FALSE);
-
-	g_signal_connect(pop->win, "destroy", G_CALLBACK (popup_window_destroy_cb), pop);
-	g_signal_connect(pop->win, "enter_notify_event", G_CALLBACK (popup_enter_cb), pop);
-	g_signal_connect(pop->win, "leave_notify_event", G_CALLBACK (popup_leave_cb), pop);
+	
+	g_signal_connect (pop->win, "enter_notify_event", G_CALLBACK (popup_enter_cb), pop);
+	g_signal_connect (pop->win, "leave_notify_event", G_CALLBACK (popup_leave_cb), pop);
 	g_signal_connect_after (pop->win, "realize", G_CALLBACK (popup_realize_cb), pop);
-	g_signal_connect(pop->win, "size_allocate", G_CALLBACK (popup_size_allocate_cb), pop);
-
+	g_signal_connect (pop->win, "size_allocate", G_CALLBACK (popup_size_allocate_cb), pop);
+	
+	g_object_weak_ref ((GObject *) pop->win, (GWeakNotify) popup_window_destroy_cb, pop);
+	
 	gtk_widget_show (w);
 	gtk_widget_show (fr);
 	gtk_widget_show (pop->win);
-
+	
 	return pop;
 }
 

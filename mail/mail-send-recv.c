@@ -206,7 +206,7 @@ static void hide_send_info(void *key, struct _send_info *info, void *data)
 }
 
 static void
-dialog_destroy (struct _send_data *data, GtkProgressBar *bar)
+dialog_destroy_cb (struct _send_data *data, GObject *deadbeef)
 {
 	g_hash_table_foreach (data->active, (GHFunc) hide_send_info, NULL);
 	data->gd = NULL;
@@ -432,8 +432,9 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	
 	gtk_widget_show (GTK_WIDGET (gd));
 	
-	g_signal_connect(gd, "response", G_CALLBACK(dialogue_response), data);
-	g_signal_connect(gd, "destroy", G_CALLBACK(dialog_destroy), data);
+	g_signal_connect (gd, "response", G_CALLBACK (dialogue_response), data);
+	
+	g_object_weak_notify ((GObject *) gd, (GWeakNotify) dialog_destroy_cb, data);
 	
 	data->infos = list;
 	data->gd = gd;
