@@ -1,3 +1,13 @@
+2001-10-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-stream-fs.c (stream_read): Same as in the TcpStreamRaw code.
+	(stream_write): And again here...
+
+	* camel-tcp-stream-raw.c (stream_read): Handle the EAGAIN error
+	case as well.
+	(stream_write): Same here, this might fix the SMTP truncation
+	thing? I hope?
+
 2001-10-23  Dan Winship  <danw@ximian.com>
 
 	* camel-mime-utils.c (mail_list_magic): Remove an extra * in one
