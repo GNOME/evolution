@@ -1,5 +1,9 @@
 2004-09-16  JP Rosevear  <jpr@novell.com>
 
+	* configure.in: bump EDS and gal requirements
+
+2004-09-16  JP Rosevear  <jpr@novell.com>
+
 	* configure.in: bump version to 2.1.0 and set base version to 2.2;
 	define DEVELOPMENT here so we don't have to alter code to change
 	in future
