@@ -1,3 +1,19 @@
+2004-08-26  Chris Toshok  <toshok@ximian.com>
+
+	[ patch for the rest of 60889 ]
+	* gui/merging/eab-contact-merging.c (add_lookup): new function,
+	either start up the query or add it to the queue if we're over the
+	number of simultaneous queries.
+	(finished_lookup): start up enough pending queries to get us to
+	our limit again.
+	(free_lookup): free lookup->avoid.
+	(final_id_cb): call finished_lookup.
+	(eab_merging_book_add_contact): set lookup->avoid to NULL and
+	replace call to eab_contact_locate_match_full with add_lookup.
+	(eab_merging_book_commit_contact): set lookup->avoid to the
+	contact, and make the same
+	s/eab_contact_locate_match_full/add_lookup/ replacement.
+
 2004-08-26  Christian Neumair  <chris@gnome-de.org>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
