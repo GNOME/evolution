@@ -1,5 +1,10 @@
 2001-09-19  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_hookup_shell_listeners): Change the "this should
+	never happen" message into a request for people to e-mail me
+	directly with info if they encounter that error.
+
 	* backend/ebook/e-book-util.c (e_book_name_and_email_query):
 	Freeing name[i] instead of namev[i] is a bad idea. (bug #10270)
 
