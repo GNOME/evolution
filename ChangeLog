@@ -1,3 +1,7 @@
+2003-08-21  Not Zed  <NotZed@Ximian.com>
+
+	* HACKING: Wrote one.
+
 2003-08-20  Bolian Yin <bolian.yin@sun.com>
 
 	* configure.in: Add a11y checking, and a11y Makefiles
