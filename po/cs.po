@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2003-04-09 14:07-0400\n"
-"PO-Revision-Date: 2003-04-09 19:39+0200\n"
+"POT-Creation-Date: 2003-04-10 11:50+0200\n"
+"PO-Revision-Date: 2003-04-10 19:56+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5086,57 +5086,46 @@ msgid "%s for an unknown trigger type"
 msgstr "%s pro neznámý typ spouštění"
 
 #: calendar/gui/e-calendar-table.c:415
-#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:416
-#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:417
-#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:418
-#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:419
-#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:420
-#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:421
-#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:422
-#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:423
-#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:424
-#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:425
-#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -5517,8 +5506,8 @@ msgstr "Zamítnuto"
 #: calendar/gui/e-itip-control.c:1090 calendar/gui/e-itip-control.c:1298
 #: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:267
 #: calendar/gui/e-meeting-model.c:332 calendar/gui/e-meeting-model.c:810
-#: calendar/gui/e-meeting-model.c:826 camel/camel-gpg-context.c:1534
-#: camel/camel-gpg-context.c:1584 camel/camel-tcp-stream-openssl.c:634
+#: calendar/gui/e-meeting-model.c:826 camel/camel-gpg-context.c:1567
+#: camel/camel-gpg-context.c:1618 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:171
 #: camel/providers/smtp/camel-smtp-transport.c:226 mail/folder-browser.c:345
 #: mail/mail-display.c:950 widgets/misc/e-charset-picker.c:60
@@ -8240,7 +8229,7 @@ msgstr "Přesunuji zprávy"
 msgid "Copying messages"
 msgstr "Kopíruji zprávy"
 
-#: camel/camel-gpg-context.c:724
+#: camel/camel-gpg-context.c:757
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8251,15 +8240,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:738
+#: camel/camel-gpg-context.c:772
 msgid "Failed to parse gpg userid hint."
 msgstr "Selhalo zpracování nápovědy gpg userid."
 
-#: camel/camel-gpg-context.c:761
+#: camel/camel-gpg-context.c:797
 msgid "Failed to parse gpg passphrase request."
 msgstr "Selhalo zpracování požadavku gpg hesla."
 
-#: camel/camel-gpg-context.c:769
+#: camel/camel-gpg-context.c:805
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -8268,58 +8257,59 @@ msgstr ""
 "Potřebujete heslo pro odemčení klíče pro\n"
 "uživatele: \"%s\""
 
-#: camel/camel-gpg-context.c:780 camel/camel-gpg-context.c:1249
-#: camel/camel-gpg-context.c:1356 camel/camel-gpg-context.c:1431
-#: camel/camel-gpg-context.c:1488 mail/mail-send-recv.c:565
+#: camel/camel-gpg-context.c:816 camel/camel-gpg-context.c:1290
+#: camel/camel-gpg-context.c:1396 camel/camel-gpg-context.c:1466
+#: camel/camel-gpg-context.c:1522 mail/mail-send-recv.c:565
 msgid "Cancelled."
 msgstr "Zrušeno"
 
-#: camel/camel-gpg-context.c:798
+#: camel/camel-gpg-context.c:834
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr "Selhalo odemčení tajného klíče. Byla zadána tři chybná hesla."
 
-#: camel/camel-gpg-context.c:804
+#: camel/camel-gpg-context.c:840
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Neočekávaná odpověď od GnuPG: %s"
 
-#: camel/camel-gpg-context.c:814
+#: camel/camel-gpg-context.c:852
 msgid "No data provided"
 msgstr "Nejsou poskytnuta žádná data."
 
-#: camel/camel-gpg-context.c:857
+#: camel/camel-gpg-context.c:895
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Nelze zašifrovat zprávu: nejsou určeni platní adresáti."
 
-#: camel/camel-gpg-context.c:1125
+#: camel/camel-gpg-context.c:1167
 #, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
 "\n"
-"%.*s"
+"%s"
 msgstr ""
 "Nepodařilo se GPG %s: %s\n"
 "\n"
-"%.*s"
+"%s"
 
-#: camel/camel-gpg-context.c:1131
+#: camel/camel-gpg-context.c:1172
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "Nepodařilo se GPG %s: %s\n"
 
-#: camel/camel-gpg-context.c:1240 camel/camel-gpg-context.c:1533
-#: camel/camel-gpg-context.c:1583
+#: camel/camel-gpg-context.c:1281 camel/camel-gpg-context.c:1566
+#: camel/camel-gpg-context.c:1617
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Nepodařilo se provést gpg: %s"
 
-#: camel/camel-gpg-context.c:1270 camel/camel-gpg-context.c:1348
-#: camel/camel-gpg-context.c:1422 camel/camel-gpg-context.c:1452
-#: camel/camel-gpg-context.c:1479 camel/camel-gpg-context.c:1509
+#: camel/camel-gpg-context.c:1311 camel/camel-gpg-context.c:1388
+#: camel/camel-gpg-context.c:1457 camel/camel-gpg-context.c:1487
+#: camel/camel-gpg-context.c:1513 camel/camel-gpg-context.c:1543
+#: camel/camel-gpg-context.c:1588 camel/camel-gpg-context.c:1639
 msgid "Failed to execute gpg."
 msgstr "Nepodařilo se provést gpg."
 
-#: camel/camel-gpg-context.c:1333
+#: camel/camel-gpg-context.c:1373
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr "Nelze ověřit podpis zprávy: nelze vytvořit dočasný soubor: %s"
@@ -10562,12 +10552,12 @@ msgstr "Podpis:"
 msgid "Autogenerated"
 msgstr "automatický"
 
-#: composer/e-msg-composer.c:2234 composer/e-msg-composer.c:2873
-#: composer/e-msg-composer.c:2874
+#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2872
+#: composer/e-msg-composer.c:2873
 msgid "Compose a message"
 msgstr "Napsat zprávu"
 
-#: composer/e-msg-composer.c:2905
+#: composer/e-msg-composer.c:2904
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10575,7 +10565,7 @@ msgstr ""
 "Nelze vytvořit okno pro psaní zpráv:\n"
 "Nelze aktivovat ovládací prvek pro výběr adresy."
 
-#: composer/e-msg-composer.c:2931
+#: composer/e-msg-composer.c:2930
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10587,7 +10577,7 @@ msgstr ""
 "Ujistěte se prosím, že máte instalovanou\n"
 "správnou verzi gtkhtml a libgtkhtml.\n"
 
-#: composer/e-msg-composer.c:2991
+#: composer/e-msg-composer.c:2990
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10595,7 +10585,7 @@ msgstr ""
 "Nelze vytvořit okno pro psaní zpráv:\n"
 "Nelze aktivovat komponentu HTML editor."
 
-#: composer/e-msg-composer.c:4005
+#: composer/e-msg-composer.c:4004
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -12650,9 +12640,8 @@ msgid "Message Display"
 msgstr "Zobrazení zprávy"
 
 #: mail/mail-config.glade.h:75
-#, fuzzy
 msgid "Message Fonts"
-msgstr "Zpráva obsahuje"
+msgstr "Písma zprávy"
 
 #: mail/mail-config.glade.h:76
 msgid "Microsoft"
@@ -12983,14 +12972,12 @@ msgid "_Signatures"
 msgstr "_Podpisy"
 
 #: mail/mail-config.glade.h:174
-#, fuzzy
 msgid "_Standard Font:"
-msgstr "Sand Point"
+msgstr "_Standardní písmo:"
 
 #: mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Terminal Font:"
-msgstr "Původní kontakt:"
+msgstr "Písmo _terminálu:"
 
 #: mail/mail-config.glade.h:176
 msgid "_Use secure connection (SSL):"
@@ -12998,7 +12985,7 @@ msgstr "Použít _bezpečné připojení (SSL):"
 
 #: mail/mail-config.glade.h:177
 msgid "_Use the same fonts as other applications"
-msgstr ""
+msgstr "Používat _stejná písma jako jiné aplikace"
 
 #: mail/mail-config.glade.h:178
 msgid "_every"
@@ -27871,18 +27858,6 @@ msgstr "Obsluha místního souboru kalendáře Evolution"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Obsluha místního souboru adresáře Evolution"
-
-#~ msgid "On Screen fonts"
-#~ msgstr "Písma na obrazovce"
-
-#~ msgid "_Fixed-width:"
-#~ msgstr "P_evná šířka:"
-
-#~ msgid "_Variable-width:"
-#~ msgstr "_Proměnlivá šířka:"
-
-#~ msgid "(%d not shown)"
-#~ msgstr "<(%d nezobrazeno)"
 
 #~ msgid ""
 #~ "Evolution could not create directory\n"
