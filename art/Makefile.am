@@ -75,6 +75,30 @@ images_DATA = \
 	ico-weather.png			\
 	import.png			\
 	import.xpm			\
+	im.png \
+	im-activebuddy.png \
+	im-admin.png \
+	im-aim.png \
+	im-aol.png \
+	im-away.png \
+	im-dnd.png \
+	im-extendedaway.png \
+	im-freeforchat.png \
+	im-game.png \
+	im-hiptop.png \
+	im-icq.png \
+	im-invisible.png \
+	im-jabber.png \
+	im-login.png \
+	im-logout.png \
+	im-msn.png \
+	im-na.png \
+	im-notauthorized.png \
+	im-occupied.png \
+	im-offline.png \
+	im-secure.png \
+	im-wireless.png \
+	im-yahoo.png \
 	inbox.png			\
 	inbox-mini.png			\
 	ldap-mini.png			\

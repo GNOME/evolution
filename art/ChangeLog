@@ -1,3 +1,7 @@
+2003-01-11  Christian Hammond  <chipx86@gnupdate.org>
+
+	* art/im*.png, art/Makefile.am: Added IM png files from Gaim.
+
 2004-01-08  Ross Burton  <ross@burtonini.com>
 
 	* Makefile.am:
