@@ -257,7 +257,7 @@ main (int argc, char **argv)
 	uri_list = NULL;
 
 	args = poptGetArgs (popt_context);
-	if (args == NULL) {
+	if (args != NULL) {
 		const char **p;
 
 		for (p = args; *p != NULL; p++)
