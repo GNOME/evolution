@@ -51,6 +51,7 @@ BEGIN_GNOME_DECLS
 #define __GNOME_I18N_H__ 1
 
 
+/* This is copied staight out of the prototypes for gnome-i18n.h */
 const char *gnome_i18n_get_language(void);
 GList      *gnome_i18n_get_language_list (const gchar *category_name);
 void	   gnome_i18n_set_preferred_language (const char *val);
