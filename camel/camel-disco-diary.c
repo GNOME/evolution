@@ -75,7 +75,7 @@ camel_disco_diary_finalize (CamelDiscoDiary *diary)
 		g_hash_table_destroy (diary->folders);
 	}
 	if (diary->uidmap) {
-		g_hash_table_foreach (diary->folders, free_uid, NULL);
+		g_hash_table_foreach (diary->uidmap, free_uid, NULL);
 		g_hash_table_destroy (diary->uidmap);
 	}
 }
