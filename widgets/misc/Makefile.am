@@ -1,18 +1,17 @@
 # FIXME we use the EClippedLabel widget from EShortcutBar.  Probably
 # it should be moved somewhere else.
 
-INCLUDES =						\
-	-I$(top_srcdir)					\
-	-I$(top_srcdir)/widgets/shortcut-bar		\
-	-DMAP_DIR=\""$(datadir)/evolution/images"\"	\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DG_LOG_DOMAIN=__FILE__				\
+INCLUDES =								\
+	-I$(top_srcdir)							\
+	-I$(top_srcdir)/widgets/shortcut-bar				\
+	-DMAP_DIR=\""$(datadir)/evolution-$(BASE_VERSION)/images"\"	\
+	-DG_LOG_DOMAIN=__FILE__						\
 	$(GNOME_FULL_CFLAGS)
 
 privlib_LIBRARIES =	\
 	libemiscwidgets.a
 
-widgetsincludedir = $(includedir)/evolution/widgets
+widgetsincludedir = $(includedir)/evolution-$(BASE_VERSION)/widgets
 
 widgetsinclude_HEADERS =			\
 	e-calendar.h				\

@@ -1,3 +1,7 @@
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (widgetsincludedir): Version using $(BASE_VERSION).
+
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-multi-config-dialog.c (init): Change dialog from
