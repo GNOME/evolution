@@ -1,7 +1,7 @@
 
-noinst_LIBRARIES = libversit.a
+noinst_LTLIBRARIES = libversit.la
 
-libversit_a_SOURCES =	\
+libversit_la_SOURCES =	\
 	vcc.y		\
 	vcc.h		\
 	vobject.c	\

@@ -45,7 +45,7 @@ gnomecal_from_servant (PortableServer_Servant servant)
 
 static CORBA_char *
 cal_repo_get_object (PortableServer_Servant servant,
-		     CORBA_char  *uid,
+		     const CORBA_char  *uid,
 		     CORBA_Environment *ev)
 {
 	GnomeCalendar *gcal = gnomecal_from_servant (servant);
@@ -131,7 +131,7 @@ cal_repo_get_id_from_pilot_id (PortableServer_Servant servant,
 
 static void
 cal_repo_delete_object (PortableServer_Servant servant,
-			CORBA_char  *uid,
+			const CORBA_char  *uid,
 			CORBA_Environment  *ev)
 {
 	GnomeCalendar *gcal = gnomecal_from_servant (servant);
@@ -153,8 +153,8 @@ cal_repo_delete_object (PortableServer_Servant servant,
 
 static void
 cal_repo_update_object (PortableServer_Servant servant,
-			CORBA_char *uid,
-			CORBA_char *vcalendar_object,
+			const CORBA_char *uid,
+			const CORBA_char *vcalendar_object,
 			CORBA_Environment *ev)
 {
 	GnomeCalendar *gcal = gnomecal_from_servant (servant);
@@ -173,9 +173,9 @@ cal_repo_update_object (PortableServer_Servant servant,
 
 static void
 cal_repo_update_pilot_id (PortableServer_Servant servant,
-			  CORBA_char *uid,
-			  CORBA_long pilot_id,
-			  CORBA_long pilot_status,
+			  const CORBA_char *uid,
+			  const CORBA_long pilot_id,
+			  const CORBA_long pilot_status,
 			  CORBA_Environment *ev)
 {
 	GnomeCalendar *gcal = gnomecal_from_servant (servant);
@@ -207,7 +207,10 @@ cal_repo_get_objects (PortableServer_Servant servant,
 	GList *l;
 	char *str;
 	CORBA_char *res;
-	
+
+	int items_dbg=0;
+	g_message("in cal_repo_get_objects"); 
+
 	dirty_cal = calendar_new ("Temporal");
 	
 	for (l = gcal->cal->events; l; l = l->next){
@@ -216,11 +219,15 @@ cal_repo_get_objects (PortableServer_Servant servant,
 		obj = ical_object_duplicate (l->data);
 
 		calendar_add_object (dirty_cal, obj);
+
+		items_dbg++;
 	}
 	str = calendar_get_as_vcal_string (dirty_cal);
 	res = CORBA_string_dup (str);
 	g_free (str);
 	calendar_destroy (dirty_cal);
+
+	g_message("added %d items to return value",items_dbg);
 
 	return res;
 }

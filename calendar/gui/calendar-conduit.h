@@ -9,6 +9,19 @@
 #include <pi-datebook.h>
 #include <gnome.h>
 
+#define CALLOCALRECORD(s) ((CalLocalRecord*)(s))
+typedef struct _CalLocalRecord CalLocalRecord;
+
+struct _CalLocalRecord {
+  /* The stuff from gnome-pilot-conduit-standard-abs.h */
+  LocalRecord local;
+  /* The Pilot ID of the record */
+  recordid_t ID;
+  /* The corresponding iCal object */
+  iCalObject *ical;
+  /* used by iterations, points to a GList element */
+  GList *list_ptr;
+};
 
 typedef struct _ConduitCfg ConduitCfg;
 

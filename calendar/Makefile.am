@@ -106,7 +106,8 @@ calendar_pilot_sync_SOURCES =	\
 LINK_FLAGS = \
 	$(GNOME_LIBDIR) \
 	$(GNOMEGNORBA_LIBS) \
-	$(INTLLIBS) ../libversit/libversit.a
+	$(INTLLIBS) \
+	../libversit/libversit.la
 
 calendar_pilot_sync_LDADD =	\
 	$(PISOCK_LIBS)		\
@@ -126,15 +127,13 @@ libcalendar_conduit_la_SOURCES = \
 	GnomeCal-common.c	\
 	GnomeCal-stubs.c	\
 	calendar.c 		\
-	vcc.c 	\
-	vcaltmp.c 	\
-	vobject.c 	\
 	timeutil.c
 
 libcalendar_conduit_la_LDFLAGS = \
 	-rpath $(libdir)
 
 libcalendar_conduit_la_LIBADD = \
+	../libversit/libversit.la \
 	$(PISOCK_LIBS) \
 	$(GNOME_LIBDIR) \
 	$(GNOME_LIBS)
@@ -199,7 +198,7 @@ EXTRA_DIST = \
 	bell.xpm	\
 	recur.xpm	\
 	$(idl_DATA)	\
-	$(gnorba_DATA) \
+	$(gnorba_DATA) 
 
 Productivitydir = $(datadir)/gnome/apps/Applications
 

@@ -49,8 +49,6 @@ CORBA_ORB orb;
 static GNOME_Calendar_Repository
 calendar_server (void)
 {
-  int n =0;
-
   calendar = goad_server_activate_with_id (NULL, "IDL:GNOME:Calendar:Repository:1.0",
 					   0, NULL);
   if (calendar == CORBA_OBJECT_NIL)
@@ -69,6 +67,64 @@ calendar_server (void)
 void
 calendar_notify (time_t time, CalendarAlarm *which, void *data)
 {
+}
+
+static void
+local_from_ical(CalLocalRecord **local,iCalObject *obj) {
+  g_return_if_fail(local!=NULL);
+  g_return_if_fail(*local!=NULL);
+  g_return_if_fail(obj!=NULL);
+
+  (*local)->ical = obj;
+  (*local)->ID = (*local)->ical->pilot_id;
+  
+  g_message("(*local)->Id = %ld",(*local)->ID);
+  switch((*local)->ical->pilot_status) {
+  case ICAL_PILOT_SYNC_NONE: (*local)->local.attr = RecordNothing; break;
+  case ICAL_PILOT_SYNC_MOD: (*local)->local.attr = RecordNew; break;
+  case ICAL_PILOT_SYNC_DEL: (*local)->local.attr = RecordDeleted; break;
+  }
+  
+  (*local)->local.secret = 0;
+  if(obj->class!=NULL) 
+    if(strcmp(obj->class,"PRIVATE")==0)
+      (*local)->local.secret = 1;
+ 
+  (*local)->local.archived = 0;  
+  
+  /* used by iterations */
+  (*local)->list_ptr = NULL;
+}
+
+static CalLocalRecord *
+match_record_from_repository(PilotRecord *remote) {
+  char *vcal_string;
+  CalLocalRecord *loc;
+  
+  g_return_val_if_fail(remote!=NULL,NULL);
+  
+  printf ("requesting %ld []\n", remote->ID);
+ 
+  /* FIXME: ehm, who frees this string ? */
+  vcal_string = 
+    GNOME_Calendar_Repository_get_object_by_pilot_id (calendar, remote->ID, &ev);
+  
+  if (ev._major == CORBA_USER_EXCEPTION){
+    printf (_("\tObject did not exist\n"));
+    return NULL;
+  } else if(ev._major != CORBA_NO_EXCEPTION) {
+    printf(_("\tError while communicating with calendar server\n"));
+    CORBA_exception_free(&ev); 
+    return NULL;
+  } else {
+    printf ("\tFound\n");
+    loc = g_new0(CalLocalRecord,1);
+    /* memory allocated in new_from_string is freed in free_match */
+    local_from_ical(&loc,ical_object_new_from_string (vcal_string));
+    return loc;
+  }
+
+  return NULL;
 }
 
 /* Code blatantly stolen from
@@ -97,7 +153,8 @@ update_record (PilotRecord *remote)
 			g_get_user_name (),
 			a.description ? a.description : "");
 
-	printf ("requesting %d [%s]\n", remote->ID, a.description);
+	printf ("requesting %ld [%s]\n", remote->ID, a.description);
+	/* FIXME: ehm, who frees this string ? */
 	vcal_string = GNOME_Calendar_Repository_get_object_by_pilot_id (calendar, remote->ID, &ev);
 
 	if (ev._major == CORBA_USER_EXCEPTION){
@@ -277,7 +334,7 @@ load_records(GnomePilotConduit *c)
   ConduitData *cd;
 
   vcalendar_string = 
-    GNOME_Calendar_Repository_get_updated_objects (calendar, &ev);
+    GNOME_Calendar_Repository_get_objects (calendar, &ev);
 
   cd = GET_DATA(c);
   g_assert(cd!=NULL);
@@ -314,46 +371,69 @@ pre_sync(GnomePilotConduit *c, GnomePilotDBInfo *dbi)
   return 1;
 }
 
+/**
+ * Find (if possible) the local record which matches
+ * the given PilotRecord.
+ * if successfull, return non-zero and set *local to
+ * a non-null value (the located local record),
+ * otherwise return 0 and set *local = NULL;
+ */
+
 static gint
-match_record	(GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-		 LocalRecord **local,
+match_record	(GnomePilotConduitStandardAbs *conduit,
+		 CalLocalRecord **local,
 		 PilotRecord *remote,
 		 gpointer data)
 {
   g_return_val_if_fail(remote!=NULL,0);
-	g_print ("in match_record\n");
-	*local = NULL;
-	return 1;
+  g_print ("in match_record\n");
+
+  *local = match_record_from_repository(remote);
+  
+  return 1;
 }
+
+/**
+ * Free the data allocated by a previous match_record call.
+ * If successfull, return non-zero and ser *local=NULL, otherwise
+ * return 0.
+ */
 static gint
-free_match	(GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-		 LocalRecord **local,
+free_match	(GnomePilotConduitStandardAbs *conduit,
+		 CalLocalRecord **local,
 		 gpointer data)
 {
         g_print ("entering free_match\n");
+	ical_object_destroy (CALLOCALRECORD(*local)->ical); 
+	g_free(*local);
+	
         *local = NULL;
-	return 0;
+	return 1;
 }
+
+
 static gint
-archive_local (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-	       LocalRecord *local,
+archive_local (GnomePilotConduitStandardAbs *conduit,
+	       CalLocalRecord *local,
 	       gpointer data)
 {
 	g_print ("entering archive_local\n");
 	return 1;
 
 }
+
 static gint
-archive_remote (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-		LocalRecord *local,
+archive_remote (GnomePilotConduitStandardAbs *conduit,
+		CalLocalRecord *local,
 		PilotRecord *remote,
 		gpointer data)
 {
 	g_print ("entering archive_remote\n");
 	return 1;
 }
+
 static gint
-store_remote (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
+store_remote (GnomePilotConduitStandardAbs *conduit,
 	      PilotRecord *remote,
 	      gpointer data)
 {
@@ -364,103 +444,147 @@ store_remote (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
   
   return 1;
 }
+
 static gint
-clear_status_archive_local (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-			    LocalRecord *local,
+clear_status_archive_local (GnomePilotConduitStandardAbs *conduit,
+			    CalLocalRecord *local,
 			    gpointer data)
 {
 	g_print ("entering clear_status_archive_local\n");
         return 1;
 }
+
 static gint
-iterate (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-	 LocalRecord **local,
+iterate (GnomePilotConduitStandardAbs *conduit,
+	 CalLocalRecord **local,
 	 gpointer data)
 {
-	g_print ("entering iterate\n");
-        return 1;
+  g_return_val_if_fail(local!=NULL,0);
+  
+  if(*local==NULL) {
+    g_message("calconduit: beginning iteration");
+    if(GET_DATA(conduit)->cal->events!=NULL) {
+      *local = g_new0(CalLocalRecord,1);
+
+      local_from_ical(local,(iCalObject*)GET_DATA(conduit)->cal->events->data);
+      (*local)->list_ptr = GET_DATA(conduit)->cal->events;
+    } else {
+      g_message("calconduit: no events");
+      (*local) = NULL;
+    }
+  } else {
+    g_message("calconduit: continuing iteration");
+    if(g_list_next((*local)->list_ptr)==NULL) {
+      g_message("calconduit: ending");
+      g_free((*local));
+      (*local) = NULL; /* ends iteration */
+    } else {
+      local_from_ical(local,(iCalObject*)(g_list_next((*local)->list_ptr)->data));
+      (*local)->list_ptr = g_list_next((*local)->list_ptr);
+    }
+  }
+  return 1;
 }
+
 static gint
-iterate_specific (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-		  LocalRecord **local,
+iterate_specific (GnomePilotConduitStandardAbs *conduit,
+		  CalLocalRecord **local,
 		  gint flag,
 		  gint archived,
 		  gpointer data)
 {
-	g_print ("entering iterate_specific\n");
-        return 1;
+  g_return_val_if_fail(local!=NULL,0);
+
+  g_print ("entering iterate_specific\n");
+  do {
+    gnome_pilot_conduit_standard_abs_iterate(conduit,(LocalRecord**)local);
+    if((*local)==NULL) break;
+    if(archived && ((*local)->local.archived==archived)) break;
+    if((*local)->local.attr == flag) break;
+  } while((*local)!=NULL);
+
+  return 1;
 }
+
 static gint
-purge (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
+purge (GnomePilotConduitStandardAbs *conduit,
        gpointer data)
 {
 	g_print ("entering purge\n");
         return 1;
 }
+
 static gint
-set_status (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-	    LocalRecord *local,
+set_status (GnomePilotConduitStandardAbs *conduit,
+	    CalLocalRecord *local,
 	    gint status,
 	    gpointer data)
 {
 	g_print ("entering set_status\n");
         return 0;
 }
+
 static gint
-set_archived (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-	      LocalRecord *local,
+set_archived (GnomePilotConduitStandardAbs *conduit,
+	      CalLocalRecord *local,
 	      gint archived,
 	      gpointer data)
 {
 	g_print ("entering set_archived\n");
         return 1;
 }
+
 static gint
-set_pilot_id (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-	      LocalRecord *local,
+set_pilot_id (GnomePilotConduitStandardAbs *conduit,
+	      CalLocalRecord *local,
 	      guint32 ID,
 	      gpointer data)
 {
 	g_print ("entering set_pilot_id\n");
         return 1;
 }
+
 static gint
-compare (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-	 LocalRecord *local,
+compare (GnomePilotConduitStandardAbs *conduit,
+	 CalLocalRecord *local,
 	 PilotRecord *remote,
 	 gpointer data)
 {
 	g_print ("entering compare\n");
         return 1;
 }
+
 static gint
-compare_backup (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-		LocalRecord *local,
+compare_backup (GnomePilotConduitStandardAbs *conduit,
+		CalLocalRecord *local,
 		PilotRecord *remote,
 		gpointer data)
 {
 	g_print ("entering compare_backup\n");
         return 1;
 }
+
 static gint
-free_transmit (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-	       LocalRecord *local,
+free_transmit (GnomePilotConduitStandardAbs *conduit,
+	       CalLocalRecord *local,
 	       PilotRecord *remote,
 	       gpointer data)
 {
 	g_print ("entering free_transmit\n");
         return 1;
 }
+
 static gint
-delete_all (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
+delete_all (GnomePilotConduitStandardAbs *conduit,
 	    gpointer data)
 {
 	g_print ("entering delete_all\n");
         return 1;
 }
+
 static PilotRecord *
-transmit (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
-	  LocalRecord *local,
+transmit (GnomePilotConduitStandardAbs *conduit,
+	  CalLocalRecord *local,
 	  gpointer data)
 {
 	g_print ("entering transmit\n");
