@@ -247,8 +247,7 @@ init (EShellView *shell_view)
 
 void
 e_shell_view_construct (EShellView *shell_view,
-			EShell *shell,
-			const char *uri)
+			EShell *shell)
 {
 	EShellViewPrivate *priv;
 
@@ -256,7 +255,6 @@ e_shell_view_construct (EShellView *shell_view,
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (uri == NULL || ! g_path_is_absolute (uri));
 
 	gnome_app_construct (GNOME_APP (shell_view), "evolution", "Evolution");
 
@@ -265,24 +263,20 @@ e_shell_view_construct (EShellView *shell_view,
 	gtk_object_ref (GTK_OBJECT (shell));
 	priv->shell = shell;
 
-	priv->uri = g_strdup (uri);
-
 	setup_widgets (shell_view);
 	setup_menus (shell_view);
 }
 
 GtkWidget *
-e_shell_view_new (EShell *shell,
-		  const char *uri)
+e_shell_view_new (EShell *shell)
 {
 	GtkWidget *new;
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (uri == NULL || ! g_path_is_absolute (uri), NULL);
 
 	new = gtk_type_new (e_shell_view_get_type ());
-	e_shell_view_construct (E_SHELL_VIEW (new), shell, uri);
+	e_shell_view_construct (E_SHELL_VIEW (new), shell);
 
 	return new;
 }

@@ -254,10 +254,13 @@ e_shell_new_view (EShell *shell,
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	view = e_shell_view_new (shell, uri);
+	view = e_shell_view_new (shell);
 
 	gtk_widget_show (view);
 	gtk_signal_connect (GTK_OBJECT (view), "destroy", GTK_SIGNAL_FUNC (view_destroy_cb), shell);
+
+	if (uri != NULL)
+		e_shell_view_display_uri (E_SHELL_VIEW (view), uri);
 
 	shell->priv->views = g_list_prepend (shell->priv->views, view);
 

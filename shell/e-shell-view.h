@@ -61,10 +61,9 @@ struct _EShellViewClass {
 
 GtkType    e_shell_view_get_type     (void);
 void       e_shell_view_construct    (EShellView *shell_view,
-				      EShell     *shell,
-				      const char *uri);
-GtkWidget *e_shell_view_new          (EShell     *shell,
-				      const char *uri);
+				      EShell     *shell);
+GtkWidget *e_shell_view_new          (EShell     *shell);
+
 gboolean   e_shell_view_display_uri  (EShellView *shell_view,
 				      const char *uri);
 

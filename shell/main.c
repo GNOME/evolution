@@ -30,6 +30,9 @@
 #include "e-shell.h"
 
 
+#define STARTUP_URI "evolution:/local/Inbox"
+
+
 static void
 no_views_left_cb (EShell *shell, gpointer data)
 {
@@ -79,6 +82,18 @@ init_corba (int *argc, char **argv)
 #endif /* USING_OAF */
 
 
+static gint
+new_view_idle_cb (gpointer data)
+{
+	EShell *shell;
+
+	shell = E_SHELL (data);
+	e_shell_new_view (shell, STARTUP_URI);
+
+	return FALSE;
+}
+
+
 int
 main (int argc, char **argv)
 {
@@ -113,7 +128,7 @@ main (int argc, char **argv)
 	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
 			    GTK_SIGNAL_FUNC (destroy_cb), NULL);
 
-	e_shell_new_view (shell, NULL);
+	gtk_idle_add (new_view_idle_cb, shell);
 
 	bonobo_main ();
 

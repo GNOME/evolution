@@ -1,5 +1,22 @@
 2000-05-09  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell.c (e_shell_new_view): Display the specified @uri in the
+	view.
+
+	* e-shell-view.c (e_shell_view_construct): Removed arg @uri.
+	(e_shell_view_new): Likewise.
+
+	* main.c: New string constant `STARTUP_URI', specifying the URI to
+	show in the startup view.
+	(new_view_idle_cb): New callback function to create a new view for
+	`STARTUP_URI' in the idle loop.  We need to do this in the idle
+	loop because the CORBA stuff cannot work until the loop starts
+	running.
+	(main): Set `new_view_idle_cb' up as the idle callback instead of
+	creating the view right away.
+
+2000-05-09  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell.c (setup_storages): Woops.  Don't free the path before
 	the warning message, as we need to print it.
 
