@@ -499,5 +499,16 @@
       <sources/>
     </rule>
 
+    <rule grouping="any" source="demand">
+      <_title>Body contains</_title>
+      <partset>
+        <part name="body">
+          <value name="body-type" type="option" value="contains"/>
+          <value name="word" type="string"/>
+        </part>
+      </partset>
+      <sources/>
+    </rule>
+
   </ruleset>
 </filterdescription>
