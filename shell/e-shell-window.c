@@ -49,6 +49,7 @@
 #include <bonobo/bonobo-widget.h>
 
 #include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-gconf.h>
 
 #include <gconf/gconf-client.h>
 
@@ -87,7 +88,7 @@ struct _EShellWindowPrivate {
 
 	/* The sidebar.  */
 	GtkWidget *sidebar;
-
+	
 	/* Notebooks used to switch between components.  */
 	GtkWidget *sidebar_notebook;
 	GtkWidget *view_notebook;
@@ -575,6 +576,14 @@ menu_component_selected (BonoboUIComponent *uic,
 		e_shell_window_switch_to_component (window, component_id+1);
 }
 
+static GConfEnumStringPair button_styles[] = {
+         { E_SIDEBAR_MODE_TEXT, "text" },
+         { E_SIDEBAR_MODE_ICON, "icons" },
+         { E_SIDEBAR_MODE_BOTH, "both" },
+         { E_SIDEBAR_MODE_TOOLBAR, "toolbar" },
+ 	{ -1, NULL }
+};
+
 static void
 setup_widgets (EShellWindow *window)
 {
@@ -585,40 +594,91 @@ setup_widgets (EShellWindow *window)
 	GSList *p;
 	GString *xml;
 	int button_id;
-	gboolean toolbar_visible;
-
+	gboolean visible;
+	char *style;
+	int mode;
+	
 	priv->paned = gtk_hpaned_new ();
+	gtk_widget_show (priv->paned);
 
 	priv->sidebar = e_sidebar_new ();
 	g_signal_connect (priv->sidebar, "button_selected",
 			  G_CALLBACK (sidebar_button_selected_callback), window);
 	gtk_paned_pack1 (GTK_PANED (priv->paned), priv->sidebar, FALSE, FALSE);
+	gtk_widget_show (priv->sidebar);
 
 	priv->sidebar_notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->sidebar_notebook), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->sidebar_notebook), FALSE);
 	e_sidebar_set_selection_widget (E_SIDEBAR (priv->sidebar), priv->sidebar_notebook);
+	gtk_widget_show (priv->sidebar_notebook);
 
 	priv->view_notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->view_notebook), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->view_notebook), FALSE);
 	gtk_paned_pack2 (GTK_PANED (priv->paned), priv->view_notebook, TRUE, TRUE);
+	gtk_widget_show (priv->view_notebook);
 
 	gtk_paned_set_position (GTK_PANED (priv->paned),
 				gconf_client_get_int (gconf_client, "/apps/evolution/shell/view_defaults/folder_bar/width", NULL));
 
-	toolbar_visible = gconf_client_get_bool (gconf_client,
-						 "/apps/evolution/shell/view_defaults/toolbar_visible",
+	/* The buttons */
+	visible = gconf_client_get_bool (gconf_client,
+						 "/apps/evolution/shell/view_defaults/buttons_visible",
 						 NULL);
+	bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
+				      "/commands/ViewButtonsHide",
+				      "state",
+				      visible ? "0" : "1",
+				      NULL);
+
+	e_sidebar_set_show_buttons (E_SIDEBAR (priv->sidebar), visible);
+
+	style = gconf_client_get_string (gconf_client,
+					 "/apps/evolution/shell/view_defaults/buttons_style",
+					 NULL);
+	
+ 	if (gconf_string_to_enum (button_styles, style, &mode)) {
+		switch (mode) {
+		case E_SIDEBAR_MODE_TEXT:
+			bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
+						      "/commands/ViewButtonsText",
+						      "state", "1", NULL);
+			break;
+		case E_SIDEBAR_MODE_ICON:
+			bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
+						      "/commands/ViewButtonsIcon",
+						      "state", "1", NULL);
+			break;
+		case E_SIDEBAR_MODE_BOTH:
+			bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
+						      "/commands/ViewButtonsIconText",
+						      "state", "1", NULL);
+			break;
+
+		case E_SIDEBAR_MODE_TOOLBAR:
+			bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
+						      "/commands/ViewButtonsToolbar",
+						      "state", "1", NULL);
+			break;
+		}
+		
+		e_sidebar_set_mode (E_SIDEBAR (priv->sidebar), mode);
+	}
+
+	/* The tool bar */
+	visible = gconf_client_get_bool (gconf_client,
+					 "/apps/evolution/shell/view_defaults/toolbar_visible",
+					 NULL);
 	bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
 				      "/commands/ViewToolbar",
 				      "state",
-				      toolbar_visible ? "1" : "0",
+				      visible ? "1" : "0",
 				      NULL);
 	bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
 				      "/Toolbar",
 				      "hidden",
-				      toolbar_visible ? "0" : "1",
+				      visible ? "0" : "1",
 				      NULL);
 
 	button_id = 0;
@@ -669,7 +729,7 @@ setup_widgets (EShellWindow *window)
 	contents_vbox = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (contents_vbox), priv->paned, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (contents_vbox), priv->status_bar, FALSE, TRUE, 0);
-	gtk_widget_show_all (contents_vbox);
+	gtk_widget_show (contents_vbox);
 
 	/* We only display this when a menu item is actually selected.  */
 	gtk_widget_hide (priv->menu_hint_label);
@@ -892,12 +952,21 @@ e_shell_window_peek_bonobo_ui_component (EShellWindow *window)
 	return window->priv->ui_component;
 }
 
+ESidebar *
+e_shell_window_peek_sidebar (EShellWindow *window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
+
+	return E_SIDEBAR (window->priv->sidebar);
+}
+
 void
 e_shell_window_save_defaults (EShellWindow *window)
 {
 	GConfClient *client = gconf_client_get_default ();
 	char *prop;
-	gboolean toolbar_visible;
+	const char *style;
+	gboolean visible;
 
 	gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/width",
 			      GTK_WIDGET (window)->allocation.width, NULL);
@@ -907,15 +976,37 @@ e_shell_window_save_defaults (EShellWindow *window)
 	gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/folder_bar/width",
 			      gtk_paned_get_position (GTK_PANED (window->priv->paned)), NULL);
 
+	/* The button styles */
+	if ((style = gconf_enum_to_string (button_styles, e_sidebar_get_mode (E_SIDEBAR (window->priv->sidebar))))) {
+		gconf_client_set_string (client,
+				       "/apps/evolution/shell/view_defaults/buttons_style",
+				       style, NULL);
+	}
+
+	/* Button hiding setting */
+	prop = bonobo_ui_component_get_prop (e_shell_window_peek_bonobo_ui_component (window),
+					     "/commands/ViewButtonsHide",
+					     "state",
+					     NULL);
+	if (prop) {
+		visible = prop[0] == '0';
+		gconf_client_set_bool (client,
+				       "/apps/evolution/shell/view_defaults/buttons_visible",
+				       visible,
+				       NULL);
+		g_free (prop);
+	}
+
+	/* Toolbar visibility setting */
 	prop = bonobo_ui_component_get_prop (e_shell_window_peek_bonobo_ui_component (window),
 					     "/commands/ViewToolbar",
 					     "state",
 					     NULL);
 	if (prop) {
-		toolbar_visible = prop[0] == '1';
+		visible = prop[0] == '1';
 		gconf_client_set_bool (client,
 				       "/apps/evolution/shell/view_defaults/toolbar_visible",
-				       toolbar_visible,
+				       visible,
 				       NULL);
 		g_free (prop);
 	}

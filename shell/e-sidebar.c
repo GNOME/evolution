@@ -33,6 +33,8 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtktogglebutton.h>
 
+#include <gconf/gconf-client.h>
+#include <libgnome/gnome-gconf.h>
 
 typedef struct {
 	GtkWidget *button_widget;
@@ -44,9 +46,14 @@ typedef struct {
 
 struct _ESidebarPrivate {
 	ESidebarMode mode;
+	ESidebarMode toolbar_mode;
+	
+	gboolean show;
 	
 	GtkWidget *selection_widget;
 	GSList *buttons;
+
+	guint style_changed_id;
 
 	gboolean in_toggle;
 };
@@ -61,9 +68,9 @@ static unsigned int signals[NUM_SIGNALS] = { 0 };
 
 G_DEFINE_TYPE (ESidebar, e_sidebar, GTK_TYPE_CONTAINER)
 
+#define INTERNAL_MODE(sidebar)  (sidebar->priv->mode == E_SIDEBAR_MODE_TOOLBAR ? sidebar->priv->toolbar_mode : sidebar->priv->mode)
 #define H_PADDING 6
 #define V_PADDING 6
-
 
 /* Utility functions.  */
 
@@ -154,7 +161,8 @@ static int
 layout_buttons (ESidebar *sidebar)
 {
 	GtkAllocation *allocation = & GTK_WIDGET (sidebar)->allocation;
-	gboolean icons_only = (sidebar->priv->mode == E_SIDEBAR_MODE_ICON);
+	ESidebarMode mode;
+	gboolean icons_only;
 	int num_btns = g_slist_length (sidebar->priv->buttons), btns_per_row;
 	GSList **rows, *p;
 	Button *button;
@@ -168,6 +176,9 @@ layout_buttons (ESidebar *sidebar)
 
 	if (num_btns == 0)
 		return y;
+
+	mode = INTERNAL_MODE (sidebar);
+	icons_only = (mode == E_SIDEBAR_MODE_ICON);
 
 	/* Figure out the max width and height */
 	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
@@ -223,7 +234,7 @@ layout_buttons (ESidebar *sidebar)
 		y -= max_btn_height;
 		x = H_PADDING + allocation->x;
 		len = g_slist_length (rows[i]);
-		if (sidebar->priv->mode == E_SIDEBAR_MODE_TEXT)
+		if (mode == E_SIDEBAR_MODE_TEXT || mode == E_SIDEBAR_MODE_BOTH)
 			extra_width = (allocation->width - (len * max_btn_width ) - (len * H_PADDING)) / len;
 		else
 			extra_width = 0;
@@ -257,7 +268,10 @@ do_layout (ESidebar *sidebar)
 	GtkAllocation child_allocation;
 	int y;
 
-	y = layout_buttons (sidebar);
+	if (sidebar->priv->show)
+		y = layout_buttons (sidebar);
+	else
+		y = allocation->y + allocation->height;
 	
 	/* Place the selection widget.  */
 	child_allocation.x = allocation->x;
@@ -330,6 +344,9 @@ impl_size_request (GtkWidget *widget,
 		gtk_widget_size_request (sidebar->priv->selection_widget, requisition);
 	}
 
+	if (!sidebar->priv->show)
+		return;
+	
 	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
 		Button *button = p->data;
 		GtkRequisition button_requisition;
@@ -357,10 +374,18 @@ static void
 impl_dispose (GObject *object)
 {
 	ESidebarPrivate *priv = E_SIDEBAR (object)->priv;
+	GConfClient *gconf_client = gconf_client_get_default ();
 
 	g_slist_foreach (priv->buttons, (GFunc) button_free, NULL);
 	g_slist_free (priv->buttons);
 	priv->buttons = NULL;
+
+	if (priv->style_changed_id) {
+		gconf_client_notify_remove (gconf_client, priv->style_changed_id);
+		priv->style_changed_id = 0;
+	}
+	
+ 	g_object_unref (gconf_client);
 
 	(* G_OBJECT_CLASS (e_sidebar_parent_class)->dispose) (object);
 }
@@ -418,7 +443,6 @@ e_sidebar_init (ESidebar *sidebar)
 	priv->mode = E_SIDEBAR_MODE_TEXT;
 }
 
-
 GtkWidget *
 e_sidebar_new (void)
 {
@@ -455,23 +479,40 @@ e_sidebar_add_button (ESidebar *sidebar,
 	GtkWidget *label_widget;
 
 	button_widget = gtk_toggle_button_new ();
+	if (sidebar->priv->show)
+		gtk_widget_show (button_widget);
 	g_signal_connect (button_widget, "toggled", G_CALLBACK (button_toggled_callback), sidebar);
 
 	hbox = gtk_hbox_new (FALSE, 3);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
+	gtk_widget_show (hbox);
+
 	icon_widget = gtk_image_new_from_pixbuf (icon);
+	gtk_widget_show (icon_widget);
+	
 	label_widget = gtk_label_new (label);
 	gtk_misc_set_alignment (GTK_MISC (label_widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (hbox), icon_widget, sidebar->priv->mode == E_SIDEBAR_MODE_ICON, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), label_widget, TRUE, TRUE, 0);
+	gtk_widget_show (label_widget);
+
+	switch (INTERNAL_MODE (sidebar)) {
+	case E_SIDEBAR_MODE_TEXT:
+		gtk_box_pack_start (GTK_BOX (hbox), label_widget, TRUE, TRUE, 0);
+		break;
+	case E_SIDEBAR_MODE_ICON:
+		gtk_box_pack_start (GTK_BOX (hbox), icon_widget, TRUE, TRUE, 0);
+		break;
+	case E_SIDEBAR_MODE_BOTH:
+	default:
+		gtk_box_pack_start (GTK_BOX (hbox), icon_widget, FALSE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), label_widget, TRUE, TRUE, 0);
+		break;
+	}
+
 	gtk_container_add (GTK_CONTAINER (button_widget), hbox);
 
 	sidebar->priv->buttons = g_slist_append (sidebar->priv->buttons, button_new (button_widget, label_widget, icon_widget, hbox, id));
 	gtk_widget_set_parent (button_widget, GTK_WIDGET (sidebar));
 
-	if (sidebar->priv->mode == E_SIDEBAR_MODE_ICON)
-		gtk_container_remove (GTK_CONTAINER (hbox), label_widget);
-	
 	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
 }
 
@@ -490,12 +531,22 @@ e_sidebar_get_mode (ESidebar *sidebar)
 	return sidebar->priv->mode;
 }
 
-void
-e_sidebar_set_mode (ESidebar *sidebar, ESidebarMode mode)
+
+static GConfEnumStringPair toolbar_styles[] = {
+         { E_SIDEBAR_MODE_TEXT, "text" },
+         { E_SIDEBAR_MODE_ICON, "icons" },
+         { E_SIDEBAR_MODE_BOTH, "both" },
+         { E_SIDEBAR_MODE_BOTH, "both-horiz" },
+         { E_SIDEBAR_MODE_BOTH, "both_horiz" },
+ 	{ -1, NULL }
+};
+
+static void
+set_mode_internal (ESidebar *sidebar, ESidebarMode mode )
 {
 	GSList *p;
-	
-	if (sidebar->priv->mode == mode)
+
+	if (mode == INTERNAL_MODE (sidebar))
 		return;
 	
 	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
@@ -503,24 +554,121 @@ e_sidebar_set_mode (ESidebar *sidebar, ESidebarMode mode)
 
 		switch (mode) {
 		case E_SIDEBAR_MODE_TEXT:
-			gtk_box_pack_start (GTK_BOX (button->hbox), button->label, TRUE, TRUE, 0);
-			gtk_container_child_set (GTK_CONTAINER (button->hbox), button->icon,
-						 "expand", FALSE,
-						 NULL);
+			gtk_container_remove (GTK_CONTAINER (button->hbox), button->icon);
+			if (INTERNAL_MODE (sidebar) == E_SIDEBAR_MODE_ICON) {
+				gtk_box_pack_start (GTK_BOX (button->hbox), button->label, TRUE, TRUE, 0);
+				gtk_widget_show (button->label);
+			}
 			break;
 		case E_SIDEBAR_MODE_ICON:
-			gtk_container_remove (GTK_CONTAINER (button->hbox), button->label);
-			gtk_container_child_set (GTK_CONTAINER (button->hbox), button->icon,
-						 "expand", TRUE,
-						 NULL);
+			gtk_container_remove(GTK_CONTAINER (button->hbox), button->label);
+			if (INTERNAL_MODE (sidebar) == E_SIDEBAR_MODE_TEXT) {
+				gtk_box_pack_start (GTK_BOX (button->hbox), button->icon, TRUE, TRUE, 0);
+				gtk_widget_show (button->icon);
+			} else
+				gtk_container_child_set (GTK_CONTAINER (button->hbox), button->icon,
+							 "expand", TRUE,
+							 NULL);
+			break;
+		case E_SIDEBAR_MODE_BOTH:
+			if (INTERNAL_MODE (sidebar) == E_SIDEBAR_MODE_TEXT) {
+				gtk_container_remove (GTK_CONTAINER (button->hbox), button->label);
+				gtk_box_pack_start (GTK_BOX (button->hbox), button->icon, FALSE, TRUE, 0);
+				gtk_widget_show (button->icon);
+			} else {
+				gtk_container_child_set (GTK_CONTAINER (button->hbox), button->icon,
+							 "expand", FALSE,
+							 NULL);
+			}
+
+			gtk_box_pack_start (GTK_BOX (button->hbox), button->label, TRUE, TRUE, 0);
+			gtk_widget_show (button->label);
 			break;
 		default:
-			g_assert_not_reached ();
-			return;
+			break;
 		}
 	}
+}
 
-	sidebar->priv->mode = mode;
+static void
+style_changed_notify (GConfClient *gconf, guint id, GConfEntry *entry, void *data)
+{
+	ESidebar *sidebar = data;
+ 	char *val;
+ 	int mode;	
+ 
+	val = gconf_client_get_string (gconf, "/desktop/gnome/interface/toolbar_style", NULL);
+	if (val == NULL || !gconf_string_to_enum (toolbar_styles, val, &mode))
+		mode = E_SIDEBAR_MODE_BOTH;
+	g_free(val);
+
+ 	set_mode_internal (E_SIDEBAR (sidebar), mode);
+	sidebar->priv->toolbar_mode = mode;
 
 	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
+}
+
+void
+e_sidebar_set_mode (ESidebar *sidebar, ESidebarMode mode)
+{
+	GConfClient *gconf_client = gconf_client_get_default ();
+
+	if (sidebar->priv->mode == mode)
+		return;
+
+	if (sidebar->priv->mode == E_SIDEBAR_MODE_TOOLBAR) {
+		if (sidebar->priv->style_changed_id) {
+			gconf_client_notify_remove (gconf_client, sidebar->priv->style_changed_id);
+			sidebar->priv->style_changed_id = 0;
+		}		
+	}
+	
+	if (mode != E_SIDEBAR_MODE_TOOLBAR) {
+		set_mode_internal (sidebar, mode);
+
+		gtk_widget_queue_resize (GTK_WIDGET (sidebar));
+	} else {
+		/* This is a little bit tricky, toolbar mode is more
+		 * of a meta-mode where the actual mode is dictated by
+		 * the gnome toolbar setting, so that is why we have
+		 * the is_toolbar_mode bool - it tracks the toolbar
+		 * mode while the mode member is the actual look and
+		 * feel */
+		sidebar->priv->style_changed_id = gconf_client_notify_add (gconf_client,
+									   "/desktop/gnome/interface/toolbar_style",
+									   style_changed_notify, sidebar, NULL, NULL);
+		style_changed_notify (gconf_client, 0, NULL, sidebar);
+	}
+	
+	g_object_unref (gconf_client);
+
+	sidebar->priv->mode = mode;
+}
+
+void
+e_sidebar_set_show_buttons  (ESidebar *sidebar, gboolean show)
+{
+	GSList *p;
+
+	if (sidebar->priv->show == show)
+		return;
+	
+	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
+		Button *button = p->data;
+
+		if (show)
+			gtk_widget_show (button->button_widget);
+		else
+			gtk_widget_hide (button->button_widget);
+	}
+
+	sidebar->priv->show = show;
+
+	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
+}
+		
+gboolean
+e_sidebar_get_show_buttons  (ESidebar *sidebar)
+{
+	return sidebar->priv->show;
 }

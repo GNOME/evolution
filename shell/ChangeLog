@@ -1,3 +1,32 @@
+2005-01-04  JP Rosevear  <jpr@novell.com>
+
+	* e-sidebar.h: new protos, modes
+
+	* e-sidebar.c: handle 2 more modes, text only and toolbar style;
+	allow visibility to be set for the buttons
+
+	* e-shell-window.h: new proto
+
+	* e-shell-window.c (setup_widgets): set the sidebar setting and
+	visibility based on stored gconf settings
+	(e_shell_window_save_defaults): save the current sidebar setting
+	visibility
+	(e_shell_window_peek_sidebar): return the sidebar
+
+	* e-shell-window-commands.c (e_shell_window_commands_setup): add
+	listeners for each of the component button radio items and for the
+	hide toggle
+	(view_buttons_icontext_item_toggled_handler): listener callback,
+	set mode
+	(view_buttons_icon_item_toggled_handler): ditto
+	(view_buttons_text_item_toggled_handler): ditto
+	(view_buttons_toolbar_item_toggled_handler): ditto
+	(view_buttons_hide_item_toggled_handler): listener callback, set
+	visibility
+
+	* apps_evolution_shell.schemas.in.in: add component button style
+	and visibility defaults
+
 2004-12-29  Rodrigo Moya <rodrigo@novell.com>
 
 	* main.c (show_development_warning): 2.0 is the current stable

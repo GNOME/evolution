@@ -727,6 +727,75 @@ shell_line_status_changed_cb (EShell *shell,
 }
 
 static void
+view_buttons_icontext_item_toggled_handler (BonoboUIComponent           *ui_component,
+					    const char                  *path,
+					    Bonobo_UIComponent_EventType type,
+					    const char                  *state,
+					    EShellWindow                *shell_window)
+{
+	ESidebar *sidebar;
+
+	sidebar = e_shell_window_peek_sidebar (shell_window);
+	e_sidebar_set_mode (sidebar, E_SIDEBAR_MODE_BOTH);
+}
+
+static void
+view_buttons_icon_item_toggled_handler (BonoboUIComponent           *ui_component,
+					const char                  *path,
+					Bonobo_UIComponent_EventType type,
+					const char                  *state,
+					EShellWindow                *shell_window)
+{
+	ESidebar *sidebar;
+
+	sidebar = e_shell_window_peek_sidebar (shell_window);
+	e_sidebar_set_mode (sidebar, E_SIDEBAR_MODE_ICON);
+}
+
+static void
+view_buttons_text_item_toggled_handler (BonoboUIComponent           *ui_component,
+					const char                  *path,
+					Bonobo_UIComponent_EventType type,
+					const char                  *state,
+					EShellWindow                *shell_window)
+{
+	ESidebar *sidebar;
+
+	sidebar = e_shell_window_peek_sidebar (shell_window);
+	e_sidebar_set_mode (sidebar, E_SIDEBAR_MODE_TEXT);
+}
+
+static void
+view_buttons_toolbar_item_toggled_handler (BonoboUIComponent           *ui_component,
+					   const char                  *path,
+					   Bonobo_UIComponent_EventType type,
+					   const char                  *state,
+					   EShellWindow                *shell_window)
+{
+	ESidebar *sidebar;
+
+	sidebar = e_shell_window_peek_sidebar (shell_window);
+	e_sidebar_set_mode (sidebar, E_SIDEBAR_MODE_TOOLBAR);
+}
+
+static void
+view_buttons_hide_item_toggled_handler (BonoboUIComponent           *ui_component,
+					const char                  *path,
+					Bonobo_UIComponent_EventType type,
+					const char                  *state,
+					EShellWindow                *shell_window)
+{
+	ESidebar *sidebar;
+	gboolean is_visible;
+
+	sidebar = e_shell_window_peek_sidebar (shell_window);
+	
+	is_visible = state[0] == '0';
+
+	e_sidebar_set_show_buttons (sidebar, is_visible);
+}
+
+static void
 view_toolbar_item_toggled_handler (BonoboUIComponent           *ui_component,
 				   const char                  *path,
 				   Bonobo_UIComponent_EventType type,
@@ -761,6 +830,21 @@ e_shell_window_commands_setup (EShellWindow *shell_window)
 	bonobo_ui_component_add_verb_list_with_data (uic, actions_verbs, shell_window);
 	bonobo_ui_component_add_verb_list_with_data (uic, tools_verbs, shell_window);
 	bonobo_ui_component_add_verb_list_with_data (uic, help_verbs, shell_window);
+	bonobo_ui_component_add_listener (uic, "ViewButtonsIconText",
+					  (BonoboUIListenerFn)view_buttons_icontext_item_toggled_handler,
+					  (gpointer)shell_window);
+	bonobo_ui_component_add_listener (uic, "ViewButtonsIcon",
+					  (BonoboUIListenerFn)view_buttons_icon_item_toggled_handler,
+					  (gpointer)shell_window);
+	bonobo_ui_component_add_listener (uic, "ViewButtonsText",
+					  (BonoboUIListenerFn)view_buttons_text_item_toggled_handler,
+					  (gpointer)shell_window);
+	bonobo_ui_component_add_listener (uic, "ViewButtonsToolbar",
+					  (BonoboUIListenerFn)view_buttons_toolbar_item_toggled_handler,
+					  (gpointer)shell_window);
+	bonobo_ui_component_add_listener (uic, "ViewButtonsHide",
+					  (BonoboUIListenerFn)view_buttons_hide_item_toggled_handler,
+					  (gpointer)shell_window);
 	bonobo_ui_component_add_listener (uic, "ViewToolbar",
 					  (BonoboUIListenerFn)view_toolbar_item_toggled_handler,
 					  (gpointer)shell_window);

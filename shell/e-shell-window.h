@@ -25,6 +25,7 @@
 
 #include <bonobo/bonobo-window.h>
 #include <bonobo/bonobo-ui-component.h>
+#include "e-sidebar.h"
 
 #define E_TYPE_SHELL_WINDOW			(e_shell_window_get_type ())
 #define E_SHELL_WINDOW(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SHELL_WINDOW, EShellWindow))
@@ -64,6 +65,7 @@ const char *e_shell_window_peek_current_component_id  (EShellWindow *shell);
 
 EShell            *e_shell_window_peek_shell                (EShellWindow *window);
 BonoboUIComponent *e_shell_window_peek_bonobo_ui_component  (EShellWindow *window);
+ESidebar          *e_shell_window_peek_sidebar              (EShellWindow *window);
 
 void  e_shell_window_save_defaults  (EShellWindow *window);
 void  e_shell_window_show_settings  (EShellWindow *window);

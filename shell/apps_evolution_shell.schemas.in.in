@@ -96,6 +96,30 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/shell/view_defaults/buttons_visible</key>
+      <applyto>/apps/evolution/shell/view_defaults/buttons_visible</applyto>
+      <owner>evolution</owner>
+      <type>bool</type>
+      <default>TRUE</default>
+      <locale name="C">
+        <short>Buttons are visible</short>
+        <long>Whether the buttons should be visible.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/view_defaults/buttons_style</key>
+      <applyto>/apps/evolution/shell/view_defaults/buttons_style</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <default>toolbar</default>
+      <locale name="C">
+        <short>Button style</short>
+        <long>The style of the displayed buttons.  Can be text, icons, both, toolbar.  If toolbar is set, the style of the toolbar is followed as determined by the GNOME setting.</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/shell/view_defaults/toolbar_visible</key>
       <applyto>/apps/evolution/shell/view_defaults/toolbar_visible</applyto>
       <owner>evolution</owner>
