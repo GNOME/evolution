@@ -1,5 +1,12 @@
 2004-05-14  Jeffrey Stedfast  <fejj@novell.com>
 
+	* mail-config.c (mail_config_init): Build the path to the gtkrc
+	filename and store it on the config struct so we don't have to
+	keep rebuilding it.
+	(config_write_style): Reuse config->gtkrc string instead of
+	constructing the path again.
+	(mail_config_write_on_exit): Free the gtkrc path.
+
 	* em-popup.c (emp_popup_resend): Updated the #if 0'd code for the
 	API chanegs made to em_utils_edit_messages().
 

@@ -85,6 +85,8 @@ typedef struct {
 	
 	gboolean corrupt;
 	
+	char *gtkrc;
+	
 	EAccountList *accounts;
 	ESignatureList *signatures;
 	
@@ -95,7 +97,7 @@ typedef struct {
 	guint spell_notify_id;
 	guint mark_citations__notify_id;
 	guint citation_colour_notify_id;
-
+	
 	GPtrArray *mime_types;
 	guint mime_types_notify_id;
 } MailConfig;
@@ -103,8 +105,6 @@ typedef struct {
 static MailConfig *config = NULL;
 static guint config_write_timeout = 0;
 
-#define MAIL_CONFIG_RC "/gtkrc-mail-fonts"
-#define MAIL_CONFIG_RC_DIR ".evolution/mail/config"
 
 void
 mail_config_save_accounts (void)
@@ -244,34 +244,18 @@ config_cache_mime_types (void)
 static void
 config_write_style (void)
 {
+	int red = 0xffff, green = 0, blue = 0;
 	GConfValue *val;
-	char *filename;
-	FILE *rc;
 	gboolean custom;
 	char *fix_font;
 	char *var_font;
-	gint red = 0xffff, green = 0, blue = 0;
+	FILE *rc;
 	
-	/*
-	 * This is the wrong way to get the path but it needs to 
-	 * always be the same as the gtk_rc_parse call and evolution_dir 
-	 * may not have been set yet
-	 *
-	 * filename = g_build_filename (evolution_dir, MAIL_CONFIG_RC, NULL);
-	 *
-	 * EPFIXME this kludge needs to go away.
-	 */
-	filename = g_build_filename (g_get_home_dir (), MAIL_CONFIG_RC_DIR, MAIL_CONFIG_RC, NULL);
-
-	rc = fopen (filename, "w");
-
-	if (!rc) {
-		g_warning ("unable to open %s", filename);
-		g_free (filename);
+	if (!(rc = fopen (config->gtkrc, "wt"))) {
+		g_warning ("unable to open %s", config->gtkrc);
 		return;
 	}
-	g_free (filename);
-
+	
 	custom = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/fonts/use_custom", NULL);
 	var_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/variable", NULL);
 	fix_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL);
@@ -333,20 +317,17 @@ gconf_mime_types_changed (GConfClient *client, guint cnxn_id,
 void
 mail_config_init (void)
 {
-	char *filename;
-	
 	if (config)
 		return;
 	
 	config = g_new0 (MailConfig, 1);
 	config->gconf = gconf_client_get_default ();
 	config->mime_types = g_ptr_array_new ();
+	config->gtkrc = g_build_filename (g_get_home_dir (), ".evolution", "mail", "config", "gtkrc-mail-fonts", NULL);
 	
 	mail_config_clear ();
 	
-	filename = g_build_filename (g_get_home_dir (), MAIL_CONFIG_RC_DIR, MAIL_CONFIG_RC, NULL);
-	gtk_rc_parse (filename);
-	g_free (filename);
+	gtk_rc_parse (config->gtkrc);
 	
 	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
@@ -479,6 +460,8 @@ mail_config_write_on_exit (void)
 	
 	g_object_unref (config->gconf);
 	g_ptr_array_free (config->mime_types, TRUE);
+	
+	g_free (config->gtkrc);
 	
 	g_free (config);
 }
