@@ -1,3 +1,10 @@
+2003-01-24  Antonio Xu  <antonio.xu@sun.com>
+
+	* component-factory.c (storage_remove_folder): Change
+	strcmp(fi->path, path) to strcmp(fi->name, name) and now the
+	execution takes the right path. My patch base on Callie's patch
+	for bug #33525.
+
 2003-01-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (folder_browser_copy): Correctly create the
