@@ -1,3 +1,22 @@
+2001-09-06    <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (filter_proc): Thread
+	function to perform filtering.
+	(filter_free): Free the filter object.
+	(camel_imap_folder_changed): If we have threads enabled, then
+	queue up a request to perform filtering.  For bug #4422.
+
+	* providers/imap/camel-imap-store.c (camel_imap_msg_new): Create a
+	new 'imap msg'.
+	(camel_imap_msg_queue): Queue an 'imap msg'.
+	(async_received): Handle receiving of imap msg in async thread.
+	(async_destroy): Handle destroying of imap msg.
+	(camel_imap_store_finalize): Destroy thread when done.
+	(camel_imap_store_init): Setup thread.
+
+	* providers/imap/camel-imap-store.h: Added an ethread to the
+	store, for async processing.
+
 2001-09-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-remote-store.c (remote_recv_line): Use

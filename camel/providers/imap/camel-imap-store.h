@@ -35,6 +35,25 @@ extern "C" {
 #include "camel-imap-types.h"
 #include "camel-disco-store.h"
 
+#ifdef ENABLE_THREADS
+#include "e-util/e-msgport.h"
+
+typedef struct _CamelImapMsg CamelImapMsg;
+
+struct _CamelImapMsg {
+	EMsg msg;
+
+	void (*receive)(CamelImapStore *store, struct _CamelImapMsg *m);
+	void (*free)(CamelImapStore *store, struct _CamelImapMsg *m);
+};
+
+CamelImapMsg *camel_imap_msg_new(void (*receive)(CamelImapStore *store, struct _CamelImapMsg *m),
+				 void (*free)(CamelImapStore *store, struct _CamelImapMsg *m),
+				 size_t size);
+void camel_imap_msg_queue(CamelImapStore *store, CamelImapMsg *msg);
+
+#endif
+
 #define CAMEL_IMAP_STORE_TYPE     (camel_imap_store_get_type ())
 #define CAMEL_IMAP_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_IMAP_STORE_TYPE, CamelImapStore))
 #define CAMEL_IMAP_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_IMAP_STORE_TYPE, CamelImapStoreClass))
@@ -73,6 +92,9 @@ struct _CamelImapStore {
 	guint32 capabilities, parameters;
 	char *namespace, dir_sep, *base_url, *storage_path;
 	GHashTable *authtypes, *subscribed_folders;
+#ifdef ENABLE_THREADS
+	EThread *async_thread;
+#endif
 };
 
 

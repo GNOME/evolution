@@ -1797,6 +1797,44 @@ imap_update_summary (CamelFolder *folder, int exists,
 	}
 }
 
+struct _filter_msg {
+	CamelImapMsg msg;
+
+	GPtrArray *recents;
+	CamelFolder *folder;
+	CamelFilterDriver *driver;
+};
+
+static void
+filter_proc(CamelImapStore *store, CamelImapMsg *mm)
+{
+	struct _filter_msg *msg = (struct _filter_msg *)mm;
+
+	printf("executing filtering %d messages folder %p\n", msg->recents->len, msg->folder);
+
+	/* what about exceptions? */
+	camel_filter_driver_filter_folder(msg->driver, msg->folder, NULL, msg->recents, FALSE, NULL);
+}
+
+static void
+filter_free(CamelImapStore *store, CamelImapMsg *mm)
+{
+	struct _filter_msg *msg = (struct _filter_msg *)mm;
+	int i;
+
+	printf("freeing filtering %d messages folder %p\n", msg->recents->len, msg->folder);
+
+	camel_object_unref((CamelObject *)msg->driver);
+
+	camel_folder_thaw(msg->folder);
+	camel_object_unref((CamelObject *)msg->folder);
+
+	for (i=0;i<msg->recents->len;i++)
+		g_free(msg->recents->pdata[i]);
+
+	g_ptr_array_free(msg->recents, TRUE);
+}
+
 /* Called with the store's command_lock locked */
 void
 camel_imap_folder_changed (CamelFolder *folder, int exists,
@@ -1853,11 +1891,26 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 		
 		driver = camel_session_get_filter_driver (CAMEL_SERVICE (folder->parent_store)->session, "incoming", ex);
 		if (driver) {
+#ifdef ENABLE_THREADS
+			int i;
+			struct _filter_msg *msg = (struct _filter_msg *)camel_imap_msg_new(filter_proc, filter_free, sizeof(*msg));
+
+			msg->recents = g_ptr_array_new();
+			for (i=0;i<recents->len;i++)
+				g_ptr_array_add(msg->recents, g_strdup(recents->pdata[i]));
+
+			camel_object_ref((CamelObject *)folder);
+			msg->folder = folder;
+			msg->driver = driver;
+			printf("queueing filtering %d messages folder %p\n", msg->recents->len, folder);
+			camel_imap_msg_queue((CamelImapStore *)folder->parent_store, (CamelImapMsg *)msg);
+#else
 			camel_filter_driver_filter_folder (driver, folder, NULL, recents, FALSE, ex);
+			camel_folder_thaw (folder);
 			camel_object_unref (CAMEL_OBJECT (driver));
-		}
-		
-		camel_folder_thaw (folder);
+#endif
+		} else
+			camel_folder_thaw (folder);
 	} else {
 		if (camel_folder_change_info_changed (changes))
 			camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes);
