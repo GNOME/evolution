@@ -215,8 +215,6 @@ eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 					     item->x2, item->y2);
 		eti->needs_redraw = 0;
 	}
-	gnome_canvas_update_bbox (item, item->x1, item->y1, 
-				  item->x2, item->y2);
 }
 
 /*

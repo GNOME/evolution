@@ -127,6 +127,7 @@ my_value_at (ETableModel *etc, int col, int row, void *data)
         else if (col == 2) return "Chris Toshok";
         else if (col == 3) return "43 Vicksburg, SF";
         else if (col == 4) return "415-867-5309";
+	else return NULL;
 }
 
 /* This function sets the value at a particular point in our ETableModel. */
