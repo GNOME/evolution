@@ -149,7 +149,6 @@
 	      <name>button4</name>
 	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
-	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -186,7 +185,6 @@
 	      <name>button5</name>
 	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
-	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -350,7 +348,7 @@
 	<name>checkbutton1</name>
 	<border_width>3</border_width>
 	<can_focus>True</can_focus>
-	<label>_Show full path for folders</label>
+	<label>S_how full path for folders</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -483,7 +481,6 @@
 	      <name>button9</name>
 	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
-	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -520,7 +517,6 @@
 	      <name>button10</name>
 	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
-	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -717,7 +713,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label25</name>
-	    <label>_Refresh time (seconds):</label>
+	    <label>R_efresh time (seconds):</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -837,7 +833,6 @@
 	    <name>button11</name>
 	    <can_focus>True</can_focus>
 	    <label>Add n_ew feed</label>
-	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <left_attach>3</left_attach>
 	      <right_attach>5</right_attach>
@@ -979,7 +974,6 @@
 	      <name>button6</name>
 	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
-	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -1016,7 +1010,6 @@
 	      <name>button7</name>
 	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
-	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>

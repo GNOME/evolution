@@ -1,5 +1,9 @@
 2001-09-04  Iain Holmes  <iain@ximian.com>
 
+	* my-evolution.glade: Fix some accelerator clashes
+
+2001-09-04  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c (add_dialog_clicked_cb): When the feed is 
 	added make the Apply button activate.
 
