@@ -904,6 +904,7 @@ cal_recur_from_icalproperty (icalproperty *prop, gboolean exception,
 	struct icalrecurrencetype ir;
 	CalRecurrence *r;
 	gint max_elements, i;
+	GList *elem;
 
 	g_return_val_if_fail (prop != NULL, NULL);
 
@@ -956,6 +957,11 @@ cal_recur_from_icalproperty (icalproperty *prop, gboolean exception,
 
 	r->bymonth = array_to_list (ir.by_month,
 				    sizeof (ir.by_month) / sizeof (ir.by_month[0]));
+	for (elem = r->bymonth; elem; elem = elem->next) {
+		/* We need to convert from 1-12 to 0-11, i.e. subtract 1. */
+		int month = GPOINTER_TO_INT (elem->data) - 1;
+		elem->data = GINT_TO_POINTER (month);
+	}
 
 	r->byweekno = array_to_list (ir.by_week_no,
 				     sizeof (ir.by_week_no) / sizeof (ir.by_week_no[0]));
