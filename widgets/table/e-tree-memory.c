@@ -591,6 +591,8 @@ e_tree_memory_sort_node             (ETreeMemory             *etmm,
 	ETreeMemoryPath *path = node;
 	MemoryAndClosure mac;
 	ETreeMemoryPath *last;
+
+	e_tree_model_pre_change (E_TREE_MODEL (etmm));
 	
 	i = 0;
 	for (child = path->first_child; child; child = child->next_sibling)
