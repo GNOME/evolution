@@ -818,28 +818,6 @@ struct _XferData {
 };
 typedef struct _XferData XferData;
 
-static int nesting = 0;
-
-#define PRINT_ENTER()					\
-	while (0) {					\
-		int _i;					\
-		nesting ++;				\
-							\
-		for (_i = 0; _i < nesting; _i ++)	\
-			putchar (' ');			\
-		printf ("Enter %s", __FUNCTION__);	\
-	}
-
-#define PRINT_EXIT()					\
-	while (0) {					\
-		int _i;					\
-							\
-		for (_i = 0; _i < nesting; _i ++)	\
-			putchar (' ');			\
-		printf ("Exit %s", __FUNCTION__);	\
-		nesting --;				\
-	}
-
 static void
 async_xfer_folder_step (ELocalStorage *local_storage,
 			const char *source_path,
@@ -854,7 +832,6 @@ async_xfer_folder_step (ELocalStorage *local_storage,
 	char *physical_path;
 	char *physical_uri;
 
-	PRINT_ENTER ();
 	priv = local_storage->priv;
 
 	source_folder = e_storage_get_folder (E_STORAGE (local_storage), source_path);
@@ -880,7 +857,6 @@ async_xfer_folder_step (ELocalStorage *local_storage,
 							    component_client_callback,
 							    component_client_callback_data);
 	g_free (physical_uri);
-	PRINT_EXIT ();
 }
 
 static void

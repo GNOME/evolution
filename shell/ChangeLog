@@ -1,7 +1,12 @@
+2002-09-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-local-storage.c: Remove some leftover junk.
+
 2002-09-17  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-folder-list.c (create_display_string): Mark a string for
 	translation.
+
 	* evolution-folder-selection-button.c (set_folder): Same here.
 	
 2002-09-17  Ettore Perazzoli  <ettore@ximian.com>
