@@ -1104,7 +1104,14 @@ folder_browser_search_menu_activated (ESearchBar *esb, int id, FolderBrowser *fb
 		d(printf("Save vfolder\n"));
 		if (efb->current_query) {
 			FilterRule *rule = vfolder_clone_rule(efb->current_query);			
-			
+			char *name, *text;
+
+			text = e_search_bar_get_text(esb);
+			name = g_strdup_printf("%s %s", rule->name, (text&&text[0])?text:"''");
+			g_free(text);
+			filter_rule_set_name(rule, name);
+			g_free(name);
+
 			filter_rule_set_source(rule, FILTER_SOURCE_INCOMING);
 			vfolder_rule_add_source((VfolderRule *)rule, fb->uri);
 			vfolder_gui_add_rule((VfolderRule *)rule);
