@@ -3029,7 +3029,6 @@ e_msg_composer_unmap (GtkWidget *widget, gpointer data)
 	int width, height;
 
 	gtk_window_get_size (GTK_WINDOW (composer), &width, &height);
-	printf ("composer width: %d height: %d\n", width, height);
 
 	gconf = gconf_client_get_default ();
 	gconf_client_set_int (gconf, "/apps/evolution/mail/composer/width", width, NULL);
