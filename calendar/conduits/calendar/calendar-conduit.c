@@ -892,9 +892,11 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 					break;
 				}
 			
-				/* FIX ME Not going to work with -ve by_day */
+				/* Not going to work with -ve  by_day/by_set_pos other than -1,
+				 * pilot doesn't support that anyhow */
 				local->appt->repeatType = repeatMonthlyByDay;
-				switch (icalrecurrencetype_day_position (recur->by_day[0])) {
+				switch (recur->by_set_pos[0] != ICAL_RECURRENCE_ARRAY_MAX ? recur->by_set_pos[0] 
+					: icalrecurrencetype_day_position (recur->by_day[0])) {
 				case 1:
 					local->appt->repeatDay = dom1stSun;
 					break;
@@ -907,6 +909,7 @@ local_record_from_comp (ECalLocalRecord *local, ECalComponent *comp, ECalConduit
 				case 4:
 					local->appt->repeatDay = dom4thSun;
 					break;
+				case -1:
 				case 5:
 					local->appt->repeatDay = domLastSun;
 					break;
