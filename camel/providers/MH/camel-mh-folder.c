@@ -53,6 +53,7 @@ static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
 static gint _get_message_count (CamelFolder *folder);
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message);
 static void _expunge (CamelFolder *folder);
+static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder);
 
 
 static void
@@ -74,6 +75,7 @@ camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
 	camel_folder_class->expunge = _expunge;
+	camel_folder_class->copy_message_to = _copy_message_to;
 	
 }
 
@@ -615,4 +617,19 @@ _expunge (CamelFolder *folder)
 	}
 	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolder::expunge\n");
+}
+
+
+static void
+_copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder)
+{
+	gchar *filename;
+	gchar *dest_filename;
+
+	if (IS_CAMEL_MH_FOLDER (dest_folder)) {
+		/*g_assert (message->parent_folder == folder);*/
+		/* don't have time to finish that today */
+		parent_class->copy_message_to (folder, message, dest_folder);
+	} else 
+		parent_class->copy_message_to (folder, message, dest_folder);
 }

@@ -4,6 +4,7 @@
 	moved the active list readjustment code here.
 	Much saner, providers won't have to worry about
 	that.
+	(_copy_message_to): new method.
 
 	* camel/providers/MH/camel-mh-folder.c (_expunge): 
 	no more active list readjustment stuff.
