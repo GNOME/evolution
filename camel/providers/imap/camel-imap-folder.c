@@ -251,7 +251,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	gboolean folder_changed = FALSE;
 
 	if (imap_folder->exists == 0) {
-		if (camel_folder_summary_count != 0) {
+		if (camel_folder_summary_count (imap_folder->summary) != 0) {
 			camel_folder_summary_clear (imap_folder->summary);
 			camel_object_trigger_event (CAMEL_OBJECT (folder),
 						    "folder_changed", NULL);

@@ -3,6 +3,7 @@
 	* providers/imap/camel-imap-folder.c (imap_get_message): use
 	BODY.PEEK[] rather than RFC822, so the message doesn't get marked
 	as \Seen.
+	(imap_refresh_info): Fix a really really really dumb bug.
 
 2000-12-05  Dan Winship  <danw@helixcode.com>
 
