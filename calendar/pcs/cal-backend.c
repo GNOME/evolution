@@ -1194,6 +1194,8 @@ cal_backend_unref_categories (CalBackend *backend, GSList *categories)
 				g_hash_table_insert (priv->changed_categories, c->name, c);
 			}
 		}
+
+		categories = categories->next;
 	}
 
 	if (g_hash_table_size (priv->changed_categories) &&

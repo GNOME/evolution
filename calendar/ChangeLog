@@ -1,5 +1,10 @@
 2003-02-22  Hans Petter Jansson  <hpj@ximian.com>
 
+	* pcs/cal-backend.c (cal_backend_unref_categories): Add an
+	iteration statement. Fixes hang in wombat.
+
+2003-02-22  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/apps_evolution_calendar.schemas: Commit fixes from
 	Grzegorz Goawski <grzegol@pld.org.pl>.
 
