@@ -26,7 +26,6 @@
 	thanks to a pedantic.
 
 2001-09-26  Jeffrey Stedfast  <fejj@ximian.com>
->>>>>>> 1.1175
 
 	* Makefile.am: Fix Ettore's fix.
 
