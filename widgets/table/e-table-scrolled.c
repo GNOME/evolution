@@ -216,6 +216,26 @@ e_table_scrolled_save_specification (ETableScrolled *ets, gchar *filename)
 	e_table_save_specification(ets->table, filename);
 }
 
+int
+e_table_scrolled_set_specification(ETableScrolled *ets, const char *spec)
+{
+	g_return_val_if_fail(ets != NULL, -1);
+	g_return_val_if_fail(E_IS_TABLE_SCROLLED(ets), -1);
+	g_return_val_if_fail(spec != NULL, -1);
+
+	return e_table_set_specification(ets->table, spec);
+}
+
+int
+e_table_scrolled_load_specification(ETableScrolled *ets, gchar *filename)
+{
+	g_return_val_if_fail(ets != NULL, -1);
+	g_return_val_if_fail(E_IS_TABLE_SCROLLED(ets), -1);
+	g_return_val_if_fail(filename != NULL, -1);
+
+	return e_table_load_specification(ets->table, filename);
+}
+
 void
 e_table_scrolled_set_cursor_row (ETableScrolled *ets, int row)
 {

@@ -173,6 +173,9 @@ GtkWidget  *e_table_new_from_spec_file       (ETableHeader *full_header,
 	   
 gchar      *e_table_get_specification        (ETable *e_table);
 void        e_table_save_specification       (ETable *e_table, gchar *filename);
+/* note that it is more efficient to provide the spec at creation time */
+int	    e_table_set_specification	     (ETable *e_table, const char *spec);
+int	    e_table_load_specification	     (ETable *e_table, gchar *filename);
 	   
 void        e_table_set_cursor_row           (ETable *e_table,
 					      int row);

@@ -811,8 +811,9 @@ eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 
 	/*
 	 * There should be at least one column
+	 *  BUT: then you can't remove all columns from a header and add new ones.
 	 */
-	g_assert (eti->cols != 0);
+	/*g_assert (eti->cols != 0);*/
 
 	if (eti->cell_views){
 		eti_unrealize_cell_views (eti);

@@ -48,6 +48,8 @@ GtkWidget      *e_table_scrolled_new_from_spec_file       (ETableHeader *full_he
 
 gchar          *e_table_scrolled_get_specification        (ETableScrolled *e_table_scrolled);
 void            e_table_scrolled_save_specification       (ETableScrolled *e_table_scrolled, gchar *filename);
+int		e_table_scrolled_set_specification        (ETableScrolled *e_table_scrolled, const char *spec);
+int             e_table_scrolled_load_specification       (ETableScrolled *e_table_scrolled, gchar *filename);
 
 void            e_table_scrolled_set_cursor_row           (ETableScrolled *e_table_scrolled,
 							   int row);

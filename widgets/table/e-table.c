@@ -625,6 +625,32 @@ et_xml_to_header (ETable *e_table, ETableHeader *full_header, xmlNode *xmlColumn
 }
 
 static void
+et_xml_config_header (ETable *e_table, xmlNode *xmlColumns)
+{
+	xmlNode *column;
+	const int max_cols = e_table_header_count(e_table->full_header);
+	int i;
+
+	for (i=e_table_header_count(e_table->header)-1;i>=0;i--) {
+		e_table_header_remove(e_table->header, i);
+	}
+
+	for (column = xmlColumns->childs; column; column = column->next) {
+		char *content;
+		int col;
+
+		content = xmlNodeListGetString (column->doc, column->childs, 1);
+		col = atoi (content);
+		xmlFree (content);
+
+		if (col >= max_cols)
+			continue;
+
+		e_table_header_add_column (e_table->header, e_table_header_get_column (e_table->full_header, col), -1);
+	}
+}
+
+static void
 et_grouping_xml_to_sort_info (ETable *table, xmlNode *grouping)
 {
 	int i;
@@ -657,6 +683,25 @@ et_grouping_xml_to_sort_info (ETable *table, xmlNode *grouping)
 				    GTK_SIGNAL_FUNC (sort_info_changed), table);
 }
 
+static int
+et_real_set_specification (ETable *e_table, xmlDoc *xmlSpec)
+{
+	xmlNode *xmlRoot;
+	xmlNode *xmlColumns;
+	xmlNode *xmlGrouping;
+
+	xmlRoot = xmlDocGetRootElement (xmlSpec);
+	xmlColumns = e_xml_get_child_by_name (xmlRoot, "columns-shown");
+	xmlGrouping = e_xml_get_child_by_name (xmlRoot, "grouping");
+
+	if ((xmlColumns == NULL) || (xmlGrouping == NULL))
+		return -1;
+
+	et_xml_config_header(e_table, xmlColumns);
+
+	return 0;
+}
+
 static ETable *
 et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 		   xmlDoc *xmlSpec)
@@ -676,7 +721,6 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 
 	no_header = e_xml_get_integer_prop_by_name(xmlRoot, "no-header");
 	e_table->use_click_to_add = e_xml_get_integer_prop_by_name(xmlRoot, "click-to-add");
-
 	
 	e_table->full_header = full_header;
 	gtk_object_ref (GTK_OBJECT (full_header));
@@ -901,6 +945,24 @@ e_table_get_specification (ETable *e_table)
 	return buffer;
 }
 
+int
+e_table_set_specification (ETable *e_table, const char *spec)
+{
+	xmlDoc *xmlSpec;
+	int ret;
+
+	g_return_val_if_fail(e_table != NULL, -1);
+	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
+	g_return_val_if_fail(spec != NULL, -1);
+
+	/* doesn't work yet, sigh */
+	xmlSpec = xmlParseMemory ((char *)spec, strlen(spec));
+	ret = et_real_set_specification(e_table, xmlSpec);
+	xmlFreeDoc (xmlSpec);
+
+	return ret;
+}
+
 void
 e_table_save_specification (ETable *e_table, gchar *filename)
 {
@@ -912,6 +974,24 @@ e_table_save_specification (ETable *e_table, gchar *filename)
 
 	xmlSaveFile (filename, doc);
 	xmlFreeDoc (doc);
+}
+
+int
+e_table_load_specification (ETable *e_table, gchar *filename)
+{
+	xmlDoc *xmlSpec;
+	int ret;
+
+	g_return_val_if_fail(e_table != NULL, -1);
+	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
+	g_return_val_if_fail(filename != NULL, -1);
+
+	/* doesn't work yet, yay */
+	xmlSpec = xmlParseFile (filename);
+	ret = et_real_set_specification(e_table, xmlSpec);
+	xmlFreeDoc (xmlSpec);
+
+	return ret;
 }
 
 void
