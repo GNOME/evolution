@@ -426,20 +426,24 @@ void cal_component_alarms_free (CalComponentAlarms *alarms);
 /* CalComponentAlarms */
 CalComponentAlarm *cal_component_alarm_new (void);
 CalComponentAlarm *cal_component_alarm_clone (CalComponentAlarm *alarm);
+void cal_component_alarm_free (CalComponentAlarm *alarm);
 
 const char *cal_component_alarm_get_uid (CalComponentAlarm *alarm);
 
 void cal_component_alarm_get_action (CalComponentAlarm *alarm, CalAlarmAction *action);
 void cal_component_alarm_set_action (CalComponentAlarm *alarm, CalAlarmAction action);
 
-void cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalAlarmTrigger *trigger);
-void cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigger);
+void cal_component_alarm_get_attach (CalComponentAlarm *alarm, struct icalattachtype **attach);
+void cal_copmonent_alarm_set_attach (CalComponentAlarm *alarm, struct icalattachtype *attach);
+
+void cal_component_alarm_get_description (CalComponentAlarm *alarm, CalComponentText *description);
+void cal_component_alarm_set_description (CalComponentAlarm *alarm, CalComponentText *description);
 
 void cal_component_alarm_get_repeat (CalComponentAlarm *alarm, CalAlarmRepeat *repeat);
 void cal_component_alarm_set_repeat (CalComponentAlarm *alarm, CalAlarmRepeat repeat);
 
-void cal_component_alarm_free (CalComponentAlarm *alarm);
-
+void cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalAlarmTrigger *trigger);
+void cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigger);
 
 
 

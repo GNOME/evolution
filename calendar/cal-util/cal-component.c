@@ -152,6 +152,13 @@ struct _CalComponentAlarm {
 	/* Properties */
 
 	icalproperty *action;
+	icalproperty *attach; /* FIXME: see scan_alarm_property() below */
+
+	struct {
+		icalproperty *prop;
+		icalparameter *altrep_param;
+	} description;
+
 	icalproperty *duration;
 	icalproperty *repeat;
 	icalproperty *trigger;
@@ -4128,6 +4135,17 @@ scan_alarm_property (CalComponentAlarm *alarm, icalproperty *prop)
 		alarm->action = prop;
 		break;
 
+	case ICAL_ATTACH_PROPERTY:
+		/* FIXME: mail alarms may have any number of these, not just one */
+		alarm->attach = prop;
+		break;
+
+	case ICAL_DESCRIPTION_PROPERTY:
+		alarm->description.prop = prop;
+		alarm->description.altrep_param = icalproperty_get_first_parameter (
+			prop, ICAL_ALTREP_PARAMETER);
+		break;
+
 	case ICAL_DURATION_PROPERTY:
 		alarm->duration = prop;
 		break;
@@ -4167,6 +4185,9 @@ make_alarm (icalcomponent *subcomp)
 	alarm->uid = NULL;
 
 	alarm->action = NULL;
+	alarm->attach = NULL;
+	alarm->description.prop = NULL;
+	alarm->description.altrep_param = NULL;
 	alarm->duration = NULL;
 	alarm->repeat = NULL;
 	alarm->trigger = NULL;
@@ -4333,6 +4354,35 @@ cal_component_alarm_clone (CalComponentAlarm *alarm)
 }
 
 /**
+ * cal_component_alarm_free:
+ * @alarm: A calendar alarm.
+ *
+ * Frees an alarm structure.
+ **/
+void
+cal_component_alarm_free (CalComponentAlarm *alarm)
+{
+	g_return_if_fail (alarm != NULL);
+
+	g_assert (alarm->icalcomp != NULL);
+
+	if (icalcomponent_get_parent (alarm->icalcomp) == NULL)
+		icalcomponent_free (alarm->icalcomp);
+
+	alarm->icalcomp = NULL;
+	alarm->uid = NULL;
+	alarm->action = NULL;
+	alarm->attach = NULL;
+	alarm->description.prop = NULL;
+	alarm->description.altrep_param = NULL;
+	alarm->duration = NULL;
+	alarm->repeat = NULL;
+	alarm->trigger = NULL;
+
+	g_free (alarm);
+}
+
+/**
  * cal_component_alarm_get_uid:
  * @alarm: An alarm subcomponent.
  *
@@ -4444,6 +4494,189 @@ cal_component_alarm_set_action (CalComponentAlarm *alarm, CalAlarmAction action)
 		alarm->action = icalproperty_new_action (ipa);
 		icalcomponent_add_property (alarm->icalcomp, alarm->action);
 	}
+}
+
+/**
+ * cal_component_alarm_get_attach:
+ * @alarm: An alarm.
+ * @attach: Return value for the attachment; should be freed using icalattachtype_free().
+ * 
+ * Queries the attachment property of an alarm.
+ **/
+void
+cal_component_alarm_get_attach (CalComponentAlarm *alarm, struct icalattachtype **attach)
+{
+	g_return_if_fail (alarm != NULL);
+	g_return_if_fail (attach != NULL);
+
+	g_assert (alarm->icalcomp != NULL);
+
+	if (alarm->attach) {
+		*attach = icalattachtype_new ();
+		**attach = icalproperty_get_attach (alarm->attach);
+		/* FIXME: This is bogus in libical; icalattachtype is supposed
+		 * to be refcounted but the property functions return it by
+		 * value.
+		 */
+	} else
+		*attach = NULL;
+}
+
+/**
+ * cal_copmonent_alarm_set_attach:
+ * @alarm: An alarm.
+ * @attach: Attachment property or NULL to remove an existing property.
+ * 
+ * Sets the attachment property of an alarm.
+ **/
+void
+cal_copmonent_alarm_set_attach (CalComponentAlarm *alarm, struct icalattachtype *attach)
+{
+	g_return_if_fail (alarm != NULL);
+
+	g_assert (alarm->icalcomp != NULL);
+
+	if (alarm->attach) {
+		icalcomponent_remove_property (alarm->icalcomp, alarm->attach);
+		icalproperty_free (alarm->attach);
+		alarm->attach = NULL;
+	}
+
+	if (attach) {
+		alarm->attach = icalproperty_new_attach (*attach);
+		icalcomponent_add_property (alarm->icalcomp, alarm->attach);
+	}
+}
+
+/**
+ * cal_component_alarm_get_description:
+ * @alarm: An alarm.
+ * @description: Return value for the description property and its parameters.
+ * 
+ * Queries the description property of an alarm.
+ **/
+void
+cal_component_alarm_get_description (CalComponentAlarm *alarm, CalComponentText *description)
+{
+	g_return_if_fail (alarm != NULL);
+	g_return_if_fail (description != NULL);
+
+	g_assert (alarm->icalcomp != NULL);
+
+	if (alarm->description.prop)
+		description->value = icalproperty_get_description (alarm->description.prop);
+	else
+		description->value = NULL;
+
+	if (alarm->description.altrep_param)
+		description->altrep = icalparameter_get_altrep (alarm->description.altrep_param);
+	else
+		description->altrep = NULL;
+}
+
+/**
+ * cal_component_alarm_set_description:
+ * @alarm: An alarm.
+ * @description: Description property and its parameters, or NULL for no description.
+ * 
+ * Sets the description property of an alarm.
+ **/
+void
+cal_component_alarm_set_description (CalComponentAlarm *alarm, CalComponentText *description)
+{
+	g_return_if_fail (alarm != NULL);
+
+	g_assert (alarm->icalcomp != NULL);
+
+	if (alarm->description.prop) {
+		icalcomponent_remove_property (alarm->icalcomp, alarm->description.prop);
+		icalproperty_free (alarm->description.prop);
+
+		alarm->description.prop = NULL;
+		alarm->description.altrep_param = NULL;
+	}
+
+	if (!description)
+		return;
+
+	g_return_if_fail (description->value != NULL);
+
+	alarm->description.prop = icalproperty_new_description (description->value);
+	icalcomponent_add_property (alarm->icalcomp, alarm->description.prop);
+
+	if (description->altrep) {
+		alarm->description.altrep_param = icalparameter_new_altrep (
+			(char *) description->altrep);
+		icalproperty_add_parameter (alarm->description.prop,
+					    alarm->description.altrep_param);
+	}
+}
+
+/**
+ * cal_component_alarm_get_repeat:
+ * @alarm: An alarm.
+ * @repeat: Return value for the repeat/duration properties.
+ * 
+ * Queries the repeat/duration properties of an alarm.
+ **/
+void
+cal_component_alarm_get_repeat (CalComponentAlarm *alarm, CalAlarmRepeat *repeat)
+{
+	g_return_if_fail (alarm != NULL);
+	g_return_if_fail (repeat != NULL);
+
+	g_assert (alarm->icalcomp != NULL);
+
+	if (!(alarm->repeat && alarm->duration)) {
+		repeat->repetitions = 0;
+		memset (&repeat->duration, 0, sizeof (repeat->duration));
+		return;
+	}
+
+	repeat->repetitions = icalproperty_get_repeat (alarm->repeat);
+	repeat->duration = icalproperty_get_duration (alarm->duration);
+}
+
+/**
+ * cal_component_alarm_set_repeat:
+ * @alarm: An alarm.
+ * @repeat: Repeat/duration values.  To remove any repetitions from the alarm,
+ * set the @repeat.repetitions to 0.
+ * 
+ * Sets the repeat/duration values for an alarm.
+ **/
+void
+cal_component_alarm_set_repeat (CalComponentAlarm *alarm, CalAlarmRepeat repeat)
+{
+	g_return_if_fail (alarm != NULL);
+	g_return_if_fail (repeat.repetitions >= 0);
+
+	g_assert (alarm->icalcomp != NULL);
+
+	/* Delete old properties */
+
+	if (alarm->repeat) {
+		icalcomponent_remove_property (alarm->icalcomp, alarm->repeat);
+		icalproperty_free (alarm->repeat);
+		alarm->repeat = NULL;
+	}
+
+	if (alarm->duration) {
+		icalcomponent_remove_property (alarm->icalcomp, alarm->duration);
+		icalproperty_free (alarm->duration);
+		alarm->duration = NULL;
+	}
+
+	/* Set the new properties */
+
+	if (repeat.repetitions == 0)
+		return; /* For zero extra repetitions the properties should not exist */
+
+	alarm->repeat = icalproperty_new_repeat (repeat.repetitions);
+	icalcomponent_add_property (alarm->icalcomp, alarm->repeat);
+
+	alarm->duration = icalproperty_new_duration (repeat.duration);
+	icalcomponent_add_property (alarm->icalcomp, alarm->duration);
 }
 
 /**
@@ -4615,90 +4848,6 @@ cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigg
 		}
 	}
 }
-
-/**
- * cal_component_alarm_get_repeat:
- * @alarm: An alarm.
- * @repeat: Return value for the repeat/duration properties.
- * 
- * Queries the repeat/duration properties of an alarm.
- **/
-void
-cal_component_alarm_get_repeat (CalComponentAlarm *alarm, CalAlarmRepeat *repeat)
-{
-	g_return_if_fail (alarm != NULL);
-	g_return_if_fail (repeat != NULL);
-
-	g_assert (alarm->icalcomp != NULL);
-
-	if (!(alarm->repeat && alarm->duration)) {
-		repeat->repetitions = 0;
-		memset (&repeat->duration, 0, sizeof (repeat->duration));
-		return;
-	}
-
-	repeat->repetitions = icalproperty_get_repeat (alarm->repeat);
-	repeat->duration = icalproperty_get_duration (alarm->duration);
-}
-
-void
-cal_component_alarm_set_repeat (CalComponentAlarm *alarm, CalAlarmRepeat repeat)
-{
-	g_return_if_fail (alarm != NULL);
-	g_return_if_fail (repeat.repetitions >= 0);
-
-	g_assert (alarm->icalcomp != NULL);
-
-	/* Delete old properties */
-
-	if (alarm->repeat) {
-		icalcomponent_remove_property (alarm->icalcomp, alarm->repeat);
-		icalproperty_free (alarm->repeat);
-		alarm->repeat = NULL;
-	}
-
-	if (alarm->duration) {
-		icalcomponent_remove_property (alarm->icalcomp, alarm->duration);
-		icalproperty_free (alarm->duration);
-		alarm->duration = NULL;
-	}
-
-	/* Set the new properties */
-
-	if (repeat.repetitions == 0)
-		return; /* For zero extra repetitions the properties should not exist */
-
-	alarm->repeat = icalproperty_new_repeat (repeat.repetitions);
-	icalcomponent_add_property (alarm->icalcomp, alarm->repeat);
-
-	alarm->duration = icalproperty_new_duration (repeat.duration);
-	icalcomponent_add_property (alarm->icalcomp, alarm->duration);
-}
-
-/**
- * cal_component_alarm_free:
- * @alarm: A calendar alarm.
- *
- * Frees an alarm structure.
- **/
-void
-cal_component_alarm_free (CalComponentAlarm *alarm)
-{
-	g_return_if_fail (alarm != NULL);
-
-	g_assert (alarm->icalcomp != NULL);
-
-	if (icalcomponent_get_parent (alarm->icalcomp) == NULL)
-		icalcomponent_free (alarm->icalcomp);
-
-	alarm->icalcomp = NULL;
-	alarm->uid = NULL;
-	alarm->action = NULL;
-	alarm->trigger = NULL;
-
-	g_free (alarm);
-}
-
 
 /* Returns TRUE if both strings match, i.e. they are both NULL or the
    strings are equal. */

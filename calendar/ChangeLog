@@ -1,5 +1,18 @@
 2001-07-02  Federico Mena Quintero  <federico@ximian.com>
 
+	Support for ATTACH, DESCRIPTION properties in alarm components.
+
+	* cal-util/cal-component.c (scan_alarm_property):  Deal with
+	ATTACH, DESCRIPTION properties.
+	(cal_component_alarm_get_attach): New function.  Libical is
+	actually bogus; supposedly icalattachtype structures are
+	refcounted but the property functions return them by value.
+	(cal_copmonent_alarm_set_attach): New function.
+	(cal_component_alarm_get_description): New function.
+	(cal_component_alarm_set_description): New function.
+
+2001-07-02  Federico Mena Quintero  <federico@ximian.com>
+
 	Support for repeat/duration properties in alarm components.
 
 	* cal-util/cal-component.h (CalAlarmRepeat): New structure that
