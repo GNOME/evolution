@@ -167,6 +167,9 @@ e_contact_list_model_new ()
 void
 e_contact_list_model_add_destination (EContactListModel *model, EDestination *dest)
 {
+	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
+	g_return_if_fail (E_IS_DESTINATION (dest));
+
 	if (model->data_count + 1 >= model->data_alloc) {
 		model->data_alloc *= 2;
 		model->data = g_renew (EDestination*, model->data, model->data_alloc);
@@ -185,6 +188,9 @@ e_contact_list_model_add_email (EContactListModel *model,
 {
 	EDestination *new_dest;
 
+	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
+	g_return_if_fail (email != NULL);
+
 	new_dest = e_destination_new ();
 	e_destination_set_email (new_dest, email);
 
@@ -197,6 +203,9 @@ e_contact_list_model_add_card (EContactListModel *model,
 {
 	EDestination *new_dest;
 
+	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
+	g_return_if_fail (E_IS_CARD_SIMPLE (simple));
+
 	new_dest = e_destination_new ();
 	e_destination_set_card (new_dest, simple->card, 0); /* Hard-wired for default e-mail */
 
@@ -206,6 +215,9 @@ e_contact_list_model_add_card (EContactListModel *model,
 void
 e_contact_list_model_remove_row (EContactListModel *model, int row)
 {
+	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
+	g_return_if_fail (0 <= row && row < model->data_count);
+
 	gtk_object_unref (GTK_OBJECT (model->data[row]));
 	memmove (model->data + row, model->data + row + 1, sizeof (EDestination*) * (model->data_count - row - 1));
 	model->data_count --;
@@ -217,6 +229,8 @@ void
 e_contact_list_model_remove_all (EContactListModel *model)
 {
 	int i;
+
+	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
 
 	for (i = 0; i < model->data_count; i ++) {
 		gtk_object_unref (GTK_OBJECT (model->data[i]));
@@ -232,5 +246,8 @@ e_contact_list_model_remove_all (EContactListModel *model)
 const EDestination *
 e_contact_list_model_get_destination (EContactListModel *model, int row)
 {
+	g_return_val_if_fail (E_IS_CONTACT_LIST_MODEL (model), NULL);
+	g_return_val_if_fail (0 <= row && row < model->data_count, NULL);
+
 	return model->data[row];
 }
