@@ -419,7 +419,6 @@ get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessag
 	char *src = NULL;
 	char *tmp;
 	
-	r = e_sexp_result_new (f, ESEXP_RES_STRING);
 	if (fms->source) {
 		CamelURL *url;
 		
@@ -439,8 +438,13 @@ get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessag
 		if (tmp)
 			*tmp = '\0';
 	}
-	
-	r->value.string = src;
+
+	if (src) {
+		r = e_sexp_result_new (f, ESEXP_RES_STRING);
+		r->value.string = src;
+	} else {
+		r = e_sexp_result_new (f, ESEXP_RES_UNDEFINED);
+	}
 	
 	return r;
 }
