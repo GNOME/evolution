@@ -1,3 +1,8 @@
+2000-06-30  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-shell-client.h
+	(evolution_shell_client_user_select_folder): Add prototype.
+
 2000-06-29  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-shell-component.c: New member `owner_client'.  Removed

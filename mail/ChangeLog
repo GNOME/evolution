@@ -1,3 +1,8 @@
+2000-06-30  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* component-factory.c: Eeek.  Fix typo: add missing star in the
+	declaration of `global_shell_client'.
+
 2000-06-29  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* component-factory.c: Replace `global_shell_interface' with
