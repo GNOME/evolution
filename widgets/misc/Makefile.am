@@ -194,7 +194,8 @@ CLEANFILES    = $(BUILT_SOURCES)
 EXTRA_DIST =			\
 	$(error_DATA)		\
 	$(error_i18n)		\
-	$(pilot_sources)	\
+	e-pilot-settings.h	\
+	e-pilot-settings.c	\
 	e-util-marshal.list	\
 	ChangeLog.pre-1-4
 

@@ -1,5 +1,9 @@
 2004-08-03  JP Rosevear  <jpr@novell.com>
 
+	* Makefile.am: Really dist the pilot sources this time
+
+2004-08-03  JP Rosevear  <jpr@novell.com>
+
 	* Makefile.am: Dist the pilot sources
 
 2004-08-01  JP Rosevear  <jpr@novell.com>
