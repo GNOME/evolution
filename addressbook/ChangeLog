@@ -1,3 +1,8 @@
+2004-02-24  Hans petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/e-contact-quick-add.c (quick_add_set_name):
+	Port to new way of setting name in contact.
+
 2004-02-24  JP Rosevear <jpr@ximian.com>
 
 	* gui/component/addressbook-migrate.c (migration_context_new):

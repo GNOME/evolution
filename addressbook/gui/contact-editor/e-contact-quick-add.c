@@ -93,23 +93,15 @@ quick_add_unref (QuickAdd *qa)
 static void
 quick_add_set_name (QuickAdd *qa, const gchar *name)
 {
-#if notyet
 	EContactName *card_name;
 
 	if (name == qa->name)
 		return;
 
 	g_free (qa->name);
+	qa->name = g_strdup (name);
 
-	card_name = e_card_name_from_string (name);
-	qa->name = e_card_name_to_string (card_name);
-
-	g_object_set (qa->card,
-			"full_name", qa->name,
-			NULL);
-
-	e_card_name_unref (card_name);
-#endif
+	e_contact_set (qa->contact, E_CONTACT_FULL_NAME, name);
 }
 
 static void
