@@ -287,13 +287,12 @@ config_read (void)
 		
 		account = g_new0 (MailConfigAccount, 1);
 		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
-		account->name = bonobo_config_get_string (config->db, path, 
-							  NULL);
+		account->name = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		path = g_strdup_printf ("/Mail/Accounts/account_is_default_%d", i);
 		account->default_account = bonobo_config_get_boolean 
 			(config->db, path, NULL) && !have_default;
-
+		
 		if (account->default_account)
 			have_default = TRUE;
 		g_free (path);
@@ -435,8 +434,7 @@ config_read (void)
 			g_free (val);
 		
 		path = g_strdup_printf ("/Mail/Accounts/transport_save_passwd_%d", i);
-		transport->save_passwd = bonobo_config_get_boolean 
-			(config->db, path, NULL);
+		transport->save_passwd = bonobo_config_get_boolean (config->db, path, NULL);
 		g_free (path);
 		
 		account->id = id;
@@ -881,40 +879,32 @@ mail_config_set_empty_trash_on_exit (gboolean value)
 	config->empty_trash_on_exit = value;
 }
 
+gboolean
 mail_config_get_show_preview (const char *uri)
 {
 	if (uri) {
-		char *key;
-		gboolean value = FALSE;
+		gpointer key, val;
+		char *dbkey;
 		
-		key = uri_to_key (uri);
-
+		dbkey = uri_to_key (uri);
+		
 		if (!config->preview_hash)
 			config->preview_hash = g_hash_table_new (g_str_hash, g_str_equal);
-		else
-			value = GPOINTER_TO_INT (g_hash_table_lookup (config->preview_hash, key));
 		
-		if (!value) {
-			CORBA_Environment ev;
+		if (!g_hash_table_lookup_extended (config->preview_hash, dbkey, &key, &val)) {
+			gboolean value;
 			char *str;
 			
-			CORBA_exception_init (&ev);
-			str = g_strdup_printf ("/Mail/Preview/%s", key);
-			value = bonobo_config_get_boolean 
-				(config->db, str, &ev);
+			str = g_strdup_printf ("/Mail/Preview/%s", dbkey);
+			value = bonobo_config_get_boolean_with_default (config->db, str, TRUE, NULL);
 			g_free (str);
 			
-			if (!BONOBO_EX (&ev)) {
-				g_hash_table_insert (config->preview_hash, 
-						     g_strdup (key),
-						     GINT_TO_POINTER (value));
-			}
-
-			CORBA_exception_free (&ev);
-			g_free (key);
+			g_hash_table_insert (config->preview_hash, dbkey,
+					     GINT_TO_POINTER (value));
+			
 			return value;
 		} else
-			return value;
+			return GPOINTER_TO_INT (val);
 	}
 	
 	/* return the default value */
@@ -930,17 +920,15 @@ mail_config_set_show_preview (const char *uri, gboolean value)
 		gpointer key, val;
 		
 		if (!config->preview_hash)
-			config->preview_hash = g_hash_table_new (g_str_hash, 
-								 g_str_equal);
+			config->preview_hash = g_hash_table_new (g_str_hash, g_str_equal);
 		
-		if (g_hash_table_lookup_extended (config->preview_hash, dbkey,
-						  &key, &val)) {
-			g_hash_table_remove (config->preview_hash, dbkey);
-			g_free (key);
+		if (g_hash_table_lookup_extended (config->preview_hash, dbkey, &key, &val)) {
+			val = GINT_TO_POINTER (value);
+			g_free (dbkey);
+		} else {
+			g_hash_table_insert (config->preview_hash, dbkey, 
+					     GINT_TO_POINTER (value));
 		}
-		
-		g_hash_table_insert (config->preview_hash, dbkey, 
-				     GINT_TO_POINTER (value));
 	} else
 		config->show_preview = value;
 }
@@ -949,37 +937,28 @@ gboolean
 mail_config_get_thread_list (const char *uri)
 {
 	if (uri) {
-		char *key;
-		gboolean value = FALSE;
+		gpointer key, val;
+		char *dbkey;
 		
-		key = uri_to_key (uri);
-
+		dbkey = uri_to_key (uri);
+		
 		if (!config->threaded_hash)
 			config->threaded_hash = g_hash_table_new (g_str_hash, g_str_equal);
-		else
-			value = GPOINTER_TO_INT (g_hash_table_lookup (config->threaded_hash, key));
 		
-		if (!value) {
-			CORBA_Environment ev;
+		if (!g_hash_table_lookup_extended (config->threaded_hash, dbkey, &key, &val)) {
+			gboolean value;
 			char *str;
 			
-			CORBA_exception_init (&ev);
-			str = g_strdup_printf ("/Mail/Threads/%s", key);
-			value = bonobo_config_get_boolean (config->db , str, 
-							   &ev);
+			str = g_strdup_printf ("/Mail/Threads/%s", dbkey);
+			value = bonobo_config_get_boolean_with_default (config->db, str, FALSE, NULL);
 			g_free (str);
 			
-			if (!BONOBO_EX (&ev)) {
-				g_hash_table_insert (config->threaded_hash, 
-						     g_strdup (key),
-						     GINT_TO_POINTER (value));
-			}
-
-			CORBA_exception_free (&ev);
-			g_free (key);
+			g_hash_table_insert (config->threaded_hash, dbkey,
+					     GINT_TO_POINTER (value));
+			
 			return value;
 		} else
-			return value;
+			return GPOINTER_TO_INT (val);
 	}
 	
 	/* return the default value */
@@ -995,17 +974,15 @@ mail_config_set_thread_list (const char *uri, gboolean value)
 		gpointer key, val;
 		
 		if (!config->threaded_hash)
-			config->threaded_hash = g_hash_table_new (g_str_hash, 
-								  g_str_equal);
+			config->threaded_hash = g_hash_table_new (g_str_hash, g_str_equal);
 		
-		if (g_hash_table_lookup_extended (config->threaded_hash, dbkey,
-						  &key, &val)) {
-			g_hash_table_remove (config->threaded_hash, dbkey);
-			g_free (key);
+		if (g_hash_table_lookup_extended (config->threaded_hash, dbkey, &key, &val)) {
+			val = GINT_TO_POINTER (value);
+			g_free (dbkey);
+		} else {
+			g_hash_table_insert (config->threaded_hash, dbkey, 
+					     GINT_TO_POINTER (value));
 		}
-		
-		g_hash_table_insert (config->threaded_hash, dbkey,
-				     GINT_TO_POINTER (value));
 	} else
 		config->thread_list = value;
 }

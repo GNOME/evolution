@@ -1,9 +1,20 @@
+2001-07-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_get_show_preview): Use a better
+	GHashTable technique that will hopefully solve some bugs and also
+	use _with_default bonobo-config call.
+	(mail_config_set_show_preview): No sense in removing the entry
+	from the hash table and then re-inserting it. Just reset the
+	value.
+	(mail_config_get_thread_list): Use the same logic.
+	(mail_config_set_thread_list): And again here.
+
 2001-07-03  Peter Williams  <peterw@ximian.com>
 
-	* mail-folder-cache.c (make_folder_name, make_folder_status): Split
-	make_string into these.
-	(update_idle): Use (name and status) instead of (wide and thin) for
-	the text.
+	* mail-folder-cache.c (make_folder_name, make_folder_status):
+	Split make_string into these.
+	(update_idle): Use (name and status) instead of (wide and thin)
+	for the text.
 
 2001-07-03  Jason Leach  <jleach@ximian.com>
 
@@ -17,20 +28,20 @@
 2001-07-03  Peter Williams  <peterw@ximian.com>
 
 	Prevent folders from appearing to have -1 new messages. Prevent
-	nonactive folders from updating the title bar. Make the title
-	bar update when switching to an already-opened folder.
+	nonactive folders from updating the title bar. Make the title bar
+	update when switching to an already-opened folder.
 	
-	* mail-folder-cache.c (update_message_counts): Ignore the value for
-	'unread' if it is -1.
+	* mail-folder-cache.c (update_message_counts): Ignore the value
+	for 'unread' if it is -1.
 	(get_mail_info_receive): Same
 	(mail_folder_cache_note_folderinfo): Same.
 	(get_folder_info): Initialize 'fb' to NULL.
 	(mail_folder_info): Add 'fb' member.
 	(mail_folder_cache_note_fb): Change note_message_list to this.
-	(update_idle): Only update the ShellView if the active folder browser
-	is the same as the one that the MFI references.
-	(mail_folder_cache_set_folder_browser): New function. Use it to set
-	the active folder browser. NULL is okay.
+	(update_idle): Only update the ShellView if the active folder
+	browser is the same as the one that the MFI references.
+	(mail_folder_cache_set_folder_browser): New function. Use it to
+	set the active folder browser. NULL is okay.
 	(check_for_fb_match): Called from the above. If the MFI has the
 	new folder browser as its view, queue an update.
 
@@ -41,7 +52,8 @@
 	* folder-browser.c (got_folder): Change to use note_fb instead of
 	note_messge_list.
 
-	* folder-browser-factory.c (control_activate): Set the folder browser
+	* folder-browser-factory.c (control_activate): Set the folder
+	browser
 	(control_deactivate): Clear it here.
 	(fb_get_svi): Kill some inappropriately cut-n-pasted code.
 
