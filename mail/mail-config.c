@@ -2116,21 +2116,21 @@ providers_config_new (void)
 				  (GtkDestroyNotify) gtk_widget_unref);
 	gtk_clist_set_column_width (GTK_CLIST (clistNewsServers), 0, 80);
 
-	if (news_configured) {
+	if (news_configured && !news_server) {
 		path = g_strdup_printf ("=%s/config=/news/source", evolution_dir);
-		source = gnome_config_get_string (path);
+		news_server = gnome_config_get_string (path);
 		g_free (path);
 	}
 
-	source_row = -1;
-	if (source) {
+	news_server_row = -1;
+	if (news_server) {
 		char *text[] = { "" };
 
 		gtk_clist_append (GTK_CLIST (clistNewsServers), text);
 
-		gtk_clist_set_text (GTK_CLIST (clistNewsServers), 0, 0, source);
+		gtk_clist_set_text (GTK_CLIST (clistNewsServers), 0, 0, news_server);
 		gtk_clist_set_row_data (GTK_CLIST (clistNewsServers), 0,
-					g_strdup(source));
+					g_strdup(news_server));
 	}
 
 	cmdNewsServersAdd = glade_xml_get_widget (gui, "cmdNewsServersAdd");
