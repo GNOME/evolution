@@ -155,12 +155,12 @@ camel_nntp_summary_new(CamelNNTPFolder *folder)
 	char *path;
 
 	cns->folder = folder;
-	path = g_strdup_printf("%s.ev-summary", folder->storage_path);
+	path = g_strdup_printf ("%s%s", folder->storage_path, ".ev-summary");
 	camel_folder_summary_set_filename((CamelFolderSummary *)cns, path);
 	g_free(path);
 
 	camel_folder_summary_set_build_content((CamelFolderSummary *)cns, FALSE);
-
+	
 	return cns;
 }
 
@@ -224,8 +224,11 @@ camel_nntp_summary_check(CamelNNTPSummary *cns, CamelFolderChangeInfo *changes, 
 	unsigned int n, f, l;
 	int count;
 
-	if (xover_setup(cns, ex) == -1)
+	if (xover_setup (cns, ex) == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      _("Connection error: %s"), strerror(errno));
 		return -1;
+	}
 
 	folder = (CamelFolder *)cns->folder;
 	store = (CamelNNTPStore *)folder->parent_store;
@@ -237,6 +240,8 @@ camel_nntp_summary_check(CamelNNTPSummary *cns, CamelFolderChangeInfo *changes, 
 				     _("No such folder: %s"), line);
 		return -1;
 	} else if (ret != 211) {
+		if (ret < 0)
+			line = "";
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				     _("Could not get group: %s"), line);
 		return -1;
@@ -246,9 +251,6 @@ camel_nntp_summary_check(CamelNNTPSummary *cns, CamelFolderChangeInfo *changes, 
 	n = strtoul(line, &line, 10);
 	f = strtoul(line, &line, 10);
 	l = strtoul(line, &line, 10);
-
-	dd(printf("nntp_summary: got last '%u' first '%u'\n"
-		  "nntp_summary: high '%u' low '%u'\n", l, f, cns->high, cns->low));
 
 	if (cns->low == f && cns->high == l) {
 		dd(printf("nntp_summary: no work to do!\n"));
@@ -299,7 +301,14 @@ camel_nntp_summary_check(CamelNNTPSummary *cns, CamelFolderChangeInfo *changes, 
 		}
 	}
 
+
+	/* TODO: not from here */
 	camel_folder_summary_touch(s);
+	camel_folder_summary_save(s);
+
+	if (ret < 0)
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				     _("Could not get messages: unspecificed error"));
 
 	return ret;
 }
@@ -527,7 +536,8 @@ add_range_head(CamelNNTPSummary *cns, unsigned int high, unsigned int low, Camel
 		n = strtoul(line, &line, 10);
 		if (n != i)
 			g_warning("retrieved message '%d' when i expected '%d'?\n", n, i);
-
+		
+		/* FIXME: use camel-mime-utils.c function for parsing msgid? */
 		if ((msgid = strchr(line, '<')) && (line = strchr(msgid+1, '>'))){
 			line[1] = 0;
 			cns->priv->uid = g_strdup_printf("%u,%s\n", n, msgid);

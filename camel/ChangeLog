@@ -1,3 +1,27 @@
+2004-01-12  Meilof Veeningen  <meilof@wanadoo.nl>
+
+	* providers/nntp/camel-nntp-folder.[ch]: now based on discofolder,
+	cache_message and append_message implemented, only retrieve messages
+	when we are subscribed, some stubs
+
+	* providers/nntp/camel-nntp-provider.c: newsgroup name display
+	settings, password authentication, fix for check_equal where the
+	protocols wouldn't be checked
+
+	* providers/nntp/camel-nntp-store.[ch]: base on discostore with
+	online/offline support, subscriptions, downloading changed parts of
+	the newsgroup list, some stubs, authentication, automatic reconnect
+
+	* providers/nntp/camel-nntp-store-summary.[ch]: NNTP store
+	summary based on IMAP code
+
+	* providers/nntp/camel-nntp-summary.c: save summary after xover
+
+	* providers/nntp/camel-nntp-grouplist.h: added CamelNNTPGroupList
+	structs
+
+	* providers/nntp/Makefile.am: added store summary
+
 2004-01-12  Not Zed  <NotZed@Ximian.com>
 
 	** See bug 52725.
@@ -31,7 +55,7 @@
 	* providers/groupwise/groupwise-config-listener.c
 	(is_groupwise_account): added null check for source url to take
 	care of accounts with Server Types as "None"
- 
+
 2004-01-09  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_forget_folder): fix
@@ -69,7 +93,7 @@
 	to add e-sources for groupwise calender and tasks
 
 	* providers/groupwise/Makefile.am : added new files to Makefile.am
-	 
+
 2004-01-05  JP Rosevear <jpr@ximian.com>
 
 	* camel-utf8.c: include sys/types.h for freebsd

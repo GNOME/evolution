@@ -36,7 +36,11 @@ extern "C" {
 #include <camel/camel-exception.h>
 #include <camel/camel-folder.h>
 
+#include <camel/camel-disco-store.h>
+#include <camel/camel-disco-folder.h>
+
 #include "camel-nntp-stream.h"
+#include "camel-nntp-store-summary.h"
 
 #define CAMEL_NNTP_STORE_TYPE     (camel_nntp_store_get_type ())
 #define CAMEL_NNTP_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_NNTP_STORE_TYPE, CamelNNTPStore))
@@ -55,25 +59,30 @@ extern "C" {
 typedef struct _CamelNNTPStore CamelNNTPStore;
 typedef struct _CamelNNTPStoreClass CamelNNTPStoreClass;
 
+#include "camel-nntp-grouplist.h"
+
 struct _CamelNNTPStore {
-	CamelStore parent_object;	
+	CamelDiscoStore parent_object;	
 	
 	struct _CamelNNTPStorePrivate *priv;
 	
 	guint32 extensions;
 	
 	gboolean posting_allowed;
+	gboolean do_short_folder_notation, folder_hierarchy_relative;
+
+	CamelNNTPStoreSummary *summary;
 	
 	CamelNNTPStream *stream;
 	CamelStreamMem *mem;
 	
 	CamelDataCache *cache;
 	
-	char *current_folder;
+	char *current_folder, *storage_path, *base_url;
 };
 
 struct _CamelNNTPStoreClass {
-	CamelStoreClass parent_class;
+	CamelDiscoStoreClass parent_class;
 
 };
 

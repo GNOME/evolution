@@ -40,9 +40,12 @@ struct CamelNNTPGroupList {
 	GList *group_list;
 };
 
-CamelNNTPGroupList* camel_nntp_grouplist_fetch  (CamelNNTPStore *store, CamelException *ex);
-gint                camel_nntp_grouplist_update (CamelNNTPGroupList *group_list, CamelException *ex);
-void                camel_nntp_grouplist_save   (CamelNNTPGroupList *group_list, CamelException *ex);
-void                camel_nntp_grouplist_free   (CamelNNTPGroupList *group_list);
+typedef struct CamelNNTPGroupList _CamelNNTPGroupList;
+typedef struct CamelNNTPGroupListEntry _CamelNNTPGroupListEntry;
+
+struct CamelNNTPGroupList* camel_nntp_grouplist_fetch  (CamelNNTPStore *store, CamelException *ex);
+gint                       camel_nntp_grouplist_update (struct CamelNNTPGroupList *group_list, CamelException *ex);
+void                       camel_nntp_grouplist_save   (struct CamelNNTPGroupList *group_list, CamelException *ex);
+void                       camel_nntp_grouplist_free   (struct CamelNNTPGroupList *group_list);
 
 #endif /* CAMEL_NNTP_GROUPLIST_H */

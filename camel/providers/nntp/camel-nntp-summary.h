@@ -24,7 +24,6 @@
 #include <camel/camel-folder-summary.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-exception.h>
-#include <libibex/ibex.h>
 
 #define CAMEL_NNTP_SUMMARY(obj)         CAMEL_CHECK_CAST (obj, camel_nntp_summary_get_type (), CamelNNTPSummary)
 #define CAMEL_NNTP_SUMMARY_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_nntp_summary_get_type (), CamelNNTPSummaryClass)

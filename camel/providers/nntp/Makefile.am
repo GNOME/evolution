@@ -6,6 +6,7 @@ camel_provider_LTLIBRARIES = libcamelnntp.la
 camel_provider_DATA = libcamelnntp.urls
 
 INCLUDES = -I../..				\
+	-I$(top_srcdir)				\
 	-I$(top_srcdir)/camel			\
 	-I$(top_srcdir)/intl			\
 	-I$(top_srcdir)/e-util			\
@@ -20,13 +21,15 @@ libcamelnntp_la_SOURCES = 			\
 	camel-nntp-store.c			\
 	camel-nntp-folder.c			\
 	camel-nntp-stream.c			\
-	camel-nntp-summary.c
+	camel-nntp-summary.c			\
+	camel-nntp-store-summary.c
 
 libcamelnntpinclude_HEADERS =			\
 	camel-nntp-store.h			\
 	camel-nntp-folder.h			\
 	camel-nntp-stream.h			\
-	camel-nntp-summary.h
+	camel-nntp-summary.h			\
+	camel-nntp-store-summary.h
 
 noinst_HEADERS =				\
 	camel-nntp-private.h

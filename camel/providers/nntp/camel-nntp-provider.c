@@ -36,6 +36,17 @@ static guint nntp_url_hash (gconstpointer key);
 static gint check_equal (char *s1, char *s2);
 static gint nntp_url_equal (gconstpointer a, gconstpointer b);
 
+CamelProviderConfEntry nntp_conf_entries[] = {
+	{ CAMEL_PROVIDER_CONF_SECTION_START, "folders", NULL,
+	  N_("Folders") },
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "show_short_notation", NULL,
+	  N_("Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"), "1" },
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "folder_hierarchy_relative", NULL,
+	  N_("In the subscription dialog, show relative folder names"), "1" },
+	{ CAMEL_PROVIDER_CONF_SECTION_END },
+	{ CAMEL_PROVIDER_CONF_END }
+};
+
 static CamelProvider news_provider = {
 	"nntp",
 	N_("USENET news"),
@@ -51,7 +62,19 @@ static CamelProvider news_provider = {
 	CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_USER |
 	CAMEL_URL_ALLOW_PASSWORD | CAMEL_URL_ALLOW_AUTH,
 
+	nntp_conf_entries
+
 	/* ... */
+};
+
+CamelServiceAuthType camel_nntp_password_authtype = {
+	N_("Password"),
+
+	N_("This option will authenticate with the NNTP server using a "
+	   "plaintext password."),
+
+	"",
+	TRUE
 };
 
 void
@@ -62,6 +85,7 @@ camel_provider_module_init (CamelSession *session)
 
 	news_provider.url_hash = nntp_url_hash;
 	news_provider.url_equal = nntp_url_equal;
+	news_provider.authtypes = g_list_append (NULL, &camel_nntp_password_authtype);
 	
 	camel_session_register_provider (session, &news_provider);
 }
@@ -107,7 +131,8 @@ nntp_url_equal (gconstpointer a, gconstpointer b)
 {
 	const CamelURL *u1 = a, *u2 = b;
 	
-	return check_equal (u1->user, u2->user)
+	return check_equal(u1->protocol, u2->protocol)
+		&& check_equal (u1->user, u2->user)
 		&& check_equal (u1->host, u2->host)
 		&& u1->port == u2->port;
 }
