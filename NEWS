@@ -54,7 +54,8 @@ New features:
     - The context menus are improved and now allow .
 
     - When you receive an appointment through email, you can choose
-      which calendar to update.
+      which calendar to update, and if its for an existing appointment
+      the folder is automatically detected
 
     - Calendar importer now supports importing to remote folders.
 
@@ -71,6 +72,30 @@ New features:
     - Removed extra space that was displayed for categories without icons.
 
     - Fixed crashes in the alarm daemon.
+
+    - Fixed crashes in calendar related to creating new evolution windows   
+
+    - When right clicking, correctly select the underlying date/time
+
+    - Meeting scheduling improvements; sends replies when you update
+      your attendance status, warnings if the user changes a meeting
+      they didn't create
+
+    - Deleting a meeting with a right click will now offer to send a
+      cancellation notice
+
+    - Can accept meeting replies from non-attendees (they become attendees)
+
+    - Fixed work day so start can't be before end, its minimum 1 hour and
+      the unshaded zone is not rounded to the nearest time division
+      (allowing the work hours to be 0:00 to 23:59)
+
+    - Fixed task view to update completion status the same as the editor
+
+    - Fixed leap year problem with day of week
+      
+    - Handle "last day of the month" and "last Tuesday of the month"
+      type recurrences
 
   * Contacts
 
