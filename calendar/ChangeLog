@@ -1,5 +1,11 @@
 2004-01-21  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/tasks-component.c (delete_task_list_cb): call
+	e_cal_remove_calendar to actually remove the task list via
+	the backend.
+
+2004-01-21  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #51705
 
 	* gui/calendar-component.c (delete_calendar_cb): call
