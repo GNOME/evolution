@@ -1,22 +1,67 @@
-Evolution 1.2.2, ????-??-??
+Evolution 1.2.2, 2002-02-04
 ---------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
+  * Calendar
+
+    #34927 -- Crash when entreing wrong URL of attendee in
+             "Collaboration" tab.  (Jack Jia)
+    #34933 -- The question window "Send an update version" pops up
+              inappropriately.  (Jack Jia)
+    #35003 -- Passwords sometimes displayed on the status
+              bar. (Rodrigo)
+
   * Addressbook
 
-    #25541 -- Fix sensitivity issues in the contact editor.  (Toshok)
-    #33672 -- Fix folder deletion. (Jack Jia)
+    #25541 -- Sensitivity issues in the contact editor.  (Toshok)
+    #33672 -- Folder deletion. (Jack Jia)
     #34883 -- Do anonymous bind initially in ldap backend. (Toshok)
     #34897 -- Address book crash when search. (Toshok)
     #34898 -- Handle modifications of contact list members in the
-              minicard view. (Sean Gao)
-    #34900 -- Fix hang when closing file selector using wm. (Jack Jia)
-    #35153 -- Changing default contact folder requires restart. (Toshok)
+              minicard view.  (Sean Gao)
+    #34900 -- Hang when closing file selector using the window manager.
+              (Jack Jia)
+    #35153 -- Changing default contact folder requires restart.  (Toshok)
     #36375 -- Fix typo in ldap backend that was keeping "other_fax" from 
-              working. (Sean Gao)
+              working.  (Sean Gao)
+
+  * Summary
+
+    #36557 -- Adding a mail folder to the Summary sometimes crashes
+              it.  (Harry Lu)
 
 Other fixes:
+
+  * Summary
+
+    - Added Finland locations to the weather station list (Pekka
+      Pietikainen).
+
+  * Other
+
+    - Fixed a problem compiling Evolution without conduit support on
+      MacOS X.  (Ettore)
+    - Use $(DESTDIR) appropriately when installing the default_user
+      directory.  (Max Horn)
+    - Updated docs.  (Aaron)
+
+Updated translations:
+
+  - es (Pablo Gonzalo del Campo)
+  - et (T√µivo Leedj√§rv)
+  - hu (Andras Timar)
+  - it (Marco Ciampa, Alessio Frusciante)
+  - lv (Peteris Krisjanis)
+  - no (Kjartan Maraas)
+  - pt_BR (Gustavo Maciel Dias Vieira)
+  - ru (Andrew V. Samoilov)
+  - sk (Stanislav Visnovsky)
+  - sv (Christian Rose)
+  - tr (Fatih Demir)
+  - uk (Andrew V. Samoilov)
+  - zh_CN (Yuedong Du)
+
 
 Evolution 1.2.1, 2002-12-05
 ---------------------------
@@ -67,7 +112,6 @@ Other fixes:
 
     - Fixed a bunch of memory leaks related to email meeting
       scheduling.  (Hans)
-
     - Make the libical grammar files work with newer versions of
       Bison.
 
@@ -80,9 +124,7 @@ Other fixes:
 
     - Kill old wombat processes to avoid problems for users who
       upgrade.  (Ettore)
-
     - Fixed some localization problems.  (Dan)
-
     - Fixed the leaks in the settings dialog.  (Ettore)
 
   * Other
@@ -90,23 +132,22 @@ Other fixes:
     - Fixed compliance of the .omf files with the OMF 1.0 DTD.
       (Frederic Crozat)
 
-New features:
-
-  - evolution-launch-composer command-line tool to open up the
-    composer with attachments.  (Chris Lahey, Federico)
-
-
   * Mailer
 
     - Fixed SSL streams to have cancellable reads and writes.
     - Auto-subscribe the user to his/her IMAP INBOX
 
+New features:
+
+  - evolution-launch-composer command-line tool to open up the
+    composer with attachments.  (Chris Lahey, Federico)
+
 Updated translations:
 
-    - de (Christian Neumair)
-    - et (Tıivo Leedj‰rv)
-    - fr (Joaquim Fellmann)
-    - pt_BR (Gustavo Maciel Dias Vieira)
+  - de (Christian Neumair)
+  - et (Tıivo Leedj‰rv)
+  - fr (Joaquim Fellmann)
+  - pt_BR (Gustavo Maciel Dias Vieira)
 
 
 Evolution 1.2.0, 2002-11-06
