@@ -93,31 +93,31 @@ The message is stored in the Outbox folder.  Check the message for errors and re
  </error>
 
  <error id="session-message-info" type="info">
-  <_primary>{0}</_primary>
+  <_secondary>{0}</_secondary>
  </error>
 
  <error id="session-message-info-cancel" type="info" default="GTK_RESPONSE_CANCEL">
-  <_primary>{0}</_primary>
+  <_secondary>{0}</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button stock="gtk-ok" response="GTK_RESPONSE_OK"/>
  </error>
 
  <error id="session-message-warning" type="warning">
-  <_primary>{0}</_primary>
+  <_secondary>{0}</_secondary>
  </error>
 
  <error id="session-message-warning-cancel" type="warning" default="GTK_RESPONSE_CANCEL">
-  <_primary>{0}</_primary>
+  <_secondary>{0}</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button stock="gtk-ok" response="GTK_RESPONSE_OK"/>
  </error>
 
  <error id="session-message-error" type="info">
-  <_primary>{0}</_primary>
+  <_secondary>{0}</_secondary>
  </error>
 
  <error id="session-message-error-cancel" type="info" default="GTK_RESPONSE_CANCEL">
-  <_primary>{0}</_primary>
+  <_secondary>{0}</_secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button stock="gtk-ok" response="GTK_RESPONSE_OK"/>
  </error>

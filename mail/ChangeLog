@@ -1,5 +1,8 @@
 2004-04-29  Not Zed  <NotZed@Ximian.com>
 
+	* mail-errors.xml.in: change all the session-message-* things to
+	just be secondary, otherwise they look awful all big fonted.
+
 	* mail-session.c (error_type[]): forgot to prefix error type with
 	"mail:"
 
