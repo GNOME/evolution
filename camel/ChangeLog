@@ -1,3 +1,7 @@
+2002-11-18  Rodney Dawes  <dobey@ximian.com>
+
+	* tests/*/Makefile.am: Removed $(GNOME_LIBDIR) and $(GNOMEUI_LIBS)
+	
 2002-11-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_connect_online): If the
