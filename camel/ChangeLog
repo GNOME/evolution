@@ -1,3 +1,8 @@
+2003-04-29  Jeremy Katz  <katzj@redhat.com>
+
+	* providers/imap/camel-imap-folder.c (parse_fetch_response):
+	body_len needs to be a size_t instead of int
+
 2003-04-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-utils.c: Disable debugging printfs.

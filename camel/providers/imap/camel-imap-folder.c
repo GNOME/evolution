@@ -2579,7 +2579,7 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 	GData *data = NULL;
 	char *start, *part_spec = NULL, *body = NULL, *uid = NULL, *idate = NULL;
 	gboolean cache_header = TRUE, header = FALSE;
-	int body_len = 0;
+	size_t body_len = 0;
 	
 	if (*response != '(') {
 		long seq;
