@@ -9,6 +9,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #40954 - Wombat crashes when opening an appointment. (Toshok)
     #41843 - Don't use localized field names in the csv exporter. (Gilbert Fang)
     #41779 - Fix crash when adding emails to existing contacts. (Toshok)
+    #41910 - Crash when deleting addresses from long contact lists. (Toshok)
 
   * Mail
 
