@@ -6,13 +6,13 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include "main.h"
 #include "gnome-cal.h"
+#include "main.h"
 
 static GtkWidget *prop_win, *r1;
 static GtkObject *sa, *ea;
 
-void
+static void
 start_changed (GtkAdjustment *sa, GtkAdjustment *ea)
 {
 	if (sa->value > 23.0){
@@ -27,7 +27,7 @@ start_changed (GtkAdjustment *sa, GtkAdjustment *ea)
 	gnome_property_box_changed (GNOME_PROPERTY_BOX (prop_win));
 }
 
-void
+static void
 end_changed (GtkAdjustment *ea, GtkAdjustment *sa)
 {
 	if (ea->value < 1.0){

@@ -37,6 +37,7 @@ gnomecal_SOURCES = \
 	getdate.y		\
 	gnome-cal.c		\
 	gnome-cal.h		\
+	goto.c			\
 	main.c			\
 	main.h			\
 	month-view.c		\

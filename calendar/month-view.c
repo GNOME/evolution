@@ -65,9 +65,9 @@ month_view_init (MonthView *mv)
 			       "y", 0.0,
 			       "anchor", GTK_ANCHOR_NW,
 			       "day_anchor", GTK_ANCHOR_NE,
-
+#if 0
 			       "start_on_monday", TRUE,
-
+#endif
 			       NULL);
 }
 
@@ -115,7 +115,7 @@ month_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (mv), 0, 0, allocation->width, allocation->height);
 	gnome_canvas_item_set (mv->mitem,
-			       "width", (double) allocation->width,
-			       "height", (double) allocation->height,
+			       "width", (double) (allocation->width - 1),
+			       "height", (double) (allocation->height - 1),
 			       NULL);
 }

@@ -134,7 +134,10 @@ about_calendar_cmd (GtkWidget *widget, void *data)
 				 authors,
 				 _("The GNOME personal calendar and schedule manager."),
 				 NULL);
+	gnome_dialog_run_and_destroy (GNOME_DIALOG (about));
+#if 0
         gtk_widget_show (about);
+#endif
 }
 
 static void
@@ -221,6 +224,12 @@ static void
 today_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	gnome_calendar_goto (gcal, time (NULL));
+}
+
+static void
+goto_clicked (GtkWidget *widget, GnomeCalendar *gcal)
+{
+	goto_dialog (gcal);
 }
 
 static void
@@ -374,6 +383,10 @@ static GnomeUIInfo gnome_toolbar [] = {
 
 	{ GNOME_APP_UI_ITEM, N_("Next"), N_("Go forward in time"), next_clicked, 0, 0,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_FORWARD },
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Go to"), N_("Go to a specific date"), goto_clicked, GNOME_STOCK_PIXMAP_STOP),
 
 	GNOMEUIINFO_END
 };

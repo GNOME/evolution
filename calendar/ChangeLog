@@ -1,3 +1,14 @@
+1998-08-13  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gnome-month-item.c (gnome_month_item_set_arg): Doh.  Actually
+	recalculate the days using the month and year.
+
+	* main.c: Added "Go to" button to quickly jump to a specific date.
+
+	* goto.c: New file that defines the quick go-to date dialog.
+
+	* Makefile.am (gnomecal_SOURCES): Added goto.c to the sources.
+
 1998-08-11  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
 
 	* main.c (new_calendar): Made title i18n friendly. This was bug

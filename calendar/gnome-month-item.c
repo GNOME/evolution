@@ -452,8 +452,6 @@ static void
 create_days (GnomeMonthItem *mitem)
 {
 	int i;
-	char buf[100];
-	GdkColor *c;
 
 	/* Just create the items; they will be positioned and configured by a call to reshape() */
 
@@ -465,13 +463,11 @@ create_days (GnomeMonthItem *mitem)
 					       NULL);
 
 		/* Box */
-		c = &GTK_WIDGET (GNOME_CANVAS_ITEM (mitem)->canvas)->style->bg[GTK_STATE_NORMAL];
-		sprintf (buf, "#%04x%04x%04x", c->red, c->green, c->blue);
 		mitem->items[ITEM_DAY_BOX + i] =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[ITEM_DAY_GROUP + i]),
 					       gnome_canvas_rect_get_type (),
 					       "outline_color", "black",
-					       "fill_color", buf,
+					       "fill_color", "#d6d6d6",
 					       NULL);
 
 		/* Label */
@@ -667,12 +663,6 @@ reanchor (GnomeMonthItem *mitem)
 }
 
 static void
-recalc_month (GnomeMonthItem *mitem)
-{
-	/* FIXME */
-}
-
-static void
 gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	GnomeMonthItem *mitem;
@@ -684,12 +674,12 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	switch (arg_id) {
 	case ARG_YEAR:
 		mitem->year = GTK_VALUE_UINT (*arg);
-		recalc_month (mitem);
+		set_days (mitem);
 		break;
 
 	case ARG_MONTH:
 		mitem->month = GTK_VALUE_UINT (*arg);
-		recalc_month (mitem);
+		set_days (mitem);
 		break;
 
 	case ARG_X:

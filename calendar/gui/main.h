@@ -7,5 +7,6 @@ extern int am_pm_flag;
 
 void properties (void);
 void day_range_changed (void);
+void goto_dialog (GnomeCalendar *gcal);
 
 #endif
