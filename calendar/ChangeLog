@@ -1,5 +1,16 @@
 2004-03-16  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/dialogs/select-source-dialog.[ch]: new dialog for allowing the
+	user to select a source.
+
+	* gui/dialogs/copy-source-dialog.c (copy_source_dialog): use the
+	select_source_dialog function to ask user for the source to use.
+	(source_selected_cb): removed unneeded function.
+
+	* gui/dialogs/Makefile.am: added new files.
+
+2004-03-16  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/calendar-commands.c
 	(calendar_control_sensitize_calendar_commands): check if the selected
 	event has its associated ECalModelComponent.

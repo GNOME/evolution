@@ -72,6 +72,8 @@ libcal_dialogs_la_SOURCES =	\
 	save-comp.h		\
 	schedule-page.c		\
 	schedule-page.h		\
+	select-source-dialog.c	\
+	select-source-dialog.h	\
 	send-comp.c		\
 	send-comp.h		\
 	task-editor.c		\
