@@ -1,3 +1,16 @@
+2001-07-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-activity-client.c (impl_destroy): Remove the source
+	for the timeout *before* invoking the CORBA method, as we might
+	get the timeout callback while invoking the CORBA method, thus
+	screwing things up.
+
+	* evolution-shell-component-client.c (destroy_listener_interface):
+	New helper function.
+	(dispatch_callback): Use it.
+	(impl_destroy): Call it when destroying the listener interface
+	instead of just freeing the servant.
+
 2001-07-26  Jason Leach  <jleach@ximian.com>
 
 	* e-shell-view-menu.c (update_offline_menu_item): Little UI thing:

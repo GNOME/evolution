@@ -111,6 +111,8 @@ static POA_GNOME_Evolution_ShellComponentListener__vepv ShellComponentListener_v
 static gboolean ShellComponentListener_vepv_initialized = FALSE;
 
 static void ShellComponentListener_vepv_initialize (void);
+static void dispatch_callback (EvolutionShellComponentClient *shell_component_client,
+			       EvolutionShellComponentResult result);
 
 struct _ShellComponentListenerServant {
 	POA_GNOME_Evolution_ShellComponentListener servant;
@@ -169,48 +171,6 @@ result_from_async_corba_result (GNOME_Evolution_ShellComponentListener_Result as
 	default:
 		return EVOLUTION_SHELL_COMPONENT_UNKNOWNERROR;
 	}
-}
-
-static void
-dispatch_callback (EvolutionShellComponentClient *shell_component_client,
-		   EvolutionShellComponentResult result)
-{
-	EvolutionShellComponentClientPrivate *priv;
-	EvolutionShellComponentClientCallback callback;
-	PortableServer_ObjectId *oid;
-	void *callback_data;
-	CORBA_Environment ev;
-
-	priv = shell_component_client->priv;
-
-	g_return_if_fail (priv->callback != NULL);
-	g_return_if_fail (priv->listener_servant != NULL);
-
-	/* Notice that we destroy the interface and reset the callback information before
-           dispatching the callback so that the callback can generate another request.  */
-
-	CORBA_exception_init (&ev);
-
-	oid = PortableServer_POA_servant_to_id (bonobo_poa (), priv->listener_servant, &ev);
-	PortableServer_POA_deactivate_object (bonobo_poa (), oid, &ev);
-	POA_GNOME_Evolution_ShellComponentListener__fini (priv->listener_servant, &ev);
-	CORBA_free (oid);
-
-	CORBA_Object_release (priv->listener_interface, &ev);
-	free_ShellComponentListener_servant (priv->listener_servant);
-
-	CORBA_exception_free (&ev);
-
-	priv->listener_servant   = NULL;
-	priv->listener_interface = CORBA_OBJECT_NIL;
-
-	callback      = priv->callback;
-	callback_data = priv->callback_data;
-
-	priv->callback      = NULL;
-	priv->callback_data = NULL;
-
-	(* callback) (shell_component_client, result, callback_data);
 }
 
 static void
@@ -273,6 +233,57 @@ create_listener_interface (EvolutionShellComponentClient *shell_component_client
 	priv->listener_interface = corba_interface;
 }
 
+static void
+destroy_listener_interface (EvolutionShellComponentClient *client)
+{
+	EvolutionShellComponentClientPrivate *priv;
+	CORBA_Environment ev;
+	PortableServer_ObjectId *oid;
+
+	priv = client->priv;
+	CORBA_exception_init (&ev);
+
+	oid = PortableServer_POA_servant_to_id (bonobo_poa (), priv->listener_servant, &ev);
+	PortableServer_POA_deactivate_object (bonobo_poa (), oid, &ev);
+	POA_GNOME_Evolution_ShellComponentListener__fini (priv->listener_servant, &ev);
+	CORBA_free (oid);
+
+	CORBA_Object_release (priv->listener_interface, &ev);
+	free_ShellComponentListener_servant (priv->listener_servant);
+
+	CORBA_exception_free (&ev);
+}
+
+static void
+dispatch_callback (EvolutionShellComponentClient *shell_component_client,
+		   EvolutionShellComponentResult result)
+{
+	EvolutionShellComponentClientPrivate *priv;
+	EvolutionShellComponentClientCallback callback;
+	void *callback_data;
+
+	priv = shell_component_client->priv;
+
+	g_return_if_fail (priv->callback != NULL);
+	g_return_if_fail (priv->listener_servant != NULL);
+
+	/* Notice that we destroy the interface and reset the callback information before
+           dispatching the callback so that the callback can generate another request.  */
+
+	destroy_listener_interface (shell_component_client);
+
+	priv->listener_servant   = NULL;
+	priv->listener_interface = CORBA_OBJECT_NIL;
+
+	callback      = priv->callback;
+	callback_data = priv->callback_data;
+
+	priv->callback      = NULL;
+	priv->callback_data = NULL;
+
+	(* callback) (shell_component_client, result, callback_data);
+}
+
 
 /* GtkObject methods.  */
 
@@ -306,10 +317,8 @@ impl_destroy (GtkObject *object)
 		CORBA_Object_release (priv->offline_interface, &ev);
 	}
 
-	if (priv->listener_interface != CORBA_OBJECT_NIL) {
-		CORBA_Object_release (priv->listener_interface, &ev);
-		free_ShellComponentListener_servant (priv->listener_servant);
-	}
+	if (priv->listener_interface != CORBA_OBJECT_NIL)
+		destroy_listener_interface (shell_component_client);
 
 	CORBA_exception_free (&ev);
 
