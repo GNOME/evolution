@@ -23,6 +23,7 @@ addressbook/gui/contact-editor/contact-editor.glade
 addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade
 addressbook/gui/contact-editor/e-contact-editor.c
 addressbook/gui/contact-editor/e-contact-quick-add.c
+addressbook/gui/contact-editor/e-contact-save-as.c
 addressbook/gui/contact-editor/fulladdr.glade
 addressbook/gui/contact-editor/fullname.glade
 addressbook/gui/contact-list-editor/contact-list-editor.glade
@@ -52,6 +53,7 @@ calendar/gui/alarm-notify/notify-main.c
 calendar/gui/calendar-commands.c
 calendar/gui/calendar-model.c
 calendar/gui/calendar-view-factory.c
+calendar/gui/cal-search-bar.c
 calendar/gui/control-factory.c
 calendar/gui/dialogs/alarm-options.c
 calendar/gui/dialogs/alarm-options.glade
@@ -96,6 +98,7 @@ calendar/gui/print.c
 calendar/gui/tasks-control.c
 calendar/gui/tasks-migrate.c
 calendar/gui/weekday-picker.c
+calendar/pcs/query.c
 camel/camel-cipher-context.c
 camel/camel-cms-context.h
 camel/camel-disco-diary.c
@@ -170,6 +173,7 @@ composer/evolution-composer.c
 data/evolution.desktop.in
 data/evolution.keys.in
 default_user/searches.xml
+e-util/e-categories-config.c
 e-util/e-time-utils.c
 filter/filter-datespec.c
 filter/filter-editor.c
