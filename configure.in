@@ -60,7 +60,7 @@ AC_MSG_ERROR(gnome-libs 1.0.59 or higher is required.)])
 CFLAGS=$CFLAGS_save
 LIBS=$LIBS_save
 
-ALL_LINGUAS="ca da de el en_GB es fi fr ga gl hu it ja ko lt nl nn no pl pt ru sl sv tr uk"
+ALL_LINGUAS="ca da de el en_GB es fi fr ga gl hu it ja ko lt nl nn no pl pt ru sk sl sv tr uk"
 
 AM_GNOME_GETTEXT
 localedir='$(prefix)/$(DATADIRNAME)/locale'

@@ -1,3 +1,8 @@
+2001-01-29  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
+
+	* configure.in: added sk to ALL_LINGUAS.
+	* evolution.desktop: added Slovak messages.
+
 2001-01-27  Jason Leach  <jasonleach@usa.net>
 
 	* configure.in (AC_OUTPUT): remove
