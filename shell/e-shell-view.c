@@ -455,6 +455,8 @@ setup_defaults (EShellView *shell_view)
 	e_tree_load_expanded_state (E_TREE (priv->storage_set_view),
 				    file_name);
 	g_free (file_name);
+
+	g_object_unref (client);
 }
 
 

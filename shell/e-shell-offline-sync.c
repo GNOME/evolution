@@ -397,6 +397,7 @@ e_shell_offline_sync_all_folders (EShell *shell,
 
 	path_list = gconf_client_get_list (gconf_client, "/apps/evolution/shell/offline/folder_paths",
 					   GCONF_VALUE_STRING, NULL);
+	g_object_unref (gconf_client);
 
 	sync_data = g_new0 (SyncData, 1);
 	sync_data->shell = shell;

@@ -1,3 +1,9 @@
+2004-02-18  Rodrigo Moya <rodrigo@ximian.com>
+ 
+ 	* e-config-upgrade.c (e_config-upgrade):
+ 	* e-shell-offline-sync.c (e_shell_offline_sync_all_folders):
+ 	* e-shell-view.c (setup_defaults): don't leak GConfClient'
+	
 2004-02-16  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: remove disable deprecated flags

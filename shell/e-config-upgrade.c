@@ -1919,6 +1919,8 @@ e_config_upgrade(const char *edir)
 		gconf_client_suggest_sync(gconf, NULL);
 	}
 
+	g_object_unref (gconf);
+
 	res = 0;
 
 error:
