@@ -29,25 +29,26 @@ static GtkObjectClass *parent_class=NULL;
 /* Returns the class for a CamelFolder */
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
-static void __camel_folder_init_with_store(CamelFolder *folder, CamelStore *parent_store);
-static void __camel_folder_open(CamelFolder *folder, CamelFolderOpenMode mode);
-static void __camel_folder_close(CamelFolder *folder, gboolean expunge);
-static void __camel_folder_set_name(CamelFolder *folder, GString *name_);
-static void __camel_folder_set_full_name(CamelFolder *folder, GString *name);
-static GString *__camel_folder_get_name(CamelFolder *folder);
-static GString *__camel_folder_get_full_name(CamelFolder *folder);
-static gboolean __camel_folder_can_hold_folders(CamelFolder *folder);
+static void __camel_folder_init_with_store (CamelFolder *folder, CamelStore *parent_store);
+static void __camel_folder_open (CamelFolder *folder, CamelFolderOpenMode mode);
+static void __camel_folder_close (CamelFolder *folder, gboolean expunge);
+static void __camel_folder_set_name (CamelFolder *folder, GString *name_);
+static void __camel_folder_set_full_name (CamelFolder *folder, GString *name);
+static GString *__camel_folder_get_name (CamelFolder *folder);
+static GString *__camel_folder_get_full_name (CamelFolder *folder);
+static gboolean __camel_folder_can_hold_folders (CamelFolder *folder);
 static gboolean __camel_folder_can_hold_messages(CamelFolder *folder);
-static gboolean __camel_folder_exists(CamelFolder *folder);
-static gboolean __camel_folder_is_open(CamelFolder *folder);
-static CamelFolder *__camel_folder_get_folder(CamelFolder *folder, GString *folder_name);
-static gboolean __camel_folder_create(CamelFolder *folder);
+static gboolean __camel_folder_exists (CamelFolder  *folder);
+static gboolean __camel_folder_is_open (CamelFolder *folder);
+static CamelFolder *__camel_folder_get_folder (CamelFolder *folder, GString *folder_name);
+static gboolean __camel_folder_create (CamelFolder *folder);
 static gboolean __camel_folder_delete (CamelFolder *folder, gboolean recurse);
-static gboolean __camel_folder_delete_messages(CamelFolder *folder);
+static gboolean __camel_folder_delete_messages (CamelFolder *folder);
 static CamelFolder *__camel_folder_get_parent_folder (CamelFolder *folder);
 static CamelStore *__camel_folder_get_parent_store (CamelFolder *folder);
-static CamelFolderOpenMode __camel_folder_get_mode(CamelFolder *folder);
-static GList *__camel_folder_list_subfolders(CamelFolder *folder);
+static CamelFolderOpenMode __camel_folder_get_mode (CamelFolder *folder);
+static GList *__camel_folder_list_subfolders (CamelFolder *folder);
+static GList *__camel_folder_expunge (CamelFolder *folder);
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
@@ -72,7 +73,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_parent_store = __camel_folder_get_parent_store;
 	camel_folder_class->get_mode = __camel_folder_get_mode;
 	camel_folder_class->list_subfolders = __camel_folder_list_subfolders;
-
+	camel_folder_class->expunge = __camel_folder_expunge;
 	/* virtual method overload */
 }
 
@@ -153,8 +154,8 @@ __camel_folder_open(CamelFolder *folder, CamelFolderOpenMode mode)
 static void
 __camel_folder_close(CamelFolder *folder, gboolean expunge)
 {
-#warning implement the expunge flag
-    folder->open_state = FOLDER_CLOSE;
+	if (expunge) CF_CLASS(folder)->expunge(folder);
+	folder->open_state = FOLDER_CLOSE;
 }
 
 
@@ -616,9 +617,42 @@ __camel_folder_list_subfolders(CamelFolder *folder)
 }
 
 
+/**
+ * camel_folder_list_subfolders: list subfolders in a folder
+ * @folder: the folder
+ * 
+ * List subfolders in a folder. 
+ * 
+ * Return value: list of subfolders
+ **/
 GList *
 camel_folder_list_subfolders(CamelFolder *folder)
 {
     return CF_CLASS(folder)->list_subfolders(folder);
+}
+
+
+
+
+static GList *
+__camel_folder_expunge(CamelFolder *folder)
+{
+	return NULL;
+}
+
+
+/**
+ * camel_folder_expunge: physically delete messages marked as DELETED
+ * @folder: the folder
+ * 
+ * Delete messages which have been marked as deleted. 
+ * 
+ * 
+ * Return value: list of expunged message objects.
+ **/
+GList *
+camel_folder_expunge(CamelFolder *folder)
+{
+    return CF_CLASS(folder)->expunge(folder);
 }
 

@@ -1,3 +1,16 @@
+1999-05-04  bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-service.c (camel_service_get_url): 
+	new method.
+
+	* devel-docs/camel/camel-sections.txt: added 
+	function doc references
+
+	* camel/camel-folder.c (__camel_folder_close): 
+	fixed indentation.
+	(camel_folder_expunge): new method.
+	(__camel_folder_close): used expunge flag
+
 1999-05-03  bertrand <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-folder.c (camel_folder_get_mode): 

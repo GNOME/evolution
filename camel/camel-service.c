@@ -33,6 +33,7 @@ static void __camel_service_connect_to_with_login_passwd(CamelService *service, 
 static void __camel_service_connect_to_with_login_passwd_port(CamelService *service, GString *host, GString *login, GString *passwd, guint port);
 static gboolean __camel_service_is_connected(CamelService *service);
 static void __camel_service_set_connected(CamelService *service, gboolean state);
+static GString *__camel_service_get_url(CamelService *service);
 
 static void
 camel_service_class_init (CamelServiceClass *camel_service_class)
@@ -45,7 +46,7 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	camel_service_class->connect_to_with_login_passwd_port = __camel_service_connect_to_with_login_passwd_port;
 	camel_service_class->is_connected = __camel_service_is_connected;
 	camel_service_class->set_connected = __camel_service_set_connected;
- 
+	camel_service_class->get_url = __camel_service_get_url;
 
 	/* virtual method overload */
 }
@@ -96,7 +97,7 @@ camel_service_get_type (void)
 static void
 __camel_service_connect(CamelService *service)
 {
-
+	CSERV_CLASS(service)->set_connected(service, TRUE);
 }
 
 
@@ -115,6 +116,8 @@ camel_service_connect(CamelService *service)
 	CSERV_CLASS(service)->connect(service);
 }
 
+
+
 /**
  * __camel_service_connect_to: connect to the specified address
  * 
@@ -129,8 +132,26 @@ camel_service_connect(CamelService *service)
 static void
 __camel_service_connect_to_with_login_passwd(CamelService *service, GString *host, GString *login, GString *passwd)
 {
-  __camel_service_set_connected(service, TRUE);
+  CSERV_CLASS(service)->set_connected(service, TRUE);
 }
+
+/**
+ * camel_service_connect_to_with_login_passwd: connect a service 
+ * @service: the service to connect
+ * @host: host to connect to
+ * @login: login to connect with
+ * @passwd: password to connect with
+ * 
+ * Connect to a service, but do not use the session
+ * default parameters to retrieve server's address
+ * 
+ **/
+void
+camel_service_connect_to_with_login_passwd(CamelService *service, GString *host, GString *login, GString *passwd)
+{
+    CSERV_CLASS(service)->connect_to_with_login_passwd (service, host, login, passwd);
+}
+
 
 
 /**
@@ -149,7 +170,26 @@ __camel_service_connect_to_with_login_passwd(CamelService *service, GString *hos
 static void
 __camel_service_connect_to_with_login_passwd_port(CamelService *service, GString *host, GString *login, GString *passwd, guint port)
 {
-  __camel_service_set_connected(service, TRUE);
+    CSERV_CLASS(service)->set_connected(service, TRUE);
+}
+
+
+/**
+ * camel_service_connect_to_with_login_passwd_port: connect a service 
+ * @service: the service to connect
+ * @host: host to connect to
+ * @login: login to connect with
+ * @passwd: password to connect with
+ * @port: port to connect to 
+ * 
+ * Connect to a service, but do not use the session
+ * default parameters to retrieve server's address
+ * 
+ **/
+void
+camel_service_connect_to_with_login_passwd_port(CamelService *service, GString *host, GString *login, GString *passwd, guint port)
+{
+    CSERV_CLASS(service)->connect_to_with_login_passwd_port (service, host, login, passwd, port);
 }
 
 
@@ -170,6 +210,22 @@ __camel_service_is_connected(CamelService *service)
 
 
 /**
+ * camel_service_is_connected: test if a service object is connected
+ *
+ * @service:  the service
+ * 
+ * 
+ * 
+ * Return value: TRUE is the service is connected
+ **/
+gboolean
+camel_service_is_connected(CamelService *service)
+{
+  return CSERV_CLASS(service)->is_connected(service);
+}
+
+
+/**
  * __camel_service_set_connected: set the connected state
  * 
  * This routine has to be called by providers to set the 
@@ -184,6 +240,38 @@ static void
 __camel_service_set_connected(CamelService *service, gboolean state)
 {
   service->connected = state;
+}
+
+
+
+/**
+ * __camel_service_get_url: get url representing a service
+ * @service: the service
+ * 
+ * This method merely returns the "url" field. Subclasses
+ * may provide more active implementations.
+ * 
+ * Return value: 
+ **/
+static GString *
+__camel_service_get_url(CamelService *service)
+{
+	return service->url;
+}
+
+/**
+ * camel_service_get_url: get the url representing a service
+ * @service: the service
+ * 
+ * returns the URL representing a service. For security reasons 
+ * This routine may not always return the password.
+ * 
+ * Return value: the url name
+ **/
+GString *
+camel_service_get_url(CamelService *service)
+{
+	return CSERV_CLASS(service)->get_url(service);
 }
 
 

@@ -53,12 +53,12 @@ typedef struct {
 typedef struct {
 	GtkObjectClass parent_class;
 
-	void (*connect) (CamelService *service);
-	void (*connect_to_with_login_passwd) (CamelService *service, GString *host, GString *login, GString *passwd);
-	void (*connect_to_with_login_passwd_port) (CamelService *service, GString *host, GString *login, GString *passwd, guint port);
-	gboolean (*is_connected) (CamelService *service);
-	void (*set_connected) (CamelService *service, gboolean state);
-	
+	void  (*connect) (CamelService *service);
+	void  (*connect_to_with_login_passwd) (CamelService *service, GString *host, GString *login, GString *passwd);
+	void  (*connect_to_with_login_passwd_port) (CamelService *service, GString *host, GString *login, GString *passwd, guint port);
+	gboolean  (*is_connected) (CamelService *service);
+	void  (*set_connected) (CamelService *service, gboolean state);
+	GString *  (*get_url) (CamelService *service);
 	
 } CamelServiceClass;
 
@@ -66,8 +66,11 @@ typedef struct {
 
 
 /* public methods */
-void camel_service_connect(CamelService *service);
-
+void camel_service_connect (CamelService *service);
+gboolean camel_service_is_connected (CamelService *service);
+void camel_service_connect_to_with_login_passwd (CamelService *service, GString *host, GString *login, GString *passwd);
+void camel_service_connect_to_with_login_passwd_port (CamelService *service, GString *host, GString *login, GString *passwd, guint port);
+GString *camel_service_get_url(CamelService *service);
 /* Standard Gtk function */
 GtkType camel_service_get_type (void);
 

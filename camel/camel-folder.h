@@ -97,7 +97,7 @@ typedef struct {
 	CamelStore *  (*get_parent_store) (CamelFolder *folder);
 	CamelFolderOpenMode (*get_mode) (CamelFolder *folder);
 	GList *  (*list_subfolders) (CamelFolder *folder);
-
+	GList *  (*expunge) (CamelFolder *folder);
 } CamelFolderClass;
 
 
@@ -114,6 +114,8 @@ gboolean camel_folder_delete_messages (CamelFolder *folder);
 CamelFolder *camel_folder_get_parent_folder (CamelFolder *folder);
 CamelStore *camel_folder_get_parent_store (CamelFolder *folder);
 CamelFolderOpenMode camel_folder_get_mode(CamelFolder *folder);
+GList *camel_folder_list_subfolders(CamelFolder *folder);
+GList *camel_folder_expunge(CamelFolder *folder);
 
 
 
