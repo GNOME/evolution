@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.10.99\n"
-"POT-Creation-Date: 2001-07-12 11:26+0200\n"
-"PO-Revision-Date: 2001-07-12 11:46+0200\n"
+"POT-Creation-Date: 2001-07-13 09:35+0200\n"
+"PO-Revision-Date: 2001-07-13 09:39+0200\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -539,40 +539,38 @@ msgid "FIXME Description help text here"
 msgstr "FIXME Leírás súgóüzenetének a helye"
 
 #: addressbook/gui/component/addressbook-config.glade.h:1
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#: calendar/gui/dialogs/alarm-page.glade.h:1
-#: calendar/gui/dialogs/recurrence-page.glade.h:1 filter/filter.glade.h:1
-#: mail/mail-config.glade.h:7
-msgid "Add"
-msgstr "Hozzáadás"
-
-#: addressbook/gui/component/addressbook-config.glade.h:2
 msgid "Addressbook Sources"
 msgstr "Címjegyzék forrásai"
 
+#: addressbook/gui/component/addressbook-config.glade.h:2
+msgid "De_lete"
+msgstr "_Törlés"
+
 #: addressbook/gui/component/addressbook-config.glade.h:3
-#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:235
-#: addressbook/gui/widgets/e-addressbook-view.c:606
-#: calendar/gui/dialogs/alarm-page.glade.h:4
-#: calendar/gui/dialogs/recurrence-page.glade.h:5 filter/filter.glade.h:2
-#: filter/libfilter-i18n.h:8 mail/mail-config.glade.h:27
-#: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
-#: ui/evolution-mail-message.xml.h:16 ui/evolution-tasks.xml.h:5
-msgid "Delete"
-msgstr "Törlés"
-
-#: addressbook/gui/component/addressbook-config.glade.h:4
-#: filter/filter.glade.h:3 mail/mail-config.glade.h:33
-msgid "Edit"
-msgstr "Szerkesztés"
-
-#: addressbook/gui/component/addressbook-config.glade.h:5
 msgid "Name"
 msgstr "Név"
 
-#: addressbook/gui/component/addressbook-config.glade.h:6
+#: addressbook/gui/component/addressbook-config.glade.h:4
 msgid "URI"
 msgstr "URI"
+
+#: addressbook/gui/component/addressbook-config.glade.h:5
+#: addressbook/gui/contact-editor/contact-editor.glade.h:17
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
+#: calendar/gui/dialogs/alarm-page.glade.h:9
+#: calendar/gui/dialogs/recurrence-page.glade.h:11
+#: mail/mail-config.glade.h:102
+msgid "_Add"
+msgstr "Hozzá_adás"
+
+#: addressbook/gui/component/addressbook-config.glade.h:6
+#: mail/mail-config.glade.h:104 ui/evolution-comp-editor.xml.h:20
+#: ui/evolution-mail-messagedisplay.xml.h:9
+#: ui/evolution-message-composer.xml.h:47
+#: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:10
+#: ui/evolution.xml.h:46
+msgid "_Edit"
+msgstr "S_zerkesztés"
 
 #: addressbook/gui/component/addressbook-storage.c:99
 msgid "Other Contacts"
@@ -751,6 +749,11 @@ msgstr "_Kategória:"
 msgid "_Search"
 msgstr "_Keresés"
 
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
+#: filter/filter.glade.h:1 mail/mail-config.glade.h:7
+msgid "Add"
+msgstr "Hozzáadás"
+
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "Anni_versary:"
 msgstr "É_vforduló:"
@@ -764,40 +767,40 @@ msgid "Business _Fax"
 msgstr "Üzleti _fax"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
-msgid "C_ontacts..."
-msgstr "_Névjegyek..."
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:6
 #: calendar/gui/dialogs/event-page.glade.h:2
 #: calendar/gui/dialogs/task-page.glade.h:3
 msgid "Ca_tegories..."
 msgstr "Ka_tegóriák..."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:7
+#: addressbook/gui/contact-editor/contact-editor.glade.h:6
 msgid "Contact Editor"
 msgstr "Névjegy szerkesztõ"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:8
+#: addressbook/gui/contact-editor/contact-editor.glade.h:7
 #: calendar/gui/dialogs/task-editor.c:135
 msgid "Details"
 msgstr "Részletek"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:9
+#: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "File As:"
 msgstr "Tárolás mint:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:10
+#: addressbook/gui/contact-editor/contact-editor.glade.h:9
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 msgid "General"
 msgstr "Alap"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:11
+#: addressbook/gui/contact-editor/contact-editor.glade.h:10
 msgid "New phone type"
 msgstr "Új telefontípus"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:12
+#: addressbook/gui/contact-editor/contact-editor.glade.h:11
 msgid "No_tes:"
 msgstr "Felje_gyzések:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:12
+msgid "Organi_zation:"
+msgstr "S_zervezet:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "Phone Types"
@@ -810,12 +813,6 @@ msgstr "_HTML levelet kér"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "Web page address:"
 msgstr "Weblap címe:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:17
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
-#: mail/mail-config.glade.h:102
-msgid "_Add"
-msgstr "Hozzá_adás"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:18
 msgid "_Address..."
@@ -834,11 +831,15 @@ msgid "_Business"
 msgstr "Ü_zleti"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-msgid "_Company:"
-msgstr "_Vállalat:"
+#: calendar/gui/dialogs/event-page.glade.h:9
+#: calendar/gui/dialogs/task-page.glade.h:20
+msgid "_Contacts..."
+msgstr "_Névjegyek..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
-#: calendar/gui/dialogs/meeting-page.c:1196 mail/folder-browser.c:1290
+#: calendar/gui/dialogs/alarm-page.glade.h:10
+#: calendar/gui/dialogs/meeting-page.c:1196
+#: calendar/gui/dialogs/recurrence-page.glade.h:12 mail/folder-browser.c:1290
 #: mail/mail-config.glade.h:103 ui/evolution-mail-message.xml.h:78
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:45
 msgid "_Delete"
@@ -1330,6 +1331,14 @@ msgstr "Nyomtatás"
 msgid "Print Envelope"
 msgstr "Boríték nyomtatása"
 
+#: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:235
+#: addressbook/gui/widgets/e-addressbook-view.c:606 filter/filter.glade.h:2
+#: filter/libfilter-i18n.h:11 mail/mail-config.glade.h:27
+#: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
+#: ui/evolution-mail-message.xml.h:16 ui/evolution-tasks.xml.h:5
+msgid "Delete"
+msgstr "Törlés"
+
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:128
 #: addressbook/gui/widgets/e-addressbook-util.c:68
 #: addressbook/gui/widgets/e-minicard.c:451
@@ -1803,26 +1812,21 @@ msgid "Alarm on %A %b %d %Y %H:%M"
 msgstr "Riasztás idõpontja: %Y %b %d, %A, %H:%M"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
-#: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:1
-#: ui/evolution-contact-list-editor.xml.h:1
-#: ui/evolution-mail-messagedisplay.xml.h:1
-#: ui/evolution-message-composer.xml.h:3 ui/evolution-signature-editor.xml.h:1
-#: ui/evolution.xml.h:4
-msgid "Close"
-msgstr "Bezárás"
+#: ui/evolution-comp-editor.xml.h:1
+msgid "C_lose"
+msgstr "_Bezárás"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
-msgid "Edit appointment"
-msgstr "Idõpont szerkesztése"
+msgid "Snoo_ze"
+msgstr "S_zundi"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#: calendar/gui/alarm-notify/alarm-queue.c:991
-msgid "Snooze"
-msgstr "Szundi"
-
-#: calendar/gui/alarm-notify/alarm-notify.glade.h:4
 msgid "Snooze time (minutes)"
 msgstr "Szundi idõ (percek)"
+
+#: calendar/gui/alarm-notify/alarm-notify.glade.h:4
+msgid "_Edit appointment"
+msgstr "_Találkozó szerkesztése"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:487
 msgid "No description available."
@@ -1833,6 +1837,10 @@ msgstr "Nincs leírás."
 #: calendar/gui/alarm-notify/alarm-queue.c:1055
 msgid "Reminder of your appointment at "
 msgstr "A találkozód figyelmeztetõ üzenete:"
+
+#: calendar/gui/alarm-notify/alarm-queue.c:991
+msgid "Snooze"
+msgstr "Szundi"
 
 #. Idea: we need Snooze option :-)
 #: calendar/gui/alarm-notify/alarm-queue.c:1004
@@ -2001,7 +2009,7 @@ msgstr ""
 #: calendar/gui/calendar-model.c:987 calendar/gui/calendar-model.c:1228
 #: calendar/gui/calendar-model.c:1282
 #: calendar/gui/dialogs/e-timezone-dialog.c:197
-#: calendar/gui/dialogs/meeting-page.glade.h:3
+#: calendar/gui/dialogs/meeting-page.glade.h:1
 #: calendar/gui/e-calendar-table.c:345 calendar/gui/e-calendar-table.c:420
 #: mail/mail-account-gui.c:1360 mail/mail-accounts.c:129
 #: mail/mail-accounts.c:380 mail/mail-config.glade.h:56
@@ -2186,22 +2194,22 @@ msgid "1 second"
 msgstr "1 másodperc"
 
 #: calendar/gui/dialogs/alarm-page.c:331
-#: calendar/gui/dialogs/alarm-page.glade.h:7
+#: calendar/gui/dialogs/alarm-page.glade.h:4
 msgid "Play a sound"
 msgstr "Hangjelzés"
 
 #: calendar/gui/dialogs/alarm-page.c:335
-#: calendar/gui/dialogs/alarm-page.glade.h:5
+#: calendar/gui/dialogs/alarm-page.glade.h:3
 msgid "Display a message"
 msgstr "Levél megjelenítése"
 
 #: calendar/gui/dialogs/alarm-page.c:339
-#: calendar/gui/dialogs/alarm-page.glade.h:10
+#: calendar/gui/dialogs/alarm-page.glade.h:7
 msgid "Send an email"
 msgstr "Levél küldése"
 
 #: calendar/gui/dialogs/alarm-page.c:343
-#: calendar/gui/dialogs/alarm-page.glade.h:9
+#: calendar/gui/dialogs/alarm-page.glade.h:6
 msgid "Run a program"
 msgstr "Program futtatása"
 
@@ -2221,40 +2229,41 @@ msgstr "a találkozó vége elõtt"
 msgid "after end of appointment"
 msgstr "a találkozó vége után"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:2
-#: calendar/gui/dialogs/recurrence-page.glade.h:2
+#: calendar/gui/dialogs/alarm-page.glade.h:1
+#: calendar/gui/dialogs/recurrence-page.glade.h:1
 #: calendar/gui/dialogs/task-details-page.glade.h:1
 msgid "Basics"
 msgstr "Alapok"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:3
-#: calendar/gui/dialogs/recurrence-page.glade.h:4
+#: calendar/gui/dialogs/alarm-page.glade.h:2
+#: calendar/gui/dialogs/recurrence-page.glade.h:3
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-itip-control.c:297
 msgid "Date/Time:"
 msgstr "Dátum és idõ:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:6
-msgid "Options..."
-msgstr "Beállítások..."
-
-#: calendar/gui/dialogs/alarm-page.glade.h:8
+#: calendar/gui/dialogs/alarm-page.glade.h:5
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 msgid "Reminders"
 msgstr "Emlékeztetõk"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:11
-#: calendar/gui/dialogs/recurrence-page.glade.h:13
+#: calendar/gui/dialogs/alarm-page.glade.h:8
+#: calendar/gui/dialogs/recurrence-page.glade.h:10
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-itip-control.c:286 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Összegzés:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:12 filter/libfilter-i18n.h:35
+#: calendar/gui/dialogs/alarm-page.glade.h:11
+msgid "_Options..."
+msgstr "_Beállítások..."
+
+#. Automatically generated. Do not edit.
+#: calendar/gui/dialogs/alarm-page.glade.h:12 filter/libfilter-i18n.h:2
 msgid "after"
 msgstr "utána"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:13 filter/libfilter-i18n.h:36
+#: calendar/gui/dialogs/alarm-page.glade.h:13 filter/libfilter-i18n.h:6
 msgid "before"
 msgstr "elõtte"
 
@@ -2725,11 +2734,6 @@ msgstr "Ö_sszegzés:"
 msgid "_Confidential"
 msgstr "_Bizalmas"
 
-#: calendar/gui/dialogs/event-page.glade.h:9
-#: calendar/gui/dialogs/task-page.glade.h:20
-msgid "_Contacts..."
-msgstr "_Névjegyek..."
-
 #: calendar/gui/dialogs/event-page.glade.h:10
 msgid "_End time:"
 msgstr "_Befejezés idõpontja:"
@@ -2779,7 +2783,7 @@ msgid "Role"
 msgstr "Szerep"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:9
-#: calendar/gui/e-calendar-table.etspec.h:13 filter/libfilter-i18n.h:32
+#: calendar/gui/e-calendar-table.etspec.h:13 filter/libfilter-i18n.h:50
 #: mail/message-list.etspec.h:8
 msgid "Status"
 msgstr "Állapot"
@@ -2790,23 +2794,24 @@ msgstr "Állapot"
 msgid "Type"
 msgstr "Típus"
 
-#: calendar/gui/dialogs/meeting-page.glade.h:1
-msgid "Change Organizer"
-msgstr "Szervezõ megváltoztatása"
-
 #: calendar/gui/dialogs/meeting-page.glade.h:2
-msgid "Invite Others"
-msgstr "Mások meghívása"
-
-#: calendar/gui/dialogs/meeting-page.glade.h:4
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-itip-control.glade.h:9
 msgid "Organizer:"
 msgstr "Szervezõ:"
 
+#: calendar/gui/dialogs/meeting-page.glade.h:3
+msgid "_Change Organizer"
+msgstr "_Szervezõ megváltoztatása"
+
+#: calendar/gui/dialogs/meeting-page.glade.h:4
+#, fuzzy
+msgid "_Invite Others"
+msgstr "Mások meghívása"
+
 #: calendar/gui/dialogs/meeting-page.glade.h:5
-msgid "Other Organizer"
-msgstr "Másik szervezõ"
+msgid "_Other Organizer"
+msgstr "_Másik szervezõ"
 
 #: calendar/gui/dialogs/recurrence-page.c:434 calendar/gui/print.c:1839
 #: calendar/gui/print.c:1841 calendar/gui/print.c:1842
@@ -2839,37 +2844,37 @@ msgstr "."
 msgid "occurrences"
 msgstr "elõfordulások"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:3
+#: calendar/gui/dialogs/recurrence-page.glade.h:2
 msgid "Custom recurrence"
 msgstr "Megadott ismétlõdés"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:6
+#: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
 msgstr "Minden"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:7
+#: calendar/gui/dialogs/recurrence-page.glade.h:5
 msgid "Exceptions"
 msgstr "Kivételek"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:8
-msgid "Modify"
-msgstr "Módosítás"
-
-#: calendar/gui/dialogs/recurrence-page.glade.h:9
+#: calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "No recurrence"
 msgstr "Nincs ismétlõdés"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:10
+#: calendar/gui/dialogs/recurrence-page.glade.h:7
 msgid "Preview"
 msgstr "Elõnézet"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:11
+#: calendar/gui/dialogs/recurrence-page.glade.h:8
 msgid "Recurrence Rule"
 msgstr "Ismétlõdési szabály"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:12
+#: calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "Simple recurrence"
 msgstr "Egyszerû ismétlõdés"
+
+#: calendar/gui/dialogs/recurrence-page.glade.h:13
+msgid "_Modify"
+msgstr "_Módosítás"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:15
 msgid "for"
@@ -3016,25 +3021,25 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:879
+#: calendar/gui/e-calendar-table.c:886
 msgid "Edit this task"
 msgstr "A feladat szerkesztése"
 
-#: calendar/gui/e-calendar-table.c:880 calendar/gui/e-calendar-table.c:890
+#: calendar/gui/e-calendar-table.c:887 calendar/gui/e-calendar-table.c:897
 #: calendar/gui/e-day-view.c:3332 calendar/gui/e-week-view.c:3170
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-calendar.xml.h:10
 #: ui/evolution-mail-list.xml.h:4
 msgid "Cut"
 msgstr "Kivágás"
 
-#: calendar/gui/e-calendar-table.c:881 calendar/gui/e-calendar-table.c:891
+#: calendar/gui/e-calendar-table.c:888 calendar/gui/e-calendar-table.c:898
 #: calendar/gui/e-day-view.c:3334 calendar/gui/e-week-view.c:3172
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-calendar.xml.h:5
 #: ui/evolution-mail-list.xml.h:2 ui/evolution-mail-message.xml.h:5
 msgid "Copy"
 msgstr "Másolás"
 
-#: calendar/gui/e-calendar-table.c:882 calendar/gui/e-calendar-table.c:892
+#: calendar/gui/e-calendar-table.c:889 calendar/gui/e-calendar-table.c:899
 #: calendar/gui/e-day-view.c:3307 calendar/gui/e-day-view.c:3336
 #: calendar/gui/e-week-view.c:3146 calendar/gui/e-week-view.c:3174
 #: ui/evolution-addressbook.xml.h:12 ui/evolution-calendar.xml.h:26
@@ -3042,23 +3047,23 @@ msgstr "Másolás"
 msgid "Paste"
 msgstr "Beillesztés"
 
-#: calendar/gui/e-calendar-table.c:884
+#: calendar/gui/e-calendar-table.c:891
 msgid "Mark as complete"
 msgstr "Megjelölés készként"
 
-#: calendar/gui/e-calendar-table.c:885
+#: calendar/gui/e-calendar-table.c:892
 msgid "Delete this task"
 msgstr "A feladat törlése"
 
-#: calendar/gui/e-calendar-table.c:894
+#: calendar/gui/e-calendar-table.c:901
 msgid "Mark tasks as complete"
 msgstr "Feladatok megjelölése készként"
 
-#: calendar/gui/e-calendar-table.c:895 ui/evolution-tasks.xml.h:6
+#: calendar/gui/e-calendar-table.c:902 ui/evolution-tasks.xml.h:6
 msgid "Delete selected tasks"
 msgstr "Kijelölt feladatok törlése"
 
-#: calendar/gui/e-calendar-table.c:1242
+#: calendar/gui/e-calendar-table.c:1259
 msgid "Click here to add a task"
 msgstr "Kattints ide új feladat hozzáadásához"
 
@@ -3075,8 +3080,8 @@ msgstr "Ébresztõk"
 msgid "Categories"
 msgstr "Kategóriák"
 
-#: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:692
-#: camel/camel-filter-driver.c:804
+#: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:696
+#: camel/camel-filter-driver.c:808
 msgid "Complete"
 msgstr "Kész"
 
@@ -3396,40 +3401,40 @@ msgid "Go To Date"
 msgstr "Dátumra ugrás"
 
 #: calendar/gui/goto-dialog.glade.h:6
-msgid "Go To Today"
-msgstr "Ugrás mára"
-
-#: calendar/gui/goto-dialog.glade.h:7
 msgid "January"
 msgstr "január"
 
-#: calendar/gui/goto-dialog.glade.h:8
+#: calendar/gui/goto-dialog.glade.h:7
 msgid "July"
 msgstr "július"
 
-#: calendar/gui/goto-dialog.glade.h:9
+#: calendar/gui/goto-dialog.glade.h:8
 msgid "June"
 msgstr "június"
 
-#: calendar/gui/goto-dialog.glade.h:10
+#: calendar/gui/goto-dialog.glade.h:9
 msgid "March"
 msgstr "március"
 
-#: calendar/gui/goto-dialog.glade.h:11
+#: calendar/gui/goto-dialog.glade.h:10
 msgid "May"
 msgstr "május"
 
-#: calendar/gui/goto-dialog.glade.h:12
+#: calendar/gui/goto-dialog.glade.h:11
 msgid "November"
 msgstr "november"
 
-#: calendar/gui/goto-dialog.glade.h:13
+#: calendar/gui/goto-dialog.glade.h:12
 msgid "October"
 msgstr "október"
 
-#: calendar/gui/goto-dialog.glade.h:14
+#: calendar/gui/goto-dialog.glade.h:13
 msgid "September"
 msgstr "szeptember"
+
+#: calendar/gui/goto-dialog.glade.h:14
+msgid "_Go To Today"
+msgstr "Ugrás _mára"
 
 #: calendar/gui/itip-utils.c:223
 msgid "An organizer must be set."
@@ -3626,7 +3631,7 @@ msgid "Print Calendar"
 msgstr "Naptár nyomtatása"
 
 #: calendar/gui/print.c:2287 calendar/gui/print.c:2379
-#: mail/mail-callbacks.c:1798 my-evolution/e-summary.c:498
+#: mail/mail-callbacks.c:1820 my-evolution/e-summary.c:498
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:31
 #: ui/evolution-comp-editor.xml.h:10
 msgid "Print Preview"
@@ -3736,52 +3741,52 @@ msgstr "Újraszinkronizálás a kiszolgálóval"
 msgid "You must be working online to complete this operation"
 msgstr "A mûvelet befejezéséhez hálózati kapcsolattal kell rendelkezned"
 
-#: camel/camel-filter-driver.c:526 camel/camel-filter-driver.c:535
+#: camel/camel-filter-driver.c:530 camel/camel-filter-driver.c:539
 msgid "Syncing folders"
 msgstr "Mappák szinkronizálása"
 
-#: camel/camel-filter-driver.c:637
+#: camel/camel-filter-driver.c:641
 msgid "Unable to open spool folder"
 msgstr "Nem sikerült megnyitni spool mappát"
 
-#: camel/camel-filter-driver.c:646
+#: camel/camel-filter-driver.c:650
 msgid "Unable to process spool folder"
 msgstr "Nem sikerült feldolgozni a spool mappát"
 
-#: camel/camel-filter-driver.c:660
+#: camel/camel-filter-driver.c:664
 #, c-format
 msgid "Getting message %d (%d%%)"
 msgstr "%d. levél letöltése (%d%%)"
 
-#: camel/camel-filter-driver.c:664 camel/camel-filter-driver.c:677
+#: camel/camel-filter-driver.c:668 camel/camel-filter-driver.c:681
 #, c-format
 msgid "Failed on message %d"
 msgstr "%d. levél rossz"
 
-#: camel/camel-filter-driver.c:665
+#: camel/camel-filter-driver.c:669
 msgid "Cannot open message"
 msgstr "Nem lehet megnyitni a levelet"
 
-#: camel/camel-filter-driver.c:688 camel/camel-filter-driver.c:799
+#: camel/camel-filter-driver.c:692 camel/camel-filter-driver.c:803
 msgid "Syncing folder"
 msgstr "Mappa szinkronizálása"
 
-#: camel/camel-filter-driver.c:758
+#: camel/camel-filter-driver.c:762
 #, c-format
 msgid "Getting message %d of %d"
 msgstr "Levelek letöltése: %d/%d"
 
-#: camel/camel-filter-driver.c:763 camel/camel-filter-driver.c:781
+#: camel/camel-filter-driver.c:767 camel/camel-filter-driver.c:785
 #, c-format
 msgid "Failed at message %d of %d"
 msgstr "Hiba a %d / %d üzenetnél"
 
-#: camel/camel-filter-driver.c:881
+#: camel/camel-filter-driver.c:885
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "Hiba a szûrõ feldolgozása közben: %s: %s"
 
-#: camel/camel-filter-driver.c:887
+#: camel/camel-filter-driver.c:891
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Hiba a szûrõ végrehajtása közben: %s: %s"
@@ -5565,7 +5570,6 @@ msgstr ""
 " %s"
 
 #: composer/e-msg-composer.c:1169
-#, fuzzy
 msgid ""
 "Evolution has found unsaved files from a previous session.\n"
 "Would you like to attempt recovery?"
@@ -5574,7 +5578,7 @@ msgstr ""
 "Szeretnéd visszaállítani õket?"
 
 #: composer/e-msg-composer.c:1318 data/evolution.desktop.in.h:1
-#: shell/e-shell-view-menu.c:231
+#: shell/e-shell-view-menu.c:215
 msgid "Evolution"
 msgstr "Evolúció"
 
@@ -5596,11 +5600,11 @@ msgstr "Fájl megnyitás"
 msgid "Insert File"
 msgstr "Fájl beillesztése"
 
-#: composer/e-msg-composer.c:1855 composer/e-msg-composer.c:2243
+#: composer/e-msg-composer.c:1854 composer/e-msg-composer.c:2242
 msgid "Compose a message"
 msgstr "Levél írása"
 
-#: composer/e-msg-composer.c:2337
+#: composer/e-msg-composer.c:2336
 msgid "Could not create composer window."
 msgstr "Nem sikerült létrehozni a levélíró ablakot."
 
@@ -5778,6 +5782,10 @@ msgstr "Összehasonlítás"
 msgid "now"
 msgstr "most"
 
+#: filter/filter-datespec.c:579
+msgid " ago"
+msgstr " óta"
+
 #: filter/filter-datespec.c:707
 msgid "<click here to select a date>"
 msgstr "<kattints ide a dátum kiválasztásához>"
@@ -5865,6 +5873,10 @@ msgstr "bejövõ"
 msgid "outgoing"
 msgstr "kimenõ"
 
+#: filter/filter.glade.h:3 mail/mail-config.glade.h:33
+msgid "Edit"
+msgstr "Szerkesztés"
+
 #: filter/filter.glade.h:4
 msgid "Edit Filters"
 msgstr "Szûrõk szerkesztése"
@@ -5905,196 +5917,195 @@ msgstr "az összes helyi és aktív távoli mappával"
 msgid "with all local folders"
 msgstr "az összes helyi mappával"
 
-#. Automatically generated. Do not edit.
-#: filter/libfilter-i18n.h:2
+#: filter/libfilter-i18n.h:3
 msgid "Assign Color"
 msgstr "Szín hozzárendelése"
 
-#: filter/libfilter-i18n.h:3
+#: filter/libfilter-i18n.h:4
 msgid "Assign Score"
 msgstr "Pontszám hozzárendelése"
 
-#: filter/libfilter-i18n.h:4
+#: filter/libfilter-i18n.h:5
 msgid "Attachments"
 msgstr "Csatolások"
 
-#: filter/libfilter-i18n.h:5
+#: filter/libfilter-i18n.h:7
+msgid "contains"
+msgstr "tartalmazza"
+
+#: filter/libfilter-i18n.h:8
 msgid "Copy to Folder"
 msgstr "Mappába másolás"
 
-#: filter/libfilter-i18n.h:6
+#: filter/libfilter-i18n.h:9
 msgid "Date received"
 msgstr "Fogadás dátuma"
 
-#: filter/libfilter-i18n.h:7
+#: filter/libfilter-i18n.h:10
 msgid "Date sent"
 msgstr "Küldés dátuma"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:12
 msgid "Deleted"
 msgstr "Törölt"
 
-#: filter/libfilter-i18n.h:10
+#: filter/libfilter-i18n.h:13
+msgid "does not contain"
+msgstr "nem tartalmazza"
+
+#: filter/libfilter-i18n.h:14
+msgid "does not end with"
+msgstr "nem végzõdik"
+
+#: filter/libfilter-i18n.h:15
+msgid "does not exist"
+msgstr "nem létezik"
+
+#: filter/libfilter-i18n.h:16
+msgid "does not sound like"
+msgstr "nem úgy hangzik, mint"
+
+#: filter/libfilter-i18n.h:17
+msgid "does not start with"
+msgstr "nincs az elején"
+
+#: filter/libfilter-i18n.h:18
 msgid "Do Not Exist"
 msgstr "Nem létezik"
 
-#: filter/libfilter-i18n.h:11
+#: filter/libfilter-i18n.h:19
 msgid "Draft"
 msgstr "Piszkozat"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:20
+msgid "ends with"
+msgstr "végzõdik"
+
+#: filter/libfilter-i18n.h:21
 msgid "Exist"
 msgstr "Létezik"
 
-#: filter/libfilter-i18n.h:13
+#: filter/libfilter-i18n.h:22
+msgid "exists"
+msgstr "létezik"
+
+#: filter/libfilter-i18n.h:23
 msgid "Expression"
 msgstr "Kifejezés"
 
-#: filter/libfilter-i18n.h:14
+#: filter/libfilter-i18n.h:24
 msgid "Forward to Address"
 msgstr "A levél továbbítása címre"
 
-#: filter/libfilter-i18n.h:15
+#: filter/libfilter-i18n.h:25
 msgid "Important"
 msgstr "Fontos"
 
-#: filter/libfilter-i18n.h:16
+#: filter/libfilter-i18n.h:26
+msgid "is"
+msgstr "="
+
+#: filter/libfilter-i18n.h:27
+msgid "is greater than"
+msgstr "nagyobb mint"
+
+#: filter/libfilter-i18n.h:28
+msgid "is less than"
+msgstr "kisebb mint"
+
+#: filter/libfilter-i18n.h:29
+msgid "is not"
+msgstr "nem"
+
+#: filter/libfilter-i18n.h:30
 msgid "Mailing list"
 msgstr "Levelezõlista"
 
-#: filter/libfilter-i18n.h:17
+#: filter/libfilter-i18n.h:31
 msgid "Message Body"
 msgstr "Levéltörzs"
 
-#: filter/libfilter-i18n.h:18
+#: filter/libfilter-i18n.h:32
 msgid "Message Header"
 msgstr "Levél fejléce"
 
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:33
 msgid "Message was received"
 msgstr "Az levél megérkezett"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:34
 msgid "Message was sent"
 msgstr "A levél el lett küldve"
 
-#: filter/libfilter-i18n.h:21
+#: filter/libfilter-i18n.h:35
 msgid "Move to Folder"
 msgstr "Mozgatás mappába"
 
-#: filter/libfilter-i18n.h:22
+#: filter/libfilter-i18n.h:36
+msgid "on or after"
+msgstr "akkor vagy után volt"
+
+#: filter/libfilter-i18n.h:37
+msgid "on or before"
+msgstr "akkor vagy elõbb"
+
+#: filter/libfilter-i18n.h:38
 msgid "Read"
 msgstr "Olvasott"
 
-#: filter/libfilter-i18n.h:23
+#: filter/libfilter-i18n.h:39
 msgid "Recipients"
 msgstr "Címzettek"
 
-#: filter/libfilter-i18n.h:24
+#: filter/libfilter-i18n.h:40
 msgid "Regex Match"
 msgstr "Regex illeszkedés"
 
-#: filter/libfilter-i18n.h:25
+#: filter/libfilter-i18n.h:41
 msgid "Replied to"
 msgstr "Válasz"
 
-#: filter/libfilter-i18n.h:26 filter/score-rule.c:204 filter/score-rule.c:206
+#: filter/libfilter-i18n.h:42 filter/score-rule.c:204 filter/score-rule.c:206
 #: mail/message-list.etspec.h:6
 msgid "Score"
 msgstr "Pontszám"
 
-#: filter/libfilter-i18n.h:27 mail/mail-callbacks.c:1062
+#: filter/libfilter-i18n.h:43 mail/mail-callbacks.c:1062
 msgid "Sender"
 msgstr "Feladó"
 
-#: filter/libfilter-i18n.h:28
+#: filter/libfilter-i18n.h:44
 msgid "Set Status"
 msgstr "Állapot beállítása"
 
-#: filter/libfilter-i18n.h:29
+#: filter/libfilter-i18n.h:45
 msgid "Size (kB)"
 msgstr "Méret (kB)"
 
-#: filter/libfilter-i18n.h:30
-msgid "Source Account"
-msgstr "Forráspostafiók"
-
-#: filter/libfilter-i18n.h:31
-msgid "Specific header"
-msgstr "Adott fejléc"
-
-#: filter/libfilter-i18n.h:33
-msgid "Stop Processing"
-msgstr "Feldolgozás leállítása"
-
-#: filter/libfilter-i18n.h:34 mail/mail-format.c:861
-#: mail/message-list.etspec.h:9
-msgid "Subject"
-msgstr "Tárgy"
-
-#: filter/libfilter-i18n.h:37
-msgid "contains"
-msgstr "tartalmazza"
-
-#: filter/libfilter-i18n.h:38
-msgid "does not contain"
-msgstr "nem tartalmazza"
-
-#: filter/libfilter-i18n.h:39
-msgid "does not end with"
-msgstr "nem végzõdik"
-
-#: filter/libfilter-i18n.h:40
-msgid "does not exist"
-msgstr "nem létezik"
-
-#: filter/libfilter-i18n.h:41
-msgid "does not sound like"
-msgstr "nem úgy hangzik, mint"
-
-#: filter/libfilter-i18n.h:42
-msgid "does not start with"
-msgstr "nincs az elején"
-
-#: filter/libfilter-i18n.h:43
-msgid "ends with"
-msgstr "végzõdik"
-
-#: filter/libfilter-i18n.h:44
-msgid "exists"
-msgstr "létezik"
-
-#: filter/libfilter-i18n.h:45
-msgid "is greater than"
-msgstr "nagyobb mint"
-
 #: filter/libfilter-i18n.h:46
-msgid "is less than"
-msgstr "kisebb mint"
-
-#: filter/libfilter-i18n.h:47
-msgid "is not"
-msgstr "nem"
-
-#: filter/libfilter-i18n.h:48
-msgid "is"
-msgstr "="
-
-#: filter/libfilter-i18n.h:49
-msgid "on or after"
-msgstr "akkor vagy után volt"
-
-#: filter/libfilter-i18n.h:50
-msgid "on or before"
-msgstr "akkor vagy elõbb"
-
-#: filter/libfilter-i18n.h:51
 msgid "sounds like"
 msgstr "úgy hangzik, mint"
 
-#: filter/libfilter-i18n.h:52
+#: filter/libfilter-i18n.h:47
+msgid "Source Account"
+msgstr "Forráspostafiók"
+
+#: filter/libfilter-i18n.h:48
+msgid "Specific header"
+msgstr "Adott fejléc"
+
+#: filter/libfilter-i18n.h:49
 msgid "starts with"
 msgstr "így kezdõdik:"
+
+#: filter/libfilter-i18n.h:51
+msgid "Stop Processing"
+msgstr "Feldolgozás leállítása"
+
+#: filter/libfilter-i18n.h:52 mail/mail-format.c:861
+#: mail/message-list.etspec.h:9
+msgid "Subject"
+msgstr "Tárgy"
 
 #: filter/libfilter-i18n.h:53
 msgid "was after"
@@ -6121,13 +6132,13 @@ msgid "Score Rules"
 msgstr "Pontszámszabályok"
 
 #: importers/elm-importer.c:470 importers/evolution-gnomecard-importer.c:228
-#: importers/netscape-importer.c:751 importers/pine-importer.c:627
+#: importers/netscape-importer.c:764 importers/pine-importer.c:627
 #: shell/e-shell-importer.c:651 shell/importer/import.glade.h:4
 #: shell/importer/intelligent.c:194
 msgid "Import"
 msgstr "Importálás"
 
-#: importers/elm-importer.c:475 importers/netscape-importer.c:756
+#: importers/elm-importer.c:475 importers/netscape-importer.c:769
 #: importers/pine-importer.c:632 my-evolution/my-evolution.glade.h:12
 msgid "Mail"
 msgstr "Levél"
@@ -6156,11 +6167,11 @@ msgstr ""
 "Az Evolúció GnomeCard fájlokat talált.\n"
 "Szeretnéd ezeket az Evolúcióba importálni?"
 
-#: importers/netscape-importer.c:761
+#: importers/netscape-importer.c:774
 msgid "Settings"
 msgstr "Beállítások"
 
-#: importers/netscape-importer.c:786
+#: importers/netscape-importer.c:799
 msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
@@ -6603,7 +6614,7 @@ msgstr "Levél mentése másként..."
 msgid "Save Messages As..."
 msgstr "Levelek mentése másként..."
 
-#: mail/mail-callbacks.c:1700
+#: mail/mail-callbacks.c:1722
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -6612,19 +6623,19 @@ msgstr ""
 "Hiba a szûrõinformációk betöltése közben:\n"
 "%s"
 
-#: mail/mail-callbacks.c:1710
+#: mail/mail-callbacks.c:1732
 msgid "Filters"
 msgstr "Szûrõk..."
 
-#: mail/mail-callbacks.c:1758
+#: mail/mail-callbacks.c:1780
 msgid "Print Message"
 msgstr "Levél nyomtatása"
 
-#: mail/mail-callbacks.c:1805
+#: mail/mail-callbacks.c:1827
 msgid "Printing of message failed"
 msgstr "Levél nyomtatása sikertelen"
 
-#: mail/mail-callbacks.c:1900
+#: mail/mail-callbacks.c:1922
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Tényleg külön ablakban akarod megnyitni mind a %d levelet?"
@@ -7007,14 +7018,6 @@ msgstr ""
 "Üdvözöl az Evolúció Levelezõbeállító varázslója.\n"
 "\n"
 "A folytatáshoz kattints a \"Tovább\" gombra."
-
-#: mail/mail-config.glade.h:104 ui/evolution-comp-editor.xml.h:20
-#: ui/evolution-mail-messagedisplay.xml.h:9
-#: ui/evolution-message-composer.xml.h:47
-#: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:10
-#: ui/evolution.xml.h:46
-msgid "_Edit"
-msgstr "S_zerkesztés"
 
 #: mail/mail-config.glade.h:106
 msgid "newswindow1"
@@ -7703,6 +7706,10 @@ msgstr "<b>Hiba a Metar letöltése közben</b>"
 msgid "Regions"
 msgstr "Régiók"
 
+#: my-evolution/e-summary.c:144
+msgid "%A, %d %B %Y"
+msgstr "%Y %B %d, %A"
+
 #: my-evolution/e-summary.c:459 ui/my-evolution.xml.h:3
 msgid "Print My Evolution"
 msgstr "Saját Evolúció nyomtatása"
@@ -7715,95 +7722,127 @@ msgstr "A Saját Evolúció nyomtatása sikertelen"
 msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "A Vezetõi összefoglaló komponens nem tudta inicializálni a Bonobót.\n"
 
-#: my-evolution/metar.c:43
+#: my-evolution/metar.c:29
+msgid "°F"
+msgstr "°F"
+
+#: my-evolution/metar.c:29
+msgid "°C"
+msgstr "°C"
+
+#: my-evolution/metar.c:33
+msgid "knots"
+msgstr "csomó"
+
+#: my-evolution/metar.c:33
+msgid "kph"
+msgstr "km/h"
+
+#: my-evolution/metar.c:38
+msgid "inHg"
+msgstr "Hgin"
+
+#: my-evolution/metar.c:38
+msgid "mmHg"
+msgstr "Hgmm"
+
+#: my-evolution/metar.c:41
+msgid "miles"
+msgstr "mérföld"
+
+#: my-evolution/metar.c:41
+msgid "kilometers"
+msgstr "kilométer"
+
+#: my-evolution/metar.c:44
 msgid "Clear sky"
 msgstr "Tiszta ég"
 
-#: my-evolution/metar.c:44
+#: my-evolution/metar.c:45
 msgid "Broken clouds"
 msgstr "Sûrû felhõzet"
 
-#: my-evolution/metar.c:45
+#: my-evolution/metar.c:46
 msgid "Scattered clouds"
 msgstr "Szakadozott felhõzet"
 
-#: my-evolution/metar.c:46
+#: my-evolution/metar.c:47
 msgid "Few clouds"
 msgstr "Kevés felhõ"
 
-#: my-evolution/metar.c:47
+#: my-evolution/metar.c:48
 msgid "Overcast"
 msgstr "Borús"
 
-#: my-evolution/metar.c:55 my-evolution/metar.c:73 my-evolution/metar.c:136
+#: my-evolution/metar.c:56 my-evolution/metar.c:74 my-evolution/metar.c:137
 msgid "Invalid"
 msgstr "Helytelen"
 
-#: my-evolution/metar.c:62
+#: my-evolution/metar.c:63
 msgid "Variable"
 msgstr "Változó"
 
-#: my-evolution/metar.c:63
+#: my-evolution/metar.c:64
 msgid "North"
 msgstr "Észak"
 
-#: my-evolution/metar.c:63
+#: my-evolution/metar.c:64
 msgid "North - NorthEast"
 msgstr "Észak - északkelet"
 
-#: my-evolution/metar.c:63
+#: my-evolution/metar.c:64
 msgid "Northeast"
 msgstr "Északkelet"
 
-#: my-evolution/metar.c:63
+#: my-evolution/metar.c:64
 msgid "East - NorthEast"
 msgstr "Kelet - északkelet"
 
-#: my-evolution/metar.c:64
+#: my-evolution/metar.c:65
 msgid "East"
 msgstr "Kelet"
 
-#: my-evolution/metar.c:64
+#: my-evolution/metar.c:65
 msgid "East - Southeast"
 msgstr "Kelet - délkelet"
 
-#: my-evolution/metar.c:64
+#: my-evolution/metar.c:65
 msgid "Southeast"
 msgstr "Délkelet"
 
-#: my-evolution/metar.c:64
+#: my-evolution/metar.c:65
 msgid "South - Southeast"
 msgstr "Dél - délkelet"
 
-#: my-evolution/metar.c:65
+#: my-evolution/metar.c:66
 msgid "South"
 msgstr "Dél"
 
-#: my-evolution/metar.c:65
+#: my-evolution/metar.c:66
 msgid "South - Southwest"
 msgstr "Dél - délnyugat"
 
-#: my-evolution/metar.c:65
+#: my-evolution/metar.c:66
 msgid "Southwest"
 msgstr "Délnyugat"
 
-#: my-evolution/metar.c:65
+#: my-evolution/metar.c:66
 msgid "West - Southwest"
 msgstr "Nyugat - délnyugat"
 
-#: my-evolution/metar.c:66
+#: my-evolution/metar.c:67
 msgid "West"
 msgstr "Nyugat"
 
-#: my-evolution/metar.c:66
+#: my-evolution/metar.c:67
 msgid "West - Northwest"
 msgstr "Nyugat - északnyugat"
 
-#: my-evolution/metar.c:66
+#: my-evolution/metar.c:67
 msgid "Northwest"
 msgstr "Északnyugat"
 
-#: my-evolution/metar.c:66
+#: my-evolution/metar.c:67
 msgid "North - Northwest"
 msgstr "Észak - északnyugat"
 
@@ -7811,1057 +7850,1057 @@ msgstr "Észak - északnyugat"
 #. ******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
 #. NONE
 #. DRIZZLE
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Drizzle"
 msgstr "Szitáló esõ"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Drizzle in the vicinity"
 msgstr "Szitáló esõ a könyéken"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Light drizzle"
 msgstr "Enyhe szitálás"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Moderate drizzle"
 msgstr "Közepes szitálás"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Heavy drizzle"
 msgstr "Erõs szitálás"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Shallow drizzle"
 msgstr "Felszínes szitálás"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Patches of drizzle"
 msgstr "Helyenként szitálás"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Partial drizzle"
 msgstr "Szórványos szitálás"
 
-#: my-evolution/metar.c:99 my-evolution/metar.c:100
+#: my-evolution/metar.c:100 my-evolution/metar.c:101
 msgid "Thunderstorm"
 msgstr "Vihar"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Windy drizzle"
 msgstr "Szeles esõszitálás"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Showers"
 msgstr "Zuhogó esõ"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Drifting drizzle"
 msgstr "Viharos szitálás"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Freezing drizzle"
 msgstr "Jeges szitálás"
 
 #. RAIN
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Rain"
 msgstr "Esõ"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Rain in the vicinity"
 msgstr "Esõ a környéken"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Light rain"
 msgstr "Csendes esõ"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Moderate rain"
 msgstr "Közepes erõsségû esõ"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Heavy rain"
 msgstr "Erõs esõzés"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Shallow rain"
 msgstr "Felszínes esõzés"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Patches of rain"
 msgstr "Helyi esõzések"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Partial rainfall"
 msgstr "Szórványos esõzés"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Blowing rainfall"
 msgstr "Szeles esõ"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Rain showers"
 msgstr "Felhõszakadás"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Drifting rain"
 msgstr "Viharos esõ"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Freezing rain"
 msgstr "Fagyos esõ"
 
 #. SNOW
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Snow"
 msgstr "Havazás"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Snow in the vicinity"
 msgstr "Havazás a környéken"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Light snow"
 msgstr "Hószállingózás"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Moderate snow"
 msgstr "Hóesés"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Heavy snow"
 msgstr "Hószakadás"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Shallow snow"
 msgstr "Felszínes hóesés"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Patches of snow"
 msgstr "Helyenként hóesés"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Partial snowfall"
 msgstr "Szórványos hóesés"
 
-#: my-evolution/metar.c:101 my-evolution/metar.c:102
+#: my-evolution/metar.c:102 my-evolution/metar.c:103
 msgid "Snowstorm"
 msgstr "Hóvihar"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Blowing snowfall"
 msgstr "Szeles hóesés"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Snow showers"
 msgstr "Zuhogó hó"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Drifting snow"
 msgstr "Hófúvás"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Freezing snow"
 msgstr "Megfagyott hó"
 
 #. SNOW_GRAINS
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Snow grains"
 msgstr "Havazás"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Snow grains in the vicinity"
 msgstr "Hóesés a környéken"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Light snow grains"
 msgstr "Enyhe havazás"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Moderate snow grains"
 msgstr "Közepes erõsségû havazás"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Heavy snow grains"
 msgstr "Sûrû hóesés"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Shallow snow grains"
 msgstr "Felszínes hódara"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Patches of snow grains"
 msgstr "Helyenként hóesés"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Partial snow grains"
 msgstr "Szórványos havazás"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Blowing snow grains"
 msgstr "Hófúvás"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Snow grain showers"
 msgstr "Hószakadás"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Drifting snow grains"
 msgstr "Hóvihar"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Freezing snow grains"
 msgstr "Fagyos jégesõ"
 
 #. ICE_CRYSTALS
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Ice crystals"
 msgstr "Jég"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Ice crystals in the vicinity"
 msgstr "Jég a közelben"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Few ice crystals"
 msgstr "Kevés jég"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Moderate ice crystals"
 msgstr "Kis mennyiségû jég"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Heavy ice crystals"
 msgstr "Nagy jégdarabok"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Patches of ice crystals"
 msgstr "Jég foltok"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Partial ice crystals"
 msgstr "Részleges jég"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Ice crystal storm"
 msgstr "Jégvihar"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Blowing ice crystals"
 msgstr "Zuhogó jég"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Showers of ice crystals"
 msgstr "Jégzápor"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Drifting ice crystals"
 msgstr "Jégfergeteg"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Freezing ice crystals"
 msgstr "Lefagyott jég"
 
 #. ICE_PELLETS
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Ice pellets"
 msgstr "Jéglabdák"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Ice pellets in the vicinity"
 msgstr "Jéglabdák a közelben"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Few ice pellets"
 msgstr "Kevés jéglabda"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Moderate ice pellets"
 msgstr "Közepes méretû jéglabdák"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Heavy ice pellets"
 msgstr "Nagy jéglabdák"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Shallow ice pellets"
 msgstr "Szórványos jéglabdák"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Patches of ice pellets"
 msgstr "Jéglabda-foltok"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Partial ice pellets"
 msgstr "Részleges jéglabdák"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Ice pellet storm"
 msgstr "Jéggolyó vihar"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Blowing ice pellets"
 msgstr "Csapkodó jéggolyók"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Showers of ice pellets"
 msgstr "Jéggolyó zuhany"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Drifting ice pellets"
 msgstr "Sodródó jéggolyók"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Freezing ice pellets"
 msgstr "Lefagyó jéggolyók"
 
 #. HAIL
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Hail"
 msgstr "Jégesõ"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Hail in the vicinity"
 msgstr "Jégesõ a környéken"
 
-#: my-evolution/metar.c:105 my-evolution/metar.c:106
+#: my-evolution/metar.c:106 my-evolution/metar.c:107
 msgid "Light hail"
 msgstr "Enyhe jégesõ"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Moderate hail"
 msgstr "Közepes erõsségû jégesõ"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Heavy hail"
 msgstr "Erõs jégesõ"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Shallow hail"
 msgstr "Felszínes jégesõ"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Patches of hail"
 msgstr "Helyenként jégesõ"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Partial hail"
 msgstr "Szórványos jégesõ"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Hailstorm"
 msgstr "Viharos jégesõ"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Blowing hail"
 msgstr "Szeles jégesõ"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Hail showers"
 msgstr "Zuhogó jégesõ"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Drifting hail"
 msgstr "Jégesõ szélfúvással"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Freezing hail"
 msgstr "Lefagyott jégesõ"
 
 #. SMALL_HAIL
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Small hail"
 msgstr "Kisszemû jégesõ"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Small hail in the vicinity"
 msgstr "Kisszemû jégesõ a környéken"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Moderate small hail"
 msgstr "Közepes erõsségû kisszemû jégesõ"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Heavy small hail"
 msgstr "Erõs kisszemû jégesõ"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Shallow small hail"
 msgstr "Felszínes kicsi jégesõ"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Patches of small hail"
 msgstr "Helyenként kisszemû jégesõ"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Partial small hail"
 msgstr "Szórványos kisszemû jégesõ"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Small hailstorm"
 msgstr "Viharos kisszemû jégesõ"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Blowing small hail"
 msgstr "Szeles kisszemû jégesõ"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Showers of small hail"
 msgstr "Zuhogó kisszemû jégesõ"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Drifting small hail"
 msgstr "Szeles kisszemû jégesõ"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Freezing small hail"
 msgstr "Kisszemû jégesõ"
 
 #. PRECIPITATION
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Unknown precipitation"
 msgstr "Ismeretlen csapadék"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Precipitation in the vicinity"
 msgstr "Csapadék a környéken"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Light precipitation"
 msgstr "Enyhe csapadék"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Moderate precipitation"
 msgstr "Közepes erõsségû csapadék"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Heavy precipitation"
 msgstr "Erõs csapadék"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Shallow precipitation"
 msgstr "Felszínes csapadék"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Patches of precipitation"
 msgstr "Helyenként csapadék"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Partial precipitation"
 msgstr "Szórványos csapadék"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Unknown thunderstorm"
 msgstr "Ismeretlen zivatar"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Blowing precipitation"
 msgstr "Szeles zivatar"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Showers, type unknown"
 msgstr "Zuhogó csapadék, állaga ismeretlen"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Drifting precipitation"
 msgstr "Viharos csapadék"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Freezing precipitation"
 msgstr "Fagyos csapadék"
 
 #. MIST
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Mist"
 msgstr "Köd"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Mist in the vicinity"
 msgstr "Köd a környéken"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Light mist"
 msgstr "Ritka köd"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Moderate mist"
 msgstr "Közepes sûrûségû köd"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Thick mist"
 msgstr "Sûrû köd"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Shallow mist"
 msgstr "Felszínes köd"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Patches of mist"
 msgstr "Helyenként köd"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Partial mist"
 msgstr "Szórványos köd"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Mist with wind"
 msgstr "Szeles köd"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Drifting mist"
 msgstr "Ködfoltok"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Freezing mist"
 msgstr "Jeges köd"
 
 #. FOG
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Fog"
 msgstr "Köd"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Fog in the vicinity"
 msgstr "Köd a környéken"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Light fog"
 msgstr "Ritka köd"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Moderate fog"
 msgstr "Közepes sûrûségû köd"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Thick fog"
 msgstr "Sûrû köd"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Shallow fog"
 msgstr "Ködfoltok"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Patches of fog"
 msgstr "Helyenként köd"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Partial fog"
 msgstr "Szórványos ködfoltok"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Fog with wind"
 msgstr "Szeles köd"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Drifting fog"
 msgstr "Ködfoltok"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Freezing fog"
 msgstr "Jeges köd"
 
 #. SMOKE
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Smoke"
 msgstr "Füst"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Smoke in the vicinity"
 msgstr "Füst a környéken"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Thin smoke"
 msgstr "Ritka füst"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Moderate smoke"
 msgstr "Közepes sûrûségû füst"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Thick smoke"
 msgstr "Sûrû füst"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Shallow smoke"
 msgstr "Felszíni füst"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Patches of smoke"
 msgstr "Helyenként füst"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Partial smoke"
 msgstr "Szórványosan füst"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Smoke w/ thunders"
 msgstr "Füst villámlással"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Smoke with wind"
 msgstr "Szél és füst"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Drifting smoke"
 msgstr "Füst erõs széllel"
 
 #. VOLCANIC_ASH
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Volcanic ash"
 msgstr "Vulkanikus hamu"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Volcanic ash in the vicinity"
 msgstr "Vulkanikus hamu a környéken"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Moderate volcanic ash"
 msgstr "Közepes sûrûségû vulkanikus hamu"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Thick volcanic ash"
 msgstr "Sûrû vulkanikus hamu"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Shallow volcanic ash"
 msgstr "Felszíni vulkanikus hamu"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Patches of volcanic ash"
 msgstr "Helyenként vulkanikus hamu"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Partial volcanic ash"
 msgstr "Elszórtan vulkanikus hamu"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Volcanic ash w/ thunders"
 msgstr "Vulkanikus hamu, villámlással"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Blowing volcanic ash"
 msgstr "Vulkanikus hamu, viharos szélben"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Showers of volcanic ash "
 msgstr "Szakadó vulkanikus hamu"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Drifting volcanic ash"
 msgstr "Szeles vulkanikus hamu"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Freezing volcanic ash"
 msgstr "Jeges vulkanukis hamu"
 
 #. SAND
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Sand"
 msgstr "Homok"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Sand in the vicinity"
 msgstr "Homok a közelben"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Light sand"
 msgstr "Enyhe homokfúvás"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Moderate sand"
 msgstr "Közepes erõsségû homokfúvás"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Heavy sand"
 msgstr "Erõs homokfúvás"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Patches of sand"
 msgstr "Helyenként homokfúvás"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Partial sand"
 msgstr "Elszórtan homokfúvás"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Blowing sand"
 msgstr "Homokfúvás"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Drifting sand"
 msgstr "Erõs homokfúvás"
 
 #. HAZE
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Haze"
 msgstr "Pára"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Haze in the vicinity"
 msgstr "Pára a környéken"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Light haze"
 msgstr "Enyhén párás"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Moderate haze"
 msgstr "Párás"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Thick haze"
 msgstr "Sûrû pára"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Shallow haze"
 msgstr "Felszíni pára"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Patches of haze"
 msgstr "Helyenként párás"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Partial haze"
 msgstr "Elszórtan párás"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Haze with wind"
 msgstr "Pára széllel"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Drifting haze"
 msgstr "Páraátvonulás"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Freezing haze"
 msgstr "Jeges pára"
 
 #. SPRAY
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Sprays"
 msgstr "Permetek"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Sprays in the vicinity"
 msgstr "Permet a környéken"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Light sprays"
 msgstr "Ritka permet"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Moderate sprays"
 msgstr "Közepes erõsségû permet"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Heavy sprays"
 msgstr "Sûrû permet"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Shallow sprays"
 msgstr "Felszíni permet"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Patches of sprays"
 msgstr "Helyenként permet"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Partial sprays"
 msgstr "Elszórtan permet"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Blowing sprays"
 msgstr "Szeles permet"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Drifting sprays"
 msgstr "Átvonuló permet"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Freezing sprays"
 msgstr "Jeges permet"
 
 #. DUST
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Dust"
 msgstr "Por"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Dust in the vicinity"
 msgstr "Por a környéken"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Light dust"
 msgstr "Ritka por"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Moderate dust"
 msgstr "Közepesen poros"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Heavy dust"
 msgstr "Sûrû por"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Patches of dust"
 msgstr "Helyenként por"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Partial dust"
 msgstr "Elszórtan por"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Blowing dust"
 msgstr "Poros szél"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Drifting dust"
 msgstr "A szél hordja a port"
 
 #. SQUALL
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Squall"
 msgstr "Széllökés"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Squall in the vicinity"
 msgstr "Széllökés a környéken"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Light squall"
 msgstr "Enyhe széllökések"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Moderate squall"
 msgstr "Közepes erejû széllökések"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Heavy squall"
 msgstr "Erõs széllökések"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Partial squall"
 msgstr "Helyenként széllökések"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Thunderous squall"
 msgstr "Viharos széllökés"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Blowing squall"
 msgstr "Viharos széllökés"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Drifting squall"
 msgstr "Viharos széllökés"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Freezing squall"
 msgstr "Jeges széllökések"
 
 #. SANDSTORM
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Sandstorm"
 msgstr "Homokvihar"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Sandstorm in the vicinity"
 msgstr "Homokvihar a környéken"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Light standstorm"
 msgstr "Enyhe homokvihar"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Moderate sandstorm"
 msgstr "Közepes erõsségû homokvihar"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Heavy sandstorm"
 msgstr "Erõteljes homokvihar"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Shallow sandstorm"
 msgstr "Felszíni homokvihar"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Partial sandstorm"
 msgstr "Helyenként hóvihar"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Thunderous sandstorm"
 msgstr "Villámokkal kísért homokvihar"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Blowing sandstorm"
 msgstr "Homokvihar"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Drifting sandstorm"
 msgstr "Átvonuló homokvihar"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Freezing sandstorm"
 msgstr "Jeges homokvihar"
 
 #. DUSTSTORM
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Duststorm"
 msgstr "Porvihar"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Duststorm in the vicinity"
 msgstr "Porvihar a környéken"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Light duststorm"
 msgstr "Enyhe porvihar"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Moderate duststorm"
 msgstr "Közepes erõsségû porvihar"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Heavy duststorm"
 msgstr "Erõs porvihar"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Shallow duststorm"
 msgstr "Felületes porvihar"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Partial duststorm"
 msgstr "Helyenként porvihar"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Thunderous duststorm"
 msgstr "Porvihar villámokkal"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Blowing duststorm"
 msgstr "Porvihar"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Drifting duststorm"
 msgstr "Átvonuló porvihar"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Freezing duststorm"
 msgstr "Jeges porvihar"
 
 #. FUNNEL_CLOUD
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Funnel cloud"
 msgstr "Tölcsérfelhõ"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Funnel cloud in the vicinity"
 msgstr "Tölcsérfelhõ a környéken"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Light funnel cloud"
 msgstr "Világos tölcsérfelhõ"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Moderate funnel cloud"
 msgstr "Mérsékelt tölcsérfelhõ"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Thick funnel cloud"
 msgstr "Gyenge tölcsérfelhõ"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Shallow funnel cloud"
 msgstr "Felszínes tölcsérfelhõ"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Patches of funnel clouds"
 msgstr "Tölcsérfelhõ foltok"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Partial funnel clouds"
 msgstr "Helyenként tölcsérfelhõ"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Funnel cloud w/ wind"
 msgstr "Tölcsérfelhõ széllel"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Drifting funnel cloud"
 msgstr "Mozgó tölcsérfelhõk"
 
 #. TORNADO
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Tornado"
 msgstr "Tornádó"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Tornado in the vicinity"
 msgstr "Tornádó a közelben"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Moderate tornado"
 msgstr "Közepes erõsségû tornádó"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Raging tornado"
 msgstr "Tomboló tronádó"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Partial tornado"
 msgstr "Helyenként tornádó"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Thunderous tornado"
 msgstr "Villámokkal kísért tornádó"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Drifting tornado"
 msgstr "Átvonuló tornádó"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Freezing tornado"
 msgstr "Jeges tornádó"
 
 #. DUST_WHIRLS
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Dust whirls"
 msgstr "Poros forgószél"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Dust whirls in the vicinity"
 msgstr "Poros forgószél a közelben"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Light dust whirls"
 msgstr "Világos poros forgószél"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Moderate dust whirls"
 msgstr "Mérsékelt poros forgószél"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Heavy dust whirls"
 msgstr "Erõs poros forgószél"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Shallow dust whirls"
 msgstr "Felszíni poros forgószél"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Patches of dust whirls"
 msgstr "Poros forgószél foltok"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Partial dust whirls"
 msgstr "Poros forgószél helyenként"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Blowing dust whirls"
 msgstr "Söprõ poros forgószél"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Drifting dust whirls"
 msgstr "Átvonuló poros forgószél"
 
@@ -9263,19 +9302,19 @@ msgstr "Válaszd ki az importálálandó adatok célkönyvtárát"
 msgid "Closing connections..."
 msgstr "Kapcsolatok bezárása..."
 
-#: shell/e-shell-view-menu.c:182
+#: shell/e-shell-view-menu.c:181
 msgid "Bug buddy was not found in your $PATH."
 msgstr "Bug buddy nem található a $PATH-odban."
 
-#: shell/e-shell-view-menu.c:188
+#: shell/e-shell-view-menu.c:189
 msgid "Bug buddy could not be run."
 msgstr "Nem sikerült futtatni a Bug buddy-t."
 
-#: shell/e-shell-view-menu.c:233
+#: shell/e-shell-view-menu.c:217
 msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
 msgstr "Copyright 1999, 2000, 2001 Ximian, Inc."
 
-#: shell/e-shell-view-menu.c:235
+#: shell/e-shell-view-menu.c:219
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -9285,27 +9324,27 @@ msgstr ""
 "levelezéshez, naptár és címjegyzék funkciókkal\n"
 "a GNOME grafikus környezethez."
 
-#: shell/e-shell-view-menu.c:453
+#: shell/e-shell-view-menu.c:437
 msgid "Go to folder..."
 msgstr "Ugrás mappába..."
 
-#: shell/e-shell-view-menu.c:454
+#: shell/e-shell-view-menu.c:438
 msgid "Select the folder that you want to open"
 msgstr "Válaszd ki a megnyitandó mappát"
 
-#: shell/e-shell-view-menu.c:599
+#: shell/e-shell-view-menu.c:583
 msgid "Create a new shortcut"
 msgstr "Új indítóikon létrehozása"
 
-#: shell/e-shell-view-menu.c:600
+#: shell/e-shell-view-menu.c:584
 msgid "Select the folder you want the shortcut to point to:"
 msgstr "Válaszd ki az indítóikon célpontját képezõ mappát:"
 
-#: shell/e-shell-view-menu.c:705
+#: shell/e-shell-view-menu.c:689
 msgid "Work online"
 msgstr "Kapcsolat nélküli munka"
 
-#: shell/e-shell-view-menu.c:717 shell/e-shell-view-menu.c:729
+#: shell/e-shell-view-menu.c:701 shell/e-shell-view-menu.c:713
 msgid "Work offline"
 msgstr "Kapcsolat nélküli munka"
 
@@ -9349,7 +9388,7 @@ msgstr ""
 msgid "Cannot set up local storage -- %s"
 msgstr "Nem sikerült beállítani a helyi tárterületet -- %s"
 
-#: shell/e-shell.c:1308
+#: shell/e-shell.c:1310
 #, c-format
 msgid ""
 "Ooops!  The view for `%s' have died unexpectedly.  :-(\n"
@@ -9914,9 +9953,13 @@ msgstr "_Naptár megnyitása"
 msgid "_Week"
 msgstr "_Hét"
 
-#: ui/evolution-comp-editor.xml.h:1
-msgid "C_lose"
-msgstr "_Bezárás"
+#: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:1
+#: ui/evolution-contact-list-editor.xml.h:1
+#: ui/evolution-mail-messagedisplay.xml.h:1
+#: ui/evolution-message-composer.xml.h:3 ui/evolution-signature-editor.xml.h:1
+#: ui/evolution.xml.h:4
+msgid "Close"
+msgstr "Bezárás"
 
 #: ui/evolution-comp-editor.xml.h:3
 msgid "Close this appointment"
@@ -11376,6 +11419,12 @@ msgstr "init_corba(): nem sikerült a GNOME inicializálása"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
 
+#~ msgid "C_ontacts..."
+#~ msgstr "_Névjegyek..."
+
+#~ msgid "_Company:"
+#~ msgstr "_Vállalat:"
+
 #~ msgid ""
 #~ "Notification about your journal entry starting on %s and ending on %s"
 #~ msgstr ""
@@ -11608,9 +11657,6 @@ msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
 
 #~ msgid "View all contacts"
 #~ msgstr "Az összes névjegy megjelenítése"
-
-#~ msgid "%A, %e %B %Y"
-#~ msgstr "%Y %B %e, %A"
 
 #~ msgid "<b>Error loading calendar:<br>Method not supported"
 #~ msgstr "<b>Hiba a naptár betöltése közben:<br>Nem támogatott metódus"
@@ -12896,9 +12942,6 @@ msgstr "init_bonobo(): a Bonobo inicializálása nem sikerült"
 
 #~ msgid "twelfth"
 #~ msgstr "tizenkettedik"
-
-#~ msgid "ago"
-#~ msgstr "óta"
 
 #~ msgid "Year:"
 #~ msgstr "Év:"
