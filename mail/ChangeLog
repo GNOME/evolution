@@ -8,6 +8,9 @@
 	(drag_data_received_cb): Here too.
 	(drag_data_get_cb): Same.
 	(drag_data_delete_cb): Again here.
+	(tree_store_set_folder_info): Recursively add nodes if fi->child
+	is non-NULL rather than adding a dummy node.
+	(folder_renamed_cb): Implemented.
 
 2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
 

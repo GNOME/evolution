@@ -719,9 +719,7 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 	char *user;
 	char *key;
 	CamelFolder *folder;
-
-	store = store;
-
+	
 	/* This should be more-or-less thread-safe */
 
 	d(printf("Folder renamed to '%s' from '%s'\n", info->new->full_name, info->old_base));

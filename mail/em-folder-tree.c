@@ -891,7 +891,15 @@ tree_store_set_folder_info (GtkTreeStore *model, GtkTreeIter *iter,
 			    COL_BOOL_LOAD_SUBDIRS, load,
 			    -1);
 	
-	if (load) {
+	if (fi->child) {
+		fi = fi->child;
+		
+		do {
+			gtk_tree_store_append (model, &sub, iter);
+			tree_store_set_folder_info ((GtkTreeStore *) model, &sub, priv, si, fi);
+			fi = fi->sibling;
+		} while (fi);
+	} else if (load) {
 		/* create a placeholder node for our subfolders... */
 		gtk_tree_store_append (model, &sub, iter);
 		gtk_tree_store_set (model, &sub,
@@ -1866,7 +1874,65 @@ folder_deleted_cb (CamelStore *store, void *event_data, EMFolderTree *emft)
 static void
 folder_renamed_cb (CamelStore *store, void *event_data, EMFolderTree *emft)
 {
-	/* FIXME: implement me */
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	struct _EMFolderTreeModelStoreInfo *si;
+	CamelRenameInfo *info = event_data;
+	GtkTreeRowReference *row;
+	GtkTreeIter root, iter;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	char *parent, *p;
+	
+	if (!(si = g_hash_table_lookup (priv->model->store_hash, store)))
+		return;
+	
+	parent = g_strdup_printf ("/%s", info->old_base);
+	if (!(row = g_hash_table_lookup (si->path_hash, parent))) {
+		g_free (parent);
+		return;
+	}
+	g_free (parent);
+	
+	path = gtk_tree_row_reference_get_path (row);
+	model = gtk_tree_view_get_model (emft->priv->treeview);
+	if (!(gtk_tree_model_get_iter (model, &iter, path))) {
+		gtk_tree_path_free (path);
+		return;
+	}
+	
+	remove_folders (emft, model, si, &iter);
+	
+	parent = g_strdup (info->new->path);
+	if ((p = strrchr (parent + 1, '/')))
+		*p = '\0';
+	
+	if (!strcmp (parent, "/")) {
+		/* renamed to a toplevel folder on the store */
+		path = gtk_tree_row_reference_get_path (si->row);
+	} else {
+		if (!(row = g_hash_table_lookup (si->path_hash, parent))) {
+			/* NOTE: this should never happen, but I
+			 * suppose if it does in reality, we can add
+			 * code here to add the missing nodes to the
+			 * tree */
+			g_assert_not_reached ();
+			g_free (parent);
+			return;
+		}
+		
+		path = gtk_tree_row_reference_get_path (row);
+	}
+	
+	g_free (parent);
+	
+	if (!gtk_tree_model_get_iter (model, &root, path)) {
+		gtk_tree_path_free (path);
+		g_assert_not_reached ();
+		return;
+	}
+	
+	gtk_tree_store_append ((GtkTreeStore *) model, &iter, &root);
+	tree_store_set_folder_info ((GtkTreeStore *) model, &iter, priv, si, info->new);
 }
 
 
