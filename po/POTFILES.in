@@ -271,7 +271,7 @@ mail/mail-search.c
 mail/mail-send-recv.c
 mail/mail-session.c
 mail/mail-signature-editor.c
-mail/mail-summary.c
+#mail/mail-summary.c
 mail/mail-tools.c
 mail/mail-vfolder.c
 mail/message-browser.c
