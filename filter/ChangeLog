@@ -1,3 +1,8 @@
+2000-06-15  Dan Winship  <danw@helixcode.com>
+
+	* filter-driver.c (open_folder, close_folder): Update for
+	CamelFolder changes.
+
 2000-06-09  Jacob Berkman  <jacob@helixcode.com>
 
 	* filter-editor.c (add_or_edit): use stock pixmap buttons

@@ -480,13 +480,6 @@ open_folder(FilterDriver *d, const char *folder_url)
 		goto fail;
 	}
 
-	camel_folder_open(camelfolder, FOLDER_OPEN_RW, p->ex);
-
-	if (camel_exception_get_id (p->ex)) {
-		printf ("Could not open folder: %s: %s", folder, camel_exception_get_description (p->ex));
-		goto fail;
-	}
-
 	printf("opening folder: %s\n", folder_url);
 
 	g_free(store);
@@ -510,7 +503,7 @@ close_folder(void *key, void *value, void *data)
 	printf("closing folder: %s\n", key);
 
 	g_free(key);
-	camel_folder_close(f, TRUE, p->ex);
+	camel_folder_sync(f, FALSE, p->ex);
 	gtk_object_unref((GtkObject *)f);
 }
 
