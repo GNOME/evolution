@@ -1186,6 +1186,48 @@ void camel_folder_summary_remove_index(CamelFolderSummary *s, int index)
 	}
 }
 
+/**
+ * camel_folder_summary_remove_range:
+ * @s: 
+ * @start: initial index
+ * @end: last index to remove
+ * 
+ * Removes an indexed range of info records.
+ **/
+void camel_folder_summary_remove_range(CamelFolderSummary *s, int start, int end)
+{
+	if (end <= start+1)
+		return;
+
+	CAMEL_SUMMARY_LOCK(s, summary_lock);
+	if (start < s->messages->len) {
+		CamelMessageInfo **infos;
+		int i;
+
+		end = MIN(end+1, s->messages->len);
+		infos = g_malloc((end-start)*sizeof(infos[0]));
+
+		for (i=start;i<end;i++) {
+			CamelMessageInfo *info = s->messages->pdata[i];
+
+			infos[i-start] = info;
+			g_hash_table_remove(s->messages_uid, camel_message_info_uid(info));
+		}
+
+		memmove(s->messages->pdata+start, s->messages->pdata+end, (s->messages->len-end)*sizeof(s->messages->pdata[0]));
+		g_ptr_array_set_size(s->messages, s->messages->len - (end - start));
+		s->flags |= CAMEL_SUMMARY_DIRTY;
+
+		CAMEL_SUMMARY_UNLOCK(s, summary_lock);
+
+		for (i=start;i<end;i++)
+			camel_folder_summary_info_free(s, infos[i-start]);
+		g_free(infos);
+	} else {
+		CAMEL_SUMMARY_UNLOCK(s, summary_lock);
+	}
+}
+
 /* should be sorted, for binary search */
 /* This is a tokenisation mechanism for strings written to the
    summary - to save space.

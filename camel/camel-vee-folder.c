@@ -896,7 +896,7 @@ vee_folder_add_uid(CamelVeeFolder *vf, CamelFolder *f, const char *inuid, const 
 static void
 vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *source, int killun)
 {
-	int i, count, n, still;
+	int i, count, n, still, start, last;
 	char *oldkey;
 	CamelFolder *folder = (CamelFolder *)vf;
 	char hash[8];
@@ -921,21 +921,34 @@ vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *source, int killun)
 
 	/* See if we just blow all uid's from this folder away from unmatched, regardless */
 	if (killun) {
+		start = -1;
+		last = -1;
 		count = camel_folder_summary_count(((CamelFolder *)folder_unmatched)->summary);
 		for (i=0;i<count;i++) {
 			CamelVeeMessageInfo *mi = (CamelVeeMessageInfo *)camel_folder_summary_index(((CamelFolder *)folder_unmatched)->summary, i);
 			
 			if (mi) {
 				if (mi->folder == source) {
-					camel_folder_summary_remove_index(((CamelFolder *)folder_unmatched)->summary, i);
 					camel_folder_change_info_remove_uid(folder_unmatched->changes, camel_message_info_uid(mi));
-					i--;
+					if (last == -1) {
+						last = start = i;
+					} else if (last+1 == i) {
+						last = i;
+					} else {
+						camel_folder_summary_remove_range(((CamelFolder *)folder_unmatched)->summary, start, last);
+						i -= (last-start)+1;
+						start = last = i;
+					}
 				}
 				camel_folder_summary_info_free(((CamelFolder *)folder_unmatched)->summary, (CamelMessageInfo *)mi);
 			}
 		}
+		if (last != -1)
+			camel_folder_summary_remove_range(((CamelFolder *)folder_unmatched)->summary, start, last);
 	}
 
+	start = -1;
+	last = -1;
 	count = camel_folder_summary_count(folder->summary);
 	for (i=0;i<count;i++) {
 		CamelVeeMessageInfo *mi = (CamelVeeMessageInfo *)camel_folder_summary_index(folder->summary, i);
@@ -944,8 +957,16 @@ vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *source, int killun)
 				const char *uid = camel_message_info_uid(mi);
 
 				camel_folder_change_info_remove_uid(vf->changes, uid);
-				camel_folder_summary_remove_index(folder->summary, i);
-				i--;
+
+				if (last == -1) {
+					last = start = i;
+				} else if (last+1 == i) {
+					last = i;
+				} else {
+					camel_folder_summary_remove_range(folder->summary, start, last);
+					i -= (last-start)+1;
+					start = last = i;
+				}
 				if ((vf->flags & CAMEL_STORE_FOLDER_PRIVATE) == 0) {
 					if (still) {
 						if (g_hash_table_lookup_extended(unmatched_uids, uid, (void **)&oldkey, (void **)&n)) {
@@ -969,6 +990,9 @@ vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *source, int killun)
 			camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
 		}
 	}
+
+	if (last != -1)
+		camel_folder_summary_remove_range(folder->summary, start, last);
 
 	if (camel_folder_change_info_changed(folder_unmatched->changes)) {
 		unmatched_changes = folder_unmatched->changes;
@@ -1051,7 +1075,7 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 	GHashTable *allhash, *matchhash;
 	CamelFolder *f = source;
 	CamelFolder *folder = (CamelFolder *)vf;
-	int i, n, count;
+	int i, n, count, start, last;
 	struct _update_data u;
 	CamelFolderChangeInfo *vf_changes = NULL, *unmatched_changes = NULL;
 
@@ -1088,6 +1112,8 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 	CAMEL_VEE_FOLDER_LOCK(folder_unmatched, summary_lock);
 
 	/* scan, looking for "old" uid's to be removed */
+	start = -1;
+	last = -1;
 	count = camel_folder_summary_count(folder->summary);
 	for (i=0;i<count;i++) {
 		CamelVeeMessageInfo *mi = (CamelVeeMessageInfo *)camel_folder_summary_index(folder->summary, i);
@@ -1097,9 +1123,16 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 				char *uid = (char *)camel_message_info_uid(mi), *oldkey;
 
 				if (g_hash_table_lookup(matchhash, uid+8) == NULL) {
-					camel_folder_summary_remove_index(folder->summary, i);
+					if (last == -1) {
+						last = start = i;
+					} else if (last+1 == i) {
+						last = i;
+					} else {
+						camel_folder_summary_remove_range(folder->summary, start, last);
+						i -= (last-start)+1;
+						start = last = i;
+					}
 					camel_folder_change_info_remove_uid(vf->changes, camel_message_info_uid(mi));
-					i--;
 					if (!CAMEL_IS_VEE_FOLDER(source)
 					    && g_hash_table_lookup_extended(unmatched_uids, uid, (void **)&oldkey, (void **)&n)) {
 						if (n == 1) {
@@ -1116,6 +1149,8 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 			camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
 		}
 	}
+	if (last != -1)
+		camel_folder_summary_remove_range(folder->summary, start, last);
 
 	/* now matchhash contains any new uid's, add them, etc */
 	g_hash_table_foreach(matchhash, (GHFunc)folder_added_uid, &u);

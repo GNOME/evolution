@@ -1,3 +1,14 @@
+2003-06-17  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (vee_folder_remove_folder): Calculate ranges
+	to remove folder info's more efficiently.  affects shutdown
+	performance on big vfolders signifinantly.
+	(vee_folder_build_folder): do the same here, when rebuilding a
+	folder's definition.
+
+	* camel-folder-summary.c (camel_folder_summary_remove_index): new
+	function to drop a range of index entries in one hit.
+
 2003-06-16  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #44322
