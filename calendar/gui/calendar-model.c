@@ -633,9 +633,12 @@ typedef enum {
 static CalendarModelDueStatus
 get_due_status (CalendarModel *model, CalComponent *comp)
 {
+	CalendarModelPrivate *priv;
 	CalComponentDateTime dt;
 	CalendarModelDueStatus retval;
 
+	priv = model->priv;
+	
 	cal_component_get_due (comp, &dt);
 
 	/* First, do we have a due date? */
@@ -659,7 +662,7 @@ get_due_status (CalendarModel *model, CalComponent *comp)
 		if (dt.value->is_date) {
 			int cmp;
 			
-			now_tt = icaltime_today ();
+			now_tt = icaltime_current_time_with_zone (priv->zone);
 			cmp = icaltime_compare_date_only (*dt.value, now_tt);
 			
 			if (cmp < 0)
