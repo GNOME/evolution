@@ -33,6 +33,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #41760 - Alarm dialog does not reappear after snoozing Exchange alarm (Rodrigo)
     #41579 - Double clicked on meeting in Exchange calendar, Evo crashed (Rodrigo)
     #40972 - connector crashed while evolution was idle (Rodrigo)
+    #42220 - calendar not refreshing correctly after changing meeting times (Rodrigo)
 
 Other bugs:
 
