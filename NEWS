@@ -9,6 +9,9 @@ Mail:
 
 Addressbook:
 
+  - Miscellaneous bug fixes (Trow, Chris Toshok, Chris Lahey, Ettore
+    Perazzoli, Iain Holmes, Zbigniew Chyla, Jacob Berkman)
+
   - Fixed race conditions associated with adding/removing contacts.
     The addressbook should be much more stable now. (Trow)
 
@@ -22,11 +25,25 @@ Addressbook:
   - Name completion now works with one-word names, so it is now much
     easier to send mail to Cher. (Trow)
 
-  - Better handling of contact lists in the composer entries. (Trow, Toshok)
+  - Better handling of contact lists in the composer entries. (Trow, Chris Toshok)
 
   - i18n fixes.  (Zbigniew, Trow, and probably everybody else too)
 
   - SelectNames dialog fixes. (Trow)
+
+  - Better handling of contact lists in the pilot conduits. (JP)
+
+  - Added Free busy URL and Calendar URI info to contact editor and ECard. (JP)
+
+  - Made it so you can select uneditable text in Contact Editor. (Chris Toshok)
+
+  - Worked on LDAP dialog. (Chris Toshok)
+
+  - General LDAP work. (Chris Toshok)
+
+  - Fixed charset handling within VCard handling. (Chris Lahey)
+
+  - Reworked Drag & Drop for card view.
 
 Calendar & Tasks:
 
