@@ -69,6 +69,7 @@ struct _ECanvasVboxClass
 
 	/* Virtual methods. */
 	void (* add_item) (ECanvasVbox *CanvasVbox, GnomeCanvasItem *item);
+	void (* add_item_start) (ECanvasVbox *CanvasVbox, GnomeCanvasItem *item);
 };
 
 /* 
@@ -78,6 +79,7 @@ struct _ECanvasVboxClass
  * changes.
  */
 void       e_canvas_vbox_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item);
+void       e_canvas_vbox_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item);
 GtkType    e_canvas_vbox_get_type (void);
 
 #ifdef __cplusplus

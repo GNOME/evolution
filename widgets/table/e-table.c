@@ -595,7 +595,12 @@ et_build_groups (ETable *et)
 				       et->model,
 				       et->sort_info,
 				       0);
-	e_canvas_vbox_add_item(E_CANVAS_VBOX(et->canvas_vbox), GNOME_CANVAS_ITEM(et->group));
+	
+	if (et->use_click_to_add_end)
+		e_canvas_vbox_add_item_start(E_CANVAS_VBOX(et->canvas_vbox), GNOME_CANVAS_ITEM(et->group));
+	else
+		e_canvas_vbox_add_item(E_CANVAS_VBOX(et->canvas_vbox), GNOME_CANVAS_ITEM(et->group));
+
 	gnome_canvas_item_set(GNOME_CANVAS_ITEM(et->group),
 			      "alternating_row_colors", et->alternating_row_colors,
 			      "horizontal_draw_grid", et->horizontal_draw_grid,
@@ -760,6 +765,8 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		"spacing", 10.0,
 		NULL);
 
+	et_build_groups(e_table);
+
 	if (e_table->use_click_to_add) {
 		e_table->click_to_add = gnome_canvas_item_new (
 			GNOME_CANVAS_GROUP(e_table->canvas_vbox),
@@ -769,15 +776,19 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 			"message", e_table->click_to_add_message,
 			NULL);
 
-		e_canvas_vbox_add_item (
-			E_CANVAS_VBOX(e_table->canvas_vbox),
-			e_table->click_to_add);
+		if (e_table->use_click_to_add_end)
+			e_canvas_vbox_add_item (
+				E_CANVAS_VBOX(e_table->canvas_vbox),
+				e_table->click_to_add);
+		else
+			e_canvas_vbox_add_item_start (
+				E_CANVAS_VBOX(e_table->canvas_vbox),
+				e_table->click_to_add);
+
 		gtk_signal_connect (
 			GTK_OBJECT (e_table->click_to_add), "cursor_change",
 			GTK_SIGNAL_FUNC(click_to_add_cursor_change), e_table);
 	}
-
-	et_build_groups(e_table);
 }
 
 static void
@@ -974,6 +985,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		ete = e_table_extras_new();
 
 	e_table->use_click_to_add = specification->click_to_add;
+	e_table->use_click_to_add_end = specification->click_to_add_end;
 	e_table->click_to_add_message = e_utf8_from_locale_string (gettext (specification->click_to_add_message));
 	e_table->alternating_row_colors = specification->alternating_row_colors;
 	e_table->horizontal_draw_grid = specification->horizontal_draw_grid;

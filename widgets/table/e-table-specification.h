@@ -28,6 +28,7 @@ typedef struct {
 	guint alternating_row_colors : 1;
 	guint no_headers : 1;
 	guint click_to_add : 1;
+	guint click_to_add_end : 1;
 	guint horizontal_draw_grid : 1;
 	guint vertical_draw_grid : 1;
 	guint draw_focus : 1;

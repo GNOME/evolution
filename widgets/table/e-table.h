@@ -89,6 +89,7 @@ typedef struct {
 	char *click_to_add_message;
 	GnomeCanvasItem *click_to_add;
 	gboolean use_click_to_add;
+	gboolean use_click_to_add_end;
 
 	ECursorMode cursor_mode;
 

@@ -41,6 +41,7 @@ static void e_canvas_vbox_realize (GnomeCanvasItem *item);
 static void e_canvas_vbox_reflow (GnomeCanvasItem *item, int flags);
 
 static void e_canvas_vbox_real_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item);
+static void e_canvas_vbox_real_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item);
 static void e_canvas_vbox_resize_children (GnomeCanvasItem *item);
 
 static GnomeCanvasGroupClass *parent_class = NULL;
@@ -100,6 +101,7 @@ e_canvas_vbox_class_init (ECanvasVboxClass *klass)
 				 GTK_ARG_READWRITE, ARG_SPACING);
 
 	klass->add_item       = e_canvas_vbox_real_add_item;
+	klass->add_item_start = e_canvas_vbox_real_add_item_start;
  
 	object_class->set_arg   = e_canvas_vbox_set_arg;
 	object_class->get_arg   = e_canvas_vbox_get_arg;
@@ -265,6 +267,21 @@ e_canvas_vbox_real_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 	}
 }
 
+
+static void
+e_canvas_vbox_real_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
+{
+	e_canvas_vbox->items = g_list_prepend(e_canvas_vbox->items, item);
+	gtk_signal_connect(GTK_OBJECT(item), "destroy",
+			   GTK_SIGNAL_FUNC(e_canvas_vbox_remove_item), e_canvas_vbox);
+	if ( GTK_OBJECT_FLAGS( e_canvas_vbox ) & GNOME_CANVAS_ITEM_REALIZED ) {
+		gnome_canvas_item_set(item,
+				      "width", (double) e_canvas_vbox->minimum_width,
+				      NULL);
+		e_canvas_item_request_reflow(item);
+	}
+}
+
 static void
 e_canvas_vbox_resize_children (GnomeCanvasItem *item)
 {
@@ -348,3 +365,11 @@ e_canvas_vbox_add_item(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 	if (E_CANVAS_VBOX_CLASS(GTK_OBJECT(e_canvas_vbox)->klass)->add_item)
 		(E_CANVAS_VBOX_CLASS(GTK_OBJECT(e_canvas_vbox)->klass)->add_item) (e_canvas_vbox, item);
 }
+
+void
+e_canvas_vbox_add_item_start(ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
+{
+	if (E_CANVAS_VBOX_CLASS(GTK_OBJECT(e_canvas_vbox)->klass)->add_item_start)
+		(E_CANVAS_VBOX_CLASS(GTK_OBJECT(e_canvas_vbox)->klass)->add_item_start) (e_canvas_vbox, item);
+}
+	

@@ -65,6 +65,7 @@ etsp_init (ETableSpecification *etsp)
 	etsp->alternating_row_colors = TRUE;
 	etsp->no_headers             = FALSE;
 	etsp->click_to_add           = FALSE;
+	etsp->click_to_add_end       = FALSE;
 	etsp->horizontal_draw_grid   = FALSE;
 	etsp->vertical_draw_grid     = FALSE;
 	etsp->draw_focus             = TRUE;
@@ -165,6 +166,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 
 	specification->no_headers = e_xml_get_bool_prop_by_name (node, "no-headers");
 	specification->click_to_add = e_xml_get_bool_prop_by_name (node, "click-to-add");
+	specification->click_to_add_end = e_xml_get_bool_prop_by_name (node, "click-to-add-end") && specification->click_to_add;
 	specification->alternating_row_colors = e_xml_get_bool_prop_by_name_with_default (node, "alternating-row-colors", TRUE);
 	specification->horizontal_draw_grid = e_xml_get_bool_prop_by_name (node, "horizontal-draw-grid");
 	specification->vertical_draw_grid = e_xml_get_bool_prop_by_name (node, "vertical-draw-grid");
@@ -311,6 +313,7 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	node = xmlNewNode (NULL, "ETableSpecification");
 	e_xml_set_bool_prop_by_name (node, "no-headers", specification->no_headers);
 	e_xml_set_bool_prop_by_name (node, "click-to-add", specification->click_to_add);
+	e_xml_set_bool_prop_by_name (node, "click-to-add-end", specification->click_to_add_end && specification->click_to_add);
 	e_xml_set_bool_prop_by_name (node, "alternating-row-colors", specification->alternating_row_colors);
 	e_xml_set_bool_prop_by_name (node, "horizontal-draw-grid", specification->horizontal_draw_grid);
 	e_xml_set_bool_prop_by_name (node, "vertical-draw-grid", specification->vertical_draw_grid);
