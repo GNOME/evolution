@@ -1,5 +1,9 @@
 2001-10-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (mail_generate_reply): No longer need to pass a
+	settext argument.
+	(do_forward_non_attached): Same.
+
 	* mail-format.c (mail_get_message_body): Fix to not always return
 	NULL for html parts, doh!.
 
