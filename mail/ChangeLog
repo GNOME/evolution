@@ -1,3 +1,7 @@
+2003-04-29  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (write_xmailer_header): Remove preceding whitespace
+
 2003-04-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-session.c (mail_session_forget_passwords): Forget all

@@ -953,6 +953,8 @@ write_xmailer_header (CamelMimeMessage *message, MailDisplay *md,
 		if (!xmailer)
 			return FALSE;
 	}
+	while (isspace ((unsigned char)*xmailer))
+		xmailer++;
 	
 	evolution = strstr (xmailer, "Evolution");
 	if ((xmask & MAIL_CONFIG_XMAILER_OTHER) ||
