@@ -1102,7 +1102,9 @@ addressbook_add_server_dialog (void)
 			  G_CALLBACK (source_group_changed_cb), sdialog);
 
 	setup_general_tab (sdialog, add_folder_modify);
+#ifdef HAVE_LDAP
 	setup_searching_tab (sdialog, add_folder_modify);
+#endif
 	setup_connecting_tab (sdialog, add_folder_modify);
 
 	sdialog->auth_frame = glade_xml_get_widget (sdialog->gui, "authentication-frame");
