@@ -1,5 +1,8 @@
 2001-10-26  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/e-address-popup.c (e_address_popup_destroy):
+	Cancel any pending queries.
+
 	* gui/contact-editor/e-contact-editor.c (close_dialog): Don't
 	assert, but check if ce->app != NULL, since this function can
 	(apparently) get called multiple times.

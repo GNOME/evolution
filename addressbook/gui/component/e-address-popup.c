@@ -687,6 +687,12 @@ e_address_popup_destroy (GtkObject *obj)
 	if (pop->scheduled_refresh)
 		gtk_idle_remove (pop->scheduled_refresh);
 
+	if (pop->query_tag)
+		e_book_simple_query_cancel (pop->book, pop->query_tag);
+
+	if (pop->book)
+		gtk_object_unref (GTK_OBJECT (pop->book));
+
 	g_free (pop->name);
 	g_free (pop->email);
 
@@ -1095,6 +1101,12 @@ start_query (EBook *book, gpointer closure)
 	if (pop->query_tag)
 		e_book_simple_query_cancel (book, pop->query_tag);
 
+	if (pop->book != book) {
+		gtk_object_ref (GTK_OBJECT (book));
+		gtk_object_unref (GTK_OBJECT (pop->book));
+		pop->book = book;
+	}
+		
 	pop->query_tag = e_book_name_and_email_query (book, pop->name, pop->email, query_cb, pop);
 }
 
