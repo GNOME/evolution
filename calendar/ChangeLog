@@ -1,3 +1,9 @@
+2001-10-29  Rodrigo Moya <rodrigo@ximian.com>
+
+	* importers/icalendar-importer.c (load_file_fn): fixed URI
+	construction, which was preventing importing into the root
+	calendar (~/evo/local/Calendar/)
+
 2001-10-29  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (is_all_day): handle date

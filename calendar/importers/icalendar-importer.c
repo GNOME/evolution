@@ -120,9 +120,12 @@ load_file_fn (EvolutionImporter *importer,
 		char *parent;
 
 		name = strrchr (folderpath, '/');
-		if (!name) {
+		if (name == NULL || name == folderpath) {
 			parent = g_strdup ("evolution/local/");
-			name = folderpath;
+			if (folderpath[0] == '/')
+				name = folderpath + 1;
+			else
+				name = folderpath;
 		}
 		else {
 			name += 1;
