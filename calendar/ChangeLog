@@ -1,3 +1,51 @@
+1998-09-29  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* prop.c (fetch_color_spec): Changed name from fetch_prelight_spec
+	and made it conform to the new prelighting mechanism.
+	(fake_mark_days): Set the proper day attributes.
+	(reconfigure_month): Use colorify_month_item().
+	(fake_mark_days): Use mark_month_item_index().
+
+	* mark.c (colorify_month_item): New public function to reset the
+	colors in a month item.
+	(get_attributes): New internal function that creates an array of
+	attributes for the days in a month item.  This is the basis of all
+	the new optimizations to month item marking.
+	(unmark_month_item): Now it uses the attributes array to unmark
+	only the days that need unmarking.
+	(mark_event_in_month): Update the day attributes array.
+	(month_item_prepare_prelight): Changed the definition of the
+	prelight color query function.  Use the new function.
+	(day_event): Do color changes based on the day attributes array.
+	(mark_month_item_index): New public function to mark a single day
+	by index.
+	(mark_event_in_month): Use mark_month_item_index().
+
+	* gnome-month-item.c (gnome_month_item_num2child): Now takes an
+	int, not a GnomeMonthItemChild.
+	(gnome_month_item_child2num): Now returns an int, not a
+	GnomeMonthItemChild.
+	(gnome_month_item_num2day): Now takes an int, not a
+	GnomeMonthItemChild.
+
+	* goto.c (goto_dialog): Create the days before the year spin
+	button, because the year_changed callback expects the month item
+	to be created.  The new semantics of the spin button cause it to
+	emit a value_changed signal on the adjustment upon creation -- is
+	this the behavior we want from it?
+	(goto_dialog): Use gtk_window_set_modal() instead of the
+	deprectaed gnome_dialog_set_modal().
+
+	* quick-view.c (quick_view_new): Make it look not as crappy by
+	putting the title inside the frame.
+	(quick_view_do_popup): Fixed the pointer grab and added a cursor.
+	(create_items_for_event): Query the text width/height from the
+	text item using the new object arguments, so that the size of the
+	popup window can be set properly.
+
+	* year-view.c (do_quick_view_popup): Calculate a nice date string
+	for the popup window.
+
 1998-09-28  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* quick-view.[ch]: New file that presents a quick view of the

@@ -1061,7 +1061,7 @@ gnome_month_item_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 }
 
 GnomeCanvasItem *
-gnome_month_item_num2child (GnomeMonthItem *mitem, GnomeMonthItemChild child_num)
+gnome_month_item_num2child (GnomeMonthItem *mitem, int child_num)
 {
 	g_return_val_if_fail (mitem != NULL, NULL);
 	g_return_val_if_fail (GNOME_IS_MONTH_ITEM (mitem), NULL);
@@ -1069,7 +1069,7 @@ gnome_month_item_num2child (GnomeMonthItem *mitem, GnomeMonthItemChild child_num
 	return mitem->items[child_num];
 }
 
-GnomeMonthItemChild
+int
 gnome_month_item_child2num (GnomeMonthItem *mitem, GnomeCanvasItem *child)
 {
 	int i;
@@ -1087,7 +1087,7 @@ gnome_month_item_child2num (GnomeMonthItem *mitem, GnomeCanvasItem *child)
 }
 
 int
-gnome_month_item_num2day (GnomeMonthItem *mitem, GnomeMonthItemChild child_num)
+gnome_month_item_num2day (GnomeMonthItem *mitem, int child_num)
 {
 	g_return_val_if_fail (mitem != NULL, 0);
 	g_return_val_if_fail (GNOME_IS_MONTH_ITEM (mitem), 0);

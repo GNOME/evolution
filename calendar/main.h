@@ -10,7 +10,7 @@ extern int week_starts_on_monday;
 
 /* This enum and the following array define the color preferences */
 
-enum {
+typedef enum {
 	COLOR_PROP_OUTLINE_COLOR,	/* Color of calendar outline */
 	COLOR_PROP_HEADING_COLOR,	/* Color for headings */
 	COLOR_PROP_EMPTY_DAY_BG,	/* Background color for empty days */
@@ -19,7 +19,7 @@ enum {
 	COLOR_PROP_DAY_FG,		/* Color for day numbers */
 	COLOR_PROP_CURRENT_DAY_FG,	/* Color for current day's number */
 	COLOR_PROP_LAST			/* Number of color properties */
-};
+} ColorProp;
 
 struct color_prop {
 	int r;		/* Values are in [0, 65535] */
@@ -54,7 +54,7 @@ char *build_color_spec (int r, int g, int b);
 void parse_color_spec (char *spec, int *r, int *g, int *b);
 
 /* Calls build_color_spec() for the color in the specified property number */
-char *color_spec_from_prop (int propnum);
+char *color_spec_from_prop (ColorProp propnum);
 
 
 #endif

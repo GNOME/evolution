@@ -313,13 +313,15 @@ do_quick_view_popup (YearView *yv, GdkEventButton *event, int year, int month, i
 	time_t day_start, day_end;
 	GList *list;
 	GtkWidget *qv;
+	char date_str[256];
 
 	day_start = time_from_day (year, month, day);
 	day_end = time_end_of_day (day_start);
 
 	list = calendar_get_events_in_range (yv->calendar->cal, day_start, day_end);
 
-	qv = quick_view_new (yv->calendar, "Put the date here", list);
+	strftime (date_str, sizeof (date_str), "%a %b %d %Y", localtime (&day_start));
+	qv = quick_view_new (yv->calendar, date_str, list);
 
 	quick_view_do_popup (QUICK_VIEW (qv), event);
 
@@ -425,6 +427,10 @@ setup_month_item (YearView *yv, int n)
 	gtk_signal_connect (GTK_OBJECT (mitem), "event",
 			    (GtkSignalFunc) month_event,
 			    NULL);
+
+	/* Prepare for prelighting */
+
+	month_item_prepare_prelight (GNOME_MONTH_ITEM (mitem), default_color_func, NULL);
 }
 
 static void
@@ -507,6 +513,7 @@ year_view_new (GnomeCalendar *calendar, time_t year)
 	yv = gtk_type_new (year_view_get_type ());
 	yv->calendar = calendar;
 
+	year_view_colors_changed (yv);
 	year_view_set (yv, year);
 	return GTK_WIDGET (yv);
 }
@@ -591,7 +598,10 @@ year_view_set (YearView *yv, time_t year)
 
 	/* Unmark and re-mark all the months */
 
-	year_view_colors_changed (yv);
+	for (i = 0; i < 12; i++) {
+		unmark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]));
+		mark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), yv->calendar->cal);
+	}
 }
 
 void
@@ -618,9 +628,9 @@ year_view_colors_changed (YearView *yv)
 	g_return_if_fail (yv != NULL);
 	g_return_if_fail (IS_YEAR_VIEW (yv));
 
+
 	for (i = 0; i < 12; i++) {
-		unmark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]));
+		colorify_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), default_color_func, NULL);
 		mark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), yv->calendar->cal);
-		month_item_prepare_prelight (GNOME_MONTH_ITEM (yv->mitems[i]), default_prelight_func, NULL);
 	}
 }

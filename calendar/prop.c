@@ -345,11 +345,11 @@ color_spec_from_picker (int num)
 	return build_color_spec (r, g, b);
 }
 
-/* Callback used to query prelight color information for the properties box */
+/* Callback used to query color information for the properties box */
 static char *
-fetch_prelight_spec (gpointer data)
+fetch_color_spec (ColorProp propnum, gpointer data)
 {
-	return color_spec_from_picker (COLOR_PROP_PRELIGHT_DAY_BG);
+	return color_spec_from_picker (propnum);
 }
 
 /* Marks fake event days in the month item sample */
@@ -357,17 +357,14 @@ static void
 fake_mark_days (void)
 {
 	static int day_nums[] = { 1, 4, 8, 16, 17, 18, 20, 25, 28 }; /* some random days */
-	int day_index;
+	int first_day_index;
 	int i;
-	GnomeCanvasItem *item;
 
-	for (i = 0; i < (sizeof (day_nums) / sizeof (day_nums[0])); i++) {
-		day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (month_item), day_nums[i]);
-		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (month_item), GNOME_MONTH_ITEM_DAY_BOX + day_index);
-		gnome_canvas_item_set (item,
-				       "fill_color", color_spec_from_picker (COLOR_PROP_MARK_DAY_BG),
-				       NULL);
-	}
+	first_day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (month_item), 1);
+
+	for (i = 0; i < (sizeof (day_nums) / sizeof (day_nums[0])); i++)
+		mark_month_item_index (GNOME_MONTH_ITEM (month_item), first_day_index + day_nums[i] - 1,
+				       fetch_color_spec, NULL);
 }
 
 /* Switches the month item to the current date and highlights the current day's number */
@@ -399,40 +396,24 @@ set_current_day (void)
 			       NULL);
 }
 
+/* This is the version of a color spec query function that is appropriate for the preferences dialog */
+static char *
+prop_color_func (ColorProp propnum, gpointer data)
+{
+	return color_spec_from_picker (propnum);
+}
+
 /* Sets the colors of the month item to the current prerences */
 static void
 reconfigure_month (void)
 {
-	/* We have to do this in two calls to gnome_canvas_item_set(), as color_spec_from_picker()
-	 * returns a pointer to a static string -- and we need two values.
-	 */
-
-	gnome_canvas_item_set (month_item,
-			       "heading_color", color_spec_from_picker (COLOR_PROP_HEADING_COLOR),
-			       NULL);
-
-	gnome_canvas_item_set (month_item,
-			       "outline_color", color_spec_from_picker (COLOR_PROP_OUTLINE_COLOR),
-			       NULL);
-
-	gnome_canvas_item_set (month_item,
-			       "day_box_color", color_spec_from_picker (COLOR_PROP_EMPTY_DAY_BG),
-			       NULL);
-
-	gnome_canvas_item_set (month_item,
-			       "day_color", color_spec_from_picker (COLOR_PROP_DAY_FG),
-			       NULL);
-
-	gnome_canvas_item_set (month_item,
-			       "day_font", NORMAL_DAY_FONT,
-			       NULL);
-
+	colorify_month_item (GNOME_MONTH_ITEM (month_item), prop_color_func, NULL);
 	fake_mark_days ();
 	set_current_day ();
 
 	/* Reset prelighting information */
 
-	month_item_prepare_prelight (GNOME_MONTH_ITEM (month_item), fetch_prelight_spec, NULL);
+	month_item_prepare_prelight (GNOME_MONTH_ITEM (month_item), fetch_color_spec, NULL);
 }
 
 /* Callback used when a color is changed */
@@ -560,7 +541,7 @@ parse_color_spec (char *spec, int *r, int *g, int *b)
 }
 
 char *
-color_spec_from_prop (int propnum)
+color_spec_from_prop (ColorProp propnum)
 {
 	return build_color_spec (color_props[propnum].r, color_props[propnum].g, color_props[propnum].b);
 }

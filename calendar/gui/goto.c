@@ -26,7 +26,7 @@ update (void)
 {
 	unmark_month_item (GNOME_MONTH_ITEM (month_item));
 	mark_month_item (GNOME_MONTH_ITEM (month_item), gnome_calendar->cal);
-	month_item_prepare_prelight (GNOME_MONTH_ITEM (month_item), default_prelight_func, NULL);
+	month_item_prepare_prelight (GNOME_MONTH_ITEM (month_item), default_color_func, NULL);
 }
 
 /* Callback used when the year adjustment is changed */
@@ -222,6 +222,7 @@ goto_dialog (GnomeCalendar *gcal)
 	GtkWidget *vbox;
 	GtkWidget *hbox;
 	GtkWidget *w;
+	GtkWidget *days;
 	struct tm *tm;
 
 	gnome_calendar = gcal;
@@ -244,6 +245,12 @@ goto_dialog (GnomeCalendar *gcal)
 	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
 	gtk_widget_show (w);
 
+	/* Create month item before creating the year controls, since the latter ones need the
+	 * month_item to be created.
+	 */
+
+	days = create_days (tm->tm_mday, tm->tm_mon, tm->tm_year + 1900);
+
 	/* Year */
 
 	w = create_year (tm->tm_year + 1900);
@@ -258,9 +265,8 @@ goto_dialog (GnomeCalendar *gcal)
 
 	/* Days (canvas with month item) */
 
-	w = create_days (tm->tm_mday, tm->tm_mon, tm->tm_year + 1900);
-	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
-	gtk_widget_show (w);
+	gtk_box_pack_start (GTK_BOX (vbox), days, TRUE, TRUE, 0);
+	gtk_widget_show (days);
 
 	/* Today button */
 
@@ -277,7 +283,7 @@ goto_dialog (GnomeCalendar *gcal)
 
 	/* Run! */
 
-	gnome_dialog_set_modal (GNOME_DIALOG (goto_win));
+	gtk_window_set_modal (GTK_WINDOW (goto_win), TRUE);
 	gnome_dialog_set_close (GNOME_DIALOG (goto_win), TRUE);
 	gnome_dialog_set_parent (GNOME_DIALOG (goto_win), GTK_WINDOW (gnome_calendar));
 	gtk_widget_show (goto_win);

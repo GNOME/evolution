@@ -12,7 +12,6 @@
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtktable.h>
 #include <libgnome/gnome-defs.h>
-#include <libgnomeui/gtkcalendar.h>
 #include "gnome-cal.h"
 #include "gncal-full-day.h"
 #include "gncal-todo.h"

@@ -10,6 +10,9 @@
 #include "main.h"
 
 
+#define QUICK_VIEW_FONT "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*"
+
+
 static void quick_view_class_init (QuickViewClass *class);
 static void quick_view_init       (QuickView      *qv);
 
@@ -63,7 +66,7 @@ button_release (GtkWidget *widget, GdkEventButton *event, gpointer data)
 		return FALSE;
 
 	gdk_pointer_ungrab (event->time);
-	gtk_grab_remove (GTK_WIDGET (qv));
+	gtk_grab_remove (GTK_WIDGET (qv->canvas));
 	gtk_widget_hide (GTK_WIDGET (qv));
 
 	gtk_main_quit (); /* End modality */
@@ -72,15 +75,18 @@ button_release (GtkWidget *widget, GdkEventButton *event, gpointer data)
 
 
 /* Creates the items corresponding to a single calendar object.  Takes in the y position of the
- * items to create and returns the y position of the next item to create.
+ * items to create and returns the y position of the next item to create.  Also takes in the current
+ * maximum width for items and returns the new maximum width.
  */
-double
-create_items_for_event (QuickView *qv, CalendarObject *co, double y)
+void
+create_items_for_event (QuickView *qv, CalendarObject *co, double *y, double *max_width)
 {
 	GnomeCanvas *canvas;
+	GnomeCanvasItem *item;
 	char start[100], end[100];
 	struct tm start_tm, end_tm;
 	char *str;
+	GtkArg args[2];
 
 	/* FIXME: make this nice */
 
@@ -99,17 +105,27 @@ create_items_for_event (QuickView *qv, CalendarObject *co, double y)
 
 	str = g_copy_strings (start, " - ", end, " ", co->ico->summary, NULL);
 
-	gnome_canvas_item_new (gnome_canvas_root (canvas),
-			       gnome_canvas_text_get_type (),
-			       "x", 0.0,
-			       "y", y,
-			       "anchor", GTK_ANCHOR_NW,
-			       "text", str,
-			       NULL);
+	item = gnome_canvas_item_new (gnome_canvas_root (canvas),
+				      gnome_canvas_text_get_type (),
+				      "x", 0.0,
+				      "y", *y,
+				      "anchor", GTK_ANCHOR_NW,
+				      "text", str,
+				      "font", QUICK_VIEW_FONT,
+				      NULL);
 
 	g_free (str);
 
-	return (y + 16); /* FIXME */
+	/* Measure the text and return the proper size values */
+
+	args[0].name = "text_width";
+	args[1].name = "text_height";
+	gtk_object_getv (GTK_OBJECT (item), 2, args);
+
+	if (GTK_VALUE_DOUBLE (args[0]) > *max_width)
+		*max_width = GTK_VALUE_DOUBLE (args[0]);
+
+	*y += GTK_VALUE_DOUBLE (args[1]);
 }
 
 /* Creates the canvas items corresponding to the events in the list */
@@ -117,43 +133,56 @@ static void
 setup_event_list (QuickView *qv, GList *event_list)
 {
 	CalendarObject *co;
-	double y;
+	GnomeCanvasItem *item;
+	GtkArg args[2];
+	double y, max_width;
 
 	/* If there are no events, then just put a simple label */
 
 	if (!event_list) {
-		gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (qv->canvas)),
-				       gnome_canvas_text_get_type (),
-				       "x", 0.0,
-				       "y", 0.0,
-				       "anchor", GTK_ANCHOR_NW,
-				       "text", _("No appointments scheduled for this day"),
-				       NULL);
-		return;
-	}
+		item = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (qv->canvas)),
+					      gnome_canvas_text_get_type (),
+					      "x", 0.0,
+					      "y", 0.0,
+					      "anchor", GTK_ANCHOR_NW,
+					      "text", _("No appointments for this day"),
+					      "font", QUICK_VIEW_FONT,
+					      NULL);
 
-	/* Create the items for all the events in the list */
+		/* Measure the text and set the proper sizes */
 
-	y = 0.0;
+		args[0].name = "text_width";
+		args[1].name = "text_height";
+		gtk_object_getv (GTK_OBJECT (item), 2, args);
 
-	for (; event_list; event_list = event_list->next) {
-		co = event_list->data;
-		y = create_items_for_event (qv, co, y);
+		y = GTK_VALUE_DOUBLE (args[1]);
+		max_width = GTK_VALUE_DOUBLE (args[0]);
+	} else {
+		/* Create the items for all the events in the list */
+
+		y = 0.0;
+		max_width = 0.0;
+
+		for (; event_list; event_list = event_list->next) {
+			co = event_list->data;
+			create_items_for_event (qv, co, &y, &max_width);
+		}
 	}
 
 	/* Set the scrolling region to fit all the items */
 
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (qv->canvas),
 					0.0, 0.0,
-					300.0, y); /* FIXME: figure out reasonable sizes */
+					max_width, y);
 
-	gnome_canvas_set_size (GNOME_CANVAS (qv->canvas), 300, y);
+	gnome_canvas_set_size (GNOME_CANVAS (qv->canvas), max_width, y);
 }
 
 GtkWidget *
 quick_view_new (GnomeCalendar *calendar, char *title, GList *event_list)
 {
 	QuickView *qv;
+	GtkWidget *vbox;
 	GtkWidget *w;
 
 	g_return_val_if_fail (calendar != NULL, NULL);
@@ -164,9 +193,22 @@ quick_view_new (GnomeCalendar *calendar, char *title, GList *event_list)
 
 	/* Create base widgets for the popup window */
 
-	w = gtk_frame_new (title);
+	w = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (w), GTK_SHADOW_OUT);
 	gtk_container_add (GTK_CONTAINER (qv), w);
-	gtk_widget_show (w);
+
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (w), vbox);
+
+	w = gtk_label_new (title);
+	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
+
+	w = gtk_hseparator_new ();
+	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
+
+	w = gtk_alignment_new (0.5, 0.5, 0.0, 0.0);
+	gtk_container_border_width (GTK_CONTAINER (w), GNOME_PAD_SMALL);
+	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
 
 	gtk_widget_push_visual (gdk_imlib_get_visual ());
 	gtk_widget_push_colormap (gdk_imlib_get_colormap ());
@@ -181,7 +223,6 @@ quick_view_new (GnomeCalendar *calendar, char *title, GList *event_list)
 			    qv);
 
 	gtk_container_add (GTK_CONTAINER (w), qv->canvas);
-	gtk_widget_show (qv->canvas);
 
 	/* Set up the event list */
 
@@ -193,21 +234,27 @@ quick_view_new (GnomeCalendar *calendar, char *title, GList *event_list)
 void
 quick_view_do_popup (QuickView *qv, GdkEventButton *event)
 {
+	GdkCursor *cursor;
+
 	g_return_if_fail (qv != NULL);
 	g_return_if_fail (IS_QUICK_VIEW (qv));
 	g_return_if_fail (event != NULL);
 
 	/* Pop up the window */
 
-	gtk_widget_show (GTK_WIDGET (qv));
-	gtk_grab_add (GTK_WIDGET (qv));
+	gtk_widget_show_all (GTK_WIDGET (qv));
+	gtk_grab_add (qv->canvas);
 
-	gdk_pointer_grab (GTK_WIDGET (qv)->window,
-			  TRUE,
-			  GDK_BUTTON_RELEASE_MASK,
-			  NULL,
-			  NULL,
-			  event->time);
+	cursor = gdk_cursor_new (GDK_ARROW);
+
+	while (gdk_pointer_grab (GTK_LAYOUT (qv->canvas)->bin_window,
+				 TRUE,
+				 GDK_BUTTON_RELEASE_MASK,
+				 NULL,
+				 cursor,
+				 event->time) != 0); /* wait for success */
+
+	gdk_cursor_destroy (cursor);
 
 	qv->button = event->button;
 

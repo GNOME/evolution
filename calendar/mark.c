@@ -12,14 +12,72 @@
 #include "timeutil.h"
 
 
+/* Frees the specified data when an object is destroyed */
+static void
+free_data (GtkObject *object, gpointer data)
+{
+	g_free (data);
+}
+
+/* If the array of "marked" attributes for the days in a a month item has not been created yet, this
+ * function creates the array and clears it.  Otherwise, it just returns the existing array.
+ */
+static char *
+get_attributes (GnomeMonthItem *mitem)
+{
+	char *attrs;
+
+	attrs = gtk_object_get_data (GTK_OBJECT (mitem), "day_mark_attributes");
+
+	if (!attrs) {
+		attrs = g_new0 (char, 42);
+		gtk_object_set_data (GTK_OBJECT (mitem), "day_mark_attributes", attrs);
+		gtk_signal_connect (GTK_OBJECT (mitem), "destroy",
+				    (GtkSignalFunc) free_data,
+				    attrs);
+	}
+
+	return attrs;
+}
+
+void
+colorify_month_item (GnomeMonthItem *mitem, GetColorFunc func, gpointer func_data)
+{
+	g_return_if_fail (mitem != NULL);
+	g_return_if_fail (GNOME_IS_MONTH_ITEM (mitem));
+	g_return_if_fail (func != NULL);
+
+	unmark_month_item (mitem);
+
+	/* We have to do this in several calls to gnome_canvas_item_set(), as color_spec_from_prop()
+	 * returns a pointer to a static string -- and we need several values.
+	 */
+
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
+			       "heading_color", (* func) (COLOR_PROP_HEADING_COLOR, func_data),
+			       NULL);
+
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
+			       "outline_color", (* func) (COLOR_PROP_OUTLINE_COLOR, func_data),
+			       NULL);
+
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
+			       "day_box_color", (* func) (COLOR_PROP_EMPTY_DAY_BG, func_data),
+			       NULL);
+
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
+			       "day_color", (* func) (COLOR_PROP_DAY_FG, func_data),
+			       NULL);
+}
+
 /* In the month item, marks all the days that are touched by the specified time span.  Assumes that
- * the time span is completely contained within the month.
+ * the time span is completely contained within the month.  The array of day attributes is modified
+ * accordingly.
  */
 static void
 mark_event_in_month (GnomeMonthItem *mitem, time_t start, time_t end)
 {
 	struct tm tm;
-	GnomeCanvasItem *item;
 	int day_index;
 	
 	tm = *localtime (&start);
@@ -34,10 +92,7 @@ mark_event_in_month (GnomeMonthItem *mitem, time_t start, time_t end)
 
 		/* Mark the day box */
 
-		item = gnome_month_item_num2child (mitem, GNOME_MONTH_ITEM_DAY_BOX + day_index);
-		gnome_canvas_item_set (item,
-				       "fill_color", color_spec_from_prop (COLOR_PROP_MARK_DAY_BG),
-				       NULL);
+		mark_month_item_index (mitem, day_index, default_color_func, NULL);
 
 		/* Next day */
 
@@ -73,6 +128,10 @@ mark_month_item (GnomeMonthItem *mitem, Calendar *cal)
 	GList *list, *l;
 	CalendarObject *co;
 
+	g_return_if_fail (mitem != NULL);
+	g_return_if_fail (GNOME_IS_MONTH_ITEM (mitem));
+	g_return_if_fail (cal != NULL);
+
 	month_begin = time_month_begin (time_from_day (mitem->year, mitem->month, 1));
 	month_end = time_month_end (month_begin);
 
@@ -87,47 +146,54 @@ mark_month_item (GnomeMonthItem *mitem, Calendar *cal)
 	}
 
 	calendar_destroy_event_list (list);
+}
 
-	mark_current_day (mitem);
+void
+mark_month_item_index (GnomeMonthItem *mitem, int index, GetColorFunc func, gpointer func_data)
+{
+	char *attrs;
+	GnomeCanvasItem *item;
+
+	g_return_if_fail (mitem != NULL);
+	g_return_if_fail (GNOME_IS_MONTH_ITEM (mitem));
+	g_return_if_fail ((index >= 0) && (index < 42));
+	g_return_if_fail (func != NULL);
+
+	attrs = get_attributes (mitem);
+
+	attrs[index] = TRUE;
+
+	item = gnome_month_item_num2child (mitem, GNOME_MONTH_ITEM_DAY_BOX + index);
+	gnome_canvas_item_set (item,
+			       "fill_color", (* func) (COLOR_PROP_MARK_DAY_BG, func_data),
+			       NULL);
 }
 
 void
 unmark_month_item (GnomeMonthItem *mitem)
 {
+	int i;
+	char *attrs;
+	GnomeCanvasItem *item;
+
 	g_return_if_fail (mitem != NULL);
 	g_return_if_fail (GNOME_IS_MONTH_ITEM (mitem));
 
-	/* We have to do this in several calls to gnome_canvas_item_set(), as color_spec_from_prop()
-	 * returns a pointer to a static string -- and we need several values.
+	attrs = get_attributes (mitem);
+
+	/* Find marked days and unmark them by turning off their marked attribute flag and changing
+	 * the color.
 	 */
 
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
-			       "heading_color", color_spec_from_prop (COLOR_PROP_HEADING_COLOR),
-			       NULL);
+	for (i = 0; i < 42; i++)
+		if (attrs[i]) {
+			attrs[i] = FALSE;
 
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
-			       "outline_color", color_spec_from_prop (COLOR_PROP_OUTLINE_COLOR),
-			       NULL);
-
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
-			       "day_box_color", color_spec_from_prop (COLOR_PROP_EMPTY_DAY_BG),
-			       NULL);
-
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
-			       "day_color", color_spec_from_prop (COLOR_PROP_DAY_FG),
-			       NULL);
-
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (mitem),
-			       "day_font", NORMAL_DAY_FONT,
-			       NULL);
-
-}
-
-/* Frees the prelight information in the month item when it is destroyed */
-static void
-free_prelight_info (GtkObject *object, gpointer data)
-{
-	g_free (gtk_object_get_data (object, "prelight_info"));
+			item = gnome_month_item_num2child (mitem, GNOME_MONTH_ITEM_DAY_BOX + i);
+			gnome_canvas_item_set (item,
+					       "fill_color", color_spec_from_prop (COLOR_PROP_EMPTY_DAY_BG),
+					       NULL);
+		}
 }
 
 /* Handles EnterNotify and LeaveNotify events from the month item's day groups, and performs
@@ -136,102 +202,89 @@ free_prelight_info (GtkObject *object, gpointer data)
 static gint
 day_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 {
-	GnomeCanvasItem *mitem;
+	GnomeMonthItem *mitem;
 	GnomeCanvasItem *box;
 	int child_num, day;
-	gulong *day_pixels;
-	GetPrelightColorFunc func;
+	GetColorFunc func;
 	gpointer func_data;
-	char *spec;
-	GdkColor color;
+	char *color;
+	char *attrs;
 
-	mitem = data;
-	child_num = gnome_month_item_child2num (GNOME_MONTH_ITEM (mitem), item);
-	day = gnome_month_item_num2day (GNOME_MONTH_ITEM (mitem), child_num);
+	/* We only accept enters and leaves */
+
+	if (!((event->type == GDK_ENTER_NOTIFY) || (event->type == GDK_LEAVE_NOTIFY)))
+		return FALSE;
+
+	/* Get index information */
+
+	mitem = GNOME_MONTH_ITEM (data);
+	child_num = gnome_month_item_child2num (mitem, item);
+	day = gnome_month_item_num2day (mitem, child_num);
 
 	if (day == 0)
 		return FALSE; /* it was a day outside the month's range */
 
 	child_num -= GNOME_MONTH_ITEM_DAY_GROUP;
-	box = gnome_month_item_num2child (GNOME_MONTH_ITEM (mitem), GNOME_MONTH_ITEM_DAY_BOX + child_num);
+	box = gnome_month_item_num2child (mitem, GNOME_MONTH_ITEM_DAY_BOX + child_num);
 
-	day_pixels = gtk_object_get_data (GTK_OBJECT (mitem), "prelight_info_pixels");
-	func = gtk_object_get_data (GTK_OBJECT (mitem), "prelight_info_func");
-	func_data = gtk_object_get_data (GTK_OBJECT (mitem), "prelight_info_data");
+	/* Get colors */
+
+	func = gtk_object_get_data (GTK_OBJECT (mitem), "prelight_color_func");
+	func_data = gtk_object_get_data (GTK_OBJECT (mitem), "prelight_color_data");
+
+	/* Now actually set the proper color in the item */
 
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
-		spec = (* func) (func_data);
+		color = (* func) (COLOR_PROP_PRELIGHT_DAY_BG, func_data);
 		gnome_canvas_item_set (box,
-				       "fill_color", spec,
+				       "fill_color", color,
 				       NULL);
 		break;
 
 	case GDK_LEAVE_NOTIFY:
-		color.pixel = day_pixels[child_num];
+		attrs = get_attributes (mitem);
+		color = (* func) (attrs[child_num] ? COLOR_PROP_MARK_DAY_BG : COLOR_PROP_EMPTY_DAY_BG,
+				  func_data);
 		gnome_canvas_item_set (box,
-				       "fill_color_gdk", &color,
+				       "fill_color", color,
 				       NULL);
 		break;
 
 	default:
-		break;
+		g_assert_not_reached ();
 	}
 
-	return FALSE;
+	return TRUE;
 }
 
 void
-month_item_prepare_prelight (GnomeMonthItem *mitem, GetPrelightColorFunc func, gpointer func_data)
+month_item_prepare_prelight (GnomeMonthItem *mitem, GetColorFunc func, gpointer func_data)
 {
-	gulong *day_pixels;
 	GnomeCanvasItem *day_group;
-	GnomeCanvasItem *box;
-	GtkArg arg;
-	GdkColor *color;
 	int i;
 
-	day_pixels = gtk_object_get_data (GTK_OBJECT (mitem), "prelight_info_pixels");
+	g_return_if_fail (mitem != NULL);
+	g_return_if_fail (GNOME_IS_MONTH_ITEM (mitem));
+	g_return_if_fail (func != NULL);
 
-	/* Set up the buffer for day background colors and attach it to the month item, if necessary */
+	/* Store the function in the object data */
 
-	if (!day_pixels) {
-		/* Create the buffer and attach it */
+	gtk_object_set_data (GTK_OBJECT (mitem), "prelight_color_func", func);
+	gtk_object_set_data (GTK_OBJECT (mitem), "prelight_color_data", func_data);
 
-		day_pixels = g_new (gulong, 42);
-		gtk_object_set_data (GTK_OBJECT (mitem), "prelight_info_pixels", day_pixels);
-		gtk_object_set_data (GTK_OBJECT (mitem), "prelight_info_func", func);
-		gtk_object_set_data (GTK_OBJECT (mitem), "prelight_info_data", func_data);
-		gtk_signal_connect (GTK_OBJECT (mitem), "destroy",
-				    (GtkSignalFunc) free_prelight_info,
-				    NULL);
-
-		/* Connect the appropriate signals to perform prelighting */
-
-		for (i = 0; i < 42; i++) {
-			day_group = gnome_month_item_num2child (GNOME_MONTH_ITEM (mitem), GNOME_MONTH_ITEM_DAY_GROUP + i);
-			gtk_signal_connect (GTK_OBJECT (day_group), "event",
-					    (GtkSignalFunc) day_event,
-					    mitem);
-		}
-	}
-
-	/* Fetch the background colors from the day boxes and store them in the prelight info */
+	/* Connect the appropriate signals to perform prelighting */
 
 	for (i = 0; i < 42; i++) {
-		box = gnome_month_item_num2child (mitem, GNOME_MONTH_ITEM_DAY_BOX + i);
-
-		arg.name = "fill_color_gdk";
-		gtk_object_getv (GTK_OBJECT (box), 1, &arg);
-
-		color = GTK_VALUE_BOXED (arg);
-		day_pixels[i] = color->pixel;
-		g_free (color);
+		day_group = gnome_month_item_num2child (GNOME_MONTH_ITEM (mitem), GNOME_MONTH_ITEM_DAY_GROUP + i);
+		gtk_signal_connect (GTK_OBJECT (day_group), "event",
+				    (GtkSignalFunc) day_event,
+				    mitem);
 	}
 }
 
 char *
-default_prelight_func (gpointer data)
+default_color_func (ColorProp propnum, gpointer data)
 {
-	return color_spec_from_prop (COLOR_PROP_PRELIGHT_DAY_BG);
+	return color_spec_from_prop (propnum);
 }

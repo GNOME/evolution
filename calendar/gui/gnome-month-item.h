@@ -140,17 +140,17 @@ void gnome_month_item_construct (GnomeMonthItem *mitem);
 /* Returns the child item defined by the child number (as specified on the GnomeMonthItemChild
  * enumeration above).
  */
-GnomeCanvasItem *gnome_month_item_num2child (GnomeMonthItem *mitem, GnomeMonthItemChild child_num);
+GnomeCanvasItem *gnome_month_item_num2child (GnomeMonthItem *mitem, int child_num);
 
 /* Returns the number of the specified child item, as defined on the GnomeMonthItemChild enumeration
  * above.  If the specified object is not found, it returns -1.
  */
-GnomeMonthItemChild gnome_month_item_child2num (GnomeMonthItem *mitem, GnomeCanvasItem *child);
+int gnome_month_item_child2num (GnomeMonthItem *mitem, GnomeCanvasItem *child);
 
 /* Returns the number of the day relevant to the specified child item.  Day numbers are 1-based.  If
  * the specified child is outside the range of displayed days, then it returns 0.
  */
-int gnome_month_item_num2day (GnomeMonthItem *mitem, GnomeMonthItemChild child_num);
+int gnome_month_item_num2day (GnomeMonthItem *mitem, int child_num);
 
 /* Returns the index (0-41) of the specified date within the table of days.  If the day number is
  * invalid for the current monthly calendar, then -1 is returned.

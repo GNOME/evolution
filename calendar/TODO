@@ -5,10 +5,6 @@ BUGS:
 
 Year view:
 
-- When you press mouse button 1 on a day, have a temporary window pop
-  up.  Display the date and the summaries of the day's appointments.
-  When you release the mouse button, the window should go away.
-
 - See why it is so fucking slow.
 
 Month view:
