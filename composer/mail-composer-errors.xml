@@ -1,13 +1,13 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <error-list domain="mail-composer">
 
  <error id="no-attach" type="error" modal="true">
-  <primary>You cannot attach the file `${0}' to this message.</primary>
-  <secondary>${1}</secondary>
+  <primary>You cannot attach the file `{0}' to this message.</primary>
+  <secondary>{1}</secondary>
  </error>
 
  <error id="attach-notfile" type="warning">
-  <primary>The file `${0}' is not a regular file and cannot be sent in a message.</primary>
+  <primary>The file `{0}' is not a regular file and cannot be sent in a message.</primary>
  </error>
 
  <error id="attach-directory">
@@ -39,12 +39,12 @@
 
  <error id="no-build-message" type="error" modal="true">
   <primary>Could not create message.</primary>
-  <secondary>Because &quot;${0}&quot;, you may need to select different mail options.</secondary>
+  <secondary>Because &quot;{0}&quot;, you may need to select different mail options.</secondary>
  </error>
 
  <error id="no-sig-file" type="warning" modal="true">
   <primary>Could not read signature file &quot;{0}&quot;.</primary>
-  <secondary>Because &quot;${1}&quot;.</secondary>
+  <secondary>Because &quot;{1}&quot;.</secondary>
  </error>
 
  <error id="all-accounts-deleted" type="warning" modal="true">

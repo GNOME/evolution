@@ -1,9 +1,9 @@
 /* mail-composer:no-attach primary */
-char *s = N_("You cannot attach the file `${0}' to this message.");
+char *s = N_("You cannot attach the file `{0}' to this message.");
 /* mail-composer:no-attach secondary */
-char *s = N_("${1}");
+char *s = N_("{1}");
 /* mail-composer:attach-notfile primary */
-char *s = N_("The file `${0}' is not a regular file and cannot be sent in a message.");
+char *s = N_("The file `{0}' is not a regular file and cannot be sent in a message.");
 /* mail-composer:attach-directory primary */
 char *s = N_("Directories can not be attached to Messages.");
 /* mail-composer:attach-directory secondary */
@@ -31,11 +31,11 @@ char *s = N_("Save Message");
 /* mail-composer:no-build-message primary */
 char *s = N_("Could not create message.");
 /* mail-composer:no-build-message secondary */
-char *s = N_("Because \"${0}\", you may need to select different mail options.");
+char *s = N_("Because \"{0}\", you may need to select different mail options.");
 /* mail-composer:no-sig-file primary */
 char *s = N_("Could not read signature file \"{0}\".");
 /* mail-composer:no-sig-file secondary */
-char *s = N_("Because \"${1}\".");
+char *s = N_("Because \"{1}\".");
 /* mail-composer:all-accounts-deleted primary */
 char *s = N_("All accounts have been removed.");
 /* mail-composer:all-accounts-deleted secondary */
