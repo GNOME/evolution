@@ -1,5 +1,9 @@
 2001-08-12  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (etree_value_at): Remove debugging message.
+
+2001-08-12  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (setup_widgets): Put the folder title bar into an
 	EGrayBar.
 

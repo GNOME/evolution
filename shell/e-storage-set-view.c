@@ -1438,8 +1438,6 @@ etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_dat
 		const char *folder_name = e_folder_get_name (folder);
 		int unread_count = e_folder_get_unread_count (folder);
 
-		g_print ("Display: %s (%p) -- %s\n", path, folder, folder_name);
-
 		if (unread_count > 0)
 			gtk_object_set_data_full (GTK_OBJECT (folder), "name_with_unread",
 						  g_strdup_printf ("%s (%d)", folder_name, unread_count), g_free);
