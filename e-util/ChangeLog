@@ -2,7 +2,9 @@
 
 	* e-setup.c (e_setup_base_dir): Get/set Evolution's base directory
 	via gnome-config.
-	
+	(mkdir_if_necessary): New function.
+	(e_setup_base_dir): Use mkdir_if_necessary().
+
 2000-03-22  NotZed  <NotZed@HelixCode.com>
 
 	* e-util/e-sexp.h: Formatting cleanup.
