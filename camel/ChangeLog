@@ -352,7 +352,6 @@
 	(imap_mailbox_decode): use camel_utf7/8* functions instead.
 	: Add config.h and alloca.h headers.
 
->>>>>>> 1.1620.2.1
 2002-08-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_noop): Override the
