@@ -730,6 +730,14 @@ setup_toggle (GtkWidget *widget, const char *depname, MailAccountGui *gui)
 	toggle_sensitivity (toggle, widget);
 }
 
+static void
+mail_account_gui_changed (GtkWidget *widget, MailAccountGui *gui)
+{
+	MailAccountsTab *dialog = (MailAccountsTab *) gui->dialog;
+	MailAccountEditor *editor = (MailAccountEditor *) dialog->editor;
+	mail_account_editor_changed (editor);
+}
+
 void
 mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 {
@@ -876,6 +884,9 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			g_hash_table_insert (gui->extra_config, entries[i].name, checkbox);
 			if (entries[i].depname)
 				setup_toggle (checkbox, entries[i].depname, gui);
+
+			g_signal_connect (checkbox, "toggled", G_CALLBACK (mail_account_gui_changed), gui);
+
 			break;
 		}
 		
@@ -924,6 +935,8 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 
 			g_hash_table_insert (gui->extra_config, entries[i].name, entry);
 						
+			g_signal_connect (entry, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+		
 			break;
 		}
 		
@@ -1088,6 +1101,8 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 	gui->sent_folder_uri = g_strdup (default_sent_folder_uri);
 	evolution_folder_selector_button_set_uri (EVOLUTION_FOLDER_SELECTOR_BUTTON (gui->sent_folder_button),
 						  gui->sent_folder_uri);
+
+	mail_account_gui_changed (GTK_WIDGET (button), gui);
 }
 
 GtkWidget *mail_account_gui_folder_selector_button_new (char *widget_name, char *string1, char *string2, int int1, int int2);
@@ -1281,6 +1296,8 @@ sig_changed (GtkWidget *w, MailAccountGui *gui)
 	
 	gui->def_signature = (MailConfigSignature *) g_object_get_data(G_OBJECT(active), "sig");
 	gui->auto_signature = index == 1 ? TRUE : FALSE;
+
+	mail_account_gui_changed (w, gui);
 }
 
 static void
@@ -1760,6 +1777,45 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		gui->transport.provider_type = CAMEL_PROVIDER_TRANSPORT;
 		g_free (transport_proto);
 	}
+
+	g_signal_connect (gui->account_name, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->default_account, "toggled", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->full_name, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->email_address, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->reply_to, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->organization, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+
+	g_signal_connect (gui->source.type, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->source.hostname, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->source.username, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->source.path, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->source.use_ssl, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->source.authtype, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->source.remember, "toggled", G_CALLBACK (mail_account_gui_changed), gui);
+
+	g_signal_connect (gui->source_auto_check, "toggled", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->source_auto_check_min, "value-changed", G_CALLBACK (mail_account_gui_changed), gui);
+
+	g_signal_connect (gui->transport.type, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->transport.hostname, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->transport.username, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->transport_needs_auth, "toggled", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->transport.use_ssl, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->transport.authtype, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->transport.remember, "toggled", G_CALLBACK (mail_account_gui_changed), gui);
+
+	g_signal_connect (gui->drafts_folder_button, "clicked", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->sent_folder_button, "clicked", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->always_cc, "toggled", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->cc_addrs, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->always_bcc, "toggled", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->bcc_addrs, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+
+	g_signal_connect (gui->pgp_key, "changed", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->pgp_encrypt_to_self, "toggled", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->pgp_always_sign, "toggled", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->pgp_no_imip_sign, "toggled", G_CALLBACK (mail_account_gui_changed), gui);
+	g_signal_connect (gui->pgp_always_trust, "toggled", G_CALLBACK (mail_account_gui_changed), gui);
 }
 
 static void

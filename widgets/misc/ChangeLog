@@ -1,3 +1,8 @@
+2003-11-12  Charles Zhang  <charles.zhang@sun.com>
+
+	* e-search-bar.c(add_button): allow new lable with mnemonic
+	(e_search_bar_construct): alter lable name. [50810]
+
 2003-07-09  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-url-entry.c (destroy): Chain to the parent handler.  Fixes #45236.

@@ -685,7 +685,7 @@ add_button (ESearchBar *esb,
 	GtkWidget *holder;
 	GtkWidget *button;
 
-	label = gtk_label_new (text);
+	label = gtk_label_new_with_mnemonic (text);
 	gtk_misc_set_padding (GTK_MISC (label), 2, 0);
 	gtk_widget_show (label);
 	
@@ -925,9 +925,9 @@ e_search_bar_construct (ESearchBar *search_bar,
 
 	gtk_box_set_spacing (GTK_BOX (search_bar), 1);
 
-	search_bar->clear_button    = add_button (search_bar, _("Clear"),
+	search_bar->clear_button    = add_button (search_bar, _("_Clear"),
 						  G_CALLBACK (clear_button_clicked_cb));
-	search_bar->activate_button = add_button (search_bar, _("Find Now"),
+	search_bar->activate_button = add_button (search_bar, _("Find _Now"),
 						  G_CALLBACK (activate_button_clicked_cb));
 
 	e_search_bar_set_menu (search_bar, menu_items);

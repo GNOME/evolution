@@ -1,3 +1,20 @@
+2003-10-13  Charles Zhang  <charles.zhang@sun.com>
+
+	* mail-account-gui.c (mail_account_gui_changed): change signal 
+	handler on gui object, callback func.
+	(mail_account_gui_setup): connect widgets to change signal.
+	(sig_changed): call change handler func.
+	(mail_account_gui_build_extra_conf): connect "changed" signal.
+	(default_folders_clicked): call change handler func.
+	
+	* mail-account-editor.c (apply_changes): disable apply button.
+	(construct): disable apply button.
+	(mail_account_editor_changed): change signal handler on editor
+	object.
+	
+	* mail_account_editor.h (mail_account_editor_changed): defination
+	of func above.[48998]
+	
 2003-10-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (setup_mime_tables): Add a handler for image/pjpeg

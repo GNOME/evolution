@@ -105,7 +105,10 @@ apply_changes (MailAccountEditor *editor)
 	
 	if (mail_account_gui_save (editor->gui) == FALSE)
 		return FALSE;
-	
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor),
+					   GTK_RESPONSE_APPLY, FALSE);
+ 
 	/* save any changes we may have */
 	mail_config_write ();
 	
@@ -151,7 +154,10 @@ construct (MailAccountEditor *editor, EAccount *account, MailAccountsTab *dialog
 				GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
-	
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor),
+					   GTK_RESPONSE_APPLY, FALSE);
+
 	g_signal_connect (editor, "response", G_CALLBACK (editor_response_cb), editor);
 	
 	mail_account_gui_setup (editor->gui, GTK_WIDGET (editor));
@@ -171,4 +177,11 @@ mail_account_editor_new (EAccount *account, GtkWindow *parent, MailAccountsTab *
 	construct (new, account, dialog);
 	
 	return new;
+}
+
+void
+mail_account_editor_changed (MailAccountEditor *editor)
+{
+	gtk_dialog_set_response_sensitive (GTK_WIDGET (editor), 
+					   GTK_RESPONSE_APPLY, TRUE);
 }
