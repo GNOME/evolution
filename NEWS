@@ -148,6 +148,7 @@ Other bugs:
     - Fix an automake 1.6 issues with camel-lock-helper  (Dan)
     - Reload page if citation color changes (Larry)
     - Made all the composer preferences work (Larry)
+    - Made newly created HTML signatures work again (Radek)
 
   * Shell
 
