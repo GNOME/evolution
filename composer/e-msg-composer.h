@@ -73,6 +73,8 @@ struct _EMsgComposer {
 	
 	gboolean attachment_bar_visible : 1;
 	gboolean send_html : 1;
+	gboolean pgp_sign : 1;
+	gboolean pgp_encrypt : 1;
 };
 
 struct _EMsgComposerClass {
@@ -111,6 +113,12 @@ const char       *e_msg_composer_get_sig_file         (EMsgComposer     *compose
 void              e_msg_composer_set_send_html        (EMsgComposer     *composer,
 						       gboolean          send_html);
 gboolean          e_msg_composer_get_send_html        (EMsgComposer     *composer);
+void              e_msg_composer_set_pgp_sign         (EMsgComposer     *composer,
+						       gboolean          pgp_sign);
+gboolean          e_msg_composer_get_pgp_sign         (EMsgComposer     *composer);
+void              e_msg_composer_set_pgp_encrypt      (EMsgComposer     *composer,
+						       gboolean          pgp_encrypt);
+gboolean          e_msg_composer_get_pgp_encrypt      (EMsgComposer     *composer);
 void              e_msg_composer_clear_inlined_table  (EMsgComposer     *composer);
 gchar *           e_msg_composer_guess_mime_type      (const gchar *file_name);
 

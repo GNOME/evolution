@@ -46,6 +46,7 @@
 #include "camel-charset-map.h"
 
 #include "mail/mail.h"
+#include "mail/mail-crypto.h"
 #include "mail/mail-tools.h"
 #include "mail/mail-threads.h"
 
@@ -391,15 +392,15 @@ build_message (EMsgComposer *composer)
 			camel_medium_set_content_object (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (body));
 			camel_object_unref (CAMEL_OBJECT (body));
 			break;
-
 		case MSG_FORMAT_PLAIN:
 			camel_mime_part_set_content (CAMEL_MIME_PART (new), plain, strlen (plain), best_content (plain));
-
+			
 			if (plain_e8bit)
 				camel_mime_part_set_encoding (CAMEL_MIME_PART (new), best_encoding (plain));
-
+			
 			g_free (plain);
 			g_free (content_type);
+			
 			break;
 		}
 	}
@@ -1292,6 +1293,8 @@ init (EMsgComposer *composer)
 	
 	composer->attachment_bar_visible   = FALSE;
 	composer->send_html                = FALSE;
+	composer->pgp_sign                 = FALSE;
+	composer->pgp_encrypt              = FALSE;
 }
 
 
@@ -2039,6 +2042,98 @@ e_msg_composer_get_send_html (EMsgComposer *composer)
 }
 
 
+/**
+ * e_msg_composer_set_pgp_sign:
+ * @composer: A message composer widget
+ * @send_html: Whether the composer should have the "PGP Sign" flag set
+ * 
+ * Set the status of the "PGP Sign" toggle item.  The user can override it.
+ **/
+void
+e_msg_composer_set_pgp_sign (EMsgComposer *composer, gboolean pgp_sign)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	if (composer->pgp_sign && pgp_sign)
+		return;
+	if (!composer->pgp_sign && !pgp_sign)
+		return;
+	
+	composer->pgp_sign = pgp_sign;
+	
+	bonobo_ui_component_set_prop (composer->uic, "/commands/SecuritySign",
+				      "state", composer->pgp_sign ? "1" : "0", NULL);
+}
+
+
+/**
+ * e_msg_composer_get_pgp_sign:
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "PGP Sign" flag.
+ * 
+ * Return value: The status of the "PGP Sign" flag.
+ **/
+gboolean
+e_msg_composer_get_pgp_sign (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+
+	return composer->pgp_sign;
+}
+
+
+/**
+ * e_msg_composer_set_pgp_encrypt:
+ * @composer: A message composer widget
+ * @send_html: Whether the composer should have the "PGP Encrypt" flag set
+ * 
+ * Set the status of the "PGP Encrypt" toggle item.  The user can override it.
+ **/
+void
+e_msg_composer_set_pgp_encrypt (EMsgComposer *composer, gboolean pgp_encrypt)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	if (composer->pgp_encrypt && pgp_encrypt)
+		return;
+	if (!composer->pgp_encrypt && !pgp_encrypt)
+		return;
+	
+	composer->pgp_encrypt = pgp_encrypt;
+	
+	bonobo_ui_component_set_prop (composer->uic, "/commands/SecurityEncrypt",
+				      "state", composer->pgp_encrypt ? "1" : "0", NULL);
+}
+
+
+/**
+ * e_msg_composer_get_pgp_encrypt:
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "PGP Encrypt" flag.
+ * 
+ * Return value: The status of the "PGP Encrypt" flag.
+ **/
+gboolean
+e_msg_composer_get_pgp_encrypt (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+
+	return composer->pgp_encrypt;
+}
+
+
+/**
+ * e_msg_composer_guess_mime_type:
+ * @file_name: filename
+ *
+ * Returns the guessed mime type of the file given by #file_name.
+ **/
 gchar *
 e_msg_composer_guess_mime_type (const gchar *file_name)
 {

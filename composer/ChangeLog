@@ -1,3 +1,13 @@
+2000-12-15  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_get_pgp_encrypt): New function
+	to get whether or not to encrypt the message.
+	(e_msg_composer_set_pgp_encrypt): New function to set encryption.
+	(e_msg_composer_get_pgp_sign): New function to get whether or not
+	to sign the message.
+	(e_msg_composer_set_pgp_sign): New function to set pgp_sign.
+	(init): Initialize pgp_sign and pgp_encrypt to FALSE.
+
 2000-12-14  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-msg-composer-hdrs.c (add_header): Made it so that carriage
