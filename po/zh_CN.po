@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 19:07+0200\n"
-"PO-Revision-Date: 2004-08-14 04:14+0800\n"
+"POT-Creation-Date: 2004-08-14 03:06+0200\n"
+"PO-Revision-Date: 2004-08-14 16:37+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -238,7 +238,7 @@ msgstr "*Control*F2"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "Autocompletion"
-msgstr "自动完成"
+msgstr "自动补全"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
 msgid "C_ontacts"
@@ -250,7 +250,7 @@ msgstr "证书"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 msgid "Configure autocomplete here"
-msgstr "在此配置自动完成"
+msgstr "在此配置自动补全"
 
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
@@ -2501,7 +2501,7 @@ msgstr "转发联系人"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1110
 msgid "Send Message to Contact"
-msgstr "给联系人发邮件"
+msgstr "给联系人发信件"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1111 calendar/gui/print.c:2480
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
@@ -3485,9 +3485,9 @@ msgid ""
 msgstr "如果您不发送取消通知，其他参与者也许不知道会议已经取消。"
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
-#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:85
-#: calendar/calendar-errors.xml.h:91 calendar/calendar-errors.xml.h:97
-#: calendar/calendar-errors.xml.h:103
+#: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
+#: calendar/calendar-errors.xml.h:93 calendar/calendar-errors.xml.h:99
+#: calendar/calendar-errors.xml.h:105
 msgid "Don't Send"
 msgstr "不发送"
 
@@ -3634,11 +3634,12 @@ msgstr "您想要保存对约会的更改吗？"
 msgid "You have made changes to this appointment, but not yet saved them."
 msgstr "您已经对此约会做出了更改，但尚未保存。"
 
-#: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
+#: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
+#: composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "丢弃更改"
 
-#: calendar/calendar-errors.xml.h:74
+#: calendar/calendar-errors.xml.h:74 calendar/calendar-errors.xml.h:82
 msgid "Save Changes"
 msgstr "保存更改"
 
@@ -3658,75 +3659,75 @@ msgid "You have made changes to this task, but not yet saved them."
 msgstr "您已经对此任务做出了更改，但尚未保存。"
 
 #. calendar:prompt-meeting-invite primary
-#: calendar/calendar-errors.xml.h:82
+#: calendar/calendar-errors.xml.h:84
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "您是否想要给参与者发送会议邀请？"
 
 #. calendar:prompt-meeting-invite secondary
-#: calendar/calendar-errors.xml.h:84
+#: calendar/calendar-errors.xml.h:86
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr "将会向全部参与者发送电子邮件邀请，并要求他们答复。"
 
-#: calendar/calendar-errors.xml.h:86 calendar/calendar-errors.xml.h:92
-#: calendar/calendar-errors.xml.h:98 calendar/calendar-errors.xml.h:104
+#: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:100 calendar/calendar-errors.xml.h:106
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
 msgstr "发送"
 
 #. calendar:prompt-send-updated-meeting-info primary
-#: calendar/calendar-errors.xml.h:88
+#: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
 msgstr "您是否想要给参与者发送更新的会议信息？"
 
 #. calendar:prompt-send-updated-meeting-info secondary
-#: calendar/calendar-errors.xml.h:90
+#: calendar/calendar-errors.xml.h:92
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr "发送更新的信息将允许其他参与者使他们的日历保持最新。"
 
 #. calendar:prompt-send-task primary
-#: calendar/calendar-errors.xml.h:94
+#: calendar/calendar-errors.xml.h:96
 msgid "Would you like to send this task to participants?"
 msgstr "您是否想要将此任务发送给参与者？"
 
 #. calendar:prompt-send-task secondary
-#: calendar/calendar-errors.xml.h:96
+#: calendar/calendar-errors.xml.h:98
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr "将会向全部参与者发送电子邮件邀请，并允许他们接受此任务。"
 
 #. calendar:prompt-send-updated-task-info primary
-#: calendar/calendar-errors.xml.h:100
+#: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
 msgstr "您是否想要给参与者发送更新的任务信息？"
 
 #. calendar:prompt-send-updated-task-info secondary
-#: calendar/calendar-errors.xml.h:102
+#: calendar/calendar-errors.xml.h:104
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr "发送更新的信息允许其他参与者使他们的任务列表保持最新。"
 
 #. calendar:tasks-crashed primary
-#: calendar/calendar-errors.xml.h:106
+#: calendar/calendar-errors.xml.h:108
 msgid "The Evolution tasks have quit unexpectedly."
 msgstr "Evolution 任务异常退出。"
 
 #. calendar:tasks-crashed secondary
-#: calendar/calendar-errors.xml.h:108
+#: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
 msgstr "除非您重新启动 Evolution，否则您的任务将无法使用。"
 
 #. calendar:calendar-crashed primary
-#: calendar/calendar-errors.xml.h:110
+#: calendar/calendar-errors.xml.h:112
 msgid "The Evolution calendar has quit unexpectedly."
 msgstr "Evolution 日历异常退出。"
 
 #. calendar:calendar-crashed secondary
-#: calendar/calendar-errors.xml.h:112
+#: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
 msgstr "除非您重新启动 Evolution，否则您的日历无法使用。"
 
@@ -3791,7 +3792,7 @@ msgstr "Evolution 日历配置控件"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
 msgid "Evolution Calendar scheduling message viewer"
-msgstr "Evolution 日历调度邮件查看器"
+msgstr "Evolution 日历调度信件查看器"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
 msgid "Evolution Calendar/Task editor"
@@ -5048,7 +5049,7 @@ msgstr "将时间显示为忙(_B)"
 #: calendar/gui/dialogs/event-page.glade.h:17
 #: calendar/gui/dialogs/task-page.glade.h:11
 msgid "Su_mmary:"
-msgstr "概要(_U)："
+msgstr "概要(_M)："
 
 #: calendar/gui/dialogs/event-page.glade.h:18
 msgid "This appointment has customized alarms"
@@ -5857,7 +5858,7 @@ msgstr "删除(_D)"
 
 #: calendar/gui/e-calendar-table.c:1064 calendar/gui/e-calendar-table.c:1082
 msgid "_Delete Selected Tasks"
-msgstr "删除选定的任务(_D)"
+msgstr "删除选中任务(_D)"
 
 #: calendar/gui/e-calendar-table.c:1196 calendar/gui/e-calendar-view.c:1060
 #: composer/e-msg-composer.c:1178
@@ -6266,11 +6267,11 @@ msgstr "会议取消"
 #: calendar/gui/e-itip-control.c:1397
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
-msgstr "<b>%s</b> 发送了一个无法理解的信息。"
+msgstr "<b>%s</b> 发送了一个无法理解的信件。"
 
 #: calendar/gui/e-itip-control.c:1295
 msgid "Bad Meeting Message"
-msgstr "错误的会议信息"
+msgstr "错误的会议信件"
 
 #: calendar/gui/e-itip-control.c:1320
 #, c-format
@@ -6333,7 +6334,7 @@ msgstr "任务取消"
 
 #: calendar/gui/e-itip-control.c:1363
 msgid "Bad Task Message"
-msgstr "错误的任务邮件"
+msgstr "错误的任务信件"
 
 #: calendar/gui/e-itip-control.c:1382
 #, c-format
@@ -6364,19 +6365,19 @@ msgstr "忙闲应答"
 
 #: calendar/gui/e-itip-control.c:1398
 msgid "Bad Free/Busy Message"
-msgstr "错误的忙闲信息"
+msgstr "错误的忙闲信件"
 
 #: calendar/gui/e-itip-control.c:1473
 msgid "The message does not appear to be properly formed"
-msgstr "邮件的格式可能不正确"
+msgstr "信件的格式可能不正确"
 
 #: calendar/gui/e-itip-control.c:1532
 msgid "The message contains only unsupported requests."
-msgstr "邮件只含有不支持的请求。"
+msgstr "信件只含有不支持的请求。"
 
 #: calendar/gui/e-itip-control.c:1563
 msgid "The attachment does not contain a valid calendar message"
-msgstr "附件中没有有效的日历信息"
+msgstr "附件中没有有效的日历信件"
 
 #: calendar/gui/e-itip-control.c:1595
 msgid "The attachment has no viewable calendar items"
@@ -6429,7 +6430,7 @@ msgstr "--到--"
 
 #: calendar/gui/e-itip-control.glade.h:4
 msgid "Calendar Message"
-msgstr "日历邮件"
+msgstr "日历信件"
 
 #: calendar/gui/e-itip-control.glade.h:5
 msgid "Date:"
@@ -8167,7 +8168,7 @@ msgstr "亚洲/汉城"
 
 #: calendar/zones.h:250
 msgid "Asia/Shanghai"
-msgstr "亚洲/北京"
+msgstr "亚洲/上海"
 
 #: calendar/zones.h:251
 msgid "Asia/Singapore"
@@ -8723,7 +8724,7 @@ msgstr "该密码不支持签名"
 
 #: camel/camel-cipher-context.c:128
 msgid "Signing message"
-msgstr "签名邮件"
+msgstr "签名信件"
 
 #: camel/camel-cipher-context.c:145
 msgid "Verifying is not supported by this cipher"
@@ -8731,7 +8732,7 @@ msgstr "该密码不支持验证"
 
 #: camel/camel-cipher-context.c:171
 msgid "Verifying message"
-msgstr "校验邮件"
+msgstr "校验信件"
 
 #: camel/camel-cipher-context.c:189
 msgid "Encryption is not supported by this cipher"
@@ -8739,7 +8740,7 @@ msgstr "该密码不支持加密"
 
 #: camel/camel-cipher-context.c:215
 msgid "Encrypting message"
-msgstr "加密邮件"
+msgstr "加密信件"
 
 #: camel/camel-cipher-context.c:232
 msgid "Decryption is not supported by this cipher"
@@ -8747,7 +8748,7 @@ msgstr "该密码不支持解密"
 
 #: camel/camel-cipher-context.c:254
 msgid "Decrypting message"
-msgstr "解密邮件"
+msgstr "解密信件"
 
 #: camel/camel-cipher-context.c:271
 msgid "You may not import keys with this cipher"
@@ -8798,7 +8799,7 @@ msgstr "将文件夹内容复制到本地以进行脱机操作"
 
 #: camel/camel-disco-folder.c:103
 msgid "Downloading new messages for offline mode"
-msgstr "下载新邮件以进行脱机操作"
+msgstr "下载新信件以进行脱机操作"
 
 #: camel/camel-disco-folder.c:466
 #, c-format
@@ -8823,7 +8824,7 @@ msgstr "创建子进程“%s”失败：%s"
 #: camel/camel-filter-driver.c:756
 #, c-format
 msgid "Invalid message stream received from %s: %s"
-msgstr "收到 %s 发来的无效信息流：%s"
+msgstr "收到 %s 发来的无效信件流：%s"
 
 #: camel/camel-filter-driver.c:945 camel/camel-filter-driver.c:954
 msgid "Syncing folders"
@@ -8850,16 +8851,16 @@ msgstr "无法处理脱机文件夹"
 #: camel/camel-filter-driver.c:1143
 #, c-format
 msgid "Getting message %d (%d%%)"
-msgstr "获取第%d封邮件(%d%%)"
+msgstr "获取第%d封信(%d%%)"
 
 #: camel/camel-filter-driver.c:1147
 msgid "Cannot open message"
-msgstr "无法打开邮件"
+msgstr "无法打开信件"
 
 #: camel/camel-filter-driver.c:1148 camel/camel-filter-driver.c:1160
 #, c-format
 msgid "Failed on message %d"
-msgstr "在第%d封邮件失败"
+msgstr "在第%d封信失败"
 
 #: camel/camel-filter-driver.c:1174 camel/camel-filter-driver.c:1265
 msgid "Syncing folder"
@@ -8868,16 +8869,16 @@ msgstr "同步文件夹"
 #: camel/camel-filter-driver.c:1235
 #, c-format
 msgid "Getting message %d of %d"
-msgstr "获取第%d封邮件，共%d封"
+msgstr "获取第%d封信，共%d封"
 
 #: camel/camel-filter-driver.c:1250
 #, c-format
 msgid "Failed at message %d of %d"
-msgstr "在第%d封邮件失败，共%d封"
+msgstr "在第%d封信失败，共%d封"
 
 #: camel/camel-filter-search.c:136
 msgid "Failed to retrieve message"
-msgstr "获取邮件失败"
+msgstr "获取信件失败"
 
 #: camel/camel-filter-search.c:386
 msgid "Invalid arguments to (system-flag)"
@@ -8944,7 +8945,7 @@ msgstr "对未知的头进行查询：%s"
 #: camel/camel-folder.c:653
 #, c-format
 msgid "Unsupported operation: append message: for %s"
-msgstr "不支持的操作：附加邮件：附加 %s"
+msgstr "不支持的操作：附加信件：为 %s"
 
 #: camel/camel-folder.c:1262
 #, c-format
@@ -8958,11 +8959,11 @@ msgstr "不支持的操作：按 uid 搜索：搜索 %s"
 
 #: camel/camel-folder.c:1416
 msgid "Moving messages"
-msgstr "移动邮件"
+msgstr "移动信件"
 
 #: camel/camel-folder.c:1416
 msgid "Copying messages"
-msgstr "复制邮件"
+msgstr "复制信件"
 
 #: camel/camel-folder.c:1665
 msgid "Learning junk"
@@ -8974,7 +8975,7 @@ msgstr "学习非垃圾邮件"
 
 #: camel/camel-folder.c:1701
 msgid "Filtering new message(s)"
-msgstr "过滤新邮件"
+msgstr "过滤新信件"
 
 #: camel/camel-gpg-context.c:735
 #, c-format
@@ -9061,18 +9062,18 @@ msgstr "执行 gpg 失败。"
 
 #: camel/camel-gpg-context.c:1350
 msgid "This is a digitally signed message part"
-msgstr "这是邮件的数字签名部分"
+msgstr "这是信件的数字签名部分"
 
 #: camel/camel-gpg-context.c:1431 camel/camel-gpg-context.c:1437
 #: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:721
 #: camel/camel-smime-context.c:732 camel/camel-smime-context.c:739
 msgid "Cannot verify message signature: Incorrect message format"
-msgstr "无法校验邮件签名：邮件格式不对"
+msgstr "无法校验信件签名：信件格式不对"
 
 #: camel/camel-gpg-context.c:1477
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "无法校验邮件签名：无法创建临时文件：%s"
+msgstr "无法校验信件签名：无法创建临时文件：%s"
 
 #: camel/camel-gpg-context.c:1565
 #, c-format
@@ -9081,7 +9082,7 @@ msgstr "无法生成加密数据：%s"
 
 #: camel/camel-gpg-context.c:1623
 msgid "This is a digitally encrypted message part"
-msgstr "这是邮件的数字加密部分"
+msgstr "这是信件的数字加密部分"
 
 #: camel/camel-gpg-context.c:1721 camel/camel-smime-context.c:995
 msgid "Encrypted content"
@@ -9089,7 +9090,7 @@ msgstr "加密内容"
 
 #: camel/camel-gpg-context.c:1740
 msgid "Unable to parse message content"
-msgstr "无法分析邮件内容"
+msgstr "无法分析信件内容"
 
 #: camel/camel-lock-client.c:100
 #, c-format
@@ -9524,7 +9525,7 @@ msgstr "找不到“%s”的证书"
 
 #: camel/camel-smime-context.c:267
 msgid "Cannot create CMS message"
-msgstr "无法创建 CMS 邮件"
+msgstr "无法创建 CMS 信件"
 
 #: camel/camel-smime-context.c:272
 msgid "Cannot create CMS signedData"
@@ -9637,7 +9638,7 @@ msgstr "无法计算摘要"
 
 #: camel/camel-smime-context.c:604
 msgid "Cannot set message digests"
-msgstr "无法设置邮件摘要"
+msgstr "无法设置信件摘要"
 
 #: camel/camel-smime-context.c:614 camel/camel-smime-context.c:619
 msgid "Certificate import failed"
@@ -9645,11 +9646,11 @@ msgstr "证书导入失败"
 
 #: camel/camel-smime-context.c:628
 msgid "Certificate only message, cannot verify certificates"
-msgstr "只有证书的邮件，无法校验证书"
+msgstr "只有证书的信件，无法校验证书"
 
 #: camel/camel-smime-context.c:631
 msgid "Certificate only message, certificates imported and verified"
-msgstr "只有证书的邮件，证书已导入并校验"
+msgstr "只有证书的信件，证书已导入并校验"
 
 #: camel/camel-smime-context.c:635
 msgid "Cannot find signature digests"
@@ -9680,7 +9681,7 @@ msgstr "无法为加密批量密钥分配密钥槽"
 
 #: camel/camel-smime-context.c:831
 msgid "Cannot create CMS Message"
-msgstr "无法创建 CMS 邮件"
+msgstr "无法创建 CMS 信件"
 
 #: camel/camel-smime-context.c:837
 msgid "Cannot create CMS EnvelopedData"
@@ -9982,11 +9983,11 @@ msgstr "存储“%s”错误：%s"
 #: camel/camel-vee-folder.c:675
 #, c-format
 msgid "No such message %s in %s"
-msgstr "在 %2$s 中没有邮件 %1$s"
+msgstr "在 %2$s 中没有信件 %1$s"
 
 #: camel/camel-vee-folder.c:841 camel/camel-vee-folder.c:847
 msgid "Cannot copy or move messages into a Virtual Folder"
-msgstr "无法将邮件移动或复制到虚拟文件夹中"
+msgstr "无法将信件移动或复制到虚拟文件夹中"
 
 #: camel/camel-vee-store.c:374
 #, c-format
@@ -10000,11 +10001,11 @@ msgstr "无法重命名文件夹：%s：没有该文件夹"
 
 #: camel/camel-vtrash-folder.c:44
 msgid "Cannot copy messages to the Trash folder"
-msgstr "无法将邮件复制到回收站文件夹"
+msgstr "无法将信件复制到回收站文件夹"
 
 #: camel/camel-vtrash-folder.c:46
 msgid "Cannot copy messages to the Junk folder"
-msgstr "无法将邮件复制到垃圾邮件文件夹"
+msgstr "无法将信件复制到垃圾邮件文件夹"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:53
 #: camel/providers/imap4/camel-imap4-provider.c:35
@@ -10015,16 +10016,16 @@ msgstr "检查新邮件"
 #: camel/providers/imap/camel-imap-provider.c:45
 #: camel/providers/imap4/camel-imap4-provider.c:37
 msgid "Check for new messages in all folders"
-msgstr "在所有文件夹中检查新邮件"
+msgstr "在所有文件夹中检查新信件"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:59
 msgid "Apply filters to new messages in Inbox on this server"
-msgstr "应用过滤规则到此服务器上收件箱中的新邮件"
+msgstr "应用过滤规则到此服务器上收件箱中的新信件"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:61
 #: camel/providers/imap/camel-imap-provider.c:66
 msgid "Check new messages for Junk contents"
-msgstr "检查新邮件的垃圾内容"
+msgstr "检查新信件的垃圾内容"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:63
 #: camel/providers/imap/camel-imap-provider.c:68
@@ -10153,12 +10154,12 @@ msgstr "文件夹已被删除并在服务器上重建了。"
 #. Check UIDs and flags of all messages we already know of.
 #: camel/providers/imap/camel-imap-folder.c:573
 msgid "Scanning for changed messages"
-msgstr "扫描更改了的邮件"
+msgstr "扫描更改了的信件"
 
 #: camel/providers/imap/camel-imap-folder.c:1938
 #, c-format
 msgid "Unable to retrieve message: %s"
-msgstr "无法获取邮件：%s"
+msgstr "无法获取信件：%s"
 
 #: camel/providers/imap/camel-imap-folder.c:1975
 #, c-format
@@ -10166,7 +10167,7 @@ msgid ""
 "Cannot get message: %s\n"
 "  %s"
 msgstr ""
-"无法获取邮件：%s\n"
+"无法获取信件：%s\n"
 "  %s"
 
 #: camel/providers/imap/camel-imap-folder.c:1975
@@ -10174,18 +10175,18 @@ msgstr ""
 #: camel/providers/local/camel-mbox-folder.c:418
 #: camel/providers/local/camel-mh-folder.c:202
 msgid "No such message"
-msgstr "没有该邮件"
+msgstr "没有该信件"
 
 #: camel/providers/imap/camel-imap-folder.c:2017
 #: camel/providers/imap/camel-imap-folder.c:2620
 #: camel/providers/nntp/camel-nntp-folder.c:220
 msgid "This message is not currently available"
-msgstr "该邮件目前不可用"
+msgstr "该信件目前不可用"
 
 #: camel/providers/imap/camel-imap-folder.c:2283
 #: camel/providers/imap/camel-imap-folder.c:2353
 msgid "Fetching summary information for new messages"
-msgstr "从新邮件中获取概要信息"
+msgstr "从新信件中获取概要信息"
 
 #: camel/providers/imap/camel-imap-folder.c:2461
 #, c-format
@@ -10205,7 +10206,7 @@ msgstr "意外的服务器响应：为第%d封信和第%d封信提供了同样�
 
 #: camel/providers/imap/camel-imap-folder.c:2658
 msgid "Could not find message body in FETCH response."
-msgstr "无法在 FETCH 应答中找到邮件体。"
+msgstr "无法在 FETCH 应答中找到信体。"
 
 #: camel/providers/imap/camel-imap-message-cache.c:155
 #, c-format
@@ -10218,7 +10219,7 @@ msgstr "无法打开缓冲器目录：%s"
 #: camel/providers/imap/camel-imap-message-cache.c:372
 #, c-format
 msgid "Failed to cache message %s: %s"
-msgstr "缓存邮件 %s 失败：%s"
+msgstr "缓存信件 %s 失败：%s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:417
 #, c-format
@@ -10264,7 +10265,7 @@ msgstr "命名空间"
 
 #: camel/providers/imap/camel-imap-provider.c:64
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr "应用过滤规则到本服务器上收件箱中的新邮件"
+msgstr "应用过滤规则到本服务器上收件箱中的新信件"
 
 #: camel/providers/imap/camel-imap-provider.c:76
 msgid "IMAP"
@@ -10459,42 +10460,42 @@ msgstr "无法销毁文件夹“%s”：无效的命令"
 #: camel/providers/imap4/camel-imap4-folder.c:697
 #, c-format
 msgid "Cannot get message %s from folder `%s': No such message"
-msgstr "无法从文件夹“%2$s”获取邮件 %1$s：没有这样的邮件"
+msgstr "无法从文件夹“%2$s”获取信件 %1$s：没有这样的信件"
 
 #: camel/providers/imap4/camel-imap4-folder.c:702
 #, c-format
 msgid "Cannot get message %s from folder `%s': Bad command"
-msgstr "无法从文件夹“%2$s”获取邮件 %1$s：命令无效"
+msgstr "无法从文件夹“%2$s”获取信件 %1$s：命令无效"
 
 #: camel/providers/imap4/camel-imap4-folder.c:827
 #, c-format
 msgid "Cannot append message to folder `%s': Unknown error"
-msgstr "无法将邮件附加到文件夹“%s”：未知错误"
+msgstr "无法将信件追加到文件夹“%s”：未知错误"
 
 #: camel/providers/imap4/camel-imap4-folder.c:856
 #, c-format
 msgid "Cannot append message to folder `%s': Bad command"
-msgstr "无法将邮件附加到文件夹“%s”：无效的命令"
+msgstr "无法将信件追加到文件夹“%s”：无效的命令"
 
 #: camel/providers/imap4/camel-imap4-folder.c:935
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-msgstr "无法将邮件从文件夹“%s”移动到文件夹“%s”：未知"
+msgstr "无法将信件从文件夹“%s”移动到文件夹“%s”：未知"
 
 #: camel/providers/imap4/camel-imap4-folder.c:939
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
-msgstr "无法将邮件从文件夹“%s”复制到文件夹“%s”：未知"
+msgstr "无法将信件从文件夹“%s”复制到文件夹“%s”：未知"
 
 #: camel/providers/imap4/camel-imap4-folder.c:947
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-msgstr "无法将邮件从文件夹“%s”移动到文件夹“%s”：无效的命令"
+msgstr "无法将信件从文件夹“%s”移动到文件夹“%s”：无效的命令"
 
 #: camel/providers/imap4/camel-imap4-folder.c:951
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-msgstr "无法将邮件从文件夹“%s”复制到文件夹“%s”：无效的命令"
+msgstr "无法将信件从文件夹“%s”复制到文件夹“%s”：无效的命令"
 
 #: camel/providers/imap4/camel-imap4-provider.c:53
 msgid "IMAPv4rev1"
@@ -10623,7 +10624,7 @@ msgstr "IMAP4 服务器 %s 意外断开连接：%s"
 #: camel/providers/imapp/camel-imapp-provider.c:39
 #: camel/providers/pop3/camel-pop3-provider.c:38
 msgid "Message storage"
-msgstr "邮件存储"
+msgstr "信件存储"
 
 #: camel/providers/imapp/camel-imapp-provider.c:47
 msgid "IMAP+"
@@ -10648,7 +10649,7 @@ msgstr "无法连接到 %s 上的 POP 服务器"
 
 #: camel/providers/local/camel-local-folder.c:179
 msgid "Index message body data"
-msgstr "索引邮件体数据"
+msgstr "索引信体数据"
 
 #. $HOME relative path + protocol string
 #: camel/providers/local/camel-local-folder.c:388
@@ -10696,7 +10697,7 @@ msgstr ""
 #: camel/providers/local/camel-local-provider.c:77
 #: camel/providers/local/camel-local-provider.c:94
 msgid "Apply filters to new messages in INBOX"
-msgstr "应用过滤规则到收件箱中的新邮件"
+msgstr "将过滤规则应用到收件箱中的新信件"
 
 #: camel/providers/local/camel-local-provider.c:83
 msgid "Maildir-format mail directories"
@@ -10786,7 +10787,7 @@ msgstr "无法保存概要：%s：%s"
 
 #: camel/providers/local/camel-local-summary.c:464
 msgid "Unable to add message to summary: unknown reason"
-msgstr "无法将邮件添加到概要中：未知的原因"
+msgstr "无法将信件添加到概要中：未知的原因"
 
 #. Inbox is always first
 #: camel/providers/local/camel-maildir-folder.c:74
@@ -10803,7 +10804,7 @@ msgstr "邮件目录附加已放弃"
 #: camel/providers/local/camel-maildir-folder.c:217
 #, c-format
 msgid "Cannot append message to maildir folder: %s: %s"
-msgstr "无法将邮件附加到邮件目录文件夹：%s：%s"
+msgstr "无法将信件附加到邮件目录文件夹：%s：%s"
 
 #: camel/providers/local/camel-maildir-folder.c:243
 #: camel/providers/local/camel-maildir-folder.c:257
@@ -10820,12 +10821,12 @@ msgid ""
 "Cannot get message: %s from folder %s\n"
 "  %s"
 msgstr ""
-"无法从文件夹 %2$s 获取邮件：%1$s\n"
+"无法从文件夹 %2$s 获取信件：%1$s\n"
 "  %3$s"
 
 #: camel/providers/local/camel-maildir-folder.c:267
 msgid "Invalid message contents"
-msgstr "无效的邮件内容"
+msgstr "无效的信件内容"
 
 #: camel/providers/local/camel-maildir-store.c:109
 #: camel/providers/local/camel-mbox-store.c:154
@@ -10883,7 +10884,7 @@ msgstr "检查文件夹一致性"
 
 #: camel/providers/local/camel-maildir-summary.c:646
 msgid "Checking for new messages"
-msgstr "检查新邮件"
+msgstr "检查新信件"
 
 #: camel/providers/local/camel-maildir-summary.c:735
 #: camel/providers/local/camel-mbox-summary.c:369
@@ -10911,7 +10912,7 @@ msgstr "邮件追加取消"
 #: camel/providers/local/camel-mbox-folder.c:347
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
-msgstr "无法将邮件附加到邮件箱文件：%s：%s"
+msgstr "无法将信件附加到邮件箱文件：%s：%s"
 
 #: camel/providers/local/camel-mbox-folder.c:468
 msgid "The folder appears to be irrecoverably corrupted."
@@ -10920,7 +10921,7 @@ msgstr "文件夹好像已经被不可恢复地破坏了。"
 #: camel/providers/local/camel-mbox-folder.c:476
 #: camel/providers/local/camel-mh-folder.c:222
 msgid "Message construction failed."
-msgstr "邮件构建失败。"
+msgstr "信件构建失败。"
 
 #: camel/providers/local/camel-mbox-store.c:176
 #: camel/providers/local/camel-mbox-store.c:361
@@ -11056,12 +11057,12 @@ msgstr "写入临时文件夹失败：%s：%s"
 
 #: camel/providers/local/camel-mh-folder.c:174
 msgid "MH append message cancelled"
-msgstr "已取消 MH 附件邮件"
+msgstr "已取消 MH 附件信件"
 
 #: camel/providers/local/camel-mh-folder.c:177
 #, c-format
 msgid "Cannot append message to mh folder: %s: %s"
-msgstr "无法将邮件附加到 mh 文件夹：%s：%s"
+msgstr "无法将信件附加到 mh 文件夹：%s：%s"
 
 #: camel/providers/local/camel-mh-store.c:219
 #, c-format
@@ -11194,7 +11195,7 @@ msgstr "服务器拒绝了用户名/密码"
 #: camel/providers/pop3/camel-pop3-folder.c:512
 #, c-format
 msgid "Cannot get message %s: %s"
-msgstr "无法获取邮件 %s：%s"
+msgstr "无法获取信件 %s：%s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:156
 #: camel/providers/nntp/camel-nntp-folder.c:232
@@ -11222,11 +11223,11 @@ msgstr "投递失败：%s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:393
 msgid "You cannot post NNTP messages while working offline!"
-msgstr "您离线时无法投递 NNTP 邮件！"
+msgstr "您离线时无法投递 NNTP 信件！"
 
 #: camel/providers/nntp/camel-nntp-folder.c:404
 msgid "You cannot copy messages from a NNTP folder!"
-msgstr "您无法从 NNTP 文件夹复制邮件！"
+msgstr "您无法从 NNTP 文件夹复制信件！"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:44
 msgid "Could not get group list from server."
@@ -11353,7 +11354,7 @@ msgstr "没有文件夹：%s"
 #: camel/providers/nntp/camel-nntp-summary.c:314
 #, c-format
 msgid "%s: Scanning new messages"
-msgstr "%s：正在扫描新邮件"
+msgstr "%s：正在扫描新信件"
 
 #: camel/providers/nntp/camel-nntp-summary.c:225
 #, c-format
@@ -11385,19 +11386,19 @@ msgstr "无法获取 POP 摘要：%s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:308
 msgid "Expunging deleted messages"
-msgstr "彻底销毁已删除的邮件"
+msgstr "彻底销毁已删除的信件"
 
 #: camel/providers/pop3/camel-pop3-folder.c:404
 #, c-format
 msgid "No message with uid %s"
-msgstr "没有 uid 为 %s 的邮件"
+msgstr "没有 uid 为 %s 的信件"
 
 #. Sigh, most of the crap in this function is so that the cancel button
 #. returns the proper exception code.  Sigh.
 #: camel/providers/pop3/camel-pop3-folder.c:411
 #, c-format
 msgid "Retrieving POP message %d"
-msgstr "正在获取 POP 邮件 %d"
+msgstr "正在获取 POP 信件 %d"
 
 #: camel/providers/pop3/camel-pop3-folder.c:501 composer/e-msg-composer.c:1210
 #: composer/e-msg-composer.c:1231
@@ -11406,7 +11407,7 @@ msgstr "未知原因"
 
 #: camel/providers/pop3/camel-pop3-provider.c:40
 msgid "Leave messages on server"
-msgstr "在服务器上保留邮件"
+msgstr "在服务器上保留信件"
 
 #: camel/providers/pop3/camel-pop3-provider.c:43
 #, c-format
@@ -11544,7 +11545,7 @@ msgstr "无法创建 sendmail 进程：%s：邮件未发送"
 #: camel/providers/sendmail/camel-sendmail-transport.c:205
 #, c-format
 msgid "Could not send message: %s"
-msgstr "无法发送邮件：%s"
+msgstr "无法发送信件：%s"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:233
 #, c-format
@@ -11599,7 +11600,7 @@ msgstr "系统状态，或系统求助就绪"
 
 #: camel/providers/smtp/camel-smtp-transport.c:184
 msgid "Help message"
-msgstr "帮助邮件"
+msgstr "帮助信件"
 
 #: camel/providers/smtp/camel-smtp-transport.c:186
 msgid "Service ready"
@@ -11733,23 +11734,23 @@ msgstr "通过 %s 发送 SMTP 邮件"
 
 #: camel/providers/smtp/camel-smtp-transport.c:677
 msgid "Cannot send message: service not connected."
-msgstr "无法发送邮件：服务未连接。"
+msgstr "无法发送信件：服务未连接。"
 
 #: camel/providers/smtp/camel-smtp-transport.c:683
 msgid "Cannot send message: sender address not valid."
-msgstr "无法发送邮件：发件人地址不合法。"
+msgstr "无法发送信件：发件人地址不合法。"
 
 #: camel/providers/smtp/camel-smtp-transport.c:687
 msgid "Sending message"
-msgstr "发送邮件"
+msgstr "发送信件"
 
 #: camel/providers/smtp/camel-smtp-transport.c:702
 msgid "Cannot send message: no recipients defined."
-msgstr "无法发送邮件：没有定义收件人。"
+msgstr "无法发送信件：没有定义收件人。"
 
 #: camel/providers/smtp/camel-smtp-transport.c:713
 msgid "Cannot send message: one or more invalid recipients"
-msgstr "无法发送邮件：一个或多个非法收件人"
+msgstr "无法发送信件：一个或多个非法收件人"
 
 #: camel/providers/smtp/camel-smtp-transport.c:885
 msgid "SMTP Greeting"
@@ -11859,7 +11860,7 @@ msgstr "附件"
 
 #: composer/e-msg-composer-attachment-bar.c:454
 msgid "Remove selected items from the attachment list"
-msgstr "从附件列表中删除选定的条目"
+msgstr "从附件列表中删除选中条目"
 
 #: composer/e-msg-composer-attachment-bar.c:494
 msgid "Add attachment..."
@@ -11867,7 +11868,7 @@ msgstr "添加附件..."
 
 #: composer/e-msg-composer-attachment-bar.c:495
 msgid "Attach a file to the message"
-msgstr "把文件附件到邮件"
+msgstr "把文件附件到信件"
 
 #: composer/e-msg-composer-attachment.c:173
 #: composer/e-msg-composer-attachment.c:189
@@ -11904,7 +11905,7 @@ msgstr "投递目的"
 
 #: composer/e-msg-composer-hdrs.c:513
 msgid "Choose folders to post the message to."
-msgstr "选择要将邮件投递到哪个文件夹。"
+msgstr "选择要将信件投递到哪个文件夹。"
 
 #: composer/e-msg-composer-hdrs.c:547
 msgid "Click here for the address book"
@@ -11941,7 +11942,7 @@ msgstr "收信人："
 
 #: composer/e-msg-composer-hdrs.c:599
 msgid "Enter the recipients of the message"
-msgstr "输入邮件的收件人"
+msgstr "输入信件的收件人"
 
 #: composer/e-msg-composer-hdrs.c:602
 msgid "Cc:"
@@ -11949,7 +11950,7 @@ msgstr "抄送："
 
 #: composer/e-msg-composer-hdrs.c:603
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr "输入将接收该邮件副本的收件人地址"
+msgstr "输入将接收该信件副本的收件人地址"
 
 #: composer/e-msg-composer-hdrs.c:606
 msgid "Bcc:"
@@ -11959,7 +11960,7 @@ msgstr "暗送："
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
-msgstr "输入将接收该邮件副本，但不出现在收件人列表中的收件人地址。"
+msgstr "输入将接收该信件副本，但不出现在收件人列表中的收件人地址。"
 
 #.
 #. * Post-To
@@ -11979,13 +11980,13 @@ msgstr "添加附件"
 #: composer/e-msg-composer.c:704
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
-msgstr "无法对寄出的邮件签名：未对此账户设置签名证书"
+msgstr "无法对寄出的信件签名：未对此账户设置签名证书"
 
 #: composer/e-msg-composer.c:711
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
-msgstr "无法对寄出的邮件加密：未对此账户设置加密证书"
+msgstr "无法对寄出的信件加密：未对此账户设置加密证书"
 
 #: composer/e-msg-composer.c:1268
 msgid "Could not open file"
@@ -11993,11 +11994,11 @@ msgstr "无法打开文件"
 
 #: composer/e-msg-composer.c:1276
 msgid "Unable to retrieve message from editor"
-msgstr "无法从编辑器获取邮件"
+msgstr "无法从编辑器获取信件"
 
 #: composer/e-msg-composer.c:1546
 msgid "Untitled Message"
-msgstr "无标题邮件"
+msgstr "无标题信件"
 
 #: composer/e-msg-composer.c:1576
 msgid "Open file"
@@ -12028,30 +12029,30 @@ msgstr "显示附件栏(将附件拖至此处)(_A)"
 #: composer/e-msg-composer.c:2332 composer/e-msg-composer.c:3163
 #: composer/e-msg-composer.c:3164
 msgid "Compose a message"
-msgstr "撰写邮件"
+msgstr "撰写新件"
 
 #: composer/e-msg-composer.c:2634
 #, c-format
 msgid "Attached message - %s"
-msgstr "附加的邮件 - %s"
+msgstr "附加的信件 - %s"
 
 #. translators, this count will always be >1
 #: composer/e-msg-composer.c:2639 composer/e-msg-composer.c:2783
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "%d 封附加的邮件"
+msgstr[0] "%d 封附加的信件"
 
 #: composer/e-msg-composer.c:4341
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
-msgstr "<b>(编写器含有不可编辑的非文本邮件体。)<b>"
+msgstr "<b>(编写器含有不可编辑的非文本信体。)<b>"
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
 msgid "You cannot attach the file `{0}' to this message."
-msgstr "您无法将文件“{0}”作为此邮件的附件。"
+msgstr "您无法将文件“{0}”作为这封信的附件。"
 
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
@@ -12061,7 +12062,7 @@ msgstr "文件“{0}”不是普通文件，无法在邮件中发送。"
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
 msgid "Directories can not be attached to Messages."
-msgstr "无法将目录作为邮件的附件。"
+msgstr "无法将目录作为信件的附件。"
 
 #. mail-composer:attach-directory secondary
 #: composer/mail-composer-errors.xml.h:10
@@ -12075,7 +12076,7 @@ msgstr ""
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
 msgid "Could not retrieve messages to attach from {0}."
-msgstr "无法从 {0} 获取要附加的邮件。"
+msgstr "无法从 {0} 获取要附加的信件。"
 
 #. mail-composer:attach-nomessages secondary
 #. mail-composer:no-sig-file secondary
@@ -12093,19 +12094,19 @@ msgstr "原因是“{1}”。"
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:16
 msgid "Unfinished messages found"
-msgstr "找到了未完成的邮件"
+msgstr "找到了未完成的信件"
 
 #. mail-composer:recover-autosave primary
 #: composer/mail-composer-errors.xml.h:18
 msgid "Do you want to recover unfinished messages?"
-msgstr "您是否想要恢复未完成的邮件？"
+msgstr "您是否想要恢复未完成的信件？"
 
 #. mail-composer:recover-autosave secondary
 #: composer/mail-composer-errors.xml.h:20
 msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
-msgstr "在您上次编写新邮件时 Evolution 意外退出。恢复邮件将允许您继续完成。"
+msgstr "在您上次编写新信件时 Evolution 意外退出。恢复邮件将允许您继续完成。"
 
 #: composer/mail-composer-errors.xml.h:21
 msgid "Don't Recover"
@@ -12128,14 +12129,14 @@ msgstr "保存到自动保存出错，原因是“{1}”。"
 #. mail-composer:exit-unsaved title
 #: composer/mail-composer-errors.xml.h:28
 msgid "Warning: Modified Message"
-msgstr "警告：已改动的邮件"
+msgstr "警告：已修改的信件"
 
 #. mail-composer:exit-unsaved primary
 #: composer/mail-composer-errors.xml.h:30
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr "您确定想要丢弃您正在编写的标题为“{0}”的邮件吗？"
+msgstr "您确定想要丢弃您正在编写的标题为“{0}”的信件吗？"
 
 #. mail-composer:exit-unsaved secondary
 #: composer/mail-composer-errors.xml.h:32
@@ -12144,17 +12145,17 @@ msgid ""
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
 msgstr ""
-"关闭此编写窗口将会永久丢弃邮件，除非您选择在草稿文件夹中保存此邮件。这允许您"
-"在稍后继续编写邮件。"
+"关闭此编写窗口将会永久丢弃信件，除非您选择在草稿文件夹中保存这封信。这允许您"
+"在稍后继续编写信件。"
 
 #: composer/mail-composer-errors.xml.h:34
 msgid "Save Message"
-msgstr "保存邮件"
+msgstr "保存信件"
 
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:36
 msgid "Could not create message."
-msgstr "无法创建邮件。"
+msgstr "无法创建信件。"
 
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:38
@@ -12227,7 +12228,7 @@ msgstr ""
 
 #: designs/OOA/ooa.glade.h:4
 msgid "<b>Out of Office Message:</b>"
-msgstr "<b>办公室以外邮件：</b>"
+msgstr "<b>办公室以外信件：</b>"
 
 #: designs/OOA/ooa.glade.h:5
 msgid "<b>Status:</b>"
@@ -12239,7 +12240,7 @@ msgid ""
 "who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
-"<small>在您位于办公室外势，如果有人给您发送邮件，则会自动将下面指定的邮件\n"
+"<small>在您位于办公室外势，如果有人给您发送邮件，则会自动将下面指定的信件\n"
 "送回。</small>"
 
 #: designs/OOA/ooa.glade.h:8
@@ -12281,7 +12282,7 @@ msgid ""
 "sent is read, and to specify what Evolution should do when someone requests "
 "a receipt from you.</small>"
 msgstr ""
-"<small>此页面允许您选择是否要对您发出的邮件是用阅读收条进行通知，\n"
+"<small>此页面允许您选择是否要对您发出的信件是用阅读收条进行通知，\n"
 "以及指定在别人请求您的阅读收条时 Evolution 应该怎么做。</small>"
 
 #: designs/read_receipts/read.glade.h:6
@@ -12302,11 +12303,11 @@ msgstr "阅读收条"
 
 #: designs/read_receipts/read.glade.h:10
 msgid "Request a read receipt for all messages I send"
-msgstr "我发出的所有邮件都要求阅读收条"
+msgstr "我发出的所有信件都要求阅读收条"
 
 #: designs/read_receipts/read.glade.h:11
 msgid "Unless the message is sent to a mailing list, and not to me personally"
-msgstr "除非邮件发送给邮件列表，或者是给我自己发的"
+msgstr "除非信件发送给邮件列表，或者是给我自己发的"
 
 #: designs/read_receipts/read.glade.h:12
 msgid ""
@@ -12634,19 +12635,19 @@ msgstr "接收"
 msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
-msgstr "邮件的日期将会与指定日期的午夜12:00进行比较。"
+msgstr "信件的日期将会与指定日期的午夜12:00进行比较。"
 
 #: filter/filter.glade.h:6
 msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
-msgstr "邮件的日期将会在过滤执行时与指定时间进行比较。"
+msgstr "信件的日期将会在过滤执行时与指定时间进行比较。"
 
 #: filter/filter.glade.h:8
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
-msgstr "邮件的日期将会在过滤执行时与当前时间进行比较。"
+msgstr "信件的日期将会在过滤执行时与当前时间进行比较。"
 
 #: filter/filter.glade.h:11
 msgid "a time relative to the current time"
@@ -12699,11 +12700,11 @@ msgstr "编写器首选项"
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid ""
 "Configure mail preferences, including security and message display, here"
-msgstr "在此配置邮件首选项，包括安全和邮件显示"
+msgstr "在此配置邮件首选项，包括安全和信件显示"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr "在此配置拼写检查、签名和邮件编写器"
+msgstr "在此配置拼写检查、签名和信件编写器"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Configure your email accounts here"
@@ -12784,11 +12785,11 @@ msgstr "签名"
 
 #: mail/em-composer-utils.c:889
 msgid "-------- Forwarded Message --------"
-msgstr "-------- 转发的邮件 --------"
+msgstr "-------- 转发的信件 --------"
 
 #: mail/em-composer-utils.c:1502
 msgid "an unknown sender"
-msgstr "未知的发件人"
+msgstr "未知发件人"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
@@ -13072,12 +13073,12 @@ msgstr "文件夹属性"
 #: mail/em-folder-properties.c:161
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] "总邮件数："
+msgstr[0] "总信件数："
 
 #: mail/em-folder-properties.c:173
 msgid "Unread message:"
 msgid_plural "Unread messages:"
-msgstr[0] "未读邮件数："
+msgstr[0] "未读信件数："
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
@@ -13127,16 +13128,16 @@ msgstr "复制文件夹 %s"
 #: mail/em-folder-tree.c:855 mail/message-list.c:1613
 #, c-format
 msgid "Moving messages into folder %s"
-msgstr "把邮件移动到文件夹 %s"
+msgstr "把信件移动到文件夹 %s"
 
 #: mail/em-folder-tree.c:857 mail/message-list.c:1615
 #, c-format
 msgid "Copying messages into folder %s"
-msgstr "把邮件复制到文件夹 %s"
+msgstr "把信件复制到文件夹 %s"
 
 #: mail/em-folder-tree.c:873
 msgid "Cannot drop message(s) into toplevel store"
-msgstr "无法将邮件放到顶级文件夹存储"
+msgstr "无法将信件放到顶级文件夹存储"
 
 #: mail/em-folder-tree.c:963 ui/evolution-mail-message.xml.h:110
 msgid "_Copy to Folder"
@@ -13219,7 +13220,7 @@ msgstr "属性(_P)"
 #: mail/em-folder-view.c:900 mail/em-popup.c:690
 #: ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
-msgstr "作为新邮件进行编辑(_E)..."
+msgstr "作为新信件进行编辑(_E)..."
 
 #: mail/em-folder-view.c:902
 msgid "_Print"
@@ -13306,7 +13307,7 @@ msgstr "过滤垃圾(_I)"
 
 #: mail/em-folder-view.c:944
 msgid "Crea_te Rule From Message"
-msgstr "从邮件创建规则(_T)"
+msgstr "根据信件创建规则(_T)"
 
 #: mail/em-folder-view.c:945
 msgid "VFolder on _Subject"
@@ -13348,7 +13349,7 @@ msgstr "默认"
 
 #: mail/em-folder-view.c:1848
 msgid "Print Message"
-msgstr "打印邮件"
+msgstr "打印信件"
 
 #: mail/em-folder-view.c:2115
 msgid "_Copy Link Location"
@@ -13373,7 +13374,7 @@ msgstr "未签名"
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
-msgstr "此邮件未签名。无法保证此邮件是可信的。"
+msgstr "此信件未签名。无法保证这封信是可信的。"
 
 #: mail/em-format-html-display.c:642 mail/em-format-html.c:583
 msgid "Valid signature"
@@ -13383,7 +13384,7 @@ msgstr "有效签名"
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
-msgstr "此邮件已签名，而且签名是有效的。这意味着这封邮件应该是可信的。"
+msgstr "此信件已签名，而且签名是有效的。这意味着这封信应该是可信的。"
 
 #: mail/em-format-html-display.c:643 mail/em-format-html.c:584
 msgid "Invalid signature"
@@ -13393,7 +13394,7 @@ msgstr "无效签名"
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
-msgstr "无法校验此邮件的签名，可能在传送的过程中邮件被篡改了。"
+msgstr "无法校验这封信的签名，可能在传送的过程中邮件被篡改了。"
 
 #: mail/em-format-html-display.c:644
 msgid "Valid signature, cannot verify sender"
@@ -13403,7 +13404,7 @@ msgstr "签名有效，无法校验发送者"
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
-msgstr "此邮件的签名有效，但是无法校验邮件的发送者。"
+msgstr "这封信的签名有效，但是无法校验邮件的发送者。"
 
 #: mail/em-format-html-display.c:650 mail/em-format-html.c:591
 msgid "Unencrypted"
@@ -13413,7 +13414,7 @@ msgstr "未加密"
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
-msgstr "此邮件未加密。在 Internet 上传送时所有人都可以看到其内容。"
+msgstr "这封信未加密。在 Internet 上传送时所有人都可以看到其内容。"
 
 #: mail/em-format-html-display.c:651 mail/em-format-html.c:592
 msgid "Encrypted, weak"
@@ -13425,7 +13426,7 @@ msgid ""
 "be difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
-"此邮件已加密，但使用的是弱加密算法。如果外人想要查看此邮件的内容，可能要花大"
+"这封信已加密，但使用的是弱加密算法。如果外人想要查看这封信的内容，可能要花大"
 "量时间进行暴力破解，这很困难但并不是不可能。"
 
 #: mail/em-format-html-display.c:652 mail/em-format-html.c:593
@@ -13436,7 +13437,7 @@ msgstr "加密"
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
-msgstr "此邮件已加密。外人要想查看此邮件的内容十分困难。"
+msgstr "这封信已加密。外人要想查看这封信的内容十分困难。"
 
 #: mail/em-format-html-display.c:653 mail/em-format-html.c:594
 msgid "Encrypted, strong"
@@ -13448,7 +13449,7 @@ msgid ""
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
-"此邮件已加密，且使用的是强加密算法。如果外人想要查看此邮件的内容，可能要花大"
+"这封信已加密，且使用的是强加密算法。如果外人想要查看这封信的内容，可能要花大"
 "量时间进行暴力破解，这十分困难。"
 
 #: mail/em-format-html-display.c:754 smime/gui/smime-ui.glade.h:47
@@ -13524,7 +13525,7 @@ msgstr "指向未知的外部数据 (“%s”类型)"
 
 #: mail/em-format-html.c:1165
 msgid "Formatting message"
-msgstr "格式化邮件"
+msgstr "格式化信件"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:800
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
@@ -13584,7 +13585,7 @@ msgstr "%s 附件"
 
 #: mail/em-format.c:1095 mail/em-format.c:1228
 msgid "Could not parse S/MIME message: Unknown error"
-msgstr "无法解析 S/MIME 邮件：未知错误"
+msgstr "无法解析 S/MIME 信件：未知错误"
 
 #: mail/em-format.c:1218
 msgid "Unsupported encryption type for multipart/encrypted"
@@ -13592,7 +13593,7 @@ msgstr "不支持 multipart/encrypted 的加密类型"
 
 #: mail/em-format.c:1379
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "无法解析 MIME 邮件。显示源文本。"
+msgstr "无法解析 MIME 信件。显示源文本。"
 
 #: mail/em-format.c:1398
 msgid "Unsupported signature format"
@@ -13708,7 +13709,7 @@ msgstr "在浏览器中打开链接(_O)"
 
 #: mail/em-popup.c:860
 msgid "Se_nd message to..."
-msgstr "把邮件发送到列表(_N)..."
+msgstr "把信件发送到(_N)..."
 
 #: mail/em-popup.c:861
 msgid "_Add to Addressbook"
@@ -13738,7 +13739,7 @@ msgstr "请选择服务器。"
 
 #: mail/em-subscribe-editor.c:873
 msgid "No server has been selected"
-msgstr "没有选定服务器"
+msgstr "没有选中服务器"
 
 #: mail/em-utils.c:104
 msgid "Don't show this message again."
@@ -13746,15 +13747,15 @@ msgstr "不再显示此信息。"
 
 #: mail/em-utils.c:294
 msgid "Filters"
-msgstr "过滤规则"
+msgstr "过滤器"
 
 #: mail/em-utils.c:434
 msgid "message"
-msgstr "邮件"
+msgstr "信件"
 
 #: mail/em-utils.c:543
 msgid "Save Message..."
-msgstr "保存邮件..."
+msgstr "保存信件..."
 
 #: mail/em-utils.c:592
 msgid "Add address"
@@ -13764,7 +13765,7 @@ msgstr "添加地址"
 #: mail/em-utils.c:1053
 #, c-format
 msgid "Messages from %s"
-msgstr "来自 %s 的邮件"
+msgstr "来自 %s 的信件"
 
 #: mail/em-vfolder-editor.c:104
 msgid "Virtual _Folders"
@@ -13808,19 +13809,19 @@ msgstr "编写窗口的默认宽度"
 
 #: mail/evolution-mail.schemas.in.in.h:8
 msgid "Default charset in which to compose messages"
-msgstr "编写邮件的默认字符集"
+msgstr "编写信件的默认字符集"
 
 #: mail/evolution-mail.schemas.in.in.h:9
 msgid "Default charset in which to compose messages."
-msgstr "编写邮件的默认字符集。"
+msgstr "编写信件的默认字符集。"
 
 #: mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to display messages"
-msgstr "显示邮件的默认字符集"
+msgstr "显示信件的默认字符集"
 
 #: mail/evolution-mail.schemas.in.in.h:11
 msgid "Default charset in which to display messages."
-msgstr "显示邮件的默认字符集。"
+msgstr "显示信件的默认字符集。"
 
 #: mail/evolution-mail.schemas.in.in.h:12
 msgid "Default forward style"
@@ -13832,7 +13833,7 @@ msgstr "撰写窗口的默认高度"
 
 #: mail/evolution-mail.schemas.in.in.h:14
 msgid "Default height of the Message Window"
-msgstr "邮件窗口的默认高度"
+msgstr "信件窗口的默认高度"
 
 #: mail/evolution-mail.schemas.in.in.h:15
 msgid "Default height of the Subscribe dialog"
@@ -13848,7 +13849,7 @@ msgstr "撰写窗口的默认宽度"
 
 #: mail/evolution-mail.schemas.in.in.h:18
 msgid "Default width of the Message Window"
-msgstr "邮件窗口的默认宽度"
+msgstr "信件窗口的默认宽度"
 
 #: mail/evolution-mail.schemas.in.in.h:19
 msgid "Default width of the Subscribe dialog"
@@ -13975,23 +13976,23 @@ msgstr "在指定超时过后标为已看。"
 
 #: mail/evolution-mail.schemas.in.in.h:45
 msgid "Mark citations in the message \"Preview\""
-msgstr "在邮件“预览”中标出引用"
+msgstr "在信件“预览”中标出引用"
 
 #: mail/evolution-mail.schemas.in.in.h:46
 msgid "Mark citations in the message \"Preview\"."
-msgstr "在邮件“预览”中标出引用。"
+msgstr "在信件“预览”中标出引用。"
 
 #: mail/evolution-mail.schemas.in.in.h:47
 msgid "Message Window default height"
-msgstr "邮件窗口默认高度"
+msgstr "信件窗口默认高度"
 
 #: mail/evolution-mail.schemas.in.in.h:48
 msgid "Message Window default width"
-msgstr "邮件窗口默认宽度"
+msgstr "信件窗口默认宽度"
 
 #: mail/evolution-mail.schemas.in.in.h:49
 msgid "Message-display style (normal, full headers, source)"
-msgstr "邮件显示风格(普通、全部邮件头、源代码)"
+msgstr "信件显示风格(普通、全部邮件头、源代码)"
 
 #: mail/evolution-mail.schemas.in.in.h:50
 msgid "Minimum days between emptying the trash on exit"
@@ -14074,11 +14075,11 @@ msgstr "将动画图像显示为动画。"
 
 #: mail/evolution-mail.schemas.in.in.h:69
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr "在邮件列表中显示删除了的邮件(带有删除线)。"
+msgstr "在信件列表中显示删除了的信件(带有删除线)。"
 
 #: mail/evolution-mail.schemas.in.in.h:70
 msgid "Show deleted messages in the message-list"
-msgstr "在邮件列表中显示删除了的邮件"
+msgstr "在信件列表中显示删除了的信件"
 
 #: mail/evolution-mail.schemas.in.in.h:71
 msgid "Show the \"Preview\" pane"
@@ -14136,23 +14137,23 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:83
 msgid "Thread the message list."
-msgstr "按线索编排邮件列表。"
+msgstr "按线索编排信件列表。"
 
 #: mail/evolution-mail.schemas.in.in.h:84
 msgid "Thread the message-list"
-msgstr "按线索编排邮件列表"
+msgstr "按线索编排信件列表"
 
 #: mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message-list based on Subject"
-msgstr "基于主题按线索编排邮件列表"
+msgstr "基于主题按线索编排信件列表"
 
 #: mail/evolution-mail.schemas.in.in.h:86
 msgid "Timeout for marking message as Seen"
-msgstr "将邮件标为已看的超时"
+msgstr "将信件标为已看的超时"
 
 #: mail/evolution-mail.schemas.in.in.h:87
 msgid "Timeout for marking message as Seen."
-msgstr "将邮件标为已看的超时。"
+msgstr "将信件标为已看的超时。"
 
 #: mail/evolution-mail.schemas.in.in.h:88
 msgid "UID string of the default account."
@@ -14230,7 +14231,7 @@ msgstr "选中了查看/ReplyTo 菜单项。"
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
-msgstr "是否在邮件不包含 In-Reply-To 或 References 头时强制按主题编排线索。"
+msgstr "是否在信件不包含 In-Reply-To 或 References 头时强制按主题编排线索。"
 
 #: mail/evolution-mail.schemas.in.in.h:107
 msgid "port for starting user runned spamd"
@@ -14378,7 +14379,7 @@ msgid ""
 msgstr ""
 "您的某些 Netscape 邮件过滤器将会测试邮件体是否等于\n"
 "给定字符串，而 Evolution 并不支持该特性。这些过滤器\n"
-"将被修改为给定字符串是否包含于邮件体中。"
+"将被修改为给定字符串是否包含于信体中。"
 
 #: mail/importers/netscape-importer.c:1250
 msgid "Evolution is importing your old Netscape data"
@@ -14530,15 +14531,15 @@ msgstr[0] "，%d 封未读"
 
 #: mail/mail-component.c:659
 msgid "New Mail Message"
-msgstr "新建邮件"
+msgstr "新建信件"
 
 #: mail/mail-component.c:660
 msgid "_Mail Message"
-msgstr "邮件(_M)"
+msgstr "信件(_M)"
 
 #: mail/mail-component.c:661
 msgid "Compose a new mail message"
-msgstr "撰写一封新邮件"
+msgstr "撰写一封新信"
 
 #: mail/mail-component.c:667
 msgid "New Mail Folder"
@@ -14667,7 +14668,7 @@ msgstr "<span weight=\"bold\">检查新邮件</span>"
 
 #: mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Composing Messages</span>"
-msgstr "<span weight=\"bold\">撰写邮件</span>"
+msgstr "<span weight=\"bold\">撰写信件</span>"
 
 #: mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Configuration</span>"
@@ -14703,11 +14704,11 @@ msgstr "<span weight=\"bold\">装入图像</span>"
 
 #: mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr "<span weight=\"bold\">邮件显示</span>"
+msgstr "<span weight=\"bold\">信件显示</span>"
 
 #: mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Message Fonts</span>"
-msgstr "<span weight=\"bold\">邮件字体</span>"
+msgstr "<span weight=\"bold\">信件字体</span>"
 
 #: mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">New Mail Notification</span>"
@@ -14743,7 +14744,7 @@ msgstr "<span weight=\"bold\">安全</span>"
 
 #: mail/mail-config.glade.h:33
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr "<span weight=\"bold\">已发送和草稿邮件</span>"
+msgstr "<span weight=\"bold\">已发送和草稿信件</span>"
 
 #: mail/mail-config.glade.h:34
 msgid "<span weight=\"bold\">Server Configuration</span>"
@@ -14779,7 +14780,7 @@ msgstr "总是暗送到(_B)："
 
 #: mail/mail-config.glade.h:44
 msgid "Always _sign outgoing messages when using this account"
-msgstr "当使用该账户时总是发送签名邮件(_S)"
+msgstr "当使用该账户时总是发送签名信件(_S)"
 
 #: mail/mail-config.glade.h:45
 msgid "Always _trust keys in my keyring when encrypting"
@@ -14787,7 +14788,7 @@ msgstr "加密时总是信任我的密钥环中的密钥(_T)"
 
 #: mail/mail-config.glade.h:46
 msgid "Attach original message"
-msgstr "附加原始邮件"
+msgstr "附加原始信件"
 
 #: mail/mail-config.glade.h:47 mail/message-list.etspec.h:1
 msgid "Attachment"
@@ -14831,7 +14832,7 @@ msgstr "在我输入时进行拼写检查(_T)"
 
 #: mail/mail-config.glade.h:57
 msgid "Checks incoming mail messages to be Junk"
-msgstr "检查收到的邮件是否是垃圾邮件"
+msgstr "检查收到的信件是否是垃圾邮件"
 
 #: mail/mail-config.glade.h:58
 msgid "Color for _misspelled words:"
@@ -14874,7 +14875,7 @@ msgstr "默认"
 
 #: mail/mail-config.glade.h:72
 msgid "Do not quote original message"
-msgstr "无法引用原始邮件"
+msgstr "无法引用原始信件"
 
 #: mail/mail-config.glade.h:73
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
@@ -14922,7 +14923,7 @@ msgstr "字体属性"
 
 #: mail/mail-config.glade.h:85
 msgid "Format messages in _HTML"
-msgstr "用 HTML 格式化邮件(_H)"
+msgstr "用 HTML 格式化信件(_H)"
 
 #: mail/mail-config.glade.h:87
 msgid "HTML Mail"
@@ -14962,7 +14963,7 @@ msgstr "邮件箱位置"
 
 #: mail/mail-config.glade.h:101
 msgid "Message Composer"
-msgstr "邮件撰写器"
+msgstr "信件撰写器"
 
 #: mail/mail-config.glade.h:104
 msgid ""
@@ -14984,7 +14985,7 @@ msgstr "新邮件到达时播放声音文件(_V)"
 
 #: mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr "发送只有暗送收件人的邮件时提示(_O)"
+msgstr "发送只有暗送收件人的信件时提示(_O)"
 
 #: mail/mail-config.glade.h:113
 msgid "Qmail maildir "
@@ -14992,7 +14993,7 @@ msgstr "Qmail maildir "
 
 #: mail/mail-config.glade.h:114
 msgid "Quote original message"
-msgstr "引用原始邮件"
+msgstr "引用原始信件"
 
 #: mail/mail-config.glade.h:115
 msgid "Quoted"
@@ -15052,7 +15053,7 @@ msgstr "发送电子邮件"
 
 #: mail/mail-config.glade.h:133
 msgid "Sent _Messages Folder:"
-msgstr "已发送邮件文件夹(_M)："
+msgstr "已发送信件文件夹(_M)："
 
 #: mail/mail-config.glade.h:134
 msgid "Ser_ver requires authentication"
@@ -15143,7 +15144,7 @@ msgstr "总是从 Internet 上装入图像(_A)"
 
 #: mail/mail-config.glade.h:160
 msgid "_Digitally sign outgoing messages (by default)"
-msgstr "对寄出的邮件进行数字签名(默认)(_D)"
+msgstr "对寄出的信件进行数字签名(默认)(_D)"
 
 #: mail/mail-config.glade.h:161
 msgid "_Do not notify me when new mail arrives"
@@ -15155,7 +15156,7 @@ msgstr "启用(_E)"
 
 #: mail/mail-config.glade.h:164
 msgid "_Encrypt outgoing messages (by default)"
-msgstr "加密寄出的邮件(默认)(_E)"
+msgstr "加密寄出的信件(默认)(_E)"
 
 #: mail/mail-config.glade.h:165
 msgid "_Forward style:"
@@ -15171,7 +15172,7 @@ msgstr "使它成为我的默认账户(_M)"
 
 #: mail/mail-config.glade.h:170
 msgid "_Mark messages as read after"
-msgstr "把邮件标记为已读前等(_M)"
+msgstr "把信件标记为已读前等(_M)"
 
 #: mail/mail-config.glade.h:172
 msgid "_Never load images from the Internet"
@@ -15183,7 +15184,7 @@ msgstr "发送给不想接收 HTML 的联系人时提示(_P)"
 
 #: mail/mail-config.glade.h:175
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "发送空主题行的邮件时提示(_P)"
+msgstr "发送空主题行的信件时提示(_P)"
 
 #: mail/mail-config.glade.h:176
 msgid "_Reply style:"
@@ -15248,7 +15249,7 @@ msgstr "区分大小写"
 
 #: mail/mail-dialogs.glade.h:14
 msgid "Find in Message"
-msgstr "在邮件中寻找"
+msgstr "在信件中寻找"
 
 #: mail/mail-dialogs.glade.h:15
 msgid "Find:"
@@ -15284,7 +15285,7 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
-"您选中进行跟随的邮件已经在下面列出。\n"
+"您选中进行跟随的信件已经在下面列出。\n"
 "请从“标志”菜单中选择跟随操作。"
 
 #: mail/mail-dialogs.glade.h:25
@@ -15352,7 +15353,7 @@ msgstr ""
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "您确定想要以 HTML 格式发送邮件吗？"
+msgstr "您确定想要以 HTML 格式发送信件吗？"
 
 #. mail:ask-send-html secondary
 #: mail/mail-errors.xml.h:12
@@ -15374,14 +15375,14 @@ msgstr "发送(_S)"
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
 msgid "Are you sure you want to send a message without a subject?"
-msgstr "您确定想要发送没有主题的邮件吗？"
+msgstr "您确定想要发送没有主题的信件吗？"
 
 #. mail:ask-send-no-subject secondary
 #: mail/mail-errors.xml.h:19
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
-msgstr "在您的邮件中添加有意义的主题行可以让您的收件人更容易明白您邮件的内容。"
+msgstr "在您的信件中添加有意义的主题行可以让您的收件人更容易明白您邮件的内容。"
 
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
@@ -15401,8 +15402,8 @@ msgid ""
 msgstr ""
 "您即将发送的联系人列表配置为隐藏列表收件人。\n"
 "\n"
-"许多邮件系统会在只有 Bcc 收件人的邮件中添加 Apparently-To 邮件头。如果添加了"
-"该邮件头，将在您的邮件中列出您的全部邮件人。要避免此特性，您应该至少添加一个 "
+"许多邮件系统会在只有 Bcc 收件人的信件中添加 Apparently-To 信头。如果添加了"
+"该信头，将在您的邮件中列出您的全部收件人。要避免此特性，您应该至少添加一个 "
 "To: 或 CC: 收件人。"
 
 #. mail:ask-send-only-bcc secondary
@@ -15413,15 +15414,15 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
-"许多邮件系统会在只有 Bcc 收件人的邮件中添加 Apparently-To 邮件头。如果添加了"
-"该邮件头，将在您的邮件中列出您的全部邮件人。要避免此特性，您应该至少添加一个 "
+"许多邮件系统会在只有 Bcc 收件人的信件中添加 Apparently-To 信头。如果添加了"
+"该信头，将在您的邮件中列出您的全部收件人。要避免此特性，您应该至少添加一个 "
 "To: 或 CC: 收件人。"
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
 msgid ""
 "This message cannot be sent because you have not specified any Recipients"
-msgstr "无法发送此邮件，原因是您没有指定任何收件人"
+msgstr "无法发送这封信，原因是您没有指定任何收件人"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
@@ -15453,13 +15454,13 @@ msgstr "使用默认值(_D)"
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr "您确定想要永久删除文件夹“{0}”中已删除的全部邮件？"
+msgstr "您确定想要永久删除文件夹“{0}”中已删除的全部信件？"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
-msgstr "如果您继续的话，您将无法恢复这些邮件。"
+msgstr "如果您继续的话，您将无法恢复这些信件。"
 
 #: mail/mail-errors.xml.h:46
 msgid "_Expunge"
@@ -15470,7 +15471,7 @@ msgstr "销毁(_E)"
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "您确定想要永久删除全部文件夹中已删除的全部邮件？"
+msgstr "您确定想要永久删除全部文件夹中已删除的全部信件吗？"
 
 #: mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
@@ -15479,19 +15480,19 @@ msgstr "清空回收站(_E)"
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:53
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr "您有未发的邮件，您仍然想要退出吗？"
+msgstr "您有未发的信件，您仍然想要退出吗？"
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:55
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr "如果您退出的话，这些邮件将直到 Evolution 下次启动时才会发出。"
+msgstr "如果您退出的话，这些信件将直到 Evolution 下次启动时才会发出。"
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:57
 msgid "Your message with the subject \"{0}\" was not delivered."
-msgstr "您主题为“{0}”的邮件未投递。"
+msgstr "您主题为“{0}”的信件未投递。"
 
 #. mail:camel-exception secondary
 #: mail/mail-errors.xml.h:59
@@ -15501,9 +15502,9 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
-"邮件已通过外部应用程序“sendmail”发送。Sendmail 报告了如下错误：状态 67：邮件"
+"信件已通过外部应用程序“sendmail”发送。Sendmail 报告了如下错误：状态 67：邮件"
 "未发送。\n"
-"邮件存储于发件箱文件夹中。请检查邮件中的错误然后重新发送。"
+"信件存储于发件箱文件夹中。请检查信件中的错误然后重新发送。"
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
@@ -15894,12 +15895,12 @@ msgstr "追加到本地“已发”文件夹失败：%s"
 #: mail/mail-ops.c:672
 #, c-format
 msgid "Sending message %d of %d"
-msgstr "发送第%d封邮件，共%d封"
+msgstr "发送第%d封信，共%d封"
 
 #: mail/mail-ops.c:703
 #, c-format
 msgid "Failed to send %d of %d messages"
-msgstr "在第%d封邮件失败，共%d封"
+msgstr "在第%d封信失败，共%d封"
 
 #: mail/mail-ops.c:707
 msgid "Complete."
@@ -15907,17 +15908,17 @@ msgstr "完成。"
 
 #: mail/mail-ops.c:804
 msgid "Saving message to folder"
-msgstr "把邮件保存到文件夹中"
+msgstr "把信件保存到文件夹中"
 
 #: mail/mail-ops.c:889
 #, c-format
 msgid "Moving messages to %s"
-msgstr "把邮件移动到 %s"
+msgstr "把信件移动到 %s"
 
 #: mail/mail-ops.c:889
 #, c-format
 msgid "Copying messages to %s"
-msgstr "把邮件复制到 %s"
+msgstr "把信件复制到 %s"
 
 #: mail/mail-ops.c:1002
 #, c-format
@@ -15926,7 +15927,7 @@ msgstr "在“%s”中扫描文件夹"
 
 #: mail/mail-ops.c:1115
 msgid "Forwarded messages"
-msgstr "转发的邮件"
+msgstr "转发的信件"
 
 #: mail/mail-ops.c:1158
 #, c-format
@@ -15978,19 +15979,19 @@ msgstr "本地文件夹"
 #: mail/mail-ops.c:1691
 #, c-format
 msgid "Retrieving message %s"
-msgstr "收取邮件 %s"
+msgstr "收取信件 %s"
 
 #: mail/mail-ops.c:1763
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] "收取 %d 封邮件"
+msgstr[0] "收取 %d 封信"
 
 #: mail/mail-ops.c:1849
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
-msgstr[0] "保存 %d 封邮件"
+msgstr[0] "保存 %d 封信"
 
 #: mail/mail-ops.c:1899
 #, c-format
@@ -16007,7 +16008,7 @@ msgid ""
 "Error saving messages to: %s:\n"
 " %s"
 msgstr ""
-"在将邮件保存到 %s 时发生错误：\n"
+"在将信件保存到 %s 时发生错误：\n"
 " %s"
 
 #: mail/mail-ops.c:1998
@@ -16111,11 +16112,11 @@ msgstr "试图将邮件移动到非 mbox 源“%s”"
 #: mail/mail-tools.c:276
 #, c-format
 msgid "Forwarded message - %s"
-msgstr "转发的邮件 - %s"
+msgstr "转发的信件 - %s"
 
 #: mail/mail-tools.c:278
 msgid "Forwarded message"
-msgstr "转发的邮件"
+msgstr "转发的信件"
 
 #: mail/mail-tools.c:319
 #, c-format
@@ -16151,11 +16152,11 @@ msgstr "新建虚拟文件夹"
 
 #: mail/message-list.c:1000
 msgid "Unseen"
-msgstr "不可见"
+msgstr "未看"
 
 #: mail/message-list.c:1001
 msgid "Seen"
-msgstr "可见"
+msgstr "已看"
 
 #: mail/message-list.c:1002
 msgid "Answered"
@@ -16163,11 +16164,11 @@ msgstr "已答复"
 
 #: mail/message-list.c:1003
 msgid "Multiple Unseen Messages"
-msgstr "多封不可见邮件"
+msgstr "多封未看信件"
 
 #: mail/message-list.c:1004
 msgid "Multiple Messages"
-msgstr "多封邮件"
+msgstr "多封信"
 
 #: mail/message-list.c:1008
 msgid "Lowest"
@@ -16211,7 +16212,7 @@ msgstr "%Y年%m月%d日"
 
 #: mail/message-list.c:3376
 msgid "Generating message list"
-msgstr "生成邮件列表"
+msgstr "生成信件列表"
 
 #: mail/message-list.etspec.h:3
 msgid "Due By"
@@ -16291,7 +16292,7 @@ msgstr "邮件体或主题含有"
 
 #: mail/searchtypes.xml.h:4
 msgid "Message contains"
-msgstr "邮件含有"
+msgstr "信件含有"
 
 #: mail/searchtypes.xml.h:5
 msgid "Recipients contain"
@@ -16904,17 +16905,21 @@ msgstr ""
 "留此数据，那么您可以在您方便的时候手动删除“evolution”目录。\n"
 
 #: shell/shell-errors.xml.h:25
-msgid "Keep"
-msgstr "保留"
+msgid "_Remind Me Later"
+msgstr "稍后提醒(_R)"
+
+#: shell/shell-errors.xml.h:26
+msgid "_Keep Data"
+msgstr "保留数据(_K)"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
-#: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
+#: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
 msgid "Really delete old data?"
 msgstr "真的要删除旧数据吗？"
 
 #. shell:upgrade-remove-1-4-confirm secondary
-#: shell/shell-errors.xml.h:31
+#: shell/shell-errors.xml.h:32
 msgid ""
 "The entire contents of the \"evolution\" directory is about to be be "
 "permanently removed.\n"
@@ -16935,18 +16940,18 @@ msgstr ""
 
 #. shell:noshell title
 #. shell:noshell-reason title
-#: shell/shell-errors.xml.h:38 shell/shell-errors.xml.h:46
+#: shell/shell-errors.xml.h:39 shell/shell-errors.xml.h:47
 msgid "Cannot start Evolution"
 msgstr "无法启动 Evolution"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
-#: shell/shell-errors.xml.h:40 shell/shell-errors.xml.h:48
+#: shell/shell-errors.xml.h:41 shell/shell-errors.xml.h:49
 msgid "Evolution can not start."
 msgstr "Evolution 无法启动。"
 
 #. shell:noshell secondary
-#: shell/shell-errors.xml.h:42
+#: shell/shell-errors.xml.h:43
 msgid ""
 "Your system configuration does not match your Evolution configuration.\n"
 "\n"
@@ -16957,7 +16962,7 @@ msgstr ""
 "请单击帮助查看详情"
 
 #. shell:noshell-reason secondary
-#: shell/shell-errors.xml.h:50
+#: shell/shell-errors.xml.h:51
 msgid ""
 "Your system configuration does not match your Evolution configuration:\n"
 "\n"
@@ -17475,7 +17480,7 @@ msgstr "默认让附件只能嵌入显示。"
 
 #: tools/evolution-launch-composer.c:329
 msgid "Default subject for the message."
-msgstr "邮件的默认主题。"
+msgstr "信件的默认主题。"
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
@@ -17550,11 +17555,11 @@ msgstr "选中全部联系人"
 
 #: ui/evolution-addressbook.xml.h:23
 msgid "Send a message to the selected contacts."
-msgstr "给选中的联系人发邮件。"
+msgstr "给选中的联系人发信件。"
 
 #: ui/evolution-addressbook.xml.h:24
 msgid "Send message to contact"
-msgstr "给联系人发邮件"
+msgstr "给联系人发信件"
 
 #: ui/evolution-addressbook.xml.h:25
 msgid "Send selected contacts to another person."
@@ -17608,7 +17613,7 @@ msgstr "全选(_S)"
 
 #: ui/evolution-addressbook.xml.h:43
 msgid "_Send Message to Contact..."
-msgstr "给联系人发邮件(_S)..."
+msgstr "给联系人发信件(_S)..."
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Day"
@@ -17836,7 +17841,7 @@ msgstr "保存联系人并关闭对话框"
 
 #: ui/evolution-contact-editor.xml.h:12
 msgid "Send _Message to Contact..."
-msgstr "给联系人发邮件(_M)..."
+msgstr "给联系人发信件(_M)..."
 
 #: ui/evolution-contact-editor.xml.h:18
 #: ui/evolution-contact-list-editor.xml.h:14
@@ -17859,7 +17864,7 @@ msgstr "把列表发送给别人(_N)..."
 
 #: ui/evolution-contact-list-editor.xml.h:10
 msgid "Send _message to list..."
-msgstr "把邮件发送到列表(_M)..."
+msgstr "把信件发送到列表(_M)..."
 
 #: ui/evolution-contact-list-editor.xml.h:12
 msgid "_Delete..."
@@ -17911,7 +17916,7 @@ msgstr "取消当前邮件操作"
 
 #: ui/evolution-mail-global.xml.h:3
 msgid "Compose _New Message"
-msgstr "撰写新邮件(_N)"
+msgstr "撰写新信件(_N)"
 
 #: ui/evolution-mail-global.xml.h:4
 msgid "Create or edit rules for filtering new mail"
@@ -17927,19 +17932,19 @@ msgstr "清空回收站(_T)"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Open a window for composing a mail message"
-msgstr "打开窗口以书写邮件"
+msgstr "打开窗口以撰写信件"
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Permanently remove all deleted messages from all folders"
-msgstr "永久删除所有文件夹中的所有已删除的邮件"
+msgstr "永久删除所有文件夹中的所有已删除的信件"
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Post Ne_w Message"
-msgstr "投递新邮件(_W)"
+msgstr "投递新信件(_W)"
 
 #: ui/evolution-mail-global.xml.h:10
 msgid "Post a message to a Public folder"
-msgstr "把邮件保存到公共文件夹中"
+msgstr "把信件保存到公共文件夹中"
 
 #: ui/evolution-mail-global.xml.h:11
 msgid "S_ubscribe to Folders..."
@@ -17947,7 +17952,7 @@ msgstr "订阅文件夹(_U)..."
 
 #: ui/evolution-mail-global.xml.h:12
 msgid "Show message preview window"
-msgstr "显示邮件预览窗口"
+msgstr "显示信件预览窗口"
 
 #: ui/evolution-mail-global.xml.h:13
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -17959,19 +17964,19 @@ msgstr "虚拟文件夹编辑器(_E)..."
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "_Filters..."
-msgstr "邮件过滤(_F)..."
+msgstr "过滤器(_F)..."
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
-msgstr "改变此文件夹的属性"
+msgstr "更改此文件夹的属性"
 
 #: ui/evolution-mail-list.xml.h:2 ui/evolution-mail-message.xml.h:10
 msgid "Copy selected message(s) to the clipboard"
-msgstr "将选中邮件复制到剪贴板"
+msgstr "将选中信件复制到剪贴板"
 
 #: ui/evolution-mail-list.xml.h:3 ui/evolution-mail-message.xml.h:22
 msgid "Cut selected message(s) to the clipboard"
-msgstr "将选中邮件剪切到剪贴板"
+msgstr "将选中信件剪切到剪贴板"
 
 #: ui/evolution-mail-list.xml.h:4
 msgid "E_xpunge"
@@ -17979,20 +17984,20 @@ msgstr "销毁(_X)"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
-msgstr "隐藏选中的邮件(_E)"
+msgstr "隐藏选中的信件(_E)"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
-msgstr "隐藏已删除的邮件(_D)"
+msgstr "隐藏已删除的信件(_D)"
 
 #: ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
-msgstr "隐藏已读邮件(_R)"
+msgstr "隐藏已读信件(_R)"
 
 #: ui/evolution-mail-list.xml.h:8
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
-msgstr "隐藏已删除的邮件而不是在上面显示一条线"
+msgstr "隐藏已删除的信件而不是在上面显示一条线"
 
 #: ui/evolution-mail-list.xml.h:9
 msgid "Mark All as _Read"
@@ -18000,51 +18005,51 @@ msgstr "全部标为已读(_R)"
 
 #: ui/evolution-mail-list.xml.h:10
 msgid "Mark all visible messages as read"
-msgstr "把所由可见的邮件标记为已读"
+msgstr "把所有可见的信件标记为已读"
 
 #: ui/evolution-mail-list.xml.h:11 ui/evolution-mail-message.xml.h:74
 msgid "Paste message(s) from the clipboard"
-msgstr "从剪贴板粘贴邮件"
+msgstr "从剪贴板粘贴信件"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "从该文件夹永久删除所有已删除的邮件"
+msgstr "从该文件夹永久删除所有已删除的信件"
 
 #: ui/evolution-mail-list.xml.h:14
 msgid "Select _Thread"
-msgstr "选定线索(_T)"
+msgstr "选中线索(_T)"
 
 #: ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
-msgstr "选择所有当前没有选中的邮件"
+msgstr "选中所有当前没有选中的信件"
 
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
-msgstr "把同一线索中的所有邮件选择为选中邮件"
+msgstr "把同一线索中的所有信件选择为选中信件"
 
 #: ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
-msgstr "选定所有可见的邮件"
+msgstr "选中所有可见的信件"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr "显示隐藏的邮件(_O)"
+msgstr "显示隐藏的信件(_O)"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
-msgstr "显示暂时被隐藏的邮件"
+msgstr "显示暂时被隐藏的信件"
 
 #: ui/evolution-mail-list.xml.h:20
 msgid "Temporarily hide all messages that have already been read"
-msgstr "暂时隐藏所有已读邮件"
+msgstr "暂时隐藏所有已读信件"
 
 #: ui/evolution-mail-list.xml.h:21
 msgid "Temporarily hide the selected messages"
-msgstr "暂时隐藏选中邮件"
+msgstr "暂时隐藏选中信件"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
-msgstr "按线索编排的邮件列表"
+msgstr "按线索编排的信件列表"
 
 #: ui/evolution-mail-list.xml.h:25
 msgid "_Folder"
@@ -18056,7 +18061,7 @@ msgstr "反转选择(_I)"
 
 #: ui/evolution-mail-list.xml.h:28
 msgid "_Threaded Message List"
-msgstr "按线索编排的邮件列表(_T)"
+msgstr "按线索编排的信件列表(_T)"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
@@ -18072,7 +18077,7 @@ msgstr "将发件人添加到地址簿"
 
 #: ui/evolution-mail-message.xml.h:4
 msgid "Apply filter rules to the selected messages"
-msgstr "应用过滤规则到选中的邮件"
+msgstr "应用过滤规则到选中的信件"
 
 #: ui/evolution-mail-message.xml.h:5
 msgid "Caret _Mode"
@@ -18080,7 +18085,7 @@ msgstr "光标模式(_M)"
 
 #: ui/evolution-mail-message.xml.h:6
 msgid "Compose a reply to all of the recipients of the selected message"
-msgstr "为选中邮件的所有收件人撰写回复"
+msgstr "为选中信件的所有收件人撰写回复"
 
 #: ui/evolution-mail-message.xml.h:7
 msgid "Compose a reply to the mailing list of the selected message"
@@ -18088,31 +18093,31 @@ msgstr "为选中邮件的邮件列表撰写回复"
 
 #: ui/evolution-mail-message.xml.h:8
 msgid "Compose a reply to the sender of the selected message"
-msgstr "为选中邮件的发件人撰写回复"
+msgstr "为选中信件的发件人撰写回复"
 
 #: ui/evolution-mail-message.xml.h:11
 msgid "Copy selected messages to another folder"
-msgstr "把选中的邮件复制到其它文件夹"
+msgstr "把选中的信件复制到其它文件夹"
 
 #: ui/evolution-mail-message.xml.h:12
 msgid "Create _Virtual Folder From Message"
-msgstr "从邮件创建虚拟文件夹(_V)"
+msgstr "根据信件创建虚拟文件夹(_V)"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages from this sender"
-msgstr "根据此发件人创建邮件过滤规则"
+msgstr "根据此发件人创建信件过滤规则"
 
 #: ui/evolution-mail-message.xml.h:14
 msgid "Create a rule to filter messages to these recipients"
-msgstr "根据这些收件人创建邮件过滤规则"
+msgstr "根据这些收件人创建信件过滤规则"
 
 #: ui/evolution-mail-message.xml.h:15
 msgid "Create a rule to filter messages to this mailing list"
-msgstr "根据此邮件列表创建邮件过滤规则"
+msgstr "根据这封信列表创建信件过滤规则"
 
 #: ui/evolution-mail-message.xml.h:16
 msgid "Create a rule to filter messages with this subject"
-msgstr "根据此主题创建邮件过滤规则"
+msgstr "根据此主题创建信件过滤规则"
 
 #: ui/evolution-mail-message.xml.h:17
 msgid "Create a virtual folder for these recipients"
@@ -18136,15 +18141,15 @@ msgstr "减少文本大小"
 
 #: ui/evolution-mail-message.xml.h:25
 msgid "Display the next important message"
-msgstr "显示下一封重要邮件"
+msgstr "显示下一封重要信件"
 
 #: ui/evolution-mail-message.xml.h:26
 msgid "Display the next message"
-msgstr "显示下一封邮件"
+msgstr "显示下一封信件"
 
 #: ui/evolution-mail-message.xml.h:27
 msgid "Display the next unread message"
-msgstr "显示下一封未读邮件"
+msgstr "显示下一封未读信件"
 
 #: ui/evolution-mail-message.xml.h:28
 msgid "Display the next unread thread"
@@ -18152,15 +18157,15 @@ msgstr "显示下一封未阅读的线索"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Display the previous important message"
-msgstr "显示上一封重要邮件"
+msgstr "显示上一封重要信件"
 
 #: ui/evolution-mail-message.xml.h:30
 msgid "Display the previous message"
-msgstr "显示上一封邮件"
+msgstr "显示上一封信件"
 
 #: ui/evolution-mail-message.xml.h:31
 msgid "Display the previous unread message"
-msgstr "显示上一封未读邮件"
+msgstr "显示上一封未读信件"
 
 #: ui/evolution-mail-message.xml.h:32
 msgid "F_orward As..."
@@ -18188,11 +18193,11 @@ msgstr "过滤标题(_S)..."
 
 #: ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
-msgstr "把选定的邮件标记为垃圾邮件"
+msgstr "把选中的信件标记为垃圾邮件"
 
 #: ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
-msgstr "为选定的邮件做跟随标志"
+msgstr "为选中邮件做跟随标志"
 
 #: ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
@@ -18204,19 +18209,19 @@ msgstr "强制装入 HTML 邮件中的图像"
 
 #: ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
-msgstr "在新邮件体中转发选定的邮件"
+msgstr "在新信体中转发选中邮件"
 
 #: ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
-msgstr "以类似于回复的引用方式转发选定的邮件"
+msgstr "以类似于回复的引用方式转发选中的信件"
 
 #: ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
-msgstr "把选定的邮件转发给某人"
+msgstr "把选中信件转发给某人"
 
 #: ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
-msgstr "把选定的邮件作为附件转发给某人"
+msgstr "把选中信件作为附件转发给某人"
 
 #: ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
@@ -18240,31 +18245,31 @@ msgstr "标记为不重要(_O)"
 
 #: ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected message(s) as having been read"
-msgstr "把选定的邮件标记为已读"
+msgstr "把选中信件标记为已读"
 
 #: ui/evolution-mail-message.xml.h:57
 msgid "Mark the selected message(s) as important"
-msgstr "把选定的邮件标记为重要邮件"
+msgstr "把选中信件标记为重要邮件"
 
 #: ui/evolution-mail-message.xml.h:58
 msgid "Mark the selected message(s) as junk"
-msgstr "把选定的邮件标记为垃圾邮件"
+msgstr "把选中信件标记为垃圾邮件"
 
 #: ui/evolution-mail-message.xml.h:59
 msgid "Mark the selected message(s) as not being junk"
-msgstr "把选定的邮件标记为非垃圾邮件"
+msgstr "把选中信件标记为非垃圾邮件"
 
 #: ui/evolution-mail-message.xml.h:60
 msgid "Mark the selected message(s) as not having been read"
-msgstr "把选定的邮件标记为未读"
+msgstr "把选中信件标记为未读"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "Mark the selected message(s) as unimportant"
-msgstr "把选定的邮件标记为不重要邮件"
+msgstr "把选中信件标记为不重要邮件"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Mark the selected messages for deletion"
-msgstr "为选定的邮件做删除标记"
+msgstr "为选中信件做删除标记"
 
 #: ui/evolution-mail-message.xml.h:63
 msgid "Move"
@@ -18272,11 +18277,11 @@ msgstr "移动"
 
 #: ui/evolution-mail-message.xml.h:64
 msgid "Move selected message(s) to another folder"
-msgstr "把选中的邮件移动到其它文件夹"
+msgstr "把选中的信件移动到其它文件夹"
 
 #: ui/evolution-mail-message.xml.h:66
 msgid "Next _Important Message"
-msgstr "下一封重要邮件(_I)"
+msgstr "下一封重要信件(_I)"
 
 #: ui/evolution-mail-message.xml.h:67
 msgid "Next _Thread"
@@ -18284,7 +18289,7 @@ msgstr "下一条线索(_T)"
 
 #: ui/evolution-mail-message.xml.h:68
 msgid "Next _Unread Message"
-msgstr "下一封未读邮件(_U)"
+msgstr "下一封未读信件(_U)"
 
 #: ui/evolution-mail-message.xml.h:69
 msgid "Not Junk"
@@ -18292,11 +18297,11 @@ msgstr "非垃圾"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "Open the selected message in a new window"
-msgstr "在新窗口中打开选中的邮件"
+msgstr "在新窗口中打开选中的信件"
 
 #: ui/evolution-mail-message.xml.h:71
 msgid "Open the selected message in the composer for editing"
-msgstr "在撰写器中打开选中的邮件以便编辑"
+msgstr "在撰写器中打开选中的信件以便编辑"
 
 #: ui/evolution-mail-message.xml.h:72
 msgid "Original Si_ze"
@@ -18304,7 +18309,7 @@ msgstr "原大小(_Z)"
 
 #: ui/evolution-mail-message.xml.h:73
 msgid "P_revious Unread Message"
-msgstr "上一封未读邮件(_R)"
+msgstr "上一封未读信件(_R)"
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "Post a Repl_y"
@@ -18312,19 +18317,19 @@ msgstr "投递回复(_Y)"
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "Post a reply to a message in a Public folder"
-msgstr "在公共文件夹中回复邮件"
+msgstr "在公共文件夹中回复信件"
 
 #: ui/evolution-mail-message.xml.h:77
 msgid "Pr_evious Important Message"
-msgstr "上一封重要邮件(_E)"
+msgstr "上一封重要信件(_E)"
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "Preview the message to be printed"
-msgstr "预览要打印的邮件"
+msgstr "预览要打印的信件"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Print this message"
-msgstr "打印该邮件"
+msgstr "打印该信件"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Re_direct"
@@ -18332,7 +18337,7 @@ msgstr "重发(_D)"
 
 #: ui/evolution-mail-message.xml.h:84
 msgid "Redirect (bounce) the selected message to someone"
-msgstr "将选定的邮件重发(退回)给某人"
+msgstr "将选中信件重发(退回)给某人"
 
 #: ui/evolution-mail-message.xml.h:89
 msgid "Reset the text to its original size"
@@ -18340,7 +18345,7 @@ msgstr "把文件重新设置为原来的大小"
 
 #: ui/evolution-mail-message.xml.h:90
 msgid "S_earch in Message..."
-msgstr "在邮件中搜索(_E)..."
+msgstr "在信件中搜索(_E)..."
 
 #: ui/evolution-mail-message.xml.h:91
 msgid "S_maller"
@@ -18348,7 +18353,7 @@ msgstr "较小(_M)"
 
 #: ui/evolution-mail-message.xml.h:92
 msgid "Save the message as a text file"
-msgstr "把邮件存为文本文件"
+msgstr "把信件存为文本文件"
 
 #: ui/evolution-mail-message.xml.h:93
 msgid "Search for text in the body of the displayed message"
@@ -18368,19 +18373,19 @@ msgstr "显示完整的邮件头(_H)"
 
 #: ui/evolution-mail-message.xml.h:97
 msgid "Show a blinking cursor in the body of displayed messages"
-msgstr "在显示邮件的邮件体中显示闪烁光标"
+msgstr "在显示信件的信体中显示闪烁光标"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "Show message in the normal style"
-msgstr "以普通样式显示邮件"
+msgstr "以普通样式显示信件"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "Show message with all email headers"
-msgstr "显示邮件时显示所有邮件头"
+msgstr "显示邮件时显示所有信头"
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "Show the raw email source of the message"
-msgstr "显示邮件的原始邮件源代码"
+msgstr "显示信件的原始邮件源代码"
 
 #: ui/evolution-mail-message.xml.h:101
 msgid "Text Si_ze"
@@ -18388,7 +18393,7 @@ msgstr "文字大小(_Z)"
 
 #: ui/evolution-mail-message.xml.h:102
 msgid "Un-delete the selected messages"
-msgstr "取消选中邮件的删除"
+msgstr "取消选中信件的删除"
 
 #: ui/evolution-mail-message.xml.h:103
 msgid "VFolder on Mailing _List..."
@@ -18412,7 +18417,7 @@ msgstr "附加(_A)"
 
 #: ui/evolution-mail-message.xml.h:111
 msgid "_Create Filter From Message"
-msgstr "根据邮件创建过滤规则(_C)"
+msgstr "根据信件创建过滤器(_C)"
 
 #: ui/evolution-mail-message.xml.h:115
 msgid "_Go To"
@@ -18428,11 +18433,11 @@ msgstr "较大(_L)"
 
 #: ui/evolution-mail-message.xml.h:118
 msgid "_Message Display"
-msgstr "邮件显示(_M)"
+msgstr "信件显示(_M)"
 
 #: ui/evolution-mail-message.xml.h:120
 msgid "_Next Message"
-msgstr "下一封邮件(_N)"
+msgstr "下一封信(_N)"
 
 #: ui/evolution-mail-message.xml.h:121
 msgid "_Normal Display"
@@ -18440,11 +18445,11 @@ msgstr "普通显示(_N)"
 
 #: ui/evolution-mail-message.xml.h:122
 msgid "_Open Message"
-msgstr "打开邮件(_O)"
+msgstr "打开信件(_O)"
 
 #: ui/evolution-mail-message.xml.h:124
 msgid "_Previous Message"
-msgstr "上一封邮件(_P)"
+msgstr "上一封信(_P)"
 
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Quoted"
@@ -18490,7 +18495,7 @@ msgstr "用 PGP 加密该邮件"
 
 #: ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Cetificate"
-msgstr "用您的 S/MIME 加密证书加密该邮件"
+msgstr "用您的 S/MIME 加密证书加密该信件"
 
 #: ui/evolution-message-composer.xml.h:8 ui/evolution-signature-editor.xml.h:4
 msgid "For_mat"
@@ -18548,7 +18553,7 @@ msgstr "用不同的文件名保存当前文件"
 
 #: ui/evolution-message-composer.xml.h:23
 msgid "Save the message in a specified folder"
-msgstr "在指定的文件夹中保存邮件"
+msgstr "在指定的文件夹中保存信件"
 
 #: ui/evolution-message-composer.xml.h:25
 #: ui/evolution-signature-editor.xml.h:11
@@ -18557,7 +18562,7 @@ msgstr "以 HTML 格式发送邮件"
 
 #: ui/evolution-message-composer.xml.h:26
 msgid "Send this message"
-msgstr "发送此邮件"
+msgstr "发送这封信"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Show / hide attachments"
@@ -18573,11 +18578,11 @@ msgstr "显示附件"
 
 #: ui/evolution-message-composer.xml.h:30
 msgid "Sign this message with your PGP key"
-msgstr "用您的 PGP 密钥签名该邮件"
+msgstr "用您的 PGP 密钥签名该信件"
 
 #: ui/evolution-message-composer.xml.h:31
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr "用您的 S/MIME 签名认证签名该邮件"
+msgstr "用您的 S/MIME 签名认证签名该信件"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Toggles whether the BCC field is displayed"
@@ -18918,7 +18923,7 @@ msgstr "按跟随标志(_F)"
 
 #: views/mail/galview.xml.h:6
 msgid "_Messages"
-msgstr "邮件(_M)"
+msgstr "信件(_M)"
 
 #: views/tasks/galview.xml.h:1
 msgid "With _Due Date"
@@ -19259,4 +19264,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
-
