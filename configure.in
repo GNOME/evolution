@@ -342,6 +342,17 @@ GNOME_VFS_CFLAGS="`gnome-config --cflags vfs`"
 AC_SUBST(GNOME_VFS_LIBS)
 AC_SUBST(GNOME_VFS_CFLAGS)
 
+save_CFLAGS="$CFLAGS"
+save_LIBS="$LIBS"
+CFLAGS="$GNOME_VFS_CFLAGS"
+LIBS="$GNOME_VFS_LIBS"
+AC_CHECK_LIB(gnomevfs, gnome_vfs_mime_get_default_action_without_fallback,[],
+[
+	AC_MSG_ERROR([You need a newer Gnome VFS. Try the CVS version])
+])
+CFLAGS="$save_CFLAGS"
+LIBS="$save_LIBS"
+
 BONOBO_VFS_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
 BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
 AC_SUBST(BONOBO_VFS_GNOME_LIBS)

@@ -1,3 +1,8 @@
+2000-08-18  Peter Williams  <peterw@helixcode.com>
+
+	* configure.in (gnome-vfs): Check for new enough gnome-vfs
+	(needs gnome_vfs_mime_get_default_action_without_fallback)
+
 2000-08-14  Federico Mena Quintero  <federico@helixcode.com>
 
 	* configure.in (AC_OUTPUT): Generate
