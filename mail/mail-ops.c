@@ -28,6 +28,7 @@
 #include <gnome.h>
 #include "camel/camel.h"
 #include "mail-ops.h"
+#include "mail-format.h"
 #include "folder-browser.h"
 #include "session.h"
 #include "e-util/e-setup.h"
