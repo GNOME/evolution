@@ -1,33 +1,66 @@
 Evolution was written by:
 
-Bertrand Guiheneuf <bertrand@helixcode.com>
-	Main author of Camel
+Addressbook
+	Arturo Esponosa <arturo@nuclecu.unam.mx> (Original Gnomecard author)
+	Nat Friedman <nat@helixcode.com>
+	Chris Lahey <clahey@helixcode.com>
+	Chris Toshok <toshok@helixcode.com>
 
-Chris Lahey (clahey@helixcode.com)
-	Mini-card display widget
-	Contact manager user interface
+Artwork
+	Tuomas Kuosmanen <tigert@helixcode.com>
 
-Damon Chaplin <damon@helixcode.com>
-	Meeting time selector widget
-	Shortcut Bar widget
+Calendar
+	Seth Alves <seth@helixcode.com>
+	Eric Busboom <eric@softwarestudio.org> (libical author)
+	Arturo Esponosa <arturo@nuclecu.unam.mx> (Gnomecal contributor)
+	Damon Chaplin <damon@helixcode.com>
+	Federico Mena-Quintero <federico@helixcode.com>
+	Russell Steinthal <rms39@columbia.edu> (Gnomecal maintainer)
 
-Ettore Perazzoli <ettore@helixcode.com>
-	Evolution Shell
-	Message composer
+Documentation
+	Kevin Breit <battery841@mypad.com>
+	Aaron Weber <aaron@helixcode.com>
 
-Federico Mena <federico@helixcode.com>
-	Gnome Calendar views, and engine
-	Gnome Calendar server
+Mailer
+	Bertrand Guiheneuf <bertrand@helixcode.com>
+	Matt Loper <matt@helixcode.com>
+	Ettore Perazzoli <ettore@helixcode.com>
+	Jeff Stedfast <fejj@helixcode.com>
+	Peter Williams <peterw@helixcode.com>
+	Dan Winship <danw@helixcode.com>
+	Michael Zucchi <notzed@helixcode.com>
 
-Miguel de Icaza <miguel@helixcode.com>
-	Gnome Calendar engine
-	Base64 encoding in Camel
-	Evolution Shell
-	ETable widget
-	Toolbar
+Notes
+	Anders Carlsson <andersca@gnu.org>
 
-Nat Friedman <nat@helixcode.com>
-	EBook and Personal Address Book server.
+Shell
+	Miguel de Icaza <miguel@helixcode.com>
+	Ettore Perazzoli <ettore@helixcode.com>
 
-Robert Brady  <rwb197@ecs.soton.ac.uk>
-	Unicode and RFC2047 support for Camel.
+Translations
+	Akira TAGOH <tagoh@gnome.gr.jp>
+	Andraz Tori <andraz.tori1@guest.arnes.si>
+	Andreas Hyden <a.hyden@cyberpoint.se>
+	Arjan Scherpenisse <acscherp@wins.uva.nl>
+	Clara Tattoni <clara.tattoni@libero.it>
+	Fatih Demir <kabalak@gmx.net>
+	GNOME PL Team <gnomepl@pandora.info.bielsko.pl>
+	Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>
+	Héctor García Alvarez <hector@scouts-es.org>
+	Jesús Bravo Álvarez <jba@pobox.com>
+	Keld Simonsen <keld@dkuug.dk>
+	Matthias Warkus <mawa@iname.com>
+	Spiros Papadimitriou <spapadim+@cs.cmu.edu>
+	Sung-Hyun Nam <namsh@kldp.org>
+	Szabolcs BAN <shooby@gnome.hu>
+	Tiago Antão <tiagoantao@bigfoot.com>
+	Valek Filippov <frob@df.ru>
+	Vincent Renardias <vincent@redhat.com>
+	Yuri Syrota <rasta@renome.rovno.ua>
+
+Widgets
+	Damon Chaplin <damon@helixcode.com>
+	Miguel de Icaza <miguel@helixcode.com>
+	Chris Lahey <clahey@helixcode.com>
+	Federico Mena-Quintero <federico@helixcode.com>
+	Chris Toshok <toshok@helixcode.com>

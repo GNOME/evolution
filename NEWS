@@ -1,6 +1,12 @@
 Version 0.2
 -----------
 
+Shell:
+
+  * Folder selection dialog (Ettore).
+
+  * Folder creation dialog (Ettore).
+
 Addressbook:
 
   * LDAP server configuration dialog (Chris Toshok).
