@@ -212,9 +212,8 @@ save_metainfo (struct _local_meta *meta)
 	xmlSetProp(node, "type", meta->format);
 	xmlSetProp(node, "name", meta->name);
 	xmlSetProp(node, "index", meta->indexed?"1":"0");
-
-#warning "xmlSaveFile used here"	
-	ret = xmlSaveFile (meta->path, doc);
+	
+	ret = e_xml_save_file (meta->path, doc);
 	
 	xmlFreeDoc (doc);
 	
