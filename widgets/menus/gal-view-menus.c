@@ -87,6 +87,12 @@ gvm_destroy (GtkObject *object)
 
 	free_verbs(gvm);
 	remove_xml(gvm);
+
+	if (gvm->priv->component) {
+		bonobo_object_unref (BONOBO_OBJECT (gvm->priv->component));
+		gvm->priv->component = NULL;
+	}
+
 	g_free(gvm->priv);
 	gvm->priv = NULL;
 
@@ -300,6 +306,12 @@ gal_view_menus_apply     (GalViewMenus      *gvm,
 			  BonoboUIComponent *component,
 			  CORBA_Environment *ev)
 {
+	if (component)
+		bonobo_object_ref (BONOBO_OBJECT (component));
+
+	if (gvm->priv->component)
+		bonobo_object_unref (BONOBO_OBJECT (gvm->priv->component));
+
 	gvm->priv->component = component;
 
 	build_stuff (gvm, ev);
