@@ -2,6 +2,7 @@
 #define _MAIL_DISPLAY_H_
 
 #include <gtk/gtktable.h>
+#include <gtkhtml/gtkhtml.h>
 #include "camel/camel-stream.h"
 
 #define MAIL_DISPLAY_TYPE        (mail_display_get_type ())

@@ -16,6 +16,7 @@
 #include "e-table/e-cell-text.h"
 #include "e-table/e-cell-toggle.h"
 #include "e-table/e-cell-checkbox.h"
+#include "e-util/e-util.h"
 #include "message-list.h"
 #include "Mail.h"
 
@@ -368,17 +369,19 @@ message_list_new (void)
 void
 message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 {
+	CamelException ex;
+	
 	g_return_if_fail (message_list != NULL);
 	g_return_if_fail (camel_folder != NULL);
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 	g_return_if_fail (CAMEL_IS_FOLDER (camel_folder));
-	g_return_if_fail (camel_has_summary_capability (camel_folder));
+	g_return_if_fail (camel_folder_has_summary_capability (camel_folder, &ex));
 	
 	if (message_list->folder)
 		gtk_object_unref (GTK_OBJECT (message_list->folder));
 
 	message_list->folder = camel_folder;
-	message_list->folder_summary = camel_folder_get_summary (camel_folder);
+	message_list->folder_summary = camel_folder_get_summary (camel_folder, &ex);
 	
 	gtk_object_ref (GTK_OBJECT (camel_folder));
 

@@ -6,7 +6,7 @@ INCLUDES = \
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
 	-I$(srcdir)/../widgets				\
-	$(BONOBO_GNOME_CFLAGS)
+	$(BONOBO_HTML_GNOME_CFLAGS)
 
 EVOLUTION_CORBA_GENERATED = 	\
 	Mail.h			\
@@ -15,6 +15,8 @@ EVOLUTION_CORBA_GENERATED = 	\
 	Mail-stubs.c
 
 evolution_mail_SOURCES =	\
+	folder-browser-factory.c\
+	folder-browser-factory.h\
 	html-stream.c		\
 	html-stream.h		\
 	mail-display.h		\
@@ -25,8 +27,10 @@ evolution_mail_SOURCES =	\
 	$(EVOLUTION_CORBA_GENERATED)
 
 evolution_mail_LDADD = 					\
+	../widgets/e-table/libetable.a			\
+	../camel/libcamel.la				\
 	../e-util/libeutil.a				\
-	$(BONOBO_GNOME_LIBS)				
+	$(BONOBO_HTML_GNOME_LIBS)				
 
 $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl 
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Mail.idl

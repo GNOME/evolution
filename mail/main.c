@@ -8,6 +8,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <libgnorba/gnorba.h>
 #include <bonobo/gnome-main.h>
 #include "e-util/e-gui-utils.h"
 #include "main.h"
@@ -31,7 +32,7 @@ init_bonobo (int argc, char **argv)
 	}
 }
 
-static void
+void
 main (int argc, char *argv [])
 {
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
@@ -41,7 +42,7 @@ main (int argc, char *argv [])
 
 	init_bonobo (argc, argv);
 
-	mail_folder_browser_factory_init ();
+	folder_browser_factory_init ();
 
 	bonobo_main ();
 

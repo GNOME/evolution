@@ -1,0 +1,9 @@
+.deps
+.libs
+Makefile
+Makefile.in
+Mail-stubs.c
+Mail-skels.c
+Mail-common.c
+Mail.h
+evolution-mail

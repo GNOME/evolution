@@ -12,6 +12,8 @@
 
 #define PARENT_TYPE camel_stream_get_type ()
 
+static GtkObjectClass *html_stream_parent_class;
+
 /*
  * CamelStream::read method
  *
@@ -34,6 +36,8 @@ html_stream_write (CamelStream *stream, const gchar *buffer, gint n)
 	HTMLStream *html_stream = HTML_STREAM (stream);
 	
 	gtk_html_write (html_stream->gtk_html, html_stream->gtk_html_stream, buffer, n);
+
+	return n;
 }
 
 /*
@@ -52,7 +56,7 @@ html_stream_available (CamelStream *stream)
  *
  * We just return TRUE, as this is not a read-stream
  */
-static
+static gboolean
 html_stream_eos (CamelStream *stream)
 {
 	return TRUE;
@@ -63,17 +67,22 @@ html_stream_close (CamelStream *stream)
 {
 	HTMLStream *html_stream = HTML_STREAM (stream);
 	
-	gtk_html_end (html_stream->gtk_html);
+	gtk_html_end (html_stream->gtk_html, html_stream->gtk_html_stream, GTK_HTML_STREAM_OK);
+}
+
+static void
+html_stream_destroy (GtkObject *object)
+{
 }
 
 static void
 html_stream_class_init (GtkObjectClass *object_class)
 {
-	HTMLStreamClass *stream_class = (HTMLStreamClass *) object_class;
+	CamelStreamClass *stream_class = (CamelStreamClass *) object_class;
 
 	html_stream_parent_class = gtk_type_class (PARENT_TYPE);
 	
-	object_class->destory = html_stream_destroy;
+	object_class->destroy = html_stream_destroy;
 	
 	stream_class->read = html_stream_read;
 	stream_class->write = html_stream_write;
