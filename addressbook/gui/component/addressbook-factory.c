@@ -95,6 +95,9 @@ main (int argc, char **argv)
 	/*g_thread_init (NULL);*/
 	camel_type_init ();
 
+	gtk_widget_push_visual (gdk_rgb_get_visual ());
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+
 	bonobo_main ();
 
 	return 0;
