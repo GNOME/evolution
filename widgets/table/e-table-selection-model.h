@@ -57,6 +57,7 @@ void             e_table_selection_model_do_something    (ETableSelectionModel *
 						          guint                 col,
 						          gboolean              shift_p,
 						          gboolean              ctrl_p);
+void             e_table_selection_model_clear           (ETableSelectionModel *selection);
 
 ETableSelectionModel  *e_table_selection_model_new       (void);
 

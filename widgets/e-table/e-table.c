@@ -184,6 +184,7 @@ e_table_init (GtkObject *object)
 	e_table->drop_col = -1;
 
 	e_table->selection = e_table_selection_model_new();
+	e_table->cursor_loc = E_TABLE_CURSOR_LOC_NONE;
 }
 
 static void
@@ -271,8 +272,21 @@ table_canvas_reflow (GnomeCanvas *canvas, ETable *e_table)
 }
 
 static void
+click_to_add_cursor_change (ETableClickToAdd *etcta, int row, int col, ETable *et)
+{
+	if (et->cursor_loc == E_TABLE_CURSOR_LOC_TABLE) {
+		e_table_selection_model_clear(et->selection);
+	}
+	et->cursor_loc = E_TABLE_CURSOR_LOC_ETCTA;
+}
+
+static void
 group_cursor_change (ETableGroup *etg, int row, ETable *et)
 {
+	if (et->cursor_loc == E_TABLE_CURSOR_LOC_ETCTA && et->click_to_add) {
+		e_table_click_to_add_commit(E_TABLE_CLICK_TO_ADD(et->click_to_add));
+	}
+	et->cursor_loc = E_TABLE_CURSOR_LOC_TABLE;
 	gtk_signal_emit (GTK_OBJECT (et),
 			 et_signals [CURSOR_CHANGE],
 			 row);
@@ -441,6 +455,8 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 							       NULL);
 		
 		e_canvas_vbox_add_item(E_CANVAS_VBOX(e_table->canvas_vbox), e_table->click_to_add);
+		gtk_signal_connect(GTK_OBJECT (e_table->click_to_add), "cursor_change",
+				   GTK_SIGNAL_FUNC(click_to_add_cursor_change), e_table);
 	}
 
 	e_table->group = e_table_group_new (

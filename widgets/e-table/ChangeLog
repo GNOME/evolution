@@ -1,5 +1,15 @@
 2000-07-26  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-click-to-add.c: Fixed a reference.
+
+	* e-table-selection-model.c, e-table-selection-model.h: Added a
+	clear function.
+
+	* e-table.c, e-table.h: Made going from click to add to the main
+	table and back work better.
+
+2000-07-26  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-click-to-add.c, e-table-click-to-add.h: Added an
 	ETableSelectionModel so this won't crash.
 

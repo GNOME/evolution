@@ -400,7 +400,7 @@ etcta_init (GnomeCanvasItem *item)
 	etcta->rect = NULL;
 
 	etcta->selection = e_table_selection_model_new();
-	gtk_signal_connect(GTK_OBJECT(etcta->selection), "cursor_change",
+	gtk_signal_connect(GTK_OBJECT(etcta->selection), "cursor_changed",
 			   GTK_SIGNAL_FUNC(etcta_cursor_change), etcta);
 
 	e_canvas_item_set_reflow_callback(item, etcta_reflow);

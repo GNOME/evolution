@@ -21,6 +21,12 @@ BEGIN_GNOME_DECLS
 #define E_IS_TABLE(o)       (GTK_CHECK_TYPE ((o), E_TABLE_TYPE))
 #define E_IS_TABLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_TYPE))
 
+typedef enum {
+	E_TABLE_CURSOR_LOC_NONE = 0,
+	E_TABLE_CURSOR_LOC_ETCTA = 1 << 0,
+	E_TABLE_CURSOR_LOC_TABLE = 1 << 1,
+} ETableCursorLoc;
+
 typedef struct {
 	GtkTable parent;
 
@@ -34,6 +40,7 @@ typedef struct {
 	ETableSortInfo *sort_info;
 
 	ETableSelectionModel *selection;
+	ETableCursorLoc cursor_loc;
 
 	int table_model_change_id;
 	int table_row_change_id;

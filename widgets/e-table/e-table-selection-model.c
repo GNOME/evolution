@@ -44,11 +44,7 @@ enum {
 static void
 model_changed(ETableModel *etm, ETableSelectionModel *etsm)
 {
-	g_free(etsm->selection);
-	etsm->selection = NULL;
-	etsm->row_count = -1;
-	gtk_signal_emit(GTK_OBJECT(etsm),
-			e_table_selection_model_signals [SELECTION_CHANGED]);
+	e_table_selection_model_clear(etsm);
 }
 
 #if 1
@@ -385,4 +381,14 @@ void             e_table_selection_model_do_something      (ETableSelectionModel
 			selection->cursor_col = col;
 		}
 	}
+}
+
+void
+e_table_selection_model_clear(ETableSelectionModel *selection)
+{
+	g_free(selection->selection);
+	selection->selection = NULL;
+	selection->row_count = -1;
+	gtk_signal_emit(GTK_OBJECT(selection),
+			e_table_selection_model_signals [SELECTION_CHANGED]);
 }
