@@ -3269,6 +3269,15 @@ e_day_view_on_event_double_click (EDayView *day_view,
 }
 
 static void
+popup_destroyed_cb (gpointer data, GObject *where_object_was)
+{
+	EDayView *day_view = data;
+
+	day_view->popup_event_day = -1;
+	day_view->popup_event_num = -1;	
+}
+	
+static void
 e_day_view_show_popup_menu (EDayView *day_view,
 			    GdkEvent *gdk_event,
 			    gint day,
@@ -3280,6 +3289,7 @@ e_day_view_show_popup_menu (EDayView *day_view,
 	day_view->popup_event_num = event_num;
 
 	popup = e_calendar_view_create_popup_menu (E_CALENDAR_VIEW (day_view));
+	g_object_weak_ref (G_OBJECT (popup), popup_destroyed_cb, day_view);
 	e_popup_menu (popup, gdk_event);
 }
 

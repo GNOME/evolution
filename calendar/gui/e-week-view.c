@@ -3703,6 +3703,14 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	return handled;
 }
 
+static void
+popup_destroyed_cb (gpointer data, GObject *where_object_was)
+{
+	EWeekView *week_view = data;
+
+	week_view->popup_event_num = -1;
+}
+
 void
 e_week_view_show_popup_menu (EWeekView	     *week_view,
 			     GdkEventButton  *bevent,
@@ -3713,6 +3721,7 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 	week_view->popup_event_num = event_num;
 
 	popup = e_calendar_view_create_popup_menu (E_CALENDAR_VIEW (week_view));
+	g_object_weak_ref (G_OBJECT (popup), popup_destroyed_cb, week_view);
 	e_popup_menu (popup, (GdkEvent *) bevent);
 }
 

@@ -1,4 +1,16 @@
-2004-04-21  JP Rosevear <jpr@ximian.com>
+2004-04-22  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #56092
+	
+	* gui/e-day-view.c (e_day_view_show_popup_menu): weak ref for the
+	menu to be destroyed
+	(popup_destroyed_cb): reset popup_event_num and popup_event_day
+
+	* gui/e-week-view.c (e_week_view_show_popup_menu): weak ref for
+	the menu to be destroyed
+	(popup_destroyed_cb): reset the popup_event_num
+
+2004-04-21  JP Rosevear  <jpr@ximian.com>
 
 	* gui/calendar-component.c (create_new_event): make sure we don't
 	deref a NULL pointer
