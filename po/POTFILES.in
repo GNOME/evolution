@@ -119,7 +119,6 @@ mail/mail-crypto.c
 mail/mail-display.c
 mail/mail-format.c
 mail/mail-local.c
-mail/mail-local-storage.c
 mail/mail-ops.c
 mail/mail-search-dialogue.c
 mail/mail-summary.c
