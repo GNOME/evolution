@@ -1,3 +1,18 @@
+2000-09-25  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shortcut-bar.c (e_shortcut_bar_destroy): Call
+	`e_shortcut_bar_disconnect_model()'.
+	(e_shortcut_bar_on_drag_data_received): Don't add the item to the
+	model here; the view is only supposed to act as a view.  Rather,
+	emit the "dropped_shortcut" signal appropriately.
+	(e_shortcut_bar_on_drag_data_delete): Likewise, don't remove the
+	item from the model and emit "shortcut_dragged".
+	(e_shortcut_bar_class_init): Install the "shortcut_dropped" and
+	"shortcut_dragged" signals.
+
+	* e-shortcut-bar.h: New signals "shortcut_dropped",
+	"shortcut_dragged".  "selected_item" changed to "item_selected".
+
 2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and
