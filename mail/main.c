@@ -12,9 +12,10 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object-directory.h>
 #include <glade/glade.h>
-/*#include <gconf/gconf.h>*/
 #include <liboaf/liboaf.h>
-
+#ifdef GTKHTML_HAVE_GCONF
+#include <gconf/gconf.h>
+#endif
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-cursors.h"
 
@@ -44,8 +45,9 @@ main (int argc, char *argv [])
 			 "Bonobo against GOAD instead of OAF.");
 	}
 
-	/*gconf_init (argc, argv, NULL);*/
-
+#ifdef GTKHTML_HAVE_GCONF
+	gconf_init (argc, argv, NULL);
+#endif
 	glade_gnome_init ();
 
 	session_init ();

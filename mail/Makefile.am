@@ -15,6 +15,7 @@ INCLUDES = \
 	$(GNOME_VFS_CFLAGS)				\
 	$(UNICODE_CFLAGS)				\
 	$(GCONF_CFLAGS)					\
+	$(GTKHTML_CFLAGS)				\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
@@ -59,7 +60,6 @@ evolution_mail_SOURCES =		\
 	message-thread.h		\
 	session.c			\
 	mail.h
-
 
 evolution_mail_LDADD = 					\
 	$(top_builddir)/shell/libeshell.a		\
