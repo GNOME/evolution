@@ -79,6 +79,10 @@ create_ondemand_hooks (FolderBrowser *fb, BonoboUIHandler *uih)
 BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("PrintMessage", print_msg),
 	
+	/* Edit Menu */
+	BONOBO_UI_VERB ("EditSelectAll", select_all),
+	BONOBO_UI_VERB ("EditUnSelectAll", unselect_all),
+	
 	/* Settings Menu */
 	BONOBO_UI_VERB ("SetMailFilter", filter_edit),
 	BONOBO_UI_VERB ("VFolderEdit", vfolder_edit_vfolders),
@@ -86,9 +90,6 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("SetForgetPwd", forget_passwords),
 	
 	/* Message Menu */
-	BONOBO_UI_VERB ("MessageSelectAll", select_all),
-	BONOBO_UI_VERB ("MessageUnSelectAll", unselect_all),
-	
 	BONOBO_UI_VERB ("MessageOpenNewWnd", view_message),
 	BONOBO_UI_VERB ("MessageEdit", edit_message),
 	BONOBO_UI_VERB ("MessagePrint", print_msg),

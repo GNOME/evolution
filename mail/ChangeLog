@@ -1,7 +1,12 @@
 2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* folder-browser-factory.c: Added new menu items
+	* folder-browser-factory.c: Shuffling (un)select all menu items to
+	the Edit menu.
 
+2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser-factory.c: Added new menu items
+	
 	* mail-callbacks.c (mark_as_seen): New callback to mark all
 	selected messages as Seen.
 	(mark_as_unseen): New callback to mark all selected messages as
