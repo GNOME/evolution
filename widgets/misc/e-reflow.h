@@ -89,7 +89,7 @@ struct _EReflowClass
 	GnomeCanvasGroupClass parent_class;
 
 	/* Virtual methods. */
-	void (* add_item) (EReflow *reflow, GnomeCanvasItem *item);
+	void (* add_item) (EReflow *reflow, GnomeCanvasItem *item, gint *position);
 };
 
 /* 
@@ -98,11 +98,14 @@ struct _EReflowClass
  * should also do an ECanvas parent reflow request if its size
  * changes.
  */
-void       e_reflow_add_item(EReflow *e_reflow, GnomeCanvasItem *item);
-GtkType    e_reflow_get_type (void);
+void     e_reflow_add_item       (EReflow         *e_reflow,
+				  GnomeCanvasItem *item,
+				  gint            *position);
+GtkType  e_reflow_get_type       (void);
 
 /* Internal usage only: */
-void e_reflow_post_add_item(EReflow *e_reflow, GnomeCanvasItem *item);
+void     e_reflow_post_add_item  (EReflow         *e_reflow,
+				  GnomeCanvasItem *item);
 
 #ifdef __cplusplus
 }

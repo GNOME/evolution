@@ -42,7 +42,7 @@ static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 static void e_reflow_update (GnomeCanvasItem *item, double affine[6], ArtSVP *clip_path, gint flags);
 static double e_reflow_point (GnomeCanvasItem *item, double x, double y, int cx, int cy, GnomeCanvasItem **actual_item);
 static void e_reflow_reflow (GnomeCanvasItem *item, int flags);
-static void e_reflow_real_add_item(EReflow *e_reflow, GnomeCanvasItem *item);
+static void e_reflow_real_add_item(EReflow *e_reflow, GnomeCanvasItem *item, gint *position);
 static void set_empty(EReflow *e_reflow);
 
 static void e_reflow_resize_children (GnomeCanvasItem *item);
@@ -109,17 +109,17 @@ e_reflow_class_init (EReflowClass *klass)
 
 	klass->add_item       = e_reflow_real_add_item;
  
-	object_class->set_arg   = e_reflow_set_arg;
-	object_class->get_arg   = e_reflow_get_arg;
-	object_class->destroy   = e_reflow_destroy;
+	object_class->set_arg = e_reflow_set_arg;
+	object_class->get_arg = e_reflow_get_arg;
+	object_class->destroy = e_reflow_destroy;
   
 	/* GnomeCanvasItem method overrides */
-	item_class->event       = e_reflow_event;
-	item_class->realize     = e_reflow_realize;
-	item_class->unrealize   = e_reflow_unrealize;
-	item_class->draw        = e_reflow_draw;
-	item_class->update      = e_reflow_update;
-	item_class->point       = e_reflow_point;
+	item_class->event     = e_reflow_event;
+	item_class->realize   = e_reflow_realize;
+	item_class->unrealize = e_reflow_unrealize;
+	item_class->draw      = e_reflow_draw;
+	item_class->update    = e_reflow_update;
+	item_class->point     = e_reflow_point;
 }
 
 static void
@@ -481,18 +481,19 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static void
-e_reflow_real_add_item(EReflow *e_reflow, GnomeCanvasItem *item)
+e_reflow_real_add_item(EReflow *e_reflow, GnomeCanvasItem *item, gint *position)
 {
 	e_reflow->items = g_list_append(e_reflow->items, item);
 	gtk_object_ref(GTK_OBJECT(item));
-	if ( GTK_OBJECT_FLAGS( e_reflow ) & GNOME_CANVAS_ITEM_REALIZED ) {
+	if (GTK_OBJECT_FLAGS (e_reflow) & GNOME_CANVAS_ITEM_REALIZED) {
 		gnome_canvas_item_set(item,
 				      "width", (double) e_reflow->column_width,
 				      NULL);
 		e_reflow_post_add_item(e_reflow, item);
 		e_canvas_item_request_reflow(item);
 	}
-
+	if (position)
+		*position = g_list_index(e_reflow->items, item);
 }
 
 static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
@@ -847,10 +848,10 @@ e_reflow_reflow( GnomeCanvasItem *item, int flags )
 }
 
 void
-e_reflow_add_item(EReflow *e_reflow, GnomeCanvasItem *item)
+e_reflow_add_item(EReflow *e_reflow, GnomeCanvasItem *item, gint *position)
 {
 	if (E_REFLOW_CLASS(GTK_OBJECT(e_reflow)->klass)->add_item)
-		(E_REFLOW_CLASS(GTK_OBJECT(e_reflow)->klass)->add_item) (e_reflow, item);
+		(E_REFLOW_CLASS(GTK_OBJECT(e_reflow)->klass)->add_item) (e_reflow, item, position);
 }
 
 void

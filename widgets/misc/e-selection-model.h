@@ -65,6 +65,7 @@ typedef struct {
 } ESelectionModelClass;
 
 GtkType   e_selection_model_get_type            (void);
+
 gboolean  e_selection_model_is_row_selected     (ESelectionModel *selection,
 						 gint             n);
 void      e_selection_model_foreach             (ESelectionModel *selection,
@@ -84,10 +85,15 @@ void      e_selection_model_clear               (ESelectionModel *selection);
 gint      e_selection_model_selected_count      (ESelectionModel *selection);
 void      e_selection_model_select_all          (ESelectionModel *selection);
 void      e_selection_model_invert_selection    (ESelectionModel *selection);
+
+/* Private Functions */
 void      e_selection_model_insert_row          (ESelectionModel *esm,
 						 int              row);
 void      e_selection_model_delete_row          (ESelectionModel *esm,
 						 int              row);
+void      e_selection_model_move_row            (ESelectionModel *esm,
+						 int              old_row,
+						 int              new_row);
 
 /* Virtual Function */
 gint      e_selection_model_get_row_count       (ESelectionModel *esm);

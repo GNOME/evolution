@@ -27,6 +27,7 @@
 
 static GtkObjectClass *e_selection_model_parent_class;
 
+static void change_one_row(ESelectionModel *selection, int row, gboolean grow);
 static void esm_select_single_row (ESelectionModel *selection, int row);
 
 enum {
@@ -47,8 +48,8 @@ enum {
 	ARG_CURSOR_MODE,
 };
 
-void
-e_selection_model_insert_row(ESelectionModel *esm, int row)
+static void
+e_selection_model_insert_row_real(ESelectionModel *esm, int row)
 {
 	int box;
 	int i;
@@ -74,8 +75,8 @@ e_selection_model_insert_row(ESelectionModel *esm, int row)
 		esm->cursor_row ++;
 }
 
-void
-e_selection_model_delete_row(ESelectionModel *esm, int row)
+static void
+e_selection_model_delete_row_real(ESelectionModel *esm, int row)
 {
 	int box;
 	int i;
@@ -113,6 +114,51 @@ e_selection_model_delete_row(ESelectionModel *esm, int row)
 	}
 	if (esm->cursor_row >= row && esm->cursor_row > 0)
 		esm->cursor_row --;
+}
+
+void
+e_selection_model_delete_row(ESelectionModel *esm, int row)
+{
+	e_selection_model_delete_row_real(esm, row);
+	gtk_signal_emit(GTK_OBJECT(esm),
+			e_selection_model_signals [SELECTION_CHANGED]);
+	gtk_signal_emit(GTK_OBJECT(esm),
+			e_selection_model_signals [CURSOR_CHANGED], esm->cursor_row, esm->cursor_col);
+}
+
+void
+e_selection_model_insert_row(ESelectionModel *esm, int row)
+{
+	e_selection_model_insert_row_real(esm, row);
+	gtk_signal_emit(GTK_OBJECT(esm),
+			e_selection_model_signals [SELECTION_CHANGED]);
+	gtk_signal_emit(GTK_OBJECT(esm),
+			e_selection_model_signals [CURSOR_CHANGED], esm->cursor_row, esm->cursor_col);
+}
+
+/* FIXME: Implement this more efficiently. */
+void
+e_selection_model_move_row(ESelectionModel *esm, int old_row, int new_row)
+{
+	gint selected = e_selection_model_is_row_selected(esm, old_row);
+	gint cursor = esm->cursor_row == old_row;
+
+	e_selection_model_delete_row_real(esm, old_row);
+	e_selection_model_insert_row_real(esm, new_row);
+
+	if (selected) {
+		if (esm->mode == GTK_SELECTION_SINGLE)
+			esm_select_single_row (esm, new_row);
+		else
+			change_one_row(esm, new_row, TRUE);
+	}
+	if (cursor) {
+		esm->cursor_row = new_row;
+	}
+	gtk_signal_emit(GTK_OBJECT(esm),
+			e_selection_model_signals [SELECTION_CHANGED]);
+	gtk_signal_emit(GTK_OBJECT(esm),
+			e_selection_model_signals [CURSOR_CHANGED], esm->cursor_row, esm->cursor_col);
 }
 
 inline static void
@@ -288,7 +334,7 @@ gboolean
 e_selection_model_is_row_selected (ESelectionModel *selection,
 				   gint                 n)
 {
-	if (selection->row_count < n)
+	if (selection->row_count < n || selection->row_count == 0)
 		return 0;
 	else
 		return (selection->selection[BOX(n)] >> OFFSET(n)) & 0x1;
@@ -451,9 +497,9 @@ esm_set_selection_end (ESelectionModel *selection, int row)
  */
 void
 e_selection_model_do_something (ESelectionModel *selection,
-				      guint                 row,
-				      guint                 col,
-				      GdkModifierType       state)
+				guint                 row,
+				guint                 col,
+				GdkModifierType       state)
 {
 	gint shift_p = state & GDK_SHIFT_MASK;
 	gint ctrl_p = state & GDK_CONTROL_MASK;
