@@ -1,3 +1,12 @@
+2002-10-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-command.c (imap_read_response): If the
+	response from the IMAP server is "No", don't set the
+	SERVICE_UNAVAILABLE exception, this makes error reporting in the
+	UI for deleting IMAP folders that cannot be deleted inaccurate
+	(ie, it reports "Cannot delete in offline mode" which is not the
+	problem).
+
 2002-10-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #31752

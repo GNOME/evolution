@@ -401,7 +401,7 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 	p += 3;
 	if (!*p++)
 		p = NULL;
-	camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 			      _("IMAP command failed: %s"),
 			      p ? p : _("Unknown error"));
 	camel_imap_response_free_without_processing (store, response);
