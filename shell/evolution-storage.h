@@ -113,6 +113,10 @@ struct _EvolutionStorageClass {
 					const char *user,
 					const char *folder_name);
 
+	void (*cancel_discover_shared_folder)  (EvolutionStorage *storage,
+						const char *user,
+						const char *folder_name);
+
 	void (*remove_shared_folder) (EvolutionStorage *storage,
 				      Bonobo_Listener listener,
 				      const char *path);

@@ -92,6 +92,8 @@ module Evolution {
 		void asyncDiscoverSharedFolder (in string user,
 						in string folder_name,
 						in Bonobo::Listener listener);
+		void cancelDiscoverSharedFolder (in string user,
+						 in string folder_name);
 		void asyncRemoveSharedFolder   (in string path,
 						in Bonobo::Listener listener);
 

@@ -559,6 +559,26 @@ async_discover_shared_folder (EStorage *storage,
 }
 
 static void
+cancel_discover_shared_folder (EStorage *storage,
+			       const char *owner,
+			       const char *folder_name)
+{
+	ECorbaStorage *corba_storage;
+	ECorbaStoragePrivate *priv;
+	CORBA_Environment ev;
+
+	corba_storage = E_CORBA_STORAGE (storage);
+	priv = corba_storage->priv;
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Storage_cancelDiscoverSharedFolder (priv->storage_interface,
+							    owner, folder_name, &ev);
+	if (BONOBO_EX (&ev))
+		g_warning ("Error invoking cancelDiscoverSharedFolder -- %s", BONOBO_EX_ID (&ev));
+	CORBA_exception_free (&ev);
+}
+
+static void
 async_remove_shared_folder (EStorage *storage,
 			    const char *path,
 			    EStorageResultCallback callback,
@@ -627,13 +647,14 @@ class_init (ECorbaStorageClass *klass)
 	object_class->destroy = destroy;
 
 	storage_class = E_STORAGE_CLASS (klass);
-	storage_class->async_create_folder = async_create_folder;
-	storage_class->async_remove_folder = async_remove_folder;
-	storage_class->async_xfer_folder = async_xfer_folder;
-	storage_class->async_open_folder = async_open_folder;
-	storage_class->supports_shared_folders = supports_shared_folders;
-	storage_class->async_discover_shared_folder = async_discover_shared_folder;
-	storage_class->async_remove_shared_folder = async_remove_shared_folder;
+	storage_class->async_create_folder           = async_create_folder;
+	storage_class->async_remove_folder           = async_remove_folder;
+	storage_class->async_xfer_folder             = async_xfer_folder;
+	storage_class->async_open_folder             = async_open_folder;
+	storage_class->supports_shared_folders       = supports_shared_folders;
+	storage_class->async_discover_shared_folder  = async_discover_shared_folder;
+	storage_class->cancel_discover_shared_folder = cancel_discover_shared_folder;
+	storage_class->async_remove_shared_folder    = async_remove_shared_folder;
 
 	corba_class_init ();
 

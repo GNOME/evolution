@@ -264,12 +264,15 @@ create_new_folder_selector (EvolutionShellComponent *shell_component)
 static int
 shared_folder_discovery_timeout_callback (void *data)
 {
+	GNOME_Evolution_Storage_FolderResult result;
 	CORBA_Environment ev;
 	Bonobo_Listener listener;
 	CORBA_any any;
-	GNOME_Evolution_Storage_FolderResult result;
+	EvolutionStorage *storage;
 
-	listener = (Bonobo_Listener) data;
+	storage = EVOLUTION_STORAGE (data);
+
+	listener = (Bonobo_Listener) gtk_object_get_data (GTK_OBJECT (storage), "listener");
 
 	result.result = GNOME_Evolution_Storage_OK;
 	result.path = "/Shared Folders/The Public Folder";
@@ -284,18 +287,22 @@ shared_folder_discovery_timeout_callback (void *data)
 		g_warning ("Cannot report result for shared folder discovery -- %s",
 			   BONOBO_EX_ID (&ev));
 
+	Bonobo_Unknown_unref (listener, &ev);
 	CORBA_Object_release (listener, &ev);
 
 	CORBA_exception_free (&ev);
+
+	gtk_object_set_data (GTK_OBJECT (storage), "listener", NULL);
+	gtk_object_set_data (GTK_OBJECT (storage), "timeout_id", NULL);
 
 	return FALSE;
 }
 
 static void
 storage_discover_shared_folder_callback (EvolutionStorage *storage,
+					 Bonobo_Listener listener,
 					 const char *user,
 					 const char *folder_name,
-					 Bonobo_Listener listener,
 					 void *data)
 {
 	CORBA_Environment ev;
@@ -303,9 +310,42 @@ storage_discover_shared_folder_callback (EvolutionStorage *storage,
 
 	CORBA_exception_init (&ev);
 	listener_copy = CORBA_Object_duplicate (listener, &ev);
+	Bonobo_Unknown_ref (listener, &ev);
 	CORBA_exception_free (&ev);
 
-	g_timeout_add (1000, shared_folder_discovery_timeout_callback, listener_copy);
+	g_print ("Listener copy %p\n", listener_copy);
+
+	timeout_id = g_timeout_add (1000, shared_folder_discovery_timeout_callback, storage);
+
+	gtk_object_set_data (GTK_OBJECT (storage), "listener", listener_copy);
+	gtk_object_set_data (GTK_OBJECT (storage), "timeout_id", GINT_TO_POINTER (timeout_id));
+}
+
+static void
+storage_cancel_discover_shared_folder_callback (EvolutionStorage *storage,
+						const char *user,
+						const char *folder_name,
+						void *data)
+{
+	Bonobo_Listener listener;
+	CORBA_Environment ev;
+	int timeout_id;
+
+	timeout_id = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (storage), "timeout_id"));
+	if (timeout_id == 0)
+		return;
+
+	g_source_remove (timeout_id);
+	gtk_object_set_data (GTK_OBJECT (storage), "timeout_id", NULL);
+
+	listener = (Bonobo_Listener) gtk_object_get_data (GTK_OBJECT (storage), "listener");
+
+	CORBA_exception_init (&ev);
+	Bonobo_Unknown_unref (listener, &ev);
+	CORBA_Object_release (listener, &ev);
+	CORBA_exception_free (&ev);
+
+	gtk_object_set_data (GTK_OBJECT (storage), "listener", NULL);
 }
 
 static void
@@ -328,6 +368,8 @@ setup_custom_storage (EvolutionShellClient *shell_client)
 
 	gtk_signal_connect (GTK_OBJECT (the_storage), "discover_shared_folder",
 			    GTK_SIGNAL_FUNC (storage_discover_shared_folder_callback), shell_client);
+	gtk_signal_connect (GTK_OBJECT (the_storage), "cancel_discover_shared_folder",
+			    GTK_SIGNAL_FUNC (storage_cancel_discover_shared_folder_callback), shell_client);
 
 	/* Add some custom "Properties" items.  */
 	evolution_storage_add_property_item (the_storage, "Sharing...",

@@ -277,9 +277,9 @@ class_init (EStorageClass *class)
 	class->async_xfer_folder   = impl_async_xfer_folder;
 	class->async_open_folder   = impl_async_open_folder;
 
-	class->supports_shared_folders      = impl_supports_shared_folders;
-	class->async_discover_shared_folder = impl_async_discover_shared_folder;
-	class->async_remove_shared_folder   = impl_async_remove_shared_folder;
+	class->supports_shared_folders       = impl_supports_shared_folders;
+	class->async_discover_shared_folder  = impl_async_discover_shared_folder;
+	class->async_remove_shared_folder    = impl_async_remove_shared_folder;
 
 	signals[NEW_FOLDER] =
 		gtk_signal_new ("new_folder",
@@ -531,6 +531,19 @@ e_storage_async_discover_shared_folder (EStorage *storage,
 	g_return_if_fail (folder_name != NULL);
 
 	(* ES_CLASS (storage)->async_discover_shared_folder) (storage, owner, folder_name, callback, data);
+}
+
+void
+e_storage_cancel_discover_shared_folder (EStorage *storage,
+					 const char *owner,
+					 const char *folder_name)
+{
+	g_return_if_fail (E_IS_STORAGE (storage));
+	g_return_if_fail (owner != NULL);
+	g_return_if_fail (folder_name != NULL);
+	g_return_if_fail (ES_CLASS (storage)->cancel_discover_shared_folder != NULL);
+
+	(* ES_CLASS (storage)->cancel_discover_shared_folder) (storage, owner, folder_name);
 }
 
 void

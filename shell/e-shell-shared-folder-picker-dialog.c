@@ -261,10 +261,23 @@ struct _DiscoveryData {
 	EShell *shell;
 	EShellView *parent;
 	GtkWidget *dialog;
-	char *user;
+	char *user_email_address;
 	char *folder_name;
+	EStorage *storage;
 };
 typedef struct _DiscoveryData DiscoveryData;
+
+static void
+cleanup_discovery (DiscoveryData *discovery_data)
+{
+	if (discovery_data->dialog != NULL)
+		gtk_widget_destroy (discovery_data->dialog);
+
+	g_free (discovery_data->user_email_address);
+	g_free (discovery_data->folder_name);
+	gtk_object_unref (GTK_OBJECT (discovery_data->storage));
+	g_free (discovery_data);
+}
 
 static int
 progress_bar_timeout_callback (void *data)
@@ -299,6 +312,23 @@ progress_dialog_close_callback (GnomeDialog *dialog,
 	/* Don't allow the dialog to be closed through the window manager close
 	   command.  */
 	return TRUE;
+}
+
+/* This is invoked if the "Cancel" button is clicked.  */
+static void
+progress_dialog_clicked_callback (GnomeDialog *dialog,
+				  int button_number,
+				  void *data)
+{
+	DiscoveryData *discovery_data;
+
+	discovery_data = (DiscoveryData *) data;
+
+	e_storage_cancel_discover_shared_folder (discovery_data->storage,
+						 discovery_data->user_email_address,
+						 discovery_data->folder_name);
+
+	cleanup_discovery (discovery_data);
 }
 
 static int
@@ -355,17 +385,6 @@ create_progress_dialog (EShell *shell,
 			    GINT_TO_POINTER (timeout_id));
 
 	return dialog;
-}
-
-static void
-cleanup_discovery (DiscoveryData *discovery_data)
-{
-	if (discovery_data->dialog != NULL)
-		gtk_widget_destroy (discovery_data->dialog);
-
-	g_free (discovery_data->user);
-	g_free (discovery_data->folder_name);
-	g_free (discovery_data);
 }
 
 static void
@@ -460,11 +479,13 @@ discover_folder (EShell *shell,
 	dialog = create_progress_dialog (shell, storage, user_email_address, folder_name);
 
 	discovery_data = g_new (DiscoveryData, 1);
-	discovery_data->dialog      = dialog;
-	discovery_data->shell       = shell;
-	discovery_data->parent      = parent;
-	discovery_data->user        = g_strdup (user_email_address);
-	discovery_data->folder_name = g_strdup (folder_name);
+	discovery_data->dialog             = dialog;
+	discovery_data->shell              = shell;
+	discovery_data->parent             = parent;
+	discovery_data->user_email_address = g_strdup (user_email_address);
+	discovery_data->folder_name        = g_strdup (folder_name);
+	discovery_data->storage            = storage;
+	gtk_object_ref (GTK_OBJECT (storage));
 
 	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
 			    GTK_SIGNAL_FUNC (shell_destroy_callback), discovery_data);
@@ -474,6 +495,9 @@ discover_folder (EShell *shell,
 
 	gtk_signal_connect (GTK_OBJECT (storage), "destroy",
 			    GTK_SIGNAL_FUNC (storage_destroy_callback), discovery_data);
+
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
+			    GTK_SIGNAL_FUNC (progress_dialog_clicked_callback), discovery_data);
 
 	e_storage_async_discover_shared_folder (storage,
 						user_email_address,

@@ -83,6 +83,7 @@ enum {
 	UPDATE_FOLDER,
 	OPEN_FOLDER,
 	DISCOVER_SHARED_FOLDER,
+	CANCEL_DISCOVER_SHARED_FOLDER,
 	REMOVE_SHARED_FOLDER,
 	SHOW_FOLDER_PROPERTIES,
 
@@ -506,6 +507,22 @@ impl_Storage_asyncDiscoverSharedFolder (PortableServer_Servant servant,
 }
 
 static void
+impl_Storage_cancelDiscoverSharedFolder (PortableServer_Servant servant,
+					const CORBA_char *user,
+					const CORBA_char *folder_name,
+					CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorage *storage;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+
+	gtk_signal_emit (GTK_OBJECT (storage), signals[CANCEL_DISCOVER_SHARED_FOLDER],
+			 user, folder_name);
+}
+
+static void
 impl_Storage_asyncRemoveSharedFolder (PortableServer_Servant servant,
 				      const CORBA_char *path,
 				      const Bonobo_Listener listener,
@@ -805,6 +822,16 @@ class_init (EvolutionStorageClass *klass)
 							  GTK_TYPE_STRING,
 							  GTK_TYPE_STRING);
 
+	signals[CANCEL_DISCOVER_SHARED_FOLDER] = gtk_signal_new ("cancel_discover_shared_folder",
+								 GTK_RUN_LAST,
+								 object_class->type,
+								 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+										    cancel_discover_shared_folder),
+								 gtk_marshal_NONE__POINTER_POINTER,
+								 GTK_TYPE_NONE, 2,
+								 GTK_TYPE_STRING,
+								 GTK_TYPE_STRING);
+
 	signals[REMOVE_SHARED_FOLDER] = gtk_signal_new ("remove_shared_folder",
 							GTK_RUN_LAST,
 							object_class->type,
@@ -854,21 +881,22 @@ evolution_storage_get_epv (void)
 	POA_GNOME_Evolution_Storage__epv *epv;
 
 	epv = g_new0 (POA_GNOME_Evolution_Storage__epv, 1);
-	epv->_get_name                 = impl_Storage__get_name;
-	epv->_get_hasSharedFolders     = impl_Storage__get_hasSharedFolders;
-	epv->getFolderAtPath           = impl_Storage_getFolderAtPath;
-	epv->_get_folderList           = impl_Storage__get_folderList;
-	epv->asyncCreateFolder         = impl_Storage_asyncCreateFolder;
-	epv->asyncRemoveFolder         = impl_Storage_asyncRemoveFolder;
-	epv->asyncXferFolder           = impl_Storage_asyncXferFolder;
-	epv->asyncOpenFolder           = impl_Storage_asyncOpenFolder;
-	epv->updateFolder              = impl_Storage_updateFolder;
-	epv->asyncDiscoverSharedFolder = impl_Storage_asyncDiscoverSharedFolder;
-	epv->asyncRemoveSharedFolder   = impl_Storage_asyncRemoveSharedFolder;
-	epv->addListener               = impl_Storage_addListener;
-	epv->removeListener            = impl_Storage_removeListener;
-	epv->showFolderProperties      = impl_Storage_showFolderProperties;
-	epv->_get_folderPropertyItems  = impl_Storage__get_folderPropertyItems;
+	epv->_get_name                  = impl_Storage__get_name;
+	epv->_get_hasSharedFolders      = impl_Storage__get_hasSharedFolders;
+	epv->getFolderAtPath            = impl_Storage_getFolderAtPath;
+	epv->_get_folderList            = impl_Storage__get_folderList;
+	epv->asyncCreateFolder          = impl_Storage_asyncCreateFolder;
+	epv->asyncRemoveFolder          = impl_Storage_asyncRemoveFolder;
+	epv->asyncXferFolder            = impl_Storage_asyncXferFolder;
+	epv->asyncOpenFolder            = impl_Storage_asyncOpenFolder;
+	epv->updateFolder               = impl_Storage_updateFolder;
+	epv->asyncDiscoverSharedFolder  = impl_Storage_asyncDiscoverSharedFolder;
+	epv->cancelDiscoverSharedFolder = impl_Storage_cancelDiscoverSharedFolder;
+	epv->asyncRemoveSharedFolder    = impl_Storage_asyncRemoveSharedFolder;
+	epv->addListener                = impl_Storage_addListener;
+	epv->removeListener             = impl_Storage_removeListener;
+	epv->showFolderProperties       = impl_Storage_showFolderProperties;
+	epv->_get_folderPropertyItems   = impl_Storage__get_folderPropertyItems;
 
 	return epv;
 }

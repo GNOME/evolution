@@ -1,3 +1,47 @@
+2002-10-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Implement the Cancel button in the "Open other user's folder"
+	dialog, as per #27735.]
+
+	* e-corba-storage.c (cancel_discover_shared_folder): New,
+	implementation for the cancel_discover_shared_folder virtual
+	method.
+	(class_init): Install.
+
+	* evolution-test-component.c
+	(storage_discover_shared_folder_callback): Instead of passing the
+	listener to the timeout function, just pass the storage.  Put the
+	listener and the timeout ID on the storage object by using
+	gtk_object_set_data().
+	(shared_folder_discovery_timeout_callback): Updated accordingly.
+	(storage_cancel_discover_shared_folder_callback): New, callback
+	for the cancel_discover_shared_folder signal.
+	(setup_custom_storage): Connect.
+
+	* e-shell-shared-folder-picker-dialog.c: New member storage in
+	struct DiscoveryData.  While I am at it, rename member user to
+	user_email_address.
+	(discover_folder): Set the storage member.
+	(cleanup_discovery): Unref storage member.
+	(progress_dialog_clicked_callback): New, callback for the
+	"clicked" signal on the dialog.
+	(discover_folder): Connect.
+
+	* evolution-storage.c (class_init): Install signal
+	"cancel_discover_shared_folder".
+	(impl_Storage_cancelDiscoverSharedFolder): New, implementation for
+	the cancelDiscoverSharedFolder CORBA method; emit
+	"cancel_discover_shared_folder".
+	(evolution_storage_get_epv): Install CORBA method implementation.
+
+	* evolution-storage.h: Add signal cancel_discover_shared_folder.
+
+	* e-storage.c (e_storage_cancel_discover_shared_folder): New.
+
+	* e-storage.h: New virtual method cancel_discover_shared_folder.
+
+	* Evolution-Storage.idl (cancelDiscoverSharedFolder): New.
+
 2002-10-07  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-importer.c (choose_importer_from_list): Change the
