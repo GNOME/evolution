@@ -1256,12 +1256,12 @@ mail_build_attachment(CamelFolder *folder, GPtrArray *uids,
 
 /* ** LOAD FOLDER ********************************************************* */
 
-/* there hsould be some way to merge this and create folder, since both can
+/* there should be some way to merge this and create folder, since both can
    presumably create a folder ... */
 
 struct _get_folder_msg {
 	struct _mail_msg msg;
-
+	
 	char *uri;
 	guint32 flags;
 	CamelFolder *folder;
