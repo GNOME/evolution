@@ -2636,9 +2636,9 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	dtend = week_view->day_starts[week_view->selection_end_day + 1];
 	
 	date.value = g_new0 (struct icaltimetype, 1);
-	*date.value = icaltimetype_from_timet (dtstart, FALSE);
+	*date.value = icaltime_from_timet (dtstart, FALSE, TRUE);
 	cal_component_set_dtstart (comp, &date);
-	*date.value = icaltimetype_from_timet (dtend, FALSE);
+	*date.value = icaltime_from_timet (dtend, FALSE, TRUE);
 	cal_component_set_dtend (comp, &date);
 	g_free (date.value);
 
@@ -2756,13 +2756,13 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	date.tzid = NULL;
 
 	*date.value = 
-		icaltimetype_from_timet (week_view->day_starts[week_view->selection_start_day], 
-					 FALSE);
+		icaltime_from_timet (week_view->day_starts[week_view->selection_start_day], 
+					 FALSE, TRUE);
 	cal_component_set_dtstart (comp, &date);
 
 	*date.value = 
-		icaltimetype_from_timet (week_view->day_starts[week_view->selection_end_day + 1], 
-					 FALSE);
+		icaltime_from_timet (week_view->day_starts[week_view->selection_end_day + 1], 
+					 FALSE, TRUE);
 	cal_component_set_dtend (comp, &date);
 
 	gnome_calendar_edit_object (week_view->calendar, comp);
@@ -2813,7 +2813,7 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	list = g_slist_append (list, date);
 	date = g_new0 (CalComponentDateTime, 1);
 	date->value = g_new (struct icaltimetype, 1);
-	*date->value = icaltimetype_from_timet (event->start, TRUE);
+	*date->value = icaltime_from_timet (event->start, TRUE, TRUE);
 	cal_component_set_exdate_list (comp, list);
 	cal_component_free_exdate_list (list);
 
@@ -2869,7 +2869,7 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	cal_component_get_exdate_list (comp, &list);
 	date = g_new0 (CalComponentDateTime, 1);
 	date->value = g_new (struct icaltimetype, 1);
-	*date->value = icaltimetype_from_timet (event->start, TRUE);
+	*date->value = icaltime_from_timet (event->start, TRUE, TRUE);
 	list = g_slist_append (list, date);
 	cal_component_set_exdate_list (comp, list);
 	cal_component_free_exdate_list (list);
@@ -2885,9 +2885,9 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	date = g_new0 (CalComponentDateTime, 1);
 	date->value = g_new (struct icaltimetype, 1);
 
-	*date->value = icaltimetype_from_timet (event->start, TRUE);
+	*date->value = icaltime_from_timet (event->start, TRUE, TRUE);
 	cal_component_set_dtstart (new_comp, date);
-	*date->value = icaltimetype_from_timet (event->end, TRUE);
+	*date->value = icaltime_from_timet (event->end, TRUE, TRUE);
 	cal_component_set_dtend (new_comp, date);
 
 	cal_component_free_datetime (date);

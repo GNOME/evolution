@@ -872,7 +872,7 @@ set_completed (CalComponent *comp, const char *value)
 		cal_component_set_completed (comp, NULL);
 		return;
 	} else {
-		itt = icaltimetype_from_timet (t, FALSE);
+		itt = icaltime_from_timet (t, FALSE, TRUE);
 		cal_component_set_completed (comp, &itt);
 	}
 }
@@ -895,7 +895,7 @@ set_datetime (CalComponent *comp, const char *value,
 		CalComponentDateTime dt;
 		struct icaltimetype itt;
 
-		itt = icaltimetype_from_timet (t, FALSE);
+		itt = icaltime_from_timet (t, FALSE, TRUE);
 		dt.value = &itt;
 		dt.tzid = NULL;
 
@@ -1761,7 +1761,7 @@ calendar_model_mark_task_complete (CalendarModel *model,
 	percent = 100;
 	cal_component_set_percent (comp, &percent);
 
-	itt = icaltimetype_from_timet (time (NULL), FALSE);
+	itt = icaltime_from_timet (time (NULL), FALSE, TRUE);
 	cal_component_set_completed (comp, &itt);
 
 	if (!cal_client_update_object (priv->client, comp))

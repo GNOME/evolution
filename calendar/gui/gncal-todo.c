@@ -81,7 +81,7 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 	due_date = GNOME_DATE_EDIT (gtk_object_get_data(GTK_OBJECT(dialog), "due_date"));
 	d = gnome_date_edit_get_date (due_date);
 	date.value = g_new0 (struct icaltimetype, 1);
-	*date.value = icaltimetype_from_timet (d, 1);
+	*date.value = icaltime_from_timet (d, 1, TRUE);
 	cal_component_set_dtend (comp, &date);
 	
 	/* Summary */

@@ -2415,10 +2415,10 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	date.value = &itt;
 	date.tzid = NULL;
 
-	*date.value = icaltimetype_from_timet (dtstart, FALSE);
+	*date.value = icaltime_from_timet (dtstart, FALSE, TRUE);
 	cal_component_set_dtstart (comp, &date);
 
-	*date.value = icaltimetype_from_timet (dtend, FALSE);
+	*date.value = icaltime_from_timet (dtend, FALSE, TRUE);
 	cal_component_set_dtend (comp, &date);
 
 	cal_component_commit_sequence (comp);
@@ -2466,7 +2466,7 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	list = g_slist_append (list, date);
 	date = g_new0 (CalComponentDateTime, 1);
 	date->value = g_new (struct icaltimetype, 1);
-	*date->value = icaltimetype_from_timet (event->start, TRUE);
+	*date->value = icaltime_from_timet (event->start, TRUE, TRUE);
 	cal_component_set_exdate_list (comp, list);
 	cal_component_free_exdate_list (list);
 
@@ -2520,7 +2520,7 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	cal_component_get_exdate_list (comp, &list);
 	date = g_new0 (CalComponentDateTime, 1);
 	date->value = g_new (struct icaltimetype, 1);
-	*date->value = icaltimetype_from_timet (event->start, TRUE);
+	*date->value = icaltime_from_timet (event->start, TRUE, TRUE);
 	list = g_slist_append (list, date);
 	cal_component_set_exdate_list (comp, list);
 	cal_component_free_exdate_list (list);
@@ -2536,9 +2536,9 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	date = g_new0 (CalComponentDateTime, 1);	
 	date->value = g_new (struct icaltimetype, 1);
 
-	*date->value = icaltimetype_from_timet (event->start, FALSE);
+	*date->value = icaltime_from_timet (event->start, FALSE, TRUE);
 	cal_component_set_dtstart (new_comp, date);
-	*date->value = icaltimetype_from_timet (event->end, FALSE);
+	*date->value = icaltime_from_timet (event->end, FALSE, TRUE);
 	cal_component_set_dtend (new_comp, date);
 
 	cal_component_free_datetime (date);
@@ -3058,11 +3058,11 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	date.value = g_new (struct icaltimetype, 1);
 	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_LEFT_EDGE) {
 		dt = day_view->day_starts[day_view->resize_start_row];
-		*date.value = icaltimetype_from_timet (dt, FALSE);
+		*date.value = icaltime_from_timet (dt, FALSE, TRUE);
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		dt = day_view->day_starts[day_view->resize_end_row + 1];
-		*date.value = icaltimetype_from_timet (dt, FALSE);
+		*date.value = icaltime_from_timet (dt, FALSE, TRUE);
 		cal_component_set_dtend (comp, &date);
 	}
 	g_free (date.value);
@@ -3102,11 +3102,11 @@ e_day_view_finish_resize (EDayView *day_view)
 	date.value = g_new (struct icaltimetype, 1);
 	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_TOP_EDGE) {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_start_row);
-		*date.value = icaltimetype_from_timet (dt, FALSE);
+		*date.value = icaltime_from_timet (dt, FALSE, TRUE);
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_end_row + 1);
-		*date.value = icaltimetype_from_timet (dt, FALSE);
+		*date.value = icaltime_from_timet (dt, FALSE, TRUE);
 		cal_component_set_dtend (comp, &date);
 	}
 	g_free (date.value);
@@ -5586,13 +5586,13 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 
 			date.value = g_new (struct icaltimetype, 1);
 			dt = day_view->day_starts[day] + start_offset * 60;
-			*date.value = icaltimetype_from_timet (dt, FALSE);
+			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
 			cal_component_set_dtstart (comp, &date);
 			if (end_offset == -1 || end_offset == 0)
 				dt = day_view->day_starts[day + num_days];
 			else
 				dt = day_view->day_starts[day + num_days - 1] + end_offset * 60;
-			*date.value = icaltimetype_from_timet (dt, FALSE);
+			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
 			cal_component_set_dtend (comp, &date);
 			g_free (date.value);
 			
@@ -5688,10 +5688,10 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 
 			date.value = g_new (struct icaltimetype, 1);
 			dt = e_day_view_convert_grid_position_to_time (day_view, day, row) + start_offset * 60;
-			*date.value = icaltimetype_from_timet (dt, FALSE);
+			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
 			cal_component_set_dtstart (comp, &date);
 			dt = e_day_view_convert_grid_position_to_time (day_view, day, row + num_rows) - end_offset * 60;
-			*date.value = icaltimetype_from_timet (dt, FALSE);
+			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
 			cal_component_set_dtend (comp, &date);
 			g_free (date.value);
 			

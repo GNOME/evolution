@@ -614,7 +614,7 @@ ensure_mandatory_properties (CalComponent *comp)
 		struct icaltimetype t;
 
 		tim = time (NULL);
-		t = icaltimetype_from_timet (tim, FALSE);
+		t = icaltime_from_timet (tim, FALSE, FALSE);
 
 		priv->dtstamp = icalproperty_new_dtstamp (t);
 		icalcomponent_add_property (priv->icalcomp, priv->dtstamp);

@@ -1420,10 +1420,10 @@ gnome_calendar_new_appointment (GnomeCalendar *gcal)
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 
-	itt = icaltimetype_from_timet (dtstart, 0);
+	itt = icaltime_from_timet (dtstart, 0, TRUE);
 	cal_component_set_dtstart (comp, &dt);
 
-	itt = icaltimetype_from_timet (dtend, 0);
+	itt = icaltime_from_timet (dtend, 0, TRUE);
 	cal_component_set_dtend (comp, &dt);
 
 	gnome_calendar_edit_object (gcal, comp);

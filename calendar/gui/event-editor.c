@@ -951,7 +951,7 @@ dialog_to_comp_object (EventEditor *ee)
 	
 	date.value = g_new (struct icaltimetype, 1);
 	t = e_dialog_dateedit_get (priv->start_time);
-	*date.value = icaltimetype_from_timet (t, FALSE);
+	*date.value = icaltime_from_timet (t, FALSE, TRUE);
 	cal_component_set_dtstart (comp, &date);
 
 	/* If the all_day toggle is set, the end date is inclusive of the
@@ -961,7 +961,7 @@ dialog_to_comp_object (EventEditor *ee)
 	if (all_day_event)
 		t = time_day_end (t);
 
-	*date.value = icaltimetype_from_timet (t, FALSE);
+	*date.value = icaltime_from_timet (t, FALSE, TRUE);
 	cal_component_set_dtend (comp, &date);
 	g_free (date.value);
 
@@ -1066,7 +1066,7 @@ dialog_to_comp_object (EventEditor *ee)
 		 * secs to get get next day, in accordance to the RFC
 		 */
 		t = e_dialog_dateedit_get (priv->recurrence_ending_date_end_on_date) + 86400;
-		recur->until = icaltimetype_from_timet (t, TRUE);
+		recur->until = icaltime_from_timet (t, TRUE, TRUE);
 	} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_after)) {
 		recur->count = e_dialog_spin_get_int (priv->recurrence_ending_date_end_after_count);
 	}
@@ -1081,7 +1081,7 @@ dialog_to_comp_object (EventEditor *ee)
 		time_t *t;
 		
 		t = gtk_clist_get_row_data (exception_list, i);
-		*tt = icaltimetype_from_timet (*t, FALSE);
+		*tt = icaltime_from_timet (*t, FALSE, TRUE);
 		
 		list = g_slist_prepend (list, tt);
 	}

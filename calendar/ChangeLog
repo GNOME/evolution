@@ -1,3 +1,7 @@
+2000-08-24  JP Rosevear  <jpr@helixcode.com>
+
+	* Update for libical 0.19 
+
 2000-08-24  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/calendar-commands.c, gui/e-day-view.c, gui/e-week-view.c,
