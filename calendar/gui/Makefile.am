@@ -1,3 +1,21 @@
+## CORBA stuff
+
+IDLS =                          \
+        Evolution-Composer.idl  
+
+IDL_GENERATED =                 \
+        Evolution-Composer.h              \
+        Evolution-Composer-common.c       \
+        Evolution-Composer-skels.c        \
+        Evolution-Composer-stubs.c
+
+$(IDL_GENERATED): $(IDLS) 
+	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
+                -I . Evolution-Composer.idl
+
+##
+
+
 SUBDIRS = dialogs
 
 help_base = $(datadir)/gnome/help/cal
@@ -43,6 +61,9 @@ glade_DATA = 					\
 glade_messages = event-editor-dialog.glade.h
 
 evolution_calendar_SOURCES =			\
+	Evolution-Composer.h			\
+	Evolution-Composer-common.c		\
+	Evolution-Composer-stubs.c		\
 	alarm.c					\
 	alarm.h					\
 	calendar-config.c			\

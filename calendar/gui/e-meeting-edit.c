@@ -25,7 +25,7 @@
 #include <icaltypes.h>
 #include <ical.h>
 #include <widgets/meeting-time-sel/e-meeting-time-sel.h>
-#include <composer/Composer.h>
+#include <Evolution-Composer.h>
 #include <string.h>
 #include "e-meeting-edit.h"
 
@@ -490,7 +490,7 @@ schedule_button_clicked_cb (GtkWidget *widget, gpointer data)
 #define COMPOSER_OAFID "OAFIID:evolution-composer:evolution-mail:cd8618ea-53e1-4b9e-88cf-ec578bdb903b"
 
 
-static gchar *itip_methods = {
+static gchar *itip_methods[] = {
 	"REQUEST"
 };
 
@@ -516,7 +516,7 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 	gint cntr;
 	gint len;
 	CalComponentText caltext;
-	CORBA_char *content_type, *filename, *description, *data;
+	CORBA_char *content_type, *filename, *description, *attach_data;
 	CORBA_boolean show_inline;
 	CORBA_char tempstr[200];
 
@@ -568,23 +568,91 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_printerr ("gui/e-meeting-edit.c: I couldn't set the composer headers via CORBA! Aagh.\n");
 		CORBA_exception_free (&ev);
+		return;
 	}
 
 	sprintf (tempstr, "text/calendar; METHOD=%s", itip_methods[METHOD_REQUEST]);
 	content_type = CORBA_string_alloc (strlen (tempstr));
+	strcpy (content_type, tempstr);
 	filename = CORBA_string_alloc (0);
 	description = CORBA_string_alloc (0);
 	show_inline = FALSE;
 
-	/* For tomorrow, I need to extract a string representation of our iCal object, and
-	   copy it into the `data' member, to send via CORBA. */
-	
+	/* I need to create an encapsulating iCalendar component, and stuff our vEvent
+	   into it. */
+	{
+		icalcomponent *comp;
+		icalproperty *prop;
+		icalvalue *value;
+		gchar *ical_string;
 
+		comp = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
+		
+		prop = icalproperty_new (ICAL_PRODID_PROPERTY);
+		value = icalvalue_new_text ("-//HelixCode/Evolution//EN");
+		icalproperty_set_value (prop, value);
+		icalcomponent_add_property (comp, prop);
+
+		prop = icalproperty_new (ICAL_VERSION_PROPERTY);
+		value = icalvalue_new_text ("2.0");
+		icalproperty_set_value (prop, value);
+		icalcomponent_add_property (comp, prop);
+
+		prop = icalproperty_new (ICAL_METHOD_PROPERTY);
+		value = icalvalue_new_text ("REQUEST");
+		icalproperty_set_value (prop, value);
+		icalcomponent_add_property (comp, prop);
+
+		icalcomponent_add_component (comp, priv->vevent);
+
+		ical_string = icalcomponent_as_ical_string (comp);
+		attach_data = CORBA_string_alloc (strlen (ical_string));
+		strcpy (attach_data, ical_string);
+
+		icalcomponent_remove_component (comp, priv->vevent);
+		icalcomponent_free (comp);
+	}
+
+	Evolution_Composer_attach_data (composer_server, 
+					content_type, filename, description,
+					show_inline, attach_data,
+					&ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_printerr ("gui/e-meeting-edit.c: I couldn't attach data to the composer via CORBA! Aagh.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+	
+	Evolution_Composer_show (composer_server, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_printerr ("gui/e-meeting-edit.c: I couldn't show the composer via CORBA! Aagh.\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
 	
 	CORBA_exception_free (&ev);
 
-	bonobo_object_unref (BONOBO_OBJECT (bonobo_server));
+	/* Let's free shit up. */
+	for (cntr = 0; cntr < priv->numentries; cntr++) {
+		recipient = &(to_list->_buffer[cntr]);
+		CORBA_free (recipient->name);
+		CORBA_free (recipient->address);
+	}
 
+	CORBA_free (to_list->_buffer);
+	CORBA_free (to_list);
+	CORBA_free (cc_list);
+	CORBA_free (bcc_list);
+
+	CORBA_free (subject);
+	CORBA_free (content_type);
+	CORBA_free (filename);
+	CORBA_free (description);
+	CORBA_free (attach_data);
+
+	bonobo_object_unref (BONOBO_OBJECT (bonobo_server));
 
 }
 
@@ -797,6 +865,7 @@ e_meeting_edit (EMeetingEditor *editor)
 	priv->role_entry = glade_xml_get_widget (priv->xml, "role_entry");
 	priv->rsvp_check = glade_xml_get_widget (priv->xml, "rsvp_check");
 	priv->schedule_button = glade_xml_get_widget (priv->xml, "schedule_button");
+	priv->send_button = glade_xml_get_widget (priv->xml, "send_button");
 
 	gtk_clist_set_column_justification (GTK_CLIST (priv->attendee_list), ROLE_COL, GTK_JUSTIFY_CENTER);
 	gtk_clist_set_column_justification (GTK_CLIST (priv->attendee_list), RSVP_COL, GTK_JUSTIFY_CENTER);

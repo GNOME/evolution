@@ -1,3 +1,18 @@
+2000-10-25  Jesse Pavel <jpavel@helixcode.com>
+
+	* gui/Evolution-Composer.idl: added this from the composer IDL sources
+
+	* gui/Makefile.am: changed to reflect the above IDL and the associated
+	orbit-idl generated files.
+
+	* gui/Evolution-Composer.h, 
+	  gui/Evolution-Composer-common.c,
+	  gui/Evolution-Composer-stubs.c, 
+	  gui/Evolution-Composer-skels.c: 
+	the generated files, as per the above description.
+	
+	* gui/e-meeting-edit.c: more work towards mailer integration.
+
 2000-10-24  Jesse Pavel <jpavel@helixcode.com>
 
 	* gui/e-meeting-edit.c: I've added code to interact with the mailer's
