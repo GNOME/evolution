@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/wait.h>
 #include <camel/camel-gpg-context.h>
 #include <camel/camel-stream-mem.h>
 
@@ -122,6 +123,7 @@ int main (int argc, char **argv)
 	GPtrArray *recipients;
 	GByteArray *buf;
 	char *before, *after;
+	int ret;
 	
 	camel_test_init (argc, argv);
 	
@@ -131,7 +133,11 @@ int main (int argc, char **argv)
 	setenv ("GNUPGHOME", "/tmp/camel-test/.gnupg", 1);
 	
 	/* import the gpg keys */
-	system ("gpg > /dev/null 2>&1"); /* creates gpg directory and stuff */
+	if ((ret = system ("gpgfoo > /dev/null 2>&1")) == -1)
+		return 77;
+	else if (WEXITSTATUS (ret) == 127)
+		return 77;
+	
 	system ("gpg --import ../data/camel-test.gpg.pub > /dev/null 2>&1");
 	system ("gpg --import ../data/camel-test.gpg.sec > /dev/null 2>&1");
 	
