@@ -32,6 +32,7 @@
 #include <glib.h>
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-object.h>
+#include <libgnome/gnome-i18n.h>
 
 #include <gal/util/e-util.h>
 
@@ -197,6 +198,8 @@ impl__get_supported_types (PortableServer_Servant servant,
 		corba_folder_type = folder_type_list->_buffer + i;
 		corba_folder_type->name           = CORBA_string_dup (folder_type->name);
 		corba_folder_type->icon_name      = CORBA_string_dup (folder_type->icon_name);
+		corba_folder_type->display_name   = CORBA_string_dup (folder_type->display_name);
+		corba_folder_type->description    = CORBA_string_dup (folder_type->description);
 		corba_folder_type->user_creatable = folder_type->user_creatable;
 
 		fill_corba_sequence_from_null_terminated_string_array (& corba_folder_type->exported_dnd_types,
@@ -733,6 +736,11 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 		new = g_new (EvolutionShellComponentFolderType, 1);
 		new->name               = g_strdup (folder_types[i].name);
 		new->icon_name          = g_strdup (folder_types[i].icon_name);
+
+		/* Notice that these get translated here.  */
+		new->display_name       = g_strdup (_(folder_types[i].display_name));
+		new->description        = g_strdup (_(folder_types[i].description));
+
 		new->user_creatable     = folder_types[i].user_creatable;
 		new->accepted_dnd_types = duplicate_null_terminated_string_array (folder_types[i].accepted_dnd_types);
 		new->exported_dnd_types = duplicate_null_terminated_string_array (folder_types[i].exported_dnd_types);

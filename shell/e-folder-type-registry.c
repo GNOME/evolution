@@ -41,6 +41,10 @@ static GtkObjectClass *parent_class = NULL;
 struct _FolderType {
 	char *name;
 	char *icon_name;
+
+	char *display_name;
+	char *description;
+
 	gboolean user_creatable;
 
 	GList *exported_dnd_types; /* char * */
@@ -64,6 +68,8 @@ struct _EFolderTypeRegistryPrivate {
 static FolderType *
 folder_type_new (const char *name,
 		 const char *icon_name,
+		 const char *display_name,
+		 const char *description,
 		 gboolean user_creatable,
 		 int num_exported_dnd_types,
 		 const char **exported_dnd_types,
@@ -78,6 +84,9 @@ folder_type_new (const char *name,
 
 	new->name           = g_strdup (name);
 	new->icon_name      = g_strdup (icon_name);
+	new->display_name   = g_strdup (display_name);
+	new->description    = g_strdup (description);
+
 	new->user_creatable = user_creatable;
 
 	new->exported_dnd_types = NULL;
@@ -122,6 +131,8 @@ folder_type_free (FolderType *folder_type)
 {
 	g_free (folder_type->name);
 	g_free (folder_type->icon_name);
+	g_free (folder_type->display_name);
+	g_free (folder_type->description);
 
 	if (folder_type->icon_pixbuf != NULL)
 		gdk_pixbuf_unref (folder_type->icon_pixbuf);
@@ -149,6 +160,8 @@ static gboolean
 register_folder_type (EFolderTypeRegistry *folder_type_registry,
 		      const char *name,
 		      const char *icon_name,
+		      const char *display_name,
+		      const char *description,
 		      gboolean user_creatable,
 		      int num_exported_dnd_types,
 		      const char **exported_dnd_types,
@@ -164,7 +177,9 @@ register_folder_type (EFolderTypeRegistry *folder_type_registry,
 	if (get_folder_type (folder_type_registry, name) != NULL)
 		return FALSE;
 
-	folder_type = folder_type_new (name, icon_name, user_creatable,
+	folder_type = folder_type_new (name, icon_name,
+				       display_name, description,
+				       user_creatable,
 				       num_exported_dnd_types, exported_dnd_types,
 				       num_accepted_dnd_types, accepted_dnd_types);
 	g_hash_table_insert (priv->name_to_type, folder_type->name, folder_type);
@@ -279,6 +294,8 @@ gboolean
 e_folder_type_registry_register_type (EFolderTypeRegistry *folder_type_registry,
 				      const char *type_name,
 				      const char *icon_name,
+				      const char *display_name,
+				      const char *description,
 				      gboolean user_creatable,
 				      int num_exported_dnd_types,
 				      const char **exported_dnd_types,
@@ -290,7 +307,8 @@ e_folder_type_registry_register_type (EFolderTypeRegistry *folder_type_registry,
 	g_return_val_if_fail (type_name != NULL, FALSE);
 	g_return_val_if_fail (icon_name != NULL, FALSE);
 
-	return register_folder_type (folder_type_registry, type_name, icon_name, user_creatable,
+	return register_folder_type (folder_type_registry, type_name, icon_name,
+				     display_name, description, user_creatable,
 				     num_exported_dnd_types, exported_dnd_types,
 				     num_accepted_dnd_types, accepted_dnd_types);
 }
@@ -417,6 +435,44 @@ e_folder_type_registry_type_is_user_creatable  (EFolderTypeRegistry *folder_type
 	}
 
 	return folder_type->user_creatable;
+}
+
+const char *
+e_folder_type_registry_get_display_name_for_type (EFolderTypeRegistry *folder_type_registry,
+						  const char *type_name)
+{
+	const FolderType *folder_type;
+
+	g_return_val_if_fail (folder_type_registry != NULL, NULL);
+	g_return_val_if_fail (E_IS_FOLDER_TYPE_REGISTRY (folder_type_registry), NULL);
+	g_return_val_if_fail (type_name != NULL, NULL);
+
+	folder_type = get_folder_type (folder_type_registry, type_name);
+	if (folder_type == NULL) {
+		g_warning ("e_folder_type_registry_type_get_display_name_for_type() -- Unknown type `%s'", type_name);
+		return FALSE;
+	}
+
+	return folder_type->display_name;
+}
+
+const char *
+e_folder_type_registry_get_description_for_type (EFolderTypeRegistry *folder_type_registry,
+						 const char *type_name)
+{
+	const FolderType *folder_type;
+
+	g_return_val_if_fail (folder_type_registry != NULL, NULL);
+	g_return_val_if_fail (E_IS_FOLDER_TYPE_REGISTRY (folder_type_registry), NULL);
+	g_return_val_if_fail (type_name != NULL, NULL);
+
+	folder_type = get_folder_type (folder_type_registry, type_name);
+	if (folder_type == NULL) {
+		g_warning ("e_folder_type_registry_get_description_for_type() -- Unknown type `%s'", type_name);
+		return FALSE;
+	}
+
+	return folder_type->description;
 }
 
 

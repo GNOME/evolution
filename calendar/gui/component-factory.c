@@ -52,8 +52,8 @@ static BonoboGenericFactory *factory = NULL;
 char *evolution_dir;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "calendar", "evolution-calendar.png", TRUE, NULL, NULL },
-	{ "tasks", "evolution-tasks.png", TRUE, NULL, NULL },
+	{ "calendar", "evolution-calendar.png", N_("Calendar"), N_("Folder containing appointments and events"), TRUE, NULL, NULL },
+	{ "tasks", "evolution-tasks.png", N_("Tasks"), N_("Folder containing to-do items"), TRUE, NULL, NULL },
 	{ NULL, NULL }
 };
 

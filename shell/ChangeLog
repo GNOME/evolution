@@ -1,3 +1,35 @@
+2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-test-component.c: Added display_name and description
+	to the type.
+
+	* evolution-shell-component.c (impl__get_supported_types): Pass
+	`display_name' and `description' here.
+	(evolution_shell_component_construct): Likewise.
+
+	* evolution-shell-component.h: New members `display_name',
+	`description' in `EvolutionShellComponentFolderType'.
+
+	* e-component-registry.c (register_type): New args @description
+	and @display_name.  Pass to
+	`e_folder_type_registry_register_type()'.
+	(register_component): Pass the values returned in the sequence
+	from __get_supported_types.
+
+	* e-folder-type-registry.c: New members `display_name' and
+	`description' in `struct _FolderType'.
+	(folder_type_new): New args @description and @display_name.
+	Initialize the respective fields in the `FolderType' accordingly.
+	(folder_type_free): Free `display_name' and `description'.
+	(register_folder_type): New args @display_name, @description.
+	(e_folder_type_registry_register_type): New args @display_name,
+	@description.
+	(e_folder_type_registry_get_description_for_type): New.
+	(e_folder_type_registry_get_display_name_for_type): New.
+
+	* Evolution-ShellComponent.idl: Added `display_name' and
+	`description' fields to the `FolderType' struct.
+
 2001-08-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c (destroy): Put the bonobo_object_release_unref() for

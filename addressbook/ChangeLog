@@ -1,3 +1,8 @@
+2001-08-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-component.c: Update the folder list to
+	include a display name and a description.
+
 2001-08-19  Damon Chaplin  <damon@ximian.com>
 
 	* gui/component/addressbook.c: use new Cut/Copy/Paste/Save/Search

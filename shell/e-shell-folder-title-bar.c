@@ -152,6 +152,14 @@ label_realize_callback (GtkWidget *widget,
 	style->font = bolded_font;
 
 	gtk_style_attach (style, widget->window);
+
+	if (E_IS_CLIPPED_LABEL (widget)) {
+		char *text;
+
+		text = g_strdup (e_clipped_label_get_text (E_CLIPPED_LABEL (widget)));
+		e_clipped_label_set_text (E_CLIPPED_LABEL (widget), text);
+		g_free (text);
+	}
 }
 
 static void

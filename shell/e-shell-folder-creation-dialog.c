@@ -340,6 +340,23 @@ add_storage_set_view (GtkWidget *dialog,
 	return storage_set_view;
 }
 
+struct _TypeWithDisplayName {
+	const char *type;
+	const char *display_name;
+};
+typedef struct _TypeWithDisplayName TypeWithDisplayName;
+
+static int
+type_with_display_name_compare_func (const void *a, const void *b)
+{
+	const TypeWithDisplayName *val_a, *val_b;
+
+	val_a = (const TypeWithDisplayName *) a;
+	val_b = (const TypeWithDisplayName *) b;
+
+	return g_strcasecmp (val_a->display_name, val_b->display_name);
+}
+
 static GList *
 add_folder_types (GtkWidget *dialog,
 		  GladeXML *gui,
@@ -349,6 +366,7 @@ add_folder_types (GtkWidget *dialog,
 	GtkWidget *folder_type_option_menu;
 	GtkWidget *menu;
 	GList *folder_types;
+	GList *types_with_display_names;
 	GList *p;
 	int default_item;
 	int i;
@@ -374,30 +392,47 @@ add_folder_types (GtkWidget *dialog,
 	if (folder_types == NULL)
 		return NULL;		/* Uh? */
 
-	folder_types = g_list_sort (folder_types, (GCompareFunc) g_strcasecmp);
+	types_with_display_names = NULL;
+	for (p = folder_types; p != NULL; p = p->next) {
+		TypeWithDisplayName *new;
 
-	/* FIXME: Use descriptive name (not in the registry's implementation yet).  */
+		new = g_new (TypeWithDisplayName, 1);
+		new->type = g_strdup ((const char *) p->data);
+		new->display_name = e_folder_type_registry_get_display_name_for_type (folder_type_registry, new->type);
+
+		types_with_display_names = g_list_prepend (types_with_display_names, new);
+	}
+
+	types_with_display_names = g_list_sort (types_with_display_names, type_with_display_name_compare_func);
+
 	/* FIXME: Add icon (I don't feel like writing an alpha-capable thingie again).  */
 
 	default_item = 0;
-	for (p = folder_types, i = 0; p != NULL; p = p->next, i++) {
-		const char *type_name;
+	i = 0;
+	for (p = types_with_display_names; p != NULL; p = p->next) {
+		const TypeWithDisplayName *type;
 		GtkWidget *menu_item;
 
-		type_name = (const char *) p->data;
+		type = (const TypeWithDisplayName *) p->data;
 
-		if (! e_folder_type_registry_type_is_user_creatable (folder_type_registry, type_name))
+		if (! e_folder_type_registry_type_is_user_creatable (folder_type_registry, type->type))
 			continue;
 
-		menu_item = gtk_menu_item_new_with_label (type_name);
+		menu_item = gtk_menu_item_new_with_label (type->display_name);
 		gtk_widget_show (menu_item);
 		gtk_menu_append (GTK_MENU (menu), menu_item);
 
-		gtk_object_set_data (GTK_OBJECT (menu_item), "folder_type", (void *) type_name);
+		gtk_object_set_data (GTK_OBJECT (menu_item), "folder_type", (void *) type->type);
 
-		if (strcmp (type_name, "mail") == 0)
+		if (strcmp (type->type, "mail") == 0)
 			default_item = i;
+
+		i ++;
 	}
+
+	for (p = types_with_display_names; p != NULL; p = p->next)
+		g_free (p->data);
+	g_list_free (types_with_display_names);
 
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (folder_type_option_menu), menu);
 	gtk_widget_show (menu);

@@ -40,7 +40,7 @@
 #define COMPONENT_ID         "OAFIID:GNOME_Evolution_TestComponent_ShellComponent"
 
 static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "test", "/usr/share/pixmaps/gnome-money.png", FALSE, NULL, NULL },
+	{ "test", "/usr/share/pixmaps/gnome-money.png", N_("Test"), N_("Test type"), FALSE, NULL, NULL },
 	{ NULL }
 };
 
