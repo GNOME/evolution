@@ -241,7 +241,7 @@
   <dockitem name="Toolbar">
 
     <toolitem name="MailGet" verb="MailGetSend"
-    _label="Get Mail" priority="1" _tip="Send queued mail and retrieve new mail"
+    _label="Send and Receive" priority="1" _tip="Send queued mail and retrieve new mail"
     pixtype="pixbuf"/>
 
     <toolitem name="MailCompose" verb="MailCompose"

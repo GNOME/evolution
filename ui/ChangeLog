@@ -1,3 +1,8 @@
+2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-mail.xml: Renamed the "Get Mail" button to "Send and
+	Receive" for consistency with the command in the "Actions" menu.
+
 2001-03-06  Miguel de Icaza  <miguel@ximian.com>
 
 	* evolution-message-composer.xml: Reorder menus to be File, Edit,
@@ -11,7 +16,7 @@
 
 	Change the look to follow the "mailer" look (thiner display).
 
-	
+2001-03-06  Miguel de Icaza  <miguel@ximian.com>
 
 	* evolution-tasks.xml: Added "File/New/Task" as well.
 
