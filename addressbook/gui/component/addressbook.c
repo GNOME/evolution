@@ -77,9 +77,12 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	gint result;
 	GtkWidget* contact_editor =
 		e_contact_editor_new(e_card_new(""));
-	EBook *book = E_BOOK (user_data);
-		
+	EMinicardView *minicard_view = E_MINICARD_VIEW (user_data);
+	EBook *book;
+
 	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
+
+	gtk_object_get(GTK_OBJECT(minicard_view), "book", &book, NULL);
 
 	g_assert (E_IS_BOOK (book));
 
@@ -111,13 +114,43 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	
 }
 
+static void
+find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	gint result;
+	GtkWidget* search_entry = gtk_entry_new();
+	EMinicardView *minicard_view = E_MINICARD_VIEW (user_data);
+	gchar* search_text;
+
+	GtkWidget* dlg = gnome_dialog_new ("Search Contacts", "Find", "Cancel", NULL);
+
+	gtk_object_get (GTK_OBJECT(minicard_view), "query", &search_text, NULL);
+	gtk_entry_set_text(GTK_ENTRY(search_entry), search_text);
+	g_free (search_text);
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox),
+			    search_entry, TRUE, TRUE, 0);
+
+	gtk_widget_show_all (dlg);
+
+	gnome_dialog_close_hides (GNOME_DIALOG (dlg), TRUE);
+	result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+
+	
+	/* If the user clicks "okay"...*/
+	if (result == 0) {
+		search_text = gtk_entry_get_text(GTK_ENTRY(search_entry));
+		gtk_object_set (GTK_OBJECT(minicard_view), "query", search_text, NULL);
+	}
+	
+}
 
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new contact"), new_contact_cb, GNOME_STOCK_PIXMAP_NEW),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find a contact"), do_nothing_cb, GNOME_STOCK_PIXMAP_SEARCH),
+	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find a contact"), find_contact_cb, GNOME_STOCK_PIXMAP_SEARCH),
 	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print contacts"), do_nothing_cb, GNOME_STOCK_PIXMAP_PRINT),
 	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete a contact"), do_nothing_cb, GNOME_STOCK_PIXMAP_TRASH),
 
@@ -127,7 +160,7 @@ static GnomeUIInfo gnome_toolbar [] = {
 
 
 static void
-control_activate (BonoboControl *control, BonoboUIHandler *uih, EBook *book)
+control_activate (BonoboControl *control, BonoboUIHandler *uih, EMinicardView *minicard_view)
 {
 	Bonobo_UIHandler  remote_uih;
 	GtkWidget *toolbar;
@@ -140,14 +173,14 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih, EBook *book)
 					 N_("_New Contact"),       
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, new_contact_cb, (gpointer)book);
+					 0, 0, new_contact_cb, (gpointer)minicard_view);
 
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
 
 	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (toolbar),
 					  gnome_toolbar, 
-					  NULL, book);
+					  NULL, minicard_view);
 	
 	gtk_widget_show_all (toolbar);
 
@@ -164,7 +197,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih, EBook *book)
 static void
 control_activate_cb (BonoboControl *control, 
 		     gboolean activate, 
-		     EBook* book)
+		     EMinicardView* minicard_view)
 {
 	BonoboUIHandler  *uih;
 
@@ -172,7 +205,7 @@ control_activate_cb (BonoboControl *control,
 	g_assert (uih);
 	
 	if (activate)
-		control_activate (control, uih, book);
+		control_activate (control, uih, minicard_view);
 	else
 		control_deactivate (control, uih);
 }
@@ -329,7 +362,7 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 	control = bonobo_control_new(vbox);
 	
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
-			    control_activate_cb, book);	
+			    control_activate_cb, view->view);	
 
 	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();	

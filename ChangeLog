@@ -1,3 +1,14 @@
+2000-04-11  Chris Toshok  <toshok@helixcode.com>
+
+	* addressbook/gui/component/addressbook.c (find_contact_cb):
+	implement braindead dialog to input the query string for the view.
+
+	also, change all callbacks to get the EMinicardView instead of the
+	EBook.
+
+	* addressbook/gui/minicard/e-minicard-view.c
+	(e_minicard_view_get_arg): add missing break.
+
 2000-04-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/gui/minicard/e-minicard-view.c,

@@ -223,6 +223,7 @@ e_minicard_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_QUERY:
 		GTK_VALUE_STRING (*arg) = g_strdup(e_minicard_view->query);
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
