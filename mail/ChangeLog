@@ -1,3 +1,8 @@
+2001-10-03    <NotZed@Ximian.com>
+
+	* mail-ops.c (add_vtrash_info): If we have a fragment, override
+	that, rather than the path.  Fixes #5251.
+
 2001-10-03  Rodrigo Moya <rodrigo@ximian.com>
 
 	* importers/Makefile.am: add $BONOBO_GNOME_CFLAGS to make it work
