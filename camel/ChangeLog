@@ -1,3 +1,19 @@
+2003-02-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-stream-filter.c: Add a 'flushed' state variable to the
+	private struct.
+	(do_read): Set p->flushed to TRUE after we call
+	camel_mime_filter_complete() on all the filters.
+	(do_reset): Set p->flushed to FALSE.
+	(do_eos): Make sure the filters have been flushed before returning
+	that the stream is at EOS.
+
+	* camel-mime-filter-canon.c (complete): Don't add a eol -
+	otherwise we will fail to verify some mutt signatures that do not
+	have a blank line before the boundary line (and note that the last
+	\n before the boundary really belongs to the boundary anyway) so
+	#if 0 this code out for now.
+
 2003-02-27  Not Zed  <NotZed@Ximian.com>
 
 	* camel-multipart-signed.c: Undo jeff's changes.

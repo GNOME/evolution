@@ -19,11 +19,16 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <stdio.h>
 #include <string.h>
 #include "camel-stream-filter.h"
 
 #define d(x)
-/*#include <stdio.h>*/
 
 /* use my malloc debugger? */
 /*extern void g_check(void *mp);*/
@@ -45,7 +50,8 @@ struct _CamelStreamFilterPrivate {
 	char *filtered;		/* the filtered data */
 	size_t filteredlen;
 
-	int last_was_read;	/* was the last op read or write? */
+	int last_was_read:1;	/* was the last op read or write? */
+	int flushed:1           /* were the filters flushed? */
 };
 
 #define READ_PAD (128)		/* bytes padded before buffer */
@@ -90,6 +96,7 @@ camel_stream_filter_init (CamelStreamFilter *obj)
 	p->realbuffer = g_malloc(READ_SIZE + READ_PAD);
 	p->buffer = p->realbuffer + READ_PAD;
 	p->last_was_read = TRUE;
+	p->flushed = FALSE;
 }
 
 static void
@@ -234,6 +241,7 @@ do_read (CamelStream *stream, char *buffer, size_t n)
 					f = f->next;
 				}
 				size = p->filteredlen;
+				p->flushed = TRUE;
 			}
 			if (size <= 0)
 				return size;
@@ -368,10 +376,13 @@ do_eos (CamelStream *stream)
 {
 	CamelStreamFilter *filter = (CamelStreamFilter *)stream;
 	struct _CamelStreamFilterPrivate *p = _PRIVATE(filter);
-
+	
 	if (p->filteredlen > 0)
 		return FALSE;
-
+	
+	if (!p->flushed)
+		return FALSE;
+	
 	return camel_stream_eos(filter->source);
 }
 
@@ -383,7 +394,8 @@ do_reset (CamelStream *stream)
 	struct _filter *f;
 
 	p->filteredlen = 0;
-
+	p->flushed = FALSE;
+	
 	/* and reset filters */
 	f = p->filters;
 	while (f) {

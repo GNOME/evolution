@@ -195,6 +195,12 @@ complete(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, 
 			while (o>starto && (o[-1] == ' ' || o[-1] == '\t' || o[-1]=='\r'))
 				o--;
 		}
+		
+#if 0
+		/* Note: #if 0'd out because we do not want to add a
+		 * \r\n for PGP/MIME verification if it isn't there in
+		 * the original content stream */
+		
 		/* check end of line canonicalisation */
 		if (o>starto) {
 			if (flags & CAMEL_MIME_FILTER_CANON_CRLF) {
@@ -208,6 +214,7 @@ complete(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, 
 		
 		/* and always finish with an eol */
 		*o++ = '\n';
+#endif
 		
 		*outlen = o - *out;
 		
