@@ -1,3 +1,14 @@
+2005-02-17  Not Zed  <NotZed@Ximian.com>
+
+	* e-popup.c (ep_prune_tree, ep_build_tree, e_popup_create_menu):
+	completely rewritten.  Simpler and more robust.
+
+2005-02-16  Not Zed  <NotZed@Ximian.com>
+
+	* e-popup.c (e_popup_create_menu): do the visibility mask test
+	before sorting.  don't perform it on bar's or submenu's anymore,
+	calculate when not to show/create them.
+
 2005-02-14  Rodney Dawes  <dobey@novell.com>
 
 	* e-menu.c (emph_construct): If the plug-in is not enabled, do nothing

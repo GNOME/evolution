@@ -56,7 +56,12 @@ struct _EPopupFactory {
 
 /* Used for the "activate" signal callback data to re-map to the api */
 struct _item_node {
-	struct _item_node *next;
+	struct _item_node *next; /* tree pointers */
+	struct _item_node *prev;
+	struct _item_node *parent;
+	EDList children;
+
+	struct _item_node *link; /* for freeing */
 
 	EPopupItem *item;
 	struct _menu_node *menu;
@@ -113,7 +118,7 @@ ep_finalise(GObject *o)
 		/* free item activate callback data */
 		inode = mnode->items;
 		while (inode) {
-			struct _item_node *nnode = inode->next;
+			struct _item_node *nnode = inode->link;
 
 			g_free(inode);
 			inode = nnode;
@@ -298,6 +303,135 @@ ep_activate(GtkWidget *w, struct _item_node *inode)
 	item->activate(inode->menu->popup, item, inode->menu->data);
 }
 
+static void
+ep_prune_tree(EDList *head)
+{
+	struct _item_node *inode, *nnode;
+
+	/* need to do two scans, first to find out if the subtree's
+	 * are empty, then to remove any unecessary bars which may
+	 * become unecessary after the first scan */
+
+	inode = (struct _item_node *)head->head;
+	nnode = inode->next;
+	while (nnode) {
+		struct _EPopupItem *item = inode->item;
+
+		ep_prune_tree(&inode->children);
+
+		if ((item->type & E_POPUP_TYPE_MASK) == E_POPUP_SUBMENU) {
+			if (e_dlist_empty(&inode->children))
+				e_dlist_remove((EDListNode *)inode);
+		}
+
+		inode = nnode;
+		nnode = nnode->next;
+	}
+
+	inode = (struct _item_node *)head->head;
+	nnode = inode->next;
+	while (nnode) {
+		struct _EPopupItem *item = inode->item;
+
+		if ((item->type & E_POPUP_TYPE_MASK) == E_POPUP_BAR) {
+			if (inode->prev->prev == NULL
+			    || nnode->next == NULL
+			    || (nnode->item->type & E_POPUP_TYPE_MASK) == E_POPUP_BAR)
+				e_dlist_remove((EDListNode *)inode);
+		}
+
+		inode = nnode;
+		nnode = nnode->next;
+	}
+}
+
+static GtkMenu *
+ep_build_tree(struct _item_node *inode, guint32 mask)
+{
+	struct _item_node *nnode;
+	GtkMenu *topmenu;
+	GHashTable *group_hash = g_hash_table_new(g_str_hash, g_str_equal);
+
+	topmenu = (GtkMenu *)gtk_menu_new();
+
+	nnode = inode->next;
+	while (nnode) {
+		GtkWidget *label;
+		struct _EPopupItem *item = inode->item;
+		GtkMenuItem *menuitem;
+
+		switch (item->type & E_POPUP_TYPE_MASK) {
+		case E_POPUP_ITEM:
+			if (item->image) {
+				GtkWidget *image;
+
+				/* work-around e-icon-factory not doing GTK_STOCK stuff */
+				if (strncmp((char *)item->image, "gtk-", 4) == 0)
+					image = gtk_image_new_from_stock((char *)item->image, GTK_ICON_SIZE_MENU);
+				else
+					image = e_icon_factory_get_image((char *)item->image, E_ICON_SIZE_MENU);
+
+				gtk_widget_show(image);
+				menuitem = (GtkMenuItem *)gtk_image_menu_item_new();
+				gtk_image_menu_item_set_image((GtkImageMenuItem *)menuitem, image);
+			} else {
+				menuitem = (GtkMenuItem *)gtk_menu_item_new();
+			}
+			break;
+		case E_POPUP_TOGGLE:
+			menuitem = (GtkMenuItem *)gtk_check_menu_item_new();
+			gtk_check_menu_item_set_active((GtkCheckMenuItem *)menuitem, item->type & E_POPUP_ACTIVE);
+			break;
+		case E_POPUP_RADIO: {
+			char *ppath = inode->parent?inode->parent->item->path:NULL;
+			
+			menuitem = (GtkMenuItem *)gtk_radio_menu_item_new(g_hash_table_lookup(group_hash, ppath));
+			g_hash_table_insert(group_hash, ppath, gtk_radio_menu_item_get_group((GtkRadioMenuItem *)menuitem));
+			gtk_check_menu_item_set_active((GtkCheckMenuItem *)menuitem, item->type & E_POPUP_ACTIVE);
+			break; }
+		case E_POPUP_IMAGE:
+			menuitem = (GtkMenuItem *)gtk_image_menu_item_new();
+			gtk_image_menu_item_set_image((GtkImageMenuItem *)menuitem, item->image);
+			break;
+		case E_POPUP_SUBMENU: {
+			GtkMenu *submenu = ep_build_tree((struct _item_node *)inode->children.head, mask);
+
+			menuitem = (GtkMenuItem *)gtk_menu_item_new();
+			gtk_menu_item_set_submenu(menuitem, (GtkWidget *)submenu);
+			break; }
+		case E_POPUP_BAR:
+			menuitem = (GtkMenuItem *)gtk_separator_menu_item_new();
+			break;
+		default:
+			continue;
+		}
+
+		if (item->label) {
+			label = gtk_label_new_with_mnemonic(dgettext(inode->menu->domain, item->label));
+			gtk_misc_set_alignment((GtkMisc *)label, 0.0, 0.5);
+			gtk_widget_show(label);
+			gtk_container_add((GtkContainer *)menuitem, label);
+		}
+
+		if (item->activate)
+			g_signal_connect(menuitem, "activate", G_CALLBACK(ep_activate), inode);
+
+		gtk_menu_shell_append((GtkMenuShell *)topmenu, (GtkWidget *)menuitem);
+
+		if (item->enable & mask)
+			gtk_widget_set_sensitive((GtkWidget *)menuitem, FALSE);
+
+		gtk_widget_show((GtkWidget *)menuitem);
+
+		inode = nnode;
+		nnode = nnode->next;
+	}
+
+	g_hash_table_destroy(group_hash);
+
+	return topmenu;
+}
+
 /**
  * e_popup_create:
  * @emp: An EPopup derived object.
@@ -321,9 +455,8 @@ e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 mask)
 	GPtrArray *items = g_ptr_array_new();
 	GSList *l;
 	GString *ppath = g_string_new("");
-	GtkMenu *topmenu;
-	GHashTable *menu_hash = g_hash_table_new(g_str_hash, g_str_equal),
-		*group_hash = g_hash_table_new(g_str_hash, g_str_equal);
+	GHashTable *tree_hash = g_hash_table_new(g_str_hash, g_str_equal);
+	EDList head = E_DLIST_INITIALISER(head);
 	int i;
 
 	emp->target = target;
@@ -332,16 +465,33 @@ e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 mask)
 	if (target && mask == 0)
 		mask = target->mask;
 
+	/* Note: This code vastly simplifies memory management by
+	 * keeping a linked list of all temporary tree nodes on the
+	 * menu's tree until the epopup is destroyed */
+
 	/* FIXME: need to override old ones with new names */
 	mnode = (struct _menu_node *)p->menus.head;
 	nnode = mnode->next;
 	while (nnode) {
 		for (l=mnode->menu; l; l = l->next) {
-			struct _item_node *inode = g_malloc0(sizeof(*inode));
+			struct _item_node *inode;
+			struct _EPopupItem *item = l->data;
 
+			/* we calculate bar/submenu visibility based on calculated set */
+			if (item->visible) {
+				if ((item->type & E_POPUP_TYPE_MASK) != E_POPUP_BAR
+				    && (item->type & E_POPUP_TYPE_MASK) != E_POPUP_SUBMENU
+				    && item->visible & mask) {
+					d(printf("%s not visible\n", item->path));
+					continue;
+				}
+			}
+
+			inode = g_malloc0(sizeof(*inode));
 			inode->item = l->data;
 			inode->menu = mnode;
-			inode->next = mnode->items;
+			e_dlist_init(&inode->children);
+			inode->link = mnode->items;
 			mnode->items = inode;
 
 			g_ptr_array_add(items, inode);
@@ -350,108 +500,44 @@ e_popup_create_menu(EPopup *emp, EPopupTarget *target, guint32 mask)
 		nnode = nnode->next;
 	}
 
+	/* this makes building the tree in the right order easier */
 	qsort(items->pdata, items->len, sizeof(items->pdata[0]), ep_cmp);
 
-	topmenu = (GtkMenu *)gtk_menu_new();
+	/* create tree structure */
 	for (i=0;i<items->len;i++) {
-		GtkWidget *label;
-		struct _item_node *inode = items->pdata[i];
+		struct _item_node *inode = items->pdata[i], *pnode;
 		struct _EPopupItem *item = inode->item;
-		GtkMenu *thismenu;
-		GtkMenuItem *menuitem;
-		char *tmp;
-
-		/* for bar's, the mask is exclusive or */
-		if (item->visible) {
-			if ((item->type & E_POPUP_TYPE_MASK) == E_POPUP_BAR) {
-				if ((item->visible & mask) == item->visible)
-					continue;
-			} else if (item->visible & mask)
-				continue;
-		}
+		const char *tmp;
 
 		g_string_truncate(ppath, 0);
 		tmp = strrchr(item->path, '/');
 		if (tmp) {
 			g_string_append_len(ppath, item->path, tmp-item->path);
-			thismenu = g_hash_table_lookup(menu_hash, ppath->str);
-			g_assert(thismenu != NULL);
-		} else {
-			thismenu = topmenu;
-		}
-
-		switch (item->type & E_POPUP_TYPE_MASK) {
-		case E_POPUP_ITEM:
-			if (item->image) {
-				GtkWidget *image;
-
-				/* work-around e-icon-factory not doing GTK_STOCK stuff */
-				if (strncmp((char *)item->image, "gtk-", 4) == 0) {
-					image = gtk_image_new_from_stock((char *)item->image, GTK_ICON_SIZE_MENU);
-				} else {
-					image = e_icon_factory_get_image((char *)item->image, E_ICON_SIZE_MENU);
-				}
-
-				gtk_widget_show(image);
-				menuitem = (GtkMenuItem *)gtk_image_menu_item_new();
-				gtk_image_menu_item_set_image((GtkImageMenuItem *)menuitem, image);
+			pnode = g_hash_table_lookup(tree_hash, ppath->str);
+			if (pnode == NULL) {
+				g_warning("No parent defined for node '%s'", item->path);
+				e_dlist_addtail(&head, (EDListNode *)inode);
 			} else {
-				menuitem = (GtkMenuItem *)gtk_menu_item_new();
+				e_dlist_addtail(&pnode->children, (EDListNode *)inode);
+				inode->parent = pnode;
 			}
-			break;
-		case E_POPUP_TOGGLE:
-			menuitem = (GtkMenuItem *)gtk_check_menu_item_new();
-			gtk_check_menu_item_set_active((GtkCheckMenuItem *)menuitem, item->type & E_POPUP_ACTIVE);
-			break;
-		case E_POPUP_RADIO:
-			menuitem = (GtkMenuItem *)gtk_radio_menu_item_new(g_hash_table_lookup(group_hash, ppath->str));
-			/* FIXME: need to strdup the string */
-			g_hash_table_insert(group_hash, ppath->str, gtk_radio_menu_item_get_group((GtkRadioMenuItem *)menuitem));
-			gtk_check_menu_item_set_active((GtkCheckMenuItem *)menuitem, item->type & E_POPUP_ACTIVE);
-			break;
-		case E_POPUP_IMAGE:
-			menuitem = (GtkMenuItem *)gtk_image_menu_item_new();
-			gtk_image_menu_item_set_image((GtkImageMenuItem *)menuitem, item->image);
-			break;
-		case E_POPUP_SUBMENU: {
-			GtkMenu *submenu = (GtkMenu *)gtk_menu_new();
-
-			g_hash_table_insert(menu_hash, item->path, submenu);
-			menuitem = (GtkMenuItem *)gtk_menu_item_new();
-			gtk_menu_item_set_submenu(menuitem, (GtkWidget *)submenu);
-			break; }
-		case E_POPUP_BAR:
-			/* TODO: double-bar, end-bar stuff? */
-			menuitem = (GtkMenuItem *)gtk_separator_menu_item_new();
-			break;
-		default:
-			continue;
+		} else {
+			e_dlist_addtail(&head, (EDListNode *)inode);
 		}
 
-		if (item->label) {
-			label = gtk_label_new_with_mnemonic(dgettext(inode->menu->domain, item->label));
-			gtk_misc_set_alignment((GtkMisc *)label, 0.0, 0.5);
-			gtk_widget_show(label);
-			gtk_container_add((GtkContainer *)menuitem, label);
-		}
-
-		if (item->activate)
-			g_signal_connect(menuitem, "activate", G_CALLBACK(ep_activate), inode);
-
-		gtk_menu_shell_append((GtkMenuShell *)thismenu, (GtkWidget *)menuitem);
-
-		if (item->enable & mask)
-			gtk_widget_set_sensitive((GtkWidget *)menuitem, FALSE);
-
-		gtk_widget_show((GtkWidget *)menuitem);
+		if ((item->type & E_POPUP_TYPE_MASK) == E_POPUP_SUBMENU)
+			g_hash_table_insert(tree_hash, item->path, inode);
 	}
 
 	g_string_free(ppath, TRUE);
 	g_ptr_array_free(items, TRUE);
-	g_hash_table_destroy(menu_hash);
-	g_hash_table_destroy(group_hash);
+	g_hash_table_destroy(tree_hash);
 
-	return topmenu;
+	/* prune unnecessary items */
+	ep_prune_tree(&head);
+
+	/* & build it */
+	return ep_build_tree((struct _item_node *)head.head, mask);
 }
 
 static void
