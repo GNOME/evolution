@@ -1,3 +1,10 @@
+2005-04-04  Rodney Dawes  <dobey@novell.com>
+
+	* em-folder-view.c (emfv_popup_items): Add Mark as Read/Unread back
+	to the context menu (#73192)
+	Fix the ordering values for some menu items in the context menu that
+	had duplicate order values
+
 2005-03-31  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #72935
