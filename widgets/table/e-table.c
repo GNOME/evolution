@@ -753,6 +753,9 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		e_selection_model_select_as_key_press (E_SELECTION_MODEL (et->selection), row_local, col_local, key->state);
 		return_val = 1;
 		break;
+	case GDK_BackSpace:
+		e_table_search_backspace (et->search);
+		break;
 	default:
 		if ((key->keyval >= GDK_a && key->keyval <= GDK_z) ||
 		    (key->keyval >= GDK_A && key->keyval <= GDK_Z) ||

@@ -857,6 +857,9 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 		}
 		return_val = 1;
 		break;
+	case GDK_BackSpace:
+		e_table_search_backspace (et->priv->search);
+		break;
 	default:
 		if ((key->keyval >= GDK_a && key->keyval <= GDK_z) ||
 		    (key->keyval >= GDK_A && key->keyval <= GDK_Z) ||

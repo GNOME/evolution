@@ -56,7 +56,6 @@ typedef struct {
 	 */
 	gboolean (*search)    (ETableSearch *ets, char *string /* utf8 */, ETableSearchFlags flags);
 	void     (*accept)    (ETableSearch *ets);
-	void     (*cancelled) (ETableSearch *ets);
 } ETableSearchClass;
 
 GtkType       e_table_search_get_type         (void);
@@ -65,6 +64,7 @@ ETableSearch *e_table_search_new              (void);
 /**/
 void          e_table_search_input_character  (ETableSearch *e_table_search,
 					       gunichar      character);
+void          e_table_search_backspace        (ETableSearch *e_table_search);
 void          e_table_search_cancel           (ETableSearch *e_table_search);
 
 END_GNOME_DECLS
