@@ -1,5 +1,13 @@
 2003-02-06  Dan Winship  <danw@ximian.com>
 
+	* evolution-addressbook.pc.in (Libs): Remove -L${libdir}.
+	(CFlags): s/includedir/privincludedir/
+
+	* evolution-calendar.pc.in: Likewise
+
+	* evolution-shell.pc.in: Likewise. Also change iconsdir to
+	imagesdir
+
 	* sounds/Makefile.am: remove soundsdir def
 
 	* tools/Makefile.am: subst in $(toolsdir) instead of $(bindir)
