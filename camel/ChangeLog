@@ -1,3 +1,9 @@
+2001-08-16  Peter Williams  <peterw@ximian.com>
+
+	* providers/imap/camel-imap-store.c (imap_connect_online): Fix this
+	again. Sigh. Problem of namespace = "" may not yet be completely
+	solved.
+
 2001-08-15  Peter Williams  <peterw@ximian.com>
 
 	* camel-tcp-stream-openssl.c (ssl_error_to_errno): New function. Try
