@@ -370,7 +370,7 @@ get_message_info (MessageList *message_list, ETreePath node)
  * %MESSAGE_LIST_SELECT_NEXT if it should find the next matching
  * message, or %MESSAGE_LIST_SELECT_PREVIOUS if it should find the
  * previous. If no suitable row is found, the selection will be
- * unchanged but the message display will be cleared.
+ * unchanged.
  **/
 void
 message_list_select (MessageList *message_list, int base_row,
@@ -417,11 +417,6 @@ message_list_select (MessageList *message_list, int base_row,
 		}
 		vrow += direction;
 	}
-
-	g_free (message_list->cursor_uid);
-	message_list->cursor_uid = NULL;
-
-	gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], NULL);
 }
 
 
@@ -448,7 +443,7 @@ message_list_select_uid (MessageList *message_list, const char *uid)
 	} else {
 		g_free (message_list->cursor_uid);
 		message_list->cursor_uid = NULL;
-		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], uid);
+		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], NULL);
 	}
 }
 
@@ -1473,6 +1468,10 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 			e_tree_set_cursor(ml->tree, node);
 		}
 		g_free(saveuid);
+	} else if (ml->cursor_uid && !g_hash_table_lookup(ml->uid_nodemap, ml->cursor_uid)) {
+		g_free(ml->cursor_uid);
+		ml->cursor_uid = NULL;
+		gtk_signal_emit((GtkObject *)ml, message_list_signals[MESSAGE_SELECTED], NULL);
 	}
 	
 #ifdef TIMEIT

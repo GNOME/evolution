@@ -1,3 +1,20 @@
+2001-05-10  Dan Winship  <danw@ximian.com>
+
+	* folder-browser.c (on_key_press): Don't advance to the next
+	undeleted message after "Delete"...
+
+	* mail-callbacks.c (delete_msg): ...instead, do it here, whether
+	the user used Delete, Alt+D, or the toolbar. (But only if they
+	only deleted a single message.)
+
+	* message-list.c (message_list_select): Don't clear the display on
+	failure.
+	(build_tree): Clear the display when the currently-selected
+	message stops existing and we don't have an obvious message to
+	select instead of it. (Eg, when deleting the last message with
+	"hide deleted messages" set, or expunging while a deleted message
+	is selected.)
+
 2001-05-09  Dan Winship  <danw@ximian.com>
 
 	* mail-offline-handler.c: New file, started by Ettore, finished by

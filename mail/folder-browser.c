@@ -839,9 +839,6 @@ on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 	case GDK_Delete:
 	case GDK_KP_Delete:
 		delete_msg (NULL, fb);
-		message_list_select (fb->message_list, row,
-				     MESSAGE_LIST_SELECT_NEXT,
-				     0, CAMEL_MESSAGE_DELETED);
 		return TRUE;
 
 	case 'n':

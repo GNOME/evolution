@@ -945,8 +945,8 @@ invert_selection (BonoboUIComponent *uih, void *user_data, const char *path)
 	e_tree_invert_selection (ml->tree);
 }
 
-/* flag all selected messages */
-static void
+/* flag all selected messages. Return number flagged */
+static int
 flag_messages(FolderBrowser *fb, guint32 mask, guint32 set)
 {
         MessageList *ml = fb->message_list;
@@ -954,7 +954,7 @@ flag_messages(FolderBrowser *fb, guint32 mask, guint32 set)
 	int i;
 	
 	if (ml->folder == NULL)
-		return;
+		return 0;
 	
 	/* could just use specific callback but i'm lazy */
 	uids = g_ptr_array_new ();
@@ -967,6 +967,8 @@ flag_messages(FolderBrowser *fb, guint32 mask, guint32 set)
 	camel_folder_thaw (ml->folder);
 	
 	g_ptr_array_free (uids, TRUE);
+
+	return i;
 }
 
 void
@@ -1338,7 +1340,15 @@ save_msg (GtkWidget *widget, gpointer user_data)
 void
 delete_msg (GtkWidget *button, gpointer user_data)
 {
-	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	int deleted, row;
+
+	deleted = flag_messages (fb, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
+				 CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
+	if (deleted == 1) {
+		row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
+		message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_DELETED);
+	}
 }
 
 void
