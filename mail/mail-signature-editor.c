@@ -178,7 +178,7 @@ do_exit (ESignatureEditor *editor)
 		
 		dialog = gtk_message_dialog_new (GTK_WINDOW (editor->win),
 						 GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s",
+						 GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, "%s",
 						 _("This signature has been changed, but hasn't been saved.\n"
 						  "\nDo you wish to save your changes?"));
 		gtk_dialog_add_buttons ((GtkDialog *) dialog,

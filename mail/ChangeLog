@@ -1,5 +1,8 @@
 2003-03-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-signature-editor.c (do_exit): Remove the yes/no
+	buttons. Fixes bug #39382.
+
 	* mail-accounts.c (account_able_toggled): New callback function to
 	handle the checkbox getting toggled.
 	(mail_accounts_treeview_new): Save the toggle renderer so we can
