@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution 1.5.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-09 21:59+0900\n"
-"PO-Revision-Date: 2004-07-10 01:31+0900\n"
+"PO-Revision-Date: 2004-07-10 02:01+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -12525,7 +12525,7 @@ msgstr "서명 파일을 저장할 수 없습니다: %s"
 #. mail-composer:all-accounts-deleted primary
 #: composer/mail-composer-errors.xml.h:44
 msgid "All accounts have been removed."
-msgstr ""
+msgstr "모든 계정이 지워졌습니다."
 
 #. mail-composer:all-accounts-deleted secondary
 #: composer/mail-composer-errors.xml.h:46
@@ -12886,9 +12886,8 @@ msgstr "날짜를 선택해야 합니다."
 
 #. filter:no-file primary
 #: filter/filter-errors.xml.h:6
-#, fuzzy
 msgid "Missing file name."
-msgstr "구별되는 이름(_N):"
+msgstr "파일 이름이 빠졌습니다."
 
 #. filter:no-file secondary
 #. filter:bad-file secondary
@@ -12898,29 +12897,24 @@ msgstr "파일 이름을 지정해야 합니다."
 
 #. filter:bad-file primary
 #: filter/filter-errors.xml.h:10
-#, fuzzy
 msgid "File \"{0}\" does not exist or is not a regular file."
-msgstr "파일 `%s'이(가) 없거나 일반 파일이 아닙니다."
+msgstr "\"{0}\" 파일이 없거나 일반 파일이 아닙니다."
 
 #. filter:bad-regexp primary
 #: filter/filter-errors.xml.h:14
-#, fuzzy
 msgid "Bad regular expression \"{0}\"."
-msgstr ""
-"정규식 '%s'에서 오류가 발생했습니다:\n"
-"%s"
+msgstr "\"{0}\" 정규식이 틀렸습니다."
 
 #. filter:bad-regexp secondary
 #: filter/filter-errors.xml.h:16
 msgid "Could not compile regular expression \"{1}\"."
-msgstr ""
+msgstr "\"{1}\" 정규식을 컴파일할 수 없습니다."
 
 #. filter:no-name primary
 #. mail:no-name-vfolder primary
 #: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
-#, fuzzy
 msgid "Missing name."
-msgstr "할당"
+msgstr "이름이 빠졌습니다."
 
 #. filter:no-name secondary
 #: filter/filter-errors.xml.h:20
@@ -12930,12 +12924,12 @@ msgstr "이 거르게에 이름을 주어야 합니다."
 #. filter:bad-name-notunique primary
 #: filter/filter-errors.xml.h:22
 msgid "Name \"{0}\" already used."
-msgstr ""
+msgstr "\"{0}\" 이름은 이미 사용하고 있습니다."
 
 #. filter:bad-name-notunique secondary
 #: filter/filter-errors.xml.h:24
 msgid "Please choose another name."
-msgstr ""
+msgstr "다른 이름을 사용해 주십시오."
 
 #: filter/filter-file.c:288
 msgid "Choose a file"
@@ -15125,7 +15119,7 @@ msgstr "<span weight=\"bold\">계정 정보</span>"
 
 #: mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Alerts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">경고</span>"
 
 #: mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Authentication Type</span>"
@@ -15189,18 +15183,17 @@ msgstr "<span weight=\"bold\">새 메일 알림</span>"
 
 #: mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">추가 정보</span>"
 
 #: mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">옵션</span>"
 
 #: mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 
 #: mail/mail-config.glade.h:29
-#, fuzzy
 msgid "<span weight=\"bold\">Printed Fonts</span>"
 msgstr "<span weight=\"bold\">인쇄 글꼴</span>"
 
@@ -15209,7 +15202,6 @@ msgid "<span weight=\"bold\">Required Information</span>"
 msgstr "<span weight=\"bold\">필수 정보</span>"
 
 #: mail/mail-config.glade.h:31
-#, fuzzy
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 msgstr "<span weight=\"bold\">보안 MIME (S/MIME)</span>"
 
@@ -15234,14 +15226,12 @@ msgid "Account Editor"
 msgstr "계정 편집기"
 
 #: mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Add Ne_w Signature..."
-msgstr "새 서명 더하기..."
+msgstr "새 서명 더하기(_W)..."
 
 #: mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Add _Script"
-msgstr "스크립트 더하기(_R)"
+msgstr "스크립트 더하기(_S)"
 
 #: mail/mail-config.glade.h:40
 msgid "Al_ways encrypt to myself when sending encrypted mail"
@@ -15318,9 +15308,8 @@ msgid "Color for _misspelled words:"
 msgstr "맞춤법이 틀린 글자의 색상(_M):"
 
 #: mail/mail-config.glade.h:59
-#, fuzzy
 msgid "Colors"
-msgstr "색(_O)"
+msgstr "색"
 
 #: mail/mail-config.glade.h:60
 msgid "Confirm _when expunging a folder"
@@ -15395,7 +15384,6 @@ msgid "Execute Command..."
 msgstr "명령 실행..."
 
 #: mail/mail-config.glade.h:83
-#, fuzzy
 msgid "Fi_xed-width:"
 msgstr "고정폭(_X):"
 
@@ -15713,7 +15701,6 @@ msgid ""
 msgstr ""
 
 #: mail/mail-dialogs.glade.h:7
-#, fuzzy
 msgid "<b>vFolder Sources</b>"
 msgstr "<b>가상 폴더 원본</b>"
 
@@ -15726,9 +15713,8 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">암호화</span>"
 
 #: mail/mail-dialogs.glade.h:10
-#, fuzzy
 msgid "Accept License"
-msgstr "수락"
+msgstr "사용권 동의"
 
 #: mail/mail-dialogs.glade.h:11 mail/message-tags.glade.h:2
 msgid "C_ompleted"
@@ -15756,9 +15742,8 @@ msgid "Folder Subscriptions"
 msgstr "폴더 구독"
 
 #: mail/mail-dialogs.glade.h:18
-#, fuzzy
 msgid "License Agreement"
-msgstr "키 계약"
+msgstr "사용권 약관"
 
 #: mail/mail-dialogs.glade.h:19
 msgid "None Selected"
@@ -15781,12 +15766,10 @@ msgstr ""
 "\"플래그\" 메뉴에서 추가 작업 동작을 선택하십시오."
 
 #: mail/mail-dialogs.glade.h:25
-#, fuzzy
 msgid "Tick this to accept the license agreement"
-msgstr "계정 목록"
+msgstr "사용권 약관에 동의하시면 여기에 체크하십시오"
 
 #: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:6
-#, fuzzy
 msgid "_Due By:"
 msgstr "마감(_D):"
 
@@ -15865,9 +15848,8 @@ msgstr ""
 
 #: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
 #: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
-#, fuzzy
 msgid "_Send"
-msgstr "보내기"
+msgstr "보내기(_S)"
 
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
@@ -15939,9 +15921,8 @@ msgstr ""
 "기본적인 임시 보관함 폴더를 사용하시겠습니까?"
 
 #: mail/mail-errors.xml.h:41
-#, fuzzy
 msgid "Use _Default"
-msgstr "기본값"
+msgstr "기본값 사용(_D)"
 
 #. mail:ask-expunge primary
 #: mail/mail-errors.xml.h:43
@@ -15958,9 +15939,8 @@ msgid "If you continue, you will not be able to recover these messages."
 msgstr ""
 
 #: mail/mail-errors.xml.h:46
-#, fuzzy
 msgid "_Expunge"
-msgstr "지운 메세지 비우기(_X)"
+msgstr "비우기(_X)"
 
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
@@ -15971,9 +15951,8 @@ msgid ""
 msgstr "모든 폴더의 지워진 메세지를 완전히 지웁니다"
 
 #: mail/mail-errors.xml.h:51
-#, fuzzy
 msgid "_Empty Trash"
-msgstr "휴지통 비우기(_T)"
+msgstr "휴지통 비우기(_E)"
 
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:53
