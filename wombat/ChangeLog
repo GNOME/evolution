@@ -1,3 +1,8 @@
+2003-10-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: INCLUDE path fixes for changes made to libical
+	build.
+
 2003-06-26  Rodrigo Moya <rodrigo@ximian.com>
 
 	* Evolution-Wombat.idl: removed WombatClient interface.

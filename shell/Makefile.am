@@ -5,8 +5,7 @@ INCLUDES =							\
 	-DBONOBO_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED	\
 	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/widgets/misc				\
-	-I$(top_srcdir)/libical/src/libical			\
-	-I$(top_builddir)/libical/src/libical			\
+	-I$(top_srcdir)/libical/src				\
 	-I$(top_srcdir)						\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
