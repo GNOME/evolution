@@ -242,6 +242,7 @@ mail_importer_init (EvolutionShellClient *client)
 void
 mail_importer_uninit (void)
 {
+	CORBA_Environment ev;
 	GList *l;
 
 	for (l = importer_modules; l; l = l->next) {
@@ -250,5 +251,10 @@ mail_importer_uninit (void)
 
 	g_list_free (importer_modules);
 	importer_modules = NULL;
+	
+	CORBA_exception_init (&ev);
+	bonobo_object_release_unref (local_storage, &ev);
+	local_storage = NULL;
+	CORBA_exception_free (&ev);
 }
 

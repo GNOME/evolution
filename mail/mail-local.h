@@ -32,6 +32,7 @@
 
 void mail_local_storage_startup (EvolutionShellClient *shellclient,
 				 const char *evolution_path);
+void mail_local_storage_shutdown (void);
 
 void mail_local_reconfigure_folder (FolderBrowser *fb);
 

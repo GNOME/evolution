@@ -1,3 +1,22 @@
+2001-05-11  JP Rosevear  <jpr@ximian.com>
+
+	* mail-importer.h: add proto
+
+	* mail-importer.c (mail_importer_uninit): release and unref the
+	local storage
+
+	* mail-local.c (mail_local_store_finalize): use
+	bonobo_object_release_unref rather than doing Bonobo_Unknow_unref
+	and a corba release
+	(register_folder_registered): "sink" the local_store ref to
+	prevent circular ref
+	(mail_local_storage_shutdown): unref the local store
+
+	* mail-local.h: new proto
+
+	* component-factory.c (owner_unset_cb): uninit the importer and
+	shutdown the local storage
+
 2001-05-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-local.c (mail_local_reconfigure_folder): Set a title on the

@@ -38,6 +38,8 @@ struct _MailImporter {
 };
 
 void mail_importer_init (EvolutionShellClient *client);
+void mail_importer_uninit (void);
+
 void mail_importer_add_line (MailImporter *importer,
 			     const char *str,
 			     gboolean finished);

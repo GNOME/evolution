@@ -285,10 +285,8 @@ mail_local_store_finalize (gpointer object)
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
-	if (!CORBA_Object_is_nil (local_store->corba_local_storage, &ev)) {
-		Bonobo_Unknown_unref (local_store->corba_local_storage, &ev);
-		CORBA_Object_release (local_store->corba_local_storage, &ev);
-	}
+	if (!CORBA_Object_is_nil (local_store->corba_local_storage, &ev))
+		bonobo_object_release_unref (local_store->corba_local_storage, &ev);
 	CORBA_exception_free (&ev);
 
 	if (local_store->local_storage_listener)
@@ -564,6 +562,8 @@ register_folder_registered(struct _mail_msg *mm)
 	if (local_folder->folder) {
 		g_hash_table_insert (local_folder->local_store->folders, local_folder->uri + 8,
 				     local_folder);
+		/* Remove the circular ref once the local store knows aboutthe folder */
+		camel_object_unref ((CamelObject *)local_folder->local_store);
 		
 		/* add the folder to the vfolder lists FIXME: merge stuff above with this */
 		vfolder_register_source(local_folder->folder);
@@ -732,6 +732,11 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 	CORBA_exception_free (&ev);
 }
 
+void
+mail_local_storage_shutdown (void)
+{
+	camel_object_unref (CAMEL_OBJECT (local_store));
+}
 
 /* Local folder reconfiguration stuff */
 
