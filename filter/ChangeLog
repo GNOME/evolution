@@ -1,3 +1,17 @@
+2001-07-23  Peter Williams  <peterw@ximian.com>
+
+	* filter-datespec.c (make_span_editor): Change the butt-ugly
+	UI to a saner (and just as flexible) one. Instead of all those
+	spinbuttons, just have one and let the user select the time unit.
+	(omenu_item_activated): New function. When the user changes the
+	time unit, convert it from the old number. Pretty.
+	(adj_value_changed): This function is now simpler.
+	(set_adjustments): Also modified for new UI model.
+	(button_clicked): Set the selected_type before calling the callback.
+	(FilterDatespecPrivate): Members change a bit.
+	(filter_datespec_init): No longer need to allocation spinbuttons
+	(filter_datespec_finalise): No longer need to free spinbuttons.
+
 2001-07-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filtertypes.xml: Removed the "Forward To" filter action.

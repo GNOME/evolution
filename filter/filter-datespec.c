@@ -23,6 +23,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include <glib.h>
 #include <gtk/gtkcalendar.h>
 #include <gtk/gtkhbox.h>
@@ -58,6 +59,7 @@ static void filter_datespec_finalise (GtkObject *obj);
 
 static void make_span_editor (FilterDatespec *fds);
 static void adj_value_changed (GtkAdjustment *adj, gpointer user_data);
+static void omenu_item_activated (GtkMenuItem *item, gpointer user_data);
 static gchar *describe_button (FilterDatespec *fds);
 static gchar *stringify_agoness (FilterDatespec *fds);
 static void set_adjustments (FilterDatespec *fds);
@@ -84,11 +86,7 @@ static const timespan timespans[] = {
 	{ 1, N_("second"), N_("seconds"), 59.0 }
 };
 
-#define N_TIMECHUNKS 3
-
-static const guint timechunks[N_TIMECHUNKS] = { 2, 2, 3 };
-#define MAX_CHUNK 3
-
+#define DAY_INDEX 3
 #define N_TIMESPANS (sizeof (timespans) / sizeof (timespans[0]))
 
 struct _FilterDatespecPrivate {
@@ -99,8 +97,8 @@ struct _FilterDatespecPrivate {
 
 	GtkWidget *date_chooser;
 	GtkWidget *span_chooser;
+	GtkWidget *omenu, *spinbutton, *recent_item;
 	gboolean double_click;
-	GtkWidget **spinbuttons;
 };
 
 static FilterElementClass *parent_class;
@@ -154,7 +152,6 @@ filter_datespec_init (FilterDatespec *o)
 	o->priv = g_malloc0 (sizeof (*o->priv));
 	o->type = FDST_UNKNOWN;
 	PRIV(o)->selected_type = FDST_UNKNOWN;
-	PRIV(o)->spinbuttons = g_new (GtkWidget *, N_TIMESPANS);
 }
 
 static void
@@ -162,10 +159,8 @@ filter_datespec_finalise(GtkObject *obj)
 {
 	FilterDatespec *o = (FilterDatespec *)obj;
 	
-	if (o->priv) {
-		g_free (PRIV(o)->spinbuttons);
+	if (o->priv)
 		g_free (o->priv);
-	}
 	
         ((GtkObjectClass *)(parent_class))->finalize(obj);
 }
@@ -345,7 +340,7 @@ activate_x_ago (GtkMenuItem *item, FilterDatespec *fds)
 		fds->value = 0;
 	
 	PRIV (fds)->selected_type = FDST_X_AGO;
-	
+
 	if (fds->value > 0)
 		set_adjustments (fds);
 	
@@ -459,6 +454,7 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	
 	if (fds->type == FDST_UNKNOWN)
 		fds->type = FDST_NOW;
+	PRIV (fds)->selected_type = fds->type;
 
 	(callbacks[fds->type]) (NULL, fds);
 	
@@ -588,113 +584,119 @@ static void
 make_span_editor (FilterDatespec *fds)
 {
 	int i;
-	int chunk;
-	int delta;
-	GtkWidget *table;
-	
+	GtkObject *adj;
+	GtkWidget *hbox, *menu, *om, *sb, *label;
+
 	/*PRIV (fds)->span_chooser = gtk_vbox_new (TRUE, 3);*/
-	table = gtk_table_new (N_TIMECHUNKS, MAX_CHUNK * 2, FALSE);
-	
-	i = 0;
-	
-	for (chunk = 0; chunk < N_TIMECHUNKS; chunk++ ) {
-		/*GtkWidget *hbox;*/
 
-		/*hbox = gtk_hbox_new (FALSE, 1);*/
-		/*gtk_box_pack_start (GTK_BOX (PRIV (fds)->span_chooser),
-		 *		    hbox, TRUE, TRUE, 1);
-		 */
-		/*gtk_table_attach (GTK_TABLE (PRIV (fds)->span_chooser),
-		 *		  hbox,
-		 *		  0, 1, chunk, chunk + 1,
-		 *		  0, GTK_EXPAND | GTK_FILL,
-		 *		  3, 3);
-		 *gtk_widget_show (hbox);
-		 */
-		
-		for (delta = 0; delta < timechunks[chunk]; delta++, i++ ) {
-			gchar *text;
-			GtkObject *adj;
-			GtkWidget *sb;
-			GtkWidget *label;
-			
-			adj = gtk_adjustment_new (0.0, 0.0,
-						  timespans[i].max,
-						  1.0, 10.0, 0.0);
-			
-			sb = gtk_spin_button_new (GTK_ADJUSTMENT (adj),
-						  0, 0);
-			
-			/*gtk_box_pack_start (GTK_BOX (hbox), sb, FALSE, FALSE, 1);*/
-			gtk_table_attach (GTK_TABLE (table), sb,
-					  delta * 2, delta * 2 + 1,
-					  chunk, chunk + 1,
-					  0, GTK_EXPAND | GTK_FILL,
-					  2, 4);
-			PRIV (fds)->spinbuttons[i] = sb;
-			
-			gtk_widget_show (GTK_WIDGET (sb));
-			
-			if (delta + 1 < timechunks[chunk])
-				text = g_strdup_printf ("%s, ", gettext (timespans[i].plural));
-			else
-				text = g_strdup_printf ("%s ago", gettext (timespans[i].plural));
+	hbox = gtk_hbox_new (TRUE, 3);
 
-			label = gtk_label_new (text);
-			g_free (text);
-			
-			/*gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 3);*/
-			gtk_table_attach (GTK_TABLE (table), label,
-					  delta * 2 + 1, (delta + 1) * 2,
-					  chunk, chunk + 1,
-					  0, GTK_EXPAND | GTK_FILL,
-					  2, 4);
-			gtk_widget_show (label);
-			
-			gtk_signal_connect (adj, "value_changed",
-					    adj_value_changed, fds);
-		}
+	adj = gtk_adjustment_new (0.0, 0.0,
+				  /*timespans[i].max*/100000.0,
+				  1.0, 10.0, 0.0);
+	sb = gtk_spin_button_new (GTK_ADJUSTMENT (adj), 0, 0);
+	gtk_widget_show (GTK_WIDGET (sb));
+	gtk_box_pack_start (GTK_BOX (hbox), sb, TRUE, TRUE, 0);
+
+	menu = gtk_menu_new ();
+	for (i = 0; i < N_TIMESPANS; i++) {
+		GtkWidget *item;
+
+		item = gtk_menu_item_new_with_label (timespans[i].plural);
+		gtk_object_set_data (GTK_OBJECT (item), "timespan", (gpointer) &(timespans[i]));
+		gtk_signal_connect (GTK_OBJECT (item), "activate", omenu_item_activated, fds);
+		gtk_widget_show (item);
+		gtk_menu_prepend (GTK_MENU (menu), item);
+
+		if (i == DAY_INDEX)
+			PRIV (fds)->recent_item = item;
 	}
+
+	om = gtk_option_menu_new ();
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (om), menu);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (om), DAY_INDEX);
+	gtk_widget_show (om);
+	gtk_box_pack_start (GTK_BOX (hbox), om, FALSE, TRUE, 0);
+
+	label = gtk_label_new (_("ago"));
+	gtk_widget_show (label);
+	gtk_misc_set_padding (GTK_MISC (label), 3, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+
+	gtk_widget_show (hbox);
 	
-	PRIV (fds)->span_chooser = table;
+	PRIV (fds)->span_chooser = hbox;
+	PRIV (fds)->omenu = om;
+	PRIV (fds)->spinbutton = sb;
+
+	/* if we do this earlier, we get the signal before the private
+	 * members have been set up. */
+	gtk_signal_connect (adj, "value_changed",
+			    adj_value_changed, fds);
+}
+
+static void
+omenu_item_activated (GtkMenuItem *item, gpointer user_data)
+{
+	FilterDatespec *fds = (FilterDatespec *) user_data;
+	GtkOptionMenu *om;
+	timespan *old_ts, *new_ts;
+	int cur_val;
+	gfloat new_val;
+
+	if (!PRIV (fds)->recent_item) {
+		PRIV (fds)->recent_item = GTK_WIDGET (item);
+		return;
+	}
+
+	om = GTK_OPTION_MENU (PRIV (fds)->omenu);
+	old_ts = gtk_object_get_data (GTK_OBJECT (PRIV (fds)->recent_item), "timespan");
+	new_ts = gtk_object_get_data (GTK_OBJECT (item), "timespan");
+
+	cur_val = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (PRIV (fds)->spinbutton));
+
+	/*if (old_ts->seconds > new_ts->seconds)*/
+	new_val = ceil (cur_val * old_ts->seconds / new_ts->seconds);
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (PRIV (fds)->spinbutton), new_val);
+	PRIV (fds)->recent_item = GTK_WIDGET (item);
 }
 
 static void
 adj_value_changed (GtkAdjustment *adj, gpointer user_data)
 {
 	FilterDatespec *fds = (FilterDatespec *) user_data;
-	int i;
-	
-	fds->value = 0;
-	
-	for (i = 0; i < N_TIMESPANS; i++)
-		fds->value += timespans[i].seconds * 
-			(gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (PRIV (fds)->spinbuttons[i])));
+	GtkOptionMenu *om;
+	timespan *ts;
+
+	om = GTK_OPTION_MENU (PRIV (fds)->omenu);
+
+	if (om->menu_item == NULL) /* this has happened to me... dunno what it means */
+		return;
+
+	ts = gtk_object_get_data (GTK_OBJECT (om->menu_item), "timespan");
+	fds->value = ts->seconds * 
+		(gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (PRIV (fds)->spinbutton)));
 }
 
 static void
 set_adjustments (FilterDatespec *fds)
 {
 	time_t val;
-	int where;
+	int i;
 	
 	val = fds->value;
-	where = 0;
-	
-	while (val) {
-		int count;
-		
-		count = 0;
-		
-		while (timespans[where].seconds <= val) {
-			count++;
-			val -= timespans[where].seconds;
+
+	for (i = 0; i < N_TIMESPANS; i++) {
+		if (val % timespans[i].seconds == 0) {
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (PRIV (fds)->spinbutton),
+						   (gfloat) val / timespans[i].seconds);
+			break;
 		}
-			
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (PRIV (fds)->spinbuttons[where]),
-					   (gfloat) count);
-		where++;
 	}
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU (PRIV (fds)->omenu),
+				     N_TIMESPANS - (i + 1));
 }
 
 static gchar *
