@@ -1657,7 +1657,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	if (id)
 	      sig_file = id->sig;
 	
-	composer = e_msg_composer_new_with_sig_file (sig_file);
+	composer = e_msg_composer_new_with_sig_file (sig_file, mail_config_send_html ());
 	if (!composer)
 		return NULL;
 	

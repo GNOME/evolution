@@ -1,3 +1,10 @@
+2000-11-08  Radek Doulik  <rodo@helixcode.com>
+
+	* mail-format.c (mail_generate_reply): likewise
+
+	* mail-callbacks.c (create_msg_composer): added send_html arg to
+	e_msg_composer_new_with_sig_file call
+
 2000-11-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-search-dialogue.c (mail_search_dialogue_construct): Allow

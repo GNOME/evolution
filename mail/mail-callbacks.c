@@ -366,13 +366,13 @@ create_msg_composer (const char *url)
        if (id)
                sig_file = id->sig;
        
-       if (url != NULL)
+       if (url != NULL) {
                composer = e_msg_composer_new_from_url (url);
-       else
-               composer = e_msg_composer_new_with_sig_file (sig_file);
-       if (composer)
-	       e_msg_composer_set_send_html (composer, send_html);
-       
+	       if (composer)
+		       e_msg_composer_set_send_html (composer, send_html);
+       } else
+               composer = e_msg_composer_new_with_sig_file (sig_file, send_html);
+
        return (GtkWidget *)composer;
 }
 
