@@ -952,11 +952,14 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	GHashTable *urls;
 	CamelMimePart *part;
 
+	if (!eb->classid)
+		return FALSE;
+
 	urls = g_datalist_get_data (md->data, "part_urls");
 	if (!urls)
 		return FALSE;
 
-	if (!strncmp (eb->classid, "popup:", 6)) {
+	if (!strncmp (eb->classid, "popup:", 6) && eb->type) {
 		part = g_hash_table_lookup (urls, eb->classid + 6);
 		if (!CAMEL_IS_MIME_PART (part))
 			return FALSE;
@@ -966,7 +969,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		if (!CAMEL_IS_MIME_PART (part))
 			return FALSE;
 		return do_signature (html, eb, part, md);
-	} else if (!strncmp (eb->classid, "cid:", 4)) {
+	} else if (!strncmp (eb->classid, "cid:", 4) && eb->type) {
 		part = g_hash_table_lookup (urls, eb->classid);
 		if (!CAMEL_IS_MIME_PART (part))
 			return FALSE;

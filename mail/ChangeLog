@@ -23,6 +23,23 @@
 	(on_right_click): Hide "Mark as (Not) Needing Reply" context menu
 	elements as appropriate.
 
+2001-12-08  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (on_object_requested): Don't just assume all of
+	the GtkHTMLEmbedded's fields are filled in, since HTML messages
+	may have <object>s in them that we're not expecting.
+
+2001-12-07  Dan Winship  <danw@ximian.com>
+
+	* mail-send-recv.c (mail_send_receive): Add a "current_folder"
+	arg.
+	(build_dialogue): Remember the current_folder
+	(free_send_data): If current_folder is set, refresh it so it's
+	guaranteed to be synced with the folder tree. Fixes #14770.
+
+	* mail-callbacks.c (send_receive_mail): Pass current_folder to
+	mail_send_receive().
+
 2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (stream_write_or_redisplay_when_loaded): Check
