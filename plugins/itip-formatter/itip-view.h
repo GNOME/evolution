@@ -23,6 +23,8 @@
 #ifndef _ITIP_VIEW_H_
 #define _ITIP_VIEW_H_
 
+#include <stdarg.h>
+#include <unistd.h>
 #include <glib-object.h>
 #include <gtk/gtkhbox.h>
 #include <libedataserver/e-source-list.h>
@@ -118,11 +120,13 @@ const struct tm *itip_view_get_start (ItipView *view);
 void itip_view_set_end (ItipView *view, struct tm *end);
 const struct tm *itip_view_get_end (ItipView *view);
 
-guint itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType, const char *message); 
+guint itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const char *message); 
+guint itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType, const char *format, ...) G_GNUC_PRINTF (3, 4);
 void itip_view_remove_upper_info_item (ItipView *view, guint id);
 void itip_view_clear_upper_info_items (ItipView *view);
 
-guint itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType, const char *message); 
+guint itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const char *message); 
+guint itip_view_add_lower_info_item_printf (ItipView *view, ItipViewInfoItemType type, const char *format, ...) G_GNUC_PRINTF (3, 4);
 void itip_view_remove_lower_info_item (ItipView *view, guint id);
 void itip_view_clear_lower_info_items (ItipView *view);
 

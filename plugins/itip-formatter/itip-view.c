@@ -1048,6 +1048,29 @@ itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const 
 	return item->id;
 }
 
+guint
+itip_view_add_upper_info_item_printf (ItipView *view, ItipViewInfoItemType type, const char *format, ...)
+{
+	ItipViewPrivate *priv;
+	va_list args;
+	char *message;
+	guint id;
+	
+	g_return_val_if_fail (view != NULL, 0);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);	
+	
+	priv = view->priv;
+
+	va_start (args, format);
+	message = g_strdup_vprintf (format, args);
+	va_end (args);
+
+	id = itip_view_add_upper_info_item (view, type, message);
+	g_free (message);
+	
+	return id;
+}
+
 void
 itip_view_remove_upper_info_item (ItipView *view, guint id)
 {
@@ -1121,6 +1144,29 @@ itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const 
 	set_lower_info_items (view);
 
 	return item->id;
+}
+
+guint
+itip_view_add_lower_info_item_printf (ItipView *view, ItipViewInfoItemType type, const char *format, ...)
+{
+	ItipViewPrivate *priv;
+	va_list args;
+	char *message;
+	guint id;
+	
+	g_return_val_if_fail (view != NULL, 0);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);	
+	
+	priv = view->priv;
+
+	va_start (args, format);
+	message = g_strdup_vprintf (format, args);
+	va_end (args);
+
+	id = itip_view_add_lower_info_item (view, type, message);
+	g_free (message);
+	
+	return id;
 }
 
 void

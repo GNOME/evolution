@@ -277,11 +277,8 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, cal_opened_cb, NULL);
 
 	if (status != E_CALENDAR_STATUS_OK) {	
-		char *warn;
-		
-		warn = g_strdup_printf ("Failed to load the calendar '%s'", e_source_peek_name (source));
-		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, warn);
-		g_free (warn);
+		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+						      "Failed to load the calendar '%s'", e_source_peek_name (source));
 
 		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
 
@@ -370,14 +367,11 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, find_cal_opened_cb, NULL);
 
 	if (status != E_CALENDAR_STATUS_OK) {
-		char *warn;
-		
 		/* FIXME Do we really want to warn here?  If we fail
 		 * to find the item, this won't be cleared but the
 		 * selector might be shown */
-		warn = g_strdup_printf ("Failed to load the calendar '%s'", e_source_peek_name (source));
-		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, warn);
-		g_free (warn);
+		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+						     "Failed to load the calendar '%s'", e_source_peek_name (source));
 
 		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
 
@@ -385,24 +379,17 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	}
 
 	/* Check for conflicts */
+	/* If the query fails, we'll just ignore it */
 	/* FIXME Limit the calendars checked for conflicts? */
 	/* FIXME What happens for recurring conflicts? */
 	if (e_cal_get_object_list (ecal, fd->sexp, &objects, NULL) && g_list_length (objects) > 0) {
-		char *info;
-
-		g_message ("Conflicting item found");
-		info = g_strdup_printf ("An appointment in the calendar '%s' conflicts with this meeting", e_source_peek_name (source));
-		itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, info);
-		g_free (info);
+		itip_view_add_upper_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, 
+						      "An appointment in the calendar '%s' conflicts with this meeting", e_source_peek_name (source));
 
 		e_cal_free_object_list (objects);
-	} else {
-		g_message ("Query failed");
 	}
 
 	if (e_cal_get_object (ecal, fd->uid, NULL, &icalcomp, NULL)) {
-		char *info;
-		
 		icalcomponent_free (icalcomp);
 		
 		pitip->current_ecal = ecal;
@@ -419,9 +406,8 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		itip_view_clear_lower_info_items (ITIP_VIEW (pitip->view));
 		pitip->progress_info_id = 0;
 
-		info = g_strdup_printf ("Found the appointment in the calendar '%s'", e_source_peek_name (source));
-		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, info);
-		g_free (info);
+		itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, 
+						      "Found the appointment in the calendar '%s'", e_source_peek_name (source));
 
 		set_buttons_sensitive (pitip);
 	}
@@ -740,11 +726,8 @@ update_attendee_status (FormatItipPObject *pitip)
 		}
 
 		if (!e_cal_modify_object (pitip->current_ecal, icalcomp, CALOBJ_MOD_ALL, &error)) {
-			char *info;
-			
-			info = g_strdup_printf (_("Unable to update attendee statusAttendee status updated. %s"), error->message);
-			itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, info);
-			g_free (info);
+			itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, 
+							      _("Unable to update attendee statusAttendee status updated. %s"), error->message);
 			
 			g_error_free (error);
 		} else {
