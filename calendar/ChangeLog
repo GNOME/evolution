@@ -1,3 +1,10 @@
+2004-07-05  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/gnome-cal.c (setup_widgets): don't set the timezone on the views
+	here.
+	(set_timezone): do it here.
+	(client_cal_opened_cb): call set_timezone() here.
+
 2004-07-02  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/gnome-cal.c (set_view): update the internal current_view_type
