@@ -53,6 +53,7 @@ pasinclude_HEADERS =					\
 
 libpas_a_SOURCES =					\
 	$(pasinclude_HEADERS)				\
+	$(CORBA_SOURCE_H)				\
 	$(CORBA_SOURCE_C)				\
 	pas-book-factory.c				\
 	pas-book-view.c					\

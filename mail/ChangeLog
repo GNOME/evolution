@@ -1,83 +1,11 @@
-2002-09-13  Dan Winship  <danw@ximian.com>
+2002-09-13  Ettore Perazzoli  <ettore@ximian.com>
 
-	* folder-browser.c (fb_resize_cb): If the vpaned isn't realized,
-	don't call mail_config_set_paned_size. Fixes a problem with the
-	saved pane size being repeatedly lost (#29933)
-
-2002-09-13  Dan Winship  <danw@ximian.com>
-
-	* Mailer.idl: rename this from "Mail.idl" so that the generated .h
-	file won't overwrite "mail.h" on Mac OS X. Remove some
-	never-implemented IDL and add MailConfig_removeAccount.
-
-	* Makefile.am: Update for IDL rename
-
-	* mail-config.c: #include Mailer.h, not Mail.h
-	(impl_GNOME_Evolution_MailConfig_removeAccount): Implement.
-
-	* folder-info.c: #include Mailer.h, not Mail.h
-
-	* message-list.c: Remove Mail.h include.
-
-2002-09-12  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* main.c (main): Ignore SIGXFSZ to fix bug #30269.
-
-	* upgrade-mailer.c (cache_upgrade_and_free): The new callback
-	function for the g_hash_table_foreach which both upgrades the
-	cache for that store and then free's the struct _storeinfo
-	afterwards.
-	(cache_upgrade): Upgrade a cached folder by moving the old cache
-	folder into the appropriate new location.
-
-2002-09-11  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* folder-browser.c (folder_browser_query_changed): Only abort if
-	the user selected ADVANCED_SEARCH, not the other way around. Any
-	other menu item and we are supposed to perform an actual
-	search. Fixes bug #30183.
-
-	* mail-display.c (pixbuf_for_mime_type): check the new gnome-vfs
-	icon_filename key. If that fails, fall back to checking
-	icon-filename. Also don't leak the fm_icon string and rearranged
-	some code.
-
-2002-09-11  Not Zed  <NotZed@Ximian.com>
-
-	* component-factory.c (configure_folder_popup): Handle file uri's
-	too.
-
-	* mail-callbacks.c (configure_folder): clear message list before
-	calling configure folder.
-	(local_configure_done): completion callback to reset message list
-	when done.
-
-	* mail-local.c (mail_local_reconfigure_folder): changed args to
-	accept uri, and done callback.
-	(reconfigure_got_folder): moved code to callback which presents
-	the configure uri once we have the folder.
-
-2002-09-10  Not Zed  <NotZed@Ximian.com>
-
-	* component-factory.c: Handle file: as well as vfolder: uri's.
-	Pass both to the normal configure_folder callback.  For #20849.
-
-	* folder-browser.c (got_folder): If we already have a folder, make
-	sure we unref/unhook from it.  Fixes a crash on exit.
-
-	* message-list.c (message_list_hide_clear): clear thread tree
-	cache if set.
-	(message_list_set_search): Same.  For bug #28834.
-
-2002-09-09  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* folder-browser-ui.c (folder_browser_ui_scan_selection): Make
-	sure that fb->message_list is non-NULL before checking
-	fb->message_list->threaded? I guess this'll fix bug #29965.
-
+	[Merging in patch from Jeff.]
 	* mail-callbacks.c (composer_save_draft_cb): NULL-check the ccd
 	before reffing it.
 	(composer_send_cb): Same.
+
+2002-09-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* upgrade-mailer.c (shortcuts_upgrade_xml_file): Don't look for an
 	end quote, instead look for </item> to terminate the uri.

@@ -1,65 +1,7 @@
-2002-09-13  Chris Toshok  <toshok@ximian.com>
+2002-09-13  Ettore Perazzoli  <ettore@ximian.com>
 
-	[ Fixes bug #30250 ]
-	* backend/ebook/e-destination.c (e_destination_get_name): handle
-	"Unnamed Lists" here by setting their name to _("Unnamed List').
-
-	* backend/ebook/e-card-simple.c (e_card_simple_get): same.
-
-	* gui/contact-list-editor/e-contact-list-editor.c (is_named): new
-	function, return TRUE if the name field is filled in.
-	(prompt_to_save_changes): return TRUE if the list isn't named
-	(meaning it's not saveable.)
-	(command_state_changed): saving requires a name.
-	(add_email_cb): always call command_state_changed.
-	(remove_entry_cb): same.
-	(list_name_changed_cb): same.
-	(visible_addrs_toggled_cb): same.
-	(table_drag_data_received_cb): same.
-
-2002-09-12  Dan Winship  <danw@ximian.com>
-
-	* backend/ebook/e-card-simple.c (e_card_simple_get): return
-	g_strdup("true"), not "true".
-
-2002-09-11  Chris Toshok  <toshok@ximian.com>
-
-	* gui/component/select-names/e-select-names-completion.c
-	(e_select_names_completion_start_query): institute an arbitrary
-	minimum limit on the number of characters before we actually try
-	to autocomplete.  It's 3, btw.
-
-2002-09-11  Chris Toshok  <toshok@ximian.com>
-
-	[ fixes the other half of #17336 ]
-	* gui/contact-editor/e-contact-quick-add.c (quick_add_set_name):
-	parse the name when we're asked to set it, so the full name
-	doesn't get stored as (potentially) "Last, First" in the card.
-
-2002-09-11  Chris Toshok  <toshok@ximian.com>
-
-	[ fixes part of #17336 ]
-	* gui/contact-editor/e-contact-editor-fullname.c
-	(e_contact_editor_fullname_init): get the window title from the
-	.glade file, and supply a suitable wm icon.
-
-	* gui/contact-editor/e-contact-editor-address.c
-	(e_contact_editor_address_init): same.
-
-2002-09-11  Chris Toshok  <toshok@ximian.com>
-
-	[ fixes #30208 ]
-	* gui/component/addressbook.c (load_uri_auth_cb): if the user
-	clicked cancel in the password dialog, let them off the hook and
-	bind anonymously.  Otherwise (if they failed to auth), prompt them
-	for the password again.
-	(addressbook_authenticate): new function, split out 99% of the
-	auth machinery here so it can be called multiple times.  Also,
-	call the callback with E_BOOK_STATUS_CANCELLED if the user clicked
-	the cancel button in the dialog.
-	(load_uri_cb): call addressbook_authenticate if the book has auth
-	enabled.
-	(addressbook_load_uri): use g_new0.
+	* backend/pas/Makefile.am (libpas_a_SOURCES): Add
+	$(CORBA_SOURCE_H) here.
 
 2002-09-05  Anna Dirks  <anna@ximian.com>
 	* gui/component/GNOME_Evolution_Addressbook.oaf.in : Changed the 
