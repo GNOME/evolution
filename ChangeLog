@@ -1,4 +1,9 @@
 2000-05-05  Chris Toshok <toshok@helixcode.com>
+	* shell/Makefile.am: add support for building purified evolution.
+
+	* shell/.cvsignore: ignore evolution.pure
+
+2000-05-05  Chris Toshok <toshok@helixcode.com>
 
 	* addressbook/backend/ebook/.cvsignore,
 	addressbook/contact-editor/.cvsignore,

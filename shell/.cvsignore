@@ -6,6 +6,7 @@ Shell-skels.c
 Shell-common.c
 Shell.h
 evolution
+evolution.pure
 Makefile.in
 Makefile
 Evolution-stubs.c

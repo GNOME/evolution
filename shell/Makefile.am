@@ -54,3 +54,13 @@ EXTRA_DIST = Evolution.idl			\
 	Shell.idl				\
 	evolution-service-repository.idl
 
+if ENABLE_PURIFY
+PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+
+all-local: evolution.pure
+
+evolution.pure: evolution
+	@rm -f evolution.pure
+	$(PLINK) $(evolution_LDFLAGS) $(evolution_OBJECTS) $(evolution_LDADD) $(LIBS)
+
+endif
