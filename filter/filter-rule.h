@@ -49,9 +49,9 @@ enum _filter_source_t {
 struct _FilterRule {
 	GtkObject parent;
 	struct _FilterRulePrivate *priv;
-
+	
 	char *name;
-
+	
 	enum _filter_grouping_t grouping;
 	enum _filter_source_t source;
 	GList *parts;
@@ -59,15 +59,15 @@ struct _FilterRule {
 
 struct _FilterRuleClass {
 	GtkObjectClass parent_class;
-
+	
 	/* virtual methods */
 	xmlNodePtr (*xml_encode)(FilterRule *);
 	int (*xml_decode)(FilterRule *, xmlNodePtr, struct _RuleContext *);
-
+	
 	void (*build_code)(FilterRule *, GString *out);
-
+	
 	GtkWidget *(*get_widget)(FilterRule *fr, struct _RuleContext *f);
-
+	
 	/* signals */
 };
 

@@ -48,21 +48,19 @@ struct _FilterDriverClass {
 
 typedef CamelFolder * (*FilterGetFolderFunc) (FilterDriver *, const char *uri, void *data);
 
-guint		filter_driver_get_type	(void);
-FilterDriver      *filter_driver_new	(FilterContext *ctx, FilterGetFolderFunc fetcher, void *data);
+guint         filter_driver_get_type (void);
+FilterDriver  *filter_driver_new     (FilterContext *ctx, FilterGetFolderFunc fetcher, void *data);
 
-/*
-  void filter_driver_set_global(FilterDriver *, const char *name, const char *value);*/
+/*void filter_driver_set_global(FilterDriver *, const char *name, const char *value);*/
 
 /* apply rules to a folder, unmatched messages goto inbox, if not NULL */
-void filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox,
-		       enum _filter_source_t sourcetype,
-		       gboolean self_destruct, gpointer unhook_func, gpointer unhook_data,
-		       const char *path_to_unlink);
+void filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelFolder *inbox,
+			enum _filter_source_t sourcetype,
+			gboolean self_destruct, gpointer unhook_func, gpointer unhook_data);
 
 #if 0
 /* generate the search query/action string for a filter option */
-void filter_driver_expand_option(FilterDriver *d, GString *s, GString *action, struct filter_option *op);
+void filter_driver_expand_option (FilterDriver *d, GString *s, GString *action, struct filter_option *op);
 
 /* get info about rules (options) */
 int filter_driver_rule_count(FilterDriver *d);

@@ -1,3 +1,11 @@
+2000-09-06  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c (filter_driver_run): Totally rewritten to filter
+	a single message at a time instead of filtering a folder.
+
+	* filter-message-search.c (filter_message_search): New convenience
+	function for searching a message.
+
 2000-08-24  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* filter-folder.c: Use e_utf8 wrappers
