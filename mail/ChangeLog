@@ -1,5 +1,8 @@
 2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-composer-prefs.c (sig_add_script_response): Don't forget to
+	add the signature to the signature list if it is a valid script.
+
 	* mail-config.c (mail_config_signature_unregister_client): Make
 	sure we can find the registered handler before trying to remove it
 	from the list.

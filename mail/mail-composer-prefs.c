@@ -299,6 +299,8 @@ sig_add_script_response (GtkWidget *widget, int button, MailComposerPrefs *prefs
 				
 				sig = mail_composer_prefs_new_signature ((GtkWindow *) parent, TRUE, script);
 				mail_config_signature_set_name (sig, name);
+				mail_config_signature_add (sig);
+				
 				gtk_widget_hide (prefs->sig_script_dialog);
 				
 				return;
@@ -325,7 +327,7 @@ sig_add_script_cb (GtkWidget *widget, MailComposerPrefs *prefs)
 	entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
 	gtk_entry_set_text (GTK_ENTRY (entry), _("Unnamed"));
 	
-	gtk_widget_show_all (prefs->sig_script_dialog);
+	gtk_widget_show (prefs->sig_script_dialog);
 	gdk_window_raise (prefs->sig_script_dialog->window);
 }
 
