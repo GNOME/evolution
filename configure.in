@@ -1317,7 +1317,7 @@ calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
 calendar/importers/Makefile
 
-my-evolution/GNOME_Evolution_Summary.oaf.in
+my-evolution/GNOME_Evolution_Summary.server.in
 ])
 
 if test "x$with_sub_version" != "x"; then

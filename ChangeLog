@@ -1,3 +1,8 @@
+2002-11-07  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in (AC_OUTPUT): GNOME_Evolution_Summary.oaf.in = >
+	GNOME_Evolution_Summary.server.in
+
 2002-11-07  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: update e-util and calendar compile flags
