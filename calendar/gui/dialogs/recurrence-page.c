@@ -44,10 +44,6 @@
 
 
 
-/* We set this as the TZID on all exceptions added. When we actually fill
-   the component, we replace it with the TZID from DTSTART. */
-static char *DUMMY_TZID = "DUMMY";
-
 enum month_day_options {
 	MONTH_DAY_NTH,
 	MONTH_DAY_MON,
@@ -146,7 +142,7 @@ struct _RecurrencePagePrivate {
 
 	/* For ending date, created by hand */
 	GtkWidget *ending_date_edit;
-	time_t ending_date;
+	struct icaltimetype ending_date_tt;
 
 	/* For ending count of occurrences, created by hand */
 	GtkWidget *ending_count_spin;
@@ -298,6 +294,7 @@ free_exception_clist_data (RecurrencePage *rpage)
 			
 			dt = gtk_clist_get_row_data (clist, i);
 			g_free (dt->value);
+			g_free ((char*)dt->tzid);
 			g_free (dt);
 			gtk_clist_set_row_data (clist, i, NULL);
 		}
@@ -403,7 +400,7 @@ clear_widgets (RecurrencePage *rpage)
 				  freq_map);
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
 
-	priv->ending_date = time (NULL);
+	priv->ending_date_tt = icaltime_today ();
 	priv->ending_count = 1;
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->ending_menu));
@@ -456,7 +453,7 @@ append_exception (RecurrencePage *rpage, CalComponentDateTime *datetime)
 	dt = g_new (CalComponentDateTime, 1);
 	dt->value = g_new (struct icaltimetype, 1);
 	*dt->value = *datetime->value;
-	dt->tzid = datetime->tzid;
+	dt->tzid = g_strdup (datetime->tzid);
 
 	clist = GTK_CLIST (priv->exception_list);
 
@@ -760,14 +757,15 @@ simple_recur_to_comp (RecurrencePage *rpage, CalComponent *comp)
 		g_assert (priv->ending_date_edit != NULL);
 		g_assert (E_IS_DATE_EDIT (priv->ending_date_edit));
 
+		/* We only allow a DATE value to be set for the UNTIL property,
+		   since we don't support sub-day recurrences. */
 		date_set = e_date_edit_get_date (E_DATE_EDIT (priv->ending_date_edit),
 						 &r.until.year,
 						 &r.until.month,
 						 &r.until.day);
-		e_date_edit_get_time_of_day (E_DATE_EDIT (priv->ending_date_edit),
-					     &r.until.hour,
-					     &r.until.minute);
 		g_assert (date_set);
+
+		r.until.is_date = 1;
 
 		break;
 
@@ -794,11 +792,9 @@ static void
 fill_component (RecurrencePage *rpage, CalComponent *comp)
 {
 	RecurrencePagePrivate *priv;
-	CalComponentDateTime start_date;
 	enum recur_type recur_type;
 	GtkCList *exception_list;
 	GSList *list;
-	const char *tzid;
 	int i;
 
 	priv = rpage->priv;
@@ -828,10 +824,6 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 
 	/* Set exceptions */
 
-	cal_component_get_dtstart (comp, &start_date);
-	tzid = start_date.tzid;
-	cal_component_free_datetime (&start_date);
-
 	list = NULL;
 	exception_list = GTK_CLIST (priv->exception_list);
 	for (i = 0; i < exception_list->rows; i++) {
@@ -844,15 +836,9 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 		g_assert (dt != NULL);
 
 		*cdt->value = *dt->value;
+		cdt->tzid = g_strdup (dt->tzid);
 
-		/* If the dummy TZID was used, we use the TZID from the
-		   start date. We do this because we don't allow editing
-		   of timezones for RDATEs, so we try to use the same timezone
-		   as the DTSTART for all new exceptions added. */
-		if (dt->tzid == DUMMY_TZID)
-			cdt->tzid = tzid;
-		else
-			cdt->tzid = dt->tzid;
+		g_print ("Adding exception is_date: %i\n", cdt->value->is_date);
 
 		list = g_slist_prepend (list, cdt);
 	}
@@ -1236,7 +1222,9 @@ make_ending_until_special (RecurrencePage *rpage)
 
 	/* Set the value */
 
-	e_date_edit_set_time (de, priv->ending_date);
+	e_date_edit_set_date (de, priv->ending_date_tt.year,
+			      priv->ending_date_tt.month,
+			      priv->ending_date_tt.day);
 
 	gtk_signal_connect (GTK_OBJECT (de), "changed",
 			    GTK_SIGNAL_FUNC (ending_until_changed_cb), rpage);
@@ -1365,8 +1353,7 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 		} else {
 			/* Ending date */
 
-			/* FIXME: UNTIL needs to be checked. */
-			priv->ending_date = icaltime_as_timet (r->until);
+			priv->ending_date_tt = r->until;
 			e_dialog_option_menu_set (priv->ending_menu,
 						  ENDING_UNTIL,
 						  ending_types_map);
@@ -1787,12 +1774,10 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 		/* Copy the TZID from the old property.
 		   FIXME: Should get notified when the TZID changes.*/
 		cal_component_get_dtstart (priv->comp, &old_dt);
-		dt.tzid = NULL;
-		if (old_dt.tzid)
-			dt.tzid = old_dt.tzid;
-		cal_component_free_datetime (&old_dt);
+		dt.tzid = old_dt.tzid;
 
 		cal_component_set_dtstart (priv->comp, &dt);
+		cal_component_free_datetime (&old_dt);
 	}
 
 	if (dates->end) {
@@ -1801,12 +1786,10 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 		/* Copy the TZID from the old property.
 		   FIXME: Should get notified when the TZID changes.*/
 		cal_component_get_dtend (priv->comp, &old_dt);
-		dt.tzid = NULL;
-		if (old_dt.tzid)
-			dt.tzid = old_dt.tzid;
-		cal_component_free_datetime (&old_dt);
+		dt.tzid = old_dt.tzid;
 
 		cal_component_set_dtend (priv->comp, &dt);
+		cal_component_free_datetime (&old_dt);
 	}
 
 	/* Update the weekday picker if necessary */
@@ -1977,19 +1960,15 @@ exception_add_cb (GtkWidget *widget, gpointer data)
 	field_changed (rpage);
 
 	dt.value = &icaltime;
-	/* We set this to the dummy TZID for now. When we fill the component
-	   we will replace it with the TZID from DTSTART. */
-	dt.tzid = DUMMY_TZID;
 
+	/* We use DATE values for exceptions, so we don't need a TZID. */
+	dt.tzid = NULL;
 	icaltime.is_date = 1;
 
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->exception_date),
 					 &icaltime.year,
 					 &icaltime.month,
 					 &icaltime.day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->exception_date),
-				     &icaltime.hour,
-				     &icaltime.minute);
 	g_assert (date_set);
 
 	append_exception (rpage, &dt);
@@ -2022,9 +2001,14 @@ exception_modify_cb (GtkWidget *widget, gpointer data)
 	tt = dt->value;
 	e_date_edit_get_date (E_DATE_EDIT (priv->exception_date), 
 			      &tt->year, &tt->month, &tt->day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->exception_date), 
-				     &tt->hour, &tt->minute);
+	tt->hour = 0;
+	tt->minute = 0;
 	tt->second = 0;
+	tt->is_date = 1;
+
+	/* We get rid of any old TZID, since we are using a DATE value now. */
+	g_free ((char*)dt->tzid);
+	dt->tzid = NULL;
 
 	gtk_clist_set_text (clist, sel, 0, get_exception_string (dt));
 
@@ -2055,6 +2039,7 @@ exception_delete_cb (GtkWidget *widget, gpointer data)
 	dt = gtk_clist_get_row_data (clist, sel);
 	g_assert (dt != NULL);
 	g_free (dt->value);
+	g_free ((char*)dt->tzid);
 	g_free (dt);
 
 	gtk_clist_remove (clist, sel);

@@ -1068,7 +1068,8 @@ set_datetime (CalendarModel *model, CalComponent *comp, const char *value,
 		itt.second = tmp_tm.tm_sec;
 
 		dt.value = &itt;
-		/* We assume it is being set to the current timezone. */
+		/* FIXME: We assume it is being set to the current timezone.
+		   Is that OK? */
 		dt.tzid = icaltimezone_get_tzid (model->priv->zone);
 
 		(* set_func) (comp, &dt);

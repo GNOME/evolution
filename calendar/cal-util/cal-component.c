@@ -1825,9 +1825,9 @@ get_datetime (struct datetime *datetime,
 	/* If the icaltimetype has is_utc set, we set "UTC" as the TZID.
 	   This makes the timezone code simpler. */
 	if (datetime->tzid_param)
-		dt->tzid = icalparameter_get_tzid (datetime->tzid_param);
+		dt->tzid = g_strdup (icalparameter_get_tzid (datetime->tzid_param));
 	else if (dt->value && dt->value->is_utc)
-		dt->tzid = "UTC";
+		dt->tzid = g_strdup ("UTC");
 	else
 		dt->tzid = NULL;
 }
@@ -2254,7 +2254,7 @@ cal_component_get_exdate_list (CalComponent *comp, GSList **exdate_list)
 		*cdt->value = icalproperty_get_exdate (dt->prop);
 
 		if (dt->tzid_param)
-			cdt->tzid = icalparameter_get_tzid (dt->tzid_param);
+			cdt->tzid = g_strdup (icalparameter_get_tzid (dt->tzid_param));
 		else
 			cdt->tzid = NULL;
 
@@ -2290,6 +2290,8 @@ cal_component_set_exdate_list (CalComponent *comp, GSList *exdate_list)
 
 		dt = l->data;
 
+		/* Removing the DATE or DATE-TIME property will also remove
+		   any TZID parameter. */
 		icalcomponent_remove_property (priv->icalcomp, dt->prop);
 		icalproperty_free (dt->prop);
 		g_free (dt);
@@ -3842,8 +3844,8 @@ cal_component_free_datetime (CalComponentDateTime *dt)
 {
 	g_return_if_fail (dt != NULL);
 
-	if (dt->value)
-		g_free (dt->value);
+	g_free (dt->value);
+	g_free ((char*)dt->tzid);
 }
 
 /**
@@ -3866,6 +3868,7 @@ cal_component_free_exdate_list (GSList *exdate_list)
 
 		g_assert (cdt->value != NULL);
 		g_free (cdt->value);
+		g_free ((char*)cdt->tzid);
 
 		g_free (cdt);
 	}

@@ -65,6 +65,9 @@ struct _GnomeCalendar {
 
 struct _GnomeCalendarClass {
 	GtkVBoxClass parent_class;
+
+	/* Notification signals */
+	void (* dates_shown_changed)    (GnomeCalendar *gcal);
 };
 
 

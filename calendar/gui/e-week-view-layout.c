@@ -131,7 +131,7 @@ e_week_view_layout_event	(EWeekViewEvent	*event,
 	gint free_row, row, day, span_num, spans_index, num_spans, days_shown;
 	EWeekViewEventSpan span, *old_span;
 
-	days_shown = multi_week_view ? weeks_shown * 7 - 1 : 7 - 1;
+	days_shown = multi_week_view ? weeks_shown * 7 : 7;
 	start_day = e_week_view_find_day (event->start, FALSE, days_shown,
 					  day_starts);
 	end_day = e_week_view_find_day (event->end, TRUE, days_shown,

@@ -3141,40 +3141,45 @@ enum {
 };
 
 static EPopupMenu main_items [] = {
-	{ N_("Paste"), NULL,
-	  e_week_view_on_paste, NULL, 0 },
-
-	{ "", NULL, NULL, NULL, 0 },
-
-	{ N_("New Appointment..."), NULL,
+	{ N_("New _Appointment..."), NULL,
 	  e_week_view_on_new_appointment, NULL, 0 },
-	{ N_("New All Day Event"), NULL,
+	{ N_("New All Day _Event"), NULL,
 	  e_week_view_on_new_event, NULL, 0 },
 
 	{ "", NULL, NULL, NULL, 0 },
 
-	{ N_("Go to Today"), NULL,
+	{ N_("_Paste"), NULL,
+	  e_week_view_on_paste, NULL, 0 },
+
+	{ "", NULL, NULL, NULL, 0 },
+
+	{ N_("Go to _Today"), NULL,
 	  e_week_view_on_goto_today, NULL, 0 },
-	{ N_("Go to Date..."), NULL,
+	{ N_("_Go to Date..."), NULL,
 	  e_week_view_on_goto_date, NULL, 0 },
 	{ NULL, NULL, NULL, NULL, 0 }
 };
 
 static EPopupMenu child_items [] = {
-	{ N_("Open"), NULL,
+	{ N_("_Open"), NULL,
 	  e_week_view_on_edit_appointment, NULL, MASK_EDITABLE | MASK_EDITING },
-	{ N_("Delete this Appointment"), NULL,
+	{ N_("_Delete this Appointment"), NULL,
 	  e_week_view_on_delete_appointment, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
-	{ N_("Cut"), NULL,
+
+	/* Only show this separator if one of the above is shown. */
+	{ "", NULL, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
+
+
+	{ N_("C_ut"), NULL,
 	  e_week_view_on_cut, NULL, MASK_EDITING | MASK_EDITABLE },
-	{ N_("Copy"), NULL,
+	{ N_("_Copy"), NULL,
 	  e_week_view_on_copy, NULL, MASK_EDITING | MASK_EDITABLE },
-	{ N_("Paste"), NULL,
+	{ N_("_Paste"), NULL,
 	  e_week_view_on_paste, NULL, 0 },
 
 	{ "", NULL, NULL, NULL, 0},
 
-	{ N_("New Appointment..."), NULL,
+	{ N_("New _Appointment..."), NULL,
 	  e_week_view_on_new_appointment, NULL, 0 },
 
 	{ "", NULL, NULL, NULL, MASK_SINGLE },
@@ -3183,11 +3188,11 @@ static EPopupMenu child_items [] = {
 	 * The following are only shown if this is a recurring event
 	 */
 	{ "", NULL, NULL, NULL, MASK_SINGLE},
-	{ N_("Make this Occurrence Movable"), NULL,
+	{ N_("Make this Occurrence _Movable"), NULL,
 	  e_week_view_on_unrecur_appointment, NULL, MASK_RECURRING | MASK_EDITING },
-	{ N_("Delete this Occurrence"), NULL,
+	{ N_("Delete this _Occurrence"), NULL,
 	  e_week_view_on_delete_occurrence, NULL, MASK_RECURRING | MASK_EDITING },
-	{ N_("Delete All Occurrences"), NULL,
+	{ N_("Delete _All Occurrences"), NULL,
 	  e_week_view_on_delete_appointment, NULL, MASK_RECURRING | MASK_EDITING },
 	
 	{ NULL, NULL, NULL, NULL, 0 }

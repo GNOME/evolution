@@ -281,12 +281,14 @@ calendar_config_get_timezone		(void)
 
 /* Sets the timezone. You shouldn't really set it to the empty string or NULL,
    as this means that Evolution will show the timezone-setting dialog to ask
-   the user for the timezone. */
+   the user for the timezone. It copies the string. */
 void
 calendar_config_set_timezone		(gchar	     *timezone)
 {
+	g_free (config->timezone);
+
 	if (timezone && timezone[0])
-		config->timezone = timezone;
+		config->timezone = g_strdup (timezone);
 	else
 		config->timezone = NULL;
 }
@@ -688,6 +690,8 @@ on_timezone_set			(GnomeDialog	*dialog,
 	char *display_name;
 
 	e_timezone_dialog_get_timezone (etd, &display_name);
+
+	g_print ("Location: %s\n", display_name ? display_name : "");
 
 	if (display_name && display_name[0]) {
 		calendar_config_set_timezone (display_name);

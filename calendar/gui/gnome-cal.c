@@ -137,6 +137,16 @@ struct _GnomeCalendarPrivate {
 	icaltimezone *zone;
 };
 
+/* Signal IDs */
+
+enum {
+	DATES_SHOWN_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint gnome_calendar_signals[LAST_SIGNAL];
+
+
 
 
 static void gnome_calendar_class_init (GnomeCalendarClass *class);
@@ -158,6 +168,8 @@ static void gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *
 								 GnomeCalendar *gcal);
 static void gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 								GnomeCalendar    *gcal);
+static void gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal);
+
 
 static GtkVBoxClass *parent_class;
 
@@ -197,7 +209,22 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 
 	parent_class = gtk_type_class (GTK_TYPE_VBOX);
 
+	gnome_calendar_signals[DATES_SHOWN_CHANGED] =
+		gtk_signal_new ("dates_shown_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (GnomeCalendarClass,
+						   dates_shown_changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class,
+				      gnome_calendar_signals,
+				      LAST_SIGNAL);
+
 	object_class->destroy = gnome_calendar_destroy;
+
+	class->dates_shown_changed = NULL;
 }
 
 /**
@@ -496,6 +523,7 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 
 	gnome_calendar_update_view_times (gcal);
 	gnome_calendar_update_date_navigator (gcal);
+	gnome_calendar_notify_dates_shown_changed (gcal);
 }
 
 
@@ -588,6 +616,7 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 
 	gnome_calendar_update_view_times (gcal);
 	gnome_calendar_update_date_navigator (gcal);
+	gnome_calendar_notify_dates_shown_changed (gcal);
 }
 
 void
@@ -784,6 +813,7 @@ gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type,
 	set_view (gcal, view_type, range_selected, grab_focus);
 	gnome_calendar_update_view_times (gcal);
 	gnome_calendar_update_date_navigator (gcal);
+	gnome_calendar_notify_dates_shown_changed (gcal);
 }
 
 /* Callback used when the view collection asks us to display a particular view */
@@ -1366,6 +1396,7 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	/* The range of days shown may have changed, so we update the date
 	   navigator if needed. */
 	gnome_calendar_update_date_navigator (gcal);
+	gnome_calendar_notify_dates_shown_changed (gcal);
 }
 
 
@@ -1713,11 +1744,13 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
 
 		set_view (gcal, GNOME_CAL_MONTH_VIEW, TRUE, FALSE);
 		gnome_calendar_update_date_navigator (gcal);
+		gnome_calendar_notify_dates_shown_changed (gcal);
 	} else if (new_days_shown == 7 && starts_on_week_start_day) {
 		e_week_view_set_first_day_shown (E_WEEK_VIEW (priv->week_view), &new_start_date);
 
 		set_view (gcal, GNOME_CAL_WEEK_VIEW, TRUE, FALSE);
 		gnome_calendar_update_date_navigator (gcal);
+		gnome_calendar_notify_dates_shown_changed (gcal);
 	} else {
 		gint start_year, start_month, start_day;
 		gint end_year, end_month, end_day;
@@ -2013,3 +2046,12 @@ gnome_calendar_get_timezone	(GnomeCalendar	*gcal)
 	return gcal->priv->zone;
 }
 
+
+static void
+gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
+{
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	gtk_signal_emit (GTK_OBJECT (gcal),
+			 gnome_calendar_signals[DATES_SHOWN_CHANGED]);
+}

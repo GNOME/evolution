@@ -936,7 +936,6 @@ cal_client_get_timezone (CalClient *client,
 		goto out;
 	}
 
-	g_print ("  parsing zone:\n%s\n", comp_str);
 	icalcomp = icalparser_parse_string (comp_str);
 	CORBA_free (comp_str);
 
@@ -945,7 +944,6 @@ cal_client_get_timezone (CalClient *client,
 		goto out;
 	}
 
-	g_print ("  creating icaltimezone\n");
 	tmp_zone = icaltimezone_new ();
 	if (!tmp_zone) {
 		/* FIXME: Needs better error code - out of memory. Or just
@@ -963,7 +961,6 @@ cal_client_get_timezone (CalClient *client,
 	g_hash_table_insert (priv->timezones, icaltimezone_get_tzid (tmp_zone),
 			     tmp_zone);
 
-	g_print ("  returning icaltimezone\n");
 	*zone = tmp_zone;
 	retval = CAL_CLIENT_GET_SUCCESS;
 

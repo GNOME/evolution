@@ -240,7 +240,10 @@ static BonoboUIVerb verbs [] = {
 
 static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",	"evolution-tasks-mini.png"),
-	E_PIXMAP ("/menu/File/Print/Print",	"print.xpm"),
+	E_PIXMAP ("/menu/File/Print/Print",			"print.xpm"),
+	E_PIXMAP ("/menu/File/Print/Print Preview",		"print-preview.xpm"),
+	E_PIXMAP ("/Toolbar/New",				"buttons/new_appointment.png"),
+	E_PIXMAP ("/Toolbar/Print",				"buttons/print.png"),
 	E_PIXMAP_END
 };
 

@@ -675,6 +675,11 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 		goto out;
 	}
 
+	/* FIXME: All floating times, including those from recurrence rules,
+	   should be converted to the current timezone, otherwise the time_t
+	   values may be outside the given range. This may also mean that
+	   we need to add a timezone argument to the IDL method. */
+
 	if (dtstart.tzid && tz_cb)
 		start_zone = (*tz_cb) (dtstart.tzid, tz_cb_data);
 	if (dtend.tzid && tz_cb)

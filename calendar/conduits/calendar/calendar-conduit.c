@@ -452,6 +452,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 		
 		local->appt->begin = *localtime (&dt_time);
 	}
+	cal_component_free_datetime (&dt);	
 
 	cal_component_get_dtend (comp, &dt);	
 	if (dt.value && time_add_day (dt_time, 1) != icaltime_as_timet_with_zone (*dt.value, get_timezone (ctxt->client, dt.tzid))) {
@@ -462,6 +463,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	} else {
 		local->appt->event = 1;
 	}
+	cal_component_free_datetime (&dt);	
 
 	/* Recurrence Rules */
 	local->appt->repeatType = repeatNone;

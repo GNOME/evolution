@@ -408,6 +408,7 @@ local_record_from_comp (EToDoLocalRecord *local, CalComponent *comp, EToDoCondui
 	} else {
 		local->todo->indefinite = 1;
 	}
+	cal_component_free_datetime (&due);	
 
 	cal_component_get_completed (comp, &completed);
 	if (completed) {

@@ -91,7 +91,7 @@ tag_calendar_cb (CalComponent *comp,
 	struct icaltimetype start_tt, end_tt;
 
 	start_tt = icaltime_from_timet_with_zone (istart, FALSE, c->zone);
-	end_tt = icaltime_from_timet_with_zone (iend, FALSE, c->zone);
+	end_tt = icaltime_from_timet_with_zone (iend - 1, FALSE, c->zone);
 	e_calendar_item_mark_days (c->calitem,
 				   start_tt.year, start_tt.month - 1,
 				   start_tt.day,

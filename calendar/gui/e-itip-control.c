@@ -600,15 +600,23 @@ set_date_label (GtkWidget *lbl, CalComponent *comp)
 	cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value)
 		start = icaltime_as_timet (*datetime.value);
+	cal_component_free_datetime (&datetime);	
+
 	cal_component_get_dtend (comp, &datetime);
 	if (datetime.value)
 		end = icaltime_as_timet (*datetime.value);
+	cal_component_free_datetime (&datetime);	
+
 	cal_component_get_due (comp, &datetime);
 	if (datetime.value)
 		due = icaltime_as_timet (*datetime.value);
+	cal_component_free_datetime (&datetime);	
+
 	cal_component_get_completed (comp, &datetime.value);
-	if (datetime.value)
+	if (datetime.value) {
 		complete = icaltime_as_timet (*datetime.value);
+		cal_component_free_icaltimetype (datetime.value);
+	}
 
 	buffer[0] = '\0';
 
@@ -1020,7 +1028,7 @@ send_freebusy (EItipControl *itip)
 
 	priv = itip->priv;
 	
-	/* FIXME: timezones. */
+	/* FIXME: timezones and free these. */
 	cal_component_get_dtstart (priv->comp, &datetime);
 	start = icaltime_as_timet (*datetime.value);
 	cal_component_get_dtend (priv->comp, &datetime);

@@ -1,5 +1,51 @@
 2001-07-30  Damon Chaplin  <damon@ximian.com>
 
+	* gui/gnome-cal.c: 
+	* gui/calendar-commands.c (clear_folder_bar_label): started some code
+	to show the currently displayed dates in the folder title bar.
+	Unfinished.
+
+	* gui/e-itip-control.c (set_date_label):
+	* conduits/todo/todo-conduit.c (local_record_from_comp): 
+	* conduits/calendar/calendar-conduit.c (local_record_from_comp): free
+	the CalComponentDateTimes. (Note the iTIP control needs updating for
+	timezone support.)
+
+	* cal-util/cal-component.c: Changed CalComponentDateTime so that the
+	TZID is malloc'ed and freed rather than being a pointer to a static
+	string. This was causing problems as sometimes we were freeing the
+	string that was being pointed to, so we got corrupted TZIDs.
+
+	* gui/comp-util.c (cal_comp_util_add_exdate): set TZID to NULL.
+	DATE values do not have timezones.
+
+	* gui/e-week-view.c: 
+	* gui/e-day-view.c: Moved 'Paste' after the New Appointment commands,
+	since I think they are more commonly-used. Also added underlined
+	accelerator keys.
+
+	* gui/e-calendar-table.c: changed 'Edit this task' to 'Open' in the
+	popup menu to be consistent with other folders, and separated from the
+	clipboard commands. Also changed to use EPopupMenu so the accelerators
+	work, and the masks may be useful at some point.
+
+	* gui/dialogs/recurrence-page.c: use DATE values for UNTIL, since
+	that makes it simpler. Fixes bug #5034.
+
+	* gui/calendar-config.c (calendar_config_set_timezone): strdup the
+	location string. Fixes bug #4990.
+
+	* gui/tag-calendar.c (tag_calendar_cb): take 1 off iend as the times
+	don't include the end time.
+
+	* gui/e-week-view-layout.c (e_week_view_layout_event): fixed
+	days_shown. Fixes bug #5709.
+
+	* cal-client/cal-client.c (cal_client_get_timezone): took out some
+	debugging messages.
+
+2001-07-30  Damon Chaplin  <damon@ximian.com>
+
 	* gui/dialogs/cal-prefs-dialog.glade: added Help button. Though of
 	course it doesn't do anything yet.
 
@@ -183,7 +229,6 @@
 	value from cal_component_get_as_string and don't call
 	GNOME_Evolution_Calendar_Cal_updateObjects if NULL
 
->>>>>>> 1.1002
 2001-07-25  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/comp-editor.c (pixmaps): used the new print preview icon.

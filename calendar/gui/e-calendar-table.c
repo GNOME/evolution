@@ -38,6 +38,7 @@
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-cell-combo.h>
+#include <gal/widgets/e-popup-menu.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include "e-calendar-table.h"
 #include "calendar-config.h"
@@ -836,25 +837,38 @@ delete_cb (GtkWidget *menuitem, gpointer data)
 	e_calendar_table_delete_selected (cal_table);
 }
 
-static GnomeUIInfo tasks_popup_one[] = {
-	GNOMEUIINFO_ITEM_NONE (N_("Edit this task"), NULL, e_calendar_table_on_open_task),
-	GNOMEUIINFO_ITEM_NONE (N_("Cut"), NULL, e_calendar_table_on_cut),
-	GNOMEUIINFO_ITEM_NONE (N_("Copy"), NULL, e_calendar_table_on_copy),
-	GNOMEUIINFO_ITEM_NONE (N_("Paste"), NULL, e_calendar_table_on_paste),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("Mark as complete"), NULL, mark_as_complete_cb),
-	GNOMEUIINFO_ITEM_NONE (N_("Delete this task"), NULL, delete_cb),
-	GNOMEUIINFO_END
+
+enum {
+	MASK_SINGLE	= 1 << 0,	/* For commands that work on 1 task. */
+	MASK_MULTIPLE	= 1 << 1,	/* For commands for multiple tasks. */
 };
 
-static GnomeUIInfo tasks_popup_many[] = {
-	GNOMEUIINFO_ITEM_NONE (N_("Cut"), NULL, e_calendar_table_on_cut),
-	GNOMEUIINFO_ITEM_NONE (N_("Copy"), NULL, e_calendar_table_on_copy),
-	GNOMEUIINFO_ITEM_NONE (N_("Paste"), NULL, e_calendar_table_on_paste),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("Mark tasks as complete"), NULL, mark_as_complete_cb),
-	GNOMEUIINFO_ITEM_NONE (N_("Delete selected tasks"), NULL, delete_cb),
-	GNOMEUIINFO_END
+
+static EPopupMenu tasks_popup_menu [] = {
+	{ N_("_Open"), NULL,
+	  e_calendar_table_on_open_task, NULL, MASK_SINGLE },
+	{ "", NULL, NULL, NULL, MASK_SINGLE },
+
+	{ N_("C_ut"), NULL,
+	  e_calendar_table_on_cut, NULL, 0 },
+	{ N_("_Copy"), NULL,
+	  e_calendar_table_on_copy, NULL, 0 },
+	{ N_("_Paste"), NULL,
+	  e_calendar_table_on_paste, NULL, 0 },
+
+	{ "", NULL, NULL, NULL, 0 },
+
+	{ N_("_Mark as Complete"), NULL,
+	  mark_as_complete_cb, NULL, MASK_SINGLE },
+	{ N_("_Delete this Task"), NULL,
+	  delete_cb, NULL, MASK_SINGLE },
+
+	{ N_("_Mark Tasks as Complete"), NULL,
+	  mark_as_complete_cb, NULL, MASK_MULTIPLE },
+	{ N_("_Delete Selected Tasks"), NULL,
+	  delete_cb, NULL, MASK_MULTIPLE },
+
+	{ NULL, NULL, NULL, NULL, 0 }
 };
 
 static gint
@@ -864,19 +878,20 @@ e_calendar_table_on_right_click (ETable *table,
 				 GdkEventButton *event,
 				 ECalendarTable *cal_table)
 {
-	GtkWidget *popup_menu;
 	int n_selected;
+	int hide_mask = 0;
+	int disable_mask = 0;
 
 	n_selected = e_table_selected_count (table);
 	g_assert (n_selected > 0);
 
 	if (n_selected == 1)
-		popup_menu = gnome_popup_menu_new (tasks_popup_one);
+		hide_mask = MASK_MULTIPLE;
 	else
-		popup_menu = gnome_popup_menu_new (tasks_popup_many);
+		hide_mask = MASK_SINGLE;
 
-	gnome_popup_menu_do_popup_modal (popup_menu, NULL, NULL, event, cal_table);
-	gtk_widget_destroy (popup_menu);
+	e_popup_menu_run (tasks_popup_menu, (GdkEvent *) event,
+			  disable_mask, hide_mask, cal_table);
 
 	return TRUE;
 }
