@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-24 14:55+0200\n"
+"POT-Creation-Date: 2005-04-06 16:11+0300\n"
 "PO-Revision-Date: 2005-03-24 15:18+0200\n"
 "Last-Translator: Nikos Charonitakis <charosn@her.forthnet.gr>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
@@ -534,7 +534,7 @@ msgstr "Ρυθμίστε εδώ την αυτόματη συμπλήρωση"
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: addressbook/gui/component/addressbook-view.c:1119
-#: calendar/gui/calendar-component.c:246 calendar/gui/migration.c:385
+#: calendar/gui/calendar-component.c:246 calendar/gui/migration.c:388
 msgid "Contacts"
 msgstr "Επαφές"
 
@@ -574,8 +574,8 @@ msgstr "Διαχείριση των πιστοποιητικών S/MIME εδώ"
 #. On This Computer is always first and vFolders is always last
 #: addressbook/gui/component/addressbook-component.c:133
 #: addressbook/gui/component/addressbook-migrate.c:493
-#: calendar/gui/calendar-component.c:208 calendar/gui/migration.c:459
-#: calendar/gui/migration.c:552 calendar/gui/tasks-component.c:188
+#: calendar/gui/calendar-component.c:208 calendar/gui/migration.c:462
+#: calendar/gui/migration.c:555 calendar/gui/tasks-component.c:188
 #: mail/em-folder-tree-model.c:197 mail/em-folder-tree-model.c:199
 #: mail/mail-component.c:290 mail/mail-vfolder.c:222
 msgid "On This Computer"
@@ -589,8 +589,8 @@ msgstr "Σε αυτό τον υπολογιστή"
 #: addressbook/gui/component/addressbook-component.c:141
 #: addressbook/gui/component/addressbook-migrate.c:501
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
-#: calendar/gui/calendar-component.c:216 calendar/gui/migration.c:467
-#: calendar/gui/migration.c:560 calendar/gui/tasks-component.c:196
+#: calendar/gui/calendar-component.c:216 calendar/gui/migration.c:470
+#: calendar/gui/migration.c:563 calendar/gui/tasks-component.c:196
 #: filter/filter-label.c:123 mail/em-migrate.c:1043 mail/mail-config.c:78
 #: mail/mail-config.glade.h:101
 msgid "Personal"
@@ -773,7 +773,7 @@ msgstr "Επιλογέας πηγής επαφής"
 
 #: addressbook/gui/component/addressbook.c:98
 msgid "Accessing LDAP Server anonymously"
-msgstr "Ανώνυμη πρόσβαση διακομιστή LDAP"
+msgstr "Ανώνυμη πρόσβαση στο διακομιστή LDAP"
 
 #: addressbook/gui/component/addressbook.c:194
 #: plugins/groupwise-account-setup/camel-gw-listener.c:478
@@ -2770,7 +2770,7 @@ msgid "Send Message to Contact"
 msgstr "Αποστολή Μηνύματος στην Επαφή"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:925
-#: calendar/gui/calendar-commands.c:120 calendar/gui/print.c:2501
+#: calendar/gui/calendar-commands.c:120 calendar/gui/print.c:2502
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
 #: ui/evolution-mail-message.xml.h:80 ui/evolution-tasks.xml.h:14
 msgid "Print"
@@ -2875,7 +2875,7 @@ msgstr "Αρχειοθέτηση Ως"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Given Name"
-msgstr "Δοθέν όνομα"
+msgstr "Δοθέν Όνομα"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:17
 msgid "Home Fax"
@@ -3191,7 +3191,7 @@ msgstr "Δεν υποστηρίζεται το πρωτόκολλο"
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-cal-component-preview.c:232
 #: calendar/gui/e-cal-model-tasks.c:347 calendar/gui/e-cal-model-tasks.c:660
-#: calendar/gui/e-calendar-table.c:458 calendar/gui/print.c:2364
+#: calendar/gui/e-calendar-table.c:458 calendar/gui/print.c:2365
 msgid "Cancelled"
 msgstr "Ακυρώθηκε"
 
@@ -4225,7 +4225,7 @@ msgid "Evolution's Tasks component"
 msgstr "Στοιχείο Εργασιών του Evolution."
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
-#: calendar/gui/e-tasks.c:1219 calendar/gui/print.c:1822
+#: calendar/gui/e-tasks.c:1222 calendar/gui/print.c:1822
 #: calendar/gui/tasks-component.c:519 calendar/gui/tasks-component.c:992
 #: calendar/gui/tasks-control.c:408 calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:701
@@ -4269,7 +4269,8 @@ msgstr "Χρόνος Λήξης:"
 
 #. Location
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: calendar/gui/e-itip-control.c:1118 plugins/itip-formatter/itip-view.c:859
+#: calendar/gui/e-itip-control.c:1118 calendar/gui/print.c:2329
+#: plugins/itip-formatter/itip-view.c:859
 msgid "Location:"
 msgstr "Τοποθεσία:"
 
@@ -4349,12 +4350,12 @@ msgstr ""
 "Ξεκινάει στις %s\n"
 "Τελειώνει στις %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1099
-#: calendar/gui/alarm-notify/alarm-queue.c:1123
+#: calendar/gui/alarm-notify/alarm-queue.c:1100
+#: calendar/gui/alarm-notify/alarm-queue.c:1124
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1103
+#: calendar/gui/alarm-notify/alarm-queue.c:1104
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4366,7 +4367,7 @@ msgstr ""
 "αποστολή e-mail το Evolution θα εμφανίσει ένα παράθυρο\n"
 "διαλόγου με μια κανονική υπενθύμιση."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1129
+#: calendar/gui/alarm-notify/alarm-queue.c:1130
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4383,7 +4384,7 @@ msgstr ""
 "\n"
 "Είστε βέβαιοι για την εκτέλεση του προγράμματος;"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1143
+#: calendar/gui/alarm-notify/alarm-queue.c:1144
 msgid "Do not ask me about this program again."
 msgstr "Να μην ξαναγίνει η ερώτηση για αυτό το πρόγραμμα."
 
@@ -4758,12 +4759,12 @@ msgstr "ημέρες"
 #. Create the On the web source group
 #. Create the Webcal source group
 #. Create the LDAP source group
-#: calendar/gui/calendar-component.c:234 calendar/gui/migration.c:486
-#: calendar/gui/migration.c:579 calendar/gui/tasks-component.c:215
+#: calendar/gui/calendar-component.c:234 calendar/gui/migration.c:489
+#: calendar/gui/migration.c:582 calendar/gui/tasks-component.c:215
 msgid "On The Web"
 msgstr "Στον δικτυακό ιστό"
 
-#: calendar/gui/calendar-component.c:252 calendar/gui/migration.c:388
+#: calendar/gui/calendar-component.c:252 calendar/gui/migration.c:391
 msgid "Birthdays & Anniversaries"
 msgstr "Γενέθλια και επέτειοι"
 
@@ -5028,7 +5029,7 @@ msgid "_Remove"
 msgstr "_Απομάκρυνση"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:440
-#: composer/e-msg-composer-attachment-bar.c:438 mail/em-folder-tree.c:2819
+#: composer/e-msg-composer-attachment-bar.c:438 mail/em-folder-tree.c:2820
 #: ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Ιδιότητες"
@@ -6175,7 +6176,7 @@ msgstr "<span weight=\"bold\">Κατάσταση</span>"
 #: calendar/gui/e-cal-model-tasks.c:345 calendar/gui/e-cal-model-tasks.c:658
 #: calendar/gui/e-calendar-table.c:457 calendar/gui/e-itip-control.c:896
 #: calendar/gui/e-meeting-store.c:196 calendar/gui/e-meeting-store.c:219
-#: calendar/gui/print.c:2361
+#: calendar/gui/print.c:2362
 msgid "Completed"
 msgstr "Ολοκληρώθηκε"
 
@@ -6189,7 +6190,7 @@ msgstr "Υψηλή"
 #: calendar/gui/e-cal-component-preview.c:226
 #: calendar/gui/e-cal-model-tasks.c:343 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-cal-model-tasks.c:731 calendar/gui/e-calendar-table.c:456
-#: calendar/gui/print.c:2358
+#: calendar/gui/print.c:2359
 msgid "In Progress"
 msgstr "Σε Εξέλιξη"
 
@@ -6208,7 +6209,7 @@ msgstr "Κανονική"
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-cal-component-preview.c:236
 #: calendar/gui/e-cal-model-tasks.c:341 calendar/gui/e-cal-model-tasks.c:654
-#: calendar/gui/e-calendar-table.c:455 calendar/gui/print.c:2355
+#: calendar/gui/e-calendar-table.c:455 calendar/gui/print.c:2356
 msgid "Not Started"
 msgstr "Δεν έχει ξεκινήσει"
 
@@ -6400,7 +6401,7 @@ msgstr "%s στις %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s για άγνωστο τύπο ενεργοποίησης"
 
-#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2609
+#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2612
 #, c-format
 msgid "Click to open %s"
 msgstr "Κλικ για άνοιγμα %s"
@@ -6411,6 +6412,7 @@ msgstr "Χωρίς τίτλο"
 
 #: calendar/gui/e-cal-component-preview.c:186
 #: calendar/gui/e-itip-control.c:1108 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/print.c:2320
 msgid "Summary:"
 msgstr "Περίληψη:"
 
@@ -6635,7 +6637,7 @@ msgstr "_Σημείωση επιλεγμένων εργασιών ως ολοκ�
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1176 calendar/gui/e-calendar-view.c:1416
-#: mail/em-folder-tree.c:2815 mail/em-folder-view.c:994
+#: mail/em-folder-tree.c:2816 mail/em-folder-view.c:994
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-mail-message.xml.h:108 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
@@ -6706,7 +6708,7 @@ msgstr "Τρέχουσα Προβολή"
 
 #: calendar/gui/e-calendar-view.c:1387 ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
-msgstr "Επιλογή _σημερινής μέρας"
+msgstr "Επιλογή _Σημερινής Μέρας"
 
 #: calendar/gui/e-calendar-view.c:1388
 msgid "_Select Date..."
@@ -7529,7 +7531,7 @@ msgstr "Σεπτέμβριος"
 
 #: calendar/gui/goto-dialog.glade.h:14
 msgid "_Select Today"
-msgstr "_Επιλογή σημερινής μέρας"
+msgstr "_Επιλογή Σημερινής Μέρας"
 
 #: calendar/gui/itip-utils.c:270 calendar/gui/itip-utils.c:318
 #: calendar/gui/itip-utils.c:350
@@ -7610,18 +7612,18 @@ msgstr ""
 "Περιμένετε μέχρι το Evolution να εισάγει τους φακέλους σας..."
 
 #. FIXME: set proper domain/code
-#: calendar/gui/migration.c:745 calendar/gui/migration.c:912
+#: calendar/gui/migration.c:748 calendar/gui/migration.c:915
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr "Αδυναμία εισαγωγής παλαιών ρυθμίσεων από evolution/config.xmldb"
 
 #. FIXME: domain/code
-#: calendar/gui/migration.c:774
+#: calendar/gui/migration.c:777
 #, c-format
 msgid "Unable to migrate calendar `%s'"
 msgstr "Αδυναμία εισαγωγής ημερολογίου '%s'"
 
 #. FIXME: domain/code
-#: calendar/gui/migration.c:941
+#: calendar/gui/migration.c:944
 #, c-format
 msgid "Unable to migrate tasks `%s'"
 msgstr "Αδυναμία εισαγωγής των εργασιών '%s'"
@@ -7811,51 +7813,41 @@ msgstr "Επιλεγμένος μήνας (%b %Y)"
 msgid "Selected year (%Y)"
 msgstr "Επιλεγμένο έτος (%Y)"
 
-#: calendar/gui/print.c:2320
-#, c-format
-msgid "Summary: %s"
-msgstr "Περίληψη: %s"
-
-#: calendar/gui/print.c:2328
-#, c-format
-msgid "Location: %s"
-msgstr "Τοποθεσία: %s"
-
-#: calendar/gui/print.c:2371
+#: calendar/gui/print.c:2372
 #, c-format
 msgid "Status: %s"
 msgstr "Κατάσταση: %s"
 
-#: calendar/gui/print.c:2388
+#: calendar/gui/print.c:2389
 #, c-format
 msgid "Priority: %s"
 msgstr "Προτεραιότητα: %s"
 
-#: calendar/gui/print.c:2400
+#: calendar/gui/print.c:2401
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "%i Ποσοστό Ολοκλήρωσης"
 
-#: calendar/gui/print.c:2412
+#: calendar/gui/print.c:2413
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: calendar/gui/print.c:2426
+#: calendar/gui/print.c:2427
 #, c-format
 msgid "Categories: %s"
 msgstr "Κατηγορίες: %s"
 
-#: calendar/gui/print.c:2437
+#: calendar/gui/print.c:2438
 msgid "Contacts: "
 msgstr "Επαφές: "
 
-#: calendar/gui/print.c:2577 calendar/gui/print.c:2665
-#: calendar/gui/print.c:2791 mail/em-format-html-print.c:178
+#: calendar/gui/print.c:2578 calendar/gui/print.c:2666
+#: calendar/gui/print.c:2792 mail/em-format-html-print.c:178
 msgid "Print Preview"
 msgstr "Προεπισκόπηση Εκτύπωσης"
 
-#: calendar/gui/print.c:2612
+#: calendar/gui/print.c:2613
 msgid "Print Item"
 msgstr "Εκτύπωση Στοιχείου"
 
@@ -10171,7 +10163,7 @@ msgstr "Αδυναμία compile regular expression \"{1}\"."
 
 #. filter:no-name primary
 #. mail:no-name-vfolder primary
-#: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:219
+#: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:223
 msgid "Missing name."
 msgstr "Λείπει το όνομα."
 
@@ -10643,11 +10635,11 @@ msgstr "δεν έχει σημαία"
 #: mail/em-filter-i18n.h:35 mail/mail-config.glade.h:92
 #: ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "Ανεπιθύμητη αλληλογραφία"
+msgstr "Ανεπιθύμητη μηνύματα"
 
 #: mail/em-filter-i18n.h:36
 msgid "Junk Test"
-msgstr "Δοκιμή ανεπιθυμήτων"
+msgstr "Δοκιμή Ανεπιθυμήτων"
 
 #: mail/em-filter-i18n.h:37 mail/em-folder-view.c:1006
 #: widgets/misc/e-expander.c:189
@@ -10660,7 +10652,7 @@ msgstr "Λίστα ταχυδρομείου"
 
 #: mail/em-filter-i18n.h:39
 msgid "Match All"
-msgstr "Ταίριασμα όλων"
+msgstr "Ταίριασμα Όλων"
 
 #: mail/em-filter-i18n.h:40
 msgid "Message Body"
@@ -10668,7 +10660,7 @@ msgstr "Σώμα Μηνύματος"
 
 #: mail/em-filter-i18n.h:41
 msgid "Message Header"
-msgstr "Κεφαλίδα μηνύματος"
+msgstr "Κεφαλίδα Μηνύματος"
 
 #: mail/em-filter-i18n.h:42
 msgid "Message is Junk"
@@ -10759,7 +10751,7 @@ msgid "Stop Processing"
 msgstr "Διακοπή Επεξεργασίας"
 
 #: mail/em-filter-i18n.h:65 mail/em-format-html.c:1532
-#: mail/em-format-quote.c:306 mail/em-format.c:853 mail/em-mailer-prefs.c:88
+#: mail/em-format-quote.c:306 mail/em-format.c:856 mail/em-mailer-prefs.c:88
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:330
 #: plugins/shared-folder/properties.glade.h:7 smime/lib/e-cert.c:1131
 msgid "Subject"
@@ -10916,43 +10908,43 @@ msgstr "Δημιουργία φακέλου '%s'"
 msgid "Create folder"
 msgstr "Δημιουργία φακέλου"
 
-#: mail/em-folder-tree.c:2721
+#: mail/em-folder-tree.c:2722
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Μετονομασία φακέλου \"%s\" σε:"
 
-#: mail/em-folder-tree.c:2723
+#: mail/em-folder-tree.c:2724
 msgid "Rename Folder"
 msgstr "Μετονομασία Φακέλου"
 
-#: mail/em-folder-tree.c:2729
+#: mail/em-folder-tree.c:2730
 msgid "Folder names cannot contain '/'"
 msgstr "Ο φάκελος δεν είναι δυνατό να περιέχει τον χαρακτήρα '/'"
 
-#: mail/em-folder-tree.c:2803 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2804 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:17 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:49
 msgid "_View"
 msgstr "_Προβολή"
 
-#: mail/em-folder-tree.c:2804
+#: mail/em-folder-tree.c:2805
 msgid "Open in _New Window"
 msgstr "Άνοιγμα σε _Νέο παράθυρο"
 
-#: mail/em-folder-tree.c:2808
+#: mail/em-folder-tree.c:2809
 msgid "_Copy..."
 msgstr "Αντι_γραφή..."
 
-#: mail/em-folder-tree.c:2809
+#: mail/em-folder-tree.c:2810
 msgid "_Move..."
 msgstr "_Μετακίνηση..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2813
+#: mail/em-folder-tree.c:2814
 msgid "_New Folder..."
 msgstr "_Νέος Φάκελος..."
 
-#: mail/em-folder-tree.c:2816
+#: mail/em-folder-tree.c:2817
 msgid "_Rename..."
 msgstr "_Μετονομασία..."
 
@@ -10980,7 +10972,7 @@ msgstr "_Εκτύπωση"
 
 #: mail/em-folder-view.c:995
 msgid "U_ndelete"
-msgstr "Α_κύρωση Διαγραφής"
+msgstr "Α_ναίρεση Διαγραφής"
 
 #: mail/em-folder-view.c:996
 msgid "Mo_ve to Folder..."
@@ -11055,31 +11047,31 @@ msgid "Filter on _Mailing List"
 msgstr "Φίλτρο στη Λίστα _Ταχυδρομείου"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1858 mail/em-folder-view.c:1902
+#: mail/em-folder-view.c:1861 mail/em-folder-view.c:1905
 msgid "Default"
 msgstr "Προεπιλογή"
 
-#: mail/em-folder-view.c:2001
+#: mail/em-folder-view.c:2004
 msgid "Print Message"
 msgstr "Εκτύπωση Μηνύματος"
 
-#: mail/em-folder-view.c:2331
+#: mail/em-folder-view.c:2334
 msgid "_Copy Link Location"
 msgstr "Αντι_γραφή τοποθεσίας δεσμού"
 
-#: mail/em-folder-view.c:2333
+#: mail/em-folder-view.c:2336
 msgid "Create _vFolder"
 msgstr "Δημιουργία _vFolder"
 
-#: mail/em-folder-view.c:2334
+#: mail/em-folder-view.c:2337
 msgid "_From this Address"
 msgstr "Από αυτή την διεύ_θυνση"
 
-#: mail/em-folder-view.c:2335
+#: mail/em-folder-view.c:2338
 msgid "_To this Address"
 msgstr "_Σε αυτή τη διεύθυνση"
 
-#: mail/em-folder-view.c:2604
+#: mail/em-folder-view.c:2607
 #, c-format
 msgid "Click to mail %s"
 msgstr "Κλικ εδώ για μήνυμα σε %s"
@@ -11269,28 +11261,28 @@ msgstr "Δείκτης σε άγνωστα εξωτερικά δεδομένα (
 msgid "Formatting message"
 msgstr "Μορφοποίηση μηνυμάτων"
 
-#: mail/em-format-html.c:1424 mail/em-format-quote.c:193 mail/em-format.c:848
+#: mail/em-format-html.c:1424 mail/em-format-quote.c:193 mail/em-format.c:851
 #: mail/em-mailer-prefs.c:83 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:326
 msgid "From"
 msgstr "Από"
 
-#: mail/em-format-html.c:1424 mail/em-format-quote.c:193 mail/em-format.c:849
+#: mail/em-format-html.c:1424 mail/em-format-quote.c:193 mail/em-format.c:852
 #: mail/em-mailer-prefs.c:84
 msgid "Reply-To"
 msgstr "Απάντηση Σε"
 
-#: mail/em-format-html.c:1424 mail/em-format-quote.c:193 mail/em-format.c:850
+#: mail/em-format-html.c:1424 mail/em-format-quote.c:193 mail/em-format.c:853
 #: mail/em-mailer-prefs.c:85 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Προς"
 
-#: mail/em-format-html.c:1424 mail/em-format-quote.c:193 mail/em-format.c:851
+#: mail/em-format-html.c:1424 mail/em-format-quote.c:193 mail/em-format.c:854
 #: mail/em-mailer-prefs.c:86
 msgid "Cc"
 msgstr "Αντίγραφο:"
 
-#: mail/em-format-html.c:1424 mail/em-format-quote.c:193 mail/em-format.c:852
+#: mail/em-format-html.c:1424 mail/em-format-quote.c:193 mail/em-format.c:855
 #: mail/em-mailer-prefs.c:87
 msgid "Bcc"
 msgstr "Ιδιαίτερη Κοινοποίηση"
@@ -11311,41 +11303,41 @@ msgstr "<I> (%a, %R %Z)</I>"
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1576 mail/em-format-quote.c:322 mail/em-format.c:854
+#: mail/em-format-html.c:1576 mail/em-format-quote.c:322 mail/em-format.c:857
 #: mail/em-mailer-prefs.c:89 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Ημερομηνία"
 
-#: mail/em-format-html.c:1599 mail/em-format.c:855 mail/em-mailer-prefs.c:90
+#: mail/em-format-html.c:1599 mail/em-format.c:858 mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
 msgstr "Ομάδες συζήτησης"
 
-#: mail/em-format.c:1104
+#: mail/em-format.c:1107
 #, c-format
 msgid "%s attachment"
 msgstr " %s επισύναψη"
 
-#: mail/em-format.c:1143 mail/em-format.c:1276
+#: mail/em-format.c:1146 mail/em-format.c:1279
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Αδυναμία ανάλυσης μηνύματος S/MIME: Άγνωστο σφάλμα"
 
-#: mail/em-format.c:1266
+#: mail/em-format.c:1269
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Μη υποστηριζόμενος τύπος κρυπτογράφησης για  multipart/encrypted"
 
-#: mail/em-format.c:1414
+#: mail/em-format.c:1417
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Δεν ήταν δυνατή η ανάλυση του μηνύματος MIME. Προβολή ως πηγή."
 
-#: mail/em-format.c:1433
+#: mail/em-format.c:1436
 msgid "Unsupported signature format"
 msgstr "Μη υποστηριζόμενη μορφή υπογραφής"
 
-#: mail/em-format.c:1441
+#: mail/em-format.c:1444
 msgid "Error verifying signature"
 msgstr "Σφάλμα επιβεβαίωσης υπογραφής"
 
-#: mail/em-format.c:1441
+#: mail/em-format.c:1444
 msgid "Unknown error verifying signature"
 msgstr "Άγνωστο σφάλμα επιβεβαίωσης υπογραφής"
 
@@ -11442,7 +11434,7 @@ msgstr "ανώνυμη_εικόνα.%s"
 
 #: mail/em-popup.c:495
 msgid "Set as _Background"
-msgstr "Καθορισμός ως _Παρασκήνιο"
+msgstr "Ορισμός ως _Παρασκήνιο"
 
 #: mail/em-popup.c:497
 msgid "_Reply to sender"
@@ -12706,9 +12698,8 @@ msgstr "Παρακαλώ επιλέξτε ανάμεσα ανάμεσα στις
 
 #: mail/mail-config.glade.h:109
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr ""
-"Ερώτηση στην αποστολή μηνυμάτων όπου έχουν οριστεί μόνο παραλήπτες στην "
-"κρυφή _κοινοποίηση (Bcc)"
+msgstr "Επιβε_βαίωση αποστολής μηνύματος με κρυφούς παραλήπτες (Bcc) μόνο"
+
 
 #: mail/mail-config.glade.h:110
 msgid "Quote original message"
@@ -12716,7 +12707,7 @@ msgstr "Παράθεση αρχικού μηνύματος"
 
 #: mail/mail-config.glade.h:111
 msgid "Quoted"
-msgstr "Με παράθεση"
+msgstr "Σε παράθεση"
 
 #: mail/mail-config.glade.h:112
 msgid "Re_member password"
@@ -13338,12 +13329,14 @@ msgstr ""
 "Δεν ήταν δυνατή η μετονομασία ή η μετακίνηση του φακέλου συστήματος \"{0}\"."
 
 #. mail:ask-delete-folder title
-#: mail/mail-errors.xml.h:127
+#. mail:ask-delete-vfolder title
+#: mail/mail-errors.xml.h:127 mail/mail-errors.xml.h:133
 msgid "Delete \"{0}\"?"
 msgstr "Διαγραφή \"{0}\";"
 
 #. mail:ask-delete-folder primary
-#: mail/mail-errors.xml.h:129
+#. mail:ask-delete-vfolder primary
+#: mail/mail-errors.xml.h:129 mail/mail-errors.xml.h:135
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr ""
 "Να γίνει πραγματικά διαγραφή του φακέλου \"{0}\" και όλων των υποφακέλων του;"
@@ -13359,139 +13352,139 @@ msgstr ""
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
-#: mail/mail-errors.xml.h:133 mail/mail-errors.xml.h:137
+#: mail/mail-errors.xml.h:137 mail/mail-errors.xml.h:141
 msgid "Cannot rename \"{0}\" to \"{1}\"."
 msgstr "Αδυναμία μετονομασίας \"{0}\" σε \"{1}\"."
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
-#: mail/mail-errors.xml.h:135 mail/mail-errors.xml.h:197
+#: mail/mail-errors.xml.h:139 mail/mail-errors.xml.h:201
 msgid "A folder named \"{1}\" already exists. Please use a different name."
 msgstr ""
 "Ένας φάκελος που ονομάζεται \"{1}\" υπάρχει ήδη. Παρακαλώ χρησιμοποιείστε "
 "ένα διαφορετικό όνομα."
 
 #. mail:no-rename-folder secondary
-#: mail/mail-errors.xml.h:139
+#: mail/mail-errors.xml.h:143
 msgid "Because \"{2}\"."
 msgstr "Λόγω του \"{2}\"."
 
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
-#: mail/mail-errors.xml.h:141 mail/mail-errors.xml.h:145
+#: mail/mail-errors.xml.h:145 mail/mail-errors.xml.h:149
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "Αδυναμία μετακίνησης φακέλου \"{0}\" σε \"{1}\"."
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
-#: mail/mail-errors.xml.h:143 mail/mail-errors.xml.h:151
+#: mail/mail-errors.xml.h:147 mail/mail-errors.xml.h:155
 msgid "Cannot open source \"{2}\"."
 msgstr "Δεν ήταν δυνατό το άνοιγμα πηγής \"{2}\"."
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
-#: mail/mail-errors.xml.h:147 mail/mail-errors.xml.h:155
+#: mail/mail-errors.xml.h:151 mail/mail-errors.xml.h:159
 msgid "Cannot open target \"{2}\"."
 msgstr "Δεν ήταν δυνατό το άνοιγμα στόχου \"{2}\"."
 
 #. mail:no-copy-folder-nostore primary
 #. mail:no-copy-folder-to-nostore primary
-#: mail/mail-errors.xml.h:149 mail/mail-errors.xml.h:153
+#: mail/mail-errors.xml.h:153 mail/mail-errors.xml.h:157
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
 msgstr "Αδυναμία αντιγραφής φακέλου \"{0}\" σε \"{1}\"."
 
 #. mail:no-create-folder-nostore primary
-#: mail/mail-errors.xml.h:157
+#: mail/mail-errors.xml.h:161
 msgid "Cannot create folder \"{0}\"."
 msgstr "Δεν είναι δυνατή η δημιουργία φακέλου \"{0}\"."
 
 #. mail:no-create-folder-nostore secondary
-#: mail/mail-errors.xml.h:159
+#: mail/mail-errors.xml.h:163
 msgid "Cannot open source \"{1}\""
 msgstr "Δεν ήταν δυνατό το άνοιγμα πηγής \"{1}\""
 
 #. mail:account-incomplete primary
 #. mail:account-notunique primary
-#: mail/mail-errors.xml.h:161 mail/mail-errors.xml.h:165
+#: mail/mail-errors.xml.h:165 mail/mail-errors.xml.h:169
 msgid "Cannot save changes to account."
 msgstr "Αδυναμία αποθήκευσης αλλαγών στον λογαριασμό."
 
 #. mail:account-incomplete secondary
-#: mail/mail-errors.xml.h:163
+#: mail/mail-errors.xml.h:167
 msgid "You have not filled in all of the required information."
 msgstr "Δεν έχετε συμπληρώσει όλα τις απαιτούμενες πληροφορίες."
 
 #. mail:account-notunique secondary
-#: mail/mail-errors.xml.h:167
+#: mail/mail-errors.xml.h:171
 msgid "You may not create two accounts with the same name."
 msgstr "Δεν επιτρέπεται να δημιουργήσετε δύο λογαριασμούς με το ίδιο όνομα."
 
 #. mail:ask-delete-account title
-#: mail/mail-errors.xml.h:169
+#: mail/mail-errors.xml.h:173
 msgid "Delete account?"
 msgstr "Διαγραφή λογαριασμού;"
 
 #. mail:ask-delete-account primary
-#: mail/mail-errors.xml.h:171
+#: mail/mail-errors.xml.h:175
 msgid "Are you sure you want to delete this account?"
 msgstr "Είστε βέβαιοι ότι θέλετε να διαγραφεί αυτός ο λογαριασμός;"
 
 #. mail:ask-delete-account secondary
-#: mail/mail-errors.xml.h:173
+#: mail/mail-errors.xml.h:177
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Αν προχωρήσετε οι πληροφορίες λογαριασμού θα διαγραφούν οριστικά."
 
-#: mail/mail-errors.xml.h:174
+#: mail/mail-errors.xml.h:178
 msgid "Don't delete"
-msgstr "Να μην γίνει διαγραφή"
+msgstr "Να μη γίνει διαγραφή"
 
 #. mail:no-save-signature primary
-#: mail/mail-errors.xml.h:176
+#: mail/mail-errors.xml.h:180
 msgid "Could not save signature file."
 msgstr "Δεν ήταν δυνατή η αποθήκευση του αρχείου υπογραφής."
 
 #. mail:no-save-signature secondary
-#: mail/mail-errors.xml.h:178
+#: mail/mail-errors.xml.h:182
 msgid "Because \"{0}\"."
 msgstr "Λόγω του \"{0}\"."
 
 #. mail:signature-notscript primary
-#: mail/mail-errors.xml.h:180
+#: mail/mail-errors.xml.h:184
 msgid "Cannot set signature script \"{0}\"."
 msgstr "Αδυναμία ορισμού δέσμης ενεργειών υπογραφής \"{0}\"."
 
 #. mail:signature-notscript secondary
-#: mail/mail-errors.xml.h:182
+#: mail/mail-errors.xml.h:186
 msgid "The script file must exist and be executable."
 msgstr "Το αρχείο δέσμης ενεργειών πρέπει να υπάρχει και να είναι εκτελέσιμη."
 
 #. mail:ask-signature-changed title
-#: mail/mail-errors.xml.h:184
+#: mail/mail-errors.xml.h:188
 msgid "Discard changed?"
 msgstr "Απόρριψη αλλαγών;"
 
 #. mail:ask-signature-changed primary
-#: mail/mail-errors.xml.h:186
+#: mail/mail-errors.xml.h:190
 msgid "Do you wish to save your changes?"
 msgstr "Θέλετε να αποθηκεύσετε τις αλλαγές σας;"
 
 #. mail:ask-signature-changed secondary
-#: mail/mail-errors.xml.h:188
+#: mail/mail-errors.xml.h:192
 msgid "This signature has been changed, but has not been saved."
 msgstr "Η υπογραφή έχει αλλάξει αλλά δεν έχει αποθηκευτεί."
 
-#: mail/mail-errors.xml.h:189
+#: mail/mail-errors.xml.h:193
 msgid "_Discard changes"
 msgstr "Α_πόρριψη αλλαγών"
 
 #. mail:vfolder-notexist primary
-#: mail/mail-errors.xml.h:191
+#: mail/mail-errors.xml.h:195
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
 msgstr ""
 "Δεν είναι δυνατή η επεξεργασία του Εφακέλου \"{0}\" επειδή δεν υπάρχει."
 
 #. mail:vfolder-notexist secondary
-#: mail/mail-errors.xml.h:193
+#: mail/mail-errors.xml.h:197
 msgid ""
 "This folder may have been added implicitly, go to the vFolder editor to add "
 "it explicitly, if required."
@@ -13500,17 +13493,17 @@ msgstr ""
 "επεξεργαστή εικονικού φακέλου και προσθέστε το κατηγορηματικά."
 
 #. mail:vfolder-notunique primary
-#: mail/mail-errors.xml.h:195
+#: mail/mail-errors.xml.h:199
 msgid "Cannot add vFolder \"{0}\"."
 msgstr "Αδυναμία προσθήκης εΦακέλου \"{0}\"."
 
 #. mail:vfolder-updated primary
-#: mail/mail-errors.xml.h:199
+#: mail/mail-errors.xml.h:203
 msgid "vFolders automatically updated."
 msgstr "Οι εΦάκελοι ενημερώθηκαν αυτόματα."
 
 #. mail:vfolder-updated secondary
-#: mail/mail-errors.xml.h:201
+#: mail/mail-errors.xml.h:205
 msgid ""
 "The following vFolder(s):\n"
 "{0}\n"
@@ -13525,12 +13518,12 @@ msgstr ""
 "Και τώρα έγινε η ενημέρωση."
 
 #. mail:filter-updated primary
-#: mail/mail-errors.xml.h:207
+#: mail/mail-errors.xml.h:211
 msgid "Mail filters automatically updated."
 msgstr "Οι φάκελοι αλληλογραφίας ενημερώθηκαν αυτόματα."
 
 #. mail:filter-updated secondary
-#: mail/mail-errors.xml.h:209
+#: mail/mail-errors.xml.h:213
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -13545,27 +13538,27 @@ msgstr ""
 "Και τώρα έγινε η ενημέρωση."
 
 #. mail:no-folder primary
-#: mail/mail-errors.xml.h:215
+#: mail/mail-errors.xml.h:219
 msgid "Missing folder."
 msgstr "Λείπει ο φάκελος."
 
 #. mail:no-folder secondary
-#: mail/mail-errors.xml.h:217
+#: mail/mail-errors.xml.h:221
 msgid "You must specify a folder."
 msgstr "Πρέπει να καθορίσετε ένα κατάλογο."
 
 #. mail:no-name-vfolder secondary
-#: mail/mail-errors.xml.h:221
+#: mail/mail-errors.xml.h:225
 msgid "You must name this vFolder."
 msgstr "Πρέπει να δώσετε όνομα στον eφάκελο."
 
 #. mail:vfolder-no-source primary
-#: mail/mail-errors.xml.h:223
+#: mail/mail-errors.xml.h:227
 msgid "No sources selected."
 msgstr "Δεν έχουν επιλεγεί πηγές."
 
 #. mail:vfolder-no-source secondary
-#: mail/mail-errors.xml.h:225
+#: mail/mail-errors.xml.h:229
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting\n"
@@ -13577,12 +13570,12 @@ msgstr ""
 "ή και τα δύο."
 
 #. mail:ask-migrate-existing primary
-#: mail/mail-errors.xml.h:229
+#: mail/mail-errors.xml.h:233
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Πρόβλημα εισαγωγής παλιού φακέλου αλληλογραφίας \"{0}\"."
 
 #. mail:ask-migrate-existing secondary
-#: mail/mail-errors.xml.h:231
+#: mail/mail-errors.xml.h:235
 msgid ""
 "A non-empty folder at \"{1}\" already exists.\n"
 "\n"
@@ -13594,25 +13587,25 @@ msgstr ""
 "Μπορείτε να αγνοήσετε αυτό τον φάκελο, να αντικαταστήσετε ή προσθέσετε στα "
 "περιεχόμενα του ή να εγκαταλείψετε.\n"
 
-#: mail/mail-errors.xml.h:235
+#: mail/mail-errors.xml.h:239
 msgid "Ignore"
 msgstr "Αγνόηση"
 
-#: mail/mail-errors.xml.h:236 widgets/misc/e-system-errors.xml.h:7
+#: mail/mail-errors.xml.h:240 widgets/misc/e-system-errors.xml.h:7
 msgid "_Overwrite"
 msgstr "Αντι_κατάσταση"
 
-#: mail/mail-errors.xml.h:237
+#: mail/mail-errors.xml.h:241
 msgid "_Append"
 msgstr "Προ_σθήκη"
 
 #. mail:no-load-license primary
-#: mail/mail-errors.xml.h:239
+#: mail/mail-errors.xml.h:243
 msgid "Unable to read license file."
 msgstr "Δεν είναι δυνατή η ανάγνωση αρχείου άδειας χρήσης."
 
 #. mail:no-load-license secondary
-#: mail/mail-errors.xml.h:241
+#: mail/mail-errors.xml.h:245
 msgid ""
 "Cannot read the license file \"{0}\", due to an\n"
 "      installation problem.  You will not be able to use this provider "
@@ -13625,23 +13618,23 @@ msgstr ""
 "      να αποδεχθείτε την άδεια χρήσης του."
 
 #. mail:checking-service title
-#: mail/mail-errors.xml.h:245
+#: mail/mail-errors.xml.h:249
 msgid "Querying server"
 msgstr "Επικοινωνία με διακομιστή"
 
 #. mail:checking-service primary
-#: mail/mail-errors.xml.h:247
+#: mail/mail-errors.xml.h:251
 msgid "Please wait."
 msgstr "Παρακαλώ περιμένετε."
 
 #. mail:checking-service secondary
-#: mail/mail-errors.xml.h:249
+#: mail/mail-errors.xml.h:253
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr ""
 "Ερώτημα στον διακομιστή για λίστα υποστηριζόμενων μηχανισμών πιστοποίησης."
 
 #. mail:gw-accountsetup-error primary
-#: mail/mail-errors.xml.h:251
+#: mail/mail-errors.xml.h:255
 msgid ""
 "Unable to connect to the GroupWise\n"
 "server."
@@ -13650,7 +13643,7 @@ msgstr ""
 "server."
 
 #. mail:gw-accountsetup-error secondary
-#: mail/mail-errors.xml.h:254
+#: mail/mail-errors.xml.h:258
 msgid ""
 "\n"
 "Please check your account settings and try again.\n"
@@ -13850,7 +13843,7 @@ msgstr "Γίνεται Ακύρωση..."
 #: mail/mail-send-recv.c:265
 #, c-format
 msgid "Server: %s, Type: %s"
-msgstr "Διακομιστής: %s, Είδος: %s"
+msgstr "Διακομιστής: %s, Τύπος: %s"
 
 #: mail/mail-send-recv.c:267
 #, c-format
@@ -14152,28 +14145,28 @@ msgstr "Backup και ανάκτηση δεδομένων και ρυθμίσε�
 msgid "Restore Settings..."
 msgstr "Επαναφορά ρυθμίσεων..."
 
-#: plugins/bbdb/bbdb.c:388
+#: plugins/bbdb/bbdb.c:390
 msgid "Automatic Contacts"
 msgstr "Αυτόματες Επαφές"
 
-#: plugins/bbdb/bbdb.c:397
+#: plugins/bbdb/bbdb.c:399
 msgid "<span weight=\"bold\">Automatic Contacts</span>"
 msgstr "<span weight=\"bold\">Αυτόματες επαφές</span>"
 
 #. Enable BBDB checkbox
-#: plugins/bbdb/bbdb.c:410
+#: plugins/bbdb/bbdb.c:412
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
 "Α_υτόματη δημιουργία εγγραφών στο βιβλίο διευθύνσεων όταν απαντάτε σε "
 "μηνύματα"
 
-#: plugins/bbdb/bbdb.c:428
+#: plugins/bbdb/bbdb.c:430
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
 msgstr "<span weight=\"bold\">Επαφές Instant Messaging</span>"
 
 #. Enable Gaim Checkbox
-#: plugins/bbdb/bbdb.c:441
+#: plugins/bbdb/bbdb.c:443
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
@@ -14182,7 +14175,7 @@ msgstr ""
 "messenger"
 
 #. Synchronize now button.
-#: plugins/bbdb/bbdb.c:448
+#: plugins/bbdb/bbdb.c:450
 msgid "Synchronize with _buddy list now"
 msgstr "Συγχρονισμός με _buddy list τώρα"
 
@@ -14250,8 +14243,8 @@ msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr ""
-"Με αυτή την επιλογή θα γίνει σύνδεση στον εξυπηρετητή Exchange με την χρήση "
-"πιστοποίησηςασφαλή κωδικού  (NTLM) ."
+"Με αυτή την επιλογή θα γίνει σύνδεση στον εξυπηρετητή Exchange με τη χρήση "
+"πιστοποίησης ασφαλή κωδικού (NTLM)."
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:70
 msgid "Plaintext Password"
@@ -14304,7 +14297,7 @@ msgstr "Πι_στοποίηση"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:722
 msgid "Authentication Type"
-msgstr "Τύπος πιστοποίησης"
+msgstr "Τύπος Πιστοποίησης"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:736
 msgid "Ch_eck for Supported Types"
@@ -14757,9 +14750,9 @@ msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
 msgstr ""
-"Δεν επιτρέπεται η αποστολή σε αυτή τη λίστα αλληλογραφίας. Πιθανώς να "
-"είναι μια λίστα αλληλογραφίας μόνο για ανάγνωση. Επικοινωνήστε με τον "
-"ιδιοκτήτη της λίστας για λεπτομέρειες."
+"Δεν επιτρέπεται η αποστολή σε αυτή τη λίστα αλληλογραφίας. Πιθανώς να είναι "
+"μια λίστα αλληλογραφίας μόνο για ανάγνωση. Επικοινωνήστε με τον ιδιοκτήτη "
+"της λίστας για λεπτομέρειες."
 
 #. org.gnome.mailing-list-actions:ask-send-message primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:10
@@ -14847,7 +14840,7 @@ msgstr "Id"
 
 #: plugins/plugin-manager/plugin-manager.c:47
 msgid "Path"
-msgstr "Θέση"
+msgstr "Διαδρομή"
 
 #: plugins/plugin-manager/plugin-manager.c:48
 msgid "Description"
@@ -15171,7 +15164,7 @@ msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level"
 msgstr ""
-"Η τελευταία αναβαθμισμένη έκδοση του Evolution, με μέγιστο/ελάχιστοε επίπεδο "
+"Η τελευταία αναβαθμισμένη έκδοση του Evolution, με μέγιστο/ελάχιστο επίπεδο "
 "ρυθμίσεων"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:17
@@ -15378,8 +15371,8 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
-"Αν βγείτε από τον βοηθό ρύθμισης του Evolution τώρα, όλες οι πληροφορίες που "
-"εισάγατε θα χαθούν. Θα πρέπει να ξαναεκτελέσετε τον βοηθό πριν να "
+"Αν βγείτε από το βοηθό ρύθμισης του Evolution τώρα, όλες οι πληροφορίες που "
+"εισάγατε θα χαθούν. Θα πρέπει να εκτελέσετε ξανά το βοηθό πριν να "
 "χρησιμοποιήσετε το Evolution.\n"
 "\n"
 "Θέλετε να σταματήσετε τον βοηθό τώρα;"
@@ -15390,15 +15383,15 @@ msgstr "Δεν έχει οριστεί όνομα φακέλου."
 
 #: shell/e-shell-utils.c:123
 msgid "Folder name cannot contain the Return character."
-msgstr "Ο φάκελος δεν είναι δυνατό να περιέχει το πλήκτρο Επιστροφής."
+msgstr "Ο φάκελος δεν είναι δυνατό να περιέχει το χαρακτήρα Return."
 
 #: shell/e-shell-utils.c:129
 msgid "Folder name cannot contain the character \"/\"."
-msgstr "Ο φάκελος δεν είναι δυνατό να περιέχει τον χαρακτήρα \"/\"."
+msgstr "Ο φάκελος δεν είναι δυνατό να περιέχει το χαρακτήρα \"/\"."
 
 #: shell/e-shell-utils.c:135
 msgid "Folder name cannot contain the character \"#\"."
-msgstr "Ο φάκελος δεν είναι δυνατό να περιέχει τον χαρακτήρα \"#\"."
+msgstr "Ο φάκελος δεν είναι δυνατό να περιέχει το χαρακτήρα \"#\"."
 
 #: shell/e-shell-utils.c:141
 msgid "'.' and '..' are reserved folder names."
@@ -16108,7 +16101,7 @@ msgid "dialog1"
 msgstr "διάλογος1"
 
 #. XXX we shouldn't be popping up dialogs in this code.
-#: smime/lib/e-cert-db.c:612
+#: smime/lib/e-cert-db.c:650
 msgid "Certificate already exists"
 msgstr "Το πιστοποιητικό υπάρχει ήδη"
 
@@ -16195,7 +16188,7 @@ msgstr "Χρήση κλειδιού πιστοποιητικού"
 
 #: smime/lib/e-cert.c:672
 msgid "Netscape Certificate Type"
-msgstr "Τύπος πιστοποιητικού Netscape "
+msgstr "Τύπος Πιστοποιητικού Netscape "
 
 #: smime/lib/e-cert.c:675
 msgid "Certificate Authority Key Identifier"
@@ -16212,11 +16205,11 @@ msgstr "Object Identifier (%s)"
 
 #: smime/lib/e-cert.c:738
 msgid "Algorithm Identifier"
-msgstr "Αναγνωριστικό Αλγορίθμου "
+msgstr "Αναγνωριστικό Αλγορίθμου"
 
 #: smime/lib/e-cert.c:746
 msgid "Algorithm Parameters"
-msgstr "Παράμετροι Αλγορίθμου "
+msgstr "Παράμετροι Αλγορίθμου"
 
 #: smime/lib/e-cert.c:768
 msgid "Subject Public Key Info"
@@ -16495,11 +16488,11 @@ msgstr "Διαγραφή αυτής της Εμφάνισης"
 
 #: ui/evolution-calendar.xml.h:9
 msgid "Delete this occurrence"
-msgstr "Διαγραφή αυτής της Εμφάνισης"
+msgstr "Διαγραφή αυτής της εμφάνισης"
 
 #: ui/evolution-calendar.xml.h:10
 msgid "Go To"
-msgstr "Μετάβαση Στο"
+msgstr "Μετάβαση Σε"
 
 #: ui/evolution-calendar.xml.h:11
 msgid "Go back"
@@ -16649,7 +16642,7 @@ msgstr "Άνοιγμα παραθύρου για την σύνθεση νέου 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Permanently remove all deleted messages from all folders"
 msgstr ""
-"Οριστική διαγραφή όλων των διαγραμμένων μηνυμάτων από όλους τους φακέλους"
+"Οριστική απομάκρυνση όλων των διαγραμμένων μηνυμάτων από όλους τους φακέλους"
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Post Ne_w Message"
@@ -16961,11 +16954,11 @@ msgstr "Σήμανση ως _Σημαντικό"
 
 #: ui/evolution-mail-message.xml.h:52
 msgid "Mark as U_nread"
-msgstr "Σήμανση ως _Μη Αναγνωσμένο"
+msgstr "Σήμανση ως _μη Αναγνωσμένο"
 
 #: ui/evolution-mail-message.xml.h:53
 msgid "Mark as Unimp_ortant"
-msgstr "Σήμανση ως _Μη Σημαντικό"
+msgstr "Σήμανση ως _μη Σημαντικό"
 
 #: ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected message(s) as having been read"
@@ -17013,7 +17006,7 @@ msgstr "Επόμενη Α_λληλουχία"
 
 #: ui/evolution-mail-message.xml.h:68
 msgid "Next _Unread Message"
-msgstr "Επόμενο _Μη Αναγνωσμένο Μήνυμα"
+msgstr "Επόμενο _μη Αναγνωσμένο Μήνυμα"
 
 #: ui/evolution-mail-message.xml.h:69
 msgid "Not Junk"
@@ -17117,7 +17110,7 @@ msgstr "_Μέγεθος Κειμένου"
 
 #: ui/evolution-mail-message.xml.h:102
 msgid "Un-delete the selected messages"
-msgstr "Ακύρωση διαγραφής των επιλεγμένων μηνυμάτων"
+msgstr "Αναίρεση διαγραφής των επιλεγμένων μηνυμάτων"
 
 #: ui/evolution-mail-message.xml.h:104
 msgid "_Attached"
@@ -17677,7 +17670,7 @@ msgstr "Προβολή Η_μέρας"
 
 #: views/calendar/galview.xml.h:3
 msgid "_List View"
-msgstr "Προ_βολή λίστας"
+msgstr "Προ_βολή Λίστας"
 
 #: views/calendar/galview.xml.h:4
 msgid "_Month View"
@@ -17895,7 +17888,7 @@ msgstr "Πατήστε αυτό το κουμπί για την προβολή �
 
 #: widgets/misc/e-dateedit.c:351
 msgid "Date Button"
-msgstr "Κουμπί ημερομηνίας"
+msgstr "Κουμπί Ημερομηνίας"
 
 #: widgets/misc/e-dateedit.c:371
 msgid "Combo box to select time"
@@ -18063,7 +18056,7 @@ msgstr "_Εκκαθάριση"
 
 #: widgets/misc/e-search-bar.c:647
 msgid "Search Type"
-msgstr "Τύπος αναζήτησης"
+msgstr "Τύπος Αναζήτησης"
 
 #: widgets/misc/e-search-bar.c:851
 msgid "Item ID"
@@ -18248,6 +18241,12 @@ msgstr "%s (%d%% έχει ολοκληρωθεί)"
 #: widgets/misc/e-url-entry.c:107
 msgid "click here to go to url"
 msgstr "κάντε κλικ εδώ για μετάβαση σε url"
+
+#~ msgid "Summary: %s"
+#~ msgstr "Περίληψη: %s"
+
+#~ msgid "Location: %s"
+#~ msgstr "Τοποθεσία: %s"
 
 #~ msgid "_Remember this password"
 #~ msgstr "_Απομνημόνευση αυτού του κωδικού"
