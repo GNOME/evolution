@@ -199,7 +199,6 @@ set_prop (BonoboPropertyBag *bag,
 	  CORBA_Environment *ev,
 	  gpointer user_data)
 {
-	g_print ("Set!\n");
 	switch (arg_id) {
 	case PROP_FOLDER_INFO_READY:
 		ready = BONOBO_ARG_GET_BOOLEAN (arg);
@@ -218,7 +217,6 @@ get_prop (BonoboPropertyBag *bag,
 	  CORBA_Environment *ev,
 	  gpointer user_data)
 {
-	g_print ("Get!\n");
 	switch (arg_id) {
 	case PROP_FOLDER_INFO_READY:
 		BONOBO_ARG_SET_BOOLEAN (arg, ready);
