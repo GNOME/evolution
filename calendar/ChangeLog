@@ -1,3 +1,10 @@
+2001-10-28  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c (add_record): unref the
+	comp when finished
+
+	* conduits/todo/todo-conduit.c (add_record): ditto
+	
 2001-10-28  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/task-page.c (task_page_fill_widgets): added break
@@ -59,8 +66,6 @@
 	* cal-util/timeutil.c (icaltimetype_to_tm_with_zone): don't check
 	from_zone and to_zone != NULL. A NULL zone is valid, it is for
 	floating times.
-
-2001-10-27  Federico Mena Quintero  <federico@ximian.com>
 
 2001-10-27  Federico Mena Quintero  <federico@ximian.com>
 

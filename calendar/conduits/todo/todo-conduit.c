@@ -576,7 +576,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		cal_component_set_percent (comp, &percent);
 		cal_component_set_status (comp, ICAL_STATUS_COMPLETED);
 	} else {
-		int *percent;
+		int *percent = NULL;
 		icalproperty_status status;
 		
 		cal_component_set_completed (comp, NULL);
@@ -586,7 +586,8 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 			int p = 0;
 			cal_component_set_percent (comp, &p);
 		}
-		cal_component_free_percent (percent);
+		if (percent != NULL)
+			cal_component_free_percent (percent);
 
 		cal_component_get_status (comp, &status);
 		if (status == ICAL_STATUS_COMPLETED)
@@ -973,8 +974,9 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	update_comp (conduit, comp, ctxt);
 
 	cal_component_get_uid (comp, &uid);
-
 	e_pilot_map_insert (ctxt->map, remote->ID, uid, FALSE);
+
+	gtk_object_unref (GTK_OBJECT (comp));
 
 	return retval;
 }

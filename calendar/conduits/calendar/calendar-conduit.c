@@ -1271,9 +1271,10 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	update_comp (conduit, comp, ctxt);
 
 	cal_component_get_uid (comp, &uid);
-
 	e_pilot_map_insert (ctxt->map, remote->ID, uid, FALSE);
 
+	gtk_object_unref (GTK_OBJECT (comp));
+	
 	return retval;
 }
 
