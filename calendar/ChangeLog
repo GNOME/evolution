@@ -1,3 +1,9 @@
+2002-08-20  JP Rosevear  <jpr@ximian.com>
+
+	* gui/tasks-control.c (tasks_control_activate): don't set the
+	tasks ui component until the container is set, remove unused
+	pixmaps
+
 2002-08-19  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-model.c (destroy): disconnect destroy signal

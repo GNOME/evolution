@@ -274,15 +274,12 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",            "new_task-16.png"),
 	E_PIXMAP ("/menu/File/Print/Print",			    "print.xpm"),
 	E_PIXMAP ("/menu/File/Print/PrintPreview",		    "print-preview.xpm"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/TasksCut",            "16_cut.png"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/TasksCopy",           "16_copy.png"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/TasksPaste",          "16_paste.png"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/TasksDelete",         "evolution-trash-mini.png"),
-	E_PIXMAP ("/menu/Tools/ComponentPlaceholder/TasksSettings", "configure_16_calendar.xpm"),
-	E_PIXMAP ("/Toolbar/New",                                   "buttons/new_task.png"),
 	E_PIXMAP ("/Toolbar/Cut",                                   "buttons/cut.png"),
 	E_PIXMAP ("/Toolbar/Copy",                                  "buttons/copy.png"),
 	E_PIXMAP ("/Toolbar/Paste",                                 "buttons/paste.png"),
@@ -303,11 +300,11 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
-	e_tasks_set_ui_component (tasks, uic);
-
 	remote_uih = bonobo_control_get_remote_ui_container (control);
 	bonobo_ui_component_set_container (uic, remote_uih);
 	bonobo_object_release_unref (remote_uih, NULL);
+
+	e_tasks_set_ui_component (tasks, uic);
 
 	bonobo_ui_component_add_verb_list_with_data (uic, verbs, tasks);
 
