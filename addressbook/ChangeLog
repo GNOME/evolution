@@ -1,3 +1,56 @@
+2000-07-03  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/Makefile.am: Removed e-card-iterator.c,
+	e-card-iterator.h, e-card-list-iterator.c, e-card-list-iterator.h,
+	e-card-list.c, e-card-list.h.
+
+	* backend/ebook/e-card-iterator.c,
+	backend/ebook/e-card-iterator.h,
+	backend/ebook/e-card-list-iterator.c,
+	backend/ebook/e-card-list-iterator.h, backend/ebook/e-card-list.c,
+	backend/ebook/e-card-list.h: Removed in favor or versions without
+	the -card in the e-util directory since these classes are not
+	specific to cards at all.
+
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h,
+	backend/ebook/e-card.c, backend/ebook/e-card.h,
+	backend/ebook/load-pine-addressbook.c, backend/ebook/test-card.c,
+	backend/pas/pas-backend-file.c: Changed the references to
+	e-card-list.c and friends to e-list.c and friends.
+
+	* contact-editor/e-contact-editor.c: Added #include
+	<e-contact-save-as.h> to fix a warning.
+
+	* gui/component/Makefile.am: Moved a number of classes associated
+	with the select-names object to the new select-names directory.
+
+	* gui/component/addressbook.c: Changed the reference to
+	e-select-names.h.
+
+	* gui/component/e-select-names.c, gui/component/e-select-names.h,
+	gui/component/select-names.glade,
+	gui/component/select-names.glade.h: Moved these files into
+	select-names/.
+
+	* gui/component/select-names/.cvsignore,
+	gui/component/select-names/Makefile.am,
+	gui/component/select-names/e-select-names-manager.c,
+	gui/component/select-names/e-select-names-manager.h,
+	gui/component/select-names/e-select-names-model.c,
+	gui/component/select-names/e-select-names-model.h,
+	gui/component/select-names/e-select-names-table-model.c,
+	gui/component/select-names/e-select-names-table-model.h,
+	gui/component/select-names/e-select-names-text-model.c,
+	gui/component/select-names/e-select-names-text-model.h,
+	gui/component/select-names/e-select-names.c,
+	gui/component/select-names/e-select-names.h,
+	gui/component/select-names/recipient.glade,
+	gui/component/select-names/select-names.glade,
+	gui/component/select-names/select-names.glade.h: New files for
+	select names dialog (e-select-names.c, e-select-names.h,
+	select-names.glade, select-names.glade.h and recipient.glade moved
+	from gui/component/.)
+
 2000-06-29  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/addressbook-component.c (owner_set_cb): Get an

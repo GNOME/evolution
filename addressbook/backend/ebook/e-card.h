@@ -16,7 +16,7 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <addressbook/backend/ebook/e-card-types.h>
-#include <addressbook/backend/ebook/e-card-list.h>
+#include <e-util/e-list.h>
 
 #define E_TYPE_CARD            (e_card_get_type ())
 #define E_CARD(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_CARD, ECard))
@@ -34,12 +34,12 @@ struct _ECard {
 	char            *file_as;       /* The File As field.               */
 	char            *fname;         /* The full name.                   */
 	ECardName       *name;          /* The structured name.             */
-	ECardList       *address;  	/* Delivery addresses (ECardDeliveryAddress *) */
-	ECardList       *address_label; /* Delivery address labels
+	EList       *address;  	/* Delivery addresses (ECardDeliveryAddress *) */
+	EList       *address_label; /* Delivery address labels
 					 * (ECardAddrLabel *)               */
 
-	ECardList       *phone;         /* Phone numbers (ECardPhone *)     */
-	ECardList       *email;         /* Email addresses (char *)         */
+	EList       *phone;         /* Phone numbers (ECardPhone *)     */
+	EList       *email;         /* Email addresses (char *)         */
 	char            *url;	        /* The person's web page.           */
 
 	ECardDate       *bday;	        /* The person's birthday.           */
@@ -65,9 +65,9 @@ struct _ECard {
 
 	char            *fburl;         /* Free Busy URL                    */
 
-	ECardList       *categories;    /* Categories.                      */
+	EList       *categories;    /* Categories.                      */
 
-	ECardList       *arbitrary;     /* Arbitrary fields.                */
+	EList       *arbitrary;     /* Arbitrary fields.                */
 
 #if 0
 	ECardPhoto      *logo;          /* This person's org's logo.        */
@@ -90,7 +90,7 @@ struct _ECard {
 	ECardRev        *rev;	        /* The time this card was last
 					   modified.                        */
 
-	ECardList        xtension;
+	EList        xtension;
 #endif
 };
 

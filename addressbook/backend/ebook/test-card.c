@@ -73,10 +73,10 @@ main (int argc, char **argv)
 	char *nickname;
 	char *fburl;
 	ECardName *name;
-	ECardList *address;
-	ECardList *phone;
-	ECardList *email;
-	ECardIterator *iterator;
+	EList *address;
+	EList *phone;
+	EList *email;
+	EIterator *iterator;
 	ECardDate *bday;
 
 	gnome_init ("TestCard", "0.0", argc, argv);
@@ -151,24 +151,24 @@ main (int argc, char **argv)
 	  printf("BDay : %4d-%02d-%02d\n", bday->year, bday->month, bday->day);
 	}
 	if ( email ) {
-	  iterator = e_card_list_get_iterator(address);
-	  for (; e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-	    printf("Email : %s\n", (char *) e_card_iterator_get(iterator));
+	  iterator = e_list_get_iterator(address);
+	  for (; e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+	    printf("Email : %s\n", (char *) e_iterator_get(iterator));
 	  }
 	  gtk_object_unref(GTK_OBJECT(iterator));
 	}
 	if ( phone ) {
-	  iterator = e_card_list_get_iterator(address);
-	  for (; e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-	    ECardPhone *e_card_phone = (ECardPhone *) e_card_iterator_get(iterator);
+	  iterator = e_list_get_iterator(address);
+	  for (; e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+	    ECardPhone *e_card_phone = (ECardPhone *) e_iterator_get(iterator);
 	    printf("Phone ; %d : %s\n", e_card_phone->flags, e_card_phone->number);
 	  }
 	  gtk_object_unref(GTK_OBJECT(iterator));
 	}
 	if ( address ) {
-	  iterator = e_card_list_get_iterator(address);
-	  for (; e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-	    ECardDeliveryAddress *del_address = (ECardDeliveryAddress *) e_card_iterator_get(iterator);
+	  iterator = e_list_get_iterator(address);
+	  for (; e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+	    ECardDeliveryAddress *del_address = (ECardDeliveryAddress *) e_iterator_get(iterator);
 	    printf("Address ; %d:\n", del_address->flags);
 	    if ( del_address->po )
 	      printf("  Po      : %s\n", del_address->po);

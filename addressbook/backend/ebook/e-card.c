@@ -266,10 +266,10 @@ char
 
 
 	if ( card->address ) {
-		ECardIterator *iterator = e_card_list_get_iterator(card->address);
-		for ( ; e_card_iterator_is_valid(iterator) ;e_card_iterator_next(iterator) ) {
+		EIterator *iterator = e_list_get_iterator(card->address);
+		for ( ; e_iterator_is_valid(iterator) ;e_iterator_next(iterator) ) {
 			VObject *addressprop;
-			ECardDeliveryAddress *address = (ECardDeliveryAddress *) e_card_iterator_get(iterator);
+			ECardDeliveryAddress *address = (ECardDeliveryAddress *) e_iterator_get(iterator);
 			addressprop = addProp(vobj, VCAdrProp);
 			
 			set_address_flags (addressprop, address->flags);
@@ -292,10 +292,10 @@ char
 	}
 
 	if ( card->address_label ) {
-		ECardIterator *iterator = e_card_list_get_iterator(card->address_label);
-		for ( ; e_card_iterator_is_valid(iterator) ;e_card_iterator_next(iterator) ) {
+		EIterator *iterator = e_list_get_iterator(card->address_label);
+		for ( ; e_iterator_is_valid(iterator) ;e_iterator_next(iterator) ) {
 			VObject *labelprop;
-			ECardAddrLabel *address_label = (ECardAddrLabel *) e_card_iterator_get(iterator);
+			ECardAddrLabel *address_label = (ECardAddrLabel *) e_iterator_get(iterator);
 			if (address_label->data)
 				labelprop = addPropValue(vobj, VCDeliveryLabelProp, address_label->data);
 			else
@@ -308,10 +308,10 @@ char
 	}
 
 	if ( card->phone ) { 
-		ECardIterator *iterator = e_card_list_get_iterator(card->phone);
-		for ( ; e_card_iterator_is_valid(iterator) ;e_card_iterator_next(iterator) ) {
+		EIterator *iterator = e_list_get_iterator(card->phone);
+		for ( ; e_iterator_is_valid(iterator) ;e_iterator_next(iterator) ) {
 			VObject *phoneprop;
-			ECardPhone *phone = (ECardPhone *) e_card_iterator_get(iterator);
+			ECardPhone *phone = (ECardPhone *) e_iterator_get(iterator);
 			phoneprop = addPropValue(vobj, VCTelephoneProp, phone->number);
 			
 			set_phone_flags (phoneprop, phone->flags);
@@ -320,10 +320,10 @@ char
 	}
 
 	if ( card->email ) { 
-		ECardIterator *iterator = e_card_list_get_iterator(card->email);
-		for ( ; e_card_iterator_is_valid(iterator) ;e_card_iterator_next(iterator) ) {
+		EIterator *iterator = e_list_get_iterator(card->email);
+		for ( ; e_iterator_is_valid(iterator) ;e_iterator_next(iterator) ) {
 			VObject *emailprop;
-			emailprop = addPropValue(vobj, VCEmailAddressProp, (char *) e_card_iterator_get(iterator));
+			emailprop = addPropValue(vobj, VCEmailAddressProp, (char *) e_iterator_get(iterator));
 			addProp (emailprop, VCInternetProp);
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
@@ -398,18 +398,18 @@ char
 		addPropValue(vobj, VCNoteProp, card->note);
 
 	if (card->categories) {
-		ECardIterator *iterator;
+		EIterator *iterator;
 		int length = 0;
 		char *string;
 		char *stringptr;
-		for (iterator = e_card_list_get_iterator(card->categories); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			length += strlen(e_card_iterator_get(iterator)) + 1;
+		for (iterator = e_list_get_iterator(card->categories); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			length += strlen(e_iterator_get(iterator)) + 1;
 		}
 		string = g_new(char, length + 1);
 		stringptr = string;
 		*stringptr = 0;
-		for (e_card_iterator_reset(iterator); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			strcpy(stringptr, e_card_iterator_get(iterator));
+		for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			strcpy(stringptr, e_iterator_get(iterator));
 			stringptr += strlen(stringptr);
 			*stringptr = ',';
 			stringptr++;
@@ -424,9 +424,9 @@ char
 	}
 
 	if (card->arbitrary) {
-		ECardIterator *iterator;
-		for (iterator = e_card_list_get_iterator(card->arbitrary); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			const ECardArbitrary *arbitrary = e_card_iterator_get(iterator);
+		EIterator *iterator;
+		for (iterator = e_list_get_iterator(card->arbitrary); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			const ECardArbitrary *arbitrary = e_iterator_get(iterator);
 			VObject *arb_object;
 			if (arbitrary->value) {
 				arb_object = addPropValue (vobj, XEV_ARBITRARY, arbitrary->value);
@@ -553,13 +553,13 @@ static void
 parse_email(ECard *card, VObject *vobj)
 {
 	char *next_email;
-	ECardList *list;
+	EList *list;
 
 	assign_string(vobj, &next_email);
 	gtk_object_get(GTK_OBJECT(card),
 		       "email", &list,
 		       NULL);
-	e_card_list_append(list, next_email);
+	e_list_append(list, next_email);
 	g_free (next_email);
 }
 
@@ -580,7 +580,7 @@ static void
 parse_phone(ECard *card, VObject *vobj)
 {
 	ECardPhone *next_phone = g_new(ECardPhone, 1);
-	ECardList *list;
+	EList *list;
 
 	assign_string(vobj, &(next_phone->number));
 	next_phone->flags = get_phone_flags(vobj);
@@ -588,7 +588,7 @@ parse_phone(ECard *card, VObject *vobj)
 	gtk_object_get(GTK_OBJECT(card),
 		       "phone", &list,
 		       NULL);
-	e_card_list_append(list, next_phone);
+	e_list_append(list, next_phone);
 	e_card_phone_free (next_phone);
 }
 
@@ -596,7 +596,7 @@ static void
 parse_address(ECard *card, VObject *vobj)
 {
 	ECardDeliveryAddress *next_addr = g_new(ECardDeliveryAddress, 1);
-	ECardList *list;
+	EList *list;
 
 	next_addr->flags   = get_address_flags (vobj);
 	next_addr->po      = e_v_object_get_child_value (vobj, VCPostalBoxProp);
@@ -610,7 +610,7 @@ parse_address(ECard *card, VObject *vobj)
 	gtk_object_get(GTK_OBJECT(card),
 		       "address", &list,
 		       NULL);
-	e_card_list_append(list, next_addr);
+	e_list_append(list, next_addr);
 	e_card_delivery_address_free (next_addr);
 }
 
@@ -618,7 +618,7 @@ static void
 parse_address_label(ECard *card, VObject *vobj)
 {
 	ECardAddrLabel *next_addr = g_new(ECardAddrLabel, 1);
-	ECardList *list;
+	EList *list;
 
 	next_addr->flags   = get_address_flags (vobj);
 	assign_string(vobj, &next_addr->data);
@@ -626,7 +626,7 @@ parse_address_label(ECard *card, VObject *vobj)
 	gtk_object_get(GTK_OBJECT(card),
 		       "address_label", &list,
 		       NULL);
-	e_card_list_append(list, next_addr);
+	e_list_append(list, next_addr);
 	e_card_address_label_free (next_addr);
 }
 
@@ -749,22 +749,22 @@ parse_note(ECard *card, VObject *vobj)
 }
 
 static void
-add_list_unique(ECard *card, ECardList *list, char *string)
+add_list_unique(ECard *card, EList *list, char *string)
 {
 	char *temp = e_strdup_strip(string);
-	ECardIterator *iterator;
+	EIterator *iterator;
 
 	if (!*temp) {
 		g_free(temp);
 		return;
 	}
-	for ( iterator = e_card_list_get_iterator(list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-		if (!strcmp(e_card_iterator_get(iterator), temp)) {
+	for ( iterator = e_list_get_iterator(list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+		if (!strcmp(e_iterator_get(iterator), temp)) {
 			break;
 		}
 	}
-	if (!e_card_iterator_is_valid(iterator)) {
-		e_card_list_append(list, temp);
+	if (!e_iterator_is_valid(iterator)) {
+		e_list_append(list, temp);
 	}
 	g_free(temp);
 	gtk_object_unref(GTK_OBJECT(iterator));
@@ -776,7 +776,7 @@ do_parse_categories(ECard *card, char *str)
 	int length = strlen(str);
 	char *copy = g_new(char, length + 1);
 	int i, j;
-	ECardList *list;
+	EList *list;
 	gtk_object_get(GTK_OBJECT(card),
 		       "category_list", &list,
 		       NULL);
@@ -836,7 +836,7 @@ parse_arbitrary(ECard *card, VObject *vobj)
 {
 	ECardArbitrary *arbitrary = e_card_arbitrary_new();
 	VObjectIterator iterator;
-	ECardList *list;
+	EList *list;
 	for ( initPropIterator (&iterator, vobj); moreIteration(&iterator); ) {
 		VObject *temp = nextVObject(&iterator);
 		const char *name = vObjectName(temp);
@@ -854,7 +854,7 @@ parse_arbitrary(ECard *card, VObject *vobj)
 	gtk_object_get(GTK_OBJECT(card),
 		       "arbitrary", &list,
 		       NULL);
-	e_card_list_append(list, arbitrary);
+	e_list_append(list, arbitrary);
 	e_card_arbitrary_free(arbitrary);
 }
 
@@ -1329,7 +1329,7 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_CATEGORY_LIST:
 		if (card->categories)
 			gtk_object_unref(GTK_OBJECT(card->categories));
-		card->categories = E_CARD_LIST(GTK_VALUE_OBJECT(*arg));
+		card->categories = E_LIST(GTK_VALUE_OBJECT(*arg));
 		if (card->categories)
 			gtk_object_ref(GTK_OBJECT(card->categories));
 		break;
@@ -1396,7 +1396,7 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_ARBITRARY:
 		if (card->arbitrary)
 			gtk_object_unref(GTK_OBJECT(card->arbitrary));
-		card->arbitrary = E_CARD_LIST(GTK_VALUE_OBJECT(*arg));
+		card->arbitrary = E_LIST(GTK_VALUE_OBJECT(*arg));
 		if (card->arbitrary)
 			gtk_object_ref(GTK_OBJECT(card->arbitrary));
 		break;
@@ -1429,29 +1429,29 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_ADDRESS:
 		if (!card->address)
-			card->address = e_card_list_new((ECardListCopyFunc) e_card_delivery_address_copy, 
-							(ECardListFreeFunc) e_card_delivery_address_free,
+			card->address = e_list_new((EListCopyFunc) e_card_delivery_address_copy, 
+							(EListFreeFunc) e_card_delivery_address_free,
 							NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->address);
 		break;
 	case ARG_ADDRESS_LABEL:
 		if (!card->address_label)
-			card->address_label = e_card_list_new((ECardListCopyFunc) e_card_address_label_copy, 
-							      (ECardListFreeFunc) e_card_address_label_free,
+			card->address_label = e_list_new((EListCopyFunc) e_card_address_label_copy, 
+							      (EListFreeFunc) e_card_address_label_free,
 							      NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->address_label);
 		break;
 	case ARG_PHONE:
 		if (!card->phone)
-			card->phone = e_card_list_new((ECardListCopyFunc) e_card_phone_copy, 
-						      (ECardListFreeFunc) e_card_phone_free,
+			card->phone = e_list_new((EListCopyFunc) e_card_phone_copy, 
+						      (EListFreeFunc) e_card_phone_free,
 						      NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->phone);
 		break;
 	case ARG_EMAIL:
 		if (!card->email)
-			card->email = e_card_list_new((ECardListCopyFunc) g_strdup, 
-						      (ECardListFreeFunc) g_free,
+			card->email = e_list_new((EListCopyFunc) g_strdup, 
+						      (EListFreeFunc) g_free,
 						      NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->email);
 		break;
@@ -1460,15 +1460,15 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			int i;
 			char ** strs;
 			int length;
-			ECardIterator *iterator;
+			EIterator *iterator;
 			if (!card->categories)
-				card->categories = e_card_list_new((ECardListCopyFunc) g_strdup, 
-								   (ECardListFreeFunc) g_free,
+				card->categories = e_list_new((EListCopyFunc) g_strdup, 
+								   (EListFreeFunc) g_free,
 								   NULL);
-			length = e_card_list_length(card->categories);
+			length = e_list_length(card->categories);
 			strs = g_new(char *, length + 1);
-			for (iterator = e_card_list_get_iterator(card->categories), i = 0; e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator), i++) {
-				strs[i] = (char *)e_card_iterator_get(iterator);
+			for (iterator = e_list_get_iterator(card->categories), i = 0; e_iterator_is_valid(iterator); e_iterator_next(iterator), i++) {
+				strs[i] = (char *)e_iterator_get(iterator);
 			}
 			strs[i] = 0;
 			GTK_VALUE_STRING(*arg) = g_strjoinv(", ", strs);
@@ -1477,8 +1477,8 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_CATEGORY_LIST:
 		if (!card->categories)
-			card->categories = e_card_list_new((ECardListCopyFunc) g_strdup, 
-							   (ECardListFreeFunc) g_free,
+			card->categories = e_list_new((EListCopyFunc) g_strdup, 
+							   (EListFreeFunc) g_free,
 							   NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->categories);
 		break;
@@ -1529,8 +1529,8 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_ARBITRARY:
 		if (!card->arbitrary)
-			card->arbitrary = e_card_list_new((ECardListCopyFunc) e_card_arbitrary_copy,
-							  (ECardListFreeFunc) e_card_arbitrary_free,
+			card->arbitrary = e_list_new((EListCopyFunc) e_card_arbitrary_copy,
+							  (EListFreeFunc) e_card_arbitrary_free,
 							  NULL);
 
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->arbitrary);

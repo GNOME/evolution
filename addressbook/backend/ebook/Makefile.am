@@ -33,9 +33,6 @@ libebook_la_SOURCES =					\
 	e-book-view.c					\
 	e-book.c					\
 	e-card-cursor.c					\
-	e-card-iterator.c				\
-	e-card-list-iterator.c				\
-	e-card-list.c					\
 	e-card-simple.c					\
 	e-card.c
 
@@ -48,9 +45,6 @@ libebookinclude_HEADERS =				\
 	e-book-view.h					\
 	e-book.h					\
 	e-card-cursor.h					\
-	e-card-iterator.h				\
-	e-card-list-iterator.h				\
-	e-card-list.h					\
 	e-card-pairs.h					\
 	e-card-simple.h					\
 	e-card-types.h					\

@@ -25,8 +25,8 @@
 #include <e-table-simple.h>
 #include <e-table.h>
 #include <e-cell-text.h>
-#include <e-addressbook-model.h>
-#include <e-cardlist-model.h>
+#include <addressbook/gui/component/model/e-addressbook-model.h>
+#include <addressbook/gui/component/model/e-cardlist-model.h>
 #include <addressbook/backend/ebook/e-book.h>
 
 static void e_select_names_init		(ESelectNames		 *card);
@@ -321,23 +321,23 @@ card_free(void *value, void *closure)
 	gtk_object_unref(GTK_OBJECT(value));
 }
 
-ECardList *
+EList *
 e_select_names_get_section(ESelectNames *e_select_names, char *id)
 {
 	ESelectNamesChild *child;
 	int i;
 	int rows;
-	ECardList *list;
+	EList *list;
 	
 	child = g_hash_table_lookup(e_select_names->children, id);
 	if (!child)
 		return NULL;
 	rows = e_table_model_row_count(child->model);
 	
-	list = e_card_list_new(card_copy, card_free, NULL);
+	list = e_list_new(card_copy, card_free, NULL);
 	for (i = 0; i < rows; i++) {
 		ECard *card = e_cardlist_model_get(E_CARDLIST_MODEL(child->model), i);
-		e_card_list_append(list, card);
+		e_list_append(list, card);
 		gtk_object_unref(GTK_OBJECT(card));
 	}
 	return list;

@@ -23,7 +23,7 @@
 
 #include <gnome.h>
 #include <glade/glade.h>
-#include <addressbook/backend/ebook/e-card-list.h>
+#include <e-util/e-list.h>
 #include <widgets/e-table/e-table.h>
 
 #ifdef __cplusplus
@@ -75,7 +75,7 @@ void       e_select_names_add_section (ESelectNames *e_select_names,
 				       char         *name,
 				       char         *id);
 /* Returns a ref counted list of addresses. */
-ECardList *e_select_names_get_section (ESelectNames *e_select_names,
+EList     *e_select_names_get_section (ESelectNames *e_select_names,
 				       char         *id);
 
 #ifdef __cplusplus

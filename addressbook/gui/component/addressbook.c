@@ -26,7 +26,7 @@
 #include <e-cell-text.h>
 
 #include <e-addressbook-model.h>
-#include <e-select-names.h>
+#include <select-names/e-select-names.h>
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
 #include "e-ldap-server-dialog.h"

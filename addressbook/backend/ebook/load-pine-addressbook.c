@@ -61,7 +61,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		char **strings;
 		ECardName *name;
 		ECard *card;
-		ECardList *list;
+		EList *list;
 		if (line[length - 1] == '\n')
 			line[--length] = 0;
 		
@@ -76,7 +76,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		gtk_object_get(GTK_OBJECT(card),
 			       "email", &list,
 			       NULL);
-		e_card_list_append(list, strings[2]);
+		e_list_append(list, strings[2]);
 		g_strfreev(strings);
 		e_book_add_card(book, card, add_card_cb, card);
 	}

@@ -637,15 +637,15 @@ fill_in_info(ECardSimple *simple)
 {
 	ECard *card = simple->card;
 	if (card) {
-		ECardList *address_list;
-		ECardList *phone_list;
-		ECardList *email_list;
+		EList *address_list;
+		EList *phone_list;
+		EList *email_list;
 		const ECardPhone *phone;
 		const char *email;
 		const ECardAddrLabel *address;
 		int i;
 
-		ECardIterator *iterator;
+		EIterator *iterator;
 
 		gtk_object_get(GTK_OBJECT(card),
 			       "address_label", &address_list,
@@ -656,8 +656,8 @@ fill_in_info(ECardSimple *simple)
 			e_card_phone_free(simple->phone[i]);
 			simple->phone[i] = NULL;
 		}
-		for (iterator = e_card_list_get_iterator(phone_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			phone = e_card_iterator_get(iterator);
+		for (iterator = e_list_get_iterator(phone_list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			phone = e_iterator_get(iterator);
 			for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
 				if (((phone->flags & phone_correspondences[i]) == phone_correspondences[i]) && (simple->phone[i] == NULL)) {
 					simple->phone[i] = e_card_phone_copy(phone);
@@ -671,8 +671,8 @@ fill_in_info(ECardSimple *simple)
 			g_free(simple->email[i]);
 			simple->email[i] = NULL;
 		}
-		for (iterator = e_card_list_get_iterator(email_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			email = e_card_iterator_get(iterator);
+		for (iterator = e_list_get_iterator(email_list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			email = e_iterator_get(iterator);
 			for (i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i ++) {
 				if ((simple->email[i] == NULL)) {
 					simple->email[i] = g_strdup(email);
@@ -686,8 +686,8 @@ fill_in_info(ECardSimple *simple)
 			e_card_address_label_free(simple->address[i]);
 			simple->address[i] = NULL;
 		}
-		for (iterator = e_card_list_get_iterator(address_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			address = e_card_iterator_get(iterator);
+		for (iterator = e_list_get_iterator(address_list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			address = e_iterator_get(iterator);
 			for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 				if (((address->flags & addr_correspondences[i]) == addr_correspondences[i]) && (simple->address[i] == NULL)) {
 					simple->address[i] = e_card_address_label_copy(address);
@@ -704,16 +704,16 @@ e_card_simple_sync_card(ECardSimple *simple)
 {
 	ECard *card = simple->card;
 	if (card) {
-		ECardList *address_list;
-		ECardList *phone_list;
-		ECardList *email_list;
+		EList *address_list;
+		EList *phone_list;
+		EList *email_list;
 		const ECardPhone *phone;
 		const ECardAddrLabel *address;
 		const char *email;
 		int i;
 		int iterator_next = 1;
 
-		ECardIterator *iterator;
+		EIterator *iterator;
 
 		gtk_object_get(GTK_OBJECT(card),
 			       "address_label", &address_list,
@@ -721,18 +721,18 @@ e_card_simple_sync_card(ECardSimple *simple)
 			       "email",         &email_list,
 			       NULL);
 
-		for (iterator = e_card_list_get_iterator(phone_list); e_card_iterator_is_valid(iterator); iterator_next ? e_card_iterator_next(iterator) : FALSE ) {
+		for (iterator = e_list_get_iterator(phone_list); e_iterator_is_valid(iterator); iterator_next ? e_iterator_next(iterator) : FALSE ) {
 			int i;
-			phone = e_card_iterator_get(iterator);
+			phone = e_iterator_get(iterator);
 			iterator_next = 1;
 			for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
 				if ((phone->flags & phone_correspondences[i]) == phone_correspondences[i]) {
 					if (simple->phone[i]) {
 						simple->phone[i]->flags = phone_correspondences[i];
 						if (simple->phone[i]->number && *simple->phone[i]->number) {
-							e_card_iterator_set(iterator, simple->phone[i]);
+							e_iterator_set(iterator, simple->phone[i]);
 						} else {
-							e_card_iterator_delete(iterator);
+							e_iterator_delete(iterator);
 							iterator_next = 0;
 						}
 						e_card_phone_free(simple->phone[i]);
@@ -746,22 +746,22 @@ e_card_simple_sync_card(ECardSimple *simple)
 		for (i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
 			if (simple->phone[i]) {
 				simple->phone[i]->flags = phone_correspondences[i];
-				e_card_list_append(phone_list, simple->phone[i]);
+				e_list_append(phone_list, simple->phone[i]);
 				e_card_phone_free(simple->phone[i]);
 				simple->phone[i] = NULL;
 			}
 		}
 
-		for (iterator = e_card_list_get_iterator(email_list); e_card_iterator_is_valid(iterator); iterator_next ? e_card_iterator_next(iterator) : FALSE ) {
+		for (iterator = e_list_get_iterator(email_list); e_iterator_is_valid(iterator); iterator_next ? e_iterator_next(iterator) : FALSE ) {
 			int i;
-			email = e_card_iterator_get(iterator);
+			email = e_iterator_get(iterator);
 			iterator_next = 1;
 			for (i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i ++) {
 				if (simple->email[i]) {
 					if (*simple->email[i]) {
-						e_card_iterator_set(iterator, simple->email[i]);
+						e_iterator_set(iterator, simple->email[i]);
 					} else {
-						e_card_iterator_delete(iterator);
+						e_iterator_delete(iterator);
 						iterator_next = 0;
 					}
 					g_free(simple->email[i]);
@@ -773,24 +773,24 @@ e_card_simple_sync_card(ECardSimple *simple)
 		gtk_object_unref(GTK_OBJECT(iterator));
 		for (i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i ++) {
 			if (simple->email[i]) {
-				e_card_list_append(email_list, simple->email[i]);
+				e_list_append(email_list, simple->email[i]);
 				g_free(simple->email[i]);
 				simple->email[i] = NULL;
 			}
 		}
 
-		for (iterator = e_card_list_get_iterator(address_list); e_card_iterator_is_valid(iterator); iterator_next ? e_card_iterator_next(iterator) : FALSE ) {
+		for (iterator = e_list_get_iterator(address_list); e_iterator_is_valid(iterator); iterator_next ? e_iterator_next(iterator) : FALSE ) {
 			int i;
-			address = e_card_iterator_get(iterator);
+			address = e_iterator_get(iterator);
 			iterator_next = 1;
 			for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 				if ((address->flags & addr_correspondences[i]) == addr_correspondences[i]) {
 					if (simple->address[i]) {
 						simple->address[i]->flags = addr_correspondences[i];
 						if (simple->address[i]->data && *simple->address[i]->data) {
-							e_card_iterator_set(iterator, simple->address[i]);
+							e_iterator_set(iterator, simple->address[i]);
 						} else {
-							e_card_iterator_delete(iterator);
+							e_iterator_delete(iterator);
 							iterator_next = 0;
 						}
 						e_card_address_label_free(simple->address[i]);
@@ -804,7 +804,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
 			if (simple->address[i]) {
 				simple->address[i]->flags = addr_correspondences[i];
-				e_card_list_append(address_list, simple->address[i]);
+				e_list_append(address_list, simple->address[i]);
 				e_card_address_label_free(simple->address[i]);
 				simple->address[i] = NULL;
 			}
@@ -1118,13 +1118,13 @@ void                  e_card_simple_arbitrary_foreach (ECardSimple              
 						       gpointer                      closure)
 {
 	if (simple->card) {
-		ECardList *list;
-		ECardIterator *iterator;
+		EList *list;
+		EIterator *iterator;
 		gtk_object_get(GTK_OBJECT(simple->card),
 			       "arbitrary", &list,
 			       NULL);
-		for (iterator = e_card_list_get_iterator(list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			const ECardArbitrary *arbitrary = e_card_iterator_get(iterator);
+		for (iterator = e_list_get_iterator(list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			const ECardArbitrary *arbitrary = e_iterator_get(iterator);
 			if (callback)
 				(*callback) (arbitrary, closure);
 		}
@@ -1135,13 +1135,13 @@ const ECardArbitrary *e_card_simple_get_arbitrary     (ECardSimple          *sim
 						       const char           *key)
 {
 	if (simple->card) {
-		ECardList *list;
-		ECardIterator *iterator;
+		EList *list;
+		EIterator *iterator;
 		gtk_object_get(GTK_OBJECT(simple->card),
 			       "arbitrary", &list,
 			       NULL);
-		for (iterator = e_card_list_get_iterator(list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			const ECardArbitrary *arbitrary = e_card_iterator_get(iterator);
+		for (iterator = e_list_get_iterator(list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			const ECardArbitrary *arbitrary = e_iterator_get(iterator);
 			if (!strcasecmp(arbitrary->key, key))
 				return arbitrary;
 		}
@@ -1157,19 +1157,19 @@ void                  e_card_simple_set_arbitrary     (ECardSimple          *sim
 {
 	if (simple->card) {
 	ECardArbitrary *new_arb;
-		ECardList *list;
-		ECardIterator *iterator;
+		EList *list;
+		EIterator *iterator;
 		gtk_object_get(GTK_OBJECT(simple->card),
 			       "arbitrary", &list,
 			       NULL);
-		for (iterator = e_card_list_get_iterator(list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
-			const ECardArbitrary *arbitrary = e_card_iterator_get(iterator);
+		for (iterator = e_list_get_iterator(list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			const ECardArbitrary *arbitrary = e_iterator_get(iterator);
 			if (!strcasecmp(arbitrary->key, key)) {
 				new_arb = e_card_arbitrary_new();
 				new_arb->key = g_strdup(key);
 				new_arb->type = g_strdup(type);
 				new_arb->value = g_strdup(value);
-				e_card_iterator_set(iterator, new_arb);
+				e_iterator_set(iterator, new_arb);
 				e_card_arbitrary_free(new_arb);
 				return;
 			}
@@ -1178,7 +1178,7 @@ void                  e_card_simple_set_arbitrary     (ECardSimple          *sim
 		new_arb->key = g_strdup(key);
 		new_arb->type = g_strdup(type);
 		new_arb->value = g_strdup(value);
-		e_card_list_append(list, new_arb);
+		e_list_append(list, new_arb);
 		e_card_arbitrary_free(new_arb);
 	}
 }

@@ -13,6 +13,10 @@
 #include <gtk/gtk.h>
 
 #include "e-select-names-manager.h"
+#include "e-select-names-entry.h"
+#include "e-select-names-model.h"
+#include "e-select-names-text-model.h"
+#include "widgets/e-text/e-entry.h"
 
 /* Object argument IDs */
 enum {
@@ -21,14 +25,18 @@ enum {
 };
 
 
+typedef struct {
+	char *id;
+	char *title;
+	ESelectNamesModel *model;
+} ESelectNamesManagerSection;
+
 static void e_select_names_manager_init (ESelectNamesManager *manager);
 static void e_select_names_manager_class_init (ESelectNamesManagerClass *klass);
 
 static void e_select_names_manager_destroy (GtkObject *object);
 static void e_select_names_manager_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_select_names_manager_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-
-static void fill_in_info(ESelectNamesManager *manager);
 
 /**
  * e_select_names_manager_get_type:
@@ -98,9 +106,10 @@ static void
 e_select_names_manager_destroy (GtkObject *object)
 {
 	ESelectNamesManager *manager;
-	int i;
 	
 	manager = E_SELECT_NAMES_MANAGER (object);
+
+	gtk_object_unref(GTK_OBJECT(manager->sections));
 }
 
 
@@ -114,7 +123,6 @@ e_select_names_manager_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id) {
 	case ARG_CARD:
-		fill_in_info(manager);
 		break;
 	default:
 		return;
@@ -131,11 +139,6 @@ e_select_names_manager_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id) {
 	case ARG_CARD:
-		e_select_names_manager_sync_card(manager);
-		if (manager->card)
-			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(manager->card);
-		else
-			GTK_VALUE_OBJECT (*arg) = NULL;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -143,6 +146,26 @@ e_select_names_manager_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 }
 
+static void *
+section_copy(const void *sec, void *data)
+{
+	const ESelectNamesManagerSection *section = sec;
+	ESelectNamesManagerSection *newsec;
+	
+	newsec = g_new(ESelectNamesManagerSection, 1);
+	newsec->id = g_strdup(section->id);
+	newsec->title = g_strdup(section->title);
+	return newsec;
+}
+
+static void
+section_free(void *sec, void *data)
+{
+	ESelectNamesManagerSection *section = sec;
+	g_free(section->id);
+	g_free(section->title);
+	g_free(section);
+}
 
 /**
  * e_select_names_manager_init:
@@ -150,22 +173,51 @@ e_select_names_manager_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 static void
 e_select_names_manager_init (ESelectNamesManager *manager)
 {
+	manager->sections = e_list_new(section_copy, section_free, manager);
 }
 
-static void
-fill_in_info(ESelectNamesManager *manager)
+void                          e_select_names_manager_add_section               (ESelectNamesManager *manager,
+										char *id,
+										char *title)
 {
-	ECard *card = manager->card;
-	if (card) {
-
-	}
+	ESelectNamesManagerSection *section;
+	
+	section = g_new(ESelectNamesManagerSection, 1);
+	section->id = g_strdup(id);
+	section->title = g_strdup(title);
+	e_list_append(manager->sections, section);
+	section_free(section, manager);
 }
 
-void
-e_select_names_manager_sync_card(ESelectNamesManager *manager)
+GtkWidget                    *e_select_names_manager_create_entry              (ESelectNamesManager *manager,
+										char *id)
 {
-	ECard *card = manager->card;
-	if (card) {
-		fill_in_info(manager);
+	GtkWidget *entry;
+	ETextModel *model;
+	EIterator *iterator;
+	iterator = e_list_get_iterator(manager->sections);
+	for (; e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+		const ESelectNamesManagerSection *section = e_iterator_get(iterator);
+		if (!strcmp(section->id, id)) {
+			entry = GTK_WIDGET(e_entry_new());
+			model = e_select_names_text_model_new(section->model);
+			gtk_object_set(GTK_OBJECT(entry),
+				       "model", model,
+				       NULL);
+			return entry;
+		}
 	}
+	return NULL;
+}
+
+void                          e_select_names_manager_activate_dialog           (ESelectNamesManager *manager,
+										char *id)
+{
+}
+
+/* Of type ECard */
+EList                    *e_select_names_manager_get_cards                 (ESelectNamesManager *manager,
+									    char *id)
+{
+	return NULL;
 }

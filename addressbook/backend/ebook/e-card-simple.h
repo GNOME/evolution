@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include <addressbook/backend/ebook/e-card-types.h>
-#include <addressbook/backend/ebook/e-card-list.h>
+#include <e-util/e-list.h>
 
 #define E_TYPE_CARD_SIMPLE            (e_card_simple_get_type ())
 #define E_CARD_SIMPLE(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_CARD_SIMPLE, ECardSimple))

@@ -1,3 +1,5 @@
+SUBDIRS	= select-names
+
 CPPFLAGS =					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
 
@@ -26,21 +28,20 @@ bin_PROGRAMS =	\
 	evolution-addressbook
 
 evolution_addressbook_SOURCES = 	\
-	e-ldap-server-dialog.c          \
-	e-ldap-server-dialog.h		\
-	e-addressbook-model.c		\
-	e-addressbook-model.h		\
-	e-cardlist-model.c		\
-	e-cardlist-model.h		\
-	e-select-names.c		\
-	e-select-names.h		\
 	addressbook-component.c		\
 	addressbook-component.h		\
 	addressbook-factory.c		\
 	addressbook.c			\
-	addressbook.h
+	addressbook.h			\
+	e-addressbook-model.c		\
+	e-addressbook-model.h		\
+	e-cardlist-model.c		\
+	e-cardlist-model.h		\
+	e-ldap-server-dialog.c          \
+	e-ldap-server-dialog.h
 
 evolution_addressbook_LDADD =						\
+	select-names/libeselectnames.la					\
 	$(top_builddir)/shell/libeshell.a				\
 	$(EXTRA_GNOME_LIBS)						\
 	$(BONOBO_HTML_GNOME_LIBS)					\
@@ -66,14 +67,13 @@ gnorba_DATA = addressbook.gnorba
 endif
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = ldap-server-dialog.glade ldap-server-dialog.glade.h alphabet.glade select-names.glade
+glade_DATA = ldap-server-dialog.glade ldap-server-dialog.glade.h alphabet.glade
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
 	addressbook.gnorba	\
 	addressbook.oafinfo	\
-	alphabet.glade.h	\
-	select-names.glade.h
+	alphabet.glade.h
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

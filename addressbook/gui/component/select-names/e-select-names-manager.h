@@ -12,6 +12,7 @@
 #include <time.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include <e-util/e-list.h>
 
 #define E_TYPE_SELECT_NAMES_MANAGER            (e_select_names_manager_get_type ())
 #define E_SELECT_NAMES_MANAGER(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_SELECT_NAMES_MANAGER, ESelectNamesManager))
@@ -24,26 +25,28 @@ typedef struct _ESelectNamesManagerClass ESelectNamesManagerClass;
 
 struct _ESelectNamesManager {
 	GtkObject object;
-  
+	
+	EList *sections;
 };
 
 struct _ESelectNamesManagerClass {
 	GtkObjectClass parent_class;
 };
 
-ESelectNamesManager    	     *e_select_names_manager_new               (void);
-void                          e_select_names_add_section               (ESelectNamesManager *manager,
-									char *id);
-GtkWidget                    *e_select_names_create_entry              (ESelectNamesManager *manager,
-									char *id);
-void                          e_select_names_activate_dialog           (ESelectNamesManager *manager,
-									char *id);
+ESelectNamesManager *e_select_names_manager_new               (void);
+void                 e_select_names_manager_add_section       (ESelectNamesManager *manager,
+							       char *id,
+							       char *title);
+GtkWidget           *e_select_names_manager_create_entry      (ESelectNamesManager *manager,
+							       char *id);
+void                 e_select_names_manager_activate_dialog   (ESelectNamesManager *manager,
+							       char *id);
 
 /* Of type ECard */
-ECardList                    *e_select_names_get_cards                 (ESelectNamesManager *manager,
-									char *id);
+EList               *e_select_names_manager_get_cards         (ESelectNamesManager *manager,
+							       char *id);
 
 /* Standard Gtk function */			      
-GtkType               e_select_names_manager_get_type          (void);
+GtkType              e_select_names_manager_get_type          (void);
 
 #endif /* ! __E_SELECT_NAMES_MANAGER_H__ */

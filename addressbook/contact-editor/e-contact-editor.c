@@ -28,6 +28,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include <e-util/e-gui-utils.h>
+#include <e-contact-save-as.h>
 
 /* Signal IDs */
 enum {

@@ -159,23 +159,23 @@ static gboolean
 compare_email (ECard *ecard, const char *str,
 	       char *(*compare)(const char*, const char*))
 {
-	ECardList *prop_list;
-	ECardIterator *iter;
+	EList *prop_list;
+	EIterator *iter;
 	gboolean truth = FALSE;
 
 	gtk_object_get(GTK_OBJECT(ecard),
 		       "email", &prop_list, NULL);
 
-	iter = e_card_list_get_iterator(prop_list);
+	iter = e_list_get_iterator(prop_list);
 
-	while (e_card_iterator_is_valid(iter)) {
+	while (e_iterator_is_valid(iter)) {
 		
-		if (compare((char*)e_card_iterator_get(iter), str)) {
+		if (compare((char*)e_iterator_get(iter), str)) {
 			truth = TRUE;
 			break;
 		}
 		else {
-			e_card_iterator_next(iter);
+			e_iterator_next(iter);
 		}
 	}
 
@@ -188,23 +188,23 @@ static gboolean
 compare_phone (ECard *ecard, const char *str,
 	       char *(*compare)(const char*, const char*))
 {
-	ECardList *prop_list;
-	ECardIterator *iter;
+	EList *prop_list;
+	EIterator *iter;
 	gboolean truth = FALSE;
 
 	gtk_object_get(GTK_OBJECT(ecard),
 		       "phone", &prop_list, NULL);
 				
-	iter = e_card_list_get_iterator(prop_list);
+	iter = e_list_get_iterator(prop_list);
 
-	while (e_card_iterator_is_valid(iter)) {
-		ECardPhone *phone = (ECardPhone*)e_card_iterator_get(iter);
+	while (e_iterator_is_valid(iter)) {
+		ECardPhone *phone = (ECardPhone*)e_iterator_get(iter);
 		if (compare(phone->number, str)) {
 			truth = TRUE;
 			break;
 		}
 		else {
-			e_card_iterator_next(iter);
+			e_iterator_next(iter);
 		}
 	}
 
