@@ -1,3 +1,13 @@
+2000-06-12  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-filter-crlf.c: New filter to do CRLF<->LF conversion.
+	(Currently only tested in the LF->CRLF direction.)
+
+	* camel-mime-part.c (write_to_stream): if content-type is text,
+	and it's QP or B64 encoded, pass through the CRLF filter before
+	the other filter to satisfy the "canonical encoding" rules in the
+	MIME spec.
+
 2000-06-09  Dan Winship  <danw@helixcode.com>
 
 	* camel-session.c (camel_session_query_authenticator): Add another

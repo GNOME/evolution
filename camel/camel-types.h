@@ -40,6 +40,7 @@ typedef struct _CamelMimeFilterBasic CamelMimeFilterBasic;
 typedef struct _CamelMimeFilterCharset CamelMimeFilterCharset;
 typedef struct _CamelMimeFilterIndex CamelMimeFilterIndex;
 typedef struct _CamelMimeFilterSave CamelMimeFilterSave;
+typedef struct _CamelMimeFilterCRLF CamelMimeFilterCRLF;
 typedef struct _CamelMimeMessage CamelMimeMessage;
 typedef struct _CamelMimeParser CamelMimeParser;
 typedef struct _CamelMimePart CamelMimePart;

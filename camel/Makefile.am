@@ -54,6 +54,7 @@ libcamel_la_SOURCES = 				\
 	camel-mime-filter-index.c		\
 	camel-mime-filter-from.c		\
 	camel-mime-filter-smtp.c		\
+	camel-mime-filter-crlf.c		\
 	camel-stream-filter.c			\
 	camel-address.c				\
 	camel-internet-address.c
@@ -100,6 +101,7 @@ libcamelinclude_HEADERS =			\
 	camel-mime-filter-index.h		\
 	camel-mime-filter-from.h		\
 	camel-mime-filter-smtp.h		\
+	camel-mime-filter-crlf.h		\
 	camel-stream-filter.h			\
 	camel-address.h				\
 	camel-internet-address.h
