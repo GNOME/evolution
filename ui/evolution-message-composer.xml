@@ -36,6 +36,14 @@
 		<cmd name="ViewFrom" _label="_From Field"
 		_tip="Toggles whether the From chooser is displayed" type="toggle" state="0"/>
 		
+                <cmd name="ViewTo" _label="_To Field"
+		_tip="Toggles whether the To field is displayed"
+		type="toggle" state="0"/>
+
+                <cmd name="ViewPostTo" _label="_Post-To Field"
+		_tip="Toggles whether the Post-To field is displayed"
+		type="toggle" state="0"/>
+
                 <cmd name="ViewReplyTo" _label="_Reply-To Field"
 		_tip="Toggles whether the Reply-To field is displayed"
 		type="toggle" state="0"/>
@@ -112,6 +120,8 @@
 			<menuitem name="ViewAttach" verb="" _label="Show _attachments"/>
 			<separator f="" name="emailcomposer"/>
 	                <menuitem name="ViewFrom" verb=""/>
+			<menuitem name="ViewTo" verb=""/>
+			<menuitem name="ViewPostTo" verb=""/>
                         <menuitem name="ViewReplyTo" verb=""/>
 	                <menuitem name="ViewCC" verb=""/>
 	                <menuitem name="ViewBCC" verb=""/>
