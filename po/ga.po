@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution CVS\n"
-"POT-Creation-Date: 2001-02-12 12:06+0100\n"
+"POT-Creation-Date: 2001-02-27 13:13-0500\n"
 "PO-Revision-Date: 2000-08-02 13:00:00-0000\n"
 "Last-Translator: Alastair McKinstry, <mckinstry@computer.org>\n"
 "Language-Team: Irish <ga@li.org>\n"
@@ -437,7 +437,7 @@ msgstr ""
 
 #: addressbook/contact-editor/contact-editor.glade.h:10
 #: executive-summary/component/executive-summary-config.glade.h:3
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:28
 msgid "General"
 msgstr ""
 
@@ -613,7 +613,7 @@ msgstr ""
 #: addressbook/contact-editor/e-contact-editor.c:1286
 #: addressbook/contact-editor/e-contact-editor.c:1381
 #: addressbook/gui/widgets/e-addressbook-view.c:583
-#: calendar/gui/e-meeting-dialog.glade.h:14 mail/mail-config.glade.h:46
+#: calendar/gui/e-meeting-dialog.glade.h:14 mail/mail-config.glade.h:48
 msgid "Other"
 msgstr ""
 
@@ -886,7 +886,7 @@ msgid "Remember this password"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.c:401
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:29
 msgid "Host:"
 msgstr ""
 
@@ -921,7 +921,7 @@ msgid "Authentication:"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.c:502
-#: mail/mail-config-druid.c:481 mail/mail-config.glade.h:49
+#: mail/mail-config-druid.c:481 mail/mail-config.glade.h:52
 msgid "Path:"
 msgstr ""
 
@@ -948,7 +948,7 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.c:666
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:43
 msgid "Name:"
 msgstr ""
 
@@ -974,7 +974,7 @@ msgstr ""
 #: calendar/gui/e-meeting-dialog.glade.h:8
 #: calendar/gui/event-editor-dialog.glade.h:8 filter/filter.glade.h:2
 #: filter/libfilter-i18n.h:7 mail/folder-browser.c:684
-#: mail/mail-config.glade.h:20 mail/mail-view.c:150
+#: mail/mail-config.glade.h:21 mail/mail-view.c:150
 #: ui/evolution-addressbook.xml.h:3 ui/evolution-event-editor.xml.h:17
 #: ui/evolution-mail.xml.h:6 ui/evolution-task-editor-dialog.xml.h:18
 msgid "Delete"
@@ -982,7 +982,7 @@ msgstr "Scríos"
 
 #: addressbook/gui/component/addressbook-config.glade.h:4
 #: calendar/gui/e-meeting-dialog.glade.h:9 filter/filter.glade.h:3
-#: mail/folder-browser.c:670 mail/mail-config.glade.h:23
+#: mail/folder-browser.c:670 mail/mail-config.glade.h:24
 msgid "Edit"
 msgstr ""
 
@@ -993,42 +993,6 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:6
 msgid "URI"
-msgstr ""
-
-#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:1
-msgid "A sample Bonobo control which displays an addressbook."
-msgstr ""
-
-#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:2
-msgid "Control that displays an Evolution addressbook minicard."
-msgstr ""
-
-#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:3
-msgid "Evolution Addressbook minicard viewer"
-msgstr ""
-
-#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:4
-msgid "Evolution component for handling contacts."
-msgstr ""
-
-#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:5
-msgid "Factory for the Addressbook Minicard control"
-msgstr ""
-
-#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:6
-msgid "Factory for the Evolution addressbook component."
-msgstr ""
-
-#: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:7
-msgid "Factory for the sample Addressbook control"
-msgstr ""
-
-#: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:1
-msgid "Evolution's addressbook name selection interface."
-msgstr ""
-
-#: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:2
-msgid "Factory for the Addressbook's name selection interface"
 msgstr ""
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
@@ -1220,10 +1184,6 @@ msgstr "_Nota"
 msgid "Free-busy URL"
 msgstr ""
 
-#: addressbook/gui/widgets/e-addressbook-view.c:598
-msgid "Click here to add a contact"
-msgstr ""
-
 #: addressbook/gui/widgets/e-minicard-control.c:280
 msgid "Save in addressbook"
 msgstr ""
@@ -1404,7 +1364,7 @@ msgstr "Fillteán _Nua"
 msgid "Top:"
 msgstr "Do:"
 
-#: addressbook/printing/e-contact-print.glade.h:40 mail/mail-config.glade.h:71
+#: addressbook/printing/e-contact-print.glade.h:40 mail/mail-config.glade.h:77
 #, fuzzy
 msgid "Type:"
 msgstr "Do:"
@@ -1456,21 +1416,6 @@ msgstr ""
 #: calendar/conduits/todo/todo-conduit.c:600
 #: calendar/conduits/todo/todo-conduit.c:603
 msgid "Could not read pilot's ToDo application block"
-msgstr ""
-
-#: calendar/gui/alarm-notify.c:585 calendar/gui/alarm-notify.c:884
-#: calendar/gui/alarm-notify.c:940
-msgid "Reminder of your appointment at "
-msgstr ""
-
-#: calendar/gui/alarm-notify.c:876 calendar/gui/dialogs/alarm-notify.glade.h:3
-#, fuzzy
-msgid "Snooze"
-msgstr "Méid"
-
-#. Idea: we need Snooze option :-)
-#: calendar/gui/alarm-notify.c:889 calendar/gui/alarm-notify.c:944
-msgid "Ok"
 msgstr ""
 
 #: calendar/gui/calendar-commands.c:248
@@ -1607,36 +1552,36 @@ msgstr ""
 msgid "The priority must be between 1 and 9, inclusive"
 msgstr ""
 
-#: calendar/gui/calendar-summary.c:97
+#: calendar/gui/calendar-summary.c:99
 msgid "%A, %e %B %Y"
 msgstr ""
 
-#: calendar/gui/calendar-summary.c:138 calendar/gui/calendar-summary.c:144
+#: calendar/gui/calendar-summary.c:140 calendar/gui/calendar-summary.c:146
 msgid "%I:%M%p"
 msgstr ""
 
-#: calendar/gui/calendar-summary.c:335
+#: calendar/gui/calendar-summary.c:345
 msgid "<b>Error loading calendar</b>"
 msgstr ""
 
-#: calendar/gui/calendar-summary.c:347
+#: calendar/gui/calendar-summary.c:357
 msgid "<b>Error loading calendar:<br>Method not supported"
 msgstr ""
 
-#: calendar/gui/calendar-summary.c:517
+#: calendar/gui/calendar-summary.c:527
 msgid "Display"
 msgstr ""
 
-#: calendar/gui/calendar-summary.c:522
+#: calendar/gui/calendar-summary.c:532
 #, fuzzy
 msgid "Show appointments"
 msgstr "_Coinne"
 
-#: calendar/gui/calendar-summary.c:530
+#: calendar/gui/calendar-summary.c:540
 msgid "Show tasks"
 msgstr ""
 
-#: calendar/gui/calendar-summary.c:616 calendar/gui/e-itip-control.glade.h:7
+#: calendar/gui/calendar-summary.c:640 calendar/gui/e-itip-control.glade.h:7
 msgid "Loading Calendar"
 msgstr ""
 
@@ -1667,6 +1612,11 @@ msgstr ""
 #, fuzzy
 msgid "Edit appointment"
 msgstr "_Coinne"
+
+#: calendar/gui/dialogs/alarm-notify.glade.h:3
+#, fuzzy
+msgid "Snooze"
+msgstr "Méid"
 
 #: calendar/gui/dialogs/alarm-notify.glade.h:4
 msgid "Snooze time (minutes)"
@@ -1920,7 +1870,7 @@ msgid "minutes before they occur."
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
-#: mail/mail-config.glade.h:77
+#: mail/mail-config.glade.h:84
 #, fuzzy
 msgid "seconds."
 msgstr "Post"
@@ -1992,8 +1942,8 @@ msgstr ""
 #. add a "None" option to the stores menu
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:13
 #: mail/mail-account-editor.c:695 mail/mail-account-editor.c:697
-#: mail/mail-account-editor.c:746 mail/mail-accounts.c:114
-#: mail/mail-config-druid.c:906 mail/mail-config.glade.h:43
+#: mail/mail-account-editor.c:746 mail/mail-accounts.c:115
+#: mail/mail-config-druid.c:906 mail/mail-config.glade.h:45
 #: shell/e-shell-view.c:1119 widgets/misc/e-dateedit.c:421
 #: widgets/misc/e-dateedit.c:1330 widgets/misc/e-dateedit.c:1445
 #, fuzzy
@@ -2412,8 +2362,8 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: calendar/gui/e-tasks.c:140 calendar/gui/e-tasks.c:454
-#: calendar/gui/e-tasks.c:487
+#: calendar/gui/e-tasks.c:140 calendar/gui/e-tasks.c:455
+#: calendar/gui/e-tasks.c:488
 msgid "All"
 msgstr ""
 
@@ -2720,46 +2670,6 @@ msgstr "_Coinne"
 msgid "%a %b %d %Y"
 msgstr ""
 
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
-msgid "Evolution calendar executive summary component."
-msgstr ""
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:2
-msgid "Evolution calendar iTip/iMip viewer"
-msgstr ""
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
-msgid "Evolution component for handling the calendar."
-msgstr ""
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:4
-msgid "Factory for the Calendar Summary component."
-msgstr ""
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:5
-msgid "Factory for the Evolution calendar component."
-msgstr ""
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:6
-msgid "Factory for the calendar iTip view control"
-msgstr ""
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:7
-msgid "description"
-msgstr ""
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:8
-msgid "name"
-msgstr ""
-
-#: calendar/gui/GNOME_Evolution_Calendar_Control.oaf.in.h:1
-msgid "A sample Bonobo control which displays an calendar."
-msgstr ""
-
-#: calendar/gui/GNOME_Evolution_Calendar_Control.oaf.in.h:2
-msgid "Factory for the sample Calendar control"
-msgstr ""
-
 #: calendar/gui/gnome-cal.c:694
 #, c-format
 msgid "Could not open the folder in `%s'"
@@ -3060,12 +2970,12 @@ msgstr ""
 msgid "SMTWTFS"
 msgstr ""
 
-#: camel/camel-filter-driver.c:767
+#: camel/camel-filter-driver.c:773
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr ""
 
-#: camel/camel-filter-driver.c:772
+#: camel/camel-filter-driver.c:778
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr ""
@@ -3296,7 +3206,7 @@ msgstr ""
 msgid "IMAP command failed: %s"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-command.c:243 shell/e-storage.c:433
+#: camel/providers/imap/camel-imap-command.c:243 shell/e-storage.c:449
 msgid "Unknown error"
 msgstr ""
 
@@ -3319,8 +3229,8 @@ msgstr ""
 msgid "Could not load summary for %s"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-folder.c:697
-#: camel/providers/imap/camel-imap-folder.c:859
+#: camel/providers/imap/camel-imap-folder.c:708
+#: camel/providers/imap/camel-imap-folder.c:870
 msgid "Could not find message body in FETCH response."
 msgstr ""
 
@@ -3796,7 +3706,7 @@ msgid "No such folder `%s'."
 msgstr ""
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:34
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:64
 #, fuzzy
 msgid "Sendmail"
 msgstr "Post"
@@ -3845,7 +3755,7 @@ msgstr ""
 msgid "Mail delivery via the sendmail program"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-provider.c:34 mail/mail-config.glade.h:55
+#: camel/providers/smtp/camel-smtp-provider.c:34 mail/mail-config.glade.h:58
 msgid "SMTP"
 msgstr ""
 
@@ -3951,7 +3861,7 @@ msgid ""
 msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:348
-#: camel/providers/smtp/camel-smtp-transport.c:353 mail/mail-config.glade.h:10
+#: camel/providers/smtp/camel-smtp-transport.c:353 mail/mail-config.glade.h:11
 msgid "CRAM-MD5"
 msgstr ""
 
@@ -4190,89 +4100,89 @@ msgstr "Abair:"
 msgid "Enter the subject of the mail"
 msgstr ""
 
-#: composer/e-msg-composer.c:497
+#: composer/e-msg-composer.c:512
 #, c-format
 msgid ""
 "Could not open signature file %s:\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:665
+#: composer/e-msg-composer.c:680
 msgid "Save as..."
 msgstr ""
 
-#: composer/e-msg-composer.c:676
+#: composer/e-msg-composer.c:691
 #, c-format
 msgid "Error saving file: %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:696
+#: composer/e-msg-composer.c:711
 #, c-format
 msgid "Error loading file: %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:718
+#: composer/e-msg-composer.c:733
 msgid "Saving changes to message..."
 msgstr ""
 
-#: composer/e-msg-composer.c:720
+#: composer/e-msg-composer.c:735
 #, fuzzy
 msgid "Save changes to message..."
 msgstr "Post an sceál seo"
 
-#: composer/e-msg-composer.c:761
+#: composer/e-msg-composer.c:776
 #, c-format
 msgid "Error saving composition to 'Drafts': %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:819 evolution.desktop.in.h:1
+#: composer/e-msg-composer.c:834 evolution.desktop.in.h:1
 #: shell/e-shell-view-menu.c:192
 msgid "Evolution"
 msgstr "Evolution"
 
-#: composer/e-msg-composer.c:825
+#: composer/e-msg-composer.c:840
 msgid ""
 "This message has not been sent.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
 
-#: composer/e-msg-composer.c:850
+#: composer/e-msg-composer.c:865
 msgid "Open file"
 msgstr ""
 
-#: composer/e-msg-composer.c:976
+#: composer/e-msg-composer.c:991
 msgid "That file does not exist."
 msgstr ""
 
-#: composer/e-msg-composer.c:986
+#: composer/e-msg-composer.c:1001
 msgid "That is not a regular file."
 msgstr ""
 
-#: composer/e-msg-composer.c:996
+#: composer/e-msg-composer.c:1011
 msgid "That file exists but is not readable."
 msgstr ""
 
-#: composer/e-msg-composer.c:1006
+#: composer/e-msg-composer.c:1021
 msgid "That file appeared accesible but open(2) failed."
 msgstr ""
 
-#: composer/e-msg-composer.c:1028
+#: composer/e-msg-composer.c:1043
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1049
+#: composer/e-msg-composer.c:1064
 msgid "An error occurred while reading the file."
 msgstr ""
 
-#: composer/e-msg-composer.c:1292 composer/e-msg-composer.c:1527
+#: composer/e-msg-composer.c:1307 composer/e-msg-composer.c:1542
 #, fuzzy
 msgid "Compose a message"
 msgstr "Post an sceál seo"
 
-#: composer/e-msg-composer.c:1608
+#: composer/e-msg-composer.c:1623
 msgid "Could not create composer window."
 msgstr ""
 
@@ -4357,21 +4267,21 @@ msgstr ""
 msgid "Configure %s"
 msgstr "Fillteán _Nua"
 
-#: executive-summary/component/e-summary.c:916
+#: executive-summary/component/e-summary.c:913
 #, c-format
 msgid ""
 "Cannot open the HTML file:\n"
 "%s"
 msgstr ""
 
-#: executive-summary/component/e-summary.c:930
+#: executive-summary/component/e-summary.c:927
 #, c-format
 msgid ""
 "Error reading data:\n"
 "%s"
 msgstr ""
 
-#: executive-summary/component/e-summary.c:948
+#: executive-summary/component/e-summary.c:945
 msgid "File does not have a place for the services.\n"
 msgstr ""
 
@@ -4711,7 +4621,7 @@ msgstr ""
 msgid "Set Status"
 msgstr ""
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:20 mail/mail-config.glade.h:71
 msgid "Source"
 msgstr ""
 
@@ -4952,38 +4862,6 @@ msgstr ""
 msgid "Filter on Mailing List (%s)"
 msgstr ""
 
-#: mail/GNOME_Evolution_Mail.oaf.in.h:1
-msgid "Evolution component for handling mail."
-msgstr ""
-
-#: mail/GNOME_Evolution_Mail.oaf.in.h:2
-msgid "Evolution mail composer."
-msgstr ""
-
-#: mail/GNOME_Evolution_Mail.oaf.in.h:3
-msgid "Evolution mail executive summary component."
-msgstr ""
-
-#: mail/GNOME_Evolution_Mail.oaf.in.h:4
-msgid "Evolution mail folder display component."
-msgstr ""
-
-#: mail/GNOME_Evolution_Mail.oaf.in.h:5
-msgid "Evolution mail folder factory component."
-msgstr ""
-
-#: mail/GNOME_Evolution_Mail.oaf.in.h:6
-msgid "Factory for the Evolution composer."
-msgstr ""
-
-#: mail/GNOME_Evolution_Mail.oaf.in.h:7
-msgid "Factory for the Evolution mail component."
-msgstr ""
-
-#: mail/GNOME_Evolution_Mail.oaf.in.h:8
-msgid "Factory for the Mail Summary component."
-msgstr ""
-
 #: mail/local-config.glade.h:1
 msgid "Current store format:"
 msgstr ""
@@ -5017,13 +4895,13 @@ msgstr ""
 msgid "mh"
 msgstr ""
 
-#: mail/mail-accounts.c:115
+#: mail/mail-accounts.c:116
 #, fuzzy
 msgid " (default)"
 msgstr "Scríos"
 
 #. give our dialog an OK button and title
-#: mail/mail-accounts.c:367
+#: mail/mail-accounts.c:389
 msgid "Evolution Account Manager"
 msgstr ""
 
@@ -5184,11 +5062,15 @@ msgstr ""
 msgid "Authentication Type:"
 msgstr ""
 
-#: mail/mail-config.glade.h:11
-msgid "Check settings"
+#: mail/mail-config.glade.h:10
+msgid "Automatically check mail every"
 msgstr ""
 
 #: mail/mail-config.glade.h:12
+msgid "Check settings"
+msgstr ""
+
+#: mail/mail-config.glade.h:13
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -5198,204 +5080,225 @@ msgid ""
 "Click \"Finish\" to save your settings."
 msgstr ""
 
-#: mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:19
 msgid "DIGEST-MD5"
 msgstr ""
 
-#: mail/mail-config.glade.h:19
+#: mail/mail-config.glade.h:20
 #, fuzzy
 msgid "Default"
 msgstr "Scríos"
 
-#: mail/mail-config.glade.h:21
+#: mail/mail-config.glade.h:22
 #, fuzzy
 msgid "Done"
 msgstr "_Nota"
 
-#: mail/mail-config.glade.h:22
+#: mail/mail-config.glade.h:23
 msgid "E-Mail Address:"
 msgstr ""
 
-#: mail/mail-config.glade.h:24
+#: mail/mail-config.glade.h:25
 msgid "Email Address:"
 msgstr ""
 
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:26
 msgid "Evolution Mail Configuration"
 msgstr ""
 
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:27
 msgid "Full Name:"
 msgstr ""
 
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:30
 msgid "Hostname:"
 msgstr ""
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:31
 msgid "Identity"
 msgstr ""
 
-#: mail/mail-config.glade.h:31
-msgid "Incoming Mail Server"
-msgstr ""
-
 #: mail/mail-config.glade.h:32
-msgid "Keep mail on server"
+msgid "Include in \"Get Mail\" operations."
 msgstr ""
 
 #: mail/mail-config.glade.h:33
+msgid "Incoming Mail Server"
+msgstr ""
+
+#: mail/mail-config.glade.h:34
+msgid "Keep mail on server"
+msgstr ""
+
+#: mail/mail-config.glade.h:35
 #, fuzzy
 msgid "Kerberos"
 msgstr "Post"
 
-#: mail/mail-config.glade.h:34
+#: mail/mail-config.glade.h:36
 #, fuzzy
 msgid "Mail"
 msgstr "Post"
 
-#: mail/mail-config.glade.h:35
+#: mail/mail-config.glade.h:37
 msgid "Mail Account"
 msgstr ""
 
-#: mail/mail-config.glade.h:36
+#: mail/mail-config.glade.h:38
 msgid "Mail Configuration"
 msgstr ""
 
-#: mail/mail-config.glade.h:37
+#: mail/mail-config.glade.h:39
 msgid "Mail Configuration Druid"
 msgstr ""
 
-#: mail/mail-config.glade.h:38
+#: mail/mail-config.glade.h:40
 msgid "Make this my default account"
 msgstr ""
 
-#: mail/mail-config.glade.h:39
+#: mail/mail-config.glade.h:41
 msgid "Mark messages as \"Read\" after:"
 msgstr ""
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:42
 msgid "Miscellaneous"
 msgstr ""
 
-#: mail/mail-config.glade.h:42
+#: mail/mail-config.glade.h:44
 #, fuzzy
 msgid "News"
 msgstr "_Nua"
 
-#: mail/mail-config.glade.h:44
+#: mail/mail-config.glade.h:46
 #, fuzzy
 msgid "Optional"
 msgstr "_Oscáil"
 
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:47
 msgid "Organization:"
 msgstr ""
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:49
 msgid "Outgoing Mail Server"
 msgstr ""
 
-#: mail/mail-config.glade.h:48
-msgid "Password:"
-msgstr ""
-
 #: mail/mail-config.glade.h:50
-msgid "Plain Text"
+msgid "PGP binary path:"
 msgstr ""
 
 #: mail/mail-config.glade.h:51
+msgid "Password:"
+msgstr ""
+
+#: mail/mail-config.glade.h:53
+msgid "Plain Text"
+msgstr ""
+
+#: mail/mail-config.glade.h:54
 msgid "Receiving Email"
 msgstr ""
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:55
 msgid "Remember my password"
 msgstr ""
 
-#: mail/mail-config.glade.h:53 mail/mail-format.c:629
+#: mail/mail-config.glade.h:56 mail/mail-format.c:629
 #, fuzzy
 msgid "Reply-To:"
 msgstr "Freagrair"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:57
 msgid "Required"
 msgstr ""
 
-#: mail/mail-config.glade.h:56
+#: mail/mail-config.glade.h:59
 msgid "Save password"
 msgstr ""
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:60
+#, fuzzy
+msgid "Select PGP binary"
+msgstr "Fillteán _Nua"
+
+#: mail/mail-config.glade.h:61
 #, fuzzy
 msgid "Select signature file"
 msgstr "Fillteán _Nua"
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:62
 msgid "Send mail in HTML format by default."
 msgstr ""
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:63
 #, fuzzy
 msgid "Sending Email"
 msgstr "Post"
 
-#: mail/mail-config.glade.h:61
+#: mail/mail-config.glade.h:65
 msgid "Server Configuration"
 msgstr ""
 
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:66
 #, fuzzy
 msgid "Server Type: "
 msgstr "Post"
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:67
 msgid "Server requires authentication"
 msgstr ""
 
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:68
 #, fuzzy
 msgid "Servers"
 msgstr "Post"
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:69
 msgid "Signature file:"
 msgstr ""
 
-#: mail/mail-config.glade.h:66
+#: mail/mail-config.glade.h:70
 msgid "Signature:"
 msgstr ""
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:72
 msgid "Sources"
 msgstr ""
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:73
 msgid "This server requires a secure connection (SSL)"
 msgstr ""
 
-#: mail/mail-config.glade.h:69
+#: mail/mail-config.glade.h:74
+msgid "Transport"
+msgstr ""
+
+#: mail/mail-config.glade.h:75
 msgid "Type"
 msgstr ""
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:76
 msgid ""
 "Type the name by which you would like to refer to these servers. For "
 "example: \"Work\" or \"Home\"."
 msgstr ""
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:78
 msgid "User Information"
 msgstr ""
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:79
 msgid "Username:"
 msgstr ""
 
-#: mail/mail-config.glade.h:74
+#: mail/mail-config.glade.h:80
 msgid ""
 "Welcome to the Evolution Mail Configuration Druid.\n"
 "\n"
 "Click \"Next\" to begin. "
+msgstr ""
+
+#: mail/mail-config.glade.h:83
+msgid "minutes."
 msgstr ""
 
 #: mail/mail-config-druid.c:389
@@ -5594,151 +5497,151 @@ msgstr ""
 msgid "Working"
 msgstr ""
 
-#: mail/mail-ops.c:510
+#: mail/mail-ops.c:513
 #, c-format
 msgid "Sending \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:512
+#: mail/mail-ops.c:515
 #, fuzzy
 msgid "Sending message"
 msgstr "Post an sceál seo"
 
-#: mail/mail-ops.c:740 mail/mail-ops.c:747
+#: mail/mail-ops.c:743 mail/mail-ops.c:750
 #, c-format
 msgid "Appending \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:744 mail/mail-ops.c:750
+#: mail/mail-ops.c:747 mail/mail-ops.c:753
 msgid "Appending a message without a subject"
 msgstr ""
 
-#: mail/mail-ops.c:833
+#: mail/mail-ops.c:836
 #, c-format
 msgid "Moving messages from \"%s\" into \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:835
+#: mail/mail-ops.c:838
 #, c-format
 msgid "Copying messages from \"%s\" into \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:838
+#: mail/mail-ops.c:841
 #, c-format
 msgid "Move messages from \"%s\" into \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:840
+#: mail/mail-ops.c:843
 #, c-format
 msgid "Copy messages from \"%s\" into \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:871
+#: mail/mail-ops.c:874
 msgid "Moving"
 msgstr ""
 
-#: mail/mail-ops.c:874
+#: mail/mail-ops.c:877
 #, fuzzy
 msgid "Copying"
 msgstr "Greamaigh"
 
-#: mail/mail-ops.c:894
+#: mail/mail-ops.c:897
 #, c-format
 msgid "%s message %d of %d (uid \"%s\")"
 msgstr ""
 
-#: mail/mail-ops.c:969
+#: mail/mail-ops.c:972
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1035 mail/subscribe-dialog.c:359
+#: mail/mail-ops.c:1038 mail/subscribe-dialog.c:359
 msgid "(No description)"
 msgstr ""
 
-#: mail/mail-ops.c:1100
+#: mail/mail-ops.c:1103
 msgid "Forwarded messages"
 msgstr ""
 
-#: mail/mail-ops.c:1141 mail/mail-ops.c:1275
+#: mail/mail-ops.c:1144 mail/mail-ops.c:1278
 #, c-format
 msgid "Opening folder %s"
 msgstr ""
 
-#: mail/mail-ops.c:1206
+#: mail/mail-ops.c:1209
 #, c-format
 msgid "Opening store %s"
 msgstr ""
 
-#: mail/mail-ops.c:1337
+#: mail/mail-ops.c:1340
 msgid "Synchronising folder"
 msgstr ""
 
-#: mail/mail-ops.c:1387
+#: mail/mail-ops.c:1390
 msgid "Expunging folder"
 msgstr ""
 
-#: mail/mail-ops.c:1436
+#: mail/mail-ops.c:1439
 #, fuzzy, c-format
 msgid "Retrieving message %s"
 msgstr "_Post sceál"
 
-#: mail/mail-ops.c:1503
+#: mail/mail-ops.c:1506
 #, fuzzy
 msgid "Retrieving messages"
 msgstr "_Post sceál"
 
-#: mail/mail-ops.c:1513
+#: mail/mail-ops.c:1516
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr ""
 
-#: mail/mail-ops.c:1661
+#: mail/mail-ops.c:1664
 #, c-format
 msgid "Loading %s Folder for %s"
 msgstr ""
 
-#: mail/mail-ops.c:1663
+#: mail/mail-ops.c:1666
 #, c-format
 msgid "Load %s Folder for %s"
 msgstr ""
 
-#: mail/mail-ops.c:1829
+#: mail/mail-ops.c:1832
 #, fuzzy
 msgid "Saving messages"
 msgstr "_Post sceál"
 
-#: mail/mail-ops.c:1908
+#: mail/mail-ops.c:1911
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
 " %s"
 msgstr ""
 
-#: mail/mail-ops.c:1921
+#: mail/mail-ops.c:1924
 #, c-format
 msgid "Saving message %d of %d (uid \"%s\")"
 msgstr ""
 
-#: mail/mail-ops.c:1935
+#: mail/mail-ops.c:1938
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
 " %s"
 msgstr ""
 
-#: mail/mail-ops.c:2009
+#: mail/mail-ops.c:2012
 msgid "Saving attachment"
 msgstr ""
 
-#: mail/mail-ops.c:2024
+#: mail/mail-ops.c:2027
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
 
-#: mail/mail-ops.c:2052
+#: mail/mail-ops.c:2055
 #, c-format
 msgid "Could not write data: %s"
 msgstr ""
@@ -6046,31 +5949,6 @@ msgstr ""
 #: mail/subscribe-dialog.c:303
 #, c-format
 msgid "Unsubscribe from folder \"%s\""
-msgstr ""
-
-#: mail/subscribe-dialog.glade.h:1
-#, fuzzy
-msgid "All Folders"
-msgstr "_Fillteán"
-
-#: mail/subscribe-dialog.glade.h:2
-msgid "Display folders whose name contain:"
-msgstr ""
-
-#: mail/subscribe-dialog.glade.h:3
-msgid "Query"
-msgstr ""
-
-#: mail/subscribe-dialog.glade.h:4 ui/evolution-subscribe.xml.h:8
-msgid "Subscribe"
-msgstr ""
-
-#: mail/subscribe-dialog.glade.h:5
-msgid "Subscribed"
-msgstr ""
-
-#: mail/subscribe-dialog.glade.h:6 ui/evolution-subscribe.xml.h:9
-msgid "Unsubscribe"
 msgstr ""
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
@@ -6416,64 +6294,53 @@ msgstr "_Nua"
 msgid "View the selected folder"
 msgstr ""
 
-#: shell/e-storage.c:160
+#: shell/e-storage.c:176
 msgid "(No name)"
 msgstr ""
 
-#: shell/e-storage.c:411
+#: shell/e-storage.c:427
 msgid "No error"
 msgstr ""
 
-#: shell/e-storage.c:413
+#: shell/e-storage.c:429
 msgid "Generic error"
 msgstr ""
 
-#: shell/e-storage.c:415
+#: shell/e-storage.c:431
 msgid "A folder with the same name already exists"
 msgstr ""
 
-#: shell/e-storage.c:417
+#: shell/e-storage.c:433
 msgid "The specified folder type is not valid"
 msgstr ""
 
-#: shell/e-storage.c:419
+#: shell/e-storage.c:435
 msgid "I/O error"
 msgstr ""
 
-#: shell/e-storage.c:421
+#: shell/e-storage.c:437
 msgid "Not enough space to create the folder"
 msgstr ""
 
-#: shell/e-storage.c:423
+#: shell/e-storage.c:439
 msgid "The specified folder was not found"
 msgstr ""
 
-#: shell/e-storage.c:425
+#: shell/e-storage.c:441
 msgid "Function not implemented in this storage"
 msgstr ""
 
-#: shell/e-storage.c:427
+#: shell/e-storage.c:443
 msgid "Permission denied"
 msgstr ""
 
-#: shell/e-storage.c:429
+#: shell/e-storage.c:445
 msgid "Operation not supported"
 msgstr ""
 
-#: shell/e-storage.c:431
+#: shell/e-storage.c:447
 msgid "The specified type is not supported in this storage"
 msgstr ""
-
-#: shell/GNOME_Evolution_Shell.oaf.in.h:1
-msgid "Evolution shell factory"
-msgstr ""
-
-#: shell/GNOME_Evolution_Shell.oaf.in.h:2
-#, fuzzy
-msgid "The Evolution shell."
-msgstr ""
-"Go raibh maith agat\n"
-"An Fhoireann Evolution\n"
 
 #: shell/main.c:74
 msgid ""
@@ -7469,6 +7336,14 @@ msgstr ""
 msgid "Remove folder from your list of subscribed folders"
 msgstr ""
 
+#: ui/evolution-subscribe.xml.h:8
+msgid "Subscribe"
+msgstr ""
+
+#: ui/evolution-subscribe.xml.h:9
+msgid "Unsubscribe"
+msgstr ""
+
 #: ui/evolution-task-editor-dialog.xml.h:5
 msgid "Assig_n Task (FIXME)"
 msgstr ""
@@ -7832,14 +7707,6 @@ msgstr "Post an sceál seo"
 msgid "Sear_ch"
 msgstr ""
 
-#: wombat/GNOME_Evolution_Wombat.oaf.in.h:1
-msgid "The Personal Addressbook Server"
-msgstr ""
-
-#: wombat/GNOME_Evolution_Wombat.oaf.in.h:2
-msgid "The Personal Calendar Server; calendar factory"
-msgstr ""
-
 #: wombat/wombat.c:182
 msgid "setup_vfs(): could not initialize GNOME-VFS"
 msgstr ""
@@ -7855,6 +7722,16 @@ msgstr ""
 #: evolution.desktop.in.h:2
 msgid "The Evolution groupware suite"
 msgstr ""
+
+#, fuzzy
+#~ msgid "All Folders"
+#~ msgstr "_Fillteán"
+
+#, fuzzy
+#~ msgid "The Evolution shell."
+#~ msgstr ""
+#~ "Go raibh maith agat\n"
+#~ "An Fhoireann Evolution\n"
 
 #, fuzzy
 #~ msgid "Open..."
