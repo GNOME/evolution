@@ -288,6 +288,11 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	gint i, max;
 
+	if (expunge) {
+		imap_expunge (folder, ex);
+		return;
+	}
+	
 	/* Set the flags on any messages that have changed this session */
 	if (imap_folder->summary) {
 		max = imap_folder->summary->len;
@@ -331,9 +336,6 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 			}
 		}
 	}
-	
-	if (expunge)
-		imap_expunge (folder, ex);
 }
 
 static void
@@ -343,6 +345,8 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 	gint status;
 
 	g_return_if_fail (folder != NULL);
+
+	imap_sync (folder, FALSE, ex);
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
 					      &result, "EXPUNGE");
@@ -528,7 +532,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 fla
 			*(flagstr + strlen (flagstr) - 1) = ')';
 	}
 	
-	/* FIXME: len isn't really correct I don't think, we need to filter and possibly other things */
+	/* FIXME: len isn't really correct I don't think, we need to crlf/dot filter */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store),
 					      folder, &result, "APPEND %s%s {%d}\r\n%s",
 					      folder_path, flagstr ? flagstr : "",

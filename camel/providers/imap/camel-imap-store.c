@@ -418,10 +418,19 @@ static gboolean
 imap_disconnect (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
+	char *result;
+	int status;
 
 	if (!service->connected)
 		return TRUE;
 
+	/* send the logout command */
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (service), NULL, &result, "LOGOUT");
+	if (status != CAMEL_IMAP_OK) {
+		/* Oh fuck it, we're disconnecting anyway... */
+	}
+	g_free (result);
+	
 	if (!service_class->disconnect (service, ex))
 		return FALSE;
 

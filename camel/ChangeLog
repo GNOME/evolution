@@ -1,5 +1,8 @@
 2000-07-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-store.c (imap_disconnect): Send a "LOGOUT"
+	command.
+
 	* providers/imap/camel-imap-folder.c (imap_get_message): Hacks to get
 	IMAP code to work with CommunigatePro and MS Exchange (and any other
 	servers that send back a UID at the end of each FETCH inside of the main
@@ -7,6 +10,7 @@
 	(imap_sync): Un-#if 0 the code that sets the flags on the IMAP server
 	for messages that have changed. Oops, don't mask with DELETED to find out
 	if the message has been answered ;-)
+	(imap_expunge): sync before expunging.
 
 2000-07-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
