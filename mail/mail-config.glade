@@ -3991,6 +3991,20 @@ Baltic (ISO-8859-4)
 	      <fill>False</fill>
 	    </child>
 	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>chkAutoSmileys</name>
+	    <can_focus>True</can_focus>
+	    <label>_Automatically insert smiley images</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 	</widget>
       </widget>
 
