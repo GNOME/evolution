@@ -1,15 +1,15 @@
 <oaf_info>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Outlook_ImporterFactory"
-	    type="exe"
-	    location="@LIBEXECDIR@/evolution-mail">
+	    type="shlib"
+	    location="@COMPONENTDIR@/libevolution-mail.so">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-		       _value="Factory to import Outlook Express 4 mails into Evolution"/>
+	<oaf_attribute name="name" type="string"
+		       _value="Evolution Outlook Express 4 importer"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Outlook_Importer"
@@ -21,9 +21,9 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="evolution:menu_name" type="string"
-		       value="Outlook Express 4 (.mbx)"/>
-	<oaf_attribute name="description" type="string"
-		       _value="Imports Outlook Express 4 files into Evolution"/>
+		       _value="Outlook Express 4 (.mbx)"/>
+	<oaf_attribute name="name" type="string"
+		       _value="Evolution Outlook Express 4 importer"/>
 </oaf_server>
 
 </oaf_info>

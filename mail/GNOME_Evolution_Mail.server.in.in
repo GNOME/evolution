@@ -11,8 +11,8 @@
       <item value="IDL:GNOME/ObjectFactory:1.0"/>
     </oaf_attribute>
 
-    <oaf_attribute name="description" type="string"
-		   _value="Factory for the controls exported by the Evolution Mailer"/>
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution Mail"/>
   </oaf_server>
 
   <!-- (control) -->
@@ -25,8 +25,8 @@
       <item value="IDL:GNOME/Control:1.0"/>
     </oaf_attribute>
 
-    <oaf_attribute name="description" type="string"
-		   _value="Evolution mail folder display component."/>
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution Mail folder viewer"/>
   </oaf_server>
 
   <!-- Shell Component -->
@@ -39,27 +39,13 @@
       <item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
     </oaf_attribute>
 
-    <oaf_attribute name="description" type="string"
-		   _value="Evolution component for handling mail."/>
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution Mail component"/>
 
     <oaf_attribute name="evolution:shell_component_icon" type="string"
 		   value="evolution-inbox.png"/>
     <oaf_attribute name="evolution:shell_component_launch_order" type="number"
 		   value="1"/>
-  </oaf_server>
-
-  <!-- Summary component, for showing info in the summary -->
-
-  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ExecutiveSummaryComponent"
-	      type="factory"
-	      location="OAFIID:GNOME_Evolution_Mail_ControlFactory">
-
-    <oaf_attribute name="repo_ids" type="stringv">
-      <item value="IDL:GNOME/Evolution:Summary:ComponentFactory:1.0"/>
-    </oaf_attribute>
-
-    <oaf_attribute name="description" type="string"
-		   _value="Evolution mail executive summary component."/>
   </oaf_server>
 
   <!-- Message composer -->
@@ -74,8 +60,8 @@
       <item value="IDL:Bonobo/ItemContainer:1.0"/>
     </oaf_attribute>
 
-    <oaf_attribute name="description" type="string"
-		   _value="Evolution mail composer."/>
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution Mail composer"/>
   </oaf_server>
 
   <!-- MailConfig interface -->
@@ -87,8 +73,8 @@
       <item value="IDL:GNOME/Evolution/MailConfig:1.0"/>
     </oaf_attribute>
 
-    <oaf_attribute name="description" type="string"
-                   _value="Mail configuration interface"/>
+    <oaf_attribute name="name" type="string"
+                   _value="Evolution Mail configuration interface"/>
   </oaf_server>
 
   <!-- FolderInfo interface -->
@@ -144,8 +130,8 @@
 
     <oaf_attribute name="evolution:config_item:priority" type="string" value="-10"/>
     
-    <oaf_attribute name="description" type="string"
-		   _value="Configuration control for the Evolution Mail Accounts."/>
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution Mail accounts configuration control"/>
 
   </oaf_server>
 
@@ -169,8 +155,8 @@
     
     <oaf_attribute name="evolution:config_item:priority" type="string" value="-9"/>
     
-    <oaf_attribute name="description" type="string"
-		   _value="Configuration control for the Evolution Mailer."/>
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution Mail preferences control"/>
 
   </oaf_server>
 
@@ -194,8 +180,8 @@
     
     <oaf_attribute name="evolution:config_item:priority" type="string" value="-6"/>
     
-    <oaf_attribute name="description" type="string"
-		   _value="Configuration control for the Evolution Display Fonts."/>
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution Mail font configuration control"/>
 
   </oaf_server>
 
@@ -219,8 +205,8 @@
     
     <oaf_attribute name="evolution:config_item:priority" type="string" value="-8"/>
     
-    <oaf_attribute name="description" type="string"
-		   _value="Configuration control for the Evolution Message Composer."/>
+    <oaf_attribute name="name" type="string"
+		   _value="Evolution Mail composer configuration control"/>
 
   </oaf_server>
 

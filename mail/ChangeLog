@@ -1,3 +1,25 @@
+2003-04-07  Dan Winship  <danw@ximian.com>
+
+	* GNOME_Evolution_Mail.server.in.in: Clean up server names
+
+	* importers/GNOME_Evolution_Mail_Elm_Intelligent_Importer.server.in.in:
+	Likewise, and fix evolution-mail location
+
+	* importers/GNOME_Evolution_Mail_Mbox_Importer.server.in.in:
+	Likewise
+
+	* importers/GNOME_Evolution_Mail_Netscape_Intelligent_Importer.server.in.in:
+	Likewise
+
+	* importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in:
+	Likewise
+
+	* importers/GNOME_Evolution_Mail_Pine_Intelligent_Importer.server.in.in:
+	Likewise
+
+	* importers/Makefile.am (%.server.in): Fix this for evolution-mail
+	being a shlib.
+
 2003-04-03  Not Zed  <NotZed@Ximian.com>
 
 	** Bug 40536

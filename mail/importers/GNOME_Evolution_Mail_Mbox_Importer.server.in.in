@@ -1,15 +1,15 @@
 <oaf_info>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory"
-	    type="exe"
-	    location="@LIBEXECDIR@/evolution-mail">
+	    type="shlib"
+	    location="@COMPONENTDIR@/libevolution-mail.so">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-		       _value="Factory to import mbox into Evolution"/>
+	<oaf_attribute name="name" type="string"
+		       _value="Evolution mbox importer"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Mbox_Importer"
@@ -21,9 +21,9 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="evolution:menu_name" type="string"
-		       value="MBox (mbox)"/>
-	<oaf_attribute name="description" type="string"
-		       _value="Imports mbox files into Evolution"/>
+		       _value="MBox (mbox)"/>
+	<oaf_attribute name="name" type="string"
+		       _value="Evolution mbox importer"/>
 </oaf_server>
 
 </oaf_info>
