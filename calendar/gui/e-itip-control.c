@@ -306,10 +306,10 @@ init (EItipControl *itip)
 	/* Addresses */
 	priv->addresses = itip_addresses_get ();
 
-	/* Get the cal clients */
-	priv->event_clients = get_servers (global_shell_client, calendar_types, FALSE);
+	/* Initialize the cal clients */
+	priv->event_clients = NULL;
 	priv->event_client = NULL;
-	priv->task_clients = get_servers (global_shell_client, tasks_types, TRUE);
+	priv->task_clients = NULL;
 	priv->task_client = NULL;
 	
 	/* Html Widget */
@@ -381,12 +381,16 @@ destroy (GtkObject *obj)
 	itip_addresses_free (priv->addresses);
 	priv->addresses = NULL;
 
-	for (i = 0; i < priv->event_clients->len; i++) 
-		gtk_object_unref (GTK_OBJECT (g_ptr_array_index (priv->event_clients, i)));
-	g_ptr_array_free (priv->event_clients, TRUE);
-	for (i = 0; i < priv->task_clients->len; i++) 
-		gtk_object_unref (GTK_OBJECT (g_ptr_array_index (priv->task_clients, i)));
-	g_ptr_array_free (priv->task_clients, TRUE);
+	if (priv->event_clients) {
+		for (i = 0; i < priv->event_clients->len; i++) 
+			gtk_object_unref (GTK_OBJECT (g_ptr_array_index (priv->event_clients, i)));
+		g_ptr_array_free (priv->event_clients, TRUE);
+	}
+	if (priv->task_clients) {
+		for (i = 0; i < priv->task_clients->len; i++) 
+			gtk_object_unref (GTK_OBJECT (g_ptr_array_index (priv->task_clients, i)));
+		g_ptr_array_free (priv->task_clients, TRUE);
+	}
 
 	g_free (priv);
 
@@ -1236,9 +1240,13 @@ show_current (EItipControl *itip)
 
 	switch (type) {
 	case CAL_COMPONENT_EVENT:
+		if (!priv->event_clients)
+			priv->event_clients = get_servers (global_shell_client, calendar_types, FALSE);
 		show_current_event (itip);
 		break;
 	case CAL_COMPONENT_TODO:
+		if (!priv->task_clients)
+			priv->task_clients = get_servers (global_shell_client, tasks_types, FALSE);
 		show_current_todo (itip);
 		break;
 	case CAL_COMPONENT_FREEBUSY:

@@ -1,3 +1,12 @@
+2002-09-10  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #24032
+
+	* gui/e-itip-control.c (init): don't get servers here, since we don't
+	know the type of the component(s) to be loaded.
+	(show_current): get servers here.
+	(destroy): only free stuff that needs to be freed.
+
 2002-09-09  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (client_cal_opened_cb): display status messages for
