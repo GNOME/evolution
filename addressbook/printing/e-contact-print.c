@@ -522,7 +522,7 @@ e_contact_start_new_column (EContactPrintContext *ctxt)
 }
 
 static void
-complete_sequence(EBookView *book_view, EContactPrintContext *ctxt)
+complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintContext *ctxt)
 {
 	GList *cards = ctxt->cards;
 
@@ -1053,7 +1053,7 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 			e_contact_do_print(book, ctxt->query, ctxt);
 		} else {
 			ctxt->cards = g_list_append(NULL, card);
-			complete_sequence(NULL, ctxt);
+			complete_sequence(NULL, E_BOOK_VIEW_STATUS_SUCCESS, ctxt);
 		}
 		gnome_dialog_close(dialog);
 		break;
@@ -1090,7 +1090,7 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		} else {
 			ctxt->cards = g_list_append(NULL, card);
 			gtk_object_ref(GTK_OBJECT(card));
-			complete_sequence(NULL, ctxt);
+			complete_sequence(NULL, E_BOOK_VIEW_STATUS_SUCCESS, ctxt);
 		}
 		break;
 	case GNOME_PRINT_CANCEL:
