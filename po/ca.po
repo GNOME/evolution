@@ -12,14 +12,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-05-19 20:19+0200\n"
+"POT-Creation-Date: 2004-05-19 14:00-0400\n"
 "PO-Revision-Date: 2004-04-08 12:21+0200\n"
 "Last-Translator: Softcatala <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 # fitxer: addressbook.gui.component.ca.po
@@ -200,7 +200,6 @@ msgstr "S'està migrant '%s':"
 
 # fitxer: addressbook.gui.component.ca.po
 #. create the local source group
-#. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:438
 #: calendar/gui/migration.c:446 calendar/gui/migration.c:528
 #: mail/em-folder-tree-model.c:195 mail/em-folder-tree-model.c:197
@@ -210,9 +209,6 @@ msgstr "En aquest ordinador"
 
 # fitxer: addressbook.gui.component.ca.po
 #. Create the default Person addressbook
-#. Create the default Person calendar
-#. Create the default Person task list
-#. orange
 #: addressbook/gui/component/addressbook-migrate.c:446
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 #: calendar/gui/migration.c:454 calendar/gui/migration.c:536
@@ -324,7 +320,6 @@ msgstr "Propietats..."
 #. can not get name, should be a bug of e-book.Anyway, should set a default name.
 #.
 #. name = e_book_get_name (book);
-#. Create the contacts group
 #: addressbook/gui/component/addressbook-view.c:1002
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
@@ -3925,19 +3920,19 @@ msgid "GTK Tree View"
 msgstr "Visualització d'arbre del GTK"
 
 # fitxer: addressbook.gui.widgets.ca.po
-#: addressbook/gui/widgets/test-reflow.c:119
+#: addressbook/gui/widgets/test-reflow.c:106
 msgid "Reflow Test"
 msgstr "Prova de reflux"
 
 # fitxer: addressbook.gui.widgets.ca.po
-#: addressbook/gui/widgets/test-reflow.c:120
+#: addressbook/gui/widgets/test-reflow.c:107
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Copyright (C) 2000, Ximian, Inc."
 
 # fitxer: addressbook.gui.widgets.ca.po
-#: addressbook/gui/widgets/test-reflow.c:122
+#: addressbook/gui/widgets/test-reflow.c:109
 msgid "This should test the reflow canvas item"
 msgstr "Hauria de provar l'element de l'àrea de dibuix de reflux"
 
@@ -4692,10 +4687,6 @@ msgstr "%A %d %B %Y"
 # fitxer: calendar.ca.po.5
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#. strftime format %a = abbreviated weekday name,
-#. %d = day of month, %b = abbreviated month name.
-#. You can change the order but don't change the
-#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:507
 #: calendar/gui/e-day-view.c:1588 calendar/gui/e-day-view-top-item.c:694
 #: calendar/gui/e-week-view-main-item.c:329
@@ -6012,11 +6003,6 @@ msgstr "Hora d'_inici:"
 
 # fitxer: calendar.ca.po.4
 #. an empty string is the same as 'None'
-#. add a "None" option to the stores menu
-#. Put the "None" and "UTC" entries at the top of the combo's list.
-#. When "None" is selected we want the field to be cleared.
-#. Note that we don't show this here, since by default a 'None' date
-#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:647 composer/e-msg-composer.c:2112
@@ -7147,10 +7133,6 @@ msgstr ""
 
 # fitxer: calendar.ca.po.3
 #. strftime format of a weekday, a date and a time, 24-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 24-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
@@ -7158,10 +7140,6 @@ msgstr "%a %d/%m/%Y %H:%M:%S"
 
 # fitxer: calendar.ca.po.3
 #. strftime format of a weekday, a date and a time, 12-hour.
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -7196,10 +7174,6 @@ msgstr "pm"
 # fitxer: calendar.ca.po.3
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#. strftime format %A = full weekday name, %d = day of
-#. month, %B = full month name. You can change the
-#. order but don't change the specifiers or add
-#. anything.
 #: calendar/gui/e-day-view.c:1571 calendar/gui/e-day-view-top-item.c:690
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
@@ -7208,9 +7182,6 @@ msgstr "%A, %d de %B"
 # fitxer: calendar.ca.po.3
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#. strftime format %d = day of month, %b = abbreviated
-#. month name. You can change the order but don't
-#. change the specifiers or add anything.
 #: calendar/gui/e-day-view.c:1604 calendar/gui/e-day-view-top-item.c:698
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
@@ -7937,10 +7908,6 @@ msgstr "%A, %d de %B de %Y"
 # fitxer: calendar.ca.po.3
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
-#. This is a strftime() format string %a = abbreviated weekday
-#. name, %m = month number, %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel.c:2093
 #: calendar/gui/e-meeting-time-sel-item.c:456 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -7950,10 +7917,6 @@ msgstr "%a %d/%m/%Y"
 # fitxer: calendar.ca.po.3
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#. strptime format of a weekday and a date.
-#. This is the preferred date format for the locale.
-#. This is a strftime() format for a short date. %m = month,
-#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1604
 msgid "%m/%d/%Y"
@@ -15031,8 +14994,6 @@ msgstr "Categories de sincronització:"
 # fitxer: e-util.ca.po
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %m/%d/%Y %I:%M %p"
@@ -15040,8 +15001,6 @@ msgstr "%a %m/%d/%Y %I:%M %p"
 # fitxer: e-util.ca.po
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr "%a %m/%d/%Y %H:%M"
@@ -15102,14 +15061,12 @@ msgstr "%m/%d/%Y %H"
 
 # fitxer: e-util.ca.po
 #. strptime format for a time of day, in 12-hour format.
-#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 # fitxer: e-util.ca.po
 #. strptime format for a time of day, in 24-hour format.
-#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
@@ -15117,9 +15074,6 @@ msgstr "%H:%M:%S"
 # fitxer: e-util.ca.po
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
-#. strftime format of a time in 12-hour format,
-#. without seconds.
-#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1414 widgets/misc/e-dateedit.c:1639
 msgid "%I:%M %p"
@@ -15127,9 +15081,6 @@ msgstr "%I:%M %p"
 
 # fitxer: e-util.ca.po
 #. strptime format for time of day, without seconds 24-hour format.
-#. strftime format of a time in 24-hour format,
-#. without seconds.
-#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1411 widgets/misc/e-dateedit.c:1636
 msgid "%H:%M"
@@ -15245,7 +15196,6 @@ msgstr "_Nom distingit:"
 
 # fitxer: filter.ca.po
 #. filter:no-file secondary
-#. filter:bad-file secondary
 #: filter/filter-errors.xml.h:8 filter/filter-errors.xml.h:12
 msgid "You must specify a file name."
 msgstr "Heu d'especificar un nom de fitxer."
@@ -15286,7 +15236,6 @@ msgstr ""
 
 # fitxer: calendar.ca.po.4
 #. filter:no-name primary
-#. filter:no-name-vfolder primary
 #: filter/filter-errors.xml.h:22 filter/filter-errors.xml.h:26
 #, fuzzy
 msgid "Missing name."
@@ -18670,7 +18619,6 @@ msgstr ""
 
 # fitxer: mail.ca.po.2
 #. mail:ask-send-only-bcc-contact primary
-#. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 #, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
@@ -18745,7 +18693,6 @@ msgid ""
 msgstr "Suprimeix permanentment tots els missatges esborrats d'aquesta carpeta"
 
 #. mail:ask-expunge secondary
-#. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
 msgstr ""
@@ -18827,13 +18774,6 @@ msgid "{0}."
 msgstr ""
 
 #. mail:session-message-info secondary
-#. mail:session-message-info-cancel secondary
-#. mail:session-message-warning secondary
-#. mail:session-message-warning-cancel secondary
-#. mail:session-message-error secondary
-#. mail:session-message-error-cancel secondary
-#. mail:ask-session-password secondary
-#. mail:filter-load-error secondary
 #: mail/mail-errors.xml.h:70 mail/mail-errors.xml.h:72
 #: mail/mail-errors.xml.h:74 mail/mail-errors.xml.h:76
 #: mail/mail-errors.xml.h:78 mail/mail-errors.xml.h:80
@@ -18871,8 +18811,6 @@ msgstr ""
 
 # fitxer: mail.ca.po.3
 #. mail:no-create-path primary
-#. mail:no-write-path-exists primary
-#. mail:no-write-path-notfile primary
 #: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
 #: mail/mail-errors.xml.h:106
 #, fuzzy
@@ -18896,9 +18834,6 @@ msgid "Cannot create temporary save directory."
 msgstr "No s'ha pogut crear el directori temporal: %s"
 
 #. mail:no-create-tmp-path secondary
-#. mail:no-delete-folder secondary
-#. system:no-save-file secondary
-#. system:no-load-file secondary
 #: mail/mail-errors.xml.h:100 mail/mail-errors.xml.h:112
 #: widgets/misc/e-system-errors.xml.h:11 widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
@@ -18933,7 +18868,6 @@ msgid "Cannot delete system folder \"{0}\"."
 msgstr "No s'ha pogut suprimir la carpeta local %s."
 
 #. mail:no-delete-spethal-folder secondary
-#. mail:no-rename-spethal-folder secondary
 #: mail/mail-errors.xml.h:116 mail/mail-errors.xml.h:120
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
@@ -18969,14 +18903,12 @@ msgid ""
 msgstr ""
 
 #. mail:no-rename-folder-exists primary
-#. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
 msgid "Cannot rename \"{0}\" to \"{1}\"."
 msgstr ""
 
 # fitxer: mail.ca.po.3
 #. mail:no-rename-folder-exists secondary
-#. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
 #, fuzzy
 msgid "A folder named \"{1}\" already exists. Please use a different name."
@@ -18988,14 +18920,12 @@ msgid "Because \"{2}\"."
 msgstr ""
 
 #. mail:no-move-folder-nostore primary
-#. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr ""
 
 # fitxer: calendar.ca.po.3
 #. mail:no-move-folder-nostore secondary
-#. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
 #, fuzzy
 msgid "Cannot open source \"{2}\"."
@@ -19003,14 +18933,12 @@ msgstr "No s'ha pogut obrir la font"
 
 # fitxer: camel.ca.po.4
 #. mail:no-move-folder-to-nostore secondary
-#. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
 #, fuzzy
 msgid "Cannot open target \"{2}\"."
 msgstr "No es pot obrir el missatge"
 
 #. mail:no-copy-folder-nostore primary
-#. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
 msgstr ""
@@ -19030,7 +18958,6 @@ msgid "Cannot open source \"{1}\""
 msgstr "No s'ha pogut obrir la font"
 
 #. mail:account-incomplete primary
-#. mail:account-notunique primary
 #: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
 msgid "Cannot save changes to account."
 msgstr ""
@@ -20614,7 +20541,6 @@ msgstr "S'està connectant"
 
 # fitxer: shell.ca.po
 #. shell:noshell title
-#. shell:noshell-reason title
 #: shell/shell-errors.xml.h:17 shell/shell-errors.xml.h:25
 #, fuzzy
 msgid "Cannot start Evolution"
@@ -20622,7 +20548,6 @@ msgstr "Quant al Ximian Evolution"
 
 # fitxer: mail.ca.po.2
 #. shell:noshell primary
-#. shell:noshell-reason primary
 #: shell/shell-errors.xml.h:19 shell/shell-errors.xml.h:27
 #, fuzzy
 msgid "Evolution can not start."

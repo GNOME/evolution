@@ -1,3 +1,7 @@
+2004-05-19  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: bump version
+
 2004-05-12  Not Zed  <NotZed@Ximian.com>
 
 	* configure.in: add some stuff for statfs.
