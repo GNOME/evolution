@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2002-10-28 16:49-0500\n"
-"PO-Revision-Date: 2003-01-08 12:40+0100\n"
+"PO-Revision-Date: 2003-01-16 18:43+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -9295,7 +9295,7 @@ msgstr "La radice %s non è un percorso assoluto"
 #: camel/providers/local/camel-local-store.c:146
 #, c-format
 msgid "Store root %s is not a regular directory"
-msgstr ""
+msgstr "La radice di archiviazione %s non è una directory normale"
 
 #: camel/providers/local/camel-local-store.c:155
 #: camel/providers/local/camel-local-store.c:171
@@ -9306,7 +9306,7 @@ msgstr "Impossibile avere la cartella %s: %s"
 
 #: camel/providers/local/camel-local-store.c:186
 msgid "Local stores do not have an inbox"
-msgstr ""
+msgstr "Gli archivi locali non hanno una cartella della posta in arrivo"
 
 #: camel/providers/local/camel-local-store.c:198
 #, c-format
@@ -9319,9 +9319,9 @@ msgid "Could not rename folder %s to %s: %s"
 msgstr "Impossibile rinominare la cartella %s con %s: %s"
 
 #: camel/providers/local/camel-local-store.c:363
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename '%s': %s"
-msgstr "Impossibile rinominare la cartella: %s"
+msgstr "Impossibile rinominare la cartella '%s': %s"
 
 #: camel/providers/local/camel-local-store.c:384
 #, c-format
@@ -9416,14 +9416,12 @@ msgid "Cannot open maildir directory path: %s: %s"
 msgstr "Impossibile aprire il percorso della directory maildir: %s: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:539
-#, fuzzy
 msgid "Checking folder consistency"
-msgstr "Controllo nuova posta"
+msgstr "Controllo consistenza cartelle"
 
 #: camel/providers/local/camel-maildir-summary.c:640
-#, fuzzy
 msgid "Checking for new messages"
-msgstr "Ricerca nuovi messaggi"
+msgstr "Verifica nuovi messaggi"
 
 #: camel/providers/local/camel-maildir-summary.c:729
 #: camel/providers/local/camel-mbox-summary.c:345
@@ -9571,9 +9569,9 @@ msgid "Unknown error: %s"
 msgstr "Errore sconosciuto: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:883
-#, fuzzy, c-format
+#, c-format
 msgid "Could not store folder: %s"
-msgstr "Impossibile rinominare la cartella: %s"
+msgstr "Impossibile memorizzare la cartella: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:976
 #: camel/providers/local/camel-mbox-summary.c:1001
@@ -9606,14 +9604,14 @@ msgid "Cannot open MH directory path: %s: %s"
 msgstr "Impossibile aprire il percorso della directory MH: %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' cannot be opened: %s"
-msgstr "Le cartelle spool non possono essere rinominate"
+msgstr "Impossibile aprire le cartelle di spool `%s': %s"
 
 #: camel/providers/local/camel-spool-store.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' is not a regular file or directory"
-msgstr "`%s' non è una directory maildir."
+msgstr "La cartella di spool `%s' non è un file o una direcory normali"
 
 #: camel/providers/local/camel-spool-store.c:150
 #, c-format
@@ -9621,13 +9619,13 @@ msgid "Folder `%s/%s' does not exist."
 msgstr "La cartella `%s/%s' non esiste."
 
 #: camel/providers/local/camel-spool-store.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' is not a mailbox file."
-msgstr "`%s' non è un file regolare."
+msgstr "`%s' non è un file di posta"
 
 #: camel/providers/local/camel-spool-store.c:193
 msgid "Store does not support an INBOX"
-msgstr ""
+msgstr "L'archivio non supporta la casella di posta in arrivo (INBOX)"
 
 #: camel/providers/local/camel-spool-store.c:205
 #, c-format
@@ -9635,9 +9633,9 @@ msgid "Spool mail file %s"
 msgstr "File spool di posta %s"
 
 #: camel/providers/local/camel-spool-store.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "Spool folder tree %s"
-msgstr "Le cartelle spool non possono essere rinominate"
+msgstr "L'albero di cartelle spool %s"
 
 #: camel/providers/local/camel-spool-store.c:213
 msgid "Spool folders cannot be renamed"
@@ -9679,14 +9677,14 @@ msgid "This is a provider for reading from and posting toUSENET newsgroups."
 msgstr "Questo è un fornitore per la lettura e l'invio a newsgroups USENET."
 
 #: camel/providers/nntp/camel-nntp-store.c:151
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read greeting from %s: %s"
-msgstr "Impossibile creare la directory %s: %s"
+msgstr "Impossibile leggere i saluti da %s: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:163
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
-msgstr ""
+msgstr "Il server NNTP %s ha restituito il codice di errore %d: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:262
 #, c-format
@@ -9820,51 +9818,46 @@ msgstr ""
 "anche su server che affermano di supportarlo. "
 
 #: camel/providers/pop3/camel-pop3-store.c:183
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "Impossibile connettersi a %s (porta %d): %s"
+msgstr "Impossibile connettersi al server POP %s (porta %d): %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:212
 #: camel/providers/pop3/camel-pop3-store.c:241
 #: camel/providers/pop3/camel-pop3-store.c:253
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
-msgstr ""
-"Impossibile connettersi al server POP.\\n\n"
-"Errore nell'invio della password: %s"
+msgstr "Impossibile connettersi al server POP %s in modalità sicura: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to POP server %s"
-msgstr "Impossibile connettersi al server POP su %s"
+msgstr "Impossibile connettersi al server POP %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:392
 #: camel/providers/pop3/camel-pop3-store.c:502
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
 msgstr ""
-"Impossibile connettersi al server POP.\\n\n"
-"Non è presente il supporto per il meccaniscmo di autenticazione richiesto."
+"Impossibile connettersi al server POP %s: Non è presente il supporto per il "
+"meccanismo di autenticazione richiesto."
 
 #: camel/providers/pop3/camel-pop3-store.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
-msgstr "SASL `%s' Login fallito: %s"
+msgstr "Registrazione `%s' SASL fallita per il server POP %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:420
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
-msgstr ""
+msgstr "Impossibile registrarsi al POP server %s: errore di protocollo SASL"
 
 #: camel/providers/pop3/camel-pop3-store.c:439
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to authenticate on POP server %s: %s"
-msgstr ""
-"Non in grado di autenticare al server IMAP.\n"
-"%s\n"
-"\n"
+msgstr "Impossibile autenticarsi al server POP %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:462
 #, c-format
@@ -9873,12 +9866,12 @@ msgstr "%sPrego inserire la password del POP per %s@%s "
 
 #: camel/providers/pop3/camel-pop3-store.c:516
 #: camel/providers/pop3/camel-pop3-store.c:522
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending password: %s"
 msgstr ""
-"Impossibile connettersi al server POP.\\n\n"
+"Impossibile connettersi al server POP.%s.\n"
 "Errore nell'invio della password: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:614
@@ -10050,37 +10043,32 @@ msgid "Authentication required"
 msgstr "Autenticazione richiesta"
 
 #: camel/providers/smtp/camel-smtp-transport.c:295
-#, fuzzy
 msgid "Welcome response error"
-msgstr "Errore nella risposta di QUIT"
+msgstr "Errore nella risposta di benvenuto"
 
 #: camel/providers/smtp/camel-smtp-transport.c:339
 #: camel/providers/smtp/camel-smtp-transport.c:378
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr ""
-"Impossibile connettersi al server POP.\\n\n"
-"Errore nell'invio della password: %s"
+msgstr "Impossibile connettersi al server SMTP %s in modalità sicura: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:340
-#, fuzzy
 msgid "server does not appear to support SSL"
-msgstr "Il messaggio non sembra avere un formato valido"
+msgstr "il server non sembra supportare SSL"
 
 #: camel/providers/smtp/camel-smtp-transport.c:354
-#, fuzzy, c-format
+#, c-format
 msgid "STARTTLS request timed out: %s"
-msgstr "Richiesta AUTH scaduta: %s"
+msgstr "Richiesta STARTTLS scaduta: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:369
-#, fuzzy
 msgid "STARTTLS response error"
-msgstr "Errore nella risposta di DATA"
+msgstr "Errore nella risposta di STARTTLS"
 
 #: camel/providers/smtp/camel-smtp-transport.c:472
-#, fuzzy, c-format
+#, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr "Il server IMAP %s non supporta il tipo di autenticazione richiesto %s"
+msgstr "Il server SMTP %s non supporta il tipo di autenticazione richiesto %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:510
 #, c-format
@@ -10129,14 +10117,13 @@ msgid "SMTP Greeting"
 msgstr "Saluti SMTP"
 
 #: camel/providers/smtp/camel-smtp-transport.c:927
-#, fuzzy, c-format
+#, c-format
 msgid "HELO request timed out: %s"
-msgstr "Richiesta RSET scaduta: %s"
+msgstr "Richiesta HELO scaduta: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:949
-#, fuzzy
 msgid "HELO response error"
-msgstr "Errore nella risposta di RSET"
+msgstr "Errore nella risposta di HELO"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1015
 msgid "SMTP Authentication"
@@ -10213,28 +10200,28 @@ msgid "RSET response error"
 msgstr "Errore nella risposta di RSET"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1422
-#, fuzzy, c-format
+#, c-format
 msgid "QUIT request timed out: %s"
-msgstr "Richiesta AUTH scaduta: %s"
+msgstr "Richiesta QUIT scaduta: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1442
 msgid "QUIT response error"
 msgstr "Errore nella risposta di QUIT"
 
 #: composer/e-msg-composer-attachment-bar.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fK"
-msgstr "%.1fK"
+msgstr "%.0fK"
 
 #: composer/e-msg-composer-attachment-bar.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fM"
-msgstr "%.1fM"
+msgstr "%.0fM"
 
 #: composer/e-msg-composer-attachment-bar.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "%.0fG"
-msgstr "%.1fG"
+msgstr "%.0fG"
 
 #. This is a filename. Translators take note.
 #: composer/e-msg-composer-attachment-bar.c:371 mail/mail-display.c:222
@@ -10342,14 +10329,12 @@ msgstr ""
 #. * Post-To
 #.
 #: composer/e-msg-composer-hdrs.c:447
-#, fuzzy
 msgid "Post To:"
-msgstr "Porto"
+msgstr "Destinatario"
 
 #: composer/e-msg-composer-hdrs.c:449
-#, fuzzy
 msgid "Posting destination"
-msgstr "Nessuna descrizione disponibile"
+msgstr "Destinatari"
 
 #: composer/e-msg-composer-select-file.c:275
 #: ui/evolution-message-composer.xml.h:2
@@ -10357,9 +10342,8 @@ msgid "Attach a file"
 msgstr "Allega un file"
 
 #: composer/e-msg-composer.c:514
-#, fuzzy
 msgid "Could not create a PGP signature context"
-msgstr "Impossibile creare un contesto per la firma PGP."
+msgstr "Impossibile creare un contesto firma PGP"
 
 #: composer/e-msg-composer.c:787
 #, c-format
@@ -10434,15 +10418,15 @@ msgstr ""
 "Si desidera tentare di recuperarli?"
 
 #: composer/e-msg-composer.c:1525
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"Questo messaggio non è stato inviato.\n"
+"Il messaggio \"%s\" non è stato inviato.\n"
 "\n"
-"Salvare le modifiche?"
+"Vuoi salvare le modifiche?"
 
 #: composer/e-msg-composer.c:1536
 msgid "Warning: Modified Message"
@@ -10453,13 +10437,12 @@ msgid "Open file"
 msgstr "Apri file"
 
 #: composer/e-msg-composer.c:1927
-#, fuzzy
 msgid "Signature:"
-msgstr "Salva firma"
+msgstr "Firma:"
 
 #: composer/e-msg-composer.c:1968 mail/mail-account-gui.c:1231
 msgid "Autogenerated"
-msgstr ""
+msgstr "Autogenerata"
 
 #: composer/e-msg-composer.c:2155 composer/e-msg-composer.c:2779
 msgid "Compose a message"
@@ -10474,7 +10457,6 @@ msgstr ""
 "impossibile attivare il controllo del selettore di indirizzi."
 
 #: composer/e-msg-composer.c:2822
-#, fuzzy
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10482,7 +10464,9 @@ msgid ""
 "of gtkhtml and libgtkhtml installed.\n"
 msgstr ""
 "Impossibile creare la finestra di composizione:\n"
-"Il componente HTML non è disponibile."
+"Impossibile attivare un componente editor HTML.\n"
+"Prego assicurarsi di aver installato la versione corretta\n"
+"di gtkhtml e libgtkhtml.\n"
 
 #: composer/e-msg-composer.c:2879
 msgid ""
@@ -10497,6 +10481,8 @@ msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr ""
+"<b>(Il compositore contiene un corpo non di testo che non è possibile modificare.)"
+"<b>"
 
 #: composer/evolution-composer.c:393
 msgid ""
@@ -10507,7 +10493,6 @@ msgstr ""
 "stata ancora configurata nessuna identità nel componente della posta."
 
 #: composer/evolution-composer.c:408
-#, fuzzy
 msgid "Cannot initialize the Evolution composer."
 msgstr "Impossibile inizializzare il composer di Evolution."
 
@@ -10578,7 +10563,7 @@ msgstr "Ricorda questa password per il resto della sessione"
 
 #: e-util/e-pilot-settings.c:96
 msgid "Sync Private Records:"
-msgstr ""
+msgstr "Sincronizza Record Privati:"
 
 #: e-util/e-pilot-settings.c:105
 msgid "Sync Categories:"
@@ -10708,9 +10693,8 @@ msgid "years"
 msgstr "anni"
 
 #: filter/filter-datespec.c:174
-#, fuzzy
 msgid "You must choose a date."
-msgstr "La data non è stata specificata."
+msgstr "E' necessario indicare una data."
 
 #: filter/filter-datespec.c:269
 msgid "<click here to select a date>"
@@ -10722,15 +10706,14 @@ msgstr "adesso"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: filter/filter-datespec.c:279
-#, fuzzy
 msgid "%d-%b-%Y"
-msgstr "%a %d %b %Y"
+msgstr "%d-%b-%Y"
 
 #. 1 (minute|day|...) ago (singular time ago)
 #: filter/filter-datespec.c:292 filter/filter-datespec.c:295
-#, fuzzy, c-format
+#, c-format
 msgid "%d %s ago"
-msgstr " fa"
+msgstr "%d %s fa"
 
 #: filter/filter-datespec.c:407
 msgid "Select a time to compare against"
@@ -10741,19 +10724,17 @@ msgid "Filter Rules"
 msgstr "Regole dei Filtri"
 
 #: filter/filter-file.c:178
-#, fuzzy
 msgid "You must specify a file name"
-msgstr "Specifica nome del file:"
+msgstr "E' necessario indicare un nome file"
 
 #: filter/filter-file.c:190
-#, fuzzy, c-format
+#, c-format
 msgid "File '%s' does not exist or is not a regular file."
-msgstr "Spool `%s' non esiste oppure non è un file regolare."
+msgstr "Il file `%s' non esiste oppure non è un file regolare."
 
 #: filter/filter-file.c:307
-#, fuzzy
 msgid "Choose a file"
-msgstr "Specificare un'operazione:"
+msgstr "Scegli un file"
 
 #. and now for the action area
 #: filter/filter-filter.c:513
@@ -10765,9 +10746,8 @@ msgid "Add action"
 msgstr "Aggiungi Azione"
 
 #: filter/filter-folder.c:149
-#, fuzzy
 msgid "You must specify a folder.\n"
-msgstr "Specifica nome del file:"
+msgstr "E' necessario indicare una cartella.\n"
 
 #: filter/filter-folder.c:236 filter/vfolder-rule.c:391
 #: mail/mail-account-gui.c:1464 mail/mail-account-gui.c:1478
@@ -10791,28 +10771,24 @@ msgstr "Importante"
 #. red
 #: filter/filter-label.c:137 mail/mail-config.c:69
 #: mail/mail-config.glade.h:133
-#, fuzzy
 msgid "Work"
-msgstr "Cork"
+msgstr "Lavoro"
 
 #. orange
 #: filter/filter-label.c:138 mail/mail-config.c:70 mail/mail-config.glade.h:86
-#, fuzzy
 msgid "Personal"
-msgstr "Pownal"
+msgstr "Personale"
 
 #. forest green
 #: filter/filter-label.c:139 mail/mail-config.c:71
 #: mail/mail-config.glade.h:124
-#, fuzzy
 msgid "To Do"
-msgstr "Togo"
+msgstr "Da fare"
 
 #. blue
 #: filter/filter-label.c:140 mail/mail-config.c:72 mail/mail-config.glade.h:66
-#, fuzzy
 msgid "Later"
-msgstr "dopo"
+msgstr "Più tardi"
 
 #: filter/filter-part.c:545 shell/evolution-test-component.c:49
 msgid "Test"
@@ -10843,7 +10819,6 @@ msgid "if all criteria are met"
 msgstr "se tutti i criteri sonon soddisfatti"
 
 #: filter/filter-rule.c:812
-#, fuzzy
 msgid "if any criteria are met"
 msgstr "se qualche criterio è soddisfatto"
 
@@ -10880,13 +10855,12 @@ msgid "Outgoing"
 msgstr "In uscita"
 
 #: filter/filter.glade.h:7
-#, fuzzy
 msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
 msgstr ""
 "La data del messaggio verrà confrontata\n"
-"con quella specificata qui."
+"con le 12:00am di quella specificata qui."
 
 #: filter/filter.glade.h:9
 #, fuzzy
@@ -11186,9 +11160,8 @@ msgid "Subject"
 msgstr "Oggetto"
 
 #: filter/libfilter-i18n.h:61
-#, fuzzy
 msgid "Unset Status"
-msgstr "Imposta _Stato"
+msgstr "Deimposta Stato"
 
 #: filter/rule-editor.c:180
 msgid "Rules"
@@ -11197,7 +11170,7 @@ msgstr "Regole"
 #: filter/rule-editor.c:239 filter/rule-editor.c:335
 #, c-format
 msgid "Rule name '%s' is not unique, choose another"
-msgstr ""
+msgstr "Il nome della regola '%s' non è unico, usatene un altro"
 
 #: filter/rule-editor.c:299
 msgid "Add Rule"
