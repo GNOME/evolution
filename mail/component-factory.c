@@ -333,6 +333,9 @@ populate_folder_context_menu (EvolutionShellComponent *shell_component,
 			      const char *type,
 			      void *closure)
 {
+#ifdef TRANSLATORS_ONLY
+	static char popup_xml_i18n[] = {N_("Properties..."), N_("Change this folder's properties")};
+#endif
 	static char popup_xml[] =
 		"<menuitem name=\"ChangeFolderProperties\" verb=\"ChangeFolderProperties\""
 		"          _label=\"Properties...\" _tip=\"Change this folder's properties\"/>";

@@ -1,3 +1,9 @@
+2001-07-27  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* component-factory.c (populate_folder_context_menu): Added (unused)
+	table with strings intended to be translated (i18n tools can't extract
+	strings from XML data inside .c file).
+
 2001-07-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-mt.c (focus_on_entry): Don't need this anymore.
