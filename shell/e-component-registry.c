@@ -293,7 +293,7 @@ register_component (EComponentRegistry *component_registry,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
 component_id_foreach_free (void *key,
@@ -307,7 +307,7 @@ component_id_foreach_free (void *key,
 }
 
 static void
-destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	EComponentRegistry *component_registry;
 	EComponentRegistryPrivate *priv;
@@ -315,23 +315,38 @@ destroy (GtkObject *object)
 	component_registry = E_COMPONENT_REGISTRY (object);
 	priv = component_registry->priv;
 
-	g_hash_table_foreach (priv->component_id_to_component, component_id_foreach_free, NULL);
-	g_hash_table_destroy (priv->component_id_to_component);
+	if (priv->component_id_to_component != NULL) {
+		g_hash_table_foreach (priv->component_id_to_component, component_id_foreach_free, NULL);
+		g_hash_table_destroy (priv->component_id_to_component);
+		priv->component_id_to_component = NULL;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EComponentRegistry *component_registry;
+	EComponentRegistryPrivate *priv;
+
+	component_registry = E_COMPONENT_REGISTRY (object);
+	priv = component_registry->priv;
 
 	g_free (priv);
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
 class_init (EComponentRegistryClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	parent_class = gtk_type_class (gtk_object_get_type ());
 }

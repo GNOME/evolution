@@ -1320,7 +1320,7 @@ setup_widgets (EShellView *shell_view)
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
 hash_foreach_destroy_view (void *name,
@@ -1337,7 +1337,7 @@ hash_foreach_destroy_view (void *name,
 }
 
 static void
-destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
@@ -1350,19 +1350,30 @@ destroy (GtkObject *object)
 	   storage set used for the delayed selection mechanism.  */
 	cleanup_delayed_selection (shell_view);
 
-	g_object_unref (priv->tooltips);
+	if (priv->tooltips != NULL) {
+		g_object_unref (priv->tooltips);
+		priv->tooltips = NULL;
+	}
 
-	if (priv->history != NULL)
+	if (priv->history != NULL) {
 		g_object_unref (priv->history);
+		priv->history = NULL;
+	}
 
-	if (priv->shell != NULL)
+	if (priv->shell != NULL) {
 		bonobo_object_unref (BONOBO_OBJECT (priv->shell));
+		priv->shell = NULL;
+	}
 
-	if (priv->corba_interface != NULL)
+	if (priv->corba_interface != NULL) {
 		bonobo_object_unref (BONOBO_OBJECT (priv->corba_interface));
+		priv->corba_interface = NULL;
+	}
 
-	if (priv->folder_bar_popup != NULL)
+	if (priv->folder_bar_popup != NULL) {
 		gtk_widget_destroy (priv->folder_bar_popup);
+		priv->folder_bar_popup = NULL;
+	}
 
 	for (p = priv->sockets; p != NULL; p = p->next) {
 		GtkWidget *socket_widget;
@@ -1373,24 +1384,44 @@ destroy (GtkObject *object)
 									    "e_shell_view_destroy_connection_id"));
 		gtk_signal_disconnect (GTK_OBJECT (socket_widget), destroy_connection_id);
 	}
+	g_list_free (priv->sockets);
+	priv->sockets = NULL;
 
-	g_hash_table_foreach (priv->uri_to_view, hash_foreach_destroy_view, NULL);
-	g_hash_table_destroy (priv->uri_to_view);
+	if (priv->uri_to_view != NULL) {
+		g_hash_table_foreach (priv->uri_to_view, hash_foreach_destroy_view, NULL);
+		g_hash_table_destroy (priv->uri_to_view);
+		priv->uri_to_view = NULL;
+	}
 
-	bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
+	if (priv->ui_component != NULL) {
+		bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
+		priv->ui_component = NULL;
+	}
+
+	if (priv->set_folder_timeout != 0) {
+		gtk_timeout_remove (priv->set_folder_timeout);
+		priv->set_folder_timeout = 0;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+
+	shell_view = E_SHELL_VIEW (object);
+	priv = shell_view->priv;
 
 	g_free (priv->uri);
-
-	if (priv->set_folder_timeout != 0)
-		gtk_timeout_remove (priv->set_folder_timeout);
-
 	g_free (priv->set_folder_uri);
-
 	g_free (priv->delayed_selection);
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -1399,11 +1430,12 @@ destroy (GtkObject *object)
 static void
 class_init (EShellViewClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) klass;
+	object_class = G_OBJECT_CLASS (klass);
 
-	object_class->destroy = destroy;
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	parent_class = gtk_type_class (BONOBO_TYPE_WINDOW);
 

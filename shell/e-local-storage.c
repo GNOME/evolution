@@ -670,7 +670,7 @@ remove_folder (ELocalStorage *local_storage,
 /* GtkObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	ELocalStorage *local_storage;
 	ELocalStoragePrivate *priv;
@@ -681,19 +681,34 @@ impl_destroy (GtkObject *object)
 
 	CORBA_exception_init (&ev);
 
-	g_free (priv->base_path);
-
-	if (priv->folder_type_registry != NULL)
+	if (priv->folder_type_registry != NULL) {
 		g_object_unref (priv->folder_type_registry);
+		priv->folder_type_registry = NULL;
+	}
 
-	if (priv->bonobo_interface != NULL)
+	if (priv->bonobo_interface != NULL) {
 		bonobo_object_unref (BONOBO_OBJECT (priv->bonobo_interface));
-
-	g_free (priv);
+		priv->bonobo_interface = NULL;
+	}
 
 	CORBA_exception_free (&ev);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	ELocalStorage *local_storage;
+	ELocalStoragePrivate *priv;
+
+	local_storage = E_LOCAL_STORAGE (object);
+	priv = local_storage->priv;
+
+	g_free (priv->base_path);
+	g_free (priv);
+
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -1056,13 +1071,15 @@ static void
 class_init (ELocalStorageClass *class)
 {
 	EStorageClass *storage_class;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	parent_class  = gtk_type_class (e_storage_get_type ());
-	object_class  = GTK_OBJECT_CLASS (class);
+
+	object_class  = G_OBJECT_CLASS (class);
 	storage_class = E_STORAGE_CLASS (class);
 
-	object_class->destroy              = impl_destroy;
+	object_class->finalize = impl_finalize;
+	object_class->dispose  = impl_dispose;
 
 	storage_class->async_create_folder = impl_async_create_folder;
 	storage_class->async_remove_folder = impl_async_remove_folder;

@@ -194,10 +194,27 @@ clicked (GtkButton *button)
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-destroy (GtkObject *object)
+impl_dispose (GObject *object)
+{
+	EvolutionFolderSelectorButton *folder_selector_button;
+	EvolutionFolderSelectorButtonPrivate *priv;
+
+	folder_selector_button = EVOLUTION_FOLDER_SELECTOR_BUTTON (object);
+	priv = folder_selector_button->priv;
+
+	if (priv->shell_client != NULL) {
+		g_object_unref (priv->shell_client);
+		priv->shell_client = NULL;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
 {
 	EvolutionFolderSelectorButton *folder_selector_button;
 	EvolutionFolderSelectorButtonPrivate *priv;
@@ -206,7 +223,6 @@ destroy (GtkObject *object)
 	folder_selector_button = EVOLUTION_FOLDER_SELECTOR_BUTTON (object);
 	priv = folder_selector_button->priv;
 
-	g_object_unref (priv->shell_client);
 	g_free (priv->title);
 	for (i = 0; priv->possible_types[i]; i++)
 		g_free (priv->possible_types[i]);
@@ -217,23 +233,25 @@ destroy (GtkObject *object)
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
 class_init (EvolutionFolderSelectorButtonClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkButtonClass *button_class;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class = GTK_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (klass);
 	button_class = GTK_BUTTON_CLASS (klass);
 
 	button_class->clicked = clicked;
-	object_class->destroy = destroy;
+
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	signals[POPPED_UP] = gtk_signal_new ("popped_up",
 					    GTK_RUN_FIRST,

@@ -101,10 +101,44 @@ setup_listener (ECorbaConfigPage *corba_config_page,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GObject *object)
+{
+	ECorbaConfigPage *corba_config_page;
+	ECorbaConfigPagePrivate *priv;
+	CORBA_Environment ev;
+
+	corba_config_page = E_CORBA_CONFIG_PAGE (object);
+	priv = corba_config_page->priv;
+
+	CORBA_exception_init (&ev);
+
+	if (priv->config_control_interface != CORBA_OBJECT_NIL) {
+		bonobo_object_release_unref (priv->config_control_interface, &ev);
+		priv->config_control_interface = CORBA_OBJECT_NIL;
+	}
+
+	if (priv->listener != NULL) {
+		Bonobo_EventSource_removeListener (priv->event_source,
+						   bonobo_object_corba_objref (BONOBO_OBJECT (priv->listener)),
+						   &ev);
+
+		bonobo_object_unref (BONOBO_OBJECT (priv->listener));
+		bonobo_object_release_unref (priv->event_source, &ev);
+
+		priv->event_source = CORBA_OBJECT_NIL;
+		priv->listener = NULL;
+	}
+
+	CORBA_exception_free (&ev);
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
 {
 	ECorbaConfigPage *corba_config_page;
 	ECorbaConfigPagePrivate *priv;
@@ -112,30 +146,9 @@ impl_destroy (GtkObject *object)
 	corba_config_page = E_CORBA_CONFIG_PAGE (object);
 	priv = corba_config_page->priv;
 
-	if (priv != NULL) {
-		CORBA_Environment ev;
+	g_free (priv);
 
-		CORBA_exception_init (&ev);
-
-		if (priv->config_control_interface != CORBA_OBJECT_NIL)
-			bonobo_object_release_unref (priv->config_control_interface, &ev);
-
-		if (priv->listener != NULL) {
-			Bonobo_EventSource_removeListener (priv->event_source,
-							   bonobo_object_corba_objref (BONOBO_OBJECT (priv->listener)),
-							   &ev);
-			bonobo_object_unref (BONOBO_OBJECT (priv->listener));
-
-			bonobo_object_release_unref (priv->event_source, &ev);
-		}
-
-		CORBA_exception_free (&ev);
-
-		g_free (priv);
-		corba_config_page->priv = NULL;
-	}
-
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -167,11 +180,12 @@ impl_apply (EConfigPage *config_page)
 static void
 class_init (ECorbaConfigPageClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	EConfigPageClass *config_page_class;
 
-	object_class = GTK_OBJECT_CLASS (class);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	config_page_class = E_CONFIG_PAGE_CLASS (class);
 	config_page_class->apply = impl_apply;

@@ -336,7 +336,7 @@ signal_new_folder_for_all_folders_in_storage (EStorageSet *storage_set,
 /* GtkObject methods.  */
 
 static void
-destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	EStorageSet *storage_set;
 	EStorageSetPrivate *priv;
@@ -344,29 +344,47 @@ destroy (GtkObject *object)
 	storage_set = E_STORAGE_SET (object);
 	priv = storage_set->priv;
 
-	e_free_object_list (priv->storages);
+	if (priv->storages != NULL) {
+		e_free_object_list (priv->storages);
+		priv->storages = NULL;
+	}
 
-	g_object_unref (priv->folder_type_registry);
+	if (priv->folder_type_registry != NULL) {
+		g_object_unref (priv->folder_type_registry);
+		priv->folder_type_registry = NULL;
+	}
 
-	g_hash_table_foreach (priv->name_to_named_storage,
-			      (GHFunc) name_to_named_storage_foreach_destroy, NULL);
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EStorageSet *storage_set;
+	EStorageSetPrivate *priv;
+
+	storage_set = E_STORAGE_SET (object);
+	priv = storage_set->priv;
+
+	g_hash_table_foreach (priv->name_to_named_storage, (GHFunc) name_to_named_storage_foreach_destroy, NULL);
 	g_hash_table_destroy (priv->name_to_named_storage);
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
 class_init (EStorageSetClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	parent_class = gtk_type_class (gtk_object_get_type ());
-	object_class = GTK_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (klass);
 
-	object_class->destroy = destroy;
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	signals[NEW_STORAGE] = 
 		gtk_signal_new ("new_storage",

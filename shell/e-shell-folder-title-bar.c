@@ -380,10 +380,10 @@ title_button_toggled_cb (GtkToggleButton *title_button,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	EShellFolderTitleBar *folder_title_bar;
 	EShellFolderTitleBarPrivate *priv;
@@ -391,11 +391,26 @@ impl_destroy (GtkObject *object)
 	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (object);
 	priv = folder_title_bar->priv;
 
-	if (priv->icon != NULL)
+	if (priv->icon != NULL) {
 		gdk_pixbuf_unref (priv->icon);
+		priv->icon = NULL;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EShellFolderTitleBar *folder_title_bar;
+	EShellFolderTitleBarPrivate *priv;
+
+	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (object);
+	priv = folder_title_bar->priv;
+
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -443,11 +458,12 @@ impl_size_allocate (GtkWidget *widget,
 static void
 class_init (EShellFolderTitleBarClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->size_allocate = impl_size_allocate;

@@ -410,7 +410,7 @@ setup_custom_storage (EvolutionShellClient *shell_client)
 	   FirstFolder so the order is reversed.  */
 
 	evolution_storage_new_folder (the_storage, "/FirstFolder", "FirstFolder",
-				      "mail", "file:///tmp/blah", "", "inbox", 0, TRUE, 0);
+				      "test", "file:///tmp/blah", "", "inbox", 0, TRUE, 0);
 	evolution_storage_new_folder (the_storage, "/SecondFolder", "SecondFolder",
 				      "calendar", "file:///tmp/bleh", "", NULL, 0, FALSE, -1);
 }
@@ -491,7 +491,7 @@ timeout_callback_1 (void *data)
 
 #define NUM_ACTIVITIES 10
 
-	animated_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "outbox-16.png", NULL);
+	animated_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGES "outbox-mini.png", NULL);
 	animated_icon[1] = NULL;
 
 	g_assert (animated_icon[0] != NULL);

@@ -53,38 +53,52 @@ struct _ETaskWidgetPrivate {
 };
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	ETaskWidget *task_widget;
 	ETaskWidgetPrivate *priv;
 
 	task_widget = E_TASK_WIDGET (object);
-	if (task_widget->priv) {
-		priv = task_widget->priv;
 
-		g_free (priv->component_id);
-
+	if (priv->tooltips != NULL) {
 		g_object_unref (priv->tooltips);
-
-		gdk_pixbuf_unref (priv->icon_pixbuf);
-
-		g_free (priv);
-		task_widget->priv = NULL;
+		priv->tooltips = NULL;
 	}
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (priv->icon_pixbuf != NULL) {
+		gdk_pixbuf_unref (priv->icon_pixbuf);
+		priv->icon_pixbuf = NULL;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	ETaskWidget *task_widget;
+	ETaskWidgetPrivate *priv;
+
+	task_widget = E_TASK_WIDGET (object);
+	priv = task_widget->priv;
+
+	g_free (priv->component_id);
+	g_free (priv);
+
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
-class_init (GtkObjectClass *object_class)
+class_init (GObjectClass *object_class)
 {
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class->destroy = impl_destroy;
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 }
 
 static void

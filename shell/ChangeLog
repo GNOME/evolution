@@ -1,3 +1,35 @@
+2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-component-registry.c: Make separate dispose/finalize overrides
+	of just overriding destroy.
+	* e-corba-config-page.c: Likewise.
+	* e-corba-storage.c: Likewise.
+	* e-folder-type-registry.c: Likewise.
+	* e-folder.c: Likewise.
+	* e-history.c: Likewise.
+	* e-local-folder.c: Likewise.
+	* e-local-storage.c: Likewise.
+	* e-shell-folder-selection-dialog.c: Likewise.
+	* e-shell-folder-title-bar.c: Likewise.
+	* e-shell-offline-handler.c: Likewise.
+	* e-shell-settings-dialog.c: Likewise.
+	* e-shell-user-creatable-items-handler.c: Likewise.
+	* e-shell-view.c: Likewise.
+	* e-shortcuts-view-model.c: Likewise.
+	* e-shortcuts-view.c: Likewise.
+	* e-shortcuts.c: Likewise.
+	* e-storage-set-view.c: Likewise.
+	* e-storage-set.c: Likewise.
+	* e-storage.c: Likewise.
+	* e-task-bar.c: Likewise.
+	* e-task-widget.c: Likewise.
+	* e-uri-schema-registry.c: Likewise.
+	* evolution-activity-client.c: Likewise.
+	* evolution-folder-selector-button.c: Likewise.
+	* evolution-storage-listener.c: Likewise.
+	* evolution-storage-set-view-listener.c: Likewise.
+	* evolution-test-component.c: Likewise.
+
 2002-11-08  Rodrigo Moya <rodrigo@ximian.com>
 
 	* importer/Makefile.am: use correctly IDL flags.

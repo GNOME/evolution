@@ -280,7 +280,7 @@ destroy_type_entry (gpointer key, gpointer value, gpointer data)
 }
 		
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EShellSettingsDialog *dialog;
 	EShellSettingsDialogPrivate *priv;
@@ -293,18 +293,18 @@ impl_destroy (GtkObject *object)
 
 	g_free (priv);
 	
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
 class_init (EShellSettingsDialog *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = GTK_OBJECT_CLASS (class);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = impl_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = impl_realize;

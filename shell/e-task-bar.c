@@ -81,27 +81,10 @@ reduce_displayed_activities_per_component (ETaskBar *task_bar)
 }
 
 
-/* GtkObject methods.  */
-
-static void
-impl_destroy (GtkObject *object)
-{
-	ETaskBar *task_bar;
-
-	task_bar = E_TASK_BAR (object);
-
-	/* Nothing to do here.  */
-
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
-}
-
-
 static void
 class_init (GtkObjectClass *object_class)
 {
 	parent_class = gtk_type_class (PARENT_TYPE);
-
-	object_class->destroy = impl_destroy;
 }
 
 static void

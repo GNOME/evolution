@@ -354,7 +354,7 @@ save_metadata (ELocalFolder *local_folder)
 /* GtkObject methods.  */
 
 static void
-destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	ELocalFolder *local_folder;
 	ELocalFolderPrivate *priv;
@@ -369,19 +369,19 @@ destroy (GtkObject *object)
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
 class_init (ELocalFolderClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	parent_class = gtk_type_class (e_folder_get_type ());
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = impl_finalize;
 
 	setup_global_language_id ();
 }

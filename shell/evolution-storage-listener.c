@@ -187,10 +187,10 @@ activate_servant (EvolutionStorageListener *listener,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EvolutionStorageListener *storage_listener;
 	EvolutionStorageListenerPrivate *priv;
@@ -218,7 +218,7 @@ impl_destroy (GtkObject *object)
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -249,12 +249,12 @@ corba_class_init (void)
 static void
 class_init (EvolutionStorageListenerClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = impl_finalize;
 
 	signals[DESTROYED]      = gtk_signal_new ("destroyed",
 						  GTK_RUN_FIRST,

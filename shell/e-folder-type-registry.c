@@ -223,7 +223,7 @@ hash_forall_free_folder_type (gpointer key,
 }
 
 static void
-destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EFolderTypeRegistry *folder_type_registry;
 	EFolderTypeRegistryPrivate *priv;
@@ -231,23 +231,22 @@ destroy (GtkObject *object)
 	folder_type_registry = E_FOLDER_TYPE_REGISTRY (object);
 	priv = folder_type_registry->priv;
 
-	g_hash_table_foreach (priv->name_to_type,
-			      hash_forall_free_folder_type, NULL);
+	g_hash_table_foreach (priv->name_to_type, hash_forall_free_folder_type, NULL);
 	g_hash_table_destroy (priv->name_to_type);
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
 class_init (EFolderTypeRegistryClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (class);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = impl_finalize;
 
 	parent_class = gtk_type_class (gtk_object_get_type ());
 }

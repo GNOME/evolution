@@ -463,10 +463,10 @@ group_change_icon_size_callback (EShortcuts *shortucts,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	EShortcutsViewPrivate *priv;
 	EShortcutsView *shortcuts_view;
@@ -475,11 +475,24 @@ destroy (GtkObject *object)
 
 	priv = shortcuts_view->priv;
 
-	g_object_unref (priv->shortcuts);
+	if (priv->shortcuts != NULL) {
+		g_object_unref (priv->shortcuts);
+		priv->shortcuts = NULL;
+	}
 
-	g_free (priv);
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+static void
+impl_finalize (GObject *object)
+{
+	EShortcutsView *shortcuts_view;
+
+	shortcuts_view = E_SHORTCUTS_VIEW (object);
+
+	g_free (shortcuts_view->priv);
+
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -677,11 +690,12 @@ impl_shortcut_drag_data_received (EShortcutBar *shortcut_bar,
 static void
 class_init (EShortcutsViewClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	EShortcutBarClass *shortcut_bar_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	shortcut_bar_class = E_SHORTCUT_BAR_CLASS (klass);
 	shortcut_bar_class->item_selected               = item_selected;

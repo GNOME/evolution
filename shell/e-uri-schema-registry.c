@@ -82,7 +82,7 @@ schema_to_handler_destroy_foreach_callback (void *key,
 /* GtkObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EUriSchemaRegistry *registry;
 	EUriSchemaRegistryPrivate *priv;
@@ -94,16 +94,16 @@ impl_destroy (GtkObject *object)
 	g_hash_table_destroy (priv->schema_to_handler);
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
-class_init (GtkObjectClass *object_class)
+class_init (GObjectClass *object_class)
 {
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class->destroy = impl_destroy;
+	object_class->finalize = impl_finalize;
 }
 
 static void

@@ -108,10 +108,10 @@ impl_get_physical_uri (EFolder *folder)
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EFolder *folder;
 	EFolderPrivate *priv;
@@ -128,19 +128,19 @@ destroy (GtkObject *object)
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
 class_init (EFolderClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	parent_class = gtk_type_class (gtk_object_get_type ());
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = impl_finalize;
 
 	signals[CHANGED] = gtk_signal_new ("changed",
 					   GTK_RUN_FIRST,

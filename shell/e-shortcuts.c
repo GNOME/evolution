@@ -619,10 +619,35 @@ storage_set_updated_folder_callback (EStorageSet *storage_set,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GObject *object)
+{
+	EShortcuts *shortcuts;
+	EShortcutsPrivate *priv;
+
+	shortcuts = E_SHORTCUTS (object);
+	priv = shortcuts->priv;
+
+	unload_shortcuts (shortcuts);
+
+	if (priv->save_idle_id != 0) {
+		gtk_idle_remove (priv->save_idle_id);
+		priv->save_idle_id = 0;
+	}
+
+	if (priv->dirty) {
+		if (! e_shortcuts_save (shortcuts, NULL))
+			g_warning (_("Error saving shortcuts.")); /* FIXME */
+		priv->dirty = FALSE;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
 {
 	EShortcuts *shortcuts;
 	EShortcutsPrivate *priv;
@@ -631,28 +656,20 @@ impl_destroy (GtkObject *object)
 	priv = shortcuts->priv;
 
 	g_free (priv->file_name);
+	g_free (priv);
 
-	unload_shortcuts (shortcuts);
-
-	if (priv->save_idle_id != 0)
-		gtk_idle_remove (priv->save_idle_id);
-
-	if (priv->dirty) {
-		if (! e_shortcuts_save (shortcuts, NULL))
-			g_warning (_("Error saving shortcuts.")); /* FIXME */
-	}
-
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
 class_init (EShortcutsClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass*) klass;
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	parent_class = gtk_type_class (gtk_object_get_type ());
 

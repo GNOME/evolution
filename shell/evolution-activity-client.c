@@ -155,10 +155,10 @@ listener_callback (BonoboListener *listener,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	EvolutionActivityClient *activity_client;
 	EvolutionActivityClientPrivate *priv;
@@ -167,8 +167,10 @@ impl_destroy (GtkObject *object)
 	activity_client = EVOLUTION_ACTIVITY_CLIENT (object);
 	priv = activity_client->priv;
 
-	if (priv->next_update_timeout_id != 0)
+	if (priv->next_update_timeout_id != 0) {
 		g_source_remove (priv->next_update_timeout_id);
+		priv->next_update_timeout_id = 0;
+	}
 
 	CORBA_exception_init (&ev);
 
@@ -181,30 +183,46 @@ impl_destroy (GtkObject *object)
 				   BONOBO_EX_REPOID (&ev));
 
 		CORBA_Object_release (priv->activity_interface, &ev);
+
+		priv->activity_interface = CORBA_OBJECT_NIL;
 	}
 
 	CORBA_exception_free (&ev);
 
-	if (priv->listener != NULL)
+	if (priv->listener != NULL) {
 		bonobo_object_unref (BONOBO_OBJECT (priv->listener));
+		priv->listener = NULL;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EvolutionActivityClient *activity_client;
+	EvolutionActivityClientPrivate *priv;
+
+	activity_client = EVOLUTION_ACTIVITY_CLIENT (object);
+	priv = activity_client->priv;
 
 	g_free (priv->new_information);
-
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
 class_init (EvolutionActivityClientClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	signals[SHOW_DETAILS] 
 		= gtk_signal_new ("show_details",

@@ -175,7 +175,24 @@ save_expanded_state (EShellFolderSelectionDialog *folder_selection_dialog)
 }
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GObject *object)
+{
+	EShellFolderSelectionDialog *folder_selection_dialog;
+	EShellFolderSelectionDialogPrivate *priv;
+
+	folder_selection_dialog = E_SHELL_FOLDER_SELECTION_DIALOG (object);
+	priv = folder_selection_dialog->priv;
+
+	if (priv->storage_set != NULL) {
+		g_object_unref (priv->storage_set);
+		priv->storage_set = NULL;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
 {
 	EShellFolderSelectionDialog *folder_selection_dialog;
 	EShellFolderSelectionDialogPrivate *priv;
@@ -185,14 +202,11 @@ impl_destroy (GtkObject *object)
 
 	save_expanded_state (folder_selection_dialog);
 
-	if (priv->storage_set != NULL)
-		g_object_unref (priv->storage_set);
-
 	e_free_string_list (priv->allowed_types);
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -256,14 +270,15 @@ impl_response (GtkDialog *dialog,
 static void
 class_init (EShellFolderSelectionDialogClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkDialogClass *dialog_class;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
-	object_class = GTK_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (klass);
 	dialog_class = GTK_DIALOG_CLASS (klass);
 
-	object_class->destroy = impl_destroy;
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	dialog_class->response = impl_response;
 

@@ -130,7 +130,7 @@ folder_changed_cb (EFolder *folder,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
 free_folder (gpointer path, gpointer folder, gpointer user_data)
@@ -140,7 +140,7 @@ free_folder (gpointer path, gpointer folder, gpointer user_data)
 }
 
 static void
-destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EStorage *storage;
 	EStoragePrivate *priv;
@@ -157,7 +157,9 @@ destroy (GtkObject *object)
 
 	g_free (priv->name);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	g_free (priv);
+
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -263,12 +265,12 @@ impl_async_remove_shared_folder (EStorage *storage,
 static void
 class_init (EStorageClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (class);
+	object_class = G_OBJECT_CLASS (class);
 	parent_class = gtk_type_class (gtk_object_get_type ());
 
-	object_class->destroy = destroy;
+	object_class->finalize = impl_finalize;
 
 	class->get_subfolder_paths = impl_get_subfolder_paths;
 	class->get_folder          = impl_get_folder;

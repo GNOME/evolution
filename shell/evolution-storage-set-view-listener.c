@@ -134,8 +134,10 @@ activate_servant (EvolutionStorageSetViewListener *listener,
 }
 
 
+/* GObject methods.  */
+
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EvolutionStorageSetViewListener *listener;
 	EvolutionStorageSetViewListenerPrivate *priv;
@@ -163,8 +165,7 @@ impl_destroy (GtkObject *object)
 
 	g_free (priv);
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -192,10 +193,10 @@ corba_class_init (void)
 static void
 class_init (EvolutionStorageSetViewListenerClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = impl_finalize;
 
 	parent_class = gtk_type_class (gtk_object_get_type ());
 

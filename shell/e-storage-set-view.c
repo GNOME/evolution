@@ -819,7 +819,7 @@ pixbuf_free_func (gpointer key, gpointer value, gpointer user_data)
 }
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
@@ -827,25 +827,21 @@ impl_destroy (GtkObject *object)
 	storage_set_view = E_STORAGE_SET_VIEW (object);
 	priv = storage_set_view->priv;
 
-	/* need to destroy our tree */
-	e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), priv->root_node);
-	g_object_unref (priv->etree_model);
+	if (priv->etree_model != NULL) {
+		/* Destroy the tree.  */
+		e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), priv->root_node);
+		g_object_unref (priv->etree_model);
+		priv->etree_model = NULL;
 
-	/* the data in the hash table was all freed by freeing the tree */
-	g_hash_table_destroy (priv->path_to_etree_node);
-
-	/* now free up all the type_names and pixbufs stored in the
-           hash table and destroy the hash table itself */
-	g_hash_table_foreach (priv->type_name_to_pixbuf, pixbuf_free_func, NULL);
-	g_hash_table_destroy (priv->type_name_to_pixbuf);
-
-	if (priv->checkboxes) {
-		g_hash_table_foreach (priv->checkboxes, (GHFunc) g_free, NULL);
-		g_hash_table_destroy (priv->checkboxes);
-		priv->checkboxes = NULL;
+		/* (The data in the hash table was all freed by freeing the tree.)  */
+		g_hash_table_destroy (priv->path_to_etree_node);
+		priv->path_to_etree_node = NULL;
 	}
 
-	g_object_unref (priv->storage_set);
+	if (priv->storage_set != NULL) {
+		g_object_unref (priv->storage_set);
+		priv->storage_set = NULL;
+	}
 
 	if (priv->drag_corba_source_interface != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
@@ -862,7 +858,32 @@ impl_destroy (GtkObject *object)
 		CORBA_Object_release (priv->drag_corba_source_interface, &ev);
 
 		CORBA_exception_free (&ev);
+
+		priv->drag_corba_source_interface = CORBA_OBJECT_NIL;
 	}
+
+	if (priv->ui_component != NULL)
+		bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
+
+	/* (No unreffing for priv->ui_container since we use a weakref.)  */
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+
+	storage_set_view = E_STORAGE_SET_VIEW (object);
+	priv = storage_set_view->priv;
+
+	g_hash_table_foreach (priv->type_name_to_pixbuf, pixbuf_free_func, NULL);
+	g_hash_table_destroy (priv->type_name_to_pixbuf);
+
+	g_hash_table_foreach (priv->checkboxes, (GHFunc) g_free, NULL);
+	g_hash_table_destroy (priv->checkboxes);
 
 	if (priv->drag_corba_source_context != NULL)
 		CORBA_free (priv->drag_corba_source_context);
@@ -870,17 +891,12 @@ impl_destroy (GtkObject *object)
 	if (priv->drag_corba_data != NULL)
 		CORBA_free (priv->drag_corba_data);
 
-	if (priv->ui_component != NULL)
-		bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
-
-	/* (No unreffing for priv->ui_container since we use a weakref.)  */
-
 	g_free (priv->selected_row_path);
 	g_free (priv->right_click_row_path);
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -1765,13 +1781,14 @@ close_folder_cb (EStorageSet *storage_set,
 static void
 class_init (EStorageSetViewClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	ETreeClass *etree_class;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	etree_class = E_TREE_CLASS (klass);
 	etree_class->right_click             = impl_right_click;

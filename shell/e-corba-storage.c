@@ -236,10 +236,10 @@ setup_storage_listener (ECorbaStorage *corba_storage)
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	CORBA_Environment ev;
 	ECorbaStorage *corba_storage;
@@ -253,10 +253,13 @@ destroy (GtkObject *object)
 	if (priv->storage_interface != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (priv->storage_interface, &ev);
 		CORBA_Object_release (priv->storage_interface, &ev);
+		priv->storage_interface = CORBA_OBJECT_NIL;
 	}
 
-	if (priv->storage_listener_interface != CORBA_OBJECT_NIL)
+	if (priv->storage_listener_interface != CORBA_OBJECT_NIL) {
 		CORBA_Object_release (priv->storage_listener_interface, &ev);
+		priv->storage_listener_interface = CORBA_OBJECT_NIL;
+	}
 
 	if (priv->storage_listener_servant != NULL) {
 		PortableServer_ObjectId *object_id;
@@ -267,15 +270,25 @@ destroy (GtkObject *object)
 
 		POA_GNOME_Evolution_StorageListener__fini (priv->storage_listener_servant, &ev);
 		CORBA_free (object_id);
+
+		priv->storage_listener_servant = NULL;
 	}
 
 	CORBA_exception_free (&ev);
 
-	g_free (priv);
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
 
-	corba_storage->priv = NULL;
+static void
+impl_finalize (GObject *object)
+{
+	ECorbaStorage *corba_storage;
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	corba_storage = E_CORBA_STORAGE (object);
+
+	g_free (corba_storage->priv);
+
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -655,11 +668,12 @@ corba_class_init (void)
 static void
 class_init (ECorbaStorageClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	EStorageClass *storage_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	storage_class = E_STORAGE_CLASS (klass);
 	storage_class->async_create_folder           = async_create_folder;

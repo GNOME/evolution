@@ -656,10 +656,10 @@ shell_view_view_changed_callback (EShellView *shell_view,
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	EShellUserCreatableItemsHandler *handler;
 	EShellUserCreatableItemsHandlerPrivate *priv;
@@ -672,21 +672,35 @@ impl_destroy (GtkObject *object)
 		component_free ((Component *) p->data);
 
 	g_slist_free (priv->components);
+	priv->components = NULL;
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EShellUserCreatableItemsHandler *handler;
+	EShellUserCreatableItemsHandlerPrivate *priv;
+
+	handler = E_SHELL_USER_CREATABLE_ITEMS_HANDLER (object);
+	priv = handler->priv;
 
 	free_menu_items (priv->menu_items);
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
 static void
-class_init (GtkObjectClass *object_class)
+class_init (GObjectClass *object_class)
 {
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class->destroy = impl_destroy;
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 }
 
 static void

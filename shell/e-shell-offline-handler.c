@@ -660,10 +660,10 @@ pop_up_confirmation_dialog (EShellOfflineHandler *offline_handler)
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_dispose (GObject *object)
 {
 	EShellOfflineHandler *offline_handler;
 	EShellOfflineHandlerPrivate *priv;
@@ -673,8 +673,11 @@ impl_destroy (GtkObject *object)
 
 	/* (We don't unref the shell, as it's our owner.)  */
 
-	g_hash_table_foreach (priv->id_to_component_info, hash_foreach_free_component_info, NULL);
-	g_hash_table_destroy (priv->id_to_component_info);
+	if (priv->id_to_component_info != NULL) {
+		g_hash_table_foreach (priv->id_to_component_info, hash_foreach_free_component_info, NULL);
+		g_hash_table_destroy (priv->id_to_component_info);
+		priv->id_to_component_info = NULL;
+	}
 
 	if (priv->dialog_gui != NULL) {
 		GtkWidget *dialog;
@@ -686,10 +689,21 @@ impl_destroy (GtkObject *object)
 		priv->dialog_gui = NULL;
 	}
 
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EShellOfflineHandler *offline_handler;
+	EShellOfflineHandlerPrivate *priv;
+
+	offline_handler = E_SHELL_OFFLINE_HANDLER (object);
+	priv = offline_handler->priv;
+
 	g_free (priv);
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -698,10 +712,11 @@ impl_destroy (GtkObject *object)
 static void
 class_init (EShellOfflineHandlerClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
+	object_class->finalize = impl_finalize;
 
 	parent_class = gtk_type_class (gtk_object_get_type ());
 
