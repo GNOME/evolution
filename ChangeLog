@@ -1,3 +1,11 @@
+2000-04-07  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text/e-text.c: Made text tooltips appear in place.
+	Iain figured out that to get them to not appear, we hide the
+	tooltip when the mouse leaves the tooltip window, not the canvas
+	item (this works because the tooltip window always covers the
+	canvas item completely.)
+
 2000-04-07  Matt Loper  <matt@helixcode.com>
 
 	* addressbook/demo/addressbook.c (control_activate_cb): New

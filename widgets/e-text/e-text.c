@@ -348,6 +348,9 @@ e_text_init (EText *text)
 	text->break_characters = NULL;
 	text->max_lines = -1;
 
+	text->tooltip_timeout = 0;
+	text->tooltip_count = 0;
+
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
 }
 
@@ -2132,24 +2135,44 @@ _blink_scroll_timeout (gpointer data)
 }
 
 static gboolean
+tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
+{
+	switch (event->type) {
+	case GDK_LEAVE_NOTIFY:
+		if (text->tooltip_window) {
+			gtk_widget_destroy (text->tooltip_window);
+			text->tooltip_window = NULL;
+		}
+		break;
+	default:
+		break;
+	}
+	return FALSE;
+}
+
+static gboolean
 _do_tooltip (gpointer data)
 {
 	EText *text = E_TEXT (data);
 	struct line *lines;
 	GtkWidget *canvas;
-	gint x, y, pointer_x, pointer_y, scr_w, scr_h, tip_w, tip_h;
 	int i;
 	gdouble max_width;
 	gboolean cut_off;
+	double i2c[6];
+	ArtPoint origin = {0, 0};
+	ArtPoint pixel_origin;
+	int canvas_x, canvas_y;
 
-	if (text->editing)
-		return FALSE;
+	text->tooltip_count = 0;
 
 	lines = text->lines;
 
-	if ( !lines )
+	if (text->tooltip_window || text->editing || (!lines)) {
+		text->tooltip_timeout = 0;
 		return FALSE;
-	
+	}
+
 	cut_off = FALSE;
 	for ( lines = text->lines, i = 0; i < text->num_lines; lines++, i++ ) {
 		if (lines->length > lines->ellipsis_length) {
@@ -2157,12 +2180,18 @@ _do_tooltip (gpointer data)
 			break;
 		}
 	}
-	if ( ! cut_off )
+	if ( ! cut_off ) {
+		text->tooltip_timeout = 0;
 		return FALSE;
+	}
 
-	scr_w = gdk_screen_width ();
-	scr_h = gdk_screen_height ();
-	gdk_window_get_pointer (NULL, &pointer_x, &pointer_y, NULL);
+	gnome_canvas_item_i2c_affine(GNOME_CANVAS_ITEM(text), i2c);
+	art_affine_point (&pixel_origin, &origin, i2c);
+	gdk_window_get_origin (GTK_WIDGET(GNOME_CANVAS_ITEM(text)->canvas)->window, &canvas_x, &canvas_y);
+	pixel_origin.x += canvas_x;
+	pixel_origin.y += canvas_y;
+	pixel_origin.x -= (int) gtk_layout_get_hadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(text)->canvas))->value;
+	pixel_origin.y -= (int) gtk_layout_get_vadjustment(GTK_LAYOUT(GNOME_CANVAS_ITEM(text)->canvas))->value;
 
 	text->tooltip_window = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_container_set_border_width (GTK_CONTAINER (text->tooltip_window), 2);
@@ -2193,21 +2222,19 @@ _do_tooltip (gpointer data)
 					  "clip", TRUE,
 					  NULL);
 
-	gtk_widget_set_usize (text->tooltip_window, 
-			      (int)max_width + 4, 
+	gtk_widget_set_usize (text->tooltip_window,
+			      (int)max_width + 4,
 			      text->height + 4);
-	gnome_canvas_set_scroll_region (GNOME_CANVAS(canvas), 0.0, 0.0, 
+	gnome_canvas_set_scroll_region (GNOME_CANVAS(canvas), 0.0, 0.0,
 					max_width, (double)text->height);
 	gtk_widget_show (canvas);
 	gtk_widget_realize (text->tooltip_window);
-	tip_w = text->tooltip_window->allocation.width;
-	tip_h = text->tooltip_window->allocation.height;
+	gtk_signal_connect (GTK_OBJECT(text->tooltip_window), "event",
+			    GTK_SIGNAL_FUNC(tooltip_event), text);
 
-	/* Stay on screen */
-	x = pointer_x + tip_w <= scr_w ? pointer_x : scr_w - tip_w; 
-	y = pointer_y + tip_h + 1 <= scr_h ? pointer_y + 1: pointer_y - tip_h;
-	gtk_widget_popup (text->tooltip_window, x, y);
-
+	gtk_widget_popup (text->tooltip_window, pixel_origin.x - 2, pixel_origin.y - 2);
+	
+	text->tooltip_timeout = 0;
 	return FALSE;
 }
 
@@ -2312,13 +2339,13 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			return_val = e_text_event_processor_handle_event (text->tep,
 									  &e_tep_event);
 			e_tep_event.type = GDK_BUTTON_RELEASE;
-		}		
+		}
 #else
 		if ((!text->editing) 
 		    && text->editable 
 		    && event->button.button == 1) {
 			e_canvas_item_grab_focus (item);
-		}		
+		}
 #endif
 		if (text->editing) {
 			GdkEventButton button = event->button;
@@ -2355,9 +2382,12 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_ENTER_NOTIFY:
-		if ( text->tooltip_count == 0 && text->clip)
-			text->tooltip_timeout = gtk_timeout_add (1000, _do_tooltip, text);
+		if ( text->tooltip_count == 0 && text->clip) {
+			if (!text->tooltip_timeout)
+				text->tooltip_timeout = gtk_timeout_add (1000, _do_tooltip, text);
+		}
 		text->tooltip_count ++;
+
 		text->pointer_in = TRUE;
 		if (text->editing) {
 			if ( text->default_cursor_shown ) {
@@ -2374,12 +2404,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				gtk_timeout_remove (text->tooltip_timeout);
 				text->tooltip_timeout = 0;
 			}
-			if (text->tooltip_window) {
-				gtk_widget_destroy (text->tooltip_window);
-				text->tooltip_window = NULL;
-			}
 		}
-
+		
 		text->pointer_in = FALSE;
 		if (text->editing) {
 			if ( ! text->default_cursor_shown ) {
