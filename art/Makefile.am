@@ -189,7 +189,6 @@ glade_DATA = 					\
 	mail-config-druid.png			\
 	mail-config-druid-receive.png		\
 	mail-config-druid-send.png		\
-	meeting_widget.png			\
 	thankyou.png				\
 	timezone-48.png
 

@@ -1,3 +1,8 @@
+2002-02-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Remove meeting_widget.png from the build since it
+	doesn't seem to be in cvs?
+
 2002-02-20  Jakub Steiner <jimmac@ximian.com>
 
 	* summary_preferences-16.png: menu icon for summary preferences
