@@ -39,87 +39,12 @@
 #include <bonobo/bonobo-main.h>
 #include <liboaf/liboaf.h>
 
-#include <gconf/gconf.h>
-#include <gconf/gconf-client.h>
+#include <e-util/e-proxy.h>
 
 #include <glade/glade.h>
-#include <libsoup/soup.h>
 
 #include "component-factory.h"
 
-static void
-set_proxy (GConfClient *client)
-{
-	SoupContext *context;
-	char *proxy_server, *proxy_user, *proxy_pw, *uri;
-	gboolean use_auth, use_proxy;
-	int proxy_port;
-
-	use_proxy = gconf_client_get_bool (client, "/system/gnome-vfs/use-http-proxy", NULL);
-	if (use_proxy == FALSE) {
-		return;
-	}
-	
-	proxy_server = gconf_client_get_string (client,
-						"/system/gnome-vfs/http-proxy-host", NULL);
-	proxy_port = gconf_client_get_int (client,
-					   "/system/gnome-vfs/http-proxy-port",
-					   NULL);
-
-	use_auth = gconf_client_get_bool (client,
-					  "/system/gnome-vfs/use-http-proxy-authorization", NULL);
-	if (use_auth == TRUE) {
-		proxy_user = gconf_client_get_string (client,
-						      "/system/gnome-vfs/http-proxy-authorization-user", NULL);
-		proxy_pw = gconf_client_get_string (client,
-						    "/system/gnome-vfs/http-proxy-authorization-password", NULL);
-
-		uri = g_strdup_printf ("http://%s:%s@%s:%d",
-				       proxy_user, proxy_pw, proxy_server,
-				       proxy_port);
-	} else {
-		uri = g_strdup_printf ("http://%s:%d", proxy_server, proxy_port);
-	}
-
-	g_print ("Using proxy: %s\n", uri);
-	context = soup_context_get (uri);
-	soup_set_proxy (context);
-	soup_context_unref (context);
-	g_free (uri);
-}
-
-static void
-proxy_setting_changed (GConfClient *client,
-		       guint32 cnxn_id,
-		       GConfEntry *entry,
-		       gpointer user_data)
-{
-	set_proxy (client);
-}
-
-static void
-init_soup_proxy (void)
-{
-	GConfClient *client;
-	
-	/* We get the gnome-vfs proxy keys here
-	   set soup up to use the proxy,
-	   and listen to any changes */
-
-	client = gconf_client_get_default ();
-	if (client == NULL) {
-		return;
-	}
-
-	/* Listen to the changes in the gnome-vfs path */
-	gconf_client_add_dir (client, "/system/gnome-vfs",
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	
-	gconf_client_notify_add (client, "/system/gnome-vfs/",
-				 proxy_setting_changed, NULL, NULL, NULL);
-
-	set_proxy (client);
-}
 
 int
 main (int argc,
@@ -146,7 +71,8 @@ main (int argc,
 
 	e_cursors_init ();
 
-	init_soup_proxy ();
+	e_proxy_init ();
+	
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
