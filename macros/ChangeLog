@@ -1,3 +1,8 @@
+2001-05-24  jacob berkman  <jacob@ximian.com>
+
+	* gnome-pthread-check.m4 (GNOME_PTHREAD_CHECK): add hp-ux specific
+	check from glib
+
 2001-05-19  Jody Goldberg <jgoldberg@home.com>
 
 	* gnome-gettext.m4 : Add BUILD_INCLUDED_LIBINTL so that newer versions
