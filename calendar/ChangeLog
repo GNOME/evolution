@@ -1,5 +1,11 @@
 2004-08-05  JP Rosevear  <jpr@novell.com>
 
+ 	* gui/tasks-control.c (tasks_control_sensitize_commands): kill
+ 	warning by checking if there is a default client first (can happen
+ 	when first starting up)
+	
+2004-08-05  JP Rosevear  <jpr@novell.com>
+
 	Fixes #62363
 	
 	* gui/calendar-component.c (create_new_event):

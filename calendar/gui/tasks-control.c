@@ -139,6 +139,7 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 {
 	BonoboUIComponent *uic;
 	gboolean read_only = TRUE;
+	ECal *ecal;
 	ECalModel *model;
 
 	uic = bonobo_control_get_ui_component (control);
@@ -148,7 +149,9 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 		return;
 
 	model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
-	e_cal_is_read_only (e_cal_model_get_default_client (model), &read_only, NULL);
+	ecal = e_cal_model_get_default_client (model);
+	if (ecal)
+		e_cal_is_read_only (ecal, &read_only, NULL);
 
 	bonobo_ui_component_set_prop (uic, "/commands/TasksOpenTask", "sensitive",
 				      n_selected != 1 ? "0" : "1",
