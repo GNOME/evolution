@@ -663,7 +663,6 @@ e_text_set_property (GObject *object,
 
 	case PROP_BOLD:
 		text->bold = g_value_get_boolean (value);
-		text->style = text->bold ? E_FONT_BOLD : E_FONT_PLAIN;
 
 		text->needs_redraw = 1;
 		text->needs_recalc_bounds = 1;
@@ -3490,7 +3489,6 @@ e_text_init (EText *text)
 	text->bold                    = FALSE;
 	text->strikeout               = FALSE;
 
-	text->style                   = E_FONT_PLAIN;
 	text->allow_newlines          = TRUE;
 
 	text->last_type_request       = -1;

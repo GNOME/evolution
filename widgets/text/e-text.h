@@ -39,7 +39,6 @@
 
 #include <gtk/gtkmenu.h>
 
-#include <gal/widgets/e-font.h>
 #include <gal/util/e-text-event-processor.h>
 #include <gal/e-text/e-text-model.h>
 #include <gal/widgets/e-canvas.h>
@@ -191,8 +190,6 @@ struct _EText {
 
 	guint editable : 1;             /* Item is editable */
 	guint editing : 1;              /* Item is currently being edited */
-
-	EFontStyle     style;
 
 	gchar *break_characters;        /* Characters to optionally break after */
 
