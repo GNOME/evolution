@@ -30,6 +30,7 @@
 
 #include <gnome.h>
 #include <bonobo.h>
+#include <libgnomeui/gnome-window-icon.h>
 
 #include "e-shell.h"
 #include "e-shortcuts-view.h"
@@ -397,6 +398,72 @@ get_control_for_uri (EShellView *shell_view,
 	return control;
 }
 
+static const char *
+get_storage_set_path_from_uri (const char *uri)
+{
+	const char *colon;
+
+	if (g_path_is_absolute (uri))
+		return NULL;
+
+	colon = strchr (uri, ':');
+	if (colon == NULL || colon == uri || colon[1] == '\0')
+		return NULL;
+
+	if (! g_path_is_absolute (colon + 1))
+		return NULL;
+
+	if (g_strncasecmp (uri, "evolution", colon - uri) != 0)
+		return NULL;
+
+	return colon + 1;
+}
+
+static void
+set_icon (EShellView *shell_view,
+	  const char *uri)
+{
+	EShellViewPrivate *priv;
+	EStorageSet *storage_set;
+	EFolderTypeRepository *folder_type_repository;
+	EFolder *folder;
+	const char *type;
+	const char *icon_name;
+	char *icon_path;
+
+	priv = shell_view->priv;
+
+	storage_set = e_shell_get_storage_set (priv->shell);
+	folder_type_repository = e_shell_get_folder_type_repository (priv->shell);
+
+	folder = e_storage_set_get_folder (storage_set,
+					   get_storage_set_path_from_uri (uri));
+
+	if (folder == NULL)
+		return;
+
+	type = e_folder_get_type_string (folder);
+	if (type == NULL)
+		return;
+
+	icon_name = e_folder_type_repository_get_icon_for_type (folder_type_repository, type);
+	if (icon_name == NULL)
+		return;
+
+	if (g_path_is_absolute (icon_name))
+		icon_path = g_strdup (icon_name);
+	else {
+		icon_path = gnome_pixmap_file (icon_name);
+		if (icon_path == NULL)
+			icon_path = g_concat_dir_and_file (EVOLUTION_IMAGES, icon_name);
+	}
+
+	if (icon_path == NULL)
+		return;
+
+	gnome_window_icon_set_from_file (GTK_WINDOW(shell_view), icon_path);
+}
+
 static gboolean
 show_existing_view (EShellView *shell_view,
 		    const char *uri,
@@ -436,6 +503,7 @@ show_existing_view (EShellView *shell_view,
 	}
 
 	set_current_notebook_page (shell_view, notebook_page);
+	set_icon(shell_view, uri);
 
 	return TRUE;
 }
@@ -463,6 +531,7 @@ create_new_view_for_uri (EShellView *shell_view,
 	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), control);
 	g_assert (page_num != -1);
 	set_current_notebook_page (shell_view, page_num);
+	set_icon(shell_view, uri);
 
 	g_hash_table_insert (priv->uri_to_control, g_strdup (uri), control);
 

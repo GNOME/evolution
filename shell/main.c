@@ -23,6 +23,7 @@
 
 #include <gnome.h>
 #include <bonobo.h>
+#include <libgnomeui/gnome-window-icon.h>
 
 #include "e-util/e-gui-utils.h"
 #include "e-setup.h"
@@ -101,6 +102,9 @@ main (int argc, char **argv)
 	char *evolution_directory;
 
 	init_corba (&argc, argv);
+
+	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");
+
 
 	if (! bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
