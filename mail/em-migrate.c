@@ -69,6 +69,36 @@
 #define d(x) x
 
 /* upgrade helper functions */
+static xmlDocPtr
+emm_load_xml (const char *dirname, const char *filename)
+{
+	xmlDocPtr doc;
+	struct stat st;
+	char *path;
+	
+	path = g_strdup_printf ("%s/%s", dirname, filename);
+	if (stat (path, &st) == -1 || !(doc = xmlParseFile (path))) {
+		g_free (path);
+		return NULL;
+	}
+	
+	g_free (path);
+	
+	return doc;
+}
+
+static int
+emm_save_xml (xmlDocPtr doc, const char *dirname, const char *filename)
+{
+	char *path;
+	int retval;
+	
+	path = g_strdup_printf ("%s/%s", dirname, filename);
+	retval = e_xml_save_file (path, doc);
+	g_free (path);
+	
+	return retval;
+}
 
 static xmlNodePtr
 xml_find_node (xmlNodePtr parent, const char *name)
@@ -2470,6 +2500,42 @@ em_migrate_imap_cmeta_1_4(const char *evolution_dir, CamelException *ex)
 	return 0;
 }
 
+static void
+remove_system_searches(xmlDocPtr searches)
+{
+	xmlNodePtr node;
+
+	/* in pre 2.0, system searches were stored in the user
+	 * searches.xml file with the source set to 'demand'.  In 2.0+
+	 * the system searches are stored in the system
+	 * searchtypes.xml file instead */
+
+	node = xmlDocGetRootElement(searches);
+	if (!node->name || strcmp(node->name, "filteroptions"))
+		return;
+
+	if (!(node = xml_find_node(node, "ruleset")))
+		return;
+	
+	node = node->children;
+	while (node != NULL) {
+		xmlNodePtr nnode = node->next;
+
+		if (node->name && !strcmp (node->name, "rule")) {
+			char *src;
+
+			src = xmlGetProp(node, "source");
+			if (src && !strcmp(src, "demand")) {
+				xmlUnlinkNode(node);
+				xmlFreeNodeList(node);
+			}
+			xmlFree (src);
+		}
+		
+		node = nnode;
+	}	
+}
+
 static int
 em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
 {
@@ -2477,7 +2543,8 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	CamelException lex;
 	struct stat st;
 	char *path;
-	
+	xmlDocPtr searches;
+
 	path = g_build_filename (evolution_dir, "mail", NULL);
 
 	camel_init (path, TRUE);
@@ -2526,16 +2593,17 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	upgrade_xml_uris(filters, upgrade_xml_uris_1_4);
 	upgrade_vfolder_sources_1_4(vfolders);
 	upgrade_xml_uris(vfolders, upgrade_xml_uris_1_4);
-	
-	path = g_build_filename (g_get_home_dir (), "evolution", "searches.xml", NULL);
-	if (stat (path, &st) == 0 && S_ISREG (st.st_mode)) {
-		char *dest;
-		
-		dest = g_build_filename (evolution_dir, "mail", "searches.xml", NULL);
-		cp (path, dest, FALSE, CP_UNIQUE);
-		g_free (dest);
+
+	path = g_build_filename(g_get_home_dir(), "evolution", NULL);
+	searches = emm_load_xml(path, "searches.xml");
+	g_free(path);
+	if (searches) {
+		remove_system_searches(searches);
+		path = g_build_filename(evolution_dir, "mail", NULL);
+		emm_save_xml(searches, path, "searches.xml");
+		g_free(path);
+		xmlFreeDoc(searches);
 	}
-	g_free (path);
 	
 	if (em_migrate_pop_uid_caches_1_4 (evolution_dir, ex) == -1)
 		return -1;
@@ -2551,38 +2619,6 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	camel_exception_clear(ex);
 
 	return 0;
-}
-
-
-static xmlDocPtr
-emm_load_xml (const char *dirname, const char *filename)
-{
-	xmlDocPtr doc;
-	struct stat st;
-	char *path;
-	
-	path = g_strdup_printf ("%s/%s", dirname, filename);
-	if (stat (path, &st) == -1 || !(doc = xmlParseFile (path))) {
-		g_free (path);
-		return NULL;
-	}
-	
-	g_free (path);
-	
-	return doc;
-}
-
-static int
-emm_save_xml (xmlDocPtr doc, const char *dirname, const char *filename)
-{
-	char *path;
-	int retval;
-	
-	path = g_strdup_printf ("%s/%s", dirname, filename);
-	retval = e_xml_save_file (path, doc);
-	g_free (path);
-	
-	return retval;
 }
 
 static int

@@ -1,5 +1,12 @@
 2005-02-21  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #71528.
+
+ 	* em-migrate.c (remove_system_searches, em_migrate_1_4): remove
+	all 'system' searches when upgrading from pre 2.0.
+
+2005-02-21  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #71967
 
 	* em-account-editor.c (emae_receive_options_extra_item): make sure
