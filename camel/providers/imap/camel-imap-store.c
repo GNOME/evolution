@@ -2364,8 +2364,6 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 		char *storage_path, *folder_dir, *path;
 		CamelFolderSummary *s;
 
-		printf("looking up counts from '%s'\n", fi->full_name);
-
 		/* This is a lot of work for one path! */
 		storage_path = g_strdup_printf("%s/folders", ((CamelImapStore *)store)->storage_path);
 		folder_dir = e_path_to_physical(storage_path, fi->full_name);
@@ -2373,13 +2371,8 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 		s = (CamelFolderSummary *)camel_object_new(camel_imap_summary_get_type());
 		camel_folder_summary_set_build_content(s, TRUE);
 		camel_folder_summary_set_filename(s, path);
-		if (camel_folder_summary_header_load(s) != -1) {
+		if (camel_folder_summary_header_load(s) != -1)
 			unread = s->unread_count;
-			printf("loaded summary header unread = %d\n", unread);
-		} else {
-			printf("couldn't load summary header?\n");
-		}
-
 		g_free(storage_path);
 		g_free(folder_dir);
 		g_free(path);
