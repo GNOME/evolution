@@ -127,10 +127,9 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 		return NULL;
 	}
 	
-	if (!warning_result)
-		bonobo_control_set_property_bag (
-			 control,
-			 FOLDER_BROWSER (folder_browser)->properties);
+	
+	bonobo_control_set_property_bag (control,
+					 FOLDER_BROWSER (folder_browser)->properties);
 
 	/* for the moment, the control has the ability to register 
 	 * some services itself, but this should not last. 
@@ -138,9 +137,9 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 	 * It's not the way to do it, but we don't have the 
 	 * correct infrastructure in the shell now.    
 	 */
-	folder_browser_control_add_service_repository_interface (control, folder_browser); 
-
-
+	folder_browser_control_add_service_repository_interface (control, folder_browser); 	       	
+	
+	
 	return BONOBO_OBJECT (control);
 
 }
@@ -149,13 +148,14 @@ void
 folder_browser_factory_init (void)
 {
 	static BonoboGenericFactory *bonobo_folder_browser_factory = NULL;
-
+	
+	
 	if (bonobo_folder_browser_factory != NULL)
 		return;
 
 	bonobo_folder_browser_factory =
 		bonobo_generic_factory_new (
-			"GOADID:Evolution:FolderBrowserFactory:1.0",
+			"control-factory:evolution-mail",
 			folder_browser_factory, NULL);
 
 	if (bonobo_folder_browser_factory == NULL){

@@ -1,5 +1,8 @@
 2000-03-12  bertrand  <bertrand@helixcode.com>
 
+	* shell/e-shell-view.c (get_view): name change
+	
+
 	* shell/e-folder.c (e_folder_get_folder_type): added the
 	get_e_folder_type function.
 

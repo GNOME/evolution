@@ -94,7 +94,7 @@ get_view (EFolder *efolder)
 	switch (e_folder_type) {
 
 	case E_FOLDER_MAIL :
-		w = bonobo_widget_new_control ("GOADID:Evolution:FolderBrowser:1.0",
+		w = bonobo_widget_new_control ("control:evolution-mail",
 					       NULL);
 		break;
 

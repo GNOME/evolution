@@ -1,5 +1,11 @@
 2000-03-12  bertrand  <bertrand@helixcode.com>
 
+	* folder-browser-factory.c (folder_browser_factory_init): 
+	name change.
+
+	* evolution-mail.gnorba: 
+	name changes
+
 	* folder-browser.h: added a reference to an 
 	Evolution::Shell object. 
 
