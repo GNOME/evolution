@@ -1,5 +1,11 @@
 2001-08-14  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/cal-search-bar.c (make_suboptions): Make the "Any Category"
+	item consistent with the one in the addressbook.  Also, free the
+	items correctly.
+
+2001-08-14  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/cal-search-bar.c (get_current_category): Handle an array of
 	categories in the CalSearchBar instead of our own menu items.
 	(notify_query_contains): Fetch the text from the search bar here

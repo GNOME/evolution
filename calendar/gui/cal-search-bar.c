@@ -63,7 +63,7 @@ static ESearchBarItem search_option_items[] = {
 /* IDs for the categories suboptions */
 #define CATEGORIES_ALL 0
 #define CATEGORIES_UNMATCHED 1
-#define CATEGORIES_OFFSET 2
+#define CATEGORIES_OFFSET 3
 
 /* Private part of the CalSearchBar structure */
 struct CalSearchBarPrivate {
@@ -409,7 +409,7 @@ make_suboptions (CalSearchBar *cal_search)
 
 	/* All, unmatched, separator */
 
-	subitems[0].text = _("Any");
+	subitems[0].text = _("Any Category");
 	subitems[0].id = CATEGORIES_ALL;
 	subitems[0].translate = FALSE;
 
@@ -417,11 +417,11 @@ make_suboptions (CalSearchBar *cal_search)
 	subitems[1].id = CATEGORIES_UNMATCHED;
 	subitems[1].translate = FALSE;
 
+	/* All the other items */
+
 	if (priv->categories->len > 0) {
 		subitems[2].text = NULL; /* separator */
 		subitems[2].id = 0;
-
-		/* All the other items */
 
 		for (i = 0; i < priv->categories->len; i++) {
 			const char *category;
@@ -435,8 +435,6 @@ make_suboptions (CalSearchBar *cal_search)
 			subitems[i + CATEGORIES_OFFSET].text      = str;
 			subitems[i + CATEGORIES_OFFSET].id        = i + CATEGORIES_OFFSET;
 			subitems[i + CATEGORIES_OFFSET].translate = FALSE;
-
-			g_free (str);
 		}
 
 		subitems[i + CATEGORIES_OFFSET].id = -1; /* terminator */
@@ -444,6 +442,11 @@ make_suboptions (CalSearchBar *cal_search)
 		subitems[2].id = -1; /* terminator */
 
 	e_search_bar_set_suboption (E_SEARCH_BAR (cal_search), SEARCH_CATEGORY_IS, subitems);
+
+	/* Free the strings */
+	for (i = 0; i < priv->categories->len; i++)
+		g_free (subitems[i + CATEGORIES_OFFSET].text);
+
 	g_free (subitems);
 }
 
