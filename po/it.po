@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2002-10-28 16:49-0500\n"
-"PO-Revision-Date: 2003-01-17 13:03+0100\n"
+"PO-Revision-Date: 2003-01-18 18:52GMT\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
-"Language-Team: Italian <it@li.org>\n"
+"Language-Team: italiano <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10899,9 +10899,8 @@ msgid "the current time"
 msgstr "L'ora corrente"
 
 #: filter/filter.glade.h:27
-#, fuzzy
 msgid "the time you specify"
-msgstr "una data specifica"
+msgstr "la data specificata"
 
 #: filter/filter.glade.h:28
 msgid "vFolder Sources"
@@ -10921,9 +10920,8 @@ msgstr "tutte le cartelle locali"
 
 #. Automatically generated. Do not edit.
 #: filter/libfilter-i18n.h:2
-#, fuzzy
 msgid "Adjust Score"
-msgstr "Assegna un punteggio"
+msgstr "Imposta un punteggio"
 
 #: filter/libfilter-i18n.h:3
 msgid "Assign Color"
@@ -10938,9 +10936,8 @@ msgid "Attachments"
 msgstr "Allegati"
 
 #: filter/libfilter-i18n.h:6
-#, fuzzy
 msgid "Beep"
-msgstr "Belem"
+msgstr "Bip"
 
 #: filter/libfilter-i18n.h:7
 msgid "contains"
@@ -10975,9 +10972,8 @@ msgid "does not exist"
 msgstr "non esiste"
 
 #: filter/libfilter-i18n.h:16
-#, fuzzy
 msgid "does not return"
-msgstr "non esiste"
+msgstr "non ritorna"
 
 #: filter/libfilter-i18n.h:17
 msgid "does not sound like"
@@ -11013,7 +11009,7 @@ msgstr "Espressione"
 
 #: filter/libfilter-i18n.h:25
 msgid "Follow Up"
-msgstr ""
+msgstr "Segue"
 
 #: filter/libfilter-i18n.h:27
 msgid "is"
@@ -11048,9 +11044,8 @@ msgid "is not Flagged"
 msgstr "non è segnato"
 
 #: filter/libfilter-i18n.h:35 mail/folder-browser.c:1766
-#, fuzzy
 msgid "Label"
-msgstr "Laurel"
+msgstr "Etichetta"
 
 #: filter/libfilter-i18n.h:36
 msgid "Mailing list"
@@ -11069,14 +11064,12 @@ msgid "Move to Folder"
 msgstr "Sposta nella Cartella..."
 
 #: filter/libfilter-i18n.h:40
-#, fuzzy
 msgid "Pipe Message to Shell Command"
-msgstr "Esegui un comado della shell"
+msgstr "Spedisce un comando tramite pipe alla shell"
 
 #: filter/libfilter-i18n.h:41
-#, fuzzy
 msgid "Play Sound"
-msgstr "Emetti un suono:"
+msgstr "Emette un suono"
 
 #: filter/libfilter-i18n.h:42 mail/message-tag-followup.c:60
 msgid "Read"
@@ -11095,19 +11088,16 @@ msgid "Replied to"
 msgstr "Risposto a"
 
 #: filter/libfilter-i18n.h:46
-#, fuzzy
 msgid "returns"
-msgstr "Burns"
+msgstr "ritorna"
 
 #: filter/libfilter-i18n.h:47
-#, fuzzy
 msgid "returns greater than"
-msgstr "è maggiore di"
+msgstr "ritorna maggiore di"
 
 #: filter/libfilter-i18n.h:48
-#, fuzzy
 msgid "returns less than"
-msgstr "è minore di"
+msgstr "ritorna minore di"
 
 #: filter/libfilter-i18n.h:49 filter/score-rule.c:204 filter/score-rule.c:206
 #: mail/message-list.etspec.h:10
@@ -11123,9 +11113,8 @@ msgid "Set Status"
 msgstr "Imposta _Stato"
 
 #: filter/libfilter-i18n.h:52
-#, fuzzy
 msgid "Shell Command"
-msgstr "Esegui un comado della shell"
+msgstr "Comando della shell"
 
 #: filter/libfilter-i18n.h:53
 msgid "Size (kB)"
@@ -11242,9 +11231,9 @@ msgstr ""
 "Si desidera importarli in Evolution?"
 
 #: importers/netscape-importer.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "Priority Filter \"%s\""
-msgstr "Priorità: %s"
+msgstr "Filtro Priorità \"%s\""
 
 #: importers/netscape-importer.c:653
 msgid ""
@@ -11260,6 +11249,17 @@ msgid ""
 "of priorities. Check the imported filters to make sure\n"
 "everything still works as intended."
 msgstr ""
+"Alcuni dei Vostri filtri di posta di Netscape sono basati sulla\n"
+"priorità dei messaggi email, cosa non utilizzata da Evolution.\n"
+"Diversamente, Evolution gestisce dei punteggi che variano da\n"
+"-3 a 3 che possono essere assegnati i messaggi email e\n"
+"filtrati di conseguenza.\n"
+"\n"
+"Come accorgimento è stato aggiunto un insieme di filtri chiamati\n"
+"\"Filtri di Priorità\" che convertono le priorità dei messaggi email\n"
+"di Netscape nei punteggi di Evolution ed i filtri coinvolti usano i\n"
+"punteggi invece delle priorità. Controllate i filtri di importazione\n"
+"in modo da essere sicuri che il tutto funzioni come ci si aspetta."
 
 #: importers/netscape-importer.c:677
 msgid ""
@@ -11268,6 +11268,9 @@ msgid ""
 "feature, which is not supported in Evolution.\n"
 "These filters will be dropped."
 msgstr ""
+"Alcuni dei Vostri filtri di posta di Netscape usano la caratteristica\n"
+" \"Ignora il Thread\" o \"Controlla il Thread\", non supportata da\n"
+"Evolution. Questi filtri saranno tralasciati."
 
 #: importers/netscape-importer.c:694
 msgid ""
@@ -11277,6 +11280,11 @@ msgid ""
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
 msgstr ""
+"Alcuni dei Vostri filtri di email di Netscape controllano il\n"
+"corpo dei messaggi per le (dis)uguaglianze ad una data stringa,\n"
+"cosa non supportata in Evolution. Questi filtri sono stati\n"
+"modificati per controllare se una stringa è o non è contenuta\n"
+"nel corpo del messaggio."
 
 #: importers/netscape-importer.c:1227
 msgid "Evolution is importing your old Netscape data"
@@ -11289,9 +11297,8 @@ msgid "Trash"
 msgstr "Cestino"
 
 #: importers/netscape-importer.c:2028
-#, fuzzy
 msgid "Scanning mail filters"
-msgstr "File di posta locale: %s"
+msgstr "Scansione filtri di posta"
 
 #: importers/netscape-importer.c:2038 importers/pine-importer.c:570
 msgid "Scanning directory"
@@ -11306,9 +11313,8 @@ msgid "Settings"
 msgstr "Impostazioni"
 
 #: importers/netscape-importer.c:2138
-#, fuzzy
 msgid "Mail Filters"
-msgstr "Modifica Filtri"
+msgstr "Filtri di posta"
 
 #: importers/netscape-importer.c:2161
 msgid ""
@@ -11336,45 +11342,39 @@ msgstr "Pine"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:1
 msgid "Composer Preferences"
-msgstr ""
+msgstr "Preferenze di composizione"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:2
-#, fuzzy
 msgid "Configuration control for the Evolution Display Fonts."
-msgstr "Fabbrica per il compositore di Evolution."
+msgstr "Controlli di configurazione per i font di visualizzazione di Evolution."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:3
-#, fuzzy
 msgid "Configuration control for the Evolution Mail Accounts."
-msgstr "Fabbrica per il controllo di visualizzazione delle attività di Evolution."
+msgstr "Controlli di configurazione per gli account della posta di Evolution."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:4
-#, fuzzy
 msgid "Configuration control for the Evolution Mailer."
-msgstr "Fabbrica per il compositore di Evolution."
+msgstr "Controlli di configurazione per il gestore della posta di Evolution."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:5
-#, fuzzy
 msgid "Configuration control for the Evolution Message Composer."
-msgstr "Fabbrica per il compositore di Evolution."
+msgstr "Controlli di configurazione per il compositore di messaggi di Evolution."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:6
 msgid "Configure mail preferences, including security and message display, here"
-msgstr ""
+msgstr "Configura qui le tue preferenze della posta, incluse sicurezza e aspetto visualizzazione"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:7
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
+msgstr "Configura qui il controllo ortografico, le firme e il compositore dei messaggi"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:8
-#, fuzzy
 msgid "Configure the fonts used by Evolution here"
-msgstr "Fabbrica per il compositore di Evolution."
+msgstr "Configura qui i font utilizzati da Evolution."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:9
-#, fuzzy
 msgid "Configure your email accounts here"
-msgstr "Crea o modifica account si posta ed altre preferenze"
+msgstr "Configura qui i tuoi account di posta elettronica"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:10
 msgid "Evolution component for handling mail."
@@ -11405,18 +11405,16 @@ msgid "Factory for the Mail Summary component."
 msgstr "Fabbrica per il componente del Sommario della Posta"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:17
-#, fuzzy
 msgid "Font Preferences"
-msgstr "_Nessuna Ricorrenza"
+msgstr "Preferenze caratteri"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:18
-#, fuzzy
 msgid "Mail Accounts"
-msgstr "Account"
+msgstr "Account di posta"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:19 mail/mail-config.glade.h:69
 msgid "Mail Preferences"
-msgstr ""
+msgstr "Preferenze di posta"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:20
 msgid "Mail configuration interface"
@@ -11427,14 +11425,12 @@ msgid "Folder containing mail"
 msgstr "Cartella contente la posta"
 
 #: mail/component-factory.c:103
-#, fuzzy
 msgid "Public Mail"
-msgstr "Pubblico"
+msgstr "Posta Pubblica"
 
 #: mail/component-factory.c:103
-#, fuzzy
 msgid "Public folder containing mail"
-msgstr "Cartella contente la posta"
+msgstr "Cartella pubblica contente la posta"
 
 #: mail/component-factory.c:104
 msgid "Virtual Trash"
@@ -11470,12 +11466,11 @@ msgstr "Non è stato impostato un sistema di trasporto per la posta"
 
 #: mail/component-factory.c:992
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "Hai dei messaggi da spedire; vuoi davvero uscire?"
 
 #: mail/component-factory.c:998
-#, fuzzy
 msgid "Warning: Unsent Messages"
-msgstr "Attenzione: Messaggio Modificato"
+msgstr "Attenzione: messaggi da spedire"
 
 #: mail/component-factory.c:1040
 msgid "New Mail Message"
@@ -11486,27 +11481,22 @@ msgid "_Mail Message"
 msgstr "Invia _Messaggio"
 
 #: mail/component-factory.c:1041
-#, fuzzy
 msgid "Compose a new mail message"
-msgstr "Componi un nuovo messaggio"
+msgstr "Componi un nuovo messaggio di posta"
 
 #: mail/component-factory.c:1049
-#, fuzzy
 msgid "New Message Post"
-msgstr "Nuovo Messaggio"
+msgstr "Nuova spedizione messaggio"
 
 #: mail/component-factory.c:1049
-#, fuzzy
 msgid "_Post Message"
-msgstr "Messaggio Precedente"
+msgstr "Spedizione messaggio"
 
 #: mail/component-factory.c:1050
-#, fuzzy
 msgid "Post a new mail message"
-msgstr "Nuovo Messaggio di Posta"
+msgstr "Spedire un nuovo messaggio di posta"
 
 #: mail/component-factory.c:1078
-#, fuzzy
 msgid "Cannot initialize the Evolution mail component."
 msgstr "Impossibile inizializzare il componente della posta di Evolution."
 
@@ -11521,9 +11511,8 @@ msgid "Cannot initialize Evolution's folder info component."
 msgstr "Impossibile attivare il componente folder info di Evolution."
 
 #: mail/component-factory.c:1334 mail/component-factory.c:1364
-#, fuzzy
 msgid "Connecting..."
-msgstr "Connessione al server..."
+msgstr "Connessione..."
 
 #: mail/component-factory.c:1375
 msgid "Cannot register storage with shell"
@@ -11584,9 +11573,8 @@ msgid "%d total"
 msgstr "%d totali"
 
 #: mail/folder-browser.c:1118
-#, fuzzy
 msgid "Create _Virtual Folder From Search..."
-msgstr "Crea una Cartella _Virtuale dal Messaggio"
+msgstr "Crea una cartella _Virtuale dalla ricerca..."
 
 #: mail/folder-browser.c:1702
 msgid "VFolder on _Subject"
@@ -11646,17 +11634,15 @@ msgstr "_Inoltra"
 
 #: mail/folder-browser.c:1743
 msgid "Follo_w Up..."
-msgstr ""
+msgstr "Segue..."
 
 #: mail/folder-browser.c:1744
-#, fuzzy
 msgid "Fla_g Completed"
-msgstr "Completato"
+msgstr "Flag completata"
 
 #: mail/folder-browser.c:1745
-#, fuzzy
 msgid "Cl_ear Flag"
-msgstr "Annulla"
+msgstr "Flag annullata"
 
 #. separator here?
 #: mail/folder-browser.c:1749 ui/evolution-mail-message.xml.h:43
@@ -11664,62 +11650,54 @@ msgid "Mar_k as Read"
 msgstr "Segna come _Letto"
 
 #: mail/folder-browser.c:1750
-#, fuzzy
 msgid "Mark as _Unread"
-msgstr "Segna come _Non Letto"
+msgstr "Segna come non letto"
 
 #: mail/folder-browser.c:1751
 msgid "Mark as _Important"
 msgstr "Segna come _Importante"
 
 #: mail/folder-browser.c:1752
-#, fuzzy
 msgid "_Mark as Unimportant"
-msgstr "Segna come _Nonimportante"
+msgstr "Segna come non importante"
 
 #: mail/folder-browser.c:1757
-#, fuzzy
 msgid "U_ndelete"
-msgstr "_Ripristina"
+msgstr "Ripristina"
 
 #: mail/folder-browser.c:1761
-#, fuzzy
 msgid "Mo_ve to Folder..."
-msgstr "_Sposta nella Cartella..."
+msgstr "Sposta nella cartella..."
 
 #: mail/folder-browser.c:1762 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
 msgstr "_Copia nella Cartella..."
 
 #: mail/folder-browser.c:1770
-#, fuzzy
 msgid "Add Sender to Address_book"
-msgstr "Aggiungi Mittente alla _Rubrica"
+msgstr "Aggiungi mittente alla rubrica"
 
 #: mail/folder-browser.c:1774
-#, fuzzy
 msgid "Appl_y Filters"
-msgstr "Applica Filtri"
+msgstr "Applica filtri"
 
 #: mail/folder-browser.c:1778
-#, fuzzy
 msgid "Crea_te Rule From Message"
-msgstr "Crea Rego_la dal Messaggio"
+msgstr "Crea regola dal messaggio"
 
 #: mail/folder-browser.c:2036
-#, fuzzy
 msgid "VFolder on M_ailing List"
-msgstr "Cartella Virtuale sulla Mailng List"
+msgstr "Cartella virtuale sulla mailing list"
 
 #: mail/folder-browser.c:2038
-#, fuzzy, c-format
+#, c-format
 msgid "Filter on _Mailing List (%s)"
-msgstr "Filtra sulla Mailng List (%s)"
+msgstr "Filtro sulla mailng list (%s)"
 
 #: mail/folder-browser.c:2039
-#, fuzzy, c-format
+#, c-format
 msgid "VFolder on M_ailing List (%s)"
-msgstr "Cartella Virtuale sulla Mailng List (%s)"
+msgstr "Cartella virtuale sulla mailng list (%s)"
 
 #: mail/folder-browser.h:26 mail/mail-config.glade.h:38
 msgid "Default"
@@ -11750,9 +11728,8 @@ msgid "Current store format:"
 msgstr "Formato corrente:"
 
 #: mail/local-config.glade.h:2
-#, fuzzy
 msgid "Index body contents"
-msgstr "Contenuto del corpo dei messaggi"
+msgstr "Indice contenuto del corpo dei messaggi"
 
 #: mail/local-config.glade.h:3
 msgid "New store format:"
@@ -11794,9 +11771,8 @@ msgid "_Host:"
 msgstr "_Host:"
 
 #: mail/mail-account-gui.c:747 mail/mail-config.glade.h:127
-#, fuzzy
 msgid "User_name:"
-msgstr "_Username:"
+msgstr "_Nome utente:"
 
 #: mail/mail-account-gui.c:751 mail/mail-config.glade.h:164
 msgid "_Path:"
@@ -11836,19 +11812,17 @@ msgid "Enabled"
 msgstr "Abilitato"
 
 #: mail/mail-accounts.c:532 mail/mail-accounts.etspec.h:1
-#, fuzzy
 msgid "Account name"
-msgstr "Nome dell' _Account:"
+msgstr "Nome dell'account"
 
 #: mail/mail-accounts.c:533 mail/mail-accounts.etspec.h:3
-#, fuzzy
 msgid "Protocol"
-msgstr "Porto Rico"
+msgstr "Protocollo"
 
 #: mail/mail-autofilter.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "Mail to %s"
-msgstr "Mail a %s"
+msgstr "Posta a %s"
 
 #: mail/mail-autofilter.c:242
 #, c-format
@@ -11871,19 +11845,18 @@ msgstr "Aggiungi una regola di Filtro"
 
 #: mail/mail-autofilter.c:376
 msgid "The following filter rule(s):\n"
-msgstr ""
+msgstr "La/e seguente/i regola/e di filtro:\n"
 
 #: mail/mail-autofilter.c:382
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Used the removed folder:\n"
 "    '%s'\n"
 "And have been updated."
 msgstr ""
-"Le seguenti vFolder:\n"
-"%sUsavano la cartella:\n"
+"Usava(no) la cartella rimossa:\n"
 "    '%s'\n"
-"che ora è stata rimossa, e quindi sono state aggiornate."
+"e quindi sono state aggiornate."
 
 #: mail/mail-callbacks.c:154
 msgid ""
@@ -11915,13 +11888,12 @@ msgstr ""
 
 #. FIXME: this wording sucks
 #: mail/mail-callbacks.c:255
-#, fuzzy
 msgid ""
 "You are sending an HTML-formatted message. Please make sure that\n"
 "the following recipients are willing and able to receive HTML mail:\n"
 msgstr ""
-"Il messaggio è in HTML, ma i seguenti destinatari non vogliono ricevere "
-"posta HTML:\n"
+"Si sta spedendo un messaggio formattato in HTML. Prego verificare che\n"
+"i seguenti destinatari vogliano e possano ricevere posta in HTML:\n"
 
 #: mail/mail-callbacks.c:270
 msgid "Send anyway?"
@@ -12029,15 +12001,16 @@ msgid "Save Messages As..."
 msgstr "Salva messaggi con nome..."
 
 #: mail/mail-callbacks.c:2655
-#, fuzzy
 msgid "Go to next folder with unread messages?"
-msgstr "Mostra il prossimo messaggio non letto"
+msgstr "Andare alla prossima cartella con messaggi non letti?"
 
 #: mail/mail-callbacks.c:2662
 msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
 msgstr ""
+"Non ci sono più nuovi messaggi in questa cartella.\n"
+"Vuoi andare alla prossima cartella?"
 
 #: mail/mail-callbacks.c:2905
 msgid ""
@@ -12092,69 +12065,63 @@ msgid ""
 "Please specify signature filename\n"
 "in Andvanced section of signature settings."
 msgstr ""
+"Prego specificare il nome del file della firma\n"
+"nella sezione avanzata delle impostazioni delle firme."
 
 #: mail/mail-composer-prefs.c:243 mail/mail-composer-prefs.c:368
 #: mail/mail-composer-prefs.c:416
-#, fuzzy
 msgid " [script]"
-msgstr "Nessuna descrizione disponibile"
+msgstr " [script]"
 
 #: mail/mail-composer-prefs.c:309
 msgid "Please specify a valid script name"
-msgstr ""
+msgstr "Prego specificare un nome script valido"
 
 #: mail/mail-composer-prefs.c:325 mail/mail-config.c:2629
-#, fuzzy
 msgid "Unnamed"
-msgstr "Contatto senza nome"
+msgstr "Senza nome"
 
 #: mail/mail-composer-prefs.c:875
-#, fuzzy
 msgid "Add script signature"
-msgstr "Aggiungi criterio"
+msgstr "Aggiungi firma script"
 
 #: mail/mail-composer-prefs.c:876
-#, fuzzy
 msgid "Add Signature"
-msgstr "Salva firma"
+msgstr "Aggiungi firma"
 
 #: mail/mail-config-druid.c:146
-#, fuzzy
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"Inserire nome e indirizzo email qui sotto. Non è necessario riempire i campi "
+"Prego inserire nome e indirizzo email qui sotto. Non è necessario riempire i campi "
 "\"opzionali\",\n"
 "a meno che non si desideri includere queste informazioni alle email spedite."
 
 #: mail/mail-config-druid.c:148
-#, fuzzy
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Inserire qui sotto le informazioni riguardanti il server di posta in "
+"Prego inserire qui sotto le informazioni riguardanti il server di posta in "
 "entrata. Se non si è sicuri, chiedere\n"
-"all'amministratore di sistema o al Provider."
+"all'amministratore di sistema o al Vostro Provider Internet."
 
 #: mail/mail-config-druid.c:150
 msgid "Please select among the following options"
 msgstr "Selezionare una delle seguenti opzioni"
 
 #: mail/mail-config-druid.c:152
-#, fuzzy
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Inserire qui sotto le informazioni riguardanti le modalità di invio della "
-"posta. Se non si è sicuri, chiedere\\n\"\n"
-"\"all'amministratore di sistema o al Provider."
+"Prego inserire le informazioni riguardanti le modalità di invio della posta. "
+"Se non si è sicuri, chiedere all'amministratore di sistema o al Vostro Provider"
+"Internet."
 
 #: mail/mail-config-druid.c:154
-#, fuzzy
 msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and outgoing mail transport method which you provided "
@@ -12162,13 +12129,10 @@ msgid ""
 "name for this account in the space below. This name will be used for display "
 "purposes only."
 msgstr ""
-"La co9nfigurazione della posta è quasi terminata. L'identità, il server di "
-"posta in entrata\n"
-"e il metodo di trasporto della posta in uscita forniti verranno raggruppati "
-"per\n"
-"creare un account di posta in Evolution.  Inserire un nome per questo "
-"account nello spazio sottostante.\n"
-"Questo nome è usato solo allo scopo di visualizzare."
+"La configurazione della posta è quasi terminata. L'identità, il server di posta "
+"in entrata e il metodo di trasporto della posta in uscita forniti verranno raggruppati "
+"per creare un account di posta in Evolution. Prego inserire un nome per questo "
+"account nello spazio sottostante. Questo nome è usato solo a scopo identificativo."
 
 #. set window title
 #: mail/mail-config-druid.c:637
@@ -12176,9 +12140,9 @@ msgid "Evolution Account Assistant"
 msgstr "Guida agli Account di Evolution"
 
 #: mail/mail-config.c:622
-#, fuzzy, c-format
+#, c-format
 msgid "Account %d"
-msgstr "Account"
+msgstr "Account %d"
 
 #: mail/mail-config.c:2316
 msgid "Checking Service"
@@ -12206,12 +12170,11 @@ msgstr "Cifra _sempre con la mia chiave quando invio posta cifrata"
 
 #: mail/mail-config.glade.h:5
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-msgstr ""
+msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 
 #: mail/mail-config.glade.h:6
-#, fuzzy
 msgid "Account Editor"
-msgstr "Account %d"
+msgstr "Editor account"
 
 #: mail/mail-config.glade.h:7
 msgid "Account Information"
@@ -12222,9 +12185,8 @@ msgid "Account Management"
 msgstr "Gestione degli Account"
 
 #: mail/mail-config.glade.h:9
-#, fuzzy
 msgid "Add Sc_ript"
-msgstr "Aggiungi criterio"
+msgstr "Aggiungi script"
 
 #: mail/mail-config.glade.h:10
 #, fuzzy
