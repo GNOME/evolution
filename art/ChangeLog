@@ -1,5 +1,15 @@
 2001-05-16  Jakub Steiner <jimmac@ximian.com>
 
+	* mail-config-druid-48.png, mail-config-druid-identity.png,
+	  mail-config-druid-account-name.png,
+	  mail-config-druid-receive.png, mail-config-druid-send.png,
+	  thankyou.png: config druid icons
+	  
+	      thankyou.png can be used for the last step in every evo
+	      druid (like the import one)
+
+2001-05-16  Jakub Steiner <jimmac@ximian.com>
+
 	* evolution-calendar.png, evolution-contacts.png,
 	  evolution-inbox.png, evolution-today.png,
 	  evolution-tasks.png: fixed bug #2862. Also changed the
