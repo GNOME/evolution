@@ -32,7 +32,6 @@ gal_a11y_e_text_factory_create_accessible (GObject *obj)
 
 	atk_object = g_object_new (GAL_A11Y_TYPE_E_TEXT, NULL);
 	atk_object_initialize (atk_object, obj);
-	atk_object->role = ATK_ROLE_UNKNOWN;
 
 	return atk_object;
 }
