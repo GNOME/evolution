@@ -1,5 +1,12 @@
 2004-03-04  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #54028
+
+	* gui/alarm-notify/alarm-queue.c (query_objects_changed_cb): fixed the
+	time range for the alarm query, to include the end of today.
+
+2004-03-04  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #53137
 
 	* gui/dialogs/comp-editor-page.[ch]: made fill_widgets virtual

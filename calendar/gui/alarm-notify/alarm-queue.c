@@ -528,7 +528,7 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 
 	zone = config_data_get_timezone ();
 
-	day_end = time_day_end_with_zone (from, zone);
+	day_end = time_day_end_with_zone (time (NULL), zone);
 
 	for (l = objects; l != NULL; l = l->next) {
 		const char *uid;
