@@ -839,6 +839,8 @@ extract_itip_data (FormatItipPObject *pitip)
 	icalcomponent_kind kind = ICAL_NO_COMPONENT;
 	icalcomponent *tz_comp;
 	icalcompiter tz_iter;
+	icalcomponent *alarm_comp;
+	icalcompiter alarm_iter;
 
 	content = camel_medium_get_content_object ((CamelMedium *) pitip->pobject.part);
 	mem = camel_stream_mem_new ();
@@ -897,6 +899,34 @@ extract_itip_data (FormatItipPObject *pitip)
 	else
 		pitip->current = 0;
 
+	/* Determine any delegate sections */
+	prop = icalcomponent_get_first_property (pitip->ical_comp, ICAL_X_PROPERTY);
+	while (prop) {
+		const char *x_name, *x_val;
+
+		x_name = icalproperty_get_x_name (prop);
+		x_val = icalproperty_get_x (prop);
+
+		if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-CALENDAR-UID"))
+			pitip->calendar_uid = g_strdup (x_val);
+		else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-CALENDAR-URI"))
+			g_warning (G_STRLOC ": X-EVOLUTION-DELEGATOR-CALENDAR-URI used");
+		else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-ADDRESS"))
+			pitip->delegator_address = g_strdup (x_val);
+		else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-NAME"))
+			pitip->delegator_name = g_strdup (x_val);
+
+		prop = icalcomponent_get_next_property (pitip->ical_comp, ICAL_X_PROPERTY);
+	}
+
+	/* Strip out alarms for security purposes */
+	alarm_iter = icalcomponent_begin_component (pitip->ical_comp, ICAL_VALARM_COMPONENT);
+	while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
+		icalcomponent_remove_component (pitip->ical_comp, alarm_comp);
+		
+		icalcompiter_next (&alarm_iter);
+	}
+
 	pitip->comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (pitip->comp, pitip->ical_comp)) {
 //		write_error_html (itip, _("The message does not appear to be properly formed"));
@@ -904,6 +934,47 @@ extract_itip_data (FormatItipPObject *pitip)
 		pitip->comp = NULL;
 		return;
 	};
+
+	/* Add default reminder if the config says so */
+	if (calendar_config_get_use_default_reminder ()) {
+		ECalComponentAlarm *acomp;
+		int interval;
+		CalUnits units;
+		ECalComponentAlarmTrigger trigger;
+
+		interval = calendar_config_get_default_reminder_interval ();
+		units = calendar_config_get_default_reminder_units ();
+
+		acomp = e_cal_component_alarm_new ();
+
+		e_cal_component_alarm_set_action (acomp, E_CAL_COMPONENT_ALARM_DISPLAY);
+
+		trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
+		memset (&trigger.u.rel_duration, 0, sizeof (trigger.u.rel_duration));
+
+		trigger.u.rel_duration.is_neg = TRUE;
+
+		switch (units) {
+		case CAL_MINUTES:
+			trigger.u.rel_duration.minutes = interval;
+			break;
+		case CAL_HOURS:	
+			trigger.u.rel_duration.hours = interval;
+			break;
+		case CAL_DAYS:	
+			trigger.u.rel_duration.days = interval;
+			break;
+		default:
+			g_assert_not_reached ();
+		}
+
+		e_cal_component_alarm_set_trigger (acomp, trigger);
+		e_cal_component_add_alarm (pitip->comp, acomp);
+
+		e_cal_component_alarm_free (acomp);
+	}
+
+	find_my_address (pitip, pitip->ical_comp, NULL);
 }
 
 static gboolean
@@ -1121,8 +1192,10 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	itip_view_set_item_type (ITIP_VIEW (pitip->view), pitip->type);
 	
 	switch (pitip->method) {
-	case ICAL_METHOD_PUBLISH:
 	case ICAL_METHOD_REQUEST:
+		/* FIXME What about the name? */
+		itip_view_set_delegator (ITIP_VIEW (pitip->view), pitip->delegator_address);
+	case ICAL_METHOD_PUBLISH:
 	case ICAL_METHOD_ADD:
 	case ICAL_METHOD_CANCEL:
 	case ICAL_METHOD_DECLINECOUNTER:
@@ -1283,8 +1356,10 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 
 	g_signal_connect (pitip->view, "response", G_CALLBACK (view_response_cb), pitip);
 
-	/* FIXME Do we always need to search for the server? */
-	find_server (pitip, pitip->comp);
+	if (pitip->calendar_uid)
+		pitip->current_ecal = start_calendar_server_by_uid (pitip, pitip->calendar_uid, pitip->type);
+	else
+		find_server (pitip, pitip->comp);
 	
 	return TRUE;
 }

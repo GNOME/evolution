@@ -108,6 +108,9 @@ const char *itip_view_get_sentby (ItipView *view);
 void itip_view_set_attendee (ItipView *view, const char *attendee);
 const char *itip_view_get_attendee (ItipView *view);
 
+void itip_view_set_delegator (ItipView *view, const char *delegator);
+const char *itip_view_get_delegator (ItipView *view);
+
 void itip_view_set_summary (ItipView *view, const char *summary);
 const char *itip_view_get_summary (ItipView *view);
 

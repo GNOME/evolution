@@ -1,5 +1,17 @@
 2005-01-09  JP Rosevear  <jpr@novell.com>
 
+	* itip-view.c (itip_view_set_delegator): accessor
+	(itip_view_get_delegator): ditto
+
+	* itip-view.h: new protos
+
+	* itip-formatter.c (extract_itip_data): put delegate sections back
+	in and handle default reminder
+	(format_itip_object): set the delegator for requests, find the
+	delegator calendar if necessary
+
+2005-01-09  JP Rosevear  <jpr@novell.com>
+	
 	* itip-formatter.c (idle_open_cb): launch an evolution window
 	pointing at the calendar date of the appointment
 	(view_response_cb): use it

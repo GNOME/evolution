@@ -1073,6 +1073,37 @@ itip_view_get_attendee (ItipView *view)
 }
 
 void
+itip_view_set_delegator (ItipView *view, const char *delegator)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	if (priv->delegator)
+		g_free (priv->delegator);
+
+	priv->delegator = g_strdup (delegator);
+
+	set_sender_text (view);	
+}
+
+const char *
+itip_view_get_delegator (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+	
+	priv = view->priv;
+	
+	return priv->delegator;
+}
+
+void
 itip_view_set_summary (ItipView *view, const char *summary)
 {
 	ItipViewPrivate *priv;
