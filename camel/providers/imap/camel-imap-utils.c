@@ -751,7 +751,7 @@ parse_params (const char **parms_p, CamelContentType *type)
 		value = imap_parse_nstring (&parms, &len);
 		
 		if (name && value)
-			camel_content_type_set_param (type, name, value);
+			header_content_type_set_param (type, name, value);
 		g_free (name);
 		g_free (value);
 		
@@ -814,11 +814,11 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 			inptr += 3;
 		}
 		
-		ctype = camel_content_type_new ("multipart", subtype ? subtype : "mixed");
+		ctype = header_content_type_new ("multipart", subtype ? subtype : "mixed");
 		g_free (subtype);
 		
 		if (*inptr++ != ')') {
-			camel_content_type_unref (ctype);
+			header_content_type_unref (ctype);
 			return NULL;
 		}
 		
@@ -855,7 +855,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 		
 		camel_strdown (type);
 		camel_strdown (subtype);
-		ctype = camel_content_type_new (type, subtype);
+		ctype = header_content_type_new (type, subtype);
 		g_free (subtype);
 		g_free (type);
 		
@@ -906,7 +906,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 		size = strtoul ((const char *) inptr, &p, 10);
 		inptr = (const unsigned char *) p;
 		
-		if (camel_content_type_is (ctype, "message", "rfc822")) {
+		if (header_content_type_is (ctype, "message", "rfc822")) {
 			/* body_type_msg */
 			if (*inptr++ != ' ')
 				goto exception;
@@ -928,7 +928,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 			/* lines */
 			strtoul ((const char *) inptr, &p, 10);
 			inptr = (const unsigned char *) p;
-		} else if (camel_content_type_is (ctype, "text", "*")) {
+		} else if (header_content_type_is (ctype, "text", "*")) {
 			if (*inptr++ != ' ')
 				goto exception;
 			
@@ -956,7 +956,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 	
  exception:
 	
-	camel_content_type_unref (ctype);
+	header_content_type_unref (ctype);
 	g_free (id);
 	g_free (description);
 	g_free (encoding);

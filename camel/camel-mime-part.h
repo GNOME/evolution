@@ -46,12 +46,12 @@ extern "C" {
 struct _CamelMimePart {
 	CamelMedium parent_object;
 	
-	struct _camel_header_raw *headers; /* mime headers */
+	struct _header_raw *headers; /* mime headers */
 	
 	/* All fields here are -** PRIVATE **- */
 	/* TODO: these should be in a camelcontentinfo */
 	char *description;
-	CamelContentDisposition *disposition;
+	CamelMimeDisposition *disposition;
 	char *content_id;
 	char *content_MD5;
 	char *content_location;

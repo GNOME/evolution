@@ -376,7 +376,7 @@ retry:
 	camel_mime_parser_scan_from(parser, TRUE);
 
 	camel_mime_parser_seek(parser, frompos, SEEK_SET);
-	if (camel_mime_parser_step(parser, NULL, NULL) != CAMEL_MIME_PARSER_STATE_FROM
+	if (camel_mime_parser_step(parser, NULL, NULL) != HSCAN_FROM
 	    || camel_mime_parser_tell_start_from(parser) != frompos) {
 
 		g_warning("Summary doesn't match the folder contents!  eek!\n"

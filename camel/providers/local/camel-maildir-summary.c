@@ -48,7 +48,7 @@
 #define CAMEL_MAILDIR_SUMMARY_VERSION (0x2000)
 
 static CamelMessageInfo *message_info_load(CamelFolderSummary *s, FILE *in);
-static CamelMessageInfo *message_info_new(CamelFolderSummary *, struct _camel_header_raw *);
+static CamelMessageInfo *message_info_new(CamelFolderSummary *, struct _header_raw *);
 static void message_info_free(CamelFolderSummary *, CamelMessageInfo *mi);
 
 static int maildir_summary_load(CamelLocalSummary *cls, int forceindex, CamelException *ex);
@@ -256,7 +256,7 @@ static CamelMessageInfo *maildir_summary_add(CamelLocalSummary *cls, CamelMimeMe
 	return mi;
 }
 
-static CamelMessageInfo *message_info_new(CamelFolderSummary * s, struct _camel_header_raw *h)
+static CamelMessageInfo *message_info_new(CamelFolderSummary * s, struct _header_raw *h)
 {
 	CamelMessageInfo *mi, *info;
 	CamelMaildirSummary *mds = (CamelMaildirSummary *)s;

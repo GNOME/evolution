@@ -402,7 +402,7 @@ camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, Came
 /* write the headers back out again, but not he Content-Length header, because we dont
    want	to maintain it! */
 static int
-solaris_header_write(int fd, struct _camel_header_raw *header)
+solaris_header_write(int fd, struct _header_raw *header)
 {
         struct iovec iv[4];
         int outlen = 0, len;
@@ -473,10 +473,10 @@ camel_movemail_solaris (int oldsfd, int dfd, CamelException *ex)
 
 	ffrom = camel_mime_filter_from_new();
 
-	while (camel_mime_parser_step(mp, &buffer, &len) == CAMEL_MIME_PARSER_STATE_FROM) {
+	while (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM) {
 		g_assert(camel_mime_parser_from_line(mp));
 		from = g_strdup(camel_mime_parser_from_line(mp));
-		if (camel_mime_parser_step(mp, &buffer, &len) != CAMEL_MIME_PARSER_STATE_FROM_END) {
+		if (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_FROM_END) {
 			const char *cl;
 			int length;
 			int start, body;

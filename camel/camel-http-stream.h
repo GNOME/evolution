@@ -59,7 +59,7 @@ struct _CamelHttpStream {
 	CamelMimeParser *parser;
 	
 	CamelContentType *content_type;
-	struct _camel_header_raw *headers;
+	struct _header_raw *headers;
 	
 	CamelHttpMethod method;
 	struct _CamelSession *session;

@@ -49,7 +49,7 @@
 static int summary_header_load (CamelFolderSummary *, FILE *);
 static int summary_header_save (CamelFolderSummary *, FILE *);
 
-static CamelMessageInfo * message_info_new (CamelFolderSummary *, struct _camel_header_raw *);
+static CamelMessageInfo * message_info_new (CamelFolderSummary *, struct _header_raw *);
 static CamelMessageInfo * message_info_new_from_parser (CamelFolderSummary *, CamelMimeParser *);
 static CamelMessageInfo * message_info_load (CamelFolderSummary *, FILE *);
 static int		  message_info_save (CamelFolderSummary *, FILE *, CamelMessageInfo *);
@@ -187,7 +187,7 @@ summary_header_save(CamelFolderSummary *s, FILE *out)
 }
 
 static CamelMessageInfo *
-message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
+message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 {
 	CamelMessageInfo *mi;
 	CamelMboxSummary *mbs = (CamelMboxSummary *)s;
@@ -204,16 +204,16 @@ message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
 
 		if (mbs->xstatus) {
 			/* check for existance of status & x-status headers */
-			status = camel_header_raw_find(&h, "Status", NULL);
+			status = header_raw_find(&h, "Status", NULL);
 			if (status)
 				flags = decode_status(status);
-			xstatus = camel_header_raw_find(&h, "X-Status", NULL);
+			xstatus = header_raw_find(&h, "X-Status", NULL);
 			if (xstatus)
 				flags |= decode_status(xstatus);
 		}
 #endif
 		/* if we have an xev header, use it, else assign a new one */
-		xev = camel_header_raw_find(&h, "X-Evolution", NULL);
+		xev = header_raw_find(&h, "X-Evolution", NULL);
 		if (xev != NULL
 		    && camel_local_summary_decode_x_evolution((CamelLocalSummary *)s, xev, mi) == 0) {
 			uid = camel_message_info_uid(mi);
@@ -355,7 +355,7 @@ summary_update(CamelLocalSummary *cls, off_t offset, CamelFolderChangeInfo *chan
 	camel_mime_parser_seek(mp, offset, SEEK_SET);
 
 	if (offset > 0) {
-		if (camel_mime_parser_step(mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM
+		if (camel_mime_parser_step(mp, NULL, NULL) == HSCAN_FROM
 		    && camel_mime_parser_tell_start_from(mp) == offset) {
 			camel_mime_parser_unstep(mp);
 		} else {
@@ -380,7 +380,7 @@ summary_update(CamelLocalSummary *cls, off_t offset, CamelFolderChangeInfo *chan
 	}
 	mbs->changes = changeinfo;
 
-	while (camel_mime_parser_step(mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
+	while (camel_mime_parser_step(mp, NULL, NULL) == HSCAN_FROM) {
 		CamelMessageInfo *info;
 		off_t pc = camel_mime_parser_tell_start_from (mp) + 1;
 		
@@ -394,7 +394,7 @@ summary_update(CamelLocalSummary *cls, off_t offset, CamelFolderChangeInfo *chan
 			break;
 		}
 
-		g_assert(camel_mime_parser_step(mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM_END);
+		g_assert(camel_mime_parser_step(mp, NULL, NULL) == HSCAN_FROM_END);
 	}
 
 	camel_object_unref(CAMEL_OBJECT (mp));
@@ -638,7 +638,7 @@ mbox_summary_sync_quick(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChan
 
 		camel_mime_parser_seek(mp, info->frompos, SEEK_SET);
 
-		if (camel_mime_parser_step(mp, 0, 0) != CAMEL_MIME_PARSER_STATE_FROM) {
+		if (camel_mime_parser_step(mp, 0, 0) != HSCAN_FROM) {
 			g_warning("Expected a From line here, didn't get it");
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Summary and folder mismatch, even after a sync"));
@@ -653,7 +653,7 @@ mbox_summary_sync_quick(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChan
 			goto error;
 		}
 
-		if (camel_mime_parser_step(mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM_END) {
+		if (camel_mime_parser_step(mp, 0, 0) == HSCAN_FROM_END) {
 			g_warning("camel_mime_parser_step failed (2)");
 			goto error;
 		}
@@ -667,7 +667,7 @@ mbox_summary_sync_quick(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChan
 		/* SIGH: encode_param_list is about the only function which folds headers by itself.
 		   This should be fixed somehow differently (either parser doesn't fold headers,
 		   or param_list doesn't, or something */
-		xevtmp = camel_header_unfold(xevnew);
+		xevtmp = header_unfold(xevnew);
 		/* the raw header contains a leading ' ', so (dis)count that too */
 		if (strlen(xev)-1 != strlen(xevtmp)) {
 			printf ("strlen(xev)-1 = %d; strlen(xevtmp) = %d\n", strlen(xev)-1, strlen(xevtmp));
@@ -839,7 +839,7 @@ camel_mbox_summary_sync_mbox(CamelMboxSummary *cls, guint32 flags, CamelFolderCh
 			camel_mime_parser_seek(mp, info->frompos, SEEK_SET);
 		}
 
-		if (camel_mime_parser_step(mp, &buffer, &len) != CAMEL_MIME_PARSER_STATE_FROM) {
+		if (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_FROM) {
 			g_warning("Expected a From line here, didn't get it");
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Summary and folder mismatch, even after a sync"));
@@ -885,7 +885,7 @@ camel_mbox_summary_sync_mbox(CamelMboxSummary *cls, guint32 flags, CamelFolderCh
 		if (info && info->info.flags & (CAMEL_MESSAGE_FOLDER_NOXEV | CAMEL_MESSAGE_FOLDER_FLAGGED)) {
 			d(printf("Updating header for %s flags = %08x\n", camel_message_info_uid(info), info->info.flags));
 
-			if (camel_mime_parser_step(mp, &buffer, &len) == CAMEL_MIME_PARSER_STATE_FROM_END) {
+			if (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM_END) {
 				g_warning("camel_mime_parser_step failed (2)");
 				goto error;
 			}
@@ -918,7 +918,7 @@ camel_mbox_summary_sync_mbox(CamelMboxSummary *cls, guint32 flags, CamelFolderCh
 		camel_mime_parser_drop_step(mp);
 		if (info) {
 			d(printf("looking for message content to copy across from %d\n", (int)camel_mime_parser_tell(mp)));
-			while (camel_mime_parser_step(mp, &buffer, &len) == CAMEL_MIME_PARSER_STATE_PRE_FROM) {
+			while (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_PRE_FROM) {
 				/*d(printf("copying mbox contents to tmp: '%.*s'\n", len, buffer));*/
 				if (write(fdout, buffer, len) != len) {
 					camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,

@@ -87,7 +87,7 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		  CamelAddress *from, CamelAddress *recipients,
 		  CamelException *ex)
 {
-	struct _camel_header_raw *header, *savedbcc, *n, *tail;
+	struct _header_raw *header, *savedbcc, *n, *tail;
 	const char *from_addr, *addr, **argv;
 	int i, len, fd[2], nullfd, wstat;
 	CamelStreamFilter *filter;
@@ -122,9 +122,9 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	
 	/* unlink the bcc headers */
 	savedbcc = NULL;
-	tail = (struct _camel_header_raw *) &savedbcc;
+	tail = (struct _header_raw *) &savedbcc;
 	
-	header = (struct _camel_header_raw *) &CAMEL_MIME_PART (message)->headers;
+	header = (struct _header_raw *) &CAMEL_MIME_PART (message)->headers;
 	n = header->next;
 	while (n != NULL) {
 		if (!strcasecmp (n->name, "Bcc")) {

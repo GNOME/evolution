@@ -1673,7 +1673,7 @@ content_info_get_part_spec (CamelMessageContentInfo *ci)
 		CamelMessageContentInfo *child;
 		
 		/* FIXME: is this only supposed to apply if 'node' is a multipart? */
-		if (node->parent->parent && camel_content_type_is (node->parent->type, "message", "*")) {
+		if (node->parent->parent && header_content_type_is (node->parent->type, "message", "*")) {
 			node = node->parent;
 			continue;
 		}
@@ -1721,7 +1721,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 	part_spec = content_info_get_part_spec (ci);
 	
 	/* There are three cases: multipart/signed, multipart, message/rfc822, and "other" */
-	if (camel_content_type_is (ci->type, "multipart", "signed")) {
+	if (header_content_type_is (ci->type, "multipart", "signed")) {
 		CamelMultipartSigned *body_mp;
 		char *spec;
 		int ret;
@@ -1749,12 +1749,12 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		}
 		
 		return (CamelDataWrapper *) body_mp;
-	} else if (camel_content_type_is (ci->type, "multipart", "*")) {
+	} else if (header_content_type_is (ci->type, "multipart", "*")) {
 		CamelMultipart *body_mp;
 		char *child_spec;
 		int speclen, num;
 		
-		if (camel_content_type_is (ci->type, "multipart", "encrypted"))
+		if (header_content_type_is (ci->type, "multipart", "encrypted"))
 			body_mp = (CamelMultipart *) camel_multipart_encrypted_new ();
 		else
 			body_mp = camel_multipart_new ();
@@ -1808,7 +1808,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		g_free (child_spec);
 		
 		return (CamelDataWrapper *) body_mp;
-	} else if (camel_content_type_is (ci->type, "message", "rfc822")) {
+	} else if (header_content_type_is (ci->type, "message", "rfc822")) {
 		content = (CamelDataWrapper *) get_message (imap_folder, uid, part_spec, ci->childs, ex);
 		g_free (part_spec);
 		return content;

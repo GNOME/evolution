@@ -314,7 +314,7 @@ mh_summary_sync_message(CamelLocalSummary *cls, CamelMessageInfo *info, CamelExc
 
 	mp = camel_mime_parser_new();
 	camel_mime_parser_init_with_fd(mp, fd);
-	if (camel_mime_parser_step(mp, 0, 0) != CAMEL_MIME_PARSER_STATE_EOF) {
+	if (camel_mime_parser_step(mp, 0, 0) != HSCAN_EOF) {
 		xev = camel_mime_parser_header(mp, "X-Evolution", &xevoffset);
 		d(printf("xev = '%s'\n", xev));
 		xevnew = camel_local_summary_encode_x_evolution(cls, info);

@@ -94,7 +94,7 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				camel_message_info_set_to(new_info, g_strdup(folder->name));
 				camel_message_info_set_uid(new_info, uid);
 
-				new_info->date_sent = camel_header_decode_date(date, NULL);
+				new_info->date_sent = header_decode_date(date, NULL);
 #if 0
 				/* XXX do we need to fill in both dates? */
 				new_info->headers.date_received = g_strdup(date);
@@ -176,8 +176,9 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 			}
 
 			/* create a stream from which to parse the headers */
-			header_stream = camel_stream_mem_new_with_buffer (buf, buf_len,
-									  CAMEL_STREAM_MEM_READ);
+			header_stream = camel_stream_mem_new_with_buffer(buf,
+								 buf_len,
+								 CAMEL_STREAM_MEM_READ);
 
 			header_array = get_header_array_from_stream (header_stream);
 
@@ -196,7 +197,7 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 					new_info->message_id = g_strdup(header->value);
 				}
 				else if (!g_strcasecmp(header->name, "Date")) {
-					new_info->date_sent = camel_header_decode_date (header->value);
+					new_info->date_sent = header_decode_date (header->value);
 #if 0
 					new_info->date_sent = g_strdup(header->value);
 					new_info->date_received = g_strdup(header->value);

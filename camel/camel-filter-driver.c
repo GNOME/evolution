@@ -1127,7 +1127,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 	
 	source_url = g_strdup_printf ("file://%s", mbox);
 	
-	while (camel_mime_parser_step (mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
+	while (camel_mime_parser_step (mp, 0, 0) == HSCAN_FROM) {
 		CamelMessageInfo *info;
 		CamelMimeMessage *msg;
 		int pc = 0;
@@ -1349,7 +1349,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	}
 	
 	if (info == NULL) {
-		struct _camel_header_raw *h;
+		struct _header_raw *h;
 		
 		if (message) {
 			camel_object_ref (CAMEL_OBJECT (message));

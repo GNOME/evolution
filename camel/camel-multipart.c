@@ -374,7 +374,7 @@ set_boundary (CamelMultipart *multipart, const char *boundary)
 		boundary = bbuf;
 	}
 
-	camel_content_type_set_param (cdw->mime_type, "boundary", boundary);
+	header_content_type_set_param (cdw->mime_type, "boundary", boundary);
 }
 
 /**
@@ -402,7 +402,7 @@ get_boundary (CamelMultipart *multipart)
 	CamelDataWrapper *cdw = CAMEL_DATA_WRAPPER (multipart);
 
 	g_return_val_if_fail (cdw->mime_type != NULL, NULL);
-	return camel_content_type_param (cdw->mime_type, "boundary");
+	return header_content_type_param (cdw->mime_type, "boundary");
 }
 
 /**
@@ -546,21 +546,21 @@ static int
 construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser *mp)
 {
 	int err;
-	CamelContentType *content_type;
+	struct _header_content_type *content_type;
 	CamelMimePart *bodypart;
 	char *buf;
 	size_t len;
 	
-	g_assert(camel_mime_parser_state(mp) == CAMEL_MIME_PARSER_STATE_MULTIPART);
+	g_assert(camel_mime_parser_state(mp) == HSCAN_MULTIPART);
 	
 	/* FIXME: we should use a came-mime-mutlipart, not jsut a camel-multipart, but who cares */
 	d(printf("Creating multi-part\n"));
 		
 	content_type = camel_mime_parser_content_type(mp);
 	camel_multipart_set_boundary(multipart,
-				     camel_content_type_param(content_type, "boundary"));
+				     header_content_type_param(content_type, "boundary"));
 	
-	while (camel_mime_parser_step(mp, &buf, &len) != CAMEL_MIME_PARSER_STATE_MULTIPART_END) {
+	while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_MULTIPART_END) {
 		camel_mime_parser_unstep(mp);
 		bodypart = camel_mime_part_new();
 		camel_mime_part_construct_from_parser(bodypart, mp);
