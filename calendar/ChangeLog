@@ -1,5 +1,12 @@
 2004-04-18  JP Rosevear <jpr@ximian.com>
 
+	Fixes #54021
+	
+	* importers/icalendar-importer.c (update_single_object): ensure
+	UID exists
+
+2004-04-18  JP Rosevear <jpr@ximian.com>
+
 	Fixes #53124
 	
 	* gui/e-tasks.c: remove preview pieces, they are in their own

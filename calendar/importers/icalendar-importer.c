@@ -169,8 +169,10 @@ update_single_object (ECal *client, icalcomponent *icalcomp)
 	icalcomponent *tmp_icalcomp;
 
 	uid = (char *) icalcomponent_get_uid (icalcomp);
-	
-	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
+
+	/* FIXME Shouldn't we check for RIDs here? */
+	/* FIXME Should we always create a new UID? */
+	if (uid && e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
 		return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL);
 
 	return e_cal_create_object (client, icalcomp, &uid, NULL);	
