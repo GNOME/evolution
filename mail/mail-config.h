@@ -23,7 +23,7 @@
 #ifndef MAIL_CONFIG_H
 #define MAIL_CONFIG_H
 
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <camel/camel.h>
 
 #ifdef __cplusplus
@@ -205,7 +205,7 @@ GSList *mail_config_get_sources (void);
 /* static utility functions */
 char *mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix);
 
-gboolean  mail_config_check_service (const char *url, CamelProviderType type, GList **authtypes);
+gboolean mail_config_check_service (const char *url, CamelProviderType type, GList **authtypes, GtkWindow *window);
 
 
 

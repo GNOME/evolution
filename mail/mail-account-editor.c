@@ -111,9 +111,6 @@ apply_changes (MailAccountEditor *editor)
 	if (mail_account_gui_save (editor->gui) == FALSE)
 		return FALSE;
 	
-	/* FIXME: uh, what the hell is this for? */
-	account = editor->gui->account;
-	
 	/* save any changes we may have */
 	mail_config_write ();
 	
@@ -162,7 +159,7 @@ construct (MailAccountEditor *editor, MailConfigAccount *account)
 	/* give our dialog an OK button and title */
 	gtk_window_set_title (GTK_WINDOW (editor), _("Evolution Account Editor"));
 	gtk_window_set_policy (GTK_WINDOW (editor), FALSE, TRUE, TRUE);
-	gtk_window_set_modal (GTK_WINDOW (editor), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (editor), FALSE);
 	gnome_dialog_append_buttons (GNOME_DIALOG (editor),
 				     GNOME_STOCK_BUTTON_OK,
 				     GNOME_STOCK_BUTTON_APPLY,
@@ -188,9 +185,9 @@ MailAccountEditor *
 mail_account_editor_new (MailConfigAccount *account)
 {
 	MailAccountEditor *new;
-
+	
 	new = (MailAccountEditor *) gtk_type_new (mail_account_editor_get_type ());
 	construct (new, account);
-
+	
 	return new;
 }

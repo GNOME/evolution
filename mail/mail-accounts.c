@@ -54,6 +54,11 @@ static void mail_accounts_dialog_init       (MailAccountsDialog *dialog);
 static void mail_accounts_dialog_finalise   (GtkObject *obj);
 static void mail_unselect                   (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data);
 
+static MailConfigDruid *druid = NULL;
+static MailAccountEditor *editor = NULL;
+#ifdef ENABLE_NNTP
+static MailAccountEditorNews *news_editor = NULL;
+#endif
 
 static GnomeDialogClass *parent_class;
 
@@ -201,7 +206,7 @@ mail_unselect (GtkCList *clist, gint row, gint column, GdkEventButton *event, gp
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_default), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_able), FALSE);
-
+	
 	/*
 	 * If an insensitive button in a button box has the focus, and if you hit tab,
 	 * there is a segfault.  I think that this might be a gtk bug.  Anyway, this
@@ -218,25 +223,30 @@ mail_add_finished (GtkWidget *widget, gpointer data)
 	
 	dialog->accounts = mail_config_get_accounts ();
 	load_accounts (dialog);
+	druid = NULL;
 }
 
 static void
 mail_add (GtkButton *button, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
-	MailConfigDruid *druid;
 	
-	druid = mail_config_druid_new (dialog->shell);
-	gtk_signal_connect (GTK_OBJECT (druid), "destroy",
-			    GTK_SIGNAL_FUNC (mail_add_finished), dialog);
-	
-	gtk_widget_show (GTK_WIDGET (druid));
+	if (druid == NULL) {
+		druid = mail_config_druid_new (dialog->shell);
+		gtk_signal_connect (GTK_OBJECT (druid), "destroy",
+				    GTK_SIGNAL_FUNC (mail_add_finished), dialog);
+		
+		gtk_widget_show (GTK_WIDGET (druid));
+	} else {
+		gdk_window_raise (GTK_WIDGET (druid)->window);
+	}
 }
 
 static void
 mail_editor_destroyed (GtkWidget *widget, gpointer data)
 {
 	load_accounts (MAIL_ACCOUNTS_DIALOG (data));
+	editor = NULL;
 }
 
 static void
@@ -244,17 +254,20 @@ mail_edit (GtkButton *button, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
 	
-	if (dialog->accounts_row >= 0) {
-		MailConfigAccount *account;
-		MailAccountEditor *editor;
-		
-		account = gtk_clist_get_row_data (dialog->mail_accounts, dialog->accounts_row);
-		editor = mail_account_editor_new (account);
-		gnome_dialog_set_parent (GNOME_DIALOG (editor), GTK_WINDOW (dialog));
-		gtk_signal_connect (GTK_OBJECT (editor), "destroy",
-				    GTK_SIGNAL_FUNC (mail_editor_destroyed),
-				    dialog);
-		gtk_widget_show (GTK_WIDGET (editor));
+	if (editor == NULL) {
+		if (dialog->accounts_row >= 0) {
+			MailConfigAccount *account;
+			
+			account = gtk_clist_get_row_data (dialog->mail_accounts, dialog->accounts_row);
+			editor = mail_account_editor_new (account);
+			gnome_dialog_set_parent (GNOME_DIALOG (editor), GTK_WINDOW (dialog));
+			gtk_signal_connect (GTK_OBJECT (editor), "destroy",
+					    GTK_SIGNAL_FUNC (mail_editor_destroyed),
+					    dialog);
+			gtk_widget_show (GTK_WIDGET (editor));
+		}
+	} else {
+		gdk_window_raise (GTK_WIDGET (editor)->window);
 	}
 }
 
@@ -273,7 +286,8 @@ mail_delete (GtkButton *button, gpointer data)
 	GnomeDialog *confirm;
 	int ans;
 	
-	if (dialog->accounts_row < 0)
+	/* make sure we have a valid account selected and that we aren't editing anything... */
+	if (dialog->accounts_row < 0 || editor != NULL)
 		return;
 	
 	confirm = GNOME_DIALOG (gnome_message_box_new (_("Are you sure you want to delete this account?"),
@@ -343,7 +357,7 @@ mail_able (GtkButton *button, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
 	const MailConfigAccount *account;
-
+	
 	if (dialog->accounts_row >= 0) {
 		int row;
 		
@@ -387,9 +401,9 @@ load_news (MailAccountsDialog *dialog)
 			url = camel_url_new (service->url, NULL);
 		else
 			url = NULL;
-
+		
 		text[0] = g_strdup_printf ("%s", url && url->host ? url->host : _("None"));
-
+		
 		if (url)
 			camel_url_free (url);
 		
@@ -432,31 +446,33 @@ static void
 news_editor_destroyed (GtkWidget *widget, gpointer data)
 {
 	load_news (MAIL_ACCOUNTS_DIALOG (data));
+	news_editor = NULL;
 }
-
 
 static void
 news_edit (GtkButton *button, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
 	
-	if (dialog->news_row >= 0) {
-		MailConfigService *service;
-		MailAccountEditorNews *editor;
-		
-		service = gtk_clist_get_row_data (dialog->news_accounts, dialog->news_row);
-		editor = mail_account_editor_news_new (service);
-		gtk_signal_connect (GTK_OBJECT (editor), "destroy",
-				    GTK_SIGNAL_FUNC (news_editor_destroyed),
-				    dialog);
-		gtk_widget_show (GTK_WIDGET (editor));
+	if (news_editor == NULL) {
+		if (dialog->news_row >= 0) {
+			MailConfigService *service;
+			
+			service = gtk_clist_get_row_data (dialog->news_accounts, dialog->news_row);
+			news_editor = mail_account_editor_news_new (service);
+			gtk_signal_connect (GTK_OBJECT (news_editor), "destroy",
+					    GTK_SIGNAL_FUNC (news_editor_destroyed),
+					    dialog);
+			gtk_widget_show (GTK_WIDGET (news_editor));
+		}
+	} else {
+		gdk_window_raise (GTK_WIDGET (news_editor)->window);
 	}
 }
 
 static void 
 news_add_destroyed (GtkWidget *widget, gpointer data)
 {
-
 	gpointer *send = data;
 	MailAccountsDialog *dialog;
 	MailConfigService *service;
@@ -480,21 +496,24 @@ news_add (GtkButton *button, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
 	MailConfigService *service;
-	MailAccountEditorNews *editor;
 	gpointer *send;
 	
-        send = g_new(gpointer, 2);
-
-	service = g_new0 (MailConfigService, 1);
-	service->url = NULL;
-
-	editor = mail_account_editor_news_new (service);
-	send[0] = service;
-	send[1] = dialog;
-	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
-			    GTK_SIGNAL_FUNC (news_add_destroyed),
-			    send);
-	gtk_widget_show (GTK_WIDGET (editor));
+	if (news_editor == NULL) {
+		send = g_new (gpointer, 2);
+		
+		service = g_new0 (MailConfigService, 1);
+		service->url = NULL;
+		
+		news_editor = mail_account_editor_news_new (service);
+		send[0] = service;
+		send[1] = dialog;
+		gtk_signal_connect (GTK_OBJECT (news_editor), "destroy",
+				    GTK_SIGNAL_FUNC (news_add_destroyed),
+				    send);
+		gtk_widget_show (GTK_WIDGET (news_editor));
+	} else {
+		gdk_window_raise (GTK_WIDGET (news_editor)->window);
+	}
 }
 
 static void
@@ -506,7 +525,8 @@ news_delete (GtkButton *button, gpointer data)
 	GtkWidget *label;
 	int ans;
 	
-	if (dialog->news_row < 0)
+	/* don't allow user to delete an account if he might be editing it */
+	if (dialog->news_row < 0 || news_editor != NULL)
 		return;
 	
 	confirm = GNOME_DIALOG (gnome_dialog_new (_("Are you sure you want to delete this news account?"),

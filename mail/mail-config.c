@@ -1948,7 +1948,7 @@ check_cancelled (GnomeDialog *dialog, int button, gpointer data)
  * Return value: %TRUE on success or %FALSE on error.
  **/
 gboolean
-mail_config_check_service (const char *url, CamelProviderType type, GList **authtypes)
+mail_config_check_service (const char *url, CamelProviderType type, GList **authtypes, GtkWindow *window)
 {
 	gboolean ret = FALSE;
 	struct _check_msg *m;
@@ -1967,13 +1967,14 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	dialog = gnome_dialog_new (_("Connecting to server..."),
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), window);
 	label = gtk_label_new (_("Connecting to server..."));
 	gtk_box_pack_start (GTK_BOX(GNOME_DIALOG (dialog)->vbox),
 			    label, TRUE, TRUE, 10);
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
 	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
 			    GTK_SIGNAL_FUNC (check_cancelled), &id);
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
 	gtk_widget_show_all (dialog);
 
 	mail_msg_wait(id);

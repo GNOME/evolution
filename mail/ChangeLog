@@ -1,3 +1,30 @@
+2001-11-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-editor.c (construct): Don't make the account editor
+	modal either.
+
+	* mail-accounts.c (mail_add): Use the new global account druid
+	variable so that we can avoid having more than a single druid at a
+	time. If a druid already exists, bring it to the top.
+	(mail_edit): Same idea only for the account editor this time.
+	(mail_editor_destroyed): Set the global editor to NULL.
+	(mail_add_finished): Set the global druid to NULL.
+	(mail_delete): Don't allow any deletes if an account editor is
+	opened (we don't want to be able to delete the account we are
+	editing...)
+	(news_edit): Same thing for the news editor.
+	(news_editor_destroyed): Set the news editor to NULL.
+	(news_add): And again for the news add.
+
+	* mail-account-gui.c (service_check_supported): Updated to pass a
+	GtkWindow argument to mail_config_check_service().
+
+	* mail-config.c (mail_config_check_service): Now takes a GtkWindow
+	argument so we can set our parent window. Also, don't make this
+	dialog modal either.
+
+	* mail-config-druid.c (construct): Don't make this druid modal.
+
 2001-11-05    <NotZed@Ximian.com>
 
 	* message-browser.c (set_bonobo_ui): Override the Move/Copy

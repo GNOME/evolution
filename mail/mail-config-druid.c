@@ -592,15 +592,14 @@ construct (MailConfigDruid *druid)
 	/* get our toplevel widget and reparent it */
 	widget = glade_xml_get_widget (druid->xml, "druid");
 	gtk_widget_reparent (widget, GTK_WIDGET (druid));
-
+	
 	druid->druid = GNOME_DRUID (widget);
 
 	/* set window title */
 	gtk_window_set_title (GTK_WINDOW (druid), _("Evolution Account Assistant"));
 	gtk_window_set_policy (GTK_WINDOW (druid), FALSE, TRUE, FALSE);
-	gtk_window_set_modal (GTK_WINDOW (druid), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (druid), FALSE);
 	gtk_object_set (GTK_OBJECT (druid), "type", GTK_WINDOW_DIALOG, NULL);
-
 
 	druid->listener = bonobo_listener_new (NULL, NULL);
 	gtk_signal_connect (GTK_OBJECT (druid->listener), "event-notify",
