@@ -46,10 +46,12 @@
 #include <gal/widgets/e-unicode.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <libgnome/gnome-i18n.h>
+#include <e-util/e-dialog-utils.h>
 
 #include "cal-util/timeutil.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/send-comp.h"
+#include "print.h"
 #include "comp-util.h"
 #include "itip-utils.h"
 #include "calendar-commands.h"
@@ -331,12 +333,28 @@ static void e_day_view_on_new_appointment (GtkWidget *widget,
 					   gpointer data);
 static void e_day_view_on_new_event       (GtkWidget *widget,
 					   gpointer data);
+static void e_day_view_on_new_meeting (GtkWidget *widget,
+				       gpointer data);
+static void e_day_view_on_new_task (GtkWidget *widget,
+				    gpointer data);
 static void e_day_view_on_goto_today      (GtkWidget *widget,
 					   gpointer data);
 static void e_day_view_on_goto_date       (GtkWidget *widget,
 					   gpointer data);
 static void e_day_view_on_edit_appointment (GtkWidget *widget,
 					    gpointer data);
+static void e_day_view_on_save_as (GtkWidget *widget, 
+				   gpointer data);
+static void e_day_view_on_print (GtkWidget *widget,
+				 gpointer data);
+static void e_day_view_on_print_event (GtkWidget *widget, 
+				       gpointer data);
+static void e_day_view_on_meeting (GtkWidget *widget,
+				   gpointer data);
+static void e_day_view_on_forward (GtkWidget *widget,
+				   gpointer data);
+static void e_day_view_on_publish (GtkWidget *widget,
+				   gpointer data);
 static void e_day_view_on_delete_occurrence (GtkWidget *widget,
 					     gpointer data);
 static void e_day_view_on_delete_appointment (GtkWidget *widget,
@@ -3526,7 +3544,16 @@ static EPopupMenu main_items [] = {
 	  e_day_view_on_new_appointment, NULL, NULL, 0 },
 	{ N_("New All Day _Event"), NULL,
 	  e_day_view_on_new_event, NULL, NULL, 0 },
+	{ N_("New Meeting"), NULL,
+	  e_day_view_on_new_meeting, NULL, NULL, 0 },
+	{ N_("New Task"), NULL,
+	  e_day_view_on_new_task, NULL, NULL, 0 },
 
+	E_POPUP_SEPARATOR,
+
+	{ N_("Print..."), NULL,
+	  e_day_view_on_print, NULL, NULL, 0 },
+	
 	E_POPUP_SEPARATOR,
 
 	{ N_("_Paste"), NULL,
@@ -3539,18 +3566,29 @@ static EPopupMenu main_items [] = {
 	{ N_("_Go to Date..."), NULL,
 	  e_day_view_on_goto_date, NULL, NULL, 0 },
 
+	E_POPUP_SEPARATOR,
+
+	{ N_("_Publish Free/Busy Information"), NULL,
+	  e_day_view_on_publish, NULL, NULL, 0 },
+
+	E_POPUP_SEPARATOR,
+
+	{ N_("_Configure..."), NULL,
+	  e_day_view_on_paste, NULL, NULL, 0 },
+
 	E_POPUP_TERMINATOR
 };
 
 static EPopupMenu child_items [] = {
 	{ N_("_Open"), NULL,
 	  e_day_view_on_edit_appointment, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
-	{ N_("_Delete this Appointment"), NULL,
-	  e_day_view_on_delete_appointment, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
+	{ N_("_Save As..."), NULL,
+	  e_day_view_on_save_as, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
+	{ N_("_Print..."), NULL,
+	  e_day_view_on_print_event, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
 
 	/* Only show this separator if one of the above is shown. */
 	{ "", NULL, NULL, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
-
 
 	{ N_("C_ut"), NULL,
 	  e_day_view_on_cut, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
@@ -3559,18 +3597,24 @@ static EPopupMenu child_items [] = {
 	{ N_("_Paste"), NULL,
 	  e_day_view_on_paste, NULL, NULL, 0 },
 
+	E_POPUP_SEPARATOR,
 
-	/*
-	 * The following are only shown if this is a recurring event
-	 */
-	{ "", NULL, NULL, NULL, NULL, MASK_RECURRING | MASK_EDITING },
+	{ N_("_Schedule Meeting..."), NULL,
+	  e_day_view_on_meeting, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
+	{ N_("_Forward as iCalendar..."), NULL,
+	  e_day_view_on_forward, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
+	
+	E_POPUP_SEPARATOR,
+
+	{ N_("_Delete"), NULL,
+	  e_day_view_on_delete_appointment, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
 	{ N_("Make this Occurrence _Movable"), NULL,
 	  e_day_view_on_unrecur_appointment, NULL, NULL, MASK_RECURRING | MASK_EDITING },
 	{ N_("Delete this _Occurrence"), NULL,
 	  e_day_view_on_delete_occurrence, NULL, NULL, MASK_RECURRING | MASK_EDITING },
 	{ N_("Delete _All Occurrences"), NULL,
 	  e_day_view_on_delete_appointment, NULL, NULL, MASK_RECURRING | MASK_EDITING },
-	
+
 	E_POPUP_TERMINATOR
 };
 
@@ -3668,6 +3712,44 @@ e_day_view_on_new_event (GtkWidget *widget, gpointer data)
 }
 
 static void
+e_day_view_on_new_meeting (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view = E_DAY_VIEW (data);
+	time_t dtstart, dtend;
+	struct icaltimetype itt;
+	
+	/* Edit a new event. If only one day is selected in the top canvas,
+	   we set the time to the first 1/2-hour of the working day. */
+	if (day_view->selection_in_top_canvas
+	    && day_view->selection_start_day != -1
+	    && day_view->selection_start_day == day_view->selection_end_day) {
+		dtstart = day_view->day_starts[day_view->selection_start_day];
+		itt = icaltime_from_timet_with_zone (dtstart, FALSE,
+						     day_view->zone);
+		itt.hour = calendar_config_get_day_start_hour ();
+		itt.minute = calendar_config_get_day_start_minute ();
+		dtstart = icaltime_as_timet_with_zone (itt, day_view->zone);
+
+		icaltime_adjust (&itt, 0, 0, 30, 0);
+		dtend = icaltime_as_timet_with_zone (itt, day_view->zone);
+	} else {
+		e_day_view_get_selected_time_range (day_view, &dtstart,
+						    &dtend);
+	}
+
+	gnome_calendar_new_appointment_for (
+		day_view->calendar, dtstart, dtend, FALSE, TRUE);
+}
+
+static void
+e_day_view_on_new_task (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view = E_DAY_VIEW (data);
+
+	gnome_calendar_new_task (day_view->calendar);
+}
+
+static void
 e_day_view_on_goto_date (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view = E_DAY_VIEW (data);
@@ -3701,6 +3783,150 @@ e_day_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 		g_warning ("Calendar not set");
 }
 
+static void
+e_day_view_on_save_as (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view;
+	EDayViewEvent *event;
+	char *filename;
+	char *ical_string;
+	FILE *file;
+
+	day_view = E_DAY_VIEW (data);
+
+	event = e_day_view_get_popup_menu_event (day_view);
+	if (event == NULL)
+		return;
+	
+	filename = e_file_dialog_save (_("Save as..."));
+	if (filename == NULL)
+		return;
+	
+	ical_string = cal_client_get_component_as_string (day_view->client, event->comp);
+	if (ical_string == NULL) {
+		g_warning ("Couldn't convert item to a string");
+		return;
+	}
+	
+	file = fopen (filename, "w");
+	if (file == NULL) {
+		g_warning ("Couldn't save item");
+		return;
+	}
+	
+	fprintf (file, ical_string);
+	g_free (ical_string);
+	fclose (file);
+}
+
+static void
+e_day_view_on_print (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view;
+	time_t start;
+	GnomeCalendarViewType view_type;
+	PrintView print_view;
+
+	day_view = E_DAY_VIEW (data);
+
+	gnome_calendar_get_current_time_range (day_view->calendar, &start, NULL);
+	view_type = gnome_calendar_get_view (day_view->calendar);
+
+	switch (view_type) {
+	case GNOME_CAL_DAY_VIEW:
+		print_view = PRINT_VIEW_DAY;
+		break;
+
+	case GNOME_CAL_WORK_WEEK_VIEW:
+		print_view = PRINT_VIEW_WEEK;
+		break;
+
+	default:
+		g_assert_not_reached ();
+		return;
+	}
+
+	print_calendar (day_view->calendar, FALSE, start, print_view);
+}
+
+static void
+e_day_view_on_print_event (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view;
+	EDayViewEvent *event;
+
+	day_view = E_DAY_VIEW (data);
+
+	event = e_day_view_get_popup_menu_event (day_view);
+	if (event == NULL)
+		return;
+
+	print_comp (event->comp, day_view->client, FALSE);
+}
+
+static void
+e_day_view_on_meeting (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view;
+	EDayViewEvent *event;
+
+	day_view = E_DAY_VIEW (data);
+
+	event = e_day_view_get_popup_menu_event (day_view);
+	if (event == NULL)
+		return;
+
+	if (day_view->calendar)
+		gnome_calendar_edit_object (day_view->calendar, event->comp, TRUE);
+	else
+		g_warning ("Calendar not set");
+}
+
+static void
+e_day_view_on_forward (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view;
+	EDayViewEvent *event;
+
+	day_view = E_DAY_VIEW (data);
+
+	event = e_day_view_get_popup_menu_event (day_view);
+	if (event == NULL)
+		return;
+
+	itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, event->comp, 
+			day_view->client, NULL);
+}
+
+static void
+e_day_view_on_publish (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view;
+	icaltimezone *utc;
+	time_t start = time (NULL), end;
+	GList *comp_list;
+
+	day_view = E_DAY_VIEW (data);
+
+	utc = icaltimezone_get_utc_timezone ();
+	start = time_day_begin_with_zone (start, utc);
+	end = time_add_week_with_zone (start, 6, utc);
+
+	comp_list = cal_client_get_free_busy (day_view->client, NULL, start, end);
+	if (comp_list) {
+		GList *l;
+
+		for (l = comp_list; l; l = l->next) {
+			CalComponent *comp = CAL_COMPONENT (l->data);
+			itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp, 
+					day_view->client, NULL);
+
+			gtk_object_unref (GTK_OBJECT (comp));
+		}
+
+ 		g_list_free (comp_list);
+	}
+}
 
 static void
 e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)

@@ -38,6 +38,7 @@
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <gal/widgets/e-unicode.h>
+#include <e-util/e-dialog-utils.h>
 #include <evolution-shell-component-utils.h>
 #include "../print.h"
 #include "save-comp.h"
@@ -1058,89 +1059,37 @@ save_close_cmd (GtkWidget *widget, gpointer data)
 }
 
 static void
-save_as_ok (GtkWidget *widget, gpointer data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-	CompEditorPrivate *priv;
-	struct stat s;
-	char *path;
-	int ret = 0;
-
-	priv = editor->priv;
-
-	path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (priv->filesel));
-
-	if (stat (path, &s) == 0) {
-		GtkWidget *dlg;
-		GtkWidget *text;
-
-		dlg = gnome_dialog_new (_("Overwrite file?"),
-					GNOME_STOCK_BUTTON_YES,
-					GNOME_STOCK_BUTTON_NO,
-					NULL);
-		text = gtk_label_new (_("A file by that name already exists.\nOverwrite it?"));
-		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox), text, TRUE, TRUE, 4);
-		gtk_window_set_policy (GTK_WINDOW (dlg), FALSE, TRUE, FALSE);
-		gtk_widget_show (text);
-
-		ret = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-	}
-
-	if (ret == 0) {
-		FILE *file;
-		gchar *ical_string;
-
-		ical_string = cal_client_get_component_as_string (priv->client, priv->comp);
-		if (ical_string == NULL) {
-			g_warning ("Couldn't convert item to a string");
-			gtk_main_quit ();
-			return;
-		}
-
-		file = fopen (path, "w");
-		if (file == NULL) {
-			g_warning ("Couldn't save item");
-			gtk_main_quit ();
-			return;
-		}
-
-		fprintf (file, ical_string);
-		g_free (ical_string);
-		fclose (file);
-
-		gtk_main_quit ();
-	}
-}
-
-static void
 save_as_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
-	GtkFileSelection *fs;
-	char *path;
-
+	char *filename;
+	char *ical_string;
+	FILE *file;
+	
 	priv = editor->priv;
 
 	commit_all_fields (editor);
 
-	fs = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save As...")));
-	path = g_strdup_printf ("%s/", g_get_home_dir ());
-	gtk_file_selection_set_filename (fs, path);
-	g_free (path);
-
-	gtk_signal_connect (GTK_OBJECT (fs->ok_button), "clicked",
-			    GTK_SIGNAL_FUNC (save_as_ok), editor);
-	gtk_signal_connect (GTK_OBJECT (fs->cancel_button), "clicked",
-			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
-
-	priv->filesel = GTK_WIDGET (fs);
-	gtk_widget_show (priv->filesel);
-	gtk_grab_add (priv->filesel);
-	gtk_main ();
-
-	gtk_widget_destroy (priv->filesel);
-	priv->filesel = NULL;
+	filename = e_file_dialog_save (_("Save as..."));
+	if (filename == NULL)
+		return;
+	
+	ical_string = cal_client_get_component_as_string (priv->client, priv->comp);
+	if (ical_string == NULL) {
+		g_warning ("Couldn't convert item to a string");
+		return;
+	}
+	
+	file = fopen (filename, "w");
+	if (file == NULL) {
+		g_warning ("Couldn't save item");
+		return;
+	}
+	
+	fprintf (file, ical_string);
+	g_free (ical_string);
+	fclose (file);
 }
 
 static void

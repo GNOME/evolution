@@ -1,3 +1,27 @@
+2002-03-29  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-calendar-table.c: implement new pop up menu items for
+	"Save as", "Print", "Assign Task", "Forward as iCalendar"
+
+	* gui/e-day-view.c: similarly, also "Publish Free/Busy
+	Information" and "New Meeting" and "New Task"
+
+	* gui/e-week-view.c: ditto
+
+	* gui/dialogs/task-editor.c (show_assignment): move the assignment
+	page stuff here
+	(task_editor_show_assignment): use it
+	(assign_task_cmd): ditto
+
+	* gui/dialogs/task-editor.h: new proto
+
+	* gui/dialogs/comp-editor.c (save_as_cmd): use new e-util file
+	selector function
+
+	* meeting-mockup.glade: Remove old file
+
+	* topic.dat
+
 2002-03-19  Dan Winship  <danw@ximian.com>
 
 	* cal-util/Makefile.am: s/libversit.la/libversit.a/

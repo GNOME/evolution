@@ -39,12 +39,14 @@
 #include <gal/e-table/e-cell-combo.h>
 #include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-popup-menu.h>
+#include <e-util/e-dialog-utils.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include <widgets/misc/e-cell-percent.h>
 #include "e-calendar-table.h"
 #include "e-cell-date-edit-text.h"
 #include "calendar-config.h"
 #include "calendar-model.h"
+#include "print.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/task-editor.h"
 
@@ -73,11 +75,19 @@ static gint e_calendar_table_on_right_click	(ETable		*table,
 						 ECalendarTable *cal_table);
 static void e_calendar_table_on_open_task	(GtkWidget	*menuitem,
 						 gpointer	 data);
+static void e_calendar_table_on_save_as	        (GtkWidget	*menuitem,
+						 gpointer	 data);
+static void e_calendar_table_on_print_task      (GtkWidget	*menuitem,
+						 gpointer	 data);
 static void e_calendar_table_on_cut             (GtkWidget      *menuitem,
 						 gpointer        data);
 static void e_calendar_table_on_copy            (GtkWidget      *menuitem,
 						 gpointer        data);
 static void e_calendar_table_on_paste           (GtkWidget      *menuitem,
+						 gpointer        data);
+static void e_calendar_table_on_assign          (GtkWidget      *menuitem,
+						 gpointer        data);
+static void e_calendar_table_on_forward         (GtkWidget      *menuitem,
 						 gpointer        data);
 static gint e_calendar_table_on_key_press	(ETable		*table,
 						 gint		 row,
@@ -886,13 +896,15 @@ e_calendar_table_paste_clipboard (ECalendarTable *cal_table)
 
 /* Opens a task in the task editor */
 static void
-open_task (ECalendarTable *cal_table, CalComponent *comp)
+open_task (ECalendarTable *cal_table, CalComponent *comp, gboolean assign)
 {
 	TaskEditor *tedit;
 
 	tedit = task_editor_new ();
 	comp_editor_set_cal_client (COMP_EDITOR (tedit), calendar_model_get_cal_client (cal_table->model));
 	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
+	if (assign)
+		task_editor_show_assignment (TASK_EDITOR (tedit));
 	comp_editor_focus (COMP_EDITOR (tedit));
 }
 
@@ -903,7 +915,7 @@ open_task_by_row (ECalendarTable *cal_table, int row)
 	CalComponent *comp;
 
 	comp = calendar_model_get_component (cal_table->model, row);
-	open_task (cal_table, comp);
+	open_task (cal_table, comp, FALSE);
 }
 
 static void
@@ -959,6 +971,11 @@ enum {
 static EPopupMenu tasks_popup_menu [] = {
 	{ N_("_Open"), NULL,
 	  e_calendar_table_on_open_task, NULL, NULL, MASK_SINGLE },
+	{ N_("_Save as..."), NULL,
+	  e_calendar_table_on_save_as, NULL, NULL, MASK_SINGLE },
+	{ N_("_Print..."), NULL,
+	  e_calendar_table_on_print_task, NULL, NULL, MASK_SINGLE },
+
 	E_POPUP_SEPARATOR,
 	
 	{ N_("C_ut"), NULL,
@@ -969,14 +986,20 @@ static EPopupMenu tasks_popup_menu [] = {
 	  e_calendar_table_on_paste, NULL, NULL, 0 },
 
 	E_POPUP_SEPARATOR,
-	
+
+	{ N_("_Assign Task"), NULL,
+	  e_calendar_table_on_assign, NULL, NULL, MASK_SINGLE },
+	{ N_("_Forward as iCalendar"), NULL,
+	  e_calendar_table_on_forward, NULL, NULL, MASK_SINGLE },
 	{ N_("_Mark as Complete"), NULL,
 	  mark_as_complete_cb, NULL, NULL, MASK_SINGLE },
-	{ N_("_Delete this Task"), NULL,
-	  delete_cb, NULL, NULL, MASK_SINGLE },
-
-	{ N_("_Mark Tasks as Complete"), NULL,
+	{ N_("_Mark Selected Tasks as Complete"), NULL,
 	  mark_as_complete_cb, NULL, NULL, MASK_MULTIPLE },
+	
+	E_POPUP_SEPARATOR,
+
+	{ N_("_Delete"), NULL,
+	  delete_cb, NULL, NULL, MASK_SINGLE },
 	{ N_("_Delete Selected Tasks"), NULL,
 	  delete_cb, NULL, NULL, MASK_MULTIPLE },
 
@@ -1021,7 +1044,62 @@ e_calendar_table_on_open_task (GtkWidget *menuitem,
 
 	comp = get_selected_comp (cal_table);
 	if (comp)
-		open_task (cal_table, comp);
+		open_task (cal_table, comp, FALSE);
+}
+
+static void
+e_calendar_table_on_save_as (GtkWidget *widget, gpointer data)
+{
+	ECalendarTable *cal_table;
+	CalClient *client;
+	CalComponent *comp;
+	char *filename;
+	char *ical_string;
+	FILE *file;
+
+	cal_table = E_CALENDAR_TABLE (data);
+
+	client = calendar_model_get_cal_client (cal_table->model);
+	comp = get_selected_comp (cal_table);
+	if (comp == NULL)
+		return;
+	
+	filename = e_file_dialog_save (_("Save as..."));
+	if (filename == NULL)
+		return;
+	
+	ical_string = cal_client_get_component_as_string (client, comp);
+	if (ical_string == NULL) {
+		g_warning ("Couldn't convert item to a string");
+		return;
+	}
+	
+	file = fopen (filename, "w");
+	if (file == NULL) {
+		g_warning ("Couldn't save item");
+		return;
+	}
+	
+	fprintf (file, ical_string);
+	g_free (ical_string);
+	fclose (file);
+}
+
+static void
+e_calendar_table_on_print_task (GtkWidget *widget, gpointer data)
+{
+	ECalendarTable *cal_table;
+	CalClient *client;
+	CalComponent *comp;
+
+	cal_table = E_CALENDAR_TABLE (data);
+
+	client = calendar_model_get_cal_client (cal_table->model);
+	comp = get_selected_comp (cal_table);
+	if (comp == NULL)
+		return;
+	
+	print_comp (comp, client, FALSE);
 }
 
 static void
@@ -1049,6 +1127,35 @@ e_calendar_table_on_paste (GtkWidget *menuitem, gpointer data)
 
 	cal_table = E_CALENDAR_TABLE (data);
 	e_calendar_table_paste_clipboard (cal_table);
+}
+
+static void
+e_calendar_table_on_assign (GtkWidget *widget, gpointer data)
+{
+	ECalendarTable *cal_table;
+	CalComponent *comp;
+
+	cal_table = E_CALENDAR_TABLE (data);
+
+	comp = get_selected_comp (cal_table);
+	if (comp)
+		open_task (cal_table, comp, TRUE);
+}
+
+static void
+e_calendar_table_on_forward (GtkWidget *widget, gpointer data)
+{
+	ECalendarTable *cal_table;
+	CalClient *client;
+	CalComponent *comp;
+
+	cal_table = E_CALENDAR_TABLE (data);
+
+	client = calendar_model_get_cal_client (cal_table->model);
+	comp = get_selected_comp (cal_table);
+	if (comp)
+		itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp,
+				client, NULL);
 }
 
 static gint

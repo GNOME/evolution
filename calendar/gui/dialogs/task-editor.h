@@ -53,9 +53,9 @@ struct _TaskEditorClass {
 };
 
 GtkType     task_editor_get_type       (void);
-TaskEditor *task_editor_construct      (TaskEditor *ee);
+TaskEditor *task_editor_construct      (TaskEditor *te);
 TaskEditor *task_editor_new            (void);
-
+void        task_editor_show_assignment(TaskEditor *te);
 
 
 #endif /* __TASK_EDITOR_H__ */
