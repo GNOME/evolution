@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-31 13:20+0100\n"
-"PO-Revision-Date: 2005-01-31 13:28+0100\n"
+"PO-Revision-Date: 2005-01-31 16:29+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -63,8 +63,8 @@ msgstr "Nuova elenco contatti"
 #, fuzzy, c-format
 msgid "current addressbook folder has %d card"
 msgid_plural "current addressbook folder has %d cards"
-msgstr[0] "cartella rubriche corrente"
-msgstr[1] "cartella rubriche corrente"
+msgstr[0] "la cartella rubriche corrente ha %d card"
+msgstr[1] "la cartella rubriche corrente ha %d card"
 
 #: ../a11y/calendar/ea-cal-view.c:306
 msgid "New Appointment"
@@ -496,9 +496,9 @@ msgstr "Autenticazione non riuscita.\n"
 
 #: ../addressbook/gui/component/addressbook.c:193
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:461
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for %s (user %s)"
-msgstr "%sInserire la password per %s (utente %s)"
+msgstr "Inserire la password per %s (utente %s)"
 
 #: ../addressbook/gui/component/addressbook-component.c:98
 msgid "_Contact"
@@ -2434,7 +2434,6 @@ msgid "_Edit Full"
 msgstr "Modifica interamente"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:306
-#, fuzzy
 msgid "_Full name:"
 msgstr "_Nome e cognome:"
 
@@ -2578,9 +2577,8 @@ msgid "_List name:"
 msgstr "Nome dell'e_lenco:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
-#, fuzzy
 msgid "_Select"
-msgstr "Seleziona"
+msgstr "_Seleziona"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Type an email address or drag a contact into the list below:"
@@ -2601,14 +2599,12 @@ msgid "Is New List"
 msgstr "È un nuovo elenco"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:710
-#, fuzzy
 msgid "_Members"
-msgstr "Membri"
+msgstr "_Membri"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:713
-#, fuzzy
 msgid "Contact List Members"
-msgstr "Elenco contatti:"
+msgstr "Elenco contatti membri"
 
 #: ../addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade.h:1
 msgid "Changed Contact:"
@@ -3048,11 +3044,11 @@ msgid "Merge E-Mail Address"
 msgstr "Unisci indirizzo email"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:139
-#, fuzzy, c-format
+#, c-format
 msgid "There is one other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] "e un'altro contatto."
-msgstr[1] "e %d altri contatti."
+msgstr[0] "C'è un'altro contatto."
+msgstr[1] "Ci sono altri %d contatti."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:223
 #: ../addressbook/gui/widgets/eab-vcard-control.c:272
@@ -3203,7 +3199,7 @@ msgstr "Qualunque categoria"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1750
 #, fuzzy
 msgid "Print cards"
-msgstr "Stampa Azioni"
+msgstr "Stampa card"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "Assistant"
@@ -3385,7 +3381,6 @@ msgid "Max field name length"
 msgstr "Lunghezza massima del nome del campo"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:171
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3395,9 +3390,9 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Non c'è niente da mostrare in questa vista\n"
+"Cercare il contatto\n"
 "\n"
-"Fare doppio clic qui per creare un nuovo contatto."
+"o fare doppio clic qui per creare un nuovo contatto."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:174
 msgid ""
@@ -3414,12 +3409,11 @@ msgstr ""
 "Fare doppio clic qui per creare un nuovo contatto."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:179
-#, fuzzy
 msgid ""
 "\n"
 "\n"
 "Search for the Contact."
-msgstr "e un'altro contatto."
+msgstr "\n\nCercare il contatto."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:181
 msgid ""
@@ -3691,7 +3685,6 @@ msgid "[vcard|csv]"
 msgstr "[vcard|csv]"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:61
-#, fuzzy
 msgid "Export in asynchronous mode"
 msgstr "Esporta in modalità asincrona"
 
@@ -4071,19 +4064,15 @@ msgstr "Quest'elenco azioni verrà cancellato permanentemente."
 
 #. calendar:prompt-send-no-subject-calendar primary
 #: ../calendar/calendar-errors.xml.h:124
-#, fuzzy
 msgid "Are you sure you want to send the appointment without a summary?"
-msgstr "Spedire il messaggio sprovvisto di Oggetto?"
+msgstr "Spedire l'appuntamento sprovvisto di riassunto?"
 
 #. calendar:prompt-send-no-subject-calendar secondary
 #: ../calendar/calendar-errors.xml.h:126
-#, fuzzy
 msgid ""
 "Adding a meaningful Summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
-msgstr ""
-"L'aggiunta di una riga Oggetto significativa nel messaggio permette ai "
-"destinatari di farsi un'idea del contenuto della lettera."
+msgstr "L'aggiunta di un riassunto significativo all'appuntamento permette ai destinatari di farsi un'idea sull'argomento dell'appuntamento."
 
 #: ../calendar/calendar-errors.xml.h:127 ../calendar/calendar-errors.xml.h:132
 #: ../mail/mail-errors.xml.h:15 ../mail/mail-errors.xml.h:20
@@ -4093,9 +4082,8 @@ msgstr "In_via"
 
 #. calendar:prompt-send-no-subject-task primary
 #: ../calendar/calendar-errors.xml.h:129
-#, fuzzy
 msgid "Are you sure you want to send the task without a summary?"
-msgstr "Spedire il messaggio sprovvisto di Oggetto?"
+msgstr "Spedire il compito sprovvisto di riassunto?"
 
 #. calendar:prompt-send-no-subject-task secondary
 #: ../calendar/calendar-errors.xml.h:131
@@ -4103,9 +4091,7 @@ msgstr "Spedire il messaggio sprovvisto di Oggetto?"
 msgid ""
 "Adding a meaningful Summary to your task will give your recipients an idea "
 "of what your task is about."
-msgstr ""
-"L'aggiunta di una riga Oggetto significativa nel messaggio permette ai "
-"destinatari di farsi un'idea del contenuto della lettera."
+msgstr "L'aggiunta di un riassunto significativo al compito permette ai destinatari di farsi un'idea dell'argomento del compito."
 
 #: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:301
 #: ../smime/gui/component.c:48
@@ -4138,10 +4124,9 @@ msgid "Could not read pilot's ToDo application block"
 msgstr "Impossibile leggere il blocco delle applicazioni da fare del Pilot "
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:79
-#, fuzzy
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] "minuti"
+msgstr[0] "minuto"
 msgstr[1] "minuti"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
@@ -4150,16 +4135,14 @@ msgid "Appointment"
 msgstr "Appuntamento"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#, fuzzy
 msgid "Appointment Title"
-msgstr "Appuntamento"
+msgstr "Titolo appuntamento"
 
 #. End time
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
 #: ../plugins/itip-formatter/itip-view.c:874
-#, fuzzy
 msgid "End time:"
-msgstr "Ora di _fine:"
+msgstr "Ora finale:"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
@@ -4169,16 +4152,14 @@ msgid "Location:"
 msgstr "Posizione:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
-#, fuzzy
 msgid "Snooze _time:"
-msgstr "Dura_ta suoneria (minuti):"
+msgstr "Ora _suoneria:"
 
 #. Start time
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../plugins/itip-formatter/itip-view.c:865
-#, fuzzy
 msgid "Start time:"
-msgstr "_Ora di inizio:"
+msgstr "Ora iniziale:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
@@ -4199,24 +4180,20 @@ msgid "_Snooze"
 msgstr "_Suoneria"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:9
-#, fuzzy
 msgid "description of appointment"
-msgstr "inizio dell'appuntamento"
+msgstr "descrizione dell'appuntamento"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:10
-#, fuzzy
 msgid "end-time"
-msgstr "Ora di _fine:"
+msgstr "ora finale"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:11
-#, fuzzy
 msgid "location"
-msgstr "Posizione"
+msgstr "posizione"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:13
-#, fuzzy
 msgid "start-time"
-msgstr "_Ora di inizio:"
+msgstr "ora iniziale"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:864
 msgid "Dismiss"
@@ -4227,9 +4204,8 @@ msgid "Dismiss All"
 msgstr "Abbandona tutto"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:947
-#, fuzzy
 msgid "No summary available."
-msgstr "Nessuna descrizione disponibile."
+msgstr "Nessun riassunto disponibile."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:956
 #: ../calendar/gui/alarm-notify/alarm-queue.c:958
@@ -4237,9 +4213,8 @@ msgid "No description available."
 msgstr "Nessuna descrizione disponibile."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:966
-#, fuzzy
 msgid "No location information available."
-msgstr "Nessuna descrizione disponibile."
+msgstr "Nessuna informazione sulla posizione disponibile."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:982
 #, c-format
@@ -4954,9 +4929,8 @@ msgid "<b>Alerts</b>"
 msgstr "<b>Allarmi</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
-#, fuzzy
 msgid "<b>Default Free/Busy Server</b>"
-msgstr "<b>Calendari disponibilità</b>"
+msgstr "<b>Calendario disponibilità predefinito</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<b>General</b>"
@@ -5015,9 +4989,8 @@ msgid "E_nable"
 msgstr "_Abilita"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#, fuzzy
 msgid "Free/Busy"
-msgstr "Libero/occupato:"
+msgstr "Disponibilità"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: ../calendar/gui/dialogs/recurrence-page.c:1044
@@ -5072,9 +5045,8 @@ msgid "T_hu"
 msgstr "G_io"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-#, fuzzy
 msgid "Template:"
-msgstr "Dipartimento:"
+msgstr "Modello:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 #: ../calendar/gui/dialogs/recurrence-page.c:1043
@@ -5259,9 +5231,9 @@ msgstr "Modifica appuntamenti"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1072
 #: ../calendar/gui/dialogs/comp-editor.c:1115
-#, fuzzy, c-format
+#, c-format
 msgid "Meeting - %s"
-msgstr "Riunione"
+msgstr "Riunione - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1074
 #: ../calendar/gui/dialogs/comp-editor.c:1117
@@ -5272,9 +5244,9 @@ msgstr "Appuntamento - %s"
 # Novell Translation
 #: ../calendar/gui/dialogs/comp-editor.c:1078
 #: ../calendar/gui/dialogs/comp-editor.c:1121
-#, fuzzy, c-format
+#, c-format
 msgid "Assigned Task - %s"
-msgstr "Compito assegna_to"
+msgstr "Compito assegnato - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1080
 #: ../calendar/gui/dialogs/comp-editor.c:1123
@@ -5871,9 +5843,8 @@ msgid "Completed date is wrong"
 msgstr "La data completata è errata"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:1
-#, fuzzy
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr "<span weight=\"bold\">Varie\t</span>"
+msgstr "<span weight=\"bold\">Varie</span>"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:2
 msgid "<span weight=\"bold\">Status</span>"
@@ -6018,9 +5989,8 @@ msgid "<b>Publishing _Location</b>"
 msgstr "<b>_Luogo per la pubblicazione</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:6
-#, fuzzy
 msgid "Free/Busy Publishing Settings"
-msgstr "Informazioni sulla disponibilità"
+msgstr "Impostazioni sulla pubblicazione della disponibilità"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Daily"
@@ -6221,9 +6191,8 @@ msgid "Busy"
 msgstr "Occupato"
 
 #: ../calendar/gui/e-calendar-table.c:516
-#, fuzzy
 msgid "Task Table"
-msgstr "Aggiornamento compiti"
+msgstr "Tabella compiti"
 
 #: ../calendar/gui/e-calendar-table.c:694
 #: ../calendar/gui/e-calendar-view.c:652
@@ -7697,9 +7666,8 @@ msgid "There is no calendar available for creating tasks"
 msgstr "Non c'è un calendario accessibile per creare dei compiti"
 
 #: ../calendar/gui/tasks-component.c:856
-#, fuzzy
 msgid "Task Source Selector"
-msgstr "Nessuna sorgente è stata selezionata."
+msgstr "Selettore fonte compiti"
 
 #: ../calendar/gui/tasks-component.c:1039
 msgid "New task"
@@ -9805,9 +9773,8 @@ msgid "Overwrite file?"
 msgstr "Sovrascrivere il file?"
 
 #: ../e-util/eggtrayicon.c:119
-#, fuzzy
 msgid "The orientation of the tray."
-msgstr "Descrizione dell'allegato."
+msgstr "Orientamento cassetto."
 
 #: ../e-util/e-passwords.c:468
 msgid "_Remember this password"
@@ -10133,9 +10100,8 @@ msgid "Test"
 msgstr "Test"
 
 #: ../filter/filter-rule.c:790
-#, fuzzy
 msgid "_Rule name:"
-msgstr "Nome della regola:"
+msgstr "Nome della _regola:"
 
 #: ../filter/filter-rule.c:818
 msgid "<b>If</b>"
@@ -10170,9 +10136,8 @@ msgid "Include threads"
 msgstr "Includi i threads"
 
 #: ../filter/filter-rule.c:975
-#, fuzzy
 msgid "Outgoing"
-msgstr "in uscita"
+msgstr "In uscita"
 
 #: ../filter/rule-editor.c:285
 msgid "Add Rule"
@@ -10210,15 +10175,13 @@ msgid "Select Folder"
 msgstr "Scegli cartella"
 
 #: ../mail/em-account-editor.c:1817
-#, fuzzy
 msgid "Automatically check for _new mail every"
-msgstr "Sincronizza la posta remota localmente automaticamente"
+msgstr "Controlla automaticamente la _nuova posta ogni"
 
 #. Most sections for this is auto-generated fromt the camel config
 #: ../mail/em-account-editor.c:2086 ../mail/em-account-editor.c:2164
-#, fuzzy
 msgid "Receiving Options"
-msgstr "Ricezione posta"
+msgstr "Ricezione opzioni"
 
 #: ../mail/em-account-editor.c:2087 ../mail/em-account-editor.c:2165
 msgid "Checking for New Mail"
@@ -10429,9 +10392,8 @@ msgid "Mailing list"
 msgstr "Mailing list"
 
 #: ../mail/em-filter-i18n.h:39
-#, fuzzy
 msgid "Match All"
-msgstr "Salvataggio completo"
+msgstr "Corrispondenza totale"
 
 #: ../mail/em-filter-i18n.h:40
 msgid "Message Body"
@@ -10591,9 +10553,8 @@ msgid "Folder _name:"
 msgstr "_Nome della cartella:"
 
 #: ../mail/em-folder-tree.c:678
-#, fuzzy
 msgid "Mail Folder Tree"
-msgstr "Cartella di _posta"
+msgstr "Cartelle di posta"
 
 #: ../mail/em-folder-tree.c:911
 #, c-format
@@ -10633,9 +10594,9 @@ msgid "Scanning folders in \"%s\""
 msgstr "Scansione delle cartelle in \"%s\" in corso"
 
 #: ../mail/em-folder-tree.c:2007
-#, fuzzy, c-format
+#, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "Copia messaggi in %s"
+msgstr "Copia di \"%s\" in \"%s\""
 
 #: ../mail/em-folder-tree.c:2249 ../mail/em-folder-tree.c:2263
 #: ../mail/em-folder-view.c:827 ../mail/em-folder-view.c:842
@@ -10671,9 +10632,8 @@ msgstr "Rinomina cartella"
 
 # Novell Translation
 #: ../mail/em-folder-tree.c:2680
-#, fuzzy
 msgid "Folder names cannot contain '/'"
-msgstr "Il nome della cartella non può contenere il carattere \"/\"."
+msgstr "I nomi delle cartelle non possono contenere il carattere \"/\"."
 
 #: ../mail/em-folder-tree.c:2754 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:18
@@ -11136,9 +11096,8 @@ msgid "_Hide"
 msgstr "_Nascondi"
 
 #: ../mail/em-format-html-display.c:1305
-#, fuzzy
 msgid "Attachment Button"
-msgstr "Allegato"
+msgstr "Tasto allegati"
 
 #: ../mail/em-format-html-print.c:130
 #, c-format
@@ -12176,7 +12135,6 @@ msgid " Ch_eck for Supported Types "
 msgstr " _Controlla tipi supportati"
 
 #: ../mail/mail-config.glade.h:4
-#, fuzzy
 msgid "<b>SSL is not supported in this build of Evolution</b>"
 msgstr "<b>SSL non è supportato in questa compilazione di Evolution</b>"
 
@@ -12306,14 +12264,13 @@ msgid "Add _Script"
 msgstr "Aggiungi _script"
 
 #: ../mail/mail-config.glade.h:37
-#, fuzzy
 msgid "Al_ways sign outgoing messages when using this account"
-msgstr "Firma _sempre i messaggi in uscita quando viene usato questo account"
+msgstr "Firmare _sempre i messaggi in uscita quando si usa questo account"
 
 #: ../mail/mail-config.glade.h:38
 #, fuzzy
 msgid "Also encrypt to sel_f when sending encrypted mail"
-msgstr "Cifra anche con _la mia chiave inviando posta cifrata"
+msgstr "Ci_frare anche con la mia chiave inviando posta cifrata"
 
 #: ../mail/mail-config.glade.h:39
 msgid "Alway_s carbon-copy (cc) to:"
@@ -12324,13 +12281,14 @@ msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Sempre copia carbone _nascosta (Bcc) a:"
 
 #: ../mail/mail-config.glade.h:41
+#, fuzzy
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr "Sempre chiavi di fiducia nel mio mazzo di chiavi quando crittografo"
+msgstr "Sempre chiavi di fiducia nel mio mazzo di chiavi quando si cifra"
 
 #: ../mail/mail-config.glade.h:42
 #, fuzzy
 msgid "Always encrypt to _myself when sending encrypted mail"
-msgstr "Cifra sempre con la mia chiave durante l'invio di posta crittografata"
+msgstr "Cifrare sempre con la _mia chiave durante inviando posta cifrata"
 
 #: ../mail/mail-config.glade.h:43
 msgid "Attach original message"
@@ -12377,9 +12335,8 @@ msgid "Checks incoming mail messages to be Junk"
 msgstr "Controlla se la posta in arrivo è da cestinare"
 
 #: ../mail/mail-config.glade.h:54
-#, fuzzy
 msgid "Cle_ar"
-msgstr "Ann_ulla"
+msgstr "_Annulla"
 
 #: ../mail/mail-config.glade.h:55
 #, fuzzy
@@ -12427,7 +12384,6 @@ msgid "Defaults"
 msgstr "Predefiniti"
 
 #: ../mail/mail-config.glade.h:69
-#, fuzzy
 msgid "Digitally _sign outgoing messages (by default)"
 msgstr "Firma _sempre i messaggi in uscita (predefinito)"
 
@@ -12594,18 +12550,16 @@ msgid "Remember _password"
 msgstr "Ricorda la _password"
 
 #: ../mail/mail-config.glade.h:116
-#, fuzzy
 msgid "S_elect..."
-msgstr "Seleziona..."
+msgstr "S_eleziona..."
 
 #: ../mail/mail-config.glade.h:117
 msgid "S_tandard Font:"
 msgstr "Carat_tere standard:"
 
 #: ../mail/mail-config.glade.h:118
-#, fuzzy
 msgid "Se_lect..."
-msgstr "Seleziona..."
+msgstr "Se_leziona..."
 
 #: ../mail/mail-config.glade.h:119
 msgid "Security"
