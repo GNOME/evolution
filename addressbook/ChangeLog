@@ -1,3 +1,14 @@
+2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Automake 1.5 fixes pointed out by Richard Boulton
+	<richard@tartarus.org>, as per #9258.]
+
+	* backend/pas/Makefile.am: Rename `LDAP_BACKEND_SOURCES' to
+	`LDAP_BACKEND_FILES'.
+
+	* backend/ebook/Makefile.am: Set CLEANFILES directly instead of
+	using `+='.
+
 2001-09-13  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect): use

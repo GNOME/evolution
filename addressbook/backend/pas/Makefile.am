@@ -23,10 +23,10 @@ INCLUDES =						\
         $(BONOBO_GNOME_CFLAGS)				\
 	$(EXTRA_GNOME_CFLAGS)
 
-LDAP_BACKEND_SOURCES = pas-backend-ldap.c pas-backend-ldap.h
+LDAP_BACKEND_FILES = pas-backend-ldap.c pas-backend-ldap.h
 
 if ENABLE_LDAP
-LDAP_BACKEND = $(LDAP_BACKEND_SOURCES)
+LDAP_BACKEND = $(LDAP_BACKEND_FILES)
 else
 LDAP_BACKEND = 
 endif
@@ -52,9 +52,9 @@ libpas_a_SOURCES =					\
 	pas-card-cursor.h
 
 BUILT_SOURCES = $(CORBA_SOURCE)
-CLEANFILES   += $(BUILT_SOURCES)
+CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-EXTRA_DIST = $(LDAP_BACKEND_SOURCES)
+EXTRA_DIST = $(LDAP_BACKEND_FILES)
