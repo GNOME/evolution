@@ -95,7 +95,7 @@ static gint
 abuse_timeout (gpointer foo)
 {
 	EBook *book = e_book_new ();
-	e_book_load_local_address_book (book, use_addressbook, NULL);
+	e_book_load_default_book (book, use_addressbook, NULL);
 
 	++call_count;
 	g_message ("timeout!");

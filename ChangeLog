@@ -1,3 +1,12 @@
+2002-08-12  Dan Winship  <danw@ximian.com>
+
+	* tools/evolution-addressbook-import.c (main): Use default book,
+	not local one.
+
+	* tools/evolution-addressbook-export.c (main): Likewise.
+
+	* tools/evolution-addressbook-abuse.c (abuse_timeout): Likewise.
+
 2002-08-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* README: Update required gal and gtkhtml dependency information.

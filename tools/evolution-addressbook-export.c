@@ -59,7 +59,7 @@ main (int argc, char *argv[])
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
 
-	e_book_use_local_address_book (use_addressbook, filename);
+	e_book_use_default_book (use_addressbook, filename);
 
 	bonobo_main ();
 
