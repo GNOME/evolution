@@ -27,6 +27,8 @@ libemiscwidgets_a_SOURCES = 	\
 	e-charset-picker.h	\
 	e-clipped-label.c	\
 	e-clipped-label.h	\
+	e-config-page.c		\
+	e-config-page.h		\
 	e-combo-button.c	\
 	e-combo-button.h	\
 	e-dateedit.c		\

@@ -1,3 +1,36 @@
+2002-03-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-multi-config-dialog.c: Rename Page.widget -> Page.page_widget;
+	it is now an EConfigPage instead of just a GtkWidget.  Add
+	`num_unapplied' to EMultiConfigDialogPrivate.  Derive from
+	GnomeDialog, not GtkWindow.
+	(update_buttons): New function to update the sensitiveness of the
+	buttons according to whether all the settings have been applied or
+	not.
+	(page_new): Likewise.
+	(create_page_container): Renamed from `create_page_widget'.
+	(init): Add Apply/OK/Cancel buttons to the dialog.  Init
+	->num_unapplied to zero.
+	(page_changed_callback): New, callback for the page's "changed"
+	signal.
+	(e_multi_config_dialog_add_page): Connect the callback, update
+	->num_unapplied, update the buttons by calling `update_buttons'.
+	(ok): New function for handling the OK button.
+	(apply): New function for handling the Apply button.
+	(cancel): New function for handling the Cancel button.
+	(impl_clicked): Implementation for the GnomeDialog's ::clicked
+	signal.
+	(class_init): Install.
+
+	* test-multi-config-dialog.c (add_pages): Update to use
+	EConfigPages instead of plain GtkWidgets.
+
+	* e-multi-config-dialog.c, e-multi-config-dialog.h: Derive from
+	GnomeDialog, not GtkWindow.
+
+	* e-config-page.c: New.
+	* e-config-page.h: New.
+
 2002-03-07  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-multi-config-dialog.c: Don't display a header in the table on
