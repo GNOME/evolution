@@ -84,8 +84,6 @@ evolution_mail_SOURCES =		\
 	main.c				\
 	message-list.c			\
 	message-list.h			\
-	message-thread.c		\
-	message-thread.h		\
 	session.c			\
 	mail-session.h			\
 	subscribe-dialog.c		\

@@ -17,13 +17,13 @@
 #include <camel/camel-exception.h>
 #include <camel/camel-folder.h>
 #include <e-util/ename/e-name-western.h>
+#include <camel/camel-folder-thread.h>
 
 #include <string.h>
 #include <ctype.h>
 
 #include "mail-config.h"
 #include "message-list.h"
-#include "message-thread.h"
 #include "mail-threads.h"
 #include "mail-tools.h"
 #include "Mail.h"
@@ -1339,12 +1339,12 @@ free_tree_state(GHashTable *expanded_nodes)
 
 /* only call if we have a tree model */
 /* builds the tree structure */
-static void build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *row, GHashTable *);
+static void build_subtree (MessageList *ml, ETreePath *parent, CamelFolderThreadNode *c, int *row, GHashTable *);
 
-static void build_subtree_diff (MessageList *ml, ETreePath *parent, ETreePath *path, struct _container *c, int *row, GHashTable *expanded_nodes);
+static void build_subtree_diff (MessageList *ml, ETreePath *parent, ETreePath *path, CamelFolderThreadNode *c, int *row, GHashTable *expanded_nodes);
 
 static void
-build_tree (MessageList *ml, struct _thread_messages *thread)
+build_tree (MessageList *ml, CamelFolderThread *thread)
 {
 	int row = 0;
 	GHashTable *expanded_nodes;
@@ -1421,7 +1421,7 @@ new_id_from_subject(const char *subject)
    is faster than inserting to the right row :( */
 /* Otherwise, this code would probably go as it does the same thing essentially */
 static void
-build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *row, GHashTable *expanded_nodes)
+build_subtree (MessageList *ml, ETreePath *parent, CamelFolderThreadNode *c, int *row, GHashTable *expanded_nodes)
 {
 	ETreeModel *tree = E_TREE_MODEL (ml->table_model);
 	ETreePath *node;
@@ -1464,7 +1464,7 @@ build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *ro
 /* compares a thread tree node with the etable tree node to see if they point to
    the same object */
 static int
-node_equal(ETreeModel *etm, ETreePath *ap, struct _container *bp)
+node_equal(ETreeModel *etm, ETreePath *ap, CamelFolderThreadNode *bp)
 {
 	char *uid;
 
@@ -1482,7 +1482,7 @@ node_equal(ETreeModel *etm, ETreePath *ap, struct _container *bp)
 
 /* adds a single node, retains save state, and handles adding children if required */
 static void
-add_node_diff(MessageList *ml, ETreePath *parent, ETreePath *path, struct _container *c, int *row, int myrow, GHashTable *expanded_nodes)
+add_node_diff(MessageList *ml, ETreePath *parent, ETreePath *path, CamelFolderThreadNode *c, int *row, int myrow, GHashTable *expanded_nodes)
 {
 	ETreeModel *etm = E_TREE_MODEL (ml->table_model);
 	ETreePath *node;
@@ -1558,11 +1558,11 @@ remove_node_diff(MessageList *ml, ETreePath *node, int depth)
 /* applies a new tree structure to an existing tree, but only by changing things
    that have changed */
 static void
-build_subtree_diff(MessageList *ml, ETreePath *parent, ETreePath *path, struct _container *c, int *row, GHashTable *expanded_nodes)
+build_subtree_diff(MessageList *ml, ETreePath *parent, ETreePath *path, CamelFolderThreadNode *c, int *row, GHashTable *expanded_nodes)
 {
 	ETreeModel *etm = E_TREE_MODEL (ml->table_model);
 	ETreePath *ap, *ai, *at, *tmp;
-	struct _container *bp, *bi, *bt;
+	CamelFolderThreadNode *bp, *bi, *bt;
 	int i, j, myrow = 0;
 
 	ap = path;
@@ -2075,7 +2075,7 @@ typedef struct regenerate_messagelist_input_s {
 
 typedef struct regenerate_messagelist_data_s {
 	GPtrArray *uids;
-	struct _thread_messages *tree;
+	CamelFolderThread *tree;
 	CamelFolderChangeInfo *changes;
 } regenerate_messagelist_data_t;
 
@@ -2124,7 +2124,7 @@ static void do_regenerate_messagelist (gpointer in_data, gpointer op_data, Camel
 	}
 
 	if (input->dotree && data->uids)
-		data->tree = thread_messages(input->ml->folder, data->uids);
+		data->tree = camel_folder_thread_messages_new(input->ml->folder, data->uids);
 	else
 		data->tree = NULL;
 
@@ -2161,7 +2161,7 @@ static void cleanup_regenerate_messagelist (gpointer in_data, gpointer op_data, 
 	input->ml->search = input->search;
 
 	if (data->tree)
-		thread_messages_free(data->tree);
+		camel_folder_thread_messages_destroy(data->tree);
 
 	if (input->changes)
 		camel_folder_change_info_free(input->changes);

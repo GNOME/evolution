@@ -1,3 +1,16 @@
+2000-11-21  Not Zed  <NotZed@HelixCode.com>
+
+	* message-thread.[ch]: Removed.  No longer serves a purpose.
+	
+	* Makefile.am (evolution_mail_SOURCES): Removed message-thread.[ch].
+
+	* message-list.c (build_subtree):
+	(node_equal): 
+	(add_node_diff): 
+	(build_subtree_diff): 
+	(do_regenerate_messagelist):
+	(cleanup_regenerate_messagelist): Changed to use camel-folder-thread.
+
 2000-11-20  Not Zed  <NotZed@HelixCode.com>
 
 	* message-list.c (save_node_state): Save out the md5 hash of the
