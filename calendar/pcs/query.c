@@ -24,6 +24,7 @@
 
 #include <string.h>
 #include <glib.h>
+#include <gtk/gtkmain.h>
 #include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-exception.h>
 #include <gal/widgets/e-unicode.h>
@@ -185,7 +186,9 @@ query_finalize (GObject *object)
 		 */
 		if (priv->state == QUERY_WAIT_FOR_BACKEND
 		    || priv->state == QUERY_IN_PROGRESS || priv->state == QUERY_DONE)
-			gtk_signal_disconnect_by_data (GTK_OBJECT (priv->backend), query);
+			g_signal_handlers_disconnect_matched (G_OBJECT (priv->backend),
+							      G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, query);
 
 		g_object_unref (priv->backend);
 		priv->backend = NULL;
@@ -1581,7 +1584,7 @@ backend_opened_cb (CalBackend *backend, CalBackendOpenStatus status, gpointer da
 
 /* Callback used when the backend for a cached query is destroyed */
 static void
-backend_destroyed_cb (GtkObject *object, gpointer data)
+backend_destroyed_cb (GObject *object, gpointer data)
 {
 	Query *query;
 
@@ -1636,8 +1639,8 @@ query_construct (Query *query,
 
 	cl = e_component_listener_new (ql, 0);
 	priv->component_listeners = g_list_append (priv->component_listeners, cl);
-	gtk_signal_connect (GTK_OBJECT (cl), "component_died",
-			    GTK_SIGNAL_FUNC (listener_died_cb), query);
+	g_signal_connect (G_OBJECT (cl), "component_died",
+			  G_CALLBACK (listener_died_cb), query);
 
 	priv->backend = backend;
 	g_object_ref (priv->backend);
