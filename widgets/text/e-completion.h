@@ -52,29 +52,20 @@ struct _ECompletionClass {
 	GtkObjectClass parent_class;
 
 	/* virtual functions */
-	ECompletionRefineFn (*auto_refine) (ECompletion *comp,
-					    const gchar *old_text, gint old_pos,
-					    const gchar *new_text, gint new_pos);
-	gboolean            ignore_pos_on_auto_unrefine;
+	void     (*request_completion)  (ECompletion *comp, const gchar *search_text, gint pos, gint limit);
+	void     (*end_completion)      (ECompletion *comp);
 
 	/* Signals */
-	void     (*request_completion)  (ECompletion *comp, const gchar *search_text, gint pos, gint limit);
+	void     (*completion_started)  (ECompletion *comp, const gchar *search_text, gint pos, gint limit);
 
-	void     (*begin_completion)    (ECompletion *comp, const gchar *search_text, gint pos, gint limit);
-	void     (*restart_completion)  (ECompletion *comp);
+	void     (*completion_found)    (ECompletion *comp, ECompletionMatch *match);
 
-	void     (*completion)         (ECompletion *comp, ECompletionMatch *match);
-	void     (*lost_completion)    (ECompletion *comp, ECompletionMatch *match);
-
-	void     (*cancel_completion)  (ECompletion *comp);
-	void     (*end_completion)     (ECompletion *comp);
-	void     (*clear_completion)   (ECompletion *comp);
+	void     (*completion_finished) (ECompletion *comp);
 };
 
 GtkType      e_completion_get_type (void);
 
 void         e_completion_begin_search    (ECompletion *comp, const gchar *text, gint pos, gint limit);
-void         e_completion_cancel_search   (ECompletion *comp);
 
 gboolean     e_completion_searching       (ECompletion *comp);
 gboolean     e_completion_refining        (ECompletion *comp);
@@ -91,8 +82,6 @@ ECompletion *e_completion_new (void);
    or very bad things might happen. */
 
 void         e_completion_found_match (ECompletion *comp, ECompletionMatch *);
-void         e_completion_lost_match  (ECompletion *comp, ECompletionMatch *);
-void         e_completion_clear       (ECompletion *comp);
 void         e_completion_end_search  (ECompletion *comp);
 
 G_END_DECLS

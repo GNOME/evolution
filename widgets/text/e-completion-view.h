@@ -51,11 +51,7 @@ struct _ECompletionView {
 	ECompletion *completion;
 	guint begin_signal_id;
 	guint comp_signal_id;
-	guint restart_signal_id;
-	guint cancel_signal_id;
 	guint end_signal_id;
-	guint clear_signal_id;
-	guint lost_signal_id;
 
 	GtkWidget *key_widget;
 	guint key_signal_id;

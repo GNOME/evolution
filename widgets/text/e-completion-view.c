@@ -161,6 +161,8 @@ e_completion_view_size_request (GtkWidget *widget, GtkRequisition *requisition)
 		requisition->width += child_requisition.width;
 		requisition->height += child_requisition.height;
 	}
+
+	requisition->height = MAX (100, requisition->height);
 }
 
 static void
@@ -319,24 +321,12 @@ e_completion_view_disconnect (ECompletionView *cv)
 		g_signal_handler_disconnect (cv->completion, cv->begin_signal_id);
 	if (cv->comp_signal_id)
 		g_signal_handler_disconnect (cv->completion, cv->comp_signal_id);
-	if (cv->restart_signal_id)
-		g_signal_handler_disconnect (cv->completion, cv->restart_signal_id);
-	if (cv->cancel_signal_id)
-		g_signal_handler_disconnect (cv->completion, cv->cancel_signal_id);
 	if (cv->end_signal_id)
 		g_signal_handler_disconnect (cv->completion, cv->end_signal_id);
-	if (cv->clear_signal_id)
-		g_signal_handler_disconnect (cv->completion, cv->clear_signal_id);
-	if (cv->lost_signal_id)
-		g_signal_handler_disconnect (cv->completion, cv->lost_signal_id);
 
 	cv->begin_signal_id   = 0;
 	cv->comp_signal_id    = 0;
-	cv->restart_signal_id = 0;
-	cv->cancel_signal_id   = 0;
 	cv->end_signal_id     = 0;
-	cv->clear_signal_id   = 0;
-	cv->lost_signal_id    = 0;
 }
 
 static ETable *
@@ -594,28 +584,6 @@ begin_completion_cb (ECompletion *completion, const gchar *txt, gint pos, gint l
 }
 
 static void
-restart_completion_cb (ECompletion *completion, gpointer user_data)
-{
-	/* For now, handle restarts like the beginning of a new completion. */
-	begin_completion_cb (completion, NULL, 0, 0, user_data);
-}
-
-static void
-cancel_completion_cb (ECompletion *completion, gpointer user_data)
-{
-	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
-
-	/* On a cancel, clear our choices and issue an "unbrowse" signal. */
-	e_table_model_pre_change (cv->model);
-	e_completion_view_clear_choices (cv);
-	cv->have_all_choices = TRUE;
-	e_completion_view_set_cursor_row (cv, -1);
-	e_table_model_changed (cv->model);
-
-	g_signal_emit (cv, e_completion_view_signals[E_COMPLETION_VIEW_UNBROWSE] ,0);
-}
-
-static void
 completion_cb (ECompletion *completion, ECompletionMatch *match, gpointer user_data)
 {
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
@@ -648,42 +616,10 @@ end_completion_cb (ECompletion *completion, gpointer user_data)
 	g_signal_emit (cv, e_completion_view_signals[E_COMPLETION_VIEW_FULL], 0);
 }
 
-static void
-clear_completion_cb (ECompletion *completion, gpointer user_data)
-{
-	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
-
-	e_table_model_pre_change (cv->model);
-	e_completion_view_clear_choices (cv);
-	cv->have_all_choices = FALSE;
-
-	e_table_model_changed (cv->model);
-}
-
-static void
-lost_completion_cb (ECompletion *completion, ECompletionMatch *match, gpointer user_data)
-{
-	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
-	int i;
-	GPtrArray *c = cv->choices;
-
-	for (i = 0; i < c->len; i++)
-		if (g_ptr_array_index (c, i) == match)
-			break;
-
-	g_return_if_fail (i == c->len);
-
-	/* FIXME: do remove_index_fast(), then row_changed and
-	 * row_deleted (if there are more than 1 row still) */
-	e_table_model_pre_change (cv->model);
-	g_ptr_array_remove_index (c, i);
-	e_table_model_row_deleted (cv->model, i);
-	
-	e_completion_match_unref (match);
-}
-
 /*** Table Callbacks ***/
 
+/* XXX toshok - we need to add sorting to this etable, through the use
+   of undisplayed fields of all the sort keys we want to use */
 static char *simple_spec = 
 "<ETableSpecification no-headers=\"true\" draw-grid=\"false\" cursor-mode=\"line\" alternating-row-colors=\"false\" gettext-domain=\"" E_I18N_DOMAIN "\">"
 "  <ETableColumn model_col=\"0\" _title=\"Node\" expansion=\"1.0\" "
@@ -756,32 +692,16 @@ e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 	g_object_ref (completion);
 
 	cv->begin_signal_id   = g_signal_connect (completion,
-						  "begin_completion",
+						  "completion_started",
 						  G_CALLBACK (begin_completion_cb),
 						  cv);
 	cv->comp_signal_id    = g_signal_connect (completion,
-						  "completion",
+						  "completion_found",
 						  G_CALLBACK (completion_cb),
 						  cv);
-	cv->restart_signal_id = g_signal_connect (completion,
-						  "restart_completion",
-						  G_CALLBACK (restart_completion_cb),
-						  cv);
-	cv->cancel_signal_id  = g_signal_connect (completion,
-						  "cancel_completion",
-						  G_CALLBACK (cancel_completion_cb),
-						  cv);
 	cv->end_signal_id     = g_signal_connect (completion,
-						  "end_completion",
+						  "completion_finished",
 						  G_CALLBACK (end_completion_cb),
-						  cv);
-	cv->clear_signal_id   = g_signal_connect (completion,
-						  "clear_completion",
-						  G_CALLBACK (clear_completion_cb),
-						  cv);
-	cv->lost_signal_id    = g_signal_connect (completion,
-						  "lost_completion",
-						  G_CALLBACK (lost_completion_cb),
 						  cv);
 
 	cv->model = e_table_simple_new (table_col_count,

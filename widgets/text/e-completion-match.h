@@ -40,7 +40,6 @@ struct _ECompletionMatch {
 	gpointer user_data;
 
 	gint ref;
-	gint hit_count;
 	void (*destroy) (ECompletionMatch *);
 };
 

@@ -50,7 +50,6 @@ e_completion_match_construct (ECompletionMatch *match)
 	match->sort_minor = 0;
 	match->user_data  = NULL;
 	match->ref        = 1;
-	match->hit_count  = 0;
 	match->destroy    = NULL;
 }
 

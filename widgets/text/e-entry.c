@@ -42,15 +42,8 @@
 #include "e-text.h"
 #include "e-entry.h"
 
-#define MOVE_RIGHT_AND_UP 0
-
-#define EVIL_POINTER_WARPING_HACK
-
-#ifdef EVIL_POINTER_WARPING_HACK
-#include <gdk/gdkx.h>
-#endif
-
 #define MIN_ENTRY_WIDTH  150
+#define INNER_BORDER 2
 
 #define d(x)
 
@@ -166,6 +159,30 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 }
 
 static void
+get_borders (EEntry   *entry,
+             gint     *xborder,
+             gint     *yborder)
+{
+  GtkWidget *widget = GTK_WIDGET (entry);
+  gint focus_width;
+  gboolean interior_focus;
+
+  gtk_widget_style_get (widget,
+			"interior-focus", &interior_focus,
+			"focus-line-width", &focus_width,
+			NULL);
+
+  *xborder = widget->style->xthickness;
+  *yborder = widget->style->ythickness;
+
+  if (!interior_focus)
+    {
+      *xborder += focus_width;
+      *yborder += focus_width;
+    }
+}
+
+static void
 canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 		     EEntry *entry)
 {
@@ -177,10 +194,8 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 	g_return_if_fail (GNOME_IS_CANVAS (widget));
 	g_return_if_fail (requisition != NULL);
 
-
 	if (entry->priv->draw_borders) {
-		xthick = 2 * widget->style->xthickness;
-		ythick = 2 * widget->style->ythickness;
+		get_borders (entry, &xthick, &ythick);
 	} else {
 		xthick = ythick = 0;
 	}
@@ -190,7 +205,7 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 		g_object_get (entry->item,
 			      "text_width", &width,
 			      NULL);
-		requisition->width = 2 + xthick + width;
+		requisition->width = 2 + 2 * xthick + width;
 	} else {
 		requisition->width = 2 + MIN_ENTRY_WIDTH + xthick;
 	}
@@ -207,7 +222,7 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 	requisition->height = (2 +
 			       PANGO_PIXELS (pango_font_metrics_get_ascent (metrics) +
 					     pango_font_metrics_get_descent (metrics)) +
-			       ythick);
+			       2 * ythick);
 
 	pango_font_metrics_unref (metrics);
 }
@@ -285,8 +300,6 @@ e_entry_init (GtkObject *object)
 
 	entry->priv = g_new0 (EEntryPrivate, 1);
 
-	entry->priv->emulate_label_resize = FALSE;
-	
 	entry->priv->emulate_label_resize = FALSE;
 	
 	entry->canvas = GNOME_CANVAS (e_canvas_new ());
@@ -500,43 +513,12 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 		x = xo + dim->x;
 		y = yo + dim->height + dim->y;
 
-#if MOVE_RIGHT_AND_UP
-		/* Put our popup slightly to the right and up, to try to give a visual cue that this popup
-		 is tied to this entry.  Otherwise one-row popups can sort of "blend" with an entry
-		 directly below. */
-		fudge = MAX (dim->height/10, 3); /* just in case we are using a really big font, etc. */
-		x += 2*fudge;
-		y -= fudge;
-#else
 		fudge = 1;
 		y -= fudge;
-#endif
+
 		gtk_widget_set_uposition (pop, x, y);
 		e_completion_view_set_width (E_COMPLETION_VIEW (entry->priv->completion_view), dim->width);
 
-#ifdef EVIL_POINTER_WARPING_HACK
-		/*
-		  I should have learned by now to listen to Havoc... 
-		  http://developer.gnome.org/doc/GGAD/faqs.html
-		*/
-		   
-		if (! entry->priv->popup_is_visible) {
-			GdkWindow *gwin = GTK_WIDGET (entry)->window;
-			gint xx, yy;
-			gdk_window_get_pointer (gwin, &xx, &yy, NULL);
-			xx += xo;
-			yy += yo;
-			
-			/* If we are inside the "zone of death" where the popup will appear, warp the pointer to safety.
-			   This is a horrible thing to do. */
-			if (y <= yy && yy < yy + dim->height && x <= xx && xx < xx + dim->width) {
-				XWarpPointer (GDK_WINDOW_XDISPLAY (gwin), None, GDK_WINDOW_XWINDOW (gwin),
-					      0, 0, 0, 0, 
-					      xx - xo, (y-1) - yo);
-			}
-		}
-#endif
-	
 		gtk_widget_show (pop);
 
 
@@ -583,8 +565,6 @@ e_entry_start_completion (EEntry *entry)
 {
 	if (entry->priv->completion == NULL)
 		return;
-
-	e_entry_cancel_delayed_completion (entry);
 
 	if (e_entry_is_empty (entry))
 		return;

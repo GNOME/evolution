@@ -62,7 +62,7 @@
 
 #define PARENT_TYPE (gnome_canvas_item_get_type())
 
-#define BORDER_INDENT 4
+#define BORDER_INDENT 3
 #define d(x)
 
 enum {
@@ -1223,8 +1223,8 @@ show_pango_rectangle (EText *text, PangoRectangle rect)
 	}
 
 	if (clip_height >= 0) {
-		if (2 + y2 - clip_height > new_yofs_edit)
-			new_yofs_edit = 2 + y2 - clip_height;
+		if (y2 - clip_height > new_yofs_edit)
+			new_yofs_edit = y2 - clip_height;
 	} else {
 		new_yofs_edit = 0;
 	}
