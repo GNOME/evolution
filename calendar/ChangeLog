@@ -1,3 +1,7 @@
+2002-11-15  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/component-factory.c: Use bonobo_main_quit instead of gtk
+	
 2002-11-13  Federico Mena Quintero  <federico@ximian.com>
 
 	* cal-client/cal-query.c: #include <string.h>

@@ -533,7 +533,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 	shells = g_list_remove (shells, shell_component);
 	
 	if (g_list_length (shells) == 0)
-		gtk_main_quit ();
+		bonobo_main_quit ();
 }
 
 /* Computes the final URI for a calendar component */
