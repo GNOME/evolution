@@ -1,5 +1,22 @@
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* message-list.c (on_right_click): Grey out the mailing list
+	filter item if `mail_mlist_magic_detect_list()' returns NULL on
+	this message [i.e., if we cannot figure out a mailing list for
+	this message].
+	(filter_mlist): Good boys don't use F words.
+
+	* mail-mlist-magic.c (check_sender): Work safely if
+	`header_name_return' or `header_value_return' are NULL.
+	(check_x_been_there): Likewise.
+	(check_delivered_to): Likewise.
+	(check_x_mailing_list): Likewise.
+	(check_x_loop): Likewise.
+
+	* message-list.c (on_right_click): Mark strings for translation.
+
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* folder-browser-factory.c: Use the latest, shiny, amazing TigerT
 	art for the toolbar.
 

@@ -113,8 +113,10 @@ check_sender (CamelMimeMessage *message,
 	if (value[6] == '\0' || value[6] == '@')
 		return NULL;
 
-	*header_name_return = "Sender";
-	*header_value_return = g_strdup (value);
+	if (header_name_return != NULL)
+		*header_name_return = "Sender";
+	if (header_value_return != NULL)
+		*header_value_return = g_strdup (value);
 	return extract_until_at_sign (value + 6);
 }
    
@@ -130,8 +132,10 @@ check_x_been_there (CamelMimeMessage *message,
 	if (value == NULL || *value == '@')
 		return NULL;
 
-	*header_name_return = "X-BeenThere";
-	*header_value_return = g_strdup (value);
+	if (header_name_return != NULL)
+		*header_name_return = "X-BeenThere";
+	if (header_value_return != NULL)
+		*header_value_return = g_strdup (value);
 
 	return extract_until_at_sign (value);
 }
@@ -155,8 +159,10 @@ check_delivered_to (CamelMimeMessage *message,
 	if (value[13] == '\0' || value[13] == '@')
 		return NULL;
 
-	*header_name_return = "Delivered-To";
-	*header_value_return = g_strdup (value);
+	if (header_name_return != NULL)
+		*header_name_return = "Delivered-To";
+	if (header_value_return != NULL)
+		*header_value_return = g_strdup (value);
 	return extract_until_at_sign (value + 13);
 }
    
@@ -180,8 +186,10 @@ check_x_mailing_list (CamelMimeMessage *message,
 	if (value[value_length - 1] != '>')
 		return NULL;
 
-	*header_name_return = "X-Mailing-List";
-	*header_value_return = g_strdup (value);
+	if (header_name_return != NULL)
+		*header_name_return = "X-Mailing-List";
+	if (header_value_return != NULL)
+		*header_value_return = g_strdup (value);
 	return extract_until_at_sign (value + 1);
 }
    
@@ -200,8 +208,10 @@ check_x_loop (CamelMimeMessage *message,
 	if (*value == '\0' || *value == '@')
 		return NULL;
 
-	*header_name_return = "X-Loop";
-	*header_value_return = g_strdup (value);
+	if (header_name_return != NULL)
+		*header_name_return = "X-Loop";
+	if (header_value_return != NULL)
+		*header_value_return = g_strdup (value);
 
 	return extract_until_at_sign (value);
 }

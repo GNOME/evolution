@@ -1216,10 +1216,8 @@ filter_mlist (GtkWidget *w, FolderBrowser *fb)
 	const char *header_name;
 
 	name = mail_mlist_magic_detect_list (fb->mail_display->current_message, &header_name, &header_value);
-	if (name == NULL) {
-		g_print ("No fucking mlist!\n");
+	if (name == NULL)
 		return;
-	}
 
 	filter_gui_add_for_mailing_list (fb->mail_display->current_message, name, header_name, header_value);
 
@@ -1234,33 +1232,42 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Mess
 	extern CamelFolder *drafts_folder;
 	int enable_mask = 0;
 	EPopupMenu menu[] = {
-		{ "Open in New Window",      NULL, GTK_SIGNAL_FUNC (view_msg),          0 },
-		{ "Edit Message",            NULL, GTK_SIGNAL_FUNC (edit_msg),          1 },
-		{ "Print Message",           NULL, GTK_SIGNAL_FUNC (print_msg),         0 },
-		{ "",                        NULL, GTK_SIGNAL_FUNC (NULL),              0 },
-		{ "Reply to Sender",         NULL, GTK_SIGNAL_FUNC (reply_to_sender),   0 },
-		{ "Reply to All",            NULL, GTK_SIGNAL_FUNC (reply_to_all),      0 },
-		{ "Forward Message",         NULL, GTK_SIGNAL_FUNC (forward_msg),       0 },
-		{ "",                        NULL, GTK_SIGNAL_FUNC (NULL),              0 },
-		{ "Delete Message",          NULL, GTK_SIGNAL_FUNC (delete_msg),        0 },
-		{ "Move Message",            NULL, GTK_SIGNAL_FUNC (move_msg),          0 },
-		{ "Copy Message",            NULL, GTK_SIGNAL_FUNC (copy_msg),          0 },
-		{ "",                        NULL, GTK_SIGNAL_FUNC (NULL),              0 },
-		{ "VFolder on Subject",      NULL, GTK_SIGNAL_FUNC (vfolder_subject),   2 },
-		{ "VFolder on Sender",       NULL, GTK_SIGNAL_FUNC (vfolder_sender),    2 },
-		{ "VFolder on Recipients",   NULL, GTK_SIGNAL_FUNC (vfolder_recipient), 2 },
-		{ "",                        NULL, GTK_SIGNAL_FUNC (NULL),              0 },
-		{ "Filter on Subject",       NULL, GTK_SIGNAL_FUNC (filter_subject),    2 },
-		{ "Filter on Sender",        NULL, GTK_SIGNAL_FUNC (filter_sender),     2 },
-		{ "Filter on Recipients",    NULL, GTK_SIGNAL_FUNC (filter_recipient),  2 },
-		{ "Filter on Mailing List",  NULL, GTK_SIGNAL_FUNC (filter_mlist),      2 },
-		{ NULL,                      NULL, NULL,                                0 }
+		{ _("Open in New Window"),      NULL, GTK_SIGNAL_FUNC (view_msg),          0 },
+		{ _("Edit Message"),            NULL, GTK_SIGNAL_FUNC (edit_msg),          1 },
+		{ _("Print Message"),           NULL, GTK_SIGNAL_FUNC (print_msg),         0 },
+		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("Reply to Sender"),         NULL, GTK_SIGNAL_FUNC (reply_to_sender),   0 },
+		{ _("Reply to All"),            NULL, GTK_SIGNAL_FUNC (reply_to_all),      0 },
+		{ _("Forward Message"),         NULL, GTK_SIGNAL_FUNC (forward_msg),       0 },
+		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("Delete Message"),          NULL, GTK_SIGNAL_FUNC (delete_msg),        0 },
+		{ _("Move Message"),            NULL, GTK_SIGNAL_FUNC (move_msg),          0 },
+		{ _("Copy Message"),            NULL, GTK_SIGNAL_FUNC (copy_msg),          0 },
+		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("VFolder on Subject"),      NULL, GTK_SIGNAL_FUNC (vfolder_subject),   2 },
+		{ _("VFolder on Sender"),       NULL, GTK_SIGNAL_FUNC (vfolder_sender),    2 },
+		{ _("VFolder on Recipients"),   NULL, GTK_SIGNAL_FUNC (vfolder_recipient), 2 },
+		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("Filter on Subject"),       NULL, GTK_SIGNAL_FUNC (filter_subject),    2 },
+		{ _("Filter on Sender"),        NULL, GTK_SIGNAL_FUNC (filter_sender),     2 },
+		{ _("Filter on Recipients"),    NULL, GTK_SIGNAL_FUNC (filter_recipient),  2 },
+		{ _("Filter on Mailing List"),  NULL, GTK_SIGNAL_FUNC (filter_mlist),      6 },
+		{ NULL,                         NULL, NULL,                                0 }
 	};
 
 	if (fb->folder != drafts_folder)
 		enable_mask |= 1;
-	if (fb->mail_display->current_message == NULL)
-		enable_mask |= 2;
+
+	if (fb->mail_display->current_message == NULL) {
+		enable_mask |= 6;
+	} else {
+		char *mailing_list_name;
+
+		mailing_list_name = mail_mlist_magic_detect_list (fb->mail_display->current_message,
+								  NULL, NULL);
+		if (mailing_list_name == NULL)
+			enable_mask |= 4;
+	}
 
 	e_popup_menu_run (menu, (GdkEventButton *)event, enable_mask, 0, fb);
 	
