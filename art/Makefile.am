@@ -72,6 +72,7 @@ images_DATA = \
 	service-up-disabled.png		\
 	show_all_messages.xpm		\
 	splash.png			\
+	thankyou.png			\
 	undelete_message.xpm		\
 	work_offline.xpm
 
