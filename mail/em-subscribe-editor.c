@@ -86,6 +86,7 @@ struct _EMSubscribe {
 
 	int ref_count;
 	int cancel;
+	int seq;		/* upped every time we refresh */
 
 	struct _EMSubscribeEditor *editor; /* parent object*/
 
@@ -327,6 +328,8 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 struct _emse_folderinfo_msg {
 	struct _mail_msg msg;
 
+	int seq;
+
 	EMSubscribe *sub;
 	EMSubscribeNode *node;
 	CamelFolderInfo *info;
@@ -337,9 +340,11 @@ sub_folderinfo_get (struct _mail_msg *mm)
 {
 	struct _emse_folderinfo_msg *m = (struct _emse_folderinfo_msg *) mm;
 
-	camel_operation_register(mm->cancel);
-	m->info = camel_store_get_folder_info (m->sub->store, m->node?m->node->info->full_name:"", CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &mm->ex);
-	camel_operation_unregister(mm->cancel);
+	if (m->seq == m->sub->seq) {
+		camel_operation_register(mm->cancel);
+		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:"", CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &mm->ex);
+		camel_operation_unregister(mm->cancel);
+	}
 }
 
 static void
@@ -349,7 +354,7 @@ sub_folderinfo_got(struct _mail_msg *mm)
 	EMSubscribeNode *node;
 
 	m->sub->pending_id = -1;
-	if (m->sub->cancel)
+	if (m->sub->cancel || m->seq != m->sub->seq)
 		return;
 
 	if (camel_exception_is_set (&mm->ex)) {
@@ -407,6 +412,7 @@ sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node)
 	sub_ref(sub);
 	m->sub = sub;
 	m->node = node;
+	m->seq = sub->seq;
 
 	sub->pending_id = m->msg.seq;
 
@@ -683,6 +689,8 @@ sub_editor_refresh(GtkWidget *w, EMSubscribeEditor *se)
 	d(printf("sub editor refresh?\n"));
 	if (sub == NULL || sub->store == NULL)
 		return;
+
+	sub->seq++;
 
 	/* drop any currently pending */
 	if (sub->pending_id != -1)
