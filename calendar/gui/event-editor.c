@@ -336,6 +336,28 @@ make_title_from_comp (CalComponent *comp)
 	}
 }
 
+/* Sets the event editor's window title from a calendar component */
+static void
+set_title_from_comp (EventEditor *ee, CalComponent *comp)
+{
+	EventEditorPrivate *priv;
+	char *title, *tmp;
+
+	priv = ee->priv;
+
+	title = make_title_from_comp (comp);
+	tmp = e_utf8_to_gtk_string (priv->app, title);
+	g_free (title);
+
+	if (tmp) {
+		gtk_window_set_title (GTK_WINDOW (priv->app), tmp);
+		g_free (tmp);
+	} else {
+		g_message ("set_title_from_comp(): Could not convert the title from UTF8");
+		gtk_window_set_title (GTK_WINDOW (priv->app), "");
+	}
+}
+
 /* Callback used when the recurrence weekday picker changes */
 static void
 recur_weekday_picker_changed_cb (WeekdayPicker *wp, gpointer data)
@@ -2173,7 +2195,6 @@ static void
 save_event_object (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
-	char *title;
 
 	priv = ee->priv;
 
@@ -2181,10 +2202,7 @@ save_event_object (EventEditor *ee)
 		return;
 
 	dialog_to_comp_object (ee, priv->comp);
-
-	title = make_title_from_comp (priv->comp);
-	gtk_window_set_title (GTK_WINDOW (priv->app), title);
-	g_free (title);
+	set_title_from_comp (ee, priv->comp);
 
 	if (!cal_client_update_object (priv->client, priv->comp))
 		g_message ("save_event_object(): Could not update the object!");
@@ -2600,7 +2618,6 @@ void
 event_editor_set_event_object (EventEditor *ee, CalComponent *comp)
 {
 	EventEditorPrivate *priv;
-	char *title;
 
 	g_return_if_fail (ee != NULL);
 	g_return_if_fail (IS_EVENT_EDITOR (ee));
@@ -2616,10 +2633,7 @@ event_editor_set_event_object (EventEditor *ee, CalComponent *comp)
 		priv->comp = cal_component_clone (comp);
 	}
 
-	title = make_title_from_comp (priv->comp);
-	gtk_window_set_title (GTK_WINDOW (priv->app), title);
-	g_free (title);
-
+	set_title_from_comp (ee, priv->comp);
 	fill_widgets (ee);
 }
 

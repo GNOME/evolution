@@ -1,3 +1,11 @@
+2000-12-01  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (set_title_from_comp): New function to
+	generate a title and convert it from UTF8 before setting it on the
+	window.
+	(save_event_object): Uset set_title_from_comp().
+	(event_editor_set_event_object): Likewise.
+
 2000-11-30  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit.c:  Debug message cleanups
