@@ -318,8 +318,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 				e_tree_model_node_set_expanded (tree_model,
 								node,
 								!e_tree_model_node_is_expanded(tree_model, node));
+				return TRUE;
 			}
-			return TRUE;
 		}
 		else if (event->button.x < (offset - INDENT_AMOUNT))
 			return FALSE;
