@@ -26,5 +26,6 @@
 #include <e-util/e-source-group.h>
 
 gboolean migrate_old_calendars (ESourceGroup *source_group);
+gboolean migrate_old_tasks (ESourceGroup *source_group);
 
 #endif

@@ -28,7 +28,7 @@
 
 static gboolean
 process_calendar_dir (ESourceGroup *source_group, const char *path,
-		      const char *name, const char *base_uri)
+		      const char *filename, const char *name, const char *base_uri)
 {
 	char *s;
 	GnomeVFSURI *from, *to;
@@ -37,7 +37,7 @@ process_calendar_dir (ESourceGroup *source_group, const char *path,
 	GDir *dir;
 	gboolean retval = TRUE;
 
-	s = g_build_filename (path, "calendar.ics", NULL);
+	s = g_build_filename (path, filename, NULL);
 	if (!g_file_test (s, G_FILE_TEST_EXISTS)) {
 		g_free (s);
 		return FALSE;
@@ -50,7 +50,7 @@ process_calendar_dir (ESourceGroup *source_group, const char *path,
 		return FALSE;
 
 	s = g_build_filename (e_source_group_peek_base_uri (source_group), base_uri,
-			      "calendar.ics", NULL);
+			      filename, NULL);
 	if (e_mkdir_hier (s, 0700) != 0) {
 		gnome_vfs_uri_unref (from);
 		g_free (s);
@@ -88,7 +88,7 @@ process_calendar_dir (ESourceGroup *source_group, const char *path,
 		while ((name = g_dir_read_name (dir))) {
 			tmp_s = g_build_filename (s, name, NULL);
 			if (g_file_test (tmp_s, G_FILE_TEST_IS_DIR)) {
-				retval = process_calendar_dir (source_group, tmp_s, name, name);
+				retval = process_old_dir (source_group, tmp_s, filename, name, name);
 			}
 
 			g_free (tmp_s);
@@ -119,7 +119,30 @@ migrate_old_calendars (ESourceGroup *source_group)
 
 	/* look for the top-level calendar */
 	path = g_build_filename (g_get_home_dir (), "evolution/local/Calendar", NULL);
-	retval = process_calendar_dir (source_group, path, _("Personal"), "Personal");
+	retval = process_old_dir (source_group, path, "calendar.ics", _("Personal"), "Personal");
+	g_free (path);
+	
+        return retval;
+}
+
+gboolean
+migrate_old_tasks (ESourceGroup *source_group)
+{
+	char *path;
+	gboolean retval;
+
+	g_return_val_if_fail (E_IS_SOURCE_GROUP (source_group), FALSE);
+
+	path = g_build_filename (g_get_home_dir (), "evolution", NULL);
+        if (!g_file_test (path, G_FILE_TEST_IS_DIR)) {
+		g_free (path);
+                return FALSE;
+	}
+	g_free (path);
+
+	/* look for the top-level calendar */
+	path = g_build_filename (g_get_home_dir (), "evolution/local/Tasks", NULL);
+	retval = process_old_dir (source_group, path, "tasks.ics", _("Personal"), "Personal");
 	g_free (path);
 	
         return retval;

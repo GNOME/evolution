@@ -20,9 +20,9 @@
 
 	* gui/e-cal-view.c: add new signal "selected_time_changed" 
 	* gui/e-day-view-main-item.c (e_day_view_main_item_class_init):
-	   a11y initialization
+	a11y initialization
 	* gui/e-day-view-top-item (e_day_view_top_item_get_day_label):
-	   new public function.
+	new public function.
 	* gui/e-day-view.c (e_day_view_ensure_rows_visible,
 	e_day_view_update_calendar_selection_time): make static functions public
 	(e_day_view_cursor_key_up, e_day_view_cursor_key_down,

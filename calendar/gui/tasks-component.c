@@ -305,14 +305,18 @@ tasks_component_init (TasksComponent *component, TasksComponentClass *klass)
 		group = e_source_group_new (_("On This Computer"), base_uri);
 		e_source_list_add_group (priv->source_list, group, -1);
 
-		/* FIXME: migrate tasks from older setups */
-		new_dir = g_build_filename (base_uri, "Personal/", NULL);
-		if (!e_mkdir_hier (new_dir, 0700)) {
-			source = e_source_new (_("Personal"), "Personal");
-			e_source_group_add_source (group, source, -1);
+		/* migrate tasks from older setup */
+		if (!migrate_old_tasks (group)) {
+			/* create default tasks folders */
+			new_dir = g_build_filename (base_uri, "Personal/", NULL);
+			if (!e_mkdir_hier (new_dir, 0700)) {
+				source = e_source_new (_("Personal"), "Personal");
+				e_source_group_add_source (group, source, -1);
+			}
+
+			g_free (new_dir);
 		}
 
-		g_free (new_dir);
 		g_free (base_uri);
 	}
 
