@@ -109,7 +109,7 @@ random_cb (GtkWidget *button, gpointer user_data)
 }
 
 static GnomeUIInfo gnome_toolbar [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("New mail"), N_("Check for new mail"), fetch_mail, GNOME_STOCK_PIXMAP_MAIL_RCV),
+	GNOMEUIINFO_ITEM_STOCK (N_("Get mail"), N_("Check for new mail"), fetch_mail, GNOME_STOCK_PIXMAP_MAIL_RCV),
 	GNOMEUIINFO_ITEM_STOCK (N_("Send"), N_("Send a new message"), send_msg, GNOME_STOCK_PIXMAP_MAIL_SND),
 	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find messages"), random_cb, GNOME_STOCK_PIXMAP_SEARCH),
 
