@@ -193,7 +193,8 @@ icalcomponent* icalcomponent_new_clone(icalcomponent* component)
 	 itr = pvl_next(itr))
     {	
 	p = (icalproperty*)pvl_data(itr);
-	icalcomponent_add_property(new,icalproperty_new_clone(p));
+	if (p != 0)
+		icalcomponent_add_property(new,icalproperty_new_clone(p));
     }
    
    
