@@ -1222,11 +1222,10 @@ static gboolean
 smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean has_8bit_parts, CamelException *ex)
 {
 	CamelBestencEncoding enctype = CAMEL_BESTENC_8BIT;
+	struct _header_raw *header, *savedbcc, *n, *tail;
 	char *cmdbuf, *respbuf = NULL;
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *crlffilter;
-	struct _header_raw *header;
-	GSList *n, *bcc = NULL;
 	int ret;
 	
 	/* if the message contains 8bit/binary mime parts and the server
@@ -1282,31 +1281,30 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean ha
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlffilter));
 	camel_object_unref (CAMEL_OBJECT (crlffilter));
 	
-	/* copy and remove the bcc headers */
-	header = CAMEL_MIME_PART (message)->headers;
-	while (header) {
-		if (!strcasecmp (header->name, "Bcc"))
-			bcc = g_slist_append (bcc, g_strdup (header->value));
-		header = header->next;
-	}
+	/* unlink the bcc headers */
+	savedbcc = NULL;
+	tail = (struct _header_raw *) &savedbcc;
 	
-	n = bcc;
-	while (n) {
-		camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
-		n = n->next;
+	header = (struct _header_raw *) &CAMEL_MIME_PART (message)->headers;
+	n = header->next;
+	while (n != NULL) {
+		if (!strcasecmp (header->name, "Bcc")) {
+			header->next = n->next;
+			tail->next = n;
+			n->next = NULL;
+			tail = n;
+		} else {
+			header = n;
+		}
+		
+		n = header->next;
 	}
 	
 	/* write the message */
 	ret = camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (filtered_stream));
 	
-	/* add the bcc headers back */
-	while (bcc) {
-		n = bcc->next;
-		camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", bcc->data);
-		g_free (bcc->data);
-		g_slist_free_1 (bcc);
-		bcc = n;
-	}
+	/* restore the bcc headers */
+	header->next = savedbcc;
 	
 	if (ret == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,

@@ -85,10 +85,9 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		  CamelAddress *from, CamelAddress *recipients,
 		  CamelException *ex)
 {
+	struct _header_raw *header, *savedbcc, *n, *tail;
 	const char *from_addr, *addr, **argv;
 	int i, len, fd[2], nullfd, wstat;
-	struct _header_raw *header;
-	GSList *n, *bcc = NULL;
 	sigset_t mask, omask;
 	CamelStream *out;
 	pid_t pid;
@@ -117,18 +116,23 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	
 	argv[i + 5] = NULL;
 	
-	/* copy and remove the bcc headers */
-	header = CAMEL_MIME_PART (message)->headers;
-	while (header) {
-		if (!strcasecmp (header->name, "Bcc"))
-			bcc = g_slist_append (bcc, g_strdup (header->value));
-		header = header->next;
-	}
+	/* unlink the bcc headers */
+	savedbcc = NULL;
+	tail = (struct _header_raw *) &savedbcc;
 	
-	n = bcc;
-	while (n) {
-		camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
-		n = n->next;
+	header = (struct _header_raw *) &CAMEL_MIME_PART (message)->headers;
+	n = header->next;
+	while (n != NULL) {
+		if (!strcasecmp (header->name, "Bcc")) {
+			header->next = n->next;
+			tail->next = n;
+			n->next = NULL;
+			tail = n;
+		} else {
+			header = n;
+		}
+		
+		n = header->next;
 	}
 	
 	if (pipe (fd) == -1) {
@@ -136,7 +140,11 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 				      _("Could not create pipe to sendmail: "
 					"%s: mail not sent"),
 				      g_strerror (errno));
-		goto exception;
+		
+		/* restore the bcc headers */
+		header->next = savedbcc;
+		
+		return FALSE;
 	}
 	
 	/* Block SIGCHLD so the calling application doesn't notice
@@ -156,7 +164,10 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		sigprocmask (SIG_SETMASK, &omask, NULL);
 		g_free (argv);
 		
-		goto exception;
+		/* restore the bcc headers */
+		header->next = savedbcc;
+		
+		return FALSE;
 	case 0:
 		/* Child process */
 		nullfd = open ("/dev/null", O_RDWR);
@@ -187,7 +198,10 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		
 		sigprocmask (SIG_SETMASK, &omask, NULL);
 		
-		goto exception;
+		/* restore the bcc headers */
+		header->next = savedbcc;
+		
+		return FALSE;
 	}
 	
 	camel_object_unref (CAMEL_OBJECT (out));
@@ -198,14 +212,8 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	
 	sigprocmask (SIG_SETMASK, &omask, NULL);
 	
-	/* add the bcc headers back */
-	while (bcc) {
-		n = bcc->next;
-		camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", bcc->data);
-		g_free (bcc->data);
-		g_slist_free_1 (bcc);
-		bcc = n;
-	}
+	/* restore the bcc headers */
+	header->next = savedbcc;
 	
 	if (!WIFEXITED (wstat)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -229,19 +237,6 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	}
 	
 	return TRUE;
-	
- exception:
-	
-	/* add the bcc headers back */
-	while (bcc) {
-		n = bcc->next;
-		camel_medium_add_header (CAMEL_MEDIUM (message), "Bcc", bcc->data);
-		g_free (bcc->data);
-		g_slist_free_1 (bcc);
-		bcc = n;
-	}
-	
-	return FALSE;
 }
 
 static char *

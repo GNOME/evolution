@@ -1,3 +1,11 @@
+2003-02-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Do it the
+	same way we just made the sendmail code do it.
+
+	* providers/sendmail/camel-sendmail-transport.c
+	(sendmail_send_to): My last change but in a better way.
+
 2003-02-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_data): Remove all
