@@ -48,7 +48,7 @@ else
 SERVER_IN_FILE=GNOME_Evolution_WombatNOLDAP.server.in.in
 endif
 
-GNOME_Evolution_Wombat.server.in.in: $(SERVER_IN_FILE)
+GNOME_Evolution_Wombat.server.in.in: $(SERVER_IN_FILE) Makefile
 	cp $< $@
 
 server_in_files = GNOME_Evolution_Wombat.server.in.in

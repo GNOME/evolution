@@ -1,3 +1,9 @@
+2003-03-13  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (GNOME_Evolution_Wombat.server.in.in): Make this
+	depend on Makefile so it gets regenerated if you switch from
+	--without-openldap to --with-openldap
+
 2003-02-21  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (evolution_wombat_LDADD): cleanup
