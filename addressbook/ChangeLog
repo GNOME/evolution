@@ -1,5 +1,21 @@
 2003-04-02  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-popup.c: change all
+	this around so that we populate the existing popup.  This means we
+	get the select names popup stuff on top of the normal EEntry popup
+	foo.
+
+	* gui/component/select-names/e-select-names-popup.h
+	(e_select_names_populate_popup): rename e_select_names_popup to
+	this.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(populate_popup_cb): rename popup_cb here, and
+	e_select_names_popup -> e_select_names_populate_popup.
+	(e_select_names_manager_entry_new): popup -> populate_popup.
+
+2003-04-02  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-addressbook-marshal.list: add NONE:OBJECT
 
 	* gui/widgets/e-minicard.c (e_minicard_class_init): add style_set

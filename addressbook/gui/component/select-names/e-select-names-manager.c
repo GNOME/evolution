@@ -141,7 +141,7 @@ get_entry_info (EEntry *entry)
 }
 
 static void
-popup_cb (EEntry *eentry, GdkEventButton *ev, gint pos, gpointer user_data)
+populate_popup_cb (EEntry *eentry, GdkEventButton *ev, gint pos, GtkWidget *menu, gpointer user_data)
 {
 	ESelectNamesTextModel *text_model;
 
@@ -150,7 +150,7 @@ popup_cb (EEntry *eentry, GdkEventButton *ev, gint pos, gpointer user_data)
 		      NULL);
 	g_assert (E_IS_SELECT_NAMES_TEXT_MODEL (text_model));
 
-	e_select_names_popup (text_model, ev, pos, GTK_WIDGET (eentry));
+	e_select_names_populate_popup (menu, text_model, ev, pos, GTK_WIDGET (eentry));
 }
 
 #if 0
@@ -283,8 +283,8 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 	g_object_ref (model);
 	
 	g_signal_connect (entry->entry,
-			  "popup",
-			  G_CALLBACK (popup_cb),
+			  "populate_popup",
+			  G_CALLBACK (populate_popup_cb),
 			  entry);
 			
 	g_signal_connect (entry->entry->canvas,
