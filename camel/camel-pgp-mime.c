@@ -351,6 +351,7 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	CamelMimeFilter *crlf_filter, *from_filter;
 	CamelStream *stream, *sigstream;
 	CamelCipherValidity *valid;
+	CamelContentType *type;
 	
 	g_return_val_if_fail (mime_part != NULL, NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), NULL);
@@ -372,7 +373,13 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	camel_object_unref (CAMEL_OBJECT (crlf_filter));
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (from_filter));
 	camel_object_unref (CAMEL_OBJECT (from_filter));
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (part), CAMEL_STREAM (filtered_stream));
+
+	type = camel_mime_part_get_content_type (mime_part);
+	if (header_content_type_param (type, "x-inline-pgp-hack"))
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	else
+		wrapper = CAMEL_DATA_WRAPPER (part);
+	camel_data_wrapper_write_to_stream (wrapper, CAMEL_STREAM (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	camel_stream_reset (stream);
 	

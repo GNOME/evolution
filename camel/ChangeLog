@@ -1,3 +1,10 @@
+2001-10-22  Dan Winship  <danw@ximian.com>
+
+	* camel-pgp-mime.c (camel_pgp_mime_part_verify): Add a hack: if
+	the multipart/signed part has a "x-inline-pgp-hack" parameter in
+	its Content-Type, don't pass the MIME headers as part of the data
+	to be verified.
+
 2001-10-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* Makefile.am: added $GNOME_INCLUDEDIR to INCLUDES, needed for latest
