@@ -1,3 +1,14 @@
+2001-09-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Patch for Automake 1.5 compatibility pointed out by Richard
+	Boulton <richard@tartarus.org>, as per #9258.]
+
+	* providers/nntp/Makefile.am: Remove some commented parts that
+	make Automake 1.5 choke.
+
+	* Makefile.am (camel-lock-helper): Add $(EXEEXT) for Automake 1.5
+	compatibility.
+
 2001-09-25    <NotZed@Ximian.com>
 
 	* camel-folder.c (get_unread_message_count): Only unref info if we

@@ -205,7 +205,7 @@ libcamel_static_la_SOURCES = $(libcamel_la_SOURCES)
 libcamel_static_la_LIBADD  = $(libcamel_la_LIBADD)
 libcamel_static_la_LDFLAGS = --all-static
 
-camel-lock-helper: camel-lock-helper.o camel-lock.o
+camel-lock-helper($EXEEXT): camel-lock-helper.o camel-lock.o
 	$(CC) -o $@ $^ -I$(srcdir)/.. -I$(srcdir)
 
 install-exec-hook:
