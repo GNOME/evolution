@@ -507,7 +507,6 @@ parse_list_response_as_folder_info (const char *response,
 	if (!e_strstrcase (flags, "\\NoSelect"))
 		fi->url = g_strdup_printf ("%s%s", base_url, dir);
 	g_free (flags);
-	/* FIXME: read/unread msg count */
 
 	return fi;
 }
@@ -524,6 +523,7 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	CamelImapResponse *response;
 	GPtrArray *folders;
 	char *dir_sep, *namespace, *base_url, *list;
+	char *folder_path, *status, *p;
 	CamelFolderInfo *topfi = NULL, *fi;
 
 	if (!top)
@@ -549,9 +549,8 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	if (response) {
 		list = camel_imap_response_extract (response, "LIST", ex);
 		if (list) {
-			topfi = parse_list_response_as_folder_info (list,
-								    namespace,
-								    base_url);
+			topfi = parse_list_response_as_folder_info (
+				list, namespace, base_url);
 			g_free (list);
 		}
 	}
@@ -595,9 +594,39 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 		fi->full_name = g_strdup ("INBOX");
 		fi->name = g_strdup ("INBOX");
 		fi->url = g_strdup_printf ("%sINBOX", base_url);
-		/* FIXME: read/unread msg count */
 
 		g_ptr_array_add (folders, fi);
+	}
+
+	if (!fast) {
+		/* Get read/unread counts */
+		for (i = 0; i < folders->len; i++) {
+			fi = folders->pdata[i];
+			if (!fi->url)
+				continue;
+
+			folder_path = camel_imap_store_folder_path (
+				imap_store, fi->full_name);
+			response = camel_imap_command (
+				imap_store, NULL, NULL,
+				"STATUS %s (MESSAGES UNSEEN)",
+				folder_path);
+			g_free (folder_path);
+			if (!response)
+				continue;
+			status = camel_imap_response_extract (
+				response, "STATUS", NULL);
+			if (!status)
+				continue;
+
+			p = e_strstrcase (status, "MESSAGES");
+			if (p)
+				fi->message_count = strtoul (p + 8, NULL, 10);
+			p = e_strstrcase (status, "UNSEEN");
+			if (p)
+				fi->unread_message_count = strtoul (p + 6, NULL, 10);
+			g_free (status);
+		}
 	}
 
 	/* And assemble */
