@@ -1,5 +1,10 @@
 2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/widgets/e-addressbook-view.c (create_minicard_view): No need
+	to do any reparenting here; the widget is created with no parent.
+
+2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/component/select-names/e-select-names.c
 	(e_select_names_init): Instead of using gtk_widget_unparent(),
 	remove the widget from the container using gtk_container_remove().

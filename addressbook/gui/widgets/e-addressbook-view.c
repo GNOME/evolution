@@ -1184,12 +1184,8 @@ create_minicard_view (EAddressbookView *view)
 	gtk_box_pack_start(GTK_BOX(minicard_hbox), scrolled_window, TRUE, TRUE, 0);
 
 	alphabet = create_alphabet(view);
-	if (alphabet) {
-		g_object_ref (alphabet);
-		gtk_widget_unparent(alphabet);
+	if (alphabet)
 		gtk_box_pack_start(GTK_BOX(minicard_hbox), alphabet, FALSE, FALSE, 0);
-		g_object_unref (alphabet);
-	}
 
 	gtk_table_attach(GTK_TABLE(view), minicard_hbox,
 			 0, 1,
