@@ -582,6 +582,13 @@
             filter, the messages that it affects will not be touched
             by other filters.
          </para>
+         <para>
+           When you first open the filters dialog, you are shown the
+           list of filters sorted in the order in which they will be
+           applied. You can move them up and down in the priority list
+           by clicking the <guibutton>Up</guibutton> and
+           <guibutton>Down</guibutton> buttons.
+         </para>
       </note>
 </para>
 		</listitem>
