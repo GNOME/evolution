@@ -617,7 +617,7 @@ dnl ******************
 dnl Sub-version number
 dnl ******************
 AC_ARG_WITH(sub-version, [  --with-sub-version=VERSION Specify a sub-version string])
-AC_DEFINE_UNQUOTED(SUB_VERSION, "$sub_version")
+AC_DEFINE_UNQUOTED(SUB_VERSION, "$with_sub_version")
 
 dnl ******************************
 dnl Makefiles
@@ -718,9 +718,15 @@ doc/devel/calendar/cal-util/Makefile
 doc/devel/importer/Makefile
 ])
 
+if test "x$with_sub_version" != "x"; then
 echo "
-	Evolution ($with_x_mailer) has been configured as follows:
+	Evolution ($with_sub_version) has been configured as follows: "
+else
+echo "
+	Evolution has been configured as follows: "
+fi
 
+echo "
 	Mail Directory:   $system_mail_dir
 	LDAP support:     $msg_ldap
 	NNTP support:     $msg_nntp

@@ -1,3 +1,10 @@
+2001-01-19  Jason Leach  <jasonleach@usa.net>
+
+	* configure.in: Changed a leftover $with_x_mailer to
+	$with_sub_version.  Made it so that if $with_sub_version isn't
+	specified, we don't try to output it, and also corrected the way
+	SUB_VERSION is defined.
+
 2001-01-18  Federico Mena Quintero  <federico@ximian.com>
 
 	* Makefile.am: Um, why was the doc directory removed from SUBDIRS?
