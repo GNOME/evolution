@@ -2,6 +2,7 @@
 
 <!ENTITY PREFACE SYSTEM "preface.sgml">
 <!ENTITY USAGE-MAINWINDOW SYSTEM "usage-mainwindow.sgml">
+<!ENTITY USAGE-EXEC-SUMMARY SYSTEM "usage-exec-summary.sgml">
 <!ENTITY USAGE-MAIL SYSTEM "usage-mail.sgml">
 <!ENTITY USAGE-CONTACT SYSTEM "usage-contact.sgml">
 <!ENTITY USAGE-CALENDAR SYSTEM "usage-calendar.sgml">
@@ -85,6 +86,7 @@ implemented. -->
     </partintro>
 
     &USAGE-MAINWINDOW;
+    &USAGE-EXEC-SUMMARY;
     &USAGE-MAIL;
     &USAGE-CONTACT;
     &USAGE-CALENDAR;

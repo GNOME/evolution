@@ -475,9 +475,7 @@ with quoted materials and the relevant replies interspersed-->
 	   <guibutton>Reply</guibutton>.  If there are large numbers
 	   of people in the <guilabel>Cc:</guilabel> or
 	   <guilabel>To:</guilabel> fields, this can save substantial
-	   amounts of time.  Be careful: always make sure you know who
-	   is getting a message: one address could be a mailing list
-	   with thousands of subscribers.
+	   amounts of time. 
 	  <example>
 	    <title>Using the Reply to All feature</title>
 	    <para>
@@ -488,8 +486,8 @@ with quoted materials and the relevant replies interspersed-->
 	      just wants to tell Susan that he agrees with her, he
 	      uses <guibutton>Reply</guibutton>.  Note that his reply
 	      will not reach anyone that Susan put on her
-	      <guilabel>Bcc</guilabel> list, since nobody else knows
-	      that they got that message.
+	      <guilabel>Bcc</guilabel> list, since that list is not
+	      shared with anyone.
 	    </para>
 	  </example>
 	</para>
@@ -862,16 +860,16 @@ possibly never will be due to security evil. -->
     <sect2 id="usage-mail-organize-columns">
       <title>Sorting Mail with Column Headers</title>
       <para>
-         By default, the columns in a mail message list are: an
-         envelope icon indicating whether you have read or replied to
-         a message (closed for unread, open for read, and open with an
-         arrow on it to indicate you've sent a reply), an exclamation
-         point indicating priority, and the <guilabel>From</guilabel>,
-         <guilabel>Subject</guilabel>, and <guilabel>Date</guilabel>
-         fields. You can change their order and remove them by
-         dragging and dropping them.  You can add new ones with the
-         <guimenuitem>Field Chooser</guimenuitem> item in the right
-         click menu for the column headings.
+         By default, the message list has columns with the following
+         headings: an envelope icon indicating whether you have read
+         or replied to a message (closed for unread, open for read,
+         and open with an arrow on it to indicate you've sent a
+         reply), an exclamation point indicating priority, and the
+         <guilabel>From</guilabel>, <guilabel>Subject</guilabel>, and
+         <guilabel>Date</guilabel> fields. You can change their order
+         and remove them by dragging and dropping them.  You can add
+         new ones with the <guimenuitem>Field Chooser</guimenuitem>
+         item in the right click menu for the column headings.
       </para>
       <para>
          Right-click on one of the column headers to get a list of
@@ -1118,13 +1116,13 @@ possibly never will be due to security evil. -->
         any criteria are met</guilabel>.
      </para>
      <para>
-        For each of your filter criteria, you must first select what
-        part of the message you want the filter to look at:
+        For each filter criterion, you must first select what
+        part of the message you want the filter to examine:
         <variablelist>
 	  <varlistentry>
 	    <term><guilabel>Sender</guilabel></term>
 	    <listitem><para>
-                The author of the message.
+                The sender's address.
             </para></listitem>
 	  </varlistentry>
 
@@ -1147,8 +1145,8 @@ possibly never will be due to security evil. -->
 	    <term><guilabel>Specific Header</guilabel></term>
 	    <listitem><para> The filter can look at any header you
 	    want, even obscure or custom ones like X-Bonus or
-	    X-Archive. Enter the header name, and what you'd like to
-	    match inside it.  </para></listitem>
+	    X-Archive. Enter the header name, and what text you'd like to find
+	     inside it.  </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>

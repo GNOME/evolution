@@ -1,3 +1,9 @@
+2001-02-06 Aaron Weber <aaron@ximian.com>
+	* C/usage-contact.sgml: s/contact manager/address book/ and
+	revised text.
+
+	*C/usage-exec-summary.sgml: New file. Describes Executive Summary.
+	
 2001-01-19  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-mail.sgml: More of Megan's revisions, and Field Chooser
