@@ -78,6 +78,8 @@ libetable_a_SOURCES = 				\
 	e-table-sorted.h			\
 	e-table-sorted-variable.c		\
 	e-table-sorted-variable.h		\
+	e-table-sorter.c			\
+	e-table-sorter.h			\
 	e-table-subset.c			\
 	e-table-subset.h			\
 	e-table-subset-variable.c		\

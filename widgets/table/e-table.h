@@ -40,6 +40,7 @@ typedef struct {
 	ETableGroup  *group;
 
 	ETableSortInfo *sort_info;
+	ETableSorter   *sorter;
 
 	ETableSelectionModel *selection;
 	ETableCursorLoc cursor_loc;

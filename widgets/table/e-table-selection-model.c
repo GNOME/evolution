@@ -20,9 +20,9 @@
 
 #define BOX(n) ((n) / 32)
 #define OFFSET(n) (31 - ((n) % 32))
-#define BITMASK(n) (((guint32) 0x1) << OFFSET(n))
-#define BITMASK_LEFT(n) (((guint32) ONES) << (32 - ((n) % 32)))
-#define BITMASK_RIGHT(n) (((guint32) ONES) >> ((n) % 32))
+#define BITMASK(n) ((guint32)(((guint32) 0x1) << OFFSET(n)))
+#define BITMASK_LEFT(n) ((guint32)(((guint32) ONES) << (32 - ((n) % 32))))
+#define BITMASK_RIGHT(n) ((guint32)(((guint32) ONES) >> ((n) % 32)))
 
 static GtkObjectClass *e_table_selection_model_parent_class;
 
@@ -37,6 +37,7 @@ static guint e_table_selection_model_signals [LAST_SIGNAL] = { 0, };
 enum {
 	ARG_0,
 	ARG_MODEL,
+	ARG_SORTER,
 	ARG_CURSOR_ROW,
 	ARG_CURSOR_COL,
 };
@@ -151,6 +152,24 @@ drop_model(ETableSelectionModel *etsm)
 	etsm->model = NULL;
 }
 
+inline static void
+add_sorter(ETableSelectionModel *etsm, ETableSorter *sorter)
+{
+	etsm->sorter = sorter;
+	if (sorter) {
+		gtk_object_ref(GTK_OBJECT(sorter));
+	}
+}
+
+inline static void
+drop_sorter(ETableSelectionModel *etsm)
+{
+	if (etsm->sorter) {
+		gtk_object_unref(GTK_OBJECT(etsm->sorter));
+	}
+	etsm->sorter = NULL;
+}
+
 static void
 etsm_destroy (GtkObject *object)
 {
@@ -159,6 +178,7 @@ etsm_destroy (GtkObject *object)
 	etsm = E_TABLE_SELECTION_MODEL (object);
 
 	drop_model(etsm);
+	drop_sorter(etsm);
 
 	g_free(etsm->selection);
 }
@@ -171,6 +191,10 @@ etsm_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	switch (arg_id){
 	case ARG_MODEL:
 		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(etsm->model);
+		break;
+
+	case ARG_SORTER:
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(etsm->sorter);
 		break;
 
 	case ARG_CURSOR_ROW:
@@ -192,6 +216,11 @@ etsm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_MODEL:
 		drop_model(etsm);
 		add_model(etsm, GTK_VALUE_OBJECT (*arg) ? E_TABLE_MODEL(GTK_VALUE_OBJECT (*arg)) : NULL);
+		break;
+
+	case ARG_SORTER:
+		drop_sorter(etsm);
+		add_sorter(etsm, GTK_VALUE_OBJECT (*arg) ? E_TABLE_SORTER(GTK_VALUE_OBJECT (*arg)) : NULL);
 		break;
 
 	case ARG_CURSOR_ROW:
@@ -248,6 +277,8 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 
 	gtk_object_add_arg_type ("ETableSelectionModel::model", GTK_TYPE_OBJECT,
 				 GTK_ARG_READWRITE, ARG_MODEL);
+	gtk_object_add_arg_type ("ETableSelectionModel::sorter", GTK_TYPE_OBJECT,
+				 GTK_ARG_READWRITE, ARG_SORTER);
 	gtk_object_add_arg_type ("ETableSelectionModel::cursor_row", GTK_TYPE_INT,
 				 GTK_ARG_READWRITE, ARG_CURSOR_ROW);
 	gtk_object_add_arg_type ("ETableSelectionModel::cursor_col", GTK_TYPE_INT,
@@ -294,26 +325,42 @@ e_table_selection_model_foreach     (ETableSelectionModel *selection,
 	}
 }
 
-#define OPERATE(object, mask, grow) ((grow) ? ((object) |= ~(mask)) : ((object) &= (mask)))
+#define OPERATE(object, mask, grow) ((grow) ? ((object) |= (~(mask))) : ((object) &= (mask)))
+
+static void
+change_one_row(ETableSelectionModel *selection, int row, gboolean grow)
+{
+	int i;
+	i = BOX(row);
+
+	OPERATE(selection->selection[i], BITMASK_LEFT(row) | BITMASK_RIGHT(row + 1), grow);
+}
 
 static void
 change_selection(ETableSelectionModel *selection, int start, int end, gboolean grow)
 {
 	int i, last;
 	if (start != end) {
-		i = BOX(start);
-		last = BOX(end);
-				
-		if (i == last) {
-			OPERATE(selection->selection[i], BITMASK_LEFT(start) | BITMASK_RIGHT(end), grow);
+		if (selection->sorter && e_table_sorter_needs_sorting(selection->sorter)) {
+			for ( i = start; i < end; i++) {
+				change_one_row(selection, e_table_sorter_sorted_to_model(selection->sorter, i), grow);
+			}
 		} else {
-			OPERATE(selection->selection[i], BITMASK_LEFT(start), grow);
-			if (grow)
-				for (i ++; i < last; i++)
-					selection->selection[i] = ONES;
-				for (i ++; i < last; i++)
-					selection->selection[i] = 0;
-			OPERATE(selection->selection[i], BITMASK_RIGHT(end), grow);
+			i = BOX(start);
+			last = BOX(end);
+
+			if (i == last) {
+				OPERATE(selection->selection[i], BITMASK_LEFT(start) | BITMASK_RIGHT(end), grow);
+			} else {
+				OPERATE(selection->selection[i], BITMASK_LEFT(start), grow);
+				if (grow)
+					for (i ++; i < last; i++)
+						selection->selection[i] = ONES;
+				else
+					for (i ++; i < last; i++)
+						selection->selection[i] = 0;
+				OPERATE(selection->selection[i], BITMASK_RIGHT(end), grow);
+			}
 		}
 	}
 }
@@ -338,10 +385,21 @@ void             e_table_selection_model_do_something      (ETableSelectionModel
 			int old_end;
 			int new_start;
 			int new_end;
-			old_start = MIN (selection->selection_start_row, selection->cursor_row);
-			old_end = MAX (selection->selection_start_row, selection->cursor_row) + 1;
-			new_start = MIN (selection->selection_start_row, row);
-			new_end = MAX (selection->selection_start_row, row) + 1;
+			if (selection->sorter && e_table_sorter_needs_sorting(selection->sorter)) {
+				old_start = MIN (e_table_sorter_model_to_sorted(selection->sorter, selection->selection_start_row),
+						 e_table_sorter_model_to_sorted(selection->sorter, selection->cursor_row));
+				old_end = MAX (e_table_sorter_model_to_sorted(selection->sorter, selection->selection_start_row),
+					       e_table_sorter_model_to_sorted(selection->sorter, selection->cursor_row)) + 1;
+				new_start = MIN (e_table_sorter_model_to_sorted(selection->sorter, selection->selection_start_row),
+						 e_table_sorter_model_to_sorted(selection->sorter, row));
+				new_end = MAX (e_table_sorter_model_to_sorted(selection->sorter, selection->selection_start_row),
+					       e_table_sorter_model_to_sorted(selection->sorter, row)) + 1;
+			} else {
+				old_start = MIN (selection->selection_start_row, selection->cursor_row);
+				old_end = MAX (selection->selection_start_row, selection->cursor_row) + 1;
+				new_start = MIN (selection->selection_start_row, row);
+				new_end = MAX (selection->selection_start_row, row) + 1;
+			}
 			/* This wouldn't work nearly so smoothly if one end of the selection held in place. */
 			if (old_start < new_start)
 				change_selection(selection, old_start, new_start, FALSE);

@@ -144,6 +144,7 @@ et_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (et->full_header));
 	gtk_object_unref (GTK_OBJECT (et->header));
 	gtk_object_unref (GTK_OBJECT (et->sort_info));
+	gtk_object_unref (GTK_OBJECT (et->sorter));
 	gtk_widget_destroy (GTK_WIDGET (et->header_canvas));
 	gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
 
@@ -187,6 +188,7 @@ e_table_init (GtkObject *object)
 	e_table->drag_source_button_press_event_id = 0;
 	e_table->drag_source_motion_notify_event_id = 0;
 
+	e_table->sorter = NULL;
 	e_table->selection = e_table_selection_model_new();
 	e_table->cursor_loc = E_TABLE_CURSOR_LOC_NONE;
 }
@@ -603,9 +605,6 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 
 	e_table->model = etm;
 	gtk_object_ref (GTK_OBJECT (etm));
-	gtk_object_set (GTK_OBJECT (e_table->selection),
-			"model", etm,
-			NULL);
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
@@ -616,6 +615,13 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	gtk_object_set(GTK_OBJECT(e_table->header),
 		       "sort_info", e_table->sort_info,
 		       NULL);
+
+	e_table->sorter = e_table_sorter_new(etm, e_table->full_header, e_table->sort_info);
+
+	gtk_object_set (GTK_OBJECT (e_table->selection),
+			"model", etm,
+			"sorter", e_table->sorter,
+			NULL);
 
 	if (!no_header) {
 		e_table_setup_header (e_table);

@@ -1,3 +1,12 @@
+2000-08-05  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am, e-table-selection-model.c,
+	e-table-selection-model.h, e-table.c, e-table.h: Made selection
+	ranges work even if the table is sorted.
+
+	* e-table-sorter.c, e-table-sorter.h: New files to help with
+	making selection ranges work even if sorted.
+
 2000-08-04  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table.c, e-table.h: Built code to have autodrags only work

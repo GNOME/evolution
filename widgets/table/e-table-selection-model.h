@@ -5,6 +5,7 @@
 #include <gtk/gtkobject.h>
 #include "widgets/e-table/e-table-model.h"
 #include "widgets/e-table/e-table-defines.h"
+#include "widgets/e-table/e-table-sorter.h"
 
 #define E_TABLE_SELECTION_MODEL_TYPE        (e_table_selection_model_get_type ())
 #define E_TABLE_SELECTION_MODEL(o)          (GTK_CHECK_CAST ((o), E_TABLE_SELECTION_MODEL_TYPE, ETableSelectionModel))
@@ -13,9 +14,10 @@
 #define E_IS_TABLE_SELECTION_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SELECTION_MODEL_TYPE))
 
 typedef struct {
-	GtkObject   base;
+	GtkObject     base;
 
-	ETableModel *model;
+	ETableModel  *model;
+	ETableSorter *sorter;
 
 	gint row_count;
         guint32 *selection;
