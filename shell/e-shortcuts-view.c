@@ -141,7 +141,7 @@ hide_shortcut_bar_cb (GtkWidget *widget,
 
 	shortcut_view = E_SHORTCUTS_VIEW (menu_data->shortcuts_view);
 
-	gtk_signal_emit (GTK_OBJECT (shortcut_view), signals[HIDE_REQUESTED]);
+	g_signal_emit (shortcut_view, signals[HIDE_REQUESTED], 0);
 }
 
 static void
@@ -172,7 +172,7 @@ destroy_group_cb (GtkWidget *widget,
 	shortcuts = priv->shortcuts;
 
 	title = e_utf8_to_locale_string (e_shortcuts_get_group_title (
-	                                 shortcuts, menu_data->group_num));
+						 shortcuts, menu_data->group_num));
 	question = g_strdup_printf (_("Do you really want to remove group\n"
 	                              "`%s' from the shortcut bar?"), title);
 	g_free (title);
@@ -340,8 +340,8 @@ open_shortcut_helper (ShortcutRightClickMenuData *menu_data,
 	if (shortcut_item == NULL)
 		return;
 
-	gtk_signal_emit (GTK_OBJECT (shortcuts_view), signals[ACTIVATE_SHORTCUT],
-			 shortcuts, shortcut_item->uri, in_new_window);
+	g_signal_emit (shortcuts_view, signals[ACTIVATE_SHORTCUT], 0,
+		       shortcuts, shortcut_item->uri, in_new_window);
 }
 
 static void
@@ -414,7 +414,7 @@ static GnomeUIInfo shortcut_right_click_menu_uiinfo[] = {
 				open_shortcut_in_new_window_cb),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("_Rename"), N_("Rename this shortcut"),
-				rename_shortcut_cb),
+			       rename_shortcut_cb),
 	GNOMEUIINFO_ITEM_STOCK (N_("Re_move"), N_("Remove this shortcut from the shortcut bar"),
 				remove_shortcut_cb, GTK_STOCK_REMOVE),
 	GNOMEUIINFO_END
@@ -517,8 +517,8 @@ item_selected (EShortcutBar *shortcut_bar,
 	if (shortcut_item == NULL)
 		return;
 
-	gtk_signal_emit (GTK_OBJECT (shortcuts_view), signals[ACTIVATE_SHORTCUT],
-			 shortcuts, shortcut_item->uri, FALSE);
+	g_signal_emit (shortcuts_view, signals[ACTIVATE_SHORTCUT], 0,
+		       shortcuts, shortcut_item->uri, FALSE);
 }
 
 static void

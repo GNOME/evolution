@@ -1,5 +1,23 @@
 2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-folder-list.c: Replace gtk_signal_emit() with g_signal_emit().
+	* e-folder.c: Likewise.
+	* e-shell-folder-selection-dialog.c: Likewise.
+	* e-shell-folder-title-bar.c: Likewise.
+	* e-shell-offline-handler.c: Likewise.
+	* e-shell-view.c: Likewise.
+	* e-shortcuts-view.c: Likewise.
+	* e-shortcuts.c: Likewise.
+	* e-storage-set-view.c: Likewise.
+	* e-storage-set.c: Likewise.
+	* e-storage.c: Likewise.
+	* evolution-activity-client.c: Likewise.
+	* evolution-folder-selector-button.c: Likewise.
+	* evolution-storage-listener.c: Likewise.
+	* evolution-storage-set-view-listener.c: Likewise.
+
+2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-folder-list.c: Use g_object_set_data() instead of
 	gtk_object_set_data().
 	* e-shell-config-default-folders.c: Likewise.

@@ -212,7 +212,7 @@ impl_OfflineProgressListener_updateProgress (PortableServer_Servant servant,
 	update_dialog_clist (offline_handler);
 
 	if (priv->num_total_connections == 0 && ! priv->finished) {
-		gtk_signal_emit (GTK_OBJECT (offline_handler), signals[OFFLINE_PROCEDURE_FINISHED], TRUE);
+		g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_FINISHED], 0, TRUE);
 		priv->finished = TRUE;
 	}
 }
@@ -372,7 +372,7 @@ cancel_offline (EShellOfflineHandler *offline_handler)
 	priv->num_total_connections = 0;
 
 	if (! priv->finished) {
-		gtk_signal_emit (GTK_OBJECT (offline_handler), signals[OFFLINE_PROCEDURE_FINISHED], FALSE);
+		g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_FINISHED], 0, FALSE);
 		priv->finished = TRUE;
 	}
 }
@@ -505,7 +505,7 @@ finalize_offline (EShellOfflineHandler *offline_handler)
 
 	if (priv->num_total_connections == 0 && ! priv->finished) {
 		/* Nothing else to do, we are all set.  */
-		gtk_signal_emit (GTK_OBJECT (offline_handler), signals[OFFLINE_PROCEDURE_FINISHED], TRUE);
+		g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_FINISHED], 0, TRUE);
 		priv->finished = TRUE;
 	}
 
@@ -819,14 +819,14 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 
 	g_object_ref (offline_handler);
 
-	gtk_signal_emit (GTK_OBJECT (offline_handler), signals[OFFLINE_PROCEDURE_STARTED]);
+	g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_STARTED], 0);
 
 	priv->finished = FALSE;
 
 	if (! prepare_for_offline (offline_handler)) {
 		/* FIXME: Maybe do something smarter here.  */
 		g_warning ("Couldn't put components off-line");
-		gtk_signal_emit (GTK_OBJECT (offline_handler), signals[OFFLINE_PROCEDURE_FINISHED], FALSE);
+		g_signal_emit (offline_handler, signals[OFFLINE_PROCEDURE_FINISHED], 0, FALSE);
 		priv->finished = TRUE;
 		g_object_unref (offline_handler);
 		return;

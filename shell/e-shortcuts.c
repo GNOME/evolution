@@ -237,13 +237,13 @@ update_shortcut_and_emit_signal (EShortcuts *shortcuts,
 	/* Only thing that changed was the unread count */
 	if (shortcut_item->unread_count != unread_count
 	    && !shortcut_item_update (shortcut_item, uri, name, unread_count, type, custom_icon_name)) {
-		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
+		g_signal_emit (shortcuts, signals[UPDATE_SHORTCUT], 0, group_num, num);
 		return FALSE;
 	}
 
 	/* Unread count is the same, but other stuff changed */
 	else if (shortcut_item_update (shortcut_item, uri, name, unread_count, type, custom_icon_name)) {
-		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
+		g_signal_emit (shortcuts, signals[UPDATE_SHORTCUT], 0, group_num, num);
 		return TRUE;
 	}
 
@@ -265,7 +265,7 @@ unload_shortcuts (EShortcuts *shortcuts)
 	for (p = priv->groups; p != NULL; p = p->next) {
 		ShortcutGroup *group;
 
-		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[REMOVE_GROUP], 0);
+		g_signal_emit (shortcuts, signals[REMOVE_GROUP], 0, 0);
 
 		group = (ShortcutGroup *) p->data;
 
@@ -968,7 +968,7 @@ e_shortcuts_remove_shortcut (EShortcuts *shortcuts,
 	p = g_slist_nth (group->shortcuts, num);
 	g_return_if_fail (p != NULL);
 
-	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[REMOVE_SHORTCUT], group_num, num);
+	g_signal_emit (shortcuts, signals[REMOVE_SHORTCUT], 0, group_num, num);
 
 	item = (EShortcutItem *) p->data;
 	shortcut_item_free (item);
@@ -1010,7 +1010,7 @@ e_shortcuts_add_shortcut (EShortcuts *shortcuts,
 
 	group->shortcuts = g_slist_insert (group->shortcuts, item, num);
 
-	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[NEW_SHORTCUT], group_num, num);
+	g_signal_emit (shortcuts, signals[NEW_SHORTCUT], 0, group_num, num);
 
 	make_dirty (shortcuts);
 }
@@ -1096,7 +1096,7 @@ e_shortcuts_remove_group (EShortcuts *shortcuts,
 	p = g_slist_nth (priv->groups, group_num);
 	g_return_if_fail (p != NULL);
 
-	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[REMOVE_GROUP], group_num);
+	g_signal_emit (shortcuts, signals[REMOVE_GROUP], 0, group_num);
 
 	shortcut_group_free ((ShortcutGroup *) p->data);
 
@@ -1130,7 +1130,7 @@ e_shortcuts_rename_group (EShortcuts *shortcuts,
 	} else
 		return;
 
-	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[RENAME_GROUP], group_num, new_title);
+	g_signal_emit (shortcuts, signals[RENAME_GROUP], 0, group_num, new_title);
 
 	make_dirty (shortcuts);
 }
@@ -1156,7 +1156,7 @@ e_shortcuts_add_group (EShortcuts *shortcuts,
 	priv->groups = g_slist_insert (priv->groups, group, group_num);
 	priv->num_groups ++;
 
-	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[NEW_GROUP], group_num);
+	g_signal_emit (shortcuts, signals[NEW_GROUP], 0, group_num);
 
 	make_dirty (shortcuts);
 }
@@ -1206,8 +1206,7 @@ e_shortcuts_set_group_uses_small_icons  (EShortcuts *shortcuts,
 	use_small_icons = !! use_small_icons;
 	if (group->use_small_icons != use_small_icons) {
 		group->use_small_icons = use_small_icons;
-		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[GROUP_CHANGE_ICON_SIZE],
-				 group_num, use_small_icons);
+		g_signal_emit (shortcuts, signals[GROUP_CHANGE_ICON_SIZE], 0, group_num, use_small_icons);
 
 		make_dirty (shortcuts);
 	}

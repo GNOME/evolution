@@ -69,7 +69,7 @@ impl_GNOME_Evolution_StorageSetViewListener_notifyFolderSelected (PortableServer
 
 	listener = gtk_object_from_servant (servant);
 
-	gtk_signal_emit (GTK_OBJECT (listener), signals[FOLDER_SELECTED], uri);
+	g_signal_emit (listener, signals[FOLDER_SELECTED], 0, uri);
 }
 
 static void
@@ -80,7 +80,7 @@ impl_GNOME_Evolution_StorageSetViewListener_notifyFolderToggled (PortableServer_
 
 	listener = gtk_object_from_servant (servant);
 
-	gtk_signal_emit (GTK_OBJECT (listener), signals[FOLDER_TOGGLED]);
+	g_signal_emit (listener, signals[FOLDER_TOGGLED], 0);
 }
 
 static EvolutionStorageSetViewListenerServant *

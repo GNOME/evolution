@@ -1142,7 +1142,7 @@ impl_tree_drag_motion (ETree *tree,
 		return FALSE;
 
 	folder_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model),
-					    e_tree_node_at_row (E_TREE (storage_set_view), row));
+						   e_tree_node_at_row (E_TREE (storage_set_view), row));
 	if (folder_path == NULL)
 		return FALSE;
 
@@ -1244,14 +1244,11 @@ impl_right_click (ETree *etree,
 	priv->right_click_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path));
 
 	if (priv->ui_container) {
-		gtk_signal_emit (GTK_OBJECT (storage_set_view),
-				 signals[FOLDER_CONTEXT_MENU_POPPING_UP],
-				 priv->right_click_row_path);
+		g_signal_emit (storage_set_view, signals[FOLDER_CONTEXT_MENU_POPPING_UP], 0, priv->right_click_row_path);
 
 		popup_folder_menu (storage_set_view, (GdkEventButton *) event);
 
-		gtk_signal_emit (GTK_OBJECT (storage_set_view),
-				 signals[FOLDER_CONTEXT_MENU_POPPED_DOWN]);
+		g_signal_emit (storage_set_view, signals[FOLDER_CONTEXT_MENU_POPPED_DOWN], 0);
 	}
 
 	g_free (priv->right_click_row_path);
@@ -1276,8 +1273,8 @@ impl_cursor_activated (ETree *tree,
 	if (path) {
 		priv->selected_row_path = g_strdup (e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path));
 
-		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
-				 priv->selected_row_path);
+		g_signal_emit (storage_set_view, signals[FOLDER_SELECTED], 0,
+			       priv->selected_row_path);
 	}
 	else
 		priv->selected_row_path = NULL;
@@ -1473,8 +1470,7 @@ etree_fill_in_children (ETreeModel *etree,
 	parent = e_tree_model_node_get_parent (etree, tree_path);
 	path = (char *) e_tree_memory_node_get_data (E_TREE_MEMORY(etree), parent);
 	if (tree_path == e_tree_model_node_get_first_child (etree, parent)) {
-		gtk_signal_emit (GTK_OBJECT (storage_set_view),
-				 signals[FOLDER_OPENED], path);
+		g_signal_emit (storage_set_view, signals[FOLDER_OPENED], 0, path);
 	}
 }
 
@@ -1518,8 +1514,7 @@ etree_set_value_at (ETreeModel *etree,
 		}
 
 		e_tree_model_node_col_changed (etree, tree_path, col);
-		gtk_signal_emit (GTK_OBJECT (storage_set_view),
-				 signals[CHECKBOXES_CHANGED]);
+		g_signal_emit (storage_set_view, signals[CHECKBOXES_CHANGED], 0);
 		break;
 	}
 }
@@ -2207,7 +2202,7 @@ e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 	g_free (priv->selected_row_path);
 	priv->selected_row_path = g_strdup (path);
 
-	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED], path);
+	g_signal_emit (storage_set_view, signals[FOLDER_SELECTED], 0, path);
 }
 
 const char *

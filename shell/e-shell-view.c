@@ -2359,11 +2359,11 @@ display_uri (EShellView *shell_view,
 
 	bonobo_ui_engine_thaw (bonobo_window_get_ui_engine (BONOBO_WINDOW (shell_view)));
 
-	gtk_signal_emit (GTK_OBJECT (shell_view), signals[VIEW_CHANGED],
-			 e_shell_view_get_current_path (shell_view),
-			 e_shell_view_get_current_uri (shell_view),
-			 e_shell_view_get_current_folder_type (shell_view),
-			 e_shell_view_get_current_component_id (shell_view));
+	g_signal_emit (shell_view, signals[VIEW_CHANGED], 0,
+		       e_shell_view_get_current_path (shell_view),
+		       e_shell_view_get_current_uri (shell_view),
+		       e_shell_view_get_current_folder_type (shell_view),
+		       e_shell_view_get_current_component_id (shell_view));
 
 	g_free (allocated_uri);
 
@@ -2413,8 +2413,8 @@ e_shell_view_show_shortcut_bar (EShellView *shell_view,
 
 	priv->shortcut_bar_shown = !! show;
 
-	gtk_signal_emit (GTK_OBJECT (shell_view), signals[SHORTCUT_BAR_VISIBILITY_CHANGED],
-			 priv->shortcut_bar_shown);
+	g_signal_emit (shell_view, signals[SHORTCUT_BAR_VISIBILITY_CHANGED], 0,
+		       priv->shortcut_bar_shown);
 }
 
 void
@@ -2458,8 +2458,8 @@ e_shell_view_show_folder_bar (EShellView *shell_view,
 
         priv->folder_bar_shown = !! show;
 
-	gtk_signal_emit (GTK_OBJECT (shell_view), signals[FOLDER_BAR_VISIBILITY_CHANGED],
-			 priv->folder_bar_shown);
+	g_signal_emit (shell_view, signals[FOLDER_BAR_VISIBILITY_CHANGED], 0,
+		       priv->folder_bar_shown);
 }
 
 void

@@ -159,8 +159,7 @@ clicked (GtkButton *button)
 	else
 		initial_uri = "";
 
-	gtk_signal_emit (GTK_OBJECT (folder_selector_button),
-			 signals[POPPED_UP]);
+	g_signal_emit (folder_selector_button, signals[POPPED_UP], 0);
 
 	evolution_shell_client_user_select_folder (priv->shell_client,
 						   parent_window,
@@ -185,15 +184,13 @@ clicked (GtkButton *button)
 	g_object_unref (parent_window);
 
 	if (!return_folder) {
-		gtk_signal_emit (GTK_OBJECT (folder_selector_button),
-			 	signals[CANCELED]);
+		g_signal_emit (folder_selector_button, signals[CANCELED], 0);
 		return;
 	}
 
 	set_folder (folder_selector_button, return_folder);
 
-	gtk_signal_emit (GTK_OBJECT (folder_selector_button),
-			 signals[SELECTED], return_folder);
+	g_signal_emit (folder_selector_button, signals[SELECTED], 0, return_folder);
 }
 
 

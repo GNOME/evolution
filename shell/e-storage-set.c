@@ -170,10 +170,8 @@ storage_callback (EStorage *storage,
 								storage_callback_data->data);
 
 	if (storage_callback_data->operation == OPERATION_MOVE)
-		gtk_signal_emit (GTK_OBJECT (storage_callback_data->storage_set),
-				 signals[MOVED_FOLDER],
-				 storage_callback_data->source_path,
-				 storage_callback_data->destination_path);
+		g_signal_emit (storage_callback_data->storage_set, signals[MOVED_FOLDER], 0,
+			       storage_callback_data->source_path, storage_callback_data->destination_path);
 
 	storage_callback_data_free (storage_callback_data);
 }
@@ -214,7 +212,7 @@ storage_new_folder_cb (EStorage *storage,
 	storage_set = E_STORAGE_SET (data);
 
 	full_path = make_full_path (storage, path);
-	gtk_signal_emit (GTK_OBJECT (storage_set), signals[NEW_FOLDER], full_path);
+	g_signal_emit (storage_set, signals[NEW_FOLDER], 0, full_path);
 	g_free (full_path);
 }
 
@@ -229,7 +227,7 @@ storage_updated_folder_cb (EStorage *storage,
 	storage_set = E_STORAGE_SET (data);
 
 	full_path = make_full_path (storage, path);
-	gtk_signal_emit (GTK_OBJECT (storage_set), signals[UPDATED_FOLDER], full_path);
+	g_signal_emit (storage_set, signals[UPDATED_FOLDER], 0, full_path);
 	g_free (full_path);
 }
 
@@ -244,7 +242,7 @@ storage_removed_folder_cb (EStorage *storage,
 	storage_set = E_STORAGE_SET (data);
 
 	full_path = make_full_path (storage, path);
-	gtk_signal_emit (GTK_OBJECT (storage_set), signals[REMOVED_FOLDER], full_path);
+	g_signal_emit (storage_set, signals[REMOVED_FOLDER], 0, full_path);
 	g_free (full_path);
 }
 
@@ -259,7 +257,7 @@ storage_close_folder_cb (EStorage *storage,
 	storage_set = E_STORAGE_SET (data);
 
 	full_path = make_full_path (storage, path);
-	gtk_signal_emit (GTK_OBJECT (storage_set), signals[CLOSE_FOLDER], full_path);
+	g_signal_emit (storage_set, signals[CLOSE_FOLDER], 0, full_path);
 	g_free (full_path);
 }
 
@@ -310,7 +308,7 @@ signal_new_folder_for_all_folders_under_paths (EStorageSet *storage_set,
 		path = (const char *) p->data;
 
 		path_with_storage = g_strconcat (E_PATH_SEPARATOR_S, e_storage_get_name (storage), path, NULL);
-		gtk_signal_emit (GTK_OBJECT (storage_set), signals[NEW_FOLDER], path_with_storage);
+		g_signal_emit (storage_set, signals[NEW_FOLDER], 0, path_with_storage);
 		g_free (path_with_storage);
 
 		sub_path_list = e_storage_get_subfolder_paths (storage, path);
@@ -534,7 +532,7 @@ e_storage_set_add_storage (EStorageSet *storage_set,
 	named_storage = named_storage_new (storage);
 	g_hash_table_insert (priv->name_to_named_storage, named_storage->name, named_storage);
 
-	gtk_signal_emit (GTK_OBJECT (storage_set), signals[NEW_STORAGE], storage);
+	g_signal_emit (storage_set, signals[NEW_STORAGE], 0, storage);
 
 	signal_new_folder_for_all_folders_in_storage (storage_set, storage);
 
@@ -565,7 +563,7 @@ e_storage_set_remove_storage (EStorageSet *storage_set,
 
 	priv->storages = g_list_remove (priv->storages, storage);
 
-	gtk_signal_emit (GTK_OBJECT (storage_set), signals[REMOVED_STORAGE], storage);
+	g_signal_emit (storage_set, signals[REMOVED_STORAGE], 0, storage);
 	g_object_unref (storage);
 
 	return TRUE;
@@ -587,7 +585,7 @@ e_storage_set_remove_all_storages (EStorageSet *storage_set)
 
 		storage = E_STORAGE (p->data);
 
-		gtk_signal_emit (GTK_OBJECT (storage_set), signals[REMOVED_STORAGE], storage);
+		g_signal_emit (storage_set, signals[REMOVED_STORAGE], 0, storage);
 		g_object_unref (storage);
 	}
 

@@ -74,7 +74,7 @@ impl_GNOME_Evolution_StorageListener_notifyDestroyed (PortableServer_Servant ser
 	listener = gtk_object_from_servant (servant);
 	priv = listener->priv;
 
-	gtk_signal_emit (GTK_OBJECT (listener), signals[DESTROYED]);
+	g_signal_emit (listener, signals[DESTROYED], 0);
 }
 
 static void
@@ -89,7 +89,7 @@ impl_GNOME_Evolution_StorageListener_notifyFolderCreated (PortableServer_Servant
 	listener = gtk_object_from_servant (servant);
 	priv = listener->priv;
 
-	gtk_signal_emit (GTK_OBJECT (listener), signals[NEW_FOLDER], path, folder);
+	g_signal_emit (listener, signals[NEW_FOLDER], 0, path, folder);
 }
 
 static void
@@ -104,8 +104,7 @@ impl_GNOME_Evolution_StorageListener_notifyFolderUpdated (PortableServer_Servant
 	listener = gtk_object_from_servant (servant);
 	priv = listener->priv;
 
-	gtk_signal_emit (GTK_OBJECT (listener), signals[UPDATE_FOLDER], path,
-			 unread_count);
+	g_signal_emit (listener, signals[UPDATE_FOLDER], 0, path, unread_count);
 }
 
 static void
@@ -119,7 +118,7 @@ impl_GNOME_Evolution_StorageListener_notifyFolderRemoved (PortableServer_Servant
 	listener = gtk_object_from_servant (servant);
 	priv = listener->priv;
 
-	gtk_signal_emit (GTK_OBJECT (listener), signals[REMOVED_FOLDER], path);
+	g_signal_emit (listener, signals[REMOVED_FOLDER], 0, path);
 }
 
 static void
@@ -134,7 +133,7 @@ impl_GNOME_Evolution_StorageListener_notifyHasSubfolders (PortableServer_Servant
 	listener = gtk_object_from_servant (servant);
 	priv = listener->priv;
 
-	gtk_signal_emit (GTK_OBJECT (listener), signals[HAS_SUBFOLDERS], path, message);
+	g_signal_emit (listener, signals[HAS_SUBFOLDERS], 0, path, message);
 }
 
 static EvolutionStorageListenerServant *

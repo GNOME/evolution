@@ -147,9 +147,9 @@ listener_callback (BonoboListener *listener,
 	activity_client = EVOLUTION_ACTIVITY_CLIENT (data);
 
 	if (strcmp (event_name, "ShowDetails") == 0)
-		gtk_signal_emit (GTK_OBJECT (activity_client), signals[SHOW_DETAILS]);
+		g_signal_emit (activity_client, signals[SHOW_DETAILS], 0);
 	else if (strcmp (event_name, "Cancel") == 0)
-		gtk_signal_emit (GTK_OBJECT (activity_client), signals[CANCEL]);
+		g_signal_emit (activity_client, signals[CANCEL], 0);
 	else
 		g_warning ("EvolutionActivityClient: Unknown event from listener -- %s", event_name);
 }

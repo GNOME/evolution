@@ -133,7 +133,7 @@ create_display_string (EFolderList *efl, char *folder_uri, char *folder_name)
 static void
 e_folder_list_changed (EFolderList *efl)
 {
-	gtk_signal_emit (GTK_OBJECT (efl), signals[CHANGED]);
+	g_signal_emit (efl, signals[CHANGED], 0);
 }
 
 static void
@@ -375,7 +375,7 @@ remove_clicked (GtkButton *button, EFolderList *efl)
 static void
 optionmenu_changed (EOptionMenu *option_menu, int value, EFolderList *efl)
 {
-	gtk_signal_emit (GTK_OBJECT (efl), signals[OPTION_MENU_CHANGED], value);
+	g_signal_emit (efl, signals[OPTION_MENU_CHANGED], 0, value);
 }
 
 static void

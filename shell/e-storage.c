@@ -110,7 +110,7 @@ folder_changed_cb (EFolder *folder,
 	path = e_folder_tree_get_path_for_data (priv->folder_tree, folder);
 	g_assert (path != NULL);
 
-	gtk_signal_emit (GTK_OBJECT (storage), signals[UPDATED_FOLDER], path);
+	g_signal_emit (storage, signals[UPDATED_FOLDER], 0, path);
 
 	highlight = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (folder), "last_highlight"));
 	if (highlight != e_folder_get_highlighted (folder)) {
@@ -711,7 +711,7 @@ e_storage_new_folder (EStorage *storage,
 
 	g_signal_connect_object (e_folder, "changed", G_CALLBACK (folder_changed_cb), storage, 0);
 
-	gtk_signal_emit (GTK_OBJECT (storage), signals[NEW_FOLDER], path);
+	g_signal_emit (storage, signals[NEW_FOLDER], 0, path);
 
 	folder_changed_cb (e_folder, storage);
 
@@ -736,7 +736,7 @@ e_storage_has_subfolders (EStorage *storage,
 
 	priv = storage->priv;
 
-	gtk_signal_emit (GTK_OBJECT (storage), signals[CLOSE_FOLDER], path);
+	g_signal_emit (storage, signals[CLOSE_FOLDER], 0, path);
 
 	if (g_hash_table_lookup (priv->pseudofolders, path))
 		return TRUE;
@@ -794,7 +794,7 @@ e_storage_removed_folder (EStorage *storage,
 		g_free (parent_path);
 	}
 
-	gtk_signal_emit (GTK_OBJECT (storage), signals[REMOVED_FOLDER], path);
+	g_signal_emit (storage, signals[REMOVED_FOLDER], 0, path);
 
 	e_folder_tree_remove (priv->folder_tree, path);
 

@@ -51,7 +51,7 @@ struct _EFolderPrivate {
 	   priority value are compared by name, while folders with a higher
 	   priority number always come after the folders with a lower priority
 	   number.  */
-	 int sorting_priority;
+	int sorting_priority;
 
 	unsigned int self_highlight : 1;
 	unsigned int is_stock : 1;
@@ -342,8 +342,8 @@ e_folder_set_name (EFolder *folder,
 	g_free (folder->priv->name);
 	folder->priv->name = g_strdup (name);
 
-	gtk_signal_emit (GTK_OBJECT (folder), signals[NAME_CHANGED]);
-	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+	g_signal_emit (folder, signals[NAME_CHANGED], 0);
+	g_signal_emit (folder, signals[CHANGED], 0);
 }
 
 void
@@ -357,7 +357,7 @@ e_folder_set_type_string (EFolder *folder,
 	g_free (folder->priv->type);
 	folder->priv->type = g_strdup (type);
 
-	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+	g_signal_emit (folder, signals[CHANGED], 0);
 }
 
 void
@@ -371,7 +371,7 @@ e_folder_set_description (EFolder *folder,
 	g_free (folder->priv->description);
 	folder->priv->description = g_strdup (description);
 
-	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+	g_signal_emit (folder, signals[CHANGED], 0);
 }
 
 void
@@ -388,7 +388,7 @@ e_folder_set_physical_uri (EFolder *folder,
 	g_free (folder->priv->physical_uri);
 	folder->priv->physical_uri = g_strdup (physical_uri);
 
-	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+	g_signal_emit (folder, signals[CHANGED], 0);
 }
 
 void
@@ -400,7 +400,7 @@ e_folder_set_unread_count (EFolder *folder,
 
 	folder->priv->unread_count = unread_count;
 
-	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+	g_signal_emit (folder, signals[CHANGED], 0);
 }
 
 void
@@ -415,7 +415,7 @@ e_folder_set_child_highlight (EFolder *folder,
 	else
 		folder->priv->child_highlight--;
 
-	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+	g_signal_emit (folder, signals[CHANGED], 0);
 }
 
 void
@@ -427,7 +427,7 @@ e_folder_set_is_stock (EFolder *folder,
 
 	folder->priv->is_stock = !! is_stock;
 
-	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+	g_signal_emit (folder, signals[CHANGED], 0);
 }
 
 void
@@ -438,7 +438,7 @@ e_folder_set_can_sync_offline (EFolder *folder,
 
 	folder->priv->can_sync_offline = !! can_sync_offline;
 
-	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+	g_signal_emit (folder, signals[CHANGED], 0);
 }
 
 /**
@@ -464,7 +464,7 @@ e_folder_set_custom_icon (EFolder *folder,
 		g_free (folder->priv->custom_icon_name);
 		folder->priv->custom_icon_name = g_strdup (icon_name);
 
-		gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+		g_signal_emit (folder, signals[CHANGED], 0);
 	}
 }
 
@@ -490,7 +490,7 @@ e_folder_set_sorting_priority (EFolder *folder,
 
 	folder->priv->sorting_priority = sorting_priority;
 
-	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+	g_signal_emit (folder, signals[CHANGED], 0);
 }
 
 

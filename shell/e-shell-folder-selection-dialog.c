@@ -216,13 +216,13 @@ impl_clicked (GnomeDialog *dialog,
 	switch (button_number) {
 	case 0:			/* OK */
 		if (check_folder_type_valid (folder_selection_dialog)) {
-			gtk_signal_emit (GTK_OBJECT (folder_selection_dialog), signals[FOLDER_SELECTED],
-					 e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
+			g_signal_emit (folder_selection_dialog, signals[FOLDER_SELECTED], 0,
+				       e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
 			gnome_dialog_close (GNOME_DIALOG (dialog));
 		}
 		break;
 	case 1:			/* Cancel */
-		gtk_signal_emit (GTK_OBJECT (folder_selection_dialog), signals[CANCELLED]);
+		g_signal_emit (folder_selection_dialog, signals[CANCELLED], 0);
 		gnome_dialog_close (GNOME_DIALOG (dialog));
 		break;
 	case 2:			/* Add */
@@ -324,7 +324,7 @@ delete_event_cb (GtkWidget *w, GdkEvent *event, gpointer data)
 {
 	EShellFolderSelectionDialog *dialog = data;
 
-	gtk_signal_emit (GTK_OBJECT (dialog), signals[CANCELLED]);
+	g_signal_emit (dialog, signals[CANCELLED], 0);
 
 	return TRUE;
 }
@@ -340,9 +340,8 @@ double_click_cb (EStorageSetView *essv,
 	g_return_if_fail (folder_selection_dialog != NULL);
 
 	if (check_folder_type_valid (folder_selection_dialog)) {
-		gtk_signal_emit (GTK_OBJECT (folder_selection_dialog),
-				 signals[FOLDER_SELECTED],
-				 e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
+		g_signal_emit (folder_selection_dialog, signals[FOLDER_SELECTED], 0,
+			       e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
 		gnome_dialog_close (GNOME_DIALOG (folder_selection_dialog));
 	}
 }

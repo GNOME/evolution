@@ -315,7 +315,7 @@ back_button_clicked_callback (GtkButton *button,
 
 	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (data);
 
-	gtk_signal_emit (GTK_OBJECT (folder_title_bar), signals[BACK_CLICKED]);
+	g_signal_emit (folder_title_bar, signals[BACK_CLICKED], 0);
 }
 
 static void
@@ -326,7 +326,7 @@ forward_button_clicked_callback (GtkButton *button,
 
 	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (data);
 
-	gtk_signal_emit (GTK_OBJECT (folder_title_bar), signals[FORWARD_CLICKED]);
+	g_signal_emit (folder_title_bar, signals[FORWARD_CLICKED], 0);
 }
 
 static void
@@ -375,9 +375,8 @@ title_button_toggled_cb (GtkToggleButton *title_button,
 	EShellFolderTitleBar *folder_title_bar;
 
 	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (data);
-	gtk_signal_emit (GTK_OBJECT (folder_title_bar),
-			 signals[TITLE_TOGGLED],
-			 gtk_toggle_button_get_active (title_button));
+	g_signal_emit (folder_title_bar, signals[TITLE_TOGGLED], 0,
+		       gtk_toggle_button_get_active (title_button));
 }
 
 
