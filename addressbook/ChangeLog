@@ -1,6 +1,11 @@
 2004-01-12  JP Rosevear <jpr@ximian.com>
 
 	* gui/component/addressbook-component.c (impl_upgradeFromVersion):
+	revert dumb upgrade change
+
+2004-01-12  JP Rosevear <jpr@ximian.com>
+
+	* gui/component/addressbook-component.c (impl_upgradeFromVersion):
 	migrate from 1.5.0 and 1.5.1 properly
 
 2004-01-12  JP Rosevear  <jpr@ximian.com>
