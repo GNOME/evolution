@@ -1,4 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
+AC_PREREQ(2.52)
+
 AC_INIT(src)
 AM_INIT_AUTOMAKE(libical-evolution,0.23a) 
 AM_CONFIG_HEADER(config.h)
