@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include "e-addressbook-util.h"
+#include "ebook/e-destination.h"
 
 #include <gnome.h>
 
@@ -370,7 +371,6 @@ e_addressbook_transfer_cards (EBook *source, GList *cards /* adopted */, gboolea
 void
 e_addressbook_send_card_list (GList *cards, EAddressbookDisposition disposition)
 {
-#if PENDING_PORT_WORK
 	GNOME_Evolution_Composer composer_server;
 	CORBA_Environment ev;
 
@@ -617,7 +617,6 @@ e_addressbook_send_card_list (GList *cards, EAddressbookDisposition disposition)
 	}
 
 	CORBA_exception_free (&ev);
-#endif
 }
 
 void
