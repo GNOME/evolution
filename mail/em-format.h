@@ -37,6 +37,7 @@ struct _CamelSession;
 struct _CamelURL;
 struct _CamelDataWrapper;
 struct _CamelMimeMessage;
+struct _CamelCipherValidity;
 
 typedef struct _EMFormat EMFormat;
 typedef struct _EMFormatClass EMFormatClass;
@@ -114,6 +115,10 @@ struct _EMFormat {
 
 	const char *snoop_mime_type; /* if we snooped an application/octet-stream type, what we snooped */
 
+	/* for validity enveloping */
+	struct _CamelCipherValidity *valid;
+	struct _CamelCipherValidity *valid_parent;
+
 	/* for forcing inlining */
 	GHashTable *inline_table;
 
@@ -153,6 +158,8 @@ struct _EMFormatClass {
 	void (*format_message)(EMFormat *, struct _CamelStream *, struct _CamelMedium *);
 	/* use for unparsable content */
 	void (*format_source)(EMFormat *, struct _CamelStream *, struct _CamelMimePart *);
+	/* for outputing secure(d) content */
+	void (*format_secure)(EMFormat *, struct _CamelStream *, struct _CamelMimePart *, struct _CamelCipherValidity *);
 
 	/* returns true if the formatter is still busy with pending stuff */
 	gboolean (*busy)(EMFormat *);
@@ -212,6 +219,7 @@ void em_format_pull_level(EMFormat *emf);
 #define em_format_format_attachment(emf, stream, msg, type, info) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_attachment((emf), (stream), (msg), (type), (info))
 #define em_format_format_message(emf, stream, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_message((emf), (stream), (msg))
 #define em_format_format_source(emf, stream, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_source((emf), (stream), (msg))
+#define em_format_format_secure(emf, stream, msg, valid) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_secure((emf), (stream), (msg), (valid))
 
 #define em_format_busy(emf) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->busy((emf))
 

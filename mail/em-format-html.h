@@ -106,9 +106,6 @@ struct _EMFormatHTML {
 
 	EDList pending_object_list;
 
-	struct _CamelCipherValidity *valid;
-	struct _CamelCipherValidity *valid_parent;
-
 	GSList *headers;
 
 	guint32 text_html_flags; /* default flags for text to html conversion */

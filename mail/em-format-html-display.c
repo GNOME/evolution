@@ -64,10 +64,9 @@
 #include <camel/camel-mime-filter-tohtml.h>
 #include <camel/camel-mime-part.h>
 #include <camel/camel-multipart.h>
-#include <camel/camel-multipart-signed.h>
 #include <camel/camel-internet-address.h>
 #include <camel/camel-mime-message.h>
-#include <camel/camel-gpg-context.h>
+#include <camel/camel-cipher-context.h>
 
 /* should this be in e-util rather than gal? */
 #include <gal/util/e-util.h>
@@ -76,8 +75,7 @@
 #include <e-util/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
 
-#if defined(HAVE_NSS)
-#include <camel/camel-smime-context.h>
+#ifdef HAVE_NSS
 #include "certificate-viewer.h"
 #include "e-cert-db.h"
 #endif
@@ -137,6 +135,7 @@ static void efhd_format_error(EMFormat *emf, CamelStream *stream, const char *tx
 static void efhd_format_message(EMFormat *, CamelStream *, CamelMedium *);
 static void efhd_format_source(EMFormat *, CamelStream *, CamelMimePart *);
 static void efhd_format_attachment(EMFormat *, CamelStream *, CamelMimePart *, const char *, const EMFormatHandler *);
+static void efhd_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid);
 static void efhd_complete(EMFormat *);
 
 static gboolean efhd_bonobo_object(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
@@ -156,6 +155,7 @@ static guint efhd_signals[EFHD_LAST_SIGNAL] = { 0 };
 /* EMFormatHandler's for bonobo objects */
 static GHashTable *efhd_bonobo_handlers;
 static EMFormatHTMLClass *efhd_parent;
+static EMFormatClass *efhd_format_class;
 
 static void
 efhd_gtkhtml_realise(GtkHTML *html, EMFormatHTMLDisplay *efhd)
@@ -275,6 +275,7 @@ efhd_class_init(GObjectClass *klass)
 	((EMFormatClass *)klass)->format_message = efhd_format_message;
 	((EMFormatClass *)klass)->format_source = efhd_format_source;
 	((EMFormatClass *)klass)->format_attachment = efhd_format_attachment;
+	((EMFormatClass *)klass)->format_secure = efhd_format_secure;
 	((EMFormatClass *)klass)->complete = efhd_complete;
 
 	klass->finalize = efhd_finalise;
@@ -327,6 +328,7 @@ em_format_html_display_get_type(void)
 			(GInstanceInitFunc)efhd_init
 		};
 		efhd_parent = g_type_class_ref(em_format_html_get_type());
+		efhd_format_class = g_type_class_ref(em_format_get_type());
 		type = g_type_register_static(em_format_html_get_type(), "EMFormatHTMLDisplay", &info, 0);
 
 		efhd_bonobo_handlers = g_hash_table_new(g_str_hash, g_str_equal);
@@ -675,7 +677,7 @@ efhd_xpkcs7mime_info_response(GtkWidget *w, guint button, struct _smime_pobject 
 	po->widget = NULL;
 }
 
-#if defined(HAVE_NSS)
+#ifdef HAVE_NSS
 static void
 efhd_xpkcs7mime_viewcert_clicked(GtkWidget *button, struct _smime_pobject *po)
 {
@@ -839,29 +841,12 @@ efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 }
 
 static void
-efhd_output_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid)
+efhd_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid)
 {
-	CamelCipherValidity *save = ((EMFormatHTML *)emf)->valid_parent;
-	int len;
+	/* Note: We call EMFormatClass directly, not EMFormatHTML, our parent */
+	efhd_format_class->format_secure(emf, stream, part, valid);
 
-	/* Note: this same logic is in efh_output_secure */
-	if (((EMFormatHTML *)emf)->valid == NULL) {
-		((EMFormatHTML *)emf)->valid = valid;
-	} else {
-		e_dlist_addtail(&((EMFormatHTML *)emf)->valid_parent->children, (EDListNode *)valid);
-		camel_cipher_validity_envelope(((EMFormatHTML *)emf)->valid_parent, valid);
-	}
-
-	((EMFormatHTML *)emf)->valid_parent = valid;
-
-	len = emf->part_id->len;
-	g_string_append_printf(emf->part_id, ".signed");
-	em_format_part(emf, stream, part);
-	g_string_truncate(emf->part_id, len);
-
-	((EMFormatHTML *)emf)->valid_parent = save;
-
-	if (((EMFormatHTML *)emf)->valid == valid
+	if (emf->valid == valid
 	    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
 		|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
 		char *classid;
@@ -888,84 +873,9 @@ efhd_output_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Came
 	}
 }
 
-static void
-efhd_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
-{
-	CamelCipherContext *context;
-	CamelException *ex;
-	extern CamelSession *session;
-	CamelMimePart *opart;
-	CamelCipherValidity *valid;
-
-	ex = camel_exception_new();
-
-	context = camel_smime_context_new(session);
-
-	opart = camel_mime_part_new();
-	valid = camel_cipher_decrypt(context, part, opart, ex);
-	if (valid == NULL) {
-		em_format_format_error(emf, stream, ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
-		em_format_part_as(emf, stream, part, NULL);
-	} else {
-		efhd_output_secure(emf, stream, opart, valid);
-	}
-
-	camel_object_unref(opart);
-	camel_object_unref(context);
-	camel_exception_free(ex);
-}
-
-/* ********************************************************************** */
-
-static void
-efhd_multipart_signed (EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
-{
-	CamelMultipartSigned *mps;
-	CamelMimePart *cpart;
-	CamelCipherContext *cipher = NULL;
-
-	mps = (CamelMultipartSigned *)camel_medium_get_content_object((CamelMedium *)part);
-	if (!CAMEL_IS_MULTIPART_SIGNED(mps)
-	    || (cpart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_CONTENT)) == NULL) {
-		em_format_format_source(emf, stream, part);
-		return;
-	}
-
-	/* FIXME: Should be done via a plugin interface */
-	/* FIXME: duplicated in em-format-html.c */
-	if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0
-	    || g_ascii_strcasecmp("application/pkcs7-signature", mps->protocol) == 0)
-		cipher = camel_smime_context_new(emf->session);
-	else if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0)
-		cipher = camel_gpg_context_new(emf->session);
-
-	if (cipher == NULL) {
-		em_format_format_error(emf, stream, _("Unsupported signature format"));
-		em_format_part_as(emf, stream, part, NULL);
-	} else {
-		CamelException *ex = camel_exception_new();
-		CamelCipherValidity *valid;
-
-		valid = camel_cipher_verify(cipher, part, ex);
-		if (valid == NULL) {
-			em_format_format_error(emf, stream, ex->desc?ex->desc:_("Unknown error verifying signature"));
-			em_format_part_as(emf, stream, part, NULL);
-		} else {
-			efhd_output_secure(emf, stream, cpart, valid);
-		}
-
-		camel_exception_free(ex);
-		camel_object_unref(cipher);
-	}
-}
-
 /* ********************************************************************** */
 
 static EMFormatHandler type_builtin_table[] = {
-	{ "application/x-pkcs7-mime", (EMFormatFunc)efhd_application_xpkcs7mime },
-	{ "application/pkcs7-mime", (EMFormatFunc)efhd_application_xpkcs7mime },
-
-	{ "multipart/signed", (EMFormatFunc)efhd_multipart_signed },
 };
 
 static void

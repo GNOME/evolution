@@ -1,3 +1,46 @@
+2004-01-30  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #53558 (plus other fixes/cleanups)
+
+	* em-format.c (emf_format_secure): default implementation, handle
+	output of inner part, but dont output any sign/encrypt info.
+	(emf_multipart_signed, emf_multipart_encrypted): replaced with
+	implementations from em-format-html.c, which now call
+	em_format_format_secure to output guts.
+	(emf_class_init): hook-up virtual method format_secure.
+
+	* em-format.[ch]: add a virtual method for outputing secured
+	parts.  Moved all validity stuff from em-format-html.[ch] to here.
+
+	* mail-component.c (impl_createControls): set the session
+	interactive too.
+
+	* em-format-html-display.c: make smime stuff dependent on
+	HAVE_NSS.
+	(efhd_multipart_signed, efhd_application_xpkcs7mime): removed, now
+	handled by root class.
+	(efhd_output_secure): renamed to efhd_format_secure, and use
+	EMFormat::format_secure to kick off.
+	(efhd_class_init): setup format_secure virtual method.
+
+	* em-format-html.c (efh_multipart_encrypted): We need to handle
+	this here so we can properly keep track of the ciphervalidity
+	stuff.  Also do it directly using the context, not
+	multipartencrypted part.
+	(efh_multipart_signed): with unsupported signature format, format
+	as multipart/mixed, not as an attachment.
+	(efh_multipart_signed): make the smime stuff optional.
+	(efh_multipart_signed, efh_multipart_encrypted): Moved to
+	em-format.c.
+	(efh_application_xpkcs7mime): moved to em-format.c
+	(efh_output_secure): renamed to efh_format_secure, linked into
+	virtual method.  call parent class to do the validation foo then
+	output the info if needed.
+	(efh_format_message): fixed access to validity stuff to parent
+	object.
+	(efh_class_init): hook up format_secure virtual method.
+	(*): removed some now-unused headers.
+
 2004-01-29  Nicel KM  <mnicel@novell.com>
 
 	* mail-component.c: removed CAMEL_PROVIDER_IS_EXTERNAL check

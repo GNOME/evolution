@@ -403,8 +403,9 @@ impl_createControls (PortableServer_Servant servant,
 	GtkWidget *view_widget;
 	GtkWidget *statusbar_widget;
 
+	mail_session_set_interactive(TRUE);
 	mc_startup(mail_component);
-	
+
 	view_widget = em_folder_browser_new ();
 	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
 	em_folder_tree_enable_drag_and_drop ((EMFolderTree *) tree_widget);

@@ -60,6 +60,7 @@ static const char *emf_snoop_part(CamelMimePart *part);
 static const EMFormatHandler *emf_find_handler(EMFormat *emf, const char *mime_type);
 static void emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *emfsource);
 static void emf_format_prefix(EMFormat *emf, CamelStream *stream);
+static void emf_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid);
 static gboolean emf_busy(EMFormat *emf);
 
 enum {
@@ -93,6 +94,7 @@ emf_finalise(GObject *o)
 		g_hash_table_destroy(emf->inline_table);
 
 	em_format_clear_headers(emf);
+	camel_cipher_validity_free(emf->valid);
 	g_free(emf->charset);
 	g_string_free(emf->part_id, TRUE);
 
@@ -118,6 +120,7 @@ emf_class_init(GObjectClass *klass)
 	((EMFormatClass *)klass)->find_handler = emf_find_handler;
 	((EMFormatClass *)klass)->format_clone = emf_format_clone;
 	((EMFormatClass *)klass)->format_prefix = emf_format_prefix;
+	((EMFormatClass *)klass)->format_secure = emf_format_secure;
 	((EMFormatClass *)klass)->busy = emf_busy;
 
 	emf_signals[EMF_COMPLETE] =
@@ -578,6 +581,33 @@ emf_format_prefix(EMFormat *emf, CamelStream *stream)
 	/* NOOP */
 }
 
+static void
+emf_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid)
+{
+	CamelCipherValidity *save = emf->valid_parent;
+	int len;
+
+	/* Note that this also requires support from higher up in the class chain
+	    - validity needs to be cleared when you start output
+	    - also needs to be cleared (but saved) whenever you start a new message. */
+
+	if (emf->valid == NULL) {
+		emf->valid = valid;
+	} else {
+		e_dlist_addtail(&emf->valid_parent->children, (EDListNode *)valid);
+		camel_cipher_validity_envelope(emf->valid_parent, valid);
+	}
+
+	emf->valid_parent = valid;
+
+	len = emf->part_id->len;
+	g_string_append_printf(emf->part_id, ".secured");
+	em_format_part(emf, stream, part);
+	g_string_truncate(emf->part_id, len);
+
+	emf->valid_parent = save;
+}
+
 static gboolean
 emf_busy(EMFormat *emf)
 {
@@ -993,6 +1023,35 @@ emf_snoop_part(CamelMimePart *part)
 	   see bug #11778 for some discussion */
 }
 
+#ifdef HAVE_NSS
+static void
+emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+{
+	CamelCipherContext *context;
+	CamelException *ex;
+	extern CamelSession *session;
+	CamelMimePart *opart;
+	CamelCipherValidity *valid;
+
+	ex = camel_exception_new();
+
+	context = camel_smime_context_new(session);
+
+	opart = camel_mime_part_new();
+	valid = camel_cipher_decrypt(context, part, opart, ex);
+	if (valid == NULL) {
+		em_format_format_error(emf, stream, ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
+		em_format_part_as(emf, stream, part, NULL);
+	} else {
+		em_format_format_secure(emf, stream, opart, valid);
+	}
+
+	camel_object_unref(opart);
+	camel_object_unref(context);
+	camel_exception_free(ex);
+}
+#endif
+
 /* RFC 1740 */
 static void
 emf_multipart_appledouble(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
@@ -1081,42 +1140,34 @@ emf_multipart_alternative(EMFormat *emf, CamelStream *stream, CamelMimePart *par
 static void
 emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
-	CamelMultipartEncrypted *mpe;
-	CamelMimePart *mime_part;
-	CamelCipherContext *cipher;
-	CamelException ex;
+	CamelCipherContext *context;
+	CamelException *ex;
 	const char *protocol;
-	int len;
+	CamelMimePart *opart;
+	CamelCipherValidity *valid;
 
 	/* Currently we only handle RFC2015-style PGP encryption. */
 	protocol = camel_content_type_param (((CamelDataWrapper *) part)->mime_type, "protocol");
-	if (!protocol || strcmp (protocol, "application/pgp-encrypted") != 0)
-		return emf_multipart_mixed(emf, stream, part, info);
-	
-	mpe = (CamelMultipartEncrypted *)camel_medium_get_content_object((CamelMedium *)part);
-
-	if (!CAMEL_IS_MULTIPART_ENCRYPTED(mpe)) {
-		em_format_format_source(emf, stream, part);
+	if (!protocol || g_ascii_strcasecmp (protocol, "application/pgp-encrypted") != 0) {
+		em_format_format_error(emf, stream, _("Unsupported encryption type for multipart/encrypted"));
+		em_format_part_as(emf, stream, part, "multipart/mixed");
 		return;
 	}
 
-	camel_exception_init (&ex);
-	cipher = camel_gpg_context_new(emf->session);
-	mime_part = camel_multipart_encrypted_decrypt(mpe, cipher, &ex);
-	camel_object_unref(cipher);
-	
-	if (camel_exception_is_set(&ex)) {
-		/* FIXME: error handler */
-		em_format_format_error(emf, stream, camel_exception_get_description(&ex));
-		camel_exception_clear(&ex);
-		return;
+	ex = camel_exception_new();
+	context = camel_gpg_context_new(emf->session);
+	opart = camel_mime_part_new();
+	valid = camel_cipher_decrypt(context, part, opart, ex);
+	if (valid == NULL) {
+		em_format_format_error(emf, stream, ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
+		em_format_part_as(emf, stream, part, NULL);
+	} else {
+		em_format_format_secure(emf, stream, opart, valid);
 	}
 
-	len = emf->part_id->len;
-	g_string_append_printf(emf->part_id, ".encrypted");
-	em_format_part(emf, stream, mime_part);
-	g_string_truncate(emf->part_id, len);
-	camel_object_unref(mime_part);
+	camel_object_unref(opart);
+	camel_object_unref(context);
+	camel_exception_free(ex);
 }
 
 static void
@@ -1232,69 +1283,50 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	}
 }
 
-/* this is only a fallback implementation, implementations should override */
 static void
 emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	CamelMimePart *cpart;
 	CamelMultipartSigned *mps;
-	CamelCipherValidity *valid = NULL;
-	CamelException ex;
-	const char *message = NULL;
-	gboolean good = FALSE;
-	int len;
+	CamelCipherContext *cipher = NULL;
 
 	mps = (CamelMultipartSigned *)camel_medium_get_content_object((CamelMedium *)part);
 	if (!CAMEL_IS_MULTIPART_SIGNED(mps)
 	    || (cpart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_CONTENT)) == NULL) {
+		em_format_format_error(emf, stream, _("Could not parse MIME message. Displaying as source."));
 		em_format_format_source(emf, stream, part);
 		return;
 	}
 
-	len = emf->part_id->len;
-	g_string_append_printf(emf->part_id, ".signed");
-	em_format_part(emf, stream, cpart);
-	g_string_truncate(emf->part_id, len);
-
-	/* FIXME: This sequence is also copied in em-format-html.c */
-
-	camel_exception_init(&ex);
-	if (emf->session == NULL) {
-		message = _("Session not initialised");
-	} else {
-		CamelCipherContext *cipher = NULL;
-
-		/* FIXME: Should be done via a plugin interface */
-		if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0
-		    || g_ascii_strcasecmp("application/pkcs7-signature", mps->protocol) == 0)
-			cipher = camel_smime_context_new(emf->session);
-		else if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0)
+	/* FIXME: Should be done via a plugin interface */
+	/* FIXME: duplicated in em-format-html-display.c */
+#ifdef HAVE_NSS
+	if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0
+	    || g_ascii_strcasecmp("application/pkcs7-signature", mps->protocol) == 0)
+		cipher = camel_smime_context_new(emf->session);
+	else
+#endif
+		if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0)
 			cipher = camel_gpg_context_new(emf->session);
 
-		if (cipher == NULL) {
-			message = _("Unsupported signature format");
+	if (cipher == NULL) {
+		em_format_format_error(emf, stream, _("Unsupported signature format"));
+		em_format_part_as(emf, stream, part, "multipart/mixed");
+	} else {
+		CamelException *ex = camel_exception_new();
+		CamelCipherValidity *valid;
+
+		valid = camel_cipher_verify(cipher, part, ex);
+		if (valid == NULL) {
+			em_format_format_error(emf, stream, ex->desc?ex->desc:_("Unknown error verifying signature"));
+			em_format_part_as(emf, stream, part, NULL);
 		} else {
-			valid = camel_cipher_verify(cipher, part, &ex);
-			camel_object_unref(cipher);
-			if (valid) {
-				good = camel_cipher_validity_get_valid(valid);
-				message = camel_cipher_validity_get_description(valid);
-			} else {
-				message = camel_exception_get_description(&ex);
-			}
+			em_format_format_secure(emf, stream, cpart, valid);
 		}
+
+		camel_exception_free(ex);
+		camel_object_unref(cipher);
 	}
-	
-	if (good)
-		em_format_format_error(emf, stream, _("This message is digitally signed and has been found to be authentic."));
-	else
-		em_format_format_error(emf, stream, _("This message is digitally signed but can not be proven to be authentic."));
-	
-	if (message)
-		em_format_format_error(emf, stream, message);
-	
-	camel_exception_clear(&ex);
-	camel_cipher_validity_free(valid);
 }
 
 static void
@@ -1315,6 +1347,9 @@ emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 }
 
 static EMFormatHandler type_builtin_table[] = {
+#ifdef HAVE_NSS
+	{ "application/x-pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime },
+#endif
 	{ "multipart/alternative", emf_multipart_alternative },
 	{ "multipart/appledouble", emf_multipart_appledouble },
 	{ "multipart/encrypted", emf_multipart_encrypted },
@@ -1325,6 +1360,12 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "message/rfc822", emf_message_rfc822 },
 	{ "message/news", emf_message_rfc822 },
 	{ "message/*", emf_message_rfc822 },
+
+	/* Insert brokenly-named parts here */
+#ifdef HAVE_NSS
+	{ "application/pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime },
+#endif
+
 };
 
 static void

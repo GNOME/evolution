@@ -50,10 +50,8 @@
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-filter-tohtml.h>
 #include <camel/camel-mime-filter-enriched.h>
+#include <camel/camel-cipher-context.h>
 #include <camel/camel-multipart.h>
-#include <camel/camel-multipart-signed.h>
-#include <camel/camel-gpg-context.h>
-#include <camel/camel-smime-context.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-url.h>
 #include <camel/camel-stream-fs.h>
@@ -98,6 +96,7 @@ static void efh_format_error(EMFormat *emf, CamelStream *stream, const char *txt
 static void efh_format_message(EMFormat *, CamelStream *, CamelMedium *);
 static void efh_format_source(EMFormat *, CamelStream *, CamelMimePart *);
 static void efh_format_attachment(EMFormat *, CamelStream *, CamelMimePart *, const char *, const EMFormatHandler *);
+static void efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid);
 static gboolean efh_busy(EMFormat *);
 
 static void efh_builtin_init(EMFormatHTMLClass *efhc);
@@ -176,7 +175,6 @@ efh_finalise(GObject *o)
 	/* FIXME: check for leaked stuff */
 
 	em_format_html_clear_pobject(efh);
-	camel_cipher_validity_free(efh->valid);
 
 	efh_gtkhtml_destroy(efh->html, efh);
 
@@ -202,6 +200,7 @@ efh_class_init(GObjectClass *klass)
 	((EMFormatClass *)klass)->format_message = efh_format_message;
 	((EMFormatClass *)klass)->format_source = efh_format_source;
 	((EMFormatClass *)klass)->format_attachment = efh_format_attachment;
+	((EMFormatClass *)klass)->format_secure = efh_format_secure;
 	((EMFormatClass *)klass)->busy = efh_busy;
 
 	klass->finalize = efh_finalise;
@@ -578,29 +577,15 @@ static const struct {
 /* TODO: this could probably be virtual on em-format-html
    then we only need one version of each type handler */
 static void
-efh_output_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid)
+efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid)
 {
-	CamelCipherValidity *save = ((EMFormatHTML *)emf)->valid_parent;
-	int len;
+	efh_parent->format_secure(emf, stream, part, valid);
 
-	/* Note: this same logic is in efhd_output_secure */
-	if (((EMFormatHTML *)emf)->valid == NULL) {
-		((EMFormatHTML *)emf)->valid = valid;
-	} else {
-		e_dlist_addtail(&((EMFormatHTML *)emf)->valid_parent->children, (EDListNode *)valid);
-		camel_cipher_validity_envelope(((EMFormatHTML *)emf)->valid_parent, valid);
-	}
-
-	((EMFormatHTML *)emf)->valid_parent = valid;
-
-	len = emf->part_id->len;
-	g_string_append_printf(emf->part_id, ".signed");
-	em_format_part(emf, stream, part);
-	g_string_truncate(emf->part_id, len);
-
-	((EMFormatHTML *)emf)->valid_parent = save;
-
-	if (((EMFormatHTML *)emf)->valid == valid
+	/* To explain, if the validity is the same, then we are the
+	   base validity and now have a combined sign/encrypt validity
+	   we can display.  Primarily a new verification context is
+	   created when we have an embeded message. */
+	if (emf->valid == valid
 	    && (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
 		|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
 		char *classid;
@@ -629,33 +614,6 @@ efh_output_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 
 		camel_stream_printf(stream, "</td></tr></table>");
 	}
-}
-
-static void
-efh_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
-{
-	CamelCipherContext *context;
-	CamelException *ex;
-	extern CamelSession *session;
-	CamelMimePart *opart;
-	CamelCipherValidity *valid;
-
-	ex = camel_exception_new();
-
-	context = camel_smime_context_new(session);
-
-	opart = camel_mime_part_new();
-	valid = camel_cipher_decrypt(context, part, opart, ex);
-	if (valid == NULL) {
-		em_format_format_error(emf, stream, ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
-		em_format_part_as(emf, stream, part, NULL);
-	} else {
-		efh_output_secure(emf, stream, opart, valid);
-	}
-
-	camel_object_unref(opart);
-	camel_object_unref(context);
-	camel_exception_free(ex);
 }
 
 static void
@@ -1059,49 +1017,6 @@ efh_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 }
 
 static void
-efh_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
-{
-	CamelMimePart *cpart;
-	CamelMultipartSigned *mps;
-	CamelCipherContext *cipher = NULL;
-
-	mps = (CamelMultipartSigned *)camel_medium_get_content_object((CamelMedium *)part);
-	if (!CAMEL_IS_MULTIPART_SIGNED(mps)
-	    || (cpart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_CONTENT)) == NULL) {
-		em_format_format_error(emf, stream, _("Could not parse MIME message. Displaying as source."));
-		em_format_format_source(emf, stream, part);
-		return;
-	}
-
-	/* FIXME: Should be done via a plugin interface */
-	/* FIXME: duplicated in em-format-html-display.c */
-	if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0
-	    || g_ascii_strcasecmp("application/pkcs7-signature", mps->protocol) == 0)
-		cipher = camel_smime_context_new(emf->session);
-	else if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0)
-		cipher = camel_gpg_context_new(emf->session);
-
-	if (cipher == NULL) {
-		em_format_format_error(emf, stream, _("Unsupported signature format"));
-		em_format_part_as(emf, stream, part, NULL);
-	} else {
-		CamelException *ex = camel_exception_new();
-		CamelCipherValidity *valid;
-
-		valid = camel_cipher_verify(cipher, part, ex);
-		if (valid == NULL) {
-			em_format_format_error(emf, stream, ex->desc?ex->desc:_("Unknown error verifying signature"));
-			em_format_part_as(emf, stream, part, NULL);
-		} else {
-			efh_output_secure(emf, stream, cpart, valid);
-		}
-
-		camel_exception_free(ex);
-		camel_object_unref(cipher);
-	}
-}
-
-static void
 efh_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 {
 	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)puri->part);
@@ -1124,9 +1039,6 @@ efh_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatH
 }
 
 static EMFormatHandler type_builtin_table[] = {
-	{ "application/x-pkcs7-mime", (EMFormatFunc)efh_application_xpkcs7mime },
-	{ "application/pkcs7-mime", (EMFormatFunc)efh_application_xpkcs7mime },
-
 	{ "image/gif", (EMFormatFunc)efh_image },
 	{ "image/jpeg", (EMFormatFunc)efh_image },
 	{ "image/png", (EMFormatFunc)efh_image },
@@ -1148,7 +1060,6 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "text/richtext", (EMFormatFunc)efh_text_enriched },
 	{ "text/*", (EMFormatFunc)efh_text_plain },
 	{ "message/external-body", (EMFormatFunc)efh_message_external },
-	{ "multipart/signed", (EMFormatFunc)efh_multipart_signed },
 	{ "multipart/related", (EMFormatFunc)efh_multipart_related },
 
 	/* This is where one adds those busted, non-registered types,
@@ -1318,10 +1229,11 @@ efh_format_timeout(struct _format_msg *m)
 	efh_parent->format_clone((EMFormat *)efh, m->folder, m->uid, m->message, m->format_source);
 	em_format_html_clear_pobject(m->format);
 
-	if (efh->valid) {
-		camel_cipher_validity_free(efh->valid);
-		efh->valid = NULL;
-		efh->valid_parent = NULL;
+	/* FIXME: method off EMFormat? */
+	if (((EMFormat *)efh)->valid) {
+		camel_cipher_validity_free(((EMFormat *)efh)->valid);
+		((EMFormat *)efh)->valid = NULL;
+		((EMFormat *)efh)->valid_parent = NULL;
 	}
 
 	if (m->message == NULL) {
@@ -1677,10 +1589,11 @@ em_format_html_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMediu
 static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *part)
 {
 #define efh ((EMFormatHTML *)emf)
-	CamelCipherValidity *save = efh->valid, *save_parent = efh->valid_parent;
+	/* TODO: make this validity stuff a method */
+	CamelCipherValidity *save = emf->valid, *save_parent = emf->valid_parent;
 
-	efh->valid = NULL;
-	efh->valid_parent = NULL;
+	emf->valid = NULL;
+	emf->valid_parent = NULL;
 
 	if (emf->message != (CamelMimeMessage *)part)
 		camel_stream_printf(stream, "<blockquote>\n");
@@ -1694,10 +1607,10 @@ static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *
 	if (emf->message != (CamelMimeMessage *)part)
 		camel_stream_printf(stream, "</blockquote>\n");
 
-	camel_cipher_validity_free(efh->valid);
+	camel_cipher_validity_free(emf->valid);
 
-	efh->valid = save;
-	efh->valid_parent = save_parent;
+	emf->valid = save;
+	emf->valid_parent = save_parent;
 #undef efh
 }
 
