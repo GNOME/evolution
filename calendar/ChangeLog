@@ -1,5 +1,18 @@
 2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
 
+	* cal-client/query-listener.[ch]: converted to BonoboObject.
+
+	* gui/dialogs/comp-editor-util.c (parse_contact_string): use glib's
+	g_utf8_strchr.
+
+	* gui/dialogs/delete-comp.c: removed non-existant headers. Use
+	GtkStock instead of GnomeStock.
+
+	* gui/dialogs/e-delegate-dialog.c: converted to BonoboActivation.
+	(e_delegate_dialog_construct): adapted to changes in glade_xml_new.
+
+2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
+
 	* pcs/cal.[ch]: converted to BonoboObject.
 	(impl_Cal_get_query): bonobo_object_unref the query returned by
 	cal_backend_get_query if we can't duplicate it.

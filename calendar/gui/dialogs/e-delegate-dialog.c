@@ -20,7 +20,7 @@
  */
 
 #include <config.h>
-#include <liboaf/liboaf.h>
+#include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-widget.h>
@@ -160,7 +160,7 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char 
 	/* Load the content widgets */
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-delegate-dialog.glade",
-				   NULL);
+				   NULL, NULL);
 	if (!priv->xml) {
 		g_message ("e_delegate_dialog_construct(): Could not load the Glade XML file!");
 		goto error;
@@ -173,7 +173,7 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char 
 	
 	CORBA_exception_init (&ev);
 	
-	priv->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
+	priv->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
 	GNOME_Evolution_Addressbook_SelectNames_addSectionWithLimit (priv->corba_select_names, 
 								     section_name, 
 								     section_name,

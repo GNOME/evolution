@@ -21,7 +21,6 @@
 #ifndef __E_DELEGATE_DIALOG_H__
 #define __E_DELEGATE_DIALOG_H__
 
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkwidget.h>
 
 

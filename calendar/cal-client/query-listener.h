@@ -21,8 +21,7 @@
 #ifndef QUERY_LISTENER_H
 #define QUERY_LISTENER_H
 
-#include <gtk/gtkobject.h>
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include "evolution-calendar.h"
 
 G_BEGIN_DECLS
@@ -30,23 +29,23 @@ G_BEGIN_DECLS
 
 
 #define QUERY_LISTENER_TYPE            (query_listener_get_type ())
-#define QUERY_LISTENER(obj)            (GTK_CHECK_CAST ((obj), QUERY_LISTENER_TYPE, QueryListener))
-#define QUERY_LISTENER_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), QUERY_LISTENER_TYPE,	\
+#define QUERY_LISTENER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), QUERY_LISTENER_TYPE, QueryListener))
+#define QUERY_LISTENER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), QUERY_LISTENER_TYPE,	\
 					QueryListenerClass))
-#define IS_QUERY_LISTENER(obj)         (GTK_CHECK_TYPE ((obj), QUERY_LISTENER_TYPE))
-#define IS_QUERY_LISTENER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), QUERY_LISTENER_TYPE))
+#define IS_QUERY_LISTENER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), QUERY_LISTENER_TYPE))
+#define IS_QUERY_LISTENER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), QUERY_LISTENER_TYPE))
 
 typedef struct _QueryListenerPrivate QueryListenerPrivate;
 
 typedef struct {
-	BonoboXObject xobject;
+	BonoboObject xobject;
 
 	/* Private data */
 	QueryListenerPrivate *priv;
 } QueryListener;
 
 typedef struct {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Calendar_QueryListener__epv epv;
 } QueryListenerClass;
@@ -74,7 +73,7 @@ typedef void (* QueryListenerEvalErrorFn) (QueryListener *ql,
 					   const CORBA_char *error_str,
 					   gpointer data);
 
-GtkType query_listener_get_type (void);
+GType query_listener_get_type (void);
 
 QueryListener *query_listener_construct (QueryListener *ql,
 					 QueryListenerObjUpdatedFn obj_updated_fn,

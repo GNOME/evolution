@@ -43,8 +43,8 @@ struct _QueryListenerPrivate {
 
 
 static void query_listener_class_init (QueryListenerClass *class);
-static void query_listener_init (QueryListener *ql);
-static void query_listener_destroy (GtkObject *object);
+static void query_listener_init (QueryListener *ql, QueryListenerClass *class);
+static void query_listener_finalize (GObject *object);
 
 static void impl_notifyObjUpdated (PortableServer_Servant servant,
 				   const GNOME_Evolution_Calendar_CalObjUIDSeq *uids,
@@ -66,26 +66,26 @@ static void impl_notifyEvalError (PortableServer_Servant servant,
 				  const CORBA_char *error_str,
 				  CORBA_Environment *ev);
 
-static BonoboXObjectClass *parent_class;
+static BonoboObjectClass *parent_class;
 
 
 
-BONOBO_X_TYPE_FUNC_FULL (QueryListener,
-			 GNOME_Evolution_Calendar_QueryListener,
-			 BONOBO_X_OBJECT_TYPE,
-			 query_listener);
+BONOBO_TYPE_FUNC_FULL (QueryListener,
+		       GNOME_Evolution_Calendar_QueryListener,
+		       BONOBO_TYPE_OBJECT,
+		       query_listener);
 
 /* Class initialization function for the live search query listener */
 static void
 query_listener_class_init (QueryListenerClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 
-	parent_class = gtk_type_class (BONOBO_X_OBJECT_TYPE);
+	parent_class = g_type_class_peek_parent (class);
 
-	object_class->destroy = query_listener_destroy;
+	object_class->finalize = query_listener_finalize;
 
 	class->epv.notifyObjUpdated = impl_notifyObjUpdated;
 	class->epv.notifyObjRemoved = impl_notifyObjRemoved;
@@ -95,7 +95,7 @@ query_listener_class_init (QueryListenerClass *class)
 
 /* Object initialization function for the live search query listener */
 static void
-query_listener_init (QueryListener *ql)
+query_listener_init (QueryListener *ql, QueryListenerClass *class)
 {
 	QueryListenerPrivate *priv;
 
@@ -111,9 +111,9 @@ query_listener_init (QueryListener *ql)
 	priv->notify = TRUE;
 }
 
-/* Destroy handler for the live search query listener */
+/* Finalize handler for the live search query listener */
 static void
-query_listener_destroy (GtkObject *object)
+query_listener_finalize (GObject *object)
 {
 	QueryListener *ql;
 	QueryListenerPrivate *priv;
@@ -135,8 +135,8 @@ query_listener_destroy (GtkObject *object)
 	g_free (priv);
 	ql->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -288,7 +288,7 @@ query_listener_new (QueryListenerObjUpdatedFn obj_updated_fn,
 {
 	QueryListener *ql;
 
-	ql = gtk_type_new (QUERY_LISTENER_TYPE);
+	ql = g_object_new (QUERY_LISTENER_TYPE, NULL);
 
 	return query_listener_construct (ql,
 					 obj_updated_fn,

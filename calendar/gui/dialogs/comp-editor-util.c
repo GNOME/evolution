@@ -379,8 +379,8 @@ parse_contact_string (const char *value, char **name, char **email)
 		return;
 	}
 
-	lbracket = g_utf8_strchr (value, '<');
-	rbracket = g_utf8_strchr (value, '>');
+	lbracket = g_utf8_strchr (value, g_utf8_strlen (value, 0), '<');
+	rbracket = g_utf8_strchr (value, g_utf8_strlen (value, 0), '>');
 
 	if (!lbracket || !rbracket || rbracket < lbracket) {
 		*name = g_strdup (value);
