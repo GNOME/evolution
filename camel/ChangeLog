@@ -1,3 +1,7 @@
+2004-10-21  Björn Torkelsson <torkel@acc.umu.se>
+
+	* camel-sasl-kerberos4.c: #include "camel-i18n.h"
+
 2004-10-27  Julio M. Merino Vidal <jmmv@menta.net>
 
 	* camel-operation.c (camel_operation_shutdown): fix the arguments
