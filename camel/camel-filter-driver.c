@@ -45,6 +45,8 @@
 #include "camel-stream-mem.h"
 #include "camel-mime-message.h"
 
+#include "camel-debug.h"
+
 #include "e-util/e-sexp.h"
 #include "e-util/e-memory.h"
 #include "e-util/e-msgport.h"	/* for edlist */
@@ -894,16 +896,25 @@ open_folder (CamelFilterDriver *driver, const char *folder_url)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
 	CamelFolder *camelfolder;
-	CamelException ex;
 	
 	/* we have a lookup table of currently open folders */
 	camelfolder = g_hash_table_lookup (p->folders, folder_url);
 	if (camelfolder)
 		return camelfolder == FOLDER_INVALID?NULL:camelfolder;
-	
-	camel_exception_init (&ex);
-	camelfolder = p->get_folder (driver, folder_url, p->data, &ex);
-	camel_exception_clear (&ex);
+
+	/* if we have a default folder, ignore exceptions.  This is so
+	   a bad filter rule on pop or local delivery doesn't result
+	   in duplicate mails, just mail going to inbox.  Otherwise,
+	   we want to know about exceptions and abort processing */
+	if (p->defaultfolder) {
+		CamelException ex;
+
+		camel_exception_init (&ex);
+		camelfolder = p->get_folder (driver, folder_url, p->data, &ex);
+		camel_exception_clear (&ex);
+	} else {
+		camelfolder = p->get_folder (driver, folder_url, p->data, p->ex);
+	}
 	
 	if (camelfolder) {
 		g_hash_table_insert (p->folders, g_strdup (folder_url), camelfolder);
@@ -1383,7 +1394,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	while (node->next && !p->terminated) {
 		struct _get_message data;
 		
-		d(fprintf (stderr, "applying rule %s\naction %s\n", node->match, node->action));
+		d(printf("applying rule %s\naction %s\n", node->match, node->action));
 		
 		data.p = p;
 		data.source_url = original_source_url;
@@ -1398,7 +1409,11 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		case CAMEL_SEARCH_MATCHED:
 			filtered = TRUE;
 			camel_filter_driver_log (driver, FILTER_LOG_START, node->name);
-			
+
+			if (camel_debug(":filter"))
+				printf("filtering '%s' applying rule %s\n",
+				       camel_message_info_subject(info)?camel_message_info_subject(info):"?no subject?", node->name);
+
 			/* perform necessary filtering actions */
 			e_sexp_input_text (p->eval, node->action, strlen (node->action));
 			if (e_sexp_parse (p->eval) == -1) {
@@ -1433,6 +1448,12 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		/* copy it to the default inbox */
 		filtered = TRUE;
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to default folder");
+
+		if (camel_debug(":filter"))
+			printf("filtering '%s' copy %s to default folder\n",
+			       camel_message_info_subject(info)?camel_message_info_subject(info):"?no subject?",
+			       p->modified?"modified message":"");
+
 		if (!p->modified && p->uid && p->source && camel_folder_has_summary_capability (p->source)) {
 			GPtrArray *uids;
 			
@@ -1446,7 +1467,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 				if (!p->message)
 					goto error;
 			}
-			
+
 			camel_folder_append_message (p->defaultfolder, p->message, p->info, NULL, p->ex);
 		}
 	}

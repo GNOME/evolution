@@ -1,5 +1,10 @@
 2004-06-10  Not Zed  <NotZed@Ximian.com>
 
+	* camel-filter-driver.c (camel_filter_driver_filter_message): add
+	some :filter debug.
+	(open_folder): only ignore the get_folder exception if we have a
+	default folder, otherwise don't.  See #59727.
+
 	* providers/nntp/camel-nntp-store.c (camel_nntp_command): move the
 	stream based checking into the loop, after we connect.  Fixes a
 	crash.
