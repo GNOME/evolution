@@ -178,7 +178,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 		char *prompt;
 		gboolean remember;
 		char *failed_auth;
-		guint32 flags = E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET;
+		guint32 flags = E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE;
 
 		if (previous_failure) {
 			failed_auth = _("Failed to authenticate.\n");

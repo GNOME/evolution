@@ -1,5 +1,10 @@
 2004-08-27  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #62856 (workaround).
+
+	* gui/component/addressbook.c (addressbook_authenticate): add
+	online flag to password request.
+
 	** See bug #64011.
 
 	* gui/component/addressbook-view.c (edit_addressbook_cb): Remove
