@@ -48,10 +48,11 @@ gchar **e_strsplit (const gchar *string,
 		    const gchar *delimiter,
 		    gint         max_tokens);
 
-const gchar *e_strstrcase (const gchar *haystack,
-			   const gchar *needle);
+gchar *e_strstrcase (const gchar *haystack,
+		     const gchar *needle);
 
-void e_str_make_safe (gchar *string);
+void e_filename_make_safe (gchar *string);
+#define e_str_make_safe(x) e_filename_make_safe(x)
 
 void e_marshal_INT__INT_INT_POINTER (GtkObject * object,
 				     GtkSignalFunc func,
