@@ -1,7 +1,9 @@
 2002-02-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (basename_from_uri): Ack, strip off the
-	leading '/' char.
+	leading '/' char and also only translate if it is a file: uri,
+	imap folders and other external folders will be named by the user
+	so no need to translate those.
 
 	* mail-display.c (do_attachment_header): Don't display a
 	down-arrow if the attachment is undisplayable. Fixes bug #6919.
