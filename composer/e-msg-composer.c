@@ -2983,24 +2983,21 @@ e_msg_composer_new_from_url (const char *url_in)
 	EDestination **tov, **ccv, **bccv;
 	char *subject = NULL, *body = NULL;
 	const char *p, *header;
+	char *content;
 	int len, clen;
-	char *url, *content;
-
 	
 	g_return_val_if_fail (g_strncasecmp (url_in, "mailto:", 7) == 0, NULL);
 	
 	composer = e_msg_composer_new ();
 	if (!composer)
 		return NULL;
-
-	url = g_strdup (url_in);
-	camel_url_decode (url);
-
-	/* Parse recipients (everything after ':' until '?' or eos. */
-	p = url + 7;
+	
+	/* Parse recipients (everything after ':' until '?' or eos). */
+	p = url_in + 7;
 	len = strcspn (p, "?");
 	if (len) {
 		content = g_strndup (p, len);
+		camel_url_decode (content);
 		to = add_recipients (to, content, FALSE);
 		g_free (content);
 	}
@@ -3020,21 +3017,29 @@ e_msg_composer_new_from_url (const char *url_in)
 			p += len + 1;
 			
 			clen = strcspn (p, "&");
+			
 			content = g_strndup (p, clen);
 			camel_url_decode (content);
-
-			if (!g_strncasecmp (header, "to", len))
+			
+			if (!g_strncasecmp (header, "to", len)) {
 				to = add_recipients (to, content, FALSE);
-			else if (!g_strncasecmp (header, "cc", len))
+			} else if (!g_strncasecmp (header, "cc", len)) {
 				cc = add_recipients (cc, content, FALSE);
-			else if (!g_strncasecmp (header, "bcc", len))
+			} else if (!g_strncasecmp (header, "bcc", len)) {
 				bcc = add_recipients (bcc, content, FALSE);
-			else if (!g_strncasecmp (header, "subject", len))
+			} else if (!g_strncasecmp (header, "subject", len)) {
+				g_free (subject);
 				subject = g_strdup (content);
-			else if (!g_strncasecmp (header, "body", len))
+			} else if (!g_strncasecmp (header, "body", len)) {
+				g_free (body);
 				body = g_strdup (content);
+			} else {
+				/* add an arbitrary header */
+				e_msg_composer_add_header (composer, header, content);
+			}
 			
 			g_free (content);
+			
 			p += clen;
 			if (*p == '&') {
 				p++;
@@ -3043,25 +3048,25 @@ e_msg_composer_new_from_url (const char *url_in)
 			}
 		}
 	}
-
+	
 	tov  = e_destination_list_to_vector (to);
 	ccv  = e_destination_list_to_vector (cc);
 	bccv = e_destination_list_to_vector (bcc);
-
+	
 	g_list_free (to);
 	g_list_free (cc);
 	g_list_free (bcc);
-
+	
 	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
-
+	
 	e_msg_composer_hdrs_set_to (hdrs, tov);
 	e_msg_composer_hdrs_set_cc (hdrs, ccv);
 	e_msg_composer_hdrs_set_bcc (hdrs, bccv);
-
+	
 	e_destination_freev (tov);
 	e_destination_freev (ccv);
 	e_destination_freev (bccv);
-
+	
 	if (subject) {
 		e_msg_composer_hdrs_set_subject (hdrs, subject);
 		g_free (subject);
