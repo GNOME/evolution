@@ -36,10 +36,17 @@ Mail:
 
   - Had a few beers while sitting back and relaxin'.  (Jeff, Michael)
 
+  - Check for valid addresses before sending. (Trow)
+
+  - Use contact preferences when deciding whether or not to put the
+    composer into HTML mode by default. (Trow)
+
+  - Properly address mail from "hidden" contact lists. (Trow)
+
 Addressbook:
 
-  - Miscellaneous bug fixes.  (Trow, Chris Toshok, Chris Lahey, Ettore
-    Perazzoli, Iain Holmes, Zbigniew Chyla, Jacob Berkman)
+  - Miscellaneous bug fixes. (Jon Trowbridge, Chris Toshok, Chris Lahey,
+    Ettore Perazzoli, Iain Holmes, Zbigniew Chyla, Jacob Berkman)
 
   - Fixed race conditions associated with adding/removing contacts.
     The addressbook should be much more stable now.  (Trow)
