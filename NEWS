@@ -84,6 +84,9 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #42045 - Another workaround for mailers sending out invalid date
 	     formats (Jeff)
     #42356 - Adding colour from not working properly (Jeff)
+    #43214 - changing server settings enables the account (Jeff)
+    #43234 - crash reading mail (Michael)
+
 
   * Libraries
 
