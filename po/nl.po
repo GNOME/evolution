@@ -19155,7 +19155,7 @@ msgstr "Antwoordadres-veld:"
 
 #: ui/evolution-message-composer.xml.h:51
 msgid "_Security"
-msgstr "_Beveiliging"
+msgstr "Be_veiliging"
 
 #: ui/evolution-message-composer.xml.h:52
 msgid "_To Field"
