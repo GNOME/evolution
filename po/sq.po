@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-11 11:12+0200\n"
-"PO-Revision-Date: 2004-09-11 17:41+0200\n"
+"POT-Creation-Date: 2004-09-13 11:12+0200\n"
+"PO-Revision-Date: 2004-09-13 11:38+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -16850,33 +16850,40 @@ msgstr "Bug buddy nuk është i instaluar."
 msgid "Bug buddy could not be run."
 msgstr "Bug buddy nuk mund të vihet në funksionim."
 
-#: shell/e-shell-window-commands.c:323
+#. The translator-credits string is for translators to list
+#. * per language credits for translation, displayed in the
+#. * about box
+#: shell/e-shell-window-commands.c:424
+msgid "translator-credits"
+msgstr "Laurent Dhima <laurenti@alblinux.net>"
+
+#: shell/e-shell-window-commands.c:438
 msgid "Groupware Suite"
 msgstr "Suite Groupware"
 
-#: shell/e-shell-window-commands.c:563
+#: shell/e-shell-window-commands.c:678
 msgid "_Work Online"
-msgstr "_Puno online"
+msgstr "_Puno Në Linjë"
 
-#: shell/e-shell-window-commands.c:576 ui/evolution.xml.h:39
+#: shell/e-shell-window-commands.c:691 ui/evolution.xml.h:39
 msgid "_Work Offline"
 msgstr "_Puno Jashtë Linje"
 
-#: shell/e-shell-window-commands.c:589 ui/evolution.xml.h:25
+#: shell/e-shell-window-commands.c:704 ui/evolution.xml.h:25
 msgid "Work Offline"
-msgstr "Puno online"
+msgstr "Puno jashtë linje"
 
 #: shell/e-shell-window.c:337
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution aktualisht është online.  Kliko tek ky buton për të punuar offline."
+msgstr "Evolution aktualisht është online.  Kliko tek ky buton për të punuar jashtë linje."
 
 #: shell/e-shell-window.c:344
 msgid "Evolution is in the process of going offline."
-msgstr "Evolution është në procesin e daljes offline."
+msgstr "Evolution është në procesin e daljes jashtë linje."
 
 #: shell/e-shell-window.c:350
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr "Evolution aktualisht është offline.  Kliko tek ky buton për të punuar online."
+msgstr "Evolution aktualisht është jashtë linje.  Kliko tek ky buton për të punuar në linjë."
 
 #: shell/e-shell-window.c:637
 #, c-format
@@ -16964,7 +16971,7 @@ msgstr "Provë e re"
 
 #: shell/evolution-test-component.c:141
 msgid "_Test"
-msgstr "_Kontrolloje"
+msgstr "_Provë"
 
 #: shell/evolution-test-component.c:142
 msgid "Create a new test item"
@@ -17077,7 +17084,7 @@ msgstr ""
 
 #: shell/main.c:257
 msgid "Don't tell me again"
-msgstr "Mos më thuaj më"
+msgstr "Mos e shfaq më"
 
 #: shell/main.c:462
 msgid "Start Evolution activating the specified component"
@@ -17089,7 +17096,7 @@ msgstr "Fillo në modalitetin jashtë linje"
 
 #: shell/main.c:466
 msgid "Start in online mode"
-msgstr "Fillo në modalitetin onlinje"
+msgstr "Fillo në modalitetin në linjë"
 
 #: shell/main.c:469
 msgid "Forcibly shut down all evolution components"
@@ -17097,7 +17104,7 @@ msgstr "Përfundo me forcë të gjithë komponuesit e evolution"
 
 #: shell/main.c:473
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr "Ri-emigro me forcë nga Evolution 1.4"
+msgstr "Detyro ri-emigrimin nga Evolution 1.4"
 
 #: shell/main.c:476
 msgid "Send the debugging output of all components to a file."
@@ -17184,7 +17191,7 @@ msgstr ""
 
 #: shell/shell-errors.xml.h:25
 msgid "_Remind Me Later"
-msgstr "_Kujtomë më vonë"
+msgstr "_Më kujto më vonë"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
@@ -17194,7 +17201,7 @@ msgstr "_Mbaj të dhënat"
 #. shell:upgrade-remove-1-4-confirm primary
 #: shell/shell-errors.xml.h:28 shell/shell-errors.xml.h:30
 msgid "Really delete old data?"
-msgstr "Me të vërtetë eleminon?"
+msgstr "Me të vërtetë eleminon të dhënat e vjetra?"
 
 #. shell:upgrade-remove-1-4-confirm secondary
 #: shell/shell-errors.xml.h:32
@@ -17237,7 +17244,8 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
-"Konfigurimet e sistemit tuaj nuk plotësojnë konfigurimin tuaj të Evolution.\n"
+"Konfigurimet e sistemit tuaj nuk përputhen me konfigurimin "
+"tuaj të Evolution.\n"
 "\n"
 "Kliko Ndihmë për detajet"
 
@@ -17250,7 +17258,8 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
-"Konfigurimet e sistemit tuaj nuk plotësojnë konfigurimin tuaj të Evolution:\n"
+"Konfigurimet e sistemit tuaj nuk përputhen me konfigurimin "
+"tuaj të Evolution:\n"
 "\n"
 "{0}\n"
 "\n"
