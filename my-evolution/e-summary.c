@@ -589,6 +589,10 @@ e_summary_count_connections (ESummary *summary)
 	GList *p;
 	int count = 0;
 
+	if (summary == NULL) {
+		return 0;
+	}
+
 	for (p = summary->priv->connections; p; p = p->next) {
 		ESummaryConnection *c;
 
@@ -604,6 +608,10 @@ e_summary_add_connections (ESummary *summary)
 {
 	GList *p;
 	GList *connections = NULL;
+
+	if (summary == NULL) {
+		return NULL;
+	}
 
 	for (p = summary->priv->connections; p; p = p->next) {
 		ESummaryConnection *c;
@@ -625,6 +633,10 @@ e_summary_set_online (ESummary *summary,
 		      void *closure)
 {
 	GList *p;
+
+	if (summary == NULL) {
+		return;
+	}
 
 	for (p = summary->priv->connections; p; p = p->next) {
 		ESummaryConnection *c;
