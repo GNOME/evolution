@@ -1,3 +1,14 @@
+2004-11-08  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fix for bug #69241.
+
+	* camel-gpg-context.c (gpg_decrypt): We need to extract just the
+	application/pgp-encrypted part from the multipart/encrypted that
+	gets passed in. Added checks to verify that the input part is the
+	correct type as well. Once we have the application/pgp-encrypted
+	part, we need to use camel_data_wrapper_decode_to_stream() in case
+	the part was encoded in any way.
+
 2004-11-09  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-stream.c (camel_imap4_stream_line):

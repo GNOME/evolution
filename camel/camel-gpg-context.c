@@ -1665,18 +1665,24 @@ gpg_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelMimePart *op
 	struct _GpgCtx *gpg;
 	CamelCipherValidity *valid = NULL;
 	CamelStream *ostream, *istream;
-
+	CamelDataWrapper *content;
+	CamelMimePart *encrypted;
+	CamelContentType *ct;
+	const char *protocol;
+	CamelMultipart *mp;
+	
+	mp = (CamelMultipart *) camel_medium_get_content_object ((CamelMedium *) ipart);
+	if (!(encrypted = camel_multipart_get_part (mp, CAMEL_MULTIPART_ENCRYPTED_CONTENT))) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, _("Failed to decrypt MIME part: protocol error"));
+		return NULL;
+	}
+	
+	content = camel_medium_get_content_object ((CamelMedium *) encrypted);
+	
 	istream = camel_stream_mem_new();
-	camel_data_wrapper_write_to_stream(camel_medium_get_content_object((CamelMedium *)ipart), istream);
+	camel_data_wrapper_decode_to_stream (content, istream);
 	camel_stream_reset(istream);
-
-	/* TODO: de-canonicalise end of lines? */
-	/*stream = camel_stream_mem_new ();
-	filtered_stream = (CamelStream *) camel_stream_filter_new_with_stream (stream);
-	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE,
-						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
-	camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered_stream), crlf_filter);
-	camel_object_unref (crlf_filter);*/
+	
 	ostream = camel_stream_mem_new();
 	camel_stream_mem_set_secure((CamelStreamMem *)ostream);
 
