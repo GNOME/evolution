@@ -1,5 +1,11 @@
 2004-03-03  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #53738.
+
+	* mail-ops.c (fetch_mail_fetch): if we've been cancelled, uncancel
+	so syncing can work.  and always sync the folder (with expunge if
+	deleting).
+
 	** See bug #54924.
 
 	* em-utils.c (em_utils_selection_set_urilist): Try to get the drop

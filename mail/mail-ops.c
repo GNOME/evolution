@@ -303,21 +303,13 @@ fetch_mail_fetch (struct _mail_msg *mm)
 					
 					/* save the cache of uids that we've just downloaded */
 					camel_uid_cache_save (cache);
-					
-					/* if we are deleting off the server and no exception occured
-					 * then iterate through the folder uids and mark them all
-					 * for deletion. */
-					if (fm->delete && !camel_exception_is_set (&mm->ex)) {
-						camel_folder_freeze (folder);
-						
-						for (i = 0; i < folder_uids->len; i++)
-							camel_folder_delete_message (folder, folder_uids->pdata[i]);
-						
-						/* sync and expunge */
-						camel_folder_sync (folder, TRUE, &mm->ex);
-						
-						camel_folder_thaw (folder);
-					}
+
+					/* if we don't do this, no operations on the folder will work */
+					if (mm->ex.id == CAMEL_EXCEPTION_USER_CANCEL)
+						camel_operation_uncancel(NULL);
+
+					/* expunge messages (downloaded so far) */
+					camel_folder_sync(folder, fm->delete, NULL);
 				}
 				camel_uid_cache_destroy (cache);
 				camel_folder_free_uids (folder, folder_uids);
