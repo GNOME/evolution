@@ -1,3 +1,20 @@
+2002-07-13  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-summary.c
+	(camel_folder_summary_info_new_from_message): Only assign a uid if
+	indexing is enabled.  This stops us always assigning a uid in the
+	imap folder and disco folder?
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary): Also
+	check the uid is set at all, another bit of a fix for #15667.
+
+2002-07-09  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary): Check
+	for existing messages of the same uid before doing anything.  If
+	it exists, do nothing (perhaps it should merge?).  A dirty hack for
+	#15667.
+
 2002-07-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-multipart-encrypted.c (camel_multipart_encrypted_decrypt):

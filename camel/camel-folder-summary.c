@@ -935,8 +935,9 @@ CamelMessageInfo *camel_folder_summary_info_new_from_message(CamelFolderSummary 
 	info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_new_from_message(s, msg);
 
 	/* assign a unique uid, this is slightly 'wrong' as we do not really
-	 * know if we are going to store this in the summary, but no matter */
-	summary_assign_uid(s, info);
+	 * know if we are going to store this in the summary, but we need it set for indexing */
+	if (p->index)
+		summary_assign_uid(s, info);
 
 	CAMEL_SUMMARY_LOCK(s, filter_lock);
 

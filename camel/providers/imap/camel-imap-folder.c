@@ -1964,7 +1964,7 @@ imap_update_summary (CamelFolder *folder, int exists,
 	int i, seq, first, size, got;
 	CamelImapResponseType type;
 	const char *header_spec;
-	CamelMessageInfo *mi;
+	CamelMessageInfo *mi, *info;
 	CamelStream *stream;
 	char *uid, *resp;
 	GData *data;
@@ -2186,6 +2186,19 @@ imap_update_summary (CamelFolder *folder, int exists,
 			g_warning ("No information for message %d", i + first);
 			continue;
 		}
+		uid = (char *)camel_message_info_uid(mi);
+		if (uid[0] == 0) {
+			g_warning("Server provided no uid: message %d", i + first);
+			continue;
+		}
+		info = camel_folder_summary_uid(folder->summary, uid);
+		if (info) {
+			g_warning("Message already present? %s", camel_message_info_uid(mi));
+			camel_folder_summary_info_free(folder->summary, info);
+			camel_folder_summary_info_free(folder->summary, mi);
+			continue;
+		}
+
 		camel_folder_summary_add (folder->summary, mi);
 		camel_folder_change_info_add_uid (changes, camel_message_info_uid (mi));
 		
