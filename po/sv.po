@@ -11,14 +11,14 @@
 # meeting = sammanträde
 # event = evenemang
 #
-# $Id: sv.po,v 1.210 2005/02/27 11:07:05 menthos Exp $
+# $Id: sv.po,v 1.211 2005/02/27 22:52:23 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-27 11:05+0100\n"
-"PO-Revision-Date: 2005-02-27 12:06+0100\n"
+"POT-Creation-Date: 2005-02-27 23:51+0100\n"
+"PO-Revision-Date: 2005-02-27 23:51+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -541,7 +541,7 @@ msgstr "Evolutions konfigurationskontroll för mappinställningar"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:13
 msgid "Manage your S/MIME certificates here"
-msgstr ""
+msgstr "Hantera ditt S/MIME-certifikat här"
 
 #. create the local source group
 #. On This Computer is always first and vFolders is always last
@@ -621,7 +621,7 @@ msgstr "_Typ:"
 
 #: addressbook/gui/component/addressbook-config.c:609
 msgid "Copy book content locally for offline operation"
-msgstr ""
+msgstr "Kopiera bokinnehåll lokalt för frånkopplad åtgärd"
 
 #: addressbook/gui/component/addressbook-config.c:904
 #: addressbook/gui/component/ldap-config.glade.h:23
@@ -3204,6 +3204,10 @@ msgid ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
 msgstr ""
+"Vi kunde inte öppna denna adressbok. Detta betyder antingen att denna bok "
+"inte är märkt för frånkopplad användning eller att den ännu inte är hämtad "
+"för frånkopplad användning. Läs in adressboken en gång i anslutet läge för "
+"att hämta dess innehåll"
 
 #: addressbook/gui/widgets/eab-gui-util.c:98
 msgid ""
@@ -4084,7 +4088,7 @@ msgstr "Fel vid inläsning av kalendern"
 #. calendar:prompt-no-contents-offline-calendar secondary
 #: calendar/calendar-errors.xml.h:136
 msgid "The calendar is not marked for offline usage"
-msgstr "Kalendern är inte markerad för frånkopplad användning"
+msgstr "Kalendern är inte märkt för frånkopplad användning"
 
 #. calendar:prompt-no-contents-offline-tasks primary
 #: calendar/calendar-errors.xml.h:138
@@ -4094,12 +4098,14 @@ msgstr "Fel vid inläsning av uppgiftslista"
 #. calendar:prompt-no-contents-offline-tasks secondary
 #: calendar/calendar-errors.xml.h:140
 msgid "The task list is not marked for offline usage"
-msgstr ""
+msgstr "Uppgiftslistan är inte märkt för frånkopplad användning"
 
 #. calendar:server-version secondary
 #: calendar/calendar-errors.xml.h:146
 msgid " Some features may not work correctly with your current server version"
 msgstr ""
+" En del funktioner kanske inte fungerar korrekt med din nuvarande "
+"serverversion"
 
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -4262,12 +4268,12 @@ msgstr "starttid"
 # Osäker
 #: calendar/gui/alarm-notify/alarm-queue.c:864
 msgid "Dismiss"
-msgstr ""
+msgstr "Avfärda"
 
 # Osäker
 #: calendar/gui/alarm-notify/alarm-queue.c:865
 msgid "Dismiss All"
-msgstr ""
+msgstr "Avfärda alla"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:947
 msgid "No summary available."
@@ -5339,7 +5345,7 @@ msgstr "alternativmeny att välja tidsenheter"
 
 #: calendar/gui/dialogs/calendar-setup.c:284
 msgid "Copy calendar contents locally for offline operation"
-msgstr ""
+msgstr "Kopiera kalenderinnehåll lokalt för frånkopplad åtgärd"
 
 #: calendar/gui/dialogs/calendar-setup.c:336
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -6178,7 +6184,7 @@ msgstr "Odefinierad"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
 msgid "_Date completed:"
-msgstr "_Datum utfört:"
+msgstr "_Datum för färdigställande:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:13
 #: widgets/misc/e-send-options.glade.h:34
@@ -6397,7 +6403,7 @@ msgstr "Förfallodatum:"
 #. Status
 #: calendar/gui/e-cal-component-preview.c:222
 #: calendar/gui/e-itip-control.c:1132
-#: plugins/exchange-account-setup/exchange-account-setup.c:129
+#: plugins/exchange-account-setup/exchange-account-setup.c:209
 #: plugins/itip-formatter/itip-view.c:884
 msgid "Status:"
 msgstr "Status:"
@@ -6918,18 +6924,20 @@ msgstr "Preliminärt godtaget"
 #: calendar/gui/itip-utils.c:427 calendar/gui/itip-utils.c:453
 #: plugins/itip-formatter/itip-formatter.c:1395
 msgid "Declined"
-msgstr "Avböjt"
+msgstr "Avslaget"
 
 #: calendar/gui/e-itip-control.c:1229
 msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
 msgstr ""
+"Sammanträdet har avbrutits, men det kunde dock inte hittas i dina kalendrar"
 
 #: calendar/gui/e-itip-control.c:1231
 msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
+"Uppgiften har avbrutits, men den kunde dock inte hittas i dina uppgiftslistor"
 
 #: calendar/gui/e-itip-control.c:1310
 #, c-format
@@ -10395,6 +10403,9 @@ msgid ""
 "for %s displayed below\n"
 "and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+"Läs licensavtalet för %s nedan noggrannt\n"
+"och kryssa för kryssrutan för att godkänna det\n"
 
 #: mail/em-account-editor.c:463 mail/em-filter-folder-element.c:237
 #: mail/em-vfolder-rule.c:494
@@ -11614,6 +11625,8 @@ msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr ""
+"Om en användare försöker att öppna 10 eller fler meddelanden på samma gång, "
+"fråga om användaren verkligen vill göra det."
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid ""
@@ -11647,28 +11660,35 @@ msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
+"Lista med konton som är kända för Evolutions e-postkomponent. Listan "
+"innehåller strängar som namnger underkataloger relativa till /apps/evolution/"
+"mail/accounts."
 
 #: mail/evolution-mail.schemas.in.in.h:34
 msgid "List of custom headers and whether they are enabled."
-msgstr ""
+msgstr "Lista med anpassade huvuden och huruvida de är aktiverade."
 
 #: mail/evolution-mail.schemas.in.in.h:35
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
+"Lista med etiketter som är kända för Evolutions e-postkomponent. Listan "
+"innehåller strängar som innehåller namn:färg där färg använder den "
+"hexadecimala kodningen i HTML."
 
 #: mail/evolution-mail.schemas.in.in.h:36
 msgid "List of mime types to check for bonobo component viewers"
 msgstr ""
+"Lista med mime-typer att kontrollera med avseende på bonobo-komponentvisare"
 
 #: mail/evolution-mail.schemas.in.in.h:37
 msgid "List of protocol names whose license has been accepted."
-msgstr ""
+msgstr "Lista med protokollnamn vars licens har accepterats."
 
 #: mail/evolution-mail.schemas.in.in.h:38
 msgid "Load images for HTML messages over http"
-msgstr ""
+msgstr "Läs in bilder för HTML-meddelanden över http"
 
 #: mail/evolution-mail.schemas.in.in.h:39
 msgid ""
@@ -11676,6 +11696,9 @@ msgid ""
 "load images off the net 1 - Load images if sender is in the addressbook 2 - "
 "Always load images off the net"
 msgstr ""
+"Läs in bilder för HTML-meddelanden över http(s). Möjliga värden är: 0 - läs "
+"aldrig in bilder från nätet, 1 - läs in bilder om avsändaren finns i "
+"adressboken, 2 - läs alltid in bilder från nätet"
 
 #: mail/evolution-mail.schemas.in.in.h:40
 msgid "Log filter actions"
@@ -12634,6 +12657,8 @@ msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
+"Ange ett beskrivande namn för detta konto i utrymmet nedan.\n"
+"Detta namn kommer endast att användas för visningsändamål."
 
 #: mail/mail-config.glade.h:106
 msgid ""
@@ -12887,6 +12912,9 @@ msgid ""
 " Please read carefully the license agreement displayed\n"
 " below and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+" Läs licensavtalet nedan noggrannt och kryssa för\n"
+" kryssrutan för att godkänna det\n"
 
 #: mail/mail-dialogs.glade.h:7
 msgid "<b>vFolder Sources</b>"
@@ -14192,12 +14220,12 @@ msgid "Mark as default folder"
 msgstr "Markera som standardmapp"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: plugins/exchange-account-setup/exchange-account-setup.c:53
+#: plugins/exchange-account-setup/exchange-account-setup.c:59
 msgid "Secure Password"
 msgstr "Säkert lösenord"
 
 #. i18n: "NTLM" probably doesn't translate
-#: plugins/exchange-account-setup/exchange-account-setup.c:56
+#: plugins/exchange-account-setup/exchange-account-setup.c:62
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -14205,11 +14233,11 @@ msgstr ""
 "Detta alternativ kommer att ansluta till Exchange-servern genom att använda "
 "säker lösenordsautentisering (NTLM)."
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:64
+#: plugins/exchange-account-setup/exchange-account-setup.c:70
 msgid "Plaintext Password"
 msgstr "Lösenord i klartext"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:66
+#: plugins/exchange-account-setup/exchange-account-setup.c:72
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
@@ -14218,7 +14246,7 @@ msgstr ""
 "autentisering med lösenord i klartext."
 
 #. Description section
-#: plugins/exchange-account-setup/exchange-account-setup.c:113
+#: plugins/exchange-account-setup/exchange-account-setup.c:193
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14227,37 +14255,39 @@ msgstr ""
 "till varje person som skickar e-post till dig när du inte är\n"
 "på kontoret."
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:140
-msgid "I am in the office"
-msgstr "Jag är på kontoret"
-
-#: plugins/exchange-account-setup/exchange-account-setup.c:154
+#: plugins/exchange-account-setup/exchange-account-setup.c:221
+#: plugins/exchange-account-setup/exchange-account-setup.c:231
 msgid "I am out of the office"
 msgstr "Jag är inte på kontoret"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:168
+#: plugins/exchange-account-setup/exchange-account-setup.c:224
+#: plugins/exchange-account-setup/exchange-account-setup.c:228
+msgid "I am in the office"
+msgstr "Jag är på kontoret"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:257
 msgid "Out of office Message:"
 msgstr "Inte inne-meddelande:"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:194
+#: plugins/exchange-account-setup/exchange-account-setup.c:302
 msgid "Exchange Settings"
 msgstr "Exchange-inställningar"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:342
+#: plugins/exchange-account-setup/exchange-account-setup.c:448
 #: plugins/exchange-account-setup/exchange-ask-password.c:200
 msgid "_OWA Url:"
 msgstr "_OWA-URL:"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:350
+#: plugins/exchange-account-setup/exchange-account-setup.c:456
 #: plugins/exchange-account-setup/exchange-ask-password.c:193
 msgid "A_uthenticate"
 msgstr "A_utentisera"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:473
+#: plugins/exchange-account-setup/exchange-account-setup.c:664
 msgid "Authentication Type"
 msgstr "Autentiseringstyp"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:487
+#: plugins/exchange-account-setup/exchange-account-setup.c:678
 msgid "Ch_eck for Supported Types"
 msgstr "_Kontrollera vilka typer som stöds"
 
@@ -14843,7 +14873,7 @@ msgstr "Spara"
 #: plugins/save-calendar/csv-format.c:167
 #, c-format
 msgid "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
-msgstr ""
+msgstr "%s%d-%s%d-%s%d %s%d.%s%d.%s%d"
 
 #: plugins/save-calendar/csv-format.c:370
 #, c-format
@@ -14852,6 +14882,9 @@ msgid ""
 "sCreated%sContact List%sStart%sEnd%sDue%sPercent Done%sPriority%sUrl%"
 "sAttendees List%sLocation%sModified%s"
 msgstr ""
+"Uid%sSammanfattning%sBeskrivningslista%sKategorilista%sKommentarlista%"
+"sSlutfört%sSkapat%sKontaktlista%sStart%sSlut%sSka vara utfört%sProcent klart%"
+"sPrioritet%sUrl%sDeltagarlista%sPlats%sÄndrad%s"
 
 #: plugins/save-calendar/csv-format.c:519
 msgid "Advanced options for the CSV format"
@@ -16392,9 +16425,6 @@ msgstr "F_örhandsgranskningspanel"
 msgid "_Save as VCard..."
 msgstr "_Spara som VCard..."
 
-msgid "_Save as VCard"
-msgstr "_Spara som VCard"
-
 #: ui/evolution-addressbook.xml.h:42
 msgid "_Select All"
 msgstr "_Markera allt"
@@ -16474,9 +16504,6 @@ msgstr "Töm gamla möten och sammanträden"
 #: ui/evolution-calendar.xml.h:25
 msgid "Select _Date"
 msgstr "Välj _datum"
-
-msgid "Select date"
-msgstr "Välj datum"
 
 #: ui/evolution-calendar.xml.h:27
 msgid "Select a specific date"
@@ -16582,15 +16609,6 @@ msgstr "Ta bort alla borttagna meddelanden från alla mappar permanent"
 #: ui/evolution-mail-global.xml.h:9
 msgid "Post Ne_w Message"
 msgstr "Posta n_ytt meddelande"
-
-msgid "Post New Message"
-msgstr "Posta nytt meddelande"
-
-msgid "Post _New Message"
-msgstr "Posta _nytt meddelande"
-
-msgid "Post new message"
-msgstr "Posta nytt meddelande"
 
 #: ui/evolution-mail-global.xml.h:10
 msgid "Post a message to a Public folder"
@@ -16734,9 +16752,6 @@ msgstr "Tillämpa filterregler på de markerade meddelandena"
 msgid "Caret _Mode"
 msgstr "Markör_läge"
 
-msgid "Caret Mode"
-msgstr "Markörläge"
-
 #: ui/evolution-mail-message.xml.h:6
 msgid "Compose a reply to all of the recipients of the selected message"
 msgstr "Skriv ett svar till alla mottagare av det markerade meddelandet"
@@ -16828,9 +16843,6 @@ msgstr "_Vidarebefordra som..."
 #: ui/evolution-mail-message.xml.h:33
 msgid "Filter _Junk"
 msgstr "Filtrera s_kräp"
-
-msgid "Filter junk"
-msgstr "Filtrera skräp"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
@@ -16976,9 +16988,6 @@ msgstr "F_öregående olästa meddelande"
 #: ui/evolution-mail-message.xml.h:75
 msgid "Post a Repl_y"
 msgstr "Posta ett s_var"
-
-msgid "Post a Reply"
-msgstr "Posta ett svar"
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "Post a reply to a message in a Public folder"
@@ -17269,43 +17278,25 @@ msgstr "Signera detta meddelande med ditt S/MIME-signaturcertifikat"
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Växlar huruvida blindkopiefältet ska visas"
 
-msgid "Toggle whether the BCC field is displayed"
-msgstr "Växla huruvida blindkopiefältet ska visas"
-
 #: ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the CC field is displayed"
 msgstr "Växlar huruvida kopiefältet ska visas"
-
-msgid "Toggle whether the CC field is displayed"
-msgstr "Växla huruvida kopiefältet ska visas"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Växlar huruvida frånväljaren ska visas"
 
-msgid "Toggle whether the From chooser is displayed"
-msgstr "Växla huruvida frånväljaren ska visas"
-
 #: ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Växlar huruvida svara till-fältet ska visas"
-
-msgid "Toggle whether the Post-To field is displayed"
-msgstr "Växla huruvida svara till-fältet ska visas"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Växlar huruvida svara till-fältet ska visas"
 
-msgid "Toggle whether the Reply-To field is displayed"
-msgstr "Växla huruvida svara till-fältet ska visas"
-
 #: ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the To field is displayed"
 msgstr "Växlar huruvida kopiefältet ska visas"
-
-msgid "Toggle whether the To field is displayed"
-msgstr "Växla huruvida kopiefältet ska visas"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
@@ -17442,28 +17433,24 @@ msgid "Print the list of tasks"
 msgstr "Skriv ut listan med uppgifter"
 
 #: ui/evolution-tasks.xml.h:18
-#, fuzzy
 msgid "View the selected task"
-msgstr "Ta bort markerade uppgifter"
+msgstr "Visa den markerade uppgiften"
 
 #: ui/evolution-tasks.xml.h:23
-#, fuzzy
 msgid "_Open Task"
-msgstr "_Uppgift"
+msgstr "_Öppna uppgift"
 
 #: ui/evolution.xml.h:1
-#, fuzzy
 msgid "About Evolution..."
-msgstr "Om Ximian Evolution"
+msgstr "Om Evolution..."
 
 #: ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
 msgstr "Ändra Evolutions inställningar"
 
 #: ui/evolution.xml.h:3
-#, fuzzy
 msgid "Change the visibility of the toolbar"
-msgstr "Ändra egenskaperna för denna mapp"
+msgstr "Ändra synligheten för verktygsraden"
 
 #: ui/evolution.xml.h:6
 msgid "Create a new window displaying this folder"
@@ -17471,28 +17458,27 @@ msgstr "Skapa ett nytt fönster som visar denna mapp"
 
 #: ui/evolution.xml.h:7
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr ""
+msgstr "Visa fönsterknappar med skrivbordets verktygsradsinställning"
 
 #: ui/evolution.xml.h:8
 msgid "Display window buttons with icons and text"
-msgstr ""
+msgstr "Visa fönsterknappar med ikoner och text"
 
 #: ui/evolution.xml.h:9
 msgid "Display window buttons with icons only"
-msgstr ""
+msgstr "Visa fönsterknappar med endast ikoner"
 
 #: ui/evolution.xml.h:10
 msgid "Display window buttons with text only"
-msgstr ""
+msgstr "Visa fönsterknappar med endast text"
 
 #: ui/evolution.xml.h:11
 msgid "E_xit"
 msgstr "_Avsluta"
 
 #: ui/evolution.xml.h:12
-#, fuzzy
 msgid "Evolution _FAQ"
-msgstr "Frågor och _svar om Ximian Evolution"
+msgstr "_Frågor och svar om Evolution"
 
 #: ui/evolution.xml.h:13
 msgid "Exit the program"
@@ -17508,29 +17494,27 @@ msgstr "Glöm ihågkomna lösenord så att du frågas efter dem igen"
 
 #: ui/evolution.xml.h:16
 msgid "Hide window buttons"
-msgstr ""
+msgstr "Dölj fönsterknappar"
 
 #: ui/evolution.xml.h:17
 msgid "Icons _and text"
-msgstr ""
+msgstr "Ikoner _och text"
 
 #: ui/evolution.xml.h:18
 msgid "Import data from other programs"
 msgstr "Importera data från andra program"
 
 #: ui/evolution.xml.h:20
-#, fuzzy
 msgid "New _Window"
-msgstr "_Sök nu"
+msgstr "Nytt _fönster"
 
 #: ui/evolution.xml.h:21
 msgid "Pi_lot Settings..."
 msgstr "Pi_lotinställningar..."
 
 #: ui/evolution.xml.h:22
-#, fuzzy
 msgid "Prefere_nces"
-msgstr "_Inställningar..."
+msgstr "_Inställningar"
 
 #: ui/evolution.xml.h:23
 msgid "Send / Receive"
@@ -17545,9 +17529,8 @@ msgid "Set up Pilot configuration"
 msgstr "Konfigurera Pilotkonfiguration"
 
 #: ui/evolution.xml.h:26
-#, fuzzy
 msgid "Show information about Evolution"
-msgstr "Visa information om Ximian Evolution"
+msgstr "Visa information om Evolution"
 
 #: ui/evolution.xml.h:27
 msgid "Submit Bug Report"
@@ -17566,24 +17549,20 @@ msgid "Toggle whether we are working offline."
 msgstr "Växla om vi arbetar frånkopplade."
 
 #: ui/evolution.xml.h:31
-#, fuzzy
 msgid "Tool_bar"
-msgstr "_Verktygsrader"
+msgstr "_Verktygsrad"
 
 #: ui/evolution.xml.h:32
-#, fuzzy
 msgid "Tool_bar style"
-msgstr "_Verktygsrader"
+msgstr "Stil på verktygs_rad"
 
 #: ui/evolution.xml.h:33
-#, fuzzy
 msgid "Window B_uttons"
-msgstr "Föregående"
+msgstr "Fönster_knappar"
 
 #: ui/evolution.xml.h:35
-#, fuzzy
 msgid "_About Evolution..."
-msgstr "Om Ximian Evolution"
+msgstr "_Om Evolution..."
 
 #: ui/evolution.xml.h:40
 msgid "_Help"
@@ -17591,11 +17570,11 @@ msgstr "_Hjälp"
 
 #: ui/evolution.xml.h:41
 msgid "_Hide buttons"
-msgstr ""
+msgstr "_Dölj knappar"
 
 #: ui/evolution.xml.h:42
 msgid "_Icons only"
-msgstr ""
+msgstr "Endast _ikoner"
 
 #: ui/evolution.xml.h:43
 msgid "_Import..."
@@ -17606,23 +17585,20 @@ msgid "_New"
 msgstr "_Nytt"
 
 #: ui/evolution.xml.h:45
-#, fuzzy
 msgid "_Quick Reference"
-msgstr "Snabbsökning"
+msgstr "_Snabbreferens"
 
 #: ui/evolution.xml.h:46
 msgid "_Send / Receive"
 msgstr "_Skicka / Ta emot"
 
 #: ui/evolution.xml.h:47
-#, fuzzy
 msgid "_Text only"
-msgstr "Textmodell"
+msgstr "Endast _text"
 
 #: ui/evolution.xml.h:50
-#, fuzzy
 msgid "_Window"
-msgstr "_Sök nu"
+msgstr "_Fönster"
 
 #: views/addressbook/galview.xml.h:1
 msgid "By _Company"
@@ -17645,9 +17621,8 @@ msgid "_Day View"
 msgstr "_Dagsvy"
 
 #: views/calendar/galview.xml.h:3
-#, fuzzy
 msgid "_List View"
-msgstr "Anpassad vy"
+msgstr "_Listvy"
 
 #: views/calendar/galview.xml.h:4
 msgid "_Month View"
@@ -17658,44 +17633,36 @@ msgid "_Work Week View"
 msgstr "_Arbetsveckovy"
 
 #: views/mail/galview.xml.h:1
-#, fuzzy
 msgid "As _Sent Folder"
-msgstr "Som skickatmapp"
+msgstr "Som _skickatmapp"
 
 #: views/mail/galview.xml.h:2
-#, fuzzy
 msgid "By S_tatus"
-msgstr "Efter status"
+msgstr "Efter s_tatus"
 
 #: views/mail/galview.xml.h:3
-#, fuzzy
 msgid "By Se_nder"
-msgstr "Efter avsändare"
+msgstr "Efter a_vsändare"
 
 #: views/mail/galview.xml.h:4
-#, fuzzy
 msgid "By Su_bject"
-msgstr "Efter ämne"
+msgstr "Efter _ämne"
 
 #: views/mail/galview.xml.h:5
-#, fuzzy
 msgid "By _Follow Up Flag"
-msgstr "Efter uppföljningsflagga"
+msgstr "Efter _uppföljningsflagga"
 
 #: views/mail/galview.xml.h:6
-#, fuzzy
 msgid "_Messages"
-msgstr "Meddelanden"
+msgstr "_Meddelanden"
 
 #: views/tasks/galview.xml.h:1
-#, fuzzy
 msgid "With _Due Date"
-msgstr "Förfallodatum:"
+msgstr "Med _förfallodatum"
 
 #: views/tasks/galview.xml.h:2
-#, fuzzy
 msgid "With _Status"
-msgstr "Ställ in status"
+msgstr "Med _status"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:195
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:637
@@ -17703,25 +17670,20 @@ msgid "UTC"
 msgstr "UTC"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
-#, fuzzy
 msgid "<b>Time Zones</b>"
-msgstr "Tidszoner"
+msgstr "<b>Tidszoner</b>"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
-#, fuzzy
 msgid "<b>_Selection</b>"
-msgstr "_Markering:"
+msgstr "<b>_Val</b>"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "Select a Time Zone"
 msgstr "Välj en tidszon"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
-#, fuzzy
 msgid "TimeZone Combobox"
-msgstr ""
-"\n"
-"Tidszon: "
+msgstr "Tidszonskombobox"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:7
 msgid ""
@@ -17753,14 +17715,12 @@ msgid "%B %Y"
 msgstr "%B %Y"
 
 #: widgets/misc/e-calendar.c:177 widgets/misc/e-calendar.c:201
-#, fuzzy
 msgid "Previous Button"
-msgstr "Föregående"
+msgstr "Föregående knapp"
 
 #: widgets/misc/e-calendar.c:226
-#, fuzzy
 msgid "Month Calendar"
-msgstr "Skriv ut kalender"
+msgstr "Månadskalender"
 
 #: widgets/misc/e-cell-date-edit.c:232 widgets/misc/e-dateedit.c:444
 msgid "Now"
@@ -17820,9 +17780,8 @@ msgid "Western European"
 msgstr "Västeuropeisk"
 
 #: widgets/misc/e-charset-picker.c:74
-#, fuzzy
 msgid "Western European, New"
-msgstr "Västeuropeisk"
+msgstr "Västeuropeisk, ny"
 
 #: widgets/misc/e-charset-picker.c:91 widgets/misc/e-charset-picker.c:92
 #: widgets/misc/e-charset-picker.c:93
@@ -17864,35 +17823,32 @@ msgid "..."
 msgstr "..."
 
 #: widgets/misc/e-dateedit.c:313
-#, fuzzy
 msgid "Date and Time Entry"
-msgstr "Datum och tid"
+msgstr "Fält för datum och tid"
 
 #: widgets/misc/e-dateedit.c:332
 msgid "Text entry to input date"
-msgstr ""
+msgstr "Textfält för att ange datum"
 
 #: widgets/misc/e-dateedit.c:333
 msgid "Text Date Entry"
-msgstr ""
+msgstr "Datumtextfält"
 
 #: widgets/misc/e-dateedit.c:350
 msgid "Click this button to show a calendar"
-msgstr ""
+msgstr "Klicka på denna knapp för att visa en kalender"
 
 #: widgets/misc/e-dateedit.c:351
-#, fuzzy
 msgid "Date Button"
-msgstr "Watertown"
+msgstr "Datumknapp"
 
 #: widgets/misc/e-dateedit.c:371
-#, fuzzy
 msgid "Combo box to select time"
-msgstr "Gå till nuvarande tid"
+msgstr "Kombobox för att välja tid"
 
 #: widgets/misc/e-dateedit.c:372
 msgid "Time Combo Box"
-msgstr ""
+msgstr "Tidskombobox"
 
 #: widgets/misc/e-error.c:84 widgets/misc/e-error.c:85
 #: widgets/misc/e-error.c:127
@@ -17901,89 +17857,83 @@ msgstr "Evolution-fel"
 
 #: widgets/misc/e-error.c:86 widgets/misc/e-error.c:87
 #: widgets/misc/e-error.c:125
-#, fuzzy
 msgid "Evolution Warning"
-msgstr "Evolutions e-post"
+msgstr "Evolution-varning"
 
 #: widgets/misc/e-error.c:124
-#, fuzzy
 msgid "Evolution Information"
-msgstr "Sammanträdesinformation"
+msgstr "Evolution-information"
 
 #: widgets/misc/e-error.c:126
-#, fuzzy
 msgid "Evolution Query"
-msgstr "Evolution"
+msgstr "Evolution-fråga"
 
 #. setup a dummy error
 #: widgets/misc/e-error.c:438
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
-msgstr "Skickade meddelanden och utkast"
+msgstr "<span weight=\"bold\">Internt fel, okänt fel \"%s\" begärt</span>"
 
 #: widgets/misc/e-expander.c:181
-#, fuzzy
 msgid "Expanded"
-msgstr "T_öm"
+msgstr "Expanderad"
 
 #: widgets/misc/e-expander.c:182
 msgid "Whether or not the expander is expanded"
-msgstr ""
+msgstr "Huruvida expanderaren är expanderad eller inte"
 
 #: widgets/misc/e-expander.c:190
 msgid "Text of the expander's label"
-msgstr ""
+msgstr "Text på expanderarens etikett"
 
 #: widgets/misc/e-expander.c:197
-#, fuzzy
 msgid "Use underline"
-msgstr "Odefinierad"
+msgstr "Använd understrykning"
 
 #: widgets/misc/e-expander.c:198
 msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
 msgstr ""
+"Om detta är angivet kommer en understrykning i texten att ange att nästa "
+"tecken ska användas som snabbtangent"
 
 #: widgets/misc/e-expander.c:205
-#, fuzzy
 msgid "Spacing"
-msgstr "Spanien"
+msgstr "Mellanrum"
 
 #: widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
-msgstr ""
+msgstr "Mellanrum att placera mellan etiketten och barnet"
 
 #: widgets/misc/e-expander.c:215
 msgid "Label widget"
-msgstr ""
+msgstr "Etikettwidget"
 
 #: widgets/misc/e-expander.c:216
 msgid "A widget to display in place of the usual expander label"
-msgstr ""
+msgstr "En widget att visa istället för den vanliga expanderaretiketten"
 
 #: widgets/misc/e-expander.c:222
 msgid "Expander Size"
-msgstr ""
+msgstr "Expanderarstorlek"
 
 #: widgets/misc/e-expander.c:223
 msgid "Size of the expander arrow"
-msgstr ""
+msgstr "Storlek på expanderarpilen"
 
 #: widgets/misc/e-expander.c:231
-#, fuzzy
 msgid "Indicator Spacing"
-msgstr "Indian Springs"
+msgstr "Indikatormellanrum"
 
 #: widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
-msgstr ""
+msgstr "Mellanrum runt expanderarpilen"
 
 #: widgets/misc/e-filter-bar.c:195
-#, fuzzy
 msgid "_Searches"
-msgstr "_Sök"
+msgstr "_Sökningar"
 
 #: widgets/misc/e-filter-bar.c:197
 msgid "Search Editor"
@@ -18007,25 +17957,24 @@ msgid "_Advanced..."
 msgstr "_Avancerat..."
 
 #: widgets/misc/e-image-chooser.c:172
-#, fuzzy
 msgid "Choose Image"
-msgstr "Välj en fil"
+msgstr "Välj bild"
 
 #: widgets/misc/e-map.c:647
-#, fuzzy
 msgid "World Map"
-msgstr "Worland"
+msgstr "Världskarta"
 
 #: widgets/misc/e-map.c:649
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
 msgstr ""
+"Musbaserad interaktiv karta för val av tidszon. Tangentbordsanvändare bör "
+"istället välja tidszon ur den nedanstående komboboxen."
 
 #: widgets/misc/e-pilot-settings.c:103
-#, fuzzy
 msgid "Sync with:"
-msgstr "slutar med"
+msgstr "Synkronisera med:"
 
 #: widgets/misc/e-pilot-settings.c:111
 msgid "Sync Private Records:"
@@ -18038,9 +17987,8 @@ msgstr "Synkronisera kategorier:"
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: widgets/misc/e-search-bar.c:343
-#, fuzzy
 msgid "Search Text Entry"
-msgstr "Endast sökbas"
+msgstr "Söktextfält"
 
 #: widgets/misc/e-search-bar.c:547
 msgid "_Search"
@@ -18055,9 +18003,8 @@ msgid "_Clear"
 msgstr "_Töm"
 
 #: widgets/misc/e-search-bar.c:645
-#, fuzzy
 msgid "Search Type"
-msgstr "Sökomfattning:"
+msgstr "Sökningstyp"
 
 #: widgets/misc/e-search-bar.c:849
 msgid "Item ID"
@@ -18076,85 +18023,78 @@ msgid "Find _Now"
 msgstr "Sök _nu"
 
 #: widgets/misc/e-send-options.c:505
-#, fuzzy
 msgid "When de_leted:"
-msgstr "Dölj borttagna"
+msgstr "Då _borttagen:"
 
 #: widgets/misc/e-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Delivery Options</b>"
-msgstr "<b>Alternativ</b>"
+msgstr "<b>Leveransalternativ</b>"
 
 #: widgets/misc/e-send-options.glade.h:2
-#, fuzzy
 msgid "<b>Replies</b>"
-msgstr "<b>Upprepa</b>"
+msgstr "<b>Svar</b>"
 
 #: widgets/misc/e-send-options.glade.h:3
-#, fuzzy
 msgid "<b>Return Notification</b>"
-msgstr "<b>Autentisering</b>"
+msgstr "<b>Returnera avisering</b>"
 
 #: widgets/misc/e-send-options.glade.h:4
-#, fuzzy
 msgid "<b>Status Tracking</b>"
-msgstr "<b>Sökning</b>"
+msgstr "<b>Statusspårning</b>"
 
 #: widgets/misc/e-send-options.glade.h:5
-#, fuzzy
 msgid "A_uto-delete sent item"
-msgstr "Ta bort detta objekt"
+msgstr "Ta a_utomatiskt bort skickat objekt"
 
 #: widgets/misc/e-send-options.glade.h:6
-#, fuzzy
 msgid "C_lassification"
-msgstr "Klassifikation"
+msgstr "K_lassifikation"
 
 #: widgets/misc/e-send-options.glade.h:7
-#, fuzzy
 msgid "Creat_e a sent item to track information"
-msgstr "Få tag i den senaste uppgiftsinformationen"
+msgstr "Ska_pa ett skickatobjekt för att spåra information"
 
 #: widgets/misc/e-send-options.glade.h:8
-#, fuzzy
 msgid "Deli_vered and opened"
-msgstr "Svar och föräldrar"
+msgstr "Le_vererat och öppnat"
 
 #: widgets/misc/e-send-options.glade.h:9
-#, fuzzy
 msgid "Gene_ral Options"
-msgstr "<< Färre alternativ"
+msgstr "Allm_änna alternativ"
 
 #: widgets/misc/e-send-options.glade.h:10
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt"
-msgstr "Kvitton över läsning"
+msgstr ""
+"Inget\n"
+"E-postkvitto"
 
 #: widgets/misc/e-send-options.glade.h:12
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt\n"
-msgstr "Kvitton över läsning"
+msgstr ""
+"Inget\n"
+"E-postkvitto\n"
 
 #: widgets/misc/e-send-options.glade.h:15
-#, fuzzy
 msgid ""
 "Public\n"
 "Private\n"
 "Confidential\n"
-msgstr "Konfidentiellt"
+msgstr ""
+"Publikt\n"
+"Privat\n"
+"Konfidentiellt\n"
 
 #: widgets/misc/e-send-options.glade.h:19
-#, fuzzy
 msgid "R_eply requested"
-msgstr "_Svarsstil:"
+msgstr "_Svar begärt"
 
 #: widgets/misc/e-send-options.glade.h:21
 msgid "Sta_tus  Tracking"
-msgstr ""
+msgstr "Sta_tusspårning"
 
 #: widgets/misc/e-send-options.glade.h:22
 msgid ""
@@ -18163,90 +18103,78 @@ msgid ""
 "Standard\n"
 "Low"
 msgstr ""
+"Odefinierad\n"
+"Hög\n"
+"Standard\n"
+"Låg"
 
 #: widgets/misc/e-send-options.glade.h:26
-#, fuzzy
 msgid "W_ithin"
-msgstr "Bredd"
+msgstr "_Inom"
 
 #: widgets/misc/e-send-options.glade.h:27
 msgid "When acce_pted: "
-msgstr ""
+msgstr "Då acce_pterad: "
 
 #: widgets/misc/e-send-options.glade.h:28
-#, fuzzy
 msgid "When co_mpleted:"
-msgstr "Datum utfört:"
+msgstr "Då f_ärdigställd:"
 
 #: widgets/misc/e-send-options.glade.h:29
 msgid "When decli_ned:    "
-msgstr ""
+msgstr "Då a_vslaget:      "
 
 #: widgets/misc/e-send-options.glade.h:30
-#, fuzzy
 msgid "_After:"
-msgstr "efter"
+msgstr "_Efter:"
 
 #: widgets/misc/e-send-options.glade.h:31
-#, fuzzy
 msgid "_All information"
-msgstr "Uppgiftsinformation"
+msgstr "_All information"
 
 #: widgets/misc/e-send-options.glade.h:32
-#, fuzzy
 msgid "_Delay message delivery"
-msgstr "Lämna meddelanden på servern"
+msgstr "_Fördröj meddelandeleverans"
 
 #: widgets/misc/e-send-options.glade.h:33
-#, fuzzy
 msgid "_Delivered"
-msgstr "_Ta bort"
+msgstr "_Levererad"
 
 #: widgets/misc/e-send-options.glade.h:35
 msgid "_Set expiration  date"
-msgstr ""
+msgstr "_Ställ in utgångdatum"
 
 #: widgets/misc/e-send-options.glade.h:36
-#, fuzzy
 msgid "_Until:"
-msgstr "Namnlös"
+msgstr "_Till:"
 
 #: widgets/misc/e-send-options.glade.h:37
 msgid "_When convenient"
-msgstr ""
+msgstr "_Då lämpligt"
 
 #: widgets/misc/e-send-options.glade.h:38
 msgid "_When opened:     "
-msgstr ""
+msgstr "_Då öppnat:       "
 
 #. system:ask-save-file-exists-overwrite primary
 #: widgets/misc/e-system-errors.xml.h:4
 msgid "File exists \"{0}\"."
-msgstr ""
+msgstr "Filen finns \"{0}\"."
 
 #. system:ask-save-file-exists-overwrite secondary
 #: widgets/misc/e-system-errors.xml.h:6
-#, fuzzy
 msgid "Do you wish to overwrite it?"
-msgstr ""
-"%s finns redan\n"
-"Vill du skriva över den?"
+msgstr "Vill du skriva över den?"
 
 #. system:no-save-file primary
 #: widgets/misc/e-system-errors.xml.h:9
-#, fuzzy
 msgid "Cannot save file \"{0}\"."
-msgstr ""
-"Kan inte spara till \"%s\":\n"
-" %s"
+msgstr "Kan inte spara filen \"{0}\"."
 
 #. system:no-load-file primary
 #: widgets/misc/e-system-errors.xml.h:13
-#, fuzzy
 msgid "Cannot open file \"{0}\"."
-msgstr ""
-"Kan inte spara till \"%s\":\n"
-" %s"
+msgstr "Kan inte öppna filen \"{0}\"."
 
 #: widgets/misc/e-task-widget.c:208
 #, c-format
@@ -18259,9 +18187,214 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% färdigt)"
 
 #: widgets/misc/e-url-entry.c:107
-#, fuzzy
 msgid "click here to go to url"
-msgstr "<klicka här för att välja en mapp>"
+msgstr "klicka här för att gå till url"
+
+#~ msgid ""
+#~ "Some features may not work correctly with your current server version."
+#~ msgstr ""
+#~ "En del funktioner kanske inte fungerar korrekt med din nuvarande "
+#~ "serverversion."
+
+#~ msgid ""
+#~ "Please read carefully the license agreement displayed below and tick the "
+#~ "check box for accepting it."
+#~ msgstr ""
+#~ "Läs licensavtalet nedan noggrannt och kryssa för kryssrutan för att "
+#~ "godkänna det."
+
+#~ msgid ""
+#~ "Please read carefully the license agreement displayed below and tick the "
+#~ "check box for accepting it"
+#~ msgstr ""
+#~ "Läs licensavtalet nedan noggrannt och kryssa för kryssrutan för att "
+#~ "godkänna det"
+
+#~ msgid "Uid"
+#~ msgstr "Användarid"
+
+#~ msgid "Description List"
+#~ msgstr "Beskrivningslista"
+
+#~ msgid "Categories List"
+#~ msgstr "Kategorilista"
+
+#~ msgid "Comment List"
+#~ msgstr "Kommentarlista"
+
+#~ msgid "Created"
+#~ msgstr "Skapat"
+
+#~ msgid "Start"
+#~ msgstr "Start"
+
+#~ msgid "End"
+#~ msgstr "Slut"
+
+#~ msgid "Percent Done"
+#~ msgstr "Procent klart"
+
+#~ msgid "Attendees List"
+#~ msgstr "Deltagarlista"
+
+#~ msgid "About Evolution"
+#~ msgstr "Om Evolution"
+
+#~ msgid "New Window"
+#~ msgstr "Nytt fönster"
+
+#~ msgid "Prefere_nces..."
+#~ msgstr "_Inställningar..."
+
+#~ msgid "Quick Reference"
+#~ msgstr "Snabbreferens"
+
+#~ msgid "As Sent Folder"
+#~ msgstr "Som skickatmapp"
+
+#~ msgid "By Status"
+#~ msgstr "Efter status"
+
+#~ msgid "By Sender"
+#~ msgstr "Efter avsändare"
+
+#~ msgid "By Subject"
+#~ msgstr "Efter ämne"
+
+#~ msgid "By Follow Up Flag"
+#~ msgstr "Efter uppföljningsflagga"
+
+#~ msgid "_Message"
+#~ msgstr "_Meddelande"
+
+#~ msgid "Time Zones"
+#~ msgstr "Tidszoner"
+
+#~ msgid "_Selection"
+#~ msgstr "_Val"
+
+#~ msgid "Warnings"
+#~ msgstr "Varningar"
+
+#~ msgid "Internal error, unknown error '%s' requested"
+#~ msgstr "Internt fel, okänt fel \"%s\" begärt"
+
+#~ msgid "Delivery Options"
+#~ msgstr "Leveransalternativ"
+
+#~ msgid "Return Notification"
+#~ msgstr "Returnera avisering"
+
+#~ msgid "Status Tracking"
+#~ msgstr "Statusspårning"
+
+#~ msgid "Auto-delete sent item"
+#~ msgstr "Ta automatiskt bort skickat objekt"
+
+#~ msgid "Classification"
+#~ msgstr "Klassifikation"
+
+#~ msgid "Create a sent item to track information"
+#~ msgstr "Skapa ett skickatobjekt för att spåra information"
+
+#~ msgid "Delivered and opened"
+#~ msgstr "Levererat och öppnat"
+
+#~ msgid "General Options"
+#~ msgstr "Allmänna alternativ"
+
+#~ msgid "Sta_tus Tracking"
+#~ msgstr "Sta_tusspårning"
+
+#~ msgid "Status tracking"
+#~ msgstr "Statusspårning"
+
+#~ msgid "When acce_pted:"
+#~ msgstr "Då acce_pterad:"
+
+#~ msgid "When declined:    "
+#~ msgstr "Då avslaget:      "
+
+#~ msgid "When decli_ned:"
+#~ msgstr "Då a_vslaget:"
+
+#~ msgid "When declined:"
+#~ msgstr "Då avslaget:"
+
+#~ msgid "After:"
+#~ msgstr "Efter:"
+
+#~ msgid "_After"
+#~ msgstr "_Efter"
+
+#~ msgid "After"
+#~ msgstr "Efter"
+
+#~ msgid "All information"
+#~ msgstr "All information"
+
+#~ msgid "Delay message delivery"
+#~ msgstr "Fördröj meddelandeleverans"
+
+#~ msgid "Delivered"
+#~ msgstr "Levererad"
+
+#~ msgid "_Set expiration date"
+#~ msgstr "_Ställ in utgångdatum"
+
+#~ msgid "Set expiration date"
+#~ msgstr "Ställ in utgångdatum"
+
+#~ msgid "_When opened:"
+#~ msgstr "_Då öppnat:"
+
+#~ msgid "When opened:"
+#~ msgstr "Då öppnat:"
+
+#~ msgid "click here to go to the url"
+#~ msgstr "klicka här för att gå till url:en"
+
+#~ msgid "_Save as VCard"
+#~ msgstr "_Spara som VCard"
+
+#~ msgid "Select date"
+#~ msgstr "Välj datum"
+
+#~ msgid "Post New Message"
+#~ msgstr "Posta nytt meddelande"
+
+#~ msgid "Post _New Message"
+#~ msgstr "Posta _nytt meddelande"
+
+#~ msgid "Post new message"
+#~ msgstr "Posta nytt meddelande"
+
+#~ msgid "Caret Mode"
+#~ msgstr "Markörläge"
+
+#~ msgid "Filter junk"
+#~ msgstr "Filtrera skräp"
+
+#~ msgid "Post a Reply"
+#~ msgstr "Posta ett svar"
+
+#~ msgid "Toggle whether the BCC field is displayed"
+#~ msgstr "Växla huruvida blindkopiefältet ska visas"
+
+#~ msgid "Toggle whether the CC field is displayed"
+#~ msgstr "Växla huruvida kopiefältet ska visas"
+
+#~ msgid "Toggle whether the From chooser is displayed"
+#~ msgstr "Växla huruvida frånväljaren ska visas"
+
+#~ msgid "Toggle whether the Post-To field is displayed"
+#~ msgstr "Växla huruvida svara till-fältet ska visas"
+
+#~ msgid "Toggle whether the Reply-To field is displayed"
+#~ msgstr "Växla huruvida svara till-fältet ska visas"
+
+#~ msgid "Toggle whether the To field is displayed"
+#~ msgstr "Växla huruvida kopiefältet ska visas"
 
 #~ msgid "You cannot share folder with specified user \"{0}\""
 #~ msgstr "Du kan inte dela mapp med angivna användaren \"{0}\""
