@@ -770,54 +770,30 @@
 				      </child>
 
 				      <child>
-					<widget class="GtkButton" id="button-phone-1">
+					<widget class="GtkOptionMenu" id="optionmenu-phone-1">
 					  <property name="visible">True</property>
 					  <property name="can_focus">True</property>
-					  <property name="relief">GTK_RELIEF_NORMAL</property>
+					  <property name="history">0</property>
 
 					  <child>
-					    <widget class="GtkHBox" id="hbox57">
-					      <property name="border_width">1</property>
-					      <property name="visible">True</property>
-					      <property name="homogeneous">False</property>
-					      <property name="spacing">6</property>
+					    <widget class="GtkMenu" id="menu179">
 
 					      <child>
-						<widget class="GtkLabel" id="label-phone-1">
+						<widget class="GtkMenuItem" id="menuitem412">
 						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">_Business:</property>
+						  <property name="label" translatable="yes">Work</property>
 						  <property name="use_underline">True</property>
-						  <property name="use_markup">False</property>
-						  <property name="justify">GTK_JUSTIFY_LEFT</property>
-						  <property name="wrap">False</property>
-						  <property name="selectable">False</property>
-						  <property name="xalign">0</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">2</property>
-						  <property name="ypad">0</property>
+						  <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
 						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">True</property>
-						  <property name="fill">True</property>
-						</packing>
 					      </child>
 
 					      <child>
-						<widget class="GtkArrow" id="arrow1">
+						<widget class="GtkMenuItem" id="menuitem413">
 						  <property name="visible">True</property>
-						  <property name="arrow_type">GTK_ARROW_DOWN</property>
-						  <property name="shadow_type">GTK_SHADOW_OUT</property>
-						  <property name="xalign">0.5</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">0</property>
-						  <property name="ypad">0</property>
+						  <property name="label" translatable="yes">Personal</property>
+						  <property name="use_underline">True</property>
+						  <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
 						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">True</property>
-						</packing>
 					      </child>
 					    </widget>
 					  </child>
@@ -833,54 +809,30 @@
 				      </child>
 
 				      <child>
-					<widget class="GtkButton" id="button-phone-2">
+					<widget class="GtkOptionMenu" id="optionmenu-phone-2">
 					  <property name="visible">True</property>
 					  <property name="can_focus">True</property>
-					  <property name="relief">GTK_RELIEF_NORMAL</property>
+					  <property name="history">0</property>
 
 					  <child>
-					    <widget class="GtkHBox" id="hbox58">
-					      <property name="border_width">1</property>
-					      <property name="visible">True</property>
-					      <property name="homogeneous">False</property>
-					      <property name="spacing">6</property>
+					    <widget class="GtkMenu" id="menu180">
 
 					      <child>
-						<widget class="GtkLabel" id="label-phone-2">
+						<widget class="GtkMenuItem" id="menuitem414">
 						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">_Home:</property>
+						  <property name="label" translatable="yes">Work</property>
 						  <property name="use_underline">True</property>
-						  <property name="use_markup">False</property>
-						  <property name="justify">GTK_JUSTIFY_LEFT</property>
-						  <property name="wrap">False</property>
-						  <property name="selectable">False</property>
-						  <property name="xalign">0</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">2</property>
-						  <property name="ypad">0</property>
+						  <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
 						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">True</property>
-						  <property name="fill">True</property>
-						</packing>
 					      </child>
 
 					      <child>
-						<widget class="GtkArrow" id="arrow2">
+						<widget class="GtkMenuItem" id="menuitem415">
 						  <property name="visible">True</property>
-						  <property name="arrow_type">GTK_ARROW_DOWN</property>
-						  <property name="shadow_type">GTK_SHADOW_OUT</property>
-						  <property name="xalign">0.5</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">0</property>
-						  <property name="ypad">0</property>
+						  <property name="label" translatable="yes">Personal</property>
+						  <property name="use_underline">True</property>
+						  <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
 						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">True</property>
-						</packing>
 					      </child>
 					    </widget>
 					  </child>
@@ -896,54 +848,30 @@
 				      </child>
 
 				      <child>
-					<widget class="GtkButton" id="button-phone-3">
+					<widget class="GtkOptionMenu" id="optionmenu-phone-3">
 					  <property name="visible">True</property>
 					  <property name="can_focus">True</property>
-					  <property name="relief">GTK_RELIEF_NORMAL</property>
+					  <property name="history">0</property>
 
 					  <child>
-					    <widget class="GtkHBox" id="hbox59">
-					      <property name="border_width">1</property>
-					      <property name="visible">True</property>
-					      <property name="homogeneous">False</property>
-					      <property name="spacing">6</property>
+					    <widget class="GtkMenu" id="menu181">
 
 					      <child>
-						<widget class="GtkLabel" id="label-phone-3">
+						<widget class="GtkMenuItem" id="menuitem416">
 						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">Business _fax:</property>
+						  <property name="label" translatable="yes">Work</property>
 						  <property name="use_underline">True</property>
-						  <property name="use_markup">False</property>
-						  <property name="justify">GTK_JUSTIFY_LEFT</property>
-						  <property name="wrap">False</property>
-						  <property name="selectable">False</property>
-						  <property name="xalign">0</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">2</property>
-						  <property name="ypad">0</property>
+						  <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
 						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">True</property>
-						  <property name="fill">True</property>
-						</packing>
 					      </child>
 
 					      <child>
-						<widget class="GtkArrow" id="arrow3">
+						<widget class="GtkMenuItem" id="menuitem417">
 						  <property name="visible">True</property>
-						  <property name="arrow_type">GTK_ARROW_DOWN</property>
-						  <property name="shadow_type">GTK_SHADOW_OUT</property>
-						  <property name="xalign">0.5</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">0</property>
-						  <property name="ypad">0</property>
+						  <property name="label" translatable="yes">Personal</property>
+						  <property name="use_underline">True</property>
+						  <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
 						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">True</property>
-						</packing>
 					      </child>
 					    </widget>
 					  </child>
@@ -959,54 +887,30 @@
 				      </child>
 
 				      <child>
-					<widget class="GtkButton" id="button-phone-4">
+					<widget class="GtkOptionMenu" id="optionmenu-phone-4">
 					  <property name="visible">True</property>
 					  <property name="can_focus">True</property>
-					  <property name="relief">GTK_RELIEF_NORMAL</property>
+					  <property name="history">0</property>
 
 					  <child>
-					    <widget class="GtkHBox" id="hbox60">
-					      <property name="border_width">1</property>
-					      <property name="visible">True</property>
-					      <property name="homogeneous">False</property>
-					      <property name="spacing">6</property>
+					    <widget class="GtkMenu" id="menu182">
 
 					      <child>
-						<widget class="GtkLabel" id="label-phone-4">
+						<widget class="GtkMenuItem" id="menuitem418">
 						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">_Mobile:</property>
+						  <property name="label" translatable="yes">Work</property>
 						  <property name="use_underline">True</property>
-						  <property name="use_markup">False</property>
-						  <property name="justify">GTK_JUSTIFY_LEFT</property>
-						  <property name="wrap">False</property>
-						  <property name="selectable">False</property>
-						  <property name="xalign">0</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">2</property>
-						  <property name="ypad">0</property>
+						  <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
 						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">True</property>
-						  <property name="fill">True</property>
-						</packing>
 					      </child>
 
 					      <child>
-						<widget class="GtkArrow" id="arrow4">
+						<widget class="GtkMenuItem" id="menuitem419">
 						  <property name="visible">True</property>
-						  <property name="arrow_type">GTK_ARROW_DOWN</property>
-						  <property name="shadow_type">GTK_SHADOW_OUT</property>
-						  <property name="xalign">0.5</property>
-						  <property name="yalign">0.5</property>
-						  <property name="xpad">0</property>
-						  <property name="ypad">0</property>
+						  <property name="label" translatable="yes">Personal</property>
+						  <property name="use_underline">True</property>
+						  <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
 						</widget>
-						<packing>
-						  <property name="padding">0</property>
-						  <property name="expand">False</property>
-						  <property name="fill">True</property>
-						</packing>
 					      </child>
 					    </widget>
 					  </child>

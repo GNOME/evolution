@@ -1,3 +1,34 @@
+2004-04-21  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade: Make the phone type
+	selectors be option menus.
+
+	* gui/contact-editor/e-contact-editor.c (phones): Store the phone
+	param mappings locally.
+	(set_entry_changed_signals): Don't special-case phone entries here.
+	(enable_writable_fields): Don't mess with the phone widgets anymore.
+	(set_fields): Use fill_in_phone ().
+	(extract_info): Use extract_phone ().
+	(phone_index_to_type): Implement.
+	(get_phone_type): Implement.
+	(get_attributes_named): Implement.
+	(set_attributes_named): Implement.
+	(fill_in_phone_record): Implement.
+	(extract_phone_record): Implement.
+	(fill_in_phone): Implement.
+	(extract_phone): Implement.
+	(init_phone_record_type): Implement.
+	(init_phone): Implement.
+	(connect_arrow_button_signal): Remove.
+	(connect_arrow_button_signals): Remove.
+	(phone_entry_changed): Remove.
+	(set_entry_changed_signal_phone): Remove.
+	(_arrow_pressed): Remove.
+	(_phone_arrow_pressed): Remove.
+	(e_contact_editor_build_ui_info): Remove.
+	(e_contact_editor_build_phone_ui): Remove.
+	(set_phone_field): Remove.
+
 2004-04-21  Not Zed  <NotZed@Ximian.com>
 
 	* gui/component/addressbook-view.c (addressbook_view_init): fix

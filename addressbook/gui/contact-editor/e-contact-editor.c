@@ -93,13 +93,11 @@ static gboolean e_contact_editor_is_valid   (EABEditor *editor);
 static gboolean e_contact_editor_is_changed (EABEditor *editor);
 static GtkWindow* e_contact_editor_get_window (EABEditor *editor);
 
-static void _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void enable_writable_fields(EContactEditor *editor);
 static void set_editable(EContactEditor *editor);
 static void fill_in_info(EContactEditor *editor);
 static void extract_info(EContactEditor *editor);
 static void set_entry_text(EContactEditor *editor, GtkEntry *entry, const char *string);
-static void set_phone_field(EContactEditor *editor, GtkWidget *entry, const char *phone_number);
 static void set_fields(EContactEditor *editor);
 static void command_state_changed (EContactEditor *ce);
 static void widget_changed (GtkWidget *widget, EContactEditor *editor);
@@ -125,26 +123,28 @@ enum {
 	DYNAMIC_LIST_ADDRESS
 };
 
-static EContactField phones[] = {
-	E_CONTACT_PHONE_ASSISTANT,
-	E_CONTACT_PHONE_BUSINESS,
-	E_CONTACT_PHONE_BUSINESS_2,
-	E_CONTACT_PHONE_BUSINESS_FAX,
-	E_CONTACT_PHONE_CALLBACK,
-	E_CONTACT_PHONE_CAR,
-	E_CONTACT_PHONE_COMPANY,
-	E_CONTACT_PHONE_HOME,
-	E_CONTACT_PHONE_HOME_2,
-	E_CONTACT_PHONE_HOME_FAX,
-	E_CONTACT_PHONE_ISDN,
-	E_CONTACT_PHONE_MOBILE,
-	E_CONTACT_PHONE_OTHER,
-	E_CONTACT_PHONE_OTHER_FAX,
-	E_CONTACT_PHONE_PAGER,
-	E_CONTACT_PHONE_PRIMARY,
-	E_CONTACT_PHONE_RADIO,
-	E_CONTACT_PHONE_TELEX,
-	E_CONTACT_PHONE_TTYTDD,
+static struct {
+	EContactField field_id;
+	const gchar *type_1;
+	const gchar *type_2;
+}
+phones [] = {
+	{ E_CONTACT_PHONE_ASSISTANT,    EVC_X_ASSISTANT, NULL    },
+	{ E_CONTACT_PHONE_BUSINESS,     "WORK",          "VOICE" },
+	{ E_CONTACT_PHONE_BUSINESS_FAX, "WORK",          "FAX"   },
+	{ E_CONTACT_PHONE_CALLBACK,     EVC_X_CALLBACK,  NULL    },
+	{ E_CONTACT_PHONE_CAR,          "CAR",           NULL    },
+	{ E_CONTACT_PHONE_HOME,         "HOME",          "VOICE" },
+	{ E_CONTACT_PHONE_HOME_FAX,     "HOME",          "FAX"   },
+	{ E_CONTACT_PHONE_ISDN,         "ISDN",          NULL    },
+	{ E_CONTACT_PHONE_MOBILE,       "CELL",          NULL    },
+	{ E_CONTACT_PHONE_OTHER,        "VOICE",         NULL    },
+	{ E_CONTACT_PHONE_OTHER_FAX,    "FAX",           NULL    },
+	{ E_CONTACT_PHONE_PAGER,        "PAGER",         NULL    },
+	{ E_CONTACT_PHONE_PRIMARY,      "PREF",          NULL    },
+	{ E_CONTACT_PHONE_RADIO,        EVC_X_RADIO,     NULL    },
+	{ E_CONTACT_PHONE_TELEX,        EVC_X_TELEX,     NULL    },
+	{ E_CONTACT_PHONE_TTYTDD,       EVC_X_TTYTDD,    NULL    }
 };
 
 static EContactField emails[] = {
@@ -378,6 +378,13 @@ im_index_to_location (gint index)
 	return im_location [index].name;
 }
 
+static void
+phone_index_to_type (gint index, const gchar **type_1, const gchar **type_2)
+{
+	*type_1 = phones [index].type_1;
+	*type_2 = phones [index].type_2;
+}
+
 static gint
 get_email_location (EVCardAttribute *attr)
 {
@@ -398,6 +405,20 @@ get_im_location (EVCardAttribute *attr)
 
 	for (i = 0; i < G_N_ELEMENTS (im_location); i++) {
 		if (e_vcard_attribute_has_type (attr, im_location [i].name))
+			return i;
+	}
+
+	return -1;
+}
+
+static gint
+get_phone_type (EVCardAttribute *attr)
+{
+	gint i;
+
+	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
+		if (e_vcard_attribute_has_type (attr, phones [i].type_1) &&
+		    (phones [i].type_2 == NULL || e_vcard_attribute_has_type (attr, phones [i].type_2)))
 			return i;
 	}
 
@@ -464,6 +485,199 @@ extract_email (EContactEditor *editor)
 	}
 
 	e_contact_set_attributes (editor->contact, E_CONTACT_EMAIL, attr_list);
+}
+
+/* EContact can get attributes by field ID only, and there is none for TEL, so we need this */
+static GList *
+get_attributes_named (EVCard *vcard, const gchar *attr_name)
+{
+	GList *attr_list_in;
+	GList *attr_list_out = NULL;
+	GList *l;
+
+	attr_list_in = e_vcard_get_attributes (vcard);
+
+	for (l = attr_list_in; l; l = g_list_next (l)) {
+		EVCardAttribute *attr = l->data;
+		const gchar *name;
+
+		name = e_vcard_attribute_get_name (attr);
+
+		if (!strcasecmp (attr_name, name)) {
+			attr_list_out = g_list_append (attr_list_out, e_vcard_attribute_copy (attr));
+		}
+	}
+
+	return attr_list_out;
+}
+
+/* EContact can set attributes by field ID only, and there is none for TEL, so we need this */
+static void
+set_attributes_named (EVCard *vcard, const gchar *attr_name, GList *attr_list)
+{
+	GList *l;
+
+	e_vcard_remove_attributes (vcard, NULL, attr_name);
+
+	for (l = attr_list; l; l = g_list_next (l)) {
+		EVCardAttribute *attr = l->data;
+
+		e_vcard_add_attribute (vcard, e_vcard_attribute_copy (attr));
+	}
+}
+
+static void
+fill_in_phone_record (EContactEditor *editor, gint record, const gchar *phone, gint phone_type)
+{
+	GtkWidget *phone_type_option_menu;
+	GtkWidget *phone_entry;
+	gchar     *widget_name;
+
+	widget_name = g_strdup_printf ("optionmenu-phone-%d", record);
+	phone_type_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	g_free (widget_name);
+
+	widget_name = g_strdup_printf ("entry-phone-%d", record);
+	phone_entry = glade_xml_get_widget (editor->gui, widget_name);
+	g_free (widget_name);
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU (phone_type_option_menu),
+				     phone_type >= 0 ? phone_type : 0);
+	set_entry_text (editor, GTK_ENTRY (phone_entry), phone ? phone : "");
+}
+
+static void
+extract_phone_record (EContactEditor *editor, gint record, gchar **phone, gint *phone_type)
+{
+	GtkWidget *phone_type_option_menu;
+	GtkWidget *phone_entry;
+	gchar     *widget_name;
+
+	widget_name = g_strdup_printf ("optionmenu-phone-%d", record);
+	phone_type_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	g_free (widget_name);
+
+	widget_name = g_strdup_printf ("entry-phone-%d", record);
+	phone_entry = glade_xml_get_widget (editor->gui, widget_name);
+	g_free (widget_name);
+
+	*phone      = g_strdup (gtk_entry_get_text (GTK_ENTRY (phone_entry)));
+	*phone_type = gtk_option_menu_get_history (GTK_OPTION_MENU (phone_type_option_menu));
+}
+
+static void
+fill_in_phone (EContactEditor *editor)
+{
+	GList *phone_attr_list;
+	GList *l;
+	gint   record_n = 1;
+
+	phone_attr_list = get_attributes_named (E_VCARD (editor->contact), "TEL");
+
+	/* Fill in */
+
+	for (l = phone_attr_list; l && record_n <= 4; l = g_list_next (l)) {
+		EVCardAttribute *attr = l->data;
+		gchar           *phone;
+
+		phone = e_vcard_attribute_get_value (attr);
+
+		fill_in_phone_record (editor, record_n, phone,
+				      get_phone_type (attr));
+
+		record_n++;
+	}
+
+	/* Clear remaining */
+
+	for ( ; record_n <= 4; record_n++) {
+		fill_in_phone_record (editor, record_n, NULL, -1);
+	}
+}
+
+static void
+extract_phone (EContactEditor *editor)
+{
+	GList *attr_list = NULL;
+	gint   i;
+
+	for (i = 1; i <= 4; i++) {
+		gchar *phone;
+		gint   phone_type;
+
+		extract_phone_record (editor, i, &phone, &phone_type);
+
+		if (nonempty (phone)) {
+			EVCardAttribute *attr;
+
+			attr = e_vcard_attribute_new ("", "TEL");
+
+			if (phone_type >= 0) {
+				const gchar *type_1;
+				const gchar *type_2;
+
+				phone_index_to_type (phone_type, &type_1, &type_2);
+
+				e_vcard_attribute_add_param_with_value (
+					attr, e_vcard_attribute_param_new (EVC_TYPE), type_1);
+
+				if (type_2)
+					e_vcard_attribute_add_param_with_value (
+						attr, e_vcard_attribute_param_new (EVC_TYPE), type_2);
+
+			}
+
+			e_vcard_attribute_add_value (attr, phone);
+
+			attr_list = g_list_append (attr_list, attr);
+		}
+
+		g_free (phone);
+	}
+
+	set_attributes_named (E_VCARD (editor->contact), "TEL", attr_list);
+}
+
+static void
+init_phone_record_type (EContactEditor *editor, gint record)
+{
+	GtkWidget *phone_type_option_menu;
+	GtkWidget *phone_type_menu;
+	GtkWidget *phone_entry;
+	gchar     *widget_name;
+	gint       i;
+
+	widget_name = g_strdup_printf ("entry-phone-%d", record);
+	phone_entry = glade_xml_get_widget (editor->gui, widget_name);
+	g_free (widget_name);
+
+	widget_name = g_strdup_printf ("optionmenu-phone-%d", record);
+	phone_type_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	g_free (widget_name);
+
+	g_signal_connect (phone_type_option_menu, "changed", G_CALLBACK (widget_changed), editor);
+	g_signal_connect (phone_entry, "changed", G_CALLBACK (widget_changed), editor);
+
+	phone_type_menu = gtk_menu_new ();
+
+	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
+		GtkWidget *item;
+
+		item = gtk_menu_item_new_with_label (e_contact_pretty_name (phones [i].field_id));
+		gtk_menu_shell_append (GTK_MENU_SHELL (phone_type_menu), item);
+	}
+
+	gtk_widget_show_all (phone_type_menu);
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (phone_type_option_menu), phone_type_menu);
+}
+
+static void
+init_phone (EContactEditor *editor)
+{
+	init_phone_record_type (editor, 1);
+	init_phone_record_type (editor, 2);
+	init_phone_record_type (editor, 3);
+	init_phone_record_type (editor, 4);
 }
 
 static void
@@ -785,26 +999,6 @@ extract_address (EContactEditor *editor)
 }
 
 static void
-connect_arrow_button_signal (EContactEditor *editor, gchar *button_xml, GCallback func)
-{
-	GladeXML  *gui    = editor->gui;
-	GtkWidget *button = glade_xml_get_widget(gui, button_xml);
-
-	if (button && GTK_IS_BUTTON(button)) {
-		g_signal_connect(button, "button_press_event", func, editor);
-	}
-}
-
-static void
-connect_arrow_button_signals (EContactEditor *editor)
-{
-	connect_arrow_button_signal(editor, "button-phone-1", G_CALLBACK (_phone_arrow_pressed));
-	connect_arrow_button_signal(editor, "button-phone-2", G_CALLBACK (_phone_arrow_pressed));
-	connect_arrow_button_signal(editor, "button-phone-3", G_CALLBACK (_phone_arrow_pressed));
-	connect_arrow_button_signal(editor, "button-phone-4", G_CALLBACK (_phone_arrow_pressed));
-}
-
-static void
 wants_html_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	gboolean wants_html;
@@ -813,28 +1007,6 @@ wants_html_changed (GtkWidget *widget, EContactEditor *editor)
 		      NULL);
 
 	e_contact_set (editor->contact, E_CONTACT_WANTS_HTML, GINT_TO_POINTER (wants_html));
-
-	widget_changed (widget, editor);
-}
-
-static void
-phone_entry_changed (GtkWidget *widget, EContactEditor *editor)
-{
-	int which;
-	GtkEntry *entry = GTK_ENTRY(widget);
-
-	if ( widget == glade_xml_get_widget(editor->gui, "entry-phone-1") )
-		which = 1;
-	else if ( widget == glade_xml_get_widget(editor->gui, "entry-phone-2") )
-		which = 2;
-	else if ( widget == glade_xml_get_widget(editor->gui, "entry-phone-3") )
-		which = 3;
-	else if ( widget == glade_xml_get_widget(editor->gui, "entry-phone-4") )
-		which = 4;
-	else
-		return;
-
-	e_contact_set(editor->contact, phones [editor->phone_choice [which - 1]], (char*)gtk_entry_get_text(entry));
 
 	widget_changed (widget, editor);
 }
@@ -1116,15 +1288,6 @@ field_changed (GtkWidget *widget, EContactEditor *editor)
 }
 
 static void
-set_entry_changed_signal_phone(EContactEditor *editor, char *id)
-{
-	GtkWidget *widget = glade_xml_get_widget(editor->gui, id);
-	if (widget && GTK_IS_ENTRY(widget))
-		g_signal_connect(widget, "changed",
-				 G_CALLBACK (phone_entry_changed), editor);
-}
-
-static void
 widget_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	if (!editor->target_editable) {
@@ -1162,10 +1325,6 @@ static void
 set_entry_changed_signals(EContactEditor *editor)
 {
 	GtkWidget *widget;
-	set_entry_changed_signal_phone(editor, "entry-phone-1");
-	set_entry_changed_signal_phone(editor, "entry-phone-2");
-	set_entry_changed_signal_phone(editor, "entry-phone-3");
-	set_entry_changed_signal_phone(editor, "entry-phone-4");
 
 	widget = glade_xml_get_widget(editor->gui, "entry-fullname");
 	if (widget && GTK_IS_ENTRY(widget)) {
@@ -1594,10 +1753,10 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	e_contact_editor->app = glade_xml_get_widget (gui, "contact editor");
 
-	connect_arrow_button_signals(e_contact_editor);
 	set_entry_changed_signals(e_contact_editor);
 
 	init_email (e_contact_editor);
+	init_phone (e_contact_editor);
 	init_im (e_contact_editor);
 	init_address (e_contact_editor);
 
@@ -1970,118 +2129,6 @@ e_contact_editor_get_property (GObject *object, guint prop_id, GValue *value, GP
 	}
 }
 
-static gint
-_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor, GtkWidget *popup, GList **list, GnomeUIInfo **info, gchar *label)
-{
-	gint menu_item;
-
-	g_signal_stop_emission_by_name (widget, "button_press_event");
-
-	gtk_widget_realize(popup);
-	menu_item = gnome_popup_menu_do_popup_modal(popup, NULL, NULL, button, editor, widget);
-	if ( menu_item != -1 ) {
-		GtkWidget *label_widget = glade_xml_get_widget(editor->gui, label);
-		if (label_widget && GTK_IS_LABEL(label_widget)) {
-			g_object_set (label_widget,
-				      "label", _(g_list_nth_data(*list, menu_item)),
-				      NULL);
-		}
-	}
-	return menu_item;
-}
-
-static void
-e_contact_editor_build_ui_info(GList *list, GnomeUIInfo **infop)
-{
-	GnomeUIInfo *info;
-	GnomeUIInfo singleton = { GNOME_APP_UI_TOGGLEITEM, NULL, NULL, NULL, NULL, NULL, GNOME_APP_PIXMAP_NONE, 0, 0, 0, NULL };
-	GnomeUIInfo end = GNOMEUIINFO_END;
-	int length;
-	int i;
-
-	info = *infop;
-
-	if ( info )
-		g_free(info);
-	length = g_list_length( list );
-	info = g_new(GnomeUIInfo, length + 2);
-	for (i = 0; i < length; i++) {
-		info[i] = singleton;
-		info[i].label = _(list->data);
-		list = list->next;
-	}
-	info[i] = end;
-
-	*infop = info;
-}
-
-static void
-e_contact_editor_build_phone_ui (EContactEditor *editor)
-{
-	if (editor->phone_list == NULL) {
-		int i;
-
-		for (i = 0; i < G_N_ELEMENTS (phones); i ++) {
-			editor->phone_list = g_list_append(editor->phone_list, g_strdup(e_contact_pretty_name (phones[i])));
-		}
-	}
-	if (editor->phone_info == NULL) {
-		e_contact_editor_build_ui_info(editor->phone_list, &editor->phone_info);
-		
-		if ( editor->phone_popup )
-			g_object_unref(editor->phone_popup);
-		
-		editor->phone_popup = gnome_popup_menu_new(editor->phone_info);
-		g_object_ref (editor->phone_popup);
-		gtk_object_sink (GTK_OBJECT (editor->phone_popup));
-	}
-}
-
-static void
-_phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor)
-{
-	int which;
-	int i;
-	gchar *label;
-	gchar *entry;
-	int result;
-	if ( widget == glade_xml_get_widget(editor->gui, "button-phone-1") ) {
-		which = 1;
-	} else if ( widget == glade_xml_get_widget(editor->gui, "button-phone-2") ) {
-		which = 2;
-	} else if ( widget == glade_xml_get_widget(editor->gui, "button-phone-3") ) {
-		which = 3;
-	} else if ( widget == glade_xml_get_widget(editor->gui, "button-phone-4") ) {
-		which = 4;
-	} else
-		return;
-	
-	label = g_strdup_printf("label-phone-%d", which);
-	entry = g_strdup_printf("entry-phone-%d", which);
-
-	e_contact_editor_build_phone_ui (editor);
-	
-	for(i = 0; i < G_N_ELEMENTS (phones); i++) {
-		char *phone = e_contact_get (editor->contact, phones[i]);
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(editor->phone_info[i].widget),
-					       phone && *phone);
-		g_free (phone);
-	}
-	
-	result = _arrow_pressed (widget, button, editor, editor->phone_popup, &editor->phone_list, &editor->phone_info, label);
-	
-	if (result != -1) {
-		GtkWidget *w = glade_xml_get_widget (editor->gui, entry);
-		editor->phone_choice[which - 1] = result;
-		set_fields (editor);
-		enable_widget (glade_xml_get_widget (editor->gui, label), TRUE);
-		enable_widget (w, editor->target_editable);
-	}
-
-	g_free(label);
-	g_free(entry);
-}
-
 static void
 set_entry_text (EContactEditor *editor, GtkEntry *entry, const gchar *string)
 {
@@ -2098,12 +2145,6 @@ set_entry_text (EContactEditor *editor, GtkEntry *entry, const gchar *string)
 						   G_SIGNAL_MATCH_DATA,
 						   0, 0, NULL, NULL, editor);
 	}
-}
-
-static void
-set_phone_field(EContactEditor *editor, GtkWidget *entry, const char *phone_number)
-{
-	set_entry_text (editor, GTK_ENTRY(entry), phone_number ? phone_number : "");
 }
 
 static void
@@ -2124,25 +2165,8 @@ set_source_field (EContactEditor *editor)
 static void
 set_fields(EContactEditor *editor)
 {
-	GtkWidget *entry;
-
-	entry = glade_xml_get_widget(editor->gui, "entry-phone-1");
-	if (entry && GTK_IS_ENTRY(entry))
-		set_phone_field(editor, entry, e_contact_get_const(editor->contact, phones[editor->phone_choice[0]]));
-
-	entry = glade_xml_get_widget(editor->gui, "entry-phone-2");
-	if (entry && GTK_IS_ENTRY(entry))
-		set_phone_field(editor, entry, e_contact_get_const(editor->contact, phones[editor->phone_choice[1]]));
-
-	entry = glade_xml_get_widget(editor->gui, "entry-phone-3");
-	if (entry && GTK_IS_ENTRY(entry))
-		set_phone_field(editor, entry, e_contact_get_const(editor->contact, phones[editor->phone_choice[2]]));
-
-	entry = glade_xml_get_widget(editor->gui, "entry-phone-4");
-	if (entry && GTK_IS_ENTRY(entry))
-		set_phone_field(editor, entry, e_contact_get_const(editor->contact, phones[editor->phone_choice[3]]));
-	
 	fill_in_email (editor);
+	fill_in_phone (editor);
 	fill_in_im (editor);
 	fill_in_address (editor);
 	set_source_field (editor);
@@ -2264,7 +2288,6 @@ enable_writable_fields(EContactEditor *editor)
 	EIterator *iter;
 	GHashTable *dropdown_hash, *supported_hash;
 	int i;
-	char *widget_name;
 
 	if (!fields)
 		return;
@@ -2272,27 +2295,8 @@ enable_writable_fields(EContactEditor *editor)
 	dropdown_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	supported_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
-	/* build our hashtable of the drop down menu items */
-	e_contact_editor_build_phone_ui (editor);
-	for (i = 0; i < G_N_ELEMENTS (phones); i ++)
-		g_hash_table_insert (dropdown_hash,
-				     (char*)e_contact_field_name(phones[i]),
-				     editor->phone_info[i].widget);
-
 	/* then disable them all */
 	g_hash_table_foreach (dropdown_hash, (GHFunc)disable_widget_foreach, NULL);
-
-	/* disable the label widgets for the dropdowns (4 phone, 1
-           email and the toggle button, and 1 address and one for
-           the full address button */
-	for (i = 0; i < 4; i ++) {
-		widget_name = g_strdup_printf ("label-phone-%d", i+1);
-		enable_widget (glade_xml_get_widget (editor->gui, widget_name), FALSE);
-		g_free (widget_name);
-		widget_name = g_strdup_printf ("entry-phone-%d", i+1);
-		enable_widget (glade_xml_get_widget (editor->gui, widget_name), FALSE);
-		g_free (widget_name);
-	}
 
 	enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), FALSE);
 
@@ -2327,16 +2331,6 @@ enable_writable_fields(EContactEditor *editor)
                    enabled. */
 		if (!strcmp (field, e_contact_field_name (emails[editor->email_choice]))) {
 			enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), editor->target_editable);
-		}
-		else for (i = 0; i < 4; i ++) {
-			if (!strcmp (field, e_contact_field_name (phones[editor->phone_choice[i]]))) {
-				widget_name = g_strdup_printf ("label-phone-%d", i+1);
-				enable_widget (glade_xml_get_widget (editor->gui, widget_name), TRUE);
-				g_free (widget_name);
-				widget_name = g_strdup_printf ("entry-phone-%d", i+1);
-				enable_widget (glade_xml_get_widget (editor->gui, widget_name), editor->target_editable);
-				g_free (widget_name);
-			}
 		}
 	}
 
@@ -2593,6 +2587,7 @@ extract_info(EContactEditor *editor)
 		}
 
 		extract_email (editor);
+		extract_phone (editor);
 		extract_im (editor);
 		extract_address (editor);
 	}
