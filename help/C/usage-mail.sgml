@@ -152,14 +152,22 @@
       <note>
 	<title>Trash is Actually a vFolder?</title>
 	<para>
-	  Your trash folder is actually a vFolder that displays all
-          messages you have marked for later deletion.  For more
-          information about vFolders, see <xref
-          linkend="usage-mail-organize-vfolders">.  If you choose
-          <menuchoice> <guimenu>Actions</guimenu> <guimenuitem>Empty
-          Trash</guimenuitem> </menuchoice> you will expunge
-          <emphasis>all</emphasis> your folders.
+	  Both local and IMAP Trash folders are actually vFolders that
+          display all messages you have marked for later deletion.
+          For more information about vFolders, see <xref
+          linkend="usage-mail-organize-vfolders">.  Since emptying
+          your trash expunges the messages in your Trash folder,
+          choosing <menuchoice> <guimenu>Actions</guimenu>
+          <guimenuitem>Empty Trash</guimenuitem> </menuchoice> is the
+          same as expunging deleted mail from <emphasis>all</emphasis>
+          your folders.
 	</para>
+        <para>
+           This is not, however, true for the Trash folder on Exchange
+           servers, which behaves just the same as it would in
+           Outlook. That is to say, the Trash folder on an Exchange
+           server is a normal folder with actual messages in it.
+        </para>
       </note>
     </sect2>
     <sect2 id="usage-mail-getnsend-undelete">

@@ -284,9 +284,11 @@ There are, however, some features which are not available:
       <guimenuitem>
          Ximian Connector Tester
 </guimenuitem>
-</menuchoice>.  The utility will help you determine if your Exchange
+</menuchoice> or run the command <command>connect-test</command> in a
+terminal window. The utility will help you determine if your Exchange
 server is compatible with the Ximian Connector, and locate your Active
-Directory server.
+Directory server. Armed with that information, you'll be ready to set
+up a new account on your Exchange server and get to work.
     </para>
 
        <sect2 id="config-server">
