@@ -1,3 +1,8 @@
+2001-04-25  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* no.po: Updated Norwegian translation.
+	* POTFILES.in: Major overhaul.
+	
 2001-04-25  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.
