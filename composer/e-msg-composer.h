@@ -83,38 +83,34 @@ struct _EMsgComposerClass {
 };
 
 
-GtkType           e_msg_composer_get_type          (void);
-
-void              e_msg_composer_construct         (EMsgComposer *composer);
-EMsgComposer     *e_msg_composer_new               (void);
-EMsgComposer     *e_msg_composer_new_with_sig_file (const char *sig_file);
-EMsgComposer     *e_msg_composer_new_with_message  (CamelMimeMessage *msg);
-EMsgComposer     *e_msg_composer_new_from_url      (const char *url);
-void              e_msg_composer_show_attachments  (EMsgComposer *composer,
-						    gboolean      show);
-
-void              e_msg_composer_set_headers       (EMsgComposer *composer,
-						    const GList *to,
-						    const GList *cc,
-						    const GList *bcc,
-						    const char *subject);
-void              e_msg_composer_set_body_text     (EMsgComposer *composer,
-						    const char *text);
-void              e_msg_composer_add_header        (EMsgComposer *composer,
-						    const char *name,
-						    const char *value);
-void              e_msg_composer_attach            (EMsgComposer *composer,
-						    CamelMimePart *attachment);
-
-CamelMimeMessage *e_msg_composer_get_message       (EMsgComposer *composer);
-
-void              e_msg_composer_set_sig_file      (EMsgComposer *composer,
-						    const char *sig_file);
-const char       *e_msg_composer_get_sig_file      (EMsgComposer *composer);
-
-void              e_msg_composer_set_send_html     (EMsgComposer *composer,
-						    gboolean send_html);
-gboolean          e_msg_composer_get_send_html     (EMsgComposer *composer);
+GtkType           e_msg_composer_get_type             (void);
+void              e_msg_composer_construct            (EMsgComposer     *composer);
+EMsgComposer     *e_msg_composer_new                  (void);
+EMsgComposer     *e_msg_composer_new_with_sig_file    (const char       *sig_file);
+EMsgComposer     *e_msg_composer_new_with_message     (CamelMimeMessage *msg);
+EMsgComposer     *e_msg_composer_new_from_url         (const char       *url);
+void              e_msg_composer_show_attachments     (EMsgComposer     *composer,
+						       gboolean          show);
+void              e_msg_composer_set_headers          (EMsgComposer     *composer,
+						       const GList      *to,
+						       const GList      *cc,
+						       const GList      *bcc,
+						       const char       *subject);
+void              e_msg_composer_set_body_text        (EMsgComposer     *composer,
+						       const char       *text);
+void              e_msg_composer_add_header           (EMsgComposer     *composer,
+						       const char       *name,
+						       const char       *value);
+void              e_msg_composer_attach               (EMsgComposer     *composer,
+						       CamelMimePart    *attachment);
+CamelMimeMessage *e_msg_composer_get_message          (EMsgComposer     *composer);
+void              e_msg_composer_set_sig_file         (EMsgComposer     *composer,
+						       const char       *sig_file);
+const char       *e_msg_composer_get_sig_file         (EMsgComposer     *composer);
+void              e_msg_composer_set_send_html        (EMsgComposer     *composer,
+						       gboolean          send_html);
+gboolean          e_msg_composer_get_send_html        (EMsgComposer     *composer);
+void              e_msg_composer_clear_inlined_table  (EMsgComposer     *composer);
 
 #ifdef __cplusplus
 }

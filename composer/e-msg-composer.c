@@ -166,6 +166,68 @@ best_content (gchar *plain)
 	return result;
 }
 
+static gboolean
+clear_inline_images (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	g_free (value);
+
+	return TRUE;
+}
+
+void
+e_msg_composer_clear_inlined_table (EMsgComposer *composer)
+{
+	g_hash_table_foreach_remove (composer->inline_images, clear_inline_images, NULL);
+}
+
+static void
+add_inlined_image (gpointer key, gpointer value, gpointer data)
+{
+	gchar *file_name          = (gchar *) key;
+	gchar *cid                = (gchar *) value;
+	gchar *id, *mime_type;
+	CamelMultipart *multipart = (CamelMultipart *) data;
+	CamelStream *stream;
+	CamelDataWrapper *wrapper;
+	CamelMimePart *part;
+	struct stat statbuf;
+
+	/* check for regular file */
+	if (stat (file_name, &statbuf) < 0 || !S_ISREG (statbuf.st_mode))
+		return;
+
+	if (!(stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0)))
+		return;
+
+	wrapper = camel_data_wrapper_new ();
+	camel_data_wrapper_construct_from_stream (wrapper, stream);
+	camel_object_unref (CAMEL_OBJECT (stream));
+
+	mime_type = mime_guess_type_from_file_name (file_name);
+	camel_data_wrapper_set_mime_type (wrapper, mime_type ? mime_type : "application/octet-stream");
+	g_free (mime_type);
+
+	part = camel_mime_part_new ();
+	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
+	camel_object_unref (CAMEL_OBJECT (wrapper));
+
+	id = g_strconcat ("<", cid, ">", NULL);
+	camel_mime_part_set_content_id (part, id);
+	g_free (id);
+	camel_mime_part_set_filename (part, strchr (file_name, '/') ? strrchr (file_name, '/') + 1 : file_name);
+	camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_BASE64);
+
+	camel_multipart_add_part (multipart, part);
+	camel_object_unref (CAMEL_OBJECT (part));
+}
+
+static void
+add_inlined_images (EMsgComposer *composer, CamelMultipart *multipart)
+{
+	g_hash_table_foreach (composer->inline_images, add_inlined_image, multipart);
+}
+
 /* This functions builds a CamelMimeMessage for the message that the user has
    composed in `composer'.  */
 static CamelMimeMessage *
@@ -226,6 +288,7 @@ build_message (EMsgComposer *composer)
 	content_type = best_content (plain);
 
 	if (type != MSG_FORMAT_PLAIN) {
+		e_msg_composer_clear_inlined_table (composer);
 		html = get_text (composer->persist_stream_interface, "text/html");
 		
 		/* the component has probably died */ 
@@ -255,7 +318,26 @@ build_message (EMsgComposer *composer)
 		camel_object_unref (CAMEL_OBJECT (part));
 		
 		part = camel_mime_part_new ();
-		camel_mime_part_set_content (part, html, strlen (html), "text/html");
+		if (g_hash_table_size (composer->inline_images)) {
+			CamelMultipart *html_with_images;
+			CamelMimePart  *text_html;
+
+			html_with_images = camel_multipart_new ();
+			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (html_with_images),
+							  "multipart/related");
+			camel_multipart_set_boundary (html_with_images, NULL);
+
+			text_html = camel_mime_part_new ();
+			camel_mime_part_set_content (text_html, html, strlen (html), "text/html");
+			camel_multipart_add_part (html_with_images, text_html);
+			camel_object_unref (CAMEL_OBJECT (text_html));
+
+			add_inlined_images (composer, html_with_images);
+			camel_medium_set_content_object (CAMEL_MEDIUM (part),
+							 CAMEL_DATA_WRAPPER (html_with_images));
+		} else
+			camel_mime_part_set_content (part, html, strlen (html), "text/html");
+
 		g_free (html);
 		camel_multipart_add_part (body, part);
 		camel_object_unref (CAMEL_OBJECT (part));
@@ -737,7 +819,7 @@ menu_file_add_attachment_cb (BonoboUIComponent *uic,
 	
 	e_msg_composer_attachment_bar_attach
 		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-		 NULL, NULL);
+		 NULL);
 }
 
 static void
@@ -1017,15 +1099,6 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 
 /* GtkObject methods.  */
 
-static gboolean
-clear_inline_images (gpointer key, gpointer value, gpointer user_data)
-{
-	g_free (key);
-	g_free (value);
-
-	return TRUE;
-}
-
 static void
 destroy (GtkObject *object)
 {
@@ -1056,6 +1129,9 @@ destroy (GtkObject *object)
 		g_ptr_array_free (composer->extra_hdr_names, TRUE);
 		g_ptr_array_free (composer->extra_hdr_values, TRUE);
 	}
+
+	e_msg_composer_clear_inlined_table (composer);
+	g_hash_table_destroy (composer->inline_images);
 	
 	CORBA_exception_init (&ev);
 	
@@ -1073,7 +1149,6 @@ destroy (GtkObject *object)
 		Bonobo_Unknown_unref (composer->editor_engine, &ev);
 		CORBA_Object_release (composer->editor_engine, &ev);
 	}
-	g_hash_table_foreach_remove (composer->inline_images, clear_inline_images, NULL);
 
 	CORBA_exception_free (&ev);
 
@@ -1124,7 +1199,7 @@ drag_data_received (EMsgComposer *composer,
 	
 	e_msg_composer_attachment_bar_attach
 		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-		 filename, NULL);
+		 filename);
 	
 	g_free (filename);
 }

@@ -56,8 +56,6 @@ resolve_image_url (HTMLEditorListener *l, gchar *url)
 		id = (gchar *) g_hash_table_lookup (l->composer->inline_images, url + 5);
 		if (!id) {
 			id = header_msgid_generate ();
-			e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (l->composer->attachment_bar),
-							      url + 5, id);
 			g_hash_table_insert (l->composer->inline_images, g_strdup (url + 5), id);
 		}
 		cid = g_strconcat ("cid:", id, NULL);

@@ -1,3 +1,26 @@
+2000-11-08  Radek Doulik  <rodo@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_clear_inlined_table): new
+	function
+	(destroy): use e_msg_composer_clear_inlined_table, destroy
+	inlined_images hash table
+
+	* listener.c (resolve_image_url): don't add inlined images to
+	attachement bar
+
+	* e-msg-composer.c (add_inlined_images): new function, adds
+	inlined images to multipart
+	(add_inlined_image): helper function, adds one image to multipart
+	(build_message): store HTML messages with inlined images to
+	multipart/related
+
+	* e-msg-composer-attachment-bar.c (add_from_file): removed
+	content_id arg
+	(e_msg_composer_attachment_bar_attach): likewise
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):
+	removed content_id arg
+
 2000-11-06  Not Zed  <NotZed@HelixCode.com>
 
 	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_to_message): Changed
