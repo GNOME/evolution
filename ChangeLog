@@ -1,3 +1,8 @@
+2002-01-28  Radek Doulik  <rodo@ximian.com>
+
+	* configure.in: added bonobo to filter flags to avoid compile
+	error
+
 2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* tools/Makefile.am: Use GNOME_FULL_LIBS and GNOME_FULL_CFLAGS.

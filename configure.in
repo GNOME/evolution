@@ -981,7 +981,7 @@ EVO_SET_COMPILE_FLAGS(LIBIBEX, bonobo_conf bonobox_print gal gdk_pixbuf gnomecan
 AC_SUBST(LIBIBEX_CFLAGS)
 AC_SUBST(LIBIBEX_LIBS)
 
-EVO_SET_COMPILE_FLAGS(LIBFILTER, gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade)
+EVO_SET_COMPILE_FLAGS(LIBFILTER, bonobo gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade)
 AC_SUBST(LIBFILTER_CFLAGS)
 AC_SUBST(LIBFILTER_LIBS)
 
