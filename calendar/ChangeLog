@@ -1,5 +1,46 @@
 2004-08-27  JP Rosevear  <jpr@novell.com>
 
+	Fixes #62911, #54101
+	
+	* gui/e-itip-control.c (set_ok_sens): util routine to set
+	sensitivity of OK button
+	(cal_opened_cb): cal back when calendar opens, sensitize ok button
+	(start_calendar_server): open async and take call back arg
+	(source_selected_cb): desensitize ok button until calendar is
+	loaded
+	(find_cal_opened_cb): check to see if the calendar contains the
+	object we are looking for, if none do show the source selector
+	option menu
+	(find_server): search async for the server
+	(destroy): clean up html widget
+	(finalize): instead of here
+	(get_publish_options): use only object tag
+	(get_request_options): ditto
+	(get_request_fb_options): ditto
+	(get_reply_options): ditto
+	(get_refresh_options): ditto
+	(get_cancel_options): ditto
+	(show_current_event): use new options, remove groupwise NEEDS
+	ACTION check, handle async loading
+	(show_current_todo): use new options, handle async loading
+	(option_activated_cb): record action
+	(add_option): add action item
+	(insert_boxes): layout widgets
+	(insert_label): insert label
+	(rsvp_clicked_cb): record rsvp status
+	(insert_rsvp): insert rsvp check box
+	(insert_ok): insert ok button
+	(publish_options_object): spit out relevant options
+	(request_options_object): ditto
+	(freebusy_options_object): ditto
+	(reply_options_object): ditto
+	(refresh_options_object): ditto
+	(cancel_options_object): ditto
+	(object_requested_cb): handle object requests
+	(ok_clicked_cb): use recorded actions
+
+2004-08-27  JP Rosevear  <jpr@novell.com>
+	
 	* gui/alarm-notify/alarm-notify.h: update proto
 
 	* gui/alarm-notify/alarm-notify.c (list_changed_cb): use per
@@ -23,7 +64,7 @@
 	record correctly, should fix copy to/from problems when syncing
 
 	* conduits/calendar/calendar-conduit.c (for_each): ditto
-	
+
 2004-08-25  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* gui/dialogs/recur-comp.c: (recur_component_dialog):
