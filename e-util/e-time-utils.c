@@ -84,17 +84,17 @@ e_time_parse_date_and_time		(const char	*value,
 
 	/* strptime format for a time of day, in 12-hour format.
 	   If it is not appropriate in the locale set to an empty string. */
-	format[0] = _("%I:%M:%S %p%n");
+	format[0] = _("%I:%M:%S %p");
 
 	/* strptime format for a time of day, in 24-hour format. */
-	format[1] = _("%H:%M:%S%n");
+	format[1] = _("%H:%M:%S");
 
 	/* strptime format for time of day, without seconds, 12-hour format.
 	   If it is is not appropriate in the locale set to an empty string. */
-	format[2] = _("%I:%M %p%n");
+	format[2] = _("%I:%M %p");
 
 	/* strptime format for time of day, without seconds 24-hour format. */
-	format[3] = _("%H:%M%n");
+	format[3] = _("%H:%M");
 
 	for (i = 0; i < sizeof (format) / sizeof (format[0]); i++) {
 		memset (&time_tm, 0, sizeof (time_tm));
@@ -195,17 +195,17 @@ e_time_parse_time			(const char	*value,
 
 	/* strptime format for a time of day, in 12-hour format.
 	   If it is not appropriate in the locale set to an empty string. */
-	format[0] = _("%I:%M:%S %p%n");
+	format[0] = _("%I:%M:%S %p");
 
 	/* strptime format for a time of day, in 24-hour format. */
-	format[1] = _("%H:%M:%S%n");
+	format[1] = _("%H:%M:%S");
 
 	/* strptime format for time of day, without seconds, 12-hour format.
 	   If it is is not appropriate in the locale set to an empty string. */
-	format[2] = _("%I:%M %p%n");
+	format[2] = _("%I:%M %p");
 
 	/* strptime format for time of day, without seconds 24-hour format. */
-	format[3] = _("%H:%M%n");
+	format[3] = _("%H:%M");
 
 	for (i = 0; i < sizeof (format) / sizeof (format[0]); i++) {
 		memset (result, 0, sizeof (*result));
