@@ -232,10 +232,11 @@ mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg)
 	
 	mail_display = mail_display_new ();
 	mail_display_set_message (MAIL_DISPLAY (mail_display), CAMEL_MEDIUM (msg));
-	gtk_widget_set_usize (mail_display, 600, 600);
 	data->md = MAIL_DISPLAY (mail_display);
 	gnome_app_set_contents (GNOME_APP (window), mail_display);
 	
+	gtk_window_set_default_size (GTK_WINDOW (window), 600, 400);
+
 	return window;
 }
 
