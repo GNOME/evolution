@@ -201,16 +201,6 @@ load_folder (const char *physical_path,
 		return TRUE;
 	}
 
-	/* Ignore the folder if it uses an unknown type.  */
-	if (! e_folder_type_registry_type_registered (local_storage->priv->folder_type_registry,
-						      e_folder_get_type_string (folder))) {
-#if 0
-		g_warning ("Folder in %s has unknown type (%s)... ignoring",
-			   physical_path, e_folder_get_type_string (folder));
-#endif
-		return TRUE;
-	}
-
 	new_folder (local_storage, path, folder);
 	return TRUE;
 }

@@ -1,5 +1,10 @@
 2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-local-storage.c (load_folder): Do add folders with an unknown
+	type.
+
+2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* glade/e-shell-folder-creation-dialog.glade (ok_button): Set
 	response_id to GTK_RESPONSE_OK.
 	(cancel_button): Likewise, with GTK_RESPONSE_CANCEL.
