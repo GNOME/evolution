@@ -16,6 +16,8 @@ noinst_LTLIBRARIES = libeutil.la libeutil-static.la \
 	libedb3util.la
 
 libeutil_la_SOURCES =			\
+	e-categories-master-list-wombat.c	\
+	e-categories-master-list-wombat.h	\
 	e-categories-config.c		\
 	e-categories-config.h		\
 	e-corba-utils.c			\

@@ -1,3 +1,14 @@
+2001-07-02  Christopher James Lahey  <clahey@ximian.com>
+
+	* Makefile.am (libeutil_la_SOURCES): Added
+	e-categories-master-list-wombat.c and
+	e-categories-master-list-wombat.h.
+	(INCLUDES): Added $(BONOBO_CONF_CFLAGS).
+
+	* e-categories-master-list-wombat.c,
+	e-categories-master-list-wombat.h: New class implementing a master
+	list that stores its state using bonobo-conf.
+
 2001-07-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-categories-config.[ch]: new file for a set of functions for
