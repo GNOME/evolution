@@ -1,6 +1,6 @@
 /* Evolution calendar - Data model for ETable
  *
- * Copyright (C) 2004 Ximian, Inc.
+ * Copyright (C) 2004 Novell, Inc.
  *
  * Authors: Rodrigo Moya <rodrigo@ximian.com>
  *

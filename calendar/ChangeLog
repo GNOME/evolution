@@ -1,3 +1,7 @@
+2004-12-22  JP Rosevear  <jpr@novell.com>
+
+	* gui/e-cal-model.c: Change copyright from ximian to novell
+
 2004-12-17  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_show_popup_menu): 
