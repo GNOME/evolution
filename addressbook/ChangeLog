@@ -1,3 +1,12 @@
+2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* gui/component/autocompletion-config.c
+	(source_selection_changed): Sync the changes here rather than
+	setting 'changed' on the config control (since that no longer
+	exists).
+	(autocompletion_config_control_new): Don't connect to an apply
+	signal, no such signal.
+
 2004-04-06  Chris Toshok  <toshok@ximian.com>
 
 	* util/e-destination.[ch]: old name, new trimmed down

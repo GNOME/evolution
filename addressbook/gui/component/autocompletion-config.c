@@ -51,25 +51,6 @@ static void
 source_selection_changed (ESourceSelector *selector,
 			  AutocompletionConfig *ac)
 {
-	evolution_config_control_changed (ac->config_control);
-}
-
-static void
-config_control_destroy_notify (void *data,
-			       GObject *where_the_config_control_was)
-{
-	AutocompletionConfig *ac = (AutocompletionConfig *) data;
-
-	g_object_unref (ac->source_list);
-
-	g_free (ac);
-}
-
-
-static void
-config_control_apply_callback (EvolutionConfigControl *config_control,
-			       AutocompletionConfig *ac)
-{
 	GSList *selection;
 	GSList *l;
 	GSList *groups;
@@ -87,13 +68,24 @@ config_control_apply_callback (EvolutionConfigControl *config_control,
 
 	/* then we loop over the selector's selection, setting the
 	   property on those sources */
-	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (ac->control_widget));
+	selection = e_source_selector_get_selection (selector);
 	for (l = selection; l; l = l->next) {
 		e_source_set_property (E_SOURCE (l->data), "completion", "true");
 	}
 	e_source_selector_free_selection (selection);
 
 	e_source_list_sync (ac->source_list, NULL); /* XXX we should pop up a dialog if this fails */
+}
+
+static void
+config_control_destroy_notify (void *data,
+			       GObject *where_the_config_control_was)
+{
+	AutocompletionConfig *ac = (AutocompletionConfig *) data;
+
+	g_object_unref (ac->source_list);
+
+	g_free (ac);
 }
 
 static void
@@ -149,9 +141,7 @@ autocompletion_config_control_new (void)
 
 	g_signal_connect (ac->control_widget, "selection_changed",
 			  G_CALLBACK (source_selection_changed), ac);
-	g_signal_connect (ac->config_control, "apply",
-			  G_CALLBACK (config_control_apply_callback), ac);
-
+	
 	g_object_weak_ref (G_OBJECT (ac->config_control), config_control_destroy_notify, ac);
 
 	CORBA_exception_free (&ev);
