@@ -498,16 +498,22 @@ static void
 setup_widgets (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
-	GtkWidget *expander_hbox;
+	GtkWidget *expander_hbox, *vbox;
 	GdkPixbuf *attachment_pixbuf;
 
 	priv = editor->priv;
 
+	/* Useful vbox */
+	vbox = gtk_vbox_new (FALSE, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (editor)->vbox), vbox, TRUE, TRUE, 0);
+	gtk_widget_show (vbox);
+
 	/* Notebook */
 	priv->notebook = GTK_NOTEBOOK (gtk_notebook_new ());
 	gtk_widget_show (GTK_WIDGET (priv->notebook));
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (editor)->vbox), GTK_WIDGET (priv->notebook),
-			    TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (priv->notebook),
+			    TRUE, TRUE, 0);
 
 	/* Buttons */
 	gtk_dialog_add_button  (GTK_DIALOG (editor), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
@@ -561,7 +567,7 @@ setup_widgets (CompEditor *editor)
 	
 	gtk_container_add (GTK_CONTAINER (priv->attachment_expander),
 			   priv->attachment_scrolled_window);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (editor)->vbox), priv->attachment_expander,
+	gtk_box_pack_start (GTK_BOX (vbox), priv->attachment_expander,
 			    FALSE, FALSE, GNOME_PAD_SMALL);
 	gtk_widget_show (priv->attachment_expander);
 	e_expander_set_expanded (E_EXPANDER (priv->attachment_expander), FALSE);
@@ -592,6 +598,11 @@ comp_editor_init (CompEditor *editor)
 	priv->is_group_item = FALSE;
 
 	gtk_window_set_type_hint (GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
+	gtk_dialog_set_has_separator (GTK_DIALOG (editor), FALSE);
+
+	gtk_widget_ensure_style (GTK_WIDGET (editor));
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (editor)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (editor)->action_area), 12);
 }
 
 

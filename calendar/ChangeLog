@@ -1,3 +1,12 @@
+2005-02-01  Rodney Dawes  <dobey@novell.com>
+
+	* gui/dialogs/comp-editor.c (setup_widgets): Clean up the spacing
+	and padding, and shove the notebook and expander arrow into a vbox
+	so that we can be HIG compliant
+	(comp_editor_init): Remove the separator from the "dialog" and set
+	the border width for the internal dialog widgets appropriately to
+	be compliant with the HIG for dialog borders
+	
 2005-02-01  JP Rosevear  <jpr@novell.com>
 
 	* gui/e-tasks.c (e_tasks_destroy): fix typo
