@@ -145,13 +145,7 @@ paint (EComboButton *combo_button,
 	int x, y, width, height;
 	int border_width;
 
-	if (GTK_WIDGET_STATE (widget) == GTK_STATE_ACTIVE)
-		shadow_type = GTK_SHADOW_IN;
-	else if (GTK_BUTTON (widget)->relief == GTK_RELIEF_NONE
-		 && GTK_WIDGET_STATE (widget) != GTK_STATE_PRELIGHT)
-		shadow_type = GTK_SHADOW_NONE;
-	else
-		shadow_type = GTK_SHADOW_OUT;
+	shadow_type = GTK_BUTTON (widget)->depressed ? GTK_SHADOW_IN : GTK_SHADOW_OUT;
 
 	border_width = GTK_CONTAINER (widget)->border_width;
 
@@ -184,8 +178,10 @@ paint (EComboButton *combo_button,
 		height -= 2 * (focus_width + focus_pad);
 	}
 
-	if (GTK_WIDGET_STATE (widget) != GTK_STATE_ACTIVE
-	    || GTK_BUTTON (widget)->depressed) {
+	if ((GTK_BUTTON (widget)->relief != GTK_RELIEF_NONE) ||
+	    ((GTK_WIDGET_STATE(widget) != GTK_STATE_NORMAL) &&
+	     (GTK_WIDGET_STATE(widget) != GTK_STATE_ACTIVE || GTK_BUTTON (widget)->depressed) &&
+	     (GTK_WIDGET_STATE(widget) != GTK_STATE_INSENSITIVE))) {
 		gtk_paint_box (widget->style, widget->window,
 			       GTK_WIDGET_STATE (widget), shadow_type,
 			       area, widget, "button",

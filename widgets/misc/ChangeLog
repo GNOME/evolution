@@ -1,3 +1,10 @@
+2004-01-20  Rodney Dawes  <dobey@ximian.com>
+
+	* e-combo-button.c (paint): Be even more exactly like the GtkButton
+	painting stuff
+
+	Fixes #52988
+
 2004-01-20  JP Rosevear <jpr@ximian.com>
 
 	* e-source-selector.c (rebuild_model): set a primary selection if
