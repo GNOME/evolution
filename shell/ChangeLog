@@ -1,3 +1,8 @@
+2004-03-18  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-about-box.c: added (c) symbol and 2004 and changed to
+	Novell to the copyright notice in the about box.
+
 2004-03-12  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell.c (detect_version): when we check the evolution dir

@@ -40,7 +40,7 @@ static GtkEventBoxClass *parent_class = NULL;
 static const char *text[] = {
 	"",
 	"Evolution " VERSION,
-	"Copyright 1999 - 2003 Ximian, Inc.",
+	"Copyright \xC2\xA9 1999 - 2004 Novell, Inc.",
 	"",
 	N_("Brought to you by"),
 	"",
