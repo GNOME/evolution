@@ -791,7 +791,9 @@ write_text_header (const char *name, const char *value, int flags, GtkHTML *html
 	char *encoded;
 
 	if (value && *value)
-		encoded = e_text_to_html (value, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+		encoded = e_text_to_html (value, E_TEXT_TO_HTML_CONVERT_NL |
+					  E_TEXT_TO_HTML_CONVERT_SPACES |
+					  E_TEXT_TO_HTML_CONVERT_URLS);
 	else
 		encoded = "";
 	
