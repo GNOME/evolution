@@ -1,3 +1,8 @@
+2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-activity-client.c (create_icon_from_pixbuf): Set the
+	release flag on the returned icon to %TRUE.
+
 2001-08-07  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shortcuts.c (load_shortcuts): If the shortcut points to some

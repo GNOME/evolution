@@ -115,6 +115,8 @@ create_icon_from_pixbuf (GdkPixbuf *pixbuf,
 			*(dp ++) = sp[j];
 		sp += rowstride;
 	}
+
+	CORBA_sequence_set_release (icon_return, TRUE);
 }
 
 /* Generate an AnimatedIcon from a NULL-terminated @pixbuf_array.  */
