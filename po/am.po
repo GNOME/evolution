@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
 "POT-Creation-Date: 2003-01-06 06:07+0100\n"
-"PO-Revision-Date: 2003-01-07 10:33+EDT\n"
+"PO-Revision-Date: 2003-01-14 11:02+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
 "MIME-Version: 1.0\n"
@@ -1278,11 +1278,11 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:124
 msgid "_More Options >>"
-msgstr "ተጨማሪ ምርጫዎች"
+msgstr "_ተጨማሪ ምርጫዎች >>"
 
 #: addressbook/gui/component/ldap-config.glade.h:125
 msgid "_Port number:"
-msgstr ""
+msgstr "የ_ፖርት ቍጥር፦"
 
 #: addressbook/gui/component/ldap-config.glade.h:126
 msgid "_Restore Defaults"
@@ -1294,7 +1294,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:128
 msgid "_Server name:"
-msgstr "የሰርቨር ስም"
+msgstr "_የሰርቨር ስም፦"
 
 #: addressbook/gui/component/ldap-config.glade.h:129
 msgid "_Timeout (minutes):"
@@ -1502,7 +1502,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
 msgid "No_tes:"
-msgstr ""
+msgstr "_ማስታወሻዎች፦"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "Organi_zation:"
@@ -3075,7 +3075,7 @@ msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-view.c:821
 msgid "Go to Folder..."
-msgstr ""
+msgstr "ወደ ዶሴን ሂዱ..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:822
 msgid "Import..."
@@ -3635,7 +3635,7 @@ msgstr ""
 
 #: calendar/gui/calendar-commands.c:404
 msgid "%A %d %B %Y"
-msgstr "*"
+msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -3643,17 +3643,17 @@ msgstr "*"
 #: calendar/gui/e-day-view-top-item.c:265
 #: calendar/gui/e-week-view-main-item.c:311
 msgid "%a %d %b"
-msgstr "*"
+msgstr "%a %d %b"
 
 #: calendar/gui/calendar-commands.c:409 calendar/gui/calendar-commands.c:414
 #: calendar/gui/calendar-commands.c:416
 msgid "%a %d %b %Y"
-msgstr "*"
+msgstr "%a %d %b %Y"
 
 #: calendar/gui/calendar-commands.c:427 calendar/gui/calendar-commands.c:434
 #: calendar/gui/calendar-commands.c:440 calendar/gui/calendar-commands.c:442
 msgid "%d %B %Y"
-msgstr "*"
+msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -3661,7 +3661,7 @@ msgstr "*"
 #: calendar/gui/calendar-commands.c:432
 #: calendar/gui/e-week-view-main-item.c:319 calendar/gui/print.c:1490
 msgid "%d %B"
-msgstr "*"
+msgstr "%d %B"
 
 #: calendar/gui/calendar-commands.c:799
 msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
@@ -3767,7 +3767,7 @@ msgstr "አይ"
 
 #: calendar/gui/calendar-view-factory.c:118
 msgid "Day View"
-msgstr ""
+msgstr "የቀን ዕይታ"
 
 #: calendar/gui/calendar-view-factory.c:121
 msgid "Work Week View"
@@ -3775,11 +3775,11 @@ msgstr ""
 
 #: calendar/gui/calendar-view-factory.c:124
 msgid "Week View"
-msgstr ""
+msgstr "የሳመንት ዕይታ"
 
 #: calendar/gui/calendar-view-factory.c:127
 msgid "Month View"
-msgstr ""
+msgstr "የወር ዕይታ"
 
 #: calendar/gui/cal-search-bar.c:50
 msgid "Summary contains"
@@ -3933,7 +3933,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Play sound:"
-msgstr ""
+msgstr "ድምፅ አጫውት፦"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:5
 msgid "Repeat the alarm"
@@ -3941,7 +3941,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/alarm-options.glade.h:6
 msgid "Run program:"
-msgstr "ፕሮግራምን አስኪድ"
+msgstr "ፕሮግራምን አስኪድ፦"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
 msgid "With these arguments:"
@@ -3950,7 +3950,7 @@ msgstr ""
 #: calendar/gui/dialogs/alarm-options.glade.h:8 filter/filter-datespec.c:68
 #: filter/filter.glade.h:20
 msgid "days"
-msgstr "ቀናት"
+msgstr "ቀና"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:9
 msgid "extra times every"
@@ -3959,7 +3959,7 @@ msgstr ""
 #: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter-datespec.c:67
 #: filter/filter.glade.h:21
 msgid "hours"
-msgstr "ሰዓቶች"
+msgstr "ሰዓትን"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:11 filter/filter-datespec.c:66
 #: filter/filter.glade.h:22
@@ -3978,7 +3978,7 @@ msgstr "1 ቀን"
 #: calendar/gui/dialogs/alarm-page.c:306
 #, c-format
 msgid "%d weeks"
-msgstr "%d ሳመንታት"
+msgstr "%d ሳመንት"
 
 #: calendar/gui/dialogs/alarm-page.c:309
 msgid "1 week"
@@ -3987,7 +3987,7 @@ msgstr "1 ሳመንት"
 #: calendar/gui/dialogs/alarm-page.c:314
 #, c-format
 msgid "%d hours"
-msgstr "%d ሰዓቶች"
+msgstr "%d ሰዓት"
 
 #: calendar/gui/dialogs/alarm-page.c:317
 msgid "1 hour"
@@ -4014,7 +4014,7 @@ msgstr "1 ሴኮንድ"
 #: calendar/gui/dialogs/alarm-page.c:362
 #: calendar/gui/dialogs/alarm-page.glade.h:4
 msgid "Play a sound"
-msgstr ""
+msgstr "ድምፅ አጫውት"
 
 #: calendar/gui/dialogs/alarm-page.c:366
 #: calendar/gui/dialogs/alarm-page.glade.h:3
@@ -4169,7 +4169,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "Days"
-msgstr ""
+msgstr "ቀናት"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.c:1116
@@ -4178,7 +4178,7 @@ msgstr "ዓርብ"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "Hours"
-msgstr ""
+msgstr "ሰዓቶች"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Minutes"
@@ -4602,15 +4602,15 @@ msgstr "ሚስጢራዊ"
 #: calendar/gui/dialogs/event-page.glade.h:6
 #: calendar/gui/dialogs/task-page.glade.h:4
 msgid "Date & Time"
-msgstr ""
+msgstr "ቀን እና ሰዓት"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
 msgid "F_ree"
-msgstr "ነፃ"
+msgstr "_ነፃ"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
 msgid "L_ocation:"
-msgstr "ቦታ"
+msgstr "_ቦታ"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:6
@@ -5140,27 +5140,27 @@ msgstr ""
 #: calendar/gui/e-day-view.c:613 calendar/gui/e-week-view.c:347
 #: calendar/gui/print.c:790
 msgid "am"
-msgstr ""
+msgstr "ጠዋት"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:616 calendar/gui/e-week-view.c:350
 #: calendar/gui/print.c:792
 msgid "pm"
-msgstr ""
+msgstr "ከሳዓት"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
 #: calendar/gui/e-day-view.c:1367 calendar/gui/e-day-view-top-item.c:261
 #: calendar/gui/e-week-view-main-item.c:302 calendar/gui/print.c:1506
 msgid "%A %d %B"
-msgstr "*"
+msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
 #: calendar/gui/e-day-view.c:1394 calendar/gui/e-day-view-top-item.c:269
 #: calendar/gui/e-week-view-main-item.c:325
 msgid "%d %b"
-msgstr "*"
+msgstr "%d %b"
 
 #: calendar/gui/e-day-view.c:3658
 msgid "New _Appointment"
@@ -5604,11 +5604,11 @@ msgstr ""
 #: calendar/gui/e-itip-control.glade.h:2
 #, no-c-format
 msgid "%P %%"
-msgstr "*"
+msgstr "%P %%"
 
 #: calendar/gui/e-itip-control.glade.h:3
 msgid "--to--"
-msgstr "ወደ"
+msgstr "--ወደ--"
 
 #: calendar/gui/e-itip-control.glade.h:4
 msgid "Calendar Message"
@@ -5616,7 +5616,7 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.glade.h:5
 msgid "Date:"
-msgstr "ቀን"
+msgstr "ቀን፦"
 
 #: calendar/gui/e-itip-control.glade.h:7
 msgid "Loading Calendar"
@@ -5734,7 +5734,7 @@ msgstr ""
 
 #: calendar/gui/e-meeting-time-sel.c:514
 msgid "_<<"
-msgstr "*"
+msgstr "_<<"
 
 #: calendar/gui/e-meeting-time-sel.c:531
 msgid "_Autopick"
@@ -5742,7 +5742,7 @@ msgstr ""
 
 #: calendar/gui/e-meeting-time-sel.c:545
 msgid ">_>"
-msgstr "*"
+msgstr ">_>"
 
 #: calendar/gui/e-meeting-time-sel.c:564
 msgid "_All People and Resources"
@@ -9303,6 +9303,8 @@ msgid ""
 "Could not create folder `%s':\n"
 "%s"
 msgstr ""
+"ዶሴ `%s'ን ማስፈጠር አልተቻለም፦\n"
+"%s"
 
 #: camel/providers/local/camel-maildir-store.c:132
 #, c-format
@@ -10520,7 +10522,7 @@ msgstr "h"
 #. strptime format for hour and AM/PM, 12-hour format.
 #: e-util/e-time-utils.c:342
 msgid "%I %p"
-msgstr "*"
+msgstr "%I %p"
 
 #: filter/filter-datespec.c:65 filter/filter.glade.h:24
 #: mail/mail-config.glade.h:180
@@ -10529,11 +10531,11 @@ msgstr "ሴኮንዶች"
 
 #: filter/filter-datespec.c:66
 msgid "minute"
-msgstr "ደቂቃ ዎች"
+msgstr "ደቂቃ"
 
 #: filter/filter-datespec.c:67
 msgid "hour"
-msgstr "ሰዓት ኦች"
+msgstr "ሰዓት"
 
 #: filter/filter-datespec.c:69
 msgid "week"
@@ -10541,7 +10543,7 @@ msgstr "ሳመንት"
 
 #: filter/filter-datespec.c:69 filter/filter.glade.h:29
 msgid "weeks"
-msgstr ""
+msgstr "ሳመንታት"
 
 #: filter/filter-datespec.c:70
 msgid "month"
@@ -10549,7 +10551,7 @@ msgstr "ወር"
 
 #: filter/filter-datespec.c:70 filter/filter.glade.h:23
 msgid "months"
-msgstr ""
+msgstr "ወር"
 
 #: filter/filter-datespec.c:71
 msgid "year"
@@ -10557,7 +10559,7 @@ msgstr "ዓመት"
 
 #: filter/filter-datespec.c:71 filter/filter.glade.h:33
 msgid "years"
-msgstr ""
+msgstr "ዓመታት"
 
 #: filter/filter-datespec.c:176
 msgid "You must choose a date."
@@ -10565,16 +10567,16 @@ msgstr ""
 
 #: filter/filter-datespec.c:275
 msgid "<click here to select a date>"
-msgstr "*"
+msgstr ""
 
 #: filter/filter-datespec.c:278 filter/filter-datespec.c:289
 msgid "now"
-msgstr ""
+msgstr "አሁኑኑ"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: filter/filter-datespec.c:285
 msgid "%d-%b-%Y"
-msgstr "d"
+msgstr "%d-%b-%Y"
 
 #. 1 (minute|day|...) ago (singular time ago)
 #: filter/filter-datespec.c:298 filter/filter-datespec.c:301
@@ -10615,7 +10617,7 @@ msgstr ""
 #: filter/filter-folder.c:241 filter/vfolder-rule.c:406
 #: mail/mail-account-gui.c:1459 mail/mail-account-gui.c:1473
 msgid "Select Folder"
-msgstr ""
+msgstr "ዶሴ ምረጡ"
 
 #: filter/filter.glade.h:1
 msgid "Compare against"
@@ -10852,7 +10854,7 @@ msgstr ""
 
 #: filter/libfilter-i18n.h:24
 msgid "Play Sound"
-msgstr ""
+msgstr "ድምፅ አጫውት"
 
 #: filter/libfilter-i18n.h:25 mail/message-tag-followup.c:55
 msgid "Read"
@@ -11442,7 +11444,7 @@ msgstr "የነበረው"
 #: mail/folder-browser-ui.c:481
 #, c-format
 msgid "Properties for \"%s\""
-msgstr ""
+msgstr "ለ \"%s\"ን ምርጫዎች"
 
 #: mail/folder-browser-ui.c:483
 msgid "Properties"
@@ -12289,7 +12291,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:102
 msgid "S_ecurity"
-msgstr ""
+msgstr "_ደህነት"
 
 #: mail/mail-config.glade.h:103
 msgid "Secure MIME (S/MIME)"
@@ -13154,27 +13156,27 @@ msgstr ""
 
 #: mail/message-list.c:1067
 msgid "?"
-msgstr "*"
+msgstr "?"
 
 #: mail/message-list.c:1074
 msgid "Today %l:%M %p"
-msgstr "ዛሬ"
+msgstr "ዛሬ %l:%M %p"
 
 #: mail/message-list.c:1083
 msgid "Yesterday %l:%M %p"
-msgstr "ትናንት"
+msgstr "ትናንት %l:%M %p"
 
 #: mail/message-list.c:1095
 msgid "%a %l:%M %p"
-msgstr "l"
+msgstr "%a %l:%M %p"
 
 #: mail/message-list.c:1103
 msgid "%b %d %l:%M %p"
-msgstr "l"
+msgstr "%b %d %l:%M %p"
 
 #: mail/message-list.c:1105
 msgid "%b %d %Y"
-msgstr "*"
+msgstr "%b %d %Y"
 
 #: mail/message-list.c:2589
 msgid "Generating message list"
@@ -13362,7 +13364,7 @@ msgstr ""
 
 #: my-evolution/e-summary.c:199
 msgid "%A, %B %e %Y"
-msgstr "a,"
+msgstr "%A, %B %e %Y"
 
 #: my-evolution/e-summary.c:514
 msgid "Please wait..."
@@ -13386,11 +13388,11 @@ msgstr ""
 
 #: my-evolution/e-summary-calendar.c:414
 msgid "%k:%M %d %B"
-msgstr "k"
+msgstr "%k:%M %d %B"
 
 #: my-evolution/e-summary-calendar.c:416
 msgid "%l:%M %d %B"
-msgstr "l"
+msgstr "%l:%M %d %B"
 
 #: my-evolution/e-summary-calendar.c:434
 msgid "No description"
@@ -23273,11 +23275,11 @@ msgstr ""
 
 #: my-evolution/metar.c:30
 msgid " F"
-msgstr "*"
+msgstr " F"
 
 #: my-evolution/metar.c:30
 msgid " C"
-msgstr "*"
+msgstr " C"
 
 #: my-evolution/metar.c:34
 msgid "knots"
@@ -23285,15 +23287,15 @@ msgstr ""
 
 #: my-evolution/metar.c:34
 msgid "kph"
-msgstr ""
+msgstr "kph"
 
 #: my-evolution/metar.c:39
 msgid "inHg"
-msgstr ""
+msgstr "inHg"
 
 #: my-evolution/metar.c:39
 msgid "mmHg"
-msgstr ""
+msgstr  "mmHg"
 
 #: my-evolution/metar.c:42
 msgid "miles"
@@ -23301,7 +23303,7 @@ msgstr ""
 
 #: my-evolution/metar.c:42
 msgid "kilometers"
-msgstr ""
+msgstr "ኪሎሜትሮች"
 
 #: my-evolution/metar.c:45
 msgid "Clear sky"
@@ -23325,7 +23327,7 @@ msgstr ""
 
 #: my-evolution/metar.c:57 my-evolution/metar.c:75 my-evolution/metar.c:486
 msgid "Invalid"
-msgstr ""
+msgstr "የማይሰራ"
 
 #: my-evolution/metar.c:64
 msgid "Variable"
@@ -24820,7 +24822,7 @@ msgstr ""
 
 #: shell/e-shell-folder-creation-dialog.c:292
 msgid "Create New Folder"
-msgstr ""
+msgstr "አዲስ ዶሴ ፍጠር"
 
 #: shell/e-shell-folder-title-bar.c:653 shell/e-shell-folder-title-bar.c:654
 msgid "(Untitled)"
@@ -24940,7 +24942,7 @@ msgstr "ከ %s፦"
 
 #: shell/e-shell-importer.c:1079
 msgid "Select folder"
-msgstr ""
+msgstr "ዶሴ ምረጡ"
 
 #: shell/e-shell-importer.c:1080
 msgid "Select a destination folder for importing this data"
@@ -25079,7 +25081,7 @@ msgstr ""
 
 #: shell/e-shell-view-menu.c:502
 msgid "Go to folder..."
-msgstr ""
+msgstr "ወደ ዶሴን ሂዱ..."
 
 #: shell/e-shell-view-menu.c:503
 msgid "Select the folder that you want to open"
@@ -25111,7 +25113,7 @@ msgstr ""
 
 #: shell/e-shortcuts.c:1094
 msgid "Shortcuts"
-msgstr ""
+msgstr "አቋራጮች"
 
 #: shell/e-shortcuts-view.c:79
 msgid "Create new shortcut group"
@@ -26727,7 +26729,7 @@ msgstr ""
 
 #: ui/evolution-message-composer.xml.h:48
 msgid "_Security"
-msgstr ""
+msgstr "_ደህነት"
 
 #: ui/evolution-signature-editor.xml.h:4
 msgid "H_TML"
@@ -26847,7 +26849,7 @@ msgstr ""
 
 #: ui/evolution.xml.h:8
 msgid "Create _New Folder..."
-msgstr ""
+msgstr "_አዲስ ዶሴ ፍጠር..."
 
 #: ui/evolution.xml.h:9
 msgid "Create a link to this folder in the shortcut bar"
@@ -26855,7 +26857,7 @@ msgstr ""
 
 #: ui/evolution.xml.h:10
 msgid "Create a new folder"
-msgstr ""
+msgstr "አዲስ ዶሴ ፍጠር"
 
 #: ui/evolution.xml.h:11
 msgid "Create a new shortcut"
