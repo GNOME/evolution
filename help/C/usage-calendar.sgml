@@ -1,7 +1,5 @@
+<!-- <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"> -->
 
-<!-- UNCOMMENT FOR VALIDATION ONLY:
- <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
--->
 
 <chapter id="usage-calendar">
   <title>The Evolution Calendar: Time-Tamer Extraordinaire</title>
@@ -92,37 +90,47 @@ lack of time, resources, and interest.
          You can have as many as four different
          <guilabel>Alarms</guilabel>, any time prior to the event
          you've scheduled.  You can have one alarm of each type:
-         <itemizedlist>
-          <listitem>
-	    <para>
-	  <guilabel>Display</guilabel> means a window will pop up on
-	  your screen to remind you of your event.
-            </para>
-	  </listitem>
-          <listitem>
-	    <para>
-	       Click <guilabel>Audio</guilabel> to have your deliver a
-	       sound alarm.
-            </para>
-	  </listitem>
-          <listitem>
-	    <para>
-	      Select <guilabel>Program</guilabel> if you would like
-	      some additional application to run as a reminder.  You
-	      can enter its name in the text field, or find it with
-	      the <guibutton>Browse</guibutton> button.
-            </para>
-	  </listitem>
-
-          <listitem>
-	    <para>
-	       If you select <guilabel>Mail</guilabel>, then
-	       <application>Evolution</application> will send an email
-	       reminder to the address you enter into the text field.
-            </para>
-	  </listitem>
-	</itemizedlist>
-
+         <variablelist>
+           <varlistentry>
+	    <term><guilabel>Display</guilabel></term>
+	    <listitem>
+	      <para>
+	        A window will pop up on your screen to remind you of
+	        your event.
+              </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry> 
+	    <term><guilabel>Audio</guilabel></term>
+	    <listitem>
+	      <para>
+	        Choose this to have your deliver a sound alarm.
+              </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guilabel>Program</guilabel></term>
+	    <listitem>
+	      <para>
+	        Select this if you would like some additional application
+	        to run as a reminder.  You can enter its name in the
+	        text field, or find it with the
+	        <guibutton>Browse</guibutton> button.
+              </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guilabel>Mail</guilabel></term>
+	    <listitem>
+	      <para>
+	         <application>Evolution</application> will send an
+	         email reminder to the address you enter into the text
+	         field.
+              </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+	    
       </para>
       <para>
          <guilabel>Classification</guilabel> is a little more
@@ -216,34 +224,47 @@ lack of time, resources, and interest.
        To record a new task, click the <guibutton>Add</guibutton>
        button below the list.  <application>Evolution</application>
        will pop up a small window with five items in it:
-       <itemizedlist>
-         <listitem>
-	  <para>
-            <guilabel>Summary:</guilabel>The description you enter
-            here will appear in the To Do list itself.
+     
+        <variablelist>
+	  <varlistentry>
+	  <term> <guilabel>Summary:</guilabel></term>
+	  <listitem>
+            <para>
+              The description you enter here will appear in the To Do
+              list itself.
           </para>
-	 </listitem>
-
-        <listitem>
-	  <para>
-            <guilabel>Due Date:</guilabel> Decide when this item is
+	  </listitem>
+	  </varlistentry>
+	
+	<varlistentry>
+	  <term> <guilabel>Due Date:</guilabel></term>
+	  <listitem>
+	    <para>
+            Decide when this item is
             due.  You can either type in a date and time, or select one from
             the <guibutton>Calendar</guibutton> and time drop-down menus.
           </para>
-	</listitem>
- 
-	<listitem>
-	  <para>
-            <guilabel>Priority:</guilabel>Select a level of importance from 1 to 9.
-          </para>
-	</listitem> 
-	<listitem>
-	  <para>
-            <guilabel>Item Comments:</guilabel>If you wish, you can
-            keep a more detailed description of the item here.
-          </para>
-	</listitem> 
-      </itemizedlist>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guilabel>Priority:</guilabel></term>
+	  <listitem>
+	    <para>
+             Select a level of importance from 1 (most important) to 9
+              (least important).
+            </para>
+	  </listitem> 
+	</varlistentry>
+	<varlistentry>
+	  <term> <guilabel>Item Comments:</guilabel></term>
+	  <listitem>
+	    <para>
+              If you wish, you can keep a more detailed description of
+              the item here.
+            </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
     </para>
     <para>
        Once you've added a task to your to-do list, its summary

@@ -169,6 +169,16 @@
  </glossentry> 
 
 
+  <glossentry id="ldap">
+   <glossterm>LDAP</glossterm>
+   <glossdef>
+    <para>
+     LDAP is a protocol which allows a client to search through a large database
+     of addresses, phone numbers, and people, as an alternative to a physical
+     phone book.
+    </para>
+   </glossdef>
+  </glossentry>
 
  <glossentry id="mail-client">
   <glossterm>Mail Client</glossterm>
@@ -229,6 +239,18 @@
    </para>
   </glossdef>
  </glossentry>
+
+  <glossnetry id="signature">
+   <glossterm>Signature</glossterm>
+   <glossdef>
+    <para>
+     Signatures allow a user to specify a message to place at the bottom of
+     every email sent.  A signature can be anything from a favorite quote to
+     a link to a webpage.
+    </para>
+   </glossdef>
+  </glossentry> 
+
 
  <glossentry id="spam">
   <glossterm>Spam</glossterm>

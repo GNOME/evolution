@@ -1,4 +1,4 @@
-<!-- uncomment the declaration during validation and debugging
+<!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
 
@@ -399,12 +399,13 @@ with quoted materials and the relevant replies interspersed-->
             The icons in the toolbar are explained in tool-tips, which
             appear when you hold your mouse over the buttons.  The
             buttons fall into four categories:
-            <itemizedlist>
+            <variablelist>
+             <varlistentry>
+             <term>Headers and lists</term>
 	      <listitem>
 		<para>
-                  Headers and lists: Choose
-                  <guilabel>Normal</guilabel> for your default text
-                  style, or <guilabel>Header 1</guilabel> through
+                  Choose <guilabel>Normal</guilabel> for your default
+                  text style, or <guilabel>Header 1</guilabel> through
                   <guilabel>Header 6</guilabel> for varying sizes of
                   header.  You can also select
                   <guilabel>pre</guilabel> for preformatted text
@@ -412,19 +413,25 @@ with quoted materials and the relevant replies interspersed-->
                   Item</guilabel>.
                 </para>
 	      </listitem>
-
+           </varlistentry>
+           <varlistentry>
+             <term>Text style</term>
 	      <listitem>
 		<para>
-                  Text style: <guilabel>B</guilabel> is for bold text,
-                  <guilabel>I</guilabel> for italics,
-                  <guilabel>U</guilabel> for an underline, and
-                  <guilabel>S</guilabel> for a strikethrough.
-                </para>
+                  <itemizedlist mark="none">      
+		  <listitem><para><guilabel>B</guilabel> is for bold text</para></listitem>		    
+                  <listitem><para><guilabel>I</guilabel> for italics</para></listitem>
+		  <listitem><para><guilabel>U</guilabel> to underline</para></listitem>
+		  <listitem><para><guilabel>S</guilabel> for a strikethrough.</para></listitem>
+                 </itemizedlist>
+               </para>               
 	      </listitem>    
-
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Alignment</term>
 	      <listitem>
 		<para>
-                   Alignment: Located next to the text style buttons,
+                  Located next to the text style buttons,
                    these three paragraph icons should be familiar to
                    users of most word processing software.  The
                    leftmost button will make your text left-justified,
@@ -432,15 +439,19 @@ with quoted materials and the relevant replies interspersed-->
                    button, right-justified.
                 </para>
 	      </listitem>
+	      </varlistentry>
 
+	    <varlistentry>
+	      <term>Indentation rules</term>
 	      <listitem>
 		<para>
-                  Indentation rules: The button with the arrow
-                  pointing left will reduce a paragraph's indentation,
-                  and the right arrow will increase its indentation.
+                  The button with the arrow pointing left will reduce
+                  a paragraph's indentation, and the right arrow will
+                  increase its indentation.
                </para>
 	    </listitem>
-	  </itemizedlist>
+	  </varlistentry>
+	  </variablelist>
         </para>
 	<para>
            There are two tools that you can find only in the
@@ -663,49 +674,57 @@ possibly never will be due to security evil. -->
       <para>
 	To start searching, enter a word or phrase in the text area
 	right below the toolbar, and choose a search type:
-	<itemizedlist>
+	<variablelist>
+	  <varlistentry>
+	    <term><guilabel>Body or subject contains:</guilabel></term>
 	  <listitem>
-	    <para>
-	      <guilabel>Body or subject contains:</guilabel> This
-	      will search message subjects and the messages
-	      themselves for the word or phrase you've entered in
-	      the search field.
-	   </para>
-	 </listitem>
-
-	  <listitem>
-	    <para>
-	      <guilabel>Body contains:</guilabel> This will search
-	       only in message text, not the subject lines.
-	   </para>
-	 </listitem>
-
-	  <listitem>
-	    <para>
-	      <guilabel>Subject contains:</guilabel> This will
-	      show you messages where the search text is in the
-	      subject line.  It will not search in the message body.
-	   </para>
-	 </listitem>
-
-	  <listitem>
-	    <para>
-	      <guilabel>Body does not contain:</guilabel> This
-	      finds every email message that does not have the
-	      search text in the message body.  It will still show
-	      messages that have the search text in the subject
-	      line, if it is not also in the body.
-	   </para>
-	 </listitem>
-
-	  <listitem>
-	    <para>
-	      <guilabel>Subject does not contain:</guilabel>This
-	      finds every mail whose subject does not
-	      contain the search text.
-	   </para>
-	 </listitem>
-	</itemizedlist>
+	      <para>
+	        This will search message subjects and the messages
+	        themselves for the word or phrase you've entered in
+	        the search field.
+   	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term> <guilabel>Body contains:</guilabel> </term>
+	    <listitem>
+	      <para>
+	        This will search only in message text, not the subject
+	        lines.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guilabel>Subject contains:</guilabel></term>
+	    <listitem>
+	      <para>
+	        This will show you messages where the search text is
+	        in the subject line.  It will not search in the
+	        message body.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guilabel>Body does not contain:</guilabel></term>
+	    <listitem>
+	      <para>
+	        This finds every email message that does not have the
+	        search text in the message body.  It will still show
+	        messages that have the search text in the subject
+	        line, if it is not also in the body.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guilabel>Subject does not contain:</guilabel></term>
+	    <listitem>
+	      <para>
+	        This finds every mail whose subject does not contain
+	        the search text.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
 
         Then, press <keycap>Enter</keycap>.
         <application>Evolution</application> will show your search
@@ -901,37 +920,48 @@ possibly never will be due to security evil. -->
 	 You'll be prompted to create a filtering rule. To do so,
 	 select one of the base rules, and click
 	 <guibutton>Next</guibutton> to customize it.  Your options are:
-    <itemizedlist>
-	 <listitem>
-	    <para>
-	       For matching messages: you may select one or more
-	       search criteria; the vFolder you create will
-	       contain messages that match all of
-	       them.
+    <variablelist>
+	 <varlistentry>
+	    <term><guilabel>For matching messages:</guilabel></term>
+	    <listitem>
+	      <para>
+	        You may select one or more search criteria; the
+	        vFolder you create will contain messages that match
+	        all of them.
+	     </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guilabel>Messages from a certain person:</guilabel></term>
+	    <listitem>
+	      <para>
+		 Enter an email address, and the vFolder will contain
+		 any messages from that address.
 	     </para>
 	   </listitem>
-	   <listitem>
-	     <para>
-		Messages from a certain person: you enter an email
-		address, and the vFolder will contain any messages
-		from that address.
-	     </para>
-	   </listitem>
-	   <listitem>
-	     <para>
-	       Messages to a certain address: any messages sent
-	       directly to this address will be in the vFolder you create.
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guilabel>Messages to a certain address:</guilabel</term>
+	    <listitem>
+	      <para>
+	         Any messages sent directly to this address will be in
+	         the vFolder you create.
 	      </para>
-	   </listitem>
-	   <listitem>
-	     <para>
-		Messages with a given subject: enter a subject,
-		and the vFolder will contain messages with that
-		subject.
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><guilabel>Messages with a given subject:</guilabel></term>
+	    <listitem>
+	      <para>
+		Enter a subject, and the vFolder will contain messages
+		with that subject.
 	     </para>
-	   </listitem>
-	  </itemizedlist>
-	as is shown in <xref linkend="usage-mail-vfolder-fig-createrule">
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+
+	as is shown in <xref
+	linkend="usage-mail-vfolder-fig-createrule">
 
        <figure id="usage-mail-vfolder-fig-createrule">
 	 <title>Selecting a vFolder Rule</title>

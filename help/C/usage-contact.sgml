@@ -60,7 +60,6 @@
 
     <para>
        The toolbar for the address book is quite simple:
-
        <itemizedlist>
 	<listitem><para>
            Press <guibutton>New</guibutton> for a new contact.
@@ -162,26 +161,37 @@
         You can enter a name into the <guibutton>Full Name</guibutton>
         field, or you can click the button to bring up a small dialog
         box with a few text boxes:
-	<itemizedlist>
-	  <listitem> <para>
-	    <guilabel>Title:</guilabel>Enter an honorific or select one from the menu.
-	  </para></listitem>
-	  
-	  <listitem> <para> <guilabel>First:</guilabel>The person's first, or given, name.
+        <variablelist>
+          <varlistentry>
+	    <term><guilabel>Title:</guilabel></term>
+            <listitem> <para>
+	    Enter an honorific or select one from the menu.
+	    </para></listitem>
+	  </varlistentry>
+          <varlistentry>
+           <term><guilabel>First:</guilabel></term>
+	    <listitem> <para>The person's first, or given, name.
     	  </para></listitem>
-
-	  <listitem> <para>
-             <guilabel>Middle:</guilabel>The middle name or initial, if any, goes here.
-          </para></listitem>
-
-	  <listitem> <para>
-	     <guilabel>Last:</guilabel>The last name (surname, family name), belongs here.
+          </varlistentry>
+          <varlistentry>
+             <term><guilabel>Middle:</guilabel></term>
+	     <listitem> <para>
+                The middle name or initial, if any, goes here.
+             </para></listitem>
+          </varlistentry>
+          <varlistentry>
+           <term><guilabel>Last:</guilabel></term>
+ 	  <listitem> <para>
+	   The last name (the surname, or family name), belongs here.
 	  </para></listitem>
-
+          </varlistentry>
+          <varlistentry>
+          <term><guilabel>Suffix:</guilabel></term>
 	  <listitem> <para>
-             <guilabel>Suffix:</guilabel>Suffixes such as "Jr." or "III" can go here. 
+            Suffixes such as "Jr." or "III" can go here. 
 	  </para></listitem>
-	</itemizedlist>
+          </varlistentry>
+	</variablelist>
       </para>
       
       <para>
@@ -340,8 +350,7 @@
            card in the "Business" category, because he works with me,
            the "Friends" category, because he's also my friend, and
            the "Frequent" category, because I call him all the time
-           and can never remember his phone number.
-         </para>
+           and can never remember his phone number.  
 	<para>
            To mark a card as belonging to a category, click the
            <guibutton>Categories</guibutton> button at the lower
@@ -355,10 +364,21 @@
 	<para>
            If the master list of categories don't suit you, you can
            add your own.  Just enter the new category's name in the
-           text box, then click <guibutton>Categories</guibutton>e and
+           text box, then click <guibutton>Categories</guibutton> and
            choose <guilabel>Add to Master List</guilabel> in the
            window that appears. (FIXME: This isn't quite accurate.)
          </para>
+
+         <tip id="usage-contact-categories-multiple">
+            <title>Another way to use Categories</title>
+            <para>
+               You can categorize contacts by typing the category
+               names into the <guilabel>Categories</guilabel>
+               field. You can also create new categories that way:
+               just type in a category name, and it counts as a
+               category.
+            </para>
+          </tip>
       </sect3>
     </sect2>
   </sect1>
