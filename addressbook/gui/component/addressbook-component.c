@@ -117,44 +117,57 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 }
 
 static void
+book_loaded_cb (EBook *book, EBookStatus status, gpointer data)
+{
+	EContact *contact;
+	char *item_type_name = data;
+
+	if (status != E_BOOK_ERROR_OK) {
+		/* XXX we really need a dialog here, but we don't have
+		   access to the ESource so we can't use
+		   eab_load_error_dialog.  fun! */
+		return;
+	}
+
+	contact = e_contact_new ();
+
+	if (!strcmp (item_type_name, "contact")) {
+		eab_show_contact_editor (book, contact, TRUE, TRUE);
+	}
+	else if (!strcmp (item_type_name, "contact_list")) {
+		eab_show_contact_list_editor (book, contact, TRUE, TRUE);
+	}
+
+	g_object_unref (book);
+	g_object_unref (contact);
+
+	g_free (item_type_name);
+}
+
+static void
 impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
 			CORBA_Environment *ev)
 {
 	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
 	AddressbookComponentPrivate *priv;
-	EBook *book = NULL;
-	EContact *contact;
 
 	priv = addressbook_component->priv;
+
+	if (!item_type_name ||
+	    (strcmp (item_type_name, "address_book") &&
+	     strcmp (item_type_name, "contact") &&
+	     strcmp (item_type_name, "contact_list"))) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
+		return;
+	}
 
 	if (!strcmp (item_type_name, "address_book")) {
 		addressbook_config_create_new_source (NULL);
 		return;
 	}
 
-	if (!e_book_get_default_addressbook (&book, NULL)) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_Failed, NULL);
-		return;
-	}
-
-	contact = e_contact_new ();
-
-	if (!item_type_name) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
-	}
-	else if (!strcmp (item_type_name, "contact")) {
-		eab_show_contact_editor (book, contact, TRUE, TRUE);
-	}
-	else if (!strcmp (item_type_name, "contact_list")) {
-		eab_show_contact_list_editor (book, contact, TRUE, TRUE);
-	}
-	else {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UnknownType, NULL);
-	}
-
-	g_object_unref (book);
-	g_object_unref (contact);
+	e_book_async_get_default_addressbook (book_loaded_cb, g_strdup (item_type_name));
 }
 
 static CORBA_boolean

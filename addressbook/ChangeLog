@@ -1,3 +1,10 @@
+2004-04-16  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-component.c (book_loaded_cb): new
+	function, use the async interface to load the book.
+	(impl_requestCreateItem): use
+	e_book_async_get_default_addressbook.
+
 2004-04-16  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Commit new contact editor
