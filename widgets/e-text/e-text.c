@@ -2559,8 +2559,6 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 							text->default_cursor_shown = FALSE;
 						}
 					}
-					text->selection_start = 0;
-					text->selection_end = 0;
 					text->select_by_word = FALSE;
 					text->xofs_edit = 0;
 					text->yofs_edit = 0;
