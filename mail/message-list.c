@@ -231,12 +231,19 @@ address_compare (gconstpointer address1, gconstpointer address2)
 	ia1 = internet_address_new_from_string ((const char *) address1);
 	ia2 = internet_address_new_from_string ((const char *) address2);
 	
-	if (!ia1->name || !ia2->name) {
-		/* if one or the other doesn't have a name we should compare addresses */
+	if (!ia1->name && !ia2->name) {
+		/* if neither has a name we should compare addresses */
 		retval = g_strcasecmp (ia1->address, ia2->address);
 	} else {
-		/* FIXME: compare last names...then first names if last names are the same? */
-		retval = g_strcasecmp (ia1->name, ia2->name);
+		if (!ia1->name)
+			retval = -1;
+		else if (!ia2->name)
+			retval = 1;
+		else {
+			/* FIXME: use Nat's e-western-name parser
+			 * so we can compare last name then first */
+			retval = g_strcasecmp (ia1->name, ia2->name);
+		}
 	}
 	
 	internet_address_destroy (ia1);
@@ -253,13 +260,23 @@ subject_compare (gconstpointer subject1, gconstpointer subject2)
 	
 	/* trim off any "Re:"'s at the beginning of subject1 */
 	sub1 = (char *) subject1;
-	while (!g_strncasecmp (sub1, "Re:", 3))
+	while (!g_strncasecmp (sub1, "Re:", 3)) {
 		sub1 += 3;
+		/* jump over any spaces */
+		for ( ; *sub1 && isspace (*sub1); sub1++);
+	}
 	
 	/* trim off any "Re:"'s at the beginning of subject2 */
 	sub2 = (char *) subject2;
-	while (!g_strncasecmp (sub2, "Re:", 3))
+	while (!g_strncasecmp (sub2, "Re:", 3)) {
 		sub2 += 3;
+		/* jump over any spaces */
+		for ( ; *sub2 && isspace (*sub2); sub2++);
+	}
+	
+	/* jump over any spaces */
+	for ( ; *sub1 && isspace (*sub1); sub1++);
+	for ( ; *sub2 && isspace (*sub2); sub2++);
 	
 	return g_strcasecmp (sub1, sub2);
 }
