@@ -3107,7 +3107,7 @@ enable_writable_fields(EContactEditor *editor)
 	e_contact_editor_build_email_ui (editor);
 	for (i = 0; i < G_N_ELEMENTS (emails); i ++)
 		g_hash_table_insert (dropdown_hash,
-				     (char*)e_contact_field_name(phones[i]),
+				     (char*)e_contact_field_name(emails[i]),
 				     editor->email_info[i].widget);
 	e_contact_editor_build_address_ui (editor);
 	for (i = E_CONTACT_FIRST_ADDRESS_ID; i <= E_CONTACT_LAST_ADDRESS_ID; i ++)

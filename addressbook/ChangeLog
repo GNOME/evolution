@@ -1,3 +1,7 @@
+2004-03-08  Sivaiah Nallagatla <snallagatla@novell.com>
+	* gui/contact-editor/e-contact-editor.c (enable_writable_fields):
+	fixed a typo, which is causing probelm in building up email ui
+	
 2004-03-04  Sivaiah Nallagatla <snallagatla@novell.com>
                                                                                                                              
         * gui/component/addressbook-config.c :
