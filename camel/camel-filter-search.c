@@ -403,13 +403,25 @@ static ESExpResult *
 get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
 	ESExpResult *r;
+	char *src;
+	char *tmp;
 	
 	r = e_sexp_result_new (f, ESEXP_RES_STRING);
 	if (fms->source) {
-		r->value.string = e_url_shroud (fms->source);
+		src = e_url_shroud (fms->source);
 	} else {
-		r->value.string = g_strdup (camel_mime_message_get_source (fms->message));
+		src = g_strdup (camel_mime_message_get_source (fms->message));
 	}
+
+	/* This is an abusive hack */
+	if ( src && (tmp = strstr (src, "://")) ) {
+		tmp += 3;
+		tmp = strchr (tmp, '/');
+		if (tmp)
+			*tmp = '\0';
+	}
+
+	r->value.string = src;
 	
 	return r;
 }

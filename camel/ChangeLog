@@ -1,3 +1,9 @@
+2001-08-08  Jon Trowbridge  <trow@ximian.com>
+
+	* camel-filter-search.c (get_source): Remove trailing stuff from
+	URLs before returning.  (Done in an evil way, not in the good way
+	suggested by fejj. :)) (Bug #4876)
+
 2001-08-08  jacob berkman  <jacob@ximian.com>
 
 	* camel-search-private.c (camel_search_header_match): check for
