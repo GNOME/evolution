@@ -23,6 +23,7 @@
 #include <gtk/gtkmenuitem.h>
 #include "e-font.h"
 #include <gnome-xml/xmlmemory.h>
+#include <stdlib.h>
 
 #define FONT_TESTING
 #define MAX_DECOMP 8
