@@ -37,6 +37,8 @@ typedef struct _FilterArgClass FilterArgClass;
 struct _FilterArg {
 	GtkObject object;
 
+	struct _FilterArgPrivate *priv;
+
 	char *name;
 	GList *values;
 };

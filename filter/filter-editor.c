@@ -69,11 +69,24 @@ filter_editor_get_type (void)
 }
 
 static void
+object_destroy(FilterEditor *obj)
+{
+	struct _FilterEditorPrivate *p = _PRIVATE(obj);
+
+	if (p->druid_druid)
+		gtk_object_unref((GtkObject *)p->druid_dialogue);
+
+	GTK_OBJECT_CLASS(filter_editor_parent)->destroy(obj);
+}
+
+static void
 filter_editor_class_init (FilterEditorClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	
 	filter_editor_parent = gtk_type_class (gnome_dialog_get_type ());
+
+	object_class->destroy = object_destroy;
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
@@ -125,25 +138,30 @@ druid_dialogue_clicked(GnomeDialog *d, int button, FilterEditor *e)
 	case 2:
 		printf("Finish!\n");
 		if (p->druid_druid->option_current) {
-			/* FIXME: this should be copied? */
+			struct filrt_optionrule *or;
+
+			printf("refcount = %d\n", ((GtkObject *)p->druid_druid)->ref_count);
+
+			or = p->druid_druid->option_current;
 			if (p->druid_option) {
 				GList *node;
 
 				node = g_list_find(e->useroptions, p->druid_option);
 				if (node) {
-					/* FIXME: memleak, should copy */
-					node->data = p->druid_druid->option_current;
+					/* fixme: free old one */
+					node->data = or;
 				} else {
 					g_warning("Cannot find node I edited, appending instead");
-					e->useroptions = g_list_append(e->useroptions, p->druid_druid->option_current);
+					e->useroptions = g_list_append(e->useroptions, or);
 				}
 			} else {
-				e->useroptions = g_list_append(e->useroptions, p->druid_druid->option_current);
+				e->useroptions = g_list_append(e->useroptions, or);
 			}
-			filter_druid_set_rules(p->druid, e->useroptions, e->rules, NULL);
+			filter_druid_set_rules(p->druid, e->useroptions, e->rules, or);
 		}
 	case 3:
 		printf("cancel!\n");
+		p->druid_dialogue = NULL;
 		gnome_dialog_close(d);
 		return;
 	}
@@ -168,6 +186,11 @@ add_or_edit(FilterEditor *e, struct filter_option *option)
 	GnomeDialog *dialogue;
 	FilterDruid *druid;
 	struct _FilterEditorPrivate *p = _PRIVATE(e);
+
+	if (p->druid_dialogue) {
+		gdk_window_raise(GTK_WIDGET(p->druid_dialogue)->window);
+		return;
+	}
 
 	dialogue = gnome_dialog_new(option?"Edit Filter":"Create filter", "Prev", "Next", "Finish", "Cancel", 0);
 

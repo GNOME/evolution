@@ -1,3 +1,13 @@
+2000-03-02  NotZed  <NotZed@HelixCode.com>
+
+	* filter-druid.c (object_destroy): Disconnect the list signal, so
+	we dont get spurious emits during destroy.
+	(arg_changed): Callback to update filter arg asynchronously.
+	(arg_link_clicked): Edit the value non-modally.
+
+	* filter-arg.c (filter_arg_edit_values_1): Changed to use
+	non-modal interface.
+
 2000-03-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am: New file.

@@ -414,6 +414,9 @@ filter_clone_optionrule_free(struct filter_optionrule *or)
 	GList *argl;
 	struct filter_optionrule *rule;
 
+	printf("---- free optionrule\n");
+	return;
+
 	argl = or->args;
 	while (argl) {
 		gtk_object_unref(GTK_OBJECT(argl->data));

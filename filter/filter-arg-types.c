@@ -648,7 +648,7 @@ arg_folder_values_get_xml(FilterArg *argin)
 
 		cur = xmlNewChild(value, NULL, "folder", NULL);
 		if (a)
-			xmlSetProp(cur, "folder", a);
+			xmlSetProp(cur, "name", a);
 		l = g_list_next(l);
 	}
 
@@ -665,7 +665,11 @@ arg_folder_values_add_xml(FilterArg *arg, xmlNodePtr node)
 	n = node->childs;
 	while (n) {
 		if (!strcmp(n->name, "folder")) {
-			filter_arg_folder_add(arg, xmlGetProp(n, "name"));
+			char *name = xmlGetProp(n, "name");
+			if (name)
+				filter_arg_folder_add(arg, name);
+			else
+				g_warning("no xml prop 'name' on '%s'\n", n->name);
 		} else {
 			g_warning("Loading folders from xml, wrong node encountered: %s\n", n->name);
 		}

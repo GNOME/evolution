@@ -95,17 +95,17 @@ filter_druid_get_type (void)
 }
 
 static void
-object_finalize(FilterDruid *obj)
+object_destroy(FilterDruid *obj)
 {
 	struct _FilterDruidPrivate *p = _PRIVATE(obj);
 
 	g_free(p->default_html);
 
-	printf("\n druid finalize!\n\n");
+	gtk_signal_disconnect_by_data((GtkObject *)p->list0, obj);
 
 	/* FIXME: free lists? */
 
-	GTK_OBJECT_CLASS(filter_druid_parent)->finalize(obj);
+	GTK_OBJECT_CLASS(filter_druid_parent)->destroy(obj);
 }
 
 static void
@@ -115,7 +115,7 @@ filter_druid_class_init (FilterDruidClass *klass)
 	
 	filter_druid_parent = gtk_type_class (gtk_notebook_get_type ());
 
-	object_class->finalize = object_finalize;
+	object_class->destroy = object_destroy;
 
 	signals[OPTION_SELECTED] =
 		gtk_signal_new ("option_selected",
@@ -367,7 +367,7 @@ select_option_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 		while (optionsl) {
 			GList *op = optionsl;
 			optionsl = g_list_next(optionsl);
-			g_free(op->data);
+			filter_clone_optionrule_free(op->data);
 		}
 		g_list_free(f->option_current->options);
 		g_free(f->option_current);
@@ -403,7 +403,25 @@ select_option_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 static void
 unselect_option_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 {
+	printf("unselect option child\n");
 	select_option_child(list, NULL, f);
+}
+
+static void
+arg_changed(FilterArg *arg, FilterDruid *f)
+{
+	FilterArg *orig;
+
+	printf("value changed!!!\n");
+
+	orig = gtk_object_get_data(arg, "origin");
+	if (orig) {
+		filter_arg_copy(orig, arg);
+		update_display(f, 0);
+	} else {
+		/* FIXME: uh, what the fuck to do here? */
+		update_display(f, 0);
+	}
 }
 
 static void
@@ -419,17 +437,9 @@ arg_link_clicked(GtkHTML *html, const char *url, FilterDruid *f)
 			FilterArg *orig;
 
 			printf("arg = %p\n", arg);
-			filter_arg_edit_values(arg);
 
-			/* insert the new value into the existing one */
-			orig = gtk_object_get_data(arg, "origin");
-			if (orig) {
-				filter_arg_copy(orig, arg);
-			} else {
-				g_warning("unknown object loaded");
-			}
-			/* should have a changed signal which propagates the rewrite */
-			update_display(f, 0);
+			gtk_signal_connect((GtkObject *)arg, "changed", arg_changed, f);
+			filter_arg_edit_values(arg);
 		}
 	}
 }
@@ -564,7 +574,7 @@ filter_druid_set_rules(FilterDruid *f, GList *options, GList *rules, struct filt
 
 	if (current) {
 		/* FIXME: free this list if it isn't empty ... */
-		/* clone	 the 'current' option */
+		/* clone the 'current' option */
 		new = g_malloc(sizeof(*new));
 		new->type = current->type;
 		new->description = current->description;
