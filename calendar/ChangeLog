@@ -1,5 +1,13 @@
 2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
 
+	* pcs/cal.[ch]: converted to BonoboObject.
+	(impl_Cal_get_query): bonobo_object_unref the query returned by
+	cal_backend_get_query if we can't duplicate it.
+
+	* pcs/query.[ch]:
+	* pcs/cal-factory.[ch]: converted to BonoboObject.
+
+	* pcs/query-backend.[ch]:
 	* pcs/cal-backend-file.[ch]:
 	* pcs/cal-backend.[ch]: GObjectify.
 

@@ -24,14 +24,13 @@
 
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
-#include <gtk/gtksignal.h>
 #include <cal-util/cal-component.h>
 #include "query.h"
 #include "query-backend.h"
 
 static void query_backend_class_init (QueryBackendClass *klass);
-static void query_backend_init       (QueryBackend *qb);
-static void query_backend_destroy    (GtkObject *object);
+static void query_backend_init       (QueryBackend *qb, QueryBackendClass *klass);
+static void query_backend_finalize   (GObject *object);
 
 typedef struct {
 	CalComponent *comp;
@@ -46,22 +45,22 @@ struct _QueryBackendPrivate {
 };
 
 static GHashTable *loaded_backends = NULL;
-static GtkObjectClass *parent_class = NULL;
+static GObjectClass *parent_class = NULL;
 
 /* Class initialization function for the backend cache */
 static void
 query_backend_class_init (QueryBackendClass *klass)
 {
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
+	parent_class = g_type_class_peek_parent (klass);
 
-	object_class->destroy = query_backend_destroy;
+	object_class->finalize = query_backend_finalize;
 }
 
 /* Object initialization function for the backend cache */
 static void
-query_backend_init (QueryBackend *qb)
+query_backend_init (QueryBackend *qb, QueryBackendClass *klass)
 {
 	QueryBackendPrivate *priv;
 
@@ -78,12 +77,12 @@ static void
 free_hash_comp_cb (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
-	gtk_object_unref (GTK_OBJECT (value));
+	g_object_unref (value);
 }
 
-/* Destroy handler for the backend cache */
+/* Finalize handler for the backend cache */
 static void
-query_backend_destroy (GtkObject *object)
+query_backend_finalize (GObject *object)
 {
 	QueryBackend *qb = (QueryBackend *) object;
 
@@ -113,8 +112,8 @@ query_backend_destroy (GtkObject *object)
 	g_free (qb->priv);
 	qb->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 /**
@@ -126,31 +125,30 @@ query_backend_destroy (GtkObject *object)
  *
  * Return value: The type ID of the #QueryBackend class.
  **/
-GtkType
+GType
 query_backend_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (!type) {
-		static const GtkTypeInfo info = {
-			"QueryBackend",
-			sizeof (QueryBackend),
-			sizeof (QueryBackendClass),
-			(GtkClassInitFunc) query_backend_class_init,
-			(GtkObjectInitFunc) query_backend_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (GTK_TYPE_OBJECT, &info);
+		static GTypeInfo info = {
+                        sizeof (QueryBackendClass),
+                        (GBaseInitFunc) NULL,
+                        (GBaseFinalizeFunc) NULL,
+                        (GClassInitFunc) query_backend_class_init,
+                        NULL, NULL,
+                        sizeof (QueryBackend),
+                        0,
+                        (GInstanceInitFunc) query_backend_init
+                };
+		type = g_type_register_static (G_TYPE_OBJECT, "QueryBackend", &info, 0);
 	}
 
 	return type;
 }
 
 static void
-backend_destroyed_cb (GtkObject *object, gpointer user_data)
+backend_destroyed_cb (GObject *object, gpointer user_data)
 {
 	CalBackend *backend = (CalBackend *) object;
 	QueryBackend *qb = (QueryBackend *) user_data;
@@ -158,7 +156,7 @@ backend_destroyed_cb (GtkObject *object, gpointer user_data)
 	g_return_if_fail (IS_CAL_BACKEND (backend));
 	g_return_if_fail (IS_QUERY_BACKEND (qb));
 
-	gtk_object_unref (GTK_OBJECT (qb));
+	g_object_unref (qb);
 }
 
 static void
@@ -176,7 +174,7 @@ object_updated_cb (CalBackend *backend, const char *uid, gpointer user_data)
 	if (g_hash_table_lookup_extended (qb->priv->components, uid, &orig_key, &orig_value)) {
 		g_hash_table_remove (qb->priv->components, uid);
 		g_free (orig_key);
-		gtk_object_unref (GTK_OBJECT (orig_value));
+		g_object_unref (orig_value);
 	}
 
 	comp_str = cal_backend_get_object (qb->priv->backend, uid);
@@ -189,13 +187,13 @@ object_updated_cb (CalBackend *backend, const char *uid, gpointer user_data)
 		comp = cal_component_new ();
 		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
 			icalcomponent_free (icalcomp);
-			gtk_object_unref (GTK_OBJECT (comp));
+			g_object_unref (comp);
 			return;
 		}
 
 		cal_component_get_uid (comp, &tmp_uid);
 		if (!uid || !*uid) {
-			gtk_object_unref (GTK_OBJECT (comp));
+			g_object_unref (comp);
 		} else
 			g_hash_table_insert (qb->priv->components, g_strdup (tmp_uid), comp);
 	}
@@ -212,12 +210,12 @@ object_removed_cb (CalBackend *backend, const char *uid, gpointer user_data)
 	if (g_hash_table_lookup_extended (qb->priv->components, uid, &orig_key, &orig_value)) {
 		g_hash_table_remove (qb->priv->components, uid);
 		g_free (orig_key);
-		gtk_object_unref (GTK_OBJECT (orig_value));
+		g_object_unref (orig_value);
 	}
 }
 
 static void
-query_destroyed_cb (GtkObject *object, gpointer user_data)
+query_destroyed_cb (GObject *object, gpointer user_data)
 {
 	Query *query = (Query *) object;
 	QueryBackend *qb = (QueryBackend *) user_data;
@@ -268,7 +266,7 @@ query_backend_new (Query *query, CalBackend *backend)
 	if (!qb) {
 		GList *uidlist;
 
-		qb = gtk_type_new (QUERY_BACKEND_TYPE);
+		qb = g_object_new (QUERY_BACKEND_TYPE, NULL);
 
 		qb->priv->uri = g_strdup (cal_backend_get_uri (backend));
 		qb->priv->backend = backend;
@@ -278,19 +276,19 @@ query_backend_new (Query *query, CalBackend *backend)
 		g_list_foreach (uidlist, foreach_uid_cb, qb);
 		cal_obj_uid_list_free (uidlist);
 
-		gtk_signal_connect (GTK_OBJECT (backend), "destroy",
-				    GTK_SIGNAL_FUNC (backend_destroyed_cb), qb);
-		gtk_signal_connect (GTK_OBJECT (backend), "obj_updated",
-				    GTK_SIGNAL_FUNC (object_updated_cb), qb);
-		gtk_signal_connect (GTK_OBJECT (backend), "obj_removed",
-				    GTK_SIGNAL_FUNC (object_removed_cb), qb);
+		g_signal_connect (G_OBJECT (backend), "destroy",
+				  G_CALLBACK (backend_destroyed_cb), qb);
+		g_signal_connect (G_OBJECT (backend), "obj_updated",
+				  G_CALLBACK (object_updated_cb), qb);
+		g_signal_connect (G_OBJECT (backend), "obj_removed",
+				  G_CALLBACK (object_removed_cb), qb);
 
 		g_hash_table_insert (loaded_backends, qb->priv->uri, qb);
 	}
 
 	qb->priv->queries = g_list_append (qb->priv->queries, query);
-	gtk_signal_connect (GTK_OBJECT (query), "destroy",
-			    GTK_SIGNAL_FUNC (query_destroyed_cb), qb);
+	g_signal_connect (G_OBJECT (query), "destroy",
+			  G_CALLBACK (query_destroyed_cb), qb);
 
 	return qb;
 }

@@ -21,7 +21,7 @@
 #ifndef CAL_FACTORY_H
 #define CAL_FACTORY_H
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 
 #include "pcs/evolution-calendar.h"
 
@@ -30,11 +30,11 @@ G_BEGIN_DECLS
 
 
 #define CAL_FACTORY_TYPE            (cal_factory_get_type ())
-#define CAL_FACTORY(obj)            (GTK_CHECK_CAST ((obj), CAL_FACTORY_TYPE, CalFactory))
-#define CAL_FACTORY_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), CAL_FACTORY_TYPE,		\
+#define CAL_FACTORY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), CAL_FACTORY_TYPE, CalFactory))
+#define CAL_FACTORY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), CAL_FACTORY_TYPE,		\
 				     CalFactoryClass))
-#define IS_CAL_FACTORY(obj)         (GTK_CHECK_TYPE ((obj), CAL_FACTORY_TYPE))
-#define IS_CAL_FACTORY_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_FACTORY_TYPE))
+#define IS_CAL_FACTORY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CAL_FACTORY_TYPE))
+#define IS_CAL_FACTORY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), CAL_FACTORY_TYPE))
 
 typedef struct _CalFactory CalFactory;
 typedef struct _CalFactoryClass CalFactoryClass;
@@ -42,14 +42,14 @@ typedef struct _CalFactoryClass CalFactoryClass;
 typedef struct _CalFactoryPrivate CalFactoryPrivate;
 
 struct _CalFactory {
-	BonoboXObject object;
+	BonoboObject object;
 
 	/* Private data */
 	CalFactoryPrivate *priv;
 };
 
 struct _CalFactoryClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 	
 	POA_GNOME_Evolution_Calendar_CalFactory__epv epv;
 
@@ -57,13 +57,13 @@ struct _CalFactoryClass {
 	void (* last_calendar_gone) (CalFactory *factory);
 };
 
-GtkType     cal_factory_get_type        (void);
+GType       cal_factory_get_type        (void);
 CalFactory *cal_factory_new             (void);
 
 gboolean    cal_factory_oaf_register    (CalFactory *factory, const char *iid);
 void        cal_factory_register_method (CalFactory *factory,
 					 const char *method,
-					 GtkType     backend_type);
+					 GType       backend_type);
 int         cal_factory_get_n_backends  (CalFactory *factory);
 void        cal_factory_dump_active_backends   (CalFactory *factory);
 

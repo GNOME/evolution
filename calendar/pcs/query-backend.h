@@ -27,25 +27,25 @@
 G_BEGIN_DECLS
 
 #define QUERY_BACKEND_TYPE            (query_backend_get_type ())
-#define QUERY_BACKEND(obj)            (GTK_CHECK_CAST ((obj), QUERY_BACKEND_TYPE, QueryBackend))
-#define QUERY_BACKEND_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), QUERY_BACKEND_TYPE, QueryBackendClass))
-#define IS_QUERY_BACKEND(obj)         (GTK_CHECK_TYPE ((obj), QUERY_BACKEND_TYPE))
-#define IS_QUERY_BACKEND_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), QUERY_BACKEND_TYPE))
+#define QUERY_BACKEND(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), QUERY_BACKEND_TYPE, QueryBackend))
+#define QUERY_BACKEND_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), QUERY_BACKEND_TYPE, QueryBackendClass))
+#define IS_QUERY_BACKEND(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), QUERY_BACKEND_TYPE))
+#define IS_QUERY_BACKEND_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), QUERY_BACKEND_TYPE))
 
 typedef struct _QueryBackendPrivate QueryBackendPrivate;
 
 typedef struct {
-	GtkObject object;
+	GObject object;
 
 	/* Private data */
 	QueryBackendPrivate *priv;
 } QueryBackend;
 
 typedef struct {
-	GtkObjectClass parent;
+	GObjectClass parent;
 } QueryBackendClass;
 
-GtkType       query_backend_get_type (void);
+GType         query_backend_get_type (void);
 QueryBackend *query_backend_new (Query *query, CalBackend *backend);
 GList        *query_backend_get_uids (QueryBackend *qb, CalObjType type);
 CalComponent *query_backend_get_object_component (QueryBackend *qb, const char *uid);

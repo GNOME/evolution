@@ -21,7 +21,7 @@
 #ifndef QUERY_H
 #define QUERY_H
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include "pcs/cal-common.h"
 #include "pcs/evolution-calendar.h"
 
@@ -30,27 +30,27 @@ G_BEGIN_DECLS
 
 
 #define QUERY_TYPE            (query_get_type ())
-#define QUERY(obj)            (GTK_CHECK_CAST ((obj), QUERY_TYPE, Query))
-#define QUERY_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), QUERY_TYPE, QueryClass))
-#define IS_QUERY(obj)         (GTK_CHECK_TYPE ((obj), QUERY_TYPE))
-#define IS_QUERY_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), QUERY_TYPE))
+#define QUERY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), QUERY_TYPE, Query))
+#define QUERY_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), QUERY_TYPE, QueryClass))
+#define IS_QUERY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), QUERY_TYPE))
+#define IS_QUERY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), QUERY_TYPE))
 
 typedef struct _QueryPrivate QueryPrivate;
 
 typedef struct {
-	BonoboXObject xobject;
+	BonoboObject xobject;
 
 	/* Private data */
 	QueryPrivate *priv;
 } Query;
 
 typedef struct {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Calendar_Query__epv epv;
 } QueryClass;
 
-GtkType query_get_type (void);
+GType query_get_type (void);
 
 Query *query_construct (Query *query,
 			CalBackend *backend,

@@ -24,9 +24,7 @@
 
 #include <string.h>
 #include <glib.h>
-#include <gtk/gtkmain.h>
 #include <libgnome/gnome-i18n.h>
-#include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
 #include <gal/widgets/e-unicode.h>
 #include <e-util/e-component-listener.h>
@@ -96,30 +94,30 @@ struct _QueryPrivate {
 
 
 static void query_class_init (QueryClass *class);
-static void query_init (Query *query);
-static void query_destroy (GtkObject *object);
+static void query_init (Query *query, QueryClass *class);
+static void query_finalize (GObject *object);
 
-static BonoboXObjectClass *parent_class;
+static BonoboObjectClass *parent_class;
 static GList *cached_queries = NULL;
 
 
 
-BONOBO_X_TYPE_FUNC_FULL (Query,
-			 GNOME_Evolution_Calendar_Query,
-			 BONOBO_X_OBJECT_TYPE,
-			 query);
+BONOBO_TYPE_FUNC_FULL (Query,
+		       GNOME_Evolution_Calendar_Query,
+		       BONOBO_TYPE_OBJECT,
+		       query);
 
 /* Class initialization function for the live search query */
 static void
 query_class_init (QueryClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 
-	parent_class = gtk_type_class (BONOBO_X_OBJECT_TYPE);
+	parent_class = g_type_class_peek_parent (class);
 
-	object_class->destroy = query_destroy;
+	object_class->finalize = query_finalize;
 
 	/* The Query interface (ha ha! query interface!) has no methods, so we
 	 * don't need to fiddle with the epv.
@@ -128,7 +126,7 @@ query_class_init (QueryClass *class)
 
 /* Object initialization function for the live search query */
 static void
-query_init (Query *query)
+query_init (Query *query, QueryClass *class)
 {
 	QueryPrivate *priv;
 
@@ -163,9 +161,9 @@ free_uid_cb (gpointer key, gpointer value, gpointer data)
 	g_free (uid);
 }
 
-/* Destroy handler for the live search query */
+/* Finalize handler for the live search query */
 static void
-query_destroy (GtkObject *object)
+query_finalize (GObject *object)
 {
 	Query *query;
 	QueryPrivate *priv;
@@ -189,7 +187,7 @@ query_destroy (GtkObject *object)
 		    || priv->state == QUERY_IN_PROGRESS || priv->state == QUERY_DONE)
 			gtk_signal_disconnect_by_data (GTK_OBJECT (priv->backend), query);
 
-		gtk_object_unref (GTK_OBJECT (priv->backend));
+		g_object_unref (priv->backend);
 		priv->backend = NULL;
 	}
 
@@ -214,7 +212,7 @@ query_destroy (GtkObject *object)
 	}
 
 	if (priv->component_listeners != NULL) {
-		g_list_foreach (priv->component_listeners, (GFunc) gtk_object_unref, NULL);
+		g_list_foreach (priv->component_listeners, (GFunc) g_object_unref, NULL);
 		g_list_free (priv->component_listeners);
 		priv->component_listeners = NULL;
 	}
@@ -267,8 +265,8 @@ query_destroy (GtkObject *object)
 	g_free (priv);
 	query->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -1377,12 +1375,12 @@ start_query (Query *query)
 	priv->pending_total = g_list_length (priv->pending_uids);
 	priv->n_pending = priv->pending_total;
 
-	gtk_signal_connect (GTK_OBJECT (priv->backend), "obj_updated",
-			    GTK_SIGNAL_FUNC (backend_obj_updated_cb),
-			    query);
-	gtk_signal_connect (GTK_OBJECT (priv->backend), "obj_removed",
-			    GTK_SIGNAL_FUNC (backend_obj_removed_cb),
-			    query);
+	g_signal_connect (G_OBJECT (priv->backend), "obj_updated",
+			  G_CALLBACK (backend_obj_updated_cb),
+			  query);
+	g_signal_connect (G_OBJECT (priv->backend), "obj_removed",
+			  G_CALLBACK (backend_obj_removed_cb),
+			  query);
 
 	priv->timeout_id = g_timeout_add (100, (GSourceFunc) process_components_cb, query);
 }
@@ -1422,7 +1420,7 @@ listener_died_cb (EComponentListener *cl, gpointer data)
 	priv->listeners = g_list_remove (priv->listeners, ql);
 
 	priv->component_listeners = g_list_remove (priv->component_listeners, cl);
-	gtk_object_unref (GTK_OBJECT (cl));
+	g_object_unref (cl);
 
 	CORBA_exception_init (&ev);
 	bonobo_object_release_unref (ql, &ev);
@@ -1464,8 +1462,8 @@ start_cached_query_cb (gpointer data)
 
 		cl = e_component_listener_new (info->ql, 0);
 		priv->component_listeners = g_list_append (priv->component_listeners, cl);
-		gtk_signal_connect (GTK_OBJECT (cl), "component_died",
-				    GTK_SIGNAL_FUNC (listener_died_cb), info->query);
+		g_signal_connect (G_OBJECT (cl), "component_died",
+				  G_CALLBACK (listener_died_cb), info->query);
 	} else if (priv->state == QUERY_IN_PROGRESS) {
 		/* if it's in progress, we re-add the timeout */
 		info->tid = g_timeout_add (100, (GSourceFunc) start_cached_query_cb, info);
@@ -1535,8 +1533,8 @@ start_cached_query_cb (gpointer data)
 
 		cl = e_component_listener_new (info->ql, 0);
 		priv->component_listeners = g_list_append (priv->component_listeners, cl);
-		gtk_signal_connect (GTK_OBJECT (cl), "component_died",
-				    GTK_SIGNAL_FUNC (listener_died_cb), info->query);
+		g_signal_connect (G_OBJECT (cl), "component_died",
+				  G_CALLBACK (listener_died_cb), info->query);
 
 		GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
 			info->ql,
@@ -1569,7 +1567,9 @@ backend_opened_cb (CalBackend *backend, CalBackendOpenStatus status, gpointer da
 
 	g_assert (priv->state == QUERY_WAIT_FOR_BACKEND);
 
-	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->backend), query);
+	g_signal_handlers_disconnect_matched (G_OBJECT (priv->backend),
+					      G_SIGNAL_MATCH_DATA,
+					      0, 0, NULL, NULL, query);
 	priv->state = QUERY_START_PENDING;
 
 	if (status == CAL_BACKEND_OPEN_SUCCESS) {
@@ -1640,7 +1640,7 @@ query_construct (Query *query,
 			    GTK_SIGNAL_FUNC (listener_died_cb), query);
 
 	priv->backend = backend;
-	gtk_object_ref (GTK_OBJECT (priv->backend));
+	g_object_ref (priv->backend);
 
 	priv->qb = query_backend_new (query, backend);
 	priv->default_zone = cal_backend_get_default_timezone (backend);
@@ -1654,9 +1654,9 @@ query_construct (Query *query,
 
 		priv->timeout_id = g_timeout_add (100, (GSourceFunc) start_query_cb, query);
 	} else
-		gtk_signal_connect (GTK_OBJECT (priv->backend), "opened",
-				    GTK_SIGNAL_FUNC (backend_opened_cb),
-				    query);
+		g_signal_connect (G_OBJECT (priv->backend), "opened",
+				  G_CALLBACK (backend_opened_cb),
+				  query);
 
 	return query;
 }
@@ -1713,15 +1713,15 @@ query_new (CalBackend *backend,
 	}
 
 	/* not found, so create a new one */
-	query = QUERY (gtk_type_new (QUERY_TYPE));
+	query = QUERY (g_object_new (QUERY_TYPE, NULL));
 	if (!query_construct (query, backend, ql, sexp)) {
 		bonobo_object_unref (BONOBO_OBJECT (query));
 		return NULL;
 	}
 
 	/* add the new query to our cache */
-	gtk_signal_connect (GTK_OBJECT (query->priv->backend), "destroy",
-			    GTK_SIGNAL_FUNC (backend_destroyed_cb), query);
+	g_signal_connect (G_OBJECT (query->priv->backend), "destroy",
+			  G_CALLBACK (backend_destroyed_cb), query);
 
 	bonobo_object_ref (BONOBO_OBJECT (query));
 	cached_queries = g_list_append (cached_queries, query);

@@ -22,7 +22,6 @@
 #include <config.h>
 #include <ctype.h>
 #include <stdio.h>
-#include <gtk/gtksignal.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include "e-util/e-url.h"
 #include "evolution-calendar.h"
@@ -31,14 +30,14 @@
 #include "cal-factory.h"
 #include "job.h"
 
-#define PARENT_TYPE                BONOBO_X_OBJECT_TYPE
+#define PARENT_TYPE                BONOBO_TYPE_OBJECT
 #define DEFAULT_CAL_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_CalendarFactory"
 
-static BonoboXObjectClass *parent_class;
+static BonoboObjectClass *parent_class;
 
 /* Private part of the CalFactory structure */
 struct _CalFactoryPrivate {
-	/* Hash table from URI method strings to GtkType * for backend class types */
+	/* Hash table from URI method strings to GType * for backend class types */
 	GHashTable *methods;
 
 	/* Hash table from GnomeVFSURI structures to CalBackend objects */
@@ -66,12 +65,12 @@ enum SIGNALS {
 
 static guint signals[LAST_SIGNAL];
 
-/* Frees a method/GtkType * pair from the methods hash table */
+/* Frees a method/GType * pair from the methods hash table */
 static void
 free_method (gpointer key, gpointer value, gpointer data)
 {
 	char *method;
-	GtkType *type;
+	GType *type;
 
 	method = key;
 	type = value;
@@ -91,7 +90,7 @@ free_backend (gpointer key, gpointer value, gpointer data)
 	backend = value;
 
 	g_free (uri);
-	gtk_object_unref (GTK_OBJECT (backend));
+	g_object_unref (backend);
 }
 
 /* Opening calendars */
@@ -165,12 +164,12 @@ backend_last_client_gone_cb (CalBackend *backend, gpointer data)
 	g_hash_table_remove (priv->backends, orig_uristr);
 	g_free (orig_uristr);
 
-	gtk_object_unref (GTK_OBJECT (backend));
+	g_object_unref (backend);
 
 	/* Notify upstream if there are no more backends */
 
 	if (g_hash_table_size (priv->backends) == 0)
-		gtk_signal_emit (GTK_OBJECT (factory), signals[LAST_CALENDAR_GONE]);
+		g_signal_emit (G_OBJECT (factory), signals[LAST_CALENDAR_GONE], 0);
 }
 
 /* Adds a backend to the calendar factory's hash table */
@@ -191,9 +190,9 @@ add_backend (CalFactory *factory, const char *uristr, CalBackend *backend)
 	g_hash_table_insert (priv->backends, tmp, backend);
 	e_uri_free (uri);
 
-	gtk_signal_connect (GTK_OBJECT (backend), "last_client_gone",
-			    GTK_SIGNAL_FUNC (backend_last_client_gone_cb),
-			    factory);
+	g_signal_connect (G_OBJECT (backend), "last_client_gone",
+			  G_CALLBACK (backend_last_client_gone_cb),
+			  factory);
 }
 
 /* Tries to launch a backend for the method of the specified URI.  If there is
@@ -207,7 +206,7 @@ launch_backend_for_uri (CalFactory *factory,
 {
 	CalFactoryPrivate *priv;
 	const char *method;
-	GtkType *type;
+	GType *type;
 	CalBackend *backend;
 	EUri *uri;
 
@@ -238,7 +237,7 @@ launch_backend_for_uri (CalFactory *factory,
 		return NULL;
 	}
 
-	backend = gtk_type_new (*type);
+	backend = g_object_new (*type, NULL);
 	if (!backend)
 		g_message ("launch_backend_for_uri(): could not launch the backend");
 
@@ -269,7 +268,7 @@ open_backend (CalFactory *factory, const char *uristr, gboolean only_if_exists,
 		return backend;
 
 	case CAL_BACKEND_OPEN_ERROR:
-		gtk_object_unref (GTK_OBJECT (backend));
+		g_object_unref (backend);
 
 		CORBA_exception_init (&ev);
 		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
@@ -285,7 +284,7 @@ open_backend (CalFactory *factory, const char *uristr, gboolean only_if_exists,
 		return NULL;
 
 	case CAL_BACKEND_OPEN_NOT_FOUND:
-		gtk_object_unref (GTK_OBJECT (backend));
+		g_object_unref (backend);
 
 		CORBA_exception_init (&ev);
 		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
@@ -301,7 +300,7 @@ open_backend (CalFactory *factory, const char *uristr, gboolean only_if_exists,
 		return NULL;
 
 	case CAL_BACKEND_OPEN_PERMISSION_DENIED :
-		gtk_object_unref (GTK_OBJECT (backend));
+		g_object_unref (backend);
 
 		CORBA_exception_init (&ev);
 		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
@@ -482,7 +481,7 @@ impl_CalFactory_open (PortableServer_Servant servant,
 	gboolean result;
 	OpenJobData *jd;
 	GNOME_Evolution_Calendar_Listener listener_copy;
-	GtkType *type;
+	GType *type;
 	EUri *uri;
 
 	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
@@ -589,14 +588,14 @@ cal_factory_new (void)
 {
 	CalFactory *factory;
 
-	factory = gtk_type_new (CAL_FACTORY_TYPE);
+	factory = g_object_new (CAL_FACTORY_TYPE, NULL);
 
 	return factory;
 }
 
 /* Destroy handler for the calendar */
 static void
-cal_factory_destroy (GtkObject *object)
+cal_factory_finalize (GObject *object)
 {
 	CalFactory *factory;
 	CalFactoryPrivate *priv;
@@ -626,31 +625,30 @@ cal_factory_destroy (GtkObject *object)
 	g_free (priv);
 	factory->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 /* Class initialization function for the calendar factory */
 static void
 cal_factory_class_init (CalFactoryClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
+	GObjectClass *object_class = (GObjectClass *) klass;
 	POA_GNOME_Evolution_Calendar_CalFactory__epv *epv = &klass->epv;
 
-	parent_class = gtk_type_class (bonobo_object_get_type ());
+	parent_class = g_type_class_peek_parent (klass);
 
 	signals[LAST_CALENDAR_GONE] =
-		gtk_signal_new ("last_calendar_gone",
-				GTK_RUN_FIRST,
-				G_TYPE_FROM_CLASS (object_class),
-				GTK_SIGNAL_OFFSET (CalFactoryClass, last_calendar_gone),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+		g_signal_new ("last_calendar_gone",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (CalFactoryClass, last_calendar_gone),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	/* Class method overrides */
-	object_class->destroy = cal_factory_destroy;
+	object_class->finalize = cal_factory_finalize;
 
 	/* Epv methods */
 	epv->open = impl_CalFactory_open;
@@ -659,7 +657,7 @@ cal_factory_class_init (CalFactoryClass *klass)
 
 /* Object initialization function for the calendar factory */
 static void
-cal_factory_init (CalFactory *factory)
+cal_factory_init (CalFactory *factory, CalFactoryClass *klass)
 {
 	CalFactoryPrivate *priv;
 
@@ -671,10 +669,10 @@ cal_factory_init (CalFactory *factory)
 	priv->registered = FALSE;
 }
 
-BONOBO_X_TYPE_FUNC_FULL (CalFactory,
-			 GNOME_Evolution_Calendar_CalFactory,
-			 PARENT_TYPE,
-			 cal_factory);
+BONOBO_TYPE_FUNC_FULL (CalFactory,
+		       GNOME_Evolution_Calendar_CalFactory,
+		       PARENT_TYPE,
+		       cal_factory);
 
 /* Returns the lowercase version of a string */
 static char *
@@ -763,17 +761,17 @@ cal_factory_oaf_register (CalFactory *factory, const char *iid)
  * the appropriate type.
  **/
 void
-cal_factory_register_method (CalFactory *factory, const char *method, GtkType backend_type)
+cal_factory_register_method (CalFactory *factory, const char *method, GType backend_type)
 {
 	CalFactoryPrivate *priv;
-	GtkType *type;
+	GType *type;
 	char *method_str;
 
 	g_return_if_fail (factory != NULL);
 	g_return_if_fail (IS_CAL_FACTORY (factory));
 	g_return_if_fail (method != NULL);
 	g_return_if_fail (backend_type != 0);
-	g_return_if_fail (gtk_type_is_a (backend_type, CAL_BACKEND_TYPE));
+	g_return_if_fail (g_type_is_a (backend_type, CAL_BACKEND_TYPE));
 
 	priv = factory->priv;
 
@@ -787,7 +785,7 @@ cal_factory_register_method (CalFactory *factory, const char *method, GtkType ba
 		return;
 	}
 
-	type = g_new (GtkType, 1);
+	type = g_new (GType, 1);
 	*type = backend_type;
 
 	g_hash_table_insert (priv->methods, method_str, type);
