@@ -38,6 +38,38 @@
 #include <bonobo.h>
 
 
+const char *authors[] = {
+	"Seth Alves",
+	"Anders Carlsson",
+	"Damon Chaplin",
+	"Clifford R. Conover",
+	"Anna Dirks",
+	"Miguel de Icaza",
+	"Radek Doulik",
+	"Arturo Espinoza",
+	"Larry Ewing",
+	"Nat Friedman",
+	"Bertrand Guiheneuf",
+	"Iain Holmes",
+	"Tuomas Kuosmanen",
+	"Christopher J. Lahey",
+	"Matthew Loper",
+	"Federico Mena",
+	"Eskil Heyn Olsen",
+	"Jesse Pavel",
+	"Ettore Perazzoli",
+	"JP Rosevear",
+	"Jeffrey Stedfast",
+	"Russell Steinthal",
+	"Peter Teichman",
+	"Chris Toshok",
+	"Peter Williams",
+	"Dan Winship",
+	"Michael Zucchi",
+	NULL
+};
+
+
 /* EShellView callbacks.  */
 
 static void
@@ -147,41 +179,18 @@ command_about_box (BonoboUIComponent *uih,
 {
 	static GtkWidget *about_box = NULL;
 
-	if (about_box)
+	if (about_box) {
 		gdk_window_raise(GTK_WIDGET(about_box)->window);
-	else {
-		const gchar *authors[] = {
-			"Seth Alves",
-			"Anders Carlsson",
-			"Damon Chaplin",
-			"Clifford R. Conover",
-			"Anna Dirks",
-			"Miguel de Icaza",
-			"Radek Doulik",
-			"Arturo Espinoza",
-			"Larry Ewing",
-			"Nat Friedman",
-			"Bertrand Guiheneuf",
-			"Iain Holmes",
-			"Tuomas Kuosmanen",
-			"Christopher J. Lahey",
-			"Matthew Loper",
-			"Federico Mena",
-			"Eskil Heyn Olsen",
-			"Jesse Pavel",
-			"Ettore Perazzoli",
-			"JP Rosevear",
-			"Jeffrey Stedfast",
-			"Russell Steinthal",
-			"Peter Teichman",
-			"Chris Toshok",
-			"Peter Williams",
-			"Dan Winship",
-			"Michael Zucchi",
-			NULL};
+	} else {
+		char *version;
+
+		if (SUB_VERSION[0] == '\0')
+			version = g_strdup (VERSION);
+		else
+			version = g_strdup_printf ("%s [%s]", VERSION, SUB_VERSION);
 
 		about_box = gnome_about_new(_("Evolution"),
-					    VERSION,
+					    version,
 					    _("Copyright 1999, 2000, 2001 Ximian, Inc."),
 					    authors,
 					    _("Evolution is a suite of groupware applications\n"
@@ -191,6 +200,8 @@ command_about_box (BonoboUIComponent *uih,
 		gtk_signal_connect(GTK_OBJECT(about_box), "destroy",
 				   GTK_SIGNAL_FUNC(zero_pointer), &about_box);
 		gtk_widget_show(about_box);
+
+		g_free (version);
 	}
 }
 
