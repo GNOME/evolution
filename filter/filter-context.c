@@ -274,6 +274,7 @@ static GList *filter_delete_uri(RuleContext *f, const char *uri, GCompareFunc cm
 			}
 			l = l->next;
 		next_action:
+			;
 		}
 	}
 
