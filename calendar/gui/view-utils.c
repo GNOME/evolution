@@ -25,9 +25,9 @@ nicetime (struct tm *tm)
 			strftime (buf, sizeof (buf), "%l%p", tm);
 	} else {
 		if (tm->tm_min)
-			strftime (buf, sizeof (buf), "%k:%M", tm);
+			strftime (buf, sizeof (buf), "%H:%M", tm);
 		else
-			strftime (buf, sizeof (buf), "%k", tm);
+			strftime (buf, sizeof (buf), "%H", tm);
 	}
 	while (*p == ' ')
 		p++;
