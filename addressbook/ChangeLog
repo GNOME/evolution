@@ -1,5 +1,12 @@
 2004-04-21  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c (free_attr_list): Implement.
+	(extract_email): Preserve offscreen addresses.
+	(extract_phone): Preserve offscreen phone numbers.
+	(extract_im): Preserve offscreen IM accounts.
+
+2004-04-21  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c: Add defines for the slot
 	counts for email, phone, im, address.
 	(phones): Add E_CONTACT_PHONE_COMPANY back in, now that we can

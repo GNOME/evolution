@@ -524,6 +524,19 @@ alloc_ui_slot (EContactEditor *editor, const gchar *widget_base, gint preferred_
 }
 
 static void
+free_attr_list (GList *attr_list)
+{
+	GList *l;
+
+	for (l = attr_list; l; l = g_list_next (l)) {
+		EVCardAttribute *attr = l->data;
+		e_vcard_attribute_free (attr);
+	}
+
+	g_list_free (attr_list);
+}
+
+static void
 fill_in_email (EContactEditor *editor)
 {
 	GList *email_attr_list;
@@ -561,6 +574,8 @@ static void
 extract_email (EContactEditor *editor)
 {
 	GList *attr_list = NULL;
+	GList *old_attr_list;
+	GList *l, *l_next;
 	gint   i;
 
 	for (i = 1; i <= EMAIL_SLOTS; i++) {
@@ -587,7 +602,22 @@ extract_email (EContactEditor *editor)
 		g_free (address);
 	}
 
+	/* Splice in the old attributes, minus the EMAIL_SLOTS first */
+
+	old_attr_list = e_contact_get_attributes (editor->contact, E_CONTACT_EMAIL);
+	for (l = old_attr_list, i = 1; l && i <= EMAIL_SLOTS; l = l_next, i++) {
+		l_next = g_list_next (l);
+
+		e_vcard_attribute_free (l->data);
+		g_list_delete_link (l, l);
+	}
+
+	old_attr_list = l;
+	attr_list = g_list_concat (attr_list, old_attr_list);
+
 	e_contact_set_attributes (editor->contact, E_CONTACT_EMAIL, attr_list);
+
+	free_attr_list (attr_list);
 }
 
 /* EContact can get attributes by field ID only, and there is none for TEL, so we need this */
@@ -706,6 +736,8 @@ static void
 extract_phone (EContactEditor *editor)
 {
 	GList *attr_list = NULL;
+	GList *old_attr_list;
+	GList *l, *l_next;
 	gint   i;
 
 	for (i = 1; i <= PHONE_SLOTS; i++) {
@@ -743,7 +775,22 @@ extract_phone (EContactEditor *editor)
 		g_free (phone);
 	}
 
+	/* Splice in the old attributes, minus the PHONE_SLOTS first */
+
+	old_attr_list = get_attributes_named (E_VCARD (editor->contact), "TEL");
+	for (l = old_attr_list, i = 1; l && i <= PHONE_SLOTS; l = l_next, i++) {
+		l_next = g_list_next (l);
+
+		e_vcard_attribute_free (l->data);
+		g_list_delete_link (l, l);
+	}
+
+	old_attr_list = l;
+	attr_list = g_list_concat (attr_list, old_attr_list);
+
 	set_attributes_named (E_VCARD (editor->contact), "TEL", attr_list);
+
+	free_attr_list (attr_list);
 }
 
 static void
@@ -952,6 +999,7 @@ static void
 extract_im (EContactEditor *editor)
 {
 	GList **service_attr_list;
+	gint    remaining_slots = IM_SLOTS;
 	gint    i;
 
 	service_attr_list = g_new0 (GList *, G_N_ELEMENTS (im_service));
@@ -982,8 +1030,31 @@ extract_im (EContactEditor *editor)
 	}
 
 	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
+		GList *old_service_attr_list;
+		gint   filled_in_slots;
+		GList *l, *l_next;
+		gint   j;
+
+		/* Splice in the old attributes, minus the filled_in_slots first */
+
+		old_service_attr_list = e_contact_get_attributes (editor->contact, im_service [i].field);
+		filled_in_slots = MIN (remaining_slots, g_list_length (old_service_attr_list));
+		remaining_slots -= filled_in_slots;
+
+		for (l = old_service_attr_list, j = 0; l && j < filled_in_slots; l = l_next, j++) {
+			l_next = g_list_next (l);
+
+			e_vcard_attribute_free (l->data);
+			g_list_delete_link (l, l);
+		}
+
+		old_service_attr_list = l;
+		service_attr_list [i] = g_list_concat (service_attr_list [i], old_service_attr_list);
+
 		e_contact_set_attributes (editor->contact, im_service [i].field,
 					  service_attr_list [i]);
+
+		free_attr_list (service_attr_list [i]);
 	}
 
 	g_free (service_attr_list);
