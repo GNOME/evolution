@@ -4,3 +4,4 @@ Makefile
 .libs
 store_listing
 msg-composer-test
+message-browser

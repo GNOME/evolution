@@ -1,3 +1,9 @@
+2000-02-19  Matt Loper  <matt@helixcode.com>
+
+	* tests/ui-tests/message-browser.c: minor cleanup.
+
+	* tests/ui-tests/.cvsignore: added message-browser.
+
 2000-02-18  NotZed  <NotZed@HelixCode.com>
 
 	* tests/test11.c (main): Use a relative path to the mbox provider

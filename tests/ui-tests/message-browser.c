@@ -59,24 +59,17 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 	tree_item = gtk_tree_item_new_with_label (label);
 	gtk_object_set_data (GTK_OBJECT (tree_item),
 			     "camel_data_wrapper", object);
-	
 	gtk_tree_append (GTK_TREE (tree_ctrl), tree_item);
 
 	gtk_widget_show(tree_item);
 
-	/* Check if our object is a container */
+	/* If our object is a leaf, we're done */
 	if (!CAMEL_IS_MEDIUM (object))
 		return;
-	
-	{
-		g_print ("camel is%s a mime part\n",
-			 CAMEL_IS_MIME_PART (object)?"":"n't");
 
-		containee = 
-			camel_medium_get_content_object (
-				CAMEL_MEDIUM (object));
-	}
-	
+	containee = 
+		camel_medium_get_content_object (
+			CAMEL_MEDIUM (object));
 	
 	g_assert (containee);
 
@@ -90,7 +83,6 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 	gtk_object_set_data (GTK_OBJECT (containee_tree_item),
 			     "camel_data_wrapper",
 			     containee);		
-
 	gtk_tree_append (GTK_TREE (subtree), containee_tree_item);
 
 	gtk_tree_item_set_subtree (GTK_TREE_ITEM(tree_item),
@@ -105,9 +97,6 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 			camel_multipart_get_number (multipart);
 		int i;
 	      
-		g_print ("found a multipart w/ %d parts\n",
-			 max_multiparts);
-	      
 		if (max_multiparts > 0) {
 			subtree = gtk_tree_new();
 			gtk_tree_item_set_subtree (
@@ -120,7 +109,6 @@ handle_tree_item (CamelDataWrapper* object, GtkWidget* tree_ctrl)
 				camel_multipart_get_part (
 					multipart, i);
 		
-			g_print ("handling part %d\n", i);
 			handle_tree_item (
 				CAMEL_DATA_WRAPPER (body_part),
 				GTK_WIDGET (subtree));
@@ -568,7 +556,7 @@ main (int argc, char *argv[])
 			    &app);
 	if (!message)
 		file_menu_open_cb (NULL, NULL);
-	g_message ("hi world");
+
 	gtk_main();
 
 	return 1;
