@@ -1,3 +1,7 @@
+2002-02-12  Tõivo Leedjärv  <leedjarv@interest.ee>
+
+	* configure.in: Added et to ALL_LINGUAS.
+
 2002-02-09  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: make sure PISOCK cflags are added where
