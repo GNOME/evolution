@@ -150,6 +150,7 @@ struct _EShellPrivate {
 enum {
 	NO_VIEWS_LEFT,
 	LINE_STATUS_CHANGED,
+	NEW_VIEW_CREATED,
 	LAST_SIGNAL
 };
 
@@ -1027,6 +1028,8 @@ create_view (EShell *shell,
 		e_shell_view_show_shortcut_bar (view, e_shell_view_shortcut_bar_shown (template_view));
 	}
 
+	gtk_signal_emit (GTK_OBJECT (shell), signals[NEW_VIEW_CREATED], view);
+
 	return view;
 }
 
@@ -1141,6 +1144,15 @@ class_init (EShellClass *klass)
 				gtk_marshal_NONE__ENUM,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_ENUM);
+
+	signals[NEW_VIEW_CREATED] =
+		gtk_signal_new ("new_view_created",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EShellClass, new_view_created),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_POINTER);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 

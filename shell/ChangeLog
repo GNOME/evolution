@@ -1,5 +1,21 @@
 2002-05-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (view_map_callback): New callback for when the first
+	created view in the shell gets mapped.
+	(new_view_created_callback): New callback for when the first view
+	of the shell gets created.
+	(show_development_warning): New function to display a warning
+	about the fact that Evolution is unstable.
+	(idle_cb): Call show_development_warning() here unless the
+	EVOLVE_ME_HARDER environment variable is set.
+
+	* e-shell.c (class_init): Add the "new_view_created" signal here.
+	(create_view): Emit the signal here.
+
+	* e-shell.h: New signal "new_view_created".
+
+2002-05-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-user-creatable-items-handler.c: New member
 	default_menu_item in EShellUserCreatableItemsHandlerPrivate.
 	(ensure_menu_items): Set ->default_menu_item.

@@ -80,6 +80,8 @@ struct _EShellClass {
 
 	void (* no_views_left) (EShell *shell);
 	void (* line_status_changed) (EShell *shell, EShellLineStatus status);
+	void (* new_view_created) (EShell *shell, EShellView *view);
+
 };
 
 

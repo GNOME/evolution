@@ -179,6 +179,92 @@ destroy_cb (GtkObject *object, gpointer data)
 }
 
 
+/* Warning dialog to scare people off a little bit.  */
+
+static void
+warning_dialog_clicked_callback (GnomeDialog *dialog,
+				 int button_number,
+				 void *data)
+{
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+static void
+show_development_warning (GtkWindow *parent)
+{
+	GtkWidget *label, *warning_dialog;
+	
+	warning_dialog = gnome_dialog_new ("Ximian Evolution " VERSION, GNOME_STOCK_BUTTON_OK, NULL);
+	gtk_window_set_transient_for (GTK_WINDOW (warning_dialog), parent);
+
+	label = gtk_label_new (
+		/* xgettext:no-c-format */
+		_("Hi.  Thanks for taking the time to download this preview release\n"
+		  "of the Ximian Evolution groupware suite.\n"
+		  "\n"
+		  "This version of Ximian Evolution is not yet complete. It's getting close,\n"
+		  "but some features are either unfinished or don't work properly.\n"
+		  "\n"
+		  "If you want a stable version of Evolution, we urge you to uninstall,\n"
+		  "this version, and install a 1.0.x version instead (1.0.5 recommended).\n"
+		  "\n"
+		  "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
+                  "This product comes with no warranty and is not intended for\n"
+		  "individuals prone to violent fits of anger.\n"
+                  "\n"
+		  "We hope that you enjoy the results of our hard work, and we\n"
+		  "eagerly await your contributions!\n"
+		  ));
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+	gtk_widget_show (label);
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
+			    label, TRUE, TRUE, 4);
+
+	label = gtk_label_new (
+		_(
+		  "Thanks\n"
+		  "The Ximian Evolution Team\n"
+		  ));
+	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
+	gtk_misc_set_alignment(GTK_MISC(label), 1, .5);
+	gtk_widget_show (label);
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
+			    label, TRUE, TRUE, 0);
+
+	gtk_widget_show (warning_dialog);
+	gtk_signal_connect (GTK_OBJECT (warning_dialog), "clicked",
+			    GTK_SIGNAL_FUNC (warning_dialog_clicked_callback), NULL);
+}
+
+/* The following signal handlers are used to display the development warning as
+   soon as the first view is created.  */
+
+static void
+view_map_callback (GtkWidget *widget,
+		   void *data)
+{
+	gtk_signal_disconnect_by_func (GTK_OBJECT (widget),
+				       GTK_SIGNAL_FUNC (view_map_callback),
+				       data);
+
+	show_development_warning (GTK_WINDOW (widget));
+}
+
+static void
+new_view_created_callback (EShell *shell,
+			   EShellView *view,
+			   void *data)
+{
+	gtk_signal_disconnect_by_func (GTK_OBJECT (shell),
+				       GTK_SIGNAL_FUNC (new_view_created_callback),
+				       data);
+
+	gtk_signal_connect (GTK_OBJECT (view), "map", view_map_callback, NULL);
+}
+
+
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
 static gint
@@ -216,6 +302,11 @@ idle_cb (void *data)
 				    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
 		gtk_signal_connect (GTK_OBJECT (shell), "destroy",
 				    GTK_SIGNAL_FUNC (destroy_cb), NULL);
+
+		if (!getenv ("EVOLVE_ME_HARDER"))
+			gtk_signal_connect (GTK_OBJECT (shell), "new_view_created",
+					    GTK_SIGNAL_FUNC (new_view_created_callback), NULL);
+
 		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
 		corba_shell = CORBA_Object_duplicate (corba_shell, &ev);
 		break;
