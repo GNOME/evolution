@@ -217,6 +217,7 @@ ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, int row,
 
 		e_table_model_row_inserted (etm, i);
 		d(g_print("inserted row %d", row));
+		row++;
 	}
 	d(e_table_subset_print_debugging(etss));
 }
