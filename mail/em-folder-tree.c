@@ -841,6 +841,32 @@ emft_drop_text_uri_list(struct _DragDataReceivedAsync *m, CamelFolder *dest)
 	}
 }
 
+static char *
+emft_drop_async_desc (struct _mail_msg *mm, int done)
+{
+	struct _DragDataReceivedAsync *m = (struct _DragDataReceivedAsync *) mm;
+	CamelURL *url;
+	char *buf;
+	
+	if (m->info == DND_DROP_TYPE_FOLDER) {
+		url = camel_url_new (m->selection.folder, NULL);
+		
+		if (m->move)
+			buf = g_strdup_printf (_("Moving folder %s"), url->fragment ? url->fragment : url->path + 1);
+		else
+			buf = g_strdup_printf (_("Copying folder %s"), url->fragment ? url->fragment : url->path + 1);
+		
+		camel_url_free (url);
+		
+		return buf;
+	} else {
+		if (m->move)
+			return g_strdup_printf (_("Moving messages into folder %s"), m->full_name);
+		else
+			return g_strdup_printf (_("Copying messages into folder %s"), m->full_name);
+	}
+}
+
 static void
 emft_drop_async_drop (struct _mail_msg *mm)
 {
@@ -916,7 +942,7 @@ emft_drop_async_free (struct _mail_msg *mm)
 }
 
 static struct _mail_msg_op emft_drop_async_op = {
-	NULL,
+	emft_drop_async_desc,
 	emft_drop_async_drop,
 	emft_drop_async_done,
 	emft_drop_async_free,

@@ -1,3 +1,8 @@
+2004-03-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (emft_drop_async_desc): New function to return
+	a description of the async drop operation. Fixes bug #54808.
+
 2004-03-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-utils.c (reply_to_message): If the mail_get_message() async
