@@ -42,6 +42,16 @@ typedef struct {
 
 void cal_obj_instance_list_free (GList *list);
 
+/* Instance of an alarm trigger */
+typedef struct {
+	char *uid;			/* UID of object */
+	enum AlarmType type;		/* Type of alarm */
+	time_t trigger;			/* Alarm trigger time */
+	time_t occur;			/* Occurrence time */
+} CalAlarmInstance;
+
+void cal_alarm_instance_list_free (GList *list);
+
 /* Used for multiple UID queries */
 typedef enum {
 	CALOBJ_TYPE_EVENT   = 1 << 0,

@@ -29,11 +29,11 @@
 #include <config.h>
 #include <math.h>
 #include <gnome.h>
+#include "calendar-commands.h"
 #include "e-week-view.h"
 #include "e-week-view-event-item.h"
 #include "e-week-view-main-item.h"
 #include "e-week-view-titles-item.h"
-#include "main.h"
 #include <cal-util/timeutil.h>
 #include "popup-menu.h"
 #include "eventedit.h"

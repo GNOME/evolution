@@ -4,6 +4,7 @@
  *
  * Authors: Federico Mena-Quintero <federico@helixcode.com>
  *          Seth Alves <alves@helixcode.com>
+ *          Miguel de Icaza <miguel@helixcode.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

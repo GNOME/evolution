@@ -1,3 +1,62 @@
+2000-05-11  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/gnome-cal.c (gnome_calendar_update_all): Removed unused
+	arguments.  Load the initial alarms here.
+	(load_alarms): New function to load a day's worth of alarms.
+	(gnome_calendar_class_init): Eeeek!  This was taking in an
+	incorrect argument type.
+	(gnome_calendar_init): Now the calendar keeps a hash table of
+	UIDs->queued alarms.  Create the hash table here.
+	(gnome_calendar_destroy): Destroy the alarms hash table.
+	(gnome_calendar_object_updated_cb): Remove the alarms for the
+	object and regenerate them.
+	(gnome_calendar_object_removed_cb): Remove the alarms for the
+	object.
+
+	* gui/alarm.c (alarm_add): Do not take in a CalendarAlarm, just
+	the trigger time, the callback and the closure data.  Return an
+	opaque identifier for the alarm so that it can be removed by the
+	client code if needed.  Use the queue_alarm() helper function.
+	(queue_alarm): Helper function to actually queue the alarm and set
+	up the itimer.  Deal with a nonzero return value from
+	setitimer().
+	(alarm_remove): New function to remove an alarm based on its ID.
+	(pop_alarm): New helper function; pops the first alarm of the
+	queue and resets the timer as appropriate.
+	(alarm_ready): Simplified a lot by using pop_alarm().
+
+	* idl/evolution-calendar.idl (Cal): Added get_alarms_in_range().
+
+	* pcs/cal.c (build_instance_seq): New function to build a CORBA
+	sequence from the internal list of instances.
+	(Cal_get_events_in_range): Use build_instance_seq().
+	(Cal_get_alarms_in_range): Implemented new method.
+
+	* pcs/cal-backend.c (cal_backend_get_alarms_in_range): New
+	function with the get_alarms_in_range() engine.
+
+	* pcs/cal-backend-imc.c (cal_backend_imc_get_alarms_in_range):
+	Implemented the get_alarms_in_range() method.
+
+	* cal-client/cal-client.c (cal_client_get_alarms_in_range): New
+	client-side function for getting the alarms.
+	(build_instance_list): New helper function to build the
+	CalObjInstance list from the CORBA sequence.
+	(cal_client_get_events_in_range): Use build_instance_list().
+
+	* gui/calendar-commands.h: #include <cal-util/calobj.h>.  #include
+	"gnome-cal.h".
+
+	* gui/e-week-view.c: #include "calendar-commands.h" instead of
+	main.h; the latter is an obsolete file and will be killed.
+
+	* gui/evolution-calendar-control.c (main): Call init_bonobo()
+	before anything else.  We need the GTK+ object system initialized.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Do not use main.h.
+
+	* cal-util/cal-util.c (cal_alarm_instance_list_free): New function.
+
 2000-05-10  Matt Loper  <matt@helixcode.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): Move

@@ -654,6 +654,34 @@ cal_client_get_uids (CalClient *client, CalObjType type)
 	return uids;
 }
 
+/* Builds a GList of CalObjInstance structures from the CORBA sequence */
+static GList *
+build_object_instance_list (Evolution_Calendar_CalObjInstanceSeq *seq)
+{
+	GList *list;
+	int i;
+
+	/* Create the list in reverse order */
+	
+	list = NULL;
+	for (i = 0; i < seq->_length; i++) {
+		Evolution_Calendar_CalObjInstance *corba_icoi;
+		CalObjInstance *icoi;
+
+		corba_icoi = &seq->_buffer[i];
+		icoi = g_new (CalObjInstance, 1);
+
+		icoi->uid = g_strdup (corba_icoi->uid);
+		icoi->start = corba_icoi->start;
+		icoi->end = corba_icoi->end;
+
+		list = g_list_prepend (list, icoi);
+	}
+
+	list = g_list_reverse (list);
+	return list;
+}
+
 /**
  * cal_client_get_events_in_range:
  * @client: A calendar client.
@@ -671,21 +699,17 @@ cal_client_get_events_in_range (CalClient *client, time_t start, time_t end)
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
 	Evolution_Calendar_CalObjInstanceSeq *seq;
-	GList *elist;
-	int i;
+	GList *events;
 
 	g_return_val_if_fail (client != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
-	/*g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);*/
 	if (priv->load_state != LOAD_STATE_LOADED)
 		return NULL;
 
 	g_return_val_if_fail (start != -1 && end != -1, NULL);
 	g_return_val_if_fail (start <= end, NULL);
-
-	priv = client->priv;
 
 	CORBA_exception_init (&ev);
 
@@ -697,28 +721,107 @@ cal_client_get_events_in_range (CalClient *client, time_t start, time_t end)
 	}
 	CORBA_exception_free (&ev);
 
+	events = build_object_instance_list (seq);
+	CORBA_free (seq);
+
+	return events;
+}
+
+/* Translates the CORBA representation of an AlarmType */
+static enum AlarmType
+uncorba_alarm_type (Evolution_Calendar_AlarmType corba_type)
+{
+	switch (corba_type) {
+	case Evolution_Calendar_MAIL:
+		return ALARM_MAIL;
+
+	case Evolution_Calendar_PROGRAM:
+		return ALARM_PROGRAM;
+
+	case Evolution_Calendar_DISPLAY:
+		return ALARM_DISPLAY;
+
+	case Evolution_Calendar_AUDIO:
+		return ALARM_AUDIO;
+
+	default:
+		g_assert_not_reached ();
+		return ALARM_DISPLAY;
+	}
+}
+
+/* Builds a GList of CalAlarmInstance structures from the CORBA sequence */
+static GList *
+build_alarm_instance_list (Evolution_Calendar_CalAlarmInstanceSeq *seq)
+{
+	GList *list;
+	int i;
+
 	/* Create the list in reverse order */
 
-	elist = NULL;
-
+	list = NULL;
 	for (i = 0; i < seq->_length; i++) {
-		Evolution_Calendar_CalObjInstance *corba_icoi;
-		CalObjInstance *icoi;
+		Evolution_Calendar_CalAlarmInstance *corba_ai;
+		CalAlarmInstance *ai;
 
-		corba_icoi = &seq->_buffer[i];
-		icoi = g_new (CalObjInstance, 1);
+		corba_ai = &seq->_buffer[i];
+		ai = g_new (CalAlarmInstance, 1);
 
-		icoi->uid = g_strdup (corba_icoi->uid);
-		icoi->start = corba_icoi->start;
-		icoi->end = corba_icoi->end;
+		ai->uid = g_strdup (corba_ai->uid);
+		ai->type = uncorba_alarm_type (corba_ai->type);
+		ai->trigger = corba_ai->trigger;
+		ai->occur = corba_ai->occur;
 
-		elist = g_list_prepend (elist, icoi);
+		list = g_list_prepend (list, ai);
 	}
 
-	CORBA_free (seq);
-	elist = g_list_reverse (elist);
+	list = g_list_reverse (list);
+	return list;
+}
 
-	return elist;
+/**
+ * cal_client_get_alarms_in_range:
+ * @client: A calendar client.
+ * @start: Start time for query.
+ * @end: End time for query.
+ * 
+ * Queries a calendar for the alarms that trigger in the specified range of
+ * time.
+ * 
+ * Return value: A list of #CalAlarmInstance structures.
+ **/
+GList *
+cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	Evolution_Calendar_CalAlarmInstanceSeq *seq;
+	GList *alarms;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+	if (priv->load_state != LOAD_STATE_LOADED)
+		return NULL;
+
+	g_return_val_if_fail (start != -1 && end != -1, NULL);
+	g_return_val_if_fail (start <= end, NULL);
+
+	CORBA_exception_init (&ev);
+
+	seq = Evolution_Calendar_Cal_get_alarms_in_range (priv->cal, start, end, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_client_get_alarms_in_range(): could not get the alarm range");
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+	CORBA_exception_free (&ev);
+
+	alarms = build_alarm_instance_list (seq);
+	CORBA_free (seq);
+
+	return alarms;
 }
 
 /**

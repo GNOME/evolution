@@ -4,6 +4,7 @@
  *
  * Authors: Federico Mena-Quintero <federico@helixcode.com>
  *          Seth Alves <alves@helixcode.com>
+ *          Miguel de Icaza <miguel@helixcode.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,6 +77,7 @@ static void cal_backend_imc_create (CalBackend *backend, GnomeVFSURI *uri);
 static char *cal_backend_imc_get_object (CalBackend *backend, const char *uid);
 static GList *cal_backend_imc_get_uids (CalBackend *backend, CalObjType type);
 static GList *cal_backend_imc_get_events_in_range (CalBackend *backend, time_t start, time_t end);
+static GList *cal_backend_imc_get_alarms_in_range (CalBackend *backend, time_t start, time_t end);
 static gboolean cal_backend_imc_update_object (CalBackend *backend, const char *uid,
 					       const char *calobj);
 static gboolean cal_backend_imc_remove_object (CalBackend *backend, const char *uid);
@@ -135,6 +137,7 @@ cal_backend_imc_class_init (CalBackendIMCClass *class)
 	backend_class->get_object = cal_backend_imc_get_object;
 	backend_class->get_uids = cal_backend_imc_get_uids;
 	backend_class->get_events_in_range = cal_backend_imc_get_events_in_range;
+	backend_class->get_alarms_in_range = cal_backend_imc_get_alarms_in_range;
 	backend_class->update_object = cal_backend_imc_update_object;
 	backend_class->remove_object = cal_backend_imc_remove_object;
 
@@ -905,6 +908,22 @@ cal_backend_imc_get_uids (CalBackend *backend, CalObjType type)
 	return c.uid_list;
 }
 
+/* Allocates and fills in a new CalObjInstance structure */
+static CalObjInstance *
+build_cal_obj_instance (iCalObject *ico, time_t start, time_t end)
+{
+	CalObjInstance *icoi;
+
+	g_assert (ico->uid != NULL);
+
+	icoi = g_new (CalObjInstance, 1);
+	icoi->uid = g_strdup (ico->uid);
+	icoi->start = start;
+	icoi->end = end;
+
+	return icoi;
+}
+
 struct build_event_list_closure {
 	CalBackendIMC *cbimc;
 	GList *event_list;
@@ -921,13 +940,7 @@ build_event_list (iCalObject *ico, time_t start, time_t end, void *data)
 
 	c = data;
 
-	icoi = g_new (CalObjInstance, 1);
-
-	g_assert (ico->uid != NULL);
-	icoi->uid = g_strdup (ico->uid);
-	icoi->start = start;
-	icoi->end = end;
-
+	icoi = build_cal_obj_instance (ico, start, end);
 	c->event_list = g_list_prepend (c->event_list, icoi);
 
 	return TRUE;
@@ -953,11 +966,10 @@ compare_instance_func (gconstpointer a, gconstpointer b)
 static GList *
 cal_backend_imc_get_events_in_range (CalBackend *backend, time_t start, time_t end)
 {
-	struct build_event_list_closure c;
-	GList *l;
-
 	CalBackendIMC *cbimc;
 	IMCPrivate *priv;
+	struct build_event_list_closure c;
+	GList *l;
 
 	cbimc = CAL_BACKEND_IMC (backend);
 	priv = cbimc->priv;
@@ -979,8 +991,160 @@ cal_backend_imc_get_events_in_range (CalBackend *backend, time_t start, time_t e
 	}
 
 	c.event_list = g_list_sort (c.event_list, compare_instance_func);
-
 	return c.event_list;
+}
+
+struct build_alarm_list_closure {
+	time_t start;
+	time_t end;
+	GList *alarms;
+};
+
+/* Computes the offset in minutes from an alarm trigger to the actual event */
+static int
+compute_alarm_offset (CalendarAlarm *a)
+{
+	int ofs;
+
+	if (!a->enabled)
+		return -1;
+
+	switch (a->units) {
+	case ALARM_MINUTES:
+		ofs = a->count * 60;
+		break;
+
+	case ALARM_HOURS:
+		ofs = a->count * 3600;
+		break;
+
+	case ALARM_DAYS:
+		ofs = a->count * 24 * 3600;
+		break;
+
+	default:
+		ofs = -1;
+		g_assert_not_reached ();
+	}
+
+	return ofs;
+}
+
+/* Allocates and fills in a new CalAlarmInstance structure */
+static CalAlarmInstance *
+build_cal_alarm_instance (iCalObject *ico, enum AlarmType type, time_t trigger, time_t occur)
+{
+	CalAlarmInstance *ai;
+
+	g_assert (ico->uid != NULL);
+
+	ai = g_new (CalAlarmInstance, 1);
+	ai->uid = g_strdup (ico->uid);
+	ai->type = type;
+	ai->trigger = trigger;
+	ai->occur = occur;
+
+	return ai;
+}
+
+/* Adds the specified alarm to the list if its trigger time falls within the
+ * requested range.
+ */
+static void
+try_add_alarm (time_t occur_start, iCalObject *ico, CalendarAlarm *alarm,
+	       struct build_alarm_list_closure *c)
+{
+	int ofs;
+	time_t trigger;
+	CalAlarmInstance *ai;
+
+	if (!alarm->enabled)
+		return;
+
+	ofs = compute_alarm_offset (alarm);
+	g_assert (ofs != -1);
+
+	trigger = occur_start - ofs;
+
+	if (trigger < c->start || trigger > c->end)
+		return;
+
+	ai = build_cal_alarm_instance (ico, alarm->type, trigger, occur_start);
+	c->alarms = g_list_prepend (c->alarms, ai);
+}
+
+/* Builds a list of alarm instances.  Used as a callback from
+ * ical_object_generate_events().
+ */
+static int
+build_alarm_list (iCalObject *ico, time_t start, time_t end, void *data)
+{
+	struct build_alarm_list_closure *c;
+
+	c = data;
+
+	try_add_alarm (start, ico, &ico->dalarm, c);
+	try_add_alarm (start, ico, &ico->aalarm, c);
+	try_add_alarm (start, ico, &ico->palarm, c);
+	try_add_alarm (start, ico, &ico->malarm, c);
+
+	return TRUE;
+}
+
+/* Adds all the alarm triggers that occur within the specified time range */
+static GList *
+add_alarms_for_object (GList *alarms, iCalObject *ico, time_t start, time_t end)
+{
+	struct build_alarm_list_closure c;
+	int dofs, aofs, pofs, mofs;
+	int max_ofs;
+
+	dofs = compute_alarm_offset (&ico->dalarm);
+	aofs = compute_alarm_offset (&ico->aalarm);
+	pofs = compute_alarm_offset (&ico->palarm);
+	mofs = compute_alarm_offset (&ico->malarm);
+
+	max_ofs = MAX (dofs, MAX (aofs, MAX (pofs, mofs)));
+	if (max_ofs == -1)
+		return alarms;
+
+	c.start = start;
+	c.end = end;
+	c.alarms = alarms;
+
+	ical_object_generate_events (ico, start, end, build_alarm_list, &c);
+	return c.alarms;
+}
+
+/* Get_alarms_in_range handler for the IMC backend */
+static GList *
+cal_backend_imc_get_alarms_in_range (CalBackend *backend, time_t start, time_t end)
+{
+	CalBackendIMC *cbimc;
+	IMCPrivate *priv;
+	GList *l;
+	GList *alarms;
+
+	cbimc = CAL_BACKEND_IMC (backend);
+	priv = cbimc->priv;
+
+	g_return_val_if_fail (priv->loaded, NULL);
+
+	g_return_val_if_fail (start != -1 && end != -1, NULL);
+	g_return_val_if_fail (start <= end, NULL);
+
+	/* Only VEVENT and VTODO components can have alarms */
+
+	alarms = NULL;
+
+	for (l = priv->events; l; l = l->next)
+		alarms = add_alarms_for_object (alarms, (iCalObject *) l->data, start, end);
+
+	for (l = priv->todos; l; l = l->next)
+		alarms = add_alarms_for_object (alarms, (iCalObject *) l->data, start, end);
+
+	alarms = g_list_sort (alarms, compare_instance_func);
+	return alarms;
 }
 
 /* Notifies a backend's clients that an object was updated */

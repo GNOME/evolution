@@ -52,6 +52,12 @@ typedef struct {
 
 	/* The signal handler id for our GtkCalendar "day_selected" handler. */
 	guint	     day_selected_id;
+
+	/* Alarm ID for the midnight refresh function */
+	gpointer midnight_alarm_refresh_id;
+
+	/* UID->alarms hash */
+	GHashTable *alarms;
 } GnomeCalendar;
 
 typedef struct {

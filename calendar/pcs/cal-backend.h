@@ -67,6 +67,7 @@ struct _CalBackendClass {
 	char *(* get_object) (CalBackend *backend, const char *uid);
 	GList *(* get_uids) (CalBackend *backend, CalObjType type);
 	GList *(* get_events_in_range) (CalBackend *backend, time_t start, time_t end);
+	GList *(* get_alarms_in_range) (CalBackend *backend, time_t start, time_t end);
 	gboolean (* update_object) (CalBackend *backend, const char *uid, const char *calobj);
 	gboolean (* remove_object) (CalBackend *backend, const char *uid);
 };
@@ -86,6 +87,8 @@ char *cal_backend_get_object (CalBackend *backend, const char *uid);
 GList *cal_backend_get_uids (CalBackend *backend, CalObjType type);
 
 GList *cal_backend_get_events_in_range (CalBackend *backend, time_t start, time_t end);
+
+GList *cal_backend_get_alarms_in_range (CalBackend *backend, time_t start, time_t end);
 
 gboolean cal_backend_update_object (CalBackend *backend, const char *uid, const char *calobj);
 

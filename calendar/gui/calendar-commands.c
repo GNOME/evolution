@@ -20,7 +20,6 @@
 #include <libgnorba/gnorba.h>
 #include <bonobo.h>
 #include <cal-util/timeutil.h>
-#include "alarm.h"
 #include "eventedit.h"
 #include "gnome-cal.h"
 #include "calendar-commands.h"
@@ -45,9 +44,6 @@ int day_begin, day_end;
 
 /* Whether weeks starts on Sunday or Monday */
 int week_starts_on_monday;
-
-/* If true, enable debug output for alarms */
-int debug_alarms = 0;
 
 /* If AM/PM indicators should be used. This may not be supported by the new
    views. */
@@ -381,7 +377,7 @@ open_ok (GtkWidget *widget, GtkFileSelection *fs)
 		ret = gnome_dialog_run (GNOME_DIALOG (error_dialog));
 	} else {
 		/* FIXME: find out who owns this calendar and use that name */
-#warning "fix me: find out who owns this calendar and use that name"
+#warning "FIXME: find out who owns this calendar and use that name"
 		/*
 		new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL, NULL, FALSE);
 		*/
@@ -731,7 +727,8 @@ void calendar_set_uri (GnomeCalendar *gcal, char *calendar_file)
 /*
  * Initializes the calendar internal variables, loads defaults
  */
-void init_calendar (void)
+void
+init_calendar (void)
 {
 	int i;
 	char *cspec, *color;

@@ -60,7 +60,6 @@ evolution_calendar_SOURCES =			\
 	goto.c					\
 	mark.c					\
 	mark.h					\
-	main.h					\
 	popup-menu.c				\
 	popup-menu.h				\
 	prop.c					\

@@ -178,14 +178,14 @@ calendar_factory_init (void)
 int
 main (int argc, char **argv)
 {
+	init_bonobo (&argc, argv);
 	alarm_init ();
+
 	init_calendar ();
 
 	//g_log_set_always_fatal ((GLogLevelFlags) 0xFFFF);
 
 	CORBA_exception_init (&ev);
-
-	init_bonobo (&argc, argv);
 
 	calendar_factory_init ();
 

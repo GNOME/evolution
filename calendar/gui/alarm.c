@@ -1,10 +1,25 @@
-/*
- * Alarm handling for the GNOME Calendar.
+/* Evolution calendar - alarm notification support
  *
- * (C) 1998 the Free Software Foundation
+ * Copyright (C) 2000 Helix Code, Inc.
  *
- * Author: Miguel de Icaza (miguel@kernel.org)
+ * Authors: Miguel de Icaza <miguel@helixcode.com>
+ *          Federico Mena-Quintero <federico@helixcode.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 #include <config.h>
 #include <time.h>
 #include <gnome.h>
@@ -14,237 +29,277 @@
 #include <cal-util/calobj.h>
 #include "alarm.h"
 
+
+
 /* The pipes used to notify about an alarm */
-int alarm_pipes [2];
+static int alarm_pipes [2];
 
 /* The list of pending alarms */
 static GList *alarms;
 
-static void *head_alarm;
-
+/* A queued alarm structure */
 typedef struct {
-	time_t        activation_time;
-	AlarmFunction fn;
-	void          *closure;
-	CalendarAlarm *alarm;
+	time_t             trigger;
+	AlarmFunction      alarm_fn;
+	gpointer           data;
+	AlarmDestroyNotify destroy_notify_fn;
 } AlarmRecord;
 
-enum DebugAction {
-	ALARM_ACTIVATED,
-	ALARM_ADDED,
-	ALARM_NOT_ADDED
-};
+
 
-void debug_alarm (AlarmRecord* ar, enum DebugAction action);
-void calendar_notify (time_t time, CalendarAlarm *which, void *data);
-extern int debug_alarms;
-
-/*
- * SIGALRM handler.  Notifies the callback about the alarm
- */
+/* SIGALRM handler.  Notifies the callback about the alarm. */
 static void
-alarm_activate ()
+alarm_signal (int arg)
 {
 	char c = 0;
 
 	write (alarm_pipes [1], &c, 1);
 }
 
-/*
- * SIGUSR1 handler.  Toggles debugging output
- */
-static void
-toggle_debugging ()
+/* Sets up an itimer and returns a success code */
+static gboolean
+setup_itimer (time_t diff)
 {
-	debug_alarms = !debug_alarms;
+	struct itimerval itimer;
+	int v;
+
+	itimer.it_interval.tv_sec = 0;
+	itimer.it_interval.tv_usec = 0;
+	itimer.it_value.tv_sec = diff;
+	itimer.it_value.tv_usec = 0;
+
+	v = setitimer (ITIMER_REAL, &itimer, NULL);
+
+	return (v == 0) ? TRUE : FALSE;
 }
 
-static void
-alarm_ready (void *closure, int fd, GdkInputCondition cond)
+/* Removes the head alarm, returns it, and schedules the next alarm in the
+ * queue.
+ */
+static AlarmRecord *
+pop_alarm (void)
 {
-	AlarmRecord *ar = head_alarm;
-	time_t now = time (NULL);
+	AlarmRecord *ar;
+	GList *l;
+
+	if (!alarms)
+		return NULL;
+
+	ar = alarms->data;
+
+	l = alarms;
+	alarms = g_list_remove_link (alarms, l);
+	g_list_free_1 (l);
+
+	if (alarms) {
+		time_t now;
+		AlarmRecord *new_ar;
+
+		now = time (NULL);
+		new_ar = alarms->data;
+
+		if (!setup_itimer (new_ar->trigger)) {
+			g_message ("pop_alarm(): Could not reset the timer!  "
+				   "Weird things will happen.");
+
+			/* FIXME: should we free the alarm list?  What
+			 * about further alarm removal requests that
+			 * will fail?
+			 */
+		}
+	} else {
+		struct itimerval itimer;
+		int v;
+
+		itimer.it_interval.tv_sec = 0;
+		itimer.it_interval.tv_usec = 0;
+		itimer.it_value.tv_sec = 0;
+		itimer.it_value.tv_usec = 0;
+
+		v = setitimer (ITIMER_REAL, &itimer, NULL);
+		if (v != 0)
+			g_message ("pop_alarm(): Could not clear the timer!  "
+				   "Weird things may happen.");
+	}
+
+	return ar;
+}
+
+/* Input handler for our own alarm notification pipe */
+static void
+alarm_ready (gpointer data, gint fd, GdkInputCondition cond)
+{
+	AlarmRecord *ar;
 	char c;
 
-	if (read (alarm_pipes [0], &c, 1) != 1)
-		return;
-
-	if (ar == NULL){
-		g_warning ("Empty events.  This should not happen\n");
+	if (read (alarm_pipes [0], &c, 1) != 1) {
+		g_message ("alarm_ready(): Uh?  Could not read from notification pipe.");
 		return;
 	}
 
-	while (head_alarm){
-		if (debug_alarms)
-			debug_alarm (ar, ALARM_ACTIVATED);
-		(*ar->fn)(ar->activation_time, ar->alarm, ar->closure);
-		alarms = g_list_remove (alarms, head_alarm);
+	g_assert (alarms != NULL);
+	ar = pop_alarm ();
 
-		/* Schedule next alarm */
-		if (alarms){
-			AlarmRecord *next;
-			
-			head_alarm = alarms->data;
-			next = head_alarm;
+	g_message ("alarm_ready(): Notifying about alarm on %s", ctime (&ar->trigger));
 
-			if (next->activation_time > now){
-				struct itimerval itimer;
-				
-				itimer.it_interval.tv_sec = 0;
-				itimer.it_interval.tv_usec = 0;
-				itimer.it_value.tv_sec = next->activation_time - now;
-				itimer.it_value.tv_usec = 0;
-				setitimer (ITIMER_REAL, &itimer, NULL);
-				break;
-			} else {
-				g_free (ar);
-				ar = next;
-			}
-		} else
-			head_alarm = NULL;
-	}
+	(* ar->alarm_fn) (ar, ar->trigger, ar->data);
+
+	if (ar->destroy_notify_fn)
+		(* ar->destroy_notify_fn) (ar->data);
+
 	g_free (ar);
 }
 
 static int
-alarm_compare_by_time (gconstpointer a, gconstpointer b)
+compare_alarm_by_time (gconstpointer a, gconstpointer b)
 {
 	const AlarmRecord *ara = a;
 	const AlarmRecord *arb = b;
 	time_t diff;
-	
-	diff = ara->activation_time - arb->activation_time;
+
+	diff = ara->trigger - arb->trigger;
 	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
+}
+
+/* Adds an alarm to the queue and sets up the timer */
+static gboolean
+queue_alarm (time_t now, AlarmRecord *ar)
+{
+	time_t diff;
+	AlarmRecord *old_head;
+
+	if (alarms)
+		old_head = alarms->data;
+	else
+		old_head = NULL;
+
+	alarms = g_list_insert_sorted (alarms, ar, compare_alarm_by_time);
+
+	if (old_head == alarms->data)
+		return TRUE;
+
+	/* Set the timer for removal upon activation */
+
+	diff = ar->trigger - now;
+	if (!setup_itimer (diff)) {
+		GList *l;
+
+		g_message ("queue_alarm(): Could not set up timer!  Not queueing alarm.");
+
+		l = g_list_find (alarms, ar);
+		g_assert (l != NULL);
+
+		alarms = g_list_remove_link (alarms, l);
+		g_list_free_1 (l);
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 /**
  * alarm_add:
+ * @trigger: Time at which alarm will trigger.
+ * @alarm_fn: Callback for trigger.
+ * @data: Closure data for callback.
  *
- * Tries to schedule @alarm.
+ * Adds an alarm to trigger at the specified time.  The @alarm_fn will be called
+ * with the provided data and the alarm will be removed from the trigger list.
  *
- * Returns TRUE if the alarm was scheduled.
- */
-gboolean
-alarm_add (CalendarAlarm *alarm, AlarmFunction fn, void *closure)
+ * Return value: An identifier for this alarm; it can be used to remove the
+ * alarm later with alarm_remove().  If the trigger time occurs in the past, then
+ * the alarm will not be queued and the function will return NULL.
+ **/
+gpointer
+alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
+	   AlarmDestroyNotify destroy_notify_fn)
 {
-	time_t now = time (NULL);
+	time_t now;
 	AlarmRecord *ar;
-	time_t alarm_time = alarm->trigger;
 
-	ar = g_new0 (AlarmRecord, 1);
-	ar->activation_time = alarm_time;
-	ar->fn = fn;
-	ar->closure = closure;
-	ar->alarm = alarm;
+	now = time (NULL);
+	if (trigger < now)
+		return NULL;
 
-	/* If it already expired, do not add it */
-	if (alarm_time < now) {
-		if (debug_alarms)
-			debug_alarm (ar, ALARM_NOT_ADDED);
-		return FALSE;
+	ar = g_new (AlarmRecord, 1);
+	ar->trigger = trigger;
+	ar->alarm_fn = alarm_fn;
+	ar->data = data;
+	ar->destroy_notify_fn = destroy_notify_fn;
+
+	g_message ("alarm_add(): Adding alarm for %s", ctime (&trigger));
+
+	if (!queue_alarm (now, ar)) {
+		if (ar->destroy_notify_fn)
+			(* ar->destroy_notify_fn) (ar->data);
+
+		g_free (ar);
+		ar = NULL;
 	}
 
-	alarms = g_list_insert_sorted (alarms, ar, alarm_compare_by_time);
-
-	/* If first alarm is not the previous first alarm, reschedule SIGALRM */
-	if (head_alarm != alarms->data){
-		struct itimerval itimer;
-		int v;
-		
-		/* Set the timer to disable upon activation */
-		itimer.it_interval.tv_sec = 0;
-		itimer.it_interval.tv_usec = 0;
-		itimer.it_value.tv_sec = alarm_time - now;
-		itimer.it_value.tv_usec = 0;
-		v = setitimer (ITIMER_REAL, &itimer, NULL);
-		head_alarm = alarms->data;
-	}
-	if (debug_alarms)
-		debug_alarm (ar, ALARM_ADDED);
-	return TRUE;
+	return ar;
 }
 
-int 
-alarm_kill (void *closure_key)
+/**
+ * alarm_remove:
+ * @alarm: A queued alarm identifier.
+ * 
+ * Removes an alarm from the alarm queue.
+ **/
+void
+alarm_remove (gpointer alarm)
 {
-	GList *p;
+	AlarmRecord *ar;
+	AlarmRecord *old_head;
+	GList *l;
 
-	for (p = alarms; p; p = p->next){
-		AlarmRecord *ar = p->data;
-		
-		if (ar->closure == closure_key){
-			alarms = g_list_remove (alarms, p->data);
-			if (alarms)
-				head_alarm = alarms->data;
-			else
-				head_alarm = NULL;
-			return 1;
-		}
+	ar = alarm;
+
+	l = g_list_find (alarms, ar);
+	if (!l) {
+		g_message ("alarm_remove(): Requested removal of nonexistent alarm!");
+		return;
 	}
-	return 0;
+
+	old_head = alarms->data;
+
+	if (old_head == ar)
+		pop_alarm ();
+	else {
+		alarms = g_list_remove_link (alarms, l);
+		g_list_free_1 (l);
+	}
+
+	if (ar->destroy_notify_fn)
+		(* ar->destroy_notify_fn) (ar->data);
+
+	g_free (ar);
 }
 
+/**
+ * alarm_init:
+ * @void:
+ *
+ * Initializes the alarm notification system.  This must be called near the
+ * beginning of the program.
+ **/
 void
 alarm_init (void)
 {
 	struct sigaction sa;
-	struct sigaction debug_sa;
-	int flags = 0;
-	
+	int flags;
+
 	pipe (alarm_pipes);
-	
+
 	/* set non blocking mode */
+	flags = 0;
 	fcntl (alarm_pipes [0], F_GETFL, &flags);
 	fcntl (alarm_pipes [0], F_SETFL, flags | O_NONBLOCK);
-	gdk_input_add (alarm_pipes [0], GDK_INPUT_READ, alarm_ready, 0);
+	gdk_input_add (alarm_pipes [0], GDK_INPUT_READ, alarm_ready, NULL);
 
 	/* Setup the signal handler */
-	sa.sa_handler = alarm_activate;
+	sa.sa_handler = alarm_signal;
 	sigemptyset (&sa.sa_mask);
-	sa.sa_flags   = SA_RESTART;
+	sa.sa_flags = SA_RESTART;
 	sigaction (SIGALRM, &sa, NULL);
-	
-	/* Setup a signal handler to toggle debugging */
-	debug_sa.sa_handler = toggle_debugging;
-	sigemptyset (&debug_sa.sa_mask);
-	debug_sa.sa_flags = SA_RESTART;
-	sigaction (SIGUSR1, &debug_sa, NULL);
 }
-
-void 
-debug_alarm (AlarmRecord* ar, enum DebugAction action)
-{
-	time_t now = time (NULL);
-	iCalObject *ico = ar->closure;
-	printf ("%s", ctime(&now));
-	switch (action) {
-	case ALARM_ADDED:
-		printf ("Added alarm for %s", ctime(&ar->activation_time));
-		break;
-	case ALARM_NOT_ADDED:
-		printf ("Alarm not added for %s", ctime(&ar->activation_time));
-		break;
-	case ALARM_ACTIVATED:
-		printf ("Activated alarm\n");
-		break;
-	}
-
-	if (ar->fn!=&calendar_notify) return;
-	printf ("--- Summary: %s\n", ico->summary);
-	switch (ar->alarm->type) {
-	case ALARM_MAIL:
-		printf ("--- Type: Mail\n");
-		break;
-	case ALARM_PROGRAM:
-		printf ("--- Type: Program\n");
-		break;
-	case ALARM_DISPLAY:
-		printf ("--- Type: Display\n");
-		break;
-	case ALARM_AUDIO:
-		printf ("--- Type: Audio\n");
-		break;
-	}
-}
-
-

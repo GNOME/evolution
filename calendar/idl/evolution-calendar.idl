@@ -34,6 +34,14 @@ module Calendar {
 	const CalObjType TYPE_OTHER   = 1 << 3;
 	const CalObjType TYPE_ANY     = 0x0f;
 
+	/* Types of alarms */
+	enum AlarmType {
+		MAIL,
+		PROGRAM,
+		DISPLAY,
+		AUDIO
+	};
+
 	/* Used to store a time_t */
 	typedef unsigned long Time_t;
 
@@ -50,6 +58,16 @@ module Calendar {
 	};
 
 	typedef sequence<CalObjInstance> CalObjInstanceSeq;
+
+	/* An alarm trigger instance */
+	struct CalAlarmInstance {
+		CalObjUID uid;
+		AlarmType type;
+		Time_t trigger;
+		Time_t occur;
+	};
+
+	typedef sequence<CalAlarmInstance> CalAlarmInstanceSeq;
 
 	interface Listener;
 
@@ -71,6 +89,12 @@ module Calendar {
 
 		/* Gets the events that occur or recur in the specified time range */
 		CalObjInstanceSeq get_events_in_range (in Time_t start, in Time_t end)
+			raises (InvalidRange);
+
+		/* Gets the objects whose alarms trigger in the specified time
+		 * range. 
+		 */
+		CalAlarmInstanceSeq get_alarms_in_range (in Time_t start, in Time_t end)
 			raises (InvalidRange);
 
 		/* Updates an object by adding it if it does not exist or by

@@ -30,7 +30,18 @@
 
 
 
-static void gnome_calendar_class_init (GnomeCalendar *class);
+/* An entry in the UID->alarms hash table.  The UID key *is* the uid field in
+ * this structure, so don't free it separately.
+ */
+typedef struct {
+	char *uid;
+	GList *alarm_ids;
+} ObjectAlarms;
+
+
+
+static void gnome_calendar_class_init (GnomeCalendarClass *class);
+static void gnome_calendar_init (GnomeCalendar *gcal);
 static void gnome_calendar_destroy (GtkObject *object);
 
 static void gnome_calendar_update_view_times (GnomeCalendar *gcal,
@@ -47,7 +58,7 @@ static void gnome_calendar_on_month_changed (GtkCalendar   *calendar,
 
 static GtkVBoxClass *parent_class;
 
-
+
 
 guint
 gnome_calendar_get_type (void)
@@ -56,10 +67,10 @@ gnome_calendar_get_type (void)
 	if(!gnome_calendar_type) {
 		GtkTypeInfo gnome_calendar_info = {
 			"GnomeCalendar",
-			sizeof(GnomeCalendar),
-			sizeof(GnomeCalendarClass),
+			sizeof (GnomeCalendar),
+			sizeof (GnomeCalendarClass),
 			(GtkClassInitFunc) gnome_calendar_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) gnome_calendar_init,
 			(GtkArgSetFunc) NULL,
 			(GtkArgGetFunc) NULL,
 		};
@@ -74,15 +85,42 @@ gnome_calendar_get_type (void)
 	return gnome_calendar_type;
 }
 
-
+/* Class initialization function for the gnome calendar */
 static void
-gnome_calendar_class_init (GnomeCalendar *class)
+gnome_calendar_class_init (GnomeCalendarClass *class)
 {
-	GtkObjectClass    *object_class;
+	GtkObjectClass *object_class;
+
 	object_class = (GtkObjectClass *) class;
+
 	object_class->destroy = gnome_calendar_destroy;
 }
 
+/* Object initialization function for the gnome calendar */
+static void
+gnome_calendar_init (GnomeCalendar *gcal)
+{
+	gcal->alarms = g_hash_table_new (g_str_hash, g_str_equal);
+}
+
+/* Used from g_hash_table_foreach(); frees an object alarms entry */
+static void
+free_object_alarms (gpointer key, gpointer value, gpointer data)
+{
+	ObjectAlarms *oa;
+
+	oa = value;
+
+	g_assert (oa->uid != NULL);
+	g_free (oa->uid);
+	oa->uid = NULL;
+
+	g_assert (oa->alarm_ids != NULL);
+	g_list_free (oa->alarm_ids);
+	oa->alarm_ids = NULL;
+
+	g_free (oa);
+}
 
 static void
 gnome_calendar_destroy (GtkObject *object)
@@ -95,6 +133,10 @@ gnome_calendar_destroy (GtkObject *object)
 	gcal = GNOME_CALENDAR (object);
 
 	gtk_object_unref (GTK_OBJECT (gcal->client));
+
+	g_hash_table_foreach (gcal->alarms, free_object_alarms, NULL);
+	g_hash_table_destroy (gcal->alarms);
+	gcal->alarms = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -388,11 +430,292 @@ gnome_calendar_set_view (GnomeCalendar *gcal, char *page_name)
 	gnome_calendar_update_gtk_calendar (gcal);
 }
 
+/* Sends a mail notification of an alarm trigger */
+static void
+mail_notification (char *mail_address, char *text, time_t app_time)
+{
+	pid_t pid;
+	int   p [2];
+	char *command;
+
+	pipe (p);
+	pid = fork ();
+	if (pid == 0){
+		int dev_null;
+
+		dev_null = open ("/dev/null", O_RDWR);
+		dup2 (p [0], 0);
+		dup2 (dev_null, 1);
+		dup2 (dev_null, 2);
+		execl ("/usr/lib/sendmail", "/usr/lib/sendmail",
+		       mail_address, NULL);
+		_exit (127);
+	}
+	command = g_strconcat ("To: ", mail_address, "\n",
+				  "Subject: ", _("Reminder of your appointment at "),
+				  ctime (&app_time), "\n\n", text, "\n", NULL);
+	write (p [1], command, strlen (command));
+ 	close (p [1]);
+	close (p [0]);
+	g_free (command);
+}
+
+static int
+max_open_files (void)
+{
+        static int files;
+
+        if (files)
+                return files;
+
+        files = sysconf (_SC_OPEN_MAX);
+        if (files != -1)
+                return files;
+#ifdef OPEN_MAX
+        return files = OPEN_MAX;
+#else
+        return files = 256;
+#endif
+}
+
+/* Executes a program as a notification of an alarm trigger */
+static void
+program_notification (char *command, int close_standard)
+{
+	struct sigaction ignore, save_intr, save_quit;
+	int status = 0, i;
+	pid_t pid;
+
+	ignore.sa_handler = SIG_IGN;
+	sigemptyset (&ignore.sa_mask);
+	ignore.sa_flags = 0;
+
+	sigaction (SIGINT, &ignore, &save_intr);
+	sigaction (SIGQUIT, &ignore, &save_quit);
+
+	if ((pid = fork ()) < 0){
+		fprintf (stderr, "\n\nfork () = -1\n");
+		return;
+	}
+	if (pid == 0){
+		pid = fork ();
+		if (pid == 0){
+			const int top = max_open_files ();
+			sigaction (SIGINT,  &save_intr, NULL);
+			sigaction (SIGQUIT, &save_quit, NULL);
+
+			for (i = (close_standard ? 0 : 3); i < top; i++)
+				close (i);
+
+			/* FIXME: As an excercise to the reader, copy the
+			 * code from mc to setup shell properly instead of
+			 * /bin/sh.  Yes, this comment is larger than a cut and paste.
+			 */
+			execl ("/bin/sh", "/bin/sh", "-c", command, (char *) 0);
+
+			_exit (127);
+		} else {
+			_exit (127);
+		}
+	}
+	wait (&status);
+	sigaction (SIGINT,  &save_intr, NULL);
+	sigaction (SIGQUIT, &save_quit, NULL);
+}
+
+/* Present a display notification of an alarm trigger */
+static void
+display_notification (time_t trigger, time_t occur, iCalObject *ico, GnomeCalendar *gcal)
+{
+	g_message ("DISPLAY NOTIFICATION!");
+	/* FIXME */
+}
+
+/* Present an audible notification of an alarm trigger */
+static void
+audio_notification (time_t trigger, time_t occur, iCalObject *ico, GnomeCalendar *gcal)
+{
+	g_message ("AUDIO NOTIFICATION!");
+	/* FIXME */
+}
+
+struct trigger_alarm_closure {
+	GnomeCalendar *gcal;
+	char *uid;
+	enum AlarmType type;
+	time_t occur;
+};
+
+/* Callback function used when an alarm is triggered */
+static void
+trigger_alarm_cb (gpointer alarm_id, time_t trigger, gpointer data)
+{
+	struct trigger_alarm_closure *c;
+	char *str_ico;
+	iCalObject *ico;
+	CalObjFindStatus status;
+	ObjectAlarms *oa;
+	GList *l;
+
+	c = data;
+
+	/* Fetch the object */
+
+	str_ico = cal_client_get_object (c->gcal->client, c->uid);
+	status = ical_object_find_in_string (c->uid, str_ico, &ico);
+
+	switch (status) {
+	case CAL_OBJ_FIND_SUCCESS:
+		/* Go on */
+		break;
+
+	case CAL_OBJ_FIND_SYNTAX_ERROR:
+		g_message ("trigger_alarm_cb(): syntax error in fetched object");
+		return;
+
+	case CAL_OBJ_FIND_NOT_FOUND:
+		g_message ("trigger_alarm_cb(): could not find fetched object");
+		return;
+	}
+
+	g_assert (ico != NULL);
+
+	/* Present notification */
+
+	switch (c->type) {
+	case ALARM_MAIL:
+		g_assert (ico->malarm.enabled);
+		mail_notification (ico->malarm.data, ico->summary, c->occur);
+		break;
+
+	case ALARM_PROGRAM:
+		g_assert (ico->palarm.enabled);
+		program_notification (ico->palarm.data, FALSE);
+		break;
+
+	case ALARM_DISPLAY:
+		g_assert (ico->dalarm.enabled);
+		display_notification (trigger, c->occur, ico, c->gcal);
+		break;
+
+	case ALARM_AUDIO:
+		g_assert (ico->aalarm.enabled);
+		audio_notification (trigger, c->occur, ico, c->gcal);
+		break;
+	}
+
+	/* Remove the alarm from the hash table */
+
+	oa = g_hash_table_lookup (c->gcal->alarms, ico->uid);
+	g_assert (oa != NULL);
+
+	l = g_list_find (oa->alarm_ids, alarm_id);
+	g_assert (l != NULL);
+
+	oa->alarm_ids = g_list_remove_link (oa->alarm_ids, l);
+	g_list_free_1 (l);
+
+	if (!oa->alarm_ids) {
+		g_hash_table_remove (c->gcal->alarms, ico->uid);
+		g_free (oa->uid);
+		g_free (oa);
+	}
+}
+
+/* Frees a struct trigger_alarm_closure */
+static void
+free_trigger_alarm_closure (gpointer data)
+{
+	struct trigger_alarm_closure *c;
+
+	c = data;
+	g_free (c->uid);
+	g_free (c);
+}
+
+/* Queues the specified alarm */
+static void
+setup_alarm (GnomeCalendar *cal, CalAlarmInstance *ai)
+{
+	struct trigger_alarm_closure *c;
+	gpointer alarm;
+	ObjectAlarms *oa;
+
+	c = g_new (struct trigger_alarm_closure, 1);
+	c->gcal = cal;
+	c->uid = g_strdup (ai->uid);
+	c->type = ai->type;
+	c->occur = ai->occur;
+
+	alarm = alarm_add (ai->trigger, trigger_alarm_cb, c, free_trigger_alarm_closure);
+	if (!alarm) {
+		g_message ("setup_alarm(): Could not set up alarm");
+		g_free (c->uid);
+		g_free (c);
+		return;
+	}
+
+	oa = g_hash_table_lookup (cal->alarms, ai->uid);
+	if (oa)
+		oa->alarm_ids = g_list_prepend (oa->alarm_ids, alarm);
+	else {
+		oa = g_new (ObjectAlarms, 1);
+		oa->uid = g_strdup (ai->uid);
+		oa->alarm_ids = g_list_prepend (NULL, alarm);
+
+		g_hash_table_insert (cal->alarms, oa->uid, oa);
+	}
+}
+
+static void load_alarms (GnomeCalendar *cal);
+
+/* Called nightly to refresh the day's alarms */
+static void
+midnight_refresh_cb (gpointer alarm_id, time_t trigger, gpointer data)
+{
+	GnomeCalendar *cal;
+
+	cal = GNOME_CALENDAR (data);
+	cal->midnight_alarm_refresh_id = NULL;
+
+	load_alarms (cal);
+}
+
+/* Loads and queues the alarms from the current time up to midnight. */
+static void
+load_alarms (GnomeCalendar *cal)
+{
+	time_t now;
+	time_t end_of_day;
+	GList *alarms, *l;
+
+	now = time (NULL);
+	end_of_day = time_day_end (now);
+
+	/* Queue alarms */
+
+	alarms = cal_client_get_alarms_in_range (cal->client, now, end_of_day);
+
+	for (l = alarms; l; l = l->next)
+		setup_alarm (cal, l->data);
+
+	cal_alarm_instance_list_free (alarms);
+
+	/* Queue the midnight alarm refresh */
+
+	cal->midnight_alarm_refresh_id = alarm_add (end_of_day, midnight_refresh_cb, cal, NULL);
+	if (!cal->midnight_alarm_refresh_id) {
+		g_message ("load_alarms(): Could not set up the midnight refresh alarm!");
+		/* FIXME: what to do? */
+	}
+}
 
 /* This tells all components to reload all calendar objects. */
 static void
-gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
+gnome_calendar_update_all (GnomeCalendar *cal)
 {
+	load_alarms (cal);
+
 	e_day_view_update_all_events (E_DAY_VIEW (cal->day_view));
 	e_day_view_update_all_events (E_DAY_VIEW (cal->work_week_view));
 	e_week_view_update_all_events (E_WEEK_VIEW (cal->week_view));
@@ -406,6 +729,30 @@ gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
 	gnome_calendar_tag_calendar (cal, cal->gtk_calendar);
 }
 
+/* Removes any queued alarms for the specified UID */
+static void
+remove_alarms_for_object (GnomeCalendar *gcal, const char *uid)
+{
+	ObjectAlarms *oa;
+	GList *l;
+
+	oa = g_hash_table_lookup (gcal->alarms, uid);
+	if (!oa)
+		return;
+
+	for (l = oa->alarm_ids; l; l = l->next) {
+		gpointer alarm_id;
+
+		alarm_id = l->data;
+		alarm_remove (alarm_id);
+	}
+
+	g_hash_table_remove (gcal->alarms, uid);
+
+	g_free (oa->uid);
+	g_list_free (oa->alarm_ids);
+	g_free (oa);
+}
 
 static void
 gnome_calendar_object_updated_cb (GtkWidget *cal_client,
@@ -414,6 +761,9 @@ gnome_calendar_object_updated_cb (GtkWidget *cal_client,
 {
 	g_message ("gnome-cal: got object changed_cb, uid='%s'",
 		   uid?uid:"<NULL>");
+
+	remove_alarms_for_object (gcal, uid);
+	/* FIXME: put in new alarms */
 
 	/* FIXME: do we really want each view to reload the event itself?
 	   Maybe we should keep track of events globally, maybe with ref
@@ -440,6 +790,8 @@ gnome_calendar_object_removed_cb (GtkWidget *cal_client,
 {
 	g_message ("gnome-cal: got object removed _cb, uid='%s'",
 		   uid?uid:"<NULL>");
+
+	remove_alarms_for_object (gcal, uid);
 
 	e_day_view_remove_event (E_DAY_VIEW (gcal->day_view), uid);
 	e_day_view_remove_event (E_DAY_VIEW (gcal->work_week_view), uid);
@@ -501,7 +853,7 @@ gnome_calendar_load_cb (GtkWidget *cal_client,
 
 	switch (status) {
 	case CAL_CLIENT_LOAD_SUCCESS:
-		gnome_calendar_update_all (locd->gcal, NULL, 0);
+		gnome_calendar_update_all (locd->gcal);
 		g_message ("gnome_calendar_load_cb: success");
 		break;
 
@@ -521,7 +873,7 @@ gnome_calendar_load_cb (GtkWidget *cal_client,
 
 			cal_client_create_calendar (locd->gcal->client,
 						    locd->uri);
-			gnome_calendar_update_all (locd->gcal, NULL, 0);
+			gnome_calendar_update_all (locd->gcal);
 		}
 		break;
 
@@ -613,97 +965,6 @@ gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj, int flags)
 	g_free (obj_string);
 }
 
-static int
-max_open_files (void)
-{
-        static int files;
-
-        if (files)
-                return files;
-
-        files = sysconf (_SC_OPEN_MAX);
-        if (files != -1)
-                return files;
-#ifdef OPEN_MAX
-        return files = OPEN_MAX;
-#else
-        return files = 256;
-#endif
-}
-
-static void
-execute (char *command, int close_standard)
-{
-	struct sigaction ignore, save_intr, save_quit;
-	int status = 0, i;
-	pid_t pid;
-
-	ignore.sa_handler = SIG_IGN;
-	sigemptyset (&ignore.sa_mask);
-	ignore.sa_flags = 0;
-
-	sigaction (SIGINT, &ignore, &save_intr);
-	sigaction (SIGQUIT, &ignore, &save_quit);
-
-	if ((pid = fork ()) < 0){
-		fprintf (stderr, "\n\nfork () = -1\n");
-		return;
-	}
-	if (pid == 0){
-		pid = fork ();
-		if (pid == 0){
-			const int top = max_open_files ();
-			sigaction (SIGINT,  &save_intr, NULL);
-			sigaction (SIGQUIT, &save_quit, NULL);
-
-			for (i = (close_standard ? 0 : 3); i < top; i++)
-				close (i);
-
-			/* FIXME: As an excercise to the reader, copy the
-			 * code from mc to setup shell properly instead of
-			 * /bin/sh.  Yes, this comment is larger than a cut and paste.
-			 */
-			execl ("/bin/sh", "/bin/sh", "-c", command, (char *) 0);
-
-			_exit (127);
-		} else {
-			_exit (127);
-		}
-	}
-	wait (&status);
-	sigaction (SIGINT,  &save_intr, NULL);
-	sigaction (SIGQUIT, &save_quit, NULL);
-}
-
-static void
-mail_notify (char *mail_address, char *text, time_t app_time)
-{
-	pid_t pid;
-	int   p [2];
-	char *command;
-
-	pipe (p);
-	pid = fork ();
-	if (pid == 0){
-		int dev_null;
-
-		dev_null = open ("/dev/null", O_RDWR);
-		dup2 (p [0], 0);
-		dup2 (dev_null, 1);
-		dup2 (dev_null, 2);
-		execl ("/usr/lib/sendmail", "/usr/lib/sendmail",
-		       mail_address, NULL);
-		_exit (127);
-	}
-	command = g_strconcat ("To: ", mail_address, "\n",
-				  "Subject: ", _("Reminder of your appointment at "),
-				  ctime (&app_time), "\n\n", text, "\n", NULL);
-	write (p [1], command, strlen (command));
- 	close (p [1]);
-	close (p [0]);
-	g_free (command);
-}
-
 static void
 stop_beeping (GtkObject* object, gpointer data)
 {
@@ -735,6 +996,8 @@ timeout_beep (gpointer data)
 	stop_beeping (data, NULL);
 	return FALSE;
 }
+
+#if 0
 
 void
 calendar_notify (time_t activation_time, CalendarAlarm *which, void *data)
@@ -828,6 +1091,8 @@ calendar_notify (time_t activation_time, CalendarAlarm *which, void *data)
 		return;
 	}
 }
+
+#endif
 
 /*
  * Tags the dates with appointments in a GtkCalendar based on the
@@ -1079,4 +1344,3 @@ gnome_calendar_on_month_changed (GtkCalendar   *calendar,
 {
 	gnome_calendar_tag_calendar (gcal, gcal->gtk_calendar);
 }
-

@@ -2,6 +2,8 @@
 #define CALENDAR_COMMANDS_H
 
 #include <bonobo/bonobo-control.h>
+#include <cal-util/calobj.h>
+#include "gnome-cal.h"
 
 /* This enum and the following array define the color preferences */
 
@@ -101,7 +103,7 @@ void calendar_set_uri (GnomeCalendar *gcal, char *calendar_file);
 
 
 /*----------------------------------------------------------------------*/
-/* FIX ME -- where should this stuff go?                                */
+/* FIXME -- where should this stuff go?                                 */
 /*----------------------------------------------------------------------*/
 
 /* This is only used by the calendar_get_events_in_range routine to get

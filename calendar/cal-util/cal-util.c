@@ -28,14 +28,39 @@
 
 /**
  * cal_obj_instance_list_free:
- * @list: List of CalObjInstance structures.
+ * @list: List of #CalObjInstance structures.
  * 
- * Frees a list of CalObjInstance structures.
+ * Frees a list of #CalObjInstance structures.
  **/
 void
 cal_obj_instance_list_free (GList *list)
 {
 	CalObjInstance *i;
+	GList *l;
+
+	for (l = list; l; l = l->next) {
+		i = l->data;
+
+		g_assert (i != NULL);
+		g_assert (i->uid != NULL);
+
+		g_free (i->uid);
+		g_free (i);
+	}
+
+	g_list_free (list);
+}
+
+/**
+ * cal_alarm_instance_list_free:
+ * @list: List of #CalAlarmInstance structures.
+ * 
+ * Frees a list of #CalAlarmInstance structures.
+ **/
+void
+cal_alarm_instance_list_free (GList *list)
+{
+	CalAlarmInstance *i;
 	GList *l;
 
 	for (l = list; l; l = l->next) {

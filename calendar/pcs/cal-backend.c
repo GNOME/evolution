@@ -245,6 +245,28 @@ cal_backend_get_events_in_range (CalBackend *backend, time_t start, time_t end)
 }
 
 /**
+ * cal_backend_get_alarms_in_range:
+ * @backend: A calendar backend.
+ * @start: Start time for query.
+ * @end: End time for query.
+ * 
+ * Builds a sorted list of the alarms that trigger in the specified time range.
+ * 
+ * Return value: A list of #CalAlarmInstance structures, sorted by trigger time.
+ **/
+GList *
+cal_backend_get_alarms_in_range (CalBackend *backend, time_t start, time_t end)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+	g_return_val_if_fail (start != -1 && end != -1, NULL);
+	g_return_val_if_fail (start <= end, NULL);
+
+	g_assert (CLASS (backend)->get_alarms_in_range != NULL);
+	return (* CLASS (backend)->get_alarms_in_range) (backend, start, end);
+}
+
+/**
  * cal_backend_update_object:
  * @backend: A calendar backend.
  * @uid: Unique identifier of the object to update.
