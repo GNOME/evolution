@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2002-03-11 15:09+0300\n"
+"POT-Creation-Date: 2002-03-18 14:38-0500\n"
 "PO-Revision-Date: 2002-03-11 16:57+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
@@ -886,8 +886,9 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:24
 msgid ""
-"This is the method evolution will use to authenticate you.  Note that setting "
-"this to \"Email Address\" requires anonymous access to your ldap server."
+"This is the method evolution will use to authenticate you.  Note that "
+"setting this to \"Email Address\" requires anonymous access to your ldap "
+"server."
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:25
@@ -1093,7 +1094,7 @@ msgid "Factory for the Addressbook's name selection interface"
 msgstr "Фабрика для интерфейса выбора имени в адресной книге."
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
-#: addressbook/gui/component/select-names/e-select-names.c:873
+#: addressbook/gui/component/select-names/e-select-names.c:876
 #: composer/e-msg-composer-attachment-bar.c:501 filter/filter-filter.c:436
 #: filter/filter-rule.c:637 shell/e-shortcuts-view.c:180
 msgid "Remove"
@@ -1124,7 +1125,7 @@ msgstr "(%d не показано)"
 msgid "Unnamed Contact"
 msgstr "Неназванный контакт"
 
-#: addressbook/gui/component/select-names/e-select-names.c:607
+#: addressbook/gui/component/select-names/e-select-names.c:610
 msgid ""
 "Evolution is unable to get the addressbook local storage.\n"
 "This may have been caused by the evolution-addressbook component crashing.\n"
@@ -1140,7 +1141,7 @@ msgstr ""
 "с детальным описанием условий, при которых данная ошибка\n"
 "произошла. Спасибо."
 
-#: addressbook/gui/component/select-names/e-select-names.c:615
+#: addressbook/gui/component/select-names/e-select-names.c:618
 msgid ""
 "Evolution is unable to get the addressbook local storage.\n"
 "Under normal circumstances, this should never happen.\n"
@@ -1151,7 +1152,7 @@ msgstr ""
 "В нормальных условиях это никогда не должно случаться.\n"
 "Необходимо завершить работу Evolution и запустить его заново."
 
-#: addressbook/gui/component/select-names/e-select-names.c:697
+#: addressbook/gui/component/select-names/e-select-names.c:700
 msgid "Select Contacts from Addressbook"
 msgstr "Выбрать контакты из адресной книги"
 
@@ -5741,8 +5742,8 @@ msgstr "Другой организатор"
 #: calendar/gui/dialogs/recurrence-page.c:571
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
-"Эта встреча имеет правила повторения, которые не могут быть отредактированы в "
-"Evolution."
+"Эта встреча имеет правила повторения, которые не могут быть отредактированы "
+"в Evolution."
 
 #: calendar/gui/dialogs/recurrence-page.c:932
 msgid "on"
@@ -7072,8 +7073,8 @@ msgid ""
 "Some of the tasks could not be migrated, so this process may be attempted "
 "again in the future."
 msgstr ""
-"Evolution попробовала обнаружить задачи, которые были в Вашей папке календаря "
-"и автоматически перенести их в новую папку задач.\n"
+"Evolution попробовала обнаружить задачи, которые были в Вашей папке "
+"календаря и автоматически перенести их в новую папку задач.\n"
 "Некоторые из задач не могли быть перенесены, и этот процесс можно будет "
 "попробовать повторить в будущем."
 
@@ -7087,11 +7088,11 @@ msgstr "Не удалось открыть `%s'; элементы остались на месте."
 #: calendar/gui/tasks-migrate.c:133
 #, c-format
 msgid ""
-"The method required to load `%s' is not supported; no items from the calendar "
-"folder will be migrated to the tasks folder."
+"The method required to load `%s' is not supported; no items from the "
+"calendar folder will be migrated to the tasks folder."
 msgstr ""
-"Метод требуемый для загрузки \"%s\" не поддерживается, нет элементов из папки "
-"календаря для переноса из папки заданий."
+"Метод требуемый для загрузки \"%s\" не поддерживается, нет элементов из "
+"папки календаря для переноса из папки заданий."
 
 #: calendar/gui/weekday-picker.c:314 calendar/gui/weekday-picker.c:409
 msgid "SMTWTFS"
@@ -7171,8 +7172,8 @@ msgstr "contains? предполагает строку в качестве второго аргумента"
 
 #: calendar/pcs/query.c:691
 msgid ""
-"contains? expects argument 1 to be one of \"any\", \"summary\", "
-"\"description\""
+"contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
+"\""
 msgstr ""
 "contains? предполагает одно из \"any\", \"summary\", \"description\" в "
 "качестве аргумента 1"
@@ -7186,8 +7187,8 @@ msgid ""
 "has-categories? expects all arguments to be strings or one and only one "
 "argument to be a boolean false (#f)"
 msgstr ""
-"has-categories? предполагает, что все аргументы - строки или "
-"один-единственный аргумент - логическая ложь (#f)"
+"has-categories? предполагает, что все аргументы - строки или один-"
+"единственный аргумент - логическая ложь (#f)"
 
 #: calendar/pcs/query.c:833
 msgid "is-completed? expects 0 arguments"
@@ -7653,8 +7654,8 @@ msgstr "DIGEST-MD5"
 
 #: camel/camel-sasl-digest-md5.c:45
 msgid ""
-"This option will connect to the server using a secure DIGEST-MD5 password, if "
-"the server supports it."
+"This option will connect to the server using a secure DIGEST-MD5 password, "
+"if the server supports it."
 msgstr ""
 "Подключение к серверу будет производиться с использованием зашифрованного "
 "пароля DIGEST-MD5, если сервер его поддерживает."
@@ -7688,8 +7689,7 @@ msgid "Kerberos 4"
 msgstr "Kerberos 4"
 
 #: camel/camel-sasl-kerberos4.c:42
-msgid ""
-"This option will connect to the server using Kerberos 4 authentication."
+msgid "This option will connect to the server using Kerberos 4 authentication."
 msgstr ""
 "Подключение к серверу будет производиться с использованием для идентификации "
 "протокола Kerberos 4."
@@ -8042,8 +8042,7 @@ msgid "For reading and storing mail on IMAP servers."
 msgstr "Для чтения и хранения почты на серверах IMAP."
 
 #: camel/providers/imap/camel-imap-provider.c:82
-msgid ""
-"This option will connect to the IMAP server using a plaintext password."
+msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 "Подключение к IMAP серверу будет производиться с использованием "
 "незашифрованного пароля."
@@ -8654,14 +8653,14 @@ msgid ""
 "is the only option supported by many POP servers."
 msgstr ""
 "Подключение к POP серверу будет производиться с использованием "
-"незашифрованного пароля. Большинством POP серверов поддерживается только этот "
-"вариант."
+"незашифрованного пароля. Большинством POP серверов поддерживается только "
+"этот вариант."
 
 #: camel/providers/pop3/camel-pop3-provider.c:79
 msgid ""
 "This option will connect to the POP server using an encrypted password via "
-"the APOP protocol. This may not work for all users even on servers that claim "
-"to support it."
+"the APOP protocol. This may not work for all users even on servers that "
+"claim to support it."
 msgstr ""
 "Подключение к POP серверу будет производиться с использованием шифрованного "
 "пароля по протоколу APOP. Это может работать не для всех пользователей даже "
@@ -8671,8 +8670,8 @@ msgstr ""
 msgid ""
 "This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr ""
-"Подключение к POP серверу будет производиться с использованием Kerberos 4 для "
-"идентификации."
+"Подключение к POP серверу будет производиться с использованием Kerberos 4 "
+"для идентификации."
 
 #: camel/providers/pop3/camel-pop3-store.c:198
 #, c-format
@@ -9177,7 +9176,7 @@ msgstr ""
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
-#: composer/e-msg-composer.c:711
+#: composer/e-msg-composer.c:712
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -9186,29 +9185,29 @@ msgstr ""
 "Ошибка при чтении файла %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:909
+#: composer/e-msg-composer.c:910
 msgid "Save as..."
 msgstr "Сохранить как..."
 
-#: composer/e-msg-composer.c:918
+#: composer/e-msg-composer.c:919
 msgid "Warning!"
 msgstr "Предупреждение!"
 
-#: composer/e-msg-composer.c:922
+#: composer/e-msg-composer.c:923
 msgid "File exists, overwrite?"
 msgstr "Файл существует, переписать?"
 
-#: composer/e-msg-composer.c:944
+#: composer/e-msg-composer.c:945
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Ошибка сохранения файла: %s"
 
-#: composer/e-msg-composer.c:963
+#: composer/e-msg-composer.c:964
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Ошибка при загрузке файла: %s"
 
-#: composer/e-msg-composer.c:1034
+#: composer/e-msg-composer.c:1035
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -9216,16 +9215,16 @@ msgstr ""
 "Не удалось открыть папку черновиков для этого счёта.\n"
 "Хотите использовать папку черновиков по умолчанию?"
 
-#: composer/e-msg-composer.c:1084
+#: composer/e-msg-composer.c:1085
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Ошибка доступа к файлу: %s"
 
-#: composer/e-msg-composer.c:1092
+#: composer/e-msg-composer.c:1093
 msgid "Unable to retrieve message from editor"
 msgstr "Не удалось получить сообщение от редактора"
 
-#: composer/e-msg-composer.c:1099
+#: composer/e-msg-composer.c:1100
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -9234,7 +9233,7 @@ msgstr ""
 "Не удалось переместиться по файлу: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1106
+#: composer/e-msg-composer.c:1107
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -9243,7 +9242,7 @@ msgstr ""
 "Не удалось усечь файл: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1115
+#: composer/e-msg-composer.c:1116
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -9252,7 +9251,7 @@ msgstr ""
 "Ошибка при автосохранении сообщения: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1217
+#: composer/e-msg-composer.c:1218
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -9260,7 +9259,7 @@ msgstr ""
 "Обнаружены несохранённые файлы предыдущей сессии.\n"
 "Произвести попытку восстановления?"
 
-#: composer/e-msg-composer.c:1371
+#: composer/e-msg-composer.c:1372
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -9270,23 +9269,23 @@ msgstr ""
 "\n"
 "Вы хотите сохранить изменения?"
 
-#: composer/e-msg-composer.c:1378
+#: composer/e-msg-composer.c:1379
 msgid "Warning: Modified Message"
 msgstr "Внимание: Изменённое сообщение"
 
-#: composer/e-msg-composer.c:1401
+#: composer/e-msg-composer.c:1402
 msgid "Open file"
 msgstr "Открыть файл"
 
-#: composer/e-msg-composer.c:1550
+#: composer/e-msg-composer.c:1551
 msgid "Insert File"
 msgstr "Вставить файл"
 
-#: composer/e-msg-composer.c:1936 composer/e-msg-composer.c:2381
+#: composer/e-msg-composer.c:1937 composer/e-msg-composer.c:2382
 msgid "Compose a message"
 msgstr "Создать сообщение"
 
-#: composer/e-msg-composer.c:2398
+#: composer/e-msg-composer.c:2399
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -9294,7 +9293,7 @@ msgstr ""
 "Не удалось создать окно редактора:\n"
 "Невозможно активировать упраляющий элемент выбора адреса."
 
-#: composer/e-msg-composer.c:2421 composer/e-msg-composer.c:2476
+#: composer/e-msg-composer.c:2422 composer/e-msg-composer.c:2477
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -9302,7 +9301,13 @@ msgstr ""
 "Не удалось создать окно редактора:\n"
 "Не удалось активировать HTML-компонент редактора."
 
-#: composer/evolution-composer.c:383
+#: composer/e-msg-composer.c:3180
+msgid ""
+"<b>(The composer contains a non-text message body, which cannot be editted.)"
+"<b>"
+msgstr ""
+
+#: composer/evolution-composer.c:376
 msgid ""
 "Could not create composer window, because you have not yet\n"
 "configured any identities in the mail component."
@@ -9310,7 +9315,7 @@ msgstr ""
 "Не удалось создать окно редактора, потому что вы еще не настройли\n"
 "ни одной личности в почтовом компоненте."
 
-#: composer/evolution-composer.c:398
+#: composer/evolution-composer.c:391
 msgid "Cannot initialize Evolution's composer."
 msgstr "Невозможно инициализировать редактор почты Evolution."
 
@@ -10502,8 +10507,8 @@ msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
 msgstr ""
-"Так как список получателей сконфигурирован на сокрытие адресов из списка, это "
-"сообщение будет содержать только получателей скрытой копии."
+"Так как список получателей сконфигурирован на сокрытие адресов из списка, "
+"это сообщение будет содержать только получателей скрытой копии."
 
 #: mail/mail-callbacks.c:370
 msgid "This message contains only Bcc recipients."
@@ -10637,8 +10642,8 @@ msgstr "Вы уверены что хотите открыть все %d сообщений в отдельных окнах?"
 
 #: mail/mail-config-druid.c:146
 msgid ""
-"Please enter your name and email address below. The \"optional\" fields below "
-"do not need to be filled in,\n"
+"Please enter your name and email address below. The \"optional\" fields "
+"below do not need to be filled in,\n"
 "unless you wish to include this information in email you send."
 msgstr ""
 "Пожалуйста, введите ниже ваше имя и эл.адрес. \"Дополнительные\" поля\n"
@@ -10674,8 +10679,9 @@ msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and\n"
 "outgoing mail transport method which you provided will be grouped together "
-"to\nmake an Evolution mail account. Please enter a name for this account in "
-"the space below.\n"
+"to\n"
+"make an Evolution mail account. Please enter a name for this account in the "
+"space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
 "Вы почти закончили процесс настройки почты. Наименование, сервер входящей\n"
@@ -11296,8 +11302,7 @@ msgstr ""
 "Это сообщение с цифровой подписью, которая прошла проверку идентичности."
 
 #: mail/mail-format.c:1857
-msgid ""
-"This message is digitally signed but can not be proven to be authentic."
+msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 "Это сообщение с цифровой подписью, которая не может быть проверена на "
 "идентичность."
@@ -23278,8 +23283,8 @@ msgstr ""
 "Выберите файл, который вы хотите импортировать в Evolution и выберите тип "
 "файла из списка.\n"
 "\n"
-"Вы можете выбрать \"Автоматический\" если вы не знаете и Evolution попытается "
-"опознать его."
+"Вы можете выбрать \"Автоматический\" если вы не знаете и Evolution "
+"попытается опознать его."
 
 #: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:803
 msgid "Please select the information that you would like to import:"
@@ -23525,8 +23530,8 @@ msgstr "Ximian Evolution в процессе перехода в режим работы вне сети."
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
-"Ximian Evolution сейчас в автономном режиме работы. Нажмите на эту кнопку для "
-"перехода в режим работы в сети."
+"Ximian Evolution сейчас в автономном режиме работы. Нажмите на эту кнопку "
+"для перехода в режим работы в сети."
 
 #: shell/e-shell.c:651
 #, c-format
@@ -25661,4 +25666,3 @@ msgstr "init_corba(): Не удалось инициализировать GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Не удалось инициализировать Bonobo"
-

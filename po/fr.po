@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.2.99\n"
-"POT-Creation-Date: 2002-03-12 16:56+0100\n"
+"POT-Creation-Date: 2002-03-18 14:38-0500\n"
 "PO-Revision-Date: 2002-03-12 16:56+0100\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@eikonex.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -9214,7 +9214,7 @@ msgstr ""
 msgid "Attach a file"
 msgstr "Joindre un fichier"
 
-#: composer/e-msg-composer.c:711
+#: composer/e-msg-composer.c:712
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -9223,29 +9223,29 @@ msgstr ""
 "Erreur durant la lecture du fichier %s :\n"
 "%s"
 
-#: composer/e-msg-composer.c:909
+#: composer/e-msg-composer.c:910
 msgid "Save as..."
 msgstr "Enregistrer sous..."
 
-#: composer/e-msg-composer.c:918
+#: composer/e-msg-composer.c:919
 msgid "Warning!"
 msgstr "Avertissement !"
 
-#: composer/e-msg-composer.c:922
+#: composer/e-msg-composer.c:923
 msgid "File exists, overwrite?"
 msgstr "Le fichier existe, l'écraser ?"
 
-#: composer/e-msg-composer.c:944
+#: composer/e-msg-composer.c:945
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Erreur d'enregistrement du fichier : %s"
 
-#: composer/e-msg-composer.c:963
+#: composer/e-msg-composer.c:964
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Erreur de chargement du fichier : %s"
 
-#: composer/e-msg-composer.c:1034
+#: composer/e-msg-composer.c:1035
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -9253,16 +9253,16 @@ msgstr ""
 "Impossible d'ouvrir le dossier brouillons pour ce compte.\n"
 "Voulez-vous utiliser le dossier brouillons générique ?"
 
-#: composer/e-msg-composer.c:1084
+#: composer/e-msg-composer.c:1085
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Erreur accès au fichier : %s"
 
-#: composer/e-msg-composer.c:1092
+#: composer/e-msg-composer.c:1093
 msgid "Unable to retrieve message from editor"
 msgstr "Ne peut récupérer le message de l'éditeur"
 
-#: composer/e-msg-composer.c:1099
+#: composer/e-msg-composer.c:1100
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -9271,7 +9271,7 @@ msgstr ""
 "Ne peut rechercher dans le fichier : %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1106
+#: composer/e-msg-composer.c:1107
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -9280,7 +9280,7 @@ msgstr ""
 "Ne peut tronquer le fichier : %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1115
+#: composer/e-msg-composer.c:1116
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -9289,7 +9289,7 @@ msgstr ""
 "Erreur lors de l'auto-enregistrement du message : %s :\n"
 " %s"
 
-#: composer/e-msg-composer.c:1217
+#: composer/e-msg-composer.c:1218
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -9297,7 +9297,7 @@ msgstr ""
 "Evolution a trouvé des fichiers non sauvegardés d'une session précédente.\n"
 "Voulez-vous essayer de les récupérer ?"
 
-#: composer/e-msg-composer.c:1371
+#: composer/e-msg-composer.c:1372
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -9307,23 +9307,23 @@ msgstr ""
 "\n"
 "Voulez-vous enregistrer vos changements ?"
 
-#: composer/e-msg-composer.c:1378
+#: composer/e-msg-composer.c:1379
 msgid "Warning: Modified Message"
 msgstr "Avertissement : Message modifié"
 
-#: composer/e-msg-composer.c:1401
+#: composer/e-msg-composer.c:1402
 msgid "Open file"
 msgstr "Ouvrir un fichier"
 
-#: composer/e-msg-composer.c:1550
+#: composer/e-msg-composer.c:1551
 msgid "Insert File"
 msgstr "Insérer un fichier"
 
-#: composer/e-msg-composer.c:1936 composer/e-msg-composer.c:2381
+#: composer/e-msg-composer.c:1937 composer/e-msg-composer.c:2382
 msgid "Compose a message"
 msgstr "Composer un message"
 
-#: composer/e-msg-composer.c:2398
+#: composer/e-msg-composer.c:2399
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -9331,7 +9331,7 @@ msgstr ""
 "Impossible de créer la fenête de composition:\n"
 "Impossible d'activer le composant de sélection d'adresse."
 
-#: composer/e-msg-composer.c:2421 composer/e-msg-composer.c:2476
+#: composer/e-msg-composer.c:2422 composer/e-msg-composer.c:2477
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -9339,7 +9339,13 @@ msgstr ""
 "Impossible de créer la fenêtre de composition :\n"
 "Ne peut activer le composant « Editeur HTML »."
 
-#: composer/evolution-composer.c:383
+#: composer/e-msg-composer.c:3180
+msgid ""
+"<b>(The composer contains a non-text message body, which cannot be editted.)"
+"<b>"
+msgstr ""
+
+#: composer/evolution-composer.c:376
 msgid ""
 "Could not create composer window, because you have not yet\n"
 "configured any identities in the mail component."
@@ -9347,7 +9353,7 @@ msgstr ""
 "Ne peut créer une fenêtre de composition de message parce que vous \n"
 "n'avez pas encore configuré d'identités dans le composant courrier."
 
-#: composer/evolution-composer.c:398
+#: composer/evolution-composer.c:391
 msgid "Cannot initialize Evolution's composer."
 msgstr "Ne peut initialiser le composant de messagerie d'Evolution."
 
