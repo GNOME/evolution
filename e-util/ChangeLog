@@ -1,33 +1,9 @@
-2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
-
-	* e-config-listener.c (add_key): just preload one level of GConf keys,
-	since preloading all makes the calendar startup slow.
-
-2003-07-23  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am: Use EVO_MARSHAL_RULE
-
-	* e-component-listener.c (connection_listen_cb): Fix a non-ANSI
-	switch label.
-
-	* e-gui-utils.c: only include "art/empty.xpm" if
-	HAVE_LIBGNOMEUI_GNOME_ICON_LOOKUP_H isn't defined
-
-	* e-xml-hash-utils.c (e_xml_to_hash): Deconstify a non-const
-	variable to fix a warning.
-
 2003-07-03  JP Rosevear  <jpr@ximian.com>
- 
- 	* e-xml-hash-utils.c (foreach_save_func): encode the text
- 	(e_xml_from_hash): pass xmlDoc to foreach method
- 	(e_xmlhash_new): check for file existence
- 	(e_xmlhash_destroy): only destroy the hash if it exists
-	
-2003-07-01  Dan Winship  <danw@ximian.com>
 
-	* e-gui-utils.c (e_icon_for_mime_type): New function to return an
-	icon for a MIME type, using GnomeIconTheme if available or
-	gnome-vfs and gnome-mime-data if not.
+	* e-xml-hash-utils.c (foreach_save_func): encode the text
+	(e_xml_from_hash): pass xmlDoc to foreach method
+	(e_xmlhash_new): check for file existence
+	(e_xmlhash_destroy): only destroy the hash if it exists
 
 2003-06-19  Dan Winship  <danw@ximian.com>
 

@@ -41,6 +41,7 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnome/gnome-url.h>
 #include <bonobo/bonobo-exception.h>
@@ -53,7 +54,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-popup-menu.h>
 
 #include <gtkhtml/gtkhtml.h>
@@ -66,7 +66,6 @@
 
 #include <libsoup/soup-message.h>
 
-#include "e-util/e-gui-utils.h"
 #include "e-util/e-mktemp.h"
 #include "addressbook/backend/ebook/e-book-util.h"
 
@@ -82,6 +81,8 @@
 #include "mail.h"
 
 #include "camel/camel-data-cache.h"
+
+#include "art/empty.xpm"
 
 #define d(x)
 
@@ -579,6 +580,60 @@ pixmap_press (GtkWidget *widget, GdkEvent *event, gpointer user_data)
 	return TRUE;
 }	
 
+static GdkPixbuf *
+pixbuf_for_mime_type (const char *mime_type)
+{
+	const char *icon_name;
+	char *filename = NULL;
+	GdkPixbuf *pixbuf = NULL;
+	
+	icon_name = gnome_vfs_mime_get_icon (mime_type);
+	
+	if (icon_name) {
+		if (*icon_name == '/') {
+			pixbuf = gdk_pixbuf_new_from_file (icon_name, NULL);
+			if (pixbuf)
+				return pixbuf;
+		}
+		
+		filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
+						      icon_name, TRUE, NULL);
+		if (!filename) {
+			char *fm_icon;
+			
+			fm_icon = g_strdup_printf ("nautilus/%s", icon_name);
+			filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
+							      fm_icon, TRUE, NULL);
+			if (!filename) {
+				g_free (fm_icon);
+				fm_icon = g_strdup_printf ("mc/%s", icon_name);
+				filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
+								      fm_icon, TRUE, NULL);
+			}
+			g_free (fm_icon);
+		}
+		
+		if (filename) {
+			pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
+			g_free (filename);
+		}
+	}
+	
+	if (!pixbuf) {
+		filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
+						      "gnome-unknown.png", TRUE, NULL);
+		if (filename) {
+			pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
+			g_free (filename);
+		} else {
+			g_warning ("Could not get any icon for %s!",mime_type);
+			pixbuf = gdk_pixbuf_new_from_xpm_data((const char **)empty_xpm);
+		}
+	}
+	
+	return pixbuf;
+}
+
 static gboolean
 pixbuf_uncache (gpointer key)
 {
@@ -662,7 +717,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 	
 	if (error || !pbl->mstream) {
 		if (pbl->type)
-			pixbuf = e_icon_for_mime_type (pbl->type, 24);
+			pixbuf = pixbuf_for_mime_type (pbl->type);
 		else
 			pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/pgp-signature-nokey.png", NULL);
 	} else
@@ -2646,8 +2701,6 @@ display_notify (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, gpointer d
 	} else if (!strcmp (tkey, "/citation_color") 
 		   || !strcmp (tkey, "/mark_citations")) {
 		mail_display_queue_redisplay (md);
-	} else if (!strcmp (tkey, "/caret_mode")) {
-		gtk_html_set_caret_mode(md->html, gconf_value_get_bool (gconf_entry_get_value(entry)));
 	}
 }
 
@@ -2694,7 +2747,6 @@ mail_display_new (void)
 	
 	gconf = mail_config_get_gconf_client ();
 	gtk_html_set_animate (GTK_HTML (html), gconf_client_get_bool (gconf, "/apps/evolution/mail/display/animate_images", NULL));
-	gtk_html_set_caret_mode (GTK_HTML (html), gconf_client_get_bool (gconf, "/apps/evolution/mail/display/caret_mode", NULL));
 	
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/display",GCONF_CLIENT_PRELOAD_NONE, NULL);
 	mail_display->priv->display_notify_id = gconf_client_notify_add (gconf, "/apps/evolution/mail/display",

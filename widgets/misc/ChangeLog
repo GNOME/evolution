@@ -1,23 +1,3 @@
-2003-07-23  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am: use EVO_MARSHAL_RULE
-
-	* e-combo-button.c (create_empty_pixmap_widget): Create the pixbuf
-	from empty.xpm rather than just calling gdk_pixbuf_new(), which
-	doesn't actually initialize the pixel data.
-
-	* e-messagebox.c: Remove this, since it claims to be deprecated,
-	and nothing is actually using it any more.
-	
-	* Makefile.am: Remove e-messagebox.[ch]
-
-2003-07-11  Federico Mena Quintero  <federico@ximian.com>
-
-	* e-dateedit.c (e_date_edit_mnemonic_activate): Added a handler
-	for GtkWidget::mnemonic_activate().
-
-	* e-url-entry.c (mnemonic_activate): Likewise.
-
 2003-07-09  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-url-entry.c (destroy): Chain to the parent handler.  Fixes #45236.

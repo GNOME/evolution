@@ -104,7 +104,6 @@ static BonoboUIVerb message_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSubject", vfolder_subject),
 	BONOBO_UI_UNSAFE_VERB ("ViewLoadImages", load_images),
 	/* ViewHeaders stuff is a radio */
-	/* CaretMode is a toggle */
 
 	BONOBO_UI_VERB_END
 };
@@ -239,7 +238,6 @@ struct _UINode default_ui_nodes[] = {
 	{ "ViewFullHeaders", IS_0MESSAGE },
 	{ "ViewNormal",      IS_0MESSAGE },
 	{ "ViewSource",      IS_0MESSAGE },
-	{ "CaretMode",       IS_0MESSAGE },
 	
 	{ "AddSenderToAddressbook",   IS_INCOMING_FOLDER | SELECTION_SINGLE | ANY_THREADED | HAS_FLAGS },
 	
@@ -461,6 +459,19 @@ folder_browser_ui_message_list_unfocus (FolderBrowser *fb)
 	  "sensitive", "0", NULL);*/
 }
 
+static const char *
+basename (const char *path)
+{
+	const char *base;
+	
+	if (!(base = strrchr (path, '/')))
+		base = path;
+	else
+		base++;
+	
+	return base;
+}
+
 static void
 folder_browser_setup_property_menu (FolderBrowser *fb, BonoboUIComponent *uic)
 {
@@ -506,7 +517,6 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 	FolderBrowserSelectionState prev_state;
 	GConfClient *gconf;
 	int style;
-	gboolean caret_mode;
 	
 	gconf = mail_config_get_gconf_client ();
 	
@@ -517,10 +527,6 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 	
 	ui_add (fb, "message", message_verbs, message_pixcache);
 	
-	caret_mode = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/caret_mode", NULL);
-	bonobo_ui_component_set_prop(uic, "/commands/CaretMode", "state", caret_mode?"1":"0", NULL);
-	bonobo_ui_component_add_listener (uic, "CaretMode", folder_browser_toggle_caret_mode, fb);
-
 	/* Display Style */
 	style = gconf_client_get_int (gconf, "/apps/evolution/mail/display/message_style", NULL);
 	style = style >= 0 && style < MAIL_CONFIG_DISPLAY_MAX ? style : 0;

@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-msg-composer.c
  *
- * Copyright (C) 1999-2003 Ximian, Inc. (www.ximian.com)
+ * Copyright (C) 1999  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -80,10 +80,9 @@
 #include "e-util/e-dialog-utils.h"
 #include "widgets/misc/e-charset-picker.h"
 
-#include <camel/camel-session.h>
-#include <camel/camel-charset-map.h>
-#include <camel/camel-stream-filter.h>
-#include <camel/camel-mime-filter-charset.h>
+#include "camel/camel.h"
+#include "camel/camel-charset-map.h"
+#include "camel/camel-session.h"
 
 #include "mail/mail-callbacks.h"
 #include "mail/mail-crypto.h"
@@ -103,7 +102,7 @@
 #include "Editor.h"
 #include "listener.h"
 
-#define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:3.1"
+#define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:3.0"
 
 #define d(x) x
 
@@ -212,7 +211,7 @@ best_encoding (GByteArray *buf, const char *charset)
 	do {
 		out = outbuf;
 		outlen = sizeof (outbuf);
-		status = e_iconv (cd, (const char **) &in, &inlen, &out, &outlen);
+		status = e_iconv (cd, &in, &inlen, &out, &outlen);
 		for (ch = out - 1; ch >= outbuf; ch--) {
 			if ((unsigned char)*ch > 127)
 				count++;
@@ -346,16 +345,16 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	EMsgComposerAttachmentBar *attachment_bar =
 		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
+	CamelMimeMessage *new;
+	GByteArray *data;
 	CamelDataWrapper *plain, *html, *current;
 	CamelMimePartEncodingType plain_encoding;
-	CamelMultipart *body = NULL;
+	const char *charset;
 	CamelContentType *type;
-	CamelMimeMessage *new;
-	const char *charset = NULL;
 	CamelStream *stream;
+	CamelMultipart *body = NULL;
 	CamelMimePart *part;
 	CamelException ex;
-	GByteArray *data;
 	int i;
 	
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
@@ -402,15 +401,12 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			header_content_type_set_param (type, "charset", charset);
 	}
 	
-	stream = camel_stream_mem_new_with_byte_array (data);
-	
-	/* construct the content object */
 	plain = camel_data_wrapper_new ();
 	plain->rawtext = FALSE;
 	
+	stream = camel_stream_mem_new_with_byte_array (data);
 	camel_data_wrapper_construct_from_stream (plain, stream);
 	camel_object_unref (stream);
-	
 	camel_data_wrapper_set_mime_type_field (plain, type);
 	header_content_type_unref (type);
 	
@@ -3569,8 +3565,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	}
 	
 	if (postto == NULL) {
-		auto_cc = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
-		auto_bcc = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+		auto_cc = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+		auto_bcc = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 		
 		if (account) {
 			CamelInternetAddress *iaddr;

@@ -1,3 +1,123 @@
+Evolution 1.4.4, 2003-07-28
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+
+    #30839 - Selecting multiple names in contact list won't print.
+             (Toshok)
+
+  * Calendar
+
+    #41676 - Can create "Run a program" reminder" without entering a
+	     program.  (Rodrigo)
+    #45236 - Crash when editing tasks.  (Federico)
+    #45274 - Tab through events in week view.  (Bolian Yin)
+    #45328 - Alt+PageUp/PageDown, go to the first/last day in current month
+             in dayview.  (Bolian Yin)
+    #45329 - Alt+PageUp/PageDown, go to the first/last day in current month
+             in weekview.  (Bolian Yin)
+    #45524 - Doesn't use stock icons.  (Rodrigo)
+    #45767 - Evolution 1.4.1 building failed with Forte on Solaris8.  (Antonio Xu)
+    #45772 - In DayView, Alt+ Left Arrow / Right Arrow, Go to the same
+             day in the previous/next week.  (Andrew Wu)
+    #45774 - In DayView, Home/End, Select the time that begins/ends
+	     your work day. (Andrew Wu)
+    #45910 - Application crash when assigning tasks.  (Jack Jia, Rodrigo)
+    #46075 - Same date can be added repeatedly in Exceptions date list.
+             (Harry Lu)
+
+  * Mail
+
+    #42573 - IMAP APPEND buggy.  (Timo Sirainen)
+    #46013 - Can't focus on To/Cc button in composer.  (Maxx Cao)
+    #46018 - Cannot paste cut/copied mail into empty folder.
+             (Antonio Xu)
+    #46346 - Wrong default for startup dialog about restoring
+             autosaved items.  (Michel Dänzer)
+    #46398 - Crash when dragging files to message list.  (Federico)
+    #45826 - Shift+f10 should activate popup menu when focus on
+             attachment.  (Maxx Cao)
+
+  * Shell
+
+    #45982 - Don't overwrite folders on rename.  (Ettore)
+    #46026 - Startup wizard misbehavior.  (Antonio Xu)
+    #46284 - Startup wizard misbehavior.  (Antonio Xu)
+    #46700 - Crash when closing offline dialog.  (Yuedong Du)
+
+Other bugs fixed:
+
+  * Addressbook
+
+    - Make prints use the "Sans" font instead of "Helvetica".  (Akira
+      TAGOH)
+
+  * Mail
+
+    - Changed the accelerator for "Mark All as Read" so it doesn't
+      conflict.  (Anna)
+
+Updated translations:
+
+  - cs (Miloslav Trmac)
+  - cy (Dafydd Harries, Telsa Gwynne)
+  - es (Pablo Gonzalo del Campo)
+  - ja (Takeshi AIHANA)
+  - ms (Hasbullah Bin Bit)
+  - nl (Vincent van Adrighem)
+  - pl (Artur Flinta)
+  - pt (Duarte Loreto)
+  - pt_BR (Gustavo Maciel Dias Vieira)
+  - sr (Danilo Å egan)
+  - sv (Christian Rose)
+
+
+Evolution 1.4.3, 2003-07-08
+---------------------------
+
+Bugs fixed:
+
+  * Addressbook
+
+    - Fixed a race condition that could cause a crash on exit and some
+      memory leaks.  (Dan)
+
+  * Calendar
+
+    - Make it compile against GTK 2.0 again.  (Rodrigo)
+
+Updated translations:
+
+  - cs (Miloslav Trmac)
+  - hu (Andras Timar)
+
+
+Evolution 1.4.2, 2003-06-30
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Calendar
+
+    #44719 - Alarm Notify window is not sticky any more (Rodrigo)
+    #44723 - Alarm Notify - Displays _originally entered_ summary (Rodrigo)
+    #45276 - Use the key "Esc" to escape editing current event and give focus
+             to day/week view (Bolian Yin)
+
+Other bugs
+
+  * Calendar
+
+    - Made all dialogs be centered on the Evolution window (Rodrigo)
+
+  * Mail
+
+    - Fixed a charset handling problem in the message composer, which
+      was introduced in 1.4.1.
+
+
 Evolution 1.4.1, 2003-06-25
 ---------------------------
 

@@ -93,7 +93,7 @@ static void tasks_control_delete_cmd		(BonoboUIComponent	*uic,
 static void tasks_control_complete_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
-static void tasks_control_purge_cmd		(BonoboUIComponent	*uic,
+static void tasks_control_expunge_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
 static void tasks_control_print_cmd		(BonoboUIComponent	*uic,
@@ -257,7 +257,7 @@ sensitize_commands (ETasks *tasks, BonoboControl *control, int n_selected)
 	bonobo_ui_component_set_prop (uic, "/commands/TasksMarkComplete", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/TasksPurge", "sensitive",
+	bonobo_ui_component_set_prop (uic, "/commands/TasksExpunge", "sensitive",
 				      read_only ? "0" : "1",
 				      NULL);
 }
@@ -280,7 +280,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("TasksPaste", tasks_control_paste_cmd),
 	BONOBO_UI_VERB ("TasksDelete", tasks_control_delete_cmd),
 	BONOBO_UI_VERB ("TasksMarkComplete", tasks_control_complete_cmd),
-	BONOBO_UI_VERB ("TasksPurge", tasks_control_purge_cmd),
+	BONOBO_UI_VERB ("TasksExpunge", tasks_control_expunge_cmd),
 	BONOBO_UI_VERB ("TasksPrint", tasks_control_print_cmd),
 	BONOBO_UI_VERB ("TasksPrintPreview", tasks_control_print_preview_cmd),
 
@@ -431,17 +431,17 @@ tasks_control_complete_cmd		(BonoboUIComponent	*uic,
 }
 
 static gboolean
-confirm_purge (ETasks *tasks)
+confirm_expunge (ETasks *tasks)
 {
-	GtkWidget *dialog, *checkbox, *parent;
+	GtkWidget *dialog, *label, *checkbox, *parent;
 	int button;
 	
-	if (!calendar_config_get_confirm_purge ())
+	if (!calendar_config_get_confirm_expunge ())
 		return TRUE;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (tasks));
 	dialog = gtk_message_dialog_new (
-		(GtkWindow *)parent,
+		parent,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_WARNING,
 		GTK_BUTTONS_YES_NO,
@@ -454,22 +454,22 @@ confirm_purge (ETasks *tasks)
 	
 	button = gtk_dialog_run (GTK_DIALOG (dialog));	
 	if (button == GTK_RESPONSE_YES && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
-		calendar_config_set_confirm_purge (FALSE);
+		calendar_config_set_confirm_expunge (FALSE);
 	gtk_widget_destroy (dialog);
 	
 	return button == GTK_RESPONSE_YES ? TRUE : FALSE;
 }
 
 static void
-tasks_control_purge_cmd	(BonoboUIComponent	*uic,
-			 gpointer		 data,
-			 const char		*path)
+tasks_control_expunge_cmd		(BonoboUIComponent	*uic,
+					 gpointer		 data,
+					 const char		*path)
 {
 	ETasks *tasks;
 
 	tasks = E_TASKS (data);
 	
-	if (confirm_purge (tasks))
+	if (confirm_expunge (tasks))
 	    e_tasks_delete_completed (tasks);
 }
 
@@ -506,7 +506,7 @@ print_tasks (ETasks *tasks, gboolean preview)
 	ETable *etable;
 	GnomePrintContext *pc;
 	GnomePrintJob *gpm;
-	double l, r, t, b, page_width, page_height, left_margin, bottom_margin;
+	double l, r, t, b, page_width, page_height, left_margin, bottom_margin, temp_d;
 
 	if (!print_config)
 		print_config = gnome_print_config_default ();

@@ -23,7 +23,6 @@
     <cmd name="DeleteAllOccurrences" _tip="Delete All Occurrences" pixtype="stock" pixname="gtk-delete"/>
 
     <cmd name="PublishFreeBusy" _tip="Publish Free/Busy information for this calendar"/>
-    <cmd name="CalendarPurge" _label="Purg_e" _tip="Purge old appointments and meetings" accel="*Control*e"/>
   </commands>
 
   <menu>
@@ -65,9 +64,7 @@
 
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">
-        <separator/>
 	<menuitem name="PublishFreeBusy" verb="" _label="_Publish Free/Busy Information"/>
-	<menuitem name="CalendarPurge" verb=""/>
       </placeholder>
     </submenu>
   </menu>

@@ -44,14 +44,13 @@
 
 #include <gal/util/e-iconv.h>
 
-#include <camel/camel-data-wrapper.h>
-#include <camel/camel-stream-fs.h>
-#include <camel/camel-stream-null.h>
-#include <camel/camel-stream-filter.h>
-#include <camel/camel-mime-filter-bestenc.h>
-#include <camel/camel-mime-part.h>
+#include "camel/camel-data-wrapper.h"
+#include "camel/camel-stream-fs.h"
+#include "camel/camel-stream-null.h"
+#include "camel/camel-stream-filter.h"
+#include "camel/camel-mime-filter-bestenc.h"
+#include "camel/camel-mime-part.h"
 
-#include "e-util/e-gui-utils.h"
 
 #define ICON_WIDTH 64
 #define ICON_SEPARATORS " /-_"
@@ -204,6 +203,66 @@ remove_attachment (EMsgComposerAttachmentBar *bar,
 
 /* Icon list contents handling.  */
 
+static GdkPixbuf *
+pixbuf_for_mime_type (const char *mime_type)
+{
+	const char *icon_name;
+	char *filename = NULL;
+	GdkPixbuf *pixbuf;
+
+	/* Special-case these two since GNOME VFS doesn't know about them and
+	   they are used every time the user forwards one or more messages
+	   inline.  (See #9786.)  */
+	if (strcmp (mime_type, "message/digest") == 0
+	    || strcmp (mime_type, "multipart/digest") == 0
+	    || strcmp (mime_type, "message/rfc822") == 0) {
+		char *name;
+		
+		name = g_build_filename (EVOLUTION_IMAGESDIR, "mail.png", NULL);
+		pixbuf = gdk_pixbuf_new_from_file (name, NULL);
+		g_free (name);
+		
+		if (pixbuf != NULL)
+			return pixbuf;
+	}
+	
+	icon_name = gnome_vfs_mime_get_icon (mime_type);
+	if (icon_name) {
+		if (*icon_name == '/') {
+			pixbuf = gdk_pixbuf_new_from_file (icon_name, NULL);
+			if (pixbuf)
+				return pixbuf;
+		}
+		
+		filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, icon_name, TRUE, NULL);
+		if (!filename) {
+			char *fm_icon;
+			
+			fm_icon = g_strdup_printf ("nautilus/%s", icon_name);
+			filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, fm_icon, TRUE, NULL);
+			if (!filename) {
+				g_free (fm_icon);
+				fm_icon = g_strdup_printf ("mc/%s", icon_name);
+				filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, fm_icon, TRUE, NULL);
+			}
+			g_free (fm_icon);
+		}
+	}
+	
+	if (filename && (pixbuf = gdk_pixbuf_new_from_file (filename, NULL))) {
+		g_free (filename);
+		return pixbuf;
+	}
+	
+	g_free (filename);
+	filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, "gnome-unknown.png", TRUE, NULL);
+	
+	pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
+	g_free (filename);
+	
+	return pixbuf;
+}
+
 static void
 update (EMsgComposerAttachmentBar *bar)
 {
@@ -323,7 +382,7 @@ update (EMsgComposerAttachmentBar *bar)
 			char *mime_type;
 			
 			mime_type = header_content_type_simple (content_type);
-			pixbuf = e_icon_for_mime_type (mime_type, 48);
+			pixbuf = pixbuf_for_mime_type (mime_type);
 			g_free (mime_type);
 			gnome_icon_list_append_pixbuf (icon_list, pixbuf, NULL, label);
 			if (pixbuf)
@@ -527,14 +586,13 @@ destroy (GtkObject *object)
 
 /* GtkWidget methods.  */
 
-
 static void
-popup_menu_placement_callback (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)
+popup_menu_placement_callback (GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
 {
 	EMsgComposerAttachmentBar *bar;
 	GnomeIconList *icon_list;
-	GList *selection;
 	GnomeCanvasPixbuf *image;
+	GList *selection;
 	
 	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (user_data);
 	icon_list = GNOME_ICON_LIST (user_data);
@@ -552,6 +610,7 @@ popup_menu_placement_callback (GtkMenu *menu, gint *x, gint *y, gboolean *push_i
 	/* Put menu to the center of icon. */
 	*x += (int)(image->item.x1 + image->item.x2) / 2;
 	*y += (int)(image->item.y1 + image->item.y2) / 2;
+
 }
 
 static gboolean 
@@ -572,7 +631,6 @@ popup_menu_event (GtkWidget *widget)
 	
 	return TRUE;
 }
-
 
 static gint
 button_press_event (GtkWidget *widget,
@@ -745,7 +803,7 @@ attach_to_multipart (CamelMultipart *multipart,
 	if (!CAMEL_IS_MULTIPART (content)) {
 		if (header_content_type_is (content_type, "text", "*")) {
 			CamelMimePartEncodingType encoding;
-			CamelStreamFilter *filter_stream;
+			CamelStreamFilter *filtered_stream;
 			CamelMimeFilterBestenc *bestenc;
 			CamelStream *stream;
 			const char *charset;
@@ -761,13 +819,13 @@ attach_to_multipart (CamelMultipart *multipart,
 			}
 			
 			stream = camel_stream_null_new ();
-			filter_stream = camel_stream_filter_new_with_stream (stream);
+			filtered_stream = camel_stream_filter_new_with_stream (stream);
 			bestenc = camel_mime_filter_bestenc_new (CAMEL_BESTENC_GET_ENCODING);
-			camel_stream_filter_add (filter_stream, CAMEL_MIME_FILTER (bestenc));
-			camel_object_unref (stream);
+			camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (bestenc));
+			camel_object_unref (CAMEL_OBJECT (stream));
 			
-			camel_data_wrapper_write_to_stream (content, CAMEL_STREAM (filter_stream));
-			camel_object_unref (filter_stream);
+			camel_data_wrapper_write_to_stream (content, CAMEL_STREAM (filtered_stream));
+			camel_object_unref (CAMEL_OBJECT (filtered_stream));
 			
 			encoding = camel_mime_filter_bestenc_get_best_encoding (bestenc, CAMEL_BESTENC_8BIT);
 			camel_mime_part_set_encoding (attachment->body, encoding);
@@ -793,9 +851,10 @@ attach_to_multipart (CamelMultipart *multipart,
 				g_free (type);
 			}
 			
-			camel_object_unref (bestenc);
+			camel_object_unref (CAMEL_OBJECT (bestenc));
 		} else if (!CAMEL_IS_MIME_MESSAGE (content)) {
-			camel_mime_part_set_encoding (attachment->body, CAMEL_MIME_PART_ENCODING_BASE64);
+			camel_mime_part_set_encoding (attachment->body,
+						      CAMEL_MIME_PART_ENCODING_BASE64);
 		}
 	}
 	

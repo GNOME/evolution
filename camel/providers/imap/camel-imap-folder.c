@@ -66,9 +66,8 @@
 #include "camel-stream-filter.h"
 #include "camel-stream-mem.h"
 #include "camel-stream.h"
+#include "string-utils.h"
 #include "camel-private.h"
-#include "camel-string-utils.h"
-#include "camel-file-utils.h"
 
 
 #define d(x)
@@ -218,7 +217,7 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 	const char *short_name;
 	char *summary_file;
 
-	if (camel_mkdir (folder_dir, S_IRWXU) != 0) {
+	if (camel_mkdir_hier (folder_dir, S_IRWXU) != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create directory %s: %s"),
 				      folder_dir, g_strerror (errno));

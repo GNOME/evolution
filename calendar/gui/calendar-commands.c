@@ -8,7 +8,6 @@
  * Authors: Miguel de Icaza <miguel@ximian.com>
  *          Federico Mena-Quintero <federico@ximian.com>
  *          Seth Alves <alves@hungry.com>
- *          Rodrigo Moya <rodrigo@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -35,11 +34,9 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtkfilesel.h>
-#include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtkmessagedialog.h>
+
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-messagebox.h>
@@ -341,54 +338,6 @@ publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 	}
 }
 
-static void
-purge_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
-{
-	GnomeCalendar *gcal;
-	GtkWidget *dialog, *parent, *box, *label, *spin;
-	int response;
-
-	gcal = GNOME_CALENDAR (data);
-
-	/* create the dialog */
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (gcal));
-	dialog = gtk_message_dialog_new (
-		(GtkWindow *)parent,
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_WARNING,
-		GTK_BUTTONS_OK_CANCEL,
-		_("This operation will permanently erase all events older than the selected amount of time. If you continue, you will not be able to recover these events."));
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CANCEL);
-
-	box = gtk_hbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), box, TRUE, FALSE, 6);
-
-	label = gtk_label_new (_("Purge events older than"));
-	gtk_box_pack_start (GTK_BOX (box), label, TRUE, FALSE, 6);
-	spin = gtk_spin_button_new_with_range (0.0, 1000.0, 1.0);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), 60.0);
-	gtk_box_pack_start (GTK_BOX (box), spin, FALSE, FALSE, 6);
-	label = gtk_label_new (_("days"));
-	gtk_box_pack_start (GTK_BOX (box), label, TRUE, FALSE, 6);
-
-	gtk_widget_show_all (box);
-
-	/* run the dialog */
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-	if (response == GTK_RESPONSE_OK) {
-		gint days;
-		time_t tt;
-
-		days = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
-		tt = time (NULL);
-		tt -= (days * (24 * 3600));
-
-		gnome_calendar_purge (gcal, tt);
-	}
-
-	gtk_widget_destroy (dialog);
-}
-
 /* Does a queryInterface on the control's parent control frame for the ShellView interface */
 static GNOME_Evolution_ShellView
 get_shell_view_interface (BonoboControl *control)
@@ -599,20 +548,19 @@ sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboole
 	/* occurrence-related menu items */
 	has_recurrences = FALSE;
 	if (n_selected > 0 && !read_only) {
-		ECalViewEvent *event;
-		GList *list;
+		CalComponent *comp;
 		GtkWidget *view;
 
 		view = gnome_calendar_get_current_view_widget (gcal);
-		list = e_cal_view_get_selected_events (E_CAL_VIEW (view));
-		if (list) {
-			event = (ECalViewEvent *) list->data;
-			g_list_free (list);
-		} else
-			event = NULL;
+		if (E_IS_DAY_VIEW (view))
+			comp = e_day_view_get_selected_event (E_DAY_VIEW (view));
+		else if (E_IS_WEEK_VIEW (view))
+			comp = e_week_view_get_selected_event (E_WEEK_VIEW (view));
+		else
+			comp = NULL;
 
-		if (event) {
-			if (cal_component_has_recurrences (event->comp))
+		if (comp) {
+			if (cal_component_has_recurrences (comp))
 				has_recurrences = TRUE;
 		}
 	}
@@ -771,7 +719,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("ShowMonthView", show_month_view_clicked),
 
 	BONOBO_UI_VERB ("PublishFreeBusy", publish_freebusy_cmd),
-	BONOBO_UI_VERB ("CalendarPurge", purge_cmd),
 
 	BONOBO_UI_VERB_END
 };

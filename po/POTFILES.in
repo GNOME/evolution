@@ -154,6 +154,7 @@ camel/camel-lock.c
 camel/camel-movemail.c
 camel/camel-multipart-encrypted.c
 camel/camel-multipart-signed.c
+camel/camel-pgp-mime.c
 camel/camel-process.c
 camel/camel-provider.c
 camel/camel-sasl-anonymous.c
@@ -395,6 +396,7 @@ widgets/misc/e-clipped-label.c
 widgets/misc/e-dateedit.c
 widgets/misc/e-filter-bar.c
 widgets/misc/e-filter-bar.h
+widgets/misc/e-messagebox.c
 widgets/misc/e-search-bar.c
 wombat/GNOME_Evolution_WombatLDAP.server.in.in
 wombat/GNOME_Evolution_WombatNOLDAP.server.in.in

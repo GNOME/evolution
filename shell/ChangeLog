@@ -1,20 +1,14 @@
 2003-07-24  Yuedong Du  <yuedong.du@sun.com>
-
-	* e-shell-offline-handler.c: (dialog_response_cb): fix crash when user escape the
-	dialog. see bug #46700.
-
-2003-07-23  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am: Use EVO_MARSHAL_RULE
-
-	* e-shell-importer.c (prepare_intelligent_page): Fix a warning
-
+                                                                                             
+        * e-shell-offline-handler.c: (dialog_response_cb): fix crash when user escape the
+        dialog. see bug #46700.
+                                                                                             
 2003-07-22  Antonio Xu  <antonio.xu@sun.com>
 
 	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): connect
 	to "delete_event" signal with startup_wizard_delete. [#46284]
 
-2003-07-22  Antonio Xu <antonio.xu@sun.com>
+2003-07-10  Antonio Xu <antonio.xu@sun.com>
 
 	* e-shell-importer.c: (show_import_wizard): use
 	g_signal_connect_after to connect "prepare" signal.
@@ -22,23 +16,12 @@
 	forward button rather than jump to finish page.  [#46017]
 
 2003-07-15  Antonio Xu  <antonio.xu@sun.com>
-	
-        * e-shell-startup-wizard.c (e_shell_startup_wizard_create): connect
-        "back" signal to back_finish_func in finish page.
-        (back_finish_func): handle "back" signal.
-        (prepare_importer_page): Jump to finish page when running equal zero.
-        [#46026]
 
-2003-07-17  Dan Winship  <danw@ximian.com>
-
-	* e-shell-user-creatable-items-handler.c (free_menu_items): free
-	the folder_type
-
-	* e-splash.c (e_splash_new): Unref the pixbuf.
-
-	* evolution-shell-component.c (impl_finalize): Add some missing
-	frees.
-	(user_creatable_item_type_free): free the tooltip
+	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): connect
+	"back" signal to back_finish_func in finish page.
+	(back_finish_func): handle "back" signal.
+	(prepare_importer_page): Jump to finish page when running equal zero.
+	[#46026]
 
 2003-07-09  Ettore Perazzoli  <ettore@ximian.com>
 

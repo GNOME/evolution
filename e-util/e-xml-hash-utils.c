@@ -32,8 +32,7 @@ GHashTable *
 e_xml_to_hash (xmlDoc *doc, EXmlHashType type)
 {
 	xmlNode *root, *node;
-	const char *key;
-	xmlChar *value;
+	const char *key, *value;
 	GHashTable *hash;
 
 	hash = g_hash_table_new (g_str_hash, g_str_equal);

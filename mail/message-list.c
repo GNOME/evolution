@@ -2011,7 +2011,7 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 			e_tree_model_pre_change (ml->model);
 			e_tree_model_node_data_changed (ml->model, node);
 			
-			message_list_change_first_visible_parent (ml, node);
+			message_list_change_first_visible_parent (ml, node)
 		}
 	}
 

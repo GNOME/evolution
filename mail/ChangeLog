@@ -1,51 +1,3 @@
-2003-07-28  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-crypto.c: Removed smime functions as they were stale.
-
-2003-07-25  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* message-browser.c (message_browser_new): Handle our own Delete
-	key presses. Fixes bug #45597.
-
-2003-07-23  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-format.c (mail_format_data_wrapper_write_to_stream): Revert
-	prior changes.
-
-2003-07-23  Dan Winship  <danw@ximian.com>
-
-	* folder-browser.c (message_list_drag_data_get): Fix type warnings
-	(folder_browser_toggle_caret_mode): Remove unused variable.
-
-	* folder-browser-ui.c (basename): remove unused function
-
-	* mail-account-gui.c (mail_account_gui_build_extra_conf): Fix
-	warnings
-
-	* mail-callbacks.c (empty_trash): Remove unused variable.
-
-	* mail-display.c: #include gal/widgets/e-gui-utils.h for
-	e_auto_kill_popup_menu_on_selection_done
-
-	* mail-importer.c: #include e-util/e-path.h for e_path_to_physical
-
-	* mail-session.c (main_play_sound): don't declare filename to be
-	const and then free it.
-
-	* mail-vfolder.c (vfolder_edit_rule, vfolder_gui_add_rule): Fix
-	casts
-
-	* message-list.c (build_flat_diff): Fix a typo in the
-	non-BROKEN_ETREE code
-
-2003-07-16  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-format.c (handle_multipart_encrypted): We don't have
-	camel_pgp_mime_is_rfc2015_encrypted() anymore so just look at the
-	protocol for now.
-	(mail_format_data_wrapper_write_to_stream): Updated for the new
-	way camel handles content objects.
-
 2003-07-15  Federico Mena Quintero  <federico@ximian.com>
 
 	* folder-browser.c (message_list_drag_data_received): Handle
@@ -54,17 +6,20 @@
 
 	* component-factory.c (destination_folder_handle_drop): Likewise.
 
-2003-07-15  Yuedong Du  <yuedong.du@sun.com>
-
-	* mail-config.c: (config_write_style), (mail_config_init): remove
-	the use of caret mode widget style.
-	* mail-display.c: (display_notify), (mail_display_new): use new
-	gtkhtml api to set caret mode.
-
 2003-07-11  Antonio Xu  <antonio.xu@sun.com>
 
 	* folder-browser-ui.c: Change the EditPaste mask to IS_0MESSAGE so
 	that it is always activatable. Fixes bug #46018.
+
+2003-07-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_forward_message): Strip the signature
+	from the body text. Fixes bug #45523. While we're here, also fix
+	the code to quote exactly the same way as the
+	mail_tool_quote_message() function.
+	(mail_tool_quote_message): The last arg should not be
+	'want_plain', because that arg is for whether or not the body
+	should be quoted.
 
 2003-07-04  Maxx Cao  <maxx.cao@sun.com>
 
@@ -80,57 +35,12 @@
 	(popup_menu_placement_callback): Function added to place popup
 	menu (of attachment) beside button when activated by keyboard.
 
-2003-07-10  Yuedong Du  <yuedong.du@sun.com>
-
-	* evolution-mail.schemas: add a gconf key corresponding to newly 
-	introduced caret mode of gtkhtml widget.
-
-	* folder-browser-ui.c: new verb handling, corresponding the new menu
-	entry for the caret mode flag. 
-
-	* folder-browser.h: declaration of new verb handler to the menu entry 
-	that turn caret mode on/off. The function just set the new introduced
-	gconf key.
-
-	* folder-browser.c: ditto
-
-	* mail-config.c: lstione to the new gconf key, and when caret mode 
-	flag is set/unset,change the style of gtkhtml widget. see bug
-	#44607.
-
-2003-07-09  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-crypto.h: Removed camel-pgp-mime.h, it no longer exists.
-
-	* mail-format.c: Remove camel-pgp-mime.h
-
-2003-07-07  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-callbacks.c (mail_generate_reply): Use
-	camel_strcase_hash/equal.
-
-	* upgrade-mailer.c: Updated to use the camel-file-utils version of
-	mkdir.
-
 2003-07-02  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-tools.c (mail_tool_forward_message): Strip the signature
-	from the body text. Fixes bug #45523. While we're here, also fix
-	the code to quote exactly the same way as the
-	mail_tool_quote_message() function.
-	(mail_tool_quote_message): The last arg should not be
-	'want_plain', because that arg is for whether or not the body
-	should be quoted.
 
 	* folder-browser.c (message_list_drag_data_get): Apply a
 	From-filter when dragging as a test/uri-list and
 	message/rfc822. Fixes bug #45617. Also free the uids ptrarray for
 	the text/uri-list case.
-
-2003-07-01  Dan Winship  <danw@ximian.com>
-
-	* mail-display.c (pixbuf_for_mime_type): Gone
-	(pixbuf_gen_idle): Use e_icon_for_mime_type instead.
 
 2003-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 1.5, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 1.4.4, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -43,7 +43,7 @@ AC_SUBST(HAVE_JW)
 dnl I18N stuff
 AC_PROG_INTLTOOL
 
-ALL_LINGUAS="am az be bg ca cs da de el en_AU en_GB es et eu fi fr ga gl hu it ja ko lt lv ms nl nn no pl pt pt_BR ro ru sk sl sr sr@Latn sv tr uk vi zh_CN zh_TW"
+ALL_LINGUAS="am az be bg ca cs cy da de el en_AU en_GB es et eu fi fr ga gl hu it ja ko lt lv nl nn no pl pt pt_BR ro ru sk sl sr sr@Latn sv tr uk vi zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT
 
 GETTEXT_PACKAGE=evolution-1.4
@@ -358,7 +358,7 @@ AC_CACHE_CHECK([for db3 library name], ac_cv_db3_ldadd,
 	ac_cv_db3_ldadd=""
 
 	for name in db db3 db-3.1; do
-		LIBS="$LIBS_save $with_db3_libs/lib${name}.a -lpthread"
+		LIBS="$LIBS_save $with_db3_libs/lib${name}.a"
 		AC_TRY_LINK([
 			#ifdef HAVE_DB3_DB_H
 			#include <db3/db.h>
@@ -369,7 +369,7 @@ AC_CACHE_CHECK([for db3 library name], ac_cv_db3_ldadd,
 			DB *db;
 			db_create (&db, 0, 0);
 		], [
-			ac_cv_db3_ldadd="$with_db3_libs/lib${name}.a -lpthread"
+			ac_cv_db3_ldadd="$with_db3_libs/lib${name}.a"
 			break
 		])
 	done
@@ -523,10 +523,10 @@ dnl *********
 dnl Libraries
 dnl *********
 
-PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.1)
+PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.0)
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
-GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.1`
+GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.0`
 AC_SUBST(GTKHTML_DATADIR)
 
 
@@ -1016,15 +1016,6 @@ fi
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LDFLAGS)
 
-dnl *******************
-dnl GObject marshalling
-dnl *******************
-AM_PATH_GLIB_2_0
-
-dnl We use AC_SUBST_FILE because AC_SUBST won't deal with newlines
-EVO_MARSHAL_RULE=$srcdir/marshal.mk
-AC_SUBST_FILE(EVO_MARSHAL_RULE)
-
 dnl *************************
 dnl CFLAGS and LIBS and stuff
 dnl *************************
@@ -1039,6 +1030,8 @@ IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config 
 AC_MSG_RESULT($IDL_INCLUDES)
 AC_SUBST(IDL_INCLUDES)
 
+AM_PATH_GLIB_2_0
+
 dnl Utility macro to set compiler flags for a specific lib.
 AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
 	deps="$2"
@@ -1052,7 +1045,7 @@ AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
 dnl --- Required version numbers
 
 GAL_REQUIRED=1.99.8
-GTKHTML_REQUIRED=3.1.0
+GTKHTML_REQUIRED=3.0.8
 
 AC_SUBST(GAL_REQUIRED)
 AC_SUBST(GTKHTML_REQUIRED)
@@ -1064,11 +1057,6 @@ FULL_GNOME_DEPS="libbonoboui-2.0 gnome-vfs-2.0 libgnomeui-2.0 libglade-2.0 libgn
 EVO_SET_COMPILE_FLAGS(GNOME_FULL, $FULL_GNOME_DEPS)
 AC_SUBST(GNOME_FULL_CFLAGS)
 AC_SUBST(GNOME_FULL_LIBS)
-
-CPPFLAGS_save="$CPPFLAGS"
-CPPFLAGS="$CPPFLAGS `$PKG_CONFIG --cflags-only-I libgnomeui-2.0`"
-AC_CHECK_HEADERS(libgnomeui/gnome-icon-lookup.h)
-CPPFLAGS="$CPPFLAGS_save"
 
 dnl --- Flags for the various libraries we build
 
@@ -1101,7 +1089,7 @@ AC_SUBST(LIBFILTER_LIBS)
 
 dnl --- evolution (shell) flags
 
-EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgtkhtml-3.1 >= $GTKHTML_REQUIRED)
+EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgtkhtml-3.0 >= $GTKHTML_REQUIRED)
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
@@ -1121,13 +1109,13 @@ fi
 
 dnl -- evolution-executive-summary flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_EXECUTIVE_SUMMARY, libbonoboui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_REQUIRED libgnomeui-2.0 libglade-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 soup-2.0 libgtkhtml-3.1 >= $GTKHTML_REQUIRED)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_EXECUTIVE_SUMMARY, libbonoboui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_REQUIRED libgnomeui-2.0 libglade-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 soup-2.0 libgtkhtml-3.0 >= $GTKHTML_REQUIRED)
 AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS)
 AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_LIBS)
 
 dnl --- evolution-calendar flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.0 >= $GTKHTML_REQUIRED, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1139,7 +1127,7 @@ fi
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 soup-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 soup-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.0 >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
@@ -1374,6 +1362,7 @@ widgets/e-timezone-dialog/Makefile
 widgets/menus/Makefile
 widgets/misc/Makefile
 wombat/Makefile
+libwombat/Makefile
 calendar/Makefile
 calendar/importers/Makefile
 calendar/idl/Makefile

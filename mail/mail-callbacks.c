@@ -913,7 +913,7 @@ guess_me_from_accounts (const CamelInternetAddress *to, const CamelInternetAddre
 	GHashTable *account_hash;
 	EIterator *iter;
 	
-	account_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+	account_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	
 	/* add the default account to the hash first */
 	if ((def = mail_config_get_default_account ())) {
@@ -1016,7 +1016,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	
 	/* Set the recipients */
 	accounts = mail_config_get_accounts ();
-	account_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+	account_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	
 	/* add the default account to the hash first */
 	if ((def = mail_config_get_default_account ())) {
@@ -1119,7 +1119,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		GHashTable *rcpt_hash;
 		EDestination *dest;
 		
-		rcpt_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+		rcpt_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 		
 		reply_to = camel_mime_message_get_reply_to (message);
 		if (!reply_to)
@@ -3193,6 +3193,7 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	CamelProvider *provider;
 	EAccountList *accounts;
+	CamelFolder *vtrash;
 	FolderBrowser *fb;
 	CamelException ex;
 	EAccount *account;

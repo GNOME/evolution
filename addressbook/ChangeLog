@@ -18,36 +18,6 @@
 	instead of 'Helvetica' for the font name.
 	* printing/e-contact-print.c (e_contact_build_style): Likewise.
 
-2003-07-23  Dan Winship  <danw@ximian.com>
-
-	* backend/ebook/Makefile.am: use EVO_MARSHAL_RULE
-	* backend/pas/Makefile.am: Likewise
-	* gui/component/select-names/Makefile.am: Likewise
-	* gui/contact-editor/Makefile.am: Likewise
-	* gui/contact-list-editor/Makefile.am: Likewise
-	* gui/widgets/Makefile.am: Likewise
-
-	* gui/contact-editor/e-contact-editor.c
-	(e_contact_editor_class_init):
-	s/ece_marshal/e_contact_editor_marshal/
-
-	* gui/contact-list-editor/e-contact-list-editor.c
-	(e_contact_list_editor_class_init): Likewise for ecle_marshal
-
-	* gui/search/e-addressbook-search-dialog.c
-	(e_addressbook_search_dialog_init): Remove gtk_window_set_policy
-	call since that function is deprecated and it was just setting
-	everything to the default values anyway.
-
-	* gui/widgets/e-addressbook-util.c: #include gal/util/e-util.h for
-	e_free_object_list.
-
-2003-07-22  Dan Winship  <danw@ximian.com>
-
-	* backend/ebook/e-card.c: (e_card_new,
-	e_card_new_with_default_charset): Make the "vcard" arg const.
-	...: add lots and lots of other consts as a side effect
-
 2003-06-30  Dan Winship  <danw@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (e_addressbook_view_dispose):

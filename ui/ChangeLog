@@ -1,24 +1,8 @@
-2003-07-17  Rodrigo Moya <rodrigo@ximian.com>
-
-	* evolution-tasks.xml: s/Expunge/Purge.
-
-	* evolution-calendar.xml: fixed menmonic for Purge.
-
-2003-07-15  Rodrigo Moya <rodrigo@ximian.com>
-
-	* evolution-calendar.xml: added 'Purge' menu item.
-
-	* evolution-tasks.xml: added separator after 'Send/Receive'.
-
-2003-07-10  Yuedong Du  <yuedong.du@sun.com>
-
-	* evolution-mail-message.xml: add a menu entry corresponding to new
-	introduced caret mode, see bug #44607
-
 2003-07-09  Anna Marie Dirks  <anna@ximian.com>
 
-	* evolution-mail-list.xml: Change the accelerator for "Mark All Read"
-	to be "R". Fixes bug #45811. 
+	* evolution-mail-list.xml: Changed the accelerator for "Mark All 
+	as Read" to "_r". Fixes the problem of duplicate accelerators in the
+	Edit menu.
 
 2003-07-01  Rodrigo Moya <rodrigo@ximian.com>
 
