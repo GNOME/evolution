@@ -189,6 +189,41 @@ elm_import_file (ElmImporter *importer,
 }
 
 static gboolean
+is_kmail (const char *maildir)
+{
+	char *names[5] = 
+	{
+		"inbox",
+		"outbox",
+		"sent-mail",
+		"trash",
+		"drafts"
+	};
+	int i;
+
+	for (i = 0; i < 5; i++) {
+		char *file, *index, *tmp;
+		
+		file = g_concat_dir_and_file (maildir, names[i]);
+		tmp = g_strdup_printf (".%s.index", names[i]);
+		index = g_concat_dir_and_file (maildir, tmp);
+		g_free (tmp);
+
+		if (!g_file_exists (file) ||
+		    !g_file_exists (index)) {
+			g_free (index);
+			g_free (file);
+			return FALSE;
+		}
+
+		g_free (index);
+		g_free (file);
+	}
+
+	return TRUE;
+}
+
+static gboolean
 elm_can_import (EvolutionIntelligentImporter *ii,
 		void *closure)
 {
@@ -208,8 +243,33 @@ elm_can_import (EvolutionIntelligentImporter *ii,
 	}
 	gnome_config_pop_prefix ();
 
+	/* Elm uses ~/Mail
+	   Alas so does MH and KMail. */
 	maildir = gnome_util_prepend_user_home ("Mail");
 	exists = g_file_exists (maildir);
+
+	if (exists) {
+		char *mh, *mhdir;
+
+		/* Check for some other files to work out what it is. */
+
+		/* MH? */
+		mh = g_concat_dir_and_file (maildir, "context");
+		mhdir = g_concat_dir_and_file (maildir, "inbox");
+		if (g_file_exists (mh) &&
+		    g_file_test (mhdir, G_FILE_TEST_ISDIR)) {
+			exists = FALSE; /* Probably MH */
+		}
+		
+		g_free (mh);
+		g_free (mhdir);
+	}
+
+	if (exists) {
+		/* Check for KMail stuff */
+		exists = !is_kmail (maildir);
+	}
+
 	g_free (maildir);
 
 	return exists;
