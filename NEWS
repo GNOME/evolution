@@ -101,6 +101,7 @@ Other bugs:
 
     - Fixed crash in cal_client_discard_alarm (Rodrigo)
     - Fixed Bonobo unrefing problems on components (JP)
+    - Fixed multiple initialization in calendar factory (Rodrigo)
 
   * Mail
 
