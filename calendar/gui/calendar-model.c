@@ -1382,6 +1382,10 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
 
+	/* Guard against saving before the calendar is open */
+	if (!(priv->client && cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED))
+		return;
+
 	/* FIXME: This should support other types of components, but for now it
 	 * is only used for the task list.
 	 */

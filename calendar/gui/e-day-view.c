@@ -5629,7 +5629,7 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	day_view = E_DAY_VIEW (widget);
 	keyval = event->keyval;
 
-	if (cal_client_get_load_state (day_view->client) != CAL_CLIENT_LOAD_LOADED)
+	if (!(day_view->client && cal_client_get_load_state (day_view->client) == CAL_CLIENT_LOAD_LOADED))
 		return TRUE;
 	
 	/* The Escape key aborts a resize operation. */
