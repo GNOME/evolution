@@ -1,5 +1,9 @@
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
+	* gui/tasks-control.c: added Cut/Copy/Paste icons for toolbar.
+
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
 	* gui/tasks-control.c: uses new delete icons in menu & toolbar.
 
 2001-08-19  Ettore Perazzoli  <ettore@ximian.com>
