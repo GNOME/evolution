@@ -864,12 +864,12 @@ create_alarm_page (void)
 		      FALSE, prop_changed);
 	*/
 }
+	
+#if 0
 
-#if 0	
 static void
 prop_store_alarm_default_values (CalendarAlarm* alarm)
 {
-#warning "FIX ME"
   //	ee_store_alarm (alarm, alarm->type);
 
 	switch (alarm->type) {
@@ -895,9 +895,7 @@ prop_store_alarm_default_values (CalendarAlarm* alarm)
 	gnome_config_pop_prefix ();
 	gnome_config_sync ();
 }
-#endif	
 
-#if 0
 static void
 prop_apply_alarms ()
 {

@@ -29,8 +29,6 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkradiomenuitem.h>
 #include "e-day-view-time-item.h"
 #include "../../e-util/e-gui-utils.h"
 
@@ -245,6 +243,9 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	large_font = day_view->large_font;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
+
+	time_min_x1 = 0;
+	hour_r = 0;
 
 	/* Step through each row, drawing the horizontal grid lines for each
 	   day column and the times. */

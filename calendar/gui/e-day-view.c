@@ -1365,7 +1365,7 @@ e_day_view_update_event_label (EDayView *day_view,
 			       gint event_num)
 {
 	EDayViewEvent *event;
-	gchar *text;
+	char *text;
 	gboolean free_text = FALSE, editing_event = FALSE;
 	gint offset, start_minute, end_minute;
 	CalComponentText summary;
@@ -1378,7 +1378,7 @@ e_day_view_update_event_label (EDayView *day_view,
 		return;
 
 	cal_component_get_summary (event->comp, &summary);
-	text = summary.value ? summary.value : "";
+	text = summary.value ? (char *) summary.value : "";
 
 	if (day_view->editing_event_day == day
 	    && day_view->editing_event_num == event_num)
@@ -1397,6 +1397,7 @@ e_day_view_update_event_label (EDayView *day_view,
 					end_minute / 60,
 					end_minute % 60,
 					text);
+
 		free_text = TRUE;
 	}
 
@@ -5288,6 +5289,7 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 	/* Calculate the event's position. If the event is in the same
 	   position we started in, we use the same columns. */
 	cols_in_row = 1;
+	start_row = 0;
 	start_col = 0;
 	num_columns = 1;
 	num_rows = 1;

@@ -280,12 +280,17 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	icon_y = y1 + E_WEEK_VIEW_EVENT_BORDER_HEIGHT + E_WEEK_VIEW_ICON_Y_PAD;
 	start_minute = event->start_minute;
 	end_minute = event->end_minute;
+	time_y_small_min = 0;
+	icon_x = 0;
+
 	time_y = y1 + E_WEEK_VIEW_EVENT_BORDER_HEIGHT
 		+ E_WEEK_VIEW_EVENT_TEXT_Y_PAD + font->ascent;
+
 	if (week_view->small_font)
 		time_y_small_min = y1 + E_WEEK_VIEW_EVENT_BORDER_HEIGHT
 			+ E_WEEK_VIEW_EVENT_TEXT_Y_PAD
 			+ week_view->small_font->ascent;
+
 	if (week_view->use_small_font && week_view->small_font)
 		time_width = week_view->digit_width * 2
 			+ week_view->small_digit_width * 2;

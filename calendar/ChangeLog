@@ -1,3 +1,21 @@
+2000-08-23  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/main.c: #include <e-util/e-cursors.h>
+
+	* gui/e-day-view-time-item.c (e_day_view_time_item_draw):
+	Initialize time_min_x1 and hour_r to keep gcc happy.
+
+	* gui/e-day-view.c (e_day_view_update_event_label): Warning fix.
+	(e_day_view_update_main_canvas_drag): Initialize start_row.
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw):
+	Initialize time_y_small_min, icon_x.
+
+	* Makefile.am (SUBDIRS): Re-enable the gui directory.
+
+	* gui/prop.c (prop_store_alarm_default_values): Temporarily #if 0
+	out.
+
 2000-08-23  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/e-week-view.c (e_week_view_key_press): Set vtype of new
@@ -9,7 +27,7 @@
 2000-08-23  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/e-day-view-time-item.c: Include gnome.h for gettext purposes
-	
+
 	* gui/gnome-cal.c: ditto
 
 	* gui/prop.c: #if out some alarm stuff

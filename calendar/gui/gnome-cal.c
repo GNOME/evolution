@@ -13,14 +13,9 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <fcntl.h>
-#include <gtk/gtkframe.h>
+#include <gnome.h>
 #include <widgets/e-paned/e-hpaned.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkscrolledwindow.h>
 #include <widgets/e-paned/e-vpaned.h>
-#include <libgnomeui/gnome-messagebox.h>
 #include <cal-util/timeutil.h>
 #include "dialogs/alarm-notify-dialog.h"
 #include "alarm.h"
@@ -459,8 +454,8 @@ mail_notification (char *mail_address, char *text, time_t app_time)
 		_exit (127);
 	}
 	command = g_strconcat ("To: ", mail_address, "\n",
-				  "Subject: ", _("Reminder of your appointment at "),
-				  ctime (&app_time), "\n\n", text, "\n", NULL);
+			       "Subject: ", _("Reminder of your appointment at "),
+			       ctime (&app_time), "\n\n", text, "\n", NULL);
 	write (p [1], command, strlen (command));
  	close (p [1]);
 	close (p [0]);

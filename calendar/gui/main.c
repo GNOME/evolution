@@ -37,6 +37,7 @@
 #include <libgnorba/gnorba.h>
 #endif
 
+#include <e-util/e-cursors.h>
 #include <cal-util/timeutil.h>
 #include <gui/alarm.h>
 #include <gui/gnome-cal.h>
