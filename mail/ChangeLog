@@ -1,3 +1,10 @@
+2001-02-20  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (fetch_mail_fetch): Unref the driver here, in the
+	subthread, so we dont block the gui while it sync's all the
+	folders.
+	(fetch_mail_fetched): Rewmoved above code from here.
+
 2001-02-16  Not Zed  <NotZed@Ximian.com>
 
 	* mail-send-recv.c (receive_status): Dont do the thaw/freeze set here.

@@ -329,17 +329,18 @@ fetch_mail_fetch(struct _mail_msg *mm)
 
 	if (m->cancel)
 		camel_operation_unregister(m->cancel);
+
+	/* we unref this here as it may have more work to do (syncing
+	   folders and whatnot) before we are really done */
+	/* should this be cancellable too? (i.e. above unregister above) */
+	camel_object_unref((CamelObject *)m->fmsg.driver);
+	m->fmsg.driver = NULL;
 }
 
 static void
 fetch_mail_fetched(struct _mail_msg *mm)
 {
 	struct _fetch_mail_msg *m = (struct _fetch_mail_msg *)mm;
-
-	/* we unref this here as it may have more work to do (syncing
-	   folders and whatnot) before we are really done */
-	camel_object_unref((CamelObject *)m->fmsg.driver);
-	m->fmsg.driver = NULL;
 
 	if (m->done)
 		m->done(m->source_uri, m->data);
