@@ -246,6 +246,7 @@ EXTRA_DIST = 				\
 	mail-read.xpm			\
 	mail-replied.xpm		\
 	flag-for-followup.xpm		\
+	flag-for-followup-done.xpm	\
 	mark.xpm			\
 	priority-high.xpm		\
 	priority-low.xpm		\

@@ -1,3 +1,7 @@
+2003-12-02  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am: Add flag-for-followup-done.xpm to EXTRA_DIST
+
 2003-12-02  Not Zed  <NotZed@Ximian.com>
 
 	* flag-for-folloup*: Changed the base flag colour to reddish, and
