@@ -1,3 +1,13 @@
+2001-06-08  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-tools.c (mail_tool_get_local_movemail_path): If you had
+	multiple accounts that used mboxes, and if you received mail in N
+	of those accounts, you would get N copies of each of your e-mail
+	messages.  This is because everything was being dumped into one
+	big file by movemail, and the filters would run on that file N
+	times.  To work around this, each mbox account now gets its own
+	distinct temporary movemail file.
+
 2001-06-07  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-ops.c (fetch_mail_fetch): Pass the original source URI

@@ -29,6 +29,7 @@
 #include <config.h>
 #endif
 
+#include <pthread.h>
 #include <ctype.h>
 #include <errno.h>
 #include "camel/camel.h"
@@ -88,7 +89,17 @@ mail_tool_get_folder_name (CamelFolder *folder)
 gchar *
 mail_tool_get_local_movemail_path (void)
 {
-	return g_strdup_printf ("%s/local/Inbox/movemail", evolution_dir);
+	static gint count = 0;
+	static pthread_mutex_t movemail_path_lock = PTHREAD_MUTEX_INITIALIZER;
+	gint my_count;
+
+	/* Ah, the joys of being multi-threaded... */
+	pthread_mutex_lock (&movemail_path_lock);
+	my_count = count;
+	++count;
+	pthread_mutex_unlock (&movemail_path_lock);
+
+	return g_strdup_printf ("%s/local/Inbox/movemail.%d", evolution_dir, my_count);
 }
 
 CamelFolder *
