@@ -419,14 +419,20 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	    	e_dialog_radio_set (priv->classification_public,
 				    CAL_COMPONENT_CLASS_PUBLIC,
 				    classification_map);
+		break;
+
 	case CAL_COMPONENT_CLASS_PRIVATE:
 	    	e_dialog_radio_set (priv->classification_public,
 				    CAL_COMPONENT_CLASS_PRIVATE,
 				    classification_map);
+		break;
+
 	case CAL_COMPONENT_CLASS_CONFIDENTIAL:
 	    	e_dialog_radio_set (priv->classification_public,
 				    CAL_COMPONENT_CLASS_CONFIDENTIAL,
 				    classification_map);
+		break;
+
 	default:
 		/* What do do?  We can't g_assert_not_reached() since it is a
 		 * value from an external file.
