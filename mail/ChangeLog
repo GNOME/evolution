@@ -1,3 +1,8 @@
+2001-02-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (mail_send_message): Updated to reflect changes to
+	the filter-driver code.
+
 2001-02-22  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am (CAMEL_OBJS_EXTRA): Removed, no longer link with

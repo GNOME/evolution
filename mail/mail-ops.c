@@ -487,7 +487,8 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	info->flags = CAMEL_MESSAGE_SEEN;
 
 	if (driver)
-		camel_filter_driver_filter_message(driver, message, info, "", ex);
+		camel_filter_driver_filter_message (driver, message, info,
+						    NULL, NULL, "", ex);
 	
 	if (sent_folder)
 		camel_folder_append_message(sent_folder, message, info, ex);
