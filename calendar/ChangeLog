@@ -1,3 +1,8 @@
+2005-02-28  JP Rosevear  <jpr@novell.com>
+
+	* gui/gnome-cal.c (gnome_calendar_goto_today): revert fix for
+	70000, its a ui change
+
 2005-02-28  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/dialogs/comp-editor.c: (attachment_bar_icon_clicked_cb),

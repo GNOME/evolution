@@ -1723,7 +1723,6 @@ gnome_calendar_goto_today (GnomeCalendar *gcal)
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	gnome_calendar_goto (gcal, time (NULL));
-	gnome_calendar_set_view (gcal, GNOME_CAL_DAY_VIEW);	
 	focus_current_view (gcal);
 }
 
