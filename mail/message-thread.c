@@ -419,7 +419,7 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 	for (i=0;i<uids->len;i++) {
 		const CamelMessageInfo *mi;
 		mi = camel_folder_get_message_info (folder, uids->pdata[i]);
-		if (mi->message_id) {
+		if (mi && mi->message_id) {
 			d(printf("doing : %s\n", mi->message_id));
 			c = g_hash_table_lookup(id_table, mi->message_id);
 			if (c) {
@@ -460,7 +460,7 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 			}
 			d(printf("\n"));
 		} else {
-			printf("No message id???\n");
+			printf("Either info is NULL or no message id???\n");
 			/* ?? */
 		}
 	}

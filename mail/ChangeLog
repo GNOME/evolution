@@ -1,3 +1,7 @@
+2000-07-19  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* message-thread.c (thread_messages): What if message info is NULL?
+
 2000-07-16  Jeffrey Stedfast <fejj@helixcode.com>
 
 	* folder-browser.c, component-factory.c: Initial code to support
