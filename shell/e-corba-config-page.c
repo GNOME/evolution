@@ -28,6 +28,7 @@
 
 #include "Evolution.h"
 
+#include <string.h>
 #include <gal/util/e-util.h>
 
 #include <bonobo/bonobo-widget.h>

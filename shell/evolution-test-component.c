@@ -51,6 +51,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include <stdlib.h>
+#include <string.h>
 
 
 #define COMPONENT_ID "OAFIID:GNOME_Evolution_TestComponent_ShellComponent"

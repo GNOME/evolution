@@ -28,6 +28,7 @@
 #include "evolution-config-control.h"
 #include "evolution-folder-selector-button.h"
 
+#include <string.h>
 #include <bonobo/bonobo-generic-factory.h>
 
 

@@ -1,24 +1,24 @@
 SUBDIRS = glade importer
 
-INCLUDES =									\
-	-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED				\
-	-DBONOBO_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED			\
-	-I$(top_srcdir)/widgets							\
-	-I$(top_srcdir)/widgets/misc						\
-	-I$(top_srcdir)/libical/src/libical					\
-	-I$(top_builddir)/libical/src/libical					\
-	-I$(top_srcdir)								\
-	-DEVOLUTION_IMAGES=\""$(datadir)/evolution-$(BASE_VERSION)/images"\"	\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"				\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"					\
-	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution-$(BASE_VERSION)/glade\"	\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"				\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"				\
-	-DPREFIX=\"$(prefix)\"							\
-	-DSYSCONFDIR=\""$(sysconfdir)"\"					\
-	-DDATADIR=\""$(datadir)"\"						\
-	-DLIBDIR=\""$(datadir)"\"						\
-	-DG_LOG_DOMAIN=\"evolution-shell\"					\
+INCLUDES =							\
+	-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED		\
+	-DBONOBO_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED	\
+	-I$(top_srcdir)/widgets					\
+	-I$(top_srcdir)/widgets/misc				\
+	-I$(top_srcdir)/libical/src/libical			\
+	-I$(top_builddir)/libical/src/libical			\
+	-I$(top_srcdir)						\
+	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"			\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
+	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
+	-DPREFIX=\""$(prefix)"\"				\
+	-DSYSCONFDIR=\""$(sysconfdir)"\"			\
+	-DDATADIR=\""$(datadir)"\"				\
+	-DLIBDIR=\""$(datadir)"\"				\
+	-DG_LOG_DOMAIN=\"evolution-shell\"			\
 	$(SHELL_CFLAGS)
 
 noinst_PROGRAMS = evolution evolution-test-component
@@ -87,7 +87,7 @@ idl_DATA = $(IDLS)
 privlib_LTLIBRARIES =	\
 	libeshell.la
 
-eshellincludedir = $(includedir)/evolution-$(BASE_VERSION)/shell
+eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
@@ -245,8 +245,6 @@ evolution_LDADD =							\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
 	$(SHELL_LIBS)
 
-evolution_LDFLAGS = -export-dynamic
-
 # Test component
 
 evolution_test_component_SOURCES =	\
@@ -263,13 +261,11 @@ install-test-component: evolution-test-component
 
 # Misc stuff
 
-serverdir = $(libdir)/bonobo/servers
 server_in_files = GNOME_Evolution_Shell.server.in.in
 server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 	sed -e "s|\@BINDIR\@|$(bindir)|" $< > $@
 
-etspecdir = $(datadir)/evolution-$(BASE_VERSION)/etspec/
 etspec_DATA = e-storage-set-view.etspec
 
 @INTLTOOL_SERVER_RULE@

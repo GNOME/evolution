@@ -166,7 +166,6 @@ destroy_group_cb (GtkWidget *widget,
 	EShortcutsViewPrivate *priv;
 	GtkWidget *message_dialog;
 	GtkResponseType response;
-	char *question;
 
 	menu_data = (RightClickMenuData *) data;
 	shortcuts_view = menu_data->shortcuts_view;

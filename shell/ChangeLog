@@ -1,5 +1,36 @@
 2003-02-05  Dan Winship  <danw@ximian.com>
 
+	* Makefile.am (INCLUDES): Define EVOLUTION_IMAGES using
+	$(imagesdir). Define EVOLUTION_GLADEDIR using $(gladedir)
+	(eshellincludedir): Define in terms of $(privincludedir)
+	(evolution_LDFLAGS): Remove this. gmodule-2's LDFLAGS include the
+	equivalent of -export-dynamic for us.
+	(serverdir, etspecdir): Remove. Defined in configure.in now.
+
+	* e-folder.c: #include <string.h>
+	* e-corba-config-page.c: Likewise
+	* e-shell-config.c: Likewise
+	* e-shell-folder-creation-dialog.c: Likewise
+	* e-shell-folder-title-bar.c: Likewise
+	* e-shell-startup-wizard.c: Likewise
+	* evolution-activity-client.c: Likewise.
+	* evolution-shell-component-client.c: Likewise
+	* evolution-shell-component-utils.c: Likewise
+	* evolution-storage.c: Likewise
+	* evolution-test-component.c: Likewise
+
+	* e-shortcuts-view.c (destroy_group_cb): Remove unused variable
+
+	* importer/Makefile.am (INCLUDES): Remove -I$(includedir). Define
+	EVOLUTION_GLADEDIR using $(gladedir).
+	(libevolution_importerincludedir): Define in terms of
+	$(privincludedir)
+	(gladedir): Removed. Defined in configure.in now.
+
+	* glade/Makefile.am (gladedir): Likewise
+
+2003-02-05  Dan Winship  <danw@ximian.com>
+
 	* importer/evolution-intelligent-importer.c:
 	s/BonoboXObject/BonoboObject/
 

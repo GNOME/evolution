@@ -29,9 +29,9 @@
 
 #include "e-util/e-corba-utils.h"
 
+#include <string.h>
 #include <glib.h>
 #include <gtk/gtksignal.h>
-
 #include <gal/util/e-util.h>
 
 

@@ -35,8 +35,8 @@
 
 #include "e-shell-marshal.h"
 
+#include <string.h>
 #include <gal/util/e-util.h>
-
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-exception.h>

@@ -1,5 +1,3 @@
-gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
-
 glade_DATA =						\
 	e-active-connection-dialog.glade		\
 	e-shell-config-default-folders.glade		\

@@ -35,6 +35,8 @@
 
 #include "e-shell-marshal.h"
 
+#include <string.h>
+
 #include <gtk/gtksignal.h>
 #include <gtk/gtkmain.h>
 

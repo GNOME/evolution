@@ -33,7 +33,9 @@
 
 #include <evolution-wizard.h>
 #include "Evolution.h"
+#include "importer/GNOME_Evolution_Importer.h"
 
+#include <string.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <gnome.h>
