@@ -38,3 +38,6 @@ BUILT_SOURCES = $(IDL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
 EXTRA_DIST = ChangeLog.pre-1-4
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
