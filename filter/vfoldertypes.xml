@@ -355,6 +355,9 @@
    <option value="Seen">
     <title>Read</title>
    </option>
+   <option value="Junk">
+    <title>Junk</title>
+   </option>
   </input>
  </part>
 

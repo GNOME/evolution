@@ -1,3 +1,8 @@
+2004-05-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* vfoldertypes.xml: Added the Junk status flag to the xml
+	definition so you can vfolder on that.
+
 2004-04-28  Not Zed  <NotZed@Ximian.com>
 
 	* filter-option.c (filter_option_add): fix a warning.
