@@ -211,7 +211,7 @@
                 <property name="x_padding">0</property>
                 <property name="y_padding">0</property>
                 <property name="x_options">fill</property>
-                <property name="y_options">fill</property>
+                <property name="y_options"></property>
               </packing>
             </child>
 

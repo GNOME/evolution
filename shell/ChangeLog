@@ -1,3 +1,9 @@
+2003-05-01  Dan Winship  <danw@ximian.com>
+
+	* glade/e-shell-shared-folder-picker-dialog.glade: Don't expand
+	the select-names entry, because we don't want it as tall as the
+	button.
+
 2003-04-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-selection-dialog.c
