@@ -399,6 +399,7 @@ insert_node(ETreeTableAdapter *etta, ETreePath parent, ETreePath path)
 			generate_tree(etta, parent);
 		else
 			insert_node(etta, grandparent, parent);
+		e_table_model_changed(E_TABLE_MODEL(etta));
 		return;
 	}
 
@@ -782,12 +783,15 @@ etta_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ET
 		generate_tree(etta, child);
 	else
 		insert_node(etta, parent, child);
+	
+	e_table_model_changed(E_TABLE_MODEL(etta));
 }
 
 static void
 etta_proxy_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int old_position, ETreeTableAdapter *etta)
 {
 	delete_node(etta, parent, child);
+	e_table_model_changed(E_TABLE_MODEL(etta));
 }
 
 static void
