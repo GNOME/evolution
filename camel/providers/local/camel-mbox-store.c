@@ -312,7 +312,7 @@ create_folder (CamelStore *store, const char *parent_name, const char *folder_na
 		return NULL;
 	}
 	
-	if (parent_name)
+	if (parent_name && *parent_name)
 		name = g_strdup_printf ("%s/%s", parent_name, folder_name);
 	else
 		name = g_strdup (folder_name);

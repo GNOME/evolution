@@ -1,5 +1,8 @@
 2003-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-mbox-store.c (create_folder): Treat
+	parent_name == NULL and parent_name == "" the same.
+
 	* camel-store.c (camel_store_get_folder_info): Only add
 	vTrash/vJunk info's if we've requested the toplevel folder tree,
 	otherwise we get vTrash/vJunk folders in odd places in the folder
