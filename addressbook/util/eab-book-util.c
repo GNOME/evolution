@@ -108,7 +108,7 @@ eab_name_and_email_query (EBook *book,
 		while (*t && *t != '@')
 			++t;
 		if (*t == '@' && escaped_name) {
-			email_query = g_strdup_printf ("(beginswith \"email\" \"%.*s@\")", t-escaped_email, escaped_email);
+			email_query = g_strdup_printf ("(beginswith \"email\" \"%.*s@\")", (int)(t-escaped_email), escaped_email);
 
 		} else {
 			email_query = g_strdup_printf ("(beginswith \"email\" \"%s\")", escaped_email);
