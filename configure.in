@@ -402,6 +402,7 @@ if test x${prefix} = xNONE; then
 else
 	html_prefix=$prefix
 fi
+
 AC_MSG_CHECKING(for Editor.idl in `gnome-config --datadir`/gtkhtml or ${html_prefix}/share/gtkhtml)
 if test -f `gnome-config --datadir`/gtkhtml/Editor.idl; then
 	GTK_HTML_EDITOR_IDL=`gnome-config --datadir`/gtkhtml/Editor.idl
@@ -411,8 +412,24 @@ else
 		GTK_HTML_EDITOR_IDL=${html_prefix}/share/gtkhtml/Editor.idl
 		AC_MSG_RESULT(found)
 	else
-		AC_MSG_ERROR(Editor.idl is required to compile Evolution composer, it's included in GtkHTML
+		AC_MSG_RESULT(not found)
+		if test "x$GNOME_PATH" != "x" ; then
+			for dir in `echo $GNOME_PATH | sed -e "s/:/ /" `; do
+				AC_MSG_CHECKING(for Editor.idl in ${dir})
+				if test -f ${dir}/share/gtkhtml/Editor.idl ; then
+					GTK_HTML_EDITOR_IDL=${dir}/share/gtkhtml/Editor.idl
+					AC_MSG_RESULT(found)
+					break
+				else
+					AC_MSG_RESULT(not found)
+				fi
+			done
+		fi
+
+		if test "x$GTK_HTML_EDITOR_IDL" = "x" ; then
+			AC_MSG_ERROR(Editor.idl is required to compile Evolution composer, it's included in GtkHTML
 You need GtkHTML build with html-editor-control)
+		fi
 	fi
 fi
 
