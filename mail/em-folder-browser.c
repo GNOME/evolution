@@ -946,20 +946,11 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		message_list_set_threaded(emfv->list, state);
 		if (emfv->uic)
 			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreaded", "state", state?"1":"0", NULL);
-
-		/* gross, but effective? */
-		g_signal_handler_block(emfb->search, p->search_menu_activated_id);
-		g_signal_handler_block(emfb->search, p->search_activated_id);
-		g_signal_handler_block(emfb->search, p->search_query_changed_id);
-
+		
 		sstate = camel_object_meta_get(folder, "evolution:search_state");
 		g_object_set(emfb->search, "state", sstate, NULL);
 		g_free(sstate);
-
-		g_signal_handler_unblock(emfb->search, p->search_menu_activated_id);
-		g_signal_handler_unblock(emfb->search, p->search_activated_id);
-		g_signal_handler_unblock(emfb->search, p->search_query_changed_id);
-
+		
 		/* set the query manually, so we dont pop up advanced or saved search stuff */
 		g_object_get(emfb->search, "query", &sstate, NULL);
 		message_list_set_search(emfb->view.list, sstate);

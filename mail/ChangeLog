@@ -1,5 +1,8 @@
 2004-03-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-browser.c (emfb_set_folder): Reverted signal blocking
+	stuff. Doesn't work and is unneeded with the proper fix.
+
 	* em-format-html.c (efh_format_header): Fixed a bug where txt
 	wasn't being properly initialised in all cases for Date
 	headers. Also fixed the x-evolution-mailer code to simply use the
