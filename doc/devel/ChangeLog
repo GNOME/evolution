@@ -1,5 +1,9 @@
 2001-06-25  Peter Williams  <peterw@ximian.com>
 
+	* Makefile.am: ... and comment out more exec summary stuff.
+
+2001-06-25  Peter Williams  <peterw@ximian.com>
+
 	* calendar/cal-util/Makefile.am,
 	calendar/cal-client/Makefile.am: Fix make dist.
 

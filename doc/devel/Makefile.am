@@ -47,12 +47,12 @@ local_entities =					\
 	calendar/cal-util/sgml/cal-component.sgml	\
 	calendar/cal-util/sgml/cal-recur.sgml		\
 	calendar/cal-util/sgml/cal-util.sgml		\
-	calendar/cal-util/sgml/timeutil.sgml		\
-							\
-	executive-summary/sgml/executive-summary-component.sgml	\
-	executive-summary/sgml/executive-summary-component-factory.sgml	\
-	executive-summary/sgml/executive-summary-component-factory-client.sgml	\
-	executive-summary/sgml/executive-summary-html-view.sgml
+	calendar/cal-util/sgml/timeutil.sgml
+
+#	executive-summary/sgml/executive-summary-component.sgml	\
+#	executive-summary/sgml/executive-summary-component-factory.sgml	\
+#	executive-summary/sgml/executive-summary-component-factory-client.sgml	\
+#	executive-summary/sgml/executive-summary-html-view.sgml
 
 #	importer/sgml/evolution-importer.sgml		\
 #	importer/sgml/evolution-importer-client.sgml
