@@ -1,3 +1,23 @@
+2001-09-16  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-storage.h: reorder the LDAP scopes so
+	that they match the order of the option menus in the glade file.
+
+	* gui/component/addressbook-config.c (auth_checkbutton_changed):
+	new function, mostly there to house some #ifdef'ed out code.
+	(option_menuitem_activated): new function, to keep track of
+	changes to the ldap scope optionmenu.
+	(addressbook_source_dialog_set_source): set the menu history as
+	well as the dialog's copy of the scope.
+	(addressbook_source_dialog_get_source): fill in the source's scope
+	from the dialog's copy, and add more #if the_ui_gods_smile_on_me
+	code.
+	(add_activate_cb): new function, add an activate callback for the
+	optionmenu's items.
+	(addressbook_source_dialog): more #if the_ui_gods_smile_on_me
+	code, always start the dialog on page 0, and hook up the
+	scope optionmenu's items.
+
 2001-09-15  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-card-compare.c (e_card_compare_name): No

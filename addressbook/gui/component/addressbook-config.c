@@ -22,6 +22,7 @@ struct _AddressbookSourceDialog {
 
 	GtkWidget *dialog;
 
+	GtkWidget *notebook;
 	GtkWidget *basic_notebook;
 	GtkWidget *advanced_notebook;
 
@@ -31,7 +32,11 @@ struct _AddressbookSourceDialog {
 	GtkWidget *port;
 	GtkWidget *rootdn;
 	GtkWidget *scope_optionmenu;
+	AddressbookLDAPScopeType ldap_scope;
 	GtkWidget *auth_checkbutton;
+#if the_ui_gods_smile_upon_me
+	GtkWidget *remember_checkbutton;
+#endif
 
 	gint id; /* button we closed the dialog with */
 
@@ -71,6 +76,28 @@ addressbook_source_edit_changed (GtkWidget *item, AddressbookSourceDialog *dialo
 	gnome_dialog_set_sensitive (GNOME_DIALOG (dialog->dialog), 0, complete);
 }
 
+static void
+auth_checkbutton_changed (GtkWidget *item, AddressbookSourceDialog *dialog)
+{
+	/* make sure the change is reflected by the state of the dialog's OK button */
+	addressbook_source_edit_changed (item, dialog);
+
+#if the_ui_gods_smile_upon_me
+	gtk_widget_set_sensitive (dialog->remember_checkbutton,
+				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton)));
+#endif
+}
+
+static void
+option_menuitem_activated (GtkWidget *item, AddressbookSourceDialog *dialog)
+{
+	/* make sure the change is reflected by the state of the dialog's OK button */
+	addressbook_source_edit_changed (item, dialog);
+
+	dialog->ldap_scope = g_list_index (gtk_container_children (GTK_CONTAINER (item->parent)),
+					   item);
+}
+
 typedef struct {
 	GtkWidget *notebook;
 	int page_num;
@@ -105,8 +132,13 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->port), source ? source->port : "389");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->rootdn), source ? source->rootdn : "");
 
-	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), source ? source->scope : 0);
+	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL);
+	dialog->ldap_scope = source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton), source && source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE);
+#if the_ui_gods_smile_upon_me
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(dialog->remember_checkbutton), source && source->remember_passwd);
+#endif
 }
 
 static AddressbookSource *
@@ -118,7 +150,11 @@ addressbook_source_dialog_get_source (AddressbookSourceDialog *dialog)
 	source->host   = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->host));
 	source->port   = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->port));
 	source->rootdn = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->rootdn));
+	source->scope  = dialog->ldap_scope;
 	source->auth   = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->auth_checkbutton)) ? ADDRESSBOOK_LDAP_AUTH_SIMPLE : ADDRESSBOOK_LDAP_AUTH_NONE;
+#if the_ui_gods_smile_upon_me
+	source->remember_passwd   = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->remember_checkbutton));
+#endif
 
 	addressbook_storage_init_source_uri (source);
 
@@ -131,10 +167,18 @@ addressbook_source_dialog_ok_clicked (GtkWidget *widget, AddressbookSourceDialog
 	dialog->source = addressbook_source_dialog_get_source (dialog);
 }
 
+static void
+add_activate_cb (GtkWidget *item, AddressbookSourceDialog *dialog)
+{
+	gtk_signal_connect (GTK_OBJECT (item), "activate",
+			    GTK_SIGNAL_FUNC (option_menuitem_activated), dialog);
+}
+
 static AddressbookSourceDialog*
 addressbook_source_dialog (GladeXML *gui, AddressbookSource *source, GtkWidget *parent)
 {
 	AddressbookSourceDialog *dialog = g_new0 (AddressbookSourceDialog, 1);
+	GtkWidget *menu;
 
 	dialog->gui = gui;
 
@@ -150,6 +194,7 @@ addressbook_source_dialog (GladeXML *gui, AddressbookSource *source, GtkWidget *
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog->dialog),
 				 GTK_WINDOW (parent));
 
+	dialog->notebook = glade_xml_get_widget (gui, "add-addressbook-notebook");
 	dialog->basic_notebook = glade_xml_get_widget (gui, "basic-notebook");
 	dialog->advanced_notebook = glade_xml_get_widget (gui, "advanced-notebook");
 
@@ -167,7 +212,16 @@ addressbook_source_dialog (GladeXML *gui, AddressbookSource *source, GtkWidget *
 	dialog->auth_checkbutton = glade_xml_get_widget (gui, "auth-checkbutton");
 	add_focus_handler (dialog->auth_checkbutton, dialog->basic_notebook, 2);
 	gtk_signal_connect (GTK_OBJECT (dialog->auth_checkbutton), "toggled",
+			    GTK_SIGNAL_FUNC (auth_checkbutton_changed), dialog);
+
+#if the_ui_gods_smile_upon_me
+	dialog->remember_checkbutton = glade_xml_get_widget (gui, "remember-checkbutton");
+	add_focus_handler (dialog->auth_checkbutton, dialog->basic_notebook, 3);
+	gtk_signal_connect (GTK_OBJECT (dialog->remember_checkbutton), "toggled",
 			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
+	gtk_widget_set_sensitive (dialog->remember_checkbutton,
+				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton)));
+#endif
 
 	/* ADVANCED STUFF */
 	dialog->port = glade_xml_get_widget (gui, "port-entry");
@@ -182,10 +236,14 @@ addressbook_source_dialog (GladeXML *gui, AddressbookSource *source, GtkWidget *
 
 	dialog->scope_optionmenu = glade_xml_get_widget (gui, "scope-optionmenu");
 	add_focus_handler (dialog->scope_optionmenu, dialog->advanced_notebook, 2);
-	/* XXX changed */
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU(dialog->scope_optionmenu));
+	gtk_container_foreach (GTK_CONTAINER (menu), (GtkCallback)add_activate_cb, dialog);
 
 	/* fill in source info if there is some */
 	addressbook_source_dialog_set_source (dialog, source);
+
+	/* always start out on the first page. */
+	gtk_notebook_set_page (GTK_NOTEBOOK (dialog->notebook), 0);
 
 	gnome_dialog_set_sensitive (GNOME_DIALOG (dialog->dialog), 0, FALSE);
 	
