@@ -72,6 +72,8 @@ evolution_alarm_notify_LDADD =					\
 	$(GAL_LIBS)						\
 	$(INTLLIBS)
 
+evolution_alarm_notify_LDFLAGS = -export-dynamic
+
 oafdir = $(datadir)/oaf
 oaf_in_files = \
 	GNOME_Evolution_Calendar_AlarmNotify.oaf.in
