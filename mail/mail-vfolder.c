@@ -774,10 +774,10 @@ vfolder_load_storage(void)
 				(CamelObjectEventHookFunc)store_folder_deleted, NULL);
 	camel_object_hook_event(vfolder_store, "folder_renamed",
 				(CamelObjectEventHookFunc)store_folder_renamed, NULL);
-
+	
 	d(printf("got store '%s' = %p\n", storeuri, vfolder_store));
-	mail_component_load_storage_by_uri(mail_component_peek (), storeuri, _("VFolders"));
-
+	mail_component_load_store_by_uri (mail_component_peek (), storeuri, _("VFolders"));
+	
 	/* load our rules */
 	user = g_strdup_printf ("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 	context = vfolder_context_new ();

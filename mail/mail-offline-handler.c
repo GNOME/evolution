@@ -36,6 +36,7 @@
 
 #include <gal/util/e-util.h>
 
+
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
 
