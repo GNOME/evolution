@@ -35,8 +35,6 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#include "em-popup.h"
-#include "em-menu.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format.h"
@@ -342,17 +340,6 @@ mc_startup(MailComponent *mc)
 	mc_setup_local_store(mc);
 	load_accounts(mc, mail_config_get_accounts());
 	vfolder_load_storage();
-
-	e_plugin_hook_register_type(em_popup_hook_get_type());
-	e_plugin_hook_register_type(em_menu_hook_get_type());
-	e_plugin_hook_register_type(em_config_hook_get_type());
-
-	em_format_hook_register_type(em_format_get_type());
-	em_format_hook_register_type(em_format_html_get_type());
-	em_format_hook_register_type(em_format_html_display_get_type());
-	e_plugin_hook_register_type(em_format_hook_get_type());
-
-	e_plugin_hook_register_type(em_event_hook_get_type());
 }
 
 static void

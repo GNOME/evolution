@@ -35,6 +35,13 @@
 #include "mail-config.h"
 #include "mail-mt.h"
 
+#include "em-popup.h"
+#include "em-menu.h"
+#include "em-event.h"
+#include "em-config.h"
+#include "em-format-hook.h"
+#include "em-format-html-display.h"
+
 #include "importers/mail-importer.h"
 
 #include <bonobo-activation/bonobo-activation.h>
@@ -81,9 +88,21 @@ make_factory (PortableServer_POA poa, const char *iid, gpointer impl_ptr, CORBA_
 	static int init = 0;
 
 	if (!init) {
-		mail_config_init ();
-		mail_msg_init ();
 		init = 1;
+
+		mail_config_init();
+		mail_msg_init();
+
+		e_plugin_hook_register_type(em_popup_hook_get_type());
+		e_plugin_hook_register_type(em_menu_hook_get_type());
+		e_plugin_hook_register_type(em_config_hook_get_type());
+
+		em_format_hook_register_type(em_format_get_type());
+		em_format_hook_register_type(em_format_html_get_type());
+		em_format_hook_register_type(em_format_html_display_get_type());
+		e_plugin_hook_register_type(em_format_hook_get_type());
+
+		e_plugin_hook_register_type(em_event_hook_get_type());
 	}
 
 	return bonobo_shlib_factory_std (FACTORY_ID, poa, impl_ptr, factory, NULL, ev);

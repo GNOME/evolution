@@ -1,3 +1,11 @@
+2004-12-08  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component-factory.c (make_factory): and put them here
+	instead so they're available even when the mailer isn't activated
+	yet.
+
+	* mail-component.c (mc_startup): remove plugin hook registrations.
+
 2004-11-22  Not Zed  <NotZed@Ximian.com>
 
 	* em-account-editor.c (emae_receive_options_extra_item): dont
