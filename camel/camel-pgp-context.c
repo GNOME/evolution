@@ -332,6 +332,10 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
 	close (diag_fds[1]);
 	close (passwd_fds[0]);
 	
+	fcntl (ip_fds[1], F_SETFL, O_NONBLOCK);
+	fcntl (op_fds[0], F_SETFL, O_NONBLOCK);
+	fcntl (diag_fds[0], F_SETFL, O_NONBLOCK);
+	
 	timeout.tv_sec = 10; /* timeout in seconds */
 	timeout.tv_usec = 0;
 	

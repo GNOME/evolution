@@ -1,3 +1,8 @@
+2001-07-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-context.c (crypto_exec_with_passwd): Set the pipe fd's
+	to nonblocking.
+
 2001-07-06  Peter Williams  <peterw@ximian.com>
 
 	* camel-object.c (camel_object_unref): Make sure that after the
