@@ -46,11 +46,11 @@ if HAVE_DTAPPINTEGRATE
 
 # This installs Evolution into the Application Manager on CDE
 dtappintegrate:
-	$(DTAPPINTEGRATE) -s $(prefix)/share/evolution-$(BASE_VERSION)/cde_app_root
+	$(DTAPPINTEGRATE) -s $(privdatadir)/cde_app_root
 
 # ...And this uninstalls it
 dtappunintegrate:
-	$(DTAPPINTEGRATE) -u -s $(prefix)/share/evolution-$(BASE_VERSION)/cde_app_root
+	$(DTAPPINTEGRATE) -u -s $(privdatadir)/cde_app_root
 
 endif
 

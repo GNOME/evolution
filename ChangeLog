@@ -4,6 +4,9 @@
 	privincludedir, serverdir, evolutionuidir, imagesdir, buttonsdir,
 	soundsdir, gladedir, etspecdir, and viewsdir.
 
+	* data/Makefile.am (dtappintegrate, dtappunintegrate): use
+	privdatadir
+
 2003-02-04  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Update AC_DEFINEs to use the new syntax to make
