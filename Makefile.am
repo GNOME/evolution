@@ -27,6 +27,7 @@ SUBDIRS =			\
         e-util                  \
 	libical			\
         widgets                 \
+	calendar		\
         art                     \
 	ui			\
         default_user            \
@@ -72,3 +73,5 @@ cde-install: install dtappintegrate
 cde-uninstall: dtappunintegrate uninstall
 
 endif
+
+ACLOCAL_AMFLAGS = -I m4

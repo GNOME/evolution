@@ -1,3 +1,10 @@
+2002-11-03  Rodrigo Moya <rodrigo@ximian.com>
+
+	* configure.in:
+	* Makefile.am: re-added calendar component (only non-UI stuff).
+
+	* data/Makefile.am: use intltools instead of xml-i18n-tools.
+
 2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: AC_PROG_INTLTOOL instead of
