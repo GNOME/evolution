@@ -1,3 +1,7 @@
+2001-07-18  Peter Williams  <peterw@ximian.com>
+
+	* mail-config.glade: Typo fix.
+
 2001-07-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (mail_delete): Setup the auto-receive here
