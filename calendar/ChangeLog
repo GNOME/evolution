@@ -1,5 +1,10 @@
 2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* importers/Makefile.am (evolution_calendar_importer_LDADD):
+	Ooops.  Forgot to use EVOLUTION_CALENDAR_LIBS here.
+
+2002-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	* conduits/calendar/Makefile.am: Use
 	EVOLUTION_CALENDAR_CONDUIT_LIBS and
 	EVOLUTION_CALENDAR_CONDUIT_CFLAGS.

@@ -25,7 +25,7 @@ evolution_calendar_importer_LDADD =				\
 	$(top_builddir)/calendar/cal-client/libcal-client.la	\
 	$(top_builddir)/libwombat/libwombat.la			\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-	$(EXTRA_GNOME_LIBS)
+	$(EVOLUTION_CALENDAR_LIBS)
 
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Calendar_Importer.oaf.in
