@@ -79,6 +79,7 @@ ets_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 
 		ets->sort_info = E_TABLE_SORT_INFO(GTK_VALUE_OBJECT (*arg));
+		gtk_object_ref(GTK_OBJECT(ets->sort_info));
 		ets->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT (ets->sort_info), "sort_info_changed",
 								GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
 
