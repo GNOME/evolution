@@ -56,15 +56,15 @@
 #define SMTP_PORT 25
 
 /* camel smtp transport class prototypes */
-static gboolean _can_send (CamelTransport *transport, CamelMedium *message);
-static gboolean _send (CamelTransport *transport, CamelMedium *message, CamelException *ex);
-static gboolean _send_to (CamelTransport *transport, CamelMedium *message, GList *recipients, CamelException *ex);
+static gboolean smtp_can_send (CamelTransport *transport, CamelMedium *message);
+static gboolean smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex);
+static gboolean smtp_send_to (CamelTransport *transport, CamelMedium *message, GList *recipients, CamelException *ex);
 
 /* support prototypes */
 static gboolean smtp_connect (CamelService *service, CamelException *ex);
 static gboolean smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex);
-static GList *esmtp_get_authtypes(gchar *buffer);
-static GList *query_auth_types (CamelService *service, CamelException *ex);
+static GList *esmtp_get_authtypes (gchar *buffer);
+static GList *query_auth_types (CamelService *service, gboolean connect, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
 static char *get_name (CamelService *service, gboolean brief);
 
@@ -97,9 +97,9 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 	camel_service_class->free_auth_types = free_auth_types;
 	camel_service_class->get_name = get_name;
 
-	camel_transport_class->can_send = _can_send;
-	camel_transport_class->send = _send;
-	camel_transport_class->send_to = _send_to;
+	camel_transport_class->can_send = smtp_can_send;
+	camel_transport_class->send = smtp_send;
+	camel_transport_class->send_to = smtp_send_to;
 }
 
 static void
@@ -356,7 +356,7 @@ static CamelServiceAuthType cram_md5_authtype = {
 #endif
 
 static GList *
-query_auth_types (CamelService *service, CamelException *ex)
+query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
 {
 	/* FIXME: Re-enable this when auth types are actually
 	 * implemented.
@@ -383,14 +383,14 @@ get_name (CamelService *service, gboolean brief)
 }
 
 static gboolean
-_can_send (CamelTransport *transport, CamelMedium *message)
+smtp_can_send (CamelTransport *transport, CamelMedium *message)
 {
 	return CAMEL_IS_MIME_MESSAGE (message);
 }
 
 static gboolean
-_send_to (CamelTransport *transport, CamelMedium *message,
-	  GList *recipients, CamelException *ex)
+smtp_send_to (CamelTransport *transport, CamelMedium *message,
+	      GList *recipients, CamelException *ex)
 {
 	CamelSmtpTransport *smtp_transport = CAMEL_SMTP_TRANSPORT (transport);
 	const CamelInternetAddress *cia;
@@ -450,7 +450,7 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 }
 
 static gboolean
-_send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
+smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
 {
 	const CamelInternetAddress *to, *cc, *bcc;
 	GList *recipients = NULL;
@@ -487,7 +487,7 @@ _send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
 			recipients = g_list_append (recipients, g_strdup (addr));
 	}
 	
-	return _send_to (transport, message, recipients, ex);
+	return smtp_send_to (transport, message, recipients, ex);
 }
 
 static gboolean

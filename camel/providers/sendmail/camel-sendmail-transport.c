@@ -3,8 +3,7 @@
 
 /* 
  *
- * Author : 
- *  Dan Winship <danw@helixcode.com>
+ * Authors: Dan Winship <danw@helixcode.com>
  *
  * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -41,11 +40,11 @@
 
 static char *get_name (CamelService *service, gboolean brief);
 
-static gboolean _can_send (CamelTransport *transport, CamelMedium *message);
-static gboolean _send (CamelTransport *transport, CamelMedium *message,
-		       CamelException *ex);
-static gboolean _send_to (CamelTransport *transport, CamelMedium *message,
-			  GList *recipients, CamelException *ex);
+static gboolean sendmail_can_send (CamelTransport *transport, CamelMedium *message);
+static gboolean sendmail_send (CamelTransport *transport, CamelMedium *message,
+			       CamelException *ex);
+static gboolean sendmail_send_to (CamelTransport *transport, CamelMedium *message,
+				  GList *recipients, CamelException *ex);
 
 
 static void
@@ -59,9 +58,9 @@ camel_sendmail_transport_class_init (CamelSendmailTransportClass *camel_sendmail
 	/* virtual method overload */
 	camel_service_class->get_name = get_name;
 
-	camel_transport_class->can_send = _can_send;
-	camel_transport_class->send = _send;
-	camel_transport_class->send_to = _send_to;
+	camel_transport_class->can_send = sendmail_can_send;
+	camel_transport_class->send = sendmail_send;
+	camel_transport_class->send_to = sendmail_send_to;
 }
 
 CamelType
@@ -70,13 +69,14 @@ camel_sendmail_transport_get_type (void)
 	static CamelType camel_sendmail_transport_type = CAMEL_INVALID_TYPE;
 	
 	if (camel_sendmail_transport_type == CAMEL_INVALID_TYPE)	{
-		camel_sendmail_transport_type = camel_type_register (CAMEL_TRANSPORT_TYPE, "CamelSendmailTransport",
-								     sizeof (CamelSendmailTransport),
-								     sizeof (CamelSendmailTransportClass),
-								     (CamelObjectClassInitFunc) camel_sendmail_transport_class_init,
-								     NULL,
-								     (CamelObjectInitFunc) NULL,
-								     NULL);
+		camel_sendmail_transport_type =
+			camel_type_register (CAMEL_TRANSPORT_TYPE, "CamelSendmailTransport",
+					     sizeof (CamelSendmailTransport),
+					     sizeof (CamelSendmailTransportClass),
+					     (CamelObjectClassInitFunc) camel_sendmail_transport_class_init,
+					     NULL,
+					     (CamelObjectInitFunc) NULL,
+					     NULL);
 	}
 	
 	return camel_sendmail_transport_type;
@@ -84,14 +84,14 @@ camel_sendmail_transport_get_type (void)
 
 
 static gboolean
-_can_send (CamelTransport *transport, CamelMedium *message)
+sendmail_can_send (CamelTransport *transport, CamelMedium *message)
 {
 	return CAMEL_IS_MIME_MESSAGE (message);
 }
 
 
 static gboolean
-_send_internal (CamelMedium *message, char **argv, CamelException *ex)
+sendmail_send_internal (CamelMedium *message, char **argv, CamelException *ex)
 {
 	int fd[2], nullfd, wstat;
 	sigset_t mask, omask;
@@ -181,8 +181,8 @@ _send_internal (CamelMedium *message, char **argv, CamelException *ex)
 }
 
 static gboolean
-_send_to (CamelTransport *transport, CamelMedium *message,
-	  GList *recipients, CamelException *ex)
+sendmail_send_to (CamelTransport *transport, CamelMedium *message,
+		  GList *recipients, CamelException *ex)
 {
 	GList *r;
 	char **argv;
@@ -198,19 +198,19 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 	for (i = 1, r = recipients; i <= len; i++, r = r->next)
 		argv[i + 2] = r->data;
 	argv[i + 2] = NULL;
-
-	status = _send_internal (message, argv, ex);
+	
+	status = sendmail_send_internal (message, argv, ex);
 	g_free (argv);
 	return status;
 }
 
 static gboolean
-_send (CamelTransport *transport, CamelMedium *message,
+sendmail_send (CamelTransport *transport, CamelMedium *message,
        CamelException *ex)
 {
 	char *argv[4] = { "sendmail", "-t", "-i", NULL };
-
-	return _send_internal (message, argv, ex);
+	
+	return sendmail_send_internal (message, argv, ex);
 }
 
 static char *

@@ -42,7 +42,7 @@ static gboolean service_connect(CamelService *service, CamelException *ex);
 static gboolean service_disconnect(CamelService *service, gboolean clean,
 				   CamelException *ex);
 /*static gboolean is_connected (CamelService *service);*/
-static GList *  query_auth_types (CamelService *service, CamelException *ex);
+static GList *  query_auth_types (CamelService *service, gboolean connect, CamelException *ex);
 static void     free_auth_types (CamelService *service, GList *authtypes);
 static char *   get_name (CamelService *service, gboolean brief);
 static char *   get_path (CamelService *service);
@@ -112,15 +112,16 @@ camel_service_get_type (void)
 	static CamelType camel_service_type = CAMEL_INVALID_TYPE;
 
 	if (camel_service_type == CAMEL_INVALID_TYPE) {
-		camel_service_type = camel_type_register( CAMEL_OBJECT_TYPE, "CamelService",
-							  sizeof (CamelService),
-							  sizeof (CamelServiceClass),
-							  (CamelObjectClassInitFunc) camel_service_class_init,
-							  NULL,
-							  (CamelObjectInitFunc) camel_service_init,
-							  camel_service_finalize );
+		camel_service_type =
+			camel_type_register (CAMEL_OBJECT_TYPE, "CamelService",
+					     sizeof (CamelService),
+					     sizeof (CamelServiceClass),
+					     (CamelObjectClassInitFunc) camel_service_class_init,
+					     NULL,
+					     (CamelObjectInitFunc) camel_service_init,
+					     camel_service_finalize );
 	}
-
+	
 	return camel_service_type;
 }
 
@@ -428,8 +429,8 @@ camel_service_get_provider (CamelService *service)
 	return service->provider;
 }
 
-GList *
-query_auth_types (CamelService *service, CamelException *ex)
+static GList *
+query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
 {
 	return NULL;
 }
@@ -437,6 +438,7 @@ query_auth_types (CamelService *service, CamelException *ex)
 /**
  * camel_service_query_auth_types:
  * @service: a CamelService
+ * @connect: specifies whether or not to connect
  * @ex: a CamelException
  *
  * This is used by the mail source wizard to get the list of
@@ -445,23 +447,24 @@ query_auth_types (CamelService *service, CamelException *ex)
  *
  * This may be called on a service with or without an associated URL.
  * If there is no URL, the routine must return a generic answer. If
- * the service does have a URL, the routine SHOULD connect to the
- * server and query what authentication mechanisms it supports. If
- * it cannot do that for any reason, it should set @ex accordingly.
+ * the service does have a URL, the routine should connect to the
+ * server and query what authentication mechanisms it supports only if
+ * @connect is TRUE. If it cannot do that for any reason, it should
+ * set @ex accordingly.
  *
  * Return value: a list of CamelServiceAuthType records. The caller
  * must free the list by calling camel_service_free_auth_types when
  * it is done.
  **/
 GList *
-camel_service_query_auth_types (CamelService *service, CamelException *ex)
+camel_service_query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
 {
 	GList *ret;
 
 	/* note that we get the connect lock here, which means the callee
 	   must not call the connect functions itself */
 	CAMEL_SERVICE_LOCK(service, connect_lock);
-	ret = CSERV_CLASS (service)->query_auth_types (service, ex);
+	ret = CSERV_CLASS (service)->query_auth_types (service, connect, ex);
 	CAMEL_SERVICE_UNLOCK(service, connect_lock);
 
 	return ret;
