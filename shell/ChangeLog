@@ -1,3 +1,8 @@
+2001-03-13  Iain Holmes  <iain@ximian.com>
+
+	* importer/intelligent.c (start_importer): Add a "Don't ask me again"
+	checkbox and don't ask about an importer if the box was ticked.
+
 2001-03-12  Iain Holmes  <iain@ximian.com>
 
 	* Evolution-Storage.idl: Add a FolderResult structure.

@@ -42,10 +42,22 @@ start_importer (const char *iid)
 	CORBA_char *message;
 	CORBA_boolean can_run;
 
-	GtkWidget *dialog, *label;
-	char *str;
+	GtkWidget *dialog, *label, *ask;
+	gboolean dontaskagain;
+	char *str, *prefix;
 
 	if (iid == NULL || *iid == '\0')
+		return;
+
+	/* Check if we want to show this one again */
+	prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", gnome_util_user_home ());
+	gnome_config_push_prefix (prefix);
+	g_free (prefix);
+	
+	dontaskagain = gnome_config_get_bool (iid);
+	gnome_config_pop_prefix ();
+
+	if (dontaskagain)
 		return;
 
 	CORBA_exception_init (&ev);
@@ -103,19 +115,32 @@ start_importer (const char *iid)
 	label = gtk_label_new (message);
 	CORBA_free (message);
 
-	gtk_box_pack_start (GNOME_DIALOG (dialog)->vbox, label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, 
+			    FALSE, FALSE, 0);
 	gtk_widget_show (label);
-	switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
+
+	ask = gtk_check_button_new_with_label (_("Don't ask me again"));
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), ask,
+			    FALSE, FALSE, 0);
+	gtk_widget_show (ask);
+
+	switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
 	case 0:
 		/* Yes */
-#if 0 
-		/* This sucks */
-		dialog = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-		label = gtk_label_new ("Importing");
-		gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
-		gtk_container_add (GTK_CONTAINER (dialog), label);
-		gtk_widget_show_all (dialog);
-#endif
+		dontaskagain = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ask));
+		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", gnome_util_user_home ());
+		gnome_config_push_prefix (prefix);
+		g_free (prefix);
+
+		gnome_config_set_bool (iid, dontaskagain);
+		gnome_config_sync ();
+		gnome_config_drop_all ();
+
+		gnome_config_pop_prefix ();
+
+		gtk_object_destroy (GTK_OBJECT (dialog));
+		while (gtk_events_pending ())
+			gtk_main_iteration ();
 
 		GNOME_Evolution_IntelligentImporter_importData (importer, &ev);
 		break;
@@ -123,6 +148,19 @@ start_importer (const char *iid)
 	case -1:
 	default:
 		/* No */
+		dontaskagain = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ask));
+		prefix = g_strdup_printf ("=%s/evolution/config/Shell=/intelligent-importers/", gnome_util_user_home ());
+		gnome_config_push_prefix (prefix);
+		g_free (prefix);
+		
+		gnome_config_set_bool (iid, dontaskagain);
+		gnome_config_sync ();
+		gnome_config_drop_all ();
+		
+		gnome_config_pop_prefix ();
+		
+		gtk_object_destroy (GTK_OBJECT (dialog));
+
 		break;
 	}
 
