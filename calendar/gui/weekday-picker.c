@@ -52,6 +52,12 @@ struct _WeekdayPickerPrivate {
 
 
 
+/* Signal IDs */
+enum {
+	CHANGED,
+	LAST_SIGNAL
+};
+
 static void weekday_picker_class_init (WeekdayPickerClass *class);
 static void weekday_picker_init (WeekdayPicker *wp);
 static void weekday_picker_finalize (GtkObject *object);
@@ -62,6 +68,8 @@ static void weekday_picker_size_allocate (GtkWidget *widget, GtkAllocation *allo
 static void weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style);
 
 static GnomeCanvasClass *parent_class;
+
+static guint wp_signals[LAST_SIGNAL];
 
 
 
@@ -108,12 +116,24 @@ weekday_picker_class_init (WeekdayPickerClass *class)
 
 	parent_class = gtk_type_class (GNOME_TYPE_CANVAS);
 
+	wp_signals[CHANGED] =
+		gtk_signal_new ("changed",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (WeekdayPickerClass, changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, wp_signals, LAST_SIGNAL);
+
 	object_class->finalize = weekday_picker_finalize;
 
 	widget_class->realize = weekday_picker_realize;
 	widget_class->size_request = weekday_picker_size_request;
 	widget_class->size_allocate = weekday_picker_size_allocate;
 	widget_class->style_set = weekday_picker_style_set;
+
+	class->changed = NULL;
 }
 
 /* Event handler for the day items */
@@ -187,7 +207,6 @@ create_items (WeekdayPicker *wp)
 		gtk_signal_connect (GTK_OBJECT (priv->labels[i]), "event",
 				    GTK_SIGNAL_FUNC (day_event_cb),
 				    wp);
-
 	}
 }
 
@@ -470,6 +489,8 @@ weekday_picker_set_days (WeekdayPicker *wp, guint8 day_mask)
 
 	priv->day_mask = day_mask;
 	colorize_items (wp);
+
+	gtk_signal_emit (GTK_OBJECT (wp), wp_signals[CHANGED]);
 }
 
 /**

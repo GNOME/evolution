@@ -49,6 +49,8 @@ struct _WeekdayPicker {
 
 struct _WeekdayPickerClass {
 	GnomeCanvasClass parent_class;
+
+	void (* changed) (WeekdayPicker *wp);
 };
 
 GtkType weekday_picker_get_type (void);

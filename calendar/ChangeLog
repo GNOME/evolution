@@ -1,3 +1,12 @@
+2000-11-07  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/weekday-picker.h (WeekdayPickerClass): Added a "changed"
+	signal to notify of changes to the set of selected days.
+
+	* gui/weekday-picker.c (weekday_picker_class_init): Create the
+	"changed" signal.
+	(weekday_picker_set_days): Emit the "changed" signal.
+
 2000-11-06   Jesse Pavel   <jpavel@helixcode.com>
 
 	*gui/e-itip-control.c, gui/e-itip-control.glade: changed to GUI to
