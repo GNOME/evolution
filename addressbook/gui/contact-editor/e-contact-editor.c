@@ -1225,6 +1225,10 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	create_ui (e_contact_editor);
 
+	widget = glade_xml_get_widget(e_contact_editor->gui, "entry-fullname");
+	if (widget)
+		gtk_widget_grab_focus (widget);
+
 	/* Connect to the deletion of the dialog */
 
 	gtk_signal_connect (GTK_OBJECT (e_contact_editor->app), "delete_event",
