@@ -1218,7 +1218,6 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	}
 }
 
-/* FIXME: So this function is mostly just a place-holder for now */
 static gboolean
 handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 			 MailDisplay *md)
@@ -1237,8 +1236,10 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	camel_exception_init (&ex);
 	valid = pgp_mime_part_verify (part, &ex);
 	
-	if (camel_exception_is_set (&ex))
+	if (camel_exception_is_set (&ex)) {
+		/* FIXME: maybe we should warn the user? */
 		handle_multipart_mixed (part, mime_type, md);
+	}
 	
 	return valid;
 }

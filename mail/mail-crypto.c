@@ -66,7 +66,7 @@ mail_crypto_is_rfc2015_signed (CamelMimePart *mime_part)
 	
 	/* check that we have a protocol param with the value: "application/pgp-signed" */
 	param = header_content_type_param (type, "protocol");
-	if (!param || g_strcasecmp (param, "application/pgp-signed"))
+	if (!param || g_strcasecmp (param, "application/pgp-signature"))
 		return FALSE;
 	
 	/* check that we have exactly 2 subparts */
@@ -86,7 +86,7 @@ mail_crypto_is_rfc2015_signed (CamelMimePart *mime_part)
 	/* The second part should be application/pgp-signature. */
 	part = camel_multipart_get_part (mp, 1);
 	type = camel_mime_part_get_content_type (part);
-	if (!header_content_type_is (type, "application", "pgp-siganture"))
+	if (!header_content_type_is (type, "application", "pgp-signature"))
 		return FALSE;
 	
 	/* FIXME: Implement multisig stuff */	

@@ -1,3 +1,8 @@
+2001-01-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-crypto.c (mail_crypto_is_rfc2015_signed): Helps if I spell
+	stuff correctly so it can pass the tests ;-)
+
 2001-01-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (owner_set_cb): Initialize OpenPGP.
