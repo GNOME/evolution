@@ -1810,7 +1810,7 @@ msgstr "Katar"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:300
 msgid "Reunion"
-msgstr "Reunion???"
+msgstr "Reunion"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:301
 #: my-evolution/Locations.h:1912
@@ -1930,7 +1930,7 @@ msgstr "Svalbardovi in Jan Mayenovi otoki"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:328
 msgid "Swaziland"
-msgstr "Švica"
+msgstr "Svazi"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:329
 #: my-evolution/Locations.h:2181
