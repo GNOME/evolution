@@ -538,6 +538,14 @@ with quoted materials and the relevant replies interspersed-->
 	      list.  As a matter of fact, mailing lists are one of the main ways in
 	      which <application>Evolution</application> was developed.
 	    </para>
+	    <para>
+	      There are two different types of mailing lists.  The first is a
+	      general submission list.  That means that anyone can write to the
+	      list.  The second is a managed list.  The managed lists have
+	      someone running them.  They can do as little as limit who
+	      subscribes to the list or as much as moderate which emails get on
+	      the list.
+	    </para>
 	  </note>
 	</para>
       </sect3>
