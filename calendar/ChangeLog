@@ -1,3 +1,8 @@
+2004-02-05  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/goto-dialog.glade: add a mnemonic for the 'Go to Today' button
+	in the 'Go To Date' dialog.
+
 2004-02-05  Sarfraaz Ahmed <asarfraaz@novell.com>
 
         Fixes #53388
