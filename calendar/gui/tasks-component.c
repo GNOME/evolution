@@ -46,7 +46,7 @@
 #include "dialogs/task-editor.h"
 #include "widgets/misc/e-source-selector.h"
 #include "widgets/misc/e-info-label.h"
-
+#include "e-util/e-icon-factory.h"
 
 #define CREATE_TASK_ID      "task"
 #define CREATE_TASK_LIST_ID "task-list"
@@ -234,19 +234,18 @@ update_primary_selection (TasksComponent *component)
 
 /* Callbacks.  */
 static void
-add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
+add_popup_menu_item (GtkMenu *menu, const char *label, const char *icon_name,
 		     GCallback callback, gpointer user_data, gboolean sensitive)
 {
 	GtkWidget *item, *image;
+	GdkPixbuf *pixbuf;
 
-	if (pixmap) {
+	if (icon_name) {
 		item = gtk_image_menu_item_new_with_label (label);
 
 		/* load the image */
-		if (g_file_test (pixmap, G_FILE_TEST_EXISTS))
-			image = gtk_image_new_from_file (pixmap);
-		else
-			image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
+		pixbuf = e_icon_factory_get_icon (icon_name, 16);
+		image = gtk_image_new_from_pixbuf (pixbuf);
 
 		if (image) {
 			gtk_widget_show (image);
@@ -361,11 +360,11 @@ fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, TasksComponent *co
 	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component->priv->source_selector)) ?
 		TRUE : FALSE;
 
-	add_popup_menu_item (menu, _("New Task List"), EVOLUTION_IMAGESDIR "/evolution-tasks-mini.png",
+	add_popup_menu_item (menu, _("New Task List"), "stock_todo",
 			     G_CALLBACK (new_task_list_cb), component, TRUE);
-	add_popup_menu_item (menu, _("Copy"), EVOLUTION_IMAGESDIR "/folder-copy-16.png",
+	add_popup_menu_item (menu, _("Copy"), "stock_folder-copy",
 			     G_CALLBACK (copy_task_list_cb), component, sensitive);
-	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_task_list_cb),
+	add_popup_menu_item (menu, _("Delete"), "stock_delete", G_CALLBACK (delete_task_list_cb),
 			     component, sensitive);
 	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_task_list_cb),
 			     component, sensitive);
@@ -496,7 +495,7 @@ impl_createControls (PortableServer_Servant servant,
 					     GTK_SHADOW_IN);
 	gtk_widget_show (selector_scrolled_window);
 
-	info = e_info_label_new("evolution-tasks-mini.png");
+	info = e_info_label_new("stock_task");
 	e_info_label_set_info((EInfoLabel *)info, _("Tasks"), "");
 	gtk_widget_show (info);
 
@@ -571,7 +570,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[0].menuDescription = _("_Task");
 	list->_buffer[0].tooltip = _("Create a new task");
 	list->_buffer[0].menuShortcut = 't';
-	list->_buffer[0].iconName = "new_task-16.png";
+	list->_buffer[0].iconName = "stock_task";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[1].id = CREATE_TASK_LIST_ID;
@@ -579,7 +578,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[1].menuDescription = _("_Tasks Group");
 	list->_buffer[1].tooltip = _("Create a new tasks group");
 	list->_buffer[1].menuShortcut = 'n';
-	list->_buffer[1].iconName = "evolution-tasks-mini.png";
+	list->_buffer[1].iconName = "stock_todo";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;

@@ -56,7 +56,7 @@
 #include "ea-calendar.h"
 
 /* Used for the status bar messages */
-#define EVOLUTION_CALENDAR_PROGRESS_IMAGE "evolution-calendar-mini.png"
+#define EVOLUTION_CALENDAR_PROGRESS_IMAGE "stock_calendar"
 static GdkPixbuf *progress_icon = NULL;
 
 struct _ECalendarViewPrivate {
@@ -544,7 +544,7 @@ e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *messag
 		char *client_id = g_strdup_printf ("%p", cal_view);
 
 		if (progress_icon == NULL)
-			progress_icon = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CALENDAR_PROGRESS_IMAGE, NULL);
+			progress_icon = e_icon_factory_get_icon (EVOLUTION_CALENDAR_PROGRESS_IMAGE, 16);
 
 		cal_view->priv->activity_id = e_activity_handler_operation_started (activity_handler, client_id, progress_icon, message, TRUE);
 
@@ -1316,7 +1316,8 @@ setup_popup_icons (EPopupMenu *context_menu)
 
 	for (i = 0; context_menu[i].name; i++) {
 		GtkWidget *pixmap_widget = NULL;
-
+		GdkPixbuf *pixbuf;
+		
 		if (!strcmp (context_menu[i].name, _("_Copy")))
 			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_COPY, GTK_ICON_SIZE_MENU);
 		else if (!strcmp (context_menu[i].name, _("C_ut")))
@@ -1329,14 +1330,26 @@ setup_popup_icons (EPopupMenu *context_menu)
 			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_HOME, GTK_ICON_SIZE_MENU);
 		else if (!strcmp (context_menu[i].name, _("_Go to Date...")))
 			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_JUMP_TO, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("New _Appointment...")))
-			pixmap_widget = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/new_appointment.xpm");
-		else if (!strcmp (context_menu[i].name, _("New All Day _Event")))
-			pixmap_widget = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/new_all_day_event.png");
-		else if (!strcmp (context_menu[i].name, _("New Meeting")))
-			pixmap_widget = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/meeting-request-16.png");
-		else if (!strcmp (context_menu[i].name, _("New Task")))
-			pixmap_widget = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/new_task-16.png");
+		else if (!strcmp (context_menu[i].name, _("New _Appointment..."))) {
+			pixbuf = e_icon_factory_get_icon ("stock_new-appointment", 16);
+			pixmap_widget = gtk_image_new_from_pixbuf (pixbuf);
+			gdk_pixbuf_unref (pixbuf);
+		}
+		else if (!strcmp (context_menu[i].name, _("New All Day _Event"))) {
+			pixbuf = e_icon_factory_get_icon ("stock_new-24h-appointment", 16);
+			pixmap_widget = gtk_image_new_from_pixbuf (pixbuf);
+			gdk_pixbuf_unref (pixbuf);
+		}
+		else if (!strcmp (context_menu[i].name, _("New Meeting"))) {
+			pixbuf = e_icon_factory_get_icon ("stock_new-meeting", 16);
+			pixmap_widget = gtk_image_new_from_pixbuf (pixbuf);
+			gdk_pixbuf_unref (pixbuf);
+		}
+		else if (!strcmp (context_menu[i].name, _("New Task"))) {
+			pixbuf = e_icon_factory_get_icon ("stock_task", 16);
+			pixmap_widget = gtk_image_new_from_pixbuf (pixbuf);
+			gdk_pixbuf_unref (pixbuf);
+		}
 		else if (!strcmp (context_menu[i].name, _("_Open")))
 			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_OPEN, GTK_ICON_SIZE_MENU);
 		else if (!strcmp (context_menu[i].name, _("_Paste")))

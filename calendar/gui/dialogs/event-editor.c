@@ -69,7 +69,7 @@ static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, 
 static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/Toolbar/Actions/ActionScheduleMeeting", "schedule-meeting-24.png"),
+	E_PIXMAP ("/Toolbar/Actions/ActionScheduleMeeting", "stock_people", 24),
 	E_PIXMAP_END
 };
 

@@ -715,11 +715,11 @@ static BonoboUIVerb verbs [] = {
 
 static EPixmap pixmaps [] =
 {
-	E_PIXMAP ("/Toolbar/DayView",	      "buttons/dayview.xpm"),
-	E_PIXMAP ("/Toolbar/WorkWeekView",    "buttons/workweekview.xpm"),
-	E_PIXMAP ("/Toolbar/WeekView",	      "buttons/weekview.xpm"),
-	E_PIXMAP ("/Toolbar/MonthView",	      "buttons/monthview.xpm"),
-	E_PIXMAP ("/Toolbar/ListView",	      "buttons/listview.xpm"),
+	E_PIXMAP ("/Toolbar/DayView",	      "stock_calendar-view-day",       24),
+	E_PIXMAP ("/Toolbar/WorkWeekView",    "stock_calendar-view-work-week", 24),
+	E_PIXMAP ("/Toolbar/WeekView",	      "stock_calendar-view-week",      24),
+	E_PIXMAP ("/Toolbar/MonthView",	      "stock_calendar-view-month",     24),
+	E_PIXMAP ("/Toolbar/ListView",	      "stock_calendar-view-list",      24),
 
 	E_PIXMAP_END
 };

@@ -42,6 +42,7 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <e-util/eggtrayicon.h>
+#include <e-util/e-icon-factory.h>
 #include <libecal/e-cal-time-util.h>
 #include "evolution-calendar.h"
 #include "alarm.h"
@@ -888,14 +889,15 @@ static gboolean
 tray_icon_blink_cb (gpointer data)
 {
 	TrayIconData *tray_data = data;
-
-	/* FIXME: Use stock image equivalents when they become available */
+	GdkPixbuf *pixbuf;
 
 	tray_data->blink_state = tray_data->blink_state == TRUE ? FALSE : TRUE;
-	gtk_image_set_from_file (GTK_IMAGE (tray_data->image),
-				 tray_data->blink_state == TRUE ?
-				 EVOLUTION_IMAGESDIR "/appointment-reminder-excl.png" :
-				 EVOLUTION_IMAGESDIR "/appointment-reminder.png");
+	pixbuf = e_icon_factory_get_icon  (tray_data->blink_state == TRUE ?
+				 	   "stock_appointment-reminder-excl" :
+				 	   "stock_appointment-reminder",
+					   24);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (tray_data->image), pixbuf);
+	gdk_pixbuf_unref (pixbuf);
 
 	return TRUE;
 }
@@ -916,6 +918,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	ECalComponentText text;
 	char *str, *start_str, *end_str, *alarm_str;
 	icaltimezone *current_zone;
+	GdkPixbuf *pixbuf;
 
 	comp = cqa->alarms->comp;
 	qa = lookup_queued_alarm (cqa, alarm_id);
@@ -946,7 +949,9 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 	/* FIXME: Use stock image equivalent when it becomes available */
 	tray_icon = egg_tray_icon_new (qa->instance->auid);
-	image = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/appointment-reminder.png");
+	pixbuf = e_icon_factory_get_icon  ("stock_appointment-reminder", 24);
+	image = gtk_image_new_from_pixbuf (pixbuf);
+	gdk_pixbuf_unref (pixbuf);
 	ebox = gtk_event_box_new ();
 
 	gtk_widget_show (image);

@@ -31,7 +31,6 @@
 #if 0 
 #  include <libgnomeui/gnome-winhints.h>
 #endif
-#include <libgnomeui/gnome-window-icon.h>
 #include <glade/glade.h>
 #include <e-util/e-time-utils.h>
 #include <gtkhtml/gtkhtml.h>
@@ -40,6 +39,7 @@
 #include "alarm-notify-dialog.h"
 #include "config-data.h"
 #include "util.h"
+#include <e-util/e-icon-factory.h>
 
 
 GtkWidget *make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shadow);
@@ -223,8 +223,13 @@ write_html_heading (GtkHTMLStream *stream, const char *message,
 	char *buf;
 	char *start, *end;
 	char *bg_path = "file://" EVOLUTION_IMAGESDIR "/bcg.png";
-	char *image_path = "file://" EVOLUTION_IMAGESDIR "/alarm.png";
+	gchar *image_path;
+	gchar *icon_path;
 	icaltimezone *current_zone;
+
+	icon_path = e_icon_factory_get_icon_filename ("stock_alarm", 48);
+	image_path = g_strdup_printf ("file://%s", icon_path);
+	g_free (icon_path);
 
 	/* Stringize the times */
 
@@ -273,6 +278,7 @@ write_html_heading (GtkHTMLStream *stream, const char *message,
 
 	g_free (start);
 	g_free (end);
+	g_free (image_path);
 }
 
 /**
@@ -299,6 +305,7 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	GtkHTMLStream *stream;
 	icaltimezone *current_zone;
 	char *buf, *title;
+	GList *icon_list;
 
 	g_return_val_if_fail (trigger != -1, NULL);
 
@@ -377,7 +384,12 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	if (!GTK_WIDGET_REALIZED (an->dialog))
 		gtk_widget_realize (an->dialog);
 
-	gtk_window_set_icon_from_file (GTK_WINDOW (an->dialog), EVOLUTION_IMAGESDIR "/alarm.png", NULL);
+	icon_list = e_icon_factory_get_icon_list ("stock_alarm");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (an->dialog), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
 
 	gtk_widget_show (an->dialog);
 	return an;

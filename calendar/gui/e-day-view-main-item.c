@@ -644,15 +644,16 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			max_icon_h = item_y + item_h - icon_y
 				- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 
-			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
-			gdk_gc_set_clip_mask (gc, day_view->reminder_mask);
-			gdk_draw_pixmap (drawable, gc,
+			gdk_gc_set_clip_mask (gc, NULL);
+			gdk_draw_pixbuf (drawable, gc,
 					 day_view->reminder_icon,
 					 0, 0, icon_x, icon_y,
 					 MIN (E_DAY_VIEW_ICON_WIDTH,
 					      max_icon_w),
 					 MIN (E_DAY_VIEW_ICON_HEIGHT,
-					      max_icon_h));
+					      max_icon_h),
+					 GDK_RGB_DITHER_NORMAL,
+					 0, 0);
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
 		}
@@ -663,16 +664,16 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			max_icon_h = item_y + item_h - icon_y
 				- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 
-			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
-			gdk_gc_set_clip_mask (gc, day_view->recurrence_mask);
-			gdk_draw_pixmap (drawable, gc,
+			gdk_gc_set_clip_mask (gc, NULL);
+			gdk_draw_pixbuf (drawable, gc,
 					 day_view->recurrence_icon,
 					 0, 0, icon_x, icon_y,
 					 MIN (E_DAY_VIEW_ICON_WIDTH,
 					      max_icon_w),
 					 MIN (E_DAY_VIEW_ICON_HEIGHT,
-					      max_icon_h));
-
+					      max_icon_h),
+					 GDK_RGB_DITHER_NORMAL,
+					 0, 0);
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
 		}
@@ -683,15 +684,16 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			max_icon_h = item_y + item_h - icon_y
 				- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 
-			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
-			gdk_gc_set_clip_mask (gc, day_view->timezone_mask);
-			gdk_draw_pixmap (drawable, gc,
+			gdk_gc_set_clip_mask (gc, NULL);
+			gdk_draw_pixbuf (drawable, gc,
 					 day_view->timezone_icon,
 					 0, 0, icon_x, icon_y,
 					 MIN (E_DAY_VIEW_ICON_WIDTH,
 					      max_icon_w),
 					 MIN (E_DAY_VIEW_ICON_HEIGHT,
-					      max_icon_h));
+					      max_icon_h),
+					 GDK_RGB_DITHER_NORMAL,
+					 0, 0);
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
 		}
@@ -703,15 +705,16 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			max_icon_h = item_y + item_h - icon_y
 				- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 
-			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
-			gdk_gc_set_clip_mask (gc, day_view->meeting_mask);
-			gdk_draw_pixmap (drawable, gc,
+			gdk_gc_set_clip_mask (gc, NULL);
+			gdk_draw_pixbuf (drawable, gc,
 					 day_view->meeting_icon,
 					 0, 0, icon_x, icon_y,
 					 MIN (E_DAY_VIEW_ICON_WIDTH,
 					      max_icon_w),
 					 MIN (E_DAY_VIEW_ICON_HEIGHT,
-					      max_icon_h));
+					      max_icon_h),
+					 GDK_RGB_DITHER_NORMAL,
+					 0, 0);
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
 		}

@@ -642,35 +642,38 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		icon_x -= icon_x_inc * num_icons;
 
 	if (draw_reminder_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
-		gdk_gc_set_clip_origin (gc, icon_x, icon_y);
-		gdk_gc_set_clip_mask (gc, week_view->reminder_mask);
-		gdk_draw_pixmap (drawable, gc,
+		gdk_gc_set_clip_mask (gc, NULL);
+		gdk_draw_pixbuf (drawable, gc,
 				 week_view->reminder_icon,
 				 0, 0, icon_x, icon_y,
 				 E_WEEK_VIEW_ICON_WIDTH,
-				 E_WEEK_VIEW_ICON_HEIGHT);
+				 E_WEEK_VIEW_ICON_HEIGHT,
+				 GDK_RGB_DITHER_NORMAL,
+				 0, 0);
 		icon_x += icon_x_inc;
 	}
 
 	if (draw_recurrence_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
-		gdk_gc_set_clip_origin (gc, icon_x, icon_y);
-		gdk_gc_set_clip_mask (gc, week_view->recurrence_mask);
-		gdk_draw_pixmap (drawable, gc,
+		gdk_gc_set_clip_mask (gc, NULL);
+		gdk_draw_pixbuf (drawable, gc,
 				 week_view->recurrence_icon,
 				 0, 0, icon_x, icon_y,
 				 E_WEEK_VIEW_ICON_WIDTH,
-				 E_WEEK_VIEW_ICON_HEIGHT);
+				 E_WEEK_VIEW_ICON_HEIGHT,
+				 GDK_RGB_DITHER_NORMAL,
+				 0, 0);
 		icon_x += icon_x_inc;
 	}
 
 	if (draw_timezone_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
-		gdk_gc_set_clip_origin (gc, icon_x, icon_y);
-		gdk_gc_set_clip_mask (gc, week_view->timezone_mask);
-		gdk_draw_pixmap (drawable, gc,
+		gdk_gc_set_clip_mask (gc, NULL);
+		gdk_draw_pixbuf (drawable, gc,
 				 week_view->timezone_icon,
 				 0, 0, icon_x, icon_y,
 				 E_WEEK_VIEW_ICON_WIDTH,
-				 E_WEEK_VIEW_ICON_HEIGHT);
+				 E_WEEK_VIEW_ICON_HEIGHT,
+				 GDK_RGB_DITHER_NORMAL,
+				 0, 0);
 		icon_x += icon_x_inc;
 	}
 

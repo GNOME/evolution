@@ -73,12 +73,7 @@
 #include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
 #include "misc.h"
-
-/* Images */
-#include "art/bell.xpm"
-#include "art/recur.xpm"
-#include "art/timezone-16.xpm"
-#include "art/schedule-meeting-16.xpm"
+#include <e-util/e-icon-factory.h>
 
 /* The minimum amount of space wanted on each side of the date string. */
 #define E_DAY_VIEW_DATE_X_PAD	4
@@ -1222,13 +1217,13 @@ e_day_view_realize (GtkWidget *widget)
 	if (nfailed)
 		g_warning ("Failed to allocate all colors");
 
+	gdk_gc_set_colormap (day_view->main_gc, colormap);
 
 	/* Create the pixmaps. */
-	day_view->reminder_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->reminder_mask, NULL, bell_xpm);
-	day_view->recurrence_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->recurrence_mask, NULL, recur_xpm);
-	day_view->timezone_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->timezone_mask, NULL, timezone_16_xpm);
-	day_view->meeting_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &day_view->meeting_mask, NULL, schedule_meeting_16_xpm);
-
+	day_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", E_DAY_VIEW_ICON_WIDTH);
+	day_view->recurrence_icon = e_icon_factory_get_icon ("stock_refresh", E_DAY_VIEW_ICON_WIDTH);
+	day_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_DAY_VIEW_ICON_WIDTH);
+	day_view->meeting_icon = e_icon_factory_get_icon ("stock_people", E_DAY_VIEW_ICON_WIDTH);
 
 
 	/* Set the canvas item colors. */
@@ -1290,10 +1285,14 @@ e_day_view_unrealize (GtkWidget *widget)
 	colormap = gtk_widget_get_colormap (widget);
 	gdk_colormap_free_colors (colormap, day_view->colors, E_DAY_VIEW_COLOR_LAST);
 
-	gdk_pixmap_unref (day_view->reminder_icon);
+	g_object_unref (day_view->reminder_icon);
 	day_view->reminder_icon = NULL;
-	gdk_pixmap_unref (day_view->recurrence_icon);
+	g_object_unref (day_view->recurrence_icon);
 	day_view->recurrence_icon = NULL;
+	g_object_unref (day_view->timezone_icon);
+	day_view->timezone_icon = NULL;
+	g_object_unref (day_view->meeting_icon);
+	day_view->meeting_icon = NULL;
 
 	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
 		(*GTK_WIDGET_CLASS (parent_class)->unrealize)(widget);

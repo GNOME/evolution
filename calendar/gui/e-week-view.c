@@ -70,11 +70,9 @@
 #include "e-week-view-main-item.h"
 #include "e-week-view-titles-item.h"
 #include "misc.h"
+#include <e-util/e-icon-factory.h>
 
 /* Images */
-#include "art/bell.xpm"
-#include "art/recur.xpm"
-#include "art/timezone-16.xpm"
 #include "art/jump.xpm"
 
 #define E_WEEK_VIEW_SMALL_FONT_PTSIZE 7
@@ -90,7 +88,6 @@
 /* The timeout before we do a layout, so we don't do a layout for each event
    we get from the server. */
 #define E_WEEK_VIEW_LAYOUT_TIMEOUT	100
-
 
 typedef struct {
 	EWeekView *week_view;
@@ -828,11 +825,12 @@ e_week_view_realize (GtkWidget *widget)
 	if (nfailed)
 		g_warning ("Failed to allocate all colors");
 
+	gdk_gc_set_colormap (week_view->main_gc, colormap);
 
 	/* Create the pixmaps. */
-	week_view->reminder_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &week_view->reminder_mask, NULL, bell_xpm);
-	week_view->recurrence_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &week_view->recurrence_mask, NULL, recur_xpm);
-	week_view->timezone_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &week_view->timezone_mask, NULL, timezone_16_xpm);
+	week_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", E_WEEK_VIEW_ICON_WIDTH);
+	week_view->recurrence_icon = e_icon_factory_get_icon ("stock_refresh", E_WEEK_VIEW_ICON_WIDTH);
+	week_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_WEEK_VIEW_ICON_WIDTH);
 }
 
 
@@ -850,10 +848,12 @@ e_week_view_unrealize (GtkWidget *widget)
 	colormap = gtk_widget_get_colormap (widget);
 	gdk_colormap_free_colors (colormap, week_view->colors, E_WEEK_VIEW_COLOR_LAST);
 
-	gdk_pixmap_unref (week_view->reminder_icon);
+	g_object_unref (week_view->reminder_icon);
 	week_view->reminder_icon = NULL;
-	gdk_pixmap_unref (week_view->recurrence_icon);
+	g_object_unref (week_view->recurrence_icon);
 	week_view->recurrence_icon = NULL;
+	g_object_unref (week_view->timezone_icon);
+	week_view->timezone_icon = NULL;
 
 	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
 		(*GTK_WIDGET_CLASS (parent_class)->unrealize)(widget);

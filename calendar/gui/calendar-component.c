@@ -49,6 +49,7 @@
 #include "dialogs/event-editor.h"
 #include "widgets/misc/e-source-selector.h"
 #include "widgets/misc/e-info-label.h"
+#include "e-util/e-icon-factory.h"
 
 /* IDs for user creatable items */
 #define CREATE_EVENT_ID        "event"
@@ -306,19 +307,18 @@ update_primary_task_selection (CalendarComponent *calendar_component)
 
 /* Callbacks.  */
 static void
-add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
+add_popup_menu_item (GtkMenu *menu, const char *label, const char *icon_name,
 		     GCallback callback, gpointer user_data, gboolean sensitive)
 {
 	GtkWidget *item, *image;
+	GdkPixbuf *pixbuf;
 
-	if (pixmap) {
+	if (icon_name) {
 		item = gtk_image_menu_item_new_with_label (label);
 
 		/* load the image */
-		if (g_file_test (pixmap, G_FILE_TEST_EXISTS))
-			image = gtk_image_new_from_file (pixmap);
-		else
-			image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
+		pixbuf = e_icon_factory_get_icon (icon_name, 16);
+		image = gtk_image_new_from_pixbuf (pixbuf);
 
 		if (image) {
 			gtk_widget_show (image);
@@ -431,11 +431,11 @@ fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, CalendarComponent 
 	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (comp->priv->source_selector)) ?
 		TRUE : FALSE;
 
-	add_popup_menu_item (menu, _("New Calendar"), EVOLUTION_IMAGESDIR "/evolution-calendar-mini.png",
+	add_popup_menu_item (menu, _("New Calendar"), "stock_calendar",
 			     G_CALLBACK (new_calendar_cb), comp, TRUE);
-	add_popup_menu_item (menu, _("Copy"), EVOLUTION_IMAGESDIR "/folder-copy-16.png",
+	add_popup_menu_item (menu, _("Copy"), "stock_folder-copy",
 			     G_CALLBACK (copy_calendar_cb), comp, sensitive);
-	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_calendar_cb), comp, sensitive);
+	add_popup_menu_item (menu, _("Delete"), "stock_delete", G_CALLBACK (delete_calendar_cb), comp, sensitive);
 	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_calendar_cb), comp, sensitive);
 }
 
@@ -829,7 +829,7 @@ impl_createControls (PortableServer_Servant servant,
 					     GTK_SHADOW_IN);
 	gtk_widget_show (selector_scrolled_window);
 
-	info = e_info_label_new("evolution-calendar-mini.png");
+	info = e_info_label_new("stock_calendar");
 	e_info_label_set_info((EInfoLabel *)info, _("Calendars"), "");
 	gtk_widget_show (info);
 
@@ -916,7 +916,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[0].menuDescription = _("_Appointment");
 	list->_buffer[0].tooltip = _("Create a new appointment");
 	list->_buffer[0].menuShortcut = 'a';
-	list->_buffer[0].iconName = "new_appointment.xpm";
+	list->_buffer[0].iconName = "stock_new-appointment";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[1].id = CREATE_MEETING_ID;
@@ -924,7 +924,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[1].menuDescription = _("M_eeting");
 	list->_buffer[1].tooltip = _("Create a new meeting request");
 	list->_buffer[1].menuShortcut = 'e';
-	list->_buffer[1].iconName = "meeting-request-16.png";
+	list->_buffer[1].iconName = "stock_new-meeting";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[2].id = CREATE_ALLDAY_EVENT_ID;
@@ -932,7 +932,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[2].menuDescription = _("All _Day Appointment");
 	list->_buffer[2].tooltip = _("Create a new all-day appointment");
 	list->_buffer[2].menuShortcut = 'd';
-	list->_buffer[2].iconName = "new_all_day_event.png";
+	list->_buffer[2].iconName = "stock_new-24h-appointment";
 	list->_buffer[2].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[3].id = CREATE_CALENDAR_ID;
@@ -940,7 +940,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[3].menuDescription = _("C_alendar");
 	list->_buffer[3].tooltip = _("Create a new calendar");
 	list->_buffer[3].menuShortcut = 'a';
-	list->_buffer[3].iconName = "evolution-calendar-mini.png";
+	list->_buffer[3].iconName = "stock_calendar";
 	list->_buffer[3].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;

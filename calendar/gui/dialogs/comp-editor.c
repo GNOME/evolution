@@ -33,11 +33,11 @@
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-icon-factory.h>
 #include <evolution-shell-component-utils.h>
 #include "../print.h"
 #include "../comp-util.h"
@@ -122,18 +122,18 @@ static gint delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data);
 
 static EPixmap pixmaps [] =
 {
-	E_PIXMAP ("/menu/File/FileSave",			"save-16.png"),
-	E_PIXMAP ("/menu/File/FileSaveAndClose",		"save-16.png"),
-	E_PIXMAP ("/menu/File/FileSaveAs",			"save-as-16.png"),
+	E_PIXMAP ("/menu/File/FileSave",			"stock_save",          16),
+	E_PIXMAP ("/menu/File/FileSaveAndClose",		"stock_save",          16),
+	E_PIXMAP ("/menu/File/FileSaveAs",			"stock_save_as",       16),
 
-	E_PIXMAP ("/menu/File/FileDelete",			"evolution-trash-mini.png"),
+	E_PIXMAP ("/menu/File/FileDelete",			"stock_delete",        16),
 
-	E_PIXMAP ("/menu/File/FilePrint",			"print.xpm"),
-	E_PIXMAP ("/menu/File/FilePrintPreview",		"print-preview.xpm"),
+	E_PIXMAP ("/menu/File/FilePrint",			"stock_print",         16),
+	E_PIXMAP ("/menu/File/FilePrintPreview",		"stock_print-preview", 16),
 
-	E_PIXMAP ("/Toolbar/FileSaveAndClose",		        "buttons/save-24.png"),
-	E_PIXMAP ("/Toolbar/FilePrint",			        "buttons/print.png"),
-	E_PIXMAP ("/Toolbar/FileDelete",			"buttons/delete-message.png"),
+	E_PIXMAP ("/Toolbar/FileSaveAndClose",		        "stock_save",          24),
+	E_PIXMAP ("/Toolbar/FilePrint",			        "stock_print",         24),
+	E_PIXMAP ("/Toolbar/FileDelete",			"stock_delete",        24),
 
 	E_PIXMAP_END
 };
@@ -971,18 +971,18 @@ make_icon_from_comp (ECalComponent *comp)
 	ECalComponentVType type;
 
 	if (!comp)
-		return EVOLUTION_IMAGESDIR "/evolution-calendar-mini.png";
+		return "stock_calendar";
 
 	type = e_cal_component_get_vtype (comp);
 	switch (type) {
 	case E_CAL_COMPONENT_EVENT:
-		return EVOLUTION_IMAGESDIR "/buttons/new_appointment.png";
+		return "stock_new-appointment";
 		break;
 	case E_CAL_COMPONENT_TODO:
-		return EVOLUTION_IMAGESDIR "/buttons/new_task.png";
+		return "stock_task";
 		break;
 	default:
-		return EVOLUTION_IMAGESDIR "/evolution-calendar-mini.png";
+		return "stock_calendar";
 	}
 }
 
@@ -1015,11 +1015,18 @@ static void
 set_icon_from_comp (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
-	const char *file;
+	const char *icon_name;
+	GList *icon_list;
 
 	priv = editor->priv;
-	file = make_icon_from_comp (priv->comp);
-	gnome_window_icon_set_from_file (GTK_WINDOW (editor), file);
+	icon_name = make_icon_from_comp (priv->comp);
+
+	icon_list = e_icon_factory_get_icon_list (icon_name);
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (editor), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
 }
 
 static void

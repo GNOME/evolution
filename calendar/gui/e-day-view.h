@@ -324,14 +324,10 @@ struct _EDayView
 	GdkGC *main_gc;
 
 	/* The icons. */
-	GdkPixmap *reminder_icon;
-	GdkBitmap *reminder_mask;
-	GdkPixmap *recurrence_icon;
-	GdkBitmap *recurrence_mask;
-	GdkPixmap *timezone_icon;
-	GdkBitmap *timezone_mask;
-	GdkPixmap *meeting_icon;
-	GdkBitmap *meeting_mask;
+	GdkPixbuf *reminder_icon;
+	GdkPixbuf *recurrence_icon;
+	GdkPixbuf *timezone_icon;
+	GdkPixbuf *meeting_icon;
 
 	/* Colors for drawing. */
 	GdkColor colors[E_DAY_VIEW_COLOR_LAST];

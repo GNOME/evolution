@@ -44,7 +44,7 @@
 	<oaf_attribute name="name" type="string" _value="Evolution's Calendar component"/>
 
 	<oaf_attribute name="evolution:button_label" type="string" _value="Calendars"/>
-        <oaf_attribute name="evolution:button_icon" type="string" value="evolution-calendar.png"/>
+        <oaf_attribute name="evolution:button_icon" type="string" value="stock_calendar"/>
 	<oaf_attribute name="evolution:button_sort_order" type="string" value="-8"/>
 </oaf_server>
 
@@ -79,7 +79,7 @@
 	<oaf_attribute name="name" type="string" _value="Evolution's Tasks component"/>
 
 	<oaf_attribute name="evolution:button_label" type="string" _value="Tasks"/>
-        <oaf_attribute name="evolution:button_icon" type="string" value="evolution-tasks.png"/>
+        <oaf_attribute name="evolution:button_icon" type="string" value="stock_todo"/>
 	<oaf_attribute name="evolution:button_sort_order" type="string" value="-8"/>
 </oaf_server>
 
@@ -129,7 +129,7 @@
 		       _value="Configure your timezone, Calendar and Task List here "/>
 
 	<oaf_attribute name="evolution2:config_item:icon_name" type="string"
-		       value="evolution-calendar.png"/>
+		       value="stock_calendar-and-tasks"/>
 
 	<oaf_attribute name="evolution2:config_item:type" type="stringv">
 		<item value="calendar"/>

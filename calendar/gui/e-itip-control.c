@@ -55,6 +55,7 @@
 #include "itip-utils.h"
 #include "e-itip-control.h"
 #include "common/authentication.h"
+#include <e-util/e-icon-factory.h>
 
 struct _EItipControlPrivate {
 	GtkWidget *html;
@@ -759,6 +760,7 @@ write_error_html (EItipControl *itip, const gchar *itip_err)
 {
 	EItipControlPrivate *priv;
 	GtkHTMLStream *html_stream;
+	gchar *filename;
 
 	priv = itip->priv;
 
@@ -776,7 +778,9 @@ write_error_html (EItipControl *itip, const gchar *itip_err)
 	/* The column for the image */
 	gtk_html_stream_printf (html_stream, "<tr><td width=48 align=\"center\" valign=\"top\" rowspan=\"8\">");
 	/* The image */
-	gtk_html_stream_printf (html_stream, "<img src=\"/meeting-request.png\"></td>");
+	filename = e_icon_factory_get_icon_filename ("stock_new-meeting", 48);
+	gtk_html_stream_printf (html_stream, "<img src=\"%s\"></td>", filename);
+	g_free (filename);
 
 	gtk_html_stream_printf (html_stream, "<td align=\"left\" valign=\"top\">");
 
@@ -809,6 +813,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	const char *string;
 	gchar *html;
 	const gchar *const_html;
+	gchar *filename;
 
 	priv = itip->priv;
 
@@ -832,8 +837,9 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen(const_html));
 
 	/* The image */
-	const_html = "<img src=\"/meeting-request.png\"></td>";
-	gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen(const_html));
+	filename = e_icon_factory_get_icon_filename ("stock_new-meeting", 48);
+	gtk_html_stream_printf (html_stream, "<img src=\"%s\"></td>", filename);
+	g_free (filename);
 
 	const_html = "<td align=\"left\" valign=\"top\">";
 	gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen(const_html));
@@ -1988,13 +1994,10 @@ static void
 url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data)
 {	unsigned char buffer[4096];
 	int len, fd;
-        char *path;
 
-	path = g_strdup_printf ("%s/%s", EVOLUTION_IMAGESDIR, url);
-
-	if ((fd = open (path, O_RDONLY)) == -1) {
+	if ((fd = open (url, O_RDONLY)) == -1) {
 		g_warning ("%s", g_strerror (errno));
-		goto cleanup;
+		return;
 	}
 
        	while ((len = read (fd, buffer, 4096)) > 0) {
@@ -2005,14 +2008,11 @@ url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpoint
 		/* check to see if we stopped because of an error */
 		gtk_html_end (html, handle, GTK_HTML_STREAM_ERROR);
 		g_warning ("%s", g_strerror (errno));
-		goto cleanup;
+		return;
 	}
 	/* done with no errors */
 	gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 	close (fd);
-
- cleanup:
-	g_free (path);
 }
 
 static gboolean

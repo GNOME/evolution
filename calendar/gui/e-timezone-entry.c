@@ -37,9 +37,7 @@
 #include <gal/util/e-util.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include "e-timezone-entry.h"
-
-/* The timezone icon for the button. */
-#include "art/timezone-16.xpm"
+#include <e-util/e-icon-factory.h>
 
 struct _ETimezoneEntryPrivate {
 	/* The current timezone, set in e_timezone_entry_set_timezone()
@@ -115,10 +113,8 @@ static void
 e_timezone_entry_init		(ETimezoneEntry	*tentry)
 {
 	ETimezoneEntryPrivate *priv;
-	GdkColormap *colormap;
-	GdkPixmap *timezone_icon;
-	GdkBitmap *timezone_mask;
-	GtkWidget *pixmap;
+	GtkWidget *gtk_image;
+	GdkPixbuf *gdk_pixbuf;
 
 	tentry->priv = priv = g_new0 (ETimezoneEntryPrivate, 1);
 
@@ -137,12 +133,12 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 	gtk_box_pack_start (GTK_BOX (tentry), priv->button, FALSE, FALSE, 6);
 	gtk_widget_show (priv->button);
 
-	colormap = gtk_widget_get_colormap (priv->button);
-	timezone_icon = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap, &timezone_mask, NULL, timezone_16_xpm);
-
-	pixmap = gtk_pixmap_new (timezone_icon, timezone_mask);
-	gtk_container_add (GTK_CONTAINER (priv->button), pixmap);
-	gtk_widget_show (pixmap);
+	gdk_pixbuf = e_icon_factory_get_icon ("stock_timezone", 16);
+	gtk_image = gtk_image_new_from_pixbuf (gdk_pixbuf);
+	gtk_container_add (GTK_CONTAINER (priv->button), gtk_image);
+	gtk_widget_show (gtk_image);
+	
+	g_object_unref (gdk_pixbuf);
 }
 
 

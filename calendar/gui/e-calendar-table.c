@@ -51,14 +51,7 @@
 #include "e-cell-date-edit-text.h"
 #include "e-comp-editor-registry.h"
 #include "print.h"
-
-/* Pixmaps. */
-#include "art/task.xpm"
-#include "art/task-recurring.xpm"
-#include "art/task-assigned.xpm"
-#include "art/task-assigned-to.xpm"
-
-#include "art/check-filled.xpm"
+#include <e-util/e-icon-factory.h>
 
 extern ECompEditorRegistry *comp_editor_registry;
 
@@ -114,8 +107,8 @@ static void open_task (ECalendarTable *cal_table, ECalModelComponent *comp_data,
 
 /* The icons to represent the task. */
 #define E_CALENDAR_MODEL_NUM_ICONS	4
-static char** icon_xpm_data[E_CALENDAR_MODEL_NUM_ICONS] = {
-	task_xpm, task_recurring_xpm, task_assigned_xpm, task_assigned_to_xpm
+static const char* icon_names[E_CALENDAR_MODEL_NUM_ICONS] = {
+	"stock_task", "stock_task-recurring", "stock_task-assigned", "stock_task-assigned-to"
 };
 static GdkPixbuf* icon_pixbufs[E_CALENDAR_MODEL_NUM_ICONS] = { 0 };
 
@@ -487,8 +480,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	if (!icon_pixbufs[0])
 		for (i = 0; i < E_CALENDAR_MODEL_NUM_ICONS; i++) {
-			icon_pixbufs[i] = gdk_pixbuf_new_from_xpm_data (
-				(const char **) icon_xpm_data[i]);
+			icon_pixbufs[i] = e_icon_factory_get_icon (icon_names[i], 16);
 		}
 
 	cell = e_cell_toggle_new (0, E_CALENDAR_MODEL_NUM_ICONS, icon_pixbufs);
@@ -498,7 +490,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	e_table_extras_add_cell(extras, "icon", cell);
 	e_table_extras_add_pixbuf(extras, "icon", icon_pixbufs[0]);
 
-	pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) check_filled_xpm);
+	pixbuf = e_icon_factory_get_icon ("stock_check-filled", 16);
 	e_table_extras_add_pixbuf(extras, "complete", pixbuf);
 	gdk_pixbuf_unref(pixbuf);
 
@@ -1374,7 +1366,7 @@ static char *test[] = {
 #endif
 
 /* Displays messages on the status bar */
-#define EVOLUTION_TASKS_PROGRESS_IMAGE "evolution-tasks-mini.png"
+#define EVOLUTION_TASKS_PROGRESS_IMAGE "stock_todo"
 static GdkPixbuf *progress_icon = NULL;
 
 void
@@ -1391,9 +1383,9 @@ e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *mes
 		}
         } else if (cal_table->activity_id == 0) {
                 char *client_id = g_strdup_printf ("%p", cal_table);
-                                                                                
+                                 
                 if (progress_icon == NULL)
-                        progress_icon = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_TASKS_PROGRESS_IMAGE, NULL);
+                        progress_icon = e_icon_factory_get_icon (EVOLUTION_TASKS_PROGRESS_IMAGE, 16);
 
                 cal_table->activity_id = e_activity_handler_operation_started (activity_handler, client_id,
 									       progress_icon, message, TRUE);

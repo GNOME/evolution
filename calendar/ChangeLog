@@ -1,3 +1,26 @@
+2004-04-19  Michael Terry  <mike@mterry.name>
+
+	* gui/GNOME_Evolution_Calendar.server.in.in:
+	* gui/calendar-commands.c:
+	* gui/calendar-component.c:
+	* gui/e-calendar-table.c:
+	* gui/e-calendar-view.c:
+	* gui/e-day-view-main-item.c:
+	* gui/e-day-view-top-item.c:
+	* gui/e-day-view.c:
+	* gui/e-day-view.h:
+	* gui/e-itip-control.c:
+	* gui/e-timezone-entry.c:
+	* gui/e-week-view-event-item.c:
+	* gui/e-week-view.c:
+	* gui/e-week-view.h:
+	* gui/tasks-component.c:
+	* gui/alarm-notify/alarm-notify-dialog.c:
+	* gui/alarm-notify/alarm-queue.c:
+	* gui/dialogs/comp-editor.c:
+	* gui/dialogs/event-editor.c: Update the calendar to use the icon theme
+	through the EIconFactory object in e-util
+
 2004-04-19  JP Rosevear <jpr@ximian.com>
 
 	* gui/gnome-cal.c (set_view): take a range_selected boolean for
