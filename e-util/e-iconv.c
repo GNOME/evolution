@@ -96,7 +96,7 @@ static GHashTable *iconv_cache_open;
 static unsigned int iconv_cache_size = 0;
 
 static GHashTable *iconv_charsets = NULL;
-static const char *locale_charset = NULL;
+static char *locale_charset = NULL;
 
 struct {
 	char *charset;
@@ -227,7 +227,7 @@ e_iconv_init(int keep)
 	} else {
 #ifdef HAVE_CODESET
 		locale_charset = g_strdup(nl_langinfo(CODESET));
-		g_strdown((char *)locale_charset);
+		g_strdown(locale_charset);
 #else
 		/* A locale name is typically of  the  form  language[_terri-
 		 * tory][.codeset][@modifier],  where  language is an ISO 639
