@@ -66,6 +66,10 @@
 #define IMAP_PORT 143
 #define SIMAP_PORT 993
 
+/* this enables an experimental fix for bug #28177 */
+#define COMMAND_LOCK_IS_CONNECT_LOCK
+
+
 extern int camel_verbose_debug;
 
 static CamelDiscoStoreClass *parent_class = NULL;
@@ -195,10 +199,8 @@ camel_imap_store_finalize (CamelObject *object)
 		g_free (imap_store->storage_path);
 	
 #ifdef ENABLE_THREADS
-	e_mutex_destroy (imap_store->priv->command_lock);
 	e_thread_destroy (imap_store->async_thread);
 #endif
-	g_free (imap_store->priv);
 }
 
 #ifdef ENABLE_THREADS
@@ -261,13 +263,11 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	if (imap_tag_prefix > 'Z')
 		imap_tag_prefix = 'A';
 	
-	imap_store->priv = g_malloc0 (sizeof (*imap_store->priv));
 #ifdef ENABLE_THREADS
-	imap_store->priv->command_lock = e_mutex_new (E_MUTEX_REC);
 	imap_store->async_thread = e_thread_new(E_THREAD_QUEUE);
 	e_thread_set_msg_destroy(imap_store->async_thread, async_destroy, imap_store);
 	e_thread_set_msg_received(imap_store->async_thread, async_received, imap_store);
-#endif
+#endif /* ENABLE_THREADS */
 }
 
 CamelType
@@ -472,7 +472,7 @@ imap_get_capability (CamelService *service, CamelException *ex)
 	char *result, *capa, *lasts;
 	int i;
 	
-	CAMEL_IMAP_STORE_ASSERT_LOCKED (store, command_lock);
+	CAMEL_SERVICE_ASSERT_LOCKED (store, connect_lock);
 	
 	/* Find out the IMAP capabilities */
 	/* We assume we have utf8 capable search until a failed search tells us otherwise */
@@ -744,9 +744,9 @@ query_auth_types (CamelService *service, CamelException *ex)
 	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
 		return NULL;
 	
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	connected = connect_to_server_wrapper (service, ex);
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 	if (!connected)
 		return NULL;
 	
@@ -955,7 +955,7 @@ try_auth (CamelImapStore *store, const char *mech, CamelException *ex)
 	char *resp;
 	char *sasl_resp;
 	
-	CAMEL_IMAP_STORE_ASSERT_LOCKED (store, command_lock);
+	CAMEL_SERVICE_ASSERT_LOCKED (store, connect_lock);
 	
 	response = camel_imap_command (store, NULL, ex, "AUTHENTICATE %s", mech);
 	if (!response)
@@ -1018,7 +1018,7 @@ imap_auth_loop (CamelService *service, CamelException *ex)
 	char *errbuf = NULL;
 	gboolean authenticated = FALSE;
 	
-	CAMEL_IMAP_STORE_ASSERT_LOCKED (store, command_lock);
+	CAMEL_SERVICE_ASSERT_LOCKED (store, connect_lock);
 	
 	if (service->url->authmech) {
 		if (!g_hash_table_lookup (store->authtypes, service->url->authmech)) {
@@ -1138,10 +1138,10 @@ imap_connect_online (CamelService *service, CamelException *ex)
 	int i, flags;
 	size_t len;
 	
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	if (!connect_to_server_wrapper (service, ex) ||
 	    !imap_auth_loop (service, ex)) {
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 		camel_service_disconnect (service, TRUE, NULL);
 		return FALSE;
 	}
@@ -1267,7 +1267,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 	
  done:
 	fclose (storeinfo);
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 	
 	if (camel_exception_is_set (ex))
 		camel_service_disconnect (service, TRUE, NULL);
@@ -1433,7 +1433,7 @@ imap_noop (CamelStore *store, CamelException *ex)
 	if (camel_disco_store_status (disco) != CAMEL_DISCO_STORE_ONLINE)
 		return;
 	
-	CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+	CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 	
 	current_folder = imap_store->current_folder;
 	if (current_folder && imap_summary_is_dirty (current_folder->summary)) {
@@ -1445,7 +1445,7 @@ imap_noop (CamelStore *store, CamelException *ex)
 			camel_imap_response_free (imap_store, response);
 	}
 	
-	CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+	CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 }
 
 static guint
@@ -1534,7 +1534,7 @@ get_folder_online (CamelStore *store, const char *folder_name,
 		folder_name = "INBOX";
 	
 	/* Lock around the whole lot to check/create atomically */
-	CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+	CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 	if (imap_store->current_folder) {
 		camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
 		imap_store->current_folder = NULL;
@@ -1543,7 +1543,7 @@ get_folder_online (CamelStore *store, const char *folder_name,
 				       "SELECT %F", folder_name);
 	if (!response) {
 		if (!flags & CAMEL_STORE_FOLDER_CREATE) {
-			CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+			CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			return no_such_folder (folder_name, ex);
 		}
 		
@@ -1556,7 +1556,7 @@ get_folder_online (CamelStore *store, const char *folder_name,
 						       "SELECT %F", folder_name);
 		}
 		if (!response) {
-			CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+			CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			return NULL;
 		}
 	}
@@ -1584,7 +1584,7 @@ get_folder_online (CamelStore *store, const char *folder_name,
 	}
 	camel_imap_response_free_without_processing (imap_store, response);
 	
-	CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+	CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 	
 	return new_folder;
 }
@@ -1634,14 +1634,14 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 	if (response) {
 		camel_imap_response_free_without_processing (imap_store, response);
 		
-		CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+		CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 		
 		if (imap_store->current_folder)
 			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
 		/* no need to actually create a CamelFolder for INBOX */
 		imap_store->current_folder = NULL;
 		
-		CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+		CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 	} else
 		return;
 	
@@ -1720,14 +1720,14 @@ rename_folder (CamelStore *store, const char *old_name, const char *new_name, Ca
 	if (response) {
 		camel_imap_response_free_without_processing (imap_store, response);
 		
-		CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+		CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 		
 		if (imap_store->current_folder)
 			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
 		/* no need to actually create a CamelFolder for INBOX */
 		imap_store->current_folder = NULL;
 		
-		CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+		CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 	} else
 		return;
 	
@@ -2102,7 +2102,7 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 			    && ( (imap_store->parameters & IMAP_PARAM_CHECK_ALL)
 				 || strcasecmp(fi->full_name, "inbox") == 0) ) {
 
-				CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+				CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 				/* For the current folder, poke it to check for new	
 				 * messages and then report that number, rather than
 				 * doing a STATUS command.
@@ -2115,7 +2115,7 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 				} else
 					fi->unread_message_count = get_folder_status (imap_store, fi->full_name, "UNSEEN");
 		
-				CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+				CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			} else {
 				fi->unread_message_count = -1;
 			}

@@ -39,6 +39,7 @@
 #include "camel-imap-store.h"
 #include "camel-imap-private.h"
 #include <camel/camel-exception.h>
+#include <camel/camel-private.h>
 
 #define d(x) x
 
@@ -73,7 +74,7 @@ static char *imap_command_strdup_printf (CamelImapStore *store,
  *
  * See camel_imap_command_start() for details on @fmt.
  *
- * On success, the store's command_lock will be locked. It will be freed
+ * On success, the store's connect_lock will be locked. It will be freed
  * when you call camel_imap_response_free. (The lock is recursive, so
  * callers can grab and release it themselves if they need to run
  * multiple commands atomically.)
@@ -89,7 +90,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 	va_list ap;
 	char *cmd;
 	
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
 	if (fmt) {
 		va_start (ap, fmt);
@@ -108,7 +109,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 	
 	if (!imap_command_start (store, folder, cmd, ex)) {
 		g_free (cmd);
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 		return NULL;
 	}
 	g_free (cmd);
@@ -140,7 +141,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
  * %F will have the imap store's namespace prepended and then be processed
  * like %S.
  *
- * On success, the store's command_lock will be locked. It will be
+ * On success, the store's connect_lock will be locked. It will be
  * freed when %CAMEL_IMAP_RESPONSE_TAGGED or %CAMEL_IMAP_RESPONSE_ERROR
  * is returned from camel_imap_command_response(). (The lock is
  * recursive, so callers can grab and release it themselves if they
@@ -161,12 +162,12 @@ camel_imap_command_start (CamelImapStore *store, CamelFolder *folder,
 	cmd = imap_command_strdup_vprintf (store, fmt, ap);
 	va_end (ap);
 	
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	ok = imap_command_start (store, folder, cmd, ex);
 	g_free (cmd);
 	
 	if (!ok)
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 	return ok;
 }
 
@@ -243,7 +244,7 @@ imap_command_start (CamelImapStore *store, CamelFolder *folder,
  * This function assumes you have an exclusive lock on the imap stream.
  *
  * Return value: as for camel_imap_command(). On failure, the store's
- * command_lock will be released.
+ * connect_lock will be released.
  **/
 CamelImapResponse *
 camel_imap_command_continuation (CamelImapStore *store, const char *cmd,
@@ -261,7 +262,7 @@ camel_imap_command_continuation (CamelImapStore *store, const char *cmd,
 			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 					     g_strerror (errno));
 		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 		return NULL;
 	}
 	
@@ -291,7 +292,7 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 	char *respbuf;
 	
 	if (camel_imap_store_readline (store, &respbuf, ex) < 0) {
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 		return CAMEL_IMAP_RESPONSE_ERROR;
 	}
 	
@@ -328,7 +329,7 @@ camel_imap_command_response (CamelImapStore *store, char **response,
 	
 	if (type == CAMEL_IMAP_RESPONSE_ERROR ||
 	    type == CAMEL_IMAP_RESPONSE_TAGGED)
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 	
 	return type;
 }
@@ -345,7 +346,7 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 	 * we're still locked. This lock is owned by response
 	 * and gets unlocked when response is freed.
 	 */
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
 	response = g_new0 (CamelImapResponse, 1);
 	if (store->current_folder && camel_disco_store_status (CAMEL_DISCO_STORE (store)) != CAMEL_DISCO_STORE_RESYNCING) {
@@ -521,7 +522,7 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
  * @response: a CamelImapResponse
  *
  * Frees all of the data in @response and processes any untagged
- * EXPUNGE and EXISTS responses in it. Releases @store's command_lock.
+ * EXPUNGE and EXISTS responses in it. Releases @store's connect_lock.
  **/
 void
 camel_imap_response_free (CamelImapStore *store, CamelImapResponse *response)
@@ -568,7 +569,7 @@ camel_imap_response_free (CamelImapStore *store, CamelImapResponse *response)
 	}
 	
 	g_free (response);
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 }
 
 /**
@@ -601,7 +602,7 @@ camel_imap_response_free_without_processing (CamelImapStore *store,
  * type @type and returns just that response data. If @response
  * doesn't contain the right information, the function will set @ex
  * and return %NULL. Either way, @response will be freed and the
- * store's command_lock released.
+ * store's connect_lock released.
  *
  * Return value: the desired response string, which the caller must free.
  **/
@@ -649,7 +650,7 @@ camel_imap_response_extract (CamelImapStore *store,
  *
  * This checks that @response contains a continuation response, and
  * returns just that data. If @response doesn't contain a continuation
- * response, the function will set @ex, release @store's command_lock,
+ * response, the function will set @ex, release @store's connect_lock,
  * and return %NULL. Either way, @response will be freed.
  *
  * Return value: the desired response string, which the caller must free.

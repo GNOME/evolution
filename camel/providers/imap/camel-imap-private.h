@@ -26,35 +26,17 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 /* need a way to configure and save this data, if this header is to
    be installed.  For now, dont install it */
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #ifdef ENABLE_THREADS
 #include "e-util/e-msgport.h"
-#endif
-
-struct _CamelImapStorePrivate {
-#ifdef ENABLE_THREADS
-	EMutex *command_lock;	/* for locking the command stream for a complete operation */
-#endif
-};
-
-#ifdef ENABLE_THREADS
-#define CAMEL_IMAP_STORE_LOCK(f, l) (e_mutex_lock(((CamelImapStore *)f)->priv->l))
-#define CAMEL_IMAP_STORE_UNLOCK(f, l) (e_mutex_unlock(((CamelImapStore *)f)->priv->l))
-#  if 0
-#  define CAMEL_IMAP_STORE_ASSERT_LOCKED(f, l) (e_mutex_assert_locked(((CamelImapStore *)f)->priv->l))
-#  else
-#  define CAMEL_IMAP_STORE_ASSERT_LOCKED(f, l)
-#  endif
-#else
-#define CAMEL_IMAP_STORE_LOCK(f, l)
-#define CAMEL_IMAP_STORE_UNLOCK(f, l)
-#define CAMEL_IMAP_STORE_ASSERT_LOCKED(f, l)
 #endif
 
 struct _CamelImapFolderPrivate {

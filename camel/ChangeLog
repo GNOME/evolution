@@ -1,3 +1,13 @@
+2002-08-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c:
+
+	* providers/imap/camel-imap-folder.c:
+
+	* providers/imap/camel-imap-command.c: Lock the
+	CamelService->priv->connect_lock instead of using our own
+	command_lock. This fixes bug #28177.
+
 2002-08-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_helo): If we fail to

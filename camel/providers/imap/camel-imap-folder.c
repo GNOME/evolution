@@ -65,6 +65,7 @@
 #include "camel-stream-mem.h"
 #include "camel-stream.h"
 #include "string-utils.h"
+#include "camel-private.h"
 
 
 #define d(x) x
@@ -256,7 +257,7 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 	return folder;
 }
 
-/* Called with the store's command_lock locked */
+/* Called with the store's connect_lock locked */
 void
 camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 			    CamelException *ex)
@@ -269,7 +270,7 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 	int i, count;
 	char *resp;
 	
-	CAMEL_IMAP_STORE_ASSERT_LOCKED (folder->parent_store, command_lock);
+	CAMEL_SERVICE_ASSERT_LOCKED (folder->parent_store, connect_lock);
 	
 	count = camel_folder_summary_count (folder->summary);
 	
@@ -478,9 +479,9 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	/* If the folder isn't selected, select it (which will force
 	 * a rescan if one is needed).
 	 */
-	CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+	CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 	if (imap_store->current_folder != folder) {
-		CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+		CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 		response = camel_imap_command (imap_store, folder, ex, NULL);
 		if (response) {
 			camel_imap_folder_selected (folder, response, NULL);
@@ -488,7 +489,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 		}
 		return;
 	}
-	CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+	CAMEL_SERVICE_LOCK (imap_store, connect_lock);
 	
 	/* Otherwise, if we need a rescan, do it, and if not, just do
 	 * a NOOP to give the server a chance to tell us about new
@@ -502,7 +503,7 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 	}
 }
 
-/* Called with the store's command_lock locked */
+/* Called with the store's connect_lock locked */
 static void
 imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 {
@@ -521,7 +522,7 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 	gboolean ok;
 	CamelFolderChangeInfo *changes = NULL;
 
-	CAMEL_IMAP_STORE_ASSERT_LOCKED (store, command_lock);
+	CAMEL_SERVICE_ASSERT_LOCKED (store, connect_lock);
 	imap_folder->need_rescan = FALSE;
 	
 	summary_len = camel_folder_summary_count (folder->summary);
@@ -727,7 +728,7 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 	int i, j, max;
 	
 	camel_exception_init (&local_ex);
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
 	/* Find a message with changed flags, find all of the other
 	 * messages like it, sync them as a group, mark them as
@@ -787,8 +788,8 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 		}
 		g_ptr_array_free (matches, TRUE);
 		
-		/* We unlock here so that other threads can have a chance to grab the command_lock */
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		/* We unlock here so that other threads can have a chance to grab the connect_lock */
+		CAMEL_SERVICE_LOCK (store, connect_lock);
 		
 		/* check for an exception */
 		if (camel_exception_is_set (&local_ex)) {
@@ -796,14 +797,14 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 			return;
 		}
 		
-		/* Re-lock the command_lock */
-		CAMEL_IMAP_STORE_LOCK (store, command_lock);
+		/* Re-lock the connect_lock */
+		CAMEL_SERVICE_LOCK (store, connect_lock);
 	}
 	
 	/* Save the summary */
 	imap_sync_offline (folder, ex);
 	
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 }
 
 static void
@@ -838,12 +839,12 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 	int uid = 0;
 	char *set;
 	
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 
 	if ((store->capabilities & IMAP_CAPABILITY_UIDPLUS) == 0) {
 		((CamelFolderClass *)CAMEL_OBJECT_GET_CLASS(folder))->sync(folder, 0, ex);
 		if (camel_exception_is_set(ex)) {
-			CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+			CAMEL_SERVICE_LOCK (store, connect_lock);
 			return;
 		}
 	}
@@ -856,7 +857,7 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 		if (response)
 			camel_imap_response_free (store, response);
 		if (camel_exception_is_set (ex)) {
-			CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+			CAMEL_SERVICE_LOCK (store, connect_lock);
 			g_free (set);
 			return;
 		}
@@ -871,7 +872,7 @@ imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *
 			camel_imap_response_free (store, response);
 	}
 	
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 }
 
 static int
@@ -909,22 +910,22 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 	 * marked un-deleted.
 	 */
 	
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 
 	((CamelFolderClass *)CAMEL_OBJECT_GET_CLASS(folder))->sync(folder, 0, ex);
 	if (camel_exception_is_set(ex)) {
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		CAMEL_SERVICE_LOCK (store, connect_lock);
 		return;
 	}
 
 	response = camel_imap_command (store, folder, ex, "UID SEARCH DELETED");
 	if (!response) {
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		CAMEL_SERVICE_LOCK (store, connect_lock);
 		return;
 	}
 	result = camel_imap_response_extract (store, response, "SEARCH", ex);
 	if (!result) {
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		CAMEL_SERVICE_LOCK (store, connect_lock);
 		return;
 	}
 	
@@ -985,7 +986,7 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 			if (!response) {
 				g_ptr_array_free (keep_uids, TRUE);
 				g_ptr_array_free (mark_uids, TRUE);
-				CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+				CAMEL_SERVICE_LOCK (store, connect_lock);
 				return;
 			}
 			camel_imap_response_free (store, response);
@@ -1009,7 +1010,7 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 			if (!response) {
 				g_ptr_array_free (keep_uids, TRUE);
 				g_ptr_array_free (mark_uids, TRUE);
-				CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+				CAMEL_SERVICE_LOCK (store, connect_lock);
 				return;
 			}
 			camel_imap_response_free (store, response);
@@ -1049,7 +1050,7 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 	/* now we can free this, now that we're done with keep_uids */
 	g_free (result);
 	
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 }
 
 static gchar *
@@ -1213,11 +1214,11 @@ imap_append_online (CamelFolder *folder, CamelMimeMessage *message,
 	camel_imap_response_free (store, response);
 	
 	/* Make sure a "folder_changed" is emitted. */
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	if (store->current_folder != folder ||
 	    camel_folder_summary_count (folder->summary) == count)
 		imap_refresh_info (folder, ex);
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 }
 
 static void
@@ -1272,10 +1273,10 @@ imap_transfer_offline (CamelFolder *source, GPtrArray *uids,
 	 * deadlock in the case where we're simultaneously also trying
 	 * to copy messages in the other direction from another thread.
 	 */
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	CAMEL_IMAP_FOLDER_LOCK (source, cache_lock);
 	CAMEL_IMAP_FOLDER_LOCK (dest, cache_lock);
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 
 	if (transferred_uids) {
 		*transferred_uids = g_ptr_array_new ();
@@ -1423,11 +1424,11 @@ imap_transfer_online (CamelFolder *source, GPtrArray *uids,
 		return;
 
 	/* Make the destination notice its new messages */
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	if (store->current_folder != dest ||
 	    camel_folder_summary_count (dest->summary) == count)
 		camel_folder_refresh_info (dest, ex);
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
 	if (delete_originals) {
 		for (i = 0; i < uids->len; i++)
@@ -2032,7 +2033,7 @@ imap_update_summary (CamelFolder *folder, int exists,
 	char *uid, *resp;
 	GData *data;
 	
-	CAMEL_IMAP_STORE_ASSERT_LOCKED (store, command_lock);
+	CAMEL_SERVICE_ASSERT_LOCKED (store, connect_lock);
 	if (store->server_level >= IMAP_LEVEL_IMAP4REV1)
 		header_spec = "HEADER";
 	else
@@ -2308,7 +2309,7 @@ imap_update_summary (CamelFolder *folder, int exists,
 	}
 }
 
-/* Called with the store's command_lock locked */
+/* Called with the store's connect_lock locked */
 void
 camel_imap_folder_changed (CamelFolder *folder, int exists,
 			   GArray *expunged, CamelException *ex)
@@ -2318,7 +2319,7 @@ camel_imap_folder_changed (CamelFolder *folder, int exists,
 	CamelMessageInfo *info;
 	int len;
 	
-	CAMEL_IMAP_STORE_ASSERT_LOCKED (folder->parent_store, command_lock);
+	CAMEL_SERVICE_ASSERT_LOCKED (folder->parent_store, connect_lock);
 	
 	changes = camel_folder_change_info_new ();
 	if (expunged) {
@@ -2385,11 +2386,11 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 	
 	/* EXPUNGE responses have to modify the cache, which means
 	 * they have to grab the cache_lock while holding the
-	 * command_lock. So we grab the command_lock now, in case
+	 * connect_lock. So we grab the connect_lock now, in case
 	 * we're going to need it below, since we can't grab it
 	 * after the cache_lock.
 	 */
-	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
 	CAMEL_IMAP_FOLDER_LOCK (imap_folder, cache_lock);
 	stream = camel_imap_message_cache_get (imap_folder->cache, uid, section_text);
@@ -2397,7 +2398,7 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 		stream = camel_imap_message_cache_get (imap_folder->cache, uid, "");
 	if (stream || cache_only) {
 		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		CAMEL_SERVICE_LOCK (store, connect_lock);
 		return stream;
 	}
 	
@@ -2405,7 +2406,7 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				     _("This message is not currently available"));
 		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
-		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		CAMEL_SERVICE_LOCK (store, connect_lock);
 		return NULL;
 	}
 	
@@ -2418,8 +2419,8 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 					       "UID FETCH %s BODY.PEEK[%s]",
 					       uid, section_text);
 	}
-	/* We won't need the command_lock again after this. */
-	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	/* We won't need the connect_lock again after this. */
+	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
 	if (!response) {
 		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);

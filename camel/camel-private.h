@@ -26,7 +26,7 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 /* need a way to configure and save this data, if this header is to
    be installed.  For now, dont install it */
@@ -101,9 +101,11 @@ struct _CamelServicePrivate {
 #ifdef ENABLE_THREADS
 #define CAMEL_SERVICE_LOCK(f, l) (e_mutex_lock(((CamelService *)f)->priv->l))
 #define CAMEL_SERVICE_UNLOCK(f, l) (e_mutex_unlock(((CamelService *)f)->priv->l))
+#define CAMEL_SERVICE_ASSERT_LOCKED(f, l) (e_mutex_assert_locked (((CamelService *)f)->priv->l))
 #else
 #define CAMEL_SERVICE_LOCK(f, l)
 #define CAMEL_SERVICE_UNLOCK(f, l)
+#define CAMEL_SERVICE_ASSERT_LOCKED(f, l)
 #endif
 
 struct _CamelSessionPrivate {

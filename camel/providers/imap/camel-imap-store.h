@@ -99,7 +99,6 @@ typedef enum {
 
 struct _CamelImapStore {
 	CamelDiscoStore parent_object;	
-	struct _CamelImapStorePrivate *priv;
 	
 	CamelStream *istream;
 	CamelStream *ostream;
