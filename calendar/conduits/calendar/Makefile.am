@@ -28,6 +28,7 @@ e_calendar_conduits_LTLIBRARIES = libecalendar_conduit.la
 
 libecalendar_conduit_la_SOURCES = 	\
 	calendar-conduit.c		\
+	calendar-conduit.h		\
 	calendar-conduit-config.h
 
 libecalendar_conduit_la_LIBADD = 					\
