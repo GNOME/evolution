@@ -1,3 +1,9 @@
+2002-09-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/save.c (save_notification_time): only save the
+	new notification time if it is bigger than the already saved one.
+	This should avoid some reminders showing up twice.
+
 2002-09-20  JP Rosevear  <jpr@ximian.com>
 
 	* gui/comp-util.c (cal_comp_is_on_server): check to see if the

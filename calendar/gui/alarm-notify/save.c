@@ -53,13 +53,19 @@ void
 save_notification_time (time_t t)
 {
 	EConfigListener *cl;
+	time_t current_t;
 
 	g_return_if_fail (t != -1);
 
 	if (!(cl = config_data_get_listener ()))
 		return;
 
-	e_config_listener_set_long (cl, KEY_LAST_NOTIFICATION_TIME, (long) t);
+	/* we only store the new notification time if it is bigger
+	   than the already stored one */
+	current_t = e_config_listener_get_long_with_default (cl, KEY_LAST_NOTIFICATION_TIME,
+							     -1, NULL);
+	if (t > current_t)
+		e_config_listener_set_long (cl, KEY_LAST_NOTIFICATION_TIME, (long) t);
 }
 
 /**
