@@ -1,3 +1,11 @@
+2002-09-11  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-week-view.c (e_week_view_new_appointment): create a new
+	appointment based on the selection
+	(e_week_view_on_button_press): use above
+	(e_week_view_on_new_appointment): ditto
+	(e_week_view_on_new_meeting): ditto
+
 2002-09-10  JP Rosevear  <jpr@ximian.com>
 
 	* gui/comp-editor-factory.c (get_default_event): duh, don't

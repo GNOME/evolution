@@ -1010,6 +1010,33 @@ e_week_view_draw_shadow (EWeekView *week_view)
 	gdk_draw_line (window, light_gc, x1, y2, x2, y2);
 }
 
+static void
+e_week_view_new_appointment (EWeekView *week_view, gboolean meeting)
+{
+	time_t dtstart, dtend;
+	struct icaltimetype itt;
+	gboolean all_day = FALSE;
+	
+	/* Edit a new event. If only one day is selected we set the time to
+	   the first 1/2-hour of the working day. */
+	if (week_view->selection_start_day == week_view->selection_end_day) {
+		dtstart = week_view->day_starts[week_view->selection_start_day];
+		itt = icaltime_from_timet_with_zone (dtstart, FALSE,
+						     week_view->zone);
+		itt.hour = calendar_config_get_day_start_hour ();
+		itt.minute = calendar_config_get_day_start_minute ();
+		dtstart = icaltime_as_timet_with_zone (itt, week_view->zone);
+
+		icaltime_adjust (&itt, 0, 0, 30, 0);
+		dtend = icaltime_as_timet_with_zone (itt, week_view->zone);
+	} else {
+		dtstart = week_view->day_starts[week_view->selection_start_day];
+		dtend = week_view->day_starts[week_view->selection_end_day + 1];
+		all_day = TRUE;
+	}
+
+	gnome_calendar_new_appointment_for (week_view->calendar, dtstart, dtend, all_day, meeting);
+}
 
 void
 e_week_view_set_calendar	(EWeekView	*week_view,
@@ -2207,13 +2234,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 		return FALSE;
 
 	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
-		time_t dtstart, dtend;
-
-		dtstart = week_view->day_starts[day];
-		dtend = week_view->day_starts[day + 1];
-		gnome_calendar_new_appointment_for (week_view->calendar,
-						    dtstart, dtend,
-						    TRUE, FALSE);
+		e_week_view_new_appointment (week_view, FALSE);
 		return TRUE;
 	}
 
@@ -3641,33 +3662,15 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 	e_popup_menu (popup, (GdkEvent *) bevent);
 }
 
+
 static void
 e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (data);
-	time_t dtstart, dtend;
-	struct icaltimetype itt;
 
-	/* Edit a new event. If only one day is selected we set the time to
-	   the first 1/2-hour of the working day. */
-	if (week_view->selection_start_day == week_view->selection_end_day) {
-		dtstart = week_view->day_starts[week_view->selection_start_day];
-		itt = icaltime_from_timet_with_zone (dtstart, FALSE,
-						     week_view->zone);
-		itt.hour = calendar_config_get_day_start_hour ();
-		itt.minute = calendar_config_get_day_start_minute ();
-		dtstart = icaltime_as_timet_with_zone (itt, week_view->zone);
-
-		icaltime_adjust (&itt, 0, 0, 30, 0);
-		dtend = icaltime_as_timet_with_zone (itt, week_view->zone);
-	} else {
-		dtstart = week_view->day_starts[week_view->selection_start_day];
-		dtend = week_view->day_starts[week_view->selection_end_day + 1];
-	}
-
-	gnome_calendar_new_appointment_for (
-		week_view->calendar, dtstart, dtend, FALSE, FALSE);
+	e_week_view_new_appointment (week_view, FALSE);
 }
+
 
 static void
 e_week_view_on_new_event (GtkWidget *widget, gpointer data)
@@ -3685,26 +3688,8 @@ static void
 e_week_view_on_new_meeting (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (data);
-	time_t dtstart, dtend;
-	struct icaltimetype itt;
 
-	if (week_view->selection_start_day == week_view->selection_end_day) {
-		dtstart = week_view->day_starts[week_view->selection_start_day];
-		itt = icaltime_from_timet_with_zone (dtstart, FALSE,
-						     week_view->zone);
-		itt.hour = calendar_config_get_day_start_hour ();
-		itt.minute = calendar_config_get_day_start_minute ();
-		dtstart = icaltime_as_timet_with_zone (itt, week_view->zone);
-
-		icaltime_adjust (&itt, 0, 0, 30, 0);
-		dtend = icaltime_as_timet_with_zone (itt, week_view->zone);
-	} else {
-		dtstart = week_view->day_starts[week_view->selection_start_day];
-		dtend = week_view->day_starts[week_view->selection_end_day + 1];
-	}
-
-	gnome_calendar_new_appointment_for (
-		week_view->calendar, dtstart, dtend, FALSE, TRUE);
+	e_week_view_new_appointment (week_view, TRUE);
 }
 
 static void
