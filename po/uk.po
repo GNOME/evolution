@@ -1066,7 +1066,7 @@ msgstr "Вибрати назви"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid "Show contacts matching the following criteria:"
-msgstr ""
+msgstr "Показати контакти, що в╕дпов╕дають таким критер╕ям:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:6
 msgid "_Category:"
@@ -1082,7 +1082,7 @@ msgstr "Адресати пов╕домлення:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "Anni_versary:"
-msgstr ""
+msgstr "Р╕чниця:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "B_usiness"
@@ -1220,13 +1220,12 @@ msgid "_Profession:"
 msgstr "Профес╕я:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:35
-#, fuzzy
 msgid "_Public Calendar URL:"
-msgstr "Календар"
+msgstr "URL публ╕чного календаря:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Spouse:"
-msgstr ""
+msgstr "Дружина:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_This is the mailing address"
@@ -1242,16 +1241,16 @@ msgstr "Стерти контакт?"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:754
 msgid "This contact belongs to these categories:"
-msgstr ""
+msgstr "Цей контакт належить до таких категор╕й:"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1605
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2227
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find widget for a field: `%s'"
-msgstr "Не вдалося стерти теку \"%s\": %s"
+msgstr "Не вдалося знайти в╕джета для поля: \"%s\""
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:284
 msgid "Contact Quick-Add"
@@ -2847,12 +2846,12 @@ msgstr "Невизначено"
 #: calendar/conduits/calendar/calendar-conduit.c:886
 #: calendar/conduits/todo/todo-conduit.c:617
 msgid "Error while communicating with calendar server"
-msgstr ""
+msgstr "Помилка п╕д час комун╕кування з календарним сервером"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1012
 #: calendar/conduits/calendar/calendar-conduit.c:1015
 msgid "Could not read pilot's Calendar application block"
-msgstr ""
+msgstr "Не вдалося зчитати програмний блок календаря з п╕лота"
 
 #: calendar/conduits/todo/todo-conduit.c:725
 #: calendar/conduits/todo/todo-conduit.c:728
@@ -3115,19 +3114,16 @@ msgid "Day View"
 msgstr "Картка: "
 
 #: calendar/gui/calendar-view-factory.c:152 views/calendar/galview.xml.h:4
-#, fuzzy
 msgid "Work Week View"
-msgstr "Робочий тиждень"
+msgstr "Показ робочого тижня"
 
 #: calendar/gui/calendar-view-factory.c:155 views/calendar/galview.xml.h:3
-#, fuzzy
 msgid "Week View"
-msgstr "Тиждень"
+msgstr "Показ тижня"
 
 #: calendar/gui/calendar-view-factory.c:158 views/calendar/galview.xml.h:2
-#, fuzzy
 msgid "Month View"
-msgstr "М╕сяць"
+msgstr "Показ м╕сяця"
 
 #: calendar/gui/cal-search-bar.c:56
 msgid "Summary contains"
@@ -3200,11 +3196,11 @@ msgstr "Параметри поштових спов╕щень"
 
 #: calendar/gui/dialogs/alarm-options.c:386
 msgid "Program Alarm Options"
-msgstr ""
+msgstr "Програмн╕ параметри спов╕щення"
 
 #: calendar/gui/dialogs/alarm-options.c:395
 msgid "Unknown Alarm Options"
-msgstr ""
+msgstr "Нев╕дом╕ параметри спов╕щення"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:1
 msgid "Alarm Repeat"
