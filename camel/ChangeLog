@@ -3,6 +3,7 @@
 	* camel-folder.c (camel_folder_set_message_flags): Emit a message_changed
 	signal once the flags are set on the message.
 	(camel_folder_set_user_flag): Ditto.
+	(camel_folder_expunge): Emit a folder_changed if no exception.
 
 2000-07-12  Jeffrey Stedfast  <fejj@helixcode.com>
 

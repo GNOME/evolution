@@ -568,7 +568,12 @@ camel_folder_expunge (CamelFolder *folder, CamelException *ex)
 {
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	return CF_CLASS (folder)->expunge (folder, ex);
+	CF_CLASS (folder)->expunge (folder, ex);
+
+	if (! (camel_exception_is_set (ex))) {
+		gtk_signal_emit (GTK_OBJECT (folder),
+				 signals[FOLDER_CHANGED], 0);
+	}
 }
 
 
