@@ -1,5 +1,8 @@
 2004-04-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree-model.c (sort_cb): Sort the VFolders. Fixes bug
+	#56636.
+
 	* em-mailer-prefs.c (citation_color_set): We only want 8bits per
 	color. Fixes bug #57588.
 
