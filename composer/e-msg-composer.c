@@ -299,7 +299,7 @@ build_message (EMsgComposer *composer)
 	}
 	
 	plain = get_text (composer->persist_stream_interface, "text/plain");
-
+	
 	/* the component has probably died */ 
 	if (plain == NULL)
 		return NULL;
@@ -317,7 +317,7 @@ build_message (EMsgComposer *composer)
 			return NULL;
 		}
 	}
-
+	
 	if (type == MSG_FORMAT_ALTERNATIVE) {
 		body = camel_multipart_new ();
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (body),
@@ -332,7 +332,7 @@ build_message (EMsgComposer *composer)
 		
 		if (plain_e8bit)
 			camel_mime_part_set_encoding (part, best_encoding (plain));		
-
+		
 		g_free (plain);
 		camel_multipart_add_part (body, part);
 		camel_object_unref (CAMEL_OBJECT (part));
@@ -341,21 +341,21 @@ build_message (EMsgComposer *composer)
 		if (g_hash_table_size (composer->inline_images)) {
 			CamelMultipart *html_with_images;
 			CamelMimePart  *text_html;
-
+			
 			html_with_images = camel_multipart_new ();
 			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (html_with_images),
 							  "multipart/related");
 			camel_multipart_set_boundary (html_with_images, NULL);
-
+			
 			text_html = camel_mime_part_new ();
 			camel_mime_part_set_content (text_html, html, strlen (html), "text/html; charset=utf-8");
-
+			
 			if (html_e8bit)
 				camel_mime_part_set_encoding (text_html, best_encoding (html));		
-
+			
 			camel_multipart_add_part (html_with_images, text_html);
 			camel_object_unref (CAMEL_OBJECT (text_html));
-
+			
 			add_inlined_images (composer, html_with_images);
 			camel_medium_set_content_object (CAMEL_MEDIUM (part),
 							 CAMEL_DATA_WRAPPER (html_with_images));
@@ -365,7 +365,7 @@ build_message (EMsgComposer *composer)
 			if (html_e8bit)
 				camel_mime_part_set_encoding (part, best_encoding (html));		
 		}
-
+		
 		g_free (html);
 		
 		camel_multipart_add_part (body, part);
@@ -437,7 +437,7 @@ build_message (EMsgComposer *composer)
 		camel_exception_init (&ex);
 		from = e_msg_composer_hdrs_get_from (E_MSG_COMPOSER_HDRS (composer->hdrs));
 		camel_internet_address_get (from, 0, NULL, &pgpid);
-		mail_crypto_pgp_mime_part_sign (&part, pgpid, CAMEL_PGP_HASH_TYPE_SHA1,
+		mail_crypto_pgp_mime_part_sign (&part, pgpid, CAMEL_CIPHER_HASH_SHA1,
 						&ex);
 		camel_object_unref (CAMEL_OBJECT (from));
 		if (camel_exception_is_set (&ex))

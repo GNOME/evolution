@@ -2,6 +2,7 @@
 
 	* e-msg-composer.c (build_message): Use the mail-crypto pgp-mime
 	wrappers.
+	(build_message): s/CAMEL_PGP_HASH_TYPE_SHA1/CAMEL_CIPHER_HASH_SHA1
 
 2001-04-11  Dan Winship  <danw@ximian.com>
 
