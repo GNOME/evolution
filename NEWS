@@ -3,6 +3,12 @@ Evolution 1.0.2, ???
 
 Bugs fixed:
 
+  * Summary
+   
+    # 18025: Fix crash if you click offline without viewing the summary.
+
+    # 17377: Evolution doesn't work on multi-depth displays.
+  
   * Mail
 
     #17694 -- Work around a bug in Exchange 5.5 that sometimes reports
