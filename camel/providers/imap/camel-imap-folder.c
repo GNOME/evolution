@@ -555,35 +555,6 @@ imap_delete_message_by_uid (CamelFolder *folder, const gchar *uid, CamelExceptio
 	return;
 }
 
-/* track flag changes in the summary */
-static void
-message_changed (CamelMimeMessage *m, int type, CamelImapFolder *mf)
-{
-	CamelMessageInfo *info;
-	CamelFlag *flag;
-
-	printf("Message changed: %s: %d\n", m->message_uid, type);
-	switch (type) {
-	case MESSAGE_FLAGS_CHANGED:
-		info = camel_folder_summary_uid(CAMEL_FOLDER_SUMMARY (mf->summary), m->message_uid);
-		if (info) {
-			info->flags = m->flags | CAMEL_MESSAGE_FOLDER_FLAGGED;
-			camel_flag_list_free(&info->user_flags);
-			flag = m->user_flags;
-			while (flag) {
-				camel_flag_set(&info->user_flags, flag->name, TRUE);
-				flag = flag->next;
-			}
-			camel_folder_summary_touch(CAMEL_FOLDER_SUMMARY (mf->summary));
-		} else
-			g_warning("Message changed event on message not in summary: %s", m->message_uid);
-		break;
-	default:
-		printf("Unhandled message change event: %d\n", type);
-		break;
-	}
-}
-
 static CamelMimeMessage *
 imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
@@ -702,14 +673,6 @@ imap_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 		g_warning("Construction failed");
 		goto fail;
 	}
-
-	/* we're constructed, finish setup and clean up */
-	message->folder = folder;
-	gtk_object_ref(GTK_OBJECT (folder));
-	message->message_uid = g_strdup(uid);
-	message->flags = info->info.flags;
-	gtk_signal_connect(GTK_OBJECT (message), "message_changed", message_changed, folder);
-
 	gtk_object_unref(GTK_OBJECT (parser));
 
 	return message;

@@ -50,10 +50,13 @@ void vee_free_summary (CamelFolder *folder, GPtrArray *array);
 static gint vee_get_message_count (CamelFolder *folder, CamelException *ex);
 static CamelMimeMessage *vee_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex);
 
-static void vee_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
-
 static const CamelMessageInfo *vee_summary_get_by_uid(CamelFolder *f, const char *uid);
 static GList *vee_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
+
+static guint32 vee_get_message_flags (CamelFolder *folder, const char *uid, CamelException *ex);
+static void vee_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set, CamelException *ex);
+static gboolean vee_get_message_user_flag (CamelFolder *folder, const char *uid, const char *name, CamelException *ex);
+static void vee_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value, CamelException *ex);
 
 
 static void camel_vee_folder_class_init (CamelVeeFolderClass *klass);
@@ -109,12 +112,16 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 	folder_class->get_summary = vee_get_summary;
 	folder_class->free_summary = vee_free_summary;
 	folder_class->get_message_by_uid = vee_get_message_by_uid;
-	folder_class->append_message = vee_append_message;
 
 	folder_class->summary_get_by_uid = vee_summary_get_by_uid;
 
 	folder_class->get_message_count = vee_get_message_count;
 	folder_class->search_by_expression = vee_search_by_expression;
+
+	folder_class->get_message_flags = vee_get_message_flags;
+	folder_class->set_message_flags = vee_set_message_flags;
+	folder_class->get_message_user_flag = vee_get_message_user_flag;
+	folder_class->set_message_user_flag = vee_set_message_user_flag;
 
 	object_class->finalize = camel_vee_folder_finalise;
 
@@ -176,6 +183,33 @@ folder_changed(CamelFolder *sub, int type, CamelVeeFolder *vf)
 	gtk_signal_emit_by_name((GtkObject *)vf, "folder_changed", 0);
 }
 
+/* track flag changes in the summary */
+static void
+message_changed(CamelFolder *f, const char *uid, CamelVeeFolder *mf)
+{
+	const CamelMessageInfo *info;
+	CamelMessageInfo *vinfo;
+	CamelFlag *flag;
+	char *vuid;
+
+	printf("VMessage changed: %s\n", uid);
+	info = camel_folder_summary_get_by_uid(f, uid);
+
+	vuid = g_strdup_printf("%p:%s", f, uid);
+	vinfo = (CamelMessageInfo *)vee_summary_get_by_uid((CamelFolder *)mf, vuid);
+	if (info && vinfo) {
+		vinfo->flags = info->flags;
+		camel_flag_list_free(&vinfo->user_flags);
+		flag = info->user_flags;
+		while (flag) {
+			camel_flag_set(&vinfo->user_flags, flag->name, TRUE);
+			flag = flag->next;
+		}
+		gtk_signal_emit_by_name((GtkObject *)mf, "message_changed", vinfo->uid);
+	}
+	g_free(vuid);
+}
+
 void
 camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 {
@@ -186,6 +220,7 @@ camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 	p->folders = g_list_append(p->folders, sub);
 
 	gtk_signal_connect((GtkObject *)sub, "folder_changed", folder_changed, vf);
+	gtk_signal_connect((GtkObject *)sub, "message_changed", message_changed, vf);
 
 	ex = camel_exception_new();
 	vee_folder_build_folder(vf, sub, ex);
@@ -242,19 +277,6 @@ static void vee_init (CamelFolder *folder, CamelStore *parent_store,
 	vee_folder_build(vf, ex);
 }
 
-static void vee_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
-{
-	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
-
-	if (message->folder && message->folder->permanent_flags & CAMEL_MESSAGE_USER) {
-		/* set the flag on the message ... */
-		camel_mime_message_set_user_flag(message, vf->vname, TRUE);
-	} else {
-		/* FIXME: error code */
-		camel_exception_setv(ex, 1, "Cannot append this message to virtual folder");
-	}
-}
-
 static gint vee_get_message_count (CamelFolder *folder, CamelException *ex)
 {
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
@@ -262,54 +284,35 @@ static gint vee_get_message_count (CamelFolder *folder, CamelException *ex)
 	return vf->messages->len;
 }
 
-/* track flag changes in the summary */
-static void
-message_changed(CamelMimeMessage *m, int type, CamelVeeFolder *mf)
+static gboolean
+get_real_message (CamelFolder *folder, const char *uid,
+		  CamelFolder **out_folder, const char **out_uid,
+		  CamelException *ex)
 {
-	CamelMessageInfo *info;
-	CamelFlag *flag;
-	char *uid;
+	CamelVeeMessageInfo *mi;
 
-	printf("VMessage changed: %s: %d\n", m->message_uid, type);
-	switch (type) {
-	case MESSAGE_FLAGS_CHANGED:
-		uid = g_strdup_printf("%p:%s", m->folder, m->message_uid);
-		info = (CamelMessageInfo *)vee_summary_get_by_uid((CamelFolder *)mf, uid);
-		if (info) {
-			info->flags = m->flags;
-			camel_flag_list_free(&info->user_flags);
-			flag = m->user_flags;
-			while (flag) {
-				camel_flag_set(&info->user_flags, flag->name, TRUE);
-				flag = flag->next;
-			}
-		} else {
-			g_warning("Message changed event on message not in summary: %s", uid);
-		}
-		g_free(uid);
-		break;
-	default:
-		printf("Unhandled message change event: %d\n", type);
-		break;
+	mi = (CamelVeeMessageInfo *)vee_summary_get_by_uid(folder, uid);
+	if (mi == NULL) {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				     "No such message %s in %s", uid,
+				     folder->name);
+		return FALSE;
 	}
+
+	*out_folder = mi->folder;
+	*out_uid = strchr(mi->info.uid, ':')+1;
+	return TRUE;
 }
 
 static CamelMimeMessage *vee_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
-	CamelVeeMessageInfo *mi;
-	CamelMimeMessage *mm;
+	const char *real_uid;
+	CamelFolder *real_folder;
 
-	mi = (CamelVeeMessageInfo *)vee_summary_get_by_uid(folder, uid);
-	if (mi == NULL) {
-		camel_exception_setv(ex, 1, "Failed");
+	if (!get_real_message (folder, uid, &real_folder, &real_uid, ex))
 		return NULL;
-	}
 
-	mm = camel_folder_get_message_by_uid(mi->folder, strchr(mi->info.uid, ':')+1, ex);
-	if (mm) {
-		gtk_signal_connect((GtkObject *)mm, "message_changed", message_changed, folder);
-	}
-	return mm;
+	return camel_folder_get_message_by_uid(real_folder, real_uid, ex);
 }
 
 GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex)
@@ -372,6 +375,59 @@ vee_search_by_expression(CamelFolder *folder, const char *expression, CamelExcep
 	}
 	return result;
 }
+
+static guint32
+vee_get_message_flags(CamelFolder *folder, const char *uid, CamelException *ex)
+{
+	const char *real_uid;
+	CamelFolder *real_folder;
+
+	if (!get_real_message (folder, uid, &real_folder, &real_uid, ex))
+		return 0;
+
+	return camel_folder_get_message_flags(real_folder, real_uid, ex);
+}
+
+static void
+vee_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags,
+		      guint32 set, CamelException *ex)
+{
+	const char *real_uid;
+	CamelFolder *real_folder;
+
+	if (!get_real_message (folder, uid, &real_folder, &real_uid, ex))
+		return;
+
+	camel_folder_set_message_flags(real_folder, real_uid, flags, set, ex);
+}
+
+static gboolean
+vee_get_message_user_flag(CamelFolder *folder, const char *uid,
+			  const char *name, CamelException *ex)
+{
+	const char *real_uid;
+	CamelFolder *real_folder;
+
+	if (!get_real_message (folder, uid, &real_folder, &real_uid, ex))
+		return FALSE;
+
+	return camel_folder_get_message_user_flag(real_folder, real_uid, name, ex);
+}
+
+static void
+vee_set_message_user_flag(CamelFolder *folder, const char *uid,
+			  const char *name, gboolean value,
+			  CamelException *ex)
+{
+	const char *real_uid;
+	CamelFolder *real_folder;
+
+	if (!get_real_message (folder, uid, &real_folder, &real_uid, ex))
+		return;
+
+	return camel_folder_set_message_user_flag(real_folder, real_uid, name, value, ex);
+}
+
 
 /*
   need incremental update, based on folder.

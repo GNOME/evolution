@@ -1300,6 +1300,75 @@ summary_build_content_info(CamelFolderSummary *s, CamelMimeParser *mp)
 	return info;
 }
 
+gboolean
+camel_flag_get(CamelFlag **list, const char *name)
+{
+	CamelFlag *flag;
+	flag = *list;
+	while (flag) {
+		if (!strcmp(flag->name, name))
+			return TRUE;
+		flag = flag->next;
+	}
+	return FALSE;
+}
+
+void
+camel_flag_set(CamelFlag **list, const char *name, gboolean value)
+{
+	CamelFlag *flag, *tmp;
+
+	/* this 'trick' works because flag->next is the first element */
+	flag = (CamelFlag *)list;
+	while (flag->next) {
+		tmp = flag->next;
+		if (!strcmp(flag->next->name, name)) {
+			if (!value) {
+				flag->next = tmp->next;
+				g_free(tmp);
+			}
+			return;
+		}
+		flag = tmp;
+	}
+
+	if (value) {
+		tmp = g_malloc(sizeof(*tmp) + strlen(name));
+		strcpy(tmp->name, name);
+		tmp->next = 0;
+		flag->next = tmp;
+	}
+}
+
+int
+camel_flag_list_size(CamelFlag **list)
+{
+	int count=0;
+	CamelFlag *flag;
+
+	flag = *list;
+	while (flag) {
+		count++;
+		flag = flag->next;
+	}
+	return count;
+}
+
+void
+camel_flag_list_free(CamelFlag **list)
+{
+	CamelFlag *flag, *tmp;
+	flag = *list;
+	while (flag) {
+		tmp = flag->next;
+		g_free(flag);
+		flag = tmp;
+	}
+	*list = NULL;
+}
+
+
+#if 0
 static void
 content_info_dump(CamelMessageContentInfo *ci, int depth)
 {
@@ -1341,8 +1410,6 @@ message_info_dump(CamelMessageInfo *mi)
 	content_info_dump(mi->content, 0);
 }
 
-
-#if 0
 int main(int argc, char **argv)
 {
 	CamelMimeParser *mp;

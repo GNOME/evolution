@@ -39,6 +39,7 @@ static CamelObjectClass *parent_class = NULL;
 
 enum SIGNALS {
 	FOLDER_CHANGED,
+	MESSAGE_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -63,6 +64,15 @@ static const gchar *get_full_name (CamelFolder *folder);
 static gboolean can_hold_folders (CamelFolder *folder);
 static gboolean can_hold_messages (CamelFolder *folder);
 static guint32 get_permanent_flags (CamelFolder *folder, CamelException *ex);
+static guint32 get_message_flags (CamelFolder *folder, const char *uid,
+				  CamelException *ex);
+static void set_message_flags (CamelFolder *folder, const char *uid,
+			       guint32 flags, guint32 set, CamelException *ex);
+static gboolean get_message_user_flag (CamelFolder *folder, const char *uid,
+				       const char *name, CamelException *ex);
+static void set_message_user_flag (CamelFolder *folder, const char *uid,
+				   const char *name, gboolean value,
+				   CamelException *ex);
 
 
 static GPtrArray *get_subfolder_names (CamelFolder *folder,
@@ -136,6 +146,10 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_message_count = get_message_count;
 	camel_folder_class->append_message = append_message;
 	camel_folder_class->get_permanent_flags = get_permanent_flags;
+	camel_folder_class->get_message_flags = get_message_flags;
+	camel_folder_class->set_message_flags = set_message_flags;
+	camel_folder_class->get_message_user_flag = get_message_user_flag;
+	camel_folder_class->set_message_user_flag = set_message_user_flag;
 	camel_folder_class->get_message_uid = get_message_uid;
 	camel_folder_class->get_message_by_uid = get_message_by_uid;
 	camel_folder_class->delete_message_by_uid = delete_message_by_uid;
@@ -157,6 +171,15 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 						   folder_changed),
                                 gtk_marshal_NONE__INT,
                                 GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+        signals[MESSAGE_CHANGED] =
+                gtk_signal_new ("message_changed",
+                                GTK_RUN_LAST,
+                                gtk_object_class->type,
+                                GTK_SIGNAL_OFFSET (CamelFolderClass,
+						   message_changed),
+                                gtk_marshal_NONE__STRING,
+                                GTK_TYPE_NONE, 1, GTK_TYPE_STRING);
 
         gtk_object_class_add_signals (gtk_object_class, signals, LAST_SIGNAL);
 
@@ -571,12 +594,140 @@ get_permanent_flags (CamelFolder *folder, CamelException *ex)
 	return folder->permanent_flags;
 }
 
+/**
+ * camel_folder_get_permanent_flags:
+ * @folder: a CamelFolder
+ * @ex: a CamelException
+ *
+ * Return value: the set of CamelMessageFlags that can be permanently
+ * stored on a message between sessions. If it includes %CAMEL_FLAG_USER,
+ * then user-defined flags will be remembered.
+ **/
 guint32
 camel_folder_get_permanent_flags (CamelFolder *folder, CamelException *ex)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), 0);
 
 	return CF_CLASS (folder)->get_permanent_flags (folder, ex);
+}
+
+
+static guint32
+get_message_flags (CamelFolder *folder, const char *uid, CamelException *ex)
+{
+	g_warning ("CamelFolder::get_message_flags not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
+	return 0;
+}
+
+/**
+ * camel_folder_get_message_flags:
+ * @folder: a CamelFolder
+ * @uid: the UID of a message in @folder
+ * @ex: a CamelException
+ *
+ * Return value: the CamelMessageFlags that are set on the indicated
+ * message.
+ **/
+guint32
+camel_folder_get_message_flags (CamelFolder *folder, const char *uid,
+				CamelException *ex)
+{
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), 0);
+
+	return CF_CLASS (folder)->get_message_flags (folder, uid, ex);
+}
+
+
+static void
+set_message_flags (CamelFolder *folder, const char *uid,
+		     guint32 flags, guint32 set, CamelException *ex)
+{
+	g_warning ("CamelFolder::set_message_flags not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
+}
+
+/**
+ * camel_folder_set_message_flags:
+ * @folder: a CamelFolder
+ * @uid: the UID of a message in @folder
+ * @flags: a set of CamelMessageFlag values to set
+ * @set: the mask of values in @flags to use.
+ * @ex: a CamelException
+ *
+ * Sets those flags specified by @set to the values specified by @flags
+ * on the indicated message. (This may or may not persist after the
+ * folder or store is closed. See camel_folder_get_permanent_flags().)
+ **/
+void
+camel_folder_set_message_flags (CamelFolder *folder, const char *uid,
+				guint32 flags, guint32 set,
+				CamelException *ex)
+{
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	CF_CLASS (folder)->set_message_flags (folder, uid, flags, set, ex);
+}
+
+
+static gboolean
+get_message_user_flag (CamelFolder *folder, const char *uid,
+		       const char *name, CamelException *ex)
+{
+	g_warning ("CamelFolder::get_message_user_flag not implemented "
+		   "for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
+	return FALSE;
+}
+
+/**
+ * camel_folder_get_message_user_flag:
+ * @folder: a CamelFolder
+ * @uid: the UID of a message in @folder
+ * @name: the name of a user flag
+ * @ex: a CamelException
+ *
+ * Return value: whether or not the given user flag is set on the message.
+ **/
+gboolean
+camel_folder_get_message_user_flag (CamelFolder *folder, const char *uid,
+				    const char *name, CamelException *ex)
+{
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), 0);
+
+	return CF_CLASS (folder)->get_message_user_flag (folder, uid,
+							 name, ex);
+}
+
+
+static void
+set_message_user_flag (CamelFolder *folder, const char *uid,
+		       const char *name, gboolean value, CamelException *ex)
+{
+	g_warning ("CamelFolder::set_message_user_flag not implemented "
+		   "for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
+}
+
+/**
+ * camel_folder_set_message_user_flag:
+ * @folder: a CamelFolder
+ * @uid: the UID of a message in @folder
+ * @name: the name of the user flag to set
+ * @value: the value to set it to
+ * @ex: a CamelException
+ *
+ * Sets the user flag specified by @name to the value specified by @value
+ * on the indicated message. (This may or may not persist after the
+ * folder or store is closed. See camel_folder_get_permanent_flags().)
+ **/
+void
+camel_folder_set_message_user_flag (CamelFolder *folder, const char *uid,
+				    const char *name, gboolean value,
+				    CamelException *ex)
+{
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	CF_CLASS (folder)->set_message_user_flag (folder, uid, name,
+						  value, ex);
 }
 
 

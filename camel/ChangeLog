@@ -1,5 +1,65 @@
 2000-06-16  Dan Winship  <danw@helixcode.com>
 
+	Move flag handling from CamelMimeMessage to CamelFolder. This
+	simplifies several flag-handling pieces of code in the mailer, and
+	lets you change a message's flags without having to fetch the
+	message body. It also means that fully-constructed
+	CamelMimeMessages are now essentially constant, which will help
+	simplify locking issues later since it means two threads
+	interested in the same message can just work with separate copies
+	of it.
+
+	* camel-mime-message.h (struct _CamelMimeMessage): Removed flags
+	and user_flags (moved to summary). Removed expunged and
+	message_number which were unused. Removed message_uid and folder
+	which are no longer needed in the new scheme.
+	(struct CamelMimeMessageClass): Removed message_changed signal and
+	get/set_message_number methods.
+
+	* camel-mime-message.c: Updates for CamelMimeMessage changes.
+	(camel_mime_message_get/set_flags,
+	camel_mime_message_get/set_user_flag): Replaced with methods in
+	CamelFolder.
+	(camel_flag_get, camel_flag_set, camel_flag_list_size,
+	camel_flag_list_free): Moved verbatim to camel-folder-summary.c
+	
+	* camel-folder.c (camel_folder_get/set_message_flags,
+	camel_folder_get/set_message_user_flag): New methods (and
+	corresponding useless default implementations)
+	(camel_folder_class_init): add a message_changed signal
+
+	* camel-folder-summary.c (camel_flag_get, camel_flag_set,
+	camel_flag_list_size, camel_flag_list_free): Moved here from
+	camel-mime-message.c
+
+	* providers/mbox/camel-mbox-folder.c (message_changed): Removed.
+	(mbox_get_message_flags, mbox_set_message_flags,
+	mbox_get_message_user_flag, mbox_set_message_user_flag): Tweak
+	summary bits as appropriate. (Functionality moved here from
+	message_changed.)
+	(mbox_get_message_by_uid): Update for CamelMimeMessage changes
+	(less stuff to initialize).
+
+	* providers/imap/camel-imap-folder.c (message_changed): Remove
+	this. It was just copied from the mbox provider and doesn't deal
+	with the real IMAP flag stuff anyway. (So there's currently no
+	flag support in the IMAP provider.)
+	(imap_get_message_by_uid): Update for CamelMimeMessage changes.
+
+	* providers/vee/camel-vee-folder.c: (message_changed): Remove old
+	one. Add a new one to listen for message_changed on each folder
+	and re-emit message_changed signals that correspond to messages in
+	the vfolder.
+	(vee_get/set_message_flags, vee_get/set_message_user_flag): Proxy
+	flag setting to the underlying real messages.
+	(vee_append_message): Removed for now; there's no way to translate
+	this into the new CamelMimeMessage/CamelFolder scheme, but (a)
+	there's also no code which would ever call it and (b) we're
+	probably going want a better interface than append_message for
+	message drag and drop to work anyway. To be revisited.
+
+2000-06-16  Dan Winship  <danw@helixcode.com>
+
 	* camel-mime-utils.c (rfc2047_decode_word): 
 	* camel-mime-part-utils.c (simple_data_wrapper_construct_from_parser): 
 	* camel-folder-summary.c (summary_build_content_info): 

@@ -50,23 +50,6 @@ extern "C" {
 /* specify local time */
 #define CAMEL_MESSAGE_DATE_CURRENT (~0)
 
-/* system flag bits */
-enum _CamelMessageFlags {
-	CAMEL_MESSAGE_ANSWERED = 1<<0,
-	CAMEL_MESSAGE_DELETED = 1<<1,
-	CAMEL_MESSAGE_DRAFT = 1<<2,
-	CAMEL_MESSAGE_FLAGGED = 1<<3,
-	CAMEL_MESSAGE_SEEN = 1<<4,
-	/* following flags are for the folder, and are not really permanent flags */
-	CAMEL_MESSAGE_FOLDER_FLAGGED = 1<<16, /* for use by the folder implementation */
-	CAMEL_MESSAGE_USER = 1<<31 /* supports user flags */
-};
-
-typedef struct _CamelFlag {
-	struct _CamelFlag *next;
-	char name[1];
-} CamelFlag;
-
 struct _CamelMimeMessage
 {
 	CamelMimePart parent_object;
@@ -82,33 +65,12 @@ struct _CamelMimeMessage
 	gchar *from;
 
 	GHashTable *recipients;	/* hash table of CamelInternetAddress's */
-
-	/* other fields */
-	guint32 flags;		/* system flags */
-	struct _CamelFlag *user_flags;
-	gboolean expunged;
-	
-	guint message_number; /* set by folder object when retrieving message */
-	gchar *message_uid;
-
-	CamelFolder *folder;
-};
-
-enum _MessageChangeType {
-	MESSAGE_FLAGS_CHANGED,
-	MESSAGE_ENVELOPE_CHANGED,
 };
 
 typedef struct {
 	CamelMimePartClass parent_class;
 
-	/* signals */
-	void		(*message_changed)	(CamelMimeMessage *, enum _MessageChangeType type);
-
 	/* Virtual methods */	
-	void            (*set_message_number)     (CamelMimeMessage *mime_message, 
-						   guint number);
-	guint           (*get_message_number)     (CamelMimeMessage *mime_message);
 
 } CamelMimeMessageClass;
 
@@ -148,19 +110,6 @@ void		camel_mime_message_remove_recipient_name (CamelMimeMessage *mime_message,
 
 const CamelInternetAddress *camel_mime_message_get_recipients (CamelMimeMessage *mime_message, 
 							       const char *type);
-
-guint32		  camel_mime_message_get_flags		(CamelMimeMessage *m);
-void		  camel_mime_message_set_flags		(CamelMimeMessage *m, guint32 flags, guint32 set);
-gboolean	  camel_mime_message_get_user_flag	(CamelMimeMessage *m, const char *name);
-void		  camel_mime_message_set_user_flag	(CamelMimeMessage *m, const char *name, gboolean value);
-
-guint              camel_mime_message_get_message_number   (CamelMimeMessage *mime_message);
-
-/* message flag operations */
-gboolean	camel_flag_get(CamelFlag **list, const char *name);
-void		camel_flag_set(CamelFlag **list, const char *name, gboolean state);
-int		camel_flag_list_size(CamelFlag **list);
-void		camel_flag_list_free(CamelFlag **list);
 
 #ifdef __cplusplus
 }

@@ -65,6 +65,8 @@ typedef struct {
 
 	/* signals */
 	void		(*folder_changed)	(CamelFolder *, int type);
+	void            (*message_changed)      (CamelFolder *,
+						 const char *uid);
 	
 	/* Virtual methods */	
 	void   (*init) (CamelFolder *folder, CamelStore *parent_store,
@@ -106,6 +108,23 @@ typedef struct {
 	
 	guint32 (*get_permanent_flags) (CamelFolder *folder,
 					CamelException *ex);
+	guint32 (*get_message_flags)   (CamelFolder *folder,
+					const char *uid,
+					CamelException *ex);
+	void    (*set_message_flags)   (CamelFolder *folder,
+					const char *uid,
+					guint32 flags, guint32 set,
+					CamelException *ex);
+
+	gboolean (*get_message_user_flag) (CamelFolder *folder,
+					   const char *uid,
+					   const char *name,
+					   CamelException *ex);
+	void     (*set_message_user_flag) (CamelFolder *folder,
+					   const char *uid,
+					   const char *name,
+					   gboolean value,
+					   CamelException *ex);
 
 	const gchar * (*get_message_uid)  (CamelFolder *folder, 
 					   CamelMimeMessage *message, 
@@ -180,6 +199,27 @@ const gchar *      camel_folder_get_full_name          (CamelFolder *folder);
 
 /* various properties accessors */
 guint32		   camel_folder_get_permanent_flags    (CamelFolder *folder,
+							CamelException *ex);
+
+guint32		   camel_folder_get_message_flags      (CamelFolder *folder,
+							const char *uid,
+							CamelException *ex);
+
+void		   camel_folder_set_message_flags      (CamelFolder *folder,
+							const char *uid,
+							guint32 flags,
+							guint32 set,
+							CamelException *ex);
+
+gboolean	   camel_folder_get_message_user_flag  (CamelFolder *folder,
+							const char *uid,
+							const char *name,
+							CamelException *ex);
+
+void		   camel_folder_set_message_user_flag  (CamelFolder *folder,
+							const char *uid,
+							const char *name,
+							gboolean value,
 							CamelException *ex);
 
 

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
-/* camelMimeMessage.c : class for a mime_message */
+/* camel-mime-message.c : class for a mime_message */
 
 /* 
  * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
@@ -57,15 +57,6 @@ static char *recipient_names[] = {
 	"To", "Cc", "Bcc", NULL
 };
 
-enum SIGNALS {
-	MESSAGE_CHANGED,
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-static void set_message_number (CamelMimeMessage *mime_message, guint number);
-static guint get_message_number (CamelMimeMessage *mime_message);
 static int write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void finalize (GtkObject *object);
 static void add_header (CamelMedium *medium, const char *header_name, const void *header_value);
@@ -93,10 +84,6 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	for (i=0;header_names[i];i++)
 		g_hash_table_insert (header_name_table, header_names[i], (gpointer)i+1);
 
-	/* virtual method definition */
-	camel_mime_message_class->set_message_number = set_message_number;
-	camel_mime_message_class->get_message_number = get_message_number;
-	
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_stream = write_to_stream;
 
@@ -105,16 +92,6 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	camel_medium_class->remove_header = remove_header;
 	
 	camel_mime_part_class->construct_from_parser = construct_from_parser;
-
-        signals[MESSAGE_CHANGED] =
-                gtk_signal_new ("message_changed",
-                                GTK_RUN_LAST,
-                                gtk_object_class->type,
-                                GTK_SIGNAL_OFFSET (CamelMimeMessageClass, message_changed),
-                                gtk_marshal_NONE__INT,
-                                GTK_TYPE_NONE, 1, GTK_TYPE_INT);
-        
-        gtk_object_class_add_signals (gtk_object_class, signals, LAST_SIGNAL);
 
 	gtk_object_class->finalize = finalize;
 }
@@ -135,13 +112,9 @@ camel_mime_message_init (gpointer object, gpointer klass)
 		g_hash_table_insert(mime_message->recipients, recipient_names[i], camel_internet_address_new());
 	}
 
-	mime_message->user_flags = NULL;
-	mime_message->flags = 0;
-
 	mime_message->subject = NULL;
 	mime_message->reply_to = NULL;
 	mime_message->from = NULL;
-	mime_message->folder = NULL;
 	mime_message->date = CAMEL_MESSAGE_DATE_CURRENT;
 	mime_message->date_offset = 0;
 	mime_message->date_str = NULL;
@@ -188,15 +161,8 @@ finalize (GtkObject *object)
 	g_free (message->reply_to);
 	g_free (message->from);
 
-	g_free (message->message_uid);
-	
 	g_hash_table_foreach (message->recipients, g_lib_is_uber_crappy_shit, NULL);
 	g_hash_table_destroy(message->recipients);
-
-	camel_flag_list_free(&message->user_flags);
-
-	if (message->folder)
-		gtk_object_unref (GTK_OBJECT (message->folder));
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -420,138 +386,6 @@ camel_mime_message_get_recipients (CamelMimeMessage *mime_message,
 }
 
 
-
-/*  ****  */
-
-
-guint32
-camel_mime_message_get_flags		(CamelMimeMessage *m)
-{
-	return m->flags;
-}
-
-void
-camel_mime_message_set_flags		(CamelMimeMessage *m, guint32 flags, guint32 set)
-{
-	guint32 old;
-
-	printf("%p setting flags %x mask %x\n", m, flags, set);
-
-	old = m->flags;
-	m->flags = (m->flags & ~flags) | (set & flags);
-
-	printf("old = %x new = %x\n", old, m->flags);
-
-	if (old != m->flags)
-		gtk_signal_emit((GtkObject *)m, signals[MESSAGE_CHANGED], MESSAGE_FLAGS_CHANGED);
-}
-
-gboolean
-camel_flag_get(CamelFlag **list, const char *name)
-{
-	CamelFlag *flag;
-	flag = *list;
-	while (flag) {
-		if (!strcmp(flag->name, name))
-			return TRUE;
-		flag = flag->next;
-	}
-	return FALSE;
-}
-
-void
-camel_flag_set(CamelFlag **list, const char *name, gboolean value)
-{
-	CamelFlag *flag, *tmp;
-
-	/* this 'trick' works because flag->next is the first element */
-	flag = (CamelFlag *)list;
-	while (flag->next) {
-		tmp = flag->next;
-		if (!strcmp(flag->next->name, name)) {
-			if (!value) {
-				flag->next = tmp->next;
-				g_free(tmp);
-			}
-			return;
-		}
-		flag = tmp;
-	}
-
-	if (value) {
-		tmp = g_malloc(sizeof(*tmp) + strlen(name));
-		strcpy(tmp->name, name);
-		tmp->next = 0;
-		flag->next = tmp;
-	}
-}
-
-int
-camel_flag_list_size(CamelFlag **list)
-{
-	int count=0;
-	CamelFlag *flag;
-
-	flag = *list;
-	while (flag) {
-		count++;
-		flag = flag->next;
-	}
-	return count;
-}
-
-void
-camel_flag_list_free(CamelFlag **list)
-{
-	CamelFlag *flag, *tmp;
-	flag = *list;
-	while (flag) {
-		tmp = flag->next;
-		g_free(flag);
-		flag = tmp;
-	}
-	*list = NULL;
-}
-
-gboolean
-camel_mime_message_get_user_flag	(CamelMimeMessage *m, const char *name)
-{
-	g_return_val_if_fail(m->flags & CAMEL_MESSAGE_USER, FALSE);
-
-	return camel_flag_get(&m->user_flags, name);
-}
-
-void
-camel_mime_message_set_user_flag	(CamelMimeMessage *m, const char *name, gboolean value)
-{
-	g_return_if_fail(m->flags & CAMEL_MESSAGE_USER);
-
-	camel_flag_set(&m->user_flags, name, value);
-	gtk_signal_emit((GtkObject *)m, signals[MESSAGE_CHANGED], MESSAGE_FLAGS_CHANGED);
-}
-
-
-
-/* FIXME: to be removed??? */
-static void 
-set_message_number (CamelMimeMessage *mime_message, guint number)
-{
-	mime_message->message_number = number;
-}
-
-static guint 
-get_message_number (CamelMimeMessage *mime_message)
-{
-	return mime_message->message_number;
-}
-
-
-
-guint
-camel_mime_message_get_message_number (CamelMimeMessage *mime_message)
-{
-	return CMM_CLASS (mime_message)->get_message_number (mime_message);
-}
 
 /* mime_message */
 static int

@@ -65,6 +65,23 @@ typedef struct _CamelMessageContentInfo {
 	off_t endpos;
 } CamelMessageContentInfo;
 
+/* system flag bits */
+enum _CamelMessageFlags {
+	CAMEL_MESSAGE_ANSWERED = 1<<0,
+	CAMEL_MESSAGE_DELETED = 1<<1,
+	CAMEL_MESSAGE_DRAFT = 1<<2,
+	CAMEL_MESSAGE_FLAGGED = 1<<3,
+	CAMEL_MESSAGE_SEEN = 1<<4,
+	/* following flags are for the folder, and are not really permanent flags */
+	CAMEL_MESSAGE_FOLDER_FLAGGED = 1<<16, /* for use by the folder implementation */
+	CAMEL_MESSAGE_USER = 1<<31 /* supports user flags */
+};
+
+typedef struct _CamelFlag {
+	struct _CamelFlag *next;
+	char name[1];
+} CamelFlag;
+
 /* information about a given object */
 typedef struct {
 	/* public fields */
@@ -173,8 +190,6 @@ int camel_folder_summary_count(CamelFolderSummary *);
 CamelMessageInfo *camel_folder_summary_index(CamelFolderSummary *, int);
 CamelMessageInfo *camel_folder_summary_uid(CamelFolderSummary *, const char *uid);
 
-/* utility functions */
-void camel_folder_summary_set_flags_by_uid(CamelFolderSummary *s, const char *uid, guint32 flags);
 /* shift content ... */
 void camel_folder_summary_offset_content(CamelMessageContentInfo *content, off_t offset);
 
@@ -191,5 +206,11 @@ int camel_folder_summary_decode_string(FILE *, char **);
 /* basically like strings, but certain keywords can be compressed and de-cased */
 int camel_folder_summary_encode_token(FILE *, char *);
 int camel_folder_summary_decode_token(FILE *, char **);
+
+/* message flag operations */
+gboolean	camel_flag_get(CamelFlag **list, const char *name);
+void		camel_flag_set(CamelFlag **list, const char *name, gboolean state);
+int		camel_flag_list_size(CamelFlag **list);
+void		camel_flag_list_free(CamelFlag **list);
 
 #endif /* ! _CAMEL_FOLDER_SUMMARY_H */

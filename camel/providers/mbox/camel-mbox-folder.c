@@ -82,6 +82,12 @@ static const CamelMessageInfo *mbox_summary_get_by_uid(CamelFolder *f, const cha
 
 static GList *mbox_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 
+static guint32 mbox_get_message_flags (CamelFolder *folder, const char *uid, CamelException *ex);
+static void mbox_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set, CamelException *ex);
+static gboolean mbox_get_message_user_flag (CamelFolder *folder, const char *uid, const char *name, CamelException *ex);
+static void mbox_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value, CamelException *ex);
+
+
 static void mbox_finalize (GtkObject *object);
 
 static void
@@ -111,6 +117,11 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->search_by_expression = mbox_search_by_expression;
 
 	camel_folder_class->summary_get_by_uid = mbox_summary_get_by_uid;
+
+	camel_folder_class->get_message_flags = mbox_get_message_flags;
+	camel_folder_class->set_message_flags = mbox_set_message_flags;
+	camel_folder_class->get_message_user_flag = mbox_get_message_user_flag;
+	camel_folder_class->set_message_user_flag = mbox_set_message_user_flag;
 
 	gtk_object_class->finalize = mbox_finalize;
 	
@@ -182,6 +193,7 @@ mbox_init (CamelFolder *folder, CamelStore *parent_store,
 		CAMEL_MESSAGE_FLAGGED |
 		CAMEL_MESSAGE_SEEN |
 		CAMEL_MESSAGE_USER;
+	/* FIXME: we don't actually preserve user flags right now. */
 
  	mbox_folder->summary = NULL;
  	mbox_folder->search = NULL;
@@ -309,7 +321,7 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	/* assign a new x-evolution header/uid */
 	camel_medium_remove_header((CamelMedium *)message, "X-Evolution");
 	uid = camel_folder_summary_next_uid((CamelFolderSummary *)mbox_folder->summary);
-	xev = g_strdup_printf("%08x-%04x", uid, message->flags & 0xffff);
+	xev = g_strdup_printf("%08x-0000", uid);
 	camel_medium_add_header((CamelMedium *)message, "X-Evolution", xev);
 	g_free(xev);
 
@@ -404,35 +416,6 @@ mbox_delete_message_by_uid(CamelFolder *folder, const gchar *uid, CamelException
 	}
 }
 
-/* track flag changes in the summary */
-static void
-message_changed(CamelMimeMessage *m, int type, CamelMboxFolder *mf)
-{
-	CamelMessageInfo *info;
-	CamelFlag *flag;
-
-	printf("Message changed: %s: %d\n", m->message_uid, type);
-	switch (type) {
-	case MESSAGE_FLAGS_CHANGED:
-		info = camel_folder_summary_uid((CamelFolderSummary *)mf->summary, m->message_uid);
-		if (info) {
-			info->flags = m->flags | CAMEL_MESSAGE_FOLDER_FLAGGED;
-			camel_flag_list_free(&info->user_flags);
-			flag = m->user_flags;
-			while (flag) {
-				camel_flag_set(&info->user_flags, flag->name, TRUE);
-				flag = flag->next;
-			}
-			camel_folder_summary_touch((CamelFolderSummary *)mf->summary);
-		} else
-			g_warning("Message changed event on message not in summary: %s", m->message_uid);
-		break;
-	default:
-		printf("Unhandled message change event: %d\n", type);
-		break;
-	}
-}
-
 static CamelMimeMessage *
 mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
@@ -486,14 +469,6 @@ mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 		g_warning("Construction failed");
 		goto fail;
 	}
-
-	/* we're constructed, finish setup and clean up */
-	message->folder = folder;
-	gtk_object_ref((GtkObject *)folder);
-	message->message_uid = g_strdup(uid);
-	message->flags = info->info.flags;
-	gtk_signal_connect((GtkObject *)message, "message_changed", message_changed, folder);
-
 	gtk_object_unref((GtkObject *)parser);
 
 	return message;
@@ -550,4 +525,80 @@ mbox_search_by_expression(CamelFolder *folder, const char *expression, CamelExce
 	camel_folder_search_set_body_index(mbox_folder->search, mbox_folder->index);
 
 	return camel_folder_search_execute_expression(mbox_folder->search, expression, ex);
+}
+
+static guint32
+mbox_get_message_flags (CamelFolder *folder, const char *uid,
+			CamelException *ex)
+{
+	CamelMessageInfo *info;
+	CamelMboxFolder *mf = (CamelMboxFolder *)folder;
+
+	info = camel_folder_summary_uid((CamelFolderSummary *)mf->summary, uid);
+	if (info)
+		return info->flags;
+	else {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				     "No such message %s in %s.", uid,
+				     folder->name);
+		return 0;
+	}
+}
+
+static void
+mbox_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags,
+			guint32 set, CamelException *ex)
+{
+	CamelMessageInfo *info;
+	CamelMboxFolder *mf = (CamelMboxFolder *)folder;
+
+	info = camel_folder_summary_uid((CamelFolderSummary *)mf->summary, uid);
+	if (info) {
+		info->flags = (info->flags & ~flags) | (set & flags) |
+			CAMEL_MESSAGE_FOLDER_FLAGGED;
+		camel_folder_summary_touch((CamelFolderSummary *)mf->summary);
+		gtk_signal_emit_by_name((GtkObject *)folder, "message_changed", uid);
+	} else {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				     "No such message %s in %s.", uid,
+				     folder->name);
+	}
+}
+
+static gboolean
+mbox_get_message_user_flag (CamelFolder *folder, const char *uid,
+			    const char *name, CamelException *ex)
+{
+	CamelMessageInfo *info;
+	CamelMboxFolder *mf = (CamelMboxFolder *)folder;
+
+	info = camel_folder_summary_uid((CamelFolderSummary *)mf->summary, uid);
+	if (info)
+		return camel_flag_get(&info->user_flags, name);
+	else {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				     "No such message %s in %s.", uid,
+				     folder->name);
+		return FALSE;
+	}
+}
+
+static void mbox_set_message_user_flag (CamelFolder *folder, const char *uid,
+					const char *name, gboolean value,
+					CamelException *ex)
+{
+	CamelMessageInfo *info;
+	CamelMboxFolder *mf = (CamelMboxFolder *)folder;
+
+	info = camel_folder_summary_uid((CamelFolderSummary *)mf->summary, uid);
+	if (info) {
+		camel_flag_set(&info->user_flags, name, value);
+		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
+		camel_folder_summary_touch((CamelFolderSummary *)mf->summary);
+		gtk_signal_emit_by_name((GtkObject *)folder, "message_changed", uid);
+	} else {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				     "No such message %s in %s.", uid,
+				     folder->name);
+	}
 }
