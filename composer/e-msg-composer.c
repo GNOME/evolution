@@ -1881,14 +1881,24 @@ from_changed_cb (EMsgComposerHdrs *hdrs,
 /* GtkObject methods.  */
 
 static void
+composer_shutdown (GtkObject *object)
+{
+	/* When destroy() is called, the contents of the window
+	 * (including the remote editor control) will already have
+	 * been destroyed, so we have to do this here.
+	 */
+	autosave_manager_unregister (am, E_MSG_COMPOSER (object));
+	if (GTK_OBJECT_CLASS (parent_class)->shutdown != NULL)
+		(* GTK_OBJECT_CLASS (parent_class)->shutdown) (object);
+}
+
+static void
 destroy (GtkObject *object)
 {
 	EMsgComposer *composer;
 	CORBA_Environment ev;
 	
 	composer = E_MSG_COMPOSER (object);
-
-	autosave_manager_unregister (am, composer);
 
 	CORBA_exception_init (&ev);
 
@@ -2055,6 +2065,7 @@ class_init (EMsgComposerClass *klass)
 	object_class = GTK_OBJECT_CLASS (klass);
 	widget_class = GTK_WIDGET_CLASS (klass);
 	
+	object_class->shutdown = composer_shutdown;
 	object_class->destroy = destroy;
 	
 	widget_class->delete_event = delete_event;

@@ -1,3 +1,10 @@
+2001-07-09  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer.c (composer_shutdown): Do the
+	autosave_manager_unregister at shutdown time instead of destroy
+	time (by which point the contents of the window, including the
+	remote editor control, will have already been destroyed).
+
 2001-07-09  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* e-msg-composer-select-file.c: Added missing #include <config.h> to
