@@ -1,9 +1,6 @@
 bin_SCRIPTS = killev evolution-move-tasks evolution-addressbook-clean
 bin_PROGRAMS = evolution-addressbook-import evolution-addressbook-export
 
-EXTRA_DIST = \
-	evolution-addressbook-clean.in
-
 INCLUDES =							\
 	-DG_LOG_DOMAIN=\"evolution-tools\"			\
 	$(EXTRA_GNOME_CFLAGS)					\
@@ -15,7 +12,8 @@ INCLUDES =							\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-I$(top_srcdir)/addressbook
 
-EXTRA_DIST = $(bin_SCRIPTS) verify-evolution-install.sh
+EXTRA_DIST = $(bin_SCRIPTS) verify-evolution-install.sh \
+	evolution-addressbook-clean.in
 
 evolution_addressbook_import_LDADD =					\
 	$(EXTRA_GNOME_LIBS)						\

@@ -1,3 +1,8 @@
+2001-10-19  Dan Winship  <danw@ximian.com>
+
+	* tools/Makefile.am (EXTRA_DIST): Merge the two EXTRA_DIST
+	declarations together so they both happen.
+
 2001-10-18  Chris Toshok  <toshok@ximian.com>
 
 	* tools/killev: use a new fangled perl script that queries oaf for
