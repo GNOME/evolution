@@ -96,17 +96,20 @@ e_destination_dispose (GObject *obj)
 {
 	EDestination *dest = E_DESTINATION (obj);
 
-	e_destination_clear (dest);
+	if (dest->priv) {
+		e_destination_clear (dest);
 
-	if (dest->priv->old_card)
-		g_object_unref (dest->priv->old_card);
+		if (dest->priv->old_card)
+			g_object_unref (dest->priv->old_card);
 	
-	if (dest->priv->cardify_book)
-		g_object_unref (dest->priv->cardify_book);
+		if (dest->priv->cardify_book)
+			g_object_unref (dest->priv->cardify_book);
 
-	g_free (dest->priv->old_textrep);
+		g_free (dest->priv->old_textrep);
 
-	g_free (dest->priv);
+		g_free (dest->priv);
+		dest->priv = NULL;
+	}
 }
 
 static void

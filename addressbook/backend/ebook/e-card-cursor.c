@@ -26,32 +26,36 @@ static void
 e_card_cursor_dispose (GObject *object)
 {
 	ECardCursor *cursor = E_CARD_CURSOR (object);
-	CORBA_Environment      ev;
 
-	CORBA_exception_init (&ev);
+	if (cursor->priv) {
+		CORBA_Environment      ev;
 
-	GNOME_Evolution_Addressbook_CardCursor_unref( cursor->priv->corba_cursor, &ev );
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("e_card_cursor_destroy: Exception unreffing "
-			  "corba cursor.\n");
-		CORBA_exception_free (&ev);
 		CORBA_exception_init (&ev);
-	}
 
-	CORBA_Object_release (cursor->priv->corba_cursor, &ev);
+		GNOME_Evolution_Addressbook_CardCursor_unref( cursor->priv->corba_cursor, &ev );
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("e_card_cursor_destroy: Exception releasing "
-			  "corba cursor.\n");
-	}
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning("e_card_cursor_destroy: Exception unreffing "
+				  "corba cursor.\n");
+			CORBA_exception_free (&ev);
+			CORBA_exception_init (&ev);
+		}
 
-	CORBA_exception_free (&ev);
+		CORBA_Object_release (cursor->priv->corba_cursor, &ev);
 
-	if ( cursor->priv )
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning("e_card_cursor_destroy: Exception releasing "
+				  "corba cursor.\n");
+		}
+
+		CORBA_exception_free (&ev);
+
 		g_free ( cursor->priv );
+		cursor->priv = NULL;
+	}
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 /**

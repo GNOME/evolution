@@ -150,26 +150,30 @@ pas_backend_summary_dispose (GObject *object)
 {
 	PASBackendSummary *summary = PAS_BACKEND_SUMMARY (object);
 
-	if (summary->priv->dirty)
-		g_warning ("Destroying dirty summary");
+	if (summary->priv) {
+		if (summary->priv->dirty)
+			g_warning ("Destroying dirty summary");
 
-	if (summary->priv->flush_timeout) {
-		g_source_remove (summary->priv->flush_timeout);
-		summary->priv->flush_timeout = 0;
+		if (summary->priv->flush_timeout) {
+			g_source_remove (summary->priv->flush_timeout);
+			summary->priv->flush_timeout = 0;
+		}
+
+		if (summary->priv->fp)
+			fclose (summary->priv->fp);
+
+		g_free (summary->priv->summary_path);
+		clear_items (summary);
+		g_ptr_array_free (summary->priv->items, TRUE);
+
+		g_hash_table_destroy (summary->priv->id_to_item);
+
+		g_free (summary->priv);
+		summary->priv = NULL;
 	}
 
-	if (summary->priv->fp)
-		fclose (summary->priv->fp);
-
-	g_free (summary->priv->summary_path);
-	clear_items (summary);
-	g_ptr_array_free (summary->priv->items, TRUE);
-
-	g_hash_table_destroy (summary->priv->id_to_item);
-
-	g_free (summary->priv);
-
-	G_OBJECT_CLASS (parent_class)->dispose (object);	
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void

@@ -1477,35 +1477,42 @@ static void
 e_book_dispose (GObject *object)
 {
 	EBook             *book = E_BOOK (object);
-	CORBA_Environment  ev;
-	GList *l;
 
-	if (book->priv->load_state == URILoaded)
-		e_book_unload_uri (book);
+	if (book->priv) {
+		CORBA_Environment  ev;
+		GList *l;
 
-	CORBA_exception_init (&ev);
+		if (book->priv->load_state == URILoaded)
+			e_book_unload_uri (book);
 
-	for (l = book->priv->book_factories; l; l = l->next) {
-		CORBA_Object_release ((CORBA_Object)l->data, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("EBook: Exception while releasing BookFactory\n");
+		CORBA_exception_init (&ev);
 
-			CORBA_exception_free (&ev);
-			CORBA_exception_init (&ev);
+		for (l = book->priv->book_factories; l; l = l->next) {
+			CORBA_Object_release ((CORBA_Object)l->data, &ev);
+			if (ev._major != CORBA_NO_EXCEPTION) {
+				g_warning ("EBook: Exception while releasing BookFactory\n");
+
+				CORBA_exception_free (&ev);
+				CORBA_exception_init (&ev);
+			}
 		}
+
+		CORBA_exception_free (&ev);
+
+		if (book->priv->comp_listener) {
+			g_signal_handler_disconnect (book->priv->comp_listener, book->priv->died_signal);
+			g_object_unref (book->priv->comp_listener);
+			book->priv->comp_listener = NULL;
+		}
+
+		g_free (book->priv->uri);
+
+		g_free (book->priv);
+		book->priv = NULL;
 	}
 
-        if (book->priv->comp_listener) {
-                g_signal_handler_disconnect (book->priv->comp_listener, book->priv->died_signal);
-                g_object_unref (book->priv->comp_listener);
-                book->priv->comp_listener = NULL;
-        }
-
-	g_free (book->priv->uri);
-
-	g_free (book->priv);
-
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void

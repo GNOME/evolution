@@ -870,35 +870,40 @@ static void
 pas_book_dispose (GObject *object)
 {
 	PASBook *book = PAS_BOOK (object);
-	GList   *l;
-	CORBA_Environment ev;
 
-	for (l = book->priv->request_queue; l != NULL; l = l->next) {
-		pas_book_free_request ((PASRequest *)l->data);
+	if (book->priv) {
+		GList   *l;
+		CORBA_Environment ev;
+
+		for (l = book->priv->request_queue; l != NULL; l = l->next) {
+			pas_book_free_request ((PASRequest *)l->data);
+		}
+		g_list_free (book->priv->request_queue);
+
+		/* We should never ever have timeout_id == 0 when we
+		   get destroyed, unless there is some sort of
+		   reference counting bug.  Still, we do this to try
+		   to avoid horrible crashes in those situations. */
+		if (book->priv->timeout_id) {
+			g_warning ("PASBook destroyed with non-zero timeout_id.  This shouldn't happen.");
+			g_source_remove (book->priv->timeout_id);
+			book->priv->timeout_id = 0;
+		}
+
+		CORBA_exception_init (&ev);
+		CORBA_Object_release (book->priv->listener, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("pas_book_construct(): could not release the listener");
+
+		CORBA_exception_free (&ev);
+
+		g_free (book->priv);
+		book->priv = NULL;
 	}
-	g_list_free (book->priv->request_queue);
 
-	/* We should never ever have timeout_id == 0 when we get destroyed, unless there
-	   is some sort of reference counting bug.  Still, we do this to try to avoid
-	   horrible crashes in those situations. */
-	if (book->priv->timeout_id) {
-		g_warning ("PASBook destroyed with non-zero timeout_id.  This shouldn't happen.");
-		g_source_remove (book->priv->timeout_id);
-		book->priv->timeout_id = 0;
-	}
-
-	CORBA_exception_init (&ev);
-	CORBA_Object_release (book->priv->listener, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_message ("pas_book_construct(): could not release the listener");
-
-	CORBA_exception_free (&ev);
-
-	g_free (book->priv);
-	book->priv = NULL;
-
-	G_OBJECT_CLASS (pas_book_parent_class)->dispose (object);	
+	if (G_OBJECT_CLASS (pas_book_parent_class)->dispose)
+		G_OBJECT_CLASS (pas_book_parent_class)->dispose (object);
 }
 
 static void

@@ -374,35 +374,39 @@ static void
 e_book_view_listener_dispose (GObject *object)
 {
 	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (object);
-	GList *l;
+
+	if (listener->priv) {
+		GList *l;
+		/* Remove our response queue handler: In theory, this
+		   can never happen since we always hold a reference
+		   to the listener while the timeout is running. */
+		if (listener->priv->timeout_id) {
+			g_source_remove (listener->priv->timeout_id);
+		}
+
+		/* Clear out the queue */
+		for (l = listener->priv->response_queue; l != NULL; l = l->next) {
+			EBookViewListenerResponse *resp = l->data;
+
+			g_free(resp->id);
+
+			g_list_foreach(resp->cards, (GFunc) g_object_unref, NULL);
+			g_list_free(resp->cards);
+			resp->cards = NULL;
+
+			g_free (resp->message);
+			resp->message = NULL;
+
+			g_free (resp);
+		}
+		g_list_free (listener->priv->response_queue);
 	
-	/* Remove our response queue handler: In theory, this can never happen since we
-	 always hold a reference to the listener while the timeout is running. */
-	if (listener->priv->timeout_id) {
-		g_source_remove (listener->priv->timeout_id);
+		g_free (listener->priv);
+		listener->priv = NULL;
 	}
 
-	/* Clear out the queue */
-	for (l = listener->priv->response_queue; l != NULL; l = l->next) {
-		EBookViewListenerResponse *resp = l->data;
-
-		g_free(resp->id);
-
-		g_list_foreach(resp->cards, (GFunc) g_object_unref, NULL);
-		g_list_free(resp->cards);
-		resp->cards = NULL;
-
-		g_free (resp->message);
-		resp->message = NULL;
-
-		g_free (resp);
-	}
-	g_list_free (listener->priv->response_queue);
-	
-	g_free (listener->priv);
-	listener->priv = NULL;
-
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void

@@ -1997,42 +1997,44 @@ static void
 e_card_dispose (GObject *object)
 {
 	ECard *card = E_CARD(object);
-	g_free(card->id);
-	if (card->book)
-		g_object_unref (card->book);
-	g_free(card->file_as);
-	g_free(card->fname);
-	e_card_name_unref(card->name);
-	g_free(card->bday);
 
-	g_free(card->url);
-	g_free(card->org);
-	g_free(card->org_unit);
-	g_free(card->office);
-	g_free(card->title);
-	g_free(card->role);
-	g_free(card->manager);
-	g_free(card->assistant);
-	g_free(card->nickname);
-	g_free(card->spouse);
-	g_free(card->anniversary);
-	g_free(card->caluri);
-	g_free(card->fburl);
-	g_free(card->note);
-	g_free(card->related_contacts);
+#define FREE_IF(x) do { if ((x)) { g_free (x); x = NULL; } } while (0)
+#define UNREF_IF(x) do { if ((x)) { g_object_unref (x); x = NULL; } } while (0)
 
-	if (card->categories)
-		g_object_unref(card->categories);
-	if (card->email)
-		g_object_unref(card->email);
-	if (card->phone)
-		g_object_unref(card->phone);
-	if (card->address)
-		g_object_unref(card->address);
-	if (card->address_label)
-		g_object_unref(card->address_label);
+	FREE_IF (card->id);
+	UNREF_IF (card->book);
+	FREE_IF(card->file_as);
+	FREE_IF(card->fname);
+	if (card->name) {
+		e_card_name_unref(card->name);
+		card->name = NULL;
+	}
+	FREE_IF(card->bday);
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	FREE_IF(card->url);
+	FREE_IF(card->org);
+	FREE_IF(card->org_unit);
+	FREE_IF(card->office);
+	FREE_IF(card->title);
+	FREE_IF(card->role);
+	FREE_IF(card->manager);
+	FREE_IF(card->assistant);
+	FREE_IF(card->nickname);
+	FREE_IF(card->spouse);
+	FREE_IF(card->anniversary);
+	FREE_IF(card->caluri);
+	FREE_IF(card->fburl);
+	FREE_IF(card->note);
+	FREE_IF(card->related_contacts);
+
+	UNREF_IF (card->categories);
+	UNREF_IF (card->email);
+	UNREF_IF (card->phone);
+	UNREF_IF (card->address);
+	UNREF_IF (card->address_label);
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 

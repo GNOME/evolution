@@ -409,12 +409,17 @@ static void
 pas_backend_card_sexp_dispose (GObject *object)
 {
 	PASBackendCardSExp *sexp = PAS_BACKEND_CARD_SEXP (object);
-	e_sexp_unref(sexp->priv->search_sexp);
 
-	g_free (sexp->priv->search_context);
-	g_free (sexp->priv);
+	if (sexp->priv) {
+		e_sexp_unref(sexp->priv->search_sexp);
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);	
+		g_free (sexp->priv->search_context);
+		g_free (sexp->priv);
+		sexp->priv = NULL;
+	}
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void

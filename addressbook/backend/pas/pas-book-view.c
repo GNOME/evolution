@@ -207,20 +207,16 @@ static void
 pas_book_view_dispose (GObject *object)
 {
 	PASBookView *book_view = PAS_BOOK_VIEW (object);
-	CORBA_Environment   ev;
 
-	CORBA_exception_init (&ev);
-	bonobo_object_release_unref (book_view->priv->listener, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		CORBA_exception_free (&ev);
+	if (book_view->priv) {
+		bonobo_object_release_unref (book_view->priv->listener, NULL);
 
-		return;
+		g_free (book_view->priv);
+		book_view->priv = NULL;
 	}
-	CORBA_exception_free (&ev);
 
-	g_free (book_view->priv);
-
-	G_OBJECT_CLASS (pas_book_view_parent_class)->dispose (object);	
+	if (G_OBJECT_CLASS (pas_book_view_parent_class)->dispose)
+		G_OBJECT_CLASS (pas_book_view_parent_class)->dispose (object);	
 }
 
 static void

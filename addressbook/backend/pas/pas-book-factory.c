@@ -513,47 +513,52 @@ static void
 pas_book_factory_dispose (GObject *object)
 {
 	PASBookFactory *factory = PAS_BOOK_FACTORY (object);
-	PASBookFactoryPrivate *priv = factory->priv;
 
-	GList          *l;
+	if (factory->priv) {
+		PASBookFactoryPrivate *priv = factory->priv;
+		GList          *l;
 
-	for (l = priv->queued_requests; l != NULL; l = l->next) {
-		PASBookFactoryQueuedRequest *request = l->data;
-		CORBA_Environment ev;
+		for (l = priv->queued_requests; l != NULL; l = l->next) {
+			PASBookFactoryQueuedRequest *request = l->data;
+			CORBA_Environment ev;
 
-		g_free (request->uri);
+			g_free (request->uri);
 
-		CORBA_exception_init (&ev);
-		CORBA_Object_release (request->listener, &ev);
-		CORBA_exception_free (&ev);
+			CORBA_exception_init (&ev);
+			CORBA_Object_release (request->listener, &ev);
+			CORBA_exception_free (&ev);
 
-		g_free (request);
-	}
-	g_list_free (priv->queued_requests);
-	priv->queued_requests = NULL;
+			g_free (request);
+		}
+		g_list_free (priv->queued_requests);
+		priv->queued_requests = NULL;
 
-	g_hash_table_foreach (priv->active_server_map,
-			      free_active_server_map_entry,
-			      NULL);
-	g_hash_table_destroy (priv->active_server_map);
-	priv->active_server_map = NULL;
+		g_hash_table_foreach (priv->active_server_map,
+				      free_active_server_map_entry,
+				      NULL);
+		g_hash_table_destroy (priv->active_server_map);
+		priv->active_server_map = NULL;
 
-	g_hash_table_foreach (priv->backends,
-			      remove_backends_entry,
-			      NULL);
-	g_hash_table_destroy (priv->backends);
-	priv->backends = NULL;
+		g_hash_table_foreach (priv->backends,
+				      remove_backends_entry,
+				      NULL);
+		g_hash_table_destroy (priv->backends);
+		priv->backends = NULL;
 
-	if (priv->registered) {
-		bonobo_activation_active_server_unregister (priv->iid, bonobo_object_corba_objref (BONOBO_OBJECT (factory)));
-		priv->registered = FALSE;
-	}
+		if (priv->registered) {
+			bonobo_activation_active_server_unregister (priv->iid,
+							    bonobo_object_corba_objref (BONOBO_OBJECT (factory)));
+			priv->registered = FALSE;
+		}
 
-	g_free (priv->iid);
+		g_free (priv->iid);
 	
-	g_free (priv);
+		g_free (priv);
+		factory->priv = NULL;
+	}
 
-	G_OBJECT_CLASS (pas_book_factory_parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (pas_book_factory_parent_class)->dispose)
+		G_OBJECT_CLASS (pas_book_factory_parent_class)->dispose (object);
 }
 
 static void

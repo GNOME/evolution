@@ -349,22 +349,43 @@ e_card_simple_dispose (GObject *object)
 	
 	simple = E_CARD_SIMPLE (object);
 
-	if (simple->card)
+	if (simple->card) {
 		g_object_unref(simple->card);
-	g_list_foreach(simple->temp_fields, (GFunc) g_free, NULL);
-	g_list_free(simple->temp_fields);
-	simple->temp_fields = NULL;
+		simple->card = NULL;
+	}
+	if (simple->temp_fields) {
+		g_list_foreach(simple->temp_fields, (GFunc) g_free, NULL);
+		g_list_free(simple->temp_fields);
+		simple->temp_fields = NULL;
+	}
 
-	for(i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i++)
-		e_card_phone_unref (simple->phone[i]);
-	for(i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i++)
-		g_free(simple->email[i]);
-	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++)
-		e_card_address_label_unref(simple->address[i]);
-	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++)
-		e_card_delivery_address_unref(simple->delivery[i]);
+	for(i = 0; i < E_CARD_SIMPLE_PHONE_ID_LAST; i++) {
+		if (simple->phone[i]) {
+			e_card_phone_unref (simple->phone[i]);
+			simple->phone[i] = NULL;
+		}
+	}
+	for(i = 0; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i++) {
+		if (simple->email[i]) {
+			g_free(simple->email[i]);
+			simple->email[i] = NULL;
+		}
+	}
+	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
+		if (simple->address[i]) {
+			e_card_address_label_unref(simple->address[i]);
+			simple->address[i] = NULL;
+		}
+	}
+	for(i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
+		if (simple->delivery[i]) {
+			e_card_delivery_address_unref(simple->delivery[i]);
+			simple->delivery[i] = NULL;
+		}
+	}
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 

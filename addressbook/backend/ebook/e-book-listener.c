@@ -690,25 +690,32 @@ static void
 e_book_listener_dispose (GObject *object)
 {
 	EBookListener *listener = E_BOOK_LISTENER (object);
-	GList *l;
 
-	/* Remove our response queue handler: In theory, this can never happen since we
-	 always hold a reference to the listener while the timeout is running. */
-	if (listener->priv->timeout_id) {
-		g_source_remove (listener->priv->timeout_id);
+	if (listener->priv) {
+		GList *l;
+
+		/* Remove our response queue handler: In theory, this
+		   can never happen since we always hold a reference
+		   to the listener while the timeout is running. */
+		if (listener->priv->timeout_id) {
+			g_source_remove (listener->priv->timeout_id);
+		}
+
+		/* Clean up anything still sitting in response_queue */
+		for (l = listener->priv->response_queue; l != NULL; l = l->next) {
+			EBookListenerResponse *resp = l->data;
+
+			response_free (resp);
+		}
+		g_list_free (listener->priv->response_queue);
+
+		g_free (listener->priv);
+
+		listener->priv = NULL;
 	}
 
-	/* Clean up anything still sitting in response_queue */
-	for (l = listener->priv->response_queue; l != NULL; l = l->next) {
-		EBookListenerResponse *resp = l->data;
-
-		response_free (resp);
-	}
-	g_list_free (listener->priv->response_queue);
-
-	g_free (listener->priv);
-
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void

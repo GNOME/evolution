@@ -1628,12 +1628,15 @@ pas_backend_file_dispose (GObject *object)
 
 	bf = PAS_BACKEND_FILE (object);
 
-	g_object_unref(bf->priv->book_views);
-	g_object_unref(bf->priv->summary);
-	g_free (bf->priv->uri);
-	g_free (bf->priv->filename);
+	if (bf->priv) {
+		g_object_unref(bf->priv->book_views);
+		g_object_unref(bf->priv->summary);
+		g_free (bf->priv->uri);
+		g_free (bf->priv->filename);
 
-	g_free (bf->priv);
+		g_free (bf->priv);
+		bf->priv = NULL;
+	}
 
 	G_OBJECT_CLASS (pas_backend_file_parent_class)->dispose (object);	
 }

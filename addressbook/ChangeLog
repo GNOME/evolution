@@ -1,3 +1,36 @@
+2002-11-10  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-card-sexp.c
+	(pas_backend_card_sexp_dispose): guard against multiple
+	invocations.
+	
+	* backend/pas/pas-card-cursor.c (pas_card_cursor_dispose): same.
+
+	* backend/pas/pas-book.c (pas_book_dispose): same.
+
+	* backend/pas/pas-book-view.c (pas_book_view_dispose): same.
+
+	* backend/pas/pas-book-factory.c (pas_book_factory_dispose): same.
+
+	* backend/pas/pas-backend-summary.c (pas_backend_summary_dispose): same.
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_dispose): same.
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_dispose): same.
+
+	* backend/ebook/e-book-listener.c (e_book_listener_dispose): guard
+	against multiple invocations.
+
+	* backend/ebook/e-card.c (e_card_dispose): same.
+
+	* backend/ebook/e-card-simple.c (e_card_simple_dispose): same.
+
+	* backend/ebook/e-card-cursor.c (e_card_cursor_dispose): same.
+
+	* backend/ebook/e-book.c (e_book_dispose): same.
+
+	* backend/ebook/e-book-view-listener.c (e_book_view_listener_dispose): same.
+
 2002-11-08  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-model.c (free_data): guard against

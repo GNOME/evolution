@@ -3436,22 +3436,28 @@ pas_backend_ldap_dispose (GObject *object)
 
 	bl = PAS_BACKEND_LDAP (object);
 
-	g_hash_table_foreach_remove (bl->priv->id_to_op, (GHRFunc)call_dtor, NULL);
-	g_hash_table_destroy (bl->priv->id_to_op);
+	if (bl->priv) {
+		g_hash_table_foreach_remove (bl->priv->id_to_op, (GHRFunc)call_dtor, NULL);
+		g_hash_table_destroy (bl->priv->id_to_op);
 
-	if (bl->priv->poll_timeout != -1) {
-		printf ("removing timeout\n");
-		g_source_remove (bl->priv->poll_timeout);
+		if (bl->priv->poll_timeout != -1) {
+			printf ("removing timeout\n");
+			g_source_remove (bl->priv->poll_timeout);
+		}
+
+		g_object_unref (bl->priv->book_views);
+
+		if (bl->priv->supported_fields)
+			g_object_unref (bl->priv->supported_fields);
+
+		g_free (bl->priv->uri);
+
+		g_free (bl->priv);
+		bl->priv = NULL;
 	}
 
-	g_object_unref (bl->priv->book_views);
-
-	if (bl->priv->supported_fields)
-		g_object_unref (bl->priv->supported_fields);
-
-	g_free (bl->priv->uri);
-
-	G_OBJECT_CLASS (pas_backend_ldap_parent_class)->dispose (object);	
+	if (G_OBJECT_CLASS (pas_backend_ldap_parent_class)->dispose)
+		G_OBJECT_CLASS (pas_backend_ldap_parent_class)->dispose (object);
 }
 
 static void
