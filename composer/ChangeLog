@@ -1,3 +1,7 @@
+2001-07-06  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (autosave_manager_new): add missing static.
+
 2001-07-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):
@@ -11,6 +15,7 @@
 	emptry fil is not very useful.
 	(autosave_load_draft): add some sanity chacks.
 	(autosave_run_foreach_cb): remove debugging warning.
+	(autosave_manager_new): add a missing static.
 
 2001-07-06  Larry Ewing  <lewing@ximian.com>
 

@@ -1227,7 +1227,7 @@ autosave_manager_stop (AutosaveManager *am)
 	}
 }
 
-AutosaveManager *
+static AutosaveManager *
 autosave_manager_new ()
 {
 	AutosaveManager *am;
