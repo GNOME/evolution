@@ -1,3 +1,9 @@
+2001-09-26  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.c (message_list_foreach): Use
+	e_tree_selected_path_foreach instead of
+	e_tree_selected_row_foreach here.
+
 2001-09-27  Michael Meeks  <michael@ximian.com>
 
 	* mail-config.c (mail_config_init): report the

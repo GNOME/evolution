@@ -2054,13 +2054,13 @@ struct message_list_foreach_data {
 };
 
 static void
-mlfe_callback (int row, gpointer user_data)
+mlfe_callback (ETreePath path, gpointer user_data)
 {
 	struct message_list_foreach_data *mlfe_data = user_data;
 	const char *uid;
 	
 	uid = get_message_uid (mlfe_data->message_list,
-			       e_tree_node_at_row (mlfe_data->message_list->tree, row));
+			       path);
 	if (uid) {
 		mlfe_data->callback (mlfe_data->message_list, uid,
 				     mlfe_data->user_data);
@@ -2081,8 +2081,8 @@ message_list_foreach (MessageList *message_list,
 	mlfe_data.message_list = message_list;
 	mlfe_data.callback = callback;
 	mlfe_data.user_data = user_data;
-	e_tree_selected_row_foreach (message_list->tree,
-				     mlfe_callback, &mlfe_data);
+	e_tree_selected_path_foreach (message_list->tree,
+				      mlfe_callback, &mlfe_data);
 }
 
 /* set whether we are in threaded view or flat view */
