@@ -1,3 +1,14 @@
+2001-06-29  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/select-names/e-select-names.c (update_query):
+	Change the query when the "Update List" button is pushed.
+
+	* gui/component/select-names/e-select-names.h: Removed
+	currently_selected field.  Added categories_entry field.
+
+	* gui/component/select-names/select-names.glade: Added "Update
+	List" button.
+
 2001-06-29  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/Makefile.am (INCLUDES): add EVOLUTION_IMAGESDIR

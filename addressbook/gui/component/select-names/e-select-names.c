@@ -210,12 +210,6 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	return table;
 }
 
-static void
-set_current_selection(ETableScrolled *table, int row, ESelectNames *names)
-{
-	names->currently_selected = row;
-}
-
 typedef struct {
 	char *description;
 	char *display_name;
@@ -346,6 +340,24 @@ removed_folder  (EvolutionStorageListener *storage_listener,
 }
 
 static void
+update_query (GtkWidget *button, ESelectNames *e_select_names)
+{
+	char *category = "";
+	char *query;
+	if (e_select_names->categories_entry) {
+		category = gtk_entry_get_text (GTK_ENTRY (e_select_names->categories_entry));
+	}
+	if (category && *category) {
+		query = g_strdup_printf ("(and (contains \"email\" \"\") (is \"category\" \"%s\"))", category);
+	} else
+		query = g_strdup ("(contains \"email\" \"\")");
+	gtk_object_set (GTK_OBJECT (e_select_names->model),
+			"query", query,
+			NULL);
+	g_free (query);
+}
+
+static void
 e_select_names_hookup_shell_listener (ESelectNames *e_select_names)
 {
 	GNOME_Evolution_Storage storage;
@@ -438,18 +450,24 @@ e_select_names_init (ESelectNames *e_select_names)
 	e_select_names->adapter = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "adapter");
 
 	e_select_names->categories = glade_xml_get_widget (gui, "custom-categories");
-
-	e_select_names->currently_selected = -1;
+	if (e_select_names->categories && !GTK_IS_COMBO (e_select_names->categories))
+		e_select_names->categories = NULL;
+	if (e_select_names->categories) {
+		e_select_names->categories_entry = GTK_COMBO (e_select_names->categories)->entry;
+	} else
+		e_select_names->categories_entry = NULL;
 
 	e_select_names->folders = g_hash_table_new(g_str_hash, g_str_equal);
 
 	e_select_names_hookup_shell_listener (e_select_names);
 
-	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(e_select_names->table)), "cursor_activated",
-			   GTK_SIGNAL_FUNC(set_current_selection), e_select_names);
+	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (e_select_names->table)), "double_click",
+			    GTK_SIGNAL_FUNC (add_address), e_select_names);
 
-	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(e_select_names->table)), "double_click",
-			   GTK_SIGNAL_FUNC(add_address), e_select_names);
+	widget = glade_xml_get_widget (gui, "button-update");
+	if (widget && GTK_IS_BUTTON (widget)) 
+		gtk_signal_connect (GTK_OBJECT (widget), "clicked",
+				    GTK_SIGNAL_FUNC (update_query), e_select_names);
 }
 
 static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESelectNames *e_select_names)

@@ -71,7 +71,7 @@ struct _ESelectNames
 	ETableModel *adapter;
 	EAddressbookModel *model;
 	GtkWidget *categories;
-	int currently_selected;
+	GtkWidget *categories_entry;
 	EvolutionStorageListener *listener;
 	GHashTable *folders;
 	char *def;
