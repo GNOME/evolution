@@ -117,6 +117,9 @@ folder_browser_destroy (GtkObject *object)
 	if (folder_browser->search_full)
 		gtk_object_unref (GTK_OBJECT (folder_browser->search_full));
 	
+	if (folder_browser->sensitize_timeout_id)
+		g_source_remove (folder_browser->sensitize_timeout_id);
+
 	if (folder_browser->shell != CORBA_OBJECT_NIL)
 		CORBA_Object_release (folder_browser->shell, &ev);
 

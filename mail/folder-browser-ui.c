@@ -399,8 +399,13 @@ folder_browser_ui_rm_all (FolderBrowser *fb)
  	bonobo_ui_component_unset_container (uic);
 }
 
+struct sensitize_data {
+	const char **items;
+	gboolean enable;
+};
+
 static void
-fbui_sensitize_items (BonoboUIComponent *uic, const char **items, gboolean enable)
+fbui_real_sensitize_items (BonoboUIComponent *uic, const char **items, gboolean enable)
 {
 	int i;
 	char name_buf[256]; /* this should really be large enough */
@@ -417,6 +422,59 @@ fbui_sensitize_items (BonoboUIComponent *uic, const char **items, gboolean enabl
 	}
 }
 
+static gboolean
+fbui_sensitize_timeout (gpointer data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (data);
+	BonoboUIComponent *uic = fb->uicomp;
+	GSList *iter;
+	struct sensitize_data *sd;
+
+	for (iter = fb->sensitize_changes; iter; iter = iter->next) {
+		sd = (struct sensitize_data *) iter->data;
+
+		fbui_real_sensitize_items (uic, sd->items, sd->enable);
+		g_free (sd);
+	}
+
+	g_slist_free (fb->sensitize_changes);
+	fb->sensitize_changes = NULL;
+	fb->sensitize_timeout_id = 0;
+	return FALSE;
+}
+
+static void
+fbui_sensitize_items (FolderBrowser *fb, const char **items, gboolean enable)
+{
+	struct sensitize_data *sd;
+	GSList *iter;
+
+	/* If we're already updating these items, save an update by
+	 * changing the item in the list. */
+
+	for (iter = fb->sensitize_changes; iter; iter = iter->next) {
+		sd = (struct sensitize_data *) iter->data;
+
+		if (sd->items == items)
+			break;
+	}
+
+	if (iter == NULL) {
+		sd = g_new (struct sensitize_data, 1);
+		sd->items = items;
+		sd->enable = enable;
+
+		fb->sensitize_changes = g_slist_prepend (fb->sensitize_changes, sd);
+	} else {
+		/* Redundant, but shuts up the compiler. */
+		sd = (struct sensitize_data *) iter->data;
+		sd->enable = enable;
+	}
+
+	if (fb->sensitize_timeout_id == 0)
+		fb->sensitize_timeout_id = g_timeout_add (90, fbui_sensitize_timeout, fb);
+}
+
 static const char *message_pane_enables[] = {
 	/* these only work if there's a message in the message pane
 	 * (preview pane). This state is independent of how many are
@@ -430,8 +488,6 @@ static const char *message_pane_enables[] = {
 void 
 folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelectionState state)
 {
-	BonoboUIComponent *uic = fb->uicomp;
-
 	/* We'd like to keep the number of changes to be minimal cause
 	 * this is a lot of corba traffic. So we break these sets of commands into bits:
 	 *
@@ -484,21 +540,21 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 
 	switch (state) {
 	case FB_SELSTATE_NONE:
-		fbui_sensitize_items (uic, none_disables, FALSE);
+		fbui_sensitize_items (fb, none_disables, FALSE);
 		if (fb->selection_state != FB_SELSTATE_MULTIPLE)
-			fbui_sensitize_items (uic, multiple_disables, FALSE);
+			fbui_sensitize_items (fb, multiple_disables, FALSE);
 		break;
 	case FB_SELSTATE_SINGLE:
 		if (fb->selection_state != FB_SELSTATE_UNDEFINED)
-			fbui_sensitize_items (uic, multiple_disables, TRUE);
+			fbui_sensitize_items (fb, multiple_disables, TRUE);
 		if (fb->selection_state == FB_SELSTATE_NONE)
-			fbui_sensitize_items (uic, none_disables, TRUE);
+			fbui_sensitize_items (fb, none_disables, TRUE);
 		break;
 	case FB_SELSTATE_MULTIPLE:
 		if (fb->selection_state == FB_SELSTATE_NONE)
-			fbui_sensitize_items (uic, none_disables, TRUE);
+			fbui_sensitize_items (fb, none_disables, TRUE);
 		else
-			fbui_sensitize_items (uic, multiple_disables, FALSE);
+			fbui_sensitize_items (fb, multiple_disables, FALSE);
 		break;
 	case FB_SELSTATE_UNDEFINED:
 		printf ("changing to undefined selection state? hah!\n");
@@ -506,7 +562,7 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 	}
 
 	if (fb->loaded_uid == NULL)
-		fbui_sensitize_items (uic, message_pane_enables, FALSE);
+		fbui_sensitize_items (fb, message_pane_enables, FALSE);
 
 	fb->selection_state = state;
 }
@@ -517,5 +573,5 @@ folder_browser_ui_message_loaded (FolderBrowser *fb)
 	BonoboUIComponent *uic = fb->uicomp;
 
 	if (fb->loaded_uid == NULL && uic)
-		fbui_sensitize_items (uic, message_pane_enables, TRUE);
+		fbui_sensitize_items (fb, message_pane_enables, TRUE);
 }

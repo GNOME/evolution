@@ -1,3 +1,21 @@
+2001-08-21  Peter Williams  <peterw@ximian.com>
+
+	* folder-browser-ui.c (fbui_sensitize_items): Rename to 
+	fbui_real_sensitize_items. Now we queue a change and set up a timeout,
+	making sure weed out redundant changes, fixing flicker.
+	(fbui_sensitize_timeout): New function. The timeout.
+	(fbui_real_sensitize_items): Semi-new function. Rename of old
+	fbui_sensitize_items.
+	(folder_browser_ui_set_selection_state): Pass the FB instead of only
+	the UIC to sensitize_items.
+	(folder_browser_ui_message_loaded): Same.
+
+	* folder-browser.c (folder_browser_destroy): Kill the new timeout if
+	it is registered.
+
+	* folder-browser.h: Add some members to FolderBrowser for keeping
+	track of the queue of changes.
+
 2001-08-20  Iain Holmes  <iain@ximian.com>
 
 	* mail-config.druid: Fix the jumping around.

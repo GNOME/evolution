@@ -71,6 +71,8 @@ struct  _FolderBrowser {
 	gboolean     pref_master;
 
 	FolderBrowserSelectionState selection_state;
+	GSList *sensitize_changes;
+	int sensitize_timeout_id;
 
 	/* View collection and the menu handler object */
 	GalViewCollection *view_collection;
