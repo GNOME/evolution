@@ -61,6 +61,8 @@ struct _ESimpleCardBonoboClass {
 
 GType              e_simple_card_bonobo_get_type   (void);
 ESimpleCardBonobo *e_simple_card_bonobo_new        (ECardSimple                            *card_simple);
+void               e_simple_card_bonobo_construct  (ESimpleCardBonobo *simple_card,
+						    ECardSimple *card_simple);
 
 #ifdef __cplusplus
 }

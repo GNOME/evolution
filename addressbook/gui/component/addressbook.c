@@ -549,10 +549,10 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 			 label_string,
 			 NULL);
 
-		g_signal_connect_swapped (warning_dialog, 
-					  "response", 
-					  G_CALLBACK (gtk_widget_destroy),
-					  warning_dialog);
+		g_signal_connect (warning_dialog, 
+				  "response", 
+				  G_CALLBACK (gtk_widget_destroy),
+				  warning_dialog);
 
 		gtk_window_set_title (GTK_WINDOW (warning_dialog), _("Unable to open addressbook"));
 
@@ -614,7 +614,14 @@ load_uri_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 	if (status != E_BOOK_STATUS_SUCCESS) {
 		if (status == E_BOOK_STATUS_CANCELLED) {
 			/* the user clicked cancel in the password dialog */
-			gnome_warning_dialog (_("Accessing LDAP Server anonymously"));
+			GtkWidget *dialog;
+			dialog = gtk_message_dialog_new (NULL,
+							 0,
+							 GTK_MESSAGE_WARNING,
+							 GTK_BUTTONS_OK,
+							 _("Accessing LDAP Server anonymously"));
+			g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+			gtk_widget_show (dialog);
 			data->cb (book, E_BOOK_STATUS_SUCCESS, data->closure);
 			g_free (data->clean_uri);
 			g_free (data);
@@ -1000,8 +1007,16 @@ search_result (EAddressbookView *eav, EBookViewStatus status, AddressbookView *v
 		break;
 	}
 
-	if (str)
-		gnome_warning_dialog (str);
+	if (str) {
+		GtkWidget *dialog;
+		dialog = gtk_message_dialog_new (NULL,
+						 0,
+						 GTK_MESSAGE_WARNING,
+						 GTK_BUTTONS_OK,
+						 str);
+		g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+		gtk_widget_show (dialog);
+	}
 }
 
 static void

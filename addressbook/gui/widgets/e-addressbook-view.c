@@ -1097,7 +1097,6 @@ create_alphabet (EAddressbookView *view)
 
 	vbox = gtk_vbox_new (FALSE, 4);
 	gtk_container_add (GTK_CONTAINER (viewport), vbox);
-	gtk_widget_set_usize (vbox, 27, 0);
 
 	labels = _(button_labels);
 	sep = g_utf8_get_char (labels);

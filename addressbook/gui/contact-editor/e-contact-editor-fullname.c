@@ -110,7 +110,7 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
-	gtk_window_set_policy(GTK_WINDOW(e_contact_editor_fullname), TRUE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(e_contact_editor_fullname), TRUE);
 
 	e_contact_editor_fullname->name = NULL;
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/fullname.glade", NULL, NULL);

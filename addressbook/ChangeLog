@@ -1,3 +1,24 @@
+2003-02-27  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.c (book_open_cb): use g_signal_connect
+	here, not swapped... although since we pass the widget as the
+	closure it really doesn't matter.
+	(load_uri_auth_cb): use a GtkDialog here.
+	(search_result): same.
+
+	* gui/component/select-names/e-simple-card-bonobo.h: add prototype
+	for e_simple_card_bonobo_construct to fix warning.
+
+	* gui/widgets/e-addressbook-view.c (create_alphabet): remove call
+	to gtk_widget_set_usize.
+
+	* gui/contact-editor/e-contact-editor-address.c
+	(e_contact_editor_address_init): gtk_window_set_policy =>
+	gtk_window_set_resizable.
+
+	* gui/contact-editor/e-contact-editor-fullname.c
+	(e_contact_editor_fullname_init): same.
+
 2003-02-27  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/Makefile.am: link to libversit libtool object

@@ -418,7 +418,7 @@ e_contact_editor_address_init (EContactEditorAddress *e_contact_editor_address)
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
-	gtk_window_set_policy(GTK_WINDOW(e_contact_editor_address), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(e_contact_editor_address), TRUE);
 
 	e_contact_editor_address->address = NULL;
 
