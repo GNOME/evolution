@@ -1,3 +1,8 @@
+2003-04-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* importers/icalendar-importer.c (load_file_fn, vcal_load_file_fn):
+	added "folder_type" parameter to EvolutionImporterLoadFileFn.
+	
 2003-04-02  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #39955

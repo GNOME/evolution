@@ -276,6 +276,7 @@ static gboolean
 load_file_fn (EvolutionImporter *importer,
 	      const char *filename,
 	      const char *physical_uri,
+	      const char *folder_type,
 	      void *closure)
 {
 	char *contents;
@@ -414,6 +415,7 @@ static gboolean
 vcal_load_file_fn (EvolutionImporter *importer,
 		   const char *filename,
 		   const char *physical_uri,
+		   const char *folder_type,
 		   void *closure)
 {
 	gboolean ret = FALSE;
