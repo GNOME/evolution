@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2002-09-09 14:39-0400\n"
+"POT-Creation-Date: 2002-09-13 13:10-0400\n"
 "PO-Revision-Date: 2002-01-30 02:21+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <ru@li.org>\n"
@@ -743,51 +743,51 @@ msgid "  S_how Supported Bases "
 msgstr " Проверка поддерживаемых типов "
 
 #: addressbook/gui/component/ldap-config.glade.h:2
-#, fuzzy
-msgid "&lt;&lt; Fewer Options"
-msgstr "Параметры"
-
-#: addressbook/gui/component/ldap-config.glade.h:3
-#, fuzzy
-msgid "&lt;- _Remove"
-msgstr "<- Удалить"
-
-#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "1234"
 msgstr "1234"
 
-#: addressbook/gui/component/ldap-config.glade.h:5
+#: addressbook/gui/component/ldap-config.glade.h:3
 msgid "1:00"
 msgstr "1:00"
 
-#: addressbook/gui/component/ldap-config.glade.h:6
+#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "2:30"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:7
+#: addressbook/gui/component/ldap-config.glade.h:5
 msgid "3268"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:8
+#: addressbook/gui/component/ldap-config.glade.h:6
 #, fuzzy
 msgid "380"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:9
+#: addressbook/gui/component/ldap-config.glade.h:7
 msgid "389"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:10
+#: addressbook/gui/component/ldap-config.glade.h:8
 msgid "5:00"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:11
+#: addressbook/gui/component/ldap-config.glade.h:9
 msgid "636"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:12
+#: addressbook/gui/component/ldap-config.glade.h:10
 msgid "666"
 msgstr ""
+
+#: addressbook/gui/component/ldap-config.glade.h:11
+#, fuzzy
+msgid "<- _Remove"
+msgstr "<- Удалить"
+
+#: addressbook/gui/component/ldap-config.glade.h:12
+#, fuzzy
+msgid "<< Fewer Options"
+msgstr "Параметры"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
 msgid "Add (or Edit) Attribute Mappings"
@@ -1147,7 +1147,7 @@ msgstr "Добавить"
 
 #: addressbook/gui/component/ldap-config.glade.h:105
 #, fuzzy
-msgid "_Add -&gt;"
+msgid "_Add ->"
 msgstr "Добавить ->"
 
 #: addressbook/gui/component/ldap-config.glade.h:106
@@ -1224,7 +1224,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:121
 #, fuzzy
-msgid "_More Options &gt;&gt;"
+msgid "_More Options >>"
 msgstr "Параметры"
 
 #: addressbook/gui/component/ldap-config.glade.h:122
@@ -3518,7 +3518,7 @@ msgstr ""
 "напоминания."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:754
-#: calendar/gui/tasks-control.c:445 mail/mail-callbacks.c:2870
+#: calendar/gui/tasks-control.c:445 mail/mail-callbacks.c:2872
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Предупреждение"
@@ -6170,7 +6170,7 @@ msgid "Print Calendar"
 msgstr "Напечатать календарь"
 
 #: calendar/gui/print.c:2521 calendar/gui/print.c:2613
-#: calendar/gui/tasks-control.c:580 mail/mail-callbacks.c:3162
+#: calendar/gui/tasks-control.c:580 mail/mail-callbacks.c:3164
 #: my-evolution/e-summary.c:619
 msgid "Print Preview"
 msgstr "Посмотреть вид на печати"
@@ -6205,8 +6205,8 @@ msgstr ""
 "\n"
 "Уничтожить эти задания?"
 
-#: calendar/gui/tasks-control.c:460 mail/mail-callbacks.c:2642
-#: mail/mail-callbacks.c:2884
+#: calendar/gui/tasks-control.c:460 mail/mail-callbacks.c:2644
+#: mail/mail-callbacks.c:2886
 msgid "Do not ask me again."
 msgstr "Не спрашивать снова."
 
@@ -10421,7 +10421,7 @@ msgstr "Тема содержит"
 msgid "Subject does not contain"
 msgstr "Тема не содержит"
 
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2509
+#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2511
 #: mail/mail-display.c:190
 msgid ""
 "A file by that name already exists.\n"
@@ -11003,7 +11003,7 @@ msgstr "меньше чем"
 msgid "Score"
 msgstr "Вес"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1805
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1807
 msgid "Sender"
 msgstr "Отправитель"
 
@@ -11822,7 +11822,7 @@ msgstr ""
 msgid "You must specify recipients in order to send this message."
 msgstr "Вы должны указать получателей, чтобы отправить это сообщение."
 
-#: mail/mail-callbacks.c:776
+#: mail/mail-callbacks.c:777
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -11830,28 +11830,28 @@ msgstr ""
 "Не удалось открыть папку черновиков для этой учетной записи.\n"
 "Хотите использовать папку черновиков по умолчанию?"
 
-#: mail/mail-callbacks.c:1181
+#: mail/mail-callbacks.c:1183
 msgid "an unknown sender"
 msgstr "неизвестный отправитель"
 
-#: mail/mail-callbacks.c:1185
+#: mail/mail-callbacks.c:1187
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "В %a, %d.%m.%Y, в %H:%M, %%s написал:"
 
-#: mail/mail-callbacks.c:1686 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1688 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr "Переместить сообщение(я) в"
 
-#: mail/mail-callbacks.c:1688 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1690 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr "Скопировать сообщение(я) в"
 
-#: mail/mail-callbacks.c:2353
+#: mail/mail-callbacks.c:2355
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Вы уверены, что хотите править все %d сообщений?"
 
-#: mail/mail-callbacks.c:2378
+#: mail/mail-callbacks.c:2380
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -11859,7 +11859,7 @@ msgstr ""
 "Вы можете править только сообщения,\n"
 "сохраненные в папке \"Черновики\"."
 
-#: mail/mail-callbacks.c:2417
+#: mail/mail-callbacks.c:2419
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -11867,38 +11867,38 @@ msgstr ""
 "Вы можете переотправить сообщения\n"
 "только из папки \"Отправленные\"."
 
-#: mail/mail-callbacks.c:2431
+#: mail/mail-callbacks.c:2433
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Вы уверены, что хотите переотправить все %d сообщений?"
 
-#: mail/mail-callbacks.c:2457
+#: mail/mail-callbacks.c:2459
 msgid "No Message Selected"
 msgstr "Нет выбранных сообщений"
 
-#: mail/mail-callbacks.c:2502 mail/mail-display.c:186
+#: mail/mail-callbacks.c:2504 mail/mail-display.c:186
 msgid "Overwrite file?"
 msgstr "Перезаписать файл?"
 
-#: mail/mail-callbacks.c:2556
+#: mail/mail-callbacks.c:2558
 msgid "Save Message As..."
 msgstr "Сохранить сообщение как..."
 
-#: mail/mail-callbacks.c:2558
+#: mail/mail-callbacks.c:2560
 msgid "Save Messages As..."
 msgstr "Сохранить сообщения как..."
 
-#: mail/mail-callbacks.c:2627
+#: mail/mail-callbacks.c:2629
 msgid "Go to next folder with unread messages?"
 msgstr "Перейти в следующую папку с непрочитанными сообщениями?"
 
-#: mail/mail-callbacks.c:2634
+#: mail/mail-callbacks.c:2636
 msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2877
+#: mail/mail-callbacks.c:2879
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -11910,7 +11910,7 @@ msgstr ""
 "\n"
 "Уничтожить эти сообщения?"
 
-#: mail/mail-callbacks.c:2990
+#: mail/mail-callbacks.c:2992
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -11919,28 +11919,28 @@ msgstr ""
 "Ошибка при загрузке информации фильтра:\n"
 "%s"
 
-#: mail/mail-callbacks.c:3002
+#: mail/mail-callbacks.c:3004
 msgid "Filters"
 msgstr "Настройки фильтров"
 
-#: mail/mail-callbacks.c:3046
+#: mail/mail-callbacks.c:3048
 #, c-format
 msgid "Page %d of %d"
 msgstr "Страница %d из %d"
 
-#: mail/mail-callbacks.c:3101
+#: mail/mail-callbacks.c:3103
 msgid "Print Message"
 msgstr "Напечатать сообщение"
 
-#: mail/mail-callbacks.c:3128
+#: mail/mail-callbacks.c:3130
 msgid "US-Letter"
 msgstr "US-Letter"
 
-#: mail/mail-callbacks.c:3169
+#: mail/mail-callbacks.c:3171
 msgid "Printing of message failed"
 msgstr "Сбой печати сообщения"
 
-#: mail/mail-callbacks.c:3338
+#: mail/mail-callbacks.c:3340
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Вы уверены что хотите открыть все %d сообщений в отдельных окнах?"
@@ -27662,6 +27662,14 @@ msgstr "init_corba(): Не удалось инициализировать GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Не удалось инициализировать Bonobo"
 
+#, fuzzy
+#~ msgid "&lt;- _Remove"
+#~ msgstr "<- Удалить"
+
+#, fuzzy
+#~ msgid "_Add -&gt;"
+#~ msgstr "Добавить ->"
+
 #~ msgid "Error in search expression."
 #~ msgstr "Ошибка в выражении."
 
@@ -28040,12 +28048,6 @@ msgstr "init_bonobo(): Не удалось инициализировать Bonobo"
 
 #~ msgid "Riga"
 #~ msgstr "Рига"
-
-#~ msgid "Add ->"
-#~ msgstr "Добавить ->"
-
-#~ msgid "<- Remove"
-#~ msgstr "<- Удалить"
 
 #~ msgid "Are you sure you want to remove the \"%s\" folder?"
 #~ msgstr "Вы уверены в том, что хотите удалить папку \"%s\"?"

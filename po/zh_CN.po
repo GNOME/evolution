@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2002-09-09 14:39-0400\n"
+"POT-Creation-Date: 2002-09-13 13:10-0400\n"
 "PO-Revision-Date: 2002-02-04 22:51+0800\n"
 "Last-Translator: Wang Li <charlesw1234@163.com>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -1401,46 +1401,30 @@ msgstr "开启查询(危险！)"
 msgid "  S_how Supported Bases "
 msgstr "检查支持的类型(_C) "
 
-# addressbook/printing/e-contact-print.glade.h:23
-# addressbook/printing/e-contact-print.glade.h:23
-# addressbook/printing/e-contact-print.glade.h:23
 #: addressbook/gui/component/ldap-config.glade.h:2
-#, fuzzy
-msgid "&lt;&lt; Fewer Options"
-msgstr "选项"
-
-# my-evolution/my-evolution.glade.h:1
-# my-evolution/my-evolution.glade.h:1
-# my-evolution/my-evolution.glade.h:1
-#: addressbook/gui/component/ldap-config.glade.h:3
-#, fuzzy
-msgid "&lt;- _Remove"
-msgstr "删除(_R)"
-
-#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "1234"
 msgstr ""
 
 # calendar/gui/e-calendar-table.c:437
 # calendar/gui/e-calendar-table.c:437
 # addressbook/gui/component/addressbook-config.glade.h:1
-#: addressbook/gui/component/ldap-config.glade.h:5
+#: addressbook/gui/component/ldap-config.glade.h:3
 #, fuzzy
 msgid "1:00"
 msgstr "100"
 
-#: addressbook/gui/component/ldap-config.glade.h:6
+#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "2:30"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:7
+#: addressbook/gui/component/ldap-config.glade.h:5
 msgid "3268"
 msgstr ""
 
 # calendar/gui/e-calendar-table.c:435
 # calendar/gui/e-calendar-table.c:435
 # calendar/gui/e-calendar-table.c:436
-#: addressbook/gui/component/ldap-config.glade.h:8
+#: addressbook/gui/component/ldap-config.glade.h:6
 #, fuzzy
 msgid "380"
 msgstr "80%"
@@ -1448,21 +1432,40 @@ msgstr "80%"
 # addressbook/gui/component/addressbook-config.glade.h:1
 # addressbook/gui/component/addressbook-config.glade.h:1
 # addressbook/gui/component/addressbook-config.glade.h:2
-#: addressbook/gui/component/ldap-config.glade.h:9
+#: addressbook/gui/component/ldap-config.glade.h:7
 msgid "389"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:10
+#: addressbook/gui/component/ldap-config.glade.h:8
 msgid "5:00"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:11
+#: addressbook/gui/component/ldap-config.glade.h:9
 msgid "636"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:12
+#: addressbook/gui/component/ldap-config.glade.h:10
 msgid "666"
 msgstr ""
+
+# addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
+# calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:10
+# addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
+# calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:10
+# addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
+# calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:10
+#: addressbook/gui/component/ldap-config.glade.h:11
+#, fuzzy
+msgid "<- _Remove"
+msgstr "删除(_R)"
+
+# addressbook/printing/e-contact-print.glade.h:23
+# addressbook/printing/e-contact-print.glade.h:23
+# addressbook/printing/e-contact-print.glade.h:23
+#: addressbook/gui/component/ldap-config.glade.h:12
+#, fuzzy
+msgid "<< Fewer Options"
+msgstr "选项"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
 msgid "Add (or Edit) Attribute Mappings"
@@ -1948,7 +1951,7 @@ msgstr "添加(_A)"
 # mail/mail-config.glade.h:99 my-evolution/my-evolution.glade.h:21
 #: addressbook/gui/component/ldap-config.glade.h:105
 #, fuzzy
-msgid "_Add -&gt;"
+msgid "_Add ->"
 msgstr "添加(_A)"
 
 #: addressbook/gui/component/ldap-config.glade.h:106
@@ -2066,7 +2069,7 @@ msgstr ""
 # calendar/gui/e-meeting-time-sel.c:470
 #: addressbook/gui/component/ldap-config.glade.h:121
 #, fuzzy
-msgid "_More Options &gt;&gt;"
+msgid "_More Options >>"
 msgstr "选项(_O)"
 
 # addressbook/gui/component/addressbook-config.glade.h:27
@@ -6165,7 +6168,7 @@ msgstr ""
 # calendar/gui/tasks-control.c:426 mail/mail-callbacks.c:2283
 # widgets/misc/e-messagebox.c:159
 #: calendar/gui/alarm-notify/alarm-queue.c:754
-#: calendar/gui/tasks-control.c:445 mail/mail-callbacks.c:2870
+#: calendar/gui/tasks-control.c:445 mail/mail-callbacks.c:2872
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "警告"
@@ -10909,7 +10912,7 @@ msgstr "打印日历"
 # mail/mail-callbacks.c:2597 my-evolution/e-summary.c:605
 # ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:68
 #: calendar/gui/print.c:2521 calendar/gui/print.c:2613
-#: calendar/gui/tasks-control.c:580 mail/mail-callbacks.c:3162
+#: calendar/gui/tasks-control.c:580 mail/mail-callbacks.c:3164
 #: my-evolution/e-summary.c:619
 msgid "Print Preview"
 msgstr "打印预览"
@@ -10960,8 +10963,8 @@ msgstr ""
 # mail/mail-callbacks.c:2142
 # mail/mail-callbacks.c:2261
 # calendar/gui/tasks-control.c:441 mail/mail-callbacks.c:2297
-#: calendar/gui/tasks-control.c:460 mail/mail-callbacks.c:2642
-#: mail/mail-callbacks.c:2884
+#: calendar/gui/tasks-control.c:460 mail/mail-callbacks.c:2644
+#: mail/mail-callbacks.c:2886
 msgid "Do not ask me again."
 msgstr "不要再次询问。"
 
@@ -17836,7 +17839,7 @@ msgstr "主题不含有"
 # mail/mail-display.c:106
 # calendar/gui/dialogs/comp-editor.c:1081 mail/mail-callbacks.c:2070
 # mail/mail-display.c:105
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2509
+#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2511
 #: mail/mail-display.c:190
 msgid ""
 "A file by that name already exists.\n"
@@ -18535,7 +18538,7 @@ msgstr "小于"
 msgid "Score"
 msgstr "分数"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1805
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1807
 msgid "Sender"
 msgstr "发件人"
 
@@ -19811,7 +19814,7 @@ msgstr "您必须指定收件人以便发送该消息。"
 # composer/e-msg-composer.c:1068
 # mail/mail-callbacks.c:716
 # mail/mail-callbacks.c:668
-#: mail/mail-callbacks.c:776
+#: mail/mail-callbacks.c:777
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -19822,35 +19825,35 @@ msgstr ""
 # mail/mail-callbacks.c:838
 # mail/mail-callbacks.c:928
 # mail/mail-callbacks.c:878
-#: mail/mail-callbacks.c:1181
+#: mail/mail-callbacks.c:1183
 msgid "an unknown sender"
 msgstr "未知的发件人"
 
 # mail/mail-callbacks.c:843
 # mail/mail-callbacks.c:933
 # mail/mail-callbacks.c:883
-#: mail/mail-callbacks.c:1185
+#: mail/mail-callbacks.c:1187
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "在 %Y-%m-%d %a 的 %H:%M， %%s 写道："
 
 # mail/mail-callbacks.c:1281 mail/message-browser.c:130
 # mail/mail-callbacks.c:1376 mail/message-browser.c:130
 # mail/mail-callbacks.c:1411 mail/message-browser.c:130
-#: mail/mail-callbacks.c:1686 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1688 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr "将消息移动到"
 
 # mail/mail-callbacks.c:1283 mail/message-browser.c:132
 # mail/mail-callbacks.c:1378 mail/message-browser.c:132
 # mail/mail-callbacks.c:1413 mail/message-browser.c:132
-#: mail/mail-callbacks.c:1688 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1690 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr "将消息复制到"
 
 # mail/mail-callbacks.c:1759
 # mail/mail-callbacks.c:1878
 # mail/mail-callbacks.c:1914
-#: mail/mail-callbacks.c:2353
+#: mail/mail-callbacks.c:2355
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "您确信您需要编辑所有的 %d 个消息？"
@@ -19858,7 +19861,7 @@ msgstr "您确信您需要编辑所有的 %d 个消息？"
 # mail/mail-callbacks.c:1784
 # mail/mail-callbacks.c:1903
 # mail/mail-callbacks.c:1939
-#: mail/mail-callbacks.c:2378
+#: mail/mail-callbacks.c:2380
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -19869,7 +19872,7 @@ msgstr ""
 # mail/mail-callbacks.c:1823
 # mail/mail-callbacks.c:1942
 # mail/mail-callbacks.c:1978
-#: mail/mail-callbacks.c:2417
+#: mail/mail-callbacks.c:2419
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -19880,7 +19883,7 @@ msgstr ""
 # mail/mail-callbacks.c:1837
 # mail/mail-callbacks.c:1956
 # mail/mail-callbacks.c:1992
-#: mail/mail-callbacks.c:2431
+#: mail/mail-callbacks.c:2433
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "您确信您希望重新发送所有的 %d 个消息？"
@@ -19888,7 +19891,7 @@ msgstr "您确信您希望重新发送所有的 %d 个消息？"
 # mail/mail-callbacks.c:1863
 # mail/mail-callbacks.c:1982
 # mail/mail-callbacks.c:2018
-#: mail/mail-callbacks.c:2457
+#: mail/mail-callbacks.c:2459
 msgid "No Message Selected"
 msgstr "没有选择消息"
 
@@ -19898,33 +19901,33 @@ msgstr "没有选择消息"
 # mail/mail-display.c:102
 # calendar/gui/dialogs/comp-editor.c:1077 mail/mail-callbacks.c:2063
 # mail/mail-display.c:101
-#: mail/mail-callbacks.c:2502 mail/mail-display.c:186
+#: mail/mail-callbacks.c:2504 mail/mail-display.c:186
 msgid "Overwrite file?"
 msgstr "覆盖文件？"
 
 # mail/mail-callbacks.c:1962
 # mail/mail-callbacks.c:2081
 # mail/mail-callbacks.c:2117
-#: mail/mail-callbacks.c:2556
+#: mail/mail-callbacks.c:2558
 msgid "Save Message As..."
 msgstr "消息另存为..."
 
 # mail/mail-callbacks.c:1964
 # mail/mail-callbacks.c:2083
 # mail/mail-callbacks.c:2119
-#: mail/mail-callbacks.c:2558
+#: mail/mail-callbacks.c:2560
 msgid "Save Messages As..."
 msgstr "消息另存为..."
 
 # ui/evolution-mail-message.xml.h:21
 # ui/evolution-mail-message.xml.h:21
 # ui/evolution-mail-message.xml.h:21
-#: mail/mail-callbacks.c:2627
+#: mail/mail-callbacks.c:2629
 #, fuzzy
 msgid "Go to next folder with unread messages?"
 msgstr "显示下一个未读文件"
 
-#: mail/mail-callbacks.c:2634
+#: mail/mail-callbacks.c:2636
 msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
@@ -19933,7 +19936,7 @@ msgstr ""
 # mail/mail-callbacks.c:2135
 # mail/mail-callbacks.c:2254
 # mail/mail-callbacks.c:2290
-#: mail/mail-callbacks.c:2877
+#: mail/mail-callbacks.c:2879
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -19948,7 +19951,7 @@ msgstr ""
 # mail/mail-callbacks.c:2250
 # mail/mail-callbacks.c:2369
 # mail/mail-callbacks.c:2405
-#: mail/mail-callbacks.c:2990
+#: mail/mail-callbacks.c:2992
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -19960,14 +19963,14 @@ msgstr ""
 # mail/mail-callbacks.c:2262
 # mail/mail-callbacks.c:2381
 # mail/mail-callbacks.c:2417
-#: mail/mail-callbacks.c:3002
+#: mail/mail-callbacks.c:3004
 msgid "Filters"
 msgstr "过滤规则"
 
 # camel/camel-filter-driver.c:789
 # camel/camel-filter-driver.c:838
 # mail/mail-callbacks.c:2490
-#: mail/mail-callbacks.c:3046
+#: mail/mail-callbacks.c:3048
 #, c-format
 msgid "Page %d of %d"
 msgstr "第 %d 页，共 %d 页"
@@ -19975,27 +19978,27 @@ msgstr "第 %d 页，共 %d 页"
 # mail/mail-callbacks.c:2325
 # mail/mail-callbacks.c:2465
 # mail/mail-callbacks.c:2542
-#: mail/mail-callbacks.c:3101
+#: mail/mail-callbacks.c:3103
 msgid "Print Message"
 msgstr "打印消息"
 
 # mail/mail-callbacks.c:2492
 # mail/mail-callbacks.c:2569
-#: mail/mail-callbacks.c:3128
+#: mail/mail-callbacks.c:3130
 msgid "US-Letter"
 msgstr "美国信纸"
 
 # mail/mail-callbacks.c:2371
 # mail/mail-callbacks.c:2531
 # mail/mail-callbacks.c:2604
-#: mail/mail-callbacks.c:3169
+#: mail/mail-callbacks.c:3171
 msgid "Printing of message failed"
 msgstr "打印消息失败"
 
 # mail/mail-callbacks.c:2473
 # mail/mail-callbacks.c:2697
 # mail/mail-callbacks.c:2770
-#: mail/mail-callbacks.c:3338
+#: mail/mail-callbacks.c:3340
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "您确信您希望在单独的窗口中打开所有的 %d 个消息？"
@@ -45304,6 +45307,32 @@ msgstr "init_corba()： 无法初始化 GNOME"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo()： 无法初始化 Bonobo"
+
+# my-evolution/my-evolution.glade.h:1
+# my-evolution/my-evolution.glade.h:1
+# my-evolution/my-evolution.glade.h:1
+#, fuzzy
+#~ msgid "&lt;- _Remove"
+#~ msgstr "删除(_R)"
+
+# addressbook/gui/component/addressbook-config.glade.h:24
+# addressbook/gui/contact-editor/contact-editor.glade.h:30
+# addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
+# calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:7
+# mail/mail-config.glade.h:90 my-evolution/my-evolution.glade.h:21
+# addressbook/gui/component/addressbook-config.glade.h:24
+# addressbook/gui/contact-editor/contact-editor.glade.h:30
+# addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
+# calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:7
+# mail/mail-config.glade.h:90 my-evolution/my-evolution.glade.h:21
+# addressbook/gui/component/addressbook-config.glade.h:31
+# addressbook/gui/contact-editor/contact-editor.glade.h:30
+# addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
+# calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:7
+# mail/mail-config.glade.h:99 my-evolution/my-evolution.glade.h:21
+#, fuzzy
+#~ msgid "_Add -&gt;"
+#~ msgstr "添加(_A)"
 
 # addressbook/backend/pas/pas-backend-file.c:270
 # addressbook/backend/pas/pas-backend-file.c:270

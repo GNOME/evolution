@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2002-09-09 14:39-0400\n"
+"POT-Creation-Date: 2002-09-13 13:10-0400\n"
 "PO-Revision-Date: 27.02.2002 13:56\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -737,52 +737,52 @@ msgid "  S_how Supported Bases "
 msgstr "Kontrolovať _podporované typy"
 
 #: addressbook/gui/component/ldap-config.glade.h:2
-#, fuzzy
-msgid "&lt;&lt; Fewer Options"
-msgstr "Nastavenie"
-
-#: addressbook/gui/component/ldap-config.glade.h:3
-#, fuzzy
-msgid "&lt;- _Remove"
-msgstr "_Odstrániť"
-
-#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "1234"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:5
+#: addressbook/gui/component/ldap-config.glade.h:3
 #, fuzzy
 msgid "1:00"
 msgstr "100"
 
-#: addressbook/gui/component/ldap-config.glade.h:6
+#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "2:30"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:7
+#: addressbook/gui/component/ldap-config.glade.h:5
 msgid "3268"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:8
+#: addressbook/gui/component/ldap-config.glade.h:6
 #, fuzzy
 msgid "380"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:9
+#: addressbook/gui/component/ldap-config.glade.h:7
 msgid "389"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:10
+#: addressbook/gui/component/ldap-config.glade.h:8
 msgid "5:00"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:11
+#: addressbook/gui/component/ldap-config.glade.h:9
 msgid "636"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:12
+#: addressbook/gui/component/ldap-config.glade.h:10
 msgid "666"
 msgstr ""
+
+#: addressbook/gui/component/ldap-config.glade.h:11
+#, fuzzy
+msgid "<- _Remove"
+msgstr "Odstrániť"
+
+#: addressbook/gui/component/ldap-config.glade.h:12
+#, fuzzy
+msgid "<< Fewer Options"
+msgstr "Nastavenie"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
 msgid "Add (or Edit) Attribute Mappings"
@@ -1154,7 +1154,7 @@ msgstr "_Pridať"
 
 #: addressbook/gui/component/ldap-config.glade.h:105
 #, fuzzy
-msgid "_Add -&gt;"
+msgid "_Add ->"
 msgstr "_Pridať"
 
 #: addressbook/gui/component/ldap-config.glade.h:106
@@ -1234,7 +1234,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:121
 #, fuzzy
-msgid "_More Options &gt;&gt;"
+msgid "_More Options >>"
 msgstr "_Nastavenie"
 
 #: addressbook/gui/component/ldap-config.glade.h:122
@@ -3526,7 +3526,7 @@ msgstr ""
 "Evolution preto zobrazí normálny dialóg."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:754
-#: calendar/gui/tasks-control.c:445 mail/mail-callbacks.c:2870
+#: calendar/gui/tasks-control.c:445 mail/mail-callbacks.c:2872
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Varovanie"
@@ -6159,7 +6159,7 @@ msgid "Print Calendar"
 msgstr "Tlačiť kalendár"
 
 #: calendar/gui/print.c:2521 calendar/gui/print.c:2613
-#: calendar/gui/tasks-control.c:580 mail/mail-callbacks.c:3162
+#: calendar/gui/tasks-control.c:580 mail/mail-callbacks.c:3164
 #: my-evolution/e-summary.c:619
 msgid "Print Preview"
 msgstr "Ukážka pred tlačou"
@@ -6194,8 +6194,8 @@ msgstr ""
 "\n"
 "Naozaj odstrániť tieto úlohy?"
 
-#: calendar/gui/tasks-control.c:460 mail/mail-callbacks.c:2642
-#: mail/mail-callbacks.c:2884
+#: calendar/gui/tasks-control.c:460 mail/mail-callbacks.c:2644
+#: mail/mail-callbacks.c:2886
 msgid "Do not ask me again."
 msgstr "Túto správu už nezobrazovať."
 
@@ -10421,7 +10421,7 @@ msgstr "Predmet obsahuje"
 msgid "Subject does not contain"
 msgstr "Predmet neobsahuje"
 
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2509
+#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2511
 #: mail/mail-display.c:190
 msgid ""
 "A file by that name already exists.\n"
@@ -11007,7 +11007,7 @@ msgstr "je menej než"
 msgid "Score"
 msgstr "Skóre"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1805
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1807
 msgid "Sender"
 msgstr "Odosielateľ"
 
@@ -11844,7 +11844,7 @@ msgstr ""
 msgid "You must specify recipients in order to send this message."
 msgstr "Musíte zadať adresátov pre poslanie tejto správy."
 
-#: mail/mail-callbacks.c:776
+#: mail/mail-callbacks.c:777
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -11852,28 +11852,28 @@ msgstr ""
 "Nei je možné otvoriť priečinok na koncepty pre tento účet.\n"
 "Chcete použiť štandardný priečinok na koncepty?"
 
-#: mail/mail-callbacks.c:1181
+#: mail/mail-callbacks.c:1183
 msgid "an unknown sender"
 msgstr "neznámy odosielateľ"
 
-#: mail/mail-callbacks.c:1185
+#: mail/mail-callbacks.c:1187
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "Dňa %a, %Y-%m-%d at %H:%M, %%s napísal:"
 
-#: mail/mail-callbacks.c:1686 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1688 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr "Presunúť správu do"
 
-#: mail/mail-callbacks.c:1688 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1690 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr "Kopírovať správu do"
 
-#: mail/mail-callbacks.c:2353
+#: mail/mail-callbacks.c:2355
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Naozaj chcete upraviť všetkých %d správ?"
 
-#: mail/mail-callbacks.c:2378
+#: mail/mail-callbacks.c:2380
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -11881,7 +11881,7 @@ msgstr ""
 "Upravovať môžete iba správy uložené\n"
 "v priečinku Koncepty."
 
-#: mail/mail-callbacks.c:2417
+#: mail/mail-callbacks.c:2419
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -11889,32 +11889,32 @@ msgstr ""
 "Iba správy z priečinku Odoslané je možné\n"
 "znovu poslať."
 
-#: mail/mail-callbacks.c:2431
+#: mail/mail-callbacks.c:2433
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Naozaj chcete znovu poslať všetkých %d správ?"
 
-#: mail/mail-callbacks.c:2457
+#: mail/mail-callbacks.c:2459
 msgid "No Message Selected"
 msgstr "Žiadna vybraná správa"
 
-#: mail/mail-callbacks.c:2502 mail/mail-display.c:186
+#: mail/mail-callbacks.c:2504 mail/mail-display.c:186
 msgid "Overwrite file?"
 msgstr "Prepísať súbor?"
 
-#: mail/mail-callbacks.c:2556
+#: mail/mail-callbacks.c:2558
 msgid "Save Message As..."
 msgstr "Uložiť správu ako..."
 
-#: mail/mail-callbacks.c:2558
+#: mail/mail-callbacks.c:2560
 msgid "Save Messages As..."
 msgstr "Uložiť správy ako..."
 
-#: mail/mail-callbacks.c:2627
+#: mail/mail-callbacks.c:2629
 msgid "Go to next folder with unread messages?"
 msgstr "Prejsť na nasledujúci priečinok s neprečítanými správami?"
 
-#: mail/mail-callbacks.c:2634
+#: mail/mail-callbacks.c:2636
 msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
@@ -11922,7 +11922,7 @@ msgstr ""
 "V tomto priečinku už nie sú žiadne nové správy.\n"
 "Chcete prejsť na nasledujúci priečinok?"
 
-#: mail/mail-callbacks.c:2877
+#: mail/mail-callbacks.c:2879
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -11934,7 +11934,7 @@ msgstr ""
 "\n"
 "Naozaj odstrániť tieto správy?"
 
-#: mail/mail-callbacks.c:2990
+#: mail/mail-callbacks.c:2992
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -11943,28 +11943,28 @@ msgstr ""
 "Chyba pri načítavaní informácie o filtroch:\n"
 "%s"
 
-#: mail/mail-callbacks.c:3002
+#: mail/mail-callbacks.c:3004
 msgid "Filters"
 msgstr "Filtre"
 
-#: mail/mail-callbacks.c:3046
+#: mail/mail-callbacks.c:3048
 #, c-format
 msgid "Page %d of %d"
 msgstr "Stránka %d z %d"
 
-#: mail/mail-callbacks.c:3101
+#: mail/mail-callbacks.c:3103
 msgid "Print Message"
 msgstr "Tlačiť správu"
 
-#: mail/mail-callbacks.c:3128
+#: mail/mail-callbacks.c:3130
 msgid "US-Letter"
 msgstr "US-Letter"
 
-#: mail/mail-callbacks.c:3169
+#: mail/mail-callbacks.c:3171
 msgid "Printing of message failed"
 msgstr "Tlač správy zlyhala"
 
-#: mail/mail-callbacks.c:3338
+#: mail/mail-callbacks.c:3340
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Naozaj chcete otvoriť všetkých %d správ v samostatných oknách?"
@@ -27743,6 +27743,14 @@ msgstr "init_corba(): Nie je možné inicializovať GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Nie je možné inicializovať Bonobo"
 
+#, fuzzy
+#~ msgid "&lt;- _Remove"
+#~ msgstr "_Odstrániť"
+
+#, fuzzy
+#~ msgid "_Add -&gt;"
+#~ msgstr "_Pridať"
+
 #~ msgid "Error in search expression."
 #~ msgstr "Chyba v hľadanom výraze."
 
@@ -28169,14 +28177,6 @@ msgstr "init_bonobo(): Nie je možné inicializovať Bonobo"
 
 #~ msgid "Riga"
 #~ msgstr "Riga"
-
-#, fuzzy
-#~ msgid "Add ->"
-#~ msgstr "_Pridať"
-
-#, fuzzy
-#~ msgid "<- Remove"
-#~ msgstr "Odstrániť"
 
 #~ msgid "Are you sure you want to remove the \"%s\" folder?"
 #~ msgstr "Naozaj chcete odstrániť priečinok \"%s\"?"

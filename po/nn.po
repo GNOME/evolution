@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-1.01\n"
-"POT-Creation-Date: 2002-09-09 14:39-0400\n"
+"POT-Creation-Date: 2002-09-13 13:10-0400\n"
 "PO-Revision-Date: 2002-01-30 06:10+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: \n"
@@ -724,52 +724,52 @@ msgid "  S_how Supported Bases "
 msgstr "Vel modemtype ..."
 
 #: addressbook/gui/component/ldap-config.glade.h:2
-#, fuzzy
-msgid "&lt;&lt; Fewer Options"
-msgstr "Val"
-
-#: addressbook/gui/component/ldap-config.glade.h:3
-#, fuzzy
-msgid "&lt;- _Remove"
-msgstr "Fje_rn"
-
-#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "1234"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:5
+#: addressbook/gui/component/ldap-config.glade.h:3
 #, fuzzy
 msgid "1:00"
 msgstr "100%"
 
-#: addressbook/gui/component/ldap-config.glade.h:6
+#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "2:30"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:7
+#: addressbook/gui/component/ldap-config.glade.h:5
 msgid "3268"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:8
+#: addressbook/gui/component/ldap-config.glade.h:6
 #, fuzzy
 msgid "380"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:9
+#: addressbook/gui/component/ldap-config.glade.h:7
 msgid "389"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:10
+#: addressbook/gui/component/ldap-config.glade.h:8
 msgid "5:00"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:11
+#: addressbook/gui/component/ldap-config.glade.h:9
 msgid "636"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:12
+#: addressbook/gui/component/ldap-config.glade.h:10
 msgid "666"
 msgstr ""
+
+#: addressbook/gui/component/ldap-config.glade.h:11
+#, fuzzy
+msgid "<- _Remove"
+msgstr "Fje_rn"
+
+#: addressbook/gui/component/ldap-config.glade.h:12
+#, fuzzy
+msgid "<< Fewer Options"
+msgstr "Val"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
 msgid "Add (or Edit) Attribute Mappings"
@@ -1138,7 +1138,7 @@ msgstr "_Legg til"
 
 #: addressbook/gui/component/ldap-config.glade.h:105
 #, fuzzy
-msgid "_Add -&gt;"
+msgid "_Add ->"
 msgstr "_Legg til"
 
 #: addressbook/gui/component/ldap-config.glade.h:106
@@ -1216,7 +1216,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:121
 #, fuzzy
-msgid "_More Options &gt;&gt;"
+msgid "_More Options >>"
 msgstr "_Val"
 
 #: addressbook/gui/component/ldap-config.glade.h:122
@@ -3522,7 +3522,7 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-queue.c:754
-#: calendar/gui/tasks-control.c:445 mail/mail-callbacks.c:2870
+#: calendar/gui/tasks-control.c:445 mail/mail-callbacks.c:2872
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Åtvaring"
@@ -6230,7 +6230,7 @@ msgid "Print Calendar"
 msgstr "Skriv ut kalendar"
 
 #: calendar/gui/print.c:2521 calendar/gui/print.c:2613
-#: calendar/gui/tasks-control.c:580 mail/mail-callbacks.c:3162
+#: calendar/gui/tasks-control.c:580 mail/mail-callbacks.c:3164
 #: my-evolution/e-summary.c:619
 msgid "Print Preview"
 msgstr "Førehandsvising av utskrift"
@@ -6261,8 +6261,8 @@ msgid ""
 "Really erase these tasks?"
 msgstr ""
 
-#: calendar/gui/tasks-control.c:460 mail/mail-callbacks.c:2642
-#: mail/mail-callbacks.c:2884
+#: calendar/gui/tasks-control.c:460 mail/mail-callbacks.c:2644
+#: mail/mail-callbacks.c:2886
 msgid "Do not ask me again."
 msgstr "Ikkje spør igjen"
 
@@ -10533,7 +10533,7 @@ msgstr "Emne inneheld"
 msgid "Subject does not contain"
 msgstr "Emne inneheld ikkje"
 
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2509
+#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2511
 #: mail/mail-display.c:190
 msgid ""
 "A file by that name already exists.\n"
@@ -11118,7 +11118,7 @@ msgstr "er mindre enn"
 msgid "Score"
 msgstr "Poengsum"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1805
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1807
 msgid "Sender"
 msgstr "Avsendar"
 
@@ -11965,82 +11965,82 @@ msgstr ""
 msgid "You must specify recipients in order to send this message."
 msgstr "Du må spesifisere mottakarar for å sende denne meldinga."
 
-#: mail/mail-callbacks.c:776
+#: mail/mail-callbacks.c:777
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
 msgstr ""
 
-#: mail/mail-callbacks.c:1181
+#: mail/mail-callbacks.c:1183
 msgid "an unknown sender"
 msgstr "ein ukjend avsendar"
 
-#: mail/mail-callbacks.c:1185
+#: mail/mail-callbacks.c:1187
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "På %a, %d/%m/%Y klokka %H:%M, skreiv %%s:"
 
-#: mail/mail-callbacks.c:1686 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1688 mail/message-browser.c:132
 #, fuzzy
 msgid "Move message(s) to"
 msgstr "Flytta alle meldingar til papirkorga"
 
-#: mail/mail-callbacks.c:1688 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1690 mail/message-browser.c:134
 #, fuzzy
 msgid "Copy message(s) to"
 msgstr "&Kopier bileteplassering"
 
-#: mail/mail-callbacks.c:2353
+#: mail/mail-callbacks.c:2355
 #, fuzzy, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Er du sikker på at du vil sletta %1?"
 
-#: mail/mail-callbacks.c:2378
+#: mail/mail-callbacks.c:2380
 #, fuzzy
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
 msgstr "Vil du lagra denne artikkelen i Kladd-mappa?"
 
-#: mail/mail-callbacks.c:2417
+#: mail/mail-callbacks.c:2419
 #, fuzzy
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
 msgstr "Vil du lagra denne artikkelen i Kladd-mappa?"
 
-#: mail/mail-callbacks.c:2431
+#: mail/mail-callbacks.c:2433
 #, fuzzy, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Er du sikker på at du vil fjerna %1?"
 
-#: mail/mail-callbacks.c:2457
+#: mail/mail-callbacks.c:2459
 msgid "No Message Selected"
 msgstr "Ingen meldingar vald!"
 
-#: mail/mail-callbacks.c:2502 mail/mail-display.c:186
+#: mail/mail-callbacks.c:2504 mail/mail-display.c:186
 msgid "Overwrite file?"
 msgstr "Skriv over fil?"
 
-#: mail/mail-callbacks.c:2556
+#: mail/mail-callbacks.c:2558
 msgid "Save Message As..."
 msgstr "Lagre melding som ..."
 
-#: mail/mail-callbacks.c:2558
+#: mail/mail-callbacks.c:2560
 msgid "Save Messages As..."
 msgstr "Lagre meldingar som ..."
 
-#: mail/mail-callbacks.c:2627
+#: mail/mail-callbacks.c:2629
 #, fuzzy
 msgid "Go to next folder with unread messages?"
 msgstr "Vis informasjonsmelding"
 
-#: mail/mail-callbacks.c:2634
+#: mail/mail-callbacks.c:2636
 msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2877
+#: mail/mail-callbacks.c:2879
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -12048,35 +12048,35 @@ msgid ""
 "Really erase these messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2990
+#: mail/mail-callbacks.c:2992
 #, fuzzy, c-format
 msgid ""
 "Error loading filter information:\n"
 "%s"
 msgstr "Les filinformasjon"
 
-#: mail/mail-callbacks.c:3002
+#: mail/mail-callbacks.c:3004
 msgid "Filters"
 msgstr "Filter"
 
-#: mail/mail-callbacks.c:3046
+#: mail/mail-callbacks.c:3048
 #, fuzzy, c-format
 msgid "Page %d of %d"
 msgstr "Mottek meldingar frå %1"
 
-#: mail/mail-callbacks.c:3101
+#: mail/mail-callbacks.c:3103
 msgid "Print Message"
 msgstr "Skriv ut melding"
 
-#: mail/mail-callbacks.c:3128
+#: mail/mail-callbacks.c:3130
 msgid "US-Letter"
 msgstr "US-Letter"
 
-#: mail/mail-callbacks.c:3169
+#: mail/mail-callbacks.c:3171
 msgid "Printing of message failed"
 msgstr "Utskrift av melding feila"
 
-#: mail/mail-callbacks.c:3338
+#: mail/mail-callbacks.c:3340
 #, fuzzy, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Er du sikker på at du vil sletta denne overføringa?"
@@ -28044,6 +28044,14 @@ msgstr "init_corba(): klarte ikkje initialisere GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): klarte ikkje å initialisere Bonobo"
 
+#, fuzzy
+#~ msgid "&lt;- _Remove"
+#~ msgstr "Fje_rn"
+
+#, fuzzy
+#~ msgid "_Add -&gt;"
+#~ msgstr "_Legg til"
+
 #~ msgid "Error in search expression."
 #~ msgstr "Feil i søkeuttrykk."
 
@@ -28365,14 +28373,6 @@ msgstr "init_bonobo(): klarte ikkje å initialisere Bonobo"
 
 #~ msgid "Riga"
 #~ msgstr "Riga"
-
-#, fuzzy
-#~ msgid "Add ->"
-#~ msgstr "_Legg til"
-
-#, fuzzy
-#~ msgid "<- Remove"
-#~ msgstr "Fje_rn"
 
 #, fuzzy
 #~ msgid "Are you sure you want to remove the \"%s\" folder?"

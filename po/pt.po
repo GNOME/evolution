@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2002-09-09 14:39-0400\n"
+"POT-Creation-Date: 2002-09-13 13:10-0400\n"
 "PO-Revision-Date: 2000-04-16 16:33+01:00\n"
 "Last-Translator: Tiago Antão <tiagoantao@bigfoot.com>\n"
 "Language-Team: Gnome Portuguese <gnome@poli.org>\n"
@@ -764,50 +764,50 @@ msgid "  S_how Supported Bases "
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:2
-#, fuzzy
-msgid "&lt;&lt; Fewer Options"
-msgstr "_Opções"
-
-#: addressbook/gui/component/ldap-config.glade.h:3
-#, fuzzy
-msgid "&lt;- _Remove"
-msgstr "Remover"
-
-#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "1234"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:5
+#: addressbook/gui/component/ldap-config.glade.h:3
 msgid "1:00"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:6
+#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "2:30"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:7
+#: addressbook/gui/component/ldap-config.glade.h:5
 msgid "3268"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:8
+#: addressbook/gui/component/ldap-config.glade.h:6
 msgid "380"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:9
+#: addressbook/gui/component/ldap-config.glade.h:7
 msgid "389"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:10
+#: addressbook/gui/component/ldap-config.glade.h:8
 msgid "5:00"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:11
+#: addressbook/gui/component/ldap-config.glade.h:9
 msgid "636"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:12
+#: addressbook/gui/component/ldap-config.glade.h:10
 msgid "666"
 msgstr ""
+
+#: addressbook/gui/component/ldap-config.glade.h:11
+#, fuzzy
+msgid "<- _Remove"
+msgstr "Remover"
+
+#: addressbook/gui/component/ldap-config.glade.h:12
+#, fuzzy
+msgid "<< Fewer Options"
+msgstr "_Opções"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
 msgid "Add (or Edit) Attribute Mappings"
@@ -1175,7 +1175,7 @@ msgstr "Adicionar"
 
 #: addressbook/gui/component/ldap-config.glade.h:105
 #, fuzzy
-msgid "_Add -&gt;"
+msgid "_Add ->"
 msgstr "Adicionar"
 
 #: addressbook/gui/component/ldap-config.glade.h:106
@@ -1254,7 +1254,7 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:121
 #, fuzzy
-msgid "_More Options &gt;&gt;"
+msgid "_More Options >>"
 msgstr "_Opções"
 
 #: addressbook/gui/component/ldap-config.glade.h:122
@@ -3716,7 +3716,7 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-queue.c:754
-#: calendar/gui/tasks-control.c:445 mail/mail-callbacks.c:2870
+#: calendar/gui/tasks-control.c:445 mail/mail-callbacks.c:2872
 #: widgets/misc/e-messagebox.c:159
 #, fuzzy
 msgid "Warning"
@@ -6536,7 +6536,7 @@ msgid "Print Calendar"
 msgstr "Imprimir calendário"
 
 #: calendar/gui/print.c:2521 calendar/gui/print.c:2613
-#: calendar/gui/tasks-control.c:580 mail/mail-callbacks.c:3162
+#: calendar/gui/tasks-control.c:580 mail/mail-callbacks.c:3164
 #: my-evolution/e-summary.c:619
 msgid "Print Preview"
 msgstr "Prever impressão"
@@ -6569,8 +6569,8 @@ msgid ""
 "Really erase these tasks?"
 msgstr ""
 
-#: calendar/gui/tasks-control.c:460 mail/mail-callbacks.c:2642
-#: mail/mail-callbacks.c:2884
+#: calendar/gui/tasks-control.c:460 mail/mail-callbacks.c:2644
+#: mail/mail-callbacks.c:2886
 #, fuzzy
 msgid "Do not ask me again."
 msgstr "Enviar esta mensagem"
@@ -10724,7 +10724,7 @@ msgstr "Assunto"
 msgid "Subject does not contain"
 msgstr "Assunto"
 
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2509
+#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2511
 #: mail/mail-display.c:190
 msgid ""
 "A file by that name already exists.\n"
@@ -11322,7 +11322,7 @@ msgstr ""
 msgid "Score"
 msgstr "Fontes"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1805
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1807
 #, fuzzy
 msgid "Sender"
 msgstr "Enviar"
@@ -12178,80 +12178,80 @@ msgstr ""
 msgid "You must specify recipients in order to send this message."
 msgstr ""
 
-#: mail/mail-callbacks.c:776
+#: mail/mail-callbacks.c:777
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
 msgstr ""
 
-#: mail/mail-callbacks.c:1181
+#: mail/mail-callbacks.c:1183
 msgid "an unknown sender"
 msgstr ""
 
-#: mail/mail-callbacks.c:1185
+#: mail/mail-callbacks.c:1187
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr ""
 
-#: mail/mail-callbacks.c:1686 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1688 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr ""
 
-#: mail/mail-callbacks.c:1688 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1690 mail/message-browser.c:134
 #, fuzzy
 msgid "Copy message(s) to"
 msgstr "Criar uma nova mensagem"
 
-#: mail/mail-callbacks.c:2353
+#: mail/mail-callbacks.c:2355
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2378
+#: mail/mail-callbacks.c:2380
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
 msgstr ""
 
-#: mail/mail-callbacks.c:2417
+#: mail/mail-callbacks.c:2419
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
 msgstr ""
 
-#: mail/mail-callbacks.c:2431
+#: mail/mail-callbacks.c:2433
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2457
+#: mail/mail-callbacks.c:2459
 #, fuzzy
 msgid "No Message Selected"
 msgstr "Situação das mensagens"
 
-#: mail/mail-callbacks.c:2502 mail/mail-display.c:186
+#: mail/mail-callbacks.c:2504 mail/mail-display.c:186
 msgid "Overwrite file?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2556
+#: mail/mail-callbacks.c:2558
 msgid "Save Message As..."
 msgstr ""
 
-#: mail/mail-callbacks.c:2558
+#: mail/mail-callbacks.c:2560
 msgid "Save Messages As..."
 msgstr ""
 
-#: mail/mail-callbacks.c:2627
+#: mail/mail-callbacks.c:2629
 #, fuzzy
 msgid "Go to next folder with unread messages?"
 msgstr "Imprimir a mensagem seleccionada"
 
-#: mail/mail-callbacks.c:2634
+#: mail/mail-callbacks.c:2636
 msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2877
+#: mail/mail-callbacks.c:2879
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -12259,37 +12259,37 @@ msgid ""
 "Really erase these messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2990
+#: mail/mail-callbacks.c:2992
 #, c-format
 msgid ""
 "Error loading filter information:\n"
 "%s"
 msgstr ""
 
-#: mail/mail-callbacks.c:3002
+#: mail/mail-callbacks.c:3004
 #, fuzzy
 msgid "Filters"
 msgstr "_Pasta"
 
-#: mail/mail-callbacks.c:3046
+#: mail/mail-callbacks.c:3048
 #, fuzzy, c-format
 msgid "Page %d of %d"
 msgstr "Enviar esta mensagem"
 
-#: mail/mail-callbacks.c:3101
+#: mail/mail-callbacks.c:3103
 #, fuzzy
 msgid "Print Message"
 msgstr "Encontrar mensagens"
 
-#: mail/mail-callbacks.c:3128
+#: mail/mail-callbacks.c:3130
 msgid "US-Letter"
 msgstr ""
 
-#: mail/mail-callbacks.c:3169
+#: mail/mail-callbacks.c:3171
 msgid "Printing of message failed"
 msgstr ""
 
-#: mail/mail-callbacks.c:3338
+#: mail/mail-callbacks.c:3340
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -29076,6 +29076,14 @@ msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "Não se consegui inicializar Bonobo"
 
 #, fuzzy
+#~ msgid "&lt;- _Remove"
+#~ msgstr "Remover"
+
+#, fuzzy
+#~ msgid "_Add -&gt;"
+#~ msgstr "Adicionar"
+
+#, fuzzy
 #~ msgid "Error in search expression."
 #~ msgstr "Erro a gravar os atalhos."
 
@@ -29308,14 +29316,6 @@ msgstr "Não se consegui inicializar Bonobo"
 #, fuzzy
 #~ msgid "Riga"
 #~ msgstr "Cabeçalhos:"
-
-#, fuzzy
-#~ msgid "Add ->"
-#~ msgstr "Adicionar"
-
-#, fuzzy
-#~ msgid "<- Remove"
-#~ msgstr "Remover"
 
 #, fuzzy
 #~ msgid "Card: "
