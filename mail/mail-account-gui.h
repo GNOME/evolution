@@ -95,6 +95,12 @@ typedef struct {
 	GtkButton *sent_folder_button;
 	MailAccountGuiFolder sent_folder;
 	
+	/* always cc/bcc */
+	GtkToggleButton *always_cc;
+	GtkEntry *cc_addrs;
+	GtkToggleButton *always_bcc;
+	GtkEntry *bcc_addrs;
+	
 	/* Security */
 	GtkEntry *pgp_key;
 	GtkToggleButton *pgp_encrypt_to_self;

@@ -76,7 +76,7 @@ typedef struct {
 	gboolean show_preview;
 	gboolean thread_list;
 	gboolean hide_deleted;
-	gint paned_size;
+	int paned_size;
 	gboolean send_html;
 	gboolean confirm_unwanted_html;
 	gboolean citation_highlight;
@@ -85,11 +85,11 @@ typedef struct {
 	gboolean prompt_only_bcc;
 	gboolean confirm_expunge;
 	gboolean do_seen_timeout;
-	gint seen_timeout;
+	int seen_timeout;
 	gboolean empty_trash_on_exit;
 	
 	GSList *accounts;
-	gint default_account;
+	int default_account;
 	
 	GSList *news;
 	
@@ -117,7 +117,7 @@ static MailConfig *config = NULL;
 
 /* Prototypes */
 static void config_read (void);
-static void mail_config_set_default_account_num (gint new_default);
+static void mail_config_set_default_account_num (int new_default);
 
 
 /* Identity */
@@ -210,6 +210,11 @@ account_copy (const MailConfigAccount *account)
 	new->sent_folder_name = g_strdup (account->sent_folder_name);
 	new->sent_folder_uri = g_strdup (account->sent_folder_uri);
 	
+	new->always_cc = account->always_cc;
+	new->cc_addrs = g_strdup (account->cc_addrs);
+	new->always_bcc = account->always_bcc;
+	new->bcc_addrs = g_strdup (account->bcc_addrs);
+	
 	new->pgp_key = g_strdup (account->pgp_key);
 	new->pgp_encrypt_to_self = account->pgp_encrypt_to_self;
 	new->pgp_always_sign = account->pgp_always_sign;
@@ -237,6 +242,9 @@ account_destroy (MailConfigAccount *account)
 	g_free (account->drafts_folder_uri);
 	g_free (account->sent_folder_name);
 	g_free (account->sent_folder_uri);
+	
+	g_free (account->cc_addrs);
+	g_free (account->bcc_addrs);
 	
 	g_free (account->pgp_key);
 	g_free (account->smime_key);
@@ -359,6 +367,32 @@ config_read (void)
 		g_free (path);
 		if (val && *val)
 			account->sent_folder_uri = val;
+		else
+			g_free (val);
+		
+		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_%d", i);
+		account->always_cc = bonobo_config_get_boolean_with_default (
+		        config->db, path, FALSE, NULL);
+		g_free (path);
+		
+		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_addrs_%d", i);
+		val = bonobo_config_get_string (config->db, path, NULL);
+		g_free (path);
+		if (val && *val)
+			account->cc_addrs = val;
+		else
+			g_free (val);
+		
+		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_%d", i);
+		account->always_bcc = bonobo_config_get_boolean_with_default (
+		        config->db, path, FALSE, NULL);
+		g_free (path);
+		
+		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_addrs_%d", i);
+		val = bonobo_config_get_string (config->db, path, NULL);
+		g_free (path);
+		if (val && *val)
+			account->bcc_addrs = val;
 		else
 			g_free (val);
 		
@@ -500,7 +534,7 @@ config_read (void)
 	        "/News/Sources/num", 0, NULL);
 	for (i = 0; i < len; i++) {
 		MailConfigService *n;
-		gchar *path, *r;
+		char *path, *r;
 		
 		path = g_strdup_printf ("/News/Sources/url_%d", i);
 		
@@ -679,6 +713,24 @@ mail_config_write (void)
 						  account->sent_folder_uri, NULL);
 		g_free (path);
 		
+		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_%d", i);
+		bonobo_config_set_boolean (config->db, path, account->always_cc, NULL);
+		g_free (path);
+		
+		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_addrs_%d", i);
+		bonobo_config_set_string_wrapper (config->db, path, 
+						  account->cc_addrs, NULL);
+		g_free (path);
+		
+		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_%d", i);
+		bonobo_config_set_boolean (config->db, path, account->always_bcc, NULL);
+		g_free (path);
+		
+		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_addrs_%d", i);
+		bonobo_config_set_string_wrapper (config->db, path, 
+						  account->bcc_addrs, NULL);
+		g_free (path);
+		
 		/* account pgp options */
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_key_%d", i);
 		bonobo_config_set_string_wrapper (config->db, path, account->pgp_key, NULL);
@@ -773,7 +825,7 @@ mail_config_write (void)
 	bonobo_config_set_long (config->db, "/News/Sources/num", len, NULL);
 	for (i = 0; i < len; i++) {
 		MailConfigService *n;
-		gchar *path;
+		char *path;
 		
 		n = g_slist_nth_data (config->news, i);
 		
@@ -1149,14 +1201,14 @@ mail_config_set_hide_deleted (gboolean value)
 	config->hide_deleted = value;
 }
 
-gint
+int
 mail_config_get_paned_size (void)
 {
 	return config->paned_size;
 }
 
 void
-mail_config_set_paned_size (gint value)
+mail_config_set_paned_size (int value)
 {
 	config->paned_size = value;
 }
@@ -1221,14 +1273,14 @@ mail_config_set_do_seen_timeout (gboolean do_seen_timeout)
 	config->do_seen_timeout = do_seen_timeout;
 }
 
-gint
+int
 mail_config_get_mark_as_seen_timeout (void)
 {
 	return config->seen_timeout;
 }
 
 void
-mail_config_set_mark_as_seen_timeout (gint timeout)
+mail_config_set_mark_as_seen_timeout (int timeout)
 {
 	config->seen_timeout = timeout;
 }
@@ -1876,8 +1928,8 @@ new_source_created (MailConfigAccount *account)
 	CamelProvider *prov;
 	CamelFolder *inbox;
 	CamelException ex;
-	gchar *name;
-	gchar *url;
+	char *name;
+	char *url;
 	
 	/* no source, don't bother. */
 	if (!account->source || !account->source->url)
@@ -2015,14 +2067,14 @@ mail_config_remove_account (MailConfigAccount *account)
 	return config->accounts;
 }
 
-gint
+int
 mail_config_get_default_account_num (void)
 {
 	return config->default_account;
 }
 
 static void
-mail_config_set_default_account_num (gint new_default)
+mail_config_set_default_account_num (int new_default)
 {
 	config->default_account = new_default;
 }

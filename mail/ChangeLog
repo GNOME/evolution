@@ -1,5 +1,28 @@
 2001-12-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (composer_get_message): Add the auto-cc/bcc
+	recipients here. The problem with setting them in the composer is
+	that what if the user changes which account he wants to use? We'd
+	either have to clear the cc/bcc lists *or* we'd have to leave them
+	alone. Either way is bad. We can't just clear the entries because
+	the user may have added addresses since the composer was
+	opened. We don't want to leave any old auto-cc/bcc addresses there
+	because that isn't desirable either. So we give up and add them
+	here after the user has already hit the send button.
+
+	* mail-config.c (account_copy): Update to copy the always-[b]cc
+	options.
+	(account_destroy): Update to destroy the above options.
+	(config_read): Update to read in those values.
+	(mail_config_write): Save those options.
+
+	* mail-account-gui.c (mail_account_gui_new): Setup Always Cc/Bcc
+	widgets.
+	(mail_account_gui_save): Get the user-entered values for the
+	always-cc/bcc stuff.
+
+2001-12-19  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-account-gui.c (setup_service): If the provider is NULL,
 	don't do anything.
 

@@ -32,38 +32,43 @@ extern "C" {
 #endif /* __cplusplus */
 
 typedef struct {
-	gchar *name;
-	gchar *address;
-	gchar *organization;
-	gchar *signature;
-	gchar *html_signature;
+	char *name;
+	char *address;
+	char *organization;
+	char *signature;
+	char *html_signature;
 	gboolean has_html_signature;
 } MailConfigIdentity;
 
 typedef struct {
-	gchar *url;
+	char *url;
 	gboolean keep_on_server;
 	gboolean auto_check;
-	gint auto_check_time;
+	int auto_check_time;
 	gboolean save_passwd;
 	gboolean enabled;
 } MailConfigService;
 
 typedef struct {
-	gchar *name;
+	char *name;
 	
 	MailConfigIdentity *id;
 	MailConfigService *source;
 	MailConfigService *transport;
 	
-	gchar *drafts_folder_name, *drafts_folder_uri;
-	gchar *sent_folder_name, *sent_folder_uri;
+	char *drafts_folder_name, *drafts_folder_uri;
+	char *sent_folder_name, *sent_folder_uri;
 	
-	gchar *pgp_key;
+	gboolean always_cc;
+	char *cc_addrs;
+	gboolean always_bcc;
+	char *bcc_addrs;
+	
+	char *pgp_key;
 	gboolean pgp_encrypt_to_self;
 	gboolean pgp_always_sign;
 	
-	gchar *smime_key;
+	char *smime_key;
 	gboolean smime_encrypt_to_self;
 	gboolean smime_always_sign;
 } MailConfigAccount;
@@ -134,8 +139,8 @@ void     mail_config_set_show_preview         (const char *uri, gboolean value);
 gboolean mail_config_get_hide_deleted         (void);
 void     mail_config_set_hide_deleted         (gboolean value);
 
-gint     mail_config_get_paned_size           (void);
-void     mail_config_set_paned_size           (gint size);
+int      mail_config_get_paned_size           (void);
+void     mail_config_set_paned_size           (int size);
 
 gboolean mail_config_get_send_html            (void);
 void     mail_config_set_send_html            (gboolean send_html);
@@ -152,8 +157,8 @@ void     mail_config_set_citation_color       (guint32);
 gint     mail_config_get_do_seen_timeout      (void);
 void     mail_config_set_do_seen_timeout      (gboolean do_seen_timeout);
 
-gint     mail_config_get_mark_as_seen_timeout (void);
-void     mail_config_set_mark_as_seen_timeout (gint timeout);
+int      mail_config_get_mark_as_seen_timeout (void);
+void     mail_config_set_mark_as_seen_timeout (int timeout);
 
 gboolean mail_config_get_prompt_empty_subject (void);
 void     mail_config_set_prompt_empty_subject (gboolean value);
@@ -193,7 +198,7 @@ void mail_config_service_set_save_passwd (MailConfigService *service, gboolean s
 
 gboolean                  mail_config_find_account              (const MailConfigAccount *account);
 const MailConfigAccount  *mail_config_get_default_account       (void);
-gint                      mail_config_get_default_account_num   (void);
+int                       mail_config_get_default_account_num   (void);
 const MailConfigAccount  *mail_config_get_account_by_name       (const char *account_name);
 const MailConfigAccount  *mail_config_get_account_by_source_url (const char *url);
 const MailConfigAccount  *mail_config_get_account_by_transport_url (const char *url);

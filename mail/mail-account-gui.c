@@ -1347,6 +1347,18 @@ mail_account_gui_new (MailConfigAccount *account)
 	}
 	set_folder_picker_label (gui->sent_folder_button, gui->sent_folder.name);
 	
+	/* Always Cc */
+	gui->always_cc = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "always_cc"));
+	gtk_toggle_button_set_active (gui->always_cc, account->always_cc);
+	gui->cc_addrs = GTK_ENTRY (glade_xml_get_widget (gui->xml, "cc_addrs"));
+	e_utf8_gtk_entry_set_text (gui->cc_addrs, account->cc_addrs);
+	
+	/* Always Bcc */
+	gui->always_bcc = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "always_bcc"));
+	gtk_toggle_button_set_active (gui->always_bcc, account->always_bcc);
+	gui->bcc_addrs = GTK_ENTRY (glade_xml_get_widget (gui->xml, "bcc_addrs"));
+	e_utf8_gtk_entry_set_text (gui->bcc_addrs, account->bcc_addrs);
+	
 	/* Security */
 	gui->pgp_key = GTK_ENTRY (glade_xml_get_widget (gui->xml, "pgp_key"));
 	if (account->pgp_key)
@@ -1633,7 +1645,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	const MailConfigAccount *old_account;
 	CamelProvider *provider = NULL;
 	CamelURL *source_url = NULL, *url;
-	gchar *new_name;
+	char *new_name;
 	gboolean old_enabled;
 	
 	if (!mail_account_gui_identity_complete (gui, NULL) ||
@@ -1727,6 +1739,11 @@ mail_account_gui_save (MailAccountGui *gui)
 	
 	if (source_url)
 		camel_url_free (source_url);
+	
+	account->always_cc = gtk_toggle_button_get_active (gui->always_cc);
+	account->cc_addrs = e_utf8_gtk_entry_get_text (gui->cc_addrs);
+	account->always_bcc = gtk_toggle_button_get_active (gui->always_bcc);
+	account->bcc_addrs = e_utf8_gtk_entry_get_text (gui->bcc_addrs);
 	
 	g_free (account->pgp_key);
 	account->pgp_key = e_utf8_gtk_entry_get_text (gui->pgp_key);

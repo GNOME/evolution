@@ -452,12 +452,45 @@ composer_get_message (EMsgComposer *composer)
 	if (message == NULL)
 		return NULL;
 	
+	/* Add info about the sending account */
+	account = e_msg_composer_get_preferred_account (composer);
+	if (account) {
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", account->name);
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
+		
+		/* add the always-cc/bcc addresses */
+		if (account->always_cc && account->cc_addrs) {
+			CamelInternetAddress *addrs;
+			
+			addrs = camel_internet_address_new ();
+			camel_address_decode (CAMEL_ADDRESS (addrs), account->cc_addrs);
+			iaddr = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+			if (iaddr)
+				camel_address_cat (CAMEL_ADDRESS (addrs), CAMEL_ADDRESS (iaddr));
+			camel_mime_message_set_recipients (message, CAMEL_RECIPIENT_TYPE_CC, addrs);
+			camel_object_unref (CAMEL_OBJECT (addrs));
+		}
+		
+		if (account->always_bcc && account->bcc_addrs) {
+			CamelInternetAddress *addrs;
+			
+			addrs = camel_internet_address_new ();
+			camel_address_decode (CAMEL_ADDRESS (addrs), account->bcc_addrs);
+			iaddr = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_BCC);
+			if (iaddr)
+				camel_address_cat (CAMEL_ADDRESS (addrs), CAMEL_ADDRESS (iaddr));
+			camel_mime_message_set_recipients (message, CAMEL_RECIPIENT_TYPE_BCC, addrs);
+			camel_object_unref (CAMEL_OBJECT (addrs));
+		}
+	}
+	
 	recipients = e_msg_composer_get_recipients (composer);
 	
 	/* Check for invalid recipients */
 	if (recipients) {
 		gboolean have_invalid = FALSE;
-		gchar *msg, *new_msg;
+		char *msg, *new_msg;
 		GtkWidget *message_box;
 		
 		for (i = 0; recipients[i] && !have_invalid; ++i) {
@@ -524,7 +557,7 @@ composer_get_message (EMsgComposer *composer)
 		   so that it can present the user with a dialog whose text has been
 		   modified to reflect this situation. */
 		
-		const gchar *to_header = camel_medium_get_header (CAMEL_MEDIUM (message), CAMEL_RECIPIENT_TYPE_TO);
+		const char *to_header = camel_medium_get_header (CAMEL_MEDIUM (message), CAMEL_RECIPIENT_TYPE_TO);
 		gboolean hidden_list_case = FALSE;
 		
 		if (to_header && !strcmp (to_header, "Undisclosed-Recipient:;"))
@@ -569,14 +602,6 @@ composer_get_message (EMsgComposer *composer)
 		}
 	}
 	
-	/* Add info about the sending account */
-	account = e_msg_composer_get_preferred_account (composer);
-	if (account) {
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Account", account->name);
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Transport", account->transport->url);
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc", account->sent_folder_uri);
-	}
-	
 	/* Get the message recipients and 'touch' them, boosting their use scores */
 	recipients = e_msg_composer_get_recipients (composer);
 	e_destination_touchv (recipients);
@@ -618,7 +643,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	send->composer = composer;
 	gtk_object_ref (GTK_OBJECT (composer));
 	gtk_widget_hide (GTK_WIDGET (composer));
-	e_msg_composer_set_enable_autosave(composer, FALSE);
+	e_msg_composer_set_enable_autosave (composer, FALSE);
 	mail_send_mail (transport->url, message, composer_sent_cb, send);
 }
 
@@ -639,6 +664,7 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	message = composer_get_message (composer);
 	if (message == NULL)
 		return;
+	
 	info = camel_message_info_new ();
 	info->flags = CAMEL_MESSAGE_SEEN;
 	
