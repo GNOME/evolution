@@ -1,5 +1,7 @@
 2000-11-14  Radek Doulik  <rodo@helixcode.com>
 
+	* listener.c (reply_indent): rename command to runCommand
+
 	* e-msg-composer.c: updated to HTMLEditor API changes
 
 	* listener.c: updated to HTMLEditor API changes

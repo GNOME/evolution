@@ -69,16 +69,16 @@ reply_indent (HTMLEditorListener *l, CORBA_Environment * ev)
 {
 	if (!HTMLEditor_Engine_isParagraphEmpty (l->composer->editor_engine, ev)) {
 		if (HTMLEditor_Engine_isPreviousParagraphEmpty (l->composer->editor_engine, ev))
-			HTMLEditor_Engine_command (l->composer->editor_engine, "cursor-backward", ev);
+			HTMLEditor_Engine_runCommand (l->composer->editor_engine, "cursor-backward", ev);
 		else {
-			HTMLEditor_Engine_command (l->composer->editor_engine, "insert-paragraph", ev);
+			HTMLEditor_Engine_runCommand (l->composer->editor_engine, "insert-paragraph", ev);
 			return;
 		}
 			
 	}
-	HTMLEditor_Engine_command (l->composer->editor_engine, "style-normal", ev);
-	HTMLEditor_Engine_command (l->composer->editor_engine, "indent-zero", ev);
-	HTMLEditor_Engine_command (l->composer->editor_engine, "italic-off", ev);
+	HTMLEditor_Engine_runCommand (l->composer->editor_engine, "style-normal", ev);
+	HTMLEditor_Engine_runCommand (l->composer->editor_engine, "indent-zero", ev);
+	HTMLEditor_Engine_runCommand (l->composer->editor_engine, "italic-off", ev);
 }
 
 static CORBA_any *
