@@ -17,9 +17,16 @@ void    cursors_init      (void);
 void    cursors_shutdown  (void);
 
 #define cursor_set(win,c) \
-	gdk_window_set_cursor (win, gnumeric_cursors [c].cursor)
+ do {  									\
+     if (win) 								\
+         gdk_window_set_cursor (win, gnumeric_cursors [c].cursor); 	\
+} while (0)
 
 #define cursor_set_widget(w,c) \
-	gdk_window_set_cursor (GTK_WIDGET (w)->window, gnumeric_cursors [c].cursor)
+ do {  									\
+     if (GTK_WIDGET (w)->window) 					\
+	gdk_window_set_cursor (GTK_WIDGET (w)->window, gnumeric_cursors [c].cursor); \
+} while (0)
+  
 
 #endif /* GNUMERIC_CURSORS_H */
