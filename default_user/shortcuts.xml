@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<shortcuts>
+	<group title="Evolution shortcuts">
+		<item>evolution:/local/Inbox</item>
+		<item>evolution:/local/Outbox</item>
+		<item>evolution:/local/Trash</item>
+		<item>evolution:/local/Drafts</item>
+		<item>evolution:/local/Calendar</item>
+		<item>evolution:/local/Contacts</item>
+	</group>
+
+	<group title="Personal shortcuts">
+	</group>
+</shortcuts>

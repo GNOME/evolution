@@ -1,11 +1,4 @@
-shortcutdir = $(datadir)/evolution/default_user/shortcuts
-shortcut_DATA = 		\
-	Main_Shortcuts.xml 	\
-	Other_Shortcuts.xml
+SUBDIRS = local
 
-inboxdir = $(datadir)/evolution/default_user/folders/Inbox
-inbox_DATA = 			\
-	Inbox.mbox	 	
-
-
-
+defaultdir = $(prefix)/share/evolution/default_user
+default_DATA = shortcuts.xml
