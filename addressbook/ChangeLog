@@ -1,3 +1,10 @@
+2002-06-05  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-minicard.c (e_minicard_event): Call
+	e_minicard_selected in the GDK_BUTTON_RELEASE case here.
+	(e_minicard_drag_begin): Set E_REFLOW (parent)->maybe_in_drag =
+	FALSE if it's an EReflow.
+
 2002-06-04  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c

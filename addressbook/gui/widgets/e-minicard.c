@@ -564,6 +564,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	}
 	case GDK_BUTTON_RELEASE:
+		e_minicard_selected(e_minicard, event);
 		if (e_minicard->drag_button == event->button.button) {
 			e_minicard->drag_button = 0;
 			e_minicard->drag_button_down = FALSE;
@@ -989,8 +990,14 @@ static gint
 e_minicard_drag_begin (EMinicard *minicard, GdkEvent *event)
 {
 	gint ret_val = 0;
+	GnomeCanvasItem *parent;
 	gtk_signal_emit (GTK_OBJECT(minicard),
 			 e_minicard_signals[DRAG_BEGIN],
 			 event, &ret_val);
+
+	parent = GNOME_CANVAS_ITEM (minicard)->parent;
+	if (parent && E_IS_REFLOW (parent)) {
+		E_REFLOW (parent)->maybe_in_drag = FALSE;
+	}
 	return ret_val;
 }
