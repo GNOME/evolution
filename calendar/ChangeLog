@@ -1,5 +1,9 @@
 2002-09-24  Rodrigo Moya <rodrigo@ximian.com>
 
+	* cal-client/cal-query.c (cal_query_destroy): unref the query
+	since now the query object on the server keeps a copy of it and
+	must know when the listener is no longer valid.
+
 	* pcs/query.c (listener_died_cb): unref the QueryListener object.
 	(query_construct): create an EComponentListener for the non-cached
 	queries' listeners also.

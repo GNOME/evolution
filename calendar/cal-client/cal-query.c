@@ -180,8 +180,9 @@ cal_query_destroy (GtkObject *object)
 	query = CAL_QUERY (object);
 	priv = query->priv;
 
-	/* The server unrefs the query listener, so we just NULL it out here */
+	/* The server keeps a copy of the query listener, so we must unref it */
 	query_listener_stop_notification (priv->ql);
+	bonobo_object_unref (BONOBO_OBJECT (priv->ql));
 	priv->ql = NULL;
 
 	if (priv->corba_query != CORBA_OBJECT_NIL) {
