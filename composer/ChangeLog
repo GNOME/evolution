@@ -1,3 +1,15 @@
+2003-08-22  Antonio Xu  <antonio.xu@sun.com>
+
+	* e-msg-composer-attachment.c (): Connect response signal to
+	attachment properties dialog, fix bug #47950.
+
+2003-08-21  Antonio Xu  <antonio.xu@sun.com>
+
+	* Makefile.am (INCLUDES): add EVOLUTION_IMAGESDIR define
+	* e-msg-composer.c (create_composer): use EVOLUTION_IMAGESDIR
+	and composer icon name to get the path of composer icon.
+	[#47781]
+
 2003-08-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Original patch from David Woodhouse, but modified a bit by me.
