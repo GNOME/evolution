@@ -1,3 +1,12 @@
+2000-06-15  Dan Winship  <danw@helixcode.com>
+
+	* providers/mbox/camel-mbox-folder.c (mbox_append_message): Fix to
+	previous change: make sure the "seek" variable ends up with the
+	value it should.
+
+	* providers/mbox/camel-mbox-summary.c (summary_rebuild): Update
+	summary mtime as well as size.
+
 2000-06-14  Dan Winship  <danw@helixcode.com>
 
 	* providers/mbox/camel-mbox-folder.c (mbox_append_message): if the

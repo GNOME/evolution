@@ -273,6 +273,7 @@ static int		  message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageIn
 static int
 summary_rebuild(CamelMboxSummary *mbs, off_t offset)
 {
+	CamelFolderSummary *s = (CamelFolderSummary *)mbs;
 	CamelMimeParser *mp;
 	int fd;
 	int ok = 0;
@@ -317,11 +318,16 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset)
 		g_assert(camel_mime_parser_step(mp, NULL, NULL) == HSCAN_FROM_END);
 	}
 
-	/* update the file size in the summary */
-	if (ok != -1)
-		mbs->folder_size = camel_mime_parser_seek(mp, 0, SEEK_CUR);
-	printf("updating folder size = %d\n", mbs->folder_size);
 	gtk_object_unref((GtkObject *)mp);
+	/* update the file size/mtime in the summary */
+	if (ok != -1) {
+		struct stat st;
+
+		if (stat (mbs->folder_path, &st) == 0) {
+			mbs->folder_size = st.st_size;
+			s->time = st.st_mtime;
+		}
+	}
 
 	return ok;
 }
