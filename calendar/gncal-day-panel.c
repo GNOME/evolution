@@ -145,7 +145,7 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 	dpanel->gtk_calendar = GTK_CALENDAR (w);
 	gtk_calendar_display_options (dpanel->gtk_calendar,
 				      GTK_CALENDAR_SHOW_HEADING | GTK_CALENDAR_SHOW_DAY_NAMES);
-	dpanel->day_selected_id = gtk_signal_connect (GTK_OBJECT (dpanel->gtk_calendar), "day_selected",
+	dpanel->day_selected_id = gtk_signal_connect (GTK_OBJECT (dpanel->gtk_calendar), "day_selected_double_click",
 						      (GtkSignalFunc) calendar_day_selected,
 						      dpanel);
 	gtk_signal_connect (GTK_OBJECT (dpanel->gtk_calendar), "month_changed",
@@ -188,11 +188,16 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 static void
 update (GncalDayPanel *dpanel, int update_fullday, iCalObject *ico, int flags)
 {
+	char buf [80];
+	
 	if (update_fullday){
 		gncal_full_day_update (dpanel->fullday, ico, flags);
 		retag_calendar (dpanel->gtk_calendar, dpanel);
 	}
 	gncal_todo_update (dpanel->todo, ico, flags);
+	
+	strftime (buf, sizeof (buf), "%a %b %d %Y", localtime (&dpanel->start_of_day));
+	gtk_label_set (GTK_LABEL (dpanel->date_label), buf);
 }
 
 void
@@ -207,8 +212,8 @@ gncal_day_panel_update (GncalDayPanel *dpanel, iCalObject *ico, int flags)
 void
 gncal_day_panel_set (GncalDayPanel *dpanel, time_t start_of_day)
 {
-	char buf[256];
-	struct tm *tm;
+	char buf[80];
+	struct tm tm;
 
 	g_return_if_fail (dpanel != NULL);
 	g_return_if_fail (GNCAL_IS_DAY_PANEL (dpanel));
@@ -216,17 +221,17 @@ gncal_day_panel_set (GncalDayPanel *dpanel, time_t start_of_day)
 	dpanel->start_of_day = time_start_of_day (start_of_day);
 	if (dpanel->fullday->lower == dpanel->start_of_day)
 		return;
-	
-	strftime (buf, sizeof (buf), "%a %b %d %Y", localtime (&dpanel->start_of_day));
+
+	tm = *localtime (&dpanel->start_of_day);
+	strftime (buf, sizeof (buf), "%a %b %d %Y", &tm);
 	gtk_label_set (GTK_LABEL (dpanel->date_label), buf);
 
 	gncal_full_day_set_bounds (dpanel->fullday, dpanel->start_of_day, time_end_of_day (dpanel->start_of_day));
 
-	tm = localtime (&dpanel->start_of_day);
-	gtk_calendar_select_month (dpanel->gtk_calendar, tm->tm_mon, tm->tm_year + 1900);
+	gtk_calendar_select_month (dpanel->gtk_calendar, tm.tm_mon, tm.tm_year + 1900);
 
 	gtk_signal_handler_block (GTK_OBJECT (dpanel->gtk_calendar), dpanel->day_selected_id);
-	gtk_calendar_select_day (dpanel->gtk_calendar, tm->tm_mday);
+	gtk_calendar_select_day (dpanel->gtk_calendar, tm.tm_mday);
 	gtk_signal_handler_unblock (GTK_OBJECT (dpanel->gtk_calendar), dpanel->day_selected_id);
 
 	update (dpanel, FALSE, NULL, 0);

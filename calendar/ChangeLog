@@ -1,3 +1,12 @@
+1998-05-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gncal-day-panel.c (update): Draw the day at startup. 
+	(gncal_day_panel_set): Fix selected-day display. 
+	(gncal_day_panel_new): Switch day on double clicks, not on single
+	clicks. 
+
+	* calobj.c (ical_object_compute_end): Removed debug messages. 
+
 1998-04-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* prop.c (prop_apply): Do not call prop_cancel, ths is now using

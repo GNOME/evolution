@@ -1184,11 +1184,9 @@ ical_object_compute_end (iCalObject *ico)
 
 	g_return_if_fail (ico->recur != NULL);
 
-	printf ("compute end\n");
 	ico->recur->_enddate = 0;
 	ico->recur->enddate = 0;
 	ical_object_generate_events (ico, ico->dtstart, 0, duration_callback, &count);
-	printf ("compute end\n");
 }
 
 int
