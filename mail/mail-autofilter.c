@@ -39,6 +39,7 @@
 
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
+#include "mail-component.h"
 
 #include "camel/camel.h"
 
@@ -293,7 +294,7 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 		g_free(mlist);
 	}
 	if (flags & AUTO_THREAD) {
-		const char *msgid, *refs = NULL;
+		const char *msgid = NULL, *refs = NULL;
 		char *name;
 		
 		if (!(refs = camel_medium_get_header ((CamelMedium *) msg, "References"))) {
