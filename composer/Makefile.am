@@ -83,6 +83,7 @@ libcomposer_la_SOURCES = 			\
 EXTRA_DIST =					\
 	$(glade_DATA)				\
 	$(glade_messages)			\
+	$(IDLS)					\
 	bad-icon.xpm
 
 BUILT_SOURCES = $(IDL_GENERATED)
