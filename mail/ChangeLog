@@ -1,6 +1,13 @@
 2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* mail-display.c (link_open_in_browser): Mae sure that the
+	* mail-ops.c (mail_execute_shell_command): Update to take argc and
+	argv arguments since this is the new definition for the
+	CamelFilterDriverShellFunc.
+
+	* mail-session.c (main_get_filter_driver): Updated for the renamed
+	function.
+
+	* mail-display.c (link_open_in_browser): Make sure that the
 	html->pointer_url is non-NULL. Should fix bug #28159 (this seems
 	to be the only questionable way for a NULL url to be passed into
 	on_link_clicked).
