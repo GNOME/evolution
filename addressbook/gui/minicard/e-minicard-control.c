@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * e-minicard-control.c
  *
@@ -10,6 +11,8 @@
 #include <config.h>
 #include <gnome.h>
 #include <bonobo.h>
+
+#include "addressbook/backend/ebook/e-book.h"
 
 #include "e-minicard-control.h"
 #include "e-minicard-widget.h"
@@ -214,6 +217,45 @@ pstream_get_content_types (BonoboPersistStream *ps, void *closure,
 	return bonobo_persist_generate_content_types (2, "text/vCard", "text/x-vCard");
 }
 
+static void
+book_open_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	ECard *card = closure;
+	e_book_add_card(book, card, NULL, NULL);
+}
+
+static void
+save_in_addressbook(GtkWidget *button, EMinicardWidget *minicard)
+{
+	EBook *book;
+	gchar *path, *uri;
+	ECard *card;
+
+	book = e_book_new ();
+
+	if (!book) {
+		printf ("%s: %s(): Couldn't create EBook, bailing.\n",
+			__FILE__,
+			__FUNCTION__);
+		return;
+	}
+
+
+	path = g_concat_dir_and_file (g_get_home_dir (),
+				      "evolution/local/Contacts/addressbook.db");
+	uri = g_strdup_printf ("file://%s", path);
+	g_free (path);
+
+	gtk_object_get(GTK_OBJECT(minicard),
+		       "card", &card,
+		       NULL);
+
+	if (! e_book_load_uri (book, uri, book_open_cb, card)) {
+		printf ("error calling load_uri!\n");
+	}
+	g_free(uri);
+}
+
 static BonoboObject *
 e_minicard_control_factory (BonoboGenericFactory *Factory, void *closure)
 {
@@ -223,12 +265,25 @@ e_minicard_control_factory (BonoboGenericFactory *Factory, void *closure)
 	BonoboControl      *control;
 	BonoboPersistStream *stream;
 	GtkWidget	   *minicard;
+	GtkWidget          *button;
+	GtkWidget          *vbox;
 
 	/* Create the control. */
+
 	minicard = e_minicard_widget_new ();
 	gtk_widget_show (minicard);
 
-	control = bonobo_control_new (minicard);
+	button = gtk_button_new_with_label(_("Save in addressbook"));
+	gtk_signal_connect(GTK_OBJECT(button), "clicked",
+			   GTK_SIGNAL_FUNC(save_in_addressbook), minicard);
+	gtk_widget_show (button);
+
+	vbox = gtk_vbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), minicard, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), button, FALSE, FALSE, 0);
+	gtk_widget_show (vbox);
+
+	control = bonobo_control_new (vbox);
 
 	stream = bonobo_persist_stream_new (pstream_load, pstream_save,
 					    pstream_get_max_size,
