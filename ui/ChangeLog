@@ -1,3 +1,10 @@
+2004-01-23  Rodney Dawes  <dobey@ximian.com>
+
+	* evolution-mail-list.xml: Fix Folder submenu location
+	* evolution.xml: Add ComponentPlaceholder back to File menu
+
+	Fixes #51960
+
 2004-01-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* evolution-mail-global.xml: moved 'Forget Passwords' item...

@@ -67,11 +67,12 @@
   <menu>
 
     <submenu name="File">
-      <submenu name="Folder" _label="_Folder">
-	<placeholder name="ComponentPlaceholder">
-         <menuitem name="ChangeFolderProperties" verb="" _label="_Properties..."/>
-	</placeholder>
-      </submenu>
+      <placeholder name="ComponentPlaceholder">
+        <separator name="mail-list-folder"/>
+        <submenu name="Folder" _label="_Folder">
+           <menuitem name="ChangeFolderProperties" verb="" _label="_Properties..."/>
+        </submenu>
+      </placeholder>
     </submenu>
 
     <placeholder name="EditPlaceholder">

@@ -53,6 +53,8 @@
 
       <placeholder name="Print" delimit="top"/>
 
+      <placeholder name="ComponentPlaceholder"/>
+
       <separator f="" name="eshell5"/>
 
       <menuitem name="ToggleOffline" verb=""
