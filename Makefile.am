@@ -20,6 +20,7 @@ EXTRA_DIST = 			\
 	NEWS			\
 	NEWS-1.0		\
 	marshal.mk		\
+	server.mk		\
 	intltool-merge.in	\
 	intltool-update.in	\
 	intltool-extract.in	\
