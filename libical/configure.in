@@ -39,7 +39,6 @@ AC_CHECK_FUNCS(strdup)
 
 AC_OUTPUT(\
 src/libical/icalversion.h \
-config.h \
 src/libical/Makefile \
 src/libicalss/Makefile \
 src/libicalvcal/Makefile \

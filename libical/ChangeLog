@@ -1,5 +1,9 @@
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
+	* configure.in: Don't list config.h in AC_OUTPUT
+	
+2000-08-31  JP Rosevear  <jpr@helixcode.com>
+
 	* src/pvl/Makefile: Kill old file
 
 	* src/test/usecases.c: Kill old file
