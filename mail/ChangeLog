@@ -1,3 +1,27 @@
+2002-11-18  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am (evolution_mail_LDADD): Added back
+	libevolution-importer stuff.
+	(SUBDIRS): Added back importers.
+
+	* importers/evolution-mbox-importer.c (load_file_fn): build the
+	uri without deprecated funcs.
+	(load_file_fn): dont free/alloc a camel_exception for no obvious
+	purpose.
+	(mbox_factory_fn): use weak_ref rather than destroy.
+	(importer_destroy_cb): fix signature for weak ref notify.
+	(mbox_factory_fn): add cid param.
+
+	* importers/*.[ch]: ran fix script over everything.
+
+	* importers/*.server.in.in: Added bonobo activation files.  Moved
+	evolution-mail to @LIBEXEC@ as below.
+	
+	* importers/Makefile.am: oaf->bonobo activation stuff.
+
+	* importers/evolution-outlook-importer.c (outlook_factory_fn): Add
+	component id to callback.
+
 2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Add rules to substitute @LIBEXEC@ in

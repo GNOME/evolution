@@ -19,12 +19,13 @@ libmbox_la_SOURCES = evolution-mbox-importer.c \
 		     mozilla-status-headers.h
 libmbox_la_LDFLAGS = -avoid-version -module
 
-oafdir = $(datadir)/oaf
-oaf_in_files = GNOME_Evolution_Mail_Mbox_Importer.oaf.in	\
-	GNOME_Evolution_Mail_Outlook_Importer.oaf.in
+serverdir = $(datadir)/bonobo/servers
+server_in_files = GNOME_Evolution_Mail_Mbox_Importer.server.in.in	\
+	GNOME_Evolution_Mail_Outlook_Importer.server.in.in
+server_DATA = $(server_in_files:.server.in.in=.server)
+$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 
-oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
-
-EXTRA_DIST = $(oaf_in_files) $(oaf_DATA)
+EXTRA_DIST = $(server_in_files) $(server_DATA)
 
 @INTLTOOL_SERVER_RULE@

@@ -1,4 +1,4 @@
-#SUBDIRS = importers
+SUBDIRS = importers
 
 libexec_PROGRAMS =				\
 	evolution-mail
@@ -138,21 +138,20 @@ evolution_mail_SOURCES =		\
 #	mail-font-prefs.c		\
 #	mail-font-prefs.h
 
-evolution_mail_LDADD = 					\
-	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/e-util/libeutil.la		\
-	$(top_builddir)/shell/libeshell.la		\
-	$(top_builddir)/composer/libcomposer.a		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
-	$(top_builddir)/widgets/misc/libefilterbar.a	\
+evolution_mail_LDADD =						\
+	$(top_builddir)/shell/importer/libevolution-importer.la	\
+	$(top_builddir)/camel/libcamel.la			\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/shell/libeshell.la			\
+	$(top_builddir)/composer/libcomposer.a			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
+	$(top_builddir)/widgets/misc/libefilterbar.a		\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
-	$(top_builddir)/libversit/libversit.a		\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/filter/libfilter.la		\
-	$(top_builddir)/widgets/menus/libmenus.la	\
+	$(top_builddir)/libversit/libversit.a			\
+	$(top_builddir)/e-util/ename/libename.la		\
+	$(top_builddir)/filter/libfilter.la			\
+	$(top_builddir)/widgets/menus/libmenus.la		\
 	$(EVOLUTION_MAIL_LIBS)
-
-#	$(top_builddir)/shell/importer/libevolution-importer.la	
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic

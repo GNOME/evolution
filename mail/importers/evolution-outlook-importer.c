@@ -281,6 +281,7 @@ load_file_fn (EvolutionImporter *eimporter,
 
 static BonoboObject *
 outlook_factory_fn (BonoboGenericFactory *_factory,
+		    const char *cid,
 		    void *closure)
 {
 	EvolutionImporter *importer;
@@ -290,8 +291,8 @@ outlook_factory_fn (BonoboGenericFactory *_factory,
 
 	importer = evolution_importer_new (support_format_fn, load_file_fn, 
 					   process_item_fn, NULL, oli);
-	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
-			    GTK_SIGNAL_FUNC (importer_destroy_cb), oli);
+	g_signal_connect((importer), "destroy",
+			    G_CALLBACK (importer_destroy_cb), oli);
 
 	return BONOBO_OBJECT (importer);
 }
