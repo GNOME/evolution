@@ -1,3 +1,19 @@
+2000-11-06  Not Zed  <NotZed@HelixCode.com>
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_to_message): Changed
+	for message api changes.  Use camel_address_unformat to convert
+	the editable->usable.
+	(set_recipients): Same.  Now we set the recipients as
+	camel_internet_address's.  Fixed a memleak indirectly.
+	(decode_addresses): Removed, no longer needed.
+	(create_dropdown_entry): We dont want to use _encode(), we want to
+	_format, as we are displaying the result.  We can use the static
+	function too to avoid the object creation, and the memory leak!
+	(set_entry): Convert the args to gtk-safe characters, since the
+	entry doesn't understand utf8.
+	(set_recipients): And likewise do the reverse when retrieving the
+	contents of the widget.
+
 2000-11-06  Larry Ewing  <lewing@helixcode.com>
 
         * e-msg-composer.c (build_message): set the content type on the

@@ -135,7 +135,6 @@ create_dropdown_entry (EMsgComposerHdrs *hdrs,
 	gtk_combo_set_use_arrows (GTK_COMBO (combo), TRUE);
 	gtk_combo_set_case_sensitive (GTK_COMBO (combo), FALSE);
 	if (!strcmp (name, _("From:"))) {
-		CamelInternetAddress *ciaddr;
 		GSList *ids, *stmp;
 		GList *tmp;
 		MailConfigIdentity *id;
@@ -151,9 +150,7 @@ create_dropdown_entry (EMsgComposerHdrs *hdrs,
 			g_assert (id->name);
 			g_assert (id->address);
 			
-			ciaddr = camel_internet_address_new ();
-			camel_internet_address_add (ciaddr, id->name, id->address);
-			address = camel_address_encode (CAMEL_ADDRESS (ciaddr));
+			address = camel_internet_address_format_address(id->name, id->address);
 			values = g_list_append (values, address);
 			stmp = stmp->next;
 		}
@@ -172,9 +169,7 @@ create_dropdown_entry (EMsgComposerHdrs *hdrs,
 		g_assert (id->name);
 		g_assert (id->address);
 		
-		ciaddr = camel_internet_address_new ();
-		camel_internet_address_add (ciaddr, id->name, id->address);
-		val = camel_address_encode (CAMEL_ADDRESS (ciaddr));
+		val = camel_internet_address_format_address(id->name, id->address);
 		
 		e_utf8_gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), val);
 		g_free (val);
@@ -436,81 +431,28 @@ e_msg_composer_hdrs_new (void)
 }
 
 
-static GList *
-decode_addresses (const char *s)
-{
-	const char *p, *oldp;
-	gboolean in_quotes;
-	GList *list;
-
-	g_print ("Decoding addresses -- %s\n", s ? s : "(null)");
-
-	if (s == NULL)
-		return NULL;
-
-	in_quotes = FALSE;
-	list = NULL;
-
-	p = s;
-	oldp = s;
-
-	while (1) {
-		if (*p == '"') {
-			in_quotes = ! in_quotes;
-			p++;
-		} else if ((! in_quotes && *p == ',') || *p == 0) {
-			if (p != oldp) {
-				char *new_addr;
-
-				new_addr = g_strndup (oldp, p - oldp);
-				new_addr = g_strstrip (new_addr);
-				if (*new_addr != '\0')
-					list = g_list_prepend (list, new_addr);
-				else
-					g_free (new_addr);
-			}
-
-			while (*p == ',' || *p == ' ' || *p == '\t')
-				p++;
-
-			if (*p == 0)
-				break;
-
-			oldp = p;
-		} else {
-			p++;
-		}
-	}
-
-	return g_list_reverse (list);
-}
-
 static void
-set_recipients (CamelMimeMessage *msg,
-		GtkWidget *entry_widget,
-		const gchar *type)
+set_recipients (CamelMimeMessage *msg, GtkWidget *entry_widget, const gchar *type)
 {
-	GList *list;
-	GList *p;
-	struct _header_address *addr;
-	char *s;
+	char *s, *u;
+	CamelInternetAddress *addr;
 
 	bonobo_widget_get_property (BONOBO_WIDGET (entry_widget), "text", &s, NULL);
 
-	list = decode_addresses (s);
+	/* FIXME: This is just a temporary workaround, the widget should grok it */
+        u = e_utf8_from_gtk_string(entry_widget, s);
 
-	g_free (s);
+	addr = camel_internet_address_new();
+	camel_address_unformat((CamelAddress *)addr, u);
 
-	/* FIXME leak?  */
+	/* TODO: In here, we could cross-reference the names with an alias book
+	   or address book, it should be sufficient for unformat to do the parsing too */
 
-	for (p = list; p != NULL; p = p->next) {
-		addr = header_address_decode (p->data);
-		camel_mime_message_add_recipient (msg, type, addr->name,
-						  addr->v.addr);
-		header_address_unref (addr);
-	}
+	camel_mime_message_set_recipients(msg, type, addr);
 
-	g_list_free (list);
+	camel_object_unref((CamelObject *)addr);
+	g_free(s);
+	g_free(u);
 }
 
 void
@@ -518,7 +460,8 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 				CamelMimeMessage *msg)
 {
 	gchar *subject;
-	gchar *from;
+	char *fromstr;
+	CamelInternetAddress *from;
 	
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
@@ -528,10 +471,14 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 	subject = e_msg_composer_hdrs_get_subject (hdrs);
 	camel_mime_message_set_subject (msg, subject);
 	g_free (subject);
-	
-	from = e_msg_composer_hdrs_get_from (hdrs);
+
+	/* get_from() should probably return a CamelInternetAddress anyway */
+	fromstr = e_msg_composer_hdrs_get_from (hdrs);
+	from = camel_internet_address_new();
+	camel_address_unformat((CamelAddress *)from, fromstr);
 	camel_mime_message_set_from (msg, from);
-	g_free (from);
+	camel_object_unref((CamelObject *)from);
+	g_free(fromstr);
 	
 	set_recipients (msg, hdrs->priv->to_entry, CAMEL_RECIPIENT_TYPE_TO);
 	set_recipients (msg, hdrs->priv->cc_entry, CAMEL_RECIPIENT_TYPE_CC);
@@ -545,6 +492,7 @@ set_entry (BonoboWidget *bonobo_widget,
 {
 	GString *string;
 	const GList *p;
+	char *s;
 
 	string = g_string_new (NULL);
 	for (p = list; p != NULL; p = p->next) {
@@ -553,8 +501,11 @@ set_entry (BonoboWidget *bonobo_widget,
 		g_string_append (string, p->data);
 	}
 
-	bonobo_widget_set_property (BONOBO_WIDGET (bonobo_widget), "text", string->str, NULL);
+	/* FIXME: This is just a temporary workaround, the widget should grok it */
+	s = e_utf8_to_gtk_string((GtkWidget *)bonobo_widget, string->str);
+	bonobo_widget_set_property (BONOBO_WIDGET (bonobo_widget), "text", s, NULL);
 
+	g_free(s);
 	g_string_free (string, TRUE);
 }
 
@@ -614,6 +565,7 @@ e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 			NULL);
 }
 
+/* FIXME: This should probably return a CamelInternetAddress */
 char *
 e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs)
 {
