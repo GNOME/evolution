@@ -52,16 +52,16 @@ g_int_compare(const void *x, const void *y)
 }
 
 char *
-e_strdup_strip(char *string)
+e_strdup_strip(const char *string)
 {
 	int i;
 	int length = 0;
 	int initial = 0;
 	for ( i = 0; string[i]; i++ ) {
-		if (initial == i && isspace(string[i])) {
+		if (initial == i && isspace((unsigned char) string[i])) {
 			initial ++;
 		}
-		if (!isspace(string[i])) {
+		if (!isspace((unsigned char) string[i])) {
 			length = i - initial + 1;
 		}
 	}
@@ -500,7 +500,7 @@ e_strsplit (const gchar *string,
   return str_array;
 }
 
-const gchar *
+gchar *
 e_strstrcase (const gchar *haystack, const gchar *needle)
 {
 	/* find the needle in the haystack neglecting case */
@@ -515,11 +515,11 @@ e_strstrcase (const gchar *haystack, const gchar *needle)
 		return NULL;
 
 	if (len == 0)
-		return haystack;
+		return (gchar *) haystack;
 
 	for (ptr = haystack; *(ptr + len - 1) != '\0'; ptr++)
 		if (!g_strncasecmp (ptr, needle, len))
-			return ptr;
+			return (gchar *) ptr;
 
 	return NULL;
 }
