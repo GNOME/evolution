@@ -379,11 +379,19 @@ account_new_from_xml (char *in)
 				cur = cur->next;
 			}
 		} else if (!strcmp (node->name, "source")) {
+			int timeout;
+			
 			account->source = g_new0 (MailConfigService, 1);
 			account->source->save_passwd = xml_get_bool (node, "save-passwd");
 			account->source->keep_on_server = xml_get_bool (node, "keep-on-server");
 			account->source->auto_check = xml_get_bool (node, "auto-check");
-			account->source->auto_check_time = xml_get_int (node, "auto-check-timeout");
+			timeout = xml_get_int (node, "auto-check-timeout");
+			if (account->source->auto_check && timeout <= 0) {
+				account->source->auto_check = FALSE;
+				account->source->auto_check_time = 0;
+			} else {
+				account->source->auto_check_time = timeout;
+			}
 			
 			cur = node->children;
 			while (cur != NULL) {

@@ -1,5 +1,8 @@
 2003-01-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (account_new_from_xml): Perform some sanity
+	checking on the auto-check-timeout value.
+
 	* folder-browser.c (folder_browser_copy): Correctly create the
 	clipboard buffer by using a nul to delimit the uri and the list of
 	uids.
