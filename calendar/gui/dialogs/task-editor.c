@@ -845,33 +845,57 @@ dialog_to_comp_object (TaskEditor *tedit)
 {
 	TaskEditorPrivate *priv;
 	CalComponent *comp;
-	CalComponentText *text;
 	CalComponentDateTime date;
 	time_t t;
-	GSList *list;
 	icalproperty_status status;
 	TaskEditorPriority priority;
 	int priority_value, percent;
 	CalComponentClassification classification;
 	char *url;
 	const char *status_string;
+	char *str;
 	
 	priv = tedit->priv;
 	comp = priv->comp;
 
 	/* Summary. */
-	text = g_new0 (CalComponentText, 1);
-	text->value = e_dialog_editable_get (priv->summary);
-	cal_component_set_summary (comp, text);
 
-	/* Description. Note that we use the text variable again, and it is
-	   freed in cal_component_free_text_list(). */
-	list = NULL;
-	text->value  = e_dialog_editable_get (priv->description);
-	list = g_slist_prepend (list, text);
-	cal_component_set_description_list (comp, list);
-	cal_component_free_text_list (list);
+	str = e_dialog_editable_get (priv->summary);
+	if (!str || strlen (str) == 0)
+		cal_component_set_summary (comp, NULL);
+	else {
+		CalComponentText text;
+
+		text.value = str;
+		text.altrep = NULL;
+
+		cal_component_set_summary (comp, &text);
+	}
+
+	if (str)
+		g_free (str);
+
+	/* Description */
+
+	str = e_dialog_editable_get (priv->description);
+	if (!str || strlen (str) == 0)
+		cal_component_set_description_list (comp, NULL);
+	else {
+		GSList l;
+		CalComponentText text;
+
+		text.value = str;
+		text.altrep = NULL;
+		l.data = &text;
+		l.next = NULL;
+
+		cal_component_set_description_list (comp, &l);
+	}
 	
+	if (!str)
+		g_free (str);
+
+	/* Dates */
 
 	date.value = g_new (struct icaltimetype, 1);
 	date.tzid = NULL;
@@ -929,8 +953,8 @@ dialog_to_comp_object (TaskEditor *tedit)
 	url = e_dialog_editable_get (priv->url);
 	cal_component_set_url (comp, url);
 
-
-
+	if (url)
+		g_free (url);
 
 	cal_component_commit_sequence (comp);
 }

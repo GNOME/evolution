@@ -1,5 +1,13 @@
 2000-12-08  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/event-editor.c (dialog_to_comp_object): Free the strings we
+	get from the editables.
+
+	* gui/dialogs/task-editor.c (dialog_to_comp_object): Likewise.
+	This sucks; this code should be shared between the two dialogs.
+
+2000-12-08  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/event-editor.c (fill_widgets): Free the dates we get from
 	the component.
 

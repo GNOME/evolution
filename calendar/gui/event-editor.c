@@ -2150,7 +2150,7 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 	/* Summary */
 
 	str = e_dialog_editable_get (priv->general_summary);
-	if (strlen (str) == 0)
+	if (!str || strlen (str) == 0)
 		cal_component_set_summary (comp, NULL);
 	else {
 		CalComponentText text;
@@ -2161,10 +2161,13 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 		cal_component_set_summary (comp, &text);
 	}
 
+	if (str)
+		g_free (str);
+
 	/* Description */
 
 	str = e_dialog_editable_get (priv->description);
-	if (strlen (str) == 0)
+	if (!str || strlen (str) == 0)
 		cal_component_set_description_list (comp, NULL);
 	else {
 		GSList l;
@@ -2177,7 +2180,9 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 
 		cal_component_set_description_list (comp, &l);
 	}
-	/* FIXME: Do we need to free str?? */
+	
+	if (!str)
+		g_free (str);
 
 	/* Dates */
 	
