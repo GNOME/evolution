@@ -26,6 +26,9 @@
 #include <camel/camel-session.h>
 #include <camel/camel-exception.h>
 
+/* FIXME: camelise */
+#include "e-util/e-msgport.h"
+
 struct _CamelStream;
 struct _CamelMimePart;
 
@@ -66,6 +69,10 @@ enum _camel_cipher_validity_encrypt_t {
 };
 
 struct _CamelCipherValidity {
+	struct _CamelCipherValidity *next;
+	struct _CamelCipherValidity *prev;
+	EDList children;
+
 	struct {
 		enum _camel_cipher_validity_sign_t status;
 		char *description;

@@ -1,3 +1,15 @@
+2003-11-25  Not Zed  <NotZed@Ximian.com>
+
+	* camel-cipher-context.c (camel_cipher_validity_envelope): change
+	args to make it suit storing the validity in a tree.
+	(camel_cipher_validity_init): init the list header.
+	(camel_cipher_validity_clone): call validity_new so it gets init
+	properly.
+	(camel_cipher_validity_free): free any children nodes recursively.
+
+	* camel-cipher-context.h (CamelCipherValidity): added next/prev
+	and list header.
+
 2003-11-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-session.c (camel_session_finalise): Don't destroy the

@@ -357,6 +357,7 @@ camel_cipher_validity_init (CamelCipherValidity *validity)
 	g_assert (validity != NULL);
 
 	memset(validity, 0, sizeof(*validity));
+	e_dlist_init(&validity->children);
 }
 
 gboolean
@@ -407,7 +408,7 @@ camel_cipher_validity_clone(CamelCipherValidity *vin)
 {
 	CamelCipherValidity *vo;
 
-	vo = g_malloc0(sizeof(*vo));
+	vo = camel_cipher_validity_new();
 	vo->sign.status = vin->sign.status;
 	vo->sign.description = g_strdup(vin->sign.description);
 	vo->encrypt.status = vin->encrypt.status;
@@ -425,22 +426,22 @@ camel_cipher_validity_clone(CamelCipherValidity *vin)
  * another one.
  **/
 void
-camel_cipher_validity_envelope(CamelCipherValidity *valid, CamelCipherValidity *outer)
+camel_cipher_validity_envelope(CamelCipherValidity *parent, CamelCipherValidity *valid)
 {
-	if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE
-	    && valid->encrypt.status == CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
-	    && outer->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NONE
-	    && outer->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
+	if (parent->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE
+	    && parent->encrypt.status == CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
+	    && valid->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NONE
+	    && valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
 		/* case 1: only signed inside only encrypted -> merge both */
-		valid->encrypt.status = outer->encrypt.status;
-		valid->encrypt.description = g_strdup(outer->encrypt.description);
-	} else if (valid->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NONE
-		   && valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
-		   && outer->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE
-		   && outer->encrypt.status == CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
+		parent->encrypt.status = valid->encrypt.status;
+		parent->encrypt.description = g_strdup(valid->encrypt.description);
+	} else if (parent->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_NONE
+		   && parent->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE
+		   && valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE
+		   && valid->encrypt.status == CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
 		/* case 2: only encrypted inside only signed */
-		valid->sign.status = outer->sign.status;
-		valid->sign.description = g_strdup(outer->sign.description);
+		parent->sign.status = valid->sign.status;
+		parent->sign.description = g_strdup(valid->sign.description);
 	}
 	/* Otherwise, I dunno - what do you do? */
 }
@@ -448,8 +449,13 @@ camel_cipher_validity_envelope(CamelCipherValidity *valid, CamelCipherValidity *
 void
 camel_cipher_validity_free (CamelCipherValidity *validity)
 {
+	CamelCipherValidity *child;
+
 	if (validity == NULL)
 		return;
+
+	while ((child = (CamelCipherValidity *)e_dlist_remhead(&validity->children)))
+		camel_cipher_validity_free(child);
 
 	camel_cipher_validity_clear(validity);
 	g_free(validity);
