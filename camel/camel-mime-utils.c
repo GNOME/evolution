@@ -2330,10 +2330,9 @@ header_decode_mailbox(const char **in)
 		inptr++;
 		g_free(pre);
 		pre = header_decode_word(&inptr);
-		if (pre) {
-			addr = g_string_append_c(addr, '.');
+		addr = g_string_append_c(addr, '.');
+		if (pre)
 			addr = g_string_append(addr, pre);
-		}
 		comment = inptr;
 		header_decode_lwsp(&inptr);
 	}
@@ -2352,10 +2351,41 @@ header_decode_mailbox(const char **in)
 	} else {
 		/* If we get a <, the address was probably a name part, lets try again shall we? */
 		/* Another fix for seriously-broken-mailers */
-		if (name == NULL && *inptr == '<') {
-			name = addr;
-			addr = g_string_new("");
-			closeme = TRUE;
+		if (*inptr && *inptr != ',') {
+			char *text;
+
+			g_warning("We didn't get an '@' where we expected in '%s', trying again", *in);
+			g_warning("Name is '%s', Addr is '%s' we're at '%s'\n", name?name->str:"<UNSET>", addr->str, inptr);
+
+			/* need to keep *inptr, as try_address_again will drop the current character */
+			if (*inptr == '<')
+				closeme = TRUE;
+			else
+				g_string_append_c(addr, *inptr);
+
+			/* check for address is encoded word ... */
+			text = header_decode_string(addr->str, NULL);
+			if (name == NULL) {
+				name = addr;
+				addr = g_string_new("");
+				if (text) {
+					g_string_truncate(name, 0);
+					g_string_append(name, text);
+				}
+			} else {
+				g_string_append(name, text?text:addr->str);
+				g_string_truncate(addr, 0);
+			}
+			g_free(text);
+
+			/* or maybe that we've added up a bunch of broken bits to make an encoded word */
+			text = header_decode_string(name->str, NULL);
+			if (text) {
+				g_string_truncate(name, 0);
+				g_string_append(name, text);
+				g_free(text);
+			}
+
 			goto try_address_again;
 		}
 		w(g_warning("invalid address, no '@' domain part at %c: %s", *inptr, *in));
