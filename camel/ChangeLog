@@ -1,3 +1,13 @@
+2003-05-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Workaround for POS mailers like the one in bug #42045.
+
+	* camel-mime-utils.c (header_decode_date): Make sure the numeric
+	timezone is between -1200 and 1200, otherwise it is invalid.
+
+	* broken-date-parser.c (get_tzone): Make sure the numeric timezone
+	is between -1200 and 1200, otherwise it is invalid.
+
 2003-04-29  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (camel_lock_helper_SOURCES): Remove camel-lock.c
