@@ -33,10 +33,16 @@ module Calendar {
 
 	/* Listener for changes in a calendar */
 	interface Listener : Unknown {
+		/* Return status when loading a calendar; we need better error reporting */
+		enum LoadStatus {
+			SUCESSS,
+			ERROR
+		};
+
 		/* Called from a CalFactory when a calendar is initially loaded
 		 * or created.  The listener must remember the cal object.  
 		 */
-		void cal_loaded (in Cal cal);
+		void cal_loaded (in LoadStatus status, in Cal cal);
 
 		/* Called from a Calendar when an object is added */
 		void obj_added (in CalObj calobj);

@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include "cal-backend.h"
 #include "cal-factory.h"
 #include "job.h"
 
@@ -27,7 +28,7 @@
 
 /* Private part of the CalFactory structure */
 typedef struct {
-	/* Hash table from GnomeVFSURI structures to loaded calendars */
+	/* Hash table from GnomeVFSURI structures to CalBackend objects */
 	GHashTable *calendars;
 } CalFactoryPrivate;
 
@@ -215,7 +216,33 @@ lookup_calendar (CalFactory *factory, GnomeVFSURI *uri)
 static void
 load_calendar (CalFactory *factory, GnomeVFSURI *uri, GNOME_Calendar_Listener listener)
 {
-	/* FIXME */
+	CalFactoryPrivate *priv;
+	CalBackend *backend;
+	CalBackendLoadStatus status;
+
+	priv = factory->priv;
+
+	backend = cal_backend_new ();
+	if (!backend) {
+		CORBA_Environment ev;
+
+		g_message ("load_calendar(): could not create the backend");
+
+		CORBA_exception_init (&ev);
+		GNOME_Calendar_Listener_cal_loaded (listener,
+						    GNOME_Calendar_Listener_ERROR,
+						    CORBA_OBJECT_NIL,
+						    &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_message ("load_calendar(): could not notify the listener");
+			CORBA_exception_free (&ev);
+			gtk_object_unref (backend);
+			return;
+		}
+		CORBA_exception_free (&ev);
+	}
+
+	status = cal_backend_load (backend, uri);
 }
 
 /* Adds a listener to a calendar */
@@ -250,9 +277,14 @@ load_fn (gpointer data)
 	g_free (jd->uri);
 
 	CORBA_exception_init (&ev);
-	GNOME_Unknown_unref (jd->listener, &ev);
 	CORBA_Object_release (jd->listener, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("load_fn(): could not release the listener");
+
 	CORBA_exception_free (&ev);
+
+	/* Done */
 
 	g_free (jd);
 }
@@ -303,6 +335,7 @@ cal_factory_corba_object_create (GnomeObject *object)
 
 	CORBA_exception_init (&ev);
 	POA_GNOME_Calendar_CalFactory__init ((PortableServer_Servant) servant, &ev);
+
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("cal_factory_corba_object_create(): could not init the servant");
 		g_free (servant);
@@ -334,16 +367,16 @@ cal_factory_new (void)
 	factory = gtk_type_new (CAL_FACTORY_TYPE);
 
 	corba_factory = cal_factory_corba_object_create (GNOME_OBJECT (factory));
+
 	CORBA_exception_init (&ev);
 	retval = CORBA_Object_is_nil (corba_factory, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION || retval) {
-		g_message ("cal_factory_new(): could not create the CORBA object");
+		g_message ("cal_factory_new(): could not create the CORBA factory");
 		gtk_object_unref (factory);
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
-
 	CORBA_exception_free (&ev);
 
 	return cal_factory_construct (factory, corba_factory);
@@ -357,8 +390,8 @@ cal_factory_load (CalFactory *factory, const char *uri, GNOME_Calendar_Listener 
 	GNOME_Calendar_Listener listener_copy;
 
 	CORBA_exception_init (&ev);
-
 	listener_copy = CORBA_Object_duplicate (listener, &ev);
+
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("cal_factory_load(): could not duplicate the listener");
 		CORBA_exception_free (&ev);

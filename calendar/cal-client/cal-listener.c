@@ -45,6 +45,8 @@ static void cal_listener_class_init (CalListenerClass *class);
 static void cal_listener_init (CalListener *listener);
 static void cal_listener_destroy (GtkObject *object);
 
+static void marshal_cal_loaded (GtkObject *object, GtkSignalFunc func, gpointer data, GtkArg *args);
+
 static POA_GNOME_Calendar_Listener__vepv cal_listener_vepv;
 
 static guint cal_listener_signals[LAST_SIGNAL];
@@ -108,8 +110,9 @@ cal_listener_class_init (CalListenerClass *class)
 				GTK_RUN_FIRST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (CalListenerClass, cal_loaded),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
+				marshal_cal_loaded,
+				GTK_TYPE_NONE, 2,
+				GTK_TYPE_ENUM,
 				GTK_TYPE_POINTER);
 	cal_listener_signals[OBJ_ADDED] =
 		gtk_signal_new ("obj_added",
@@ -155,20 +158,6 @@ cal_listener_init (CalListener *listener)
 	priv->cal = CORBA_OBJECT_NIL;
 }
 
-/* Returns whether a CORBA object is nil */
-static gboolean
-corba_object_is_nil (CORBA_Object object)
-{
-	CORBA_Environment ev;
-	gboolean retval;
-
-	CORBA_exception_init (&ev);
-	retval = CORBA_Object_is_nil (object, &ev);
-	CORBA_exception_free (&ev);
-
-	return retval;
-}
-
 /* Destroy handler for the calendar listener */
 static void
 cal_listener_destroy (GtkObject *object)
@@ -176,6 +165,7 @@ cal_listener_destroy (GtkObject *object)
 	CalListener *listener;
 	CalListenerPrivate *priv;
 	CORBA_Environment ev;
+	gboolean result;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_CAL_LISTENER (object));
@@ -184,11 +174,20 @@ cal_listener_destroy (GtkObject *object)
 	priv = listener->priv;
 
 	CORBA_exception_init (&ev);
+	result = CORBA_Object_is_nil (priv->cal, &ev);
 
-	if (!CORBA_Object_is_nil (priv->cal, &ev)) {
-		GNOME_Unknown_unref (priv->cal, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("cal_listener_destroy(): could not see if the calendar was NIL");
+	else if (!result) {
+		CORBA_exception_free (&ev);
+
+		CORBA_exception_init (&ev);
 		CORBA_Object_release (priv->cal, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("cal_listener_destroy(): could not release the calendar");
 	}
+	CORBA_exception_free (&ev);
 
 	g_free (priv);
 
@@ -198,24 +197,72 @@ cal_listener_destroy (GtkObject *object)
 
 
 
+/* Marshalers */
+
+typedef void (* CalLoadedFunc) (GtkObject *object, gint status, gpointer cal, gpointer data);
+
+static void
+marshal_cal_loaded (GtkObject *object, GtkSignalFunc func, gpointer data, GtkArg *args)
+{
+	CalLoadedFunc rfunc;
+
+	rfunc = (CalLoadedFunc) func;
+	(* rfunc) (object, GTK_VALUE_ENUM (args[0]), GTK_VALUE_POINTER (args[1]), data);
+}
+
+
+
 /* CORBA servant implementation */
 
 /* Listener::cal_loaded method */
 static void
 Listener_cal_loaded (PortableServer_Servant servant,
+		     GNOME_Calendar_Listener_LoadStatus status,
 		     GNOME_Calendar_Cal cal,
 		     CORBA_Environment *ev)
 {
 	CalListener *listener;
 	CalListenerPrivate *priv;
+	CORBA_Environment aev;
+	GNOME_Calendar_Cal cal_copy;
+	CalListenerLoadStatus load_status;
 
 	listener = CAL_LISTENER (gnome_object_from_servant (servant));
 	priv = listener->priv;
 
-	priv->cal = CORBA_Object_duplicate (cal, ev);
-	GNOME_Unknown_ref (priv->cal);
+	if (priv->cal != CORBA_OBJECT_NIL) {
+		g_message ("Listener_cal_loaded(): calendar was already loaded!");
+		return;
+	}
+
+	CORBA_exception_init (&aev);
+	cal_copy = CORBA_Object_duplicate (cal, &aev);
+
+	if (aev._major != CORBA_NO_EXCEPTION) {
+		g_message ("Listener_cal_loaded(): could not duplicate the calendar");
+		CORBA_exception_free (&aev);
+		return;
+	}
+	CORBA_exception_free (&aev);
+
+	priv->cal = cal_copy;
+
+	switch (status) {
+	GNOME_Calendar_Listener_SUCESSS:
+		load_status = CAL_LISTENER_LOAD_SUCCESS;
+		break;
+
+	GNOME_Calendar_Listener_ERROR:
+		load_status = CAL_LISTENER_LOAD_ERROR;
+		break;
+
+	default:
+		load_status = CAL_LISTENER_LOAD_ERROR; /* keep gcc happy */
+		g_assert_not_reached ();
+	}
+
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[CAL_LOADED],
-			 cal);
+			 load_status, cal);
 }
 
 /* Listener::obj_added method */
@@ -281,20 +328,6 @@ cal_listener_get_epv (void)
 
 
 
-/* Returns whether a CORBA object is nil */
-static gboolean
-corba_object_is_nil (CORBA_Object object)
-{
-	CORBA_Environment ev;
-	gboolean retval;
-
-	CORBA_exception_init (&ev);
-	retval = CORBA_Object_is_nil (object, &ev);
-	CORBA_exception_free (&ev);
-
-	return retval;
-}
-
 /**
  * cal_listener_construct:
  * @listener: A calendar listener.
@@ -310,7 +343,6 @@ cal_listener_construct (CalListener *listener, GNOME_Calendar_Listener corba_lis
 {
 	g_return_val_if_fail (listener != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_LISTENER (listener), NULL);
-	g_return_val_if_fail (!corba_object_is_nil (corba_listener), NULL);
 
 	gnome_object_construct (GNOME_OBJECT (listener), corba_listener);
 	return listener;
@@ -363,14 +395,24 @@ CalListener *
 cal_listener_new (void)
 {
 	CalListener *listener;
+	CORBA_Environment ev;
 	GNOME_Calendar_Listener corba_listener;
+	gboolean result;
 
 	listener = gtk_type_new (CAL_LISTENER_TYPE);
+
 	corba_listener = cal_listener_corba_object_create (GNOME_OBJECT (listener));
-	if (corba_object_is_nil (corba_listener)) {
+
+	CORBA_exception_init (&ev);
+	result = CORBA_Object_is_nil (corba_listener, &ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION || result) {
+		g_message ("cal_listener_new(): could not create the CORBA listener");
 		gtk_object_destroy (listener);
+		CORBA_exception_free (&ev);
 		return NULL;
 	}
+	CORBA_exception_free (&ev);
 
 	return cal_listener_construct (listener, corba_listener);
 }

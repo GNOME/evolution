@@ -1,3 +1,23 @@
+2000-01-22  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-backend.c (cal_backend_load): Take in a GnomeVFSURI, not a
+	string.
+
+	* cal-listener.c (Listener_cal_loaded): Pass the load status to
+	the signal.
+	(cal_listener_destroy): Better error checking.
+	(cal_listener_new): Better error checking.
+
+	* cal-listener.h (CalListenerLoadStatus): New enum for the load
+	status of a calendar.
+	(CalListenerClass): Added the status argument to the cal_loaded
+	signal.
+
+	* gnome-calendar.idl (cal_loaded): Added a load status code.
+
+	* cal-backend.h (CalBackendLoadStatus): Renamed from
+	CalBackendLoadResult.
+
 2000-01-18  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-backend.c cal-backend.h: Moved the calendar backend here.

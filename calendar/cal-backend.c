@@ -303,40 +303,35 @@ cal_backend_add_cal (CalBackend *backend, Cal *cal)
 /**
  * cal_backend_load:
  * @backend: A calendar backend.
- * @str_uri: URI that contains the calendar data.
+ * @uri: URI that contains the calendar data.
  *
  * Loads a calendar backend with data from a calendar stored at the specified
  * URI.
  *
- * Return value: An operation result code.
+ * Return value: An operation status code.
  **/
-CalBackendLoadResult
-cal_backend_load (CalBackend *backend, char *str_uri)
+CalBackendLoadStatus
+cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 {
 	CalBackendPrivate *priv;
-	GnomeVFSURI *uri;
 	VObject *vobject;
 
 	g_return_val_if_fail (backend != NULL, CAL_BACKEND_LOAD_ERROR);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_LOAD_ERROR);
-	g_return_val_if_fail (str_uri != NULL, CAL_BACKEND_LOAD_ERROR);
+	g_return_val_if_fail (uri != NULL, CAL_BACKEND_LOAD_ERROR);
 
 	priv = backend->priv;
 	g_return_val_if_fail (!priv->loaded, CAL_BACKEND_LOAD_ERROR);
 
-	uri = gnome_vfs_uri_new (str_uri);
-	if (!uri)
-		return CAL_BACKEND_LOAD_ERROR;
-
 	vobject = Parse_MIME_FromURI (uri);
-	if (!vobject) {
-		gnome_vfs_uri_unref (uri);
+	if (!vobject)
 		return CAL_BACKEND_LOAD_ERROR;
-	}
 
 	load_from_vobject (backend, vobject);
 	cleanVObject (vobject);
 	cleanStrTbl ();
+
+	gnome_vfs_uri_ref (uri);
 
 	priv->uri = uri;
 	priv->loaded = TRUE;

@@ -40,6 +40,12 @@ BEGIN_GNOME_DECLS
 typedef struct _CalListener CalListener;
 typedef struct _CalListenerClass CalListenerClass;
 
+/* Load status for the cal_loaded signal.  We need better error reporting. */
+typedef enum {
+	CAL_LISTENER_LOAD_SUCCESS,
+	CAL_LISTENER_LOAD_ERROR
+} CalListenerLoadStatus;
+
 struct _CalListener {
 	GnomeObject object;
 
@@ -50,7 +56,9 @@ struct _CalListener {
 struct _CalListenerClass {
 	GnomeObjectClass parent_class;
 
-	void (* cal_loaded) (CalListener *listener, GNOME_Calendar_Cal cal);
+	void (* cal_loaded) (CalListener *listener,
+			     CalListenerLoadStatus status,
+			     GNOME_Calendar_Cal cal);
 	void (* obj_added) (CalListener *listener, GNOME_Calendar_CalObj calobj);
 	void (* obj_removed) (CalListener *listener, GNOME_Calendar_CalObjUID uid);
 	void (* obj_changed) (CalListener *listener, GNOME_Calendar_CalObj calobj);

@@ -41,7 +41,7 @@ BEGIN_GNOME_DECLS
 typedef enum {
 	CAL_BACKEND_LOAD_SUCCESS,		/* Loading OK */
 	CAL_BACKEND_LOAD_ERROR			/* We need better error reporting in libversit */
-} CalBackendLoadResult;
+} CalBackendLoadStatus;
 
 struct _CalBackend {
 	GtkObject object;
@@ -62,7 +62,7 @@ GnomeVFSURI *cal_backend_get_uri (CalBackend *backend);
 
 void cal_backend_add_cal (CalBackend *backend, Cal *cal);
 
-CalBackendLoadResult cal_backend_load (CalBackend *backend, char *str_uri);
+CalBackendLoadStatus cal_backend_load (CalBackend *backend, GnomeVFSURI *uri);
 
 
 
