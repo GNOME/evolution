@@ -606,29 +606,28 @@ mail_config_get_default_account (void)
 	uid = gconf_client_get_string (config->gconf, "/apps/evolution/mail/default_account", NULL);
 	
 	iter = e_list_get_iterator ((EList *) config->accounts);
-	
-	while (e_iterator_is_valid (iter)) {
-		account = (EAccount *) e_iterator_get (iter);
-		
-		if (!strcmp (account->uid, uid)) {
-			g_object_unref (iter);
-			g_free (uid);
+	if (uid != NULL) {
+		while (e_iterator_is_valid (iter)) {
+			account = (EAccount *) e_iterator_get (iter);
 			
-			return account;
+			if (!strcmp (account->uid, uid)) {
+				g_object_unref (iter);
+				g_free (uid);
+				
+				return account;
+			}
+			
+			e_iterator_next (iter);
 		}
 		
-		e_iterator_next (iter);
+		g_free (uid);
 	}
 	
-	if (account == NULL) {
-		/* Looks like we have no default, so make the first account
-		   the default */
-		e_iterator_reset (iter);
-		account = (EAccount *) e_iterator_get (iter);
-		
-		gconf_client_set_string (config->gconf, "/apps/evolution/mail/default_account", account->uid, NULL);
-	}
-	
+	/* Looks like we have no default, so make the first account
+	   the default */
+	e_iterator_reset (iter);
+	account = (EAccount *) e_iterator_get (iter);
+	gconf_client_set_string (config->gconf, "/apps/evolution/mail/default_account", account->uid, NULL);
 	g_object_unref (iter);
 	
 	return account;
