@@ -5,8 +5,8 @@
 	our GPtrArray, allowing us to limit resource consumption which
 	could otherwise get quite large. Also added a ChangeInfo member
 	that was needed for changes to untagged_fetch_all().
-	(imap4_fetch_all_add): Use fetch->first as a base offset and change
-	int i to guint32 i. Also updated to sue the fetch->changes.
+	(imap4_fetch_all_add): Use fetch->first as a base offset and
+	change int i to guint32 i. Also updated to sue the fetch->changes.
 	(imap4_fetch_all_update): Same.
 	(untagged_fetch_all): Same - this is where it is really valuable,
 	since we can avoid adding elements to the GPtrArray that we won't
@@ -16,6 +16,12 @@
 	(imap4_fetch_all_free): Free the ChangeInfo.
 	(imap4_summary_fetch_all): Init fetch->changes and fetch->first.
 	(imap4_summary_fetch_flags): Same.
+	(camel_imap4_summary_flush_updates): Only request envelope info if
+	first <= summary->exists. Avoids needless queries.
+	(info_uid_sort): #if 0'd
+	(camel_imap4_summary_flush_updates): No need to sort the summary -
+	this should never have been needed. I can't remember why I did
+	this...
 
 2004-06-15  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -1163,7 +1163,7 @@ camel_imap4_summary_expunge (CamelFolderSummary *summary, int seqid)
 	camel_folder_change_info_free (changes);
 }
 
-
+#if 0
 static int
 info_uid_sort (const CamelMessageInfo **info0, const CamelMessageInfo **info1)
 {
@@ -1177,6 +1177,7 @@ info_uid_sort (const CamelMessageInfo **info0, const CamelMessageInfo **info1)
 	
 	return uid0 < uid1 ? -1 : 1;
 }
+#endif
 
 int
 camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *ex)
@@ -1218,7 +1219,7 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 		first = scount + 1;
 	}
 	
-	if (first != 0 && imap4_summary->exists > 0) {
+	if (first != 0 && first <= imap4_summary->exists) {
 		ic = imap4_summary_fetch_all (summary, first, 0);
 		
 		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
@@ -1234,8 +1235,13 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 		imap4_fetch_all_add (ic->user_data);
 		camel_imap4_command_unref (ic);
 		
+#if 0
+		/* Note: this should not be needed - the code that adds envelopes to the summary
+		 * adds them in proper order */
+		
 		/* it's important for these to be sorted sequentially for EXPUNGE events to work */
 		g_ptr_array_sort (summary->messages, (GCompareFunc) info_uid_sort);
+#endif
 	}
 	
 	imap4_summary->update_flags = FALSE;
