@@ -1,3 +1,10 @@
+2004-01-19  JP Rosevear <jpr@ximian.com>
+
+	* gui/tasks-component.c (update_primary_selection): handle the
+	case where we have a bogus uid
+
+	* gui/calendar-component.c (update_primary_selection): ditto
+	
 2004-01-19  Radek Doulik  <rodo@ximian.com>
 
 	* gui/print.c (print_day_add_event): uncomment and use

@@ -251,7 +251,7 @@ static void
 update_primary_selection (TasksComponent *component)
 {
 	TasksComponentPrivate *priv;
-	ESource *source;
+	ESource *source = NULL;
 	char *uid;
 
 	priv = component->priv;
@@ -260,7 +260,9 @@ update_primary_selection (TasksComponent *component)
 	if (uid) {
 		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
 		g_free (uid);
+	}
 	
+	if (source) {
 		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
 	} else {
 		ESource *source;
