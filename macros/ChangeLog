@@ -1,3 +1,7 @@
+Mon Mar  9 19:32:42 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* gnome-support.m4: Build vsnprintf.o, not vsnprint.o.
+
 1998-03-09  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-support.m4: Add check for `vsnprintf'.

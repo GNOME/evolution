@@ -28,7 +28,8 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
 
   AC_CHECK_FUNCS(vsnprintf,,[
     AC_CHECK_FUNCS(__vsnprintf,
-      LIBOBJS="$LIBOBJS easy-vsnprintf.o",LIBOBJS="$LIBOBJS vsnprint.o")])
+      LIBOBJS="$LIBOBJS easy-vsnprintf.o",
+      LIBOBJS="$LIBOBJS vsnprintf.o")])
 
   AC_REPLACE_FUNCS(strtok_r strcasecmp strndup strnlen)
 
