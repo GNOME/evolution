@@ -54,6 +54,7 @@ camel_mime_filter_basic_init (CamelMimeFilterBasic *obj)
 {
 	obj->state = 0;
 	obj->save = 0;
+	obj->uulen = 0;
 }
 
 
@@ -82,6 +83,7 @@ reset(CamelMimeFilter *mf)
 	CamelMimeFilterBasic *f = (CamelMimeFilterBasic *)mf;
 	
 	f->uu_begin = FALSE;
+	f->uulen = 0;
 	
 	switch(f->type) {
 	case CAMEL_MIME_FILTER_BASIC_QP_ENC:
@@ -181,6 +183,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 		camel_mime_filter_set_size (mf, (len + 2) * 2 + 62, FALSE);
 		newlen = uuencode_step (in, len, mf->outbuf, f->uubuf, &f->state, &f->save, &f->uulen);
 		g_assert (newlen <= (len + 2) * 2 + 62);
+		break;
 	case CAMEL_MIME_FILTER_BASIC_BASE64_DEC:
 		/* output can't possibly exceed the input size */
 		camel_mime_filter_set_size(mf, len+3, FALSE);

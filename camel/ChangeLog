@@ -1,5 +1,15 @@
 2002-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-filter-basic.c (filter): If we don't want to corrupt
+	the uuencoded data by overwriting it with base64 decoded data
+	afterward, we need to add a break statement!
+
+	* camel-folder-summary.c (summary_build_content_info): Add code to
+	add a uu filter.
+	(camel_folder_summary_finalize): Unref the uuencode filter.
+
+2002-01-16  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-mime-filter-basic.c (filter): Fixed slight logic error to
 	find the uuencode begin line. Fixes bug #18754.
 

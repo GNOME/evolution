@@ -142,6 +142,7 @@ struct _CamelFolderSummaryPrivate {
 	struct _CamelMimeFilterIndex *filter_index;
 	struct _CamelMimeFilterBasic *filter_64;
 	struct _CamelMimeFilterBasic *filter_qp;
+	struct _CamelMimeFilterBasic *filter_uu;
 	struct _CamelMimeFilterSave *filter_save;
 	struct _CamelMimeFilterHTML *filter_html;
 

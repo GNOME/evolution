@@ -207,6 +207,8 @@ camel_folder_summary_finalize (CamelObject *obj)
 		camel_object_unref((CamelObject *)p->filter_64);
 	if (p->filter_qp)
 		camel_object_unref((CamelObject *)p->filter_qp);
+	if (p->filter_uu)
+		camel_object_unref((CamelObject *)p->filter_uu);
 	if (p->filter_save)
 		camel_object_unref((CamelObject *)p->filter_save);
 	if (p->filter_html)
@@ -1904,6 +1906,13 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 					else
 						camel_mime_filter_reset((CamelMimeFilter *)p->filter_qp);
 					enc_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_qp);
+				} else if (!strcasecmp (encoding, "x-uuencode")) {
+					d(printf(" decoding x-uuencode\n"));
+					if (p->filter_uu == NULL)
+						p->filter_uu = camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_UU_DEC);
+					else
+						camel_mime_filter_reset((CamelMimeFilter *)p->filter_uu);
+					enc_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_uu);
 				} else {
 					d(printf(" ignoring encoding %s\n", encoding));
 				}
