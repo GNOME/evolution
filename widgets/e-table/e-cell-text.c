@@ -1385,7 +1385,6 @@ ect_show_tooltip (ECellView *ecell_view,
 	gnome_canvas_item_i2c_affine (GNOME_CANVAS_ITEM (tooltip->eti), i2c);
 	art_affine_point (&pixel_origin, &origin, i2c);
 
-	g_print ("%d,%d\n", pixel_origin.x, pixel_origin.y);
 	gdk_window_get_origin (GTK_WIDGET (text_view->canvas)->window,
 			       &canvas_x, &canvas_y);
 	pixel_origin.x += canvas_x;
