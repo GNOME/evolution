@@ -1,3 +1,9 @@
+<<<<<<< ChangeLog
+2005-03-16  Pawan Chitrakar  <pawan@nplinux.org>
+
+	* configure.in: Added ne in ALL_LINGUAS
+
+=======
 2005-03-15  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requires
@@ -10,6 +16,7 @@
  
  	* configure.in: define development as 0
 	
+>>>>>>> 1.1445.2.2
 2005-03-07  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requires
