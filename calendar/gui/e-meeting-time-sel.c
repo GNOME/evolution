@@ -92,6 +92,14 @@ const gchar *EMeetingTimeSelectorHours12[24] = {
 /* This is the maximum scrolling speed. */
 #define E_MEETING_TIME_SELECTOR_MAX_SCROLL_SPEED	4
 
+/* Signals */
+enum {
+	CHANGED,
+	LAST_SIGNAL
+};
+
+
+static gint mts_signals [LAST_SIGNAL] = { 0 };
 
 static void e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass);
 static void e_meeting_time_selector_init (EMeetingTimeSelector * mts);
@@ -238,9 +246,19 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass)
 	GtkWidgetClass *widget_class;
 
 	parent_class = gtk_type_class (gtk_table_get_type());
-
 	object_class = (GtkObjectClass *) klass;
 	widget_class = (GtkWidgetClass *) klass;
+
+	mts_signals [CHANGED] = 
+		gtk_signal_new ("changed", GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMeetingTimeSelectorClass, 
+						   changed),
+				gtk_signal_default_marshaller,
+				GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, mts_signals,
+				      LAST_SIGNAL);
 
 	object_class->destroy = e_meeting_time_selector_destroy;
 
@@ -691,8 +709,10 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	e_meeting_time_selector_recalc_grid (mts);
 	e_meeting_time_selector_ensure_meeting_time_shown (mts);
 	e_meeting_time_selector_update_start_date_edit (mts);
-	e_meeting_time_selector_update_end_date_edit (mts);
+	e_meeting_time_selector_update_end_date_edit (mts);	
 	e_meeting_time_selector_update_date_popup_menus (mts);
+
+	gtk_signal_emit (GTK_OBJECT (mts), mts_signals [CHANGED]);
 }
 
 
@@ -1092,11 +1112,35 @@ e_meeting_time_selector_set_meeting_time (EMeetingTimeSelector *mts,
 	gtk_widget_queue_draw (mts->display_top);
 	gtk_widget_queue_draw (mts->display_main);
 
-	/* Set the times in the GnomeDateEdit widgets. */
+	/* Set the times in the EDateEdit widgets. */
 	e_meeting_time_selector_update_start_date_edit (mts);
 	e_meeting_time_selector_update_end_date_edit (mts);
 
+	gtk_signal_emit (GTK_OBJECT (mts), mts_signals [CHANGED]);
+
 	return TRUE;
+}
+
+void
+e_meeting_time_selector_set_all_day (EMeetingTimeSelector *mts,
+				     gboolean all_day)
+{
+	EMeetingTime saved_time;
+
+	mts->all_day = all_day;
+	
+	e_date_edit_set_show_time (E_DATE_EDIT (mts->start_date_edit),
+				   !all_day);
+	e_date_edit_set_show_time (E_DATE_EDIT (mts->end_date_edit),
+				   !all_day);
+
+	e_meeting_time_selector_save_position (mts, &saved_time);
+	e_meeting_time_selector_recalc_grid (mts);
+	e_meeting_time_selector_restore_position (mts, &saved_time);
+
+	gtk_widget_queue_draw (mts->display_top);
+	gtk_widget_queue_draw (mts->display_main);
+	e_meeting_time_selector_update_date_popup_menus (mts);
 }
 
 
@@ -1484,7 +1528,7 @@ e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
 
 	/* Get the current meeting duration in days + hours + minutes. */
 	e_meeting_time_selector_calculate_time_difference (&mts->meeting_start_time, &mts->meeting_end_time, &duration_days, &duration_hours, &duration_minutes);
-
+	
 	/* Find the first appropriate start time. */
 	start_time = mts->meeting_start_time;
 	if (forward)
@@ -1575,9 +1619,12 @@ e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
 			/* Make sure the time is shown. */
 			e_meeting_time_selector_ensure_meeting_time_shown (mts);
 
-			/* Set the times in the GnomeDateEdit widgets. */
+			/* Set the times in the EDateEdit widgets. */
 			e_meeting_time_selector_update_start_date_edit (mts);
 			e_meeting_time_selector_update_end_date_edit (mts);
+
+			gtk_signal_emit (GTK_OBJECT (mts), mts_signals [CHANGED]);
+
 			return;
 		}
 
@@ -1622,15 +1669,21 @@ e_meeting_time_selector_find_nearest_interval (EMeetingTimeSelector *mts,
 	gint minutes_shown;
 	gboolean set_to_start_of_working_day = FALSE;
 
-	if (mts->zoomed_out) {
-		start_time->hour++;
-		start_time->minute = 0;
+	if (!mts->all_day) {
+		if (mts->zoomed_out) {
+			start_time->hour++;
+			start_time->minute = 0;
+		} else {
+			start_time->minute += 30;
+			start_time->minute -= start_time->minute % 30;
+		}
 	} else {
-		start_time->minute += 30;
-		start_time->minute -= start_time->minute % 30;
+		g_date_add_days (&start_time->date, 1);
+		start_time->hour = 0;
+		start_time->minute = 0;	
 	}
 	e_meeting_time_selector_fix_time_overflows (start_time);
-
+	
 	*end_time = *start_time;
 	e_meeting_time_selector_adjust_time (end_time, days, hours, mins);
 
@@ -1673,6 +1726,7 @@ e_meeting_time_selector_find_nearest_interval (EMeetingTimeSelector *mts,
 			start_time->minute += 29;
 			start_time->minute -= start_time->minute % 30;
 		}
+		
 		e_meeting_time_selector_fix_time_overflows (start_time);
 
 		*end_time = *start_time;
@@ -1692,25 +1746,31 @@ e_meeting_time_selector_find_nearest_interval_backward (EMeetingTimeSelector *mt
 	gint new_hour, minutes_shown;
 	gboolean set_to_end_of_working_day = FALSE;
 
-	new_hour = start_time->hour;
-	if (mts->zoomed_out) {
-		if (start_time->minute == 0)
-			new_hour--;
-		start_time->minute = 0;
-	} else {
-		if (start_time->minute == 0) {
-			start_time->minute = 30;
-			new_hour--;
-		} else if (start_time->minute <= 30)
+	if (!mts->all_day) {
+		new_hour = start_time->hour;
+		if (mts->zoomed_out) {
+			if (start_time->minute == 0)
+				new_hour--;
 			start_time->minute = 0;
-		else
-			start_time->minute = 30;
-	}
-	if (new_hour < 0) {
-		new_hour += 24;
+		} else {
+			if (start_time->minute == 0) {
+				start_time->minute = 30;
+				new_hour--;
+			} else if (start_time->minute <= 30)
+				start_time->minute = 0;
+			else
+				start_time->minute = 30;
+		}
+		if (new_hour < 0) {
+			new_hour += 24;
+			g_date_subtract_days (&start_time->date, 1);
+		}
+		start_time->hour = new_hour;
+	} else {
 		g_date_subtract_days (&start_time->date, 1);
+		start_time->hour = 0;
+		start_time->minute = 0;	
 	}
-	start_time->hour = new_hour;
 
 	*end_time = *start_time;
 	e_meeting_time_selector_adjust_time (end_time, days, hours, mins);
@@ -1753,7 +1813,7 @@ e_meeting_time_selector_find_nearest_interval_backward (EMeetingTimeSelector *mt
 		} else {
 			start_time->minute -= start_time->minute % 30;
 		}
-
+		
 		*end_time = *start_time;
 		e_meeting_time_selector_adjust_time (end_time, days, hours, mins);
 	}
@@ -2136,7 +2196,7 @@ e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
 	newtime = e_date_edit_get_time (E_DATE_EDIT (mts->end_date_edit));
 	g_date_clear (&mtstime.date, 1);
 	g_date_set_time (&mtstime.date, newtime);
-	if (!e_date_edit_get_show_time (E_DATE_EDIT (mts->end_date_edit)))
+	if (mts->all_day)
 		g_date_add_days (&mtstime.date, 1);
 
 	/* Time */
@@ -2280,7 +2340,7 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 
 	/* Calculate the nearest half-hour or hour, depending on whether
 	   zoomed_out is set. */
-	if (e_date_edit_get_show_time (E_DATE_EDIT (mts->end_date_edit))) {
+	if (!mts->all_day) {
 		if (mts->zoomed_out) {
 			if (drag_time.minute > 30)
 				drag_time.hour++;
@@ -2295,7 +2355,6 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 		drag_time.hour = 0;
 		drag_time.minute = 0;		
 	}
-	
 	e_meeting_time_selector_fix_time_overflows (&drag_time);
 
 	/* Now make sure we are between first_time & last_time. */
@@ -2314,11 +2373,21 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 	if (e_meeting_time_selector_compare_times (time_to_set, &drag_time) == 0)
 		return;
 
+	/* Don't let an empty occur for all day events */
+	if (mts->all_day
+	    && mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_START
+	    && e_meeting_time_selector_compare_times (&mts->meeting_end_time, &drag_time) == 0)
+		return;
+	else if (mts->all_day
+		&& mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_END
+		&& e_meeting_time_selector_compare_times (&mts->meeting_start_time, &drag_time) == 0)
+		return;
+	
 	*time_to_set = drag_time;
 
 	/* Check if the start time and end time need to be switched. */
 	if (e_meeting_time_selector_compare_times (&mts->meeting_start_time,
-						 &mts->meeting_end_time) > 0) {
+						   &mts->meeting_end_time) > 0) {
 		drag_time = mts->meeting_start_time;
 		mts->meeting_start_time = mts->meeting_end_time;
 		mts->meeting_end_time = drag_time;
@@ -2330,6 +2399,7 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 
 		set_both_times = TRUE;
 	}
+	
 
 	/* Mark the calculated positions as invalid. */
 	mts->meeting_positions_valid = FALSE;
@@ -2346,6 +2416,11 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 	if (set_both_times
 	    || mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_END)
 		e_meeting_time_selector_update_end_date_edit (mts);
+
+	if (set_both_times
+	    || mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_END
+	    || mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_START)
+		gtk_signal_emit (GTK_OBJECT (mts), mts_signals [CHANGED]);
 }
 
 
@@ -2460,6 +2535,11 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 	    || mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_END)
 		e_meeting_time_selector_update_end_date_edit (mts);
 
+	if (set_both_times
+	    || mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_END
+	    || mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_START)
+		gtk_signal_emit (GTK_OBJECT (mts), mts_signals [CHANGED]);
+
 	/* Redraw the canvases. We freeze and thaw the layouts so that they
 	   get redrawn completely. Otherwise the pixels get scrolled left or
 	   right which is not good for us (since our vertical bars have been
@@ -2493,13 +2573,12 @@ e_meeting_time_selector_remove_timeout (EMeetingTimeSelector *mts)
 static void
 e_meeting_time_selector_update_start_date_edit (EMeetingTimeSelector *mts)
 {
-	e_date_edit_set_date (E_DATE_EDIT (mts->start_date_edit),
-			      mts->meeting_start_time.date.year,
-			      mts->meeting_start_time.date.month,
-			      mts->meeting_start_time.date.day);
-	e_date_edit_set_time_of_day (E_DATE_EDIT (mts->start_date_edit),
-				     mts->meeting_start_time.hour,
-				     mts->meeting_start_time.minute);
+	e_date_edit_set_date_and_time_of_day (E_DATE_EDIT (mts->start_date_edit),
+					      g_date_year (&mts->meeting_start_time.date),
+					      g_date_month (&mts->meeting_start_time.date),
+					      g_date_day (&mts->meeting_start_time.date),
+					      mts->meeting_start_time.hour,
+					      mts->meeting_start_time.minute);
 }
 
 
@@ -2507,13 +2586,18 @@ e_meeting_time_selector_update_start_date_edit (EMeetingTimeSelector *mts)
 static void
 e_meeting_time_selector_update_end_date_edit (EMeetingTimeSelector *mts)
 {
-	e_date_edit_set_date (E_DATE_EDIT (mts->end_date_edit),
-			      mts->meeting_end_time.date.year,
-			      mts->meeting_end_time.date.month,
-			      mts->meeting_end_time.date.day);
-	e_date_edit_set_time_of_day (E_DATE_EDIT (mts->end_date_edit),
-				     mts->meeting_end_time.hour,
-				     mts->meeting_end_time.minute);
+	GDate date;
+	
+	date = mts->meeting_end_time.date;
+	if (mts->all_day)
+		g_date_subtract_days (&date, 1);
+
+	e_date_edit_set_date_and_time_of_day (E_DATE_EDIT (mts->end_date_edit),
+					      g_date_year (&date),
+					      g_date_month (&date),
+					      g_date_day (&date),
+					      mts->meeting_end_time.hour,
+					      mts->meeting_end_time.minute);
 }
 
 

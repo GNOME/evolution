@@ -183,6 +183,9 @@ struct _EMeetingTimeSelector
 	 * Option Settings.
 	 */
 
+	/* True if we are selecting all day events */
+	gboolean all_day;
+	
 	/* If this is TRUE we only show hours between day_start_hour and
 	   day_end_hour, defaults to TRUE (9am-6pm). */
 	gboolean working_hours_only;
@@ -252,6 +255,8 @@ struct _EMeetingTimeSelector
 struct _EMeetingTimeSelectorClass
 {
 	GtkTableClass parent_class;
+
+	void (* changed) (EMeetingTimeSelector *mts);
 };
 
 
@@ -293,6 +298,8 @@ gboolean e_meeting_time_selector_set_meeting_time (EMeetingTimeSelector *mts,
 						   gint end_hour,
 						   gint end_minute);
 
+void e_meeting_time_selector_set_all_day (EMeetingTimeSelector *mts,
+					  gboolean all_day);
 void e_meeting_time_selector_set_working_hours_only (EMeetingTimeSelector *mts,
 						     gboolean working_hours_only);
 void e_meeting_time_selector_set_working_hours (EMeetingTimeSelector *mts,

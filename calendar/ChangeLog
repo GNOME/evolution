@@ -1,3 +1,36 @@
+2001-11-05  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_class_init):
+	add a changed signal
+	(e_meeting_time_selector_construct): emit changed signal
+	(e_meeting_time_selector_set_meeting_time): ditto
+	(e_meeting_time_selector_set_all_day): set the all day setting
+	(e_meeting_time_selector_autopick): emit changed signal
+	(e_meeting_time_selector_find_nearest_interval): find proper
+	interval when in all day mode
+	(e_meeting_time_selector_find_nearest_interval_backward): ditto
+	(e_meeting_time_selector_drag_meeting_time): for all day events,
+	move the time when past the 12 hour mark, and and always make sure
+	1 full day is selected, emit changed signal when appropriate
+	(e_meeting_time_selector_update_start_date_edit): set date and
+	time of day together
+	(e_meeting_time_selector_update_end_date_edit): ditto, and adjust
+	display time if all day event
+
+	* gui/e-meeting-time-sel-item.c
+	(e_meeting_time_selector_item_draw): remove unused variable
+	(e_meeting_time_selector_item_button_press): for all day mode,
+	make the interval a whole day
+
+	* gui/dialogs/schedule-page.c (update_time): set the meeting time
+	selector setting instead of manual mucking with the e-date-edit
+	widgets
+	(init_widgets): listen to the changed signal of the meeting time
+	selector instead of propagating multiple events as it updates
+
+	* gui/dialogs/event-page.c (update_time): block time zone change
+	signals
+
 2001-11-05  Damon Chaplin  <damon@ximian.com>
 
 	* gui/calendar-model.c (dup_date_edit_value): removed ';' in the wrong

@@ -335,7 +335,6 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		row = y / mts->row_height;
 		row_y = row * mts->row_height - y;
 		while (row < e_meeting_model_count_actual_attendees (mts->model) && row_y < height) {
-			ETable *real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (mts->etable));
 			gint model_row = e_meeting_model_etable_view_to_model_row (mts->model, row);
 
 			ia = e_meeting_model_find_attendee_at_row (mts->model, model_row);
@@ -857,7 +856,7 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 
 	/* Find the nearest half-hour or hour interval, depending on whether
 	   zoomed_out is set. */
-	if (e_date_edit_get_show_time (E_DATE_EDIT (mts->end_date_edit))) {
+	if (!mts->all_day) {
 		if (mts->zoomed_out) {
 			start_time.minute = 0;
 			end_time = start_time;
@@ -871,6 +870,7 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 		start_time.hour = 0;
 		start_time.minute = 0;
 		end_time = start_time;
+		g_date_add_days (&end_time.date, 1);
 	}
 	
 	/* Fix any overflows. */

@@ -86,7 +86,7 @@ static void schedule_page_fill_widgets (CompEditorPage *page, CalComponent *comp
 static gboolean schedule_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
-static void time_changed_cb (GtkWidget *widget, gpointer data);
+static void times_changed_cb (GtkWidget *widget, gpointer data);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -276,11 +276,8 @@ update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponent
 		}
 	}
 
-	e_date_edit_set_show_time (E_DATE_EDIT (priv->sel->start_date_edit),
-				   !all_day);
-	e_date_edit_set_show_time (E_DATE_EDIT (priv->sel->end_date_edit),
-				   !all_day);
-
+	e_meeting_time_selector_set_all_day (priv->sel, all_day);
+	
 	e_date_edit_set_date (E_DATE_EDIT (priv->sel->start_date_edit), start_tt.year,
 			      start_tt.month, start_tt.day);
 	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->sel->start_date_edit),
@@ -402,10 +399,8 @@ init_widgets (SchedulePage *spage)
 
 	priv = spage->priv;
 
-	gtk_signal_connect (GTK_OBJECT (priv->sel->start_date_edit), 
-			    "changed", time_changed_cb, spage);
-	gtk_signal_connect (GTK_OBJECT (priv->sel->end_date_edit), 
-			    "changed", time_changed_cb, spage);
+	gtk_signal_connect (GTK_OBJECT (priv->sel), 
+			    "changed", times_changed_cb, spage);
 
 	return TRUE;
 	
@@ -484,7 +479,7 @@ schedule_page_new (EMeetingModel *emm)
 }
 
 static void
-time_changed_cb (GtkWidget *widget, gpointer data)
+times_changed_cb (GtkWidget *widget, gpointer data)
 {
 	SchedulePage *spage = data;
 	SchedulePagePrivate *priv;

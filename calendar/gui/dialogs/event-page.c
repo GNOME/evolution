@@ -375,20 +375,22 @@ update_time (EventPage *epage, CalComponentDateTime *start_date, CalComponentDat
 
 	/* Set the timezones, and set sync_timezones to TRUE if both timezones
 	   are the same. */
-	/* FIXME: JPR - why did you add the if check here? It looks like it
-	   won't work for floating times, where start_zone or end_zone may be
-	   NULL. */
-#if 0
-	if (start_zone && end_zone) {
-#endif
-		e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
-					       start_zone);
-		e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->end_timezone),
-					       end_zone);
-		priv->sync_timezones = (start_zone == end_zone) ? TRUE : FALSE;
-#if 0
-	}
-#endif
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_timezone),
+					  epage);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->end_timezone), epage);
+	
+	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
+				       start_zone);
+	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->end_timezone),
+				       end_zone);
+
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->start_timezone),
+					    epage);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->end_timezone),
+					    epage);
+
+	priv->sync_timezones = (start_zone == end_zone) ? TRUE : FALSE;
+
 }
 
 /* Fills the widgets with default values */
