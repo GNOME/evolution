@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.6\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-13 16:24-0400\n"
+"POT-Creation-Date: 2004-04-19 11:44-0400\n"
 "PO-Revision-Date: 2004-04-13 16:25-0400\n"
 "Last-Translator: Gareth Owen <gowen72@yahoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
@@ -134,7 +134,7 @@ msgstr "New Address Book"
 
 #: addressbook/gui/component/addressbook-component.c:316
 #: addressbook/gui/widgets/e-addressbook-view.c:1086
-#: calendar/gui/calendar-component.c:436 calendar/gui/tasks-component.c:367
+#: calendar/gui/calendar-component.c:436 calendar/gui/tasks-component.c:368
 #: filter/libfilter-i18n.h:11 mail/em-account-prefs.c:235
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-calendar.xml.h:5
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:3
@@ -144,7 +144,7 @@ msgid "Delete"
 msgstr "Delete"
 
 #: addressbook/gui/component/addressbook-component.c:317
-#: calendar/gui/calendar-component.c:437 calendar/gui/tasks-component.c:369
+#: calendar/gui/calendar-component.c:437 calendar/gui/tasks-component.c:370
 msgid "Properties..."
 msgstr "Properties..."
 
@@ -2515,7 +2515,7 @@ msgid "Cut"
 msgstr "Cut"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1084
-#: calendar/gui/calendar-component.c:434 calendar/gui/tasks-component.c:365
+#: calendar/gui/calendar-component.c:434 calendar/gui/tasks-component.c:366
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
@@ -3500,6 +3500,7 @@ msgid "Calendar and Tasks"
 msgstr "Calendar and Tasks"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
+#: calendar/gui/calendar-component.c:847
 msgid "Calendars"
 msgstr "Calendars"
 
@@ -3541,7 +3542,8 @@ msgstr "Evolution's Tasks component"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/e-tasks.c:1155 calendar/gui/print.c:1819
-#: calendar/gui/tasks-control.c:516 calendar/importers/icalendar-importer.c:79
+#: calendar/gui/tasks-component.c:500 calendar/gui/tasks-control.c:516
+#: calendar/importers/icalendar-importer.c:79
 #: calendar/importers/icalendar-importer.c:709
 msgid "Tasks"
 msgstr "Tasks"
@@ -3878,64 +3880,64 @@ msgstr "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgid "New Calendar"
 msgstr "New Calendar"
 
-#: calendar/gui/calendar-component.c:923
+#: calendar/gui/calendar-component.c:932
 msgid "New appointment"
 msgstr "New appointment"
 
-#: calendar/gui/calendar-component.c:924
+#: calendar/gui/calendar-component.c:933
 msgid "_Appointment"
 msgstr "_Appointment"
 
-#: calendar/gui/calendar-component.c:925
+#: calendar/gui/calendar-component.c:934
 msgid "Create a new appointment"
 msgstr "Create a new appointment"
 
-#: calendar/gui/calendar-component.c:931
+#: calendar/gui/calendar-component.c:940
 msgid "New meeting"
 msgstr "New meeting"
 
-#: calendar/gui/calendar-component.c:932
+#: calendar/gui/calendar-component.c:941
 msgid "M_eeting"
 msgstr "M_eeting"
 
-#: calendar/gui/calendar-component.c:933
+#: calendar/gui/calendar-component.c:942
 msgid "Create a new meeting request"
 msgstr "Create a new meeting request"
 
-#: calendar/gui/calendar-component.c:939
+#: calendar/gui/calendar-component.c:948
 msgid "New all day appointment"
 msgstr "New all day appointment"
 
-#: calendar/gui/calendar-component.c:940
+#: calendar/gui/calendar-component.c:949
 msgid "All _Day Appointment"
 msgstr "All _Day Appointment"
 
-#: calendar/gui/calendar-component.c:941
+#: calendar/gui/calendar-component.c:950
 msgid "Create a new all-day appointment"
 msgstr "Create a new all-day appointment"
 
-#: calendar/gui/calendar-component.c:947
+#: calendar/gui/calendar-component.c:956
 msgid "New calendar"
 msgstr "New calendar"
 
-#: calendar/gui/calendar-component.c:948
+#: calendar/gui/calendar-component.c:957
 msgid "C_alendar"
 msgstr "C_alendar"
 
-#: calendar/gui/calendar-component.c:949
+#: calendar/gui/calendar-component.c:958
 msgid "Create a new calendar"
 msgstr "Create a new calendar"
 
-#: calendar/gui/calendar-component.c:1017
+#: calendar/gui/calendar-component.c:1026
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Unable to open the calendar '%s' for creating events and meetings"
 
-#: calendar/gui/calendar-component.c:1029
+#: calendar/gui/calendar-component.c:1038
 msgid "There is no calendar available for creating events and meetings"
 msgstr "There is no calendar available for creating events and meetings"
 
-#: calendar/gui/calendar-component.c:1063
+#: calendar/gui/calendar-component.c:1072
 msgid ""
 "Selected calendar is read-only, events cannot be created. Please select a "
 "read-write calendar."
@@ -4462,7 +4464,7 @@ msgstr ""
 "Please click the \"Apply\" button to save the settings you have entered here."
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:14
-#: calendar/gui/tasks-component.c:363
+#: calendar/gui/tasks-component.c:364
 msgid "New Task List"
 msgstr "New Task List"
 
@@ -6968,41 +6970,41 @@ msgstr "Print Item"
 msgid "Print Setup"
 msgstr "Print Setup"
 
-#: calendar/gui/tasks-component.c:302
+#: calendar/gui/tasks-component.c:303
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr "Task List '%s' will be removed. Are you sure you want to continue?"
 
-#: calendar/gui/tasks-component.c:560
+#: calendar/gui/tasks-component.c:570
 msgid "New task"
 msgstr "New task"
 
-#: calendar/gui/tasks-component.c:561
+#: calendar/gui/tasks-component.c:571
 msgid "_Task"
 msgstr "_Task"
 
-#: calendar/gui/tasks-component.c:562
+#: calendar/gui/tasks-component.c:572
 msgid "Create a new task"
 msgstr "Create a new task"
 
-#: calendar/gui/tasks-component.c:568
+#: calendar/gui/tasks-component.c:578
 msgid "New tasks group"
 msgstr "New tasks group"
 
-#: calendar/gui/tasks-component.c:569
+#: calendar/gui/tasks-component.c:579
 msgid "_Tasks Group"
 msgstr "_Tasks Group"
 
-#: calendar/gui/tasks-component.c:570
+#: calendar/gui/tasks-component.c:580
 msgid "Create a new tasks group"
 msgstr "Create a new tasks group"
 
-#: calendar/gui/tasks-component.c:638
+#: calendar/gui/tasks-component.c:648
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "Unable to open the task list '%s' for creating events and meetings"
 
-#: calendar/gui/tasks-component.c:650
+#: calendar/gui/tasks-component.c:660
 msgid "There is no calendar available for creating tasks"
 msgstr "There is no calendar available for creating tasks"
 
