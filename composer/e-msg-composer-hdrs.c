@@ -210,7 +210,6 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 		else
 			label = g_strdup_printf ("%s <%s>", account->id->name, account->id->address);
 		
-		
 		native_label = e_utf8_to_gtk_string (GTK_WIDGET (menu), label);
 		item = gtk_menu_item_new_with_label (native_label);
 		g_free (native_label);

@@ -2979,14 +2979,32 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 {
 	CamelMimeMessage *msg;
 	const MailConfigAccount *account;
-	gint old_send_html;
-
+	gboolean old_send_html;
+	gboolean old_pgp_sign;
+	gboolean old_pgp_encrypt;
+	gboolean old_smime_sign;
+	gboolean old_smime_encrypt;
+	
 	/* always save drafts as HTML to preserve formatting */
 	old_send_html = composer->send_html;
 	composer->send_html = TRUE;
+	old_pgp_sign = composer->pgp_sign;
+	composer->pgp_sign = FALSE;
+	old_pgp_encrypt = composer->pgp_encrypt;
+	composer->pgp_encrypt = FALSE;
+	old_smime_sign = composer->smime_sign;
+	composer->smime_sign = FALSE;
+	old_smime_encrypt = composer->smime_encrypt;
+	composer->smime_encrypt = FALSE;
+	
 	msg = e_msg_composer_get_message (composer);
+	
 	composer->send_html = old_send_html;
-
+	composer->pgp_sign = old_pgp_sign;
+	composer->pgp_encrypt = old_pgp_encrypt;
+	composer->smime_sign = old_smime_sign;
+	composer->smime_encrypt = old_smime_encrypt;
+	
 	/* Attach whether this message was written in HTML */
 	camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Format",
 				 composer->send_html ? "text/html" : "text/plain");

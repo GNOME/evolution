@@ -1,3 +1,9 @@
+2001-08-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_get_message_draft): Set the
+	PGP/MIME and S/MIME options to FALSE before getting the message
+	draft and restore the values afterward.
+
 2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (add_inlined_image): Use g_basename().
