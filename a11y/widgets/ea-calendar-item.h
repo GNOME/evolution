@@ -56,6 +56,18 @@ struct _EaCalendarItemClass
 };
 
 AtkObject *ea_calendar_item_new (GObject *obj);
+gboolean e_calendar_item_get_day_extents (ECalendarItem *calitem,
+					  gint year, gint month, gint date,
+					  gint *x, gint *y,
+					  gint *width, gint *height);
+gboolean e_calendar_item_get_date_for_offset (ECalendarItem *calitem,
+					      gint day_offset,
+					      gint *year, gint *month,
+					      gint *day);
+gint e_calendar_item_get_offset_for_date (ECalendarItem *calitem,
+					  gint year, gint month, gint day);
+gint e_calendar_item_get_n_days_from_week_start (ECalendarItem *calitem,
+						 gint year, gint month);
 
 #ifdef __cplusplus
 }

@@ -1,5 +1,8 @@
 
-noinst_LTLIBRARIES = libevolution-widgets-a11y.la
+# for debug
+#A11Y_CFLAGS += -pedantic -ansi -DACC_DEBUG -Werror
+
+privlib_LTLIBRARIES = libevolution-widgets-a11y.la
 
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-a11y\"		\
@@ -19,5 +22,11 @@ INCLUDES =						\
 libevolution_widgets_a11y_la_SOURCES =		\
 	ea-calendar-item.c			\
 	ea-calendar-item.h			\
+	ea-calendar-cell.c			\
+	ea-calendar-cell.h			\
 	ea-widgets.c				\
 	ea-widgets.h
+
+libevolution_widgets_a11y_la_LIBADD =   \
+        $(top_builddir)/a11y/libevolution-a11y.la
+                                                                                

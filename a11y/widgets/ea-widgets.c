@@ -27,7 +27,7 @@
 #include "widgets/ea-calendar-item.h"
 #include "ea-widgets.h"
 
-EA_FACTORY_GOBJECT (EA_TYPE_CALENDAR_ITEM, ea_calendar_item, ea_calendar_item_new);
+EA_FACTORY_GOBJECT (EA_TYPE_CALENDAR_ITEM, ea_calendar_item, ea_calendar_item_new)
 
 void e_calendar_item_a11y_init (void)
 {
