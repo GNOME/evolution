@@ -333,7 +333,7 @@
 	selecting <guisubmenu>New</guisubmenu> and then
 	<guimenuitem>Folder</guimenuitem> from the
 	<guimenu>File</guimenu> menu.
-	<application>Ximian Evolution</application> will as you for the name
+	<application>Ximian Evolution</application> will ask you for the name
 	and the type of the folder, and will provide you with a folder
 	tree so you can pick where it goes.
       </para>
