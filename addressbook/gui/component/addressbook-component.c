@@ -208,7 +208,7 @@ delete_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
 	GtkWidget *dialog;
 	EBook  *book;
 	gboolean removed = FALSE;
-	GError *error;
+	GError *error = NULL;
 
 	priv = comp->priv;
 	

@@ -1,6 +1,11 @@
 2004-03-03  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/addressbook-component.c (delete_addressbook_cb):
+	Set error to NULL before using it.
+
+2004-03-03  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook-component.c (delete_addressbook_cb):
 	Remove local data, with error reporting on failure.
 
 2004-03-02  Larry Ewing  <lewing@ximian.com>
