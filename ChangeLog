@@ -1,5 +1,7 @@
 2003-02-06  Dan Winship  <danw@ximian.com>
 
+	* configure.in: export priv*dir for libical's configure to use.
+
 	* evolution-addressbook.pc.in (Libs): Remove -L${libdir}.
 	(CFlags): s/includedir/privincludedir/
 

@@ -1273,6 +1273,9 @@ dnl ******************************
 dnl Makefiles
 dnl ******************************
 
+export privlibdir
+export privincludedir
+export privdatadir
 AC_CONFIG_SUBDIRS(libical)
 
 EVOLUTION_DIR=`(cd $srcdir; pwd)`
