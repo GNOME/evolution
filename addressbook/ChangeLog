@@ -1,3 +1,11 @@
+2003-03-13  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c
+	(set_entry_changed_signals): use set_entry_changed_signal_email
+	for the email entry so the email gets saved out.
+	(set_entry_changed_signal_email): new function, analogous to
+	set_entry_changed_signal_phone, but for email.
+
 2003-03-12  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #20210 ]

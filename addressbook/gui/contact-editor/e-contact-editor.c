@@ -622,6 +622,15 @@ set_entry_changed_signal_phone(EContactEditor *editor, char *id)
 }
 
 static void
+set_entry_changed_signal_email(EContactEditor *editor, char *id)
+{
+	GtkWidget *widget = glade_xml_get_widget(editor->gui, id);
+	if (widget && GTK_IS_ENTRY(widget))
+		g_signal_connect(widget, "changed",
+				 G_CALLBACK (email_entry_changed), editor);
+}
+
+static void
 widget_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	if (!editor->editable) {
@@ -664,7 +673,7 @@ set_entry_changed_signals(EContactEditor *editor)
 	set_entry_changed_signal_phone(editor, "entry-phone3");
 	set_entry_changed_signal_phone(editor, "entry-phone4");
 
-	set_entry_changed_signal_field(editor, "entry-email1");
+	set_entry_changed_signal_email(editor, "entry-email1");
 
 	widget = glade_xml_get_widget(editor->gui, "text-address");
 	if (widget && GTK_IS_TEXT_VIEW(widget)) {
