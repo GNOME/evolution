@@ -205,7 +205,7 @@ create_imap_storage (EvolutionShellComponent *shell_component,
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
 	char *server, *p;
-
+	
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	if (shell_client == NULL) {
 		g_warning ("We have no shell!?");
@@ -219,18 +219,18 @@ create_imap_storage (EvolutionShellComponent *shell_component,
 	
 	server++;
 	for (p = server; *p && *p != '/'; p++);
-
+	
 	server = g_strndup (server, (gint)(p - server));
 	
 	storage = evolution_storage_new (server);
 	g_free (server);
-
+	
 	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage");
 		return;
 	}
-
-	mail_do_scan_subfolders (source, TRUE, storage);
+	
+	mail_do_scan_subfolders (source, storage);
 }
 
 static void
@@ -240,12 +240,12 @@ create_news_storage (EvolutionShellComponent *shell_component)
 	EvolutionShellClient *shell_client;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
-	char *source=NULL, *server, *p;
-
+	char *source = NULL, *server, *p;
+	
 	s = mail_config_get_default_news ();
 	if (s)
 		source = s->url;
-
+	
 	if (!source || g_strncasecmp (source, "news://", 7))
 		return;
 	
@@ -254,12 +254,12 @@ create_news_storage (EvolutionShellComponent *shell_component)
 		g_warning ("We have no shell!?");
 		return;
 	}
-
+	
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
-
+	
 	server = source + 7;
 	for (p = server; *p && *p != '/'; p++);
-
+	
 	server = g_strndup (server, (gint)(p - server));
 	
 	storage = evolution_storage_new (server);
@@ -269,7 +269,7 @@ create_news_storage (EvolutionShellComponent *shell_component)
 		g_warning ("Cannot register storage");
 		return;
 	}
-
-	mail_do_scan_subfolders (source, FALSE, storage);
+	
+	mail_do_scan_subfolders (source, storage);
 }
 

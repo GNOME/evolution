@@ -28,42 +28,40 @@
 #include "composer/e-msg-composer.h"	/*EMsgComposer */
 #include "message-list.h"	/*MessageList */
 
-void mail_do_fetch_mail (const gchar * source_url, gboolean keep_on_server,
-			 CamelFolder * destination,
+void mail_do_fetch_mail (const gchar *source_url, gboolean keep_on_server,
+			 CamelFolder *destination,
 			 gpointer hook_func, gpointer hook_data);
 void mail_do_send_mail (const char *xport_uri,
-			CamelMimeMessage * message,
-			const char * from,
-			CamelFolder * done_folder,
+			CamelMimeMessage *message,
+			const char *from,
+			CamelFolder *done_folder,
 			const char *done_uid,
 
-			guint32 done_flags, GtkWidget * composer);
-void mail_do_expunge_folder (CamelFolder * folder);
-void mail_do_refile_messages (CamelFolder * source, GPtrArray * uids,
-
-			      gchar * dest_uri);
-void mail_do_flag_messages (CamelFolder * source, GPtrArray * uids,
+			guint32 done_flags, GtkWidget *composer);
+void mail_do_expunge_folder (CamelFolder *folder);
+void mail_do_refile_messages (CamelFolder *source, GPtrArray *uids,
+			      gchar *dest_uri);
+void mail_do_flag_messages (CamelFolder *source, GPtrArray *uids,
 			    gboolean invert,
 			    guint32 mask, guint32 set);
-void mail_do_scan_subfolders (const gchar * source_uri, gboolean add_INBOX,
-			      EvolutionStorage * storage);
-void mail_do_attach_message (CamelFolder * folder, const char *uid,
-			     EMsgComposer * composer);
-void mail_do_forward_message (CamelMimeMessage * basis, CamelFolder * source,
-			      GPtrArray * uids,	/*array of allocated gchar *, will all be freed */
-			      EMsgComposer * composer);
-void mail_do_load_folder (FolderBrowser * fb, const char *url);
+void mail_do_scan_subfolders (const gchar *source_uri, EvolutionStorage *storage);
+void mail_do_attach_message (CamelFolder *folder, const char *uid,
+			     EMsgComposer *composer);
+void mail_do_forward_message (CamelMimeMessage *basis, CamelFolder *source,
+			      GPtrArray *uids,	/*array of allocated gchar *, will all be freed */
+			      EMsgComposer *composer);
+void mail_do_load_folder (FolderBrowser *fb, const char *url);
 void mail_do_create_folder (const Evolution_ShellComponentListener listener,
 			    const char *uri, const char *type);
-void mail_do_sync_folder (CamelFolder * folder);
-void mail_do_display_message (MessageList * ml, const char *uid,
+void mail_do_sync_folder (CamelFolder *folder);
+void mail_do_display_message (MessageList *ml, const char *uid,
 			      gint (*timeout) (gpointer));
-void mail_do_edit_messages (CamelFolder * folder, GPtrArray *uids,
+void mail_do_edit_messages (CamelFolder *folder, GPtrArray *uids,
 			    GtkSignalFunc signal);
 void mail_do_setup_draftbox (void);
-void mail_do_view_messages (CamelFolder * folder, GPtrArray *uids,
+void mail_do_view_messages (CamelFolder *folder, GPtrArray *uids,
 			    FolderBrowser *fb);
 
 /* This actually lives in message-list.c */
-void mail_do_regenerate_messagelist (MessageList * list,
-				     const gchar * search);
+void mail_do_regenerate_messagelist (MessageList *list,
+				     const gchar *search);

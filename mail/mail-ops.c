@@ -50,11 +50,11 @@ typedef struct fetch_mail_data_s {
 
 static gchar *describe_fetch_mail (gpointer in_data, gboolean gerund);
 static void setup_fetch_mail (gpointer in_data, gpointer op_data,
-			      CamelException * ex);
+			      CamelException *ex);
 static void do_fetch_mail (gpointer in_data, gpointer op_data,
-			   CamelException * ex);
+			   CamelException *ex);
 static void cleanup_fetch_mail (gpointer in_data, gpointer op_data,
-				CamelException * ex);
+				CamelException *ex);
 
 static gchar *
 describe_fetch_mail (gpointer in_data, gboolean gerund)
@@ -77,7 +77,7 @@ describe_fetch_mail (gpointer in_data, gboolean gerund)
 }
 
 static void
-setup_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
+setup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
 	fetch_mail_data_t *data = (fetch_mail_data_t *) op_data;
@@ -103,7 +103,7 @@ setup_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-do_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
+do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
 	fetch_mail_data_t *data = (fetch_mail_data_t *) op_data;
@@ -154,7 +154,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-cleanup_fetch_mail (gpointer in_data, gpointer op_data, CamelException * ex)
+cleanup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
 	fetch_mail_data_t *data = (fetch_mail_data_t *) op_data;
@@ -180,8 +180,8 @@ static const mail_operation_spec op_fetch_mail = {
 };
 
 void
-mail_do_fetch_mail (const gchar * source_url, gboolean keep_on_server,
-		    CamelFolder * destination,
+mail_do_fetch_mail (const gchar *source_url, gboolean keep_on_server,
+		    CamelFolder *destination,
 		    gpointer hook_func, gpointer hook_data)
 {
 	fetch_mail_input_t *input;
@@ -217,12 +217,12 @@ send_mail_input_t;
 
 static gchar *describe_send_mail (gpointer in_data, gboolean gerund);
 static void setup_send_mail (gpointer in_data, gpointer op_data,
-			     CamelException * ex);
+			     CamelException *ex);
 static void do_send_mail (gpointer in_data, gpointer op_data,
 
-			  CamelException * ex);
+			  CamelException *ex);
 static void cleanup_send_mail (gpointer in_data, gpointer op_data,
-			       CamelException * ex);
+			       CamelException *ex);
 
 static gchar *
 describe_send_mail (gpointer in_data, gboolean gerund)
@@ -247,7 +247,7 @@ describe_send_mail (gpointer in_data, gboolean gerund)
 }
 
 static void
-setup_send_mail (gpointer in_data, gpointer op_data, CamelException * ex)
+setup_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	send_mail_input_t *input = (send_mail_input_t *) in_data;
 
@@ -303,7 +303,7 @@ setup_send_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-do_send_mail (gpointer in_data, gpointer op_data, CamelException * ex)
+do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	send_mail_input_t *input = (send_mail_input_t *) in_data;
 	CamelTransport *xport;
@@ -342,7 +342,7 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-cleanup_send_mail (gpointer in_data, gpointer op_data, CamelException * ex)
+cleanup_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	send_mail_input_t *input = (send_mail_input_t *) in_data;
 
@@ -370,11 +370,11 @@ static const mail_operation_spec op_send_mail = {
 
 void
 mail_do_send_mail (const char *xport_uri,
-		   CamelMimeMessage * message,
-		   const char * from,
-		   CamelFolder * done_folder,
+		   CamelMimeMessage *message,
+		   const char *from,
+		   CamelFolder *done_folder,
 		   const char *done_uid,
-		   guint32 done_flags, GtkWidget * composer)
+		   guint32 done_flags, GtkWidget *composer)
 {
 	send_mail_input_t *input;
 
@@ -394,11 +394,11 @@ mail_do_send_mail (const char *xport_uri,
 
 static gchar *describe_expunge_folder (gpointer in_data, gboolean gerund);
 static void setup_expunge_folder (gpointer in_data, gpointer op_data,
-				  CamelException * ex);
+				  CamelException *ex);
 static void do_expunge_folder (gpointer in_data, gpointer op_data,
-			       CamelException * ex);
+			       CamelException *ex);
 static void cleanup_expunge_folder (gpointer in_data, gpointer op_data,
-				    CamelException * ex);
+				    CamelException *ex);
 
 static gchar *
 describe_expunge_folder (gpointer in_data, gboolean gerund)
@@ -412,7 +412,7 @@ describe_expunge_folder (gpointer in_data, gboolean gerund)
 }
 
 static void
-setup_expunge_folder (gpointer in_data, gpointer op_data, CamelException * ex)
+setup_expunge_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	if (!CAMEL_IS_FOLDER (in_data)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
@@ -424,7 +424,7 @@ setup_expunge_folder (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-do_expunge_folder (gpointer in_data, gpointer op_data, CamelException * ex)
+do_expunge_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	mail_tool_camel_lock_up ();
 	camel_folder_expunge (CAMEL_FOLDER (in_data), ex);
@@ -433,7 +433,7 @@ do_expunge_folder (gpointer in_data, gpointer op_data, CamelException * ex)
 
 static void
 cleanup_expunge_folder (gpointer in_data, gpointer op_data,
-			CamelException * ex)
+			CamelException *ex)
 {
 	camel_object_unref (CAMEL_OBJECT (in_data));
 }
@@ -447,7 +447,7 @@ static const mail_operation_spec op_expunge_folder = {
 };
 
 void
-mail_do_expunge_folder (CamelFolder * folder)
+mail_do_expunge_folder (CamelFolder *folder)
 {
 	mail_operation_queue (&op_expunge_folder, folder, FALSE);
 }
@@ -464,11 +464,11 @@ refile_messages_input_t;
 
 static gchar *describe_refile_messages (gpointer in_data, gboolean gerund);
 static void setup_refile_messages (gpointer in_data, gpointer op_data,
-				   CamelException * ex);
+				   CamelException *ex);
 static void do_refile_messages (gpointer in_data, gpointer op_data,
-				CamelException * ex);
+				CamelException *ex);
 static void cleanup_refile_messages (gpointer in_data, gpointer op_data,
-				     CamelException * ex);
+				     CamelException *ex);
 
 static gchar *
 describe_refile_messages (gpointer in_data, gboolean gerund)
@@ -489,7 +489,7 @@ describe_refile_messages (gpointer in_data, gboolean gerund)
 
 static void
 setup_refile_messages (gpointer in_data, gpointer op_data,
-		       CamelException * ex)
+		       CamelException *ex)
 {
 	refile_messages_input_t *input = (refile_messages_input_t *) in_data;
 
@@ -515,7 +515,7 @@ setup_refile_messages (gpointer in_data, gpointer op_data,
 }
 
 static void
-do_refile_messages (gpointer in_data, gpointer op_data, CamelException * ex)
+do_refile_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	refile_messages_input_t *input = (refile_messages_input_t *) in_data;
 	CamelFolder *dest;
@@ -546,7 +546,7 @@ do_refile_messages (gpointer in_data, gpointer op_data, CamelException * ex)
 
 static void
 cleanup_refile_messages (gpointer in_data, gpointer op_data,
-			 CamelException * ex)
+			 CamelException *ex)
 {
 	refile_messages_input_t *input = (refile_messages_input_t *) in_data;
 
@@ -564,8 +564,8 @@ static const mail_operation_spec op_refile_messages = {
 };
 
 void
-mail_do_refile_messages (CamelFolder * source, GPtrArray * uids,
-			 gchar * dest_uri)
+mail_do_refile_messages (CamelFolder *source, GPtrArray *uids,
+			 gchar *dest_uri)
 {
 	refile_messages_input_t *input;
 
@@ -591,11 +591,11 @@ flag_messages_input_t;
 
 static gchar *describe_flag_messages (gpointer in_data, gboolean gerund);
 static void setup_flag_messages (gpointer in_data, gpointer op_data,
-				 CamelException * ex);
+				 CamelException *ex);
 static void do_flag_messages (gpointer in_data, gpointer op_data,
-			      CamelException * ex);
+			      CamelException *ex);
 static void cleanup_flag_messages (gpointer in_data, gpointer op_data,
-				   CamelException * ex);
+				   CamelException *ex);
 
 static gchar *
 describe_flag_messages (gpointer in_data, gboolean gerund)
@@ -613,7 +613,7 @@ describe_flag_messages (gpointer in_data, gboolean gerund)
 }
 
 static void
-setup_flag_messages (gpointer in_data, gpointer op_data, CamelException * ex)
+setup_flag_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	flag_messages_input_t *input = (flag_messages_input_t *) in_data;
 
@@ -633,7 +633,7 @@ setup_flag_messages (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-do_flag_messages (gpointer in_data, gpointer op_data, CamelException * ex)
+do_flag_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	flag_messages_input_t *input = (flag_messages_input_t *) in_data;
 	gint i;
@@ -666,7 +666,7 @@ do_flag_messages (gpointer in_data, gpointer op_data, CamelException * ex)
 
 static void
 cleanup_flag_messages (gpointer in_data, gpointer op_data,
-		       CamelException * ex)
+		       CamelException *ex)
 {
 	flag_messages_input_t *input = (flag_messages_input_t *) in_data;
 
@@ -683,7 +683,7 @@ static const mail_operation_spec op_flag_messages = {
 };
 
 void
-mail_do_flag_messages (CamelFolder * source, GPtrArray * uids,
+mail_do_flag_messages (CamelFolder *source, GPtrArray *uids,
 		       gboolean invert,
 		       guint32 mask, guint32 set)
 {
@@ -724,11 +724,11 @@ scan_subfolders_op_t;
 
 static gchar *describe_scan_subfolders (gpointer in_data, gboolean gerund);
 static void setup_scan_subfolders (gpointer in_data, gpointer op_data,
-				   CamelException * ex);
+				   CamelException *ex);
 static void do_scan_subfolders (gpointer in_data, gpointer op_data,
-				CamelException * ex);
+				CamelException *ex);
 static void cleanup_scan_subfolders (gpointer in_data, gpointer op_data,
-				     CamelException * ex);
+				     CamelException *ex);
 
 static gchar *
 describe_scan_subfolders (gpointer in_data, gboolean gerund)
@@ -745,75 +745,63 @@ describe_scan_subfolders (gpointer in_data, gboolean gerund)
 
 static void
 setup_scan_subfolders (gpointer in_data, gpointer op_data,
-		       CamelException * ex)
+		       CamelException *ex)
 {
 	scan_subfolders_input_t *input = (scan_subfolders_input_t *) in_data;
 	scan_subfolders_op_t *data = (scan_subfolders_op_t *) op_data;
-
+	
 	if (!input->source_uri) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     "No source uri to scan subfolders from was provided.");
 		return;
 	}
-
+	
 	if (!EVOLUTION_IS_STORAGE (input->storage)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     "No storage to scan subfolders into was provided.");
 		return;
 	}
-
+	
 	gtk_object_ref (GTK_OBJECT (input->storage));
 	data->new_folders = g_ptr_array_new ();
 }
 
 static void
-do_scan_subfolders (gpointer in_data, gpointer op_data, CamelException * ex)
+do_scan_subfolders (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	scan_subfolders_input_t *input = (scan_subfolders_input_t *) in_data;
 	scan_subfolders_op_t *data = (scan_subfolders_op_t *) op_data;
-
 	scan_subfolders_folderinfo_t *info;
 	GPtrArray *lsub;
 	CamelFolder *folder;
 	int i;
 	char *splice;
-
+	
 	if (input->source_uri[strlen (input->source_uri) - 1] == '/')
 		splice = "";
 	else
 		splice = "/";
-
+	
 	folder = mail_tool_get_root_of_store (input->source_uri, ex);
 	if (camel_exception_is_set (ex))
 		return;
-
+	
 	mail_tool_camel_lock_up ();
-
-	/* we need a way to set the namespace */
+	
 	lsub = camel_folder_get_subfolder_names (folder);
-
+	
 	mail_tool_camel_lock_down ();
-
-	if (input->add_INBOX) {
-		info = g_new (scan_subfolders_folderinfo_t, 1);
-		info->path = g_strdup ("/INBOX");
-		info->uri =
-			g_strdup_printf ("%s%sINBOX", input->source_uri,
-					 splice);
-		g_ptr_array_add (data->new_folders, info);
-	}
-
+	
 	for (i = 0; i < lsub->len; i++) {
 		info = g_new (scan_subfolders_folderinfo_t, 1);
 		info->path = g_strdup_printf ("/%s", (char *) lsub->pdata[i]);
-		info->uri =
-			g_strdup_printf ("%s%s%s", input->source_uri, splice,
-					 info->path);
+		info->uri = g_strdup_printf ("%s%s%s", input->source_uri, splice,
+					     lsub->pdata[i]);
 		g_ptr_array_add (data->new_folders, info);
 	}
-
+	
 	camel_folder_free_subfolder_names (folder, lsub);
-
+	
 	/* FIXME: We intentionally lose a reference to the store here
 	 * for the benefit of the IMAP provider. Undo this when the
 	 * namespace situation is fixed.
@@ -824,16 +812,15 @@ do_scan_subfolders (gpointer in_data, gpointer op_data, CamelException * ex)
 
 static void
 cleanup_scan_subfolders (gpointer in_data, gpointer op_data,
-			 CamelException * ex)
+			 CamelException *ex)
 {
 	scan_subfolders_input_t *input = (scan_subfolders_input_t *) in_data;
 	scan_subfolders_op_t *data = (scan_subfolders_op_t *) op_data;
-
 	int i;
-
+	
 	for (i = 0; i < data->new_folders->len; i++) {
 		scan_subfolders_folderinfo_t *info;
-
+		
 		info = data->new_folders->pdata[i];
 		evolution_storage_new_folder (input->storage,
 					      info->path,
@@ -843,7 +830,7 @@ cleanup_scan_subfolders (gpointer in_data, gpointer op_data,
 		g_free (info->uri);
 		g_free (info);
 	}
-
+	
 	g_ptr_array_free (data->new_folders, TRUE);
 	gtk_object_unref (GTK_OBJECT (input->storage));
 	g_free (input->source_uri);
@@ -858,16 +845,14 @@ static const mail_operation_spec op_scan_subfolders = {
 };
 
 void
-mail_do_scan_subfolders (const gchar * source_uri, gboolean add_INBOX,
-			 EvolutionStorage * storage)
+mail_do_scan_subfolders (const gchar *source_uri, EvolutionStorage *storage)
 {
 	scan_subfolders_input_t *input;
-
+	
 	input = g_new (scan_subfolders_input_t, 1);
 	input->source_uri = g_strdup (source_uri);
-	input->add_INBOX = add_INBOX;
 	input->storage = storage;
-
+	
 	mail_operation_queue (&op_scan_subfolders, input, TRUE);
 }
 
@@ -889,11 +874,11 @@ attach_message_data_t;
 
 static gchar *describe_attach_message (gpointer in_data, gboolean gerund);
 static void setup_attach_message (gpointer in_data, gpointer op_data,
-				  CamelException * ex);
+				  CamelException *ex);
 static void do_attach_message (gpointer in_data, gpointer op_data,
-			       CamelException * ex);
+			       CamelException *ex);
 static void cleanup_attach_message (gpointer in_data, gpointer op_data,
-				    CamelException * ex);
+				    CamelException *ex);
 
 static gchar *
 describe_attach_message (gpointer in_data, gboolean gerund)
@@ -911,7 +896,7 @@ describe_attach_message (gpointer in_data, gboolean gerund)
 }
 
 static void
-setup_attach_message (gpointer in_data, gpointer op_data, CamelException * ex)
+setup_attach_message (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	attach_message_input_t *input = (attach_message_input_t *) in_data;
 
@@ -938,7 +923,7 @@ setup_attach_message (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-do_attach_message (gpointer in_data, gpointer op_data, CamelException * ex)
+do_attach_message (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	attach_message_input_t *input = (attach_message_input_t *) in_data;
 	attach_message_data_t *data = (attach_message_data_t *) op_data;
@@ -964,7 +949,7 @@ do_attach_message (gpointer in_data, gpointer op_data, CamelException * ex)
 
 static void
 cleanup_attach_message (gpointer in_data, gpointer op_data,
-			CamelException * ex)
+			CamelException *ex)
 {
 	attach_message_input_t *input = (attach_message_input_t *) in_data;
 	attach_message_data_t *data = (attach_message_data_t *) op_data;
@@ -985,8 +970,8 @@ static const mail_operation_spec op_attach_message = {
 };
 
 void
-mail_do_attach_message (CamelFolder * folder, const char *uid,
-			EMsgComposer * composer)
+mail_do_attach_message (CamelFolder *folder, const char *uid,
+			EMsgComposer *composer)
 {
 	attach_message_input_t *input;
 
@@ -1018,18 +1003,16 @@ forward_messages_data_t;
 
 static gchar *describe_forward_messages (gpointer in_data, gboolean gerund);
 static void setup_forward_messages (gpointer in_data, gpointer op_data,
-				    CamelException * ex);
+				    CamelException *ex);
 static void do_forward_messages (gpointer in_data, gpointer op_data,
-				 CamelException * ex);
+				 CamelException *ex);
 static void cleanup_forward_messages (gpointer in_data, gpointer op_data,
-				      CamelException * ex);
+				      CamelException *ex);
 
 static gchar *
 describe_forward_messages (gpointer in_data, gboolean gerund)
 {
-	forward_messages_input_t *input =
-
-		(forward_messages_input_t *) in_data;
+	forward_messages_input_t *input = (forward_messages_input_t *) in_data;
 
 	if (gerund) {
 		if (input->basis->subject)
@@ -1052,11 +1035,9 @@ describe_forward_messages (gpointer in_data, gboolean gerund)
 
 static void
 setup_forward_messages (gpointer in_data, gpointer op_data,
-			CamelException * ex)
+			CamelException *ex)
 {
-	forward_messages_input_t *input =
-
-		(forward_messages_input_t *) in_data;
+	forward_messages_input_t *input = (forward_messages_input_t *) in_data;
 
 	if (!input->uids) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
@@ -1088,11 +1069,9 @@ setup_forward_messages (gpointer in_data, gpointer op_data,
 }
 
 static void
-do_forward_messages (gpointer in_data, gpointer op_data, CamelException * ex)
+do_forward_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
-	forward_messages_input_t *input =
-
-		(forward_messages_input_t *) in_data;
+	forward_messages_input_t *input = (forward_messages_input_t *) in_data;
 	forward_messages_data_t *data = (forward_messages_data_t *) op_data;
 
 	CamelMimeMessage *message;
@@ -1130,7 +1109,7 @@ do_forward_messages (gpointer in_data, gpointer op_data, CamelException * ex)
 
 static void
 cleanup_forward_messages (gpointer in_data, gpointer op_data,
-			  CamelException * ex)
+			  CamelException *ex)
 {
 	forward_messages_input_t *input =
 
@@ -1165,9 +1144,9 @@ static const mail_operation_spec op_forward_messages = {
 };
 
 void
-mail_do_forward_message (CamelMimeMessage * basis,
-			 CamelFolder * source,
-			 GPtrArray * uids, EMsgComposer * composer)
+mail_do_forward_message (CamelMimeMessage *basis,
+			 CamelFolder *source,
+			 GPtrArray *uids, EMsgComposer *composer)
 {
 	forward_messages_input_t *input;
 
@@ -1191,11 +1170,11 @@ load_folder_input_t;
 
 static gchar *describe_load_folder (gpointer in_data, gboolean gerund);
 static void setup_load_folder (gpointer in_data, gpointer op_data,
-			       CamelException * ex);
+			       CamelException *ex);
 static void do_load_folder (gpointer in_data, gpointer op_data,
-			    CamelException * ex);
+			    CamelException *ex);
 static void cleanup_load_folder (gpointer in_data, gpointer op_data,
-				 CamelException * ex);
+				 CamelException *ex);
 
 static gchar *
 describe_load_folder (gpointer in_data, gboolean gerund)
@@ -1210,7 +1189,7 @@ describe_load_folder (gpointer in_data, gboolean gerund)
 }
 
 static void
-setup_load_folder (gpointer in_data, gpointer op_data, CamelException * ex)
+setup_load_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	load_folder_input_t *input = (load_folder_input_t *) in_data;
 
@@ -1235,7 +1214,7 @@ setup_load_folder (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-do_load_folder (gpointer in_data, gpointer op_data, CamelException * ex)
+do_load_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	load_folder_input_t *input = (load_folder_input_t *) in_data;
 
@@ -1255,7 +1234,7 @@ do_load_folder (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-cleanup_load_folder (gpointer in_data, gpointer op_data, CamelException * ex)
+cleanup_load_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	load_folder_input_t *input = (load_folder_input_t *) in_data;
 
@@ -1282,7 +1261,7 @@ static const mail_operation_spec op_load_folder = {
 };
 
 void
-mail_do_load_folder (FolderBrowser * fb, const char *url)
+mail_do_load_folder (FolderBrowser *fb, const char *url)
 {
 	load_folder_input_t *input;
 
@@ -1311,11 +1290,11 @@ create_folder_data_t;
 
 static gchar *describe_create_folder (gpointer in_data, gboolean gerund);
 static void setup_create_folder (gpointer in_data, gpointer op_data,
-				 CamelException * ex);
+				 CamelException *ex);
 static void do_create_folder (gpointer in_data, gpointer op_data,
-			      CamelException * ex);
+			      CamelException *ex);
 static void cleanup_create_folder (gpointer in_data, gpointer op_data,
-				   CamelException * ex);
+				   CamelException *ex);
 
 static gchar *
 describe_create_folder (gpointer in_data, gboolean gerund)
@@ -1330,7 +1309,7 @@ describe_create_folder (gpointer in_data, gboolean gerund)
 }
 
 static void
-setup_create_folder (gpointer in_data, gpointer op_data, CamelException * ex)
+setup_create_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	create_folder_input_t *input = (create_folder_input_t *) in_data;
 
@@ -1356,7 +1335,7 @@ setup_create_folder (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-do_create_folder (gpointer in_data, gpointer op_data, CamelException * ex)
+do_create_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	create_folder_input_t *input = (create_folder_input_t *) in_data;
 	create_folder_data_t *data = (create_folder_data_t *) op_data;
@@ -1385,7 +1364,7 @@ do_create_folder (gpointer in_data, gpointer op_data, CamelException * ex)
 
 static void
 cleanup_create_folder (gpointer in_data, gpointer op_data,
-		       CamelException * ex)
+		       CamelException *ex)
 {
 	create_folder_input_t *input = (create_folder_input_t *) in_data;
 	create_folder_data_t *data = (create_folder_data_t *) op_data;
@@ -1433,11 +1412,11 @@ mail_do_create_folder (const Evolution_ShellComponentListener listener,
 
 static gchar *describe_sync_folder (gpointer in_data, gboolean gerund);
 static void setup_sync_folder (gpointer in_data, gpointer op_data,
-			       CamelException * ex);
+			       CamelException *ex);
 static void do_sync_folder (gpointer in_data, gpointer op_data,
-			    CamelException * ex);
+			    CamelException *ex);
 static void cleanup_sync_folder (gpointer in_data, gpointer op_data,
-				 CamelException * ex);
+				 CamelException *ex);
 
 static gchar *
 describe_sync_folder (gpointer in_data, gboolean gerund)
@@ -1452,7 +1431,7 @@ describe_sync_folder (gpointer in_data, gboolean gerund)
 }
 
 static void
-setup_sync_folder (gpointer in_data, gpointer op_data, CamelException * ex)
+setup_sync_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	if (!CAMEL_IS_FOLDER (in_data)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
@@ -1464,7 +1443,7 @@ setup_sync_folder (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-do_sync_folder (gpointer in_data, gpointer op_data, CamelException * ex)
+do_sync_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	mail_tool_camel_lock_up ();
 	camel_folder_sync (CAMEL_FOLDER (in_data), FALSE, ex);
@@ -1472,7 +1451,7 @@ do_sync_folder (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-cleanup_sync_folder (gpointer in_data, gpointer op_data, CamelException * ex)
+cleanup_sync_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	camel_object_unref (CAMEL_OBJECT (in_data));
 }
@@ -1486,7 +1465,7 @@ static const mail_operation_spec op_sync_folder = {
 };
 
 void
-mail_do_sync_folder (CamelFolder * folder)
+mail_do_sync_folder (CamelFolder *folder)
 {
 	mail_operation_queue (&op_sync_folder, folder, FALSE);
 }
@@ -1509,11 +1488,11 @@ display_message_data_t;
 
 static gchar *describe_display_message (gpointer in_data, gboolean gerund);
 static void setup_display_message (gpointer in_data, gpointer op_data,
-				   CamelException * ex);
+				   CamelException *ex);
 static void do_display_message (gpointer in_data, gpointer op_data,
-				CamelException * ex);
+				CamelException *ex);
 static void cleanup_display_message (gpointer in_data, gpointer op_data,
-				     CamelException * ex);
+				     CamelException *ex);
 
 static gchar *
 describe_display_message (gpointer in_data, gboolean gerund)
@@ -1537,7 +1516,7 @@ describe_display_message (gpointer in_data, gboolean gerund)
 
 static void
 setup_display_message (gpointer in_data, gpointer op_data,
-		       CamelException * ex)
+		       CamelException *ex)
 {
 	display_message_input_t *input = (display_message_input_t *) in_data;
 	display_message_data_t *data = (display_message_data_t *) op_data;
@@ -1559,7 +1538,7 @@ setup_display_message (gpointer in_data, gpointer op_data,
 }
 
 static void
-do_display_message (gpointer in_data, gpointer op_data, CamelException * ex)
+do_display_message (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	display_message_input_t *input = (display_message_input_t *) in_data;
 	display_message_data_t *data = (display_message_data_t *) op_data;
@@ -1575,7 +1554,7 @@ do_display_message (gpointer in_data, gpointer op_data, CamelException * ex)
 
 static void
 cleanup_display_message (gpointer in_data, gpointer op_data,
-			 CamelException * ex)
+			 CamelException *ex)
 {
 	display_message_input_t *input = (display_message_input_t *) in_data;
 	display_message_data_t *data = (display_message_data_t *) op_data;
@@ -1609,7 +1588,7 @@ static const mail_operation_spec op_display_message = {
 };
 
 void
-mail_do_display_message (MessageList * ml, const char *uid,
+mail_do_display_message (MessageList *ml, const char *uid,
 			 gint (*timeout) (gpointer))
 {
 	display_message_input_t *input;
@@ -1636,11 +1615,11 @@ typedef struct edit_messages_data_s {
 
 static gchar *describe_edit_messages (gpointer in_data, gboolean gerund);
 static void setup_edit_messages (gpointer in_data, gpointer op_data,
-				  CamelException * ex);
+				  CamelException *ex);
 static void do_edit_messages (gpointer in_data, gpointer op_data,
-			       CamelException * ex);
+			       CamelException *ex);
 static void cleanup_edit_messages (gpointer in_data, gpointer op_data,
-				    CamelException * ex);
+				    CamelException *ex);
 
 static gchar *
 describe_edit_messages (gpointer in_data, gboolean gerund)
@@ -1657,7 +1636,7 @@ describe_edit_messages (gpointer in_data, gboolean gerund)
 }
 
 static void
-setup_edit_messages (gpointer in_data, gpointer op_data, CamelException * ex)
+setup_edit_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	edit_messages_input_t *input = (edit_messages_input_t *) in_data;
 
@@ -1677,7 +1656,7 @@ setup_edit_messages (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-do_edit_messages (gpointer in_data, gpointer op_data, CamelException * ex)
+do_edit_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	edit_messages_input_t *input = (edit_messages_input_t *) in_data;
 	edit_messages_data_t *data = (edit_messages_data_t *) op_data;
@@ -1702,7 +1681,7 @@ do_edit_messages (gpointer in_data, gpointer op_data, CamelException * ex)
 
 static void
 cleanup_edit_messages (gpointer in_data, gpointer op_data,
-			CamelException * ex)
+			CamelException *ex)
 {
 	edit_messages_input_t *input = (edit_messages_input_t *) in_data;
 	edit_messages_data_t *data = (edit_messages_data_t *) op_data;
@@ -1738,7 +1717,7 @@ static const mail_operation_spec op_edit_messages = {
 };
 
 void
-mail_do_edit_messages (CamelFolder * folder, GPtrArray *uids,
+mail_do_edit_messages (CamelFolder *folder, GPtrArray *uids,
 		       GtkSignalFunc signal)
 {
 	edit_messages_input_t *input;
@@ -1755,9 +1734,9 @@ mail_do_edit_messages (CamelFolder * folder, GPtrArray *uids,
 
 static gchar *describe_setup_draftbox (gpointer in_data, gboolean gerund);
 static void noop_setup_draftbox (gpointer in_data, gpointer op_data,
-				  CamelException * ex);
+				  CamelException *ex);
 static void do_setup_draftbox (gpointer in_data, gpointer op_data,
-			       CamelException * ex);
+			       CamelException *ex);
 
 static gchar *
 describe_setup_draftbox (gpointer in_data, gboolean gerund)
@@ -1769,12 +1748,12 @@ describe_setup_draftbox (gpointer in_data, gboolean gerund)
 }
 
 static void
-noop_setup_draftbox (gpointer in_data, gpointer op_data, CamelException * ex)
+noop_setup_draftbox (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 }
 
 static void
-do_setup_draftbox (gpointer in_data, gpointer op_data, CamelException * ex)
+do_setup_draftbox (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	extern CamelFolder *drafts_folder;
 	gchar *url;
@@ -1787,7 +1766,7 @@ do_setup_draftbox (gpointer in_data, gpointer op_data, CamelException * ex)
 /*
  *static void
  *cleanup_setup_draftbox (gpointer in_data, gpointer op_data,
- *			CamelException * ex)
+ *			CamelException *ex)
  *{
  *}
  */
@@ -1820,11 +1799,11 @@ typedef struct view_messages_data_s {
 
 static gchar *describe_view_messages (gpointer in_data, gboolean gerund);
 static void setup_view_messages (gpointer in_data, gpointer op_data,
-				  CamelException * ex);
+				  CamelException *ex);
 static void do_view_messages (gpointer in_data, gpointer op_data,
-			       CamelException * ex);
+			       CamelException *ex);
 static void cleanup_view_messages (gpointer in_data, gpointer op_data,
-				    CamelException * ex);
+				    CamelException *ex);
 
 static gchar *
 describe_view_messages (gpointer in_data, gboolean gerund)
@@ -1841,7 +1820,7 @@ describe_view_messages (gpointer in_data, gboolean gerund)
 }
 
 static void
-setup_view_messages (gpointer in_data, gpointer op_data, CamelException * ex)
+setup_view_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	view_messages_input_t *input = (view_messages_input_t *) in_data;
 
@@ -1869,7 +1848,7 @@ setup_view_messages (gpointer in_data, gpointer op_data, CamelException * ex)
 }
 
 static void
-do_view_messages (gpointer in_data, gpointer op_data, CamelException * ex)
+do_view_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	view_messages_input_t *input = (view_messages_input_t *) in_data;
 	view_messages_data_t *data = (view_messages_data_t *) op_data;
@@ -1891,7 +1870,7 @@ do_view_messages (gpointer in_data, gpointer op_data, CamelException * ex)
 
 static void
 cleanup_view_messages (gpointer in_data, gpointer op_data,
-		       CamelException * ex)
+		       CamelException *ex)
 {
 	view_messages_input_t *input = (view_messages_input_t *) in_data;
 	view_messages_data_t *data = (view_messages_data_t *) op_data;
@@ -1932,7 +1911,7 @@ static const mail_operation_spec op_view_messages = {
 };
 
 void
-mail_do_view_messages (CamelFolder * folder, GPtrArray *uids,
+mail_do_view_messages (CamelFolder *folder, GPtrArray *uids,
 		       FolderBrowser *fb)
 {
 	view_messages_input_t *input;

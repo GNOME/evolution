@@ -580,38 +580,39 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 		char *service, *ptr;
 		
 		service = g_strdup_printf ("%s/", uri);
-		for (ptr = service + 7; *ptr && *ptr != '/'; ptr++) {};
+		for (ptr = service + 7; *ptr && *ptr != '/'; ptr++);
 		ptr++;
 		*ptr = '\0';
-
-		mail_tool_camel_lock_up();
+		
+		mail_tool_camel_lock_up ();
 		store = camel_session_get_store (session, service, ex);
 		g_free (service);
 		if (store) {
 			CamelURL *url = CAMEL_SERVICE (store)->url;
 			char *folder_uri;
-
-			for (ptr = (char *)(uri + 7); *ptr && *ptr != '/'; ptr++) {};
+			
+			for (ptr = (char *)(uri + 7); *ptr && *ptr != '/'; ptr++);
 			if (*ptr == '/') {
 				if (url && url->path) {
 					ptr += strlen (url->path);
+					printf ("ptr = %s\n", ptr);
 					if (*ptr == '/')
 						ptr++;
 				}
-
+				
 				if (*ptr == '/')
 					ptr++;
 				/*for ( ; *ptr && *ptr == '/'; ptr++);*/
-
+				
 				folder_uri = g_strdup (ptr);				
 				folder = camel_store_get_folder (store, folder_uri, TRUE, ex);
 				g_free (folder_uri);
 			}
 		}
+		
+		mail_tool_camel_lock_down ();
 
-		mail_tool_camel_lock_down();
-
-	} else if (!strncmp(uri, "news:", 5)) {
+	} else if (!strncmp (uri, "news:", 5)) {
 		mail_tool_camel_lock_up();
 		store = camel_session_get_store (session, uri, ex);
 		if (store) {
