@@ -7,6 +7,14 @@
 	event after clearing the summary.
 	(camel_imap4_summary_expunge): Emit the folder_changed event after
 	removing the message from the summary.
+	(camel_imap4_summary_set_exists): Only set exists_changed if the
+	new and old exists values are different.
+	(imap4_fetch_all_add): Emit a folder_changed signal if any new
+	info's were added.
+	(imap4_fetch_all_update): Emit a folder_changed event if any uids
+	were removed or otherwise updated.
+	(camel_imap4_summary_expunge): Use seqid-1 to determine the actual
+	summary index.
 
 	* providers/imap4/camel-imap4-folder.c (imap4_sync): Flush updates
 	after an EXPUNGE and don't unset expunge if we didn't delete
