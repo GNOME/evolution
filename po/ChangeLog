@@ -1,19 +1,8 @@
-2002-10-07  gettextize  <bug-gnu-utils@gnu.org>
+2002-10-10  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
-2002-10-07  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
-2002-10-07  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
-2002-10-07  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
-
+	* no.po: Updated Norwegian translation.
+	* POTFILES.in: Added new etspec files.
+	
 2002-10-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian translation.

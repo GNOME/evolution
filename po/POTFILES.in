@@ -15,6 +15,7 @@ addressbook/conduit/address-conduit.c
 addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in
 addressbook/gui/component/addressbook-component.c
 addressbook/gui/component/addressbook-config.c
+addressbook/gui/component/addressbook-config.etspec
 addressbook/gui/component/addressbook-factory.c
 addressbook/gui/component/addressbook-storage.c
 addressbook/gui/component/addressbook.c
@@ -24,6 +25,7 @@ addressbook/gui/component/ldap-config.glade
 addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in
 addressbook/gui/component/select-names/e-select-names-popup.c
 addressbook/gui/component/select-names/e-select-names.c
+addressbook/gui/component/select-names/e-select-names.etspec
 addressbook/gui/component/select-names/select-names.glade
 addressbook/gui/contact-editor/contact-editor.glade
 addressbook/gui/contact-editor/e-contact-editor-address.c
@@ -36,6 +38,7 @@ addressbook/gui/contact-editor/fulladdr.glade
 addressbook/gui/contact-editor/fullname.glade
 addressbook/gui/contact-list-editor/contact-list-editor.glade
 addressbook/gui/contact-list-editor/e-contact-list-editor.c
+addressbook/gui/contact-list-editor/e-contact-list-editor.etspec
 addressbook/gui/merging/e-card-duplicate-detected.glade
 addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade
 addressbook/gui/search/e-addressbook-search-dialog.c
@@ -44,6 +47,7 @@ addressbook/gui/widgets/e-addressbook-reflow-adapter.c
 addressbook/gui/widgets/e-addressbook-table-adapter.c
 addressbook/gui/widgets/e-addressbook-util.c
 addressbook/gui/widgets/e-addressbook-view.c
+addressbook/gui/widgets/e-addressbook-view.etspec
 addressbook/gui/widgets/e-minicard-control.c
 addressbook/gui/widgets/e-minicard-view.c
 addressbook/gui/widgets/e-minicard.c
