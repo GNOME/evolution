@@ -1,3 +1,13 @@
+2000-04-30  Seth Alves  <alves@hungry.com>
+
+	* pcs/icalendar-save.c (icalcomponent_create_from_ical_object): set
+	attendee and contact address correctly.
+
+	* pcs/cal-backend.c (icalendar_calendar_load): init priv->object_hash
+	when loading.
+	(cal_get_type_from_filename): if file extension is .ical, consider
+	the file an ical file.
+
 2000-05-01  Damon Chaplin  <damon@helixcode.com>
 
 	* cal-util/calobj.c (ical_object_compare_dates): new function to see
