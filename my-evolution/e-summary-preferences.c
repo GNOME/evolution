@@ -426,7 +426,7 @@ static struct _RDFInfo rdfs[] = {
 	{"http://freshmeat.net/backend/fm.rdf", "Freshmeat"},
 	{"http://news.gnome.org/gnome-news/rdf", "GNotices"},
 	{"http://headlines.internet.com/internetnews/prod-news/news.rss", "Internet.com"},
-	{"http://www.kde.org/news/dotkdeorg.rdf", "KDE News"},
+	{"http://dot.kde.org/rdf", "KDE Dot News"},
 	{"http://www.kuro5hin.org/backend.rdf", "Kuro5hin"},
 	{"http://linuxgames.com/bin/mynetscape.pl", "Linux Games"},
 	{"http://linux.com/mrn/jobs/latest_jobs.rss", "Linux Jobs"},
