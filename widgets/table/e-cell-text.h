@@ -65,6 +65,7 @@ typedef struct {
 	guint editable : 1;		/* Whether the text can be edited. */
 	
 	int strikeout_column;
+	int underline_column;
 	int bold_column;
 
 	/* This column in the ETable should return a string specifying a color,

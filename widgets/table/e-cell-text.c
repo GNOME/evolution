@@ -80,6 +80,7 @@ enum {
 	PROP_0,
 
 	PROP_STRIKEOUT_COLUMN,
+	PROP_UNDERLINE_COLUMN,
 	PROP_BOLD_COLUMN,
 	PROP_COLOR_COLUMN,
 	PROP_EDITABLE,
@@ -456,7 +457,7 @@ build_layout (ECellTextView *text_view, int row, const char *text)
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	PangoLayout *layout;
-	gboolean bold, strikeout;
+	gboolean bold, strikeout, underline;
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (((GnomeCanvasItem *)ecell_view->e_table_item_view)->canvas), text);
 
@@ -466,8 +467,11 @@ build_layout (ECellTextView *text_view, int row, const char *text)
 	strikeout = ect->strikeout_column >= 0 &&
 		row >= 0 &&
 		e_table_model_value_at(ecell_view->e_table_model, ect->strikeout_column, row);
+	underline = ect->underline_column >= 0 &&
+		row >= 0 &&
+		e_table_model_value_at(ecell_view->e_table_model, ect->underline_column, row);
 
-	if (bold || strikeout) {
+	if (bold || strikeout || underline) {
 		PangoAttrList *attrs;
 		int length = strlen (text);
 		attrs = pango_attr_list_new ();
@@ -480,6 +484,13 @@ build_layout (ECellTextView *text_view, int row, const char *text)
 		}
 		if (strikeout) {
 			PangoAttribute *attr = pango_attr_strikethrough_new (TRUE);
+			attr->start_index = 0;
+			attr->end_index = length;
+
+			pango_attr_list_insert_before (attrs, attr);
+		}
+		if (underline) {
+			PangoAttribute *attr = pango_attr_underline_new (TRUE);
 			attr->start_index = 0;
 			attr->end_index = length;
 
@@ -1286,6 +1297,7 @@ ect_show_tooltip (ECellView *ecell_view,
 /*  					      "font_gdk", text_view->font, */
 					      "bold", (gboolean) ect->bold_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row),
 					      "strikeout", (gboolean) ect->strikeout_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->strikeout_column, row),
+					      "underline", (gboolean) ect->underline_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->underline_column, row),
 					      "fill_color_gdk", tooltip->foreground,
 					      "text", pango_layout_get_text (layout),
 					      "editable", FALSE,
@@ -1363,6 +1375,10 @@ ect_set_property (GObject *object,
 		text->strikeout_column = g_value_get_int (value);
 		break;
 
+	case PROP_UNDERLINE_COLUMN:
+		text->underline_column = g_value_get_int (value);
+		break;
+
 	case PROP_BOLD_COLUMN:
 		text->bold_column = g_value_get_int (value);
 		break;
@@ -1398,6 +1414,10 @@ ect_get_property (GObject *object,
 	switch (prop_id) {
 	case PROP_STRIKEOUT_COLUMN:
 		g_value_set_int (value, text->strikeout_column);
+		break;
+
+	case PROP_UNDERLINE_COLUMN:
+		g_value_set_int (value, text->underline_column);
 		break;
 
 	case PROP_BOLD_COLUMN:
@@ -1469,6 +1489,13 @@ e_cell_text_class_init (GObjectClass *object_class)
 							   0, G_MAXINT, 0,
 							   G_PARAM_READWRITE));
 
+	g_object_class_install_property (object_class, PROP_UNDERLINE_COLUMN,
+					 g_param_spec_int ("underline_column",
+							   _("Underline Column"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
+
 	g_object_class_install_property (object_class, PROP_BOLD_COLUMN,
 					 g_param_spec_int ("bold_column",
 							   _("Bold Column"),
@@ -1516,6 +1543,7 @@ e_cell_text_init (ECellText *ect)
 	ect->ellipsis = g_strdup (ellipsis_default);
 	ect->use_ellipsis = use_ellipsis_default;
 	ect->strikeout_column = -1;
+	ect->underline_column = -1;
 	ect->bold_column = -1;
 	ect->color_column = -1;
 	ect->bg_color_column = -1;
@@ -1555,15 +1583,16 @@ e_cell_text_construct (ECellText *cell, const char *fontname, GtkJustification j
  * The ECellText object support a large set of properties that can be
  * configured through the Gtk argument system and allows the user to have
  * a finer control of the way the string is displayed.  The arguments supported
- * allow the control of strikeout, bold, and color.
+ * allow the control of strikeout, underline, bold, and color.
  *
- * The arguments "strikeout_column", "bold_column" and "color_column" set
- * and return an integer that points to a column in the model that controls
- * these settings.  So controlling the way things are rendered is achieved
- * by having special columns in the model that will be used to flag whether
- * the text should be rendered with strikeout, or bolded.   In the case of
- * the "color_column" argument, the column in the model is expected to have
- * a string that can be parsed by gdk_color_parse().
+ * The arguments "strikeout_column", "underline_column", "bold_column"
+ * and "color_column" set and return an integer that points to a
+ * column in the model that controls these settings.  So controlling
+ * the way things are rendered is achieved by having special columns
+ * in the model that will be used to flag whether the text should be
+ * rendered with strikeout, or bolded.  In the case of the
+ * "color_column" argument, the column in the model is expected to
+ * have a string that can be parsed by gdk_color_parse().
  * 
  * Returns: an ECell object that can be used to render strings.
  */

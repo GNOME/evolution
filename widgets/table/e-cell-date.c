@@ -159,13 +159,14 @@ e_cell_date_init (GtkObject *object)
  * a finer control of the way the string is displayed.  The arguments supported
  * allow the control of strikeout, bold, color and a date filter.
  *
- * The arguments "strikeout_column", "bold_column" and "color_column" set
- * and return an integer that points to a column in the model that controls
- * these settings.  So controlling the way things are rendered is achieved
- * by having special columns in the model that will be used to flag whether
- * the date should be rendered with strikeout, or bolded.   In the case of
- * the "color_column" argument, the column in the model is expected to have
- * a string that can be parsed by gdk_color_parse().
+ * The arguments "strikeout_column", "underline_column", "bold_column"
+ * and "color_column" set and return an integer that points to a
+ * column in the model that controls these settings.  So controlling
+ * the way things are rendered is achieved by having special columns
+ * in the model that will be used to flag whether the date should be
+ * rendered with strikeout, underline, or bolded.  In the case of the
+ * "color_column" argument, the column in the model is expected to
+ * have a string that can be parsed by gdk_color_parse().
  * 
  * Returns: an ECell object that can be used to render dates.
  */
