@@ -1,5 +1,9 @@
 2004-02-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-format-html-print.c: Same.
+
+	* em-junk-filter.c: #include <config.h>
+
 	* em-popup.c: Add license & config.h
 
 2004-02-11  Radek Doulik  <rodo@ximian.com>
