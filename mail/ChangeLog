@@ -1,5 +1,16 @@
 2004-03-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Partial fix for bug #53862
+
+	* em-folder-selector.c (emfs_response): Connect to the newly added
+	"folder-added" signal and save a created_uri string so that we can
+	be sure to only listen for the creation of the folder the user
+	created in *our* create-folder dilog (and not from some other
+	place).
+
+	* em-folder-tree-model.c (folder_subscribed): Emit a new
+	"folder-added" signal.
+
 	* mail-session.c (request_password): Focus the entry widget. Fixes
 	bug #55330.
 

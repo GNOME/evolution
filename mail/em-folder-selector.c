@@ -108,6 +108,15 @@ em_folder_selector_init (EMFolderSelector *emfs)
 static void
 em_folder_selector_destroy (GtkObject *obj)
 {
+	EMFolderSelector *emfs = (EMFolderSelector *) obj;
+	EMFolderTreeModel *model;
+	
+	if (emfs->created_id != 0) {
+		model = em_folder_tree_get_model (emfs->emft);
+		g_signal_handler_disconnect (model, emfs->created_id);
+		emfs->created_id = 0;
+	}
+	
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
@@ -118,8 +127,32 @@ em_folder_selector_finalize (GObject *obj)
 	
 	g_free (emfs->selected_path);
 	g_free (emfs->selected_uri);
+	g_free (emfs->created_uri);
 	
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
+}
+
+static void
+folder_created_cb (EMFolderTreeModel *model, const char *path, const char *uri, EMFolderSelector *emfs)
+{
+	CamelException ex;
+	CamelStore *store;
+	
+	printf ("folder_created_cb: uri=%s (we are waiting for %s)\n", uri, emfs->created_uri);
+	
+	camel_exception_init (&ex);
+	if (!(store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex)))
+		return;
+	
+	if (camel_store_folder_uri_equal (store, emfs->created_uri, uri)) {
+		printf ("we got it!\n");
+		em_folder_tree_set_selected (emfs->emft, uri);
+		g_signal_handler_disconnect (model, emfs->created_id);
+		emfs->created_id = 0;
+	} else
+		printf ("we didn't get it... :(\n");
+	
+	camel_object_unref (store);
 }
 
 static void
@@ -141,8 +174,13 @@ emfs_response (GtkWidget *dialog, int response, EMFolderSelector *emfs)
 		uri = em_folder_selector_get_selected_uri ((EMFolderSelector *) dialog);
 		path = em_folder_selector_get_selected_path ((EMFolderSelector *) dialog);
 		
-		if (em_folder_tree_create_folder (emfs->emft, path, uri))
-			em_folder_tree_set_selected (emfs->emft, uri);
+		g_free (emfs->created_uri);
+		emfs->created_uri = g_strdup (uri);
+		
+		if (emfs->created_id == 0)
+			emfs->created_id = g_signal_connect (model, "folder-added", G_CALLBACK (folder_created_cb), emfs);
+		
+		em_folder_tree_create_folder (emfs->emft, path, uri);
 	}
 	
 	gtk_widget_destroy (dialog);

@@ -77,6 +77,7 @@ static void account_removed (EAccountList *accounts, EAccount *account, gpointer
 
 enum {
 	LOADING_ROW,
+	FOLDER_ADDED,
 	LAST_SIGNAL
 };
 
@@ -143,6 +144,17 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 			      G_TYPE_NONE, 2,
 			      G_TYPE_POINTER,
 			      G_TYPE_POINTER);
+	
+	signals[FOLDER_ADDED] =
+		g_signal_new ("folder-added",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EMFolderTreeModelClass, loading_row),
+			      NULL, NULL,
+			      em_marshal_VOID__STRING_STRING,
+			      G_TYPE_NONE, 2,
+			      G_TYPE_STRING,
+			      G_TYPE_STRING);
 }
 
 static int
@@ -524,6 +536,8 @@ folder_subscribed (CamelStore *store, CamelFolderInfo *fi, EMFolderTreeModel *mo
 	gtk_tree_store_append ((GtkTreeStore *) model, &iter, &parent);
 	
 	em_folder_tree_model_set_folder_info (model, &iter, si, fi);
+	
+	g_signal_emit (model, signals[FOLDER_ADDED], 0, fi->path, fi->url);
 	
  done:
 	

@@ -100,6 +100,10 @@ struct _EMFolderTreeModelClass {
 	void     (* loading_row)        (EMFolderTreeModel *model,
 					 GtkTreePath *path,
 					 GtkTreeIter *iter);
+	
+	void     (* folder_added)       (EMFolderTreeModel *model,
+					 const char *path,
+					 const char *uri);
 };
 
 
