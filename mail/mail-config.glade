@@ -2434,15 +2434,12 @@ Kerberos
 	</child>
 
 	<widget>
-	  <class>GtkLabel</class>
-	  <name>lblMarkAsRead</name>
-	  <label>Mark messages as &quot;Read&quot; after:</label>
-	  <justify>GTK_JUSTIFY_CENTER</justify>
-	  <wrap>False</wrap>
-	  <xalign>0.5</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>4</xpad>
-	  <ypad>0</ypad>
+	  <class>GtkCheckButton</class>
+	  <name>checkMarkTimeout</name>
+	  <can_focus>True</can_focus>
+	  <label>Mark messages as &quot;Read&quot; after</label>
+	  <active>False</active>
+	  <draw_indicator>True</draw_indicator>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>

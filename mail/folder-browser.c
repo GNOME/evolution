@@ -1693,7 +1693,7 @@ done_message_selected (CamelFolder *folder, char *uid, CamelMimeMessage *msg, vo
 	if (fb->seen_id)
 		gtk_timeout_remove(fb->seen_id);
 
-	if (msg) {
+	if (mail_config_get_do_seen_timeout() && msg) {
 		if (timeout > 0)
 			fb->seen_id = gtk_timeout_add(timeout, do_mark_seen, fb);
 		else

@@ -65,6 +65,7 @@ typedef struct {
 	guint32  citation_color;
 	gboolean prompt_empty_subject;
 	gboolean prompt_only_bcc;
+	gboolean do_seen_timeout;
 	gint seen_timeout;
 	gboolean empty_trash_on_exit;
 	
@@ -481,6 +482,10 @@ config_read (void)
 	config->citation_color = bonobo_config_get_long_with_default (
 		config->db, "/Mail/Display/citation_color", 0x737373, NULL);
 	
+	/* Mark as seen toggle */
+	config->do_seen_timeout = bonobo_config_get_long_with_default (config->db,
+		"/Mail/Display/do_seen_timeout", TRUE, NULL);
+
 	/* Mark as seen timeout */
 	config->seen_timeout = bonobo_config_get_long_with_default (config->db,
                 "/Mail/Display/seen_timeout", 1500, NULL);
@@ -742,13 +747,16 @@ mail_config_write_on_exit (void)
 				   config->show_preview, NULL);
 	
 	/* Hide deleted automatically */
-	bonobo_config_set_boolean (config->db, "Mail/Display/hide_deleted", 
+	bonobo_config_set_boolean (config->db, "/Mail/Display/hide_deleted", 
 				   config->hide_deleted, NULL);
 	
 	/* Size of vpaned in mail view */
-	bonobo_config_set_long (config->db, "Mail/Display/paned_size", 
+	bonobo_config_set_long (config->db, "/Mail/Display/paned_size", 
 				config->paned_size, NULL);
-	
+
+	/* Mark as seen toggle */
+	bonobo_config_set_boolean (config->db, "/Mail/Display/do_seen_timeout",
+				   config->do_seen_timeout, NULL);
 	/* Mark as seen timeout */
 	bonobo_config_set_long (config->db, "/Mail/Display/seen_timeout", 
 				config->seen_timeout, NULL);
@@ -1039,6 +1047,18 @@ void
 mail_config_set_citation_color (guint32 citation_color)
 {
 	config->citation_color = citation_color;
+}
+
+gboolean
+mail_config_get_do_seen_timeout (void)
+{
+	return config->do_seen_timeout;
+}
+
+void
+mail_config_set_do_seen_timeout (gboolean do_seen_timeout)
+{
+	config->do_seen_timeout = do_seen_timeout;
 }
 
 gint

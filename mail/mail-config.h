@@ -130,6 +130,9 @@ void     mail_config_set_citation_highlight   (gboolean);
 guint32  mail_config_get_citation_color       (void);
 void     mail_config_set_citation_color       (guint32);
 
+gint     mail_config_get_do_seen_timeout      (void);
+void     mail_config_set_do_seen_timeout      (gboolean do_seen_timeout);
+
 gint     mail_config_get_mark_as_seen_timeout (void);
 void     mail_config_set_mark_as_seen_timeout (gint timeout);
 

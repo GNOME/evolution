@@ -574,6 +574,12 @@ citation_highlight_toggled (GtkToggleButton *button, gpointer data)
 }
 
 static void
+timeout_toggled (GtkToggleButton *button, gpointer data)
+{
+	mail_config_set_do_seen_timeout (gtk_toggle_button_get_active (button));
+}
+
+static void
 citation_color_set (GnomeColorPicker *cp, guint r, guint g, guint b, guint a)
 {
 	guint32 rgb;
@@ -587,6 +593,7 @@ citation_color_set (GnomeColorPicker *cp, guint r, guint g, guint b, guint a)
 	mail_config_set_citation_color (rgb);
 }
 
+/* FIXME: */
 
 static void
 timeout_changed (GtkEntry *entry, gpointer data)
@@ -763,7 +770,12 @@ construct (MailAccountsDialog *dialog)
 	set_color (dialog->citation_color);
 	gtk_signal_connect (GTK_OBJECT (dialog->citation_color), "color_set",
 			    GTK_SIGNAL_FUNC (citation_color_set), dialog);
-	
+
+	dialog->timeout_toggle = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "checkMarkTimeout"));
+	gtk_toggle_button_set_active (dialog->timeout_toggle, mail_config_get_do_seen_timeout ());
+	gtk_signal_connect (GTK_OBJECT (dialog->timeout_toggle), "toggled",
+			    GTK_SIGNAL_FUNC (timeout_toggled), dialog);
+
 	dialog->timeout = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinMarkTimeout"));
 	gtk_spin_button_set_value (dialog->timeout, (1.0 * mail_config_get_mark_as_seen_timeout ()) / 1000.0);
 	gtk_signal_connect (GTK_OBJECT (dialog->timeout), "changed",

@@ -75,6 +75,7 @@ struct _MailAccountsDialog {
 	/* Display page */
 	GtkToggleButton *citation_highlight;
 	GnomeColorPicker *citation_color;
+	GtkToggleButton *timeout_toggle;
 	GtkSpinButton *timeout;
 	GtkToggleButton *images_always, *images_sometimes, *images_never;
 	
