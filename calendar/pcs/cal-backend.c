@@ -23,9 +23,11 @@
  */
 
 #include <config.h>
-#include <libxml/parser.h>
-#include <libxml/parserInternals.h>
-#include <libxml/xmlmemory.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtksignal.h>
+#include <gnome-xml/parser.h>
+#include <gnome-xml/parserInternals.h>
+#include <gnome-xml/xmlmemory.h>
 
 #include "cal-backend.h"
 #include "libversit/vcc.h"
@@ -46,7 +48,7 @@ static void cal_backend_class_init (CalBackendClass *class);
 
 static guint cal_backend_signals[LAST_SIGNAL];
 
-#define CLASS(backend) (CAL_BACKEND_CLASS (G_OBJECT_GET_CLASS (backend)))
+#define CLASS(backend) (CAL_BACKEND_CLASS (GTK_OBJECT (backend)->klass))
 
 
 
@@ -59,23 +61,25 @@ static guint cal_backend_signals[LAST_SIGNAL];
  *
  * Return value: The type ID of the #CalBackend class.
  **/
-GType
+GtkType
 cal_backend_get_type (void)
 {
-	static GType cal_backend_type = 0;
+	static GtkType cal_backend_type = 0;
 
 	if (!cal_backend_type) {
-		static GTypeInfo info = {
-                        sizeof (CalBackendClass),
-                        (GBaseInitFunc) NULL,
-                        (GBaseFinalizeFunc) NULL,
-                        (GClassInitFunc) cal_backend_class_init,
-                        NULL, NULL,
-                        sizeof (CalBackend),
-                        0,
-                        (GInstanceInitFunc) NULL
-                };
-		cal_backend_type = g_type_register_static (G_TYPE_OBJECT, "CalBackend", &info, 0);
+		static const GtkTypeInfo cal_backend_info = {
+			"CalBackend",
+			sizeof (CalBackend),
+			sizeof (CalBackendClass),
+			(GtkClassInitFunc) cal_backend_class_init,
+			(GtkObjectInitFunc) NULL,
+			NULL, /* reserved_1 */
+			NULL, /* reserved_2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		cal_backend_type =
+			gtk_type_unique (GTK_TYPE_OBJECT, &cal_backend_info);
 	}
 
 	return cal_backend_type;
@@ -85,54 +89,51 @@ cal_backend_get_type (void)
 static void
 cal_backend_class_init (CalBackendClass *class)
 {
-	GObjectClass *object_class;
+	GtkObjectClass *object_class;
 
-	object_class = (GObjectClass *) class;
+	object_class = (GtkObjectClass *) class;
 
 	cal_backend_signals[LAST_CLIENT_GONE] =
-		g_signal_new ("last_client_gone",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CalBackendClass, last_client_gone),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+		gtk_signal_new ("last_client_gone",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalBackendClass, last_client_gone),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 	cal_backend_signals[CAL_ADDED] =
-		g_signal_new ("cal_added",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CalBackendClass, cal_added),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_POINTER);
+		gtk_signal_new ("cal_added",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalBackendClass, cal_added),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_POINTER);
 	cal_backend_signals[OPENED] =
-		g_signal_new ("opened",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CalBackendClass, opened),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__ENUM,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_ENUM);
+		gtk_signal_new ("opened",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalBackendClass, opened),
+				gtk_marshal_NONE__ENUM,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_ENUM);
 	cal_backend_signals[OBJ_UPDATED] =
-		g_signal_new ("obj_updated",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CalBackendClass, obj_updated),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__STRING,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_STRING);
+		gtk_signal_new ("obj_updated",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalBackendClass, obj_updated),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
 	cal_backend_signals[OBJ_REMOVED] =
-		g_signal_new ("obj_removed",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (CalBackendClass, obj_removed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__STRING,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_STRING);
+		gtk_signal_new ("obj_removed",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalBackendClass, obj_removed),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
+
+	gtk_object_class_add_signals (object_class, cal_backend_signals, LAST_SIGNAL);
 
 	class->last_client_gone = NULL;
 	class->opened = NULL;
@@ -204,7 +205,7 @@ cal_backend_get_email_address (CalBackend *backend)
 
 /* Callback used when a Cal is destroyed */
 static void
-cal_destroy_cb (GObject *object, gpointer data)
+cal_destroy_cb (GtkObject *object, gpointer data)
 {
 	Cal *cal;
 	Cal *lcal;
@@ -255,16 +256,16 @@ cal_backend_add_cal (CalBackend *backend, Cal *cal)
 
 	/* we do not keep a reference to the Cal since the Calendar
 	 * user agent owns it */
-	g_signal_connect (G_OBJECT (cal), "destroy",
-			  G_CALLBACK (cal_destroy_cb),
-			  backend);
+	gtk_signal_connect (GTK_OBJECT (cal), "destroy",
+			    GTK_SIGNAL_FUNC (cal_destroy_cb),
+			    backend);
 
 	backend->clients = g_list_prepend (backend->clients, cal);
 
 	/* notify backend that a new Cal has been added */
-	g_signal_emit (G_OBJECT (backend),
-		       cal_backend_signals[CAL_ADDED],
-		       0, cal);
+	gtk_signal_emit (GTK_OBJECT (backend),
+			 cal_backend_signals[CAL_ADDED],
+			 cal);
 }
 
 /**
@@ -720,14 +721,14 @@ cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
  * result of the operation.
  **/
 CalBackendResult
-cal_backend_update_objects (CalBackend *backend, const char *calobj)
+cal_backend_update_objects (CalBackend *backend, const char *calobj, CalObjModType mod)
 {
 	g_return_val_if_fail (backend != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
 	g_return_val_if_fail (calobj != NULL, FALSE);
 
 	g_assert (CLASS (backend)->update_objects != NULL);
-	return (* CLASS (backend)->update_objects) (backend, calobj);
+	return (* CLASS (backend)->update_objects) (backend, calobj, mod);
 }
 
 /**
@@ -742,14 +743,14 @@ cal_backend_update_objects (CalBackend *backend, const char *calobj)
  * result of the operation.
  **/
 CalBackendResult
-cal_backend_remove_object (CalBackend *backend, const char *uid)
+cal_backend_remove_object (CalBackend *backend, const char *uid, CalObjModType mod)
 {
 	g_return_val_if_fail (backend != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
 	g_return_val_if_fail (uid != NULL, FALSE);
 
 	g_assert (CLASS (backend)->remove_object != NULL);
-	return (* CLASS (backend)->remove_object) (backend, uid);
+	return (* CLASS (backend)->remove_object) (backend, uid, mod);
 }
 
 CalBackendSendResult
@@ -777,7 +778,7 @@ cal_backend_last_client_gone (CalBackend *backend)
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (IS_CAL_BACKEND (backend));
 
-	g_signal_emit (G_OBJECT (backend), cal_backend_signals[LAST_CLIENT_GONE], 0);
+	gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[LAST_CLIENT_GONE]);
 }
 
 /**
@@ -794,8 +795,8 @@ cal_backend_opened (CalBackend *backend, CalBackendOpenStatus status)
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (IS_CAL_BACKEND (backend));
 
-	g_signal_emit (G_OBJECT (backend), cal_backend_signals[OPENED],
-		       0, status);
+	gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[OPENED],
+			 status);
 }
 
 /**
@@ -813,8 +814,8 @@ cal_backend_obj_updated (CalBackend *backend, const char *uid)
 	g_return_if_fail (IS_CAL_BACKEND (backend));
 	g_return_if_fail (uid != NULL);
 
-	g_signal_emit (G_OBJECT (backend), cal_backend_signals[OBJ_UPDATED],
-		       0, uid);
+	gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[OBJ_UPDATED],
+			 uid);
 }
 
 /**
@@ -832,8 +833,8 @@ cal_backend_obj_removed (CalBackend *backend, const char *uid)
 	g_return_if_fail (IS_CAL_BACKEND (backend));
 	g_return_if_fail (uid != NULL);
 
-	g_signal_emit (G_OBJECT (backend), cal_backend_signals[OBJ_REMOVED],
-		       0, uid);
+	gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[OBJ_REMOVED],
+			 uid);
 }
 
 

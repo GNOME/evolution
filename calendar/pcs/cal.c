@@ -28,9 +28,9 @@
 #include "query.h"
 #include "Evolution-Wombat.h"
 
-#define PARENT_TYPE         BONOBO_TYPE_OBJECT
+#define PARENT_TYPE         BONOBO_X_OBJECT_TYPE
 
-static BonoboObjectClass *parent_class;
+static BonoboXObjectClass *parent_class;
 
 /* Private part of the Cal structure */
 struct _CalPrivate {
@@ -427,6 +427,7 @@ impl_Cal_get_alarms_for_object (PortableServer_Servant servant,
 static void
 impl_Cal_update_objects (PortableServer_Servant servant,
 			 const GNOME_Evolution_Calendar_CalObj calobj,
+			 const GNOME_Evolution_Calendar_CalObjModType mod,
 			 CORBA_Environment *ev)
 {
 	Cal *cal;
@@ -436,7 +437,7 @@ impl_Cal_update_objects (PortableServer_Servant servant,
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	result = cal_backend_update_objects (priv->backend, calobj);
+	result = cal_backend_update_objects (priv->backend, calobj, mod);
 	switch (result) {
 	case CAL_BACKEND_RESULT_INVALID_OBJECT :
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject);
@@ -456,6 +457,7 @@ impl_Cal_update_objects (PortableServer_Servant servant,
 static void
 impl_Cal_remove_object (PortableServer_Servant servant,
 			const GNOME_Evolution_Calendar_CalObjUID uid,
+			const GNOME_Evolution_Calendar_CalObjModType mod,
 			CORBA_Environment *ev)
 {
 	Cal *cal;
@@ -465,7 +467,7 @@ impl_Cal_remove_object (PortableServer_Servant servant,
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	result = cal_backend_remove_object (priv->backend, uid);
+	result = cal_backend_remove_object (priv->backend, uid, mod);
 	switch (result) {
 	case CAL_BACKEND_RESULT_INVALID_OBJECT :
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject);
@@ -553,7 +555,6 @@ impl_Cal_get_query (PortableServer_Servant servant,
 	CORBA_exception_init (&ev2);
 	query_copy = CORBA_Object_duplicate (BONOBO_OBJREF (query), &ev2);
 	if (BONOBO_EX (&ev2)) {
-		bonobo_object_unref (query);
 		CORBA_exception_free (&ev2);
 		g_message ("Cal_get_query(): Could not duplicate the query reference");
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_CouldNotCreate);
@@ -688,7 +689,7 @@ cal_new (CalBackend *backend, GNOME_Evolution_Calendar_Listener listener)
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
-	cal = CAL (g_object_new (CAL_TYPE, NULL));
+	cal = CAL (gtk_type_new (CAL_TYPE));
 
 	retval = cal_construct (cal, backend, listener);
 	if (!retval) {
@@ -702,7 +703,7 @@ cal_new (CalBackend *backend, GNOME_Evolution_Calendar_Listener listener)
 
 /* Destroy handler for the calendar */
 static void
-cal_finalize (GObject *object)
+cal_destroy (GtkObject *object)
 {
 	Cal *cal;
 	CalPrivate *priv;
@@ -726,8 +727,8 @@ cal_finalize (GObject *object)
 
 	g_free (priv);
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -736,13 +737,13 @@ cal_finalize (GObject *object)
 static void
 cal_class_init (CalClass *klass)
 {
-	GObjectClass *object_class = (GObjectClass *) klass;
+	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	POA_GNOME_Evolution_Calendar_Cal__epv *epv = &klass->epv;
 
-	parent_class = g_type_class_peek_parent (klass);
+	parent_class = gtk_type_class (PARENT_TYPE);
 
 	/* Class method overrides */
-	object_class->finalize = cal_finalize;
+	object_class->destroy = cal_destroy;
 
 	/* Epv methods */
 	epv->_get_uri = impl_Cal_get_uri;
@@ -768,7 +769,7 @@ cal_class_init (CalClass *klass)
 
 /* Object initialization function for the calendar */
 static void
-cal_init (Cal *cal, CalClass *klass)
+cal_init (Cal *cal)
 {
 	CalPrivate *priv;
 
@@ -778,7 +779,7 @@ cal_init (Cal *cal, CalClass *klass)
 	priv->listener = CORBA_OBJECT_NIL;
 }
 
-BONOBO_TYPE_FUNC_FULL (Cal, GNOME_Evolution_Calendar_Cal, PARENT_TYPE, cal);
+BONOBO_X_TYPE_FUNC_FULL (Cal, GNOME_Evolution_Calendar_Cal, PARENT_TYPE, cal);
 
 /**
  * cal_notify_mode:

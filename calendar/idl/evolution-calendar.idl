@@ -48,6 +48,13 @@ module Calendar {
 	const CalObjType TYPE_JOURNAL = 1 << 2;
 	const CalObjType TYPE_ANY     = 0x07;
 
+	/* Flags for getting UID sequences */
+	typedef long CalObjModType;
+	const CalObjModType MOD_THIS          = 1 << 0;
+	const CalObjModType MOD_THISANDPRIOR  = 1 << 1;
+	const CalObjModType MOD_THISANDFUTURE = 1 << 2;
+	const CalObjModType MOD_ALL           = 0x07;
+
 	/* Flags for getting URI sequences */
 	typedef long CalMode;
 	const CalMode MODE_LOCAL   = 1 << 0;
@@ -208,11 +215,11 @@ module Calendar {
 		 * object after this call, and call getObject to get the
 		 * updated version.
 		 */
-		void updateObjects (in CalObj calobj)
+		void updateObjects (in CalObj calobj, in CalObjModType mod)
 			raises (InvalidObject, PermissionDenied);
 
 		/* Removes a component */
-		void removeObject (in CalObjUID uid)
+		void removeObject (in CalObjUID uid, in CalObjModType mod)
 			raises (NotFound, PermissionDenied);
 
 		/* Sends a component */

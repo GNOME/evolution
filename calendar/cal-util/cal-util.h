@@ -22,13 +22,14 @@
 #ifndef CAL_UTIL_H
 #define CAL_UTIL_H
 
+#include <libgnome/gnome-defs.h>
 #include <ical.h>
 #include <time.h>
 #include <glib.h>
 #include <cal-util/cal-component.h>
 #include <cal-util/cal-recur.h>
 
-G_BEGIN_DECLS
+BEGIN_GNOME_DECLS
 
 
 
@@ -50,6 +51,14 @@ typedef enum {
 	CALOBJ_TYPE_JOURNAL = 1 << 2,
 	CALOBJ_TYPE_ANY     = 0x07
 } CalObjType;
+
+/* Used for modifying objects */
+typedef enum {
+	CALOBJ_MOD_THIS          = 1 << 0,
+	CALOBJ_MOD_THISANDPRIOR  = 1 << 1,
+	CALOBJ_MOD_THISANDFUTURE = 1 << 2,
+	CALOBJ_MOD_ALL           = 0x07
+} CalObjModType;
 
 /* Used for mode stuff */
 typedef enum {
@@ -87,7 +96,7 @@ char *cal_util_expand_uri (char *uri, gboolean tasks);
 void cal_util_add_timezones_from_component (icalcomponent *vcal_comp,
 					    CalComponent *comp);
 
-G_END_DECLS
+END_GNOME_DECLS
 
 #endif
 
