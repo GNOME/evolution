@@ -1,3 +1,13 @@
+2001-01-22  Iain Holmes  <iain@ximian.com>
+
+	* evolution-outlook-importer.c: Outlook Express 4 .mbx importer.
+
+	* component-factory.c (component_factory_init): initialise the
+	outlook importer.
+
+	* GNOME_Evolution_Mail.oafinfo: Add the details for the Outlook
+	importer.
+
 2001-01-22  Dan Winship  <danw@ximian.com>
 
 	* mail-mt.[ch]: make mail_gui_thread non-static.
