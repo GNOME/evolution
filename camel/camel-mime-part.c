@@ -488,8 +488,16 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	if (mp->headers) {
 		struct _header_raw *h = mp->headers;
+
 		while (h) {
-			count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(h->value[0]) ? ":" : ": ", h->value);
+			if (h->value == NULL){
+				g_warning ("h->value is NULL here for %s", h->name);
+				count = 0;
+			} else {
+				count = camel_stream_printf(
+					stream, "%s%s%s\n", h->name,
+					isspace(h->value[0]) ? ":" : ": ", h->value);
+			}
 			if (count == -1)
 				return -1;
 			total += count;
