@@ -21,7 +21,8 @@
 enum {
 	PROP_TIME_DISPLAY,
 	PROP_COLORS,
-	PROP_TODO
+	PROP_TODO,
+	PROP_ALARMS
 };
 
 static GtkWidget *prop_win;		/* The preferences dialog */
@@ -46,6 +47,13 @@ static GnomeCanvasItem *month_item;
 static GtkWidget *due_date_show_button;
 static GtkWidget *due_date_overdue_highlight;
 static GtkWidget *priority_show_button;
+
+/* Widgets for the alarm page */
+static GtkWidget *enable_display_beep;
+
+/* prototypes */
+static void prop_apply_alarms (void);
+static void create_alarm_page (void);
 
 /* Callback used when the property box is closed -- just sets the prop_win variable to null. */
 static int
@@ -146,7 +154,11 @@ prop_apply (GtkWidget *w, int page)
 		break;
 
 	case PROP_TODO:
-	        prop_apply_todo();
+	        prop_apply_todo ();
+		break;
+		
+	case PROP_ALARMS:
+		prop_apply_alarms ();
 		break;
 
 	case -1:
@@ -654,7 +666,8 @@ properties (GtkWidget *toplevel)
 	
 	create_time_display_page ();
 	create_colors_page ();
-	create_todo_page();
+	create_todo_page ();
+	create_alarm_page ();
 
 	gtk_signal_connect (GTK_OBJECT (prop_win), "destroy",
 			    (GtkSignalFunc) prop_cancel, NULL);
@@ -702,5 +715,101 @@ color_spec_from_prop (ColorProp propnum)
 	return build_color_spec (color_props[propnum].r, color_props[propnum].g, color_props[propnum].b);
 }
 
+static void
+create_alarm_page (void)
+{
+	GtkWidget *main_box;
+	GtkWidget *default_frame;
+	GtkWidget *default_table;
+	GtkWidget *misc_frame;
+	GtkWidget *misc_box;
 
+	main_box = gtk_hbox_new (FALSE, GNOME_PAD);
+	gtk_container_set_border_width (GTK_CONTAINER (main_box), GNOME_PAD_SMALL);
+	gnome_property_box_append_page (GNOME_PROPERTY_BOX (prop_win), 
+				       main_box, gtk_label_new (_("Alarms")));
 
+	/* build miscellaneous box */
+	misc_frame = gtk_frame_new (_("Alarm Properties"));
+	gtk_container_set_border_width (GTK_CONTAINER (misc_frame), 
+					GNOME_PAD_SMALL);
+	misc_box = gtk_vbox_new (FALSE, GNOME_PAD);
+
+	gtk_container_set_border_width (GTK_CONTAINER (misc_frame), GNOME_PAD_SMALL);
+	gtk_container_add (GTK_CONTAINER (misc_frame), misc_box);
+
+	gtk_box_pack_start (GTK_BOX (main_box), misc_frame, FALSE, FALSE, 0);
+
+	enable_display_beep = gtk_check_button_new_with_label (_("Beep on display alarms"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (enable_display_beep),
+				      beep_on_display);
+	gtk_box_pack_start (GTK_BOX (misc_box), enable_display_beep, FALSE, FALSE, 0);
+	gtk_signal_connect (GTK_OBJECT (enable_display_beep), "toggled",
+			    (GtkSignalFunc) prop_changed,
+			    NULL);
+
+	/* populate default frame/box */
+	default_frame = gtk_frame_new (_("Defaults"));
+	gtk_container_set_border_width (GTK_CONTAINER (default_frame), GNOME_PAD_SMALL);
+	gtk_box_pack_start (GTK_BOX (main_box), default_frame, FALSE, FALSE, 0);
+	default_table = gtk_table_new (1, 1, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (default_table), 4);
+	gtk_table_set_row_spacings (GTK_TABLE (default_table), 4);
+	gtk_table_set_col_spacings (GTK_TABLE (default_table), 4);
+	gtk_container_add (GTK_CONTAINER (default_frame), default_table);
+		    
+	ee_create_ae (GTK_TABLE (default_table), _("Display"), 
+		      &alarm_defaults [ALARM_DISPLAY], ALARM_DISPLAY, 1, 
+		      FALSE, prop_changed);
+	ee_create_ae (GTK_TABLE (default_table), _("Audio"), 
+		      &alarm_defaults [ALARM_AUDIO], ALARM_AUDIO, 2, 
+		      FALSE, prop_changed);
+	ee_create_ae (GTK_TABLE (default_table), _("Program"), 
+		      &alarm_defaults [ALARM_PROGRAM], ALARM_PROGRAM, 3, 
+		      FALSE, prop_changed);
+	ee_create_ae (GTK_TABLE (default_table), _("Mail"), 
+		      &alarm_defaults [ALARM_MAIL], ALARM_MAIL, 4, 
+		      FALSE, prop_changed);
+}
+	
+static void
+prop_store_alarm_default_values (CalendarAlarm* alarm)
+{
+	ee_store_alarm (alarm, alarm->type);
+
+	switch (alarm->type) {
+	case ALARM_DISPLAY:
+		gnome_config_push_prefix ("/calendar/alarms/def_disp_");
+		break;
+	case ALARM_AUDIO:
+		gnome_config_push_prefix ("/calendar/alarms/def_audio_");
+		break;
+	case ALARM_PROGRAM:
+		gnome_config_push_prefix ("/calendar/alarms/def_prog_");
+		break;
+	case ALARM_MAIL:
+		gnome_config_push_prefix ("/calendar/alarms/def_mail_");
+		break;
+	}
+	
+	gnome_config_set_int ("enabled", alarm->enabled);
+	gnome_config_set_int ("count", alarm->count);
+	gnome_config_set_int ("units", alarm->units);
+	if (alarm->data)
+		gnome_config_set_string ("data", alarm->data);
+	
+	gnome_config_pop_prefix ();
+	gnome_config_sync ();
+}
+	
+static void
+prop_apply_alarms ()
+{
+	int i;
+	for (i=0; i < 4; i++)
+		prop_store_alarm_default_values (&alarm_defaults [i]);
+
+	beep_on_display = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (enable_display_beep));
+	gnome_config_set_bool ("/calendar/alarms/beep_on_display", beep_on_display);
+	gnome_config_sync();
+}

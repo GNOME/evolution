@@ -44,6 +44,9 @@ extern gboolean todo_style_changed;
 extern gint todo_current_sort_column;
 extern gint todo_current_sort_type;
 
+/* default alarm stuff */
+extern CalendarAlarm alarm_defaults[4];
+extern gboolean beep_on_display;
 
 /* Creates and runs the preferences dialog box */
 void properties (GtkWidget *toplevel);
@@ -79,3 +82,8 @@ GnomeCalendar *new_calendar (char *full_name, char *calendar_file,
 			     char *geometry, char *page, gboolean hidden);
 
 #endif
+
+
+
+
+

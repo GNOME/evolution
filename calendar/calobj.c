@@ -15,6 +15,8 @@
 #include "timeutil.h"
 #include "../libversit/vcc.h"
 
+extern CalendarAlarm alarm_defaults[4];
+
 static char *
 ical_gen_uid (void)
 {
@@ -62,19 +64,12 @@ ical_object_new (void)
 static void
 default_alarm (iCalObject *ical, CalendarAlarm *alarm, char *def_mail, enum AlarmType type)
 {
-	alarm->enabled = 0;
-	alarm->type    = type;
-
-	if (type != ALARM_MAIL){
-		alarm->count   = 15;
-		alarm->units   = ALARM_MINUTES;
-	} else {
-		alarm->count   = 1;
-		alarm->units   = ALARM_DAYS;
-	}
-
-	if (type == ALARM_MAIL)
-		alarm->data = g_strdup (def_mail);
+	alarm->type = type;
+	alarm->enabled = alarm_defaults[type].enabled;
+	alarm->count = alarm_defaults[type].count;
+	alarm->units = alarm_defaults[type].units;
+	if (alarm_defaults[type].data)
+		alarm->data = g_strdup (alarm_defaults[type].data);
 	else
 		alarm->data = g_strdup ("");
 }

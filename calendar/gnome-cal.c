@@ -443,6 +443,8 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 		GtkWidget *w;
 		char *msg;
 
+		if (beep_on_display)
+			gdk_beep ();
 		msg = g_strconcat (_("Reminder of your appointment at "),
 					ctime (&app), "`",
 					ico->summary, "'", NULL);

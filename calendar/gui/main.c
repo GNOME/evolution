@@ -83,6 +83,17 @@ static int show_events;
 /* If set, show todo items quit */
 static int show_todo;
 
+/* If set, beep on display alarms */
+gboolean beep_on_display = 0;
+
+/* Default values for alarms */
+CalendarAlarm alarm_defaults[4] = {
+	{ ALARM_MAIL, 0, 15, ALARM_MINUTES },
+	{ ALARM_PROGRAM, 0, 15, ALARM_MINUTES },
+	{ ALARM_DISPLAY, 0, 15, ALARM_MINUTES },
+	{ ALARM_AUDIO, 0, 15, ALARM_MINUTES }
+};
+
 static void
 init_username (void)
 {
@@ -100,6 +111,52 @@ range_check_hour (int hour)
 
 	return hour;
 }
+
+static void
+init_default_alarms (void)
+{
+	int i;
+	gboolean def;
+
+	alarm_defaults [ALARM_DISPLAY].type = ALARM_DISPLAY;
+	alarm_defaults [ALARM_AUDIO].type   = ALARM_AUDIO;
+	alarm_defaults [ALARM_PROGRAM].type = ALARM_PROGRAM;
+	alarm_defaults [ALARM_MAIL].type    = ALARM_MAIL;
+	
+	for (i = 0; i < 4; i++) {
+		switch (alarm_defaults [i].type) {
+		case ALARM_DISPLAY:
+			gnome_config_push_prefix ("/calendar/alarms/def_disp_");
+			break;
+		case ALARM_AUDIO:
+			gnome_config_push_prefix ("/calendar/alarms/def_audio_");
+			break;
+		case ALARM_PROGRAM:
+			gnome_config_push_prefix ("/calendar/alarms/def_prog_");
+			break;
+		case ALARM_MAIL:
+			gnome_config_push_prefix ("/calendar/alarms/def_mail_");
+			break;
+		}
+		
+		alarm_defaults[i].enabled = gnome_config_get_int ("enabled=0");
+		if (alarm_defaults[i].type != ALARM_MAIL) {
+			alarm_defaults[i].count   = gnome_config_get_int ("count=15");
+			alarm_defaults[i].units   = gnome_config_get_int ("units=0");
+		} else {
+			alarm_defaults[i].count   = gnome_config_get_int ("count=1");
+			alarm_defaults[i].count   = gnome_config_get_int ("count=2");
+		}
+		
+		alarm_defaults[i].data = gnome_config_get_string_with_default ("data=",
+									       &def);
+		if (def)
+			alarm_defaults[i].data = NULL;
+
+		gnome_config_pop_prefix ();
+	}
+}
+
 
 /*
  * Initializes the calendar internal variables, loads defaults
@@ -153,11 +210,18 @@ init_calendar (void)
 	
 	todo_show_priority = gnome_config_get_bool("/calendar/Todo/show_priority");
 
+	/* read alarm settings */
+	beep_on_display = gnome_config_get_bool ("/calendar/alarms/beep_on_display=FALSE");
+	init_default_alarms ();
+	
+
 	/* Done */
 
 	gnome_config_pop_prefix ();
 }
 
+		
+	
 static void save_calendar_cmd (GtkWidget *widget, void *data);
 
 static void

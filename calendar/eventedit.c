@@ -319,20 +319,30 @@ alarm_toggle (GtkToggleButton *toggle, CalendarAlarm *alarm)
 #define FXS (GTK_FILL | GTK_EXPAND | GTK_SHRINK)
 #define FS  (GTK_FILL | GTK_SHRINK)
 
-static void
-ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType type, int y)
+void
+ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType type, int y, gboolean control_sens, GtkSignalFunc dirty_func)
 {
 	GtkWidget *entry;
 
 	alarm->w_enabled = gtk_check_button_new_with_label (str);
-	gtk_signal_connect (GTK_OBJECT (alarm->w_enabled), "toggled",
-			    GTK_SIGNAL_FUNC (alarm_toggle), alarm);
+	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (alarm->w_enabled), 
+				     alarm->enabled);
+	if (control_sens)
+		gtk_signal_connect (GTK_OBJECT (alarm->w_enabled), "toggled",
+				    GTK_SIGNAL_FUNC (alarm_toggle), alarm);
+	if (dirty_func)
+		gtk_signal_connect (GTK_OBJECT (alarm->w_enabled), "toggled",
+				    GTK_SIGNAL_FUNC (dirty_func), NULL);
 	gtk_table_attach (table, alarm->w_enabled, 0, 1, y, y+1, FS, FS, 0, 0);
 
 	alarm->w_count = make_spin_button (alarm->count, 0, 10000);
+	if (dirty_func)
+		gtk_signal_connect (GTK_OBJECT (alarm->w_count), "changed",
+				    GTK_SIGNAL_FUNC (dirty_func), NULL);
 	gtk_table_attach (table, alarm->w_count, 1, 2, y, y+1, FS, FS, 0, 0);
 	
 	alarm->w_timesel = timesel_new ();
+	/* is there a "changed" signal which we can connect to? */
 	gtk_option_menu_set_history (GTK_OPTION_MENU (alarm->w_timesel), alarm->units);
 	gtk_table_attach (table, alarm->w_timesel, 2, 3, y, y+1, FS, FS, 0, 0);
 	
@@ -344,6 +354,11 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType t
 		alarm->w_entry = gtk_entry_new ();
 		gtk_table_attach (table, alarm->w_entry, 4, 5, y, y+1, FXS, FS, 0, 0);
 		gtk_entry_set_text (GTK_ENTRY (alarm->w_entry), alarm->data ? alarm->data : "");
+		if (dirty_func)
+			gtk_signal_connect (GTK_OBJECT (alarm->w_entry), 
+					    "changed",
+					    GTK_SIGNAL_FUNC (dirty_func), 
+					    NULL);
 		break;
 
 	case ALARM_PROGRAM:
@@ -354,12 +369,17 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType t
 		entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (alarm->w_entry));
 		gtk_entry_set_text (GTK_ENTRY (entry), alarm->data ? alarm->data : "");
 		gtk_table_attach (table, alarm->w_entry, 4, 5, y, y+1, FXS, FS, 0, 0);
+		if (dirty_func)
+			gtk_signal_connect (GTK_OBJECT (entry), 
+					    "changed",
+					    GTK_SIGNAL_FUNC (dirty_func), 
+					    NULL);
 		break;
 
 	default:
 		break;
 	}
-	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (alarm->w_enabled), alarm->enabled);
+
 	ee_alarm_setting (alarm, alarm->enabled);
 }
 
@@ -379,10 +399,10 @@ ee_alarm_widgets (EventEditor *ee)
 	mailto  = gtk_label_new (_("Mail to:"));
 	mailte  = gtk_entry_new ();
 
-	ee_create_ae (GTK_TABLE (table), _("Display"), &ee->ical->dalarm, ALARM_DISPLAY, 1);
-	ee_create_ae (GTK_TABLE (table), _("Audio"),   &ee->ical->aalarm, ALARM_AUDIO, 2);
-	ee_create_ae (GTK_TABLE (table), _("Program"), &ee->ical->palarm, ALARM_PROGRAM, 3);
-	ee_create_ae (GTK_TABLE (table), _("Mail"),    &ee->ical->malarm, ALARM_MAIL, 4);
+	ee_create_ae (GTK_TABLE (table), _("Display"), &ee->ical->dalarm, ALARM_DISPLAY, 1, TRUE, NULL);
+	ee_create_ae (GTK_TABLE (table), _("Audio"),   &ee->ical->aalarm, ALARM_AUDIO, 2, TRUE, NULL);
+	ee_create_ae (GTK_TABLE (table), _("Program"), &ee->ical->palarm, ALARM_PROGRAM, 3, TRUE, NULL);
+	ee_create_ae (GTK_TABLE (table), _("Mail"),    &ee->ical->malarm, ALARM_MAIL, 4, TRUE, NULL);
 	
 	return l;
 }
@@ -423,7 +443,7 @@ ee_classification_widgets (EventEditor *ee)
  * Retrieves the information from the CalendarAlarm widgets and stores them
  * on the CalendarAlarm generic values
  */
-static void
+void
 ee_store_alarm (CalendarAlarm *alarm, enum AlarmType type)
 {
 	GtkWidget *item;

@@ -1,3 +1,13 @@
+1999-11-02  Russell Steinthal  <rms39@columbia.edu>
+
+	* prop.c: Add new alarm page to properties box
+
+	* prop.c, calobj.c, main.[ch] eventedit.c: New support for default
+	alarms, configurable in the properties box.
+
+	* gnome-cal.c, prop.c, main.[ch]: add option to beep on Display
+	alarms
+
 1999-10-23  Russell Steinthal  <rms39@columbia.edu>
 
 	* calendar.c (calendar_new): Correctly initialize calendar_day_end
