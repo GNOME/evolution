@@ -923,23 +923,30 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		return GINT_TO_POINTER (!(msg_info->flags & CAMEL_MESSAGE_SEEN));
 	}
 	case COL_COLOUR: {
-		const char *colour, *followup;
+		const char *colour, *followup, *label;
+		
+		/* Priority: colour tag; label tag; important flag; follow-up tag */
 		
 		colour = camel_tag_get ((CamelTag **) &msg_info->user_tags, "colour");
 		followup = camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
-		if (colour == NULL && msg_info->flags & CAMEL_MESSAGE_FLAGGED) {
-			/* FIXME: extract from the xpm somehow. */
-			colour = "#A7453E";
-		} else if (followup != NULL) {
-			struct _FollowUpTag *tag;
-			time_t now = time (NULL);
-			
-			tag = message_tag_followup_decode (followup);
-			if (tag && now >= tag->target_date) {
+		label = camel_tag_get ((CamelTag **) &msg_info->user_tags, "label");
+		if (colour == NULL) {
+			if (label != NULL) {
+				colour = mail_config_get_label_color_string (atoi (label));
+			} else if (msg_info->flags & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the xpm somehow. */
 				colour = "#A7453E";
+			} else if (followup != NULL) {
+				struct _FollowUpTag *tag;
+				time_t now = time (NULL);
+				
+				tag = message_tag_followup_decode (followup);
+				if (tag && now >= tag->target_date) {
+					/* FIXME: extract from the xpm somehow. */
+					colour = "#A7453E";
+				}
+				g_free (tag);
 			}
-			g_free (tag);
 		}
 		return (void *)colour;
 	}

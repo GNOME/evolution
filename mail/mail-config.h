@@ -125,6 +125,7 @@ typedef enum {
 typedef struct {
 	char *name;
 	guint32 color;
+	char *string;
 } MailConfigLabel;
 
 extern MailConfigLabel label_defaults[5];
@@ -196,6 +197,7 @@ const char *mail_config_get_label_name  (int label);
 void        mail_config_set_label_name  (int label, const char *name);
 guint32     mail_config_get_label_color (int label);
 void        mail_config_set_label_color (int label, guint32 color);
+const char *mail_config_get_label_color_string (int label);
 
 gint     mail_config_get_do_seen_timeout      (void);
 void     mail_config_set_do_seen_timeout      (gboolean do_seen_timeout);

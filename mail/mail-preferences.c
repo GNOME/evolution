@@ -429,5 +429,6 @@ mail_preferences_apply (MailPreferences *prefs)
 		rgb = colorpicker_get_color (prefs->labels[i].color);
 		mail_config_set_label_color (i, rgb);
 	}
+	
+	mail_config_write ();
 }
-

@@ -71,11 +71,11 @@
 
 
 MailConfigLabel label_defaults[5] = {
-	{ N_("Important"), 0x00ff0000 },  /* red */
-	{ N_("Work"),      0x00ff8c00 },  /* orange */
-	{ N_("Personal"),  0x00008b00 },  /* forest green */
-	{ N_("To Do"),     0x000000ff },  /* blue */
-	{ N_("Later"),     0x008b008b }   /* magenta */
+	{ N_("Important"), 0x00ff0000, NULL },  /* red */
+	{ N_("Work"),      0x00ff8c00, NULL },  /* orange */
+	{ N_("Personal"),  0x00008b00, NULL },  /* forest green */
+	{ N_("To Do"),     0x000000ff, NULL },  /* blue */
+	{ N_("Later"),     0x008b008b, NULL }   /* magenta */
 };
 
 typedef struct {
@@ -375,6 +375,8 @@ mail_config_clear (void)
 	for (i = 0; i < 5; i++) {
 		g_free (config->labels[i].name);
 		config->labels[i].name = NULL;
+		g_free (config->labels[i].string);
+		config->labels[i].string = NULL;
 	}
 }
 
@@ -2205,9 +2207,31 @@ mail_config_set_label_color (int label, guint32 color)
 {
 	g_return_if_fail (label >= 0 && label < 5);
 	
+	g_free (config->labels[label].string);
+	config->labels[label].string = NULL;
+	
 	config->labels[label].color = color;
 }
 
+const char *
+mail_config_get_label_color_string (int label)
+{
+	g_return_val_if_fail (label >= 0 && label < 5, NULL);
+	
+	if (!config->labels[label].string) {
+		guint32 rgb = config->labels[label].color;
+		char *colour;
+		
+		colour = g_strdup_printf ("#%.2x%.2x%.2x",
+					  (rgb & 0xff0000) >> 16,
+					  (rgb & 0xff00) >> 8,
+					  rgb & 0xff);
+		
+		config->labels[label].string = colour;
+	}
+	
+	return config->labels[label].string;
+}
 
 gboolean
 mail_config_find_account (const MailConfigAccount *account)

@@ -1528,6 +1528,7 @@ hide_sender(GtkWidget *w, FolderBrowser *fb)
 	}
 }
 
+#if 0
 struct _colour_data {
 	FolderBrowser *fb;
 	guint32 rgb;
@@ -1555,6 +1556,63 @@ colourise_msg (GtkWidget *widget, gpointer user_data)
 		camel_folder_set_message_user_tag (data->fb->folder, uids->pdata[i], "colour", colour);
 	}
 	g_ptr_array_free (uids, TRUE);
+}
+
+static void
+colour_closures_free (GPtrArray *closures)
+{
+	struct _colour_data *data;
+	int i;
+	
+	for (i = 0; i < closures->len; i++) {
+		data = closures->pdata[i];
+		gtk_object_unref (GTK_OBJECT (data->fb));
+		g_free (data);
+	}
+	g_ptr_array_free (closures, TRUE);
+}
+#endif
+
+struct _label_data {
+	FolderBrowser *fb;
+	int label;
+};
+
+static void
+set_msg_label (GtkWidget *widget, gpointer user_data)
+{
+	struct _label_data *data = user_data;
+	GPtrArray *uids;
+	char *label;
+	int i;
+	
+	if (data->label != -1)
+		label = g_strdup_printf ("%d", data->label);
+	else
+		label = NULL;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (data->fb->message_list, enumerate_msg, uids);
+	for (i = 0; i < uids->len; i++) {
+		camel_folder_set_message_user_tag (data->fb->folder, uids->pdata[i], "label", label);
+	}
+	g_ptr_array_free (uids, TRUE);
+	
+	g_free (label);
+}
+
+static void
+label_closures_free (GPtrArray *closures)
+{
+	struct _label_data *data;
+	int i;
+	
+	for (i = 0; i < closures->len; i++) {
+		data = closures->pdata[i];
+		gtk_object_unref (GTK_OBJECT (data->fb));
+		g_free (data);
+	}
+	g_ptr_array_free (closures, TRUE);
 }
 
 
@@ -1594,13 +1652,13 @@ static EPopupMenu filter_menu[] = {
 };
 
 static EPopupMenu label_menu[] = {
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (N_("None"), NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (N_("None"), NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
 	E_POPUP_SEPARATOR,
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, 0),
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, 0),
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, 0),
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, 0),
-	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (set_msg_label), NULL, 0),
 	E_POPUP_TERMINATOR
 };
 
@@ -1740,20 +1798,6 @@ setup_popup_icons (void)
 			g_free (filename);
 		}
 	}
-}
-
-static void
-colour_closures_free (GPtrArray *closures)
-{
-	struct _colour_data *data;
-	int i;
-	
-	for (i = 0; i < closures->len; i++) {
-		data = closures->pdata[i];
-		gtk_object_unref (GTK_OBJECT (data->fb));
-		g_free (data);
-	}
-	g_ptr_array_free (closures, TRUE);
 }
 
 /* handle context menu over message-list */
@@ -1941,14 +1985,14 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	
 	/* create the label/colour menu */
 	closures = g_ptr_array_new ();
-	label_menu[0].closure = g_new (struct _colour_data, 1);
+	label_menu[0].closure = g_new (struct _label_data, 1);
 	g_ptr_array_add (closures, label_menu[0].closure);
 	gtk_object_ref (GTK_OBJECT (fb));
-	((struct _colour_data *) label_menu[0].closure)->fb = fb;
-	((struct _colour_data *) label_menu[0].closure)->rgb = COLOUR_NONE;
+	((struct _label_data *) label_menu[0].closure)->fb = fb;
+	((struct _label_data *) label_menu[0].closure)->label = -1;
 	
 	for (i = 0; i < 5; i++) {
-		struct _colour_data *closure;
+		struct _label_data *closure;
 		GdkPixmap *pixmap;
 		GdkColormap *map;
 		GdkColor color;
@@ -1970,10 +2014,10 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		gdk_draw_rectangle (pixmap, gc, TRUE, 0, 0, 16, 16);
 		gdk_gc_unref (gc);
 		
-		closure = g_new (struct _colour_data, 1);
+		closure = g_new (struct _label_data, 1);
 		gtk_object_ref (GTK_OBJECT (fb));
 		closure->fb = fb;
-		closure->rgb = rgb;
+		closure->label = i;
 		
 		g_ptr_array_add (closures, closure);
 		
@@ -1990,8 +2034,8 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
 	e_auto_kill_popup_menu_on_hide (menu);
 	
-	gtk_object_set_data_full (GTK_OBJECT (menu), "colour_closures",
-				  closures, (GtkDestroyNotify) colour_closures_free);
+	gtk_object_set_data_full (GTK_OBJECT (menu), "label_closures",
+				  closures, (GtkDestroyNotify) label_closures_free);
 	
 	if (fdata)
 		gtk_object_set_data_full (GTK_OBJECT (menu), "filter_data",

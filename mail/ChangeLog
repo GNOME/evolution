@@ -1,3 +1,17 @@
+2002-05-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (ml_tree_value_at): Check for a label tag when
+	doing a lookup on the COLOR column.
+
+	* mail-config.c (mail_config_get_label_color_string): Return the
+	colour in string format.
+
+	* folder-browser.c (set_msg_label): Replaces colourise_msg and
+	sets the "label" tag rather than the "colour" tag.
+
+	* mail-preferences.c (mail_preferences_apply): Call
+	mail_config_write() so that the settings get synced to disk.
+
 2002-05-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (request_quit): New.
