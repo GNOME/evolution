@@ -1,5 +1,8 @@
 2001-06-29  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c: Added Originator: header as a header to look
+	for when looking for the mailing list.
+
 	* tests/mime-filter/Makefile.am: Build the test-crlf test program.
 
 	* tests/mime-filter/test-crlf.c: New test suite for the crlf

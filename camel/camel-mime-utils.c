@@ -3489,6 +3489,7 @@ static struct {
 	{ "X-Loop", " *([^@]+)" },
 	{ "List-Id", " *([^<]+)" },
 	{ "Mailing-List", " *list ([^@]+)" },
+	{ "Originator", " *([^@]+)" },
 };
 
 char *
