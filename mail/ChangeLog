@@ -1,3 +1,13 @@
+2003-10-22  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (em_copy_folders): handle destination of ""
+	properly.
+	(emc_popup_copy_folder_selected): handle url->path properly, strip
+	leading /.
+	(em_copy_folders): if we just created a new folder on a
+	subscribable store, subscribe to it.
+	(em_copy_folders): handle nonselectable folders specially.
+
 2003-10-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-component.c (drag_text_uri_list, folder_dragged_cb)
