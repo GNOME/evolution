@@ -413,6 +413,8 @@ mlf_rename(CamelFolder *folder, const char *new)
 	if (mlf->real_folder) {
 		char *mbox = g_strdup_printf("%s/%s", new, mlf->meta->name);
 
+		d(printf("renaming real folder to %s\n", mbox));
+
 		camel_folder_rename(mlf->real_folder, mbox);
 		g_free(mbox);
 	}
@@ -850,8 +852,8 @@ mls_rename_folder(CamelStore *store, const char *old_name, const char *new_name,
 		return;
 	}
 
-	oldname = g_strdup_printf("%s%s/%s", ((CamelService *)store)->url->path, old_name, meta->name);
-	newname = g_strdup_printf("%s%s/%s", ((CamelService *)store)->url->path, new_name, meta->name);
+	oldname = g_strdup_printf("%s/%s", old_name, meta->name);
+	newname = g_strdup_printf("%s/%s", new_name, meta->name);
 
 	camel_store_rename_folder(real_store, oldname, newname, ex);
 	if (!camel_exception_is_set(ex)) {

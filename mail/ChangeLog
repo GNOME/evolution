@@ -1,5 +1,8 @@
 2001-10-30    <NotZed@Ximian.com>
 
+	* mail-local.c (mls_rename_folder): Oops, dont use the url storage
+	path to offset the folder name we're renaming/opening, etc.
+
 	* subscribe-dialog.c (fe_cancel_op_foreach): Argh!!! Dont free the
 	async op data here, the async op is still running and will access
 	it!  Just try to cancel it and mark it as cancelled (id == -1)
