@@ -1,3 +1,10 @@
+2004-04-27  Larry Ewing  <lewing@ximian.com>
+
+	* gui/component/addressbook-component.c: start integrate the new
+	dialog.
+
+	* gui/component/ldap-config.glade: add the new dialog.
+
 2004-04-26  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade:

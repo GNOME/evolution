@@ -129,6 +129,10 @@ struct _AddressbookSourceDialog {
 	GtkWidget *timeout_scale;
 	GtkWidget *limit_spinbutton;
 
+	/* new dialog stuff */
+	GtkWidget *auth_frame;
+	GtkWidget *server_frame;
+
 	/* display name page fields */
 	GtkWidget *display_name;
 	gboolean display_name_changed; /* only used in the druid */
@@ -325,6 +329,62 @@ source_to_uri_parts (ESource *source, gchar **host, gchar **rootdn,
 #define SOURCE_PROP_STRING(source, prop) \
         (source && e_source_get_property (source, prop) ? e_source_get_property (source, prop) : "")
 
+
+static void
+source_to_dialog_new (AddressbookSourceDialog *dialog)
+{
+	ESource *source = dialog->source;
+
+	gtk_entry_set_text (GTK_ENTRY (dialog->display_name), source ? e_source_peek_name (source) : "");
+
+#ifdef HAVE_LDAP
+	gtk_entry_set_text (GTK_ENTRY (dialog->email), SOURCE_PROP_STRING (source, "email_addr"));
+	gtk_entry_set_text (GTK_ENTRY (dialog->binddn), SOURCE_PROP_STRING (source, "binddn"));
+	gtk_spin_button_set_value ( GTK_SPIN_BUTTON (dialog->limit_spinbutton),
+				    g_strtod ( source && e_source_get_property (source, "limit") ?
+					       e_source_get_property (source, "limit") : "100", NULL));
+	gtk_adjustment_set_value (GTK_RANGE(dialog->timeout_scale)->adjustment,
+				    g_strtod ( source && e_source_get_property (source, "timeout") ?
+					       e_source_get_property (source, "timeout") : "3", NULL));
+
+	dialog->auth = source && e_source_get_property (source, "auth") ?
+		ldap_parse_auth (e_source_get_property (source, "auth")) : ADDRESSBOOK_LDAP_AUTH_NONE;
+	dialog->ssl = source && e_source_get_property (source, "ssl") ?
+		ldap_parse_ssl (e_source_get_property (source, "ssl")) : ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
+
+	if (source && !strcmp ("ldap://", e_source_group_peek_base_uri (dialog->source_group))) {
+		gchar                    *host;
+		gchar                    *rootdn;
+		AddressbookLDAPScopeType  scope;
+		gint                      port;
+
+		if (source_to_uri_parts (source, &host, &rootdn, &scope, &port)) {
+			gchar *port_str;
+
+			gtk_entry_set_text (GTK_ENTRY (dialog->host), host);
+			gtk_entry_set_text (GTK_ENTRY (dialog->rootdn), rootdn);
+
+			dialog->scope = scope;
+
+			port_str = g_strdup_printf ("%d", port);
+			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (dialog->port_combo)->entry), port_str);
+			g_free (port_str);
+
+			g_free (host);
+			g_free (rootdn);
+		}
+	}
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->auth_optionmenu), dialog->auth);
+
+	gtk_widget_set_sensitive (dialog->auth_label_notebook, dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
+	gtk_widget_set_sensitive (dialog->auth_entry_notebook, dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), dialog->scope);
+	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->ssl_optionmenu), dialog->ssl);
+#endif
+}
+
 static void
 source_to_dialog (AddressbookSourceDialog *dialog)
 {
@@ -477,6 +537,16 @@ addressbook_source_dialog_destroy (gpointer data, GObject *where_object_was)
 }
 
 static void
+addressbook_add_server_dialog_finish (GtkWidget *widget, AddressbookSourceDialog *sdialog)
+{
+	sdialog->source = e_source_new ("", "");
+	dialog_to_source (sdialog, sdialog->source, FALSE);
+
+	/* tear down the widgets */
+	gtk_widget_destroy (sdialog->window);
+}
+
+static void
 addressbook_add_server_druid_cancel (GtkWidget *widget, AddressbookSourceDialog *dialog)
 {
 	gtk_widget_destroy (dialog->window);
@@ -541,25 +611,35 @@ setup_general_tab (AddressbookSourceDialog *dialog, ModifyFunc modify_func)
 
 	dialog->general_modify_func = modify_func;
 	dialog->host = glade_xml_get_widget (dialog->gui, "server-name-entry");
+
 	g_signal_connect (dialog->host, "changed",
 			  G_CALLBACK (modify_func), dialog);
-	add_focus_handler (dialog->host, general_tab_help, 0);
+	
+	if (general_tab_help)
+		add_focus_handler (dialog->host, general_tab_help, 0);
 
 	dialog->auth_label_notebook = glade_xml_get_widget (dialog->gui, "auth-label-notebook");
 	dialog->auth_entry_notebook = glade_xml_get_widget (dialog->gui, "auth-entry-notebook");
 	dialog->email = glade_xml_get_widget (dialog->gui, "email-entry");
 	g_signal_connect (dialog->email, "changed",
 			  G_CALLBACK (modify_func), dialog);
-	add_focus_handler (dialog->email, general_tab_help, 1);
+
+	if (general_tab_help)
+		add_focus_handler (dialog->email, general_tab_help, 1);
+
 	dialog->binddn = glade_xml_get_widget (dialog->gui, "dn-entry");
 	g_signal_connect (dialog->binddn, "changed",
 			  G_CALLBACK (modify_func), dialog);
-	add_focus_handler (dialog->binddn, general_tab_help, 2);
+
+	if (general_tab_help)
+		add_focus_handler (dialog->binddn, general_tab_help, 2);
 
 	dialog->auth_optionmenu = glade_xml_get_widget (dialog->gui, "auth-optionmenu");
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU(dialog->auth_optionmenu));
 	gtk_container_foreach (GTK_CONTAINER (menu), (GtkCallback)add_auth_activate_cb, dialog);
-	add_focus_handler (dialog->auth_optionmenu, general_tab_help, 3);
+
+	if (general_tab_help)
+		add_focus_handler (dialog->auth_optionmenu, general_tab_help, 3);
 }
 
 static gboolean
@@ -572,9 +652,10 @@ general_tab_check (AddressbookSourceDialog *dialog)
 		return TRUE;
 
 	string = gtk_entry_get_text (GTK_ENTRY (dialog->host));
-	if (!string || !string[0])
+	if (!string || !string[0]) {
 		valid = FALSE;
-
+		g_warning ("no host");
+	}
 	if (valid) {
 		if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
 			if (dialog->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE_BINDDN)
@@ -582,8 +663,10 @@ general_tab_check (AddressbookSourceDialog *dialog)
 			else
 				string = gtk_entry_get_text (GTK_ENTRY (dialog->email));
 
-			if (!string || !string[0])
+			if (!string || !string[0]) {
+				g_warning ("no string");
 				valid = FALSE;
+			}
 		}
 	}
 
@@ -673,8 +756,12 @@ setup_connecting_tab (AddressbookSourceDialog *dialog, ModifyFunc modify_func)
 	connecting_tab_help = glade_xml_get_widget (dialog->gui, "connecting-tab-help");
 
 	dialog->port_combo = glade_xml_get_widget (dialog->gui, "port-combo");
-	add_focus_handler (dialog->port_combo, connecting_tab_help, 0);
-	add_focus_handler (GTK_COMBO(dialog->port_combo)->entry, connecting_tab_help, 0);
+	
+	if (connecting_tab_help) {
+		add_focus_handler (dialog->port_combo, connecting_tab_help, 0);
+		add_focus_handler (GTK_COMBO(dialog->port_combo)->entry, connecting_tab_help, 0);
+	}
+
 	g_signal_connect (GTK_COMBO(dialog->port_combo)->entry, "changed",
 			  G_CALLBACK (modify_func), dialog);
 	g_signal_connect (GTK_COMBO(dialog->port_combo)->entry, "changed",
@@ -889,18 +976,26 @@ setup_searching_tab (AddressbookSourceDialog *dialog, ModifyFunc modify_func)
 	searching_tab_help = glade_xml_get_widget (dialog->gui, "searching-tab-help");
 
 	dialog->rootdn = glade_xml_get_widget (dialog->gui, "rootdn-entry");
-	add_focus_handler (dialog->rootdn, searching_tab_help, 0);
+	if (searching_tab_help)
+		add_focus_handler (dialog->rootdn, searching_tab_help, 0);
+
 	if (modify_func)
 		g_signal_connect (dialog->rootdn, "changed",
 				  G_CALLBACK (modify_func), dialog);
 
 	dialog->scope_optionmenu = glade_xml_get_widget (dialog->gui, "scope-optionmenu");
-	add_focus_handler (dialog->scope_optionmenu, searching_tab_help, 1);
+	
+	if (searching_tab_help)
+		add_focus_handler (dialog->scope_optionmenu, searching_tab_help, 1);
+
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU(dialog->scope_optionmenu));
 	gtk_container_foreach (GTK_CONTAINER (menu), (GtkCallback)add_scope_activate_cb, dialog);
 
 	dialog->timeout_scale = glade_xml_get_widget (dialog->gui, "timeout-scale");
-	add_focus_handler (dialog->timeout_scale, searching_tab_help, 2);
+	
+	if (searching_tab_help)
+		add_focus_handler (dialog->timeout_scale, searching_tab_help, 2);
+
 	if (modify_func)
 		g_signal_connect (GTK_RANGE(dialog->timeout_scale)->adjustment,
 				  "value_changed",
@@ -980,12 +1075,21 @@ druid_folder_page_modify_cb (GtkWidget *item, AddressbookSourceDialog *dialog)
 }
 
 
+static gboolean
+source_group_is_remote (ESourceGroup *group)
+{
+	return !strcmp ("ldap://", e_source_group_peek_base_uri (group));
+}
 
 static void
 source_group_changed_cb (GtkWidget *widget, AddressbookSourceDialog *sdialog)
 {
+	gboolean remote;
+
 	sdialog->source_group = g_slist_nth (sdialog->menu_source_groups,
 					     gtk_option_menu_get_history (GTK_OPTION_MENU (sdialog->group_optionmenu)))->data;
+	if (sdialog->auth_frame)
+		add_folder_modify (widget, sdialog);
 }
 
 static void
@@ -1034,6 +1138,118 @@ finish_page_back (GtkWidget *page, GtkWidget *widget, AddressbookSourceDialog *s
 	}
 
 	return FALSE;
+}
+
+static void
+add_folder_modify (GtkWidget *widget, AddressbookSourceDialog *sdialog)
+{
+	gboolean valid = TRUE;
+	gboolean remote = FALSE;
+
+	g_warning ("Modify callback");
+
+	valid = display_name_check (sdialog);
+	remote = source_group_is_remote (sdialog->source_group);
+
+
+	remote = source_group_is_remote (sdialog->source_group);	
+	if (sdialog->server_frame)
+		gtk_widget_set_sensitive (sdialog->server_frame, remote);
+	
+	if (sdialog->auth_frame)
+		gtk_widget_set_sensitive (sdialog->auth_frame, remote);
+
+#ifdef HAVE_LDAP
+	if (valid) {
+		g_warning ("passed display name");
+		valid = general_tab_check (sdialog);
+	} 
+	if (valid) {
+		g_warning ("passed general");
+		valid = connecting_tab_check (sdialog);
+	} 
+	if (valid) {
+		g_warning ("passed connecting");
+		valid = searching_tab_check (sdialog);
+	}
+	if (valid)
+		g_warning ("passed searching");
+#endif
+
+	gtk_widget_set_sensitive (sdialog->ok_button, valid);
+}
+
+static AddressbookSourceDialog *
+addressbook_add_server_dialog (void)
+{
+	AddressbookSourceDialog *sdialog = g_new0 (AddressbookSourceDialog, 1);
+	GConfClient *gconf_client;
+	GSList *source_groups;
+	
+	sdialog->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "account-add-window", NULL);
+
+	sdialog->window = glade_xml_get_widget (sdialog->gui, "account-add-window");
+	
+	sdialog->display_name = glade_xml_get_widget (sdialog->gui, "display-name-entry");
+	g_signal_connect (sdialog->display_name, "changed",
+			  G_CALLBACK (add_folder_modify), sdialog);
+
+	gconf_client = gconf_client_get_default ();
+	sdialog->source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
+	source_groups = e_source_list_peek_groups (sdialog->source_list);
+	sdialog->menu_source_groups = g_slist_copy (source_groups);
+#ifndef HAVE_LDAP
+	for ( ; source_groups != NULL; source_groups = g_slist_next (source_groups))
+		if (!strcmp ("ldap://", e_source_group_peek_base_uri (source_groups->data)))	
+			sdialog->menu_source_groups = g_slist_remove (sdialog->menu_source_groups, source_groups->data);
+#endif 
+
+	sdialog->group_optionmenu = glade_xml_get_widget (sdialog->gui, "group-optionmenu");
+	if (!GTK_IS_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (sdialog->group_optionmenu)))) {
+		GtkWidget *menu = gtk_menu_new ();
+		gtk_option_menu_set_menu (GTK_OPTION_MENU (sdialog->group_optionmenu), menu);
+		gtk_widget_show (menu);
+	}
+
+	/* NOTE: This assumes that we have sources. If they don't exist, they're set up
+	 * on startup of the Addressbook component. */
+	source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
+		GTK_OPTION_MENU (sdialog->group_optionmenu))), sdialog->source_list);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (sdialog->group_optionmenu), 0);
+	sdialog->source_group = e_source_list_peek_groups (sdialog->source_list)->data;
+	g_signal_connect (sdialog->group_optionmenu, "changed",
+			  G_CALLBACK (source_group_changed_cb), sdialog);
+
+	setup_general_tab (sdialog, add_folder_modify);
+	setup_searching_tab (sdialog, add_folder_modify);
+	setup_connecting_tab (sdialog, add_folder_modify);
+
+
+	sdialog->auth_frame = glade_xml_get_widget (sdialog->gui, "authentication-frame");
+	sdialog->server_frame = glade_xml_get_widget (sdialog->gui, "server-frame");
+
+	sdialog->ok_button = glade_xml_get_widget (sdialog->gui, "ok-button");
+	g_signal_connect (sdialog->ok_button, "clicked",
+			  G_CALLBACK(addressbook_add_server_dialog_finish), sdialog);
+
+	sdialog->cancel_button = glade_xml_get_widget (sdialog->gui, "cancel-button");
+	g_signal_connect (sdialog->cancel_button, "clicked",
+			  G_CALLBACK(addressbook_add_server_druid_cancel), sdialog);
+
+	g_object_weak_ref (G_OBJECT (sdialog->window),
+			   addressbook_source_dialog_destroy, sdialog);
+
+	/* make sure we fill in the default values */
+	source_to_dialog_new (sdialog);
+
+	gtk_window_set_type_hint (GTK_WINDOW (sdialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
+	gtk_window_set_modal (GTK_WINDOW (sdialog->window), TRUE);
+	
+	add_folder_modify (sdialog->window, sdialog);
+
+	gtk_widget_show_all (sdialog->window);
+
+	return sdialog;
 }
 
 static AddressbookSourceDialog *
@@ -1414,5 +1630,5 @@ addressbook_config_create_new_source (GtkWidget *parent)
 {
 	AddressbookSourceDialog *dialog;
 
-	dialog = addressbook_add_server_druid ();
+	dialog = addressbook_add_server_dialog ();
 }
