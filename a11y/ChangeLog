@@ -1,5 +1,9 @@
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
+	* calendar/Makefile.am (INCLUDES): don't include toplevel libical
+	
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
 	* Handle some more renaming
 	
 2003-11-07  JP Rosevear <jpr@ximian.com>

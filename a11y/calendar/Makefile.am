@@ -51,7 +51,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/calendar/cal-client		\
-	-I$(top_srcdir)/libical/src			\
 	-I$(top_srcdir)/calendar/gui			\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/a11y				\
