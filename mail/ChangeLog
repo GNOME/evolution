@@ -1,3 +1,9 @@
+2005-01-24  Hans Petter Jansson  <hpj@novell.com>
+
+	* Makefile.am (libevolution_mail_la_LIBADD): Pull in the contact
+	editors, so we can pass pointers to their creation functions to
+	ENameSelectorEntry.
+
 2005-01-24  JP Rosevear  <jpr@novell.com>
 
 	* searchtypes.xml: add back body contains
