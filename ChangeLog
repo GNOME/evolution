@@ -1,3 +1,7 @@
+2003-11-14  JP Rosevear <jpr@ximian.com>
+
+	* MAINTAINERS: Update
+
 2003-11-11  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (SUBDIRS): remove libversit from the build.
