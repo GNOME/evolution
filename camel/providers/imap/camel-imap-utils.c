@@ -35,7 +35,7 @@
 #include "camel-imap-summary.h"
 #include "camel-imap-store.h"
 #include "camel-folder.h"
-#include "string-utils.h"
+#include "camel-string-utils.h"
 #include "camel-utf8.h"
 
 #define d(x)

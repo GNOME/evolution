@@ -44,7 +44,7 @@
 #include "camel-mime-utils.h"
 #include "camel-exception.h"
 #include "camel-charset-map.h"
-#include "string-utils.h"
+#include "camel-string-utils.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
@@ -103,7 +103,7 @@ static int write_raw(CamelStream *stream, struct _header_raw *h);
 static void
 init_header_name_table()
 {
-	header_name_table = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	header_name_table = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 	g_hash_table_insert (header_name_table, "Content-Description", (gpointer)HEADER_DESCRIPTION);
 	g_hash_table_insert (header_name_table, "Content-Disposition", (gpointer)HEADER_DISPOSITION);
 	g_hash_table_insert (header_name_table, "Content-id", (gpointer)HEADER_CONTENT_ID);
@@ -112,7 +112,7 @@ init_header_name_table()
 	g_hash_table_insert (header_name_table, "Content-Location", (gpointer)HEADER_CONTENT_LOCATION);
 	g_hash_table_insert (header_name_table, "Content-Type", (gpointer)HEADER_CONTENT_TYPE);
 
-	header_formatted_table = g_hash_table_new(g_strcase_hash, g_strcase_equal);
+	header_formatted_table = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 	g_hash_table_insert(header_formatted_table, "Content-Type", write_raw);
 	g_hash_table_insert(header_formatted_table, "Content-Disposition", write_raw);
 	g_hash_table_insert(header_formatted_table, "To", write_raw);
@@ -174,7 +174,7 @@ camel_mime_part_finalize (CamelObject *object)
 	g_free (mime_part->content_id);
 	g_free (mime_part->content_MD5);
 	g_free (mime_part->content_location);
-	string_list_free (mime_part->content_languages);
+	camel_string_list_free (mime_part->content_languages);
 	header_disposition_unref(mime_part->disposition);
 	
 	if (mime_part->content_type)
@@ -499,7 +499,9 @@ camel_mime_part_get_encoding (CamelMimePart *mime_part)
 void
 camel_mime_part_set_content_languages (CamelMimePart *mime_part, GList *content_languages)
 {
-	if (mime_part->content_languages) string_list_free (mime_part->content_languages);
+	if (mime_part->content_languages)
+		camel_string_list_free (mime_part->content_languages);
+	
 	mime_part->content_languages = content_languages;
 
 	/* FIXME: translate to a header and set it */

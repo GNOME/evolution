@@ -32,7 +32,6 @@
 
 #include "camel-file-utils.h"
 
-#include "string-utils.h"
 #include "e-util/md5-utils.h"
 #include "e-util/e-memory.h"
 

@@ -1,5 +1,4 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; -*- */
-
 /* 
  * Authors:
  *   Michael Zucchi <notzed@ximian.com>
@@ -203,7 +202,6 @@ int main (void)
 
 #include "camel-charset-map.h"
 #include "camel-charset-map-private.h"
-#include "string-utils.h"
 
 #include <glib.h>
 #include <glib/gunicode.h>

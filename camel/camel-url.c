@@ -33,7 +33,6 @@
 #include <string.h>
 
 #include "camel-url.h"
-#include "string-utils.h"
 #include "camel-exception.h"
 #include "camel-mime-utils.h"
 #include "camel-object.h"

@@ -34,7 +34,6 @@
 
 #include <gal/util/e-iconv.h>
 
-#include "string-utils.h"
 #include "camel-charset-map.h"
 #include "camel-mime-part-utils.h"
 #include "camel-mime-message.h"

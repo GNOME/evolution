@@ -31,7 +31,6 @@
 #include <ctype.h>
 
 #include "camel-medium.h"
-#include "string-utils.h"
 
 #define d(x)
 

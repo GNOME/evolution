@@ -670,6 +670,8 @@ mbox_summary_sync_quick(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChan
 		xevtmp = header_unfold(xevnew);
 		/* the raw header contains a leading ' ', so (dis)count that too */
 		if (strlen(xev)-1 != strlen(xevtmp)) {
+			printf ("strlen(xev)-1 = %d; strlen(xevtmp) = %d\n", strlen(xev)-1, strlen(xevtmp));
+			printf ("xev='%s'; xevtmp='%s'\n", xev, xevtmp);
 			g_free(xevnew);
 			g_free(xevtmp);
 			g_warning("Hmm, the xev headers shouldn't have changed size, but they did");

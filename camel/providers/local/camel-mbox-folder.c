@@ -2,7 +2,7 @@
  *
  * Authors: Michael Zucchi <notzed@ximian.com>
  *
- * Copyright (C) 1999, 2000 Ximian Inc.
+ * Copyright (C) 1999, 2003 Ximian Inc.
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of version 2 of the GNU General Public 
@@ -34,7 +34,6 @@
 
 #include "camel-mbox-folder.h"
 #include "camel-mbox-store.h"
-#include "string-utils.h"
 #include "camel-stream-fs.h"
 #include "camel-mbox-summary.h"
 #include "camel-data-wrapper.h"

@@ -55,7 +55,6 @@
 #include "camel-session.h"
 #include "camel-exception.h"
 #include "camel-sasl.h"
-#include "string-utils.h"
 
 
 extern int camel_verbose_debug;

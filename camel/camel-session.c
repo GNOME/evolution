@@ -7,7 +7,7 @@
  *  Jeffrey Stedfast <fejj@ximian.com>
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
- * Copyright 1999 - 2001 Ximian, Inc.
+ * Copyright 1999 - 2003 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -38,7 +38,7 @@
 #include "camel-store.h"
 #include "camel-transport.h"
 #include "camel-exception.h"
-#include "string-utils.h"
+#include "camel-string-utils.h"
 #include "camel-url.h"
 #include "camel-vee-store.h"
 
@@ -90,7 +90,7 @@ camel_session_init (CamelSession *session)
 {
 	session->online = TRUE;
 	session->modules = camel_provider_init ();
-	session->providers = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	session->providers = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 	session->priv = g_malloc0(sizeof(*session->priv));
 #ifdef ENABLE_THREADS
 	session->priv->lock = g_mutex_new();

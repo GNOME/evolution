@@ -35,7 +35,6 @@
 #include <glib.h>
 
 #include "camel-folder-search.h"
-#include "string-utils.h"
 
 #include "camel-exception.h"
 #include "camel-medium.h"

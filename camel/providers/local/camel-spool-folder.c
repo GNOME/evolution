@@ -2,7 +2,7 @@
  * 
  * Authors: Michael Zucchi <notzed@ximian.com>
  *
- * Copyright (C) 2001 Ximian Inc (www.ximian.com/)
+ * Copyright (C) 2001-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of version 2 of the GNU General Public 
@@ -34,7 +34,6 @@
 
 #include "camel-spool-folder.h"
 #include "camel-spool-store.h"
-#include "string-utils.h"
 #include "camel-stream-fs.h"
 #include "camel-spool-summary.h"
 #include "camel-data-wrapper.h"

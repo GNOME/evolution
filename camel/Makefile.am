@@ -105,6 +105,7 @@ libcamel_la_SOURCES = 				\
 	camel-stream-mem.c			\
 	camel-stream-null.c			\
 	camel-stream.c				\
+	camel-string-utils.c			\
 	camel-text-index.c			\
 	camel-tcp-stream-raw.c			\
 	camel-tcp-stream-ssl.c			\
@@ -118,8 +119,7 @@ libcamel_la_SOURCES = 				\
 	camel-vee-folder.c			\
 	camel-vee-store.c			\
 	camel-vtrash-folder.c			\
-	camel.c					\
-	string-utils.c
+	camel.c
 
 libcamelinclude_HEADERS =			\
 	broken-date-parser.h			\
@@ -207,6 +207,7 @@ libcamelinclude_HEADERS =			\
 	camel-stream-mem.h			\
 	camel-stream-null.h			\
 	camel-stream.h				\
+	camel-string-utils.h			\
 	camel-text-index.h			\
 	camel-tcp-stream-raw.h			\
 	camel-tcp-stream-ssl.h			\
@@ -220,8 +221,7 @@ libcamelinclude_HEADERS =			\
 	camel-vee-folder.h			\
 	camel-vee-store.h			\
 	camel-vtrash-folder.h			\
-	camel.h					\
-	string-utils.h
+	camel.h
 
 libcamel_la_LDFLAGS = -version-info 0:0:0
 

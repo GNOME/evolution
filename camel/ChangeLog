@@ -1,3 +1,27 @@
+2003-07-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-session.c (camel_session_init): Updated for string-utils
+	namespace changes.
+
+	* camel-provider.c: Updated for string-utils namespace changes.
+
+	* camel-mime-part.c (init_header_name_table): Updated for
+	string-utils namespace changes.
+
+	* camel-mime-message.c (camel_mime_message_class_init): Updated
+	for string-utils namespace changes.
+	(camel_mime_message_init): Same.
+
+	* camel-mime-filter-enriched.c
+	(camel_mime_filter_enriched_class_init): Updated for string-utils
+	namespace changes.
+
+	* camel-folder-summary.c (camel_folder_summary_init): Updated for
+	string-utils namespace changes.
+
+	* camel-string-utils.[c,h]: Renamed from string-utils.[c,h] and
+	also namespaced all functions.
+
 2003-07-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-digest-md5.c (digest_response): Don't quote the

@@ -42,7 +42,7 @@
 
 #include "camel-provider.h"
 #include "camel-exception.h"
-#include "string-utils.h"
+#include "camel-string-utils.h"
 
 
 /**
@@ -66,12 +66,12 @@ camel_provider_init (void)
 	struct dirent *d;
 	char *p, *name, buf[80];
 	
-	providers = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	providers = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 	
 	dir = opendir (CAMEL_PROVIDERDIR);
 	if (!dir) {
 		g_error ("Could not open camel provider directory: %s",
-			 strerror (errno));
+			 g_strerror (errno));
 		return NULL;
 	}
 	
@@ -86,7 +86,7 @@ camel_provider_init (void)
 		fp = fopen (name, "r");
 		if (!fp) {
 			g_warning ("Could not read provider info file %s: %s",
-				   name, strerror (errno));
+				   name, g_strerror (errno));
 			g_free (name);
 			continue;
 		}

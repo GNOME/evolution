@@ -27,11 +27,12 @@
 #endif
 
 #include <string.h>
+
 #include "camel-folder.h"
 #include "camel-exception.h"
 #include "camel-store.h"
 #include "camel-mime-message.h"
-#include "string-utils.h"
+
 #include "e-util/e-memory.h"
 #include "camel-operation.h"
 

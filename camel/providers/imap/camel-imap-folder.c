@@ -66,8 +66,8 @@
 #include "camel-stream-filter.h"
 #include "camel-stream-mem.h"
 #include "camel-stream.h"
-#include "string-utils.h"
 #include "camel-private.h"
+#include "camel-string-utils.h"
 
 
 #define d(x)

@@ -50,7 +50,8 @@
 #include <camel/camel-stream-null.h>
 #include <camel/camel-stream-filter.h>
 
-#include "string-utils.h"
+#include <camel/camel-string-utils.h>
+
 #include "e-util/md5-utils.h"
 #include "e-util/e-memory.h"
 
@@ -151,7 +152,7 @@ camel_folder_summary_init (CamelFolderSummary *s)
 
 	p = _PRIVATE(s) = g_malloc0(sizeof(*p));
 
-	p->filter_charset = g_hash_table_new(g_strcase_hash, g_strcase_equal);
+	p->filter_charset = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 
 	s->message_info_size = sizeof(CamelMessageInfo);
 	s->content_info_size = sizeof(CamelMessageContentInfo);

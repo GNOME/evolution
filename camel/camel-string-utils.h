@@ -21,8 +21,8 @@
  */
 
 
-#ifndef STRING_UTIL_H
-#define STRING_UTIL_H 1
+#ifndef __CAMEL_STRING_UTILS_H__
+#define __CAMEL_STRING_UTILS_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,10 +31,10 @@ extern "C" {
 
 #include <glib.h>
 
-int   g_strcase_equal (gconstpointer a, gconstpointer b);
-guint g_strcase_hash  (gconstpointer v);
+int   camel_strcase_equal (gconstpointer a, gconstpointer b);
+guint camel_strcase_hash  (gconstpointer v);
 
-void string_list_free (GList *string_list);
+void camel_string_list_free (GList *string_list);
 
 char *camel_strstrcase (const char *haystack, const char *needle);
 
@@ -44,4 +44,4 @@ const char *camel_strdown (char *str);
 }
 #endif /* __cplusplus */
 
-#endif /* STRING_UTIL_H */
+#endif /* __CAMEL_STRING_UTILS_H__ */

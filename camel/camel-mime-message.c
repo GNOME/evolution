@@ -39,7 +39,7 @@
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
-#include "string-utils.h"
+#include "camel-string-utils.h"
 #include "camel-url.h"
 
 #include "camel-stream-filter.h"
@@ -101,7 +101,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	
 	parent_class = CAMEL_MIME_PART_CLASS(camel_type_get_global_classfuncs (camel_mime_part_get_type ()));
 
-	header_name_table = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	header_name_table = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 	for (i=0;header_names[i];i++)
 		g_hash_table_insert (header_name_table, header_names[i], GINT_TO_POINTER(i+1));
 
@@ -124,7 +124,7 @@ camel_mime_message_init (gpointer object, gpointer klass)
 	
 	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (object), "message/rfc822");
 
-	mime_message->recipients =  g_hash_table_new(g_strcase_hash, g_strcase_equal);
+	mime_message->recipients =  g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 	for (i=0;recipient_names[i];i++) {
 		g_hash_table_insert(mime_message->recipients, recipient_names[i], camel_internet_address_new());
 	}

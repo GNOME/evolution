@@ -28,7 +28,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "string-utils.h"
+#include <camel/camel-string-utils.h>
 
 #include "camel-mime-filter-enriched.h"
 
@@ -141,7 +141,7 @@ camel_mime_filter_enriched_class_init (CamelMimeFilterEnrichedClass *klass)
 	filter_class->complete = filter_complete;
 	
 	if (!enriched_hash) {
-		enriched_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+		enriched_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 		for (i = 0; i < NUM_ENRICHED_TAGS; i++)
 			g_hash_table_insert (enriched_hash, enriched_tags[i].enriched,
 					     enriched_tags[i].html);

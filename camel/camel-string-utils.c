@@ -26,25 +26,24 @@
 #endif
 
 #include <string.h>
-#include <ctype.h>
 
-#include "string-utils.h"
+#include "camel-string-utils.h"
 
 
-int 
-g_strcase_equal (gconstpointer a, gconstpointer b)
+int
+camel_strcase_equal (gconstpointer a, gconstpointer b)
 {
-	return (strcasecmp ((const char *) a, (const char *) b) == 0);
+	return (g_ascii_strcasecmp ((const char *) a, (const char *) b) == 0);
 }
 
 guint
-g_strcase_hash (gconstpointer v)
+camel_strcase_hash (gconstpointer v)
 {
 	const char *p = (char *) v;
 	guint h = 0, g;
 	
 	for ( ; *p != '\0'; p++) {
-		h = (h << 4) + toupper (*p);
+		h = (h << 4) + g_ascii_toupper (*p);
 		if ((g = h & 0xf0000000)) {
 			h = h ^ (g >> 24);
 			h = h ^ g;
@@ -61,8 +60,8 @@ free_string (gpointer string, gpointer user_data)
 	g_free (string);
 }
 
-void 
-string_list_free (GList *string_list)
+void
+camel_string_list_free (GList *string_list)
 {
 	if (string_list == NULL)
 		return; 
