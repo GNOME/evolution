@@ -531,44 +531,77 @@ loop:
 	return v;
 }
 
+static void
+output_c(GString *w, guint32 c, int *type)
+{
+	int utf8len;
+	char utf8[8];
+
+	if (!g_unichar_isalnum(c))
+		*type = CAMEL_SEARCH_WORD_COMPLEX | (*type & CAMEL_SEARCH_WORD_8BIT);
+	else
+		c = g_unichar_tolower(c);
+
+	if (c > 0x80)
+		*type |= CAMEL_SEARCH_WORD_8BIT;
+
+	/* FIXME: use camel_utf8_putc */
+	utf8len = g_unichar_to_utf8(c, utf8);
+	utf8[utf8len] = 0;
+	g_string_append(w, utf8);
+}
+
+static void
+output_w(GString *w, GPtrArray *list, int type)
+{
+	struct _camel_search_word *word;
+
+	if (w->len) {
+		word = g_malloc0(sizeof(*word));
+		word->word = g_strdup(w->str);
+		word->type = type;
+		g_ptr_array_add(list, word);
+		g_string_truncate(w, 0);
+	}
+}
+
 struct _camel_search_words *
 camel_search_words_split(const unsigned char *in)
 {
 	int type = CAMEL_SEARCH_WORD_SIMPLE, all = 0;
 	GString *w;
-	struct _camel_search_word *word;
 	struct _camel_search_words *words;
 	GPtrArray *list = g_ptr_array_new();
 	guint32 c;
-	int utf8len;
-	char utf8[8];
+	int inquote = 0;
 
 	words = g_malloc0(sizeof(*words));	
 	w = g_string_new("");
 
 	do {
 		c = camel_utf8_getc(&in);
-		if (c == 0 || g_unichar_isspace(c)) {
-			if (w->len) {
-				word = g_malloc0(sizeof(*word));
-				word->word = g_strdup(w->str);
-				word->type = type;
-				g_ptr_array_add(list, word);
-				all |= type;
-				type = CAMEL_SEARCH_WORD_SIMPLE;
-				g_string_truncate(w, 0);
-			}
-		} else {
-			if (!g_unichar_isalnum(c))
-				type = CAMEL_SEARCH_WORD_COMPLEX;
-			else
-				c = g_unichar_tolower(c);
-			if (c > 0x80)
-				type |= CAMEL_SEARCH_WORD_8BIT;
 
-			utf8len = g_unichar_to_utf8(c, utf8);
-			utf8[utf8len] = 0;
-			g_string_append(w, utf8);
+		if (c == 0
+		    || (inquote && c == '"')
+		    || (!inquote && g_unichar_isspace(c))) {
+			output_w(w, list, type);
+			all |= type;
+			type = CAMEL_SEARCH_WORD_SIMPLE;
+			inquote = 0;
+		} else {
+			if (c == '\\') {
+				c = camel_utf8_getc(&in);
+				if (c)
+					output_c(w, c, &type);
+				else {
+					output_w(w, list, type);
+					all |= type;
+				}
+			} else if (c == '\"') {
+				inquote = 1;
+			} else {
+				output_c(w, c, &type);
+			}
 		}
 	} while (c);
 

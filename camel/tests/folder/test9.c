@@ -167,7 +167,7 @@ int main(int argc, char **argv)
 	pull();
 
 	push("Building filters");
-	driver = camel_filter_driver_new();
+	driver = camel_filter_driver_new(session);
 	camel_filter_driver_set_folder_func(driver, get_folder, NULL);
 	for (i=0;i<ARRAY_LEN(rules);i++) {
 		camel_filter_driver_add_rule(driver, rules[i].name, rules[i].match, rules[i].action);
@@ -188,7 +188,7 @@ int main(int argc, char **argv)
 	push("Testing broken match rules");
 	for (i=0;i<ARRAY_LEN(brokens);i++) {
 		push("rule %s", brokens[i].match);
-		driver = camel_filter_driver_new();
+		driver = camel_filter_driver_new(session);
 		camel_filter_driver_set_folder_func(driver, get_folder, NULL);
 		camel_filter_driver_add_rule(driver, brokens[i].name, brokens[i].match, brokens[i].action);
 		camel_filter_driver_filter_mbox(driver, "/tmp/camel-test/inbox", NULL, ex);
@@ -202,7 +202,7 @@ int main(int argc, char **argv)
 	push("Testing broken action rules");
 	for (i=0;i<ARRAY_LEN(brokena);i++) {
 		push("rule %s", brokena[i].action);
-		driver = camel_filter_driver_new();
+		driver = camel_filter_driver_new(session);
 		camel_filter_driver_set_folder_func(driver, get_folder, NULL);
 		camel_filter_driver_add_rule(driver, brokena[i].name, brokena[i].match, brokena[i].action);
 		camel_filter_driver_filter_mbox(driver, "/tmp/camel-test/inbox", NULL, ex);

@@ -1,3 +1,14 @@
+2002-09-20  Not Zed  <NotZed@Ximian.com>
+
+	* tests/misc/split.c: New regression test for word
+	splitting/search input parsing code.
+
+	* tests/folder/test9.c (main): Fix for filter_driver api change.
+
+	* camel-search-private.c (camel_search_words_split): Handle "'s
+	and \'s to escape characters.  For fat, lazy, slobs who dont like
+	anything changing.
+
 2002-09-19  Not Zed  <NotZed@Ximian.com>
 
 	* camel-filter-search.c (camel_filter_search_match): Take new
