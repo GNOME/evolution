@@ -1,3 +1,13 @@
+2005-03-28  Vivek Jain <jvivek@novell.com>
+	
+	**Fixes #73198
+	* share-folder-common.c : 
+	(org_gnome_shared_folder_factory):
+	(create_folder__created) : pass the full name in get_conatiner_id
+	(get_container_id) : break the full name and start looking for the
+	name from the top most parent. This will give proper container id
+	even in the case of the duplicate names at different hierarchies
+
 2005-03-10  Vivek Jain <jvivek@novell.com>
 	
 	**Fixes #73201

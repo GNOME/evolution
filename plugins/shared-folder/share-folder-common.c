@@ -164,7 +164,7 @@ create_folder__created (struct _mail_msg *mm)
 		if(E_IS_GW_CONNECTION (ccnc)) {
 			(ssi->sf)->cnc = ccnc;
 
-			(ssi->sf)->container_id = g_strdup (get_container_id ((ssi->sf)->cnc, m->name));
+			(ssi->sf)->container_id = get_container_id ((ssi->sf)->cnc, m->full_name);
 			share_folder(ssi->sf);
 		}
 
@@ -379,7 +379,7 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 	else
 		sub = folder_name;	
 
-	/* This is kind of bad..but we don't have types for all these folders.*/
+	 /* This is kind of bad..but we don't have types for all these folders.*/
 
 	if ( !( strcmp (sub, "Mailbox") && strcmp (sub, "Calendar") && strcmp (sub, "Contacts") && strcmp (sub, "Documents") && strcmp (sub, "Authored") && strcmp (sub, "Default Library") && strcmp (sub, "Work In Progress") && strcmp (sub, "Cabinet") && strcmp (sub, "Sent Items") && strcmp (sub, "Trash") && strcmp (sub, "Checklist"))) {
 		g_free (folderuri);
@@ -391,7 +391,7 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 		cnc = get_cnc (store);	
 	
 		if (E_IS_GW_CONNECTION (cnc)) 
-			id = get_container_id (cnc, sub);
+			id = get_container_id (cnc, folder_name);
 		else
 			g_warning("Could not Connnect\n");
 		
@@ -456,7 +456,17 @@ get_container_id(EGwConnection *cnc, gchar *fname)
 {
 	GList *container_list = NULL;	
 	gchar *id = NULL;
-	const char *name;
+	gchar *name;
+	gchar **names;
+	int i = 0, parts = 0;
+
+	names = g_strsplit (fname, "/", -1);
+	if(names){
+		while (names [parts])
+			parts++;
+		fname = names[i]; 
+	}
+
 	/* get list of containers */
 	if (e_gw_connection_get_container_list (cnc, "folders", &(container_list)) == E_GW_CONNECTION_STATUS_OK) {
 		GList *container = NULL;
@@ -468,12 +478,17 @@ get_container_id(EGwConnection *cnc, gchar *fname)
 				id = g_strdup (e_gw_container_get_id (container->data));
 				break;
 			} else if (!strcmp (name, fname)) {
-				id = g_strdup (e_gw_container_get_id (container->data));
-				break;
+				if (i == parts - 1) {
+					id = g_strdup (e_gw_container_get_id (container->data));
+					break;
+				} else
+					fname = names[++i];
 			}
 			g_free (name);
 		}
 		e_gw_connection_free_container_list (container_list);
+		if (names)
+		g_strfreev(names);
 	}
 	return id;
 }
