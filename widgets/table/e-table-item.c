@@ -125,8 +125,7 @@ inline static gint
 view_to_model_col(ETableItem *eti, int col)
 {
 	ETableCol *ecol = e_table_header_get_column (eti->header, col);
-	g_return_val_if_fail (ecol != NULL, -1);
-	return ecol->col_idx;
+	return ecol ? ecol->col_idx : -1;
 }
 
 static gboolean
@@ -1772,7 +1771,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 #endif
 
 		gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
-				 row, view_to_model_col (eti, col), &button);
+				 row, col, &button);
 		g_print("Double click\n");
 		break;
 	}
