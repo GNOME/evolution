@@ -94,9 +94,13 @@ imap_parse_list_response (char *buf, char *namespace, char **flags, char **sep, 
 	/* get the directory separator */
 	word = imap_next_word (ep);
 	if (*word) {
-		for (ep = word; *ep && *ep != ' '; ep++);
-		*sep = g_strndup (word, (gint)(ep - word));
-		string_unquote (*sep);
+		if (!strncmp (word, "NIL", 3)) {
+			*sep = NULL;
+		} else {
+			for (ep = word; *ep && *ep != ' '; ep++);
+			*sep = g_strndup (word, (gint)(ep - word));
+			string_unquote (*sep);
+		}
 	} else {
 		return FALSE;
 	}

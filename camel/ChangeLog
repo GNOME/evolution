@@ -1,5 +1,15 @@
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c
+	(imap_get_subfolder_names_internal): If we are trying to get a
+	subfolder listing of the root folder, always make sure INBOX is
+	there...
+
+	* providers/imap/camel-imap-utils.c (imap_parse_list_response): 
+	Check for NIL as a directory separator.
+
+2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* providers/imap/camel-imap-utils.c (imap_translate_sexp): Strip
 	all \n's from the expression
 
