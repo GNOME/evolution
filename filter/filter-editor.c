@@ -192,9 +192,31 @@ add_or_edit(FilterEditor *e, struct filter_option *option)
 		return;
 	}
 
-	dialogue = gnome_dialog_new(option?"Edit Filter":"Create filter", "Prev", "Next", "Finish", "Cancel", 0);
-
+	dialogue = gnome_dialog_new (option
+				     ? _("Edit Filter")
+				     : _("Create filter"),
+				     NULL);
 	p->druid_dialogue = dialogue;
+	{
+		const char *pixmaps[] = {
+			GNOME_STOCK_BUTTON_PREV,
+			GNOME_STOCK_BUTTON_NEXT,
+			GNOME_STOCK_BUTTON_APPLY,
+			GNOME_STOCK_BUTTON_CANCEL,
+			NULL
+		};
+		const char *names[] = {
+			N_("Back"),
+			N_("Next"),
+			N_("Finish"),
+			N_("Cancel"),
+			NULL
+		};
+		if (option)
+			names[2] = N_("Apply");
+		gnome_dialog_append_buttons_with_pixmaps(GNOME_DIALOG (dialogue),
+							 names, pixmaps);
+	}
 
 	gnome_dialog_set_close(dialogue, FALSE);
 	gnome_dialog_set_sensitive(dialogue, 0, FALSE);
@@ -208,9 +230,10 @@ add_or_edit(FilterEditor *e, struct filter_option *option)
 
 	p->druid_druid = druid;
 
-	filter_druid_set_default_html(p->druid_druid, "<h2>Create Filtering Rule</h2>"
-				      "<p>Select one of the base rules above, then continue "
-				      "forwards to customise it.</p>");
+	filter_druid_set_default_html(p->druid_druid,
+				      _("<h2>Create Filtering Rule</h2>"
+					"<p>Select one of the base rules above, then continue "
+					"forwards to customise it.</p>"));
 
 	filter_druid_set_rules(druid, e->systemoptions, e->rules, option);
 	gtk_box_pack_start(dialogue->vbox, druid, TRUE, TRUE, 0);

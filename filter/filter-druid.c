@@ -27,6 +27,8 @@
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
 
+#include "widgets/misc/e-scroll-frame.h"
+
 #include "filter-arg-types.h"
 #include "filter-xml.h"
 #include "filter-format.h"
@@ -604,7 +606,8 @@ filter_druid_set_rules(FilterDruid *f, GList *options, GList *rules, struct filt
 static void
 build_druid(FilterDruid *d)
 {
-	GtkWidget *vbox, *frame, *scrolled_window, *list, *html, *hbox, *label, *vbox1;
+	GtkWidget *vbox, *frame, *scrolled_window, *list, *html, *hbox, *label;
+	GtkWidget *frame1, *table;
 	struct _FilterDruidPrivate *p = _PRIVATE(d);
 
 #if 0
@@ -618,7 +621,8 @@ build_druid(FilterDruid *d)
 
 	p->notebook = d;
 	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(p->notebook), FALSE);
-	
+	gtk_notebook_set_show_border(GTK_NOTEBOOK(p->notebook), FALSE);
+
 	/* page0, initial setup page */
 	vbox = gtk_vbox_new(FALSE, 3);
 	frame = gtk_frame_new("Filters");
@@ -627,6 +631,7 @@ build_druid(FilterDruid *d)
 	list = gtk_list_new();
 	scrolled_window = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_set_usize(scrolled_window, 400, 150);
+	gtk_container_set_border_width(GTK_CONTAINER(scrolled_window), GNOME_PAD_SMALL);
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled_window), list);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
 					GTK_POLICY_AUTOMATIC,
@@ -639,13 +644,17 @@ build_druid(FilterDruid *d)
 	gtk_box_pack_start((GtkBox *)vbox, frame, TRUE, TRUE, 0);
 
 	frame = gtk_frame_new("Filter Description (click on values to edit)");
-	html = gtk_html_new();
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	html = gtk_html_new();      
+	scrolled_window = e_scroll_frame_new (NULL, NULL);
 	gtk_widget_set_usize(scrolled_window, 400, 150);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(scrolled_window), html);
+	gtk_container_set_border_width(GTK_CONTAINER(scrolled_window), GNOME_PAD_SMALL);
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (scrolled_window),
+				     GTK_POLICY_AUTOMATIC,
+				     GTK_POLICY_AUTOMATIC);
+	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scrolled_window),
+					  GTK_SHADOW_IN);
+	/*gtk_container_add(GTK_CONTAINER(frame1), html);*/
+	gtk_container_add(GTK_CONTAINER(scrolled_window), html);//frame1);
 	gtk_container_add(GTK_CONTAINER(frame), scrolled_window);
 	gtk_box_pack_start((GtkBox *)vbox, frame, TRUE, TRUE, 0);
 
@@ -666,32 +675,38 @@ build_druid(FilterDruid *d)
 	vbox = gtk_vbox_new(FALSE, 3);
 
 	frame = gtk_frame_new("Rule options");
-	vbox1 = gtk_vbox_new(FALSE, 3);
+	gtk_box_pack_start((GtkBox *)vbox, frame, FALSE, FALSE, 0);
 
-	hbox = gtk_hbox_new(FALSE, 3);
+	table = gtk_table_new (2, 2, FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (table), GNOME_PAD_SMALL);
+	gtk_table_set_row_spacings (GTK_TABLE (table), GNOME_PAD_SMALL);
+	gtk_table_set_col_spacings (GTK_TABLE (table), GNOME_PAD_SMALL);
+
+	gtk_container_add(GTK_CONTAINER(frame), table);
+
 	label = gtk_label_new("Name of rule");
 	p->name1 = gtk_entry_new();
-	gtk_box_pack_start((GtkBox *)hbox, label, FALSE, FALSE, 0);
-	gtk_box_pack_start((GtkBox *)hbox, p->name1, TRUE, TRUE, 0);
-	gtk_box_pack_start((GtkBox *)vbox1, hbox, TRUE, FALSE, 0);
-
-	gtk_container_add(GTK_CONTAINER(frame), vbox1);
-
-	p->activate1 = gtk_check_button_new_with_label("Activate rule?");
-	gtk_box_pack_start((GtkBox *)vbox1, p->activate1, TRUE, FALSE, 0);
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(p->activate1), TRUE);
-
 	gtk_signal_connect(GTK_OBJECT(p->name1), "changed", option_name_changed, d);
 
-	gtk_box_pack_start((GtkBox *)vbox, frame, TRUE, TRUE, 0);
+	p->activate1 = gtk_check_button_new_with_label("Activate rule?");
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(p->activate1), TRUE);
+
+	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), p->name1, 1, 2, 0, 1, 
+			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), p->activate1, 0, 2, 1, 2,
+			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* another copy of the filter thingy */
 	frame = gtk_frame_new("Filter Description (click on values to edit)");
 	html = gtk_html_new();
 	p->html1 = (GtkHTML *)html;
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	scrolled_window = e_scroll_frame_new (NULL, NULL);
+	gtk_container_set_border_width (GTK_CONTAINER (scrolled_window), GNOME_PAD_SMALL);
+	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scrolled_window),
+					GTK_SHADOW_IN);
 	gtk_widget_set_usize(scrolled_window, 400, 150);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (scrolled_window),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scrolled_window), html);
