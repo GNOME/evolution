@@ -878,8 +878,7 @@ e_shell_startup_wizard_create (void)
 	data->finish = glade_xml_get_widget (data->wizard, "done-page");
 	g_return_val_if_fail (data->start != NULL, FALSE);
 	g_return_val_if_fail (data->finish != NULL, FALSE);
-	g_signal_connect (data->finish, "finish",
-			  G_CALLBACK (finish_func), data);
+	g_signal_connect (data->finish, "next", G_CALLBACK (finish_func), data);
 
 	make_mail_dialog_pages (data);
 	g_return_val_if_fail (data->mailer != CORBA_OBJECT_NIL, TRUE);

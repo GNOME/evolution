@@ -55,7 +55,7 @@ schema_handler_new (const char *schema,
 	handler->schema    = g_strdup (schema);
 	handler->component = component;
 
-	bonobo_object_ref (BONOBO_OBJECT (component));
+	g_object_ref (component);
 
 	return handler;
 }

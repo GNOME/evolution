@@ -1,3 +1,16 @@
+2002-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-startup-wizard.c (e_shell_startup_wizard_create):
+	Connect finish_func to the "next" signal for now, since GnomeDruid
+	seems to be borked.
+
+	* e-uri-schema-registry.c (schema_handler_new): g_object_ref()
+	@component instead of bonobo_object_ref().
+
+	* e-local-storage.c (create_folder): g_object_ref() for the
+	component_client, instead of bonobo_object_ref().
+	(remove_folder_step): Likewise.
+
 2002-11-13  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-storage.c: remove GTK_OBJECT cast and other GTK stuff.

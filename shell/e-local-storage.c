@@ -449,7 +449,7 @@ create_folder (ELocalStorage *local_storage,
 	callback_data->callback      = callback;
 	callback_data->callback_data = data;
 
-	bonobo_object_ref (BONOBO_OBJECT (component_client));
+	g_object_ref (component_client);
 
 	evolution_shell_component_client_async_create_folder (component_client,
 							      physical_uri,
@@ -590,7 +590,7 @@ remove_folder_step (AsyncRemoveFolderCallbackData *callback_data)
 	type = e_folder_get_type_string (folder);
 	client = e_folder_type_registry_get_handler_for_type (priv->folder_type_registry, type);
 
-	bonobo_object_ref (BONOBO_OBJECT (client));
+	g_object_ref (client);
 
 	evolution_shell_component_client_async_remove_folder (client, physical_uri, type,
 							      component_async_remove_folder_callback,
