@@ -3065,6 +3065,7 @@ start_editing (EText *text)
 	if (text->editing)
 		return;
 
+	g_free (text->revert);
 	text->revert = g_strdup (text->text);
 
 	text->editing = TRUE;
@@ -3091,6 +3092,7 @@ e_text_stop_editing (EText *text)
 		return;
 
 	g_free (text->revert);
+	text->revert = NULL;
 
 	text->editing = FALSE;
 	if ( (!text->default_cursor_shown) && (!text->draw_borders) ) {
@@ -3107,7 +3109,8 @@ e_text_stop_editing (EText *text)
 void
 e_text_cancel_editing (EText *text)
 {
-	e_text_model_set_text(text->model, text->revert);
+	if (text->revert)
+		e_text_model_set_text(text->model, text->revert);
 	e_text_stop_editing (text);
 }
 
