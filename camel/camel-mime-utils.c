@@ -1970,7 +1970,7 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 		}
 	}
 	
-	if (!g_utf8_validate (value, -1, NULL)) {
+	if (value && !g_utf8_validate (value, -1, NULL)) {
 		/* The (broken) mailer sent us an unencoded 8bit value
 		 * attempt to save it by assuming it's in the user's
 		 * locale and converting to utf8 */
