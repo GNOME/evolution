@@ -137,14 +137,15 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create,
 		}
 
 		fd = open (name, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
-		g_free (name);
 		if (fd == -1) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "Could not create file `%s':"
 					      "\n%s", name,
 					      g_strerror (errno));
+			g_free (name);
 			return NULL;
 		}
+		g_free (name);
 		close (fd);
 	} else if (!S_ISREG (st.st_mode)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,

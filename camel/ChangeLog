@@ -1,3 +1,8 @@
+2000-10-04  Dan Winship  <danw@helixcode.com>
+
+	* providers/mbox/camel-mbox-store.c (get_folder): Fix a case where
+	a variable was free'd and then possibly used in an error message.
+
 2000-10-04  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/nntp/camel-nntp-provider.c
@@ -188,7 +193,6 @@
 	
 	* providers/imap/camel-imap-stream.c (stream_read): Same.
 
->>>>>>> 1.503
 2000-09-28  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-utils.c (header_fold): New function to fold headers.
