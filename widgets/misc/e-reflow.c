@@ -771,6 +771,7 @@ set_empty(EReflow *e_reflow)
 							      "fill_color", "black",
 							      "justification", GTK_JUSTIFY_CENTER,
 							      "text", e_reflow->empty_message,
+							      "draw_background", FALSE,
 							      NULL);
 			e_canvas_item_move_absolute(e_reflow->empty_text,
 						    e_reflow->minimum_width / 2,

@@ -131,7 +131,6 @@ e_entry_init (GtkObject *object)
 						     "anchor", GTK_ANCHOR_NW,
 						     "draw_borders", TRUE,
 						     NULL));
-
 	gtk_table_attach_defaults(gtk_table, GTK_WIDGET(e_entry->canvas),
 				  0, 1, 0, 1);
 	gtk_widget_show(GTK_WIDGET(e_entry->canvas));
