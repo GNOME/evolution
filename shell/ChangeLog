@@ -1,3 +1,12 @@
+2000-05-26  Matt Loper  <matt@helixcode.com>
+
+	* e-shell-view-menu.c (command_about_box): Make authorlist more
+	alphabetical.
+	(command_show_treeview): New function; shows the treeview, when it
+	has been hidden.
+	(command_show_shortcut_bar): New function; shows the shortcut bar,
+	when it's been hidden.
+
 2000-05-26  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-corba-storage.c (impl_StorageListener_new_folder): Set the

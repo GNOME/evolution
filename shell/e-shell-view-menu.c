@@ -89,20 +89,20 @@ command_about_box (GtkWidget *menuitem, gpointer data)
 			"Damon Chaplin",
 			"Clifford R. Conover",
 			"Miguel de Icaza",
+			"Radek Doulik",
 			"Arturo Espinoza",
 			"Larry Ewing",
+			"Nat Friedman",
 			"Bertrand Guiheneuf",
 			"Tuomas Kuosmanen",
 			"Christopher J. Lahey",
 			"Matthew Loper",
 			"Federico Mena",
 			"Eskil Heyn Olsen",
-			"Nat Friedman",
 			"Ettore Perazzoli",
 			"Russell Steinthal",
 			"Peter Teichman",
 			"Chris Toshok",
-			"Radek Doulik",
 			"Dan Winship",
 			"Michael Zucchi",
 			NULL};
@@ -120,6 +120,29 @@ command_about_box (GtkWidget *menuitem, gpointer data)
 		gtk_widget_show(about_box);
 	}
 }
+
+static void
+command_show_treeview (GtkWidget* widget, gpointer data)
+{
+	EShellView* shell_view;
+
+	g_assert (E_IS_SHELL_VIEW (data));
+
+	shell_view = E_SHELL_VIEW (data);
+	e_shell_view_show_folders (shell_view, TRUE);	
+}
+
+static void
+command_show_shortcut_bar (GtkWidget* widget, gpointer data)
+{
+	EShellView* shell_view;
+
+	g_assert (E_IS_SHELL_VIEW (data));
+
+	shell_view = E_SHELL_VIEW (data);
+	e_shell_view_show_shortcuts (shell_view, TRUE);	
+}
+
 
 
 
@@ -146,8 +169,6 @@ DEFINE_UNIMPLEMENTED (command_new_note)
 DEFINE_UNIMPLEMENTED (command_open_selected_items)
 DEFINE_UNIMPLEMENTED (command_save_as)
 DEFINE_UNIMPLEMENTED (command_close_open_items)
-DEFINE_UNIMPLEMENTED (command_toggle_shortcut_bar)
-DEFINE_UNIMPLEMENTED (command_toggle_treeview)
 
 
 /*
@@ -240,11 +261,11 @@ static GnomeUIInfo menu_edit [] = {
 };
 
 static GnomeUIInfo menu_view [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Toggle Shortcut Bar"),
-	  N_("Toggles the shortcut bar"), command_toggle_shortcut_bar, NULL,
+	{ GNOME_APP_UI_ITEM, N_("Show _Shortcut Bar"),
+	  N_("Shows the shortcut bar"), command_show_shortcut_bar, NULL,
 	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Toggle Treeview"),
-	  N_("Toggles the tree view"), command_toggle_treeview, NULL,
+	{ GNOME_APP_UI_ITEM, N_("Show _Treeview"),
+	  N_("Shows the tree view"), command_show_treeview, NULL,
 	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },		
 	GNOMEUIINFO_END
 };
