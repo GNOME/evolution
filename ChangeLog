@@ -1,3 +1,7 @@
+2001-07-02  Larry Ewing  <lewing@ximian.com>
+
+	* configure.in: Check for gtkhtml 0.9.99.1. 
+
 2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Check for libGal 0.8.99.7.

@@ -1,3 +1,15 @@
+2001-07-02  Larry Ewing  <lewing@ximian.com>
+
+	* mail-display.c (save_part): move the saving logic out of save_cb
+	so that we can reuse it for the image saving code.
+	(save_cb): call save_part.
+	(save_url): new function to resolve an save an html url.
+	(image_save_as): save function for images and.  Add it to the
+	link_menu, and add MASK_URL and MASK_SRC to the structure so that
+	we cans show the proper menus.
+	(html_button_press_event): call get_src as well to find external
+	urls references.  Add popup masking.
+
 2001-07-02  Peter Williams  <peterw@ximian.com>
 
 	* README.async: Add a warning about how wrong this document is.

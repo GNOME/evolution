@@ -115,12 +115,15 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 }
 
 static char *
-make_safe_filename (const char *prefix, CamelMimePart *part)
+make_safe_filename (const char *prefix,CamelMimePart *part)
 {
 	const char *name = NULL;
 	char *safe, *p;
 
-	name = camel_mime_part_get_filename (part);
+	if (part) {
+		name = camel_mime_part_get_filename (part);
+	}
+		
 	if (!name) {
 		/* This is a filename. Translators take note. */
 		name = _("attachment");
@@ -188,13 +191,12 @@ on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 		gnome_url_show (url);
 }
 
-static void
-save_cb (GtkWidget *widget, gpointer user_data)
+static void 
+save_part (CamelMimePart *part)
 {
-	CamelMimePart *part = gtk_object_get_data (user_data, "CamelMimePart");
 	GtkFileSelection *file_select;
 	char *filename;
-	
+
 	filename = make_safe_filename (g_get_home_dir (), part);
 	file_select = GTK_FILE_SELECTION (
 		gtk_file_selection_new (_("Save Attachment")));
@@ -209,6 +211,14 @@ save_cb (GtkWidget *widget, gpointer user_data)
 				   GTK_OBJECT (file_select));
 
 	gtk_widget_show (GTK_WIDGET (file_select));
+}
+
+static void
+save_cb (GtkWidget *widget, gpointer user_data)
+{
+	CamelMimePart *part = gtk_object_get_data (GTK_OBJECT (user_data), "CamelMimePart");
+
+	save_part (part);
 }
 
 static void
@@ -641,6 +651,44 @@ get_embedded_for_component (const char *iid, MailDisplay *md)
 	return embedded;
 }
 
+static void *
+save_url (MailDisplay *md, const char *url)
+{
+	GHashTable *urls;
+	GByteArray *ba;
+	CamelMimePart *part;
+
+	urls = g_datalist_get_data (md->data, "part_urls");
+	g_return_val_if_fail (urls != NULL, NULL);
+
+	part = g_hash_table_lookup (urls, url);
+	if (part) {
+		CamelDataWrapper *data;
+
+		g_return_val_if_fail (CAMEL_IS_MIME_PART (part), NULL);
+
+		data = camel_medium_get_content_object ((CamelMedium *)part);
+		if (!mail_content_loaded (data, md)) {
+			return NULL;
+		}
+
+		save_part (part);
+		return NULL;
+	}
+	
+	g_warning ("part not found");
+#if 0
+	urls = g_datalist_get_data (md->data, "data_urls");
+	g_return_val_if_fail (urls != NULL, NULL);
+
+	/* See if it's some piece of cached data */
+	ba = g_hash_table_lookup (urls, url);
+	if (ba) {
+		return ba;
+	}
+#endif
+	return NULL;
+}
 
 static gboolean
 on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
@@ -1260,7 +1308,7 @@ link_open_in_browser (GtkWidget *w, MailDisplay *mail_display)
 static void
 link_save_as (GtkWidget *w, MailDisplay *mail_display)
 {
-	g_print ("FIXME\n");
+	g_print ("FIXME save %s\n", mail_display->html->pointer_url);
 }
 
 static void
@@ -1273,17 +1321,43 @@ link_copy_location (GtkWidget *w, MailDisplay *mail_display)
 		g_warning ("Damn");
 }
 
+static void
+image_save_as (GtkWidget *w, MailDisplay *mail_display)
+{
+	const char *src;
+
+	src = gtk_object_get_data (GTK_OBJECT (mail_display), "current_src_uri");
+
+	g_warning ("loading uri=%s", src);
+	
+	save_url (mail_display, src);
+}
+
+enum {
+	/* 
+	 * This is used to mask the link specific menu items.
+	 */
+	MASK_URL = 1,
+
+	/*
+	 * This is used to mask src specific menu items.
+	 */
+	MASK_SRC = 2
+};
+
 #define SEPARATOR  { "", NULL, (NULL), NULL,  0 }
 #define TERMINATOR { NULL, NULL, (NULL), NULL,  0 }
 
 static EPopupMenu link_menu [] = {
 	{ N_("Open Link in Browser"), NULL,
-	  GTK_SIGNAL_FUNC (link_open_in_browser),  NULL,  0 },
-	{ N_("Save as (FIXME)"), NULL,
-	  GTK_SIGNAL_FUNC (link_save_as), NULL,  0 },
+	  GTK_SIGNAL_FUNC (link_open_in_browser),  NULL,  MASK_URL },
 	{ N_("Copy Link Location"), NULL,
-	  GTK_SIGNAL_FUNC (link_copy_location), NULL,  0 },
-	
+	  GTK_SIGNAL_FUNC (link_copy_location), NULL,  MASK_URL },
+	{ N_("Save Link as (FIXME)"), NULL,
+	  GTK_SIGNAL_FUNC (link_save_as), NULL,  MASK_URL },
+	{ N_("Save Image as"), NULL,
+	  GTK_SIGNAL_FUNC (image_save_as), NULL, MASK_SRC }, 
+     
 	TERMINATOR
 };
 
@@ -1494,8 +1568,10 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 			
 			if (point) {
 				const gchar *url;
-				
+				const gchar *src;
+
 				url = html_object_get_url (point->object);
+				src = html_object_get_src (point->object);
 
 				if (url && !g_strncasecmp (url, "mailto:", 7)) {
 
@@ -1517,9 +1593,19 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 
 					
 
-				} else if (url) {
+				} else if (url || src) {
+				        gint hide_mask = 0;
 
-					e_popup_menu_run (link_menu, (GdkEvent *) event, 0, 0, mail_display);
+					if (!url)
+						hide_mask |= MASK_URL;
+
+					if (!src)
+						hide_mask |= MASK_SRC;
+
+					g_free (gtk_object_get_data (GTK_OBJECT (mail_display), "current_src_uri"));
+					gtk_object_set_data (GTK_OBJECT (mail_display), "current_src_uri", g_strdup (src));
+					
+					e_popup_menu_run (link_menu, (GdkEvent *) event, 0, hide_mask, mail_display);
 
 				}
 

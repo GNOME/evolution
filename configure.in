@@ -502,7 +502,7 @@ EVO_CHECK_LIB(GAL, gal, 0.8.99.7)
 
 dnl FIXME: really a post-0.9.3 version (as of April 25) is needed for
 dnl changes in Editor.idl (menesis)
-EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.9.3)
+EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.9.99.1)
 EVO_CHECK_LIB(GNOME-VFS, vfs, 1.0)
 EVO_CHECK_LIB(libxml, xml, 1.8.10, 2.0)
 
