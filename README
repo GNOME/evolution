@@ -147,21 +147,18 @@ please back up your pilot, you will also need to do the following:
 cvs -d pserver:anonymous@cvs.gnu-designs.com:/cvs/openpalm login
 The password is just <ENTER>.
 cvs -d pserver:anonymous@cvs.gnu-designs.com:/cvs/openpalm co pilot-link
-./configure --prefix=<pilot-link-prefix> --with-perl=no --with-java=no
---with-tcl=no --with-python=no
+./configure --prefix=<pilot-link-prefix> --with-perl=no --with-java=no --with-tcl=no --with-python=no
 make
 make install
 
 2) gnome-pilot
 cvs -z3 co gnome-pilot
-./configure --prefix=<gnome-pilot-prefix>
---with-pisock=<pilot-link-prefix> --with-newabs
+./configure --prefix=<gnome-pilot-prefix> --with-pisock=<pilot-link-prefix>
 make
 make install
 
 3) evolution
-in your evo source dir do ./autogen.sh --prefix=<evo-prefix>
---with-pisock=<pilot-link-prefix> --enable-pilot-conduits=yes
+in your evo source dir do ./autogen.sh --prefix=<evo-prefix> --with-pisock=<pilot-link-prefix> --enable-pilot-conduits=yes
 make
 make install
 
