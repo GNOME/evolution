@@ -779,7 +779,7 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 	char *content;
 	int fd;
 	
-	fd = open (file_name, O_RDONLY | O_CREAT, 0644);
+	fd = open (file_name, O_RDONLY);
 	if (fd == -1) {
 		char *msg;
 		

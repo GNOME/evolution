@@ -1,3 +1,8 @@
+2002-10-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (get_file_content): Don't create a new file if
+	the file doesn't exist.
+
 2002-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): If the user hits cancel when
@@ -12,7 +17,8 @@
 
 2002-09-30  Aaron Weber  <aaron@ximian.com>
 
-	* evolution-composer.c (evolution_composer_factory_init): adjust string on line 391
+	* evolution-composer.c (evolution_composer_factory_init): adjust
+	string on line 391
 
 	* e-msg-composer.c (create_composer): adjust string on 2872
 
