@@ -1,3 +1,14 @@
+2001-07-16  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icaltimezone.c (icaltimezone_get_location_from_vtimezone): return NULL if we couldn't find the LOCATION.
+	(icaltimezone_get_utc_offset): ifdef'd out a debugging message.
+	(icaltimezone_get_location): 
+	(icaltimezone_get_latitude): 
+	(icaltimezone_get_longitude): don't load the builtin timezone for
+	these. We should already have the data from reading zones.tab.
+	(icaltimezone_get_builtin_timezone_from_tzid): return NULL if the TZID
+	given is NULL or "" (i.e. a floating time).
+
 2001-07-10  Peter Williams  <peterw@ximian.com>
 
 	* src/libicalss/Makefile.am (libicalss_la_SOURCES): Add the
