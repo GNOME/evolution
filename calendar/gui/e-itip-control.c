@@ -57,7 +57,8 @@
 
 struct _EItipControlPrivate {
 	GtkWidget *html;
-
+	gboolean html_destroyed;
+	
 	GPtrArray *event_clients;
 	CalClient *event_client;
 	GPtrArray *task_clients;
@@ -83,6 +84,8 @@ struct _EItipControlPrivate {
 	gchar *delegator_name;
 	gchar *my_address;
 	gboolean view_only;
+
+	gboolean destroyed;
 };
 
 /* HTML Strings */
@@ -102,6 +105,7 @@ static const char *tasks_types[] = { "tasks", NULL };
 static void class_init	(EItipControlClass	 *klass);
 static void init	(EItipControl		 *itip);
 static void destroy	(GtkObject               *obj);
+static void finalize	(GObject               *obj);
 
 static void url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data);
 static gboolean object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data);
@@ -115,13 +119,17 @@ E_MAKE_TYPE (e_itip_control, "EItipControl", EItipControl, class_init, init,
 static void
 class_init (EItipControlClass *klass)
 {
-	GtkObjectClass *object_class;
-
-	object_class = GTK_OBJECT_CLASS (klass);
-
+	GObjectClass *object_class;
+	GtkObjectClass *gtkobject_class;
+	
+	object_class = G_OBJECT_CLASS (klass);
+	gtkobject_class = GTK_OBJECT_CLASS (klass);
+	
 	parent_class = g_type_class_peek_parent (klass);
 
-	object_class->destroy = destroy;
+	gtkobject_class->destroy = destroy;
+
+	object_class->finalize = finalize;
 }
 
 
@@ -142,7 +150,7 @@ start_calendar_server_cb (CalClient *cal_client,
 }
 
 static CalClient *
-start_calendar_server (char *uri)
+start_calendar_server (EItipControl *itip, char *uri)
 {
 	CalClient *client;
 	gboolean success = FALSE;
@@ -151,22 +159,32 @@ start_calendar_server (char *uri)
 
 	g_signal_connect (client, "cal_opened", G_CALLBACK (start_calendar_server_cb), &success);
 
-	cal_client_open_calendar (client, uri, TRUE);
+ 	if (!cal_client_open_calendar (client, uri, TRUE))
+ 		goto error;
 	
 	/* run a sub event loop to turn cal-client's async load
 	   notification into a synchronous call */
-	gtk_main ();
+ 	if (!itip->priv->destroyed) {
+ 		gtk_signal_connect (GTK_OBJECT (itip), "destroy",
+ 				    gtk_main_quit, NULL);
+	
+		gtk_main ();
+	
+ 		gtk_signal_disconnect_by_func (GTK_OBJECT (itip),
+ 					       gtk_main_quit, NULL);
+ 	}
 
 	if (success)
 		return client;
 
+error:
 	g_object_unref (client);
 	
 	return NULL;
 }
 
 static CalClient *
-start_default_server (gboolean tasks)
+start_default_server (EItipControl *itip, gboolean tasks)
 {
 	CalClient *client;
 	gboolean success = FALSE;
@@ -185,8 +203,16 @@ start_default_server (gboolean tasks)
 	
 	/* run a sub event loop to turn cal-client's async load
 	   notification into a synchronous call */
-	gtk_main ();
+	if (!itip->priv->destroyed) {
+		gtk_signal_connect (GTK_OBJECT (itip), "destroy",
+				    gtk_main_quit, NULL);
 
+		gtk_main ();
+		
+		gtk_signal_disconnect_by_func (GTK_OBJECT (itip),
+					       gtk_main_quit, NULL);
+	}
+	
 	if (success)
 		return client;
 
@@ -197,7 +223,7 @@ start_default_server (gboolean tasks)
 }
 
 static GPtrArray *
-get_servers (EvolutionShellClient *shell_client, const char *possible_types[], gboolean tasks)
+get_servers (EItipControl *itip, EvolutionShellClient *shell_client, const char *possible_types[], gboolean tasks)
 {
 	GNOME_Evolution_StorageRegistry registry;
 	GNOME_Evolution_StorageRegistry_StorageList *storage_list;
@@ -209,7 +235,7 @@ get_servers (EvolutionShellClient *shell_client, const char *possible_types[], g
 	
 	bonobo_object_ref (BONOBO_OBJECT (shell_client));
 	registry = evolution_shell_client_get_storage_registry_interface (shell_client);
-
+	
 	CORBA_exception_init (&ev);
 	storage_list = GNOME_Evolution_StorageRegistry_getStorageList (registry, &ev);
 	if (BONOBO_EX (&ev)) {
@@ -220,9 +246,17 @@ get_servers (EvolutionShellClient *shell_client, const char *possible_types[], g
 	for (i = 0; i < storage_list->_length; i++) {
 		GNOME_Evolution_Storage storage;
 		GNOME_Evolution_FolderList *folder_list;
+
+		CORBA_exception_init (&ev);
 		
 		storage = storage_list->_buffer[i];
 		folder_list = GNOME_Evolution_Storage__get_folderList (storage, &ev);
+		if (BONOBO_EX (&ev)) {
+			CORBA_exception_free (&ev);
+			continue;
+		}
+
+		CORBA_exception_free (&ev);
 
 		for (j = 0; j < folder_list->_length; j++) {
 			GNOME_Evolution_Folder folder;
@@ -231,12 +265,15 @@ get_servers (EvolutionShellClient *shell_client, const char *possible_types[], g
 			for (k = 0; possible_types[k] != NULL; k++) {
 				CalClient *client;
 				char *uri;
-
+				
+				if (itip->priv->destroyed)
+					continue;
+				
 				if (strcmp (possible_types[k], folder.type))
 					continue;
 
 				uri = cal_util_expand_uri (folder.physicalUri, tasks);
-				client = start_calendar_server (uri);
+				client = start_calendar_server (itip, uri);
 				if (client != NULL)
 					g_ptr_array_add (servers, client);			
 				g_free (uri);
@@ -279,6 +316,17 @@ find_server (GPtrArray *servers, CalComponent *comp)
 }
 
 static void
+html_destroyed (gpointer data)
+{
+	EItipControl *itip = data;
+	EItipControlPrivate *priv;
+	
+	priv = itip->priv;
+	
+	priv->html_destroyed = TRUE;
+}
+
+static void
 init (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
@@ -296,7 +344,7 @@ init (EItipControl *itip)
 	priv->event_client = NULL;
 	priv->task_clients = NULL;
 	priv->task_client = NULL;
-	
+
 	/* Other fields to init */
 	priv->calendar_uri = NULL;
 	priv->from_address = NULL;
@@ -307,6 +355,7 @@ init (EItipControl *itip)
 	
 	/* Html Widget */
 	priv->html = gtk_html_new ();
+	priv->html_destroyed = FALSE;
 	gtk_html_set_default_content_type (GTK_HTML (priv->html), 
 					   "text/html; charset=utf-8");
 	gtk_html_load_from_string (GTK_HTML (priv->html), " ", 1);
@@ -319,12 +368,15 @@ init (EItipControl *itip)
 	gtk_widget_show (scrolled_window);
 
 	gtk_container_add (GTK_CONTAINER (scrolled_window), priv->html);
+	gtk_object_weakref (GTK_OBJECT (priv->html), html_destroyed, itip);
 	gtk_widget_set_usize (scrolled_window, 600, 400);
 	gtk_box_pack_start (GTK_BOX (itip), scrolled_window, FALSE, FALSE, 4);
 
 	g_signal_connect (priv->html, "url_requested", G_CALLBACK (url_requested_cb), itip);
 	g_signal_connect (priv->html, "object_requested", G_CALLBACK (object_requested_cb), itip);
 	g_signal_connect (priv->html, "submit", G_CALLBACK (ok_clicked_cb), itip);
+
+	priv->destroyed = FALSE;
 }
 
 static void
@@ -376,37 +428,49 @@ destroy (GtkObject *obj)
 {
 	EItipControl *itip = E_ITIP_CONTROL (obj);
 	EItipControlPrivate *priv;
+	
+	priv = itip->priv;
+	  
+	priv->destroyed = TRUE;
+}
+
+static void
+finalize (GObject *obj)
+{
+	EItipControl *itip = E_ITIP_CONTROL (obj);
+	EItipControlPrivate *priv;
 	int i;
 	
 	priv = itip->priv;
 
-	if (priv) {
-		clean_up (itip);
+	clean_up (itip);
 
-		priv->accounts = NULL;
+ 	if (priv->html)
+ 		gtk_object_weakunref (GTK_OBJECT (priv->html), html_destroyed, itip);
 
-		if (priv->event_clients) {
-			for (i = 0; i < priv->event_clients->len; i++) 
-				g_object_unref (g_ptr_array_index (priv->event_clients, i));
-			g_ptr_array_free (priv->event_clients, TRUE);
-			priv->event_client = NULL;
-			priv->event_clients = NULL;
-		}
-
-		if (priv->task_clients) {
-			for (i = 0; i < priv->task_clients->len; i++) 
-				g_object_unref (g_ptr_array_index (priv->task_clients, i));
-			g_ptr_array_free (priv->task_clients, TRUE);
-			priv->task_client = NULL;
-			priv->task_clients = NULL;
-		}
-
-		g_free (priv);
-		itip->priv = NULL;
+	priv->accounts = NULL;
+	
+	if (priv->event_clients) {
+		for (i = 0; i < priv->event_clients->len; i++) 
+			g_object_unref (g_ptr_array_index (priv->event_clients, i));
+		g_ptr_array_free (priv->event_clients, TRUE);
+		priv->event_client = NULL;
+		priv->event_clients = NULL;
 	}
+	
+	if (priv->task_clients) {
+		for (i = 0; i < priv->task_clients->len; i++) 
+			g_object_unref (g_ptr_array_index (priv->task_clients, i));
+		g_ptr_array_free (priv->task_clients, TRUE);
+		priv->task_client = NULL;
+		priv->task_clients = NULL;
+	}
+	
+	g_free (priv);
+	itip->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (obj);
 }
 
 GtkWidget *
@@ -877,6 +941,9 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 
 	priv = itip->priv;
 
+	if (priv->html_destroyed)
+		return;
+	
 	/* Html widget */
 	html_stream = gtk_html_begin (GTK_HTML (priv->html));
 	gtk_html_stream_printf (html_stream,
@@ -1243,7 +1310,7 @@ show_current_event (EItipControl *itip)
 	priv = itip->priv;
 
 	if (priv->calendar_uri)
-		priv->event_client = start_calendar_server (priv->calendar_uri);
+		priv->event_client = start_calendar_server (itip, priv->calendar_uri);
 	else 
 		priv->event_client = find_server (priv->event_clients, priv->comp);
 	
@@ -1310,7 +1377,7 @@ show_current_todo (EItipControl *itip)
 	priv = itip->priv;
 
 	if (priv->calendar_uri)
-		priv->task_client = start_calendar_server (priv->calendar_uri);
+		priv->task_client = start_calendar_server (itip, priv->calendar_uri);
 	else 
 		priv->task_client = find_server (priv->task_clients, priv->comp);
 
@@ -1431,6 +1498,8 @@ show_current (EItipControl *itip)
 
 	priv = itip->priv;
 
+	gtk_object_ref (GTK_OBJECT (itip));
+	
 	if (priv->comp)
 		g_object_unref (priv->comp);
 	if (priv->event_client != NULL)
@@ -1471,6 +1540,7 @@ show_current (EItipControl *itip)
 		write_error_html (itip, _("The message does not appear to be properly formed"));
 		g_object_unref (priv->comp);
 		priv->comp = NULL;
+		gtk_object_unref (GTK_OBJECT (itip));
 		return;
 	};
 
@@ -1518,12 +1588,12 @@ show_current (EItipControl *itip)
 	switch (type) {
 	case CAL_COMPONENT_EVENT:
 		if (!priv->event_clients)
-			priv->event_clients = get_servers (global_shell_client, calendar_types, FALSE);
+			priv->event_clients = get_servers (itip, global_shell_client, calendar_types, FALSE);
 		show_current_event (itip);
 		break;
 	case CAL_COMPONENT_TODO:
 		if (!priv->task_clients)
-			priv->task_clients = get_servers (global_shell_client, tasks_types, FALSE);
+			priv->task_clients = get_servers (itip, global_shell_client, tasks_types, FALSE);
 		show_current_todo (itip);
 		break;
 	case CAL_COMPONENT_FREEBUSY:
@@ -1534,6 +1604,8 @@ show_current (EItipControl *itip)
 	}
 
 	find_my_address (itip, priv->ical_comp);
+
+	gtk_object_unref (GTK_OBJECT (itip));
 }
 
 void
@@ -2079,7 +2151,7 @@ button_selected_cb (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folde
 		uri = cal_util_expand_uri (folder->physicalUri, FALSE);
 
 	g_object_unref (priv->event_client);
-	priv->event_client = start_calendar_server (uri);
+	priv->event_client = start_calendar_server (itip, uri);
 
 	g_free (uri);
 }
@@ -2133,14 +2205,14 @@ object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 			global_shell_client, _("Select Calendar Folder"),
 			calendar_config_default_calendar_folder (), 
 			calendar_types);
-		priv->event_client = start_default_server (FALSE);
+		priv->event_client = start_default_server (itip, FALSE);
 		break;
 	case CAL_COMPONENT_TODO:
 		button = evolution_folder_selector_button_new (
 			global_shell_client, _("Select Tasks Folder"),
 			calendar_config_default_tasks_folder (), 
 			tasks_types);
-		priv->task_client = start_default_server (TRUE);
+		priv->task_client = start_default_server (itip, TRUE);
 		break;
 	default:
 		button = NULL;
