@@ -322,7 +322,6 @@ create_children			(EDateEdit	*dedit)
 	priv = dedit->priv;
 
 	priv->date_entry  = gtk_entry_new ();
-	gtk_widget_set_size_request (priv->date_entry, 90, -1);
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_entry, FALSE, TRUE, 0);
 	
 	g_signal_connect (priv->date_entry, "key_press_event",
@@ -354,7 +353,6 @@ create_children			(EDateEdit	*dedit)
 
 
 	priv->time_combo = gtk_combo_new ();
-	gtk_widget_set_size_request (GTK_COMBO (priv->time_combo)->entry, 90, -1);
 	gtk_box_pack_start (GTK_BOX (dedit), priv->time_combo, FALSE, TRUE, 0);
 	rebuild_time_popup (dedit);
 
