@@ -1,5 +1,9 @@
 2002-08-28  Not Zed  <NotZed@Ximian.com>
 
+	* tests/folder/test8.c (test_add_message): Change message number
+	to use hex, so its properly unique.
+	(worker): Same here.
+
 	* tests/misc/utf7.c: some utf7/utf8 tests.
 
 	* providers/imap/camel-imap-utils.c (imap_mailbox_encode): Chagned
