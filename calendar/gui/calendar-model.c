@@ -673,9 +673,13 @@ get_due_status (CalendarModel *model, CalComponent *comp)
 				retval = CALENDAR_MODEL_DUE_FUTURE;
 		} else {
 			/* Get the current time in the same timezone as the DUE date.*/
-			/* FIXME: TIMEZONES: Handle error. */
 			status = cal_client_get_timezone (model->priv->client, dt.tzid,
 							  &zone);
+			if (status != CAL_CLIENT_GET_SUCCESS) {
+				retval = CALENDAR_MODEL_DUE_FUTURE;
+				goto out;
+			}
+			
 			now_tt = icaltime_current_time_with_zone (zone);
 
 			if (icaltime_compare (*dt.value, now_tt) <= 0) 

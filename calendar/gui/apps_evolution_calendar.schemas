@@ -106,8 +106,8 @@
       <key>/schemas/apps/evolution/calendar/display/hpane_position</key>
       <applyto>/apps/evolution/calendar/display/hpane_position</applyto>
       <owner>evolution-calendar</owner>
-      <type>float</type>
-      <default>1.0</default>
+      <type>int</type>
+      <default>400</default>
       <locale name="C">
         <short>Position of the horizontal pane</short>
       </locale>
@@ -117,8 +117,8 @@
       <key>/schemas/apps/evolution/calendar/display/vpane_position</key>
       <applyto>/apps/evolution/calendar/display/vpane_position</applyto>
       <owner>evolution-calendar</owner>
-      <type>float</type>
-      <default>1.0</default>
+      <type>int</type>
+      <default>150</default>
       <locale name="C">
         <short>Position of the vertical pane</short>
       </locale>
@@ -128,8 +128,8 @@
       <key>/schemas/apps/evolution/calendar/display/month_hpane_position</key>
       <applyto>/apps/evolution/calendar/display/month_hpane_position</applyto>
       <owner>evolution-calendar</owner>
-      <type>float</type>
-      <default>0.0</default>
+      <type>int</type>
+      <default>640</default>
       <locale name="C">
         <short>Position of the horizontal pane in the month view</short>
       </locale>
@@ -139,8 +139,8 @@
       <key>/schemas/apps/evolution/calendar/display/month_vpane_position</key>
       <applyto>/apps/evolution/calendar/display/month_vpane_position</applyto>
       <owner>evolution-calendar</owner>
-      <type>float</type>
-      <default>1.0</default>
+      <type>int</type>
+      <default>150</default>
       <locale name="C">
         <short>Position of the vertical pane in the month view</short>
       </locale>

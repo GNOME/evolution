@@ -1,3 +1,33 @@
+2003-04-15  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #39735 and 40257
+	
+	* gui/gnome-cal.c: convert float pane positions to ints
+	(setup_widgets): set the initial position after realization and
+	track the drags to get the new position, pack the panes slightly
+	differently
+	(gnome_calendar_set_pane_positions): set purely pixel oriented
+	positions
+	(gnome_calendar_update_config_settings): no need to update quanta
+	setting
+	(gnome_calendar_hpane_realized): realization callback
+	(gnome_calendar_vpane_realized): ditto
+	(gnome_calendar_vpane_resized): resize callback, store new size
+	(gnome_calendar_hpane_resized): ditto
+
+	* gui/calendar-model.c (get_due_status): handle an error getting
+	the timezone
+
+	* gui/calendar-config.c (calendar_config_get_hpane_pos): return an int
+	(calendar_config_set_hpane_pos): take an int
+	(calendar_config_get_vpane_pos): return an int
+	(calendar_config_set_vpane_pos): take an int
+
+	* gui/calendar-config.h: update protos
+
+	* gui/apps_evolution_calendar.schemas: update defaults for pane
+	positions
+
 2003-04-15  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/calendar-component.c (owner_set_cb): If we already have an

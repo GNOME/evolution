@@ -117,17 +117,17 @@ gint	  calendar_config_get_default_view	(void);
 void	  calendar_config_set_default_view	(gint	      view);
 
 /* The positions of the panes in the normal and month views. */
-gfloat    calendar_config_get_hpane_pos		(void);
-void	  calendar_config_set_hpane_pos		(gfloat	      hpane_pos);
+gint      calendar_config_get_hpane_pos		(void);
+void	  calendar_config_set_hpane_pos		(gint	      hpane_pos);
 
-gfloat    calendar_config_get_vpane_pos		(void);
-void	  calendar_config_set_vpane_pos		(gfloat	      vpane_pos);
+gint      calendar_config_get_vpane_pos		(void);
+void	  calendar_config_set_vpane_pos		(gint	      vpane_pos);
 
-gfloat    calendar_config_get_month_hpane_pos	(void);
-void	  calendar_config_set_month_hpane_pos	(gfloat	      hpane_pos);
+gint      calendar_config_get_month_hpane_pos	(void);
+void	  calendar_config_set_month_hpane_pos	(gint	      hpane_pos);
 
-gfloat    calendar_config_get_month_vpane_pos	(void);
-void	  calendar_config_set_month_vpane_pos	(gfloat	      vpane_pos);
+gint      calendar_config_get_month_vpane_pos	(void);
+void	  calendar_config_set_month_vpane_pos	(gint	      vpane_pos);
 
 /* Colors for the task list */
 const char *calendar_config_get_tasks_due_today_color	(void);

@@ -119,10 +119,10 @@ struct _GnomeCalendarPrivate {
 	/* These are the saved positions of the panes. They are multiples of
 	   calendar month widths & heights in the date navigator, so that they
 	   will work OK after theme changes. */
-	gfloat	     hpane_pos;
-	gfloat	     vpane_pos;
-	gfloat	     hpane_pos_month_view;
-	gfloat	     vpane_pos_month_view;
+	gint	     hpane_pos;
+	gint	     vpane_pos;
+	gint	     hpane_pos_month_view;
+	gint	     vpane_pos_month_view;
 
 	/* The signal handler id for our GtkCalendar "day_selected" handler. */
 	guint	     day_selected_id;
@@ -172,13 +172,11 @@ static void gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal);
 static void gnome_calendar_update_view_times (GnomeCalendar *gcal);
 static void gnome_calendar_update_date_navigator (GnomeCalendar *gcal);
 
-static void gnome_calendar_on_date_navigator_style_set (GtkWidget *widget,
-							GtkStyle  *previous_style,
-							gpointer data);
-static void gnome_calendar_update_paned_quanta (GnomeCalendar	*gcal);
-static void gnome_calendar_on_date_navigator_size_allocate (GtkWidget     *widget,
-							    GtkAllocation *allocation,
-							    gpointer data);
+static void gnome_calendar_hpane_realized (GtkWidget *w, GnomeCalendar *gcal);
+static void gnome_calendar_vpane_realized (GtkWidget *w, GnomeCalendar *gcal);
+static gboolean gnome_calendar_vpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
+static gboolean gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal);
+
 static void gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem,
 								 GnomeCalendar *gcal);
 static void gnome_calendar_on_date_navigator_selection_changed (ECalendarItem    *calitem,
@@ -748,6 +746,10 @@ setup_widgets (GnomeCalendar *gcal)
 	/* The main HPaned, with the notebook of calendar views on the left
 	   and the ECalendar and ToDo list on the right. */
 	priv->hpane = gtk_hpaned_new ();
+	g_signal_connect_after(priv->hpane, "realize", 
+			       G_CALLBACK(gnome_calendar_hpane_realized), gcal);
+	g_signal_connect (priv->hpane, "button_release_event",
+			  G_CALLBACK (gnome_calendar_hpane_resized), gcal);
 	gtk_widget_show (priv->hpane);
 	gtk_box_pack_start (GTK_BOX (gcal), priv->hpane, TRUE, TRUE, 0);
 
@@ -756,12 +758,16 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook), FALSE);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook), FALSE);
 	gtk_widget_show (priv->notebook);
-	gtk_paned_pack1 (GTK_PANED (priv->hpane), priv->notebook, TRUE, TRUE);
+	gtk_paned_pack1 (GTK_PANED (priv->hpane), priv->notebook, FALSE, TRUE);
 
 	/* The VPaned widget, to contain the GtkCalendar & ToDo list. */
 	priv->vpane = gtk_vpaned_new ();
+	g_signal_connect_after (priv->vpane, "realize",
+				G_CALLBACK(gnome_calendar_vpane_realized), gcal);
+	g_signal_connect (priv->vpane, "button_release_event",
+			  G_CALLBACK (gnome_calendar_vpane_resized), gcal);
 	gtk_widget_show (priv->vpane);
-	gtk_paned_pack2 (GTK_PANED (priv->hpane), priv->vpane, FALSE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (priv->hpane), priv->vpane, TRUE, TRUE);
 
 	/* The ECalendar. */
 	w = e_calendar_new ();
@@ -773,11 +779,8 @@ setup_widgets (GnomeCalendar *gcal)
 					       (ECalendarItemGetTimeCallback) get_current_time,
 					       gcal, NULL);
 
-	gtk_paned_pack1 (GTK_PANED (priv->vpane), w, FALSE, TRUE);
-	g_signal_connect (priv->date_navigator, "style_set",
-			  G_CALLBACK (gnome_calendar_on_date_navigator_style_set), gcal);
-	g_signal_connect_after (priv->date_navigator, "size_allocate",
-				G_CALLBACK (gnome_calendar_on_date_navigator_size_allocate), gcal);
+	gtk_paned_pack1 (GTK_PANED (priv->vpane), w, FALSE, TRUE);	
+
 	g_signal_connect (priv->date_navigator->calitem, "selection_changed",
 			  G_CALLBACK (gnome_calendar_on_date_navigator_selection_changed), gcal);
 	g_signal_connect (priv->date_navigator->calitem, "date_range_changed",
@@ -1447,49 +1450,16 @@ static void
 gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal)
 {
 	GnomeCalendarPrivate *priv;
-	gint top_border, bottom_border, left_border, right_border;
-	gint col_width, row_height;
-	gfloat right_pane_width, top_pane_height;
 
 	priv = gcal->priv;
 
-	/* Get the size of the calendar month width & height. */
-	e_calendar_get_border_size (priv->date_navigator,
-				    &top_border, &bottom_border,
-				    &left_border, &right_border);
-	g_object_get (G_OBJECT (priv->date_navigator->calitem),
-		      "row_height", &row_height,
-		      "column_width", &col_width,
-		      NULL);
-
 	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
-		right_pane_width = priv->hpane_pos_month_view;
-		top_pane_height = priv->vpane_pos_month_view;
+		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos_month_view);
+		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos_month_view);
 	} else {
-		right_pane_width = priv->hpane_pos;
-		top_pane_height = priv->vpane_pos;
+		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos);
+		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos);
 	}
-
-	/* We add the borders before multiplying due to the way we are using
-	   the EPaned quantum feature. */
-	if (right_pane_width < 0.001)
-		right_pane_width = 0.0;
-	else
-		right_pane_width = (right_pane_width * (col_width + left_border + right_border)
-				    + 0.5);
-	if (top_pane_height < 0.001)
-		top_pane_height = 0.0;
-	else
-		top_pane_height = (top_pane_height * (row_height + top_border + bottom_border)
-				   + 0.5);
-
-	gtk_paned_set_position (GTK_PANED (priv->hpane), -1);
-	gtk_paned_set_position (GTK_PANED (priv->vpane), -1);
-
-	/* We add one to each dimension since we can't use 0. */
-
-	gtk_widget_set_usize (priv->vpane, right_pane_width + 1, -2);
-	gtk_widget_set_usize (GTK_WIDGET (priv->date_navigator), -2, top_pane_height + 1);
 }
 
 /* Displays an error to indicate that opening a calendar failed */
@@ -2160,8 +2130,6 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 		priv->vpane_pos = calendar_config_get_vpane_pos ();
 		priv->hpane_pos_month_view = calendar_config_get_month_hpane_pos ();
 		priv->vpane_pos_month_view = calendar_config_get_month_vpane_pos ();
-	} else {
-		gnome_calendar_update_paned_quanta (gcal);
 	}
 
 	/* The range of days shown may have changed, so we update the date
@@ -2614,100 +2582,68 @@ gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem,
 	update_query (gcal);
 }
 
-
 static void
-gnome_calendar_on_date_navigator_style_set (GtkWidget     *widget,
-					    GtkStyle      *previous_style,
-					    gpointer       data)
-{
-	gnome_calendar_update_paned_quanta (GNOME_CALENDAR (data));
-}
-
-
-static void
-gnome_calendar_update_paned_quanta (GnomeCalendar	*gcal)
+gnome_calendar_hpane_realized (GtkWidget *w, GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
-	gint row_height, col_width;
-	gint top_border, bottom_border, left_border, right_border;
 
 	priv = gcal->priv;
-
-	e_calendar_get_border_size (priv->date_navigator,
-				    &top_border, &bottom_border,
-				    &left_border, &right_border);
-	g_object_get (G_OBJECT (priv->date_navigator->calitem),
-		      "row_height", &row_height,
-		      "column_width", &col_width,
-		      NULL);
-
-	/* The EPaned quantum feature works better if we add on the calendar
-	   borders to the quantum size. Otherwise if you shrink the date
-	   navigator you get left with the border widths/heights which looks
-	   bad. EPaned should be more flexible really. */
-	col_width += left_border + right_border;
-	row_height += top_border + bottom_border;
-
-	/* We don't have to use the EPaned quantum feature. We could just let
-	   the calendar expand to fill the allocated space, showing as many
-	   months as will fit. But for that to work nicely the EPaned should
-	   resize the widgets as the bar is dragged. Otherwise the user has
-	   to mess around to get the number of months that they want. */
-#if 0
-	g_object_set (G_OBJECT (priv->hpane), "quantum", (guint) col_width, NULL);
-	g_object_set (G_OBJECT (priv->vpane), "quantum", (guint) row_height, NULL);
-#endif
-
-	gnome_calendar_set_pane_positions (gcal);
-}
-
-
-static void
-gnome_calendar_on_date_navigator_size_allocate (GtkWidget     *widget,
-						GtkAllocation *allocation,
-						gpointer data)
-{
-	GnomeCalendar *gcal;
-	GnomeCalendarPrivate *priv;
-	gint width, height, row_height, col_width;
-	gint top_border, bottom_border, left_border, right_border;
-	gfloat hpane_pos, vpane_pos;
-
-	gcal = GNOME_CALENDAR (data);
-	priv = gcal->priv;
-
-	e_calendar_get_border_size (priv->date_navigator,
-				    &top_border, &bottom_border,
-				    &left_border, &right_border);
-	g_object_get (G_OBJECT (priv->date_navigator->calitem),
-		      "row_height", &row_height,
-		      "column_width", &col_width,
-		      NULL);
-
-	/* We subtract one from each dimension since we added 1 in
-	   set_view(). */
-	width = allocation->width - 1;
-	height = allocation->height - 1;
-
-	/* We add the border sizes to work around the EPaned
-	   quantized feature. */
-	col_width += left_border + right_border;
-	row_height += top_border + bottom_border;
-
-	hpane_pos = (gfloat) width / col_width;
-	vpane_pos = (gfloat) height / row_height;
 
 	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
-		priv->hpane_pos_month_view = hpane_pos;
-		priv->vpane_pos_month_view = vpane_pos;
-		calendar_config_set_month_hpane_pos (hpane_pos);
-		calendar_config_set_month_vpane_pos (vpane_pos);
+		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos_month_view);
 	} else {
-		priv->hpane_pos = hpane_pos;
-		priv->vpane_pos = vpane_pos;
-		calendar_config_set_hpane_pos (hpane_pos);
-		calendar_config_set_vpane_pos (vpane_pos);
+		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos);
 	}
+}
+
+static void
+gnome_calendar_vpane_realized (GtkWidget *w, GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+
+	priv = gcal->priv;
+
+	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
+		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos_month_view);
+	} else {
+		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos);
+	}
+}
+
+static gboolean
+gnome_calendar_vpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+
+	priv = gcal->priv;
+
+	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
+		priv->vpane_pos_month_view = gtk_paned_get_position (priv->vpane);
+		calendar_config_set_month_vpane_pos (priv->vpane_pos_month_view);
+	} else {
+		priv->vpane_pos = gtk_paned_get_position (priv->vpane);
+		calendar_config_set_vpane_pos (priv->vpane_pos);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+gnome_calendar_hpane_resized (GtkWidget *w, GdkEventButton *e, GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+
+	priv = gcal->priv;
+
+	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !priv->range_selected) {
+		priv->hpane_pos_month_view = gtk_paned_get_position (priv->hpane);
+		calendar_config_set_month_hpane_pos (priv->hpane_pos_month_view);
+	} else {
+		priv->hpane_pos = gtk_paned_get_position (priv->hpane);
+		calendar_config_set_hpane_pos (priv->hpane_pos);
+	}
+
+	return FALSE;
 }
 
 void
