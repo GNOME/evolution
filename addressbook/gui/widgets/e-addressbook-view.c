@@ -466,7 +466,6 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 #define SPEC "<?xml version=\"1.0\"?>      \
 <ETableSpecification click-to-add=\"true\" draw-grid=\"true\" _click-to-add-message=\"* Click here to add a contact *\">   \
   <ETableColumn model_col= \"0\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
-  <ETableColumn model_col= \"1\" _title=\"Family Name\"   expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
   <ETableColumn model_col= \"2\" _title=\"Email\"         expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
   <ETableColumn model_col= \"3\" _title=\"Primary\"       expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
   <ETableColumn model_col= \"4\" _title=\"Business\"      expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \

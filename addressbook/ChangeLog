@@ -1,3 +1,9 @@
+2000-10-19  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/widgets/e-addressbook-view.c (SPEC): Remove Family name
+	column since it's a bit weird.  This also fixes the initial state
+	since all of the column choices were off by one.
+
 2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* printing/Makefile.am (glade_DATA): Remove
