@@ -1,5 +1,7 @@
 2002-06-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (on_url_requested): Also handle https urls.
+
 	* component-factory.c (mail_add_storage): Some compiler warning
 	fixes.
 

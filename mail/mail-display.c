@@ -1221,7 +1221,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	}
 	
 	/* See if it's something we can load. */
-	if (strncmp (url, "http:", 5) == 0) {
+	if (strncmp (url, "http:", 5) == 0 || strncmp (url, "https:", 6) == 0) {
 		if (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS ||
 		    g_datalist_get_data (md->data, "load_images")) {
 			ba = g_byte_array_new ();
