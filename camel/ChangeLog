@@ -1,3 +1,9 @@
+2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-mime.c (camel_pgp_mime_part_verify): Removed
+	x-inline-pgp-hack kludge because it doesn't work.
+	(camel_pgp_mime_part_decrypt): Same.
+
 2001-12-13  Chris Toshok  <toshok@ximian.com>
 
 	* camel-data-cache.c: include stdlib.h (for alloca on freebsd) and
