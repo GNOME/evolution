@@ -5,10 +5,10 @@
 #include <gtk/gtkwidget.h>
 
 typedef struct {
-	char const * const name;
-	char const * const pixname;
-	void         (*fn)(GtkWidget *widget, void *closure);
-	int  disable_mask;
+	char *name;
+	char *pixname;
+	void (*fn) (GtkWidget *widget, void *closure);
+	int disable_mask;
 } EPopupMenu;
 
 GtkMenu *e_popup_menu_create  (EPopupMenu     *menu_list,

@@ -1,3 +1,9 @@
+2000-09-08  Dan Winship  <danw@helixcode.com>
+
+	* e-popup-menu.h: remove consts from the EPopupMenu structure: the
+	caller may want to modify its own EPopupMenu before calling
+	e_popup_menu_run.
+
 2000-09-07  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-dialog-widgets.c (e_dialog_editable_get): Use UTF-8
