@@ -1,3 +1,14 @@
+2003-03-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (do_external_viewer): Lookup the handler for the
+	type. If we don't have a registered handler or if the registered
+	handler is not meant to be handled via a bonobo component, don't
+	use a bonobo component.
+
+	* mail-format.c (mail_lookup_handler): If we register a new
+	handler that is to be handled by a bonobo component, set
+	handler->is_bonobo to TRUE.
+
 2003-03-14  Dan Winship  <danw@ximian.com>
 
 	* component-factory.c (storage_connect, storage_connected): Update

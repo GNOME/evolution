@@ -419,6 +419,7 @@ mail_lookup_handler (const char *mime_type)
 	
 	if (handler->builtin) {
 		handler->generic = FALSE;
+		handler->is_bonobo = FALSE;
 		goto reg;
 	}
 	
@@ -429,6 +430,7 @@ mail_lookup_handler (const char *mime_type)
 	for (iter = components; iter; iter = iter->next) {
 		if (component_supports (iter->data, mime_type)) {
 			handler->generic = FALSE;
+			handler->is_bonobo = TRUE;
 			handler->builtin = handle_via_bonobo;
 			handler->component = Bonobo_ServerInfo_duplicate (iter->data);
 			gnome_vfs_mime_component_list_free (components);
@@ -451,6 +453,7 @@ mail_lookup_handler (const char *mime_type)
 	
 	if (handler->builtin) {
 		handler->generic = TRUE;
+		handler->is_bonobo = FALSE;
 		if (handler->component) {
 			CORBA_free (handler->component);
 			handler->component = NULL;
@@ -461,6 +464,7 @@ mail_lookup_handler (const char *mime_type)
 	/* Try for a generic component match. */
 	if (handler->component) {
 		handler->generic = TRUE;
+		handler->is_bonobo = TRUE;
 		handler->builtin = handle_via_bonobo;
 		goto reg;
 	}
@@ -468,6 +472,7 @@ mail_lookup_handler (const char *mime_type)
 	/* If we at least got an application, use that. */
 	if (handler->applications) {
 		handler->generic = TRUE;
+		handler->is_bonobo = FALSE;
 		goto reg;
 	}
 	
