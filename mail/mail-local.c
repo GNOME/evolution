@@ -1107,7 +1107,7 @@ static void mail_local_store_remove_folder(MailLocalStore *mls, const char *path
 /* ** Local Provider ************************************************************** */
 
 static CamelProvider local_provider = {
-	"file", "Local mail", NULL, "mail",
+	"file", "Local mail", "Local mailbox file", "mail",
 	CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_IS_EXTERNAL,
 	CAMEL_URL_NEED_PATH,
 	/* ... */

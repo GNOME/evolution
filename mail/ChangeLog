@@ -1,5 +1,11 @@
 2003-02-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-local.c: Set the local provider description field to a
+	string rather than NULL to prevent a segfault on solaris. Fixes
+	bug #38418.
+
+2003-02-23  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-format.c (write_text_header): bitwise-or in
 	CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES to fix bug #38499.
 
