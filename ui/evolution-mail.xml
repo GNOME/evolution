@@ -168,6 +168,10 @@
 
         </submenu>
 
+        <menuitem name="MessageViewSource" verb=""
+        _label="View Message Source"
+         accel=""/>
+
       </submenu>
       
       <submenu name="Folder" _label="F_older">

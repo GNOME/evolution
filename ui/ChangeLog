@@ -1,3 +1,7 @@
+2000-11-16  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* evolution-mail.xml: Added View Message Source.
+
 2000-11-15  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* evolution-mail.xml: Added Forward as Attachment.
