@@ -7,6 +7,7 @@ INCLUDES = -O								\
 	$(BONOBO_GNOME_CFLAGS)						\
 	$(BONOBO_CONF_CFLAGS)						\
 	$(EXTRA_GNOME_CFLAGS)						\
+	$(GTKHTML_CFLAGS)						\
 	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            		\

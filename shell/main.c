@@ -37,6 +37,10 @@
 #include <glade/glade.h>
 #include <liboaf/liboaf.h>
 
+#ifdef GTKHTML_HAVE_GCONF
+#include <gconf/gconf.h>
+#endif
+
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-cursors.h>
 #include "e-setup.h"
@@ -236,6 +240,10 @@ main (int argc, char **argv)
 	}
 
 	oaf_init (argc, argv);
+
+#ifdef GTKHTML_HAVE_GCONF
+	gconf_init (argc, argv, NULL);
+#endif
 
 	glade_gnome_init ();
 	e_cursors_init ();

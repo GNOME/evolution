@@ -18,6 +18,10 @@
 #include <glade/glade.h>
 #include <gal/widgets/e-cursors.h>
 
+#ifdef GTKHTML_HAVE_GCONF
+#include <gconf/gconf.h>
+#endif
+
 #include "addressbook.h"
 #include "addressbook-component.h"
 #include "e-address-widget.h"
@@ -40,6 +44,10 @@ init_bonobo (int argc, char **argv)
 {
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
+
+#ifdef GTKHTML_HAVE_GCONF
+	gconf_init (argc, argv, NULL);
+#endif
 
 	glade_gnome_init ();
 }
