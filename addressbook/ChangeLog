@@ -1,4 +1,10 @@
-2001-09-08  Jon Trowbridge  <trow@ximian.com>
+2001-09-09  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-popup.c
+	(popup_menu_list): Added.  Treat right-clicks on a contact list as
+	a special case.
+	(e_select_names_popup): Check if we are dealing with a contact
+	list.
 
 	* backend/ebook/e-book-view-listener.c
 	(e_book_view_listener_check_queue): See

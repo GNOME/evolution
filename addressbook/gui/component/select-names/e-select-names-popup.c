@@ -291,7 +291,8 @@ popup_menu_card (PopupInfo *info)
 			gchar *label = (gchar *)e_iterator_get (iterator);
 			
 			if (label && *label) {
-				/* Magically convert embedded XML into an address. */
+				/* Magically convert embedded XML into an address.  FIXME: We shouldn't need
+				   this anymore, since we handle contact lists as a separate case. */
 				if (!strncmp (label, "<?xml", 4)) {
 					EDestination *dest = e_destination_import (label);
 					radioinfo[j].label = g_strdup (e_destination_get_address (dest));
@@ -369,6 +370,99 @@ popup_menu_card (PopupInfo *info)
 	g_free (name_label);
 	g_free (quoted_name_label);
 
+	return pop;
+}
+
+static GtkWidget *
+popup_menu_list (PopupInfo *info)
+{
+	GnomeUIInfo uiinfo[ARBITRARY_UIINFO_LIMIT];
+	GtkWidget *pop, *label;
+	GList *item_children;
+	const gchar *str;
+	gchar *name_label, *quoted_name_label, *gs;
+	gint i = 0, subcount = 0, max_subcount = 10;
+	ECard *card;
+	EIterator *iterator;
+	GList *garbage = NULL;
+
+	
+	memset (uiinfo, 0, sizeof (uiinfo));
+
+	uiinfo[i].type = GNOME_APP_UI_ITEM;
+	uiinfo[i].label = "";
+	++i;
+
+	uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
+	++i;
+
+	card = e_destination_get_card (info->dest);
+	iterator = e_list_get_iterator (card->email);
+	for (e_iterator_reset (iterator); e_iterator_is_valid (iterator) && subcount < max_subcount; e_iterator_next (iterator)) {
+		gchar *label = (gchar *) e_iterator_get (iterator);
+		if (label && *label) {
+			EDestination *subdest = e_destination_import (label);
+			uiinfo[i].type = GNOME_APP_UI_ITEM;
+			name_label = e_utf8_to_locale_string (e_destination_get_address (subdest));
+			quoted_name_label = quote_label (name_label);
+			uiinfo[i].label = quoted_name_label;
+			g_free (name_label);
+			garbage = g_list_prepend (garbage, quoted_name_label);
+			++i;
+			++subcount;
+			gtk_object_unref (GTK_OBJECT (subdest));
+		}
+	}
+	if (e_iterator_is_valid (iterator)) {
+		uiinfo[i].type = GNOME_APP_UI_ITEM;
+		gs = g_strdup_printf (N_("(%d not shown)"), e_list_length (card->email) - max_subcount);
+		name_label = e_utf8_to_locale_string (gs);
+		quoted_name_label = quote_label (name_label);
+		uiinfo[i].label = quoted_name_label;
+		garbage = g_list_prepend (garbage, quoted_name_label);
+		g_free (gs);
+		g_free (name_label);
+		++i;
+	}
+
+	uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
+	++i;
+
+	uiinfo[i].type = GNOME_APP_UI_ITEM;
+	uiinfo[i].label = N_("Edit Contact List");
+	uiinfo[i].moreinfo = edit_contact_info_cb;
+	++i;
+
+	add_remove_recipient (&(uiinfo[i]), info);
+	++i;
+	
+	add_remove_all_recipients (&(uiinfo[i]), info);
+	++i;
+
+	uiinfo[i].type = GNOME_APP_UI_ENDOFINFO;
+
+	pop = gnome_popup_menu_new (uiinfo);
+
+	/* Now set label of the first item to contact name */
+	str = e_destination_get_name (info->dest);
+	if (str == NULL)
+		str = e_destination_get_email (info->dest);
+	if (str != NULL) {
+		name_label = e_utf8_to_locale_string (str);
+	} else {
+		name_label = g_strdup (_("Unnamed Contact List"));
+	}
+	quoted_name_label = quote_label (name_label);
+	item_children = gtk_container_children (GTK_CONTAINER (uiinfo[0].widget));
+	label = item_children->data;
+	g_list_free (item_children);
+	gtk_label_set_text (GTK_LABEL (label), quoted_name_label);
+	g_free (name_label);
+	g_free (quoted_name_label);
+
+	g_list_foreach (garbage, (GFunc) g_free, NULL);
+	g_list_free (garbage);
+	
 	return pop;
 }
 
@@ -467,8 +561,15 @@ e_select_names_popup (ESelectNamesModel *model, GdkEventButton *ev, gint pos)
 	card = e_destination_get_card (dest);
 
 	info = popup_info_new (model, dest, pos, index);
-
-	popup = card ? popup_menu_card (info) : popup_menu_nocard (info);
+	
+	if (e_destination_contains_card (dest)) {
+		if (e_destination_is_evolution_list (dest))
+			popup = popup_menu_list (info);
+		else
+			popup = popup_menu_card (info);
+	} else {
+		popup = popup_menu_nocard (info);
+	}
 
 	if (popup) {
 		/* Clean up our info item after we've made our selection. */
