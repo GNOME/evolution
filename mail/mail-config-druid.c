@@ -335,6 +335,7 @@ extra_prepare (EvolutionWizard *wizard, gpointer data)
 	if (gui->gui->source.provider != gui->last_source) {
 		gui->last_source = gui->gui->source.provider;
 		mail_account_gui_build_extra_conf (gui->gui, NULL);
+		mail_account_gui_auto_detect_extra_conf (gui->gui);
 	}
 }
 

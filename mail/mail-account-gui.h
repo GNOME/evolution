@@ -131,6 +131,8 @@ gboolean mail_account_gui_management_complete (MailAccountGui *gui, GtkWidget **
 
 void mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url);
 
+void mail_account_gui_auto_detect_extra_conf (MailAccountGui *gui);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

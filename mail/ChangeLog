@@ -1,3 +1,13 @@
+2002-04-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c (extra_prepare): After building the extra
+	config options into a Gtk form, auto-detect any values that we can
+	and populate them by calling
+	mail_account_gui_auto_detect_extra_conf.
+
+	* mail-account-gui.c (mail_account_gui_auto_detect_extra_conf):
+	New function to auto-detect the extra config options for a source.
+
 2002-04-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_build_extra_conf): Allow

@@ -135,12 +135,19 @@ mail_account_gui_identity_complete (MailAccountGui *gui, GtkWidget **incomplete)
 	return TRUE;
 }
 
+static void
+auto_detected_foreach (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	g_free (value);
+}
+
 static gboolean
-service_complete (MailAccountGuiService *service, GtkWidget **incomplete)
+service_complete (MailAccountGuiService *service, GHashTable *extra_config, GtkWidget **incomplete)
 {
 	const CamelProvider *prov = service->provider;
-	char *text;
 	GtkWidget *path;
+	char *text;
 	
 	if (!prov)
 		return TRUE;
@@ -198,7 +205,104 @@ service_complete (MailAccountGuiService *service, GtkWidget **incomplete)
 gboolean
 mail_account_gui_source_complete (MailAccountGui *gui, GtkWidget **incomplete)
 {
-	return service_complete (&gui->source, incomplete);
+	return service_complete (&gui->source, gui->extra_config, incomplete);
+}
+
+void
+mail_account_gui_auto_detect_extra_conf (MailAccountGui *gui)
+{
+	MailAccountGuiService *service = &gui->source;
+	CamelProvider *prov = service->provider;
+	GHashTable *settings, *auto_detected;
+	GtkWidget *path;
+	char *text;
+	
+	if (!prov)
+		return;
+	
+	/* transports don't have a path */
+	if (service->path)
+		path = GTK_WIDGET (service->path);
+	else
+		path = NULL;
+	
+	settings = g_hash_table_new (g_str_hash, g_str_equal);
+	if (CAMEL_PROVIDER_ALLOWS (prov, CAMEL_URL_PART_HOST)) {
+		text = gtk_entry_get_text (service->hostname);
+		if (text)
+			g_hash_table_insert (settings, "hostname", text);
+	}
+	
+	if (CAMEL_PROVIDER_ALLOWS (prov, CAMEL_URL_PART_USER)) {
+		text = gtk_entry_get_text (service->username);
+		if (text)
+			g_hash_table_insert (settings, "username", text);
+	}
+	
+	if (path && CAMEL_PROVIDER_ALLOWS (prov, CAMEL_URL_PART_PATH)) {
+		text = gtk_entry_get_text (service->path);
+		if (text)
+			g_hash_table_insert (settings, "path", text);
+	}
+	
+	camel_provider_auto_detect (prov, settings, &auto_detected, NULL);
+	g_hash_table_destroy (settings);
+	
+	if (auto_detected) {
+		CamelProviderConfEntry *entries;
+		GtkToggleButton *toggle;
+		GtkSpinButton *spin;
+		GtkEntry *entry;
+		char *value;
+		int i;
+		
+		entries = service->provider->extra_conf;
+		
+		for (i = 0; entries[i].type != CAMEL_PROVIDER_CONF_END; i++) {
+			if (!entries[i].name)
+				continue;
+			
+			value = g_hash_table_lookup (auto_detected, entries[i].name);
+			if (!value)
+				continue;
+			
+			switch (entries[i].type) {
+			case CAMEL_PROVIDER_CONF_CHECKBOX:
+				toggle = g_hash_table_lookup (gui->extra_config, entries[i].name);
+				gtk_toggle_button_set_active (toggle, atoi (value));
+				break;
+				
+			case CAMEL_PROVIDER_CONF_ENTRY:
+				entry = g_hash_table_lookup (gui->extra_config, entries[i].name);
+				if (value)
+					gtk_entry_set_text (entry, value);
+				break;
+				
+			case CAMEL_PROVIDER_CONF_CHECKSPIN:
+			{
+				gboolean enable;
+				double val;
+				char *name;
+				
+				toggle = g_hash_table_lookup (gui->extra_config, entries[i].name);
+				name = g_strdup_printf ("%s_value", entries[i].name);
+				spin = g_hash_table_lookup (gui->extra_config, name);
+				g_free (name);
+				
+				enable = *value++ == 'y';
+				gtk_toggle_button_set_active (toggle, enable);
+				g_assert (*value == ':');
+				val = strtod (++value, NULL);
+				gtk_spin_button_set_value (spin, val);
+			}
+			break;
+			default:
+			}
+		}
+		
+		g_hash_table_foreach (auto_detected, auto_detected_foreach, NULL);
+		g_hash_table_destroy (auto_detected);
+	}
 }
 
 gboolean
@@ -215,7 +319,7 @@ mail_account_gui_transport_complete (MailAccountGui *gui, GtkWidget **incomplete
 		return FALSE;
 	}
 
-	if (!service_complete (&gui->transport, incomplete))
+	if (!service_complete (&gui->transport, NULL, incomplete))
 		return FALSE;
 	
 	/* FIXME? */
@@ -536,7 +640,7 @@ service_changed (GtkEntry *entry, gpointer user_data)
 	MailAccountGuiService *service = user_data;
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (service->check_supported),
-				  service_complete (service, NULL));
+				  service_complete (service, NULL, NULL));
 }
 
 static void
@@ -1849,7 +1953,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	const MailConfigAccount *old_account;
 	CamelProvider *provider = NULL;
 	CamelURL *source_url = NULL, *url;
-	char *new_name;
+	char *new_name, *string;
 	gboolean old_enabled;
 	
 	if (!mail_account_gui_identity_complete (gui, NULL) ||
