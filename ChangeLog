@@ -1,3 +1,12 @@
+2000-09-23  Tuomas Kuosmanen  <tigert@localhost>
+
+	* art/attachment.xpm
+	* art/add-attachment.png: OOPS. The attachment.xpm was not the one 
+	I thought, so I accidentally replaced the paperclip icon in the mail
+	list column, which wasnt my intention. I hope this works now. The old 
+	one is back, instead the toolbar icon to add attachment is now called
+	"add-attachment.png" as you can see also from above. Bummer. Sorry :)
+
 2000-09-22  Christopher James Lahey  <clahey@helixcode.com>
 
 	* libversit/vcc.y: Fixed some warnings.  Fixed a bug where quoted
