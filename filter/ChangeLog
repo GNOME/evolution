@@ -1,3 +1,8 @@
+2001-10-20  Jon Trowbridge  <trow@ximian.com>
+
+	* rule-editor.c (set_source): Translate the rule names. (Bug
+	#13082)
+
 2001-10-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* filter-folder.c (button_clicked): Pass the toplevel to
