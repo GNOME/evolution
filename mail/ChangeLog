@@ -1,3 +1,7 @@
+2001-01-30  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* folder-browser.c: Fix typo.
+	
 2001-01-29  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-importer.c (mail_importer_add_line): Cast the

@@ -568,7 +568,7 @@ hide_read(GtkWidget *w, FolderBrowser *fb)
 	message_list_hide_add(ml, "(match-all (system-flag \"seen\"))", ML_HIDE_SAME, ML_HIDE_SAME);
 }
 
-/* dum de dum, about the 3rd coyp of this function throughout the mailer/camel */
+/* dum de dum, about the 3rd copy of this function throughout the mailer/camel */
 static const char *
 strip_re(const char *subject)
 {
