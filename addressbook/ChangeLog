@@ -1,5 +1,12 @@
 2002-08-28  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes #28897 ]
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_clear_book_data): set book_data to NULL
+	after clearing/freeing the list.  fixes a crash.
+
+2002-08-28  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes #20348 ]
 	* backend/pas/evolutionperson.schema: deprecate "categories" in
 	favor of "category".  evolution no longer uses "categories".

@@ -759,6 +759,7 @@ e_select_names_completion_clear_book_data (ESelectNamesCompletion *comp)
 		g_free (book_data);
 	}
 	g_list_free (comp->priv->book_data);
+	comp->priv->book_data = NULL;
 }
 
 static void
