@@ -46,6 +46,8 @@ extern "C" {
 typedef struct 
 {
 	GtkObject parent_object;
+
+	GString *mime_type;
 	
 } CamelDataWrapper;
 

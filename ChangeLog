@@ -1,5 +1,10 @@
 1999-05-11  bertrand  <Bertrand.Guiheneuf@inria.fr>
-	
+
+	* camel/camel-mime-part.c (_write_to_file): 
+	overload wrapper class method.
+	(_write_to_file): start to write some text in 
+	file.
+
 	* camel/camel-store.c: typo fix.
 
 	* camel/camel-store.c: 

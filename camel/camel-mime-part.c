@@ -25,6 +25,8 @@
  */
 
 #include "camel-mime-part.h"
+#include <stdio.h>
+
 
 static CamelDataWrapperClass *parent_class=NULL;
 
@@ -51,6 +53,8 @@ static GList *_get_content_languages (CamelMimePart *mime_part);
 static void _set_header_lines (CamelMimePart *mime_part, GList *header_lines);
 static GList *_get_header_lines (CamelMimePart *mime_part);
 
+static CamelDataWrapper *_get_content_object(CamelMimePart *mime_part);
+static void _write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
 
 
 
@@ -58,6 +62,7 @@ static GList *_get_header_lines (CamelMimePart *mime_part);
 static void
 camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 {
+	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_mime_part_class);
 	parent_class = gtk_type_class (camel_data_wrapper_get_type ());
 	
 	/* virtual method definition */
@@ -81,8 +86,10 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 	camel_mime_part_class->set_header_lines=_set_header_lines;
 	camel_mime_part_class->get_header_lines=_get_header_lines;
 
-
+	camel_mime_part_class->get_content_object = _get_content_object;
+	
 	/* virtual method overload */
+	camel_data_wrapper_class->write_to_file = _write_to_file;
 }
 
 
@@ -420,4 +427,31 @@ camel_mime_part_get_header_lines (CamelMimePart *mime_part)
 }
 
 
+
+
+static CamelDataWrapper *
+_get_content_object(CamelMimePart *mime_part)
+{
+	return mime_part->content;
+
+}
+CamelDataWrapper *
+camel_mime_part_get_content_object(CamelMimePart *mime_part)
+{
+	return CMP_CLASS(mime_part)->get_content_object (mime_part);
+}
+
+#ifdef WHPTF
+#warning : WHPTF is already defined !!!!!!
+#endif
+#define WHPTF camel_mime_utils_write_header_pair_to_file
+
+static void
+_write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
+{
+	CamelMimePart *mp = CAMEL_MIME_PART (data_wrapper);
+	WHPTF (file, "Content-type", CAMEL_DATA_WRAPPER(mp)->mime_type);
+	WHPTF (file, "Content-Description", mp->description);
+	
+}
 
