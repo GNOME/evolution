@@ -27,7 +27,7 @@
 #include <time.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-job.h>
 #include "addressbook/backend/ebook/e-card.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 
@@ -172,7 +172,7 @@ ecpe_print(GnomePrintContext *pc, ECard *ecard, gboolean as_return)
 static void
 e_contact_print_envelope_button(GnomeDialog *dialog, gint button, gpointer data)
 {
-	GnomePrintMaster *master;
+	GnomePrintJob *master;
 	GnomePrintContext *pc;
 	GnomePrintConfig *config;
 	ECard *card = NULL;
@@ -183,22 +183,22 @@ e_contact_print_envelope_button(GnomeDialog *dialog, gint button, gpointer data)
 	switch( button ) {
 	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
 		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG (dialog));
-		master = gnome_print_master_new_from_config (config);
-		pc = gnome_print_master_get_context( master );
+		master = gnome_print_job_new (config);
+		pc = gnome_print_job_get_context( master );
 
 		ecpe_print(pc, card, FALSE);
 		
-		gnome_print_master_print(master);
+		gnome_print_job_print(master);
 		gnome_dialog_close(dialog);
 		break;
 	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
 		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG (dialog));
-		master = gnome_print_master_new_from_config (config);
-		pc = gnome_print_master_get_context( master );
+		master = gnome_print_job_new (config);
+		pc = gnome_print_job_get_context( master );
 
 		ecpe_print(pc, card, FALSE);
 		
-		preview = GTK_WIDGET(gnome_print_master_preview_new(master, "Print Preview"));
+		preview = GTK_WIDGET(gnome_print_job_preview_new(master, "Print Preview"));
 		gtk_widget_show_all(preview);
 		break;
 	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
@@ -213,7 +213,7 @@ e_contact_print_envelope_dialog_new(ECard *card)
 {
 	GtkWidget *dialog;
 	
-	dialog = gnome_print_dialog_new(_("Print envelope"), GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(NULL, _("Print envelope"), GNOME_PRINT_DIALOG_COPIES);
 
 	card = e_card_duplicate(card);
 	g_object_set_data(G_OBJECT(dialog), "card", card);
@@ -234,7 +234,7 @@ e_contact_print_envelope_list_dialog_new(GList *list)
 	if (list == NULL)
 		return NULL;
 
-	dialog = gnome_print_dialog_new(_("Print envelope"), GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(NULL, _("Print envelope"), GNOME_PRINT_DIALOG_COPIES);
 
 	card = e_card_duplicate(list->data);
 	g_object_set_data(G_OBJECT(dialog), "card", card);

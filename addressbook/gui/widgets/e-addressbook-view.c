@@ -36,9 +36,9 @@
 #include <libgnomeui/gnome-dialog-util.h>
 
 #include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprintui/gnome-print-master-preview.h>
+#include <libgnomeprintui/gnome-print-job-preview.h>
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
@@ -1515,14 +1515,14 @@ e_contact_print_destroy(gpointer data, GObject *where_object_was)
 static void
 e_contact_print_button(GtkDialog *dialog, gint button, gpointer data)
 {
-	GnomePrintMaster *master;
+	GnomePrintJob *master;
 	GnomePrintContext *pc;
 	EPrintable *printable = g_object_get_data(G_OBJECT(dialog), "printable");
 	GtkWidget *preview;
 	switch( button ) {
 	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-		master = gnome_print_master_new_from_config (gnome_print_dialog_get_config ( GNOME_PRINT_DIALOG(dialog) ));
-		pc = gnome_print_master_get_context( master );
+		master = gnome_print_job_new(gnome_print_dialog_get_config ( GNOME_PRINT_DIALOG(dialog) ));
+		pc = gnome_print_job_get_context( master );
 		e_printable_reset(printable);
 		while (e_printable_data_left(printable)) {
 			if (gnome_print_gsave(pc) == -1)
@@ -1539,14 +1539,14 @@ e_contact_print_button(GtkDialog *dialog, gint button, gpointer data)
 			if (gnome_print_showpage(pc) == -1)
 				/* FIXME */;
 		}
-		gnome_print_master_close(master);
-		gnome_print_master_print(master);
+		gnome_print_job_close(master);
+		gnome_print_job_print(master);
 		g_object_unref (master);
 		gtk_widget_destroy((GtkWidget *)dialog);
 		break;
 	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-		master = gnome_print_master_new_from_config (gnome_print_dialog_get_config ( GNOME_PRINT_DIALOG(dialog) ));
-		pc = gnome_print_master_get_context( master );
+		master = gnome_print_job_new (gnome_print_dialog_get_config ( GNOME_PRINT_DIALOG(dialog) ));
+		pc = gnome_print_job_get_context( master );
 		e_printable_reset(printable);
 		while (e_printable_data_left(printable)) {
 			if (gnome_print_gsave(pc) == -1)
@@ -1563,8 +1563,8 @@ e_contact_print_button(GtkDialog *dialog, gint button, gpointer data)
 			if (gnome_print_showpage(pc) == -1)
 				/* FIXME */;
 		}
-		gnome_print_master_close(master);
-		preview = GTK_WIDGET(gnome_print_master_preview_new(master, "Print Preview"));
+		gnome_print_job_close(master);
+		preview = GTK_WIDGET(gnome_print_job_preview_new(master, "Print Preview"));
 		gtk_widget_show_all(preview);
 		g_object_unref (master);
 		break;
@@ -1644,7 +1644,7 @@ e_addressbook_view_print(EAddressbookView *view)
 		ETable *etable;
 		EContactPrintDialogWeakData *weak_data;
 
-		dialog = gnome_print_dialog_new("Print cards", GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
+		dialog = gnome_print_dialog_new(NULL, "Print cards", GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
 		gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
 						       NULL, NULL, NULL);
 
@@ -1692,7 +1692,7 @@ e_addressbook_view_print_preview(EAddressbookView *view)
 	else if (view->view_type == E_ADDRESSBOOK_VIEW_TABLE) {
 		EPrintable *printable;
 		ETable *etable;
-		GnomePrintMaster *master;
+		GnomePrintJob *master;
 		GnomePrintContext *pc;
 		GnomePrintConfig *config;
 		GtkWidget *preview;
@@ -1700,10 +1700,10 @@ e_addressbook_view_print_preview(EAddressbookView *view)
 		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
 
-		master = gnome_print_master_new();
-		config = gnome_print_master_get_config (master);
+		master = gnome_print_job_new(NULL);
+		config = gnome_print_job_get_config (master);
 		gnome_print_config_set_int (config, GNOME_PRINT_KEY_NUM_COPIES, 1);
-		pc = gnome_print_master_get_context( master );
+		pc = gnome_print_job_get_context( master );
 		e_printable_reset(printable);
 		while (e_printable_data_left(printable)) {
 			if (gnome_print_gsave(pc) == -1)
@@ -1720,8 +1720,8 @@ e_addressbook_view_print_preview(EAddressbookView *view)
 			if (gnome_print_showpage(pc) == -1)
 				/* FIXME */;
 		}
-		gnome_print_master_close(master);
-		preview = GTK_WIDGET(gnome_print_master_preview_new(master, "Print Preview"));
+		gnome_print_job_close(master);
+		preview = GTK_WIDGET(gnome_print_job_preview_new(master, "Print Preview"));
 		gtk_widget_show_all(preview);
 		g_object_unref (master);
 		g_object_unref (printable);

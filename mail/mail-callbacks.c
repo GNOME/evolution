@@ -39,9 +39,9 @@
 
 #include <gtk/gtkmessagedialog.h>
 
-#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprintui/gnome-print-master-preview.h>
+#include <libgnomeprintui/gnome-print-job-preview.h>
 
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-socket.h>
@@ -2845,14 +2845,14 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 {
 	GtkHTML *html;
 	GnomePrintContext *print_context;
-	GnomePrintMaster *print_master;
+	GnomePrintJob *print_master;
 	GnomePrintConfig *config = NULL;
 	GtkDialog *dialog;
 	gdouble line = 0.0;
 	struct footer_info *info;
 	
 	if (!preview) {
-		dialog = (GtkDialog *) gnome_print_dialog_new (_("Print Message"), GNOME_PRINT_DIALOG_COPIES);
+		dialog = (GtkDialog *) gnome_print_dialog_new (NULL, _("Print Message"), GNOME_PRINT_DIALOG_COPIES);
 		gtk_dialog_set_default_response (dialog, GNOME_PRINT_DIALOG_RESPONSE_PRINT);
 		gtk_window_set_transient_for ((GtkWindow *) dialog, (GtkWindow *) fb);
 		
@@ -2872,14 +2872,14 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	}
 	
 	if (config) {
-		print_master = gnome_print_master_new_from_config (config);
+		print_master = gnome_print_job_new (config);
 		gnome_print_config_unref (config);
 	} else
-		print_master = gnome_print_master_new ();
+		print_master = gnome_print_job_new (NULL);
 	
 	/* paper size settings? */
 	/*gnome_print_master_set_paper (print_master, paper);*/
-	print_context = gnome_print_master_get_context (print_master);
+	print_context = gnome_print_job_get_context (print_master);
 	
 	html = GTK_HTML (gtk_html_new ());
 	mail_display_initialize_gtkhtml (fb->mail_display, html);
@@ -2900,15 +2900,15 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	
 	fb->mail_display->printing = FALSE;
 	
-	gnome_print_master_close (print_master);
+	gnome_print_job_close (print_master);
 	
 	if (preview){
 		GtkWidget *preview;
 		
-		preview = gnome_print_master_preview_new (print_master, _("Print Preview"));
+		preview = gnome_print_job_preview_new (print_master, _("Print Preview"));
 		gtk_widget_show (preview);
 	} else {
-		int result = gnome_print_master_print (print_master);
+		int result = gnome_print_job_print (print_master);
 		
 		if (result == -1)
 			e_notice (FB_WINDOW (fb), GTK_MESSAGE_ERROR, _("Printing of message failed"));

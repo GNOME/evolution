@@ -1073,7 +1073,7 @@ AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 libglade-2.0 gal-2.0 >= $GAL_VERSION libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.0"
+EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 libglade-2.0 gal-2.0 >= $GAL_VERSION libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -1085,13 +1085,13 @@ dnl AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 
 dnl -- evolution-executive-summary flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_EXECUTIVE_SUMMARY, libbonoboui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libgnomeui-2.0 libglade-2.0 libgnomeprint-2.0 libgnomeprintui-2.0 soup-2.0 libgtkhtml-3.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_EXECUTIVE_SUMMARY, libbonoboui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libgnomeui-2.0 libglade-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 soup-2.0 libgtkhtml-3.0)
 AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_CFLAGS)
 AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_LIBS)
 
 dnl --- evolution-calendar flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.0 libgnomeprintui-2.0 libgtkhtml-3.0, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.0, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1101,7 +1101,7 @@ dnl AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libglade-2.0 soup-2.0 libgnomeprint-2.0 libgtkhtml-3.0 libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libglade-2.0 soup-2.0 libgnomeprint-2.2 libgtkhtml-3.0 libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 

@@ -34,9 +34,9 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-font.h>
-#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprintui/gnome-print-master-preview.h>
+#include <libgnomeprintui/gnome-print-job-preview.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include <addressbook/backend/ebook/e-card-simple.h>
@@ -51,7 +51,7 @@ typedef struct _EContactPrintContext EContactPrintContext;
 struct _EContactPrintContext
 {
 	GnomePrintContext *pc;
-	GnomePrintMaster *master;
+	GnomePrintJob     *master;
 	gdouble x;
 	gdouble y;
 	gint column;
@@ -581,10 +581,10 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 		g_object_unref(book_view);
 	if (ctxt->type == GNOME_PRINT_DIALOG_RESPONSE_PREVIEW) {
 		GtkWidget *preview;
-		preview = GTK_WIDGET(gnome_print_master_preview_new(ctxt->master, "Print Preview"));
+		preview = GTK_WIDGET(gnome_print_job_preview_new(ctxt->master, "Print Preview"));
 		gtk_widget_show_all(preview);
 	} else {
-		gnome_print_master_print(ctxt->master);
+		gnome_print_job_print(ctxt->master);
 	}
 	g_object_unref(ctxt->pc);
 	g_object_unref(ctxt->master);
@@ -1006,7 +1006,7 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 {
 	EContactPrintContext *ctxt = g_new(EContactPrintContext, 1);
 	EContactPrintStyle *style = g_new(EContactPrintStyle, 1);
-	GnomePrintMaster *master;
+	GnomePrintJob *master;
 	GnomePrintConfig *config;
 	GnomePrintContext *pc;
 	gboolean uses_book = (gint) g_object_get_data(G_OBJECT(dialog), "uses_book");
@@ -1025,8 +1025,8 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 	switch( button ) {
 	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
 		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG(dialog));
-		master = gnome_print_master_new_from_config( config );
-		pc = gnome_print_master_get_context( master );
+		master = gnome_print_job_new( config );
+		pc = gnome_print_job_get_context( master );
 		e_contact_build_style(style);
 		
 		ctxt->x = 0;
@@ -1061,8 +1061,8 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		break;
 	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
 		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG(dialog));
-		master = gnome_print_master_new_from_config( config );
-		pc = gnome_print_master_get_context( master );
+		master = gnome_print_job_new( config );
+		pc = gnome_print_job_get_context( master );
 		e_contact_build_style(style);
 		
 		ctxt->x = 0;
@@ -1115,7 +1115,7 @@ e_contact_print_dialog_new(EBook *book, char *query)
 	GtkWidget *dialog;
 	
 	
-	dialog = gnome_print_dialog_new(_("Print cards"), GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(NULL, _("Print cards"), GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
 	gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
 					       NULL, NULL, NULL);
 
@@ -1135,15 +1135,15 @@ e_contact_print_preview(EBook *book, char *query)
 {
 	EContactPrintContext *ctxt = g_new(EContactPrintContext, 1);
 	EContactPrintStyle *style = g_new(EContactPrintStyle, 1);
-	GnomePrintMaster *master;
+	GnomePrintJob *master;
 	GnomePrintContext *pc;
 	GnomePrintConfig *config;
 	gdouble font_size;
 
-	master = gnome_print_master_new();
-	config = gnome_print_master_get_config (master);
+	master = gnome_print_job_new(NULL);
+	config = gnome_print_job_get_config (master);
 	gnome_print_config_set_int (config, GNOME_PRINT_KEY_NUM_COPIES, 1);
-	pc = gnome_print_master_get_context (master);
+	pc = gnome_print_job_get_context (master);
 	e_contact_build_style (style);
 
 	ctxt->x = 0;
@@ -1177,7 +1177,7 @@ e_contact_print_card_dialog_new(ECard *card)
 {
 	GtkWidget *dialog;
 	
-	dialog = gnome_print_dialog_new(_("Print card"), GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(NULL, _("Print card"), GNOME_PRINT_DIALOG_COPIES);
 
 	card = e_card_duplicate(card);
 	g_object_set_data(G_OBJECT(dialog), "card", card);
@@ -1199,7 +1199,7 @@ e_contact_print_card_list_dialog_new(GList *list)
 	if (list == NULL)
 		return NULL;
 	
-	dialog = gnome_print_dialog_new(_("Print card"), GNOME_PRINT_DIALOG_COPIES);
+	dialog = gnome_print_dialog_new(NULL, _("Print card"), GNOME_PRINT_DIALOG_COPIES);
 
 	card = e_card_duplicate(list->data);
 	g_object_set_data(G_OBJECT(dialog), "card", card);

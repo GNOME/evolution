@@ -32,12 +32,11 @@
 #include <libgnomeui/gnome-stock-icons.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-paper.h>
-#include <libgnomeprint/gnome-print-master.h>
-#include <libgnomeprintui/gnome-print-master-preview.h>
+#include <libgnomeprint/gnome-print-job.h>
+#include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libgnomeprintui/gnome-print-paper-selector.h>
-#include <libgnomeprintui/gnome-print-copies.h>
 #include <libgnomeprintui/gnome-print-preview.h>
-#include <libgnomeprintui/gnome-printer-dialog.h>
+#include <libgnomeprintui/gnome-print-dialog.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-ui-util.h>

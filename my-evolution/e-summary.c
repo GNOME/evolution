@@ -52,9 +52,9 @@
 
 #include <libgnome/gnome-url.h>
 
-#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-job.h>
 
-#include <libgnomeprintui/gnome-print-master-preview.h>
+#include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 
 #include <gtk/gtkdialog.h>
@@ -584,12 +584,12 @@ do_summary_print (ESummary *summary,
 		  gboolean preview)
 {
 	GnomePrintContext *print_context;
-	GnomePrintMaster *print_master;
+	GnomePrintJob *print_master;
 	GtkWidget *gpd;
 	GnomePrintConfig *config = NULL;
 
 	if (! preview) {
-		gpd = gnome_print_dialog_new (_("Print Summary"), GNOME_PRINT_DIALOG_COPIES);
+		gpd = gnome_print_dialog_new (NULL, _("Print Summary"), GNOME_PRINT_DIALOG_COPIES);
 
 		switch (gtk_dialog_run (GTK_DIALOG (gpd))) {
 		case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
@@ -607,19 +607,19 @@ do_summary_print (ESummary *summary,
 		config = gnome_print_dialog_get_config (GNOME_PRINT_DIALOG (gpd));
 	}
 
-	print_master = gnome_print_master_new_from_config (config);
+	print_master = gnome_print_job_new (config);
 	
-	print_context = gnome_print_master_get_context (print_master);
+	print_context = gnome_print_job_get_context (print_master);
 	gtk_html_print (GTK_HTML (summary->priv->html), print_context);
-	gnome_print_master_close (print_master);
+	gnome_print_job_close (print_master);
 
 	if (preview) {
 		GtkWidget *preview;
 
-		preview = gnome_print_master_preview_new (print_master, _("Print Preview"));
+		preview = gnome_print_job_preview_new (print_master, _("Print Preview"));
 		gtk_widget_show (preview);
 	} else {
-		int result = gnome_print_master_print (print_master);
+		int result = gnome_print_job_print (print_master);
 
 		if (result == -1) {
 			e_notice (NULL, GTK_MESSAGE_ERROR,

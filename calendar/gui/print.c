@@ -35,11 +35,11 @@
 #include <libgnomeui/gnome-stock-icons.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-paper.h>
-#include <libgnomeprint/gnome-print-master.h>
-#include <libgnomeprintui/gnome-print-master-preview.h>
+#include <libgnomeprint/gnome-print-job.h>
+#include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libgnomeprintui/gnome-print-paper-selector.h>
 #include <libgnomeprintui/gnome-print-preview.h>
-#include <libgnomeprintui/gnome-printer-dialog.h>
+#include <libgnomeprintui/gnome-print-dialog.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
 #include <gal/widgets/e-unicode.h>
@@ -2409,7 +2409,7 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 {
 #if 0
 	GnomePrintConfig *config;
-	GnomePrintMaster *gpm;
+	GnomePrintJob *gpm;
 	GnomePrintContext *pc;
 	int copies, collate;
 	double l, r, t, b;
@@ -2465,18 +2465,18 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 
 	/* FIXME: allow configuration of paper size */
 
-	gpm = gnome_print_master_new ();
+	gpm = gnome_print_job_new ();
 
 	if (paper_info == NULL)
 		paper_info = gnome_paper_with_name (gnome_paper_name_default ());
-	gnome_print_master_set_paper (gpm, paper_info);
+	gnome_print_job_set_paper (gpm, paper_info);
 
 	if (printer)
-		gnome_print_master_set_printer (gpm, printer);
+		gnome_print_job_set_printer (gpm, printer);
 
-	gnome_print_master_set_copies (gpm, copies, collate);
+	gnome_print_job_set_copies (gpm, copies, collate);
 
-	pc = gnome_print_master_get_context (gpm);
+	pc = gnome_print_job_get_context (gpm);
 
 	l = gnome_paper_lmargin (paper_info);
 	r = gnome_paper_pswidth (paper_info)
@@ -2506,19 +2506,19 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		g_assert_not_reached ();
 	}
 
-	gnome_print_master_close (gpm);
+	gnome_print_job_close (gpm);
 
 	if (preview) {
-		GnomePrintMasterPreview *gpmp;
+		GnomePrintJobPreview *gpmp;
 		gboolean landscape = FALSE;
 
 		if (default_view == PRINT_VIEW_MONTH)
 			landscape = TRUE;
 
-		gpmp = gnome_print_master_preview_new_with_orientation (gpm, _("Print Preview"), landscape);
+		gpmp = gnome_print_job_preview_new_with_orientation (gpm, _("Print Preview"), landscape);
 		gtk_widget_show (GTK_WIDGET (gpmp));
 	} else {
-		gnome_print_master_print (gpm);
+		gnome_print_job_print (gpm);
 	}
 
 	g_object_unref (gpm);
@@ -2531,7 +2531,7 @@ print_comp (CalComponent *comp, CalClient *client, gboolean preview)
 {
 #if 0
 	GnomePrinter *printer;
-	GnomePrintMaster *gpm;
+	GnomePrintJob *gpm;
 	GnomePrintContext *pc;
 	int copies, collate;
 	double l, r, t, b;
@@ -2581,18 +2581,18 @@ print_comp (CalComponent *comp, CalClient *client, gboolean preview)
 
 	/* FIXME: allow configuration of paper size */
 
-	gpm = gnome_print_master_new ();
+	gpm = gnome_print_job_new ();
 
 	if (paper_info == NULL)
 		paper_info = gnome_paper_with_name (gnome_paper_name_default ());
-	gnome_print_master_set_paper (gpm, paper_info);
+	gnome_print_job_set_paper (gpm, paper_info);
 
 	if (printer)
-		gnome_print_master_set_printer (gpm, printer);
+		gnome_print_job_set_printer (gpm, printer);
 
-	gnome_print_master_set_copies (gpm, copies, collate);
+	gnome_print_job_set_copies (gpm, copies, collate);
 
-	pc = gnome_print_master_get_context (gpm);
+	pc = gnome_print_job_get_context (gpm);
 
 	l = gnome_paper_lmargin (paper_info);
 	r = gnome_paper_pswidth (paper_info)
@@ -2603,16 +2603,16 @@ print_comp (CalComponent *comp, CalClient *client, gboolean preview)
 
 	print_comp_item (pc, comp, client, l, r, t, b);
 
-	gnome_print_master_close (gpm);
+	gnome_print_job_close (gpm);
 
 	if (preview) {
-		GnomePrintMasterPreview *gpmp;
+		GnomePrintJobPreview *gpmp;
 
-		gpmp = gnome_print_master_preview_new (gpm,
+		gpmp = gnome_print_job_preview_new (gpm,
 						       _("Print Preview"));
 		gtk_widget_show (GTK_WIDGET (gpmp));
 	} else {
-		gnome_print_master_print (gpm);
+		gnome_print_job_print (gpm);
 	}
 
 	g_object_unref (gpm);
