@@ -498,7 +498,6 @@ gboolean
 calendar_setup_new_calendar (GtkWindow *parent)
 {
 	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
-	GConfClient  *gconf_client;
 	GtkWidget    *page;
 
 	source_dialog->gui_xml = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "calendar-druid-window", NULL);
@@ -521,9 +520,7 @@ calendar_setup_new_calendar (GtkWindow *parent)
 	g_signal_connect_after (page, "next",
 				G_CALLBACK (general_page_forward), source_dialog);
 
-	gconf_client = gconf_client_get_default ();
-	source_dialog->source_list =
-		e_source_list_new_for_gconf (gconf_client, "/apps/evolution/calendar/sources");
+	source_dialog->source_list = e_source_list_new_for_gconf_default ("/apps/evolution/calendar/sources");
 	source_dialog->group_optionmenu =
 		glade_xml_get_widget (source_dialog->gui_xml, "group-optionmenu");
 	if (!GTK_IS_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (source_dialog->group_optionmenu)))) {
@@ -663,7 +660,6 @@ gboolean
 calendar_setup_new_task_list (GtkWindow *parent)
 {
 	SourceDialog *source_dialog = g_new0 (SourceDialog, 1);
-	GConfClient  *gconf_client;
 	GtkWidget    *page;
 
 	source_dialog->gui_xml = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, "task-list-druid-window", NULL);
@@ -684,9 +680,7 @@ calendar_setup_new_task_list (GtkWindow *parent)
 	g_signal_connect_after (page, "prepare",
 				G_CALLBACK (general_page_prepare), source_dialog);
 
-	gconf_client = gconf_client_get_default ();
-	source_dialog->source_list =
-		e_source_list_new_for_gconf (gconf_client, "/apps/evolution/tasks/sources");
+	source_dialog->source_list = e_source_list_new_for_gconf_default ("/apps/evolution/tasks/sources");
 	source_dialog->group_optionmenu =
 		glade_xml_get_widget (source_dialog->gui_xml, "group-optionmenu");
 	if (!GTK_IS_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (source_dialog->group_optionmenu)))) {
