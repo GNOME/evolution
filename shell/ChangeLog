@@ -1,3 +1,41 @@
+2002-02-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (e_shell_view_show_folder_bar):
+	`e_shell_folder_title_bar_set_title_clickable()', not
+	`e_shell_folder_title_bar_set_clickable()'.
+
+	* e-shell-folder-title-bar.c: Rename `button', `button_label' and
+	`button_arrow' to `title_button', `title_button_label' and
+	`title_button_arrow'.  Renamed `label' to `title_label'.  Renamed
+	`arrow_xpm' to `down_arrow_xpm'.  Added `left_arrow.xpm' and
+	`right_arrow.xpm'.
+	(class_init): Add the "back_clicked" and "forward_clicked"
+	signals.
+	(add_navigation_buttons): New function to add the navigation
+	buttons to the title bar.
+	(back_button_clicked_callback): Callback for the back button,
+	emits "back_clicked".
+	(forward_button_clicked_callback): Callback for the forward
+	button, emits "forward_clicked".
+	(e_shell_folder_title_bar_construct): Call
+	`add_navigation_buttons()'.
+	(forward_button_clicked_callback):
+	(create_arrow_pixmap): Removed.
+	(create_pixmap_widget_from_xpm): New.
+	(title_button_box_realize_cb): Removed.
+	(e_shell_folder_title_bar_construct): Don't connect.  Just add the
+	icon normally using the new `create_pixmap_widget_from_xpm()'.
+	(e_shell_folder_title_bar_set_title_clickable): Renamed from
+	`e_shell_folder_title_bar_set_clickable'.
+	(size_allocate_navigation_buttons): New.
+	(size_allocate_title_button): Get an @offset.
+	(size_allocate_label): Get an @offset.
+	(size_allocate): Allocate the navigation buttons and offset
+	everything else accordingly.
+
+	* e-shell-folder-title-bar.h: New signals "back_clicked",
+	"forward_clicked".
+
 2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-user-creatable-items-handler.c

@@ -53,28 +53,34 @@ struct _EShellFolderTitleBarPrivate {
            label is visible.  */
 
 	/* The label.  */
-	GtkWidget *label;
+	GtkWidget *title_label;
 
 	/* Holds extra information that is to be shown to the left of the icon */
 	GtkWidget *folder_bar_label;
 
-	/* The button.  */
-	GtkWidget *button;
-	GtkWidget *button_label;
-	GtkWidget *button_arrow;
+	/* Navigation buttons.  */
+	GtkWidget *back_button;
+	GtkWidget *forward_button;
 
-	gboolean clickable;
+	/* The button.  */
+	GtkWidget *title_button;
+	GtkWidget *title_button_label;
+	GtkWidget *title_button_arrow;
+
+	gboolean title_clickable;
 };
 
 enum {
 	TITLE_TOGGLED,
+	BACK_CLICKED,
+	FORWARD_CLICKED,
 	LAST_SIGNAL
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
-static char *arrow_xpm[] = {
+static const char *down_arrow_xpm[] = {
 	"11 5  2 1",
 	" 	c none",
 	".	c #ffffffffffff",
@@ -85,45 +91,51 @@ static char *arrow_xpm[] = {
 	"     .     ",
 };
 
+static const char *left_arrow_xpm[] = {
+	"11 7  2 1",
+	" 	c none",
+	".	c #ffffffffffff",
+	"    .      ",
+	"   ..      ",
+	"  ........ ",
+	" ......... ",
+	"  ........ ",
+	"   ..      ",
+	"    .      ",
+};
+
+static const char *right_arrow_xpm[] = {
+	"11 7  2 1",
+	" 	c none",
+	".	c #ffffffffffff",
+	"      .    ",
+	"      ..   ",
+	" ........  ",
+	" ......... ",
+	" ........  ",
+	"      ..   ",
+	"      .    ",
+};
+
 
 /* Icon pixmap.  */
 
 static GtkWidget *
-create_arrow_pixmap (GtkWidget *parent)
+create_pixmap_widget_from_xpm (const char **xpm) 
 {
-	GtkWidget *gtk_pixmap;
-	GdkPixmap *gdk_pixmap;
-	GdkBitmap *gdk_mask;
+	GdkPixbuf *pixbuf;
+	GdkPixmap *pixmap;
+	GdkBitmap *mask;
+	GtkWidget *widget;
 
-	gdk_pixmap = gdk_pixmap_create_from_xpm_d (parent->window, &gdk_mask, NULL, arrow_xpm);
-	gtk_pixmap = gtk_pixmap_new (gdk_pixmap, gdk_mask);
+	pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
 
-	gdk_pixmap_unref (gdk_pixmap);
-	gdk_bitmap_unref (gdk_mask);
+	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &pixmap, &mask, 127);
 
-	return gtk_pixmap;
-}
+	widget = gtk_pixmap_new (pixmap, mask);
+	gtk_widget_show (widget);
 
-static void
-title_button_box_realize_cb (GtkWidget *widget,
-			     void *data)
-{
-	EShellFolderTitleBar *folder_title_bar;
-	EShellFolderTitleBarPrivate *priv;
-	GtkWidget *button_arrow;
-
-	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (data);
-	priv = folder_title_bar->priv;
-
-	if (priv->button_arrow != NULL)
-		return;
-
-	button_arrow = create_arrow_pixmap (widget);
-
-	gtk_widget_show (button_arrow);
-	gtk_box_pack_start (GTK_BOX (widget), button_arrow, FALSE, TRUE, 2);
-
-	priv->button_arrow = button_arrow;
+	return widget;
 }
 
 
@@ -236,9 +248,10 @@ size_allocate_icon (EShellFolderTitleBar *title_bar,
 }
 
 static void
-size_allocate_button (EShellFolderTitleBar *title_bar,
-		      GtkAllocation *allocation,
-		      int *available_width_inout)
+size_allocate_title_button (EShellFolderTitleBar *title_bar,
+			    GtkAllocation *allocation,
+			    int offset,
+			    int *available_width_inout)
 {
 	EShellFolderTitleBarPrivate *priv;
 	GtkAllocation child_allocation;
@@ -249,27 +262,27 @@ size_allocate_button (EShellFolderTitleBar *title_bar,
 
 	border_width = GTK_CONTAINER (title_bar)->border_width;
 
-	gtk_widget_get_child_requisition (priv->button, &child_requisition);
-	child_allocation.x = allocation->x + border_width;
+	gtk_widget_get_child_requisition (priv->title_button, &child_requisition);
+	child_allocation.x = allocation->x + border_width + offset;
 	child_allocation.y = allocation->y + border_width;
 	child_allocation.height = allocation->height - 2 * border_width;
 
 	child_allocation.width = child_requisition.width;
-	child_allocation.width += get_max_clipped_label_width (E_CLIPPED_LABEL (priv->button_label));
+	child_allocation.width += get_max_clipped_label_width (E_CLIPPED_LABEL (priv->title_button_label));
 
 	child_allocation.width = MIN (child_allocation.width, *available_width_inout);
 
-	gtk_widget_size_allocate (priv->button, & child_allocation);
+	gtk_widget_size_allocate (priv->title_button, & child_allocation);
 
 	*available_width_inout -= child_allocation.width;
 }
 
-static void
-size_allocate_label (EShellFolderTitleBar *title_bar,
-		     GtkAllocation *allocation,
-		     int *available_width_inout)
+static int
+size_allocate_navigation_buttons (EShellFolderTitleBar *title_bar,
+				  GtkAllocation *allocation)
 {
 	EShellFolderTitleBarPrivate *priv;
+	GtkRequisition child_requisition;
 	GtkAllocation child_allocation;
 	int border_width;
 
@@ -281,10 +294,41 @@ size_allocate_label (EShellFolderTitleBar *title_bar,
 	child_allocation.y = allocation->y + border_width;
 	child_allocation.height = allocation->height - 2 * border_width;
 
-	child_allocation.width = MIN (get_max_clipped_label_width (E_CLIPPED_LABEL (priv->label)),
+	gtk_widget_size_request (priv->back_button, &child_requisition);
+	child_allocation.width = child_requisition.width;
+	gtk_widget_size_allocate (priv->back_button, &child_allocation);
+
+	child_allocation.x += child_allocation.width;
+
+	gtk_widget_size_request (priv->forward_button, &child_requisition);
+	child_allocation.width = child_requisition.width;
+	gtk_widget_size_allocate (priv->forward_button, &child_allocation);
+
+	return child_allocation.x + child_allocation.width;
+}
+
+static void
+size_allocate_label (EShellFolderTitleBar *title_bar,
+		     GtkAllocation *allocation,
+		     int offset,
+		     int *available_width_inout)
+{
+	EShellFolderTitleBarPrivate *priv;
+	GtkAllocation child_allocation;
+	int border_width;
+
+	priv = title_bar->priv;
+
+	border_width = GTK_CONTAINER (title_bar)->border_width;
+
+	child_allocation.x = allocation->x + border_width + offset;
+	child_allocation.y = allocation->y + border_width;
+	child_allocation.height = allocation->height - 2 * border_width;
+
+	child_allocation.width = MIN (get_max_clipped_label_width (E_CLIPPED_LABEL (priv->title_label)),
 				      *available_width_inout);
 
-	gtk_widget_size_allocate (priv->label, & child_allocation);
+	gtk_widget_size_allocate (priv->title_label, & child_allocation);
 
 	*available_width_inout -= child_allocation.width;
 }
@@ -318,10 +362,78 @@ add_icon_widget (EShellFolderTitleBar *folder_title_bar)
 }
 
 
+/* The back/forward navigation buttons.  */
+
+static void
+back_button_clicked_callback (GtkButton *button,
+			      void *data)
+{
+	EShellFolderTitleBar *folder_title_bar;
+
+	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (data);
+
+	gtk_signal_emit (GTK_OBJECT (folder_title_bar), signals[BACK_CLICKED]);
+}
+
+static void
+forward_button_clicked_callback (GtkButton *button,
+				 void *data)
+{
+	EShellFolderTitleBar *folder_title_bar;
+
+	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (data);
+
+	gtk_signal_emit (GTK_OBJECT (folder_title_bar), signals[FORWARD_CLICKED]);
+}
+
+static void
+add_navigation_buttons (EShellFolderTitleBar *folder_title_bar)
+{
+	EShellFolderTitleBarPrivate *priv;
+	GtkWidget *back_label, *back_pixmap, *back_box;
+	GtkWidget *forward_pixmap;
+
+	priv = folder_title_bar->priv;
+
+	priv->back_button = gtk_button_new ();
+	gtk_button_set_relief (GTK_BUTTON (priv->back_button), GTK_RELIEF_NONE);
+	GTK_WIDGET_UNSET_FLAGS (priv->back_button, GTK_CAN_FOCUS);
+
+	back_label = gtk_label_new (_("Back"));
+	set_title_bar_label_style (back_label);
+	back_pixmap = create_pixmap_widget_from_xpm (left_arrow_xpm);
+
+	back_box = gtk_hbox_new (FALSE, 2);
+	gtk_box_pack_start (GTK_BOX (back_box), back_pixmap, FALSE, TRUE, 0); 
+	gtk_box_pack_start (GTK_BOX (back_box), back_label, FALSE, TRUE, 0); 
+
+	gtk_container_add (GTK_CONTAINER (priv->back_button), back_box);
+
+	gtk_signal_connect (GTK_OBJECT (priv->back_button), "clicked",
+			    GTK_SIGNAL_FUNC (back_button_clicked_callback), folder_title_bar);
+
+	priv->forward_button = gtk_button_new ();
+	gtk_button_set_relief (GTK_BUTTON (priv->forward_button), GTK_RELIEF_NONE);
+	GTK_WIDGET_UNSET_FLAGS (priv->forward_button, GTK_CAN_FOCUS);
+
+	forward_pixmap = create_pixmap_widget_from_xpm (right_arrow_xpm);
+	gtk_container_add (GTK_CONTAINER (priv->forward_button), forward_pixmap);
+
+	gtk_signal_connect (GTK_OBJECT (priv->forward_button), "clicked",
+			    GTK_SIGNAL_FUNC (forward_button_clicked_callback), folder_title_bar);
+
+	gtk_box_pack_start (GTK_BOX (folder_title_bar), priv->back_button, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (folder_title_bar), priv->forward_button, FALSE, FALSE, 0);
+
+	gtk_widget_show_all (priv->back_button);
+	gtk_widget_show_all (priv->forward_button);
+}
+
+
 /* Popup button callback.  */
 
 static void
-title_button_toggled_cb (GtkToggleButton *button,
+title_button_toggled_cb (GtkToggleButton *title_button,
 			 void *data)
 {
 	EShellFolderTitleBar *folder_title_bar;
@@ -329,7 +441,7 @@ title_button_toggled_cb (GtkToggleButton *button,
 	folder_title_bar = E_SHELL_FOLDER_TITLE_BAR (data);
 	gtk_signal_emit (GTK_OBJECT (folder_title_bar),
 			 signals[TITLE_TOGGLED],
-			 gtk_toggle_button_get_active (button));
+			 gtk_toggle_button_get_active (title_button));
 }
 
 
@@ -396,6 +508,7 @@ size_allocate (GtkWidget *widget,
 	int border_width;
 	int available_width;
 	int width_before_icon;
+	int offset;
 
 	title_bar = E_SHELL_FOLDER_TITLE_BAR (widget);
 	priv = title_bar->priv;
@@ -403,15 +516,18 @@ size_allocate (GtkWidget *widget,
 	border_width = GTK_CONTAINER (widget)->border_width;
 	available_width = allocation->width - 2 * border_width;
 
+	offset = size_allocate_navigation_buttons (title_bar, allocation);
+	available_width -= offset;
+
 	size_allocate_icon (title_bar, allocation, & available_width);
 	width_before_icon = available_width;
 
-	if (priv->clickable)
-		size_allocate_button (title_bar, allocation, & available_width);
+	if (priv->title_clickable)
+		size_allocate_title_button (title_bar, allocation, offset, & available_width);
 	else
-		size_allocate_label (title_bar, allocation, & available_width);
+		size_allocate_label (title_bar, allocation, offset, & available_width);
 
-	label_allocation.x      = allocation->x + width_before_icon - available_width - border_width;
+	label_allocation.x      = allocation->x + width_before_icon - available_width - border_width + offset;
 	label_allocation.y      = allocation->y + border_width;
 	label_allocation.width  = available_width - 2 * border_width;
 	label_allocation.height = allocation->height - 2 * border_width;
@@ -446,6 +562,20 @@ class_init (EShellFolderTitleBarClass *klass)
 						 GTK_TYPE_NONE, 1,
 						 GTK_TYPE_BOOL);
 
+	signals[BACK_CLICKED] = gtk_signal_new ("back_clicked",
+						GTK_RUN_FIRST,
+						object_class->type,
+						GTK_SIGNAL_OFFSET (EShellFolderTitleBarClass, back_clicked),
+						gtk_marshal_NONE__NONE,
+						GTK_TYPE_NONE, 0);
+
+	signals[FORWARD_CLICKED] = gtk_signal_new ("forward_clicked",
+						   GTK_RUN_FIRST,
+						   object_class->type,
+						   GTK_SIGNAL_OFFSET (EShellFolderTitleBarClass, forward_clicked),
+						   gtk_marshal_NONE__NONE,
+						   GTK_TYPE_NONE, 0);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
@@ -456,15 +586,17 @@ init (EShellFolderTitleBar *shell_folder_title_bar)
 
 	priv = g_new (EShellFolderTitleBarPrivate, 1);
 
-	priv->icon             = NULL;
-	priv->icon_widget      = NULL;
-	priv->label            = NULL;
-	priv->folder_bar_label = NULL;
-	priv->button_label     = NULL;
-	priv->button           = NULL;
-	priv->button_arrow     = NULL;
+	priv->icon               = NULL;
+	priv->icon_widget        = NULL;
+	priv->title_label        = NULL;
+	priv->folder_bar_label   = NULL;
+	priv->title_button_label = NULL;
+	priv->title_button       = NULL;
+	priv->title_button_arrow = NULL;
+	priv->back_button        = NULL;
+	priv->forward_button     = NULL;
 
-	priv->clickable    = TRUE;
+	priv->title_clickable    = TRUE;
 
 	shell_folder_title_bar->priv = priv;
 }
@@ -480,7 +612,7 @@ void
 e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 {
 	EShellFolderTitleBarPrivate *priv;
-	GtkWidget *button_hbox;
+	GtkWidget *title_button_hbox;
 	GtkWidget *widget;
 
 	g_return_if_fail (folder_title_bar != NULL);
@@ -489,51 +621,54 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	priv = folder_title_bar->priv;
 	widget = GTK_WIDGET (folder_title_bar);
 
-	priv->label = e_clipped_label_new ("");
-	gtk_misc_set_padding (GTK_MISC (priv->label), 5, 0);
-	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.5);
-	set_title_bar_label_style (priv->label);
-	/* make_bold (priv->label); */
+	priv->title_label = e_clipped_label_new ("");
+	gtk_misc_set_padding (GTK_MISC (priv->title_label), 5, 0);
+	gtk_misc_set_alignment (GTK_MISC (priv->title_label), 0.0, 0.5);
+	set_title_bar_label_style (priv->title_label);
+	/* make_bold (priv->title_label); */
 
-	priv->button_label = e_clipped_label_new ("");
-	gtk_misc_set_padding (GTK_MISC (priv->button_label), 2, 0);
-	gtk_misc_set_alignment (GTK_MISC (priv->button_label), 0.0, 0.5);
-	gtk_widget_show (priv->button_label);
-	set_title_bar_label_style (priv->button_label);
-	/* make_bold (priv->label); */
+	priv->title_button_label = e_clipped_label_new ("");
+	gtk_misc_set_padding (GTK_MISC (priv->title_button_label), 2, 0);
+	gtk_misc_set_alignment (GTK_MISC (priv->title_button_label), 0.0, 0.5);
+	gtk_widget_show (priv->title_button_label);
+	set_title_bar_label_style (priv->title_button_label);
+	/* make_bold (priv->title_label); */
 
 	priv->folder_bar_label = e_clipped_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (priv->folder_bar_label), 1.0, 0.5);
 	gtk_widget_show (priv->folder_bar_label);
 	set_title_bar_label_style (priv->folder_bar_label);
 
-	button_hbox = gtk_hbox_new (FALSE, 0);
-	gtk_signal_connect (GTK_OBJECT (button_hbox), "realize",
-			    GTK_SIGNAL_FUNC (title_button_box_realize_cb), folder_title_bar);
-	gtk_box_pack_start (GTK_BOX (button_hbox), priv->button_label, TRUE, TRUE, 0);
-	gtk_widget_show (button_hbox);
+	title_button_hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (title_button_hbox), priv->title_button_label,
+			    TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (title_button_hbox), create_pixmap_widget_from_xpm (down_arrow_xpm),
+			    FALSE, TRUE, 2);
+	gtk_widget_show (title_button_hbox);
 
-	priv->button = gtk_toggle_button_new ();
-	gtk_button_set_relief (GTK_BUTTON (priv->button), GTK_RELIEF_NONE);
-	gtk_container_add (GTK_CONTAINER (priv->button), button_hbox);
-	GTK_WIDGET_UNSET_FLAGS (priv->button, GTK_CAN_FOCUS);
-	gtk_widget_show (priv->button);
+	priv->title_button = gtk_toggle_button_new ();
+	gtk_button_set_relief (GTK_BUTTON (priv->title_button), GTK_RELIEF_NONE);
+	gtk_container_add (GTK_CONTAINER (priv->title_button), title_button_hbox);
+	GTK_WIDGET_UNSET_FLAGS (priv->title_button, GTK_CAN_FOCUS);
+	gtk_widget_show (priv->title_button);
 
 	gtk_container_set_border_width (GTK_CONTAINER (folder_title_bar), 2);
-	gtk_box_pack_start (GTK_BOX (folder_title_bar), priv->label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (folder_title_bar), priv->button, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (folder_title_bar), priv->title_label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (folder_title_bar), priv->title_button, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (folder_title_bar), priv->folder_bar_label, TRUE, TRUE, 0);
 
 	/* Make the label have a border as large as the button's.
 	   FIXME: This is really hackish.  The hardcoded numbers should be OK
 	   as the padding is hardcoded in GtkButton too (see CHILD_SPACING in
 	   gtkbutton.c).  */
-	gtk_misc_set_padding (GTK_MISC (priv->label),
-			      GTK_WIDGET (priv->button)->style->klass->xthickness + 3,
-			      GTK_WIDGET (priv->button)->style->klass->ythickness + 1);
+	gtk_misc_set_padding (GTK_MISC (priv->title_label),
+			      GTK_WIDGET (priv->title_button)->style->klass->xthickness + 3,
+			      GTK_WIDGET (priv->title_button)->style->klass->ythickness + 1);
 
-	gtk_signal_connect (GTK_OBJECT (priv->button), "toggled",
+	gtk_signal_connect (GTK_OBJECT (priv->title_button), "toggled",
 			    GTK_SIGNAL_FUNC (title_button_toggled_cb), folder_title_bar);
+
+	add_navigation_buttons (folder_title_bar);
 
 	e_shell_folder_title_bar_set_title (folder_title_bar, NULL);
 }
@@ -581,11 +716,11 @@ e_shell_folder_title_bar_set_title (EShellFolderTitleBar *folder_title_bar,
 	priv = folder_title_bar->priv;
 
 	if (title == NULL) {
-		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->button_label), _("(Untitled)"));
-		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->label), _("(Untitled)"));
+		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->title_button_label), _("(Untitled)"));
+		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->title_label), _("(Untitled)"));
 	} else {
-		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->button_label), title);
-		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->label), title);
+		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->title_button_label), title);
+		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->title_label), title);
 	}
 
 	/* FIXME: There seems to be a bug in EClippedLabel, this is just a workaround.  */
@@ -670,7 +805,7 @@ e_shell_folder_title_bar_set_toggle_state (EShellFolderTitleBar *folder_title_ba
 
 	priv = folder_title_bar->priv;
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->button), state);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->title_button), state);
 }
 
 /**
@@ -678,11 +813,12 @@ e_shell_folder_title_bar_set_toggle_state (EShellFolderTitleBar *folder_title_ba
  * @folder_title_bar: 
  * @clickable: 
  * 
- * Specify whether @folder_title_bar is clickable.  If not, the arrow pixmap is not shown.
+ * Specify whether the title in the @folder_title_bar is clickable.  If not,
+ * the arrow pixmap is not shown.
  **/
 void
-e_shell_folder_title_bar_set_clickable (EShellFolderTitleBar *folder_title_bar,
-					gboolean clickable)
+e_shell_folder_title_bar_set_title_clickable (EShellFolderTitleBar *folder_title_bar,
+					      gboolean title_clickable)
 {
 	EShellFolderTitleBarPrivate *priv;
 
@@ -691,18 +827,19 @@ e_shell_folder_title_bar_set_clickable (EShellFolderTitleBar *folder_title_bar,
 
 	priv = folder_title_bar->priv;
 
-	if ((priv->clickable && clickable) || (! priv->clickable && ! clickable))
+	if ((priv->title_clickable && title_clickable)
+	    || (! priv->title_clickable && ! title_clickable))
 		return;
 
-	if (clickable) {
-		gtk_widget_hide (priv->label);
-		gtk_widget_show (priv->button);
+	if (title_clickable) {
+		gtk_widget_hide (priv->title_label);
+		gtk_widget_show (priv->title_button);
 	} else {
-		gtk_widget_hide (priv->button);
-		gtk_widget_show (priv->label);
+		gtk_widget_hide (priv->title_button);
+		gtk_widget_show (priv->title_label);
 	}
 
-	priv->clickable = !! clickable;
+	priv->title_clickable = !! title_clickable;
 }
 
 

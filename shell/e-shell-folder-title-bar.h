@@ -52,7 +52,9 @@ struct _EShellFolderTitleBarClass {
 	GtkHBoxClass parent_class;
 
 	/* Signals.  */
-	void  (* title_toggled)  (EShellFolderTitleBar *folder_title_bar, gboolean pressed);
+	void  (* title_toggled)   (EShellFolderTitleBar *folder_title_bar, gboolean pressed);
+	void  (* back_clicked)    (EShellFolderTitleBar *folder_title_bar);
+	void  (* forward_clicked) (EShellFolderTitleBar *folder_title_bar);
 };
 
 
@@ -68,7 +70,7 @@ void  e_shell_folder_title_bar_set_icon              (EShellFolderTitleBar *fold
 						      const GdkPixbuf      *icon);
 void  e_shell_folder_title_bar_set_toggle_state      (EShellFolderTitleBar *folder_title_bar,
 						      gboolean              state);
-void  e_shell_folder_title_bar_set_clickable         (EShellFolderTitleBar *folder_title_bar,
+void  e_shell_folder_title_bar_set_title_clickable   (EShellFolderTitleBar *folder_title_bar,
 						      gboolean              clickable);
 
 #ifdef __cplusplus

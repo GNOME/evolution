@@ -2125,8 +2125,8 @@ e_shell_view_show_folder_bar (EShellView *shell_view,
 		e_title_bar_set_button_mode (E_TITLE_BAR (priv->storage_set_title_bar),
 					     E_TITLE_BAR_BUTTON_MODE_CLOSE);
 
-		e_shell_folder_title_bar_set_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
-							FALSE);
+		e_shell_folder_title_bar_set_title_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
+							      FALSE);
 	} else {
 		if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
 			/* FIXME this is a private field!  */
@@ -2139,8 +2139,8 @@ e_shell_view_show_folder_bar (EShellView *shell_view,
 		e_title_bar_set_button_mode (E_TITLE_BAR (priv->storage_set_title_bar),
 					     E_TITLE_BAR_BUTTON_MODE_PIN);
 
-		e_shell_folder_title_bar_set_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
-							TRUE);
+		e_shell_folder_title_bar_set_title_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
+							      TRUE);
 	}
 
         priv->folder_bar_shown = !! show;
