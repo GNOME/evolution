@@ -33,9 +33,8 @@
 	                        <placeholder name="NewFirstItem">
 	                        </placeholder>
 	
-				<menuitem name="View" verb="NewView" _label="_View"
-				accel="*Control**Shift*v"
-				pixtype="stock" pixname="New"/>
+				<menuitem name="EvolutionWindow" verb="NewView" _label="Evolution _Window"
+				accel="*Control**Shift*w"/>
 
 				<menuitem name="Folder" verb="NewFolder"
 				_label="_Folder"
