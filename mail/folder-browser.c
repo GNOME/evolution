@@ -119,11 +119,12 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 			for (ptr = (char *)(name + 7); *ptr && *ptr != '/'; ptr++);
 			if (*ptr == '/') {
 				if (url && url->path) {
-					fprintf (stderr, "namespace = %s\n", url->path);
+					fprintf (stderr, "namespace = %s\n", url->path + 1);
 					ptr += strlen (url->path);
 				}
 
-				ptr++;
+				for ( ; *ptr && *ptr == '/'; ptr++);
+
 				folder_name = g_strdup (ptr);
 				
 				fprintf (stderr, "getting folder: %s\n", folder_name);
