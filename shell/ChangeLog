@@ -1,6 +1,13 @@
+2001-07-12  Jason Leach  <jleach@ximian.com>
+
+	* e-shell-view-menu.c (command_submit_bug): Because
+	bugzilla.ximian does have a mail gateway now, we can have
+	Help->Submit Bug Report open up bug-buddy.
+
 2001-07-12  Iain Holmes  <iain@ximian.com>
 
-	* importers/intelligent.c (create_gui): Remove the g_warnings as they are an annoying red herring
+	* importers/intelligent.c (create_gui): Remove the g_warnings as
+	they are an annoying red herring
 
 2001-07-12  Dan Winship  <danw@ximian.com>
 

@@ -162,10 +162,8 @@ command_quit (BonoboUIComponent *uih,
 	e_shell_destroy_all_views (shell);
 }
 
-#if 0
-
 static void
-command_run_bugbuddy (BonoboUIComponent *uih,
+command_submit_bug (BonoboUIComponent *uih,
 		      void *data,
 		      const char *path)
 {
@@ -177,33 +175,19 @@ command_run_bugbuddy (BonoboUIComponent *uih,
                 "--package-ver="VERSION,
                 NULL
         };
+
         args[0] = gnome_is_program_in_path ("bug-buddy");
         if (!args[0]) {
                 gnome_error_dialog (_("Bug buddy was not found in your $PATH."));
 		return;
         }
+
         pid = gnome_execute_async (NULL, 4, args);
         g_free (args[0]);
-        if (pid == -1) {
+
+        if (pid == -1)
                 gnome_error_dialog (_("Bug buddy could not be run."));
-        }
 }
-
-#else
-
-/* We have no mail interface in the Ximian bug tracker (yet), so Bug Buddy
-   cannot talk to it.  For the time being, it's better to just fire up a
-   browser window with bugzilla.ximian.com in it.  */
-
-static void
-command_submit_bug (BonoboUIComponent *uic,
-		    void *data,
-		    const char *path)
-{
-	gnome_url_show ("http://bugzilla.ximian.com");
-}
-
-#endif
 
 static void
 zero_pointer(GtkObject *object, void **pointer)
