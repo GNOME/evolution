@@ -30,6 +30,51 @@ Addressbook:
 
 Calendar:
 
+  - Underlined accelerators now work in the editor dialogs.  (Damon)
+
+  - Many fixes for scheduling meetings.  (JP)
+
+  - Status bar messages for long queries.  (Rodrigo)
+
+  - Appointments with empty summaries are now deleted from the views.
+    Also, you can press Escape to cancel editing [#780].  (Federico)
+
+  - The alarm daemon no longer displays "old" alarms twice. (Federico)
+
+  - Alarms now handle timezones correctly [#5852].  (Federico)
+
+  - Repeating alarms are now handled [#12163].  (Federico)
+
+  - The alarm daemon is launched as soon as the calendar starts, not
+    when you actually open a folder [#13867].  (Federico)
+
+  - You can now set a default reminder to be added to new appointments
+    [#13649].  (Federico)
+
+  - Fixes for printing week views [#13687, #13688].  (Damon)
+
+  - Tasks printout now matches the task list better [#10280].  (Damon)
+
+  - Better handling of DATE values, as opposed to DATE-TIME ones.  (Damon)
+
+  - Many changes to handle the default timezone better.  (Damon)
+
+  - Recurrence generation fixes [#11525].  (Damon)
+
+  - Fixed merging of complete VCALENDAR components.  (Damon)
+
+  - Fixes to the folder transfer functions.  (Ettore, Federico)
+
+  - Tasks activation fixes.  (Damon)
+
+  - Outlook interoperability fixes.  (Damon, JP)
+
+  - Miscellaneous fixes to the event/task editors.  (Damon, JP, Federico)
+
+  - New iCalendar importer.  (Rodrigo)
+
+Conduits:
+
 Summary:
 
   - Worked around gnome-vfs problems that were causing crashes.  (Trow)

@@ -1,3 +1,7 @@
+2001-10-30  Federico Mena Quintero  <federico@ximian.com>
+
+	* NEWS (Calendar): Calendar NEWS.
+
 2001-10-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Add oaf to the BONOBO_GNOME_LIBS,
