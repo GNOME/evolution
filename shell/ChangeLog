@@ -1,5 +1,11 @@
 2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* evolution-storage-listener.c
+	(evolution_storage_listener_construct): Unset the `GTK_FLOATING'
+	flag as `EvolutionStorageListener' is self-owned.
+
+2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-storage.c (impl_list_folders): Removed.
 	(impl_get_subfolder_paths): New static function, implementation
 	for `::get_subfolder_paths'.

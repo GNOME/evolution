@@ -279,6 +279,8 @@ evolution_storage_listener_construct (EvolutionStorageListener *listener,
 	g_return_if_fail (priv->corba_objref == CORBA_OBJECT_NIL);
 
 	priv->corba_objref = corba_objref;
+
+	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (object), GTK_FLOATING);
 }
 
 EvolutionStorageListener *
