@@ -871,8 +871,10 @@ save (EMsgComposer *composer,
 	if ((fd = open (my_file_name, O_RDONLY | O_CREAT | O_EXCL)) == -1) {
 		GtkWidget *dialog, *label;
 		
-		dialog = gnome_dialog_new (_("Warning!"), GNOME_STOCK_BUTTON_YES,
-					   GNOME_STOCK_BUTTON_NO, NULL);
+		dialog = gnome_dialog_new (_("Warning!"),
+					   GNOME_STOCK_BUTTON_YES,
+					   GNOME_STOCK_BUTTON_NO,
+					   NULL);
 		label = gtk_label_new (_("File exists, overwrite?"));
 		gtk_widget_show (label);
 		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 0);
@@ -895,7 +897,7 @@ save (EMsgComposer *composer,
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
-			  _("Error saving file: %s"), g_basename (file_name));
+			  _("Error saving file: %s"), g_basename (my_file_name));
 	}
 	
 	CORBA_exception_free (&ev);
@@ -904,8 +906,7 @@ save (EMsgComposer *composer,
 }
 
 static void
-load (EMsgComposer *composer,
-      const char *file_name)
+load (EMsgComposer *composer, const char *file_name)
 {
 	CORBA_Environment ev;
 	
