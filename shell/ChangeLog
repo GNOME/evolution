@@ -1,5 +1,13 @@
 2003-01-10  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (e_shell_request_close_view): Make the view save its
+	settings as the default ones if it's the last one.
+
+	* e-shell-view-menu.c (command_quit): Make this view save its
+	settings as the defaults before quitting.
+
+2003-01-10  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (main): Generate the URI list from the popt context
 	fetched from the GnomeProgram object.
 

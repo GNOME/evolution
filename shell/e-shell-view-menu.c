@@ -168,6 +168,8 @@ command_quit (BonoboUIComponent *uih,
 
 	shell_view = E_SHELL_VIEW (data);
 
+	e_shell_view_save_defaults (shell_view);
+
 	shell = e_shell_view_get_shell (shell_view);
 
 	if (e_shell_prepare_for_quit (shell))

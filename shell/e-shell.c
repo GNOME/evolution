@@ -1499,7 +1499,11 @@ e_shell_request_close_view (EShell *shell,
 	if (shell->priv->preparing_to_quit)
 		return FALSE;
 
-	/* If it's the last view, ask for confirm. */
+	/* If it's the last view, save settings and ask for confirmation before
+	   quitting. */
+
+	e_shell_view_save_defaults (shell_view);
+
 	if (e_shell_prepare_for_quit (shell))
 		return TRUE;
 	else
