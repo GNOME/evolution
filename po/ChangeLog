@@ -1,3 +1,7 @@
+2000-10-30  Christopher R. Gabriel  <cgabriel@softwarelibero.org>
+
+	* it.po: more updates from Clara Tattoni <clara.tattoni@libero.it>
+
 2000-10-30  Federico Mena Quintero  <federico@helixcode.com>
 
 	* pl.po: Removed spurious character that kept it from building.
