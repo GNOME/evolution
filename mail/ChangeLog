@@ -1,3 +1,8 @@
+2001-07-01  Chris Toshok  <toshok@ximian.com>
+
+	* subscribe-dialog.c (subscribe_dialog_gui_init): the FolderSearch
+	control is in a different dockitem now.
+
 2001-07-01  Dan Winship  <danw@ximian.com>
 
 	* mail-tools.c (update_unread_count): Ref the folder before

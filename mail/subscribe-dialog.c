@@ -906,7 +906,7 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	gtk_widget_show_all (folder_search_widget);
 	search_control = bonobo_control_new (folder_search_widget);
 
-	bonobo_ui_component_object_set (component, "/Toolbar/FolderSearch",
+	bonobo_ui_component_object_set (component, "/Searchbar/FolderSearch",
 					bonobo_object_corba_objref (BONOBO_OBJECT (search_control)),
 					NULL);
 					
