@@ -37,7 +37,10 @@
 
 #include <libgnomecanvas/gnome-canvas.h>
 
-BEGIN_GNOME_DECLS
+#ifdef __cplusplus
+extern "C" {
+#pragma }
+#endif /* __cplusplus */
 
 #define E_TYPE_ICON_LIST            (e_icon_list_get_type ())
 #define E_ICON_LIST(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_ICON_LIST, EIconList))
@@ -171,6 +174,8 @@ int            e_icon_list_get_icon_at         (EIconList *gil,
 
 int            e_icon_list_get_items_per_line  (EIconList *gil);
 
-END_GNOME_DECLS
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* _GNOME_ICON_LIST_H_ */

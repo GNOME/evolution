@@ -1,3 +1,9 @@
+2002-11-13  Not Zed  <NotZed@Ximian.com>
+
+	* e-icon-list.c (e_icon_list_new): Use the right object_new method.
+
+	* e-icon-list.h: get rid of BEGIN/END_GNOME_DECLS stuff.
+
 2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c: Remove some unused ehaders and

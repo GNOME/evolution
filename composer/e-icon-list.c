@@ -2097,7 +2097,7 @@ e_icon_list_new (guint icon_width, int flags)
 {
 	Eil *eil;
 
-	eil = EIL (g_type_new (e_icon_list_get_type (), NULL, NULL));
+	eil = EIL (g_object_new (e_icon_list_get_type (), NULL));
 
 	e_icon_list_construct (eil, icon_width, flags);
 
