@@ -503,7 +503,7 @@ etfci_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 }
 
 static gboolean
-etfci_maybe_start_drag (ETableFieldChooserItem *etfci, double x, double y)
+etfci_maybe_start_drag (ETableFieldChooserItem *etfci, int x, int y)
 {
 	if (!etfci->maybe_drag)
 		return FALSE;
