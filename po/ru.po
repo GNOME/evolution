@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-07-19 20:08+0000\n"
-"PO-Revision-Date: 2000-07-19 20:14+00:00\n"
+"POT-Creation-Date: 2000-07-23 19:37+0000\n"
+"PO-Revision-Date: 2000-07-23 19:52+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -388,9 +388,8 @@ msgstr "Вставить"
 msgid "F_ormat"
 msgstr "Формат"
 
-#. FIXME: add Favorites here
 #: addressbook/contact-editor/e-contact-editor.c:807
-#: calendar/gui/event-editor.c:1281 shell/e-shell-view-menu.c:473
+#: calendar/gui/event-editor.c:1281 shell/e-shell-view-menu.c:515
 msgid "_Tools"
 msgstr "Инструменты"
 
@@ -1450,7 +1449,7 @@ msgid "FIXME: Rec_urrence..."
 msgstr ""
 
 #: calendar/gui/event-editor.c:1262
-msgid "FIXME: Intive _Attendees..."
+msgid "FIXME: Invite _Attendees..."
 msgstr ""
 
 #: calendar/gui/event-editor.c:1263
@@ -2194,7 +2193,7 @@ msgstr "Разрешить краткий сон для "
 msgid "Defaults"
 msgstr "Исх.значения"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:945
+#: composer/e-msg-composer-address-dialog.c:183
 msgid "Cut"
 msgstr "Вырезать"
 
@@ -2202,7 +2201,7 @@ msgstr "Вырезать"
 msgid "Cut selected item into clipboard"
 msgstr "Вырезает выделенный элемент в буфер обмена"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:946
+#: composer/e-msg-composer-address-dialog.c:187
 msgid "Copy"
 msgstr "Скопировать"
 
@@ -2211,7 +2210,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Копирует выделенный элемент в буфер обмена"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:947
+#: composer/e-msg-composer-address-dialog.c:199
 msgid "Paste"
 msgstr "Вставить"
 
@@ -2374,45 +2373,45 @@ msgstr "Тема:"
 msgid "Enter the subject of the mail"
 msgstr "Введите тему письма"
 
-#: composer/e-msg-composer.c:463
+#: composer/e-msg-composer.c:449
 msgid "Save as..."
 msgstr "Сохранить как..."
 
-#: composer/e-msg-composer.c:474
+#: composer/e-msg-composer.c:460
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Ошибка сохранения файла: %s"
 
-#: composer/e-msg-composer.c:494
+#: composer/e-msg-composer.c:480
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Ошибка при загрузке файла: %s"
 
-#: composer/e-msg-composer.c:513
+#: composer/e-msg-composer.c:499
 msgid "Discard this message?"
 msgstr "Отменить это сообщение"
 
-#: composer/e-msg-composer.c:561
+#: composer/e-msg-composer.c:516
 msgid "Open file"
 msgstr "Открыть файл"
 
-#: composer/e-msg-composer.c:676
+#: composer/e-msg-composer.c:629
 msgid "That file does not exist."
 msgstr "Этот файл не существует."
 
-#: composer/e-msg-composer.c:686
+#: composer/e-msg-composer.c:639
 msgid "That is not a regular file."
 msgstr "Это не обычный файл."
 
-#: composer/e-msg-composer.c:696
+#: composer/e-msg-composer.c:649
 msgid "That file exists but is not readable."
 msgstr "Этот файл существует, но не читается."
 
-#: composer/e-msg-composer.c:707
+#: composer/e-msg-composer.c:660
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Файл выглядит доступным, но произошел сбой open(2)."
 
-#: composer/e-msg-composer.c:729
+#: composer/e-msg-composer.c:682
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -2420,75 +2419,109 @@ msgstr ""
 "Файл очень большой (больше 100К).\n"
 "Вы уверены, что хотите вставить его?"
 
-#: composer/e-msg-composer.c:748
+#: composer/e-msg-composer.c:701
 msgid "An error occurred while reading the file."
 msgstr "При чтении файла возникла ошибка."
 
-#: composer/e-msg-composer.c:888
+#: composer/e-msg-composer.c:797 shell/e-shell-view-menu.c:438
+msgid "_File"
+msgstr "Файл"
+
+#: composer/e-msg-composer.c:803
+msgid "_Open..."
+msgstr "Открыть..."
+
+#: composer/e-msg-composer.c:804
+msgid "Load a previously saved message"
+msgstr "Загрузить ранее сохраненное сообщение"
+
+#: composer/e-msg-composer.c:812
+msgid "_Save..."
+msgstr "Cохранить..."
+
+#: composer/e-msg-composer.c:813
+msgid "Save message"
+msgstr "Сохранить сообщение"
+
+#: composer/e-msg-composer.c:821
+msgid "_Save as..."
+msgstr "Сохранить как..."
+
+#: composer/e-msg-composer.c:822
+msgid "Save message with a different name"
+msgstr "Сохранить сообщение c другим названием"
+
+#: composer/e-msg-composer.c:830
 msgid "Save in _folder..."
 msgstr "Сохранить в папке..."
 
-#: composer/e-msg-composer.c:888
+#: composer/e-msg-composer.c:831
 msgid "Save the message in a specified folder"
 msgstr "Сохранить сообщение в указанной папке"
 
-#: composer/e-msg-composer.c:891
-msgid "_Insert Text File"
-msgstr "Вставить текстовый файл"
+#: composer/e-msg-composer.c:840
+msgid "_Insert text file..."
+msgstr "Вставить текстовый файл..."
 
-#: composer/e-msg-composer.c:891
+#: composer/e-msg-composer.c:841
 msgid "Insert a file as text into the message"
 msgstr "Вставить файл в сообщение как текст"
 
-#: composer/e-msg-composer.c:894 composer/e-msg-composer.c:942
-msgid "Send"
+#: composer/e-msg-composer.c:850
+msgid "_Send"
 msgstr "Отправить"
 
-#: composer/e-msg-composer.c:894
+#: composer/e-msg-composer.c:851
 msgid "Send the message"
 msgstr "Отправить сообщение"
 
-#: composer/e-msg-composer.c:906
-msgid "View _attachments"
-msgstr "Просмотреть вложения"
+#: composer/e-msg-composer.c:861
+msgid "_Close..."
+msgstr "Закрыть..."
 
-#: composer/e-msg-composer.c:907
-msgid "View/hide attachments"
+#: composer/e-msg-composer.c:862
+msgid "Quit the message composer"
+msgstr "Выйти из редактора сообщений"
+
+#: composer/e-msg-composer.c:875 shell/e-shell-view-menu.c:480
+msgid "_Edit"
+msgstr "Правка"
+
+#: composer/e-msg-composer.c:886 shell/e-shell-view-menu.c:387
+#: shell/e-shell-view-menu.c:491
+msgid "_View"
+msgstr "Просмотр"
+
+#: composer/e-msg-composer.c:892
+msgid "Show _attachments"
+msgstr "Показать вложения"
+
+#: composer/e-msg-composer.c:893
+msgid "Show/hide attachments"
 msgstr "Показать/скрыть вложения"
 
-#: composer/e-msg-composer.c:942
+#: composer/e-msg-composer.c:904
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:425
+msgid "_Options"
+msgstr "Параметры"
+
+#: composer/e-msg-composer.c:937
+msgid "Send"
+msgstr "Отправить"
+
+#: composer/e-msg-composer.c:938
 msgid "Send this message"
 msgstr "Отправить это сообщение"
 
-#: composer/e-msg-composer.c:945
-msgid "Cut selected region into the clipboard"
-msgstr "Вырезать выделенную область в буфер обмена"
-
-#: composer/e-msg-composer.c:946
-msgid "Copy selected region into the clipboard"
-msgstr "Скопировать выделенную область в буфер обмена"
-
 #: composer/e-msg-composer.c:947
-msgid "Paste selected region into the clipboard"
-msgstr "Вставить выделенную область в буфер обмена"
-
-#: composer/e-msg-composer.c:948
-msgid "Undo"
-msgstr "Откат"
-
-#: composer/e-msg-composer.c:948
-msgid "Undo last operation"
-msgstr "Отменить последнюю операцию"
-
-#: composer/e-msg-composer.c:951
 msgid "Attach"
 msgstr "Присоединить"
 
-#: composer/e-msg-composer.c:951
+#: composer/e-msg-composer.c:948
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
-#: composer/e-msg-composer.c:1127
+#: composer/e-msg-composer.c:1114
 msgid "Compose a message"
 msgstr "Создать сообщение"
 
@@ -2524,7 +2557,7 @@ msgstr ""
 "<h2>Создать правило фильтрации</h2><p>Выберите одно из приведенных ниже "
 "правил, затем продолжите его настройку.</p>"
 
-#: mail/component-factory.c:196
+#: mail/component-factory.c:197
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
 
@@ -2882,31 +2915,31 @@ msgstr ""
 msgid "New..."
 msgstr "Новая..."
 
-#: shell/e-shell-folder-title-bar.c:355
+#: shell/e-shell-folder-title-bar.c:459 shell/e-shell-folder-title-bar.c:460
 msgid "(Untitled)"
 msgstr "(Без заголовка)"
 
 #. you might have to call gnome_dialog_run() on the
 #. * dialog returned here, I don't remember...
 #.
-#: shell/e-shell-view-menu.c:110
+#: shell/e-shell-view-menu.c:113
 msgid "Bug buddy was not found in your $PATH."
 msgstr "Bug-buddy не был найден в вашем $PATH."
 
 #. same as above
-#: shell/e-shell-view-menu.c:116
+#: shell/e-shell-view-menu.c:119
 msgid "Bug buddy could not be run."
 msgstr "Bug-buddy не может быть запущен."
 
-#: shell/e-shell-view-menu.c:159
+#: shell/e-shell-view-menu.c:164
 msgid "Evolution"
 msgstr "Эволюция"
 
-#: shell/e-shell-view-menu.c:161
+#: shell/e-shell-view-menu.c:166
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:163
+#: shell/e-shell-view-menu.c:168
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -2916,127 +2949,131 @@ msgstr ""
 "ведения календарей и контактной информации для\n"
 "групповой работы в среде GNOME."
 
-#: shell/e-shell-view-menu.c:301
+#: shell/e-shell-view-menu.c:324
 msgid "Go to folder..."
 msgstr "Перейти к папке..."
 
-#: shell/e-shell-view-menu.c:365
-msgid "_Folder"
-msgstr "Папка"
-
-#: shell/e-shell-view-menu.c:369
-msgid "Evolution _Bar Shortcut"
-msgstr "Строка ярлыков Evolution"
-
-#: shell/e-shell-view-menu.c:375
-msgid "_Mail message (FIXME)"
-msgstr "Почтовое сообщение (FIXME)"
-
-#: shell/e-shell-view-menu.c:376 shell/e-shell-view-menu.c:379
-msgid "Composes a new mail message"
-msgstr "Создать новое сообщение"
-
-#: shell/e-shell-view-menu.c:378
-msgid "_Appointment (FIXME)"
-msgstr "Встреча (FIXME)"
-
 #: shell/e-shell-view-menu.c:381
-msgid "_Contact (FIXME)"
-msgstr "Контакт (FIXME)"
-
-#: shell/e-shell-view-menu.c:384
-msgid "_Task (FIXME)"
-msgstr "Задание (FIXME)"
-
-#: shell/e-shell-view-menu.c:387
-msgid "Task _Request (FIXME)"
-msgstr "Запрос задания (FIXME)"
-
-#: shell/e-shell-view-menu.c:390
-msgid "_Journal Entry (FIXME)"
-msgstr "Журнальная строка (FIXME)"
-
-#: shell/e-shell-view-menu.c:398
 msgid "_New"
 msgstr "Новое"
 
-#: shell/e-shell-view-menu.c:402
+#: shell/e-shell-view-menu.c:393
+msgid "_Folder"
+msgstr "Папка"
+
+#: shell/e-shell-view-menu.c:399
+msgid "Evolution bar _shortcut"
+msgstr "Строка ярлыков Evolution"
+
+#: shell/e-shell-view-menu.c:408
+msgid "_Mail message (FIXME)"
+msgstr "Почтовое сообщение (FIXME)"
+
+#: shell/e-shell-view-menu.c:414
+msgid "_Appointment (FIXME)"
+msgstr "Встреча (FIXME)"
+
+#: shell/e-shell-view-menu.c:420
+msgid "_Contact (FIXME)"
+msgstr "Контакт (FIXME)"
+
+#: shell/e-shell-view-menu.c:426
+msgid "_Task (FIXME)"
+msgstr "Задание (FIXME)"
+
+#: shell/e-shell-view-menu.c:448
 msgid "_Go to folder..."
 msgstr "Перейти к папке..."
 
-#: shell/e-shell-view-menu.c:402
+#: shell/e-shell-view-menu.c:449
 msgid "Display a different folder"
 msgstr "Показать другую папку"
 
-#: shell/e-shell-view-menu.c:404
+#: shell/e-shell-view-menu.c:456
 msgid "_Create new folder..."
 msgstr "Создать новую папку..."
 
-#: shell/e-shell-view-menu.c:404
+#: shell/e-shell-view-menu.c:457 shell/e-shell-view-menu.c:467
 msgid "Create a new folder"
 msgstr "Создать новую папку"
 
-#: shell/e-shell-view-menu.c:419
+#: shell/e-shell-view-menu.c:466
+msgid "E_xit..."
+msgstr "Выход..."
+
+#: shell/e-shell-view-menu.c:497
 msgid "Show _shortcut bar"
 msgstr "Показать строку закладок"
 
-#: shell/e-shell-view-menu.c:420
+#: shell/e-shell-view-menu.c:498
 msgid "Show the shortcut bar"
 msgstr "Показать строку закладок"
 
-#: shell/e-shell-view-menu.c:422
+#: shell/e-shell-view-menu.c:503
 msgid "Show _folder bar"
 msgstr "Показать строку папок"
 
-#: shell/e-shell-view-menu.c:423
+#: shell/e-shell-view-menu.c:504
 msgid "Show the folder bar"
 msgstr "Показать строку папок"
 
-#: shell/e-shell-view-menu.c:440
-msgid "Help _Index"
-msgstr "Индекс справки"
-
-#: shell/e-shell-view-menu.c:443
-msgid "Getting _Started"
-msgstr "Введение"
-
-#: shell/e-shell-view-menu.c:446
-msgid "Using the _Mailer"
-msgstr "Использование почты"
-
-#: shell/e-shell-view-menu.c:449
-msgid "Using the _Calendar"
-msgstr "Использование календаря"
-
-#: shell/e-shell-view-menu.c:452
-msgid "Using the Cont_act Manager"
-msgstr "Использование диспетчера контактов"
-
-#: shell/e-shell-view-menu.c:457
-msgid "_Submit bug report"
-msgstr "Отправить сообщение об ошибке"
-
-#: shell/e-shell-view-menu.c:458
-msgid "Submit bug-report via bug-buddy"
-msgstr "Оправить сообщение об ошибке через bug-buddy"
-
-#: shell/e-shell-view-menu.c:474
+#: shell/e-shell-view-menu.c:526
 msgid "_Actions"
 msgstr "Действия"
 
-#: shell/e-shell-view.c:113
+#: shell/e-shell-view-menu.c:537
+msgid "_Help"
+msgstr "Справка"
+
+#: shell/e-shell-view-menu.c:543
+msgid "Help _index"
+msgstr "Индекс справки"
+
+#: shell/e-shell-view-menu.c:550
+msgid "Getting _started"
+msgstr "Введение"
+
+#: shell/e-shell-view-menu.c:557
+msgid "Using the _mailer"
+msgstr "Использование почтовой программы"
+
+#: shell/e-shell-view-menu.c:564
+msgid "Using the _calendar"
+msgstr "Использование календаря"
+
+#: shell/e-shell-view-menu.c:571
+msgid "Using the c_ontact manager"
+msgstr "Использование диспетчера контактов"
+
+#: shell/e-shell-view-menu.c:581
+msgid "_Submit bug report"
+msgstr "Отправить сообщение об ошибке"
+
+#: shell/e-shell-view-menu.c:582
+msgid "Submit bug report using Bug Buddy"
+msgstr "Оправить сообщение об ошибке через bug-buddy"
+
+#: shell/e-shell-view-menu.c:591
+msgid "_About Evolution..."
+msgstr "О программе Evolution..."
+
+#: shell/e-shell-view-menu.c:592
+msgid "Show information about Evolution"
+msgstr "Показать информацию о программе Evolution"
+
+#: shell/e-shell-view.c:114
 msgid "(No folder displayed)"
 msgstr "(Папки не показаны)"
 
-#: shell/e-shell-view.c:208
+#: shell/e-shell-view.c:339
 msgid "Folders"
 msgstr "Папки"
 
-#: shell/e-shell-view.c:596
+#: shell/e-shell-view.c:731
 msgid "None"
 msgstr "Нет"
 
-#: shell/e-shell-view.c:600
+#: shell/e-shell-view.c:735
 #, c-format
 msgid "Evolution - %s"
 msgstr "Эволюция - %s"
@@ -3130,7 +3167,7 @@ msgstr "Указанный тип не поддерживается для этого носителя"
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
-#: shell/main.c:99
+#: shell/main.c:100
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -3172,7 +3209,7 @@ msgstr ""
 "Мы надеемся, что вам понравятся результаты нашей упорной работы и мы\n"
 "рассчитываем на ваше участие!\n"
 
-#: shell/main.c:126
+#: shell/main.c:127
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -3180,15 +3217,15 @@ msgstr ""
 "С благодарностью\n"
 "Команда Evolution\n"
 
-#: shell/main.c:172
+#: shell/main.c:158
 msgid "Cannot initialize the Evolution shell."
 msgstr "Невозможно инициализировать оболочку \"Эволюции\"."
 
-#: shell/main.c:214
+#: shell/main.c:195
 msgid "Cannot initialize the configuration system."
 msgstr "Невозможно инициализировать конфигурационную систему."
 
-#: shell/main.c:220
+#: shell/main.c:201
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Не удалось инициализировать компонентную систему Bonobo."
 
@@ -3282,10 +3319,6 @@ msgstr "Нет информации"
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:405
 msgid "_Invite Others..."
 msgstr "Пригласить других..."
-
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:425
-msgid "_Options"
-msgstr "Параметры"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:442
 msgid "Show _Only Working Hours"
