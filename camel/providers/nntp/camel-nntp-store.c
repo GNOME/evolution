@@ -359,7 +359,6 @@ build_folder_info (CamelNNTPStore *nntp_store, CamelFolderInfo **root,
 			node->name = g_strdup (node_name);
 			node->full_name = g_strdup (node_full_name);
 			node->url = NULL;
-			node->message_count = -1;
 			node->unread_message_count = -1;
 
 			if (parent) {
@@ -399,8 +398,7 @@ build_folder_info (CamelNNTPStore *nntp_store, CamelFolderInfo **root,
 						  url->user ? "@" : "",
 						  url->host, (char *)entry->group_name);
 
-		new_group->message_count = entry->high - entry->low;
-		new_group->unread_message_count = (new_group->message_count - 
+		new_group->unread_message_count = (entry->high - entry->low - 
 						   camel_nntp_newsrc_get_num_articles_read (nntp_store->newsrc, entry->group_name));
 
 		if (parent) {
@@ -454,8 +452,7 @@ build_folder_info_from_grouplist (CamelNNTPStore *nntp_store, const char *top)
 						   url->user ? "@" : "",
 						   url->host, (char *)entry->group_name);
 
-			fi->message_count = entry->high - entry->low;
-			fi->unread_message_count = (fi->message_count - 
+			fi->unread_message_count = (entry->high - entry->low - 
 						    camel_nntp_newsrc_get_num_articles_read (
 							     nntp_store->newsrc, entry->group_name));
 
@@ -520,7 +517,7 @@ nntp_store_get_folder_info (CamelStore *store, const char *top,
 						   url->user ? "@" : "",
 						   url->host, (char *)names->pdata[i]);
 			/* FIXME */
-			fi->message_count = fi->unread_message_count = -1;
+			fi->unread_message_count = -1;
 
 			if (last)
 				last->sibling = fi;
@@ -540,7 +537,7 @@ nntp_store_get_folder_info (CamelStore *store, const char *top,
 		fi->full_name = g_strdup (top);
 		fi->url = g_strdup_printf ("nntp://%s/%s", url->host, top);
 		/* FIXME */
-		fi->message_count = fi->unread_message_count = -1;
+		fi->unread_message_count = -1;
 
 		return fi;
 	}

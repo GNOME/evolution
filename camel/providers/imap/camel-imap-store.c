@@ -118,9 +118,13 @@ camel_imap_store_finalize (CamelObject *object)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (object);
 
-	g_hash_table_foreach_remove (imap_store->subscribed_folders,
-				     free_sub, NULL);
-	g_hash_table_destroy (imap_store->subscribed_folders);
+	if (imap_store->subscribed_folders) {
+		g_hash_table_foreach_remove (imap_store->subscribed_folders,
+					     free_sub, NULL);
+		g_hash_table_destroy (imap_store->subscribed_folders);
+	}
+	if (imap_store->namespace)
+		g_free (imap_store->namespace);
 #ifdef ENABLE_THREADS
 	e_mutex_destroy(imap_store->priv->command_lock);
 #endif
@@ -142,7 +146,7 @@ camel_imap_store_init (gpointer object, gpointer klass)
 	store->flags = CAMEL_STORE_SUBSCRIPTIONS;
 	
 	imap_store->connected = FALSE;
-	imap_store->subscribed_folders = g_hash_table_new (g_str_hash, g_str_equal);
+	imap_store->subscribed_folders = NULL;
 
 	imap_store->priv = g_malloc0(sizeof(*imap_store->priv));
 #ifdef ENABLE_THREADS
@@ -284,10 +288,10 @@ imap_connect (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	CamelSession *session = camel_service_get_session (CAMEL_SERVICE (store));
-	gchar *result, *errbuf = NULL, *namespace;
+	char *result, *errbuf = NULL, *name;
 	CamelImapResponse *response;
 	gboolean authenticated = FALSE;
-	int len;
+	int len, i, flags;
 
 	if (connect_to_server (service, ex) == 0)
 		return FALSE;
@@ -366,50 +370,92 @@ imap_connect (CamelService *service, CamelException *ex)
 		}
 	}
 
-	/* Find our storage path. */
-	if (!store->storage_path) {
-		store->storage_path =
-			camel_session_get_storage_path (session, service, ex);
-		if (camel_exception_is_set (ex)) 
-			return FALSE;
-	}
-
-	/* Find the hierarchy separator for our namespace. */
-	namespace = service->url->path;
-	if (namespace)
-		namespace++;
-	else
-		namespace = "";
-
-	CAMEL_IMAP_STORE_LOCK(store, command_lock);
-	if (store->server_level >= IMAP_LEVEL_IMAP4REV1) {
-		/* This idiom means "tell me the hierarchy separator
-		 * for the given path, even if that path doesn't exist.
-		 */
-		response = camel_imap_command (store, NULL, ex,
-					       "LIST %S \"\"",
-					       namespace);
-	} else {
-		/* Plain IMAP4 doesn't have that idiom, so we fall back
-		 * to "tell me about this folder", which will fail if
-		 * the folder doesn't exist (eg, if namespace is "").
-		 */
-		response = camel_imap_command (store, NULL, ex,
-					       "LIST \"\" %S",
-					       namespace);
-	}
-	CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
-
-        if (!response)
+	/* Get subscribed folders */
+	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	response = camel_imap_command (store, NULL, ex, "LSUB \"\" \"*\"");
+	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	if (!response)
 		return FALSE;
+	store->subscribed_folders = g_hash_table_new (g_str_hash, g_str_equal);
+	for (i = 0; i < response->untagged->len; i++) {
+		result = response->untagged->pdata[i];
+		if (!imap_parse_list_response (result, &flags, NULL, &name))
+			continue;
+		if (flags & (IMAP_LIST_FLAG_MARKED | IMAP_LIST_FLAG_UNMARKED))
+			store->useful_lsub = TRUE;
+		if (flags & IMAP_LIST_FLAG_NOSELECT) {
+			g_free (name);
+			continue;
+		}
+		g_hash_table_insert (store->subscribed_folders, name,
+				     GINT_TO_POINTER (flags));
+	}
+	camel_imap_response_free (response);
 
-	result = camel_imap_response_extract (response, "LIST", NULL);
-	if (result) {
-		imap_parse_list_response (result, NULL, &store->dir_sep, NULL);
+	/* Get namespace and hierarchy separator */
+	if (service->url->path && strlen (service->url->path) > 1)
+		store->namespace = g_strdup (service->url->path + 1);
+	else if (store->capabilities & IMAP_CAPABILITY_NAMESPACE) {
+		CAMEL_IMAP_STORE_LOCK (store, command_lock);
+		response = camel_imap_command (store, NULL, ex, "NAMESPACE");
+		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		if (!response)
+			return FALSE;
+
+		result = camel_imap_response_extract (response, "NAMESPACE", ex);
+		if (!result)
+			return FALSE;
+
+		name = e_strstrcase (result, "NAMESPACE ((");
+		if (name) {
+			char *sep;
+
+			name += 12;
+			store->namespace = imap_parse_string (&name, &len);
+			if (name && *name++ == ' ') {
+				sep = imap_parse_string (&name, &len);
+				if (sep) {
+					store->dir_sep = *sep;
+					g_free (sep);
+				}
+			}
+		}
 		g_free (result);
 	}
-	if (!store->dir_sep)
-		store->dir_sep = '/';	/* Guess */
+	if (!store->namespace)
+		store->namespace = g_strdup ("");
+
+	if (!store->dir_sep) {
+		CAMEL_IMAP_STORE_LOCK(store, command_lock);
+		if (store->server_level >= IMAP_LEVEL_IMAP4REV1) {
+			/* This idiom means "tell me the hierarchy separator
+			 * for the given path, even if that path doesn't exist.
+			 */
+			response = camel_imap_command (store, NULL, ex,
+						       "LIST %S \"\"",
+						       store->namespace);
+		} else {
+			/* Plain IMAP4 doesn't have that idiom, so we fall back
+			 * to "tell me about this folder", which will fail if
+			 * the folder doesn't exist (eg, if namespace is "").
+			 */
+			response = camel_imap_command (store, NULL, ex,
+						       "LIST \"\" %S",
+						       store->namespace);
+		}
+		CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
+
+		if (!response)
+			return FALSE;
+
+		result = camel_imap_response_extract (response, "LIST", NULL);
+		if (result) {
+			imap_parse_list_response (result, NULL, &store->dir_sep, NULL);
+			g_free (result);
+		}
+		if (!store->dir_sep)
+			store->dir_sep = '/';	/* Guess */
+	}
 
 	/* Generate base URL */
 	store->base_url = camel_url_to_string (service->url, FALSE);
@@ -420,6 +466,14 @@ imap_connect (CamelService *service, CamelException *ex)
 		store->base_url = g_realloc (store->base_url, len + 2);
 		store->base_url[len] = '/';
 		store->base_url[len + 1] = '\0';
+	}
+
+	/* Find our storage path. */
+	if (!store->storage_path) {
+		store->storage_path =
+			camel_session_get_storage_path (session, service, ex);
+		if (camel_exception_is_set (ex)) 
+			return FALSE;
 	}
 
 	camel_remote_store_refresh_folders (CAMEL_REMOTE_STORE (store), ex);
@@ -442,9 +496,21 @@ imap_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
 		camel_imap_response_free (response);
 	}
-	
+	store->connected = FALSE;
 	store->current_folder = NULL;
-	
+
+	if (store->subscribed_folders) {
+		g_hash_table_foreach_remove (store->subscribed_folders,
+					     free_sub, NULL);
+		g_hash_table_destroy (store->subscribed_folders);
+		store->subscribed_folders = NULL;
+	}
+
+	if (store->namespace) {
+		g_free (store->namespace);
+		store->namespace = NULL;
+	}
+
 	return CAMEL_SERVICE_CLASS (remote_store_class)->disconnect (service, clean, ex);
 }
 
@@ -512,6 +578,9 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags,
 	CamelFolder *new_folder = NULL;
 	char *short_name, *summary_file, *p;
 	gboolean selectable;
+
+	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
+		return NULL;
 
 	/* lock around the whole lot to check/create atomically */
 	CAMEL_IMAP_STORE_LOCK(imap_store, command_lock);
@@ -603,8 +672,88 @@ parse_list_response_as_folder_info (CamelImapStore *imap_store,
 		fi->name = g_strdup (dir);
 	if (!(flags & IMAP_LIST_FLAG_NOSELECT))
 		fi->url = g_strdup_printf ("%s%s", imap_store->base_url, dir);
+	if (!(flags & IMAP_LIST_FLAG_UNMARKED))
+		fi->unread_message_count = -1;
 
 	return fi;
+}
+
+static void
+copy_folder_name (gpointer name, gpointer key, gpointer array)
+{
+	g_ptr_array_add (array, name);
+}
+
+static void
+get_subscribed_folders_by_hand (CamelImapStore *imap_store, const char *top,
+				GPtrArray *folders, CamelException *ex)
+{
+	GPtrArray *names;
+	CamelImapResponse *response;
+	CamelFolderInfo *fi;
+	char *result;
+	int i, toplen = strlen (top);
+
+	names = g_ptr_array_new ();
+	g_hash_table_foreach (imap_store->subscribed_folders,
+			      copy_folder_name, names);
+
+	for (i = 0; i < names->len; i++) {
+		CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+		response = camel_imap_command (imap_store, NULL, ex,
+					       "LIST \"\" %S",
+					       names->pdata[i]);
+		CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+
+		if (!response) {
+			g_ptr_array_free (names, TRUE);
+			return;
+		}
+		result = camel_imap_response_extract (response, "LIST", ex);
+		if (!result) {
+			g_ptr_array_free (names, TRUE);
+			return;
+		}
+
+		fi = parse_list_response_as_folder_info (imap_store, result);
+		if (!fi)
+			continue;
+
+		if (strncmp (top, fi->full_name, toplen) != 0) {
+			camel_folder_info_free (fi);
+			continue;
+		}
+
+		g_ptr_array_add (folders, fi);
+	}
+	g_ptr_array_free (names, TRUE);
+}
+
+static void
+get_folders (CamelImapStore *imap_store, const char *pattern,
+	     GPtrArray *folders, gboolean lsub, CamelException *ex)
+{
+	CamelImapResponse *response;
+	CamelFolderInfo *fi;
+	char *list;
+	int i;
+
+	CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+	response = camel_imap_command (imap_store, NULL, ex,
+				       "%s \"\" %S", lsub ? "LSUB" : "LIST",
+				       pattern);
+	CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
+	if (!response)
+		return;
+
+	for (i = 0; i < response->untagged->len; i++) {
+		list = response->untagged->pdata[i];
+		fi = parse_list_response_as_folder_info (imap_store, list);
+		if (!fi)
+			continue;
+		g_ptr_array_add (folders, fi);
+	}
+	camel_imap_response_free (response);
 }
 
 static CamelFolderInfo *
@@ -613,119 +762,93 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 		 CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
-	CamelURL *url = CAMEL_SERVICE (store)->url;
 	gboolean need_inbox = FALSE;
-	int i;
 	CamelImapResponse *response;
 	GPtrArray *folders;
-	const char *name;
-	char *pattern, *list;
-	char *status;
-	const char *p;
-	CamelFolderInfo *topfi, *fi;
+	const char *name, *p;
+	char *pattern, *status;
+	CamelFolderInfo *fi;
+	int i;
+
+	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
+		return NULL;
 
 	name = top;
 	if (!name) {
 		need_inbox = TRUE;
-		if (url->path)
-			name = url->path + 1;
-		else
-			name = "";
-	}
-	CAMEL_IMAP_STORE_LOCK(imap_store, command_lock);
-	response = camel_imap_command (imap_store, NULL, ex,
-				       "LIST \"\" %S", name);
-	CAMEL_IMAP_STORE_UNLOCK(imap_store, command_lock);
-	if (!response)
-		return FALSE;
-	list = camel_imap_response_extract (response, "LIST", ex);
-	if (!list)
-		return FALSE;
-	topfi = parse_list_response_as_folder_info (imap_store, list);
-	g_free (list);
-	if (!topfi) {
-		topfi = g_new0 (CamelFolderInfo, 1);
-		topfi->full_name = g_strdup (name);
-		topfi->name = g_strdup (name);
+		name = imap_store->namespace;
 	}
 
- 	if (*name)
-		pattern = g_strdup_printf ("%s%c%c", name, imap_store->dir_sep,
-					   recursive ? '*' : '%');
-	else
-		pattern = g_strdup_printf ("%s%c", name,
-					   recursive ? '*' : '%');
-	CAMEL_IMAP_STORE_LOCK(imap_store, command_lock);
-	response = camel_imap_command (imap_store, NULL, ex,
-				       "%s \"\" %S",
-				       subscribed_only ? "LSUB" : "LIST",
-				       pattern);
-	CAMEL_IMAP_STORE_UNLOCK(imap_store, command_lock);
-
-	g_free (pattern);
-	if (!response)
-		return NULL;
-
-	if (subscribed_only) {
-		g_hash_table_foreach_remove (imap_store->subscribed_folders,
-					     free_sub, NULL);
-	}
-
-	/* Turn responses into CamelFolderInfo and remove any
-	 * extraneous responses.
-	 */
 	folders = g_ptr_array_new ();
-	for (i = 0; i < response->untagged->len; i++) {
-		list = response->untagged->pdata[i];
-		fi = parse_list_response_as_folder_info (imap_store, list);
-		if (!fi)
-			continue;
-		g_ptr_array_add (folders, fi);
 
-		if (subscribed_only) {
-			g_hash_table_insert (imap_store->subscribed_folders,
-					     g_strdup (fi->full_name),
-					     GUINT_TO_POINTER (1));
-		}
-
-		if (!g_strcasecmp (fi->full_name, "INBOX"))
-			need_inbox = FALSE;
+	get_folders (imap_store, name, folders, FALSE, ex);
+	if (camel_exception_is_set (ex))
+		return NULL;
+	if (folders->len) {
+		fi = folders->pdata[0];
+		if (!fi->url)
+			g_ptr_array_remove_index (folders, 0);
 	}
-	camel_imap_response_free (response);
+
+	if (subscribed_only && !imap_store->useful_lsub)
+		get_subscribed_folders_by_hand (imap_store, name, folders, ex);
+	else {
+		if (*name && name[strlen (name) - 1] != imap_store->dir_sep) {
+			pattern = g_strdup_printf ("%s%c%c", name,
+						   imap_store->dir_sep,
+						   recursive ? '*' : '%');
+		} else {
+			pattern = g_strdup_printf ("%s%c", name,
+						   recursive ? '*' : '%');
+		}
+		get_folders (imap_store, pattern, folders, subscribed_only, ex);
+		g_free (pattern);
+	}
+	if (camel_exception_is_set (ex)) {
+		for (i = 0; i < folders->len; i++)
+			camel_folder_info_free (folders->pdata[i]);
+		g_ptr_array_free (folders, TRUE);
+		return NULL;
+	}
 
 	/* Add INBOX, if necessary */
+	if (need_inbox) {
+		for (i = 0; i < folders->len; i++) {
+			fi = folders->pdata[i];
+			if (!g_strcasecmp (fi->full_name, "INBOX")) {
+				need_inbox = FALSE;
+				break;
+			}
+		}
+	}
 	if (need_inbox) {
 		fi = g_new0 (CamelFolderInfo, 1);
 		fi->full_name = g_strdup ("INBOX");
 		fi->name = g_strdup ("INBOX");
 		fi->url = g_strdup_printf ("%sINBOX", imap_store->base_url);
+		fi->unread_message_count = -1;
 
 		g_ptr_array_add (folders, fi);
 	}
 
 	if (!fast) {
-		/* Get read/unread counts */
+		/* Get unread counts */
 		for (i = 0; i < folders->len; i++) {
 			fi = folders->pdata[i];
-			if (!fi->url)
+			if (!fi->url || fi->unread_message_count != -1)
 				continue;
 
-			CAMEL_IMAP_STORE_LOCK(imap_store, command_lock);
-			response = camel_imap_command (
-				imap_store, NULL, NULL,
-				"STATUS %S (MESSAGES UNSEEN)",
-				fi->full_name);
-			CAMEL_IMAP_STORE_UNLOCK(imap_store, command_lock);
+			CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+			response = camel_imap_command (imap_store, NULL, NULL,
+						       "STATUS %S (UNSEEN)",
+						       fi->full_name);
+			CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
 			if (!response)
 				continue;
-			status = camel_imap_response_extract (
-				response, "STATUS", NULL);
+			status = camel_imap_response_extract (response, "STATUS", NULL);
 			if (!status)
 				continue;
 
-			p = e_strstrcase (status, "MESSAGES");
-			if (p)
-				fi->message_count = strtoul (p + 8, NULL, 10);
 			p = e_strstrcase (status, "UNSEEN");
 			if (p)
 				fi->unread_message_count = strtoul (p + 6, NULL, 10);
@@ -733,36 +856,18 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 		}
 	}
 
-	/* And assemble */
-	camel_folder_info_build (folders, topfi, imap_store->dir_sep, TRUE);
+	/* And assemble. */
+	fi = camel_folder_info_build (folders, name, imap_store->dir_sep, TRUE);
 	g_ptr_array_free (folders, TRUE);
-
-	/* If this is the root of the store, prune off any namespace. */
-	if (!top && !topfi->sibling) {
-		int toplen = strlen (name), len;
-
-		while (!topfi->sibling) {
-			len = strlen (topfi->full_name);
-			if (len > toplen ||
-			    strncmp (topfi->full_name, name, len) != 0)
-				break;
-
-			fi = topfi;
-			topfi = topfi->child;
-			fi->child = NULL;
-			camel_folder_info_free (fi);
-			for (fi = topfi; fi; fi = fi->sibling)
-				fi->parent = NULL;
-		}
-	}
-
-	return topfi;
+	return fi;
 }
 
 static gboolean
 folder_subscribed (CamelStore *store, const char *folder_name)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
+
+	g_return_val_if_fail (imap_store->subscribed_folders != NULL, FALSE);
 
 	return g_hash_table_lookup (imap_store->subscribed_folders,
 				    folder_name) != NULL;
@@ -774,6 +879,9 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelImapResponse *response;
+
+	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
+		return;
 
 	CAMEL_IMAP_STORE_LOCK(imap_store, command_lock);
 	response = camel_imap_command (imap_store, NULL, ex,
@@ -794,6 +902,9 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 	CamelImapResponse *response;
 	gpointer key, value;
 	
+	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
+		return;
+
 	CAMEL_IMAP_STORE_LOCK(imap_store, command_lock);
 	response = camel_imap_command (imap_store, NULL, ex,
 				       "UNSUBSCRIBE %S", folder_name);

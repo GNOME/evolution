@@ -558,48 +558,54 @@ camel_folder_info_free (CamelFolderInfo *fi)
 /**
  * camel_folder_info_build:
  * @folders: an array of CamelFolderInfo
- * @top: the top of the folder tree
+ * @namespace: an ignorable prefix on the folder names
  * @separator: the hieararchy separator character
  * @short_names: %TRUE if the (short) name of a folder is the part after
  * the last @separator in the full name. %FALSE if it is the full name.
  *
- * This takes an array of folders and attaches them together. @top points
- * to the (or at least, "a") top-level element of the tree: it may or may
- * not also be an element of @folders. If necessary, camel_folder_info_build
- * will create additional CamelFolderInfo with %NULL urls to fill in gaps
- * in the tree. The value of @short_names is used in constructing the
- * names of these intermediate folders.
+ * This takes an array of folders and attaches them together according
+ * to the hierarchy described by their full_names and @separator. If
+ * @namespace is non-%NULL, then it will be ignored as a full_name
+ * prefix, for purposes of comparison. If necessary,
+ * camel_folder_info_build will create additional CamelFolderInfo with
+ * %NULL urls to fill in gaps in the tree. The value of @short_names
+ * is used in constructing the names of these intermediate folders.
+ *
+ * Return value: the top level of the tree of linked folder info.
  **/
-void
-camel_folder_info_build (GPtrArray *folders, CamelFolderInfo *top,
+CamelFolderInfo *
+camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			 char separator, gboolean short_names)
 {
-	CamelFolderInfo *fi, *pfi;
+	CamelFolderInfo *fi, *pfi, *top = NULL;
 	GHashTable *hash;
-	char *p, *pname;
-	int i;
+	char *name, *p, *pname;
+	int i, nlen;
+
+	if (!namespace)
+		namespace = "";
+	nlen = strlen (namespace);
 
 	/* Hash the folders. */
 	hash = g_hash_table_new (g_str_hash, g_str_equal);
-	pfi = top;
 	for (i = 0; i < folders->len; i++) {
 		fi = folders->pdata[i];
-		if (fi == top)
-			pfi = NULL;
-		g_hash_table_insert (hash, fi->full_name, fi);
+		if (!strncmp (namespace, fi->full_name, nlen))
+			g_hash_table_insert (hash, fi->full_name + nlen, fi);
+		else
+			g_hash_table_insert (hash, fi->full_name, fi);
 	}
-	if (pfi)
-		g_hash_table_insert (hash, pfi->full_name, pfi);
 
 	/* Now find parents. */
 	for (i = 0; i < folders->len; i++) {
 		fi = folders->pdata[i];
-		if (fi == top)
-			continue;
-
-		p = strrchr (fi->full_name, separator);
+		if (!strncmp (namespace, fi->full_name, nlen))
+			name = fi->full_name + nlen;
+		else
+			name = fi->full_name;
+		p = strrchr (name, separator);
 		if (p) {
-			pname = g_strndup (fi->full_name, p - fi->full_name);
+			pname = g_strndup (name, p - name);
 			pfi = g_hash_table_lookup (hash, pname);
 			if (pfi) {
 				g_free (pname);
@@ -620,12 +626,22 @@ camel_folder_info_build (GPtrArray *folders, CamelFolderInfo *top,
 			fi->sibling = pfi->child;
 			fi->parent = pfi;
 			pfi->child = fi;
-		} else {
-			fi->sibling = top->child;
-			fi->parent = top;
-			top->child = fi;
-		}
+		} else if (!top)
+			top = fi;
 	}
+	g_hash_table_destroy (hash);
+
+	/* Link together the top-level folders */
+	for (i = 0; i < folders->len; i++) {
+		fi = folders->pdata[i];
+		if (fi->parent || fi == top)
+			continue;
+		if (top)
+			fi->sibling = top;
+		top = fi;
+	}
+
+	return top;			
 }
 
 gboolean

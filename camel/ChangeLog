@@ -1,5 +1,54 @@
 2001-01-09  Dan Winship  <danw@helixcode.com>
 
+	Mostly IMAP changes. Use the NAMESPACE extension (where
+	available). Deal with servers that don't return LIST flags in
+	response to LSUB (like UW) to get rid of the "not a selectable
+	folder" error messages in the UI. Take advantage of the \Marked
+	and \Unmarked flags to try to speed up the folder scan by not
+	doing STATUS on unmarked folders. Some further tweaks on the shape
+	of the resulting folder tree in various situations...
+
+	* camel-store.h: Remove the (read) message_count, since nothing
+	uses it, and we can speed up IMAP a bit this way.
+
+	* camel-store.c (camel_folder_info_build): Redo this a bit to make
+	it more useful for IMAP since that's the only thing that uses it.
+
+	* camel-remote-store.c (camel_remote_store_connected): Public
+	function to check if the store is connected, and try to connect it
+	if it's not.
+	(remote_send_string, remote_send_stream, remote_recv_line): Use
+	that.
+
+	* providers/imap/camel-imap-store.c (camel_imap_store_finalize):
+	fix up for changes.
+	(camel_imap_store_init): Initialize subscribed_folders to NULL
+	rather than an empty hash table.
+	(imap_connect): Get the list of subscribed folders here. If the
+	server doesn't claim that any of them are either Marked or
+	Unmarked, then assume that it doesn't do that for LSUB and
+	remember that for later. If the server supports the NAMESPACE
+	extension and the user didn't specify a namespace, use the
+	server-provided one.
+	(imap_disconnect): Free the list of subscribed folders, and the
+	namespace.
+	(get_folder): check camel_remote_store_connected
+	(get_folder_info): check camel_remote_store_connected. Add a bunch
+	of new cleverness. If we learned that the server doesn't do LSUB
+	usefully, do a bunch of LISTs by hand. Then, if we're getting
+	unread counts, only do it for folders that weren't listed as
+	Unmarked. Also, deal with namespaces that end with the separator
+	character, and update for changes to camel_folder_info_build.
+	(folder_subscribed): Add a g_return_val_if_fail.
+	(subscribe_folder, unsubscribe_folder): check
+	camel_remote_store_connected.
+
+	* providers/nntp/camel-nntp-store.c (build_folder_info,
+	build_folder_info_from_grouplist, nntp_store_get_folder_info):
+	Don't fill in message_count since it doesn't exist any more.
+
+2001-01-09  Dan Winship  <danw@helixcode.com>
+
 	Kill off a long-hated Camel kludge: "empty" URLs and
 	query_auth_types_generic.
 

@@ -75,6 +75,7 @@ gint camel_remote_store_recv_line (CamelRemoteStore *store, char **dest,
 				   CamelException *ex);
 void camel_remote_store_refresh_folders (CamelRemoteStore *store, 
 					 CamelException *ex);
+gboolean camel_remote_store_connected (CamelRemoteStore *store, CamelException *ex);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

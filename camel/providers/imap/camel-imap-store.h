@@ -65,11 +65,12 @@ typedef struct {
 	CamelImapServerLevel server_level;
 	guint32 capabilities;
 	
-	gchar dir_sep, *storage_path, *base_url;
+	char *namespace, dir_sep, *storage_path, *base_url;
 	
 	gboolean connected;
 
 	GHashTable *subscribed_folders;
+	gboolean useful_lsub;
 } CamelImapStore;
 
 

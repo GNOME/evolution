@@ -304,13 +304,8 @@ remote_send_string (CamelRemoteStore *store, CamelException *ex, char *fmt, va_l
 	
 	/* Check for connectedness. Failed (or cancelled) operations will
 	 * close the connection. */
-	
-	if (store->ostream == NULL) {
-		d(g_message ("remote: (send) disconnected, reconnecting."));
-		
-		if (!camel_service_connect (CAMEL_SERVICE (store), ex))
-			return -1;
-	}
+	if (!camel_remote_store_connected (store, ex))
+		return -1;
 	
 	/* create the command */
 	cmdbuf = g_strdup_vprintf (fmt, ap);
@@ -380,12 +375,8 @@ remote_send_stream (CamelRemoteStore *store, CamelStream *stream, CamelException
 	/* Check for connectedness. Failed (or cancelled) operations will
 	 * close the connection. */
 
-	if (store->ostream == NULL) {
-		d(g_message ("remote: (sendstream) disconnected, reconnecting."));
-		
-		if (!camel_service_connect (CAMEL_SERVICE (store), ex))
-			return -1;
-	}
+	if (!camel_remote_store_connected (store, ex))
+		return -1;
 	
 	d(fprintf (stderr, "(sending stream)\n"));
 	
@@ -442,18 +433,12 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 	 * meaning if we reconnect, so always set an exception.
 	 */
 	
-	if (store->istream == NULL) {
-		g_message ("remote: (recv) disconnected, reconnecting.");
-		
-		camel_service_connect (CAMEL_SERVICE (store), ex);
-		
-		if (!camel_exception_is_set (ex))
-			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED,
-					     g_strerror (errno));
-		
+	if (!camel_remote_store_connected (store, ex)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED,
+				     g_strerror (errno));
 		return -1;
 	}
-	
+
 	bytes = g_byte_array_new ();
 	
 	do {
@@ -547,3 +532,22 @@ camel_remote_store_refresh_folders (CamelRemoteStore *store, CamelException *ex)
 
 	CAMEL_STORE_UNLOCK(store, cache_lock);
 }	
+
+/**
+ * camel_remote_store_connected:
+ * @store: a CamelRemoteStore
+ * @ex: a CamelException
+ *
+ * Ensure that the remote store is connected.
+ *
+ * Return value: Whether or not it is connected
+ **/
+gboolean
+camel_remote_store_connected (CamelRemoteStore *store, CamelException *ex)
+{
+	if (store->istream == NULL) {
+		camel_service_connect (CAMEL_SERVICE (store), ex);
+		return !camel_exception_is_set (ex);
+	}
+	return TRUE;
+}

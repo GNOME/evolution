@@ -41,7 +41,7 @@ extern "C" {
 typedef struct _CamelFolderInfo {
 	struct _CamelFolderInfo *parent, *sibling, *child;
 	char *url, *full_name, *name;
-	int message_count, unread_message_count;
+	int unread_message_count;
 } CamelFolderInfo;
 
 
@@ -158,8 +158,8 @@ void             camel_store_free_folder_info_nop  (CamelStore *store,
 						    CamelFolderInfo *fi);
 
 void             camel_folder_info_free            (CamelFolderInfo *fi);
-void             camel_folder_info_build           (GPtrArray *folders,
-						    CamelFolderInfo *top,
+CamelFolderInfo *camel_folder_info_build           (GPtrArray *folders,
+						    const char *namespace,
 						    char separator,
 						    gboolean short_names);
 
