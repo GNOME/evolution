@@ -1,3 +1,30 @@
+2000-12-05  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-seekable-substream.c (stream_flush): stream_flush does
+	make sense for a substream afterall (if you have a stream_write).
+	(stream_write): Implement this.
+	(stream_seek): Change the STREAM_END behaviour to be more sane.
+	if bounded go from the end of the bound, if unbounded, go from the
+	end of the parent stream.
+
+	* camel-stream-mem.c (stream_read): Dont return error if reading
+	past the end of data, just return 0.
+
+	* camel-stream-fs.c (camel_stream_fs_init): Initialise the stream
+	to be unbound.
+	(stream_seek): Fix the logic when seeking from the end of an
+	unbounded stream.
+	(camel_stream_fs_new_with_fd): If the fd is invalid (-1), then
+	return NULL immediately.
+	(stream_seek): Range check a SEEK_END so it fits within
+	bound_start.
+
+2000-12-01  Not Zed  <NotZed@HelixCode.com>
+
+	* tests/lib/folders.c (test_folder_basic): New test to perform
+	basic store operations on folders (taken from folders/test1).
+	(test_folder_message_ops): Tkane the guts out of folders/test2.
+
 2000-12-04  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_connect): i18n-ize

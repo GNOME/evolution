@@ -7,7 +7,9 @@ libcameltest_a_SOURCES = \
 	camel-test.c camel-test.h \
 	messages.c messages.h \
 	addresses.c addresses.h \
-	folders.c folders.h
+	folders.c folders.h \
+	streams.c streams.h
+
 
 
 

@@ -132,14 +132,12 @@ camel_seekable_substream_new_with_seekable_stream_and_bounds (CamelSeekableStrea
 static gboolean
 parent_reset (CamelSeekableSubstream *seekable_substream, CamelSeekableStream *parent)
 {
-	CamelSeekableStream *seekable_stream =
-		CAMEL_SEEKABLE_STREAM (seekable_substream);
+	CamelSeekableStream *seekable_stream = CAMEL_SEEKABLE_STREAM (seekable_substream);
 
 	if (camel_seekable_stream_tell (parent) == seekable_stream->position)
 		return TRUE;
 
-	return camel_seekable_stream_seek (parent, seekable_stream->position, CAMEL_STREAM_SET)
-		== seekable_stream->position;
+	return camel_seekable_stream_seek (parent, seekable_stream->position, CAMEL_STREAM_SET)	== seekable_stream->position;
 }
 
 static int
@@ -147,8 +145,7 @@ stream_read (CamelStream *stream, char *buffer, unsigned int n)
 {
 	CamelSeekableStream *parent;
 	CamelSeekableStream *seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
-	CamelSeekableSubstream *seekable_substream =
-		CAMEL_SEEKABLE_SUBSTREAM (stream);
+	CamelSeekableSubstream *seekable_substream = CAMEL_SEEKABLE_SUBSTREAM (stream);
 	int v;
 
 	if (n == 0)
@@ -183,20 +180,47 @@ stream_read (CamelStream *stream, char *buffer, unsigned int n)
 static int
 stream_write (CamelStream *stream, const char *buffer, unsigned int n)
 {
-	/* NOT VALID ON SEEKABLE SUBSTREAM */
-	/* Well, it's entirely valid, just not implemented */
-	g_warning ("CamelSeekableSubstream:: seekable substream doesn't "
-		   "have a write method yet?\n");
-	return -1;
+	CamelSeekableStream *parent;
+	CamelSeekableStream *seekable_stream = CAMEL_SEEKABLE_STREAM(stream);
+	CamelSeekableSubstream *seekable_substream = CAMEL_SEEKABLE_SUBSTREAM(stream);
+	int v;
+
+	if (n == 0)
+		return 0;
+
+	parent = seekable_substream->parent_stream;
+
+	/* Go to our position in the parent stream. */
+	if (!parent_reset (seekable_substream, parent)) {
+		stream->eos = TRUE;
+		return 0;
+	}
+
+	/* Compute how many bytes should be written. */
+	if (seekable_stream->bound_end != CAMEL_STREAM_UNBOUND)
+		n = MIN (seekable_stream->bound_end -  seekable_stream->position, n);
+
+	if (n == 0) {
+		stream->eos = TRUE;
+		return 0;
+	}
+
+	v = camel_stream_write((CamelStream *)parent, buffer, n);
+
+	/* ignore <0 - it's an error, let the caller deal */
+	if (v > 0)
+		seekable_stream->position += v;
+
+	return v;
+
 }
 
 static int
 stream_flush (CamelStream *stream)
 {
-	/* NOT VALID ON SEEKABLE SUBSTREAM */
-	g_warning ("CamelSeekableSubstream:: seekable substream doesn't "
-		   "have a flush method\n");
-	return -1;
+	CamelSeekableSubstream *sus = (CamelSeekableSubstream *)stream;
+
+	return camel_stream_flush(sus->parent_stream);
 }
 
 static int
@@ -209,9 +233,8 @@ stream_close (CamelStream *stream)
 static gboolean
 eos (CamelStream *stream)
 {
-	CamelSeekableSubstream *seekable_substream =
-		CAMEL_SEEKABLE_SUBSTREAM (stream);
-	CamelSeekableStream *seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
+	CamelSeekableSubstream *seekable_substream = CAMEL_SEEKABLE_SUBSTREAM(stream);
+	CamelSeekableStream *seekable_stream = CAMEL_SEEKABLE_STREAM(stream);
 	CamelSeekableStream *parent;
 	gboolean eos;
 
@@ -235,9 +258,8 @@ static off_t
 stream_seek (CamelSeekableStream *seekable_stream, off_t offset,
 	     CamelStreamSeekPolicy policy)
 {
-	CamelSeekableSubstream *seekable_substream =
-		CAMEL_SEEKABLE_SUBSTREAM (seekable_stream);
-	CamelStream *stream = CAMEL_STREAM (seekable_stream);
+	CamelSeekableSubstream *seekable_substream = CAMEL_SEEKABLE_SUBSTREAM(seekable_stream);
+	CamelStream *stream = CAMEL_STREAM(seekable_stream);
 	off_t real_offset = 0;
 
 	stream->eos = FALSE;
@@ -252,11 +274,18 @@ stream_seek (CamelSeekableStream *seekable_stream, off_t offset,
 		break;
 
 	case CAMEL_STREAM_END:
-		real_offset = camel_seekable_stream_seek (seekable_substream->parent_stream,
-							  offset,
-							  CAMEL_STREAM_END);
-		if (real_offset == -1)
-			return -1;
+		if (seekable_stream->bound_end == CAMEL_STREAM_UNBOUND) {
+			real_offset = camel_seekable_stream_seek(seekable_substream->parent_stream,
+								 offset,
+								 CAMEL_STREAM_END);
+			if (real_offset != -1) {
+				if (real_offset<seekable_stream->bound_start)
+					real_offset = seekable_stream->bound_start;
+				seekable_stream->position = real_offset;
+			}
+			return real_offset;
+		}
+		real_offset = seekable_stream->bound_end + offset;
 		break;
 	}
 

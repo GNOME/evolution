@@ -163,11 +163,10 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 
 	nread = MIN (n, camel_stream_mem->buffer->len - seekable->position);
 	if (nread > 0) {
-		memcpy (buffer, camel_stream_mem->buffer->data +
-			seekable->position, nread);
+		memcpy (buffer, camel_stream_mem->buffer->data + seekable->position, nread);
 		seekable->position += nread;
 	} else
-		nread = -1;
+		nread = 0;
 
 	return nread;
 }
@@ -186,12 +185,10 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 #warning "g_byte_arrays use g_malloc and so are totally unsuitable for this object"
 #endif
 	if (seekable->position == stream_mem->buffer->len) {
-		stream_mem->buffer =
-			g_byte_array_append (stream_mem->buffer, (const guint8 *)buffer, nwrite);
+		g_byte_array_append(stream_mem->buffer, (const guint8 *)buffer, nwrite);
 	} else {
-		g_byte_array_set_size (stream_mem->buffer,
-				       nwrite + stream_mem->buffer->len);
-		memcpy (stream_mem->buffer->data + seekable->position, buffer, nwrite);
+		g_byte_array_set_size(stream_mem->buffer, nwrite + stream_mem->buffer->len);
+		memcpy(stream_mem->buffer->data + seekable->position, buffer, nwrite);
 	}
 	seekable->position += nwrite;
 

@@ -347,7 +347,6 @@ camel_local_summary_write_headers(int fd, struct _header_raw *header, char *xevl
 
 	while (header) {
 		if (strcmp(header->name, "X-Evolution")) {
-			printf("writing header: '%s'\n", header->name);
 			len = fprintf(out, "%s:%s\n", header->name, header->value);
 			if (len == -1) {
 				fclose(out);

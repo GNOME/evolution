@@ -69,6 +69,7 @@ camel_stream_fs_init (gpointer object, gpointer klass)
 	CamelStreamFs *stream = CAMEL_STREAM_FS (object);
 
 	stream->fd = -1;
+	((CamelSeekableStream *)stream)->bound_end = CAMEL_STREAM_UNBOUND;
 }
 
 static void
@@ -113,6 +114,9 @@ camel_stream_fs_new_with_fd (int fd)
 {
 	CamelStreamFs *stream_fs;
 	off_t offset;
+
+	if (fd == -1)
+		return NULL;
 
 	stream_fs = CAMEL_STREAM_FS (camel_object_new (camel_stream_fs_get_type ()));
 	stream_fs->fd = fd;
@@ -271,10 +275,13 @@ stream_seek (CamelSeekableStream *stream, off_t offset, CamelStreamSeekPolicy po
 		real = stream->position + offset;
 		break;
 	case CAMEL_STREAM_END:
-		if (stream->bound_end != CAMEL_STREAM_UNBOUND) {
+		if (stream->bound_end == CAMEL_STREAM_UNBOUND) {
 			real = lseek(stream_fs->fd, offset, SEEK_END);
-			if (real != -1)
+			if (real != -1) {
+				if (real<stream->bound_start)
+					real = stream->bound_start;
 				stream->position = real;
+			}
 			return real;
 		}
 		real = stream->bound_end + offset;
