@@ -82,6 +82,9 @@ typedef struct {
 	/* The parent client alarms structure */
 	ClientAlarms *parent_client;
 
+	/* The component's UID */
+	char *uid;
+
 	/* The actual component and its alarm instances */
 	CalComponentAlarms *alarms;
 
@@ -200,7 +203,6 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 		     gboolean free_object, gboolean remove_alarm)
 {
 	QueuedAlarm *qa;
-	const char *uid;
 	GSList *l;
 
 	qa = NULL;
@@ -236,8 +238,9 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 		return;
 
 	if (free_object) {
-		cal_component_get_uid (cqa->alarms->comp, &uid);
-		g_hash_table_remove (cqa->parent_client->uid_alarms_hash, uid);
+		g_hash_table_remove (cqa->parent_client->uid_alarms_hash, cqa->uid);
+		g_free (cqa->uid);
+		cqa->uid = NULL;
 		cqa->parent_client = NULL;
 		cal_component_alarms_free (cqa->alarms);
 		g_free (cqa);
@@ -362,7 +365,8 @@ add_component_alarms (ClientAlarms *ca, CalComponentAlarms *alarms)
 	}
 
 	cqa->queued_alarms = g_slist_reverse (cqa->queued_alarms);
-	g_hash_table_insert (ca->uid_alarms_hash, (char *) uid, cqa);
+	cqa->uid = g_strdup (uid);
+	g_hash_table_insert (ca->uid_alarms_hash, cqa->uid, cqa);
 }
 
 /* Loads the alarms of a client for a given range of time */

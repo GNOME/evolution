@@ -1,3 +1,14 @@
+2003-04-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #34498
+
+	* gui/alarm-notify/alarm-queue.c: added a 'uid' field to the
+	CompQueuedAlarms structure.
+	(remove_queued_alarm): free the 'uid' field when freeing the
+	structure.
+	(add_component_alarms): g_strdup the component's UID and use that as
+	the key for the hash table.
+
 2003-04-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #41129, #41215, #41221, #41256
