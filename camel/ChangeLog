@@ -13,6 +13,9 @@
 	* camel-store.c (camel_store_get_folder): We need to be ref'ing
 	the folder if/when we add it to the hash. This may fix bug #6089?
 	(camel_store_get_folder): Nevermind, reverted the fix.
+	(camel_store_get_folder): No, I wasn't on crack before after
+	all...if we don't ref here, then we're open to a race condition
+	later.
 
 2001-08-11  Ettore Perazzoli  <ettore@ximian.com>
 

@@ -237,11 +237,11 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 	GData *fetch_data;
 	int i, count;
 	char *resp;
-
+	
 	CAMEL_IMAP_STORE_ASSERT_LOCKED (folder->parent_store, command_lock);
-
+	
 	count = camel_folder_summary_count (folder->summary);
-
+	
 	for (i = 0; i < response->untagged->len; i++) {
 		resp = response->untagged->pdata[i] + 2;
 		if (!g_strncasecmp (resp, "FLAGS ", 6) &&
@@ -255,7 +255,7 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 			validity = strtoul (resp + 16, NULL, 10);
 		} else if (isdigit ((unsigned char)*resp)) {
 			unsigned long num = strtoul (resp, &resp, 10);
-
+			
 			if (!g_strncasecmp (resp, " EXISTS", 7)) {
 				exists = num;
 				/* Remove from the response so nothing
@@ -266,18 +266,18 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 			}
 		}
 	}
-
+	
 	if (camel_disco_store_status (CAMEL_DISCO_STORE (folder->parent_store)) == CAMEL_DISCO_STORE_RESYNCING) {
 		if (validity != imap_summary->validity) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_SUMMARY_INVALID,
 					      _("Folder was destroyed and recreated on server."));
 			return;
 		}
-
+		
 		/* FIXME: find missing UIDs ? */
 		return;
 	}
-
+	
 	if (!imap_summary->validity)
 		imap_summary->validity = validity;
 	else if (validity != imap_summary->validity) {
@@ -290,13 +290,13 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 		camel_imap_folder_changed (folder, exists, NULL, ex);
 		return;
 	}
-
+	
 	/* If we've lost messages, we have to rescan everything */
 	if (exists < count)
 		imap_folder->need_rescan = TRUE;
 	else if (count != 0 && !imap_folder->need_rescan) {
 		CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
-
+		
 		/* Similarly, if the UID of the highest message we
 		 * know about has changed, then that indicates that
 		 * messages have been both added and removed, so we
@@ -321,32 +321,32 @@ camel_imap_folder_selected (CamelFolder *folder, CamelImapResponse *response,
 			}
 			if (uid != 0 || val != count || g_strncasecmp (resp, " FETCH (", 8) != 0)
 				continue;
-
+			
 			fetch_data = parse_fetch_response (imap_folder, resp + 7);
 			uid = strtoul (g_datalist_get_data (&fetch_data, "UID"), NULL, 10);
 			g_datalist_clear (&fetch_data);
 		}
 		camel_imap_response_free_without_processing (store, response);
-
+		
 		info = camel_folder_summary_index (folder->summary, count - 1);
 		val = strtoul (camel_message_info_uid (info), NULL, 10);
 		camel_folder_summary_info_free (folder->summary, info);
 		if (uid == 0 || uid != val)
 			imap_folder->need_rescan = TRUE;
 	}
-
+	
 	/* Now rescan if we need to */
 	if (imap_folder->need_rescan) {
 		imap_rescan (folder, exists, ex);
 		return;
 	}
-
+	
 	/* If we don't need to rescan completely, but new messages
 	 * have been added, find out about them.
 	 */
 	if (exists > count)
 		camel_imap_folder_changed (folder, exists, NULL, ex);
-
+	
 	/* And we're done. */
 }	
 
