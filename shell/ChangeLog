@@ -1,3 +1,9 @@
+2000-09-28  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view.c: New constant `DEFAULT_URI'.
+	(e_shell_view_load_settings): If the `DisplayedURI' from
+	`gnome_config' cannot be displayed, display the `DEFAULT_URI'.
+
 2000-09-26  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcuts.c (e_shortcuts_get_group_title): Cast the data

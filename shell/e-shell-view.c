@@ -116,6 +116,8 @@ static guint signals[LAST_SIGNAL] = { 0 };
 #define DEFAULT_WIDTH 705
 #define DEFAULT_HEIGHT 550
 
+#define DEFAULT_URI "evolution:/local/Inbox"
+
 
 /* Utility functions.  */
 
@@ -1213,8 +1215,7 @@ e_shell_view_display_uri (EShellView *shell_view,
 
 	if (uri == NULL) {
 		gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), 0);
-		gtk_notebook_prepend_page (GTK_NOTEBOOK (priv->notebook),
-					   create_label_for_empty_page (), NULL);
+		gtk_notebook_prepend_page (GTK_NOTEBOOK (priv->notebook), create_label_for_empty_page (), NULL);
 
 		set_current_notebook_page (shell_view, 0);
 
@@ -1239,9 +1240,8 @@ e_shell_view_display_uri (EShellView *shell_view,
 		show_existing_view (shell_view, uri, control);
 	} else if (! create_new_view_for_uri (shell_view, uri)) {
 		priv->delayed_selection = g_strdup (uri);
-		gtk_signal_connect_after (GTK_OBJECT (e_shell_get_storage_set(priv->shell)), "new_folder",
+		gtk_signal_connect_after (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "new_folder",
 					  GTK_SIGNAL_FUNC (new_folder_cb), shell_view);
-
 		retval = FALSE;
 		goto end;
 	}
@@ -1474,7 +1474,8 @@ e_shell_view_load_settings (EShellView *shell_view,
 	e_paned_set_position (E_PANED (priv->view_hpaned), val);
 
 	stringval = gnome_config_get_string ("DisplayedURI");
-	e_shell_view_display_uri (shell_view, stringval);
+	if (! e_shell_view_display_uri (shell_view, stringval))
+		e_shell_view_display_uri (shell_view, DEFAULT_URI);
 	g_free (stringval);
 
 	gnome_config_pop_prefix ();
