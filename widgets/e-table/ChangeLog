@@ -1,3 +1,12 @@
+2000-08-05  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table.c, e-table.h: Added functions to convert from view row
+	to model row or from model row to view row.  Also changed
+	e_table_set_cursor_row and e_table_get_cursor_row to take a model
+	row as this works better with the rest of the model.  Changed the
+	name of e_table_get_next_row_sorted and
+	e_table_get_prev_row_sorted.  (Dropped the _sorted.)
+
 2000-08-05  Dan Winship  <danw@helixcode.com>
 
 	* e-table.c (e_table_get_{next,prev}_row_sorted): fix

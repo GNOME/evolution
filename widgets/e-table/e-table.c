@@ -803,13 +803,17 @@ e_table_save_specification (ETable *e_table, gchar *filename)
 void
 e_table_set_cursor_row (ETable *e_table, int row)
 {
-	e_table_group_set_cursor_row(e_table->group, row);
+	row = e_table_sorter_model_to_sorted(e_table->sorter, row);
+	if (row != -1)
+		e_table_group_set_cursor_row(e_table->group, row);
 }
 
 int
 e_table_get_cursor_row (ETable *e_table)
 {
-	return e_table_group_get_cursor_row(e_table->group);
+	int row = e_table_group_get_cursor_row(e_table->group);
+	row = e_table_sorter_sorted_to_model(e_table->sorter, row);
+	return row;
 }
 
 void
@@ -926,27 +930,27 @@ set_scroll_adjustments   (ETable *table,
 }
 
 gint 
-e_table_get_next_row_sorted      (ETable *e_table,
-				  gint    model_row)
+e_table_get_next_row      (ETable *e_table,
+			   gint    model_row)
 {
 	if (e_table->sorter) {
 		int i;
 		i = e_table_sorter_model_to_sorted(e_table->sorter, model_row);
-		if (i < e_table_model_row_count(e_table->model) - 1) {
-			i++;
+		i++;
+		if (i < e_table_model_row_count(e_table->model)) {
 			return e_table_sorter_sorted_to_model(e_table->sorter, i);
 		} else
 			return -1;
 	} else
-		if (model_row < e_table_model_row_count(e_table->model))
+		if (model_row < e_table_model_row_count(e_table->model) - 1)
 			return model_row + 1;
 		else
 			return -1;
 }
 
 gint 
-e_table_get_prev_row_sorted      (ETable *e_table,
-				  gint    model_row)
+e_table_get_prev_row      (ETable *e_table,
+			   gint    model_row)
 {
 	if (e_table->sorter) {
 		int i;
@@ -958,6 +962,26 @@ e_table_get_prev_row_sorted      (ETable *e_table,
 			return -1;
 	} else
 		return model_row - 1;
+}
+
+gint
+e_table_model_to_view_row        (ETable *e_table,
+				  gint    model_row)
+{
+	if (e_table->sorter)
+		return e_table_sorter_model_to_sorted(e_table->sorter, model_row);
+	else
+		return model_row;
+}
+
+gint
+e_table_view_to_model_row        (ETable *e_table,
+				  gint    view_row)
+{
+	if (e_table->sorter)
+		return e_table_sorter_sorted_to_model(e_table->sorter, view_row);
+	else
+		return view_row;
 }
 
 struct _ETableDragSourceSite 

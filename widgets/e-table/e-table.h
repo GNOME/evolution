@@ -182,10 +182,15 @@ void        e_table_selected_row_foreach     (ETable *e_table,
 					      gpointer closure);
 EPrintable *e_table_get_printable            (ETable *e_table);
 
-gint        e_table_get_next_row_sorted      (ETable *e_table,
+gint        e_table_get_next_row             (ETable *e_table,
 					      gint    model_row);
-gint        e_table_get_prev_row_sorted      (ETable *e_table,
+gint        e_table_get_prev_row             (ETable *e_table,
 					      gint    model_row);
+
+gint        e_table_model_to_view_row        (ETable *e_table,
+					      gint    model_row);
+gint        e_table_view_to_model_row        (ETable *e_table,
+					      gint    view_row);
 
 
 /* Drag & drop stuff. */
