@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-07 03:19+0100\n"
-"PO-Revision-Date: 2003-12-07 14:03+0100\n"
+"POT-Creation-Date: 2003-12-20 03:19+0100\n"
+"PO-Revision-Date: 2003-12-20 19:11+0100\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -11974,7 +11974,7 @@ msgstr "_Lijst beantwoorden"
 msgid "Reply to _All"
 msgstr "_Iedereen beantwoorden"
 
-#: mail/folder-browser.c:1797
+#: mail/folder-browser.c:1797 ui/evolution-mail-message.xml.h:98
 msgid "_Forward"
 msgstr "_Vooruit"
 
@@ -26971,8 +26971,8 @@ msgid "Display the previous unread message"
 msgstr "Toon het vorige ongelezen bericht"
 
 #: ui/evolution-mail-message.xml.h:28
-msgid "F_orward"
-msgstr "D_oorsturen"
+msgid "F_orward As..."
+msgstr "D_oorsturen als..."
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
@@ -27210,10 +27210,6 @@ msgstr "_Kopiëren naar map"
 #: ui/evolution-mail-message.xml.h:96
 msgid "_Create Filter From Message"
 msgstr "_Filter maken van bericht"
-
-#: ui/evolution-mail-message.xml.h:98
-msgid "_Forward Message"
-msgstr "Bericht _doorsturen"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "_Go To"
@@ -28061,6 +28057,9 @@ msgstr "Evolution kalender backend voor lokale bestanden"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolution adresboek backend voor lokale bestanden"
+
+#~ msgid "_Forward Message"
+#~ msgstr "Bericht _doorsturen"
 
 #~ msgid "Clear"
 #~ msgstr "Wissen"
