@@ -326,7 +326,6 @@ widgets/misc/e-filter-bar.c
 widgets/misc/e-filter-bar.h
 widgets/misc/e-messagebox.c
 widgets/misc/e-search-bar.c
-wombat/GNOME_Evolution_Wombat.oaf.in
 wombat/GNOME_Evolution_WombatLDAP.oaf.in
 wombat/GNOME_Evolution_WombatNOLDAP.oaf.in
 wombat/wombat.c
