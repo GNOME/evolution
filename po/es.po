@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-06-18 03:58+0200\n"
-"PO-Revision-Date: 2003-06-18 17:57+0000\n"
+"POT-Creation-Date: 2003-06-21 12:02+0200\n"
+"PO-Revision-Date: 2003-06-21 18:50+0000\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -995,8 +995,8 @@ msgstr "Ámbito de bú_squeda: "
 
 #. No time range is set, so don't start a query
 #: addressbook/gui/component/ldap-config.glade.h:34
-#: calendar/gui/calendar-model.c:1983 calendar/gui/e-day-view.c:1687
-#: calendar/gui/e-week-view.c:1252
+#: calendar/gui/calendar-model.c:1983 calendar/gui/e-day-view.c:1696
+#: calendar/gui/e-week-view.c:1256
 msgid "Searching"
 msgstr "Búsqueda"
 
@@ -1462,7 +1462,7 @@ msgstr "_Categorías..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:968
-#: calendar/gui/e-day-view.c:3730 calendar/gui/e-week-view.c:3616
+#: calendar/gui/e-day-view.c:3739 calendar/gui/e-week-view.c:3631
 #: mail/folder-browser.c:1790 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:45
@@ -2898,8 +2898,8 @@ msgstr "Protocolo no implementado"
 #: calendar/gui/calendar-model.c:759 calendar/gui/calendar-model.c:1184
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:469 calendar/gui/print.c:2309
-#: camel/camel-service.c:737 camel/camel-service.c:780
-#: camel/camel-service.c:850 camel/camel-service.c:894
+#: camel/camel-service.c:744 camel/camel-service.c:783
+#: camel/camel-service.c:870 camel/camel-service.c:911
 #: camel/providers/pop3/camel-pop3-store.c:443
 #: camel/providers/pop3/camel-pop3-store.c:520
 msgid "Cancelled"
@@ -3089,7 +3089,7 @@ msgid "Delete"
 msgstr "Borrar"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:915
-#: calendar/gui/e-day-view.c:3690 calendar/gui/e-week-view.c:3581
+#: calendar/gui/e-day-view.c:3699 calendar/gui/e-week-view.c:3596
 msgid "Current View"
 msgstr "Vista actual"
 
@@ -3783,7 +3783,7 @@ msgstr "%A %d %B %Y"
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/calendar-commands.c:422 calendar/gui/e-day-view-top-item.c:265
-#: calendar/gui/e-day-view.c:1413 calendar/gui/e-week-view-main-item.c:325
+#: calendar/gui/e-day-view.c:1422 calendar/gui/e-week-view-main-item.c:325
 msgid "%a %d %b"
 msgstr "%a, %d de %b de %Y"
 
@@ -4537,8 +4537,8 @@ msgid "No summary"
 msgstr "Sin resumen"
 
 #: calendar/gui/dialogs/comp-editor.c:1233
-#: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-day-view.c:3948
-#: calendar/gui/e-week-view.c:3817 composer/e-msg-composer.c:1164
+#: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-day-view.c:3977
+#: calendar/gui/e-week-view.c:3840 composer/e-msg-composer.c:1164
 msgid "Save as..."
 msgstr "Guardar como..."
 
@@ -5208,13 +5208,13 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:717 calendar/gui/e-day-view.c:2842
-#: calendar/gui/e-week-view.c:1929
+#: calendar/gui/e-calendar-table.c:717 calendar/gui/e-day-view.c:2851
+#: calendar/gui/e-week-view.c:1933
 msgid "Deleting selected objects"
 msgstr "Borrando los objetos seleccionados"
 
-#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3712
-#: calendar/gui/e-week-view.c:3598 mail/folder-browser.c:1763
+#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3721
+#: calendar/gui/e-week-view.c:3613 mail/folder-browser.c:1763
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Abrir"
@@ -5223,30 +5223,30 @@ msgstr "_Abrir"
 msgid "_Save as..."
 msgstr "_Guardar como..."
 
-#: calendar/gui/e-calendar-table.c:951 calendar/gui/e-day-view.c:3714
-#: calendar/gui/e-week-view.c:3573 calendar/gui/e-week-view.c:3600
+#: calendar/gui/e-calendar-table.c:951 calendar/gui/e-day-view.c:3723
+#: calendar/gui/e-week-view.c:3588 calendar/gui/e-week-view.c:3615
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
 #: ui/evolution-tasks.xml.h:20 ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "Im_primir..."
 
-#: calendar/gui/e-calendar-table.c:955 calendar/gui/e-day-view.c:3719
-#: calendar/gui/e-week-view.c:3605 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-calendar-table.c:955 calendar/gui/e-day-view.c:3728
+#: calendar/gui/e-week-view.c:3620 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "C_ortar"
 
-#: calendar/gui/e-calendar-table.c:956 calendar/gui/e-day-view.c:3720
-#: calendar/gui/e-week-view.c:3606 ui/evolution-addressbook.xml.h:30
+#: calendar/gui/e-calendar-table.c:956 calendar/gui/e-day-view.c:3729
+#: calendar/gui/e-week-view.c:3621 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:29 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-tasks.xml.h:15
 msgid "_Copy"
 msgstr "_Copiar"
 
-#: calendar/gui/e-calendar-table.c:957 calendar/gui/e-day-view.c:3685
-#: calendar/gui/e-day-view.c:3721 calendar/gui/e-week-view.c:3577
-#: calendar/gui/e-week-view.c:3607 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-calendar-table.c:957 calendar/gui/e-day-view.c:3694
+#: calendar/gui/e-day-view.c:3730 calendar/gui/e-week-view.c:3592
+#: calendar/gui/e-week-view.c:3622 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:32 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-list.xml.h:29 ui/evolution-tasks.xml.h:19
 msgid "_Paste"
@@ -5272,8 +5272,8 @@ msgstr "_Marcar tareas seleccionadas como terminadas"
 msgid "_Delete Selected Tasks"
 msgstr "_Borrar las tareas seleccionadas"
 
-#: calendar/gui/e-calendar-table.c:1236 calendar/gui/e-day-view.c:7662
-#: calendar/gui/e-week-view.c:4312
+#: calendar/gui/e-calendar-table.c:1236 calendar/gui/e-day-view.c:7701
+#: calendar/gui/e-week-view.c:4335
 msgid "Updating objects"
 msgstr "Actualizando objetos"
 
@@ -5355,91 +5355,91 @@ msgstr "%02i divisiones por minuto"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1396
+#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1405
 #: calendar/gui/e-week-view-main-item.c:316 calendar/gui/print.c:1527
 msgid "%A %d %B"
 msgstr "%A %d de %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1429
+#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1438
 #: calendar/gui/e-week-view-main-item.c:339
 msgid "%d %b"
 msgstr "%d de %b"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:611 calendar/gui/e-week-view.c:346
+#: calendar/gui/e-day-view.c:620 calendar/gui/e-week-view.c:350
 #: calendar/gui/print.c:811
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:614 calendar/gui/e-week-view.c:349
+#: calendar/gui/e-day-view.c:623 calendar/gui/e-week-view.c:353
 #: calendar/gui/print.c:813
 msgid "pm"
 msgstr "pm"
 
-#: calendar/gui/e-day-view.c:3669
+#: calendar/gui/e-day-view.c:3678
 msgid "New _Appointment"
 msgstr "Nueva cit_a"
 
-#: calendar/gui/e-day-view.c:3671 calendar/gui/e-week-view.c:3567
+#: calendar/gui/e-day-view.c:3680 calendar/gui/e-week-view.c:3582
 msgid "New All Day _Event"
 msgstr "Nuevo _evento para todo el día"
 
-#: calendar/gui/e-day-view.c:3673 calendar/gui/e-week-view.c:3568
+#: calendar/gui/e-day-view.c:3682 calendar/gui/e-week-view.c:3583
 msgid "New Meeting"
 msgstr "Nueva reunión"
 
-#: calendar/gui/e-day-view.c:3675 calendar/gui/e-week-view.c:3569
+#: calendar/gui/e-day-view.c:3684 calendar/gui/e-week-view.c:3584
 msgid "New Task"
 msgstr "Tarea nueva"
 
-#: calendar/gui/e-day-view.c:3680 ui/evolution-comp-editor.xml.h:11
+#: calendar/gui/e-day-view.c:3689 ui/evolution-comp-editor.xml.h:11
 msgid "Print..."
 msgstr "Imprimir..."
 
-#: calendar/gui/e-day-view.c:3692 calendar/gui/e-week-view.c:3583
+#: calendar/gui/e-day-view.c:3701 calendar/gui/e-week-view.c:3598
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "Ir a _hoy"
 
-#: calendar/gui/e-day-view.c:3694 calendar/gui/e-week-view.c:3584
+#: calendar/gui/e-day-view.c:3703 calendar/gui/e-week-view.c:3599
 msgid "_Go to Date..."
 msgstr "_Ir a una fecha..."
 
-#: calendar/gui/e-day-view.c:3699 calendar/gui/e-week-view.c:3588
+#: calendar/gui/e-day-view.c:3708 calendar/gui/e-week-view.c:3603
 #: ui/evolution-calendar.xml.h:34
 msgid "_Publish Free/Busy Information"
 msgstr "_Publicar la información de disponibilidad"
 
-#: calendar/gui/e-day-view.c:3704 calendar/gui/e-week-view.c:3592
+#: calendar/gui/e-day-view.c:3713 calendar/gui/e-week-view.c:3607
 #: ui/evolution.xml.h:60
 msgid "_Settings..."
 msgstr "_Configuración..."
 
-#: calendar/gui/e-day-view.c:3713 calendar/gui/e-week-view.c:3599
+#: calendar/gui/e-day-view.c:3722 calendar/gui/e-week-view.c:3614
 #: mail/folder-browser.c:1765 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "Guardar _como..."
 
-#: calendar/gui/e-day-view.c:3725 calendar/gui/e-week-view.c:3611
+#: calendar/gui/e-day-view.c:3734 calendar/gui/e-week-view.c:3626
 msgid "_Schedule Meeting..."
 msgstr "Concertar una _reunión"
 
-#: calendar/gui/e-day-view.c:3726 calendar/gui/e-week-view.c:3612
+#: calendar/gui/e-day-view.c:3735 calendar/gui/e-week-view.c:3627
 msgid "_Forward as iCalendar..."
 msgstr "Reenviar como i_Calendar"
 
-#: calendar/gui/e-day-view.c:3731 calendar/gui/e-week-view.c:3617
+#: calendar/gui/e-day-view.c:3740 calendar/gui/e-week-view.c:3632
 msgid "Make this Occurrence _Movable"
 msgstr "Hacer esta ocurrencia _movible"
 
-#: calendar/gui/e-day-view.c:3732 calendar/gui/e-week-view.c:3618
+#: calendar/gui/e-day-view.c:3741 calendar/gui/e-week-view.c:3633
 msgid "Delete this _Occurrence"
 msgstr "Borrar esta _ocurrencia"
 
-#: calendar/gui/e-day-view.c:3733 calendar/gui/e-week-view.c:3619
+#: calendar/gui/e-day-view.c:3742 calendar/gui/e-week-view.c:3634
 msgid "Delete _All Occurrences"
 msgstr "Borrar tod_as las ocurrencias"
 
@@ -5590,7 +5590,6 @@ msgstr "Rechazado"
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:345
 #: mail/mail-display.c:953 widgets/misc/e-charset-picker.c:60
-#: widgets/misc/e-charset-picker.c:546
 msgid "Unknown"
 msgstr "Desconocido"
 
@@ -6126,7 +6125,7 @@ msgstr "Borrando los objetos seleccionados..."
 msgid "Expunging"
 msgstr "Purgando"
 
-#: calendar/gui/e-week-view.c:3566
+#: calendar/gui/e-week-view.c:3581
 msgid "New _Appointment..."
 msgstr "Nueva cit_a..."
 
@@ -6382,7 +6381,7 @@ msgstr "Contactos: "
 
 #: calendar/gui/print.c:2520 calendar/gui/print.c:2606
 #: calendar/gui/tasks-control.c:571 mail/mail-callbacks.c:2947
-#: my-evolution/e-summary.c:651
+#: my-evolution/e-summary.c:649
 msgid "Print Preview"
 msgstr "Vista previa"
 
@@ -8782,35 +8781,40 @@ msgstr "La URL «%s» necesita un componente hospedador"
 msgid "URL '%s' needs a path component"
 msgstr "La URL «%s» necesita un componente de ruta"
 
-#: camel/camel-service.c:741
+#: camel/camel-service.c:748
 #, c-format
 msgid "Resolving: %s"
 msgstr "Resolviendo: %s"
 
-#: camel/camel-service.c:774 camel/camel-service.c:889
+#: camel/camel-service.c:781 camel/camel-service.c:909
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "Error al resolver: %s"
 
-#: camel/camel-service.c:801
+#: camel/camel-service.c:802
+#, c-format
+msgid "Host lookup failed: cannot create thread: %s"
+msgstr "La resolución del host ha fallado: no se puede crear el thread: %s"
+
+#: camel/camel-service.c:816
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr "Error al resolver: %s: servidor no encontrado"
 
-#: camel/camel-service.c:804
+#: camel/camel-service.c:819
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "Error al resolver: %s: razón desconocida"
 
-#: camel/camel-service.c:854
+#: camel/camel-service.c:874
 msgid "Resolving address"
 msgstr "Resolviendo dirección"
 
-#: camel/camel-service.c:917
+#: camel/camel-service.c:943
 msgid "Host lookup failed: host not found"
 msgstr "Error al resolver: servidor no encontrado"
 
-#: camel/camel-service.c:920
+#: camel/camel-service.c:946
 msgid "Host lookup failed: unknown reason"
 msgstr "Error al resolver: razón desconocida"
 
@@ -13717,7 +13721,7 @@ msgstr "%b %d %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:2646
+#: mail/message-list.c:2649
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
@@ -23771,7 +23775,7 @@ msgstr "Por favor espere..."
 msgid "Print Summary"
 msgstr "Imprimir resumen"
 
-#: my-evolution/e-summary.c:657
+#: my-evolution/e-summary.c:655
 msgid "Printing of Summary failed"
 msgstr "Ha fallado la impresión del resumen"
 
@@ -25474,7 +25478,7 @@ msgstr "No se pudo encontrar la carpeta compartida especificada"
 
 #: shell/e-shell-user-creatable-items-handler.c:586
 #: shell/e-shell-user-creatable-items-handler.c:642
-#: widgets/misc/e-charset-picker.c:106
+#: widgets/misc/e-charset-picker.c:109
 msgid "New"
 msgstr "Nuevo"
 
@@ -27809,36 +27813,38 @@ msgstr "Unicode"
 msgid "Western European"
 msgstr "Europeo occidental"
 
-#: widgets/misc/e-charset-picker.c:88
+#: widgets/misc/e-charset-picker.c:88 widgets/misc/e-charset-picker.c:89
+#: widgets/misc/e-charset-picker.c:90
 msgid "Traditional"
 msgstr "Tradicional"
 
-#: widgets/misc/e-charset-picker.c:89 widgets/misc/e-charset-picker.c:90
+#: widgets/misc/e-charset-picker.c:91 widgets/misc/e-charset-picker.c:92
+#: widgets/misc/e-charset-picker.c:93 widgets/misc/e-charset-picker.c:94
 msgid "Simplified"
 msgstr "Simplificado"
 
-#: widgets/misc/e-charset-picker.c:94
+#: widgets/misc/e-charset-picker.c:97
 msgid "Ukrainian"
 msgstr "Ucraniano"
 
-#: widgets/misc/e-charset-picker.c:97
+#: widgets/misc/e-charset-picker.c:100
 msgid "Visual"
 msgstr "Visual"
 
-#: widgets/misc/e-charset-picker.c:185
+#: widgets/misc/e-charset-picker.c:168
 #, c-format
 msgid "Unknown character set: %s"
 msgstr "Conjunto de caracteres desconocido: %s"
 
-#: widgets/misc/e-charset-picker.c:230 widgets/misc/e-charset-picker.c:459
+#: widgets/misc/e-charset-picker.c:213 widgets/misc/e-charset-picker.c:442
 msgid "Character Encoding"
 msgstr "Codificación de caracteres"
 
-#: widgets/misc/e-charset-picker.c:239
+#: widgets/misc/e-charset-picker.c:222
 msgid "Enter the character set to use"
 msgstr "Introduzca conjunto de caracteres a usar"
 
-#: widgets/misc/e-charset-picker.c:335
+#: widgets/misc/e-charset-picker.c:318
 msgid "Other..."
 msgstr "Otro..."
 
