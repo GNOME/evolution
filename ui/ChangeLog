@@ -1,3 +1,11 @@
+2002-07-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-message-composer.xml: Add a View/Post-To ui dingus.
+
+	* evolution-mail-global.xml: Add a Post ui dingus.
+
+	* evolution-mail-message.xml: Add a Post-Reply ui dingus.
+
 2002-07-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-mail-message.xml: Use *Control*equal and *Control*minus

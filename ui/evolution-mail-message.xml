@@ -90,6 +90,11 @@
      _tip="Open the selected message in a new window"
      accel="*Control*o"/>
 
+    <cmd name="MessagePostReply"
+     _tip="Post a reply to a message message in a Public folder"
+     accel=""
+     pixtype="pixbuf"/>
+
     <cmd name="MessageRedirect"
      _tip="Redirect (bounce) the selected message to someone"
      accel=""/>
@@ -299,6 +304,8 @@
             <separator f="" name="forwardlist1"/>
             <menuitem verb="MessageRedirect" _label="Re_direct"/>
           </submenu>
+
+          <menuitem name="MessagePostReply" verb="" _label="Post a Reply"/>
 
           <menuitem name="MessageResend" verb="" _label="_Resend..."/>
 

@@ -12,6 +12,10 @@
      _tip="Open a window for composing a mail message"
      pixtype="pixbuf"/>
 
+    <cmd name="MailPost"
+     _tip="Post a message to a Public folder"
+     pixtype="pixbuf"/>
+
     <cmd name="MailStop"
      _tip="Cancel the current mail operation"
      pixtype="stock" pixname="Stop"/>
@@ -46,6 +50,8 @@
         <placeholder name="NewFirstItem">
           <menuitem name="MessageNew" verb="MailCompose"
            accel="*Control*n" _label="_Mail Message"/>
+          <menuitem name="MessagePost" verb="MailPost"
+           accel="" _label="Post a Message"/>
 
           <separator f="" name="emailglobal"/>
         </placeholder>
@@ -70,6 +76,7 @@
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">
         <menuitem name="ActionCompose" verb="MailCompose" _label="Compose _New Message"/>
+        <menuitem name="ActionPost" verb="MailPost" _label="Post New Message"/>
 	<menuitem name="ActionStop" verb="MailStop" _label="Cancel"/>
 
 	<separator f="" name="emailglobal"/>
