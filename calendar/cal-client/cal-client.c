@@ -755,12 +755,14 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 	priv->uri = g_strdup (str_uri);
 
 	for (f = priv->factories; f; f = f->next) {
-		CORBA_exception_free (&ev);
+		CORBA_exception_init (&ev);
 		GNOME_Evolution_Calendar_CalFactory_open (f->data, str_uri,
 							  only_if_exists,
 							  corba_listener, &ev);
 		if (!BONOBO_EX (&ev))
 			break;
+
+		CORBA_exception_free (&ev);
 	}
 
 	if (BONOBO_EX (&ev)) {

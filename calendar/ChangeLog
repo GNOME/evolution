@@ -1,3 +1,8 @@
+2001-09-28  JP Rosevear  <jpr@ximian.com>
+
+	* cal-client/cal-client.c (cal_client_open_calendar): init the
+	execption rather than freeing it
+
 2001-09-28  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-client/cal-client.c (cal_client_construct): use bonobo-exception
