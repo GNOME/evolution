@@ -24,6 +24,7 @@
 #undef USE_FLOCK
 #undef ENABLE_NNTP
 #undef HAVE_BROKEN_SPOOL
+#undef ENABLE_PEDANTIC_PGPMIME
 
 /* db3 version */
 #undef EVOLUTION_DB_VERSION_MAJOR
