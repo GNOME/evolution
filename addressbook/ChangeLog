@@ -4,6 +4,8 @@
 	don't init the dialog here
 	(addressbook_migrate): init it here
 
+	Fixes #54214
+	
 2004-02-20  Chris Toshok  <toshok@ximian.com>
 	* gui/contact-editor/e-contact-editor.c (phone_entry_changed):
 	remove some spew.
