@@ -106,6 +106,8 @@ evolution_mail_SOURCES =		\
 	main.c				\
 	message-list.c			\
 	message-list.h			\
+	message-tag-editor.c		\
+	message-tag-editor.h		\
 	subscribe-dialog.c		\
 	subscribe-dialog.h		\
 	mail.h

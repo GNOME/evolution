@@ -1808,6 +1808,24 @@ toggle_as_important (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 void
+flag_for_followup (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	;
+}
+
+void
+flag_completed (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	;
+}
+
+void
+flag_clear (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	;
+}
+
+void
 zoom_in (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
@@ -2230,24 +2248,16 @@ previous_flagged_msg (GtkWidget *button, gpointer user_data)
 			     CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED, TRUE);
 }
 
-struct _expunged_folder_data {
-	FolderBrowser *fb;
-	gboolean hidedeleted;
-};
-
 static void
 expunged_folder (CamelFolder *f, void *data)
 {
-	FolderBrowser *fb = ((struct _expunged_folder_data *) data)->fb;
-	gboolean hidedeleted = ((struct _expunged_folder_data *) data)->hidedeleted;
+	FolderBrowser *fb = data;
 	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
 	fb->expunging = NULL;
-	message_list_set_hidedeleted (fb->message_list, hidedeleted);
-	
-	g_free (data);
+	gtk_widget_set_sensitive (GTK_WIDGET (fb->message_list), TRUE);
 }
 
 static gboolean
@@ -2300,15 +2310,10 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 		return;
 	
 	if (fb->folder && (fb->expunging == NULL || fb->folder != fb->expunging) && confirm_expunge (fb)) {
-		struct _expunged_folder_data *data;
 		CamelMessageInfo *info;
 		
-		data = g_malloc (sizeof (*data));
-		data->fb = fb;
-		data->hidedeleted = fb->message_list->hidedeleted;
-		
 		/* hide the deleted messages so user can't click on them while we expunge */
-		message_list_set_hidedeleted (fb->message_list, TRUE);
+		gtk_widget_set_sensitive (GTK_WIDGET (fb->message_list), FALSE);
 		
 		/* Only blank the mail display if the message being
                    viewed is one of those to be expunged */
@@ -2320,7 +2325,7 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 		}
 		
 		fb->expunging = fb->folder;
-		mail_expunge_folder (fb->folder, expunged_folder, data);
+		mail_expunge_folder (fb->folder, expunged_folder, fb);
 	}
 }
 

@@ -1,3 +1,16 @@
+2002-02-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-tag-editor.[c,h]: Base class for a message tag editor.
+
+	* folder-browser.c (on_right_click): Setup the hide/enable masks
+	for "Flag for Follow-up"
+
+	* mail-callbacks.c (confirm_expunge): Instead of hiding deleted
+	messages and then expunging, disable the use of the message-list
+	completely during the expunge operation.
+	(expunged_folder): Re-enable the use of the message-list widget
+	here.
+
 2002-02-07  Radek Doulik  <rodo@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): call set_body later to

@@ -1431,7 +1431,9 @@ enum {
 	IS_MAILING_LIST            = 1<<6,
 	CAN_RESEND                 = 1<<7,
 	CAN_MARK_IMPORTANT         = 1<<8,
-	CAN_MARK_UNIMPORTANT       = 1<<9
+	CAN_MARK_UNIMPORTANT       = 1<<9,
+	CAN_FLAG_FOR_FOLLOWUP      = 1<<10,
+	CAN_FLAG_COMPLETED         = 1<<11
 };
 
 #define MLIST_VFOLDER (3)
@@ -1466,7 +1468,15 @@ static EPopupMenu context_menu[] = {
 	{ N_("Reply to _List"),        	    NULL, GTK_SIGNAL_FUNC (reply_to_list),    NULL,  0 },
 	{ N_("Reply to _All"),              NULL, GTK_SIGNAL_FUNC (reply_to_all),     NULL,  0 },
 	{ N_("_Forward"),                   NULL, GTK_SIGNAL_FUNC (forward),          NULL,  0 },
-	{ "", NULL, (NULL), NULL,  0 },
+	
+	E_POPUP_SEPARATOR,
+	
+	{ N_("Flag for Follow-up"),         NULL, GTK_SIGNAL_FUNC (flag_for_followup),NULL,  CAN_FLAG_FOR_FOLLOWUP },
+	{ N_("Flag Completed"),             NULL, GTK_SIGNAL_FUNC (flag_completed),   NULL,  CAN_FLAG_COMPLETED },
+	{ N_("Clear Flag"),                 NULL, GTK_SIGNAL_FUNC (flag_clear),       NULL,  CAN_FLAG_COMPLETED },
+	
+	/* separator here? */
+	
 	{ N_("Mar_k as Read"),              NULL, GTK_SIGNAL_FUNC (mark_as_seen),     NULL,  CAN_MARK_READ },
 	{ N_("Mark as U_nread"),            NULL, GTK_SIGNAL_FUNC (mark_as_unseen),   NULL,  CAN_MARK_UNREAD },
 	{ N_("Mark as _Important"),         NULL, GTK_SIGNAL_FUNC (mark_as_important), NULL, CAN_MARK_IMPORTANT },
@@ -1509,6 +1519,12 @@ context_menu_position_func (GtkMenu *menu, gint *x, gint *y,
 				  &tx, &ty, &tw, &th);
 	*x += tx + tw / 2;
 	*y += ty + th / 2;
+}
+
+static gboolean
+followup_tag_complete (const char *tag)
+{
+	return FALSE;
 }
 
 /* handle context menu over message-list */
@@ -1561,6 +1577,10 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		gboolean have_unseen = FALSE;
 		gboolean have_important = FALSE;
 		gboolean have_unimportant = FALSE;
+		gboolean have_flag_for_followup = FALSE;
+		gboolean have_flag_completed = FALSE;
+		gboolean have_unflagged = FALSE;
+		const char *tag;
 		
 		for (i = 0; i < uids->len; i++) {
 			info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
@@ -1582,6 +1602,13 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			else
 				have_unimportant = TRUE;
 			
+			if ((tag = camel_tag_get (&info->user_tags, "follow-up"))) {
+				have_flag_for_followup = TRUE;
+				if (followup_tag_complete (tag))
+					have_flag_completed = TRUE;
+			} else
+				have_unflagged = TRUE;
+			
 			camel_folder_free_message_info (fb->folder, info);
 			
 			if (have_seen && have_unseen && have_deleted && have_undeleted)
@@ -1602,6 +1629,11 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			enable_mask |= CAN_MARK_IMPORTANT;
 		if (!have_important)
 			enable_mask |= CAN_MARK_UNIMPORTANT;
+		
+		if (!have_unflagged)
+			enable_mask |= CAN_FLAG_FOR_FOLLOWUP;
+		if (!(have_flag_for_followup && have_flag_completed))
+			enable_mask |= CAN_FLAG_COMPLETED;
 		
 		/*
 		 * Hide items that wont get used.
@@ -1626,6 +1658,11 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			else
 				hide_mask |= CAN_MARK_UNIMPORTANT;
 		}
+		
+		if (!have_unflagged)
+			enable_mask |= CAN_FLAG_FOR_FOLLOWUP;
+		if (!(have_flag_for_followup && have_flag_completed))
+			enable_mask |= CAN_FLAG_COMPLETED;
 	}
 	
 	/* free uids */
