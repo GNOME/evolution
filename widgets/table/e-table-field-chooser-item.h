@@ -17,6 +17,8 @@ BEGIN_GNOME_DECLS
 typedef struct {
 	GnomeCanvasItem  parent;
 	ETableHeader    *full_header;
+	ETableHeader    *header;
+	ETableHeader    *combined_header;
 
 	double           height, width;
 
@@ -25,7 +27,8 @@ typedef struct {
 	/*
 	 * Ids
 	 */
-	int structure_change_id, dimension_change_id;
+	int full_header_structure_change_id, full_header_dimension_change_id;
+	int table_header_structure_change_id, table_header_dimension_change_id;
 
 	gchar           *dnd_code;
 

@@ -61,6 +61,7 @@ struct _ETableFieldChooser
 
 	gchar *dnd_code;
 	ETableHeader *full_header;
+	ETableHeader *header;
 };
 
 struct _ETableFieldChooserClass

@@ -1199,6 +1199,7 @@ ethi_popup_field_chooser(GtkWidget *widget, EthiHeaderInfo *info)
 	GtkWidget *etfcd = e_table_field_chooser_dialog_new();
 	gtk_object_set(GTK_OBJECT(etfcd),
 		       "full_header", info->ethi->full_header,
+		       "header", info->ethi->eth,
 		       "dnd_code", info->ethi->dnd_code,
 		       NULL);
 	gtk_widget_show(etfcd);

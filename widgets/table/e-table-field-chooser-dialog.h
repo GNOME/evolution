@@ -56,6 +56,7 @@ struct _ETableFieldChooserDialog
 	ETableFieldChooser *etfc;
 	gchar              *dnd_code;
 	ETableHeader       *full_header;
+	ETableHeader       *header;
 };
 
 struct _ETableFieldChooserDialogClass

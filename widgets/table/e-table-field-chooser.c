@@ -37,6 +37,7 @@ static GtkVBoxClass *parent_class = NULL;
 enum {
 	ARG_0,
 	ARG_FULL_HEADER,
+	ARG_HEADER,
 	ARG_DND_CODE,
 };
 
@@ -85,6 +86,8 @@ e_table_field_chooser_class_init (ETableFieldChooserClass *klass)
 				 GTK_ARG_READWRITE, ARG_DND_CODE);
 	gtk_object_add_arg_type ("ETableFieldChooser::full_header", GTK_TYPE_OBJECT,
 				 GTK_ARG_READWRITE, ARG_FULL_HEADER);
+	gtk_object_add_arg_type ("ETableFieldChooser::header", GTK_TYPE_OBJECT,
+				 GTK_ARG_READWRITE, ARG_HEADER);
 }
 
 static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, ETableFieldChooser *etfc)
@@ -155,6 +158,7 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 					   e_table_field_chooser_item_get_type(),
 					   "width", (double) 100,
 					   "full_header", etfc->full_header,
+					   "header", etfc->header,
 					   "dnd_code", etfc->dnd_code,
 					   NULL );
 
@@ -184,6 +188,8 @@ e_table_field_chooser_destroy (GtkObject *object)
 	g_free(etfc->dnd_code);
 	if (etfc->full_header)
 		gtk_object_unref(GTK_OBJECT(etfc->full_header));
+	if (etfc->header)
+		gtk_object_unref(GTK_OBJECT(etfc->header));
 
 	if (etfc->gui)
 		gtk_object_unref(GTK_OBJECT(etfc->gui));
@@ -227,6 +233,20 @@ e_table_field_chooser_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 				       "full_header", etfc->full_header,
 				       NULL);
 		break;
+	case ARG_HEADER:
+		if (etfc->header)
+			gtk_object_unref(GTK_OBJECT(etfc->header));
+		if (GTK_VALUE_OBJECT(*arg))
+			etfc->header = E_TABLE_HEADER(GTK_VALUE_OBJECT(*arg));
+		else
+			etfc->header = NULL;
+		if (etfc->header)
+			gtk_object_ref(GTK_OBJECT(etfc->header));
+		if (etfc->item)
+			gtk_object_set(GTK_OBJECT(etfc->item),
+				       "header", etfc->header,
+				       NULL);
+		break;
 	default:
 		break;
 	}
@@ -243,6 +263,9 @@ e_table_field_chooser_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_FULL_HEADER:
 		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(etfc->full_header);
+		break;
+	case ARG_HEADER:
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(etfc->header);
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;

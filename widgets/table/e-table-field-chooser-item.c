@@ -43,10 +43,12 @@ static guint etfci_signals [LAST_SIGNAL] = { 0, };
 static GnomeCanvasItemClass *etfci_parent_class;
 
 static void etfci_drop_table_header (ETableFieldChooserItem *etfci);
+static void etfci_drop_full_header (ETableFieldChooserItem *etfci);
 
 enum {
 	ARG_0,
 	ARG_FULL_HEADER,
+	ARG_HEADER,
 	ARG_DND_CODE,
 	ARG_WIDTH,
 	ARG_HEIGHT,
@@ -57,6 +59,9 @@ etfci_destroy (GtkObject *object){
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (object);
 
 	etfci_drop_table_header (etfci);
+	etfci_drop_full_header (etfci);
+	if (etfci->combined_header != NULL)
+		gtk_object_unref (GTK_OBJECT (etfci->combined_header));
 	
 	gdk_font_unref(etfci->font);
 
@@ -74,16 +79,46 @@ etfci_find_button (ETableFieldChooserItem *etfci, double loc)
 
 	style = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas)->style;
 
-	count = e_table_header_count(etfci->full_header);
+	count = e_table_header_count(etfci->combined_header);
 	for (i = 0; i < count; i++) {
 		ETableCol *ecol;
 
-		ecol = e_table_header_get_column (etfci->full_header, i);
+		ecol = e_table_header_get_column (etfci->combined_header, i);
 		height += e_table_header_compute_height (ecol, style, etfci->font);
 		if (height > loc)
 			return i;
 	}
 	return MAX(0, count - 1);
+}
+
+static void
+etfci_rebuild_combined (ETableFieldChooserItem *etfci)
+{
+	int count;
+	GHashTable *hash;
+	int i;
+
+	if (etfci->combined_header != NULL)
+		gtk_object_unref (GTK_OBJECT (etfci->combined_header));
+
+	etfci->combined_header = e_table_header_new ();
+
+	hash = g_hash_table_new (NULL, NULL);
+
+	count = e_table_header_count (etfci->header);
+	for (i = 0; i < count; i++) {
+		ETableCol *ecol = e_table_header_get_column (etfci->header, i);
+		g_hash_table_insert (hash, GINT_TO_POINTER (ecol->col_idx), GINT_TO_POINTER (1));
+	}
+
+	count = e_table_header_count (etfci->full_header);
+	for (i = 0; i < count; i++) {
+		ETableCol *ecol = e_table_header_get_column (etfci->full_header, i);
+		if (! (GPOINTER_TO_INT (g_hash_table_lookup (hash, GINT_TO_POINTER (ecol->col_idx)))))
+			e_table_header_add_column (etfci->combined_header, ecol, -1);
+	}
+
+	g_hash_table_destroy (hash);
 }
 
 static void
@@ -96,15 +131,17 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 	double height = 0;
 	GtkStyle *style;
 
+	etfci_rebuild_combined (etfci);
+
 	style = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas)->style;
 
 	old_height = etfci->height;
 
-	count = e_table_header_count(etfci->full_header);
+	count = e_table_header_count(etfci->combined_header);
 	for (i = 0; i < count; i++) {
 		ETableCol *ecol;
 
-		ecol = e_table_header_get_column (etfci->full_header, i);
+		ecol = e_table_header_get_column (etfci->combined_header, i);
 		height += e_table_header_compute_height (ecol, style, etfci->font);
 	}
 
@@ -167,7 +204,7 @@ etfci_font_load (ETableFieldChooserItem *etfci, char *font)
 }
 
 static void
-etfci_drop_table_header (ETableFieldChooserItem *etfci)
+etfci_drop_full_header (ETableFieldChooserItem *etfci)
 {
 	GtkObject *header;
 	
@@ -175,12 +212,12 @@ etfci_drop_table_header (ETableFieldChooserItem *etfci)
 		return;
 
 	header = GTK_OBJECT (etfci->full_header);
-	if (etfci->structure_change_id)
-		gtk_signal_disconnect (header, etfci->structure_change_id);
-	if (etfci->dimension_change_id)
-		gtk_signal_disconnect (header, etfci->dimension_change_id);
-	etfci->structure_change_id = 0;
-	etfci->dimension_change_id = 0;
+	if (etfci->full_header_structure_change_id)
+		gtk_signal_disconnect (header, etfci->full_header_structure_change_id);
+	if (etfci->full_header_dimension_change_id)
+		gtk_signal_disconnect (header, etfci->full_header_dimension_change_id);
+	etfci->full_header_structure_change_id = 0;
+	etfci->full_header_dimension_change_id = 0;
 
 	if (header)
 		gtk_object_unref (header);
@@ -190,13 +227,63 @@ etfci_drop_table_header (ETableFieldChooserItem *etfci)
 }
 
 static void 
-structure_changed (ETableHeader *header, ETableFieldChooserItem *etfci)
+full_header_structure_changed (ETableHeader *header, ETableFieldChooserItem *etfci)
 {
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
 
 static void
-dimension_changed (ETableHeader *header, int col, ETableFieldChooserItem *etfci)
+full_header_dimension_changed (ETableHeader *header, int col, ETableFieldChooserItem *etfci)
+{
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+}
+
+static void
+etfci_add_full_header (ETableFieldChooserItem *etfci, ETableHeader *header)
+{
+	etfci->full_header = header;
+	gtk_object_ref (GTK_OBJECT (etfci->full_header));
+
+	etfci->full_header_structure_change_id = gtk_signal_connect (
+		GTK_OBJECT (header), "structure_change",
+		GTK_SIGNAL_FUNC(full_header_structure_changed), etfci);
+	etfci->full_header_dimension_change_id = gtk_signal_connect (
+		GTK_OBJECT (header), "dimension_change",
+		GTK_SIGNAL_FUNC(full_header_dimension_changed), etfci);
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+}
+
+static void
+etfci_drop_table_header (ETableFieldChooserItem *etfci)
+{
+	GtkObject *header;
+	
+	if (!etfci->header)
+		return;
+
+	header = GTK_OBJECT (etfci->header);
+	if (etfci->table_header_structure_change_id)
+		gtk_signal_disconnect (header, etfci->table_header_structure_change_id);
+	if (etfci->table_header_dimension_change_id)
+		gtk_signal_disconnect (header, etfci->table_header_dimension_change_id);
+	etfci->table_header_structure_change_id = 0;
+	etfci->table_header_dimension_change_id = 0;
+
+	if (header)
+		gtk_object_unref (header);
+	etfci->header = NULL;
+	etfci->height = 0;
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+}
+
+static void 
+table_header_structure_changed (ETableHeader *header, ETableFieldChooserItem *etfci)
+{
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+}
+
+static void
+table_header_dimension_changed (ETableHeader *header, int col, ETableFieldChooserItem *etfci)
 {
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
@@ -204,15 +291,15 @@ dimension_changed (ETableHeader *header, int col, ETableFieldChooserItem *etfci)
 static void
 etfci_add_table_header (ETableFieldChooserItem *etfci, ETableHeader *header)
 {
-	etfci->full_header = header;
-	gtk_object_ref (GTK_OBJECT (etfci->full_header));
+	etfci->header = header;
+	gtk_object_ref (GTK_OBJECT (etfci->header));
 
-	etfci->structure_change_id = gtk_signal_connect (
+	etfci->table_header_structure_change_id = gtk_signal_connect (
 		GTK_OBJECT (header), "structure_change",
-		GTK_SIGNAL_FUNC(structure_changed), etfci);
-	etfci->dimension_change_id = gtk_signal_connect (
+		GTK_SIGNAL_FUNC(table_header_structure_changed), etfci);
+	etfci->table_header_dimension_change_id = gtk_signal_connect (
 		GTK_OBJECT (header), "dimension_change",
-		GTK_SIGNAL_FUNC(dimension_changed), etfci);
+		GTK_SIGNAL_FUNC(table_header_dimension_changed), etfci);
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
 }
 
@@ -227,6 +314,12 @@ etfci_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_FULL_HEADER:
+		etfci_drop_full_header (etfci);
+		if (GTK_VALUE_OBJECT (*arg))
+			etfci_add_full_header (etfci, E_TABLE_HEADER(GTK_VALUE_OBJECT (*arg)));
+		break;
+
+	case ARG_HEADER:
 		etfci_drop_table_header (etfci);
 		if (GTK_VALUE_OBJECT (*arg))
 			etfci_add_table_header (etfci, E_TABLE_HEADER(GTK_VALUE_OBJECT (*arg)));
@@ -343,11 +436,16 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int widt
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 	GnomeCanvas *canvas = item->canvas;
-	const int rows = e_table_header_count (etfci->full_header);
+	int rows;
 	int y1, y2;
 	int row;
 	GtkStyle *style;
 	GtkStateType state;
+
+	if (etfci->combined_header == NULL)
+		return;
+
+	rows = e_table_header_count (etfci->combined_header);
 
 	style = GTK_WIDGET (canvas)->style;
 	state = GTK_WIDGET_STATE (canvas);
@@ -356,7 +454,7 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int widt
 	for (row = 0; row < rows; row++, y1 = y2){
 		ETableCol *ecol;
 
-		ecol = e_table_header_get_column (etfci->full_header, row);
+		ecol = e_table_header_get_column (etfci->combined_header, row);
 
 		y2 += e_table_header_compute_height (ecol, style, etfci->font);
 		
@@ -412,12 +510,15 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 		{ TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
 
-	drag_col = etfci_find_button(etfci, y);
-
-	if (drag_col < 0 || drag_col > e_table_header_count(etfci->full_header))
+	if (etfci->combined_header == NULL)
 		return;
 
-	ecol = e_table_header_get_column (etfci->full_header, drag_col);
+	drag_col = etfci_find_button(etfci, y);
+
+	if (drag_col < 0 || drag_col > e_table_header_count(etfci->combined_header))
+		return;
+
+	ecol = e_table_header_get_column (etfci->combined_header, drag_col);
 
 	etfci->drag_col = ecol->col_idx;
 
@@ -429,7 +530,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 	button_height = e_table_header_compute_height (ecol, widget->style, etfci->font);
 	pixmap = gdk_pixmap_new (widget->window, etfci->width, button_height, -1);
 
-	e_table_header_draw_button (pixmap, e_table_header_get_column (etfci->full_header, drag_col),
+	e_table_header_draw_button (pixmap, e_table_header_get_column (etfci->combined_header, drag_col),
 				    widget->style, etfci->font, GTK_WIDGET_STATE (widget),
 				    widget, widget->style->fg_gc[GTK_STATE_NORMAL],
 				    0, 0,
@@ -508,6 +609,8 @@ etfci_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READWRITE, ARG_DND_CODE);
 	gtk_object_add_arg_type ("ETableFieldChooserItem::full_header", GTK_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_FULL_HEADER);
+	gtk_object_add_arg_type ("ETableFieldChooserItem::header", GTK_TYPE_OBJECT,
+				 GTK_ARG_WRITABLE, ARG_HEADER);
 	gtk_object_add_arg_type ("ETableFieldChooserItem::width", GTK_TYPE_DOUBLE,
 				 GTK_ARG_READWRITE, ARG_WIDTH);
 	gtk_object_add_arg_type ("ETableFieldChooserItem::height", GTK_TYPE_DOUBLE,
@@ -520,13 +623,17 @@ etfci_init (GnomeCanvasItem *item)
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
 
 	etfci->full_header = NULL;
+	etfci->header = NULL;
+	etfci->combined_header = NULL;
 	
 	etfci->height = etfci->width = 0;
 
 	etfci->font = NULL;
 
-	etfci->structure_change_id = 0;
-	etfci->dimension_change_id = 0;
+	etfci->full_header_structure_change_id = 0;
+	etfci->full_header_dimension_change_id = 0;
+	etfci->table_header_structure_change_id = 0;
+	etfci->table_header_dimension_change_id = 0;
 
 	etfci->dnd_code = NULL;
 
