@@ -2,6 +2,7 @@
 
 	* filtertypes.xml: Added closing ) for "not starts with" subject
 	rule.
+	Added closing ) for all the other broken rules too ...
 
 2002-04-04  Dan Winship  <danw@ximian.com>
 
