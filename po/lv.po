@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution for latvian\n"
-"POT-Creation-Date: 2003-02-04 12:25-0500\n"
+"POT-Creation-Date: 2003-03-31 11:38-0500\n"
 "PO-Revision-Date: 2003-02-03 23:02+0200\n"
 "Last-Translator: Pēteris Krišjānis <peteris.krisjanis@os.lv>\n"
 "Language-Team: Latvian <lv@li.org>\n"
@@ -295,41 +295,50 @@ msgid "FBUrl"
 msgstr "BAUrl"
 
 #: addressbook/backend/ebook/e-card-simple.c:100
+msgid "Default server calendar"
+msgstr ""
+
+#: addressbook/backend/ebook/e-card-simple.c:100
+#, fuzzy
+msgid "icsCalendar"
+msgstr "Kalendārs"
+
+#: addressbook/backend/ebook/e-card-simple.c:101
 msgid "Anniversary"
 msgstr "Ikgadējs"
 
-#: addressbook/backend/ebook/e-card-simple.c:100
+#: addressbook/backend/ebook/e-card-simple.c:101
 msgid "Anniv"
 msgstr "Ikgad."
 
-#: addressbook/backend/ebook/e-card-simple.c:101
+#: addressbook/backend/ebook/e-card-simple.c:102
 msgid "Birth Date"
 msgstr "Dzimšanas datums"
 
-#: addressbook/backend/ebook/e-card-simple.c:104
+#: addressbook/backend/ebook/e-card-simple.c:105
 #: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Categories"
 msgstr "Kategorijas"
 
-#: addressbook/backend/ebook/e-card-simple.c:105
+#: addressbook/backend/ebook/e-card-simple.c:106
 msgid "Family Name"
 msgstr "Uzvārds"
 
-#: addressbook/backend/ebook/e-card-simple.c:792
+#: addressbook/backend/ebook/e-card-simple.c:793
 #, c-format
 msgid "%x"
 msgstr "%x"
 
-#: addressbook/backend/ebook/e-card-simple.c:853
+#: addressbook/backend/ebook/e-card-simple.c:854
 #: addressbook/backend/ebook/e-destination.c:706
 msgid "Unnamed List"
 msgstr "Nenosaukts saraksts"
 
-#: addressbook/backend/ebook/e-card.c:2683
+#: addressbook/backend/ebook/e-card.c:2707
 msgid "Multiple VCards"
 msgstr "Vairākas VKartes"
 
-#: addressbook/backend/ebook/e-card.c:2691
+#: addressbook/backend/ebook/e-card.c:2715
 #, c-format
 msgid "VCard for %s"
 msgstr "%s VKarte"
@@ -340,8 +349,8 @@ msgstr "%s VKarte"
 #: addressbook/backend/ebook/test-client.c:34
 #: addressbook/conduit/address-conduit.c:1860
 #: addressbook/gui/component/addressbook-factory.c:50
-#: calendar/conduits/calendar/calendar-conduit.c:1807
-#: calendar/conduits/todo/todo-conduit.c:1385
+#: calendar/conduits/calendar/calendar-conduit.c:1821
+#: calendar/conduits/todo/todo-conduit.c:1401
 #: calendar/gui/alarm-notify/notify-main.c:174 calendar/gui/main.c:67
 #: tools/evolution-addressbook-abuse.c:132
 #: tools/evolution-addressbook-export.c:60
@@ -351,7 +360,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Nevarēju inicializēt Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:364
-#: addressbook/backend/pas/pas-backend-ldap.c:3021
+#: addressbook/backend/pas/pas-backend-ldap.c:3022
 msgid "Searching..."
 msgstr "Meklēju..."
 
@@ -359,28 +368,28 @@ msgstr "Meklēju..."
 msgid "Loading..."
 msgstr "Ielādēju..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:730
+#: addressbook/backend/pas/pas-backend-ldap.c:731
 msgid "Reconnecting to LDAP server..."
 msgstr "Pārvienojos ar LDAP serveri..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1273
+#: addressbook/backend/pas/pas-backend-ldap.c:1274
 msgid "Adding card to LDAP server..."
 msgstr "Pievienoju karti LDAP serverim..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1379
+#: addressbook/backend/pas/pas-backend-ldap.c:1380
 msgid "Removing card from LDAP server..."
 msgstr "Izņemu karti no LDAP servera..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1615
-#: addressbook/backend/pas/pas-backend-ldap.c:1618
+#: addressbook/backend/pas/pas-backend-ldap.c:1616
+#: addressbook/backend/pas/pas-backend-ldap.c:1619
 msgid "Modifying card from LDAP server..."
 msgstr "Mainu karti no LDAP servera..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2932
+#: addressbook/backend/pas/pas-backend-ldap.c:2933
 msgid "Receiving LDAP search results..."
 msgstr "Saņemu LDAP meklēšanas rezultātus..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:3041
+#: addressbook/backend/pas/pas-backend-ldap.c:3042
 msgid "Error performing search"
 msgstr "Kļūda izpildot meklēšanu"
 
@@ -397,14 +406,14 @@ msgid "EBook not loaded\n"
 msgstr "EGrāmata (EBook) nav ielādēta\n"
 
 #: addressbook/conduit/address-conduit.c:1354
-#: calendar/conduits/calendar/calendar-conduit.c:1278
-#: calendar/conduits/todo/todo-conduit.c:889
+#: calendar/conduits/calendar/calendar-conduit.c:1283
+#: calendar/conduits/todo/todo-conduit.c:894
 msgid "Could not start wombat server"
 msgstr "Nevarēju sāknēt wombat serveri"
 
 #: addressbook/conduit/address-conduit.c:1355
-#: calendar/conduits/calendar/calendar-conduit.c:1279
-#: calendar/conduits/todo/todo-conduit.c:890
+#: calendar/conduits/calendar/calendar-conduit.c:1284
+#: calendar/conduits/todo/todo-conduit.c:895
 msgid "Could not start wombat"
 msgstr "Nevarēju sāknēt wombat"
 
@@ -967,8 +976,8 @@ msgstr "M_eklēšanas mērogs:"
 
 #. No time range is set, so don't start a query
 #: addressbook/gui/component/ldap-config.glade.h:52
-#: calendar/gui/calendar-model.c:1994 calendar/gui/e-day-view.c:1710
-#: calendar/gui/e-week-view.c:1240
+#: calendar/gui/calendar-model.c:2001 calendar/gui/e-day-view.c:1711
+#: calendar/gui/e-week-view.c:1241
 msgid "Searching"
 msgstr "Meklēšana"
 
@@ -1214,7 +1223,7 @@ msgstr "Kad iespējams"
 #: addressbook/gui/component/ldap-config.glade.h:107
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
-#: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:14
+#: calendar/gui/dialogs/alarm-page.glade.h:9 filter/filter.glade.h:14
 #: mail/mail-config.glade.h:137 shell/glade/e-folder-list.glade.h:1
 msgid "_Add"
 msgstr "_Pievienot"
@@ -1477,7 +1486,7 @@ msgid "D_epartment:"
 msgstr "D_epartaments:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#: calendar/gui/dialogs/task-editor.c:211
+#: calendar/gui/dialogs/task-editor.c:212
 msgid "Details"
 msgstr "Detaļas"
 
@@ -1536,10 +1545,10 @@ msgid "Wants to receive _HTML mail"
 msgstr "Grib saņemt _HTML pastu"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
-#: calendar/gui/dialogs/alarm-page.glade.h:9
-#: calendar/gui/dialogs/meeting-page.c:674
-#: calendar/gui/e-calendar-table.c:1006 calendar/gui/e-day-view.c:3766
-#: calendar/gui/e-week-view.c:3563 filter/filter.glade.h:15
+#: calendar/gui/dialogs/alarm-page.glade.h:10
+#: calendar/gui/dialogs/meeting-page.c:678
+#: calendar/gui/e-calendar-table.c:1007 calendar/gui/e-day-view.c:3772
+#: calendar/gui/e-week-view.c:3585 filter/filter.glade.h:15
 #: mail/folder-browser.c:1756 mail/mail-config.glade.h:150
 #: shell/glade/e-folder-list.glade.h:2 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:27 ui/evolution-mail-message.xml.h:97
@@ -3107,7 +3116,7 @@ msgid "Delete"
 msgstr "Dzēst"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:833
-#: calendar/gui/e-day-view.c:3726 calendar/gui/e-week-view.c:3528
+#: calendar/gui/e-day-view.c:3732 calendar/gui/e-week-view.c:3550
 msgid "Current View"
 msgstr "Pašreizējais skats"
 
@@ -3427,32 +3436,32 @@ msgstr "Platums:"
 msgid "_Font..."
 msgstr "_Fonts..."
 
-#: calendar/cal-util/cal-component.c:1218
+#: calendar/cal-util/cal-component.c:1220
 msgid "Untitled appointment"
 msgstr "Nenosaukta tikšanās"
 
-#: calendar/cal-util/cal-util.c:500 calendar/cal-util/cal-util.c:522
+#: calendar/cal-util/cal-util.c:524 calendar/cal-util/cal-util.c:546
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-calendar-table.c:418 mail/message-list.c:748
 msgid "High"
 msgstr "Augsts"
 
-#: calendar/cal-util/cal-util.c:502 calendar/cal-util/cal-util.c:524
-#: calendar/gui/calendar-model.c:1721
-#: calendar/gui/dialogs/task-details-page.glade.h:10
+#: calendar/cal-util/cal-util.c:526 calendar/cal-util/cal-util.c:548
+#: calendar/gui/calendar-model.c:1728
+#: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-calendar-table.c:419 mail/message-list.c:747
 msgid "Normal"
 msgstr "Normāls"
 
-#: calendar/cal-util/cal-util.c:504 calendar/cal-util/cal-util.c:526
+#: calendar/cal-util/cal-util.c:528 calendar/cal-util/cal-util.c:550
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-calendar-table.c:420 mail/message-list.c:746
 msgid "Low"
 msgstr "Zems"
 
 #. An empty string is the same as 'None'.
-#: calendar/cal-util/cal-util.c:520
-#: calendar/gui/dialogs/task-details-page.glade.h:14
+#: calendar/cal-util/cal-util.c:544
+#: calendar/gui/dialogs/task-details-page.glade.h:13
 #: calendar/gui/e-calendar-table.c:421
 msgid "Undefined"
 msgstr "Nedefinēts"
@@ -3461,13 +3470,13 @@ msgstr "Nedefinēts"
 msgid "Split Multi-Day Events:"
 msgstr "Sadalīt vairāku dienu notikumus:"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1225
-#: calendar/conduits/todo/todo-conduit.c:835
+#: calendar/conduits/calendar/calendar-conduit.c:1230
+#: calendar/conduits/todo/todo-conduit.c:840
 msgid "Error while communicating with calendar server"
 msgstr "Kļūda savienojoties ar kalendāra serveri"
 
-#: calendar/conduits/calendar/calendar-conduit.c:1372
-#: calendar/conduits/calendar/calendar-conduit.c:1375
+#: calendar/conduits/calendar/calendar-conduit.c:1381
+#: calendar/conduits/calendar/calendar-conduit.c:1384
 msgid "Could not read pilot's Calendar application block"
 msgstr "Nevarēju nolasīt Pilot kalendāra aplikācijas bloku"
 
@@ -3475,8 +3484,8 @@ msgstr "Nevarēju nolasīt Pilot kalendāra aplikācijas bloku"
 msgid "Default Priority:"
 msgstr "Noklusētā prioritāte:"
 
-#: calendar/conduits/todo/todo-conduit.c:951
-#: calendar/conduits/todo/todo-conduit.c:954
+#: calendar/conduits/todo/todo-conduit.c:964
+#: calendar/conduits/todo/todo-conduit.c:967
 msgid "Could not read pilot's ToDo application block"
 msgstr "Nevar nolasīt Pilota ToDo aplikācijas bloku"
 
@@ -3591,7 +3600,7 @@ msgstr ""
 "normālu atgādinātāja dialoga logu."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:760
-#: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2924
+#: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2951
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Brīdinājums"
@@ -3648,7 +3657,7 @@ msgstr "%A %d %B %Y"
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/calendar-commands.c:408 calendar/gui/e-day-view-top-item.c:288
-#: calendar/gui/e-day-view.c:1436 calendar/gui/e-week-view-main-item.c:333
+#: calendar/gui/e-day-view.c:1437 calendar/gui/e-week-view-main-item.c:333
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
@@ -3719,7 +3728,7 @@ msgid "Busy"
 msgstr "Aizņemts"
 
 #: calendar/gui/calendar-model.c:762 calendar/gui/calendar-model.c:1197
-#: calendar/gui/dialogs/task-details-page.glade.h:11
+#: calendar/gui/dialogs/task-details-page.glade.h:10
 #: calendar/gui/e-calendar-table.c:491 calendar/gui/print.c:2290
 msgid "Not Started"
 msgstr "Nav iesākts"
@@ -3732,8 +3741,8 @@ msgstr "Progresā"
 
 #: calendar/gui/calendar-model.c:768 calendar/gui/calendar-model.c:1201
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:493 calendar/gui/e-meeting-model.c:330
-#: calendar/gui/e-meeting-model.c:353 calendar/gui/print.c:2296
+#: calendar/gui/e-calendar-table.c:493 calendar/gui/e-meeting-model.c:329
+#: calendar/gui/e-meeting-model.c:352 calendar/gui/print.c:2296
 msgid "Completed"
 msgstr "Pabeigts"
 
@@ -3759,22 +3768,22 @@ msgstr ""
 msgid "None"
 msgstr "Nekas"
 
-#: calendar/gui/calendar-model.c:1723
+#: calendar/gui/calendar-model.c:1730
 msgid "Recurring"
 msgstr "Periodisks"
 
-#: calendar/gui/calendar-model.c:1725
+#: calendar/gui/calendar-model.c:1732
 msgid "Assigned"
 msgstr "Asignēts"
 
-#: calendar/gui/calendar-model.c:1731 calendar/gui/e-meeting-model.c:302
-#: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-model.c:569
-#: calendar/gui/e-meeting-model.c:863
+#: calendar/gui/calendar-model.c:1738 calendar/gui/e-meeting-model.c:301
+#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:567
+#: calendar/gui/e-meeting-model.c:860
 msgid "Yes"
 msgstr "Jā"
 
-#: calendar/gui/calendar-model.c:1731 calendar/gui/e-meeting-model.c:314
-#: calendar/gui/e-meeting-model.c:864
+#: calendar/gui/calendar-model.c:1738 calendar/gui/e-meeting-model.c:313
+#: calendar/gui/e-meeting-model.c:861
 msgid "No"
 msgstr "Nē"
 
@@ -3812,7 +3821,7 @@ msgstr "Publiskais kalendārs"
 msgid "Public folder containing appointments and events"
 msgstr "Publiska mape, kas satur tikšanos un notikumu ierakstus"
 
-#: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:738
+#: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:737
 #: calendar/gui/print.c:1777 calendar/gui/tasks-control.c:508
 #: calendar/importers/icalendar-importer.c:704
 #: importers/netscape-importer.c:1875 my-evolution/e-summary-tasks.c:327
@@ -3894,23 +3903,24 @@ msgstr "URI, ko kalendārs parādīs"
 msgid "The type of view to show"
 msgstr "Rādāmais skata tips"
 
-#: calendar/gui/dialogs/alarm-options.c:359
+#: calendar/gui/dialogs/alarm-options.c:475
 msgid "Audio Alarm Options"
 msgstr "Skaņas trauksmes opcijas"
 
-#: calendar/gui/dialogs/alarm-options.c:368
+#: calendar/gui/dialogs/alarm-options.c:484
 msgid "Message Alarm Options"
 msgstr "Ziņas trauksmes opcijas"
 
-#: calendar/gui/dialogs/alarm-options.c:377
-msgid "Mail Alarm Options"
+#: calendar/gui/dialogs/alarm-options.c:493
+#, fuzzy
+msgid "Email Alarm Options"
 msgstr "Pasta trauksmes opcijas"
 
-#: calendar/gui/dialogs/alarm-options.c:386
+#: calendar/gui/dialogs/alarm-options.c:502
 msgid "Program Alarm Options"
 msgstr "Programmas Trauksmes opcijas"
 
-#: calendar/gui/dialogs/alarm-options.c:395
+#: calendar/gui/dialogs/alarm-options.c:511
 msgid "Unknown Alarm Options"
 msgstr "Nezināmas trauksmes opcijas"
 
@@ -3919,16 +3929,13 @@ msgid "Alarm Repeat"
 msgstr "Atkārtot trauksmi"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
-msgid ""
-"Evolution does not yet support email notification for reminders.  You will "
-"not be able to edit the options for this reminder."
-msgstr ""
-"Evolution vēl neatbalsta šāda veida atgādinājumus. Jums nebūs iespējams "
-"rediģēt opcijas šim atgādinājumam."
-
-#: calendar/gui/dialogs/alarm-options.glade.h:3
 msgid "Message to Display"
 msgstr "Ziņa, ko attēlot"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:3
+#, fuzzy
+msgid "Message to Send"
+msgstr "Vēstules ķermenis"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Play sound:"
@@ -3943,132 +3950,137 @@ msgid "Run program:"
 msgstr "Palaist programmu:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
+#, fuzzy
+msgid "Send To:"
+msgstr "Sūtīt"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:8
 msgid "With these arguments:"
 msgstr "Ar šiem argumentiem:"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:8 filter/filter-datespec.c:73
+#: calendar/gui/dialogs/alarm-options.glade.h:9 filter/filter-datespec.c:73
 #: filter/filter.glade.h:20
 msgid "days"
 msgstr "dienas"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:9
+#: calendar/gui/dialogs/alarm-options.glade.h:10
 msgid "extra times every"
 msgstr "papildus laiks katras"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter-datespec.c:72
+#: calendar/gui/dialogs/alarm-options.glade.h:11 filter/filter-datespec.c:72
 #: filter/filter.glade.h:21
 msgid "hours"
 msgstr "stundas"
 
-#: calendar/gui/dialogs/alarm-options.glade.h:11 filter/filter-datespec.c:71
+#: calendar/gui/dialogs/alarm-options.glade.h:12 filter/filter-datespec.c:71
 #: filter/filter.glade.h:22
 msgid "minutes"
 msgstr "minūtes"
 
-#: calendar/gui/dialogs/alarm-page.c:319
+#: calendar/gui/dialogs/alarm-page.c:328
 #, c-format
 msgid "%d days"
 msgstr "%d dienas"
 
-#: calendar/gui/dialogs/alarm-page.c:322
+#: calendar/gui/dialogs/alarm-page.c:331
 msgid "1 day"
 msgstr "1 diena"
 
-#: calendar/gui/dialogs/alarm-page.c:327
+#: calendar/gui/dialogs/alarm-page.c:336
 #, c-format
 msgid "%d weeks"
 msgstr "%d nedēļas"
 
-#: calendar/gui/dialogs/alarm-page.c:330
+#: calendar/gui/dialogs/alarm-page.c:339
 msgid "1 week"
 msgstr "1 nedēļa"
 
-#: calendar/gui/dialogs/alarm-page.c:335
+#: calendar/gui/dialogs/alarm-page.c:344
 #, c-format
 msgid "%d hours"
 msgstr "%d stundas"
 
-#: calendar/gui/dialogs/alarm-page.c:338
+#: calendar/gui/dialogs/alarm-page.c:347
 msgid "1 hour"
 msgstr "1 stunda"
 
-#: calendar/gui/dialogs/alarm-page.c:343
+#: calendar/gui/dialogs/alarm-page.c:352
 #, c-format
 msgid "%d minutes"
 msgstr "%d minūtes"
 
-#: calendar/gui/dialogs/alarm-page.c:346
+#: calendar/gui/dialogs/alarm-page.c:355
 msgid "1 minute"
 msgstr "1 minūte"
 
-#: calendar/gui/dialogs/alarm-page.c:351
+#: calendar/gui/dialogs/alarm-page.c:360
 #, c-format
 msgid "%d seconds"
 msgstr "%d sekundes"
 
-#: calendar/gui/dialogs/alarm-page.c:354
+#: calendar/gui/dialogs/alarm-page.c:363
 msgid "1 second"
 msgstr "1 sekunde"
 
-#: calendar/gui/dialogs/alarm-page.c:383
+#: calendar/gui/dialogs/alarm-page.c:392
 #: calendar/gui/dialogs/alarm-page.glade.h:4
 msgid "Play a sound"
 msgstr "Spēlēt skaņu"
 
-#: calendar/gui/dialogs/alarm-page.c:387
+#: calendar/gui/dialogs/alarm-page.c:396
 #: calendar/gui/dialogs/alarm-page.glade.h:3
 msgid "Display a message"
 msgstr "Parādīt paziņojumu"
 
-#: calendar/gui/dialogs/alarm-page.c:391
+#: calendar/gui/dialogs/alarm-page.c:400
 msgid "Send an email"
 msgstr "Sūtīt epastu"
 
-#: calendar/gui/dialogs/alarm-page.c:395
+#: calendar/gui/dialogs/alarm-page.c:404
 #: calendar/gui/dialogs/alarm-page.glade.h:6
 msgid "Run a program"
 msgstr "Sāknēt programmu"
 
-#: calendar/gui/dialogs/alarm-page.c:401
+#: calendar/gui/dialogs/alarm-page.c:410
 msgid "Unknown action to be performed"
 msgstr "Nezināma darbība, kas tiks izpildīta"
 
-#: calendar/gui/dialogs/alarm-page.c:413
+#: calendar/gui/dialogs/alarm-page.c:422
 #, c-format
 msgid "%s %s before the start of the appointment"
 msgstr "%s %s pirms tikšanās sākuma"
 
-#: calendar/gui/dialogs/alarm-page.c:416
+#: calendar/gui/dialogs/alarm-page.c:425
 #, c-format
 msgid "%s %s after the start of the appointment"
 msgstr "%s %s pēc tikšanās sākuma"
 
-#: calendar/gui/dialogs/alarm-page.c:421
+#: calendar/gui/dialogs/alarm-page.c:430
 #, c-format
 msgid "%s at the start of the appointment"
 msgstr "%s tikšanās sākumā"
 
-#: calendar/gui/dialogs/alarm-page.c:430
+#: calendar/gui/dialogs/alarm-page.c:439
 #, c-format
 msgid "%s %s before the end of the appointment"
 msgstr "%s %s pirms tikšanās beigām"
 
-#: calendar/gui/dialogs/alarm-page.c:433
+#: calendar/gui/dialogs/alarm-page.c:442
 #, c-format
 msgid "%s %s after the end of the appointment"
 msgstr "%s %s pēc tikšanās beigām"
 
-#: calendar/gui/dialogs/alarm-page.c:438
+#: calendar/gui/dialogs/alarm-page.c:447
 #, c-format
 msgid "%s at the end of the appointment"
 msgstr "%s tikšanās beigās"
 
-#: calendar/gui/dialogs/alarm-page.c:462
+#: calendar/gui/dialogs/alarm-page.c:471
 #, c-format
 msgid "%s at %s"
 msgstr "%s iekš %s"
 
-#: calendar/gui/dialogs/alarm-page.c:468
+#: calendar/gui/dialogs/alarm-page.c:477
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr "%s nezināma palaidēja tipam"
@@ -4088,41 +4100,46 @@ msgid "Reminders"
 msgstr "Atgādinājumi"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
+#, fuzzy
+msgid "Send an Email"
+msgstr "Sūtīt epastu"
+
+#: calendar/gui/dialogs/alarm-page.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:1027 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:1067 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Kopsavilkums:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:10
+#: calendar/gui/dialogs/alarm-page.glade.h:11
 msgid "_Options..."
 msgstr "_Opcijas:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:11
+#: calendar/gui/dialogs/alarm-page.glade.h:12
 msgid "after"
 msgstr "pēc"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:12
+#: calendar/gui/dialogs/alarm-page.glade.h:13
 msgid "before"
 msgstr "pirms"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:13
+#: calendar/gui/dialogs/alarm-page.glade.h:14
 #: calendar/gui/dialogs/recurrence-page.glade.h:14
 msgid "day(s)"
 msgstr "diena(s)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:14
+#: calendar/gui/dialogs/alarm-page.glade.h:15
 msgid "end of appointment"
 msgstr "tikšanās beigas"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:15
+#: calendar/gui/dialogs/alarm-page.glade.h:16
 msgid "hour(s)"
 msgstr "stunda(s)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:182
+#: calendar/gui/dialogs/alarm-page.glade.h:17 mail/mail-config.glade.h:182
 msgid "minute(s)"
 msgstr "minūte(s)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:17
+#: calendar/gui/dialogs/alarm-page.glade.h:18
 msgid "start of appointment"
 msgstr "tikšanās sākums"
 
@@ -4171,8 +4188,8 @@ msgid "Days"
 msgstr "Dienas"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: calendar/gui/dialogs/recurrence-page.c:1135
-#: calendar/gui/e-itip-control.c:655
+#: calendar/gui/dialogs/recurrence-page.c:1146
+#: calendar/gui/e-itip-control.c:692
 msgid "Friday"
 msgstr "Piekdiena"
 
@@ -4185,8 +4202,8 @@ msgid "Minutes"
 msgstr "Minūtes"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-#: calendar/gui/dialogs/recurrence-page.c:1131
-#: calendar/gui/e-itip-control.c:651
+#: calendar/gui/dialogs/recurrence-page.c:1142
+#: calendar/gui/e-itip-control.c:688
 msgid "Monday"
 msgstr "Pirmdiena"
 
@@ -4195,8 +4212,8 @@ msgid "S_un"
 msgstr "_Sv"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: calendar/gui/dialogs/recurrence-page.c:1136
-#: calendar/gui/e-itip-control.c:656
+#: calendar/gui/dialogs/recurrence-page.c:1147
+#: calendar/gui/e-itip-control.c:693
 msgid "Saturday"
 msgstr "Sesdiena"
 
@@ -4209,8 +4226,8 @@ msgid "Show week _numbers in date navigator"
 msgstr "Parādīt nedēļas _numurus datuma navigātorā"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: calendar/gui/dialogs/recurrence-page.c:1137
-#: calendar/gui/e-itip-control.c:650
+#: calendar/gui/dialogs/recurrence-page.c:1148
+#: calendar/gui/e-itip-control.c:687
 msgid "Sunday"
 msgstr "Svēdiena"
 
@@ -4227,8 +4244,8 @@ msgid "Task List"
 msgstr "Uzdevumu saraksts"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: calendar/gui/dialogs/recurrence-page.c:1134
-#: calendar/gui/e-itip-control.c:654
+#: calendar/gui/dialogs/recurrence-page.c:1145
+#: calendar/gui/e-itip-control.c:691
 msgid "Thursday"
 msgstr "Ceturdiena"
 
@@ -4245,8 +4262,8 @@ msgid "Time format:"
 msgstr "Laika formāts:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#: calendar/gui/dialogs/recurrence-page.c:1132
-#: calendar/gui/e-itip-control.c:652
+#: calendar/gui/dialogs/recurrence-page.c:1143
+#: calendar/gui/e-itip-control.c:689
 msgid "Tuesday"
 msgstr "Otradiena"
 
@@ -4255,8 +4272,8 @@ msgid "W_eek starts:"
 msgstr "N_edēļa sākas:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
-#: calendar/gui/dialogs/recurrence-page.c:1133
-#: calendar/gui/e-itip-control.c:653
+#: calendar/gui/dialogs/recurrence-page.c:1144
+#: calendar/gui/e-itip-control.c:690
 msgid "Wednesday"
 msgstr "Trešdiena"
 
@@ -4338,7 +4355,7 @@ msgstr "_Tre"
 msgid "before every appointment"
 msgstr "pirms katras tikšanās"
 
-#: calendar/gui/dialogs/cancel-comp.c:56
+#: calendar/gui/dialogs/cancel-comp.c:59
 msgid ""
 "The event being deleted is a meeting, would you like to send a cancellation "
 "notice?"
@@ -4346,11 +4363,11 @@ msgstr ""
 "Notikums, kuru jūs vēlaties dzēst, ir sanāksme, vai jūs vēlaties izsūtīt "
 "atsaukumus?"
 
-#: calendar/gui/dialogs/cancel-comp.c:59
+#: calendar/gui/dialogs/cancel-comp.c:62
 msgid "Are you sure you want to cancel and delete this meeting?"
 msgstr "Vai jūs esat pārliecināts, ka vēlaties atsaukt un izdzēst šo sanāksmi?"
 
-#: calendar/gui/dialogs/cancel-comp.c:65
+#: calendar/gui/dialogs/cancel-comp.c:68
 msgid ""
 "The task being deleted is assigned, would you like to send a cancellation "
 "notice?"
@@ -4358,11 +4375,11 @@ msgstr ""
 "Uzdevums, ko jūs vēlaties dzēst, ir norīkots, vai jūs vēlaties izsūtīt "
 "atsaukumu?"
 
-#: calendar/gui/dialogs/cancel-comp.c:68
+#: calendar/gui/dialogs/cancel-comp.c:71
 msgid "Are you sure you want to cancel and delete this task?"
 msgstr "Vai jūs esat pārliecināts, ka vēlaties atsaukt un izdzēst šo uzdevumu?"
 
-#: calendar/gui/dialogs/cancel-comp.c:74
+#: calendar/gui/dialogs/cancel-comp.c:77
 msgid ""
 "The journal entry being deleted is published, would you like to send a "
 "cancellation notice?"
@@ -4370,7 +4387,7 @@ msgstr ""
 "Žurnāla ieraksts, ko jūs vēlaties dzēst, ir publicēts, vai jūs vēlaties "
 "izsūtīt atsaukumu?"
 
-#: calendar/gui/dialogs/cancel-comp.c:77
+#: calendar/gui/dialogs/cancel-comp.c:80
 msgid "Are you sure you want to cancel and delete this journal entry?"
 msgstr ""
 "Vai jūs esat pārliecināts, ka vēlaties atsaukt un izdzēst šo žurnāla "
@@ -4447,61 +4464,61 @@ msgstr " (Līdz "
 msgid "Due "
 msgstr "Līdz"
 
-#: calendar/gui/dialogs/comp-editor.c:343
+#: calendar/gui/dialogs/comp-editor.c:350
 msgid "Could not update invalid object"
 msgstr "Nevarēju atjaunināt nepareizu objektu"
 
-#: calendar/gui/dialogs/comp-editor.c:346
+#: calendar/gui/dialogs/comp-editor.c:353
 msgid "Object not found, not updated"
 msgstr "Objekts nav atrasts, nav atjaunināts"
 
-#: calendar/gui/dialogs/comp-editor.c:349
+#: calendar/gui/dialogs/comp-editor.c:356
 msgid "You don't have permissions to update this object"
 msgstr "Jums nav atļauju, lai atjauninātu objektu"
 
-#: calendar/gui/dialogs/comp-editor.c:352
+#: calendar/gui/dialogs/comp-editor.c:359
 msgid "Could not update object"
 msgstr "Nevarēju atjaunināt objektu"
 
-#: calendar/gui/dialogs/comp-editor.c:798
+#: calendar/gui/dialogs/comp-editor.c:809
 msgid "Edit Appointment"
 msgstr "Rediģēt tikšanos"
 
-#: calendar/gui/dialogs/comp-editor.c:803
+#: calendar/gui/dialogs/comp-editor.c:814
 #, c-format
 msgid "Appointment - %s"
 msgstr "Tikšanās - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:806
+#: calendar/gui/dialogs/comp-editor.c:817
 #, c-format
 msgid "Task - %s"
 msgstr "Uzdevums - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:809
+#: calendar/gui/dialogs/comp-editor.c:820
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Žurnāla ieraksts - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:823
+#: calendar/gui/dialogs/comp-editor.c:834
 msgid "No summary"
 msgstr "Nav kopsavilkuma"
 
-#: calendar/gui/dialogs/comp-editor.c:1221
-#: calendar/gui/e-calendar-table.c:1073 calendar/gui/e-day-view.c:3982
-#: calendar/gui/e-week-view.c:3762 composer/e-msg-composer.c:1151
+#: calendar/gui/dialogs/comp-editor.c:1246
+#: calendar/gui/e-calendar-table.c:1077 calendar/gui/e-day-view.c:3991
+#: calendar/gui/e-week-view.c:3787 composer/e-msg-composer.c:1151
 msgid "Save as..."
 msgstr "Saglabāt kā..."
 
-#: calendar/gui/dialogs/comp-editor.c:1322
-#: calendar/gui/dialogs/comp-editor.c:1346
-#: calendar/gui/dialogs/comp-editor.c:1370
-msgid ""
-"Changes made to this item may be discarded if an update arrives via email"
+#: calendar/gui/dialogs/comp-editor.c:1347
+#: calendar/gui/dialogs/comp-editor.c:1371
+#: calendar/gui/dialogs/comp-editor.c:1395
+#, fuzzy
+msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Izmaiņas, izdarītas šajā priekšmetā, varētu tikt atceltas, ja atjauninājums "
 "atnāk caur epastu"
 
-#: calendar/gui/dialogs/comp-editor.c:1397
+#: calendar/gui/dialogs/comp-editor.c:1422
 msgid "Unable to obtain current version!"
 msgstr "Nevar dabūt pašreizējo versiju!"
 
@@ -4576,30 +4593,30 @@ msgid "Recurrence"
 msgstr "Atkārtošanās"
 
 #: calendar/gui/dialogs/event-editor.c:232
-#: calendar/gui/dialogs/event-editor.c:299
-#: calendar/gui/dialogs/event-editor.c:435
+#: calendar/gui/dialogs/event-editor.c:303
+#: calendar/gui/dialogs/event-editor.c:441
 msgid "Scheduling"
 msgstr "Plānošana"
 
 #: calendar/gui/dialogs/event-editor.c:237
-#: calendar/gui/dialogs/event-editor.c:302
-#: calendar/gui/dialogs/event-editor.c:438 ui/evolution-event-editor.xml.h:6
+#: calendar/gui/dialogs/event-editor.c:306
+#: calendar/gui/dialogs/event-editor.c:444 ui/evolution-event-editor.xml.h:6
 msgid "Meeting"
 msgstr "Sanāksme"
 
-#: calendar/gui/dialogs/event-page.c:662 calendar/gui/dialogs/task-page.c:567
+#: calendar/gui/dialogs/event-page.c:666 calendar/gui/dialogs/task-page.c:567
 msgid "Start date is wrong"
 msgstr "Sākuma datums ir nepareizs"
 
-#: calendar/gui/dialogs/event-page.c:672
+#: calendar/gui/dialogs/event-page.c:676
 msgid "End date is wrong"
 msgstr "Beigu datums ir nepareizs"
 
-#: calendar/gui/dialogs/event-page.c:695
+#: calendar/gui/dialogs/event-page.c:699
 msgid "Start time is wrong"
 msgstr "Sākuma datums ir nepareizs"
 
-#: calendar/gui/dialogs/event-page.c:702
+#: calendar/gui/dialogs/event-page.c:706
 msgid "End time is wrong"
 msgstr "Beigu datums ir nepareizs"
 
@@ -4668,19 +4685,19 @@ msgstr "B_eigu laiks:"
 msgid "_Start time:"
 msgstr "_Sākuma laiks:"
 
-#: calendar/gui/dialogs/meeting-page.c:414
+#: calendar/gui/dialogs/meeting-page.c:418
 msgid "An organizer is required."
 msgstr "Nepieciešams organizētajs."
 
-#: calendar/gui/dialogs/meeting-page.c:438
+#: calendar/gui/dialogs/meeting-page.c:442
 msgid "At least one attendee is required."
 msgstr "Tiek pieprasīts vismaz viens apmeklētājs."
 
-#: calendar/gui/dialogs/meeting-page.c:594
+#: calendar/gui/dialogs/meeting-page.c:598
 msgid "That person is already attending the meeting!"
 msgstr "Šī persona jau apmeklē sanāksmi!"
 
-#: calendar/gui/dialogs/meeting-page.c:669
+#: calendar/gui/dialogs/meeting-page.c:673
 msgid "_Delegate To..."
 msgstr "_Deleģēt uz..."
 
@@ -4720,7 +4737,7 @@ msgid "Member"
 msgstr "Loceklis"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:1151
+#: calendar/gui/e-itip-control.c:1193
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -4761,20 +4778,20 @@ msgstr "_Ielūgt citus..."
 #: calendar/gui/dialogs/recurrence-page.c:126
 #: calendar/gui/dialogs/recurrence-page.c:146
 #: calendar/gui/dialogs/recurrence-page.c:156
-#: calendar/gui/e-itip-control.c:603 calendar/gui/e-itip-control.c:623
-#: calendar/gui/e-itip-control.c:633
+#: calendar/gui/e-itip-control.c:640 calendar/gui/e-itip-control.c:660
+#: calendar/gui/e-itip-control.c:670
 msgid "st"
 msgstr "."
 
 #: calendar/gui/dialogs/recurrence-page.c:127
 #: calendar/gui/dialogs/recurrence-page.c:147
-#: calendar/gui/e-itip-control.c:604 calendar/gui/e-itip-control.c:624
+#: calendar/gui/e-itip-control.c:641 calendar/gui/e-itip-control.c:661
 msgid "nd"
 msgstr "."
 
 #: calendar/gui/dialogs/recurrence-page.c:128
 #: calendar/gui/dialogs/recurrence-page.c:148
-#: calendar/gui/e-itip-control.c:605 calendar/gui/e-itip-control.c:625
+#: calendar/gui/e-itip-control.c:642 calendar/gui/e-itip-control.c:662
 msgid "rd"
 msgstr "."
 
@@ -4802,66 +4819,67 @@ msgstr "."
 #: calendar/gui/dialogs/recurrence-page.c:153
 #: calendar/gui/dialogs/recurrence-page.c:154
 #: calendar/gui/dialogs/recurrence-page.c:155
-#: calendar/gui/e-itip-control.c:606 calendar/gui/e-itip-control.c:607
-#: calendar/gui/e-itip-control.c:608 calendar/gui/e-itip-control.c:609
-#: calendar/gui/e-itip-control.c:610 calendar/gui/e-itip-control.c:611
-#: calendar/gui/e-itip-control.c:612 calendar/gui/e-itip-control.c:613
-#: calendar/gui/e-itip-control.c:614 calendar/gui/e-itip-control.c:615
-#: calendar/gui/e-itip-control.c:616 calendar/gui/e-itip-control.c:617
-#: calendar/gui/e-itip-control.c:618 calendar/gui/e-itip-control.c:619
-#: calendar/gui/e-itip-control.c:620 calendar/gui/e-itip-control.c:621
-#: calendar/gui/e-itip-control.c:622 calendar/gui/e-itip-control.c:626
-#: calendar/gui/e-itip-control.c:627 calendar/gui/e-itip-control.c:628
-#: calendar/gui/e-itip-control.c:629 calendar/gui/e-itip-control.c:630
-#: calendar/gui/e-itip-control.c:631 calendar/gui/e-itip-control.c:632
+#: calendar/gui/e-itip-control.c:643 calendar/gui/e-itip-control.c:644
+#: calendar/gui/e-itip-control.c:645 calendar/gui/e-itip-control.c:646
+#: calendar/gui/e-itip-control.c:647 calendar/gui/e-itip-control.c:648
+#: calendar/gui/e-itip-control.c:649 calendar/gui/e-itip-control.c:650
+#: calendar/gui/e-itip-control.c:651 calendar/gui/e-itip-control.c:652
+#: calendar/gui/e-itip-control.c:653 calendar/gui/e-itip-control.c:654
+#: calendar/gui/e-itip-control.c:655 calendar/gui/e-itip-control.c:656
+#: calendar/gui/e-itip-control.c:657 calendar/gui/e-itip-control.c:658
+#: calendar/gui/e-itip-control.c:659 calendar/gui/e-itip-control.c:663
+#: calendar/gui/e-itip-control.c:664 calendar/gui/e-itip-control.c:665
+#: calendar/gui/e-itip-control.c:666 calendar/gui/e-itip-control.c:667
+#: calendar/gui/e-itip-control.c:668 calendar/gui/e-itip-control.c:669
 msgid "th"
 msgstr "."
 
-#: calendar/gui/dialogs/recurrence-page.c:629
+#: calendar/gui/dialogs/recurrence-page.c:635
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Šī tikšanās satur atkārtošanās, ko Evolution nevar rediģēt."
 
-#: calendar/gui/dialogs/recurrence-page.c:898
-msgid "Recurrent date is wrong"
+#: calendar/gui/dialogs/recurrence-page.c:904
+#, fuzzy
+msgid "Recurrence date is invalid"
 msgstr "Atkārtošanas datums ir nepareizs."
 
-#: calendar/gui/dialogs/recurrence-page.c:1007
+#: calendar/gui/dialogs/recurrence-page.c:1018
 msgid "on"
 msgstr "uz"
 
-#: calendar/gui/dialogs/recurrence-page.c:1072
+#: calendar/gui/dialogs/recurrence-page.c:1083
 msgid "first"
 msgstr "pirmais"
 
-#: calendar/gui/dialogs/recurrence-page.c:1073 filter/filter-datespec.c:70
+#: calendar/gui/dialogs/recurrence-page.c:1084 filter/filter-datespec.c:70
 msgid "second"
 msgstr "sekunde"
 
-#: calendar/gui/dialogs/recurrence-page.c:1074
+#: calendar/gui/dialogs/recurrence-page.c:1085
 msgid "third"
 msgstr "trešais"
 
-#: calendar/gui/dialogs/recurrence-page.c:1075
+#: calendar/gui/dialogs/recurrence-page.c:1086
 msgid "fourth"
 msgstr "ceturtais"
 
-#: calendar/gui/dialogs/recurrence-page.c:1076
+#: calendar/gui/dialogs/recurrence-page.c:1087
 msgid "last"
 msgstr "pēdējais"
 
-#: calendar/gui/dialogs/recurrence-page.c:1102
+#: calendar/gui/dialogs/recurrence-page.c:1113
 msgid "Other Date"
 msgstr "Cits datums"
 
-#: calendar/gui/dialogs/recurrence-page.c:1130 filter/filter-datespec.c:73
+#: calendar/gui/dialogs/recurrence-page.c:1141 filter/filter-datespec.c:73
 msgid "day"
 msgstr "dienā"
 
-#: calendar/gui/dialogs/recurrence-page.c:1270
+#: calendar/gui/dialogs/recurrence-page.c:1281
 msgid "on the"
 msgstr "uz"
 
-#: calendar/gui/dialogs/recurrence-page.c:1455
+#: calendar/gui/dialogs/recurrence-page.c:1466
 msgid "occurrences"
 msgstr "reizes"
 
@@ -4925,23 +4943,23 @@ msgstr "nedēļa(s)"
 msgid "year(s)"
 msgstr "gads(i)"
 
-#: calendar/gui/dialogs/send-comp.c:56
+#: calendar/gui/dialogs/send-comp.c:59
 msgid "The meeting information has been created. Send it?"
 msgstr "Informācija par sanāksmi ir izveidota. Nosūtīt to?"
 
-#: calendar/gui/dialogs/send-comp.c:59
+#: calendar/gui/dialogs/send-comp.c:62
 msgid "The meeting information has changed. Send an updated version?"
 msgstr "Informācija par sanāksmi ir izmainīta. Nosūtīt atjauninātu versiju?"
 
-#: calendar/gui/dialogs/send-comp.c:66
+#: calendar/gui/dialogs/send-comp.c:69
 msgid "The task assignment information has been created. Send it?"
 msgstr "Informācija par uzdevuma norīkojumu ir izveidota. Nosūtīt to?"
 
-#: calendar/gui/dialogs/send-comp.c:70
+#: calendar/gui/dialogs/send-comp.c:73
 msgid "The task information has changed. Send an updated version?"
 msgstr "Informācija par uzdevumu ir izmainīta. Nosūtīt atjauninātu versiju?"
 
-#: calendar/gui/dialogs/task-details-page.c:420
+#: calendar/gui/dialogs/task-details-page.c:419
 msgid "Completed date is wrong"
 msgstr "Izpildīšanas datums ir nepareizs"
 
@@ -4955,36 +4973,30 @@ msgstr "% izpildīts"
 msgid "Date Completed:"
 msgstr "Izpildes datums:"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:9
-#: calendar/gui/e-meeting-model.c:320 calendar/gui/e-meeting-model.c:343
-#: calendar/gui/e-meeting-model.c:575 calendar/gui/e-meeting-model.c:876
-msgid "Needs Action"
-msgstr "Pieprasa darbību"
-
-#: calendar/gui/dialogs/task-details-page.glade.h:12
+#: calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "Progress"
 msgstr "Progress"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:13
+#: calendar/gui/dialogs/task-details-page.glade.h:12
 #: my-evolution/e-summary-preferences.c:860
 msgid "URL:"
 msgstr "URL:"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:15
+#: calendar/gui/dialogs/task-details-page.glade.h:14
 msgid "_Priority:"
 msgstr "_Prioritāte:"
 
-#: calendar/gui/dialogs/task-details-page.glade.h:16
+#: calendar/gui/dialogs/task-details-page.glade.h:15
 msgid "_Status:"
 msgstr "_Statuss:"
 
-#: calendar/gui/dialogs/task-editor.c:206
+#: calendar/gui/dialogs/task-editor.c:207
 msgid "Basic"
 msgstr "Pamata"
 
-#: calendar/gui/dialogs/task-editor.c:216
-#: calendar/gui/dialogs/task-editor.c:261
-#: calendar/gui/dialogs/task-editor.c:386
+#: calendar/gui/dialogs/task-editor.c:217
+#: calendar/gui/dialogs/task-editor.c:266
+#: calendar/gui/dialogs/task-editor.c:407
 msgid "Assignment"
 msgstr "Uzticējums"
 
@@ -4992,7 +5004,7 @@ msgstr "Uzticējums"
 msgid "Due date is wrong"
 msgstr "Izpildes datums ir nepareizs"
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:1081
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:1121
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:44
 msgid "Description:"
@@ -5061,76 +5073,76 @@ msgstr "80%"
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:753 calendar/gui/e-day-view.c:2865
-#: calendar/gui/e-week-view.c:1917
+#: calendar/gui/e-calendar-table.c:753 calendar/gui/e-day-view.c:2866
+#: calendar/gui/e-week-view.c:1918
 msgid "Deleting selected objects"
 msgstr "Dzēšu izvēlētos objektus"
 
-#: calendar/gui/e-calendar-table.c:987 calendar/gui/e-day-view.c:3748
-#: calendar/gui/e-week-view.c:3545 mail/folder-browser.c:1729
+#: calendar/gui/e-calendar-table.c:988 calendar/gui/e-day-view.c:3754
+#: calendar/gui/e-week-view.c:3567 mail/folder-browser.c:1729
 #: shell/e-shortcuts-view.c:408 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Atvērt"
 
-#: calendar/gui/e-calendar-table.c:988
+#: calendar/gui/e-calendar-table.c:989
 msgid "_Save as..."
 msgstr "Saglabāt _kā..."
 
-#: calendar/gui/e-calendar-table.c:989 calendar/gui/e-day-view.c:3750
-#: calendar/gui/e-week-view.c:3520 calendar/gui/e-week-view.c:3547
+#: calendar/gui/e-calendar-table.c:990 calendar/gui/e-day-view.c:3756
+#: calendar/gui/e-week-view.c:3542 calendar/gui/e-week-view.c:3569
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:30
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
 #: ui/evolution-tasks.xml.h:20 ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "_Drukāt..."
 
-#: calendar/gui/e-calendar-table.c:993 calendar/gui/e-day-view.c:3755
-#: calendar/gui/e-week-view.c:3552 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-calendar-table.c:994 calendar/gui/e-day-view.c:3761
+#: calendar/gui/e-week-view.c:3574 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Izgriezt"
 
-#: calendar/gui/e-calendar-table.c:994 calendar/gui/e-day-view.c:3756
-#: calendar/gui/e-week-view.c:3553 ui/evolution-addressbook.xml.h:30
+#: calendar/gui/e-calendar-table.c:995 calendar/gui/e-day-view.c:3762
+#: calendar/gui/e-week-view.c:3575 ui/evolution-addressbook.xml.h:30
 #: ui/evolution-calendar.xml.h:26 ui/evolution-mail-list.xml.h:24
 #: ui/evolution-tasks.xml.h:15
 msgid "_Copy"
 msgstr "_Kopēt"
 
-#: calendar/gui/e-calendar-table.c:995 calendar/gui/e-day-view.c:3721
-#: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3524
-#: calendar/gui/e-week-view.c:3554 ui/evolution-addressbook.xml.h:37
+#: calendar/gui/e-calendar-table.c:996 calendar/gui/e-day-view.c:3727
+#: calendar/gui/e-day-view.c:3763 calendar/gui/e-week-view.c:3546
+#: calendar/gui/e-week-view.c:3576 ui/evolution-addressbook.xml.h:37
 #: ui/evolution-calendar.xml.h:29 ui/evolution-mail-list.xml.h:29
 #: ui/evolution-tasks.xml.h:19
 msgid "_Paste"
 msgstr "_Ievietot"
 
-#: calendar/gui/e-calendar-table.c:999
+#: calendar/gui/e-calendar-table.c:1000
 msgid "_Assign Task"
 msgstr "_Nozīmēt uzdevumu"
 
-#: calendar/gui/e-calendar-table.c:1000
+#: calendar/gui/e-calendar-table.c:1001
 msgid "_Forward as iCalendar"
 msgstr "_Pārsūtīt kā iKalendāru"
 
-#: calendar/gui/e-calendar-table.c:1001
+#: calendar/gui/e-calendar-table.c:1002
 msgid "_Mark as Complete"
 msgstr "A_tzīmēt kā Izpildītus"
 
-#: calendar/gui/e-calendar-table.c:1002
+#: calendar/gui/e-calendar-table.c:1003
 msgid "_Mark Selected Tasks as Complete"
 msgstr "A_tzīmēt izvēlētos uzdevumus kā izpildītus"
 
-#: calendar/gui/e-calendar-table.c:1007
+#: calendar/gui/e-calendar-table.c:1008
 msgid "_Delete Selected Tasks"
 msgstr "_Dzēst izvēlētos uzdevumus"
 
-#: calendar/gui/e-calendar-table.c:1278 calendar/gui/e-day-view.c:7586
-#: calendar/gui/e-week-view.c:4241
+#: calendar/gui/e-calendar-table.c:1282 calendar/gui/e-day-view.c:7675
+#: calendar/gui/e-week-view.c:4276
 msgid "Updating objects"
 msgstr "Atjaunināt objektus"
 
-#: calendar/gui/e-calendar-table.c:1361
+#: calendar/gui/e-calendar-table.c:1365
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Klikšķināt, lai pievienotu uzdevumu"
@@ -5212,198 +5224,198 @@ msgstr "%02i minūšu sadaļas"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:284 calendar/gui/e-day-view.c:1422
+#: calendar/gui/e-day-view-top-item.c:284 calendar/gui/e-day-view.c:1423
 #: calendar/gui/e-week-view-main-item.c:324 calendar/gui/print.c:1507
 msgid "%A %d %B"
 msgstr "%A, %d. %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:292 calendar/gui/e-day-view.c:1449
+#: calendar/gui/e-day-view-top-item.c:292 calendar/gui/e-day-view.c:1450
 #: calendar/gui/e-week-view-main-item.c:347
 msgid "%d %b"
 msgstr "%d. %b"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:636 calendar/gui/e-week-view.c:375
+#: calendar/gui/e-day-view.c:637 calendar/gui/e-week-view.c:376
 #: calendar/gui/print.c:791
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:639 calendar/gui/e-week-view.c:378
+#: calendar/gui/e-day-view.c:640 calendar/gui/e-week-view.c:379
 #: calendar/gui/print.c:793
 msgid "pm"
 msgstr "pm"
 
-#: calendar/gui/e-day-view.c:3705
+#: calendar/gui/e-day-view.c:3711
 msgid "New _Appointment"
 msgstr "Jauna _tikšanās"
 
-#: calendar/gui/e-day-view.c:3707 calendar/gui/e-week-view.c:3514
+#: calendar/gui/e-day-view.c:3713 calendar/gui/e-week-view.c:3536
 msgid "New All Day _Event"
 msgstr "Jauns visas di_enas notikums"
 
-#: calendar/gui/e-day-view.c:3709 calendar/gui/e-week-view.c:3515
+#: calendar/gui/e-day-view.c:3715 calendar/gui/e-week-view.c:3537
 msgid "New Meeting"
 msgstr "Jauna sanāksme"
 
-#: calendar/gui/e-day-view.c:3711 calendar/gui/e-week-view.c:3516
+#: calendar/gui/e-day-view.c:3717 calendar/gui/e-week-view.c:3538
 msgid "New Task"
 msgstr "Jauns uzdevums"
 
-#: calendar/gui/e-day-view.c:3716 ui/evolution-comp-editor.xml.h:11
+#: calendar/gui/e-day-view.c:3722 ui/evolution-comp-editor.xml.h:11
 msgid "Print..."
 msgstr "Drukāt..."
 
-#: calendar/gui/e-day-view.c:3728 calendar/gui/e-week-view.c:3530
+#: calendar/gui/e-day-view.c:3734 calendar/gui/e-week-view.c:3552
 #: ui/evolution-calendar.xml.h:10
 msgid "Go to _Today"
 msgstr "Iet uz _dienu"
 
-#: calendar/gui/e-day-view.c:3730 calendar/gui/e-week-view.c:3531
+#: calendar/gui/e-day-view.c:3736 calendar/gui/e-week-view.c:3553
 msgid "_Go to Date..."
 msgstr "_Iet uz datumu..."
 
-#: calendar/gui/e-day-view.c:3735 calendar/gui/e-week-view.c:3535
+#: calendar/gui/e-day-view.c:3741 calendar/gui/e-week-view.c:3557
 #: ui/evolution-calendar.xml.h:31
 msgid "_Publish Free/Busy Information"
 msgstr "_Publicēt brīvs/aizņemts informāciju"
 
-#: calendar/gui/e-day-view.c:3740 calendar/gui/e-week-view.c:3539
+#: calendar/gui/e-day-view.c:3746 calendar/gui/e-week-view.c:3561
 #: ui/evolution.xml.h:62
 msgid "_Settings..."
 msgstr "_Uzstādījumi..."
 
-#: calendar/gui/e-day-view.c:3749 calendar/gui/e-week-view.c:3546
+#: calendar/gui/e-day-view.c:3755 calendar/gui/e-week-view.c:3568
 #: mail/folder-browser.c:1731 ui/evolution-mail-message.xml.h:112
 msgid "_Save As..."
 msgstr "_Saglabāt kā..."
 
-#: calendar/gui/e-day-view.c:3761 calendar/gui/e-week-view.c:3558
+#: calendar/gui/e-day-view.c:3767 calendar/gui/e-week-view.c:3580
 msgid "_Schedule Meeting..."
 msgstr "Plānot _sanāksmi..."
 
-#: calendar/gui/e-day-view.c:3762 calendar/gui/e-week-view.c:3559
+#: calendar/gui/e-day-view.c:3768 calendar/gui/e-week-view.c:3581
 msgid "_Forward as iCalendar..."
 msgstr "_Pārsūtīt kā iKalendāru..."
 
-#: calendar/gui/e-day-view.c:3767 calendar/gui/e-week-view.c:3564
+#: calendar/gui/e-day-view.c:3773 calendar/gui/e-week-view.c:3586
 msgid "Make this Occurrence _Movable"
 msgstr ""
 
-#: calendar/gui/e-day-view.c:3768 calendar/gui/e-week-view.c:3565
+#: calendar/gui/e-day-view.c:3774 calendar/gui/e-week-view.c:3587
 msgid "Delete this _Occurrence"
 msgstr ""
 
-#: calendar/gui/e-day-view.c:3769 calendar/gui/e-week-view.c:3566
+#: calendar/gui/e-day-view.c:3775 calendar/gui/e-week-view.c:3588
 msgid "Delete _All Occurrences"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:684
+#: calendar/gui/e-itip-control.c:721
 msgid "Yes. (Complex Recurrence)"
 msgstr "Jā. (Sarežģīta atkārtošanās)"
 
-#: calendar/gui/e-itip-control.c:696
+#: calendar/gui/e-itip-control.c:733
 msgid "Every day"
 msgstr "Katru dienu"
 
-#: calendar/gui/e-itip-control.c:698
+#: calendar/gui/e-itip-control.c:735
 #, c-format
 msgid "Every %d days"
 msgstr "Katras %d dienas"
 
-#: calendar/gui/e-itip-control.c:704
+#: calendar/gui/e-itip-control.c:741
 msgid "Every week"
 msgstr "Katru nedēļu"
 
-#: calendar/gui/e-itip-control.c:706
+#: calendar/gui/e-itip-control.c:743
 #, c-format
 msgid "Every %d weeks"
 msgstr "Katras %d nedēļas"
 
-#: calendar/gui/e-itip-control.c:709
+#: calendar/gui/e-itip-control.c:746
 msgid "Every week on "
 msgstr "Katru nedēļu "
 
-#: calendar/gui/e-itip-control.c:711
+#: calendar/gui/e-itip-control.c:748
 #, c-format
 msgid "Every %d weeks on "
 msgstr "Katras %d nedēļas "
 
-#: calendar/gui/e-itip-control.c:719
+#: calendar/gui/e-itip-control.c:756
 msgid " and "
 msgstr " un "
 
-#: calendar/gui/e-itip-control.c:726
+#: calendar/gui/e-itip-control.c:763
 #, c-format
 msgid "The %s day of "
 msgstr "%s. dienā, "
 
-#: calendar/gui/e-itip-control.c:739
+#: calendar/gui/e-itip-control.c:776
 #, c-format
 msgid "The %s %s of "
 msgstr "%s %s, "
 
-#: calendar/gui/e-itip-control.c:744
+#: calendar/gui/e-itip-control.c:781
 msgid "every month"
 msgstr "katru mēnesi"
 
-#: calendar/gui/e-itip-control.c:749
+#: calendar/gui/e-itip-control.c:786
 #, c-format
 msgid "every %d months"
 msgstr "katrus %d mēnešus"
 
-#: calendar/gui/e-itip-control.c:755
+#: calendar/gui/e-itip-control.c:792
 msgid "Every year"
 msgstr "Katru gadu"
 
-#: calendar/gui/e-itip-control.c:757
+#: calendar/gui/e-itip-control.c:794
 #, c-format
 msgid "Every %d years"
 msgstr "Katrus %d gadus"
 
-#: calendar/gui/e-itip-control.c:769
+#: calendar/gui/e-itip-control.c:806
 #, c-format
 msgid " a total of %d times"
 msgstr " kopā %d reizes"
 
-#: calendar/gui/e-itip-control.c:777
+#: calendar/gui/e-itip-control.c:814
 msgid ", ending on "
 msgstr ", beidzoties "
 
-#: calendar/gui/e-itip-control.c:801
+#: calendar/gui/e-itip-control.c:838
 msgid "<b>Starts:</b> "
 msgstr "<b>Sākas:</b> "
 
-#: calendar/gui/e-itip-control.c:811
+#: calendar/gui/e-itip-control.c:848
 msgid "<b>Ends:</b> "
 msgstr "<b>Beidzas:</b>"
 
-#: calendar/gui/e-itip-control.c:831
+#: calendar/gui/e-itip-control.c:868
 msgid "<b>Completed:</b> "
 msgstr "<b>Izpildīts:</b>"
 
-#: calendar/gui/e-itip-control.c:841
+#: calendar/gui/e-itip-control.c:878
 msgid "<b>Due:</b> "
 msgstr "<b>Līdz:</b>"
 
-#: calendar/gui/e-itip-control.c:878 calendar/gui/e-itip-control.c:928
+#: calendar/gui/e-itip-control.c:915 calendar/gui/e-itip-control.c:968
 msgid "iCalendar Information"
 msgstr "iKalendāra informācija"
 
 #. Title
-#: calendar/gui/e-itip-control.c:893
+#: calendar/gui/e-itip-control.c:930
 msgid "iCalendar Error"
 msgstr "iKalendāra kļūda"
 
-#: calendar/gui/e-itip-control.c:959 calendar/gui/e-itip-control.c:975
-#: calendar/gui/e-itip-control.c:986 calendar/gui/e-itip-control.c:1003
+#: calendar/gui/e-itip-control.c:999 calendar/gui/e-itip-control.c:1015
+#: calendar/gui/e-itip-control.c:1026 calendar/gui/e-itip-control.c:1043
 msgid "An unknown person"
 msgstr "Nezināma persona"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:1010
+#: calendar/gui/e-itip-control.c:1050
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
@@ -5411,38 +5423,38 @@ msgstr ""
 "<br> Lūdzu apskatiet sekojošo informāciju un pēc tam izvēlieties darbību no "
 "izvēlnes zemāk."
 
-#: calendar/gui/e-itip-control.c:1025
+#: calendar/gui/e-itip-control.c:1065
 msgid "<i>None</i>"
 msgstr "<i>Nekas</i>"
 
-#: calendar/gui/e-itip-control.c:1035
+#: calendar/gui/e-itip-control.c:1075
 msgid "Location:"
 msgstr "Lokācija: "
 
-#: calendar/gui/e-itip-control.c:1049
+#: calendar/gui/e-itip-control.c:1089
 msgid "Status:"
 msgstr "Statuss:"
 
-#: calendar/gui/e-itip-control.c:1054 calendar/gui/e-meeting-model.c:322
-#: calendar/gui/e-meeting-model.c:345 calendar/gui/e-meeting-model.c:877
-#: calendar/gui/itip-utils.c:490
+#: calendar/gui/e-itip-control.c:1094 calendar/gui/e-meeting-model.c:321
+#: calendar/gui/e-meeting-model.c:344 calendar/gui/e-meeting-model.c:874
+#: calendar/gui/itip-utils.c:501
 msgid "Accepted"
 msgstr "Apstiprināts"
 
-#: calendar/gui/e-itip-control.c:1058 calendar/gui/itip-utils.c:493
+#: calendar/gui/e-itip-control.c:1098 calendar/gui/itip-utils.c:504
 msgid "Tentatively Accepted"
 msgstr "Pagaidām akceptēt"
 
-#: calendar/gui/e-itip-control.c:1062 calendar/gui/e-meeting-model.c:324
-#: calendar/gui/e-meeting-model.c:347 calendar/gui/e-meeting-model.c:878
-#: calendar/gui/itip-utils.c:496 calendar/gui/itip-utils.c:522
+#: calendar/gui/e-itip-control.c:1102 calendar/gui/e-meeting-model.c:323
+#: calendar/gui/e-meeting-model.c:346 calendar/gui/e-meeting-model.c:875
+#: calendar/gui/itip-utils.c:507 calendar/gui/itip-utils.c:533
 msgid "Declined"
 msgstr "Noliegts"
 
-#: calendar/gui/e-itip-control.c:1066 calendar/gui/e-itip-control.c:1272
-#: calendar/gui/e-meeting-model.c:258 calendar/gui/e-meeting-model.c:293
-#: calendar/gui/e-meeting-model.c:358 calendar/gui/e-meeting-model.c:835
-#: calendar/gui/e-meeting-model.c:851 camel/camel-tcp-stream-openssl.c:629
+#: calendar/gui/e-itip-control.c:1106 calendar/gui/e-itip-control.c:1314
+#: calendar/gui/e-meeting-model.c:257 calendar/gui/e-meeting-model.c:292
+#: calendar/gui/e-meeting-model.c:357 calendar/gui/e-meeting-model.c:832
+#: calendar/gui/e-meeting-model.c:848 camel/camel-tcp-stream-openssl.c:629
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/folder-browser.c:327
 #: mail/mail-display.c:901 widgets/misc/e-charset-picker.c:58
@@ -5450,299 +5462,299 @@ msgstr "Noliegts"
 msgid "Unknown"
 msgstr "Nezināms"
 
-#: calendar/gui/e-itip-control.c:1119 calendar/gui/e-itip-control.c:1147
-#: calendar/gui/e-itip-control.c:1173 calendar/gui/e-itip-control.c:1186
-#: calendar/gui/e-itip-control.c:1199 calendar/gui/e-itip-control.c:1212
+#: calendar/gui/e-itip-control.c:1161 calendar/gui/e-itip-control.c:1189
+#: calendar/gui/e-itip-control.c:1215 calendar/gui/e-itip-control.c:1228
+#: calendar/gui/e-itip-control.c:1241 calendar/gui/e-itip-control.c:1254
 msgid "Choose an action:"
 msgstr "Izvēlieties darbību:"
 
-#: calendar/gui/e-itip-control.c:1120
+#: calendar/gui/e-itip-control.c:1162
 msgid "Update"
 msgstr "Atjaunot"
 
-#: calendar/gui/e-itip-control.c:1121 calendar/gui/e-itip-control.c:1152
-#: calendar/gui/e-itip-control.c:1175 calendar/gui/e-itip-control.c:1188
-#: calendar/gui/e-itip-control.c:1201 calendar/gui/e-itip-control.c:1214
+#: calendar/gui/e-itip-control.c:1163 calendar/gui/e-itip-control.c:1194
+#: calendar/gui/e-itip-control.c:1217 calendar/gui/e-itip-control.c:1230
+#: calendar/gui/e-itip-control.c:1243 calendar/gui/e-itip-control.c:1256
 #: shell/e-shell.c:2176 widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
 msgstr "OK"
 
-#: calendar/gui/e-itip-control.c:1148
+#: calendar/gui/e-itip-control.c:1190
 msgid "Accept"
 msgstr "Apstiprināt"
 
-#: calendar/gui/e-itip-control.c:1149
+#: calendar/gui/e-itip-control.c:1191
 msgid "Tentatively accept"
 msgstr "Pagaidām akceptēt"
 
-#: calendar/gui/e-itip-control.c:1150
+#: calendar/gui/e-itip-control.c:1192
 msgid "Decline"
 msgstr "Noliegt"
 
-#: calendar/gui/e-itip-control.c:1174
+#: calendar/gui/e-itip-control.c:1216
 msgid "Send Free/Busy Information"
 msgstr "Nosūtīt brīvs/aizņemts informāciju"
 
-#: calendar/gui/e-itip-control.c:1187
+#: calendar/gui/e-itip-control.c:1229
 msgid "Update respondent status"
 msgstr "Atjaunināt respondenta statusu"
 
-#: calendar/gui/e-itip-control.c:1200
+#: calendar/gui/e-itip-control.c:1242
 msgid "Send Latest Information"
 msgstr "Sūtīt pēdīgo informāciju"
 
-#: calendar/gui/e-itip-control.c:1213 calendar/gui/itip-utils.c:510
+#: calendar/gui/e-itip-control.c:1255 calendar/gui/itip-utils.c:521
 #: shell/evolution-shell-component.c:1143 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Atsaukt"
 
-#: calendar/gui/e-itip-control.c:1294
+#: calendar/gui/e-itip-control.c:1336
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "<b>%s</b> ir publicējis informāciju par sanāksmi."
 
-#: calendar/gui/e-itip-control.c:1295
+#: calendar/gui/e-itip-control.c:1337
 msgid "Meeting Information"
 msgstr "Informācija par sanāksmi"
 
-#: calendar/gui/e-itip-control.c:1300
+#: calendar/gui/e-itip-control.c:1342
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr "<b>%s</b> pieprasa %s klātbūtni sanāksmē."
 
-#: calendar/gui/e-itip-control.c:1302
+#: calendar/gui/e-itip-control.c:1344
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr "<b>%s</b> pieprasa jūsu klātbūtni sanāksmē."
 
-#: calendar/gui/e-itip-control.c:1303
+#: calendar/gui/e-itip-control.c:1345
 msgid "Meeting Proposal"
 msgstr "Sanāksmes iemesls"
 
-#: calendar/gui/e-itip-control.c:1307
+#: calendar/gui/e-itip-control.c:1349
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr "<b>%s</b> vēlas pievienot jau eksistējošai sanāksmei."
 
-#: calendar/gui/e-itip-control.c:1308
+#: calendar/gui/e-itip-control.c:1350
 msgid "Meeting Update"
 msgstr "Atjaunināta informācija par sanāksmi"
 
-#: calendar/gui/e-itip-control.c:1312
+#: calendar/gui/e-itip-control.c:1354
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "<b>%s</b> vēlas saņemt pēdīgo informāciju par sanāksmi."
 
-#: calendar/gui/e-itip-control.c:1313
+#: calendar/gui/e-itip-control.c:1355
 msgid "Meeting Update Request"
 msgstr "Informācijas par sanāksmi atjaunināšanas pieprasīšana"
 
-#: calendar/gui/e-itip-control.c:1320
+#: calendar/gui/e-itip-control.c:1362
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr "<b>%s</b> ir atbildējis uz sanāksmes pieprasījumu."
 
-#: calendar/gui/e-itip-control.c:1321
+#: calendar/gui/e-itip-control.c:1363
 msgid "Meeting Reply"
 msgstr "Atbilde par sanāksmi"
 
-#: calendar/gui/e-itip-control.c:1328
+#: calendar/gui/e-itip-control.c:1370
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr "<b>%s</b> ir atsaucis sanāksmi."
 
-#: calendar/gui/e-itip-control.c:1329
+#: calendar/gui/e-itip-control.c:1371
 msgid "Meeting Cancellation"
 msgstr "Sanāksmes atcelšana"
 
-#: calendar/gui/e-itip-control.c:1336 calendar/gui/e-itip-control.c:1403
-#: calendar/gui/e-itip-control.c:1438
+#: calendar/gui/e-itip-control.c:1378 calendar/gui/e-itip-control.c:1445
+#: calendar/gui/e-itip-control.c:1480
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr "<b>%s</b> ir nosūtijis nesaprotamu vēstuli."
 
-#: calendar/gui/e-itip-control.c:1337
+#: calendar/gui/e-itip-control.c:1379
 msgid "Bad Meeting Message"
 msgstr "Nepareiza vēstule par sanāksmi"
 
-#: calendar/gui/e-itip-control.c:1361
+#: calendar/gui/e-itip-control.c:1403
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "<b>%s</b> ir publicējis informāciju par uzdevumu."
 
-#: calendar/gui/e-itip-control.c:1362
+#: calendar/gui/e-itip-control.c:1404
 msgid "Task Information"
 msgstr "Uzdevuma informācija"
 
-#: calendar/gui/e-itip-control.c:1367
+#: calendar/gui/e-itip-control.c:1409
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr "<b>%s</b> pieprasa %s izpildīt uzdevumu."
 
-#: calendar/gui/e-itip-control.c:1369
+#: calendar/gui/e-itip-control.c:1411
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr "<b>%s</b> pieprasa jums izpildīt uzdevumu."
 
-#: calendar/gui/e-itip-control.c:1370
+#: calendar/gui/e-itip-control.c:1412
 msgid "Task Proposal"
 msgstr "Uzdevuma priekšlikums"
 
-#: calendar/gui/e-itip-control.c:1374
+#: calendar/gui/e-itip-control.c:1416
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr "<b>%s</b> vēlas pievienot jau eksistējošam uzdevumam."
 
-#: calendar/gui/e-itip-control.c:1375
+#: calendar/gui/e-itip-control.c:1417
 msgid "Task Update"
 msgstr "Uzdevuma atjaunināšana"
 
-#: calendar/gui/e-itip-control.c:1379
+#: calendar/gui/e-itip-control.c:1421
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "<b>%s</b> vēlas saņemt pēdīgo informāciju par uzdevumu."
 
-#: calendar/gui/e-itip-control.c:1380
+#: calendar/gui/e-itip-control.c:1422
 msgid "Task Update Request"
 msgstr "Uzdevuma atjaunināšanas pieprasījums"
 
-#: calendar/gui/e-itip-control.c:1387
+#: calendar/gui/e-itip-control.c:1429
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr "<b>%s</b> ir atbildējis uz uzdevuma nozīmēšanu."
 
-#: calendar/gui/e-itip-control.c:1388
+#: calendar/gui/e-itip-control.c:1430
 msgid "Task Reply"
 msgstr "Uzdevuma atbilde"
 
-#: calendar/gui/e-itip-control.c:1395
+#: calendar/gui/e-itip-control.c:1437
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr "<b>%s</b> ir atcēlis uzdevumu."
 
-#: calendar/gui/e-itip-control.c:1396
+#: calendar/gui/e-itip-control.c:1438
 msgid "Task Cancellation"
 msgstr "Uzdevuma atsaukums"
 
-#: calendar/gui/e-itip-control.c:1404
+#: calendar/gui/e-itip-control.c:1446
 msgid "Bad Task Message"
 msgstr "Slikts uzdevuma ziņojums"
 
-#: calendar/gui/e-itip-control.c:1423
+#: calendar/gui/e-itip-control.c:1465
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b> ir publicējis brīvs/aizņemts informāciju."
 
-#: calendar/gui/e-itip-control.c:1424
+#: calendar/gui/e-itip-control.c:1466
 msgid "Free/Busy Information"
 msgstr "Brīvs/aizņemts informācija"
 
-#: calendar/gui/e-itip-control.c:1428
+#: calendar/gui/e-itip-control.c:1470
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b> pieprasa tavu brīvs/aizņemts informāciju."
 
-#: calendar/gui/e-itip-control.c:1429
+#: calendar/gui/e-itip-control.c:1471
 msgid "Free/Busy Request"
 msgstr "Brīvs/aizņemts pieprasījums"
 
-#: calendar/gui/e-itip-control.c:1433
+#: calendar/gui/e-itip-control.c:1475
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b> ir atbildējis uz brīvs/aizņemts informāciju."
 
-#: calendar/gui/e-itip-control.c:1434
+#: calendar/gui/e-itip-control.c:1476
 msgid "Free/Busy Reply"
 msgstr "Brīvs/aizņemts atbilde"
 
-#: calendar/gui/e-itip-control.c:1439
+#: calendar/gui/e-itip-control.c:1481
 msgid "Bad Free/Busy Message"
 msgstr "Slikta Brīvs/aizņemts ziņa"
 
-#: calendar/gui/e-itip-control.c:1513
+#: calendar/gui/e-itip-control.c:1557
 msgid "The message does not appear to be properly formed"
 msgstr "Ziņa, izskatās, ir nepareizi noformēta"
 
-#: calendar/gui/e-itip-control.c:1575
+#: calendar/gui/e-itip-control.c:1620
 msgid "The message contains only unsupported requests."
 msgstr "Ziņa satur tikai neatbalstītus pieprasījumus."
 
-#: calendar/gui/e-itip-control.c:1603 calendar/gui/e-itip-control.c:1609
+#: calendar/gui/e-itip-control.c:1651 calendar/gui/e-itip-control.c:1657
 msgid "The attachment does not contain a valid calendar message"
 msgstr "Piesaistne nesatur atļautu kalendāra ziņu"
 
-#: calendar/gui/e-itip-control.c:1634
+#: calendar/gui/e-itip-control.c:1682
 msgid "The attachment has no viewable calendar items"
 msgstr "Piesaistnei nav skatāmu kalendāra priekšmetu"
 
-#: calendar/gui/e-itip-control.c:1856 calendar/gui/e-itip-control.c:1948
+#: calendar/gui/e-itip-control.c:1925 calendar/gui/e-itip-control.c:2017
 msgid "Object is invalid and cannot be updated\n"
 msgstr "Objekts ir nepareizs un nevar tikt atjaunināts\n"
 
-#: calendar/gui/e-itip-control.c:1859 calendar/gui/e-itip-control.c:1951
+#: calendar/gui/e-itip-control.c:1928 calendar/gui/e-itip-control.c:2020
 msgid "There was an error on the CORBA system\n"
 msgstr "Ir kļūda CORBA sistēmā\n"
 
-#: calendar/gui/e-itip-control.c:1862 calendar/gui/e-itip-control.c:1954
+#: calendar/gui/e-itip-control.c:1931 calendar/gui/e-itip-control.c:2023
 msgid "Object could not be found\n"
 msgstr "Objektu nevarēja atrast\n"
 
-#: calendar/gui/e-itip-control.c:1865
+#: calendar/gui/e-itip-control.c:1934
 msgid "You do not have the right permissions to update the calendar\n"
 msgstr "Jums nav pareizo atļauju, lai atjauninātu kalendāru\n"
 
-#: calendar/gui/e-itip-control.c:1868
+#: calendar/gui/e-itip-control.c:1937
 msgid "Update complete\n"
 msgstr "Atjaunināšana izpildīta\n"
 
-#: calendar/gui/e-itip-control.c:1871
+#: calendar/gui/e-itip-control.c:1940
 msgid "Calendar file could not be updated!\n"
 msgstr "Kalendāra fails nevarēja tikt atjaunināts!\n"
 
-#: calendar/gui/e-itip-control.c:1900 calendar/gui/e-itip-control.c:1966
+#: calendar/gui/e-itip-control.c:1969 calendar/gui/e-itip-control.c:2035
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Apmeklētāja statuss nevar tikt atjaunināts, tāpēc ka priekšmets vairāk "
 "neeksistē"
 
-#: calendar/gui/e-itip-control.c:1921
+#: calendar/gui/e-itip-control.c:1990
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr "Šī atbilde nav no pašreizējā apmeklētāja. Pievienot kā apmeklētāju?"
 
-#: calendar/gui/e-itip-control.c:1933
+#: calendar/gui/e-itip-control.c:2002
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "Apmeklētāja statuss nevar tikt atjaunināts sakarā ar nepareizo statusu!\n"
 
-#: calendar/gui/e-itip-control.c:1957
+#: calendar/gui/e-itip-control.c:2026
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr "Jums nav pareizo atļauju, lai atjauninātu kalendāru\n"
 
-#: calendar/gui/e-itip-control.c:1960
+#: calendar/gui/e-itip-control.c:2029
 msgid "Attendee status updated\n"
 msgstr "Apmeklētāja status atjaunināts\n"
 
-#: calendar/gui/e-itip-control.c:1963
+#: calendar/gui/e-itip-control.c:2032
 msgid "Attendee status could not be updated!\n"
 msgstr "Apmeklētāja status nevar tikt atjaunināts!\n"
 
-#: calendar/gui/e-itip-control.c:1998
+#: calendar/gui/e-itip-control.c:2067
 msgid "Removal Complete"
 msgstr "Izņemšana pabeigta"
 
-#: calendar/gui/e-itip-control.c:2028 calendar/gui/e-itip-control.c:2078
+#: calendar/gui/e-itip-control.c:2097 calendar/gui/e-itip-control.c:2147
 msgid "Item sent!\n"
 msgstr "Priekšmets nosūtīts!\n"
 
-#: calendar/gui/e-itip-control.c:2030 calendar/gui/e-itip-control.c:2082
+#: calendar/gui/e-itip-control.c:2099 calendar/gui/e-itip-control.c:2151
 msgid "The item could not be sent!\n"
 msgstr "Priekšmets nevar tikt nosūtīts!\n"
 
-#: calendar/gui/e-itip-control.c:2155
+#: calendar/gui/e-itip-control.c:2224
 msgid "Select Calendar Folder"
 msgstr "Izvēlieties kalendāra mapi"
 
-#: calendar/gui/e-itip-control.c:2162
+#: calendar/gui/e-itip-control.c:2231
 msgid "Select Tasks Folder"
 msgstr "Izvēlieties uzdevumu mapi"
 
@@ -5783,73 +5795,78 @@ msgstr "datums-sākums"
 msgid "date-start"
 msgstr "datums-beigas"
 
-#: calendar/gui/e-meeting-model.c:84
+#: calendar/gui/e-meeting-model.c:83
 msgid "Chair Persons"
 msgstr "Vadošās personas"
 
-#: calendar/gui/e-meeting-model.c:85 calendar/gui/e-meeting-model.c:1764
+#: calendar/gui/e-meeting-model.c:84 calendar/gui/e-meeting-model.c:1720
 msgid "Required Participants"
 msgstr "Pieprasītie dalībnieki"
 
-#: calendar/gui/e-meeting-model.c:86
+#: calendar/gui/e-meeting-model.c:85
 msgid "Optional Participants"
 msgstr "Iespējamie dalībnieki"
 
-#: calendar/gui/e-meeting-model.c:87
+#: calendar/gui/e-meeting-model.c:86
 msgid "Resources"
 msgstr "Resursi"
 
-#: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:250
-#: calendar/gui/e-meeting-model.c:565 calendar/gui/e-meeting-model.c:831
+#: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
+#: calendar/gui/e-meeting-model.c:563 calendar/gui/e-meeting-model.c:828
 msgid "Individual"
 msgstr "Individuāli"
 
-#: calendar/gui/e-meeting-model.c:235 calendar/gui/e-meeting-model.c:252
-#: calendar/gui/e-meeting-model.c:832
+#: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
+#: calendar/gui/e-meeting-model.c:829
 msgid "Group"
 msgstr "Grupa"
 
-#: calendar/gui/e-meeting-model.c:237 calendar/gui/e-meeting-model.c:254
-#: calendar/gui/e-meeting-model.c:833
+#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
+#: calendar/gui/e-meeting-model.c:830
 msgid "Resource"
 msgstr "Resurss"
 
-#: calendar/gui/e-meeting-model.c:239 calendar/gui/e-meeting-model.c:256
-#: calendar/gui/e-meeting-model.c:834
+#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
+#: calendar/gui/e-meeting-model.c:831
 msgid "Room"
 msgstr "Istaba"
 
-#: calendar/gui/e-meeting-model.c:268 calendar/gui/e-meeting-model.c:285
-#: calendar/gui/e-meeting-model.c:847
+#: calendar/gui/e-meeting-model.c:267 calendar/gui/e-meeting-model.c:284
+#: calendar/gui/e-meeting-model.c:844
 msgid "Chair"
 msgstr "Krēsls"
 
-#: calendar/gui/e-meeting-model.c:270 calendar/gui/e-meeting-model.c:287
-#: calendar/gui/e-meeting-model.c:567 calendar/gui/e-meeting-model.c:848
+#: calendar/gui/e-meeting-model.c:269 calendar/gui/e-meeting-model.c:286
+#: calendar/gui/e-meeting-model.c:565 calendar/gui/e-meeting-model.c:845
 msgid "Required Participant"
 msgstr "Pieprasītais dalībnieks"
 
-#: calendar/gui/e-meeting-model.c:272 calendar/gui/e-meeting-model.c:289
-#: calendar/gui/e-meeting-model.c:849
+#: calendar/gui/e-meeting-model.c:271 calendar/gui/e-meeting-model.c:288
+#: calendar/gui/e-meeting-model.c:846
 msgid "Optional Participant"
 msgstr "Iespējamais dalībnieks"
 
-#: calendar/gui/e-meeting-model.c:274 calendar/gui/e-meeting-model.c:291
-#: calendar/gui/e-meeting-model.c:850
+#: calendar/gui/e-meeting-model.c:273 calendar/gui/e-meeting-model.c:290
+#: calendar/gui/e-meeting-model.c:847
 msgid "Non-Participant"
 msgstr "Nepiedalās"
 
-#: calendar/gui/e-meeting-model.c:326 calendar/gui/e-meeting-model.c:349
-#: calendar/gui/e-meeting-model.c:879 calendar/gui/e-meeting-time-sel.c:437
+#: calendar/gui/e-meeting-model.c:319 calendar/gui/e-meeting-model.c:342
+#: calendar/gui/e-meeting-model.c:573 calendar/gui/e-meeting-model.c:873
+msgid "Needs Action"
+msgstr "Pieprasa darbību"
+
+#: calendar/gui/e-meeting-model.c:325 calendar/gui/e-meeting-model.c:348
+#: calendar/gui/e-meeting-model.c:876 calendar/gui/e-meeting-time-sel.c:437
 msgid "Tentative"
 msgstr "Pagaidu"
 
-#: calendar/gui/e-meeting-model.c:328 calendar/gui/e-meeting-model.c:351
-#: calendar/gui/e-meeting-model.c:880
+#: calendar/gui/e-meeting-model.c:327 calendar/gui/e-meeting-model.c:350
+#: calendar/gui/e-meeting-model.c:877
 msgid "Delegated"
 msgstr "Deleģēts"
 
-#: calendar/gui/e-meeting-model.c:332 calendar/gui/e-meeting-model.c:355
+#: calendar/gui/e-meeting-model.c:331 calendar/gui/e-meeting-model.c:354
 msgid "In Process"
 msgstr "Procesā"
 
@@ -5965,19 +5982,19 @@ msgstr ""
 "Kļūda %s:\n"
 " %s"
 
-#: calendar/gui/e-tasks.c:556
+#: calendar/gui/e-tasks.c:555
 msgid "Completing tasks..."
 msgstr "Izpildam uzdevumus..."
 
-#: calendar/gui/e-tasks.c:579
+#: calendar/gui/e-tasks.c:578
 msgid "Deleting selected objects..."
 msgstr "Dzēšam izvēlētos objektus..."
 
-#: calendar/gui/e-tasks.c:672
+#: calendar/gui/e-tasks.c:671
 msgid "Expunging"
 msgstr "Iztīru"
 
-#: calendar/gui/e-week-view.c:3513
+#: calendar/gui/e-week-view.c:3535
 msgid "New _Appointment..."
 msgstr "Jauna _tikšanās...."
 
@@ -6085,56 +6102,56 @@ msgstr "Oktobris"
 msgid "September"
 msgstr "Septembris"
 
-#: calendar/gui/itip-utils.c:348 calendar/gui/itip-utils.c:419
+#: calendar/gui/itip-utils.c:359 calendar/gui/itip-utils.c:430
 msgid "An organizer must be set."
 msgstr "Jābūt norādītam organizētājam."
 
-#: calendar/gui/itip-utils.c:383
+#: calendar/gui/itip-utils.c:394
 msgid "At least one attendee is necessary"
 msgstr "Vismaz viens apmeklētajs ir vajadzīgs"
 
-#: calendar/gui/itip-utils.c:462 calendar/gui/itip-utils.c:571
+#: calendar/gui/itip-utils.c:473 calendar/gui/itip-utils.c:582
 msgid "Event information"
 msgstr "Notikuma informācija"
 
-#: calendar/gui/itip-utils.c:464 calendar/gui/itip-utils.c:573
+#: calendar/gui/itip-utils.c:475 calendar/gui/itip-utils.c:584
 msgid "Task information"
 msgstr "Uzdevuma Informācija"
 
-#: calendar/gui/itip-utils.c:466 calendar/gui/itip-utils.c:575
+#: calendar/gui/itip-utils.c:477 calendar/gui/itip-utils.c:586
 msgid "Journal information"
 msgstr "Žurnāla informācija"
 
-#: calendar/gui/itip-utils.c:468 calendar/gui/itip-utils.c:595
+#: calendar/gui/itip-utils.c:479 calendar/gui/itip-utils.c:606
 msgid "Free/Busy information"
 msgstr "Brīvs/Aizņemts informācija"
 
-#: calendar/gui/itip-utils.c:470
+#: calendar/gui/itip-utils.c:481
 msgid "Calendar information"
 msgstr "Kalendāra informācija"
 
-#: calendar/gui/itip-utils.c:506
+#: calendar/gui/itip-utils.c:517
 msgid "Updated"
 msgstr "Atjaunināt"
 
-#: calendar/gui/itip-utils.c:514
+#: calendar/gui/itip-utils.c:525
 msgid "Refresh"
 msgstr "Atsvaidzināt"
 
-#: calendar/gui/itip-utils.c:518
+#: calendar/gui/itip-utils.c:529
 msgid "Counter-proposal"
 msgstr "Pretpiedāvājums"
 
-#: calendar/gui/itip-utils.c:589
+#: calendar/gui/itip-utils.c:600
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Brīvs/Aizņemts informācija (%s uz %s)"
 
-#: calendar/gui/itip-utils.c:601
+#: calendar/gui/itip-utils.c:612
 msgid "iCalendar information"
 msgstr "iKalendāra informācija"
 
-#: calendar/gui/itip-utils.c:759
+#: calendar/gui/itip-utils.c:770
 msgid "You must be an attendee of the event."
 msgstr "Jums jābūt notikuma apmeklētājam."
 
@@ -6369,7 +6386,7 @@ msgid "Print Calendar"
 msgstr "Drukāt Kalendāru"
 
 #: calendar/gui/print.c:2521 calendar/gui/print.c:2613
-#: calendar/gui/tasks-control.c:589 mail/mail-callbacks.c:3216
+#: calendar/gui/tasks-control.c:589 mail/mail-callbacks.c:3243
 #: my-evolution/e-summary.c:633
 msgid "Print Preview"
 msgstr "Drukāšanas Pirmsapskats"
@@ -6405,8 +6422,8 @@ msgstr ""
 "\n"
 "Tiešām izdzēst šos uzdevumus?"
 
-#: calendar/gui/tasks-control.c:469 mail/mail-callbacks.c:2696
-#: mail/mail-callbacks.c:2938
+#: calendar/gui/tasks-control.c:469 mail/mail-callbacks.c:2723
+#: mail/mail-callbacks.c:2965
 msgid "Do not ask me again."
 msgstr "Neprasiet man vēlreiz."
 
@@ -8276,7 +8293,7 @@ msgstr "Neizdevās izveidot bērna procesu '%s': %s"
 msgid "Error executing filter search: %s: %s"
 msgstr "Kļūda sāknējot filtra meklēšanu: %s: %s"
 
-#: camel/camel-folder-search.c:343
+#: camel/camel-folder-search.c:346
 #, c-format
 msgid ""
 "Cannot parse search expression: %s:\n"
@@ -8285,7 +8302,7 @@ msgstr ""
 "Nevaru parsēt meklēšanas izteiksmi: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:353
+#: camel/camel-folder-search.c:356
 #, c-format
 msgid ""
 "Error executing search expression: %s:\n"
@@ -8294,11 +8311,11 @@ msgstr ""
 "Kļūda sāknējot meklēšanas izteiksmi: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:570 camel/camel-folder-search.c:598
+#: camel/camel-folder-search.c:573 camel/camel-folder-search.c:601
 msgid "(match-all) requires a single bool result"
 msgstr "(match-all) pieprasa vienu būla rezultātu"
 
-#: camel/camel-folder-search.c:650
+#: camel/camel-folder-search.c:653
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr "Izpildu pieprasījumu uz nezināmas galvenes: %s"
@@ -8646,6 +8663,8 @@ msgstr ""
 "Nevar dabūt Kerberos biļeti:\n"
 "%s"
 
+#: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
+#: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
 #: camel/camel-sasl-kerberos4.c:218
 #: camel/providers/imap/camel-imap-store.c:1059
 msgid "Bad authentication response from server."
@@ -10003,45 +10022,45 @@ msgid ""
 "system."
 msgstr "Pasta nosūtīšanai, izmantojot \"sendmail\" programmu lokālajā sistēmā"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:108
+#: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
 msgstr "Nespēju parsēt adresātu sarakstu"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:120
+#: camel/providers/sendmail/camel-sendmail-transport.c:144
 #, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
 msgstr "Nevarēju izveidot kanālu uz sendmail: %s: pasts nav nosūtīts"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:137
+#: camel/providers/sendmail/camel-sendmail-transport.c:165
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
 msgstr "Nevarēju sazarot sendmail: %s: pasts nav nosūtīts"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:164
+#: camel/providers/sendmail/camel-sendmail-transport.c:203
 #, c-format
 msgid "Could not send message: %s"
 msgstr "Nevarēju nosūtit vēstuli: %s"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:186
+#: camel/providers/sendmail/camel-sendmail-transport.c:231
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
 msgstr "sendmail izgāja ar signālu %s: pasts nav nosūtīts."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:193
+#: camel/providers/sendmail/camel-sendmail-transport.c:238
 #, c-format
 msgid "Could not execute %s: mail not sent."
 msgstr "Nevarēju palaist %s: pasts nav nosūtīts."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:198
+#: camel/providers/sendmail/camel-sendmail-transport.c:243
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
 msgstr "sendmail izgāja ar statusu %d: pasts nav nosūtīts."
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:212
+#: camel/providers/sendmail/camel-sendmail-transport.c:257
 msgid "sendmail"
 msgstr "sendmail"
 
-#: camel/providers/sendmail/camel-sendmail-transport.c:214
+#: camel/providers/sendmail/camel-sendmail-transport.c:259
 msgid "Mail delivery via the sendmail program"
 msgstr "Pasta nosūtīšana ar sendmail programmu"
 
@@ -10660,7 +10679,7 @@ msgid ""
 msgstr ""
 "ping_timeout_callback: nevarēju noteikt vai CORBA objekts ir nulle vai nav"
 
-#: e-util/e-dialog-utils.c:241 mail/mail-callbacks.c:2563
+#: e-util/e-dialog-utils.c:241 mail/mail-callbacks.c:2590
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -11219,7 +11238,7 @@ msgstr "atgriež mazāk kā"
 msgid "Score"
 msgstr "Rezultāts"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1857
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1884
 msgid "Sender"
 msgstr "Sūtītajs"
 
@@ -11255,7 +11274,7 @@ msgstr "sākas ar"
 msgid "Stop Processing"
 msgstr "Apturēt procesēšanu"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:935
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:939
 #: mail/message-list.etspec.h:13 mail/message-tags.glade.h:4
 msgid "Subject"
 msgstr "Subjekts"
@@ -12050,11 +12069,11 @@ msgstr ""
 "Apparently-To (Acīmredzot uz) galveni.\n"
 "Sūtīt jebkurā gadījumā?"
 
-#: mail/mail-callbacks.c:513
+#: mail/mail-callbacks.c:527
 msgid "You must specify recipients in order to send this message."
 msgstr "Jums jānorāda adresāti, lai nosūtītu šo vēstuli."
 
-#: mail/mail-callbacks.c:777
+#: mail/mail-callbacks.c:791
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -12062,28 +12081,28 @@ msgstr ""
 "Nevaru atvērt melnraksta mapi šim kontam.\n"
 "Vai jūs vēlaties izmantot noklusēto melnrakstu mapi?"
 
-#: mail/mail-callbacks.c:1233
+#: mail/mail-callbacks.c:1251
 msgid "an unknown sender"
 msgstr "nezināms nosūtītājs"
 
-#: mail/mail-callbacks.c:1237
+#: mail/mail-callbacks.c:1255
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "%Y-%m-%d at %H:%M, %%s rakstīja:"
 
-#: mail/mail-callbacks.c:1738 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1765 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr "Pārvietot vēstuli(es) uz"
 
-#: mail/mail-callbacks.c:1740 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1767 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr "Kopēt vēstuli(es) uz"
 
-#: mail/mail-callbacks.c:2407
+#: mail/mail-callbacks.c:2434
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Vai jūs esat pārliecināts, ka vēlaties rediģēt visas %d vēstules?"
 
-#: mail/mail-callbacks.c:2432
+#: mail/mail-callbacks.c:2459
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -12091,7 +12110,7 @@ msgstr ""
 "Jums vajadzētu rediģēt tikai Melnraksta\n"
 "mapē noglabātās vēstules."
 
-#: mail/mail-callbacks.c:2471
+#: mail/mail-callbacks.c:2498
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -12099,32 +12118,32 @@ msgstr ""
 "Jūs varat pārsūtīt vēlreiz tikai\n"
 "tās vēstules, kas atrodas 'Nosūtītas' mapē."
 
-#: mail/mail-callbacks.c:2485
+#: mail/mail-callbacks.c:2512
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Vai jūs vēlaties pārsūtīt vēlreiz visas %d vēstules?"
 
-#: mail/mail-callbacks.c:2511
+#: mail/mail-callbacks.c:2538
 msgid "No Message Selected"
 msgstr "Nav izvēlēta vēstule"
 
-#: mail/mail-callbacks.c:2556 mail/mail-display.c:189
+#: mail/mail-callbacks.c:2583 mail/mail-display.c:189
 msgid "Overwrite file?"
 msgstr "Pārrakstīt failu?"
 
-#: mail/mail-callbacks.c:2610
+#: mail/mail-callbacks.c:2637
 msgid "Save Message As..."
 msgstr "Saglabāt vēstuli kā..."
 
-#: mail/mail-callbacks.c:2612
+#: mail/mail-callbacks.c:2639
 msgid "Save Messages As..."
 msgstr "Saglabāt vēstules kā..."
 
-#: mail/mail-callbacks.c:2681
+#: mail/mail-callbacks.c:2708
 msgid "Go to next folder with unread messages?"
 msgstr "Doties uz nākamo mapi ar neizlasītām vēstulēm?"
 
-#: mail/mail-callbacks.c:2688
+#: mail/mail-callbacks.c:2715
 msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
@@ -12132,7 +12151,7 @@ msgstr ""
 "Šajā mapē nav vairs jaunu vēstuļu.\n"
 "Vai jūs vēlētos doties uz nākamo mapi?"
 
-#: mail/mail-callbacks.c:2931
+#: mail/mail-callbacks.c:2958
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -12144,7 +12163,7 @@ msgstr ""
 "\n"
 "Patiešām izdzēst šīs vēstules?"
 
-#: mail/mail-callbacks.c:3044
+#: mail/mail-callbacks.c:3071
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -12153,28 +12172,28 @@ msgstr ""
 "Kļūda ielādējot filtra informāciju:\n"
 "%s"
 
-#: mail/mail-callbacks.c:3056
+#: mail/mail-callbacks.c:3083
 msgid "Filters"
 msgstr "Filtri"
 
-#: mail/mail-callbacks.c:3100
+#: mail/mail-callbacks.c:3127
 #, c-format
 msgid "Page %d of %d"
 msgstr "%d. lapa no %d"
 
-#: mail/mail-callbacks.c:3155
+#: mail/mail-callbacks.c:3182
 msgid "Print Message"
 msgstr "Drukāt vēstuli"
 
-#: mail/mail-callbacks.c:3182
+#: mail/mail-callbacks.c:3209
 msgid "US-Letter"
 msgstr "US-Letter"
 
-#: mail/mail-callbacks.c:3223
+#: mail/mail-callbacks.c:3250
 msgid "Printing of message failed"
 msgstr "Vēstules drukāšana neizdevās"
 
-#: mail/mail-callbacks.c:3413
+#: mail/mail-callbacks.c:3440
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -12943,35 +12962,35 @@ msgstr "Slēpt"
 msgid "External Viewer"
 msgstr "Ārējais skatītājs"
 
-#: mail/mail-display.c:1320
+#: mail/mail-display.c:1325
 msgid "Downloading images"
 msgstr "Ielādēju attēlus"
 
-#: mail/mail-display.c:1497
+#: mail/mail-display.c:1502
 msgid "Loading message content"
 msgstr "Ielādējam vēstules saturu"
 
-#: mail/mail-display.c:1784
+#: mail/mail-display.c:1789
 msgid "Overdue:"
 msgstr "Nokavētie:"
 
-#: mail/mail-display.c:1788
+#: mail/mail-display.c:1793
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "līdz %B %d, %Y, %l:%M %P"
 
-#: mail/mail-display.c:2115
+#: mail/mail-display.c:2120
 msgid "Open Link in Browser"
 msgstr "Kopēt saiti pārlūkprogrammā"
 
-#: mail/mail-display.c:2116
+#: mail/mail-display.c:2121
 msgid "Copy Link Location"
 msgstr "Kopēt saites lokāciju"
 
-#: mail/mail-display.c:2118
+#: mail/mail-display.c:2123
 msgid "Save Link as (FIXME)"
 msgstr "Saglabāt saiti kā (FIXME)"
 
-#: mail/mail-display.c:2120
+#: mail/mail-display.c:2125
 msgid "Save Image as..."
 msgstr "Saglabāt attēlu kā..."
 
@@ -12980,96 +12999,96 @@ msgstr "Saglabāt attēlu kā..."
 msgid "Pinging %s"
 msgstr "Ehotestējam %s"
 
-#: mail/mail-format.c:656
+#: mail/mail-format.c:658
 #, c-format
 msgid "%s attachment"
 msgstr "%s piesaistne"
 
-#: mail/mail-format.c:701 mail/mail-format.c:1730 mail/mail-format.c:1805
-#: mail/mail-format.c:1925 mail/mail-format.c:2050 mail/mail-format.c:2075
+#: mail/mail-format.c:703 mail/mail-format.c:1740 mail/mail-format.c:1815
+#: mail/mail-format.c:1935 mail/mail-format.c:2060 mail/mail-format.c:2085
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Nevarēju noparsēt MIME vēstuli. Attēloju kā avotu."
 
-#: mail/mail-format.c:783 mail/message-list.etspec.h:2
+#: mail/mail-format.c:785 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datums"
 
-#: mail/mail-format.c:870
+#: mail/mail-format.c:874
 msgid "Bad Address"
 msgstr "Slikta adrese"
 
-#: mail/mail-format.c:913 mail/message-list.etspec.h:7
+#: mail/mail-format.c:917 mail/message-list.etspec.h:7
 #: mail/message-tags.glade.h:3
 msgid "From"
 msgstr "No"
 
-#: mail/mail-format.c:917
+#: mail/mail-format.c:921
 msgid "Reply-To"
 msgstr "Atbildēt-Uz"
 
-#: mail/mail-format.c:922 mail/message-list.etspec.h:14
+#: mail/mail-format.c:926 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Kam"
 
-#: mail/mail-format.c:927
+#: mail/mail-format.c:931
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/mail-format.c:932
+#: mail/mail-format.c:936
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:963
+#: mail/mail-format.c:967
 msgid "Mailer"
 msgstr "Pastnieks"
 
-#: mail/mail-format.c:1848
+#: mail/mail-format.c:1858
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Šī vēstule ir digitāli parakstīta. Klikšķiniet uz slēdzenes ikonu, lai "
 "uzzinātu vairāk."
 
-#: mail/mail-format.c:1875
+#: mail/mail-format.c:1885
 msgid "Could not create a PGP verfication context"
 msgstr "Nevarēju izveidot PGP pārbaudes kontekstu"
 
-#: mail/mail-format.c:1884
+#: mail/mail-format.c:1894
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Šī vēstule ir digitāli parakstīta un ir autentiska."
 
-#: mail/mail-format.c:1892
+#: mail/mail-format.c:1902
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 "Šī vēstule ir digitāli parakstīta, bet nevar tikt pārbaudīta, vai ir "
 "autnetiska."
 
-#: mail/mail-format.c:2157
+#: mail/mail-format.c:2167
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Norāde uz FTP saiti (%s)"
 
-#: mail/mail-format.c:2171
+#: mail/mail-format.c:2181
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Norāde uz lokālu failu (%s) atļautu saitē \"%s\""
 
-#: mail/mail-format.c:2176
+#: mail/mail-format.c:2186
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Norāde uz lokālu failu (%s)"
 
-#: mail/mail-format.c:2205
+#: mail/mail-format.c:2215
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Norāde uz attālinātiem datiem (%s)"
 
-#: mail/mail-format.c:2213
+#: mail/mail-format.c:2223
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Norāde uz nezināmiem ārējiem datiem (\"%s\" tips)"
 
-#: mail/mail-format.c:2218
+#: mail/mail-format.c:2228
 msgid "Malformed external-body part."
 msgstr "Sliktformēta ārējā ķermeņa daļa."
 
@@ -13101,12 +13120,12 @@ msgstr "Nevaru saglabāt mapes metainfo uz %s: %s"
 msgid "Cannot delete folder metadata %s: %s"
 msgstr "Nevaru izdzēst mapes metadatus %s: %s"
 
-#: mail/mail-local.c:1329
+#: mail/mail-local.c:1332
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "Izmainu mapes formātu no \"%s\" uz \"%s\""
 
-#: mail/mail-local.c:1351
+#: mail/mail-local.c:1354
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -13114,12 +13133,12 @@ msgstr ""
 "Ja jūs vairāk nevariet atvērt šo pastkasti, tad\n"
 "tā jums varētu būt jāsalabo manuāli."
 
-#: mail/mail-local.c:1446
+#: mail/mail-local.c:1449
 #, c-format
 msgid "Reconfigure /%s"
 msgstr "Pārkonfigurēt /%s"
 
-#: mail/mail-local.c:1510
+#: mail/mail-local.c:1513
 msgid "You cannot change the format of a non-local folder."
 msgstr "Jūs nevariet mainīt nelokālas mapes formātu."
 
@@ -13363,20 +13382,20 @@ msgstr "Gaidu..."
 msgid "User canceled operation."
 msgstr "Lietotājs atsauca operāciju."
 
-#: mail/mail-session.c:272
+#: mail/mail-session.c:270
 msgid "_Remember this password"
 msgstr "_Atcerēties šo paroli"
 
-#: mail/mail-session.c:273
+#: mail/mail-session.c:271
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Atcerēties šo paroli uz visu atlikušo sesijas laiku"
 
-#: mail/mail-session.c:330
+#: mail/mail-session.c:328
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Ievadiet %s paroli"
 
-#: mail/mail-session.c:333
+#: mail/mail-session.c:331
 msgid "Enter Password"
 msgstr "Ievadiet paroli"
 
@@ -27893,6 +27912,123 @@ msgstr "init_corba(): nevaru inicializēt GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): nevaru inicializēt Bonobo"
 
+#: calendar/gui/comp-editor-factory.c:456
+#, fuzzy
+msgid "Error while opening the calendar"
+msgstr "Kļūda savienojoties ar kalendāra serveri"
+
+#: calendar/gui/comp-editor-factory.c:465
+msgid "Method not supported when opening the calendar"
+msgstr ""
+
+#: calendar/gui/comp-editor-factory.c:469
+#, fuzzy
+msgid "Permission denied to open calendar"
+msgstr "Atļauja liegta"
+
+#: calendar/gui/dialogs/recur-comp.c:52
+msgid "You are modifying a recurring event, what would you like to modify?"
+msgstr ""
+
+#: calendar/gui/dialogs/recur-comp.c:56
+msgid "You are modifying a recurring task, what would you like to modify?"
+msgstr ""
+
+#: calendar/gui/dialogs/recur-comp.c:60
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
+msgstr ""
+
+#: calendar/gui/dialogs/recur-comp.c:77
+msgid "This Instance Only"
+msgstr ""
+
+#: calendar/gui/dialogs/recur-comp.c:80
+#, fuzzy
+msgid "This and Future Instances"
+msgstr "Volisa un Futuna salas"
+
+#: calendar/gui/dialogs/recur-comp.c:82
+#, fuzzy
+msgid "All Instances"
+msgstr "Vi_sas stacijas:"
+
+#: camel/camel-sasl-gssapi.c:48
+msgid "GSSAPI"
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:50
+#, fuzzy
+msgid "This option will connect to the server using Kerberos 5 authentication."
+msgstr "Šī opcija savienos ar serveri lietojot Kerberos 4 autentifikāciju. "
+
+#: camel/camel-sasl-gssapi.c:148
+msgid ""
+"The specified mechanism is not supported by the provided credential, or is "
+"unrecognized by the implementation."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:153
+msgid "The provided target_name parameter was ill-formed."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:156
+msgid ""
+"The provided target_name parameter contained an invalid or unsupported type "
+"of name."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:160
+msgid ""
+"The input_token contains different channel bindings to those specified via "
+"the input_chan_bindings parameter."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:165
+msgid ""
+"The input_token contains an invalid signature, or a signature that could not "
+"be verified."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:169
+msgid ""
+"The supplied credentials were not valid for context initiation, or the "
+"credential handle did not reference any credentials."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:174
+msgid "The supplied context handle did not refer to a valid context."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:177
+msgid "The consistency checks performed on the input_token failed."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:180
+msgid "The consistency checks performed on the credential failed."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:183
+msgid "The referenced credentials have expired."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:213
+#, fuzzy, c-format
+msgid "Failed to resolve host `%s': %s"
+msgstr "Neizdevās izveidot kanālu %s: %s"
+
+#: camel/camel-sasl-gssapi.c:299
+#, fuzzy
+msgid "Unsupported security layer."
+msgstr "Neatbalstīts tips"
+
+#~ msgid ""
+#~ "Evolution does not yet support email notification for reminders.  You "
+#~ "will not be able to edit the options for this reminder."
+#~ msgstr ""
+#~ "Evolution vēl neatbalsta šāda veida atgādinājumus. Jums nebūs iespējams "
+#~ "rediģēt opcijas šim atgādinājumam."
+
 #~ msgid ""
 #~ "Please select and Evolution attribute and an\n"
 #~ "LDAP attribute to associate with it."
@@ -28882,9 +29018,6 @@ msgstr "init_bonobo(): nevaru inicializēt Bonobo"
 
 #~ msgid "Regions"
 #~ msgstr "Reģioni"
-
-#~ msgid "Al_l stations:"
-#~ msgstr "Vi_sas stacijas:"
 
 #~ msgid "All _folders:"
 #~ msgstr "Visas _mapes:"

@@ -1,10 +1,31 @@
+Evolution 1.2.3, 2003-03-31
+---------------------------
+
+New features:
+
+  * Mail
+
+    - Added support for Kerberos 5 authentication using GSSAPI.
+
+Updated translations:
+
+  - es (Francisco Javier Fernandez)
+  - it (Marco Ciampa)
+  - no (Kjartan Maraas)
+  - pl (Zbigniew Chyla)
+  - pt (Duarte Loreto)
+  - pt_BR (Gustavo Maciel Dias Vieira)
+  - sv (Christian Rose)
+  - zh_TW (Abel Cheung)
+
+
 Evolution 1.2.3, 2003-03-17
 ---------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Mail
-
+ 
     #35123 -- The new/post button chooses a different default account
               to the new message menu.  (Leon Zhang)
     #33267 -- Filters on source account always match all messages when
@@ -20,22 +41,6 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
 Other fixes:
 
-  * Shell
-
-    - Fixed IDL #includes.  (Rodney)
-
-Updated translations:
-
-  - cs (Michal Bukovjan)    
-  - es (Francisco Javier Fernandez)
-  - fr (Christophe Merlet)
-  - it (Marco Ciampa)
-  - pt_BR (Gustavo Maciel Dias Vieira)
-  - ru (Russian translation team)
-  - sv (Christian Rose)
-
-Other fixes:
-
   * Addressbook
 
     - support icsCalendar property and corrected a problem with
@@ -48,18 +53,32 @@ Other fixes:
 
   * Mailer
 
-    - Fixed a memory leak when using Mark All As Read  (Jeff)
-    - Make the inline uuencode handler more robust  (Jeff)
+    - Fixed a memory leak when using Mark All As Read.  (Jeff)
+    - Make the inline uuencode handler more robust.  (Jeff)
     - Make the content-id parser more strict to prevent malicious
       messages from being able to bypass the user's "load http images"
-      preference  (Jeff)
+      preference.  (Jeff)
     - Strip all Bcc headers before passing the message to the local
-      sendmail (Jeff)
-    - Fixed a type-o in the IPv6 support code  (Jeff)
+      sendmail.  (Jeff)
+    - Fixed a type-o in the IPv6 support code.  (Jeff)
+
+  * Shell
+
+    - Fixed IDL #includes.  (Rodney)
 
   * Other
 
     - Backported XML hash utilities.
+
+Updated translations:
+
+  - cs (Michal Bukovjan)    
+  - es (Francisco Javier Fernandez)
+  - fr (Christophe Merlet)
+  - it (Marco Ciampa)
+  - pt_BR (Gustavo Maciel Dias Vieira)
+  - ru (Russian translation team)
+  - sv (Christian Rose)
 
 
 Evolution 1.2.2, 2002-02-04
