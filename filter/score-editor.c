@@ -25,8 +25,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkframe.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "score-editor.h"
@@ -107,7 +106,7 @@ score_editor_new (ScoreContext *sc)
 	GladeXML *gui;
 	GtkWidget *w;
 	
-	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor");
+	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
 	rule_editor_construct ((RuleEditor *) se, (RuleContext *) sc, gui, NULL);
 	
         w = glade_xml_get_widget (gui, "rule_frame");

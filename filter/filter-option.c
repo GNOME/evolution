@@ -27,9 +27,7 @@
 
 #include <string.h>
 
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkoptionmenu.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "filter-option.h"
@@ -281,7 +279,7 @@ option_changed (GtkWidget *widget, FilterElement *fe)
 {
 	FilterOption *fo = (FilterOption *)fe;
 	
-	fo->current = g_object_get_data (widget, "option");
+	fo->current = g_object_get_data ((GObject *) widget, "option");
 }
 
 static GtkWidget *
@@ -300,8 +298,8 @@ get_widget (FilterElement *fe)
 	while (l) {
 		op = l->data;
 		item = gtk_menu_item_new_with_label (_(op->title));
-		g_object_set_data (item, "option", op);
-		g_signal_connect (item, "activate", option_changed, fe);
+		g_object_set_data ((GObject *) item, "option", op);
+		g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (option_changed), fe);
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 		if (op == fo->current) {

@@ -30,7 +30,6 @@
 
 #include <gtk/gtkbox.h>
 #include <gtk/gtkhbox.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "filter-part.h"
@@ -75,7 +74,7 @@ filter_part_class_init (FilterPartClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	
-	parent_class = g_type_class_ref (G_OBJECT_CLASS);
+	parent_class = g_type_class_ref (G_TYPE_OBJECT);
 	
 	object_class->finalize = filter_part_finalise;
 }
@@ -83,7 +82,7 @@ filter_part_class_init (FilterPartClass *klass)
 static void
 filter_part_init (FilterPart *fp)
 {
-	fp->priv = g_malloc0 (sizeof (*fp->priv));
+	;
 }
 
 static void
@@ -452,7 +451,7 @@ filter_part_next_list (GList *l, FilterPart *last)
 		if (node == NULL)
 			node = l;
 		else
-			node = node->next
+			node = node->next;
 	}
 	
 	if (node)

@@ -33,7 +33,6 @@
 #include <errno.h>
 
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
 
 #include <gal/util/e-xml-utils.h>
 
@@ -298,7 +297,7 @@ load (RuleContext *rc, const char *system, const char *user)
 		return -1;
 	}
 	
-	if (strcmp (rc->system->root->name, "filterdescription")) {
+	if (strcmp (rc->system->name, "filterdescription")) {
 		rule_context_set_error (rc, g_strdup_printf ("Unable to load system rules '%s': Invalid format", system));
 		xmlFreeDoc (rc->system);
 		rc->system = NULL;
@@ -309,13 +308,13 @@ load (RuleContext *rc, const char *system, const char *user)
 	
 	/* now parse structure */
 	/* get rule parts */
-	set = rc->system->root->childs;
+	set = rc->system->children;
 	while (set) {
 		d(printf("set name = %s\n", set->name));
 		part_map = g_hash_table_lookup (rc->part_set_map, set->name);
 		if (part_map) {
 			d(printf("loading parts ...\n"));
-			rule = set->childs;
+			rule = set->children;
 			while (rule) {
 				if (!strcmp (rule->name, "part")) {
 					FilterPart *part = FILTER_PART (g_object_new (part_map->type, NULL, NULL));
@@ -335,13 +334,13 @@ load (RuleContext *rc, const char *system, const char *user)
 	
 	/* now load actual rules */
 	if (rc->user) {
-		set = rc->user->root->childs;
+		set = rc->user->children;
 		while (set) {
 			d(printf("set name = %s\n", set->name));
 			rule_map = g_hash_table_lookup (rc->rule_set_map, set->name);
 			if (rule_map) {
 				d(printf("loading rules ...\n"));
-				rule = set->childs;
+				rule = set->children;
 				while (rule) {
 					d(printf("checking node: %s\n", rule->name));
 					if (!strcmp (rule->name, "rule")) {
@@ -350,7 +349,7 @@ load (RuleContext *rc, const char *system, const char *user)
 						if (filter_rule_xml_decode (part, rule, rc) == 0) {
 							rule_map->append (rc, part);
 						} else {
-							gtk_object_unref (part);
+							g_object_unref (part);
 							g_warning ("Cannot load filter part");
 						}
 					}
@@ -393,6 +392,7 @@ save (RuleContext *rc, const char *user)
 	int ret;
 	
 	doc = xmlNewDoc ("1.0");
+	/* FIXME: set character encoding to UTF-8? */
 	root = xmlNewDocNode (doc, NULL, "filteroptions", NULL);
 	xmlDocSetRootElement (doc, root);
 	l = rc->rule_set_list;
@@ -508,13 +508,13 @@ revert (RuleContext *rc, const char *user)
 	}
 	
 	/* make what we have, match what we load */
-	set = userdoc->root->childs;
+	set = userdoc->children;
 	while (set) {
 		d(printf("set name = %s\n", set->name));
 		rule_map = g_hash_table_lookup (rc->rule_set_map, set->name);
 		if (rule_map) {
 			d(printf("loading rules ...\n"));
-			rule = set->childs;
+			rule = set->children;
 			while (rule) {
 				d(printf("checking node: %s\n", rule->name));
 				if (!strcmp (rule->name, "rule")) {
@@ -530,8 +530,9 @@ revert (RuleContext *rc, const char *user)
 						}
 						frule = g_hash_table_lookup (rest_data->rules, part->name);
 						if (frule) {
-							if (f->priv->frozen == 0 && !filter_rule_eq (frule, part))
+							if (rc->priv->frozen == 0 && !filter_rule_eq (frule, part))
 								filter_rule_copy (frule, part);
+							
 							g_object_unref (part);
 							rule_context_rank_rule (rc, frule, rest_data->rank);
 							g_hash_table_remove (rest_data->rules, frule->name);
@@ -629,8 +630,8 @@ rule_context_add_rule (RuleContext *rc, FilterRule *new)
 	rc->rules = g_list_append (rc->rules, new);
 	
 	if (rc->priv->frozen == 0) {
-		g_signal_emit (rc, signals[RULE_ADDED], new);
-		g_signal_emit (rc, signals[CHANGED]);
+		g_signal_emit (rc, signals[RULE_ADDED], 0, new);
+		g_signal_emit (rc, signals[CHANGED], 0);
 	}
 }
 
@@ -638,8 +639,8 @@ static void
 new_rule_clicked (GtkWidget *dialog, int button, RuleContext *context)
 {
 	if (button == 0) {
-		FilterRule *rule = g_object_get_data (dialog, "rule");
-		char *user = g_object_get_data (dialog, "path");
+		FilterRule *rule = g_object_get_data ((GObject *) dialog, "rule");
+		char *user = g_object_get_data ((GObject *) dialog, "path");
 		
 		if (!filter_rule_validate (rule)) {
 			/* no need to popup a dialog because the validate code does that. */
@@ -664,8 +665,8 @@ rule_context_add_rule_gui (RuleContext *rc, FilterRule *rule, const char *title,
 	
 	d(printf("add rule gui '%s'\n", rule->name));
 	
-	g_assert(rc);
-	g_assert(rule);
+	g_assert (rc);
+	g_assert (rule);
 	
 	w = filter_rule_get_widget (rule, rc);
 	dialog = gnome_dialog_new (title, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
@@ -674,15 +675,15 @@ rule_context_add_rule_gui (RuleContext *rc, FilterRule *rule, const char *title,
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 400);
 	gtk_widget_show (w);
 	
-	g_object_set_data_full (dialog, "rule", rule, (GtkDestroyNotify) g_object_unref);
+	g_object_set_data_full ((GObject *) dialog, "rule", rule, g_object_unref);
 	if (path)
-		g_object_set_data_full (dialog, "path", g_strdup (path), (GtkDestroyNotify) g_free);
+		g_object_set_data_full ((GObject *) dialog, "path", g_strdup (path), g_free);
 	
-	g_signal_connect (dialog, "clicked", new_rule_clicked, rc);
+	g_signal_connect (dialog, "clicked", GTK_SIGNAL_FUNC (new_rule_clicked), rc);
 	
 	g_object_ref (rc);
 	
-	g_object_set_data_full (dialog, "context", rc, (GtkDestroyNotify) g_object_unref);
+	g_object_set_data_full ((GObject *) dialog, "context", rc, g_object_unref);
 	
 	gtk_widget_show (dialog);
 }
@@ -690,16 +691,16 @@ rule_context_add_rule_gui (RuleContext *rc, FilterRule *rule, const char *title,
 void
 rule_context_remove_rule (RuleContext *rc, FilterRule *rule)
 {
-	g_assert(rc);
-	g_assert(rule);
+	g_assert (rc);
+	g_assert (rule);
 	
 	d(printf("remove rule '%s'\n", rule->name));
 	
 	rc->rules = g_list_remove (rc->rules, rule);
 	
 	if (rc->priv->frozen == 0) {
-		g_signal_emit (rc, signals[RULE_REMOVED], rule);
-		g_signal_emit (rc, signals[CHANGED]);
+		g_signal_emit (rc, signals[RULE_REMOVED], 0, rule);
+		g_signal_emit (rc, signals[CHANGED], 0);
 	}
 }
 
@@ -721,9 +722,10 @@ rule_context_rank_rule (RuleContext *rc, FilterRule *rule, int rank)
 		FilterRule *r = node->data;
 		
 		if (i == rank) {
-			rc->rules = g_list_insert (f->rules, rule, index);
-			if (f->priv->frozen == 0)
-				g_signal_emit (rc, signals[CHANGED]);
+			rc->rules = g_list_insert (rc->rules, rule, index);
+			if (rc->priv->frozen == 0)
+				g_signal_emit (rc, signals[CHANGED], 0);
+			
 			return;
 		}
 		
@@ -736,7 +738,7 @@ rule_context_rank_rule (RuleContext *rc, FilterRule *rule, int rank)
 	
 	rc->rules = g_list_append (rc->rules, rule);
 	if (rc->priv->frozen == 0)
-		g_signal_emit (rc, signals[CHANGED]);
+		g_signal_emit (rc, signals[CHANGED], 0);
 }
 
 int

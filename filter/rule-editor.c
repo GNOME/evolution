@@ -28,10 +28,8 @@
 /* for getenv only, remove when getenv need removed */
 #include <stdlib.h>
 
-#include <gtk/gtkframe.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 
@@ -167,7 +165,7 @@ rule_editor_new (RuleContext *rc, const char *source)
 	GladeXML *gui;
 	GtkWidget *w;
 	
-	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor");
+	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor", NULL);
 	rule_editor_construct (re, rc, gui, source);
 	
         w = glade_xml_get_widget (gui, "rule_frame");
@@ -240,7 +238,7 @@ add_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 		g_object_ref (re->edit);
 		item = gtk_list_item_new_with_label (re->edit->name);
 		
-		g_object_set_data (item, "rule", re->edit);
+		g_object_set_data ((GObject *) item, "rule", re->edit);
 		gtk_widget_show (item);
 		
 		l = g_list_append (l, GTK_LIST_ITEM (item));
@@ -297,8 +295,8 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 	gtk_window_set_policy (GTK_WINDOW (re->dialog), FALSE, TRUE, FALSE);
 	gtk_widget_set_parent_window (GTK_WIDGET (re->dialog), GTK_WIDGET (re)->window);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
-	g_signal_connect (re->dialog, "clicked", add_editor_clicked, re);
-	g_signal_connect (re->dialog, "destroy", add_editor_destroyed, re);
+	g_signal_connect (re->dialog, "clicked", GTK_SIGNAL_FUNC (add_editor_clicked), re);
+	g_signal_connect (re->dialog, "destroy", GTK_SIGNAL_FUNC (add_editor_destroyed), re);
 	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
 	
 	gtk_widget_show (re->dialog);
@@ -383,8 +381,8 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 600, 400);
 	gtk_window_set_policy (GTK_WINDOW (re->dialog), FALSE, TRUE, FALSE);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
-	g_signal_connect (re->dialog, "clicked", edit_editor_clicked, re);
-	g_signal_connect (re->dialog, "destroy", edit_editor_destroyed, re);
+	g_signal_connect (re->dialog, "clicked", GTK_SIGNAL_FUNC (edit_editor_clicked), re);
+	g_signal_connect (re->dialog, "destroy", GTK_SIGNAL_FUNC (edit_editor_destroyed), re);
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
 	
@@ -474,11 +472,11 @@ static struct {
 	char *name;
 	GtkSignalFunc func;
 } edit_buttons[] = {
-	{ "rule_add", rule_add },
-	{ "rule_edit", rule_edit },
-	{ "rule_delete", rule_delete },
-	{ "rule_up", rule_up },
-	{ "rule_down", rule_down },
+	{ "rule_add",    GTK_SIGNAL_FUNC (rule_add)    },
+	{ "rule_edit",   GTK_SIGNAL_FUNC (rule_edit)   },
+	{ "rule_delete", GTK_SIGNAL_FUNC (rule_delete) },
+	{ "rule_up",     GTK_SIGNAL_FUNC (rule_up)     },
+	{ "rule_down",   GTK_SIGNAL_FUNC (rule_down)   },
 };
 
 static void
@@ -507,7 +505,7 @@ set_sensitive (RuleEditor *re)
 static void
 select_rule (GtkWidget *w, GtkWidget *child, RuleEditor *re)
 {
-	re->current = g_object_get_data (child, "rule");
+	re->current = g_object_get_data ((GObject *) child, "rule");
 	
 	g_assert (re->current);
 	
@@ -537,7 +535,7 @@ set_source (RuleEditor *re, const char *source)
 		
 		d(printf("   hit %s(%s)\n", rule->name, source ? source : "<nil>"));
 		item = gtk_list_item_new_with_label (rule->name);
-		g_object_set_data (item, "rule", rule);
+		g_object_set_data ((GObject *) item, "rule", rule);
 		gtk_widget_show (GTK_WIDGET (item));
 		newitems = g_list_append (newitems, item);
 	}
@@ -657,10 +655,10 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	}
 	
         re->list = (GtkList *) w = glade_xml_get_widget(gui, "rule_list");
-	g_signal_connect (w, "select_child", select_rule, re);
-	g_signal_connect (w, "button_press_event", double_click, re);
+	g_signal_connect (w, "select_child", GTK_SIGNAL_FUNC (select_rule), re);
+	g_signal_connect (w, "button_press_event", GTK_SIGNAL_FUNC (double_click), re);
 	
-	g_signal_connect (re, "clicked", editor_clicked, re);
+	g_signal_connect (re, "clicked", GTK_SIGNAL_FUNC (editor_clicked), re);
 	rule_editor_set_source (re, source);
 	
 	if (enable_undo) {

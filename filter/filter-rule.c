@@ -26,15 +26,9 @@
 #endif
 
 #include <string.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtktable.h>
-#include <libgnome/gnome-defs.h>
+
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 
@@ -99,18 +93,18 @@ filter_rule_class_init (FilterRuleClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	
-	parent_class = g_type_class_ref (G_OBJECT_CLASS);
+	parent_class = g_type_class_ref (G_TYPE_OBJECT);
 	
 	object_class->finalize = filter_rule_finalise;
 	
 	/* override methods */
-	class->validate = validate;
-	class->eq = rule_eq;
-	class->xml_encode = xml_encode;
-	class->xml_decode = xml_decode;
-	class->build_code = build_code;
-	class->copy = rule_copy;
-	class->get_widget = get_widget;
+	klass->validate = validate;
+	klass->eq = rule_eq;
+	klass->xml_encode = xml_encode;
+	klass->xml_decode = xml_decode;
+	klass->build_code = build_code;
+	klass->copy = rule_copy;
+	klass->get_widget = get_widget;
 	
 	/* signals */
 	signals[CHANGED] =
@@ -514,7 +508,7 @@ filter_rule_emit_changed(FilterRule *fr)
 	g_assert (IS_FILTER_RULE (fr));
 	
 	if (fr->priv->frozen == 0)
-		g_signal_emit (fr, signals[CHANGED]);
+		g_signal_emit (fr, signals[CHANGED], 0);
 }
 
 static void
@@ -557,7 +551,7 @@ struct _part_data {
 static void
 option_activate (GtkMenuItem *item, struct _part_data *data)
 {
-	FilterPart *part = g_object_get_data (item, "part");
+	FilterPart *part = g_object_get_data ((GObject *) item, "part");
 	FilterPart *newpart;
 	
 	/* dont update if we haven't changed */
@@ -578,7 +572,7 @@ option_activate (GtkMenuItem *item, struct _part_data *data)
 	if (data->partwidget)
 		gtk_box_pack_start (GTK_BOX (data->container), data->partwidget, FALSE, FALSE, 0);
 	
-	g_object_set_data (data->container, "part", newpart);
+	g_object_set_data ((GObject *) data->container, "part", newpart);
 }
 
 static GtkWidget *
@@ -600,7 +594,7 @@ get_rule_part_widget (RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	
 	hbox = gtk_hbox_new (FALSE, 0);
 	/* only set to automatically clean up the memory */
-	g_object_set_data_full (hbox, "data", data, g_free);
+	g_object_set_data_full ((GObject *) hbox, "data", data, g_free);
 	
 	p = filter_part_get_widget (newpart);
 	
@@ -611,8 +605,8 @@ get_rule_part_widget (RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	/* sigh, this is a little ugly */
 	while ((part = rule_context_next_part (f, part))) {
 		item = gtk_menu_item_new_with_label (_(part->title));
-		g_object_set_data (item, "part", part);
-		g_signal_connect (item, "activate", option_activate, data);
+		g_object_set_data ((GObject *) item, "part", part);
+		g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (option_activate), data);
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 		if (!strcmp (newpart->title, part->title))
@@ -650,8 +644,8 @@ less_parts (GtkWidget *button, struct _rule_data *data)
 	if (g_list_length (data->fr->parts) < 2)
 		return;
 	
-	rule = g_object_get_data (button, "rule");
-	part = g_object_get_data (rule, "part");
+	rule = g_object_get_data ((GObject *) button, "rule");
+	part = g_object_get_data ((GObject *) rule, "part");
 	
 	/* remove the part from the list */
 	filter_rule_remove_part (data->fr, part);
@@ -666,19 +660,18 @@ static void
 attach_rule (GtkWidget *rule, struct _rule_data *data, FilterPart *part, int row)
 {
 	GtkWidget *remove;
-	GtkWidget *pixmap;
 	
 	gtk_table_attach (GTK_TABLE (data->parts), rule, 0, 1, row, row + 1,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	
-	pixmap = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_REMOVE);
-	remove = gnome_pixmap_button (pixmap, _("Remove"));
-	g_object_set_data (remove, "rule", rule);
-	g_object_set_data (rule, "part", part);
+	remove = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+	g_object_set_data ((GObject *) remove, "rule", rule);
+	g_object_set_data ((GObject *) rule, "part", part);
 	/*gtk_button_set_relief (GTK_BUTTON (remove), GTK_RELIEF_NONE);*/
-	g_signal_connect (remove, "clicked", less_parts, data);
+	g_signal_connect (remove, "clicked", GTK_SIGNAL_FUNC (less_parts), data);
 	gtk_table_attach (GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
 			  0, 0, 0, 0);
+	
 	gtk_widget_show (remove);
 }
 
@@ -736,14 +729,9 @@ grab_focus (GtkWidget *entry, gpointer data)
 static GtkWidget *
 get_widget (FilterRule *fr, struct _RuleContext *f)
 {
-	GtkWidget *vbox, *parts, *inframe;
-	GtkWidget *hbox;
-	GtkWidget *add, *pixmap;
-	GtkWidget *w;
-	GtkWidget *menu, *item, *omenu;
-	GtkWidget *frame;
-	GtkWidget *name;
-	GtkWidget *label;
+	GtkWidget *hbox, *vbox, *parts, *inframe;
+	GtkWidget *add, *frame, *label, *name, *w;
+	GtkWidget *omenu, *menu, *item;
 	GtkWidget *scrolledwindow;
 	GtkObject *hadj, *vadj;
 	GList *l;
@@ -768,13 +756,13 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	}
 	
 	/* evil kludgy hack because gtk sucks */
-	g_signal_connect (name, "realize", grab_focus, name);
+	g_signal_connect (name, "realize", GTK_SIGNAL_FUNC (grab_focus), name);
 	
 	hbox = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), name, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	g_signal_connect (name, "changed", name_changed, fr);
+	g_signal_connect (name, "changed", GTK_SIGNAL_FUNC (name_changed), fr);
 	
 	frame = gtk_frame_new (_("If"));
 	inframe = gtk_vbox_new (FALSE, 3);
@@ -791,7 +779,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	data->parts = parts;
 	
 	/* only set to automatically clean up the memory */
-	g_object_set_data_full (vbox, "data", data, g_free);
+	g_object_set_data_full ((GObject *) vbox, "data", data, g_free);
 	
 	hbox = gtk_hbox_new (FALSE, 3);
 	label = gtk_label_new (_("Execute actions"));
@@ -799,12 +787,12 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	menu = gtk_menu_new ();
 	
 	item = gtk_menu_item_new_with_label (_("if all criteria are met"));
-	g_signal_connect (item, "activate", match_all, fr);
+	g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (match_all), fr);
 	gtk_menu_append (GTK_MENU (menu), item);
 	gtk_widget_show (item);
 	
 	item = gtk_menu_item_new_with_label (_("if any criteria are met"));
-	g_signal_connect (item, "activate", match_any, fr);
+	g_signal_connect (item, "activate", GTK_SIGNAL_FUNC (match_any), fr);
 	gtk_menu_append (GTK_MENU (menu), item);
 	gtk_widget_show (item);
 	
@@ -813,9 +801,8 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), fr->grouping == FILTER_GROUP_ALL ? 0 : 1);
 	gtk_widget_show (omenu);
 	
-	pixmap = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_ADD);
-	add = gnome_pixmap_button (pixmap, _("Add criterion"));
-	g_signal_connect (add, "clicked", more_parts, data);
+	add = gtk_button_new_from_stock (GTK_STOCK_ADD);
+	g_signal_connect (add, "clicked", GTK_SIGNAL_FUNC (more_parts), data);
 	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 3);
 	
 	gtk_box_pack_end (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);
