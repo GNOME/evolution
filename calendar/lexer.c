@@ -3,12 +3,14 @@
  */
 #include <stdio.h>
 #include <glib.h>
+#include "cal_struct.h"
 
 
 #define opener "["
 #define closer "]"
 #define VersionMajor 2
 
+GList *eventlist;
 
 int skip_chars(FILE *fp, char *terminator)
 {
@@ -121,13 +123,16 @@ int parse_appointment(FILE *fp, char keyword[])
 {
 	char buf[50];
 	int x,y,c;
+	struct event *ptr;
 
+	ptr = (struct event*)alloc(sizeof(struct event));
 	if (strcmp(keyword, "Start") == 0) {
 		if ( ! skip_whitespace(fp) || ! get_number(fp, &x) ) {
 			g_error("Unable to get start time");
 			return FALSE;
 		}
-		g_print ("Appointment start = %d\n", x);
+		g_print ("Appointment start = %02d:%02d\n", x/60, x % 60);
+		sprintf(ptr->start.time, "%d", x);
 		return TRUE;
 	}
 
@@ -137,6 +142,7 @@ int parse_appointment(FILE *fp, char keyword[])
 			return FALSE;
 		}
 		g_print ("Appointment length = %d\n", x);
+		sprintf(ptr->end.time, "%d", x);
 		return TRUE;
 	}
 
@@ -383,6 +389,7 @@ void parse_ical_file(char const *file)
 int main(int argc, char *argv[])
 {
 
+	eventlist = g_list_alloc();
 	parse_ical_file("/home/csmall/.calendar");
 	return 0;
 }
