@@ -2,6 +2,7 @@
 Name=Calendar
 Name[da]=Kalender
 Name[de]=Kalender
+Name[el]=Ημερολόγιο
 Name[es]=Calendario
 Name[et]=Kalender
 Name[fi]=Kalenteri
@@ -16,6 +17,7 @@ Name[sv]=Kalender
 Comment=Calendar application
 Comment[da]=Gnome Kalender
 Comment[de]=Gnome Kalender
+Comment[el]=Ημερολόγιο του Gnome
 Comment[es]=Calendario de Gnome
 Comment[et]=GNOME kalender
 Comment[fi]=GNOME-kalenteri
