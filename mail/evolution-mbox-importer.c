@@ -81,6 +81,7 @@ process_item_fn (EvolutionImporter *eimporter,
 		
 		ex = camel_exception_new ();
 		camel_folder_thaw (importer->folder);
+		importer->frozen = FALSE;
 		camel_folder_sync (importer->folder, FALSE, ex);
 		camel_exception_free (ex);
 		fclose (mbi->handle);
@@ -88,7 +89,32 @@ process_item_fn (EvolutionImporter *eimporter,
 		return;
 	}
 
-	mail_importer_add_line (importer, line, FALSE);
+	/* It's the From line, so add it and get a new line. */
+	if (strncmp (line, "From ", 5) == 0) {
+		mail_importer_add_line (importer, line, FALSE);
+		
+		if (fgets (line, 4096, mbi->handle) == NULL) {
+			if (*line != '\0')
+				mail_importer_add_line (importer, line, TRUE); 
+			/* Must be the end */
+			
+			g_free (line);
+			line = NULL;
+			GNOME_Evolution_ImporterListener_notifyResult (listener,
+								       GNOME_Evolution_ImporterListener_OK,
+								       FALSE, ev);
+			
+			ex = camel_exception_new ();
+			camel_folder_thaw (importer->folder);
+			importer->frozen = FALSE;
+			camel_folder_sync (importer->folder, FALSE, ex);
+			camel_exception_free (ex);
+			fclose (mbi->handle);
+			mbi->handle = NULL;
+			return;
+		}
+	}
+	
 	while (strncmp (line, "From ", 5) != 0) {
 		mail_importer_add_line (importer, line, FALSE);
 
@@ -103,6 +129,7 @@ process_item_fn (EvolutionImporter *eimporter,
 								       FALSE, ev);
 			ex = camel_exception_new ();
 			camel_folder_thaw (importer->folder);
+			importer->frozen = FALSE;
 			camel_folder_sync (importer->folder, FALSE, ex);
 			camel_exception_free (ex);
 			fclose (mbi->handle);
@@ -149,6 +176,9 @@ importer_destroy_cb (GtkObject *object,
 	MailImporter *importer;
 
 	importer = (MailImporter *) mbi;
+	if (importer->frozen) 
+		camel_folder_thaw (importer->folder);
+
 	if (importer->folder)
 		camel_object_unref (CAMEL_OBJECT (importer->folder));
 
@@ -196,6 +226,7 @@ load_file_fn (EvolutionImporter *eimporter,
 	}
 
 	camel_folder_freeze (importer->folder);
+	importer->frozen = TRUE;
 	return TRUE;
 }
 

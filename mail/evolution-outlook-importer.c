@@ -45,7 +45,7 @@ typedef struct {
 	char *filename;
 	gboolean oe4; /* Is file OE4 or not? */
 	FILE *handle;
-	fpos_t pos;
+	long pos;
 	off_t size;
 
 	gboolean busy;
@@ -80,7 +80,7 @@ process_item_fn (EvolutionImporter *eimporter,
 	oe_msg_segmentheader *header;
 	gboolean more = TRUE;
 	char *cb, *sfull, *s;
-	fpos_t end_pos = 0;
+	long end_pos = 0;
 	int i;
 
 	if (oli->busy == TRUE) {
@@ -134,7 +134,7 @@ process_item_fn (EvolutionImporter *eimporter,
 	mail_importer_add_line (importer, "\n", TRUE);
 
 	oli->pos = end_pos;
-	fsetpos (oli->handle, &oli->pos);
+	fseek (oli->handle, oli->pos, SEEK_SET);
 
 	g_free (header);
 	g_free (sfull);
@@ -221,7 +221,7 @@ load_file_fn (EvolutionImporter *eimporter,
 	OutlookImporter *oli;
 	MailImporter *importer;
 	struct stat buf;
-	fpos_t pos = 0x54;
+	long pos = 0x54;
 
 	oli = (OutlookImporter *) closure;
 	importer = (MailImporter *) oli;
@@ -249,7 +249,7 @@ load_file_fn (EvolutionImporter *eimporter,
 	oli->size = buf.st_size;
 
 	/* Set the fposition to the begining */
-	fsetpos (oli->handle, &pos);
+	fseek (oli->handle, pos, SEEK_SET);
 	oli->pos = pos;
 
 	importer->mstream = NULL;

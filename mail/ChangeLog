@@ -1,3 +1,15 @@
+2001-01-26  Iain Holmes  <iain@ximian.com>
+
+	* evolution-outlook-importer.c (load_file_fn): Replace fsetpos with
+	fseek and use a long instead of fpos_t.
+	(process_item_fn): Same.
+
+	* mail-importer.h: Add a frozen item to tell when the folder is frozen.
+
+	* evolution-mbox-importer.c (process_item_fn): Fix the blank message.
+	Set the frozen element.
+	(importer_destroy_cb): Thaw the folder if frozen.
+
 2001-01-26  Dan Winship  <danw@ximian.com>
 
 	* mail-identify.c (mail_identify_mime_part): Fix an uninitialized

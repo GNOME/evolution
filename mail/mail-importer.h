@@ -30,8 +30,10 @@
 
 typedef struct _MailImporter MailImporter;
 struct _MailImporter {
-  CamelFolder *folder;
-  CamelStreamMem *mstream;
+	CamelFolder *folder;
+	CamelStreamMem *mstream;
+
+	gboolean frozen; /* Is folder frozen? */
 };
 
 void mail_importer_init (void);
