@@ -58,7 +58,7 @@
     <para>
        The printer selection window, shown in <xref
        linkend="print-dest"/>, lets you choose the format for
-       printing-- <guilabel>Generic Postscript</guilabel>,
+       printing&mdash; <guilabel>Generic Postscript</guilabel>,
        whether to write to a PDF file, and whether to print to a file
        or to an actual printer in Generic Postscript.  If you choose a
        printer, you'll be asked for the printer command (probably

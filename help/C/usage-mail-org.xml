@@ -311,7 +311,7 @@
 
       <para>
         Flags can help you organize your work in a number of ways. For
-        example, you might add a Flag Status column to your message
+        example, you might add a <interface>Flag Status</interface> column to your message
         list and sort that way. Alternately, you could create a vFolder
         that displays all your flagged messages, and clear the flags
         when you're done, so the vFolder contains only messages with
@@ -610,13 +610,13 @@
 	
 		<listitem><para> Date sent - Filter messages according to the date on
 		    which they were sent: First, choose the conditions you
-		    want a message to meet -- <guilabel>before</guilabel>
+		    want a message to meet &mdash; <guilabel>before</guilabel>
 		    a given time, <guilabel>after</guilabel> it, and so forth.
 		    Then, choose the time. The filter will compare the
 		    message's time-stamp to the system clock when the filter
 		    is run, or to a specific time and date you choose from a
 		    calendar.  You can even have it look for messages within a
-		    range of time relative to the filter -- perhaps you're
+		    range of time relative to the filter &mdash; perhaps you're
 		    looking for messages less than two days old.
 		  </para></listitem>
 		
@@ -671,7 +671,7 @@
 		
 		<listitem>
 		  <para>
-		    Expression - If you know your way around a
+		    Regex Match  - If you know your way around a
 		    <glossterm
 		    linkend="regular-expression">regex</glossterm>, or
 		    regular expression, put your knowledge to use
@@ -786,7 +786,7 @@
            Spam, also known as unsolicited commercial email (UCE), is
            the bane of many people's Inboxes, but it doesn't have to
            be. Using Ximian Evolution filters and an external Spam
-           detection tool like SpamAssassin (<ulink
+           detection tool like <application>SpamAssassin</application> (<ulink
            url="http://spamassassin.org/">http://spamassassin.org/</ulink>),
            you can catch the vast majority of junk mail and drop it
            directly into the trash.
@@ -844,7 +844,7 @@
              </para></listitem>
 
              <listitem><para>
-                Click OK. You're done.
+                Click <guibutton>OK</guibutton>. You're done.
              </para></listitem>
 	   </orderedlist>
          </para>
@@ -866,7 +866,7 @@
          <orderedlist>
            <listitem>
            <para>
-             Open a new create a text file with any text editor (
+             Create a text file with any text editor (
              <menuchoice>
                <guimenu>
                  Programs
@@ -877,26 +877,24 @@
                <guimenuitem>
                  Text Editor
                </guimenuitem>
-             </menuchoice> is the most convenient) and paste in the following:
-             <screen>
-               spamassassin -e
-             </screen>
+             </menuchoice> is the most convenient) and write the next command:
+             <command>spamassassin -e</command>.
              This will run the SpamAssassin command and report back 0
              if the message is not junk.
            </para>
          </listitem>
          <listitem>
            <para>
-             Save the file as "spam-filter.sh"
+             Save the file as <filename>spam-filter.sh</filename>
            </para>
          </listitem>
          <listitem>
            <para>
               Mark the file as an executable program: 
-             Open your home directory in Nautilus, right-click on
+             Open your home directory in <application>Nautilus</application>, right-click on
              spam-filter.sh there, and select
              <guimenuitem>Properties</guimenuitem>. Then, click the
-             "Permissions" tab and check the box in the
+             <guilabel>Permissions</guilabel> tab and check the box in the
              <guilabel>Execute</guilabel> column and the
              <guilabel>Owner</guilabel> row. Alternately, open a terminal
              (<menuchoice>
@@ -909,7 +907,7 @@
              <guimenuitem>
                Terminal
              </guimenuitem>
-           </menuchoice>) and enter the command: chmod +x spam-filter.sh.
+           </menuchoice>) and enter the command: <command>chmod +x spam-filter.sh</command>.
        </para>
      </listitem>
      <listitem>
@@ -921,12 +919,12 @@
    </listitem>
 
              <listitem><para> 
-             Select "Pipe Message to Shell Command" as the first portion of the criterion.
+             Select <guilabel>Pipe Message to Shell Command</guilabel> as the first portion of the criterion.
                </para></listitem>
 
              <listitem><para> 
-             Enter "/home/username/spam-filter.sh" as the shell command, then select
-             "Does Not Return" and "0" as the remaining two
+             Enter <userinput>/home/username/spam-filter.sh</userinput> as the shell command, then select
+             <guilabel>Does Not Return</guilabel>  and <guilabel>0</guilabel> as the remaining two
              items. Substitute your username for "username" so that
              Evolution can find the script.
            </para></listitem>
@@ -940,7 +938,7 @@
              </para></listitem>
            <listitem>
              <para>
-               You're done. Click "OK" to close the filter and "OK" to
+               You're done. Click <guibutton>OK</guibutton> to close the filter and <guibutton>OK</guibutton> to
                close the filter editor.
              </para>
            </listitem>
@@ -1189,13 +1187,13 @@
 		
 		<listitem><para> Date sent - Search messages according to the date on
 		    which they were sent: First, choose the conditions you
-		    want a message to meet -- <guilabel>before</guilabel>
+		    want a message to meet &mdash; <guilabel>before</guilabel>
 		    a given time, <guilabel>after</guilabel> it, and so forth.
 		    Then, choose the time. The vFolder will compare the
 		    message's time-stamp to the system clock when the filter
 		    is run, or to a specific time and date you choose from a
 		    calendar.  You can even have it look for messages within a
-		    range of time relative to the filter -- perhaps you're
+		    range of time relative to the filter &mdash; perhaps you're
 		    looking for messages less than two days old.
 		  </para></listitem>
 		

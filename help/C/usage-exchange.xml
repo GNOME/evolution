@@ -432,7 +432,7 @@ There are, however, some features which are not available:
                     <title>The Global Catalog Server</title>
                     <para>
                       The Global Catalog server provides you with
-                      access access to the Global Address List,
+                      access to the Global Address List,
                       free/busy information, and folder delegation
                       features. These may not work properly if you do
                       not have a Global Catalog server.
@@ -864,7 +864,7 @@ There are, however, some features which are not available:
 
             <listitem>
               <para>
-                Click OK.
+                Click <guibutton>OK</guibutton>.
               </para>
             </listitem>
           </orderedlist>

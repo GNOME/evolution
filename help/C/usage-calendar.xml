@@ -419,7 +419,7 @@
       <para>
 	Once you get a reply to your meeting invitation, you'll need
 	to view it inline in the email.  Click the attachment and
-	select <guibutton>View Inline</guibutton>.  At the bottom, you
+	select <guimenuitem>View Inline</guimenuitem>.  At the bottom, you
 	can click <guibutton>OK</guibutton> to update your attendee
 	list.
       </para>

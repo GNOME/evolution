@@ -584,7 +584,7 @@ smtp.omniport.com:143
          <term>Loading Images</term>
          <listitem>
            <para>
-             You can embed a message in an email and have it load only
+             You can embed a image in an email and have it load only
              when the message arrives. However, spammers can use image loading
              patterns to confirm "live" addresses and invade your
              privacy. You may elect never to load images
@@ -635,9 +635,9 @@ smtp.omniport.com:143
       <title>Message Composer Preferences</title>
       <para>
         There are three  tabs of settings you can change for the
-        message composer. The General tab covers shortcuts and
+        message composer. The <guilabel>General</guilabel> tab covers shortcuts and
         assorted behavior, and the other two control signatures and
-        spell checking.  In the General tab, you can set:
+        spell checking.  In the <guilabel>General</guilabel> tab, you can set:
 
          <variablelist>
 
@@ -709,9 +709,13 @@ smtp.omniport.com:143
     <para>
       You can check the spelling of messages by selecting
       <menuchoice><guimenu>Edit</guimenu><guimenuitem>Spell Check
-      Document</guimenuitem></menuchoice>.
-      Alternately, check the <guibutton>Check spelling while i
-      type</guibutton> box, and choose a color for your misspelled words.
+      Document</guimenuitem></menuchoice>.  Alternately, in the
+      Evolution main window select
+      <menuchoice><guimenu>Tools</guimenu><guisubmenu>Settings</guisubmenu></menuchoice>,
+      click on the <guiicon>Composer preferences</guiicon> icon, then
+      select the <guilabel>Spell Checking</guilabel> tab and check the
+      <guibutton>Check spelling while i type</guibutton> box, and
+      choose a color for your misspelled words.
   </para>
 </sect1>
 

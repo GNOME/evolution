@@ -15,128 +15,25 @@
 <note id="shortcuts">
 <title>Custom Keyboard Shortcuts</title>
 <para>
-   As of GNOME 2.0, custom keyboard shortcuts lose out to keyboard
-  shortcuts as defined in application menus. For example, even if you have
-  chosen Emacs-style keybindings, the
-<keycombo>
-<keycap>Ctrl</keycap>
-<keycap>A</keycap>
-</keycombo> shortcut
-select the entire message (as noted in in
-<menuchoice><guimenu>Edit</guimenu><guimenuitem>Select
-All</guimenuitem></menuchoice>), not go to the beginning of a line, as it would in Emacs.
- </para>
-
- <para>
-   Keybindings that are not overridden by menu definitions are not affected. For example, 
+  If you have set custom keyboard shortcuts for your desktop, (you can
+   do this the control center: select
+   <menuchoice><guimenu>System</guimenu><guimenuitem>Settings</guimenuitem></menuchoice>
+   from your menu panel), they may interfere with Evolution keyboard
+   shortcuts.
+</para>
+<para>
+   For example, if you have chosen Emacs-style key bindings for your
+   desktop-wide text editor, the shortcut
    <keycombo action="simul">
     <keycap>Ctrl</keycap>
-    <keycap>K</keycap>
+    <keycap>W</keycap>
   </keycombo>
-  still acts as "cut line."
+  will act as "Cut region" rather than as "Close Window" in the
+  message composer.
 </para>
-
-<para>
-  To change keybinding settings, select
-  <menuchoice><guimenu>System</guimenu><guimenuitem>Personal
-  Settings</guimenuitem></menuchoice>
-  from your menu panel and double-click the
-<guiicon>Shortcuts</guiicon> icon.
-</para>
-
 </note>
 
 
-<sect1 id="commandline">
-  <title>Command Line Options</title>
-  <para>
-    Evolution is primarily a graphical (GUI) tool, but it has a few
-    command-line flags and options you may want to use. 
-  </para>
-
-    <variablelist>
-      <varlistentry>
-        <term>Force Evolution to Quit</term>
-        <listitem>
-          <para>
-            Earlier versions of Evolution shipped with a "killev"
-            script to halt all Evolution processes. Evolution 1.4 uses
-            the --force-shutdown flag instead. If Evolution has
-            stopped responding, try runing the command <command>evolution-1.4
-          --force-shutdown</command>.
-          </para>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry>
-        <term>Handling Mailto Links with a Subject</term>
-        <listitem>
-          <para>
-            Evolution handles mailto links from browsers. If you use
-            Galeon, you can set the mail handler by selecting
-            <menuchoice><guimenu>System</guimenu><guimenuitem>Personal
-            Preferences</guimenuitem></menuchoice> and double-clicking the <guiicon>File
-            Associations</guiicon> icon.
-          </para>
-          <para>
-            For other browsers or applications, enter your custom
-            email handler as the command <userinput>evolution-1.4 "%s"</userinput> </para>
-          <para>
-            To create a preformed subject, enter the command like so:
-            <command>evolution-1.4 mailto:address@isp.com?subject="Subject of Message"</command>
-          </para>
-        </listitem>
-      </varlistentry>
-                 
-
-
-      <varlistentry>
-        <term>  Disable splash screen</term>
-        <listitem>
-          <para>
-            If you dislike the splash screen, add the flag
-            <userinput>--no-splash.</userinput>
-          </para>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry>
-        <term>Start Online or Offline</term>
-        <listitem>
-          <para>
-            To start in online mode or in offline mode, add the <userinput>--offline</userinput>
-          or  <userinput>--online</userinput> flag to the command line.
-          </para>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry>
-        <term>Capture Debugging Output</term>
-        <listitem>
-          <para> 
-          To gather debugging information for a bug report, run
-          Evolution with the flag
-          <userinput>--debug=filename.txt</userinput>.  All debugging output
-          will go to the file name you choose.
-          </para>
-        </listitem>
-      </varlistentry>
-
-      <varlistentry>
-        <term>Additional Command Line Help</term>
-        <listitem>
-          <para>
-            Run <command>evolution --help</command> or
-          <command>evolution -?</command> to get a long listing of
-          additional options, most of which are available for all GNOME
-          applications. To get a short syntax summary, run the command
-          <command>evolution-1.4 --usage</command>.
-          </para>
-        </listitem>
-      </varlistentry>
-    </variablelist>
-
-</sect1>
 
 
   <sect1 id="quickref-open">
