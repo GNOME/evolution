@@ -1,3 +1,8 @@
+2003-02-11  Rodney Dawes  <dobey@ximian.com>
+
+	* e-proxy.c (set_proxy): Priority use of gnome2 proxy settings if
+	they are set, as we are most likely running under gnome2.
+	
 2003-02-05  JP Rosevear  <jpr@ximian.com>
 
 	* e-xml-hash-utils.[hc]: back port from main line
