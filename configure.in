@@ -185,17 +185,23 @@ AC_SUBST(THREADS_CFLAGS)
 dnl **************************************************
 dnl * Print check
 dnl **************************************************
-AC_MSG_CHECKING(for GnomePrint libraries version 0.20)
-if gnome-config --libs print > /dev/null 2>&1; then 
-    vers=`gnome-config --modversion print | sed -e "s/gnome-print-//"`
-    if test "$vers" = "0.20"; then
-        AC_MSG_RESULT(found)
+AC_MSG_CHECKING(for GnomePrint libraries version either 0.20 or later)
+  if gnome-config --libs print > /dev/null 2>&1; then 
+    vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" | awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
+    if test "$vers" -ge 20; then
+      if test "$vers" -ge 21; then
+          AC_MSG_RESULT(found >=0.21)
+      else
+          AC_MSG_RESULT(found 0.20)
+	  AC_DEFINE(USING_GNOME_PRINT_0_20)
+      fi
     else
-        AC_MSG_ERROR(Please make sure you are using the released version of gnome-print-0.20.  Please note that CVS HEAD versions will not work.)
+        AC_MSG_ERROR(Please upgrade your gnome-print to version 0.20 or later.)
     fi
-else
-    AC_MSG_ERROR(Did not find GnomePrint installed.  Please make sure you are using the released version of gnome-print-0.20.  Please note that CVS HEAD versions will not work.)
-fi
+  else
+     AC_MSG_ERROR(Did not find GnomePrint installed)
+  fi
+
 GNOME_PRINT_LIBS=`gnome-config --libs print`
 GNOME_PRINT_CFLAGS=`gnome-config --cflags print`
 AC_SUBST(GNOME_PRINT_LIBS)

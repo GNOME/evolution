@@ -4,6 +4,12 @@
 #include <sys/types.h>
 #include <glib.h>
 #include <gtk/gtk.h>
+#include <config.h>
+
+#ifdef USING_GNOME_PRINT_0_20
+#define gnome_font_get_size(f) ((f)->size)
+#define gnome_font_get_glyph_width gnome_font_get_width
+#endif
 
 /*
  * e_utf8_strstrcase

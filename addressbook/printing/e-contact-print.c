@@ -31,6 +31,7 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 #include <ctype.h>
+#include <e-util/e-unicode.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include <addressbook/backend/ebook/e-card-simple.h>
@@ -254,7 +255,7 @@ e_contact_output(GnomePrintContext *pc, GnomeFont *font, double x, double y, dou
 		gnome_print_moveto(pc, x, y);
 		gnome_print_show(pc, (char *)list->data);
 		y -= gnome_font_get_descender(font);
-		y -= .2 * font->size;
+		y -= .2 * gnome_font_get_size (font);
 		if ( first_line ) {
 			x += gnome_font_get_width_string(font, "    ");
 			first_line = 0;
@@ -270,17 +271,17 @@ e_contact_text_height(GnomePrintContext *pc, GnomeFont *font, double width, gcha
 {
 	int line_count = e_contact_divide_text(pc, font, width, text, NULL);
 	return line_count * (gnome_font_get_ascender(font) + gnome_font_get_descender(font)) +
-		(line_count - 1) * .2 * font->size;
+		(line_count - 1) * .2 * gnome_font_get_size (font);
 }
 
 #if 0
 static void
 e_contact_output_and_advance(EContactPrintContext *ctxt, GnomeFont *font, double x, double width, gchar *text)
 {
-	ctxt->y -= .1 * font->size;
+	ctxt->y -= .1 * gnome_font_get_size (font);
 	e_contact_output(ctxt->pc, font, x, ctxt->y, width, text);
 	ctxt->y -= e_contact_text_height(ctxt->pc, font, width, text);
-	ctxt->y -= .1 * font->size;
+	ctxt->y -= .1 * gnome_font_get_size (font);
 }
 #endif
 
@@ -346,7 +347,7 @@ e_contact_print_letter_tab (EContactPrintContext *ctxt)
 		y -= tab_height;
 	}
 	gnome_print_grestore( ctxt->pc );
-	return gnome_font_get_width_string(ctxt->style->body_font, "123") + ctxt->style->body_font->size / 5;
+	return gnome_font_get_width_string(ctxt->style->body_font, "123") + gnome_font_get_size (ctxt->style->body_font) / 5;
 }
 
 static double
@@ -403,17 +404,17 @@ e_contact_get_card_size(ECardSimple *simple, EContactPrintContext *ctxt)
 		page_width -= e_contact_get_letter_tab_width(ctxt);
 	column_width = (page_width + 18) / ctxt->style->num_columns - 18;
 
-	height += ctxt->style->headings_font->size * .2;
+	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
 
-	height += ctxt->style->headings_font->size * .2;
+	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
 
 	gtk_object_get(GTK_OBJECT(simple->card),
 		       "file_as", &file_as,
 		       NULL);
 	height += e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as);
-	height += ctxt->style->headings_font->size * .2;
+	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
 
-	height += ctxt->style->headings_font->size * .2;
+	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
 	
 	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST; field++) {
 		char *string;
@@ -423,11 +424,11 @@ e_contact_get_card_size(ECardSimple *simple, EContactPrintContext *ctxt)
 			xoff += gnome_font_get_width_string(ctxt->style->body_font, e_card_simple_get_name(simple, field));
 			xoff += gnome_font_get_width_string(ctxt->style->body_font, ":  ");
 			height += e_contact_text_height(ctxt->pc, ctxt->style->body_font, column_width - xoff, string);
-			height += .2 * ctxt->style->body_font->size;
+			height += .2 * gnome_font_get_size (ctxt->style->body_font);
 		}
 		g_free(string);
 	}
-	height += ctxt->style->headings_font->size * .4;
+	height += gnome_font_get_size (ctxt->style->headings_font) * .4;
 	return height;
 }
 
@@ -446,20 +447,20 @@ e_contact_print_card (ECardSimple *simple, EContactPrintContext *ctxt)
 
 	gnome_print_gsave(ctxt->pc);
 
-	ctxt->y -= ctxt->style->headings_font->size * .2;
+	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 
-	ctxt->y -= ctxt->style->headings_font->size * .2;
+	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 
 	gtk_object_get(GTK_OBJECT(simple->card),
 		       "file_as", &file_as,
 		       NULL);
 	if (ctxt->style->print_using_grey)
-		e_contact_rectangle(ctxt->pc, ctxt->x, ctxt->y + ctxt->style->headings_font->size * .3, ctxt->x + column_width, ctxt->y - e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as) - ctxt->style->headings_font->size * .3, .85, .85, .85);
+		e_contact_rectangle(ctxt->pc, ctxt->x, ctxt->y + gnome_font_get_size (ctxt->style->headings_font) * .3, ctxt->x + column_width, ctxt->y - e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as) - gnome_font_get_size (ctxt->style->headings_font) * .3, .85, .85, .85);
 	e_contact_output(ctxt->pc, ctxt->style->headings_font, ctxt->x + 2, ctxt->y, column_width - 4, file_as);
 	ctxt->y -= e_contact_text_height(ctxt->pc, ctxt->style->headings_font, column_width - 4, file_as);
-	ctxt->y -= ctxt->style->headings_font->size * .2;
+	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 
-	ctxt->y -= ctxt->style->headings_font->size * .2;
+	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 	
 	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST; field++) {
 		char *string;
@@ -472,12 +473,12 @@ e_contact_print_card (ECardSimple *simple, EContactPrintContext *ctxt)
 			xoff += gnome_font_get_width_string(ctxt->style->body_font, ":  ");
 			e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x + xoff, ctxt->y, column_width - xoff, string);
 			ctxt->y -= e_contact_text_height(ctxt->pc, ctxt->style->body_font, column_width - xoff, string);
-			ctxt->y -= .2 * ctxt->style->body_font->size;
+			ctxt->y -= .2 * gnome_font_get_size (ctxt->style->body_font);
 		}
 		g_free(string);
 	}
 	
-	ctxt->y -= ctxt->style->headings_font->size * .4;
+	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .4;
 	gnome_print_grestore(ctxt->pc);
 }
 
@@ -640,9 +641,9 @@ e_contact_get_phone_list_size(ECardSimple *simple, EContactPrintContext *ctxt)
 	double height = 0;
 	int field;
 
-	height += ctxt->style->headings_font->size * .2;
+	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
 
-	height += ctxt->style->headings_font->size * .2;
+	height += gnome_font_get_size (ctxt->style->headings_font) * .2;
 	
 	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST; field++) {
 		char *string;
@@ -651,12 +652,12 @@ e_contact_get_phone_list_size(ECardSimple *simple, EContactPrintContext *ctxt)
 			if ( 1 ) /* field is a phone field. */ {
 				gchar *field = string;
 				height += e_contact_text_height(ctxt->pc, ctxt->style->body_font, 100, field);
-				height += .2 * ctxt->style->body_font->size;
+				height += .2 * gnome_font_get_size (ctxt->style->body_font);
 			}
 		}
 		g_free(string);
 	}
-	height += ctxt->style->headings_font->size * .4;
+	height += gnome_font_get_size (ctxt->style->headings_font) * .4;
 	return height;
 }
 
@@ -677,13 +678,13 @@ e_contact_print_phone_list (ECard *card, EContactPrintContext *ctxt)
 
 	gnome_print_gsave(ctxt->pc);
 
-	ctxt->y -= ctxt->style->headings_font->size * .2;
+	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 
-	ctxt->y -= ctxt->style->headings_font->size * .2;
+	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .2;
 
 	e_contact_output(ctxt->pc, ctxt->style->body_font, ctxt->x, ctxt->y, -1, e_card_get_string_fileas(card));
 	
-	xoff = column_width - 9 * ctxt->style->body_font->size;
+	xoff = column_width - 9 * gnome_font_get_size (ctxt->style->body_font);
 	dotwidth = xoff - 
 		gnome_font_get_width_string(ctxt->style->body_font, e_card_get_string_fileas(card)) - 
 		gnome_font_get_width_string(ctxt->style->body_font, " ");
@@ -706,10 +707,10 @@ e_contact_print_phone_list (ECard *card, EContactPrintContext *ctxt)
 					 -1,
 					 field);
 			ctxt->y -= e_contact_text_height(ctxt->pc, ctxt->style->body_font, 100, field);
-			ctxt->y -= .2 * ctxt->style->body_font->size;
+			ctxt->y -= .2 * gnome_font_get_size (ctxt->style->body_font);
 		}
 	}
-	ctxt->y -= ctxt->style->headings_font->size * .4;
+	ctxt->y -= gnome_font_get_size (ctxt->style->headings_font) * .4;
 	gnome_print_grestore(ctxt->pc);
 }
 
@@ -1004,7 +1005,7 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		ctxt->type = GNOME_PRINT_PRINT;
 
 		font_size = 72 * ctxt->style->page_height / 27.0 / 2.0;
-		ctxt->letter_heading_font = gnome_font_new(gnome_font_get_name(ctxt->style->headings_font), ctxt->style->headings_font->size * 1.5);
+		ctxt->letter_heading_font = gnome_font_new(gnome_font_get_name(ctxt->style->headings_font), gnome_font_get_size (ctxt->style->headings_font) * 1.5);
 		ctxt->letter_tab_font = gnome_font_new(gnome_font_get_name(ctxt->style->headings_font), font_size);
 	
 		ctxt->pc = GNOME_PRINT_CONTEXT(gnome_print_multipage_new_from_sizes(pc, 
@@ -1039,7 +1040,7 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		ctxt->type = GNOME_PRINT_PREVIEW;
 
 		font_size = 72 * ctxt->style->page_height / 27.0 / 2.0;
-		ctxt->letter_heading_font = gnome_font_new(gnome_font_get_name(ctxt->style->headings_font), ctxt->style->headings_font->size * 1.5);
+		ctxt->letter_heading_font = gnome_font_new(gnome_font_get_name(ctxt->style->headings_font), gnome_font_get_size (ctxt->style->headings_font) * 1.5);
 		ctxt->letter_tab_font = gnome_font_new(gnome_font_get_name(ctxt->style->headings_font), font_size);
 		
 		ctxt->pc = GNOME_PRINT_CONTEXT(gnome_print_multipage_new_from_sizes(pc, 

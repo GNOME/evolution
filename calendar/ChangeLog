@@ -1,3 +1,7 @@
+2000-08-30  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* gui/print.c: Countless small changes for gnome-print 0.21+
+
 2000-08-30  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/gnome-cal.h (GnomeCal): Removed unused field event_editor.

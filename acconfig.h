@@ -20,6 +20,7 @@
 #undef GPG_PATH
 #undef PGP5_PATH
 #undef PGP_PATH
+#undef USING_GNOME_PRINT_0_20
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK
