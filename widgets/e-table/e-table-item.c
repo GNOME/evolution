@@ -170,11 +170,40 @@ eti_init (GnomeCanvasItem *item)
 static void
 eti_realize (GnomeCanvasItem *item)
 {
+	ETableItem *eti = E_TABLE_ITEM (item);
+	GtkWidget *canvas_widget = GTK_WIDGET (item->canvas);
+	GdkWindow *window;
+
+	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)
+                (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)(item);
+
+	window = canvas_widget->window;
+	
+	eti->fill_gc = canvas_widget->style->white_gc;
+	gdk_gc_ref (canvas_widget->style->white_gc);
+	eti->grid_gc = gdk_gc_new (window);
+	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->fg [GTK_STATE_NORMAL]);
 }
 
 static void
 eti_unrealize (GnomeCanvasItem *item)
 {
+	ETableItem *eti = E_TABLE_ITEM (item);
+
+	gdk_gc_unref (eti->fill_gc);
+	eti->fill_gc = NULL;
+	gdk_gc_unref (eti->grid_gc);
+	eti->grid_gc = NULL;
+	
+	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)
+                (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)(item);
+}
+
+static void
+draw_cell (ETableItem *eti, GdkDrawable *drawable, int col, int row,
+	   int x1, int y1, int x2, int y2)
+{
+	gdk_draw_line (drawable, eti->grid_gc, x1, y1, x2-x1, y2-y1);
 }
 
 static void
@@ -214,7 +243,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		}
 	}
 	last_col = col;
-	
+
 	/*
 	 * Draw individual lines
 	 */
@@ -231,7 +260,11 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		if (eti->draw_grid)
 			gdk_draw_line (drawable, eti->grid_gc, 0, y - y2, width, y - y2);
 
-		
+		for (col = first_col; col < last_col; col++){
+			ETableCol *ecol = e_table_header_get_column (eti->header, col);
+
+			draw_cell (eti, drawable, col, row, x_offset, y1 - y, x_offset + ecol->width, y2);
+		}
 	}
 }
 
