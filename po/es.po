@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.7.0\n"
-"POT-Creation-Date: 2000-11-17 18:52+0100\n"
+"POT-Creation-Date: 2000-11-20 19:30+0100\n"
 "PO-Revision-Date: 2000-09-26 16:58-04:00\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -584,7 +584,7 @@ msgid "_Add"
 msgstr "_Añadir"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:8
-#: ui/evolution-event-editor.xml.h:109 ui/evolution-mail.xml.h:48
+#: ui/evolution-event-editor.xml.h:109 ui/evolution-mail.xml.h:49
 msgid "_Delete"
 msgstr "_Borrar"
 
@@ -3687,7 +3687,7 @@ msgid "vFolder Sources"
 msgstr "Fuentes de la carpeta virtual"
 
 #. Automatically generated. Do not edit.
-#: filter/libfilter-i18n.h:2 mail/message-list.c:511
+#: filter/libfilter-i18n.h:2 mail/message-list.c:515
 msgid "Answered"
 msgstr "Contestado"
 
@@ -3751,7 +3751,7 @@ msgstr "Mover a la carpeta"
 msgid "Recipients"
 msgstr "Destinatarios"
 
-#: filter/libfilter-i18n.h:20 mail/message-list.c:508
+#: filter/libfilter-i18n.h:20 mail/message-list.c:512
 msgid "Seen"
 msgstr "Visto"
 
@@ -4012,7 +4012,7 @@ msgstr "Aplicar filtro"
 msgid "Create Rule From Message"
 msgstr "Crear una regla con el mensaje"
 
-#: mail/folder-browser.c:485
+#: mail/folder-browser.c:485 ui/evolution-mail.xml.h:45
 msgid "View Message Source"
 msgstr "Ver origen del mensaje"
 
@@ -4642,6 +4642,11 @@ msgstr "Puntero a datos externos desconocidos (tipo \"%s\")"
 msgid "Malformed external-body part."
 msgstr "Parte externa al cuerpo del mensaje mal escrita."
 
+#: mail/mail-format.c:1669
+#, c-format
+msgid "On %s, %s wrote:\n"
+msgstr ""
+
 #: mail/mail-local.c:194
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
@@ -4863,100 +4868,114 @@ msgid ""
 msgstr ""
 "No pude generar un mime del mensaje cuando generaba el mensaje a reenviar."
 
-#: mail/mail-ops.c:1736
+#: mail/mail-ops.c:1617
+msgid "Forwarded message:\n"
+msgstr "Mensaje reenviado:\n"
+
+#: mail/mail-ops.c:1686
 #, c-format
 msgid "Loading \"%s\""
 msgstr "Cargando \"%s\""
 
-#: mail/mail-ops.c:1738
+#: mail/mail-ops.c:1688
 #, c-format
 msgid "Load \"%s\""
 msgstr "Cargar \"%s\""
 
-#: mail/mail-ops.c:1840
+#: mail/mail-ops.c:1790
 #, c-format
 msgid "Creating \"%s\""
 msgstr "Creando \"%s\""
 
-#: mail/mail-ops.c:1842
+#: mail/mail-ops.c:1792
 #, c-format
 msgid "Create \"%s\""
 msgstr "Crear \"%s\""
 
-#: mail/mail-ops.c:1890
+#: mail/mail-ops.c:1840
 msgid "Exception while reporting result to shell component listener."
 msgstr "Excepción mientras devolvía los resultados al componente de shell."
 
-#: mail/mail-ops.c:1936
+#: mail/mail-ops.c:1886
 #, c-format
 msgid "Synchronizing \"%s\""
 msgstr "Sincronizando \"%s\""
 
-#: mail/mail-ops.c:1938
+#: mail/mail-ops.c:1888
 #, c-format
 msgid "Synchronize \"%s\""
 msgstr "Sincronizar \"%s\""
 
-#: mail/mail-ops.c:2002
+#: mail/mail-ops.c:1952
 #, c-format
 msgid "Displaying message UID \"%s\""
 msgstr "Mostrando mensaje UID \"%s\""
 
-#: mail/mail-ops.c:2005
+#: mail/mail-ops.c:1955
 msgid "Clearing message display"
 msgstr "Limpiando vista del mensaje"
 
-#: mail/mail-ops.c:2008
+#: mail/mail-ops.c:1958
 #, c-format
 msgid "Display message UID \"%s\""
 msgstr "Mostrar mensaje UID \"%s\""
 
-#: mail/mail-ops.c:2011
+#: mail/mail-ops.c:1961
 msgid "Clear message display"
 msgstr "Limpiar vista del mensaje"
 
-#: mail/mail-ops.c:2124
+#: mail/mail-ops.c:2074
 #, c-format
 msgid "Opening messages from folder \"%s\""
 msgstr "Abriendo mensajes desde la carpeta \"%s\""
 
-#: mail/mail-ops.c:2127
+#: mail/mail-ops.c:2077
 #, c-format
 msgid "Open messages from \"%s\""
 msgstr "Abrir mensajes desde \"%s\""
 
-#: mail/mail-ops.c:2231
+#: mail/mail-ops.c:2181
 #, c-format
 msgid "Loading %s Folder"
 msgstr "Cargando carpeta %s"
 
-#: mail/mail-ops.c:2233
+#: mail/mail-ops.c:2183
 #, c-format
 msgid "Load %s Folder"
 msgstr "Cargar carpeta %s"
 
-#: mail/mail-ops.c:2300
+#: mail/mail-ops.c:2250
 #, c-format
 msgid "Viewing messages from folder \"%s\""
 msgstr "Mostrando mensajes desde la carpeta \"%s\""
 
-#: mail/mail-ops.c:2303
+#: mail/mail-ops.c:2253
 #, c-format
 msgid "View messages from \"%s\""
 msgstr "Mostrar mensajes desde \"%s\""
 
-#: mail/mail-ops.c:2329 mail/mail-ops.c:2447
+#: mail/mail-ops.c:2279 mail/mail-ops.c:2397 mail/mail-ops.c:2527
 #, c-format
 msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr "Recogiendo mensaje %d de %d (uid \"%s\") "
 
-#: mail/mail-ops.c:2419
+#: mail/mail-ops.c:2369
+#, c-format
 msgid "Viewing message sources from folder \"%s\""
 msgstr "Mostrando fuentes de mensajes desde la carpeta \"%s\""
 
-#: mail/mail-ops.c:2422
+#: mail/mail-ops.c:2372
+#, c-format
 msgid "View message sources from \"%s\""
 msgstr "Mostrar fuebtes de mensajes desde \"%s\""
+
+#: mail/mail-ops.c:2500
+msgid "Saving messages from folder \"%s\""
+msgstr "Guardando mensajes de la carpeta \"%s\""
+
+#: mail/mail-ops.c:2503
+msgid "Saving messages from \"%s\""
+msgstr "Guardando mensajes desde \"%s\""
 
 #: mail/mail-search-dialogue.c:104
 msgid "Cancel"
@@ -5004,18 +5023,18 @@ msgstr "No pude crear la ventana de diálogo"
 msgid "User cancelled query."
 msgstr "El usuario cancelo la consulta."
 
-#: mail/mail-tools.c:187
+#: mail/mail-tools.c:189
 #, c-format
 msgid "Couldn't create temporary mbox `%s': %s"
 msgstr "No puedo crear el mbox temporal `%s': %s"
 
 #. Get all uids of source
-#: mail/mail-tools.c:237
+#: mail/mail-tools.c:239
 #, c-format
 msgid "Examining %s"
 msgstr "Examinado %s"
 
-#: mail/mail-tools.c:267
+#: mail/mail-tools.c:269
 #, c-format
 msgid ""
 "Could not read UID cache file \"%s\". You may receive duplicate messages."
@@ -5023,41 +5042,41 @@ msgstr ""
 "No pude leer el UID del archivo \"%s\". Puede que reciva mensajes duplicados."
 
 #. Info
-#: mail/mail-tools.c:288
+#: mail/mail-tools.c:290
 #, c-format
 msgid "Retrieving message %d of %d"
 msgstr "Recogiendo mensaje %d de %d"
 
 #. Append it to dest
-#: mail/mail-tools.c:301
+#: mail/mail-tools.c:303
 #, c-format
 msgid "Writing message %d of %d"
 msgstr "Escribiendo mensaje %d de %d"
 
-#: mail/mail-tools.c:330
+#: mail/mail-tools.c:332
 #, c-format
 msgid "Saving changes to %s"
 msgstr "Guardando cambios en %s"
 
-#: mail/mail-tools.c:367
+#: mail/mail-tools.c:369
 #, c-format
 msgid "[%s] (forwarded message)"
 msgstr "[%s] (mensaje reenviado)"
 
-#: mail/mail-tools.c:377
+#: mail/mail-tools.c:379
 msgid "Fwd: (no subject)"
 msgstr "Fwd: (sin asunto)"
 
-#: mail/mail-tools.c:416
+#: mail/mail-tools.c:418
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Reenviado mensaje - %s"
 
-#: mail/mail-tools.c:418
+#: mail/mail-tools.c:420
 msgid "Forwarded message (no subject)"
 msgstr "Mensaje reenviado (sin asunto)"
 
-#: mail/mail-tools.c:521
+#: mail/mail-tools.c:523
 #, c-format
 msgid ""
 "Cannot open location `%s':\n"
@@ -5100,15 +5119,15 @@ msgstr "Imprimir el mensaje seleccionado"
 msgid "Delete this message"
 msgstr "Borrar este mensaje"
 
-#: mail/message-list.c:505
+#: mail/message-list.c:509
 msgid "Unseen"
 msgstr "Sin leer"
 
-#: mail/message-list.c:2045
+#: mail/message-list.c:2054
 msgid "Rebuilding message view"
 msgstr "Reconstruyendo la vista del mensaje"
 
-#: mail/message-list.c:2047
+#: mail/message-list.c:2056
 msgid "Rebuild message view"
 msgstr "Reconstruir la vista del mensaje"
 
@@ -6302,71 +6321,71 @@ msgstr "VFolder según el _remitente"
 msgid "VFolder on _Recipients"
 msgstr "VFolder según los _destinatarios"
 
-#: ui/evolution-mail.xml.h:45
+#: ui/evolution-mail.xml.h:46
 msgid "_Apply Filters"
 msgstr "_Aplicar filtro"
 
-#: ui/evolution-mail.xml.h:46
+#: ui/evolution-mail.xml.h:47
 msgid "_Configure Folder"
 msgstr "_Configurar carpeta"
 
-#: ui/evolution-mail.xml.h:47
+#: ui/evolution-mail.xml.h:48
 msgid "_Copy to Folder..."
 msgstr "_Copiar a la carpeta..."
 
-#: ui/evolution-mail.xml.h:49
+#: ui/evolution-mail.xml.h:50
 msgid "_Edit Message"
 msgstr "_Editar mensaje"
 
-#: ui/evolution-mail.xml.h:50
+#: ui/evolution-mail.xml.h:51
 msgid "_Expunge"
 msgstr "_Comprimir"
 
-#: ui/evolution-mail.xml.h:51
+#: ui/evolution-mail.xml.h:52
 msgid "_Filter on Subject"
 msgstr "_Filtrar según el asunto"
 
-#: ui/evolution-mail.xml.h:52
+#: ui/evolution-mail.xml.h:53
 msgid "_Forward"
 msgstr "_Reenviar"
 
-#: ui/evolution-mail.xml.h:53 ui/evolution-subscribe.xml.h:18
+#: ui/evolution-mail.xml.h:54 ui/evolution-subscribe.xml.h:18
 msgid "_Invert Selection"
 msgstr "_Invertir selección"
 
-#: ui/evolution-mail.xml.h:54
+#: ui/evolution-mail.xml.h:55
 msgid "_Mail Configuration..."
 msgstr "_Configuración del correo..."
 
-#: ui/evolution-mail.xml.h:55
+#: ui/evolution-mail.xml.h:56
 msgid "_Message"
 msgstr "_Mensaje"
 
-#: ui/evolution-mail.xml.h:56
+#: ui/evolution-mail.xml.h:57
 msgid "_Move to Folder..."
 msgstr "_Mover a la carpeta..."
 
-#: ui/evolution-mail.xml.h:57
+#: ui/evolution-mail.xml.h:58
 msgid "_Open in New Window"
 msgstr "_Abrir en una nueva ventana"
 
-#: ui/evolution-mail.xml.h:58
+#: ui/evolution-mail.xml.h:59
 msgid "_Print Message"
 msgstr "Im_primir mensaje"
 
-#: ui/evolution-mail.xml.h:59
+#: ui/evolution-mail.xml.h:60
 msgid "_Threaded"
 msgstr ""
 
-#: ui/evolution-mail.xml.h:60
+#: ui/evolution-mail.xml.h:61
 msgid "_Undelete"
 msgstr "_Recuperar"
 
-#: ui/evolution-mail.xml.h:61
+#: ui/evolution-mail.xml.h:62
 msgid "_VFolder on Subject"
 msgstr "_VFolder según el asunto"
 
-#: ui/evolution-mail.xml.h:62
+#: ui/evolution-mail.xml.h:63
 msgid "_Virtual Folder Editor..."
 msgstr "Editor de carpeta _virtuales..."
 
