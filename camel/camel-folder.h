@@ -37,6 +37,7 @@ typedef struct _CamelFolder CamelFolder;
 
 #include "camel-store.h"
 #include "camel-mime-message.h"
+#include "camel-folder-summary.h"
 
 #define CAMEL_FOLDER_TYPE     (camel_folder_get_type ())
 #define CAMEL_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_FOLDER_TYPE, CamelFolder))
@@ -71,6 +72,7 @@ struct _CamelFolder
 	CamelFolder *parent_folder;
 	GList *permanent_flags;
 	gboolean has_summary_capability;
+	CamelFolderSummary *summary;
 
 	GList *message_list;
 

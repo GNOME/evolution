@@ -86,6 +86,7 @@ GtkType camel_folder_summary_get_type (void);
 
 
 /* public methods */
+CamelFolderSummary *camel_folder_summary_new ();
 const GList *camel_folder_summary_get_subfolder_info_list (CamelFolderSummary *summary);
 const GList *camel_folder_summary_get_message_info_list (CamelFolderSummary *summary);
 

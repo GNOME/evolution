@@ -971,3 +971,9 @@ camel_folder_has_summary_capability (CamelFolder *folder)
 	return folder->has_summary_capability;
 }
 
+
+const CamelFolderSummary *
+camel_folder_get_summary (CamelFolder *folder)
+{
+	return folder->summary;
+}

@@ -36,6 +36,7 @@
 #include "camel-log.h"
 #include "camel-stream-fs.h"
 #include "camel-stream-buffered-fs.h"
+#include "camel-folder-summary.h"
 
 
 static CamelFolderClass *parent_class=NULL;
@@ -58,6 +59,7 @@ static gint _get_message_count (CamelFolder *folder);
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message);
 static void _expunge (CamelFolder *folder);
 static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder);
+static void _open (CamelFolder *folder, CamelFolderOpenMode mode);
 
 static gboolean _is_a_message_file (const gchar *file_name, const gchar *file_path);
 
@@ -81,6 +83,7 @@ camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 	camel_folder_class->append_message = _append_message;
 	camel_folder_class->expunge = _expunge;
 	camel_folder_class->copy_message_to = _copy_message_to;
+	camel_folder_class->open = _open;
 	
 }
 
@@ -116,6 +119,16 @@ camel_mh_folder_get_type (void)
 
 
 
+static gint
+_message_name_compare (gconstpointer a, gconstpointer b)
+{
+	gchar *m1 = (gchar *)a;
+	gchar *m2 = (gchar *)b;
+	gint len_diff;
+
+	return (atoi (m1) - atoi (m2));
+}
+
 
 static void 
 _init_with_store (CamelFolder *folder, CamelStore *parent_store)
@@ -125,18 +138,62 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 	
 	folder->can_hold_messages = TRUE;
 	folder->can_hold_folders = TRUE;
+	folder->has_summary_capability = TRUE;
+
+	folder->summary = camel_folder_summary_new ();
+}
+
+
+static void 
+_create_summary (CamelFolder *folder)
+{
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
+	CamelMessageInfo *message_info;
+	CamelFolderSummary *subfolder_info;
+
+	GList *file_list = mh_folder->file_name_list;
+	gchar *filename;
+
+	while (file_list) {
+
+		filename = (gchar *)(file_list->data);
+		message_info = g_new0 (CamelMessageInfo, 1);
+		message_info->subject = NULL;
+		
+		file_list = file_list->next;
+	}	
 }
 
 
 
-static gint
-_message_name_compare (gconstpointer a, gconstpointer b)
+static void
+_open (CamelFolder *folder, CamelFolderOpenMode mode)
 {
-	gchar *m1 = (gchar *)a;
-	gchar *m2 = (gchar *)b;
-	gint len_diff;
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
+	struct dirent *dir_entry;
+	DIR *dir_handle;
 
-	return (atoi (m1) - atoi (m2));
+	if (folder->open_state == FOLDER_OPEN) return;
+
+	
+	/* create message list */
+	/* read the whole folder and sort message names */
+	dir_handle = opendir (mh_folder->directory_path);
+	/* read first entry in the directory */
+	dir_entry = readdir (dir_handle);
+	while (dir_entry != NULL) {
+		/* tests if the entry correspond to a message file */
+		if (_is_a_message_file (dir_entry->d_name, mh_folder->directory_path))
+			/* add the file name to the list */
+			mh_folder->file_name_list = g_list_insert_sorted (mh_folder->file_name_list, 
+									  g_strdup (dir_entry->d_name), 
+									  _message_name_compare);
+	/* read next entry */
+		dir_entry = readdir (dir_handle);
+	}		
+
+	closedir (dir_handle);
+	
 }
 
 /**
@@ -155,8 +212,6 @@ _set_name (CamelFolder *folder, const gchar *name)
 	gchar *full_name;
 	const gchar *parent_full_name;
 	gchar separator;
-	struct dirent *dir_entry;
-	DIR *dir_handle;
 	
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMhFolder::set_name\n");
 	g_assert(folder);
@@ -179,21 +234,6 @@ _set_name (CamelFolder *folder, const gchar *name)
 	
 	if (!camel_folder_exists (folder)) return;
 	
-	/* create message list */
-	/* read the whole folder and sort message names */
-	dir_handle = opendir (mh_folder->directory_path);
-	/* read first entry in the directory */
-	dir_entry = readdir (dir_handle);
-	while (dir_entry != NULL) {
-		/* tests if the entry correspond to a message file */
-		if (_is_a_message_file (dir_entry->d_name, mh_folder->directory_path)) 
-			mh_folder->file_name_list = g_list_insert_sorted (mh_folder->file_name_list, g_strdup (dir_entry->d_name), 
-							     _message_name_compare);
-		/* read next entry */
-		dir_entry = readdir (dir_handle);
-	}		
-
-	closedir (dir_handle);
 	
 	CAMEL_LOG_FULL_DEBUG ("CamelMhFolder::set_name mh_folder->directory_path is %s\n", 
 			      mh_folder->directory_path);
@@ -656,6 +696,8 @@ _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *d
 	} else 
 		parent_class->copy_message_to (folder, message, dest_folder);
 }
+
+
 
 
 

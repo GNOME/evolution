@@ -1,5 +1,15 @@
 1999-09-04  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/providers/MH/camel-mh-folder.c (_create_summary):
+	started summary implementation.
+	(_open): correct use of open.
+
+	* camel/camel-folder.c (camel_folder_get_summary): 
+	get folder associated summary object.
+
+	* camel/Makefile.am:
+	added summary files build
+
 	* camel/camel-folder-summary.[ch]: 
 	basic summary framework
 

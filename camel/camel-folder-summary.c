@@ -59,9 +59,11 @@ camel_folder_summary_class_init (CamelFolderSummaryClass *camel_folder_summary_c
 static void
 camel_folder_summary_init (gpointer   object,  gpointer   klass)
 {
-	CamelFolderSummary *camel_folder_summary = CAMEL_FOLDER_SUMMARY (object);
+	CamelFolderSummary *summary = CAMEL_FOLDER_SUMMARY (object);
 
 	CAMEL_LOG_FULL_DEBUG ( "camel_folder_summary_init:: Entering\n");
+	summary->subfolder_info_list = NULL;
+	summary->message_info_list = NULL;
 	CAMEL_LOG_FULL_DEBUG ( "camel_folder_summary_init:: Leaving\n");
 }
 
@@ -99,11 +101,17 @@ _finalize (GtkObject *object)
 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolderSummary::finalize\n");
 	CAMEL_LOG_FULL_DEBUG  ("CamelFolderSummary::finalize, finalizing object %p\n", object);
-
+	
 	parent_class->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolderSummary::finalize\n");
 }
 
+
+CamelFolderSummary *
+camel_folder_summary_new ()
+{
+	return gtk_type_new (CAMEL_FOLDER_SUMMARY_TYPE);
+}
 
 static const GList *
 _get_subfolder_info_list (CamelFolderSummary *summary)
