@@ -24,6 +24,8 @@ struct _EABModel {
 	EBookQuery *query;
 	EBookView *book_view;
 
+	int book_view_idle_id;
+
 	EContact **data;
 	int data_count;
 	int allocated_count;
