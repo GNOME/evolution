@@ -1106,7 +1106,7 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 		extract_values (gsvc, extra_config, url);
 
 	g_free (service->url);
-	service->url = camel_url_to_string (url, FALSE);
+	service->url = camel_url_to_string (url, 0);
 
 	/* Temporary until keep_on_server moves into the POP provider */
 	if (camel_url_get_param (url, "keep_on_server"))

@@ -854,9 +854,9 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 	local_folder->folder = m->fb->folder = NULL;
 
 	camel_url_set_protocol (url, meta->format);
-	fromurl = camel_url_to_string (url, FALSE);
+	fromurl = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	camel_url_set_protocol (url, m->newtype);
-	tourl = camel_url_to_string (url, FALSE);
+	tourl = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 
 	d(printf("opening stores %s and %s\n", fromurl, tourl));
 

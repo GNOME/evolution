@@ -1,3 +1,17 @@
+2001-03-29  Dan Winship  <danw@ximian.com>
+
+	* session.c (auth_callback): Update call to camel_url_to_string.
+	(Don't include the params in the password hash table key.)
+
+	* mail-config.c (mail_config_folder_to_cachename): Call
+	camel_url_to_string with HIDE_PASSWORD and HIDE_PARAMS so that
+	changing URL params doesn't change the cachename.
+
+	* mail-ops.c (add_vtrash_info): 
+	* mail-local.c (reconfigure_folder_reconfigure):
+	* mail-account-gui.c (save_service): Update calls to
+	camel_url_to_string.
+
 2001-03-29  Not Zed  <NotZed@Ximian.com>
 
 	* mail-local.c (init_trash): Create a vtrash folder, not a vee folder.

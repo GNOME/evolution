@@ -995,7 +995,7 @@ add_vtrash_info (CamelFolderInfo *info)
 	url = camel_url_new (info->url, NULL);
 	g_free (url->path);
 	url->path = g_strdup_printf ("/%s", _("Trash"));
-	uri = camel_url_to_string (url, FALSE);
+	uri = camel_url_to_string (url, 0);
 	camel_url_free (url);
 	
 	if (fi->sibling) {

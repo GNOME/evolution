@@ -895,7 +895,7 @@ mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 {
 	char *url, *filename;
 	
-	url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, FALSE);
+	url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	e_filename_make_safe (url);
 	
 	filename = g_strdup_printf ("%s/config/%s%s", evolution_dir, prefix, url);
