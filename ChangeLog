@@ -1,3 +1,7 @@
+2004-07-21  Ray Strode  <rstrode@redhat.com>
+	* evolution/data/evolution.desktop.in.in: Add MimeType line to desktop file
+	new mime sytem.
+
 2004-07-19   JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requirements
