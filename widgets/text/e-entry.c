@@ -95,8 +95,6 @@ enum {
 
 typedef struct _EEntryPrivate EEntryPrivate;
 struct _EEntryPrivate {
-	GnomeCanvas *canvas;
-	EText *item;
 	GtkJustification justification;
 
 	guint changed_proxy_tag;
@@ -138,9 +136,9 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 {
 	gint xthick;
 	gint ythick;
-	gnome_canvas_set_scroll_region (entry->priv->canvas,
+	gnome_canvas_set_scroll_region (entry->canvas,
 					0, 0, alloc->width, alloc->height);
-	gtk_object_set (GTK_OBJECT (entry->priv->item),
+	gtk_object_set (GTK_OBJECT (entry->item),
 			"clip_width", (double) (alloc->width),
 			"clip_height", (double) (alloc->height),
 			NULL);
@@ -155,15 +153,15 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 
 	switch (entry->priv->justification) {
 	case GTK_JUSTIFY_RIGHT:
-		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->priv->item),
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->item),
 					    alloc->width - xthick, ythick);
 		break;
 	case GTK_JUSTIFY_CENTER:
-		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->priv->item),
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->item),
 					    alloc->width / 2, ythick);
 		break;
 	default:
-		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->priv->item),
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->item),
 					    xthick, ythick);
 		break;
 	}
@@ -193,8 +191,8 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 static gint
 canvas_focus_in_event (GtkWidget *widget, GdkEventFocus *focus, EEntry *entry)
 {
-	if (entry->priv->canvas->focused_item != GNOME_CANVAS_ITEM(entry->priv->item))
-		gnome_canvas_item_grab_focus(GNOME_CANVAS_ITEM(entry->priv->item));
+	if (entry->canvas->focused_item != GNOME_CANVAS_ITEM(entry->item))
+		gnome_canvas_item_grab_focus(GNOME_CANVAS_ITEM(entry->item));
 
 	return 0;
 }
@@ -260,65 +258,69 @@ e_entry_init (GtkObject *object)
 
 	entry->priv = g_new0 (EEntryPrivate, 1);
 	
-	entry->priv->canvas = GNOME_CANVAS (e_canvas_new ());
+	entry->canvas = GNOME_CANVAS (e_canvas_new ());
 
-	gtk_signal_connect (GTK_OBJECT (entry->priv->canvas),
+	gtk_signal_connect (GTK_OBJECT (entry->canvas),
 			    "size_allocate",
 			    GTK_SIGNAL_FUNC (canvas_size_allocate),
 			    entry);
 
-	gtk_signal_connect (GTK_OBJECT (entry->priv->canvas),
+	gtk_signal_connect (GTK_OBJECT (entry->canvas),
 			    "size_request",
 			    GTK_SIGNAL_FUNC (canvas_size_request),
 			    entry);
 
-	gtk_signal_connect(GTK_OBJECT (entry->priv->canvas),
+	gtk_signal_connect(GTK_OBJECT (entry->canvas),
 			   "focus_in_event",
 			   GTK_SIGNAL_FUNC(canvas_focus_in_event),
 			   entry);
 
 	entry->priv->draw_borders = TRUE;
 
-	entry->priv->item = E_TEXT(gnome_canvas_item_new(gnome_canvas_root (entry->priv->canvas),
-							 e_text_get_type(),
-							 "clip", TRUE,
-							 "fill_clip_rectangle", TRUE,
-							 "anchor", GTK_ANCHOR_NW,
-							 "draw_borders", TRUE,
-							 "draw_background", TRUE,
-							 "max_lines", 1,
-							 "editable", TRUE,
-							 NULL));
+	entry->item = E_TEXT(gnome_canvas_item_new(
+		gnome_canvas_root (entry->canvas),
+		e_text_get_type(),
+		"clip", TRUE,
+		"fill_clip_rectangle", TRUE,
+		"anchor", GTK_ANCHOR_NW,
+		"draw_borders", TRUE,
+		"draw_background", TRUE,
+		"max_lines", 1,
+		"editable", TRUE,
+		NULL));
 
-	gtk_signal_connect (GTK_OBJECT (entry->priv->item),
+	gtk_signal_connect (GTK_OBJECT (entry->item),
 			    "keypress",
 			    GTK_SIGNAL_FUNC (e_entry_text_keypress),
 			    entry);
 
 	entry->priv->justification = GTK_JUSTIFY_LEFT;
-	gtk_table_attach (gtk_table, GTK_WIDGET (entry->priv->canvas),
+	gtk_table_attach (gtk_table, GTK_WIDGET (entry->canvas),
 			  0, 1, 0, 1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
-	gtk_widget_show (GTK_WIDGET (entry->priv->canvas));
+	gtk_widget_show (GTK_WIDGET (entry->canvas));
 
 	/*
 	 * Proxy functions: we proxy the changed and activate signals
 	 * from the item to ourselves
 	 */
-	entry->priv->changed_proxy_tag = gtk_signal_connect (GTK_OBJECT (entry->priv->item),
-							     "changed",
-							     GTK_SIGNAL_FUNC (e_entry_proxy_changed),
-							     entry);
-	entry->priv->activate_proxy_tag = gtk_signal_connect (GTK_OBJECT (entry->priv->item),
-							      "activate",
-							      GTK_SIGNAL_FUNC (e_entry_proxy_activate),
-							      entry);
-	entry->priv->popup_proxy_tag = gtk_signal_connect (GTK_OBJECT (entry->priv->item),
-							   "popup",
-							   GTK_SIGNAL_FUNC (e_entry_proxy_popup),
-							   entry);
+	entry->priv->changed_proxy_tag = gtk_signal_connect (
+		GTK_OBJECT (entry->item),
+		"changed",
+		GTK_SIGNAL_FUNC (e_entry_proxy_changed),
+		entry);
+	entry->priv->activate_proxy_tag = gtk_signal_connect (
+		GTK_OBJECT (entry->item),
+		"activate",
+		GTK_SIGNAL_FUNC (e_entry_proxy_activate),
+		entry);
+	entry->priv->popup_proxy_tag = gtk_signal_connect (
+		GTK_OBJECT (entry->item),
+		"popup",
+		GTK_SIGNAL_FUNC (e_entry_proxy_popup),
+		entry);
 
 	entry->priv->completion_delay = 1;
 }
@@ -358,7 +360,7 @@ e_entry_get_text (EEntry *entry)
 {
 	g_return_val_if_fail (entry != NULL && E_IS_ENTRY (entry), NULL);
 
-	return e_text_model_get_text (entry->priv->item->model);
+	return e_text_model_get_text (entry->item->model);
 }
 
 void
@@ -366,7 +368,7 @@ e_entry_set_text (EEntry *entry, const gchar *txt)
 {
 	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
 
-	e_text_model_set_text (entry->priv->item->model, txt);
+	e_text_model_set_text (entry->item->model, txt);
 }
 
 static void
@@ -374,9 +376,9 @@ e_entry_set_text_quiet (EEntry *entry, const gchar *txt)
 {
 	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
 
-	gtk_signal_handler_block (GTK_OBJECT (entry->priv->item), entry->priv->changed_proxy_tag);
+	gtk_signal_handler_block (GTK_OBJECT (entry->item), entry->priv->changed_proxy_tag);
 	e_entry_set_text (entry, txt);
-	gtk_signal_handler_unblock (GTK_OBJECT (entry->priv->item), entry->priv->changed_proxy_tag);
+	gtk_signal_handler_unblock (GTK_OBJECT (entry->item), entry->priv->changed_proxy_tag);
 }
 
 
@@ -385,7 +387,7 @@ e_entry_set_editable (EEntry *entry, gboolean am_i_editable)
 {
 	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
 
-	gtk_object_set (GTK_OBJECT (entry->priv->item), "editable", am_i_editable, NULL);
+	gtk_object_set (GTK_OBJECT (entry->item), "editable", am_i_editable, NULL);
 }
 
 gint
@@ -393,7 +395,7 @@ e_entry_get_position (EEntry *entry)
 {
 	g_return_val_if_fail (entry != NULL && E_IS_ENTRY (entry), -1);
 
-	return entry->priv->item->selection_start;
+	return entry->item->selection_start;
 }
 
 void
@@ -402,10 +404,10 @@ e_entry_set_position (EEntry *entry, gint pos)
 	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
 	if (pos < 0)
 		pos = 0;
-	else if (pos > e_text_model_get_text_length (entry->priv->item->model))
-		pos = e_text_model_get_text_length (entry->priv->item->model);
+	else if (pos > e_text_model_get_text_length (entry->item->model))
+		pos = e_text_model_get_text_length (entry->item->model);
 
-	entry->priv->item->selection_start = entry->priv->item->selection_end = pos;
+	entry->item->selection_start = entry->item->selection_end = pos;
 }
 
 void
@@ -415,12 +417,12 @@ e_entry_select_region (EEntry *entry, gint pos1, gint pos2)
 
 	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
 	
-	len = e_text_model_get_text_length (entry->priv->item->model);
+	len = e_text_model_get_text_length (entry->item->model);
 	pos1 = CLAMP (pos1, 0, len);
 	pos2 = CLAMP (pos2, 0, len);
 
-	entry->priv->item->selection_start = MIN (pos1, pos2);
-	entry->priv->item->selection_end   = MAX (pos1, pos2);
+	entry->item->selection_start = MIN (pos1, pos2);
+	entry->item->selection_end   = MAX (pos1, pos2);
 }
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
@@ -729,7 +731,9 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 	gtk_container_add (GTK_CONTAINER (entry->priv->completion_view_popup), entry->priv->completion_view);
 	gtk_widget_show (entry->priv->completion_view);
 
-	e_completion_view_connect_keys (E_COMPLETION_VIEW (entry->priv->completion_view), GTK_WIDGET (entry->priv->canvas));
+	e_completion_view_connect_keys (
+		E_COMPLETION_VIEW (entry->priv->completion_view),
+		GTK_WIDGET (entry->canvas));
 }
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
@@ -738,7 +742,7 @@ static void
 et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	EEntry *entry = E_ENTRY (o);
-	GtkObject *item = GTK_OBJECT (entry->priv->item);
+	GtkObject *item = GTK_OBJECT (entry->item);
 	
 	switch (arg_id){
 	case ARG_MODEL:
@@ -855,12 +859,12 @@ static void
 et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	EEntry *entry = E_ENTRY (o);
-	GtkObject *item = GTK_OBJECT (entry->priv->item);
+	GtkObject *item = GTK_OBJECT (entry->item);
 	GtkAnchorType anchor;
 	double width, height;
 	gint xthick;
 	gint ythick;
-	GtkWidget *widget = GTK_WIDGET(entry->priv->canvas);
+	GtkWidget *widget = GTK_WIDGET(entry->canvas);
 	
 	switch (arg_id){
 	case ARG_MODEL:
@@ -918,15 +922,15 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		switch (entry->priv->justification) {
 		case GTK_JUSTIFY_CENTER:
 			anchor = GTK_ANCHOR_N;
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->priv->item), width / 2, ythick);
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->item), width / 2, ythick);
 			break;
 		case GTK_JUSTIFY_RIGHT:
 			anchor = GTK_ANCHOR_NE;
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->priv->item), width - xthick, ythick);
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->item), width - xthick, ythick);
 			break;
 		default:
 			anchor = GTK_ANCHOR_NW;
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->priv->item), xthick, ythick);
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(entry->item), xthick, ythick);
 			break;
 		}
 		gtk_object_set(item,

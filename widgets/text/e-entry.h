@@ -32,9 +32,12 @@
 #ifndef _E_ENTRY_H_
 #define _E_ENTRY_H_
 
+#include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtktable.h>
 #include <gnome-xml/tree.h>
+#include <gal/e-text/e-text.h>
 #include "e-completion.h"
+
 
 BEGIN_GNOME_DECLS
 
@@ -52,6 +55,10 @@ typedef void (*EEntryCompletionHandler) (EEntry *entry, const gchar *text, gpoin
 
 struct _EEntry {
 	GtkTable parent;
+
+	GnomeCanvas *canvas;
+	EText *item;
+
 	struct _EEntryPrivate *priv;
 };
 
