@@ -1,3 +1,8 @@
+2000-08-08  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-view.c: Lets get rid of the last separator in the toolbar
+	until we add n/p
+
 2000-08-08  Dan Winship  <danw@helixcode.com>
 
 	* main.c (main): Move mail_config_init after session_init, since
