@@ -1277,7 +1277,7 @@ static EPopupMenu filter_menu[] = {
 static EPopupMenu context_menu[] = {
 	{ N_("_Open"),                        NULL,
 	  GTK_SIGNAL_FUNC (open_msg),         NULL,  0 },
-	{ N_("Resend"),                       NULL,
+	{ N_("R_esend..."),                   NULL,
 	  GTK_SIGNAL_FUNC (resend_msg),       NULL,  CAN_RESEND },
 	{ N_("_Save As..."),                  NULL,
 	  GTK_SIGNAL_FUNC (save_msg),         NULL,  0 },

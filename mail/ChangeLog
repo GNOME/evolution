@@ -1,5 +1,10 @@
 2001-08-10  Jason Leach  <jleach@ximian.com>
 
+	* folder-browser.c: Make the context menu for the Sent folder have
+	"Resend..." instead of "Resend", to clarify that it will bring up
+	a dialog needing your input rather than just blindly sending the
+	message again.  Also give it the 'e' accelerator.  Bug #6838.
+
 	* mail-callbacks.c (next_unread_msg): Since 'N' keypresses go
 	through here now, use wrap-around selecting.
 	(previous_unread_msg): Same for 'P' here.
