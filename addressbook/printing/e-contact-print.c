@@ -589,7 +589,8 @@ complete_sequence(EBookView *book_view, EBookViewStatus status, EContactPrintCon
 	g_object_unref(ctxt->master);
 	if (ctxt->book)
 		g_object_unref(ctxt->book);
-	e_book_query_unref (ctxt->query);
+	if (ctxt->query)
+		e_book_query_unref (ctxt->query);
 	g_list_foreach(ctxt->contacts, (GFunc) g_object_unref, NULL);
 	g_list_free(ctxt->contacts);
 	g_object_unref(ctxt->style->headings_font);
@@ -876,7 +877,6 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 	GList *contact_list = NULL;
 	gdouble font_size;
 
-
 	if (uses_book) {
 		book = g_object_get_data(G_OBJECT(dialog), "book");
 		query = g_object_get_data(G_OBJECT(dialog), "query");
@@ -964,6 +964,7 @@ e_contact_print_response(GtkWidget *dialog, gint response_id, gpointer data)
 #endif
 		ctxt->book = book;
 		ctxt->query = query;
+
 		if (uses_book) {
 			ctxt->contacts = NULL;
 			g_object_ref(book);

@@ -1,5 +1,10 @@
 2004-01-19  Hans Petter Jansson  <hpj@ximian.com>
 
+	* printing/e-contact-print.c (complete_sequence): Only unref if we
+	have a query.
+
+2004-01-19  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/component/addressbook-component.c
 	(get_primary_source): Implement.
 	(load_primary_selection): Use get_primary_source ().
