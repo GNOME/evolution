@@ -168,9 +168,9 @@ struct _ECalendarItem
 	   be changed when the user explicitly selects a day. */
 	gboolean move_selection_when_moving;
 
-	/* Whether the selection is rounded down to the nearest week when we
-	   move back/forward one month. Used for the week view. */
-	gboolean round_selection_when_moving;
+	/* Whether the selection day is preserved when we  move back/forward 
+	   one month. Used for the work week and week view. */
+	gboolean preserve_day_when_moving;
 
 	/* Whether to display the pop-up, TRUE by default */
 	gboolean display_popup;

@@ -1,3 +1,16 @@
+2004-03-15  JP Rosevear  <jpr@ximian.com>
+
+	* e-calendar-item.c (e_calendar_item_class_init): change arg name
+	(e_calendar_item_init): ditto
+	(e_calendar_item_get_arg): ditto
+	(e_calendar_item_set_arg): ditto
+	(e_calendar_item_preserve_day_selection): set the selection day to
+	the given selection
+	(e_calendar_item_set_first_month): use above to preserve selected
+	day of week
+
+	* e-calendar-item.h: change field name
+
 2004-03-13  Trent Lloyd  <lathiat@sixlabs.org>
 
 	* e-search-bar.c (remove_bonobo_menus): move function about

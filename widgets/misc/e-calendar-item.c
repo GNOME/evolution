@@ -225,7 +225,7 @@ enum {
 	ARG_MAXIMUM_DAYS_SELECTED,
 	ARG_DAYS_TO_START_WEEK_SELECTION,
 	ARG_MOVE_SELECTION_WHEN_MOVING,
-	ARG_ROUND_SELECTION_WHEN_MOVING,
+	ARG_PRESERVE_DAY_WHEN_MOVING,
 	ARG_DISPLAY_POPUP
 };
 
@@ -314,9 +314,9 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 	gtk_object_add_arg_type ("ECalendarItem::move_selection_when_moving",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
 				 ARG_MOVE_SELECTION_WHEN_MOVING);
-	gtk_object_add_arg_type ("ECalendarItem::round_selection_when_moving",
+	gtk_object_add_arg_type ("ECalendarItem::preserve_day_when_moving",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
-				 ARG_ROUND_SELECTION_WHEN_MOVING);
+				 ARG_PRESERVE_DAY_WHEN_MOVING);
 	gtk_object_add_arg_type ("ECalendarItem::display_popup",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
 				 ARG_DISPLAY_POPUP);
@@ -394,7 +394,7 @@ e_calendar_item_init (ECalendarItem *calitem)
 	calitem->max_days_selected = 1;
 	calitem->days_to_start_week_selection = -1;
 	calitem->move_selection_when_moving = TRUE;
-	calitem->round_selection_when_moving = FALSE;
+	calitem->preserve_day_when_moving = FALSE;
 	calitem->display_popup = TRUE;
 	
 	calitem->x1 = 0.0;
@@ -532,8 +532,8 @@ e_calendar_item_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_MOVE_SELECTION_WHEN_MOVING:
 		GTK_VALUE_BOOL (*arg) = calitem->move_selection_when_moving;
 		break;
-	case ARG_ROUND_SELECTION_WHEN_MOVING:
-		GTK_VALUE_BOOL (*arg) = calitem->round_selection_when_moving;
+	case ARG_PRESERVE_DAY_WHEN_MOVING:
+		GTK_VALUE_BOOL (*arg) = calitem->preserve_day_when_moving;
 		break;
 	case ARG_DISPLAY_POPUP:
 		GTK_VALUE_BOOL (*arg) = e_calendar_item_get_display_popup (calitem);
@@ -667,9 +667,9 @@ e_calendar_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		bvalue = GTK_VALUE_BOOL (*arg);
 		calitem->move_selection_when_moving = bvalue;
 		break;
-	case ARG_ROUND_SELECTION_WHEN_MOVING:
+	case ARG_PRESERVE_DAY_WHEN_MOVING:
 		bvalue = GTK_VALUE_BOOL (*arg);
-		calitem->round_selection_when_moving = bvalue;
+		calitem->preserve_day_when_moving = bvalue;
 		break;
 	case ARG_DISPLAY_POPUP:
 		bvalue = GTK_VALUE_BOOL (*arg);
@@ -2367,6 +2367,44 @@ e_calendar_item_get_first_month(ECalendarItem	*calitem,
 }
 
 
+static void
+e_calendar_item_preserve_day_selection	(ECalendarItem	*calitem,
+					 gint            selected_day,
+					 gint		*month_offset,
+					 gint		*day)
+{
+	gint year, month, weekday, days, days_in_month;
+	struct tm tmp_tm = { 0 };
+
+	year = calitem->year;
+	month = calitem->month + *month_offset;
+	e_calendar_item_normalize_date (calitem, &year, &month);
+
+	tmp_tm.tm_year = year - 1900;
+	tmp_tm.tm_mon = month;
+	tmp_tm.tm_mday = *day;
+	tmp_tm.tm_isdst = -1;
+	mktime (&tmp_tm);
+
+	/* Convert to 0 (Monday) to 6 (Sunday). */
+	weekday = (tmp_tm.tm_wday + 6) % 7;
+
+	/* Calculate how many days to the start of the row. */
+	days = (weekday + 7 - selected_day) % 7;
+
+	*day -= days;
+	if (*day <= 0) {
+		month--;
+		if (month == -1) {
+			year--;
+			month = 11;
+		}
+		days_in_month = DAYS_IN_MONTH (year, month);
+		(*month_offset)--;
+		*day += days_in_month;
+	}
+}
+
 /* This also handles values of month < 0 or > 11 by updating the year. */
 void
 e_calendar_item_set_first_month(ECalendarItem	*calitem,
@@ -2399,7 +2437,20 @@ e_calendar_item_set_first_month(ECalendarItem	*calitem,
 			calitem->year = new_year;
 			calitem->month = new_month;
 		} else {
-			old_days_in_selection = e_calendar_item_get_inclusive_days (calitem, calitem->selection_start_month_offset, calitem->selection_start_day, calitem->selection_end_month_offset, calitem->selection_end_day);
+			gint selected_day;
+			struct tm tmp_tm = { 0 };
+
+			old_days_in_selection = e_calendar_item_get_inclusive_days (calitem, calitem->selection_start_month_offset, calitem->selection_start_day, 
+										    calitem->selection_end_month_offset, calitem->selection_end_day);
+
+			/* Calculate the currently selected day */
+			tmp_tm.tm_year = calitem->year - 1900;
+			tmp_tm.tm_mon = calitem->month + calitem->selection_start_month_offset;
+			tmp_tm.tm_mday = calitem->selection_start_day;
+			tmp_tm.tm_isdst = -1;
+			mktime (&tmp_tm);
+			
+			selected_day = (tmp_tm.tm_wday + 6) % 7;
 			
 			/* Make sure the selection will be displayed. */
 			if (calitem->selection_start_month_offset < 0
@@ -2416,8 +2467,8 @@ e_calendar_item_set_first_month(ECalendarItem	*calitem,
 			e_calendar_item_ensure_valid_day (calitem, &calitem->selection_start_month_offset, &calitem->selection_start_day);
 			e_calendar_item_ensure_valid_day (calitem, &calitem->selection_end_month_offset, &calitem->selection_end_day);
 
-			if (calitem->round_selection_when_moving) {
-				e_calendar_item_round_down_selection (calitem, &calitem->selection_start_month_offset, &calitem->selection_start_day);
+			if (calitem->preserve_day_when_moving) {
+				e_calendar_item_preserve_day_selection (calitem, selected_day, &calitem->selection_start_month_offset, &calitem->selection_start_day);
 			}
 
 			new_days_in_selection = e_calendar_item_get_inclusive_days (calitem, calitem->selection_start_month_offset, calitem->selection_start_day, calitem->selection_end_month_offset, calitem->selection_end_day);
