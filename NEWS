@@ -83,6 +83,14 @@ Addressbook:
 
 Calendar:
 
+Tasks:
+
+  - Created a popup list item for ETable to select the Status,
+    Classification, Priority, Percent & Transparencey fields.  (Damon)
+
+  - Created a popup date editor item for ETable to set all the dates in the
+    tasks.  (Damon)
+
 Importers: 
 
   - Created Intelligent Importers that look for certain files on your disk
