@@ -1,3 +1,8 @@
+2000-11-07  Dan Winship  <danw@helixcode.com>
+
+	* camel-stream-filter.c (d): Kill debugging, as it causes lots of
+	evolution-mail spewage.
+
 2000-11-07  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-filter-bestenc.c (complete): Implement a complete()
