@@ -1,5 +1,11 @@
 2002-05-24  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-config.c (CONFIG_CONTROL_FACTORY_ID):
+	put this back in, accidentally got snipped with the hacking going
+	on in here.
+
+2002-05-24  Chris Toshok  <toshok@ximian.com>
+
 	[ part of #25047 ]
 	* gui/component/addressbook-config.c: remove the autocompletion
 	config control from here, as it lives in the shell now.
