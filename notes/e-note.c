@@ -4,9 +4,9 @@
 #include <gnome.h>
 #include <gdk/gdkx.h>
 
-#include "e-util/e-canvas.h"
-#include "e-util/e-util.h"
-#include "widgets/e-text/e-text.h"
+#include <gal/widgets/e-canvas.h>
+#include <gal/util/e-util.h>
+#include <gal/e-text/e-text.h>
 
 #include "e-note.h"
 #include "e-bevel-button.h"

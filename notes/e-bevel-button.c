@@ -3,7 +3,7 @@
 #include <config.h>
 #include <gtk/gtkbutton.h>
 
-#include "e-util/e-util.h"
+#include <gal/util/e-util.h>
 
 #include "e-bevel-button.h"
 #include "e-bevel-button-util.h"
