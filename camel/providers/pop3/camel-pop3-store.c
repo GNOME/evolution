@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-pop3-store.c : class for an pop3 store */
+/* camel-pop3-store.c : class for a pop3 store */
 
 /* 
  * Authors:
@@ -47,6 +47,7 @@
 
 static gboolean pop3_connect (CamelService *service, CamelException *ex);
 static GList *query_auth_types (CamelService *service);
+void free_auth_types (CamelService *service, GList *authtypes);
 
 static CamelFolder *get_folder (CamelStore *store, const gchar *folder_name, 
 				CamelException *ex);
@@ -63,6 +64,7 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 	/* virtual method overload */
 	camel_service_class->connect = pop3_connect;
 	camel_service_class->query_auth_types = query_auth_types;
+	camel_service_class->free_auth_types = free_auth_types;
 
 	camel_store_class->get_root_folder = camel_pop3_folder_new;
 	camel_store_class->get_default_folder = camel_pop3_folder_new;
@@ -124,6 +126,11 @@ static GList *query_auth_types (CamelService *service)
 
 	ret = g_list_append (NULL, &password_authtype);
 	return ret;
+}
+
+static void free_auth_types (CamelService *service, GList *authtypes)
+{
+	g_list_free (authtypes);
 }
 
 static gboolean

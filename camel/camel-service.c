@@ -39,6 +39,7 @@ static gboolean _connect_with_url (CamelService *service, Gurl *url,
 static gboolean _disconnect(CamelService *service, CamelException *ex);
 static gboolean _is_connected (CamelService *service);
 static GList *  _query_auth_types (CamelService *service);
+static void     _free_auth_types (CamelService *service, GList *authtypes);
 static void     _finalize (GtkObject *object);
 static gboolean _set_url (CamelService *service, Gurl *url,
 			  CamelException *ex);
@@ -57,6 +58,7 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	camel_service_class->disconnect = _disconnect;
 	camel_service_class->is_connected = _is_connected;
 	camel_service_class->query_auth_types = _query_auth_types;
+	camel_service_class->free_auth_types = _free_auth_types;
 
 	/* virtual method overload */
 	gtk_object_class->finalize = _finalize;
@@ -388,10 +390,31 @@ _query_auth_types (CamelService *service)
  * and query what authentication mechanisms it supports.
  *
  * Return value: a list of CamelServiceAuthType records. The caller
- * must free the list when it is done.
+ * must free the list by calling camel_service_free_auth_types when
+ * it is done.
  **/
 GList *
 camel_service_query_auth_types (CamelService *service)
 {
-	return CSERV_CLASS(service)->query_auth_types(service);
+	return CSERV_CLASS (service)->query_auth_types (service);
+}
+
+static void
+_free_auth_types (CamelService *service, GList *authtypes)
+{
+	;
+}
+
+/**
+ * camel_service_free_auth_types: free a type list returned by
+ * camel_service_query_auth_types.
+ * @service: the service
+ * @authtypes: the list of authtypes
+ *
+ * This frees the data allocated by camel_service_query_auth_types.
+ **/
+void
+camel_service_free_auth_types (CamelService *service, GList *authtypes)
+{
+	CSERV_CLASS (service)->free_auth_types (service, authtypes);
 }

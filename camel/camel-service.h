@@ -71,6 +71,8 @@ typedef struct {
 	gboolean  (*is_connected)      (CamelService *service);
 
 	GList *   (*query_auth_types)  (CamelService *service);
+	void      (*free_auth_types)   (CamelService *service,
+					GList *authtypes);
 
 } CamelServiceClass;
 
@@ -109,6 +111,8 @@ char *              camel_service_get_url            (CamelService *service);
 CamelSession *      camel_service_get_session        (CamelService *service);
 
 GList *             camel_service_query_auth_types   (CamelService *service);
+void                camel_service_free_auth_types    (CamelService *service,
+						      GList *authtypes);
 
 /* Standard Gtk function */
 GtkType camel_service_get_type (void);
