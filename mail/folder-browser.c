@@ -107,7 +107,38 @@ folder_browser_class_init (GtkObjectClass *object_class)
  * }
  */
 
-#define EQUAL(a,b) (strcmp (a,b) == 0)
+static void
+update_unread_count_main(CamelObject *object, gpointer event_data, gpointer user_data)
+{
+	CamelFolder *folder = (CamelFolder *)object;
+	FolderBrowser *fb = user_data;
+	EvolutionStorage *storage;
+	char *name;
+
+	storage = mail_lookup_storage (folder->parent_store);
+
+	if (fb->unread_count == 0)
+		name = g_strdup (camel_folder_get_name (folder));
+	else
+		name = g_strdup_printf ("%s (%d)", camel_folder_get_name (folder), fb->unread_count);
+
+	evolution_storage_update_folder_by_uri (storage, fb->uri, name, fb->unread_count != 0);
+	g_free (name);
+}
+
+static void
+update_unread_count(CamelObject *object, gpointer event_data, gpointer user_data)
+{
+	CamelFolder *folder = (CamelFolder *)object;
+	FolderBrowser *fb = user_data;
+	int unread;
+
+	unread = camel_folder_get_unread_message_count (folder);
+	if (unread == fb->unread_count)
+		return;
+	fb->unread_count = unread;
+	mail_proxy_event (update_unread_count_main, object, event_data, user_data);
+}
 
 static void
 got_folder(char *uri, CamelFolder *folder, void *data)
@@ -129,6 +160,12 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 		goto done;
 
 	camel_object_ref((CamelObject *)folder);
+
+	if (mail_lookup_storage (folder->parent_store)) {
+		fb->unread_count = -1;
+		camel_object_hook_event ((CamelObject *)folder, "message_changed",
+					 update_unread_count, fb);
+	}
 
 	gtk_widget_set_sensitive (GTK_WIDGET (fb->search->entry),
 				  camel_folder_has_search_capability (folder));

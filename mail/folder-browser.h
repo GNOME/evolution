@@ -35,6 +35,7 @@ struct  _FolderBrowser {
 	 */
 	char        *uri;
 	CamelFolder *folder;
+	int          unread_count; /* last known unread message count */
 
 	/* async loading stuff */
 	char	    *loading_uid;/* what uid am i loading now */

@@ -1,3 +1,10 @@
+2001-01-04  Dan Winship  <danw@helixcode.com>
+
+	* folder-browser.c (got_folder): Connect to "message_changed" on
+	the folder if it's on a remote storage.
+	(update_unread_count): Update the folder unread count / highlight
+	in the shell when the unread message count changes
+
 2001-01-04  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-ops.c (mail_do_send_mail): Removed old implementation.
