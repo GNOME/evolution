@@ -1,5 +1,15 @@
 2000-09-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/smtp/camel-smtp-transport.c (_send_to): Don't send the
+	recipient data through smtp_get_email_addr_from_text - this is a
+	complete waste. In fact, we don't want to have to use that
+	function ever.
+
+	* camel-internet-address.c, camel-address.c: Added some gtk-doc
+	comments.
+	
+2000-09-28  Jeffrey Stedfast  <fejj@helixcode.com>
+	
 	* camel-mime-utils.c (header_encode_string): Make sure to add the
 	space char after an encoded word when the encoding is iso-8859-1.
 

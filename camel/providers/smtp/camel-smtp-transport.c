@@ -65,10 +65,12 @@ static GList *query_auth_types_connected (CamelService *service, CamelException 
 static GList *query_auth_types_generic (CamelService *service, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
 static char *get_name (CamelService *service, gboolean brief);
+
 static gchar *smtp_get_email_addr_from_text (gchar *text);
+
 static gboolean smtp_helo (CamelSmtpTransport *transport, CamelException *ex);
-static gboolean smtp_mail (CamelSmtpTransport *transport, gchar *sender, CamelException *ex);
-static gboolean smtp_rcpt (CamelSmtpTransport *transport, gchar *recipient, CamelException *ex);
+static gboolean smtp_mail (CamelSmtpTransport *transport, const char *sender, CamelException *ex);
+static gboolean smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException *ex);
 static gboolean smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *ex);
 static gboolean smtp_rset (CamelSmtpTransport *transport, CamelException *ex);
 static gboolean smtp_quit (CamelSmtpTransport *transport, CamelException *ex);
@@ -340,12 +342,11 @@ static gboolean
 _send_to (CamelTransport *transport, CamelMedium *message,
 	  GList *recipients, CamelException *ex)
 {
-	GList *r;
-	gchar *recipient, *s, *sender;
-	guint i, len;
 	CamelSmtpTransport *smtp_transport = CAMEL_SMTP_TRANSPORT (transport);
+	char *recipient, *s, *sender;
+	GList *r;
 	
-	s = g_strdup(camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message)));
+	s = g_strdup (camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message)));
 	if (!s) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Cannot send message: "
@@ -358,15 +359,15 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 	g_free (sender);
 	g_free (s);
 	
-	if (!(len = g_list_length (recipients))) {
+	if (!recipients) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Cannot send message: "
 				      "no recipients defined.");
 		return FALSE;
 	}
 	
-	for (i = 0, r = recipients; i < len; i++, r = r->next) {
-		recipient = smtp_get_email_addr_from_text (r->data);
+	for (r = recipients; r; r = r->next) {
+		recipient = (char *) r->data;
 		if (!smtp_rcpt (smtp_transport, recipient, ex)) {
 			g_free (recipient);
 			return FALSE;
@@ -384,8 +385,7 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 }
 
 static gboolean
-_send (CamelTransport *transport, CamelMedium *message,
-       CamelException *ex)
+_send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
 {
 	const CamelInternetAddress *to, *cc, *bcc;
 	GList *recipients = NULL;
@@ -565,7 +565,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 }
 
 static gboolean
-smtp_mail (CamelSmtpTransport *transport, gchar *sender, CamelException *ex)
+smtp_mail (CamelSmtpTransport *transport, const char *sender, CamelException *ex)
 {
 	/* we gotta tell the smtp server who we are. (our email addy) */
 	gchar *cmdbuf, *respbuf = NULL;
@@ -606,7 +606,7 @@ smtp_mail (CamelSmtpTransport *transport, gchar *sender, CamelException *ex)
 }
 
 static gboolean
-smtp_rcpt (CamelSmtpTransport *transport, gchar *recipient, CamelException *ex)
+smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException *ex)
 {
 	/* we gotta tell the smtp server who we are going to be sending
 	 * our email to */
@@ -769,8 +769,7 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "RSET response error: "
-					      "%s",
+					      "RSET response error: %s",
 					      g_strerror (errno));
 			return FALSE;
 		}

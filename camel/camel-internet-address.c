@@ -165,7 +165,7 @@ camel_internet_address_new (void)
 
 /**
  * camel_internet_address_add:
- * @a: 
+ * @a: internet address object
  * @name: 
  * @address: 
  * 
@@ -192,8 +192,8 @@ camel_internet_address_add	(CamelInternetAddress *a, const char *name, const cha
 
 /**
  * camel_internet_address_get:
- * @a: 
- * @index: 
+ * @a: internet address object
+ * @index: address's array index
  * @namep: Holder for the returned name, or NULL, if not required.
  * @addressp: Holder for the returned address, or NULL, if not required.
  * 
