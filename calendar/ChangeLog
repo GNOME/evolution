@@ -1,3 +1,11 @@
+2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* conduits/todo/Makefile.am (INCLUDES): Use `$(PISOCK_INCLUDEDIR)'
+	instead of `$(PISOCK_CFLAGS)'.
+
+	* conduits/calendar/Makefile.am (INCLUDES): Use
+	`$(PISOCK_INCLUDEDIR)' instead of `$(PISOCK_CFLAGS)'.
+
 2001-03-09  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/Makefile.am: PISOCK_INCLUDEDIR has become
