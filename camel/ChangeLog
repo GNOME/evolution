@@ -1,3 +1,9 @@
+2003-02-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/sendmail/camel-sendmail-transport.c
+	(sendmail_send_to): Remove all Bcc headers before sending to
+	sendmail and restore them after it has been sent.
+
 2003-02-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (stream_connect): Fixed a type-o in the

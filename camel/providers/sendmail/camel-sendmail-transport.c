@@ -85,12 +85,13 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		  CamelAddress *from, CamelAddress *recipients,
 		  CamelException *ex)
 {
+	struct _header_raw *header, *savedbcc, *n, *tail;
 	const char *from_addr, *addr, **argv;
 	int i, len, fd[2], nullfd, wstat;
 	sigset_t mask, omask;
 	CamelStream *out;
 	pid_t pid;
-
+	
 	if (!camel_internet_address_get (CAMEL_INTERNET_ADDRESS (from), 0, NULL, &from_addr))
 		return FALSE;
 	
@@ -115,11 +116,34 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	
 	argv[i + 5] = NULL;
 	
+	/* unlink the bcc headers */
+	savedbcc = NULL;
+	tail = (struct _header_raw *) &savedbcc;
+	
+	header = (struct _header_raw *) &CAMEL_MIME_PART (message)->headers;
+	n = header->next;
+	while (n != NULL) {
+		if (!strcasecmp (header->name, "Bcc")) {
+			header->next = n->next;
+			tail->next = n;
+			n->next = NULL;
+			tail = n;
+		} else {
+			header = n;
+		}
+		
+		n = header->next;
+	}
+	
 	if (pipe (fd) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not create pipe to sendmail: "
 					"%s: mail not sent"),
 				      g_strerror (errno));
+		
+		/* restore the bcc headers */
+		header->next = savedbcc;
+		
 		return FALSE;
 	}
 	
@@ -139,6 +163,10 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 				      g_strerror (errno));
 		sigprocmask (SIG_SETMASK, &omask, NULL);
 		g_free (argv);
+		
+		/* restore the bcc headers */
+		header->next = savedbcc;
+		
 		return FALSE;
 	case 0:
 		/* Child process */
@@ -170,6 +198,9 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		
 		sigprocmask (SIG_SETMASK, &omask, NULL);
 		
+		/* restore the bcc headers */
+		header->next = savedbcc;
+		
 		return FALSE;
 	}
 	
@@ -180,6 +211,9 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 		;
 	
 	sigprocmask (SIG_SETMASK, &omask, NULL);
+	
+	/* restore the bcc headers */
+	header->next = savedbcc;
 	
 	if (!WIFEXITED (wstat)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
