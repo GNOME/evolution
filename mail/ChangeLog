@@ -1,3 +1,10 @@
+2000-05-31  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.c: Partially implemented the source
+	configuration, seems to segfault due to a destroyed
+	gnome dialog being destroyed again in the method
+	on_SourceConfigDialogButton_clicked()
+
 2000-05-31  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c (free_url, handle_text_enriched,

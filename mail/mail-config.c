@@ -83,9 +83,9 @@ static void finish (GnomeDruidPage *page, gpointer arg1, gpointer window);
 static void on_cmdIdentityAdd_clicked (GtkWidget *widget, gpointer user_data);
 static void on_cmdIdentityEdit_clicked (GtkWidget *widget, gpointer user_data);
 static void on_cmdIdentityDelete_clicked (GtkWidget *widget, gpointer user_data);
-static void on_cmdSourcesAdd_clicked (GtkButton *button, gpointer user_data);
-static void on_cmdSourcesEdit_clicked (GtkButton *button, gpointer user_data);
-static void on_cmdSourcesDelete_clicked (GtkButton *button, gpointer user_data);
+static void on_cmdSourcesAdd_clicked (GtkWidget *widget, gpointer user_data);
+static void on_cmdSourcesEdit_clicked (GtkWidget *widget, gpointer user_data);
+static void on_cmdSourcesDelete_clicked (GtkWidget *widget, gpointer user_data);
 static void on_cmdCamelServicesOK_clicked (GtkButton *button, gpointer user_data);
 static void on_cmdCamelServicesCancel_clicked (GtkButton *button, gpointer user_data);
 
@@ -393,7 +393,10 @@ service_note_doneness (GtkObject *page, gpointer user_data)
 		gtk_widget_set_sensitive (button, sensitive);
 
 	box = gtk_object_get_data (page, "box");
-	button = gtk_object_get_data (box, "exit_button");
+	
+	if (!(button = gtk_object_get_data (box, "exit_button")))
+		button = gtk_object_get_data (box, "ok_button");
+
 	if (button)
 		gtk_widget_set_sensitive (button, sensitive);
 }
@@ -1211,12 +1214,18 @@ mail_config_druid (void)
 static gint identity_row = -1;
 static gint source_row = -1;
 
-
 struct identity_dialog_data {
 	GtkWidget *clist;
 	struct identity_record *idrec;
 	gboolean new_entry;
 };
+
+struct source_dialog_data {
+	GtkWidget *clist;
+	char *source;
+	gboolean new_entry;
+};
+
 
 static void
 on_cmdIdentityConfigDialogOK_clicked (GtkWidget *dialog, gpointer user_data)
@@ -1267,7 +1276,7 @@ on_IdentityConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer
 static GtkWidget*
 create_identity_config_dialog (gboolean edit_mode, struct identity_record *idrecp, GtkWidget *clist)
 {
-	static GtkWidget *config_dialog;
+	GtkWidget *config_dialog;
 	GtkWidget *dialog_vbox1;
 	GtkWidget *dialog_action_area1;
 	GtkWidget *cmdConfigDialogOK;
@@ -1282,7 +1291,7 @@ create_identity_config_dialog (gboolean edit_mode, struct identity_record *idrec
 	gtk_window_set_modal (GTK_WINDOW (config_dialog), TRUE);
 	gtk_widget_set_name (config_dialog, "config_dialog");
 	gtk_object_set_data (GTK_OBJECT (config_dialog), "config_dialog", config_dialog);
-	gtk_window_set_policy (GTK_WINDOW (config_dialog), FALSE, FALSE, FALSE);
+	gtk_window_set_policy (GTK_WINDOW (config_dialog), TRUE, TRUE, FALSE);
 	
 	dialog_vbox1 = GNOME_DIALOG (config_dialog)->vbox;
 	gtk_widget_set_name (dialog_vbox1, "dialog_vbox1");
@@ -1353,6 +1362,135 @@ create_identity_config_dialog (gboolean edit_mode, struct identity_record *idrec
 }
 
 static void
+on_SourceConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer user_data)
+{
+	struct source_dialog_data *data = user_data;
+	GtkWidget *vbox;
+	GtkWidget *notebook;
+
+	switch (button) {
+	case 0: /* OK clicked */
+		vbox = gtk_object_get_data (GTK_OBJECT (dialog), "vbox");
+		notebook = gtk_object_get_data (GTK_OBJECT (vbox), "notebook");
+		
+		destroy_service (GTK_OBJECT (notebook), &data->source);
+		
+		gtk_clist_set_text (GTK_CLIST (data->clist), source_row, 0, data->source);
+		gtk_clist_set_row_data (GTK_CLIST (data->clist), source_row,
+					g_strdup (data->source));
+		break;
+	case 1: /* Cancel clicked */
+		if (data && data->new_entry) {
+			gtk_clist_remove (GTK_CLIST (data->clist), source_row);
+			source_row = -1;
+		}
+		break;
+	}
+
+	if (button != -1) {
+		gnome_dialog_close (dialog);
+	}
+}
+
+static GtkWidget*
+create_source_config_dialog (gboolean edit_mode, char *sourcep, GtkWidget *clist)
+{
+	GtkWidget *config_dialog;
+	GtkWidget *dialog_vbox1;
+	GtkWidget *dialog_action_area1;
+	GtkWidget *cmdConfigDialogOK;
+	GtkWidget *cmdConfigDialogCancel;
+	GtkWidget *vbox;
+	GList *providers, *p, *sources, *transports;
+	struct source_dialog_data *data = NULL;
+
+        /* Fetch list of all providers. */
+	providers = camel_session_list_providers (session, TRUE);
+	sources = transports = NULL;
+	for (p = providers; p; p = p->next) {
+		CamelProvider *prov = p->data;
+
+		if (strcmp (prov->domain, "mail") != 0)
+			continue;
+
+		if (prov->object_types[CAMEL_PROVIDER_STORE]) {
+			sources = add_service (sources,
+					       CAMEL_PROVIDER_STORE,
+					       prov);
+		} else if (prov->object_types[CAMEL_PROVIDER_TRANSPORT]) {
+			transports = add_service (transports,
+						  CAMEL_PROVIDER_TRANSPORT,
+						  prov);
+		}
+	}
+	
+	if (edit_mode)
+		config_dialog = gnome_dialog_new (_("Edit Source"), NULL);
+	else
+		config_dialog = gnome_dialog_new (_("Add Source"), NULL);
+	gtk_window_set_modal (GTK_WINDOW (config_dialog), TRUE);
+	gtk_widget_set_name (config_dialog, "config_dialog");
+	gtk_object_set_data (GTK_OBJECT (config_dialog), "config_dialog", config_dialog);
+	gtk_window_set_policy (GTK_WINDOW (config_dialog), TRUE, TRUE, FALSE);
+	
+	dialog_vbox1 = GNOME_DIALOG (config_dialog)->vbox;
+	gtk_widget_set_name (dialog_vbox1, "dialog_vbox1");
+	gtk_object_set_data (GTK_OBJECT (config_dialog), "dialog_vbox1", dialog_vbox1);
+	gtk_widget_show (dialog_vbox1);
+	
+	dialog_action_area1 = GNOME_DIALOG (config_dialog)->action_area;
+	gtk_widget_set_name (dialog_action_area1, "dialog_action_area1");
+	gtk_object_set_data (GTK_OBJECT (config_dialog), "dialog_action_area1", dialog_action_area1);
+	gtk_widget_show (dialog_action_area1);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
+	gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area1), 8);
+
+	/* Create the vbox that we will pack the source widget into */
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_widget_set_name (vbox, "vbox");
+	gtk_object_set_data (GTK_OBJECT (config_dialog), "vbox", vbox);
+	gtk_widget_ref (vbox);
+	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "vbox", vbox,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (vbox);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox1), vbox, TRUE, TRUE, 0);
+	
+	gnome_dialog_append_button (GNOME_DIALOG (config_dialog), GNOME_STOCK_BUTTON_OK);
+	cmdConfigDialogOK = g_list_last (GNOME_DIALOG (config_dialog)->buttons)->data;
+	gtk_widget_set_name (cmdConfigDialogOK, "cmdConfigDialogOK");
+	gtk_object_set_data (GTK_OBJECT (vbox), "ok_button", cmdConfigDialogOK);
+	gtk_widget_ref (cmdConfigDialogOK);
+	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "cmdConfigDialogOK", cmdConfigDialogOK,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (cmdConfigDialogOK);
+	GTK_WIDGET_SET_FLAGS (cmdConfigDialogOK, GTK_CAN_DEFAULT);
+	gtk_widget_set_sensitive (cmdConfigDialogOK, FALSE);
+	
+	gnome_dialog_append_button (GNOME_DIALOG (config_dialog), GNOME_STOCK_BUTTON_CANCEL);
+	cmdConfigDialogCancel = g_list_last (GNOME_DIALOG (config_dialog)->buttons)->data;
+	gtk_widget_set_name (cmdConfigDialogCancel, "cmdConfigDialogCancel");
+	gtk_widget_ref (cmdConfigDialogCancel);
+	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "cmdConfigDialogCancel", cmdConfigDialogCancel,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (cmdConfigDialogCancel);
+	GTK_WIDGET_SET_FLAGS (cmdConfigDialogCancel, GTK_CAN_DEFAULT);
+	
+        /* create/pack our source widget */
+	create_source_page (vbox, sources, &sourcep);
+	
+	data = g_malloc0 (sizeof (struct source_dialog_data));
+	data->clist = clist;
+	data->source = sourcep;
+	data->new_entry = !edit_mode;
+
+	gtk_signal_connect(GTK_OBJECT (config_dialog), "clicked",
+			   GTK_SIGNAL_FUNC (on_SourceConfigDialogButton_clicked),
+			   data);
+	
+	return config_dialog;
+}
+
+static void
 on_clistIdentities_select_row (GtkWidget *widget, gint row, gint column,
 			       GdkEventButton *event, gpointer data)
 {
@@ -1414,26 +1552,58 @@ on_cmdIdentityEdit_clicked (GtkWidget *widget, gpointer user_data)
 static void
 on_cmdIdentityDelete_clicked (GtkWidget *widget, gpointer user_data)
 {
+	if (identity_row == -1)
+		return;
+	
 	gtk_clist_remove (GTK_CLIST (user_data), identity_row);
 	identity_row = -1;
 }
 
 static void
-on_cmdSourcesAdd_clicked (GtkButton *button, gpointer user_data)
+on_cmdSourcesAdd_clicked (GtkWidget *widget, gpointer user_data)
 {
+	GtkWidget *dialog;
+	char *text[] = { "" };
 
+	gtk_clist_append (GTK_CLIST (user_data), text);
+
+	if (source_row > -1)
+		gtk_clist_unselect_row (GTK_CLIST (user_data), source_row, 0);
+	
+	gtk_clist_select_row (GTK_CLIST (user_data), source_row + 1, 0);
+
+	/* now create the editing dialog */
+	dialog = create_source_config_dialog (FALSE, source, GTK_WIDGET (user_data));
+	gtk_widget_show (dialog);
 }
 
 static void
-on_cmdSourcesEdit_clicked (GtkButton *button, gpointer user_data)
+on_cmdSourcesEdit_clicked (GtkWidget *widget, gpointer user_data)
 {
+	GtkWidget *dialog;
+	char *sourcep;
+	
+	if (identity_row == -1)
+		return;
 
+	sourcep = gtk_clist_get_row_data (GTK_CLIST (user_data), source_row);
+	if (!sourcep) {
+		sourcep = source;
+	}
+
+	/* now create the editing dialog */
+	dialog = create_source_config_dialog (TRUE, sourcep, GTK_WIDGET (user_data));
+	gtk_widget_show (dialog);
 }
 
 static void
-on_cmdSourcesDelete_clicked (GtkButton *button, gpointer user_data)
+on_cmdSourcesDelete_clicked (GtkWidget *widget, gpointer user_data)
 {
-
+	if (source_row == -1)
+		return;
+	
+	gtk_clist_remove (GTK_CLIST (user_data), source_row);
+	identity_row = -1;
 }
 
 static void
