@@ -1,3 +1,10 @@
+2003-03-05  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component/addressbook-component.c (bonobo_main_quit_cb):
+	removed.
+	(owner_unset_cb): Basically a noop, the shell does the quit, we
+	just note we have no owner anymore.
+
 2003-03-04  JP Rosevear  <jpr@ximian.com>
  
  	Fixes #37881

@@ -381,22 +381,15 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	addressbook_storage_setup (shell_component, evolution_homedir);
 }
 
-static gboolean
-bonobo_main_quit_cb (gpointer closure)
-{
-	bonobo_main_quit ();
-	return TRUE;
-}
-
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component,
 		GNOME_Evolution_Shell shell_interface,
 		gpointer user_data)
 {
 	owner_count --;
-	if (owner_count == 0) {
-		g_idle_add (bonobo_main_quit_cb, NULL);
-	}
+
+	if (owner_count == 0)
+		global_shell_client = NULL;
 }
 
 /* FIXME We should perhaps take the time to figure out if the book is editable. */
