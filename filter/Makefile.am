@@ -50,6 +50,8 @@ libfilter_la_SOURCES =				\
 	filter-part.h				\
 	filter-rule.c				\
 	filter-rule.h				\
+	filter-score.c				\
+	filter-score.h				\
 	rule-context.c				\
 	rule-context.h				\
 	score-context.c				\

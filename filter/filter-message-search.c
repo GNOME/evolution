@@ -40,7 +40,7 @@ static ESExpResult *user_tag (struct _ESExp *f, int argc, struct _ESExpResult **
 static ESExpResult *get_sent_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_received_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
-
+static ESExpResult *get_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 
 /* builtin functions */
 static struct {
@@ -56,7 +56,8 @@ static struct {
 	{ "user-flag",         (ESExpFunc *) user_flag,         0 },
 	{ "get-sent-date",     (ESExpFunc *) get_sent_date,     0 },
 	{ "get-received-date", (ESExpFunc *) get_received_date, 0 },
-	{ "get-current-date",  (ESExpFunc *) get_current_date,  0 }
+	{ "get-current-date",  (ESExpFunc *) get_current_date,  0 },
+	{ "get-score",         (ESExpFunc *) get_score,         0 }
 };
 
 static ESExpResult *
@@ -224,12 +225,26 @@ static ESExpResult *
 get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
 	ESExpResult *r;
-	time_t date;
-	
-	date = time (NULL);
 	
 	r = e_sexp_result_new (ESEXP_RES_INT);
-	r->value.number = date;
+	r->value.number = time (NULL);
+	
+	return r;
+}
+
+static ESExpResult *
+get_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	ESExpResult *r;
+	const char *tag;
+	
+	tag = camel_tag_get (&fms->info->user_tags, "score");
+	
+	r = e_sexp_result_new (ESEXP_RES_INT);
+	if (tag)
+		r->value.number = atoi (tag);
+	else
+		r->value.number = 0;
 	
 	return r;
 }

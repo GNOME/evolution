@@ -27,6 +27,7 @@
 #include "filter-code.h"
 #include "filter-colour.h"
 #include "filter-datespec.h"
+#include "filter-score.h"
 #include "filter-folder.h"
 
 static void xml_create(FilterElement *fe, xmlNodePtr node);
@@ -225,21 +226,23 @@ FilterElement	*filter_element_new_type_name	(const char *type)
 	if (type == NULL)
 		return NULL;
 
-	if (!strcmp(type, "string")) {
-		return (FilterElement *)filter_input_new();
-	} else if (!strcmp(type, "folder")) {
-		return (FilterElement *)filter_folder_new();
-	} else if (!strcmp(type, "address")) {
+	if (!strcmp (type, "string")) {
+		return (FilterElement *)filter_input_new ();
+	} else if (!strcmp (type, "folder")) {
+		return (FilterElement *)filter_folder_new ();
+	} else if (!strcmp (type, "address")) {
 		/* FIXME: temporary ... need real address type */
-		return (FilterElement *)filter_input_new_type_name(type);
-	} else if (!strcmp(type, "code")) {
-		return (FilterElement *)filter_code_new();
-	} else if (!strcmp(type, "colour")) {
-		return (FilterElement *)filter_colour_new();
-	} else if (!strcmp(type, "optionlist")) {
-		return (FilterElement *)filter_option_new();
-	} else if (!strcmp(type, "datespec")) {
-		return (FilterElement *)filter_datespec_new();
+		return (FilterElement *)filter_input_new_type_name (type);
+	} else if (!strcmp (type, "code")) {
+		return (FilterElement *)filter_code_new ();
+	} else if (!strcmp (type, "colour")) {
+		return (FilterElement *)filter_colour_new ();
+	} else if (!strcmp (type, "optionlist")) {
+		return (FilterElement *)filter_option_new ();
+	} else if (!strcmp (type, "datespec")) {
+		return (FilterElement *)filter_datespec_new ();
+	} else if (!strcmp (type, "score")) {
+		return (FilterElement *)filter_score_new ();
 	} else {
 		g_warning("Unknown filter type '%s'", type);
 		return 0;

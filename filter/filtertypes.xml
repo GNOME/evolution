@@ -141,6 +141,38 @@
   </input>
  </part>
 
+ <part name="score">
+  <title>Message score</title>
+  <input type="optionlist" name="score-type">
+   <option value="less-than">
+    <title>less than</title>
+    <code>
+       (match-all (&lt; (get-score) ${versus}))
+    </code>
+   </option>
+   <option value="less-than-or-equal">
+    <title>less than or equal to</title>
+    <code>
+       (match-all (not (&gt; (get-score) ${versus})))
+    </code>
+   </option>
+   <option value="greater-than">
+    <title>greater than</title>
+    <code>
+       (match-all (&gt; (get-score) ${versus}))
+    </code>
+   </option>
+   <option value="greater-than-or-equal">
+    <title>greater than or equal to</title>
+    <code>
+       (match-all (not (&lt; (get-score) ${versus})))
+    </code>
+   </option>
+  </input>    
+  <input type="score" name="versus">
+  </input>
+ </part>
+
 </partset>
 
 
@@ -167,6 +199,11 @@
   <title>Assign Colour</title>
   <code>(set-colour ${colour})</code>
   <input type="colour" name="colour"/>
+ </part>
+ <part name="score">
+  <title>Assign Score</title>
+  <code>(set-score ${score})</code>
+  <input type="score" name="score"/>
  </part>
 </actionset>
 </filterdescription>

@@ -79,6 +79,7 @@ static ESExpResult *mark_forward (struct _ESExp *f, int argc, struct _ESExpResul
 static ESExpResult *mark_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
 static ESExpResult *do_stop (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
 static ESExpResult *do_colour (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
+static ESExpResult *do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
 
 /* these are our filter actions - each must have a callback */
 static struct {
@@ -92,6 +93,7 @@ static struct {
 	{ "copy-to",    (ESExpFunc *) mark_copy,    0 },
 	{ "stop",       (ESExpFunc *) do_stop,      0 },
 	{ "set-colour", (ESExpFunc *) do_colour,    0 },
+	{ "set-score",  (ESExpFunc *) do_score,     0 }
 };
 
 static GtkObjectClass *filter_driver_parent;
@@ -303,9 +305,28 @@ do_colour (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver 
 	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	
 	if (!p->terminated) {
-		d(fprintf (stderr, "setting colour flag\n"));
+		d(fprintf (stderr, "setting colour tag\n"));
 		if (argc > 0 && argv[0]->type == ESEXP_RES_STRING) {
 			camel_tag_set (&p->info->user_tags, "colour", argv[0]->value.string);
+		}
+	}
+	
+	return NULL;
+}
+
+static ESExpResult *
+do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *driver)
+{
+	struct _FilterDriverPrivate *p = _PRIVATE (driver);
+	
+	if (!p->terminated) {
+		d(fprintf (stderr, "setting score tag\n"));
+		if (argc > 0 && argv[0]->type == ESEXP_RES_INT) {
+			char *value;
+			
+			value = g_strdup_printf ("%d", argv[0]->value.number);
+			camel_tag_set (&p->info->user_tags, "score", value);
+			g_free (value);
 		}
 	}
 	
