@@ -26,45 +26,35 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 /* need a way to configure and save this data, if this header is to
    be installed.  For now, dont install it */
 
-#include "config.h"
-
-#ifdef ENABLE_THREADS
-#include "e-util/e-msgport.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
 #endif
+
+#include "e-util/e-msgport.h"
 
 struct _CamelNNTPStorePrivate {
-#ifdef ENABLE_THREADS
 	EMutex *command_lock;	/* for locking the command stream for a complete operation */
-#endif
 };
 
-#ifdef ENABLE_THREADS
 #define CAMEL_NNTP_STORE_LOCK(f, l) (e_mutex_lock(((CamelNNTPStore *)f)->priv->l))
 #define CAMEL_NNTP_STORE_UNLOCK(f, l) (e_mutex_unlock(((CamelNNTPStore *)f)->priv->l))
-#else
-#define CAMEL_NNTP_STORE_LOCK(f, l)
-#define CAMEL_NNTP_STORE_UNLOCK(f, l)
-#endif
+
 
 struct _CamelNNTPFolderPrivate {
-#ifdef ENABLE_THREADS
 	GMutex *search_lock;	/* for locking the search object */
 	GMutex *cache_lock;     /* for locking the cache object */
-#endif
 };
 
-#ifdef ENABLE_THREADS
 #define CAMEL_NNTP_FOLDER_LOCK(f, l) (g_mutex_lock(((CamelNNTPFolder *)f)->priv->l))
 #define CAMEL_NNTP_FOLDER_UNLOCK(f, l) (g_mutex_unlock(((CamelNNTPFolder *)f)->priv->l))
 #else
 #define CAMEL_NNTP_FOLDER_LOCK(f, l)
 #define CAMEL_NNTP_FOLDER_UNLOCK(f, l)
-#endif
 
 #ifdef __cplusplus
 }

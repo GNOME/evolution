@@ -1,7 +1,17 @@
 2003-07-09  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* camel-block-file.c: Get rid of the #ifdef ENABLE_THREADS since
+	Get rid of the #ifdef ENABLE_THREADS since
 	we no longer plan to support/maintain this.
+
+	* providers/nntp/camel-nntp-store.c: Here.
+
+	* providers/nntp/camel-nntp-newsrc.c: And here.
+
+	* providers/nntp/camel-nntp-folder.c: Same.
+
+	* providers/local/camel-local-folder.c: And here.
+
+	* camel-block-file.c: Here too.
 
 	* camel.c: Same.
 

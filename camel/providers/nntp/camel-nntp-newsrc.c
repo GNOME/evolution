@@ -1,45 +1,45 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-nntp-newsrc.c - .newsrc parsing/regurgitating code */
-/* 
+/*
+ *  Authors: Chris Toshok <toshok@ximian.com>
  *
- * Copyright (C) 2000 Ximian, Inc. <toshok@ximian.com>
+ *  Copyright 2000-2003 Ximian, Inc. (www.ximian.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
- * License as published by the Free Software Foundation.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <glib.h>
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <glib.h>
-#include <fcntl.h>
+#include <pthread.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <errno.h>
+
 #include "camel-nntp-newsrc.h"
 #include <camel/camel-folder-summary.h>
 
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-
 #define NEWSRC_LOCK(f, l) (g_mutex_lock(((CamelNNTPNewsrc *)f)->l))
 #define NEWSRC_UNLOCK(f, l) (g_mutex_unlock(((CamelNNTPNewsrc *)f)->l))
-#else
-#define NEWSRC_LOCK(f, l)
-#define NEWSRC_UNLOCK(f, l)
-#endif
 
 typedef struct {
 	guint low;
@@ -56,10 +56,8 @@ struct CamelNNTPNewsrc {
 	gchar *filename;
 	GHashTable *groups;
 	gboolean dirty;
-#ifdef ENABLE_THREADS
 	GMutex *lock;
-#endif
-} ;
+};
 
 
 static NewsrcGroup *
@@ -614,10 +612,8 @@ camel_nntp_newsrc_read_for_server (const char *server)
 	newsrc = g_new0(CamelNNTPNewsrc, 1);
 	newsrc->filename = filename;
 	newsrc->groups = g_hash_table_new (g_str_hash, g_str_equal);
-#ifdef ENABLE_THREADS
 	newsrc->lock = g_mutex_new();
-#endif
-
+	
 	if ((fd = open(filename, O_RDONLY)) == -1) {
 		g_warning ("~/.newsrc-%s not present.\n", server);
 		return newsrc;

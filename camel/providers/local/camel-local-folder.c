@@ -1,23 +1,25 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*-
- * 
- * Authors: Michael Zucchi <notzed@ximian.com>
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ *  Authors: Michael Zucchi <notzed@ximian.com>
  *
- * Copyright (C) 1999, 2003 Ximian Inc.
+ *  Copyright 1999-2003 Ximian, Inc. (www.ximian.com)
  *
- * This program is free software; you can redistribute it and/or 
- * modify it under the terms of version 2 of the GNU General Public 
- * License as published by the Free Software Foundation.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
  */
+
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -129,9 +131,7 @@ local_init(gpointer object, gpointer klass)
 	local_folder->search = NULL;
 
 	local_folder->priv = g_malloc0(sizeof(*local_folder->priv));
-#ifdef ENABLE_THREADS
 	local_folder->priv->search_lock = g_mutex_new();
-#endif
 }
 
 static void
@@ -162,14 +162,14 @@ local_finalize(CamelObject * object)
 	g_free(local_folder->index_path);
 
 	camel_folder_change_info_free(local_folder->changes);
-
-#ifdef ENABLE_THREADS
+	
 	g_mutex_free(local_folder->priv->search_lock);
-#endif
+	
 	g_free(local_folder->priv);
 }
 
-CamelType camel_local_folder_get_type(void)
+CamelType
+camel_local_folder_get_type(void)
 {
 	static CamelType camel_local_folder_type = CAMEL_INVALID_TYPE;
 

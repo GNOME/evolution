@@ -1,9 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-nntp-store.c : class for an nntp store */
-
 /* 
  *
- * Copyright (C) 2001 Ximian, Inc. <www.ximain.com>
+ * Copyright (C) 2001-2003 Ximian, Inc. <www.ximain.com>
  *
  * Authors: Christopher Toshok <toshok@ximian.com>
  *    	    Michael Zucchi <notzed@ximian.com>
@@ -28,13 +26,13 @@
 #include <config.h>
 #endif
 
-#include <sys/types.h>
-#include <dirent.h>
-#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
 #include <unistd.h>
+#include <dirent.h>
+#include <errno.h>
 
 #include <camel/camel-url.h>
 #include <camel/string-utils.h>
@@ -400,10 +398,9 @@ nntp_store_finalise (CamelObject *object)
 	nntp_store->mem = NULL;
 	if (nntp_store->stream)
 		camel_object_unref((CamelObject *)nntp_store->stream);
-
-#ifdef ENABLE_THREADS
+	
 	e_mutex_destroy(p->command_lock);
-#endif
+	
 	g_free(p);
 }
 
@@ -444,9 +441,7 @@ nntp_store_init (gpointer object, gpointer klass)
 	nntp_store->mem = (CamelStreamMem *)camel_stream_mem_new();
 
 	p = nntp_store->priv = g_malloc0(sizeof(*p));
-#ifdef ENABLE_THREADS
 	p->command_lock = e_mutex_new(E_MUTEX_REC);
-#endif
 }
 
 CamelType
@@ -470,7 +465,8 @@ camel_nntp_store_get_type (void)
 }
 
 /* enter owning lock */
-int camel_nntp_store_set_folder(CamelNNTPStore *store, CamelFolder *folder, CamelFolderChangeInfo *changes, CamelException *ex)
+int
+camel_nntp_store_set_folder (CamelNNTPStore *store, CamelFolder *folder, CamelFolderChangeInfo *changes, CamelException *ex)
 {
 	int ret;
 
