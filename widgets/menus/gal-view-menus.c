@@ -12,6 +12,7 @@
 #include "gal-view-menus.h"
 
 #include <stdlib.h>
+#include <string.h>
 #include <gtk/gtksignal.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
