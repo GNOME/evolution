@@ -1235,7 +1235,7 @@ do_scan_subfolders (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (!store)
 		return;
 
-	tree = camel_store_get_folder_info (store, NULL, TRUE, TRUE, ex);
+	tree = camel_store_get_folder_info (store, NULL, TRUE, TRUE, FALSE, ex);
 	if (tree) {
 		add_folders (data->new_folders, "", tree);
 		camel_store_free_folder_info (store, tree);

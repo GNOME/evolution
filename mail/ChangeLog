@@ -1,3 +1,9 @@
+2000-10-06  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* mail-ops.c (do_scan_subfolders): Add missing @subscribed_only
+	parameter in the call to `camel_store_get_folder_info()'.  [FALSE,
+	I hope that's right.]
+
 2000-10-05  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-format.c (write_field_to_stream): Decode the header before
