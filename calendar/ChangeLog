@@ -1,3 +1,8 @@
+2001-08-22  Dan Winship  <danw@ximian.com>
+
+	* gui/gnome-cal.c: #include <libgnomevfs/gnome-vfs-types.h> so
+	this will compile against gnome-vfs 1.0.1.
+
 2001-08-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_open): open the tasks folder
