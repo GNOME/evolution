@@ -27,7 +27,7 @@ AC_DEFUN([GNOME_LIBGTOP_SYSDEPS],[
 	  ;;
 	sunos4*)
 	  libgtop_sysdeps_dir=sun4
-	  libgtop_use_machine_h=no
+	  libgtop_use_machine_h=yes
 	  libgtop_need_server=yes
 	  ;;
 	osf*)
