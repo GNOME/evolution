@@ -63,7 +63,7 @@
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
 #endif
 
-static GtkObjectClass *e_table_parent_class;
+static GtkObjectClass *parent_class;
 
 enum {
 	CURSOR_CHANGE,
@@ -282,7 +282,16 @@ et_destroy (GtkObject *object)
 
 	g_free(et->click_to_add_message);
 
-	(*e_table_parent_class->destroy)(object);
+	(*parent_class->destroy)(object);
+}
+
+static void
+et_unrealize (GtkWidget *widget)
+{
+	scroll_off (E_TABLE (widget));
+
+	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
+		GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
 }
 
 static void
@@ -2732,19 +2741,20 @@ e_table_class_init (ETableClass *class)
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
 
-	object_class = (GtkObjectClass *) class;
-	widget_class = (GtkWidgetClass *) class;
-	container_class = (GtkContainerClass *) class;
+	object_class                    = (GtkObjectClass *) class;
+	widget_class                    = (GtkWidgetClass *) class;
+	container_class                 = (GtkContainerClass *) class;
 
-	e_table_parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class                    = gtk_type_class (PARENT_TYPE);
 
 	object_class->destroy           = et_destroy;
 	object_class->set_arg           = et_set_arg;
 	object_class->get_arg           = et_get_arg;
 
-	widget_class->grab_focus = et_grab_focus;
+	widget_class->grab_focus        = et_grab_focus;
+	widget_class->unrealize         = et_unrealize;
 
-	container_class->focus = et_focus;
+	container_class->focus          = et_focus;
 
 	class->cursor_change            = NULL;
 	class->cursor_activated         = NULL;

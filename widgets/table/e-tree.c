@@ -375,6 +375,16 @@ et_destroy (GtkObject *object)
 }
 
 static void
+et_unrealize (GtkWidget *widget)
+{
+	scroll_off (E_TREE (widget));
+	hover_off (E_TREE (widget));
+
+	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
+		GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
+}
+
+static void
 e_tree_init (GtkObject *object)
 {
 	ETree *e_tree                                    = E_TREE (object);
@@ -2774,6 +2784,7 @@ e_tree_class_init (ETreeClass *class)
 	object_class->get_arg          = et_get_arg;
 
 	widget_class->grab_focus       = et_grab_focus;
+	widget_class->unrealize        = et_unrealize;
 
 	container_class->focus         = et_focus;
 
