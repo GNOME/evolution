@@ -461,35 +461,50 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 			       "book", book,
 			       NULL);
 	} else {
-		AddressbookSource *source;
 		GtkWidget *warning_dialog, *label;
+		char *capabilities;
+		AddressbookSource *source = NULL;
 
         	warning_dialog = gnome_dialog_new (
         		_("Unable to open addressbook"),
 			GNOME_STOCK_BUTTON_CLOSE,
         		NULL);
 
-		source = addressbook_storage_get_source_by_uri (view->uri);
+		capabilities = e_book_get_static_capabilities (book);
 
-		if (source) {
-#if HAVE_LDAP
-			label = gtk_label_new (
-					       _("We were unable to open this addressbook.  This either\n"
-						 "means you have entered an incorrect URI, or the LDAP server\n"
-						 "is down"));
-#else
-			label = gtk_label_new (
-					       _("This version of Evolution does not have LDAP support\n"
-						 "compiled in to it.  If you want to use LDAP in Evolution\n"
-						 "you must compile the program from the CVS sources after\n"
-						 "retrieving OpenLDAP from the link below.\n"));
-#endif
-		}
-		else {
+		if (capabilities && strstr (capabilities, "local")) {
 			label = gtk_label_new (
 					       _("We were unable to open this addressbook.  Please check that the\n"
 						 "path exists and that you have permission to access it."));
 		}
+		else {
+			source = addressbook_storage_get_source_by_uri (view->uri);
+
+			if (source) {
+				/* special case for ldap: contact folders so we can tell the user about openldap */
+#if HAVE_LDAP
+				label = gtk_label_new (
+						       _("We were unable to open this addressbook.  This either\n"
+							 "means you have entered an incorrect URI, or the LDAP server\n"
+							 "is unreachable."));
+#else
+				label = gtk_label_new (
+						       _("This version of Evolution does not have LDAP support\n"
+							 "compiled in to it.  If you want to use LDAP in Evolution\n"
+							 "you must compile the program from the CVS sources after\n"
+							 "retrieving OpenLDAP from the link below.\n"));
+#endif
+			}
+			else {
+				/* other network folders */
+				label = gtk_label_new (
+						       _("We were unable to open this addressbook.  This either\n"
+							 "means you have entered an incorrect URI, or the server\n"
+							 "is unreachable."));
+			}
+		}
+
+		g_free (capabilities);
 
 		gtk_misc_set_alignment(GTK_MISC(label),
 				       0, .5);

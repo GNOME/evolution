@@ -411,7 +411,7 @@ get_view (EAddressbookModel *model)
 		if (model->first_get_view) {
 			char *capabilities;
 			capabilities = e_book_get_static_capabilities (model->book);
-			if (capabilities && strstr (capabilities, "local")) {
+			if (capabilities && strstr (capabilities, "do-initial-query")) {
 				e_book_get_book_view (model->book, model->query, book_view_loaded, model);
 			} else {
 				remove_book_view(model);

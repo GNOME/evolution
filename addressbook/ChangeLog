@@ -1,3 +1,21 @@
+2002-08-16  Chris Toshok  <toshok@ximian.com>
+
+	[ fix 27333 ]
+	* gui/widgets/e-addressbook-model.c (get_view): "local" ->
+	"do-initial-query".
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_get_static_capabilities): "local" ->
+	"local,do-initial-query".
+
+	* gui/widgets/e-addressbook-model.c (get_view): "local" ->
+	"do-initial-query".
+
+	* gui/component/addressbook.c (book_open_cb): Only assume the
+	addressbook is local if "local" appears in its static
+	capabilities.  We still use the ldap special case, but be nicer to
+	other networked backends.
+
 2002-08-12  Dan Winship  <danw@ximian.com>
 
 	* gui/component/addressbook-component.c (user_create_new_item_cb):
