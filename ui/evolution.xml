@@ -266,6 +266,11 @@
 
       <separator f="" name="eshell2"/>
 
+      <menuitem name="CreateNewFolder"
+                verb="NewFolder"
+                _label="_New Folder..."
+                _tip="Create a new folder"/>
+
       <menuitem name="DeleteFolder"
                 verb="DeleteFolder"
                 _label="_Delete"
@@ -275,11 +280,6 @@
                 verb="RenameFolder"
                 _label="_Rename..."
                 _tip="Change the name of this folder"/>
-
-      <menuitem name="CreateNewFolder"
-                verb="NewFolder"
-                _label="Create _New Folder..."
-                _tip="Create a new folder"/>
 
       <separator f="" name="eshell3"/>
 

@@ -1,3 +1,10 @@
+003-04-23  Anna Marie Dirks  <anna@ximian.com>
+
+	* evolution.xml: Changed the placement and label of "Create New Folder"
+	to be consistent with the terms/layout used for other (namely
+	the shortcut bar) pop-up menus. 
+
+
 2003-04-21  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #22444
