@@ -2,8 +2,9 @@
 
 	* gui/calendar-commands.c: removed the 'NewCalendar' verb.
 	(file_new_calendar_cb): removed callback for 'NewCalendar' verb.
-	(impl__get_userCreatableItems): added 'New Calendar' to the list
-	of user creatable items.
+
+	* gui/calendar-component.c: (impl__get_userCreatableItems): added
+	'New Calendar' to the list of user creatable items.
 	(impl_requestCreateItem): implemented 'New Calendar'.
 
 	* gui/tasks-component.c (impl__get_userCreatableItems): added
