@@ -1,3 +1,8 @@
+2001-03-27  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_set_send_html): set the
+	FormatHTML property on the editor to let it know the mode.
+
 2001-03-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_new): Set

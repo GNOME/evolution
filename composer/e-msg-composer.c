@@ -2372,6 +2372,10 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 		composer->uic, "/commands/FormatHtml",
 		"state", composer->send_html ? "1" : "0", NULL);
 
+	/* let the editor know which mode we are in */
+	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor), "FormatHTML",
+				    composer->send_html, NULL);
+
 	set_config (composer, "FormatHTML", composer->send_html);
 }
 
