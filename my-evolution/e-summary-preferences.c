@@ -21,6 +21,11 @@
 
 #include <glade/glade.h>
 #include <stdio.h>
+
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
+
 static void
 make_initial_mail_list (ESummaryPrefs *prefs)
 {
@@ -109,62 +114,58 @@ str_list_from_vector (const char *vector)
 gboolean
 e_summary_preferences_restore (ESummaryPrefs *prefs)
 {
-	char *evolution_dir, *key;
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
 	char *vector;
 
 	g_return_val_if_fail (prefs != NULL, FALSE);
 
-	evolution_dir = gnome_util_prepend_user_home ("evolution/config/my-evolution");
-	if (g_file_exists (evolution_dir) == FALSE) {
-		g_free (evolution_dir);
+	CORBA_exception_init (&ev);
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Wombat. Using defaults");
+		CORBA_exception_free (&ev);
 		return FALSE;
 	}
 
-	key = g_strdup_printf ("=%s=/Mail/", evolution_dir);
-	gnome_config_push_prefix (key);
-	g_free (key);
-
-	vector = gnome_config_get_string ("display_folders");
+	CORBA_exception_free (&ev);
+	vector = bonobo_config_get_string (db, "Mail/display_folders", NULL);
+	if (vector == NULL) {
+		bonobo_object_release_unref (db, NULL);
+		return FALSE;
+	}
 	prefs->display_folders = str_list_from_vector (vector);
 	g_free (vector);
 
-	prefs->show_full_path = gnome_config_get_bool ("show_full_path=FALSE");
+	prefs->show_full_path = bonobo_config_get_boolean (db, "Mail/show_full_path=FALSE", NULL);
 
-	gnome_config_pop_prefix ();
-	key = g_strdup_printf ("=%s=/RDF/", evolution_dir);
-	gnome_config_push_prefix (key);
-	g_free (key);
-
-	vector = gnome_config_get_string ("rdf_urls");
+	vector = bonobo_config_get_string (db, "RDF/rdf_urls", NULL);
+	if (vector == NULL) {
+		bonobo_object_release_unref (db, NULL);
+		return FALSE;
+	}
 	prefs->rdf_urls = str_list_from_vector (vector);
 	g_free (vector);
 
-	prefs->rdf_refresh_time = gnome_config_get_int ("rdf_refresh_time=600");
-	prefs->limit = gnome_config_get_int ("limit=10");
-	prefs->wipe_trackers = gnome_config_get_bool ("wipe_trackers=True");
+	prefs->rdf_refresh_time = bonobo_config_get_long_with_default (db, "RDF/rdf_refresh_time", 600, NULL);
+	prefs->limit = bonobo_config_get_long_with_default (db, "RDF/limit", 10, NULL);
+	prefs->wipe_trackers = bonobo_config_get_boolean_with_default (db, "RDF/wipe_trackers", FALSE, NULL);
 
-	gnome_config_pop_prefix ();
-	key = g_strdup_printf ("=%s=/Weather/", evolution_dir);
-	gnome_config_push_prefix (key);
-	g_free (key);
-
-	vector = gnome_config_get_string ("stations");
+	vector = bonobo_config_get_string (db, "Weather/stations", NULL);
+	if (vector == NULL) {
+		bonobo_object_release_unref (db, NULL);
+		return FALSE;
+	}
 	prefs->stations = str_list_from_vector (vector);
 	g_free (vector);
 
-	prefs->units = gnome_config_get_int ("units");
-	prefs->weather_refresh_time = gnome_config_get_int ("weather_refresh_time");
+	prefs->units = bonobo_config_get_long (db, "Weather/units", NULL);
+	prefs->weather_refresh_time = bonobo_config_get_long (db, "weather_refresh_time", NULL);
 	
-	gnome_config_pop_prefix ();
-	key = g_strdup_printf ("=%s=/Schedule/", evolution_dir);
-	gnome_config_push_prefix (key);
-	g_free (key);
+	prefs->days = bonobo_config_get_long (db, "Schedule/days", NULL);
+	prefs->show_tasks = bonobo_config_get_long (db, "show_tasks", NULL);
 
-	prefs->days = gnome_config_get_int ("days");
-	prefs->show_tasks = gnome_config_get_int ("show_tasks");
-
-	gnome_config_pop_prefix ();
-	g_free (evolution_dir);
+	bonobo_object_release_unref (db, NULL);
 	return TRUE;
 }
 
@@ -172,62 +173,50 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 void
 e_summary_preferences_save (ESummaryPrefs *prefs)
 {
-	char *evolution_dir, *key;
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
 	char *vector;
 
 	g_return_if_fail (prefs != NULL);
 
-	g_print ("Saving stuff\n");
-	evolution_dir = gnome_util_prepend_user_home ("evolution/config/my-evolution");
-	key = g_strdup_printf ("=%s=/Mail/", evolution_dir);
-	gnome_config_push_prefix (key);
-	g_free (key);
+	CORBA_exception_init (&ev);
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Cannot save preferences");
+		CORBA_exception_free (&ev);
+		return;
+	}
+	CORBA_exception_free (&ev);
 
 	vector = vector_from_str_list (prefs->display_folders);
-	gnome_config_set_string ("display_folders", vector);
+	bonobo_config_set_string (db, "Mail/display_folders", vector, NULL);
 	g_free (vector);
 
-	gnome_config_set_bool ("show_full_path", prefs->show_full_path);
+	bonobo_config_set_boolean (db, "Mail/show_full_path", prefs->show_full_path, NULL);
 
-	gnome_config_pop_prefix ();
-	key = g_strdup_printf ("=%s=/RDF/", evolution_dir);
-	gnome_config_push_prefix (key);
-	g_free (key);
-	
 	vector = vector_from_str_list (prefs->rdf_urls);
-	gnome_config_set_string ("rdf_urls", vector);
+	bonobo_config_set_string (db, "RDF/rdf_urls", vector, NULL);
 	g_free (vector);
 
-	gnome_config_set_int ("rdf_refresh_time", prefs->rdf_refresh_time);
-	gnome_config_set_int ("limit", prefs->limit);
-	gnome_config_set_bool ("wipe_trackers", prefs->wipe_trackers);
-
-	gnome_config_pop_prefix ();
-	key = g_strdup_printf ("=%s=/Weather/", evolution_dir);
-	gnome_config_push_prefix (key);
-	g_free (key);
+	bonobo_config_set_long (db, "RDF/rdf_refresh_time", prefs->rdf_refresh_time, NULL);
+	bonobo_config_set_long (db, "RDF/limit", prefs->limit, NULL);
+	bonobo_config_set_boolean (db, "RDF/wipe_trackers", prefs->wipe_trackers, NULL);
 
 	vector = vector_from_str_list (prefs->stations);
-	gnome_config_set_string ("stations", vector);
+	bonobo_config_set_string (db, "Weather/stations", vector, NULL);
 	g_free (vector);
 
-	gnome_config_set_int ("units", prefs->units);
-	gnome_config_set_int ("weather_refresh_time", prefs->weather_refresh_time);
-	
-	gnome_config_pop_prefix ();
-	key = g_strdup_printf ("=%s=/Schedule/", evolution_dir);
-	gnome_config_push_prefix (key);
-	g_free (key);
+	bonobo_config_set_long (db, "Weather/units", prefs->units, NULL);
+	bonobo_config_set_long (db, "Weather/weather_refresh_time", prefs->weather_refresh_time, NULL);
 
-	gnome_config_set_int ("days", prefs->days);
-	gnome_config_set_int ("show_tasks", prefs->show_tasks);
+	bonobo_config_set_long (db, "Schedule/days", prefs->days, NULL);
+	bonobo_config_set_long (db, "Schedule/show_tasks", prefs->show_tasks, NULL);
 
-	gnome_config_pop_prefix ();
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (db, &ev);
+	CORBA_exception_free (&ev);
 
-	gnome_config_sync ();
-	gnome_config_drop_all ();
-
-	g_free (evolution_dir);
+	bonobo_object_release_unref (db, NULL);
 }
 
 static void

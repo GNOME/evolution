@@ -1,5 +1,15 @@
 2001-07-03  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (e_summary_preferences_restore): Ditch
+	gnome-config and replace it with bonobo-conf.
+	(e_summary_preferences_save): Ditto.
+
+	* e-summary-factory.c: Use the new print.png icon.
+
+	* Makefile.am: Add bonobo conf CFLAGS and LIBS
+
+2001-07-03  Iain Holmes  <iain@ximian.com>
+
 	* e-summary.c (e_summary_set_online): Return if summary == NULL.
 	(e_summary_add_connections): Return NULL if summary == NULL.
 	(e_summary_count_connections): Return 0 if summary == NULL.
