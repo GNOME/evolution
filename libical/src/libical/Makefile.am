@@ -30,9 +30,16 @@ libical_a_SOURCES = \
 	icaltypes.h \
 	icalvalue.c \
 	icalvalue.h \
-	icalvcal.h \
+	icalrecur.c \
+	icalrecur.h \
+	icaltime.h \
+	icaltime.c \
 	pvl.c \
-	pvl.h
+	pvl.h \
+	sspm.c \
+	sspm.h \
+	icalmime.c \
+	icalmime.h 
 
 include_HEADERS=\
 	ical.h \
@@ -46,9 +53,12 @@ include_HEADERS=\
 	icalrestriction.h \
 	icaltypes.h \
 	icalvalue.h \
-	icalvcal.h \
+	icalrecur.h \
 	icalversion.h \
-	pvl.h
+	icaltime.h \
+	pvl.h \
+	sspm.h \
+	icalmime.h 
 
 
 

@@ -91,7 +91,6 @@ char* read_stream(char *s, size_t size, void *d)
 int main(int argc, char* argv[])
 {
 
-    int lineno = 0;
     char* line; 
     FILE* stream;
     icalcomponent *c; 
@@ -120,5 +119,5 @@ int main(int argc, char* argv[])
 
     } while ( line != 0);
 
-
-}
+    return 0;
+ }

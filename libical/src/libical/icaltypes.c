@@ -7,20 +7,19 @@
   $Locker$
     
 
-  (C) COPYRIGHT 1999 Eric Busboom 
-  http://www.softwarestudio.org
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
-  The contents of this file are subject to the Mozilla Public License
-  Version 1.0 (the "License"); you may not use this file except in
-  compliance with the License. You may obtain a copy of the License at
-  http://www.mozilla.org/MPL/
- 
-  Software distributed under the License is distributed on an "AS IS"
-  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and
-  limitations under the License.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
 
-  The original author is Eric Busboom
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
   The original code is icaltypes.c
 
  ======================================================================*/
@@ -31,9 +30,9 @@
 #include "icaltypes.h"
 #include "icalerror.h"
 #include "icalmemory.h"
-#include <stdlib.h> /* for malloc */
+#include <stdlib.h> /* for malloc and abs() */
 #include <errno.h> /* for errno */
-#include <string.h> /* for strdup */
+#include <string.h> /* for icalmemory_strdup */
 #include <assert.h>
 #include <limits.h> /* for SHRT_MAX */
 
@@ -106,9 +105,9 @@ void icalattachtype_set_url(struct icalattachtype* v, char* url)
 	free (v->url);
     }
 
-    v->url = strdup(url);
+    v->url = icalmemory_strdup(url);
 
-    /* HACK This routine should do something if strdup returns NULL */
+    /* HACK This routine should do something if icalmemory_strdup returns NULL */
 
 }
 
@@ -159,28 +158,6 @@ icalperiodtype_duration (struct icalperiodtype period);
 time_t
 icalperiodtype_end (struct icalperiodtype period);
 
-struct icaltimetype 
-icaltimetype_from_timet(time_t v, int date)
-{
-    struct icaltimetype tt;
-    struct tm t;
-    time_t tm = time(&v);
-
-/* HACK Does not properly consider timezone */
-    t = *(gmtime(&tm));
-
-    tt.second = t.tm_sec;
-    tt.minute = t.tm_min;
-    tt.hour = t.tm_hour;
-    tt.day = t.tm_mday;
-    tt.month = t.tm_mon + 1;
-    tt.year = t.tm_year+ 1900;
-    
-    tt.is_utc = 1;
-    tt.is_date = date; 
-
-    return tt;
-}
 
 /* From Russel Steinthal */
 time_t icaldurationtype_as_timet(struct icaldurationtype dur)
@@ -210,7 +187,7 @@ struct icaldurationtype icaldurationtype_from_timet(time_t t)
  
         return dur;
 }
-                             
+
 void icalrecurrencetype_clear(struct icalrecurrencetype *recur)
 {
     memset(recur,ICAL_RECURRENCE_ARRAY_MAX_BYTE,
@@ -218,16 +195,34 @@ void icalrecurrencetype_clear(struct icalrecurrencetype *recur)
 
     recur->week_start = ICAL_NO_WEEKDAY;
     recur->freq = ICAL_NO_RECURRENCE;
-    recur->interval = 0;
-    recur->until.year = 0;
+    recur->interval = 1;
+    memset(&(recur->until),0,sizeof(struct icaltimetype));
     recur->count = 0;
+}
+
+/* The 'day' element of icalrecurrencetype_weekday is encoded to allow
+reporesentation of both the day of the week ( Monday, Tueday), but
+also the Nth day of the week ( First tuesday of the month, last
+thursday of the year) These routines decode the day values. 
+
+The day's position in the period ( Nth-ness) and the numerical value
+of the day are encoded together as: pos*7 + dow
+ */
+
+enum icalrecurrencetype_weekday icalrecurrencetype_day_day_of_week(short day)
+{
+    return abs(day)%8;
+}
+
+short icalrecurrencetype_day_position(short day)
+{
+    return (day-icalrecurrencetype_day_day_of_week(day))/8;
 }
 
 
 struct icalreqstattype icalreqstattype_from_string(char* str)
 {
   char *p1,*p2;
-  size_t len; 
   struct icalreqstattype stat;
   int major, minor;
 
@@ -235,7 +230,6 @@ struct icalreqstattype icalreqstattype_from_string(char* str)
 
   stat.code = ICAL_UNKNOWN_STATUS;
   stat.debug = 0; 
-
    stat.desc = 0;
 
   /* Get the status numbers */
@@ -278,7 +272,6 @@ struct icalreqstattype icalreqstattype_from_string(char* str)
 
 char* icalreqstattype_as_string(struct icalreqstattype stat)
 {
-  char format[20];
   char *temp;
 
   temp = (char*)icalmemory_tmp_buffer(TEMP_MAX);

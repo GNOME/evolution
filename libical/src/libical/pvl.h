@@ -3,27 +3,9 @@
  CREATOR: eric November, 1995
 
 
-  (C) COPYRIGHT 1999 Eric Busboom 
-  http://www.softwarestudio.org
-
-  The contents of this file are subject to the Mozilla Public License
-  Version 1.0 (the "License"); you may not use this file except in
-  compliance with the License. You may obtain a copy of the License at
-  http://www.mozilla.org/MPL/
- 
-  Software distributed under the License is distributed on an "AS IS"
-  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and
-  limitations under the License.
-
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 ======================================================================*/
 
-/*
-  struct pvl_elem_t
-
-  This type is private. Always use pvl_elem instead
-
-  */
 
 #ifndef __PVL_H__
 #define __PVL_H__
@@ -31,6 +13,14 @@
 typedef void* pvl_list;
 typedef void* pvl_elem;
 
+/*
+  struct pvl_elem_t
+
+  This type is private. Always use pvl_elem instead. The struct would
+  not even appear in this header except to make code in the USE_MACROS
+  blocks work
+
+  */
 typedef struct pvl_elem_t
 {
 	int MAGIC;			/* Magic Identifier */

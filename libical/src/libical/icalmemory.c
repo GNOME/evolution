@@ -16,12 +16,34 @@
  the License for the specific language governing rights and
  limitations under the License.
  
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
+
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
  The Original Code is icalmemory.h
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
+
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
  The Initial Developer of the Original Code is Eric Busboom
 
- (C) COPYRIGHT 1999 The Software Studio. 
- http://www.softwarestudio.org
-
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
  ======================================================================*/
 
 /* libical often passes strings back to the caller. To make these
@@ -41,6 +63,9 @@
 #include "config.h"
 #endif
 
+#ifdef DMALLOC
+#include "dmalloc.h"
+#endif
 
 #include "icalmemory.h"
 #include "icalerror.h"
@@ -52,18 +77,16 @@
 #define BUFFER_RING_SIZE 25
 #define MIN_BUFFER_SIZE 200
 
-void* buffer_ring[BUFFER_RING_SIZE+1];
-int buffer_pos = 0;
+/* HACK. Not threadsafe */
+void* buffer_ring[BUFFER_RING_SIZE];
+int buffer_pos = -1;
 int initialized = 0;
 
-/* Create a new temporary buffer on the ring. Libical owns these and wil deallocate them. */
-void*
-icalmemory_tmp_buffer (size_t size)
+/* Add an existing buffer to the buffer ring */
+void  icalmemory_add_tmp_buffer(void* buf)
 {
-    void *rtrn; 
     /* I don't think I need this -- I think static arrays are
        initialized to 0 as a standard part of C, but I am not sure. */
-
     if (initialized == 0){
 	int i;
 	for(i=0; i<BUFFER_RING_SIZE; i++){
@@ -71,30 +94,45 @@ icalmemory_tmp_buffer (size_t size)
 	}
 	initialized = 1;
     }
-    
-    /* Ideally, this routine would re-use an existing buffer if it is
-       larger than the requested buffer. Maybe later.... */
+
+    /* Wrap around the ring */
+    if(++buffer_pos == BUFFER_RING_SIZE){
+	buffer_pos = 0;
+    }
+
+    /* Free buffers as their slots are overwritten */
+    if ( buffer_ring[buffer_pos] != 0){
+	free( buffer_ring[buffer_pos]);
+	buffer_ring[buffer_pos] = 0;
+    }
+
+    /* Assign the buffer to a slot */
+    buffer_ring[buffer_pos] = buf; 
+}
+
+/* Create a new temporary buffer on the ring. Libical owns these and
+   wil deallocate them. */
+void*
+icalmemory_tmp_buffer (size_t size)
+{
+    char *buf;
 
     if (size < MIN_BUFFER_SIZE){
 	size = MIN_BUFFER_SIZE;
     }
     
-    if ( buffer_ring[buffer_pos] != 0){
-      /*sprintf(buffer_ring[buffer_pos], "***DEALLOCATED MEMORY***: %d",buffer_pos);*/
-	free( buffer_ring[buffer_pos]);
-	buffer_ring[buffer_pos] = 0;
+    buf = (void*)malloc(size);
+
+    if( buf == 0){
+	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+	return 0;
     }
 
+    memset(buf,0,size); 
 
-    rtrn = buffer_ring[buffer_pos] = (void*)malloc(size);
+    icalmemory_add_tmp_buffer(buf);
 
-    memset(rtrn,0,size); 
-
-    if(++buffer_pos > BUFFER_RING_SIZE){
-	buffer_pos = 0;
-    }
-
-    return rtrn;
+    return buf;
 }
 
 void icalmemory_free_ring()
@@ -112,6 +150,8 @@ void icalmemory_free_ring()
 
 }
 
+
+
 /* Like strdup, but the buffer is on the ring. */
 char*
 icalmemory_tmp_copy(char* str)
@@ -124,6 +164,10 @@ icalmemory_tmp_copy(char* str)
 }
     
 
+char* icalmemory_strdup(const char *s)
+{
+    return strdup(s);
+}
 
 void
 icalmemory_free_tmp_buffer (void* buf)
@@ -137,12 +181,17 @@ icalmemory_free_tmp_buffer (void* buf)
 }
 
 
-/* These buffer routines create memory the old fashioned way -- so the caller will have to delocate the new memory */
+/* These buffer routines create memory the old fashioned way -- so the
+   caller will have to delocate the new memory */
 
 void* icalmemory_new_buffer(size_t size)
 {
-    /* HACK. need to handle out of memory case */
     void *b = malloc(size);
+
+    if( b == 0){
+	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+	return 0;
+    }
 
     memset(b,0,size); 
 
@@ -151,9 +200,14 @@ void* icalmemory_new_buffer(size_t size)
 
 void* icalmemory_resize_buffer(void* buf, size_t size)
 {
-    /* HACK. need to handle out of memory case */
+    void *b = realloc(buf, size);
 
-    return realloc(buf, size);
+    if( b == 0){
+	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+	return 0;
+    }
+
+   return b;
 }
 
 void icalmemory_free_buffer(void* buf)
@@ -240,5 +294,5 @@ icalmemory_append_char(char** buf, char** pos, size_t* buf_size,
 
     **pos = ch;
     *pos += 1;
-    
+    **pos = 0;
 }

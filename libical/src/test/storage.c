@@ -34,14 +34,13 @@
 #include <stdio.h> /* for printf */
 #include <time.h> /* for time() */
 #include "icalmemory.h"
-#include "icalstore.h"
-#include "icalcluster.h"
+#include "icaldirset.h"
+#include "icalfileset.h"
 #include "icalerror.h"
 #include "icalrestriction.h"
 #include "icalcalendar.h"
 
-/* This example creates and minipulates the ical object that appears
- * in rfc 2445, page 137 */
+#define OUTPUT_FILE "filesetout.ics"
 
 char str[] = "BEGIN:VCALENDAR\n\
 PRODID:\"-//RDU Software//NONSGML HandCal//EN\"\n\
@@ -106,29 +105,31 @@ END:VCALENDAR\n\
 ";
 
 
-void test_cluster()
+void test_fileset()
 {
-    icalcluster *cin, *cout;
+    icalfileset *cout;
     int month = 0;
     int count=0;
     struct icaltimetype start, end;
     icalcomponent *c,*clone, *itr;
 
-    start = icaltimetype_from_timet( time(0),0);
+    start = icaltime_from_timet( time(0),0,0);
     end = start;
     end.hour++;
 
-    cout = icalcluster_new("clusterout.ics");
+    cout = icalfileset_new(OUTPUT_FILE);
     assert(cout != 0);
 
     c = icalparser_parse_string(str2);
     assert(c != 0);
 
-    for(month = 1; month < 2; month++){
+    /* Add data to the file */
+
+    for(month = 1; month < 10; month++){
 	icalcomponent *event;
 	icalproperty *dtstart, *dtend;
 
-        cout = icalcluster_new("clusterout.ics");
+        cout = icalfileset_new(OUTPUT_FILE);
         assert(cout != 0);
 
 	start.month = month; 
@@ -147,10 +148,10 @@ void test_cluster()
 	assert(dtend!=0);
 	icalproperty_set_dtend(dtend,end);
 	
-	icalcluster_add_component(cout,clone);
-	icalcluster_commit(cout);
+	icalfileset_add_component(cout,clone);
+	icalfileset_commit(cout);
 
-        icalcluster_free(cout);
+        icalfileset_free(cout);
 
     }
 
@@ -158,13 +159,13 @@ void test_cluster()
     /* Print them out */
 
 
-    cout = icalcluster_new("clusterout.ics");
+    cout = icalfileset_new(OUTPUT_FILE);
     assert(cout != 0);
     
-    for (itr = icalcluster_get_first_component(cout,
+    for (itr = icalfileset_get_first_component(cout,
                                                ICAL_ANY_COMPONENT);
          itr != 0;
-         itr = icalcluster_get_next_component(cout,
+         itr = icalfileset_get_next_component(cout,
                                               ICAL_ANY_COMPONENT)){ 
 
       icalcomponent *event;
@@ -184,34 +185,34 @@ void test_cluster()
 
     /* Remove all of them */
 
-    icalcluster_free(cout);
+    icalfileset_free(cout);
 
-    cout = icalcluster_new("clusterout.ics");
+    cout = icalfileset_new(OUTPUT_FILE);
     assert(cout != 0);
     
-    for (itr = icalcluster_get_first_component(cout,
+    for (itr = icalfileset_get_first_component(cout,
                                                ICAL_ANY_COMPONENT);
          itr != 0;
-         itr = icalcluster_get_next_component(cout,
+         itr = icalfileset_get_next_component(cout,
                                               ICAL_ANY_COMPONENT)){ 
 
 
-      icalcluster_remove_component(cout, itr);
+      icalfileset_remove_component(cout, itr);
     }
 
-    icalcluster_free(cout);
+    icalfileset_free(cout);
 
 
     /* Print them out again */
 
-    cout = icalcluster_new("clusterout.ics");
+    cout = icalfileset_new(OUTPUT_FILE);
     assert(cout != 0);
     count =0;
     
-    for (itr = icalcluster_get_first_component(cout,
+    for (itr = icalfileset_get_first_component(cout,
                                                ICAL_ANY_COMPONENT);
          itr != 0;
-         itr = icalcluster_get_next_component(cout,
+         itr = icalfileset_get_next_component(cout,
                                               ICAL_ANY_COMPONENT)){ 
 
       icalcomponent *event;
@@ -229,29 +230,29 @@ void test_cluster()
 
     }
 
-    icalcluster_free(cout);
+    icalfileset_free(cout);
 
 
 }
 
 
 
-int test_store()
+int test_dirset()
 {
 
     icalcomponent *c, *gauge;
     icalerrorenum error;
-    icalcomponent *next, *itr;
-    icalcluster* cluster;
+    icalcomponent *itr;
+    icalfileset* cluster;
     struct icalperiodtype rtime;
-    icalstore *s = icalstore_new("store");
+    icaldirset *s = icaldirset_new("store");
     int i;
 
     assert(s != 0);
 
-    rtime.start = icaltimetype_from_timet( time(0),0);
+    rtime.start = icaltime_from_timet( time(0),0,0);
 
-    cluster = icalcluster_new("clusterout.ics");
+    cluster = icalfileset_new(OUTPUT_FILE);
 
     assert(cluster != 0);
 
@@ -268,10 +269,10 @@ int test_store()
 	rtime.end = rtime.start;
 	rtime.end.hour++;
 	
-	for (itr = icalcluster_get_first_component(cluster,
+	for (itr = icalfileset_get_first_component(cluster,
 						   ICAL_ANY_COMPONENT);
 	     itr != 0;
-	     itr = icalcluster_get_next_component(cluster,
+	     itr = icalfileset_get_next_component(cluster,
 						  ICAL_ANY_COMPONENT)){
 	    icalcomponent *clone, *inner;
 	    icalproperty *p;
@@ -316,7 +317,8 @@ int test_store()
 	    
 	    printf("\n----------\n%s\n---------\n",icalcomponent_as_ical_string(inner));
 
-	    error = icalstore_add_component(s,inner);
+	    error = icaldirset_add_component(s,
+					     icalcomponent_new_clone(itr));
 	    
 	    assert(icalerrno  == ICAL_NO_ERROR);
 
@@ -346,15 +348,15 @@ int test_store()
 #if 0
 
 
-    icalstore_select(s,gauge);
+    icaldirset_select(s,gauge);
 
-    for(c = icalstore_first(s); c != 0; c = icalstore_next(s)){
+    for(c = icaldirset_first(s); c != 0; c = icaldirset_next(s)){
 	
 	printf("Got one! (%d)\n", count++);
 	
 	if (c != 0){
 	    printf("%s", icalcomponent_as_ical_string(c));;
-	    if (icalstore_store(s2,c) == 0){
+	    if (icaldirset_store(s2,c) == 0){
 		printf("Failed to write!\n");
 	    }
 	    icalcomponent_free(c);
@@ -364,38 +366,43 @@ int test_store()
     }
 
 
-    icalstore_free(s2);
+    icaldirset_free(s2);
 #endif
 
 
-    for(c = icalstore_get_first_component(s); 
+    for(c = icaldirset_get_first_component(s,ICAL_ANY_COMPONENT); 
 	c != 0; 
-	c =  next){
-	
-	next = icalstore_get_next_component(s);
+	c = icaldirset_get_next_component(s,ICAL_ANY_COMPONENT)){
 
 	if (c != 0){
-	    /*icalstore_remove_component(s,c);*/
 	    printf("%s", icalcomponent_as_ical_string(c));;
 	} else {
 	    printf("Failed to get component\n");
 	}
 
-
     }
 
-    icalstore_free(s);
+    /* Remove all of the components */
+    i=0;
+    while((c=icaldirset_get_current_component(s)) != 0 ){
+	i++;
+
+	icaldirset_remove_component(s,c);
+    }
+	
+
+    icaldirset_free(s);
     return 0;
 }
 
 void test_calendar()
 {
     icalcomponent *comp;
-    icalcluster *c;
-    icalstore *s;
+    icalfileset *c;
+    icaldirset *s;
     icalcalendar* calendar = icalcalendar_new("calendar");
     icalerrorenum error;
-    struct icaltimetype atime = icaltimetype_from_timet( time(0),0);
+    struct icaltimetype atime = icaltime_from_timet( time(0),0,0);
 
     comp = icalcomponent_vanew(
 	ICAL_VEVENT_COMPONENT,
@@ -419,13 +426,13 @@ void test_calendar()
 	
     s = icalcalendar_get_booked(calendar);
 
-    error = icalstore_add_component(s,comp);
+    error = icaldirset_add_component(s,comp);
     
     assert(error == ICAL_NO_ERROR);
 
     c = icalcalendar_get_properties(calendar);
 
-    error = icalcluster_add_component(c,icalcomponent_new_clone(comp));
+    error = icalfileset_add_component(c,icalcomponent_new_clone(comp));
 
     assert(error == ICAL_NO_ERROR);
 
@@ -437,15 +444,13 @@ void test_calendar()
 int main(int argc, char *argv[])
 {
 
+/*    printf("\n------------Test File Set---------------\n");
+      test_fileset(); */
 
-    printf("\n------------Test Cluster---------------\n");
-    test_cluster();
+    printf("\n------------Test Dir Set---------------\n");
+    test_dirset();
 
 #if 0    
-
-    printf("\n------------Test Store---------------\n");
-    test_store();
-
 
 
     printf("\n------------Test Calendar---------------\n");

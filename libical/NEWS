@@ -1,3 +1,49 @@
+Version 0.19 6 August 00 (cvs tag libical-0-19)
+-----------------------------------------------
+
+Created a MIME parser in icalmime.c. This will take any complex MIME
+encapsulated message and return an icalcomponent with the same
+structure. Each MIME part is represented by a component of type
+X-LIC-MIMEPART.
+
+Added MIME partsing to stow.c
+
+Added external iterators to icalcomponent. See test_iterators() in
+test/regression.c
+
+Refactored icalcluster and icalstore into icalset, icalfileset and
+icaldirset, which have a pseudo inheritance relationship between them.
+
+Fixed more memory leaks. 
+
+Version 0.18a 10 June 00 ( cvs tag libical-0-18a )
+-----------------------------------------------
+
+Did the final tweaks to stow.c, a program to recieve and store iMIP
+messages.
+
+
+Version 0.18 10 June 00 ( cvs tag libical-0-18 )
+-----------------------------------------------
+
+Added libicalvcal, which includes the Versit code for parsing vCal
+files and a routine (icalvcal_convert() ) that converts a vCal object
+to an iCal object. The test program is src/test/testvcal.
+
+Added marginally functional recurrence code. The curent code does not
+handle all of the examples in rfc2445 ( which are extracted in
+test-data/recur.txt ) but it can do all of the obvious cases. See the
+test program in src/test/recur.c for an example. In particular, the
+code cannot handle the integer values in BYDAY, nor negative integers
+in BYMONTH or BYMONTHDAY. It also cannot handle BYSETPOS.
+
+Moved some code to the examples directory and improved the comments. 
+
+Did a little more work on the documentation in the doc directory. The
+documentation is in LyX source, but there is a text version in
+UsingLibical.txt
+
+
 Version 0.17 15 May 00  (cvs tag libical-0-17 ) 
 ---------------------------------------------
 
@@ -5,7 +51,7 @@ Fixed two bugs that added extraneous '/' to test values
 
 Fixed type in internal string for the COUNTER method
 
-Eliminated a mempry leak in icalparser.c
+Eliminated a memory leak in icalparser.c
 
 
 Version 0.16a 29 April 00

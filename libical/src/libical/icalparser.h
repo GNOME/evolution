@@ -6,20 +6,19 @@
   $Id$
 
 
-  (C) COPYRIGHT 1999 Eric Busboom 
-  http://www.softwarestudio.org
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
-  The contents of this file are subject to the Mozilla Public License
-  Version 1.0 (the "License"); you may not use this file except in
-  compliance with the License. You may obtain a copy of the License at
-  http://www.mozilla.org/MPL/
- 
-  Software distributed under the License is distributed on an "AS IS"
-  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and
-  limitations under the License.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
 
-  The original author is Eric Busboom
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
   The original code is icalparser.h
 
 ======================================================================*/
@@ -32,6 +31,16 @@
 #include <stdio.h> /* For FILE* */
 
 typedef void* icalparser;
+
+
+/***********************************************************************
+ * Line-oriented parsing. 
+ * 
+ * Create a new parser via icalparse_new_parser, then add ines one at
+ * a time with icalparse_add_line(). icalparser_add_line() will return
+ * non-zero when it has finished with a component.
+ ***********************************************************************/
+
 typedef enum icalparser_state {
     ICALPARSER_ERROR,
     ICALPARSER_SUCCESS,
@@ -39,6 +48,13 @@ typedef enum icalparser_state {
     ICALPARSER_END_COMP,
     ICALPARSER_IN_PROGRESS
 } icalparser_state;
+
+icalparser* icalparser_new();
+icalcomponent* icalparser_add_line(icalparser* parser, char* str );
+icalcomponent* icalparser_claim(icalparser* parser);
+icalcomponent* icalparser_clean(icalparser* parser);
+icalparser_state icalparser_get_state(icalparser* parser);
+void icalparser_free(icalparser* parser);
 
 
 /***********************************************************************
@@ -51,25 +67,13 @@ typedef enum icalparser_state {
 icalcomponent* icalparser_parse(icalparser *parser,
 				char* (*line_gen_func)(char *s, size_t size, void *d));
 
-/* A simple, and incorrect interface - can only return one component*/
+/* Set the data that icalparser_parse will give to the line_gen_func
+   as the parameter 'd'*/
+void icalparser_set_gen_data(icalparser* parser, void* data);
+
+
 icalcomponent* icalparser_parse_string(char* str);
 
-
-/***********************************************************************
- * Line-oriented parsing. 
- * 
- * Create a new parser via icalparse_new_parser, then add ines one at
- * a time with icalparse_add_line(). icalparser_add_line() will return
- * non-zero when it has finished with a component.
- ***********************************************************************/
-
-icalparser* icalparser_new();
-void icalparser_set_gen_data(icalparser* parser, void* data);
-icalcomponent* icalparser_add_line(icalparser* parser, char* str );
-icalcomponent* icalparser_claim(icalparser* parser);
-icalcomponent* icalparser_clean(icalparser* parser);
-icalparser_state icalparser_get_state(icalparser* parser);
-void icalparser_free(icalparser* parser);
 
 /***********************************************************************
  * Parser support functions
@@ -81,14 +85,6 @@ icalvalue*  icalparser_parse_value(icalvalue_kind kind, char* str, icalcomponent
 /* Given a line generator function, return a single iCal content line.*/
 char* icalparser_get_line(icalparser* parser, char* (*line_gen_func)(char *s, size_t size, void *d));
 
-
-/* a line_gen_function that returns lines from a string. To use it,
-   set string_line_generator_str to point to the input string, and set
-   string_line_generator_pos to 0. These globals make the routine not
-   thead-safe.  */
-
-extern char* string_line_generator_str;
-extern char* string_line_generator_pos;
 char* string_line_generator(char *out, size_t buf_size, void *d);
 
 #endif /* !ICALPARSE_H */

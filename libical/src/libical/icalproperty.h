@@ -5,20 +5,7 @@
   
   $Id$
     
-  (C) COPYRIGHT 1999 Eric Busboom 
-  http://www.softwarestudio.org
-
-  The contents of this file are subject to the Mozilla Public License
-  Version 1.0 (the "License"); you may not use this file except in
-  compliance with the License. You may obtain a copy of the License at
-  http://www.mozilla.org/MPL/
- 
-  Software distributed under the License is distributed on an "AS IS"
-  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and
-  limitations under the License.
- 
-
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
  ======================================================================*/
 
 
@@ -63,7 +50,6 @@ icalvalue* icalproperty_get_value(icalproperty* prop);
 void icalproperty_set_x_name(icalproperty* prop, char* name);
 char* icalproperty_get_x_name(icalproperty* prop);
 
-
 /* Everything below this line is machine generated. Do not edit. */
 
 /* METHOD */
@@ -71,6 +57,12 @@ icalproperty* icalproperty_new_method(icalproperty_method v);
 icalproperty* icalproperty_vanew_method(icalproperty_method v, ...);
 void icalproperty_set_method(icalproperty* prop, icalproperty_method v);
 icalproperty_method icalproperty_get_method(icalproperty* prop);
+
+/* X-LIC-MIMECID */
+icalproperty* icalproperty_new_xlicmimecid(char* v);
+icalproperty* icalproperty_vanew_xlicmimecid(char* v, ...);
+void icalproperty_set_xlicmimecid(icalproperty* prop, char* v);
+char* icalproperty_get_xlicmimecid(icalproperty* prop);
 
 /* LAST-MODIFIED */
 icalproperty* icalproperty_new_lastmodified(struct icaltimetype v);
@@ -144,6 +136,18 @@ icalproperty* icalproperty_vanew_contact(char* v, ...);
 void icalproperty_set_contact(icalproperty* prop, char* v);
 char* icalproperty_get_contact(icalproperty* prop);
 
+/* X-LIC-MIMECONTENTTYPE */
+icalproperty* icalproperty_new_xlicmimecontenttype(char* v);
+icalproperty* icalproperty_vanew_xlicmimecontenttype(char* v, ...);
+void icalproperty_set_xlicmimecontenttype(icalproperty* prop, char* v);
+char* icalproperty_get_xlicmimecontenttype(icalproperty* prop);
+
+/* X-LIC-MIMEOPTINFO */
+icalproperty* icalproperty_new_xlicmimeoptinfo(char* v);
+icalproperty* icalproperty_vanew_xlicmimeoptinfo(char* v, ...);
+void icalproperty_set_xlicmimeoptinfo(icalproperty* prop, char* v);
+char* icalproperty_get_xlicmimeoptinfo(icalproperty* prop);
+
 /* RELATED-TO */
 icalproperty* icalproperty_new_relatedto(char* v);
 icalproperty* icalproperty_vanew_relatedto(char* v, ...);
@@ -162,23 +166,29 @@ icalproperty* icalproperty_vanew_comment(char* v, ...);
 void icalproperty_set_comment(icalproperty* prop, char* v);
 char* icalproperty_get_comment(icalproperty* prop);
 
-/* TRIGGER */
-icalproperty* icalproperty_new_trigger(union icaltriggertype v);
-icalproperty* icalproperty_vanew_trigger(union icaltriggertype v, ...);
-void icalproperty_set_trigger(icalproperty* prop, union icaltriggertype v);
-union icaltriggertype icalproperty_get_trigger(icalproperty* prop);
-
 /* X-LIC-ERROR */
 icalproperty* icalproperty_new_xlicerror(char* v);
 icalproperty* icalproperty_vanew_xlicerror(char* v, ...);
 void icalproperty_set_xlicerror(icalproperty* prop, char* v);
 char* icalproperty_get_xlicerror(icalproperty* prop);
 
+/* TRIGGER */
+icalproperty* icalproperty_new_trigger(union icaltriggertype v);
+icalproperty* icalproperty_vanew_trigger(union icaltriggertype v, ...);
+void icalproperty_set_trigger(icalproperty* prop, union icaltriggertype v);
+union icaltriggertype icalproperty_get_trigger(icalproperty* prop);
+
 /* CLASS */
 icalproperty* icalproperty_new_class(char* v);
 icalproperty* icalproperty_vanew_class(char* v, ...);
 void icalproperty_set_class(icalproperty* prop, char* v);
 char* icalproperty_get_class(icalproperty* prop);
+
+/* X */
+icalproperty* icalproperty_new_x(char* v);
+icalproperty* icalproperty_vanew_x(char* v, ...);
+void icalproperty_set_x(icalproperty* prop, char* v);
+char* icalproperty_get_x(icalproperty* prop);
 
 /* TZOFFSETTO */
 icalproperty* icalproperty_new_tzoffsetto(int v);
@@ -191,6 +201,12 @@ icalproperty* icalproperty_new_transp(char* v);
 icalproperty* icalproperty_vanew_transp(char* v, ...);
 void icalproperty_set_transp(icalproperty* prop, char* v);
 char* icalproperty_get_transp(icalproperty* prop);
+
+/* X-LIC-MIMEENCODING */
+icalproperty* icalproperty_new_xlicmimeencoding(char* v);
+icalproperty* icalproperty_vanew_xlicmimeencoding(char* v, ...);
+void icalproperty_set_xlicmimeencoding(icalproperty* prop, char* v);
+char* icalproperty_get_xlicmimeencoding(icalproperty* prop);
 
 /* SEQUENCE */
 icalproperty* icalproperty_new_sequence(int v);
@@ -288,23 +304,29 @@ icalproperty* icalproperty_vanew_rdate(struct icalperiodtype v, ...);
 void icalproperty_set_rdate(icalproperty* prop, struct icalperiodtype v);
 struct icalperiodtype icalproperty_get_rdate(icalproperty* prop);
 
+/* X-LIC-MIMEFILENAME */
+icalproperty* icalproperty_new_xlicmimefilename(char* v);
+icalproperty* icalproperty_vanew_xlicmimefilename(char* v, ...);
+void icalproperty_set_xlicmimefilename(icalproperty* prop, char* v);
+char* icalproperty_get_xlicmimefilename(icalproperty* prop);
+
 /* URL */
 icalproperty* icalproperty_new_url(char* v);
 icalproperty* icalproperty_vanew_url(char* v, ...);
 void icalproperty_set_url(icalproperty* prop, char* v);
 char* icalproperty_get_url(icalproperty* prop);
 
-/* ATTACH */
-icalproperty* icalproperty_new_attach(struct icalattachtype v);
-icalproperty* icalproperty_vanew_attach(struct icalattachtype v, ...);
-void icalproperty_set_attach(icalproperty* prop, struct icalattachtype v);
-struct icalattachtype icalproperty_get_attach(icalproperty* prop);
-
 /* X-LIC-CLUSTERCOUNT */
 icalproperty* icalproperty_new_xlicclustercount(int v);
 icalproperty* icalproperty_vanew_xlicclustercount(int v, ...);
 void icalproperty_set_xlicclustercount(icalproperty* prop, int v);
 int icalproperty_get_xlicclustercount(icalproperty* prop);
+
+/* ATTACH */
+icalproperty* icalproperty_new_attach(struct icalattachtype v);
+icalproperty* icalproperty_vanew_attach(struct icalattachtype v, ...);
+void icalproperty_set_attach(icalproperty* prop, struct icalattachtype v);
+struct icalattachtype icalproperty_get_attach(icalproperty* prop);
 
 /* EXRULE */
 icalproperty* icalproperty_new_exrule(struct icalrecurrencetype v);
@@ -341,6 +363,12 @@ icalproperty* icalproperty_new_geo(struct icalgeotype v);
 icalproperty* icalproperty_vanew_geo(struct icalgeotype v, ...);
 void icalproperty_set_geo(icalproperty* prop, struct icalgeotype v);
 struct icalgeotype icalproperty_get_geo(icalproperty* prop);
+
+/* X-LIC-MIMECHARSET */
+icalproperty* icalproperty_new_xlicmimecharset(char* v);
+icalproperty* icalproperty_vanew_xlicmimecharset(char* v, ...);
+void icalproperty_set_xlicmimecharset(icalproperty* prop, char* v);
+char* icalproperty_get_xlicmimecharset(icalproperty* prop);
 
 /* COMPLETED */
 icalproperty* icalproperty_new_completed(struct icaltimetype v);

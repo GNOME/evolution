@@ -7,20 +7,19 @@
   $Locker$
     
 
-  (C) COPYRIGHT 1999 Eric Busboom 
-  http://www.softwarestudio.org
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
-  The contents of this file are subject to the Mozilla Public License
-  Version 1.0 (the "License"); you may not use this file except in
-  compliance with the License. You may obtain a copy of the License at
-  http://www.mozilla.org/MPL/
- 
-  Software distributed under the License is distributed on an "AS IS"
-  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and
-  limitations under the License.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
 
-  The original author is Eric Busboom
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
   The original code is icalderivedparameters.{c,h}
 
   Contributions from:
@@ -114,7 +113,7 @@ icalparameter_new_clone(icalparameter* param)
     memcpy(new,old,sizeof(struct icalparameter_impl));
 
     if (old->string != 0){
-	new->string = strdup(old->string);
+	new->string = icalmemory_strdup(old->string);
 	if (new->string == 0){
 	    icalparameter_free(new);
 	    return 0;
@@ -122,7 +121,7 @@ icalparameter_new_clone(icalparameter* param)
     }
 
     if (old->x_name != 0){
-	new->x_name = strdup(old->x_name);
+	new->x_name = icalmemory_strdup(old->x_name);
 	if (new->x_name == 0){
 	    icalparameter_free(new);
 	    return 0;
@@ -131,6 +130,116 @@ icalparameter_new_clone(icalparameter* param)
 
     return new;
 }
+
+#if 0
+
+struct param_string_map {
+	icalparameter_kind kind;
+	int val; /* Actually, union of several types of enums */
+	char* str;
+} param_string_map[] =
+{
+    {ICAL_CUTYPE_PARAMETER,ICAL_CUTYPE_INDIVIDUAL,"INDIVIDUAL"},
+    {ICAL_CUTYPE_PARAMETER,ICAL_CUTYPE_GROUP,"GROUP"},
+    {ICAL_CUTYPE_PARAMETER,ICAL_CUTYPE_RESOURCE,"RESOURCE"},
+    {ICAL_CUTYPE_PARAMETER,ICAL_CUTYPE_ROOM,"ROOM"},
+    {ICAL_CUTYPE_PARAMETER,ICAL_CUTYPE_UNKNOWN,"UNKNOWN"},
+    {ICAL_FBTYPE_PARAMETER,ICAL_FBTYPE_FREE,"FREE"},
+    {ICAL_FBTYPE_PARAMETER,ICAL_FBTYPE_BUSY,"BUSY"},
+    {ICAL_FBTYPE_PARAMETER,ICAL_FBTYPE_BUSYUNAVAILABLE,"BUSYUNAVAILABLE"},
+    {ICAL_FBTYPE_PARAMETER,ICAL_FBTYPE_BUSYTENTATIVE,"BUSYTENTATIVE"},
+    {ICAL_PARTSTAT_PARAMETER,ICAL_PARTSTAT_NEEDSACTION,"NEEDSACTION"},
+    {ICAL_PARTSTAT_PARAMETER,ICAL_PARTSTAT_ACCEPTED,"ACCEPTED"},
+    {ICAL_PARTSTAT_PARAMETER,ICAL_PARTSTAT_DECLINED,"DECLINED"},
+    {ICAL_PARTSTAT_PARAMETER,ICAL_PARTSTAT_TENTATIVE,"TENTATIVE"},
+    {ICAL_PARTSTAT_PARAMETER,ICAL_PARTSTAT_DELEGATED,"DELEGATED"},
+    {ICAL_PARTSTAT_PARAMETER,ICAL_PARTSTAT_COMPLETED,"COMPLETED"},
+    {ICAL_PARTSTAT_PARAMETER,ICAL_PARTSTAT_INPROCESS,"INPROCESS"},
+    {ICAL_RANGE_PARAMETER,ICAL_RANGE_THISANDPRIOR,"THISANDPRIOR"},
+    {ICAL_RANGE_PARAMETER,ICAL_RANGE_THISANDFUTURE,"THISANDFUTURE"},
+    {ICAL_RELATED_PARAMETER,ICAL_RELATED_START,"START"},
+    {ICAL_RELATED_PARAMETER,ICAL_RELATED_END,"END"},
+    {ICAL_RELTYPE_PARAMETER,ICAL_RELTYPE_PARENT,"PARENT"},
+    {ICAL_RELTYPE_PARAMETER,ICAL_RELTYPE_CHILD,"CHILD"},
+    {ICAL_RELTYPE_PARAMETER,ICAL_RELTYPE_SIBLING,"SIBLING"},
+    {ICAL_ROLE_PARAMETER,ICAL_ROLE_CHAIR,"CHAIR"},
+    {ICAL_RSVP_PARAMETER,ICAL_RSVP_PARAMETER,"TRUE"},
+    {ICAL_RSVP_PARAMETER,ICAL_RSVP_PARAMETER,"FALSE"},
+    {ICAL_VALUE_PARAMETER,ICAL_VALUE_BINARY,"BINARY"},
+    {ICAL_VALUE_PARAMETER,ICAL_VALUE_BOOLEAN,"BOOLEAN"},
+    {ICAL_VALUE_PARAMETER,ICAL_VALUE_DATE,"DATE"},
+    {ICAL_VALUE_PARAMETER,ICAL_VALUE_DURATION,"DURATION"},
+    {ICAL_VALUE_PARAMETER,ICAL_VALUE_FLOAT,"FLOAT"},
+    {ICAL_VALUE_PARAMETER,ICAL_VALUE_INTEGER,"INTEGER"},
+    {ICAL_VALUE_PARAMETER,ICAL_VALUE_PERIOD,"PERIOD"},
+    {ICAL_VALUE_PARAMETER,ICAL_VALUE_RECUR,"RECUR"},
+    {ICAL_VALUE_PARAMETER,ICAL_VALUE_TEXT,"TEXT"},
+    {ICAL_VALUE_PARAMETER,ICAL_VALUE_TIME,"TIME"},
+    {ICAL_VALUE_PARAMETER,ICAL_VALUE_URI,"URI"},
+    {ICAL_VALUE_PARAMETER,ICAL_VALUE_XNAME,"ERROR"},
+    {ICAL_XLICERRORTYPE_PARAMETER,ICAL_XLICERRORTYPE_COMPONENTPARSEERROR,"COMPONENT_PARSE_ERROR"},
+    {ICAL_XLICERRORTYPE_PARAMETER,ICAL_XLICERRORTYPE_PROPERTYPARSEERROR,"PROPERTY_PARSE_ERROR"},
+    {ICAL_XLICERRORTYPE_PARAMETER,ICAL_XLICERRORTYPE_PARAMETERNAMEPARSEERROR,"PARAMETER_NAME_PARSE_ERROR"},
+    {ICAL_XLICERRORTYPE_PARAMETER,ICAL_XLICERRORTYPE_PARAMETERVALUEPARSEERROR,"PARAMETER_VALUE_PARSE_ERROR"},
+    {ICAL_XLICERRORTYPE_PARAMETER,ICAL_XLICERRORTYPE_VALUEPARSEERROR,"VALUE_PARSE_ERROR"},
+    {ICAL_XLICERRORTYPE_PARAMETER,ICAL_XLICERRORTYPE_INVALIDITIP,"INVALID_ITIP"},
+    {ICAL_XLICERRORTYPE_PARAMETER,ICAL_XLICERRORTYPE_UNKVCALPROP,"UNKNOWN_VCAL_PROP_ERROR"},
+    {ICAL_XLICERRORTYPE_PARAMETER,ICAL_XLICERRORTYPE_MIMEPARSEERROR,"MIME_PARSE_ERROR"},
+    {ICAL_XLICCOMPARETYPE_PARAMETER,ICAL_XLICCOMPARETYPE_EQUAL,"EQUAL"},
+    {ICAL_XLICCOMPARETYPE_PARAMETER,ICAL_XLICCOMPARETYPE_NOTEQUAL,"NOTEQUAL"},
+    {ICAL_XLICCOMPARETYPE_PARAMETER,ICAL_XLICCOMPARETYPE_LESS,"LESS"},
+    {ICAL_XLICCOMPARETYPE_PARAMETER,ICAL_XLICCOMPARETYPE_GREATER,"GREATER"},
+    {ICAL_XLICCOMPARETYPE_PARAMETER,ICAL_XLICCOMPARETYPE_LESSEQUAL,"LESSEQUAL"},
+    {ICAL_XLICCOMPARETYPE_PARAMETER,ICAL_XLICCOMPARETYPE_GREATEREQUAL,"GREATEREQUAL"},
+    {ICAL_XLICCOMPARETYPE_PARAMETER,ICAL_XLICCOMPARETYPE_REGEX,"REGEX"},
+    {ICAL_NO_PARAMETER,0,""},
+
+};
+
+
+icalparameter* icalparameter_new_from_string(icalparameter_kind kind, char* val)
+{
+    int i =0;
+    icalparameter* param=0;
+
+    icalerror_check_arg_rz((val!=0),"val");
+
+    switch(kind){
+	case ICAL_SENTBY_PARAMETER:
+	case ICAL_TZID_PARAMETER:
+	case ICAL_X_PARAMETER:
+	case ICAL_FMTTYPE_PARAMETER:
+	case ICAL_LANGUAGE_PARAMETER:
+	case ICAL_MEMBER_PARAMETER:
+	case ICAL_DELEGATEDFROM_PARAMETER:
+	case ICAL_DELEGATEDTO_PARAMETER:
+	case ICAL_DIR_PARAMETER:
+	case ICAL_ALTREP_PARAMETER:
+	case ICAL_CN_PARAMETER:
+	{
+	    if (impl->string == 0){ return no_parameter;}
+	    strcpy(tend,impl->string);break;
+	    break;
+	}
+
+	case ICAL_NO_PARAMETER:
+	case ICAL_ANY_PARAMETER:
+	{
+	}
+
+	default: {
+	    /* All other types are enumerated */
+	    for(i = 0; param_string_map[i].kind != ICAL_NO_PARAMETER){
+		if(kind ==  param_string_map[i].kind &&
+		   strcmp(val,param_string_map[i].str) == 0){
+		    
+		    
+		}
+	    }
+	}	    
+}
+    
+#endif
 
 
 icalparameter* icalparameter_new_from_string(icalparameter_kind kind, char* val)
@@ -426,6 +535,12 @@ icalparameter* icalparameter_new_from_string(icalparameter_kind kind, char* val)
 	    }
 	    else if(strcmp(val,"INVALID_ITIP") == 0){ 
 		param = icalparameter_new_xlicerrortype(ICAL_XLICERRORTYPE_INVALIDITIP);
+	    }
+	    else if(strcmp(val,"MIME_PARSE_ERROR") == 0){ 
+		param = icalparameter_new_xlicerrortype(ICAL_XLICERRORTYPE_MIMEPARSEERROR);
+	    }
+	    else if(strcmp(val,"UNKNOWN_VCAL_PROP_ERROR") == 0){ 
+		param = icalparameter_new_xlicerrortype(ICAL_XLICERRORTYPE_UNKVCALPROP);
 	    }
 	    break;
 	}
@@ -839,6 +954,14 @@ icalparameter_as_ical_string (icalparameter* parameter)
 		{
 		    strcpy(tend,"INVALID_ITIP");break;
 		}
+		case ICAL_XLICERRORTYPE_UNKVCALPROP:
+		{
+		    strcpy(tend,"UNKNOWN_VCAL_PROP_ERROR");break;
+		}
+		case ICAL_XLICERRORTYPE_MIMEPARSEERROR:
+		{
+		    strcpy(tend,"MIME_PARSE_ERROR");break;
+		}
 	    }
 	    break;
 	}
@@ -969,7 +1092,7 @@ icalparameter_set_xname (icalparameter* param, char* v)
 	free(impl->x_name);
     }
 
-    impl->x_name = strdup(v);
+    impl->x_name = icalmemory_strdup(v);
 
     if (impl->x_name == 0){
 	errno = ENOMEM;
@@ -998,7 +1121,7 @@ icalparameter_set_xvalue (icalparameter* param, char* v)
 	free(impl->string);
     }
 
-    impl->string = strdup(v);
+    impl->string = icalmemory_strdup(v);
 
     if (impl->string == 0){
 	errno = ENOMEM;
@@ -1071,7 +1194,7 @@ void icalparameter_set_altrep(icalparameter* param, char* v)
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
-   ((struct icalparameter_impl*)param)->string = strdup(v);
+   ((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);
 }
 
 /* CN */
@@ -1107,7 +1230,7 @@ void icalparameter_set_cn(icalparameter* param, char* v)
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
-   ((struct icalparameter_impl*)param)->string = strdup(v);
+   ((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);
 }
 
 /* CUTYPE */
@@ -1184,7 +1307,7 @@ void icalparameter_set_delegatedfrom(icalparameter* param, char* v)
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
-   ((struct icalparameter_impl*)param)->string = strdup(v);
+   ((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);
 }
 
 /* DELEGATED-TO */
@@ -1220,7 +1343,7 @@ void icalparameter_set_delegatedto(icalparameter* param, char* v)
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
-   ((struct icalparameter_impl*)param)->string = strdup(v);
+   ((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);
 }
 
 /* DIR */
@@ -1256,7 +1379,7 @@ void icalparameter_set_dir(icalparameter* param, char* v)
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
-   ((struct icalparameter_impl*)param)->string = strdup(v);
+   ((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);
 }
 
 /* ENCODING */
@@ -1374,7 +1497,7 @@ void icalparameter_set_fmttype(icalparameter* param, char* v)
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
-   ((struct icalparameter_impl*)param)->string = strdup(v);
+   ((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);
 }
 
 /* LANGUAGE */
@@ -1410,7 +1533,7 @@ void icalparameter_set_language(icalparameter* param, char* v)
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
-   ((struct icalparameter_impl*)param)->string = strdup(v);
+   ((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);
 }
 
 /* MEMBER */
@@ -1446,7 +1569,7 @@ void icalparameter_set_member(icalparameter* param, char* v)
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
-   ((struct icalparameter_impl*)param)->string = strdup(v);
+   ((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);
 }
 
 /* PARTSTAT */
@@ -1719,7 +1842,7 @@ void icalparameter_set_sentby(icalparameter* param, char* v)
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
-   ((struct icalparameter_impl*)param)->string = strdup(v);
+   ((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);
 }
 
 /* TZID */
@@ -1755,7 +1878,7 @@ void icalparameter_set_tzid(icalparameter* param, char* v)
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
-   ((struct icalparameter_impl*)param)->string = strdup(v);
+   ((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);
 }
 
 /* VALUE */
@@ -1832,7 +1955,7 @@ void icalparameter_set_x(icalparameter* param, char* v)
    icalerror_check_arg_rv( (param!=0), "param");
    icalerror_clear_errno();
    
-   ((struct icalparameter_impl*)param)->string = strdup(v);
+   ((struct icalparameter_impl*)param)->string = icalmemory_strdup(v);
 }
 
 /* X-LIC-ERRORTYPE */

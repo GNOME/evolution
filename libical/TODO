@@ -30,3 +30,7 @@ For some value types, if there illegal characters in the value ( like
 4.56 in an integer value), the parser will output the characters to
 stdout.
 
+Check all uses of strcpy and sprinf for buffer overflows
+
+Make the mime parsing code in sspm grow the list of parts as needed,
+rather than having a hard limit.

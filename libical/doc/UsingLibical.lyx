@@ -1,6 +1,5 @@
-#This file was created by <eric> Sat Feb 19 10:33:21 2000
-#LyX 1.0 (C) 1995-1999 Matthias Ettrich and the LyX Team
-\lyxformat 2.15
+#LyX 1.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 2.16
 \textclass linuxdoc
 \language default
 \inputencoding default
@@ -31,7 +30,15 @@ Using Libical
 Eric Busboom (eric@softwarestudio.org)
 \layout Date
 
-January 2000
+May 2000
+\layout Standard
+
+
+\begin_inset LatexCommand \tableofcontents{}
+
+\end_inset 
+
+
 \layout Section
 
 Introduction 
@@ -45,52 +52,9 @@ Libical is an Open Source implementation of the iCalendar protocols and
  
 \layout Standard
 
-Libical implements the following specifications and protocols
-\layout Standard
-\added_space_top 0.3cm \added_space_bottom 0.3cm \LyXTable
-multicol5
-5 2 0 0 -1 -1 -1 -1
-1 0 0 0
-1 0 0 0
-1 0 0 0
-1 0 0 0
-1 1 0 0
-8 1 0 "" ""
-8 1 1 "" ""
-0 8 1 0 0 0 0 "" ""
-0 8 1 0 0 0 0 "" ""
-0 8 1 0 0 0 0 "" ""
-0 8 1 0 0 0 0 "" ""
-0 8 1 0 0 0 0 "" ""
-0 8 1 0 0 0 0 "" ""
-0 8 1 0 0 0 0 "" ""
-0 8 1 0 0 0 0 "" ""
-0 8 1 0 0 0 0 "" ""
-0 8 1 0 0 0 0 "" ""
-
-iCal Core
-\newline 
-2445
-\newline 
-iTIP
-\newline 
-2446
-\newline 
-iMIP
-\newline 
-2447
-\newline 
-iRIP
-\newline 
-draft
-\newline 
-CAP
-\newline 
-draft
-\layout Standard
-
-(The current version, 0.15, does not implement iRip or CAP.
- ) 
+Libical implements RFC2445 and RFC2446.
+ Eventually, it will also implement iRIP and CAP.
+ 
 \layout Standard
 
 This documentation assumes that you are familiar with the iCalendar standards
@@ -140,13 +104,29 @@ This dual license ensures that the library can be incorporated into both
  dual-licensed.
 \layout Subsection
 
-Purpose & Goals 
-\layout Subsection
+Example Code
+\layout Standard
 
-Document version
-\layout Verbatim
+A lot of the documentation for this library is in the form of example code.
+ These examples are in the 
+\begin_inset Quotes eld
+\end_inset 
 
-$Id: UsingLibical.lyx,v 1.1.1.2 2000/05/15 04:24:18 ericb Exp $
+examples
+\begin_inset Quotes erd
+\end_inset 
+
+ directory of the distribution.
+ Also look in 
+\begin_inset Quotes eld
+\end_inset 
+
+src/test
+\begin_inset Quotes erd
+\end_inset 
+
+ for more annotated examples.
+ 
 \layout Section
 
 Building the Library
@@ -214,65 +194,51 @@ n of Components, Properties, Parameters an Values, and to allow the user
  to manipulate the data in various ways 
 \layout Standard
 \added_space_bottom 0.3cm 
-\begin_float fig 
-\layout Standard
-
-
-\begin_inset Figure size 180 147
-file icaluml.eps
-flags 13
-
-\end_inset 
-
-
-\end_float 
-When a component is send across a network, if it is un-encrypted, it will
+When a component is sent across a network, if it is un-encrypted, it will
  look something like:
-\layout Code
+\layout Verbatim
 
 BEGIN:VEVENT 
-\layout Code
+\layout Verbatim
 
 DTSTAMP:19980309T231000Z 
-\layout Code
+\layout Verbatim
 
 UID:guid-1.host1.com 
-\layout Code
+\layout Verbatim
 
 ORGANIZER;ROLE=CHAIR:MAILTO:mrbig@host.com 
-\layout Code
+\layout Verbatim
 
 ATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;CUTYPE=GROUP: 
-\layout Code
+\layout Verbatim
 
-
-\protected_separator 
- MAILTO:employee-A@host.com 
-\layout Code
+  MAILTO:employee-A@host.com 
+\layout Verbatim
 
 DESCRIPTION:Project XYZ Review Meeting 
-\layout Code
+\layout Verbatim
 
 CATEGORIES:MEETING 
-\layout Code
+\layout Verbatim
 
 CLASS:PUBLIC 
-\layout Code
+\layout Verbatim
 
 CREATED:19980309T130000Z 
-\layout Code
+\layout Verbatim
 
 SUMMARY:XYZ Project Review 
-\layout Code
+\layout Verbatim
 
 DTSTART;TZID=US-Eastern:19980312T083000 
-\layout Code
+\layout Verbatim
 
 DTEND;TZID=US-Eastern:19980312T093000 
-\layout Code
+\layout Verbatim
 
 LOCATION:1CP Conference Room 4350 
-\layout Code
+\layout Verbatim
 
 END:VEVENT 
 \layout Subsection
@@ -556,7 +522,7 @@ new
  Strings, of course, are passed in by reference, but libical will take ownership
  of the memory, so you had beter strdup() the data unless you want a core
  dump when the memory is freed for the second time.
- Libical has some complex bu very regular memory handling rules.
+ Libical has some complex but very regular memory handling rules.
  These are detailed in section 
 \begin_inset LatexCommand \ref{sec:memory}
 
@@ -578,880 +544,97 @@ vaargs Constructors
 \layout Standard
 
 There is another way to create complex components, which is arguable more
- elegant, if you are not horrified by vaargs.
- The vaargs constructor interface all you to create intricate components
+ elegant, if you are not horrified by varargs.
+ The varargs constructor interface all you to create intricate components
  in a single block of text.
  
-\layout Code
+\layout Verbatim
 
+    calendar = 
+\layout Verbatim
 
-\protected_separator 
+        icalcomponent_vanew(
+\layout Verbatim
 
-\protected_separator 
+            ICAL_VCALENDAR_COMPONENT,
+\layout Verbatim
 
-\protected_separator 
- calendar = 
-\layout Code
+            icalproperty_new_version(strdup("2.0")),
+\layout Verbatim
 
+            icalproperty_new_prodid(strdup(
+\layout Verbatim
 
-\protected_separator 
+                 "-//RDU Software//NONSGML HandCal//EN")),
+\layout Verbatim
 
-\protected_separator 
+            icalcomponent_vanew(
+\layout Verbatim
 
-\protected_separator 
+                ICAL_VEVENT_COMPONENT,
+\layout Verbatim
 
-\protected_separator 
+                icalproperty_new_dtstamp(atime),
+\layout Verbatim
 
-\protected_separator 
+                icalproperty_new_uid(strdup("guid-1.host1.com")),
+\layout Verbatim
 
-\protected_separator 
+                icalproperty_vanew_organizer(
+\layout Verbatim
 
-\protected_separator 
+                    strdup("mrbig@host.com"),
+\layout Verbatim
 
-\protected_separator 
-icalcomponent_vanew(
-\layout Code
+                    icalparameter_new_role(ICAL_ROLE_CHAIR),
+\layout Verbatim
 
+                    0
+\layout Verbatim
 
-\protected_separator 
+                    ),
+\layout Verbatim
 
-\protected_separator 
+                icalproperty_vanew_attendee(
+\layout Verbatim
 
-\protected_separator 
+                    strdup("employee-A@host.com"),
+\layout Verbatim
 
-\protected_separator 
+                    icalparameter_new_role(
+\layout Verbatim
 
-\protected_separator 
+                        ICAL_ROLE_REQPARTICIPANT),
+\layout Verbatim
 
-\protected_separator 
+                    icalparameter_new_rsvp(1),
+\layout Verbatim
 
-\protected_separator 
+                    icalparameter_new_cutype(ICAL_CUTYPE_GROUP),
+\layout Verbatim
 
-\protected_separator 
+                    0
+\layout Verbatim
 
-\protected_separator 
+                    ),
+\layout Verbatim
 
-\protected_separator 
+                icalproperty_new_location(strdup(
+\layout Verbatim
 
-\protected_separator 
- ICAL_VCALENDAR_COMPONENT,
-\layout Code
+                   "1CP Conference Room 4350")),
+\layout Verbatim
 
+                0
+\layout Verbatim
 
-\protected_separator 
+                ),
+\layout Verbatim
 
-\protected_separator 
+            0
+\layout Verbatim
 
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- icalproperty_new_version(strdup("2.0")),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- icalproperty_new_prodid(strdup("-//RDU Software//NONSGML HandCal//EN")),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- icalcomponent_vanew(
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-ICAL_VEVENT_COMPONENT,
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-icalproperty_new_dtstamp(atime),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-icalproperty_new_uid(strdup("guid-1.host1.com")),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-icalproperty_vanew_organizer(
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- strdup("mrbig@host.com"),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- icalparameter_new_role(ICAL_ROLE_CHAIR),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- 0
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-icalproperty_vanew_attendee(
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- strdup("employee-A@host.com"),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- icalparameter_new_role(ICAL_ROLE_REQPARTICIPANT),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- icalparameter_new_rsvp(1),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- icalparameter_new_cutype(ICAL_CUTYPE_GROUP),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- 0
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- ),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-icalproperty_new_location(strdup("1CP Conference Room 4350")),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-0
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-),
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- 0
-\layout Code
-
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
- );
+            );
 \layout Standard
 
 This form is similar to the regular constructor, except that they have 
@@ -1492,17 +675,137 @@ icalcomponent* icalparser_parse_string(char* str);
 
 This may seem wasteful if you want to pull a large component off of the
  network; you may prefer to parse the component line by line.
- This is possible too, with 
+ This is possible too by using:
 \layout Verbatim
 
-icalcomponent* icalparser_parse(char*(*line_gen_func)(char *s, size_t size,
- void *d));
+icalparser* icalparser_new(); 
+\layout Verbatim
+
+void icalparser_free(icalparser* parser);
+\layout Verbatim
+
+icalparser_get_line(parser,read_stream);
+\layout Verbatim
+
+icalparser_add_line(parser,line);
+\layout Verbatim
+
+icalparser_set_gen_data(parser,stream)
 \layout Standard
 
-This routine takes a pointer to a function that copies 'size' characters
- to 's'.
- The routine returns 's', similar to fgets().
- See string_line_generator in icalparser.c for an example.
+These routines will construct a parser object to which you can add lines
+ of input and retrieve any components that the parser creates from the input.
+ For an example:
+\layout Verbatim
+
+char* read_stream(char *s, size_t size, void *d) 
+\layout Verbatim
+
+{ 
+\layout Verbatim
+
+  char *c = fgets(s,size, (FILE*)d);
+\layout Verbatim
+
+  return c;
+\layout Verbatim
+
+}
+\layout Verbatim
+
+main() {
+\layout Verbatim
+
+  char* line; 
+\layout Verbatim
+
+  icalcomponent *c; 
+\layout Verbatim
+
+  icalparser *parser = icalparser_new();
+\layout Verbatim
+
+  FILE* stream = fopen(argv[1],"r");
+\layout Verbatim
+
+  icalparser_set_gen_data(parser,stream);
+\layout Verbatim
+
+  do{ 
+\layout Verbatim
+
+    line = icalparser_get_line(parser,read_stream); 
+\layout Verbatim
+
+    c = icalparser_add_line(parser,line);
+\layout Verbatim
+
+    if (c != 0){ 
+\layout Verbatim
+
+     printf("%s",icalcomponent_as_ical_string(c));     
+\layout Verbatim
+
+     icalparser_claim(parser); 
+\layout Verbatim
+
+     printf("
+\backslash 
+n---------------
+\backslash 
+n"); 
+\layout Verbatim
+
+     icalcomponent_free(c); 
+\layout Verbatim
+
+   }
+\layout Verbatim
+
+  } while ( line != 0);
+\layout Verbatim
+
+}
+\layout Standard
+
+The parser object parameterizes the routine used to get input lines with
+ icalparser_set_gen_data() and
+\emph on 
+ 
+\emph default 
+icalparser_get_line().
+ In this example, the routine read_stream() will fetch the next line from
+ a stream, with the stream passed in as the void* parameter d.
+ The parser calls read_stream() from icalparser_get_line(), but it also
+ needs to know what stream to use.
+ This is set by the call to icalparser_set_gen_data().
+ 
+\layout Standard
+
+Using the same mechanism, other implmentations could read from memory buffers,
+ sockets or other interfaces.
+ 
+\layout Standard
+
+Since the example code is a very common way to use the parser, there is
+ a convienience routine;
+\layout Verbatim
+
+icalcomponent* icalparser_parse(icalparser *parser, 
+\layout Verbatim
+
+               char* (*line_gen_func)(char *s, size_t sise,  void* d))
+\layout Standard
+
+To use this routine, you still must construct the parser object and pass
+ in a reference to a line reading routine.
+ If the parser can create a single component from the input, it will return
+ a pointer to the newly constructed component.
+ If the parser can construct multiple cmponents from the input, it will
+ return a reference to an XROOT component ( of type ICAL_XROOT_COMPONENT.)
+ This XROOT component will hold all of the components constructed from the
+ input as children.
+ See section 6.2.2 for how to iterate through the child components.
  
 \layout Subsection
 
@@ -1511,6 +814,8 @@ Accessing Components
 
 Given a reference to a component, you probably will want to access the propertie
 s, parameters and values inside.
+ Libical interface let you find sub-component, add and remove sub-components,
+ and do the same three operations on properties.
  
 \layout Subsubsection
 
@@ -1520,172 +825,36 @@ Finding Components
 To find a sub-component of a component, use: 
 \layout Verbatim
 
-icalproperty* icalcomponent_get_first_component(
+icalcomponent* icalcomponent_get_first_component(
 \layout Verbatim
 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-icalcomponent* component, 
+                                   icalcomponent* component, 
 \layout Verbatim
 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-
-\protected_separator 
-icalcomponent_kind kind);
+                                   icalcomponent_kind kind);
 \layout Standard
 
 This routine will return a reference to the first component of the type
  'kind.' The key kind values, listed in icalenums.h are: 
-\layout Code
+\layout Verbatim
 
 ICAL_ANY_COMPONENT
-\layout Code
+\layout Verbatim
 
 ICAL_VEVENT_COMPONENT
-\layout Code
+\layout Verbatim
 
 ICAL_VTODO_COMPONENT
-\layout Code
+\layout Verbatim
 
 ICAL_VJOURNAL_COMPONENT
-\layout Code
+\layout Verbatim
 
 ICAL_VCALENDAR_COMPONENT 
-\layout Code
+\layout Verbatim
 
 ICAL_VFREEBUSY_COMPONENT
-\layout Code
+\layout Verbatim
 
 ICAL_VALARM_COMPONENT
 \layout Standard
@@ -1707,59 +876,33 @@ Iteration requires a second routine to get the next subcomponent after the
  first:
 \layout Verbatim
 
-icalcomponent* icalcomponent_get_next_component(icalcomponent* component,
- 
+icalcomponent* icalcomponent_get_next_component(
 \layout Verbatim
 
-icalcomponent_kind kind);
+               icalcomponent* component, 
+\layout Verbatim
+
+               icalcomponent_kind kind);
 \layout Standard
 
 With the 'first' and 'next' routines, you can create a for loop to iterate
  through all of a components subcomponents
-\layout Code
+\layout Verbatim
 
+  for(c = icalcomponent_get_first_component(comp,ICAL_ANY_COMPONENT); 
+\layout Verbatim
 
-\protected_separator 
- for(c = icalcomponent_get_first_component(comp,ICAL_ANY_COMPONENT); 
-\layout Code
+         c != 0; 
+\layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-c != 0; 
-\layout Code
-
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-c = icalcomponent_get_next_component(comp,ICAL_ANY_COMPONENT))
-\layout Code
+         c = icalcomponent_get_next_component(comp,ICAL_ANY_COMPONENT))
+\layout Verbatim
 
 { 
-\layout Code
+\layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
- do_something(c);
-\layout Code
+      do_something(c);
+\layout Verbatim
 
 }
 \layout Standard
@@ -1777,62 +920,63 @@ Libical component have internal iterators, so you can only have one iteration
  Removing an element from a list while iterating through the list can cause
  problems, since you will probably be removing the element that the internal
  iterator points to.
- This will result in the iteration loop terminating immediately after removing
- the element.
- To avoid the problem, you will need to step the iterator ahead of the element
- you are going to remove, like this:
-\layout Code
+ The _remove() routine will keep the iterator valid by moving it to the
+ next component, but in a normal loop, this will result in two advances
+ per iteration, and you will remove only every other component.
+  To avoid the problem, you will need to step the iterator ahead of the
+ element you are going to remove, like this:
+\layout Verbatim
 
 for(c = icalcomponent_get_first_component(parent_comp,ICAL_ANY_COMPONENT);
  
-\layout Code
+\layout Verbatim
 
+       c != 0; 
+\layout Verbatim
 
-\protected_separator 
+       c = next
+\layout Verbatim
 
-\protected_separator 
+{     
+\layout Verbatim
 
-\protected_separator 
+    next = icalcomponent_get_next_component(parent_comp,ICAL_ANY_COMPONENT);
+\layout Verbatim
 
-\protected_separator 
+    icalcomponent_remove_component(parent_comp,c); 
+\layout Verbatim
 
-\protected_separator 
+}
+\layout Standard
 
-\protected_separator 
+Another way to remove components is to rely on the side effect of icalcomponent_
+remove_component: if component iterator in the parent component is pointing
+ to the child that will be removed, it will move the iterator to the component
+ after the child.
+ The following code will exploit this behavior: 
+\layout Verbatim
 
-\protected_separator 
-c != 0; 
-\layout Code
+icalcomponent_get_first_component(parent_comp,ICAL_VEVENT_COMPONENT);
+\layout Verbatim
 
+while((c=icalcomponent_get_current_component(c)) != 0 ){ 
+\layout Verbatim
 
-\protected_separator 
+   if(icalcomponent_isa(c) == ICAL_VEVENT_COMPONENT){ 
+\layout Verbatim
+
+      icalcomponent_remove_component(parent_comp,inner);
+\layout Verbatim
+
+   } else { 
+\layout Verbatim
+
+      icalcomponent_get_next_component(parent_comp,ICAL_VEVENT_COMPONENT);
  
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-c = next
-\layout Code
+\layout Verbatim
 
-{ 
-\protected_separator 
- 
-\protected_separator 
- 
-\layout Code
-
-
-\protected_separator 
-next = icalcomponent_get_next_component(parent_comp,ICAL_ANY_COMPONENT);
-\layout Code
-
-
-\protected_separator 
- 
-\protected_separator 
- icalcomponent_remove_component(parent_comp,c); 
-\layout Code
+   } 
+\layout Verbatim
 
 }
 \layout Subsubsection
@@ -1848,169 +992,73 @@ Finding, iterating and removing properties works the same as it does for
 icalproperty* icalcomponent_get_first_property(
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalcomponent* component, 
+     icalcomponent* component, 
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalproperty_kind kind); 
+     icalproperty_kind kind); 
 \layout Verbatim
 
 icalproperty* icalcomponent_get_next_property(
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalcomponent* component, 
+     icalcomponent* component, 
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalproperty_kind kind);
+     icalproperty_kind kind);
 \layout Verbatim
 
 void icalcomponent_add_property(
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalcomponent* component, 
+     icalcomponent* component, 
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalproperty* property);
+     icalproperty* property);
 \layout Verbatim
 
 void icalcomponent_remove_property(
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalcomponent* component, 
+     icalcomponent* component, 
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalproperty* property);
+     icalproperty* property);
 \layout Verbatim
 
 icalparameter* icalproperty_get_first_parameter(
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalproperty* prop, 
+     icalproperty* prop, 
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalparameter_kind kind); 
+     icalparameter_kind kind); 
 \layout Verbatim
 
 icalparameter* icalproperty_get_next_parameter(
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalproperty* prop, 
+     icalproperty* prop, 
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalparameter_kind kind);
+     icalparameter_kind kind);
 \layout Verbatim
 
 void icalproperty_add_parameter(
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalproperty* prop,
+     icalproperty* prop,
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalparameter* parameter);
+     icalparameter* parameter);
 \layout Verbatim
 
 void icalproperty_remove_parameter(
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalproperty* prop, 
+     icalproperty* prop, 
 \layout Verbatim
 
-
-\protected_separator 
- 
-\protected_separator 
- 
-\protected_separator 
-icalparameter_kind kind);
+     icalparameter_kind kind);
 \layout Subsubsection
 
 Getting Values 
@@ -2029,6 +1077,97 @@ Removing Parameters
 \layout Subsubsection
 
 Checking Component Validity
+\layout Standard
+
+RFC 2446 defines rules for what properties must exist in a component to
+ be used for transfering scheduling data.
+ Most of these rules relate to the existence of properties relative to the
+ METHOD property, which declares what operation a remote reciever should
+ use to process a component.
+ For instance, if the METHOD is REQUEST and the component is a VEVENT, the
+ sender is probably asking the reciever to join in a meeting.
+ I this case, RFC2446 says that the component must specify a start time
+ (DTSTART) and list the reciever as an attendee (ATTENDEE).
+ 
+\layout Standard
+
+Libical can check these restrictions with the routine:
+\layout Verbatim
+
+int icalrestriction_check(icalcomponent* comp);
+\layout Standard
+
+This routine returns 0 if the component does not pass RFC2446 restrictions,
+ or if the component is malformed.
+ The component you pass in 
+\emph on 
+must
+\emph default 
+ be a VCALENDAR, with one or more children, like the examples in RFC2446.
+ 
+\layout Standard
+
+When this routine runs, it will insert new properties into the component
+ to indicate any errors it finds.
+ See section 6.5.3, X-LIC-ERROR for more information about these error properties.
+ 
+\layout Subsubsection
+
+Converting Components to Text
+\layout Standard
+
+To create an RFC2445 compliant text representtion of an object, use one
+ of the *_as_ical_string() routines:
+\layout Verbatim
+
+char* icalcomponent_as_ical_string (icalcomponent* component)
+\layout Verbatim
+
+char* icalproperty_as_ical_string (icalproperty* property)
+\layout Verbatim
+
+char* icalparameter_as_ical_string (icalparameter* parameter)
+\layout Verbatim
+
+char* icalvalue_as_ical_string (icalvalue* value)
+\layout Standard
+
+In most cases, you will only use icalcomponent_as_ical_string (), since
+ it will cascade and convert all of the parameters, properties and values
+ that are attached to the root component.
+\layout Standard
+
+Icalproperty_as_ical_string() will terminate each line with the RFC2445
+ specified line terminator 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\backslash 
+r
+\backslash 
+n
+\begin_inset Quotes erd
+\end_inset 
+
+ However, if you compile with the symbol ICAL_UNIX_NEWLINE defined, it will
+ terminate lines with 
+\begin_inset Quotes eld
+\end_inset 
+
+
+\backslash 
+n
+\begin_inset Quotes erd
+\end_inset 
+
+
+\layout Standard
+
+Remember that the string returned by these routines is owned by the library,
+ and will eventually be re-written.
+ You should copy it if you want to preserve it.
+ 
 \layout Subsection
 
 Storing Objects
@@ -2037,7 +1176,8 @@ Storing Objects
 The libical distribution inclues a seperate library, libicalss, that allows
  you to store iCal component data to disk in a variety of ways.
  This library is documented seperately.
- 
+ ( & currently, not at all.
+ ) 
 \layout Subsection
 
 
@@ -2089,26 +1229,172 @@ Libical relies heavily on dynamic allocation for both the core objects and
 Error Handling
 \layout Standard
 
-icalerror_errno.
- Return values.
- #defines.
- icalerror_stop_here.
- X-LIC-ERROR
+Libical has several error handling mechanisms for the varioustypes of programmin
+g, semantic and syntactic errors you may encounter.
 \layout Subsubsection
 
 Return values
+\layout Standard
+
+Many library routines signal errors through their return values.
+ All routines that return a pointer, such as icalcomponent_new(), will return
+ 0 ( zero ) on a fatal error.
+ Some routines will return a value of enum icalerrorenum.
+ 
 \layout Subsubsection
 
 icalerrno
+\layout Standard
+
+Most routines will set the global error value icalerrno on errors.
+ This variable is an enumeration; permissable values can be found in libical/ica
+lerror.h.
+ If the routine returns an enum icalerrorenum, then the return value will
+ be the same as icalerrno.
+ You can use icalerror_strerror() to get a string that describes the error
 \layout Subsubsection
 
-Component errors
-\layout Subsubsection
+X-LIC-ERROR and X-LIC-INVALID-COMPONENT
+\layout Standard
 
-icalerror_stop_here
-\layout Subsubsection
+The library handles semantic and syntactic errors in components by inserting
+ errors properties into the components.
+ If the parser cannot parse incoming text ( a syntactic error ) or if the
+ icalrestriction_check() routine indicates that the component does not meet
+ the requirments of RFC2446 ( a semantic error) the library will insert
+ properties of the type X-LIC-ERROR to describe the error.
+ Here is an example of the error property: 
+\layout Verbatim
 
-X-LIC-ERROR
+X-LIC-ERROR;X-LIC-ERRORTYPE=INVALID_ITIP :Failed iTIP restrictions for property
+ DTSTART.
+ Expected 1 instances of the property and got 0 
+\layout Standard
+
+This error resulted from a call to icalrestriction_check(), which discovered
+ that the component does not have a DTSTART property, as required by RFC2445.
+ 
+\layout Standard
+
+There are a few routines to manipulate error properties:
+\layout Standard
+\LyXTable
+multicol5
+10 2 0 0 -1 -1 -1 -1
+1 1 0 0
+1 0 0 0
+0 1 1 0
+1 0 0 0
+0 1 1 0
+1 1 0 0
+0 1 1 0
+1 1 0 0
+0 1 1 0
+0 1 1 0
+2 1 0 "" ""
+2 1 1 "3in" ""
+0 2 1 1 0 0 0 "" ""
+0 8 1 0 0 0 0 "" ""
+0 2 1 0 0 0 0 "" ""
+0 2 1 0 1 0 1 "" ""
+0 2 1 0 0 0 0 "" ""
+0 2 1 0 0 0 1 "" ""
+0 2 1 0 0 0 0 "" ""
+0 2 1 0 1 0 0 "" ""
+0 2 1 0 0 0 0 "" ""
+0 2 1 0 0 0 0 "" ""
+0 2 1 0 0 0 0 "" ""
+0 2 1 0 1 0 0 "" ""
+0 2 1 0 0 0 0 "" ""
+0 2 1 0 0 0 0 "" ""
+0 2 1 0 0 0 0 "" ""
+0 2 1 1 1 0 1 "" ""
+0 2 1 0 0 0 0 "" ""
+0 2 1 1 1 0 1 "" ""
+0 2 1 0 0 0 0 "" ""
+0 2 1 1 0 0 1 "" ""
+
+Routine
+\newline 
+Purpose
+\newline 
+void icalrestriction_check()
+\newline 
+Check a component against RFC2446 and insert
+\newline 
+
+\newline 
+error properties to indicate non compliance
+\newline 
+int icalcomponent_count_errors()
+\newline 
+Return the number of error properties 
+\newline 
+
+\newline 
+in a component
+\newline 
+void icalcomponent_strip_errors()
+\newline 
+Remove all error properties in as
+\newline 
+
+\newline 
+component
+\newline 
+void icalcomponent_convert_errors()
+\newline 
+Convert some error properties into 
+\newline 
+
+\newline 
+REQUESTS-STATUS to indicate the inability to 
+\newline 
+
+\newline 
+process the component as an iTIP request.
+ 
+\layout Standard
+
+The types of errors are listed in icalerror.h.
+ They are:
+\layout Verbatim
+
+ICAL_XLICERRORTYPE_COMPONENTPARSEERROR
+\layout Verbatim
+
+ICAL_XLICERRORTYPE_PARAMETERVALUEPARSEERROR
+\layout Verbatim
+
+ICAL_XLICERRORTYPE_PARAMETERNAMEPARSEERROR 
+\layout Verbatim
+
+ICAL_XLICERRORTYPE_PROPERTYPARSEERROR
+\layout Verbatim
+
+ICAL_XLICERRORTYPE_VALUEPARSEERROR
+\layout Verbatim
+
+ICAL_XLICERRORTYPE_UNKVCALPROP
+\layout Verbatim
+
+ICAL_XLICERRORTYPE_INVALIDITIP
+\layout Standard
+
+The libical parser will generate the error that end in PARSEERROR when it
+ encounters garbage in the input steam.
+ ICAL_XLICERRORTYPE_INVALIDITIP is inserted by icalrestriction_check(),
+ and ICAL_XLICERRORTYPE_UNKVCALPROP is generated by icalvcal_convert() when
+ it encounters a vCal property that it cannot convert or does not know about.
+ 
+\layout Standard
+
+Icalcomponent_convert_errors() converts some of the error properties ina
+ component into REQUEST-STATUS properties that indicate a failure.
+ As of libical version0.18, this routine only convert *PARSEERROR errors
+ and it always generates a 3.x ( failure ) code.
+ This makes it more of a good idea than a really useful bit of code.
+ 
 \layout Subsection
 
 Naming Standard
@@ -2249,8 +1535,21 @@ Finding compliance errors
 Performance
 \layout Standard
 
-Checking restrictions is computationally expensive
+Checking restrictions is computationally expensive.
 \layout Section
 
 Hacks and Bugs
+\layout Standard
+
+There are a lot of hacks in the library -- bits of code that I am not proud
+ of and should propbably be changed.
+ These are marked with the comment string 
+\begin_inset Quotes eld
+\end_inset 
+
+HACK.
+\begin_inset Quotes erd
+\end_inset 
+
+
 \the_end

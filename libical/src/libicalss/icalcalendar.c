@@ -1,27 +1,22 @@
-/* -*- Mode: C -*-
-  ======================================================================
+/*======================================================================
   FILE: icalcalendar.c
   CREATOR: eric 23 December 1999
   
   $Id$
   $Locker$
     
- (C) COPYRIGHT 1999 Eric Busboom
- http://www.softwarestudio.org
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
- The contents of this file are subject to the Mozilla Public License
- Version 1.0 (the "License"); you may not use this file except in
- compliance with the License. You may obtain a copy of the License at
- http://www.mozilla.org/MPL/
- 
- Software distributed under the License is distributed on an "AS IS"
- basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
- the License for the specific language governing rights and
- limitations under the License.
- 
- The Original Code is eric. The Initial Developer of the Original
- Code is Eric Busboom
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
 
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
 
  ======================================================================*/
 
@@ -32,7 +27,9 @@
 
 
 #include "icalcalendar.h"
-#include "icalcluster.h"
+#include "icalset.h"
+#include "icalfileset.h"
+#include "icaldirset.h"
 #include <limits.h> 
 #include <sys/stat.h> /* For mkdir, stat */
 #include <sys/types.h> /* For mkdir */
@@ -52,8 +49,8 @@ struct icalcalendar_impl
 	char* dir;
 	icalcomponent* freebusy;
 	icalcomponent* properties;
-	icalstore* booked;
-	icalstore* incoming;
+	icalset* booked;
+	icalset* incoming;
 };
 
 struct icalcalendar_impl* icalcalendar_new_impl()
@@ -132,19 +129,19 @@ void icalcalendar_free(icalcalendar* calendar)
     }
 
     if (impl->freebusy !=0){
-	icalcluster_free(impl->freebusy);
+	icalfileset_free(impl->freebusy);
     }
 
     if (impl->properties !=0){
-	icalcluster_free(impl->properties);
+	icalfileset_free(impl->properties);
     }
 
     if (impl->booked !=0){
-	icalstore_free(impl->booked);
+	icaldirset_free(impl->booked);
     }
 
     if (impl->incoming !=0){
-	icalstore_free(impl->incoming);
+	icaldirset_free(impl->incoming);
     }
 
     impl->dir = 0;
@@ -186,7 +183,7 @@ int icalcalendar_ownlock(icalcalendar* calendar)
     return 0;
 }
 
-icalstore* icalcalendar_get_booked(icalcalendar* calendar)
+icalset* icalcalendar_get_booked(icalcalendar* calendar)
 {
     struct icalcalendar_impl *impl = (struct icalcalendar_impl*)calendar;
     char dir[PATH_MAX];
@@ -200,7 +197,7 @@ icalstore* icalcalendar_get_booked(icalcalendar* calendar)
 
     if (impl->booked == 0){
 	icalerror_clear_errno();
-	impl->booked = icalstore_new(dir);
+	impl->booked = icaldirset_new(dir);
 	assert(icalerrno == ICAL_NO_ERROR);
     }
 
@@ -208,7 +205,7 @@ icalstore* icalcalendar_get_booked(icalcalendar* calendar)
 
 }
 
-icalcluster* icalcalendar_get_incoming(icalcalendar* calendar)
+icalset* icalcalendar_get_incoming(icalcalendar* calendar)
 {
     char path[PATH_MAX];
     struct icalcalendar_impl *impl = (struct icalcalendar_impl*)calendar;
@@ -220,13 +217,13 @@ icalcluster* icalcalendar_get_incoming(icalcalendar* calendar)
     strcat(path,INCOMING_FILE);
 
     if (impl->properties == 0){
-	impl->properties = icalcluster_new(path);
+	impl->properties = icalfileset_new(path);
     }
 
     return impl->properties;
 }
 
-icalcluster* icalcalendar_get_properties(icalcalendar* calendar)
+icalset* icalcalendar_get_properties(icalcalendar* calendar)
 {
     char path[PATH_MAX];
     struct icalcalendar_impl *impl = (struct icalcalendar_impl*)calendar;
@@ -238,13 +235,13 @@ icalcluster* icalcalendar_get_properties(icalcalendar* calendar)
     strcat(path,PROP_FILE);
 
     if (impl->properties == 0){
-	impl->properties = icalcluster_new(path);
+	impl->properties = icalfileset_new(path);
     }
 
     return impl->properties;
 }
 
-icalcluster* icalcalendar_get_freebusy(icalcalendar* calendar)
+icalset* icalcalendar_get_freebusy(icalcalendar* calendar)
 {
     char path[PATH_MAX];
     struct icalcalendar_impl *impl = (struct icalcalendar_impl*)calendar;
@@ -257,7 +254,7 @@ icalcluster* icalcalendar_get_freebusy(icalcalendar* calendar)
 
 
     if (impl->freebusy == 0){
-	impl->freebusy = icalcluster_new(path);
+	impl->freebusy = icalfileset_new(path);
     }
 
     return impl->freebusy;

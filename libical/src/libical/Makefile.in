@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4a from Makefile.am
+# Makefile.in generated automatically by automake 1.4 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -50,10 +50,9 @@ AUTOMAKE = @AUTOMAKE@
 AUTOHEADER = @AUTOHEADER@
 
 INSTALL = @INSTALL@
-INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@ $(AM_INSTALL_PROGRAM_FLAGS)
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
-INSTALL_STRIP_FLAG =
 transform = @program_transform_name@
 
 NORMAL_INSTALL = :
@@ -76,10 +75,10 @@ lib_LIBRARIES = libical.a
 
 YFLAGS = -d -v -t
 
-libical_a_SOURCES =  	ical.h 	icalcomponent.c		icalcomponent.h		icalenums.c 	icalenums.h 	icalerror.c 	icalerror.h 	icalyacc.y 	icallexer.l 	icalmemory.c 	icalmemory.h 	icalparameter.c 	icalparameter.h 	icalparser.c 	icalparser.h 	icalproperty.c 	icalproperty.h 	icalrestriction.c 	icalrestriction.h 	icaltypes.c 	icaltypes.h 	icalvalue.c 	icalvalue.h 	icalvcal.h 	pvl.c 	pvl.h
+libical_a_SOURCES =  	ical.h 	icalcomponent.c		icalcomponent.h		icalenums.c 	icalenums.h 	icalerror.c 	icalerror.h 	icalyacc.y 	icallexer.l 	icalmemory.c 	icalmemory.h 	icalparameter.c 	icalparameter.h 	icalparser.c 	icalparser.h 	icalproperty.c 	icalproperty.h 	icalrestriction.c 	icalrestriction.h 	icaltypes.c 	icaltypes.h 	icalvalue.c 	icalvalue.h 	icalrecur.c 	icalrecur.h 	icaltime.h 	icaltime.c 	pvl.c 	pvl.h 	sspm.c 	sspm.h 	icalmime.c 	icalmime.h 
 
 
-include_HEADERS =  	ical.h 	icalcomponent.h		icalenums.h 	icalerror.h 	icalmemory.h 	icalparameter.h 	icalparser.h 	icalproperty.h 	icalrestriction.h 	icaltypes.h 	icalvalue.h 	icalvcal.h 	icalversion.h 	pvl.h
+include_HEADERS =  	ical.h 	icalcomponent.h		icalenums.h 	icalerror.h 	icalmemory.h 	icalparameter.h 	icalparser.h 	icalproperty.h 	icalrestriction.h 	icaltypes.h 	icalvalue.h 	icalrecur.h 	icalversion.h 	icaltime.h 	pvl.h 	sspm.h 	icalmime.h 
 
 
 EXTRA_DIST = icallexer.c icalyacc.c icalyacc.h
@@ -100,7 +99,8 @@ LIBS = @LIBS@
 libical_a_LIBADD = 
 libical_a_OBJECTS =  icalcomponent.o icalenums.o icalerror.o icalyacc.o \
 icallexer.o icalmemory.o icalparameter.o icalparser.o icalproperty.o \
-icalrestriction.o icaltypes.o icalvalue.o pvl.o
+icalrestriction.o icaltypes.o icalvalue.o icalrecur.o icaltime.o pvl.o \
+sspm.o icalmime.o
 LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
 LEXLIB = @LEXLIB@
 CFLAGS = @CFLAGS@
@@ -257,6 +257,55 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+icalcomponent.o: icalcomponent.c ../../config.h ical.h icalversion.h \
+	icalenums.h icalvalue.h icaltypes.h icaltime.h icalparameter.h \
+	icalproperty.h icalcomponent.h pvl.h icalparser.h icalmemory.h \
+	icalerror.h icalrestriction.h icalrecur.h
+icalenums.o: icalenums.c ../../config.h icalenums.h
+icalerror.o: icalerror.c ../../config.h icalerror.h
+icallexer.o: icallexer.c icalyacc.h icalparser.h ical.h icalversion.h \
+	icalenums.h icalvalue.h icaltypes.h icaltime.h icalparameter.h \
+	icalproperty.h icalcomponent.h pvl.h icalmemory.h icalerror.h \
+	icalrestriction.h icalrecur.h
+icalmemory.o: icalmemory.c ../../config.h icalmemory.h icalerror.h
+icalmime.o: icalmime.c icalmime.h ical.h icalversion.h icalenums.h \
+	icalvalue.h icaltypes.h icaltime.h icalparameter.h \
+	icalproperty.h icalcomponent.h pvl.h icalparser.h icalmemory.h \
+	icalerror.h icalrestriction.h icalrecur.h sspm.h
+icalparameter.o: icalparameter.c ../../config.h ical.h icalversion.h \
+	icalenums.h icalvalue.h icaltypes.h icaltime.h icalparameter.h \
+	icalproperty.h icalcomponent.h pvl.h icalparser.h icalmemory.h \
+	icalerror.h icalrestriction.h icalrecur.h
+icalparser.o: icalparser.c ../../config.h ical.h icalversion.h \
+	icalenums.h icalvalue.h icaltypes.h icaltime.h icalparameter.h \
+	icalproperty.h icalcomponent.h pvl.h icalparser.h icalmemory.h \
+	icalerror.h icalrestriction.h icalrecur.h
+icalproperty.o: icalproperty.c ../../config.h ical.h icalversion.h \
+	icalenums.h icalvalue.h icaltypes.h icaltime.h icalparameter.h \
+	icalproperty.h icalcomponent.h pvl.h icalparser.h icalmemory.h \
+	icalerror.h icalrestriction.h icalrecur.h
+icalrecur.o: icalrecur.c ../../config.h icalrecur.h icaltypes.h \
+	icalenums.h icaltime.h icalerror.h icalmemory.h ical.h \
+	icalversion.h icalvalue.h icalparameter.h icalproperty.h \
+	icalcomponent.h pvl.h icalparser.h icalrestriction.h
+icalrestriction.o: icalrestriction.c ../../config.h icalenums.h \
+	icalrestriction.h ical.h icalversion.h icalvalue.h icaltypes.h \
+	icaltime.h icalparameter.h icalproperty.h icalcomponent.h pvl.h \
+	icalparser.h icalmemory.h icalerror.h icalrecur.h
+icaltime.o: icaltime.c icaltime.h
+icaltypes.o: icaltypes.c ../../config.h icaltypes.h icalenums.h \
+	icaltime.h icalerror.h icalmemory.h
+icalvalue.o: icalvalue.c ../../config.h ical.h icalversion.h icalenums.h \
+	icalvalue.h icaltypes.h icaltime.h icalparameter.h \
+	icalproperty.h icalcomponent.h pvl.h icalparser.h icalmemory.h \
+	icalerror.h icalrestriction.h icalrecur.h
+icalyacc.o: icalyacc.c icalparser.h ical.h icalversion.h icalenums.h \
+	icalvalue.h icaltypes.h icaltime.h icalparameter.h \
+	icalproperty.h icalcomponent.h pvl.h icalmemory.h icalerror.h \
+	icalrestriction.h icalrecur.h
+pvl.o: pvl.c ../../config.h pvl.h
+sspm.o: sspm.c sspm.h
+
 info-am:
 info: info-am
 dvi-am:
@@ -279,7 +328,7 @@ uninstall: uninstall-am
 all-am: Makefile $(LIBRARIES) $(HEADERS)
 all-redirect: all-am
 install-strip:
-	$(MAKE) $(AM_MAKEFLAGS) INSTALL_STRIP_FLAG=-s install
+	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs:
 	$(mkinstalldirs)  $(DESTDIR)$(libdir) $(DESTDIR)$(includedir)
 

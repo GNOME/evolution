@@ -17,12 +17,34 @@
  the License for the specific language governing rights and
  limitations under the License.
  
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
+
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
  The Original Code is icalmemory.h
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
+
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
  The Initial Developer of the Original Code is Eric Busboom
 
- (C) COPYRIGHT 1999 The Software Studio. 
- http://www.softwarestudio.org
-
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 ======================================================================*/
 
 #ifndef ICALMEMORY_H
@@ -30,7 +52,8 @@
 
 #include <sys/types.h> /* for size_t */
 
-/* Tmp buffers are managed by ical. References can be returned to the caller, although the caller will not own the memory. */
+/* Tmp buffers are managed by ical. References can be returned to the
+   caller, although the caller will not own the memory. */
 
 void* icalmemory_tmp_buffer(size_t size);
 char* icalmemory_tmp_copy(char* str);
@@ -69,6 +92,9 @@ void icalmemory_append_string(char** buf, char** pos, size_t* buf_size,
 /*  icalmemory_append_char is similar, but is appends a character instead of a string */
 void icalmemory_append_char(char** buf, char** pos, size_t* buf_size, 
 			      char ch);
+
+/* A wrapper around strdup */
+char* icalmemory_strdup(const char *s);
 
 #endif /* !ICALMEMORY_H */
 

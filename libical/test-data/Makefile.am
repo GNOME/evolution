@@ -10,4 +10,11 @@ EXTRA_DIST = \
 5 \
 6 \
 7 \
-smallcluster.ics
+smallcluster.ics \
+recur.txt \
+user-cal.vcf \
+complex-mime.txt \
+simple-mime.txt \
+stresstest.ics
+
+

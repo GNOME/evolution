@@ -6,20 +6,19 @@
   $Id$
 
 
-  (C) COPYRIGHT 1999 Eric Busboom 
-  http://www.softwarestudio.org
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
 
-  The contents of this file are subject to the Mozilla Public License
-  Version 1.0 (the "License"); you may not use this file except in
-  compliance with the License. You may obtain a copy of the License at
-  http://www.mozilla.org/MPL/
- 
-  Software distributed under the License is distributed on an "AS IS"
-  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
-  the License for the specific language governing rights and
-  limitations under the License.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
 
-  The original author is Eric Busboom
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
   The original code is icalcstp.h
 
 ======================================================================*/
@@ -41,14 +40,16 @@ void* icalcstp_free(icalcstp* cstp);
 
 /* Send or recieve data directly to/from the network. These calls are
    needed for the AUTHENTICATE command and possibly others */
-int icalcstp_send(char*);
-char* icalcstp_recieve(char*);
+ssize_t icalcstp_send(icalcstp* cstp, char* msg);
+ssize_t icalcstp_recieve(icalcstp* cstp, char* msg);
 
 int icalcstp_set_timeout(icalcstp* cstp, int sec);
 
 typedef struct icalcstp_response {	
 	icalrequeststatus code
-	char caluid[1024];
+	char *arg; /* These strings are owned by libical */
+	char *debug_text;
+	char *more_text;
 	void* result;
 } icalcstp_response;
 
@@ -64,7 +65,20 @@ typedef struct icalcstp_response {
 
    However, some commands will use the sockets directly, though the
    _send and _recieve routines. Example is Authenticate and Starttls,
-   which need several exchanges of data*/
+   which need several exchanges of data
+
+   All of the server abd client command routines will generate
+   response codes. On the server side, these responses will be turned
+   into text and sent to the client. On the client side, the reponse
+   is the one sent from the server.
+
+   Since each command can return multiple responses, the responses are
+   stored in the icalcstp object and are accesses by
+   icalcstp_first_response() and icalcstp_next_response()
+
+*/
+
+   
 
 /* Process a single line of incomming data */
 char* icalcstp_process_incoming(icalcstp* cstp, char* string);
@@ -74,19 +88,21 @@ char* icalcstp_process_incoming(icalcstp* cstp, char* string);
    command in the data. BTW, the CONTINUE command is named 'cont'
    because 'continue' is a C keyword */
 
-struct icalcstp_stubs {
-  icalcstp_response (*abort)(icalcstp* cstp);
-  icalcstp_response (*authenticate)(icalcstp* cstp, char* mechanism, 
+struct icalcstp_server_stubs {
+  icalerrorenum (*abort)(icalcstp* cstp);
+  icalerrorenum (*authenticate)(icalcstp* cstp, char* mechanism, 
                                     char* data);
-  icalcstp_response (*capability)(icalcstp* cstp);
-  icalcstp_response (*cont)(icalcstp* cstp, unsigned int time);
-  icalcstp_response (*disconnect)(icalcstp* cstp);
-  icalcstp_response (*identify)(icalcstp* cstp, char* id);
-  icalcstp_response (*starttls)(icalcstp* cstp, char* command, 
-                                char* data);
-  icalcstp_response (*sendata)(icalcstp* cstp, unsigned int time, 
+  icalerrorenum (*calidexpand)(icalcstp* cstp, char* calid);
+  icalerrorenum (*capability)(icalcstp* cstp);
+  icalerrorenum (*cont)(icalcstp* cstp, unsigned int time);
+  icalerrorenum (*identify)(icalcstp* cstp, char* id);
+  icalerrorenum (*disconnect)(icalcstp* cstp);
+  icalerrorenum (*sendata)(icalcstp* cstp, unsigned int time, 
                                icalcomponent *comp);
-  icalcstp_response (*unknown)(icalcstp* cstp, char* command, char* data);
+  icalerrorenum (*starttls)(icalcstp* cstp, char* command, 
+                                char* data);
+  icalerrorenum (*upnexpand)(icalcstp* cstp, char* upn);
+  icalerrorenum (*unknown)(icalcstp* cstp, char* command, char* data);
 }
 
 /********************** Client (Sender) Interfaces **************************/
@@ -95,17 +111,26 @@ struct icalcstp_stubs {
    socket, because the callers point of control is at the interfaces
    below. */
 
-icalcstp_response icalcstp_abort(icalcstp* cstp);
-icalcstp_response icalcstp_authenticate(icalcstp* cstp, char* mechanism, 
+icalerrorenum icalcstp_abort(icalcstp* cstp);
+icalerrorenum icalcstp_authenticate(icalcstp* cstp, char* mechanism, 
                                         char* data);
-icalcstp_response icalcstp_capability(icalcstp* cstp);
-icalcstp_response icalcstp_continue(icalcstp* cstp, unsigned int time);
-icalcstp_response icalcstp_disconnect(icalcstp* cstp);
-icalcstp_response icalcstp_identify(icalcstp* cstp, char* id);
-icalcstp_response icalcstp_starttls(icalcstp* cstp, char* command, 
+icalerrorenum icalcstp_capability(icalcstp* cstp);
+icalerrorenum icalcstp_calidexpand(icalcstp* cstp,char* calid);
+icalerrorenum icalcstp_continue(icalcstp* cstp, unsigned int time);
+icalerrorenum icalcstp_disconnect(icalcstp* cstp);
+icalerrorenum icalcstp_identify(icalcstp* cstp, char* id);
+icalerrorenum icalcstp_starttls(icalcstp* cstp, char* command, 
                                     char* data);
-icalcstp_response icalcstp_sendata(icalcstp* cstp, unsigned int time,
+icalerrorenum icalcstp_senddata(icalcstp* cstp, unsigned int time,
+				icalcomponent *comp);
+icalerrorenum icalcstp_upnexpand(icalcstp* cstp,char* calid);
+icalerrorenum icalcstp_sendata(icalcstp* cstp, unsigned int time,
                                    icalcomponent *comp);
+
+icalcstp_response icalcstp_first_response(icalcstp* cstp);
+icalcstp_response icalcstp_next_response(icalcstp* cstp);
+
+
 
 #endif /* !ICALCSTP_H */
 
