@@ -28,6 +28,9 @@
 #include <stdio.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
+#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
+#include <libgnomeui/gnome-thumbnail.h>
+#endif
 #include <gtk/gtkimage.h>
 #include "em-icon-stream.h"
 
@@ -165,7 +168,11 @@ emis_sync_close(CamelStream *stream)
 			}
 		}
 
+#ifdef HAVE_LIBGNOMEUI_GNOME_THUMBNAIL_H
+		mini = gnome_thumbnail_scale_down_pixbuf (pixbuf, width, height);
+#else
 		mini = gdk_pixbuf_scale_simple(pixbuf, width, height, GDK_INTERP_BILINEAR);
+#endif
 		gtk_image_set_from_pixbuf(emis->image, mini);
 		g_object_unref(mini);
 	} else {

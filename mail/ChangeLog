@@ -1,3 +1,9 @@
+2003-10-09  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* em-icon-stream.c: (emis_sync_close):
+        Use gnome-thumbnail_scale_down_pixbuf if available,
+        for better performance.
+
 2003-10-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-view.c: Add a hide_mask to the
