@@ -1,3 +1,8 @@
+2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-config-druid.c (mail_config_druid_new): Give the druid the
+	DIALOG hint.  [#39741 and friends.]
+
 2003-03-19  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c (spell_load_values): changed default

@@ -631,6 +631,7 @@ mail_config_druid_new (void)
 	mcw = config_wizard_new ();
 	mcw->druid = (GnomeDruid *)glade_xml_get_widget (mcw->gui->xml, "druid");
 	g_object_set_data (G_OBJECT (mcw->druid), "MailConfigWizard", mcw);
+	gtk_window_set_type_hint (GTK_WINDOW (mcw->druid), GDK_WINDOW_TYPE_HINT_DIALOG);
 
 	mcw->interior_pages = g_ptr_array_new ();
 	for (i = 0; i < num_wizard_pages; i++) {
