@@ -1,3 +1,10 @@
+2004-06-15  JP Rosevear  <jpr@novell.com>
+
+	Fixes #57393
+	
+	* gui/e-week-view.c (e_week_view_set_compress_weekend): redraw the
+	titles as well since the spacing is different
+
 2004-06-15  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/dialogs/meeting-page.c (meeting_page_construct): connect

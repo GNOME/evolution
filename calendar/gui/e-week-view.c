@@ -1795,6 +1795,7 @@ e_week_view_set_compress_weekend	(EWeekView	*week_view,
 		e_week_view_check_layout (week_view);
 	}
 
+	gtk_widget_queue_draw (week_view->titles_canvas);
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
