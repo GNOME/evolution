@@ -1,3 +1,10 @@
+2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl.c: Plug in GSSAPI support.
+
+	* camel-sasl-gssapi.[c,h]: Various fixes to make it compile (fixed
+	type-o's mostly).
+
 2003-03-20  Dan Winship  <danw@ximian.com>
 
 	Handle raw 8-bit From data "correctly". (The same way we handle

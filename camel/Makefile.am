@@ -85,6 +85,7 @@ libcamel_la_SOURCES = 				\
 	camel-sasl-anonymous.c			\
 	camel-sasl-cram-md5.c			\
 	camel-sasl-digest-md5.c			\
+	camel-sasl-gssapi.c			\
 	camel-sasl-kerberos4.c			\
 	camel-sasl-login.c			\
 	camel-sasl-ntlm.c			\
@@ -186,6 +187,7 @@ libcamelinclude_HEADERS =			\
 	camel-sasl-anonymous.h			\
 	camel-sasl-cram-md5.h			\
 	camel-sasl-digest-md5.h			\
+	camel-sasl-gssapi.h			\
 	camel-sasl-kerberos4.h			\
 	camel-sasl-login.h			\
 	camel-sasl-ntlm.h			\

@@ -50,7 +50,7 @@ struct _CamelSaslGssapi {
 struct _CamelSaslGssapiClass {
 	CamelSaslClass parent_class;
 	
-}
+};
 
 /* Standard Camel function */
 CamelType camel_sasl_gssapi_get_type (void);

@@ -31,6 +31,7 @@
 
 #include "camel-sasl-cram-md5.h"
 #include "camel-sasl-digest-md5.h"
+#include "camel-sasl-gssapi.h"
 #include "camel-sasl-kerberos4.h"
 #include "camel-sasl-login.h"
 #include "camel-sasl-plain.h"
@@ -193,6 +194,10 @@ camel_sasl_new (const char *service_name, const char *mechanism, CamelService *s
 		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_CRAM_MD5_TYPE);
 	else if (!strcmp (mechanism, "DIGEST-MD5"))
 		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_DIGEST_MD5_TYPE);
+#ifdef HAVE_KRB5
+	else if (!strcmp (mechanism, "GSSAPI"))
+		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_GSSAPI_TYPE);
+#endif
 #ifdef HAVE_KRB4
 	else if (!strcmp (mechanism, "KERBEROS_V4"))
 		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_KERBEROS4_TYPE);
@@ -230,6 +235,9 @@ camel_sasl_authtype_list (gboolean include_plain)
 	
 	types = g_list_prepend (types, &camel_sasl_cram_md5_authtype);
 	types = g_list_prepend (types, &camel_sasl_digest_md5_authtype);
+#ifdef HAVE_KRB5
+	types = g_list_prepend (types, &camel_sasl_gssapi_authtype);
+#endif
 #ifdef HAVE_KRB4
 	types = g_list_prepend (types, &camel_sasl_kerberos4_authtype);
 #endif
@@ -254,6 +262,10 @@ camel_sasl_authtype (const char *mechanism)
 		return &camel_sasl_cram_md5_authtype;
 	else if (!strcmp (mechanism, "DIGEST-MD5"))
 		return &camel_sasl_digest_md5_authtype;
+#ifdef HAVE_KRB5
+	else if (!strcmp (mechanism, "GSSAPI"))
+		return &camel_sasl_gssapi_authtype;
+#endif
 #ifdef HAVE_KRB4
 	else if (!strcmp (mechanism, "KERBEROS_V4"))
 		return &camel_sasl_kerberos4_authtype;

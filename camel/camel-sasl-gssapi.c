@@ -28,10 +28,17 @@
 #ifdef HAVE_KRB5
 
 #include <string.h>
+#include <et/com_err.h>
 #ifdef HAVE_MIT_KRB5
 #include <gssapi/gssapi.h>
+#include <gssapi/gssapi_generic.h>
 #else /* HAVE_HEIMDAL_KRB5 */
 #include <gssapi.h>
+#endif
+#include <errno.h>
+
+#ifndef GSS_C_OID_KRBV5_DES
+#define GSS_C_OID_KRBV5_DES GSS_C_NO_OID
 #endif
 
 #include "camel-sasl-gssapi.h"
@@ -45,8 +52,6 @@ CamelServiceAuthType camel_sasl_gssapi_authtype = {
 	"GSSAPI",
 	FALSE
 };
-
-static CamelSaslClass *parent_class = NULL;
 
 enum {
 	GSSAPI_STATE_INIT,
@@ -66,6 +71,13 @@ struct _CamelSaslGssapiPrivate {
 	gss_ctx_id_t ctx;
 	gss_name_t target;
 };
+
+
+static GByteArray *gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex);
+
+
+static CamelSaslClass *parent_class = NULL;
+
 
 static void
 camel_sasl_gssapi_class_init (CamelSaslGssapiClass *klass)
@@ -92,14 +104,16 @@ camel_sasl_gssapi_init (gpointer object, gpointer klass)
 static void
 camel_sasl_gssapi_finalize (CamelObject *object)
 {
-	CamelSaslGssapi *sasl = CAMEL_SASL_GSSAPI (object);
+	CamelSaslGssapi *gssapi = CAMEL_SASL_GSSAPI (object);
 	guint32 status;
 	
-	if (sasl->priv) {
-		gss_delete_sec_context (&status, sasl->priv->ctx);
-		gss_release_name (&status, sasl->priv->target);
-		g_free (sasl->priv);
-	}
+	if (gssapi->priv->ctx != GSS_C_NO_CONTEXT)
+		gss_delete_sec_context (&status, gssapi->priv->ctx, GSS_C_NO_BUFFER);
+	
+	if (gssapi->priv->target != GSS_C_NO_NAME)
+		gss_release_name (&status, gssapi->priv->target);
+	
+	g_free (gssapi->priv);
 }
 
 
@@ -131,37 +145,35 @@ gssapi_set_exception (OM_uint32 major, OM_uint32 minor, CamelException *ex)
 	switch (major) {
 	case GSS_S_BAD_MECH:
 		str = _("The specified mechanism is not supported by the "
-                        "provided credential, or is unrecognized by the "
-                        "implementation.");
+			"provided credential, or is unrecognized by the "
+			"implementation.");
 		break;
 	case GSS_S_BAD_NAME:
 		str = _("The provided target_name parameter was ill-formed.");
 		break;
 	case GSS_S_BAD_NAMETYPE:
 		str = _("The provided target_name parameter contained an "
-                        "invalid or unsupported type of name.");
+			"invalid or unsupported type of name.");
 		break;
 	case GSS_S_BAD_BINDINGS:
 		str = _("The input_token contains different channel "
-                        "bindings to those specified via the "
-                        "input_chan_bindings parameter.");
+			"bindings to those specified via the "
+			"input_chan_bindings parameter.");
 		break;
 	case GSS_S_BAD_SIG:
 		str = _("The input_token contains an invalid signature, or a "
-                        "signature that could not be verified.");
+			"signature that could not be verified.");
 		break;
 	case GSS_S_NO_CRED:
 		str = _("The supplied credentials were not valid for context "
-                        "initiation, or the credential handle did not "
-                        "reference any credentials.");
+			"initiation, or the credential handle did not "
+			"reference any credentials.");
 		break;
 	case GSS_S_NO_CONTEXT:
-		str = _("Indicates that the supplied context handle did not "
-                        "refer to a valid context.");
+		str = _("The supplied context handle did not refer to a valid context.");
 		break;
 	case GSS_S_DEFECTIVE_TOKEN:
-		str = _("Indicates that consistency checks performed on "
-                        "the input_token failed.");
+		str = _("The consistency checks performed on the input_token failed.");
 		break;
 	case GSS_S_DEFECTIVE_CREDENTIAL:
 		str = _("The consistency checks performed on the credential failed.");
@@ -170,8 +182,7 @@ gssapi_set_exception (OM_uint32 major, OM_uint32 minor, CamelException *ex)
 		str = _("The referenced credentials have expired.");
 		break;
 	case GSS_S_FAILURE:
-		switch (minor) {
-		}
+		str = error_message (minor);
 		break;
 	default:
 		str = _("Bad authentication response from server.");
@@ -196,10 +207,15 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 	
 	switch (priv->state) {
 	case GSSAPI_STATE_INIT:
-		if (!(h = camel_service_gethost (sasl->service, ex)))
-			goto lose;
+		if (!(h = camel_service_gethost (sasl->service, ex))) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Failed to resolve host `%s': %s"),
+					      sasl->service->url->host, g_strerror (errno));
+			return NULL;
+		}
 		
 		str = g_strdup_printf ("%s@%s", sasl->service_name, h->h_name);
+		printf ("FQDN: %s (%s)\n", h->h_name, str);
 		camel_free_host (h);
 		
 		inbuf.value = str;
@@ -229,7 +245,7 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		
 	challenge:
 		major = gss_init_sec_context (&minor, GSS_C_NO_CREDENTIAL, &priv->ctx, priv->target,
-					      GSS_C_OID_KRBV5_DES, GSS_C_DELEG_FLAG | GSS_C_MUTAUAL_FLAG |
+					      GSS_C_OID_KRBV5_DES, GSS_C_MUTUAL_FLAG |
 					      GSS_C_REPLAY_FLAG | GSS_C_SEQUENCE_FLAG,
 					      0, GSS_C_NO_CHANNEL_BINDINGS,
 					      input_token, &mech, &outbuf, &flags, &time);
@@ -243,11 +259,12 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 			break;
 		default:
 			gssapi_set_exception (major, minor, ex);
+			printf ("gss_init_sec_context() exception\n");
 			gss_release_buffer (&minor, &outbuf);
 			return NULL;
 		}
 		
-		challenge = g_byte_array_new ()
+		challenge = g_byte_array_new ();
 		g_byte_array_append (challenge, outbuf.value, outbuf.length);
 		gss_release_buffer (&minor, &outbuf);
 		break;
@@ -264,6 +281,7 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		major = gss_unwrap (&minor, priv->ctx, &inbuf, &outbuf, &conf_state, &qop);
 		if (major != GSS_S_COMPLETE) {
 			gssapi_set_exception (major, minor, ex);
+			printf ("gss_unwrap() exception\n");
 			gss_release_buffer (&minor, &outbuf);
 			return NULL;
 		}
@@ -276,7 +294,7 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		}
 		
 		/* check that our desired security layer is supported */
-		if (((unsigned char *) outbuf->value)[0] & DESIRED_SECURITY_LAYER) {
+		if ((((unsigned char *) outbuf.value)[0] & DESIRED_SECURITY_LAYER) != DESIRED_SECURITY_LAYER) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 					     _("Unsupported security layer."));
 			gss_release_buffer (&minor, &outbuf);
@@ -293,6 +311,7 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		major = gss_wrap (&minor, priv->ctx, FALSE, qop, &inbuf, &conf_state, &outbuf);
 		if (major != 0) {
 			gssapi_set_exception (major, minor, ex);
+			printf ("gss_wrap() exception\n");
 			gss_release_buffer (&minor, &outbuf);
 			g_free (str);
 			return NULL;
@@ -307,6 +326,7 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		sasl->authenticated = TRUE;
 		break;
 	default:
+		printf ("unknown state exception\n");
 		return NULL;
 	}
 	
