@@ -1,5 +1,10 @@
 2000-10-14  Michael Meeks  <michael@helixcode.com>
 
+	* Makefile.am: Add rule to use bonobo-ui-extract to build
+	translatable files.
+
+2000-10-14  Michael Meeks  <michael@helixcode.com>
+
 	* evolution-addressbook-ldap.xml: drasticaly shrink to just the
 	new features available with ldap; don't duplicate stuff.
 
