@@ -49,6 +49,11 @@ typedef struct {
 	int              selection_change_id;
 	int              cursor_change_id;
 	int              cursor_activated_id;
+
+	int              hadjustment_change_id;
+	int              hadjustment_value_change_id;
+	int              vadjustment_change_id;
+	int              vadjustment_value_change_id;
 	
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;
@@ -75,6 +80,13 @@ typedef struct {
 	guint            grabbed : 1;
 
 	guint            maybe_did_something : 1;
+
+	guint            cursor_on_screen : 1;
+
+	int              cursor_x1;
+	int              cursor_y1;
+	int              cursor_x2;
+	int              cursor_y2;
 
 	int    		 drag_col;
 	int    		 drag_row;
