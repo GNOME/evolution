@@ -6,8 +6,14 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
   * Addressbook
 
     #38084 - Rename local folder issue in contacts. (sean.gao@sun.com)
+    #41130 - HIG compliance. (Anna)
+    #41137 - HIG compliance. (Anna)
+    #41140 - HIG compliance. (Anna)
     #41144 - Use stock buttons in the ldap config page. (Toshok)
     #41211 - Add icon to "Add" button in "Add to Contacts" dialog. (Toshok)
+    #41229 - HIG compliance. (Anna)
+    #41231 - HIG compliance. (Anna)
+    #41232 - HIG compliance. (Anna)
     #41245 - HIG compliance. (Toshok)
     #41248 - HIG compliance. (Anna)
     #41249 - HIG compliance. (Anna)
@@ -18,6 +24,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #41910 - Crash when deleting addresses from long contact lists. (Toshok)
     #42048 - "Print" not hooked up in etable view. (Toshok)
     #42177 - Cannot tab out of date edit widgets in contact editor. (Toshok)
+    #42472 - Selecting a field in a contact highlights entire row. (Toshok)
     #42596 - Selecting text in a contact address field selects all
              rows of text (Toshok)
     #42604 - Display not shifted when cursor moved to next address
@@ -32,6 +39,10 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #43016 - Crash when adding duplicate contact. (Toshok)
     #43023 - All contacts have disappeared. (Toshok)
     #43090 - GalView menu missing from the addressbook. (Toshok)
+    #43175 - Evolution crashed pasting large amount of text into
+             address field. (Toshok)
+    #43213 - auto-completion folder list wasn't populated correctly on
+             fresh install. (Toshok)
 
   * Calendar
 
