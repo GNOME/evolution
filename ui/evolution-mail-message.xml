@@ -297,8 +297,8 @@
           <menuitem name="MessageReplySender" verb="" _label="_Reply to Sender"/>
           <menuitem name="MessageReplyList" verb="" _label="Reply to _List"/>
           <menuitem name="MessageReplyAll" verb="" _label="Reply to _All"/>
-          <menuitem name="MessageForward" verb="" _label="_Forward Message"/>
-          <submenu name="ForwardAs" _label="F_orward">
+          <menuitem name="MessageForward" verb="" _label="_Forward"/>
+          <submenu name="ForwardAs" _label="F_orward As...">
             <menuitem verb="MessageForwardAttached" _label="_Attached"/>
             <menuitem verb="MessageForwardInline" _label="_Inline"/>
             <menuitem verb="MessageForwardQuoted" _label="_Quoted"/>
