@@ -95,6 +95,39 @@ ethi_destroy (GtkObject *object){
 		(*GTK_OBJECT_CLASS (ethi_parent_class)->destroy) (object);
 }
 
+static int
+e_table_header_item_get_height (ETableHeaderItem *ethi)
+{
+	ETableHeader *eth;
+	int numcols, col;
+	int maxheight;
+
+	g_return_val_if_fail (ethi != NULL, 0);
+	g_return_val_if_fail (E_IS_TABLE_HEADER_ITEM (ethi), 0);
+       
+	eth = ethi->eth;
+	numcols = e_table_header_count (eth);
+
+	if (ethi->font) {
+		maxheight = ethi->font->ascent + ethi->font->descent + HEADER_PADDING;
+	} else {
+		/* FIXME: Default??? */
+		maxheight = 16;
+	}
+	for (col = 0; col < numcols; col++) {
+		ETableCol *ecol = e_table_header_get_column (eth, col);
+		
+		if (ecol->is_pixbuf) {
+			maxheight = MAX (maxheight, gdk_pixbuf_get_height (ecol->pixbuf) + HEADER_PADDING + 4);
+		}
+	}
+
+	if (maxheight < MIN_ARROW_SIZE + 4 + HEADER_PADDING)
+		maxheight = MIN_ARROW_SIZE + 4 + HEADER_PADDING;
+
+	return maxheight;
+}
+
 static void
 ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
@@ -146,9 +179,7 @@ ethi_font_set (ETableHeaderItem *ethi, GdkFont *font)
 
 	ethi->font = font;
 	
-	ethi->height = ethi->font->ascent + ethi->font->descent + HEADER_PADDING;
-	if (ethi->height < MIN_ARROW_SIZE + 4 + HEADER_PADDING)
-		ethi->height = MIN_ARROW_SIZE + 4 + HEADER_PADDING;
+	ethi->height = e_table_header_item_get_height (ethi);
 }
 
 static void
@@ -197,6 +228,8 @@ ethi_add_table_header (ETableHeaderItem *ethi, ETableHeader *header)
 {
 	ethi->eth = header;
 	gtk_object_ref (GTK_OBJECT (ethi->eth));
+
+	ethi->height = e_table_header_item_get_height (ethi);
 
 	ethi->structure_change_id = gtk_signal_connect (
 		GTK_OBJECT (header), "structure_change",
@@ -754,10 +787,9 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 		
 	case E_TABLE_COL_ARROW_UP:
 	case E_TABLE_COL_ARROW_DOWN:
-		if (!col->is_pixbuf || 
-		    (col->is_pixbuf && gdk_pixbuf_get_width (col->pixbuf) <= clip.width)) {
-			gtk_paint_arrow (
-					 gtk_widget_get_style (GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas)),
+		if (!col->is_pixbuf ||
+		    (clip.width > (gdk_pixbuf_get_width (col->pixbuf) + MIN_ARROW_SIZE))) {
+			gtk_paint_arrow (gtk_widget_get_style (GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas)),
 					 drawable,
 					 GTK_STATE_NORMAL,
 					 GTK_SHADOW_IN,
@@ -778,17 +810,20 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 
 	if (col->is_pixbuf){
 		xtra = (clip.width - gdk_pixbuf_get_width (col->pixbuf))/2;
+		if (xtra < 0) 
+			xtra = 0;
 		
 		xtra += HEADER_PADDING / 2;
 
 		gdk_pixbuf_render_to_drawable_alpha (col->pixbuf, 
-						    drawable,
-						    0, 0, 
-						    x + xtra, y + (clip.height - gdk_pixbuf_get_height (col->pixbuf)) / 2,
-						    gdk_pixbuf_get_width (col->pixbuf), gdk_pixbuf_get_height(col->pixbuf),
-						    GDK_PIXBUF_ALPHA_FULL, 128,
-						    GDK_RGB_DITHER_NORMAL,
-						    0, 0);
+						     drawable,
+						     0, 0, 
+						     x + xtra, y + (clip.height - gdk_pixbuf_get_height (col->pixbuf)) / 2,
+						     gdk_pixbuf_get_width (col->pixbuf),
+						     gdk_pixbuf_get_height (col->pixbuf),
+						     GDK_PIXBUF_ALPHA_FULL, 128,
+						     GDK_RGB_DITHER_NORMAL,
+						     0, 0);
 	} else {
 		int str_width, ellipsis_width, text_len;
 		int font_height, y_xtra;
@@ -813,7 +848,7 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 			xtra += HEADER_PADDING / 2;
 			
 			gdk_draw_text (drawable, ethi->font,
-				       ethi->gc, clip.x + xtra, y + (ethi->height - y_xtra - HEADER_PADDING),
+				       ethi->gc, clip.x + xtra, y + (ethi->height - y_xtra - HEADER_PADDING - 1),
 				       col->text, text_len);
 		} else {
 			/* Need ellipsis */
@@ -839,13 +874,13 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 			y_xtra = (clip.height - font_height) / 2;
 
 			gdk_draw_text (drawable, ethi->font, ethi->gc,
-				       x + xtra, y + (ethi->height - y_xtra - HEADER_PADDING),
+				       x + xtra, y + (ethi->height - y_xtra - HEADER_PADDING - 1),
 				       col->text, ellipsis_length);
 			gdk_draw_string (drawable, ethi->font, ethi->gc,
 					 x + xtra + gdk_text_width (ethi->font,
 								    col->text,
 								    ellipsis_length),
-					 y + (ethi->height - y_xtra - HEADER_PADDING),
+					 y + (ethi->height - y_xtra - HEADER_PADDING - 1),
 					 "...");
 		}
 	}
@@ -1603,3 +1638,4 @@ e_table_header_item_get_type (void)
 
 	return type;
 }
+
