@@ -1,3 +1,16 @@
+2001-12-17  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug 17355 ]
+	* gui/component/select-names/e-select-names.c (new_folder): if
+	we're dealing with an LDAP folder, prepend [LDAP] to it.  Now that
+	we have 3 different places where folders are coming from, it helps
+	to be able to differentiate "Contacts" in ~/evolution and a
+	"Contacts" ldap server and a "Contacts" exchange folder.
+	(add_additional_select_names_uris): loop through the bonobo conf
+	settings for additional folders, adding them to the option menu.
+	(e_select_names_hookup_shell_listeners): call
+	add_additional_select_names_uris.
+
 2001-11-28  Christopher James Lahey  <clahey@ximian.com>
  
  	* gui/widgets/e-minicard-view-widget.c
