@@ -55,10 +55,12 @@
 	 _tip="Send a mess to the selected contacts."/>
 
     <cmd name="ContactsCopyToFolder" _label="Copy to Folder..."
-	 _tip="Copy Contact(s) to Another Folder..."/>
+	 _tip="Copy Contact(s) to Another Folder..."
+	 accel="*Control**Shift*y"/>
 
     <cmd name="ContactsMoveToFolder" _label="Move to Folder..."
-	 _tip="Move Contact(s) to Another Folder..."/>
+	 _tip="Move Contact(s) to Another Folder..."
+	 accel="*Control**Shift*v"/>
   </commands>
 
   <menu>
@@ -98,6 +100,10 @@
     <placeholder name="EditPlaceholder">
 
       <submenu name="Edit" _label="_Edit">
+	<menuitem name="ContactsSelectAll" verb="" _label="_Select All"/>
+
+	<separator f="" name="eadbk2"/>
+
 	<menuitem name="ContactsCut" verb="" _label="C_ut"
 		  pixtype="pixbuf"/>
 	
@@ -107,11 +113,10 @@
 	<menuitem name="ContactsPaste" verb="" _label="_Paste"
 		  pixtype="pixbuf"/>
 
+	<separator f="" name="eadbk6"/>
+
 	<menuitem name="ContactDelete" verb=""
 		  _label="_Delete" pixtype="pixbuf"/>
-	<separator f="" name="eadbk2"/>
-
-	<menuitem name="ContactsSelectAll" verb="" _label="_Select All"/>
       </submenu>
 
     </placeholder>
@@ -124,9 +129,12 @@
 
 	<menuitem name="ContactsSendMessageToContact"
 		  _label="_Send Message to Contact..." verb=""/>
+	<menuitem name="ContactActionStop" verb="ContactStop" _label="Stop"/>
+
+	<separator f="" name="eadbk5"/>
+
 	<menuitem name="ContactsCopyToFolder" _label="_Copy to Folder..." verb=""/>
 	<menuitem name="ContactsMoveToFolder" _label="_Move to Folder..." verb=""/>
-	<menuitem name="ContactActionStop" verb="ContactStop" _label="Stop"/>
       </placeholder>
     </submenu>
 

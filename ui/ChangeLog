@@ -1,3 +1,13 @@
+2002-07-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-mail-message.xml: Bind MessageMove to Control-Shift-V.
+	[#24394]
+
+	* evolution-addressbook.xml: Bind ContactsMoveToFolder and
+	ContactsCopyToFolder to Control-Shift-V and Control-Shift-Y for
+	consistency with the mailer.  Also move "Select All" up in the
+	Edit menu and add a separator before "Delete".
+
 2002-07-23  Larry Ewing  <lewing@ximian.com>
 
 	* evolution-message-composer.xml: changed accel for HTML from T to

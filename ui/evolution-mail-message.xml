@@ -83,7 +83,7 @@
 
     <cmd name="MessageMove"
      _tip="Move selected message(s) to another folder"
-     accel="*Control**Shift*m"
+     accel="*Control**Shift*v"
      pixtype="pixbuf"/>
 
     <cmd name="MessageOpen"
