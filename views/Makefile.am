@@ -1,1 +1,1 @@
-SUBDIRS = mail tasks
+SUBDIRS = addressbook mail tasks

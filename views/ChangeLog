@@ -1,3 +1,20 @@
+2001-03-04  Christopher James Lahey  <clahey@ximian.com>
+
+	* addressbook/.cvsignore, addressbook/Makefile.am,
+	addressbook/Phone_List.galview, addressbook/galview.xml: Added a
+	built in view menu for addressbook.
+
+2001-03-04  Christopher James Lahey  <clahey@ximian.com>
+
+	* mail/By_Sender.galview, mail/By_Subject.galview: Corrected these
+	views a bit.
+
+	* mail/By_Status.galview, mail/Messages.galview: New views for "By
+	Status" and "Messages".
+
+	* mail/Makefile.am, mail/galview.xml: Added By_Status.galview and
+	Messages.galview.
+
 2001-03-01  Christopher James Lahey  <clahey@ximian.com>
 
 	* .cvsignore, Makefile.am, mail/.cvsignore,

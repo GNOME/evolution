@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<GalViewCollection>
+  <GalView id="Phone_List" title="Phone List" filename="Phone_List.galview" type="etable"/>
+</GalViewCollection>
