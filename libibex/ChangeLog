@@ -1,3 +1,8 @@
+2000-02-20  Matt Loper  <matt@helixcode.com>
+
+	* Makefile.am: changed mkindex_LDADD to libibex.a instead of
+	libibex.la.
+
 2000-02-19  Matt Loper  <matt@helixcode.com>
 
 	* .cvsignore: added lookup.

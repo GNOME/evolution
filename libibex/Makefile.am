@@ -13,7 +13,7 @@ noinst_PROGRAMS = mkindex lookup
 
 mkindex_SOURCES = mkindex.c
 
-mkindex_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS)
+mkindex_LDADD = libibex.a $(GLIB_LIBS) $(UNICODE_LIBS)
 
 lookup_SOURCES = lookup.c
 
