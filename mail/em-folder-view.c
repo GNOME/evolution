@@ -129,6 +129,7 @@ struct _EMFolderViewPrivate {
 	guint seen_id;
 	guint setting_notify_id;
 	int nomarkseen:1;
+	int destroyed:1;
 
 	CamelObjectHookID folder_changed_id;
 
@@ -220,6 +221,8 @@ emfv_destroy (GtkObject *o)
 {
 	EMFolderView *emfv = (EMFolderView *) o;
 	struct _EMFolderViewPrivate *p = emfv->priv;
+
+	p->destroyed = TRUE;
 
 	if (p->seen_id) {
 		g_source_remove(p->seen_id);
@@ -2221,9 +2224,10 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 static void
 emfv_gui_folder_changed(CamelFolder *folder, void *dummy, EMFolderView *emfv)
 {
-	emfv_enable_menus(emfv);
-
-	g_signal_emit(emfv, signals[EMFV_LOADED], 0);
+	if (!emfv->priv->destroyed) {
+		emfv_enable_menus(emfv);
+		g_signal_emit(emfv, signals[EMFV_LOADED], 0);
+	}
 	g_object_unref(emfv);
 }
 

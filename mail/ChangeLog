@@ -1,5 +1,13 @@
 2004-10-11  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #67408.
+
+	* em-folder-view.c (emfv_gui_folder_changed): noop if we were
+	destroyed.
+	(emfv_destroy): set destroyed bit.
+
+2004-10-11  Not Zed  <NotZed@Ximian.com>
+
 	* mail-component.c (mc_startup): register the formatter types
 	before registering the formatter hook.
 
