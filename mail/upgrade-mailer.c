@@ -630,7 +630,7 @@ shortcuts_upgrade_uri (GHashTable *accounts, GHashTable *imap_sources, const cha
 static int
 shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, const char *filename)
 {
-	unsigned char *buffer, *inptr, *start, *folder, *new, *p, *account = NULL;
+	unsigned char *buffer, *inptr, *start, *folder, *new, *account = NULL;
 	ssize_t nread = 0, nwritten, n;
 	gboolean url_need_upgrade;
 	struct stat st;
@@ -682,11 +682,12 @@ shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, cons
 		inptr = strstr (inptr, ">evolution:/");
 		if (inptr) {
 			inptr += 12;
-			p = account = inptr;
-			while (*p && *p != '/')
-				p++;
+			account = inptr;
+			while (*inptr && *inptr != '/')
+				inptr++;
 			
-			account = g_strndup (account, p - account);
+			account = g_strndup (account, inptr - account);
+			inptr++;
 			
 			url_need_upgrade = GPOINTER_TO_INT (g_hash_table_lookup (accounts, account));
 		}
@@ -767,11 +768,12 @@ shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, cons
 			inptr = strstr (inptr, ">evolution:/");
 			if (inptr) {
 				inptr += 12;
-				p = account = inptr;
-				while (*p && *p != '/')
-					p++;
+				account = inptr;
+				while (*inptr && *inptr != '/')
+					inptr++;
 				
-				account = g_strndup (account, p - account);
+				account = g_strndup (account, inptr - account);
+				inptr++;
 				
 				url_need_upgrade = GPOINTER_TO_INT (g_hash_table_lookup (accounts, account));
 			}
