@@ -450,10 +450,8 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	mail_append_mail (outbox_folder, message, info, append_mail_cleanup, NULL);
 	camel_object_unref (CAMEL_OBJECT (message));
 	
-	if (psd) {
+	if (psd)
 		camel_folder_set_message_flags (psd->folder, psd->uid, psd->flags, psd->flags);
-		free_psd (NULL, psd);
-	}
 	
 	gtk_widget_destroy (GTK_WIDGET (composer));
 }
@@ -494,7 +492,7 @@ compose_msg (GtkWidget *widget, gpointer user_data)
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 			    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
-	
+
 	gtk_widget_show (composer);
 }
 
@@ -1299,6 +1297,7 @@ do_edit_messages(CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void
 					    composer_send_cb, NULL);
 			gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 					    composer_postpone_cb, NULL);
+
 			gtk_widget_show (GTK_WIDGET (composer));
 		}
 	}

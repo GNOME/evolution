@@ -326,7 +326,7 @@ maybe_update (mail_folder_info *mfi)
 		return;
 
 	mfi->flags |= MAIL_FIF_UPDATE_QUEUED;
-	g_idle_add (update_idle, mfi);
+	g_timeout_add (100, update_idle, mfi);
 }
 
 static void

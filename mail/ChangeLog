@@ -1,3 +1,14 @@
+2001-07-06  Peter Williams  <peterw@ximian.com>
+
+	* mail-callbacks.c (composer_postpone_cb): Don't free the psd here --
+	it will be freed on the "destroy" signal.
+
+	* mail-folder-cache.c (maybe_update): Instead of an idle, use a very
+	short timeout in hopes of reducing the number of redundant updates.
+
+	* mail-tools.c (mail_tool_uri_to_folder): Only note the folder in the
+	cache if we successfully got it.
+
 2001-07-06  Jason Leach  <jleach@ximian.com>
 
 	* mail-callbacks.c (delete_msg): Select the very next message
