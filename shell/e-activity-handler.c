@@ -327,7 +327,7 @@ task_bar_destroy_callback (GtkObject *task_bar_object,
 /* GObject methods.  */
 
 static void
-impl_finalize (GObject *object)
+impl_dispose (GObject *object)
 {
 	EActivityHandler *handler;
 	EActivityHandlerPrivate *priv;
@@ -343,8 +343,22 @@ impl_finalize (GObject *object)
 		activity_info_free (info);
 	}
 
+	g_list_free (priv->activity_infos);
+	priv->activity_infos = NULL;
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EActivityHandler *handler;
+	EActivityHandlerPrivate *priv;
+
+	handler = E_ACTIVITY_HANDLER (object);
+	priv = handler->priv;
+
 	g_free (priv);
-	handler->priv = NULL;
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
@@ -516,6 +530,7 @@ class_init (GObjectClass *object_class)
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	handler_class = E_ACTIVITY_HANDLER_CLASS (object_class);

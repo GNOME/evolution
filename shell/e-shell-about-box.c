@@ -209,7 +209,7 @@ timeout_callback (void *data)
 /* GObject methods.  */
 
 static void
-impl_finalize (GObject *object)
+impl_dispose (GObject *object)
 {
 	EShellAboutBox *about_box;
 	EShellAboutBoxPrivate *priv;
@@ -217,14 +217,32 @@ impl_finalize (GObject *object)
 	about_box = E_SHELL_ABOUT_BOX (object);
 	priv = about_box->priv;
 
-	if (priv->pixmap != NULL)
+	if (priv->pixmap != NULL) {
 		gdk_pixmap_unref (priv->pixmap);
+		priv->pixmap = NULL;
+	}
 
-	if (priv->text_background_pixmap != NULL)
+	if (priv->text_background_pixmap != NULL) {
 		gdk_pixmap_unref (priv->text_background_pixmap);
+		priv->text_background_pixmap = NULL;
+	}
 
-	if (priv->clipped_gc != NULL)
+	if (priv->clipped_gc != NULL) {
 		gdk_gc_unref (priv->clipped_gc);
+		priv->clipped_gc = NULL;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EShellAboutBox *about_box;
+	EShellAboutBoxPrivate *priv;
+
+	about_box = E_SHELL_ABOUT_BOX (object);
+	priv = about_box->priv;
 
 	if (priv->timeout_id != -1)
 		g_source_remove (priv->timeout_id);
@@ -347,6 +365,7 @@ class_init (GObjectClass *object_class)
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (object_class);

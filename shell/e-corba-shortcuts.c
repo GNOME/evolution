@@ -87,7 +87,7 @@ shortcut_list_to_corba (const GSList *shortcut_list,
 /* GObject methods.  */
 
 static void
-impl_finalize (GObject *object)
+impl_dispose (GObject *object)
 {
 	ECorbaShortcuts *corba_shortcuts;
 	ECorbaShortcutsPrivate *priv;
@@ -95,9 +95,22 @@ impl_finalize (GObject *object)
 	corba_shortcuts = E_CORBA_SHORTCUTS (object);
 	priv = corba_shortcuts->priv;
 
-	g_object_unref (priv->shortcuts);
+	if (priv->shortcuts != NULL) {
+		g_object_unref (priv->shortcuts);
+		priv->shortcuts = NULL;
+	}
 
-	g_free (priv);
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	ECorbaShortcuts *corba_shortcuts;
+
+	corba_shortcuts = E_CORBA_SHORTCUTS (object);
+
+	g_free (corba_shortcuts->priv);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
@@ -286,6 +299,7 @@ class_init (GObjectClass *object_class)
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	corba_shortcuts_class = E_CORBA_SHORTCUTS_CLASS (object_class);

@@ -390,6 +390,23 @@ impl_StorageRegistry_getFolderByUri (PortableServer_Servant servant,
 /* GObject methods.  */
 
 static void
+impl_dispose (GObject *object)
+{
+	ECorbaStorageRegistry *corba_storage_registry;
+	ECorbaStorageRegistryPrivate *priv;
+
+	corba_storage_registry = E_CORBA_STORAGE_REGISTRY (object);
+	priv = corba_storage_registry->priv;
+
+	if (priv->storage_set != NULL) {
+		g_object_unref (priv->storage_set);
+		priv->storage_set = NULL;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
 impl_finalize (GObject *object)
 {
 	ECorbaStorageRegistry *corba_storage_registry;
@@ -398,8 +415,6 @@ impl_finalize (GObject *object)
 	corba_storage_registry = E_CORBA_STORAGE_REGISTRY (object);
 	priv = corba_storage_registry->priv;
 
-	if (priv->storage_set != NULL)
-		g_object_unref (priv->storage_set);
 	g_free (priv);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -415,6 +430,7 @@ class_init (ECorbaStorageRegistryClass *klass)
 	POA_GNOME_Evolution_StorageRegistry__epv *epv;
 
 	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	epv = & klass->epv;

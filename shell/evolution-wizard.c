@@ -155,6 +155,14 @@ impl_GNOME_Evolution_Wizard_notifyAction (PortableServer_Servant servant,
 
 
 static void
+impl_dispose (GObject *object)
+{
+	/* (Nothing to do here.)  */
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
 impl_finalize (GObject *object)
 {
 	EvolutionWizard *wizard;
@@ -177,6 +185,7 @@ evolution_wizard_class_init (EvolutionWizardClass *klass)
 	POA_GNOME_Evolution_Wizard__epv *epv = &klass->epv;
 
 	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	signals[NEXT] = gtk_signal_new ("next", GTK_RUN_FIRST,

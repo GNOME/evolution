@@ -608,24 +608,15 @@ free_mapping (gpointer key, gpointer value, gpointer user_data)
 }
 
 static void
-impl_finalize (GObject *object)
+impl_dispose (GObject *object)
 {
 	EvolutionStorage *storage;
 	EvolutionStoragePrivate *priv;
 	CORBA_Environment ev;
 	GList *p;
-	GSList *sp;
 
 	storage = EVOLUTION_STORAGE (object);
 	priv = storage->priv;
-
-	g_free (priv->name);
-	if (priv->folder_tree != NULL)
-		e_folder_tree_destroy (priv->folder_tree);
-	if (priv->uri_to_path != NULL) {
-		g_hash_table_foreach (priv->uri_to_path, free_mapping, NULL);
-		g_hash_table_destroy (priv->uri_to_path);
-	}
 
 	CORBA_exception_init (&ev);
 
@@ -641,8 +632,31 @@ impl_finalize (GObject *object)
 	}
 
 	g_list_free (priv->corba_storage_listeners);
+	priv->corba_storage_listeners = NULL;
 
 	CORBA_exception_free (&ev);
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EvolutionStorage *storage;
+	EvolutionStoragePrivate *priv;
+	GList *p;
+	GSList *sp;
+
+	storage = EVOLUTION_STORAGE (object);
+	priv = storage->priv;
+
+	g_free (priv->name);
+	if (priv->folder_tree != NULL)
+		e_folder_tree_destroy (priv->folder_tree);
+	if (priv->uri_to_path != NULL) {
+		g_hash_table_foreach (priv->uri_to_path, free_mapping, NULL);
+		g_hash_table_destroy (priv->uri_to_path);
+	}
 
 	for (sp = priv->folder_property_items; p != NULL; p = p->next) {
 		FolderPropertyItem *item;
@@ -670,6 +684,7 @@ class_init (EvolutionStorageClass *klass)
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	epv = & klass->epv;

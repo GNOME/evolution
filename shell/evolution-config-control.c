@@ -53,6 +53,28 @@ static int signals[LAST_SIGNAL] = { 0 };
 /* GObject methods.  */
 
 static void
+impl_dispose (GObject *object)
+{
+	EvolutionConfigControl *config_control;
+	EvolutionConfigControlPrivate *priv;
+
+	config_control = EVOLUTION_CONFIG_CONTROL (object);
+	priv = config_control->priv;
+
+	if (priv->control != NULL) {
+		bonobo_object_unref (BONOBO_OBJECT (priv->control));
+		priv->control = NULL;
+	}
+
+	if (priv->event_source != NULL) {
+		bonobo_object_unref (BONOBO_OBJECT (priv->event_source));
+		priv->event_source = NULL;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
 impl_finalize (GObject *object)
 {
 	EvolutionConfigControl *config_control;
@@ -61,13 +83,7 @@ impl_finalize (GObject *object)
 	config_control = EVOLUTION_CONFIG_CONTROL (object);
 	priv = config_control->priv;
 
-	if (priv != NULL) {
-		bonobo_object_unref (BONOBO_OBJECT (priv->control));
-		bonobo_object_unref (BONOBO_OBJECT (priv->event_source));
-
-		g_free (priv);
-		config_control->priv = NULL;
-	}
+	g_free (priv);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
@@ -128,6 +144,7 @@ class_init (EvolutionConfigControlClass *class)
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	epv = &class->epv;

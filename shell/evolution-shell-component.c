@@ -755,13 +755,10 @@ impl_requestQuit (PortableServer_Servant servant,
 /* GObject methods.  */
 
 static void
-impl_finalize (GObject *object)
+impl_dispose (GObject *object)
 {
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
-	CORBA_Environment ev;
-	GSList *sp;
-	GList *p;
 
 	shell_component = EVOLUTION_SHELL_COMPONENT (object);
 
@@ -772,14 +769,30 @@ impl_finalize (GObject *object)
 		priv->ping_timeout_id = -1;
 	}
 
-	CORBA_exception_init (&ev);
-
 	if (priv->owner_client != NULL) {
 		g_object_unref (priv->owner_client);
 		priv->owner_client = NULL;
 	}
 
-	CORBA_exception_free (&ev);
+	if (priv->uic != NULL) {
+		bonobo_object_unref (BONOBO_OBJECT (priv->uic));
+		priv->uic = NULL;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentPrivate *priv;
+	GSList *sp;
+	GList *p;
+
+	shell_component = EVOLUTION_SHELL_COMPONENT (object);
+
+	priv = shell_component->priv;
 
 	for (p = priv->folder_types; p != NULL; p = p->next) {
 		EvolutionShellComponentFolderType *folder_type;
@@ -800,9 +813,6 @@ impl_finalize (GObject *object)
 	for (sp = priv->user_creatable_item_types; sp != NULL; sp = sp->next)
 		user_creatable_item_type_free ((UserCreatableItemType *) sp->data);
 	g_slist_free (priv->user_creatable_item_types);
-
-	if (priv->uic != NULL)
-		bonobo_object_unref (BONOBO_OBJECT (priv->uic));
 
 	g_free (priv);
 
@@ -857,6 +867,7 @@ class_init (EvolutionShellComponentClass *klass)
 	POA_GNOME_Evolution_ShellComponent__epv *epv = &klass->epv;
 
 	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	signals[OWNER_SET]

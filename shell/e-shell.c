@@ -1026,7 +1026,7 @@ create_view (EShell *shell,
 /* GObject methods.  */
 
 static void
-impl_finalize (GObject *object)
+impl_dispose (GObject *object)
 {
 	EShell *shell;
 	EShellPrivate *priv;
@@ -1037,36 +1037,45 @@ impl_finalize (GObject *object)
 
 	priv->is_initialized = FALSE;
 
-	if (priv->iid != NULL)
-		bonobo_activation_active_server_unregister (priv->iid, bonobo_object_corba_objref (BONOBO_OBJECT (shell)));
-
-	g_free (priv->local_directory);
-
 	if (priv->storage_set != NULL) {
 		g_object_unref (priv->storage_set);
 		priv->storage_set = NULL;
 	}
 
-	if (priv->local_storage != NULL)
+	if (priv->local_storage != NULL) {
 		g_object_unref (priv->local_storage);
+		priv->local_storage = NULL;
+	}
 
-	if (priv->summary_storage != NULL)
+	if (priv->summary_storage != NULL) {
 		g_object_unref (priv->summary_storage);
+		priv->summary_storage = NULL;
+	}
 
-	if (priv->shortcuts != NULL)
+	if (priv->shortcuts != NULL) {
 		g_object_unref (priv->shortcuts);
+		priv->shortcuts = NULL;
+	}
 
-	if (priv->folder_type_registry != NULL)
+	if (priv->folder_type_registry != NULL) {
 		g_object_unref (priv->folder_type_registry);
+		priv->folder_type_registry = NULL;
+	}
 
-	if (priv->uri_schema_registry != NULL)
+	if (priv->uri_schema_registry != NULL) {
 		g_object_unref (priv->uri_schema_registry);
+		priv->uri_schema_registry = NULL;
+	}
 
-	if (priv->component_registry != NULL)
+	if (priv->component_registry != NULL) {
 		g_object_unref (priv->component_registry);
+		priv->component_registry = NULL;
+	}
 
-	if (priv->user_creatable_items_handler != NULL)
+	if (priv->user_creatable_items_handler != NULL) {
 		g_object_unref (priv->user_creatable_items_handler);
+		priv->user_creatable_items_handler = NULL;
+	}
 
 	for (p = priv->views; p != NULL; p = p->next) {
 		EShellView *view;
@@ -1084,6 +1093,7 @@ impl_finalize (GObject *object)
 	}
 
 	g_list_free (priv->views);
+	priv->views = NULL;
 
 	/* No unreffing for these as they are aggregate.  */
 	/* bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry)); */
@@ -1091,10 +1101,10 @@ impl_finalize (GObject *object)
 	/* bonobo_object_unref (BONOBO_OBJECT (priv->corba_shortcuts)); */
 
 	/* FIXME.  Maybe we should do something special here.  */
-	if (priv->offline_handler != NULL)
+	if (priv->offline_handler != NULL) {
 		g_object_unref (priv->offline_handler);
-
-	e_free_string_list (priv->crash_type_names);
+		priv->offline_handler = NULL;
+	}
 
 	if (priv->settings_dialog != NULL) {
 		gtk_widget_destroy (priv->settings_dialog);
@@ -1105,6 +1115,25 @@ impl_finalize (GObject *object)
 		/* g_object_unref (priv->config_listener); FIXME */
 		priv->config_listener = NULL;
 	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
+impl_finalize (GObject *object)
+{
+	EShell *shell;
+	EShellPrivate *priv;
+
+	shell = E_SHELL (object);
+	priv = shell->priv;
+
+	if (priv->iid != NULL)
+		bonobo_activation_active_server_unregister (priv->iid, bonobo_object_corba_objref (BONOBO_OBJECT (shell)));
+
+	g_free (priv->local_directory);
+
+	e_free_string_list (priv->crash_type_names);
 
 	g_free (priv);
 
@@ -1123,6 +1152,7 @@ class_init (EShellClass *klass)
 	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	signals[NO_VIEWS_LEFT] =

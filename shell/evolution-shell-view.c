@@ -119,6 +119,15 @@ impl_ShellView_show_settings (PortableServer_Servant servant,
 
 
 /* GObject methods.  */
+
+static void
+impl_dispose (GObject *object)
+{
+	/* Nothing to do here.  */
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
 static void
 impl_finalize (GObject *object)
 {
@@ -141,6 +150,7 @@ class_init (EvolutionShellViewClass *klass)
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	epv = &klass->epv;

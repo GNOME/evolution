@@ -210,6 +210,28 @@ schedule_relayout (ESplash *splash)
 /* GObject methods.  */
 
 static void
+impl_dispose (GObject *object)
+{
+	ESplash *splash;
+	ESplashPrivate *priv;
+
+	splash = E_SPLASH (object);
+	priv = splash->priv;
+
+	if (priv->splash_image_pixbuf != NULL) {
+		gdk_pixbuf_unref (priv->splash_image_pixbuf);
+		priv->splash_image_pixbuf = NULL;
+	}
+
+	if (priv->layout_idle_id != 0) {
+		gtk_idle_remove (priv->layout_idle_id);
+		priv->layout_idle_id = 0;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
 impl_finalize (GObject *object)
 {
 	ESplash *splash;
@@ -219,9 +241,6 @@ impl_finalize (GObject *object)
 	splash = E_SPLASH (object);
 	priv = splash->priv;
 
-	if (priv->splash_image_pixbuf != NULL)
-		gdk_pixbuf_unref (priv->splash_image_pixbuf);
-
 	for (p = priv->icons; p != NULL; p = p->next) {
 		Icon *icon;
 
@@ -230,9 +249,6 @@ impl_finalize (GObject *object)
 	}
 
 	g_list_free (priv->icons);
-
-	if (priv->layout_idle_id != 0)
-		gtk_idle_remove (priv->layout_idle_id);
 
 	g_free (priv);
 
@@ -246,6 +262,7 @@ class_init (ESplashClass *klass)
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	parent_class = gtk_type_class (gtk_window_get_type ());

@@ -51,6 +51,14 @@ static int signals[LAST_SIGNAL];
 /* GObject methods.  */
 
 static void
+impl_dispose (GObject *object)
+{
+	/* Nothing to do here.  */
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+}
+
+static void
 impl_finalize (GObject *object)
 {
 	EvolutionSession *session;
@@ -110,6 +118,7 @@ class_init (EvolutionSessionClass *klass)
 	object_class = G_OBJECT_CLASS (klass);
 	parent_class = gtk_type_class (PARENT_TYPE);
 
+	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	signals[LOAD_CONFIGURATION]

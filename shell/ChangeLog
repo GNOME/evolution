@@ -1,5 +1,21 @@
 2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-activity-handler.c: Split finalize/dispose.
+	* e-corba-shortcuts.c: Likewise.
+	* e-corba-storage-registry.c: Likewise.
+	* e-shell-about-box.c: Likewise.
+	* e-shell.c: Likewise.
+	* e-splash.c: Likewise.
+	* evolution-config-control.c: Likewise.
+	* evolution-session.c: Likewise.
+	* evolution-shell-component.c: Likewise.
+	* evolution-shell-view.c: Likewise.
+	* evolution-storage-set-view.c: Likewise.
+	* evolution-storage.c: Likewise.
+	* evolution-wizard.c: Likewise.
+
+2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* All: g_object_unref instead of bonobo_object_unref for the
 	EvolutionShellComponentClient and EvolutionShellClient interfaces.
 
