@@ -227,6 +227,7 @@ create_headings (GnomeMonthItem *mitem)
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[ITEM_HEAD_GROUP + i]),
 					       gnome_canvas_text_get_type (),
 					       "fill_color", "white",
+					       "font", "-adobe-helvetica-medium-r-normal--12-*-72-72-p-*-iso8859-1",
 					       NULL);
 	}
 }
