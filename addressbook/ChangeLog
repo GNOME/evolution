@@ -1,5 +1,24 @@
 2003-05-13  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_set_separator): strlen ->
+	g_utf8_strlen.
+	(e_select_names_text_model_insert): same.
+	(e_select_names_text_model_insert_length): big change, make this
+	work with multibyte utf8.
+	(e_select_names_text_model_delete): same.  this could possibly use
+	a tighter loop + a memmove, but this works.
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_get_textification): make sure our truncation
+	to MAX_LENGTH characters uses utf8 characters, not bytes.
+	(e_select_names_model_name_pos): track e-text-model change.
+	pos/length are now in utf8 character terms, so use g_utf8_strlen
+	instead of strlen.
+	(e_select_names_model_text_pos): same.
+
+2003-05-13  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-addressbook-table-adapter.c (addressbook_dispose):
 	rename addressbook_destroy to this, and guard against multiple
 	calls.

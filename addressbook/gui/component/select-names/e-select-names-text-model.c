@@ -297,7 +297,7 @@ e_select_names_text_model_set_separator (ESelectNamesTextModel *model, const cha
 
 	g_free (model->sep);
 	model->sep = g_strdup (sep);
-	model->seplen = strlen (sep);
+	model->seplen = g_utf8_strlen (sep, -1);
 }
 
 static const gchar *
@@ -325,7 +325,7 @@ e_select_names_text_model_set_text (ETextModel *model, const gchar *text)
 static void
 e_select_names_text_model_insert (ETextModel *model, gint position, const gchar *text)
 {
-	e_select_names_text_model_insert_length (model, position, text, strlen (text));
+	e_select_names_text_model_insert_length (model, position, text, g_utf8_strlen (text, -1));
 }
 
 static void
@@ -333,8 +333,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 {
 	ESelectNamesTextModel *text_model = E_SELECT_NAMES_TEXT_MODEL (model);
 	ESelectNamesModel *source = text_model->source;
-
-	gint i;
+	const char *t;
 
 	if (out) {
 		gchar *tmp = g_strndup (text, length);
@@ -342,7 +341,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 		g_free (tmp);
 	}
 
-	pos = CLAMP (pos, 0, strlen (e_select_names_model_get_textification (source, text_model->sep)));
+	pos = CLAMP (pos, 0, g_utf8_strlen (e_select_names_model_get_textification (source, text_model->sep), -1));
 
 	/* We want to control all cursor motions ourselves, rather than taking hints
 	   from the ESelectNamesModel. */
@@ -350,40 +349,49 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 
 	/* We handle this one character at a time. */
 
-	for (i = 0; i < length && text[i]; ++i) {
+	for (t = text; length >= 0; t = g_utf8_next_char (t), length--) {
 		gint index, start_pos, text_len;
 		gboolean inside_quote = FALSE;
+		gunichar ut = g_utf8_get_char (t);
+
+		if (ut == 0)
+			break;
 
 		text_model->last_magic_comma_pos = -1;
 
 		if (out) 
-			fprintf (out, "processing [%c]\n", text[i]);
+			fprintf (out, "processing [%d]\n", ut);
 
 		e_select_names_model_text_pos (source, text_model->seplen, pos, &index, &start_pos, &text_len);
 
 		if (out) 
 			fprintf (out, "index=%d start_pos=%d text_len=%d\n", index, start_pos, text_len);
 
-		if (text[i] == *text_model->sep && index >= 0) { /* Is this a quoted or an unquoted separator we are dealing with? */
+		/* Is this a quoted or an unquoted separator we are dealing with? */
+		if (ut == g_utf8_get_char(text_model->sep) && index >= 0) {
 			const EDestination *dest = e_select_names_model_get_destination (source, index);
 			if (dest) {
 				const gchar *str = e_destination_get_textrep (dest, FALSE);
-				gint j;
+				int j;
+				const char *jp;
+
 				if (out)
 					fprintf (out, "str=%s pos=%d\n", str, pos);
-				for (j=0; j<pos-start_pos && str[j]; ++j)
-					if (str[j] == '"') {
+
+				for (jp = str, j = 0; j<pos-start_pos && *jp; jp = g_utf8_next_char (jp), ++j) {
+					if (*jp == '"') {
 						inside_quote = !inside_quote;
 						if (out)
 							fprintf (out, "flip to %d at %d\n", start_pos+j, inside_quote);
 					}
+				}
 			}
 			if (out)
 				fprintf (out, inside_quote ? "inside quote\n" : "not inside quote\n");
 		}
 
 
-		if (text[i] == *text_model->sep && !inside_quote) {
+		if (ut == g_utf8_get_char (text_model->sep) && !inside_quote) {
 
 			/* This is the case of hitting , first thing in an empty entry */
 			if (index == -1) {
@@ -449,9 +457,9 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 			EReposInsertShift repos;
 			gint offset = MAX (pos - start_pos, 0);
 			const gchar *str;
-			gchar *new_str = NULL;
+			GString *new_str = g_string_new (NULL);
 			gint this_length = 1;
-			gboolean whitespace = isspace ((gint) text[i]);
+			gboolean whitespace = g_unichar_isspace (ut);
 
 			str = index >= 0 ? e_select_names_model_get_string (source, index) : NULL;
 			if (str && *str) {
@@ -462,27 +470,34 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 					} else {
 						/* Adjust for our "magic white space" */
 						/* FIXME: This code does the wrong thing if seplen > 2 */
-						new_str = g_strdup_printf("%c%s%s", text[i], pos < start_pos ? " " : "", str);
+						g_string_append_unichar (new_str, ut);
+						g_string_append (new_str, pos < start_pos ? " " : "");
+						g_string_append (new_str, str);
 						if (pos < start_pos)
 							++this_length;
 					}
 				} else {
-					new_str = g_strdup_printf ("%.*s%c%s", offset, str, text[i], str + offset);
+					const char *u;
+					int n;
+					for (u = str, n = 0; n < offset; u = g_utf8_next_char (u), n++) 
+						g_string_append_unichar (new_str, g_utf8_get_char (u));
+					g_string_append_unichar (new_str, ut);
+					g_string_append (new_str, u);
 				}
 			} else {
 				if (whitespace) {
 					/* swallow leading whitespace */
 					this_length = 0;
 				} else {
-					new_str = g_strdup_printf ("%c", text[i]);
+					g_string_append_unichar (new_str, ut);
 				}
 			}
 
-			if (new_str) {
+			if (new_str->len) {
 
 				EDestination *dest;
 				dest = index >= 0 ? e_destination_copy (e_select_names_model_get_destination (source, index)) : e_destination_new ();
-				e_destination_set_raw (dest, new_str);
+				e_destination_set_raw (dest, new_str->str);
 				e_select_names_model_replace (source, index, dest);
 				
 				/* e_select_names_model_replace (source, index, dest); */
@@ -495,9 +510,8 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 
 					pos += this_length;
 				}
-
-				g_free (new_str);
 			}
+			g_string_free (new_str, TRUE);
 		}
 	}
 
@@ -666,11 +680,40 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 		offset = pos - start_pos;
 		
 		str = e_select_names_model_get_string (source, index);
-		new_str = str ? g_strdup_printf ("%.*s%s", offset, str, str + offset + length) : NULL;
-		
-		if (new_str) {
+
+		if (str) {
+			const char *p;
+			char *np;
+			int i;
 			EReposDeleteShift repos;
 			EDestination *dest;
+
+			new_str = g_new0 (char, strlen (str) * 6 + 1); /* worse case it can't be any longer than this */
+
+			/* copy the region before the deletion */
+			for (p = str, i = 0, np = new_str; i < offset; i++) {
+				gunichar ch;
+
+				ch = g_utf8_get_char (p);
+				g_unichar_to_utf8 (ch, np);
+
+				np = g_utf8_next_char (np);
+				p = g_utf8_next_char (p);
+			}
+
+			/* skip the deleted segment */
+			for (i = 0; i < length; i++)
+				p = g_utf8_next_char (p);
+
+			/* copy the region after the deletion */
+			for (; *p; p = g_utf8_next_char (p)) {
+				gunichar ch;
+
+				ch = g_utf8_get_char (p);
+				g_unichar_to_utf8 (ch, np);
+
+				np = g_utf8_next_char (np);
+			}
 
 			dest = index >= 0 ? e_destination_copy (e_select_names_model_get_destination (source, index)) : e_destination_new ();
 			e_destination_set_raw (dest, new_str);
@@ -768,7 +811,7 @@ e_select_names_text_model_get_nth_obj (ETextModel *model, gint n, gint *len)
 	
 	if (text_model->text == NULL)
 		text_model->text = e_select_names_model_get_textification (source, text_model->sep);
-	return text_model->text + pos;
+	return g_utf8_offset_to_pointer (text_model->text, pos);
 }
 
 static void

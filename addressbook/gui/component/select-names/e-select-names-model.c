@@ -219,10 +219,11 @@ e_select_names_model_get_textification (ESelectNamesModel *model, const char *se
 		}
 		
 		text = g_strjoinv (separator, strv);
-		
-		if (strlen(text) > MAX_LENGTH) {
-			text[MAX_LENGTH] = '\0';
-			text = g_realloc (text, MAX_LENGTH + 1);
+
+		if (g_utf8_strlen(text, -1) > MAX_LENGTH) {
+			char *p = g_utf8_offset_to_pointer (text, MAX_LENGTH);
+			*p = '\0';
+			text = g_realloc (text, p - text + 1);
 		}
 		
 		g_free (strv);
@@ -650,7 +651,7 @@ e_select_names_model_name_pos (ESelectNamesModel *model, gint seplen, gint index
 	while (iter && i <= index) {
 		rp += len + (i > 0 ? seplen : 0);
 		str = e_destination_get_textrep (E_DESTINATION (iter->data), FALSE);
-		len = str ? strlen (str) : 0;
+		len = str ? g_utf8_strlen (str, -1) : 0;
 		++i;
 		iter = g_list_next (iter);
 	}
@@ -680,7 +681,7 @@ e_select_names_model_text_pos (ESelectNamesModel *model, gint seplen, gint pos, 
 
 	while (iter != NULL) {
 		str = e_destination_get_textrep (E_DESTINATION (iter->data), FALSE);
-		len = str ? strlen (str) : 0;
+		len = str ? g_utf8_strlen (str, -1) : 0;
 
 		if (sp <= pos && pos <= sp + len + adj) {
 			break;
