@@ -1,3 +1,10 @@
+2000-07-11  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (real_send_mail): Set the post_send_data flag rather
+	than toggling it. (Maybe we'll need more control over it later,
+	but for now, the only flag we set is "replied", and we want
+	that set, not toggled.)
+
 2000-07-10  Dan Winship  <danw@helixcode.com>
 
 	* folder-browser-factory.c (control_activate): Work with both

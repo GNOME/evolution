@@ -445,12 +445,9 @@ real_send_mail (gpointer user_data)
 		info->ok = FALSE;
 	} else {
 		if (psd) {
-			guint32 set;
-
-			set = camel_folder_get_message_flags (psd->folder,
-							      psd->uid, ex);
 			camel_folder_set_message_flags (psd->folder, psd->uid,
-							psd->flags, ~set, ex);
+							psd->flags, psd->flags,
+							ex);
 		}
 		info->ok = TRUE;
 
