@@ -1,3 +1,10 @@
+2002-02-18  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (create_dn_from_ecard): escape
+	commas in the dn, since they're used by ldap to specify the node's
+	placement in the tree. (fixes bug 20089)
+	(rfc2254_escape): just use sprintf and %02X instead.
+
 2002-02-13  Christopher James Lahey  <clahey@ximian.com>
  
 	* gui/component/select-names/e-select-names.c (set_book): Make

@@ -583,11 +583,29 @@ create_dn_from_ecard (ECardSimple *card, const char *root_dn)
 {
 	char *cn, *cn_part = NULL;
 	char *dn;
-	gboolean need_comma = FALSE;
 
 	cn = e_card_simple_get (card, E_CARD_SIMPLE_FIELD_FULL_NAME);
 	if (cn) {
-		cn_part = g_strdup_printf ("cn=%s%s", cn, need_comma ? "," : "");
+		if (strchr (cn, ',')) {
+			/* need to escape commas */
+			char *new_cn = g_malloc0 (strlen (cn) * 3 + 1);
+			int i, j;
+
+			for (i = 0, j = 0; i < strlen (cn); i ++) {
+				if (cn[i] == ',') {
+					sprintf (new_cn + j, "%%%02X", cn[i]);
+					j += 3;
+				}
+				else {
+					new_cn[j++] = cn[i];
+				}
+			}
+			cn_part = g_strdup_printf ("cn=%s", new_cn);
+			g_free (new_cn);
+		}
+		else {
+			cn_part = g_strdup_printf ("cn=%s", cn);
+		}
 	}
 	else {
 		cn_part = g_strdup ("");
@@ -1763,7 +1781,6 @@ birthday_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 }
 
 #define IS_RFC2254_CHAR(c) ((c) == '*' || (c) =='\\' || (c) == '(' || (c) == ')' || (c) == '\0')
-static char hex[] = "0123456789abcdef";
 static char *
 rfc2254_escape(char *str)
 {
@@ -1786,9 +1803,8 @@ rfc2254_escape(char *str)
 		int j = 0;
 		for (i = 0; i < len; i ++) {
 			if (IS_RFC2254_CHAR(str[i])) {
-				newstr[j++] = '\\';
-				newstr[j++] = hex[(str[i]&0xf0) >> 4];
-				newstr[j++] = hex[str[i]&0x0f];
+				sprintf (newstr + j, "\\%02x", str[i]);
+				j+= 3;
 			}
 			else {
 				newstr[j++] = str[i];
@@ -1796,7 +1812,6 @@ rfc2254_escape(char *str)
 		}
 		return newstr;
 	}
-		
 }
 
 static ESExpResult *
