@@ -1,3 +1,19 @@
+2000-06-16  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (get_message_row): new function to do a uid to
+	row mapping.
+	(mark_msg_seen, select_msg, message_changed,
+	message_list_set_folder): Update for Camel flag changes.
+	(on_cursor_change_cmd): Rename "row_to_select" to "selected_row",
+	and keep a "selected_uid" as well.
+	
+	* mail-ops.c (composer_send_cb): Update for Camel flag changes,
+	and fix some memory-handling bugs. (Free the post_send_data when
+	the composer is destroyed, not when the user clicks "send", which
+	could happen never, or more than once.)
+	(delete_msg): Update for Camel flag changes, and fix the "holding
+	down the delete key skips some messages" bug.
+
 2000-06-15  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c (fetch_mail): 

@@ -65,6 +65,7 @@ struct _MessageList {
 	CamelFolder  *folder;
 
 	GPtrArray *summary_table; /* the summary of all messages */
+	GHashTable *uid_rowmap;
 
 	char *search;		/* search string */
 	/* FIXME: This should use a better format ... */
@@ -72,8 +73,10 @@ struct _MessageList {
 	int match_count;
 	GPtrArray *summary_search_cache; /* summary info cache for searches */
 
+	int selected_row;
+	const char *selected_uid;
+
 	/* used by the idle-call to select a row */
-	int row_to_select;
 	guint idle_id;
 } ;
 

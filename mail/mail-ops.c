@@ -271,7 +271,8 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 
 
 struct post_send_data {
-	CamelMimeMessage *message;
+	CamelFolder *folder;
+	const char *uid;
 	guint32 flags;
 };
 
@@ -321,7 +322,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 			mail_exception_dialog ("Could not load mail transport",
 					       ex, composer);
 			camel_exception_free (ex);
-			goto free_psd;
+			return;
 		}
 	}
 
@@ -340,26 +341,29 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	if (camel_exception_is_set (ex))
 		mail_exception_dialog ("Could not send message", ex, composer);
 	else {
-		gtk_object_destroy (GTK_OBJECT (composer));
 		if (psd) {
 			guint32 set;
 
-			set = camel_mime_message_get_flags (psd->message);
-			camel_mime_message_set_flags (psd->message,
-						      psd->flags, ~set);
+			set = camel_folder_get_message_flags (psd->folder,
+							      psd->uid, ex);
+			camel_folder_set_message_flags (psd->folder, psd->uid,
+							psd->flags, ~set, ex);
 		}
+		gtk_object_destroy (GTK_OBJECT (composer));
 	}
 
 	camel_exception_free (ex);
 	gtk_object_unref (GTK_OBJECT (message));
-
- free_psd:
-	if (psd) {
-		gtk_object_unref (GTK_OBJECT (psd->message));
-		g_free (psd);
-	}
 }
 
+static void
+free_psd (GtkWidget *composer, gpointer user_data)
+{
+	struct post_send_data *psd = user_data;
+
+	gtk_object_unref (GTK_OBJECT (psd->folder));
+	g_free (psd);
+}
 
 void
 send_msg (GtkWidget *widget, gpointer user_data)
@@ -402,14 +406,18 @@ reply (FolderBrowser *fb, gboolean to_all)
 		return;
 
 	psd = g_new (struct post_send_data, 1);
-	psd->message = fb->mail_display->current_message;
-	gtk_object_ref (GTK_OBJECT (psd->message));
+	psd->folder = fb->folder;
+	gtk_object_ref (GTK_OBJECT (psd->folder));
+	psd->uid = fb->message_list->selected_uid;
 	psd->flags = CAMEL_MESSAGE_ANSWERED;
 
-	composer = mail_generate_reply (psd->message, to_all);
+	composer = mail_generate_reply (fb->mail_display->current_message,
+					to_all);
 
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), psd); 
+	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
+			    GTK_SIGNAL_FUNC (free_psd), psd); 
 
 	gtk_widget_show (GTK_WIDGET (composer));	
 }
@@ -450,25 +458,35 @@ void
 delete_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;
-	int row;
+	MessageList *ml = fb->message_list;
+	CamelException ex;
+	guint32 flags;
 
-	if (fb->mail_display->current_message) {
-		guint32 flags;
-		
-		/* FIXME: table should watch the message with a signal and update display! */
-		
-		flags = camel_mime_message_get_flags(fb->mail_display->current_message);
-		camel_mime_message_set_flags(fb->mail_display->current_message, CAMEL_MESSAGE_DELETED, ~flags);
-		printf("Message %s set to %s\n", fb->mail_display->current_message->message_uid,
-		       flags&CAMEL_MESSAGE_DELETED ? "UNDELETED" : "DELETED");
+	if (!fb->mail_display->current_message)
+		return;
 
+	camel_exception_init (&ex);
 
-		/* Move the cursor down a row... FIXME: should skip other
-		 * deleted messages.
-		 */
-		row = e_table_get_selected_view_row (E_TABLE (fb->message_list->etable));
-		e_table_select_row (E_TABLE (fb->message_list->etable), row + 1);
+	flags = camel_folder_get_message_flags (fb->folder, ml->selected_uid,
+						&ex);
+	if (!camel_exception_is_set (&ex)) {
+		/* Toggle the deleted flag without touching other flags. */
+		camel_folder_set_message_flags (fb->folder, ml->selected_uid,
+						CAMEL_MESSAGE_DELETED,
+						~flags, &ex);
 	}
+
+	if (camel_exception_is_set (&ex)) {
+		mail_exception_dialog ("Could not toggle deleted flag",
+				       &ex, fb);
+		camel_exception_clear (&ex);
+		return;
+	}
+
+	/* Move the cursor down a row... FIXME: should skip other
+	 * deleted messages.
+	 */
+	e_table_select_row (E_TABLE (ml->etable), ml->selected_row + 1);
 }
 
 void

@@ -61,7 +61,8 @@ select_row (ETable *table,
 	    gpointer user_data);
 
 
-static CamelMessageInfo *get_message_info(MessageList *message_list, gint row)
+static CamelMessageInfo *
+get_message_info(MessageList *message_list, gint row)
 {
 	CamelMessageInfo *info = NULL;
 
@@ -84,27 +85,53 @@ static CamelMessageInfo *get_message_info(MessageList *message_list, gint row)
 	return info;
 }
 
-static void
-message_changed (CamelMimeMessage *m, enum _MessageChangeType type,
-		 MessageList *message_list)
+static int
+get_message_row (MessageList *message_list, const char *uid)
 {
-	guint row = GPOINTER_TO_UINT (gtk_object_get_data (GTK_OBJECT (m),
-							   "row"));
+	CamelMessageInfo *info;
+	int row;
 
-	e_table_model_row_changed (message_list->table_model, row);
+	if (message_list->search) {
+		GList *l;
+
+		/* Yum. Linear search. See also "FIXME: This should use
+		 * a better format" in message-list.h
+		 */
+		for (l = message_list->matches, row = 0; l; l = l->next, row++) {
+			if (!strcmp (uid, l->data))
+				return row;
+		}
+	} else {
+		gpointer key, value;
+
+		if (g_hash_table_lookup_extended (message_list->uid_rowmap,
+						  uid, &key, &value))
+			return GPOINTER_TO_INT (value);
+
+		row = g_hash_table_size (message_list->uid_rowmap);
+		for (; row < message_list->summary_table->len; row++) {
+			info = message_list->summary_table->pdata[row];
+			g_hash_table_insert (message_list->uid_rowmap,
+					     info->uid, GINT_TO_POINTER (row));
+			if (!strcmp (uid, info->uid))
+				return row;
+		}
+	}
+
+	return -1;
 }
 
 static gint
 mark_msg_seen (gpointer data)
 {
-	CamelMimeMessage *msg = data;
+	MessageList *ml = data;
 	guint32 flags;
 
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (msg), FALSE);
-
-	flags = camel_mime_message_get_flags (msg);
-	camel_mime_message_set_flags (msg, CAMEL_MESSAGE_SEEN,
-				      CAMEL_MESSAGE_SEEN);
+	flags = camel_folder_get_message_flags (ml->folder, ml->selected_uid,
+						NULL);
+	camel_folder_set_message_flags (ml->folder, ml->selected_uid,
+					CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN,
+					NULL);
 	return FALSE;
 }
 
@@ -115,7 +142,6 @@ select_msg (MessageList *message_list, gint row)
 	CamelException ex;
 	CamelMimeMessage *message = NULL;
 	CamelMessageInfo *msg_info;
-	static guint timeout;
 
 	camel_exception_init (&ex);
 
@@ -132,16 +158,16 @@ select_msg (MessageList *message_list, gint row)
 	}
 
 	if (message) {
+		static guint timeout;
+
 		if (timeout)
 			gtk_timeout_remove (timeout);
-		gtk_object_set_data (GTK_OBJECT (message), "row",
-				     GUINT_TO_POINTER (row));
-		gtk_signal_connect(GTK_OBJECT (message), "message_changed",
-				   message_changed, message_list);
+
 		mail_display_set_message (message_list->parent_folder_browser->mail_display,
 					  CAMEL_MEDIUM (message));
-		timeout = gtk_timeout_add (1500, mark_msg_seen, message);
 		gtk_object_unref (GTK_OBJECT (message));
+
+		timeout = gtk_timeout_add (1500, mark_msg_seen, message_list);
 	}
 }
 
@@ -684,6 +710,8 @@ message_list_destroy (GtkObject *object)
 		g_ptr_array_free(message_list->summary_search_cache, TRUE);
 	if (message_list->summary_table)
 		camel_folder_free_summary(message_list->folder, message_list->summary_table);
+	if (message_list->uid_rowmap)
+		g_hash_table_destroy(message_list->uid_rowmap);
 
 	for (i = 0; i < COL_LAST; i++)
 		gtk_object_unref (GTK_OBJECT (message_list->table_cols [i]));
@@ -837,11 +865,27 @@ message_list_set_search (MessageList *message_list, const char *search)
 static void
 folder_changed(CamelFolder *f, int type, MessageList *message_list)
 {
+	int row;
+
 	if (message_list->summary_table)
 		camel_folder_free_summary(f, message_list->summary_table);
 	message_list->summary_table = camel_folder_get_summary (f, NULL);
 
+	if (message_list->uid_rowmap)
+		g_hash_table_destroy(message_list->uid_rowmap);
+	message_list->uid_rowmap = g_hash_table_new (g_str_hash, g_str_equal);
+
 	message_list_set_search(message_list, message_list->search);
+}
+
+static void
+message_changed (CamelFolder *f, const char *uid, MessageList *message_list)
+{
+	int row;
+
+	row = get_message_row (message_list, uid);
+	if (row != -1)
+		e_table_model_row_changed (message_list->table_model, row);
 }
 
 void
@@ -863,7 +907,9 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 
 	if (message_list->summary_table)
 		camel_folder_free_summary(message_list->folder, message_list->summary_table);
-	
+	if (message_list->uid_rowmap)
+		g_hash_table_destroy(message_list->uid_rowmap);
+
 	camel_exception_init (&ex);
 	
 	if (message_list->folder)
@@ -871,13 +917,14 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 
 	message_list->folder = camel_folder;
 
-	gtk_signal_connect((GtkObject *)camel_folder, "folder_changed", folder_changed, message_list);
+	gtk_signal_connect(GTK_OBJECT (camel_folder), "folder_changed",
+			   folder_changed, message_list);
+	gtk_signal_connect(GTK_OBJECT (camel_folder), "message_changed",
+			   message_changed, message_list);
 
 	gtk_object_ref (GTK_OBJECT (camel_folder));
 
-	message_list->summary_table = camel_folder_get_summary (message_list->folder, NULL);
-
-	message_list_set_search(message_list, message_list->search);
+	folder_changed (camel_folder, 0, message_list);
 
 	select_msg (message_list, 0);
 }
@@ -895,7 +942,7 @@ on_cursor_change_idle (gpointer data)
 {
 	MessageList *message_list = data;
 
-	select_msg (message_list, message_list->row_to_select);
+	select_msg (message_list, message_list->selected_row);
 
 	message_list->idle_id = 0;
 	return FALSE;
@@ -907,10 +954,16 @@ on_cursor_change_cmd (ETable *table,
 		      gpointer user_data)
 {
 	MessageList *message_list;
+	CamelMessageInfo *info;
 	
 	message_list = MESSAGE_LIST (user_data);
 	
-	message_list->row_to_select = row;
+	info = get_message_info (message_list, row);
+	if (!info)
+		return;
+
+	message_list->selected_row = row;
+	message_list->selected_uid = info->uid;
 	
 	if (!message_list->idle_id)
 		message_list->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_change_idle, message_list, NULL);
