@@ -1,5 +1,11 @@
 2000-09-22  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/e-card.c: Made addresses be quoted printable again
+	so that they will encode properly if they have carriage returns in
+	them.  This is possible now because of a fix in libversit.
+
+2000-09-22  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-book-view-listener.c,
 	backend/ebook/e-book-view-listener.h, backend/ebook/e-book-view.c,
 	backend/ebook/e-book-view.h, backend/idl/addressbook.idl,

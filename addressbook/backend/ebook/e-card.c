@@ -301,9 +301,7 @@ char
 				addPropValue(addressprop, VCPostalCodeProp, address->code);
 			if ( address->country )
 				addPropValue(addressprop, VCCountryNameProp, address->country);
-#if 0
 			addProp(addressprop, VCQuotedPrintableProp);
-#endif
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
 	}

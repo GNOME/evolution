@@ -115,6 +115,9 @@ DFARS 252.227-7013 or 48 CFR 52.227-19, as applicable.
 #include <ctype.h>
 #include "vcc.h"
 
+static int yylex(void);
+static void yyerror(char *s);
+
 /****  Types, Constants  ****/
 
 #define YYDEBUG		1	/* 1 to compile in some debugging code */
@@ -145,7 +148,7 @@ extern "C" {
     };
 #endif
 
-int yyparse();
+int yyparse(void);
 
 enum LexMode {
 	L_NORMAL,
@@ -160,14 +163,18 @@ enum LexMode {
 
 /****  Private Forward Declarations  ****/
 static int pushVObject(const char *prop);
-static VObject* popVObject();
-static char* lexDataFromBase64();
+static VObject* popVObject(void);
+#ifndef _SUPPORT_LINE_FOLDING
+static char* lexDataFromBase64(void);
+#endif
 static void lexPopMode(int top);
 static int lexWithinMode(enum LexMode mode);
 static void lexPushMode(enum LexMode mode);
 static void enterProps(const char *s);
 static void enterAttr(const char *s1, const char *s2);
+#if 0
 static void enterValues(const char *value);
+#endif
 static void mime_error_(char *s);
  static void appendValue(const char *value);
 
@@ -371,7 +378,7 @@ todoitem:
 	;
 
 %%
-/*/////////////////////////////////////////////////////////////////////////*/
+/* ///////////////////////////////////////////////////////////////////////// */
 static int pushVObject(const char *prop)
     {
     VObject *newObj;
@@ -391,7 +398,7 @@ static int pushVObject(const char *prop)
     }
 
 
-/*/////////////////////////////////////////////////////////////////////////*/
+/* ///////////////////////////////////////////////////////////////////////// */
 /* This pops the recently built vCard off the stack and returns it. */
 static VObject* popVObject()
     {
@@ -442,6 +449,7 @@ static void appendValue(const char *value)
   deleteStr(value);
 }
 
+#if 0
 static void enterValues(const char *value)
     {
     if (fieldedProp && *fieldedProp) {
@@ -458,6 +466,7 @@ static void enterValues(const char *value)
 	}
     deleteStr(value);
     }
+#endif
 
 static void enterProps(const char *s)
     {
@@ -467,7 +476,7 @@ static void enterProps(const char *s)
 
 static void enterAttr(const char *s1, const char *s2)
     {
-    const char *p1, *p2;
+    const char *p1, *p2 = NULL;
     p1 = lookupProp_(s1);
     if (s2) {
 	VObject *a;
@@ -667,6 +676,7 @@ static char* lexGetWord() {
     return lexStr();
     }
 
+#if 0
 static void lexPushLookahead(char *s, int len) {
     int putptr;
     if (len == 0) len = strlen(s);
@@ -682,6 +692,7 @@ static void lexPushLookahead(char *s, int len) {
 	}
     lexBuf.len += len;
     }
+#endif
 
 static void lexPushLookaheadc(int c) {
     int putptr;
@@ -761,7 +772,6 @@ static void handleMoreRFC822LineBreak(int c) {
     }
 
 static char* lexGet1Value() {
-    int size = 0;
     int c;
     lexSkipWhite();
     c = lexLookahead();
@@ -792,8 +802,8 @@ static char* lexGet1Value() {
     }
 #endif
 
+#ifndef _SUPPORT_LINE_FOLDING
 static char* lexGetStrUntil(char *termset) {
-    int size = 0;
     int c = lexLookahead();
     lexClearToken();
     while (c != EOF && !strchr(termset,c)) {
@@ -804,6 +814,7 @@ static char* lexGetStrUntil(char *termset) {
     lexAppendc(0);
     return c==EOF?0:lexStr();
     }
+#endif
 
 static int match_begin_name(int end) {
     char *n = lexLookaheadWord();
@@ -821,9 +832,9 @@ static int match_begin_name(int end) {
 
 
 #ifdef INCLUDEMFC
-void initLex(const char *inputstring, unsigned long inputlen, CFile *inputfile)
+static void initLex(const char *inputstring, unsigned long inputlen, CFile *inputfile)
 #else
-void initLex(const char *inputstring, unsigned long inputlen, FILE *inputfile)
+static void initLex(const char *inputstring, unsigned long inputlen, FILE *inputfile)
 #endif
     {
     /* initialize lex mode stack */
@@ -849,7 +860,7 @@ static void finiLex() {
     }
 
 
-/*/////////////////////////////////////////////////////////////////////////*/
+/* ///////////////////////////////////////////////////////////////////////// */
 /* This parses and converts the base64 format for binary encoding into
  * a decoded buffer (allocated with new).  See RFC 1521.
  */
@@ -978,7 +989,6 @@ static int match_begin_end_name(int end) {
 static char* lexGetQuotedPrintable()
     {
     char cur;
-    unsigned long len = 0;
 
     lexClearToken();
     do {
@@ -1016,8 +1026,10 @@ static char* lexGetQuotedPrintable()
 		    }
 		break;
 		} /* '=' */
-	    case '\n': {
-		lexPushLookaheadc('\n');
+	    case '\n':
+	    case ';':
+	      {
+		lexPushLookaheadc(cur);
 		goto EndString;
 		}
 	    case (char)EOF:
@@ -1034,8 +1046,6 @@ EndString:
     } /* LexQuotedPrintable */
 
 static int yylex() {
-    int token = 0;
-
     int lexmode = LEXMODE();
     if (lexmode == L_VALUES) {
 	int c = lexGetc();
@@ -1169,7 +1179,7 @@ static VObject* Parse_MIMEHelper()
     return vObjList;
     }
 
-/*/////////////////////////////////////////////////////////////////////////*/
+/* ///////////////////////////////////////////////////////////////////////// */
 DLLEXPORT(VObject*) Parse_MIME(const char *input, unsigned long len)
     {
     initLex(input, len, 0);
@@ -1224,12 +1234,7 @@ DLLEXPORT(VObject*) Parse_MIME_FromFileName(char *fname)
 
 #endif
 
-/*/////////////////////////////////////////////////////////////////////////*/
-static void YYDebug(const char *s)
-{
-/*	Parse_Debug(s); */
-}
-
+/* ///////////////////////////////////////////////////////////////////////// */
 
 static MimeErrorHandler mimeErrorHandler;
 
