@@ -2109,7 +2109,7 @@ static void cleanup_regenerate_messagelist (gpointer in_data, gpointer op_data, 
 		camel_folder_free_uids (input->ml->folder, data->uids);
 
 	/* update what we have as our search string */
-        if (input->ml->search)
+        if (input->ml->search && input->ml->search != input->search)
                 g_free(input->ml->search);
 	input->ml->search = input->search;
 
