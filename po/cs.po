@@ -9,13 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-09 14:15+0100\n"
-"PO-Revision-Date: 2004-01-09 17:25+0100\n"
+"POT-Creation-Date: 2004-01-12 03:18+0100\n"
+"PO-Revision-Date: 2004-01-12 09:55+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -49,6 +50,7 @@ msgstr "Zde nastavte automatické dokoknčování"
 #. name = e_book_get_name (book);
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
+#: calendar/gui/calendar-component.c:561
 #: mail/importers/netscape-importer.c:1844 shell/e-shortcuts.c:1088
 msgid "Contacts"
 msgstr "Kontakty"
@@ -95,12 +97,13 @@ msgid "New Addressbook"
 msgstr "Nový adresář"
 
 #: addressbook/gui/component/addressbook-component.c:218
+#: calendar/gui/calendar-component.c:409 calendar/gui/tasks-component.c:402
 msgid "Properties..."
 msgstr "Vlastnosti..."
 
 #: addressbook/gui/component/addressbook-component.c:219
 #: addressbook/gui/widgets/e-addressbook-view.c:1017
-#: calendar/gui/calendar-component.c:423 calendar/gui/tasks-component.c:418
+#: calendar/gui/calendar-component.c:408 calendar/gui/tasks-component.c:400
 #: filter/libfilter-i18n.h:10 mail/em-account-prefs.c:236
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -109,7 +112,6 @@ msgid "Delete"
 msgstr "Odstranit"
 
 #: addressbook/gui/component/addressbook-component.c:220
-#: calendar/gui/calendar-component.c:422 calendar/gui/tasks-component.c:416
 msgid "Rename"
 msgstr "Přejmenovat"
 
@@ -170,6 +172,52 @@ msgstr "Chyba při načítání informací o schématu"
 #: addressbook/gui/component/addressbook-config.c:1233
 msgid "Server did not respond with valid schema information"
 msgstr "Server neodpověděl platnou informací o schématu"
+
+#: addressbook/gui/component/addressbook-migrate.c:45 mail/em-migrate.c:120
+msgid "Migrating..."
+msgstr "Převádím..."
+
+#: addressbook/gui/component/addressbook-migrate.c:53
+msgid ""
+"The location and hierarchy of the Evolution contact folders has changed "
+"since Evolution 1.x.\n"
+"\n"
+"Please be patient while Evolution migrates your folders..."
+msgstr ""
+"Umístění a hierarchie složek kontaktů Evolution se od Evolution 1.x změnilo.\n"
+"\n"
+"Počkejte prosím, než Evolution převede vaše složky..."
+
+#: addressbook/gui/component/addressbook-migrate.c:86 mail/em-migrate.c:161
+#, c-format
+msgid "Migrating `%s':"
+msgstr "Převádím `%s':"
+
+#. create the local source group
+#. create the source group
+#: addressbook/gui/component/addressbook-migrate.c:313
+#: calendar/gui/calendar-component.c:519 calendar/gui/calendar-component.c:529
+#: calendar/gui/tasks-component.c:503 calendar/gui/tasks-component.c:509
+msgid "On This Computer"
+msgstr "V tomto počítači"
+
+#. orange
+#: addressbook/gui/component/addressbook-migrate.c:323
+#: calendar/gui/calendar-component.c:536 calendar/gui/migration.c:124
+#: calendar/gui/migration.c:147 calendar/gui/tasks-component.c:516
+#: filter/filter-label.c:123 mail/mail-config.c:65 mail/mail-config.glade.h:88
+#: shell/e-config-upgrade.c:1456
+msgid "Personal"
+msgstr "Osobní"
+
+#. Create the LDAP source group
+#: addressbook/gui/component/addressbook-migrate.c:331
+msgid "On LDAP Servers"
+msgstr "Na serverech LDAP"
+
+#: addressbook/gui/component/addressbook-migrate.c:463
+msgid "LDAP Servers"
+msgstr "Servery LDAP"
 
 #: addressbook/gui/component/addressbook.c:273
 msgid ""
@@ -296,6 +344,7 @@ msgstr "  Zo_brazit podporované základy "
 #: addressbook/gui/contact-editor/fullname.glade.h:1
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #: calendar/gui/dialogs/alarm-options.glade.h:2
+#: calendar/gui/dialogs/calendar-setup.glade.h:1
 #: calendar/gui/dialogs/event-page.glade.h:2
 #: calendar/gui/dialogs/meeting-page.glade.h:1
 #: calendar/gui/dialogs/new-calendar.glade.h:1
@@ -356,11 +405,9 @@ msgid ""
 "Please click the \"Finish\" button to save the settings you have entered "
 "here."
 msgstr ""
-"Gratulujeme, dokončili jste nastavování tohoto adresáře.\n"
+"Blahopřejeme, dokončili jste nastavování tohoto adresáře.\n"
 "\n"
-"\n"
-"Nastavení, která jste zde zadali, prosím uložte kliknutím na tlačítko "
-"\"Dokončit\""
+"Nastavení, která jste zde zadali, prosím uložte kliknutím na tlačítko \"Dokončit\""
 
 #: addressbook/gui/component/ldap-config.glade.h:18
 msgid "Connecting"
@@ -389,16 +436,19 @@ msgstr ""
 "Evolution bude používat tuto e-mailovou adresu k vaší autentizaci u serveru"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
+#: calendar/gui/dialogs/calendar-setup.glade.h:10
 msgid "Finished"
 msgstr "Ukončeno"
 
 #: addressbook/gui/component/ldap-config.glade.h:25
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
+#: calendar/gui/dialogs/calendar-setup.glade.h:11
 #: smime/gui/smime-ui.glade.h:27
 msgid "General"
 msgstr "Obecné"
 
 #: addressbook/gui/component/ldap-config.glade.h:26
+#: calendar/gui/dialogs/calendar-setup.glade.h:12
 msgid "Group:"
 msgstr "Skupina:"
 
@@ -481,6 +531,7 @@ msgstr ""
 "útoku."
 
 #: addressbook/gui/component/ldap-config.glade.h:45
+#: calendar/gui/dialogs/calendar-setup.glade.h:16
 msgid ""
 "Selecting this option will let you change Evolution's default settings for "
 "LDAP\n"
@@ -498,6 +549,7 @@ msgstr ""
 "Zadání zobrazovaného názvu a skupiny je první krok při nastavování adresáře."
 
 #: addressbook/gui/component/ldap-config.glade.h:48
+#: calendar/gui/dialogs/calendar-setup.glade.h:20
 msgid "Step 1: Folder Characteristics"
 msgstr "Krok 1: Charakteristiky složky"
 
@@ -611,6 +663,7 @@ msgstr ""
 "Je pouze pro zobrazování."
 
 #: addressbook/gui/component/ldap-config.glade.h:74
+#: calendar/gui/dialogs/calendar-setup.glade.h:34
 msgid ""
 "This is the name that will appear in your Evolution folder list. It is for "
 "display purposes only. "
@@ -662,6 +715,7 @@ msgstr ""
 "Pokud si nejste jisti, zeptejte se prosím svého správce systému."
 
 #: addressbook/gui/component/ldap-config.glade.h:85
+#: calendar/gui/dialogs/calendar-setup.glade.h:37
 msgid "_Display name:"
 msgstr "_Zobrazovaný název:"
 
@@ -803,7 +857,8 @@ msgid ""
 "of that information here."
 msgstr ""
 "<b>Přístup ke kalendáři</b>\n"
-"Pokud tato osoba zveřejňuje informace o svém volném/obsazeném čase nebo jiné\n"
+"Pokud tato osoba zveřejňuje informace o svém volném/obsazeném čase nebo "
+"jiné\n"
 "informace z kalendáře na Internetu, zadejte sem adresu těchto informací."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
@@ -918,8 +973,8 @@ msgstr "Ka_tegorie..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 #: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1290
-#: calendar/gui/e-cal-view.c:1321 calendar/gui/e-calendar-table.c:1053
-#: calendar/gui/e-calendar-table.c:1071 mail/em-folder-tree.c:1502
+#: calendar/gui/e-cal-view.c:1321 calendar/gui/e-calendar-table.c:1055
+#: calendar/gui/e-calendar-table.c:1073 mail/em-folder-tree.c:1530
 #: mail/em-folder-view.c:731 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
@@ -2366,9 +2421,9 @@ msgstr "Vyjmout"
 
 #. create the dialog
 #: addressbook/gui/widgets/e-addressbook-view.c:1015
-#: calendar/gui/calendar-component.c:420
+#: calendar/gui/calendar-component.c:406
 #: calendar/gui/dialogs/copy-source-dialog.c:136
-#: calendar/gui/tasks-component.c:414 ui/evolution-addressbook.xml.h:2
+#: calendar/gui/tasks-component.c:398 ui/evolution-addressbook.xml.h:2
 #: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Kopírovat"
@@ -2706,7 +2761,7 @@ msgstr "Protokol není podporován"
 #: addressbook/gui/widgets/eab-gui-util.c:50
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-cal-model-tasks.c:325 calendar/gui/e-cal-model-tasks.c:601
-#: calendar/gui/e-calendar-table.c:465 calendar/gui/e-tasks.c:213
+#: calendar/gui/e-calendar-table.c:467 calendar/gui/e-tasks.c:212
 #: calendar/gui/print.c:2319 camel/camel-service.c:734
 #: camel/camel-service.c:772 camel/camel-service.c:856
 #: camel/camel-service.c:896 camel/providers/pop3/camel-pop3-store.c:453
@@ -2919,12 +2974,12 @@ msgstr "Toto by mělo otestovat položku canvasu přeformátování"
 msgid "Print envelope"
 msgstr "Tisknout obálku"
 
-#: addressbook/printing/e-contact-print.c:1003
+#: addressbook/printing/e-contact-print.c:1004
 msgid "Print contacts"
 msgstr "Vytisknout kontakty"
 
-#: addressbook/printing/e-contact-print.c:1069
-#: addressbook/printing/e-contact-print.c:1096
+#: addressbook/printing/e-contact-print.c:1070
+#: addressbook/printing/e-contact-print.c:1097
 msgid "Print contact"
 msgstr "Vytiskonut kontakt"
 
@@ -3196,7 +3251,7 @@ msgstr "Není zadán název souboru."
 msgid "Unnamed List"
 msgstr "Nepojmenovaný seznam"
 
-#: calendar/common/authentication.c:34
+#: calendar/common/authentication.c:34 smime/gui/component.c:39
 msgid "Enter password"
 msgstr "Zadejte heslo"
 
@@ -3273,7 +3328,7 @@ msgid "Evolution's Tasks component"
 msgstr "Komponenta Úkoly Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: calendar/gui/e-tasks.c:1091 calendar/gui/print.c:1795
+#: calendar/gui/e-tasks.c:1042 calendar/gui/print.c:1795
 #: calendar/gui/tasks-control.c:506
 #: calendar/importers/icalendar-importer.c:717
 #: mail/importers/netscape-importer.c:1845 shell/e-shortcuts.c:1087
@@ -3320,26 +3375,26 @@ msgstr "Doba odložení (minut)"
 msgid "_Edit appointment"
 msgstr "_Upravit událost"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:887 calendar/gui/e-cal-view.c:1272
-#: calendar/gui/e-cal-view.c:1337 calendar/gui/e-calendar-table.c:1033
-#: calendar/gui/e-calendar-table.c:1074 mail/em-folder-view.c:706
+#: calendar/gui/alarm-notify/alarm-queue.c:900 calendar/gui/e-cal-view.c:1272
+#: calendar/gui/e-cal-view.c:1337 calendar/gui/e-calendar-table.c:1035
+#: calendar/gui/e-calendar-table.c:1076 mail/em-folder-view.c:706
 #: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Otevřít"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:889
+#: calendar/gui/alarm-notify/alarm-queue.c:902
 msgid "_Dismiss"
 msgstr "_Zavřít"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:891
+#: calendar/gui/alarm-notify/alarm-queue.c:904
 msgid "Dismiss _All"
 msgstr "Zavřít _všechny"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:956
+#: calendar/gui/alarm-notify/alarm-queue.c:969
 msgid "No description available."
 msgstr "Popis není dostupný."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:974
+#: calendar/gui/alarm-notify/alarm-queue.c:987
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -3352,12 +3407,12 @@ msgstr ""
 "Začíná %s\n"
 "Končí %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1064
-#: calendar/gui/alarm-notify/alarm-queue.c:1088
+#: calendar/gui/alarm-notify/alarm-queue.c:1079
+#: calendar/gui/alarm-notify/alarm-queue.c:1103
 msgid "Warning"
 msgstr "Varování"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1068
+#: calendar/gui/alarm-notify/alarm-queue.c:1083
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3369,7 +3424,7 @@ msgstr ""
 "vytvořena k poslání e-mailu. Evolution namísto toho\n"
 "zobrazí dialogové okno pro běžnou připomínku."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1094
+#: calendar/gui/alarm-notify/alarm-queue.c:1109
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3386,23 +3441,23 @@ msgstr ""
 "\n"
 "Opravdu chcete spustit tento program?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1108
+#: calendar/gui/alarm-notify/alarm-queue.c:1123
 msgid "Do not ask me about this program again."
 msgstr "Příště se neptat na tento program."
 
-#: calendar/gui/alarm-notify/notify-main.c:159
+#: calendar/gui/alarm-notify/notify-main.c:160
 msgid "Could not initialize Bonobo"
 msgstr "Nemohu inicializovat Bonobo"
 
-#: calendar/gui/alarm-notify/notify-main.c:162
+#: calendar/gui/alarm-notify/notify-main.c:163
 msgid "Could not initialize gnome-vfs"
 msgstr "Nemohu inicializovat gnome-vfs"
 
-#: calendar/gui/alarm-notify/notify-main.c:171
+#: calendar/gui/alarm-notify/notify-main.c:172
 msgid "Could not create the alarm notify service factory"
 msgstr "Nemohu vytvořit továrnu ke službě hlášení alarmu"
 
-#: calendar/gui/alarm-notify/util.c:37 calendar/gui/e-tasks.c:111
+#: calendar/gui/alarm-notify/util.c:37 calendar/gui/e-tasks.c:110
 msgid "invalid time"
 msgstr "neplatný čas"
 
@@ -3547,7 +3602,7 @@ msgstr "Komentář obsahuje"
 msgid "Unmatched"
 msgstr "Nepřiřazené"
 
-#: calendar/gui/calendar-commands.c:371
+#: calendar/gui/calendar-commands.c:370
 msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
@@ -3556,16 +3611,16 @@ msgstr ""
 "Tato operace natrvalo odstraní všechny událostí starší než vybraná doba. "
 "Pokud budete pokračovat, nebude možné tyto události obnovit."
 
-#: calendar/gui/calendar-commands.c:378
+#: calendar/gui/calendar-commands.c:377
 msgid "Purge events older than"
 msgstr "Vyčistit události starší než"
 
-#: calendar/gui/calendar-commands.c:383
+#: calendar/gui/calendar-commands.c:382
 #: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:17
 msgid "days"
 msgstr "dnů"
 
-#: calendar/gui/calendar-commands.c:452
+#: calendar/gui/calendar-commands.c:451
 msgid "%A %d %B %Y"
 msgstr "%A %d %B %Y"
 
@@ -3575,120 +3630,113 @@ msgstr "%A %d %B %Y"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: calendar/gui/calendar-commands.c:455 calendar/gui/e-day-view-top-item.c:692
+#: calendar/gui/calendar-commands.c:454 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1365 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
-#: calendar/gui/calendar-commands.c:457 calendar/gui/calendar-commands.c:462
-#: calendar/gui/calendar-commands.c:464
+#: calendar/gui/calendar-commands.c:456 calendar/gui/calendar-commands.c:461
+#: calendar/gui/calendar-commands.c:463
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
-#: calendar/gui/calendar-commands.c:481 calendar/gui/calendar-commands.c:487
-#: calendar/gui/calendar-commands.c:493 calendar/gui/calendar-commands.c:495
+#: calendar/gui/calendar-commands.c:480 calendar/gui/calendar-commands.c:486
+#: calendar/gui/calendar-commands.c:492 calendar/gui/calendar-commands.c:494
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-commands.c:485
+#: calendar/gui/calendar-commands.c:484
 #: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1516
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/calendar-component.c:356
+#: calendar/gui/calendar-component.c:358
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "Kalendář '%s' bude odstraněn. Jste si jisti, že chcete pokračovat?"
 
-#: calendar/gui/calendar-component.c:397
-msgid "Rename this calendar to"
-msgstr "Přejmenovat tento kalendář na"
-
-#: calendar/gui/calendar-component.c:418
+#: calendar/gui/calendar-component.c:404
+#: calendar/gui/dialogs/calendar-setup.glade.h:13
 msgid "New Calendar"
 msgstr "Nový kalendář"
 
-#: calendar/gui/calendar-component.c:533 calendar/gui/tasks-component.c:519
-msgid "On This Computer"
-msgstr "V tomto počítači"
-
-#. orange
-#: calendar/gui/calendar-component.c:541 calendar/gui/migration.c:123
-#: calendar/gui/migration.c:146 calendar/gui/tasks-component.c:527
-#: filter/filter-label.c:123 mail/mail-config.c:65 mail/mail-config.glade.h:88
-#: shell/e-config-upgrade.c:1456
-msgid "Personal"
-msgstr "Osobní"
+#. create the remote source group
+#: calendar/gui/calendar-component.c:523 calendar/gui/calendar-component.c:553
+msgid "On The Web"
+msgstr "Na WWW"
 
 #. red
-#: calendar/gui/calendar-component.c:548 filter/filter-label.c:122
+#: calendar/gui/calendar-component.c:543 filter/filter-label.c:122
 #: mail/mail-config.c:64 mail/mail-config.glade.h:135
 #: shell/e-config-upgrade.c:1455
 msgid "Work"
 msgstr "Pracovní"
 
-#. create the remote source group
-#: calendar/gui/calendar-component.c:555
-msgid "On The Web"
-msgstr "Na WWW"
+#: calendar/gui/calendar-component.c:562 calendar/gui/calendar-component.c:574
+msgid "Birthdays & Anniversaries"
+msgstr "Narozeniny a výročí"
 
-#: calendar/gui/calendar-component.c:655
+#: calendar/gui/calendar-component.c:573
+msgid "Birthdays"
+msgstr "Narozeniny"
+
+#: calendar/gui/calendar-component.c:677
 msgid "New appointment"
 msgstr "Nová událost"
 
-#: calendar/gui/calendar-component.c:656
+#: calendar/gui/calendar-component.c:678
 msgid "_Appointment"
 msgstr "_Událost"
 
-#: calendar/gui/calendar-component.c:657
+#: calendar/gui/calendar-component.c:679
 msgid "Create a new appointment"
 msgstr "Vytvořit novou událost"
 
-#: calendar/gui/calendar-component.c:662
+#: calendar/gui/calendar-component.c:684
 msgid "New meeting"
 msgstr "Nová schůzka"
 
-#: calendar/gui/calendar-component.c:663
+#: calendar/gui/calendar-component.c:685
 msgid "M_eeting"
 msgstr "_Schůzka"
 
-#: calendar/gui/calendar-component.c:664
+#: calendar/gui/calendar-component.c:686
 msgid "Create a new meeting request"
 msgstr "Vytvořit požadavek na novou schůzku"
 
-#: calendar/gui/calendar-component.c:669
+#: calendar/gui/calendar-component.c:691
 msgid "New all day appointment"
 msgstr "Nová celodenní událost"
 
-#: calendar/gui/calendar-component.c:670
+#: calendar/gui/calendar-component.c:692
 msgid "All _Day Appointment"
 msgstr "_Celodenní událost"
 
-#: calendar/gui/calendar-component.c:671
+#: calendar/gui/calendar-component.c:693
 msgid "Create a new all-day appointment"
 msgstr "Vytvořit novou celodenní událost"
 
-#: calendar/gui/calendar-component.c:676
+#: calendar/gui/calendar-component.c:698
 msgid "New calendar"
 msgstr "Nový kalendář"
 
-#: calendar/gui/calendar-component.c:677
+#: calendar/gui/calendar-component.c:699
 msgid "C_alendar"
 msgstr "_Kalendář"
 
-#: calendar/gui/calendar-component.c:678
+#: calendar/gui/calendar-component.c:700
 msgid "Create a new calendar"
 msgstr "Vytvořit nový kalendář"
 
-#: calendar/gui/calendar-component.c:745
+#: calendar/gui/calendar-component.c:767
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Nemohu otevřít kalendář '%s' pro tvorbu událostí a schůzek"
 
-#: calendar/gui/calendar-component.c:758
+#: calendar/gui/calendar-component.c:780
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Není k dispozici kalendář pro tvorbu událostí a schůzek"
 
@@ -3860,15 +3908,15 @@ msgstr "<b>Připomínky</b>"
 msgid "Date/Time:"
 msgstr "Datum/čas:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:5 calendar/gui/e-alarm-list.c:465
+#: calendar/gui/dialogs/alarm-page.glade.h:5 calendar/gui/e-alarm-list.c:463
 msgid "Display a message"
 msgstr "Zobrazit zprávu"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:461
+#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:459
 msgid "Play a sound"
 msgstr "Zahrát zvuk"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:7 calendar/gui/e-alarm-list.c:473
+#: calendar/gui/dialogs/alarm-page.glade.h:7 calendar/gui/e-alarm-list.c:471
 msgid "Run a program"
 msgstr "Spustit program"
 
@@ -3879,7 +3927,7 @@ msgstr "Poslat e-mail"
 #: calendar/gui/dialogs/alarm-page.glade.h:9
 #: calendar/gui/dialogs/recurrence-page.glade.h:9
 #: calendar/gui/e-itip-control.c:933 calendar/gui/e-itip-control.glade.h:11
-#: calendar/gui/e-tasks.c:168
+#: calendar/gui/e-tasks.c:167
 msgid "Summary:"
 msgstr "Shrnutí"
 
@@ -3908,7 +3956,8 @@ msgstr "skončení(m) události"
 msgid "hour(s)"
 msgstr "hodin"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:182
+#: calendar/gui/dialogs/alarm-page.glade.h:16
+#: calendar/gui/dialogs/calendar-setup.glade.h:40 mail/mail-config.glade.h:182
 msgid "minute(s)"
 msgstr "minut"
 
@@ -4127,6 +4176,144 @@ msgstr "_st"
 msgid "before every appointment"
 msgstr "před každou událostí"
 
+#: calendar/gui/dialogs/calendar-setup.c:155
+msgid "You must specify a location to get the calendar from."
+msgstr "Musíte určit umístění, odkud získat kalendář."
+
+#: calendar/gui/dialogs/calendar-setup.c:163
+#, c-format
+msgid "The source location '%s' is not well-formed."
+msgstr "Zdrojové umístění `%s' nemá správný tvar."
+
+#: calendar/gui/dialogs/calendar-setup.c:178
+#, c-format
+msgid "The source location '%s' is not a webcal source."
+msgstr "Zdrojové umístění '%s' není zdroj webcal."
+
+#: calendar/gui/dialogs/calendar-setup.c:213
+#, c-format
+msgid "Source with name '%s' already exists in the selected group"
+msgstr "Ve vybrané skupině již existuje zdroj s názvem '%s'"
+
+#: calendar/gui/dialogs/calendar-setup.c:226
+#, c-format
+msgid ""
+"The group '%s' is remote. You must specify a location to get the calendar "
+"from"
+msgstr "Skupina '%s' je vzdálená. Musíte určit umístění, odkud získat kalendář"
+
+#: calendar/gui/dialogs/calendar-setup.c:254
+msgid "Could not create directory for new calendar"
+msgstr "Nemohu vytvořit adresář pro nový kalendář"
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:2
+msgid "Calendar Creation Assistant"
+msgstr "Asistent pro tvorbu kalendáře"
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:3
+msgid "Calendar Properties"
+msgstr "Vlastnosti kalendáře"
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:4
+msgid ""
+"Congratulations, you are finished setting up this calendar.\n"
+"\n"
+"Please click the \"Finish\" button to save the settings you have entered "
+"here."
+msgstr ""
+"Blahopřejeme, dokončili jste nastavování tohoto kalendáře.\n"
+"\n"
+"Nastavení, která jste zde zadali, prosím uložte kliknutím na tlačítko \"Dokončit\"."
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:7
+msgid ""
+"Congratulations, you are finished setting up this task list.\n"
+"\n"
+"Please click the \"Finish\" button to save the settings you have entered "
+"here."
+msgstr ""
+"Blahopřejeme, dokončili jste nastavování tohoto seznamu úkolů.\n"
+"\n"
+"Nastavení, která jste zde zadali, prosím uložte kliknutím na tlačítko \"Dokončit\"."
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:14
+#: calendar/gui/tasks-component.c:396
+msgid "New Task List"
+msgstr "Nový seznam úkolů"
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:15
+msgid "Remote"
+msgstr "Vzdálený"
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:18
+msgid ""
+"Specifying a display name and group is the first step in setting up a "
+"calendar."
+msgstr "Zadání zobrazovaného názvu a skupiny je první krok při nastavování kalendáře."
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:19
+msgid ""
+"Specifying a display name and group is the first step in setting up a task "
+"list."
+msgstr "Zadání zobrazovaného názvu a skupiny je první krok při nastavování seznamu úkolů."
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:21
+msgid "Step 2: Remote Folder Parameters"
+msgstr "Krok 2: Parametry vzdálené složky"
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:22
+msgid "Task List Creation Assistant"
+msgstr "Asistent pro tvorbu seznamu úkolů"
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:23
+msgid "Task List Properties"
+msgstr "Vlastnosti seznamů úkolů"
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:24
+msgid ""
+"This assistant will help you create a new calendar. \n"
+"\n"
+"Depending on the type of calendar you create, additional\n"
+"parameters may be required. Please contact your system\n"
+"administrator if you need help finding this information."
+msgstr ""
+"Tento asistent vám pomůže vytvořit nový kalendář.\n"
+"\n"
+"Podle toho, jaký typ kalendáře vytvoříte, mohou být potřeba\n"
+"další parametry. Pokud potřebujete pomoc s nalezením těchto\n"
+"informací, kontaktujte prosím svého správce systému."
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:29
+msgid ""
+"This assistant will help you create a new task list.\n"
+"\n"
+"Depending on the type of task list you create, additional\n"
+"parameters may be required. Please contact your system\n"
+"administrator if you need help finding this information."
+msgstr ""
+"Tento asistent vám pomůže vytvořit nový seznam úkolů.\n"
+"\n"
+"Podle toho, jaký typ seznamu úkolů vytvoříte, mohou být potřeba\n"
+"další parametry. Pokud potřebujete pomoc s nalezením těchto\n"
+"informací, kontaktujte prosím svého správce systému."
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:35
+msgid ""
+"You're creating a folder in a group that's stored in a remote location. This "
+"requires you\n"
+"to specify additional parameters."
+msgstr ""
+"Vytváříže složku ve skupině, která je uložena ve vzdáleném umístění. To vyžaduje,\n"
+"abyste zadali další parametry."
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:38
+msgid "_Refresh Interval:"
+msgstr "_Interval obnovování:"
+
+#: calendar/gui/dialogs/calendar-setup.glade.h:39
+msgid "_Source URL:"
+msgstr "_URL zdroje:"
+
 #: calendar/gui/dialogs/cancel-comp.c:57
 msgid ""
 "The event being deleted is a meeting, would you like to send a cancellation "
@@ -4260,7 +4447,7 @@ msgid "No summary"
 msgstr "Není shrnutí"
 
 #: calendar/gui/dialogs/comp-editor.c:1353 calendar/gui/e-cal-view.c:1046
-#: calendar/gui/e-calendar-table.c:1185 composer/e-msg-composer.c:1138
+#: calendar/gui/e-calendar-table.c:1187 composer/e-msg-composer.c:1128
 msgid "Save as..."
 msgstr "Uložit jako..."
 
@@ -4505,7 +4692,7 @@ msgstr "_Začátek:"
 #. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#: calendar/gui/e-cal-model-tasks.c:593 composer/e-msg-composer.c:2050
+#: calendar/gui/e-cal-model-tasks.c:593 composer/e-msg-composer.c:2040
 #: mail/em-account-prefs.c:448 mail/em-folder-view.c:740
 #: mail/mail-account-gui.c:1259 mail/mail-account-gui.c:1783
 #: mail/mail-config.glade.h:80
@@ -4599,42 +4786,6 @@ msgstr "_Změnit organizátora"
 msgid "_Invite Others..."
 msgstr "_Pozvat další..."
 
-#: calendar/gui/dialogs/new-calendar.c:102
-#: calendar/gui/dialogs/new-task-list.c:46
-#, c-format
-msgid "Source with name '%s' already exists in the selected group"
-msgstr "Ve vybrané skupině již existuje zdroj s názvem '%s'"
-
-#: calendar/gui/dialogs/new-calendar.c:116
-#, c-format
-msgid ""
-"The group '%s' is remote. You must specify a location to get the calendar "
-"from"
-msgstr "Skupina '%s' je vzdálené. Musíte určit umístění, odkud získat kalendář"
-
-#: calendar/gui/dialogs/new-calendar.c:125
-#, c-format
-msgid "The source location '%s' is not well-formed."
-msgstr "Zdrojové umístění `%s' nemá správný tvar."
-
-#: calendar/gui/dialogs/new-calendar.c:138
-#, c-format
-msgid "The source location '%s' is not a webcal source."
-msgstr "Zdrojové umístění '%s' není zdroj webcal."
-
-#: calendar/gui/dialogs/new-calendar.c:155
-msgid "Could not create cache for new calendar"
-msgstr "Nemohu vytvořit cache pro nový kalendář"
-
-#: calendar/gui/dialogs/new-calendar.c:174
-msgid "Could not create directory for new calendar"
-msgstr "Nemohu vytvořit adresář pro nový kalendář"
-
-#: calendar/gui/dialogs/new-calendar.c:254
-#: calendar/gui/dialogs/new-task-list.c:131
-msgid "A group must be selected"
-msgstr "Musí být vybrána skupina"
-
 #: calendar/gui/dialogs/new-calendar.glade.h:2
 msgid "<b>Calendar options</b>"
 msgstr "<b>Možnosti kalendáře</b>"
@@ -4654,10 +4805,6 @@ msgstr "Umístění kalendáře"
 #: calendar/gui/dialogs/new-calendar.glade.h:6
 msgid "Calendar Name"
 msgstr "Název kalendáře"
-
-#: calendar/gui/dialogs/new-task-list.c:56
-msgid "Could not create directory for new task list"
-msgstr "Nemohu vytvořit adresář pro nový seznam úkolů"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:2
 msgid "<b>Task List Options</b>"
@@ -4831,7 +4978,7 @@ msgstr ""
 "\n"
 "Chcete uložit změny?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1555
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1545
 msgid "_Discard Changes"
 msgstr "Zaho_dit změny"
 
@@ -4874,47 +5021,47 @@ msgstr "<b>WWW stránka</b>"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-cal-model-tasks.c:323 calendar/gui/e-cal-model-tasks.c:599
-#: calendar/gui/e-calendar-table.c:464 calendar/gui/e-meeting-model.c:289
+#: calendar/gui/e-calendar-table.c:466 calendar/gui/e-meeting-model.c:289
 #: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-store.c:187
-#: calendar/gui/e-meeting-store.c:210 calendar/gui/e-tasks.c:210
+#: calendar/gui/e-meeting-store.c:210 calendar/gui/e-tasks.c:209
 #: calendar/gui/print.c:2316
 msgid "Completed"
 msgstr "Dokončeno"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-calendar-table.c:389 calendar/gui/e-tasks.c:231
+#: calendar/gui/e-calendar-table.c:391 calendar/gui/e-tasks.c:230
 #: mail/message-list.c:919
 msgid "High"
 msgstr "Vysoká"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-cal-model-tasks.c:321 calendar/gui/e-cal-model-tasks.c:597
-#: calendar/gui/e-cal-model-tasks.c:659 calendar/gui/e-calendar-table.c:463
-#: calendar/gui/e-tasks.c:207 calendar/gui/print.c:2313
+#: calendar/gui/e-cal-model-tasks.c:659 calendar/gui/e-calendar-table.c:465
+#: calendar/gui/e-tasks.c:206 calendar/gui/print.c:2313
 msgid "In Progress"
 msgstr "Probíhá"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#: calendar/gui/e-calendar-table.c:391 calendar/gui/e-tasks.c:235
+#: calendar/gui/e-calendar-table.c:393 calendar/gui/e-tasks.c:234
 #: mail/message-list.c:917
 msgid "Low"
 msgstr "Nízká"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
-#: calendar/gui/e-cal-model.c:835 calendar/gui/e-calendar-table.c:390
-#: calendar/gui/e-tasks.c:233 mail/message-list.c:918
+#: calendar/gui/e-cal-model.c:835 calendar/gui/e-calendar-table.c:392
+#: calendar/gui/e-tasks.c:232 mail/message-list.c:918
 msgid "Normal"
 msgstr "Normální"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
 #: calendar/gui/e-cal-model-tasks.c:319 calendar/gui/e-cal-model-tasks.c:595
-#: calendar/gui/e-calendar-table.c:462 calendar/gui/e-tasks.c:217
+#: calendar/gui/e-calendar-table.c:464 calendar/gui/e-tasks.c:216
 #: calendar/gui/print.c:2310
 msgid "Not Started"
 msgstr "Nezačato"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:13
-#: calendar/gui/e-calendar-table.c:392
+#: calendar/gui/e-calendar-table.c:394
 msgid "Undefined"
 msgstr "Nedefinováno"
 
@@ -4969,116 +5116,116 @@ msgstr "_Začátek:"
 msgid "_Due Date:"
 msgstr "_Termín dokončení:"
 
-#: calendar/gui/e-alarm-list.c:397
+#: calendar/gui/e-alarm-list.c:395
 #, c-format
 msgid "%d days"
 msgstr "%d dnů"
 
 # FIXME: ngettext
-#: calendar/gui/e-alarm-list.c:400
+#: calendar/gui/e-alarm-list.c:398
 msgid "1 day"
 msgstr "1 den"
 
-#: calendar/gui/e-alarm-list.c:405
+#: calendar/gui/e-alarm-list.c:403
 #, c-format
 msgid "%d weeks"
 msgstr "%d týdnů"
 
 # FIXME: ngettext
-#: calendar/gui/e-alarm-list.c:408
+#: calendar/gui/e-alarm-list.c:406
 msgid "1 week"
 msgstr "1 týden"
 
-#: calendar/gui/e-alarm-list.c:413
+#: calendar/gui/e-alarm-list.c:411
 #, c-format
 msgid "%d hours"
 msgstr "%d hodin"
 
 # FIXME: ngettext
-#: calendar/gui/e-alarm-list.c:416
+#: calendar/gui/e-alarm-list.c:414
 msgid "1 hour"
 msgstr "1 hodinu"
 
-#: calendar/gui/e-alarm-list.c:421
+#: calendar/gui/e-alarm-list.c:419
 #, c-format
 msgid "%d minutes"
 msgstr "%d minut"
 
 # FIXME: ngettext
-#: calendar/gui/e-alarm-list.c:424
+#: calendar/gui/e-alarm-list.c:422
 msgid "1 minute"
 msgstr "1 minutu"
 
-#: calendar/gui/e-alarm-list.c:429
+#: calendar/gui/e-alarm-list.c:427
 #, c-format
 msgid "%d seconds"
 msgstr "%d sekund"
 
 # FIXME: ngettext
-#: calendar/gui/e-alarm-list.c:432
+#: calendar/gui/e-alarm-list.c:430
 msgid "1 second"
 msgstr "1 sekunda"
 
-#: calendar/gui/e-alarm-list.c:469
+#: calendar/gui/e-alarm-list.c:467
 msgid "Send an email"
 msgstr "Poslat e-mail"
 
-#: calendar/gui/e-alarm-list.c:479
+#: calendar/gui/e-alarm-list.c:477
 msgid "Unknown action to be performed"
 msgstr "Má se vykonat neznámá akce"
 
-#: calendar/gui/e-alarm-list.c:491
+#: calendar/gui/e-alarm-list.c:489
 #, c-format
 msgid "%s %s before the start of the appointment"
 msgstr "%s %s před začátkem události"
 
-#: calendar/gui/e-alarm-list.c:494
+#: calendar/gui/e-alarm-list.c:492
 #, c-format
 msgid "%s %s after the start of the appointment"
 msgstr "%s %s po začátku události"
 
-#: calendar/gui/e-alarm-list.c:499
+#: calendar/gui/e-alarm-list.c:497
 #, c-format
 msgid "%s at the start of the appointment"
 msgstr "%s při začátku události"
 
-#: calendar/gui/e-alarm-list.c:508
+#: calendar/gui/e-alarm-list.c:506
 #, c-format
 msgid "%s %s before the end of the appointment"
 msgstr "%s %s před koncem události"
 
-#: calendar/gui/e-alarm-list.c:511
+#: calendar/gui/e-alarm-list.c:509
 #, c-format
 msgid "%s %s after the end of the appointment"
 msgstr "%s %s po konci události"
 
-#: calendar/gui/e-alarm-list.c:516
+#: calendar/gui/e-alarm-list.c:514
 #, c-format
 msgid "%s at the end of the appointment"
 msgstr "%s na konci události"
 
-#: calendar/gui/e-alarm-list.c:540
+#: calendar/gui/e-alarm-list.c:538
 #, c-format
 msgid "%s at %s"
 msgstr "%s při %s"
 
-#: calendar/gui/e-alarm-list.c:546
+#: calendar/gui/e-alarm-list.c:544
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr "%s pro neznámý typ spouštění"
 
 #: calendar/gui/e-cal-list-view.c:262 calendar/gui/e-cal-model.c:283
-#: calendar/gui/e-cal-model.c:290 calendar/gui/e-calendar-table.c:367
+#: calendar/gui/e-cal-model.c:290 calendar/gui/e-calendar-table.c:369
 msgid "Public"
 msgstr "Veřejné"
 
 #: calendar/gui/e-cal-list-view.c:263 calendar/gui/e-cal-model.c:292
-#: calendar/gui/e-calendar-table.c:368
+#: calendar/gui/e-calendar-table.c:370
 msgid "Private"
 msgstr "Soukromé"
 
 #: calendar/gui/e-cal-list-view.c:264 calendar/gui/e-cal-model.c:294
-#: calendar/gui/e-calendar-table.c:369
+#: calendar/gui/e-calendar-table.c:371
 msgid "Confidential"
 msgstr "Důvěrné"
 
@@ -5111,11 +5258,11 @@ msgstr "barva"
 msgid "component"
 msgstr "komponenta"
 
-#: calendar/gui/e-cal-model-calendar.c:163 calendar/gui/e-calendar-table.c:441
+#: calendar/gui/e-cal-model-calendar.c:163 calendar/gui/e-calendar-table.c:443
 msgid "Free"
 msgstr "Volný"
 
-#: calendar/gui/e-cal-model-calendar.c:166 calendar/gui/e-calendar-table.c:442
+#: calendar/gui/e-cal-model-calendar.c:166 calendar/gui/e-calendar-table.c:444
 #: calendar/gui/e-meeting-time-sel.c:399
 msgid "Busy"
 msgstr "Obsazený"
@@ -5184,11 +5331,11 @@ msgstr "Opakovaný"
 msgid "Assigned"
 msgstr "Přiřazeno"
 
-#: calendar/gui/e-cal-view.c:680 calendar/gui/e-calendar-table.c:696
+#: calendar/gui/e-cal-view.c:680 calendar/gui/e-calendar-table.c:698
 msgid "Deleting selected objects"
 msgstr "Odstraňuji vybrané objekty"
 
-#: calendar/gui/e-cal-view.c:784 calendar/gui/e-calendar-table.c:857
+#: calendar/gui/e-cal-view.c:784 calendar/gui/e-calendar-table.c:859
 msgid "Updating objects"
 msgstr "Aktualizuji objekty"
 
@@ -5209,8 +5356,8 @@ msgid "New Task"
 msgstr "Nový úkol"
 
 #: calendar/gui/e-cal-view.c:1251 calendar/gui/e-cal-view.c:1274
-#: calendar/gui/e-cal-view.c:1341 calendar/gui/e-calendar-table.c:1036
-#: calendar/gui/e-calendar-table.c:1078 ui/evolution-addressbook.xml.h:40
+#: calendar/gui/e-cal-view.c:1341 calendar/gui/e-calendar-table.c:1038
+#: calendar/gui/e-calendar-table.c:1080 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:39 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:122
 #: ui/evolution-tasks.xml.h:23 ui/my-evolution.xml.h:6
@@ -5218,8 +5365,8 @@ msgid "_Print..."
 msgstr "_Tisknout..."
 
 #: calendar/gui/e-cal-view.c:1255 calendar/gui/e-cal-view.c:1281
-#: calendar/gui/e-cal-view.c:1339 calendar/gui/e-calendar-table.c:1042
-#: calendar/gui/e-calendar-table.c:1076 ui/evolution-addressbook.xml.h:38
+#: calendar/gui/e-cal-view.c:1339 calendar/gui/e-calendar-table.c:1044
+#: calendar/gui/e-calendar-table.c:1078 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:38 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:120 ui/evolution-tasks.xml.h:22
 msgid "_Paste"
@@ -5239,22 +5386,22 @@ msgid "_Publish Free/Busy Information"
 msgstr "_Zveřejnit informaci o volném/obsazeném čase"
 
 #: calendar/gui/e-cal-view.c:1273 calendar/gui/e-cal-view.c:1343
-#: calendar/gui/e-calendar-table.c:1035 calendar/gui/e-calendar-table.c:1080
+#: calendar/gui/e-calendar-table.c:1037 calendar/gui/e-calendar-table.c:1082
 #: mail/em-folder-view.c:708 mail/em-popup.c:597 mail/em-popup.c:712
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Save As..."
 msgstr "_Uložit jako..."
 
 #: calendar/gui/e-cal-view.c:1279 calendar/gui/e-cal-view.c:1319
-#: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-calendar-table.c:1069
+#: calendar/gui/e-calendar-table.c:1042 calendar/gui/e-calendar-table.c:1071
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Vyjmout"
 
 #: calendar/gui/e-cal-view.c:1280 calendar/gui/e-cal-view.c:1317
-#: calendar/gui/e-calendar-table.c:1041 calendar/gui/e-calendar-table.c:1067
-#: mail/em-folder-tree.c:1497 ui/evolution-addressbook.xml.h:31
+#: calendar/gui/e-calendar-table.c:1043 calendar/gui/e-calendar-table.c:1069
+#: mail/em-folder-tree.c:1525 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
@@ -5280,75 +5427,75 @@ msgstr "Odstranit _všechny výskyty"
 msgid "_Settings..."
 msgstr "Na_stavení..."
 
-#: calendar/gui/e-calendar-table.c:411
+#: calendar/gui/e-calendar-table.c:413
 msgid "0%"
 msgstr "0%"
 
-#: calendar/gui/e-calendar-table.c:412
+#: calendar/gui/e-calendar-table.c:414
 msgid "10%"
 msgstr "10%"
 
-#: calendar/gui/e-calendar-table.c:413
+#: calendar/gui/e-calendar-table.c:415
 msgid "20%"
 msgstr "20%"
 
-#: calendar/gui/e-calendar-table.c:414
+#: calendar/gui/e-calendar-table.c:416
 msgid "30%"
 msgstr "30%"
 
-#: calendar/gui/e-calendar-table.c:415
+#: calendar/gui/e-calendar-table.c:417
 msgid "40%"
 msgstr "40%"
 
-#: calendar/gui/e-calendar-table.c:416
+#: calendar/gui/e-calendar-table.c:418
 msgid "50%"
 msgstr "50%"
 
-#: calendar/gui/e-calendar-table.c:417
+#: calendar/gui/e-calendar-table.c:419
 msgid "60%"
 msgstr "60%"
 
-#: calendar/gui/e-calendar-table.c:418
+#: calendar/gui/e-calendar-table.c:420
 msgid "70%"
 msgstr "70%"
 
-#: calendar/gui/e-calendar-table.c:419
+#: calendar/gui/e-calendar-table.c:421
 msgid "80%"
 msgstr "80%"
 
-#: calendar/gui/e-calendar-table.c:420
+#: calendar/gui/e-calendar-table.c:422
 msgid "90%"
 msgstr "90%"
 
-#: calendar/gui/e-calendar-table.c:421
+#: calendar/gui/e-calendar-table.c:423
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:1034
+#: calendar/gui/e-calendar-table.c:1036
 msgid "Open _Web Page"
 msgstr "Otevřít _WWW stránku"
 
-#: calendar/gui/e-calendar-table.c:1046
+#: calendar/gui/e-calendar-table.c:1048
 msgid "_Assign Task"
 msgstr "P_ředat úkol"
 
-#: calendar/gui/e-calendar-table.c:1047
+#: calendar/gui/e-calendar-table.c:1049
 msgid "_Forward as iCalendar"
 msgstr "_Odeslat jako iCalendar"
 
-#: calendar/gui/e-calendar-table.c:1048
+#: calendar/gui/e-calendar-table.c:1050
 msgid "_Mark as Complete"
 msgstr "Označit jako _dokončené"
 
-#: calendar/gui/e-calendar-table.c:1049
+#: calendar/gui/e-calendar-table.c:1051
 msgid "_Mark Selected Tasks as Complete"
 msgstr "Označit _vybrané úkoly jako dokončené"
 
-#: calendar/gui/e-calendar-table.c:1054 calendar/gui/e-calendar-table.c:1072
+#: calendar/gui/e-calendar-table.c:1056 calendar/gui/e-calendar-table.c:1074
 msgid "_Delete Selected Tasks"
 msgstr "_Odstranit vybrané úkoly"
 
-#: calendar/gui/e-calendar-table.c:1365
+#: calendar/gui/e-calendar-table.c:1367
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Úkol přidáte kliknutím zde"
@@ -5579,7 +5726,7 @@ msgid "Location:"
 msgstr "Místo:"
 
 #. write status
-#: calendar/gui/e-itip-control.c:956 calendar/gui/e-tasks.c:203
+#: calendar/gui/e-itip-control.c:956 calendar/gui/e-tasks.c:202
 msgid "Status:"
 msgstr "Stav"
 
@@ -5603,7 +5750,7 @@ msgid "Declined"
 msgstr "Zamítnuto"
 
 #: calendar/gui/e-itip-control.c:988 calendar/gui/e-itip-control.glade.h:6
-#: calendar/gui/e-tasks.c:247 composer/e-msg-composer-attachment.glade.h:3
+#: calendar/gui/e-tasks.c:246 composer/e-msg-composer-attachment.glade.h:3
 #: mail/mail-config.glade.h:45
 msgid "Description:"
 msgstr "Popis:"
@@ -6112,40 +6259,25 @@ msgstr "_Začátek schůzky:"
 msgid "Meeting _end time:"
 msgstr "_Konec schůzky:"
 
-#: calendar/gui/e-tasks.c:181
+#: calendar/gui/e-tasks.c:180
 msgid "Start Date:"
 msgstr "Datum začátku:"
 
-#: calendar/gui/e-tasks.c:197
+#: calendar/gui/e-tasks.c:196
 msgid "Due Date:"
 msgstr "Termín dokončení:"
 
 #. write priority
-#: calendar/gui/e-tasks.c:225
+#: calendar/gui/e-tasks.c:224
 msgid "Priority:"
 msgstr "Naléhavost:"
 
 #. URL
-#: calendar/gui/e-tasks.c:281
+#: calendar/gui/e-tasks.c:280
 msgid "Web Page:"
 msgstr "WWW stránka:"
 
-#: calendar/gui/e-tasks.c:710 calendar/gui/tasks-control.c:203
-#, c-format
-msgid "Could not load the tasks in `%s'"
-msgstr "Nemohu načíst úkoly v `%s'"
-
-#: calendar/gui/e-tasks.c:725
-#, c-format
-msgid "The method required to load `%s' is not supported"
-msgstr "Metoda potřebná pro načtení `%s' není podporována"
-
-#: calendar/gui/e-tasks.c:739
-#, c-format
-msgid "You don't have permission to open the folder in `%s'"
-msgstr "Nemáte práva k otevření složky v `%s'"
-
-#: calendar/gui/e-tasks.c:800 calendar/gui/gnome-cal.c:1880
+#: calendar/gui/e-tasks.c:730 calendar/gui/gnome-cal.c:1890
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6154,15 +6286,33 @@ msgstr ""
 "Chyba na %s:\n"
 " %s"
 
-#: calendar/gui/e-tasks.c:967
+#: calendar/gui/e-tasks.c:793
+#, c-format
+msgid "Opening tasks at %s"
+msgstr "Otevírám úkoly v %s"
+
+#: calendar/gui/e-tasks.c:808
+#, c-format
+msgid ""
+"Error opening %s:\n"
+"%s"
+msgstr ""
+"Chyba při otevírání %s:\n"
+"%s"
+
+#: calendar/gui/e-tasks.c:825
+msgid "Loading tasks"
+msgstr "Načítám úkoly"
+
+#: calendar/gui/e-tasks.c:918
 msgid "Completing tasks..."
 msgstr "Dokončuji úkoly..."
 
-#: calendar/gui/e-tasks.c:990
+#: calendar/gui/e-tasks.c:941
 msgid "Deleting selected objects..."
 msgstr "Mažu vybrané objekty..."
 
-#: calendar/gui/e-tasks.c:1015
+#: calendar/gui/e-tasks.c:966
 msgid "Expunging"
 msgstr "Čistí se"
 
@@ -6171,12 +6321,17 @@ msgstr "Čistí se"
 msgid "Calendar"
 msgstr "Kalendář"
 
-#: calendar/gui/gnome-cal.c:1761
+#: calendar/gui/gnome-cal.c:1755
+#, c-format
+msgid "Opening %s"
+msgstr "Otevírám %s"
+
+#: calendar/gui/gnome-cal.c:1766
 #, c-format
 msgid "Could not open '%s': %s"
 msgstr "Nemohu otevřít '%s': %s"
 
-#: calendar/gui/gnome-cal.c:1901
+#: calendar/gui/gnome-cal.c:1911
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -6187,7 +6342,7 @@ msgstr ""
 "%s\n"
 "spadla. Chcete-li ji znovu použít, musíte znovu spustit Evolution"
 
-#: calendar/gui/gnome-cal.c:1909
+#: calendar/gui/gnome-cal.c:1919
 #, c-format
 msgid ""
 "The calendar backend for\n"
@@ -6198,7 +6353,7 @@ msgstr ""
 "%s\n"
 "spadla. Chcete-li jej znovu použít, musíte znovu spustit Evolution"
 
-#: calendar/gui/gnome-cal.c:2788
+#: calendar/gui/gnome-cal.c:2798
 msgid "Purging"
 msgstr "Čistím"
 
@@ -6548,50 +6703,47 @@ msgstr "Tisknout nastavení"
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr "Seznam úkolů '%s' bude odstraněn. Jste si jisti, že chcete pokračovat?"
 
-#: calendar/gui/tasks-component.c:391
-msgid "Rename this task list to"
-msgstr "Přejmenovat tento seznam úkolů na"
-
-#: calendar/gui/tasks-component.c:412
-msgid "New Task List"
-msgstr "Nový seznam úkolů"
-
-#: calendar/gui/tasks-component.c:630
+#: calendar/gui/tasks-component.c:623
 msgid "New task"
 msgstr "Nový úkol"
 
-#: calendar/gui/tasks-component.c:631
+#: calendar/gui/tasks-component.c:624
 msgid "_Task"
 msgstr "Ú_kol"
 
-#: calendar/gui/tasks-component.c:632
+#: calendar/gui/tasks-component.c:625
 msgid "Create a new task"
 msgstr "Vytvořit nový úkol"
 
-#: calendar/gui/tasks-component.c:637
+#: calendar/gui/tasks-component.c:630
 msgid "New task list"
 msgstr "Nový seznam úkolů"
 
-#: calendar/gui/tasks-component.c:638
+#: calendar/gui/tasks-component.c:631
 msgid "_Task List"
 msgstr "_Seznam úkolů"
 
-#: calendar/gui/tasks-component.c:639
+#: calendar/gui/tasks-component.c:632
 msgid "Create a new task list"
 msgstr "Vytvořit nový seznam úkolů"
 
-#: calendar/gui/tasks-component.c:706
+#: calendar/gui/tasks-component.c:699
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "Nemohu otevřít seznam úkolů '%s' pro tvorbu událostí a schůzek"
 
-#: calendar/gui/tasks-component.c:719
+#: calendar/gui/tasks-component.c:712
 msgid "There is no calendar available for creating tasks"
 msgstr "Není k dispozici kalendář pro tvorbu úkolů"
 
 #: calendar/gui/tasks-control.c:151
 msgid "The URI of the tasks folder to display"
 msgstr "URI, které bude zobrazovat složku úkolů"
+
+#: calendar/gui/tasks-control.c:203
+#, c-format
+msgid "Could not load the tasks in `%s'"
+msgstr "Nemohu načíst úkoly v `%s'"
 
 #: calendar/gui/tasks-control.c:466
 msgid ""
@@ -10831,14 +10983,14 @@ msgstr "Zvolte složku, kam vystavit zprávu."
 msgid "Attach file(s)"
 msgstr "Připojit soubory"
 
-#: composer/e-msg-composer.c:651
+#: composer/e-msg-composer.c:654
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for from account"
 msgstr ""
 "Nemohu podepsat odchozí zprávu: Nenastaven podpisový certifikát pro účet "
 "odesílatele"
 
-#: composer/e-msg-composer.c:657
+#: composer/e-msg-composer.c:660
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for from "
 "account"
@@ -10846,7 +10998,7 @@ msgstr ""
 "Nemohu zašifrovat odchozí zprávu: Nenastaven šifrovací certifikát pro účet "
 "odesílatele"
 
-#: composer/e-msg-composer.c:788
+#: composer/e-msg-composer.c:791
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10855,30 +11007,30 @@ msgstr ""
 "Chyba při čtení souboru %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1153
+#: composer/e-msg-composer.c:1143
 msgid "File exists, overwrite?"
 msgstr "Soubor existuje, přepsat?"
 
-#: composer/e-msg-composer.c:1164 composer/e-msg-composer.c:1180
+#: composer/e-msg-composer.c:1154 composer/e-msg-composer.c:1170
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Chyba při ukládání souboru: %s"
 
-#: composer/e-msg-composer.c:1204
+#: composer/e-msg-composer.c:1194
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Chyba při načítání souboru: %s"
 
-#: composer/e-msg-composer.c:1242
+#: composer/e-msg-composer.c:1232
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Chyba při přístupu k souboru: %s"
 
-#: composer/e-msg-composer.c:1250
+#: composer/e-msg-composer.c:1240
 msgid "Unable to retrieve message from editor"
 msgstr "Nemohu získat z editoru"
 
-#: composer/e-msg-composer.c:1257
+#: composer/e-msg-composer.c:1247
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10887,7 +11039,7 @@ msgstr ""
 "Nemohu hledat v souboru: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1264
+#: composer/e-msg-composer.c:1254
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10896,7 +11048,7 @@ msgstr ""
 "Nemohu zkrátit soubor: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1273
+#: composer/e-msg-composer.c:1263
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10905,7 +11057,7 @@ msgstr ""
 "Nemohu kopírovat deskriptor souboru: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1282
+#: composer/e-msg-composer.c:1272
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10914,15 +11066,15 @@ msgstr ""
 "Chyba při automatickém ukládaní zprávy: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1386
+#: composer/e-msg-composer.c:1376
 msgid ""
-"Ximian Evolution has found unsaved files from a previous session.\n"
+"Ximian Evolution has found unsaved messages from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
-"Ximian Evolution našla neuložené soubory z předchozího sezení.\n"
+"Ximian Evolution našla neuložené zprávy z předchozího sezení.\n"
 "Chcete se pokusit o jejich obnovení?"
 
-#: composer/e-msg-composer.c:1550
+#: composer/e-msg-composer.c:1540
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10933,28 +11085,44 @@ msgstr ""
 "\n"
 "Chcete uložit změny?"
 
-#: composer/e-msg-composer.c:1559
+#: composer/e-msg-composer.c:1549
 msgid "Warning: Modified Message"
 msgstr "Varování: Změněná zpráva"
 
-#: composer/e-msg-composer.c:1592
+#: composer/e-msg-composer.c:1582
 msgid "Open file"
 msgstr "Otevřít soubor"
 
-#: composer/e-msg-composer.c:2011
+#: composer/e-msg-composer.c:2001
 msgid "Signature:"
 msgstr "Podpis:"
 
-#: composer/e-msg-composer.c:2051 mail/mail-account-gui.c:1260
+#: composer/e-msg-composer.c:2041 mail/mail-account-gui.c:1260
 msgid "Autogenerated"
 msgstr "automatický"
 
-#: composer/e-msg-composer.c:2231 composer/e-msg-composer.c:2929
-#: composer/e-msg-composer.c:2930
+#: composer/e-msg-composer.c:2203
+#, c-format
+msgid "<b>%d</b> File Attached"
+msgid_plural "<b>%d</b> Files Attached"
+msgstr[0] "<b>%d</b> přiložený soubor"
+msgstr[1] "<b>%d</b> přiložené soubory"
+msgstr[2] "<b>%d</b> přiložených souborů"
+
+#: composer/e-msg-composer.c:2232
+msgid "Hide _Attachment Bar (drop attachments here)"
+msgstr "Skrýt lištu _příloh (sem pouštějte přílohy)"
+
+#: composer/e-msg-composer.c:2235 composer/e-msg-composer.c:3067
+msgid "Show _Attachment Bar (drop attachments here)"
+msgstr "Zobrazit lištu _příloh (sem pouštějte přílohy)"
+
+#: composer/e-msg-composer.c:2252 composer/e-msg-composer.c:2951
+#: composer/e-msg-composer.c:2952
 msgid "Compose a message"
 msgstr "Napsat zprávu"
 
-#: composer/e-msg-composer.c:2961
+#: composer/e-msg-composer.c:2983
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10962,7 +11130,7 @@ msgstr ""
 "Nemohu vytvořit okno pro psaní zpráv:\n"
 "Nemohu aktivovat ovládací prvek pro výběr adresy."
 
-#: composer/e-msg-composer.c:2990
+#: composer/e-msg-composer.c:3012
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10974,7 +11142,7 @@ msgstr ""
 "Ujistěte se prosím, že máte nainstalovánu\n"
 "správnou verzi gtkhtml a libgtkhtml.\n"
 
-#: composer/e-msg-composer.c:3060
+#: composer/e-msg-composer.c:3113
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10982,7 +11150,7 @@ msgstr ""
 "nemohu vytvořit okno pro psaní zpráv:\n"
 "Nemohu aktivovat komponentu editoru HTML."
 
-#: composer/e-msg-composer.c:4073
+#: composer/e-msg-composer.c:4126
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11375,7 +11543,7 @@ msgstr "Udělat"
 msgid "Later"
 msgstr "Později"
 
-#: filter/filter-part.c:531 shell/evolution-test-component.c:63
+#: filter/filter-part.c:531 shell/GNOME_Evolution_Test.server.in.in.h:3
 msgid "Test"
 msgstr "Test"
 
@@ -11573,6 +11741,7 @@ msgid "Follow Up"
 msgstr "Follow Up"
 
 #: filter/libfilter-i18n.h:18 mail/em-folder-view.c:739
+#: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Štítek"
 
@@ -12089,42 +12258,51 @@ msgstr "Přejmenovat složku"
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr "Již existuje složka nazvaná \"%s\". Použijte prosím jiný název."
 
-#: mail/em-folder-tree.c:1371
+#: mail/em-folder-tree.c:1373
 msgid "Folder properties"
 msgstr "Vlastnosti složky"
 
 #. TODO: maybe we want some basic properties here, like message counts/approximate size/etc
-#: mail/em-folder-tree.c:1377
+#: mail/em-folder-tree.c:1379
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: mail/em-folder-tree.c:1385
+#. TODO: can this be done in a loop?
+#: mail/em-folder-tree.c:1388
 msgid "Folder Name"
 msgstr "Název složky"
 
-#: mail/em-folder-tree.c:1492 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:1399
+msgid "Total messages"
+msgstr "Celkem zpráv"
+
+#: mail/em-folder-tree.c:1411
+msgid "Unread messages"
+msgstr "Nepřečtených zpráv"
+
+#: mail/em-folder-tree.c:1520 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:20 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:49 ui/evolution.xml.h:32
 msgid "_View"
 msgstr "_Zobrazení"
 
-#: mail/em-folder-tree.c:1493
+#: mail/em-folder-tree.c:1521
 msgid "Open in _New Window"
 msgstr "Otevřít v _novém okně"
 
-#: mail/em-folder-tree.c:1498
+#: mail/em-folder-tree.c:1526
 msgid "_Move"
 msgstr "_Přesunout"
 
-#: mail/em-folder-tree.c:1501
+#: mail/em-folder-tree.c:1529
 msgid "_New Folder..."
 msgstr "_Nová složka..."
 
-#: mail/em-folder-tree.c:1503 shell/e-shortcuts-view.c:427
+#: mail/em-folder-tree.c:1531 shell/e-shortcuts-view.c:427
 msgid "_Rename"
 msgstr "_Přejmenovat"
 
-#: mail/em-folder-tree.c:1506 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:1534 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "Vla_stnosti..."
 
@@ -12519,10 +12697,6 @@ msgstr "Tato zpráva je digitálně podepsaná, ale nelze ověřit její platnos
 msgid "Spamassassin (built-in)"
 msgstr "Spamassassin (vestavěn)"
 
-#: mail/em-migrate.c:120
-msgid "Migrating..."
-msgstr "Převádím..."
-
 #: mail/em-migrate.c:128
 msgid ""
 "The location and hierarchy of the Evolution mailbox folders has changed "
@@ -12530,15 +12704,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Umístění a hierarchie složek poštovních schránek Evolution se od Evolution 1."
-"x změnil.\n"
+"Umístění a hierarchie složek poštovních schránek Evolution se od Evolution 1.x změnilo.\n"
 "\n"
 "Počkejte prosím, než Evolution převede vaše složky..."
-
-#: mail/em-migrate.c:161
-#, c-format
-msgid "Migrating `%s':"
-msgstr "Převádím `%s':"
 
 #: mail/em-migrate.c:833
 #, c-format
@@ -15323,13 +15491,17 @@ msgstr ""
 "Chyba z aktivačního systému je:\n"
 "%s"
 
-#: shell/evolution-test-component.c:63
-msgid "Test type"
-msgstr "Typ testu"
+#: shell/evolution-test-component.c:125
+msgid "New Test"
+msgstr "Nový text"
 
-#: shell/evolution-test-component.c:703
-msgid "Evolution Test Component"
-msgstr "Komponenta testů Evolution"
+#: shell/evolution-test-component.c:126
+msgid "_Test"
+msgstr "_Test"
+
+#: shell/evolution-test-component.c:127
+msgid "Create a new test item"
+msgstr "Vytvořit novou položku testu"
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
 msgid "Active Connections"
@@ -15610,6 +15782,11 @@ msgstr "E-mailová adresa"
 #, c-format
 msgid "Certificate Viewer: %s"
 msgstr "Prohlížeč certifikátu: %s"
+
+#: smime/gui/component.c:36
+#, c-format
+msgid "Enter the password for `%s'"
+msgstr "Zadejte heslo pro `%s'"
 
 #. FIXME: add serial no, validity date, uses
 #: smime/gui/e-cert-selector.c:116
@@ -17672,6 +17849,89 @@ msgstr "Text"
 msgid "Find _Now"
 msgstr "Hledat _nyní"
 
+#: shell/GNOME_Evolution_Test.server.in.in.h:1
+msgid "Evolution Test"
+msgstr "Test Evolution"
+
+#: shell/GNOME_Evolution_Test.server.in.in.h:2
+msgid "Evolution Test component"
+msgstr "Komponenta testů Evolution"
+
+#: widgets/misc/e-expander.c:181
+msgid "Expanded"
+msgstr "Rozbaleno"
+
+#: widgets/misc/e-expander.c:182
+msgid "Whether or not the expander is expanded"
+msgstr "Jestli je rozbalovač rozbalen"
+
+#: widgets/misc/e-expander.c:190
+msgid "Text of the expander's label"
+msgstr "Text šipky rozbalovače"
+
+#: widgets/misc/e-expander.c:197
+msgid "Use underline"
+msgstr "Používat podtržítka"
+
+#: widgets/misc/e-expander.c:198
+msgid ""
+"If set, an underline in the text indicates the next character should be used "
+"for the mnemonic accelerator key"
+msgstr "Je-li nastaveno, podtržítko v textu znamená, že následující znak má být použit pro mnemonickou klávesovou zkratku"
+
+#: widgets/misc/e-expander.c:205
+msgid "Spacing"
+msgstr "Rozestup"
+
+#: widgets/misc/e-expander.c:206
+msgid "Space to put between the label and the child"
+msgstr "Místo, které vložit mezi popisek a potomka"
+
+#: widgets/misc/e-expander.c:215
+msgid "Label widget"
+msgstr "Widget popisku"
+
+#: widgets/misc/e-expander.c:216
+msgid "A widget to display in place of the usual expander label"
+msgstr "Widget, který zobrazovat místo obvyklého popisku rozbalovače"
+
+#: widgets/misc/e-expander.c:222
+msgid "Expander Size"
+msgstr "Velikost rozbalovače"
+
+#: widgets/misc/e-expander.c:223
+msgid "Size of the expander arrow"
+msgstr "Velikost šipky rozbalovače"
+
+#: widgets/misc/e-expander.c:231
+msgid "Indicator Spacing"
+msgstr "Mezera okolo indikátoru"
+
+#: widgets/misc/e-expander.c:232
+msgid "Spacing around expander arrow"
+msgstr "Mezera okolo šipky rozbalovače"
+
+#~ msgid "Rename this calendar to"
+#~ msgstr "Přejmenovat tento kalendář na"
+
+#~ msgid "Could not create cache for new calendar"
+#~ msgstr "Nemohu vytvořit cache pro nový kalendář"
+
+#~ msgid "A group must be selected"
+#~ msgstr "Musí být vybrána skupina"
+
+#~ msgid "Could not create directory for new task list"
+#~ msgstr "Nemohu vytvořit adresář pro nový seznam úkolů"
+
+#~ msgid "The method required to load `%s' is not supported"
+#~ msgstr "Metoda potřebná pro načtení `%s' není podporována"
+
+#~ msgid "You don't have permission to open the folder in `%s'"
+#~ msgstr "Nemáte práva k otevření složky v `%s'"
+
+#~ msgid "Rename this task list to"
+#~ msgstr "Přejmenovat tento seznam úkolů na"
+
 #~ msgid "Selected Contacts:"
 #~ msgstr "Vybrané kontakty:"
 
@@ -17690,9 +17950,6 @@ msgstr "Hledat _nyní"
 #~ msgstr ""
 #~ "Při převodu dat vaší pošty došlo k následující chybě:\n"
 #~ "%s"
-
-#~ msgid "On LDAP Servers"
-#~ msgstr "Na serverech LDAP"
 
 #~ msgid "East Timor"
 #~ msgstr "Východní Timor"
