@@ -48,8 +48,13 @@ addressbook_component_get_shell_client  (void)
 
 static BonoboGenericFactory *factory = NULL;
 
+static const char *accepted_dnd_types[] = {
+	"text/x-vcard",
+	NULL
+};
+
 static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "contacts", "evolution-contacts.png" },
+	{ "contacts", "evolution-contacts.png", accepted_dnd_types },
 	{ NULL, NULL }
 };
 
@@ -96,6 +101,52 @@ create_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_free(&ev);
 }
 
+#if 0
+static void
+remove_folder (EvolutionShellComponent *shell_component,
+	       const char *physical_uri,
+	       const GNOME_Evolution_ShellComponentListener listener,
+	       void *closure)
+{
+	printf ("should remove %s\n", physical_uri);
+}
+
+static void
+xfer_folder (EvolutionShellComponent *shell_component,
+	     const char *source_physical_uri,
+	     const char *destination_physical_uri,
+	     gboolean remove_source,
+	     const GNOME_Evolution_ShellComponentListener listener,
+	     void *closure)
+{
+	printf ("should transfer %s to %s, %s source\n", source_physical_uri,
+		destination_physical_uri, remove_source ? "removing" : "not removing");
+}
+
+static void
+populate_context_menu (EvolutionShellComponent *shell_component,
+		       BonoboUIComponent *uic,
+		       const char *physical_uri,
+		       const char *type,
+		       void *closure)
+{
+	printf ("should populate context menu for %s (%s)\n", physical_uri, type);
+}
+
+static char*
+get_dnd_selection (EvolutionShellComponent *shell_component,
+		   const char *physical_uri,
+		   int type,
+		   int *format_return,
+		   const char **selection_return,
+		   int *selection_length_return,
+		   void *closure)
+{
+	printf ("should get dnd selection for %s\n", physical_uri);
+	return NULL;
+}
+#endif
+
 static int owner_count = 0;
 
 static void
@@ -132,7 +183,12 @@ factory_fn (BonoboGenericFactory *factory,
 	EvolutionShellComponent *shell_component;
 
 	shell_component = evolution_shell_component_new (folder_types, create_view, create_folder,
-							 NULL, NULL, NULL, NULL, NULL);
+							 NULL, NULL, NULL, NULL,
+#if 0
+							 remove_folder, xfer_folder, 
+							 populate_context_menu, get_dnd_selection,
+#endif
+							 NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);

@@ -1,5 +1,15 @@
 2001-04-09  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-component.c (remove_folder): stubbed,
+	#if 0'ed
+	(xfer_folder): same.
+	(populate_context_menu): same.
+	(get_dnd_selection): same.
+	(factory_fn): add the accepted drag types ("text/x-vard") to
+	folder_types.
+
+2001-04-09  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-minicard.c (e_minicard_event): on BUTTON_PRESS: if
 	it's button 1, store the button x, y, and set drag_button_down to
 	TRUE.  on BUTTON_RELEASE: always set drag_button_down to FALSE.
