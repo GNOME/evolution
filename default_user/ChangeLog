@@ -1,7 +1,13 @@
+2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* local/Inbox/mbox: Removed `<blockquote>' from the main text so
+	that the welcome mail is all visible when loaded into Evolution at
+	startup.
+
 2000-05-10  Matt Loper  <matt@helixcode.com>
 
-	* local/Inbox/mbox (Content-Transfer-Encoding): Commented out
-	currently unimplemented shortcut items.
+	* local/Inbox/mbox: Commented out currently unimplemented shortcut
+	items.
 
 2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
 
