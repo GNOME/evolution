@@ -293,6 +293,7 @@ static const char *authors[] = {
 	"Marius Vollmer",
 	"Mark Crichton",
 	"Mark Gordon",
+	"Mark Moulder",
 	"Martha Burke",
 	"Martin Baulig",
 	"Martin Hicks",

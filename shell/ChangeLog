@@ -1,3 +1,7 @@
+2005-02-01  JP Rosevear  <jpr@novell.com>
+
+	* e-shell-window-commands.c: add to about box
+
 2005-01-28  JP Rosevear  <jpr@novell.com>
 
 	* e-component-registry.c: Remove e-shell-utils.c include
