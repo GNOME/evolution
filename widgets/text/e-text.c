@@ -2912,6 +2912,47 @@ _do_tooltip (gpointer data)
 	return FALSE;
 }
 
+static void
+start_editing (EText *text)
+{
+	if (text->editing)
+		return;
+
+	text->editing = TRUE;
+	if (text->pointer_in) {
+		if (text->default_cursor_shown && (!text->draw_borders)) {
+			gdk_window_set_cursor (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas)->window, text->i_cursor);
+			text->default_cursor_shown = FALSE;
+		}
+	}
+	text->select_by_word = FALSE;
+	text->xofs_edit = 0;
+	text->yofs_edit = 0;
+	if (text->timeout_id == 0)
+		text->timeout_id = g_timeout_add(10, _blink_scroll_timeout, text);
+	text->timer = g_timer_new();
+	g_timer_elapsed(text->timer, &(text->scroll_start));
+	g_timer_start(text->timer);
+}
+
+static void
+stop_editing (EText *text)
+{
+	if (!text->editing)
+		return;
+
+	text->editing = FALSE;
+	if ( (!text->default_cursor_shown) && (!text->draw_borders) ) {
+		gdk_window_set_cursor (GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas)->window, text->default_cursor);
+		text->default_cursor_shown = TRUE;
+	}
+	if (text->timer) {
+		g_timer_stop(text->timer);
+		g_timer_destroy(text->timer);
+		text->timer = NULL;
+	}
+}
+
 static gboolean
 _click (gpointer data)
 {
@@ -2937,37 +2978,12 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			GdkEventFocus *focus_event;
 			focus_event = (GdkEventFocus *) event;
 			if (focus_event->in) {
-				if(!text->editing) {
-					text->editing = TRUE;
-					if ( text->pointer_in ) {
-						if ( text->default_cursor_shown && (!text->draw_borders)) {
-							gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text->i_cursor);
-							text->default_cursor_shown = FALSE;
-						}
-					}
-					text->select_by_word = FALSE;
-					text->xofs_edit = 0;
-					text->yofs_edit = 0;
-					if (text->timeout_id == 0)
-						text->timeout_id = g_timeout_add(10, _blink_scroll_timeout, text);
-					text->timer = g_timer_new();
-					g_timer_elapsed(text->timer, &(text->scroll_start));
-					g_timer_start(text->timer);
-				}
+				start_editing (text);
 			} else {
-				text->editing = FALSE;
-				if ( (!text->default_cursor_shown) && (!text->draw_borders) ) {
-					gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, text->default_cursor);
-					text->default_cursor_shown = TRUE;
-				}
+				stop_editing (text);
 				if (text->timeout_id) {
 					g_source_remove(text->timeout_id);
 					text->timeout_id = 0;
-				}
-				if (text->timer) {
-					g_timer_stop(text->timer);
-					g_timer_destroy(text->timer);
-					text->timer = NULL;
 				}
 			}
 			if ( text->line_wrap )
@@ -3051,6 +3067,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		    && (event->button.button == 1 ||
 			event->button.button == 2)) {
 			e_canvas_item_grab_focus (item, TRUE);
+			start_editing (text);
 		}
 #endif
 
