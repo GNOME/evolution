@@ -1721,7 +1721,8 @@ setup_ui (EMsgComposer *composer)
 	default_charset = bonobo_config_get_string (composer->config_db,
 						    "/Mail/Format/default_charset",
 						    NULL);
-	e_charset_picker_bonobo_ui_populate (composer->uic, default_charset,
+	e_charset_picker_bonobo_ui_populate (composer->uic, "/menu/Edit",
+					     default_charset,
 					     menu_changed_charset_cb,
 					     composer);
 	g_free (default_charset);

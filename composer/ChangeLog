@@ -1,3 +1,8 @@
+2001-10-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (setup_ui): Pass /menu/Edit as the menu path to
+	e_charset_picker thingy.
+
 2001-10-05  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer-attachment-bar.c
