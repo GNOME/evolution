@@ -29,6 +29,7 @@
 
 #include "e-dropdown-button.h"
 #include "e-filter-bar.h"
+#include "filter/rule-editor.h"
 
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -56,6 +57,21 @@ static void rule_editor_destroyed(GtkWidget *w, EFilterBar *efb)
 {
 	efb->save_dialogue = NULL;
 	e_search_bar_set_menu_sensitive((ESearchBar *)efb, E_FILTERBAR_SAVE_ID, TRUE);
+}
+
+/* FIXME: need to update the popup menu to match any edited rules, sigh */
+static void full_rule_editor_clicked(GtkWidget *w, int button, void *data)
+{
+	EFilterBar *efb = data;
+
+	switch (button) {
+	case 0:
+		rule_context_save(efb->context, efb->userrules);
+	case 1:
+	default:
+		gnome_dialog_close((GnomeDialog *)w);
+	case -1:
+	}
 }
 
 static void rule_editor_clicked(GtkWidget *w, int button, void *data)
@@ -120,6 +136,16 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 		gtk_object_set((GtkObject *)esb, "option_choice", efb->option_base, NULL);
 		gtk_object_set((GtkObject *)esb, "text", NULL, NULL);
 		gtk_widget_set_sensitive(esb->entry, TRUE);
+		break;
+	case E_FILTERBAR_EDIT_ID:
+		if (!efb->save_dialogue) {
+			GnomeDialog *gd;
+
+			gd = (GnomeDialog *)rule_editor_new(efb->context, FILTER_SOURCE_INCOMING);
+			gtk_signal_connect((GtkObject *)gd, "clicked", full_rule_editor_clicked, efb);
+			gtk_signal_connect((GtkObject *)gd, "destroy", rule_editor_destroyed, efb);
+			gtk_widget_show((GtkWidget *)gd);
+		}
 		break;
 	case E_FILTERBAR_SAVE_ID:
 		if (efb->current_query && !efb->save_dialogue) {

@@ -1,3 +1,9 @@
+2001-03-15  Not Zed  <NotZed@Ximian.com>
+
+	* e-filter-bar.c (menubar_activated): If we click on the edit
+	menu, then bring up a rule editor.  If the user adds/removes rules
+	though, they are neither saved, nor added to the menu's. sigh.
+
 2001-03-04  Damon Chaplin  <damon@ximian.com>
 
 	* e-cell-date-edit.c: pretty much working now.
