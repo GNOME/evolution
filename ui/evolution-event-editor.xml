@@ -321,17 +321,19 @@
 
 	<toolitem name="FileSaveAndClose" verb=""/>
 
-	<toolitem name="FileDelete" verb=""/>
-
-	<toolitem name="FileClose" verb=""/>
-
 	<separator/>
 
 	<toolitem name="FilePrint" verb=""/>
 
+	<toolitem _label="FIXME: Insert File" pixtype="stock" pixname="Attach"/>
+
 	<separator/>
 
-	<toolitem _label="FIXME: Insert File" pixtype="stock" pixname="Attach"/>
+	<toolitem name="FileDelete" verb=""/>
+
+	<separator/>
+
+	<toolitem name="FileClose" verb=""/>
 
 	<separator/>
 

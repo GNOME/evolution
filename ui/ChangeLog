@@ -1,3 +1,9 @@
+2001-01-02  Federico Mena Quintero  <federico@helixcode.com>
+
+	* evolution-event-editor.xml:
+	* evolution-task-editor-dialog.xml: Make the ordering of the
+	toolbar items consistent.
+
 2001-01-01  Michael Meeks  <michael@helixcode.com>
 
 	* Makefile.am: remove evolution-addressbook-ldap.xml so we

@@ -346,6 +346,10 @@
 
 	<separator/>
 
+	<toolitem name="FileClose" verb=""/>
+
+	<separator/>
+
 	<toolitem name="GoPrevious" verb=""/>
 
 	<toolitem name="GoNext" verb=""/>
