@@ -1,5 +1,8 @@
 2004-01-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-send-recv.c (build_dialog): Set the send/recv dialog to
+	non-modal. Fixes bug #50127.
+
 	* em-folder-tree-model.c (folder_subscribed_cb): If we aren't in
 	the main thread, proxy it over to the main thread.
 	(folder_unsubscribed_cb): Same.

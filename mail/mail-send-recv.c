@@ -121,7 +121,7 @@ struct _send_info {
 };
 
 static struct _send_data *send_data = NULL;
-static GtkWidget *send_recv_dialogue = NULL;
+static GtkWidget *send_recv_dialog = NULL;
 
 static struct _send_data *setup_send_data(void)
 {
@@ -215,11 +215,11 @@ dialog_destroy_cb (struct _send_data *data, GObject *deadbeef)
 {
 	g_hash_table_foreach (data->active, (GHFunc) hide_send_info, NULL);
 	data->gd = NULL;
-	send_recv_dialogue = NULL;
+	send_recv_dialog = NULL;
 }
 
 static void
-dialogue_response(GtkDialog *gd, int button, struct _send_data *data)
+dialog_response(GtkDialog *gd, int button, struct _send_data *data)
 {
 	switch(button) {
 	case GTK_RESPONSE_CANCEL:
@@ -231,7 +231,7 @@ dialogue_response(GtkDialog *gd, int button, struct _send_data *data)
 		gtk_dialog_set_response_sensitive(gd, GTK_RESPONSE_CANCEL, FALSE);
 		break;
 	default:
-		d(printf("hiding dialogue\n"));
+		d(printf("hiding dialog\n"));
 		g_hash_table_foreach(data->active, (GHFunc)hide_send_info, NULL);
 		data->gd = NULL;
 		/*gtk_widget_destroy((GtkWidget *)gd);*/
@@ -285,7 +285,7 @@ static send_info_t get_receive_type(const char *url)
 }
 
 static struct _send_data *
-build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destination)
+build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destination)
 {
 	GtkDialog *gd;
 	GtkTable *table;
@@ -303,7 +303,9 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 	EAccount *account;
 	EIterator *iter;
 	
-	gd = (GtkDialog *)send_recv_dialogue = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL);
+	gd = (GtkDialog *)send_recv_dialog = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL);
+	gtk_window_set_modal ((GtkWindow *) gd, FALSE);
+	
 	stop = (GtkButton *)e_gtk_button_new_with_icon(_("Cancel _All"), GTK_STOCK_CANCEL);
 	gtk_widget_show((GtkWidget *)stop);
 	gtk_dialog_add_action_widget(gd, (GtkWidget *)stop, GTK_RESPONSE_CANCEL);
@@ -328,7 +330,7 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 	
        	gtk_box_pack_start (GTK_BOX (gd->vbox), GTK_WIDGET (table), TRUE, TRUE, 0);
 	
-	/* must bet setup after send_recv_dialogue as it may re-trigger send-recv button */
+	/* must bet setup after send_recv_dialog as it may re-trigger send-recv button */
 	data = setup_send_data ();
 	
 	row = 0;
@@ -459,7 +461,7 @@ build_dialogue (EAccountList *accounts, CamelFolder *outbox, const char *destina
 	
 	gtk_widget_show (GTK_WIDGET (gd));
 	
-	g_signal_connect (gd, "response", G_CALLBACK (dialogue_response), data);
+	g_signal_connect (gd, "response", G_CALLBACK (dialog_response), data);
 	
 	g_object_weak_ref ((GObject *) gd, (GWeakNotify) dialog_destroy_cb, data);
 	
@@ -675,24 +677,24 @@ GtkWidget *mail_send_receive (void)
 	EAccount *account;
 	GList *scan;
 	
-	if (send_recv_dialogue != NULL) {
-		if (GTK_WIDGET_REALIZED(send_recv_dialogue)) {
-			gdk_window_show(send_recv_dialogue->window);
-			gdk_window_raise(send_recv_dialogue->window);
+	if (send_recv_dialog != NULL) {
+		if (GTK_WIDGET_REALIZED(send_recv_dialog)) {
+			gdk_window_show(send_recv_dialog->window);
+			gdk_window_raise(send_recv_dialog->window);
 		}
-		return send_recv_dialogue;
+		return send_recv_dialog;
 	}
 	
 	if (!camel_session_is_online (session))
-		return send_recv_dialogue;
+		return send_recv_dialog;
 	
 	account = mail_config_get_default_account ();
 	if (!account || !account->transport->url)
-		return send_recv_dialogue;
+		return send_recv_dialog;
 	
 	accounts = mail_config_get_accounts ();
 	
-	data = build_dialogue (accounts, outbox_folder, account->transport->url);
+	data = build_dialog (accounts, outbox_folder, account->transport->url);
 	scan = data->infos;
 	while (scan) {
 		struct _send_info *info = scan->data;
@@ -724,7 +726,7 @@ GtkWidget *mail_send_receive (void)
 		scan = scan->next;
 	}
 
-	return send_recv_dialogue;
+	return send_recv_dialog;
 }
 
 struct _auto_data {
@@ -807,7 +809,7 @@ mail_autoreceive_setup (void)
 				info->period = source->auto_check_time*60;
 				info->timeout_id = g_timeout_add(info->period*1000, auto_timeout, info);
 				g_hash_table_insert(auto_active, info->uri, info);
-				/* If we do this at startup, it can cause the logon dialogue to be hidden,
+				/* If we do this at startup, it can cause the logon dialog to be hidden,
 				   so lets not */
 				/*mail_receive_uri(source->url, source->keep_on_server);*/
 			}
