@@ -1,3 +1,8 @@
+2005-01-14  JP Rosevear  <jpr@novell.com>
+
+	* itip-formatter.c (format_itip_object): handle UTC dtstart/dtend
+	properly
+
 2005-01-11  JP Rosevear  <jpr@novell.com>
 
 	Fixes #29985

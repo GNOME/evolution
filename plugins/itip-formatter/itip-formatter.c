@@ -1430,7 +1430,9 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		
 		/* If the timezone is not in the component, guess the local time */
 		/* Should we guess if the timezone is an olsen name somehow? */
-		if (!datetime.value->is_utc && datetime.tzid) 
+		if (datetime.value->is_utc)
+			from_zone = icaltimezone_get_utc_timezone ();
+		else if (!datetime.value->is_utc && datetime.tzid) 
 			from_zone = icalcomponent_get_timezone (pitip->top_level, datetime.tzid);
 		else
 			from_zone = NULL;
@@ -1449,7 +1451,9 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 
 		/* If the timezone is not in the component, guess the local time */
 		/* Should we guess if the timezone is an olsen name somehow? */
-		if (!datetime.value->is_utc && datetime.tzid) 
+		if (datetime.value->is_utc)
+			from_zone = icaltimezone_get_utc_timezone ();
+		else if (!datetime.value->is_utc && datetime.tzid) 
 			from_zone = icalcomponent_get_timezone (pitip->top_level, datetime.tzid);
 		else
 			from_zone = NULL;
