@@ -5,6 +5,18 @@
 
 2002-03-29  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-preferences.c (colorpicker_get_color): Don't shift the r, g
+	and b values here either.
+
+	* mail-composer-prefs.c (colorpicker_get_color): Don't shift the
+	r, g, b values.
+
+	* mail-preferences.c (mail_preferences_construct): Restore the
+	labels & colours options from the grave.
+	(mail_preferences_apply): Save these labels & colours options.
+
+2002-03-29  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-composer-prefs.c (mail_composer_prefs_construct): Same
 	here.
 

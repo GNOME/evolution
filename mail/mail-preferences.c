@@ -113,11 +113,11 @@ colorpicker_get_color (GnomeColorPicker *color)
 	
 	gnome_color_picker_get_i8 (color, &r, &g, &b, &a);
 	
-	rgb   = r >> 8;
+	rgb   = r;
 	rgb <<= 8;
-	rgb  |= g >> 8;
+	rgb  |= g;
 	rgb <<= 8;
-	rgb  |= b >> 8;
+	rgb  |= b;
 	
 	return rgb;
 }
