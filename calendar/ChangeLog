@@ -1,3 +1,16 @@
+2003-06-30  Bolian Yin <bolian.yin@sun.com>
+
+	Fixes #45328, #45329
+
+	* gui/e-day-view.c (e_day_view_do_key_press): Do not process
+	PageUp/PageDown, .. when the Alt key is pressed (give key binding
+	set the chance).
+	* gui/gnome-cal.h : define new enum type, GNOME_CAL_GOTO_DATE_TYPE.
+	* gui/gnome-cal.c (gnome_calendar_class_init): define new signal
+	 "goto_date".  Add key bindings for "Alt+PageUp/PageDown",
+	 "Alt+Home/End".
+	(gnome_calendar_goto_date): Impl. signal handler for "goto_date".
+
 2003-07-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #45524
@@ -10,9 +23,9 @@
 
 2003-07-01  Bolian Yin <bolian.yin@sun.com>
 
-       Fixes #45274
+	Fixes #45274
 
-       * gui/e-week-view.c: implemented tabbing though events in week view.
+	* gui/e-week-view.c: implemented tabbing though events in week view.
 
 2003-06-30  Rodrigo Moya <rodrigo@ximian.com>
 

@@ -29,6 +29,8 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <glib.h>
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtkbindings.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -151,6 +153,7 @@ enum {
 	TASKPAD_SELECTION_CHANGED,
 	CALENDAR_FOCUS_CHANGE,
 	TASKPAD_FOCUS_CHANGE,
+	GOTO_DATE,
 	LAST_SIGNAL
 };
 
@@ -169,6 +172,8 @@ static guint gnome_calendar_signals[LAST_SIGNAL];
 static void gnome_calendar_class_init (GnomeCalendarClass *class);
 static void gnome_calendar_init (GnomeCalendar *gcal);
 static void gnome_calendar_destroy (GtkObject *object);
+static void gnome_calendar_goto_date (GnomeCalendar *gcal,
+				      GnomeCalendarGotoDateType goto_date);
 
 static void gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal);
 static void gnome_calendar_update_view_times (GnomeCalendar *gcal);
@@ -202,6 +207,7 @@ static void
 gnome_calendar_class_init (GnomeCalendarClass *class)
 {
 	GtkObjectClass *object_class;
+	GtkBindingSet *binding_set;
 
 	object_class = (GtkObjectClass *) class;
 
@@ -250,6 +256,18 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_BOOL);
 
+	gnome_calendar_signals[GOTO_DATE] =
+		g_signal_new ("goto_date",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (GnomeCalendarClass, goto_date),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__ENUM,
+			      G_TYPE_NONE,
+			      1,
+			      G_TYPE_INT);
+
+
 	object_class->destroy = gnome_calendar_destroy;
 
 	class->dates_shown_changed = NULL;
@@ -257,6 +275,57 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	class->taskpad_selection_changed = NULL;
 	class->calendar_focus_change = NULL;
 	class->taskpad_focus_change = NULL;
+	class->goto_date = gnome_calendar_goto_date;
+
+	/*
+	 * Key bindings
+	 */
+
+	binding_set = gtk_binding_set_by_class (class);
+
+	/* Alt+PageUp/PageDown, go to the first/last day of the month */
+	gtk_binding_entry_add_signal (binding_set, GDK_Page_Up,
+				      GDK_MOD1_MASK,
+				      "goto_date", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_GOTO_FIRST_DAY_OF_MONTH);
+	gtk_binding_entry_add_signal (binding_set, GDK_KP_Page_Up,
+				      GDK_MOD1_MASK,
+				      "goto_date", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_GOTO_FIRST_DAY_OF_MONTH);
+	gtk_binding_entry_add_signal (binding_set, GDK_Page_Down,
+				      GDK_MOD1_MASK,
+				      "goto_date", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_GOTO_LAST_DAY_OF_MONTH);
+	gtk_binding_entry_add_signal (binding_set, GDK_KP_Page_Down,
+				      GDK_MOD1_MASK,
+				      "goto_date", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_GOTO_LAST_DAY_OF_MONTH);
+
+	/* Alt+Home/End, go to the first/last day of the week */
+	gtk_binding_entry_add_signal (binding_set, GDK_Home,
+				      GDK_MOD1_MASK,
+				      "goto_date", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_GOTO_FIRST_DAY_OF_WEEK);
+	gtk_binding_entry_add_signal (binding_set, GDK_End,
+				      GDK_MOD1_MASK,
+				      "goto_date", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_GOTO_LAST_DAY_OF_WEEK);
+	gtk_binding_entry_add_signal (binding_set, GDK_KP_Home,
+				      GDK_MOD1_MASK,
+				      "goto_date", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_GOTO_FIRST_DAY_OF_WEEK);
+	gtk_binding_entry_add_signal (binding_set, GDK_KP_End,
+				      GDK_MOD1_MASK,
+				      "goto_date", 1,
+				      G_TYPE_ENUM,
+				      GNOME_CAL_GOTO_LAST_DAY_OF_WEEK);
 }
 
 /* Callback used when the calendar query reports of an updated object */
@@ -977,6 +1046,90 @@ gnome_calendar_destroy (GtkObject *object)
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+static void
+gnome_calendar_goto_date (GnomeCalendar *gcal,
+			  GnomeCalendarGotoDateType goto_date)
+{
+	GnomeCalendarPrivate *priv;
+	time_t	 start_time;
+	time_t	 end_time;
+	gboolean need_updating = FALSE;
+
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR(gcal));
+
+	priv = gcal->priv;
+
+	gnome_calendar_get_current_time_range (gcal, &start_time, &end_time);
+
+	switch (goto_date) {
+		/* GNOME_CAL_GOTO_TODAY and GNOME_CAL_GOTO_DATE are
+		   currently not used
+		*/
+	case GNOME_CAL_GOTO_TODAY:
+		break;
+	case GNOME_CAL_GOTO_DATE:
+		break;
+	case GNOME_CAL_GOTO_FIRST_DAY_OF_MONTH:
+		priv->selection_start_time =
+			time_month_begin_with_zone (start_time, priv->zone);
+		priv->selection_end_time =
+			time_add_day_with_zone (priv->selection_start_time,
+						1, priv->zone);
+		need_updating = TRUE;
+		break;
+	case GNOME_CAL_GOTO_LAST_DAY_OF_MONTH:
+		start_time = time_add_month_with_zone (start_time, 1,
+						       priv->zone);
+		priv->selection_end_time =
+			time_month_begin_with_zone (start_time, priv->zone);
+		priv->selection_start_time =
+			time_add_day_with_zone (priv->selection_end_time,
+						-1, priv->zone);
+		need_updating = TRUE;
+		break;
+	case GNOME_CAL_GOTO_FIRST_DAY_OF_WEEK:
+		/* 1 for Monday */
+		priv->selection_start_time =
+			time_week_begin_with_zone (start_time, 1, priv->zone);
+		priv->selection_end_time =
+			time_add_day_with_zone (priv->selection_start_time,
+						1, priv->zone);
+		need_updating = TRUE;
+		break;
+	case GNOME_CAL_GOTO_LAST_DAY_OF_WEEK:
+		/* 1 for Monday */
+		start_time = time_week_begin_with_zone (start_time, 1,
+							priv->zone);
+		if (priv->current_view_type == GNOME_CAL_DAY_VIEW ||
+		    priv->current_view_type == GNOME_CAL_WORK_WEEK_VIEW) {
+			/* goto Friday of this week */
+			priv->selection_start_time =
+				time_add_day_with_zone (start_time,
+							4, priv->zone);
+		}
+		else {
+			/* goto Sunday of this week */
+			priv->selection_start_time =
+				time_add_day_with_zone (start_time,
+							6, priv->zone);
+		}
+		priv->selection_end_time =
+			time_add_day_with_zone (priv->selection_start_time,
+						1, priv->zone);
+		need_updating = TRUE;
+		break;
+	default:
+		break;
+	}
+
+	if (need_updating) {
+		gnome_calendar_update_view_times (gcal);
+		gnome_calendar_update_date_navigator (gcal);
+		gnome_calendar_notify_dates_shown_changed (gcal);
+	}
 }
 
 void
