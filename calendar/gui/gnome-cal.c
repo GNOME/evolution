@@ -303,6 +303,16 @@ dn_query_obj_updated_cb (CalQuery *query, const char *uid,
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
+	/* If this is an update that is not part of an ongoing query, we have to
+	 * retag the whole thing:  an event may change dates and the
+	 * tag_calendar_by_comp() below would not know how to untag the old
+	 * dates.
+	 */
+	if (!query_in_progress) {
+		update_query (gcal);
+		return;
+	}
+
 	status = cal_client_get_object (priv->client, uid, &comp);
 
 	switch (status) {

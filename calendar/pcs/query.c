@@ -1265,48 +1265,6 @@ populate_query (Query *query)
 	priv->state = QUERY_IN_PROGRESS;
 }
 
-/* Idle handler for starting a query */
-static gboolean
-start_query_cb (gpointer data)
-{
-	Query *query;
-	QueryPrivate *priv;
-
-	query = QUERY (data);
-	priv = query->priv;
-
-	priv->idle_id = 0;
-
-	if (!ensure_sexp (query))
-		return FALSE;
-
-	/* Populate the query with UIDs so that we can process them asynchronously */
-
-	populate_query (query);
-
-	return FALSE;
-}
-
-/* Callback used when the backend gets loaded; we just queue the query to be
- * started later.
- */
-static void
-backend_opened_cb (CalBackend *backend, CalBackendOpenStatus status, gpointer data)
-{
-	Query *query;
-	QueryPrivate *priv;
-
-	query = QUERY (data);
-	priv = query->priv;
-
-	if (status == CAL_BACKEND_OPEN_SUCCESS) {
-		g_assert (cal_backend_is_loaded (backend));
-		g_assert (priv->idle_id == 0);
-
-		priv->idle_id = g_idle_add (start_query_cb, query);
-	}
-}
-
 /* Callback used when a component changes in the backend */
 static void
 backend_obj_updated_cb (CalBackend *backend, const char *uid, gpointer data)
@@ -1339,6 +1297,55 @@ backend_obj_removed_cb (CalBackend *backend, const char *uid, gpointer data)
 	remove_from_pending (query, uid);
 
 	bonobo_object_unref (BONOBO_OBJECT (query));
+}
+
+/* Idle handler for starting a query */
+static gboolean
+start_query_cb (gpointer data)
+{
+	Query *query;
+	QueryPrivate *priv;
+
+	query = QUERY (data);
+	priv = query->priv;
+
+	priv->idle_id = 0;
+
+	if (!ensure_sexp (query))
+		return FALSE;
+
+	/* Populate the query with UIDs so that we can process them asynchronously */
+
+	populate_query (query);
+
+	gtk_signal_connect (GTK_OBJECT (priv->backend), "obj_updated",
+			    GTK_SIGNAL_FUNC (backend_obj_updated_cb),
+			    query);
+	gtk_signal_connect (GTK_OBJECT (priv->backend), "obj_removed",
+			    GTK_SIGNAL_FUNC (backend_obj_removed_cb),
+			    query);
+
+	return FALSE;
+}
+
+/* Callback used when the backend gets loaded; we just queue the query to be
+ * started later.
+ */
+static void
+backend_opened_cb (CalBackend *backend, CalBackendOpenStatus status, gpointer data)
+{
+	Query *query;
+	QueryPrivate *priv;
+
+	query = QUERY (data);
+	priv = query->priv;
+
+	if (status == CAL_BACKEND_OPEN_SUCCESS) {
+		g_assert (cal_backend_is_loaded (backend));
+		g_assert (priv->idle_id == 0);
+
+		priv->idle_id = g_idle_add (start_query_cb, query);
+	}
 }
 
 /**
@@ -1387,13 +1394,6 @@ query_construct (Query *query,
 	gtk_object_ref (GTK_OBJECT (priv->backend));
 
 	priv->default_zone = cal_backend_get_default_timezone (backend);
-
-	gtk_signal_connect (GTK_OBJECT (priv->backend), "obj_updated",
-			    GTK_SIGNAL_FUNC (backend_obj_updated_cb),
-			    query);
-	gtk_signal_connect (GTK_OBJECT (priv->backend), "obj_removed",
-			    GTK_SIGNAL_FUNC (backend_obj_removed_cb),
-			    query);
 
 	priv->sexp = g_strdup (sexp);
 

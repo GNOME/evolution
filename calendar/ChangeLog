@@ -1,5 +1,21 @@
 2001-10-31  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/gnome-cal.c (dn_query_obj_updated_cb): If a query is not in
+	progress, just retag the whole thing.  An event may change dates
+	and tag_calendar_by_comp() would not know how to untag the old
+	dates.  Fixes bug #10220.
+
+	* pcs/query.c (start_query_cb): Connect to the backend's
+	"obj_updated" and "obj_removed" signals here instead of in
+	query_construct().  If a query is started while another one is
+	notifying of an update, these signal connections would get appened
+	to the running signal (the one that triggered the notification
+	about an update) and the new signal handlers would also get
+	called.  We are really not interested in updates before we
+	populate the query, because we'll catch the changes anyways.
+
+2001-10-31  Federico Mena Quintero  <federico@ximian.com>
+
 	Fix bug #13723.
 
 	* gui/gnome-cal.h (GnomeCalendarClass): New signals
