@@ -59,7 +59,7 @@ extern int krb_sendauth(long options, int fd, KTEXT ticket, char *service,
 #include "camel-pop3-store.h"
 #include "camel-pop3-folder.h"
 #include "camel-stream-buffer.h"
-#include "camel-stream-fs.h"
+#include "camel-tcp-stream.h"
 #include "camel-session.h"
 #include "camel-exception.h"
 #include "camel-url.h"
@@ -156,7 +156,7 @@ connect_to_server (CamelService *service, CamelException *ex)
 	gboolean result;
 
 #ifdef HAVE_KRB4
-	gboolean set_port = FALSE;
+	gboolean set_port = FALSE, kpop;
 
 	kpop = (service->url->authmech &&
 		!strcmp (service->url->authmech, "+KPOP"));
@@ -183,27 +183,17 @@ connect_to_server (CamelService *service, CamelException *ex)
 		MSG_DAT msg_data;
 		CREDENTIALS cred;
 		Key_schedule schedule;
-		char *hostname;
 		struct hostent *h;
 		int fd;
 
-		/* Need to copy hostname, because krb_realmofhost will
-		 * call gethostbyname as well, and gethostbyname uses
-		 * static storage.
-		 * This isn't really necessary since gethost() returns a copy anyway,
-		 * but for simplicity leave the old code here - NZ
-		 */
 		h = camel_service_gethost (service, ex);
-		hostname = g_strdup (h->h_name);
-		camel_free_host(h);
 
-		fd = CAMEL_STREAM_FS (CAMEL_REMOTE_STORE (service)->ostream)->fd;
-
-		status = krb_sendauth (0, fd, &ticket_st, "pop", hostname,
-				       krb_realmofhost (hostname), 0,
+		fd = GPOINTER_TO_INT (camel_tcp_stream_get_socket (CAMEL_TCP_STREAM (CAMEL_REMOTE_STORE (service)->ostream)));
+		status = krb_sendauth (0, fd, &ticket_st, "pop", h->h_name,
+				       krb_realmofhost (h->h_name), 0,
 				       &msg_data, &cred, schedule,
 				       NULL, NULL, "KPOPV0.1");
-		g_free (hostname);
+		camel_free_host (h);
 		if (status != KSUCCESS) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 					      _("Could not authenticate to "
@@ -297,6 +287,9 @@ query_auth_types (CamelService *service, CamelException *ex)
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 	GList *types = NULL;
 	gboolean passwd = TRUE, apop = TRUE;
+#ifdef HAVE_KRB4
+	gboolean kpop;
+#endif
 
         types = CAMEL_SERVICE_CLASS (parent_class)->query_auth_types (service, ex);
 	if (camel_exception_is_set (ex))
@@ -308,9 +301,9 @@ query_auth_types (CamelService *service, CamelException *ex)
 		pop3_disconnect (service, TRUE, NULL);
 
 #ifdef HAVE_KRB4
-	service->url->authtype = "+KPOP";
+	service->url->authmech = "+KPOP";
 	kpop = connect_to_server (service, NULL);
-	service->url->authtype = NULL;
+	service->url->authmech = NULL;
 	if (kpop)
 		pop3_disconnect (service, TRUE, NULL);
 #endif
@@ -350,8 +343,8 @@ camel_pop3_store_expunge (CamelPop3Store *store, CamelException *ex)
 
 
 static gboolean
-pop3_try_authenticate (CamelService *service, gboolean kpop,
-		       const char *errmsg, CamelException *ex)
+pop3_try_authenticate (CamelService *service, const char *errmsg,
+		       CamelException *ex)
 {
 	CamelPop3Store *store = (CamelPop3Store *)service;
 	int status;
@@ -377,7 +370,7 @@ pop3_try_authenticate (CamelService *service, gboolean kpop,
 			return FALSE;
 	}
 
-	if (!service->url->authmech || kpop) {
+	if (!service->url->authmech || !strcmp (service->url->authmech, "+KPOP")) {
 		status = camel_pop3_command (store, &msg, ex, "USER %s",
 					     service->url->user);
 		switch (status) {
@@ -434,7 +427,7 @@ static gboolean
 pop3_connect (CamelService *service, CamelException *ex)
 {
 	char *errbuf = NULL;
-	gboolean tryagain, kpop = FALSE;
+	gboolean tryagain;
 
 	if (!connect_to_server (service, ex))
 		return FALSE;
@@ -455,7 +448,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 			service->url->passwd = NULL;
 		}
 
-		tryagain = pop3_try_authenticate (service, kpop, errbuf, ex);
+		tryagain = pop3_try_authenticate (service, errbuf, ex);
 		g_free (errbuf);
 		errbuf = NULL;
 	} while (tryagain);
