@@ -1,3 +1,7 @@
+2003-10-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: added a configure check for AI_ADDRCONFIG
+
 2003-10-24  Dan Winship  <danw@ximian.com>
 
 	* libversit/Makefile.am: Change YFLAGS to AM_YFLAGS to stop an
