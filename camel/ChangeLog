@@ -1,3 +1,8 @@
+2001-08-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (camel_store_get_folder): We need to be ref'ing
+	the folder if/when we add it to the hash. This may fix bug #6089?
+
 2001-08-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* providers/local/camel-spool-summary.c (summary_rebuild):

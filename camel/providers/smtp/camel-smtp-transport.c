@@ -112,7 +112,7 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 	camel_service_class->disconnect = smtp_disconnect;
 	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->get_name = get_name;
-
+	
 	camel_transport_class->can_send = smtp_can_send;
 	camel_transport_class->send = smtp_send;
 	camel_transport_class->send_to = smtp_send_to;
@@ -133,7 +133,8 @@ camel_smtp_transport_get_type (void)
 	
 	if (camel_smtp_transport_type == CAMEL_INVALID_TYPE) {
 		camel_smtp_transport_type =
-			camel_type_register (CAMEL_TRANSPORT_TYPE, "CamelSmtpTransport",
+			camel_type_register (CAMEL_TRANSPORT_TYPE,
+					     "CamelSmtpTransport",
 					     sizeof (CamelSmtpTransport),
 					     sizeof (CamelSmtpTransportClass),
 					     (CamelObjectClassInitFunc) camel_smtp_transport_class_init,
@@ -151,9 +152,9 @@ smtp_construct (CamelService *service, CamelSession *session,
 		CamelException *ex)
 {
 	CamelSmtpTransport *smtp_transport = CAMEL_SMTP_TRANSPORT (service);
-
+	
 	CAMEL_SERVICE_CLASS (parent_class)->construct (service, session, provider, url, ex);
-
+	
 	if (camel_url_get_param (url, "use_ssl"))
 		smtp_transport->use_ssl = TRUE;
 }

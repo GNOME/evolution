@@ -169,18 +169,18 @@ disco_get_folder (CamelStore *store, const char *name,
 		  guint32 flags, CamelException *ex)
 {
 	CamelDiscoStore *disco_store = CAMEL_DISCO_STORE (store);
-
+	
 	switch (camel_disco_store_status (disco_store)) {
 	case CAMEL_DISCO_STORE_ONLINE:
 		return CDS_CLASS (store)->get_folder_online (store, name, flags, ex);
-
+		
 	case CAMEL_DISCO_STORE_OFFLINE:
 		return CDS_CLASS (store)->get_folder_offline (store, name, flags, ex);
-
+		
 	case CAMEL_DISCO_STORE_RESYNCING:
 		return CDS_CLASS (store)->get_folder_resyncing (store, name, flags, ex);	
 	}
-
+	
 	g_assert_not_reached ();
 	return NULL;
 }
@@ -190,11 +190,11 @@ disco_get_folder_info (CamelStore *store, const char *top,
 		       guint32 flags, CamelException *ex)
 {
 	CamelDiscoStore *disco_store = CAMEL_DISCO_STORE (store);
-
+	
 	switch (camel_disco_store_status (disco_store)) {
 	case CAMEL_DISCO_STORE_ONLINE:
 		return CDS_CLASS (store)->get_folder_info_online (store, top, flags, ex);
-
+		
 	case CAMEL_DISCO_STORE_OFFLINE:
 		/* Can't edit subscriptions while offline */
 		if ((store->flags & CAMEL_STORE_SUBSCRIPTIONS) &&
@@ -202,13 +202,13 @@ disco_get_folder_info (CamelStore *store, const char *top,
 			camel_disco_store_check_online (disco_store, ex);
 			return NULL;
 		}
-
+		
 		return CDS_CLASS (store)->get_folder_info_offline (store, top, flags, ex);
-
+		
 	case CAMEL_DISCO_STORE_RESYNCING:
 		return CDS_CLASS (store)->get_folder_info_resyncing (store, top, flags, ex);
 	}
-
+	
 	g_assert_not_reached ();
 	return NULL;
 }

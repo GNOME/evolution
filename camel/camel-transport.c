@@ -39,7 +39,7 @@ static void
 camel_transport_init (gpointer object, gpointer klass)
 {
 	CamelTransport *xport = object;
-
+	
 	xport->priv = g_malloc0 (sizeof (struct _CamelTransportPrivate));
 #ifdef ENABLE_THREADS
 	xport->priv->send_lock = g_mutex_new ();
@@ -60,19 +60,20 @@ camel_transport_finalize (CamelObject *object)
 CamelType
 camel_transport_get_type (void)
 {
-	static CamelType camel_transport_type = CAMEL_INVALID_TYPE;
+	static CamelType type = CAMEL_INVALID_TYPE;
 	
-	if (camel_transport_type == CAMEL_INVALID_TYPE)	{
-		camel_transport_type = camel_type_register (CAMEL_SERVICE_TYPE, "CamelTransport",
-							    sizeof (CamelTransport),
-							    sizeof (CamelTransportClass),
-							    NULL,
-							    NULL,
-							    (CamelObjectInitFunc) camel_transport_init,
-							    (CamelObjectFinalizeFunc) camel_transport_finalize);
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (CAMEL_SERVICE_TYPE,
+					    "CamelTransport",
+					    sizeof (CamelTransport),
+					    sizeof (CamelTransportClass),
+					    NULL,
+					    NULL,
+					    (CamelObjectInitFunc) camel_transport_init,
+					    (CamelObjectFinalizeFunc) camel_transport_finalize);
 	}
 	
-	return camel_transport_type;
+	return type;
 }
 
 

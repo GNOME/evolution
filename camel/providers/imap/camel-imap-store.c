@@ -868,13 +868,13 @@ get_folder_online (CamelStore *store, const char *folder_name,
 	CamelImapResponse *response;
 	CamelFolder *new_folder;
 	char *folder_dir;
-
+	
 	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
 		return NULL;
-
+	
 	if (!g_strcasecmp (folder_name, "INBOX"))
 		folder_name = "INBOX";
-
+	
 	/* Lock around the whole lot to check/create atomically */
 	CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
 	if (imap_store->current_folder) {
@@ -886,12 +886,12 @@ get_folder_online (CamelStore *store, const char *folder_name,
 	if (!response) {
 		if (!flags & CAMEL_STORE_FOLDER_CREATE)
 			return no_such_folder (folder_name, ex);
-
+		
 		response = camel_imap_command (imap_store, NULL, ex,
 					       "CREATE %F", folder_name);
 		if (response) {
 			camel_imap_response_free (imap_store, response);
-
+			
 			response = camel_imap_command (imap_store, NULL, NULL,
 						       "SELECT %F", folder_name);
 		}
@@ -900,7 +900,7 @@ get_folder_online (CamelStore *store, const char *folder_name,
 			return NULL;
 		}
 	}
-
+	
 	folder_dir = e_path_to_physical (imap_store->storage_path, folder_name);
 	new_folder = camel_imap_folder_new (store, folder_name, folder_dir, ex);
 	g_free (folder_dir);
@@ -916,9 +916,9 @@ get_folder_online (CamelStore *store, const char *folder_name,
 		}
 	}
 	camel_imap_response_free_without_processing (imap_store, response);
-
+	
 	CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
-
+	
 	return new_folder;
 }
 
@@ -929,21 +929,21 @@ get_folder_offline (CamelStore *store, const char *folder_name,
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelFolder *new_folder;
 	char *folder_dir;
-
+	
 	if (!imap_store->connected &&
 	    !camel_service_connect (CAMEL_SERVICE (store), ex))
 		return NULL;
-
+	
 	if (!g_strcasecmp (folder_name, "INBOX"))
 		folder_name = "INBOX";
-
+	
 	folder_dir = e_path_to_physical (imap_store->storage_path, folder_name);
 	if (access (folder_dir, F_OK) != 0)
 		return no_such_folder (folder_name, ex);
-
+	
 	new_folder = camel_imap_folder_new (store, folder_name, folder_dir, ex);
 	g_free (folder_dir);
-
+	
 	return new_folder;
 }
 
