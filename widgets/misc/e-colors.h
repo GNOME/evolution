@@ -9,6 +9,6 @@ void     color_alloc_name (char *name, GdkColor *color);
 void     color_alloc_gdk  (GdkColor *color);
 
 /* Colors used by any GnumericSheet item */
-extern GdkColor gs_white, gs_light_gray, gs_dark_gray, gs_black;
+extern GdkColor gs_white, gs_light_gray, gs_dark_gray, gs_black, gs_red;
 
 #endif
