@@ -37,6 +37,8 @@
 #include "folder-browser.h"
 #include "e-util/e-html-utils.h"
 
+#define d(x) x
+
 /* temporary 'hack' */
 int mail_operation_run(const mail_operation_spec *op, void *in, int free);
 
