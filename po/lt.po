@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-08 17:32+0200\n"
-"PO-Revision-Date: 2005-01-08 17:33+0200\n"
+"PO-Revision-Date: 2005-01-08 21:00+0200\n"
 "Last-Translator: Žygimantas Beručka <uid0@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -2795,6 +2795,10 @@ msgid ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
 msgstr ""
+"Nepavyko atidaryti šios adresų knygos. Tai reiškia, kad ši knyga nėra "
+"pažymėta naudojimui atsijungus arba dar nėra tam parsiųsti jos duomenys. "
+"Kai prisijungsite, prašau paleisti šią adresų knygą, taip bus parsiųstas jos "
+"turinys."
 
 #: addressbook/gui/widgets/eab-gui-util.c:98
 msgid ""
@@ -4324,6 +4328,8 @@ msgstr "Rodyti įvykių pabaigos laikus savaitės ir mėnesio rodiniuose"
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "The url template to use as a free/busy data fallback"
 msgstr ""
+"Adreso trafaretas, naudojamas kaip laisvas/užsiėmęs duomenų atsarginis "
+"variantas"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Time last alarm ran"
@@ -9741,7 +9747,7 @@ msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
 msgstr ""
-"Su šia parinktimi prie serverio bus jungiamasi naudojant saugų CRAM-MD5 "
+"Su šia parinktimi prie serverio bus jungiamasi naudojant saugų DIGEST-MD5 "
 "slaptažodį, jei serveris tai palaiko."
 
 #: camel/camel-sasl-digest-md5.c:814
@@ -10403,7 +10409,7 @@ msgstr ""
 #: camel/camel-url.c:293
 #, c-format
 msgid "Could not parse URL `%s'"
-msgstr "Negalėjau išnagrinėti URL „%s“"
+msgstr "Nepavyko išnagrinėti URL „%s“"
 
 #: camel/camel-vee-folder.c:476
 #, c-format
@@ -10555,12 +10561,12 @@ msgstr "Nepavyko pasiekti aplanko „%s“: %s"
 #: camel/providers/imap4/camel-imap4-folder.c:418
 #, c-format
 msgid "Cannot sync flags to folder `%s': Unknown"
-msgstr ""
+msgstr "Nepavyko sinchronizuoti žymių aplankui „%s“: Nežinoma"
 
 #: camel/providers/imap4/camel-imap4-folder.c:424
 #, c-format
 msgid "Cannot sync flags to folder `%s': Bad command"
-msgstr ""
+msgstr "Nepavyko sinchronizuoti žymių aplankui „%s“: Bloga komanda"
 
 #: camel/providers/imap4/camel-imap4-folder.c:565
 #, c-format
@@ -17681,7 +17687,7 @@ msgstr ""
 
 #: plugins/shared-folder/properties.glade.h:15
 msgid "The participants will receive the following notification.\n"
-msgstr ""
+msgstr "Dalyviai gaus sekančius perspėjimus.\n"
 
 #: plugins/shared-folder/properties.glade.h:18
 msgid "_Not Shared"
@@ -17690,17 +17696,15 @@ msgstr "_Nepaviešinta"
 #: plugins/shared-folder/properties.glade.h:20
 #, fuzzy
 msgid "_Shared With ..."
-msgstr "_Viešinama..."
+msgstr "_Viešinama jiems ..."
 
 #: plugins/shared-folder/properties.glade.h:21
-#, fuzzy
 msgid "_Sharing"
-msgstr "Pustoniai"
+msgstr "_Viešinimas"
 
 #: plugins/shared-folder/share-folder-common.c:282
-#, fuzzy
 msgid "Users"
-msgstr "Naudotojo vardas"
+msgstr "Naudotojai"
 
 #: plugins/shared-folder/share-folder-common.c:283
 msgid "Enter the users and set permissions"
@@ -17860,9 +17864,8 @@ msgstr ""
 "susigaudyti pati."
 
 #: shell/e-shell-importer.c:155
-#, fuzzy
 msgid "Choose the destination for this import"
-msgstr "Atšaukti šio punkto susitikimą"
+msgstr "Pasirinkite šio importavimo paskirties vietą"
 
 #: shell/e-shell-importer.c:158 shell/e-shell-startup-wizard.c:750
 msgid "Please select the information that you would like to import:"
@@ -17891,7 +17894,7 @@ msgstr ""
 
 #: shell/e-shell-importer.c:340
 msgid "Select importer"
-msgstr "Pasirink importavimo komponentą"
+msgstr "Pasirinkite importavimo komponentą"
 
 #: shell/e-shell-importer.c:461 shell/e-shell-importer.c:1073
 #, c-format
@@ -17963,9 +17966,9 @@ msgid "From %s:"
 msgstr "Nuo %s:"
 
 #: shell/e-shell-importer.c:1092
-#, fuzzy, c-format
+#, c-format
 msgid "No importer available for file %s"
-msgstr "Protokolui „%s“ nėra tiekėjo."
+msgstr "Bylai „%s“ nėra importavimo programos."
 
 #: shell/e-shell-importer.c:1106
 msgid "Unable to execute importer"
@@ -18281,7 +18284,7 @@ msgstr "Priverstinai uždaryti visus Evolution komponentus"
 
 #: shell/main.c:484
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr ""
+msgstr "Priverstinai re-migruoti iš Evolution 1.4"
 
 #: shell/main.c:487
 msgid "Send the debugging output of all components to a file."
@@ -18307,7 +18310,7 @@ msgstr ""
 #. shell:upgrade-nospace primary
 #: shell/shell-errors.xml.h:2
 msgid "Insufficient disk space for upgrade."
-msgstr "Atnaujinimui atlikti neužtenka laisvos vietos diske."
+msgstr "Atnaujinimui atlikti diske neužtenka laisvos vietos."
 
 #. shell:upgrade-nospace secondary
 #: shell/shell-errors.xml.h:4
@@ -18318,6 +18321,10 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
+"Jūsų duomenų ir nustatymų atnaujinimui prireiks iki {0} vietos diske, o "
+"Jūsu diske yra tik {1}.\n"
+"\n"
+"Norint tęsti Jums reikės Jūsų namų aplanke atlaisvinti vietos."
 
 #. shell:upgrade-failed primary
 #: shell/shell-errors.xml.h:8
@@ -18325,6 +18332,8 @@ msgid ""
 "Upgrade from previous version failed:\n"
 "{0}"
 msgstr ""
+"Nepavyko atnaujinti ankstesnės versijos:\n"
+"{0}"
 
 #. shell:upgrade-failed secondary
 #: shell/shell-errors.xml.h:11
@@ -18334,6 +18343,10 @@ msgid ""
 "If you choose to continue, you may not have access to some of your old "
 "data.\n"
 msgstr ""
+"{1}\n"
+"\n"
+"Jeigu pasirinksite tęsti, Jūs galite nebeturėti priėjimo prie kai kurių "
+"senų Jūsų duomenų.\n"
 
 #: shell/shell-errors.xml.h:15
 msgid "Continue"
@@ -18584,7 +18597,7 @@ msgstr "Kontaktiniai sertifikatai"
 
 #: smime/gui/smime-ui.glade.h:20
 msgid "Do not trust the authenticity of this certificate"
-msgstr ""
+msgstr "Nepasitikėti šio sertifikato autentiškumu"
 
 #: smime/gui/smime-ui.glade.h:21
 msgid "Dummy window only"
@@ -18595,21 +18608,20 @@ msgid "Edit"
 msgstr "Keisti"
 
 #: smime/gui/smime-ui.glade.h:23
-#, fuzzy
 msgid "Email Certificate Trust Settings"
-msgstr "Pašto sertifikatų "
+msgstr "Pašto sertifikato pasitikėjimo nustatymai"
 
 #: smime/gui/smime-ui.glade.h:24
 msgid "Email Recipient Certificate"
-msgstr "Pašto Gavėjo Sertifikatas"
+msgstr "Pašto gavėjo sertifikatas"
 
 #: smime/gui/smime-ui.glade.h:25
 msgid "Email Signer Certificate"
-msgstr "Pašto Parašo Sertifikatas"
+msgstr "Pašto pasirašytojo sertifikatas"
 
 #: smime/gui/smime-ui.glade.h:26
 msgid "Expires On"
-msgstr "Galioja Iki"
+msgstr "Galioja iki"
 
 #: smime/gui/smime-ui.glade.h:29
 msgid "Issued On"
@@ -18617,7 +18629,7 @@ msgstr "Išleistas"
 
 #: smime/gui/smime-ui.glade.h:30
 msgid "MD5 Fingerprint"
-msgstr "MD5 Parašas"
+msgstr "MD5 antspaudas"
 
 #: smime/gui/smime-ui.glade.h:31
 msgid "Organization (O)"
@@ -18625,23 +18637,23 @@ msgstr "Organizacija (O)"
 
 #: smime/gui/smime-ui.glade.h:32
 msgid "Organizational Unit (OU)"
-msgstr "Organizacinis Vienetas (OU)"
+msgstr "Organizacinis vienetas (OU)"
 
 #: smime/gui/smime-ui.glade.h:33
 msgid "SHA1 Fingerprint"
-msgstr "SHA1 Požymis"
+msgstr "SHA1 antspaudas"
 
 #: smime/gui/smime-ui.glade.h:34 smime/lib/e-cert.c:818
 msgid "SSL Client Certificate"
-msgstr "SSL Klientinis Sertifikatas"
+msgstr "SSL kliento sertifikatas"
 
 #: smime/gui/smime-ui.glade.h:35 smime/lib/e-cert.c:822
 msgid "SSL Server Certificate"
-msgstr "SSL Serverio Sertifikatas"
+msgstr "SSL serverio sertifikatas"
 
 #: smime/gui/smime-ui.glade.h:37
 msgid "Trust the authenticity of this certificate"
-msgstr ""
+msgstr "Pasitikėti šio sertifikato autentiškumu"
 
 #: smime/gui/smime-ui.glade.h:38
 msgid "Trust this CA to identify email users."
@@ -18715,15 +18727,15 @@ msgstr "3-a versija"
 
 #: smime/lib/e-cert.c:633
 msgid "PKCS #1 MD2 With RSA Encryption"
-msgstr "PKCS #1 MD2 su RSA kodavimu"
+msgstr "PKCS #1 MD2 su RSA šifravimu"
 
 #: smime/lib/e-cert.c:636
 msgid "PKCS #1 MD5 With RSA Encryption"
-msgstr "PKCS #1 MD5 su RSA kodavimu"
+msgstr "PKCS #1 MD5 su RSA šifravimu"
 
 #: smime/lib/e-cert.c:639
 msgid "PKCS #1 SHA-1 With RSA Encryption"
-msgstr "PKCS #1 SHA-1 su RSA kodavimu"
+msgstr "PKCS #1 SHA-1 su RSA šifravimu"
 
 #: smime/lib/e-cert.c:642
 msgid "C"
@@ -18759,19 +18771,19 @@ msgstr "ST"
 
 #: smime/lib/e-cert.c:666
 msgid "PKCS #1 RSA Encryption"
-msgstr "PKCS #1 RSA kodavimas"
+msgstr "PKCS #1 RSA šifravimas"
 
 #: smime/lib/e-cert.c:669
 msgid "Certificate Key Usage"
-msgstr "Sertifikato Rakto Naudojimas"
+msgstr "Sertifikato rakto naudojimas"
 
 #: smime/lib/e-cert.c:672
 msgid "Netscape Certificate Type"
-msgstr "Netscape Sertifikato Tipas"
+msgstr "Netscape sertifikato tipas"
 
 #: smime/lib/e-cert.c:675
 msgid "Certificate Authority Key Identifier"
-msgstr "Sertifikatoriaus Autorizacinio Rakto Identifikatorius"
+msgstr "Sertifikatoriaus autorizacinio rakto identifikatorius"
 
 #: smime/lib/e-cert.c:678
 msgid "UID"
@@ -18780,43 +18792,43 @@ msgstr "UID"
 #: smime/lib/e-cert.c:687
 #, c-format
 msgid "Object Identifier (%s)"
-msgstr "Objekto Identifikatorius (%s)"
+msgstr "Objekto identifikatorius (%s)"
 
 #: smime/lib/e-cert.c:738
 msgid "Algorithm Identifier"
-msgstr "Algoritmo Identifikatorius"
+msgstr "Algoritmo identifikatorius"
 
 #: smime/lib/e-cert.c:746
 msgid "Algorithm Parameters"
-msgstr "Algoritmo Parametrai"
+msgstr "Algoritmo parametrai"
 
 #: smime/lib/e-cert.c:768
 msgid "Subject Public Key Info"
-msgstr "Antraštės Viešo Rakto Info"
+msgstr "Antraštės viešojo rakto informacija"
 
 #: smime/lib/e-cert.c:773
 msgid "Subject Public Key Algorithm"
-msgstr "Antraštės Viešo Rakto Algoritmas"
+msgstr "Antraštės viešojo rakto algoritmas"
 
 #: smime/lib/e-cert.c:788
 msgid "Subject's Public Key"
-msgstr "Antraštės Viešas Raktas"
+msgstr "Antraštės viešasis raktas"
 
 #: smime/lib/e-cert.c:809 smime/lib/e-cert.c:858
 msgid "Error: Unable to process extension"
-msgstr "Klaida: Nepavyko apdoroti išplėtimo"
+msgstr "Klaida: Nepavyko apdoroti plėtinio"
 
 #: smime/lib/e-cert.c:830 smime/lib/e-cert.c:842
 msgid "Object Signer"
-msgstr "Objekto Pasirašytojas"
+msgstr "Objekto pasirašytojas"
 
 #: smime/lib/e-cert.c:834
 msgid "SSL Certificate Authority"
-msgstr "SSL Sertifikatų Autorizatorius"
+msgstr "SSL sertifikato autorizatorius"
 
 #: smime/lib/e-cert.c:838
 msgid "Email Certificate Authority"
-msgstr "Pašto Sertifikatų Autorizatorius"
+msgstr "Pašto sertifikato autorizatorius"
 
 #: smime/lib/e-cert.c:866
 msgid "Signing"
@@ -18828,23 +18840,23 @@ msgstr "Ne dalyvis"
 
 #: smime/lib/e-cert.c:874
 msgid "Key Encipherment"
-msgstr "Rakto Koduotė"
+msgstr "Rakto koduotė"
 
 #: smime/lib/e-cert.c:878
 msgid "Data Encipherment"
-msgstr "Duomenų Koduotė"
+msgstr "Duomenų koduotė"
 
 #: smime/lib/e-cert.c:882
 msgid "Key Agreement"
-msgstr "Rakto Sutartis"
+msgstr "Rakto sutartis"
 
 #: smime/lib/e-cert.c:886
 msgid "Certificate Signer"
-msgstr "Sertifikato Pasirašytojas"
+msgstr "Sertifikato pasirašytojas"
 
 #: smime/lib/e-cert.c:890
 msgid "CRL Signer"
-msgstr "CRL Pasirašytojas"
+msgstr "CRL pasirašytojas"
 
 #: smime/lib/e-cert.c:938
 msgid "Critical"
@@ -18865,7 +18877,7 @@ msgstr "%s = %s"
 
 #: smime/lib/e-cert.c:1091 smime/lib/e-cert.c:1211
 msgid "Certificate Signature Algorithm"
-msgstr "Sertifikato Parašo Algoritmas"
+msgstr "Sertifikato parašo algoritmas"
 
 #: smime/lib/e-cert.c:1100
 msgid "Issuer"
@@ -18873,15 +18885,15 @@ msgstr "Leidėjas"
 
 #: smime/lib/e-cert.c:1154
 msgid "Issuer Unique ID"
-msgstr "Unikalus Leidėjo ID"
+msgstr "Unikalus leidėjo ID"
 
 #: smime/lib/e-cert.c:1173
 msgid "Subject Unique ID"
-msgstr "Unikalus Temos ID"
+msgstr "Unikalus temos ID"
 
 #: smime/lib/e-cert.c:1216
 msgid "Certificate Signature Value"
-msgstr "Sertifikato Parašo Vertė"
+msgstr "Sertifikato parašo reikšmė"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 #: smime/lib/e-cert-db.c:612
@@ -18890,7 +18902,7 @@ msgstr "Toks sertifikatas jau yra"
 
 #: smime/lib/e-pkcs12.c:264
 msgid "PKCS12 File Password"
-msgstr "PKCS12 Bylos Slaptažodis"
+msgstr "PKCS12 bylos slaptažodis"
 
 #: smime/lib/e-pkcs12.c:264
 msgid "Enter password for PKCS12 file:"
@@ -18898,7 +18910,7 @@ msgstr "Įveskite PKCS12 bylos slaptažodį:"
 
 #: smime/lib/e-pkcs12.c:363
 msgid "Imported Certificate"
-msgstr "Įkeltas Sertifikatas"
+msgstr "Įkeltas sertifikatas"
 
 #: tools/evolution-launch-composer.c:324
 msgid "An attachment to add."
@@ -18939,7 +18951,7 @@ msgstr "Išsijungiama %s (%s)\n"
 
 #: ui/evolution-addressbook.xml.h:3
 msgid "Copy Contact(s) to Another Folder..."
-msgstr "Nukopijuoti Kontaktą(us) į Kitą Aplanką..."
+msgstr "Nukopijuoti kontaktą(us) į kitą aplanką..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
@@ -18959,7 +18971,7 @@ msgstr "Ištrinti pažymėtus kontaktus"
 
 #: ui/evolution-addressbook.xml.h:11
 msgid "Move Contact(s) to Another Folder..."
-msgstr "Perkelti Kontaktą(us) į Kitą Aplanką..."
+msgstr "Perkelti kontaktą(us) į kitą aplanką..."
 
 #: ui/evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
@@ -20297,9 +20309,8 @@ msgid "Select a Time Zone"
 msgstr "Pasirinkite laiko juostą"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
-#, fuzzy
 msgid "TimeZone Combobox"
-msgstr "Laiko juosta"
+msgstr "Laiko juostų sąrašas"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:7
 msgid ""
