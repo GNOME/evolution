@@ -94,16 +94,18 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
    or binary compatible. If you get this from GNOME CVS, use the tag
    "LIB_XML_1_X". (*)
 
- - gnome-print (whatever version is currently needed by gtkhtml) (*)
+ - gnome-print - 0.20 (*). The gnome-print CVS HEAD will NOT work.
 
  - gdk-pixbuf - 0.7.0 or later (*)
 
- - ORBit - 0.5.2 or later (*, but 0.5.2 is very new, so be sure to
-   check if you have 0.5.1 and update if you do.)
+ - ORBit - 0.5.2 or later (*)
 
  - oaf - 0.3 or later (0.4 will not build with ORBit 0.5.1)
 
- - gnome-vfs - 0.2 or later
+ - gnome-vfs - from CVS (0.2 mostly works, but has a bug where it
+   doesn't install one of its header files
+   [libgnomevfs/gnome-vfs-file-size.h] so you have to install it by
+   hand if you use that version.)
 
  - bonobo - 0.15 or later
 
@@ -114,9 +116,9 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
  - libunicode - 0.4 or later, available from
    http://www.pango.org/download.shtml
 
- - gconf - 0.5 or later
+ - gconf - from CVS
 
- - gtkhtml - 0.5 or later
+ - gtkhtml - from CVS
 
  - libglade (*)
 
