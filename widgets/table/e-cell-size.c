@@ -21,14 +21,14 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	gfloat fsize;
 	
 	if (size < 1024) {
-		return g_strdup_printf ("%d", size);
+		return g_strdup_printf ("%d bytes", size);
 	} else {
 		fsize = ((gfloat) size) / 1024.0;
 		if (fsize < 1024.0) {
-			return g_strdup_printf ("%.2f K", fsize);
+			return g_strdup_printf ("%d K", (int)fsize);
 		} else {
 			fsize /= 1024.0;
-			return g_strdup_printf ("%.2f M", fsize);
+			return g_strdup_printf ("%.1f MB", fsize);
 		}
 	}
 }

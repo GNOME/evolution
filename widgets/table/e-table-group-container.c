@@ -12,6 +12,7 @@
 #include <config.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
+#include <libgnome/libgnome.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-table-group-container.h"
 #include "e-table-group-leaf.h"
@@ -332,16 +333,18 @@ compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_n
 {
 	gchar *text;
 	if (etgc->ecol->text)
-		text = g_strdup_printf ("%s : %s (%d item%s)",
+		text = g_strdup_printf ((child_node->count == 1)
+					? _("%s : %s (%d item)")
+					: _("%s : %s (%d items)"),
 					etgc->ecol->text,
 					child_node->string,
-					(gint) child_node->count,
-					child_node->count == 1 ? "" : "s");
+					(gint) child_node->count);
 	else
-		text = g_strdup_printf ("%s (%d item%s)",
+		text = g_strdup_printf ((child_node->count == 1)
+					? _("%s (%d item)")
+					: _("%s (%d items)"),
 					child_node->string,
-					(gint) child_node->count,
-					child_node->count == 1 ? "" : "s");
+					(gint) child_node->count);
 	gnome_canvas_item_set (child_node->text, 
 			       "text", text,
 			       NULL);
