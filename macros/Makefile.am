@@ -8,7 +8,6 @@ MACROS=						\
   gnome-gnorba-check.m4				\
   gnome-guile-checks.m4				\
   gnome-libgtop-check.m4			\
-  gnome-libgtop-sysdeps.m4			\
   gnome-objc-checks.m4				\
   gnome-pthread-check.m4			\
   gnome-support.m4				\
