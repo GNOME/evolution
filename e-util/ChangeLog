@@ -1,3 +1,12 @@
+2003-01-24  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-categories-config.c: Fix #include <config.h>
+	* e-component-listener.c: Same
+	* e-config-listener.c: Here too.
+	* e-dialog-utils.c: And here.
+	* e-html-utils.c: And here.
+	* e-pilot-settings.h: And remove it here.
+		
 2002-11-25  Dan Winship  <danw@ximian.com>
 
 	* e-lang-utils.c (e_get_language_list): If the language is

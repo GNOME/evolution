@@ -8,6 +8,10 @@
  * Copyright 2002, Ximian, Inc.
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-object.h>

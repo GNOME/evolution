@@ -24,10 +24,6 @@
 #ifndef _E_PILOT_SETTINGS_H_
 #define _E_PILOT_SETTINGS_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gnome.h>
 
 #ifdef __cplusplus

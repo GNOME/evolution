@@ -8,6 +8,10 @@
  * Copyright 2001, Ximian, Inc.
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
