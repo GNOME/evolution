@@ -3,6 +3,7 @@ SUBDIRS = glade importer
 INCLUDES = -O								\
 	-I$(top_srcdir)/widgets						\
 	-I$(top_srcdir)/widgets/misc					\
+	-I$(top_srcdir)/libical/src/libical				\
 	-I$(top_srcdir)							\
 	$(BONOBO_GNOME_CFLAGS)						\
 	$(BONOBO_CONF_CFLAGS)						\
