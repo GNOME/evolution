@@ -77,6 +77,9 @@ static char *load_file;
 /* If set, show events for the specified date and quit */
 static int show_events;
 
+/* If set, show todo items quit */
+static int show_todo;
+
 static void
 init_username (void)
 {
@@ -439,6 +442,14 @@ save_default_calendar (GnomeCalendar *gcal)
 	save_calendar_cmd (NULL, gcal);
 }
 
+#if 0
+static void
+make_html_cmd (GtkWidget *widget, GtkWidget *gcal)
+{
+	make_month_html (gcal, "output.html");
+}
+#endif
+
 static GnomeUIInfo gnome_cal_file_menu [] = {
         GNOMEUIINFO_MENU_NEW_ITEM(N_("_New calendar"),
 				  N_("Create a new calendar"),
@@ -450,6 +461,13 @@ static GnomeUIInfo gnome_cal_file_menu [] = {
 
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM(save_as_calendar_cmd, NULL),
 
+	GNOMEUIINFO_SEPARATOR,
+
+#if 0
+	GNOMEUIINFO_ITEM(N_("Create HTML for this month"),
+			 N_("Creates an HTML version of this month's appointments"),
+			 make_html_cmd, NULL);
+#endif
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_MENU_CLOSE_ITEM(close_cmd, NULL),
@@ -596,6 +614,7 @@ enum {
 	USERFILE_KEY = -2,
 	VIEW_KEY     = -3,
 	HIDDEN_KEY   = -4,
+	TODO_KEY     = -5
 };
 
 /* Lists used to startup various GnomeCalendars */
@@ -657,6 +676,34 @@ dump_events (void)
 	exit (0);
 }
 
+static void
+dump_todo (void)
+{
+	Calendar *cal;
+	GList *l;
+	char *s;
+
+	process_dates ();
+	init_calendar ();
+
+	cal = calendar_new (full_name);
+	s = calendar_load (cal, load_file ? load_file : user_calendar_file);
+	if (s){
+		printf ("error: %s\n", s);
+		exit (1);
+	}
+	for (l = cal->todo; l; l = l->next){
+		iCalObject *object = l->data;
+
+		if (object->type != ICAL_TODO)
+			continue;
+
+		printf ("[%s]: %s\n", object->organizer, object->summary);
+	}
+	calendar_destroy (cal);
+	exit (0);
+}
+
 extern time_t get_date ();
 
 static void
@@ -695,6 +742,10 @@ parse_an_arg (poptContext ctx,
 		start_calendars = g_list_append (start_calendars, arg);
 		break;
 
+	case TODO_KEY:
+		show_todo = 1;
+		break;
+		
 	case 'e':
 		show_events = 1;
 		break;
@@ -710,6 +761,8 @@ parse_an_arg (poptContext ctx,
 static const struct poptOption options [] = {
 	{ NULL, '\0', POPT_ARG_CALLBACK, parse_an_arg, 0, NULL, NULL },
 	{ "events", 'e', POPT_ARG_NONE, NULL, 'e', N_("Show events and quit"),
+	  NULL },
+	{ "todo",   0,   POPT_ARG_NONE, NULL, TODO_KEY, N_("Show TO-DO items and quit"),
 	  NULL },
 	{ "from", 'f', POPT_ARG_STRING, NULL, 'f', N_("Specifies start date [for --events]"), N_("DATE") },
 	{ "file", 'F', POPT_ARG_STRING, NULL, 'F', N_("File to load calendar from"), N_("FILE") },
@@ -785,7 +838,9 @@ main(int argc, char *argv[])
 
 	if (show_events)
 		dump_events ();
-
+	if (show_todo)
+		dump_todo ();
+	
 	client = gnome_master_client ();
 	if (client){
 		gtk_signal_connect (GTK_OBJECT (client), "save_yourself",
