@@ -295,7 +295,7 @@ static GnomeUIInfo gnome_cal_file_menu [] = {
 	{ GNOME_APP_UI_ITEM, N_("Open calendar..."), NULL, open_calendar_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN },
 
-	{ GNOME_APP_UI_ITEM, N_("Save calendar..."), NULL, save_calendar_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("Save calendar"), NULL, save_calendar_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
 
 	{ GNOME_APP_UI_ITEM, N_("Save calendar as..."), NULL, save_as_calendar_cmd, NULL, NULL,
@@ -312,7 +312,7 @@ static GnomeUIInfo gnome_cal_file_menu [] = {
 };
 
 static GnomeUIInfo gnome_cal_about_menu [] = {
-	{ GNOME_APP_UI_ITEM, N_("About"), NULL, about_calendar_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("About..."), NULL, about_calendar_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_ABOUT },
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_HELP ("cal"),
@@ -320,8 +320,9 @@ static GnomeUIInfo gnome_cal_about_menu [] = {
 };
 
 static GnomeUIInfo gnome_cal_edit_menu [] = {
-	{ GNOME_APP_UI_ITEM, N_("New appointment"), NULL, display_objedit },
-	{ GNOME_APP_UI_ITEM, N_("Properties"),      NULL, properties, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("New appointment..."), NULL, display_objedit },
+	GNOMEUIINFO_SEPARATOR,
+	{ GNOME_APP_UI_ITEM, N_("Properties..."),      NULL, properties, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PROP },
 	GNOMEUIINFO_END
 };

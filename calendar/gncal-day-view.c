@@ -12,6 +12,8 @@
 #include "view-utils.h"
 #include "main.h"
 #include "eventedit.h"
+#include "popup-menu.h"
+
 
 #define TEXT_BORDER 2
 #define MIN_INFO_WIDTH 50
@@ -134,7 +136,7 @@ context_menu (GncalDayView *dayview, GdkEventButton *event)
 	};
 
 	main_items [0].data = dayview;
-	popup_menu (main_items, 1, event->time);
+	popup_menu (main_items, 1, event);
 }
 
 static void

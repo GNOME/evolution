@@ -14,6 +14,7 @@
 #include "gncal-full-day.h"
 #include "view-utils.h"
 #include "main.h"
+#include "popup-menu.h"
 
 
 #define TEXT_BORDER 2
@@ -60,6 +61,7 @@ struct drag_info {
 	int sel_rows_used;
 	guint32 click_time;
 };
+
 
 enum {
 	RANGE_ACTIVATED,
@@ -347,7 +349,7 @@ delete_appointment (GtkWidget *widget, gpointer data)
 }
 
 static void
-child_popup_menu (GncalFullDay *fullday, Child *child, guint32 event_time)
+child_popup_menu (GncalFullDay *fullday, Child *child, GdkEventButton *event)
 {
 	int sensitive;
 
@@ -367,7 +369,7 @@ child_popup_menu (GncalFullDay *fullday, Child *child, guint32 event_time)
 	child_items[0].sensitive = sensitive;
 	child_items[1].sensitive = sensitive;
 
-	popup_menu (child_items, sizeof (child_items) / sizeof (child_items[0]), event_time);
+	popup_menu (child_items, sizeof (child_items) / sizeof (child_items[0]), event);
 }
 
 static void
@@ -503,7 +505,7 @@ child_button_press (GtkWidget *widget, GdkEventButton *event, gpointer data)
 	fullday = GNCAL_FULL_DAY (widget->parent);
 
 	gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "button_press_event");
-	child_popup_menu (fullday, child, event->time);
+	child_popup_menu (fullday, child, event);
 
 	return TRUE;
 }
@@ -1490,7 +1492,7 @@ button_3 (GncalFullDay *fullday, GdkEventButton *event)
 
 		main_items[0].data = fullday;
 
-		popup_menu (main_items, sizeof (main_items) / sizeof (main_items[0]), event->time);
+		popup_menu (main_items, sizeof (main_items) / sizeof (main_items[0]), event);
 
 		return TRUE;
 	} else {
@@ -1499,7 +1501,7 @@ button_3 (GncalFullDay *fullday, GdkEventButton *event)
 		if (!child || on_text)
 			return FALSE;
 
-		child_popup_menu (fullday, child, event->time);
+		child_popup_menu (fullday, child, event);
 
 		return TRUE;
 	}

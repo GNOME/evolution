@@ -15,6 +15,7 @@
 #include <libgnomeui/gtkcalendar.h>
 #include "gnome-cal.h"
 #include "gncal-full-day.h"
+#include "gncal-todo.h"
 
 
 BEGIN_GNOME_DECLS
@@ -39,7 +40,7 @@ struct _GncalDayPanel {
 	GncalFullDay      *fullday;
 	GtkScrolledWindow *fullday_sw;
 	GtkCalendar       *gtk_calendar;
-	GtkWidget         *todo_list;
+	GncalTodo         *todo;
 
 	guint day_selected_id;
 };

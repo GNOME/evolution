@@ -1,9 +1,28 @@
+1998-04-22  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-full-day.c: Made it use popup_menu().
+
+	* popup-menu.c: New file with utility functions for creating popup
+	menus.  Maybe such a thing would be useful in libgnomeui, a la
+	gnome-app-helper?
+
+	* Makefile.am (gnomecal_SOURCES): Added popup-menu.[ch] to the sources.
+
 1998-04-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* prop.c (properties): Added Calendar properties editor.
 	(properties): Make the code use a propery box.
 
 	* main.c: Save/load properties (fix to old commit).
+
+1998-04-21  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-todo.c: New widget for editing TODO lists.  This will be
+	worked on a lot.
+
+	* Makefile.am (gnomecal_SOURCES): Added gncal-todo.[ch] to the sources.
+
+	* gncal-day-panel.c: Make it use the new TODO widget.
 
 1998-04-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 

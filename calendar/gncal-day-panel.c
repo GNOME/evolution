@@ -47,13 +47,16 @@ day_view_range_activated (GncalFullDay *fullday, GncalDayPanel *dpanel)
 }
 
 static void
-full_day_mapped (GtkWidget *widget, GncalDayPanel *dpanel)
+full_day_size_allocated (GtkWidget *widget, GtkAllocation *allocation, GncalDayPanel *dpanel)
 {
 	GtkAdjustment *adj;
+	int yoffset;
 
 	adj = gtk_scrolled_window_get_vadjustment (dpanel->fullday_sw);
 
-	adj->value = gncal_full_day_get_day_start_yoffset (GNCAL_FULL_DAY (widget));
+	yoffset = gncal_full_day_get_day_start_yoffset (GNCAL_FULL_DAY (widget));
+
+	adj->value = adj->lower + (adj->upper - adj->lower) * (double) yoffset / allocation->height;
 	gtk_signal_emit_by_name (GTK_OBJECT (adj), "value_changed");
 }
 
@@ -110,7 +113,7 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_table_attach (GTK_TABLE (dpanel), w,
-			  0, 1, 1, 3,
+			  0, 1, 1, 4,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
@@ -124,10 +127,10 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 	gtk_container_add (GTK_CONTAINER (dpanel->fullday_sw), w);
 	gtk_widget_show (w);
 
-	/* When the full day widget gets mapped, we'll scroll the list to the proper initial position */
+	/* We'll scroll the list to the proper initial position */
 
-	gtk_signal_connect (GTK_OBJECT (dpanel->fullday), "map",
-			    (GtkSignalFunc) full_day_mapped,
+	gtk_signal_connect (GTK_OBJECT (dpanel->fullday), "size_allocate",
+			    (GtkSignalFunc) full_day_size_allocated,
 			    dpanel);
 
 	/* Gtk calendar */
@@ -146,12 +149,22 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 			  0, 0);
 	gtk_widget_show (w);
 
-	/* To-do */
+	/* Separator */
 
-	w = gtk_button_new_with_label ("TODO");
-	dpanel->todo_list = w;
+	w = gtk_hseparator_new ();
 	gtk_table_attach (GTK_TABLE (dpanel), w,
 			  1, 2, 2, 3,
+			  GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
+	gtk_widget_show (w);
+
+	/* To-do */
+
+	w = gncal_todo_new (calendar);
+	dpanel->todo = GNCAL_TODO (w);
+	gtk_table_attach (GTK_TABLE (dpanel), w,
+			  1, 2, 3, 4,
 			  GTK_FILL | GTK_SHRINK,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
@@ -164,13 +177,22 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 	return GTK_WIDGET (dpanel);
 }
 
+static void
+update (GncalDayPanel *dpanel, int update_fullday, iCalObject *ico, int flags)
+{
+	if (update_fullday)
+		gncal_full_day_update (dpanel->fullday, ico, flags);
+
+	gncal_todo_update (dpanel->todo, ico, flags);
+}
+
 void
 gncal_day_panel_update (GncalDayPanel *dpanel, iCalObject *ico, int flags)
 {
 	g_return_if_fail (dpanel != NULL);
 	g_return_if_fail (GNCAL_IS_DAY_PANEL (dpanel));
 
-	gncal_full_day_update (dpanel->fullday, ico, flags);
+	update (dpanel, TRUE, ico, flags);
 }
 
 void
@@ -195,4 +217,6 @@ gncal_day_panel_set (GncalDayPanel *dpanel, time_t start_of_day)
 	gtk_signal_handler_block (GTK_OBJECT (dpanel->gtk_calendar), dpanel->day_selected_id);
 	gtk_calendar_select_day (dpanel->gtk_calendar, tm->tm_mday);
 	gtk_signal_handler_unblock (GTK_OBJECT (dpanel->gtk_calendar), dpanel->day_selected_id);
+
+	update (dpanel, FALSE, NULL, 0);
 }

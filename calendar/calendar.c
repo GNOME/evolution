@@ -214,6 +214,7 @@ calendar_get_todo_in_range (Calendar *cal, time_t start, time_t end, GCompareFun
 {
 	return calendar_get_objects_in_range (cal->todo, start, end, sort_func);
 }
+
 GList *
 calendar_get_journal_in_range (Calendar *cal, time_t start, time_t end, GCompareFunc sort_func)
 {

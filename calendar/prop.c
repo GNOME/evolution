@@ -87,7 +87,7 @@ toggled ()
 void
 properties (void)
 {
-	GtkWidget *t, *f, *l, *ds, *de;
+	GtkWidget *t, *l, *ds, *de;
 	GtkWidget *r2;
 
 	if (prop_win)

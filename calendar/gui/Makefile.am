@@ -16,6 +16,8 @@ gnomecal_SOURCES = \
 	calendar.h		\
 	calobj.c		\
 	calobj.h		\
+	eventedit.c		\
+	eventedit.h		\
 	gncal-day-panel.c	\
 	gncal-day-panel.h	\
 	gncal-day-view.c	\
@@ -24,21 +26,23 @@ gnomecal_SOURCES = \
 	gncal-full-day.h	\
 	gncal-week-view.c	\
 	gncal-week-view.h	\
+	gncal-todo.c		\
+	gncal-todo.h		\
 	gncal-year-view.c	\
 	gncal-year-view.h	\
 	getdate.y		\
 	gnome-cal.c		\
 	gnome-cal.h		\
 	main.c			\
+	popup-menu.c		\
+	popup-menu.h		\
 	prop.c			\
 	timeutil.c		\
 	timeutil.h		\
 	view-utils.h		\
 	view-utils.c		\
 	views.h			\
-	views.c			\
-	eventedit.c		\
-	eventedit.h
+	views.c
 	
 
 #gncal_SOURCES = \

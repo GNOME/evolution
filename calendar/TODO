@@ -1,3 +1,9 @@
+Event editor dialog:
+
+- Make it figure out whether the alarm is in
+  minutes/hours/days/etc. (via a cascade of conditions) and set the
+  widgets appropriately.
+
 Gnome date selection widget:
 
 - Make the displayed date be localized properly -- use strftime().
