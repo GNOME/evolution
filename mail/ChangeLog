@@ -1,3 +1,16 @@
+2000-12-26  Iain Holmes  <iain@helixcode.com>
+
+	* mail-display.c (mail_display_init): Initialise the thumbnail cache.
+	(mail_display_destroy): Free the cache.
+	(pixbuf_gen_idle): Check the cache for a pixbuf, add the pixbuf to the
+	cache if it's not there.
+
+2000-12-26  Iain Holmes  <iain@helixcode.com>
+
+	* mail-summary.c (create_summary_view): Create a shared 
+	BonoboEventSource object and use it for all the objects that
+	aggregate Bonobo::EventSource.
+
 2000-12-27  Dan Winship  <danw@helixcode.com>
 
 	* subscribe-dialog.c (setup_subscribe_folder): Use info->name, not

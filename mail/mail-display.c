@@ -40,11 +40,16 @@ static GtkObjectClass *mail_display_parent_class;
 static void redisplay (MailDisplay *md, gboolean unscroll);
 
 struct _PixbufLoader {
+	MailDisplay *md;
 	CamelDataWrapper *wrapper; /* The data */
 	CamelStream *mstream;
 	GdkPixbufLoader *loader; 
+	GtkHTMLEmbedded *eb;
 	char *type; /* Type of data, in case the conversion fails */
+	char *cid; /* Strdupped on creation, but not freed until 
+		      the hashtable is destroyed */
 	GtkWidget *pixmap;
+	guint32 destroy_id;
 };
 
 /*----------------------------------------------------------------------*
@@ -427,8 +432,29 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 	char tmp[4096];
 	int len, width, height, ratio;
 
-	/* Get a pixbuf from the wrapper */
+	/* Get the pixbuf from the cache */
+	mini = g_hash_table_lookup (pbl->md->thumbnail_cache, pbl->cid);
+	if (mini) {
+		width = gdk_pixbuf_get_width (mini);
+		height = gdk_pixbuf_get_height (mini);
 
+		bonobo_ui_toolbar_icon_set_pixbuf (
+		        BONOBO_UI_TOOLBAR_ICON (pbl->pixmap), mini);
+		gtk_widget_set_usize (pbl->pixmap, width, height);
+		
+		if (pbl->loader) {
+			gdk_pixbuf_loader_close (pbl->loader);
+			gtk_object_destroy (GTK_OBJECT (pbl->loader));
+			camel_object_unref (CAMEL_OBJECT (pbl->mstream));
+		}
+		gtk_signal_disconnect (GTK_OBJECT (pbl->eb), pbl->destroy_id);
+		g_free (pbl->type);
+		g_free (pbl);
+
+		return FALSE;
+	}
+
+	/* Not in cache, so get a pixbuf from the wrapper */
 	if (!GTK_IS_WIDGET (pbl->pixmap)) {
 		/* Widget has died */
 		if (pbl->mstream)
@@ -464,7 +490,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);
-
+	
 	if (width >= height) {
 		if (width > 24) {
 			ratio = width / 24;
@@ -485,9 +511,13 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 		gdk_pixbuf_unref (pixbuf);
 	bonobo_ui_toolbar_icon_set_pixbuf (
 		BONOBO_UI_TOOLBAR_ICON (pbl->pixmap), mini);
-	gdk_pixbuf_unref (mini);
+
+	/* Add the pixbuf to the cache */
+
+	g_hash_table_insert (pbl->md->thumbnail_cache, pbl->cid, mini);
 	gtk_widget_set_usize (pbl->pixmap, width, height);
 
+	gtk_signal_disconnect (GTK_OBJECT (pbl->eb), pbl->destroy_id);
 	if (pbl->loader) {
 		gdk_pixbuf_loader_close (pbl->loader);
 		gtk_object_destroy (GTK_OBJECT (pbl->loader));
@@ -497,6 +527,26 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 	g_free (pbl);
 	return FALSE;
 }
+
+/* Stop the idle function and free the pbl structure
+   as the widget that the pixbuf was to be rendered to
+   has died on us. */
+static void
+embeddable_destroy_cb (GtkObject *embeddable,
+		       struct _PixbufLoader *pbl)
+{
+	g_idle_remove_by_data (pbl);
+	if (pbl->mstream)
+		camel_object_unref (CAMEL_OBJECT (pbl->mstream));
+	
+	if (pbl->loader) {
+		gdk_pixbuf_loader_close (pbl->loader);
+		gtk_object_destroy (GTK_OBJECT (pbl->loader));
+	}
+	
+	g_free (pbl->type);
+	g_free (pbl);
+};
 
 static gboolean
 on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
@@ -543,7 +593,14 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 			camel_stream_reset (pbl->mstream);
 		}
 		pbl->type = g_strdup (eb->type);
+		pbl->cid = g_strdup (cid);
 		pbl->pixmap = bonobo_ui_toolbar_icon_new ();
+		pbl->eb = eb;
+		pbl->md = md;
+		pbl->destroy_id = gtk_signal_connect (GTK_OBJECT (eb),
+						      "destroy",
+						      embeddable_destroy_cb,
+						      pbl);
 
 		g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, 
 				 pbl, NULL);
@@ -552,14 +609,15 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		gtk_widget_set_sensitive (GTK_WIDGET (ebox), TRUE);
 		gtk_widget_add_events (GTK_WIDGET (ebox),
 				       GDK_BUTTON_PRESS_MASK);
-		gtk_signal_connect (GTK_OBJECT (ebox), "button_press_event",
-				    GTK_SIGNAL_FUNC (pixmap_press), ebox);
 		gtk_object_set_data (GTK_OBJECT (ebox), "MailDisplay", md);
 		gtk_object_set_data (GTK_OBJECT (ebox), "CamelMimePart",
 				     medium);
 		gtk_object_set_data_full (GTK_OBJECT (ebox), "mime_type",
 					  g_strdup (eb->type),
 					  (GDestroyNotify)g_free);
+
+		gtk_signal_connect (GTK_OBJECT (ebox), "button_press_event",
+				    GTK_SIGNAL_FUNC (pixmap_press), ebox);
 
 		gtk_container_add (GTK_CONTAINER (ebox), pbl->pixmap);
 		gtk_widget_show_all (ebox);
@@ -772,11 +830,10 @@ redisplay (MailDisplay *md, gboolean unscroll)
 		adj = e_scroll_frame_get_vadjustment (md->scroll);
 		oldv = adj->value;
 	}
-	
-	md->stream = gtk_html_begin (md->html);
+  	md->stream = gtk_html_begin (GTK_HTML (md->html));
 	mail_html_write (md->html, md->stream, "%s%s", HTML_HEADER,
 			 "<BODY TEXT=\"#000000\" BGCOLOR=\"#FFFFFF\">\n");
-	
+
 	if (md->current_message) {
 		camel_object_ref (CAMEL_OBJECT (md->current_message));
 		if (mail_config_view_source ())
@@ -784,7 +841,7 @@ redisplay (MailDisplay *md, gboolean unscroll)
 		else
 			mail_format_mime_message (md->current_message, md);
 	}
-	
+
 	mail_html_write (md->html, md->stream, "</BODY></HTML>\n");
 	gtk_html_end (md->html, md->stream, GTK_HTML_STREAM_OK);
 	md->stream = NULL;
@@ -859,6 +916,16 @@ mail_display_init (GtkObject *object)
 
 	/* various other initializations */
 	mail_display->current_message = NULL;
+	mail_display->thumbnail_cache = g_hash_table_new (g_str_hash, g_str_equal);
+}
+
+static void
+thumbnail_cache_free (gpointer key,
+		      gpointer value,
+		      gpointer user_data)
+{
+	g_free (key);
+	gdk_pixbuf_unref (value);
 }
 
 static void
@@ -866,6 +933,9 @@ mail_display_destroy (GtkObject *object)
 {
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
 
+	g_hash_table_foreach (mail_display->thumbnail_cache, 
+			      thumbnail_cache_free, NULL);
+	g_hash_table_destroy (mail_display->thumbnail_cache);
 	g_datalist_clear (mail_display->data);
 	g_free (mail_display->data);
 
