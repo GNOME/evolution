@@ -360,14 +360,13 @@ create_groups (MigrationContext *context,
 {
 	GSList *groups;
 	ESourceGroup *group;
-	ESource *source = NULL;
 	char *base_uri, *base_uri_proto;
 
 	*on_this_computer = NULL;
 	*on_ldap_servers = NULL;
 
 	base_uri = g_build_filename (addressbook_component_peek_base_directory (context->component),
-				     "/addressbook/local/",
+				     "addressbook", "local",
 				     NULL);
 
 	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
@@ -409,9 +408,9 @@ create_groups (MigrationContext *context,
 		*on_this_computer = group;
 	}
 
-	if (!source) {
+	if (!*personal_source) {
 		/* Create the default Person addressbook */
-		source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
+		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (*on_this_computer, source, -1);
 
 		*personal_source = source;
@@ -441,10 +440,9 @@ migrate_local_folders (MigrationContext *context, ESourceGroup *on_this_computer
 	dirs = e_folder_map_local_folders (old_path, "contacts");
 
 	/* migrate the local addressbook first, to local/system */
-	local_contact_folder = g_build_filename (g_get_home_dir (), "/evolution/local/Contacts",
+	local_contact_folder = g_build_filename (g_get_home_dir (),
+						 "evolution", "local", "Contacts",
 						 NULL);
-	if (personal_source)
-		
 
 	for (l = dirs; l; l = l->next) {
 		char *source_name;
