@@ -38,23 +38,30 @@ dist-hook:
 	mkdir $(distdir)/evolution/stylesheet-images
 	-cp evolution/stylesheet-images/* $(distdir)/evolution/stylesheet-images
 
+# FIXME really messy here
 install-data-local: evolution-guide evolution-faq
-	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)
+	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/evolution-guide
 	-for file in $(srcdir)/evolution/*.html $(srcdir)/evolution/*.css; do \
 		basefile=`basename $$file`; \
-		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/$$basefile; \
+		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/evolution-guide/$$basefile; \
 	done
 
-	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/fig
+	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/evolution-faq
+	-for file in $(srcdir)/evolution-faq/*.html $(srcdir)/evolution-faq/*.css; do \
+		basefile=`basename $$file`; \
+		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/evolution-faq/$$basefile; \
+	done
+
+	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/evolution-guide/fig
 	-for file in $(srcdir)/fig/*.png; do \
 		basefile=`basename $$file`; \
-		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/fig/$$basefile; \
+		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/evolution-guide/fig/$$basefile; \
 	done
 
-	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/stylesheet-images
+	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)/evolution-guide/stylesheet-images
 	-for file in $(srcdir)/evolution/stylesheet-images/*; do \
 		basefile=`basename $$file`; \
-		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/stylesheet-images/$$basefile; \
+		$(INSTALL_DATA) $$file $(DESTDIR)$(evolution_helpdir)/evolution-guide/stylesheet-images/$$basefile; \
 	done
 
 evolution.ps: evolution.sgml

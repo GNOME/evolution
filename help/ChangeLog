@@ -1,3 +1,15 @@
+2001-05-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* C/Makefile.am (SGML_FILES): Renamed to `GUIDE_SGML_FILES'.
+	(EXTRA_DIST): Add `$(FAQ_SGML_FILES)'.
+	(all): Depend on `evolution-faq' too.
+	(evolution-faq): New.
+	(install-data-local): Depend on `evolution-faq' too.  Install the
+	FAQ into `$(evolution_helpdir)/evolution-faq' and the guide into
+	`$(evolution_helpdir)/evolution-guide'.
+
+	* C/evolution-faq.sgml: New.
+
 2001-04-23  Jon Trowbridge  <trow@ximian.com>
 
 	* C/Makefile.am (install-data-local): Changed dependency for
