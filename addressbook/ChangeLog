@@ -1,3 +1,7 @@
+2004-08-04  Rodney Dawes  <dobey@novell.com>
+
+	* gui/widgets/eab-popup-control.c: #include <gtk/gtkvbox.h>
+
 2004-08-02  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes #60529.
