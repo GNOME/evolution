@@ -20,12 +20,14 @@
 # Læg mærke til at flere ord er splittet op, hvor de 
 # skulle have været sammensat til et ord.
 #
+# Husk at tilføje dig i credit-listen (besked id "translator-credits")
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-22 11:32+0200\n"
-"PO-Revision-Date: 2004-10-22 11:32+0200\n"
+"POT-Creation-Date: 2004-10-26 17:55+0200\n"
+"PO-Revision-Date: 2004-10-26 17:57+0200\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -987,7 +989,7 @@ msgstr "<b>Arbejde</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: addressbook/gui/contact-editor/e-contact-editor.c:183
-#: addressbook/gui/widgets/eab-contact-display.c:333
+#: addressbook/gui/widgets/eab-contact-display.c:346
 msgid "AIM"
 msgstr "AIM"
 
@@ -1145,8 +1147,8 @@ msgid "_Where:"
 msgstr "_Hvor:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
-#: addressbook/gui/widgets/eab-contact-display.c:352
-#: addressbook/gui/widgets/eab-contact-display.c:367
+#: addressbook/gui/widgets/eab-contact-display.c:365
+#: addressbook/gui/widgets/eab-contact-display.c:380
 msgid "Address"
 msgstr "Adresse"
 
@@ -2141,7 +2143,7 @@ msgstr "AOL-kvikbesked"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
 #: addressbook/gui/contact-editor/e-contact-editor.c:184
-#: addressbook/gui/widgets/eab-contact-display.c:336
+#: addressbook/gui/widgets/eab-contact-display.c:349
 msgid "Jabber"
 msgstr "Jabber"
 
@@ -2151,7 +2153,7 @@ msgstr "Yahoo Messenger"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:67
 #: addressbook/gui/contact-editor/e-contact-editor.c:187
-#: addressbook/gui/widgets/eab-contact-display.c:335
+#: addressbook/gui/widgets/eab-contact-display.c:348
 msgid "ICQ"
 msgstr "ICQ"
 
@@ -2180,17 +2182,17 @@ msgid "Other"
 msgstr "Andre"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:185
-#: addressbook/gui/widgets/eab-contact-display.c:338
+#: addressbook/gui/widgets/eab-contact-display.c:351
 msgid "Yahoo"
 msgstr "Yahoo"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:186
-#: addressbook/gui/widgets/eab-contact-display.c:337
+#: addressbook/gui/widgets/eab-contact-display.c:350
 msgid "MSN"
 msgstr "MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:188
-#: addressbook/gui/widgets/eab-contact-display.c:334
+#: addressbook/gui/widgets/eab-contact-display.c:347
 msgid "GroupWise"
 msgstr "GroupWise"
 
@@ -2662,7 +2664,7 @@ msgid "Company Phone"
 msgstr "Firmatelefon"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
-#: addressbook/gui/widgets/eab-contact-display.c:547 smime/lib/e-cert.c:826
+#: addressbook/gui/widgets/eab-contact-display.c:560 smime/lib/e-cert.c:826
 msgid "Email"
 msgstr "E-post"
 
@@ -2713,7 +2715,7 @@ msgid "Manager"
 msgstr "Leder"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
-#: addressbook/gui/widgets/eab-contact-display.c:366
+#: addressbook/gui/widgets/eab-contact-display.c:379
 msgid "Mobile Phone"
 msgstr "Mobiltelefon"
 
@@ -2722,7 +2724,7 @@ msgid "Nickname"
 msgstr "Kaldenavn"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-#: addressbook/gui/widgets/eab-contact-display.c:377
+#: addressbook/gui/widgets/eab-contact-display.c:390
 msgid "Note"
 msgstr "Kommentar"
 
@@ -2731,7 +2733,7 @@ msgid "Office"
 msgstr "Kontor"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:27
-#: addressbook/gui/widgets/eab-contact-display.c:347
+#: addressbook/gui/widgets/eab-contact-display.c:360
 msgid "Organization"
 msgstr "Organisation"
 
@@ -2867,55 +2869,55 @@ msgstr "(kort)"
 msgid "map"
 msgstr "kort"
 
-#: addressbook/gui/widgets/eab-contact-display.c:261
-#: addressbook/gui/widgets/eab-contact-display.c:528
+#: addressbook/gui/widgets/eab-contact-display.c:274
+#: addressbook/gui/widgets/eab-contact-display.c:541
 msgid "List Members"
 msgstr "Listemedlemer"
 
-#: addressbook/gui/widgets/eab-contact-display.c:324
-#: addressbook/gui/widgets/eab-contact-display.c:326
+#: addressbook/gui/widgets/eab-contact-display.c:337
+#: addressbook/gui/widgets/eab-contact-display.c:339
 msgid "E-mail"
 msgstr "E-post"
 
-#: addressbook/gui/widgets/eab-contact-display.c:348
+#: addressbook/gui/widgets/eab-contact-display.c:361
 msgid "Position"
 msgstr "Position"
 
-#: addressbook/gui/widgets/eab-contact-display.c:349
+#: addressbook/gui/widgets/eab-contact-display.c:362
 msgid "Video Conferencing"
 msgstr "Videokonference"
 
-#: addressbook/gui/widgets/eab-contact-display.c:350
-#: addressbook/gui/widgets/eab-contact-display.c:365
+#: addressbook/gui/widgets/eab-contact-display.c:363
+#: addressbook/gui/widgets/eab-contact-display.c:378
 msgid "Phone"
 msgstr "Telefon"
 
-#: addressbook/gui/widgets/eab-contact-display.c:351
+#: addressbook/gui/widgets/eab-contact-display.c:364
 msgid "Fax"
 msgstr "Fax"
 
-#: addressbook/gui/widgets/eab-contact-display.c:355
+#: addressbook/gui/widgets/eab-contact-display.c:368
 msgid "work"
 msgstr "arbejde"
 
-#: addressbook/gui/widgets/eab-contact-display.c:362
+#: addressbook/gui/widgets/eab-contact-display.c:375
 msgid "WWW"
 msgstr "WWW"
 
-#: addressbook/gui/widgets/eab-contact-display.c:363
-#: addressbook/gui/widgets/eab-contact-display.c:582
+#: addressbook/gui/widgets/eab-contact-display.c:376
+#: addressbook/gui/widgets/eab-contact-display.c:595
 msgid "Blog"
 msgstr "Weblog"
 
-#: addressbook/gui/widgets/eab-contact-display.c:370
+#: addressbook/gui/widgets/eab-contact-display.c:383
 msgid "personal"
 msgstr "personligt"
 
-#: addressbook/gui/widgets/eab-contact-display.c:543
+#: addressbook/gui/widgets/eab-contact-display.c:556
 msgid "Job Title"
 msgstr "Jobtitel"
 
-#: addressbook/gui/widgets/eab-contact-display.c:574
+#: addressbook/gui/widgets/eab-contact-display.c:587
 msgid "Home page"
 msgstr "Hjemmeside"
 
@@ -4399,7 +4401,7 @@ msgstr "Du har ikke rettigheder til at åbne kalenderen"
 #: camel/providers/imap4/camel-imap4-store.c:262
 #: camel/providers/pop3/camel-pop3-store.c:519
 #: camel/providers/pop3/camel-pop3-store.c:526
-#: camel/providers/pop3/camel-pop3-store.c:532 shell/e-shell.c:1230
+#: camel/providers/pop3/camel-pop3-store.c:532 shell/e-shell.c:1247
 msgid "Unknown error"
 msgstr "Ukendt fejl"
 
@@ -5248,7 +5250,7 @@ msgstr "_Starttid:"
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-cal-model-tasks.c:642 calendar/gui/e-itip-control.c:1104
 #: composer/e-msg-composer.c:2112 filter/filter-rule.c:877
-#: mail/em-account-prefs.c:442 mail/em-folder-view.c:960
+#: mail/em-account-prefs.c:442 mail/em-folder-view.c:961
 #: mail/mail-account-gui.c:1578 mail/mail-account-gui.c:2023
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:193
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:443
@@ -5763,7 +5765,7 @@ msgstr "%s ved %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s for en ukendt udløsertype"
 
-#: calendar/gui/e-cal-component-preview.c:69 mail/em-folder-view.c:2429
+#: calendar/gui/e-cal-component-preview.c:69 mail/em-folder-view.c:2444
 #, c-format
 msgid "Click to open %s"
 msgstr "Klik for at åbne \"%s\""
@@ -5952,7 +5954,7 @@ msgid "Save as..."
 msgstr "Gem som..."
 
 #: calendar/gui/e-calendar-table.c:1145 calendar/gui/e-calendar-view.c:1373
-#: mail/em-folder-view.c:926 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:927 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Åbn"
 
@@ -5961,7 +5963,7 @@ msgid "Open _Web Page"
 msgstr "Åbn hjemmeside"
 
 #: calendar/gui/e-calendar-table.c:1147 calendar/gui/e-calendar-view.c:1374
-#: mail/em-folder-view.c:928 mail/em-popup.c:496
+#: mail/em-folder-view.c:929 mail/em-popup.c:496
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "Gem _som..."
@@ -6013,7 +6015,7 @@ msgstr "_Markér valgte opgaver som komplette"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1165 calendar/gui/e-calendar-view.c:1392
-#: mail/em-folder-tree.c:2742 mail/em-folder-view.c:951
+#: mail/em-folder-tree.c:2742 mail/em-folder-view.c:952
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -12325,7 +12327,7 @@ msgstr[0] "Vedlagt besked"
 msgstr[1] "%d vedlagte beskeder"
 
 #: composer/e-msg-composer.c:2880 mail/em-folder-tree.c:1025
-#: mail/em-folder-tree.c:2243 mail/em-folder-view.c:822
+#: mail/em-folder-tree.c:2243 mail/em-folder-view.c:823
 #: mail/message-list.c:1708
 msgid "_Move"
 msgstr "_Flyt"
@@ -12506,7 +12508,7 @@ msgstr ""
 "Kontrollér venligst at du har den rette version af gtkhtml og libgtkhtml "
 "installeret."
 
-#: data/evolution.desktop.in.in.h:1 shell/main.c:517
+#: data/evolution.desktop.in.in.h:1 shell/main.c:519
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -13055,7 +13057,7 @@ msgstr "Evolutions e-post-redigereropsætnings-styreelement"
 msgid "Evolution Mail preferences control"
 msgstr "Evolution e-post-indstillings-styreelement"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:425
+#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:426
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
 #: mail/importers/pine-importer.c:474 mail/mail-component.c:524
 #: mail/mail-component.c:575
@@ -13261,7 +13263,7 @@ msgstr "er ikke markeret med flag"
 msgid "Junk Test"
 msgstr "Skraldetest"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:959
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:960
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Etiket"
@@ -13476,13 +13478,13 @@ msgid "Scanning folders in \"%s\""
 msgstr "Skanner mapper i \"%s\""
 
 #: mail/em-folder-tree.c:2229 mail/em-folder-tree.c:2243
-#: mail/em-folder-view.c:822 mail/em-folder-view.c:837
+#: mail/em-folder-view.c:823 mail/em-folder-view.c:838
 #: mail/importers/evolution-mbox-importer.c:120
 #: mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Vælg mappe"
 
-#: mail/em-folder-tree.c:2229 mail/em-folder-view.c:837
+#: mail/em-folder-tree.c:2229 mail/em-folder-view.c:838
 msgid "C_opy"
 msgstr "_Kopiér"
 
@@ -13531,143 +13533,143 @@ msgstr "_Ny mappe..."
 msgid "_Rename..."
 msgstr "_Omdøb..."
 
-#: mail/em-folder-view.c:927 ui/evolution-mail-message.xml.h:113
+#: mail/em-folder-view.c:928 ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
 msgstr "R_edigér som ny besked..."
 
-#: mail/em-folder-view.c:929
+#: mail/em-folder-view.c:930
 msgid "_Print"
 msgstr "S_kriv ud"
 
-#: mail/em-folder-view.c:932 ui/evolution-mail-message.xml.h:127
+#: mail/em-folder-view.c:933 ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "Sva_r til sender"
 
-#: mail/em-folder-view.c:933 mail/em-popup.c:500
+#: mail/em-folder-view.c:934 mail/em-popup.c:500
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Svar til _listen"
 
-#: mail/em-folder-view.c:934 mail/em-popup.c:501
+#: mail/em-folder-view.c:935 mail/em-popup.c:501
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Svar til _alle"
 
-#: mail/em-folder-view.c:935 mail/em-popup.c:503
+#: mail/em-folder-view.c:936 mail/em-popup.c:503
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
 msgstr "_Videresend"
 
-#: mail/em-folder-view.c:938
+#: mail/em-folder-view.c:939
 msgid "Follo_w Up..."
 msgstr "Føl_g op..."
 
-#: mail/em-folder-view.c:939
+#: mail/em-folder-view.c:940
 msgid "Fla_g Completed"
 msgstr "Marker færdi_ge med flag"
 
-#: mail/em-folder-view.c:940
+#: mail/em-folder-view.c:941
 msgid "Cl_ear Flag"
 msgstr "Neutralis_er flag"
 
-#: mail/em-folder-view.c:943 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:944 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "Mar_kér som læst"
 
-#: mail/em-folder-view.c:944
+#: mail/em-folder-view.c:945
 msgid "Mark as _Unread"
 msgstr "Marker som _ulæst"
 
-#: mail/em-folder-view.c:945
+#: mail/em-folder-view.c:946
 msgid "Mark as _Important"
 msgstr "Markér som v_igtig"
 
-#: mail/em-folder-view.c:946
+#: mail/em-folder-view.c:947
 msgid "_Mark as Unimportant"
 msgstr "Markér som uvi_gtig"
 
-#: mail/em-folder-view.c:947 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:948 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Marker som _skrald"
 
-#: mail/em-folder-view.c:948 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:949 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Markér som værende _ikke skrald"
 
-#: mail/em-folder-view.c:952
+#: mail/em-folder-view.c:953
 msgid "U_ndelete"
 msgstr "_Fortryd sletning"
 
-#: mail/em-folder-view.c:955
+#: mail/em-folder-view.c:956
 msgid "Mo_ve to Folder..."
 msgstr "Fl_yt til mappe..."
 
-#: mail/em-folder-view.c:956 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:957 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "K_opiér til mappe..."
 
-#: mail/em-folder-view.c:964
+#: mail/em-folder-view.c:965
 msgid "Add Sender to Address_book"
 msgstr "Tilføj afsenderen til adresse_bogen"
 
-#: mail/em-folder-view.c:967
+#: mail/em-folder-view.c:968
 msgid "Appl_y Filters"
 msgstr "Anvend filtre"
 
-#: mail/em-folder-view.c:968
+#: mail/em-folder-view.c:969
 msgid "F_ilter Junk"
 msgstr "_Filtrér skrald"
 
-#: mail/em-folder-view.c:971
+#: mail/em-folder-view.c:972
 msgid "Crea_te Rule From Message"
 msgstr "Ska_b regel fra besked"
 
-#: mail/em-folder-view.c:972
+#: mail/em-folder-view.c:973
 msgid "VFolder on _Subject"
 msgstr "Virtuel mappe for e_mnet"
 
-#: mail/em-folder-view.c:973
+#: mail/em-folder-view.c:974
 msgid "VFolder on Se_nder"
 msgstr "Virtuel mappe for afse_nder"
 
-#: mail/em-folder-view.c:974
+#: mail/em-folder-view.c:975
 msgid "VFolder on _Recipients"
 msgstr "Virtuel mappe for modtage_re"
 
-#: mail/em-folder-view.c:975
+#: mail/em-folder-view.c:976
 msgid "VFolder on Mailing _List"
 msgstr "Virtuel mappe på e-post-_liste"
 
-#: mail/em-folder-view.c:979
+#: mail/em-folder-view.c:980
 msgid "Filter on Sub_ject"
 msgstr "Filtrér på em_ne"
 
-#: mail/em-folder-view.c:980
+#: mail/em-folder-view.c:981
 msgid "Filter on Sen_der"
 msgstr "Filtrér på afsen_der"
 
-#: mail/em-folder-view.c:981
+#: mail/em-folder-view.c:982
 msgid "Filter on Re_cipients"
 msgstr "Filtrér på modta_gere"
 
-#: mail/em-folder-view.c:982
+#: mail/em-folder-view.c:983
 msgid "Filter on _Mailing List"
 msgstr "Filtrér på e-_postliste"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1752 mail/em-folder-view.c:1795
+#: mail/em-folder-view.c:1753 mail/em-folder-view.c:1796
 msgid "Default"
 msgstr "Standard"
 
-#: mail/em-folder-view.c:1892
+#: mail/em-folder-view.c:1893
 msgid "Print Message"
 msgstr "Udskriv besked"
 
-#: mail/em-folder-view.c:2159
+#: mail/em-folder-view.c:2174
 msgid "_Copy Link Location"
 msgstr "_Kopiér linkhenvisning"
 
-#: mail/em-folder-view.c:2424
+#: mail/em-folder-view.c:2439
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klik for at poste %s"
@@ -16222,20 +16224,25 @@ msgid ""
 "      you can accept its license."
 msgstr ""
 
-#. mail:checking-service primary
+#. mail:checking-service title
 #: mail/mail-errors.xml.h:240
+msgid "Querying server"
+msgstr ""
+
+#. mail:checking-service primary
+#: mail/mail-errors.xml.h:242
 #, fuzzy
 msgid "Please wait."
 msgstr "Vent venligst"
 
 #. mail:checking-service secondary
-#: mail/mail-errors.xml.h:242
+#: mail/mail-errors.xml.h:244
 #, fuzzy
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "Kryptering kræves for forespurgt autenticeringsmekanisme."
 
 #. mail:gw-accountsetup-error primary
-#: mail/mail-errors.xml.h:244
+#: mail/mail-errors.xml.h:246
 msgid ""
 "Unable to connect to the GroupWise\n"
 "server."
@@ -16244,7 +16251,7 @@ msgstr ""
 "serveren."
 
 #. mail:gw-accountsetup-error secondary
-#: mail/mail-errors.xml.h:247
+#: mail/mail-errors.xml.h:249
 msgid ""
 "\n"
 "Please check your account settings and try again.\n"
@@ -16252,7 +16259,7 @@ msgstr ""
 "\n"
 "Kontrollér venligst din konto-opsætning og prøv igen.\n"
 
-#: mail/mail-folder-cache.c:807
+#: mail/mail-folder-cache.c:813
 #, c-format
 msgid "Pinging %s"
 msgstr "Pinger %s"
@@ -16993,6 +17000,15 @@ msgstr "Bug buddy kunne ikke køres."
 #: shell/e-shell-window-commands.c:425
 msgid "translator-credits"
 msgstr ""
+"Anna Jonna Armannsdottir\n"
+"Keld Simonsen\n"
+"Kenneth Christiansen\n"
+"Kjartan Maraas\n"
+"Martin Willemoes Hansen\n"
+"Søren Boll Overgaard\n"
+"\n"
+"Dansk-gruppen <dansk@klid.dk>\n"
+"Mere info: http://www.klid.dk/dansk/"
 
 #: shell/e-shell-window-commands.c:439
 msgid "Groupware Suite"
@@ -17010,49 +17026,49 @@ msgstr "Ar_bejd afkoblet"
 msgid "Work Offline"
 msgstr "Arbejd afkoblet"
 
-#: shell/e-shell-window.c:337
+#: shell/e-shell-window.c:343
 msgid "Evolution is currently online.  Click on this button to work offline."
 msgstr "Evolution er opkoblet. Klik på denne knap for at arbejde afkoblet."
 
-#: shell/e-shell-window.c:344
+#: shell/e-shell-window.c:351
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution er i færd med at koble fra."
 
-#: shell/e-shell-window.c:350
+#: shell/e-shell-window.c:358
 msgid "Evolution is currently offline.  Click on this button to work online."
 msgstr "Evolution er afkoblet. Klik på denne knap for at arbejde tilkoblet."
 
-#: shell/e-shell-window.c:637
+#: shell/e-shell-window.c:651
 #, c-format
 msgid "Switch to %s"
 msgstr "Skift til %s"
 
-#: shell/e-shell.c:589
+#: shell/e-shell.c:590
 msgid "Uknown system error."
 msgstr "Ukendt systemfejl."
 
-#: shell/e-shell.c:797 shell/e-shell.c:798
+#: shell/e-shell.c:798 shell/e-shell.c:799
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: shell/e-shell.c:1220 widgets/misc/e-cell-date-edit.c:265
+#: shell/e-shell.c:1237 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "O.k."
 
-#: shell/e-shell.c:1222
+#: shell/e-shell.c:1239
 msgid "Invalid arguments"
 msgstr "Ugyldige argumenter"
 
-#: shell/e-shell.c:1224
+#: shell/e-shell.c:1241
 msgid "Cannot register on OAF"
 msgstr "Kunne ikke registrere i OAF"
 
-#: shell/e-shell.c:1226
+#: shell/e-shell.c:1243
 msgid "Configuration Database not found"
 msgstr "Konfigurationsdatabase ikke fundet"
 
-#: shell/e-shell.c:1228
+#: shell/e-shell.c:1245
 msgid "Generic error"
 msgstr "Generisk fejl"
 
@@ -17173,7 +17189,7 @@ msgid "Evolution can import data from the following files:"
 msgstr "Evolution kan importere data fra følgende filer:"
 
 #. Preview/Alpha/Beta version warning message
-#: shell/main.c:234
+#: shell/main.c:236
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -17211,7 +17227,7 @@ msgstr ""
 "vi\n"
 "venter med spænding på dine bidrag!\n"
 
-#: shell/main.c:258
+#: shell/main.c:260
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -17219,43 +17235,43 @@ msgstr ""
 "Tak\n"
 "Evolution-holdet\n"
 
-#: shell/main.c:265
+#: shell/main.c:267
 msgid "Don't tell me again"
 msgstr "Fortæl mig det ikke igen"
 
-#: shell/main.c:470
+#: shell/main.c:472
 msgid "Start Evolution activating the specified component"
 msgstr "Aktivere angivet komponent ved opstart af Evolution"
 
-#: shell/main.c:472
+#: shell/main.c:474
 msgid "Start in offline mode"
 msgstr "Start i afkoblet tilstand"
 
-#: shell/main.c:474
+#: shell/main.c:476
 msgid "Start in online mode"
 msgstr "Start i opkoblet tilstand"
 
-#: shell/main.c:477
+#: shell/main.c:479
 msgid "Forcibly shut down all evolution components"
 msgstr "Luk alle komponenter i Evolution ned"
 
-#: shell/main.c:481
+#: shell/main.c:483
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Gennemtving migrering fra Evolution 1.4 igen"
 
-#: shell/main.c:484
+#: shell/main.c:486
 msgid "Send the debugging output of all components to a file."
 msgstr "Send fejlsøgingsudskrift for alle komponenterne til en fil."
 
-#: shell/main.c:487
+#: shell/main.c:489
 msgid "Disable the mono plugin environment."
 msgstr ""
 
-#: shell/main.c:490
+#: shell/main.c:492
 msgid "Disable loading of any plugins."
 msgstr ""
 
-#: shell/main.c:521
+#: shell/main.c:523
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
