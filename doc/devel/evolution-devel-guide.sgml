@@ -13,6 +13,11 @@
 <!ENTITY cal-util SYSTEM "calendar/cal-util/sgml/cal-util.sgml">
 <!ENTITY timeutil SYSTEM "calendar/cal-util/sgml/timeutil.sgml">
 
+<!ENTITY importer-public-reference SYSTEM "importer/public-reference.sgml">
+<!ENTITY importer-private-reference SYSTEM "importer/private-reference.sgml">
+<!ENTITY EvolutionImporter SYSTEM "importer/sgml/evolution-importer.sgml">
+<!ENTITY EvolutionImporterClient SYSTEM "importer/sgml/evolution-importer-client.sgml">
+
 <!ENTITY Evolution "<application>Evolution</application>">
 <!ENTITY Wombat "<application>Wombat</application>">
 <!ENTITY Camel "<application>Camel</application>">

@@ -1,3 +1,14 @@
+2001-01-17  Iain Holmes  <iain@ximian.com>
+
+	* Makefile.am (local_entities): Added the importer stuff.
+
+	* evolution-devel-guide.sgml: Added entities for the importer documents.
+
+	* reference.sgml: Added the public and private APIs for the importer.
+
+	* importer/*: New directory containing all the documenation for the
+	importer.
+
 2001-01-17  Federico Mena Quintero  <federico@ximian.com>
 
 	* evolution-devel-guide.sgml: Ximianified.

@@ -35,6 +35,8 @@
     </partintro>
 
     &calendar-public-reference;
+    &importer-public-reference;
+    &importer-private-reference;
   </part>
 
 <!--

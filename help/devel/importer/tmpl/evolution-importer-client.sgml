@@ -1,0 +1,96 @@
+<!-- ##### SECTION Title ##### -->
+EvolutionImporterClient
+
+<!-- ##### SECTION Short_Description ##### -->
+GTK+ object for communication with importer components.
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+  The #EvolutionImporterClient provides a GTK+ wrapper for the CORBA
+  interfaces that are used to communicate between the shell and the
+  importers. The #EvolutionImporterClient removes the need for CORBA
+  calls in the shell.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### MACRO EVOLUTION_IMPORTER_CLIENT ##### -->
+<para>
+  Casts a #GtkObject into an #EvolutionImporterClient
+</para>
+
+@obj: A GtkObject.
+
+
+<!-- ##### USER_FUNCTION EvolutionImporterClientCallback ##### -->
+<para>
+  The type of the function that will be called when the importer has something
+  to report to the shell.
+</para>
+
+@client: An #EvolutionImporterClient object.
+@result: An #EvolutionImporterResult describing the result of the action.
+@more_items: A #gboolean indicating whether there are any more items to be processed.
+@data: The data that was passed into evolution_importer_client_process_item().
+
+
+<!-- ##### FUNCTION evolution_importer_client_new ##### -->
+<para>
+
+</para>
+
+@objref: 
+@Returns: 
+
+
+<!-- ##### FUNCTION evolution_importer_client_new_from_id ##### -->
+<para>
+
+</para>
+
+@id: 
+@Returns: 
+
+
+<!-- ##### FUNCTION evolution_importer_client_support_format ##### -->
+<para>
+
+</para>
+
+@client: 
+@filename: 
+@Returns: 
+
+
+<!-- ##### FUNCTION evolution_importer_client_load_file ##### -->
+<para>
+
+</para>
+
+@client: 
+@filename: 
+@Returns: 
+
+
+<!-- ##### FUNCTION evolution_importer_client_process_item ##### -->
+<para>
+
+</para>
+
+@client: 
+@callback: 
+@closure: 
+
+
+<!-- ##### FUNCTION evolution_importer_client_get_error ##### -->
+<para>
+
+</para>
+
+@client: 
+@Returns: 
+
+

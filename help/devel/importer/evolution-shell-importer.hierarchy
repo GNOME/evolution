@@ -1,0 +1,8 @@
+GtkObject
+  GtkWidget
+    GtkRange
+    GtkContainer
+  BonoboObject
+    EvolutionImporter
+    Handle to remote Bonobo::Unknown
+      EvolutionImporterClient

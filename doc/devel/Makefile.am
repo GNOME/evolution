@@ -1,4 +1,4 @@
-SUBDIRS = calendar
+SUBDIRS = calendar importer
 
 # The name of the module.
 DOC_MODULE=evolution-devel-guide
@@ -32,7 +32,10 @@ local_entities =					\
 	calendar/cal-util/sgml/cal-component.sgml	\
 	calendar/cal-util/sgml/cal-recur.sgml		\
 	calendar/cal-util/sgml/cal-util.sgml		\
-	calendar/cal-util/sgml/timeutil.sgml
+	calendar/cal-util/sgml/timeutil.sgml		\
+							\
+	importer/sgml/evolution-importer.sgml		\
+	importer/sgml/evolution-importer-client.sgml
 
 EXTRA_DIST =			\
 	$(content_files)
