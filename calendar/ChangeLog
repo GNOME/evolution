@@ -1,3 +1,8 @@
+2005-03-15  JP Rosevear  <jpr@novell.com>
+
+	* gui/itip-utils.c (itip_send_comp): when publishing, the to_list
+	will always be null so don't error out then
+
 2005-03-13  JP Rosevear  <jpr@novell.com>
 
 	Fixes #73563
