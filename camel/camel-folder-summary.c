@@ -961,6 +961,7 @@ static CamelMessageInfo *
 message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 {
 	CamelMessageInfo *mi;
+	char *received;
 
 	mi = g_malloc0(s->message_info_size);
 
@@ -969,7 +970,13 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	mi->to = summary_format_address(h, "to");
 	mi->user_flags = NULL;
 	mi->date_sent = header_decode_date(header_raw_find(&h, "date", NULL), NULL);
-	mi->date_received = 0;
+	received = header_raw_find(&h, "received", NULL);
+	if (received)
+		received = strrchr(received, ';');
+	if (received)
+		mi->date_received = header_decode_date(received + 1, NULL);
+	else
+		mi->date_received = 0;
 	mi->message_id = header_msgid_decode(header_raw_find(&h, "message-id", NULL));
 	/* if we have a references, use that, otherwise, see if we have an in-reply-to
 	   header, with parsable content, otherwise *shrug* */
