@@ -1,3 +1,20 @@
+2004-01-29  Jakub Steiner <jimmac@ximian.com>
+
+	* im-aim.png
+	* im-icq.png
+	* im-msn.png
+	* im-yahoo.png: although I'm adding these to gnome-icon-theme
+	  instead, these are so ugly I replaced them here too. The rest
+	  of the im-* stuff I'm not quite sure what those represent. Will
+	  try to redo those as well.
+
+	  I have 16x16 versions of these in git, so if those are used
+	  scaled down, as I saw in a screenshot, feel free to use the
+	  16x16 versions. They will look better.
+
+	  Also feel free to file icon requests agains the
+	  gnome-icon-theme if you want Evolution icons.
+
 2004-01-15  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am (images_DATA): added flag-for-followup-done-16.png
