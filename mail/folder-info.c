@@ -15,7 +15,6 @@
 #include "Mailer.h"
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 
 #include <bonobo/bonobo-xobject.h>
 #include <bonobo/bonobo-generic-factory.h>
@@ -76,7 +75,7 @@ do_get_info (struct _mail_msg *mm)
 {
 	struct _folder_info_msg *m = (struct _folder_info_msg *) mm;
 	CamelFolder *folder;
-
+	
 	folder = mail_tool_uri_to_folder (m->foldername, 0, NULL);
 	if (folder) {
 		m->read = camel_folder_get_message_count (folder);
@@ -91,16 +90,16 @@ do_got_info (struct _mail_msg *mm)
 	CORBA_Environment ev;
 	CORBA_any a;
 	GNOME_Evolution_FolderInfo_MessageCount count;
-
+	
 /* 	g_print ("You've got mail: %d, %d\n", m->read, m->unread); */
-
+	
 	count.path = m->foldername;
 	count.count = m->read;
 	count.unread = m->unread;
-
+	
 	a._type = (CORBA_TypeCode) TC_GNOME_Evolution_FolderInfo_MessageCount;
 	a._value = &count;
-
+	
 	CORBA_exception_init (&ev);
 	Bonobo_Listener_event (m->listener, "youve-got-mail", &a, &ev);
 	if (BONOBO_EX (&ev)) {
@@ -113,7 +112,7 @@ static void
 do_free_info (struct _mail_msg *mm)
 {
 	struct _folder_info_msg *m = (struct _folder_info_msg *) mm;
-
+	
 	bonobo_object_release_unref (m->listener, NULL);
 	g_free (m->foldername);
 }
@@ -137,16 +136,16 @@ mail_get_info (const char *foldername,
 {
 	CORBA_Environment ev;
 	struct _folder_info_msg *m;
-
+	
 	m = mail_msg_new (&get_info_op, NULL, sizeof (*m));
-
+	
 /* 	g_print ("Folder: %s", foldername); */
 	m->foldername = g_strdup (foldername);
-
+	
 	CORBA_exception_init (&ev);
 	m->listener = bonobo_object_dup_ref (listener, &ev); 
 	CORBA_exception_free (&ev);
-
+	
 	e_thread_put (mail_thread_new, (EMsg *) m);
 }
 
@@ -164,7 +163,7 @@ static void
 destroy (GtkObject *object)
 {
 	EvolutionFolderInfo *info = (EvolutionFolderInfo *) object;
-
+	
 	bonobo_object_unref (BONOBO_OBJECT (info->pb));
 }
 #endif
@@ -173,7 +172,7 @@ static void
 evolution_folder_info_class_init (EvolutionFolderInfoClass *klass)
 {
 	POA_GNOME_Evolution_FolderInfo__epv *epv = &klass->epv;
-
+	
 	parent_class = gtk_type_class (PARENT_TYPE);
 	epv->getInfo = impl_GNOME_Evolution_FolderInfo_getInfo;
 }
@@ -203,7 +202,6 @@ set_prop (BonoboPropertyBag *bag,
 	case PROP_FOLDER_INFO_READY:
 		ready = BONOBO_ARG_GET_BOOLEAN (arg);
 		break;
-
 	default:
 		bonobo_exception_set (ev, ex_Bonobo_PropertyBag_NotFound);
 		break;
@@ -221,7 +219,6 @@ get_prop (BonoboPropertyBag *bag,
 	case PROP_FOLDER_INFO_READY:
 		BONOBO_ARG_SET_BOOLEAN (arg, ready);
 		break;
-		
 	default:
 		bonobo_exception_set (ev, ex_Bonobo_PropertyBag_NotFound);
 		break;
@@ -246,7 +243,7 @@ evolution_folder_info_factory_fn (BonoboGenericFactory *factory,
 				 BONOBO_PROPERTY_WRITEABLE);
 	
 	bonobo_object_add_interface (BONOBO_OBJECT (info), BONOBO_OBJECT (pb));
-
+	
 	/* Add to the folder info list so we can get at them all afterwards */
 	folder_infos = g_slist_append (folder_infos, info);
 	
@@ -257,19 +254,19 @@ gboolean
 evolution_folder_info_factory_init (void)
 {
 	BonoboGenericFactory *factory;
-
+	
 	folder_infos = NULL;
 	ready = FALSE;
 	
 	factory = bonobo_generic_factory_new (FOLDER_INFO_IID,
 					      evolution_folder_info_factory_fn,
 					      NULL);
-
+	
 	if (factory == NULL) {
 		g_warning ("Error starting FolderInfo");
 		return FALSE;
 	}
-
+	
 	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
 	return TRUE;
 }
@@ -278,14 +275,14 @@ void
 evolution_folder_info_notify_ready (void)
 {
 	GSList *p;
-
+	
 	ready = TRUE;
 	
 	for (p = folder_infos; p; p = p->next) {
 		BonoboArg arg;
 		CORBA_boolean b = ready;
 		EvolutionFolderInfo *info = p->data;
-
+		
 		arg._value = &b;
 		arg._type = (CORBA_TypeCode) TC_boolean;
 		bonobo_property_bag_set_value (BONOBO_PROPERTY_BAG (info->pb),

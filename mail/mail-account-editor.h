@@ -28,9 +28,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <gtk/gtkwindow.h>
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtk.h>
 #include <libgnomeui/gnome-file-entry.h>
+
 #include "mail-account-gui.h"
 #include "mail-accounts.h"
 
@@ -41,7 +41,7 @@ extern "C" {
 #define MAIL_IS_ACCOUNT_EDITOR_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MAIL_ACCOUNT_EDITOR_TYPE))
 
 struct _MailAccountEditor {
-	GnomeDialog parent;
+	GtkDialog parent_object;
 	
 	MailAccountGui *gui;
 	GtkNotebook *notebook;
@@ -50,7 +50,7 @@ struct _MailAccountEditor {
 typedef struct _MailAccountEditor MailAccountEditor;
 
 typedef struct {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 	
 	/* signals */
 	

@@ -1,5 +1,7 @@
 2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-editor.c: Ported.
+
 	* folder-browser-ui.c: Ported.
 
 	* folder-browser-factory.c: Ported.

@@ -32,16 +32,15 @@
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock.h>
 #include <camel/camel-url.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
 
 #include "mail-account-editor.h"
 #include "mail-session.h"
 
 static void mail_account_editor_class_init (MailAccountEditorClass *class);
-static void mail_account_editor_finalize   (GtkObject *obj);
+static void mail_account_editor_finalize   (GObject *obj);
 
-static GnomeDialogClass *parent_class;
+static GtkDialogClass *parent_class = NULL;
 
 
 GtkType
@@ -56,34 +55,35 @@ mail_account_editor_get_type ()
 			sizeof (MailAccountEditorClass),
 			(GtkClassInitFunc) mail_account_editor_class_init,
 			(GtkObjectInitFunc) NULL,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
+			/* reserved_1 */ NULL,
+			/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
 		};
 		
-		type = gtk_type_unique (gnome_dialog_get_type (), &type_info);
+		type = gtk_type_unique (gtk_dialog_get_type (), &type_info);
 	}
 	
 	return type;
 }
 
 static void
-mail_account_editor_class_init (MailAccountEditorClass *class)
+mail_account_editor_class_init (MailAccountEditorClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	
-	object_class = (GtkObjectClass *) class;
-	parent_class = gtk_type_class (gnome_dialog_get_type ());
+	parent_class = gtk_type_class (gtk_dialog_get_type ());
 	
-	object_class->finalize = mail_account_editor_finalize;
+	gobject_class->finalize = mail_account_editor_finalize;
 }
 
 static void
-mail_account_editor_finalize (GtkObject *obj)
+mail_account_editor_finalize (GObject *obj)
 {
 	MailAccountEditor *editor = (MailAccountEditor *) obj;
 	
 	mail_account_gui_destroy (editor->gui);
-        ((GtkObjectClass *)(parent_class))->finalize (obj);
+	
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 static gboolean
@@ -120,28 +120,19 @@ apply_changes (MailAccountEditor *editor)
 }
 
 static void
-apply_clicked (GtkWidget *widget, gpointer data)
+editor_response_cb (GtkWidget *widget, int button, gpointr user_data)
 {
-	MailAccountEditor *editor = data;
+	MailAccountEditor *editor = user_data;
 	
-	apply_changes (editor);
-}
-
-static void
-ok_clicked (GtkWidget *widget, gpointer data)
-{
-	MailAccountEditor *editor = data;
-	
-	if (apply_changes (editor))
+	switch (button) {
+	case GTK_RESPONSE_APPLY:
+		apply_changes (editor);
+		return;
+	case GTK_RESPONSE_OK:
+		apply_changes (editor);
+	default:
 		gtk_widget_destroy (GTK_WIDGET (editor));
-}
-
-static void
-cancel_clicked (GtkWidget *widget, gpointer data)
-{
-	MailAccountEditor *editor = data;
-	
-	gtk_widget_destroy (GTK_WIDGET (editor));
+	}
 }
 
 static void
@@ -159,21 +150,13 @@ construct (MailAccountEditor *editor, MailConfigAccount *account, MailAccountsTa
 	gtk_window_set_title (GTK_WINDOW (editor), _("Evolution Account Editor"));
 	gtk_window_set_policy (GTK_WINDOW (editor), FALSE, TRUE, TRUE);
 	gtk_window_set_modal (GTK_WINDOW (editor), FALSE);
-	gnome_dialog_append_buttons (GNOME_DIALOG (editor),
-				     GNOME_STOCK_BUTTON_OK,
-				     GNOME_STOCK_BUTTON_APPLY,
-				     GNOME_STOCK_BUTTON_CANCEL,
-				     NULL);
+	gtk_dialog_add_buttons (GTK_DIALOG (editor),
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				NULL);
 	
-	gnome_dialog_button_connect (GNOME_DIALOG (editor), 0 /* OK */,
-				     GTK_SIGNAL_FUNC (ok_clicked),
-				     editor);
-	gnome_dialog_button_connect (GNOME_DIALOG (editor), 1 /* APPLY */,
-				     GTK_SIGNAL_FUNC (apply_clicked),
-				     editor);
-	gnome_dialog_button_connect (GNOME_DIALOG (editor), 2 /* CANCEL */,
-				     GTK_SIGNAL_FUNC (cancel_clicked),
-				     editor);
+	g_signal_connect (editor, "response", GTK_SIGNAL_FUNC (editor_response_cb), editor);
 	
 	mail_account_gui_setup (editor->gui, GTK_WIDGET (editor));
 	
@@ -188,7 +171,7 @@ mail_account_editor_new (MailConfigAccount *account, GtkWindow *parent, MailAcco
 	MailAccountEditor *new;
 	
 	new = (MailAccountEditor *) gtk_type_new (mail_account_editor_get_type ());
-	gnome_dialog_set_parent (GNOME_DIALOG (new), parent);
+	gtk_widget_set_parent_window ((GtkWidget *) new, parent->window);
 	construct (new, account, dialog);
 	
 	return new;
