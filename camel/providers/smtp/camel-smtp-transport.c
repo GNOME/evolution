@@ -329,6 +329,7 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 				      "no recipients defined.");
 		return FALSE;
 	}
+	
 	for (i = 0, r = recipients; i < len; i++, r = r->next) {
 		recipient = smtp_get_email_addr_from_text(r->data);
 		if (!smtp_rcpt(smtp_transport, recipient, ex)) {
@@ -404,8 +405,8 @@ static gchar
 	gchar *addr_strt;         /* points to start of addr */
 	gchar *addr_end;          /* points to end of addr */
 	gchar *ptr1;
-   
-   
+
+
 	/* check the incoming args */
 	if (!text || !*text)
 		return NULL;

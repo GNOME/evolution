@@ -1,3 +1,8 @@
+2000-05-30  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c: Implemented a few more
+	methods like imap_append and 1 or 2 others
+
 2000-05-29  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-store.c (camel_store_init): Move it to here.  If this

@@ -576,13 +576,13 @@ camel_folder_create (CamelFolder *folder, CamelException *ex)
  * The scheme is the following:
  * 1) delete all messages in the folder
  * 2) if recurse is FALSE, and if there are subfolders
- *    return FALSE, else delete current folder and retuen TRUE
+ *    return FALSE, else delete current folder and return TRUE
  *    if recurse is TRUE, delete subfolders, delete
  *    current folder and return TRUE
  *
  * subclasses implementing a protocol with a different
  * deletion behaviour must emulate this one or implement
- * empty folders deletion and call  this routine which
+ * empty folders deletion and call this routine which
  * will do all the works for them.
  * Opertions must be done in the folllowing order:
  *  - call this routine

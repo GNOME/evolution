@@ -371,7 +371,7 @@ gint
 camel_imap_command (CamelImapStore *store, char **ret, char *fmt, ...)
 {
 	gchar *cmdbuf, *respbuf;
-	gchar *cmdid;
+	gchar *cmdid, *code;
 	va_list ap;
 	gint status;
 
@@ -401,15 +401,19 @@ camel_imap_command (CamelImapStore *store, char **ret, char *fmt, ...)
 		return CAMEL_IMAP_FAIL;
 	}
 
-	fprintf(stderr, "received: %s\n", respbuf);
+	fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
 
-        /* TODO: We should really check the command id, da? */
-	if (!strncmp (respbuf + 11, "OK", 2))
-		status = CAMEL_IMAP_OK;
-	else if (!strncmp (respbuf + 11, "NO", 2))
-		status = CAMEL_IMAP_ERR;
-	else
+        if (respbuf) {
+		code = strstr(respbuf, cmdid) + strlen(cmdid) + 1;
+		if (!strncmp(code, "OK", 2))
+			status = CAMEL_IMAP_OK;
+		else if (!strncmp(code, "NO", 2))
+			status = CAMEL_IMAP_ERR;
+		else
+			status = CAMEL_IMAP_FAIL;
+	} else {
 		status = CAMEL_IMAP_FAIL;
+	}
 
 	if (ret) {
 		if (status != CAMEL_IMAP_FAIL) {
@@ -491,13 +495,15 @@ camel_imap_command_extended (CamelImapStore *store, char **ret, char *fmt, ...)
 	}
 
 	if (respbuf) {
-		code = respbuf + strlen(cmdid) + 1;
+		code = strstr(respbuf, cmdid) + strlen(cmdid) + 1;
 		if (!strncmp(code, "OK", 2))
 			status = CAMEL_IMAP_OK;
 		else if (!strncmp(code, "NO", 2))
 			status = CAMEL_IMAP_ERR;
 		else
 			status = CAMEL_IMAP_FAIL;
+
+		g_free(respbuf);
 	} else {
 		status = CAMEL_IMAP_FAIL;
 	}
@@ -523,6 +529,18 @@ camel_imap_command_extended (CamelImapStore *store, char **ret, char *fmt, ...)
 
 	return status;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
