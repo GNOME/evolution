@@ -323,7 +323,7 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 	gint response = 0;
 	
 
-#if GTK_CHECK_VERSION(2,4,0)
+#ifdef USE_GTKFILECHOOSER
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (info->filesel));
 #else
 	filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (info->filesel));
@@ -362,7 +362,7 @@ destroy_it(void *data, GObject *where_the_object_was)
 	g_free (info);
 }
 
-#if GTK_CHECK_VERSION(2,4,0)
+#ifdef USE_GTKFILECHOOSER
 static void
 filechooser_response (GtkWidget *widget, gint response_id, SaveAsInfo *info)
 {
@@ -469,7 +469,7 @@ eab_contact_save (char *title, EContact *contact, GtkWindow *parent_window)
 	name = e_contact_get (contact, E_CONTACT_FILE_AS);
 	file = make_safe_filename (name);
 
-#if GTK_CHECK_VERSION(2,4,0)
+#ifdef USE_GTKFILECHOOSER
 	filesel = gtk_file_chooser_dialog_new (title,
 					       parent_window,
 					       GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -521,7 +521,7 @@ eab_contact_list_save (char *title, GList *list, GtkWindow *parent_window)
 	SaveAsInfo *info = g_new(SaveAsInfo, 1);
 	char *file, *full_filename;
 
-#if GTK_CHECK_VERSION(2,4,0)
+#ifdef USE_GTKFILECHOOSER
 	filesel = gtk_file_chooser_dialog_new (title,
 					       parent_window,
 					       GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -545,7 +545,7 @@ eab_contact_list_save (char *title, GList *list, GtkWindow *parent_window)
 		file = make_safe_filename (_("list"));
 	}
 
-#if GTK_CHECK_VERSION(2,4,0)
+#ifdef USE_GTKFILECHOOSER
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (filesel), g_get_home_dir ());
 	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), file);
 #else
@@ -557,7 +557,7 @@ eab_contact_list_save (char *title, GList *list, GtkWindow *parent_window)
 	info->filesel = filesel;
 	info->vcard = eab_contact_list_to_string (list);
 
-#if GTK_CHECK_VERSION(2,4,0)
+#ifdef USE_GTKFILECHOOSER
 	g_signal_connect (G_OBJECT (filesel), "response",
 			  G_CALLBACK (filechooser_response), info);
 	g_object_weak_ref (G_OBJECT (filesel), destroy_it, info);
