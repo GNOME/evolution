@@ -1,3 +1,9 @@
+2004-05-19  James Willcox  <jwillcox@gnome.org>
+
+	* lib/e-cert-db.c: (pk11_password):
+
+	Don't crash when the user presses 'cancel'.  Fixes #58733.
+
 2004-05-13  Not Zed  <NotZed@Ximian.com>
 
 	* lib/e-cert-db.c (e_cert_db_login_to_slot): call SetPasswordFunc

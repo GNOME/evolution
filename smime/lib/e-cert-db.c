@@ -155,6 +155,9 @@ pk11_password (PK11SlotInfo* slot, PRBool retry, void* arg)
 		       &pwd,
 		       &rv);
 
+	if (pwd == NULL)
+		return NULL;
+
 	nsspwd = PORT_Strdup (pwd);
 	memset (pwd, 0, strlen (pwd));
 	g_free (pwd);
