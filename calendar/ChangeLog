@@ -1,3 +1,9 @@
+2000-09-13  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/calendar-model.c (obj_updated_cb): See if the new object
+	matches the type of objects we were told to deal with.
+	(load_objects): Likewise.
+
 2000-09-13  JP Rosevear  <jpr@helixcode.com>
 
 	* pcs/cal-backend-file.c (remove_component): Only remove the pilot

@@ -1496,6 +1496,15 @@ remove_object (CalendarModel *model, const char *uid)
 	return n;
 }
 
+/* Returns whether a component's type matches the types we support */
+static gboolean
+matches_type (CalObjType type, CalComponentVType vtype)
+{
+	return ((vtype == CAL_COMPONENT_EVENT && (type & CALOBJ_TYPE_EVENT))
+		|| (vtype == CAL_COMPONENT_TODO && (type & CALOBJ_TYPE_TODO))
+		|| (vtype == CAL_COMPONENT_JOURNAL && (type & CALOBJ_TYPE_JOURNAL)));
+}
+
 /* Callback used when an object is updated in the server */
 static void
 obj_updated_cb (CalClient *client, const char *uid, gpointer data)
@@ -1504,6 +1513,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	CalendarModelPrivate *priv;
 	int orig_idx;
 	CalComponent *new_comp;
+	CalComponentVType new_comp_vtype;
 	const char *new_comp_uid;
 	int *new_idx;
 	CalClientGetStatus status;
@@ -1520,6 +1530,16 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
+		/* Check if we are interested in this type of object */
+
+		new_comp_vtype = cal_component_get_vtype (new_comp);
+		if (!matches_type (priv->type, new_comp_vtype)) {
+			gtk_object_unref (GTK_OBJECT (new_comp));
+			break;
+		}
+
+		/* Insert the object into the model */
+
 		cal_component_get_uid (new_comp, &new_comp_uid);
 
 		if (orig_idx == -1) {
@@ -1622,6 +1642,7 @@ load_objects (CalendarModel *model)
 		CalComponent *comp;
 		const char *comp_uid;
 		CalClientGetStatus status;
+		CalComponentVType comp_vtype;
 		int *idx;
 
 		uid = l->data;
@@ -1642,6 +1663,16 @@ load_objects (CalendarModel *model)
 		default:
 			g_assert_not_reached ();
 		}
+
+		/* Check if we are interested in this type of object */
+
+		comp_vtype = cal_component_get_vtype (comp);
+		if (!matches_type (priv->type, comp_vtype)) {
+			gtk_object_unref (GTK_OBJECT (comp));
+			continue;
+		}
+
+		/* Insert the object into the model */
 
 		idx = g_new (int, 1);
 
