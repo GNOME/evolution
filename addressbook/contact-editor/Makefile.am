@@ -19,7 +19,9 @@ libecontacteditor_a_SOURCES = 			\
 	e-contact-editor-fullname.c		\
 	e-contact-editor-fullname.h		\
 	e-contact-editor.c			\
-	e-contact-editor.h
+	e-contact-editor.h			\
+	e-contact-save-as.c			\
+	e-contact-save-as.h
 
 noinst_PROGRAMS =		\
 	contact-editor-test

@@ -29,7 +29,9 @@
 #include <e-util/e-canvas.h>
 #include <e-util/e-util.h>
 #include <e-util/e-canvas-utils.h>
+#include <e-util/e-popup-menu.h>
 #include "e-contact-editor.h"
+#include "e-contact-save-as.h"
 #include "e-minicard-view.h"
 
 static void e_minicard_init		(EMinicard		 *card);
@@ -314,6 +316,13 @@ card_changed_cb (EBook* book, EBookStatus status, gpointer user_data)
 	g_print ("%s: %s(): a card was changed with status %d\n", __FILE__, __FUNCTION__, status);
 }
 
+static void
+save_as (GtkWidget *widget, EMinicard *minicard)
+{
+	e_card_simple_sync_card(minicard->simple);
+	e_contact_save_as(_("Save as VCard"), minicard->card);
+}
+
 static gboolean
 e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -367,6 +376,9 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_PRESS:
 		if (event->button.button == 1) {
 			e_canvas_item_grab_focus(item);
+		} else if (event->button.button == 3) {
+			EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, {NULL, NULL, NULL, 0} };
+			e_popup_menu_run (menu, (GdkEventButton *)event, 0, e_minicard);
 		}
 		break;
 	case GDK_2BUTTON_PRESS:

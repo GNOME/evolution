@@ -1,3 +1,15 @@
+2000-05-23  Christopher James Lahey  <clahey@helixcode.com>
+
+	* contact-editor/Makefile.am: Added e-contact-editor-save-as.c and
+	e-contact-editor-save-as.h.
+
+	* contact-editor/e-contact-save-as.c,
+	contact-editor/e-contact-save-as.h: New files that display a save
+	as dialog and then save the given card to that file.
+
+	* gui/minicard/e-minicard.c: Call e_contact_save_as in a right
+	click menu.
+
 2000-05-19  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/e-contact-editor-categories.c,
