@@ -110,6 +110,7 @@ typedef struct {
 	void (*thread_msg_free)(CamelSession *session, CamelSessionThreadMsg *msg);
 	int (*thread_queue)(CamelSession *session, CamelSessionThreadMsg *msg, int flags);
 	void (*thread_wait)(CamelSession *session, int id);
+	void (*thread_status)(CamelSession *session, CamelSessionThreadMsg *msg, const char *text, int pc);
 #endif
 	
 } CamelSessionClass;
@@ -184,8 +185,14 @@ struct _CamelSessionThreadOps {
 struct _CamelSessionThreadMsg {
 	EMsg msg;
 
-	CamelSessionThreadOps *ops;
 	int id;
+
+	CamelException ex;
+	CamelSessionThreadOps *ops;
+	struct _CamelOperation *op;
+	CamelSession *session;
+
+	void *data; /* free for implementation to define, not used by camel, do not use in client code */
 	/* user fields follow */
 };
 
@@ -193,6 +200,7 @@ void *camel_session_thread_msg_new(CamelSession *session, CamelSessionThreadOps 
 void camel_session_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *msg);
 int camel_session_thread_queue(CamelSession *session, CamelSessionThreadMsg *msg, int flags);
 void camel_session_thread_wait(CamelSession *session, int id);
+
 #endif
 
 #ifdef __cplusplus

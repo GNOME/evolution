@@ -83,6 +83,8 @@ struct _CamelSessionPrivate {
 	int thread_id;
 	GHashTable *thread_active;
 	EThread *thread_queue;
+
+	GHashTable *thread_msg_op;
 };
 
 #define CAMEL_SESSION_LOCK(f, l) (g_mutex_lock(((CamelSession *)f)->priv->l))

@@ -67,6 +67,7 @@ static void *session_thread_msg_new(CamelSession *session, CamelSessionThreadOps
 static void session_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *msg);
 static int session_thread_queue(CamelSession *session, CamelSessionThreadMsg *msg, int flags);
 static void session_thread_wait(CamelSession *session, int id);
+static void session_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const char *text, int pc);
 
 /* The vfolder provider is always available */
 static CamelProvider vee_provider = {
@@ -120,7 +121,7 @@ camel_session_finalise (CamelObject *o)
 	g_hash_table_destroy(session->priv->thread_active);
 	if (session->priv->thread_queue)
 		e_thread_destroy(session->priv->thread_queue);
-	
+
 	g_free(session->storage_path);
 	g_hash_table_foreach_remove (session->providers,
 				     camel_session_destroy_provider, NULL);
@@ -146,6 +147,7 @@ camel_session_class_init (CamelSessionClass *camel_session_class)
 	camel_session_class->thread_msg_free = session_thread_msg_free;
 	camel_session_class->thread_queue = session_thread_queue;
 	camel_session_class->thread_wait = session_thread_wait;
+	camel_session_class->thread_status = session_thread_status;
 	
 	vee_provider.object_types[CAMEL_PROVIDER_STORE] = camel_vee_store_get_type ();
 	vee_provider.url_hash = camel_url_hash;
@@ -688,6 +690,14 @@ camel_session_get_filter_driver (CamelSession *session,
 	return CS_CLASS (session)->get_filter_driver (session, type, ex);
 }
 
+static void
+cs_thread_status(CamelOperation *op, const char *what, int pc, void *data)
+{
+	CamelSessionThreadMsg *m = data;
+
+	CS_CLASS(m->session)->thread_status(m->session, m, what, pc);
+}
+
 static void *session_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size)
 {
 	CamelSessionThreadMsg *m;
@@ -696,7 +706,10 @@ static void *session_thread_msg_new(CamelSession *session, CamelSessionThreadOps
 
 	m = g_malloc0(size);
 	m->ops = ops;
-
+	m->session = session;
+	camel_object_ref(session);
+	m->op = camel_operation_new(cs_thread_status, m);
+	camel_exception_init(&m->ex);
 	CAMEL_SESSION_LOCK(session, thread_lock);
 	m->id = session->priv->thread_id++;
 	g_hash_table_insert(session->priv->thread_active, GINT_TO_POINTER(m->id), m);
@@ -719,20 +732,29 @@ static void session_thread_msg_free(CamelSession *session, CamelSessionThreadMsg
 	
 	if (msg->ops->free)
 		msg->ops->free(session, msg);
+	if (msg->op)
+		camel_operation_unref(msg->op);
+	camel_exception_clear(&msg->ex);
+	camel_object_unref(msg->session);
 	g_free(msg);
 }
 
 static void session_thread_destroy(EThread *thread, CamelSessionThreadMsg *msg, CamelSession *session)
 {
 	d(printf("destroy message %p session %p\n", msg, session));
-	session_thread_msg_free(session, msg);
+	camel_session_thread_msg_free(session, msg);
 }
 
 static void session_thread_received(EThread *thread, CamelSessionThreadMsg *msg, CamelSession *session)
 {
 	d(printf("receive message %p session %p\n", msg, session));
-	if (msg->ops->receive)
+	if (msg->ops->receive) {
+		CamelOperation *oldop;
+
+		oldop = camel_operation_register(msg->op);
 		msg->ops->receive(session, msg);
+		camel_operation_register(oldop);
+	}
 }
 
 static int session_thread_queue(CamelSession *session, CamelSessionThreadMsg *msg, int flags)
@@ -766,6 +788,10 @@ static void session_thread_wait(CamelSession *session, int id)
 			usleep(20000);
 		}
 	} while (wait);
+}
+
+static void session_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const char *text, int pc)
+{
 }
 
 /**

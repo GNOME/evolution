@@ -29,6 +29,8 @@
 #include "camel-disco-store.h"
 #include "camel-exception.h"
 
+#include "camel-session.h"
+
 #define CF_CLASS(o) (CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS (o)))
 #define CDF_CLASS(o) (CAMEL_DISCO_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS (o)))
 
@@ -72,6 +74,77 @@ camel_disco_folder_class_init (CamelDiscoFolderClass *camel_disco_folder_class)
 	camel_folder_class->transfer_messages_to = disco_transfer_messages_to;
 }
 
+struct _cdf_sync_msg {
+	CamelSessionThreadMsg msg;
+
+	CamelFolder *folder;
+	CamelFolderChangeInfo *changes;
+};
+
+static void
+cdf_sync_offline(CamelSession *session, CamelSessionThreadMsg *mm)
+{
+	struct _cdf_sync_msg *m = (struct _cdf_sync_msg *)mm;
+	int i;
+
+	camel_operation_start(NULL, _("Downloading new messages for offline mode"));
+
+	if (m->changes) {
+		for (i=0;i<m->changes->uid_added->len;i++) {
+			int pc = i * 100 / m->changes->uid_added->len;
+
+			camel_operation_progress(NULL, pc);
+			camel_disco_folder_cache_message((CamelDiscoFolder *)m->folder,
+							 m->changes->uid_added->pdata[i],
+							 &mm->ex);
+		}
+	} else {
+		camel_disco_folder_prepare_for_offline((CamelDiscoFolder *)m->folder,
+						       "(match-all)",
+						       &mm->ex);
+	}
+
+	camel_operation_end(NULL);
+}
+
+static void
+cdf_sync_free(CamelSession *session, CamelSessionThreadMsg *mm)
+{
+	struct _cdf_sync_msg *m = (struct _cdf_sync_msg *)mm;
+
+	if (m->changes)
+		camel_folder_change_info_free(m->changes);
+	camel_object_unref(m->folder);
+}
+
+static CamelSessionThreadOps cdf_sync_ops = {
+	cdf_sync_offline,
+	cdf_sync_free,
+};
+
+static void
+cdf_folder_changed(CamelFolder *folder, CamelFolderChangeInfo *changes, void *dummy)
+{
+	if (changes->uid_added->len > 0
+	    && camel_url_get_param(((CamelService *)folder->parent_store)->url, "offline_sync")) {
+		CamelSession *session = ((CamelService *)folder->parent_store)->session;
+		struct _cdf_sync_msg *m;
+
+		m = camel_session_thread_msg_new(session, &cdf_sync_ops, sizeof(*m));
+		m->changes = camel_folder_change_info_new();
+		camel_folder_change_info_cat(m->changes, changes);
+		m->folder = folder;
+		camel_object_ref(folder);
+		camel_session_thread_queue(session, &m->msg, 0);
+	}
+}
+
+static void
+camel_disco_folder_init(CamelDiscoFolder *folder)
+{
+	camel_object_hook_event(folder, "folder_changed", (CamelObjectEventHookFunc)cdf_folder_changed, NULL);
+}
+
 CamelType
 camel_disco_folder_get_type (void)
 {
@@ -82,8 +155,8 @@ camel_disco_folder_get_type (void)
 			CAMEL_FOLDER_TYPE, "CamelDiscoFolder",
 			sizeof (CamelDiscoFolder),
 			sizeof (CamelDiscoFolderClass),
-			(CamelObjectClassInitFunc) camel_disco_folder_class_init,
-			NULL, NULL, NULL);
+			(CamelObjectClassInitFunc)camel_disco_folder_class_init, NULL,
+			(CamelObjectInitFunc)camel_disco_folder_init, NULL);
 	}
 
 	return camel_disco_folder_type;

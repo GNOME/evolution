@@ -1,3 +1,37 @@
+2003-09-22  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-provider.c: Added "offline_sync"
+	option, which lets you synchronise all mail to local storage
+	automagically.
+
+	* camel-disco-folder.c (cdf_folder_changed): hook onto the folder
+	changed single, for all new messages, check that they are online
+	using another thread, if the offline_sync option has been enabled
+	for this store.
+
+2003-09-21  Not Zed  <NotZed@Ximian.com>
+
+	* camel-session.c (session_thread_destroy): call proper entry
+	point for freeing the message.
+
+2003-09-18  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder.c (filter_filter): register the filtering process
+	for progress, and do progress of the filtering process.
+
+2003-09-17  Not Zed  <NotZed@Ximian.com>
+
+	* camel.c (camel_init): init camel operation.
+
+	* camel-operation.c (camel_operation_reset): removed, not used,
+	not worth it.
+	(camel_operation_mute): new method to stop all status updates
+	permanently.
+	(*): Changed to use thread specific data and a list rather than a
+	hashtable.
+	(cancel_thread): removed.
+	(camel_operation_register): return the previously registered op.
+
 2003-09-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/nntp/camel-nntp-store.c (connect_to_server): Fix the

@@ -39,14 +39,17 @@ enum _camel_operation_status_t {
 };
 
 /* main thread functions */
+void camel_operation_init(void);
+
 CamelOperation *camel_operation_new(CamelOperationStatusFunc status, void *status_data);
+void camel_operation_mute(CamelOperation *cc);
 void camel_operation_ref(CamelOperation *cc);
 void camel_operation_unref(CamelOperation *cc);
-void camel_operation_reset(CamelOperation *cc);
 void camel_operation_cancel(CamelOperation *cc);
 /* subthread functions */
-void camel_operation_register(CamelOperation *cc);
-void camel_operation_unregister(CamelOperation *cc);
+CamelOperation *camel_operation_register(CamelOperation *cc);
+void camel_operation_unregister (CamelOperation *cc);
+
 /* called internally by camel, for the current thread */
 void camel_operation_cancel_block(CamelOperation *cc);
 void camel_operation_cancel_unblock(CamelOperation *cc);

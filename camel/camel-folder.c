@@ -1568,7 +1568,7 @@ filter_filter(CamelSession *session, CamelSessionThreadMsg *msg)
 	char *source_url;
 	CamelException ex;
 
-	/* FIXME: progress? (old code didn't have useful progress either) */
+	camel_operation_start(NULL, _("Filtering new message(s)"));
 
 	source_url = camel_service_get_url((CamelService *)m->folder->parent_store);
 	uri = camel_url_new(source_url, NULL);
@@ -1585,6 +1585,9 @@ filter_filter(CamelSession *session, CamelSessionThreadMsg *msg)
 
 	for (i=0;status == 0 && i<m->recents->len;i++) {
 		char *uid = m->recents->pdata[i];
+		int pc = 100 * i / m->recents->len;
+
+		camel_operation_progress(NULL, pc);
 
 		info = camel_folder_get_message_info(m->folder, uid);
 		if (info == NULL) {
@@ -1603,6 +1606,8 @@ filter_filter(CamelSession *session, CamelSessionThreadMsg *msg)
 		camel_exception_xfer(&m->ex, &ex);
 
 	g_free(source_url);
+
+	camel_operation_end(NULL);
 }
 
 static void

@@ -55,6 +55,8 @@ CamelProviderConfEntry imap_conf_entries[] = {
 	{ CAMEL_PROVIDER_CONF_SECTION_END },
 	{ CAMEL_PROVIDER_CONF_CHECKBOX, "filter", NULL,
 	  N_("Apply filters to new messages in INBOX on this server"), "0" },
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "offline_sync", NULL,
+	  N_("Automatically synchronize remote mail locally"), "0" },
 	{ CAMEL_PROVIDER_CONF_END }
 };
 

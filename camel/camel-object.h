@@ -261,6 +261,28 @@ GPtrArray *camel_object_bag_list(CamelObjectBag *bag);
 void camel_object_bag_remove(CamelObjectBag *bag, void *o);
 void camel_object_bag_destroy(CamelObjectBag *bag);
 
+#define CAMEL_MAKE_CLASS(type, tname, parent, pname)				\
+static CamelType type##_type;							\
+static pname##Class * type##_parent_class;					\
+										\
+CamelType									\
+type##_get_type(void)								\
+{										\
+	if (type##_type == 0) {							\
+		type##_parent_class = (pname##Class *)parent##_get_type();	\
+		type##_type = camel_type_register(				\
+			type##_parent_class, #tname "Class",			\
+			sizeof(tname),						\
+			sizeof(tname ## Class),					\
+			(CamelObjectClassInitFunc) type##_class_init,		\
+			NULL,							\
+			(CamelObjectInitFunc) type##_init,			\
+			(CamelObjectFinalizeFunc) type##_finalise);		\
+	}									\
+										\
+	return type##_type;							\
+}
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

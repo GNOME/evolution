@@ -64,6 +64,7 @@ camel_init (const char *configdir, gboolean nss_init)
 {
 	CamelCertDB *certdb;
 	char *path;
+	void camel_operation_init(void);
 	
 	if (getenv ("CAMEL_VERBOSE_DEBUG"))
 		camel_verbose_debug = TRUE;
@@ -72,7 +73,8 @@ camel_init (const char *configdir, gboolean nss_init)
 	camel_object_get_type ();
 	
 	camel_mime_utils_init ();
-	
+	camel_operation_init();
+
 #ifdef HAVE_NSS
 	if (nss_init) {
 		PR_Init (PR_SYSTEM_THREAD, PR_PRIORITY_NORMAL, 10);
