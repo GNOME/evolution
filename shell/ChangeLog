@@ -1,3 +1,14 @@
+2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-activity-handler.c (impl_operationProgressing): Just ignore
+	the request if the activity handler has the GTK_OBJECT_DESTROYED()
+	flag set.  This should prevent crashes like #7542 and friends when
+	the components are not well-behaved enough to respect the Bonobo
+	refcounting.
+	(impl_operationStarted): Likewise.
+	(impl_operationFinished): Likewise.
+	(impl_requestDialog): Likewise.
+
 2001-09-04  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-importer.c (start_import): Check the file exists before trying

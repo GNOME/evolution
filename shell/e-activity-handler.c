@@ -385,6 +385,10 @@ impl_operationStarted (PortableServer_Servant servant,
 	GSList *p;
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
+
+	if (GTK_OBJECT_DESTROYED (activity_handler))
+		return;
+
 	priv = activity_handler->priv;
 
 	if (icon->_length == 0) {
@@ -430,6 +434,10 @@ impl_operationProgressing (PortableServer_Servant servant,
 	/* FIXME?  The complexity in this function sucks.  */
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
+
+	if (GTK_OBJECT_DESTROYED (activity_handler))
+		return;
+
 	priv = activity_handler->priv;
 
 	p = lookup_activity (priv->activity_infos, activity_id, &order_number);
@@ -469,6 +477,10 @@ impl_operationFinished (PortableServer_Servant servant,
 	int order_number;
 
 	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
+
+	if (GTK_OBJECT_DESTROYED (activity_handler))
+		return;
+
 	priv = activity_handler->priv;
 
 	p = lookup_activity (priv->activity_infos, activity_id, &order_number);
@@ -490,6 +502,13 @@ impl_requestDialog (PortableServer_Servant servant,
 		    const GNOME_Evolution_Activity_DialogType dialog_type,
 		    CORBA_Environment *ev)
 {
+	EActivityHandler *activity_handler;
+
+	activity_handler = E_ACTIVITY_HANDLER (bonobo_object_from_servant (servant));
+
+	if (GTK_OBJECT_DESTROYED (activity_handler))
+		return;
+
 	/* FIXME implement.  */
 	g_warning ("Evolution::Activity::requestDialog not implemented");
 
