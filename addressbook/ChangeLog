@@ -1,3 +1,14 @@
+2000-09-15  Chris Toshok  <toshok@helixcode.com>
+
+	* backend/pas/pas-backend-ldap.c: split all the ldap operations
+	into 2 halves, a handler, and destructor, and create a structure
+	containing two function pointers and any data they need.  this
+	allows us queue up pending operations (since the LDAP*'s are no
+	longer view specific.  there's one per backend.)  also, add
+	support for restarting async operations if the SERVER DOWN error
+	isn't communicated until sometime after the handler is called (as
+	is the case with the async search stuff.)
+
 2000-09-14  Dan Winship  <danw@helixcode.com>
 
 	* gui/component/addressbook-factory.c (main): Call unicode_init
