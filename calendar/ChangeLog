@@ -1,3 +1,23 @@
+2001-04-17  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/event-editor.c (init_widgets): Connect to the "changed"
+	signal of the categories entry so that they will be applied
+	correctly.
+	(EventEditorPrivate): Added fields for the contacts button and
+	entry.
+	(init_widgets): Disable the contacts widgets as we do not support
+	them yet.
+	(get_widgets): Get the contacts widgets.
+
+	* gui/dialogs/task-editor.c (get_widgets): Get the contacts
+	button, which was missing.
+	(init_widgets): Disable the contacts widgets as we do not support
+	them yet.
+
+	* pcs/query.c (matches_text_list): Use e_utf8_strstrcasedecomp()
+	instead of plain e_utf8_strstrcase().
+	(matches_summary): Likewise.
+
 2001-04-17  JP Rosevear  <jpr@ximian.com>
 
 	* cal-util/cal-component.c (cal_component_alarm_set_action): the

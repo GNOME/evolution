@@ -82,7 +82,9 @@ typedef struct {
 	GtkWidget *classification_private;
 	GtkWidget *classification_confidential;
 
+	GtkWidget *contacts_btn;	
 	GtkWidget *contacts;
+
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
 
@@ -379,7 +381,9 @@ get_widgets (TaskEditor *tedit)
 	priv->classification_private = GW ("classification-private");
 	priv->classification_confidential = GW ("classification-confidential");
 
+	priv->contacts_btn = GW ("contacts-button");
 	priv->contacts = GW ("contacts");
+
 	priv->categories_btn = GW ("categories-button");
 	priv->categories = GW ("categories");
 
@@ -399,6 +403,7 @@ get_widgets (TaskEditor *tedit)
 		&& priv->classification_private
 		&& priv->classification_confidential
 		&& priv->description
+		&& priv->contacts_btn
 		&& priv->contacts
 		&& priv->categories_btn
 		&& priv->categories
@@ -465,6 +470,11 @@ init_widgets (TaskEditor *tedit)
 	/* Button clicks */
 	gtk_signal_connect (GTK_OBJECT (priv->categories_btn), "clicked",
 			    GTK_SIGNAL_FUNC (categories_clicked), tedit);
+
+	/* FIXME: we do not support these fields yet, so we disable them */
+
+	gtk_widget_set_sensitive (priv->contacts_btn, FALSE);
+	gtk_widget_set_sensitive (priv->contacts, FALSE);
 }
 
 static void

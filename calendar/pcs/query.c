@@ -513,7 +513,7 @@ matches_text_list (GSList *text_list, const char *str)
 		text = l->data;
 		g_assert (text->value != NULL);
 
-		if (e_utf8_strstrcase (text->value, str) != NULL) {
+		if (e_utf8_strstrcasedecomp (text->value, str) != NULL) {
 			matches = TRUE;
 			break;
 		}
@@ -561,7 +561,7 @@ matches_summary (CalComponent *comp, const char *str)
 	if (!text.value)
 		return FALSE;
 
-	return e_utf8_strstrcase (text.value, str) != NULL;
+	return e_utf8_strstrcasedecomp (text.value, str) != NULL;
 }
 
 /* Returns whether any text field in a component matches the specified string */

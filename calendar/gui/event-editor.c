@@ -141,6 +141,9 @@ struct _EventEditorPrivate {
 	GtkWidget *classification_private;
 	GtkWidget *classification_confidential;
 
+	GtkWidget *contacts;
+	GtkWidget *contacts_btn;
+
 	GtkWidget *categories;
 	GtkWidget *categories_btn;
 
@@ -965,8 +968,11 @@ get_widgets (EventEditor *ee)
 	priv->classification_private = GW ("classification-private");
 	priv->classification_confidential = GW ("classification-confidential");
 
-	priv->categories = GW ("categories");
+	priv->contacts_btn = GW ("contacts-button");
+	priv->contacts = GW ("contacts");
+
 	priv->categories_btn = GW ("categories-button");
+	priv->categories = GW ("categories");
 
 	priv->reminder_summary = GW ("reminder-summary");
 	priv->reminder_starting_date = GW ("reminder-starting-date");
@@ -1015,6 +1021,10 @@ get_widgets (EventEditor *ee)
 		&& priv->classification_public
 		&& priv->classification_private
 		&& priv->classification_confidential
+		&& priv->contacts_btn
+		&& priv->contacts
+		&& priv->categories_btn
+		&& priv->categories
 		&& priv->reminder_summary
 		&& priv->reminder_starting_date
 		&& priv->reminder_list
@@ -1242,15 +1252,19 @@ init_widgets (EventEditor *ee)
 			    GTK_SIGNAL_FUNC (field_changed), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
 			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_public),
-			    "toggled",
+	gtk_signal_connect (GTK_OBJECT (priv->classification_public), "toggled",
 			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_private),
-			    "toggled",
+	gtk_signal_connect (GTK_OBJECT (priv->classification_private), "toggled",
 			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_confidential),
-			    "toggled",
+	gtk_signal_connect (GTK_OBJECT (priv->classification_confidential), "toggled",
 			    GTK_SIGNAL_FUNC (field_changed), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->categories), "changed",
+			    GTK_SIGNAL_FUNC (field_changed), ee);
+
+	/* FIXME: we do not support these fields yet, so we disable them */
+
+	gtk_widget_set_sensitive (priv->contacts_btn, FALSE);
+	gtk_widget_set_sensitive (priv->contacts, FALSE);
 }
 
 static const int classification_map[] = {
