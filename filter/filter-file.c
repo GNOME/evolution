@@ -28,9 +28,8 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <gtk/gtkwidget.h>
 
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
@@ -288,7 +287,7 @@ get_widget (FilterElement *fe)
 	entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (fileentry));
 	gtk_entry_set_text (GTK_ENTRY (entry), file->path);
 	
-	g_signal_connect (entry, "changed", entry_changed, fe);
+	g_signal_connect (entry, "changed", GTK_SIGNAL_FUNC (entry_changed), fe);
 	
 	return fileentry;
 }
