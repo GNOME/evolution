@@ -6,7 +6,7 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
   * Addressbook
 
     #16870 -- Fix CR/LF check for empty lines in LDIF importer.  (Sean Gao)
-    #25540 -- Fix sensitivity issues in the contact editor.  (Toshok)
+    #25541 -- Fix sensitivity issues in the contact editor.  (Toshok)
     #28945 -- Contact lists saved as invalid vCards.  (Toshok)
     #31763 -- Find button missing from Select Contacts from Addressbook
               dialog.  (Toshok)
@@ -14,7 +14,16 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
               restrictive ACL's.  (Toshok)
     #33097 -- Fix crash when changing autocomplete folder list.  Also
               fixes #30323, #33930, and #33332.  (Toshok)
+    #33672 -- Fix folder deletion. (Jack Jia)
     #34254 -- Fix case sensitive nature of vCard importer.  (Sean Gao)
+    #34883 -- Do anonymous bind initially in ldap backend. (Toshok)
+    #34897 -- Address book crash when search. (Toshok)
+    #34898 -- Handle modifications of contact list members in the
+              minicard view. (Sean Gao)
+    #34900 -- Fix hang when closing file selector using wm. (Jack Jia)
+    #35153 -- Changing default contact folder requires restart. (Toshok)
+    #36375 -- Fix typo in ldap backend that was keeping "other_fax" from 
+              working. (Sean Gao)
 
   * Calendar
 
