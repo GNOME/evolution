@@ -1,3 +1,9 @@
+2001-03-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-icon-list.c (icon_new_from_pixbuf): Added a comment reminding
+	us that we should probably not force a particular font in the icon
+	caption.
+
 2001-02-27  Dan Winship  <danw@ximian.com>
 
 	* evolution-composer.c (factory_fn): If
