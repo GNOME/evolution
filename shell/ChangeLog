@@ -1,5 +1,10 @@
 2001-05-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-storage.c (evolution_storage_new_folder): Ooops.  The
+	`corba_folder' is needed after returning; don't free it.
+
+2001-05-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-storage.c (evolution_storage_new_folder): Free the
 	`corba_folder' when not needed anymore.
 
