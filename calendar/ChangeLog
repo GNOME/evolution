@@ -1,5 +1,9 @@
 1999-05-25  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* year-view.c: Removed unused macro CALENDAR_HEIGHT.
+
+1999-05-25  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
 	* year-view.c (idle_handler): Set the canvas scroll region here,
 	not in size_allocate().  Also, use the correct width and height
 	based on the allocation and the precomputed minimum width/height

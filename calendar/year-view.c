@@ -21,8 +21,6 @@
 #define TITLE_SPACING 1		/* Spacing between title and calendar */
 #define SPACING 4		/* Spacing between months */
 
-#define CALENDAR_HEIGHT 600     /* Height of the entire year view. */
-
 
 static void year_view_class_init    (YearViewClass  *class);
 static void year_view_init          (YearView       *yv);
