@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2004-01-12 22:53-0500\n"
-"PO-Revision-Date: 2004-01-07 17:03+0100\n"
+"PO-Revision-Date: 2004-01-26 13:10+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team:  <tp@lists.linux.it>,<it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -926,7 +926,7 @@ msgstr "Dettagli"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Enter the person's instant messenger accounts here."
-msgstr ""
+msgstr "Inserire quì l'account del programma per i messaggi istantanei."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
 msgid "F_ree/Busy URL:"
@@ -1048,7 +1048,7 @@ msgstr "Indirizzo a cui _spedire"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:43
 msgid "_Video Conferencing URL:"
-msgstr ""
+msgstr "URL della _video conferenza:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:44
 msgid "_Web page address:"
@@ -2118,23 +2118,23 @@ msgstr "Altro"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2807
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2808
 msgid "Jabber"
-msgstr ""
+msgstr "Jabber"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2809
 msgid "Yahoo"
-msgstr ""
+msgstr "Yahoo"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2810
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2811
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:3098
 #, c-format
@@ -3448,11 +3448,11 @@ msgstr "_Apri"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:902
 msgid "_Dismiss"
-msgstr ""
+msgstr "_Abbandona"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:904
 msgid "Dismiss _All"
-msgstr ""
+msgstr "Abbandona _tutto"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:969
 msgid "No description available."
@@ -3564,7 +3564,7 @@ msgstr "Intervalli mostrati nelle viste giornaliera e settimana lavorativa"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
-msgstr ""
+msgstr "Elenco delle url per pubblicazione libero/occupato"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
@@ -3742,12 +3742,11 @@ msgstr "Lavoro"
 
 #: calendar/gui/calendar-component.c:584 calendar/gui/calendar-component.c:596
 msgid "Birthdays & Anniversaries"
-msgstr ""
+msgstr "Compleanni e anniversari"
 
 #: calendar/gui/calendar-component.c:595
-#, fuzzy
 msgid "Birthdays"
-msgstr "Co_mpleanno:"
+msgstr "Compleanni"
 
 #: calendar/gui/calendar-component.c:720
 msgid "New appointment"
@@ -4397,14 +4396,12 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:38
-#, fuzzy
 msgid "_Refresh Interval:"
-msgstr "Aggiorna elenco"
+msgstr "Aggio_rna intervallo:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:39
-#, fuzzy
 msgid "_Source URL:"
-msgstr "POP Sorgente URI"
+msgstr "_Sorgente URL:"
 
 #: calendar/gui/dialogs/cancel-comp.c:57
 msgid ""
@@ -8490,7 +8487,7 @@ msgstr "Sincronizzazione con il server"
 
 #: camel/camel-disco-folder.c:41
 msgid "Copy folder content locally for offline operation"
-msgstr ""
+msgstr "Copia il contenuto della cartella localmente per la modalità non in linea"
 
 #: camel/camel-disco-folder.c:101
 msgid "Downloading new messages for offline mode"
@@ -18226,117 +18223,3 @@ msgstr ""
 #: widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
 msgstr ""
-
-#~ msgid "Rename"
-#~ msgstr "Rinomina"
-
-#~ msgid "Select Names"
-#~ msgstr "Seleziona nomi"
-
-#~ msgid "Selected Contacts:"
-#~ msgstr "Seleziona contatti:"
-
-#~ msgid ""
-#~ "Type a name into the entry, or\n"
-#~ "select one from the list below:"
-#~ msgstr ""
-#~ "Inserisci un nome o scegline\n"
-#~ "uno dall'elenco sottostante:"
-
-#~ msgid "_Folder:"
-#~ msgstr "_Cartella:"
-
-#~ msgid "Rename this calendar to"
-#~ msgstr "Rinomina questo calendario come"
-
-#~ msgid "    "
-#~ msgstr "    "
-
-#~ msgid "<b>Alarm Action</b>"
-#~ msgstr "<b>Azione di avviso</b>"
-
-#~ msgid "<b>Alarm Email</b>"
-#~ msgstr "<b>Avviso email</b>"
-
-#~ msgid "<b>Alarm Sound</b>"
-#~ msgstr "<b>Avviso sonoro</b>"
-
-#~ msgid "<b>Message to Display</b>"
-#~ msgstr "<b>Messaggio da visualizzare</b>"
-
-#~ msgid "<b>Basics</b>"
-#~ msgstr "<b>Di base</b>"
-
-#~ msgid "<b>Reminders</b>"
-#~ msgstr "<b>Promemoria</b>"
-
-#~ msgid "<b>Alerts</b>"
-#~ msgstr "<b>Allarmi</b>"
-
-#~ msgid "<b>Task List</b>"
-#~ msgstr "<b>Elenco attività</b>"
-
-#~ msgid "<b>Time</b>"
-#~ msgstr "<b>Ora</b>"
-
-#~ msgid "<b>Work Week</b>"
-#~ msgstr "<b>Settimana lavorativa</b>"
-
-#~ msgid "<b>Classification</b>"
-#~ msgstr "<b>Classificazione</b>"
-
-#~ msgid "<b>Date &amp; Time</b>"
-#~ msgstr "<b>Data e ora</b>"
-
-#~ msgid "<b>Description</b>"
-#~ msgstr "<b>Descrizione</b>"
-
-#~ msgid "<b>L_ocation</b>"
-#~ msgstr "<b>Posizione ge_ografica</b>"
-
-#~ msgid "<b>Su_mmary</b>"
-#~ msgstr "<b>So_mmario</b>"
-
-#~ msgid "Could not create cache for new calendar"
-#~ msgstr "Impossibile creare la cache per il nuovo calendario"
-
-#~ msgid "A group must be selected"
-#~ msgstr "È necessario selezionare un gruppo"
-
-#~ msgid "Could not create directory for new task list"
-#~ msgstr "Impossibile creare la cartella per il nuovo elenco attività"
-
-#~ msgid "<b>Preview</b>"
-#~ msgstr "<b>Anteprima</b>"
-
-#~ msgid "<b>Progress</b>"
-#~ msgstr "<b>Avanzamento</b>"
-
-#~ msgid "<b>Web Page</b>"
-#~ msgstr "<b>Pagine web</b>"
-
-#~ msgid "The method required to load `%s' is not supported"
-#~ msgstr "Il metodo richiesto per caricare `%s' non è supportato"
-
-#~ msgid "You don't have permission to open the folder in `%s'"
-#~ msgstr ""
-#~ "Non si possiedono i permessi necessari per aprire la cartella in `%s'"
-
-#~ msgid "Rename this task list to"
-#~ msgstr "Rinomina questo elenco attività come"
-
-#~ msgid "LDAP Server Name:"
-#~ msgstr "Nome del server LDAP:"
-
-#~ msgid "LDAP Download limit: %s"
-#~ msgstr "Limite di download LDAP: %s"
-
-#~ msgid ""
-#~ "The following error occured while migrating your mail data:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Il seguente errore è apparso durante la trasmissione dei dati di posta:\n"
-#~ "%s"
-
-#~ msgid "Test type"
-#~ msgstr "Tipo di prova"
