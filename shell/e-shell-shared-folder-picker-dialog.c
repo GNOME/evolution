@@ -244,7 +244,7 @@ show_dialog (EShell *shell,
 	}
 
 	bonobo_widget_get_property (BONOBO_WIDGET (name_selector_widget),
-				    "addresses", user_email_address_return,
+				    "addresses", TC_CORBA_string, user_email_address_return,
 				    NULL);
 
 	folder_name_entry = glade_xml_get_widget (glade_xml, "folder-name-entry");
