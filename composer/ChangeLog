@@ -1,3 +1,18 @@
+2002-03-18  Dan Winship  <danw@ximian.com>
+
+	* Evolution-Composer.idl, evolution-composer.c
+	(impl_Composer_show): "Forward as iCalendar" uses set_body, so we
+	can't make the composer un-showable after doing that. So get rid
+	of the "cannot show" exception.
+
+	* e-msg-composer.c (e_msg_composer_set_body): Prepare the composer
+	to be shown in its weird state: Put an explanatory message in the
+	body, then call disable_editor.
+	(disable_editor): Common editor-disabling code - makes the editor
+	and attachment bar insensitive and disables any menu items that
+	could be used to modify them.
+	(e_msg_composer_new_redirect): Use disable_editor here now.
+	
 2002-03-15  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c: use gtkhtml editor API version 1.1

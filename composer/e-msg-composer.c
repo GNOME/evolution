@@ -51,6 +51,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <gal/unicode/gunicode.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnomeui/gnome-app.h>
@@ -3191,6 +3192,16 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	return new;
 }
 
+static void
+disable_editor (EMsgComposer *composer)
+{
+	gtk_widget_set_sensitive (composer->editor, FALSE);
+	gtk_widget_set_sensitive (composer->attachment_bar, FALSE);
+
+	bonobo_ui_component_set_prop (composer->uic, "/menu/Edit", "sensitive", "0", NULL);
+	bonobo_ui_component_set_prop (composer->uic, "/menu/Format", "sensitive", "0", NULL);
+	bonobo_ui_component_set_prop (composer->uic, "/menu/Insert", "sensitive", "0", NULL);
+}
 
 /**
  * e_msg_composer_new_redirect:
@@ -3216,8 +3227,7 @@ e_msg_composer_new_redirect (CamelMimeMessage *message, const char *resent_from)
 	
 	e_msg_composer_set_headers (composer, resent_from, NULL, NULL, NULL, subject);
 	
-	gtk_widget_set_sensitive (composer->editor, FALSE);
-	gtk_widget_set_sensitive (composer->attachment_bar, FALSE);
+	disable_editor (composer);
 	
 	return composer;
 }
@@ -3450,12 +3460,17 @@ e_msg_composer_set_body (EMsgComposer *composer, const char *body,
 			 const char *mime_type)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-	
+
+	set_editor_text (composer, U_("<b>(The composer contains a non-text "
+				      "message body, which cannot be "
+				      "editted.)<b>"));
+	e_msg_composer_set_send_html (composer, FALSE);
+	disable_editor (composer);
+
 	g_free (composer->mime_body);
 	composer->mime_body = g_strdup (body);
 	g_free (composer->mime_type);
 	composer->mime_type = g_strdup (mime_type);
-	composer->send_html = FALSE;
 }
 
 

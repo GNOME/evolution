@@ -70,8 +70,7 @@ module Evolution {
 		 * Sets the body of the composer to @body. If
 		 * @mime_type is something other than "text/plain" or
 		 * "text/html", the composer will not be editable
-		 * (calling show() will raise an exception), and the
-		 * composer will not attempt to assign a non-UTF8
+		 * and it will not attempt to assign a non-UTF8
 		 * character set to the data. However, @mime_type may
 		 * include parameters in that case.
 		 **/
@@ -123,9 +122,7 @@ module Evolution {
 		 * Shows the composer and lets the user edit things
 		 * and send the message.
 		 **/
-		exception CannotShow {};
-		void show ()
-			raises (CannotShow);
+		void show ();
 
 
 		/**
