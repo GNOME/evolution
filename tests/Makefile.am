@@ -19,6 +19,11 @@ LDADD = \
 #	$(GNOME_LIBDIR) 			\
 #	$(GNOMEUI_LIBS) $(INTLLIBS) $(PTHREAD_LIB)
 
+#test11_LDADD = \
+#	$(LDADD) \
+#	$(top_builddir)/filter/libfilter.la \
+#	$(top_builddir)/libibex/libibex.la
+
 test9_LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
 	$(top_builddir)/libibex/libibex.la 	\

@@ -1,3 +1,8 @@
+2000-02-18  NotZed  <NotZed@HelixCode.com>
+
+	* tests/test11.c (main): Use a relative path to the mbox provider
+	module.
+
 2000-02-18  Dan Winship  <danw@helixcode.com>
 
 	* camel/camel-types.h: New header with the typedefs for all camel

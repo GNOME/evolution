@@ -38,7 +38,7 @@ main (int argc, char**argv)
 	gtk_init (&argc, &argv);
 	camel_init ();		
 	ex = camel_exception_new ();
-	camel_provider_register_as_module ("./libcamelmbox.so.0");
+	camel_provider_register_as_module ("../camel/providers/mbox/.libs/libcamelmbox.so.0");
 	
 	session = camel_session_new ();
 	store = camel_session_get_store (session, store_url);
@@ -64,7 +64,7 @@ main (int argc, char**argv)
 	
 	printf("Search for messages\n");
 
-	matches = camel_folder_search_by_expression  (folder, "(match-all (and (header-contains \"subject\" \"terminal\") (header-contains \"subject\" \"patch\")))", ex);
+	matches = camel_folder_search_by_expression  (folder, "(or (match-all (header-contains \"subject\" \"term\")) (match-all (header-contains \"subject\" \"gnome\")))", ex);
 
 	if (matches) {
 		GList *n;
