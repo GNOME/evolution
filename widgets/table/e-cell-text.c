@@ -1706,28 +1706,28 @@ e_cell_text_class_init (GObjectClass *object_class)
 					 g_param_spec_int ("strikeout_column",
 							   _("Strikeout Column"),
 							   /*_( */"XXX blurb" /*)*/,
-							   0, G_MAXINT, 0,
+							   -1, G_MAXINT, -1,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_UNDERLINE_COLUMN,
 					 g_param_spec_int ("underline_column",
 							   _("Underline Column"),
 							   /*_( */"XXX blurb" /*)*/,
-							   0, G_MAXINT, 0,
+							   -1, G_MAXINT, -1,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_BOLD_COLUMN,
 					 g_param_spec_int ("bold_column",
 							   _("Bold Column"),
 							   /*_( */"XXX blurb" /*)*/,
-							   0, G_MAXINT, 0,
+							   -1, G_MAXINT, -1,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_COLOR_COLUMN,
 					 g_param_spec_int ("color_column",
 							   _("Color Column"),
 							   /*_( */"XXX blurb" /*)*/,
-							   0, G_MAXINT, 0,
+							   -1, G_MAXINT, -1,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_EDITABLE,
@@ -1741,7 +1741,7 @@ e_cell_text_class_init (GObjectClass *object_class)
 					 g_param_spec_int ("bg_color_column",
 							   _("BG Color Column"),
 							   /*_( */"XXX blurb" /*)*/,
-							   0, G_MAXINT, 0,
+							   -1, G_MAXINT, -1,
 							   G_PARAM_READWRITE));
 
 	if (!clipboard_atom)
