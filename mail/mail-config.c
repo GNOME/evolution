@@ -521,7 +521,7 @@ config_read (void)
 	        "/Mail/PGP/type", CAMEL_PGP_TYPE_NONE, NULL);
 	
 	config->remember_pgp_passphrase = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/PGP/remember_passphrase", TRUE, NULL);
+		config->db, "/Mail/Prompts/remember_passphrase", TRUE, NULL);
 	
 	/* HTTP images */
 	config->http_mode = bonobo_config_get_long_with_default (config->db, 
@@ -1267,20 +1267,20 @@ const MailConfigAccount *
 mail_config_get_default_account (void)
 {
 	MailConfigAccount *retval;
-	
+
 	if (!config->accounts)
 		return NULL;
-	
+
 	retval = g_slist_nth_data (config->accounts,
 				   config->default_account);
-	
+
 	/* Looks like we have no default, so make the first account
            the default */
 	if (retval == NULL) {
 		mail_config_set_default_account_num (0);
 		retval = config->accounts->data;
 	}
-	
+
 	return retval;
 }
 
@@ -1368,11 +1368,11 @@ void
 mail_config_set_default_account (const MailConfigAccount *account)
 {
 	int position;
-	
+
 	position = g_slist_index (config->accounts, (void*)account);
-	
+
 	config->default_account = position;
-	
+
 	return;
 }
 

@@ -1,3 +1,10 @@
+2001-07-24  Jason Leach  <jleach@ximian.com>
+
+	* mail-config.c (config_read): Match the prefix for the
+	"remember_passphrase" setting with where it's being saved to
+	(/Mail/Prompts), so the setting gets loaded correctly.  Fixes
+	#5351.
+
 2001-07-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_text_plain): check_specials if this is an
