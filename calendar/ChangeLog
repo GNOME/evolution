@@ -1,5 +1,14 @@
 2001-10-19  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/calendar-model.c (set_status_message): new function
+	(update_query): call set_status_message
+	(query_query_done_cb):
+	(query_eval_error_cb): clean up status bar messages
+	(get_location, set_location): new functions for setting and
+	retrieving the location in the calendar model
+
+2001-10-19  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/component-factory.c (owner_set_cb): keep a reference to the
 	EvolutionShellClient component
 

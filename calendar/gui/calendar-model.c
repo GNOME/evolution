@@ -39,6 +39,7 @@
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include "calendar-model.h"
+#include "evolution-activity-client.h"
 
 /* This specifies how often we refresh the list, so that completed tasks are
    hidden according to the config setting, and overdue tasks change color etc.
@@ -84,6 +85,9 @@ struct _CalendarModelPrivate {
 
 	/* The id of our timeout function for refreshing the list. */
 	gint timeout_id;
+
+	/* The activity client used to show messages on the status bar. */
+	EvolutionActivityClient *activity;
 };
 
 
@@ -104,6 +108,7 @@ static void *calendar_model_initialize_value (ETableModel *etm, int col);
 static gboolean calendar_model_value_is_empty (ETableModel *etm, int col, const void *value);
 static char * calendar_model_value_to_string (ETableModel *etm, int col, const void *value);
 static int remove_object (CalendarModel *model, const char *uid);
+static void set_status_message (CalendarModel *model, const char *message);
 static void ensure_task_complete (CalComponent *comp,
 				  time_t completed_date);
 static void ensure_task_not_complete (CalComponent *comp);
@@ -213,6 +218,8 @@ calendar_model_init (CalendarModel *model)
 	priv->addresses = itip_addresses_get ();
 	
 	priv->zone = NULL;
+
+	priv->activity = NULL;
 }
 
 /* Called from g_hash_table_foreach_remove(), frees a stored UID->index
@@ -301,6 +308,11 @@ calendar_model_destroy (GtkObject *object)
 	g_free (priv->default_category);
 
 	itip_addresses_free (priv->addresses);
+
+	if (priv->activity) {
+		gtk_object_unref (GTK_OBJECT (priv->activity));
+		priv->activity = NULL;
+	}
 
 	/* Free the private structure */
 
@@ -731,6 +743,15 @@ get_status (CalComponent *comp)
 	}
 }
 
+static void *
+get_location (CalComponent *comp)
+{
+	const char *location;
+
+	cal_component_get_location (comp, &location);
+	return location;
+}
+
 /* value_at handler for the calendar table model */
 static void *
 calendar_model_value_at (ETableModel *etm, int col, int row)
@@ -859,6 +880,9 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 
 	case CAL_COMPONENT_FIELD_COMPONENT:
 		return comp;
+
+	case CAL_COMPONENT_FIELD_LOCATION :
+		return get_location (comp);
 
 	default:
 		g_message ("calendar_model_value_at(): Requested invalid column %d", col);
@@ -1262,6 +1286,17 @@ set_status (CalComponent *comp, const char *value)
 	}
 }
 
+static void
+set_location (CalComponent *comp, const char *value)
+{
+	if (string_is_empty (value)) {
+		cal_component_set_location (comp, NULL);
+		return;
+	}
+
+	cal_component_set_location (comp, value);
+}
+
 /* set_value_at handler for the calendar table model */
 static void
 calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *value)
@@ -1340,6 +1375,10 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 
 	case CAL_COMPONENT_FIELD_STATUS:
 		set_status (comp, value);
+		break;
+
+	case CAL_COMPONENT_FIELD_LOCATION :
+		set_location (comp, value);
 		break;
 
 	default:
@@ -1830,6 +1869,8 @@ query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *err
 
 	/* FIXME */
 
+	set_status_message (model, NULL);
+
 	if (status != CAL_QUERY_DONE_SUCCESS)
 		fprintf (stderr, "query done: %s\n", error_str);
 }
@@ -1843,6 +1884,8 @@ query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 	model = CALENDAR_MODEL (data);
 
 	/* FIXME */
+
+	set_status_message (model, NULL);
 
 	fprintf (stderr, "eval error: %s\n", error_str);
 }
@@ -1965,6 +2008,7 @@ update_query (CalendarModel *model)
 	g_assert (priv->sexp != NULL);
 	real_sexp = adjust_query_sexp (model, priv->sexp);
 
+	set_status_message (model, _("Searching"));
 	priv->query = cal_client_get_query (priv->client, real_sexp);
 	g_free (real_sexp);
 
@@ -2052,6 +2096,42 @@ remove_object (CalendarModel *model, const char *uid)
 	g_free (idx);
 
 	return n;
+}
+
+/* Displays messages on the status bar */
+#define EVOLUTION_TASKS_PROGRESS_IMAGE "evolution-tasks-mini.png"
+static GdkPixbuf *progress_icon[2] = { NULL, NULL };
+
+static void
+set_status_message (CalendarModel *model, const char *message)
+{
+	extern EvolutionShellClient *global_shell_client; /* ugly */
+	CalendarModelPrivate *priv;
+
+	g_return_if_fail (IS_CALENDAR_MODEL (model));
+
+	priv = model->priv;
+
+	if (!message || !*message) {
+		if (priv->activity) {
+			gtk_object_unref (GTK_OBJECT (priv->activity));
+			priv->activity = NULL;
+		}
+	}
+	else if (!priv->activity) {
+		int display;
+		char *client_id = g_strdup_printf ("%p", model);
+
+		if (progress_icon[0] == NULL)
+			progress_icon[0] = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_TASKS_PROGRESS_IMAGE);
+		priv->activity = evolution_activity_client_new (
+			global_shell_client, client_id,
+			progress_icon, message, TRUE, &display);
+
+		g_free (client_id);
+	}
+	else
+		evolution_activity_client_update (priv->activity, message, -1.0);
 }
 
 /**
