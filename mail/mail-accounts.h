@@ -62,6 +62,10 @@ struct _MailAccountsDialog {
 	GtkButton *news_add;
 	GtkButton *news_edit;
 	GtkButton *news_delete;
+	
+	/* temporary widgets */
+	GtkCheckButton *send_html;
+	GtkSpinButton *timeout;
 };
 
 typedef struct _MailAccountsDialog MailAccountsDialog;

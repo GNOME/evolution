@@ -1,3 +1,12 @@
+2001-01-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.glade: Added a 3rd page to the account editor to
+	allow users to set their HTML sending preference and also allow
+	them to change their message status timeout.
+
+	* mail-accounts.c (construct): Added handlers for the send-html
+	checkbox and for the mark-message-as timeout spinbutton.
+
 2001-01-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-editor.c (apply_changes): Save the source and

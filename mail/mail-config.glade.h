@@ -97,3 +97,7 @@ gchar *s = N_("Add");
 gchar *s = N_("Edit");
 gchar *s = N_("Delete");
 gchar *s = N_("News");
+gchar *s = N_("Send mail in HTML format by default.");
+gchar *s = N_("Mark messages as \"Read\" after:");
+gchar *s = N_("seconds.");
+gchar *s = N_("Other");

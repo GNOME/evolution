@@ -330,6 +330,24 @@ news_delete (GtkButton *button, gpointer data)
 }
 #endif /* ENABLE_NNTP */
 
+/* temp widget callbacks */
+static void
+send_html_toggled (GtkToggleButton *button, gpointer data)
+{
+	mail_config_set_send_html (button->active);
+}
+
+static void
+timeout_changed (GtkEntry *entry, gpointer data)
+{
+	MailAccountsDialog *dialog = data;
+	gint val;
+	
+	val = (gint) (gtk_spin_button_get_value_as_float (dialog->timeout) * 1000);
+	
+	mail_config_set_mark_as_seen_timeout (val);
+}
+
 static void
 construct (MailAccountsDialog *dialog)
 {
@@ -388,6 +406,19 @@ construct (MailAccountsDialog *dialog)
 	/* remove the news tab since we don't support nntp */
 	gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), 1);
 #endif
+	
+	/* get those temp widgets */
+	dialog->send_html = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSendHTML"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->send_html),
+				      mail_config_get_send_html ());
+	gtk_signal_connect (GTK_OBJECT (dialog->send_html), "toggled",
+			    GTK_SIGNAL_FUNC (send_html_toggled), dialog);
+	
+	dialog->timeout = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinMarkTimeout"));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->timeout),
+				   (1.0 * mail_config_get_mark_as_seen_timeout ()) / 1000.0);
+	gtk_signal_connect (GTK_OBJECT (dialog->timeout), "changed",
+			    GTK_SIGNAL_FUNC (timeout_changed), dialog);
 	
 	/* now to fill in the clists */
 	dialog->accounts_row = -1;
