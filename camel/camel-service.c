@@ -600,10 +600,10 @@ get_hostbyname(void *data)
 }
 
 struct hostent *
-camel_gethostbyname(const char *name, CamelException *ex)
+camel_gethostbyname (const char *name, CamelException *ex)
 {
 #ifdef ENABLE_THREADS
-	int fdmax, fd, cancel_fd;
+	int fdmax, status, fd, cancel_fd;
 #endif
 	struct _lookup_msg *msg;
 
@@ -635,12 +635,16 @@ camel_gethostbyname(const char *name, CamelException *ex)
 		reply_port = msg->msg.reply_port = e_msgport_new();
 		fd = e_msgport_fd(msg->msg.reply_port);
 		if (pthread_create(&id, NULL, get_hostbyname, msg) == 0) {
-			FD_ZERO(&rdset);
-			FD_SET(cancel_fd, &rdset);
-			FD_SET(fd, &rdset);
-			fdmax = MAX(fd, cancel_fd) + 1;
 			d(printf("waiting for name return/cancellation in main process\n"));
-			if (select(fdmax, &rdset, NULL, 0, NULL) == -1) {
+			do {
+				FD_ZERO(&rdset);
+				FD_SET(cancel_fd, &rdset);
+				FD_SET(fd, &rdset);
+				fdmax = MAX(fd, cancel_fd) + 1;
+				status = select (fdmax, &rdset, NULL, 0, NULL);
+			} while (status == -1 && errno == EINTR);
+			
+			if (status == -1) {
 				camel_exception_setv(ex, 1, _("Failure in name lookup: %s"), strerror(errno));
 				d(printf("Cancelling lookup thread\n"));
 				pthread_cancel(id);
@@ -707,7 +711,7 @@ struct hostent *
 camel_gethostbyaddr (const char *addr, int len, int type, CamelException *ex)
 {
 #ifdef ENABLE_THREADS
-	int fdmax, fd, cancel_fd;
+	int fdmax, status, fd, cancel_fd;
 #endif
 	struct _lookup_msg *msg;
 	
@@ -741,12 +745,16 @@ camel_gethostbyaddr (const char *addr, int len, int type, CamelException *ex)
 		reply_port = msg->msg.reply_port = e_msgport_new ();
 		fd = e_msgport_fd (msg->msg.reply_port);
 		if (pthread_create (&id, NULL, get_hostbyaddr, msg) == 0) {
-			FD_ZERO(&rdset);
-			FD_SET(cancel_fd, &rdset);
-			FD_SET(fd, &rdset);
-			fdmax = MAX(fd, cancel_fd) + 1;
 			d(printf("waiting for name return/cancellation in main process\n"));
-			if (select (fdmax, &rdset, NULL, 0, NULL) == -1) {
+			do {
+				FD_ZERO(&rdset);
+				FD_SET(cancel_fd, &rdset);
+				FD_SET(fd, &rdset);
+				fdmax = MAX(fd, cancel_fd) + 1;
+				status = select (fdmax, &rdset, NULL, 0, NULL);
+			} while (status == -1 && errno == EINTR);
+			
+			if (status == -1) {
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 						      _("Failure in name lookup: %s"), g_strerror (errno));
 				d(printf ("Cancelling lookup thread\n"));
