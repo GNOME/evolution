@@ -1,3 +1,18 @@
+2004-01-27  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-tree-model.c (folder_renamed): fix the parent-finding
+	logic.
+
+2004-01-23  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (mail_component_init): add the offline handler
+	interface to the component.
+	(store_go_online, go_online): removed, handled by the offline
+	handler.
+
+	* mail-offline-handler.c (store_go_online): add the store to the
+	tree model when we go online.
+
 2004-01-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes for bug #53251.

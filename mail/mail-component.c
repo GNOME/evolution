@@ -20,7 +20,6 @@
  * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -51,6 +50,7 @@
 #include "mail-tools.h"
 #include "mail-send-recv.h"
 #include "mail-session.h"
+#include "mail-offline-handler.h"
 
 #include "e-task-bar.h"
 
@@ -128,32 +128,6 @@ load_accounts (MailComponent *component, EAccountList *accounts)
 	}
 	
 	g_object_unref (iter);
-}
-
-static void
-store_go_online (gpointer key, gpointer value, gpointer data)
-{
-	CamelStore *store = key;
-	CamelService *service = CAMEL_SERVICE (store);
-	
-	if (! (service->provider->flags & CAMEL_PROVIDER_IS_REMOTE)
-	    || (service->provider->flags & CAMEL_PROVIDER_IS_EXTERNAL))
-		return;
-	
-	if ((CAMEL_IS_DISCO_STORE (service)
-	     && camel_disco_store_status (CAMEL_DISCO_STORE (service)) == CAMEL_DISCO_STORE_OFFLINE)
-	    || service->status != CAMEL_SERVICE_DISCONNECTED) {
-		mail_store_set_offline (store, FALSE, NULL, NULL);
-		mail_note_store (store, NULL, NULL, NULL);
-	}
-}
-
-static void
-go_online (MailComponent *component)
-{
-	camel_session_set_online (session, TRUE);
-	mail_session_set_interactive (TRUE);
-	mail_component_stores_foreach (component, store_go_online, NULL);
 }
 
 static void
@@ -307,7 +281,6 @@ view_control_activate_cb (BonoboControl *control, gboolean activate, EMFolderVie
 	}
 }
 
-
 /* GObject methods.  */
 
 static void
@@ -420,7 +393,6 @@ impl_createControls (PortableServer_Servant servant,
 	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
 }
 
-
 static GNOME_Evolution_CreatableItemTypeList *
 impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment *ev)
 {
@@ -524,6 +496,7 @@ mail_component_init (MailComponent *component)
 {
 	MailComponentPrivate *priv;
 	EAccountList *accounts;
+	MailOfflineHandler *offline;
 	
 	priv = g_new0 (MailComponentPrivate, 1);
 	component->priv = priv;
@@ -549,11 +522,10 @@ mail_component_init (MailComponent *component)
 	mail_autoreceive_setup();
 	
 	setup_search_context (component);
-	
-	/* EPFIXME not sure about this.  */
-	go_online (component);
-}
 
+	offline = mail_offline_handler_new();
+	bonobo_object_add_interface((BonoboObject *)component, (BonoboObject *)offline);
+}
 
 /* Public API.  */
 BonoboControl *
@@ -603,7 +575,6 @@ mail_component_peek (void)
 	return component;
 }
 
-
 const char *
 mail_component_peek_base_directory (MailComponent *component)
 {
@@ -641,7 +612,6 @@ mail_component_add_store (MailComponent *component, CamelStore *store, const cha
 	
 	camel_exception_clear (&ex);
 }
-
 
 /**
  * mail_component_load_store_by_uri:
@@ -710,7 +680,6 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 	return store;
 }
 
-
 static void
 store_disconnect (CamelStore *store, void *event_data, void *user_data)
 {
@@ -766,13 +735,11 @@ mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 	}
 }
 
-
 int
 mail_component_get_store_count (MailComponent *component)
 {
 	return g_hash_table_size (component->priv->store_hash);
 }
-
 
 void
 mail_component_stores_foreach (MailComponent *component, GHFunc func, void *user_data)
@@ -780,13 +747,11 @@ mail_component_stores_foreach (MailComponent *component, GHFunc func, void *user
 	g_hash_table_foreach (component->priv->store_hash, func, user_data);
 }
 
-
 void
 mail_component_remove_folder (MailComponent *component, CamelStore *store, const char *path)
 {
 	/* FIXME: implement me. but first, am I really even needed? */
 }
-
 
 EMFolderTreeModel *
 mail_component_peek_tree_model (MailComponent *component)

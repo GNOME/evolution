@@ -30,7 +30,10 @@
 #include "mail-component.h"
 #include "mail-ops.h"
 #include "mail-folder-cache.h"
-#include "mail.h"
+#include "em-folder-tree.h"
+
+#include <camel/camel-disco-store.h>
+#include "mail-session.h"
 
 #include <gtk/gtkmain.h>
 
@@ -174,9 +177,11 @@ static void
 store_go_online (gpointer key, gpointer value, gpointer data)
 {
 	CamelStore *store = key;
-	
+	char *name = value;
+
 	if (service_is_relevant (CAMEL_SERVICE (store), FALSE)) {
 		mail_store_set_offline (store, FALSE, NULL, NULL);
+		em_folder_tree_model_add_store(mail_component_peek_tree_model(mail_component_peek()), store, name);
 		mail_note_store (store, NULL, NULL, NULL);
 	}
 }

@@ -604,10 +604,10 @@ folder_renamed (CamelStore *store, CamelRenameInfo *info, EMFolderTreeModel *mod
 	em_folder_tree_model_remove_folders (model, si, &iter);
 	
 	parent = g_strdup (info->new->path);
-	if ((p = strrchr (parent + 1, '/')))
-		*p = '\0';
-	
-	if (!strcmp (parent, "/")) {
+	p = strrchr(parent, '/');
+	g_assert(p);
+	*p = 0;
+	if (parent == p) {
 		/* renamed to a toplevel folder on the store */
 		path = gtk_tree_row_reference_get_path (si->row);
 	} else {
