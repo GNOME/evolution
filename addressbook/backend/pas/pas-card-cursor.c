@@ -184,7 +184,7 @@ create_cursor (BonoboObject *cursor)
 	POA_Evolution_CardCursor *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_Evolution_CardCursor *) g_new (BonoboObjectServant, 1);
+	servant = (POA_Evolution_CardCursor *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &cursor_vepv;
 
 	CORBA_exception_init (&ev);

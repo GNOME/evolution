@@ -12,6 +12,9 @@
 
 2000-03-28  Chris Toshok  <toshok@laptoph.xtoph.org>
 
+	* addressbook/backend/pas/pas-card-cursor.c (create_cursor): use
+	g_new0 to allocate the BonoboObjectServant.
+
 	* addressbook/backend/pas/pas-backend-file.c
 	(pas_backend_file_build_all_cards_list): remove unnecessary
 	strdup/free.
