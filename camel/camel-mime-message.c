@@ -660,10 +660,14 @@ camel_mime_message_foreach_part (CamelMimeMessage *msg, CamelPartFunc callback, 
 static gboolean
 check_8bit (CamelMimeMessage *msg, CamelMimePart *part, void *data)
 {
+	CamelMimePartEncodingType encoding;
 	int *has8bit = data;
 	
 	/* check this part, and stop as soon as we are done */
-	*has8bit = camel_mime_part_get_encoding (part) == CAMEL_MIME_PART_ENCODING_8BIT;
+	encoding = camel_mime_part_get_encoding (part);
+	
+	*has8bit = encoding == CAMEL_MIME_PART_ENCODING_8BIT || encoding == CAMEL_MIME_PART_ENCODING_BINARY;
+	
 	return !(*has8bit);
 }
 

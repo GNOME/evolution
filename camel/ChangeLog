@@ -1,5 +1,27 @@
 2002-07-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes bug #27672
+
+	* camel-mime-filter-bestenc.c: Conditionally #include <config.h>
+
+	* camel-mime-filter-linewrap.c: Same here... although we could
+	probably just get rid of this filter? We don't seem to use it
+	anywhere since we try to QP/Base64 encode any text parts with long
+	lines. Besides, we couldn't use this filter for SMTP anyway since
+	we can't risk possibly linewrapping a binary mime part. I dunno,
+	maybe this could be useful in the composer though? *shrug*
+
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Always call
+	camel_mime_message_set_best_encoding() even if the server allows
+	8BITMIME and even if we don't have any 8bit parts because we may
+	have parts with long lines (>998 octets) which also need to be
+	encoded.
+
+	* camel-mime-message.c (check_8bit): Don't forget to check for the
+	binary encoding here as well.
+
+2002-07-11  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-folder.c (parse_fetch_response): If we
 	are fetching HEADERs, don't cache the stream - instead just create
 	a mem-stream and return that. This reduces a significant amount of

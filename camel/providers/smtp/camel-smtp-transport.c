@@ -39,7 +39,6 @@
 #undef MIN
 #undef MAX
 #include "camel-mime-filter-crlf.h"
-#include "camel-mime-filter-linewrap.h"
 #include "camel-stream-filter.h"
 #include "camel-smtp-transport.h"
 #include "camel-mime-message.h"
@@ -1137,6 +1136,8 @@ static gboolean
 smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean has_8bit_parts, CamelException *ex)
 {
 	/* now we can actually send what's important :p */
+	CamelBestencRequired required = CAMEL_BESTENC_GET_ENCODING;
+	CamelBestencEncoding enctype = CAMEL_BESTENC_BINARY;
 	char *cmdbuf, *respbuf = NULL;
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *crlffilter;
@@ -1144,11 +1145,17 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean ha
 	GSList *h, *bcc = NULL;
 	int ret;
 	
-	/* if the message contains 8bit mime parts and the server
-           doesn't support it, encode 8bit parts to the best
-           encoding.  This will also enforce an encoding to keep the lines in limit */
+	/* if the message contains 8bit/binary mime parts and the server
+	   doesn't support it, set our required encoding to be 7bit */
 	if (has_8bit_parts && !(transport->flags & CAMEL_SMTP_TRANSPORT_8BITMIME))
-		camel_mime_message_encode_8bit_parts (message);
+		enctype = CAMEL_BESTENC_7BIT;
+	
+	/* FIXME: should we get the best charset too?? */
+	/* Changes the encoding of any 8bit/binary mime parts to fit
+	   within our required encoding type and also force any text
+	   parts with long lines (longer than 998 octets) to wrap by
+	   QP or base64 encoding them. */
+	camel_mime_message_set_best_encoding (message, required, enctype);
 	
 	cmdbuf = g_strdup ("DATA\r\n");
 	
