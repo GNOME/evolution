@@ -411,6 +411,13 @@ source_selection_changed_cb (ESourceSelector *selector, TasksComponent *componen
 static void
 primary_source_selection_changed_cb (ESourceSelector *selector, TasksComponent *component)
 {
+	TasksComponentPrivate *priv = component->priv;
+
+	if (priv->create_ecal) {
+		g_object_unref (priv->create_ecal);
+		priv->create_ecal = NULL;
+	}
+
 	update_uri_for_primary_selection (component);
 }
 
