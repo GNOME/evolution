@@ -1,3 +1,8 @@
+2002-12-17  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* e-shell-settings-dialog.c: (page_new):
+	oaf returns locale encoded strings, not UTF-8 ones.
+
 2002-12-13  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #35394 ]
