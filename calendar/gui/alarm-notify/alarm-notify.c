@@ -334,7 +334,7 @@ AlarmNotify_removeCalendar (PortableServer_Servant servant,
 	g_hash_table_remove (priv->uri_client_hash, str_uri);
 
 	g_free (orig_str);
-	g_signal_handlers_disconnect_matched (GTK_OBJECT (lc->client),
+	g_signal_handlers_disconnect_matched (lc->client,
 					      G_SIGNAL_MATCH_DATA,
 					      0, 0, NULL, NULL, lc);
 	if (lc->timeout_id != -1)

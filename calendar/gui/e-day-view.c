@@ -3262,7 +3262,7 @@ e_day_view_on_long_event_button_press (EDayView		*day_view,
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
 		if (!destroyed) {
-			gtk_signal_disconnect (GTK_OBJECT (e->comp), id);
+			g_signal_handler_disconnect (e->comp, id);
 
 			e_day_view_set_selected_time_range_in_top_visible (day_view, e->start, e->end);
 			
@@ -3314,7 +3314,7 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
 		if (!destroyed) {
-			gtk_signal_disconnect (GTK_OBJECT (e->comp), id);
+			g_signal_handler_disconnect (e->comp, id);
 
 			e_day_view_set_selected_time_range_visible (day_view, e->start, e->end);
 	
@@ -3372,7 +3372,7 @@ e_day_view_on_long_event_click (EDayView *day_view,
 		if (destroyed)
 			return;
 
-		gtk_signal_disconnect (GTK_OBJECT (event->comp), id);
+		g_signal_handler_disconnect (event->comp, id);
 
 		if (gdk_pointer_grab (GTK_LAYOUT (day_view->top_canvas)->bin_window, FALSE,
 				      GDK_POINTER_MOTION_MASK
@@ -3452,7 +3452,7 @@ e_day_view_on_event_click (EDayView *day_view,
 		if (destroyed)
 			return;
 
-		gtk_signal_disconnect (GTK_OBJECT (event->comp), id);
+		g_signal_handler_disconnect (event->comp, id);
 
 		if (gdk_pointer_grab (GTK_LAYOUT (day_view->main_canvas)->bin_window, FALSE,
 				      GDK_POINTER_MOTION_MASK
@@ -3604,7 +3604,7 @@ e_day_view_on_event_double_click (EDayView *day_view,
 	e_day_view_stop_editing_event (day_view);
 
 	if (!destroyed) {
-		gtk_signal_disconnect (GTK_OBJECT (event->comp), id);
+		g_signal_handler_disconnect (event->comp, id);
 
 		if (day_view->calendar)
 			gnome_calendar_edit_object (day_view->calendar, event->comp, FALSE);
@@ -4135,7 +4135,7 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 		e_day_view_stop_editing_event (day_view);
 
 	if (!destroyed) {
-		gtk_signal_disconnect (GTK_OBJECT (event->comp), id);
+		g_signal_handler_disconnect (event->comp, id);
 
 		e_day_view_delete_event_internal (day_view, event);
 	}

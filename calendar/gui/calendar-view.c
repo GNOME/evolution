@@ -39,7 +39,7 @@ struct _CalendarViewPrivate {
 
 static void calendar_view_class_init (CalendarViewClass *class);
 static void calendar_view_init (CalendarView *cview);
-static void calendar_view_destroy (GtkObject *object);
+static void calendar_view_finalize (GObject *object);
 
 static void calendar_view_edit (GalView *view, GtkWindow *parent_window);
 static void calendar_view_load (GalView *view, const char *filename);
@@ -61,12 +61,12 @@ static void
 calendar_view_class_init (CalendarViewClass *class)
 {
 	GalViewClass *gal_view_class;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (class);
 
 	gal_view_class = (GalViewClass *) class;
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 
 	gal_view_class->edit = calendar_view_edit;
 	gal_view_class->load = calendar_view_load;
@@ -76,7 +76,7 @@ calendar_view_class_init (CalendarViewClass *class)
 	gal_view_class->get_type_code = calendar_view_get_type_code;
 	gal_view_class->clone = calendar_view_clone;
 
-	object_class->destroy = calendar_view_destroy;
+	object_class->finalize = calendar_view_finalize;
 }
 
 /* Object initialization function for the calendar view */
@@ -93,7 +93,7 @@ calendar_view_init (CalendarView *cal_view)
 
 /* Destroy method for the calendar view */
 static void
-calendar_view_destroy (GtkObject *object)
+calendar_view_finalize (GObject *object)
 {
 	CalendarView *cal_view;
 	CalendarViewPrivate *priv;
@@ -112,8 +112,8 @@ calendar_view_destroy (GtkObject *object)
 	g_free (priv);
 	cal_view->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 

@@ -3090,7 +3090,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 				gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
 			if (!destroyed) {
-				gtk_signal_disconnect (GTK_OBJECT (e->comp), id);
+				g_signal_handler_disconnect (e->comp, id);
 	
 				e_week_view_set_selected_time_range_visible (week_view, e->start, e->end);
 

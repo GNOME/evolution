@@ -113,7 +113,7 @@ struct _CalendarModelPrivate {
 
 static void calendar_model_class_init (CalendarModelClass *class);
 static void calendar_model_init (CalendarModel *model);
-static void calendar_model_destroy (GtkObject *object);
+static void calendar_model_finalize (GObject *object);
 
 static int calendar_model_column_count (ETableModel *etm);
 static int calendar_model_row_count (ETableModel *etm);
@@ -152,15 +152,15 @@ E_MAKE_TYPE (calendar_model, "CalendarModel", CalendarModel, calendar_model_clas
 static void
 calendar_model_class_init (CalendarModelClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	ETableModelClass *etm_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 	etm_class = (ETableModelClass *) class;
 
 	parent_class = g_type_class_peek_parent (class);
 
-	object_class->destroy = calendar_model_destroy;
+	object_class->finalize = calendar_model_finalize;
 
 	etm_class->column_count = calendar_model_column_count;
 	etm_class->row_count = calendar_model_row_count;
@@ -289,7 +289,7 @@ free_objects (CalendarModel *model)
 
 /* Destroy handler for the calendar table model */
 static void
-calendar_model_destroy (GtkObject *object)
+calendar_model_finalize (GObject *object)
 {
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
@@ -352,8 +352,8 @@ calendar_model_destroy (GtkObject *object)
 	g_free (priv);
 	model->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 

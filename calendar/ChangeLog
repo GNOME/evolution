@@ -1,3 +1,31 @@
+2003-02-21  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/calendar-model.c (calendar_model_class_init): GObject, not
+	GtkObject.
+	(calendar_model_destroy): -> calendar_model_finalize ().
+
+	* gui/calendar-view.c (calendar_view_class_init): GObject, not
+	GtkObject.
+	(calendar_view_destroy): -> calendar_view_finalize ().
+
+	* gui/comp-editor-factory.c (comp_editor_factory_class_init):
+	GObject, not GtkObject.
+	(comp_editor_factory_destroy): -> comp_editor_factory_finalize ().
+
+	* gui/e-day-view.c (e_day_view_long_event_button_press):
+	gtk_signal_disconnect () -> g_signal_handler_disconnect ().
+	(e_day_view_on_event_button_press): Ditto.
+	(e_day_view_on_long_event_click): Ditto.
+	(e_day_view_on_event_click): Ditto.
+	(e_day_view_on_event_double_click): Ditto.
+	(e_day_view_on_delete_appointment): Ditto.
+
+	* gui/e-week-view.c (e_week_view_on_text_item_event):
+	gtk_signal_disconnect () -> g_signal_handler_disconnect ().
+
+	* gui/alarm-notify/alarm-notify.c (AlarmNotify_RemoveCalendar):
+	Don't cast to GtkObject.
+
 2003-02-21  Dan Winship  <danw@ximian.com>
 
 	* cal-client/Makefile.am (libcal_client_la_LIBADD): depend on

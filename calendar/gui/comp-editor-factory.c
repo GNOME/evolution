@@ -91,7 +91,7 @@ struct CompEditorFactoryPrivate {
 
 static void comp_editor_factory_class_init (CompEditorFactoryClass *class);
 static void comp_editor_factory_init (CompEditorFactory *factory);
-static void comp_editor_factory_destroy (GtkObject *object);
+static void comp_editor_factory_finalize (GObject *object);
 
 static void impl_editExisting (PortableServer_Servant servant,
 			       const CORBA_char *str_uri,
@@ -115,16 +115,16 @@ BONOBO_TYPE_FUNC_FULL (CompEditorFactory,
 static void
 comp_editor_factory_class_init (CompEditorFactoryClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 
-	parent_class = gtk_type_class (BONOBO_OBJECT_TYPE);
+	parent_class = g_type_class_peek_parent (class);
 
 	class->epv.editExisting = impl_editExisting;
 	class->epv.editNew = impl_editNew;
 
-	object_class->destroy = comp_editor_factory_destroy;
+	object_class->finalize = comp_editor_factory_finalize;
 }
 
 /* Object initialization function for the component editor factory */
@@ -187,7 +187,7 @@ free_client_cb (gpointer key, gpointer value, gpointer data)
 
 /* Destroy handler for the component editor factory */
 static void
-comp_editor_factory_destroy (GtkObject *object)
+comp_editor_factory_finalize (GObject *object)
 {
 	CompEditorFactory *factory;
 	CompEditorFactoryPrivate *priv;
@@ -205,8 +205,8 @@ comp_editor_factory_destroy (GtkObject *object)
 	g_free (priv);
 	factory->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
