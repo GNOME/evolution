@@ -13,6 +13,7 @@
 #endif
 
 #include <ctype.h>
+#include <errno.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkinvisible.h>
@@ -22,6 +23,8 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-unicode.h>
+
+#include <libgnomeui/gnome-dialog-util.h>
 
 #include <gtkhtml/htmlengine.h>
 
@@ -188,12 +191,10 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 	switch (info) {
 	case DND_TARGET_TYPE_TEXT_URI_LIST:
 	{
-		char *uri_list, tmpdir, *tmpl;
+		char *uri_list, *tmpdir, *tmpl;
 		CamelMimeMessage *message;
 		const char *filename;
 		CamelStream *stream;
-		char *uri_list;
-		char *tmpdir;
 		int fd;
 		
 		tmpl = g_strdup ("/tmp/evolution.XXXXXX");
@@ -229,7 +230,7 @@ message_list_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 		} else
 			filename = "mbox";
 		
-		uri_list = g_strdup_printf ("file://%s/%s", dirname, filename);
+		uri_list = g_strdup_printf ("file://%s/%s", tmpdir, filename);
 		
 		fd = open (uri_list + 7, O_WRONLY | O_CREAT, 0600);
 		if (fd == -1) {

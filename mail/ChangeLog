@@ -1,5 +1,10 @@
 2001-07-03  Peter Williams  <peterw@ximian.com>
 
+	* folder-browser.c (message_list_drag_data_get): Compile fixes.
+	#include errno.h and gnome-dialog-utils.h. s/dirname/tmpdir/
+
+2001-07-03  Peter Williams  <peterw@ximian.com>
+
 	Prevent folders from appearing to have -1 new messages. Prevent
 	nonactive folders from updating the title bar. Make the title
 	bar update when switching to an already-opened folder.
