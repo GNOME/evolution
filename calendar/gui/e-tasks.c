@@ -674,9 +674,9 @@ e_tasks_destroy (GtkObject *object)
 
 		/* unset the config listener */
 		if (priv->config_listener) {
-			g_signal_disconnect_matched (priv->config_listener,
-						     G_SIGNAL_MATCH_DATA,
-						     0, 0, NULL, NULL, tasks);
+			g_signal_handlers_disconnect_matched (priv->config_listener,
+							      G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, tasks);
 			g_object_unref (priv->config_listener);
 			priv->config_listener = NULL;
 		}
