@@ -132,7 +132,6 @@ set_folder (EvolutionFolderSelectorButton *folder_selector_button,
 
 	gtk_label_set_text (GTK_LABEL (priv->label), label_text);
 	g_free (label_text);
-	g_free (storage_lname);
 }
 
 static void
