@@ -59,6 +59,7 @@ evolution_executive_summary_SOURCES =		\
 	weather.h
 
 evolution_executive_summary_LDADD = 					\
+	$(top_builddir)/calendar/gui/alarm-notify/libalarm.a			\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
 	$(top_builddir)/e-util/libeutil.la		\

@@ -1,5 +1,12 @@
 2001-07-09  Iain Holmes  <iain@ximian.com>
 
+	* e-summary.c (e_summary_init): Connect a calendar alarm to be notified
+	of when the day changes.
+
+	* Makefile.am: Link with libalarm.a
+
+2001-07-09  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-weather.c (weather_make_html): Get an icon for the weather.
 
 	* metar.[ch] (icon_from_weather): Work out what icon for a specific

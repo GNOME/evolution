@@ -32,6 +32,8 @@
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-master-preview.h>
 
+#include <gui/alarm-notify/alarm.h>
+
 #include "e-summary.h"
 #include "e-summary-preferences.h"
 #include "my-evolution-html.h"
@@ -72,6 +74,8 @@ struct _ESummaryPrivate {
 	GHashTable *protocol_hash;
 
 	GList *connections;
+
+	gpointer alarm;
 };
 
 typedef struct _ProtocolListener {
@@ -330,6 +334,22 @@ e_summary_class_init (GtkObjectClass *object_class)
 	e_summary_parent_class = gtk_type_class (PARENT_TYPE);
 }
 
+static void
+alarm_fn (gpointer alarm_id,
+	  time_t trigger,
+	  gpointer data)
+{
+	ESummary *summary;
+	time_t t, day_end;
+
+	summary = data;
+	t = time (NULL);
+	day_end = time_day_end (t);
+	summary->priv->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
+
+	e_summary_reconfigure (summary);
+}
+	
 #define DEFAULT_HTML "<html><head><title>My Evolution</title></head><body bgcolor=\"#ffffff\">hello</body></html>" 
 
 static void
@@ -337,6 +357,8 @@ e_summary_init (ESummary *summary)
 {
 	ESummaryPrivate *priv;
 	GdkColor bgcolor = {0, 0xffff, 0xffff, 0xffff};
+	time_t t, day_end;
+
 	summary->priv = g_new (ESummaryPrivate, 1);
 
 	priv = summary->priv;
@@ -369,6 +391,10 @@ e_summary_init (ESummary *summary)
 
 	priv->protocol_hash = NULL;
 	priv->connections = NULL;
+
+	t = time (NULL);
+	day_end = time_day_end (t);
+	priv->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
 
 	summary->prefs_window = NULL;
 	e_summary_preferences_init (summary);
