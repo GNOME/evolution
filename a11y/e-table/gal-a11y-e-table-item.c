@@ -32,6 +32,8 @@ static GQuark		quark_accessible_object = 0;
 struct _GalA11yETableItemPrivate {
 	AtkObject *parent;
 	gint index_in_parent;
+	int selection_change_id;
+	int cursor_change_id;
 };
 
 #if 0
@@ -430,7 +432,7 @@ table_is_selected (AtkTable *table, gint row, gint column)
 	return table_is_row_selected (table, row);
 }
 
-static gint 
+static gint
 table_get_selected_rows (AtkTable *table, gint **rows_selected)
 {
 	ETableItem *item;
@@ -550,6 +552,8 @@ eti_init (GalA11yETableItem *a11y)
 
 	priv->parent = NULL;
 	priv->index_in_parent = -1;
+	priv->selection_change_id = 0;
+	priv->cursor_change_id = 0;
 }
 
 /* atk selection */
@@ -564,6 +568,16 @@ static gint             selection_get_selection_count (AtkSelection           *s
 static gboolean         selection_is_child_selected (AtkSelection           *selection,
 						     gint                   i);
 
+/* callbacks */
+static void eti_a11y_selection_model_removed_cb (ETableItem *eti,
+						 ESelectionModel *selection,
+						 gpointer data);
+static void eti_a11y_selection_model_added_cb (ETableItem *eti,
+					       ESelectionModel *selection,
+					       gpointer data);
+static void eti_a11y_selection_changed_cb (ESelectionModel *selection, GalA11yETableItem *a11y);
+static void eti_a11y_cursor_changed_cb (ESelectionModel *selection,
+					int row, int col,  GalA11yETableItem *a11y);
 
 /**
  * gal_a11y_e_table_item_get_type:
@@ -641,6 +655,22 @@ gal_a11y_e_table_item_new (AtkObject *parent,
 	GET_PRIVATE (a11y)->parent = parent;
 	GET_PRIVATE (a11y)->index_in_parent = index_in_parent;
 
+	if (item) {
+		g_signal_connect (G_OBJECT(item), "selection_model_removed",
+				  G_CALLBACK (eti_a11y_selection_model_removed_cb), NULL);
+		g_signal_connect (G_OBJECT(item), "selection_model_added",
+				  G_CALLBACK (eti_a11y_selection_model_added_cb), NULL);
+		if (item->selection) {
+			GET_PRIVATE (a11y)->selection_change_id = g_signal_connect (
+				    G_OBJECT(item->selection), "selection_changed",
+				    G_CALLBACK (eti_a11y_selection_changed_cb), a11y);
+			GET_PRIVATE (a11y)->cursor_change_id = g_signal_connect (
+ 				    G_OBJECT(item->selection), "cursor_changed",
+				    G_CALLBACK (eti_a11y_cursor_changed_cb), a11y);
+
+			g_object_ref (item->selection);
+		}
+	}
 	if (parent)
 		g_object_ref (parent);
 
@@ -652,6 +682,74 @@ gal_a11y_e_table_item_new (AtkObject *parent,
 #endif
 
 	return ATK_OBJECT (a11y);
+}
+
+
+/* callbacks */
+
+static void
+eti_a11y_selection_model_removed_cb (ETableItem *eti, ESelectionModel *selection,
+				     gpointer data)
+{
+	AtkObject *atk_obj;
+	GalA11yETableItem *a11y;
+
+	g_return_if_fail (E_IS_TABLE_ITEM (eti));
+	g_return_if_fail (E_IS_SELECTION_MODEL (selection));
+
+	atk_obj = atk_gobject_accessible_for_object (G_OBJECT (eti));
+	a11y = GAL_A11Y_E_TABLE_ITEM (atk_obj);
+
+	if (GET_PRIVATE (a11y)->selection_change_id != 0 &&
+	    GET_PRIVATE (a11y)->cursor_change_id != 0) {
+		g_signal_handler_disconnect (selection,
+					     GET_PRIVATE (a11y)->selection_change_id);
+		g_signal_handler_disconnect (selection,
+					     GET_PRIVATE (a11y)->cursor_change_id);
+		GET_PRIVATE (a11y)->cursor_change_id = 0;
+		GET_PRIVATE (a11y)->selection_change_id = 0;
+		g_object_unref (selection);
+	}
+}
+
+static void
+eti_a11y_selection_model_added_cb (ETableItem *eti, ESelectionModel *selection,
+				   gpointer data)
+{
+	AtkObject *atk_obj;
+	GalA11yETableItem *a11y;
+
+	g_return_if_fail (E_IS_TABLE_ITEM (eti));
+	g_return_if_fail (E_IS_SELECTION_MODEL (selection));
+
+	atk_obj = atk_gobject_accessible_for_object (G_OBJECT (eti));
+	a11y = GAL_A11Y_E_TABLE_ITEM (atk_obj);
+
+	GET_PRIVATE (a11y)->selection_change_id = g_signal_connect (
+		    G_OBJECT(selection), "selection_changed",
+		    G_CALLBACK (eti_a11y_selection_changed_cb), a11y);
+	GET_PRIVATE (a11y)->cursor_change_id = g_signal_connect (
+                    G_OBJECT(selection), "cursor_changed",
+		    G_CALLBACK (eti_a11y_cursor_changed_cb), a11y);
+
+	g_object_ref (selection);
+}
+
+static void
+eti_a11y_selection_changed_cb (ESelectionModel *selection, GalA11yETableItem *a11y)
+{
+	g_return_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (a11y));
+
+	g_signal_emit_by_name (a11y, "selection_changed");
+}
+
+static void
+eti_a11y_cursor_changed_cb (ESelectionModel *selection,
+			    int row, int col,  GalA11yETableItem *a11y)
+{
+	g_return_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (a11y));
+
+	g_signal_emit_by_name (a11y, "selection_changed");
 }
 
 /* atk selection */
@@ -708,7 +806,7 @@ selection_clear_selection (AtkSelection *selection)
 	return TRUE;
 }
 
-static AtkObject*
+static AtkObject *
 selection_ref_selection (AtkSelection *selection, gint index)
 {
 	AtkTable *table;
