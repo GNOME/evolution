@@ -885,6 +885,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	/* say hello to the server */
 	char *name = NULL, *cmdbuf = NULL, *respbuf = NULL;
 	const char *token;
+	int numeric = FALSE;
 	
 	/* these are flags that we set, so unset them in case we
 	   are being called a second time (ie, after a STARTTLS) */
@@ -900,15 +901,17 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	
 	camel_operation_start_transient (NULL, _("SMTP Greeting"));
 
-	/* this can't really fail with the flags we're using, it should fallback to numerical */
-	if (camel_getnameinfo(transport->localaddr, transport->localaddrlen, &name, NULL, 0, NULL) != 0)
-		name = g_strdup("localhost.localdomain");
+	/* force name resolution first, fallback to numerical, we need to know when it falls back */
+	if (camel_getnameinfo(transport->localaddr, transport->localaddrlen, &name, NULL, NI_NAMEREQD, NULL) != 0) {
+		if (camel_getnameinfo(transport->localaddr, transport->localaddrlen, &name, NULL, NI_NUMERICHOST, NULL) != 0)
+			name = g_strdup("localhost.localdomain");
+		else
+			numeric = TRUE;
+	}
 	
 	/* hiya server! how are you today? */
-	if (transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP)
-		cmdbuf = g_strdup_printf ("EHLO %s\r\n", name);
-	else
-		cmdbuf = g_strdup_printf ("HELO %s\r\n", name);
+	token = (transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP) ? "EHLO" : "HELO";
+	cmdbuf = g_strdup_printf(numeric ? "%s [%s]\r\n" : "%s %s\r\n", token, name);
 	g_free (name);
 	
 	d(fprintf (stderr, "sending : %s", cmdbuf));

@@ -629,7 +629,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	if (!strncmp(buf, "* PREAUTH", 9))
 		store->preauthed = TRUE;
 	
-	if (strstr (buf, "Courier-IMAP")) {
+	if (strstr (buf, "Courier-IMAP") || getenv("CAMEL_IMAP_BRAINDAMAGED")) {
 		/* Courier-IMAP is braindamaged. So far this flag only
 		 * works around the fact that Courier-IMAP is known to
 		 * give invalid BODY responses seemingly because its

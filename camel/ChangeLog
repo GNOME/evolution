@@ -1,3 +1,19 @@
+2004-11-10  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69109.
+	
+	* camel-service.c (cs_getnameinfo): honour the NI_NAMEREQD flag.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): change the
+	nameinfo flags a bit so we know when we got a numeric name and
+	need to wrap it in [].
+
+2004-11-19  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (connect_to_server): if we
+	have CAMEL_IMAP_BRAINDAMAGED set, then treat the server as
+	braindamaged ok.  Testing for #69533.
+
 2004-11-18  Not Zed  <NotZed@Ximian.com>
 
 	* providers/nntp/camel-nntp-stream.c:
