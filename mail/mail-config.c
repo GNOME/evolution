@@ -2006,6 +2006,11 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	/* Copy transport */
 	transport = account->transport;
 	mail_service = g_new0 (MailConfigService, 1);
+	if (transport.url == NULL) {
+		mail_service->url = NULL;
+	} else {
+		mail_service->url = g_strdup (transport.url);
+	}
 	mail_service->url = g_strdup (transport.url);
 	mail_service->keep_on_server = transport.keep_on_server;
 	mail_service->auto_check = transport.auto_check;

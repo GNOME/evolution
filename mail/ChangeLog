@@ -1,5 +1,10 @@
 2001-09-25  Iain Holmes  <iain@ximian.com>
 
+	* mail-config.c (impl_GNOME_Evolution_MailConfig_addAccount): Check
+	if the transport is NULL.
+
+2001-09-25  Iain Holmes  <iain@ximian.com>
+
 	* mail-display.c (link_menu): Remove the Save Link as (FIXME) item.
 
 2001-09-25  Jeffrey Stedfast  <fejj@ximian.com>
