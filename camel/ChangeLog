@@ -1,3 +1,9 @@
+2003-05-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): If
+	host->h_name is NULL or an empty string, default back to using the
+	IP address rather than the hostname in the EHLO command.
+
 2003-05-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (d): Disable debugging.
