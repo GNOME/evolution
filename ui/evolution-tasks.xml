@@ -3,6 +3,9 @@
         <commands>
 		<cmd name="TasksNewTask" pixtype="stock" pixname="New"
 		 _tip="Create a new task" verb="TasksNewTask"/>
+		<cmd name="TasksDelete" _label="Delete" pixtype="stock" pixname="Trash"
+		 _tip="Delete selected tasks" verb="TasksDelete"
+		 accel="Delete" sensitive="0"/>
   	</commands>
   
 	<menu>
@@ -40,6 +43,8 @@
 
 		<submenu name="Edit">
 
+			<menuitem name="Delete" verb="TasksDelete"
+			_label="_Delete"/>
 
 		</submenu>
 
@@ -58,6 +63,10 @@
 
 		<separator/>
 
+		<toolitem name="Delete" verb="TasksDelete"/>
+
+	  	<separator/>
+
 		<toolitem name="Print" _label="Print"
 		_tip="Print" verb="TasksPrint"
 		pixtype="stock" pixname="Print"/>
@@ -65,20 +74,3 @@
 	</dockitem>
 
 </Root>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
