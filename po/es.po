@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-07 22:33+0100\n"
-"PO-Revision-Date: 2005-02-07 22:36+0100\n"
+"POT-Creation-Date: 2005-02-08 21:25+0100\n"
+"PO-Revision-Date: 2005-02-08 22:01+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -442,7 +442,8 @@ msgstr "La libreta de direcciones de Evolution ha terminado inesperadamente."
 
 #. addressbook:backend-died secondary
 #: ../addressbook/addressbook-errors.xml.h:57
-msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgid ""
+"Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Sus contactos para {0} no estarán disponibles hasta que Evolution sea "
 "reiniciado."
@@ -724,40 +725,30 @@ msgid "Contact Source Selector"
 msgstr "Selector de origen de contactos"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
+msgid "Autocomplete length"
+msgstr "Longitud del autocompletado"
+
+#: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 msgid "EFolderList XML for the list of completion URIs"
 msgstr "XML EFolderList para la lista de URIs de completado"
 
-#: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
+#: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid "EFolderList XML for the list of completion URIs."
 msgstr "XML EFolderList para la lista de URIs de completado."
 
-#: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
-msgid "Position of the vertical pane in main view"
-msgstr "Posición del panel vertical en la vista principal"
-
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
-msgid "Position of the vertical pane in main view."
-msgstr "Posición del panel vertical en la vista principal."
+msgid ""
+"Position of the vertical pane, between the card and list views and the "
+"preview pane, in pixels."
+msgstr ""
+"Posición del panel vertical, entre las vistas de tarjeta y lista y el panel "
+"de vista previa, en píxeles."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
-#: ../mail/evolution-mail.schemas.in.in.h:73
-msgid "Show the \"Preview\" pane"
+msgid "Show preview pane"
 msgstr "Mostrar el panel de vista previa"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
-#: ../mail/evolution-mail.schemas.in.in.h:74
-msgid "Show the \"Preview\" pane."
-msgstr "Mostrar el panel de vista previa."
-
-#: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
-msgid ""
-"The number of characters that must be typed before Evolution will attempt to "
-"autocomplete"
-msgstr ""
-"El número de caracteres que deben teclearse antes de que Evolution intente "
-"auto-completar"
-
-#: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
@@ -765,17 +756,26 @@ msgstr ""
 "El número de caracteres que deben teclearse antes de que Evolution intente "
 "auto-completar."
 
-#: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
+#: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
 msgstr ""
 "URI para la carpeta usada por última vez en el diálogo de selección de "
 "nombres"
 
-#: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
+#: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
 msgid "URI for the folder last used in the select names dialog."
 msgstr ""
 "URI para la carpeta usada por última vez en el diálogo de selección de "
 "nombres."
+
+#: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
+msgid "Vertical pane position"
+msgstr "Posición vertical del panel"
+
+#: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
+msgid "Whether to show the preview pane."
+msgstr "Indica si se muestra el panel de vista previa."
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
@@ -917,8 +917,10 @@ msgid "Email address"
 msgstr "Dirección de correo-e"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:21
-msgid "Evolution will use this email address to authenticate you with the server."
-msgstr "Evolution usará esta dirección de correo-e para autenticarle con el servidor."
+msgid ""
+"Evolution will use this email address to authenticate you with the server."
+msgstr ""
+"Evolution usará esta dirección de correo-e para autenticarle con el servidor."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 msgid "Find Possible Search Bases"
@@ -2593,7 +2595,8 @@ msgstr "_Seleccionar"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:12
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr "_Teclee una dirección de correo o arrastre un contacto a la lista inferior:"
+msgstr ""
+"_Teclee una dirección de correo o arrastre un contacto a la lista inferior:"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:162
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
@@ -2905,11 +2908,13 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:149
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr "El soporte de esta libreta de direcciones no pudo analizar esta consulta."
+msgstr ""
+"El soporte de esta libreta de direcciones no pudo analizar esta consulta."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:152
 msgid "The backend for this addressbook refused to perform this query."
-msgstr "El motor para esta libreta de direcciones rehusó a efectuar esta consulta."
+msgstr ""
+"El motor para esta libreta de direcciones rehusó a efectuar esta consulta."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:155
 msgid "This query did not complete successfully."
@@ -3698,7 +3703,8 @@ msgid "Export in asynchronous mode"
 msgstr "Exportar en modo asíncrono"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
-msgid "The number of cards in one output file in asychronous mode, default size 100."
+msgid ""
+"The number of cards in one output file in asychronous mode, default size 100."
 msgstr ""
 "El número de tarjetas en un archivo de salida en modo asíncrono, tamaño por "
 "omisión 100."
@@ -3708,7 +3714,8 @@ msgid "NUMBER"
 msgstr "NÚMERO"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:91
-msgid "Command line arguments error, please use --help option to see the usage."
+msgid ""
+"Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Error en los argumentos de la línea de comandos, por favor use la opción --"
 "help para ver el uso."
@@ -3759,7 +3766,8 @@ msgstr "No ha especificado un nombre de archivo."
 #. calendar:prompt-cancel-task primary
 #: ../calendar/calendar-errors.xml.h:2 ../calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
-msgstr "¿Quiere enviar a todos los participantes una notificación de cancelación?"
+msgstr ""
+"¿Quiere enviar a todos los participantes una notificación de cancelación?"
 
 #. calendar:prompt-cancel-meeting secondary
 #: ../calendar/calendar-errors.xml.h:4
@@ -3789,7 +3797,8 @@ msgstr "¿Seguro que quiere borrar esta reunión?"
 
 #. calendar:prompt-delete-meeting secondary
 #: ../calendar/calendar-errors.xml.h:10
-msgid "All information on this meeting will be deleted and can not be restored."
+msgid ""
+"All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "Toda la información acerca de esta reunión será borrada y no podrá ser "
 "recuperada."
@@ -3856,7 +3865,8 @@ msgstr "¿Seguro que quiere borrar la cita titulada «{0}»?"
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: ../calendar/calendar-errors.xml.h:34 ../calendar/calendar-errors.xml.h:38
-msgid "All information on this appointment will be deleted and can not be restored."
+msgid ""
+"All information on this appointment will be deleted and can not be restored."
 msgstr ""
 "Toda la información acerca de esta cita será borrada y no puede ser "
 "recuperada."
@@ -3879,8 +3889,10 @@ msgstr "¿Seguro que quiere borrar la entrada del diario «{0}»?"
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: ../calendar/calendar-errors.xml.h:50 ../calendar/calendar-errors.xml.h:54
-msgid "All information in this journal will be deleted and can not be restored."
-msgstr "Toda la información en este diario será borrada y no podrá recuperarse."
+msgid ""
+"All information in this journal will be deleted and can not be restored."
+msgstr ""
+"Toda la información en este diario será borrada y no podrá recuperarse."
 
 #. calendar:prompt-delete-appointments primary
 #: ../calendar/calendar-errors.xml.h:56
@@ -3892,7 +3904,8 @@ msgstr "¿Seguro que quiere borrar estas {0} citas?"
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr "Toda la información de estas citas será borrada y no puede ser recuperada."
+msgstr ""
+"Toda la información de estas citas será borrada y no puede ser recuperada."
 
 #. calendar:prompt-delete-tasks primary
 #: ../calendar/calendar-errors.xml.h:60
@@ -3965,7 +3978,8 @@ msgstr "¿Quiere enviar invitaciones a los participantes?"
 
 #. calendar:prompt-meeting-invite secondary
 #: ../calendar/calendar-errors.xml.h:86
-msgid "Email invitations will be sent to all participants and allow them to RSVP."
+msgid ""
+"Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 "Las invitaciones serán enviadas por correo-e a todos los participantes y las "
 "permitirá RSVP."
@@ -3979,7 +3993,8 @@ msgstr "Enviar"
 #. calendar:prompt-send-updated-meeting-info primary
 #: ../calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
-msgstr "¿Quiere enviar información de la reunión actualizada a los participantes?"
+msgstr ""
+"¿Quiere enviar información de la reunión actualizada a los participantes?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: ../calendar/calendar-errors.xml.h:92
@@ -4026,7 +4041,8 @@ msgstr "Las tareas de Evolution han terminado inesperadamente."
 #. calendar:tasks-crashed secondary
 #: ../calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr "Sus tareas no estarán disponibles hasta que Evolution sea iniciado de nuevo."
+msgstr ""
+"Sus tareas no estarán disponibles hasta que Evolution sea iniciado de nuevo."
 
 #. calendar:calendar-crashed primary
 #: ../calendar/calendar-errors.xml.h:112
@@ -4036,7 +4052,8 @@ msgstr "El calendario de Evolution ha terminado inesperadamente."
 #. calendar:calendar-crashed secondary
 #: ../calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr "Sus calendarios no estarán disponibles hasta que Evolution sea reiniciado."
+msgstr ""
+"Sus calendarios no estarán disponibles hasta que Evolution sea reiniciado."
 
 #. calendar:prompt-delete-calendar primary
 #: ../calendar/calendar-errors.xml.h:116
@@ -4310,138 +4327,283 @@ msgid "invalid time"
 msgstr "tiempo no válido"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
-msgid "Allocate less space to weekend appointments"
-msgstr "Reservar menos espacio para las citas de fin de semana"
+msgid "Alarm programs"
+msgstr "Programas de alarma"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
+msgid "Ask for confirmation when deleting items"
+msgstr "Pedir confirmación al borrar elementos"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
+msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
+msgstr "Color de fondo para las tareas que vencen hoy, en formato «#rrggbb»."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
+msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
+msgstr ""
+"Color de fondo para las tareas que están retrasadas, en formato «#rrggbb»."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Calendars to run alarms for"
 msgstr "Los calendarios ejecutarán alarmas durante"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
-msgid "Color of tasks that are due today"
-msgstr "Color para las tareas que vencen hoy"
-
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
-msgid "Color of tasks that are overdue"
-msgstr "Color para las tareas que están retrasadas"
-
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
-msgid "Days that are work days"
-msgstr "Días que son laborables"
-
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
-msgid "Default timezone for meetings"
-msgstr "Zona horaria predeterminada para las reuniones"
+msgid "Compress weekends in month view"
+msgstr "Comprimir fines de semana en la vista mensual"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
-msgid "Hour the workday ends on"
-msgstr "La jornada laboral acaba en la hora"
+msgid "Confirm expunge"
+msgstr "Confirmar compactación"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
-msgid "Hour the workday starts on"
-msgstr "La jornada laboral empieza en la hora"
+msgid "Days on which the start and end of work hours should be indicated."
+msgstr ""
+"Días en los cuales debe indicarse el inicio y fin de las horas de trabajo."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
-msgid "Intervals shown in Day and Work Week views"
-msgstr "Intervalos mostrados en las vistas de día y semana laboral"
+msgid "Default appointment reminder"
+msgstr "Recordatorio predeterminado de cita"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
-msgid "List of urls for free/busy publishing"
-msgstr "Lista de URLs para publicación de disponibilidad"
+msgid "Default reminder units"
+msgstr "Unidades predeterminadas del recordatorio"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
-msgid "Minute the workday ends on"
-msgstr "La jornada laboral acaba en el minuto"
+msgid "Default reminder value"
+msgstr "Valor predeterminado del recordatorio"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
-msgid "Minute the workday starts on"
-msgstr "La jornada laboral empieza en el minuto"
+msgid "Free/busy server urls"
+msgstr "URLs del servidor de disponibilidad"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
-msgid "Number of units for default reminder"
-msgstr "Número de unidades para el recordatorio predeterminado"
+msgid "Free/busy template url"
+msgstr "URL de la plantilla de disponibilidad"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
-msgid "Number of units for determining when to hide tasks"
-msgstr "Número de unidades para determinar cuándo ocultar tareas"
+msgid "Hide completed tasks"
+msgstr "Ocultar tareas terminadas"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
-msgid "Position of the horizontal pane"
-msgstr "Posición del panel horizontal"
+msgid "Hide task units"
+msgstr "Ocultar Lista de tareas nueva"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
-msgid "Position of the horizontal pane in the month view"
-msgstr "Posición del panel horizontal en la vista de mes"
+msgid "Hide task value"
+msgstr "Ocultar el valor de la tarea"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
-msgid "Position of the vertical pane"
-msgstr "Posición del panel vertical"
+msgid "Horizontal pane position"
+msgstr "Posición horizontal del panel"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
-msgid "Position of the vertical pane in the month view"
-msgstr "Posición del panel vertical en la vista de mes"
+msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
+msgstr ""
+"Hora en la que acaba la jornada laboral, en formato de veinticuatro horas, "
+"de 0 a 23."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
-msgid "Position of the vertical pane in the task view"
-msgstr "Posición del panel vertical en la vista de tareas"
+msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
+msgstr ""
+"Hora a la que empieza la jornada laboral, en formato de veinticuatro horas, "
+"de 0 a 23."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
-msgid "Programs that can run as part of alarms"
-msgstr "Programas que se ejecutan como parte de las alarmas"
+msgid "Last alarm time"
+msgstr "Hora de la última alarma"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
-msgid "Show where events end in week and month views"
-msgstr "Mostrar dónde terminan los eventos en las vistas de semana y mes"
+msgid "List of server urls for free/busy publishing."
+msgstr "Lista de URLs del servidor para publicación de disponibilidad."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
-msgid "The url template to use as a free/busy data fallback"
-msgstr ""
-"La plantilla de la url que se usará como datos de disponibilidad en caso de "
-"fallo"
+msgid "Minute the workday ends on, 0 to 59"
+msgstr "Minuto en el que acaba la jornada laboral, de 0 a 59"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
-msgid "Time last alarm ran"
-msgstr "Hora en que la última alarma sonó"
+msgid "Minute the workday starts on, 0 to 59."
+msgstr "Minuto en el que empieza la jornada laboral, de 0 a 59."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
-msgid "Units for determining when to hide tasks"
-msgstr "Unidades para determinar cuándo ocultar tareas"
+msgid "Month view horizontal pane position"
+msgstr "Posición del panel horizontal de la vista mensual"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
-msgid "Units of default reminder"
-msgstr "Unidades del recordatorio predeterminado"
+msgid "Month view vertical pane position"
+msgstr "Posición del panel vertical en la vista mensual"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
-msgid "Weekday the week starts on"
-msgstr "La semana empieza el día"
+msgid "Number of units for determining for a default reminder."
+msgstr "Número de unidades para determinar un recordatorio predeterminado."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
-msgid "Whether or not to use the notification tray for display alarms"
-msgstr "Indica si se debe usar o no la bandeja de notificación para mostrar alarmas"
+msgid "Number of units for determining when to hide tasks."
+msgstr "Número de unidades para determinar cuándo ocultar tareas."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
-msgid "Whether to ask for confirmation on appointment deletion"
-msgstr "Indica si debe pedir confirmación al borrar una cita"
+msgid "Overdue tasks color"
+msgstr "Color para las tareas fuera de plazo"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
-msgid "Whether to ask for confirmation when folder is expunged"
-msgstr "Indica si debe pedir confirmación cuando de compacta una carpeta"
+msgid ""
+"Position of the horizontal pane, between the date navigator calendar and the "
+"task list when not in the month view, in pixels."
+msgstr "Posición del panel horizontal, entre la vista y la fecha del navegador del calendario y lista de tareas cuando no está en la vista mensual, en píxeles."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
-msgid "Whether to hide completed tasks"
-msgstr "Indica si debe ocultar las áreas terminadas"
+msgid ""
+"Position of the horizontal pane, between the view and the date navigator "
+"calendar and task list in the month view, in pixels."
+msgstr "Posición del panel horizontal, entre la vista y el navegador de fechas del calendario y la lista de tareas en la vista de mes, en píxeles."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
-msgid "Whether to set a default reminder for events"
-msgstr "Indica si debe establecer un recordatorio predeterminado para los eventos"
+msgid ""
+"Position of the vertical pane, between task list and the task preview pane, "
+"in pixels."
+msgstr "Posición del panel vertical, entre la lista de tareas y el panel de vista previa de tareas, en píxeles."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
-msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr "Indica si debe mostrar las horas en formato militar en vez de usar am/pm"
+msgid ""
+"Position of the vertical pane, between the view and the date navigator "
+"calendar and task list in the month view, in pixels."
+msgstr "Posición del panel vertical, entre la vista y el navegador del calendario y la lista de tareas en la vista mensual, en píxeles."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
-msgid "Whether to show week numbers in date navigator"
-msgstr "Indica si debe mostrar los números de la semana en el navegador de fechas"
+msgid ""
+"Position of the vertical pane, between the view and the date navigator "
+"calendar and task list when not in the month view, in pixels."
+msgstr "Posición del panel vertical, entre la vista y el navegador de fechas del calendario y la lista de tareas cuando no está en la vista mensual, en píxeles."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:34
+msgid "Programs that are allowed to be run by alarms."
+msgstr "Programas que se permite que sean ejecutados por las alarmas."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
+msgid "Show appointment end times in week and month views"
+msgstr "Mostrar las horas de finalización de las citas en las vistas semanales y mensuales"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
+msgid "Show display alarms in notification tray"
+msgstr "Mostrar el visor de la alarma en una bandeja de notificación"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
+msgid "Show week numbers in date navigator"
+msgstr "Mostrar los números de las semanas en el navegador de fechas"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
+msgid "Tasks due today color"
+msgstr "Color para las tareas que vencen hoy"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
+msgid "Tasks vertical pane position"
+msgstr "Posición del panel vertical de tareas"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
+msgid ""
+"The default timezone to use for dates and times in the calendar, as an "
+"untranslated Olsen timezone database location like \"America/New York\"."
+msgstr "La zona horaria predeterminada para usar en las fechas y horas en el calendario, como un ubicación no traducida de la base de datos de franjas horarias Olsen, como en \"America/New York\"."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
+#, no-c-format
+msgid ""
+"The url template to use as a free/busy data fallback, %u is replaced by the "
+"user part of the mail address and %d is replaced by the domain."
+msgstr "La plantilla url para usar como datos de resguardo de disponibilidad, %u se reemplaza por la pare de usuario de la dirección de correo y %d se reemplaza por el dominio."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
+msgid ""
+"Time divisions</short> <short>Intervals shown in Day and Work Week views, in "
+"minutes."
+msgstr "Los intervalos de tiempo</short> <short> mostrados en las vistas diarias y semanales, en minutos."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
+msgid "Time the last alarm ran, in time_t."
+msgstr "La hora en que la última alarma sonó, en time_t."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
+msgid "Timezone"
+msgstr "Zona horaria "
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
+msgid "Twenty four hour time format"
+msgstr "Formato de hora de veinticuatro horas"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
+msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
+msgstr "Unidades para el recordatorio predeterminado, \"minutes\", \"hours\" o \"days\"."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
+msgid ""
+"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgstr "Unidades para determinar cuándo ocultar tareas, \"minutes\", \"hours\" o \"days\"."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
+msgid "Week start"
+msgstr "Comienzo de la semana"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
+msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
+msgstr "El día en que empieza la semana, desde el domingo (0) hasta el sábado (6)."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
+msgid "Whether or not to use the notification tray for display alarms."
+msgstr "Indica si se debe usar o no la bandeja de notificación para mostrar alarmas."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
+msgid "Whether to ask for confirmation when deleting an appointment or task."
+msgstr "Indica si debe pedir confirmación al borrar una cita o tarea."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
+msgid "Whether to ask for confirmation when expunging appointments and tasks."
+msgstr "Indica si debe pedir confirmación al compactar citas y tareas."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
+msgid ""
+"Whether to compress weekends in the month view, which puts Saturday and "
+"Sunday in the space of one weekday."
+msgstr "Indica si se deben comprimir los fines de semana, lo cual pone al sábado y al domingo en el mismo espacionque un día laborablec."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
+msgid "Whether to display the end time of events in the week and month views."
+msgstr "Indica si debe mostrar la hora de finalización de los acontecimientos en las vistas semanales y mensuales."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
+msgid "Whether to hide completed tasks in the tasks view."
+msgstr "Indica si debe ocultar las tareas terminadas en la vista de tareas."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
+msgid "Whether to set a default reminder for appointments."
+msgstr "Indica si debe establecer un recordatorio predeterminado para las citas."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
+msgid ""
+"Whether to show times in twenty four hour format instead of using am/pm."
+msgstr "Indica si debe mostrar las horas en formato de veintucuatro horas en vez de usar am/pm."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
+msgid "Whether to show week numbers in the date navigator."
+msgstr "Indica si debe mostrar los números de la semana en el navegador de fechas."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
+msgid "Work days"
+msgstr "Días laborables"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
+msgid "Workday end hour"
+msgstr "Hora de finalización de la jornada laboral"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
+msgid "Workday end minute"
+msgstr "Minuto de finalización de la jornada laboral"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
+msgid "Workday start hour"
+msgstr "Hora de comienzo de la jornada laboral"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
+msgid "Workday start minute"
+msgstr "Minuto de comienzo de la jornada laboral"
 
 #: ../calendar/gui/calendar-commands.c:120
 #: ../calendar/gui/calendar-component.c:568
@@ -4724,7 +4886,8 @@ msgstr "Alarmas"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:284
 msgid "Copy calendar contents locally for offline operation"
-msgstr "Copiar el contenido del calendario localmente para operación desconectada"
+msgstr ""
+"Copiar el contenido del calendario localmente para operación desconectada"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:336
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -4814,7 +4977,7 @@ msgstr "_Quitar"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:440
 #: ../composer/e-msg-composer-attachment-bar.c:441
-#: ../mail/em-folder-tree.c:2775 ../ui/evolution-mail-list.xml.h:27
+#: ../mail/em-folder-tree.c:2818 ../ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Propiedades"
 
@@ -4964,7 +5127,8 @@ msgstr "<b>Semana laboral</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #, no-c-format
-msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgid ""
+"<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr ""
 "<i>%u y %d serán reemplazadas por un usuario y dominio desde la dirección de "
 "correo-e.</i>"
@@ -5138,7 +5302,8 @@ msgstr "_Sáb"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Show appointment end times in week and month views"
-msgstr "Mostrar la hora del final de las citas en las vistas s_emanales y mensuales"
+msgstr ""
+"Mostrar la hora del final de las citas en las vistas s_emanales y mensuales"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Time divisions:"
@@ -5226,7 +5391,7 @@ msgstr[1] "%d mensajes adjuntos"
 #: ../calendar/gui/dialogs/comp-editor.c:412
 #: ../calendar/gui/e-calendar-table.c:1164
 #: ../calendar/gui/e-calendar-view.c:1402 ../composer/e-msg-composer.c:2901
-#: ../mail/em-folder-tree.c:1041 ../mail/message-list.c:1712
+#: ../mail/em-folder-tree.c:1046 ../mail/message-list.c:1712
 #: ../ui/evolution-addressbook.xml.h:31 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-composer-entries.xml.h:7
 #: ../ui/evolution-mail-message.xml.h:105 ../ui/evolution-tasks.xml.h:20
@@ -5234,13 +5399,13 @@ msgid "_Copy"
 msgstr "_Copiar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:413 ../composer/e-msg-composer.c:2902
-#: ../mail/em-folder-tree.c:1042 ../mail/em-folder-tree.c:2268
+#: ../mail/em-folder-tree.c:1047 ../mail/em-folder-tree.c:2311
 #: ../mail/em-folder-view.c:860 ../mail/message-list.c:1713
 msgid "_Move"
 msgstr "_Mover"
 
 #: ../calendar/gui/dialogs/comp-editor.c:415 ../composer/e-msg-composer.c:2904
-#: ../mail/em-folder-tree.c:1044 ../mail/message-list.c:1715
+#: ../mail/em-folder-tree.c:1049 ../mail/message-list.c:1715
 msgid "Cancel _Drag"
 msgstr "Cancelar _arrastre"
 
@@ -5267,7 +5432,8 @@ msgstr "Mostrar barra de _adjuntos (soltar adjuntos aquí)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:952
 msgid "Attachment Button: Press space key to toggle attachment bar"
-msgstr "Botón de adjuntos: Pulse la tecla espacio para cambiar la barra de adjuntos"
+msgstr ""
+"Botón de adjuntos: Pulse la tecla espacio para cambiar la barra de adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1499
 #: ../calendar/gui/dialogs/comp-editor.c:1542
@@ -5384,7 +5550,8 @@ msgstr "La tarea no pudo ser borrada porque el permiso fue denegado"
 
 #: ../calendar/gui/dialogs/delete-error.c:76
 msgid "The journal entry could not be deleted because permission was denied"
-msgstr "La entrada del diario no pudo ser borrada porque el permiso fue denegado"
+msgstr ""
+"La entrada del diario no pudo ser borrada porque el permiso fue denegado"
 
 #: ../calendar/gui/dialogs/delete-error.c:79
 msgid "The item could not be deleted because permission was denied"
@@ -5751,15 +5918,18 @@ msgstr "Nombre de la lista de tareas"
 
 #: ../calendar/gui/dialogs/recur-comp.c:51
 msgid "You are modifying a recurring event, what would you like to modify?"
-msgstr "Está modificando un acontecimiento que se repite, ¿qué quiere modificar?"
+msgstr ""
+"Está modificando un acontecimiento que se repite, ¿qué quiere modificar?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:55
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Está modificando una tarea que se repite, ¿qué quiere modificar?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:59
-msgid "You are modifying a recurring journal entry, what would you like to modify?"
-msgstr "Está modificando una entrada del diario que se repite, ¿qué quiere modificar?"
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
+msgstr ""
+"Está modificando una entrada del diario que se repite, ¿qué quiere modificar?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:87
 msgid "This Instance Only"
@@ -6127,7 +6297,7 @@ msgstr "%s a %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s para un tipo de disparador desconocido"
 
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2503
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2516
 #, c-format
 msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
@@ -6299,7 +6469,7 @@ msgstr "_Marcar tareas seleccionadas como terminadas"
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1414 ../mail/em-folder-tree.c:2771
+#: ../calendar/gui/e-calendar-view.c:1414 ../mail/em-folder-tree.c:2814
 #: ../mail/em-folder-view.c:989 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-message.xml.h:108
 #: ../ui/evolution-tasks.xml.h:21
@@ -6677,7 +6847,8 @@ msgstr ""
 "calendarios"
 
 #: ../calendar/gui/e-itip-control.c:1231
-msgid "The task has been cancelled, however it could not be found in your task lists"
+msgid ""
+"The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
 "La tarea ha sido cancelada, sin embargo no pudo encontrarse en sus listas de "
 "tareas"
@@ -6888,7 +7059,8 @@ msgstr "Estado de asistencia actualizado\n"
 #: ../calendar/gui/e-itip-control.c:1979
 #: ../plugins/itip-formatter/itip-formatter.c:852
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "El estado de asistencia no puede ser actualizado porque no existe el elemento"
+msgstr ""
+"El estado de asistencia no puede ser actualizado porque no existe el elemento"
 
 #: ../calendar/gui/e-itip-control.c:2006
 msgid "Removal Complete"
@@ -7418,7 +7590,8 @@ msgstr "En la web"
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:738 ../calendar/gui/migration.c:905
 msgid "Unable to migrate old settings from evolution/config.xmldb"
-msgstr "No es posible migrar la configuración antigua desde evolution/config.xmldb"
+msgstr ""
+"No es posible migrar la configuración antigua desde evolution/config.xmldb"
 
 #. FIXME: domain/code
 #: ../calendar/gui/migration.c:767
@@ -7680,7 +7853,8 @@ msgstr "Fallo al actualizar las tareas."
 #: ../calendar/gui/tasks-component.c:747
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
-msgstr "No es posible abrir la lista de tareas «%s» para crear eventos y reuniones"
+msgstr ""
+"No es posible abrir la lista de tareas «%s» para crear eventos y reuniones"
 
 #: ../calendar/gui/tasks-component.c:762
 msgid "There is no calendar available for creating tasks"
@@ -9322,7 +9496,8 @@ msgid "Pacific/Yap"
 msgstr "Pacífico/Yap"
 
 #: ../composer/e-msg-composer.c:727
-msgid "Cannot sign outgoing message: No signing certificate set for this account"
+msgid ""
+"Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "No se puede firmar el mensaje saliente: No hay establecido un certificado de "
 "firma para esta cuenta"
@@ -9373,7 +9548,8 @@ msgstr "Redactar un mensaje"
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
-msgstr "<b>(El editor contiene un mensaje sin texto, que no puede editarse)</b>"
+msgstr ""
+"<b>(El editor contiene un mensaje sin texto, que no puede editarse)</b>"
 
 #: ../composer/e-msg-composer-hdrs.c:519
 msgid "Posting destination"
@@ -9463,7 +9639,8 @@ msgstr "No puede adjuntar el archivo «{0}» a este mensaje."
 #. mail-composer:attach-notfile primary
 #: ../composer/mail-composer-errors.xml.h:6
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr "El archivo «{0}» no es un archivo regular y no puede enviarse en un mensaje."
+msgstr ""
+"El archivo «{0}» no es un archivo regular y no puede enviarse en un mensaje."
 
 #. mail-composer:attach-directory primary
 #: ../composer/mail-composer-errors.xml.h:8
@@ -9544,7 +9721,8 @@ msgstr "Aviso: Mensaje modificado"
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr "¿Seguro que quiere descartar el mensaje titulado '{0}' que está redactando?"
+msgstr ""
+"¿Seguro que quiere descartar el mensaje titulado '{0}' que está redactando?"
 
 #. mail-composer:exit-unsaved secondary
 #: ../composer/mail-composer-errors.xml.h:32
@@ -9573,7 +9751,8 @@ msgstr "No se pudo crear un mensaje."
 #. mail-composer:no-build-message secondary
 #: ../composer/mail-composer-errors.xml.h:38
 msgid "Because \"{0}\", you may need to select different mail options."
-msgstr "Debido a «{0}», quizá necesite seleccionar diferentes opciones de correo."
+msgstr ""
+"Debido a «{0}», quizá necesite seleccionar diferentes opciones de correo."
 
 #. mail-composer:no-sig-file primary
 #: ../composer/mail-composer-errors.xml.h:40
@@ -10514,7 +10693,7 @@ msgstr "<pulse aquí para seleccionar una carpeta>"
 msgid "Create New Folder"
 msgstr "Crear carpeta nueva"
 
-#: ../mail/em-folder-selector.c:166 ../mail/em-folder-tree.c:2484
+#: ../mail/em-folder-selector.c:166 ../mail/em-folder-tree.c:2527
 #: ../mail/mail-component.c:739 ../plugins/shared-folder/install-shared.c:144
 #: ../plugins/shared-folder/share-folder-common.c:345
 msgid "Specify where to create the folder:"
@@ -10528,113 +10707,113 @@ msgstr "Crear"
 msgid "Folder _name:"
 msgstr "_Nombre de la carpeta:"
 
-#: ../mail/em-folder-tree.c:683
+#: ../mail/em-folder-tree.c:688
 msgid "Mail Folder Tree"
 msgstr "Árbol de carpetas de correo"
 
-#: ../mail/em-folder-tree.c:916
+#: ../mail/em-folder-tree.c:921
 #, c-format
 msgid "Moving folder %s"
 msgstr "Moviendo la carpeta %s"
 
-#: ../mail/em-folder-tree.c:918
+#: ../mail/em-folder-tree.c:923
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copiando la carpeta %s"
 
-#: ../mail/em-folder-tree.c:925 ../mail/message-list.c:1617
+#: ../mail/em-folder-tree.c:930 ../mail/message-list.c:1617
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moviendo los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:927 ../mail/message-list.c:1619
+#: ../mail/em-folder-tree.c:932 ../mail/message-list.c:1619
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:943
+#: ../mail/em-folder-tree.c:948
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No se pudo dejar el(los) mensaje(s) en el almacén de nivel superior"
 
-#: ../mail/em-folder-tree.c:1039 ../ui/evolution-mail-message.xml.h:106
+#: ../mail/em-folder-tree.c:1044 ../ui/evolution-mail-message.xml.h:106
 msgid "_Copy to Folder"
 msgstr "_Copiar a la carpeta"
 
-#: ../mail/em-folder-tree.c:1040 ../ui/evolution-mail-message.xml.h:115
+#: ../mail/em-folder-tree.c:1045 ../ui/evolution-mail-message.xml.h:115
 msgid "_Move to Folder"
 msgstr "_Mover a la carpeta"
 
-#: ../mail/em-folder-tree.c:1739 ../mail/mail-ops.c:1017
+#: ../mail/em-folder-tree.c:1750 ../mail/mail-ops.c:1026
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Analizando carpetas en «%s»"
 
-#: ../mail/em-folder-tree.c:2012
+#: ../mail/em-folder-tree.c:2023
 #, c-format
 msgid "Copying `%s' to `%s'"
 msgstr "Copiando «%s» a «%s»"
 
-#: ../mail/em-folder-tree.c:2254 ../mail/em-folder-tree.c:2268
+#: ../mail/em-folder-tree.c:2297 ../mail/em-folder-tree.c:2311
 #: ../mail/em-folder-view.c:860 ../mail/em-folder-view.c:875
 #: ../mail/importers/evolution-mbox-importer.c:120
 #: ../mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Seleccionar carpeta"
 
-#: ../mail/em-folder-tree.c:2254 ../mail/em-folder-view.c:875
+#: ../mail/em-folder-tree.c:2297 ../mail/em-folder-view.c:875
 msgid "C_opy"
 msgstr "C_opiar"
 
-#: ../mail/em-folder-tree.c:2295
+#: ../mail/em-folder-tree.c:2338
 #: ../plugins/shared-folder/share-folder-common.c:138
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Creando carpeta «%s»"
 
-#: ../mail/em-folder-tree.c:2484 ../mail/mail-component.c:739
+#: ../mail/em-folder-tree.c:2527 ../mail/mail-component.c:739
 #: ../plugins/shared-folder/install-shared.c:144
 #: ../plugins/shared-folder/share-folder-common.c:345
 msgid "Create folder"
 msgstr "Crear carpeta"
 
-#: ../mail/em-folder-tree.c:2677
+#: ../mail/em-folder-tree.c:2720
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Renombrar la carpeta «%s» a:"
 
-#: ../mail/em-folder-tree.c:2679
+#: ../mail/em-folder-tree.c:2722
 msgid "Rename Folder"
 msgstr "Renombrar carpeta"
 
-#: ../mail/em-folder-tree.c:2685
+#: ../mail/em-folder-tree.c:2728
 msgid "Folder names cannot contain '/'"
 msgstr "El nombre de la carpeta no puede contener el carácter «/»"
 
-#: ../mail/em-folder-tree.c:2759 ../ui/evolution-addressbook.xml.h:44
+#: ../mail/em-folder-tree.c:2802 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:17
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:53 ../ui/evolution.xml.h:49
 msgid "_View"
 msgstr "_Ver"
 
-#: ../mail/em-folder-tree.c:2760
+#: ../mail/em-folder-tree.c:2803
 msgid "Open in _New Window"
 msgstr "Abrir en una ventana _nueva"
 
-#: ../mail/em-folder-tree.c:2764
+#: ../mail/em-folder-tree.c:2807
 msgid "_Copy..."
 msgstr "_Copiar..."
 
-#: ../mail/em-folder-tree.c:2765
+#: ../mail/em-folder-tree.c:2808
 msgid "_Move..."
 msgstr "_Mover..."
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2769
+#: ../mail/em-folder-tree.c:2812
 msgid "_New Folder..."
 msgstr "Carpeta _nueva..."
 
-#: ../mail/em-folder-tree.c:2772
+#: ../mail/em-folder-tree.c:2815
 msgid "_Rename..."
 msgstr "_Renombrar..."
 
@@ -10809,11 +10988,11 @@ msgstr "Predeterminado"
 msgid "Print Message"
 msgstr "Imprimir mensaje"
 
-#: ../mail/em-folder-view.c:2215
+#: ../mail/em-folder-view.c:2225
 msgid "_Copy Link Location"
 msgstr "_Copiar dirección del enlace"
 
-#: ../mail/em-folder-view.c:2498
+#: ../mail/em-folder-view.c:2511
 #, c-format
 msgid "Click to mail %s"
 msgstr "Pulse para enviar correo a %s"
@@ -10890,15 +11069,15 @@ msgstr "Error desconocido al verificar la firma"
 msgid "Retrieving `%s'"
 msgstr "Obteniendo «%s»"
 
-#: ../mail/em-format-html.c:579 ../mail/em-format-html-display.c:645
+#: ../mail/em-format-html.c:579 ../mail/em-format-html-display.c:680
 msgid "Unsigned"
 msgstr "No firmado"
 
-#: ../mail/em-format-html.c:580 ../mail/em-format-html-display.c:646
+#: ../mail/em-format-html.c:580 ../mail/em-format-html-display.c:681
 msgid "Valid signature"
 msgstr "Firma válida"
 
-#: ../mail/em-format-html.c:581 ../mail/em-format-html-display.c:647
+#: ../mail/em-format-html.c:581 ../mail/em-format-html-display.c:682
 msgid "Invalid signature"
 msgstr "Firma no válida"
 
@@ -10906,19 +11085,19 @@ msgstr "Firma no válida"
 msgid "Valid signature but cannot verify sender"
 msgstr "Firma válida, pero no se puede verificar el remitente"
 
-#: ../mail/em-format-html.c:588 ../mail/em-format-html-display.c:654
+#: ../mail/em-format-html.c:588 ../mail/em-format-html-display.c:689
 msgid "Unencrypted"
 msgstr "Descifrado"
 
-#: ../mail/em-format-html.c:589 ../mail/em-format-html-display.c:655
+#: ../mail/em-format-html.c:589 ../mail/em-format-html-display.c:690
 msgid "Encrypted, weak"
 msgstr "Cifrado, débil"
 
-#: ../mail/em-format-html.c:590 ../mail/em-format-html-display.c:656
+#: ../mail/em-format-html.c:590 ../mail/em-format-html-display.c:691
 msgid "Encrypted"
 msgstr "Cifrado"
 
-#: ../mail/em-format-html.c:591 ../mail/em-format-html-display.c:657
+#: ../mail/em-format-html.c:591 ../mail/em-format-html-display.c:692
 msgid "Encrypted, strong"
 msgstr "Cifrado, fuerte"
 
@@ -10977,7 +11156,7 @@ msgstr "<I> (%R %Z)</I>"
 msgid "Matches: %d"
 msgstr "Coincide con: %d"
 
-#: ../mail/em-format-html-display.c:645
+#: ../mail/em-format-html-display.c:680
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -10985,7 +11164,7 @@ msgstr ""
 "Este mensaje no está firmado. No hay garantía de que el mensaje sea "
 "auténtico."
 
-#: ../mail/em-format-html-display.c:646
+#: ../mail/em-format-html-display.c:681
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -10993,7 +11172,7 @@ msgstr ""
 "Este mensaje está firmado y es válido, lo que significa que es muy probable "
 "que el mensaje sea auténtico."
 
-#: ../mail/em-format-html-display.c:647
+#: ../mail/em-format-html-display.c:682
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -11001,11 +11180,11 @@ msgstr ""
 "La firma de este mensaje no puede ser verificada, pudo haber sido alterada "
 "en tránsito."
 
-#: ../mail/em-format-html-display.c:648
+#: ../mail/em-format-html-display.c:683
 msgid "Valid signature, cannot verify sender"
 msgstr "Firma válida, no se puede verificar el remitente"
 
-#: ../mail/em-format-html-display.c:648
+#: ../mail/em-format-html-display.c:683
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -11013,7 +11192,7 @@ msgstr ""
 "Este mensaje está firmado con una firma válida, pero el remitente del "
 "mensaje no pudo ser verificado."
 
-#: ../mail/em-format-html-display.c:654
+#: ../mail/em-format-html-display.c:689
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
@@ -11021,7 +11200,7 @@ msgstr ""
 "Este mensaje no está cifrado. Su contenido puede ser visto en tránsito a "
 "través de Internet."
 
-#: ../mail/em-format-html-display.c:655
+#: ../mail/em-format-html-display.c:690
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -11031,7 +11210,7 @@ msgstr ""
 "ser difícil, pero no imposible para un espía ver el contenido de este "
 "mensaje empleando algo de tiempo."
 
-#: ../mail/em-format-html-display.c:656
+#: ../mail/em-format-html-display.c:691
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -11039,7 +11218,7 @@ msgstr ""
 "Este mensaje está cifrado. Sería difícil para un espía ver el contenido de "
 "este mensaje."
 
-#: ../mail/em-format-html-display.c:657
+#: ../mail/em-format-html-display.c:692
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -11049,35 +11228,35 @@ msgstr ""
 "difícil que un espía vea el contenido de este mensaje en empleando un tiempo "
 "razonable."
 
-#: ../mail/em-format-html-display.c:758 ../smime/gui/smime-ui.glade.h:47
+#: ../mail/em-format-html-display.c:793 ../smime/gui/smime-ui.glade.h:47
 msgid "_View Certificate"
 msgstr "_Ver certificado"
 
-#: ../mail/em-format-html-display.c:773
+#: ../mail/em-format-html-display.c:808
 msgid "This certificate is not viewable"
 msgstr "Certificado no es visible"
 
-#: ../mail/em-format-html-display.c:1002
+#: ../mail/em-format-html-display.c:1037
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Terminado el %d de %B de %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1010
+#: ../mail/em-format-html-display.c:1045
 msgid "Overdue:"
 msgstr "Atrasado:"
 
-#: ../mail/em-format-html-display.c:1013
+#: ../mail/em-format-html-display.c:1048
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "antes del %d de %B de %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1060
+#: ../mail/em-format-html-display.c:1095
 msgid "_View Inline"
 msgstr "_Ver incluido"
 
-#: ../mail/em-format-html-display.c:1061
+#: ../mail/em-format-html-display.c:1096
 msgid "_Hide"
 msgstr "_Ocultar"
 
-#: ../mail/em-format-html-display.c:1305
+#: ../mail/em-format-html-display.c:1340
 msgid "Attachment Button"
 msgstr "Botón de adjunto"
 
@@ -11509,7 +11688,8 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Preguntar al usuario cuando intenta compactar una carpeta."
 
 #: ../mail/evolution-mail.schemas.in.in.h:57
-msgid "Prompt the user when he or she tries to send a message without a Subject."
+msgid ""
+"Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Preguntar al usuario cuando intenta enviar un mensaje sin un asunto."
 
 #: ../mail/evolution-mail.schemas.in.in.h:58
@@ -11576,13 +11756,22 @@ msgstr "Mostrar mensajes borrados (tachados) en la lista de mensajes."
 msgid "Show deleted messages in the message-list"
 msgstr "Mostrar mensajes borrados en la lista de mensajes"
 
+#: ../mail/evolution-mail.schemas.in.in.h:73
+msgid "Show the \"Preview\" pane"
+msgstr "Mostrar el panel de vista previa"
+
+#: ../mail/evolution-mail.schemas.in.in.h:74
+msgid "Show the \"Preview\" pane."
+msgstr "Mostrar el panel de vista previa."
+
 #: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
 msgstr "Reproducir un archivo de sonido cuando llegue correo nuevo."
 
 #: ../mail/evolution-mail.schemas.in.in.h:76
 msgid "Specifies the type of New Mail Notification the user wishes to use."
-msgstr "Especifica el tipo de notificación de correo nuevo que el usuario desea usar."
+msgstr ""
+"Especifica el tipo de notificación de correo nuevo que el usuario desea usar."
 
 #: ../mail/evolution-mail.schemas.in.in.h:77
 msgid "Spell check inline"
@@ -11737,7 +11926,8 @@ msgid "Composer Preferences"
 msgstr "Preferencias del editor"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr ""
 "Configure las preferencias de correo incluyendo seguridad y visualización de "
 "mensajes, aquí"
@@ -12102,7 +12292,8 @@ msgstr "<b>_Idiomas</b>"
 
 #: ../mail/mail-config.glade.h:7
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr "<small>Esto hará que el filtrado sea más exacto, pero más lento</small>"
+msgstr ""
+"<small>Esto hará que el filtrado sea más exacto, pero más lento</small>"
 
 #: ../mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Account Information</span>"
@@ -12637,7 +12828,8 @@ msgstr "_No notificarme cuando llegue correo nuevo"
 
 #: ../mail/mail-config.glade.h:152
 msgid "_Don't sign meeting requests (for Outlook compatibility)"
-msgstr "No _firmar las solicitudes de reunión (para compatibilidad con Outlook)"
+msgstr ""
+"No _firmar las solicitudes de reunión (para compatibilidad con Outlook)"
 
 #: ../mail/mail-config.glade.h:154
 msgid "_Forward style:"
@@ -12918,8 +13110,10 @@ msgstr ""
 
 #. mail:send-no-recipients primary
 #: ../mail/mail-errors.xml.h:34
-msgid "This message cannot be sent because you have not specified any Recipients"
-msgstr "El mensaje no puede ser enviado porque no ha especificado ningún destinatario"
+msgid ""
+"This message cannot be sent because you have not specified any Recipients"
+msgstr ""
+"El mensaje no puede ser enviado porque no ha especificado ningún destinatario"
 
 #. mail:send-no-recipients secondary
 #: ../mail/mail-errors.xml.h:36
@@ -13144,7 +13338,8 @@ msgstr "No se puede renombrar «{0}» a «{1}»."
 #. mail:vfolder-notunique secondary
 #: ../mail/mail-errors.xml.h:135 ../mail/mail-errors.xml.h:197
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr "Ya existe una carpeta llamada «{1}». Por favor, use un nombre diferente."
+msgstr ""
+"Ya existe una carpeta llamada «{1}». Por favor, use un nombre diferente."
 
 #. mail:no-rename-folder secondary
 #: ../mail/mail-errors.xml.h:139
@@ -13445,12 +13640,7 @@ msgstr "Filtrando carpeta"
 msgid "Fetching Mail"
 msgstr "Obteniendo mensajes"
 
-#: ../mail/mail-ops.c:556
-#, c-format
-msgid "Failed to apply outgoing filters: %s"
-msgstr "Falló al aplicar los filtros al correo saliente: %s"
-
-#: ../mail/mail-ops.c:581
+#: ../mail/mail-ops.c:542 ../mail/mail-ops.c:585
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -13459,114 +13649,120 @@ msgstr ""
 "Falló al anexar a %s: %s\n"
 "Anexando a la carpeta local «Correo enviado» en su lugar."
 
-#: ../mail/mail-ops.c:590
+#. sending mail, filtering failed
+#: ../mail/mail-ops.c:564
+#, c-format
+msgid "Failed to apply outgoing filters: %s"
+msgstr "Falló al aplicar los filtros al correo saliente: %s"
+
+#: ../mail/mail-ops.c:602
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Falló al anexar a la carpeta local «Correo enviado»: %s"
 
-#: ../mail/mail-ops.c:687
+#: ../mail/mail-ops.c:702
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "Enviando mensaje %d de %d"
 
-#: ../mail/mail-ops.c:718
+#: ../mail/mail-ops.c:727
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "Fallo al enviar %d de %d mensajes"
 
-#: ../mail/mail-ops.c:720 ../mail/mail-send-recv.c:613
+#: ../mail/mail-ops.c:729 ../mail/mail-send-recv.c:613
 msgid "Cancelled."
 msgstr "Cancelado."
 
-#: ../mail/mail-ops.c:722
+#: ../mail/mail-ops.c:731
 msgid "Complete."
 msgstr "Completado."
 
-#: ../mail/mail-ops.c:819
+#: ../mail/mail-ops.c:828
 msgid "Saving message to folder"
 msgstr "Guardando mensajes en la carpeta"
 
-#: ../mail/mail-ops.c:904
+#: ../mail/mail-ops.c:913
 #, c-format
 msgid "Moving messages to %s"
 msgstr "Moviendo mensajes a %s"
 
-#: ../mail/mail-ops.c:904
+#: ../mail/mail-ops.c:913
 #, c-format
 msgid "Copying messages to %s"
 msgstr "Copiando mensajes a %s"
 
-#: ../mail/mail-ops.c:1130
+#: ../mail/mail-ops.c:1139
 msgid "Forwarded messages"
 msgstr "Mensaje reenviados"
 
-#: ../mail/mail-ops.c:1173
+#: ../mail/mail-ops.c:1182
 #, c-format
 msgid "Opening folder %s"
 msgstr "Abriendo carpeta %s"
 
-#: ../mail/mail-ops.c:1245
+#: ../mail/mail-ops.c:1254
 #, c-format
 msgid "Opening store %s"
 msgstr "Abriendo sitio %s"
 
-#: ../mail/mail-ops.c:1323
+#: ../mail/mail-ops.c:1332
 #, c-format
 msgid "Removing folder %s"
 msgstr "Eliminando carpeta %s"
 
-#: ../mail/mail-ops.c:1417
+#: ../mail/mail-ops.c:1426
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Guardando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1482
+#: ../mail/mail-ops.c:1491
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Compactando y almacenando cuenta «%s»"
 
-#: ../mail/mail-ops.c:1483
+#: ../mail/mail-ops.c:1492
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Almacenando cuenta «%s»"
 
-#: ../mail/mail-ops.c:1538
+#: ../mail/mail-ops.c:1547
 msgid "Refreshing folder"
 msgstr "Actualizando carpeta"
 
-#: ../mail/mail-ops.c:1574 ../mail/mail-ops.c:1625
+#: ../mail/mail-ops.c:1583 ../mail/mail-ops.c:1634
 msgid "Expunging folder"
 msgstr "Compactando carpeta"
 
-#: ../mail/mail-ops.c:1622
+#: ../mail/mail-ops.c:1631
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vaciando papelera en «%s»"
 
-#: ../mail/mail-ops.c:1623
+#: ../mail/mail-ops.c:1632
 msgid "Local Folders"
 msgstr "Carpetas locales"
 
-#: ../mail/mail-ops.c:1706
+#: ../mail/mail-ops.c:1715
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Obteniendo mensaje %s"
 
-#: ../mail/mail-ops.c:1778
+#: ../mail/mail-ops.c:1787
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Descargando %d mensaje"
 msgstr[1] "Descargando %d mensajes"
 
-#: ../mail/mail-ops.c:1864
+#: ../mail/mail-ops.c:1873
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "Guardando %d mensaje"
 msgstr[1] "Guardando %d mensajes"
 
-#: ../mail/mail-ops.c:1914
+#: ../mail/mail-ops.c:1923
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -13575,7 +13771,7 @@ msgstr ""
 "No se pudo crear el archivo de salida: %s\n"
 " %s"
 
-#: ../mail/mail-ops.c:1942
+#: ../mail/mail-ops.c:1951
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13584,11 +13780,11 @@ msgstr ""
 "Error guardando mensajes en: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2013
+#: ../mail/mail-ops.c:2022
 msgid "Saving attachment"
 msgstr "Guardando adjunto"
 
-#: ../mail/mail-ops.c:2025
+#: ../mail/mail-ops.c:2034
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13597,22 +13793,22 @@ msgstr ""
 "No se pudo crear el archivo de salida: %s:\n"
 " %s"
 
-#: ../mail/mail-ops.c:2035
+#: ../mail/mail-ops.c:2044
 #, c-format
 msgid "Could not write data: %s"
 msgstr "No se pudo escribir datos: %s"
 
-#: ../mail/mail-ops.c:2185
+#: ../mail/mail-ops.c:2194
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Desconectando de %s"
 
-#: ../mail/mail-ops.c:2185
+#: ../mail/mail-ops.c:2194
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Reconectar a %s"
 
-#: ../mail/mail-ops.c:2301
+#: ../mail/mail-ops.c:2310
 msgid "Checking Service"
 msgstr "Comprobando el servicio"
 
@@ -13936,7 +14132,8 @@ msgstr "<span weight=\"bold\">Contactos automáticos</span>"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:410
-msgid "_Automatically create entries in the addressbook when responding to mail"
+msgid ""
+"_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
 "Crear entradas _automáticamente en la libreta de direcciones cuando se "
 "responda al correo"
@@ -14026,7 +14223,9 @@ msgstr "Contraseña segura"
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
-msgstr "Esta opción conectará con el servidor Exchange usando autenticación con contraseña segura (NTLM)."
+msgstr ""
+"Esta opción conectará con el servidor Exchange usando autenticación con "
+"contraseña segura (NTLM)."
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:64
 msgid "Plaintext Password"
@@ -14036,7 +14235,9 @@ msgstr "Contraseña en texto simple"
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
-msgstr "Esta opción conectará con el servidor Exchange usando autenticación con  contraseña estándar de texto simple."
+msgstr ""
+"Esta opción conectará con el servidor Exchange usando autenticación con  "
+"contraseña estándar de texto simple."
 
 #. Description section
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:113
@@ -14130,7 +14331,8 @@ msgstr "Enviado al calendario «%s» como cancelado"
 
 #: ../plugins/itip-formatter/itip-formatter.c:833
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr "El estado de asistencia no pudo ser actualizado a causa de un estado inválido"
+msgstr ""
+"El estado de asistencia no pudo ser actualizado a causa de un estado inválido"
 
 #: ../plugins/itip-formatter/itip-formatter.c:844
 #, c-format
@@ -14359,7 +14561,8 @@ msgstr "<b>%s</b> solicita la presencia de %s en la reunión siguiente:"
 #: ../plugins/itip-formatter/itip-view.c:345
 #, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> solicita su presencia en la siguiente reunión a través de %s:"
+msgstr ""
+"<b>%s</b> solicita su presencia en la siguiente reunión a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:347
 #, c-format
@@ -14378,7 +14581,8 @@ msgstr "<b>%s</b> desea apuntarse a una reunión existente:"
 
 #: ../plugins/itip-formatter/itip-view.c:358
 #, c-format
-msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgid ""
+"<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> desea recibir la última información de la reunión siguiente:"
 
 #: ../plugins/itip-formatter/itip-view.c:361
@@ -14404,7 +14608,8 @@ msgstr "<b>%s</b> ha propuesto los cambios siguientes para la reunión."
 #: ../plugins/itip-formatter/itip-view.c:374
 #, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> ha declinado los siguientes cambios para la reunión a través de %s:"
+msgstr ""
+"<b>%s</b> ha declinado los siguientes cambios para la reunión a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:376
 #, c-format
@@ -14463,7 +14668,8 @@ msgstr "<b>%s</b> ha devuelto la siguiente respuesta a la tarea:"
 #: ../plugins/itip-formatter/itip-view.c:433
 #, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
-msgstr "<b>%s</b> ha cancelado la siguiente asignación de tarea a través de %s:"
+msgstr ""
+"<b>%s</b> ha cancelado la siguiente asignación de tarea a través de %s:"
 
 #: ../plugins/itip-formatter/itip-view.c:435
 #, c-format
@@ -14473,7 +14679,8 @@ msgstr "<b>%s</b> ha cancelado la siguiente tarea asignada:"
 #: ../plugins/itip-formatter/itip-view.c:438
 #, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
-msgstr "<b>%s</b> ha propuesto los siguientes cambios en la asignación de tareas:"
+msgstr ""
+"<b>%s</b> ha propuesto los siguientes cambios en la asignación de tareas:"
 
 #: ../plugins/itip-formatter/itip-view.c:442
 #, c-format
@@ -14814,93 +15021,109 @@ msgstr "Volver a conversaciones por _asunto"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "A GNOME Print description of the current printer settings"
-msgstr "Una descripción de impresora Gnome de la configuración actual de impresora"
+msgstr ""
+"Una descripción de impresora Gnome de la configuración actual de impresora"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:2
-msgid "Button style"
-msgstr "Estilo de los botones"
+msgid "Configuration version"
+msgstr "Versión de la configuración"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:3
-msgid "Buttons are visible"
-msgstr "Los botones son visibles"
+msgid "Default sidebar width"
+msgstr "Anchura predeterminada de la barra lateral"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:4
-msgid "Default width of the folder bar pane"
-msgstr "Anchura predeterminada del panel de la barra de carpetas"
-
-#: ../shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Default window height"
 msgstr "Altura predeterminada de la ventana"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:6
+#: ../shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Default window width"
 msgstr "Anchura predeterminada de la ventana"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:7
-msgid "Evolution configuration version"
-msgstr "Versión de la configuración de Evolution"
-
-#: ../shell/apps_evolution_shell.schemas.in.in.h:8
+#: ../shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "Id o alias del componente a ser mostrado por omisión al inicio."
 
+#: ../shell/apps_evolution_shell.schemas.in.in.h:7
+msgid "Last upgraded configuration version"
+msgstr "Última versión de la configuración actualizada"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:8
+msgid ""
+"List of paths for the folders to be synchronized to disk for offline usage"
+msgstr ""
+"Lista de rutas a las carpetas que serán sincronizadas para uso en desconexión"
+
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
-msgid ""
-"If set to true, Evolution will start up in offline mode instead of online "
-"mode."
-msgstr ""
-"Si se establece a verdadero, Evolution se iniciará en modo desconectado en "
-"vez de en modo conectado."
-
-#: ../shell/apps_evolution_shell.schemas.in.in.h:10
-msgid ""
-"If set to true, the warning dialog in development versions of Evolution is "
-"not displayed."
-msgstr ""
-"Si se establece a verdadero, el diálogo de advertencia en las versiones de "
-"desarrollo de Evolution no se mostrará."
-
-#: ../shell/apps_evolution_shell.schemas.in.in.h:11
-msgid "Last upgraded Evolution configuration version"
-msgstr "Última versión de la configuración actualizada de Evolution"
-
-#: ../shell/apps_evolution_shell.schemas.in.in.h:12
-msgid "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr "Lista de rutas a las carpetas que serán sincronizadas para uso en desconexión"
-
-#: ../shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Printer settings"
 msgstr "Configuración de impresora"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:14
+#: ../shell/apps_evolution_shell.schemas.in.in.h:10
+msgid "Skip development warning dialog"
+msgstr "Saltar el diálogo de advertencia de desarrollo"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:11 ../shell/main.c:475
+msgid "Start in offline mode"
+msgstr "Iniciar en modo desconectado"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:12
 msgid ""
-"The style of the displayed buttons. Can be text, icons, both, toolbar. If "
-"toolbar is set, the style of the toolbar is followed as determined by the "
-"GNOME setting."
-msgstr ""
-"El estilo de los botones. Puede ser texto, iconos, ambos, barra de "
-"herramientas. Si  se selecciona barra de herramientas, el estilo de la barra "
-"de herramientas sigue lo que esté determinado por la configuración de Gnome."
+"The configuration version of Evolution, with major/minor/configuration level"
+msgstr "La versión de configuración de Evolution, con nivel de configuracion mayor/menor"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:13
+msgid "The default height for the main window, in pixels."
+msgstr "Altura predeterminada de la ventana principal, en píxeles."
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:14
+msgid "The default width for the main window, in pixels."
+msgstr "La anchura predeterminada de la ventana principal, en píxeles."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:15
+msgid "The default width for the sidebar, in pixels."
+msgstr "La anchura predeterminada para la barra lateral, en píxeles."
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:16
+msgid ""
+"The last upgraded configuration version of Evolution, with major/minor/"
+"configuration level"
+msgstr "La última versión actualizada de la configuración de Evolution, con nivel de configuración mayor/menor"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:17
+msgid ""
+"The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
+"\"toolbar\". If \"toolbar\" is set, the style of the buutons is determined "
+"by the GNOME toolbar setting."
+msgstr "El estilo de los botones de la ventana. Puede ser \"text\", \"icon\", \"both\", \"toolbar\". Si  se selecciona \"toolbar\", el estilo de los botones se determina por la configuración de  la barra de herramientas de Gnome."
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Toolbar is visible"
 msgstr "La barra de herramientas es visible"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:16
-msgid "Whether Evolution should start up in offline mode"
-msgstr "Indica si Evolution debería iniciarse en modo desconectado"
+#: ../shell/apps_evolution_shell.schemas.in.in.h:19
+msgid "Whether Evolution will start up in offline mode instead of online mode."
+msgstr "Indica si Evolution se iniciará en modo desconectado en vez de en modo conectado."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:17
-msgid "Whether the buttons should be visible."
-msgstr "Indica si la los botones deben ser visibles."
-
-#: ../shell/apps_evolution_shell.schemas.in.in.h:18
+#: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Whether the toolbar should be visible."
 msgstr "Indica si la barra de herramientas debería ser visible."
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:19
-msgid "Whether to skip the development warning dialog"
-msgstr "Indica si debe saltar el diálogo de advertencia de desarrollo"
+#: ../shell/apps_evolution_shell.schemas.in.in.h:21
+msgid ""
+"Whether the warning dialog in development versions of Evolution is skipped."
+msgstr "Indica si se salta el diálogo de advertencia en las versiones de desarrollo de Evolution."
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:22
+msgid "Whether the window buttons should be visible."
+msgstr "Indica si la los botones de la ventana deberían ser visibles."
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:23
+msgid "Window button style"
+msgstr "Estilo de los botones de ventana"
+
+#: ../shell/apps_evolution_shell.schemas.in.in.h:24
+msgid "Window buttons are visible"
+msgstr "Los botones de la ventana son visibles"
 
 #: ../shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
@@ -15112,7 +15335,8 @@ msgstr "No ha especificado un nombre de carpeta."
 
 #: ../shell/e-shell-utils.c:123
 msgid "Folder name cannot contain the Return character."
-msgstr "El nombre de la carpeta no puede contener el carácter de retorno de carro."
+msgstr ""
+"El nombre de la carpeta no puede contener el carácter de retorno de carro."
 
 #: ../shell/e-shell-utils.c:129
 msgid "Folder name cannot contain the character \"/\"."
@@ -15128,7 +15352,8 @@ msgstr "'.' y '..' son nombres reservados de carpetas."
 
 #: ../shell/e-shell-window.c:341
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution está conectado.  Pulse este botón para trabajar desconectado."
+msgstr ""
+"Evolution está conectado.  Pulse este botón para trabajar desconectado."
 
 #: ../shell/e-shell-window.c:349
 msgid "Evolution is in the process of going offline."
@@ -15136,7 +15361,8 @@ msgstr "Evolution está en proceso de desconectarse."
 
 #: ../shell/e-shell-window.c:356
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr "Evolution está desconectado.  Pulse este botón para trabajar conectado."
+msgstr ""
+"Evolution está desconectado.  Pulse este botón para trabajar conectado."
 
 #: ../shell/e-shell-window.c:708
 #, c-format
@@ -15145,7 +15371,8 @@ msgstr "Cambiar a %s"
 
 #: ../shell/e-shell-window-commands.c:67
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr "Las utilidades GNOME Pilot no parecen estar instaladas en este sistema."
+msgstr ""
+"Las utilidades GNOME Pilot no parecen estar instaladas en este sistema."
 
 #: ../shell/e-shell-window-commands.c:75
 #, c-format
@@ -15360,10 +15587,6 @@ msgstr "No preguntarme más veces"
 #: ../shell/main.c:473
 msgid "Start Evolution activating the specified component"
 msgstr "Iniciar Evolution activando el componente especificado"
-
-#: ../shell/main.c:475
-msgid "Start in offline mode"
-msgstr "Iniciar en modo desconectado"
 
 #: ../shell/main.c:477
 msgid "Start in online mode"
@@ -15804,7 +16027,8 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "Tiene certificados de estas organizaciones que le identifican:"
 
 #: ../smime/gui/smime-ui.glade.h:43
-msgid "You have certificates on file that identify these certificate authorities:"
+msgid ""
+"You have certificates on file that identify these certificate authorities:"
 msgstr ""
 "Tiene archivados los certificados que identifican a estas autoridades de "
 "certificación:"
@@ -16367,7 +16591,8 @@ msgstr "Abre una ventana para escribir un mensaje de correo"
 
 #: ../ui/evolution-mail-global.xml.h:8
 msgid "Permanently remove all deleted messages from all folders"
-msgstr "Elimina permanentemente todos los mensajes borrados de todas las carpetas"
+msgstr ""
+"Elimina permanentemente todos los mensajes borrados de todas las carpetas"
 
 #: ../ui/evolution-mail-global.xml.h:9
 msgid "Post Ne_w Message"
@@ -16426,8 +16651,10 @@ msgid "Hide _Read Messages"
 msgstr "Oculta_r mensajes leídos"
 
 #: ../ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
-msgstr "Oculta los mensajes borrados en lugar de mostrarlos tachados por una línea"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
+msgstr ""
+"Oculta los mensajes borrados en lugar de mostrarlos tachados por una línea"
 
 #: ../ui/evolution-mail-list.xml.h:9
 msgid "Mark All as _Read"
@@ -17634,7 +17861,8 @@ msgstr "Consulta de Evolution"
 #. setup a dummy error
 #: ../widgets/misc/e-error.c:438
 #, c-format
-msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgid ""
+"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr ""
 "<span weight=\"bold\">Error interno, solicitado un error desconocido «%s»</"
 "span>"
@@ -17950,6 +18178,51 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% completado)"
+
+#~ msgid "Position of the vertical pane in main view."
+#~ msgstr "Posición del panel vertical en la vista principal."
+
+#~ msgid ""
+#~ "The number of characters that must be typed before Evolution will attempt "
+#~ "to autocomplete"
+#~ msgstr ""
+#~ "El número de caracteres que deben teclearse antes de que Evolution "
+#~ "intente auto-completar"
+
+#~ msgid "Allocate less space to weekend appointments"
+#~ msgstr "Reservar menos espacio para las citas de fin de semana"
+
+#~ msgid "Days that are work days"
+#~ msgstr "Días que son laborables"
+
+#~ msgid "Default timezone for meetings"
+#~ msgstr "Zona horaria predeterminada para las reuniones"
+
+#~ msgid "Position of the horizontal pane in the month view"
+#~ msgstr "Posición del panel horizontal en la vista de mes"
+
+#~ msgid "Position of the vertical pane"
+#~ msgstr "Posición del panel vertical"
+
+#~ msgid "Show where events end in week and month views"
+#~ msgstr "Mostrar dónde terminan los eventos en las vistas de semana y mes"
+
+#~ msgid "The url template to use as a free/busy data fallback"
+#~ msgstr ""
+#~ "La plantilla de la url que se usará como datos de disponibilidad en caso "
+#~ "de fallo"
+
+#~ msgid "Units of default reminder"
+#~ msgstr "Unidades del recordatorio predeterminado"
+
+#~ msgid "Whether to ask for confirmation when folder is expunged"
+#~ msgstr "Indica si debe pedir confirmación cuando de compacta una carpeta"
+
+#~ msgid "Button style"
+#~ msgstr "Estilo de los botones"
+
+#~ msgid "Whether Evolution should start up in offline mode"
+#~ msgstr "Indica si Evolution debería iniciarse en modo desconectado"
 
 #~ msgid "alarm "
 #~ msgstr "alarma"
@@ -21333,9 +21606,6 @@ msgstr "%s (%d%% completado)"
 #~ msgid "Physical URI to the default tasks folder"
 #~ msgstr "URI física a la carpeta de tareas predeterminada"
 
-#~ msgid "Whether to show the folder bar"
-#~ msgstr "Indica si se muestra la barra de carpetas"
-
 #~ msgid "Whether to show the shortcut bar"
 #~ msgstr "Indica si se muestra la barra de atajos"
 
@@ -21896,9 +22166,6 @@ msgstr "%s (%d%% completado)"
 
 #~ msgid "component"
 #~ msgstr "componente"
-
-#~ msgid "Geographical position"
-#~ msgstr "Posición geográfica"
 
 #~ msgid "URL"
 #~ msgstr "URL"
@@ -23047,9 +23314,6 @@ msgstr "%s (%d%% completado)"
 
 #~ msgid "FBUrl"
 #~ msgstr "DISUrl"
-
-#~ msgid "Default server calendar"
-#~ msgstr "Servidor predeterminado de agenda"
 
 #~ msgid "icsCalendar"
 #~ msgstr "icsCalendar"
@@ -32157,4 +32421,3 @@ msgstr "%s (%d%% completado)"
 
 #~ msgid "th"
 #~ msgstr "º"
-
