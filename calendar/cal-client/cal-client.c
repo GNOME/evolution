@@ -1101,8 +1101,8 @@ cal_client_get_load_state (CalClient *client)
 {
 	CalClientPrivate *priv;
 
-	g_return_val_if_fail (client != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+	g_return_val_if_fail (client != NULL, CAL_CLIENT_LOAD_NOT_LOADED);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_LOAD_NOT_LOADED);
 
 	priv = client->priv;
 	return priv->load_state;

@@ -207,7 +207,7 @@ process_item_fn (EvolutionImporter *importer,
 			TRUE, ev);
 		return;
 	} else if (state != CAL_CLIENT_LOAD_LOADED
-		 || tasks_state != CAL_CLIENT_LOAD_LOADED) {
+		   || tasks_state != CAL_CLIENT_LOAD_LOADED) {
 		GNOME_Evolution_ImporterListener_notifyResult (
 			listener,
 			GNOME_Evolution_ImporterListener_UNSUPPORTED_OPERATION,
