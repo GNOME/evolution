@@ -857,7 +857,7 @@ setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
 	CamelURL *url = camel_url_new (service->url, NULL);
 	gboolean has_auth = FALSE;
 	
-	if (url == NULL)
+	if (url == NULL || gsvc->provider == NULL)
 		return FALSE;
 	
 	if (url->user && CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_USER))

@@ -1,8 +1,12 @@
 2001-12-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (setup_service): If the provider is NULL,
+	don't do anything.
+
 	* mail-accounts.c (construct): Oops, no wonder the exec command
 	thing never stuck around... I wasn't getting the right widget from
-	libglade.
+	libglade. Also connect to the GtkEntry's changed event since a
+	GnomeFileEntry doesn't have that signal in its ancestry.
 
 2001-12-18  Jeffrey Stedfast  <fejj@ximian.com>
 
