@@ -240,6 +240,7 @@ init (EShellSettingsDialog *dialog)
 {
 	load_pages (dialog);
 
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution Settings"));
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 450);
 }
 
