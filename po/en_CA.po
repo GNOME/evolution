@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-08 12:43-0500\n"
-"PO-Revision-Date: 2005-02-08 19:18-0400\n"
+"POT-Creation-Date: 2005-02-10 12:51-0500\n"
+"PO-Revision-Date: 2005-02-10 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -4525,8 +4525,7 @@ msgstr "Whether to set a default reminder for appointments."
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
-msgstr ""
-"Whether to show times in 24-hour format instead of using am/pm."
+msgstr "Whether to show times in 24-hour format instead of using am/pm."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
 msgid "Whether to show week numbers in the date navigator."
@@ -4886,44 +4885,44 @@ msgid "weeks"
 msgstr "weeks"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:108
-#: composer/e-msg-composer-attachment-bar.c:101
+#: composer/e-msg-composer-attachment-bar.c:103
 #, c-format
 msgid "%.0fK"
 msgstr "%.0fK"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:111
-#: composer/e-msg-composer-attachment-bar.c:104
+#: composer/e-msg-composer-attachment-bar.c:106
 #, c-format
 msgid "%.0fM"
 msgstr "%.0fM"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:114
-#: composer/e-msg-composer-attachment-bar.c:107
+#: composer/e-msg-composer-attachment-bar.c:109
 #, c-format
 msgid "%.0fG"
 msgstr "%.0fG"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:298
 #: calendar/gui/dialogs/cal-attachment-bar.c:913
-#: composer/e-msg-composer-attachment-bar.c:293 mail/em-utils.c:436
+#: composer/e-msg-composer-attachment-bar.c:295 mail/em-utils.c:436
 msgid "attachment"
 msgstr "attachment"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:439
 #: calendar/gui/dialogs/meeting-page.c:781
-#: composer/e-msg-composer-attachment-bar.c:440
+#: composer/e-msg-composer-attachment-bar.c:437
 #: plugins/shared-folder/properties.glade.h:14
 msgid "_Remove"
 msgstr "_Remove"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:440
-#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2818
+#: composer/e-msg-composer-attachment-bar.c:438 mail/em-folder-tree.c:2818
 #: ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Properties"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:442
-#: composer/e-msg-composer-attachment-bar.c:443
+#: composer/e-msg-composer-attachment-bar.c:440
 msgid "_Add attachment..."
 msgstr "_Add attachment..."
 
@@ -4935,13 +4934,13 @@ msgstr "Attachment Bar"
 #: calendar/gui/dialogs/cal-attachment-select-file.c:115
 #: calendar/gui/dialogs/cal-attachment.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:6
-#: composer/e-msg-composer-select-file.c:93
-#: composer/e-msg-composer-select-file.c:112
+#: composer/e-msg-composer-select-file.c:95
+#: composer/e-msg-composer-select-file.c:115
 msgid "Suggest automatic display of attachment"
 msgstr "Suggest automatic display of attachment"
 
 #: calendar/gui/dialogs/cal-attachment-select-file.c:190
-#: composer/e-msg-composer-select-file.c:187
+#: composer/e-msg-composer-select-file.c:230
 msgid "Attach file(s)"
 msgstr "Attach file(s)"
 
@@ -5307,15 +5306,15 @@ msgstr "%s  You have made changes. Forget those changes and update the editor?"
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s  You have made no changes, update the editor?"
 
-#: calendar/gui/dialogs/comp-editor.c:181 composer/e-msg-composer.c:2671
+#: calendar/gui/dialogs/comp-editor.c:181 composer/e-msg-composer.c:2676
 #, c-format
 msgid "Attached message - %s"
 msgstr "Attached message - %s"
 
 #. translators, this count will always be >1
 #: calendar/gui/dialogs/comp-editor.c:186
-#: calendar/gui/dialogs/comp-editor.c:349 composer/e-msg-composer.c:2676
-#: composer/e-msg-composer.c:2839
+#: calendar/gui/dialogs/comp-editor.c:349 composer/e-msg-composer.c:2681
+#: composer/e-msg-composer.c:2844
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5323,7 +5322,7 @@ msgstr[0] "Attached message"
 msgstr[1] "%d attached messages"
 
 #: calendar/gui/dialogs/comp-editor.c:412 calendar/gui/e-calendar-table.c:1164
-#: calendar/gui/e-calendar-view.c:1402 composer/e-msg-composer.c:2901
+#: calendar/gui/e-calendar-view.c:1402 composer/e-msg-composer.c:2906
 #: mail/em-folder-tree.c:1046 mail/message-list.c:1712
 #: ui/evolution-addressbook.xml.h:31 ui/evolution-calendar.xml.h:39
 #: ui/evolution-composer-entries.xml.h:7 ui/evolution-mail-message.xml.h:105
@@ -5331,13 +5330,13 @@ msgstr[1] "%d attached messages"
 msgid "_Copy"
 msgstr "_Copy"
 
-#: calendar/gui/dialogs/comp-editor.c:413 composer/e-msg-composer.c:2902
+#: calendar/gui/dialogs/comp-editor.c:413 composer/e-msg-composer.c:2907
 #: mail/em-folder-tree.c:1047 mail/em-folder-tree.c:2311
 #: mail/em-folder-view.c:860 mail/message-list.c:1713
 msgid "_Move"
 msgstr "_Move"
 
-#: calendar/gui/dialogs/comp-editor.c:415 composer/e-msg-composer.c:2904
+#: calendar/gui/dialogs/comp-editor.c:415 composer/e-msg-composer.c:2909
 #: mail/em-folder-tree.c:1049 mail/message-list.c:1715
 msgid "Cancel _Drag"
 msgstr "Cancel _Drag"
@@ -5346,20 +5345,20 @@ msgstr "Cancel _Drag"
 msgid "Could not update object"
 msgstr "Could not update object"
 
-#: calendar/gui/dialogs/comp-editor.c:820 composer/e-msg-composer.c:2315
+#: calendar/gui/dialogs/comp-editor.c:820 composer/e-msg-composer.c:2310
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
 msgstr[0] "<b>%d</b> File Attached"
 msgstr[1] "<b>%d</b> Files Attached"
 
-#: calendar/gui/dialogs/comp-editor.c:873 composer/e-msg-composer.c:2344
+#: calendar/gui/dialogs/comp-editor.c:873 composer/e-msg-composer.c:2339
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "Hide _Attachment Bar (drop attachments here)"
 
 #: calendar/gui/dialogs/comp-editor.c:876
-#: calendar/gui/dialogs/comp-editor.c:928 composer/e-msg-composer.c:2347
-#: composer/e-msg-composer.c:3466
+#: calendar/gui/dialogs/comp-editor.c:928 composer/e-msg-composer.c:2342
+#: composer/e-msg-composer.c:3471
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "Show _Attachment Bar (drop attachments here)"
 
@@ -5701,7 +5700,7 @@ msgstr "_Start time:"
 #: calendar/gui/dialogs/meeting-page.c:296
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-cal-model-tasks.c:652 calendar/gui/e-itip-control.c:1104
-#: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
+#: composer/e-msg-composer.c:2117 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1273
 #: mail/em-account-prefs.c:421 mail/em-folder-view.c:998
 #: plugins/calendar-weather/calendar-weather.c:371
@@ -6218,7 +6217,7 @@ msgstr "%s at %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s for an unknown trigger type"
 
-#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2516
+#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2520
 #, c-format
 msgid "Click to open %s"
 msgstr "Click to open %s"
@@ -6325,7 +6324,7 @@ msgid "Updating objects"
 msgstr "Updating objects"
 
 #: calendar/gui/e-calendar-table.c:1014 calendar/gui/e-calendar-view.c:1064
-#: composer/e-msg-composer.c:1201
+#: composer/e-msg-composer.c:1241
 msgid "Save as..."
 msgstr "Save as..."
 
@@ -9390,13 +9389,13 @@ msgstr "Pacific/Wallis"
 msgid "Pacific/Yap"
 msgstr "Pacific/Yap"
 
-#: composer/e-msg-composer.c:727
+#: composer/e-msg-composer.c:730
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 
-#: composer/e-msg-composer.c:734
+#: composer/e-msg-composer.c:737
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
@@ -9404,41 +9403,42 @@ msgstr ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 
-#: composer/e-msg-composer.c:1233 composer/e-msg-composer.c:1254
+#: composer/e-msg-composer.c:1222 composer/e-msg-composer.c:1255
 msgid "Unknown reason"
 msgstr "Unknown reason"
 
-#: composer/e-msg-composer.c:1291
+#: composer/e-msg-composer.c:1292
 msgid "Could not open file"
 msgstr "Could not open file"
 
-#: composer/e-msg-composer.c:1299
+#: composer/e-msg-composer.c:1300
 msgid "Unable to retrieve message from editor"
 msgstr "Unable to retrieve message from editor"
 
-#: composer/e-msg-composer.c:1569
+#: composer/e-msg-composer.c:1570
 msgid "Untitled Message"
 msgstr "Untitled Message"
 
-#: composer/e-msg-composer.c:1599
-msgid "Open file"
-msgstr "Open file"
+#. NB: This function is never used anymore
+#: composer/e-msg-composer.c:1604
+msgid "Open File"
+msgstr "Open File"
 
-#: composer/e-msg-composer.c:2006 mail/em-account-editor.c:578
+#: composer/e-msg-composer.c:2001 mail/em-account-editor.c:578
 #: mail/em-account-editor.c:623 mail/em-account-editor.c:690
 msgid "Autogenerated"
 msgstr "Autogenerated"
 
-#: composer/e-msg-composer.c:2105
+#: composer/e-msg-composer.c:2100
 msgid "Si_gnature:"
 msgstr "Si_gnature:"
 
-#: composer/e-msg-composer.c:2364 composer/e-msg-composer.c:3355
-#: composer/e-msg-composer.c:3356
+#: composer/e-msg-composer.c:2359 composer/e-msg-composer.c:3360
+#: composer/e-msg-composer.c:3361
 msgid "Compose a message"
 msgstr "Compose a message"
 
-#: composer/e-msg-composer.c:4536
+#: composer/e-msg-composer.c:4541
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10576,7 +10576,7 @@ msgstr[1] "Unread messages:"
 msgid "Folder Properties"
 msgstr "Folder Properties"
 
-#: mail/em-folder-selection-button.c:121
+#: mail/em-folder-selection-button.c:123
 msgid "<click here to select a folder>"
 msgstr "<click here to select a folder>"
 
@@ -10868,19 +10868,19 @@ msgid "Filter on _Mailing List"
 msgstr "Filter on _Mailing List"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1797 mail/em-folder-view.c:1840
+#: mail/em-folder-view.c:1797 mail/em-folder-view.c:1841
 msgid "Default"
 msgstr "Default"
 
-#: mail/em-folder-view.c:1936
+#: mail/em-folder-view.c:1940
 msgid "Print Message"
 msgstr "Print Message"
 
-#: mail/em-folder-view.c:2225
+#: mail/em-folder-view.c:2229
 msgid "_Copy Link Location"
 msgstr "_Copy Link Location"
 
-#: mail/em-folder-view.c:2511
+#: mail/em-folder-view.c:2515
 #, c-format
 msgid "Click to mail %s"
 msgstr "Click to mail %s"
@@ -14966,7 +14966,8 @@ msgstr "Toolbar is visible"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:19
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr "Whether Evolution will start up in offline mode instead of online mode."
+msgstr ""
+"Whether Evolution will start up in offline mode instead of online mode."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Whether the toolbar should be visible."
