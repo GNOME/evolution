@@ -110,15 +110,18 @@ load_accounts (MailAccountsDialog *dialog)
 	const MailConfigAccount *account;
 	const GSList *node = dialog->accounts;
 	int i = 0;
-	
+	int default_account;
+
 	gtk_clist_freeze (dialog->mail_accounts);
 	
 	gtk_clist_clear (dialog->mail_accounts);
 	
+	default_account = mail_config_get_default_account_num ();
+
 	while (node) {
 		CamelURL *url;
 		gchar *text[3];
-		
+
 		account = node->data;
 		
 		if (account->source && account->source->url)
@@ -129,7 +132,7 @@ load_accounts (MailAccountsDialog *dialog)
 		text[0] = (account->source && account->source->enabled) ? "+" : "";
 		text[1] = account->name;
 		text[2] = g_strdup_printf ("%s%s", url && url->protocol ? url->protocol : _("None"),
-					   account->default_account ? _(" (default)") : "");
+					   (i == default_account) ? _(" (default)") : "");
 		
 		if (url)
 			camel_url_free (url);
@@ -310,6 +313,7 @@ mail_delete (GtkButton *button, gpointer data)
 		len = dialog->accounts ? g_slist_length ((GSList *) dialog->accounts) : 0;
 		if (len > 0) {
 			row = sel >= len ? len - 1 : sel;
+			load_accounts (dialog);
 			gtk_clist_select_row (dialog->mail_accounts, row, 0);
 		} else {
 			dialog->accounts_row = -1;

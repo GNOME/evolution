@@ -51,7 +51,6 @@ typedef struct {
 
 typedef struct {
 	gchar *name;
-	gboolean default_account;
 	
 	MailConfigIdentity *id;
 	MailConfigService *source;
@@ -164,11 +163,13 @@ const char *mail_config_get_default_charset (void);
 void        mail_config_set_default_charset (const char *charset);
 
 const MailConfigAccount  *mail_config_get_default_account       (void);
+gint                      mail_config_get_default_account_num   (void);
 const MailConfigAccount  *mail_config_get_account_by_name       (const char *account_name);
 const MailConfigAccount  *mail_config_get_account_by_source_url (const char *url);
 const GSList             *mail_config_get_accounts              (void);
 void                      mail_config_add_account               (MailConfigAccount *account);
 const GSList             *mail_config_remove_account            (MailConfigAccount *account);
+
 void                      mail_config_set_default_account       (const MailConfigAccount *account);
 
 const MailConfigIdentity *mail_config_get_default_identity (void);

@@ -1131,7 +1131,9 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->default_account = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "management_default"));
 	if (account->name)
 		e_utf8_gtk_entry_set_text (gui->account_name, account->name);
-	gtk_toggle_button_set_active (gui->default_account, account->default_account);
+	if (!mail_config_get_default_account()
+	    || (account == mail_config_get_default_account()))
+		gtk_toggle_button_set_active (gui->default_account, TRUE);
 	
 	/* Identity */
 	gui->full_name = GTK_ENTRY (glade_xml_get_widget (gui->xml, "identity_full_name"));
@@ -1531,8 +1533,9 @@ mail_account_gui_save (MailAccountGui *gui)
 	
 	g_free (account->name);
 	account->name = e_utf8_gtk_entry_get_text (gui->account_name);
-	account->default_account = gtk_toggle_button_get_active (gui->default_account);
-	
+	if (gtk_toggle_button_get_active (gui->default_account))
+		mail_config_set_default_account (account);
+
 	/* construct the identity */
 	identity_destroy (account->id);
 	account->id = g_new0 (MailConfigIdentity, 1);

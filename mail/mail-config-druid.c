@@ -164,7 +164,6 @@ create_html (const char *name)
 static void
 druid_cancel (GnomeDruid *druid, gpointer user_data)
 {
-	/* Cancel the setup of the account */
 	MailConfigDruid *config = user_data;
 	
 	gtk_widget_destroy (GTK_WIDGET (config));
@@ -173,17 +172,23 @@ druid_cancel (GnomeDruid *druid, gpointer user_data)
 static void
 druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 {
-	/* Cancel the setup of the account */
 	MailConfigDruid *druid = user_data;
 	MailAccountGui *gui = druid->gui;
 	GSList *mini;
-	
+
+	/* Add the account to our list (do it first because future
+           steps might want to access config->accounts) */
+	mail_config_add_account (gui->account);
+
+	/* Save the settings for that account */
 	mail_account_gui_save (gui);
 	if (gui->account->source)
 		gui->account->source->enabled = TRUE;
-	mail_config_add_account (gui->account);
+
+	/* Write out the config info */
 	mail_config_write ();
-	
+
+	/* Load up this new account */
 	mini = g_slist_prepend (NULL, gui->account);
 	mail_load_storages (druid->shell, mini, TRUE);
 	g_slist_free (mini);
@@ -376,15 +381,13 @@ management_changed (GtkWidget *widget, gpointer data)
 
 
 static MailConfigAccount *
-make_default_account (void)
+make_account (void)
 {
 	MailConfigAccount *account;
 	char *name, *user;
 	struct utsname uts;
 
 	account = g_new0 (MailConfigAccount, 1);
-	if (!mail_config_get_default_account)
-		account->default_account = TRUE;
 
 	account->id = g_new0 (MailConfigIdentity, 1);
 	name = g_get_real_name ();
@@ -450,7 +453,7 @@ construct (MailConfigDruid *druid)
 	MailConfigAccount *account;
 	int i;
 
-	account = make_default_account ();
+	account = make_account ();
 	druid->gui = mail_account_gui_new (account);
 
 	/* get our toplevel widget and reparent it */

@@ -70,6 +70,8 @@ typedef struct {
 	gboolean empty_trash_on_exit;
 	
 	GSList *accounts;
+	gint default_account;
+
 	GSList *news;
 	
 	char *pgp_path;
@@ -91,7 +93,8 @@ static MailConfig *config = NULL;
 
 /* Prototypes */
 static void config_read (void);
-static gint mail_config_get_default_account_num (void);
+static void mail_config_set_default_account_num (gint new_default);
+
 
 /* Identity */
 MailConfigIdentity *
@@ -173,7 +176,6 @@ account_copy (const MailConfigAccount *account)
 	
 	new = g_new0 (MailConfigAccount, 1);
 	new->name = g_strdup (account->name);
-	new->default_account = account->default_account;
 	
 	new->id = identity_copy (account->id);
 	new->source = service_copy (account->source);
@@ -280,9 +282,6 @@ config_read (void)
 	len = bonobo_config_get_long_with_default (config->db, 
 	        "/Mail/Accounts/num", 0, NULL);
 
-	default_num = bonobo_config_get_long_with_default (config->db,
-		"/Mail/Accounts/default_account", 0, NULL);
-
 	for (i = 0; i < len; i++) {
 		MailConfigAccount *account;
 		MailConfigIdentity *id;
@@ -294,11 +293,6 @@ config_read (void)
 		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
 		account->name = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-		
-		if (default_num == i)
-			account->default_account = TRUE;
-		else
-			account->default_account = FALSE;
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_name_%d", i);
 		val = bonobo_config_get_string (config->db, path, NULL);
@@ -447,7 +441,13 @@ config_read (void)
 		
 		config->accounts = g_slist_append (config->accounts, account);
 	}
-	
+
+
+	default_num = bonobo_config_get_long_with_default (config->db,
+		"/Mail/Accounts/default_account", 0, NULL);
+
+	mail_config_set_default_account_num (default_num);
+
 #ifdef ENABLE_NNTP
 	/* News */
 	
@@ -1268,25 +1268,20 @@ mail_config_get_default_account (void)
 {
 	const MailConfigAccount *account;
 	GSList *l;
+	MailConfigAccount *retval;
 	
 	if (!config->accounts)
 		return NULL;
-	
-	/* find the default account */
-	l = config->accounts;
-	while (l) {
-		account = l->data;
-		if (account->default_account)
-			return account;
-		
-		l = l->next;
-	}
-	
-	/* none are marked as default so mark the first one as the default */
-	account = config->accounts->data;
-	mail_config_set_default_account (account);
-	
-	return account;
+
+	retval = g_slist_nth_data (config->accounts,
+				   config->default_account);
+
+	/* Looks like we have no default, so make the first account
+           the default */
+	if (retval == NULL)
+		mail_config_set_default_account_num (0);
+
+	return retval;
 }
 
 const MailConfigAccount *
@@ -1340,64 +1335,46 @@ mail_config_get_accounts (void)
 void
 mail_config_add_account (MailConfigAccount *account)
 {
-	if (account->default_account) {
-		/* Un-defaultify other accounts */
-		GSList *node = config->accounts;
-		
-		while (node) {
-			MailConfigAccount *acnt = node->data;
-			
-			acnt->default_account = FALSE;
-			
-			node = node->next;
-		}
-	}
-	
 	config->accounts = g_slist_append (config->accounts, account);
 }
 
 const GSList *
 mail_config_remove_account (MailConfigAccount *account)
 {
+	/* Removing the current default, so make the first account the
+           default */
+	if (account == mail_config_get_default_account ())
+		config->default_account = 0;
+
 	config->accounts = g_slist_remove (config->accounts, account);
 	account_destroy (account);
-	
+
 	return config->accounts;
 }
 
-static gint
+gint
 mail_config_get_default_account_num (void)
 {
-	int i = 0;
-	GSList *node = config->accounts;
+	return config->default_account;
+}
 
-	while (node) {
-		MailConfigAccount *account = node->data;
-
-		if (account->default_account)
-			return i;
-
-		i++;
-		node = node->next;
-	}
-
-	return 0;
+static void
+mail_config_set_default_account_num (gint new_default)
+{
+	config->default_account = new_default;
 }
 
 void
 mail_config_set_default_account (const MailConfigAccount *account)
 {
 	GSList *node = config->accounts;
-	
-	while (node) {
-		MailConfigAccount *acnt = node->data;
+	gint position = 0;
+
+	position = g_slist_index (config->accounts, (void*)account);
+
+	config->default_account = position;
 		
-		acnt->default_account = FALSE;
-		
-		node = node->next;
-	}
-	
-	((MailConfigAccount *) account)->default_account = TRUE;
+	return;
 }
 
 const MailConfigIdentity *
@@ -1630,7 +1607,6 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 
 	mail_account = g_new0 (MailConfigAccount, 1);
 	mail_account->name = g_strdup (account->name);
-	mail_account->default_account = account->default_account;
 
 	/* Copy ID */
 	id = account->id;

@@ -1,3 +1,24 @@
+2001-07-18  Jason Leach  <jleach@ximian.com>
+
+	[Simplifying how default account is stored and used internally,
+	fixes possabilities of having multiple default accounts and things
+	like deleting the current default account]
+	
+	* mail-account-gui.c (mail_account_gui_new): Update for new way of
+	finding out the default account.
+	(mail_account_gui_save): Ditto.
+
+	* mail-accounts.c (load_accounts): Ditto.
+
+	* mail-config-druid.c (make_default_account): Ditto.
+	
+	* mail-config.c: Added an int MailConfig::default_account, to be
+	used instead of a 'default_account' boolean on each mail account.
+	(mail_config_set_default_account_num): New function, facilitates
+	things. 
+
+	* Mail.idl: removed the Account::default_account boolean.
+
 2001-07-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-tools.c (mail_tool_generate_forward_subject): Do what was

@@ -61,7 +61,6 @@ module Evolution {
 
 		struct Account {
 			string name;
-			boolean default_account;
 
 			Identity id;
 			Service source;
