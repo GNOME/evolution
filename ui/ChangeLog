@@ -1,5 +1,12 @@
 2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-message-composer.xml: Added an EncodingPlaceholder,
+	shuffled around the items for the Edit menu a little bit.  Removed
+	"Delete All" which is too dangerous a command [especially without
+	confirmation as it is implemented now].
+
+2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-message-composer.xml: Remove separator from the end of
 	the "View" menu.
 
