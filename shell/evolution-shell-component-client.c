@@ -840,6 +840,38 @@ evolution_shell_component_client_populate_folder_context_menu (EvolutionShellCom
 	CORBA_exception_free (&ev);
 }
 
+void
+evolution_shell_component_client_unpopulate_folder_context_menu (EvolutionShellComponentClient *shell_component_client,
+								 BonoboUIContainer *container,
+								 const char *physical_uri,
+								 const char *type)
+{
+	Bonobo_UIContainer corba_container;
+	EvolutionShellComponentClientPrivate *priv;
+	GNOME_Evolution_ShellComponent corba_shell_component;
+	CORBA_Environment ev;
+
+	g_return_if_fail (shell_component_client != NULL);
+	g_return_if_fail (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (shell_component_client));
+	g_return_if_fail (physical_uri != NULL);
+	g_return_if_fail (type != NULL);
+
+	priv = shell_component_client->priv;
+
+	CORBA_exception_init (&ev);
+
+	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client));
+	corba_container = bonobo_object_corba_objref (BONOBO_OBJECT (container));
+
+	GNOME_Evolution_ShellComponent_unpopulateFolderContextMenu (corba_shell_component,
+								  corba_container,
+								  physical_uri,
+								  type,
+								  &ev);
+
+	CORBA_exception_free (&ev);
+}
+
 
 void
 evolution_shell_component_client_request_quit (EvolutionShellComponentClient *shell_component_client,

@@ -1,3 +1,39 @@
+2002-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (popup_folder_menu): Remove the context
+	menu items using
+	evolution_shell_component_client_unpopulate_folder_context_menu()
+	instead of doing it ourself, since BonoboUI sucks.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_unpopulate_folder_context_menu):
+	New.
+
+	* evolution-test-component.c (register_component): Pass NULL as
+	@unpopulate_folder_context_menu_fn to
+	evolution_shell_component_new().
+
+	* evolution-shell-component.c: New member
+	unpopulate_folder_context_menu_fn in
+	EvolutionShellComponentPrivate.  New member uic in
+	EvolutionShellComponentPrivate.
+	(init): Init new members to NULL.
+	(destroy): bonobo_object_unref() priv->uic if not NULL.
+	(evolution_shell_component_new): New arg
+	@unpopulate_folder_context_menu_fn.
+	(evolution_shell_component_construct): Likewise.
+	(impl_populateFolderContextMenu): Set priv->uic to the newly
+	created UIComponent.
+	(impl_unpopulateFolderContextMenu): New, implementation for the
+	::unpopulateFolderContextMenu CORBA method.
+	(class_init): Install.
+
+	* Evolution-ShellComponent.idl (unpopulateFolderContextMenu): New
+	method.
+	(AlreadyPopulated): New exception.
+	(populateFolderContextMenu): Can raise it.
+	(NotPopulated): New exception.
+
 2002-09-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (popup_folder_menu): Create an Items

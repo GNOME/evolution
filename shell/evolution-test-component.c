@@ -595,7 +595,7 @@ register_component (void)
 	shell_component = evolution_shell_component_new (folder_types,
 							 NULL,
 							 create_view_fn,
-							 NULL, NULL, NULL, NULL, NULL,
+							 NULL, NULL, NULL, NULL, NULL, NULL,
 							 request_quit_fn,
 							 NULL);
 

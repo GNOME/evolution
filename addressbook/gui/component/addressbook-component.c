@@ -558,7 +558,7 @@ create_component (void)
 	shell_component = evolution_shell_component_new (folder_types, NULL,
 							 create_view, create_folder,
 							 remove_folder, xfer_folder,
-							 NULL,
+							 NULL, NULL,
 							 get_dnd_selection,
 							 request_quit,
 							 NULL);

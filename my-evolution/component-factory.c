@@ -144,7 +144,7 @@ create_component (BonoboGenericFactory *factory,
 							 NULL, NULL, 
 							 NULL, NULL,
 							 NULL, NULL,
-							 NULL);
+							 NULL, NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
 			    GTK_SIGNAL_FUNC (component_destroy), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",

@@ -119,10 +119,14 @@ void  evolution_shell_component_client_async_xfer_folder    (EvolutionShellCompo
 							     EvolutionShellComponentClientCallback  callback,
 							     void                                  *data);
 
-void  evolution_shell_component_client_populate_folder_context_menu  (EvolutionShellComponentClient *shell_component_client,
-								      BonoboUIContainer             *container,
-								      const char                    *physical_uri,
-								      const char                    *type);
+void  evolution_shell_component_client_populate_folder_context_menu    (EvolutionShellComponentClient *shell_component_client,
+								        BonoboUIContainer             *container,
+								        const char                    *physical_uri,
+								        const char                    *type);
+void  evolution_shell_component_client_unpopulate_folder_context_menu  (EvolutionShellComponentClient *shell_component_client,
+									BonoboUIContainer             *container,
+									const char                    *physical_uri,
+									const char                    *type);
 
 void  evolution_shell_component_client_request_quit  (EvolutionShellComponentClient         *shell_component_client,
 						      EvolutionShellComponentClientCallback  callback,

@@ -62,6 +62,8 @@ module Evolution {
 		exception OldOwnerHasDied {};
 		exception UnsupportedSchema {};
 		exception UnsupportedType {};
+		exception AlreadyPopulated {};
+		exception NotPopulated {};
 
 		/* List of folders that the component supports.  */
 		readonly attribute FolderTypeList supportedTypes;
@@ -129,7 +131,16 @@ module Evolution {
 		   @physical_uri.  */
 		void populateFolderContextMenu (in Bonobo::UIContainer uih,
 						in string physical_uri,
-						in string type);
+						in string type)
+			raises (AlreadyPopulated);
+
+		/* After you are done, you have to remove the items.  This is
+		   because of BonoboUI sucking and not allowing the shell to
+		   remove the items itself.  */
+		void unpopulateFolderContextMenu (in Bonobo::UIContainer uih,
+						  in string physical_uri,
+						  in string type)
+			raises (NotPopulated);
 
 		/* Make the component create a new item of the specify @id in
 		   the folder specified by @parent_folder_physical_uri.  This

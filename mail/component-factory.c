@@ -422,6 +422,28 @@ populate_folder_context_menu (EvolutionShellComponent *shell_component,
 	bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,  popup_xml, NULL);
 }
 
+static void
+unpopulate_folder_context_menu (EvolutionShellComponent *shell_component,
+				BonoboUIComponent *uic,
+				const char *physical_uri,
+				const char *type,
+				void *closure)
+{
+	if (strcmp (type, "mail") != 0)
+		return;
+
+	/* FIXME: handle other types */
+
+	/* the unmatched test is a bit of a hack but it works */
+	if (strncmp(physical_uri, "vfolder:", 8) != 0
+	    || strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) != NULL)
+		return;
+
+	bonobo_ui_component_rm (uic,
+				EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER "/ChangeFolderPropertiesPopUp",
+				NULL);
+}
+
 static char *
 get_dnd_selection (EvolutionShellComponent *shell_component,
 		   const char *physical_uri,
@@ -976,6 +998,7 @@ create_component (void)
 							 remove_folder,
 							 xfer_folder,
 							 populate_folder_context_menu,
+							 unpopulate_folder_context_menu,
 							 get_dnd_selection,
 							 request_quit,
 							 NULL);

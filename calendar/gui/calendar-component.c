@@ -688,6 +688,7 @@ create_object (void)
 							 remove_folder,
 							 xfer_folder,
 							 NULL, /* populate_folder_context_menu_fn */
+							 NULL, /* unpopulate_folder_context_menu_fn */
 							 NULL, /* get_dnd_selection_fn */
 							 request_quit,
 							 NULL  /* closure */);

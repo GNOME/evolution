@@ -1824,7 +1824,6 @@ mail_account_gui_save (MailAccountGui *gui)
 	MailConfigAccount *old_account;
 	CamelProvider *provider = NULL;
 	CamelURL *source_url = NULL, *url;
-	CamelStore *store = NULL;
 	gboolean is_storage;
 	gboolean enabled;
 	char *new_name;

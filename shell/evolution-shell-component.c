@@ -65,12 +65,17 @@ struct _EvolutionShellComponentPrivate {
 	EvolutionShellComponentRemoveFolderFn remove_folder_fn;
 	EvolutionShellComponentXferFolderFn xfer_folder_fn;
 	EvolutionShellComponentPopulateFolderContextMenuFn populate_folder_context_menu_fn;
+	EvolutionShellComponentUnpopulateFolderContextMenuFn unpopulate_folder_context_menu_fn;
 	EvolutionShellComponentGetDndSelectionFn get_dnd_selection_fn;
 	EvolutionShellComponentRequestQuitFn request_quit_fn;
 
 	EvolutionShellClient *owner_client;
 
 	GSList *user_creatable_item_types; /* UserCreatableItemType */
+
+	/* This is used for
+	   populateFolderContextMenu/unpopulateFolderContextMenu.  */
+	BonoboUIComponent *uic;
 
 	int ping_timeout_id;
 
@@ -637,7 +642,6 @@ impl_populateFolderContextMenu (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
-	BonoboUIComponent *uic;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
@@ -646,13 +650,49 @@ impl_populateFolderContextMenu (PortableServer_Servant servant,
 	if (priv->populate_folder_context_menu_fn == NULL)
 		return;
 
-	uic = bonobo_ui_component_new_default ();
-	bonobo_ui_component_set_container (uic, corba_uih);
+	if (priv->uic != NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_ShellComponent_AlreadyPopulated,
+				     NULL);
+		return;
+	}
+
+	priv->uic = bonobo_ui_component_new_default ();
+	bonobo_ui_component_set_container (priv->uic, corba_uih);
 	bonobo_object_release_unref (corba_uih, NULL);
 
-	(* priv->populate_folder_context_menu_fn) (shell_component, uic, physical_uri, type, priv->closure);
+	(* priv->populate_folder_context_menu_fn) (shell_component, priv->uic, physical_uri, type, priv->closure);
+}
 
-	bonobo_object_unref (BONOBO_OBJECT (uic));
+static void
+impl_unpopulateFolderContextMenu (PortableServer_Servant servant,
+				  const Bonobo_UIContainer corba_uih,
+				  const CORBA_char *physical_uri,
+				  const CORBA_char *type,
+				  CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentPrivate *priv;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
+	priv = shell_component->priv;
+
+	if (priv->unpopulate_folder_context_menu_fn == NULL)
+		return;
+
+	if (priv->uic == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_ShellComponent_NotPopulated,
+				     NULL);
+		return;
+	}
+
+	(* priv->unpopulate_folder_context_menu_fn) (shell_component, priv->uic, physical_uri, type, priv->closure);
+
+	bonobo_object_unref (BONOBO_OBJECT (priv->uic));
+	priv->uic = NULL;
 }
 
 static void
@@ -762,6 +802,9 @@ destroy (GtkObject *object)
 	for (sp = priv->user_creatable_item_types; sp != NULL; sp = sp->next)
 		user_creatable_item_type_free ((UserCreatableItemType *) sp->data);
 	g_slist_free (priv->user_creatable_item_types);
+
+	if (priv->uic != NULL)
+		bonobo_object_unref (BONOBO_OBJECT (priv->uic));
 
 	g_free (priv);
 
@@ -910,6 +953,7 @@ class_init (EvolutionShellComponentClass *klass)
 	epv->removeFolderAsync           = impl_removeFolderAsync; 
 	epv->xferFolderAsync             = impl_xferFolderAsync; 
 	epv->populateFolderContextMenu   = impl_populateFolderContextMenu;
+	epv->unpopulateFolderContextMenu = impl_unpopulateFolderContextMenu;
 	epv->userCreateNewItem           = impl_userCreateNewItem;
 	epv->sendReceive                 = impl_sendReceive;
 	epv->requestQuit                 = impl_requestQuit;
@@ -929,17 +973,20 @@ init (EvolutionShellComponent *shell_component)
 	priv->folder_types                    = NULL;
 	priv->external_uri_schemas            = NULL;
 
-	priv->create_view_fn                  = NULL;
-	priv->create_folder_fn                = NULL;
-	priv->remove_folder_fn                = NULL;
-	priv->xfer_folder_fn                  = NULL;
-	priv->populate_folder_context_menu_fn = NULL;
+	priv->create_view_fn                    = NULL;
+	priv->create_folder_fn                  = NULL;
+	priv->remove_folder_fn                  = NULL;
+	priv->xfer_folder_fn                    = NULL;
+	priv->populate_folder_context_menu_fn   = NULL;
+	priv->unpopulate_folder_context_menu_fn = NULL;
 
-	priv->owner_client                    = NULL;
-	priv->user_creatable_item_types       = NULL;
-	priv->closure                         = NULL;
+	priv->owner_client                      = NULL;
+	priv->user_creatable_item_types         = NULL;
+	priv->closure                           = NULL;
 
-	priv->ping_timeout_id                 = -1;
+	priv->ping_timeout_id                   = -1;
+
+	priv->uic                               = NULL;
 
 	shell_component->priv = priv;
 }
@@ -954,6 +1001,7 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 				     EvolutionShellComponentRemoveFolderFn remove_folder_fn,
 				     EvolutionShellComponentXferFolderFn xfer_folder_fn,
 				     EvolutionShellComponentPopulateFolderContextMenuFn populate_folder_context_menu_fn,
+				     EvolutionShellComponentUnpopulateFolderContextMenuFn unpopulate_folder_context_menu_fn,
 				     EvolutionShellComponentGetDndSelectionFn get_dnd_selection_fn,
 				     EvolutionShellComponentRequestQuitFn request_quit_fn,
 				     void *closure)
@@ -967,13 +1015,14 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 
 	priv = shell_component->priv;
 
-	priv->create_view_fn                  = create_view_fn;
-	priv->create_folder_fn                = create_folder_fn;
-	priv->remove_folder_fn                = remove_folder_fn;
-	priv->xfer_folder_fn                  = xfer_folder_fn;
-	priv->populate_folder_context_menu_fn = populate_folder_context_menu_fn;
-	priv->get_dnd_selection_fn            = get_dnd_selection_fn;
-	priv->request_quit_fn                 = request_quit_fn;
+	priv->create_view_fn                    = create_view_fn;
+	priv->create_folder_fn                  = create_folder_fn;
+	priv->remove_folder_fn                  = remove_folder_fn;
+	priv->xfer_folder_fn                    = xfer_folder_fn;
+	priv->populate_folder_context_menu_fn   = populate_folder_context_menu_fn;
+	priv->unpopulate_folder_context_menu_fn = unpopulate_folder_context_menu_fn;
+	priv->get_dnd_selection_fn              = get_dnd_selection_fn;
+	priv->request_quit_fn                   = request_quit_fn;
 
 	priv->closure = closure;
 
@@ -1018,6 +1067,7 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 			       EvolutionShellComponentRemoveFolderFn remove_folder_fn,
 			       EvolutionShellComponentXferFolderFn xfer_folder_fn,
 			       EvolutionShellComponentPopulateFolderContextMenuFn populate_folder_context_menu_fn,
+			       EvolutionShellComponentUnpopulateFolderContextMenuFn unpopulate_folder_context_menu_fn,
 			       EvolutionShellComponentGetDndSelectionFn get_dnd_selection_fn,
 			       EvolutionShellComponentRequestQuitFn request_quit_fn,
 			       void *closure)
@@ -1036,6 +1086,7 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 					     remove_folder_fn,
 					     xfer_folder_fn,
 					     populate_folder_context_menu_fn,
+					     unpopulate_folder_context_menu_fn,
 					     get_dnd_selection_fn,
 					     request_quit_fn,
 					     closure);
