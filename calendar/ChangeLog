@@ -1,3 +1,13 @@
+2004-03-18  Alfred Peng <alfred.peng@sun.com>
+
+	* Fix #51187 on bugzilla of ximian
+	* gui/alarm-notify/alarm-queue.c (query_objects_changed_cb):
+	If "alarms" or "alarms->alarms" is NULL after querying a calendar
+	for the alarms of a particular object, the reuse of "cqa" will
+	probably cause evolution-alarm-notify to crash.
+	So remove "cqa" when "alarms" or "alarms->alarms" is NULL. Otherwise
+	update it.
+
 2004-03-17  hpnadig  <hp@ndeepak.info>
 
 	* gui/dialogs/task-page.glade: Capitalized words changed. Solves 48115.

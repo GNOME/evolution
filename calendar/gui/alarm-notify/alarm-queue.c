@@ -547,39 +547,42 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 		else {
 			GSList *sl;
 
-			/* if already in the list, just update it */
-			remove_alarms (cqa, FALSE);
-			cqa->alarms = alarms;
-			cqa->queued_alarms = NULL;
+			/* if the alarms or the alarms list is empty, just remove it */
+			if (alarms == NULL || alarms->alarms == NULL) {
+				if (alarms)
+					e_cal_component_alarms_free (alarms);
+			}
+			else {
+				/* if already in the list, just update it */
+				remove_alarms (cqa, FALSE);
+				cqa->alarms = alarms;
+				cqa->queued_alarms = NULL;
+	
+				/* add the new alarms */
+				for (sl = cqa->alarms->alarms; sl; sl = sl->next) {
+					ECalComponentAlarmInstance *instance;
+					gpointer alarm_id;
+					QueuedAlarm *qa;
+	
+					instance = sl->data;
+	
+					alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
+					if (!alarm_id) {
+						g_message ("obj_updated_cb(): Could not schedule a trigger for "
+							   "%ld, discarding...", (long) instance->trigger);
+						continue;
+					}
 
-			/* add the new alarms */
-			for (sl = cqa->alarms->alarms; sl; sl = sl->next) {
-				ECalComponentAlarmInstance *instance;
-				gpointer alarm_id;
-				QueuedAlarm *qa;
+					qa = g_new (QueuedAlarm, 1);
+					qa->alarm_id = alarm_id;
+					qa->instance = instance;
+					qa->snooze = FALSE;
 
-				instance = sl->data;
-
-				alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
-				if (!alarm_id) {
-					g_message ("obj_updated_cb(): Could not schedule a trigger for "
-						   "%ld, discarding...", (long) instance->trigger);
-					continue;
+					cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
 				}
 
-				qa = g_new (QueuedAlarm, 1);
-				qa->alarm_id = alarm_id;
-				qa->instance = instance;
-				qa->snooze = FALSE;
-
-				cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
-			}
-
-			if (cqa->queued_alarms == NULL) {
-				if (!cqa->expecting_update)
-					remove_comp (ca, uid);
-			} else
 				cqa->queued_alarms = g_slist_reverse (cqa->queued_alarms);
+			}
 		}
 	}
 }
