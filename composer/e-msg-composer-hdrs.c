@@ -36,6 +36,10 @@
 
 #include "Composer.h"
 
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtktooltips.h>
+
 #include <gal/e-text/e-entry.h>
 #include <gal/widgets/e-unicode.h>
 

@@ -22,7 +22,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-
 #include <config.h>
 
 #include <math.h>
@@ -37,19 +36,16 @@
 #undef __USE_XOPEN
 
 #include <ctype.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
+
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-unicode.h>
-#include <e-util/e-time-utils.h>
-#include <cal-util/timeutil.h>
-#include "calendar-model.h"
+
+#include "e-util/e-time-utils.h"
+#include "cal-util/timeutil.h"
 #include "calendar-commands.h"
-
-
-
+#include "calendar-model.h"
 
 /* Private part of the ECalendarModel structure */
 struct _CalendarModelPrivate {

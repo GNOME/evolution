@@ -27,33 +27,33 @@
  */
 
 #include <config.h>
+
+#include "e-day-view.h"
+
 #include <math.h>
 #include <time.h>
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
 #include <gtk/gtkdnd.h>
 #include <gtk/gtkmain.h>
-#include <gtk/gtkselection.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkvscrollbar.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
+#include <gtk/gtkwindow.h>
+#include <gal/e-text/e-text.h>
+#include <gal/widgets/e-popup-menu.h>
+#include <gal/widgets/e-canvas-utils.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
-#include <cal-util/timeutil.h>
+#include <libgnome/gnome-i18n.h>
+
+#include "cal-util/timeutil.h"
 #include "dialogs/delete-comp.h"
 #include "comp-util.h"
-#include "e-day-view.h"
+#include "calendar-commands.h"
+#include "goto.h"
+#include "e-meeting-edit.h"
 #include "e-day-view-time-item.h"
 #include "e-day-view-top-item.h"
 #include "e-day-view-main-item.h"
-#include "calendar-commands.h"
-#include <gal/widgets/e-canvas.h>
-#include <gal/e-text/e-text.h>
-#include <gal/widgets/e-canvas-utils.h>
-#include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-popup-menu.h>
-#include "e-meeting-edit.h"
-#include "goto.h"
 
 /* Images */
 #include "art/bell.xpm"

@@ -25,27 +25,25 @@
  */
 
 #include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-propertybox.h>
+#include <string.h>
 #include <glade/glade.h>
-#include <e-util/e-dialog-widgets.h>
-#include <widgets/misc/e-dateedit.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-categories.h>
-#include <cal-util/timeutil.h>
+#include <libgnomeui/gnome-propertybox.h>
+#include <libgnome/gnome-i18n.h>
+
+#include "calendar-config.h"
+#include "cal-util/timeutil.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/save-comp.h"
-#include "calendar-config.h"
-#include "event-editor.h"
 #include "e-meeting-edit.h"
-#include "calendar-config.h"
+#include "e-util/e-dialog-widgets.h"
+#include "event-editor.h"
 #include "tag-calendar.h"
 #include "weekday-picker.h"
+#include "widgets/misc/e-dateedit.h"
 #include "widget-util.h"
 
-
 enum {BEFORE, AFTER};
 enum {MINUTES, HOURS, DAYS};
 

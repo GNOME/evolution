@@ -24,6 +24,8 @@
 #ifndef E_SHELL_UTILS_H
 #define E_SHELL_UTILS_H
 
+#include <glib.h>
+
 char *e_shell_get_icon_path (const char *icon_name,
 			     gboolean try_mini);
 

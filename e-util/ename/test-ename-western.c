@@ -1,7 +1,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtkmain.h>
 #include <ename/e-name-western.h>
 
 static void

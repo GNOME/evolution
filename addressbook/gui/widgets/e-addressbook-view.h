@@ -21,7 +21,7 @@
 #ifndef __E_ADDRESSBOOK_VIEW_H__
 #define __E_ADDRESSBOOK_VIEW_H__
 
-#include <gtk/gtkobject.h>
+#include <gtk/gtktable.h>
 #include <bonobo/bonobo-ui-component.h>
 #include "addressbook/backend/ebook/e-book.h"
 

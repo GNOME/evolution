@@ -21,15 +21,6 @@
 	(get_widget): Don't have a remove action button, we are putting
 	this next to the rule part now.
 	
-	* filter-rule.c (option_activate): Set the newpart on the
-	container object.
-	(less_parts): Remove the rule tht the user wants to remove.
-	(attach_rule): Attach a new rule and it's remove button to the end
-	of the table.
-	(more_parts): Fix to resize the table and such.
-	(get_widget): Don't have a remove action button, we are putting
-	this next to the rule part now.
-
 2001-03-30  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* *.*: Fix headers. Remove unneccesary ones and replace

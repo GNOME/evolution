@@ -8,15 +8,17 @@
  * (C) 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
+
+#include "gal-view-menus.h"
+
 #include <stdlib.h>
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
-#include <libgnome/gnome-defs.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
-#include "gal-view-menus.h"
 #include <gal/menus/gal-define-views-dialog.h>
 
 struct _GalViewMenusPrivate {

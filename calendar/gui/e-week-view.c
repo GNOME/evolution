@@ -28,35 +28,34 @@
  */
 
 #include <config.h>
+
+#include "e-week-view.h"
+
 #include <math.h>
-#include <glib.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkvscrollbar.h>
+#include <gtk/gtkwindow.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include <gal/e-text/e-text.h>
+#include <gal/widgets/e-popup-menu.h>
+#include <gal/widgets/e-canvas-utils.h>
 #include "dialogs/delete-comp.h"
-#include "calendar-commands.h"
 #include "comp-util.h"
-#include "e-week-view.h"
+#include "cal-util/timeutil.h"
+#include "calendar-commands.h"
+#include "goto.h"
+#include "e-meeting-edit.h"
 #include "e-week-view-event-item.h"
 #include "e-week-view-main-item.h"
 #include "e-week-view-titles-item.h"
-#include <cal-util/timeutil.h>
-#include <gal/widgets/e-canvas.h>
-#include <gal/e-text/e-text.h>
-#include <gal/widgets/e-popup-menu.h>
-#include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-canvas-utils.h>
-#include "e-meeting-edit.h"
-#include "goto.h"
 
 /* Images */
 #include "art/bell.xpm"
 #include "art/recur.xpm"
-
 #include "art/jump.xpm"
 
 #define E_WEEK_VIEW_SMALL_FONT	\

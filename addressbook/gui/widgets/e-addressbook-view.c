@@ -22,42 +22,35 @@
 
 #include <config.h>
 
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-paper.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
-#include <libgnome/gnome-paper.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-popup-menu.h>
-#include "widgets/menus/gal-view-menus.h"
-
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
+
+#include <libgnomeprint/gnome-print.h>
+#include <libgnomeprint/gnome-print-dialog.h>
+#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-master-preview.h>
+
+#include "widgets/menus/gal-view-menus.h"
+
+#include "addressbook/printing/e-contact-print.h"
+#include "addressbook/printing/e-contact-print-envelope.h"
 
 #include "gal-view-factory-minicard.h"
 #include "gal-view-minicard.h"
 
 #include "e-addressbook-view.h"
 #include "e-addressbook-model.h"
-
 #include "e-minicard-view-widget.h"
+#include "e-contact-save-as.h"
 
 #include "e-contact-editor.h"
-#include "e-contact-save-as.h"
-#include "addressbook/printing/e-contact-print.h"
-#include "addressbook/printing/e-contact-print-envelope.h"
-#include "e-card-simple.h"
-#include "e-card.h"
-#include "e-book.h"
-
-#include "glade/glade-xml.h"
-
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-dialog.h>
-#include <libgnomeprint/gnome-print-master.h>
-#include <libgnomeprint/gnome-print-master-preview.h>
 
 static void e_addressbook_view_init		(EAddressbookView		 *card);
 static void e_addressbook_view_class_init	(EAddressbookViewClass	 *klass);

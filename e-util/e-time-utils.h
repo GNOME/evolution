@@ -11,6 +11,9 @@
 #ifndef E_TIME_UTILS
 #define E_TIME_UTILS
 
+#include <time.h>
+#include <glib.h>
+
 typedef enum {
 	E_TIME_PARSE_OK,
 	E_TIME_PARSE_NONE,

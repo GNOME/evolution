@@ -33,10 +33,11 @@
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-text.h>
 
+#include <libgnome/gnome-util.h>
+
 #include "e-util/e-gtk-utils.h"
 
 #include "e-shell-constants.h"
-
 #include "e-local-storage.h"
 #include "e-storage-set-view.h"
 

@@ -30,8 +30,11 @@
  */
 
 #include <config.h>
-#include <gal/e-text/e-text.h>
+
 #include "e-week-view-event-item.h"
+
+#include <gtk/gtksignal.h>
+#include <gal/e-text/e-text.h>
 
 static void e_week_view_event_item_class_init	(EWeekViewEventItemClass *class);
 static void e_week_view_event_item_init		(EWeekViewEventItem *wveitem);

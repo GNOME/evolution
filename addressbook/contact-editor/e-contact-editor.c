@@ -21,16 +21,16 @@
  */
 
 #include <config.h>
+
 #include <time.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkcombo.h>
 #include <gtk/gtktext.h>
-#include <gtk/gtktogglebutton.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-dateedit.h>
 #include <libgnomeui/gnome-popup-menu.h>
+#include <libgnomeui/gnome-dateedit.h>
+#include <libgnome/gnome-i18n.h>
+
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
@@ -38,13 +38,14 @@
 #include <gal/widgets/e-categories.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
-#include <addressbook/printing/e-contact-print.h>
-#include <addressbook/printing/e-contact-print-envelope.h>
-#include <e-util/e-gui-utils.h>
+
+#include "addressbook/printing/e-contact-print.h"
+#include "addressbook/printing/e-contact-print-envelope.h"
+#include "e-util/e-gui-utils.h"
 
 #include "e-contact-editor.h"
-#include "e-contact-editor-fullname.h"
 #include "e-contact-editor-address.h"
+#include "e-contact-editor-fullname.h"
 #include "e-contact-save-as.h"
 
 /* Signal IDs */

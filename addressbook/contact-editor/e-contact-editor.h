@@ -25,8 +25,9 @@
 #include <libgnomeui/gnome-app-helper.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <glade/glade.h>
-#include <addressbook/backend/ebook/e-card.h>
-#include <addressbook/backend/ebook/e-card-simple.h>
+
+#include "addressbook/backend/ebook/e-card.h"
+#include "addressbook/backend/ebook/e-card-simple.h"
 
 #ifdef __cplusplus
 extern "C" {

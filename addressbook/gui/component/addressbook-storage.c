@@ -65,6 +65,7 @@
 
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "evolution-shell-component.h"
 #include "evolution-storage.h"

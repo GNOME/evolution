@@ -47,6 +47,10 @@
 
 #include "config.h"
 
+#include <gtk/gtkmain.h>
+#include <gtk/gtkvbox.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnomeui/gnome-init.h>
 #include <gal/widgets/e-canvas.h>
 #include <gal/widgets/e-reflow.h>
 #include <gal/widgets/e-scroll-frame.h>
