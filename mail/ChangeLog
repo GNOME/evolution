@@ -58,7 +58,6 @@
 	(still doesn't work because of ETable.)  Adapt to some small
 	ETable changes.  Set drawfocus to FALSE.
 
->>>>>>> 1.142
 2000-05-29  Not Zed  <NotZed@HelixCode.com>
 
 	* folder-browser.c (folder_browser_load_folder): Hardcode the
