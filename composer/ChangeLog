@@ -1,3 +1,10 @@
+2001-07-06  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer.c (do_exit): Call autosave_manager_unregister
+	before destroying the composer, so gtkhtml-editor-control doesn't
+	try to act on a destroyed GtkHTML widget.
+	(destroy): Remove the autosave_manager_unregister from here.
+
 2001-07-06  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.c (autosave_manager_unregister): make sure we
