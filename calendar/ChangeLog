@@ -1,3 +1,9 @@
+2004-08-13  Jeffrey Stedfast  <fejj@novell.com>
+
+	* gui/dialogs/event-page.glade: Make the description scrolled
+	window scroll policy "automatic" rather than "never". Fixes bug
+	#62063.
+
 2004-08-18  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* gui/alarm-notify/alarm-notify.c (alarm-notify_init) :
@@ -24,22 +30,22 @@
 	alarm_notify_add_calendar to take Esource instead of uri 
 
 	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar) :
-	use auth_new_cal_from_source instead of _from_uri to create cal client
-	also do not try to load the cal backend which require auth and for which 
-	there is no password availble in e-password seesion
-        (list_changed_cb) (load_calendars) : pass Esource insted of uri 
-	to alarm_notify_add_calendar 
+	use auth_new_cal_from_source instead of _from_uri to create cal
+	client also do not try to load the cal backend which require auth
+	and for which there is no password availble in e-password seesion
+        (list_changed_cb) (load_calendars) : pass Esource insted of uri to
+	alarm_notify_add_calendar
 	 
 2004-08-14  Sivaiah Nallagatla <snallagatla@novell.com>
 
-       * gui/e-tasks.c (e_tasks_init) : initialize priv->default_lcient
-        (default_client_cal_opened_cb) : unref priv->default_client
-        and make it NULL
-       (client_cal_opened_cb) : don't unref client
-       explicitly as removing from priv->clients already does that.
-        Remove client based on uid instead of uri
-      (backend_died_cb) : Remove client based on uid insted of uri
-        Fixes #62869
+	* gui/e-tasks.c (e_tasks_init) : initialize priv->default_lcient
+        (default_client_cal_opened_cb) : unref priv->default_client and
+	make it NULL
+	(client_cal_opened_cb) : don't unref client explicitly as removing
+	from priv->clients already does that.  Remove client based on uid
+	instead of uri
+	(backend_died_cb) : Remove client based on uid insted of uri Fixes
+	#62869
 
 2004-08-12  JP Rosevear  <jpr@ximian.com>
 
