@@ -106,7 +106,7 @@
 		<widget class="GtkHBox" id="hbox122">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">0</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkLabel" id="label563">
