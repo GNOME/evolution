@@ -76,12 +76,14 @@ struct _EItipControlPrivate {
 };
 
 /* HTML Strings */
-#define HTML_HEADER     "<html><head><title>iCalendar Information</title></head>"
 #define HTML_BODY_START "<body bgcolor=\"#ffffff\" text=\"#000000\" link=\"#336699\">"
 #define HTML_SEP        "<hr color=#336699 align=\"left\" width=450>"
 #define HTML_BODY_END   "</body>"
 #define HTML_FOOTER     "</html>"
 
+/* We don't use these now, as we need to be able to translate the text.
+   But I've left these here, in case there are problems with the new code. */
+#if 0
 #define PUBLISH_OPTIONS "<form><b>Choose an action:</b>&nbsp<select NAME=\"action\" SIZE=\"1\"> \
 <option VALUE=\"U\">Update</option></select>&nbsp &nbsp \
 <input TYPE=Submit name=\"ok\" value=\"OK\"></form>"
@@ -109,7 +111,7 @@ struct _EItipControlPrivate {
 #define CANCEL_OPTIONS "<form><b>Choose an action:</b><select NAME=\"action\" SIZE=\"1\"> \
 <option VALUE=\"C\">Cancel</option></select>&nbsp &nbsp \
 <input TYPE=Submit name=\"ok\" value=\"OK\"></form>"
-
+#endif
 
 static void class_init	(EItipControlClass	 *klass);
 static void init	(EItipControl		 *itip);
@@ -556,14 +558,15 @@ write_error_html (EItipControl *itip, const gchar *itip_err)
 {
 	EItipControlPrivate *priv;
 	GtkHTMLStream *html_stream;
-	gchar *html;
 
 	priv = itip->priv;
 
 	/* Html widget */
 	html_stream = gtk_html_begin (GTK_HTML (priv->html));
-	gtk_html_write (GTK_HTML (priv->html), html_stream,
-			HTML_HEADER, strlen(HTML_HEADER));
+	gtk_html_stream_printf (html_stream,
+				"<html><head><title>%s</title></head>",
+				U_("iCalendar Information"));
+
 	gtk_html_write (GTK_HTML (priv->html), html_stream,
 			HTML_BODY_START, strlen(HTML_BODY_START));
 
@@ -609,8 +612,9 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 
 	/* Html widget */
 	html_stream = gtk_html_begin (GTK_HTML (priv->html));
-	gtk_html_write (GTK_HTML (priv->html), html_stream,
-			HTML_HEADER, strlen(HTML_HEADER));
+	gtk_html_stream_printf (html_stream,
+				"<html><head><title>%s</title></head>",
+				U_("iCalendar Information"));
 	gtk_html_write (GTK_HTML (priv->html), html_stream,
 			HTML_BODY_START, strlen(HTML_BODY_START));
 
@@ -712,11 +716,99 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 }
 
 
+static char*
+get_publish_options ()
+{
+	return g_strdup_printf ("<form><b>%s</b>&nbsp"
+				"<select NAME=\"action\" SIZE=\"1\"> "
+				"<option VALUE=\"U\">%s</option>"
+				"</select>&nbsp &nbsp "
+				"<input TYPE=Submit name=\"ok\" value=\"%s\">"
+				"</form>",
+				U_("Choose an action:"),
+				U_("Update"),
+				U_("OK"));
+}
+
+static char*
+get_request_options ()
+{
+	return g_strdup_printf ("<form><b>%s</b>&nbsp"
+				"<select NAME=\"action\" SIZE=\"1\"> "
+				"<option VALUE=\"A\">%s</option> "
+				"<option VALUE=\"T\">%s</option> "
+				"<option VALUE=\"D\">%s</option></select>&nbsp "
+				"<input TYPE=\"checkbox\" name=\"rsvp\" value=\"1\" checked>%s&nbsp&nbsp"
+				"<input TYPE=\"submit\" name=\"ok\" value=\"%s\"><br> "
+				"</form>",
+				U_("Choose an action:"),
+				U_("Accept"),
+				U_("Tentatively accept"),
+				U_("Decline"),
+				U_("RSVP"),
+				U_("OK"));
+}
+
+static char*
+get_request_fb_options ()
+{
+	return g_strdup_printf ("<form><b>%s</b>&nbsp"
+				"<select NAME=\"action\" SIZE=\"1\"> "
+				"<option VALUE=\"F\">%s</option></select>&nbsp &nbsp "
+				"<input TYPE=Submit name=\"ok\" value=\"%s\">"
+				"</form>",
+				U_("Choose an action:"),
+				U_("Send Free/Busy Information"),
+				U_("OK"));
+}
+
+static char*
+get_reply_options ()
+{
+	return g_strdup_printf ("<form><b>%s</b>&nbsp"
+				"<select NAME=\"action\" SIZE=\"1\"> "
+				"<option VALUE=\"R\">%s</option></select>&nbsp &nbsp "
+				"<input TYPE=Submit name=\"ok\" value=\"%s\">"
+				"</form>",
+				U_("Choose an action:"),
+				U_("Update respondent status"),
+				U_("OK"));
+}
+
+#if 0
+static char*
+get_refresh_options ()
+{
+	return g_strdup_printf ("<form><b>%s</b>&nbsp"
+				"<select NAME=\"action\" SIZE=\"1\"> "
+				"<option VALUE=\"S\">%s</option></select>&nbsp &nbsp "
+				"<input TYPE=Submit name=\"ok\" value=\"%s\">"
+				"</form>",
+				U_("Choose an action:"),
+				U_("Send Latest Information"),
+				U_("OK"));
+}
+#endif
+
+static char*
+get_cancel_options ()
+{
+	return g_strdup_printf ("<form><b>%s</b>&nbsp"
+				"<select NAME=\"action\" SIZE=\"1\"> "
+				"<option VALUE=\"C\">%s</option></select>&nbsp &nbsp "
+				"<input TYPE=Submit name=\"ok\" value=\"%s\">"
+				"</form>",
+				U_("Choose an action:"),
+				U_("Cancel"),
+				U_("OK"));
+}
+
 static void
 show_current_event (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	const gchar *itip_title, *itip_desc, *options;
+	const gchar *itip_title, *itip_desc;
+	char *options;
 
 	priv = itip->priv;
 
@@ -724,32 +816,32 @@ show_current_event (EItipControl *itip)
 	case ICAL_METHOD_PUBLISH:
 		itip_desc = U_("<b>%s</b> has published meeting information.");
 		itip_title = U_("Meeting Information");
-		options = PUBLISH_OPTIONS;
+		options = get_publish_options ();
 		break;
 	case ICAL_METHOD_REQUEST:
 		itip_desc = U_("<b>%s</b> requests your presence at a meeting.");
 		itip_title = U_("Meeting Proposal");
-		options = REQUEST_OPTIONS;
+		options = get_request_options ();
 		break;
 	case ICAL_METHOD_ADD:
 		itip_desc = U_("<b>%s</b> wishes to add to an existing meeting.");
 		itip_title = U_("Meeting Update");
-		options = PUBLISH_OPTIONS;
+		options = get_publish_options ();
 		break;
 	case ICAL_METHOD_REFRESH:
 		itip_desc = U_("<b>%s</b> wishes to receive the latest meeting information.");
 		itip_title = U_("Meeting Update Request");
-		options = PUBLISH_OPTIONS;
+		options = get_publish_options ();
 		break;
 	case ICAL_METHOD_REPLY:
 		itip_desc = U_("<b>%s</b> has replied to a meeting request.");
 		itip_title = U_("Meeting Reply");
-		options = REPLY_OPTIONS;
+		options = get_reply_options ();
 		break;
 	case ICAL_METHOD_CANCEL:
 		itip_desc = U_("<b>%s</b> has cancelled a meeting.");
 		itip_title = U_("Meeting Cancellation");
-		options = CANCEL_OPTIONS;
+		options = get_cancel_options ();
 		break;
 	default:
 		itip_desc = U_("<b>%s</b> has sent an unintelligible message.");
@@ -758,13 +850,15 @@ show_current_event (EItipControl *itip)
 	}
 
 	write_html (itip, itip_desc, itip_title, options);
+	g_free (options);
 }
 
 static void
 show_current_todo (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	const gchar *itip_title, *itip_desc, *options;
+	const gchar *itip_title, *itip_desc;
+	char *options;
 
 	priv = itip->priv;
 
@@ -772,32 +866,32 @@ show_current_todo (EItipControl *itip)
 	case ICAL_METHOD_PUBLISH:
 		itip_desc = U_("<b>%s</b> has published task information.");
 		itip_title = U_("Task Information");
-		options = PUBLISH_OPTIONS;
+		options = get_publish_options ();
 		break;
 	case ICAL_METHOD_REQUEST:
 		itip_desc = U_("<b>%s</b> requests you perform a task.");
 		itip_title = U_("Task Proposal");
-		options = REQUEST_OPTIONS;
+		options = get_request_options ();
 		break;
 	case ICAL_METHOD_ADD:
 		itip_desc = U_("<b>%s</b> wishes to add to an existing task.");
 		itip_title = U_("Task Update");
-		options = PUBLISH_OPTIONS;
+		options = get_publish_options ();
 		break;
 	case ICAL_METHOD_REFRESH:
 		itip_desc = U_("<b>%s</b> wishes to receive the latest task information.");
 		itip_title = U_("Task Update Request");
-		options = PUBLISH_OPTIONS;
+		options = get_publish_options ();
 		break;
 	case ICAL_METHOD_REPLY:
 		itip_desc = U_("<b>%s</b> has replied to a task assignment.");
 		itip_title = U_("Task Reply");
-		options = REPLY_OPTIONS;
+		options = get_reply_options ();
 		break;
 	case ICAL_METHOD_CANCEL:
 		itip_desc = U_("<b>%s</b> has cancelled a task.");
 		itip_title = U_("Task Cancellation");
-		options = CANCEL_OPTIONS;
+		options = get_cancel_options ();
 		break;
 	default:
 		itip_desc = U_("<b>%s</b> has sent an unintelligible message.");
@@ -806,13 +900,15 @@ show_current_todo (EItipControl *itip)
 	}
 
 	write_html (itip, itip_desc, itip_title, options);
+	g_free (options);
 }
 
 static void
 show_current_freebusy (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	const gchar *itip_title, *itip_desc, *options;
+	const gchar *itip_title, *itip_desc;
+	char *options;
 
 	priv = itip->priv;
 
@@ -825,7 +921,7 @@ show_current_freebusy (EItipControl *itip)
 	case ICAL_METHOD_REQUEST:
 		itip_desc = U_("<b>%s</b> requests your free/busy information.");
 		itip_title = U_("Free/Busy Request");
-		options = REQUEST_FB_OPTIONS;
+		options = get_request_fb_options ();
 		break;
 	case ICAL_METHOD_REPLY:
 		itip_desc = U_("<b>%s</b> has replied to a free/busy request.");
@@ -839,6 +935,7 @@ show_current_freebusy (EItipControl *itip)
 	}
 
 	write_html (itip, itip_desc, itip_title, options);
+	g_free (options);
 }
 
 static icalcomponent *
