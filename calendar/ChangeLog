@@ -1,3 +1,8 @@
+2004-12-08  Harish Krishnaswamy <kharish@novell.com>
+	
+	* gui/e-week.c (time_range_changed_cb, e_week_view_set_first_day_shown):
+	update the query so currently held events can be cleared off.
+
 2004-12-08  David Mosberger <davidm@napali.hpl.hp.com>
 
 	* gui/main.c: include plugin headers to fix 64 bit problems.

@@ -285,6 +285,7 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 		start_time = time_day_begin_with_zone (start_time,
 						       e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 		e_week_view_recalc_day_starts (week_view, start_time);
+		e_week_view_update_query (week_view);
 	}
 
 	/* Reset the adjustment value to 0 if the base address has changed.
@@ -430,6 +431,7 @@ model_rows_inserted_cb (ETableModel *etm, int row, int count, gpointer user_data
 	int i;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+
 	for (i = 0; i < count; i++) {
 		ECalModelComponent *comp_data;
 
@@ -1610,6 +1612,7 @@ e_week_view_set_first_day_shown		(EWeekView	*week_view,
 	if (update_adjustment_value)
 		gtk_adjustment_set_value (GTK_RANGE (week_view->vscrollbar)->adjustment, 0);
 
+	e_week_view_update_query (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
