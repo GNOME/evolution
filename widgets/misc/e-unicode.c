@@ -481,7 +481,7 @@ e_utf8_xml1_decode (const gchar *text)
 
 	g_return_val_if_fail (text != NULL, NULL);
 
-	len = strlen (text);
+	len = strlen (text)+1;
 	/* len * 2 is absolute maximum */
 	u = d = g_malloc (len * 2);
 
