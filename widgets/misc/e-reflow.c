@@ -675,10 +675,12 @@ e_reflow_point (GnomeCanvasItem *item,
 {
 	double distance = 1;
 
+	*actual_item = NULL;
+
 	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->point)
 		distance = GNOME_CANVAS_ITEM_CLASS(parent_class)->point (item, x, y, cx, cy, actual_item);
-	if (*actual_item)
-		return 0;
+	if ((int) (distance * item->canvas->pixels_per_unit + 0.5) <= item->canvas->close_enough && *actual_item)
+		return distance;
 	
 	*actual_item = item;
 	return 0;
