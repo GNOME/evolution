@@ -2269,6 +2269,13 @@ on_selection_changed (GtkObject *obj, gpointer user_data)
 	update_status_bar_idle(fb);
 }
 
+
+static void
+on_cursor_activated(ETree *tree, int row, ETreePath path, gpointer user_data)
+{
+	on_selection_changed((GtkObject *)tree, user_data);
+}
+
 static void
 fb_resize_cb (GtkWidget *w, GtkAllocation *a, FolderBrowser *fb)
 {	
@@ -2320,6 +2327,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 
 	esm = e_tree_get_selection_model (E_TREE (fb->message_list->tree));
 	gtk_signal_connect (GTK_OBJECT (esm), "selection_changed", on_selection_changed, fb);
+	gtk_signal_connect (GTK_OBJECT (esm), "cursor_activated", on_cursor_activated, fb);
 	fb->selection_state = FB_SELSTATE_NONE; /* default to none */
 
 	e_paned_add1 (E_PANED (fb->vpaned), GTK_WIDGET (fb->message_list));

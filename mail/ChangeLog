@@ -1,3 +1,11 @@
+2002-10-01  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (on_cursor_activated): cursor activated on
+	etable is required to know when the selection changes on a single
+	row, update selection changed info with this signal too.  Sounds
+	like an etable bug to me, but this fixes #29808.
+	(folder_browser_gui_init): Hook onto above signal.
+
 2002-09-30  Aaron Weber  <aaron@ximian.com>
 
 	* mail-signature-editor.c (mail_signature_editor): change
