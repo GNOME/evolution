@@ -1,5 +1,13 @@
 2003-03-20  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #39770
+
+	* gui/itip-utils.c (itip_Send_comp): check the CORBA exception instead
+	of the g_return_val_if_fail. Also, use a CORBA_Object for the value
+	returned from bonobo_activation_activate_from_id.
+
+2003-03-20  Rodrigo Moya <rodrigo@ximian.com>
+
 	* importers/ical-importer.c: removed activation of shell_client.
 	(importer_destroy_cb): no need to unref shell_client.
 	(connect_to_shell): removed.

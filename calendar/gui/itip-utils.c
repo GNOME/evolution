@@ -817,8 +817,7 @@ gboolean
 itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		CalClient *client, icalcomponent *zones)
 {
-	BonoboObject *bonobo_server;
-	GNOME_Evolution_Composer composer_server;
+	CORBA_Object *composer_server;
 	CalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	GList *users;
@@ -835,9 +834,12 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	CORBA_exception_init (&ev);
 
 	/* Obtain an object reference for the Composer. */
-	bonobo_server = bonobo_activation_activate_from_id (GNOME_EVOLUTION_COMPOSER_OAFIID, 0, NULL, &ev);
-	g_return_val_if_fail (bonobo_server != NULL, FALSE);
-	composer_server = BONOBO_OBJREF (bonobo_server);
+	composer_server = bonobo_activation_activate_from_id (GNOME_EVOLUTION_COMPOSER_OAFIID, 0, NULL, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Could not activate composer: %s", bonobo_exception_get_text (&ev));
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
 	
 	/* Give the server a chance to manipulate the comp */
 	if (method != CAL_COMPONENT_METHOD_PUBLISH) {
