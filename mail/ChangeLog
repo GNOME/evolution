@@ -1,3 +1,9 @@
+2003-02-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-local.c: Set the local provider description field to a
+	string rather than NULL to prevent a segfault on solaris. Fixes
+	bug #38418.
+
 2003-02-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (flag_messages): Revert a bogus patch that I
