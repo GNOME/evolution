@@ -7,3 +7,4 @@ Makefile.in
 *.la
 e-text-test
 e-entry-test
+e-text-model-test
