@@ -40,22 +40,27 @@ extern "C" {
 #define CAMEL_IMAP_STORE_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_IMAP_STORE_TYPE, CamelImapStoreClass))
 #define IS_CAMEL_IMAP_STORE(o)    (GTK_CHECK_TYPE((o), CAMEL_IMAP_STORE_TYPE))
 
+typedef enum {
+	IMAP_LEVEL_UNKNOWN,
+	IMAP_LEVEL_IMAP4,
+	IMAP_LEVEL_IMAP4REV1
+} CamelImapServerLevel;
 
 typedef struct {
 	CamelStore parent_object;	
-
+	
 	CamelFolder *current_folder;
 	CamelStream *istream, *ostream;
 	
 	guint32 command;
-
-	gboolean has_search_capability;
-
+	
+	CamelImapServerLevel server_level;
+	gboolean has_status_capability;
+	
 	gchar *dir_sep;
-
+	
 	guint timeout_id;
 } CamelImapStore;
-
 
 
 typedef struct {

@@ -351,15 +351,23 @@ imap_connect (CamelService *service, CamelException *ex)
 				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 	}
-	
-	if (e_strstrcase (result, "SEARCH"))
-		store->has_search_capability = TRUE;
+
+	/* FIXME: parse for capabilities here. */
+	d(fprintf (stderr, "%s\n", result));
+
+	if (e_strstrcase (result, "IMAP4REV1"))
+		store->server_level = IMAP_LEVEL_IMAP4REV1;
+	else if (e_strstrcase (result, "IMAP4"))
+		store->server_level = IMAP_LEVEL_IMAP4;
 	else
-		store->has_search_capability = FALSE;
+		store->server_level = IMAP_LEVEL_UNKNOWN;
+	
+	if ((store->server_level >= IMAP_LEVEL_IMAP4REV1) || (e_strstrcase (result, "STATUS")))
+		store->has_status_capability = TRUE;
+	else
+		store->has_status_capability = FALSE;
 	
 	g_free (result);
-
-	d(fprintf (stderr, "IMAP provider does%shave SEARCH support\n", store->has_search_capability ? " " : "n't "));
 
 	/* We now need to find out which directory separator this daemon uses */
 	status = camel_imap_command_extended (store, NULL, &result, "LIST \"\" \"\"");

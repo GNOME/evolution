@@ -1,3 +1,33 @@
+2000-07-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c
+	(imap_get_message_count_internal): Get message count when STATUS
+	is not available.
+	(imap_init): folder->has_search_capability is required for IMAP so
+	should always be set to TRUE (is currently being set to FALSE as
+	I've not yet implemented SEARCH support).
+	(camel_imap_folder_changed): Seem to have fixed my optimization
+	hack
+
+2000-07-28  Jon K Hellan  <hellan@acm.org>
+
+	* providers/imap/camel-imap-store.h (CamelImapServerLevel): New
+	enum.
+	(CamelImapStore): Added server_level and has_status_capability
+	members.
+
+	* providers/imap/camel-imap-store.c (imap_connect): Detect
+	IMAP4REV1, IMAP4 and STATUS in capability response.
+
+	* providers/imap/camel-imap-folder.c
+	(imap_get_message_count_internal): Use STATUS only if server
+	supports it. TODO: Get message count when STATUS not supported.
+	(imap_get_message, imap_get_summary_internal,
+	imap_get_message_info_internal): Handle IMAP4 as well.
+	(imap_protocol_get_summary_specifier): New function: Make a data
+	item specifier for the header lines we need, appropriate to the
+	server level.
+
 2000-07-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
