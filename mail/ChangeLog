@@ -1,5 +1,9 @@
 2002-07-15  Not Zed  <NotZed@Ximian.com>
 
+	* mail-vfolder.c (vfolder_editor_clicked): Set the vfolder_editor
+	variable to null before we close the dialogue, otherwise the close
+	destroys it and reverts the file.
+
 	* component-factory.c (populate_folder_context_menu): Oops,
 	accidentally checked in some unfinished, unworking code.
 	Reverted.

@@ -761,14 +761,14 @@ vfolder_editor_clicked (GtkWidget *dialog, int button, void *data)
 	sprintf(user, "%s/vfolders.xml", evolution_dir);
 
 	if (button == 0)
-		rule_context_save ((RuleContext *)context, user);
+		rule_context_save((RuleContext *)context, user);
 	else
-		rule_context_revert ((RuleContext *)context, user);
+		rule_context_revert((RuleContext *)context, user);
+
+	vfolder_editor = NULL;
 
 	if (button != -1)
 		gnome_dialog_close (GNOME_DIALOG (dialog));
-
-	vfolder_editor = NULL;
 }
 
 static void
