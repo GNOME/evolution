@@ -400,6 +400,8 @@ e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *i
 			comp = e_select_names_completion_new (NULL, section->model); /* NULL == use local addressbook */
 			e_entry_enable_completion_full (eentry, comp, 50, completion_handler);
 
+			gtk_object_set_data (GTK_OBJECT (eentry), "completion_handler", comp);
+
 			gtk_object_set(GTK_OBJECT(eentry),
 				       "model", model,
 				       "editable", TRUE,

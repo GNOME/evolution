@@ -62,6 +62,7 @@ struct _ESelectNamesCompletionPrivate {
 	gchar *cached_query_text;
 	GList *cached_cards;
 
+	gboolean match_contact_lists;
 	gboolean primary_only;
 };
 
@@ -543,16 +544,20 @@ book_query_process_card_list (ESelectNamesCompletion *comp, const GList *cards)
 
 		if (e_card_evolution_list (card)) {
 
-			EDestination *dest = e_destination_new ();
-			ECompletionMatch *match;
-			e_destination_set_card (dest, card, 0);
-			match = book_query_score (comp, dest);
-			if (match && match->score > 0) {
-				e_completion_found_match (E_COMPLETION (comp), match);
-			} else {
-				e_completion_match_unref (match);
+			if (comp->priv->match_contact_lists) {
+
+				EDestination *dest = e_destination_new ();
+				ECompletionMatch *match;
+				e_destination_set_card (dest, card, 0);
+				match = book_query_score (comp, dest);
+				if (match && match->score > 0) {
+					e_completion_found_match (E_COMPLETION (comp), match);
+				} else {
+					e_completion_match_unref (match);
+				}
+				gtk_object_unref (GTK_OBJECT (dest));
+
 			}
-			gtk_object_unref (GTK_OBJECT (dest));
 
 		} else if (card->email) {
 			gint i;
@@ -715,6 +720,7 @@ static void
 e_select_names_completion_init (ESelectNamesCompletion *comp)
 {
 	comp->priv = g_new0 (struct _ESelectNamesCompletionPrivate, 1);
+	comp->priv->match_contact_lists = TRUE;
 }
 
 static void
@@ -1154,3 +1160,17 @@ e_select_names_completion_new (EBook *book, ESelectNamesModel *model)
 	return E_COMPLETION (comp);
 }
 
+gboolean
+e_select_names_completion_get_match_contact_lists (ESelectNamesCompletion *comp)
+{
+	g_return_val_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp), FALSE);
+	return comp->priv->match_contact_lists;
+}
+
+
+void
+e_select_names_completion_set_match_contact_lists (ESelectNamesCompletion *comp, gboolean x)
+{
+	g_return_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp));
+	comp->priv->match_contact_lists = x;
+}

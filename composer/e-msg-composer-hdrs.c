@@ -640,14 +640,11 @@ set_recipients (CamelMimeMessage *msg, GtkWidget *entry_widget, const gchar *typ
 	char *string = NULL, *dest_str = NULL;
 	int i;
 	
-	bonobo_widget_get_property (BONOBO_WIDGET (entry_widget), "text", &string, NULL);
+	bonobo_widget_get_property (BONOBO_WIDGET (entry_widget), "destinations", &string, NULL);
 	destv = e_destination_importv (string);
-	
-	g_message ("importv: [%s]", string);
 	
 	if (destv) {
 		dest_str = e_destination_get_address_textv (destv);
-		g_message ("destination is: %s", dest_str);
 		
 		/* dest_str has been utf8 encoded 2x by this point...not good */
 		

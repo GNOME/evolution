@@ -611,7 +611,6 @@ e_card_get_vobject (ECard *card)
 	if (tmp == NULL)
 		tmp = card->id;
 	if (tmp) {
-		g_message ("unique string = [%s]", tmp);
 		addPropValue (vobj, VCUniqueStringProp, tmp);
 	}
 

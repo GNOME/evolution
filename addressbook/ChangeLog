@@ -1,3 +1,29 @@
+2001-07-26  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-card.c: Removed some debugging chatter.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_create_entry): Store the completion
+	handler in the entry's object data.
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_get_property_fn): Added support for getting "destinations"
+	and "allow_contact_lists" properties.
+	(entry_set_property_fn): Added support for setting "destinations"
+	and "allow_contact_lists" properties.
+	(impl_SelectNames_get_entry_for_section): Added definitions for
+	"destinations" and "allow_contact_lists" properties.
+
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_get_match_contact_lists): Added.
+	(e_select_names_completion_set_match_contact_lists): Added.
+	Controls whether contact lists are offered as options during
+	completion.
+	(book_query_process_card_list): Check if match_contact_lists
+	is set before (duh!) matching on a contact list.
+	(e_select_names_completion_init): Set match_contact_lists
+	to TRUE by default.
+
 2001-07-25  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (func_contains): change the way

@@ -59,6 +59,9 @@ GtkType e_select_names_completion_get_type (void);
 
 ECompletion *e_select_names_completion_new (EBook *, ESelectNamesModel *);
 
+gboolean e_select_names_completion_get_match_contact_lists (ESelectNamesCompletion *);
+void     e_select_names_completion_set_match_contact_lists (ESelectNamesCompletion *, gboolean);
+
 END_GNOME_DECLS
 
 #endif /* E_SELECT_NAMES_COMPLETION_H */

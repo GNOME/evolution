@@ -37,9 +37,9 @@
 #include "Evolution-Addressbook-SelectNames.h"
 
 #include "e-select-names-manager.h"
-
 #include "e-select-names-model.h"
 #include "e-select-names-text-model.h"
+#include "e-select-names-completion.h"
 
 
 
@@ -53,6 +53,8 @@ struct _ESelectNamesBonoboPrivate {
 
 enum _EntryPropertyID {
 	ENTRY_PROPERTY_ID_TEXT,
+	ENTRY_PROPERTY_ID_DESTINATIONS,
+	ENTRY_PROPERTY_ID_ALLOW_CONTACT_LISTS,
 	ENTRY_PROPERTY_ID_ENTRY_CHANGED
 };
 typedef enum _EntryPropertyID EntryPropertyID;
@@ -74,21 +76,36 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 
 	switch (arg_id) {
 	case ENTRY_PROPERTY_ID_TEXT:
-		{
-			ESelectNamesTextModel *text_model;
-			ESelectNamesModel *model;
+		BONOBO_ARG_SET_STRING (arg, e_entry_get_text (E_ENTRY (w)));
+		break;
 
-			gtk_object_get(GTK_OBJECT(w),
-				       "model", &text_model,
-				       NULL);
-			gtk_object_get(GTK_OBJECT(text_model),
-				       "source", &model,
-				       NULL);
+	case ENTRY_PROPERTY_ID_DESTINATIONS:
+		{
+			ESelectNamesModel *model;
+			model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_model"));
+			g_assert (model != NULL);
+
 			text = e_select_names_model_export_destinationv (model);
 			BONOBO_ARG_SET_STRING (arg, text);
 			g_free (text);
 		}
 		break;
+
+	case ENTRY_PROPERTY_ID_ALLOW_CONTACT_LISTS:
+		{
+			ESelectNamesCompletion *comp;
+			comp = E_SELECT_NAMES_COMPLETION (gtk_object_get_data (GTK_OBJECT (w), "completion_handler"));
+			g_assert (comp != NULL);
+
+			BONOBO_ARG_SET_BOOLEAN (arg, e_select_names_completion_get_match_contact_lists (comp));
+			break;
+		}
+
+	case ENTRY_PROPERTY_ID_ENTRY_CHANGED:
+		/* This is a read-only property. */
+		g_assert_not_reached ();
+		break;
+
 	default:
 		break;
 	}
@@ -101,19 +118,40 @@ entry_set_property_fn (BonoboPropertyBag *bag,
 		       CORBA_Environment *ev,
 		       gpointer user_data)
 {
-	GtkWidget *widget;
+	GtkWidget *w;
 
-	widget = GTK_WIDGET (user_data);
+	w = GTK_WIDGET (user_data);
 
 	switch (arg_id) {
 
 	case ENTRY_PROPERTY_ID_TEXT:
-		e_entry_set_text (E_ENTRY (widget), BONOBO_ARG_GET_STRING (arg));
+		e_entry_set_text (E_ENTRY (w), BONOBO_ARG_GET_STRING (arg));
 		break;
 
+	case ENTRY_PROPERTY_ID_DESTINATIONS:
+		{
+			ESelectNamesModel *model;
+			model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_model"));
+			g_assert (model != NULL);
+
+			e_select_names_model_import_destinationv (model, BONOBO_ARG_GET_STRING (arg));
+			break;
+		}
+
+	case ENTRY_PROPERTY_ID_ALLOW_CONTACT_LISTS:
+		{
+			ESelectNamesCompletion *comp;
+			comp = E_SELECT_NAMES_COMPLETION (gtk_object_get_data (GTK_OBJECT (w), "completion_handler"));
+			g_assert (comp != NULL);
+
+			e_select_names_completion_set_match_contact_lists (comp, BONOBO_ARG_GET_BOOLEAN (arg));
+			break;
+		}
+		
 	case ENTRY_PROPERTY_ID_ENTRY_CHANGED:
-		gtk_object_set_data (GTK_OBJECT (widget), "entry_property_id_changed", GUINT_TO_POINTER (1));
+		gtk_object_set_data (GTK_OBJECT (w), "entry_property_id_changed", GUINT_TO_POINTER (1));
 		break;
+
 	default:
 		break;
 	}
@@ -223,6 +261,12 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 	property_bag = bonobo_property_bag_new (entry_get_property_fn, entry_set_property_fn, entry_widget);
 	bonobo_property_bag_add (property_bag, "text", ENTRY_PROPERTY_ID_TEXT,
 				 BONOBO_ARG_STRING, NULL, NULL,
+				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);
+	bonobo_property_bag_add (property_bag, "destinations", ENTRY_PROPERTY_ID_DESTINATIONS,
+				 BONOBO_ARG_STRING, NULL, NULL,
+				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);
+	bonobo_property_bag_add (property_bag, "allow_contact_lists", ENTRY_PROPERTY_ID_ALLOW_CONTACT_LISTS,
+				 BONOBO_ARG_BOOLEAN, NULL, NULL,
 				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);
 	bonobo_property_bag_add (property_bag, "entry_changed", ENTRY_PROPERTY_ID_ENTRY_CHANGED,
 				 BONOBO_ARG_BOOLEAN, NULL, NULL,
