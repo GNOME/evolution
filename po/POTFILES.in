@@ -5,6 +5,7 @@ addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in
 addressbook/gui/component/addressbook-component.c
 addressbook/gui/component/addressbook-config.c
 addressbook/gui/component/addressbook.c
+addressbook/gui/component/apps_evolution_addressbook.schemas.in.in
 addressbook/gui/component/ldap-config.glade
 addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in
 addressbook/gui/component/select-names/e-select-names-popup.c
@@ -63,6 +64,7 @@ calendar/gui/alarm-notify/alarm-notify.glade
 calendar/gui/alarm-notify/alarm-queue.c
 calendar/gui/alarm-notify/notify-main.c
 calendar/gui/alarm-notify/util.c
+calendar/gui/apps_evolution_calendar.schemas.in.in
 calendar/gui/cal-search-bar.c
 calendar/gui/calendar-commands.c
 calendar/gui/calendar-component.c
@@ -80,6 +82,7 @@ calendar/gui/dialogs/changed-comp.c
 calendar/gui/dialogs/comp-editor-page.c
 calendar/gui/dialogs/comp-editor-util.c
 calendar/gui/dialogs/comp-editor.c
+calendar/gui/dialogs/copy-source-dialog.c
 calendar/gui/dialogs/delete-comp.c
 calendar/gui/dialogs/delete-error.c
 calendar/gui/dialogs/e-delegate-dialog.glade
@@ -91,6 +94,8 @@ calendar/gui/dialogs/meeting-page.etspec
 calendar/gui/dialogs/meeting-page.glade
 calendar/gui/dialogs/new-calendar.c
 calendar/gui/dialogs/new-calendar.glade
+calendar/gui/dialogs/new-task-list.c
+calendar/gui/dialogs/new-task-list.glade
 calendar/gui/dialogs/recur-comp.c
 calendar/gui/dialogs/recurrence-page.c
 calendar/gui/dialogs/recurrence-page.glade
@@ -134,6 +139,7 @@ calendar/gui/goto.c
 calendar/gui/itip-utils.c
 calendar/gui/migration.c
 calendar/gui/print.c
+calendar/gui/tasks-component.c
 calendar/gui/tasks-control.c
 calendar/gui/weekday-picker.c
 calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in
@@ -256,15 +262,20 @@ mail/em-composer-utils.c
 mail/em-folder-browser.c
 mail/em-folder-selection-button.c
 mail/em-folder-selector.c
+mail/em-folder-tree-model.c
+mail/em-folder-tree.c
 mail/em-folder-view.c
 mail/em-format-html-display.c
 mail/em-format-html-print.c
 mail/em-format-html.c
 mail/em-format.c
+mail/em-junk-filter.c
 mail/em-mailer-prefs.c
+mail/em-migrate.c
 mail/em-popup.c
 mail/em-subscribe-editor.c
 mail/em-utils.c
+mail/evolution-mail.schemas.in.in
 mail/importers/GNOME_Evolution_Mail_Elm_Intelligent_Importer.server.in.in
 mail/importers/GNOME_Evolution_Mail_Mbox_Importer.server.in.in
 mail/importers/GNOME_Evolution_Mail_Netscape_Intelligent_Importer.server.in.in
@@ -286,6 +297,7 @@ mail/mail-folder-cache.c
 mail/mail-mt.c
 mail/mail-ops.c
 mail/mail-search.glade
+mail/mail-security.glade
 mail/mail-send-recv.c
 mail/mail-session.c
 mail/mail-signature-editor.c
@@ -298,8 +310,9 @@ mail/message-tag-followup.c
 mail/message-tags.glade
 mail/subscribe-dialog.glade
 shell/GNOME_Evolution_Shell.server.in.in
+shell/apps_evolution_shell.schemas.in.in
+shell/e-component-registry.c
 shell/e-config-upgrade.c
-shell/e-folder-list.c
 shell/e-setup.c
 shell/e-shell-about-box.c
 shell/e-shell-config-autocompletion.c
@@ -315,14 +328,15 @@ shell/e-shell-shared-folder-picker-dialog.c
 shell/e-shell-startup-wizard.c
 shell/e-shell-utils.c
 shell/e-shell-view-menu.c
+shell/e-shell-window.c
 shell/e-shell-window-commands.c
 shell/e-shell.c
 shell/e-shortcuts-view.c
 shell/e-shortcuts.c
 shell/e-task-widget.c
+shell/e-user-creatable-items-handler.c
 shell/evolution-folder-selector-button.c
 shell/evolution-shell-component-utils.c
-shell/evolution-shell-component.c
 shell/glade/e-active-connection-dialog.glade
 shell/glade/e-folder-list.glade
 shell/glade/e-shell-config-default-folders.glade
@@ -334,6 +348,7 @@ shell/importer/intelligent.c
 shell/main.c
 smime/gui/certificate-manager.c
 smime/gui/certificate-viewer.c
+smime/gui/e-cert-selector.c
 smime/gui/smime-ui.glade
 smime/lib/e-cert-db.c
 smime/lib/e-cert.c

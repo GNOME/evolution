@@ -1,5 +1,4 @@
 addressbook/gui/component/select-names/recipient.glade
-addressbook/gui/widgets/test-minicard-view.c
 addressbook/gui/widgets/test-reflow.c
 addressbook/printing/test-contact-print-style-editor.c
 addressbook/printing/test-print.c
@@ -12,7 +11,5 @@ camel/providers/nntp/camel-nntp-grouplist.c
 camel/providers/nntp/camel-nntp-provider.c
 camel/providers/nntp/camel-nntp-store.c
 camel/providers/nntp/camel-nntp-summary.c
-data/evolution.desktop.in
 designs/OOA/ooa.glade
 designs/read_receipts/read.glade
-mail/mail-summary.c
