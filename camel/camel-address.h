@@ -25,7 +25,7 @@
 
 #define CAMEL_ADDRESS(obj)         CAMEL_CHECK_CAST (obj, camel_address_get_type (), CamelAddress)
 #define CAMEL_ADDRESS_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_address_get_type (), CamelAddressClass)
-#define IS_CAMEL_ADDRESS(obj)      CAMEL_CHECK_TYPE (obj, camel_address_get_type ())
+#define CAMEL_IS_ADDRESS(obj)      CAMEL_CHECK_TYPE (obj, camel_address_get_type ())
 
 typedef struct _CamelAddressClass CamelAddressClass;
 

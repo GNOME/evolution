@@ -39,7 +39,7 @@ extern "C" {
 #define CAMEL_POP3_STORE_TYPE     (camel_pop3_store_get_type ())
 #define CAMEL_POP3_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_POP3_STORE_TYPE, CamelPop3Store))
 #define CAMEL_POP3_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_POP3_STORE_TYPE, CamelPop3StoreClass))
-#define IS_CAMEL_POP3_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_POP3_STORE_TYPE))
+#define CAMEL_IS_POP3_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_POP3_STORE_TYPE))
 
 
 typedef struct {

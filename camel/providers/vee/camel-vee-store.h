@@ -26,7 +26,7 @@
 
 #define CAMEL_VEE_STORE(obj)         CAMEL_CHECK_CAST (obj, camel_vee_store_get_type (), CamelVeeStore)
 #define CAMEL_VEE_STORE_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_vee_store_get_type (), CamelVeeStoreClass)
-#define IS_CAMEL_VEE_STORE(obj)      CAMEL_CHECK_TYPE (obj, camel_vee_store_get_type ())
+#define CAMEL_IS_VEE_STORE(obj)      CAMEL_CHECK_TYPE (obj, camel_vee_store_get_type ())
 
 typedef struct _CamelVeeStore      CamelVeeStore;
 typedef struct _CamelVeeStoreClass CamelVeeStoreClass;

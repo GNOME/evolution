@@ -35,7 +35,7 @@ extern "C" {
 #define CAMEL_MAILDIR_FOLDER_TYPE     (camel_maildir_folder_get_type ())
 #define CAMEL_MAILDIR_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_MAILDIR_FOLDER_TYPE, CamelMaildirFolder))
 #define CAMEL_MAILDIR_FOLDER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MAILDIR_FOLDER_TYPE, CamelMaildirFolderClass))
-#define IS_CAMEL_MAILDIR_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_MAILDIR_FOLDER_TYPE))
+#define CAMEL_IS_MAILDIR_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_MAILDIR_FOLDER_TYPE))
 
 
 typedef struct {

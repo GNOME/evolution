@@ -26,7 +26,7 @@
 
 #define CAMEL_STREAM_FILTER(obj)         CAMEL_CHECK_CAST (obj, camel_stream_filter_get_type (), CamelStreamFilter)
 #define CAMEL_STREAM_FILTER_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_stream_filter_get_type (), CamelStreamFilterClass)
-#define IS_CAMEL_STREAM_FILTER(obj)      CAMEL_CHECK_TYPE (obj, camel_stream_filter_get_type ())
+#define CAMEL_IS_STREAM_FILTER(obj)      CAMEL_CHECK_TYPE (obj, camel_stream_filter_get_type ())
 
 typedef struct _CamelStreamFilterClass CamelStreamFilterClass;
 

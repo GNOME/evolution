@@ -34,7 +34,7 @@ extern "C" {
 #define CAMEL_MBOX_FOLDER_TYPE     (camel_mbox_folder_get_type ())
 #define CAMEL_MBOX_FOLDER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MBOX_FOLDER_TYPE, CamelMboxFolder))
 #define CAMEL_MBOX_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MBOX_FOLDER_TYPE, CamelMboxFolderClass))
-#define IS_CAMEL_MBOX_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MBOX_FOLDER_TYPE))
+#define CAMEL_IS_MBOX_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MBOX_FOLDER_TYPE))
 
 typedef struct {
 	CamelLocalFolder parent_object;

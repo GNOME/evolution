@@ -27,7 +27,7 @@
 
 #define CAMEL_MIME_FILTER_BESTENC(obj)         CAMEL_CHECK_CAST (obj, camel_mime_filter_bestenc_get_type (), CamelMimeFilterBestenc)
 #define CAMEL_MIME_FILTER_BESTENC_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_mime_filter_bestenc_get_type (), CamelMimeFilterBestencClass)
-#define IS_CAMEL_MIME_FILTER_BESTENC(obj)      CAMEL_CHECK_TYPE (obj, camel_mime_filter_bestenc_get_type ())
+#define CAMEL_IS_MIME_FILTER_BESTENC(obj)      CAMEL_CHECK_TYPE (obj, camel_mime_filter_bestenc_get_type ())
 
 typedef struct _CamelMimeFilterBestencClass CamelMimeFilterBestencClass;
 

@@ -36,7 +36,7 @@ extern "C" {
 #define CAMEL_LOCAL_STORE_TYPE     (camel_local_store_get_type ())
 #define CAMEL_LOCAL_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_LOCAL_STORE_TYPE, CamelLocalStore))
 #define CAMEL_LOCAL_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_LOCAL_STORE_TYPE, CamelLocalStoreClass))
-#define IS_CAMEL_LOCAL_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_LOCAL_STORE_TYPE))
+#define CAMEL_IS_LOCAL_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_LOCAL_STORE_TYPE))
 
 
 typedef struct {

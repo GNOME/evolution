@@ -36,7 +36,7 @@ extern "C" {
 #define CAMEL_CACHE_STORE_TYPE     (camel_cache_store_get_type ())
 #define CAMEL_CACHE_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_CACHE_STORE_TYPE, CamelCacheStore))
 #define CAMEL_CACHE_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_CACHE_STORE_TYPE, CamelCacheStoreClass))
-#define IS_CAMEL_CACHE_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_CACHE_STORE_TYPE))
+#define CAMEL_IS_CACHE_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_CACHE_STORE_TYPE))
 
 typedef struct {
 	CamelStore parent_object;

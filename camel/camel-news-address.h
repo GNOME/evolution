@@ -25,7 +25,7 @@
 
 #define CAMEL_NEWS_ADDRESS(obj)         CAMEL_CHECK_CAST (obj, camel_news_address_get_type (), CamelNewsAddress)
 #define CAMEL_NEWS_ADDRESS_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_news_address_get_type (), CamelNewsAddressClass)
-#define IS_CAMEL_NEWS_ADDRESS(obj)      CAMEL_CHECK_TYPE (obj, camel_news_address_get_type ())
+#define CAMEL_IS_NEWS_ADDRESS(obj)      CAMEL_CHECK_TYPE (obj, camel_news_address_get_type ())
 
 typedef struct _CamelNewsAddressClass CamelNewsAddressClass;
 

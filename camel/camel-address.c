@@ -122,7 +122,7 @@ camel_address_length(CamelAddress *a)
 int
 camel_address_decode	(CamelAddress *a, const char *raw)
 {
-	g_return_val_if_fail(IS_CAMEL_ADDRESS(a), -1);
+	g_return_val_if_fail(CAMEL_IS_ADDRESS(a), -1);
 
 	return CAMEL_ADDRESS_CLASS (CAMEL_OBJECT_GET_CLASS (a))->decode(a, raw);
 }
@@ -138,7 +138,7 @@ camel_address_decode	(CamelAddress *a, const char *raw)
 char *
 camel_address_encode	(CamelAddress *a)
 {
-	g_return_val_if_fail(IS_CAMEL_ADDRESS(a), NULL);
+	g_return_val_if_fail(CAMEL_IS_ADDRESS(a), NULL);
 
 	return CAMEL_ADDRESS_CLASS (CAMEL_OBJECT_GET_CLASS (a))->encode(a);
 }
@@ -157,7 +157,7 @@ camel_address_encode	(CamelAddress *a)
 int
 camel_address_unformat(CamelAddress *a, const char *raw)
 {
-	g_return_val_if_fail(IS_CAMEL_ADDRESS(a), -1);
+	g_return_val_if_fail(CAMEL_IS_ADDRESS(a), -1);
 
 	return CAMEL_ADDRESS_CLASS (CAMEL_OBJECT_GET_CLASS (a))->unformat(a, raw);
 }
@@ -176,7 +176,7 @@ camel_address_format	(CamelAddress *a)
 	if (a == NULL)
 		return NULL;
 
-	g_return_val_if_fail(IS_CAMEL_ADDRESS(a), NULL);
+	g_return_val_if_fail(CAMEL_IS_ADDRESS(a), NULL);
 
 	return CAMEL_ADDRESS_CLASS (CAMEL_OBJECT_GET_CLASS (a))->format(a);
 }
@@ -194,8 +194,8 @@ camel_address_format	(CamelAddress *a)
 int
 camel_address_cat	(CamelAddress *dest, const CamelAddress *source)
 {
-	g_return_val_if_fail(IS_CAMEL_ADDRESS(dest), -1);
-	g_return_val_if_fail(IS_CAMEL_ADDRESS(source), -1);
+	g_return_val_if_fail(CAMEL_IS_ADDRESS(dest), -1);
+	g_return_val_if_fail(CAMEL_IS_ADDRESS(source), -1);
 
 	return CAMEL_ADDRESS_CLASS(CAMEL_OBJECT_GET_CLASS(dest))->cat(dest, source);
 }
@@ -212,8 +212,8 @@ camel_address_cat	(CamelAddress *dest, const CamelAddress *source)
 int
 camel_address_copy	(CamelAddress *dest, const CamelAddress *source)
 {
-	g_return_val_if_fail(IS_CAMEL_ADDRESS(dest), -1);
-	g_return_val_if_fail(IS_CAMEL_ADDRESS(source), -1);
+	g_return_val_if_fail(CAMEL_IS_ADDRESS(dest), -1);
+	g_return_val_if_fail(CAMEL_IS_ADDRESS(source), -1);
 
 	camel_address_remove(dest, -1);
 	return camel_address_cat(dest, source);
@@ -229,7 +229,7 @@ camel_address_copy	(CamelAddress *dest, const CamelAddress *source)
 void
 camel_address_remove	(CamelAddress *a, int index)
 {
-	g_return_if_fail(IS_CAMEL_ADDRESS(a));
+	g_return_if_fail(CAMEL_IS_ADDRESS(a));
 
 	if (index == -1) {
 		for (index=a->addresses->len; index>-1; index--)

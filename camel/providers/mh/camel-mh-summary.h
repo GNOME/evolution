@@ -28,7 +28,7 @@
 
 #define CAMEL_MH_SUMMARY(obj)	CAMEL_CHECK_CAST (obj, camel_mh_summary_get_type (), CamelMhSummary)
 #define CAMEL_MH_SUMMARY_CLASS(klass)	CAMEL_CHECK_CLASS_CAST (klass, camel_mh_summary_get_type (), CamelMhSummaryClass)
-#define IS_CAMEL_MH_SUMMARY(obj)      CAMEL_CHECK_TYPE (obj, camel_mh_summary_get_type ())
+#define CAMEL_IS_MH_SUMMARY(obj)      CAMEL_CHECK_TYPE (obj, camel_mh_summary_get_type ())
 
 typedef struct _CamelMhSummary	CamelMhSummary;
 typedef struct _CamelMhSummaryClass	CamelMhSummaryClass;

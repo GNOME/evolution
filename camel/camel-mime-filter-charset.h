@@ -26,7 +26,7 @@
 
 #define CAMEL_MIME_FILTER_CHARSET(obj)         CAMEL_CHECK_CAST (obj, camel_mime_filter_charset_get_type (), CamelMimeFilterCharset)
 #define CAMEL_MIME_FILTER_CHARSET_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_mime_filter_charset_get_type (), CamelMimeFilterCharsetClass)
-#define IS_CAMEL_MIME_FILTER_CHARSET(obj)      CAMEL_CHECK_TYPE (obj, camel_mime_filter_charset_get_type ())
+#define CAMEL_IS_MIME_FILTER_CHARSET(obj)      CAMEL_CHECK_TYPE (obj, camel_mime_filter_charset_get_type ())
 
 typedef struct _CamelMimeFilterCharsetClass CamelMimeFilterCharsetClass;
 

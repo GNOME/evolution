@@ -1,3 +1,8 @@
+2000-12-13  Dan Winship  <danw@helixcode.com>
+
+	* Namespace cleanup: change a bunch of IS_CAMEL_* macros to
+	CAMEL_IS_*
+
 2000-12-13  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/imap/camel-imap-auth.c: add #include <sys/types.h> for
