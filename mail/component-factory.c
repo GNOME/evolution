@@ -940,7 +940,26 @@ static gboolean
 request_quit (EvolutionShellComponent *shell_component,
 	      void *closure)
 {
-	return e_msg_composer_request_close_all ();
+	GtkWidget *dialog;
+	
+	if (!e_msg_composer_request_close_all ())
+		return FALSE;
+	
+	if (!camel_folder_get_message_count (outbox_folder))
+		return TRUE;
+	
+	dialog = gnome_message_box_new (_("You have unsent messages, do you wish to quit anyway?"),
+					GNOME_MESSAGE_BOX_QUESTION,
+					GNOME_STOCK_BUTTON_YES,      /* Quit */
+					GNOME_STOCK_BUTTON_NO,       /* Don't quit */
+					NULL);
+	
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Warning: Unsent Messages"));
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
+	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == 0)
+		return TRUE;
+	
+	return FALSE;
 }
 
 static BonoboObject *

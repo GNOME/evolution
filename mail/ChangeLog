@@ -1,3 +1,8 @@
+2002-06-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (request_quit): Prompt the user to see if he
+	really wants to quit when there are queued messages in the Outbox.
+
 2002-06-01  Not Zed  <NotZed@Ximian.com>
 
 	* mail-local.c (mlf_getv): Implement, return a text description of

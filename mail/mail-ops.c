@@ -582,7 +582,7 @@ struct _send_mail_msg {
 	CamelFilterDriver *driver;
 	char *destination;
 	CamelMimeMessage *message;
-
+	
 	void (*done)(char *uri, CamelMimeMessage *message, gboolean sent, void *data);
 	void *data;
 };
@@ -628,7 +628,7 @@ static void
 send_mail_free (struct _mail_msg *mm)
 {
 	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
-
+	
 	camel_object_unref (CAMEL_OBJECT (m->driver));
 	camel_object_unref (CAMEL_OBJECT (m->message));
 	g_free (m->destination);
