@@ -11,8 +11,6 @@ YFLAGS = -d -v -t -pical_yy
 LFLAGS = -Pical_yy
 LEX_OUTPUT_ROOT = lex.ical_yy
 
-all: ical.h
-
 INCLUDES =			\
 	-I$(top_builddir)	\
 	-I$(top_srcdir)/src	\
@@ -85,6 +83,7 @@ COMBINEDHEADERS =					\
 	$(top_srcdir)/src/libical/icallangbind.h
 
 BUILT_SOURCES =			\
+	ical.h			\
 	icalparameter.c		\
 	icalparameter.h		\
 	icalproperty.c		\
