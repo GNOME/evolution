@@ -655,7 +655,8 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	if (clean_quit) {
 		/* try to disconnect cleanly */
 		response = camel_imap_command (store, NULL, ex, "LOGOUT");
-		camel_imap_response_free_without_processing (store, response);
+		if (response)
+			camel_imap_response_free_without_processing (store, response);
 	}
 	
 	camel_object_unref (CAMEL_OBJECT (store->istream));

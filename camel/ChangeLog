@@ -1,3 +1,8 @@
+2002-05-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (connect_to_server): Only free
+	the LOGOUT response if it is non-NULL.
+
 2002-05-28  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-folder.c (maildir_refresh_info):
