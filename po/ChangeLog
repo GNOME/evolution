@@ -1,3 +1,7 @@
+2004-04-21  Changwoo Ryu  <cwryu@debian.org>
+
+	* ko.po: Updated Korean translation.
+
 2004-04-20  Priit Laes  <plaes@cvs.gnome.org>
 
 	* et.po: Translation updated.
@@ -93,6 +97,7 @@
 
 	* POTFILES.in: s/eab-destination/e-destination/
 
+>>>>>>> 1.1414
 2004-04-08  Priit Laes  <plaes@cvs.gnome.org>
 
 	* et.po: Translation updated.
