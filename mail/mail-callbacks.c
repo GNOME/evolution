@@ -1192,7 +1192,7 @@ forward_get_composer (CamelMimeMessage *message, const char *subject)
 }
 
 static void
-do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
+do_forward_non_attached (CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *data)
 {
 	MailConfigForwardStyle style = GPOINTER_TO_INT (data);
 	char *subject, *text;
