@@ -1759,13 +1759,13 @@ imap_update_summary (CamelFolder *folder, int exists,
 		g_free (resp);
 		if (!data)
 			continue;
-
+		
 		seq = GPOINTER_TO_INT (g_datalist_get_data (&data, "SEQUENCE"));
 		if (seq < first) {
 			g_datalist_clear (&data);
 			continue;
 		}
-
+		
 		if (g_datalist_get_data (&data, "FLAGS"))
 			got += IMAP_PRETEND_SIZEOF_FLAGS;
 		if (g_datalist_get_data (&data, "RFC822.SIZE"))
@@ -1773,22 +1773,22 @@ imap_update_summary (CamelFolder *folder, int exists,
 		stream = g_datalist_get_data (&data, "BODY_PART_STREAM");
 		if (stream) {
 			got += IMAP_PRETEND_SIZEOF_HEADERS;
-
+			
 			/* Use the stream now so we don't tie up many
 			 * many fds if we're fetching many many messages.
 			 */
 			add_message_from_data (folder, messages, first, data);
 			g_datalist_set_data (&data, "BODY_PART_STREAM", NULL);
 		}
-
+		
 		camel_operation_progress (NULL, got * 100 / size);
 		g_ptr_array_add (fetch_data, data);
 	}
 	camel_operation_end (NULL);
-
+	
 	if (type == CAMEL_IMAP_RESPONSE_ERROR)
 		goto lose;
-
+	
 	/* Figure out which headers we still need to fetch. */
 	needheaders = g_ptr_array_new ();
 	size = got = 0;
@@ -1796,18 +1796,18 @@ imap_update_summary (CamelFolder *folder, int exists,
 		data = fetch_data->pdata[i];
 		if (g_datalist_get_data (&data, "BODY_PART_LEN"))
 			continue;
-
+		
 		uid = g_datalist_get_data (&data, "UID");
 		if (uid) {
 			g_ptr_array_add (needheaders, uid);
 			size += IMAP_PRETEND_SIZEOF_HEADERS;
 		}
 	}
-
+	
 	/* And fetch them */
 	if (needheaders->len) {
 		char *set;
-
+		
 		/* FIXME: sort needheaders */
 		set = imap_uid_array_to_set (folder->summary, needheaders);
 		g_ptr_array_free (needheaders, TRUE);
@@ -1818,7 +1818,7 @@ imap_update_summary (CamelFolder *folder, int exists,
 			goto lose;
 		}
 		g_free (set);
-
+		
 		camel_operation_start (NULL, _("Fetching summary information for new messages"));
 		while ((type = camel_imap_command_response (store, &resp, ex))
 		       == CAMEL_IMAP_RESPONSE_UNTAGGED) {
@@ -1826,7 +1826,7 @@ imap_update_summary (CamelFolder *folder, int exists,
 			g_free (resp);
 			if (!data)
 				continue;
-
+			
 			stream = g_datalist_get_data (&data, "BODY_PART_STREAM");
 			if (stream) {
 				add_message_from_data (folder, messages, first, data);
@@ -1836,22 +1836,22 @@ imap_update_summary (CamelFolder *folder, int exists,
 			g_datalist_clear (&data);
 		}
 		camel_operation_end (NULL);
-
+		
 		if (type == CAMEL_IMAP_RESPONSE_ERROR)
 			goto lose;
 	}
-
+	
 	/* Now finish up summary entries (fix UIDs, set flags and size) */
 	for (i = 0; i < fetch_data->len; i++) {
 		data = fetch_data->pdata[i];
-
+		
 		seq = GPOINTER_TO_INT (g_datalist_get_data (&data, "SEQUENCE"));
 		if (seq >= first + messages->len) {
 			g_datalist_clear (&data);
 			continue;
 		}
 		mi = messages->pdata[seq - first];
-
+		
 		uid = g_datalist_get_data (&data, "UID");
 		if (uid)
 			camel_message_info_set_uid (mi, g_strdup (uid));
@@ -1866,11 +1866,11 @@ imap_update_summary (CamelFolder *folder, int exists,
 		size = GPOINTER_TO_INT (g_datalist_get_data (&data, "RFC822.SIZE"));
 		if (size)
 			mi->size = size;
-
+		
 		g_datalist_clear (&data);
 	}
 	g_ptr_array_free (fetch_data, TRUE);
-
+	
 	/* And add the entries to the summary, etc. */
 	for (i = 0; i < messages->len; i++) {
 		mi = messages->pdata[i];
@@ -1880,13 +1880,30 @@ imap_update_summary (CamelFolder *folder, int exists,
 		}
 		camel_folder_summary_add (folder->summary, mi);
 		camel_folder_change_info_add_uid (changes, camel_message_info_uid (mi));
-
+		
 		if ((mi->flags & CAMEL_IMAP_MESSAGE_RECENT))
 			camel_folder_change_info_recent_uid(changes, camel_message_info_uid (mi));
 	}
 	g_ptr_array_free (messages, TRUE);
+	
+	/* Kludge around Microsoft Exchange 5.5 IMAP - See bug #5348 for details */
+	if (camel_folder_summary_count (folder->summary) != exists) {
+		CamelImapStore *imap_store = (CamelImapStore *) folder->parent_store;
+		CamelImapResponse *response;
+		
+		/* forget the currently selected folder */
+		if (imap_store->current_folder) {
+			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
+			imap_store->current_folder = NULL;
+		}
+		
+		/* now re-select it and process the EXISTS response */
+		response = camel_imap_command (imap_store, folder, ex, NULL);
+		camel_imap_response_free (imap_store, response);
+	}
+	
 	return;
-
+	
  lose:
 	if (fetch_data) {
 		for (i = 0; i < fetch_data->len; i++) {

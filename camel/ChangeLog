@@ -1,3 +1,10 @@
+2002-01-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (imap_update_summary): Kludge
+	around Microsoft Exchange 5.5 (bug #5348) by forgetting our
+	currently selected folder and re-SELECTing it so that the Exchange
+	server has a chance to realise it has new messages.
+
 2002-01-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-local-folder.c
