@@ -1,5 +1,9 @@
 2001-06-29  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: Require GAL 0.8.99.6.
+
+2001-06-29  Ettore Perazzoli  <ettore@ximian.com>
+
 	* configure.in: Add `camel/tests/mime-filter/Makefile' to the
 	`AC_OUTPUT()' list.
 
