@@ -53,6 +53,9 @@ static void vee_refresh_info(CamelFolder *folder, CamelException *ex);
 static void vee_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
 static void vee_expunge (CamelFolder *folder, CamelException *ex);
 
+static void vee_freeze (CamelFolder *folder);
+static void vee_thaw (CamelFolder *folder);
+
 static CamelMimeMessage *vee_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
 static void vee_append_message(CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, char **appended_uid, CamelException *ex);
 static void vee_transfer_messages_to(CamelFolder *source, GPtrArray *uids, CamelFolder *dest, GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex);
@@ -134,6 +137,9 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 	folder_class->set_message_user_flag = vee_set_message_user_flag;
 
 	folder_class->rename = vee_rename;
+
+	folder_class->freeze = vee_freeze;
+	folder_class->thaw = vee_thaw;
 }
 
 static void
@@ -1565,4 +1571,51 @@ static void
 subfolder_deleted(CamelFolder *f, void *event_data, CamelVeeFolder *vf)
 {
 	camel_vee_folder_remove_folder(vf, f);
+}
+
+
+static void
+vee_freeze (CamelFolder *folder)
+{
+	CamelVeeFolder *vfolder = (CamelVeeFolder *) folder;
+	struct _CamelVeeFolderPrivate *p = _PRIVATE (vfolder);
+	GList *node;
+	
+	CAMEL_VEE_FOLDER_LOCK (vfolder, subfolder_lock);
+	
+	node = p->folders;
+	while (node) {
+		CamelFolder *f = node->data;
+		
+		camel_folder_freeze (f);
+		node = node->next;
+	}
+	
+	CAMEL_VEE_FOLDER_UNLOCK (vfolder, subfolder_lock);
+	
+	/* call parent implementation */
+	CAMEL_FOLDER_CLASS (camel_vee_folder_parent)->freeze (folder);
+}
+
+static void
+vee_thaw (CamelFolder *folder)
+{
+	CamelVeeFolder *vfolder = (CamelVeeFolder *) folder;
+	struct _CamelVeeFolderPrivate *p = _PRIVATE (vfolder);
+	GList *node;
+	
+	CAMEL_VEE_FOLDER_LOCK (vfolder, subfolder_lock);
+	
+	node = p->folders;
+	while (node) {
+		CamelFolder *f = node->data;
+		
+		camel_folder_thaw (f);
+		node = node->next;
+	}
+	
+	CAMEL_VEE_FOLDER_UNLOCK (vfolder, subfolder_lock);
+	
+	/* call parent implementation */
+	CAMEL_FOLDER_CLASS (camel_vee_folder_parent)->thaw (folder);
 }

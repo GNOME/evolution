@@ -1,5 +1,8 @@
 2002-06-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-vee-folder.c (vee_freeze): Freeze source folders.
+	(vee_thaw): Thaw all source folders. Fixes bug #24317.
+
 	* providers/imap/camel-imap-folder.c (imap_sync_online): Unlock
 	the command_lock after each UID STORE command so that other
 	(probably more important) threads can send their requests.
