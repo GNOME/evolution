@@ -21,9 +21,14 @@ images_DATA = \
 	ico-weather.png			\
 	import.png			\
 	import.xpm			\
+   inbox-16.png \
+   inbox-full-16.png \
 	move_message.xpm		\
 	offline.png			\
 	online.png			\
+   open-in-new-window-16.png \
+   outbox-16.png \
+   outbox-full-16.png \
 	pattern.png			\
 	print.xpm			\
 	print-preview.xpm		\
@@ -37,7 +42,6 @@ images_DATA = \
 	briefcase.png       		\
 	butterfly.png			\
 	cellphone.png       		\
-	delete_message.xpm		\
 	compose-message.png		\
 	envelope.png        		\
 	evolution-calendar-mini.png 	\
@@ -58,6 +62,8 @@ images_DATA = \
 	executive-summary-bg.png	\
 	executive-summary-curve.png	\
 	fetch-mail.png			\
+   folder-copy-16.png \
+   folder-move-16.png \
 	globe.png           		\
 	hide_deleted_messages.xpm	\
 	hide_read_messages.xpm		\
@@ -102,7 +108,7 @@ images_DATA = \
 	show_all_messages.xpm		\
 	splash.png			\
 	thankyou.png			\
-	undelete_message.xpm		\
+	undelete_message-16.png		\
 	work_offline.xpm		\
 	work_online-16.png		\
 	world_map-960.png

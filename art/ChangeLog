@@ -1,6 +1,15 @@
 2001-08-07  Jakub Steiner <jimmac@ximian.com>
 
 	* inbox-*, outbox-*: tree view icons
+   * filters.xpm, edit-16.xpm, marlboro_filters.xpm: remove unused
+   * vfolder-16.xpm, delete-message.xpm, undelete-message.xpm: let's
+     not use xpms
+   * evolution-trash-mini.png: new version for edit>delete message,
+     tree view and everything
+   * undelete_message-16.png, folder-move-16.png,
+     open-in-new-window-16.png, folder-copy-16.png: tree view icons
+	* Makefile.am (images_DATA): add new icons, change some xpms to pngs
+      
 
 2001-08-03  Jakub Steiner <jimmac@ximian.com>
 
