@@ -1251,6 +1251,8 @@ get_type_for_storage (EShellView *shell_view,
 
 	storage_set = e_shell_get_storage_set (priv->shell);
 	storage = e_storage_set_get_storage (storage_set, name);
+	if (!storage)
+		return NULL;
 
 	*physical_uri_return = e_storage_get_toplevel_node_uri (storage);
 
@@ -1271,6 +1273,8 @@ get_type_for_folder (EShellView *shell_view,
 
 	storage_set = e_shell_get_storage_set (priv->shell);
 	folder = e_storage_set_get_folder (storage_set, path);
+	if (!folder)
+		return NULL;
 
 	*physical_uri_return = e_folder_get_physical_uri (folder);
 
@@ -1311,11 +1315,13 @@ get_control_for_uri (EShellView *shell_view,
 
 	/* FIXME: This code needs to be made more robust.  */
 
-	slash = strchr (path, G_DIR_SEPARATOR);
+	slash = strchr (path + 1, G_DIR_SEPARATOR);
 	if (slash == NULL || slash[1] == '\0')
 		folder_type = get_type_for_storage (shell_view, path, &physical_uri);
 	else
 		folder_type = get_type_for_folder (shell_view, path, &physical_uri);
+	if (!folder_type)
+		return NULL;
 
 	folder_type_registry = e_shell_get_folder_type_registry (e_shell_view_get_shell (shell_view));
 

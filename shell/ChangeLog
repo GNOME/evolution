@@ -1,3 +1,9 @@
+2000-12-11  Dan Winship  <danw@helixcode.com>
+
+	* e-shell-view.c (get_type_for_{folder,storage}): return NULL if
+	no {folder,storage} is found.
+	(get_control_for_uri): return NULL if no folder_type is found.
+
 2000-12-08  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcuts-view.c (e_shortcuts_view_construct): Ooops.  We were
