@@ -602,7 +602,7 @@ static void
 subscribe_set_store(EMSubscribe *sub, CamelStore *store)
 {
 	if (store == NULL || !camel_store_supports_subscriptions(store)) {
-		GtkWidget *w = gtk_label_new(_("This store does not support subscriptions, or the are not enabled."));
+		GtkWidget *w = gtk_label_new(_("This store does not support subscriptions, or they are not enabled."));
 
 		gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 		sub->widget = gtk_viewport_new(NULL, NULL);

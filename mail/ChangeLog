@@ -1,3 +1,9 @@
+2004-01-22 Gary Ekker <gekker@novell.com>
+
+	** See bug #53051
+	
+	* em-subscribe-editor.c (subscribe_set_store): fix typo in label
+
 2004-01-22  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c (em_junk_sa_test_spamd): uncomment system wide
