@@ -1,3 +1,7 @@
+2004-10-29  Rodrigo Moya <rodrigo@novell.com>
+
+	* configure.in: added mail-to-meeting plugin.
+
 2004-10-28 Nat Friedman <nat@novell.com>
 
 	* configure.in: Re-enable bbwhatever becuase I think it works now.
