@@ -99,6 +99,9 @@ struct _EMsgComposer {
 	gboolean enable_autosave : 1;
 	
 	CamelMimeMessage *redirect;
+
+	MailConfigSignature *signature;
+	gboolean random_signature;
 };
 
 struct _EMsgComposerClass {

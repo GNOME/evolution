@@ -88,6 +88,29 @@ struct _MailAccountsDialog {
 	GtkToggleButton *prompt_bcc_only;
 	GtkToggleButton *prompt_unwanted_html;
 	
+	/* Signatures page */
+	GtkWidget *sig_clist;
+
+	GtkWidget *sig_name;
+	GtkWidget *sig_random;
+	GtkWidget *sig_filename;
+	GtkWidget *sig_script;
+	GtkWidget *sig_html;
+	GtkWidget *sig_scrolled;
+	GtkWidget *sig_gtk_html;
+	GtkWidget *sig_preview;
+
+	GtkWidget *sig_add;
+	GtkWidget *sig_delete;
+	GtkWidget *sig_edit;
+
+	GtkWidget *sig_simple_button;
+	GtkWidget *sig_advanced_button;
+	GtkWidget *sig_level_bbox;
+	GtkWidget *sig_advanced_table;
+	gboolean   sig_switch;
+	gint       sig_row;
+
 	/* Other page */
 	GtkToggleButton *empty_trash;
 	GtkToggleButton *filter_log;
@@ -118,6 +141,7 @@ typedef struct {
 GtkType mail_accounts_dialog_get_type (void);
 
 MailAccountsDialog *mail_accounts_dialog_new (GNOME_Evolution_Shell shell);
+MailConfigSignature *mail_accounts_dialog_new_signature (MailAccountsDialog *dialog, gboolean html);
 
 #ifdef __cplusplus
 }

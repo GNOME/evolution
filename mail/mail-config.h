@@ -32,12 +32,23 @@ extern "C" {
 #endif /* __cplusplus */
 
 typedef struct {
+	gint id;
+	gchar *name;
+	gchar *filename;
+	gchar *script;
+	gboolean random;
+	gboolean html;
+} MailConfigSignature;
+
+typedef struct {
 	char *name;
 	char *address;
 	char *organization;
-	char *signature;
-	char *html_signature;
-	gboolean has_html_signature;
+
+	MailConfigSignature *text_signature;
+	gboolean text_random;
+	MailConfigSignature *html_signature;
+	gboolean html_random;
 } MailConfigIdentity;
 
 typedef struct {
@@ -97,6 +108,10 @@ typedef enum {
 	MAIL_CONFIG_NOTIFY_BEEP,
 	MAIL_CONFIG_NOTIFY_PLAY_SOUND,
 } MailConfigNewMailNotify;
+
+/* signatures */
+MailConfigSignature *signature_copy (const MailConfigSignature *sig);
+void                 signature_destroy (MailConfigSignature *sig);
 
 /* Identities */
 MailConfigIdentity *identity_copy (const MailConfigIdentity *id);
@@ -237,6 +252,33 @@ gboolean mail_config_check_service (const char *url, CamelProviderType type, GLi
 
 
 gboolean evolution_mail_config_factory_init (void);
+
+GList * mail_config_get_signature_list (void);
+gint    mail_config_get_signatures_random (void);
+MailConfigSignature *mail_config_signature_add (gboolean html);
+void mail_config_signature_delete (MailConfigSignature *sig);
+void mail_config_signature_write (MailConfigSignature *sig);
+void mail_config_signature_set_name (MailConfigSignature *sig, const gchar *name);
+void mail_config_signature_set_filename (MailConfigSignature *sig, const gchar *filename);
+void mail_config_signature_set_random (MailConfigSignature *sig, gboolean random);
+
+typedef enum {
+	MAIL_CONFIG_SIG_EVENT_NAME_CHANGED,
+	MAIL_CONFIG_SIG_EVENT_RANDOM_ON,
+	MAIL_CONFIG_SIG_EVENT_RANDOM_OFF,
+	MAIL_CONFIG_SIG_EVENT_ADDED,
+	MAIL_CONFIG_SIG_EVENT_DELETED
+} MailConfigSigEvent;
+
+typedef void (*MailConfigSignatureClient)(MailConfigSigEvent, MailConfigSignature *sig, gpointer data);
+
+void mail_config_signature_register_client (MailConfigSignatureClient client, gpointer data);
+void mail_config_signature_unregister_client (MailConfigSignatureClient client, gpointer data);
+void mail_config_signature_emit_event (MailConfigSigEvent event, MailConfigSignature *sig);
+
+void mail_config_write_account_sig (MailConfigAccount *account, gint i);
+void mail_config_signature_run_script (gchar *script);
+
 
 #ifdef __cplusplus
 }

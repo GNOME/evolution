@@ -30,7 +30,8 @@
 
 /* #include <ctype.h> */
 #include <errno.h>
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-exec.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/util/e-unicode-i18n.h>
@@ -455,7 +456,7 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	int i;
 	
 	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer",
-				 "Ximian Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
+				 "Evolution/" VERSION SUB_VERSION " " VERSION_COMMENT);
 	
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	
