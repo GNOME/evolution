@@ -126,7 +126,7 @@ factory_fn (BonoboGenericFactory *factory,
 	
 	shell_component = evolution_shell_component_new (folder_types,
 							 create_view,
-							 NULL, NULL, NULL, NULL,
+							 NULL, NULL, NULL, NULL, NULL,
 							 NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
 			    GTK_SIGNAL_FUNC (factory_destroy), NULL);

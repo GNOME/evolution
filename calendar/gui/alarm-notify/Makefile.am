@@ -11,7 +11,7 @@ idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
 $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(top_srcdir)/calendar/idl/evolution-calendar.idl
 
-bin_PROGRAMS = evolution-alarm-notify evolution-alarm-client
+bin_PROGRAMS = evolution-alarm-notify # evolution-alarm-client
 
 noinst_LIBRARIES = libalarm.a
 
@@ -51,14 +51,14 @@ evolution_alarm_notify_LDADD =					\
 	$(EXTRA_GNOME_LIBS)					\
 	$(INTLLIBS)
 
-evolution_alarm_client_SOURCES =	\
-	client-main.c			\
-	$(CORBA_GENERATED)
-
-evolution_alarm_client_LDADD =		\
-	 $(BONOBO_VFS_GNOME_LIBS)	\
-	 $(EXTRA_GNOME_LIBS)		\
-	 $(INTLLIBS)
+# evolution_alarm_client_SOURCES =	\
+# 	client-main.c			\
+# 	$(CORBA_GENERATED)
+# 
+# evolution_alarm_client_LDADD =		\
+# 	 $(BONOBO_VFS_GNOME_LIBS)	\
+# 	 $(EXTRA_GNOME_LIBS)		\
+# 	 $(INTLLIBS)
 
 oafdir = $(datadir)/oaf
 oaf_in_files = \

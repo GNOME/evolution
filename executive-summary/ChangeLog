@@ -1,3 +1,8 @@
+2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component/component-factory.c (factory_fn): Specify a NULL
+	`EvolutionShellComponentGetDndSelectionFn'.
+
 2001-02-14  Iain Holmes  <iain@ximian.com>
 
 	* component/e-summary-url.c (e_summary_url_click): Remove the new

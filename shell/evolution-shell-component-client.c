@@ -533,5 +533,55 @@ evolution_shell_component_client_populate_folder_context_menu (EvolutionShellCom
 }
 
 
+void
+evolution_shell_component_client_get_dnd_selection (EvolutionShellComponentClient *shell_component_client,
+						    const char *physical_uri,
+						    int type,
+						    int *format_return,
+						    char **selection_return,
+						    int *selection_length_return)
+{
+	EvolutionShellComponentClientPrivate *priv;
+	GNOME_Evolution_ShellComponent corba_shell_component;
+	CORBA_Environment ev;
+	GNOME_Evolution_ShellComponent_Selection *corba_selection;
+	CORBA_short format;
+
+	g_return_if_fail (shell_component_client != NULL);
+	g_return_if_fail (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (shell_component_client));
+	g_return_if_fail (physical_uri != NULL);
+
+	priv = shell_component_client->priv;
+
+	CORBA_exception_init (&ev);
+
+	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client));
+
+	GNOME_Evolution_ShellComponent_getDndSelection (corba_shell_component,
+							physical_uri, type,
+							&format, &corba_selection,
+							&ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		*format_return = 0;
+		*selection_return = NULL;
+		*selection_length_return = 0;
+		return;
+	}
+
+	CORBA_exception_free (&ev);
+
+	*format_return = format;
+
+	/* We have to re-allocate the CORBA data using GLib because we cannot
+	   mix g_ memory management with CORBA_ memory management.  Yes, this
+	   does suck.  */
+	*selection_return = g_malloc (corba_selection->_length);
+	memcpy (*selection_return, corba_selection->_buffer, corba_selection->_length);
+	*selection_length_return = corba_selection->_length;
+
+	CORBA_free (corba_selection);
+}
+
+
 E_MAKE_TYPE (evolution_shell_component_client, "EvolutionShellComponentClient",
 	     EvolutionShellComponentClient, class_init, init, PARENT_TYPE)

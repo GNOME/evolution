@@ -1,3 +1,8 @@
+2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-component.c (factory_fn): Specify a
+	NULL `EvolutionShellComponentGetDndSelectionFn'.
+
 2001-03-06  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-text-model.c

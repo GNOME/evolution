@@ -1,3 +1,42 @@
+2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (get_folder_at_row): New helper function.
+	(create_target_list_for_row): Use it.
+	(table_drag_data_get): Get the selection from the shell component
+	using `evolution_shell_component_client_get_dnd_selection()'.
+	(set_e_shortcut_selection): Turn a `g_return_if_fail()' into a
+	`g_assert()'.
+
+	* evolution-shell-component.c: New member `get_dnd_selection_fn'
+	in `EvolutionShellComponentPrivate'.
+	(evolution_shell_component_construct): New arg
+	@get_dnd_selection_fn.
+	(evolution_shell_component_new): Likewise.
+	(impl_ShellComponent_getDndSelection): New, implementation for
+	`ShellComponent::getDndSelection'.
+	(class_init): Install it.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_get_dnd_selection): New, wrapper
+	for `ShellComponent::getDndSelection'.
+
+	* evolution-shell-component.h: Renamed
+	`EvolutionShellComponentPopulateFolderContextMenu' into
+	`EvolutionShellComponentPopulateFolderContextMenuFn'.  New
+	function pointer typedef `EvolutionShellComponentGetDndSelectionFn'.
+
+	* Evolution-ShellComponent.idl: New method
+	`ShellComponent::getDndSelection'.
+
+	* e-storage-set-view.c (create_target_entries_from_dnd_type_list):
+	Always add an `E_SHORTCUT_TYPE' type at least.
+	(create_target_list_for_row): Don't return NULL if the list of
+	exported DND types is NULL.  Don't create an unused target list.
+	Actually return the created target list.
+	(table_drag_data_get): If the @info is zero, set the e-shortcut
+	selection.
+	(set_uri_list_selection): Temporarily disabled.
+
 2001-03-07  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-component-registry.c (register_type): New args

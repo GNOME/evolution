@@ -1,3 +1,8 @@
+2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component-factory.c (factory_fn): Specify a NULL
+	`EvolutionShellComponentGetDndSelectionFn'.
+
 2001-02-27  Miguel de Icaza  <miguel@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_on_event_right_click): Reorganize

@@ -233,6 +233,30 @@ get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 	return scaled_pixbuf;
 }
 
+static EFolder *
+get_folder_at_row (EStorageSetView *storage_set_view,
+		   int row)
+{
+	EStorageSetViewPrivate *priv;
+	ETreePath *folder_node_path;
+	const char *folder_path;
+	EFolder *folder;
+
+	priv = storage_set_view->priv;
+
+	folder_node_path = e_tree_model_node_at_row (priv->etree_model, row);
+	if (folder_node_path == NULL)
+		return NULL;
+
+	folder_path = e_tree_model_node_get_data (priv->etree_model, folder_node_path);
+	g_assert (folder_path != NULL);
+
+	folder = e_storage_set_get_folder (priv->storage_set, folder_path);
+	g_assert (folder != NULL);
+
+	return folder;
+}
+
 
 /* Custom marshalling function.  */
 
@@ -274,15 +298,25 @@ create_target_entries_from_dnd_type_list (GList *dnd_types,
 	int i;
 
 	if (dnd_types == NULL)
-		return NULL;
+		num_entries = 0;
+	else
+		num_entries = g_list_length (dnd_types);
 
-	num_entries = g_list_length (dnd_types);
-	if (num_entries == 0)
-		return NULL;
+	/* We always add an entry for an Evolution URI type.  This will let us
+	   do drag & drop within Evolution at least.  */
+	num_entries ++;
 
 	entries = g_new (GtkTargetEntry, num_entries);
 
-	for (p = dnd_types, i = 0; p != NULL; p = p->next, i++) {
+	i = 0;
+
+	/* The Evolution URI will always come first.  */
+	entries[i].target = E_SHORTCUT_TYPE;
+	entries[i].flags = 0;
+	entries[i].info = 0;
+	i ++;
+
+	for (p = dnd_types; p != NULL; p = p->next, i++) {
 		const char *dnd_type;
 
 		g_assert (i < num_entries);
@@ -314,35 +348,21 @@ create_target_list_for_row (EStorageSetView *storage_set_view,
 	EStorageSetViewPrivate *priv;
 	GtkTargetList *target_list;
 	EFolderTypeRegistry *folder_type_registry;
-	ETreePath *folder_node_path;
-	EFolder *folder;
-	const char *folder_path;
-	const char *folder_type;
 	GList *exported_dnd_types;
 	GtkTargetEntry *target_entries;
+	EFolder *folder;
+	const char *folder_type;
 	int num_target_entries;
 
 	priv = storage_set_view->priv;
 
-	target_list = gtk_target_list_new (NULL, 0);
-
 	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
 
-	folder_node_path = e_tree_model_node_at_row (priv->etree_model, row);
-	g_assert (folder_node_path != NULL);
-
-	folder_path = e_tree_model_node_get_data (priv->etree_model, folder_node_path);
-	g_assert (folder_path != NULL);
-
-	folder = e_storage_set_get_folder (priv->storage_set, folder_path);
-	g_assert (folder != NULL);
-
+	folder = get_folder_at_row (storage_set_view, row);
 	folder_type = e_folder_get_type_string (folder);
 
 	exported_dnd_types = e_folder_type_registry_get_exported_dnd_types_for_type (folder_type_registry,
 										     folder_type);
-	if (exported_dnd_types == NULL)
-		return NULL;
 
 	target_entries = create_target_entries_from_dnd_type_list (exported_dnd_types,
 								   &num_target_entries);
@@ -352,9 +372,10 @@ create_target_list_for_row (EStorageSetView *storage_set_view,
 
 	free_target_entries (target_entries);
 
-	return NULL;
+	return target_list;
 }
 
+#if 0
 static void
 set_uri_list_selection (EStorageSetView *storage_set_view,
 			GtkSelectionData *selection_data)
@@ -370,6 +391,7 @@ set_uri_list_selection (EStorageSetView *storage_set_view,
 				8, (guchar *) uri_list, strlen (uri_list));
 	g_free (uri_list);
 }
+#endif
 
 static void
 set_e_shortcut_selection (EStorageSetView *storage_set_view,
@@ -381,7 +403,7 @@ set_e_shortcut_selection (EStorageSetView *storage_set_view,
 	const char *trailing_slash;
 	const char *name;
 
-	g_return_if_fail(storage_set_view != NULL);
+	g_assert (storage_set_view != NULL);
 
 	priv = storage_set_view->priv;
 
@@ -565,8 +587,6 @@ button_press_event (GtkWidget *widget,
 
 	e_table_get_cell_at (table, event->x, event->y, &row, &column);
 
-	g_print ("e-storage-set-view.c::button_press_event() -- row %d column %d\n", row, column);
-
 	priv->drag_x = event->x;
 	priv->drag_y = event->y;
 	priv->drag_column = column;
@@ -586,6 +606,8 @@ motion_notify_event (GtkWidget *widget,
 	GtkTargetList *target_list;
 	GdkDragAction actions;
 	GdkDragContext *context;
+
+	puts (__FUNCTION__);
 
 	storage_set_view = E_STORAGE_SET_VIEW (widget);
 	priv = storage_set_view->priv;
@@ -649,19 +671,45 @@ table_drag_data_get (ETable *etable,
 		     guint32 time)
 {
 	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	EFolder *folder;
+	EFolderTypeRegistry *folder_type_registry;
+	EvolutionShellComponentClient *component_client;
+	char *selection;
+	int selection_length;
+	int format;
 
 	storage_set_view = E_STORAGE_SET_VIEW (etable);
+	priv = storage_set_view->priv;
 
-	switch (info) {
-	case DND_TARGET_TYPE_URI_LIST:
-		set_uri_list_selection (storage_set_view, selection_data);
-		break;
-	case DND_TARGET_TYPE_E_SHORTCUT:
+	if (info == 0) {
 		set_e_shortcut_selection (storage_set_view, selection_data);
-		break;
-	default:
-		g_assert_not_reached ();
+		return;
 	}
+
+	g_assert (info > 0);
+
+	folder = get_folder_at_row (storage_set_view, drag_row);
+	g_assert (folder != NULL);
+
+	folder_type_registry = e_storage_set_get_folder_type_registry (priv->storage_set);
+	g_assert (folder_type_registry != NULL);
+
+	component_client = e_folder_type_registry_get_handler_for_type (folder_type_registry,
+									e_folder_get_type_string (folder));
+	g_assert (component_client != NULL);
+
+	evolution_shell_component_client_get_dnd_selection (component_client,
+							    e_folder_get_physical_uri (folder),
+							    info,
+							    &format, &selection, &selection_length);
+	if (selection == NULL)
+		return;
+
+	gtk_selection_data_set (selection_data, selection_data->target,
+				format, selection, selection_length);
+
+	g_free (selection);
 }
 
 static gboolean
@@ -988,8 +1036,8 @@ new_folder_cb (EStorageSet *storage_set,
 	parent_path = g_strndup (path, last_separator - path);
 	parent_node = g_hash_table_lookup (priv->path_to_etree_node, parent_path);
 	if (parent_node == NULL) {
-		g_print ("EStorageSetView: EStorageSet reported new subfolder for non-existing folder -- %s\n",
-			 parent_path);
+		g_warning ("EStorageSetView: EStorageSet reported new subfolder for non-existing folder -- %s\n",
+			   parent_path);
 		g_free (parent_path);
 		return;
 	}

@@ -269,7 +269,8 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 							 create_folder,
 							 NULL, /* remove_folder_fn */
 							 NULL, /* copy_folder_fn */
-							 NULL, /* populate_folder_context_menu */
+							 NULL, /* populate_folder_context_menu_fn */
+							 NULL, /* get_dnd_selection_fn */
 							 NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",

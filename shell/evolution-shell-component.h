@@ -89,11 +89,18 @@ typedef void (* EvolutionShellComponentCopyFolderFn)   (EvolutionShellComponent 
 							gboolean remove_source,
 						        const GNOME_Evolution_ShellComponentListener listener,
 						        void *closure);
-typedef void (* EvolutionShellComponentPopulateFolderContextMenu) (EvolutionShellComponent *shell_component,
+typedef void (* EvolutionShellComponentPopulateFolderContextMenuFn) (EvolutionShellComponent *shell_component,
 								   BonoboUIComponent *uic,
 								   const char *physical_uri,
 								   const char *type,
 								   void *closure);
+typedef char * (* EvolutionShellComponentGetDndSelectionFn) (EvolutionShellComponent *shell_component,
+							     const char *physical_uri,
+							     int type,
+							     int *format_return,
+							     const char **selection_return,
+							     int *selection_length_return,
+							     void *closure);
 
 struct _EvolutionShellComponentFolderType {
 	char *name;
@@ -126,22 +133,24 @@ struct _EvolutionShellComponentClass {
 
 
 GtkType                  evolution_shell_component_get_type   (void);
-void                     evolution_shell_component_construct  (EvolutionShellComponent                          *shell_component,
-							       const EvolutionShellComponentFolderType           folder_types[],
-							       EvolutionShellComponentCreateViewFn               create_view_fn,
-							       EvolutionShellComponentCreateFolderFn             create_folder_fn,
-							       EvolutionShellComponentRemoveFolderFn             remove_folder_fn,
-							       EvolutionShellComponentCopyFolderFn               copy_folder_fn,
-							       EvolutionShellComponentPopulateFolderContextMenu  populate_folder_context_menu_fn,
-							       void                                             *closure);
-EvolutionShellComponent *evolution_shell_component_new        (const EvolutionShellComponentFolderType           folder_types[],
-							       EvolutionShellComponentCreateViewFn               create_view_fn,
-							       EvolutionShellComponentCreateFolderFn             create_folder_fn,
-							       EvolutionShellComponentRemoveFolderFn             remove_folder_fn,
-							       EvolutionShellComponentCopyFolderFn               copy_folder_fn,
-							       EvolutionShellComponentPopulateFolderContextMenu  populate_folder_context_menu_fn,
-							       void                                             *closure);
-EvolutionShellClient    *evolution_shell_component_get_owner  (EvolutionShellComponent                          *shell_component);
+void                     evolution_shell_component_construct  (EvolutionShellComponent                            *shell_component,
+							       const EvolutionShellComponentFolderType             folder_types[],
+							       EvolutionShellComponentCreateViewFn                 create_view_fn,
+							       EvolutionShellComponentCreateFolderFn               create_folder_fn,
+							       EvolutionShellComponentRemoveFolderFn               remove_folder_fn,
+							       EvolutionShellComponentCopyFolderFn                 copy_folder_fn,
+							       EvolutionShellComponentPopulateFolderContextMenuFn  populate_folder_context_menu_fn,
+							       EvolutionShellComponentGetDndSelectionFn            get_dnd_selection_fn,
+							       void                                               *closure);
+EvolutionShellComponent *evolution_shell_component_new        (const EvolutionShellComponentFolderType             folder_types[],
+							       EvolutionShellComponentCreateViewFn                 create_view_fn,
+							       EvolutionShellComponentCreateFolderFn               create_folder_fn,
+							       EvolutionShellComponentRemoveFolderFn               remove_folder_fn,
+							       EvolutionShellComponentCopyFolderFn                 copy_folder_fn,
+							       EvolutionShellComponentPopulateFolderContextMenuFn  populate_folder_context_menu_fn,
+							       EvolutionShellComponentGetDndSelectionFn            get_dnd_selection_fn,
+							       void                                               *closure);
+EvolutionShellClient    *evolution_shell_component_get_owner  (EvolutionShellComponent                            *shell_component);
 
 #ifdef cplusplus
 }

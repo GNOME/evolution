@@ -1,3 +1,8 @@
+2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c (component_fn): Specify a NULL
+	`EvolutionShellComponentGetDndSelectionFn'.
+
 2001-03-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-autofilter.c (filter_rule_from_message): Add an action-part

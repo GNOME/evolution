@@ -94,6 +94,14 @@ void  evolution_shell_component_client_populate_folder_context_menu  (EvolutionS
 								      const char                    *physical_uri,
 								      const char                    *type);
 
+/* DND stuff.  */
+void  evolution_shell_component_client_get_dnd_selection  (EvolutionShellComponentClient  *shell_component_client,
+							   const char                     *physical_uri,
+							   int                             type,
+							   int                            *format_return,
+							   char                          **selection_return,
+							   int                            *selection_length_return);
+
 #ifdef cplusplus
 }
 #endif /* cplusplus */
