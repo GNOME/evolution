@@ -48,6 +48,12 @@ module Calendar {
 	const CalObjType TYPE_JOURNAL = 1 << 2;
 	const CalObjType TYPE_ANY     = 0x07;
 
+	/* Flags for getting URI sequences */
+	typedef long UriType;
+	const UriType URI_LOCAL   = 1 << 0;
+	const UriType URI_REMOTE  = 1 << 1;
+	const UriType URI_ANY     = 0x07;
+
 	/* Types of object changes made */
 	typedef long CalObjChangeType;
 	const CalObjChangeType ADDED = 1 << 0;
@@ -268,6 +274,9 @@ module Calendar {
 		/* Open a calendar from an URI */
 		void open (in string uri, in boolean only_if_exists, in Listener listener)
 			raises (NilListener);
+
+		/* List of open URI's */
+		StringSeq uriList (in UriType type);
 	};
 
 	/* Interface to the alarm notification service */

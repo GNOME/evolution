@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <gtk/gtksignal.h>
 #include <liboaf/liboaf.h>
+#include "evolution-calendar.h"
 #include "cal.h"
 #include "cal-backend.h"
 #include "cal-factory.h"
@@ -49,6 +50,13 @@ struct _CalFactoryPrivate {
 	/* Whether we have been registered with OAF yet */
 	guint registered : 1;
 };
+
+typedef struct 
+{
+	CalFactory *factory;	
+	GNOME_Evolution_Calendar_UriType type;	
+	GNOME_Evolution_Calendar_StringSeq *list;
+} CalFactoryUriData;
 
 /* Signal IDs */
 enum SIGNALS {
@@ -162,15 +170,13 @@ static CalBackend *
 launch_backend_for_uri (CalFactory *factory, GnomeVFSURI *uri, GNOME_Evolution_Calendar_Listener listener)
 {
 	CalFactoryPrivate *priv;
-	char *method;
+	const char *method;
 	GtkType *type;
 	CalBackend *backend;
 
 	priv = factory->priv;
 
-	/* FIXME: add an accessor function to gnome-vfs */
-	method = uri->method_string;
-
+	method = gnome_vfs_uri_get_scheme (uri);
 	type = g_hash_table_lookup (priv->methods, method);
 
 	if (!type) {
@@ -301,6 +307,41 @@ add_calendar_client (CalFactory *factory, CalBackend *backend, GNOME_Evolution_C
 	CORBA_exception_free (&ev);
 }
 
+/* Add a uri to a string list */
+static void
+add_uri (gpointer key, gpointer value, gpointer data)
+{
+	CalFactoryUriData *cfud = data;
+	CalFactory *factory = cfud->factory;	
+	GNOME_Evolution_Calendar_StringSeq *list = cfud->list;
+	GNOME_Evolution_Calendar_UriType type = cfud->type;
+	char *uri_string = key;
+	CalBackend *backend;	
+	GnomeVFSURI *uri;	
+
+	switch (type) {
+	case GNOME_Evolution_Calendar_URI_LOCAL:
+		uri = gnome_vfs_uri_new_private (uri_string, TRUE, TRUE, TRUE);
+		backend = lookup_backend (factory, uri);
+		gnome_vfs_uri_unref (uri);
+		if (backend == NULL && cal_backend_is_remote (backend))
+			return;
+		break;		
+	case GNOME_Evolution_Calendar_URI_REMOTE:
+		uri = gnome_vfs_uri_new_private (uri_string, TRUE, TRUE, TRUE);
+		backend = lookup_backend (factory, uri);
+		gnome_vfs_uri_unref (uri);
+		if (backend == NULL && !cal_backend_is_remote (backend))			
+			return;
+		break;		
+	case GNOME_Evolution_Calendar_URI_ANY:
+		break;
+	}
+	
+	list->_buffer[list->_length] = CORBA_string_dup (uri_string);
+	list->_length++;
+}
+
 /* Job data */
 typedef struct {
 	CalFactory *factory;
@@ -427,6 +468,33 @@ impl_CalFactory_open (PortableServer_Servant servant,
 	job_add (open_fn, jd);
 }
 
+static GNOME_Evolution_Calendar_StringSeq *
+impl_CalFactory_uriList (PortableServer_Servant servant,
+			 GNOME_Evolution_Calendar_UriType type,
+			 CORBA_Environment *ev)
+{
+	CalFactory *factory;
+	CalFactoryPrivate *priv;
+	CalFactoryUriData cfud;
+	GNOME_Evolution_Calendar_StringSeq *list;
+
+	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
+	priv = factory->priv;
+
+	list = GNOME_Evolution_Calendar_StringSeq__alloc ();
+	list->_length = 0;
+	list->_maximum = g_hash_table_size (priv->backends); 
+	list->_buffer = CORBA_sequence_CORBA_string_allocbuf (list->_maximum);
+
+	cfud.factory = factory;	
+	cfud.type = type;	
+	cfud.list = list;
+	g_hash_table_foreach (priv->backends, add_uri, &cfud);
+	
+	return list;	
+
+}
+
 
 
 /**
@@ -508,6 +576,7 @@ cal_factory_class_init (CalFactoryClass *klass)
 
 	/* Epv methods */
 	epv->open = impl_CalFactory_open;
+	epv->uriList = impl_CalFactory_uriList;
 }
 
 /* Object initialization function for the calendar factory */

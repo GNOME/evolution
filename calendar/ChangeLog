@@ -1,3 +1,53 @@
+2001-09-25  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal.c: use bonobo-exception stuff to clean code
+
+	* pcs/cal-factory.c (add_uri): add uri to the list if the type
+	matches
+	(impl_CalFactory_uriList): implement uriList method
+
+	* pcs/cal-backend.h: new virtual function member
+
+	* pcs/cal-backend.c (cal_backend_is_remote): call virtual function
+
+	* pcs/cal-backend-file.c (cal_backend_file_class_init): override
+	virtual function
+	(cal_backend_file_is_remote): new virtual function, always return
+	FALSE
+
+	* idl/evolution-calendar.idl: uriList factory call, with flags for
+	types to get
+
+	* gui/dialogs/comp-editor.c (comp_editor_destroy): cast to remove
+	warning
+
+	* gui/e-itip-control.c (write_label_piece): kill warnings by take
+	const char *
+
+	* gui/component-factory.c (create_object): aggregate offline
+	interface
+
+	* gui/Makefile.am: compile new files
+
+	* calobj.[hc]: Remove obsolete files
+
+	* cal-util/cal-util.h: enum URI types for uriList call
+
+	* cal-client/cal-client.c (build_uri_list): build list from string
+	sequence
+	(cal_client_uri_list): factory call to get uri list
+
+	* cal-client/cal-client.h: new proto
+
+	* cal-client/cal-client.c: use bonobo exception stuff to clean
+	code
+
+	* gui/calendar-offline-handler.[hc]: Start some skeleton routines
+	for online/offline handling
+
+	* pcs/cal-factory.c (launch_backend_for_uri): use accessor and
+	remove FIXME
+
 2001-09-23  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (set_date_label): base text on component

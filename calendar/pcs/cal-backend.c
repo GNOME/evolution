@@ -144,6 +144,7 @@ cal_backend_class_init (CalBackendClass *class)
 	class->get_uri = NULL;
 	class->open = NULL;
 	class->is_loaded = NULL;
+	class->is_remote = NULL;
 	class->get_n_objects = NULL;
 	class->get_object = NULL;
 	class->get_object_component = NULL;
@@ -278,7 +279,8 @@ cal_backend_open (CalBackend *backend, GnomeVFSURI *uri, gboolean only_if_exists
  * 
  * Queries whether a calendar backend has been loaded yet.
  * 
- * Return value: TRUE if the backend has been loaded with data, FALSE otherwise.
+ * Return value: TRUE if the backend has been loaded with data, FALSE
+ * otherwise.
  **/
 gboolean
 cal_backend_is_loaded (CalBackend *backend)
@@ -290,6 +292,29 @@ cal_backend_is_loaded (CalBackend *backend)
 
 	g_assert (CLASS (backend)->is_loaded != NULL);
 	result = (* CLASS (backend)->is_loaded) (backend);
+
+	return result;
+}
+
+/**
+ * cal_backend_is_remote:
+ * @backend: A calendar backend. 
+ * 
+ * Queries whether a calendar backend is connected remotely.
+ * 
+ * Return value: TRUE if the backend is connected remotely, FALSE
+ * otherwise.
+ **/
+gboolean
+cal_backend_is_remote (CalBackend *backend)
+{
+	gboolean result;
+
+	g_return_val_if_fail (backend != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
+
+	g_assert (CLASS (backend)->is_remote != NULL);
+	result = (* CLASS (backend)->is_remote) (backend);
 
 	return result;
 }

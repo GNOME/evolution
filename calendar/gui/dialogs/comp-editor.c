@@ -254,7 +254,7 @@ comp_editor_destroy (GtkObject *object)
 	}
 
 	if (priv->comp) {
-		gtk_object_unref (priv->comp);
+		gtk_object_unref (GTK_OBJECT (priv->comp));
 		priv->comp = NULL;
 	}
 

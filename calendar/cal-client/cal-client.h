@@ -101,6 +101,7 @@ CalClient *cal_client_new (void);
 void cal_client_set_auth_func (CalClient *client, CalClientAuthFunc func, gpointer data);
 
 gboolean cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exists);
+GList *cal_client_uri_list (CalClient *client, CalUriType type);
 
 CalClientLoadState cal_client_get_load_state (CalClient *client);
 

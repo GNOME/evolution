@@ -53,6 +53,13 @@ typedef enum {
 	CALOBJ_TYPE_ANY     = 0x07
 } CalObjType;
 
+/* Used for uri list */
+typedef enum {
+	CALURI_TYPE_LOCAL   = 1 << 0,
+	CALURI_TYPE_REMOTE  = 1 << 1,
+	CALURI_TYPE_ANY     = 0x07
+} CalUriType;
+
 void cal_obj_uid_list_free (GList *list);
 
 icalcomponent *cal_util_new_top_level (void);

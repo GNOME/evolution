@@ -25,6 +25,7 @@
 
 #include <gtk/gtksignal.h>
 #include <liboaf/liboaf.h>
+#include <bonobo/bonobo-exception.h>
 
 #include "cal-client-types.h"
 #include "cal-client.h"
@@ -240,7 +241,7 @@ destroy_factory (CalClient *client)
 
 	CORBA_exception_init (&ev);
 	result = CORBA_Object_is_nil (priv->factory, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("destroy_factory(): could not see if the factory was nil");
 		priv->factory = CORBA_OBJECT_NIL;
 		CORBA_exception_free (&ev);
@@ -253,7 +254,7 @@ destroy_factory (CalClient *client)
 
 	CORBA_exception_init (&ev);
 	CORBA_Object_release (priv->factory, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("destroy_factory(): could not release the factory");
 
 	CORBA_exception_free (&ev);
@@ -272,7 +273,7 @@ destroy_cal (CalClient *client)
 
 	CORBA_exception_init (&ev);
 	result = CORBA_Object_is_nil (priv->cal, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("destroy_cal(): could not see if the "
 			   "calendar client interface object was nil");
 		priv->cal = CORBA_OBJECT_NIL;
@@ -286,14 +287,14 @@ destroy_cal (CalClient *client)
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_Cal_unref (priv->cal, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("destroy_cal(): could not unref the calendar client interface object");
 
 	CORBA_exception_free (&ev);
 
 	CORBA_exception_init (&ev);
 	CORBA_Object_release (priv->cal, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("destroy_cal(): could not release the calendar client interface object");
 
 	CORBA_exception_free (&ev);
@@ -353,7 +354,6 @@ cal_client_destroy (GtkObject *object)
 
 
 /* Signal handlers for the listener's signals */
-
 /* Handle the cal_opened notification from the listener */
 static void
 cal_opened_cb (CalListener *listener,
@@ -379,7 +379,7 @@ cal_opened_cb (CalListener *listener,
 	case GNOME_Evolution_Calendar_Listener_SUCCESS:
 		CORBA_exception_init (&ev);
 		cal_copy = CORBA_Object_duplicate (cal, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
+		if (BONOBO_EX (&ev)) {
 			g_message ("cal_opened_cb(): could not duplicate the "
 				   "calendar client interface");
 			CORBA_exception_free (&ev);
@@ -485,6 +485,7 @@ categories_changed_cb (CalListener *listener, const GNOME_Evolution_Calendar_Str
 	g_ptr_array_free (cats, TRUE);
 }
 
+
 /* Handle the get_password signal from the Wombatclient */
 static gchar *
 client_get_password_cb (WombatClient *w_client,
@@ -549,7 +550,7 @@ cal_client_construct (CalClient *client)
 		"OAFIID:GNOME_Evolution_Wombat_CalendarFactory",
 		0, NULL, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_construct(): Could not activate the calendar factory");
 		CORBA_exception_free (&ev);
 		return NULL;
@@ -558,7 +559,7 @@ cal_client_construct (CalClient *client)
 	CORBA_exception_init (&ev);
 	factory_copy = CORBA_Object_duplicate (factory, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_construct(): could not duplicate the calendar factory");
 		CORBA_exception_free (&ev);
 		return NULL;
@@ -666,8 +667,7 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 	bonobo_object_add_interface (BONOBO_OBJECT (priv->listener),
 				     BONOBO_OBJECT (priv->w_client));
 
-	corba_listener = (GNOME_Evolution_Calendar_Listener) bonobo_object_corba_objref (
-		BONOBO_OBJECT (priv->listener));
+	corba_listener = (GNOME_Evolution_Calendar_Listener) (BONOBO_OBJREF (priv->listener));
 	
 	CORBA_exception_init (&ev);
 
@@ -677,7 +677,7 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 	GNOME_Evolution_Calendar_CalFactory_open (priv->factory, str_uri, only_if_exists,
 						  corba_listener, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		CORBA_exception_free (&ev);
 
 		g_message ("cal_client_open_calendar(): open request failed");
@@ -692,6 +692,54 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 	CORBA_exception_free (&ev);
 
 	return TRUE;
+}
+
+/* Builds an URI list out of a CORBA string sequence */
+static GList *
+build_uri_list (GNOME_Evolution_Calendar_StringSeq *seq)
+{
+	GList *uris = NULL;
+	int i;
+
+	for (i = 0; i < seq->_length; i++)
+		uris = g_list_prepend (uris, g_strdup (seq->_buffer[i]));
+
+	return uris;
+}
+
+/**
+ * cal_client_uri_list:
+ * @client: A calendar client
+ * @type: type of uri's to get
+ * 
+ * 
+ * Return value: A list of URI's open on the wombat
+ **/
+GList *
+cal_client_uri_list (CalClient *client, CalUriType type)
+{
+	CalClientPrivate *priv;
+	GNOME_Evolution_Calendar_StringSeq *uri_seq;
+	GList *uris = NULL;	
+	CORBA_Environment ev;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	priv = client->priv;
+
+	CORBA_exception_init (&ev);
+
+	uri_seq = GNOME_Evolution_Calendar_CalFactory_uriList (priv->factory, type, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message ("cal_client_uri_list(): request failed");
+	else
+		uris = build_uri_list (uri_seq);
+	
+	CORBA_exception_free (&ev);
+	
+	return uris;	
 }
 
 /**
@@ -775,7 +823,7 @@ cal_client_get_n_objects (CalClient *client, CalObjType type)
 	CORBA_exception_init (&ev);
 	n = GNOME_Evolution_Calendar_Cal_countObjects (priv->cal, t, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_get_n_objects(): could not get the number of objects");
 		CORBA_exception_free (&ev);
 		return -1;
@@ -834,10 +882,9 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 	CORBA_exception_init (&ev);
 	comp_str = GNOME_Evolution_Calendar_Cal_getObject (priv->cal, (char *) uid, &ev);
 
-	if (ev._major == CORBA_USER_EXCEPTION
-	    && strcmp (CORBA_exception_id (&ev), ex_GNOME_Evolution_Calendar_Cal_NotFound) == 0)
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_NotFound))
 		goto out;
-	else if (ev._major != CORBA_NO_EXCEPTION) {
+	else if (BONOBO_EX (&ev)) {		
 		g_message ("cal_client_get_object(): could not get the object");
 		goto out;
 	}
@@ -950,10 +997,9 @@ cal_client_get_timezone (CalClient *client,
 	CORBA_exception_init (&ev);
 	comp_str = GNOME_Evolution_Calendar_Cal_getTimezoneObject (priv->cal, (char *) tzid, &ev);
 
-	if (ev._major == CORBA_USER_EXCEPTION
-	    && strcmp (CORBA_exception_id (&ev), ex_GNOME_Evolution_Calendar_Cal_NotFound) == 0)
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_NotFound))
 		goto out;
-	else if (ev._major != CORBA_NO_EXCEPTION) {
+	else if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_get_timezone(): could not get the object");
 		goto out;
 	}
@@ -1058,7 +1104,7 @@ cal_client_get_uids (CalClient *client, CalObjType type)
 	CORBA_exception_init (&ev);
 
 	seq = GNOME_Evolution_Calendar_Cal_getUIDs (priv->cal, t, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_get_uids(): could not get the list of UIDs");
 		CORBA_exception_free (&ev);
 		return NULL;
@@ -1127,7 +1173,7 @@ cal_client_get_changes (CalClient *client, CalObjType type, const char *change_i
 	CORBA_exception_init (&ev);
 
 	seq = GNOME_Evolution_Calendar_Cal_getChanges (priv->cal, t, change_id, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_get_changes(): could not get the list of changes");
 		CORBA_exception_free (&ev);
 		return NULL;
@@ -1208,7 +1254,7 @@ cal_client_get_objects_in_range (CalClient *client, CalObjType type, time_t star
 	t = corba_obj_type (type);
 
 	seq = GNOME_Evolution_Calendar_Cal_getObjectsInRange (priv->cal, t, start, end, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_get_objects_in_range(): could not get the objects");
 		CORBA_exception_free (&ev);
 		return NULL;
@@ -1270,7 +1316,7 @@ cal_client_get_free_busy (CalClient *client, GList *users,
 	calobj_list = GNOME_Evolution_Calendar_Cal_getFreeBusy (priv->cal, corba_list,
 								start, end, &ev);
 	CORBA_free (corba_list);
-	if (ev._major != CORBA_NO_EXCEPTION || !calobj_list) {
+	if (BONOBO_EX (&ev) || !calobj_list) {
 		g_message ("cal_client_get_free_busy(): could not get the objects");
 		CORBA_exception_free (&ev);
 		return NULL;
@@ -1696,7 +1742,7 @@ cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end)
 	CORBA_exception_init (&ev);
 
 	seq = GNOME_Evolution_Calendar_Cal_getAlarmsInRange (priv->cal, start, end, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_get_alarms_in_range(): could not get the alarm range");
 		CORBA_exception_free (&ev);
 		return NULL;
@@ -1778,10 +1824,9 @@ cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 
 	corba_alarms = GNOME_Evolution_Calendar_Cal_getAlarmsForObject (priv->cal, (char *) uid,
 									start, end, &ev);
-	if (ev._major == CORBA_USER_EXCEPTION
-	    && strcmp (CORBA_exception_id (&ev), ex_GNOME_Evolution_Calendar_Cal_NotFound) == 0)
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_NotFound))
 		goto out;
-	else if (ev._major != CORBA_NO_EXCEPTION) {
+	else if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_get_alarms_for_object(): could not get the alarm range");
 		goto out;
 	}
@@ -1975,11 +2020,10 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, &ev);
 	g_free (obj_string);
-
-	if (ev._major == CORBA_USER_EXCEPTION &&
-	    strcmp (CORBA_exception_id (&ev), ex_GNOME_Evolution_Calendar_Cal_InvalidObject) == 0)
-		goto out;
-	else if (ev._major != CORBA_NO_EXCEPTION) {
+	
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
+	    goto out;
+	else if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_update_object(): could not update the object");
 		goto out;
 	}
@@ -2033,11 +2077,9 @@ cal_client_update_objects (CalClient *client, icalcomponent *icalcomp)
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, &ev);
 
-	if (ev._major == CORBA_USER_EXCEPTION &&
-	    strcmp (CORBA_exception_id (&ev),
-		    ex_GNOME_Evolution_Calendar_Cal_InvalidObject) == 0)
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
 		goto out;
-	else if (ev._major != CORBA_NO_EXCEPTION) {
+	else if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_update_objects(): could not update the objects");
 		goto out;
 	}
@@ -2085,10 +2127,9 @@ cal_client_remove_object (CalClient *client, const char *uid)
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_Cal_removeObject (priv->cal, (char *) uid, &ev);
 
-	if (ev._major == CORBA_USER_EXCEPTION &&
-	    strcmp (CORBA_exception_id (&ev), ex_GNOME_Evolution_Calendar_Cal_NotFound) == 0)
+	if (BONOBO_USER_EX (&ev,  ex_GNOME_Evolution_Calendar_Cal_NotFound))
 		goto out;
-	else if (ev._major != CORBA_NO_EXCEPTION) {
+	else if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_remove_object(): could not remove the object");
 		goto out;
 	}

@@ -428,7 +428,7 @@ set_button_status (EItipControl *itip)
 }
 
 static void
-write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
+write_label_piece (time_t t, char *buffer, int size, const char *stext, const char *etext)
 {
 	struct tm *tmp_tm;
 	int len;
@@ -1220,7 +1220,6 @@ static void
 send_freebusy (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	CalComponent *comp;
 	CalComponentDateTime datetime;
 	time_t start, end;
 	GtkWidget *dialog;

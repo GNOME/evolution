@@ -23,6 +23,7 @@
 
 #include <config.h>
 #include <ical.h>
+#include <bonobo/bonobo-exception.h>
 #include "cal.h"
 #include "query.h"
 #include "wombat.h"
@@ -118,9 +119,8 @@ impl_Cal_get_object (PortableServer_Servant servant,
 		g_free (calobj);
 		return calobj_copy;
 	} else {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_Cal_NotFound,
-				     NULL);
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
+
 		return NULL;
 	}
 }
@@ -218,9 +218,7 @@ impl_Cal_get_objects_in_range (PortableServer_Servant servant,
 	t_end = (time_t) end;
 
 	if (t_start > t_end || t_start == -1 || t_end == -1) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_Cal_InvalidRange,
-				     NULL);
+		bonobo_exception_set (ev,  ex_GNOME_Evolution_Calendar_Cal_InvalidRange);
 		return NULL;
 	}
 
@@ -254,9 +252,7 @@ impl_Cal_get_free_busy (PortableServer_Servant servant,
 	t_end = (time_t) end;
 
 	if (t_start > t_end || t_start == -1 || t_end == -1) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_Cal_InvalidRange,
-				     NULL);
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidRange);
 		return NULL;
 	}
 
@@ -295,9 +291,7 @@ impl_Cal_get_free_busy (PortableServer_Servant servant,
 		return seq;
 	}
 
-	CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-                             ex_GNOME_Evolution_Calendar_Cal_NotFound,
-                             NULL);
+	bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
 
         return NULL;
 }
@@ -323,9 +317,7 @@ impl_Cal_get_alarms_in_range (PortableServer_Servant servant,
 
 	seq = cal_backend_get_alarms_in_range (priv->backend, t_start, t_end, &valid_range);
 	if (!valid_range) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_Cal_InvalidRange,
-				     NULL);
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidRange);
 		return NULL;
 	}
 
@@ -359,15 +351,11 @@ impl_Cal_get_alarms_for_object (PortableServer_Servant servant,
 		return alarms;
 
 	case CAL_BACKEND_GET_ALARMS_NOT_FOUND:
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_Cal_NotFound,
-				     NULL);
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
 		return NULL;
 
 	case CAL_BACKEND_GET_ALARMS_INVALID_RANGE:
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_Cal_InvalidRange,
-				     NULL);
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidRange);
 		return NULL;
 
 	default:
@@ -389,9 +377,7 @@ impl_Cal_update_objects (PortableServer_Servant servant,
 	priv = cal->priv;
 
 	if (!cal_backend_update_objects (priv->backend, calobj))
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_Cal_InvalidObject,
-				     NULL);
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject);
 }
 
 /* Cal::remove_object method */
@@ -407,9 +393,7 @@ impl_Cal_remove_object (PortableServer_Servant servant,
 	priv = cal->priv;
 
 	if (!cal_backend_remove_object (priv->backend, uid))
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_Cal_NotFound,
-				     NULL);
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
 }
 
 /* Cal::getQuery implementation */
@@ -430,20 +414,16 @@ impl_Cal_get_query (PortableServer_Servant servant,
 
 	query = query_new (priv->backend, ql, sexp);
 	if (!query) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_Cal_CouldNotCreate,
-				     NULL);
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_CouldNotCreate);
 		return CORBA_OBJECT_NIL;
 	}
 
 	CORBA_exception_init (&ev2);
 	query_copy = CORBA_Object_duplicate (BONOBO_OBJREF (query), &ev2);
-	if (ev2._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev2)) {
 		CORBA_exception_free (&ev2);
 		g_message ("Cal_get_query(): Could not duplicate the query reference");
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_Cal_CouldNotCreate,
-				     NULL);
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_CouldNotCreate);
 		return CORBA_OBJECT_NIL;
 	}
 
@@ -474,9 +454,7 @@ impl_Cal_get_timezone_object (PortableServer_Servant servant,
 		g_free (calobj);
 		return calobj_copy;
 	} else {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_Cal_NotFound,
-				     NULL);
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_NotFound);
 		return NULL;
 	}
 }
@@ -511,7 +489,7 @@ cal_construct (Cal *cal,
 
 	CORBA_exception_init (&ev);
 	priv->listener = CORBA_Object_duplicate (listener, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("cal_construct: could not duplicate the listener");
 		priv->listener = CORBA_OBJECT_NIL;
 		CORBA_exception_free (&ev);
@@ -523,7 +501,7 @@ cal_construct (Cal *cal,
 		priv->listener,
 		"IDL:GNOME/Evolution/WombatClient:1.0",
 		&ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("cal_construct: could not get the WombatClient interface");
 		priv->wombat_client = CORBA_OBJECT_NIL;
 	}
@@ -584,7 +562,7 @@ cal_destroy (GtkObject *object)
 
 	CORBA_exception_init (&ev);
 	bonobo_object_release_unref (priv->listener, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("cal_destroy(): could not release the listener");
 
 	priv->listener = NULL;
@@ -665,7 +643,7 @@ cal_notify_update (Cal *cal, const char *uid)
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_Listener_notifyObjUpdated (priv->listener, (char *) uid, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("cal_notify_update(): could not notify the listener "
 			   "about an updated object");
 
@@ -696,7 +674,7 @@ cal_notify_remove (Cal *cal, const char *uid)
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_Listener_notifyObjRemoved (priv->listener, (char *) uid, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("cal_notify_remove(): could not notify the listener "
 			   "about a removed object");
 
@@ -727,7 +705,7 @@ cal_notify_categories_changed (Cal *cal, GNOME_Evolution_Calendar_StringSeq *cat
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_Listener_notifyCategoriesChanged (priv->listener, categories, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (&ev))
 		g_message ("cal_notify_categories_changed(): Could not notify the listener "
 			   "about the current set of categories");
 
@@ -765,7 +743,7 @@ cal_get_password (Cal *cal, const char *prompt, const char *key)
 		(const CORBA_char *) prompt,
 		(const CORBA_char *) key,
 		&ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("cal_get_password: could not get password from associated WombatClient");
 		CORBA_exception_free (&ev);
 		return NULL;
@@ -804,7 +782,7 @@ cal_forget_password (Cal *cal, const char *key)
 		(const CORBA_char *) key,
 		&ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_message ("cal_forget_password: could not notify WombatClient about "
 			   "password to be forgotten");
 	}

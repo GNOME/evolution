@@ -72,6 +72,8 @@ evolution_calendar_SOURCES =			\
 	calendar-commands.h			\
 	calendar-model.c			\
 	calendar-model.h			\
+	calendar-offline-handler.c		\
+	calendar-offline-handler.h		\
 	calendar-view.c				\
 	calendar-view.h				\
 	calendar-view-factory.c			\

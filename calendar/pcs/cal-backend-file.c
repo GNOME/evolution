@@ -90,6 +90,7 @@ static GnomeVFSURI *cal_backend_file_get_uri (CalBackend *backend);
 static CalBackendOpenStatus cal_backend_file_open (CalBackend *backend, GnomeVFSURI *uri,
 						   gboolean only_if_exists);
 static gboolean cal_backend_file_is_loaded (CalBackend *backend);
+static gboolean cal_backend_file_is_remote (CalBackend *backend);
 
 static int cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type);
 static char *cal_backend_file_get_object (CalBackend *backend, const char *uid);
@@ -169,6 +170,7 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_uri = cal_backend_file_get_uri;
 	backend_class->open = cal_backend_file_open;
 	backend_class->is_loaded = cal_backend_file_is_loaded;
+	backend_class->is_remote = cal_backend_file_is_remote;	
 	backend_class->get_n_objects = cal_backend_file_get_n_objects;
 	backend_class->get_object = cal_backend_file_get_object;
 	backend_class->get_object_component = cal_backend_file_get_object_component;
@@ -876,6 +878,19 @@ cal_backend_file_is_loaded (CalBackend *backend)
 	priv = cbfile->priv;
 
 	return (priv->icalcomp != NULL);
+}
+
+/* is_remote handler for the file backend */
+static gboolean
+cal_backend_file_is_remote (CalBackend *backend)
+{
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+
+	cbfile = CAL_BACKEND_FILE (backend);
+	priv = cbfile->priv;
+
+	return FALSE;	
 }
 
 /* Get_n_objects handler for the file backend */

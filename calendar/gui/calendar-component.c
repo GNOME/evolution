@@ -34,6 +34,7 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-context.h>
 #include "evolution-shell-component.h"
+#include "calendar-offline-handler.h"
 #include "component-factory.h"
 #include "tasks-control-factory.h"
 #include "control-factory.h"
@@ -544,18 +545,6 @@ sc_user_create_new_item_cb (EvolutionShellComponent *shell_component,
 		g_assert_not_reached ();
 }
 
-#if 0
-static void
-destroy_cb (EvolutionShellComponent *shell_component,
-	    gpointer user_data)
-{
-	shells = g_list_remove (shells, shell_component);
-	
-	if (g_list_length (shells) == 0)
-		gtk_main_quit ();
-}
-#endif
-
 
 /* The factory function.  */
 
@@ -563,7 +552,8 @@ static BonoboObject *
 create_object (void)
 {
 	EvolutionShellComponent *shell_component;
-	
+	CalendarOfflineHandler *offline_handler;	
+
 	shell_component = evolution_shell_component_new (folder_types,
 							 NULL,
 							 create_view,
@@ -574,17 +564,15 @@ create_object (void)
 							 NULL, /* get_dnd_selection_fn */
 							 NULL  /* closure */);
 
+	/* Offline handler */
+	offline_handler = calendar_offline_handler_new ();
+	bonobo_object_add_interface (BONOBO_OBJECT (shell_component), 
+				     BONOBO_OBJECT (offline_handler));
+	
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
 			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
-
-#if 0
-	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
-			    GTK_SIGNAL_FUNC (destroy_cb), NULL);
-
-	shells = g_list_append (shells, shell_component);
-#endif
 
 	/* User creatable items */
 
