@@ -120,7 +120,11 @@
 	      <listitem>
 		<para>
 		  You may use the Microsoft Exchange mail transport
-		  protocol to send email.
+		  protocol to send email. Make sure that the address
+		  you have entered as your email address is exactly
+		  the one that the Exchange server has on file. This
+		  may be "yourname@exchange-server.ximian.com" rather
+		  than "yourname@ximian.com."
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -422,7 +426,11 @@ There are, however, some features which are not available:
           account, you should be aware that whenever you save an email
           address or appointment from an email message, it will be
           saved in your Exchange contacts list or calendar, rather
-          than in your local account.
+          than in your local account. The same is true of
+          synchronization with Palm-OS devices: tasks, appointments,
+          and addresses from your Palm-OS device will be synchronized
+          with those in the Exchange folders rather than local
+          folders.
        </para>
       </note>
 

@@ -1,3 +1,28 @@
+2002-01-07  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution.sgml: Touched this file but don't think I changed
+	it.
+
+	* C/usage-calendar.sgml: mention the full-advantage section and
+	the exchange features. Expand mention of "autopick" and general
+	polish on the appointment-scheduling and peer-to-peer groupware
+	functions. Also clarify palm-sync location information. All
+	features danw mentioned as critical are now docuemnted.
+ 
+	* C/usage-exchange.sgml: Fix and expand as per Danw's notes about
+	Features that need to be documented.
+
+2002-01-04  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-exchange.sgml: Revised list of supported/unsupported
+	features. Changed installation instructions.
+
+2001-12-21  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-exchange.sgml: add notes about server/license
+	requirements, revise "your previous options" text to flow more
+	smoothly.
+
 2002-01-04  Kevin Breit  <mrproper@ximian.com>
 
 	* C/usage-mail.sgml: Added a tip about reply-to specification stuff
@@ -27,6 +52,7 @@
 
 	* C/usage-exchange.sgml: Added a <sect1> that discusses features of Connector
 
+>>>>>>> 1.180
 2001-12-18  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-exchange.sgml: add notes about server requirements.
