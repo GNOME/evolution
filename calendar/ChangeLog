@@ -1,5 +1,17 @@
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/event-editor.c (file_delete_cb): Implement delete option
+	(recurrence_toggled): Make an ugly hack to get the recurrence
+	pages showing properly since we don't yet implement all of the
+	recurrence rule stuff.
+
+	* cal-client/cal-client.c (cal_client_object_exists): New function
+	to see if an object exists and is obtainable from the backend
+
+	* cal-client/cal-client.h: Add prototype
+
+2000-08-31  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/gnome-cal.c (editor_closed_cb): Event editor destroyed
 	callback to do hash cleanup
 	(gnome_calendar_edit_object): Set event editor calendar client.

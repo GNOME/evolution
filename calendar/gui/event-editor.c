@@ -966,8 +966,7 @@ dialog_to_comp_object (EventEditor *ee)
 		recur.interval = e_dialog_spin_get_int (priv->recurrence_rule_daily_days);
 		break;
 
-	case ICAL_WEEKLY_RECURRENCE:
-		
+	case ICAL_WEEKLY_RECURRENCE:		
 		recur.interval = e_dialog_spin_get_int (priv->recurrence_rule_weekly_weeks);
 		
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_sun))
@@ -994,7 +993,8 @@ dialog_to_comp_object (EventEditor *ee)
 			recur.by_month_day[0] = 
 				e_dialog_spin_get_int (priv->recurrence_rule_monthly_day_nth);
 		} else if (e_dialog_toggle_get (priv->recurrence_rule_monthly_weekday)) {
-				/* "recurrence-rule-monthly-weekday" is TRUE */
+
+/* "recurrence-rule-monthly-weekday" is TRUE */
 				/* by position on the calender (ex: 2nd monday) */
 			/* libical does not handle this yet */
 /*  			ico->recur->u.month_pos = e_dialog_option_menu_get ( */
@@ -1116,15 +1116,40 @@ file_save_cb (GtkWidget *widget, gpointer data)
 	save_event_object (ee);
 }
 
+/* File/Delete callback */
+static void
+file_delete_cb (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+	const char *uid;
+	
+	ee = EVENT_EDITOR (data);
+
+	g_return_if_fail (IS_EVENT_EDITOR (ee));
+
+	priv = ee->priv;
+	
+	g_return_if_fail (priv->comp);
+
+	cal_component_get_uid (priv->comp, &uid);
+	if (cal_client_object_exists (priv->client, uid))
+		if (!cal_client_remove_object (priv->client, uid))
+			g_message ("file_delete_cb (): Could not remove the object!");
+
+	close_dialog (ee);
+}
+
 /* File/Close callback */
 static void
 file_close_cb (GtkWidget *widget, gpointer data)
 {
 	EventEditor *ee;
 
-	/* FIXME: need to check for a dirty object */
-
 	ee = EVENT_EDITOR (data);
+
+	g_return_if_fail (IS_EVENT_EDITOR (ee));
+
 	close_dialog (ee);
 }
 
@@ -1163,7 +1188,8 @@ static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM (NULL, NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Save Attac_hments..."), NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Delete"), NULL, NULL),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Delete"), NULL, 
+				file_delete_cb, GNOME_STOCK_PIXMAP_TRASH),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Move to Folder..."), NULL, NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Cop_y to Folder..."), NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
@@ -1323,32 +1349,38 @@ create_menu (EventEditor *ee)
 
 static GnomeUIInfo toolbar[] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("Save"),
-				N_("Save the appointment"),
+				N_("Save this appointment"),
 				file_save_cb,
 				GNOME_STOCK_PIXMAP_SAVE),
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Delete"),
+				N_("Delete this appointment"), 
+				file_delete_cb,
+				GNOME_STOCK_PIXMAP_TRASH),
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Close"),
+				N_("Close this appointment"),
+				file_close_cb,
+				GNOME_STOCK_PIXMAP_CLOSE),
 
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Print..."),
 				N_("Print this item"), NULL,
 				GNOME_STOCK_PIXMAP_PRINT),
+
+	GNOMEUIINFO_SEPARATOR,
+
 	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Insert File..."),
 				N_("Insert a file as an attachment"), NULL,
 				GNOME_STOCK_PIXMAP_ATTACH),
-
-	GNOMEUIINFO_SEPARATOR,
-
+#if 0
 	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Invite Attendees..."),
 				N_("Invite attendees to a meeting"), NULL,
 				GNOME_STOCK_PIXMAP_MULTIPLE),
-
+#endif
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Delete"),
-				N_("Delete this item"), NULL,
-				GNOME_STOCK_PIXMAP_TRASH),
-
-	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Previous"),
 				N_("Go to the previous item"), NULL,
@@ -1505,7 +1537,6 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	EventEditorPrivate *priv;
 	CalComponent *comp;
 	CalClientGetStatus status;
-	gint day, event_num;
 
 	ee = EVENT_EDITOR (data);
 
@@ -1602,7 +1633,6 @@ void
 event_editor_set_event_object (EventEditor *ee, CalComponent *comp)
 {
 	EventEditorPrivate *priv;
-	CalClientGetStatus status;
 	char *title;
 
 	g_return_if_fail (ee != NULL);
@@ -1874,7 +1904,9 @@ recurrence_toggled (GtkWidget *radio, EventEditor *ee)
 
 	rf = e_dialog_radio_get (radio, recur_options_map);
 
-	gtk_notebook_set_page (GTK_NOTEBOOK (priv->recurrence_rule_notebook), (int) rf);
+	/* This is a hack to get things working */
+	gtk_notebook_set_page (GTK_NOTEBOOK (priv->recurrence_rule_notebook), 
+			       (int) (rf - ICAL_HOURLY_RECURRENCE));
 }
 
 

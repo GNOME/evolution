@@ -605,6 +605,37 @@ cal_client_get_n_objects (CalClient *client, CalObjType type)
 }
 
 /**
+ * cal_client_object_exists:
+ * @client: A calendar client
+ * @uid: Unique identifier for a calendar component
+ * 
+ * Checks to see if a uid exists in the backend
+ * 
+ * Return value: True or false if uid exists and can be obtained
+ **/
+gboolean
+cal_client_object_exists (CalClient *client, const char *uid)
+{
+	CalComponent *comp;
+	CalClientGetStatus status;
+	
+	status = cal_client_get_object (client, uid, &comp);
+
+	switch (status) {
+	case CAL_CLIENT_GET_SUCCESS:
+		gtk_object_unref (GTK_OBJECT (comp));
+		return TRUE;
+
+	case CAL_CLIENT_GET_SYNTAX_ERROR:
+	case CAL_CLIENT_GET_NOT_FOUND:
+		return FALSE;
+
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+/**
  * cal_client_get_object:
  * @client: A calendar client.
  * @uid: Unique identifier for a calendar component.
