@@ -486,30 +486,29 @@ is_cell_editable (ETableModel *etm, int col, int row)
 {
 	EMeetingModel *im;
 	EMeetingModelPrivate *priv;
-	GList *l;
+	EMeetingAttendee *ia;
+	EMeetingAttendeeEditLevel level;
 	
 	im = E_MEETING_MODEL (etm);	
 	priv = im->priv;
 	
-	if (priv->edit_rows != NULL) {
-		if (col != E_MEETING_MODEL_STATUS_COL)
-			return FALSE;
-		
-		for (l = priv->edit_rows; l != NULL; l = l->next) {
-			if (GPOINTER_TO_INT (l->data) == row)
-				return TRUE;
-		}
-
+	if (col == E_MEETING_MODEL_DELTO_COL
+	    || col == E_MEETING_MODEL_DELFROM_COL)
 		return FALSE;
-	}
 	
-	switch (col) {
-	case E_MEETING_MODEL_DELTO_COL:
-	case E_MEETING_MODEL_DELFROM_COL:
-		return FALSE;
+	if (row == -1)
+		return TRUE;
+	
+	ia = g_ptr_array_index (priv->attendees, row);
+	level = e_meeting_attendee_get_edit_level (ia);
 
-	default:
-		break;
+	switch (level) {
+	case E_MEETING_ATTENDEE_EDIT_FULL:
+		return TRUE;
+	case E_MEETING_ATTENDEE_EDIT_STATUS:
+		return col == E_MEETING_MODEL_STATUS_COL;
+	case E_MEETING_ATTENDEE_EDIT_NONE:
+		return FALSE;
 	}
 
 	return TRUE;
@@ -655,7 +654,6 @@ init (EMeetingModel *im)
 	im->priv = priv;
 
 	priv->attendees = g_ptr_array_new ();
-	priv->edit_rows = NULL;
 	
 	priv->without = E_TABLE_WITHOUT (e_table_without_new (E_TABLE_MODEL (im),
 							      g_str_hash,
@@ -908,7 +906,7 @@ e_meeting_model_add_attendee_with_defaults (EMeetingModel *im)
 	e_meeting_attendee_set_role (ia, text_to_role (str));
 	g_free (str);	
 	str = init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_RSVP_COL);
-	e_meeting_attendee_set_role (ia, text_to_boolean (str));
+	e_meeting_attendee_set_rsvp (ia, text_to_boolean (str));
 	g_free (str);
 	
 	e_meeting_attendee_set_delto (ia, init_value (E_TABLE_MODEL (im), E_MEETING_MODEL_DELTO_COL));
@@ -1034,47 +1032,6 @@ e_meeting_model_get_attendees (EMeetingModel *im)
 	priv = im->priv;
 	
 	return priv->attendees;
-}
-
-void
-e_meeting_model_restricted_add (EMeetingModel *im, int row)
-{
-	EMeetingModelPrivate *priv;
-
-	g_return_if_fail (im != NULL);
-	g_return_if_fail (E_IS_MEETING_MODEL (im));
-	
-	priv = im->priv;
-
-	priv->edit_rows = g_list_append (priv->edit_rows, GINT_TO_POINTER (row));
-}
-
-void
-e_meeting_model_restricted_remove (EMeetingModel *im, int row)
-{
-	EMeetingModelPrivate *priv;
-	
-	g_return_if_fail (im != NULL);
-	g_return_if_fail (E_IS_MEETING_MODEL (im));
-	
-	priv = im->priv;
-
-	priv->edit_rows = g_list_remove (priv->edit_rows, GINT_TO_POINTER (row));
-}
-
-void
-e_meeting_model_restricted_clear (EMeetingModel *im)
-{
-	EMeetingModelPrivate *priv;
-
-	g_return_if_fail (im != NULL);
-	g_return_if_fail (E_IS_MEETING_MODEL (im));
-	
-	priv = im->priv;
-	
-	if (priv->edit_rows)
-		g_list_free (priv->edit_rows);
-	priv->edit_rows = NULL;
 }
 
 static icaltimezone *

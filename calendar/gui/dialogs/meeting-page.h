@@ -25,6 +25,7 @@
 #define MEETING_PAGE_H
 
 #include "../e-meeting-model.h"
+#include "../itip-utils.h"
 #include "comp-editor-page.h"
 
 G_BEGIN_DECLS

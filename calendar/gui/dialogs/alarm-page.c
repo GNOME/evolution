@@ -33,6 +33,7 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeselection.h>
+#include <gtk/gtkoptionmenu.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -99,7 +100,15 @@ static const int action_map[] = {
 	CAL_ALARM_DISPLAY,
 	CAL_ALARM_AUDIO,
 	CAL_ALARM_PROCEDURE,
+	CAL_ALARM_EMAIL,
 	-1
+};
+
+static const char *action_map_cap[] = {
+	"no-display-alarms",
+	"no-audio-alarms",
+	"no-procedure-alarms",
+	"no-email-alarms"
 };
 
 static const int value_map[] = {
@@ -299,171 +308,20 @@ clear_widgets (AlarmPage *apage)
 	e_alarm_list_clear (priv->list_store);
 }
 
-/* Builds a string for the duration of the alarm.  If the duration is zero, returns NULL. */
-static char *
-get_alarm_duration_string (struct icaldurationtype *duration)
+static void
+sensitize_buttons (AlarmPage *apage)
 {
-	GString *string = g_string_new (NULL);
-	char *ret;
-	gboolean have_something;
+	AlarmPagePrivate *priv;
+	CalClient *client;
+	GtkCList *clist;
+	
+	priv = apage->priv;
+	
+	client = COMP_EDITOR_PAGE (apage)->client;
+	clist = GTK_CLIST (priv->list);
 
-	have_something = FALSE;
-
-	if (duration->days > 1) {
-		g_string_sprintf (string, _("%d days"), duration->days);
-		have_something = TRUE;
-	} else if (duration->days == 1) {
-		g_string_append (string, _("1 day"));
-		have_something = TRUE;
-	}
-
-	if (duration->weeks > 1) {
-		g_string_sprintf (string, _("%d weeks"), duration->weeks);
-		have_something = TRUE;
-	} else if (duration->weeks == 1) {
-		g_string_append (string, _("1 week"));
-		have_something = TRUE;
-	}
-
-	if (duration->hours > 1) {
-		g_string_sprintf (string, _("%d hours"), duration->hours);
-		have_something = TRUE;
-	} else if (duration->hours == 1) {
-		g_string_append (string, _("1 hour"));
-		have_something = TRUE;
-	}
-
-	if (duration->minutes > 1) {
-		g_string_sprintf (string, _("%d minutes"), duration->minutes);
-		have_something = TRUE;
-	} else if (duration->minutes == 1) {
-		g_string_append (string, _("1 minute"));
-		have_something = TRUE;
-	}
-
-	if (duration->seconds > 1) {
-		g_string_sprintf (string, _("%d seconds"), duration->seconds);
-		have_something = TRUE;
-	} else if (duration->seconds == 1) {
-		g_string_append (string, _("1 second"));
-		have_something = TRUE;
-	}
-
-	if (have_something) {
-		ret = string->str;
-		g_string_free (string, FALSE);
-		return ret;
-	} else {
-		g_string_free (string, TRUE);
-		return NULL;
-	}
-}
-
-static char *
-get_alarm_string (CalComponentAlarm *alarm)
-{
-	CalAlarmAction action;
-	CalAlarmTrigger trigger;
-	char string[256];
-	char *base, *str = NULL, *dur;
-
-	string [0] = '\0';
-
-	cal_component_alarm_get_action (alarm, &action);
-	cal_component_alarm_get_trigger (alarm, &trigger);
-
-	switch (action) {
-	case CAL_ALARM_AUDIO:
-		base = _("Play a sound");
-		break;
-
-	case CAL_ALARM_DISPLAY:
-		base = _("Display a message");
-		break;
-
-	case CAL_ALARM_EMAIL:
-		base = _("Send an email");
-		break;
-
-	case CAL_ALARM_PROCEDURE:
-		base = _("Run a program");
-		break;
-
-	case CAL_ALARM_NONE:
-	case CAL_ALARM_UNKNOWN:
-	default:
-		base = _("Unknown action to be performed");
-		break;
-	}
-
-	/* FIXME: This does not look like it will localize correctly. */
-
-	switch (trigger.type) {
-	case CAL_ALARM_TRIGGER_RELATIVE_START:
-		dur = get_alarm_duration_string (&trigger.u.rel_duration);
-
-		if (dur) {
-			if (trigger.u.rel_duration.is_neg)
-				str = g_strdup_printf (_("%s %s before the start of the appointment"),
-						       base, dur);
-			else
-				str = g_strdup_printf (_("%s %s after the start of the appointment"),
-						       base, dur);
-
-			g_free (dur);
-		} else
-			str = g_strdup_printf (_("%s at the start of the appointment"), base);
-
-		break;
-
-	case CAL_ALARM_TRIGGER_RELATIVE_END:
-		dur = get_alarm_duration_string (&trigger.u.rel_duration);
-
-		if (dur) {
-			if (trigger.u.rel_duration.is_neg)
-				str = g_strdup_printf (_("%s %s before the end of the appointment"),
-						       base, dur);
-			else
-				str = g_strdup_printf (_("%s %s after the end of the appointment"),
-						       base, dur);
-
-			g_free (dur);
-		} else
-			str = g_strdup_printf (_("%s at the end of the appointment"), base);
-
-		break;
-
-	case CAL_ALARM_TRIGGER_ABSOLUTE: {
-		struct icaltimetype itt;
-		icaltimezone *utc_zone, *current_zone;
-		char *location;
-		struct tm tm;
-		char buf[256];
-
-		/* Absolute triggers come in UTC, so convert them to the local timezone */
-
-		itt = trigger.u.abs_time;
-
-		utc_zone = icaltimezone_get_utc_timezone ();
-		location = calendar_config_get_timezone ();
-		current_zone = icaltimezone_get_builtin_timezone (location);
-
-		tm = icaltimetype_to_tm_with_zone (&itt, utc_zone, current_zone);
-
-		e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
-					     FALSE, FALSE, buf, sizeof (buf));
-
-		str = g_strdup_printf (_("%s at %s"), base, buf);
-
-		break; }
-
-	case CAL_ALARM_TRIGGER_NONE:
-	default:
-		str = g_strdup_printf (_("%s for an unknown trigger type"), base);
-		break;
-	}
-
-	return str;
+	gtk_widget_set_sensitive (priv->add, cal_client_get_one_alarm_only (client) && clist->rows > 0 ? FALSE : TRUE);
+	gtk_widget_set_sensitive (priv->delete, clist->rows > 0 ? TRUE : FALSE);
 }
 
 /* Appends an alarm to the list */
@@ -479,7 +337,8 @@ append_reminder (AlarmPage *apage, CalComponentAlarm *alarm)
 
 	e_alarm_list_append (priv->list_store, &iter, alarm);
 	gtk_tree_selection_select_iter (gtk_tree_view_get_selection (view), &iter);
-	gtk_widget_set_sensitive (priv->delete, TRUE);
+
+	sensitize_buttons (apage);
 }
 
 /* fill_widgets handler for the alarm page */
@@ -488,10 +347,12 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
+	GtkWidget *menu;
 	CalComponentText text;
 	GList *alarms, *l;
 	CompEditorPageDates dates;
-
+	int i;
+	
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
 
@@ -532,6 +393,16 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	cal_obj_uid_list_free (alarms);
 
  out:
+
+	/* Alarm types */
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->action));
+	for (i = 0, l = GTK_MENU_SHELL (menu)->children; action_map[i] != -1; i++, l = l->next) {
+		if (cal_client_get_static_capability (page->client, action_map_cap[i]))
+			gtk_widget_set_sensitive (l->data, FALSE);
+		else
+			gtk_widget_set_sensitive (l->data, TRUE);
+	}
+	
 
 	priv->updating = FALSE;
 }
@@ -718,7 +589,8 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	AlarmPagePrivate *priv;
 	CalComponentAlarm *alarm;
 	CalAlarmTrigger trigger;
-
+	CalAlarmAction action;
+	
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
 
@@ -752,7 +624,24 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	}
 	cal_component_alarm_set_trigger (alarm, trigger);
 
-	cal_component_alarm_set_action (alarm, e_dialog_option_menu_get (priv->action, action_map));
+	action = e_dialog_option_menu_get (priv->action, action_map);
+	cal_component_alarm_set_action (alarm, action);
+	if (action == CAL_ALARM_EMAIL && !cal_component_alarm_has_attendees (alarm)) {
+		const char *email;
+		
+		email = cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client);
+		if (email != NULL) {
+			CalComponentAttendee *a;
+			GSList attendee_list;
+
+			a = g_new0 (CalComponentAttendee, 1);
+			a->value = email;
+			attendee_list.data = a;
+			attendee_list.next = NULL;
+			cal_component_alarm_set_attendee_list (alarm, &attendee_list);
+			g_free (a);
+		}
+	}
 
 	append_reminder (apage, alarm);
 }
@@ -787,12 +676,10 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->list_store), &iter, path);
 	}
 
-	if (valid_iter) {
+	if (valid_iter)
 		gtk_tree_selection_select_iter (selection, &iter);
-		gtk_widget_set_sensitive (priv->delete, TRUE);
-	}
-	else
-		gtk_widget_set_sensitive (priv->delete, FALSE);
+
+	sensitize_buttons (apage);
 
 	gtk_tree_path_free (path);
 }
@@ -803,14 +690,18 @@ button_options_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
-
+	gboolean repeat;
+	const char *email;
+	
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
 
 	cal_component_alarm_set_action (priv->alarm,
 					e_dialog_option_menu_get (priv->action, action_map));
 
-	if (!alarm_options_dialog_run (priv->alarm))
+	repeat = !cal_client_get_static_capability (COMP_EDITOR_PAGE (apage)->client, "no-alarm-repeat");
+	email = cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client);
+	if (!alarm_options_dialog_run (priv->alarm, email, repeat))
 		g_message ("button_options_clicked_cb(): Could not create the alarm options dialog");
 }
 
@@ -829,8 +720,6 @@ init_widgets (AlarmPage *apage)
 			  G_CALLBACK (add_clicked_cb), apage);
 	g_signal_connect ((priv->delete), "clicked",
 			  G_CALLBACK (delete_clicked_cb), apage);
-
-	gtk_widget_set_sensitive (priv->delete, FALSE);
 
 	/* Connect the default signal handler to use to make sure we notify
 	 * upstream of changes to the widget values.
@@ -859,6 +748,7 @@ init_widgets (AlarmPage *apage)
 	gtk_tree_view_column_add_attribute (column, cell_renderer, "text", E_ALARM_LIST_COLUMN_DESCRIPTION);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (priv->list), column);
 
+	sensitize_buttons (apage);
 #if 0
 	/* If we want the alarm setup widgets to reflect the currently selected alarm, we
 	 * need to do something like this */

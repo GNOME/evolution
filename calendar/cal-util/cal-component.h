@@ -297,6 +297,7 @@ gboolean cal_component_has_rrules (CalComponent *comp);
 
 gboolean cal_component_has_recurrences (CalComponent *comp);
 gboolean cal_component_has_simple_recurrence (CalComponent *comp);
+gboolean cal_component_is_instance (CalComponent *comp);
 
 void cal_component_get_sequence (CalComponent *comp, int **sequence);
 void cal_component_set_sequence (CalComponent *comp, int *sequence);
@@ -327,6 +328,7 @@ gboolean cal_component_event_dates_match (CalComponent *comp1, CalComponent *com
 
 void cal_component_free_categories_list (GSList *categ_list);
 void cal_component_free_datetime (CalComponentDateTime *dt);
+void cal_component_free_range (CalComponentRange *range);
 void cal_component_free_exdate_list (GSList *exdate_list);
 void cal_component_free_geo (struct icalgeotype *geo);
 void cal_component_free_icaltimetype (struct icaltimetype *t);
@@ -433,6 +435,10 @@ void cal_component_alarm_set_repeat (CalComponentAlarm *alarm, CalAlarmRepeat re
 
 void cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalAlarmTrigger *trigger);
 void cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigger);
+
+void cal_component_alarm_get_attendee_list (CalComponentAlarm *alarm, GSList **attendee_list);
+void cal_component_alarm_set_attendee_list (CalComponentAlarm *alarm, GSList *attendee_list);
+gboolean cal_component_alarm_has_attendees (CalComponentAlarm *alarm);
 
 icalcomponent *cal_component_alarm_get_icalcomponent (CalComponentAlarm *alarm);
 

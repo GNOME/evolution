@@ -303,8 +303,8 @@ dn_query_obj_updated_cb (CalQuery *query, const char *uid,
 		return;
 	}
 
-	tag_calendar_by_comp (priv->date_navigator, comp, priv->client, FALSE,
-			      TRUE);
+	tag_calendar_by_comp (priv->date_navigator, comp, priv->client, NULL,
+			      FALSE, TRUE);
 	g_object_unref (comp);
 }
 
@@ -2286,7 +2286,7 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 	else
 		dt.tzid = icaltimezone_get_tzid (priv->zone);
 
-	comp = cal_comp_event_new_with_defaults ();
+	comp = cal_comp_event_new_with_defaults (priv->client);
 
 	/* DTSTART, DTEND */
 
@@ -2368,8 +2368,7 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 
 	tedit = task_editor_new (priv->task_pad_client);
 
-	comp = cal_component_new ();
-	cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
+	comp = cal_comp_task_new_with_defaults (priv->client);
 
 	category = cal_search_bar_get_category (CAL_SEARCH_BAR (priv->search_bar));
 	cal_component_set_categories (comp, category);

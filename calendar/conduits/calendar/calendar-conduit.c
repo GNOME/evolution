@@ -250,6 +250,7 @@ struct _ECalConduitContext {
 	CalClient *client;
 
 	icaltimezone *timezone;
+	CalComponent *default_comp;
 	GList *uids;
 	GList *changed;
 	GHashTable *changed_hash;
@@ -272,6 +273,7 @@ e_calendar_context_new (guint32 pilot_id)
 	ctxt->dbi = NULL;
 	ctxt->client = NULL;
 	ctxt->timezone = NULL;
+	ctxt->default_comp = NULL;
 	ctxt->uids = NULL;
 	ctxt->changed = NULL;
 	ctxt->changed_hash = NULL;
@@ -305,7 +307,8 @@ e_calendar_context_destroy (ECalConduitContext *ctxt)
 
 	if (ctxt->client != NULL)
 		g_object_unref (ctxt->client);
-	
+ 	if (ctxt->default_comp != NULL)
+ 		gtk_object_unref (GTK_OBJECT (ctxt->default_comp));	
 	if (ctxt->uids != NULL)
 		cal_obj_uid_list_free (ctxt->uids);
 	
@@ -811,93 +814,95 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 
 	/* Recurrence Rules */
 	local->appt->repeatType = repeatNone;
-	
-	if (cal_component_has_rrules (comp)) {
-		GSList *list;
-		struct icalrecurrencetype *recur;
-		
-		cal_component_get_rrule_list (comp, &list);
-		recur = list->data;
-		
-		switch (recur->freq) {
-		case ICAL_DAILY_RECURRENCE:
-			local->appt->repeatType = repeatDaily;
-			break;
-		case ICAL_WEEKLY_RECURRENCE:
-			local->appt->repeatType = repeatWeekly;
-			for (i = 0; i <= 7 && recur->by_day[i] != ICAL_RECURRENCE_ARRAY_MAX; i++) {
-				icalrecurrencetype_weekday wd;
 
-				wd = icalrecurrencetype_day_day_of_week (recur->by_day[i]);
-				local->appt->repeatDays[get_pilot_day (wd)] = 1;
-			}
+	if (!cal_component_is_instance (comp)) {
+		if (cal_component_has_rrules (comp)) {
+			GSList *list;
+			struct icalrecurrencetype *recur;
+		
+			cal_component_get_rrule_list (comp, &list);
+			recur = list->data;
+		
+			switch (recur->freq) {
+			case ICAL_DAILY_RECURRENCE:
+				local->appt->repeatType = repeatDaily;
+				break;
+			case ICAL_WEEKLY_RECURRENCE:
+				local->appt->repeatType = repeatWeekly;
+				for (i = 0; i <= 7 && recur->by_day[i] != ICAL_RECURRENCE_ARRAY_MAX; i++) {
+					icalrecurrencetype_weekday wd;
+
+					wd = icalrecurrencetype_day_day_of_week (recur->by_day[i]);
+					local->appt->repeatDays[get_pilot_day (wd)] = 1;
+				}
 			
-			break;
-		case ICAL_MONTHLY_RECURRENCE:
-			if (recur->by_month_day[0] != ICAL_RECURRENCE_ARRAY_MAX) {
-				local->appt->repeatType = repeatMonthlyByDate;
 				break;
-			}
+			case ICAL_MONTHLY_RECURRENCE:
+				if (recur->by_month_day[0] != ICAL_RECURRENCE_ARRAY_MAX) {
+					local->appt->repeatType = repeatMonthlyByDate;
+					break;
+				}
 			
-			/* FIX ME Not going to work with -ve by_day */
-			local->appt->repeatType = repeatMonthlyByDay;
-			switch (icalrecurrencetype_day_position (recur->by_day[0])) {
-			case 1:
-				local->appt->repeatDay = dom1stSun;
+				/* FIX ME Not going to work with -ve by_day */
+				local->appt->repeatType = repeatMonthlyByDay;
+				switch (icalrecurrencetype_day_position (recur->by_day[0])) {
+				case 1:
+					local->appt->repeatDay = dom1stSun;
+					break;
+				case 2:
+					local->appt->repeatDay = dom2ndSun;
+					break;
+				case 3:
+					local->appt->repeatDay = dom3rdSun;
+					break;
+				case 4:
+					local->appt->repeatDay = dom4thSun;
+					break;
+				case 5:
+					local->appt->repeatDay = domLastSun;
+					break;
+				}
+				local->appt->repeatDay += get_pilot_day (icalrecurrencetype_day_day_of_week (recur->by_day[0]));
 				break;
-			case 2:
-				local->appt->repeatDay = dom2ndSun;
+			case ICAL_YEARLY_RECURRENCE:
+				local->appt->repeatType = repeatYearly;
 				break;
-			case 3:
-				local->appt->repeatDay = dom3rdSun;
-				break;
-			case 4:
-				local->appt->repeatDay = dom4thSun;
-				break;
-			case 5:
-				local->appt->repeatDay = domLastSun;
+			default:
 				break;
 			}
-			local->appt->repeatDay += get_pilot_day (icalrecurrencetype_day_day_of_week (recur->by_day[0]));
-			break;
-		case ICAL_YEARLY_RECURRENCE:
-			local->appt->repeatType = repeatYearly;
-			break;
-		default:
-			break;
+
+			if (local->appt->repeatType != repeatNone) {
+				local->appt->repeatFrequency = recur->interval;
+			}
+		
+			if (icaltime_is_null_time (recur->until)) {
+				local->appt->repeatForever = 1;
+			} else {
+				local->appt->repeatForever = 0;
+				icaltimezone_convert_time (&recur->until, 
+							   icaltimezone_get_utc_timezone (),
+							   default_tz);
+				local->appt->repeatEnd = icaltimetype_to_tm (&recur->until);
+			}
+		
+			cal_component_free_recur_list (list);
 		}
 
-		if (local->appt->repeatType != repeatNone) {
-			local->appt->repeatFrequency = recur->interval;
-		}
-		
-		if (icaltime_is_null_time (recur->until)) {
-			local->appt->repeatForever = 1;
-		} else {
-			local->appt->repeatForever = 0;
-			icaltimezone_convert_time (&recur->until, 
+		/* Exceptions */
+		cal_component_get_exdate_list (comp, &edl);
+		local->appt->exceptions = g_slist_length (edl);
+		local->appt->exception = g_new0 (struct tm, local->appt->exceptions);	
+		for (l = edl, i = 0; l != NULL; l = l->next, i++) {
+			CalComponentDateTime *dt = l->data;
+
+			icaltimezone_convert_time (dt->value, 
 						   icaltimezone_get_utc_timezone (),
 						   default_tz);
-			local->appt->repeatEnd = icaltimetype_to_tm (&recur->until);
+			*local->appt->exception = icaltimetype_to_tm (dt->value);
 		}
-		
-		cal_component_free_recur_list (list);
+		cal_component_free_exdate_list (edl);
 	}
-
-	/* Exceptions */
-	cal_component_get_exdate_list (comp, &edl);
-	local->appt->exceptions = g_slist_length (edl);
-	local->appt->exception = g_new0 (struct tm, local->appt->exceptions);	
-	for (l = edl, i = 0; l != NULL; l = l->next, i++) {
-		CalComponentDateTime *dt = l->data;
-
-		icaltimezone_convert_time (dt->value, 
-					   icaltimezone_get_utc_timezone (),
-					   default_tz);
-		*local->appt->exception = icaltimetype_to_tm (dt->value);
-	}
-	cal_component_free_exdate_list (edl);
-
+	
 	/* Alarm */
 	local->appt->alarm = 0;
 	if (cal_component_has_alarms (comp)) {
@@ -1279,6 +1284,10 @@ pre_sync (GnomePilotConduit *conduit,
 	if (ctxt->timezone)
 		cal_client_set_default_timezone (ctxt->client, ctxt->timezone);
 
+	/* Get the default component */
+	if (cal_client_get_default_object (ctxt->client, CALOBJ_TYPE_EVENT, &ctxt->default_comp) != CAL_CLIENT_GET_SUCCESS)
+		return -1;
+
 	/* Load the uid <--> pilot id mapping */
 	filename = map_name (ctxt);
 	e_pilot_map_read (filename, &ctxt->map);
@@ -1574,18 +1583,23 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	    ECalConduitContext *ctxt)
 {
 	CalComponent *comp;
-	const char *uid;
+	char *uid;
 	int retval = 0;
 	
 	g_return_val_if_fail (remote != NULL, -1);
 
 	LOG ("add_record: adding %s to desktop\n", print_remote (remote));
 
-	comp = comp_from_remote_record (conduit, remote, NULL, ctxt->timezone);
-	update_comp (conduit, comp, ctxt);
+	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->timezone);
 
-	cal_component_get_uid (comp, &uid);
+	/* Give it a new UID otherwise it will be the uid of the default comp */
+	uid = cal_component_gen_uid ();
+	cal_component_set_uid (comp, uid);
+
+	update_comp (conduit, comp, ctxt);
 	e_pilot_map_insert (ctxt->map, remote->ID, uid, FALSE);
+
+	g_free (uid);	
 
 	g_object_unref (comp);
 	

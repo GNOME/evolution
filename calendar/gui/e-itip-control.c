@@ -82,6 +82,7 @@ struct _EItipControlPrivate {
 	gchar *delegator_address;
 	gchar *delegator_name;
 	gchar *my_address;
+	gboolean view_only;
 };
 
 /* HTML Strings */
@@ -302,6 +303,7 @@ init (EItipControl *itip)
 	priv->delegator_address = NULL;
 	priv->delegator_name = NULL;
 	priv->my_address = NULL;
+	priv->view_only = FALSE;
 	
 	/* Html Widget */
 	priv->html = gtk_html_new ();
@@ -1040,10 +1042,12 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	gtk_html_write (GTK_HTML (priv->html), html_stream, HTML_SEP, strlen (HTML_SEP));
 
 	/* Options */
-	if (options != NULL) {
-		const_html = "</td></tr><tr><td valign=\"center\">";
-		gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen (const_html));
-		gtk_html_write (GTK_HTML (priv->html), html_stream, options, strlen (options));
+	if (!e_itip_control_get_view_only (itip)) {
+		if (options != NULL) {
+			const_html = "</td></tr><tr><td valign=\"center\">";
+			gtk_html_write (GTK_HTML (priv->html), html_stream, const_html, strlen (const_html));
+			gtk_html_write (GTK_HTML (priv->html), html_stream, options, strlen (options));
+		}
 	}
 	
 	const_html = "</td></tr></table>";
@@ -1645,6 +1649,27 @@ e_itip_control_get_from_address (EItipControl *itip)
 
 	return priv->from_address;
 }
+
+void
+e_itip_control_set_view_only (EItipControl *itip, gboolean view_only)
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	priv->view_only = view_only;
+}
+
+gboolean
+e_itip_control_get_view_only (EItipControl *itip)
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	return priv->view_only;
+}
+
 
 void
 e_itip_control_set_delegator_address (EItipControl *itip, const gchar *address)

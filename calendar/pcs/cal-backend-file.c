@@ -79,6 +79,8 @@ static void cal_backend_file_finalize (GObject *object);
 static const char *cal_backend_file_get_uri (CalBackend *backend);
 static gboolean cal_backend_file_is_read_only (CalBackend *backend);
 static const char *cal_backend_file_get_email_address (CalBackend *backend);
+static const char *cal_backend_file_get_alarm_email_address (CalBackend *backend);
+static const char *cal_backend_file_get_static_capabilities (CalBackend *backend);
 static CalBackendOpenStatus cal_backend_file_open (CalBackend *backend,
 						   const char *uristr,
 						   gboolean only_if_exists);
@@ -91,6 +93,7 @@ static CalMode cal_backend_file_get_mode (CalBackend *backend);
 static void cal_backend_file_set_mode (CalBackend *backend, CalMode mode);
 
 static int cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type);
+static char *cal_backend_file_get_default_object (CalBackend *backend, CalObjType type);
 static CalComponent *cal_backend_file_get_object_component (CalBackend *backend, const char *uid);
 static char *cal_backend_file_get_timezone_object (CalBackend *backend, const char *tzid);
 static GList *cal_backend_file_get_uids (CalBackend *backend, CalObjType type);
@@ -108,8 +111,9 @@ static GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_file_get_alarms_
 	time_t start, time_t end, gboolean *object_found);
 
 static CalBackendResult cal_backend_file_update_objects (CalBackend *backend,
-							 const char *calobj);
-static CalBackendResult cal_backend_file_remove_object (CalBackend *backend, const char *uid);
+							 const char *calobj,
+							 CalObjModType mod);
+static CalBackendResult cal_backend_file_remove_object (CalBackend *backend, const char *uid, CalObjModType mod);
 
 static CalBackendSendResult cal_backend_file_send_object (CalBackend *backend, 
 							  const char *calobj, gchar **new_calobj,
@@ -175,12 +179,15 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_uri = cal_backend_file_get_uri;
 	backend_class->is_read_only = cal_backend_file_is_read_only;
 	backend_class->get_email_address = cal_backend_file_get_email_address;
+ 	backend_class->get_alarm_email_address = cal_backend_file_get_alarm_email_address;
+ 	backend_class->get_static_capabilities = cal_backend_file_get_static_capabilities;
 	backend_class->open = cal_backend_file_open;
 	backend_class->is_loaded = cal_backend_file_is_loaded;
 	backend_class->get_query = cal_backend_file_get_query;
 	backend_class->get_mode = cal_backend_file_get_mode;
 	backend_class->set_mode = cal_backend_file_set_mode;	
 	backend_class->get_n_objects = cal_backend_file_get_n_objects;
+ 	backend_class->get_default_object = cal_backend_file_get_default_object;
 	backend_class->get_object_component = cal_backend_file_get_object_component;
 	backend_class->get_timezone_object = cal_backend_file_get_timezone_object;
 	backend_class->get_uids = cal_backend_file_get_uids;
@@ -237,7 +244,7 @@ save (CalBackendFile *cbfile)
 	CalBackendFilePrivate *priv;
 	GnomeVFSURI *uri, *backup_uri;
 	GnomeVFSHandle *handle = NULL;
-	GnomeVFSResult result;
+	GnomeVFSResult result = GNOME_VFS_ERROR_BAD_FILE;
 	GnomeVFSFileSize out;
 	gchar *tmp, *backup_uristr;
 	char *buf;
@@ -431,6 +438,21 @@ cal_backend_file_get_email_address (CalBackend *backend)
 	 * with it (although that would be a useful feature some day).
 	 */
 	return NULL;
+}
+
+static const char *
+cal_backend_file_get_alarm_email_address (CalBackend *backend)
+{
+ 	/* A file backend has no particular email address associated
+ 	 * with it (although that would be a useful feature some day).
+ 	 */
+	return NULL;
+}
+
+static const char *
+cal_backend_file_get_static_capabilities (CalBackend *backend)
+{
+ 	return "no-email-alarms";
 }
 
 /* Idle handler; we save the calendar since it is dirty */
@@ -868,6 +890,40 @@ cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type)
 		n += g_list_length (priv->journals);
 
 	return n;
+}
+
+static char *
+cal_backend_file_get_default_object (CalBackend *backend, CalObjType type)
+{
+ 	CalBackendFile *cbfile;
+ 	CalBackendFilePrivate *priv;
+ 	CalComponent *comp;
+ 	char *calobj;
+ 	
+ 	cbfile = CAL_BACKEND_FILE (backend);
+ 	priv = cbfile->priv;
+ 
+ 	comp = cal_component_new ();
+ 	
+ 	switch (type) {
+ 	case CALOBJ_TYPE_EVENT:
+ 		cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
+ 		break;
+ 	case CALOBJ_TYPE_TODO:
+ 		cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
+ 		break;
+ 	case CALOBJ_TYPE_JOURNAL:
+ 		cal_component_set_new_vtype (comp, CAL_COMPONENT_JOURNAL);
+ 		break;
+ 	default:
+ 		g_object_unref (comp);
+ 		return NULL;
+ 	}
+ 	
+ 	calobj = cal_component_get_as_string (comp);
+ 	g_object_unref (comp);
+ 
+ 	return calobj;
 }
 
 /* Get_object_component handler for the file backend */
@@ -1393,6 +1449,8 @@ cal_backend_file_get_alarms_in_range (CalBackend *backend,
 	GSList *comp_alarms;
 	GSList *l;
 	int i;
+	CalAlarmAction omit[] = {-1};
+	
 	GNOME_Evolution_Calendar_CalComponentAlarmsSeq *seq;
 
 	cbfile = CAL_BACKEND_FILE (backend);
@@ -1408,11 +1466,11 @@ cal_backend_file_get_alarms_in_range (CalBackend *backend,
 	n_comp_alarms = 0;
 	comp_alarms = NULL;
 
-	n_comp_alarms += cal_util_generate_alarms_for_list (priv->events, start, end,
+	n_comp_alarms += cal_util_generate_alarms_for_list (priv->events, start, end, omit,
 							    &comp_alarms, resolve_tzid,
 							    priv->icalcomp,
 							    priv->default_zone);
-	n_comp_alarms += cal_util_generate_alarms_for_list (priv->todos, start, end,
+	n_comp_alarms += cal_util_generate_alarms_for_list (priv->todos, start, end, omit,
 							    &comp_alarms, resolve_tzid,
 							    priv->icalcomp,
 							    priv->default_zone);
@@ -1455,6 +1513,7 @@ cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
 	char *comp_str;
 	GNOME_Evolution_Calendar_CalComponentAlarms *corba_alarms;
 	CalComponentAlarms *alarms;
+	CalAlarmAction omit[] = {-1};
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1480,7 +1539,7 @@ cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
 	corba_alarms->calobj = CORBA_string_dup (comp_str);
 	g_free (comp_str);
 
-	alarms = cal_util_generate_alarms_for_comp (comp, start, end, resolve_tzid, priv->icalcomp, priv->default_zone);
+	alarms = cal_util_generate_alarms_for_comp (comp, start, end, omit, resolve_tzid, priv->icalcomp, priv->default_zone);
 	if (alarms) {
 		cal_backend_util_fill_alarm_instances_seq (&corba_alarms->alarms, alarms->alarms);
 		cal_component_alarms_free (alarms);
@@ -1562,7 +1621,7 @@ cal_backend_file_cancel_object (CalBackendFile *cbfile,
 
 /* Update_objects handler for the file backend. */
 static CalBackendResult
-cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
+cal_backend_file_update_objects (CalBackend *backend, const char *calobj, CalObjModType mod)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
@@ -1667,7 +1726,7 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 
 /* Remove_object handler for the file backend */
 static CalBackendResult
-cal_backend_file_remove_object (CalBackend *backend, const char *uid)
+cal_backend_file_remove_object (CalBackend *backend, const char *uid, CalObjModType mod)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;

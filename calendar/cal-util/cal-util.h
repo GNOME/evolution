@@ -51,6 +51,14 @@ typedef enum {
 	CALOBJ_TYPE_ANY     = 0x07
 } CalObjType;
 
+/* Used for modifying objects */
+typedef enum {
+	CALOBJ_MOD_THIS          = 1 << 0,
+	CALOBJ_MOD_THISANDPRIOR  = 1 << 1,
+	CALOBJ_MOD_THISANDFUTURE = 1 << 2,
+	CALOBJ_MOD_ALL           = 0x07
+} CalObjModType;
+
 /* Used for mode stuff */
 typedef enum {
 	CAL_MODE_INVALID = -1,
@@ -66,12 +74,14 @@ icalcomponent *cal_util_new_top_level (void);
 CalComponentAlarms *cal_util_generate_alarms_for_comp (CalComponent *comp,
 						       time_t start,
 						       time_t end,
+						       CalAlarmAction *omit,
 						       CalRecurResolveTimezoneFn resolve_tzid,
 						       gpointer user_data,
 						       icaltimezone *default_timezone);
 int cal_util_generate_alarms_for_list (GList *comps,
 				       time_t start,
 				       time_t end,
+				       CalAlarmAction *omit,
 				       GSList **comp_alarms,
 				       CalRecurResolveTimezoneFn resolve_tzid,
 				       gpointer user_data,

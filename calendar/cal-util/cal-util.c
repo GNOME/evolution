@@ -177,7 +177,8 @@ struct alarm_occurrence_data {
 	GList *alarm_uids;
 	time_t start;
 	time_t end;
-
+	CalAlarmAction *omit;
+	
 	/* This is what we compute */
 	GSList *triggers;
 	int n_triggers;
@@ -213,20 +214,30 @@ add_alarm_occurrences_cb (CalComponent *comp, time_t start, time_t end, gpointer
 	for (l = aod->alarm_uids; l; l = l->next) {
 		const char *auid;
 		CalComponentAlarm *alarm;
+		CalAlarmAction action;
 		CalAlarmTrigger trigger;
 		CalAlarmRepeat repeat;
 		struct icaldurationtype *dur;
 		time_t dur_time;
 		time_t occur_time, trigger_time;
-
+		int i;
+		
 		auid = l->data;
 		alarm = cal_component_get_alarm (comp, auid);
 		g_assert (alarm != NULL);
 
+		cal_component_alarm_get_action (alarm, &action);
 		cal_component_alarm_get_trigger (alarm, &trigger);
 		cal_component_alarm_get_repeat (alarm, &repeat);
 		cal_component_alarm_free (alarm);
 
+		for (i = 0; aod->omit[i] != -1; i++) {
+			if (aod->omit[i] == action)
+				break;
+		}
+		if (aod->omit[i] != -1)
+			continue;
+		
 		if (trigger.type != CAL_ALARM_TRIGGER_RELATIVE_START
 		    && trigger.type != CAL_ALARM_TRIGGER_RELATIVE_END)
 			continue;
@@ -290,19 +301,29 @@ generate_absolute_triggers (CalComponent *comp, struct alarm_occurrence_data *ao
 	for (l = aod->alarm_uids; l; l = l->next) {
 		const char *auid;
 		CalComponentAlarm *alarm;
+		CalAlarmAction action;
 		CalAlarmRepeat repeat;
 		CalAlarmTrigger trigger;
 		time_t abs_time;
 		time_t occur_start, occur_end;
 		icaltimezone *zone;
-
+		int i;
+		
 		auid = l->data;
 		alarm = cal_component_get_alarm (comp, auid);
 		g_assert (alarm != NULL);
 
+		cal_component_alarm_get_action (alarm, &action);
 		cal_component_alarm_get_trigger (alarm, &trigger);
 		cal_component_alarm_get_repeat (alarm, &repeat);
 		cal_component_alarm_free (alarm);
+
+		for (i = 0; aod->omit[i] != -1; i++) {
+			if (aod->omit[i] == action)
+				break;
+		}
+		if (aod->omit[i] != -1)
+			continue;
 
 		if (trigger.type != CAL_ALARM_TRIGGER_ABSOLUTE)
 			continue;
@@ -397,6 +418,7 @@ CalComponentAlarms *
 cal_util_generate_alarms_for_comp (CalComponent *comp,
 				   time_t start,
 				   time_t end,
+				   CalAlarmAction *omit,
 				   CalRecurResolveTimezoneFn resolve_tzid,
 				   gpointer user_data,
 				   icaltimezone *default_timezone)
@@ -415,6 +437,7 @@ cal_util_generate_alarms_for_comp (CalComponent *comp,
 	aod.alarm_uids = alarm_uids;
 	aod.start = start;
 	aod.end = end;
+	aod.omit = omit;
 	aod.triggers = NULL;
 	aod.n_triggers = 0;
 
@@ -459,6 +482,7 @@ int
 cal_util_generate_alarms_for_list (GList *comps,
 				   time_t start,
 				   time_t end,
+				   CalAlarmAction *omit,
 				   GSList **comp_alarms,
 				   CalRecurResolveTimezoneFn resolve_tzid,
 				   gpointer user_data,
@@ -474,7 +498,7 @@ cal_util_generate_alarms_for_list (GList *comps,
 		CalComponentAlarms *alarms;
 
 		comp = CAL_COMPONENT (l->data);
-		alarms = cal_util_generate_alarms_for_comp (comp, start, end, resolve_tzid, user_data, default_timezone);
+		alarms = cal_util_generate_alarms_for_comp (comp, start, end, omit, resolve_tzid, user_data, default_timezone);
 
 		if (alarms) {
 			*comp_alarms = g_slist_prepend (*comp_alarms, alarms);

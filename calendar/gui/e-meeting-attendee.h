@@ -58,6 +58,13 @@ typedef enum
 	E_MEETING_ATTENDEE_RESOURCE
 } EMeetingAttendeeType;
 
+typedef enum
+{
+	E_MEETING_ATTENDEE_EDIT_FULL,
+	E_MEETING_ATTENDEE_EDIT_STATUS,
+	E_MEETING_ATTENDEE_EDIT_NONE
+} EMeetingAttendeeEditLevel;
+
 struct _EMeetingAttendee {
 	GtkObject parent;
 
@@ -118,6 +125,9 @@ void e_meeting_attendee_set_language (EMeetingAttendee *ia, gchar *language);
 gboolean e_meeting_attendee_is_set_language (EMeetingAttendee *ia);
 
 EMeetingAttendeeType e_meeting_attendee_get_atype (EMeetingAttendee *ia);
+
+EMeetingAttendeeEditLevel e_meeting_attendee_get_edit_level (EMeetingAttendee *ia);
+void e_meeting_attendee_set_edit_level (EMeetingAttendee *ia, EMeetingAttendeeEditLevel level);
 
 gboolean e_meeting_attendee_get_has_calendar_info (EMeetingAttendee *ia);
 void e_meeting_attendee_set_has_calendar_info (EMeetingAttendee *ia, gboolean has_calendar_info);

@@ -62,6 +62,8 @@ libcal_dialogs_la_SOURCES =	\
 	meeting-page.h		\
 	recurrence-page.c	\
 	recurrence-page.h	\
+	recur-comp.c		\
+	recur-comp.h		\
 	save-comp.c		\
 	save-comp.h		\
 	schedule-page.c		\

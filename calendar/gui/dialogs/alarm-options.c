@@ -29,7 +29,13 @@
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwindow.h>
+#include <gtk/gtkhbox.h>
+#include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-widget.h>
 #include <glade/glade.h>
+#include <ebook/e-destination.h>
+#include "Evolution-Addressbook-SelectNames.h"
 #include "e-util/e-dialog-widgets.h"
 #include "alarm-options.h"
 
@@ -50,6 +56,7 @@ typedef struct {
 	GtkWidget *button_cancel;
 
 	/* Alarm repeat widgets */
+	gboolean repeat;
 	GtkWidget *repeat_toggle;
 	GtkWidget *repeat_group;
 	GtkWidget *repeat_quantity;
@@ -64,14 +71,23 @@ typedef struct {
 	GtkWidget *aalarm_group;
 	GtkWidget *aalarm_attach;
 
-	/* FIXME: Mail alarm widgets */
+	/* Mail alarm widgets */
+	const char *email;
 	GtkWidget *malarm_group;
+	GtkWidget *malarm_address_group;
+	GtkWidget *malarm_addresses;
+	GtkWidget *malarm_addressbook;
+	GtkWidget *malarm_description;
+	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 
 	/* Procedure alarm widgets */
 	GtkWidget *palarm_group;
 	GtkWidget *palarm_program;
 	GtkWidget *palarm_args;
 } Dialog;
+
+#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
+static const char *section_name = "Send To";
 
 
 
@@ -99,7 +115,10 @@ get_widgets (Dialog *dialog)
 	dialog->aalarm_attach = GW ("aalarm-attach");
 
 	dialog->malarm_group = GW ("malarm-group");
-
+	dialog->malarm_address_group = GW ("malarm-address-group");
+	dialog->malarm_addressbook = GW ("malarm-addressbook");
+	dialog->malarm_description = GW ("malarm-description");
+	
 	dialog->palarm_group = GW ("palarm-group");
 	dialog->palarm_program = GW ("palarm-program");
 	dialog->palarm_args = GW ("palarm-args");
@@ -117,9 +136,61 @@ get_widgets (Dialog *dialog)
 		&& dialog->aalarm_group
 		&& dialog->aalarm_attach
 		&& dialog->malarm_group
+		&& dialog->malarm_address_group
+		&& dialog->malarm_addressbook
+		&& dialog->malarm_description
 		&& dialog->palarm_group
 		&& dialog->palarm_program
 		&& dialog->palarm_args);
+}
+
+static void
+addressbook_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	Dialog *dialog = data;
+	CORBA_Environment ev;
+	
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_Addressbook_SelectNames_activateDialog (dialog->corba_select_names, 
+								section_name, &ev);
+	
+	CORBA_exception_free (&ev);
+}
+
+static gboolean
+setup_select_names (Dialog *dialog)
+{
+	Bonobo_Control corba_control;
+	CORBA_Environment ev;
+	
+	CORBA_exception_init (&ev);
+	
+	dialog->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
+	if (BONOBO_EX (&ev))
+		return FALSE;
+	
+	GNOME_Evolution_Addressbook_SelectNames_addSection (dialog->corba_select_names, 
+							    section_name, section_name, &ev);
+	if (BONOBO_EX (&ev))
+		return FALSE;
+
+	corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (dialog->corba_select_names, 
+										   section_name, &ev);
+
+	if (BONOBO_EX (&ev))
+		return FALSE;
+	
+	CORBA_exception_free (&ev);
+
+	dialog->malarm_addresses = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
+	gtk_widget_show (dialog->malarm_addresses);
+	gtk_box_pack_end_defaults (GTK_BOX (dialog->malarm_address_group), dialog->malarm_addresses);
+
+	gtk_signal_connect (GTK_OBJECT (dialog->malarm_addressbook), "clicked",
+			    GTK_SIGNAL_FUNC (addressbook_clicked_cb), dialog);
+
+	return TRUE;
 }
 
 /* Closes the dialog by terminating its main loop */
@@ -243,7 +314,50 @@ alarm_to_dalarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 static void
 alarm_to_malarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 {
-	/* FIXME: nothing for now; we don't support mail alarms */
+	CalComponentText description;
+	GSList *attendee_list, *l;
+	EDestination **destv;
+	int len, i;
+	
+	/* Recipients */
+	cal_component_alarm_get_attendee_list (alarm, &attendee_list);
+	len = g_slist_length (attendee_list);
+
+	if (len <= 0) {
+		destv = g_new0 (EDestination *, 2);
+		destv[0] = e_destination_new ();
+		e_destination_set_email (destv[0], dialog->email);
+		destv[1] = NULL;
+		len = 1;
+	} else {
+		destv = g_new0 (EDestination *, len + 1);
+		for (l = attendee_list, i = 0; l != NULL; l = l->next, i++) {
+			CalComponentAttendee *a = l->data;
+			EDestination *dest;
+			
+			dest = e_destination_new ();
+			if (a->cn != NULL && *a->cn)
+				e_destination_set_name (dest, a->cn);
+			if (a->value != NULL && *a->value)
+				e_destination_set_email (dest, a->value);
+			
+			destv[i] = dest;
+		}
+		destv[i] = NULL;
+	}
+	
+	bonobo_widget_set_property (BONOBO_WIDGET (dialog->malarm_addresses), 
+				    "destinations", e_destination_exportv (destv), NULL);
+
+	for (i = 0; i < len; i++)
+		gtk_object_unref (GTK_OBJECT (destv[i]));
+	g_free (destv);
+
+	cal_component_free_attendee_list (attendee_list);
+
+	/* Description */
+	cal_component_alarm_get_description (alarm, &description);
+	e_dialog_editable_set (dialog->malarm_description, description.value);
 }
 
 /* Fills the procedure alarm widgets with the values from the alarm component */
@@ -319,7 +433,8 @@ alarm_to_repeat_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 
 	/* Sensitivity */
 
-	if (repeat.repetitions == 0) {
+	if (dialog->repeat || repeat.repetitions == 0) {
+		gtk_widget_set_sensitive (dialog->repeat_toggle, dialog->repeat);
 		gtk_widget_set_sensitive (dialog->repeat_group, FALSE);
 		e_dialog_toggle_set (dialog->repeat_toggle, FALSE);
 		return;
@@ -373,7 +488,7 @@ alarm_to_dialog (Dialog *dialog, CalComponentAlarm *alarm)
 		break;
 
 	case CAL_ALARM_EMAIL:
-		gtk_window_set_title (GTK_WINDOW (dialog->toplevel), _("Mail Alarm Options"));
+		gtk_window_set_title (GTK_WINDOW (dialog->toplevel), _("Email Alarm Options"));
 		gtk_widget_hide (dialog->aalarm_group);
 		gtk_widget_hide (dialog->dalarm_group);
 		gtk_widget_show (dialog->malarm_group);
@@ -491,7 +606,61 @@ dalarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 static void
 malarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 {
-	/* FIXME: nothing for now; we don't support mail alarms */
+	char *str;
+	CalComponentText description;
+	GSList *attendee_list = NULL;
+	EDestination **destv;
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
+	int i;
+	
+	/* Attendees */
+	bonobo_widget_get_property (BONOBO_WIDGET (dialog->malarm_addresses), "destinations", 
+				    &str, NULL);
+	destv = e_destination_importv (str);
+	g_free (str);
+	
+	for (i = 0; destv[i] != NULL; i++) {
+		EDestination *dest;
+		CalComponentAttendee *a;
+
+		dest = destv[i];
+		
+		a = g_new0 (CalComponentAttendee, 1);
+		a->value = e_destination_get_email (dest);
+		a->cn = e_destination_get_name (dest);
+
+		attendee_list = g_slist_append (attendee_list, a);
+	}
+
+	cal_component_alarm_set_attendee_list (alarm, attendee_list);
+
+	cal_component_free_attendee_list (attendee_list);
+	e_destination_freev (destv);	
+
+	/* Description */
+	str = e_dialog_editable_get (dialog->malarm_description);
+	description.value = str;
+	description.altrep = NULL;
+
+	cal_component_alarm_set_description (alarm, &description);
+	g_free (str);
+
+	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
+	 * we don't re-set the alarm's description */
+	icalcomp = cal_component_alarm_get_icalcomponent (alarm);
+	icalprop = icalcomponent_get_first_property(icalcomp, ICAL_X_PROPERTY);
+	while (icalprop) {
+		const char *x_name;
+
+		x_name = icalproperty_get_x_name (icalprop);
+		if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION")) {
+			icalcomponent_remove_property (icalcomp, icalprop);
+			break;
+		}
+
+		icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+	}
 }
 
 /* Fills the procedure alarm data with the values from the widgets */
@@ -586,12 +755,14 @@ dialog_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
  * Return value: TRUE if the dialog could be created, FALSE otherwise.
  **/
 gboolean
-alarm_options_dialog_run (CalComponentAlarm *alarm)
+alarm_options_dialog_run (CalComponentAlarm *alarm, const char *email, gboolean repeat)
 {
 	Dialog dialog;
 
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
+ 	dialog.repeat = repeat;
+ 	dialog.email = email;
 	dialog.xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-options.glade", NULL, NULL);
 	if (!dialog.xml) {
 		g_message ("alarm_options_dialog_new(): Could not load the Glade XML file!");
@@ -599,9 +770,14 @@ alarm_options_dialog_run (CalComponentAlarm *alarm)
 	}
 
 	if (!get_widgets (&dialog)) {
-		g_object_unref((dialog.xml));
+		g_object_unref(dialog.xml);
 		return FALSE;
 	}
+
+	if (!setup_select_names (&dialog)) {
+  		g_object_unref (dialog.xml);
+  		return FALSE;
+  	}
 
 	init_widgets (&dialog);
 
@@ -614,7 +790,7 @@ alarm_options_dialog_run (CalComponentAlarm *alarm)
 		dialog_to_alarm (&dialog, alarm);
 
 	gtk_widget_destroy (dialog.toplevel);
-	g_object_unref((dialog.xml));
+	g_object_unref(dialog.xml);
 
 	return TRUE;
 }

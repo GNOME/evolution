@@ -252,6 +252,7 @@ struct _EToDoConduitContext {
 	CalClient *client;
 
 	icaltimezone *timezone;
+	CalComponent *default_comp;
 	GList *uids;
 	GList *changed;
 	GHashTable *changed_hash;
@@ -270,6 +271,8 @@ e_todo_context_new (guint32 pilot_id)
 	ctxt->gui = NULL;
 	ctxt->ps = NULL;
 	ctxt->client = NULL;
+	ctxt->timezone = NULL;
+	ctxt->default_comp = NULL;
 	ctxt->uids = NULL;
 	ctxt->changed_hash = NULL;
 	ctxt->changed = NULL;
@@ -304,6 +307,8 @@ e_todo_context_destroy (EToDoConduitContext *ctxt)
 	if (ctxt->client != NULL)
 		g_object_unref (ctxt->client);
 
+	if (ctxt->default_comp != NULL)
+		gtk_object_unref (GTK_OBJECT (ctxt->default_comp));
 	if (ctxt->uids != NULL)
 		cal_obj_uid_list_free (ctxt->uids);
 
@@ -885,6 +890,14 @@ pre_sync (GnomePilotConduit *conduit,
 		return -1;
 	LOG ("  Using timezone: %s", icaltimezone_get_tzid (ctxt->timezone));
 
+	/* Set the default timezone on the backend. */
+	if (ctxt->timezone)
+		cal_client_set_default_timezone (ctxt->client, ctxt->timezone);
+
+	/* Get the default component */
+	if (cal_client_get_default_object (ctxt->client, CALOBJ_TYPE_TODO, &ctxt->default_comp) != CAL_CLIENT_GET_SUCCESS)
+		return -1;
+
 	/* Load the uid <--> pilot id map */
 	filename = map_name (ctxt);
 	e_pilot_map_read (filename, &ctxt->map);
@@ -1152,17 +1165,20 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	    EToDoConduitContext *ctxt)
 {
 	CalComponent *comp;
-	const char *uid;
+	char *uid;
 	int retval = 0;
 	
 	g_return_val_if_fail (remote != NULL, -1);
 
 	LOG ("add_record: adding %s to desktop\n", print_remote (remote));
 
-	comp = comp_from_remote_record (conduit, remote, NULL, ctxt->timezone);
-	update_comp (conduit, comp, ctxt);
+	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->timezone);
 
-	cal_component_get_uid (comp, &uid);
+	/* Give it a new UID otherwise it will be the uid of the default comp */
+	uid = cal_component_gen_uid ();
+	cal_component_set_uid (comp, uid);
+
+	update_comp (conduit, comp, ctxt);
 	e_pilot_map_insert (ctxt->map, remote->ID, uid, FALSE);
 
 	g_object_unref (comp);

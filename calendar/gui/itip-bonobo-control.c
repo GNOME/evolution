@@ -41,6 +41,7 @@ extern gchar *evolution_dir;
 
 enum E_ITIP_BONOBO_ARGS {
 	FROM_ADDRESS_ARG_ID,
+	VIEW_ONLY_ARG_ID
 };
 
 /*
@@ -94,13 +95,31 @@ stream_read (Bonobo_Stream stream)
 /*
  * This function implements the Bonobo::PersistStream:load method.
  */
+typedef struct {
+	EItipControl *itip;
+	char *text;
+} idle_data;
+
+static gboolean
+set_data_idle_cb (gpointer data) 
+{	
+	idle_data *id = data;
+	
+	e_itip_control_set_data (id->itip, id->text);
+	gtk_object_unref (GTK_OBJECT (id->itip));
+	g_free (id->text);
+	g_free (id);
+	
+	return FALSE;
+}
+
 static void
 pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	      Bonobo_Persist_ContentType type, void *data,
 	      CORBA_Environment *ev)
 {
 	EItipControl *itip = data;
-	gchar *text;
+	idle_data *id;
 	
 	if (type && g_strcasecmp (type, "text/calendar") != 0 &&	    
 	    g_strcasecmp (type, "text/x-calendar") != 0) {
@@ -108,13 +127,16 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		return;
 	}
 
-	if ((text = stream_read (stream)) == NULL) {
+	id = g_new0 (idle_data, 1);
+	if ((id->text = stream_read (stream)) == NULL) {
 		bonobo_exception_set (ev, ex_Bonobo_Persist_FileNotFound);
+		g_free (id);
 		return;
 	}
-
-	e_itip_control_set_data (itip, text);
-	g_free (text);
+	gtk_object_ref (GTK_OBJECT (itip));
+	id->itip = itip;
+	
+	g_idle_add (set_data_idle_cb, id);
 }
 /*
  * This function implements the Bonobo::PersistStream:save method.
@@ -176,6 +198,9 @@ get_prop (BonoboPropertyBag *bag,
 	case FROM_ADDRESS_ARG_ID:
 		BONOBO_ARG_SET_STRING (arg, e_itip_control_get_from_address (itip));
 		break;
+	case VIEW_ONLY_ARG_ID:
+		BONOBO_ARG_SET_BOOLEAN (arg, e_itip_control_get_view_only (itip));
+		break;
 	}
 }
 
@@ -191,6 +216,9 @@ set_prop ( BonoboPropertyBag *bag,
 	switch (arg_id) {
 	case FROM_ADDRESS_ARG_ID:
 		e_itip_control_set_from_address (itip, BONOBO_ARG_GET_STRING (arg));
+		break;
+	case VIEW_ONLY_ARG_ID:
+		e_itip_control_set_view_only (itip, BONOBO_ARG_GET_BOOLEAN (arg));
 		break;
 	}
 }
@@ -212,6 +240,8 @@ itip_bonobo_control_new (void)
 	prop_bag = bonobo_property_bag_new (get_prop, set_prop, itip);
 	bonobo_property_bag_add (prop_bag, "from_address", FROM_ADDRESS_ARG_ID, BONOBO_ARG_STRING, NULL,
 				 "from_address", 0 );
+	bonobo_property_bag_add (prop_bag, "view_only", VIEW_ONLY_ARG_ID, BONOBO_ARG_BOOLEAN, NULL,
+				 "view_only", 0 );
 
 	bonobo_control_set_properties (control, bonobo_object_corba_objref (BONOBO_OBJECT (prop_bag)), NULL);
 	bonobo_object_unref (BONOBO_OBJECT (prop_bag));

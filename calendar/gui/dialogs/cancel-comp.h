@@ -22,8 +22,9 @@
 #define CANCEL_COMP_H
 
 #include <glib.h>
+#include <cal-client/cal-client.h>
 #include <cal-util/cal-component.h>
 
-gboolean cancel_component_dialog (CalComponent *comp, gboolean deleting);
+gboolean cancel_component_dialog (CalClient *client, CalComponent *comp, gboolean deleting);
 
 #endif

@@ -333,8 +333,10 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 			gtk_widget_hide (priv->organizer_table);
 			gtk_widget_show (priv->existing_organizer_table);
-			if (itip_organizer_is_user (comp)) {
+			if (itip_organizer_is_user (comp, page->client)) {
 				gtk_widget_show (priv->invite);
+				if (cal_client_get_static_capability (page->client, "organizer-not-email-address"))
+					gtk_widget_hide (priv->existing_organizer_btn);
 				e_meeting_model_etable_click_to_add (priv->model, TRUE);
 			} else {
 				gtk_widget_hide (priv->invite);
@@ -661,20 +663,25 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
 	MeetingPage *mpage = MEETING_PAGE (data);
 	MeetingPagePrivate *priv;
 	GtkMenu *menu;
-	int enable_mask = 0, hide_mask = 0, view_row;
+	EMeetingAttendee *ia;
+	int disable_mask = 0, hide_mask = 0, view_row;
 
 	priv = mpage->priv;
 
 	view_row = e_table_model_to_view_row (etable, row);
 	priv->row = e_meeting_model_etable_view_to_model_row (etable, priv->model, view_row);
-	
+
+ 	ia = e_meeting_model_find_attendee_at_row (priv->model, priv->row);
+ 	if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL)
+ 		disable_mask = CAN_DELETE;
+ 
 	/* FIXME: if you enable Delegate, then change index to '1'.
 	 * (This has now been enabled). */
 	/* context_menu[1].pixmap_widget = gnome_stock_new_with_icon (GNOME_STOCK_MENU_TRASH); */
 	context_menu[1].pixmap_widget =
 	  gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
 
-	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, data);
+	menu = e_popup_menu_create (context_menu, disable_mask, hide_mask, data);
 	e_auto_kill_popup_menu_on_selection_done (menu);
 	
 	gtk_menu_popup (menu, NULL, NULL, NULL, NULL,

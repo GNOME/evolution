@@ -23,7 +23,7 @@ typedef enum {
 EAccountList *itip_addresses_get (void);
 EAccount *itip_addresses_get_default (void);
 
-gboolean itip_organizer_is_user (CalComponent *comp);
+gboolean itip_organizer_is_user (CalComponent *comp, CalClient *client);
 gboolean itip_sentby_is_user (CalComponent *comp);
 
 const gchar *itip_strip_mailto (const gchar *address);

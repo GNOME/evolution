@@ -64,7 +64,6 @@ struct _TaskDetailsPagePrivate {
 static const int status_map[] = {
 	ICAL_STATUS_NONE,
 	ICAL_STATUS_INPROCESS,
-	ICAL_STATUS_NEEDSACTION,
 	ICAL_STATUS_COMPLETED,
 	ICAL_STATUS_CANCELLED,
 	-1
@@ -301,7 +300,7 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	/* Status. */
 	cal_component_get_status (comp, &status);
-	if (status == ICAL_STATUS_NONE) {
+	if (status == ICAL_STATUS_NONE || status == ICAL_STATUS_NEEDSACTION) {
 		/* Try to use the percent value. */
 		if (percent) {
 			if (*percent == 100)
@@ -541,7 +540,7 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 		completed_tt = icaltime_null_time ();
 		if (status == ICAL_STATUS_COMPLETED) {
 			e_dialog_option_menu_set (priv->status,
-						  ICAL_STATUS_NEEDSACTION,
+						  ICAL_STATUS_NONE,
 						  status_map);
 			e_dialog_spin_set (priv->percent_complete, 0);
 		}
@@ -578,9 +577,6 @@ status_changed (GtkMenu	*menu, TaskDetailsPage *tdpage)
 	status = e_dialog_option_menu_get (priv->status, status_map);
 	if (status == ICAL_STATUS_NONE) {
 		e_dialog_spin_set (priv->percent_complete, 0);
-		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
-		complete_date_changed (tdpage, 0, FALSE);
-	} else if (status == ICAL_STATUS_NEEDSACTION) {
 		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
 		complete_date_changed (tdpage, 0, FALSE);
 	} else if (status == ICAL_STATUS_INPROCESS) {
