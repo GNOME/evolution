@@ -850,7 +850,7 @@ e_msg_composer_attachment_bar_find_message (EMsgComposerAttachmentBar *bar, char
 		part_location = camel_mime_part_get_content_location (part);
 		g_warning ("url: %s, part_id: %s\n", url, part_id);
 		
-		if (part_id && !strcmp (part_location, url))
+		if (part_location && !strcmp (part_location, url))
 			return part;
 
 	}

@@ -1,5 +1,8 @@
 2001-10-05  Larry Ewing  <lewing@ximian.com>
 
+	* e-msg-composer-attachment-bar.c
+	(e_msg_composer_attachment_bar_find_message): fix cut&pasteo.
+
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):
 	remove unused variable.
 
