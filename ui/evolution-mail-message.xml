@@ -309,7 +309,7 @@
 
       <toolitem name="MessageDelete" verb=""
        _label="Delete"
-       pixtype="stock" pixname="Trash"/>
+       pixtype="pixbuf"/>
     </placeholder>
 
     <placeholder name="MailNextButtons">

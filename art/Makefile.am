@@ -127,6 +127,7 @@ buttons_DATA = 				\
 	compose-message.png		\
 	copy-message.png		\
 	dayview.xpm			\
+	delete-message.png		\
 	fetch-mail.png			\
 	forward.png			\
 	goto-24.png  			\

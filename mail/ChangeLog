@@ -1,3 +1,7 @@
+2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* folder-browser-ui.c: Hook the new `delete-message.png' up.
+
 2001-08-17  Damon Chaplin  <damon@ximian.com>
 
 	* mail-display.c (pixmap_press): stop signal emission so the GtkButton

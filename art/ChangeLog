@@ -1,3 +1,7 @@
+2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (buttons_DATA): Added `delete-message.png'.
+
 2001-08-17  Damon Chaplin  <damon@ximian.com>
 
 	* Makefile.am (images_DATA): moved task.xpm here, so it gets installed,

@@ -1,3 +1,8 @@
+2001-08-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-mail-message.xml: Change pixtype of "MessageDelete" to
+	"pixbuf".
+
 2001-08-18  Damon Chaplin  <damon@ximian.com>
 
 	* evolution-calendar.xml: changed goto icon from stock icon to pixbuf
