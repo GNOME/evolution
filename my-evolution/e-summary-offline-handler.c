@@ -205,19 +205,16 @@ impl_goOnline (PortableServer_Servant servant,
 	}
 }
 
-/* GtkObject methods */
+/* GObject methods */
+
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	ESummaryOfflineHandler *offline_handler;
 	ESummaryOfflineHandlerPriv *priv;
 
 	offline_handler = E_SUMMARY_OFFLINE_HANDLER (object);
 	priv = offline_handler->priv;
-
-	if (priv == NULL) {
-		return;
-	}
 
 	if (priv->listener_interface != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
@@ -229,22 +226,19 @@ impl_destroy (GtkObject *object)
 
 	g_slist_free (priv->summaries);
 
-	offline_handler->priv = NULL;
 	g_free (priv);
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL) {
-		GTK_OBJECT_CLASS (parent_class)->destroy (object);
-	}
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 static void
 e_summary_offline_handler_class_init (ESummaryOfflineHandlerClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	POA_GNOME_Evolution_Offline__epv *epv;
 
-	object_class = GTK_OBJECT_CLASS (klass);
-	object_class->destroy = impl_destroy;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = impl_finalize;
 
 	epv = &klass->epv;
 	epv->_get_isOffline = impl__get_isOffline;
@@ -270,7 +264,7 @@ e_summary_offline_handler_new (void)
 {
 	ESummaryOfflineHandler *new;
 
-	new = gtk_type_new (e_summary_offline_handler_get_type ());
+	new = g_object_new (e_summary_offline_handler_get_type (), NULL);
 
 	return new;
 }
