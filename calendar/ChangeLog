@@ -1,3 +1,8 @@
+1999-11-09  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* Makefile.am (#todo_conduit_control_applet_SOURCES): Fixed an
+	unwanted conditional on libcalendar_conduit_la_LDFLAGS
+
 1999-11-05  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* calendar-conduit-control-applet.c (readStateCfg): Commented the
