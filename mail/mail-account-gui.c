@@ -1039,6 +1039,24 @@ folder_selected (EvolutionFolderSelectorButton *button,
 	*folder_name = g_strdup (corba_folder->physicalUri);
 }
 
+static void
+default_folders_clicked (GtkButton *button, gpointer user_data)
+{
+	MailAccountGui *gui = user_data;
+	
+	/* Drafts folder */
+	g_free (gui->drafts_folder_uri);
+	gui->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
+	evolution_folder_selector_button_set_uri (EVOLUTION_FOLDER_SELECTOR_BUTTON (gui->drafts_folder_button),
+						  gui->drafts_folder_uri);
+	
+	/* Sent folder */
+	g_free (gui->sent_folder_uri);
+	gui->sent_folder_uri = g_strdup (default_sent_folder_uri);
+	evolution_folder_selector_button_set_uri (EVOLUTION_FOLDER_SELECTOR_BUTTON (gui->sent_folder_button),
+						  gui->sent_folder_uri);
+}
+
 GtkWidget *mail_account_gui_folder_selector_button_new (char *widget_name, char *string1, char *string2, int int1, int int2);
 
 GtkWidget *
@@ -1345,8 +1363,9 @@ prepare_signatures (MailAccountGui *gui)
 MailAccountGui *
 mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 {
-	MailAccountGui *gui;
 	const char *allowed_types[] = { "mail", NULL };
+	MailAccountGui *gui;
+	GtkWidget *button;
 	
 	gui = g_new0 (MailAccountGui, 1);
 	gui->account = account;
@@ -1457,6 +1476,11 @@ mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 						    _("Select Folder"),
 						    gui->sent_folder_uri,
 						    allowed_types);
+	
+	/* Special Folders "Reset Defaults" button */
+	button = glade_xml_get_widget (gui->xml, "default_folders_button");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (default_folders_clicked), gui);
 	
 	/* Always Cc */
 	gui->always_cc = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "always_cc"));
