@@ -1,3 +1,11 @@
+2001-06-26  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/pas/pas-backend-file.c (compare_category): Added
+	category searching to the file backend.
+
+	* gui/component/addressbook.c (addressbook_query_changed): Added
+	category searching to the search bar.
+
 2001-06-25  Peter Williams  <peterw@ximian.com>
 
 	* conduit/Makefile.am (INCLUDES): Fix for srcdir != builddir.

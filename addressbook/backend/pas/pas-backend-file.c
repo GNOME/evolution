@@ -268,6 +268,30 @@ compare_address (ECardSimple *card, const char *str,
 	return FALSE;
 }
 
+static gboolean
+compare_category (ECardSimple *card, const char *str,
+		  char *(*compare)(const char*, const char*))
+{
+	EList *categories;
+	EIterator *iterator;
+	ECard *ecard;
+	gtk_object_get (GTK_OBJECT (card),
+			"card", &ecard,
+			NULL);
+	gtk_object_get (GTK_OBJECT (ecard),
+			"category_list", &categories,
+			NULL);
+
+	for (iterator = e_list_get_iterator(categories); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
+		const char *category = e_iterator_get (iterator);
+
+		if (compare(category, str))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
 static struct prop_info {
 	ECardSimpleField field_id;
 	const char *query_prop;
@@ -304,6 +328,7 @@ static struct prop_info {
 	LIST_PROP ( "email", "email", compare_email ),
 	LIST_PROP ( "phone", "phone", compare_phone ),
 	LIST_PROP ( "address", "address", compare_address ),
+	LIST_PROP ( "category", "category", compare_category ),
 };
 static int num_prop_infos = sizeof(prop_info_table) / sizeof(prop_info_table[0]);
 
