@@ -1,5 +1,10 @@
 2004-01-19  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/component/select-names/e-select-names.etspec: Get name from
+	correct model column.
+
+2004-01-19  Hans Petter Jansson  <hpj@ximian.com>
+
 	* printing/e-contact-print.c (complete_sequence): Only unref if we
 	have a query.
 
