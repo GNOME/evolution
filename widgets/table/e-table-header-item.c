@@ -17,6 +17,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "gal/widgets/e-cursors.h"
 #include "gal/util/e-xml-utils.h"
+#include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-popup-menu.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
@@ -828,7 +829,7 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 						     0, 0);
 	} else {
 		int str_width, ellipsis_width, text_len;
-		int font_height, y_xtra;
+		int y_xtra;
 
 		text_len = strlen (col->text);
 		ellipsis_width = gdk_text_width (ethi->font, "...", 3);
