@@ -1,3 +1,7 @@
+2002-06-04  Kevin Breit  <mrproper@ximian.com>
+
+	* C/usage-mail.sgml: Added a tip mentioning that gpg can automagically contact the server for keys without having to use a console.
+
 2002-05-30  Kevin Breit  <mrproper@ximian.com>
 
 	* C/usage-mail.sgml: Reworded the signature introduction paragraph. 
