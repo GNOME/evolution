@@ -1,5 +1,11 @@
 1998-05-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* gncal-full-day.c (gncal_full_day_unrealize): Fix the gc
+	destruction in the unrealization code and fix the pixmap unrefing.
+
+	* main.c (close_cmd): Remove a bad hack that disabled calendar
+	widget destruction.
+
 	* calobj.c (ical_object_generate_events): Fix for the weekly event
 	generation.  Was reported on the bug tracking system. 
 

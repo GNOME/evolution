@@ -1150,12 +1150,20 @@ gncal_full_day_unrealize (GtkWidget *widget)
 	gdk_cursor_destroy (fullday->beam_cursor);
 	fullday->beam_cursor = NULL;
 
-	gdk_gc_destroy (fullday->bell_gc);
-	gdk_gc_destroy (fullday->recur_gc);
-	gdk_pixmap_unref (pixmap_bell);
-	gdk_pixmap_unref (pixmap_recur);
+	if (fullday->bell_gc)
+		gdk_gc_destroy (fullday->bell_gc);
+	if (fullday->recur_gc)
+		gdk_gc_destroy (fullday->recur_gc);
+
+	if (pixmap_bell){
+		gdk_pixmap_unref (pixmap_bell);
+		pixmap_bell = NULL;
+	}
 	
-	pixmap_bell = NULL;
+	if (pixmap_recur){
+		gdk_pixmap_unref (pixmap_recur);
+		pixmap_recur = NULL;
+	}
 		
 	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
 		(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);

@@ -173,7 +173,7 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 			calendar_save (gcal->cal, gcal->cal->filename);
 	}
 
-/*	gtk_widget_destroy (GTK_WIDGET (gcal)); */
+	gtk_widget_destroy (GTK_WIDGET (gcal));
 	active_calendars--;
 	
 	if (active_calendars == 0)
