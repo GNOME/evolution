@@ -32,8 +32,8 @@
 
 #define FOCUSED_BORDER 2
 
-/* #define DO_TOOLTIPS 1 */
-/* #define ALTERNATE_COLORS 1 */
+#define DO_TOOLTIPS 1
+#define ALTERNATE_COLORS 1
 
 #define d(x)
 
