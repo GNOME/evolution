@@ -1,3 +1,12 @@
+2004-03-11  Radek Doulik  <rodo@ximian.com>
+
+	* mail-ops.c: remove junk learning thread, it's handled in
+	camel-folder.c:folder_changed now
+
+	* em-folder-view.c (emfv_popup_mark_junk): use
+	em_folder_view_mark_selected, set junk, junk-learn and seen flags
+	(emfv_popup_mark_nojunk): similar, reset junk, set junk-learn flags
+
 2004-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_send_mail): Removed. No longer in use (hasn't
