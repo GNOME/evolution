@@ -359,9 +359,8 @@ msgid "Loading..."
 msgstr "Завантаження..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:719
-#, fuzzy
 msgid "Reconnecting to LDAP server..."
-msgstr "З'єднання з сервером..."
+msgstr "Перепід'єднання до сервера LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1262
 msgid "Adding card to LDAP server..."
@@ -625,7 +624,7 @@ msgstr ""
 #. the user clicked cancel in the password dialog
 #: addressbook/gui/component/addressbook.c:582
 msgid "Accessing LDAP Server anonymously"
-msgstr ""
+msgstr "Звертатися до LDAP сервера анонімно"
 
 #: addressbook/gui/component/addressbook.c:625
 msgid "Failed to authenticate.\n"
@@ -642,9 +641,8 @@ msgid "Name begins with"
 msgstr "Ім'я починається з"
 
 #: addressbook/gui/component/addressbook.c:783
-#, fuzzy
 msgid "Email begins with"
-msgstr "Ім'я починається з"
+msgstr "Ел.адреса починається з"
 
 #: addressbook/gui/component/addressbook.c:784
 #: calendar/gui/cal-search-bar.c:53
@@ -676,6 +674,10 @@ msgid ""
 "more specific or raise the time limit in the directory server\n"
 "preferences for this addressbook."
 msgstr ""
+"Час виконання цього запиту перевищує межу сервера або межу,\n"
+"що встановлена вами для цієї адресної книги.  Будь-ласка, зробить\n"
+"ваш пошук більш ізбірковим або збільшите межу часу в налаштуваннях\n"
+"сервера тек для цієї адресної книги."
 
 #: addressbook/gui/component/addressbook.c:968
 msgid "The backend for this addressbook was unable to parse this query."
@@ -955,9 +957,8 @@ msgid "Re_store Defaults"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:51
-#, fuzzy
 msgid "S_earch scope: "
-msgstr "Діапазон пошуку:"
+msgstr "Діапазон пошуку: "
 
 #. No time range is set, so don't start a query
 #: addressbook/gui/component/ldap-config.glade.h:52
@@ -1232,9 +1233,8 @@ msgid "_Edit Mapping"
 msgstr "Виправити зустріч"
 
 #: addressbook/gui/component/ldap-config.glade.h:120
-#, fuzzy
 msgid "_Evolution attribute:"
-msgstr "Сигнал Evolution"
+msgstr "Ознака Evolution:"
 
 #: addressbook/gui/component/ldap-config.glade.h:121
 msgid "_If necessary "
@@ -1882,7 +1882,7 @@ msgstr "Габон"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:209
 msgid "Gambia"
-msgstr "Ґамбія"
+msgstr "Гамбія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:210
 #: my-evolution/Locations.h:811
@@ -1935,11 +1935,11 @@ msgstr "Гвінея"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:221
 msgid "Guinea-bissau"
-msgstr "Ґвінея-Біссау"
+msgstr "Гвінея-Біссау"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Guyana"
-msgstr "Ґаяна"
+msgstr "Гаяна"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:223
 #: my-evolution/Locations.h:888
@@ -7752,7 +7752,7 @@ msgstr "Європа/Будапешт"
 
 #: calendar/zones.h:297
 msgid "Europe/Chisinau"
-msgstr "Європа/Кішиньов"
+msgstr "Європа/Кишинів"
 
 #: calendar/zones.h:298
 msgid "Europe/Copenhagen"
@@ -7988,7 +7988,7 @@ msgstr ""
 
 #: calendar/zones.h:356
 msgid "Pacific/Fiji"
-msgstr ""
+msgstr "Тихий океан/Фіджі"
 
 #: calendar/zones.h:357
 msgid "Pacific/Funafuti"
@@ -8088,7 +8088,7 @@ msgstr ""
 
 #: calendar/zones.h:381
 msgid "Pacific/Tahiti"
-msgstr ""
+msgstr "Тихий океан/Таїті"
 
 #: calendar/zones.h:382
 msgid "Pacific/Tarawa"
@@ -8505,7 +8505,7 @@ msgstr "Інша помилка"
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
 msgstr ""
-"Неможливо завантажити %s: Ця система не підтримує завантаження модулів."
+"Неможливо завантажити %s: ця система не підтримує завантаження модулів."
 
 #: camel/camel-provider.c:140
 #, c-format
@@ -8552,7 +8552,9 @@ msgstr ""
 msgid ""
 "Invalid trace information:\n"
 "%s"
-msgstr "Помилка завантаження файлу: %s"
+msgstr ""
+"Невірна інформація трасування:\n"
+"%s"
 
 #: camel/camel-sasl-cram-md5.c:35
 msgid "CRAM-MD5"
@@ -8713,9 +8715,8 @@ msgid "Host lookup failed: %s: unknown reason"
 msgstr "Помилка при пошуку хоста: %s: причина невідома"
 
 #: camel/camel-service.c:851
-#, fuzzy
 msgid "Resolving address"
-msgstr "Розв'язання: %s"
+msgstr "Розв'язання адреси"
 
 #: camel/camel-service.c:913
 msgid "Host lookup failed: host not found"
@@ -8937,7 +8938,7 @@ msgid "BAD"
 msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:702
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Bad certificate from %s:\n"
 "\n"
@@ -8948,6 +8949,8 @@ msgid ""
 "Do you wish to accept anyway?"
 msgstr ""
 "Невірний сертифікат з %s:\n"
+"\n"
+"%s\n"
 "\n"
 "%s\n"
 "\n"
@@ -9102,9 +9105,9 @@ msgid "Scanning for changed messages"
 msgstr "Пошук змінених повідомлень."
 
 #: camel/providers/imap/camel-imap-folder.c:1872
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to retrieve message: %s"
-msgstr "Збій декодування повідомлення."
+msgstr "Неможливо отримати повідомлення: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:1908
 #: camel/providers/local/camel-maildir-folder.c:212
@@ -9157,9 +9160,9 @@ msgid "Failed to cache message %s: %s"
 msgstr "Збій кешування повідомлення %s: %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to cache %s: %s"
-msgstr "Збій кешування повідомлення %s: %s"
+msgstr "Збій кешування %s: %s"
 
 #: camel/providers/imap/camel-imap-provider.c:43
 msgid "Checking for new mail"
@@ -9214,9 +9217,9 @@ msgid "IMAP server %s"
 msgstr "Сервер IMAP %s"
 
 #: camel/providers/imap/camel-imap-store.c:459
-#, fuzzy, c-format
+#, c-format
 msgid "IMAP service for %s on %s"
-msgstr "%s служба для %s на %s"
+msgstr "служба IMAP для %s на %s"
 
 #: camel/providers/imap/camel-imap-store.c:584
 #: camel/providers/nntp/camel-nntp-store.c:130
@@ -9285,18 +9288,18 @@ msgstr ""
 #: camel/providers/imap/camel-imap-store.c:1647
 #, c-format
 msgid "No such folder %s"
-msgstr "Невірна тека \"%s\""
+msgstr "Відсутня тека \"%s\""
 
 #: camel/providers/imap/camel-imap-store.c:1848
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it containes the character \"%c\""
-msgstr "Назва теки не може містити символ вводу."
+msgstr "Назва теки \"%s\" не вірна оскільки містить символ \"%c\""
 
 #: camel/providers/imap/camel-imap-store.c:1860
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown parent folder: %s"
-msgstr "Невідома помилка: %s"
+msgstr "Невідома батьківська тека: %s"
 
 #: camel/providers/imap/camel-imap-store.c:1896
 msgid "The parent folder is not allowed to contain subfolders"
@@ -9512,9 +9515,8 @@ msgid "Checking folder consistency"
 msgstr "Перевіряти нову пошту"
 
 #: camel/providers/local/camel-maildir-summary.c:640
-#, fuzzy
 msgid "Checking for new messages"
-msgstr "Пошук нових повідомлень"
+msgstr "Перевірка наявністі нових повідомлень"
 
 #: camel/providers/local/camel-maildir-summary.c:729
 #: camel/providers/local/camel-mbox-summary.c:345
@@ -9660,9 +9662,9 @@ msgid "Unknown error: %s"
 msgstr "Невідома помилка: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:883
-#, fuzzy, c-format
+#, c-format
 msgid "Could not store folder: %s"
-msgstr "Не вдалося перейменувати теку: %s"
+msgstr "Не вдалося зберегти теку: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:976
 #: camel/providers/local/camel-mbox-summary.c:1001
@@ -9695,9 +9697,9 @@ msgid "Cannot open MH directory path: %s: %s"
 msgstr "Неможливо відкрити каталог MH: %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' cannot be opened: %s"
-msgstr "Накопичувальні теки не можна перейменовувати"
+msgstr "Неможливо відкрити сховище `%s': %s"
 
 #: camel/providers/local/camel-spool-store.c:130
 #, c-format
@@ -9791,14 +9793,14 @@ msgstr ""
 "паролів."
 
 #: camel/providers/nntp/camel-nntp-summary.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "No such folder: %s"
-msgstr "Невірна тека \"%s\""
+msgstr "Відсутня тека: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:238
-#, fuzzy, c-format
+#, c-format
 msgid "Could not get group: %s"
-msgstr "Не вдалося створити канал: %s"
+msgstr "Не вдалося отримати групу: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:344
 #, c-format
@@ -9807,9 +9809,9 @@ msgstr "Збій команди NNTP: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:404
 #: camel/providers/nntp/camel-nntp-summary.c:505
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Scanning new messages"
-msgstr "Пошук нових повідомлень"
+msgstr "%s: Пошук нових повідомлень"
 
 #: camel/providers/nntp/camel-nntp-summary.c:520
 #, c-format
@@ -9822,9 +9824,9 @@ msgid "Use cancel"
 msgstr "Скасувати"
 
 #: camel/providers/nntp/camel-nntp-summary.c:568
-#, fuzzy, c-format
+#, c-format
 msgid "Operation failed: %s"
-msgstr "Операцію скасовано"
+msgstr "Збій операції: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:246
 msgid "Retrieving POP summary"
@@ -9839,9 +9841,9 @@ msgid "User cancelled"
 msgstr "Операцію скасовано"
 
 #: camel/providers/pop3/camel-pop3-folder.c:264
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get POP summary: %s"
-msgstr "Не вдалося отримати теку: %s: %s"
+msgstr "Не вдалося отримати POP-зведення: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:306
 msgid "Expunging deleted messages"
@@ -9868,9 +9870,8 @@ msgid "Cannot get message %s: %s"
 msgstr "Неможливо отримати повідомлення %s: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:495
-#, fuzzy
 msgid "Unknown reason"
-msgstr "Невідомі опади"
+msgstr "Невідома причина"
 
 #: camel/providers/pop3/camel-pop3-provider.c:38
 msgid "Message storage"
@@ -9899,7 +9900,7 @@ msgid ""
 "is the only option supported by many POP servers."
 msgstr ""
 "Під'єднання до POP серверу буде виконуватись з використанням незашифрованого "
-"паролю.Більшість POP серверів підтримує тільки цей варіант."
+"паролю. Більшість POP серверів підтримує тільки цей варіант."
 
 #: camel/providers/pop3/camel-pop3-provider.c:81
 msgid ""
@@ -9907,8 +9908,8 @@ msgid ""
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
 msgstr ""
-"Під'єднання до POP серверу буде виконуватись з використанням паролю "
-"зашифрованого згідно протоколу APOP.Це може спрацьовувати не для всіх "
+"Під'єднання до POP серверу буде виконуватись з використанням паролю, "
+"зашифрованого згідно протоколу APOP. Це може спрацьовувати не для всіх "
 "користувачів, навіть якщо сервер нібито його підтримує."
 
 #: camel/providers/pop3/camel-pop3-store.c:183
@@ -9930,12 +9931,12 @@ msgstr "Не вдалося з'єднатись з сервером POP %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:392
 #: camel/providers/pop3/camel-pop3-store.c:502
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
 msgstr ""
-"Неможливо під'єднатись до POP серверу %s: відсутня підтримка потрібного "
+"Неможливо під'єднатись до POP серверу %s: відсутня підтримка запитаного "
 "механізму автентифікації."
 
 #: camel/providers/pop3/camel-pop3-store.c:408
@@ -9954,18 +9955,18 @@ msgid "Failed to authenticate on POP server %s: %s"
 msgstr "Неможливо автентифікуватися на сервері POP %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:462
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the POP password for %s@%s"
-msgstr "%sБудь ласка, введіть пароль POP3 для %s@%s"
+msgstr "%sБудь ласка, введіть пароль POP для %s@%s"
 
 #: camel/providers/pop3/camel-pop3-store.c:516
 #: camel/providers/pop3/camel-pop3-store.c:522
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending password: %s"
 msgstr ""
-"Неможливо з'єднатись з сервером POP.\n"
+"Неможливо з'єднатись з сервером POP %s.\n"
 "Помилка відсилання пароля: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:614
@@ -9987,9 +9988,8 @@ msgstr ""
 "системі."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:108
-#, fuzzy
 msgid "Could not parse recipient list"
-msgstr "Неможливо проаналізувати URL \"%s\""
+msgstr "Неможливо проаналізувати список отримувачів"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:120
 #, c-format
@@ -10145,31 +10145,27 @@ msgstr "Помилка відповіді на RSET: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:339
 #: camel/providers/smtp/camel-smtp-transport.c:378
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr ""
-"Неможливо під'єднатись до POP серверу.\n"
-"Помилка при передачі імені користувача: %s"
+msgstr "Неможливо під'єднатись до SMTP серверу %s у захищеному режимі: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:340
-#, fuzzy
 msgid "server does not appear to support SSL"
-msgstr "Повідомлення невірно сформовано"
+msgstr "здається сервер не підтримує SSL"
 
 #: camel/providers/smtp/camel-smtp-transport.c:354
-#, fuzzy, c-format
+#, c-format
 msgid "STARTTLS request timed out: %s"
-msgstr "Затримка відповіді на RSET: %s"
+msgstr "Затримка відповіді на STARTTLS: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:369
-#, fuzzy
 msgid "STARTTLS response error"
-msgstr "Помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на STARTTLS"
 
 #: camel/providers/smtp/camel-smtp-transport.c:472
-#, fuzzy, c-format
+#, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr "SMTP сервер %s не підтримує автентифікацію %s типу"
+msgstr "SMTP сервер %s не підтримує автентифікацію запитаного типу %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:510
 #, c-format
@@ -10210,23 +10206,21 @@ msgid "Cannot send message: no recipients defined."
 msgstr "Неможливо відіслати повідомлення: не визначено отримувачів"
 
 #: camel/providers/smtp/camel-smtp-transport.c:713
-#, fuzzy
 msgid "Cannot send message: one or more invalid recipients"
-msgstr "Неможливо відіслати повідомлення: не визначено отримувачів"
+msgstr "Неможливо відіслати повідомлення: один чи більше отримувачів невірні"
 
 #: camel/providers/smtp/camel-smtp-transport.c:881
 msgid "SMTP Greeting"
 msgstr "Привітання SMTP"
 
 #: camel/providers/smtp/camel-smtp-transport.c:927
-#, fuzzy, c-format
+#, c-format
 msgid "HELO request timed out: %s"
-msgstr "Затримка відповіді на RSET: %s"
+msgstr "Затримка відповіді на запит HELO: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:949
-#, fuzzy
 msgid "HELO response error"
-msgstr "Помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на HELO"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1015
 msgid "SMTP Authentication"
@@ -10256,9 +10250,8 @@ msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "Затримка відповіді на MAIL FROM: %s: пошту не відіслано"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1165
-#, fuzzy
 msgid "MAIL FROM response error"
-msgstr "Помилка відповіді на MAIL FROM: %s: пошту не відіслано"
+msgstr "Помилка відповіді на MAIL FROM"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1189
 #, c-format
@@ -10279,9 +10272,8 @@ msgstr "Затримка відповіді на DATA: %s: пошту не ві�
 #. * 354 Enter mail, end with "." on a line by itself
 #.
 #: camel/providers/smtp/camel-smtp-transport.c:1273
-#, fuzzy
 msgid "DATA response error"
-msgstr "Помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на DATA"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1313
 #: camel/providers/smtp/camel-smtp-transport.c:1336
@@ -10301,19 +10293,17 @@ msgid "RSET request timed out: %s"
 msgstr "Затримка відповіді на RSET: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1399
-#, fuzzy
 msgid "RSET response error"
-msgstr "Помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на RSET"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1422
-#, fuzzy, c-format
+#, c-format
 msgid "QUIT request timed out: %s"
-msgstr "Перевищено час очікування відповіді на AUTH: %s"
+msgstr "Перевищено час очікування відповіді на QUIT: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1442
-#, fuzzy
 msgid "QUIT response error"
-msgstr "Помилка відповіді на RSET: %s"
+msgstr "Помилка відповіді на QUIT"
 
 #: composer/e-msg-composer-attachment-bar.c:107
 #, fuzzy, c-format
@@ -15218,7 +15208,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:362
 msgid "Canberra"
-msgstr ""
+msgstr "Канберра"
 
 #: my-evolution/Locations.h:363
 msgid "Cancun"
@@ -15426,7 +15416,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:415
 msgid "Cheboksary"
-msgstr ""
+msgstr "Чебоксари"
 
 #: my-evolution/Locations.h:416
 msgid "Cheju"
@@ -15750,7 +15740,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:499
 msgid "Concord"
-msgstr ""
+msgstr "Конкорд"
 
 #: my-evolution/Locations.h:500
 msgid "Concordia"
@@ -15982,7 +15972,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:562
 msgid "Dayton"
-msgstr ""
+msgstr "Дейтон"
 
 #: my-evolution/Locations.h:563
 msgid "Daytona Beach"
@@ -16161,9 +16151,8 @@ msgid "Dole"
 msgstr ""
 
 #: my-evolution/Locations.h:609
-#, fuzzy
 msgid "Donetsk"
-msgstr "Готово"
+msgstr "Донецьк"
 
 #: my-evolution/Locations.h:610
 msgid "Dongsha"
@@ -16187,7 +16176,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:615
 msgid "Douglas"
-msgstr ""
+msgstr "Дуглас"
 
 #: my-evolution/Locations.h:616
 msgid "Dover"
@@ -16291,11 +16280,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:642
 msgid "Edinburgh"
-msgstr ""
+msgstr "Единбург"
 
 #: my-evolution/Locations.h:643
 msgid "Edmonton"
-msgstr ""
+msgstr "Едмонтон"
 
 #: my-evolution/Locations.h:644
 msgid "Edmonton/Villeneuve"
@@ -16323,7 +16312,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:651
 msgid "Eindhoven"
-msgstr ""
+msgstr "Ейндховен"
 
 #: my-evolution/Locations.h:652
 msgid "Ekofisk"
@@ -22458,7 +22447,6 @@ msgid "Tallahassee"
 msgstr ""
 
 #: my-evolution/Locations.h:2211
-#, fuzzy
 msgid "Tallinn"
 msgstr "Таллін"
 
@@ -22471,9 +22459,8 @@ msgid "Tamanrasset/Aguenna"
 msgstr ""
 
 #: my-evolution/Locations.h:2214
-#, fuzzy
 msgid "Tampa"
-msgstr "Самоа"
+msgstr "Тампа"
 
 #: my-evolution/Locations.h:2215
 msgid "Tampa-Macdill AFB"
@@ -22840,9 +22827,8 @@ msgid "Trieste"
 msgstr "Тест"
 
 #: my-evolution/Locations.h:2298
-#, fuzzy
 msgid "Trinidad"
-msgstr "Смерч"
+msgstr "Трінідад"
 
 #: my-evolution/Locations.h:2299
 msgid "Tripoli"
@@ -22965,9 +22951,8 @@ msgid "Tyndall AFB"
 msgstr ""
 
 #: my-evolution/Locations.h:2328
-#, fuzzy
 msgid "Tyumen"
-msgstr "Тоді"
+msgstr "Тюмень"
 
 #: my-evolution/Locations.h:2329
 msgid "Uberaba"
@@ -22983,7 +22968,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2333
 msgid "Ulan-Ude"
-msgstr ""
+msgstr "Улан-Уде"
 
 #: my-evolution/Locations.h:2334
 msgid "Ulsan"
@@ -23156,7 +23141,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2377
 msgid "Venezia"
-msgstr ""
+msgstr "Венеція"
 
 #: my-evolution/Locations.h:2379
 msgid "Venice"
@@ -23201,7 +23186,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2389
 msgid "Victoria"
-msgstr ""
+msgstr "Вікторія"
 
 #: my-evolution/Locations.h:2391
 msgid "Vigo"
@@ -23693,7 +23678,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2507
 msgid "Yekaterinburg"
-msgstr ""
+msgstr "Єкатеринбург"
 
 #: my-evolution/Locations.h:2508
 msgid "Yellowknife"
@@ -23750,7 +23735,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2523
 msgid "Yukon"
-msgstr ""
+msgstr "Юкон"
 
 #: my-evolution/Locations.h:2524
 msgid "Yuma MCAS"
@@ -23899,7 +23884,7 @@ msgstr "Моя погода"
 
 #: my-evolution/e-summary-weather.c:268
 msgid "There was an error downloading data for"
-msgstr ""
+msgstr "Помилка завантаження даних для"
 
 #: my-evolution/e-summary-weather.c:489
 msgid "Weather"
@@ -26173,7 +26158,7 @@ msgstr "Активні з'єднання"
 #: shell/glade/e-active-connection-dialog.glade.h:2
 msgid "Click OK to close these connections and go offline"
 msgstr ""
-"Для закриття цих з'єднань та перехіду до автономної роботи клацніть на OK"
+"Для закриття цих з'єднань та переходу до автономної роботи клацніть на OK"
 
 #: shell/glade/e-active-connection-dialog.glade.h:3
 msgid "Host"
