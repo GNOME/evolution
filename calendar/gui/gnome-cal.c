@@ -649,6 +649,10 @@ update_query (GnomeCalendar *gcal)
 
 	/* create queries for each loaded client */
 	for (l = priv->clients_list; l != NULL; l = l->next) {
+		/* don't create queries for clients not loaded yet */
+		if (e_cal_get_load_state ((ECal *) l->data) != E_CAL_LOAD_LOADED)
+			continue;
+
 		if (!e_cal_get_query ((ECal *) l->data, real_sexp, &old_query, NULL)) {
 			g_warning (G_STRLOC ": Could not create the query");
 
