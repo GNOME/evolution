@@ -31,10 +31,8 @@ static GtkObjectClass *parent_class=NULL;
 /* Returns the class for a CamelDataWrapper */
 #define CDH_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 
-static void _write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer);
-static void _write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
-static void _construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *buffer, guint size);
-static void _construct_from_file (CamelDataWrapper *data_wrapper, FILE *file, guint size);
+static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, guint size);
+static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 
 static void
 camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
@@ -42,10 +40,8 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 	parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
-	camel_data_wrapper_class->write_to_buffer = _write_to_buffer;
-	camel_data_wrapper_class->write_to_file = _write_to_file;
-	camel_data_wrapper_class->construct_from_buffer = _construct_from_buffer;
-	camel_data_wrapper_class->construct_from_file = _construct_from_file;
+	camel_data_wrapper_class->write_to_stream = _write_to_stream;
+	camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
 
 	/* virtual method overload */
 }
@@ -84,91 +80,57 @@ camel_data_wrapper_get_type (void)
 
 
 /**
- * _write_to_buffer: write data content in a byte buffer
+ * _write_to_stream: write data content in a byte stream
  * @data_wrapper: the data wrapper object
- * @buffer: byte buffer where data will be written 
+ * @stre:m byte stream where data will be written 
  * 
  * This method must be overriden by subclasses
- * Data must be written in the bytes buffer
+ * Data must be written in the bytes stream
  * in a architecture independant fashion. 
  * If data is a standard data (for example an jpg image)
- * it must be serialized in the buffer exactly as it 
- * would be saved on disk. A simple dump of the buffer in
+ * it must be serialized in the strea exactly as it 
+ * would be saved on disk. A simple dump of the stream in
  * a file should be sufficient for the data to be 
  * re-read by a foreign application.  
  * 
  **/
 static void
-_write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer)
+_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	/* nothing */
 }
 
 
 /**
- * camel_data_wrapper_write_to_buffer: write data in a memory buffer
+ * camel_data_wrapper_write_to_stream: write data in a stream
  * @data_wrapper: the data wrapper object
- * @buffer: byte buffer where data will be written 
+ * @stream: byte stream where data will be written 
  *
- * Write data content in a buffer. Data is stored in a machine
+ * Write data content in a stream. Data is stored in a machine
  * independant format. 
  * 
  **/
 void 
-camel_data_wrapper_write_to_buffer(CamelDataWrapper *data_wrapper, gchar *buffer)
+camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
-	CDH_CLASS(data_wrapper)->write_to_buffer (data_wrapper, buffer);
+	CDH_CLASS(data_wrapper)->write_to_stream (data_wrapper, stream);
 }
+
+
+
 
 
 
 static void
-_write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
-{
-	/* nothing */
-}
-
-
-/**
- * camel_data_wrapper_write_to_file: write data in a binary file
- * @data_wrapper: the data wrapper object
- * @file: file descriptoe where to write data
- * 
- * Write data content in a binary file.  
- *
- **/
-void 
-camel_data_wrapper_write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
-{
-	CDH_CLASS(data_wrapper)->write_to_file (data_wrapper, file);
-}
-
-
-static void
-_construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *buffer, guint size)
+_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, guint size)
 {
 	/* nothing */
 }
 
 void 
-camel_data_wrapper_construct_from_buffer(CamelDataWrapper *data_wrapper, gchar *buffer, guint size)
+camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream, guint size)
 {
-	CDH_CLASS(data_wrapper)->construct_from_buffer (data_wrapper, buffer, size);
+	CDH_CLASS(data_wrapper)->construct_from_stream (data_wrapper, stream, size);
 }
-
-
-
-static void
-_construct_from_file (CamelDataWrapper *data_wrapper, FILE *file, guint size)
-{
-	/* nothing */
-}
-
-void 
-camel_data_wrapper_construct_from_file (CamelDataWrapper *data_wrapper, FILE *file, guint size)
-{
-	CDH_CLASS(data_wrapper)->construct_from_file (data_wrapper, file, size);
-}
-
 
 
