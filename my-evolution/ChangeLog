@@ -1,3 +1,7 @@
+2001-12-06  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c (rdfs): Remove the perl.com one.
+
 2001-11-14  Iain Holmes  <iain@ximian.com>
 
 	* my-evolution.glade: Spell celsius right.
