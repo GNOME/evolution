@@ -93,7 +93,7 @@ camel_pop3_folder_get_type (void)
 	return camel_pop3_folder_type;
 }
 
-void
+static void
 pop3_finalize (CamelObject *object)
 {
 	CamelPOP3Folder *pop3_folder = CAMEL_POP3_FOLDER (object);
@@ -218,7 +218,7 @@ cmd_uidl(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 	
 	do {
 		ret = camel_pop3_stream_line(stream, &line, &len);
-		if (ret>=0) {			
+		if (ret>=0) {
 			if (strlen(line) > 1024)
 				line[1024] = 0;
 			if (sscanf(line, "%u %s", &id, uid) == 2) {

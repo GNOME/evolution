@@ -1,3 +1,8 @@
+2003-06-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/pop3/camel-pop3-folder.c (pop3_finalize): Made static
+	(to match the prototype).
+
 2003-06-13  Larry Ewing  <lewing@ximian.com>
 
 	* camel-folder-thread.c (camel_folder_thread_messages_apply):
