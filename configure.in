@@ -455,5 +455,12 @@ filter/Makefile
 wombat/Makefile
 art/Makefile
 default_user/Makefile
+default_user/local/Makefile
+default_user/local/Calendar/Makefile
+default_user/local/Contacts/Makefile
+default_user/local/Drafts/Makefile
+default_user/local/Inbox/Makefile
+default_user/local/Outbox/Makefile
+default_user/local/Trash/Makefile
 tools/Makefile
 ])
