@@ -1,3 +1,8 @@
+2003-11-30  Yuedong Du  <yuedong.du@sun.com>
+
+	* evolution-mail-list.xml: change shortcut of 'invert selection' from
+	ctrl+I to shift+ctrl+I.
+
 2003-11-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* evolution-calendar.xml: removed the 'New...' items, since they are

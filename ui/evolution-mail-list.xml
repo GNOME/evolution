@@ -16,7 +16,7 @@
 
     <cmd name="EditInvertSelection"
      _tip="Select all and only the messages that are not currently selected"
-     accel="*Control*i"/>
+     accel="*Control**Shift*i"/>
 
     <cmd name="EditSelectAll"
      _tip="Select all visible messages"
