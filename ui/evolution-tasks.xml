@@ -1,5 +1,6 @@
 <Root>
   <commands>
+    <cmd name="TasksOpenTask" _tip="View the selected task" accel="*Control*o"/>
     <cmd name="TasksPrint" _tip="Print the list of tasks" pixtype="stock" pixname="gtk-print"
 	 accel="*Control*p"/>
     <cmd name="TasksPrintPreview" _tip="Previews the list of tasks to be printed" pixtype="stock" pixname="gtk-print-preview"/>
@@ -16,6 +17,9 @@
   
   <menu>
     <submenu name="File">
+      <placeholder name="FileOps">
+        <menuitem name="OpenTask" verb="TasksOpenTask" _label="_Open Task"/>
+      </placeholder>
       <placeholder name="Print">
 	<menuitem name="PrintPreview" verb="TasksPrintPreview" _label="Print Pre_view"/>
 

@@ -1,3 +1,8 @@
+2003-12-31  Kidd Wang  <kidd.wang@sun.com>
+
+	* evolution-tasks.xml: Add a menu item [Open Task] to [File] for
+	the tasks component.
+
 2003-12-23  Kidd Wang  <kidd.wang@sun.com>
 
 	* evolution-calendar.xml: Add a menu item [Open Appointment] to [File].
