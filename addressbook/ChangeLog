@@ -1,5 +1,8 @@
 2004-05-17  Jeffrey Stedfast  <fejj@novell.com>
 
+	* gui/component/addressbook-view.c: Change E_PIXMAP size args over
+	to E_ICON_SIZE_* values.
+
 	* gui/widgets/e-minicard.c (e_minicard_init): Use an E_ICON_SIZE
 	enum value for the icon_size argument to get_icon.
 

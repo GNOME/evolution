@@ -275,7 +275,7 @@ set_status_message (EABView *eav, const char *message, AddressbookView *view)
 		char *clientid = g_strdup_printf ("%p", view);
 
 		if (progress_icon == NULL)
-			progress_icon = e_icon_factory_get_icon (EVOLUTION_CONTACTS_PROGRESS_IMAGE, E_ICON_SIZE_MENU);
+			progress_icon = e_icon_factory_get_icon (EVOLUTION_CONTACTS_PROGRESS_IMAGE, E_ICON_SIZE_STATUS);
 
 		priv->activity_id = e_activity_handler_operation_started (activity_handler, clientid,
 									  progress_icon, message, TRUE);
@@ -422,17 +422,17 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/menu/File/FileOps/ContactsSaveAsVCard", "stock_save_as", 16),
-	E_PIXMAP ("/menu/File/Print/ContactsPrint", "stock_print", 16),
-	E_PIXMAP ("/menu/File/Print/ContactsPrintPreview", "stock_print-preview", 16),
+	E_PIXMAP ("/menu/File/FileOps/ContactsSaveAsVCard", "stock_save_as", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/Print/ContactsPrint", "stock_print", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/Print/ContactsPrintPreview", "stock_print-preview", E_ICON_SIZE_MENU),
 
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCut", "stock_cut", 16),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCopy", "stock_copy", 16),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsPaste", "stock_paste", 16),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactDelete", "stock_delete", 16),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCut", "stock_cut", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCopy", "stock_copy", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsPaste", "stock_paste", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactDelete", "stock_delete", E_ICON_SIZE_MENU),
 
-	E_PIXMAP ("/Toolbar/ContactsPrint", "stock_print", 24),
-	E_PIXMAP ("/Toolbar/ContactDelete", "stock_delete", 24),
+	E_PIXMAP ("/Toolbar/ContactsPrint", "stock_print", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/ContactDelete", "stock_delete", E_ICON_SIZE_LARGE_TOOLBAR),
 
 	E_PIXMAP_END
 };
