@@ -448,5 +448,4 @@ wombat/Makefile
 art/Makefile
 default_user/Makefile
 tools/Makefile
-directory/Makefile
 ])
