@@ -15,7 +15,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2003-05-22 16:47-0400\n"
+"POT-Creation-Date: 2003-05-26 03:54+0200\n"
 "PO-Revision-Date: 2003-04-24 21:23+0100\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -5265,7 +5265,7 @@ msgstr "Op_slaan als..."
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
 #: ui/evolution-tasks.xml.h:20 ui/my-evolution.xml.h:6
 msgid "_Print..."
-msgstr "_Afdrukken..."
+msgstr "Af_drukken..."
 
 #: calendar/gui/e-calendar-table.c:955 calendar/gui/e-day-view.c:3718
 #: calendar/gui/e-week-view.c:3605 ui/evolution-addressbook.xml.h:1
@@ -11963,7 +11963,7 @@ msgstr "B_ewerk als Nieuw Bericht..."
 
 #: mail/folder-browser.c:1762
 msgid "_Print"
-msgstr "_Afdrukken"
+msgstr "Af_drukken"
 
 #: mail/folder-browser.c:1766 ui/evolution-mail-message.xml.h:110
 msgid "_Reply to Sender"
