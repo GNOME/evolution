@@ -1,3 +1,8 @@
+2004-06-29  Not Zed  <NotZed@Ximian.com>
+
+	* em-vfolder-rule.c (source_add): setup exclusion for vfolder
+	sources, noselect folders.  Bug #60794.
+
 2004-06-23  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-selector.c (em_folder_selector_get_selected_path):

@@ -334,7 +334,6 @@ emft_select_func(GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *
 	GtkTreeIter iter;
 
 	/* NB: This will be called with selection==NULL from tree_row_activated */
-
 	if (emft->priv->excluded == 0)
 		return TRUE;
 

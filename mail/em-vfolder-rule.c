@@ -489,6 +489,7 @@ source_add(GtkWidget *widget, struct _source_data *data)
 	GtkWidget *dialog;
 	
 	emft =(EMFolderTree *)em_folder_tree_new_with_model(mail_component_peek_tree_model(mail_component_peek()));
+	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOSELECT);
 	
 	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, _("Select Folder"), NULL, _("_Add"));
 	gtk_window_set_transient_for((GtkWindow *)dialog, (GtkWindow *)gtk_widget_get_toplevel(widget));
