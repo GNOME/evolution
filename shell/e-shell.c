@@ -1357,9 +1357,12 @@ e_shell_unregister_all (EShell *shell)
 
 	g_return_if_fail (E_IS_SHELL (shell));
 
+	/* FIXME: This really really sucks.  */
+
 	priv = shell->priv;
 
-#error "Implement me"
+	gtk_object_unref (GTK_OBJECT (priv->component_registry));
+	priv->component_registry = NULL;
 }
 
 

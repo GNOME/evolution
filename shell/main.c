@@ -60,6 +60,8 @@ no_views_left_cb (EShell *shell, gpointer data)
 	   destroyed.  But refcounting is broken at present, so this is a
 	   reasonable workaround for now.  */
 
+	e_shell_unregister_all (shell);
+
 	bonobo_object_unref (BONOBO_OBJECT (shell));
 
 	gtk_main_quit ();

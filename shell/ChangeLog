@@ -1,5 +1,22 @@
 2001-06-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (no_views_left_cb): Call `e_shell_unregister_all()'.
+
+	* e-shell.c (e_shell_unregister_all): New.
+
+2001-06-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-test-component.c (timeout_callback_1): Make the
+	activity cancellable, so we can test the pop-up menu.
+
+	* e-activity-handler.c (show_cancellation_popup): New function to
+	show the "Cancel" pop-up for task widgets.
+	(task_widget_cancel_callback): Callback for the pop-up menu.
+	(task_widget_button_press_event_callback): Show the pop-up menu
+	when button 2 is pressed, if the activity is cancellable.
+
+2001-06-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (convert_gdk_drag_action_to_corba): Remove
 	trailing "\n" from g_warning.
 	(convert_corba_drag_action_to_gdk): Likewise.
