@@ -6,4 +6,5 @@ Makefile.in
 *.la
 minicard-label-test
 minicard-test
+minicard-view-test
 reflow-test

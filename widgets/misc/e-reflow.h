@@ -54,10 +54,8 @@ struct _EReflow
 	GnomeCanvasGroup parent;
 	
 	/* item specific fields */
-	/*  EBook *book; */
-	
 	GList *items; /* Of type GnomeCanvasItem */
-	GList *columns; /* Of type GList pointing to type GnomeCanvasItem (points into items) */
+	GList *columns; /* Of type GList of type GnomeCanvasItem (points into items) */
 	gint column_count; /* Number of columnns */
 	
 	double minimum_width;
@@ -87,12 +85,16 @@ struct _EReflowClass
 {
 	GnomeCanvasGroupClass parent_class;
 
-	void (* resize) (EReflow *reflow);
+	/* Virtual methods. */
+	void (* add_item) (EReflow *reflow, GnomeCanvasItem *item);
 };
 
-/* To be added to a reflow, an item must have the arguments "x", "y",
-   and "width" as Read/Write arguments and "height" as a Read Only
-   argument.  It must also have a "resize" signal. */
+/* 
+ * To be added to a reflow, an item must have the argument "width" as
+ * a Read/Write argument and "height" as a Read Only argument.  It
+ * should also do an ECanvas parent reflow request if its size
+ * changes.
+ */
 void       e_reflow_add_item(EReflow *e_reflow, GnomeCanvasItem *item);
 GtkType    e_reflow_get_type (void);
 

@@ -16,6 +16,32 @@
  */
 
 
+#define TEST_VCARD                   \
+"BEGIN:VCARD
+"                      \
+"FN:Nat
+"                           \
+"N:Friedman;Nat;D;Mr.
+"             \
+"BDAY:1977-08-06
+"                  \
+"TEL;WORK:617 679 1984
+"            \
+"TEL;CELL:123 456 7890
+"            \
+"EMAIL;INTERNET:nat@nat.org
+"       \
+"EMAIL;INTERNET:nat@helixcode.com
+" \
+"ADR;WORK;POSTAL:P.O. Box 101;;;Any Town;CA;91921-1234;
+" \
+"ADR;HOME;POSTAL;INTL:P.O. Box 202;;;Any Town 2;MI;12344-4321;USA
+" \
+"END:VCARD
+"                        \
+"
+"
+
 
 #include "config.h"
 
@@ -127,8 +153,10 @@ int main( int argc, char *argv[] )
   for ( i = 0; i < 200; i++ )
     {
       GnomeCanvasItem *item;
+      ECard *card = e_card_new (TEST_VCARD);
       item = gnome_canvas_item_new( GNOME_CANVAS_GROUP(reflow),
 				    e_minicard_get_type(),
+				    "card", card,
 				    NULL);
       e_reflow_add_item(E_REFLOW(reflow), item);
     }

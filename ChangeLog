@@ -1,5 +1,34 @@
 2000-04-08  Christopher James Lahey  <clahey@helixcode.com>
 
+	* addressbook/gui/minicard/.cvsignore,
+	addressbook/gui/minicard/Makefile.am,
+	addressbook/gui/minicard/e-minicard-view.c,
+	addressbook/gui/minicard/e-minicard-view.h,
+	addressbook/gui/minicard/e-minicard.c,
+	addressbook/gui/minicard/e-minicard.h,
+	addressbook/gui/minicard/e-reflow-sorted.c,
+	addressbook/gui/minicard/e-reflow-sorted.h,
+	addressbook/gui/minicard/e-reflow.c,
+	addressbook/gui/minicard/e-reflow.h,
+	addressbook/gui/minicard/test-minicard-view.c,
+	addressbook/gui/minicard/test-reflow.c,
+	widgets/e-minicard/.cvsignore, widgets/e-minicard/Makefile.am,
+	widgets/e-minicard/e-minicard-label.c,
+	widgets/e-minicard/e-minicard-label.h,
+	widgets/e-minicard/e-minicard-view.c,
+	widgets/e-minicard/e-minicard-view.h,
+	widgets/e-minicard/e-minicard.c, widgets/e-minicard/e-minicard.h,
+	widgets/e-minicard/e-reflow-sorted.c,
+	widgets/e-minicard/e-reflow-sorted.h,
+	widgets/e-minicard/e-reflow.c, widgets/e-minicard/e-reflow.h,
+	widgets/e-minicard/test-minicard-label.c,
+	widgets/e-minicard/test-minicard-view.c,
+	widgets/e-minicard/test-minicard.c,
+	widgets/e-minicard/test-reflow.c: CVS move mistake.  Fixed the
+	correct changes in the correct places.
+
+2000-04-08  Christopher James Lahey  <clahey@helixcode.com>
+
 	* art/Makefile.am: pixmap_DATA isn't defined so don't use it as a variable.
 
 	* addressbook/gui/component/,
