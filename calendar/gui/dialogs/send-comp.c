@@ -22,11 +22,8 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
 #include <gtk/gtkmessagedialog.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-uidefs.h>
-#include <e-util/e-icon-factory.h>
+#include "widgets/misc/e-error.h"
 #include "send-comp.h"
 
 
@@ -42,11 +39,9 @@
 gboolean
 send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean new)
 {
-	GtkWidget *dialog;
 	ECalComponentVType vtype;
-	char *str;
-	gint response;
-
+	const char *id;
+	
 	if (e_cal_get_save_schedules (client))
 		return FALSE;
 	
@@ -55,23 +50,16 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
 		if (new)
-			str = g_strdup_printf (_("The meeting information has "
-						 "been created. Send it?"));
+			id = "calendar:prompt-meeting-invite";
 		else
-			str = g_strdup_printf (_("The meeting information has "
-						 "changed. Send an updated "
-						 "version?"));
+			id = "calendar:prompt-send-updated-meeting-info";
 		break;
 
 	case E_CAL_COMPONENT_TODO:
 		if (new)
-			str = g_strdup_printf (_("The task assignment "
-						 "information has been "
-						 "created. Send it?"));
+			id = "calendar:prompt-send-task";
 		else
-			str = g_strdup_printf (_("The task information has "
-						 "changed. Send an updated "
-						 "version?"));
+			id = "calendar:prompt-send-updated-task-info";
 		break;
 
 	default:
@@ -80,18 +68,7 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 		return FALSE;
 	}
 	
-	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL,
-					 GTK_MESSAGE_QUESTION,
-					 GTK_BUTTONS_YES_NO, str);
-	if (vtype == E_CAL_COMPONENT_EVENT)
-		gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon ("stock_calendar", 32));
-	else if (vtype == E_CAL_COMPONENT_TODO)
-		gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon ("stock_todo", 32));
-
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-
-	if (response == GTK_RESPONSE_YES)
+	if (e_error_run (parent, id, NULL) == GTK_RESPONSE_YES)
 		return TRUE;
 	else
 		return FALSE;

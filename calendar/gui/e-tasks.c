@@ -34,6 +34,7 @@
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
 
+#include "widgets/misc/e-error.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-time-utils.h"
 #include "e-util/e-url.h"
@@ -594,8 +595,6 @@ backend_died_cb (ECal *client, gpointer data)
 	ETasks *tasks;
 	ETasksPrivate *priv;
 	ESource *source;
-	char *message;
-	GtkWidget *dialog;
 	
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
@@ -608,15 +607,10 @@ backend_died_cb (ECal *client, gpointer data)
 	gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_REMOVED], source);
 
 	e_calendar_table_set_status_message (E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)), NULL);
-
-	message = g_strdup_printf (_("The task backend for '%s' has crashed."), e_source_peek_name (source));
-	dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))),
-					 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-					 message);
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-	g_free (message);
-
+	
+	e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))),
+		     "calendar:tasks-crashed", NULL);
+	
 	g_object_unref (source);
 }
 

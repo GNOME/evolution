@@ -47,6 +47,7 @@
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
 #include "widgets/menus/gal-view-menus.h"
+#include "widgets/misc/e-error.h"
 #include "e-comp-editor-registry.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"
@@ -2027,10 +2028,9 @@ backend_died_cb (ECal *ecal, gpointer data)
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
-	GtkWidget *dialog;
 	ECalSourceType source_type;
 	ESource *source;
-	char *message;
+	const char *id;
 	int i;
 
 	gcal = GNOME_CALENDAR (data);
@@ -2045,7 +2045,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:		
-		message = g_strdup_printf (_("The calendar backend for '%s' has crashed."), e_source_peek_name (source));
+		id = "calendar:calendar-crashed";
 		
 		for (i = 0; i < GNOME_CAL_LAST_VIEW; i++)
 			e_calendar_view_set_status_message (priv->views[i], NULL);
@@ -2054,7 +2054,8 @@ backend_died_cb (ECal *ecal, gpointer data)
 		break;
 
 	case E_CAL_SOURCE_TYPE_TODO:
-		message = g_strdup_printf (_("The task backend for '%s' has crashed."), e_source_peek_name (source));
+		id = "calendar:tasks-crashed";
+		
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
 
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
@@ -2067,12 +2068,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 
 	g_object_unref (source);
 	
-	dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))),
-					 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-					 message);
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-	g_free (message);
+	e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), id, NULL);
 }
 
 GtkWidget *

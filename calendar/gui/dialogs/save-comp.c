@@ -23,14 +23,9 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-#include <libgnome/gnome-i18n.h>
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtkstock.h>
-#include <e-util/e-icon-factory.h>
+#include "widgets/misc/e-error.h"
 #include "save-comp.h"
 
-
 
 /**
  * save_component_dialog:
@@ -45,28 +40,5 @@
 GtkResponseType
 save_component_dialog (GtkWindow *parent)
 {
-	GtkWidget *dialog;
-	gint r;
-
-	dialog = gtk_message_dialog_new (GTK_WINDOW (parent),
-					 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					 GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-					 _("This event has been changed, but has not been saved.\n\n"
-					   "Do you wish to save your changes?"));
-       
-	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
-				_("_Discard Changes"),GTK_RESPONSE_NO,
-				GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,
-				GTK_STOCK_SAVE, GTK_RESPONSE_YES,
-				NULL);
-
-	gtk_window_set_icon (GTK_WINDOW (dialog), e_icon_factory_get_icon("stock_calendar", 32));
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Save Event"));
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
-
-	r = gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-
-	return r;
-
+	return e_error_run (parent, "calendar:prompt-save-appointment", NULL);
 }

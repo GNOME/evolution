@@ -1,8 +1,27 @@
+2004-05-25  Jeffrey Stedfast  <fejj@novell.com>
+
+	* Makefile.am: Make calendar-errors.xml.h and install the xml
+	file.
+
+	* calendar-errors.xml: New error definitions file.
+
+	* gui/gnome-cal.c (backend_died_cb): Use e-error
+
+	* gui/e-tasks.c (backend_died_cb): Use e-error
+
+	* gui/dialogs/send-comp.c (send_component_dialog): Use e-error
+
+	* gui/dialogs/save-comp.c (save_component_dialog): Use e-error
+
+	* gui/dialogs/delete-comp.c (delete_component_dialog): Use e-error
+
+	* gui/dialogs/cancel-comp.c (cancel_component_dialog): Use e-error
+
 2004-05-25  Sivaiah Nallagatla <snallagatla@novell.com>
 
-        * common/authentication.c (auth_func_cb) : read the "auth-domain"
-        property to use as component name for e-password calls instead of
-        hard coded component name
+	* common/authentication.c (auth_func_cb): read the "auth-domain"
+	property to use as component name for e-password calls instead of
+	hard coded component name
 
 2004-05-25  Trent Lloyd  <lathiat@bur.st>
 
