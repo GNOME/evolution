@@ -206,7 +206,7 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 			type = camel_mime_part_get_content_type (po->part);
 			if (type) {
 				if (!strcasecmp (type->type, "audio")) {
-					if (!strcasecmp (type->subtype, "mpeg")) {
+					if (!strcasecmp (type->subtype, "mpeg") || !strcasecmp (type->subtype, "x-mp3")) {
 						po->thread = org_gnome_audio_inline_gst_mpeg_thread (filesrc);
 					} else if (!strcasecmp (type->subtype, "x-flac")) {
 						po->thread = org_gnome_audio_inline_gst_flac_thread (filesrc);
