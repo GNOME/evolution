@@ -222,8 +222,11 @@ conduits_DATA =				\
 	evo-48-todo-conduit.png
 
 install-data-local:
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pixmaps; \
+	$(mkinstalldirs) $(DESTDIR)$(datadir)/pixmaps
 	$(INSTALL_DATA) $(srcdir)/evolution.png  $(DESTDIR)$(datadir)/pixmaps/evolution-$(BASE_VERSION).png
+if DEFAULT_BINARY
+	cd $(DESTDIR)$(datadir)/pixmaps && rm -f evolution.png && $(LN_S) evolution-$(BASE_VERSION).png evolution.png
+endif
 
 EXTRA_DIST = 				\
 	attachment.xpm			\
