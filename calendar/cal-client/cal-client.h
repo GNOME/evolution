@@ -142,7 +142,7 @@ gboolean cal_client_remove_object (CalClient *client, const char *uid);
 CalQuery *cal_client_get_query (CalClient *client, const char *sexp);
 
 /* Resolves TZIDs for the recurrence generator. */
-icaltimezone *cal_client_resolve_tzid (const char *tzid, CalClient *client);
+icaltimezone *cal_client_resolve_tzid_cb (const char *tzid, gpointer data);
 
 
 

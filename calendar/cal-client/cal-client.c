@@ -912,10 +912,16 @@ cal_client_get_timezone (CalClient *client,
 
 /* Resolves TZIDs for the recurrence generator. */
 icaltimezone*
-cal_client_resolve_tzid (const char *tzid, CalClient *client)
+cal_client_resolve_tzid_cb (const char *tzid, gpointer data)
 {
+	CalClient *client;
 	icaltimezone *zone = NULL;
 	CalClientGetStatus status;
+
+	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (data), NULL);
+	
+	client = CAL_CLIENT (data);
 
 	/* FIXME: Handle errors. */
 	status = cal_client_get_timezone (client, tzid, &zone);
@@ -1430,7 +1436,8 @@ cal_client_generate_instances (CalClient *client, CalObjType type,
 		CalComponent *comp;
 
 		comp = l->data;
-		cal_recur_generate_instances (comp, start, end, add_instance, &instances, (CalRecurResolveTimezoneFn) cal_client_resolve_tzid, client);
+		cal_recur_generate_instances (comp, start, end, add_instance, &instances,
+					      cal_client_resolve_tzid_cb, client);
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
 

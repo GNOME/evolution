@@ -46,6 +46,7 @@
 #include <gal/e-text/e-text.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-canvas-utils.h>
+#include <gal/widgets/e-unicode.h>
 #include "dialogs/delete-comp.h"
 #include "comp-util.h"
 #include "cal-util/timeutil.h"
@@ -990,7 +991,7 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 				      week_view->day_starts[0],
 				      week_view->day_starts[num_days],
 				      e_week_view_add_event, week_view,
-				      cal_client_resolve_tzid, week_view->client);
+				      cal_client_resolve_tzid_cb, week_view->client);
 
 	gtk_object_unref (GTK_OBJECT (comp));
 
@@ -1699,7 +1700,7 @@ void
 e_week_view_cut_clipboard (EWeekView *week_view)
 {
 	EWeekViewEvent *event;
-	char *uid;
+	const char *uid;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
@@ -3064,9 +3065,8 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		   || (event->length == 0)
 		   || (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK))) {
 		return FALSE;
-	} else {
-		initial_text = event->string;
-	}
+	} else
+		initial_text = e_utf8_from_gtk_event_key (widget, event->keyval, event->string);
 
 	/* Add a new event covering the selected range. */
 	comp = cal_component_new ();
@@ -3100,6 +3100,9 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	} else {
 		g_warning ("Couldn't find event to start editing.\n");
 	}
+
+	if (initial_text)
+		g_free (initial_text);
 
 	gtk_object_unref (GTK_OBJECT (comp));
 

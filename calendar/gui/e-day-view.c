@@ -44,6 +44,7 @@
 #include <gal/e-text/e-text.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-canvas-utils.h>
+#include <gal/widgets/e-unicode.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <libgnome/gnome-i18n.h>
 
@@ -1486,7 +1487,7 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 	cal_recur_generate_instances (comp, day_view->lower,
 				      day_view->upper,
 				      e_day_view_add_event, day_view,
-				      (CalRecurResolveTimezoneFn) cal_client_resolve_tzid, day_view->client);
+				      cal_client_resolve_tzid_cb, day_view->client);
 	gtk_object_unref (GTK_OBJECT (comp));
 
 	e_day_view_check_layout (day_view);
@@ -2607,7 +2608,7 @@ void
 e_day_view_cut_clipboard (EDayView *day_view)
 {
 	EDayViewEvent *event;
-	char *uid;
+	const char *uid;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
@@ -3504,7 +3505,7 @@ e_day_view_on_cut (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
-	char *uid;
+	const char *uid;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -4491,7 +4492,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	}
 
 	if (show_icons) {
-		GSList *categories_list, *elem;
+		GSList *categories_list;
 
 		if (cal_component_has_alarms (comp))
 			num_icons++;
@@ -4884,9 +4885,8 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		   || (event->length == 0)
 		   || (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK))) {
 		return FALSE;
-	} else {
-		initial_text = event->string;
-	}
+	} else
+		initial_text = e_utf8_from_gtk_event_key (widget, event->keyval, event->string);
 
 	/* Add a new event covering the selected range */
 
@@ -4922,6 +4922,9 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	} else {
 		g_warning ("Couldn't find event to start editing.\n");
 	}
+
+	if (initial_text)
+		g_free (initial_text);
 
 	gtk_object_unref (GTK_OBJECT (comp));
 

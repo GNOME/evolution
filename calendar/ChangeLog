@@ -1,3 +1,23 @@
+2001-07-09  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_key_press): Use
+	e_utf8_from_gtk_event_key() so that we can input utf8 text
+	properly.
+	(e_day_view_cut_clipboard): Constify.
+	(e_day_view_on_cut): Constify.
+	(e_day_view_reshape_long_event): Remove unused variable.
+
+	* gui/e-week-view.c (e_week_view_key_press): Use
+	e_utf8_from_gtk_event_key() so that we can input utf8 text
+	properly.
+	(e_week_view_cut_clipboard): Constify.
+	(e_week_view_on_cut): Constify.
+
+	* cal-client/cal-client.c (cal_client_resolve_tzid_cb): Fix the
+	prototype so that this matches CalRecurResolveTimezoneFn.  Also
+	renamed it so that it is clear that it is supposed to be a
+	callback.
+
 2001-07-06  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/meeting-page.c (init_widgets): connect to the entry
