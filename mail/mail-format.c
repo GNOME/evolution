@@ -916,7 +916,6 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			b = 255 - (0.92 * (255 - b));
 		}
 		
-		g_warning ("%d, %d, %d", r, g, b);
 		sprintf (bgcolor, "%.2X%.2X%.2X", r, g, b);
 		
 		r = style->text[state].red;
@@ -1397,7 +1396,7 @@ mail_write_authenticity (MailDisplay *md, CamelCipherValidity *valid)
 	}
 	
 	if (valid && camel_cipher_validity_get_description (valid)) {
-		mail_error_write (md->html, md->stream,
+		mail_error_write (md->html, md->stream, "%s",
 				  camel_cipher_validity_get_description (valid));
 		mail_html_write (md->html, md->stream, "<br><br>");
 	}

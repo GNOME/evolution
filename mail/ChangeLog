@@ -1,3 +1,12 @@
+2001-08-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (build_auth_menu): Try to restore the choice
+	the user had chosen before hitting the "Check Supported Types"
+	button.
+
+	* mail-format.c (write_headers): Removed a no-longer-needed
+	g_warning.
+
 2001-08-03  Not Zed  <NotZed@Ximian.com>
 
 	* mail-session.c (get_password): return the source url for

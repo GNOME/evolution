@@ -222,8 +222,15 @@ build_auth_menu (MailAccountGuiService *service, GList *all_authtypes,
 		 GList *supported_authtypes, gboolean check_supported)
 {
 	GtkWidget *menu, *item, *first = NULL;
-	CamelServiceAuthType *authtype, *sauthtype;
+	CamelServiceAuthType *preferred, *authtype, *sauthtype;
 	GList *l, *s;
+	
+	if (service->authitem)
+		preferred = gtk_object_get_data (GTK_OBJECT (service->authitem), "authtype");
+	else
+		preferred = NULL;
+	
+	service->authitem = NULL;
 	
 	menu = gtk_menu_new ();
 	
@@ -238,6 +245,8 @@ build_auth_menu (MailAccountGuiService *service, GList *all_authtypes,
 		}
 		if (check_supported && !s)
 			gtk_widget_set_sensitive (item, FALSE);
+		else if (preferred == authtype)
+			first = item;
 		else if (!first)
 			first = item;
 		
