@@ -58,7 +58,7 @@ gnomecal_SOURCES = \
 
 LINK_FLAGS = \
 	$(GNOME_LIBDIR) \
-	$(GNOMEUI_LIBS) \
+	$(GNOMEGNORBA_LIBS) \
 	$(INTLLIBS) versit/libversit.a
 
 
