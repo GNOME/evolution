@@ -591,6 +591,9 @@ etsm_destroy (GtkObject *object)
 
 	g_free(etsm->priv);
 	etsm->priv = NULL;
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static void

@@ -15,6 +15,8 @@
 
 #define PARENT_TYPE e_table_model_get_type ()
 
+static ETableModelClass *parent_class = NULL;
+
 static int
 one_column_count (ETableModel *etm)
 {
@@ -140,12 +142,17 @@ one_destroy (GtkObject *object)
 	}
 
 	g_free(one->data);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static void
 e_table_one_class_init (GtkObjectClass *object_class)
 {
 	ETableModelClass *model_class = (ETableModelClass *) object_class;
+
+	parent_class = gtk_type_class (E_TABLE_MODEL_TYPE);
 
 	model_class->column_count = one_column_count;
 	model_class->row_count = one_row_count;

@@ -187,6 +187,9 @@ e_table_field_chooser_destroy (GtkObject *object)
 
 	if (etfc->gui)
 		gtk_object_unref(GTK_OBJECT(etfc->gui));
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 GtkWidget*

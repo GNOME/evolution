@@ -176,7 +176,8 @@ pixbuf_max_width (ECellView *ecell_view, int model_col, int view_col)
 static void
 pixbuf_destroy (GtkObject *object)
 {
-    /* ... */
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static void
