@@ -1,3 +1,8 @@
+2002-02-06  Not Zed  <NotZed@Ximian.com>
+
+	* camel-service.c (camel_service_connect): Always set the
+	connect_op to NULL when we're done with it.  Fix for #19564.
+
 2002-01-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_update_summary): Kludge
