@@ -1,3 +1,18 @@
+2003-03-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_WombatLDAP.server.in.in: Add InterfaceCheck
+	object.
+	* GNOME_Evolution_WombatNOLDAP.server.in.in: Likewise.
+
+	* wombat-interface-check.c: New, from evolution-1-2-branch.
+	* wombat-interface-check.h: Likewise.
+
+	* wombat.c (setup_pas): Removed argc/argv args.
+	(setup_pcs): Likewise.
+	(setup_interface_check): New interface to set up the
+	InterfaceCheck object.
+	(main): Call the latter.
+
 2003-03-13  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (GNOME_Evolution_Wombat.server.in.in): Make this

@@ -24,12 +24,16 @@
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-i18n.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-generic-factory.h>
 
 #include "pas/pas-book-factory.h"
 #include "pas/pas-backend-file.h"
 
 #include "calendar/pcs/cal-factory.h"
 #include "calendar/pcs/cal-backend-file.h"
+
+#include "wombat-interface-check.h"
 
 #ifdef HAVE_LDAP
 #include "pas/pas-backend-ldap.h"
@@ -90,7 +94,7 @@ last_book_gone_cb (PASBookFactory *factory, gpointer data)
 }
 
 static gboolean
-setup_pas (int argc, char **argv)
+setup_pas (void)
 {
 	pas_book_factory = pas_book_factory_new ();
 
@@ -120,7 +124,6 @@ setup_pas (int argc, char **argv)
 }
 
 
-
 /* Personal calendar server */
 
 /* Callback used when the calendar factory has no more running backends */
@@ -132,7 +135,7 @@ last_calendar_gone_cb (CalFactory *factory, gpointer data)
 
 /* Creates the calendar factory object and registers it */
 static gboolean
-setup_pcs (int argc, char **argv)
+setup_pcs (void)
 {
 	cal_factory = cal_factory_new ();
 
@@ -158,7 +161,22 @@ setup_pcs (int argc, char **argv)
 }
 
 
+/* Interface check iface.  */
 
+static gboolean
+setup_interface_check (void)
+{
+	WombatInterfaceCheck *interface_check_iface = wombat_interface_check_new ();
+	int result;
+
+	result = bonobo_activation_active_server_register ("OAFIID:GNOME_Evolution_Wombat_InterfaceCheck",
+							   BONOBO_OBJREF (interface_check_iface));
+
+	return result == Bonobo_ACTIVATION_REG_SUCCESS;
+}
+
+
+
 #ifdef DEBUG_BACKENDS
 static void
 dump_backends (int signal)
@@ -192,20 +210,16 @@ main (int argc, char **argv)
 			  CORBA_OBJECT_NIL,
 			  CORBA_OBJECT_NIL);
 
-	/*g_log_set_always_fatal (G_LOG_LEVEL_ERROR |
-				G_LOG_LEVEL_CRITICAL |
-				G_LOG_LEVEL_WARNING);*/
-
-	if (!( (did_pas = setup_pas (argc, argv))
-	       && (did_pcs = setup_pcs (argc, argv))
-	       )) {
+	if (!( (did_pas = setup_pas ())
+	       && (did_pcs = setup_pcs ())
+		    )) {
 
 		const gchar *failed = NULL;
 
 		if (!did_pas)
-		  failed = "PAS";
+			failed = "PAS";
 		else if (!did_pcs)
-		  failed = "PCS";
+			failed = "PCS";
 
 		g_message ("main(): could not initialize Wombat service \"%s\"; terminating", failed);
 
@@ -218,6 +232,11 @@ main (int argc, char **argv)
 			bonobo_object_unref (BONOBO_OBJECT (cal_factory));
 			cal_factory = NULL;
 		}
+		exit (EXIT_FAILURE);
+	}
+
+	if (! setup_interface_check ()) {
+		g_message ("Cannot register Wombat::InterfaceCheck object");
 		exit (EXIT_FAILURE);
 	}
 

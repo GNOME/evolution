@@ -16,10 +16,32 @@ INCLUDES =						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	$(WOMBAT_CFLAGS)
 
+IDLS = \
+	Evolution-Wombat.idl
+
+IDL_GENERATED_H = \
+	Evolution-Wombat.h
+
+IDL_GENERATED_C =				\
+	Evolution-Wombat-common.c		\
+	Evolution-Wombat-skels.c		\
+	Evolution-Wombat-stubs.c
+
+IDL_GENERATED = $(IDL_GENERATED_H) $(IDL_GENERATED_C)
+
+$(IDL_GENERATED_H): $(IDLS)
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(srcdir)/Evolution-Wombat.idl
+
+$(IDL_GENERATED_C): $(IDL_GENERATED_H)
+
+
 privlibexec_PROGRAMS =	\
 	evolution-wombat
 
 evolution_wombat_SOURCES = \
+	$(IDL_GENERATED)		\
+	wombat-interface-check.c	\
+	wombat-interface-check.h	\
 	wombat.c
 
 if ENABLE_LDAP
@@ -59,7 +81,7 @@ $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 
 @INTLTOOL_SERVER_RULE@
 
-idl_DATA = Evolution-Wombat.idl
+idl_DATA = $(IDLS)
 
 EXTRA_DIST = $(server_DATA)				\
 	$(server_in_files)				\
