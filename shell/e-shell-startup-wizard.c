@@ -110,6 +110,7 @@ typedef struct _SelectedImporterData{
 } SelectedImporterData;
 
 static GHashTable *page_hash;
+static GList *page_list = NULL;
 
 static void
 druid_event_notify_cb (BonoboListener *listener,
@@ -118,7 +119,8 @@ druid_event_notify_cb (BonoboListener *listener,
 		       CORBA_Environment *ev,
 		       SWData *data)
 {
-	int buttons;
+	int buttons, pagenum;
+	GnomeDruidPage *page;
 
 	if (strcmp (name, EVOLUTION_WIZARD_SET_BUTTONS_SENSITIVE) == 0) {
 		buttons = (int) *((CORBA_short *)arg->_value);
@@ -126,8 +128,16 @@ druid_event_notify_cb (BonoboListener *listener,
 						   (buttons & 4) >> 2,
 						   (buttons & 2) >> 1,
 						   (buttons & 1));
+	} else if (strcmp (name, EVOLUTION_WIZARD_SET_SHOW_FINISH) == 0) {
+		gnome_druid_set_show_finish (GNOME_DRUID (data->druid),
+					     (gboolean) *((CORBA_boolean *) arg->_value));
+	} else if (strcmp (name, EVOLUTION_WIZARD_SET_PAGE) == 0) {
+		pagenum = (int) *((CORBA_short *) arg->_value);
+
+		page = g_list_nth_data (page_list, pagenum);
+		gnome_druid_set_page (GNOME_DRUID (data->druid), page);
 	} else {
-		g_print ("event_name: %s\n", name);
+		g_print ("Event: %s\n", name);
 	}
 }
 
@@ -368,6 +378,7 @@ make_identity_page (SWData *data)
 
 	connect_page (page->page, data);
 	g_hash_table_insert (page_hash, page->page, GINT_TO_POINTER (0));
+	page_list = g_list_append (page_list, page->page);
 	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
 
 	CORBA_exception_init (&ev);
@@ -396,6 +407,7 @@ make_receive_page (SWData *data)
 
 	connect_page (page->page, data);
 	g_hash_table_insert (page_hash, page->page, GINT_TO_POINTER (1));
+	page_list = g_list_append (page_list, page->page);
 	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
 
 	CORBA_exception_init (&ev);
@@ -420,6 +432,7 @@ make_extra_page (SWData *data)
 
 	page = g_new0 (MailDialogPage, 1);
 	page->page = glade_xml_get_widget (data->wizard, "extra-page");
+	page_list = g_list_append (page_list, page->page);
 	g_return_val_if_fail (page->page != NULL, NULL);
 
 	connect_page (page->page, data);
@@ -452,6 +465,7 @@ make_transport_page (SWData *data)
 
 	connect_page (page->page, data);
 	g_hash_table_insert (page_hash, page->page, GINT_TO_POINTER (3));
+	page_list = g_list_append (page_list, page->page);
 	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
 
 	CORBA_exception_init (&ev);
@@ -480,6 +494,7 @@ make_management_page (SWData *data)
 
 	connect_page (page->page, data);
 	g_hash_table_insert (page_hash, page->page, GINT_TO_POINTER (4));
+	page_list = g_list_append (page_list, page->page);
 	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
 
 	CORBA_exception_init (&ev);

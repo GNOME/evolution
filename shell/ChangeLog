@@ -1,3 +1,13 @@
+2001-08-24  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-startup-wizard.c (druid_event_notify_cb): Implement the other
+	missing events.
+	(make_identity_page):
+	(make_receive_page):
+	(make_extra_page):
+	(make_transport_page):
+	(make_management_page): Add the GnomeDruidPages to the page_list.
+
 2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shortcuts-view.c: Added accelerators for the right-click
