@@ -314,11 +314,6 @@ get_headers (CamelMedium *medium)
 static void
 free_headers (CamelMedium *medium, GArray *gheaders)
 {
-	CamelMediumHeader *headers = (CamelMediumHeader *)gheaders->data;
-	int i;
-
-	for (i = 0; i < gheaders->len; i++)
-		g_free ((gpointer)headers[i].value);
 	g_array_free (gheaders, TRUE);
 }
 

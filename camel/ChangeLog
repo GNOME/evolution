@@ -1,3 +1,7 @@
+2001-10-30  Dan Winship  <danw@ximian.com>
+
+	* camel-mime-part.c (free_headers): Fix this to match get_headers.
+
 2001-10-30    <NotZed@Ximian.com>
 
 	* providers/local/camel-local-store.c (rename_folder): Dont try to
