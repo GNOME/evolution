@@ -7,6 +7,10 @@ AC_DEFUN([GNOME_COMPILE_WARNINGS],[
 
   AC_MSG_CHECKING(what warning flags to pass to the C compiler)
   warnCFLAGS=
+  if test "x$GCC" != xyes; then
+    enable_compile_warnings=no
+  fi
+
   if test "x$enable_compile_warnings" != "xno"; then
     if test "x$GCC" = "xyes"; then
       case " $CFLAGS " in
@@ -58,6 +62,9 @@ AC_DEFUN([GNOME_CXX_WARNINGS],[
 
   AC_MSG_CHECKING(what warning flags to pass to the C++ compiler)
   warnCXXFLAGS=
+  if test "x$GCC" != xyes; then
+    enable_compile_warnings=no
+  fi
   if test "x$enable_cxx_warnings" != "xno"; then
     if test "x$GCC" = "xyes"; then
       case " $CXXFLAGS " in
