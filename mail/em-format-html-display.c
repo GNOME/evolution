@@ -171,6 +171,31 @@ efhd_gtkhtml_realise(GtkHTML *html, EMFormatHTMLDisplay *efhd)
 
 		efhd->formathtml.body_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
 		
+#undef SCALE
+#define SCALE (174)
+		/* choose a suitably darker or lighter colour */
+		r = style->base[state].red >> 8;
+		g = style->base[state].green >> 8;
+		b = style->base[state].blue >> 8;
+
+		if (r+b+g > 128*3) {
+			r = (r*SCALE) >> 8;
+			g = (g*SCALE) >> 8;
+			b = (b*SCALE) >> 8;
+		} else {
+			r = 128 - ((SCALE * r) >> 9);
+			g = 128 - ((SCALE * g) >> 9);
+			b = 128 - ((SCALE * b) >> 9);
+		}
+
+		efhd->formathtml.frame_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
+
+		r = style->base[GTK_STATE_NORMAL].red >> 8;
+		g = style->base[GTK_STATE_NORMAL].green >> 8;
+		b = style->base[GTK_STATE_NORMAL].blue >> 8;
+
+		efhd->formathtml.content_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
+
 		r = style->text[state].red >> 8;
 		g = style->text[state].green >> 8;
 		b = style->text[state].blue >> 8;

@@ -113,6 +113,8 @@ struct _EMFormatHTML {
 	guint32 text_html_flags; /* default flags for text to html conversion */
 	guint32 body_colour;	/* header box colour */
 	guint32 text_colour;
+	guint32 frame_colour;
+	guint32 content_colour;
 	guint32 citation_colour;
 	unsigned int xmailer_mask:4;
 	unsigned int load_http:1;

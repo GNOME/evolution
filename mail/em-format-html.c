@@ -136,6 +136,8 @@ efh_init(GObject *o)
 
 	efh->body_colour = 0xeeeeee;
 	efh->text_colour = 0;
+	efh->frame_colour = 0x3f3f3f;
+	efh->content_colour = 0xffffff;
 	efh->text_html_flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
 		| CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 }
@@ -658,9 +660,10 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	int i, count;
 
 	camel_stream_printf (stream,
-			     "<table bgcolor=darkgray cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
-			     "<table bgcolor=white cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
-			     "<table cellspacing=0 cellpadding=10><td><tr>\n");
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
+			     "<table cellspacing=0 cellpadding=10><td><tr>\n",
+			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 
 	flags = efh->text_html_flags;
 	
@@ -770,10 +773,11 @@ efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFor
 	const char *location, *base;
 	EMFormatPURI *puri;
 
-	camel_stream_write_string(stream,
-				  "<table bgcolor=darkgray cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
-				  "<table bgcolor=white cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
-				  "<!-- text/html -->\n");
+	camel_stream_printf (stream,
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
+			     "<!-- text/html -->\n",
+			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 	
 	if ((base = camel_medium_get_header((CamelMedium *)part, "Content-Base"))) {
 		char *base_url;
