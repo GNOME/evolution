@@ -2046,7 +2046,8 @@ e_msg_composer_show_attachments (EMsgComposer *composer,
 /**
  * e_msg_composer_set_headers:
  * @composer: a composer object
- * @from: the name of the account the user will send from
+ * @from: the name of the account the user will send from,
+ * or %NULL for the default account
  * @to: the values for the "To" header
  * @cc: the values for the "Cc" header
  * @bcc: the values for the "Bcc" header

@@ -1,3 +1,13 @@
+2001-02-15  Dan Winship  <danw@ximian.com>
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_from_account): If
+	@account_name is NULL, pick the default account rather than giving
+	a g_warning.
+
+	* e-msg-composer.c (e_msg_composer_set_headers): Note in the
+	doc comment that @from can be NULL if you want the default account
+	(since there is code that expects this).
+
 2001-02-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-composer.c (corba_recipientlist_to_glist): Use the

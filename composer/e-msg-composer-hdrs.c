@@ -641,10 +641,9 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-	g_return_if_fail (account_name != NULL);
-	
+
 	omenu = GTK_OPTION_MENU (hdrs->priv->from_entry);
-	
+
 	/* find the item that represents the account and activate it */
 	l = hdrs->priv->from_options;
 	while (l) {
@@ -652,7 +651,8 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 		item = l->data;
 		
 		account = gtk_object_get_data (GTK_OBJECT (item), "account");
-		if (!strcmp (account_name, account->name)) {
+		if ((account_name && !strcmp (account_name, account->name)) ||
+		    (!account_name && account->default_account)) {
 			gtk_option_menu_set_history (omenu, i);
 			gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", hdrs);
 			return;
