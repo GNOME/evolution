@@ -1,3 +1,10 @@
+2002-09-11  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes #27546 ]
+	* ename/e-name-western-tables.h
+	(e_name_western_complex_last_table): add "di" to
+	e_name_western_complex_last_table.
+
 2002-09-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-config-listener.c (e_config_listener_set_boolean,

@@ -69,6 +69,6 @@ char *e_name_western_twopart_sfx_table[] = {
 
 	NULL};
 
-char *e_name_western_complex_last_table[] = {"van", "von", "de", NULL};
+char *e_name_western_complex_last_table[] = {"van", "von", "de", "di", NULL};
 
 #endif /* ! __E_NAME_WESTERN_TABLES_H__ */
