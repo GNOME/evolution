@@ -1712,7 +1712,13 @@ upgrade_xml_uris_1_4 (const char *uri)
 		camel_url_set_host (url, "local");
 		
 		prefix = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
-		g_assert (strncmp (url->path, prefix, strlen (prefix)) == 0);
+		if (strncmp (url->path, prefix, strlen (prefix)) != 0) {
+			/* uri is busticated - user probably copied from another user's home directory */
+			camel_url_free (url);
+			g_free (prefix);
+			
+			return g_strdup (uri);
+		}
 		path = g_strdup (url->path + strlen (prefix));
 		g_free (prefix);
 		

@@ -1,3 +1,9 @@
+2004-01-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-migrate.c (upgrade_xml_uris_1_4): Handle where the file: url
+	is roken (ie, points to a location out of the evolution
+	namespace).
+
 2004-01-23  Rodney Dawes  <dobey@ximian.com>
 
 	* em-folder-selector.c: Set the mnemonic widget for "Folder _name:"
