@@ -121,6 +121,7 @@ images_DATA = \
 	save-16.png			\
 	save-as-16.png			\
 	save.xpm			\
+	schedule-meeting-24.png		\
 	search-16.png			\
 	search-and-replace-16.png	\
 	send-16.png                     \
