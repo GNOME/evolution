@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2003-03-17 12:10-0500\n"
-"PO-Revision-Date: 2003-01-23 01:01+0100\n"
+"POT-Creation-Date: 2003-03-30 15:07+0200\n"
+"PO-Revision-Date: 2003-03-30 22:22+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -295,12 +295,11 @@ msgstr "FBUrl"
 
 #: addressbook/backend/ebook/e-card-simple.c:100
 msgid "Default server calendar"
-msgstr ""
+msgstr "Forvalgt kalender på tjener"
 
 #: addressbook/backend/ebook/e-card-simple.c:100
-#, fuzzy
 msgid "icsCalendar"
-msgstr "Kalender"
+msgstr "icsKalender"
 
 #: addressbook/backend/ebook/e-card-simple.c:101
 msgid "Anniversary"
@@ -3891,9 +3890,8 @@ msgid "Message Alarm Options"
 msgstr "Alternativer for meldingsalarmer"
 
 #: calendar/gui/dialogs/alarm-options.c:493
-#, fuzzy
 msgid "Email Alarm Options"
-msgstr "Alternativer for e-post-alarm"
+msgstr "Alternativer for e-postalarm"
 
 #: calendar/gui/dialogs/alarm-options.c:502
 msgid "Program Alarm Options"
@@ -3912,9 +3910,8 @@ msgid "Message to Display"
 msgstr "Melding som skal vises"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
-#, fuzzy
 msgid "Message to Send"
-msgstr "Meldingskropp"
+msgstr "Melding som skal sendes"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Play sound:"
@@ -3929,9 +3926,8 @@ msgid "Run program:"
 msgstr "Kjør program:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
-#, fuzzy
 msgid "Send To:"
-msgstr "Send"
+msgstr "Send til:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:8
 msgid "With these arguments:"
@@ -4079,9 +4075,8 @@ msgid "Reminders"
 msgstr "Påminnelser"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
-#, fuzzy
 msgid "Send an Email"
-msgstr "Send en melding"
+msgstr "Send en e-post"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
@@ -4488,11 +4483,8 @@ msgstr "Lagre som..."
 #: calendar/gui/dialogs/comp-editor.c:1347
 #: calendar/gui/dialogs/comp-editor.c:1371
 #: calendar/gui/dialogs/comp-editor.c:1395
-#, fuzzy
 msgid "Changes made to this item may be discarded if an update arrives"
-msgstr ""
-"Endringer som gjøres i denne oppføringen kan bli forkastet hvis en "
-"oppdatering kommer via e-post"
+msgstr "Endringer i denne oppføringen kan bli forkastet hvis det kommer en oppdatering"
 
 #: calendar/gui/dialogs/comp-editor.c:1422
 msgid "Unable to obtain current version!"
@@ -4812,9 +4804,8 @@ msgstr ""
 "Denne avtalen har gjeninntreffelser som ikke kan redigeres av Evolution."
 
 #: calendar/gui/dialogs/recurrence-page.c:904
-#, fuzzy
 msgid "Recurrence date is invalid"
-msgstr "Gjenintreffende dato er feil"
+msgstr "Dato for gjenintreffelse er ugyldig"
 
 #: calendar/gui/dialogs/recurrence-page.c:1018
 msgid "on"
@@ -8632,6 +8623,8 @@ msgstr ""
 "Fant ikke Kerberos-tegn:\n"
 "%s"
 
+#: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
+#: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
 #: camel/camel-sasl-kerberos4.c:218
 #: camel/providers/imap/camel-imap-store.c:1059
 msgid "Bad authentication response from server."
@@ -27862,9 +27855,106 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunne ikke initiere Bonobo"
 
-#~ msgid ""
-#~ "Evolution does not yet support email notification for reminders.  You "
-#~ "will not be able to edit the options for this reminder."
-#~ msgstr ""
-#~ "Evolution støtter ikke e-postmelding for påminnelser ennå. Du vil ikke "
-#~ "kunne redigere alternativene for denne påminnelsen."
+#: calendar/gui/comp-editor-factory.c:456
+msgid "Error while opening the calendar"
+msgstr "Feil under åpning av kalender"
+
+#: calendar/gui/comp-editor-factory.c:465
+msgid "Method not supported when opening the calendar"
+msgstr "Ustøttet metode funnet under åpning av kalender"
+
+#: calendar/gui/comp-editor-factory.c:469
+msgid "Permission denied to open calendar"
+msgstr "Tilgang nektet for åpning av kalender"
+
+#: calendar/gui/dialogs/recur-comp.c:52
+msgid "You are modifying a recurring event, what would you like to modify?"
+msgstr "Du endrer en gjeninntreffende hendelse. Hva vil du endre?"
+
+#: calendar/gui/dialogs/recur-comp.c:56
+msgid "You are modifying a recurring task, what would you like to modify?"
+msgstr "Du endrer en gjeninntreffende oppgave. Hva vil du endre?"
+
+#: calendar/gui/dialogs/recur-comp.c:60
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
+msgstr "Du endrer en gjeninntreffende journaloppføring. Hva vil du endre?"
+
+#: calendar/gui/dialogs/recur-comp.c:77
+msgid "This Instance Only"
+msgstr "Kun denne instansen"
+
+#: calendar/gui/dialogs/recur-comp.c:80
+msgid "This and Future Instances"
+msgstr "Denne og fremtidige instanser"
+
+#: calendar/gui/dialogs/recur-comp.c:82
+msgid "All Instances"
+msgstr "Alle instanser"
+
+#: camel/camel-sasl-gssapi.c:48
+msgid "GSSAPI"
+msgstr "GSSAPI"
+
+#: camel/camel-sasl-gssapi.c:50
+msgid "This option will connect to the server using Kerberos 5 authentication."
+msgstr "Dette alternativet kobler til tjeneren med bruk av Kerberos 5-autentisering."
+
+#: camel/camel-sasl-gssapi.c:148
+msgid ""
+"The specified mechanism is not supported by the provided credential, or is "
+"unrecognized by the implementation."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:153
+msgid "The provided target_name parameter was ill-formed."
+msgstr "Oppgitt target_name-parameter var ikke riktig formatert."
+
+#: camel/camel-sasl-gssapi.c:156
+msgid ""
+"The provided target_name parameter contained an invalid or unsupported type "
+"of name."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:160
+msgid ""
+"The input_token contains different channel bindings to those specified via "
+"the input_chan_bindings parameter."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:165
+msgid ""
+"The input_token contains an invalid signature, or a signature that could not "
+"be verified."
+msgstr ""
+
+#: camel/camel-sasl-gssapi.c:169
+msgid ""
+"The supplied credentials were not valid for context initiation, or the "
+"credential handle did not reference any credentials."
+msgstr "Oppgitt brukerinformasjon var ikke gyldig for oppretting av kontekst, eller så refererte ikke håndtaket noen brukerinformasjon."
+
+#: camel/camel-sasl-gssapi.c:174
+msgid "The supplied context handle did not refer to a valid context."
+msgstr "Oppgitt konteksthåndtak refererte ikke til en gyldig kontekst."
+
+#: camel/camel-sasl-gssapi.c:177
+msgid "The consistency checks performed on the input_token failed."
+msgstr "Sjekk av konsistens utført på input_token feilet."
+
+#: camel/camel-sasl-gssapi.c:180
+msgid "The consistency checks performed on the credential failed."
+msgstr "Sjekk brukerinformasjonens konsistens feilet."
+
+#: camel/camel-sasl-gssapi.c:183
+msgid "The referenced credentials have expired."
+msgstr "Brukerinformasjonen er utgått."
+
+#: camel/camel-sasl-gssapi.c:213
+#, c-format
+msgid "Failed to resolve host `%s': %s"
+msgstr "Klarte ikke å slå opp vert «%s»: %s"
+
+#: camel/camel-sasl-gssapi.c:299
+msgid "Unsupported security layer."
+msgstr "Ustøttet sikkerhetslag."
