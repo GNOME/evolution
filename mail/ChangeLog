@@ -1,3 +1,8 @@
+2002-03-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_Mail.oaf.in: Cleaned up a bunch [removing
+	duplicates ;-)], set up icons for all the configuration pages.
+
 2002-03-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c: Use a GtkCList instead of an ETable, for some

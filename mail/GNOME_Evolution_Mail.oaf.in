@@ -191,7 +191,7 @@
 		   _value="This page can be used to configure E-Mail Accounts"/>
 
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
-		   value="evolution-mail-accounts.png"/>
+		   value="mail-accounts-settings.png"/>
     
     <oaf_attribute name="description" type="string"
 		   _value="Configuration control for the Evolution Mail Accounts."/>
@@ -214,7 +214,7 @@
 		   _value="This page can be used to configure Mailer preferences"/>
 
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
-		   value="evolution-mail-preferences.png"/>
+		   value="mail-config-druid.png"/>
     
     <oaf_attribute name="description" type="string"
 		   _value="Configuration control for the Evolution Mailer."/>
@@ -237,97 +237,11 @@
 		   _value="This page can be used to configure the Composer"/>
 
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
-		   value="evolution-composer-preferences.png"/>
+		   value="composer-settings.png"/>
     
     <oaf_attribute name="description" type="string"
 		   _value="Configuration control for the Evolution Message Composer."/>
 
   </oaf_server>
-
-
-
-<oaf_server iid="OAFIID:GNOME_Evolution_Mail_ConfigControlFactory"
-            type="exe"
-            location="evolution-mail">
-
-	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
-	</oaf_attribute>
-
-	<oaf_attribute name="evolution:config_item:title" type="string"
-		       _value="Mail Settings"/>
-
-	<oaf_attribute name="evolution:config_item:description" type="string"
-		       _value="This page can be used to configure your mailer settings"/>
-
-	<oaf_attribute name="evolution:config_item:icon_name" type="string"
-		       value="evolution-mail-settings.png"/>
-</oaf_server>
-
-<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Accounts_ConfigControl"
-            type="factory"
-	    location="OAFIID:GNOME_Evolution_Mail_ConfigControlFactory">
-
-	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
-	</oaf_attribute>
-
-	<oaf_attribute name="evolution:config_item:title" type="string"
-		       _value="Mail Accounts"/>
-
-	<oaf_attribute name="evolution:config_item:description" type="string"
-		       _value="This page can be used to configure E-Mail Accounts"/>
-
-	<oaf_attribute name="evolution:config_item:icon_name" type="string"
-		       value="evolution-mail-accounts.png"/>
-    
-	<oaf_attribute name="description" type="string"
-		       _value="Configuration control for the Evolution Mail Accounts."/>
-
-</oaf_server>
-
-<oaf_server iid="OAFIID:GNOME_Evolution_Mail_Preferences_ConfigControl"
-            type="factory"
-	    location="OAFIID:GNOME_Evolution_Mail_ConfigControlFactory">
-
-	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
-	</oaf_attribute>
-
-	<oaf_attribute name="evolution:config_item:title" type="string"
-		       _value="Mail Preferences"/>
-
-	<oaf_attribute name="evolution:config_item:description" type="string"
-		       _value="This page can be used to configure Mailer preferences"/>
-
-	<oaf_attribute name="evolution:config_item:icon_name" type="string"
-		       value="evolution-mail-preferences.png"/>
-    
-	<oaf_attribute name="description" type="string"
-		       _value="Configuration control for the Evolution Mailer."/>
-
-</oaf_server>
-
-<oaf_server iid="OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl"
-            type="factory"
-	    location="OAFIID:GNOME_Evolution_Mail_ConfigControlFactory">
-
-	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
-	</oaf_attribute>
-
-	<oaf_attribute name="evolution:config_item:title" type="string"
-		       _value="Composer Preferences"/>
-
-	<oaf_attribute name="evolution:config_item:description" type="string"
-		       _value="This page can be used to configure the Composer"/>
-
-	<oaf_attribute name="evolution:config_item:icon_name" type="string"
-		       value="evolution-composer-preferences.png"/>
-    
-	<oaf_attribute name="description" type="string"
-		       _value="Configuration control for the Evolution Message Composer."/>
-
-</oaf_server>
 
 </oaf_info>
