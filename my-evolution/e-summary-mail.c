@@ -49,7 +49,7 @@ typedef struct _ESummaryMailFolder {
 	int count;
 	int unread;
 
-	gboolean init;
+	gboolean init; /* Has this folder been initialised? */
 } ESummaryMailFolder;
 
 const char *

@@ -1,5 +1,10 @@
 2001-09-19  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-calendar.c (generate_html): If the appointment has an alarm
+	display a bell icon.
+
+2001-09-19  Iain Holmes  <iain@ximian.com>
+
 	* component-factory.c (create_view): Remove spew.
 	
 	* e-summary-mail.c (e_summary_mail_reconfigure): Get mail info if we

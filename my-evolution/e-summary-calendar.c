@@ -192,7 +192,7 @@ generate_html (gpointer data)
 			CalComponentText text;
 			time_t start_t;
 			struct tm *start_tm;
-			char *start_str;
+			char *start_str, *img;
 
 			event = uidarray->pdata[i];
 			cal_component_get_summary (event->comp, &text);
@@ -206,9 +206,10 @@ generate_html (gpointer data)
 				strftime (start_str, 19, _("%l:%M %d %B"), start_tm);
 			}
 
-			tmp = g_strdup_printf ("<img align=\"middle\" src=\"new_appointment.xpm\" "
+			tmp = g_strdup_printf ("<img align=\"middle\" src=\"%s\" "
 					       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 					       "<font size=\"-1\"><a href=\"calendar:/%s\">%s, %s</a></font><br>", 
+					       cal_component_has_alarms (event->comp) ? "es-appointments.png" : "new_appointment.xpm",
 					       event->uid, start_str, text.value);
 			g_free (start_str);
 			
