@@ -21,7 +21,6 @@
  * USA
  */
 
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -50,6 +49,7 @@
 #include "camel/camel-multipart.h"
 #include "camel/camel-mime-part.h"
 #include "camel/camel-stream-buffer.h"
+#include "camel/camel-private.h"
 
 #include "camel-nntp-summary.h"
 #include "camel-nntp-store.h"
@@ -84,7 +84,7 @@ nntp_folder_refresh_info_online (CamelFolder *folder, CamelException *ex)
 	nntp_store = (CamelNNTPStore *) folder->parent_store;
 	nntp_folder = (CamelNNTPFolder *) folder;
 	
-	CAMEL_NNTP_STORE_LOCK(nntp_store, command_lock);
+	CAMEL_SERVICE_LOCK(nntp_store, connect_lock);
 
 	camel_nntp_command(nntp_store, ex, nntp_folder, &line, NULL);
 
@@ -93,7 +93,7 @@ nntp_folder_refresh_info_online (CamelFolder *folder, CamelException *ex)
 		nntp_folder->changes = camel_folder_change_info_new();
 	}
 	
-	CAMEL_NNTP_STORE_UNLOCK(nntp_store, command_lock);
+	CAMEL_SERVICE_UNLOCK(nntp_store, connect_lock);
 	
 	if (changes) {
 		camel_object_trigger_event ((CamelObject *) folder, "folder_changed", changes);
@@ -104,17 +104,17 @@ nntp_folder_refresh_info_online (CamelFolder *folder, CamelException *ex)
 static void
 nntp_folder_sync_online (CamelFolder *folder, CamelException *ex)
 {
-	CAMEL_NNTP_STORE_LOCK(folder->parent_store, command_lock);
+	CAMEL_SERVICE_LOCK(folder->parent_store, connect_lock);
 	camel_folder_summary_save (folder->summary);
-	CAMEL_NNTP_STORE_UNLOCK(folder->parent_store, command_lock);
+	CAMEL_SERVICE_UNLOCK(folder->parent_store, connect_lock);
 }
 
 static void
 nntp_folder_sync_offline (CamelFolder *folder, CamelException *ex)
 {
-	CAMEL_NNTP_STORE_LOCK(folder->parent_store, command_lock);
+	CAMEL_SERVICE_LOCK(folder->parent_store, connect_lock);
 	camel_folder_summary_save (folder->summary);
-	CAMEL_NNTP_STORE_UNLOCK(folder->parent_store, command_lock);
+	CAMEL_SERVICE_UNLOCK(folder->parent_store, connect_lock);
 }
 
 static gboolean
@@ -178,13 +178,13 @@ nntp_folder_cache_message (CamelDiscoFolder *disco_folder, const char *uid, Came
 	}
 	*msgid++ = 0;
 	
-	CAMEL_NNTP_STORE_LOCK(nntp_store, command_lock);
+	CAMEL_SERVICE_LOCK(nntp_store, connect_lock);
 	
 	stream = nntp_folder_download_message ((CamelNNTPFolder *) disco_folder, article, msgid, ex);
 	if (stream)
 		camel_object_unref (stream);
 
-	CAMEL_NNTP_STORE_UNLOCK(nntp_store, command_lock);
+	CAMEL_SERVICE_UNLOCK(nntp_store, connect_lock);
 }
 
 static CamelMimeMessage *
@@ -210,7 +210,7 @@ nntp_folder_get_message (CamelFolder *folder, const char *uid, CamelException *e
 	}
 	*msgid++ = 0;
 
-	CAMEL_NNTP_STORE_LOCK(nntp_store, command_lock);
+	CAMEL_SERVICE_LOCK(nntp_store, connect_lock);
 	
 	/* Lookup in cache, NEWS is global messageid's so use a global cache path */
 	stream = camel_data_cache_get (nntp_store->cache, "cache", msgid, NULL);
@@ -245,7 +245,7 @@ fail:
 		changes = NULL;
 	}
 	
-	CAMEL_NNTP_STORE_UNLOCK(nntp_store, command_lock);
+	CAMEL_SERVICE_UNLOCK(nntp_store, connect_lock);
 	
 	if (changes) {
 		camel_object_trigger_event ((CamelObject *) folder, "folder_changed", changes);
@@ -318,7 +318,7 @@ nntp_folder_append_message_online (CamelFolder *folder, CamelMimeMessage *mime_m
 	struct _camel_header_raw *header, *savedhdrs, *n, *tail;
 	char *group, *line;
 	
-	CAMEL_NNTP_STORE_LOCK(nntp_store, command_lock);
+	CAMEL_SERVICE_LOCK(nntp_store, connect_lock);
 	
 	/* send 'POST' command */
 	ret = camel_nntp_command (nntp_store, ex, NULL, &line, "post");
@@ -329,7 +329,7 @@ nntp_folder_append_message_online (CamelFolder *folder, CamelMimeMessage *mime_m
 		else if (ret != -1)
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Posting failed: %s"), line);
-		CAMEL_NNTP_STORE_UNLOCK(nntp_store, command_lock);
+		CAMEL_SERVICE_UNLOCK(nntp_store, connect_lock);
 		return;
 	}
 	
@@ -379,7 +379,7 @@ nntp_folder_append_message_online (CamelFolder *folder, CamelMimeMessage *mime_m
 	g_free(group);
 	header->next = savedhdrs;
 
-	CAMEL_NNTP_STORE_UNLOCK(nntp_store, command_lock);
+	CAMEL_SERVICE_UNLOCK(nntp_store, connect_lock);
 	
 	return;
 }

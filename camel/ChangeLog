@@ -1,3 +1,25 @@
+2004-09-28  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #66509.
+
+	* providers/nntp/camel-nntp-store.c (camel_nntp_command): if we
+	get an error selecting the folder, disconnect/include it in the
+	re-try loop.
+	(camel_nntp_command): don't set the exception based on errno,
+	exception processing is already done.  don't clear it if we're on
+	the 3rd retry.
+
+2004-09-27  Not Zed  <NotZed@Ximian.com>
+	
+	* providers/nntp/camel-nntp-store.c (nntp_get_folder_info): don't
+	do any locking here.
+	(nntp_store_get_folder_info_all): move the locking here.
+	(nntp_store_get_subscribed_folder_info): and some here too.
+
+	* providers/nntp/camel-nntp-store.c:
+	* providers/nntp/camel-nntp-folder.c: Remove nntp command_lock and
+	just use the service connect lock for serialisation.
+
 2004-09-14  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/nntp/camel-nntp-store.c (camel_nntp_try_authenticate):
