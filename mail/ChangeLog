@@ -1,26 +1,37 @@
+2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_set_show_preview): Okay, apparently I
+	was wrong. Oh well.
+	(mail_config_set_thread_list): Fix this one too.
+
 2001-07-05  Peter Williams  <peterw@ximian.com>
 
-	* Makefile.am: Remove the ridiculuous relic known as test-mail. Clean up
-	a bit.
+	* mail-vfolder.c (vfolder_uri_to_folder): Add mail folder cache
+	hookups.
 
-	* mail-vfolder.c (vfolder_uri_to_folder): Add mail folder cache hookups.
+	* Makefile.am: Remove the ridiculuous relic known as
+	test-mail. Clean up a bit.
+
+	* mail-vfolder.c (vfolder_uri_to_folder): Add mail folder cache
+	hookups.
 
 2001-07-05  Peter Williams  <peterw@ximian.com>
 
-	* mail-folder-cache.c (mail_folder_cache_set_folder_browser): Clear the
-	shell view label if mailer loses focus.
+	* mail-folder-cache.c (mail_folder_cache_set_folder_browser):
+	Clear the shell view label if mailer loses focus.
 
 	* mail-ops.c (do_update_subfolders_rec): Check for NULL url before
 	calling folder cache functions.
 
 2001-07-04  Gediminas Paulauskas <menesis@delfi.lt>
 
-	* folder-browser-ui.c (message_pixcache): set icon for ApplyFilters
-	command.
+	* folder-browser-ui.c (message_pixcache): set icon for
+	ApplyFilters command.
 
 2001-07-04  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* mail-config.c (mail_config_set_show_preview): Revert Sam's changes.
+	* mail-config.c (mail_config_set_show_preview): Revert Sam's
+	changes.
 
 	Note: Uhm, g_hash_table_lookup_extended gives us a pointer to the
 	original value which we can just change to update the hash table

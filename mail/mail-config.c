@@ -923,7 +923,8 @@ mail_config_set_show_preview (const char *uri, gboolean value)
 			config->preview_hash = g_hash_table_new (g_str_hash, g_str_equal);
 		
 		if (g_hash_table_lookup_extended (config->preview_hash, dbkey, &key, &val)) {
-			val = GINT_TO_POINTER (value);
+			g_hash_table_insert (config->preview_hash, dbkey,
+					     GINT_TO_POINTER (value));
 			g_free (dbkey);
 		} else {
 			g_hash_table_insert (config->preview_hash, dbkey, 
@@ -977,7 +978,8 @@ mail_config_set_thread_list (const char *uri, gboolean value)
 			config->threaded_hash = g_hash_table_new (g_str_hash, g_str_equal);
 		
 		if (g_hash_table_lookup_extended (config->threaded_hash, dbkey, &key, &val)) {
-			val = GINT_TO_POINTER (value);
+			g_hash_table_insert (config->threaded_hash, dbkey,
+					     GINT_TO_POINTER (value));
 			g_free (dbkey);
 		} else {
 			g_hash_table_insert (config->threaded_hash, dbkey, 
