@@ -1,3 +1,7 @@
+2001-01-15  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Changed the required version of gal.
+
 2001-01-15  Tuomas Kuosmanen  <tigert@ximian.com>
 
 	* art/16_copy_message.xpm, art/16_move_message.xpm: icons for the 
