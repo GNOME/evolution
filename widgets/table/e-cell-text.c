@@ -40,9 +40,9 @@
 #include "gal/widgets/e-font.h"
 #include "gal/widgets/e-unicode.h"
 #include "e-table-item.h"
-#include "gal/e-text/e-text-event-processor.h"
+#include "gal/util/e-text-event-processor.h"
 #include "gal/e-text/e-text.h"
-#include "gal/e-text/e-text-event-processor-emacs-like.h"
+#include "gal/util/e-text-event-processor-emacs-like.h"
 #include "e-table-tooltip.h"
 
 #include <gdk/gdkx.h> /* for BlackPixel */

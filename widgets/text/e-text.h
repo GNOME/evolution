@@ -21,7 +21,7 @@
 
 #include <gnome.h>
 #include <gal/widgets/e-font.h>
-#include <gal/e-text/e-text-event-processor.h>
+#include <gal/util/e-text-event-processor.h>
 #include <gal/e-text/e-text-model.h>
 
 

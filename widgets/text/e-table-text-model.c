@@ -24,10 +24,10 @@ static void e_table_text_model_class_init (ETableTextModelClass *class);
 static void e_table_text_model_init (ETableTextModel *model);
 static void e_table_text_model_destroy (GtkObject *object);
 
-static gchar *e_table_text_model_get_text (ETextModel *model);
-static void e_table_text_model_set_text (ETextModel *model, gchar *text);
-static void e_table_text_model_insert (ETextModel *model, gint postion, gchar *text);
-static void e_table_text_model_insert_length (ETextModel *model, gint postion, gchar *text, gint length);
+static const gchar *e_table_text_model_get_text (ETextModel *model);
+static void e_table_text_model_set_text (ETextModel *model, const gchar *text);
+static void e_table_text_model_insert (ETextModel *model, gint postion, const gchar *text);
+static void e_table_text_model_insert_length (ETextModel *model, gint postion, const gchar *text, gint length);
 static void e_table_text_model_delete (ETextModel *model, gint postion, gint length);
 
 static GtkObject *parent_class;
@@ -126,7 +126,7 @@ e_table_text_model_destroy (GtkObject *object)
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
-static gchar *
+static const gchar *
 e_table_text_model_get_text (ETextModel *text_model)
 {
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
@@ -137,7 +137,7 @@ e_table_text_model_get_text (ETextModel *text_model)
 }
 
 static void
-e_table_text_model_set_text (ETextModel *text_model, gchar *text)
+e_table_text_model_set_text (ETextModel *text_model, const gchar *text)
 {
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
 	if (model->model)
@@ -145,7 +145,7 @@ e_table_text_model_set_text (ETextModel *text_model, gchar *text)
 }
 
 static void
-e_table_text_model_insert (ETextModel *text_model, gint position, gchar *text)
+e_table_text_model_insert (ETextModel *text_model, gint position, const gchar *text)
 {
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
 	if (model->model){
@@ -157,7 +157,7 @@ e_table_text_model_insert (ETextModel *text_model, gint position, gchar *text)
 }
 
 static void
-e_table_text_model_insert_length (ETextModel *text_model, gint position, gchar *text, gint length)
+e_table_text_model_insert_length (ETextModel *text_model, gint position, const gchar *text, gint length)
 {
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
 	if (model->model){

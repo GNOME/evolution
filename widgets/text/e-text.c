@@ -30,7 +30,7 @@
 #include <libart_lgpl/art_rgb.h>
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
 
-#include "e-text-event-processor-emacs-like.h"
+#include "gal/util/e-text-event-processor-emacs-like.h"
 
 #define BORDER_INDENT 4
 

@@ -22,7 +22,7 @@
 #define __E_TEXT_EVENT_PROCESSOR_EMACS_LIKE_H__
 
 #include <gnome.h>
-#include <gal/e-text/e-text-event-processor.h>
+#include <gal/util/e-text-event-processor.h>
 
 #ifdef __cplusplus
 extern "C" {
