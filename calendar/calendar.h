@@ -2,13 +2,9 @@
 #define CALENDAR_H
 
 #include "calobj.h"
+#include "cal-backend.h"
 
 BEGIN_GNOME_DECLS
-
-typedef enum {
-	CAL_VCAL,
-	CAL_ICAL
-} CalendarFormat;
 
 typedef struct {
 	/* This calendar's title */

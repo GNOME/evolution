@@ -21,6 +21,7 @@
 #include "alarm.h"
 #include "timeutil.h"
 #include "../libversit/vcc.h"
+#include "icalendar.h"
 
 #ifdef HAVE_TZNAME
 extern char *tzname[2];
@@ -334,12 +335,11 @@ calendar_load (Calendar *cal, char *fname)
 		cleanVObject (vcal);
 		cleanStrTbl ();
 		break;
-#ifdef HAVE_LIBICAL
-		hi;
+		/*
 	case CAL_ICAL:
 		icalendar_calendar_load (cal, fname);
 		break;
-#endif
+		*/
 	default:
 		return "Unknown calendar format";
 	}

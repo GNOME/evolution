@@ -57,6 +57,11 @@ struct _CalBackendClass {
 	GtkObjectClass parent_class;
 };
 
+typedef enum {
+	CAL_VCAL,
+	CAL_ICAL
+} CalendarFormat;
+
 GtkType cal_backend_get_type (void);
 
 CalBackend *cal_backend_new (void);

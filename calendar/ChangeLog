@@ -1,3 +1,15 @@
+2000-02-17  Seth Alves  <alves@hungry.com>
+
+	* cal-backend.h: moved CalendarFormat type def here
+
+	* cal-backend.c (cal_backend_load): if extension suggests
+	an ical file, attempt to load an iCal file.
+	(cal_get_type_from_filename): returns CAL_ICAL if file
+	extension is 'ics' or 'ifb', else returns CAL_VCAL
+	(icalendar_calendar_load): moved this here from
+	icalendar.c because it needs to call the static function
+	add_object.
+
 2000-02-17  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-client.c (cal_client_remove_object): Implemented.

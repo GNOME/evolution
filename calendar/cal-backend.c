@@ -24,6 +24,7 @@
 #include "cal-backend.h"
 #include "calobj.h"
 #include "../libversit/vcc.h"
+#include "icalendar.h"
 
 
 
@@ -36,6 +37,9 @@
 typedef struct {
 	/* URI where the calendar data is stored */
 	GnomeVFSURI *uri;
+
+        /* format of this calendar (ical or vcal) */
+	CalendarFormat format;
 
 	/* List of Cal objects with their listeners */
 	GList *clients;
@@ -118,6 +122,9 @@ cal_backend_init (CalBackend *backend)
 
 	priv = g_new0 (CalBackendPrivate, 1);
 	backend->priv = priv;
+
+	/* FIXME can be CAL_VCAL or CAL_ICAL */
+	priv->format = CAL_VCAL;
 }
 
 /* Saves a calendar */
@@ -550,6 +557,103 @@ cal_backend_add_cal (CalBackend *backend, Cal *cal)
 	priv->clients = g_list_prepend (priv->clients, cal);
 }
 
+
+static icalcomponent* 
+icalendar_parse_file (char* fname)
+{
+	FILE* fp;
+	icalcomponent* comp = NULL;
+	gchar* str;
+	struct stat st;
+	int n;
+	
+	fp = fopen (fname, "r");
+	if (!fp) {
+		g_warning ("Cannot open open calendar file.");
+		return NULL;
+	}
+	
+	stat (fname, &st);
+	
+	str = g_malloc (st.st_size + 2);
+	
+	n = fread ((gchar*) str, 1, st.st_size, fp);
+	if (n != st.st_size) {
+		g_warning ("Read error.");
+	}
+	str[n] = '\0';
+
+	fclose (fp);
+	
+	comp = icalparser_parse_string (str);
+	g_free (str);
+	
+	return comp;
+}
+
+
+static void
+icalendar_calendar_load (CalBackend * cal, char* fname)
+{
+	icalcomponent *comp;
+	icalcomponent *subcomp;
+	iCalObject    *ical;
+
+	comp = icalendar_parse_file (fname);
+	subcomp = icalcomponent_get_first_component (comp,
+						     ICAL_ANY_COMPONENT);
+	while (subcomp) {
+		ical = ical_object_create_from_icalcomponent (subcomp);
+		if (ical->type != ICAL_EVENT && 
+		    ical->type != ICAL_TODO  &&
+		    ical->type != ICAL_JOURNAL) {
+			g_warning ("Skipping unsupported iCalendar component.");
+		} else
+			add_object (cal, ical);
+		subcomp = icalcomponent_get_next_component (comp,
+							    ICAL_ANY_COMPONENT);
+	}
+}
+
+
+/*
+ics is to be used to designate a file containing (an arbitrary set of)
+calendaring and scheduling information.
+
+ifb is to be used to designate a file containing free or busy time
+information.
+
+anything else is assumed to be a vcal file.
+*/
+
+static CalendarFormat
+cal_get_type_from_filename (char *str_uri)
+{
+	int len;
+
+	if (str_uri == NULL)
+		return CAL_VCAL;
+
+	len = strlen (str_uri);
+	if (len < 5)
+		return CAL_VCAL;
+
+	if (str_uri[ len-4 ] == '.' &&
+	    str_uri[ len-3 ] == 'i' &&
+	    str_uri[ len-2 ] == 'c' &&
+	    str_uri[ len-1 ] == 's')
+		return CAL_ICAL;
+
+	if (str_uri[ len-4 ] == '.' &&
+	    str_uri[ len-3 ] == 'i' &&
+	    str_uri[ len-2 ] == 'f' &&
+	    str_uri[ len-1 ] == 'b')
+		return CAL_ICAL;
+
+	return CAL_VCAL;
+}
+
+
 /**
  * cal_backend_load:
  * @backend: A calendar backend.
@@ -586,15 +690,33 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 					    | GNOME_VFS_URI_HIDE_HOST_PORT
 					    | GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD));
 
-	vobject = Parse_MIME_FromFileName (str_uri);
+
+	/* look at the extension on the filename and decide
+	   if this is a ical or vcal file */
+
+	priv->format = cal_get_type_from_filename (str_uri);
+
+	/* load */
+
+	switch (priv->format) {
+	case CAL_VCAL:
+	        vobject = Parse_MIME_FromFileName (str_uri);
+	
+		if (!vobject)
+		  return CAL_BACKEND_LOAD_ERROR;
+	
+		load_from_vobject (backend, vobject);
+		cleanVObject (vobject);
+		cleanStrTbl ();
+	break;
+	case CAL_ICAL:
+		icalendar_calendar_load (backend, str_uri);
+		break;
+	default:
+	        return CAL_BACKEND_LOAD_ERROR;
+	}
+
 	g_free (str_uri);
-
-	if (!vobject)
-		return CAL_BACKEND_LOAD_ERROR;
-
-	load_from_vobject (backend, vobject);
-	cleanVObject (vobject);
-	cleanStrTbl ();
 
 	gnome_vfs_uri_ref (uri);
 

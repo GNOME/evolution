@@ -13,12 +13,9 @@
 #include <gnome.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include "ical.h"
-#include "calobj.h"
-#include "calendar.h"
+#include "icalendar.h"
+#include "cal-backend.h"
 
-void icalendar_calendar_load (Calendar* cal, char* fname);
-static icalcomponent* icalendar_parse_file (char* fname);
 static time_t icaltime_to_timet (struct icaltimetype* i);
 static CalendarAlarm* parse_alarm (icalproperty *prop);
 static iCalPerson* parse_person (icalproperty *prop, gchar *value);
@@ -39,14 +36,8 @@ copy_to_list (GList** store, gchar* src)
 	return *store;
 }
 
-/* eh?
- static icalcomponent*
- ical_object_to_icalcomponent (iCalObject* ical)
- {
- 	icalcomponent *comp;
-*/
 	
-static iCalObject *
+iCalObject *
 ical_object_create_from_icalcomponent (icalcomponent* comp)
 {
 	iCalObject    *ical = NULL;
@@ -372,61 +363,6 @@ this may not be correct */
 	return ical;
 }
 
-void
-icalendar_calendar_load (Calendar* cal, char* fname)
-{
-	icalcomponent *comp;
-	icalcomponent *subcomp;
-	iCalObject    *ical;
-
-	comp = icalendar_parse_file (fname);
-	subcomp = icalcomponent_get_first_component (comp,
-						     ICAL_ANY_COMPONENT);
-	while (subcomp) {
-		ical = ical_object_create_from_icalcomponent (subcomp);
-		if (ical->type != ICAL_EVENT && 
-		    ical->type != ICAL_TODO  &&
-		    ical->type != ICAL_JOURNAL) {
-			g_warning ("Skipping unsupported iCalendar component.");
-		} else
-			calendar_add_object (cal, ical);
-		subcomp = icalcomponent_get_next_component (comp,
-							    ICAL_ANY_COMPONENT);
-	}
-}
-			
-static icalcomponent* 
-icalendar_parse_file (char* fname)
-{
-	FILE* fp;
-	icalcomponent* comp = NULL;
-	gchar* str;
-	struct stat st;
-	int n;
-	
-	fp = fopen (fname, "r");
-	if (!fp) {
-		g_warning ("Cannot open open calendar file.");
-		return NULL;
-	}
-	
-	stat (fname, &st);
-	
-	str = g_malloc (st.st_size + 2);
-	
-	n = fread ((gchar*) str, 1, st.st_size, fp);
-	if (n != st.st_size) {
-		g_warning ("Read error.");
-	}
-	str[n] = '\0';
-
-	fclose (fp);
-	
-	comp = icalparser_parse_string (str);
-	g_free (str);
-	
-	return comp;
-}
 
 static time_t icaltime_to_timet (struct icaltimetype* i)
 {
