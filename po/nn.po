@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
-"POT-Creation-Date: 2004-08-02 15:35-0400\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-08-05 10:49+0200\n"
 "PO-Revision-Date: 2004-07-26 22:27+0200\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "X-Generator: KBabel 1.3.1\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
@@ -124,6 +124,17 @@ msgid "Could not remove addressbook."
 msgstr "Klarte ikkje å sletta adresseboka."
 
 #. addressbook:remove-addressbook secondary
+#. addressbook:generic-error primary
+#. addressbook:load-error secondary
+#. addressbook:search-error secondary
+#. mail:session-message-info secondary
+#. mail:session-message-info-cancel secondary
+#. mail:session-message-warning secondary
+#. mail:session-message-warning-cancel secondary
+#. mail:session-message-error secondary
+#. mail:session-message-error-cancel secondary
+#. mail:ask-session-password secondary
+#. mail:filter-load-error secondary
 #: addressbook/addressbook-errors.xml.h:22
 #: addressbook/addressbook-errors.xml.h:26
 #: addressbook/addressbook-errors.xml.h:34
@@ -141,6 +152,8 @@ msgid "Category editor not available."
 msgstr "Kategoriredigering ikkje tilgjengeleg."
 
 #. addressbook:generic-error secondary
+#. mail-composer:no-attach secondary
+#. mail:no-save-path secondary
 #: addressbook/addressbook-errors.xml.h:28
 #: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
 msgid "{1}"
@@ -345,6 +358,7 @@ msgid "Migrating `%s':"
 msgstr "Overfører «%s»:"
 
 #. create the local source group
+#. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:493
 #: calendar/gui/migration.c:450 calendar/gui/migration.c:532
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
@@ -353,6 +367,9 @@ msgid "On This Computer"
 msgstr "På denne datamaskina"
 
 #. Create the default Person addressbook
+#. Create the default Person calendar
+#. Create the default Person task list
+#. orange
 #: addressbook/gui/component/addressbook-migrate.c:501
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
 #: calendar/gui/migration.c:458 calendar/gui/migration.c:540
@@ -807,7 +824,7 @@ msgid "Send HTML Mail?"
 msgstr "Send e-post i HTML-format?"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:322
-#: addressbook/gui/widgets/eab-popup-control.c:982
+#: addressbook/gui/widgets/eab-popup-control.c:983
 msgid "Add to Contacts"
 msgstr "Legg til kontaktar"
 
@@ -929,7 +946,7 @@ msgstr "Selskap:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: addressbook/gui/contact-editor/e-contact-editor.c:272
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:170
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:172
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: addressbook/gui/widgets/e-minicard.c:181
 msgid "Contact"
@@ -1064,7 +1081,7 @@ msgstr "Adresse"
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:141
 #: addressbook/gui/contact-editor/e-contact-editor.c:293
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:184
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:186
 #: addressbook/gui/widgets/e-addressbook-model.c:309
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:392
 #: addressbook/gui/widgets/e-minicard-label.c:164
@@ -2337,7 +2354,7 @@ msgid "Insert email adresses from Adress Book"
 msgstr "Set inn e-postadresser frå adresseboka"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:704
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:714
 msgid "Members"
 msgstr "Medlemar"
 
@@ -2366,7 +2383,7 @@ msgstr "_Skriv ei e-post-adresse eller dra ein kontakt til lista under:"
 msgid "dialog1"
 msgstr "dialog1"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:163
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:165
 #: addressbook/gui/widgets/e-addressbook-model.c:295
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:378
 #: addressbook/gui/widgets/e-addressbook-view.c:221
@@ -2375,17 +2392,17 @@ msgstr "dialog1"
 msgid "Book"
 msgstr "Bok"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:177
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:179
 msgid "Is New List"
 msgstr "Er ny liste"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:726
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:736
 #: calendar/gui/e-meeting-list-view.c:60
 #: calendar/gui/e-meeting-list-view.c:457
 msgid "Required Participants"
 msgstr "Deltakarar som må vera med"
 
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:803
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:813
 msgid "Contact List Editor"
 msgstr "Endra kontaktar"
 
@@ -2634,12 +2651,12 @@ msgid "Email"
 msgstr "E-post"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:11
-#: addressbook/gui/widgets/eab-popup-control.c:441
+#: addressbook/gui/widgets/eab-popup-control.c:442
 msgid "Email 2"
 msgstr "E-post 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:12
-#: addressbook/gui/widgets/eab-popup-control.c:451
+#: addressbook/gui/widgets/eab-popup-control.c:452
 msgid "Email 3"
 msgstr "E-post 3"
 
@@ -3143,37 +3160,37 @@ msgstr "VCard for %s"
 #. * addresses (and *only* the e-mail addresses) associated with an existing
 #. * contact.
 #.
-#: addressbook/gui/widgets/eab-popup-control.c:198
+#: addressbook/gui/widgets/eab-popup-control.c:199
 msgid "(none)"
 msgstr "(ingen)"
 
-#: addressbook/gui/widgets/eab-popup-control.c:431
+#: addressbook/gui/widgets/eab-popup-control.c:432
 msgid "Primary Email"
 msgstr "Primær e-post"
 
-#: addressbook/gui/widgets/eab-popup-control.c:567
+#: addressbook/gui/widgets/eab-popup-control.c:568
 msgid "Select an Action"
 msgstr "Vel ei handling"
 
-#: addressbook/gui/widgets/eab-popup-control.c:575
+#: addressbook/gui/widgets/eab-popup-control.c:576
 #, c-format
 msgid "Create a new contact \"%s\""
 msgstr "Lag ny kontakt «%s»"
 
-#: addressbook/gui/widgets/eab-popup-control.c:591
+#: addressbook/gui/widgets/eab-popup-control.c:592
 #, c-format
 msgid "Add address to existing contact \"%s\""
 msgstr "Legg til addresser for eksisterande kontakt «%s»"
 
-#: addressbook/gui/widgets/eab-popup-control.c:869
+#: addressbook/gui/widgets/eab-popup-control.c:870
 msgid "Querying Address Book..."
 msgstr "Spør adresseboka ..."
 
-#: addressbook/gui/widgets/eab-popup-control.c:952
+#: addressbook/gui/widgets/eab-popup-control.c:953
 msgid "Edit Contact Info"
 msgstr "Rediger kontaktinformasjon"
 
-#: addressbook/gui/widgets/eab-popup-control.c:1007
+#: addressbook/gui/widgets/eab-popup-control.c:1008
 msgid "Merge E-Mail Address"
 msgstr "Flett e-postadresser"
 
@@ -3207,17 +3224,17 @@ msgid "GTK Tree View"
 msgstr "GTK-trevising"
 
 # TRN: Don't translate!
-#: addressbook/gui/widgets/test-reflow.c:106
+#: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
 msgstr ""
 
-#: addressbook/gui/widgets/test-reflow.c:107
+#: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Opphavsrett © 2000, Ximian, Inc."
 
-#: addressbook/gui/widgets/test-reflow.c:109
+#: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
 msgstr ""
 
@@ -3527,6 +3544,7 @@ msgid "Unnamed List"
 msgstr "Liste utan namn"
 
 #. calendar:prompt-cancel-meeting primary
+#. calendar:prompt-cancel-task primary
 #: calendar/calendar-errors.xml.h:2 calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
 msgstr "Vil du senda melding om avlysing til alle deltakarane?"
@@ -3580,6 +3598,8 @@ msgid "Are you sure you want to delete this task?"
 msgstr "Er du sikker på at du vil sletta denne oppgåva?"
 
 #. calendar:prompt-delete-task secondary
+#. calendar:prompt-delete-named-task secondary
+#. calendar:prompt-delete-task secondary
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
@@ -3619,6 +3639,7 @@ msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "Er du sikker på at du vil sletta avtalen «{0}»?"
 
 #. calendar:prompt-delete-titled-appointment secondary
+#. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
@@ -3640,6 +3661,7 @@ msgid "Are you sure you want to delete the journal entry '{0}'?"
 msgstr "Er du sikker på at du vil sletta journaloppføringa «{0}»?"
 
 #. calendar:prompt-delete-named-journal secondary
+#. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
 msgid ""
 "All information in this journal will be deleted and can not be restored."
@@ -4168,6 +4190,10 @@ msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
+#. strftime format %a = abbreviated weekday name,
+#. %d = day of month, %b = abbreviated month name.
+#. You can change the order but don't change the
+#. specifiers or add anything.
 #: calendar/gui/calendar-commands.c:435 calendar/gui/calendar-component.c:519
 #: calendar/gui/e-day-view-top-item.c:714 calendar/gui/e-day-view.c:1588
 #: calendar/gui/e-week-view-main-item.c:329
@@ -4215,6 +4241,9 @@ msgstr "%d. %B %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
+#. strftime format %d = day of month, %b = abbreviated
+#. month name. You can change the order but don't
+#. change the specifiers or add anything.
 #: calendar/gui/calendar-component.c:545
 #: calendar/gui/e-day-view-top-item.c:718 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
@@ -5146,6 +5175,11 @@ msgid "_Start time:"
 msgstr "_Start-tid:"
 
 #. an empty string is the same as 'None'
+#. add a "None" option to the stores menu
+#. Put the "None" and "UTC" entries at the top of the combo's list.
+#. When "None" is selected we want the field to be cleared.
+#. Note that we don't show this here, since by default a 'None' date
+#. is not permitted.
 #: calendar/gui/dialogs/meeting-page.c:316
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-cal-model-tasks.c:647 calendar/gui/e-itip-control.c:928
@@ -5785,11 +5819,11 @@ msgstr "Nei"
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
 #: camel/camel-gpg-context.c:1763 camel/camel-gpg-context.c:1814
 #: camel/camel-tcp-stream-openssl.c:631
-#: camel/providers/imap4/camel-imap4-engine.c:1382
-#: camel/providers/imap4/camel-imap4-engine.c:1412
-#: camel/providers/imap4/camel-imap4-engine.c:1444
-#: camel/providers/imap4/camel-imap4-engine.c:1486
-#: camel/providers/imap4/camel-imap4-store.c:1222
+#: camel/providers/imap4/camel-imap4-engine.c:1402
+#: camel/providers/imap4/camel-imap4-engine.c:1432
+#: camel/providers/imap4/camel-imap4-engine.c:1464
+#: camel/providers/imap4/camel-imap4-engine.c:1506
+#: camel/providers/imap4/camel-imap4-store.c:1223
 #: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1123
@@ -6051,6 +6085,10 @@ msgid "_Settings..."
 msgstr "_Innstillingar ..."
 
 #. strftime format of a weekday, a date and a time, 24-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 24-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
@@ -6058,6 +6096,10 @@ msgstr "%a %d.%m.%Y %H.%M.%S"
 
 # TRN: %p blir null-streng her. Trur eg.
 #. strftime format of a weekday, a date and a time, 12-hour.
+#. strptime format of a weekday, a date and a time,
+#. in 12-hour format.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format.
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
@@ -6081,6 +6123,10 @@ msgstr "%02i minutt oppdeling"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
+#. strftime format %A = full weekday name, %d = day of
+#. month, %B = full month name. You can change the
+#. order but don't change the specifiers or add
+#. anything.
 #: calendar/gui/e-day-view-top-item.c:710 calendar/gui/e-day-view.c:1571
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
@@ -6615,6 +6661,10 @@ msgstr "%A, %d. %B, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
+#. This is a strftime() format string %a = abbreviated weekday name,
+#. %m = month number, %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. strftime format of a weekday and a date.
 #: calendar/gui/e-meeting-time-sel-item.c:456
 #: calendar/gui/e-meeting-time-sel.c:2102 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
@@ -6623,6 +6673,10 @@ msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
+#. strptime format of a weekday and a date.
+#. This is the preferred date format for the locale.
+#. This is a strftime() format for a short date. %m = month,
+#. %d = day of month, %Y = year (all digits).
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1604
 msgid "%m/%d/%Y"
@@ -10189,7 +10243,7 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-command.c:303
 #: camel/providers/imap/camel-imap-command.c:400
-#: camel/providers/imap4/camel-imap4-store.c:282
+#: camel/providers/imap4/camel-imap4-store.c:283
 #: camel/providers/pop3/camel-pop3-store.c:543
 #: camel/providers/pop3/camel-pop3-store.c:550
 #: camel/providers/pop3/camel-pop3-store.c:556 shell/e-shell.c:1220
@@ -10369,21 +10423,21 @@ msgid "For reading and storing mail on IMAP servers."
 msgstr "For lesing og lagring av e-post på IMAP-tenarar."
 
 #: camel/providers/imap/camel-imap-store.c:424
-#: camel/providers/imap4/camel-imap4-store.c:176
+#: camel/providers/imap4/camel-imap4-store.c:177
 #, c-format
 msgid "IMAP server %s"
 msgstr "IMAP-tenar %s"
 
 #: camel/providers/imap/camel-imap-store.c:426
-#: camel/providers/imap4/camel-imap4-store.c:178
+#: camel/providers/imap4/camel-imap4-store.c:179
 #, c-format
 msgid "IMAP service for %s on %s"
 msgstr "IMAP-teneste for %s på %s"
 
 #: camel/providers/imap/camel-imap-store.c:547
 #: camel/providers/imap/camel-imap-store.c:567
-#: camel/providers/imap4/camel-imap4-store.c:213
-#: camel/providers/imap4/camel-imap4-store.c:229
+#: camel/providers/imap4/camel-imap4-store.c:214
+#: camel/providers/imap4/camel-imap4-store.c:230
 #: camel/providers/imapp/camel-imapp-store.c:231
 #: camel/providers/nntp/camel-nntp-store.c:209
 #: camel/providers/pop3/camel-pop3-store.c:175
@@ -10394,7 +10448,7 @@ msgid "Could not connect to %s (port %d): %s"
 msgstr "Klarte ikkje å kople til %s (port %d): %s"
 
 #: camel/providers/imap/camel-imap-store.c:549
-#: camel/providers/imap4/camel-imap4-store.c:215
+#: camel/providers/imap4/camel-imap4-store.c:216
 #: camel/providers/pop3/camel-pop3-store.c:177
 #: camel/providers/smtp/camel-smtp-transport.c:271
 msgid "SSL unavailable"
@@ -10402,7 +10456,7 @@ msgstr "SSL er ikkje tilgjengeleg"
 
 #: camel/providers/imap/camel-imap-store.c:564
 #: camel/providers/imap/camel-imap-store.c:841
-#: camel/providers/imap4/camel-imap4-store.c:226
+#: camel/providers/imap4/camel-imap4-store.c:227
 #: camel/providers/imapp/camel-imapp-store.c:228
 #: camel/providers/nntp/camel-nntp-store.c:206
 #: camel/providers/nntp/camel-nntp-store.c:224
@@ -10412,7 +10466,7 @@ msgstr "Tilknytning avbroten"
 
 #: camel/providers/imap/camel-imap-store.c:675
 #: camel/providers/imap/camel-imap-store.c:706
-#: camel/providers/imap4/camel-imap4-store.c:281
+#: camel/providers/imap4/camel-imap4-store.c:282
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr "Kan ikkje kopla til IMAP-tenaren %s på ein sikker måte: %s"
@@ -10472,7 +10526,7 @@ msgstr "Mappa «%s» finst ikkje"
 
 #: camel/providers/imap/camel-imap-store.c:1881
 #: camel/providers/imap/camel-imap-store.c:2259
-#: camel/providers/imap4/camel-imap4-store.c:763
+#: camel/providers/imap4/camel-imap4-store.c:764
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it contains the character \"%c\""
@@ -10507,25 +10561,25 @@ msgstr "Klarte ikkje å senda kommando til IMAP-tenaren %s: %s"
 msgid "Unexpected response from IMAP4 server %s: %s"
 msgstr "Uventa svar frå IMAP4-tenaren %s: %s"
 
-#: camel/providers/imap4/camel-imap4-engine.c:229
+#: camel/providers/imap4/camel-imap4-engine.c:230
 #, c-format
 msgid "Unexpected greeting from IMAP server %s."
 msgstr "Uventa helsing frå IMAP-tenaren %s."
 
-#: camel/providers/imap4/camel-imap4-engine.c:413
+#: camel/providers/imap4/camel-imap4-engine.c:414
 #, c-format
 msgid "Cannot select folder `%s': Invalid mailbox name"
 msgstr "Kan ikkje velja mappa «%s»: Ugyldig postboksnamn"
 
-#: camel/providers/imap4/camel-imap4-engine.c:419
+#: camel/providers/imap4/camel-imap4-engine.c:420
 #, c-format
 msgid "Cannot select folder `%s': Bad command"
 msgstr "Kan ikkje velja mappa «%s»: Ugyldig kommando"
 
-#: camel/providers/imap4/camel-imap4-engine.c:1381
-#: camel/providers/imap4/camel-imap4-engine.c:1411
-#: camel/providers/imap4/camel-imap4-engine.c:1443
-#: camel/providers/imap4/camel-imap4-engine.c:1485
+#: camel/providers/imap4/camel-imap4-engine.c:1401
+#: camel/providers/imap4/camel-imap4-engine.c:1431
+#: camel/providers/imap4/camel-imap4-engine.c:1463
+#: camel/providers/imap4/camel-imap4-engine.c:1505
 #, c-format
 msgid "IMAP4 server %s unexpectedly disconnected: %s"
 msgstr ""
@@ -10608,7 +10662,7 @@ msgid ""
 msgstr ""
 "Dette valet let deg kopla til IMAPv4rev1-tenaren med eit klartekst-passord."
 
-#: camel/providers/imap4/camel-imap4-store.c:256
+#: camel/providers/imap4/camel-imap4-store.c:257
 #, c-format
 msgid ""
 "Failed to connect to IMAP server %s in secure mode: Server does not support "
@@ -10617,92 +10671,92 @@ msgstr ""
 "Kan ikkje kopla til IMAP-tenaren %s på ein sikker måte. Tenaren støttar "
 "ikkje STARTTLS"
 
-#: camel/providers/imap4/camel-imap4-store.c:362
+#: camel/providers/imap4/camel-imap4-store.c:363
 #, c-format
 msgid ""
 "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
 
-#: camel/providers/imap4/camel-imap4-store.c:407
+#: camel/providers/imap4/camel-imap4-store.c:408
 #, c-format
 msgid "%sPlease enter the IMAP password for %s on host %s"
 msgstr "%sSkriv inn IMAP-passordet til %s på verten %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:477
+#: camel/providers/imap4/camel-imap4-store.c:478
 #, c-format
 msgid "Cannot authenticate to IMAP server %s using %s"
 msgstr ""
 
-#: camel/providers/imap4/camel-imap4-store.c:700
+#: camel/providers/imap4/camel-imap4-store.c:701
 #, c-format
 msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
 msgstr ""
 
-#: camel/providers/imap4/camel-imap4-store.c:814
+#: camel/providers/imap4/camel-imap4-store.c:815
 #, c-format
 msgid "Cannot create folder `%s': Invalid mailbox name"
 msgstr ""
 
-#: camel/providers/imap4/camel-imap4-store.c:820
+#: camel/providers/imap4/camel-imap4-store.c:821
 #, c-format
 msgid "Cannot create folder `%s': Bad command"
 msgstr ""
 
-#: camel/providers/imap4/camel-imap4-store.c:851
+#: camel/providers/imap4/camel-imap4-store.c:852
 #, c-format
 msgid "Cannot delete folder `%s': Special folder"
 msgstr "Kan ikkje sletta mappa «%s»: Spesiell mappe"
 
-#: camel/providers/imap4/camel-imap4-store.c:910
+#: camel/providers/imap4/camel-imap4-store.c:911
 #, c-format
 msgid "Cannot delete folder `%s': Invalid mailbox name"
 msgstr "Kan ikkje sletta mappa «%s»: Ugyldig mappenamn"
 
-#: camel/providers/imap4/camel-imap4-store.c:915
+#: camel/providers/imap4/camel-imap4-store.c:916
 #, c-format
 msgid "Cannot delete folder `%s': Bad command"
 msgstr "Kan ikkje sletta mappa «%s»: Ugyldig kommando"
 
-#: camel/providers/imap4/camel-imap4-store.c:935
+#: camel/providers/imap4/camel-imap4-store.c:936
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
 msgstr "Kan ikkje endra namnet på «%s» til «%s»: Spesiell mappe"
 
-#: camel/providers/imap4/camel-imap4-store.c:967
+#: camel/providers/imap4/camel-imap4-store.c:968
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
 msgstr "Kan ikkje endra namnet på «%s» til «%s»: Ugyldig postboksnamn"
 
-#: camel/providers/imap4/camel-imap4-store.c:972
+#: camel/providers/imap4/camel-imap4-store.c:973
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
 msgstr "Kan ikkje endra namnet på «%s» til «%s»: Ugyldig kommando"
 
-#: camel/providers/imap4/camel-imap4-store.c:1220
+#: camel/providers/imap4/camel-imap4-store.c:1221
 #, c-format
 msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
 msgstr ""
 
-#: camel/providers/imap4/camel-imap4-store.c:1222
+#: camel/providers/imap4/camel-imap4-store.c:1223
 msgid "Bad command"
 msgstr "Ugyldig kommando"
 
-#: camel/providers/imap4/camel-imap4-store.c:1298
+#: camel/providers/imap4/camel-imap4-store.c:1299
 #, fuzzy, c-format
 msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
 msgstr "Kan ikkje sletta mappe: %s: Ugyldig operasjon"
 
-#: camel/providers/imap4/camel-imap4-store.c:1303
+#: camel/providers/imap4/camel-imap4-store.c:1304
 #, fuzzy, c-format
 msgid "Cannot subscribe to folder `%s': Bad command"
 msgstr "Kan ikkje laga mappa: %s: %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:1363
+#: camel/providers/imap4/camel-imap4-store.c:1364
 #, fuzzy, c-format
 msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
 msgstr "Kan ikkje byta namn på mappa: %s: Ugyldig operasjon"
 
-#: camel/providers/imap4/camel-imap4-store.c:1368
+#: camel/providers/imap4/camel-imap4-store.c:1369
 #, fuzzy, c-format
 msgid "Cannot unsubscribe from folder `%s': Bad command"
 msgstr "Kan ikkje laga mappa: %s: %s"
@@ -12223,6 +12277,11 @@ msgid "Could not retrieve messages to attach from {0}."
 msgstr "Kunne ikkje henta meldingane som skulle leggjast ved frå {0}."
 
 #. mail-composer:attach-nomessages secondary
+#. mail-composer:no-sig-file secondary
+#. mail:no-create-tmp-path secondary
+#. mail:no-delete-folder secondary
+#. system:no-save-file secondary
+#. system:no-load-file secondary
 #: composer/mail-composer-errors.xml.h:14
 #: composer/mail-composer-errors.xml.h:42 mail/mail-errors.xml.h:100
 #: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
@@ -12315,6 +12374,7 @@ msgid "You need to configure an account before you can compose mail."
 msgstr "Du må setja opp ein konto før du kan skriva e-post."
 
 #. mail-composer:no-address-control primary
+#. mail-composer:no-editor-control primary
 #: composer/mail-composer-errors.xml.h:48
 #: composer/mail-composer-errors.xml.h:52
 #, fuzzy
@@ -12476,12 +12536,16 @@ msgstr ""
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185 e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
 msgstr "%a %m/%d/%Y %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
+#. strftime format of a weekday, a date and a
+#. time, in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:190 e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
 msgstr ""
@@ -12533,23 +12597,31 @@ msgid "%m/%d/%Y %H"
 msgstr "%m/%d/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
+#. strftime format of a time in 12-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
+#. strftime format of a time in 24-hour format.
 #: e-util/e-time-utils.c:343 e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
+#. strftime format of a time in 12-hour format,
+#. without seconds.
+#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
 #: widgets/misc/e-dateedit.c:1414 widgets/misc/e-dateedit.c:1639
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
+#. strftime format of a time in 24-hour format,
+#. without seconds.
+#. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
 #: widgets/misc/e-dateedit.c:1411 widgets/misc/e-dateedit.c:1636
 msgid "%H:%M"
@@ -12647,6 +12719,7 @@ msgid "Missing file name."
 msgstr "Distinguished _name:"
 
 #. filter:no-file secondary
+#. filter:bad-file secondary
 #: filter/filter-errors.xml.h:8 filter/filter-errors.xml.h:12
 #, fuzzy
 msgid "You must specify a file name."
@@ -12672,6 +12745,7 @@ msgid "Could not compile regular expression \"{1}\"."
 msgstr ""
 
 #. filter:no-name primary
+#. mail:no-name-vfolder primary
 #: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
 #, fuzzy
 msgid "Missing name."
@@ -15709,6 +15783,7 @@ msgid ""
 msgstr ""
 
 #. mail:ask-send-only-bcc-contact primary
+#. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 #, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
@@ -15777,6 +15852,7 @@ msgid ""
 msgstr "Fjern alle sletta meldingar frå denne mappa for godt"
 
 #. mail:ask-expunge secondary
+#. mail:ask-empty-trash secondary
 #: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
 msgid "If you continue, you will not be able to recover these messages."
 msgstr ""
@@ -15873,6 +15949,8 @@ msgid "Cannot save to directory \"{0}\"."
 msgstr "Kan ikkje laga katalogen «%s»: %s"
 
 #. mail:no-create-path primary
+#. mail:no-write-path-exists primary
+#. mail:no-write-path-notfile primary
 #: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
 #: mail/mail-errors.xml.h:106
 #, fuzzy
@@ -15920,6 +15998,7 @@ msgid "Cannot delete system folder \"{0}\"."
 msgstr "Kan ikkje sletta mappa: %s: Mappa finst ikkje"
 
 #. mail:no-delete-spethal-folder secondary
+#. mail:no-rename-spethal-folder secondary
 #: mail/mail-errors.xml.h:116 mail/mail-errors.xml.h:120
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
@@ -15952,12 +16031,14 @@ msgid ""
 msgstr ""
 
 #. mail:no-rename-folder-exists primary
+#. mail:no-rename-folder primary
 #: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
 #, fuzzy
 msgid "Cannot rename \"{0}\" to \"{1}\"."
 msgstr "Kan ikkje flytta mappe: %s"
 
 #. mail:no-rename-folder-exists secondary
+#. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
 #, fuzzy
 msgid "A folder named \"{1}\" already exists. Please use a different name."
@@ -15969,24 +16050,28 @@ msgid "Because \"{2}\"."
 msgstr ""
 
 #. mail:no-move-folder-nostore primary
+#. mail:no-move-folder-to-nostore primary
 #: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
 #, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "Kan ikkje flytta mappe: %s"
 
 #. mail:no-move-folder-nostore secondary
+#. mail:no-copy-folder-nostore secondary
 #: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
 #, fuzzy
 msgid "Cannot open source \"{2}\"."
 msgstr "Klarte ikkje opna kjelde"
 
 #. mail:no-move-folder-to-nostore secondary
+#. mail:no-copy-folder-to-nostore secondary
 #: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
 #, fuzzy
 msgid "Cannot open target \"{2}\"."
 msgstr "Kan ikkje opna melding"
 
 #. mail:no-copy-folder-nostore primary
+#. mail:no-copy-folder-to-nostore primary
 #: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
 #, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
@@ -16005,6 +16090,7 @@ msgid "Cannot open source \"{1}\""
 msgstr "Klarte ikkje opna kjelde"
 
 #. mail:account-incomplete primary
+#. mail:account-notunique primary
 #: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
 #, fuzzy
 msgid "Cannot save changes to account."
@@ -17294,6 +17380,7 @@ msgid "Continue"
 msgstr "Hald fram"
 
 #. shell:upgrade-remove-1-4 title
+#. shell:upgrade-remove-1-4 primary
 #: shell/shell-errors.xml.h:17 shell/shell-errors.xml.h:19
 msgid "Delete old data from version {0}?"
 msgstr ""
@@ -17315,6 +17402,7 @@ msgid "Keep"
 msgstr "Pipelyd"
 
 #. shell:upgrade-remove-1-4-confirm title
+#. shell:upgrade-remove-1-4-confirm primary
 #: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
 msgid "Really delete old data?"
 msgstr ""
@@ -17334,12 +17422,14 @@ msgid ""
 msgstr ""
 
 #. shell:noshell title
+#. shell:noshell-reason title
 #: shell/shell-errors.xml.h:38 shell/shell-errors.xml.h:46
 #, fuzzy
 msgid "Cannot start Evolution"
 msgstr "Kan ikkje starta Ximian Evolution-skalet: %s"
 
 #. shell:noshell primary
+#. shell:noshell-reason primary
 #: shell/shell-errors.xml.h:40 shell/shell-errors.xml.h:48
 #, fuzzy
 msgid "Evolution can not start."
