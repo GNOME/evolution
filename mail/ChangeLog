@@ -1,5 +1,7 @@
 2003-12-04  Radek Doulik  <rodo@ximian.com>
 
+	* em-folder-view.c: set junk toolbar buttons pixmaps
+
 	* mail-session.c: monitor gconf key
 	/apps/evolution/mail/junk/check_incoming and keep session junk
 	flag uptodate
