@@ -1,3 +1,10 @@
+2002-06-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): If we are doing
+	Reply-to-All, do not include any of the user's email accounts in
+	the To: field. If, after this, the To: field is empty - then
+	promote the first recipient in the Cc: list to the To: field.
+
 2002-06-07  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c (sig_add_script_cancel): hook this to

@@ -69,6 +69,7 @@
 
 #include "evolution-shell-client.h"
 
+#define d(x) x
 
 #define FB_WINDOW(fb) GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW))
 
@@ -748,22 +749,12 @@ send_to_url (const char *url)
 }	
 
 static GList *
-list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *accounts,
+list_add_addresses (GList *list, const CamelInternetAddress *cia, GHashTable *account_hash,
 		    GHashTable *rcpt_hash, const MailConfigAccount **me)
 {
 	const MailConfigAccount *account;
-	GHashTable *account_hash;
 	const char *name, *addr;
-	const GSList *l;
 	int i;
-	
-	account_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
-	l = accounts;
-	while (l) {
-		account = l->data;
-		g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
-		l = l->next;
-	}
 	
 	for (i = 0; camel_internet_address_get (cia, i, &name, &addr); i++) {
 		/* Here I'll check to see if the cc:'d address is the address
@@ -785,31 +776,19 @@ list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *
 		} 
 	}
 	
-	g_hash_table_destroy (account_hash);
-	
 	return list;
 }
 
 static const MailConfigAccount *
-guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, const GSList *accounts)
+guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, GHashTable *account_hash)
 {
-	const MailConfigAccount *account;
-	GHashTable *account_hash;
+	const MailConfigAccount *account = NULL;
 	const char *addr;
-	const GSList *l;
 	int i;
 	
 	/* "optimization" */
 	if (!to && !cc)
 		return NULL;
-	
-	account_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
-	l = accounts;
-	while (l) {
-		account = l->data;
-		g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
-		l = l->next;
-	}
 	
 	if (to) {
 		for (i = 0; camel_internet_address_get (to, i, NULL, &addr); i++) {
@@ -827,9 +806,27 @@ guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, const 
 		}
 	}
 	
-	account = NULL;
-	
  found:
+	
+	return account;
+}
+
+static const MailConfigAccount *
+guess_me_from_accounts (const CamelInternetAddress *to, const CamelInternetAddress *cc, const GSList *accounts)
+{
+	const MailConfigAccount *account;
+	GHashTable *account_hash;
+	const GSList *l;
+	
+	account_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	l = accounts;
+	while (l) {
+		account = l->data;
+		g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
+		l = l->next;
+	}
+	
+	account = guess_me (to, cc, account_hash);
 	
 	g_hash_table_destroy (account_hash);
 	
@@ -837,7 +834,7 @@ guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, const 
 }
 
 inline static void
-mail_ignore (EMsgComposer *composer, const gchar *name, const gchar *address)
+mail_ignore (EMsgComposer *composer, const char *name, const char *address)
 {
 	e_msg_composer_ignore (composer, name && *name ? name : address);
 }
@@ -845,15 +842,17 @@ mail_ignore (EMsgComposer *composer, const gchar *name, const gchar *address)
 static void
 mail_ignore_address (EMsgComposer *composer, const CamelInternetAddress *addr)
 {
-	const gchar *name, *address;
-	gint i, max;
-
+	const char *name, *address;
+	int i, max;
+	
 	max = camel_address_length (CAMEL_ADDRESS (addr));
 	for (i = 0; i < max; i++) {
 		camel_internet_address_get (addr, i, &name, &address);
 		mail_ignore (composer, name, address);
 	}
 }
+
+#define MAX_SUBJECT_LEN  1024
 
 static EMsgComposer *
 mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char *uid, int mode)
@@ -862,14 +861,14 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	const char *name = NULL, *address = NULL, *source = NULL;
 	const char *message_id, *references, *reply_addr = NULL;
 	char *text = NULL, *subject, date_str[100], *format;
-	const MailConfigAccount *me = NULL;
-	const GSList *accounts = NULL;
+	const MailConfigAccount *account, *me = NULL;
+	const GSList *l, *accounts = NULL;
+	GHashTable *account_hash = NULL;
 	GList *to = NULL, *cc = NULL;
 	EDestination **tov, **ccv;
 	EMsgComposer *composer;
 	CamelMimePart *part;
 	time_t date;
-	const int max_subject_length = 1024;
 	
 	composer = e_msg_composer_new ();	
 	if (!composer)
@@ -879,6 +878,14 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	
 	/* Set the recipients */
 	accounts = mail_config_get_accounts ();
+	
+	account_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	l = accounts;
+	while (l) {
+		account = l->data;
+		g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
+		l = l->next;
+	}
 	
 	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
@@ -905,7 +912,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			/* look through the recipients to find the *real* mailing list address */
 			len = strlen (mlist);
 			
-			printf ("we are looking for the mailing list called: %s\n", mlist);
+			d(printf ("we are looking for the mailing list called: %s\n", mlist));
 			
 			to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 			max = camel_address_length (CAMEL_ADDRESS (to_addrs));
@@ -948,41 +955,54 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		}
 		
 		if (!me)
-			me = guess_me (to_addrs, cc_addrs, accounts);
+			me = guess_me (to_addrs, cc_addrs, account_hash);
 	} else {
 		GHashTable *rcpt_hash;
+		EDestination *dest;
 		
 		rcpt_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 		
 		reply_to = camel_mime_message_get_reply_to (message);
 		if (!reply_to)
 			reply_to = camel_mime_message_get_from (message);
+		
 		if (reply_to) {
 			int i;
 			
 			for (i = 0; camel_internet_address_get (reply_to, i, &name, &reply_addr); i++) {
 				/* Get the Reply-To address so we can ignore references to it in the Cc: list */
-				EDestination *dest;
-				
-				dest = e_destination_new ();
-				e_destination_set_name (dest, name);
-				e_destination_set_email (dest, reply_addr);
-				to = g_list_append (to, dest);
-				g_hash_table_insert (rcpt_hash, (char *) reply_addr, GINT_TO_POINTER (1));
-				mail_ignore (composer, name, reply_addr);
+				if (reply_addr && !(mode == REPLY_ALL && g_hash_table_lookup (account_hash, reply_addr))) {
+					/* In the case that we are doing a Reply-To-All, we do not want
+					   to include the user's email address because replying to oneself
+                                           is kinda silly. */
+					dest = e_destination_new ();
+					e_destination_set_name (dest, name);
+					e_destination_set_email (dest, reply_addr);
+					to = g_list_append (to, dest);
+					g_hash_table_insert (rcpt_hash, (char *) reply_addr, GINT_TO_POINTER (1));
+					mail_ignore (composer, name, reply_addr);
+				}
 			}
 		}
 		
 		if (mode == REPLY_ALL) {
-			cc = list_add_addresses (cc, to_addrs, accounts, rcpt_hash, me ? NULL : &me);
-			cc = list_add_addresses (cc, cc_addrs, accounts, rcpt_hash, me ? NULL : &me);
+			cc = list_add_addresses (cc, to_addrs, account_hash, rcpt_hash, me ? NULL : &me);
+			cc = list_add_addresses (cc, cc_addrs, account_hash, rcpt_hash, me ? NULL : &me);
+			
+			/* promote the first Cc: address to To: if To: is empty */
+			if (to == NULL && cc != NULL) {
+				to = cc;
+				cc = g_list_remove_link (cc, to);
+			}
 		} else {
 			if (!me)
-				me = guess_me (to_addrs, cc_addrs, accounts);
+				me = guess_me (to_addrs, cc_addrs, account_hash);
 		}
 		
 		g_hash_table_destroy (rcpt_hash);
 	}
+	
+	g_hash_table_destroy (account_hash);
 	
 	/* set body text here as we want all ignored words to take effect */
 	switch (mail_config_get_default_reply_style ()) {
@@ -1025,20 +1045,20 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		subject = g_strdup ("");
 	else {
 		if (!g_strncasecmp (subject, "Re: ", 4))
-			subject = g_strndup (subject, max_subject_length);
+			subject = g_strndup (subject, MAX_SUBJECT_LEN);
 		else {
-			if (strlen (subject) < max_subject_length) {
+			if (strlen (subject) < MAX_SUBJECT_LEN) {
 				subject = g_strdup_printf ("Re: %s", subject);
 			} else {
 				/* We can't use %.*s because it depends on the locale being C/POSIX
                                    or UTF-8 to work correctly in glibc */
 				char *sub;
 				
-				/*subject = g_strdup_printf ("Re: %.*s...", max_subject_length, subject);*/
-				sub = g_malloc (max_subject_length + 8);
+				/*subject = g_strdup_printf ("Re: %.*s...", MAX_SUBJECT_LEN, subject);*/
+				sub = g_malloc (MAX_SUBJECT_LEN + 8);
 				memcpy (sub, "Re: ", 4);
-				memcpy (sub + 4, subject, max_subject_length);
-				memcpy (sub + 4 + max_subject_length, "...", 4);
+				memcpy (sub + 4, subject, MAX_SUBJECT_LEN);
+				memcpy (sub + 4 + MAX_SUBJECT_LEN, "...", 4);
 				subject = sub;
 			}
 		}
@@ -1185,7 +1205,7 @@ forward_get_composer (CamelMimeMessage *message, const char *subject)
 		to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 		cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 		
-		account = guess_me (to_addrs, cc_addrs, accounts);
+		account = guess_me_from_accounts (to_addrs, cc_addrs, accounts);
 		
 		if (!account) {
 			const char *source;
@@ -1341,7 +1361,7 @@ redirect_get_composer (CamelMimeMessage *message)
 	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 	
-	account = guess_me (to_addrs, cc_addrs, accounts);
+	account = guess_me_from_accounts (to_addrs, cc_addrs, accounts);
 	
 	if (!account) {
 		const char *source;
