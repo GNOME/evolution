@@ -1,3 +1,9 @@
+2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Install mail-new.xpm, mail-read.xpm and
+	priority-high.xpm in the same place as other bonobo-ui menu
+	pixmaps so we can use these in menus too.
+
 2002-02-08  JP Rosevear  <jpr@ximian.com>
 
 	* connect_to_url-16.xpm: new icon

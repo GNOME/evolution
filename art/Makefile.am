@@ -50,6 +50,9 @@ images_DATA = \
 	reply.xpm			\
 	reply_to_all.xpm		\
 	save.xpm			\
+	mail-new.xpm			\
+	mail-read.xpm			\
+	priority-high.xpm		\
 	all_contacts.xpm		\
 	find_contact.xpm		\
 	find_message.xpm		\
