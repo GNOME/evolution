@@ -442,8 +442,9 @@ static void
 local_delete(CamelFolder *folder)
 {
 	CamelLocalFolder *lf = (CamelLocalFolder *)folder;
-
-	camel_index_delete(lf->index);
+	
+	if (lf->index)
+		camel_index_delete(lf->index);
 
 	parent_class->delete(folder);
 }

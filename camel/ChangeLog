@@ -9,6 +9,11 @@
 
 2003-05-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-local-folder.c (local_delete): Only delete
+	the index if it is non-NULL. Fixes bug #42763.
+
+2003-05-13  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-utils.c (imap_uid_array_to_set): Added
 	a note to the comment block for this function noting that uids
 	MUST be in sorted order.
