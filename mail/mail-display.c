@@ -41,7 +41,6 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnome/gnome-url.h>
 #include <bonobo/bonobo-exception.h>
@@ -66,6 +65,7 @@
 
 #include <libsoup/soup-message.h>
 
+#include "e-util/e-gui-utils.h"
 #include "e-util/e-mktemp.h"
 #include "addressbook/backend/ebook/e-book-util.h"
 
@@ -81,8 +81,6 @@
 #include "mail.h"
 
 #include "camel/camel-data-cache.h"
-
-#include "art/empty.xpm"
 
 #define d(x)
 
@@ -580,60 +578,6 @@ pixmap_press (GtkWidget *widget, GdkEvent *event, gpointer user_data)
 	return TRUE;
 }	
 
-static GdkPixbuf *
-pixbuf_for_mime_type (const char *mime_type)
-{
-	const char *icon_name;
-	char *filename = NULL;
-	GdkPixbuf *pixbuf = NULL;
-	
-	icon_name = gnome_vfs_mime_get_icon (mime_type);
-	
-	if (icon_name) {
-		if (*icon_name == '/') {
-			pixbuf = gdk_pixbuf_new_from_file (icon_name, NULL);
-			if (pixbuf)
-				return pixbuf;
-		}
-		
-		filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
-						      icon_name, TRUE, NULL);
-		if (!filename) {
-			char *fm_icon;
-			
-			fm_icon = g_strdup_printf ("nautilus/%s", icon_name);
-			filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
-							      fm_icon, TRUE, NULL);
-			if (!filename) {
-				g_free (fm_icon);
-				fm_icon = g_strdup_printf ("mc/%s", icon_name);
-				filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
-								      fm_icon, TRUE, NULL);
-			}
-			g_free (fm_icon);
-		}
-		
-		if (filename) {
-			pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
-			g_free (filename);
-		}
-	}
-	
-	if (!pixbuf) {
-		filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
-						      "gnome-unknown.png", TRUE, NULL);
-		if (filename) {
-			pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
-			g_free (filename);
-		} else {
-			g_warning ("Could not get any icon for %s!",mime_type);
-			pixbuf = gdk_pixbuf_new_from_xpm_data((const char **)empty_xpm);
-		}
-	}
-	
-	return pixbuf;
-}
-
 static gboolean
 pixbuf_uncache (gpointer key)
 {
@@ -717,7 +661,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 	
 	if (error || !pbl->mstream) {
 		if (pbl->type)
-			pixbuf = pixbuf_for_mime_type (pbl->type);
+			pixbuf = e_icon_for_mime_type (pbl->type, 24);
 		else
 			pixbuf = gdk_pixbuf_new_from_file (EVOLUTION_ICONSDIR "/pgp-signature-nokey.png", NULL);
 	} else
