@@ -131,48 +131,15 @@ typedef enum {
 	CAL_COMPONENT_TRANSP_UNKNOWN
 } CalComponentTransparency;
 </ENUM>
-<ENUM>
-<NAME>CalComponentCUType</NAME>
-typedef enum {
-	CAL_COMPONENT_CUTYPE_INDIVIDUAL,
-	CAL_COMPONENT_CUTYPE_GROUP,
-	CAL_COMPONENT_CUTYPE_RESOURCE,
-	CAL_COMPONENT_CUTYPE_ROOM,
-	CAL_COMPONENT_CUTYPE_UNKNOWN
-} CalComponentCUType;
-</ENUM>
-<ENUM>
-<NAME>CalComponentRole</NAME>
-typedef enum {
-	CAL_COMPONENT_ROLE_CHAIR,
-	CAL_COMPONENT_ROLE_REQUIRED,
-	CAL_COMPONENT_ROLE_OPTIONAL,
-	CAL_COMPONENT_ROLE_NON,
-	CAL_COMPONENT_ROLE_UNKNOWN
-} CalComponentRole;
-</ENUM>
-<ENUM>
-<NAME>CalComponentPartStat</NAME>
-typedef enum {
-	CAL_COMPONENT_PARTSTAT_NEEDSACTION,
-	CAL_COMPONENT_PARTSTAT_ACCEPTED,
-	CAL_COMPONENT_PARTSTAT_DECLINED,
-	CAL_COMPONENT_PARTSTAT_TENTATIVE,
-	CAL_COMPONENT_PARTSTAT_DELEGATED,
-	CAL_COMPONENT_PARTSTAT_COMPLETED,
-	CAL_COMPONENT_PARTSTAT_INPROCESS,
-	CAL_COMPONENT_PARTSTAT_UNKNOWN
-} CalComponentPartStat;
-</ENUM>
 <TYPEDEF>
 <NAME>CalComponentAttendee</NAME>
 typedef struct {
 	const char *value;
 	
 	const char *member;
-	CalComponentCUType cutype;
-	CalComponentRole role;
-	CalComponentPartStat status;
+	icalparameter_cutype cutype;
+	icalparameter_role role;
+	icalparameter_partstat status;
 	gboolean rsvp;
 	
 	const char *delto;
@@ -318,6 +285,16 @@ CalComponent *comp, struct icaltimetype **t
 <NAME>cal_component_set_completed</NAME>
 <RETURNS>void  </RETURNS>
 CalComponent *comp, struct icaltimetype *t
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_get_contact_list</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp, GSList **text_list
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_set_contact_list</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp, GSList *text_list
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_component_get_created</NAME>
@@ -775,12 +752,12 @@ CalComponentAlarm *alarm, CalAlarmAction action
 <FUNCTION>
 <NAME>cal_component_alarm_get_attach</NAME>
 <RETURNS>void  </RETURNS>
-CalComponentAlarm *alarm, struct icalattachtype **attach
+CalComponentAlarm *alarm, icalattach **attach
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_component_alarm_set_attach</NAME>
 <RETURNS>void  </RETURNS>
-CalComponentAlarm *alarm, struct icalattachtype *attach
+CalComponentAlarm *alarm, icalattach *attach
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_component_alarm_get_description</NAME>
@@ -862,6 +839,21 @@ GList *list
 <NAME>cal_util_new_top_level</NAME>
 <RETURNS>icalcomponent  *</RETURNS>
 void
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_util_generate_alarms_for_comp</NAME>
+<RETURNS>CalComponentAlarms  *</RETURNS>
+CalComponent *comp,time_t start,time_t end,CalRecurResolveTimezoneFn resolve_tzid,gpointer user_data
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_util_generate_alarms_for_list</NAME>
+<RETURNS>int  </RETURNS>
+GList *comps,time_t start,time_t end,GSList **comp_alarms,CalRecurResolveTimezoneFn resolve_tzid,gpointer user_data
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_util_resolve_tzid</NAME>
+<RETURNS>icaltimezone  *</RETURNS>
+const char *tzid, gpointer data
 </FUNCTION>
 <FUNCTION>
 <NAME>time_days_in_month</NAME>

@@ -208,35 +208,33 @@ libcamel_static_la_LDFLAGS = --all-static
 camel-lock-helper: camel-lock-helper.o camel-lock.o
 	$(CC) -o $@ $^ -I$(srcdir)/.. -I$(srcdir)
 
-if CAMEL_LOCK_HELPER_SETUID
-install-exec-local:
-	@if test `whoami` = root ; then \
-	    chown $(CAMEL_LOCK_HELPER_USER) $(DESTDIR)$(sbindir)/camel-lock-helper ; \
-	    chmod u+s $(DESTDIR)$(sbindir)/camel-lock-helper ; \
-	else \
-	    echo '*** WARNING ***' ; \
-	    echo "Camel will not be able to open mbox files until you perform the following steps:" ; \
-	    echo "    1. Become root" ; \
-	    echo "    2. chown $(CAMEL_LOCK_HELPER_USER) $(DESTDIR)$(sbindir)/camel-lock-helper" ; \
-	    echo "    3. chmod u+s $(DESTDIR)$(sbindir)/camel-lock-helper" ; \
-	    echo '*** WARNING ***' ; \
+install-exec-hook:
+	@if test -n "$(CAMEL_LOCK_HELPER_USER)"; then \
+	    if test `whoami` = root ; then \
+	 	chown $(CAMEL_LOCK_HELPER_USER) $(DESTDIR)$(sbindir)/camel-lock-helper ; \
+		chmod u+s $(DESTDIR)$(sbindir)/camel-lock-helper ; \
+	    else \
+	    	echo '*** WARNING ***' ; \
+		    echo "Camel will not be able to open mbox files until you perform the following steps:" ; \
+		    echo "    1. Become root" ; \
+		    echo "    2. chown $(CAMEL_LOCK_HELPER_USER) $(DESTDIR)$(sbindir)/camel-lock-helper" ; \
+		    echo "    3. chmod u+s $(DESTDIR)$(sbindir)/camel-lock-helper" ; \
+		    echo '*** WARNING ***' ; \
+	    fi \
 	fi
-endif
-if CAMEL_LOCK_HELPER_SETGID
-install-exec-local:
-	@if test `whoami` = root ; then \
-	    chgrp $(CAMEL_LOCK_HELPER_GROUP) $(DESTDIR)$(sbindir)/camel-lock-helper ; \
-	    chmod g+s $(DESTDIR)$(sbindir)/camel-lock-helper ; \
-	else \
-	    echo '*** WARNING ***' ; \
-	    echo "Camel will not be able to open mbox files until you perform the following steps:" ; \
-	    echo "    1. Become root" ; \
-	    echo "    2. chgrp $(CAMEL_LOCK_HELPER_GROUP) $(DESTDIR)$(sbindir)/camel-lock-helper" ; \
-	    echo "    3. chmod g+s $(DESTDIR)$(sbindir)/camel-lock-helper" ; \
-	    echo '*** WARNING ***' ; \
+	@if test -n "$(CAMEL_LOCK_HELPER_GROUP)"; then \
+	    if test `whoami` = root ; then \
+	    	chgrp $(CAMEL_LOCK_HELPER_GROUP) $(DESTDIR)$(sbindir)/camel-lock-helper ; \
+		    chmod g+s $(DESTDIR)$(sbindir)/camel-lock-helper ; \
+	    else \
+	    	echo '*** WARNING ***' ; \
+		    echo "Camel will not be able to open mbox files until you perform the following steps:" ; \
+		    echo "    1. Become root" ; \
+		    echo "    2. chgrp $(CAMEL_LOCK_HELPER_GROUP) $(DESTDIR)$(sbindir)/camel-lock-helper" ; \
+		    echo "    3. chmod g+s $(DESTDIR)$(sbindir)/camel-lock-helper" ; \
+		    echo '*** WARNING ***' ; \
+	    fi \
 	fi
-endif
-
 
 noinst_HEADERS =				\
 	camel-charset-map-private.h		\
