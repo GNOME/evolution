@@ -1,3 +1,8 @@
+2003-02-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-ssl.c (stream_connect): Fixed a type-o in the
+	ENABLE_IPv6 ifdef section.
+
 2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-search.c: Added a (get-size ) function to fix bug
