@@ -560,7 +560,7 @@ static const struct {
 	{ NULL, N_("Unsigned") },
 	{ "stock_signature-ok", N_("Valid signature") },
 	{ "stock_signature-bad", N_("Invalid signature") },
-	{ "stock_signature", N_("Valid signature, cannot verify sender") },
+	{ "stock_signature", N_("Valid signature but cannot verify sender") },
 };
 
 static const struct {
@@ -570,6 +570,10 @@ static const struct {
 	{ "stock_lock-ok", N_("Encrypted, weak"),},
 	{ "stock_lock-ok", N_("Encrypted") },
 	{ "stock_lock-ok", N_("Encrypted, strong") },
+};
+
+static const char *smime_sign_colour[4] = {
+	"", " bgcolor=\"#88bb88\"", " bgcolor=\"#bb8888\"", " bgcolor=\"#e8d122\""
 };
 
 /* TODO: this could probably be virtual on em-format-html
@@ -589,10 +593,10 @@ efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 		char *classid;
 		char *iconpath;
 		CamelMimePart *iconpart;
-
-		camel_stream_printf(stream, "<table border=0 width=\"100%%\" cellpadding=3 cellspacing=0 bgcolor=%s><tr>",
-				    valid->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD?"#88bb88":"#bb8888");
-
+		
+		camel_stream_printf (stream, "<table border=0 width=\"100%%\" cellpadding=3 cellspacing=0%s><tr>",
+				     smime_sign_colour[valid->sign.status]);
+		
 		classid = g_strdup_printf("smime:///em-format-html/%s/icon/signed", emf->part_id->str);
 		camel_stream_printf(stream, "<td valign=\"top\"><img src=\"%s\"></td><td valign=\"top\" width=\"100%%\">", classid);
 		iconpath = e_icon_factory_get_icon_filename (smime_sign_table[valid->sign.status].icon, E_ICON_SIZE_DIALOG);

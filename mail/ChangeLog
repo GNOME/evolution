@@ -1,3 +1,13 @@
+2004-05-14  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-format-html.c (efh_format_secure): Same. Also changed the
+	"Valid signature, cannot verify sender" string to "Valid signature
+	but cannot verify sender" as I think it reads nicer.
+
+	* em-format-html-display.c (efhd_format_secure): Since signature
+	status is a tri-state, use 3 different colours too (yellow for
+	valid sig but unknown sender).
+
 2004-05-13  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-format.c (em_format_default_headers): Don't include the last

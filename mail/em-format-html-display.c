@@ -657,6 +657,10 @@ static const struct {
 	{ "stock_lock-ok", N_("Encrypted, strong"), N_("This message is encrypted, with a strong encryption algorithm.  It would be very difficult for an outsider to view the content of this message in a practical amount of time.") },
 };
 
+static const char *smime_sign_colour[4] = {
+	"", " bgcolor=\"#88bb88\"", " bgcolor=\"#bb8888\"", " bgcolor=\"#e8d122\""
+};
+
 struct _smime_pobject {
 	EMFormatHTMLPObject object;
 
@@ -870,10 +874,10 @@ efhd_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Came
 		|| valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)) {
 		char *classid;
 		struct _smime_pobject *pobj;
-
-		camel_stream_printf(stream, "<table border=0 width=\"100%%\" cellpadding=3 cellspacing=0 bgcolor=%s><tr>",
-				    valid->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD?"#88bb88":"#bb8888");
-
+		
+		camel_stream_printf (stream, "<table border=0 width=\"100%%\" cellpadding=3 cellspacing=0%s><tr>",
+				     smime_sign_colour[valid->sign.status]);
+		
 		classid = g_strdup_printf("smime:///em-format-html/%s/icon/signed", emf->part_id->str);
 		pobj = (struct _smime_pobject *)em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(*pobj), classid, part, efhd_xpkcs7mime_button);
 		pobj->valid = camel_cipher_validity_clone(valid);
