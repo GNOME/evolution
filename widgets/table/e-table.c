@@ -2462,11 +2462,13 @@ static void
 context_destroyed (gpointer data)
 {
 	ETable *et = data;
-	et->last_drop_x       = 0;
-	et->last_drop_y       = 0;
-	et->last_drop_time    = 0;
-	et->last_drop_context = NULL;
-	scroll_off (et);
+	if (!GTK_OBJECT_DESTROYED (et)) {
+		et->last_drop_x       = 0;
+		et->last_drop_y       = 0;
+		et->last_drop_time    = 0;
+		et->last_drop_context = NULL;
+		scroll_off (et);
+	}
 	gtk_object_unref (GTK_OBJECT (et));
 }
 

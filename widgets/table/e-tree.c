@@ -2375,12 +2375,14 @@ static void
 context_destroyed (gpointer data)
 {
 	ETree *et = data;
-	et->priv->last_drop_x       = 0;
-	et->priv->last_drop_y       = 0;
-	et->priv->last_drop_time    = 0;
-	et->priv->last_drop_context = NULL;
-	scroll_off (et);
-	hover_off (et);
+	if (et->priv) {
+		et->priv->last_drop_x       = 0;
+		et->priv->last_drop_y       = 0;
+		et->priv->last_drop_time    = 0;
+		et->priv->last_drop_context = NULL;
+		scroll_off (et);
+		hover_off (et);
+	}
 	gtk_object_unref (GTK_OBJECT (et));
 }
 
