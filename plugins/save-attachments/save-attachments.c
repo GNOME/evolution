@@ -33,6 +33,7 @@
 
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkdialog.h>
+#include <gtk/gtkmessagedialog.h>
 #include <gtk/gtktreestore.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkcellrenderertoggle.h>
@@ -212,7 +213,31 @@ save_part(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, void *d)
 	/* FIXME: if part == data->msg then we need to save this
 	 * differently, not using the envelope MimePart */
 
-	em_utils_save_part_to_file(NULL, save, part);
+	/* 
+	 * The underlying em_utils_save_part_to_file ain't using gnome-vfs. Therefor 
+	 * the POSIX access-call should suffice for checking the file existence.
+	 */
+
+	if (access (save, F_OK)) {
+		GtkWidget *warning = 
+			gtk_message_dialog_new_with_markup (NULL,
+				GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_WARNING,
+				GTK_BUTTONS_NONE,
+				_("File exists \"%s\".\n"
+				  "Do you wish to overwrite it?"), save);
+
+			gtk_dialog_add_button (GTK_DIALOG (warning), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+			gtk_dialog_add_button (GTK_DIALOG (warning), _("_Overwrite"), GTK_RESPONSE_YES);
+
+			doit = FALSE;
+			if (gtk_dialog_run (GTK_DIALOG (warning)) == GTK_RESPONSE_YES)
+				doit = TRUE;
+			gtk_widget_destroy (warning);
+	}
+
+	if (doit)
+		em_utils_save_part_to_file(NULL, save, part);
 
 	g_free(ext);
 	g_free(filename);
