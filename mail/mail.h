@@ -74,7 +74,7 @@ char *mail_identify_mime_part (CamelMimePart *part, MailDisplay *md);
 void mail_add_storage (CamelStore *store, const char *name, const char *uri, gboolean auto_connect);
 void mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name, gboolean auto_connect);
 /*takes a GSList of MailConfigServices */
-void mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean is_account_data);
+void mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources);
 
 void mail_hash_storage (CamelService *store, EvolutionStorage *storage);
 EvolutionStorage *mail_lookup_storage (CamelStore *store);

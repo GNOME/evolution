@@ -104,8 +104,6 @@ typedef struct {
 	GSList *accounts;
 	int default_account;
 	
-	GSList *news;
-	
 	char *pgp_path;
 	int pgp_type;
 	
@@ -148,17 +146,17 @@ MailConfigSignature *
 signature_copy (const MailConfigSignature *sig)
 {
 	MailConfigSignature *ns;
-
+	
 	g_return_val_if_fail (sig != NULL, NULL);
 	
 	ns = g_new (MailConfigSignature, 1);
-
+	
 	ns->id = sig->id;
 	ns->name = g_strdup (sig->name);
 	ns->filename = g_strdup (sig->filename);
 	ns->script = g_strdup (sig->script);
 	ns->html = sig->html;
-
+	
 	return ns;
 }
 
@@ -186,7 +184,7 @@ identity_copy (const MailConfigIdentity *id)
 	new->organization = g_strdup (id->organization);
 	new->def_signature = id->def_signature;
 	new->auto_signature = id->auto_signature;
-
+	
 	return new;
 }
 
@@ -349,12 +347,6 @@ mail_config_clear (void)
 		g_slist_foreach (config->accounts, account_destroy_each, NULL);
 		g_slist_free (config->accounts);
 		config->accounts = NULL;
-	}
-	
-	if (config->news) {
-		g_slist_foreach (config->news, service_destroy_each, NULL);
-		g_slist_free (config->news);
-		config->news = NULL;
 	}
 	
 	g_free (config->pgp_path);
@@ -807,29 +799,6 @@ config_read (void)
 	
 	mail_config_set_default_account_num (default_num);
 	
-#ifdef ENABLE_NNTP
-	/* News */
-	
-	len = bonobo_config_get_long_with_default (config->db, 
-	        "/News/Sources/num", 0, NULL);
-	for (i = 0; i < len; i++) {
-		MailConfigService *n;
-		char *path, *r;
-		
-		path = g_strdup_printf ("/News/Sources/url_%d", i);
-		
-		if ((r = bonobo_config_get_string (config->db, path, NULL))) {
-			n = g_new0 (MailConfigService, 1);		
-			n->url = r;
-			n->enabled = TRUE;
-			config->news = g_slist_append (config->news, n);
-		} 
-		
-		g_free (path);
-		
-	}
-#endif
-	
 	/* Format */
 	config->send_html = bonobo_config_get_boolean_with_default (config->db,
 	        "/Mail/Format/send_html", FALSE, NULL);
@@ -1174,24 +1143,6 @@ mail_config_write (void)
 		bonobo_config_set_boolean (config->db, path, account->transport->save_passwd, NULL);
 		g_free (path);
 	}
-	
-#ifdef ENABLE_NNTP
-	/* News */
-	
-  	len = g_slist_length (config->news);
-	bonobo_config_set_long (config->db, "/News/Sources/num", len, NULL);
-	for (i = 0; i < len; i++) {
-		MailConfigService *n;
-		char *path;
-		
-		n = g_slist_nth_data (config->news, i);
-		
-		path = g_strdup_printf ("/News/Sources/url_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, n->url, NULL);
-		g_free (path);
-	}
-	
-#endif
 	
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_sync (config->db, &ev);
@@ -2455,36 +2406,6 @@ mail_config_get_default_transport (void)
 		return account->transport;
 	else
 		return NULL;
-}
-
-const MailConfigService *
-mail_config_get_default_news (void)
-{
-	if (!config->news)
-		return NULL;
-	
-	return (MailConfigService *)config->news->data;
-}
-
-const GSList *
-mail_config_get_news (void)
-{
-	return config->news;
-}
-
-void
-mail_config_add_news (MailConfigService *news) 
-{
-	config->news = g_slist_append (config->news, news);
-}
-
-const GSList *
-mail_config_remove_news (MailConfigService *news)
-{
-	config->news = g_slist_remove (config->news, news);
-	service_destroy (news);
-	
-	return config->news;
 }
 
 GSList *

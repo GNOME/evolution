@@ -34,12 +34,6 @@ EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail-skels.c		\
 	Mail-stubs.c
 
-if ENABLE_NNTP
-EVOLUTION_MAIL_NNTP  =                  \
-	mail-account-editor-news.c	\
-	mail-account-editor-news.h	
-endif
-
 SPELL_IDL = Spell.idl
 
 IDL_GENERATED = 		\
@@ -56,7 +50,6 @@ Spell-impl.o: Spell.h
 
 evolution_mail_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
-	$(EVOLUTION_MAIL_NNTP)          \
 	$(IDL_GENERATED)		\
 	component-factory.c		\
 	component-factory.h		\
@@ -184,9 +177,7 @@ EXTRA_DIST = 				\
 	$(glade_DATA)			\
 	$(oaf_in_files)			\
 	$(oaf_DATA)			\
-	$(etspec_DATA) 			\
-	mail-account-editor-news.c 	\
-	mail-account-editor-news.h 	
+	$(etspec_DATA)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

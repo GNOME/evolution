@@ -1,3 +1,21 @@
+2002-07-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c: Removed special-case code for NNTP support.
+
+	* mail-account-gui.c (mail_account_gui_setup): Allow configuration
+	of both mail and news accounts.
+
+	* component-factory.c (mail_load_storages): No longer need the
+	is-account argument.
+
+	* subscribe-dialog.c (populate_store_list): Don't special-case
+	news accounts anymore.
+
+	* mail-config.c (mail_config_get_default_news): Removed.
+	(mail_config_get_news): Removed.
+	(mail_config_add_news): Removed.
+	(mail_config_remove_news): Removed.
+
 2002-07-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-vfolder.c (vfolder_load_storage): Pass TRUE as the

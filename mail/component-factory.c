@@ -701,9 +701,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 {
 	GNOME_Evolution_Shell corba_shell;
 	const GSList *accounts;
-#ifdef ENABLE_NNTP
-	const GSList *news;
-#endif
 	int i;
 	
 	/* FIXME: should we ref this? */
@@ -723,12 +720,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	vfolder_load_storage(corba_shell);
 
 	accounts = mail_config_get_accounts ();
-	mail_load_storages (corba_shell, accounts, TRUE);
-	
-#ifdef ENABLE_NNTP
-	news = mail_config_get_news ();
-	mail_load_storages (corba_shell, news, FALSE);
-#endif
+	mail_load_storages (corba_shell, accounts);
 	
 	mail_local_storage_startup (shell_client, evolution_dir);
 	mail_importer_init (shell_client);
@@ -1392,10 +1384,8 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 	camel_object_unref (CAMEL_OBJECT (store));
 }
 
-/* FIXME: 'is_account_data' is an ugly hack, if we move support for
-   NNTP into the normal Account stuff, we can take it out -- fejj */
 void
-mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean is_account_data)
+mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources)
 {
 	CamelException ex;
 	const GSList *iter;
@@ -1412,14 +1402,9 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 		const MailConfigService *service = NULL;
 		char *name;
 		
-		if (is_account_data) {
-			account = iter->data;
-			service = account->source;
-			name = account->name;
-		} else {
-			service = iter->data;
-			name = NULL;
-		}
+		account = iter->data;
+		service = account->source;
+		name = account->name;
 		
 		if (service == NULL || service->url == NULL || service->url[0] == '\0')
 			continue;

@@ -1485,7 +1485,6 @@ got_sd_store (StoreData *sd, CamelStore *store, gpointer data)
 static void
 populate_store_list (SubscribeDialog *sc)
 {
-	const GSList *news;
 	GSList       *sources;
 	GList        *iter;
 	GtkWidget    *menu;
@@ -1495,9 +1494,6 @@ populate_store_list (SubscribeDialog *sc)
 	g_slist_foreach (sources, (GFunc) populate_store_foreach, sc);
 	g_slist_free (sources);
 	
-	news = mail_config_get_news ();
-	g_slist_foreach ((GSList *) news, (GFunc) populate_store_foreach, sc);
-
 	menu = gtk_menu_new ();
 
 	for (iter = sc->priv->store_list; iter; iter = iter->next) {

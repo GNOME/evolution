@@ -273,10 +273,7 @@ void                      mail_config_set_default_account       (const MailConfi
 const MailConfigIdentity *mail_config_get_default_identity (void);
 const MailConfigService  *mail_config_get_default_transport (void);
 
-const MailConfigService  *mail_config_get_default_news    (void);
-const GSList             *mail_config_get_news            (void);
-void                      mail_config_add_news            (MailConfigService *news);
-const GSList             *mail_config_remove_news         (MailConfigService *news);
+
 GtkType evolution_mail_config_get_type (void);
 
 /* convenience functions to help ease the transition over to the new codebase */

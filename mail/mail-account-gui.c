@@ -1536,7 +1536,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	for (l = providers; l; l = l->next) {
 		CamelProvider *provider = l->data;
 		
-		if (strcmp (provider->domain, "mail"))
+		if (!(!strcmp (provider->domain, "mail") || !strcmp (provider->domain, "news")))
 			continue;
 		
 		item = NULL;
