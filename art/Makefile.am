@@ -16,6 +16,5 @@ EXTRA_DIST = \
 	mark.xpm \
 	meeting.xpm \
 	priority-high.xpm \
-	priority-low.xpm
-# \
-#	$(pixmap_DATA)
+	priority-low.xpm \
+	$(images_DATA)

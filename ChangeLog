@@ -1,3 +1,8 @@
+2000-04-08  Dan Winship  <danw@helixcode.com>
+
+	* art/Makefile.am: pixmap_DATA should have been images_DATA (after
+	pixmapdir was renamed to imagesdir)
+
 2000-04-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/gui/minicard/.cvsignore,
