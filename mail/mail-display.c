@@ -874,9 +874,8 @@ drag_data_delete_cb (GtkWidget *widget,
 	
 	uri_list = gtk_object_get_data (GTK_OBJECT (widget), "uri-list");
 	if (uri_list) {
-		gtk_object_set_data (GTK_OBJECT (widget), "uri-list", NULL);
 		unlink (uri_list + 7);
-		g_free (uri_list);
+		gtk_object_set_data (GTK_OBJECT (widget), "uri-list", NULL);
 	}
 }
 
