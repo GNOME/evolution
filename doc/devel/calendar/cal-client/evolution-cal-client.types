@@ -1,0 +1,4 @@
+#include <gnome.h>
+#include <cal-client/cal-client.h>
+
+cal_client_get_type

@@ -1,0 +1,17 @@
+  <chapter>
+    <title>Overview of the Calendar</title>
+
+    <para>
+      This chapter gives an overview of the Evolution Calendar
+      architecture.  It describes the model/view split of the calendar
+      into a personal calendar server (PCS) and the GUI clients that
+      appear inside the Evolution shell.
+    </para>
+  </chapter>
+
+<!--
+Local variables:
+mode: sgml
+sgml-parent-document: ("../evolution-devel-guide.sgml" "book" "part" "")
+End:
+-->

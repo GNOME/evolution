@@ -1,0 +1,127 @@
+<MACRO>
+<NAME>CAL_CLIENT_TYPE</NAME>
+#define CAL_CLIENT_TYPE            (cal_client_get_type ())
+</MACRO>
+<MACRO>
+<NAME>CAL_CLIENT</NAME>
+#define CAL_CLIENT(obj)            (GTK_CHECK_CAST ((obj), CAL_CLIENT_TYPE, CalClient))
+</MACRO>
+<MACRO>
+<NAME>CAL_CLIENT_CLASS</NAME>
+#define CAL_CLIENT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), CAL_CLIENT_TYPE, CalClientClass))
+</MACRO>
+<MACRO>
+<NAME>IS_CAL_CLIENT</NAME>
+#define IS_CAL_CLIENT(obj)         (GTK_CHECK_TYPE ((obj), CAL_CLIENT_TYPE))
+</MACRO>
+<MACRO>
+<NAME>IS_CAL_CLIENT_CLASS</NAME>
+#define IS_CAL_CLIENT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_CLIENT_TYPE))
+</MACRO>
+<STRUCT>
+<NAME>CalClient</NAME>
+</STRUCT>
+<STRUCT>
+<NAME>CalClientClass</NAME>
+</STRUCT>
+<ENUM>
+<NAME>CalClientLoadStatus</NAME>
+typedef enum {
+	CAL_CLIENT_LOAD_SUCCESS,
+	CAL_CLIENT_LOAD_ERROR,
+	CAL_CLIENT_LOAD_IN_USE,
+	CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED
+} CalClientLoadStatus;
+</ENUM>
+<ENUM>
+<NAME>CalClientGetStatus</NAME>
+typedef enum {
+	CAL_CLIENT_GET_SUCCESS,
+	CAL_CLIENT_GET_NOT_FOUND,
+	CAL_CLIENT_GET_SYNTAX_ERROR
+} CalClientGetStatus;
+</ENUM>
+<STRUCT>
+<NAME>CalClient</NAME>
+struct CalClient {
+	GtkObject object;
+
+	/* Private data */
+	gpointer priv;
+};
+</STRUCT>
+<FUNCTION>
+<NAME>cal_client_get_type</NAME>
+<RETURNS>GtkType  </RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_construct</NAME>
+<RETURNS>CalClient  *</RETURNS>
+CalClient *client
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_new</NAME>
+<RETURNS>CalClient  *</RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_load_calendar</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client, const char *str_uri
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_create_calendar</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client, const char *str_uri
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_n_objects</NAME>
+<RETURNS>int  </RETURNS>
+CalClient *client, CalObjType type
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_object</NAME>
+<RETURNS>CalClientGetStatus  </RETURNS>
+CalClient *client,const char *uid,iCalObject **ico
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_uid_by_pilot_id</NAME>
+<RETURNS>CalClientGetStatus  </RETURNS>
+CalClient *client,unsigned long pilot_id,char **uid
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_update_pilot_id</NAME>
+<RETURNS>void  </RETURNS>
+CalClient *client, char *uid,unsigned long pilot_id,unsigned long pilot_status
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_uids</NAME>
+<RETURNS>GList  *</RETURNS>
+CalClient *client, CalObjType type
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_events_in_range</NAME>
+<RETURNS>GList  *</RETURNS>
+CalClient *client, time_t start, time_t end
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_alarms_in_range</NAME>
+<RETURNS>GList  *</RETURNS>
+CalClient *client, time_t start, time_t end
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_alarms_for_object</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client, const char *uid,time_t start, time_t end,GList **alarms
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_update_object</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client, iCalObject *ico
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_remove_object</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalClient *client, const char *uid
+</FUNCTION>

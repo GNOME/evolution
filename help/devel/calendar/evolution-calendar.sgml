@@ -1,0 +1,51 @@
+  <part>
+    <docinfo>
+      <authorgroup>
+	<author>
+	  <firstname>Federico</firstname>
+	  <surname>Mena Quintero</surname>
+	  <affiliation>
+	    <address>
+	      <email>federico@helixcode.com</email>
+	    </address>
+	  </affiliation>
+	</author>
+      </authorgroup>
+    </docinfo>
+
+    <title>Developing Applications for the Evolution Calendar</title>
+
+    <partintro>
+      <para>
+	This part of the Evolution Developer's Guide describes how to
+	write applications for the Evolution Calendar by using its
+	public interfaces.  The Evolution Calendar exports its
+	functionality through a number of interfaces, including CORBA,
+	GTK+ wrappers for Bonobo objects, and other utility libraries.
+      </para>
+
+      <para>
+	You should read this part of the Evolution Developer's guide
+	if you intend to write client applications that use the
+	functionality of the Evolution Calendar.
+      </para>
+
+      <para>
+	This part does not describe the internal interfaces of the
+	Evolution Calendar; for that you should read the Evolution
+	Internals Guide.  You should only need to read that guide if
+	you are interested in the way the calendar works internally or
+	if you want to make changes directly to the Evolution Calendar
+	code.
+      </para>
+    </partintro>
+
+    &calendar-architecture;
+  </part>
+
+<!--
+Local variables:
+mode: sgml
+sgml-parent-document: ("../evolution-devel-guide.sgml" "book" "book" "")
+End:
+-->

@@ -1,0 +1,205 @@
+<!-- ##### SECTION Title ##### -->
+CalClient
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO CAL_CLIENT ##### -->
+<para>
+
+</para>
+
+@obj: 
+
+
+<!-- ##### ENUM CalClientLoadStatus ##### -->
+<para>
+
+</para>
+
+@CAL_CLIENT_LOAD_SUCCESS: 
+@CAL_CLIENT_LOAD_ERROR: 
+@CAL_CLIENT_LOAD_IN_USE: 
+@CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED: 
+
+<!-- ##### ENUM CalClientGetStatus ##### -->
+<para>
+
+</para>
+
+@CAL_CLIENT_GET_SUCCESS: 
+@CAL_CLIENT_GET_NOT_FOUND: 
+@CAL_CLIENT_GET_SYNTAX_ERROR: 
+
+<!-- ##### FUNCTION cal_client_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_load_calendar ##### -->
+<para>
+
+</para>
+
+@client: 
+@str_uri: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_create_calendar ##### -->
+<para>
+
+</para>
+
+@client: 
+@str_uri: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_get_n_objects ##### -->
+<para>
+
+</para>
+
+@client: 
+@type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_get_object ##### -->
+<para>
+
+</para>
+
+@client: 
+@uid: 
+@ico: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_get_uid_by_pilot_id ##### -->
+<para>
+
+</para>
+
+@client: 
+@pilot_id: 
+@uid: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_update_pilot_id ##### -->
+<para>
+
+</para>
+
+@client: 
+@uid: 
+@pilot_id: 
+@pilot_status: 
+
+
+<!-- ##### FUNCTION cal_client_get_uids ##### -->
+<para>
+
+</para>
+
+@client: 
+@type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_get_events_in_range ##### -->
+<para>
+
+</para>
+
+@client: 
+@start: 
+@end: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_get_alarms_in_range ##### -->
+<para>
+
+</para>
+
+@client: 
+@start: 
+@end: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_get_alarms_for_object ##### -->
+<para>
+
+</para>
+
+@client: 
+@uid: 
+@start: 
+@end: 
+@alarms: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_update_object ##### -->
+<para>
+
+</para>
+
+@client: 
+@ico: 
+@Returns: 
+
+
+<!-- ##### FUNCTION cal_client_remove_object ##### -->
+<para>
+
+</para>
+
+@client: 
+@uid: 
+@Returns: 
+
+
+<!-- ##### SIGNAL CalClient::cal-loaded ##### -->
+<para>
+
+</para>
+
+@calclient: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL CalClient::obj-updated ##### -->
+<para>
+
+</para>
+
+@calclient: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL CalClient::obj-removed ##### -->
+<para>
+
+</para>
+
+@calclient: the object which received the signal.
+@arg1: 
+
