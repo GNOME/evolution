@@ -1,3 +1,17 @@
+2004-04-01  Hari Prasad Nadig  <hp@ndeepak.info>
+
+	Fixes #53433.
+	
+	* gui/component/addressbook-config.c (searching_tab_check): added
+	the tab check for search tab.
+	(dialog_to_source): added timeout to be saved.
+	(source_to_dialog): just a piece to retrieve timeout from source.
+	(addressbook_root_dse_query): few necessary changes.
+	(do_ldap_root_dse_query): again few changes that were required.
+
+	* gui/component/ldap-config.glade : set right the Hscale to
+	display the selected value.
+	
 2004-03-30  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #34777 ]

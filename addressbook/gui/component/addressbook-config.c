@@ -244,6 +244,11 @@ dialog_to_source (AddressbookSourceDialog *dialog, ESource *source, gboolean tem
 		str = g_strdup_printf ("%d", gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (dialog->limit_spinbutton)));
 		e_source_set_property (source, "limit", str);
 		g_free (str);
+
+		str = g_strdup_printf ("%f", gtk_adjustment_get_value (GTK_RANGE(dialog->timeout_scale)->adjustment));
+		e_source_set_property (source, "timeout", str);
+		g_free (str);
+
 		e_source_set_property (source, "ssl", ldap_unparse_ssl (dialog->ssl));
 		e_source_set_property (source, "auth", ldap_unparse_auth (dialog->auth));
 		str = g_strdup_printf ("%s:%s/%s?" /* trigraph prevention */ "?%s",
@@ -334,7 +339,10 @@ source_to_dialog (AddressbookSourceDialog *dialog)
 	gtk_spin_button_set_value ( GTK_SPIN_BUTTON (dialog->limit_spinbutton),
 				    g_strtod ( source && e_source_get_property (source, "limit") ?
 					       e_source_get_property (source, "limit") : "100", NULL));
-	
+	gtk_adjustment_set_value (GTK_RANGE(dialog->timeout_scale)->adjustment,
+				    g_strtod ( source && e_source_get_property (source, "timeout") ?
+					       e_source_get_property (source, "timeout") : "3", NULL));
+
 	dialog->auth = source && e_source_get_property (source, "auth") ?
 		ldap_parse_auth (e_source_get_property (source, "auth")) : ADDRESSBOOK_LDAP_AUTH_NONE;
 	dialog->ssl = source && e_source_get_property (source, "ssl") ?
@@ -429,13 +437,13 @@ addressbook_ldap_auth (GtkWidget *window, LDAP *ldap)
 }
 
 static int
-addressbook_root_dse_query (GtkWindow *window, LDAP *ldap, char **attrs, LDAPMessage **resp)
+addressbook_root_dse_query (AddressbookSourceDialog *dialog, GtkWindow *window, LDAP *ldap,
+char **attrs, LDAPMessage **resp)
 {
 	int ldap_error;
 	struct timeval timeout;
 
-	/* 3 second timeout */
-	timeout.tv_sec = 3;
+	timeout.tv_sec = (gint) gtk_adjustment_get_value (GTK_RANGE(dialog->timeout_scale)->adjustment);
 	timeout.tv_usec = 0;
 
 	ldap_error = ldap_search_ext_s (ldap,
@@ -743,7 +751,7 @@ supported_bases_create_table (char *name, char *string1, char *string2, int num1
 }
 
 static gboolean
-do_ldap_root_dse_query (GtkWidget *dialog, ETableModel *model, ESource *source, char ***rvalues)
+do_ldap_root_dse_query (AddressbookSourceDialog *sdialog, GtkWidget *dialog, ETableModel *model, ESource *source, char ***rvalues)
 {
 	LDAP *ldap;
 	char *attrs[2];
@@ -762,7 +770,7 @@ do_ldap_root_dse_query (GtkWidget *dialog, ETableModel *model, ESource *source, 
 	attrs[0] = "namingContexts";
 	attrs[1] = NULL;
 
-	ldap_error = addressbook_root_dse_query (GTK_WINDOW (dialog), ldap, attrs, &resp);
+	ldap_error = addressbook_root_dse_query (sdialog, GTK_WINDOW (dialog), ldap, attrs, &resp);
 
 	if (ldap_error != LDAP_SUCCESS)
 		goto fail;
@@ -827,7 +835,7 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 
 	search_base_selection_model_changed (selection_model, dialog);
 
-	if (do_ldap_root_dse_query (dialog, model, source, &values)) {
+	if (do_ldap_root_dse_query (sdialog, dialog, model, source, &values)) {
 		id = gtk_dialog_run (GTK_DIALOG (dialog));
 
 		gtk_widget_hide (dialog);
@@ -908,6 +916,19 @@ setup_searching_tab (AddressbookSourceDialog *dialog, ModifyFunc modify_func)
 	rootdn_button = glade_xml_get_widget (dialog->gui, "rootdn-button");
 	g_signal_connect (rootdn_button, "clicked",
 			  G_CALLBACK(query_for_supported_bases), dialog);
+}
+
+static gboolean
+searching_tab_check (AddressbookSourceDialog *dialog)
+{
+	gboolean valid = TRUE;
+	gdouble timeout = 3;
+
+	timeout = gtk_adjustment_get_value (GTK_RANGE(dialog->timeout_scale)->adjustment);
+
+	if(!timeout)
+		return FALSE;
+	return valid;
 }
 
 static void
@@ -1124,10 +1145,8 @@ editor_modify_cb (GtkWidget *item, AddressbookSourceDialog *dialog)
 		valid = general_tab_check (dialog);
 	if (valid)
 		valid = connecting_tab_check (dialog);
-#if 0
 	if (valid)
 		valid = searching_tab_check (dialog);
-#endif
 #endif
 
 	gtk_widget_set_sensitive (dialog->ok_button, valid);
@@ -1208,8 +1227,7 @@ do_schema_query (AddressbookSourceDialog *sdialog)
 	attrs[0] = "objectClasses";
 	attrs[1] = NULL;
 
-	/* 3 second timeout */
-	timeout.tv_sec = 3;
+	timeout.tv_sec = (gint) gtk_adjustment_get_value (GTK_RANGE(sdialog->timeout_scale)->adjustment);
 	timeout.tv_usec = 0;
 
 	ldap_error = ldap_search_ext_s (ldap, schema_dn, LDAP_SCOPE_BASE,
