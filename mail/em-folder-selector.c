@@ -243,7 +243,15 @@ em_folder_selector_new (EMFolderTree *emft, guint32 flags, const char *title, co
 static void
 emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 {
-	g_signal_emit_by_name (emfs, "response", GTK_RESPONSE_OK);
+	if (emfs->name_entry->text_length > 0) {
+		const char *path, *text;
+
+		text = gtk_entry_get_text (emfs->name_entry);
+		path = em_folder_tree_get_selected_path (emfs->emft);
+
+		if (text && path && !strchr(text, '/'))
+			g_signal_emit_by_name (emfs, "response", GTK_RESPONSE_OK);
+	}
 }
 
 GtkWidget *

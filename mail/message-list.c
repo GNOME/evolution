@@ -2958,6 +2958,8 @@ message_list_hide_uids (MessageList *ml, GPtrArray *uids)
 				}
 			}
 			MESSAGE_LIST_UNLOCK (ml, hide_lock);
+			/* save this here incase the user pops up another window, so they are consistent */
+			save_hide_state(ml);
 			mail_regen_list (ml, ml->search, NULL, NULL);
 			break;
 		}
@@ -2984,6 +2986,8 @@ message_list_hide_clear (MessageList *ml)
 		ml->thread_tree = NULL;
 	}
 
+	/* save this here incase the user pops up another window, so they are consistent */
+	save_hide_state(ml);
 	mail_regen_list (ml, ml->search, NULL, NULL);
 }
 

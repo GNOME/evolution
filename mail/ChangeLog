@@ -1,5 +1,17 @@
 2004-01-30  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #53549, partial fix.
+
+	* em-folder-selector.c (emfs_create_name_activate): only emit the
+	ok response if the ok button would be active (i.e. entered a valid
+	path).
+
+	** See bug #52992.
+
+	* message-list.c (message_list_hide_clear): save the hide state
+	after its been cleared, so any popup windows inherit it.
+	(message_list_hide_uids): same.
+
 	** See bug #53123.
 
 	* em-folder-tree-model.c (drop_folder): changed to take store and
