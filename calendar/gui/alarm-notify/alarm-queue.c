@@ -511,7 +511,7 @@ static void
 query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 {
 	ClientAlarms *ca;
-	time_t now, day_end;
+	time_t from, day_end;
 	ECalComponentAlarms *alarms;
 	gboolean found;
 	icaltimezone *zone;
@@ -520,17 +520,19 @@ query_objects_changed_cb (ECal *client, GList *objects, gpointer data)
 
 	ca = data;
 
-	now = time (NULL);
+	from = config_data_get_last_notification_time ();
+	if (from == -1)
+		from = time (NULL);
 
 	zone = config_data_get_timezone ();
 
-	day_end = time_day_end_with_zone (now, zone);
+	day_end = time_day_end_with_zone (from, zone);
 
 	for (l = objects; l != NULL; l = l->next) {
 		const char *uid;
 
 		uid = icalcomponent_get_uid (l->data);
-		found = e_cal_get_alarms_for_object (ca->client, uid, now, day_end, &alarms);
+		found = e_cal_get_alarms_for_object (ca->client, uid, from, day_end, &alarms);
 
 		if (!found) {
 			remove_comp (ca, uid);

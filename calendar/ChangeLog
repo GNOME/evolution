@@ -1,5 +1,9 @@
 2004-02-16  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/alarm-notify/alarm-queue.c (query_objects_changed_cb): get alarms
+	since the last notification, only use current time when there is no
+	previous notification time.
+
 	* gui/alarm-notify/notify-main.c (init_session): set session restart
 	style to RESTART_IF_RUNNING.
 
