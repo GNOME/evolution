@@ -196,7 +196,7 @@ simple_query_new (EBook *book, const char *query, EBookSimpleQueryCallback cb, g
 	sq->tag = book_issue_tag (book);
 	sq->book = book;
 	gtk_object_ref (GTK_OBJECT (book));
-	sq->query = g_strdup_printf (query);
+	sq->query = g_strdup (query);
 	sq->cb = cb;
 	sq->closure = closure;
 	sq->cancelled = FALSE;

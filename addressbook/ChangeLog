@@ -1,3 +1,9 @@
+2001-12-13  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-book-util.c (simple_query_new): Used
+	g_strdup_printf to dup a string.  Doh!  Changed to g_strdup.
+	(Bug #17126)
+
 2001-12-05  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c
