@@ -1,3 +1,19 @@
+2000-04-25  Federico Mena Quintero  <federico@helixcode.com>
+
+	* wombat.c (cal_factory pas_book_factory): New module-wide
+	variables for the PAS and PCS factories.
+	(setup_pcs): Connect to the "last_calendar_gone" signal of the
+	calendar factory.
+	(last_calendar_gone_cb): Queue a termination job.
+	(queue_termination): Function to queue a termination job.  We have
+	to use a timeout to reduce the probability of running into GOAD's
+	race condition with factories.
+	(termination_handler): Check that the PCS and the PAS have zero
+	backends.  If so, exit the main loop.
+	(setup_vfs): Use EXIT_FAILURE instead of 1.
+	(init_bonobo): Likewise.
+	(main): Destroy the factories and exit Wombat.  Wheee!
+
 2000-04-16  Federico Mena Quintero  <federico@helixcode.com>
 
 	* Makefile.am (INCLUDES): Removed spurious calendar directories
