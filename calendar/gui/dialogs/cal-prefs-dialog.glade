@@ -692,7 +692,7 @@ Sunday
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label24</name>
-	    <label>_Overdue tasks:</label>
+	    <label>O_verdue tasks:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -778,7 +778,7 @@ Sunday
 	    <class>GtkCheckButton</class>
 	    <name>tasks-hide-completed-checkbutton</name>
 	    <can_focus>True</can_focus>
-	    <label>Hide completed tasks after</label>
+	    <label>_Hide completed tasks after</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>

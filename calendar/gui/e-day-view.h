@@ -66,8 +66,11 @@ extern "C" {
 /* The size of the reminder & recurrence icons, and padding around them. */
 #define E_DAY_VIEW_ICON_WIDTH		16
 #define E_DAY_VIEW_ICON_HEIGHT		16
-#define E_DAY_VIEW_ICON_X_PAD		0
-#define E_DAY_VIEW_ICON_Y_PAD		0
+#define E_DAY_VIEW_ICON_X_PAD		1
+#define E_DAY_VIEW_ICON_Y_PAD		1
+
+/* The space between the icons and the long event text. */
+#define E_DAY_VIEW_LONG_EVENT_ICON_R_PAD	1
 
 /* The size of the border around the event. */
 #define E_DAY_VIEW_EVENT_BORDER_WIDTH	1

@@ -62,6 +62,9 @@ typedef struct
 	gboolean	show_event_end;
 	char           *tasks_due_today_color;
 	char           *tasks_overdue_color;
+	gboolean	hide_completed_tasks;
+	CalUnits	hide_completed_tasks_units;
+	gint		hide_completed_tasks_value;
 } CalendarConfig;
 
 
@@ -102,6 +105,7 @@ config_read				(void)
 {
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
+	char *units;
 
 	CORBA_exception_init (&ev);
 	
@@ -179,6 +183,23 @@ config_read				(void)
 	config->tasks_overdue_color = bonobo_config_get_string_with_default (
 		db, "/Calendar/Tasks/Colors/TasksOverdue", "red", NULL);
 
+	config->hide_completed_tasks = bonobo_config_get_boolean_with_default (
+		db, "/Calendar/Tasks/HideCompletedTasks", FALSE, NULL);
+
+	units = bonobo_config_get_string_with_default (db,
+		"/Calendar/Tasks/HideCompletedTasksUnits", "days", NULL);
+
+	if (!strcmp (units, "minutes"))
+		config->hide_completed_tasks_units = CAL_MINUTES;
+	else if (!strcmp (units, "hours"))
+		config->hide_completed_tasks_units = CAL_HOURS;
+	else
+		config->hide_completed_tasks_units = CAL_DAYS;
+
+	config->hide_completed_tasks_value = bonobo_config_get_long_with_default (
+		db, "/Calendar/Tasks/HideCompletedTasksValue", 1, NULL);
+
+
 	bonobo_object_release_unref (db, NULL);
 }
 
@@ -188,7 +209,7 @@ calendar_config_write			(void)
 {
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
-
+	char *units;
 
 	CORBA_exception_init (&ev);
 	
@@ -231,6 +252,22 @@ calendar_config_write			(void)
 
 	bonobo_config_set_string (db, "/Calendar/Tasks/Colors/TasksOverdue", 
 				  config->tasks_overdue_color, NULL);
+
+	bonobo_config_set_boolean (db, "/Calendar/Tasks/HideCompletedTasks", 
+				   config->hide_completed_tasks, NULL);
+
+	if (config->hide_completed_tasks_units == CAL_MINUTES)
+		units = "minutes";
+	else if (config->hide_completed_tasks_units == CAL_HOURS)
+		units = "hours";
+	else
+		units = "days";
+	bonobo_config_set_string (db,
+				  "/Calendar/Tasks/HideCompletedTasksUnits", 
+				  units, NULL);
+	bonobo_config_set_long (db, 
+				"/Calendar/Tasks/HideCompletedTasksValue", 
+				config->hide_completed_tasks_value, NULL);
 
 	Bonobo_ConfigDatabase_sync (db, &ev);
  
@@ -535,6 +572,49 @@ void
 calendar_config_set_working_days	(CalWeekdays  days)
 {
 	config->working_days = days;
+}
+
+
+/* Settings to hide completed tasks. */
+gboolean
+calendar_config_get_hide_completed_tasks	(void)
+{
+	return config->hide_completed_tasks;
+}
+
+
+void
+calendar_config_set_hide_completed_tasks	(gboolean	hide)
+{
+	config->hide_completed_tasks = hide;
+}
+
+
+CalUnits
+calendar_config_get_hide_completed_tasks_units	(void)
+{
+	return config->hide_completed_tasks_units;
+}
+
+
+void
+calendar_config_set_hide_completed_tasks_units	(CalUnits	units)
+{
+	config->hide_completed_tasks_units = units;
+}
+
+
+gint
+calendar_config_get_hide_completed_tasks_value	(void)
+{
+	return config->hide_completed_tasks_value;
+}
+
+
+void
+calendar_config_set_hide_completed_tasks_value	(gint		value)
+{
+	config->hide_completed_tasks_value = value;
 }
 
 

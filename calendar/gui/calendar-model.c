@@ -1807,6 +1807,7 @@ adjust_query_sexp (CalendarModel *model, const char *sexp)
 	CalendarModelPrivate *priv;
 	CalObjType type;
 	char *type_sexp;
+	char *completed_sexp = "";
 	char *new_sexp;
 
 	priv = model->priv;
@@ -1822,8 +1823,17 @@ adjust_query_sexp (CalendarModel *model, const char *sexp)
 			(type & CALOBJ_TYPE_TODO) ? "(= (get-vtype) \"VTODO\")" : "",
 			(type & CALOBJ_TYPE_JOURNAL) ? "(= (get-vtype) \"VJOURNAL\")" : "");
 
-	new_sexp = g_strdup_printf ("(and %s %s)", type_sexp, sexp);
+	/* FIXME: Use config setting eventually. */
+#if 0
+	if (1)
+		completed_sexp = "(not is-completed?)";
+#endif
+
+	new_sexp = g_strdup_printf ("(and %s %s %s)", type_sexp,
+				    completed_sexp, sexp);
 	g_free (type_sexp);
+
+	g_print ("Calendar mode sexp:\n%s\n", new_sexp);
 
 	return new_sexp;
 }

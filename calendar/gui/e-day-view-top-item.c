@@ -554,7 +554,8 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 
 	/* Draw the icons. */
 	icon_x_inc = E_DAY_VIEW_ICON_WIDTH + E_DAY_VIEW_ICON_X_PAD;
-	icon_x = text_x - icon_x_inc - x;
+	icon_x = text_x - E_DAY_VIEW_LONG_EVENT_ICON_R_PAD
+		- icon_x_inc - x;
 	icon_y = item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT
 		+ E_DAY_VIEW_ICON_Y_PAD - y;
 

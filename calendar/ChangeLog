@@ -1,3 +1,24 @@
+2001-08-21  Damon Chaplin  <damon@ximian.com>
+
+	* pcs/query.c (func_is_completed): added new e-sexp operator. We
+	don't currently use it though.
+
+	* gui/dialogs/cal-prefs-dialog.glade: Changed '_Overdue' to 'O_verdue'
+	since we have an '_Other' notebook tab. Added '_Hide' accel.
+
+	* gui/dialogs/cal-prefs-dialog.c: hooked up config options to dialog.
+
+	* gui/calendar-config.c: added config options for hiding completed
+	tasks.
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): 
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event): 
+	* gui/e-day-view.c (e_day_view_reshape_long_event): added 2 pixels
+	extra space between icons and text for long events, and 1 pixel space
+	between icons in all events.
+	(e_day_view_realize): changed the background color to match the
+	EGrayBar in the shell.
+
 2001-08-21  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-backend-util.[ch]: new files to contain utility functions

@@ -778,6 +778,46 @@ func_has_categories (ESExp *esexp, int argc, ESExpResult **argv, void *data)
 	return result;
 }
 
+/* (is-completed?)
+ *
+ * Returns a boolean indicating whether the component is completed (i.e. has
+ * a COMPLETED property. This is really only useful for TODO components.
+ */
+static ESExpResult *
+func_is_completed (ESExp *esexp, int argc, ESExpResult **argv, void *data)
+{
+	Query *query;
+	QueryPrivate *priv;
+	CalComponent *comp;
+	ESExpResult *result;
+	struct icaltimetype *t;
+	gboolean complete = FALSE;
+
+	query = QUERY (data);
+	priv = query->priv;
+
+	g_assert (priv->next_comp != NULL);
+	comp = priv->next_comp;
+
+	/* Check argument types */
+
+	if (argc != 0) {
+		e_sexp_fatal_error (esexp, _("is-completed? expects 0 arguments"));
+		return NULL;
+	}
+
+	cal_component_get_completed (comp, &t);
+	if (t) {
+		complete = TRUE;
+		cal_component_free_icaltimetype (t);
+	}
+
+	result = e_sexp_result_new (esexp, ESEXP_RES_BOOL);
+	result->value.bool = complete;
+
+	return result;
+}
+
 
 
 /* Adds a component to our the UIDs hash table and notifies the client */
@@ -895,7 +935,8 @@ static struct {
 	{ "get-vtype", func_get_vtype },
 	{ "occur-in-time-range?", func_occur_in_time_range },
 	{ "contains?", func_contains },
-	{ "has-categories?", func_has_categories }
+	{ "has-categories?", func_has_categories },
+	{ "is-completed?", func_is_completed }
 };
 
 /* Initializes a sexp by interning our own symbols */

@@ -47,9 +47,9 @@ extern "C" {
    the last icon, before the event text. */
 #define E_WEEK_VIEW_ICON_WIDTH		16
 #define E_WEEK_VIEW_ICON_HEIGHT		16
-#define E_WEEK_VIEW_ICON_X_PAD		0
-#define E_WEEK_VIEW_ICON_Y_PAD		0
-#define E_WEEK_VIEW_ICON_R_PAD		2
+#define E_WEEK_VIEW_ICON_X_PAD		1
+#define E_WEEK_VIEW_ICON_Y_PAD		1
+#define E_WEEK_VIEW_ICON_R_PAD		1
 
 /* The space on the left & right outside of the event. (The triangle to
    indicate the event continues is displayed in this space). */

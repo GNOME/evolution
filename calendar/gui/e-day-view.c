@@ -971,13 +971,13 @@ e_day_view_realize (GtkWidget *widget)
 	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].green = 0 * 257;
 	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].blue  = 156 * 257;
 
-	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].red   = 32512;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].green = 32512;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].blue  = 32512;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].red   = 0x8000;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].green = 0x8000;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].blue  = 0x8000;
 
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].red   = 32512;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].green = 32512;
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].blue  = 32512;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].red   = 0x8000;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].green = 0x8000;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].blue  = 0x8000;
 
 	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].red   = 65535;
 	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].green = 65535;
@@ -4650,7 +4650,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	   the left edge of the available space. Finally we make sure we don't
 	   go off the right edge. */
 	icons_width = (E_DAY_VIEW_ICON_WIDTH + E_DAY_VIEW_ICON_X_PAD)
-		* num_icons;
+		* num_icons + E_DAY_VIEW_LONG_EVENT_ICON_R_PAD;
 	time_width = e_day_view_get_time_string_width (day_view);
 
 	if (use_max_width) {

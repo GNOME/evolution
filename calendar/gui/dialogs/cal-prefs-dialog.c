@@ -64,6 +64,10 @@ struct _CalPrefsDialogPrivate {
 	/* Widgets for the task list options */
 	GtkWidget *tasks_due_today_color;
 	GtkWidget *tasks_overdue_color;
+
+	GtkWidget *tasks_hide_completed_checkbutton;
+	GtkWidget *tasks_hide_completed_spinbutton;
+	GtkWidget *tasks_hide_completed_optionmenu;
 };
 
 static const int week_start_day_map[] = {
@@ -73,6 +77,11 @@ static const int week_start_day_map[] = {
 static const int time_division_map[] = {
 	60, 30, 15, 10, 5, -1
 };
+
+static const int hide_completed_units_map[] = {
+	CAL_MINUTES, CAL_HOURS, CAL_DAYS, -1
+};
+
 
 static void cal_prefs_dialog_class_init		(CalPrefsDialogClass *class);
 static void cal_prefs_dialog_init		(CalPrefsDialog	     *prefs);
@@ -84,6 +93,8 @@ static void cal_prefs_dialog_button_clicked	(GtkWidget	     *dialog,
 						 CalPrefsDialog	     *prefs);
 static void cal_prefs_dialog_use_24_hour_toggled(GtkWidget	     *button,
 						 CalPrefsDialog	     *prefs);
+static void cal_prefs_dialog_hide_completed_tasks_toggled (GtkWidget	*button,
+							   CalPrefsDialog *prefs);
 static void cal_prefs_dialog_show_config	(CalPrefsDialog	     *prefs);
 static void cal_prefs_dialog_update_config	(CalPrefsDialog	     *prefs);
 
@@ -224,6 +235,10 @@ get_widgets (CalPrefsDialog *prefs)
 	priv->tasks_due_today_color = GW ("tasks_due_today_color");
 	priv->tasks_overdue_color = GW ("tasks_overdue_color");
 
+	priv->tasks_hide_completed_checkbutton = GW ("tasks-hide-completed-checkbutton");
+	priv->tasks_hide_completed_spinbutton = GW ("tasks-hide-completed-spinbutton");
+	priv->tasks_hide_completed_optionmenu = GW ("tasks-hide-completed-optionmenu");
+
 #undef GW
 
 	return (priv->dialog
@@ -244,7 +259,12 @@ get_widgets (CalPrefsDialog *prefs)
 		&& priv->time_divisions
 		&& priv->show_end_times
 		&& priv->compress_weekend
-		&& priv->dnav_show_week_no);
+		&& priv->dnav_show_week_no
+		&& priv->tasks_due_today_color
+		&& priv->tasks_overdue_color
+		&& priv->tasks_hide_completed_checkbutton
+		&& priv->tasks_hide_completed_spinbutton
+		&& priv->tasks_hide_completed_optionmenu);
 }
 
 
@@ -335,6 +355,11 @@ cal_prefs_dialog_init_widgets	(CalPrefsDialog	*prefs)
 	gtk_signal_connect (GTK_OBJECT (priv->use_24_hour), "toggled",
 			    GTK_SIGNAL_FUNC (cal_prefs_dialog_use_24_hour_toggled),
 			    prefs);
+
+	gtk_signal_connect (GTK_OBJECT (priv->tasks_hide_completed_checkbutton),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (cal_prefs_dialog_hide_completed_tasks_toggled),
+			    prefs);
 }
 
 
@@ -379,6 +404,23 @@ cal_prefs_dialog_use_24_hour_toggled	(GtkWidget	*button,
 					    use_24_hour);
 }
 
+static void
+cal_prefs_dialog_hide_completed_tasks_toggled	(GtkWidget	*button,
+						 CalPrefsDialog *prefs)
+{
+	CalPrefsDialogPrivate *priv;
+	gboolean hide_completed_tasks;
+
+	priv = prefs->priv;
+
+	hide_completed_tasks = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->tasks_hide_completed_checkbutton));
+
+	gtk_widget_set_sensitive (priv->tasks_hide_completed_spinbutton,
+				  hide_completed_tasks);
+	gtk_widget_set_sensitive (priv->tasks_hide_completed_optionmenu,
+				  hide_completed_tasks);
+}
+
 /* Sets the color in a color picker from an X color spec */
 static void
 set_color_picker (GtkWidget *picker, const char *spec)
@@ -404,11 +446,32 @@ static void
 show_task_list_config (CalPrefsDialog *prefs)
 {
 	CalPrefsDialogPrivate *priv;
+	CalUnits units;
+	gboolean hide_completed_tasks;
 
 	priv = prefs->priv;
 
 	set_color_picker (priv->tasks_due_today_color, calendar_config_get_tasks_due_today_color ());
 	set_color_picker (priv->tasks_overdue_color, calendar_config_get_tasks_overdue_color ());
+
+	/* Hide Completed Tasks. */
+	hide_completed_tasks = calendar_config_get_hide_completed_tasks ();
+	e_dialog_toggle_set (priv->tasks_hide_completed_checkbutton,
+			     hide_completed_tasks);
+
+	/* Hide Completed Tasks Units. */
+	units = calendar_config_get_hide_completed_tasks_units ();
+	e_dialog_option_menu_set (priv->tasks_hide_completed_optionmenu,
+				  units, hide_completed_units_map);
+
+	/* Hide Completed Tasks Value. */
+	e_dialog_spin_set (priv->tasks_hide_completed_spinbutton,
+			   calendar_config_get_hide_completed_tasks_value ());
+
+	gtk_widget_set_sensitive (priv->tasks_hide_completed_spinbutton,
+				  hide_completed_tasks);
+	gtk_widget_set_sensitive (priv->tasks_hide_completed_optionmenu,
+				  hide_completed_tasks);
 }
 
 /* Shows the current config settings in the dialog. */
@@ -503,6 +566,10 @@ update_task_list_config (CalPrefsDialog *prefs)
 
 	calendar_config_set_tasks_due_today_color (spec_from_picker (priv->tasks_due_today_color));
 	calendar_config_set_tasks_overdue_color (spec_from_picker (priv->tasks_overdue_color));
+
+	calendar_config_set_hide_completed_tasks (e_dialog_toggle_get (priv->tasks_hide_completed_checkbutton));
+	calendar_config_set_hide_completed_tasks_units (e_dialog_option_menu_get (priv->tasks_hide_completed_optionmenu, hide_completed_units_map));
+	calendar_config_set_hide_completed_tasks_value (e_dialog_spin_get_int (priv->tasks_hide_completed_spinbutton));
 }
 
 /* Updates the config values based on the settings in the dialog. */

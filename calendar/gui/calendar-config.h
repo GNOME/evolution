@@ -51,6 +51,14 @@ typedef enum
 } CalWeekdays;
 
 
+/* Units for settings. */
+typedef enum
+{
+	CAL_DAYS,
+	CAL_HOURS,
+	CAL_MINUTES
+} CalUnits;
+
 
 void	  calendar_config_init			(void);
 void	  calendar_config_write			(void);
@@ -123,6 +131,23 @@ void	  calendar_config_set_month_hpane_pos	(gfloat	      hpane_pos);
 gfloat    calendar_config_get_month_vpane_pos	(void);
 void	  calendar_config_set_month_vpane_pos	(gfloat	      vpane_pos);
 
+/* Colors for the task list */
+const char *calendar_config_get_tasks_due_today_color	(void);
+void	    calendar_config_set_tasks_due_today_color	(const char *color);
+
+const char *calendar_config_get_tasks_overdue_color	(void);
+void	    calendar_config_set_tasks_overdue_color	(const char *color);
+
+/* Settings to hide completed tasks. */
+gboolean  calendar_config_get_hide_completed_tasks	(void);
+void	  calendar_config_set_hide_completed_tasks	(gboolean	hide);
+
+CalUnits  calendar_config_get_hide_completed_tasks_units(void);
+void	  calendar_config_set_hide_completed_tasks_units(CalUnits	units);
+
+gint	  calendar_config_get_hide_completed_tasks_value(void);
+void	  calendar_config_set_hide_completed_tasks_value(gint		value);
+
 
 /* Convenience functions to configure common properties of ECalendar,
    EDateEdit & ECalendarTable widgets, and the ECellDateEdit ETable cell. */
@@ -134,12 +159,5 @@ void	  calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde);
 /* Shows the timezone dialog if the user hasn't set a default timezone. */
 void	  calendar_config_check_timezone_set	(void);
 
-/* Colors for the task list */
-
-const char *calendar_config_get_tasks_due_today_color (void);
-void calendar_config_set_tasks_due_today_color (const char *color);
-
-const char *calendar_config_get_tasks_overdue_color (void);
-void calendar_config_set_tasks_overdue_color (const char *color);
 
 #endif /* _CALENDAR_CONFIG_H_ */
