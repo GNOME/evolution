@@ -1523,6 +1523,8 @@
 	    <widget>
 	      <class>Custom</class>
 	      <name>sort-combo-1</name>
+	      <can_focus>True</can_focus>
+	      <has_focus>True</has_focus>
 	      <creation_function>e_table_proxy_gtk_combo_text_new</creation_function>
 	      <int1>0</int1>
 	      <int2>0</int2>
@@ -1597,13 +1599,14 @@
 	<name>button43</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
-	<label>_Clear All</label>
+	<label>Clear All</label>
       </widget>
 
       <widget>
 	<class>GtkButton</class>
 	<name>button44</name>
 	<can_default>True</can_default>
+	<has_default>True</has_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
       </widget>

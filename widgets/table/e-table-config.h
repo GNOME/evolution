@@ -14,6 +14,15 @@
 #define E_IS_TABLE_CONFIG_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_CONFIG_TYPE))
 
 typedef struct {
+	GtkComboText *combo;
+	GtkWidget    *frames;
+	GtkWidget    *radio_ascending;
+	GtkWidget    *radio_descending;
+	guint         changed_id, toggled_id;
+	void *e_table_config;
+} ETableConfigSortWidgets; 
+
+typedef struct {
 	GtkObject parent;
 
 	/*
@@ -27,15 +36,14 @@ typedef struct {
 	/*
 	 * The state we manipulate
 	 */
-	ETableSpecification *source_spec,  *spec;
-	ETableState         *source_state, *state;
+	ETableSpecification *source_spec,  *spec, *temp_spec;
+	ETableState         *source_state, *state, *temp_state;
 
 	GtkWidget *sort_label;
 	GtkWidget *group_label;
 	GtkWidget *fields_label;
-	
-	GtkComboText *sort_combos [4];
-	GtkWidget    *frames [4];
+
+	ETableConfigSortWidgets sort [4];
 } ETableConfig;
 
 typedef struct {

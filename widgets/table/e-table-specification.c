@@ -348,7 +348,6 @@ e_table_specification_duplicate (ETableSpecification *spec)
 	
 	new_spec = e_table_specification_new ();
 	spec_str = e_table_specification_save_to_string (spec);
-	printf ("This is the spec: \n%s\n", spec_str);
 	e_table_specification_load_from_string (new_spec, spec_str);
 	g_free (spec_str);
 	
