@@ -494,8 +494,8 @@ setup_widgets (EShellView *shell_view)
 			    GTK_SIGNAL_FUNC (title_bar_toggled_cb), shell_view);
 
 	priv->view_hpaned = e_hpaned_new ();
-	e_paned_add1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box);
-	e_paned_add2 (E_PANED (priv->view_hpaned), priv->notebook);
+	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
+	e_paned_pack2 (E_PANED (priv->view_hpaned), priv->notebook, TRUE, FALSE);
 	e_paned_set_position (E_PANED (priv->view_hpaned), DEFAULT_TREE_WIDTH);
 
 	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->view_title_bar,
@@ -504,8 +504,8 @@ setup_widgets (EShellView *shell_view)
 			    TRUE, TRUE, 2);
 
 	priv->hpaned = e_hpaned_new ();
-	e_paned_add1 (E_PANED (priv->hpaned), priv->shortcut_bar);
-	e_paned_add2 (E_PANED (priv->hpaned), priv->view_vbox);
+	e_paned_pack1 (E_PANED (priv->hpaned), priv->shortcut_bar, FALSE, FALSE);
+	e_paned_pack2 (E_PANED (priv->hpaned), priv->view_vbox, TRUE, FALSE);
 	e_paned_set_position (E_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
 
 	bonobo_window_set_contents (BONOBO_WINDOW (shell_view), priv->hpaned);
