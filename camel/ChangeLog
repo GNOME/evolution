@@ -1,3 +1,8 @@
+2000-10-18  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* camel-mime-filter-charset.c (complete): Put a zero at the start
+	of the outbuf.
+
 2000-10-18  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-part.c (add_header): No, we must not encode the
