@@ -1,6 +1,3 @@
-images16_DATA =					\
-	stock_mail-flag-for-followup.png	\
-	stock_mail-flag-for-followup-done.png
+images16_DATA =	
 
-EXTRA_DIST = 					\
-	$(images16_DATA)
+EXTRA_DIST = $(images16_DATA)
