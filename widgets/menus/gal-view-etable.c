@@ -104,6 +104,9 @@ gal_view_etable_destroy         (GtkObject *object)
 		gtk_object_unref(GTK_OBJECT(view->spec));
 	if (view->state)
 		gtk_object_unref(GTK_OBJECT(view->state));
+
+	if (GTK_OBJECT_CLASS (gal_view_etable_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (gal_view_etable_parent_class)->destroy) (object);
 }
 
 static void

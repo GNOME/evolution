@@ -44,6 +44,9 @@ gal_view_factory_etable_destroy         (GtkObject *object)
 
 	if (factory->spec)
 		gtk_object_unref(GTK_OBJECT(factory->spec));
+
+	if (GTK_OBJECT_CLASS (gal_view_factory_etable_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (gal_view_factory_etable_parent_class)->destroy) (object);
 }
 
 static void

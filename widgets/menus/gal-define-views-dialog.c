@@ -254,10 +254,14 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 }
 
 static void
-gal_define_views_dialog_destroy (GtkObject *object) {
+gal_define_views_dialog_destroy (GtkObject *object)
+{
 	GalDefineViewsDialog *gal_define_views_dialog = GAL_DEFINE_VIEWS_DIALOG(object);
 
 	gtk_object_unref(GTK_OBJECT(gal_define_views_dialog->gui));
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static void

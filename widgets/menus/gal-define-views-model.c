@@ -36,6 +36,9 @@ gdvm_destroy(GtkObject *object)
 	GalDefineViewsModel *model = GAL_DEFINE_VIEWS_MODEL(object);
 
 	gtk_object_unref(GTK_OBJECT(model->collection));
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 /* This function returns the number of columns in our ETableModel. */

@@ -116,10 +116,14 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 }
 
 static void
-gal_view_new_dialog_destroy (GtkObject *object) {
+gal_view_new_dialog_destroy (GtkObject *object)
+{
 	GalViewNewDialog *gal_view_new_dialog = GAL_VIEW_NEW_DIALOG(object);
 	
 	gtk_object_unref(GTK_OBJECT(gal_view_new_dialog->gui));
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 GtkWidget*
