@@ -54,6 +54,7 @@ TaskPage *task_page_construct (TaskPage *epage);
 TaskPage *task_page_new       (void);
 void task_page_show_options (TaskPage *page);
 void task_page_hide_options (TaskPage *page);
+void task_page_set_assignment (TaskPage *page, gboolean set);
 
 
 

@@ -104,6 +104,7 @@ struct _EventPagePrivate {
 	   start timezone is then changed, we updated the end timezone to the
 	   same value, since 99% of events start and end in one timezone. */
 	gboolean sync_timezones;
+	gboolean is_meeting;
 };
 
 
@@ -178,6 +179,7 @@ event_page_init (EventPage *epage)
 	
 	priv->updating = FALSE;
 	priv->sendoptions_shown = FALSE;
+	priv->is_meeting = FALSE;
 	priv->sync_timezones = FALSE;
 
 }
@@ -660,6 +662,13 @@ event_page_show_options (EventPage *page)
 	page->priv->sendoptions_shown = TRUE;
 }
 
+void 
+event_page_set_meeting (EventPage *page, gboolean set)
+{
+	g_return_if_fail (IS_EVENT_PAGE (page));
+
+	page->priv->is_meeting = set;
+}
 
 /* fill_widgets handler for the event page */
 static gboolean
@@ -1676,7 +1685,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			comp_editor_notify_client_changed (
 				COMP_EDITOR (gtk_widget_get_toplevel (priv->main)),
 				client);
-			if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
+			if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_meeting)
 				event_page_show_options (epage);
 			else
 				event_page_hide_options (epage);

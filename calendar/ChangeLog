@@ -1,3 +1,22 @@
+2005-02-18  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* _EventPagePrivate: added a boolean variable is_meeting.
+	* _TaskPagePrivate: added a boolean variable is_assignment.
+	* gui/dialogs/task-page.h:
+	* gui/dialogs/event-page.h: Added a function to set
+	the is_meeting boolean variable.
+	* gui/dialogs/event-editor.c: (show_meeting):
+	* gui/dialogs/task-editor.c: (show_assignment): Called
+	the function to set the boolean variable.
+	* gui/dialogs/event-page.c: (event_page_init),
+	(event_page_set_meeting), (source_changed_cb):
+	* gui/dialogs/task-page.c: (task_page_init),
+	(task_page_set_assignment), (source_changed_cb):
+	If the source is changed and only if its a group
+	event show the send options frame.
+	* gui/gnome-cal.c: (client_cal_opened_cb): Do not
+	popup the offline error dialog for tasks.
+
 2005-02-15  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/migration.c (migrate_ical_folder_to_source): check return value

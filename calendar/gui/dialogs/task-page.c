@@ -78,6 +78,7 @@ struct _TaskPagePrivate {
 
 	gboolean updating;
 	gboolean sendoptions_shown;
+	gboolean is_assignment;
 
 	ESendOptionsDialog *sod;
 };
@@ -153,6 +154,7 @@ task_page_init (TaskPage *tpage)
 
 	priv->updating = FALSE;
 	priv->sendoptions_shown = FALSE;
+	priv->is_assignment = FALSE;
 }
 
 /* Destroy handler for the task page */
@@ -290,6 +292,14 @@ task_page_show_options (TaskPage *page)
 		e_sendoptions_set_need_general_options (page->priv->sod, FALSE);
 	
 	page->priv->sendoptions_shown = TRUE;
+}
+
+void
+task_page_set_assignment (TaskPage *page, gboolean set)
+{
+	g_return_if_fail (IS_TASK_PAGE (page));
+
+	page->priv->is_assignment = set;
 }
 
 /* fill_widgets handler for the task page */
@@ -873,7 +883,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			comp_editor_notify_client_changed (
 				COMP_EDITOR (gtk_widget_get_toplevel (priv->main)),
 				client);
-			if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
+			if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS) && priv->is_assignment)
 				task_page_show_options (tpage);
 			else
 				task_page_hide_options (tpage);

@@ -352,6 +352,7 @@ show_assignment (TaskEditor *te)
 
 	priv = te->priv;
 
+	task_page_set_assignment (priv->task_page, TRUE);
 	if (!priv->assignment_shown) {
 		comp_editor_append_page (COMP_EDITOR (te),
 					 COMP_EDITOR_PAGE (priv->meet_page),

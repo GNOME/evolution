@@ -372,6 +372,7 @@ show_meeting (EventEditor *ee)
 	priv = ee->priv;
 
 	
+	event_page_set_meeting (priv->event_page, TRUE);
 	if (!priv->meeting_shown) {
 		comp_editor_append_page (COMP_EDITOR (ee),
 					 COMP_EDITOR_PAGE (priv->sched_page),

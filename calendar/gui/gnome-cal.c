@@ -2170,7 +2170,6 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	ECalSourceType source_type;
 	ESource *source;
 	char *msg;
-	const char *id;
 	int i;
 
 	priv = gcal->priv;
@@ -2180,11 +2179,9 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
-		id = "calendar:prompt-no-contents-offline-calendar";
 		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
 		break;
 	case E_CAL_SOURCE_TYPE_TODO:
-		id = "calendar:prompt-no-contents-offline-tasks";
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
 		break;
 	default:
@@ -2200,7 +2197,9 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		status = E_CALENDAR_STATUS_OK;
 		break;
 	case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
-		e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), id, NULL);
+		if (source_type == E_CAL_SOURCE_TYPE_EVENT)
+			e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), 
+				"calendar:prompt-no-contents-offline-calendar", NULL);
 	default:
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
