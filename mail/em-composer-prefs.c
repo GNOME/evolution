@@ -440,7 +440,8 @@ sig_selection_changed (GtkTreeSelection *selection, EMComposerPrefs *prefs)
 	if (state) {
 		gtk_tree_model_get (model, &iter, 1, &sig, -1);
 		sig_load_preview (prefs, sig);
-	}
+	} else
+		sig_load_preview (prefs, NULL);
 	
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, state);
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, state);
