@@ -2450,6 +2450,9 @@ static void
 regen_list_regened (struct _mail_msg *mm)
 {
 	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
+
+	if (GTK_OBJECT_DESTROYED(m->ml))
+		return;
 	
 	if (m->summary == NULL)
 		return;

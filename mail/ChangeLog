@@ -1,5 +1,8 @@
 2001-10-23    <NotZed@Ximian.com>
 
+	* message-list.c (regen_list_regened): Dont do anything if we're
+	destroyed #13021.
+
 	* mail-mt.c (mail_user_message): 
 	(mail_get_password): Removed, all functionality moved to
 	mail-session.
