@@ -1,3 +1,10 @@
+2004-02-03  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c: handle the sa prefs here, have own gconf
+	client with sa dir added
+
+	* mail-session.c: removed sa prefs
+
 2004-02-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #52941

@@ -36,9 +36,12 @@
 #include "mail-session.h"
 #include "em-junk-filter.h"
 
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #define d(x) x
 
-static pthread_mutex_t em_junk_sa_test_lock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t em_junk_sa_init_lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t em_junk_sa_report_lock = PTHREAD_MUTEX_INITIALIZER;
 
 static const char *em_junk_sa_get_name (void);
@@ -64,12 +67,30 @@ static gboolean em_junk_sa_tested = FALSE;
 static gboolean em_junk_sa_use_spamc = FALSE;
 static gboolean em_junk_sa_available = FALSE;
 static int em_junk_sa_spamd_port = -1;
-
+static GConfClient *em_junk_sa_gconf = NULL;
 
 static const char *
 em_junk_sa_get_name (void)
 {
 	return _("Spamassassin (built-in)");
+}
+
+static gboolean
+em_junk_sa_get_local_only ()
+{
+	return gconf_client_get_bool (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/local_only", NULL);
+}
+
+static gboolean
+em_junk_sa_get_use_daemon ()
+{
+	return gconf_client_get_bool (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/use_daemon", NULL);
+}
+
+static int
+em_junk_sa_get_daemon_port ()
+{
+	return gconf_client_get_int (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/daemon_port", NULL);
 }
 
 static int
@@ -187,7 +208,7 @@ em_junk_sa_test_spamd_running (int port)
 static void
 em_junk_sa_test_spamd (void)
 {
-	int port = mail_session_get_sa_daemon_port ();
+	int port = em_junk_sa_get_daemon_port ();
 	int i;
 	char *argv[6] = {
 		"/bin/sh",
@@ -228,7 +249,7 @@ em_junk_sa_test_spamd (void)
 		argv[i++] = "--port";
 		argv[i++] = port_buf;
 		
-		if (mail_session_get_sa_local_only ())
+		if (em_junk_sa_get_local_only ())
 			argv[i++] = "--local";
 		
 		argv[i++] = "--daemonize";
@@ -255,10 +276,17 @@ em_junk_sa_test_spamd (void)
 static gboolean
 em_junk_sa_is_available (void)
 {
-	pthread_mutex_lock (&em_junk_sa_test_lock);
+	pthread_mutex_lock (&em_junk_sa_init_lock);
+
+	if (!em_junk_sa_gconf) {
+		em_junk_sa_gconf = gconf_client_get_default();
+		gconf_client_add_dir (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	}
+
 	if (!em_junk_sa_tested)
 		em_junk_sa_test_spamd ();
-	pthread_mutex_unlock (&em_junk_sa_test_lock);
+
+	pthread_mutex_unlock (&em_junk_sa_init_lock);
 	
 	return em_junk_sa_available;
 }
@@ -274,7 +302,7 @@ em_junk_sa_check_junk (CamelMimeMessage *msg)
 	if (!em_junk_sa_is_available ())
 		return FALSE;
 	
-	if (em_junk_sa_use_spamc && mail_session_get_sa_use_daemon ()) {
+	if (em_junk_sa_use_spamc && em_junk_sa_get_use_daemon ()) {
 		argv[i++] = "spamc";
 		argv[i++] = "-c";
 		if (em_junk_sa_spamd_port != -1) {
@@ -286,7 +314,7 @@ em_junk_sa_check_junk (CamelMimeMessage *msg)
 		argv[i++] = "/bin/sh";
 		argv[i++] = "-c";
 		
-		if (mail_session_get_sa_local_only ())
+		if (em_junk_sa_get_local_only ())
 			argv[i++] = "spamassassin --exit-code --local";
 		else
 			argv[i++] = "spamassassin --exit-code";
@@ -312,7 +340,7 @@ em_junk_sa_report_junk (CamelMimeMessage *msg)
 	d(fprintf (stderr, "em_junk_sa_report_junk\n"));
 	
 	if (em_junk_sa_is_available ()) {
-		if (mail_session_get_sa_local_only ())
+		if (em_junk_sa_get_local_only ())
 			argv[4] = "--local";
 		
 		pthread_mutex_lock (&em_junk_sa_report_lock);
@@ -336,7 +364,7 @@ em_junk_sa_report_notjunk (CamelMimeMessage *msg)
 	d(fprintf (stderr, "em_junk_sa_report_notjunk\n"));
 	
 	if (em_junk_sa_is_available ()) {
-		if (mail_session_get_sa_local_only ())
+		if (em_junk_sa_get_local_only ())
 			argv[4] = "--local";
 		
 		pthread_mutex_lock (&em_junk_sa_report_lock);
@@ -358,7 +386,7 @@ em_junk_sa_commit_reports (void)
 	d(fprintf (stderr, "em_junk_sa_commit_reports\n"));
 	
 	if (em_junk_sa_is_available ()) {
-		if (mail_session_get_sa_local_only ())
+		if (em_junk_sa_get_local_only ())
 			argv[2] = "--local";
 		
 		pthread_mutex_lock (&em_junk_sa_report_lock);
