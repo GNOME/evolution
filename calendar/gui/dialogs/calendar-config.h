@@ -1,8 +1,8 @@
-/* Evolution calendar - New calendar dialog
+/* Evolution calendar - Calendar properties dialogs.
  *
- * Copyright (C) 2003 Novell, Inc.
+ * Copyright (C) 2004 Novell, Inc.
  *
- * Author: Rodrigo Moya <rodrigo@ximian.com>
+ * Author: Hans Petter Jansson <hpj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,11 +18,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef NEW_CALENDAR_H
-#define NEW_CALENDAR_H
+#ifndef CALENDAR_CONFIG_H
+#define CALENDAR_CONFIG_H
 
 #include <gtk/gtkwindow.h>
 
-gboolean new_calendar_dialog (GtkWindow *parent);
+gboolean calendar_config_new_calendar  (GtkWindow *parent);
+gboolean calendar_config_edit_calendar (GtkWindow *parent, ESource *source);
 
 #endif

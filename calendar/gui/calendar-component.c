@@ -39,7 +39,7 @@
 #include "e-comp-editor-registry.h"
 #include "comp-util.h"
 #include "common/authentication.h"
-#include "dialogs/new-calendar.h"
+#include "dialogs/calendar-config.h"
 #include "dialogs/comp-editor.h"
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/event-editor.h"
@@ -373,15 +373,14 @@ delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 static void
 new_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 {
-	new_calendar_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
+	calendar_config_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
 }
 
 static void
-rename_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
+edit_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 {
 	CalendarComponentPrivate *priv;
 	ESource *selected_source;
-	GtkWidget *dialog, *entry;
 
 	priv = comp->priv;
 	
@@ -389,22 +388,7 @@ rename_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 	if (!selected_source)
 		return;
 
-	/* create the dialog to prompt the user for the new name */
-	dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
-					 GTK_DIALOG_MODAL,
-					 GTK_MESSAGE_QUESTION,
-					 GTK_BUTTONS_OK_CANCEL,
-					 _("Rename this calendar to"));
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-	entry = gtk_entry_new ();
-	gtk_entry_set_text (GTK_ENTRY (entry), e_source_peek_name (selected_source));
-	gtk_widget_show (entry);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), entry, TRUE, FALSE, 6);
-
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
-		e_source_set_name (selected_source, gtk_entry_get_text (GTK_ENTRY (entry)));
-
-	gtk_widget_destroy (dialog);
+	calendar_config_edit_calendar (GTK_WINDOW (gtk_widget_get_toplevel (widget)), selected_source);
 }
 
 static void
@@ -419,8 +403,8 @@ fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, CalendarComponent 
 			     G_CALLBACK (new_calendar_cb), comp, TRUE);
 	add_popup_menu_item (menu, _("Copy"), EVOLUTION_IMAGESDIR "/folder-copy-16.png",
 			     G_CALLBACK (copy_calendar_cb), comp, sensitive);
-	add_popup_menu_item (menu, _("Rename"), NULL, G_CALLBACK (rename_calendar_cb), comp, sensitive);
 	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_calendar_cb), comp, sensitive);
+	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_calendar_cb), comp, sensitive);
 }
 
 static void
@@ -808,7 +792,7 @@ impl_requestCreateItem (PortableServer_Servant servant,
 		comp = get_default_event (priv->create_ecal, FALSE);
 		is_meeting = TRUE;
 	} else if (strcmp (item_type_name, CREATE_CALENDAR_ID) == 0) {
-		new_calendar_dialog (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->calendar))));
+		calendar_config_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->calendar))));
 		return;
 	} else {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);

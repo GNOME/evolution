@@ -1,3 +1,20 @@
+2003-01-09  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/calendar-component.c (new_calendar_cb): Call
+	calendar_config_new_calendar().
+	(rename_calendar_cb): Remove.
+	(edit_calendar_cb): Implement properties callback.
+	(fill_popup_menu_cb): Add "Properties..." item and remove "Rename".
+
+	* gui/dialogs/Makefile.am (libcal_dialogs_la_SOURCES): Add
+	calendar-config.[ch] and remove new-calendar.[ch].
+	(glade_DATA): Add calendar-config.glade and remove new-calendar.glade.
+
+	* gui/dialogs/calendar-config.[ch]: Implement calendar creation and
+	editing.
+
+	* gui/dialogs/calendar-config.glade: Add GUI for above.
+
 2004-01-09  JP Rosevear <jpr@ximian.com>
 
 	* gui/tasks-component.c (impl_upgradeFromVersion): return the

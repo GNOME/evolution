@@ -59,7 +59,6 @@
 #include "goto.h"
 #include "print.h"
 #include "dialogs/cal-prefs-dialog.h"
-#include "dialogs/new-calendar.h"
 #include "itip-utils.h"
 #include "evolution-shell-component-utils.h"
 
