@@ -34,11 +34,13 @@ libcal_clientincludedir = $(includedir)/evolution/cal-client
 
 libcal_client_la_SOURCES =	\
 	$(CORBA_GENERATED)	\
+	cal-client-types.c	\
 	cal-client.c		\
 	cal-listener.c		\
 	cal-listener.h
 
 libcal_clientinclude_HEADERS =	\
+	cal-client-types.h 	\
 	cal-client.h
 
 

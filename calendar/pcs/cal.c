@@ -300,34 +300,32 @@ build_change_seq (GList *changes)
 		c = l->data;
 		corba_c = &seq->_buffer[i];
 
-		corba_c->uid = CORBA_string_dup (c->uid);
+		corba_c->calobj = CORBA_string_dup (c->calobj);
 		corba_c->type = c->type;
 	}
 
 	return seq;
 }
 
-/* Cal::get_changed_uids method */
+/* Cal::get_changes method */
 static GNOME_Evolution_Calendar_CalObjChangeSeq *
-Cal_get_changed_uids (PortableServer_Servant servant,
-		      GNOME_Evolution_Calendar_CalObjType type,
-		      GNOME_Evolution_Calendar_Time_t since,
-		      CORBA_Environment *ev)
+Cal_get_changes (PortableServer_Servant servant,
+		 GNOME_Evolution_Calendar_CalObjType type,
+		 const CORBA_char *change_id,
+		 CORBA_Environment *ev)
 {
 	Cal *cal;
 	CalPrivate *priv;
 	GList *changes;
 	GNOME_Evolution_Calendar_CalObjChangeSeq *seq;
 	int t;
-	time_t s;
 
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
 	t = uncorba_obj_type (type);
-	s = (time_t) since;
 	
-	changes = cal_backend_get_changed_uids (priv->backend, t, s);
+	changes = cal_backend_get_changes (priv->backend, t, change_id);
 	seq = build_change_seq (changes);
 
 	cal_obj_change_list_free (changes);
@@ -564,7 +562,7 @@ cal_get_epv (void)
 	epv->countObjects = Cal_get_n_objects;
 	epv->getObject    = Cal_get_object;
 	epv->getUIds      = Cal_get_uids;
-	epv->getChangedUIds     = Cal_get_changed_uids;
+	epv->getChanges   = Cal_get_changes;
 	epv->getObjectsInRange  = Cal_get_objects_in_range;
 	epv->getAlarmsInRange   = Cal_get_alarms_in_range;
 	epv->getAlarmsForObject = Cal_get_alarms_for_object;

@@ -27,6 +27,7 @@
 #include <gnome-xml/parserInternals.h>
 #include <gnome-xml/xmlmemory.h>
 
+#include "e-util/e-dbhash.h"
 #include "cal-backend.h"
 #include "libversit/vcc.h"
 
@@ -41,10 +42,6 @@ enum {
 static void cal_backend_class_init (CalBackendClass *class);
 static void cal_backend_init (CalBackend *backend);
 static void cal_backend_destroy (GtkObject *object);
-static gboolean cal_backend_log_sync (CalBackend *backend);
-static GHashTable *cal_backend_get_log_entries (CalBackend *backend, 
-						CalObjType type,
-						time_t since);
 
 static GtkObjectClass *parent_class;
 
@@ -115,8 +112,6 @@ static void
 cal_backend_init (CalBackend *backend)
 {
 	backend->uri = NULL;
-	backend->entries = NULL;
-	backend->timer = -1;
 }
 
 static void
@@ -129,15 +124,8 @@ cal_backend_destroy (GtkObject *object)
 
 	backend = CAL_BACKEND (object);
 
-	if (backend->timer != -1) {
-		gtk_timeout_remove (backend->timer);
-		backend->timer = -1;
-	}
-
- 	if (backend->uri) {
-		cal_backend_log_sync (backend);
+ 	if (backend->uri)
 		gnome_vfs_uri_unref (backend->uri);
-	}
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -170,15 +158,8 @@ cal_backend_set_uri (CalBackend *backend, GnomeVFSURI *uri)
 	if (backend->uri)
 		gnome_vfs_uri_unref (backend->uri);
 
-	if (backend->timer != -1)
-		gtk_timeout_remove (backend->timer);
-
-
 	gnome_vfs_uri_ref (uri);
 	backend->uri = uri;
-	backend->timer = gtk_timeout_add (60000, 
-					  (GtkFunction)cal_backend_log_sync, 
-					  backend);
 }
 
 /**
@@ -221,8 +202,6 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
 	g_assert (CLASS (backend)->load != NULL);
 	result =  (* CLASS (backend)->load) (backend, uri);
 
-	/* Remember the URI for saving the log file in the same dir and add
-	 * a timeout handler so for saving pending entries sometimes */
 	if (result == CAL_BACKEND_LOAD_SUCCESS)
 		cal_backend_set_uri (backend, uri);
 	
@@ -246,8 +225,6 @@ cal_backend_create (CalBackend *backend, GnomeVFSURI *uri)
 	g_assert (CLASS (backend)->create != NULL);
 	(* CLASS (backend)->create) (backend, uri);
 
-	/* Remember the URI for saving the log file in the same dir and add
-	 * a timeout handler so for saving pending entries sometimes */
 	cal_backend_set_uri (backend, uri);
 }
 
@@ -314,40 +291,123 @@ cal_backend_get_uids (CalBackend *backend, CalObjType type)
 	return (* CLASS (backend)->get_uids) (backend, type);
 }
 
+typedef struct 
+{
+	CalBackend *backend;
+	GList *changes;
+	GList *change_ids;
+} CalBackendComputeChangesData;
 
 static void
-cal_backend_foreach_changed (gpointer key, gpointer value, gpointer data) 
+cal_backend_compute_changes_foreach_key (const char *key, gpointer data)
 {
-	GList **list = data;
+	CalBackendComputeChangesData *be_data = data;
+	char *calobj = cal_backend_get_object (be_data->backend, key);
 	
-	*list = g_list_append (*list, value);
+	if (calobj == NULL) {
+		CalObjChange *coc = g_new0 (CalObjChange, 1);
+
+		coc->calobj = g_strdup (calobj);
+		coc->type = CALOBJ_DELETED;
+		be_data->changes = g_list_prepend (be_data->changes, coc);
+		be_data->change_ids = g_list_prepend (be_data->change_ids, (gpointer) key);
+	}
+}
+
+static GList *
+cal_backend_compute_changes (CalBackend *backend, CalObjType type, const char *change_id)
+{
+	char    *filename;
+	EDbHash *ehash;
+	CalBackendComputeChangesData be_data;
+	GList *uids, *changes = NULL, *change_ids = NULL;
+	GList *i, *j;
+
+	/* Find the changed ids - FIX ME, path should not be hard coded */
+	filename = g_strdup_printf ("%s/evolution/local/Calendar/%s.db", g_get_home_dir (), change_id);
+	ehash = e_dbhash_new (filename);
+	g_free (filename);
+	
+	uids = cal_backend_get_uids (backend, type);
+	
+	/* Calculate adds and modifies */
+	for (i = uids; i != NULL; i = i->next) {
+		CalObjChange *coc;
+		char *uid = i->data;
+		char *calobj = cal_backend_get_object (backend, uid);
+		
+		g_assert (calobj != NULL);
+
+		/* check what type of change has occurred, if any */
+		switch (e_dbhash_compare (ehash, uid, calobj)) {
+		case E_DBHASH_STATUS_SAME:
+			break;
+		case E_DBHASH_STATUS_NOT_FOUND:
+			coc = g_new0 (CalObjChange, 1);
+			coc->calobj = g_strdup (calobj);
+			coc->type = CALOBJ_ADDED;
+			changes = g_list_prepend (changes, coc);
+			change_ids = g_list_prepend (change_ids, uid);
+			break;
+		case E_DBHASH_STATUS_DIFFERENT:
+			coc = g_new0 (CalObjChange, 1);
+			coc->calobj = g_strdup (calobj);
+			coc->type = CALOBJ_MODIFIED;
+			changes = g_list_append (changes, coc);
+			change_ids = g_list_prepend (change_ids, uid);
+			break;
+		}
+	}
+
+	/* Calculate deletions */
+	be_data.backend = backend;
+	be_data.changes = changes;
+	be_data.change_ids = change_ids;
+   	e_dbhash_foreach_key (ehash, (EDbHashFunc)cal_backend_compute_changes_foreach_key, &be_data);
+	changes = be_data.changes;
+	change_ids = be_data.change_ids;
+	
+	/* Update the hash */
+	for (i = changes, j = change_ids; i != NULL; i = i->next, j = j->next) {
+		CalObjChange *coc = i->data;
+		char *uid = j->data;
+		
+		if (coc->type == CALOBJ_ADDED || coc->type == CALOBJ_MODIFIED) {
+			e_dbhash_add (ehash, uid, coc->calobj);
+		} else {
+			e_dbhash_remove (ehash, uid);
+		}		
+	}	
+
+  	e_dbhash_write (ehash);
+  	e_dbhash_destroy (ehash);
+
+	g_list_free (change_ids);
+
+	return changes;
 }
 
 /**
- * cal_backend_get_changed_uids:
+ * cal_backend_get_changes:
  * @backend: 
  * @type: 
- * @since: 
+ * @change_id: 
  * 
  * 
  * 
  * Return value: 
  **/
 GList *
-cal_backend_get_changed_uids (CalBackend *backend, CalObjType type, time_t since) 
+cal_backend_get_changes (CalBackend *backend, CalObjType type, const char *change_id) 
 {
-	GHashTable *hash;
-	GList *uids = NULL;
+	GList *changes = NULL;
 	
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
-	hash = cal_backend_get_log_entries (backend, type, since);
+	changes = cal_backend_compute_changes (backend, type, change_id);
 
-	if (hash)
-		g_hash_table_foreach (hash, cal_backend_foreach_changed, &uids);
-	
-	return uids;
+	return changes;
 }
 
 
@@ -428,263 +488,6 @@ cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
 	return (* CLASS (backend)->get_alarms_for_object) (backend, uid, start, end, alarms);
 }
 
-/* Internal logging stuff */
-typedef enum {
-	CAL_BACKEND_UPDATED,
-	CAL_BACKEND_REMOVED
-} CalBackendLogEntryType;
-
-typedef struct {
-	char *uid;
-	CalObjType type;
-	
-	CalBackendLogEntryType event_type;
-
-	time_t time_stamp;
-} CalBackendLogEntry;
-
-typedef struct {
-	CalObjType type;
-	time_t since;
-
-	gboolean in_valid_timestamp;
-	
-	GHashTable *hash;
-} CalBackendParseState;
-
-static gchar *
-cal_backend_log_name (GnomeVFSURI *uri)
-{	
-	const gchar *path;
-	gchar *filename;
-	
-	path = gnome_vfs_uri_get_path (uri);
-	filename = g_strdup_printf ("%s.log.xml", path);
-
-	return filename;
-}
-
-static void
-cal_backend_set_node_timet (xmlNodePtr node, const char *name, time_t t)
-{
-	char *tstring;
-	
-	tstring = g_strdup_printf ("%ld", t);
-	xmlSetProp (node, name, tstring);
-	g_free (tstring);
-}
-
-static void
-cal_backend_log_entry (CalBackend *backend, 
-		       const char *uid,
-		       CalObjType cot,
-		       CalBackendLogEntryType type)
-{
-	CalBackendLogEntry *entry;
-	
-	g_assert (CLASS (backend)->get_type_by_uid != NULL);
-
-	/* Only log todos and events */
-	if (cot != CALOBJ_TYPE_EVENT && cot != CALOBJ_TYPE_TODO)
-		return;
-
-	entry = g_new0 (CalBackendLogEntry, 1);
-	entry->uid = g_strdup (uid);
-	entry->type = cot;
-	entry->event_type = type;	
-	entry->time_stamp = time (NULL);
-
-	/* Append so they get stored in chronological order */
-	backend->entries = g_slist_append (backend->entries, entry);
-}
-
-static gboolean
-cal_backend_log_sync (CalBackend *backend)
-{	
-	xmlDocPtr doc;
-	xmlNodePtr tnode;
-	gchar *filename;
-	GSList *l;
-	int ret;
-	time_t start_time = (time_t) - 1;
-	time_t end_time = (time_t) - 1;
-
-	g_return_val_if_fail (backend->uri != NULL, FALSE);
-	
-	if (backend->entries == NULL)
-		return TRUE;
-	
-	filename = cal_backend_log_name (backend->uri);
-	
-	doc = xmlParseFile (filename);
-	if (doc == NULL) {
-		/* Create the document */
-		doc = xmlNewDoc ("1.0");
-		if (doc == NULL) {
-			g_warning ("Log file could not be created\n");
-			return FALSE;
-		}
-		
-		
-		doc->root = xmlNewDocNode(doc, NULL, "CalendarLog", NULL);
-	}
-
-	tnode = xmlNewChild (doc->root, NULL, "timestamp", NULL);
-	for (l = backend->entries; l != NULL; l = l->next) {
-		xmlNodePtr node;
-		CalBackendLogEntry *entry;
-		
-		entry = (CalBackendLogEntry *)l->data;
-		node = xmlNewChild (tnode, NULL, "status", NULL);
-
-		xmlSetProp (node, "uid", entry->uid);
-		
-		switch (entry->type) {
-		case CALOBJ_TYPE_EVENT:
-			xmlSetProp (node, "type", "event");
-			break;
-		case CALOBJ_TYPE_TODO:
-			xmlSetProp (node, "type", "todo");
-			break;
-		default:
-		}
-
-		switch (entry->event_type) {
-		case (CAL_BACKEND_UPDATED):
-			xmlSetProp (node, "operation", "updated");
-			break;
-		case (CAL_BACKEND_REMOVED):
-			xmlSetProp (node, "operation", "removed");
-			break;
-		}
-
-		if (start_time == (time_t) - 1 
-		    || entry->time_stamp < start_time)
-			start_time = entry->time_stamp;
-
-		if (end_time == (time_t) - 1 
-		    || entry->time_stamp > end_time)
-			end_time = entry->time_stamp;
-
-		g_free (entry->uid);
-		g_free (entry);
-	}
-	cal_backend_set_node_timet (tnode, "start", start_time);
-	cal_backend_set_node_timet (tnode, "end", end_time);
-
-	g_slist_free (backend->entries);
-	backend->entries = NULL;
-	
-	/* Write the file */
-	xmlSetDocCompressMode (doc, 0);
-	ret = xmlSaveFile (filename, doc);
-	if (ret < 0) {
-		g_warning ("Log file could not be saved\n");
-		return FALSE;
-	}
-	
-	xmlFreeDoc (doc);
-
-	g_free (filename);
-
-	return TRUE;
-}
-
-static void
-cal_backend_log_sax_start_element (CalBackendParseState *state, const CHAR *name, 
-				   const CHAR **attrs)
-{
-	if (!strcmp (name, "timestamp")) {
-		while (attrs && *attrs != NULL) {
-			const xmlChar **val = attrs;
-			
-			val++;
-			if (!strcmp (*attrs, "start")) {
-				time_t start = (time_t)strtoul (*val, NULL, 0);
-				
-				if (start >= state->since) 
-					state->in_valid_timestamp = TRUE;
-				break;
-			}	
-			attrs = ++val;
-		}		
-	}
-
-	if (state->in_valid_timestamp && !strcmp (name, "status")) {
-		CalObjChange *coc = g_new0 (CalObjChange, 1);
-		CalObjType cot = 0;
-
-		while (attrs && *attrs != NULL) {
-			const xmlChar **val = attrs;
-
-			
-			val++;
-			if (!strcmp (*attrs, "uid")) 
-				coc->uid = g_strdup (*val);
-			
-			if (!strcmp (*attrs, "type")) {
-				if (!strcmp (*val, "event"))
-					cot = CALOBJ_TYPE_EVENT;
-				else if (!strcmp (*val, "todo"))
-					cot = CALOBJ_TYPE_TODO;
-			}
-
-			if (!strcmp (*attrs, "operation")) {
-				if (!strcmp (*val, "updated"))
-					coc->type = CALOBJ_UPDATED;
-				else if (!strcmp (*val, "removed"))
-					coc->type = CALOBJ_REMOVED;
-			}
-			
-			attrs = ++val;
-		}
-
-		if (state->type == CALOBJ_TYPE_ANY || state->type == cot)
-			g_hash_table_insert (state->hash, coc->uid, coc);
-	}
-}
-
-static void
-cal_backend_log_sax_end_element (CalBackendParseState *state, const CHAR *name)
-{
-	if (!strcmp (name, "timestamp")) {
-		state->in_valid_timestamp = FALSE;
-	}
-}
-
-static GHashTable *
-cal_backend_get_log_entries (CalBackend *backend, CalObjType type, time_t since)
-{
-	xmlSAXHandler handler;
-	CalBackendParseState state;
-	GHashTable *hash;
-	char *filename;
-
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (backend->uri != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-
-	if (!cal_backend_log_sync (backend))
-		return NULL;
-
-	memset (&handler, 0, sizeof (xmlSAXHandler));
-	handler.startElement = (startElementSAXFunc)cal_backend_log_sax_start_element;
-	handler.endElement = (endElementSAXFunc)cal_backend_log_sax_end_element;
-
-	hash = g_hash_table_new (g_str_hash, g_str_equal);
-	
-	state.type = type;
-	state.since = since;
-	state.in_valid_timestamp = FALSE;
-	state.hash = hash;
-
-	filename = cal_backend_log_name (backend->uri);	
-	if (xmlSAXUserParseFile (&handler, &state, filename) < 0)
-		return NULL;
-	
-	return hash;
-}
-
 /**
  * cal_backend_update_object:
  * @backend: A calendar backend.
@@ -701,23 +504,13 @@ cal_backend_get_log_entries (CalBackend *backend, CalObjType type, time_t since)
 gboolean
 cal_backend_update_object (CalBackend *backend, const char *uid, const char *calobj)
 {
-	CalObjType cot;
-	gboolean result;
-	
 	g_return_val_if_fail (backend != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
 	g_return_val_if_fail (uid != NULL, FALSE);
 	g_return_val_if_fail (calobj != NULL, FALSE);
 
 	g_assert (CLASS (backend)->update_object != NULL);
-	result =  (* CLASS (backend)->update_object) (backend, uid, calobj);
-
-	if (result) {
-		cot = (* CLASS (backend)->get_type_by_uid) (backend, uid);
-		cal_backend_log_entry (backend, uid, cot, CAL_BACKEND_UPDATED);
-	}
-	
-	return result;
+	return (* CLASS (backend)->update_object) (backend, uid, calobj);
 }
 
 /**
@@ -734,21 +527,12 @@ cal_backend_update_object (CalBackend *backend, const char *uid, const char *cal
 gboolean
 cal_backend_remove_object (CalBackend *backend, const char *uid)
 {
-	CalObjType cot;
-	gboolean result;
-
 	g_return_val_if_fail (backend != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
 	g_return_val_if_fail (uid != NULL, FALSE);
 
 	g_assert (CLASS (backend)->remove_object != NULL);
-	cot = (* CLASS (backend)->get_type_by_uid) (backend, uid);
-	result = (* CLASS (backend)->remove_object) (backend, uid);
-
-	if (result)
-		cal_backend_log_entry (backend, uid, cot, CAL_BACKEND_REMOVED);
-
-	return result;
+	return (* CLASS (backend)->remove_object) (backend, uid);
 }
 
 /**

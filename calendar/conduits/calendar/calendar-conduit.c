@@ -33,6 +33,7 @@
 #include <liboaf/liboaf.h>
 #include <bonobo.h>
 #include <gnome-xml/parser.h>
+#include <cal-client/cal-client-types.h>
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
 #include <pi-source.h>
@@ -203,7 +204,7 @@ map_name (ECalConduitContext *ctxt)
 {
 	char *filename;
 	
-	filename = g_strdup_printf ("%s/evolution/local/Calendar/pilot-map-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
+	filename = g_strdup_printf ("%s/evolution/local/Calendar/pilot-map-calendar-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
 
 	return filename;
 }
@@ -276,13 +277,16 @@ nth_weekday (int pos, icalrecurrencetype_weekday weekday)
 static GList *
 next_changed_item (ECalConduitContext *ctxt, GList *changes) 
 {
-	CalObjChange *coc;
+	CalClientChange *ccc;
 	GList *l;
 	
 	for (l = changes; l != NULL; l = l->next) {
-		coc = l->data;
+		const char *uid;
+
+		ccc = l->data;
 		
-		if (g_hash_table_lookup (ctxt->changed_hash, coc->uid))
+		cal_component_get_uid (ccc->comp, &uid);
+		if (g_hash_table_lookup (ctxt->changed_hash, uid))
 			return l;
 	}
 	
@@ -292,27 +296,28 @@ next_changed_item (ECalConduitContext *ctxt, GList *changes)
 static void
 compute_status (ECalConduitContext *ctxt, ECalLocalRecord *local, const char *uid)
 {
-	CalObjChange *coc;
+	CalClientChange *ccc;
 
 	local->local.archived = FALSE;
 	local->local.secret = FALSE;
 
-	coc = g_hash_table_lookup (ctxt->changed_hash, uid);
+	ccc = g_hash_table_lookup (ctxt->changed_hash, uid);
 	
-	if (coc == NULL) {
+	if (ccc == NULL) {
 		local->local.attr = GnomePilotRecordNothing;
 		return;
 	}
 	
-	switch (coc->type) {
-	case CALOBJ_UPDATED:
-		if (e_pilot_map_lookup_pid (ctxt->map, coc->uid) > 0)
-			local->local.attr = GnomePilotRecordModified;
-		else
-			local->local.attr = GnomePilotRecordNew;
+	switch (ccc->type) {
+	case CAL_CLIENT_CHANGE_ADDED:
+		local->local.attr = GnomePilotRecordNew;
 		break;
 		
-	case CALOBJ_REMOVED:
+	case CAL_CLIENT_CHANGE_MODIFIED:
+		local->local.attr = GnomePilotRecordModified;
+		break;
+		
+	case CAL_CLIENT_CHANGE_DELETED:
 		local->local.attr = GnomePilotRecordDeleted;
 		break;
 	}
@@ -695,7 +700,7 @@ pre_sync (GnomePilotConduit *conduit,
 	GList *l;
 	int len;
 	unsigned char *buf;
-	char *filename;
+	char *filename, *change_id;
 	gint num_records, add_records = 0, mod_records = 0, del_records = 0;
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
@@ -712,36 +717,36 @@ pre_sync (GnomePilotConduit *conduit,
 		return -1;
 	}
 
-	/* Get the local database */
-	ctxt->uids = cal_client_get_uids (ctxt->client, CALOBJ_TYPE_EVENT);
-	
 	/* Load the uid <--> pilot id mapping */
 	filename = map_name (ctxt);
 	e_pilot_map_read (filename, &ctxt->map);
 	g_free (filename);
 
+	/* Get the local database */
+	ctxt->uids = cal_client_get_uids (ctxt->client, CALOBJ_TYPE_EVENT);
+
 	/* Find the added, modified and deleted items */
+	change_id = g_strdup_printf ("pilot-sync-evolution-calendar-%d", ctxt->cfg->pilot_id);
+	ctxt->changed = cal_client_get_changes (ctxt->client, CALOBJ_TYPE_EVENT, change_id);
 	ctxt->changed_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	ctxt->changed = cal_client_get_changed_uids (ctxt->client, 
-						     CALOBJ_TYPE_EVENT,
-						     ctxt->map->since + 1);
 
 	for (l = ctxt->changed; l != NULL; l = l->next) {
-		CalObjChange *coc = l->data;
+		CalClientChange *ccc = l->data;
+		const char *uid;
+		
+		cal_component_get_uid (ccc->comp, &uid);
+		if (!e_pilot_map_uid_is_archived (ctxt->map, uid)) {
+			
+			g_hash_table_insert (ctxt->changed_hash, g_strdup (uid), ccc);
 
-		if (!e_pilot_map_uid_is_archived (ctxt->map, coc->uid)) {
-			
-			g_hash_table_insert (ctxt->changed_hash, coc->uid, coc);
-			
-			switch (coc->type) {
-			case CALOBJ_UPDATED:
-				if (e_pilot_map_lookup_pid (ctxt->map, coc->uid) > 0)
-					mod_records++;
-				else
-					add_records++;
+			switch (ccc->type) {
+			case CAL_CLIENT_CHANGE_ADDED:
+				add_records++;
 				break;
-				
-			case CALOBJ_REMOVED:
+			case CAL_CLIENT_CHANGE_MODIFIED:
+				mod_records++;
+				break;
+			case CAL_CLIENT_CHANGE_DELETED:
 				del_records++;
 				break;
 			}
@@ -893,14 +898,12 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		
 		iterator = next_changed_item (ctxt, iterator);
 		if (iterator != NULL) {
-			CalObjChange *coc = NULL;
-			
-			coc = iterator->data;
+			CalClientChange *ccc = iterator->data;
 		
 			LOG ("iterating over %d records", g_hash_table_size (ctxt->changed_hash));
 
 			*local = g_new0 (ECalLocalRecord, 1);
-			local_record_from_uid (*local, coc->uid, ctxt);
+			local_record_from_comp (*local, ccc->comp, ctxt);
 		} else {
 			LOG ("no events");
 
@@ -910,12 +913,10 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		count++;
 		iterator = g_list_next (iterator);
 		if (iterator && (iterator = next_changed_item (ctxt, iterator))) {
-			CalObjChange *coc = NULL;
-
-			coc = iterator->data;
+			CalClientChange *ccc = iterator->data;
 			
 			*local = g_new0 (ECalLocalRecord, 1);
-			local_record_from_uid (*local, coc->uid, ctxt);
+			local_record_from_comp (*local, ccc->comp, ctxt);
 		} else {
 			LOG ("for_each_modified ending");
 

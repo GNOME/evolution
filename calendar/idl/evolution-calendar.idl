@@ -36,8 +36,9 @@ module Calendar {
 
 	/* Types of object changes made */
 	typedef long CalObjChangeType;
-	const CalObjChangeType UPDATED = 1 << 0;
-	const CalObjChangeType REMOVED = 1 << 1;
+	const CalObjChangeType ADDED = 1 << 0;
+	const CalObjChangeType MODIFIED = 1 << 0;
+	const CalObjChangeType DELETED = 1 << 1;
 	
 	/* Types of alarms */
 	enum AlarmType {
@@ -66,9 +67,11 @@ module Calendar {
 
 	/* An object change */
 	struct CalObjChange {
-		CalObjUID uid;
+		CalObj calobj;
 		CalObjChangeType type;
 	};
+
+	typedef sequence<CalObjChange> CalObjChangeSeq;
 
 	/* An alarm trigger instance */
 	struct CalAlarmInstance {
@@ -79,8 +82,6 @@ module Calendar {
 	};
 
 	typedef sequence<CalAlarmInstance> CalAlarmInstanceSeq;
-
-	typedef sequence<CalObjChange> CalObjChangeSeq;
 
 	interface Listener;
 
@@ -103,8 +104,8 @@ module Calendar {
 		/* Gets a list of UIDs based on object type */
 		CalObjUIDSeq getUIds (in CalObjType type);
 
-		/* Gets a list of UIds that changed based on object type */
-		CalObjChangeSeq getChangedUIds (in CalObjType type, in Time_t since);
+		/* Gets a list of objects that changed based on object type */
+		CalObjChangeSeq getChanges (in CalObjType type, in string change_id);
 
 		/* Gets a list of objects that occur or recur in the specified time range */
 		CalObjUIDSeq getObjectsInRange (in CalObjType type, 

@@ -66,9 +66,9 @@ cal_obj_change_list_free (GList *list)
 		c = l->data;
 
 		g_assert (c != NULL);
-		g_assert (c->uid != NULL);
+		g_assert (c->calobj != NULL);
 
-		g_free (c->uid);
+		g_free (c->calobj);
 		g_free (c);
 	}
 

@@ -25,6 +25,7 @@
 #include <gtk/gtksignal.h>
 #include <liboaf/liboaf.h>
 
+#include "cal-client-types.h"
 #include "cal-client.h"
 #include "cal-listener.h"
 
@@ -733,44 +734,44 @@ cal_client_get_uids (CalClient *client, CalObjType type)
 	return uids;
 }
 
-/* Builds a GList of CalObjChange structures from the CORBA sequence */
+/* Builds a GList of CalClientChange structures from the CORBA sequence */
 static GList *
 build_change_list (GNOME_Evolution_Calendar_CalObjChangeSeq *seq)
 {
-	GList *list;
+	GList *list = NULL;
+	icalcomponent *icalcomp;
 	int i;
 
 	/* Create the list in reverse order */
-	list = NULL;
 	for (i = 0; i < seq->_length; i++) {
 		GNOME_Evolution_Calendar_CalObjChange *corba_coc;
-		CalObjChange *coc;
+		CalClientChange *ccc;
 
 		corba_coc = &seq->_buffer[i];
-		coc = g_new (CalObjChange, 1);
+		ccc = g_new (CalClientChange, 1);
 
-		coc->uid = g_strdup (corba_coc->uid);
-		coc->type = corba_coc->type;
+		icalcomp = icalparser_parse_string (corba_coc->calobj);
+		if (!icalcomp)
+			continue;
 
-		list = g_list_prepend (list, coc);
+		ccc->comp = cal_component_new ();
+		if (!cal_component_set_icalcomponent (ccc->comp, icalcomp)) {
+			icalcomponent_free (icalcomp);
+			gtk_object_unref (GTK_OBJECT (ccc->comp));
+			continue;
+		}
+		ccc->type = corba_coc->type;
+
+		list = g_list_prepend (list, ccc);
 	}
 
 	list = g_list_reverse (list);
+
 	return list;
 }
 
-/**
- * cal_client_get_changed_uids:
- * @client: A calendar client.
- * @type: Bitmask with types of objects to return.
- *
- * Queries a calendar for a list of unique identifiers corresponding to calendar
- * objects whose type matches one of the types specified in the @type flags.
- *
- * Return value: A list of strings that are the sought UIDs.
- **/
 GList *
-cal_client_get_changed_uids (CalClient *client, CalObjType type, time_t since)
+cal_client_get_changes (CalClient *client, CalObjType type, const char *change_id)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
@@ -787,9 +788,9 @@ cal_client_get_changed_uids (CalClient *client, CalObjType type, time_t since)
 	t = corba_obj_type (type);
 	CORBA_exception_init (&ev);
 
-	seq = GNOME_Evolution_Calendar_Cal_getChangedUIds (priv->cal, t, since, &ev);
+	seq = GNOME_Evolution_Calendar_Cal_getChanges (priv->cal, t, change_id, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("cal_client_get_changed_uids(): could not get the list of changes");
+		g_message ("cal_client_get_changes(): could not get the list of changes");
 		CORBA_exception_free (&ev);
 		return NULL;
 	}

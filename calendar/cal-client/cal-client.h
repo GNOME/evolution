@@ -93,7 +93,7 @@ CalClientGetStatus cal_client_get_object (CalClient *client,
 					  CalComponent **comp);
 
 GList *cal_client_get_uids (CalClient *client, CalObjType type);
-GList *cal_client_get_changed_uids (CalClient *client, CalObjType type, time_t since);
+GList *cal_client_get_changes (CalClient *client, CalObjType type, const char *change_id);
 
 GList *cal_client_get_objects_in_range (CalClient *client, CalObjType type,
 					time_t start, time_t end);

@@ -10,8 +10,6 @@ evolution-calendar.h
 evolution-calendar-common.lo
 evolution-calendar-skels.lo
 evolution-calendar-stubs.lo
-cal-client.lo
-cal-listener.lo
-libcal-client.la
+*.lo
+*.la
 client-test
-libcal-client-static.la

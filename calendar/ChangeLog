@@ -1,5 +1,57 @@
 2000-12-06  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/calendar/calendar-conduit.c (map_name): Update so as not to conflict
+	with calendar
+	(next_changed_item): update to use CalClientChange instead of CalObjChange
+	(compute_status): ditto
+	(pre_sync): ditto
+	(for_each_modified): since we now have the cal component we can call 
+	local_record_from_comp directly
+
+	* conduits/todo/todo-conduit.c: same as above
+
+	* pcs/cal-backend.c: Remove much logging cruft
+	(cal_backend_compute_changes): Calculate the changes based on the
+	hashed database
+	(cal_backend_get_changes): call cal_backend_compute_changes
+	(cal_backend_compute_changes_foreach_key): hash callback for
+	calculating deletions
+
+	* pcs/cal-backend.h: update protype, remove logging cruft from
+	object
+
+	* pcs/cal.c (build_change_seq): dup the calobj rather than the uid
+	now
+	(Cal_get_changes): rename from Cal_get_changed_uids
+	(cal_get_epv): reflect name change in epv
+
+	* cal-util/cal-util.c (cal_obj_change_list_free): update assertion
+
+	* cal-util/cal-util.h: CalObjChange now returns the entire ical
+	component, update the change types.  This should all go away shortly
+
+	* idl/evolution-calendar.idl: getChangedUIds -> getChanges.
+	CalObjChange now contains the calobj rather than the uid, update
+	the change types
+
+	* cal-client/cal-client.c (cal_client_get_changes): rename from
+	cal_client_get_changed_uids to make idl and addressbook
+
+	* cal-client/cal-client.h: Update prototype
+
+	* cal-client/cal-client.c (build_change_list): Build a list of
+	CalClientChange instead of CalObjChange
+
+	* cal-client/cal-client-types.c (cal_client_change_list_free): Free
+	a glist of CalClientChanges
+
+	* cal-client/cal-client-types.h: New file. Declarations for
+	CalClientChange.
+
+	* cal-client/Makefile.am: Build new files
+	
+2000-12-06  JP Rosevear  <jpr@helixcode.com>
+
 	* conduits/todo/Makefile.am: Fix my build stupidty READ THE MACRO
 	
 	* conduits/calendar/Makefile.am: ditto
