@@ -28,6 +28,7 @@
 #include "e-shell-shared-folder-picker-dialog.h"
 
 #include "e-corba-storage.h"
+#include "e-shell-constants.h"
 #include "evolution-storage-listener.h"
 
 #include "Evolution-Addressbook-SelectNames.h"
@@ -44,6 +45,11 @@
 #include <bonobo/bonobo-widget.h>
 
 #include <gtk/gtk.h>
+
+
+/* Timeout for showing the progress dialog (msecs).  */
+
+#define PROGRESS_DIALOG_DELAY 500
 
 
 /* Dialog creation and handling.  */
@@ -255,6 +261,8 @@ show_dialog (EShell *shell,
 /* Discovery process.  */
 
 struct _DiscoveryData {
+	EShell *shell;
+	EShellView *parent;
 	GtkWidget *dialog;
 	EStorage *storage;
 	char *user;
@@ -297,11 +305,21 @@ progress_dialog_close_callback (GnomeDialog *dialog,
 	return TRUE;
 }
 
+static int
+progress_dialog_show_timeout_callback (void *data)
+{
+	GtkWidget *dialog;
+
+	dialog = GTK_WIDGET (data);
+	gtk_widget_show_all (dialog);
+	return FALSE;
+}
+
 static GtkWidget *
-show_progress_dialog (EShell *shell,
-		      EStorage *storage,
-		      const char *user_email_address,
-		      const char *folder_name)
+create_progress_dialog (EShell *shell,
+			EStorage *storage,
+			const char *user_email_address,
+			const char *folder_name)
 {
 	GtkWidget *dialog;
 	GtkWidget *label;
@@ -335,7 +353,7 @@ show_progress_dialog (EShell *shell,
 			    GTK_SIGNAL_FUNC (progress_bar_destroy_callback),
 			    GINT_TO_POINTER (progress_bar_timeout_id));
 
-	gtk_widget_show_all (dialog);
+	g_timeout_add (PROGRESS_DIALOG_DELAY, progress_dialog_show_timeout_callback, dialog);
 	return dialog;
 }
 
@@ -351,8 +369,28 @@ cleanup_discovery (DiscoveryData *discovery_data)
 }
 
 static void
-storage_destroyed_callback (GtkObject *object,
-			    void *data)
+shell_destroy_callback (GtkObject *object,
+			void *data)
+{
+	DiscoveryData *discovery_data;
+
+	discovery_data = (DiscoveryData *) data;
+	cleanup_discovery (discovery_data);
+}
+
+static void
+shell_view_destroy_callback (GtkObject *object,
+			     void *data)
+{
+	DiscoveryData *discovery_data;
+
+	discovery_data = (DiscoveryData *) data;
+	discovery_data->parent = NULL;
+}
+
+static void
+storage_destroy_callback (GtkObject *object,
+			  void *data)
 {
 	DiscoveryData *discovery_data;
 
@@ -378,10 +416,19 @@ shared_folder_discovery_listener_callback (BonoboListener *listener,
 
 	cleanup_discovery (discovery_data);
 
-	/* FIXME: The folder has been discovered; do something here, i.e. show
-	   the folder.  */
+	if (result == GNOME_Evolution_Storage_OK) {
+		char *uri;
 
-	e_notice (NULL, GNOME_MESSAGE_BOX_INFO, "Found folder\n%s", result->path);
+		uri = g_strconcat (E_SHELL_URI_PREFIX, "/",
+				   e_storage_get_name (discovery_data->storage),
+				   result->path,
+				   NULL);
+
+		if (discovery_data->parent != NULL)
+			e_shell_view_display_uri (discovery_data->parent, uri);
+		else
+			e_shell_create_view (discovery_data->shell, uri, NULL);
+	}
 }
 
 static void
@@ -412,16 +459,24 @@ discover_folder (EShell *shell,
 	if (storage == NULL || ! E_IS_CORBA_STORAGE (storage))
 		goto error;
 
-	dialog = show_progress_dialog (shell, storage, user_email_address, folder_name);
+	dialog = create_progress_dialog (shell, storage, user_email_address, folder_name);
 
 	discovery_data = g_new (DiscoveryData, 1);
-	discovery_data->dialog           = dialog;
-	discovery_data->storage          = storage;
-	discovery_data->user             = g_strdup (user_email_address);
-	discovery_data->folder_name      = g_strdup (folder_name);
+	discovery_data->dialog      = dialog;
+	discovery_data->shell       = shell;
+	discovery_data->parent      = parent;
+	discovery_data->storage     = storage;
+	discovery_data->user        = g_strdup (user_email_address);
+	discovery_data->folder_name = g_strdup (folder_name);
+
+	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
+			    GTK_SIGNAL_FUNC (shell_destroy_callback), discovery_data);
+
+	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
+			    GTK_SIGNAL_FUNC (shell_view_destroy_callback), discovery_data);
 
 	gtk_signal_connect (GTK_OBJECT (storage), "destroy",
-			    GTK_SIGNAL_FUNC (storage_destroyed_callback), discovery_data);
+			    GTK_SIGNAL_FUNC (storage_destroy_callback), discovery_data);
 
 	listener = bonobo_listener_new (shared_folder_discovery_listener_callback, discovery_data);
 

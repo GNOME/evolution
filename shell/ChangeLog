@@ -1,5 +1,23 @@
 2002-05-10  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-shared-folder-picker-dialog.c: Add members `parent' and
+	`shell' in DiscoveryData.
+	(shell_view_destroy_callback): Callback for destruction of
+	->parent; set ->parent to NULL.
+	(shell_destroy_callback): Callback for the desctruction of the
+	shell; clean up everything.
+	(discover_folder): Initialize ->parent and shell, and add the
+	corresponding destruction handlers.
+	(shared_folder_discovery_listener_callback): Open the discovered
+	folder.
+	(setup_progress_dialog): Renamed from `show_progress_dialog'.  Set
+	up a timeout for displaying the dialog instead of displaying it
+	right away.
+	(progress_dialog_show_timeout_callback): Callback for showing the
+	dialog after the callback.
+
+2002-05-10  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-shared-folder-picker-dialog.c
 	(shared_folder_discovery_listener_callback): Updated for
 	FolderResult instead of DiscoverSharedFolderResult.
