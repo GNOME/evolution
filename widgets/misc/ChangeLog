@@ -1,3 +1,8 @@
+2000-09-30  Damon Chaplin  <damon@helixcode.com>
+
+	* e-calendar-item.c: 
+	* e-dateedit.c: better i18n of strftime strings.
+
 2000-09-29  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-title-bar.c: New member `pin_gtk_pixmap' in

@@ -1036,7 +1036,7 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
 		/* This is a strftime() format. %B = Month name, %Y = Year. */
-		strftime (buffer, 64, _("%B %Y"), &tmp_tm);
+		strftime (buffer, sizeof (buffer), _("%B %Y"), &tmp_tm);
 
 		/* Ideally we place the text centered in the month, but we
 		   won't go to the left of the minimum x position. */
@@ -2668,7 +2668,7 @@ e_calendar_item_show_popup_menu		(ECalendarItem	*calitem,
 			tmp_tm.tm_isdst = -1;
 			mktime (&tmp_tm);
 			/* This is a strftime() format. %B = Month name, %Y = Year. */
-			strftime (buffer, 64, _("%B %Y"), &tmp_tm);
+			strftime (buffer, sizeof (buffer), _("%B %Y"), &tmp_tm);
 
 			menuitem = gtk_menu_item_new_with_label (buffer);
 			gtk_widget_show (menuitem);

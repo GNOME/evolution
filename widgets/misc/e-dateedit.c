@@ -632,9 +632,11 @@ e_date_edit_get_time (EDateEdit *dedit)
 		time_text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry));
 
 		if (priv->use_24_hour_format)
-			format = "%H:%M";
+			/* This is a strptime() format. %H = hour (0-23), %M = minute. */
+			format = _("%H:%M");
 		else
-			format = "%I:%M %p";
+			/* This is a strptime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
+			format = _("%I:%M %p");
 
 		if (!strptime (time_text, format, &time_tm))
 			return -2;
@@ -657,7 +659,7 @@ e_date_edit_parse_date (EDateEdit *dedit,
 	struct tm *tmp_tm;
 	time_t t;
 
-	/* This is a stpftime() format for a short date. %m = month,
+	/* This is a strptime() format for a short date. %m = month,
 	   %d = day of month, %Y = year (all digits). */
 	if (!strptime (date_text, _("%m/%d/%Y"), date_tm))
 		return FALSE;
@@ -720,9 +722,11 @@ e_date_edit_set_time (EDateEdit *dedit, time_t the_time)
 
 	/* Set the time */
 	if (priv->use_24_hour_format)
-		format = "%H:%M";
+		/* This is a strftime() format. %H = hour (0-23), %M = minute. */
+		format = _("%H:%M");
 	else
-		format = "%I:%M %p";
+		/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
+		format = _("%I:%M %p");
 
 	strftime (buffer, sizeof (buffer), format, mytm);
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry),
@@ -975,9 +979,11 @@ rebuild_time_popup			(EDateEdit	*dedit)
 			tmp_tm.tm_min  = min;
 
 			if (priv->use_24_hour_format)
-				format = "%H:%M";
+				/* This is a strftime() format. %H = hour (0-23), %M = minute. */
+				format = _("%H:%M");
 			else
-				format = "%I:%M %p";
+				/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
+				format = _("%I:%M %p");
 
 			strftime (buffer, sizeof (buffer), format, &tmp_tm);
 
