@@ -1,5 +1,9 @@
 2001-07-26  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-bonobo.c: Fixing a
+	small, stupid mistake; use e_select_names_model_get_textification
+	for the getter for "text".
+
 	* backend/ebook/e-card.c: Removed some debugging chatter.
 
 	* gui/component/select-names/e-select-names-manager.c

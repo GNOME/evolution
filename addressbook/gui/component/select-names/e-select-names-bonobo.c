@@ -70,18 +70,25 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 		       void *user_data)
 {
 	GtkWidget *w;
-	char *text;
 
 	w = GTK_WIDGET (user_data);
 
 	switch (arg_id) {
 	case ENTRY_PROPERTY_ID_TEXT:
-		BONOBO_ARG_SET_STRING (arg, e_entry_get_text (E_ENTRY (w)));
+		{
+			ESelectNamesModel *model;
+			model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_model"));
+			g_assert (model != NULL);
+			
+			BONOBO_ARG_SET_STRING (arg, e_select_names_model_get_textification (model));
 		break;
+		}
 
 	case ENTRY_PROPERTY_ID_DESTINATIONS:
 		{
 			ESelectNamesModel *model;
+			char *text;
+
 			model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_model"));
 			g_assert (model != NULL);
 
