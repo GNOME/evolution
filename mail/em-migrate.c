@@ -1883,7 +1883,7 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 		char *dest;
 		
 		dest = g_build_filename (evolution_dir, "mail", "searches.xml", NULL);
-		cp (path, dest);
+		cp (path, dest, FALSE);
 		g_free (dest);
 	}
 	g_free (path);
