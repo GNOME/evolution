@@ -1,3 +1,26 @@
+2001-01-09  Dan Winship  <danw@helixcode.com>
+
+	Kill off a long-hated Camel kludge: "empty" URLs and
+	query_auth_types_generic.
+
+	* camel-url.c: Remove "empty" from CamelURL.
+	(camel_url_new): No longer set it.
+	(camel_url_to_string): Treat "" as equivalent to NULL for
+	authmech. (Unrelated change, but it simplifies some stuff with the
+	new config dialog.)
+
+	* camel-service.c (camel_service_new): Remove url->empty check: if
+	the URL isn't valid, we don't create the service.
+	(camel_service_query_auth_types): No longer need to switch between
+	generic and connected variants.
+
+	* providers/smtp/camel-smtp-transport.c (query_auth_types): 
+	* providers/pop3/camel-pop3-store.c (query_auth_types): 
+	* providers/nntp/camel-nntp-store.c (nntp_store_query_auth_types): 
+	* providers/imap/camel-imap-store.c (query_auth_types): 
+	* camel-remote-store.c (remote_query_auth_types): Remove generic
+	version, rename connected version.
+
 2001-01-06  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/vee/camel-vee-folder.c (vee_folder_build_folder): Dont

@@ -70,8 +70,7 @@ static void finalize (CamelObject *object);
 
 static gboolean pop3_connect (CamelService *service, CamelException *ex);
 static gboolean pop3_disconnect (CamelService *service, gboolean clean, CamelException *ex);
-static GList *query_auth_types_connected (CamelService *service, CamelException *ex);
-static GList *query_auth_types_generic (CamelService *service, CamelException *ex);
+static GList *query_auth_types (CamelService *service, CamelException *ex);
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, 
 				guint32 flags, CamelException *ex);
@@ -97,8 +96,7 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 						(camel_remote_store_get_type ()));
 
 	/* virtual method overload */
-	camel_service_class->query_auth_types_connected = query_auth_types_connected;
-	camel_service_class->query_auth_types_generic = query_auth_types_generic;
+	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->connect = pop3_connect;
 	camel_service_class->disconnect = pop3_disconnect;
 
@@ -286,7 +284,7 @@ connect_to_server (CamelService *service, /*gboolean real, */CamelException *ex)
 }
 
 static GList *
-query_auth_types_connected (CamelService *service, CamelException *ex)
+query_auth_types (CamelService *service, CamelException *ex)
 {
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 	GList *ret = NULL;
@@ -296,7 +294,7 @@ query_auth_types_connected (CamelService *service, CamelException *ex)
 	int saved_port;
 #endif
 
-	ret = CAMEL_SERVICE_CLASS (parent_class)->query_auth_types_connected (service, ex);
+	ret = CAMEL_SERVICE_CLASS (parent_class)->query_auth_types (service, ex);
 
 	passwd = camel_service_connect (service, ex);
 	/*ignore the exception here; the server may just not support passwd */
@@ -337,20 +335,6 @@ query_auth_types_connected (CamelService *service, CamelException *ex)
 				      _("Could not connect to POP server on "
 					"%s."), service->url->host);
 	}				      
-
-	return ret;
-}
-
-static GList *
-query_auth_types_generic (CamelService *service, CamelException *ex)
-{
-	GList *ret;
-
-	ret = g_list_append (NULL, &password_authtype);
-	ret = g_list_append (ret, &apop_authtype);
-#ifdef HAVE_KRB4
-	ret = g_list_append (ret, &kpop_authtype);
-#endif
 
 	return ret;
 }

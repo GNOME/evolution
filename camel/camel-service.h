@@ -67,10 +67,8 @@ typedef struct {
 
 	/*gboolean  (*is_connected)      (CamelService *service);*/
 
-	GList *   (*query_auth_types_connected)  (CamelService *service,
-						  CamelException *ex);
-	GList *   (*query_auth_types_generic)  (CamelService *service,
-						CamelException *ex);
+	GList *   (*query_auth_types)  (CamelService *service,
+					CamelException *ex);
 	void      (*free_auth_types)   (CamelService *service,
 					GList *authtypes);
 

@@ -300,20 +300,13 @@ static CamelServiceAuthType password_authtype = {
 };
 
 static GList *
-nntp_store_query_auth_types_generic (CamelService *service, CamelException *ex)
+nntp_store_query_auth_types (CamelService *service, CamelException *ex)
 {
 	GList *prev;
 	
-	prev = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types_generic (service, ex);
+	g_warning ("nntp::query_auth_types: not implemented. Defaulting.");
+	prev = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types (service, ex);
 	return g_list_prepend (prev, &password_authtype);
-}
-
-static GList *
-nntp_store_query_auth_types_connected (CamelService *service, CamelException *ex)
-{
-	g_warning ("nntp::query_auth_types_connected: not implemented. Defaulting.");
-	/* FIXME: use the classfunc instead of the local? */
-	return nntp_store_query_auth_types_generic (service, ex);
 }
 
 static CamelFolder *
@@ -607,8 +600,7 @@ camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 	/* virtual method overload */
 	camel_service_class->connect = nntp_store_connect;
 	camel_service_class->disconnect = nntp_store_disconnect;
-	camel_service_class->query_auth_types_generic = nntp_store_query_auth_types_generic;
-	camel_service_class->query_auth_types_connected = nntp_store_query_auth_types_connected;
+	camel_service_class->query_auth_types = nntp_store_query_auth_types;
 	camel_service_class->get_name = nntp_store_get_name;
 
 	camel_store_class->get_folder = nntp_store_get_folder;

@@ -62,8 +62,7 @@ static CamelStoreClass *store_class = NULL;
 
 static gboolean remote_connect         (CamelService *service, CamelException *ex);
 static gboolean remote_disconnect      (CamelService *service, gboolean clean, CamelException *ex);
-static GList   *remote_query_auth_types_generic   (CamelService *service, CamelException *ex);
-static GList   *remote_query_auth_types_connected (CamelService *service, CamelException *ex);
+static GList   *remote_query_auth_types(CamelService *service, CamelException *ex);
 static void     remote_free_auth_types (CamelService *service, GList *authtypes);
 static char    *remote_get_name        (CamelService *service, gboolean brief);
 static char    *remote_get_folder_name (CamelStore *store, 
@@ -90,8 +89,7 @@ camel_remote_store_class_init (CamelRemoteStoreClass *camel_remote_store_class)
 	/* virtual method overload */
 	camel_service_class->connect = remote_connect;
 	camel_service_class->disconnect = remote_disconnect;
-	camel_service_class->query_auth_types_generic = remote_query_auth_types_generic;
-	camel_service_class->query_auth_types_connected = remote_query_auth_types_connected;
+	camel_service_class->query_auth_types = remote_query_auth_types;
 	camel_service_class->free_auth_types = remote_free_auth_types;
 	camel_service_class->get_name = remote_get_name;
 	
@@ -167,13 +165,7 @@ static CamelServiceAuthType password_authtype = {
 */
 
 static GList *
-remote_query_auth_types_connected (CamelService *service, CamelException *ex)
-{
-	return NULL;
-}
-
-static GList *
-remote_query_auth_types_generic (CamelService *service, CamelException *ex)
+remote_query_auth_types (CamelService *service, CamelException *ex)
 {
 	return NULL;
 }

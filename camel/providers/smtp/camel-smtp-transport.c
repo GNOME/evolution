@@ -63,8 +63,7 @@ static gboolean _send_to (CamelTransport *transport, CamelMedium *message, GList
 static gboolean smtp_connect (CamelService *service, CamelException *ex);
 static gboolean smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex);
 static GList *esmtp_get_authtypes(gchar *buffer);
-static GList *query_auth_types_connected (CamelService *service, CamelException *ex);
-static GList *query_auth_types_generic (CamelService *service, CamelException *ex);
+static GList *query_auth_types (CamelService *service, CamelException *ex);
 static void free_auth_types (CamelService *service, GList *authtypes);
 static char *get_name (CamelService *service, gboolean brief);
 
@@ -93,8 +92,7 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 	/* virtual method overload */
 	camel_service_class->connect = smtp_connect;
 	camel_service_class->disconnect = smtp_disconnect;
-	camel_service_class->query_auth_types_generic = query_auth_types_generic;
-	camel_service_class->query_auth_types_connected = query_auth_types_connected;
+	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->free_auth_types = free_auth_types;
 	camel_service_class->get_name = get_name;
 
@@ -300,17 +298,7 @@ static CamelServiceAuthType cram_md5_authtype = {
 #endif
 
 static GList *
-query_auth_types_connected (CamelService *service, CamelException *ex)
-{
-	/* FIXME: Re-enable this when auth types are actually
-	 * implemented.
-	 */
-	
-	return NULL;
-}
-
-static GList *
-query_auth_types_generic (CamelService *service, CamelException *ex)
+query_auth_types (CamelService *service, CamelException *ex)
 {
 	/* FIXME: Re-enable this when auth types are actually
 	 * implemented.

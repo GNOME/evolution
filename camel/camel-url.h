@@ -44,9 +44,6 @@ typedef struct {
 	char *host;
 	int   port;
 	char *path;
-
-	/* This is set if the URL contained only a protocol. */
-	gboolean empty;
 } CamelURL;
 
 CamelURL *camel_url_new (const char *url_string, CamelException *ex);

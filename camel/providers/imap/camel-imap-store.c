@@ -58,8 +58,7 @@ static CamelRemoteStoreClass *remote_store_class = NULL;
 
 static gboolean imap_connect (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect (CamelService *service, gboolean clean, CamelException *ex);
-static GList *query_auth_types_generic (CamelService *service, CamelException *ex);
-static GList *query_auth_types_connected (CamelService *service, CamelException *ex);
+static GList *query_auth_types (CamelService *service, CamelException *ex);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
 static char *get_folder_name (CamelStore *store, const char *folder_name,
 			      CamelException *ex);
@@ -90,8 +89,7 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 						      (camel_remote_store_get_type ()));
 	
 	/* virtual method overload */
-	camel_service_class->query_auth_types_generic = query_auth_types_generic;
-	camel_service_class->query_auth_types_connected = query_auth_types_connected;
+	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->connect = imap_connect;
 	camel_service_class->disconnect = imap_disconnect;
 	
@@ -265,30 +263,18 @@ static CamelServiceAuthType kerberos_v4_authtype = {
 #endif
 
 static GList *
-query_auth_types_connected (CamelService *service, CamelException *ex)
+query_auth_types (CamelService *service, CamelException *ex)
 {
 	GList *types;
 
 	if (!connect_to_server (service, ex))
 		return NULL;
 
-	types = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types_connected (service, ex);
+	types = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types (service, ex);
 #ifdef HAVE_KRB4
 	if (CAMEL_IMAP_STORE (service)->capabilities &
 	    IMAP_CAPABILITY_AUTH_KERBEROS_V4)
 		types = g_list_prepend (types, &kerberos_v4_authtype);
-#endif
-	return g_list_prepend (types, &password_authtype);
-}
-
-static GList *
-query_auth_types_generic (CamelService *service, CamelException *ex)
-{
-	GList *types;
-	
-	types = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types_generic (service, ex);
-#ifdef HAVE_KRB4
-	types = g_list_prepend (types, &kerberos_v4_authtype);
 #endif
 	return g_list_prepend (types, &password_authtype);
 }

@@ -42,7 +42,7 @@ static gboolean service_connect(CamelService *service, CamelException *ex);
 static gboolean service_disconnect(CamelService *service, gboolean clean,
 				   CamelException *ex);
 /*static gboolean is_connected (CamelService *service);*/
-static GList *  query_auth_types_func (CamelService *service, CamelException *ex);
+static GList *  query_auth_types (CamelService *service, CamelException *ex);
 static void     free_auth_types (CamelService *service, GList *authtypes);
 static char *   get_name (CamelService *service, gboolean brief);
 static char *   get_path (CamelService *service);
@@ -58,8 +58,7 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	camel_service_class->connect = service_connect;
 	camel_service_class->disconnect = service_disconnect;
 	/*camel_service_class->is_connected = is_connected;*/
-	camel_service_class->query_auth_types_connected = query_auth_types_func;
-	camel_service_class->query_auth_types_generic = query_auth_types_func;
+	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->free_auth_types = free_auth_types;
 	camel_service_class->get_name = get_name;
 	camel_service_class->get_path = get_path;
@@ -190,7 +189,7 @@ camel_service_new (CamelType type, CamelSession *session,
 
 	service->provider = provider;
 	service->url = url;
-	if (!url->empty && !check_url (service, ex)) {
+	if (!check_url (service, ex)) {
 		camel_object_unref (CAMEL_OBJECT (service));
 		return NULL;
 	}
@@ -430,7 +429,7 @@ camel_service_get_provider (CamelService *service)
 }
 
 GList *
-query_auth_types_func (CamelService *service, CamelException *ex)
+query_auth_types (CamelService *service, CamelException *ex)
 {
 	return NULL;
 }
@@ -462,12 +461,7 @@ camel_service_query_auth_types (CamelService *service, CamelException *ex)
 	/* note that we get the connect lock here, which means the callee
 	   must not call the connect functions itself */
 	CAMEL_SERVICE_LOCK(service, connect_lock);
-
-	if (service->url->empty)
-		ret = CSERV_CLASS (service)->query_auth_types_generic (service, ex);
-	else
-		ret = CSERV_CLASS (service)->query_auth_types_connected (service, ex);
-
+	ret = CSERV_CLASS (service)->query_auth_types (service, ex);
 	CAMEL_SERVICE_UNLOCK(service, connect_lock);
 
 	return ret;
