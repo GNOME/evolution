@@ -1,3 +1,9 @@
+2000-09-07 Jesse Pavel <jpavel@helixcode.com>
+
+	* mail-format.c (mail_generate_reply) Changed the behavior of
+	Reply-to-All so that the sender's address does not appear in
+	the cc: list.
+
 2000-09-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (do_fetch_mail): Updated to pass an exception to
