@@ -133,16 +133,18 @@ check_file_is_vcard (const char *filename)
 
 	handle = fopen (filename, "r");
 	if (handle == NULL) {
+		g_print ("\n");
 		return FALSE;
 	}
 		
 	fgets (line, 4096, handle);
 	if (line == NULL) {
 		fclose (handle);
+		g_print ("\n");
 		return FALSE;
 	}
 
-	if (strcmp (line, "BEGIN:VCARD") == 0) {
+	if (strncmp (line, "BEGIN:VCARD", 11) == 0) {
 		result = TRUE;
 	} else {
 		result = FALSE;

@@ -1,3 +1,8 @@
+2001-09-12  Iain Holmes  <iain@ximian.com>
+
+	* backends/ebook/evolution-vcard-importer.c (check_file_is_vcard):
+	Fix the check.
+
 2001-09-12  Larry Ewing  <lewing@ximian.com>
 
 	* backend/ebook/e-destination.c: free the values that are being
