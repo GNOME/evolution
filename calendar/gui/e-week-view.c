@@ -2813,7 +2813,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	   to be sent to the server and resulting in a call to obj_updated_cb()
 	   which may reload all the events and so our span and text item may
 	   actually be destroyed. So we often get a SEGV. */
-	e_canvas_item_grab_focus (span->text_item);
+	e_canvas_item_grab_focus (span->text_item, TRUE);
 
 	/* Try to move the cursor to the end of the text. */
 	gtk_object_get (GTK_OBJECT (span->text_item),

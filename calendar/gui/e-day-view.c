@@ -5251,7 +5251,7 @@ e_day_view_start_editing_event (EDayView *day_view,
 	   grabbing the focus will result in a call to
 	   e_day_view_on_editing_started(), which will reset the text to get
 	   rid of the start and end times. */
-	e_canvas_item_grab_focus (event->canvas_item);
+	e_canvas_item_grab_focus (event->canvas_item, TRUE);
 
 	if (initial_text) {
 		gnome_canvas_item_set (event->canvas_item,
