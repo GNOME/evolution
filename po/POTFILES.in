@@ -51,8 +51,6 @@ mail/mail-ops.c
 mail/mail-threads.c
 mail/main.c
 mail/message-list.c
-notes/component-factory.c
-notes/main.c
 shell/e-init.c
 shell/e-setup.c
 shell/e-shell-folder-creation-dialog.c
