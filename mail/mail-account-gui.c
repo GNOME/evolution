@@ -82,9 +82,9 @@ struct {
 	char *label;
 	char *value;
 } ssl_options[] = {
-	{ N_("No encryption"),  "never"         },
-	{ N_("TLS encryption"), "when-possible" },
-	{ N_("SSL encryption"), "always"        }
+	{ N_("Always"), "always" },
+	{ N_("Whenever Possible"), "when-possible" },
+	{ N_("Never"), "never" }
 };
 
 static int num_ssl_options = sizeof (ssl_options) / sizeof (ssl_options[0]);
@@ -1473,7 +1473,7 @@ construct_ssl_menu (MailAccountGuiService *service)
 	gtk_option_menu_remove_menu (service->use_ssl);
 	gtk_option_menu_set_menu (service->use_ssl, menu);
 	
-	gtk_option_menu_set_history (service->use_ssl, 0);
+	gtk_option_menu_set_history (service->use_ssl, i - 1);
 	g_signal_emit_by_name (item, "activate", service);
 }
 
@@ -2285,7 +2285,7 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config, EAccountSer
 		
 		/* set the value to either "always" or "when-possible"
 		   but don't bother setting it for "never" */
-		if (strcmp (use_ssl, "never") != 0)
+		if (strcmp (use_ssl, "never"))
 			camel_url_set_param (url, "use_ssl", use_ssl);
 	}
 	

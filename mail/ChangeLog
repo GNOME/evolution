@@ -1,7 +1,3 @@
-2004-09-22  Jeffrey Stedfast  <fejj@novell.com>
-
-	* mail-account-gui.c: Changed the labels for the SSL menu
-
 2004-09-21  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #63521.
