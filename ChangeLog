@@ -1,3 +1,7 @@
+2005-03-27  Ahmad Riza H Nst  <ari@160c.afraid.org>
+
+	* configure.in: Added id (Indonesian) to ALL_LINGUAS line.
+
 2005-03-21  Radek Doulik  <rodo@novell.com>
 
 	* configure.in: require gtkhmtl 3.7.0 with 3.8 package/api version
