@@ -73,7 +73,7 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (s->folder->parent_store);
 	char *value = argv[0]->value.string;
-	CamelImapResponse *response;
+	CamelImapResponse *response = NULL;
 	char *result, *p, *lasts = NULL, *real_uid;
 	const char *uid = "";
 	ESExpResult *r;
@@ -82,25 +82,38 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 
 	if (s->current) {
 		uid = camel_message_info_uid (s->current);
-		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
+		r = e_sexp_result_new (f, ESEXP_RES_BOOL);
 		r->value.bool = FALSE;
 		response = camel_imap_command (store, s->folder, NULL,
 					       "UID SEARCH UID %s BODY \"%s\"",
 					       uid, value);
 	} else {
-		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
-		r->value.ptrarray = g_ptr_array_new ();
-		response = camel_imap_command (store, s->folder, NULL,
-					       "UID SEARCH BODY \"%s\"",
-					       value);
+		r = e_sexp_result_new (f, ESEXP_RES_ARRAY_PTR);
+		
+		if (argc == 1 && *value == '\0' && s->folder) {
+			/* optimise the match "" case - match everything */
+			int i;
+			
+			r->value.ptrarray = g_ptr_array_new ();
+			for (i = 0; i < s->summary->len; i++) {
+				CamelMessageInfo *info = g_ptr_array_index (s->summary, i);
+				g_ptr_array_add (r->value.ptrarray, (char *)camel_message_info_uid (info));
+			}
+		} else {
+			/* FIXME: danw: what if we have multiple string args? */
+			r->value.ptrarray = g_ptr_array_new ();
+			response = camel_imap_command (store, s->folder, NULL,
+						       "UID SEARCH BODY \"%s\"",
+						       value);
+		}
 	}
-
+	
 	if (!response)
 		return r;
 	result = camel_imap_response_extract (store, response, "SEARCH", NULL);
 	if (!result)
 		return r;
-
+	
 	p = result + sizeof ("* SEARCH");
 	for (p = strtok_r (p, " ", &lasts); p; p = strtok_r (NULL, " ", &lasts)) {
 		if (s->current) {
@@ -114,22 +127,22 @@ imap_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv,
 			   the search, and wont vanish on us */
 			if (uid_hash == NULL) {
 				int i;
-
-				uid_hash = g_hash_table_new(g_str_hash, g_str_equal);
-				for (i=0;i<s->summary->len;i++) {
+				
+				uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
+				for (i = 0; i < s->summary->len; i++) {
 					info = s->summary->pdata[i];
-					g_hash_table_insert(uid_hash, (char *)camel_message_info_uid(info), info);
+					g_hash_table_insert (uid_hash, (char *)camel_message_info_uid (info), info);
 				}
 			}
-			if (g_hash_table_lookup_extended(uid_hash, p, (void *)&real_uid, (void *)&info))
+			if (g_hash_table_lookup_extended (uid_hash, p, (void *)&real_uid, (void *)&info))
 				g_ptr_array_add (r->value.ptrarray, real_uid);
 		}
 	}
-
+	
 	/* we could probably cache this globally, but its probably not worth it */
 	if (uid_hash)
-		g_hash_table_destroy(uid_hash);
-
+		g_hash_table_destroy (uid_hash);
+	
 	return r;
 }
 

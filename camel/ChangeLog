@@ -1,3 +1,8 @@
+2001-05-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-search.c (imap_body_contains):
+	Optimize the match "" case.
+
 2001-05-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_info_online):
