@@ -352,85 +352,86 @@ e_text_class_init (ETextClass *klass)
 static void
 e_text_init (EText *text)
 {
-	text->model = e_text_model_new ();
-	text->text = e_text_model_get_text (text->model);
+	text->model                   = e_text_model_new ();
+	text->text                    = e_text_model_get_text (text->model);
 
 	gtk_object_ref (GTK_OBJECT (text->model));
 	gtk_object_sink (GTK_OBJECT (text->model));
 
-	text->model_changed_signal_id =
+	text->model_changed_signal_id = 
 		gtk_signal_connect (GTK_OBJECT (text->model),
-				   "changed",
+				    "changed",
 				    GTK_SIGNAL_FUNC (e_text_text_model_changed),
 				    text);
-	text->model_repos_signal_id =
+	text->model_repos_signal_id   = 
 		gtk_signal_connect (GTK_OBJECT (text->model),
 				    "reposition",
 				    GTK_SIGNAL_FUNC (e_text_text_model_reposition),
 				    text);
 
-	text->anchor = GTK_ANCHOR_CENTER;
-	text->justification = GTK_JUSTIFY_LEFT;
-	text->clip_width = -1.0;
-	text->clip_height = -1.0;
-	text->xofs = 0.0;
-	text->yofs = 0.0;
+	text->anchor                  = GTK_ANCHOR_CENTER;
+	text->justification           = GTK_JUSTIFY_LEFT;
+	text->clip_width              = -1.0;
+	text->clip_height             = -1.0;
+	text->xofs                    = 0.0;
+	text->yofs                    = 0.0;
 
-	text->ellipsis = NULL;
-	text->use_ellipsis = FALSE;
-	text->ellipsis_width = 0;
+	text->ellipsis                = NULL;
+	text->use_ellipsis            = FALSE;
+	text->ellipsis_width          = 0;
 
-	text->editable = FALSE;
-	text->editing = FALSE;
-	text->xofs_edit = 0;
-	text->yofs_edit = 0;
-	
-	text->selection_start = 0;
-	text->selection_end = 0;
-	text->select_by_word = FALSE;
+	text->editable                = FALSE;
+	text->editing                 = FALSE;
+	text->xofs_edit               = 0;
+	text->yofs_edit               = 0;
 
-	text->timeout_id = 0;
-	text->timer = NULL;
+	text->selection_start         = 0;
+	text->selection_end           = 0;
+	text->select_by_word          = FALSE;
 
-	text->lastx = 0;
-	text->lasty = 0;
-	text->last_state = 0;
+	text->timeout_id              = 0;
+	text->timer                   = NULL;
 
-	text->scroll_start = 0;
-	text->show_cursor = TRUE;
-	text->button_down = FALSE;
-	
-	text->tep = NULL;
-	text->tep_command_id = 0;
+	text->lastx                   = 0;
+	text->lasty                   = 0;
+	text->last_state              = 0;
 
-	text->has_selection = FALSE;
-	
-	text->invisible = NULL;
-	text->primary_selection = NULL;
-	text->primary_length = 0;
-	text->clipboard_selection = NULL;
-	text->clipboard_length = 0;
+	text->scroll_start            = 0;
+	text->show_cursor             = TRUE;
+	text->button_down             = FALSE;
 
-	text->pointer_in = FALSE;
-	text->default_cursor_shown = TRUE;
+	text->tep                     = NULL;
+	text->tep_command_id          = 0;
 
-	text->line_wrap = FALSE;
-	text->break_characters = NULL;
-	text->max_lines = -1;
+	text->has_selection           = FALSE;
 
-	text->tooltip_timeout = 0;
-	text->tooltip_count = 0;
-	text->tooltip_owner = FALSE;
+	text->invisible               = NULL;
+	text->primary_selection       = NULL;
+	text->primary_length          = 0;
+	text->clipboard_selection     = NULL;
+	text->clipboard_length        = 0;
 
-	text->dbl_timeout = 0;
-	text->tpl_timeout = 0;
+	text->pointer_in              = FALSE;
+	text->default_cursor_shown    = TRUE;
 
-	text->draw_background = FALSE;
+	text->line_wrap               = FALSE;
+	text->break_characters        = NULL;
+	text->max_lines               = -1;
 
-	text->bold = FALSE;
-	text->strikeout = FALSE;
+	text->tooltip_timeout         = 0;
+	text->tooltip_count           = 0;
+	text->tooltip_owner           = FALSE;
 
-	text->style = E_FONT_PLAIN;
+	text->dbl_timeout             = 0;
+	text->tpl_timeout             = 0;
+
+	text->draw_background         = FALSE;
+
+	text->bold                    = FALSE;
+	text->strikeout               = FALSE;
+
+	text->style                   = E_FONT_PLAIN;
+	text->allow_newlines          = TRUE;
 
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
 }
@@ -1211,6 +1212,10 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 					   "command",
 					   GTK_SIGNAL_FUNC(e_text_command),
 					   text);
+		if (!text->allow_newlines)
+			gtk_object_set (GTK_OBJECT (text->tep),
+					"allow_newlines", FALSE,
+					NULL);
 		break;
 
 	case ARG_TEXT:
@@ -1480,6 +1485,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_ALLOW_NEWLINES:
+		text->allow_newlines = GTK_VALUE_BOOL (*arg);
 		_get_tep(text);
 		gtk_object_set (GTK_OBJECT (text->tep),
 				"allow_newlines", GTK_VALUE_BOOL (*arg),
@@ -1650,14 +1656,7 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 		
 	case ARG_ALLOW_NEWLINES:
-		{
-			gboolean allow_newlines;
-			_get_tep(text);
-			gtk_object_get (GTK_OBJECT (text->tep),
-					"allow_newlines", &allow_newlines,
-					NULL);
-			GTK_VALUE_BOOL (*arg) = allow_newlines;
-		}
+		GTK_VALUE_BOOL (*arg) = text->allow_newlines;
 		break;
 
 	case ARG_CURSOR_POS:
@@ -3464,6 +3463,23 @@ static void
 _insert(EText *text, char *string, int value)
 {
 	if (value > 0) {
+		if (!text->allow_newlines) {
+			char *i;
+			for (i = string; *i; i++) {
+				if (*i == '\n') {
+					char *new_string = g_malloc (strlen (string) + 1);
+					char *j = new_string;
+					for (i = string; *i; i++) {
+						if (*i != '\n')
+							*(j++) = *i;
+					}
+					*j = 0;
+					e_text_model_insert_length(text->model, text->selection_start, new_string, j - new_string);
+					g_free (new_string);
+					return;
+				}
+			}
+		}
 		e_text_model_insert_length(text->model, text->selection_start, string, value);
 		
 #if 0

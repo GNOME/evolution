@@ -207,6 +207,7 @@ struct _EText {
 	guint strikeout : 1;
 
 	guint tooltip_owner : 1;
+	guint allow_newlines : 1;
 
 	EFontStyle     style;
 
