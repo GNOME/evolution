@@ -79,8 +79,7 @@ static CamelProvider vee_provider = {
 	"vfolder",
 	
 	CAMEL_PROVIDER_IS_STORAGE,
-	
-	CAMEL_URL_NEED_PATH, /* url_flags */
+	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE | CAMEL_URL_FRAGMENT_IS_PATH,
 	
 	/* ... */
 };

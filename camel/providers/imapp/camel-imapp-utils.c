@@ -526,7 +526,7 @@ imap_parse_address_list(CamelIMAPPStream *is)
 					camel_exception_throw(1, "missing '(' for address");
 
 				addr = camel_header_address_new();
-				addr->type = HEADER_ADDRESS_NAME;
+				addr->type = CAMEL_HEADER_ADDRESS_NAME;
 				tok = camel_imapp_stream_nstring(is, &token);
 				addr->name = g_strdup(token);
 				/* we ignore the route, nobody uses it in the real world */
@@ -550,7 +550,7 @@ imap_parse_address_list(CamelIMAPPStream *is)
 						d(printf("adding group '%s'\n", mbox));
 						g_free(addr->name);
 						addr->name = mbox;
-						addr->type = HEADER_ADDRESS_GROUP;
+						addr->type = CAMEL_HEADER_ADDRESS_GROUP;
 						camel_header_address_list_append(&list, addr);
 						group = addr;
 					}

@@ -128,6 +128,7 @@ change_folder(CamelStore *store, const char *name, guint32 flags, int count)
 {
 	CamelFolderInfo *fi;
 	const char *tmp;
+	CamelURL *url;
 
 	fi = g_malloc0(sizeof(*fi));
 	fi->full_name = g_strdup(name);
@@ -137,7 +138,14 @@ change_folder(CamelStore *store, const char *name, guint32 flags, int count)
 	else
 		tmp++;
 	fi->name = g_strdup(tmp);
-	fi->url = g_strdup_printf("vfolder:%s%s#%s", ((CamelService *)store)->url->path, (flags&CHANGE_NOSELECT)?";noselect=yes":"", name);
+	url = camel_url_new("vfolder:", 0);
+	camel_url_set_path(url, ((CamelService *)store)->url->path);
+	if (flags & CHANGE_NOSELECT)
+		camel_url_set_param(url, "noselect", "yes");
+	camel_url_set_fragment(url, name);
+	fi->url = camel_url_to_string(url, 0);
+	camel_url_free(url);
+	/*fi->url = g_strdup_printf("vfolder:%s%s#%s", ((CamelService *)store)->url->path, (flags&CHANGE_NOSELECT)?";noselect=yes":"", name);*/
 	fi->unread_message_count = count;
 	camel_folder_info_build_path(fi, '/');
 	camel_object_trigger_event(store, (flags&CHANGE_DELETE)?"folder_deleted":"folder_created", fi);
@@ -215,8 +223,9 @@ static CamelFolderInfo *
 vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	CamelFolderInfo *info, *res = NULL, *tail;
-	GPtrArray *folders, *infos;
+	GPtrArray *folders;
 	GHashTable *infos_hash;
+	CamelURL *url;
 	int i;
 
 	d(printf("Get folder info '%s'\n", top?top:"<null>"));
@@ -257,8 +266,14 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 				camel_folder_refresh_info((CamelFolder *)folder, NULL);
 
 			info = g_malloc0(sizeof(*info));
+			url = camel_url_new("vfolder:", NULL);
+			camel_url_set_path(url, ((CamelService *)((CamelFolder *)folder)->parent_store)->url->path);
+			camel_url_set_fragment(url, ((CamelFolder *)folder)->full_name);
+			info->url = camel_url_to_string(url, 0);
+			camel_url_free(url);
+/*
 			info->url = g_strdup_printf("vfolder:%s#%s", ((CamelService *)((CamelFolder *)folder)->parent_store)->url->path,
-						    ((CamelFolder *)folder)->full_name);
+			((CamelFolder *)folder)->full_name);*/
 			info->full_name = g_strdup(((CamelFolder *)folder)->full_name);
 			info->name = g_strdup(((CamelFolder *)folder)->name);
 			info->unread_message_count = camel_folder_get_unread_message_count((CamelFolder *)folder);
@@ -310,7 +325,12 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 	/* and always add UNMATCHED, if scanning from top/etc */
 	if (top == NULL || top[0] == 0 || strncmp(top, CAMEL_UNMATCHED_NAME, strlen(CAMEL_UNMATCHED_NAME)) == 0) {
 		info = g_malloc0(sizeof(*info));
-		info->url = g_strdup_printf("vfolder:%s#%s", ((CamelService *)store)->url->path, CAMEL_UNMATCHED_NAME);
+		url = camel_url_new("vfolder:", NULL);
+		camel_url_set_path(url, ((CamelService *)store)->url->path);
+		camel_url_set_fragment(url, CAMEL_UNMATCHED_NAME);
+		info->url = camel_url_to_string(url, 0);
+		camel_url_free(url);
+		/*info->url = g_strdup_printf("vfolder:%s#%s", ((CamelService *)store)->url->path, CAMEL_UNMATCHED_NAME);*/
 		info->full_name = g_strdup(CAMEL_UNMATCHED_NAME);
 		info->name = g_strdup(CAMEL_UNMATCHED_NAME);
 		info->unread_message_count = -1;
