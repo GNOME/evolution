@@ -781,7 +781,7 @@ get_ui_slot_param (EVCardAttribute *attr)
 		param = l->data;
 
 		str = e_vcard_attribute_param_get_name (param);
-		if (!strcasecmp (str, EVOLUTION_UI_SLOT_PARAM))
+		if (!g_ascii_strcasecmp (str, EVOLUTION_UI_SLOT_PARAM))
 			break;
 
 		param = NULL;
@@ -1013,7 +1013,7 @@ get_attributes_named (EVCard *vcard, const gchar *attr_name)
 
 		name = e_vcard_attribute_get_name (attr);
 
-		if (!strcasecmp (attr_name, name)) {
+		if (!g_ascii_strcasecmp (attr_name, name)) {
 			attr_list_out = g_list_append (attr_list_out, e_vcard_attribute_copy (attr));
 		}
 	}
