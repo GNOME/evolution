@@ -28,11 +28,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <errno.h>
 
 #include <libxml/tree.h>
 #include <libxml/parser.h>
@@ -93,13 +91,14 @@ is_type_folder (const char *metadata, const char *search_type)
 static void
 e_folder_map_dir (const char *dirname, const char *type, GSList **dir_list)
 {
-	struct dirent *dent;
-	char *path, *name;
+	char *path;
+	const char *name;
 	struct stat st;
-	DIR *dir;
-	
-	path = g_strdup_printf ("%s/folder-metadata.xml", dirname);
-	if (stat (path, &st) == -1 || !S_ISREG (st.st_mode)) {
+	GDir *dir;
+	GError *error = NULL;
+
+	path = g_build_filename (dirname, "folder-metadata.xml", NULL);
+	if (!g_file_test (path, G_FILE_TEST_IS_REGULAR)) {
 		g_free (path);
 		return;
 	}
@@ -115,38 +114,37 @@ e_folder_map_dir (const char *dirname, const char *type, GSList **dir_list)
 	g_free (path);	
 
  try_subdirs:
-	
-	path = g_strdup_printf ("%s/subfolders", dirname);
+
+	path = g_build_filename (dirname, "subfolders", NULL);
 	if (stat (path, &st) == -1 || !S_ISDIR (st.st_mode)) {
 		g_free (path);
 		return;
 	}
 	
-	if (!(dir = opendir (path))) {
-		g_warning ("cannot open `%s': %s", path, strerror (errno));
+	if (!(dir = g_dir_open (path, 0, &error))) {
+		g_warning ("cannot open `%s': %s", path, error->message);
+		g_error_free (error);
 		g_free (path);
 		return;
 	}
 	
-	while ((dent = readdir (dir))) {
+	while ((name = g_dir_read_name (dir))) {
 		char *full_path;
 		
-		if (dent->d_name[0] == '.')
+		if (*name == '.')
 			continue;
 		
-		full_path = g_strdup_printf ("%s/%s", path, dent->d_name);
-		if (stat (full_path, &st) == -1 || !S_ISDIR (st.st_mode)) {
+		full_path = g_build_filename (path, name, NULL);
+		if (!g_file_test (full_path, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)) {
 			g_free (full_path);
 			continue;
 		}
 		
-		name = g_strdup_printf ("%s/%s", full_path, dent->d_name);
-		e_folder_map_dir (full_path, name, dir_list);
+		e_folder_map_dir (full_path, full_path, dir_list);
 		g_free (full_path);
-		g_free (name);
 	}
 	
-	closedir (dir);
+	g_dir_close (dir);
 	
 	g_free (path);
 }
@@ -154,25 +152,26 @@ e_folder_map_dir (const char *dirname, const char *type, GSList **dir_list)
 GSList *
 e_folder_map_local_folders (char *local_dir, char *type)
 {
-	struct dirent *dent;
-	struct stat st;
-	DIR *dir;	
+	const char *name;
+	GDir *dir;	
 	GSList *dir_list = NULL;
+	GError *error = NULL;
 	
-	if (!(dir = opendir (local_dir))) {
-		g_warning ("cannot open `%s': %s", local_dir, strerror (errno));
+	if (!(dir = g_dir_open (local_dir, 0, &error))) {
+		g_warning ("cannot open `%s': %s", local_dir, error->message);
+		g_error_free (error);
 		return NULL;
 	}
 	
-	while ((dent = readdir (dir))) {
+	while ((name = g_dir_read_name (dir))) {
 		char *full_path;
 		
-		if (dent->d_name[0] == '.')
+		if (*name == '.')
 			continue;
 		
-		full_path = g_build_filename (local_dir, dent->d_name, NULL);
+		full_path = g_build_filename (local_dir, name, NULL);
 		d(g_message ("Looking in %s", full_path));
-		if (stat (full_path, &st) == -1 || !S_ISDIR (st.st_mode)) {
+		if (!g_file_test (full_path, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_DIR)) {
 			g_free (full_path);
 			continue;
 		}
@@ -182,7 +181,7 @@ e_folder_map_local_folders (char *local_dir, char *type)
 		g_free (full_path);
 	}
 	
-	closedir (dir);
+	g_dir_close (dir);
 
 	return dir_list;
 }
