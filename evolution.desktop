@@ -2,10 +2,12 @@
 Name=Evolution
 Name[it]=Evolution
 Name[sl]=Evolucija
+Name[sv]=Evolution
 Name[tr]=Evolution
 Comment=The Evolution groupware suite
 Comment[it]=La suite di produttivita' personale Evolution
 Comment[sl]=Programje za delo v skupini Evolucija
+Comment[sv]=Grupprogramvaran Evolution
 Comment[tr]=Evolution kitlesel iþlemler uygulamasý
 Exec=evolution
 Icon=evolution.png

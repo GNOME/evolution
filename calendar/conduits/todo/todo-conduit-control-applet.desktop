@@ -2,10 +2,12 @@
 Name=Todo conduit 
 Name[da]=Udstående
 Name[no]=Oppgaver
+Name[sv]=Att göra-lista
 Name[tr]=Yapýlacaklar parçasý
 Comment=Configure the todo conduit
 Comment[da]=Konfigurér Udstående
 Comment[no]=Konfigurér oppgavelisten
+Comment[sv]=Konfigurerar att göra-listan
 Comment[tr]=Yapýlacaklar parçasý ayarlarý
 Exec=todo-conduit-control-applet --cap-id=1
 Terminal=0
