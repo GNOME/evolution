@@ -33,4 +33,7 @@ time_t get_saved_notification_time (void);
 void save_calendars_to_load (GPtrArray *uris);
 GPtrArray *get_calendars_to_load (void);
 
+void save_blessed_program (const char *program);
+gboolean is_blessed_program (const char *program);
+
 #endif

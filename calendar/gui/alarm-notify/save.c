@@ -35,6 +35,8 @@
 #define KEY_LAST_NOTIFICATION_TIME "/Calendar/AlarmNotify/LastNotificationTime"
 #define KEY_NUM_CALENDARS_TO_LOAD "/Calendar/AlarmNotify/NumCalendarsToLoad"
 #define BASE_KEY_CALENDAR_TO_LOAD "/Calendar/AlarmNotify/CalendarToLoad"
+#define KEY_NUM_BLESSED_PROGRAMS "/Calendar/AlarmNotify/NumBlessedPrograms"
+#define BASE_KEY_BLESSED_PROGRAM "/Calendar/AlarmNotify/BlessedProgram"
 
 
 
@@ -160,8 +162,8 @@ save_calendars_to_load (GPtrArray *uris)
 	CORBA_exception_init (&ev);
 
 	bonobo_config_set_long (db, KEY_NUM_CALENDARS_TO_LOAD, len, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_warning ("Cannot save config key %s -- %s", KEY_NUM_CALENDARS_TO_LOAD, ev._repo_id);
+	if (BONOBO_EX (&ev))
+		g_warning ("Cannot save config key %s -- %s", KEY_NUM_CALENDARS_TO_LOAD, BONOBO_EX_ID (&ev));
 
 	for (i = 0; i < len; i++) {
 		const char *uri;
@@ -171,8 +173,8 @@ save_calendars_to_load (GPtrArray *uris)
 
 		key = g_strdup_printf ("%s%d", BASE_KEY_CALENDAR_TO_LOAD, i);
 		bonobo_config_set_string (db, key, uri, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("Cannot save config key %s -- %s", key, ev._repo_id);
+		if (BONOBO_EX (&ev))
+			g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
 		g_free (key);
 	}
 
@@ -222,4 +224,92 @@ get_calendars_to_load (void)
 	}
 
 	return uris;
+}
+
+/**
+ * save_blessed_program:
+ * @program: a program name
+ * 
+ * Saves a program name as "blessed"
+ **/
+void
+save_blessed_program (const char *program)
+{
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
+	char *key;
+	int len;
+
+	g_return_if_fail (program != NULL);
+
+	db = get_config_db ();
+	if (db == CORBA_OBJECT_NIL)
+		return;
+
+	/* Up the number saved */
+	len = bonobo_config_get_long_with_default (db, KEY_NUM_BLESSED_PROGRAMS, 0, NULL);
+	len++;
+	
+	bonobo_config_set_long (db, KEY_NUM_BLESSED_PROGRAMS, len, &ev);
+	if (BONOBO_EX (&ev))
+		g_warning ("Cannot save config key %s -- %s", KEY_NUM_BLESSED_PROGRAMS, BONOBO_EX_ID (&ev));
+
+	/* Save the program name */
+	key = g_strdup_printf ("%s%d", BASE_KEY_BLESSED_PROGRAM, len - 1);
+	bonobo_config_set_string (db, key, program, &ev);
+	if (BONOBO_EX (&ev))
+		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
+	g_free (key);
+
+	CORBA_exception_free (&ev);
+
+	discard_config_db (db);
+}
+
+/**
+ * is_blessed_program:
+ * @program: a program name
+ * 
+ * Checks to see if a program is blessed
+ * 
+ * Return value: TRUE if program is blessed, FALSE otherwise
+ **/
+gboolean
+is_blessed_program (const char *program)
+{
+	Bonobo_ConfigDatabase db;
+	int len, i;
+
+	g_return_val_if_fail (program != NULL, FALSE);
+
+	db = get_config_db ();
+	if (db == CORBA_OBJECT_NIL)
+		return FALSE;
+
+	/* Getting the default value below is not necessarily an error, as we
+	 * may not have saved the list of calendar yet.
+	 */
+
+	len = bonobo_config_get_long_with_default (db, KEY_NUM_BLESSED_PROGRAMS, 0, NULL);
+
+	for (i = 0; i < len; i++) {
+		char *key, *value;
+		gboolean used_default;
+
+		key = g_strdup_printf ("%s%d", BASE_KEY_BLESSED_PROGRAM, i);
+		value = bonobo_config_get_string_with_default (db, key, "", &used_default);
+		if (used_default)
+			g_message ("get_calendars_to_load(): Could not read calendar name %d", i);
+
+		if (value != NULL && !strcmp (value, program)) {
+			g_free (key);
+			g_free (value);
+			return TRUE;
+		}
+		
+		g_free (key);
+		g_free (value);
+	}
+
+	return FALSE;
 }

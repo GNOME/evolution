@@ -1,3 +1,16 @@
+2002-01-13  JP Rosevear  <jpr@ximian.com>
+
+	* gui/alarm-notify/save.h: add protos
+
+	* gui/alarm-notify/save.c (save_blessed_program): records a
+	program as blessed
+	(is_blessed_program): checks to see if a program is blessed
+
+	* gui/alarm-notify/alarm-queue.c (procedure_notification_dialog):
+	popup a dialog notifying the user that is a program and let them
+	not see the dialog about this program again
+	(procedure_notification): use above
+
 2002-01-11  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-timezone-entry.c: 
