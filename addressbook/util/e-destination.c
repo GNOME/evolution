@@ -332,7 +332,7 @@ e_destination_set_contact (EDestination *dest, EContact *contact, gint email_num
 					GList *p;
 					EDestination *list_dest = e_destination_new ();
 					char *contact_uid = NULL;
-					char *email = NULL;
+					char *email_addr = NULL;
 					char *name = NULL;
 					int email_num = -1;
 					gboolean html_pref = FALSE;
@@ -358,7 +358,7 @@ e_destination_set_contact (EDestination *dest, EContact *contact, gint email_num
 						else if (!g_ascii_strcasecmp (param_name,
 									      EVC_X_DEST_EMAIL)) {
 							GList *v = e_vcard_attribute_param_get_values (param);
-							email = v ? v->data : NULL;
+							email_addr = v ? v->data : NULL;
 						}
 						else if (!g_ascii_strcasecmp (param_name,
 									      EVC_X_DEST_HTML_MAIL)) {
@@ -369,7 +369,7 @@ e_destination_set_contact (EDestination *dest, EContact *contact, gint email_num
 
 					if (contact_uid) e_destination_set_contact_uid (list_dest, contact_uid, email_num);
 					if (name) e_destination_set_name (list_dest, name);
-					if (email) e_destination_set_email (list_dest, email);
+					if (email_addr) e_destination_set_email (list_dest, email_addr);
 					e_destination_set_html_mail_pref (list_dest, html_pref);
 
 					dest->priv->list_dests = g_list_append (dest->priv->list_dests, list_dest);
@@ -381,6 +381,7 @@ e_destination_set_contact (EDestination *dest, EContact *contact, gint email_num
 		}
 		else {
 			/* handle the normal contact case */
+			/* is there anything to do here? */
 		}
 	}
 }
