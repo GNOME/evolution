@@ -1174,7 +1174,11 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 {
 	CamelCipherValidity *valid = NULL;
 	CamelPgpContext *context;
-	char *end;
+	char *end, *pgp_start;
+	
+	pgp_start = strstr (start, "-----BEGIN PGP SIGNED MESSAGE-----");
+	if (!pgp_start)
+		return start;
 	
 	end = strstr (start, "-----END PGP SIGNATURE-----");
 	if (!end)
@@ -1204,7 +1208,7 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 		camel_exception_free (ex);
 	}
 	
-	mail_text_write (md->html, md->stream, "%.*s", end - start, start);
+	mail_text_write (md->html, md->stream, "%.*s", pgp_start - start, start);
 	
 	mail_write_authenticity (md, valid);
 	
