@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Evolution CVS HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-12 12:46+0100\n"
-"PO-Revision-Date: 2005-02-12 17:44+0300\n"
+"PO-Revision-Date: 2005-02-12 18:52+0300\n"
 "Last-Translator: Priit Laes <amd@store20.com>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -736,9 +736,8 @@ msgid "Properties..."
 msgstr "Omadused..."
 
 #: addressbook/gui/component/addressbook-view.c:1130
-#, fuzzy
 msgid "Contact Source Selector"
-msgstr "Kalendri allika valimine"
+msgstr "Kontaktide allika valimine"
 
 #: addressbook/gui/component/addressbook.c:98
 msgid "Accessing LDAP Server anonymously"
@@ -1096,9 +1095,8 @@ msgid "Full _Name..."
 msgstr "T_äisnimi..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
-#, fuzzy
 msgid "Image"
-msgstr "sõnum"
+msgstr "Pilt"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:66
@@ -1123,9 +1121,8 @@ msgid "Personal Information"
 msgstr "Isiklik info"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-#, fuzzy
 msgid "Telephone"
-msgstr "<b>Telefon</b>"
+msgstr "Telefon"
 
 #. red
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
@@ -2725,9 +2722,8 @@ msgid "Any Category"
 msgstr "Suvaline kategooria"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1750
-#, fuzzy
 msgid "Print cards"
-msgstr "Trüki ülesanded"
+msgstr "Trüki kaardid"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "Assistant"
@@ -3958,9 +3954,8 @@ msgstr ""
 
 #. calendar:prompt-no-contents-offline-calendar primary
 #: calendar/calendar-errors.xml.h:134
-#, fuzzy
 msgid "Error loading calendar"
-msgstr "Viga kalendri avamisel"
+msgstr "Viga kalendri laadimisel"
 
 #. calendar:prompt-no-contents-offline-calendar secondary
 #: calendar/calendar-errors.xml.h:136
@@ -3969,9 +3964,8 @@ msgstr ""
 
 #. calendar:prompt-no-contents-offline-tasks primary
 #: calendar/calendar-errors.xml.h:138
-#, fuzzy
 msgid "Error loading task list"
-msgstr "Viga loendi lisamisel"
+msgstr "Viga ülesandeloendi laadimisel"
 
 #. calendar:prompt-no-contents-offline-tasks secondary
 #: calendar/calendar-errors.xml.h:140
@@ -4295,9 +4289,8 @@ msgid "Free/busy template url"
 msgstr "Vaba/hõivatud vastus"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
-#, fuzzy
 msgid "Hide completed tasks"
-msgstr "_Peida lõpetatud ülesanded pärast"
+msgstr "Peida lõpetatud ülesanded"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 #, fuzzy
@@ -4330,14 +4323,12 @@ msgid "List of server urls for free/busy publishing."
 msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
-#, fuzzy
 msgid "Minute the workday ends on, 0 to 59"
-msgstr "Minut, millal tööpäev lõpeb"
+msgstr "Minut, millal tööpäev lõpeb, 0 kuni 59"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
-#, fuzzy
 msgid "Minute the workday starts on, 0 to 59."
-msgstr "Minut, millal tööpäev algab"
+msgstr "Minut, millal tööpäev algab, 0 kuni 59."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 #, fuzzy
@@ -4358,9 +4349,8 @@ msgid "Number of units for determining when to hide tasks."
 msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
-#, fuzzy
 msgid "Overdue tasks color"
-msgstr "_Tähtaja ületanud ülesanded:"
+msgstr "Tähtaja ületanud ülesannete värvus"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Position of the horizontal pane, between the date navigator calendar and the task list when not in the month view, in pixels."
@@ -4402,9 +4392,8 @@ msgid "Show week numbers in date navigator"
 msgstr "_Kuupäeva valikul kuvatakse nädalate numbreid"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
-#, fuzzy
 msgid "Tasks due today color"
-msgstr "_Tänase tähtajaga ülesanded:"
+msgstr "Tänase tähtajaga ülesannete värvus"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid "Tasks vertical pane position"
@@ -4448,9 +4437,8 @@ msgid "Week start"
 msgstr "Nädala algus"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
-#, fuzzy
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
-msgstr "Nädalapäev, millal nädal algab"
+msgstr "Nädalapäev, millal nädal algab, pühapäevast (0) esmaspäevani (6)."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
 msgid "Whether or not to use the notification tray for display alarms."
@@ -4500,24 +4488,20 @@ msgid "Work days"
 msgstr "Tööpäevad"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
-#, fuzzy
 msgid "Workday end hour"
 msgstr "Tund, millal tööpäev lõpeb"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
-#, fuzzy
 msgid "Workday end minute"
-msgstr "Ühendu v_õrku"
+msgstr "Minut, millal tööpäev lõpeb"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
-#, fuzzy
 msgid "Workday start hour"
 msgstr "Tund, millal tööpäev algab"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
-#, fuzzy
 msgid "Workday start minute"
-msgstr "Tund, millal tööpäev algab"
+msgstr "Minut, millal tööpäev algab"
 
 #: calendar/gui/cal-search-bar.c:49
 msgid "Summary contains"
@@ -6420,9 +6404,8 @@ msgid "100%"
 msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:516
-#, fuzzy
 msgid "Task Table"
-msgstr "Ülesande uuendus"
+msgstr "Ülesannete tabel"
 
 #: calendar/gui/e-calendar-table.c:694
 #: calendar/gui/e-calendar-view.c:652
@@ -9544,7 +9527,6 @@ msgstr "Pealkirjata sõnum"
 
 #. NB: This function is never used anymore
 #: composer/e-msg-composer.c:1604
-#, fuzzy
 msgid "Open File"
 msgstr "Ava fail"
 
@@ -10656,7 +10638,6 @@ msgid "<b>Then</b>"
 msgstr "<b>siis</b>"
 
 #: mail/em-folder-browser.c:133
-#, fuzzy
 msgid "Create _vFolder From Search..."
 msgstr "Loo otsingu baasil _Virtuaalne Kaust..."
 
@@ -10829,9 +10810,8 @@ msgid "Rename Folder"
 msgstr "Kataloogi ümbernimetamine"
 
 #: mail/em-folder-tree.c:2728
-#, fuzzy
 msgid "Folder names cannot contain '/'"
-msgstr "Kausta nimi ei tohi sisaldada \"/\" sümbolit."
+msgstr "Kausta nimes ei tohi sisalduda '/' sümbol"
 
 #: mail/em-folder-tree.c:2802
 #: ui/evolution-addressbook.xml.h:44
@@ -10964,24 +10944,20 @@ msgid "Crea_te Rule From Message"
 msgstr "_Loo sõnumi baasil reegel"
 
 #: mail/em-folder-view.c:1010
-#, fuzzy
 msgid "vFolder on _Subject"
-msgstr "VKaust _teema järgi"
+msgstr "vKaust _teema järgi"
 
 #: mail/em-folder-view.c:1011
-#, fuzzy
 msgid "vFolder on Se_nder"
-msgstr "VKaust _saatja järgi"
+msgstr "vKaust _saatja järgi"
 
 #: mail/em-folder-view.c:1012
-#, fuzzy
 msgid "vFolder on _Recipients"
-msgstr "VKaust _adressaatide järgi"
+msgstr "vKaust _adressaatide järgi"
 
 #: mail/em-folder-view.c:1013
-#, fuzzy
 msgid "vFolder on Mailing _List"
-msgstr "VKaust _postiloendi järgi"
+msgstr "vKaust _postiloendi järgi"
 
 #: mail/em-folder-view.c:1017
 msgid "Filter on Sub_ject"
@@ -11432,14 +11408,12 @@ msgid "Messages from %s"
 msgstr "Andmed %s-st"
 
 #: mail/em-vfolder-editor.c:104
-#, fuzzy
 msgid "v_Folders"
-msgstr "VKaustad"
+msgstr "v_Kaustad"
 
 #: mail/em-vfolder-rule.c:574
-#, fuzzy
 msgid "vFolder source"
-msgstr "VKausta allikas"
+msgstr "vKausta allikas"
 
 #: mail/evolution-mail.schemas.in.in.h:1
 msgid "Automatic link recognition"
@@ -13676,7 +13650,7 @@ msgid "Invalid folder: `%s'"
 msgstr "Vigane kaust: `%s'"
 
 #: mail/mail-vfolder.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "Setting up vFolder: %s"
 msgstr "vKausta ülesseadmine: %s"
 
@@ -14024,19 +13998,16 @@ msgstr ""
 "kes saadab sulle kirja ajal kui sa puhkusel oled.</small>"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:140
-#, fuzzy
 msgid "I am in the office"
 msgstr "Olen praegu tööl"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:154
-#, fuzzy
 msgid "I am out of the office"
 msgstr "Olen praegu puhkusel"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:168
-#, fuzzy
 msgid "Out of office Message:"
-msgstr "<b>Puhkuseteade:</b>"
+msgstr "Puhkuseteade:"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:194
 #, fuzzy
@@ -14079,9 +14050,8 @@ msgstr ""
 
 #: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:2
 #: widgets/misc/e-send-options.glade.h:20
-#, fuzzy
 msgid "Send Options"
-msgstr "<b>Saatmise valikud</b>"
+msgstr "Saatmise valikud"
 
 #: plugins/itip-formatter/itip-formatter.c:704
 #, fuzzy
@@ -14156,9 +14126,8 @@ msgid "To process all of these items, the file should be saved and the calendar 
 msgstr ""
 
 #: plugins/itip-formatter/itip-formatter.c:1658
-#, fuzzy
 msgid "Meetings and Tasks"
-msgstr "Kalender ja ülesanded"
+msgstr "Koosolekud ja ülesanded"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
@@ -14370,7 +14339,7 @@ msgid "<b>%s</b> has sent back the following meeting response:"
 msgstr "<b>%s</b> nõustus järgneva koosolekuga:"
 
 #: plugins/itip-formatter/itip-view.c:365
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
 msgstr "<b>%s</b> tühistas %s kaudu järgneva koosoleku:"
 
@@ -14380,9 +14349,9 @@ msgid "<b>%s</b> has cancelled the following meeting."
 msgstr "<b>%s</b> tühistas järgneva koosoleku."
 
 #: plugins/itip-formatter/itip-view.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
-msgstr "<b>%s</b> nõustus järgneva koosolekuga:"
+msgstr "<b>%s</b> esitas järgnevad koosoleku muudatused."
 
 #: plugins/itip-formatter/itip-view.c:374
 #, fuzzy, c-format
@@ -14390,19 +14359,19 @@ msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgstr "<b>%s</b> tühistas %s kaudu järgneva koosoleku:"
 
 #: plugins/itip-formatter/itip-view.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "<b>%s</b> tühistas järgneva koosoleku."
+msgstr "<b>%s</b> keeldus järgnevatest koosoleku muudatusest."
 
 #: plugins/itip-formatter/itip-view.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following task:"
-msgstr "<b>%s</b> avalikustas läbi %s teabe järgneva koosoleku kohta:"
+msgstr "<b>%s</b> avalikustas %s kaudu järgneva ülesande:"
 
 #: plugins/itip-formatter/itip-view.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following task:"
-msgstr "<b>%s</b> avalikustas teabe järgneva koosoleku kohta:"
+msgstr "<b>%s</b> avalikustas järgmise ülesande:"
 
 #: plugins/itip-formatter/itip-view.c:410
 #, fuzzy, c-format
@@ -14410,29 +14379,29 @@ msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgstr "<b>%s</b> taotleb, et %s osaleks järgneval koosolekul:"
 
 #: plugins/itip-formatter/itip-view.c:413
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
-msgstr "<b>%s</b> tühistas %s kaudu järgneva koosoleku:"
+msgstr "<b>%s</b> määras %s kaudu sulle ülesande:"
 
 #: plugins/itip-formatter/itip-view.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has assigned you a task:"
-msgstr "<b>%s</b> katkestas ülesande."
+msgstr "<b>%s</b> määras sulle ülesande:"
 
 #: plugins/itip-formatter/itip-view.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> soovib %s kaudu lisada olemasolevale koosolekule:"
+msgstr "<b>%s</b> soovib %s kaudu lisada olemasolevale ülesandele:"
 
 #: plugins/itip-formatter/itip-view.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
-msgstr "<b>%s</b> soovib lisada olemasolevale ülesandele."
+msgstr "<b>%s</b> soovib lisada olemasolevale ülesandele:"
 
 #: plugins/itip-formatter/itip-view.c:426
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to receive the latest information for the following assigned task:"
-msgstr "<b>%s</b> soovib saada värskeimat infot ülesande kohta järgneva koosoleku kohta:"
+msgstr "<b>%s</b> soovib saada värskeimat infot järgneva ülesande kohta:"
 
 #: plugins/itip-formatter/itip-view.c:429
 #, fuzzy, c-format
@@ -14440,29 +14409,29 @@ msgid "<b>%s</b> has sent back the following assigned task response:"
 msgstr "<b>%s</b> nõustus järgneva koosolekuga:"
 
 #: plugins/itip-formatter/itip-view.c:433
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
-msgstr "<b>%s</b> tühistas %s kaudu järgneva koosoleku:"
+msgstr "<b>%s</b> tühistas %s kaudu järgneva määratud ülesande:"
 
 #: plugins/itip-formatter/itip-view.c:435
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
-msgstr "<b>%s</b> tühistas järgneva koosoleku."
+msgstr "<b>%s</b> tühistas järgneva määratud ülesande:"
 
 #: plugins/itip-formatter/itip-view.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
-msgstr "<b>%s</b> nõustus järgneva koosolekuga:"
+msgstr "<b>%s</b> esitas järgnevad muudatused määratud ülesandele:"
 
 #: plugins/itip-formatter/itip-view.c:442
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
-msgstr "<b>%s</b> tühistas %s kaudu järgneva koosoleku:"
+msgstr "<b>%s</b> keeldus %s kaudu järgneva määratud ülesande:"
 
 #: plugins/itip-formatter/itip-view.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
-msgstr "<b>%s</b> nõustus järgneva koosolekuga:"
+msgstr "<b>%s</b> keeldus järgnevast määratud ülesandest:"
 
 #. Comment
 #: plugins/itip-formatter/itip-view.c:892
@@ -14539,9 +14508,8 @@ msgstr ""
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/new-mail-notify/new-mail-notify.c:66
-#, fuzzy
 msgid "_Generates a D-BUS message when new mail arrives"
-msgstr "_Uutest sõnumitest ei teavitata"
+msgstr "_Genereerib uue kirja saabumisel D-BUS sõnumi"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
@@ -14716,9 +14684,8 @@ msgid "The participants will receive the following notification.\n"
 msgstr ""
 
 #: plugins/shared-folder/properties.glade.h:11
-#, fuzzy
 msgid "_Contacts..."
-msgstr "Kontaktid..."
+msgstr "_Kontaktid..."
 
 #: plugins/shared-folder/properties.glade.h:12
 #, fuzzy
@@ -14801,9 +14768,8 @@ msgid "List of paths for the folders to be synchronized to disk for offline usag
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:9
-#, fuzzy
 msgid "Printer settings"
-msgstr "P_ilot'i sätted..."
+msgstr "Printeri sätted..."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Skip development warning dialog"
@@ -16265,7 +16231,7 @@ msgstr "Loob või muudab uute sõnumite filtreerimisreegleid"
 #: ui/evolution-mail-global.xml.h:5
 #, fuzzy
 msgid "Create or edit vFolder definitions"
-msgstr "Loob või muudab virtuaalsete kaustade kirjeldusi"
+msgstr "Loo või muuda vKausta ???"
 
 #: ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
@@ -16304,9 +16270,8 @@ msgid "_Filters..."
 msgstr "_Filtrid..."
 
 #: ui/evolution-mail-global.xml.h:18
-#, fuzzy
 msgid "vFolder _Editor..."
-msgstr "Virtuaalse kausta _redaktor..."
+msgstr "vKausta _redaktor..."
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
@@ -16445,9 +16410,8 @@ msgid "Copy selected messages to another folder"
 msgstr "Kopeerib valitud sõnumi teise kausta"
 
 #: ui/evolution-mail-message.xml.h:12
-#, fuzzy
 msgid "Create _vFolder From Message"
-msgstr "_Loo sõnumi baasil filter"
+msgstr "Loo _vKaust selle sõnumi alusel"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages from this sender"
@@ -16466,24 +16430,20 @@ msgid "Create a rule to filter messages with this subject"
 msgstr "Loob reegli filtreerimaks selle teemaga sõnumeid"
 
 #: ui/evolution-mail-message.xml.h:17
-#, fuzzy
 msgid "Create a vFolder for these recipients"
-msgstr "Loob virtuaalse kausta selle sõnumi adressaatide järgi"
+msgstr "Loo vKaust nende adressaatide jaoks"
 
 #: ui/evolution-mail-message.xml.h:18
-#, fuzzy
 msgid "Create a vFolder for this mailing list"
-msgstr "Loob virtuaalse kausta selle sõnumi postiloendi järgi"
+msgstr "Loo vKaust selle postiloendi jaoks"
 
 #: ui/evolution-mail-message.xml.h:19
-#, fuzzy
 msgid "Create a vFolder for this sender"
-msgstr "Loob virtuaalse kausta selle sõnumi saatja järgi"
+msgstr "Loo vKaust selle saatja jaoks"
 
 #: ui/evolution-mail-message.xml.h:20
-#, fuzzy
 msgid "Create a vFolder for this subject"
-msgstr "Loob virtuaalse kausta selle sõnumi teema järgi"
+msgstr "Loo vKaust selle teema jaoks"
 
 #: ui/evolution-mail-message.xml.h:23
 msgid "Decrease the text size"
@@ -16799,24 +16759,20 @@ msgid "_Undelete"
 msgstr "_Taasta"
 
 #: ui/evolution-mail-message.xml.h:127
-#, fuzzy
 msgid "vFolder on Mailing _List..."
-msgstr "VKaust _postiloendi järgi..."
+msgstr "vKaust _postiloendi järgi..."
 
 #: ui/evolution-mail-message.xml.h:128
-#, fuzzy
 msgid "vFolder on Se_nder..."
-msgstr "VKaust _saatja järgi..."
+msgstr "vKaust _saatja järgi..."
 
 #: ui/evolution-mail-message.xml.h:129
-#, fuzzy
 msgid "vFolder on _Recipients..."
-msgstr "VKaust _adressaatide järgi..."
+msgstr "vKaust _adressaatide järgi..."
 
 #: ui/evolution-mail-message.xml.h:130
-#, fuzzy
 msgid "vFolder on _Subject..."
-msgstr "VKaust _teema järgi..."
+msgstr "vKaust _teema järgi..."
 
 #: ui/evolution-mail-messagedisplay.xml.h:1
 #: ui/evolution-message-composer.xml.h:3
@@ -17741,7 +17697,6 @@ msgid "A_uto-delete sent item"
 msgstr ""
 
 #: widgets/misc/e-send-options.glade.h:6
-#, fuzzy
 msgid "C_lassification"
 msgstr "_Liigitamine"
 
@@ -17787,7 +17742,7 @@ msgstr "_Vastamise stiil:"
 
 #: widgets/misc/e-send-options.glade.h:21
 msgid "Sta_tus  Tracking"
-msgstr ""
+msgstr "_Oleku jälgimine"
 
 #: widgets/misc/e-send-options.glade.h:22
 msgid ""
@@ -17804,7 +17759,7 @@ msgstr "Laius"
 
 #: widgets/misc/e-send-options.glade.h:27
 msgid "When acce_pted: "
-msgstr ""
+msgstr "Kui _nõustutakse:"
 
 #: widgets/misc/e-send-options.glade.h:28
 #, fuzzy
@@ -17813,7 +17768,7 @@ msgstr "_Lõpetamise kuupäev:"
 
 #: widgets/misc/e-send-options.glade.h:29
 msgid "When decli_ned:    "
-msgstr ""
+msgstr "Kui k_eeldutakse:"
 
 #: widgets/misc/e-send-options.glade.h:30
 msgid "_After:"
