@@ -584,7 +584,7 @@ create_component (void)
 	add_creatable_item (shell_component, "contact_list",
 			    _("New Contact List"), _("Contact _List"),
 			    _("Create a new contact list"), 'l',
-			    "all_contacts.xpm");
+			    "contact-list-16.png");
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
