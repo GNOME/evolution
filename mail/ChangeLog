@@ -1,5 +1,10 @@
 2003-11-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-vfolder.c (context_rule_removed): Modified to not use
+	EStorage* functions. I don't even think it *needs* to remove the
+	folder from the mail-component, the mail-component should just
+	pick it up automagically via CamelStore events.
+
 	* em-folder-tree.[c,h]: New folder-tree widget that replaces the
 	shell's folder-tree widget.
 

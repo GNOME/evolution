@@ -29,7 +29,6 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "Evolution.h"
-#include "evolution-storage.h"
 
 #include "evolution-shell-component.h"
 #include "mail-component.h"
@@ -645,14 +644,14 @@ static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 	d(printf("rule removed; %s\n", rule->name));
 
 	/* TODO: remove from folder info cache? */
-
+	
+	/* FIXME: is this even necessary? if we remove the folder from
+	 * the CamelStore, the tree should pick it up auto-magically
+	 * because it listens to CamelStore events... */
 	path = g_strdup_printf("/%s", rule->name);
-
-	/* EPFIXME This leaks, the original code was broken too.  */
-	e_storage_removed_folder (mail_component_lookup_storage (mail_component_peek (), vfolder_store), path);
-
+	mail_component_remove_folder (mail_component_peek (), vfolder_store, path);
 	g_free(path);
-
+	
 	LOCK();
 	if (g_hash_table_lookup_extended(vfolder_hash, rule->name, (void **)&key, (void **)&folder)) {
 		g_hash_table_remove(vfolder_hash, key);

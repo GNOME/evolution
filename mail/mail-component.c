@@ -676,6 +676,12 @@ mail_component_storages_foreach (MailComponent *component, GHFunc func, void *us
 }
 
 
+void
+mail_component_remove_folder (MailComponent *component, CamelStore *store, const char *path)
+{
+	/* FIXME: implement me */
+}
+
 EMFolderTreeModel *
 mail_component_get_tree_model (MailComponent *component)
 {
