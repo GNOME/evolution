@@ -1,3 +1,10 @@
+2002-01-22  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/dialogs/alarm-options.glade: Use 1 instead of zero as the
+	minimum value for the repetitions spin button as we use a check
+	box to specify whether the alarm has repetitions or not.  Fixes
+	bug #19054.
+
 2002-01-17  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/alarm-page.c (get_alarm_string): save the alarm string
