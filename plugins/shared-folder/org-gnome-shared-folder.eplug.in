@@ -1,0 +1,48 @@
+<e-plugin-list>
+	<e-plugin id="org.gnome.evolution.mail_shared_folder" type="shlib" name="Shared folder" description="shared folder properties "
+		location="@PLUGINDIR@/liborg-gnome-shared-folder.so">
+	
+		<hook class="org.gnome.evolution.mail.config:1.0">
+			<group 
+			 id="org.gnome.evolution.mail.folderConfig"
+			 target="folder"
+			 check="shared_folder_validate"
+			 commit="shared_folder_commit"
+			 abort="shared_folder_abort">
+				<item type="page" path="10.shared" label="_Shared" factory="org_gnome_shared_folder_factory"/>
+			</group>
+		</hook>
+	</e-plugin>
+
+  <e-plugin id="org.gnome.mail.folder.share_option" 
+   type="shlib" domain="evolution" name="SHARE Folders"
+   location="@PLUGINDIR@/liborg-gnome-shared-folder.so">
+    <description>Allows sharing folders in the folder tree context menu</description>
+    <author name="Jeffrey Stedfast" email="fejj@novell.com"/>
+    <hook class="org.gnome.evolution.mail.popup:1.0">
+      <menu id="org.gnome.evolution.mail.foldertree.popup" target="folder">
+        <item type="item" path="20.emc.03" label="_Share"
+		activate="org_gnome_shared_option"
+         enable="delete" visible="delete"/>
+      </menu>
+    </hook>
+  </e-plugin>
+
+  <e-plugin id="org.gnome.mail.folder.create_option" 
+   type="shlib" domain="evolution" name="CREATE Folders"
+   location="@PLUGINDIR@/liborg-gnome-shared-folder.so">
+    <description>Allows sharing folders in the folder tree context menu</description>
+    <author name="Jeffrey Stedfast" email="fejj@novell.com"/>
+    <hook class="org.gnome.evolution.mail.popup:1.0">
+      <menu id="org.gnome.evolution.mail.foldertree.popup" target="folder">
+        <item type="item" path="20.emc.00" label="_Create New"
+		activate="org_gnome_create_option"
+         enable="delete" visible="delete"/>
+      </menu>
+    </hook>
+  </e-plugin>
+
+
+
+
+</e-plugin-list>
