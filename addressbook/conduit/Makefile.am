@@ -16,7 +16,7 @@ e_address_conduit_control_applet_LDADD = 	\
 		$(CAPPLET_LIBS)  		\
 		$(GNOME_LIBDIR) 		\
 		$(GNOME_PILOT_LIBS) 		\
-		$(PISOCK_LIBDIR) $(PISOCK_LIBS) \
+		$(PISOCK_LIBS) 			\
 		$(GNOME_CAPPLET_LIBS) 		\
 		$(BONOBO_GNOME_LIBS) 		\
 		$(GNOME_XML_LIB) 		\

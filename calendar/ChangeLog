@@ -1,3 +1,9 @@
+2001-02-19  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/Makefile.am: Remove PISOCK_LIBDIR
+
+	* conduits/calendar/Makefile.am: ditto
+
 2001-02-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/calbackend-db.c (cal_backend_db_destroy): close DB environment.
