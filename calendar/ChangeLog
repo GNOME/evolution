@@ -1,3 +1,8 @@
+2003-11-28  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-meeting-store.c (e_meeting_store_get_type): allocate the
+	type information correctly
+
 2003-11-26  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/calendar-offline-handler.c (backend_go_offline): e_cal_new () ->

@@ -633,13 +633,13 @@ e_meeting_store_get_type (void)
 
 	if (!ems_type) {
 		static const GTypeInfo ems_info = {
-				sizeof (GtkListStoreClass),
+				sizeof (EMeetingStoreClass),
 				NULL,           /* base_init */
 				NULL,           /* base_finalize */
 				(GClassInitFunc) ems_class_init,
 				NULL,           /* class_finalize */
 				NULL,           /* class_data */
-				sizeof (GtkListStore),
+				sizeof (EMeetingStore),
 				0,
 				(GInstanceInitFunc) ems_init };
 				                                                                                                
@@ -648,7 +648,7 @@ e_meeting_store_get_type (void)
 				NULL,
 				NULL };
 					                                                                                              
-		ems_type = g_type_register_static (G_TYPE_OBJECT, 
+		ems_type = g_type_register_static (GTK_TYPE_LIST_STORE, 
 						   "EMeetingStore",
 						   &ems_info, 0);
  
