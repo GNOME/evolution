@@ -492,6 +492,7 @@ impl_debug (PortableServer_Servant servant,
 static void
 impl_interactive (PortableServer_Servant servant,
 		  CORBA_boolean interactive,
+		  CORBA_unsigned_long new_view_xid,
 		  CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
@@ -500,7 +501,8 @@ impl_interactive (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
 
-	g_signal_emit (shell_component, signals[INTERACTIVE], 0, interactive);
+	g_signal_emit (shell_component, signals[INTERACTIVE], 0,
+		       interactive, new_view_xid);
 }
 
 static Bonobo_Control
@@ -921,9 +923,10 @@ evolution_shell_component_class_init (EvolutionShellComponentClass *klass)
 				G_SIGNAL_RUN_FIRST,
 				G_STRUCT_OFFSET (EvolutionShellComponentClass, interactive),
 				NULL, NULL,
-				e_shell_marshal_NONE__BOOL,
-				G_TYPE_NONE, 1,
-				G_TYPE_BOOLEAN);
+				e_shell_marshal_NONE__BOOL_INT,
+				G_TYPE_NONE, 2,
+				G_TYPE_BOOLEAN,
+				G_TYPE_INT);
 
 	signals[HANDLE_EXTERNAL_URI]
 		= g_signal_new ("handle_external_uri",

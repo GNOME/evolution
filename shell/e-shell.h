@@ -144,9 +144,6 @@ void              e_shell_go_offline       (EShell     *shell,
 void              e_shell_go_online        (EShell     *shell,
 					    EShellView *action_view);
 
-void  e_shell_set_interactive  (EShell *shell,
-				gboolean interactive);
-
 void e_shell_send_receive  (EShell     *shell);
 void e_shell_show_settings (EShell     *shell,
 			    const char *type,

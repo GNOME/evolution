@@ -204,6 +204,7 @@ set_interactive (EShell *shell,
 {
 	EShellPrivate *priv;
 	GList *id_list, *p;
+	Window new_view_xid;
 
 	priv = shell->priv;
 
@@ -211,6 +212,16 @@ set_interactive (EShell *shell,
 		return;
 
 	priv->is_interactive = interactive;
+
+	if (interactive) {
+		GtkWidget *new_view;
+
+		g_return_if_fail (priv->views && priv->views->data);
+		new_view = priv->views->data;
+
+		new_view_xid = GDK_WINDOW_XWINDOW (new_view->window);
+	} else
+		new_view_xid = None;
 
 	id_list = e_component_registry_get_id_list (priv->component_registry);
 	for (p = id_list; p != NULL; p = p->next) {
@@ -225,7 +236,7 @@ set_interactive (EShell *shell,
 
 		CORBA_exception_init (&ev);
 
-		GNOME_Evolution_ShellComponent_interactive (shell_component_objref, interactive, &ev);
+		GNOME_Evolution_ShellComponent_interactive (shell_component_objref, interactive, new_view_xid, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION)
 			g_warning ("Error changing interactive status of component %s to %s -- %s\n",
 				   id, interactive ? "TRUE" : "FALSE", BONOBO_EX_REPOID (&ev));
@@ -646,16 +657,6 @@ impl_Shell_setLineStatus (PortableServer_Servant servant,
 		e_shell_go_online (shell, NULL);
 	else
 		e_shell_go_offline (shell, NULL);
-}
-
-
-void
-e_shell_set_interactive (EShell *shell,
-			 gboolean interactive)
-{
-	g_return_if_fail (E_IS_SHELL (shell));
-
-	set_interactive (shell, interactive);
 }
 
 

@@ -155,7 +155,8 @@ struct _EvolutionShellComponentClass {
 	void (* debug)       (EvolutionShellComponent *shell_component);
 
 	void (* interactive)  (EvolutionShellComponent *shell_component,
-			       gboolean is_interactive);
+			       gboolean is_interactive,
+			       unsigned long new_view_xid);
 
 	void (* handle_external_uri) (EvolutionShellComponent *shell_component,
 				      const char *uri);
