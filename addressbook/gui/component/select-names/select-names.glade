@@ -137,7 +137,7 @@
 	  <name>table5</name>
 	  <border_width>3</border_width>
 	  <rows>2</rows>
-	  <columns>3</columns>
+	  <columns>2</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>3</row_spacing>
 	  <column_spacing>3</column_spacing>
@@ -152,7 +152,6 @@
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <default_focus_target>optionmenu-folder</default_focus_target>
 	    <child>
 	      <left_attach>0</left_attach>
 	      <right_attach>1</right_attach>
@@ -196,50 +195,6 @@
 	  </widget>
 
 	  <widget>
-	    <class>GtkOptionMenu</class>
-	    <name>optionmenu-folder</name>
-	    <can_focus>True</can_focus>
-	    <items></items>
-	    <initial_choice>0</initial_choice>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>0</top_attach>
-	      <bottom_attach>1</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>True</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkButton</class>
-	    <name>button-browse</name>
-	    <can_focus>True</can_focus>
-	    <label>_Browse...</label>
-	    <relief>GTK_RELIEF_NORMAL</relief>
-	    <child>
-	      <left_attach>2</left_attach>
-	      <right_attach>3</right_attach>
-	      <top_attach>0</top_attach>
-	      <bottom_attach>1</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
 	    <class>GtkAlignment</class>
 	    <name>alignment5</name>
 	    <xalign>7.45058e-09</xalign>
@@ -248,7 +203,7 @@
 	    <yscale>1</yscale>
 	    <child>
 	      <left_attach>1</left_attach>
-	      <right_attach>3</right_attach>
+	      <right_attach>2</right_attach>
 	      <top_attach>1</top_attach>
 	      <bottom_attach>2</bottom_attach>
 	      <xpad>0</xpad>
@@ -269,6 +224,29 @@
 	      <int2>0</int2>
 	      <last_modification_time>Tue, 19 Feb 2002 23:06:24 GMT</last_modification_time>
 	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>Custom</class>
+	    <name>folder-selector</name>
+	    <creation_function>e_addressbook_create_folder_selector</creation_function>
+	    <int1>0</int1>
+	    <int2>0</int2>
+	    <last_modification_time>Mon, 15 Jul 2002 02:21:32 GMT</last_modification_time>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>True</yfill>
+	    </child>
 	  </widget>
 	</widget>
       </widget>

@@ -39,6 +39,7 @@
 #include <addressbook/gui/component/addressbook-storage.h>
 #include <addressbook/gui/component/addressbook.h>
 #include <shell/evolution-shell-client.h>
+#include <shell/evolution-folder-selector-button.h>
 
 #include "e-select-names.h"
 #include <addressbook/backend/ebook/e-card-simple.h>
@@ -54,6 +55,8 @@ static void e_select_names_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
 static void e_select_names_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_select_names_destroy (GtkObject *object);
 static void update_query (GtkWidget *widget, ESelectNames *e_select_names);
+
+extern EvolutionShellClient *global_shell_client;
 
 static GnomeDialogClass *parent_class = NULL;
 #define PARENT_TYPE gnome_dialog_get_type()
@@ -71,15 +74,6 @@ typedef struct {
 	GtkWidget             *label;
 	GtkWidget             *button;
 } ESelectNamesChild;
-
-struct _ESelectNamesFolder {
-	char *description;
-	char *display_name;
-	char *uri;
-	char *physicalUri;
-	char *path;
-	int   count;
-};
 
 GtkType
 e_select_names_get_type (void)
@@ -136,6 +130,7 @@ e_select_names_class_init (ESelectNamesClass *klass)
 </ETableSpecification>"
 
 GtkWidget *e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int num1, int num2);
+GtkWidget *e_addressbook_create_folder_selector(char *name, char *string1, char *string2, int num1, int num2);
 
 static void
 set_book(EBook *book, EBookStatus status, ESelectNames *esn)
@@ -161,9 +156,10 @@ set_book_with_model_data(EBook *book, EBookStatus status, EAddressbookModel *mod
 }
 
 static void
-addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model, const char *uri, ESelectNamesFolder *e_folder)
+addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model, const char *uri)
 {
 	EBook *book;
+	char *book_uri;
 
 	/* If uri == the current uri, then we don't have to do anything */
 	book = e_addressbook_model_get_ebook (model);
@@ -173,16 +169,24 @@ addressbook_model_set_uri(ESelectNames *e_select_names, EAddressbookModel *model
 			return;
 	}
 
+	if (!strncmp (uri, "file:", 5)) {
+		book_uri = g_strconcat (uri, "/addressbook.db", NULL);
+	}
+	else {
+		book_uri = g_strdup (uri);
+	}
+
 	book = e_book_new();
 	if (e_select_names) {
 		gtk_object_ref(GTK_OBJECT(e_select_names));
 		gtk_object_ref(GTK_OBJECT(model));
-		addressbook_load_uri(book, uri, (EBookCallback) set_book, e_select_names);
-		e_select_names->current_folder = e_folder;
+		addressbook_load_uri(book, book_uri, (EBookCallback) set_book, e_select_names);
 	} else {
 		gtk_object_ref(GTK_OBJECT(model));
-		addressbook_load_uri(book, uri, (EBookCallback) set_book_with_model_data, model);
+		addressbook_load_uri(book, book_uri, (EBookCallback) set_book_with_model_data, model);
 	}
+
+	g_free (book_uri);
 }
 
 static void *
@@ -327,20 +331,10 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	ETableModel *without;
 	EAddressbookModel *model;
 	GtkWidget *table;
-	char *filename;
-	char *uri;
 	char *spec;
 
 	model = e_addressbook_model_new ();
 	adapter = E_TABLE_MODEL (e_addressbook_table_adapter_new (model));
-
-	filename = gnome_util_prepend_user_home("evolution/local/Contacts/addressbook.db");
-	uri = g_strdup_printf("file://%s", filename);
-
-	addressbook_model_set_uri(NULL, model, uri, NULL);
-
-	g_free(uri);
-	g_free(filename);
 
 	gtk_object_set(GTK_OBJECT(model),
 		       "editable", FALSE,
@@ -366,135 +360,17 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	return table;
 }
 
-static void
-e_select_names_folder_free(ESelectNamesFolder *e_folder)
+GtkWidget *
+e_addressbook_create_folder_selector(char *name, char *string1, char *string2, int num1, int num2)
 {
-	g_free(e_folder->description );
-	g_free(e_folder->display_name);
-	g_free(e_folder->uri);
-	g_free(e_folder->physicalUri);
-	g_free(e_folder->path);
-	g_free(e_folder);
+	return (GtkWidget *)gtk_type_new (EVOLUTION_TYPE_FOLDER_SELECTOR_BUTTON);
 }
 
 static void
-e_select_names_option_activated(GtkWidget *widget, ESelectNames *e_select_names)
-{
-	ESelectNamesFolder *e_folder = gtk_object_get_data (GTK_OBJECT (widget), "EsnChoiceFolder");
-
-	addressbook_model_set_uri(e_select_names, e_select_names->model, e_folder->uri, e_folder);
-}
-
-typedef struct {
-	ESelectNames *names;
-	GtkWidget *menu;
-	int count;
-} NamesAndMenu;
-
-static void
-add_menu_item		(gpointer	key,
-			 gpointer	value,
-			 gpointer	user_data)
-{
-	GtkWidget *menu;
-	GtkWidget *item;
-	ESelectNamesFolder *e_folder;
-	NamesAndMenu *nnm;
-	ESelectNames *e_select_names;
-	gchar *label;
-
-	nnm = user_data;
-	e_folder = value;
-	menu = nnm->menu;
-	e_select_names = nnm->names;
-
-	label = e_utf8_to_locale_string (_(e_folder->display_name));
-	item = gtk_menu_item_new_with_label (label);
-	g_free (label);
-
-	gtk_menu_append (GTK_MENU (menu), item);
-	gtk_object_set_data (GTK_OBJECT (item), "EsnChoiceFolder", e_folder);
-
-	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    GTK_SIGNAL_FUNC (e_select_names_option_activated),
-			    e_select_names);
-
-	e_folder->count = nnm->count++;
-}
-
-static void
-update_option_menu(ESelectNames *e_select_names)
-{
-	GtkWidget *menu;
-	GtkWidget *option;
-
-	option = glade_xml_get_widget (e_select_names->gui,
-				       "optionmenu-folder");
-	if (option) {
-		NamesAndMenu nnm;
-		menu = gtk_menu_new ();
-
-		nnm.names = e_select_names;
-		nnm.menu = menu;
-		nnm.count = 0;
-
-		g_hash_table_foreach	(e_select_names->folders,
-					 add_menu_item,
-					 &nnm);
-
-		gtk_widget_show_all (menu);
-
-		gtk_option_menu_set_menu (GTK_OPTION_MENU (option), 
-					  menu);
-		gtk_option_menu_set_history (GTK_OPTION_MENU (option), 0);
-		gtk_widget_set_sensitive (option, TRUE);
-	}
-}
-
-static void
-new_folder      (EvolutionStorageListener *storage_listener,
-		 const char *path,
-		 const GNOME_Evolution_Folder *folder,
+folder_selected (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folder *folder,
 		 ESelectNames *e_select_names)
 {
-	if (!strcmp(folder->type, "contacts")
-	    || !strcmp(folder->type, "ldap-contacts")) {
-		ESelectNamesFolder *e_folder = g_new(ESelectNamesFolder, 1);
-		e_folder->description  = g_strdup(folder->description );
-		if (!strcmp (folder->type, "ldap-contacts"))
-			e_folder->display_name = g_strdup_printf ("%s [LDAP]", folder->displayName);
-		else
-			e_folder->display_name = g_strdup(folder->displayName);
-
-		if (!strncmp (folder->physicalUri, "file:", 5))
-			e_folder->uri = g_strdup_printf ("%s/addressbook.db", folder->physicalUri);
-		else
-			e_folder->uri = g_strdup(folder->physicalUri);
-		e_folder->physicalUri = g_strdup(folder->physicalUri);
-		e_folder->path = g_strdup (path);
-		e_folder->count = -1;
-		g_hash_table_insert(e_select_names->folders,
-				    e_folder->path, e_folder);
-		g_hash_table_insert(e_select_names->folders_by_uri,
-				    e_folder->physicalUri, e_folder);
-		update_option_menu(e_select_names);
-	}
-}
-
-static void
-removed_folder  (EvolutionStorageListener *storage_listener,
-		 const char *path,
-		 ESelectNames *e_select_names)
-{
-	ESelectNamesFolder *e_folder;
-
-	if ((e_folder = g_hash_table_lookup(e_select_names->folders, path))) {
-		g_hash_table_remove(e_select_names->folders_by_uri,
-				    e_folder->physicalUri);
-		g_hash_table_remove(e_select_names->folders, path);
-		e_select_names_folder_free(e_folder);
-		update_option_menu(e_select_names);
-	}
+	addressbook_model_set_uri(e_select_names, e_select_names->model, folder->physicalUri);
 }
 
 static void
@@ -581,181 +457,6 @@ select_entry_changed (GtkWidget *widget, ESelectNames *e_select_names)
 	}
 }
 
-extern EvolutionShellClient *global_shell_client;
-
-static void
-folder_browse (GtkWidget *widget, ESelectNames *e_select_names)
-{
-	const char *allowed_types[] = { "contacts", NULL };
-	GNOME_Evolution_Folder *folder;
-	const char *current_uri = "";
-	ESelectNamesFolder *e_folder;
-
-	if (e_select_names->current_folder && e_select_names->current_folder->physicalUri) {
-		current_uri = e_select_names->current_folder->physicalUri;
-	}
-
-	evolution_shell_client_user_select_folder (global_shell_client,
-						   GTK_WINDOW (gtk_widget_get_toplevel (widget)),
-						   _("Find contact in"), current_uri,
-						   allowed_types,
-						   &folder);
-	if (!folder)
-		return;
-
-	if ((e_folder = g_hash_table_lookup(e_select_names->folders_by_uri, folder->physicalUri))) {
-		GtkWidget *option;
-
-		option = glade_xml_get_widget (e_select_names->gui,
-					       "optionmenu-folder");
-		if (e_folder->count != -1 && option) {
-			gtk_option_menu_set_history (GTK_OPTION_MENU (option), e_folder->count);
-		}
-
-		addressbook_model_set_uri(e_select_names, e_select_names->model, e_folder->uri, e_folder);
-	}
-}
-
-
-static void
-hookup_listener (ESelectNames *e_select_names,
-		 GNOME_Evolution_Storage storage,
-		 EvolutionStorageListener *listener,
-		 CORBA_Environment *ev)
-{
-	GNOME_Evolution_StorageListener corba_listener;
-
-	g_return_if_fail (storage != CORBA_OBJECT_NIL);
-
-	corba_listener = evolution_storage_listener_corba_objref(listener);
-
-	gtk_signal_connect(GTK_OBJECT(listener), "new_folder",
-			   GTK_SIGNAL_FUNC(new_folder), e_select_names);
-	gtk_signal_connect(GTK_OBJECT(listener), "removed_folder",
-			   GTK_SIGNAL_FUNC(removed_folder), e_select_names);
-
-	GNOME_Evolution_Storage_addListener(storage, corba_listener, ev);
-
-	if (ev->_major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_select_names_init: Exception adding listener to "
-			   "remote GNOME_Evolution_Storage interface.\n");
-		return;
-	}
-}
-
-static void
-add_additional_select_names_uris (ESelectNames *e_select_names, CORBA_Environment *ev)
-{
-	Bonobo_ConfigDatabase config_db;
-	guint32 num_additional_uris;
-	int i;
-	gboolean flag;
-
-	config_db = addressbook_config_database (ev);
-
-	num_additional_uris = bonobo_config_get_ulong_with_default (config_db, "/Addressbook/additional_select_names_folders/num", 0, &flag);
-	for (i = 0; i < num_additional_uris; i ++) {
-		ESelectNamesFolder *e_folder;
-		char *config_path;
-		char *path;
-		char *name;
-		char *uri;
-
-		config_path = g_strdup_printf ("/Addressbook/additional_select_names_folders/folder_%d_path", i);
-		path = bonobo_config_get_string (config_db, config_path, ev);
-		g_free (config_path);
-
-		config_path = g_strdup_printf ("/Addressbook/additional_select_names_folders/folder_%d_name", i);
-		name = bonobo_config_get_string (config_db, config_path, ev);
-		g_free (config_path);
-
-		config_path = g_strdup_printf ("/Addressbook/additional_select_names_folders/folder_%d_uri", i);
-		uri = bonobo_config_get_string (config_db, config_path, ev);
-		g_free (config_path);
-
-		if (!path || !name || !uri) {
-			g_free (path);
-			g_free (name);
-			g_free (uri);
-			continue;
-		}
-
-		e_folder = g_new(ESelectNamesFolder, 1);
-		e_folder->description  = g_strdup("");
-		e_folder->display_name = g_strdup(name);
-		if (!strncmp (uri, "file:", 5))
-			e_folder->uri = g_strdup_printf ("%s/addressbook.db", uri);
-		else
-			e_folder->uri = g_strdup(uri);
-		g_hash_table_insert(e_select_names->folders,
-				    g_strdup(path), e_folder);
-	}
-
-	if (num_additional_uris)
-		update_option_menu(e_select_names);
-}
-
-static void
-e_select_names_hookup_shell_listeners (ESelectNames *e_select_names)
-{
-	EvolutionStorage *other_contact_storage;
-	GNOME_Evolution_Storage storage;
-	CORBA_Environment ev;
-	
-	CORBA_exception_init(&ev);
-
-	storage = (GNOME_Evolution_Storage) (evolution_shell_client_get_local_storage(addressbook_component_get_shell_client()));
-	e_select_names->local_listener = evolution_storage_listener_new();
-
-	/* This should really never happen, but a bug report (ximian #5193) came in w/ a backtrace suggesting that it did in
-	   fact happen to someone, so the best we can do is try to avoid crashing in this case. */
-	if (storage == CORBA_OBJECT_NIL) {
-		GtkWidget *oh_shit;
-
-#if 0
-		oh_shit = gnome_error_dialog (_("Evolution is unable to get the addressbook local storage.\n"
-						"This may have been caused by the evolution-addressbook component crashing.\n"
-						"To help us better understand and ultimately resolve this problem,\n"
-						"please send an e-mail to Jon Trowbridge <trow@ximian.com> with a\n"
-						"detailed description of the circumstances under which this error\n"
-						"occurred.  Thank you."));
-#endif
-
-		oh_shit = gnome_error_dialog (_("Evolution is unable to get the addressbook local storage.\n"
-						"Under normal circumstances, this should never happen.\n"
-						"You may need to exit and restart Evolution in order to\n"
-						"correct this problem."));
-		gtk_widget_show (oh_shit);
-		return;
-	}
-	else {
-		hookup_listener (e_select_names, storage, e_select_names->local_listener, &ev);
-		bonobo_object_release_unref(storage, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("e_select_names_init: Exception unref'ing "
-				   "remote GNOME_Evolution_Storage interface.\n");
-			CORBA_exception_free (&ev);
-			return;
-		}
-	}
-
-	other_contact_storage = addressbook_get_other_contact_storage ();
-	if (other_contact_storage) {
-		storage = bonobo_object_corba_objref (BONOBO_OBJECT (other_contact_storage));
-		e_select_names->other_contacts_listener = evolution_storage_listener_new();
-
-		hookup_listener (e_select_names, storage, e_select_names->other_contacts_listener, &ev);
-	}
-
-	/* XXX kludge to fill in folders for the exchange plugin.  we
-	   latch onto a set of bonobo-conf settings that are
-	   maintained by the plugin and do the right magic to get the
-	   folders displayed in the option menu */
-	add_additional_select_names_uris (e_select_names, &ev);
-	
-	CORBA_exception_free(&ev);
-}
-
 GtkWidget *e_select_names_create_categories (gchar *name,
 					     gchar *string1, gchar *string2,
 					     gint int1, gint int2);
@@ -780,6 +481,9 @@ e_select_names_init (ESelectNames *e_select_names)
 {
 	GladeXML *gui;
 	GtkWidget *widget, *button;
+	const char *selector_types[] = { "contacts", "ldap-contacts", NULL };
+	char *filename;
+	char *uri;
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/select-names.glade", NULL);
 	e_select_names->gui = gui;
@@ -837,21 +541,29 @@ e_select_names_init (ESelectNames *e_select_names)
 		gtk_signal_connect(GTK_OBJECT(button), "clicked",
 				   GTK_SIGNAL_FUNC(update_query), e_select_names);
 
-	button  = glade_xml_get_widget (gui, "button-browse");
-	if (button && GTK_IS_BUTTON (button))
-		gtk_signal_connect(GTK_OBJECT(button), "clicked",
-				   GTK_SIGNAL_FUNC(folder_browse), e_select_names);
-
-	e_select_names->folders = g_hash_table_new(g_str_hash, g_str_equal);
-	e_select_names->folders_by_uri = g_hash_table_new(g_str_hash, g_str_equal);
-
-	e_select_names_hookup_shell_listeners (e_select_names);
+	button = glade_xml_get_widget (gui, "folder-selector");
+	evolution_folder_selector_button_construct (EVOLUTION_FOLDER_SELECTOR_BUTTON (button),
+						    global_shell_client,
+						    _("Find contact in"),
+						    "evolution:/local/Contacts",
+						    selector_types);
+	if (button && EVOLUTION_IS_FOLDER_SELECTOR_BUTTON (button))
+		gtk_signal_connect(GTK_OBJECT(button), "selected",
+				   GTK_SIGNAL_FUNC(folder_selected), e_select_names);
 
 	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (e_select_names->table)), "double_click",
 			    GTK_SIGNAL_FUNC (add_address), e_select_names);
 	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (e_select_names->table)), "selection_change",
 			    GTK_SIGNAL_FUNC (selection_change), e_select_names);
 	selection_change (e_table_scrolled_get_table (e_select_names->table), e_select_names);
+
+	filename = gnome_util_prepend_user_home("evolution/local/Contacts");
+	uri = g_strdup_printf("file://%s", filename);
+
+	addressbook_model_set_uri(e_select_names, e_select_names->model, uri);
+
+	g_free(uri);
+	g_free(filename);
 }
 
 static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESelectNames *e_select_names)

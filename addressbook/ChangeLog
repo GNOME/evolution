@@ -1,3 +1,33 @@
+2002-07-16  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/select-names.glade: remove the option
+	menu and browse button, and add a custom widget placeholder for
+	the folder-selector.
+
+	* gui/component/select-names/e-select-names.c
+	(addressbook_model_set_uri): move the "append /addressbook.db"
+	stuff here.
+	(e_addressbook_create_ebook_table): remove the code setting
+	initial uri from here.
+	(e_select_names_folder_free): gone.
+	(e_select_names_option_activated): gone.
+	(add_menu_item): gone.
+	(update_option_menu): gone.
+	(new_folder): gone.
+	(removed_folder): gone.
+	(folder_browse): gone.
+	(hookup_listner): gone.
+	(add_additional_select_names_uris): gone.
+	(e_select_names_hookup_listners): gone.
+	(e_addressbook_create_folder_selector): new function, create the
+	folder selector button.
+	(folder_selected): new function, callback for the folder selector.
+	just calls addresbook_model_set_uri.
+	(e_select_names_init): get the folder selector and initialize it
+	to show /local/Contacts.  also, set the model's uri here to the
+	same folder.  nuke the code involving the old option menu and
+	browse button.
+
 2002-07-08  Peter Williams  <peterw@ximian.com>
 
 	* gui/component/select-names/Makefile.am (idl_DATA): Install the
