@@ -64,7 +64,6 @@
 
 #define d(x) x
 
-
 struct _EMFolderTreePrivate {
 	GtkTreeView *treeview;
 	EMFolderTreeModel *model;
@@ -1730,12 +1729,12 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	struct _copy_folder_data *cfd = data;
 	struct _EMFolderTreePrivate *priv;
 	CamelStore *fromstore, *tostore;
-	char *tobase, *frombase;
+	char *tobase = NULL, *frombase;
 	GtkWindow *parent;
 	CamelException ex;
 	GtkWidget *dialog;
 	CamelURL *url;
-	
+
 	if (uri == NULL) {
 		g_free (cfd);
 		return;
@@ -1763,13 +1762,13 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	}
 	
 	url = camel_url_new (uri, NULL);
-	if (url->fragment)
+	if ( ((CamelService *)tostore)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH )
 		tobase = url->fragment;
 	else if (url->path && url->path[0])
-		tobase = url->path + 1;
-	else
+		tobase = url->path+1;
+	if (tobase == NULL)
 		tobase = "";
-	
+
 	emft_copy_folders (tostore, tobase, fromstore, frombase, cfd->delete);
 	
 	camel_url_free (url);
