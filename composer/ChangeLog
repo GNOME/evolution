@@ -1,3 +1,8 @@
+2003-02-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment.c (update_mime_type): Give
+	gnome_vfs_get_uri_from_local_path a full path.
+
 2003-01-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_new_from_url): If the subject

@@ -37,6 +37,8 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
 
+#include "e-util/e-mktemp.h"
+
 #include "e-msg-composer.h"
 #include "e-msg-composer-attachment.h"
 
@@ -302,21 +304,35 @@ destroy_dialog_data (DialogData *data)
 static void
 update_mime_type (DialogData *data)
 {
-	const char *filename;
-	char *mime_type, *uri;
+	const char *filename, *tmpdir;
+	char *mime_type, *path, *uri;
 	
 	if (!data->attachment->guessed_type)
 		return;
 	
 	filename = gtk_entry_get_text (data->file_name_entry);
-	
-	uri = gnome_vfs_get_uri_from_local_path (filename);
-	mime_type = gnome_vfs_get_mime_type (uri);
-	g_free (uri);
-	
-	if (mime_type) {
-		gtk_entry_set_text (data->mime_type_entry, mime_type);
-		g_free (mime_type);
+	if (filename) {
+		/* gnome_vfs_get_mime_type() might try to access the
+		 * file and read it to 'sniff' the mime-type if it is
+		 * there (and gnome-vfs can't determine the mime-type
+		 * based on filename extension?), so we need to make
+		 * sure the file doesn't exist yet we want to keep the
+		 * filename intact so that gnome-vfs can try and
+		 * determine the mime-type by the filename. This is
+		 * kinda nasty.
+		 */
+		
+		tmpdir = e_mkdtemp ("mime-identify-XXXXXX");
+		path = g_strdup_printf ("%s/%s", tmpdir, filename);
+		uri = gnome_vfs_get_uri_from_local_path (path);
+		mime_type = gnome_vfs_get_mime_type (uri);
+		g_free (path);
+		g_free (uri);
+		
+		if (mime_type) {
+			gtk_entry_set_text (data->mime_type_entry, mime_type);
+			g_free (mime_type);
+		}
 	}
 }
 
