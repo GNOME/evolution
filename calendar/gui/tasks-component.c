@@ -59,7 +59,9 @@ static BonoboObjectClass *parent_class = NULL;
 extern ECompEditorRegistry *comp_editor_registry;
 
 struct _TasksComponentPrivate {
+	char *base_directory;
 	char *config_directory;
+
 	GConfClient *gconf_client;
 
 	ESourceList *source_list;
@@ -474,6 +476,7 @@ impl_finalize (GObject *object)
 {
 	TasksComponentPrivate *priv = TASKS_COMPONENT (object)->priv;
 
+	g_free (priv->base_directory);
 	g_free (priv->config_directory);
 	g_free (priv);
 
@@ -489,49 +492,9 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 			 CORBA_short revision,
 			 CORBA_Environment *ev)
 {
-	TasksComponentPrivate *priv;
-	GSList *groups;
-	ESourceGroup *group;
-	ESource *source;
-	char *base_uri, *new_dir;
 	TasksComponent *component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
 
-	priv = component->priv;
-
-	base_uri = g_build_filename (g_get_home_dir (),
-				     ".evolution/tasks/local/OnThisComputer/",
-				     NULL);
-
-	/* create default tasks folders if there are no groups */
-	groups = e_source_list_peek_groups (priv->source_list);
-	if (!groups) {
-		/* create the source group */
-		group = e_source_group_new (_("On This Computer"), base_uri);
-		e_source_list_add_group (priv->source_list, group, -1);
- 		e_source_list_sync (priv->source_list, NULL);
-	}
-
-	if (major == 1 && minor <= 4) {
-		group = e_source_list_peek_group_by_name (priv->source_list, _("On This Computer"));
-
-		/* migrate tasks from older setup */
-		if (!migrate_old_tasks (group)) {
-			/* create default tasks folders */
-			new_dir = g_build_filename (base_uri, "Personal/", NULL);
-			if (!e_mkdir_hier (new_dir, 0700)) {
-				source = e_source_new (_("Personal"), "Personal");
-				e_source_group_add_source (group, source, -1);
-			}
-
-			g_free (new_dir);
-		}
-
- 		e_source_list_sync (priv->source_list, NULL);
-	}
-
-	g_free (base_uri);
-
-	return CORBA_TRUE;
+	return migrate_tasks (component, major, minor, revision);
 }
 
 static void
@@ -803,6 +766,8 @@ tasks_component_init (TasksComponent *component, TasksComponentClass *klass)
 	TasksComponentPrivate *priv;
 
 	priv = g_new0 (TasksComponentPrivate, 1);
+
+	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
 	priv->config_directory = g_build_filename (g_get_home_dir (),
 						   ".evolution", "tasks", "config",
 						   NULL);
@@ -837,9 +802,21 @@ tasks_component_peek (void)
 }
 
 const char *
+tasks_component_peek_base_directory (TasksComponent *component)
+{
+	return component->priv->base_directory;
+}
+
+const char *
 tasks_component_peek_config_directory (TasksComponent *component)
 {
-	return (const char *) component->priv->config_directory;
+	return component->priv->config_directory;
+}
+
+ESourceList *
+tasks_component_peek_source_list (TasksComponent *component)
+{
+	return component->priv->source_list;	
 }
 
 BONOBO_TYPE_FUNC_FULL (TasksComponent, GNOME_Evolution_Component, PARENT_TYPE, tasks_component)

@@ -24,8 +24,10 @@
 #define MIGRATION_H
 
 #include <libedataserver/e-source-group.h>
+#include "calendar-component.h"
+#include "tasks-component.h"
 
-gboolean migrate_old_calendars (ESourceGroup *source_group);
-gboolean migrate_old_tasks (ESourceGroup *source_group);
+gboolean migrate_calendars (CalendarComponent *component, int major, int minor, int revision);
+gboolean migrate_tasks (TasksComponent *component, int major, int minor, int revision);
 
 #endif

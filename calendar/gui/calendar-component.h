@@ -59,6 +59,7 @@ GType calendar_component_get_type  (void);
 
 CalendarComponent *calendar_component_peek  (void);
 
+const char       *calendar_component_peek_base_directory    (CalendarComponent *component);
 const char       *calendar_component_peek_config_directory  (CalendarComponent *component);
 ESourceList      *calendar_component_peek_source_list       (CalendarComponent *component);
 EActivityHandler *calendar_component_peek_activity_handler  (CalendarComponent *component);

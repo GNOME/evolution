@@ -59,6 +59,7 @@
 static BonoboObjectClass *parent_class = NULL;
 
 struct _CalendarComponentPrivate {
+	char *base_directory;
 	char *config_directory;
 
 	GConfClient *gconf_client;
@@ -449,8 +450,8 @@ impl_finalize (GObject *object)
 {
 	CalendarComponentPrivate *priv = CALENDAR_COMPONENT (object)->priv;
 
+	g_free (priv->base_directory);
 	g_free (priv->config_directory);
-
 	g_free (priv);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -466,73 +467,9 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 			 CORBA_short revision,
 			 CORBA_Environment *ev)
 {
-	CalendarComponentPrivate *priv;
-	GSList *groups;
-	ESourceGroup *group;
-	ESource *source;
-	char *base_uri, *new_dir;
 	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
 
-	priv = calendar_component->priv;
-
-	base_uri = g_build_filename (g_get_home_dir (),
-				     "/.evolution/calendar/local/OnThisComputer/",
-				     NULL);
-
-	/* create default calendars if there are no groups */
-	groups = e_source_list_peek_groups (priv->source_list);
-	if (!groups) {
-		/* create the local source group */
-		group = e_source_group_new (_("On This Computer"), base_uri);
-		e_source_list_add_group (priv->source_list, group, -1);
-
-		/* create the remote source group */
-		group = e_source_group_new (_("On The Web"), "webcal://");
-		e_source_list_add_group (priv->source_list, group, -1);
- 		e_source_list_sync (priv->source_list, NULL);
-	}
-
-	if (major == 1 && minor <= 4) {
-		group = e_source_list_peek_group_by_name (priv->source_list, _("On This Computer"));
-
-		/* migrate calendars from 1.4 setup */
-		if (!migrate_old_calendars (group)) {
-			/* create default calendars */
-			new_dir = g_build_filename (base_uri, "Personal/", NULL);
-			if (!e_mkdir_hier (new_dir, 0700)) {
-				source = e_source_new (_("Personal"), "Personal");
-				e_source_group_add_source (group, source, -1);
-			}
-			g_free (new_dir);
-
-			new_dir = g_build_filename (base_uri, "Work/", NULL);
-			if (!e_mkdir_hier (new_dir, 0700)) {
-				source = e_source_new (_("Work"), "Work");
-				e_source_group_add_source (group, source, -1);
-			}
-			g_free (new_dir);
-		}
-
-		/* create the remote source group */
-		group = e_source_group_new (_("On The Web"), "webcal://");
-		e_source_list_add_group (priv->source_list, group, -1);
-
- 		e_source_list_sync (priv->source_list, NULL);
-	}
-
-	/* create calendar for birthdays & anniversaries */
-	if ((major < 0) ||
-	    ((major == 1) && (minor < 5)) ||
-	    ((major == 1) && (minor == 5) && (revision < 2))) {		
-		group = e_source_group_new (_("Contacts"), "contacts://");
-		source = e_source_new (_("Birthdays & Anniversaries"), "/");
-		e_source_group_add_source (group, source, -1);
-		e_source_group_set_readonly (group, TRUE);
-		e_source_list_add_group (priv->source_list, group, -1);
- 		e_source_list_sync (priv->source_list, NULL);
-	}
-
-	g_free (base_uri);
+	migrate_calendars (calendar_component, major, minor, revision);
 
 	return CORBA_TRUE;
 }
@@ -848,6 +785,7 @@ calendar_component_init (CalendarComponent *component)
 
 	priv = g_new0 (CalendarComponentPrivate, 1);
 
+	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
 	priv->config_directory = g_build_filename (g_get_home_dir (),
 						   ".evolution", "calendar", "config",
 						   NULL);
@@ -888,9 +826,21 @@ calendar_component_peek (void)
 }
 
 const char *
+calendar_component_peek_base_directory (CalendarComponent *component)
+{
+	return component->priv->base_directory;
+}
+
+const char *
 calendar_component_peek_config_directory (CalendarComponent *component)
 {
 	return component->priv->config_directory;
+}
+
+ESourceList *
+calendar_component_peek_source_list (CalendarComponent *component)
+{
+	return component->priv->source_list;
 }
 
 EActivityHandler *

@@ -1,3 +1,32 @@
+2004-01-15  JP Rosevear <jpr@ximian.com>
+
+	* gui/tasks-component.h: update protos
+	
+	* gui/tasks-component.c (impl_finalize): free base dir
+	(impl_upgradeFromVersion): just call migrate_tasks
+	(tasks_component_init): set base dir value
+	(tasks_component_peek_base_directory): accessor
+	(tasks_component_peek_source_list): ditto
+
+	* gui/migration.c (process_old_dir): look for a source with the
+	name and fallback to creating it
+	(create_calendar_contact_source): create the contacts:// source
+	(create_calendar_sources): use above and create all the necessary
+	sources
+	(create_task_sources): create all the necessary sources
+	(migrate_calendars): do all the migration logic here, upgrade
+	bonobo-conf to gconf
+	(migrate_tasks): ditto
+
+	* gui/calendar-component.h: update prototypes
+
+	* gui/calendar-component.c (impl_finalize): free the base
+	directory
+	(impl_upgradeFromVersion): just call migrate_calendars
+	(calendar_component_init): fill in base dir value
+	(calendar_component_peek_base_directory): accessor
+	(calendar_component_peek_source_list): ditto
+
 2004-01-15  Radek Doulik  <rodo@ximian.com>
 
 	* gui/calendar-component.c (create_new_event): test priv->calendar
