@@ -1,36 +1,40 @@
+2001-06-21  Kevin Breit  <battery841@mediaone.net>
+
+	* C/encryption.sgml: Added file
+
 2001-06-20  Kevin Breit  <battery841@mediaone.net>
 
-	* doc/ChangeLog: Moved my entires to doc/ChangeLog per request of danw
+	* ChangeLog: Moved my entires to doc/ChangeLog per request of danw
 	
 2001-06-20  Kevin Breit  <battery841@mediaone.net>
 
-	* doc/C/config-setupassist.sgml: Updated for new UI.
+	* C/config-setupassist.sgml: Updated for new UI.
 
 2001-06-20  Kevin Breit  <battery841@mediaone.net>
 
-	* docs/C/usage-sync: Reworded a little bit for more descrip.
+	* C/usage-sync: Reworded a little bit for more descrip.
 
 2001-06-20  Kevin Breit  <battery841@mediaone.net>
 
-	* doc/C/usage-calendar.sgml: Documented categorizing an event.
+	* C/usage-calendar.sgml: Documented categorizing an event.
 
 2001-06-20  Kevin Breit  <battery841@mediaone.net>
 
-	* doc/C/usage-mail.sgml: Updated Bcc: example
+	* C/usage-mail.sgml: Updated Bcc: example
 
 2001-06-19  Kevin Breit <battery841@mediaone.net>
 
-	* doc/C/usage-mail.sgml: Basic edits
+	* C/usage-mail.sgml: Basic edits
 
 2001-06-19  Kevin Breit <battery841@mediaone.net>
 
-	* doc/C/usage-exec-summary: Updated to say "My Evolution"
+	* C/usage-exec-summary: Updated to say "My Evolution"
 
 2001-06-19  Kevin Breit <battery841@mediaone.net>
 
-	* doc/C/apx-gloss.sgml: Added definition.
+	* C/apx-gloss.sgml: Added definition.
 
-	* doc/C/usage-mainwindow.sgml: Routine updates.
+	* C/usage-mainwindow.sgml: Routine updates.
 	
 2001-06-07  Duncan Mak  <duncan@lumox.simplemente.net>
 
