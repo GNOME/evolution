@@ -1,3 +1,10 @@
+2005-03-02  Not Zed  <NotZed@Ximian.com>
+
+	** See "bug" 73100
+
+	* mail-dialogs.glade: empty out the license_top_label text, it is
+	always overwriten by the code.
+
 2005-03-01  Not Zed  <NotZed@Ximian.com>
 
 	* message-list.c: include atkutil.h
