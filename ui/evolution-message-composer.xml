@@ -18,11 +18,7 @@
 		
 		<cmd name="FileSaveInFolder" _label="Save in folder..."
 		_tip="Save the message in a specified folder"/>
-		
-		<cmd name="FileInsertFile" _label="Insert text file..."
-                accel="*Ctrl**Alt*f"
-		_tip="Insert a file as text into the message"/>
-		
+
 		<cmd name="FileSend" _label="Send" _tip="Send this message"
 		accel="*Ctrl*Return"
                 pixtype="pixbuf"/>
@@ -124,8 +120,6 @@
                 <submenu name="Insert" _label="_Insert">
 	                <menuitem name="FileAttach" verb=""
 	                _label="_Attachment..." pixtype="pixbuf"/>
-			<menuitem name="FileInsertFile" verb="" 
-                        _label="Inline Text _File..."/>
                 	<placeholder name="Component"/>
                 </submenu>
 		

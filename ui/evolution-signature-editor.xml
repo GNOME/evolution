@@ -66,9 +66,7 @@
 		<placeholder name="Component"/>
 
 		<submenu name="Help" _label="_Help">
-	
-			<placeholder name="BuiltMenuItems"/>
-
+	                <menuitem name="HelpSigEditor" verb="" _label="_Signature editor"/>
 		</submenu>
 	</menu>
 
