@@ -1,3 +1,8 @@
+2001-06-15  Not Zed  <NotZed@Ximian.com>
+
+	* e-sexp.c (parse_values): REmove a silly hardcoded term limit,
+	oops forgot about that.
+
 2001-06-11  Damon Chaplin  <damon@ximian.com>
 
 	* e-time-utils.c (e_time_parse_date_and_time): skip any non-digits

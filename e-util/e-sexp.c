@@ -654,7 +654,7 @@ e_sexp_term_eval(struct _ESExp *f, struct _ESExpTerm *t)
 	return r;
 }
 
-#if 0
+#ifdef TESTER
 static void
 eval_dump_result(ESExpResult *r, int depth)
 {
@@ -790,24 +790,33 @@ parse_values(ESExp *f, int *len)
 {
 	int token;
 	struct _ESExpTerm **terms;
-	int i=0;
+	int i, size = 0;
 	GScanner *gs = f->scanner;
+	GSList *list = NULL, *l;
 
 	p(printf("parsing values\n"));
 
-	/* FIXME: This hardcoded nonsense!!! :) */
-	terms = g_malloc0(30*sizeof(*terms));
-
 	while ( (token = g_scanner_peek_next_token(gs)) != G_TOKEN_EOF
 		&& token != ')') {
-		terms[i]=parse_value(f);
-		i++;
+		list = g_slist_prepend(list, parse_value(f));
+		size++;
 	}
 
-	p(printf("found %d subterms\n", i));
-	*len = i;
+	/* go over the list, and put them backwards into the term array */
+	terms = g_malloc(size * sizeof(*terms));
+	l = list;
+	for (i=size-1;i>=0;i--) {
+		g_assert(l);
+		g_assert(l->data);
+		terms[i] = l->data;
+		l = g_slist_next(l);
+	}
+	g_slist_free(list);
+
+	p(printf("found %d subterms\n", size));
+	*len = size;
 	
-	p(printf("dont parsing values\n"));
+	p(printf("done parsing values\n"));
 	return terms;
 }
 
