@@ -749,6 +749,33 @@ backend_error_cb (ECal *client, const char *message, gpointer data)
 	g_free (urinopwd);
 }
 
+/* Callback from the calendar client when the backend dies */
+static void
+backend_died_cb (ECal *client, gpointer data)
+{
+	ETasks *tasks;
+	ETasksPrivate *priv;
+	char *message;
+	GtkWidget *dialog;
+
+	tasks = E_TASKS (data);
+	priv = tasks->priv;
+
+	/* FIXME: this doesn't remove the task list from the list or anything */
+	message = g_strdup_printf (_("The task backend for\n%s\n has crashed. "
+				     "You will have to restart Evolution in order "
+				     "to use it again"),
+				   e_cal_get_uri (client));
+	e_calendar_table_set_status_message (E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)), NULL);
+
+	dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))),
+					 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+					 message);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+	g_free (message);
+}
+
 void
 e_tasks_open_task			(ETasks		*tasks)
 {
@@ -813,11 +840,17 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 	set_status_message (tasks, _("Opening tasks at %s"), str_uri);
 
 	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+	if (!client) {
+		g_free (str_uri);
+		return FALSE;
+	}
+
 	g_hash_table_insert (priv->clients, str_uri, client);
 	priv->clients_list = g_list_prepend (priv->clients_list, client);
 	
 	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), tasks);
 	g_signal_connect (G_OBJECT (client), "categories_changed", G_CALLBACK (client_categories_changed_cb), tasks);
+	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), tasks);
 
 	if (!e_cal_open (client, FALSE, &error)) {
 		GtkWidget *dialog;

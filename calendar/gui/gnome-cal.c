@@ -1897,6 +1897,7 @@ backend_error_cb (ECal *client, const char *message, gpointer data)
 static void
 backend_died_cb (ECal *client, gpointer data)
 {
+	GtkWidget *dialog;
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
 	char *message;
@@ -1925,7 +1926,11 @@ backend_died_cb (ECal *client, gpointer data)
 			e_calendar_view_set_status_message (priv->views[i], NULL);
 	}
 
-	gnome_error_dialog_parented (message, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
+	dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))),
+					 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+					 message);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 	g_free (message);
 	g_free (uristr);
 }
