@@ -252,6 +252,7 @@ build_menus(GalViewMenus *menus)
 	GalViewInstance *instance = menus->priv->instance;
 	GalViewCollection *collection = instance->collection;
 	char *id;
+	gboolean found = FALSE;
 
 	root = bonobo_ui_node_new("Root");
 	menu = bonobo_ui_node_new_child(root, "menu");
@@ -268,6 +269,7 @@ build_menus(GalViewMenus *menus)
 	bonobo_ui_node_set_attr(submenu, "_label", N_("_Current View"));
 
 	id = gal_view_instance_get_current_view_id (instance);
+
 
 	length = gal_view_collection_get_count(collection);
 
@@ -300,6 +302,10 @@ build_menus(GalViewMenus *menus)
 		closure->id        = item->id;
 		closure->ref_count = 1;
 
+		if (!found && id && !strcmp (item->id, id)) {
+			found = TRUE;
+		}
+
 		gtk_object_ref (GTK_OBJECT(closure->instance));
 
                 bonobo_ui_component_add_listener (menus->priv->component, item->id, toggled_cb, closure);
@@ -308,7 +314,7 @@ build_menus(GalViewMenus *menus)
 		closure_free (closure, menus);
 	}
 
-	if (id == NULL) {
+	if (!found) {
 
 		menuitem = bonobo_ui_node_new_child(submenu, "separator");
 		bonobo_ui_node_set_attr(menuitem, "name", "GalView:first_sep");
@@ -417,6 +423,9 @@ gal_view_menus_apply     (GalViewMenus      *gvm,
 			  BonoboUIComponent *component,
 			  CORBA_Environment *opt_ev)
 {
+	if (gvm->priv == NULL)
+		return;
+
 	if (component != gvm->priv->component) {
 		if (component)
 			bonobo_object_ref (BONOBO_OBJECT (component));
@@ -428,7 +437,6 @@ gal_view_menus_apply     (GalViewMenus      *gvm,
 	gvm->priv->component = component;
 
 	build_stuff (gvm, opt_ev);
-	set_radio (gvm, opt_ev);
 }
 
 void
@@ -450,7 +458,6 @@ collection_changed (GalViewCollection *collection,
 
 	CORBA_exception_init (&ev);
 	build_stuff(gvm, &ev);
-	set_radio (gvm, &ev);
 	CORBA_exception_free (&ev);
 }
 
@@ -462,7 +469,6 @@ instance_changed (GalViewInstance *instance,
 
 	CORBA_exception_init (&ev);
 	build_stuff(gvm, &ev);
-	set_radio (gvm, &ev);
 	CORBA_exception_free (&ev);
 }
 

@@ -1,3 +1,13 @@
+2002-05-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* menus/gal-view-menus.c (build_menus): Made it so that if the
+	current_id doesn't match any of the given ids, it treats it the
+	same as a NULL id.
+	(gal_view_menus_apply): Added a check for gvm->priv == NULL here.
+	(gal_view_menus_apply, collection_changed, instance_changed):
+	Removed calls to set_radio after build_stuff, since the last thing
+	build_stuff does is calls set_radio.
+
 2002-02-27  Larry Ewing  <lewing@ximian.com>
 
 	* misc/e-combo-button.c (impl_button_press_event): make a right
