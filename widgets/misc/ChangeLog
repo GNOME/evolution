@@ -1,3 +1,8 @@
+2003-03-30  Hans Petter Jansson  <hpj@ximian.com>
+
+	* e-calendar-item.c (e_calendar_item_destroy): Handle multiple
+	destroys.
+
 2003-03-28  JP Rosevear  <jpr@ximian.com>
 
 	* e-search-bar.c (clear_search): set the sub item to the default

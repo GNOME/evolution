@@ -447,17 +447,24 @@ e_calendar_item_destroy		(GtkObject *o)
 	e_calendar_item_set_style_callback (calitem, NULL, NULL, NULL);
 	e_calendar_item_set_get_time_callback (calitem, NULL, NULL, NULL);
 
-	g_free (calitem->styles);
+	if (calitem->styles) {
+		g_free (calitem->styles);
+		calitem->styles = NULL;
+	}
 
 	if (calitem->signal_emission_idle_id != 0) {
 		g_source_remove (calitem->signal_emission_idle_id);
 		calitem->signal_emission_idle_id = 0;
 	}
 
-	if (calitem->old_font)
+	if (calitem->old_font) {
 		gdk_font_unref (calitem->old_font);
-	if (calitem->old_week_number_font)
+		calitem->old_font = NULL;
+	}
+	if (calitem->old_week_number_font) {
 		gdk_font_unref (calitem->old_week_number_font);
+		calitem->old_week_number_font = NULL;
+	}
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (o);
