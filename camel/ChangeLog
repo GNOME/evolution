@@ -1,3 +1,17 @@
+2001-02-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c: Made thread-safe and moved to above the test
+	code.
+
+	* camel-mime-message.c (camel_mime_message_init): Set the
+	message_id to NULL.
+	(camel_mime_message_finalize): Free the message_id.
+	(camel_mime_message_set_message_id): New function to set the
+	Message-Id.
+	(camel_mime_message_get_message_id): New function to get the
+	Message-Id.
+	(process_header): Decode the message-id.
+
 2001-02-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-store.c (construct): init the vTrash folder here instead

@@ -27,10 +27,15 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/param.h>  /* for MAXHOSTNAMELEN */
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+#ifndef MAXHOSTNAMELEN
+#define MAXHOSTNAMELEN 1024
+#endif
 
 #include <unicode.h>
 #include <iconv.h>
@@ -45,6 +50,10 @@
 
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
+
+#ifdef ENABLE_THREADS
+#include <pthread.h>
+#endif
 
 #ifndef CLEAN_DATE
 #include "broken-date-parser.h"
@@ -2895,6 +2904,35 @@ header_raw_clear(struct _header_raw **list)
 	*list = NULL;
 }
 
+char *
+header_msgid_generate (void)
+{
+	char host[MAXHOSTNAMELEN], domain[MAXHOSTNAMELEN];
+#ifdef ENABLE_THREADS
+	static pthread_mutex_t count_lock = PTHREAD_MUTEX_INITIALIZER;
+#define COUNT_LOCK() pthread_mutex_lock (&count_lock)
+#define COUNT_UNLOCK() pthread_mutex_unlock (&count_lock)
+#else
+#define COUNT_LOCK()
+#define COUNT_UNLOCK()
+#endif /* ENABLE_THREADS */
+	static gint count = 0;
+	gint hrv, drv;
+	char *ret;
+	
+	hrv = gethostname (host, sizeof (host));
+	drv = getdomainname (domain, sizeof (domain));
+	
+	COUNT_LOCK ();
+	ret = g_strdup_printf ("%d.%d.%d.camel@%s.%s", (gint) time (NULL), getpid (), count++,
+			       (hrv == 0 && host && *host) ? host : "unknown.host",
+			       (drv && domain && *domain) ? domain : "unknown.domain");
+	COUNT_UNLOCK ();
+	
+	return ret;
+}
+
+
 static struct {
 	char *name;
 	char *pattern;
@@ -3335,18 +3373,3 @@ void run_test(void)
 }
 
 #endif /* BUILD_TABLE */
-
-char *
-header_msgid_generate (void)
-{
-	gchar host [256], domain [768];
-	static gint count = 0;
-	gint hrv, drv;
-
-	hrv = gethostname (host, sizeof (host));
-	drv = getdomainname (domain, sizeof (domain));
-
-	return g_strdup_printf ("%d.%d.%d.camel@%s.%s", (gint) time (NULL), getpid (), count++,
-				(hrv == 0 && host && *host) ? host : "unknown.host",
-				(drv && domain && *domain) ? domain : "unknown.domain");
-}

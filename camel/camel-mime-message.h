@@ -65,6 +65,8 @@ struct _CamelMimeMessage
 
 	char *subject;
 
+	char *message_id;
+
 	CamelInternetAddress *reply_to;
 	CamelInternetAddress *from;
 
@@ -93,6 +95,9 @@ time_t                      camel_mime_message_get_date           (CamelMimeMess
 								   int                        *offset);
 time_t                      camel_mime_message_get_date_received  (CamelMimeMessage           *mime_message,
 								   int                        *offset);
+void                        camel_mime_message_set_message_id     (CamelMimeMessage           *mime_message,
+								   const char                 *message_id);
+const char                 *camel_mime_message_get_message_id     (CamelMimeMessage           *mime_message);
 void                        camel_mime_message_set_reply_to       (CamelMimeMessage           *mime_message,
 								   const CamelInternetAddress *reply_to);
 const CamelInternetAddress *camel_mime_message_get_reply_to       (CamelMimeMessage           *mime_message);

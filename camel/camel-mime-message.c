@@ -51,12 +51,13 @@ typedef enum {
 	HEADER_TO,
 	HEADER_CC,
 	HEADER_BCC,
-	HEADER_DATE
+	HEADER_DATE,
+	HEADER_MESSAGE_ID
 } CamelHeaderType;
 
 static char *header_names[] = {
 	/* dont include HEADER_UNKNOWN string */
-	"From", "Reply-To", "Subject", "To", "Cc", "Bcc", "Date", NULL
+	"From", "Reply-To", "Subject", "To", "Cc", "Bcc", "Date", "Message-Id", NULL
 };
 
 static GHashTable *header_name_table;
@@ -124,6 +125,7 @@ camel_mime_message_init (gpointer object, gpointer klass)
 	mime_message->date_offset = 0;
 	mime_message->date_received = CAMEL_MESSAGE_DATE_CURRENT;
 	mime_message->date_received_offset = 0;
+	mime_message->message_id = NULL;
 }
 
 static void           
@@ -133,6 +135,8 @@ camel_mime_message_finalize (CamelObject *object)
 	
 	g_free(message->subject);
 
+	g_free(message->message_id);
+	
 	if (message->reply_to)
 		camel_object_unref((CamelObject *)message->reply_to);
 
@@ -233,6 +237,37 @@ camel_mime_message_get_date_received(CamelMimeMessage *msg, int *offset)
 		*offset = msg->date_received_offset;
 
 	return msg->date_received;
+}
+
+/* **** Message-Id: */
+
+void
+camel_mime_message_set_message_id (CamelMimeMessage *mime_message, const char *message_id)
+{
+	char *id;
+	
+	g_assert (mime_message);
+	
+	g_free (mime_message->message_id);
+	
+	if (message_id) {
+		id = g_strstrip (g_strdup (message_id));
+	} else {
+		id = header_msgid_generate ();
+	}
+	
+	mime_message->message_id = id;
+	id = g_strdup_printf ("<%s>", mime_message->message_id);
+	CAMEL_MEDIUM_CLASS (parent_class)->set_header (CAMEL_MEDIUM (mime_message), "Message-Id", id);
+	g_free (id);
+}
+
+const char *
+camel_mime_message_get_message_id (CamelMimeMessage *mime_message)
+{
+	g_assert (mime_message);
+	
+	return mime_message->message_id;
 }
 
 /* **** Reply-To: */
@@ -429,6 +464,10 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		g_warning("Application did not set subject, creating one");
 		camel_mime_message_set_subject(mm, "No Subject");
 	}
+	if (mm->message_id == NULL) {
+		g_warning ("Application did not set message-id, creating one");
+		camel_mime_message_set_message_id (mm, NULL);
+	}
 
 	/* FIXME: "To" header needs to be set explicitly as well ... */
 
@@ -480,6 +519,13 @@ process_header (CamelMedium *medium, const char *header_name, const char *header
 			message->date = CAMEL_MESSAGE_DATE_CURRENT;
 			message->date_offset = 0;
 		}
+		break;
+	case HEADER_MESSAGE_ID:
+		g_free (message->message_id);
+		if (header_value)
+			message->message_id = header_msgid_decode (header_value);
+		else
+			message->message_id = NULL;
 		break;
 	default:
 		return FALSE;
