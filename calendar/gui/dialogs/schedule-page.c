@@ -204,7 +204,7 @@ update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalCompone
 	gboolean all_day;
 
 	priv = spage->priv;
-	
+
 	/* Note that if we are creating a new event, the timezones may not be
 	   on the server, so we try to get the builtin timezone with the TZID
 	   first. */
@@ -284,6 +284,7 @@ schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	SchedulePage *spage;
 	SchedulePagePrivate *priv;
 	ECalComponentDateTime start_date, end_date;
+	gboolean validated = TRUE;
 
 	spage = SCHEDULE_PAGE (page);
 	priv = spage->priv;
@@ -296,14 +297,19 @@ schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	/* Start and end times */
 	e_cal_component_get_dtstart (comp, &start_date);
 	e_cal_component_get_dtend (comp, &end_date);
-	update_time (spage, &start_date, &end_date);
+	if (!start_date.value)
+		validated = FALSE;
+	else if (!end_date.value)
+		validated = FALSE;
+	else
+		update_time (spage, &start_date, &end_date);
 	
 	e_cal_component_free_datetime (&start_date);
 	e_cal_component_free_datetime (&end_date);
 	
 	priv->updating = FALSE;
 
-	return TRUE;
+	return validated;
 }
 
 /* fill_component handler for the schedule page */

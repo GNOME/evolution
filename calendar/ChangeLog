@@ -1,5 +1,12 @@
 2004-05-11  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #53137
+
+	* gui/dialogs/schedule-page.c (schedule_page_fill_widgets): check dates
+	from the ECalComponent before using them.
+
+2004-05-11  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/e-cal-model-tasks.c (set_due): use/set the DUE date, not
 	the DTEND date.
 
