@@ -30,8 +30,12 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock.h>
+#include "camel/camel-filter-driver.h"
+#include "filter/filter-context.h"
+#include "filter/filter-filter.h"
 #include "mail.h"
 #include "mail-session.h"
+#include "mail-tools.h"
 #include "mail-mt.h"
 
 CamelSession *session;
@@ -48,6 +52,7 @@ typedef struct _MailSession {
 
 	GHashTable *passwords;
 	gboolean interaction_enabled;
+	FILE *filter_logfile;
 } MailSession;
 
 typedef struct _MailSessionClass {
@@ -66,6 +71,9 @@ static gboolean alert_user (CamelSession *session, CamelSessionAlertType type,
 static guint register_timeout (CamelSession *session, guint32 interval,
 			       CamelTimeoutCallback cb, gpointer camel_data);
 static gboolean remove_timeout (CamelSession *session, guint handle);
+static CamelFilterDriver *get_filter_driver (CamelSession *session,
+					     const char *type,
+					     CamelException *ex);
 
 
 static char *decode_base64 (char *base64);
@@ -102,6 +110,7 @@ class_init (MailSessionClass *mail_session_class)
 	camel_session_class->alert_user = alert_user;
 	camel_session_class->register_timeout = register_timeout;
 	camel_session_class->remove_timeout = remove_timeout;
+	camel_session_class->get_filter_driver = get_filter_driver;
 }
 
 static CamelType
@@ -278,6 +287,64 @@ remove_timeout (CamelSession *session, guint handle)
 {
 	gtk_timeout_remove (handle);
 	return TRUE;
+}
+
+static CamelFolder *
+get_folder (CamelFilterDriver *d, const char *uri, void *data, CamelException *ex)
+{
+	return mail_tool_uri_to_folder(uri, ex);
+}
+
+static CamelFilterDriver *
+get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
+{
+	CamelFilterDriver *driver;
+	RuleContext *fc;
+	GString *fsearch, *faction;
+	FilterRule *rule = NULL;
+	char *user, *system, *filename;
+
+	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
+	fc = (RuleContext *)filter_context_new ();
+	rule_context_load (fc, system, user);
+	g_free (user);
+
+	driver = camel_filter_driver_new ();
+	camel_filter_driver_set_folder_func (driver, get_folder, NULL);
+
+	if (TRUE /* perform_logging FIXME */) {
+		MailSession *ms = (MailSession *)session;
+
+		if (ms->filter_logfile == NULL) {
+			filename = g_strdup_printf ("%s/evolution-filter-log",
+						    evolution_dir);
+			ms->filter_logfile = fopen (filename, "a+");
+			g_free (filename);
+		}
+		if (ms->filter_logfile)
+			camel_filter_driver_set_logfile (driver, ms->filter_logfile);
+	}
+
+	fsearch = g_string_new ("");
+	faction = g_string_new ("");
+
+	while ((rule = rule_context_next_rule (fc, rule, type))) {
+		g_string_truncate (fsearch, 0);
+		g_string_truncate (faction, 0);
+
+		filter_rule_build_code (rule, fsearch);
+		filter_filter_build_action ((FilterFilter *)rule, faction);
+
+		camel_filter_driver_add_rule (driver, rule->name,
+					      fsearch->str, faction->str);
+	}
+
+	g_string_free (fsearch, TRUE);
+	g_string_free (faction, TRUE);
+
+	gtk_object_unref (GTK_OBJECT (fc));
+	return driver;
 }
 
 

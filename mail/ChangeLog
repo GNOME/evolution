@@ -1,3 +1,18 @@
+2001-07-02  Dan Winship  <danw@ximian.com>
+
+	* mail-session.c (get_filter_driver): Implement this, based on
+	code that used to be in mail-ops.c
+
+	* mail-ops.c (mail_load_filter_context, setup_filter_driver):
+	Moved into MailSession::get_filter_driver.
+	(filter_get_folder): Moved to mail-session.c
+	(mail_filter_folder, mail_filter_on_demand, mail_fetch_mail,
+	mail_send_mail, mail_send_queue): Remove FilterContext args, use
+	camel_session_get_filter_driver.
+
+	* mail-send-recv.c (mail_send_receive, mail_receive_uri):
+	Remove FilterContexts
+
 2001-07-01  Chris Toshok  <toshok@ximian.com>
 
 	* subscribe-dialog.c (subscribe_dialog_gui_init): the FolderSearch

@@ -34,7 +34,6 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-window-icon.h>
 
-#include "filter/filter-context.h"
 #include "filter/filter-filter.h"
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-folder.h"
@@ -589,7 +588,6 @@ void mail_send_receive(void)
 {
 	GSList *sources;
 	GList *scan;
-	FilterContext *fc;
 	static GtkWidget *gd = NULL;
 	struct _send_data *data;
 	extern CamelFolder *outbox_folder;
@@ -609,8 +607,6 @@ void mail_send_receive(void)
 	if (!account || !account->transport)
 		return;
 	
-	fc = mail_load_filter_context();
-		
 	/* what to do about pop before smtp ?
 	   Well, probably hook into receive_done or receive_status on
 	   the right pop account, and when it is, then kick off the
@@ -625,7 +621,7 @@ void mail_send_receive(void)
 		switch(info->type) {
 		case SEND_RECEIVE:
 			mail_fetch_mail(info->uri, info->keep,
-					fc, FILTER_SOURCE_INCOMING,
+					FILTER_SOURCE_INCOMING,
 					info->cancel,
 					receive_get_folder, info,
 					receive_status, info,
@@ -634,7 +630,7 @@ void mail_send_receive(void)
 		case SEND_SEND:
 			/* todo, store the folder in info? */
 			mail_send_queue(outbox_folder, info->uri,
-					fc, FILTER_SOURCE_OUTGOING,
+					FILTER_SOURCE_OUTGOING,
 					info->cancel,
 					receive_get_folder, info,
 					receive_status, info,
@@ -647,8 +643,6 @@ void mail_send_receive(void)
 		}
 		scan = scan->next;
 	}
-	
-	gtk_object_unref((GtkObject *)fc);
 }
 
 struct _auto_data {
@@ -743,7 +737,6 @@ mail_autoreceive_setup(void)
    them in to add them. */
 void mail_receive_uri(const char *uri, int keep)
 {
-	FilterContext *fc;
 	struct _send_info *info;
 	struct _send_data *data;
 	extern CamelFolder *outbox_folder;
@@ -777,11 +770,10 @@ void mail_receive_uri(const char *uri, int keep)
 
 	g_hash_table_insert(data->active, info->uri, info);
 
-	fc = mail_load_filter_context();
 	switch(info->type) {
 	case SEND_RECEIVE:
 		mail_fetch_mail(info->uri, info->keep,
-				fc, FILTER_SOURCE_INCOMING,
+				FILTER_SOURCE_INCOMING,
 				info->cancel,
 				receive_get_folder, info,
 				receive_status, info,
@@ -790,7 +782,7 @@ void mail_receive_uri(const char *uri, int keep)
 	case SEND_SEND:
 		/* todo, store the folder in info? */
 		mail_send_queue(outbox_folder, info->uri,
-				fc, FILTER_SOURCE_OUTGOING,
+				FILTER_SOURCE_OUTGOING,
 				info->cancel,
 				receive_get_folder, info,
 				receive_status, info,
@@ -801,5 +793,4 @@ void mail_receive_uri(const char *uri, int keep)
 		mail_get_store(info->uri, receive_update_got_store, info);
 		break;
 	}
-	gtk_object_unref((GtkObject *)fc);
 }

@@ -36,13 +36,8 @@ extern "C" {
 #include "camel/camel-mime-message.h"
 #include "camel/camel-operation.h"
 
-#include "filter/filter-context.h"
-
 #include "evolution-storage.h"	/*EvolutionStorage */
 #include "e-util/e-msgport.h"
-
-/* utility functions */
-FilterContext *mail_load_filter_context (void);
 
 void mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,
 		       void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data),
@@ -133,24 +128,21 @@ int mail_update_subfolders (CamelStore *store, EvolutionStorage *storage,
 
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
 void mail_send_queue (CamelFolder *queue, const char *destination,
-		      FilterContext *fc, const char *type,
-		      CamelOperation *cancel,
+		      const char *type, CamelOperation *cancel,
 		      CamelFilterGetFolderFunc get_folder, void *get_data,
 		      CamelFilterStatusFunc *status, void *status_data,
 		      void (*done)(char *destination, void *data),
 		      void *data);
 
 void mail_fetch_mail (const char *source, int keep,
-		      FilterContext *fc, const char *type,
-		      CamelOperation *cancel,
+		      const char *type, CamelOperation *cancel,
 		      CamelFilterGetFolderFunc get_folder, void *get_data,
 		      CamelFilterStatusFunc *status, void *status_data,
 		      void (*done)(char *source, void *data),
 		      void *data);
 
 void mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
-			 FilterContext *fc, const char *type,
-			 CamelOperation *cancel);
+			 const char *type, CamelOperation *cancel);
 
 /* convenience function for above */
 void mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids);

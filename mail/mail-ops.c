@@ -49,68 +49,6 @@
 
 #define d(x) x
 
-FilterContext *
-mail_load_filter_context(void)
-{
-	char *user;
-	char *system;
-	FilterContext *fc;
-	
-	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
-	fc = filter_context_new ();
-	rule_context_load ((RuleContext *)fc, system, user);
-	g_free (user);
-	
-	return fc;
-}
-
-static void
-setup_filter_driver(CamelFilterDriver *driver, FilterContext *fc, const char *source)
-{
-	GString *fsearch, *faction;
-	FilterFilter *rule = NULL;
-
-	if (TRUE /* perform_logging */) {
-		char *filename = g_strdup_printf("%s/evolution-filter-log", evolution_dir);
-		/* FIXME: This is a nasty little thing to stop leaking file handles.
-		   Needs to be setup elsewhere. */
-		static FILE *logfile = NULL;
-
-		if (logfile == NULL)
-			logfile = fopen(filename, "a+");
-		g_free(filename);
-		if (logfile)
-			camel_filter_driver_set_logfile(driver, logfile);
-	}
-
-	fsearch = g_string_new ("");
-	faction = g_string_new ("");
-	
-	while ((rule = (FilterFilter *)rule_context_next_rule((RuleContext *)fc, (FilterRule *)rule, source))) {
-		g_string_truncate (fsearch, 0);
-		g_string_truncate (faction, 0);
-		
-		filter_rule_build_code ((FilterRule *)rule, fsearch);
-		filter_filter_build_action (rule, faction);
-
-		camel_filter_driver_add_rule(driver, ((FilterRule *)rule)->name, fsearch->str, faction->str);
-	}
-	
-	g_string_free (fsearch, TRUE);
-	g_string_free (faction, TRUE);
-}
-
-static CamelFolder *
-filter_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelException *ex)
-{
-	CamelFolder *folder;
-
-	folder = mail_tool_uri_to_folder(uri, ex);
-
-	return folder;
-}
-
 /* used for both just filtering a folder + uid's, and for filtering a whole folder */
 /* used both for fetching mail, and for filtering mail */
 struct _filter_mail_msg {
@@ -225,8 +163,7 @@ static struct _mail_msg_op filter_folder_op = {
 
 void
 mail_filter_folder(CamelFolder *source_folder, GPtrArray *uids,
-		   FilterContext *fc, const char *type,
-		   CamelOperation *cancel)
+		   const char *type, CamelOperation *cancel)
 {
 	struct _filter_mail_msg *m;
 	
@@ -239,22 +176,17 @@ mail_filter_folder(CamelFolder *source_folder, GPtrArray *uids,
 		m->cancel = cancel;
 		camel_operation_ref (cancel);
 	}
-	
-	m->driver = camel_filter_driver_new (filter_get_folder, NULL);
-	setup_filter_driver (m->driver, fc, type);
-	
-	e_thread_put (mail_thread_new, (EMsg *)m);
+
+	m->driver = camel_session_get_filter_driver (session, type, NULL);
+
+	e_thread_put(mail_thread_new, (EMsg *)m);
 }
 
 /* convenience function for it */
 void
 mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids)
 {
-	FilterContext *fc;
-	
-	fc = mail_load_filter_context ();
-	mail_filter_folder (folder, uids, fc, FILTER_SOURCE_INCOMING, NULL);
-	gtk_object_unref (GTK_OBJECT (fc));
+	mail_filter_folder (folder, uids, FILTER_SOURCE_INCOMING, NULL);
 }
 
 /* ********************************************************************** */
@@ -389,8 +321,7 @@ static struct _mail_msg_op fetch_mail_op = {
 
 /* ouch, a 'do everything' interface ... */
 void mail_fetch_mail(const char *source, int keep,
-		     FilterContext *fc, const char *type,
-		     CamelOperation *cancel,
+		     const char *type, CamelOperation *cancel,
 		     CamelFilterGetFolderFunc get_folder, void *get_data,
 		     CamelFilterStatusFunc *status, void *status_data,
 		     void (*done)(char *source, void *data), void *data)
@@ -409,8 +340,8 @@ void mail_fetch_mail(const char *source, int keep,
 	m->done = done;
 	m->data = data;
 
-	fm->driver = camel_filter_driver_new(get_folder, get_data);
-	setup_filter_driver(fm->driver, fc, type);
+	fm->driver = camel_session_get_filter_driver (session, type, NULL);
+	camel_filter_driver_set_folder_func (fm->driver, get_folder, get_data);
 	if (status)
 		camel_filter_driver_set_status_func(fm->driver, status, status_data);
 
@@ -657,7 +588,6 @@ mail_send_mail(const char *uri, CamelMimeMessage *message, void (*done) (char *u
 {
 	struct _send_mail_msg *m;
 	int id;
-	FilterContext *fc;
 
 	m = mail_msg_new(&send_mail_op, NULL, sizeof(*m));
 	m->destination = g_strdup(uri);
@@ -668,10 +598,7 @@ mail_send_mail(const char *uri, CamelMimeMessage *message, void (*done) (char *u
 
 	id = m->msg.seq;
 
-	m->driver = camel_filter_driver_new(filter_get_folder, NULL);
-	fc = mail_load_filter_context();
-	setup_filter_driver(m->driver, fc, FILTER_SOURCE_OUTGOING);
-	gtk_object_unref((GtkObject *)fc);
+	m->driver = camel_session_get_filter_driver(session, FILTER_SOURCE_OUTGOING, NULL);
 
 	e_thread_put(mail_thread_new, (EMsg *)m);
 	return id;
@@ -797,8 +724,7 @@ static struct _mail_msg_op send_queue_op = {
 /* same interface as fetch_mail, just 'cause i'm lazy today (and we need to run it from the same spot?) */
 void
 mail_send_queue(CamelFolder *queue, const char *destination,
-		FilterContext *fc, const char *type,
-		CamelOperation *cancel,
+		const char *type, CamelOperation *cancel,
 		CamelFilterGetFolderFunc get_folder, void *get_data,
 		CamelFilterStatusFunc *status, void *status_data,
 		void (*done)(char *destination, void *data), void *data)
@@ -818,8 +744,8 @@ mail_send_queue(CamelFolder *queue, const char *destination,
 	m->done = done;
 	m->data = data;
 
-	m->driver = camel_filter_driver_new(get_folder, get_data);
-	setup_filter_driver(m->driver, fc, type);
+	m->driver = camel_session_get_filter_driver (session, type, NULL);
+	camel_filter_driver_set_folder_func (m->driver, get_folder, get_data);
 
 	e_thread_put(mail_thread_new, (EMsg *)m);
 }
