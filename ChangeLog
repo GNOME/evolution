@@ -1,5 +1,14 @@
 2000-01-28  Christopher James Lahey  <clahey@helixcode.com>
 
+	* widgets/e-minicard-label.c, widgets/e-minicard.c: Use
+	e_canvas_item_grab_focus so that it will work with old versions of
+	gnome-canvas.
+
+	* widgets/e-canvas.c, widgets/e-canvas.h: Finished working around
+	focus bugs.
+
+2000-01-28  Christopher James Lahey  <clahey@helixcode.com>
+
 	* widgets/test-reflow.c: Set the minimum_width.
 
 	* widgets/e-reflow.h, widgets/e-reflow.c: Added one more column

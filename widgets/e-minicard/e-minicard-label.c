@@ -23,6 +23,7 @@
 #include <gnome.h>
 #include "e-minicard-label.h"
 #include "e-text.h"
+#include "e-canvas.h"
 static void e_minicard_label_init		(EMinicardLabel		 *card);
 static void e_minicard_label_class_init	(EMinicardLabelClass	 *klass);
 static void e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -152,7 +153,7 @@ e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	  break;
 	case ARG_HAS_FOCUS:
 		if (e_minicard_label->field && GTK_VALUE_BOOL(*arg))
-			gnome_canvas_item_grab_focus(e_minicard_label->field);
+			e_canvas_item_grab_focus(e_minicard_label->field);
 		break;
 	case ARG_FIELD:
 	  if ( e_minicard_label->field )

@@ -24,6 +24,7 @@
 #include "e-minicard.h"
 #include "e-minicard-label.h"
 #include "e-text.h"
+#include "e-canvas.h"
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);
 static void e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -153,7 +154,7 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 					      "has_focus", GTK_VALUE_BOOL(*arg),
 					      NULL);
 		else
-			gnome_canvas_item_grab_focus(GNOME_CANVAS_ITEM(e_minicard));
+			e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(e_minicard));
 		break;
 	case ARG_CARD:
 	  /*	  e_minicard->card = GTK_VALUE_POINTER (*arg);
@@ -353,7 +354,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
       break;
     case GDK_BUTTON_PRESS:
 	    if (event->button.button == 1) {
-		    gnome_canvas_item_grab_focus(item);
+		    e_canvas_item_grab_focus(item);
 	    }
 	    break;
     case GDK_KEY_PRESS:

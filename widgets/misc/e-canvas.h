@@ -58,6 +58,11 @@ struct _ECanvasClass
 GtkType    e_canvas_get_type (void);
 GtkWidget *e_canvas_new      (void);
 
+/* Used to send all of the keystroke events to a specific item as well as
+ * GDK_FOCUS_CHANGE events.
+ */
+void e_canvas_item_grab_focus (GnomeCanvasItem *item);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -27,6 +27,11 @@ static void e_canvas_class_init	(ECanvasClass	 *klass);
 static gint e_canvas_key            (GtkWidget        *widget,
 				     GdkEventKey      *event);
 
+static gint e_canvas_focus_in       (GtkWidget        *widget,
+					 GdkEventFocus    *event);
+static gint e_canvas_focus_out      (GtkWidget        *widget,
+					 GdkEventFocus    *event);
+
 static int emit_event (GnomeCanvas *canvas, GdkEvent *event);
 
 static GnomeCanvasClass *parent_class = NULL;
@@ -71,6 +76,8 @@ e_canvas_class_init (ECanvasClass *klass)
 
 	widget_class->key_press_event = e_canvas_key;
 	widget_class->key_release_event = e_canvas_key;
+	widget_class->focus_in_event = e_canvas_focus_in;
+	widget_class->focus_out_event = e_canvas_focus_out;
 }
 
 static void
@@ -231,3 +238,64 @@ e_canvas_key (GtkWidget *widget, GdkEventKey *event)
 	return emit_event (canvas, (GdkEvent *) event);
 }
 
+
+/**
+ * e_canvas_item_grab_focus:
+ * @item: A canvas item.
+ *
+ * Makes the specified item take the keyboard focus, so all keyboard events will
+ * be sent to it.  If the canvas widget itself did not have the focus, it grabs
+ * it as well.
+ **/
+void
+e_canvas_item_grab_focus (GnomeCanvasItem *item)
+{
+	GnomeCanvasItem *focused_item;
+	GdkEvent ev;
+
+	g_return_if_fail (item != NULL);
+	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
+	g_return_if_fail (GTK_WIDGET_CAN_FOCUS (GTK_WIDGET (item->canvas)));
+
+	focused_item = item->canvas->focused_item;
+
+	if (focused_item) {
+		ev.focus_change.type = GDK_FOCUS_CHANGE;
+		ev.focus_change.window = GTK_LAYOUT (item->canvas)->bin_window;
+		ev.focus_change.send_event = FALSE;
+		ev.focus_change.in = FALSE;
+
+		emit_event (item->canvas, &ev);
+	}
+
+	item->canvas->focused_item = item;
+	gtk_widget_grab_focus (GTK_WIDGET (item->canvas));
+}
+
+/* Focus in handler for the canvas */
+static gint
+e_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
+{
+	GnomeCanvas *canvas;
+
+	canvas = GNOME_CANVAS (widget);
+
+	if (canvas->focused_item)
+		return emit_event (canvas, (GdkEvent *) event);
+	else
+		return FALSE;
+}
+
+/* Focus out handler for the canvas */
+static gint
+e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
+{
+	GnomeCanvas *canvas;
+
+	canvas = GNOME_CANVAS (widget);
+
+	if (canvas->focused_item)
+		return emit_event (canvas, (GdkEvent *) event);
+	else
+		return FALSE;
+}
