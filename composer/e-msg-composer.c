@@ -2314,45 +2314,12 @@ from_changed_cb (EMsgComposerHdrs *hdrs, void *data)
 static void
 composer_finalise (GObject *object)
 {
-	/* When destroy() is called, the contents of the window
-	 * (including the remote editor control) will already have
-	 * been destroyed, so we have to do this here.
-	 */
-	autosave_manager_unregister (am, E_MSG_COMPOSER (object));
-	if (G_OBJECT_CLASS (parent_class)->finalize != NULL)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
-}
-
-static void
-destroy (GtkObject *object)
-{
 	EMsgComposer *composer;
-	CORBA_Environment ev;
 	
 	composer = E_MSG_COMPOSER (object);
-	
+
 	mail_config_signature_unregister_client ((MailConfigSignatureClient) sig_event_client, composer);
-	
-	CORBA_exception_init (&ev);
-	
-	if (composer->config_db) {
-		Bonobo_ConfigDatabase_sync (composer->config_db, &ev);
-		bonobo_object_release_unref (composer->config_db, NULL);
-	}
-	composer->config_db = NULL;
-	
-	if (composer->uic)
-		bonobo_object_unref (BONOBO_OBJECT (composer->uic));
-	composer->uic = NULL;
-	
-	/* FIXME?  I assume the Bonobo widget will get destroyed
-           normally?  */
-	
-	if (composer->address_dialog != NULL)
-		gtk_widget_destroy (composer->address_dialog);
-	if (composer->hdrs != NULL)
-		gtk_widget_destroy (composer->hdrs);
-	
+
 	if (composer->extra_hdr_names) {
 		int i;
 		
@@ -2371,31 +2338,76 @@ destroy (GtkObject *object)
 	g_free (composer->charset);
 	g_free (composer->mime_type);
 	g_free (composer->mime_body);
+
+	if (composer->redirect)
+		camel_object_unref (CAMEL_OBJECT (composer->redirect));
+		
+	/* When destroy() is called, the contents of the window
+	 * (including the remote editor control) will already have
+	 * been destroyed, so we have to do this here.
+	 */
+	autosave_manager_unregister (am, E_MSG_COMPOSER (object));
+	if (G_OBJECT_CLASS (parent_class)->finalize != NULL)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+}
+
+static void
+destroy (GtkObject *object)
+{
+	EMsgComposer *composer;
+	CORBA_Environment ev;
 	
+	composer = E_MSG_COMPOSER (object);
+		
 	CORBA_exception_init (&ev);
+	
+	if (composer->config_db) {
+		Bonobo_ConfigDatabase_sync (composer->config_db, &ev);
+		bonobo_object_release_unref (composer->config_db, NULL);
+		composer->config_db = NULL;
+	}
+	
+	if (composer->uic) {
+		bonobo_object_unref (BONOBO_OBJECT (composer->uic));
+		composer->uic = NULL;
+	}
+	
+	/* FIXME?  I assume the Bonobo widget will get destroyed
+           normally?  */
+	
+	if (composer->address_dialog != NULL) {
+		gtk_widget_destroy (composer->address_dialog);
+		composer->address_dialog = NULL;
+	}
+	if (composer->hdrs != NULL) {
+		gtk_widget_destroy (composer->hdrs);
+		composer->hdrs = NULL;
+	}
 	
 	if (composer->persist_stream_interface != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (composer->persist_stream_interface, &ev);
 		CORBA_Object_release (composer->persist_stream_interface, &ev);
+		composer->persist_stream_interface = CORBA_OBJECT_NIL;
 	}
 	
 	if (composer->persist_file_interface != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (composer->persist_file_interface, &ev);
 		CORBA_Object_release (composer->persist_file_interface, &ev);
+		composer->persist_file_interface = CORBA_OBJECT_NIL;
 	}
 	
 	if (composer->editor_engine != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (composer->editor_engine, &ev);
 		CORBA_Object_release (composer->editor_engine, &ev);
+		composer->editor_engine = CORBA_OBJECT_NIL;
 	}
 	
 	CORBA_exception_free (&ev);
 	
-	if (composer->redirect)
-		camel_object_unref (CAMEL_OBJECT (composer->redirect));
-	
-	if (composer->editor_listener)
+	if (composer->editor_listener) {
 		bonobo_object_unref (composer->editor_listener);
+		composer->editor_listener = NULL;
+	}
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -2761,8 +2773,6 @@ create_composer (int visible_mask)
 	CORBA_Environment ev;
 	int vis;
 	
-	g_return_val_if_fail (gtk_main_level () > 0, NULL);
-
 #warning " does win_name need qualifying? "
 	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name",  _("Compose a message"), NULL);
 	
@@ -3384,8 +3394,6 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	EMsgComposer *new;
 	XEvolution *xev;
 	int len, i;
-	
-	g_return_val_if_fail (gtk_main_level () > 0, NULL);
 	
 	postto = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-PostTo");
 	
