@@ -1,5 +1,14 @@
 2000-07-28  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c (imap_expunge): Make sure
+	the third word/token (whatever) is "EXPUNGE" and not something
+	else like "EXISTS" or "RECENT". When removing the message from
+	the summary also make sure to free that data to avoid leakage.
+	Also make sure to subtract 1 from the 'id' since IMAP starts
+	at 1 and our summary starts at 0 :-)
+
+2000-07-28  Jeffrey Stedfast  <fejj@helixcode.com>
+	
 	* providers/imap/camel-imap-store.c (camel_imap_status): Cleaned
 	up a bit, now uses imap_next_word()
 	(camel_imap_command_extended): Now uses imap_next_word(). When
