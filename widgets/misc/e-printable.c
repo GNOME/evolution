@@ -9,7 +9,7 @@
  */
 #include <config.h>
 #include <gtk/gtksignal.h>
-#include "e-util.h"
+#include "util/e-util.h"
 #include "e-printable.h"
 
 #define EP_CLASS(e) ((EPrintableClass *)((GtkObject *)e)->klass)
