@@ -282,7 +282,7 @@ add_to_list (gpointer key, gpointer value, gpointer user_data)
 GList *
 camel_provider_list(gboolean load)
 {
-	GList *list;
+	GList *list = NULL;
 
 	LOCK();
 

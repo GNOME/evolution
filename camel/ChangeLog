@@ -1,3 +1,8 @@
+2004-02-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-provider.c (camel_provider_list): Init list to NULL to
+	prevent the crash in bug #54574.
+
 2004-02-19  Chris Toshok  <toshok@ximian.com>
 
 	* camel-smime-context.c: wrap this file with #ifdef ENABLE_SMIME
