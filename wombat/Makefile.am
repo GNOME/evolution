@@ -18,9 +18,9 @@ INCLUDES =						\
 	$(WOMBAT_CFLAGS)
 
 libexec_PROGRAMS =	\
-	wombat
+	evolution-wombat
 
-wombat_SOURCES = 			\
+evolution_wombat_SOURCES = \
 	wombat.c
 
 if ENABLE_LDAP
@@ -29,7 +29,7 @@ LDAP_STUFF =								\
 	$(LDAP_LIBS)
 endif
 
-wombat_LDADD =								\
+evolution_wombat_LDADD =						\
 	$(top_builddir)/addressbook/backend/pas/libpasfile.a		\
 	$(DB3_LDADD)							\
 	$(LDAP_STUFF)							\
@@ -78,10 +78,10 @@ EXTRA_DIST = $(server_DATA)				\
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 
-all-local: wombat.pure
+all-local: evolution-wombat.pure
 
-wombat.pure: wombat
-	@rm -f wombat.pure
-	$(PLINK) $(wombat_LDFLAGS) $(wombat_OBJECTS) $(wombat_LDADD) $(LIBS)
+evolution-wombat.pure: evolution-wombat
+	@rm -f evolution-wombat.pure
+	$(PLINK) $(evolution_wombat_LDFLAGS) $(evolution_wombat_OBJECTS) $(evolution_wombat_LDADD) $(LIBS)
 
 endif

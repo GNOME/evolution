@@ -1,3 +1,9 @@
+2003-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Rename wombat to evolution-wombat.
+	* GNOME_Evolution_WombatLDAP.server.in.in: Updated accordingly.
+	* GNOME_Evolution_WombatNOLDAP.server.in.in: Likewise.
+
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Do not dist the .server.in files; just dist the
