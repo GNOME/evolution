@@ -1,24 +1,36 @@
 CamelException
 CamelProvider
 CamelThreadProxy
+CamelURL
 GtkObject
- + CamelDataWrapper
- | + CameStreamDataWrapper
- | + CamelMedium
- | |  + CamelMimePart
- | |     + CamelMimeBodyPart
- | |     + CamelMimeMessage
- | + CamelMultipart
- | + CamelSimpleDataWrapper
- + CamelFolder
- |  + CamelFolderPtProxy
- + CamelFolderSummary
- + CamelService
- |  + CamelStore
- + CamelSession
- + CamelStream
- |  + CameDataWrapperStream
- |  + CamelStreamFs
- |  + CamelStreamBufferedFs
- |  + CamelStreamMem
- + CamelThreadProxy
+ + CamelObject
+   + CamelAddress
+   |  + CamelInternetAddress
+   |  ` CamelNewsAddress
+   + CamelDataWrapper
+   | + CamelMedium
+   | |  ` CamelMimePart
+   | |     ` CamelMimeMessage
+   | ` CamelMultipart
+   + CamelFolder
+   |  ` CamelFolderPtProxy
+   + CamelFolderSearch
+   + CamelFolderSummary
+   + CamelMimeFilter
+   |  + CamelMimeFilterBasic
+   |  + CamelMimeFilterCharset
+   |  + CamelMimeFilterIndex
+   |  ` CamelMimeFilterSave
+   + CamelService
+   |  + CamelStore
+   |  ` CamelTransport
+   + CamelSession
+   + CamelStream
+   |  + CamelDataWrapperStream
+   |  ` CamelSeekableStream
+   |     + CamelSeekableSubstream
+   |     + CamelStreamBuffer
+   |     + CamelStreamFilter
+   |     + CamelStreamFs
+   |     ` CamelStreamMem
+   ` CamelThreadProxy
