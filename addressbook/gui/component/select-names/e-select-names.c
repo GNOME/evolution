@@ -36,6 +36,7 @@
 #include <addressbook/gui/component/e-cardlist-model.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/gui/component/addressbook-component.h>
+#include <addressbook/gui/component/addressbook-storage.h>
 #include <shell/evolution-shell-client.h>
 
 #include "e-select-names.h"
@@ -215,7 +216,7 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 typedef struct {
 	char *description;
 	char *display_name;
-	char *physical_uri;
+	char *uri;
 
 } ESelectNamesFolder;
 
@@ -224,7 +225,7 @@ e_select_names_folder_free(ESelectNamesFolder *e_folder)
 {
 	g_free(e_folder->description );
 	g_free(e_folder->display_name);
-	g_free(e_folder->physical_uri);
+	g_free(e_folder->uri);
 	g_free(e_folder);
 }
 
@@ -232,11 +233,8 @@ static void
 e_select_names_option_activated(GtkWidget *widget, ESelectNames *e_select_names)
 {
 	ESelectNamesFolder *e_folder = gtk_object_get_data (GTK_OBJECT (widget), "EsnChoiceFolder");
-	gchar *uri;
 
-	uri = g_strdup_printf ("%s/addressbook.db", e_folder->physical_uri);
-	addressbook_model_set_uri(e_select_names->model, uri);
-	g_free (uri);
+	addressbook_model_set_uri(e_select_names->model, e_folder->uri);
 }
 
 typedef struct {
@@ -307,7 +305,10 @@ new_folder      (EvolutionStorageListener *storage_listener,
 		ESelectNamesFolder *e_folder = g_new(ESelectNamesFolder, 1);
 		e_folder->description  = g_strdup(folder->description );
 		e_folder->display_name = g_strdup(folder->display_name);
-		e_folder->physical_uri = g_strdup(folder->physical_uri);
+		if (!strncmp (folder->physical_uri, "file:", 5))
+			e_folder->uri = g_strdup_printf ("%s/addressbook.db", folder->physical_uri);
+		else
+			e_folder->uri = g_strdup(folder->physical_uri);
 		g_hash_table_insert(e_select_names->folders,
 				    g_strdup(path), e_folder);
 		update_option_menu(e_select_names);
@@ -382,18 +383,44 @@ update_query (GtkWidget *button, ESelectNames *e_select_names)
 }
 
 static void
-e_select_names_hookup_shell_listener (ESelectNames *e_select_names)
+hookup_listener (ESelectNames *e_select_names,
+		 GNOME_Evolution_Storage storage,
+		 EvolutionStorageListener *listener,
+		 CORBA_Environment *ev)
 {
-	GNOME_Evolution_Storage storage;
-	GNOME_Evolution_StorageListener listener;
-	CORBA_Environment ev;
+	GNOME_Evolution_StorageListener corba_listener;
 
+	g_return_if_fail (storage != CORBA_OBJECT_NIL);
+
+	corba_listener = evolution_storage_listener_corba_objref(listener);
+
+	gtk_signal_connect(GTK_OBJECT(listener), "new_folder",
+			   GTK_SIGNAL_FUNC(new_folder), e_select_names);
+	gtk_signal_connect(GTK_OBJECT(listener), "update_folder",
+			   GTK_SIGNAL_FUNC(update_folder), e_select_names);
+	gtk_signal_connect(GTK_OBJECT(listener), "removed_folder",
+			   GTK_SIGNAL_FUNC(removed_folder), e_select_names);
+
+	GNOME_Evolution_Storage_addListener(storage, corba_listener, ev);
+
+	if (ev->_major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_select_names_init: Exception adding listener to "
+			   "remote GNOME_Evolution_Storage interface.\n");
+		return;
+	}
+}
+
+static void
+e_select_names_hookup_shell_listeners (ESelectNames *e_select_names)
+{
+	EvolutionStorage *other_contact_storage;
+	GNOME_Evolution_Storage storage;
+	CORBA_Environment ev;
+	
 	CORBA_exception_init(&ev);
 
 	storage = (GNOME_Evolution_Storage) (evolution_shell_client_get_local_storage(addressbook_component_get_shell_client()));
-	e_select_names->listener = evolution_storage_listener_new();
-
-	listener = evolution_storage_listener_corba_objref(e_select_names->listener);
+	e_select_names->local_listener = evolution_storage_listener_new();
 
 	/* This should really never happen, but a bug report (ximian #5193) came in w/ a backtrace suggesting that it did in
 	   fact happen to someone, so the best we can do is try to avoid crashing in this case. */
@@ -404,24 +431,8 @@ e_select_names_hookup_shell_listener (ESelectNames *e_select_names)
 		gtk_widget_show (oh_shit);
 		return;
 	}
-
-	gtk_signal_connect(GTK_OBJECT(e_select_names->listener), "new_folder",
-			   GTK_SIGNAL_FUNC(new_folder), e_select_names);
-	gtk_signal_connect(GTK_OBJECT(e_select_names->listener), "update_folder",
-			   GTK_SIGNAL_FUNC(update_folder), e_select_names);
-	gtk_signal_connect(GTK_OBJECT(e_select_names->listener), "removed_folder",
-			   GTK_SIGNAL_FUNC(removed_folder), e_select_names);
-
-	if (storage != NULL) {
-		GNOME_Evolution_Storage_addListener(storage, listener, &ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("e_select_names_init: Exception adding listener to "
-				   "remote GNOME_Evolution_Storage interface.\n");
-			CORBA_exception_free (&ev);
-			return;
-		}
-
+	else {
+		hookup_listener (e_select_names, storage, e_select_names->local_listener, &ev);
 		bonobo_object_release_unref(storage, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("e_select_names_init: Exception unref'ing "
@@ -429,6 +440,14 @@ e_select_names_hookup_shell_listener (ESelectNames *e_select_names)
 			CORBA_exception_free (&ev);
 			return;
 		}
+	}
+
+	other_contact_storage = addressbook_get_other_contact_storage ();
+	if (other_contact_storage) {
+		storage = bonobo_object_corba_objref (BONOBO_OBJECT (other_contact_storage));
+		e_select_names->other_contacts_listener = evolution_storage_listener_new();
+
+		hookup_listener (e_select_names, storage, e_select_names->other_contacts_listener, &ev);
 	}
 
 	CORBA_exception_free(&ev);
@@ -512,7 +531,7 @@ e_select_names_init (ESelectNames *e_select_names)
 
 	e_select_names->folders = g_hash_table_new(g_str_hash, g_str_equal);
 
-	e_select_names_hookup_shell_listener (e_select_names);
+	e_select_names_hookup_shell_listeners (e_select_names);
 
 	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (e_select_names->table)), "double_click",
 			    GTK_SIGNAL_FUNC (add_address), e_select_names);
@@ -530,8 +549,10 @@ static void
 e_select_names_destroy (GtkObject *object) {
 	ESelectNames *e_select_names = E_SELECT_NAMES(object);
 	
-	gtk_signal_disconnect_by_data(GTK_OBJECT(e_select_names->listener), e_select_names);
-	gtk_object_unref(GTK_OBJECT(e_select_names->listener));
+	gtk_signal_disconnect_by_data(GTK_OBJECT(e_select_names->local_listener), e_select_names);
+	gtk_object_unref(GTK_OBJECT(e_select_names->local_listener));
+	gtk_signal_disconnect_by_data(GTK_OBJECT(e_select_names->other_contacts_listener), e_select_names);
+	gtk_object_unref(GTK_OBJECT(e_select_names->other_contacts_listener));
 
 	gtk_object_unref(GTK_OBJECT(e_select_names->gui));
 	g_hash_table_foreach(e_select_names->children, (GHFunc) e_select_names_child_free, e_select_names);

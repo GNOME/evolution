@@ -1,3 +1,25 @@
+2001-08-17  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names.c: (struct
+	ESelectNamesFolder): rename physical_uri to uri, since it includes
+	the addressbook.db for file: uris.
+	(e_select_names_folder_free): physical_uri => uri.
+	(e_select_names_option_activated): physical_uri => uri, and we
+	don't need to strdup_printf "addressbook.db" onto the end anymore.
+	(new_folder): if the physical_uri is a file: uri, append
+	/addressbook.db onto it.
+	(hookup_listener): new function, split out lots of code from
+	e_select_names_hookup_shell_listener.
+	(e_select_names_hookup_shell_listeners): rename
+	e_select_names_hookup_shell_listener to this, and hookup both the
+	local and "Other Contacts" listener, using hookup_listener.
+	(e_select_names_destroy): disconnect from the
+	other_contacts_listener and unref it.
+
+	* gui/component/select-names/e-select-names.h (struct
+	_ESelectNames): add a listener for Other Contacts, and rename
+	"listener" to "local_listener."
+
 2001-08-17  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c
