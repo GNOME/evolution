@@ -1,5 +1,9 @@
 2004-06-22  JP Rosevear  <jpr@novell.com>
 
+	* gui/dialogs/comp-editor.c: kill warnings
+
+2004-06-22  JP Rosevear  <jpr@novell.com>
+
 	* gui/calendar-component.c (create_new_event): kill warning
 
 2004-06-22  Rodrigo Moya <rodrigo@novell.com>

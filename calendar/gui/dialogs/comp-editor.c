@@ -102,16 +102,6 @@ static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, g
 static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
 static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
 
-static void save_close_cmd (GtkWidget *widget, gpointer data);
-static void save_as_cmd (GtkWidget *widget, gpointer data);
-static void delete_cmd (GtkWidget *widget, gpointer data);
-static void print_cmd (GtkWidget *widget, gpointer data);
-static void print_preview_cmd (GtkWidget *widget, gpointer data);
-static void print_setup_cmd (GtkWidget *widget, gpointer data);
-static void close_cmd (GtkWidget *widget, gpointer data);
-
-static gint delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data);
-
 static GtkObjectClass *parent_class;
 
 
