@@ -91,7 +91,7 @@ e_select_names_class_init (ESelectNamesClass *klass)
   <ETableColumn model_col= \"34\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
 	<ETableState>                   			       \
 		<column source=\"0\"/>     			       \
-	        <grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping> \
+	        <grouping> <leaf column=\"0\" ascending=\"true\"/> </grouping> \
 	</ETableState>                  			       \
 </ETableSpecification>"
 

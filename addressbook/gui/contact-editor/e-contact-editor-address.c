@@ -181,7 +181,7 @@ fill_in_info(EContactEditorAddress *editor)
 {
 	ECardDeliveryAddress *address = editor->address;
 	if (address) {
-		fill_in_field(editor, "text-street"  , address->street );
+		fill_in_field(editor, "entry-street" , address->street );
 		fill_in_field(editor, "entry-po"     , address->po     );
 		fill_in_field(editor, "entry-ext"    , address->ext    );
 		fill_in_field(editor, "entry-city"   , address->city   );
@@ -207,7 +207,7 @@ extract_info(EContactEditorAddress *editor)
 	ECardDeliveryAddress *address = editor->address;
 	if (!address)
 		address = e_card_delivery_address_new();
-	address->street  = extract_field(editor, "text-street"  );
+	address->street  = extract_field(editor, "entry-street" );
 	address->po      = extract_field(editor, "entry-po"     );
 	address->ext     = extract_field(editor, "entry-ext"    );
 	address->city    = extract_field(editor, "entry-city"   );

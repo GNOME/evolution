@@ -227,7 +227,7 @@ e_contact_editor_categories_entry_change (GtkWidget *entry,
         <ETableState> \
 		<column source=\"0\"/>						\
 		<column source=\"1\"/>						\
-        	<grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping>	\
+        	<grouping> <leaf column=\"1\" ascending=\"true\"/> </grouping>	\
         </ETableState> \
 </ETableSpecification>"
 

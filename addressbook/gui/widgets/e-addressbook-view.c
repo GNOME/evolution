@@ -504,7 +504,7 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
     <column source=\"3\"/>                 \
     <column source=\"4\"/>                 \
     <grouping>                             \
-      <leaf column=\"0\" ascending=\"1\"/> \
+      <leaf column=\"0\" ascending=\"true\"/> \
     </grouping>                            \
   </ETableState>                           \
 </ETableSpecification>"
