@@ -1,3 +1,10 @@
+2004-06-18  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #60293
+
+	* gui/dialogs/recurrence-page.c (type_toggled_cb): make sure
+	we enable/disable correctly the 'Add' button.
+
 2004-06-17 Sivaiah Nallagatla <snallagatla@novell.com>
 
         * gui/itip-utils.c (itip_publish_comp) : check for

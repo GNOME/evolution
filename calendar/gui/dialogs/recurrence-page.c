@@ -2066,8 +2066,12 @@ static void
 type_toggled_cb (GtkToggleButton *toggle, gpointer data)
 {
 	RecurrencePage *rpage;
+	RecurrencePagePrivate *priv;
+	gboolean read_only;
 
 	rpage = RECURRENCE_PAGE (data);
+
+	priv = rpage->priv;
 
 	field_changed (rpage);
 
@@ -2075,6 +2079,16 @@ type_toggled_cb (GtkToggleButton *toggle, gpointer data)
 		sensitize_buttons (rpage);
 		preview_recur (rpage);
 	}
+
+	/* enable/disable the 'Add' button */
+	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (rpage)->client, &read_only, NULL))
+		read_only = TRUE;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->none)) || read_only)
+		gtk_widget_set_sensitive (priv->exception_add, FALSE);
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->simple)) ||
+		 gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->custom)))
+		gtk_widget_set_sensitive (priv->exception_add, TRUE);
 }
 
 /* Callback used when the recurrence interval value spin button changes. */
