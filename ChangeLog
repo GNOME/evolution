@@ -2,6 +2,7 @@
 
 	* configure.in (ALL_LINGUAS): Remove fr for now, since it doesn't
 	seem to work.
+	(AC_OUTPUT): Remove calendar/importers/Makefile for now.
 
 2003-01-14  Rodney Dawes  <dobey@ximian.com>
 

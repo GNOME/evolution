@@ -1314,7 +1314,6 @@ calendar/pcs/Makefile
 calendar/gui/Makefile
 calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
-calendar/importers/Makefile
 composer/Makefile
 mail/Makefile
 mail/importers/Makefile
