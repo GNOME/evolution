@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2000-05-27 20:01+0100\n"
-"PO-Revision-Date: 2000-05-19 10:38+0200\n"
+"PO-Revision-Date: 2000-05-27 23:38+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -876,24 +876,20 @@ msgid "Closes all the open items"
 msgstr "Lukker alle åbne ting"
 
 #: shell/e-shell-view-menu.c:265
-#, fuzzy
 msgid "Show _Shortcut Bar"
-msgstr "Skift _genvejslinjen"
+msgstr "Vis _genvejs-bjælke"
 
 #: shell/e-shell-view-menu.c:266
-#, fuzzy
 msgid "Shows the shortcut bar"
-msgstr "Skifter genvejslinjen"
+msgstr "Viser bjælke med genveje"
 
 #: shell/e-shell-view-menu.c:268
-#, fuzzy
 msgid "Show _Treeview"
-msgstr "Skift _træsynsmåde"
+msgstr "Vis _træ"
 
 #: shell/e-shell-view-menu.c:269
-#, fuzzy
 msgid "Shows the tree view"
-msgstr "Skifter træsynsmåde"
+msgstr "Viser underpunkter på træ-facon"
 
 #: shell/e-shell-view-menu.c:284
 msgid "_Submit bug"
@@ -1031,6 +1027,3 @@ msgstr "Tilføj >>"
 #: widgets/e-table/e-table-group.glade.h:13
 msgid "<< Remove"
 msgstr "<< Fjern"
-
-#~ msgid "Internet Free-Busy"
-#~ msgstr "Internet fri/optaget"
