@@ -63,8 +63,7 @@ enum {
 
 	ARG_STRIKEOUT_COLUMN,
 	ARG_BOLD_COLUMN,
-	ARG_TEXT_FILTER,
-	ARG_COLOR_COLUMN,
+	ARG_COLOR_COLUMN
 };
 
 
@@ -894,7 +893,9 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 		gchar *string;
 		gint value;
 
-		string = (*ect->filter)(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+		string = (*ect->filter)(
+			ecell_view->e_table_model,
+			model_col, row, ect->filter_closure);
 		value = e_font_height (font) * number_of_lines(string) + TEXT_PAD;
 
 		g_free(string);
@@ -963,7 +964,8 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->default_cursor_shown = TRUE;
 	
 	if (ect->filter) {
-		edit->old_text = (*ect->filter)(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+		edit->old_text = (*ect->filter)(
+			ecell_view->e_table_model, model_col, row, ect->filter_closure);
 	} else {
 		edit->old_text = g_strdup (e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 	}
@@ -1014,7 +1016,8 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	char *string;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
 	if (ect->filter) {
-		string = (*ect->filter)(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+		string = (*ect->filter)(
+			ecell_view->e_table_model, model_col, row, ect->filter_closure);
 	} else {
 		string = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
 	}
@@ -1036,7 +1039,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	gnome_print_show(context, string);
 	gnome_print_grestore(context);
 	if (ect->filter) {
-		g_free(string);
+		g_free (string);
 	}
 }
 
@@ -1302,9 +1305,6 @@ ect_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		text->color_column = GTK_VALUE_INT (*arg);
 		break;
 
-	case ARG_TEXT_FILTER:
-		text->filter = GTK_VALUE_POINTER (*arg);
-		break;
 	default:
 		return;
 	}
@@ -1329,10 +1329,6 @@ ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_COLOR_COLUMN:
 		GTK_VALUE_INT (*arg) = text->color_column;
-		break;
-
-	case ARG_TEXT_FILTER:
-		GTK_VALUE_POINTER (*arg) = text->filter;
 		break;
 
 	default:
@@ -1373,11 +1369,22 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_BOLD_COLUMN);
 	gtk_object_add_arg_type ("ECellText::color_column",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_COLOR_COLUMN);
-	gtk_object_add_arg_type ("ECellText::text_filter",
-				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_TEXT_FILTER);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+}
+
+void
+e_cell_text_set_filter (ECell *ecell, ECellTextFilter filter, void *closure)
+{
+	ECellText *ect;
+	
+	g_return_if_fail (ecell != NULL);
+	g_return_if_fail (E_IS_CELL_TEXT (ecell));
+
+	ect = E_CELL_TEXT (ecell);
+	ect->filter = filter;
+	ect->filter_closure = closure;
 }
 
 static void
@@ -2326,7 +2333,8 @@ build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, 
 	cell->breaks = NULL;
 
 	if (ect->filter) {
-		cell->text = (*ect->filter)(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+		cell->text = (*ect->filter)(
+			ecell_view->e_table_model, model_col, row, ect->filter_closure);
 	} else {
 		cell->text = g_strdup (e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 	}
