@@ -278,7 +278,7 @@ filter_gui_add_from_message(CamelMimeMessage *msg, int flags)
 	fc = filter_context_new();
 	userrules = g_strdup_printf("%s/filters.xml", evolution_dir);
 	systemrules = g_strdup_printf("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-	rule_context_load((RuleContext *)fc, systemrules, userrules, NULL, NULL);
+	rule_context_load((RuleContext *)fc, systemrules, userrules);
 	rule = filter_rule_from_message(fc, msg, flags);
 	rule_context_add_rule_gui((RuleContext *)fc, rule, _("Add Filter Rule"), userrules);
 	g_free (userrules);
@@ -309,7 +309,7 @@ filter_gui_add_for_mailing_list (CamelMimeMessage *msg,
 	fc = filter_context_new();
 	userrules = g_strdup_printf("%s/filters.xml", evolution_dir);
 	systemrules = g_strdup_printf("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-	rule_context_load((RuleContext *)fc, systemrules, userrules, NULL, NULL);
+	rule_context_load((RuleContext *)fc, systemrules, userrules);
 
 	rule = (FilterRule *) filter_filter_new ();
 

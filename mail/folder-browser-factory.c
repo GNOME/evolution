@@ -32,10 +32,8 @@
 static GList *control_list = NULL;
 
 static void
-register_ondemand (RuleContext *f, FilterRule *rule, gpointer data)
+register_ondemand (RuleContext *f, FilterRule *rule, FolderBrowser *fb, BonoboUIComponent *uic)
 {
-	FolderBrowser *fb = FOLDER_BROWSER (data);
-	BonoboUIComponent *uic = gtk_object_get_data (GTK_OBJECT (fb), "uih");
 	BonoboUIHandler *uih;
 	gchar *text;
 	struct fb_ondemand_closure *oc;
@@ -67,14 +65,15 @@ static void
 create_ondemand_hooks (FolderBrowser *fb, BonoboUIComponent *uic)
 {
 	gchar *system, *user;
-	
+	FilterRule *rule = NULL;
+
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	fb->filter_context = filter_context_new();
-	gtk_object_set_data (GTK_OBJECT (fb), "uih", uic);
-	rule_context_load ((RuleContext *) fb->filter_context, system, user,
-			   register_ondemand, fb);
-	gtk_object_remove_data (GTK_OBJECT (fb), "uih");
+	rule_context_load ((RuleContext *) fb->filter_context, system, user);
+	while ( (rule = rule_context_next_rule((RuleContext *)fb->filter_context, rule)) != NULL ) {
+		register_ondemand((RuleContext *)fb->filter_context, rule, fb, uic);
+	}
 	g_free (user);
 }
 

@@ -599,9 +599,8 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			       md->html, md->stream);
 	g_free (string);
 
-	recipients = camel_mime_message_get_recipients (
-		message, CAMEL_RECIPIENT_TYPE_CC);
-	string = camel_address_encode (CAMEL_ADDRESS (recipients));
+	recipients = camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_CC);
+	string = camel_address_encode(CAMEL_ADDRESS(recipients));
 	if (string) {
 		write_field_to_stream ("Cc:", string, TRUE,
 				       md->html, md->stream);

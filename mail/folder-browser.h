@@ -43,7 +43,8 @@ struct  _FolderBrowser {
 	GtkWidget   *vpaned;
 	GtkWidget   *search_menu;
 	GtkWidget   *search_entry;
-	
+	FilterRule  *search_full; /* if we have a full search active */
+
 	gboolean     preview_shown;
 
 	/* Stuff to allow on-demand filtering */

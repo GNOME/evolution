@@ -87,6 +87,7 @@ static void select_msg (MessageList *message_list, gint row);
 static char *filter_date (const void *data);
 static void nuke_uids (GtkObject *o);
 
+static char *folder_to_cachename(CamelFolder *folder, const char *prefix);
 static void save_tree_state(MessageList *ml);
 
 static struct {
@@ -933,11 +934,58 @@ message_list_init_header (MessageList *message_list)
 	}
 }
 
+static void
+save_header_state(MessageList *ml)
+{
+	char *filename;
+
+	if (ml->folder == NULL
+	    || ml->etable == NULL)
+		return;
+
+	filename = folder_to_cachename(ml->folder, "et-header-");
+	e_table_scrolled_save_specification(E_TABLE_SCROLLED(ml->etable), filename);
+	g_free(filename);
+}
+
 static char *
 message_list_get_layout (MessageList *message_list)
 {
 	/* Message status, From, Subject, Sent Date */
 	return g_strdup ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> </columns-shown> <grouping> </grouping> </ETableSpecification>");
+}
+
+static void
+message_list_setup_etable(MessageList *message_list)
+{
+	char *spec = "<ETableSpecification> <columns-shown> "
+		"<column> 0 </column> <column> 7 </column>"
+		"<column> 4 </column> <column> 5 </column> "
+		"</columns-shown> <grouping> </grouping> </ETableSpecification>";
+
+	/* build the spec based on the folder, and possibly from a saved file */
+	/* otherwise, leave default */
+	if (message_list->folder) {
+		char *name;
+		char *path;
+		struct stat st;
+
+		path = folder_to_cachename(message_list->folder, "et-header-");
+		if (stat(path, &st) == 0 && st.st_size > 0 && S_ISREG(st.st_mode)) {
+			e_table_scrolled_load_specification(E_TABLE_SCROLLED(message_list->etable), path);
+		} else {
+			/* I wonder if there's a better way to do this ...? */
+			name = camel_service_get_name((CAMEL_SERVICE(message_list->folder->parent_store)), TRUE);
+			printf("folder name is '%s'\n", name);
+			if (strstr(name, "/Drafts") == 0
+			    || strstr(name, "/Outbox") == 0
+			    || strstr(name, "/Sent") == 0) {
+				e_table_scrolled_set_specification(E_TABLE_SCROLLED(message_list->etable), spec);
+			}
+			g_free(name);
+		}
+		g_free(path);
+	}
 }
 
 /*
@@ -997,7 +1045,7 @@ message_list_init (GtkObject *object)
 			    GTK_SIGNAL_FUNC (on_double_click), message_list);
 	
 	gtk_widget_show (message_list->etable);
-	
+
 	gtk_object_ref (GTK_OBJECT (message_list->table_model));
 	gtk_object_sink (GTK_OBJECT (message_list->table_model));
 	
@@ -1020,8 +1068,10 @@ message_list_destroy (GtkObject *object)
 	MessageList *message_list = MESSAGE_LIST (object);
 	int i;
 
-	if (message_list->folder)
+	if (message_list->folder) {
 		save_tree_state(message_list);
+		save_header_state(message_list);
+	}
 	
 	gtk_object_unref (GTK_OBJECT (message_list->table_model));
 	gtk_object_unref (GTK_OBJECT (message_list->header_model));
@@ -1424,6 +1474,9 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 		camel_object_unref (CAMEL_OBJECT (message_list->folder));
 
 	message_list->folder = camel_folder;
+
+	/* build the etable suitable for this folder */
+	message_list_setup_etable(message_list);
 
 	camel_object_hook_event(CAMEL_OBJECT (camel_folder), "folder_changed",
 			   folder_changed, message_list);

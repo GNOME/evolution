@@ -1,3 +1,46 @@
+2000-10-06  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-search-dialogue.c: New widget, full search dialogue for
+	mail.
+
+	* folder-browser.c (search_set): If we click on custom search, run
+	the full search dialogue.
+	(folder_browser_gui_init): Add a button to perform a full search.
+	(search_full): Bring up the mail search dialogue asynchronously.
+	(search_full_clicked): Handle search options.
+	(folder_browser_destroy): Free the saved rule if there is one
+	there.
+	(search_options[]): Added a custom option option - brings up the
+	full search dialogue.
+	(search_set): Disable the search entry if we are doing a full
+	search.
+
+	* mail-vfolder.c (vfolder_create_storage): Yay, finally
+	depeterised this stuff.
+	(vfolder_uri_to_folder): Removed an irrelevant comment.
+
+	* mail-callbacks.c (filter_edit): And here.
+
+	* mail-ops.c (do_fetch_mail): And here too.
+
+	* mail-autofilter.c (filter_gui_add_from_message): Fixed call to
+	context_load.
+	(filter_gui_add_for_mailing_list): And here too.
+
+	* folder-browser-factory.c (create_ondemand_hooks): Remove that
+	ondemand callback snot.
+
+2000-10-05  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (message_list_init_etable): Build the etable once
+	we know what folder we are going to use.
+	(save_header_state): Save the header spec to a cache file.
+	(message_list_destroy): Save the header spec.
+	(message_list_setup_etable): Setup the etable spec for this
+	folder, from a saved version if one exists, or to suit the folder
+	type (sent/received).
+	(message_list_set_folder): Setup the etable here once we have a folder.
+
 2000-10-09  Michael Meeks  <michael@helixcode.com>
 
 	* message-list.c (message_list_toggle_threads): re-write.
@@ -146,6 +189,7 @@
 	* mail-ops.c (do_scan_subfolders): Don't try to add_folders if
 	get_folder_info returned NULL.
 
+>>>>>>> 1.611
 2000-10-04  Not Zed  <NotZed@HelixCode.com>
 
 	* message-list.c (message_list_init_header): Fix the attachment

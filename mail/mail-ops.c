@@ -91,7 +91,7 @@ mail_load_evolution_rule_context ()
 	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
 	fc = filter_context_new ();
-	rule_context_load ((RuleContext *)fc, systemrules, userrules, NULL, NULL);
+	rule_context_load ((RuleContext *)fc, systemrules, userrules);
 	g_free (userrules);
 	g_free (systemrules);
 

@@ -67,7 +67,7 @@ struct _MessageList {
 	ETreePath    *tree_root; /* for tree view */
 	
 	GtkWidget    *etable;
-	
+
 	CamelFolder  *folder;
 	
 	GHashTable *uid_rowmap;

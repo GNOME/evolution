@@ -87,16 +87,11 @@ vfolder_refresh(void)
 				g_free(info->query);
 				info->query = g_strdup(expr->str);
 
-				/*uri = g_strdup_printf("vfolder:%s/vfolder/%s?%s", evolution_dir, info->name, info->query);*/
 				uri = g_strdup_printf("vfolder:%s", info->name);
 				path = g_strdup_printf("/%s", info->name);
 				evolution_storage_removed_folder(vfolder_storage, path);
-				evolution_storage_new_folder (vfolder_storage,
-							      path,
-							      g_basename (path),
-							      "mail",
-							      uri,
-							      info->name);
+				evolution_storage_new_folder(vfolder_storage, path, g_basename(path),
+							     "mail", uri, info->name);
 				g_free(uri);
 				g_free(path);
 			}
@@ -106,15 +101,10 @@ vfolder_refresh(void)
 			info->query = g_strdup(expr->str);
 			d(printf("Adding new vfolder: %s %s\n", rule->name, expr->str));
 			
-			/*uri = g_strdup_printf("vfolder:%s/vfolder/%s?%s", evolution_dir, info->name, info->query);*/
 			uri = g_strdup_printf("vfolder:%s", info->name);
 			path = g_strdup_printf("/%s", info->name);
-			evolution_storage_new_folder (vfolder_storage,
-						      path,
-						      g_basename (path),
-						      "mail",
-						      uri,
-						      info->name);
+			evolution_storage_new_folder(vfolder_storage, path, g_basename(path),
+						     "mail", uri, info->name);
 			g_free(uri);
 			g_free(path);
 		}
@@ -167,7 +157,7 @@ vfolder_create_storage(EvolutionShellComponent *shell_component)
 	
 	context = vfolder_context_new();
 	printf("loading rules %s %s\n", system, user);
-	if (rule_context_load((RuleContext *)context, system, user, NULL, NULL) != 0) {
+	if (rule_context_load((RuleContext *)context, system, user) != 0) {
 		g_warning("cannot load vfolders: %s\n", ((RuleContext *)context)->error);
 	}
 	g_free(user);
@@ -175,7 +165,6 @@ vfolder_create_storage(EvolutionShellComponent *shell_component)
 	vfolder_refresh();
 }
 
-/* THIS IS ANALOGOUS TO mail_tool_uri_to_folder. IT IS NOT ASYNCHRONOUS */
 /* maps the shell's uri to the real vfolder uri and open the folder */
 CamelFolder *
 vfolder_uri_to_folder(const char *uri, CamelException *ex)

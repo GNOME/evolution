@@ -696,7 +696,7 @@ filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 	fc = filter_context_new();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-	rule_context_load ((RuleContext *)fc, system, user, NULL, NULL);
+	rule_context_load ((RuleContext *)fc, system, user);
 	g_free (user);
 	g_free (system);
 	
