@@ -26,6 +26,8 @@
 /* Padding above and below of the string in the header display */
 #define PADDING 4
 
+#define MIN_ARROW_SIZE 10
+
 /* Defines the tolerance for proximity of the column division to the cursor position */
 #define TOLERANCE 2
 
@@ -100,6 +102,8 @@ ethi_font_load (ETableHeaderItem *ethi, char *font)
 		ethi->font = gdk_font_load ("fixed");
 	
 	ethi->height = ethi->font->ascent + ethi->font->descent + PADDING;
+	if ( ethi->height < MIN_ARROW_SIZE + 4 + PADDING )
+		ethi->height = MIN_ARROW_SIZE + 4 + PADDING;
 }
 
 static void
@@ -468,6 +472,7 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 {
 	GdkRectangle clip;
 	int xtra;
+	int arrowx;
 	
 	gdk_draw_rectangle (
 		drawable, gc, TRUE,
@@ -478,9 +483,9 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 		GTK_STATE_NORMAL, GTK_SHADOW_OUT,
 		x , y, width, height);
 
-	clip.x = x + 2;
-	clip.y = y + 2;
-	clip.width = width - 4;
+	clip.x = x + PADDING / 2;
+	clip.y = y + PADDING / 2;
+	clip.width = width - PADDING;
 	clip.height = ethi->height;
 	
 	gdk_gc_set_clip_rectangle (ethi->gc, &clip);
@@ -488,12 +493,12 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 	if ( col->is_pixbuf ) {
 		xtra = (clip.width - gdk_pixbuf_get_width(col->pixbuf))/2;
 		
-		x += xtra + PADDING / 2;
+		xtra += PADDING / 2;
 
 		gdk_pixbuf_render_to_drawable_alpha(col->pixbuf, 
 						    drawable,
 						    0, 0, 
-						    x, y + (clip.height - gdk_pixbuf_get_height(col->pixbuf)) / 2,
+						    x + xtra, y + (clip.height - gdk_pixbuf_get_height(col->pixbuf)) / 2,
 						    gdk_pixbuf_get_width(col->pixbuf), gdk_pixbuf_get_height(col->pixbuf),
 						    GDK_PIXBUF_ALPHA_FULL, 128,
 						    GDK_RGB_DITHER_NORMAL,
@@ -506,12 +511,33 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 		if (xtra < 0)
 			xtra = 0;
 
-		x += xtra + PADDING / 2;
+		xtra += PADDING / 2;
 	
 		gdk_draw_text (
 			       drawable, ethi->font,
-			       ethi->gc, x, y + ethi->height - ethi->font->descent - PADDING / 2,
+			       ethi->gc, x + xtra, y + ethi->height - ethi->font->descent - PADDING / 2,
 			       col->text, strlen (col->text));
+	}
+
+	switch ( e_table_col_get_arrow(col) ) {
+	case E_TABLE_COL_ARROW_NONE:
+		break;
+	case E_TABLE_COL_ARROW_UP:
+	case E_TABLE_COL_ARROW_DOWN:
+		gtk_paint_arrow   (gtk_widget_get_style(GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas)),
+				   drawable,
+				   GTK_STATE_NORMAL,
+				   GTK_SHADOW_OUT,
+				   &clip,
+				   GTK_WIDGET(GNOME_CANVAS_ITEM(ethi)->canvas),
+				   "header",
+				   e_table_col_get_arrow(col) == E_TABLE_COL_ARROW_UP ? GTK_ARROW_UP : GTK_ARROW_DOWN,
+				   TRUE,
+				   x + PADDING / 2 + clip.width - MIN_ARROW_SIZE - 2,
+				   y + (ethi->height - MIN_ARROW_SIZE) / 2,
+				   MIN_ARROW_SIZE,
+				   MIN_ARROW_SIZE);
+		break;
 	}
 }
 

@@ -116,6 +116,7 @@ check_test (void)
 	
 	col_1 = e_table_col_new (1, "Item Name", 180, 20, cell_left_just, g_str_equal, TRUE);
 	e_table_header_add_column (e_table_header, col_1, 1);
+	e_table_col_set_arrow ( col_1, E_TABLE_COL_ARROW_DOWN );
 
 	/*
 	 * GUI

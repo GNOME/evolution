@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * E-table-col.c: ETableCol implementation
  *
@@ -61,6 +62,8 @@ e_table_col_new (int col_idx, const char *text, int width, int min_width,
 	etc->ecell = ecell;
 	etc->compare = compare;
 
+	etc->arrow = E_TABLE_COL_ARROW_NONE;
+
 	etc->selected = 0;
 	etc->resizeable = resizable;
 
@@ -90,12 +93,26 @@ e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, int width, int min_
 	etc->ecell = ecell;
 	etc->compare = compare;
 
+	etc->arrow = E_TABLE_COL_ARROW_NONE;
+
 	etc->selected = 0;
 	etc->resizeable = resizable;
 
 	gdk_pixbuf_ref(etc->pixbuf);
 
 	return etc;
+}
+
+void
+e_table_col_set_arrow (ETableCol *col, ETableColArrow arrow)
+{
+	col->arrow = arrow;
+}
+
+ETableColArrow
+e_table_col_get_arrow (ETableCol *col)
+{
+	return col->arrow;
 }
 
 
