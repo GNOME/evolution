@@ -415,6 +415,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	EUri *uri;
 	CalClient *client;
 	LoadedClient *lc;
+	char *s;
 
 	g_return_if_fail (an != NULL);
 	g_return_if_fail (IS_ALARM_NOTIFY (an));
@@ -431,15 +432,12 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 		return;
 	}
 
-	lc = g_hash_table_lookup (priv->uri_client_hash, str_uri);
-
-	if (lc) {
-		if (load_afterwards)
-			add_uri_to_load (uri);
-		e_uri_free (uri);
-		g_assert (lc->refcount > 0);
-		lc->refcount++;
-		return;
+	if (g_hash_table_lookup_extended (priv->uri_client_hash, str_uri, &s, &lc)) {
+		alarm_queue_remove_client (lc->client);
+		gtk_object_unref (GTK_OBJECT (lc->client));
+		e_uri_free (lc->uri);
+		g_free (lc);
+		g_free (s);
 	}
 
 	client = cal_client_new ();
@@ -472,6 +470,4 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 				     NULL);
 		return;
 	}
-
-	e_uri_free (uri);
 }
