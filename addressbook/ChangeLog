@@ -1,5 +1,10 @@
 2001-09-16  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/evolutionperson.schema: fix syntax errors (which are
+	broken, imo...)
+
+2001-09-16  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook-storage.h: reorder the LDAP scopes so
 	that they match the order of the option menus in the glade file.
 

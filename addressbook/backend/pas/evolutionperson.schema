@@ -179,7 +179,7 @@ objectclass	( 1.3.6.1.4.1.8506.1.3.1
 		otherPostalAddress $ mailer $ birthDate $ anniversary $ spouseName $
 		note $ companyPhone $ callbackPhone $ otherFacsimileTelephoneNumber $
 		radio $ telex $ tty $ categories )
-	)  
+	)
 
 # evolutionPersonList
 objectclass	( 1.3.6.1.4.1.8506.1.3.2
@@ -189,4 +189,4 @@ objectclass	( 1.3.6.1.4.1.8506.1.3.2
     STRUCTURAL
 	MUST (
 		listName $ mail $ contact )
-)
+	)
