@@ -43,16 +43,6 @@ timeutil
 @Returns: 
 
 
-<!-- ##### FUNCTION time_add_month ##### -->
-<para>
-
-</para>
-
-@time: 
-@months: 
-@Returns: 
-
-
 <!-- ##### FUNCTION time_days_in_month ##### -->
 <para>
 
@@ -60,34 +50,6 @@ timeutil
 
 @year: 
 @month: 
-@Returns: 
-
-
-<!-- ##### FUNCTION time_year_begin ##### -->
-<para>
-
-</para>
-
-@t: 
-@Returns: 
-
-
-<!-- ##### FUNCTION time_month_begin ##### -->
-<para>
-
-</para>
-
-@t: 
-@Returns: 
-
-
-<!-- ##### FUNCTION time_week_begin ##### -->
-<para>
-
-</para>
-
-@t: 
-@week_start_day: 
 @Returns: 
 
 

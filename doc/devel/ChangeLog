@@ -1,3 +1,8 @@
+2001-10-29  Federico Mena Quintero  <federico@ximian.com>
+
+	* calendar/alarm-generation.sgml: Updated docs for repeating
+	alarms.
+
 2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (dist-hook): Remove the copying of the 

@@ -100,6 +100,22 @@
 	time, and if so, we take that trigger occurrence into account
 	for the final result.
       </para>
+
+      <para>
+	In addition, alarms may specify a number of repetitions and a
+	duration time.  For example, an alarm may be configured to
+	repeat 3 extra times after the original occurrence with 5
+	minutes between each repetition.  Again, for absolute triggers
+	this does not present a problem, as we can just generate the
+	repetitions starting from the absolute trigger time.  For
+	relative triggers, we expand the range as described above and
+	also add the total offset for the repetitions to the start of
+	the range, i.e. 15 extra minutes for the case of 3 repetitions
+	with 5 minutes between each.  We do not need to modify the end
+	of the range because alarm repetitions always have positive
+	offsets, so they are equivalent to relative alarm triggers
+	with positive offsets.
+      </para>
     </sect1>
 
     <sect1 id="alarm-trigger-generation-code">

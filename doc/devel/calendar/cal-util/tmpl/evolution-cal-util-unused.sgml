@@ -208,6 +208,15 @@ End:
 @minutes: 
 @Returns: 
 
+<!-- ##### FUNCTION time_add_month ##### -->
+<para>
+
+</para>
+
+@time: 
+@months: 
+@Returns: 
+
 <!-- ##### FUNCTION time_add_year ##### -->
 <para>
 
@@ -261,12 +270,29 @@ End:
 @duration: 
 @Returns: 
 
+<!-- ##### FUNCTION time_month_begin ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
 <!-- ##### FUNCTION time_month_end ##### -->
 <para>
 
 </para>
 
 @t: 
+@Returns: 
+
+<!-- ##### FUNCTION time_week_begin ##### -->
+<para>
+
+</para>
+
+@t: 
+@week_start_day: 
 @Returns: 
 
 <!-- ##### FUNCTION time_week_end ##### -->
@@ -276,6 +302,14 @@ End:
 
 @t: 
 @week_start_day: 
+@Returns: 
+
+<!-- ##### FUNCTION time_year_begin ##### -->
+<para>
+
+</para>
+
+@t: 
 @Returns: 
 
 <!-- ##### FUNCTION time_year_end ##### -->

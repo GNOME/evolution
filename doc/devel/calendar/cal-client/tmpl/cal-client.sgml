@@ -273,6 +273,15 @@ GTK+ object for communication with personal calendar server.
 @calclient: the object which received the signal.
 @arg1: 
 
+<!-- ##### SIGNAL CalClient::cal-set-mode ##### -->
+<para>
+
+</para>
+
+@calclient: the object which received the signal.
+@arg1: 
+@arg2: 
+
 <!-- ##### SIGNAL CalClient::obj-updated ##### -->
   <para>
     This signal is emitted when the calendar clients receives
