@@ -1,3 +1,8 @@
+2003-09-08  Calvin Liu <calvin.liu@sun.com>
+
+	** For bug #48175
+	* e-summary-tasks.c: set default value for colour if it's empty
+
 2003-08-19  Harry Lu  <harry.lu@sun.com>
 
 	** For bug #47461.
