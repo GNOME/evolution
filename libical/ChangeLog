@@ -1,3 +1,12 @@
+2000-09-01  JP Rosevear  <jpr@helixcode.com>
+
+	* configure.in: We don't need AC_PROG_RANLIB and
+	AM_PROG_LIBTOOL
+
+	* src/libical/icalyacc.y (clear_recur): Explicitly
+	set the week_start to the Monday default in case the
+	recurrence rule does not.
+
 2000-08-31  JP Rosevear  <jpr@helixcode.com>
 
 	* Kill off more old, dead files

@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalyacc.y,v 1.5 2000/08/24 20:12:04 jpr Exp $
+  $Id: icalyacc.y,v 1.6 2000/09/01 15:24:30 jpr Exp $
   $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 
@@ -453,6 +453,7 @@ void clear_recur()
     skippos = 0;
 
     icalrecurrencetype_clear(&recur);
+    recur.week_start = ICAL_MONDAY_WEEKDAY;
 }
 
 void copy_list(short* array, size_t size)

@@ -575,9 +575,8 @@ array_to_list (short *array, int max_elements)
 
 	l = NULL;
 
-	for (i = 0; i < max_elements && array[i] != SHRT_MAX; i++)
+	for (i = 0; i < max_elements && array[i] != ICAL_RECURRENCE_ARRAY_MAX; i++)
 		l = g_list_prepend (l, GINT_TO_POINTER ((int) (array[i])));
-
 	return g_list_reverse (l);
 }
 

@@ -961,10 +961,9 @@ dialog_to_comp_object (EventEditor *ee)
 	cal_component_set_classification (comp, classification_get (priv->classification_radio));
 
 	/* Recurrence information */
-	list = NULL;
   	icalrecurrencetype_clear (&recur);
 	recur.freq = recur_options_get (priv->recurrence_rule_none);
-	
+
 	switch (recur.freq) {
 	case ICAL_NO_RECURRENCE:
 		/* nothing */
@@ -1027,16 +1026,24 @@ dialog_to_comp_object (EventEditor *ee)
 	}
 
 	if (recur.freq != ICAL_NO_RECURRENCE) {
+		/* recurrence start of week */
+		if (week_starts_on_monday)
+			recur.week_start = ICAL_MONDAY_WEEKDAY;
+		else
+			recur.week_start = ICAL_SUNDAY_WEEKDAY;
+
 		/* recurrence ending date */
 		if (e_dialog_toggle_get (priv->recurrence_ending_date_end_on)) {
-			/* Also here, to ensure that the event is used, we add 86400
-			 * secs to get get next day, in accordance to the RFC
+			/* Also here, to ensure that the event is used, we add a day
+			 * to get the next day, in accordance to the RFC
 			 */
-			t = e_dialog_dateedit_get (priv->recurrence_ending_date_end_on_date) + 86400;
-			recur.until = icaltime_from_timet (t, TRUE, TRUE);
+			t = e_dialog_dateedit_get (priv->recurrence_ending_date_end_on_date);
+			t = time_add_day (t, 1);
+			recur.until = icaltime_from_timet (t, TRUE, FALSE);
 		} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_after)) {
 			recur.count = e_dialog_spin_get_int (priv->recurrence_ending_date_end_after_count);
 		}
+		list = NULL;
 		list = g_slist_append (list, &recur);
 		cal_component_set_rrule_list (comp, list);
 	}
@@ -1105,6 +1112,17 @@ file_save_cb (GtkWidget *widget, gpointer data)
 
 	ee = EVENT_EDITOR (data);
 	save_event_object (ee);
+}
+
+/* File/Save and Close callback */
+static void
+file_save_and_close_cb (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee;
+
+	ee = EVENT_EDITOR (data);
+	save_event_object (ee);
+	close_dialog (ee);
 }
 
 /* File/Delete callback */
@@ -1341,9 +1359,9 @@ create_menu (EventEditor *ee)
 /* Toolbar */
 
 static GnomeUIInfo toolbar[] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("Save"),
-				N_("Save this appointment"),
-				file_save_cb,
+	GNOMEUIINFO_ITEM_STOCK (N_("Save and Close"),
+				N_("Save and close this appointment"),
+				file_save_and_close_cb,
 				GNOME_STOCK_PIXMAP_SAVE),
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Delete"),

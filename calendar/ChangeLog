@@ -1,3 +1,19 @@
+2000-09-01  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/event-editor.c: Make toolbar save and close button.
+	We should put a similar menu option in sometime.
+
+2000-08-31  JP Rosevear  <jpr@helixcode.com>
+
+	* cal-util/cal-recur.c (array_to_list): Use
+	ICAL_RECURRENCE_ARRAY_MAX instead of MAX_SHORT
+	
+2000-08-31  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/event-editor.c (file_delete_cb): Implement delete option
+	(dialog_to_comp_object): Set the weekday start value and use
+	local not UTC time
+
 2000-08-31  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/event-editor.c (file_delete_cb): No need to spit a warning
