@@ -43,6 +43,8 @@ static void set_source (RuleEditor *re, const char *source);
 static void set_sensitive (RuleEditor *re);
 static FilterRule *create_rule (RuleEditor *re);
 
+static void cursor_changed (GtkTreeView *treeview, RuleEditor *re);
+
 static void rule_editor_class_init (RuleEditorClass *klass);
 static void rule_editor_init (RuleEditor *re);
 static void rule_editor_finalise (GObject *obj);
@@ -422,6 +424,7 @@ rule_delete (GtkWidget *widget, RuleEditor *re)
 			gtk_tree_model_get_iter (GTK_TREE_MODEL (re->model), &iter, path);
 			gtk_tree_path_free (path);
 			
+			/* select the new row */
 			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (re->list));
 			gtk_tree_selection_select_iter (selection, &iter);
 			
@@ -429,6 +432,10 @@ rule_delete (GtkWidget *widget, RuleEditor *re)
 			path = gtk_tree_model_get_path ((GtkTreeModel *) re->model, &iter);
 			gtk_tree_view_scroll_to_cell (re->list, path, NULL, FALSE, 0.0, 0.0);
 			gtk_tree_path_free (path);
+			
+			/* update our selection state */
+			cursor_changed (re->list, re);
+			return;
 		}
 	}
 	

@@ -1,3 +1,9 @@
+2004-02-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-editor.c (rule_delete): After setting the new selected
+	iter, call cursor_changed() so we can update state. Fixes bug
+	#54205.
+
 2004-02-20  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #54338.
