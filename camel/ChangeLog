@@ -1,5 +1,10 @@
 2001-11-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-filter-tohtml.c (camel_mime_filter_tohtml_new): New
+	mime filter to convert plain text to html.
+
+2001-11-16  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Since some mail clients like Outlook are broken, we need to set a
 	name parameter on pgp signed and encrypted parts.
 
