@@ -21,9 +21,13 @@
  * Author: Iain Holmes  <iain@helixcode.com>
  */
 
+#include <bonobo/bonobo-ui-component.h>
+
 #ifndef __IMPORTER_H__
 #define __IMPORTER_H__
 
-void show_import_wizard (void);
+void show_import_wizard (BonoboUIComponent *component,
+			 gpointer           user_data,
+			 const char        *cname);
 
 #endif

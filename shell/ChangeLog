@@ -1,3 +1,14 @@
+2001-02-21  Michael Meeks  <michael@ximian.com>
+
+	* importer/importer.c: add include.
+	(show_import_wizard): update signature to that of a verb.
+
+	* evolution-shell-component.c (corba_class_init): move into
+	(class_init): here & upd.
+	(evolution_shell_component_construct): upd.
+	(create_servant): kill.
+	(E_MAKE_TYPE) -> E_MAKE_X_TYPE.
+
 2001-02-20  Dan Winship  <danw@ximian.com>
 
 	* e-folder.c (_EFolderPrivate): split "highlighted" into

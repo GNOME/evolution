@@ -24,7 +24,7 @@
 #ifndef EVOLUTION_SHELL_COMPONENT_H
 #define EVOLUTION_SHELL_COMPONENT_H
 
-#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-xobject.h>
 #include <bonobo/bonobo-control.h>
 
 #include "Evolution.h"
@@ -102,13 +102,15 @@ struct _EvolutionShellComponentFolderType {
 typedef struct _EvolutionShellComponentFolderType EvolutionShellComponentFolderType;
 
 struct _EvolutionShellComponent {
-	BonoboObject parent;
+	BonoboXObject parent;
 
 	EvolutionShellComponentPrivate *priv;
 };
 
 struct _EvolutionShellComponentClass {
-	BonoboObjectClass parent_class;
+	BonoboXObjectClass parent_class;
+
+	POA_GNOME_Evolution_ShellComponent__epv epv;
 
 	/* Signals.  */
 
@@ -122,7 +124,6 @@ struct _EvolutionShellComponentClass {
 GtkType                  evolution_shell_component_get_type   (void);
 void                     evolution_shell_component_construct  (EvolutionShellComponent                          *shell_component,
 							       const EvolutionShellComponentFolderType           folder_types[],
-							       GNOME_Evolution_ShellComponent                          corba_object,
 							       EvolutionShellComponentCreateViewFn               create_view_fn,
 							       EvolutionShellComponentCreateFolderFn             create_folder_fn,
 							       EvolutionShellComponentRemoveFolderFn             remove_folder_fn,

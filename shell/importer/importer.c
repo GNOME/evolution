@@ -33,6 +33,7 @@
 
 #include <glade/glade.h>
 #include <gtkhtml/gtkhtml.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-html-utils.h>
 #include <gal/widgets/e-gui-utils.h>
 
@@ -574,7 +575,9 @@ druid_finish_button_change (GnomeDruid *druid)
 }
 
 void
-show_import_wizard (void)
+show_import_wizard (BonoboUIComponent *component,
+		    gpointer           user_data,
+		    const char        *cname)
 {
 	ImportData *data = g_new0 (ImportData, 1);
 	GnomeDruidPageStart *start;
