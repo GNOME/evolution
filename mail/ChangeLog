@@ -1,3 +1,7 @@
+2003-11-26  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: turn on deprecated Gtk stuff
+
 2003-11-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree.c (em_folder_tree_save_state): New function to
