@@ -122,6 +122,13 @@ gboolean cal_util_event_dates_match (icalcomponent *icalcomp1, icalcomponent *ic
 #define CAL_STATIC_CAPABILITY_REMOVE_ALARMS               "remove-alarms"
 #define CAL_STATIC_CAPABILITY_SAVE_SCHEDULES              "save-schedules"
 
+/* Recurrent events. Management for instances */
+icalcomponent *cal_util_construct_instance (icalcomponent *icalcomp,
+					    struct icaltimetype rid);
+void           cal_util_remove_instances (icalcomponent *icalcomp,
+					  struct icaltimetype rid,
+					  CalObjModType mod);
+
 G_END_DECLS
 
 #endif

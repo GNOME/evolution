@@ -829,6 +829,7 @@ cal_backend_file_get_object (CalBackendSync *backend, Cal *cal, const char *uid,
 	CalBackendFilePrivate *priv;
 	CalBackendFileObject *obj_data;
 	CalComponent *comp = NULL;
+	gboolean free_comp = FALSE;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -844,6 +845,19 @@ cal_backend_file_get_object (CalBackendSync *backend, Cal *cal, const char *uid,
 	if (rid && *rid) {
 		comp = g_hash_table_lookup (obj_data->recurrences, rid);
 		if (!comp) {
+			icalcomponent *icalcomp;
+			struct icaltimetype itt;
+
+			itt = icaltime_from_string (rid);
+			icalcomp = cal_util_construct_instance (
+				cal_component_get_icalcomponent (obj_data->full_object),
+				itt);
+			if (!icalcomp)
+				return GNOME_Evolution_Calendar_ObjectNotFound;
+
+			comp = cal_component_new ();
+			free_comp = TRUE;
+			cal_component_set_icalcomponent (comp, icalcomp);
 		}
 	} else
 		comp = obj_data->full_object;
@@ -852,6 +866,9 @@ cal_backend_file_get_object (CalBackendSync *backend, Cal *cal, const char *uid,
 		return GNOME_Evolution_Calendar_ObjectNotFound;
 
 	*object = cal_component_get_as_string (comp);
+
+	if (free_comp)
+		g_object_unref (comp);
 
 	return GNOME_Evolution_Calendar_Success;
 }
@@ -915,7 +932,8 @@ cal_backend_file_add_timezone (CalBackendSync *backend, Cal *cal, const char *tz
 
 		zone = icaltimezone_new ();
 		icaltimezone_set_component (zone, tz_comp);
-		if (!icalcomponent_get_timezone (priv->icalcomp, icaltimezone_get_tzid (zone))) {
+		if (!icalcomponent_get_timezone (priv->icalcomp,
+						 icaltimezone_get_tzid (zone))) {
 			icalcomponent_add_component (priv->icalcomp, tz_comp);
 			mark_dirty (cbfile);
 		}
@@ -960,6 +978,19 @@ typedef struct {
 } MatchObjectData;
 
 static void
+match_recurrence_sexp (gpointer key, gpointer value, gpointer data)
+{
+	CalComponent *comp = value;
+	MatchObjectData *match_data = data;
+
+	if ((!match_data->search_needed) ||
+	    (cal_backend_object_sexp_match_comp (match_data->obj_sexp, comp, match_data->backend))) {
+		match_data->obj_list = g_list_append (match_data->obj_list,
+						      cal_component_get_as_string (comp));
+	}
+}
+
+static void
 match_object_sexp (gpointer key, gpointer value, gpointer data)
 {
 	CalBackendFileObject *obj_data = value;
@@ -969,6 +1000,11 @@ match_object_sexp (gpointer key, gpointer value, gpointer data)
 	    (cal_backend_object_sexp_match_comp (match_data->obj_sexp, obj_data->full_object, match_data->backend))) {
 		match_data->obj_list = g_list_append (match_data->obj_list,
 						      cal_component_get_as_string (obj_data->full_object));
+
+		/* match also recurrences */
+		g_hash_table_foreach (obj_data->recurrences,
+				      (GHFunc) match_recurrence_sexp,
+				      match_data);
 	}
 }
 
@@ -1378,7 +1414,8 @@ cal_backend_file_modify_object (CalBackendSync *backend, Cal *cal, const char *c
 	icalcomponent *icalcomp;
 	icalcomponent_kind kind;
 	const char *comp_uid;
-	CalComponent *comp, *old_comp;
+	CalComponent *comp;
+	CalBackendFileObject *obj_data;
 	struct icaltimetype current;
 
 	cbfile = CAL_BACKEND_FILE (backend);
@@ -1402,7 +1439,7 @@ cal_backend_file_modify_object (CalBackendSync *backend, Cal *cal, const char *c
 	comp_uid = icalcomponent_get_uid (icalcomp);
 
 	/* Get the object from our cache */
-	if (!(old_comp = lookup_component (cbfile, comp_uid))) {
+	if (!(obj_data = g_hash_table_lookup (priv->comp_uid_hash, comp_uid))) {
 		icalcomponent_free (icalcomp);
 		return GNOME_Evolution_Calendar_ObjectNotFound;
 	}
@@ -1415,13 +1452,17 @@ cal_backend_file_modify_object (CalBackendSync *backend, Cal *cal, const char *c
 	current = icaltime_from_timet (time (NULL), 0);
 	cal_component_set_last_modified (comp, &current);
 
-	/* FIXME we need to handle mod types here */
+	/* handle mod_type */
+	if (cal_component_is_instance (comp) ||
+	    mod != CALOBJ_MOD_ALL) {
+		/* FIXME */
+	} else {
+		/* Remove the old version */
+		remove_component (cbfile, obj_data->full_object);
 
-	/* Remove the old version */
-	remove_component (cbfile, old_comp);
-
-	/* Add the object */
-	add_component (cbfile, comp, TRUE);
+		/* Add the object */
+		add_component (cbfile, comp, TRUE);
+	}
 
 	mark_dirty (cbfile);
 
@@ -1433,12 +1474,16 @@ cal_backend_file_modify_object (CalBackendSync *backend, Cal *cal, const char *c
 
 /* Remove_object handler for the file backend */
 static CalBackendSyncStatus
-cal_backend_file_remove_object (CalBackendSync *backend, Cal *cal, const char *uid, const char *rid,
+cal_backend_file_remove_object (CalBackendSync *backend, Cal *cal,
+				const char *uid, const char *rid,
 				CalObjModType mod, char **object)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
+	CalBackendFileObject *obj_data;
 	CalComponent *comp;
+	char *hash_rid;
+	GSList *categories;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1446,14 +1491,53 @@ cal_backend_file_remove_object (CalBackendSync *backend, Cal *cal, const char *u
 	g_return_val_if_fail (priv->icalcomp != NULL, GNOME_Evolution_Calendar_NoSuchCal);
 	g_return_val_if_fail (uid != NULL, GNOME_Evolution_Calendar_ObjectNotFound);
 
-	/* FIXME we need to handle mod types here */
-
-	comp = lookup_component (cbfile, uid);
-	if (!comp)
+	obj_data = g_hash_table_lookup (priv->comp_uid_hash, uid);
+	if (!obj_data)
 		return GNOME_Evolution_Calendar_ObjectNotFound;
 
-	*object = cal_component_get_as_string (comp);
-	remove_component (cbfile, comp);
+	if (rid && *rid) {
+		if (g_hash_table_lookup_extended (obj_data->recurrences, rid,
+						  &hash_rid, &comp)) {
+			/* remove the component from our data */
+			icalcomponent_remove_component (priv->icalcomp,
+							cal_component_get_icalcomponent (comp));
+			priv->comp = g_list_remove (priv->comp, comp);
+			g_hash_table_remove (obj_data->recurrences, rid);
+
+			/* update the set of categories */
+			cal_component_get_categories_list (comp, &categories);
+			cal_backend_unref_categories (CAL_BACKEND (cbfile), categories);
+			cal_component_free_categories_list (categories);
+
+			/* free memory */
+			g_free (hash_rid);
+			g_object_unref (comp);
+
+			mark_dirty (cbfile);
+
+			return GNOME_Evolution_Calendar_Success;
+		}
+	}
+
+	comp = obj_data->full_object;
+
+	if (mod != CALOBJ_MOD_ALL) {
+		*object = cal_component_get_as_string (comp);
+		remove_component (cbfile, comp);
+	} else {
+		/* remove the component from our data, temporarily */
+		icalcomponent_remove_component (priv->icalcomp,
+						cal_component_get_icalcomponent (comp));
+		priv->comp = g_list_remove (priv->comp, comp);
+
+		cal_util_remove_instances (cal_component_get_icalcomponent (comp),
+					   icaltime_from_string (rid), mod);
+
+		/* add the modified object to the beginning of the list, 
+		   so that it's always before any detached instance we
+		   might have */
+		priv->comp = g_list_prepend (priv->comp, comp);
+	}
 
 	mark_dirty (cbfile);
 

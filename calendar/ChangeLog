@@ -1,3 +1,18 @@
+2003-10-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-util/cal-util.[ch] (cal_util_construct_instance,
+	cal_util_remove_instances): new functions for individual
+	instances management.
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_object): if we
+	dont have a recurrence in our hash table, generate one for the
+	specified recurrence ID.
+	(match_recurrence_sexp): new function to match recurrences on
+	regular expresessions.
+	(match_object_sexp): call match_recurrence_sexp() for all recurrences.
+	(cal_backend_file_modify_object): handle mod_types.
+	(cal_backend_file_remove_object): handle mod_types.
+
 2003-10-24  JP Rosevear <jpr@ximian.com>
 
 	* gui/gnome-cal.h: update protos

@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <glib.h>
+#include <glib/gstrfuncs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include "cal-util.h"
@@ -749,4 +750,177 @@ cal_util_event_dates_match (icalcomponent *icalcomp1, icalcomponent *icalcomp2)
 		return FALSE;
 
 	return TRUE;
+}
+
+/* Individual instances management */
+
+struct instance_data {
+	time_t start;
+	gboolean found;
+};
+
+static void
+check_instance (icalcomponent *comp, struct icaltime_span span, void *data)
+{
+	struct instance_data *instance = data;
+
+	if (span.start == instance->start)
+		instance->found = TRUE;
+}
+
+/**
+ * cal_util_construct_instance:
+ * @icalcomp: a recurring #icalcomponent
+ * @rid: the RECURRENCE-ID to construct a component for
+ *
+ * This checks that @rid indicates a valid recurrence of @icalcomp, and
+ * if so, generates a copy of @comp containing a RECURRENCE-ID of @rid.
+ *
+ * Return value: the instance, or %NULL
+ **/
+icalcomponent *
+cal_util_construct_instance (icalcomponent *icalcomp,
+			     struct icaltimetype rid)
+{
+	struct instance_data instance;
+	struct icaltimetype start, end;
+
+	g_return_val_if_fail (icalcomp != NULL, NULL);
+
+	/* Make sure this is really recurring */
+	if (!icalcomponent_get_first_property (icalcomp, ICAL_RRULE_PROPERTY) &&
+	    !icalcomponent_get_first_property (icalcomp, ICAL_RDATE_PROPERTY))
+		return NULL;
+
+	/* Make sure the specified instance really exists */
+	/* FIXME: does the libical recurrence code work correctly now? */
+	start = icaltime_convert_to_zone (rid, icaltimezone_get_utc_timezone ());
+	end = start;
+	icaltime_adjust (&end, 0, 0, 0, 1);
+
+	instance.start = icaltime_as_timet (start);
+	instance.found = FALSE;
+	icalcomponent_foreach_recurrence (icalcomp, start, end,
+					  check_instance, &instance);
+	if (!instance.found)
+		return NULL;
+
+	/* Make the instance */
+	icalcomp = icalcomponent_new_clone (icalcomp);
+	icalcomponent_set_recurrenceid (icalcomp, rid);
+
+	return icalcomp;
+}
+
+static inline gboolean
+time_matches_rid (struct icaltimetype itt, struct icaltimetype rid, CalObjModType mod)
+{
+	int compare;
+
+	compare = icaltime_compare (itt, rid);
+	if (compare == 0)
+		return TRUE;
+	else if (compare < 0 && (mod & CALOBJ_MOD_THISANDPRIOR))
+		return TRUE;
+	else if (compare > 0 && (mod & CALOBJ_MOD_THISANDFUTURE))
+		return TRUE;
+
+	return FALSE;
+}
+
+/**
+ * cal_util_remove_instances:
+ * @icalcomp: a (recurring) #icalcomponent
+ * @rid: the base RECURRENCE-ID to remove
+ * @mod: how to interpret @rid
+ *
+ * Removes one or more instances from @comp according to @rid and @mod.
+ *
+ * FIXME: should probably have a return value indicating whether or not
+ * @icalcomp still has any instances
+ **/
+void
+cal_util_remove_instances (icalcomponent *icalcomp,
+			   struct icaltimetype rid,
+			   CalObjModType mod)
+{
+	icalproperty *prop;
+	struct icaltimetype itt, recur;
+	struct icalrecurrencetype rule;
+	icalrecur_iterator *iter;
+	struct instance_data instance;
+
+	g_return_if_fail (icalcomp != NULL);
+	g_return_if_fail (mod != CALOBJ_MOD_ALL);
+
+	/* First remove RDATEs and EXDATEs in the indicated range. */
+	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_RDATE_PROPERTY);
+	     prop;
+	     prop = icalcomponent_get_next_property (icalcomp, ICAL_RDATE_PROPERTY)) {
+		struct icaldatetimeperiodtype period;
+
+		period = icalproperty_get_rdate (prop);
+		if (time_matches_rid (period.time, rid, mod))
+			icalcomponent_remove_property (icalcomp, prop);
+	}
+	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_EXDATE_PROPERTY);
+	     prop;
+	     prop = icalcomponent_get_next_property (icalcomp, ICAL_EXDATE_PROPERTY)) {
+		itt = icalproperty_get_exdate (prop);
+		if (time_matches_rid (itt, rid, mod))
+			icalcomponent_remove_property (icalcomp, prop);
+	}
+
+	/* If we're only removing one instance, just add an EXDATE. */
+	if (mod == CALOBJ_MOD_THIS) {
+		prop = icalproperty_new_exdate (rid);
+		icalcomponent_add_property (icalcomp, prop);
+		return;
+	}
+
+	/* Otherwise, iterate through RRULEs */
+	/* FIXME: this may generate duplicate EXRULEs */
+	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_RRULE_PROPERTY);
+	     prop;
+	     prop = icalcomponent_get_next_property (icalcomp, ICAL_RRULE_PROPERTY)) {
+		rule = icalproperty_get_rrule (prop);
+
+		iter = icalrecur_iterator_new (rule, rid);
+		recur = icalrecur_iterator_next (iter);
+
+		if (mod & CALOBJ_MOD_THISANDFUTURE) {
+			/* If there is a recurrence on or after rid,
+			 * use the UNTIL parameter to truncate the rule
+			 * at rid.
+			 */
+			if (!icaltime_is_null_time (recur)) {
+				rule.count = 0;
+				rule.until = rid;
+				icaltime_adjust (&rule.until, 0, 0, 0, -1);
+				icalproperty_set_rrule (prop, rule);
+			}
+		} else {
+			/* (If recur == rid, skip to the next occurrence) */
+			if (icaltime_compare (recur, rid) == 0)
+				recur = icalrecur_iterator_next (iter);
+
+			/* If there is a recurrence after rid, add
+			 * an EXRULE to block instances up to rid.
+			 * Otherwise, just remove the RRULE.
+			 */
+			if (!icaltime_is_null_time (recur)) {
+				rule.count = 0;
+				/* iCalendar says we should just use rid
+				 * here, but Outlook/Exchange handle
+				 * UNTIL incorrectly.
+				 */
+				rule.until = icaltime_add (rid, icalcomponent_get_duration (icalcomp));
+				prop = icalproperty_new_exrule (rule);
+				icalcomponent_add_property (icalcomp, prop);
+			} else
+				icalcomponent_remove_property (icalcomp, prop);
+		}
+
+		icalrecur_iterator_free (iter);
+	}
 }
