@@ -1,12 +1,12 @@
 2002-03-22  Kevin Breit  <mrproper@ximian.com>
 
 	* C/Makefile.am: Added a bunch of figures to figs=
+	Added one more figure.  Damn.
 	
 2002-03-16  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: Slight revisions to style.
 	
-
 2002-02-22  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: 

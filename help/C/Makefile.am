@@ -6,6 +6,7 @@ figs = \
 	figures/contact.png			\
 	figures/exchange-identity.png           \
 	figures/exchange-receive.png            \
+	figures/exchange-receive-options.png	\
 	figures/filter-assist-fig.png		\
 	figures/filter-new-fig.png		\
 	figures/full-1.png			\
