@@ -30,7 +30,7 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 #include <glib.h>
 #include <camel/camel-object.h>
@@ -40,8 +40,7 @@ extern "C" {
 #define CAMEL_DATA_WRAPPER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_DATA_WRAPPER_TYPE, CamelDataWrapperClass))
 #define CAMEL_IS_DATA_WRAPPER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_DATA_WRAPPER_TYPE))
 
-struct _CamelDataWrapper
-{
+struct _CamelDataWrapper {
 	CamelObject parent_object;
 	struct _CamelDataWrapperPrivate *priv;
 	

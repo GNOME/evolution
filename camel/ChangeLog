@@ -1,3 +1,15 @@
+2003-09-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): If the
+	localhost lookup results in a numeric IPv6 host, use the form
+	"[IPv6:<addr>]" as specified in rfc2821. Fixes the first half of
+	bug #46006.
+
+2003-09-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (append_8bit): Don't forget to flush the
+	iconv conversion.
+
 2003-09-22  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #41610

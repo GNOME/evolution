@@ -896,8 +896,10 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	} else {
 #ifdef ENABLE_IPv6
 		char ip[MAXHOSTNAMELEN + 1];
+		const char *proto;
 		
-		name = g_strdup_printf ("[%s]", inet_ntop (af, transport->localaddr->address, ip, MAXHOSTNAMELEN));
+		proto = transport->localaddr->family == CAMEL_TCP_ADDRESS_IPv6 ? "IPv6:" : "";
+		name = g_strdup_printf ("[%s%s]", proto, inet_ntop (af, transport->localaddr->address, ip, MAXHOSTNAMELEN));
 #else
 		/* We *could* use inet_ntoa() here, but it's probably
 		   not worth it since we would have to worry about
