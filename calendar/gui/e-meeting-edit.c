@@ -51,6 +51,7 @@ struct _EMeetingEditorPrivate {
 	CalComponent *comp;
 	CalClient *client;
 	icalcomponent *icalcomp, *vevent;
+	EventEditor *ee;
 
 	gint numentries;  /* How many attendees are there? */
 	gboolean dirty;  /* Has anything changed? */
@@ -432,6 +433,66 @@ schedule_button_clicked_cb (GtkWidget *widget, gpointer data)
 
 	if (button_num == 0) {
 		/* The user clicked "Set Time". */
+		CalComponentDateTime dtstart, dtend;
+                gint start_year, start_month, start_day, start_hour, start_minute, 
+		     end_year, end_month, end_day, end_hour, end_minute;
+		CalComponentDateTime cal_dtstart, cal_dtend;
+		struct tm tmstart, tmend;
+		time_t timet, timet_start, timet_end;
+
+
+		e_meeting_time_selector_get_meeting_time (mts,
+							       &start_year,
+							       &start_month,
+							       &start_day,
+							       &start_hour,
+							       &start_minute,
+							       &end_year,
+							       &end_month,
+							       &end_day,
+							       &end_hour,
+							       &end_minute);
+		
+		cal_component_get_dtstart (priv->comp, &cal_dtstart);
+		cal_component_get_dtend (priv->comp, &cal_dtend);
+
+
+		timet = time (NULL);
+		tmstart = tmend = *(localtime (&timet));
+		tmstart.tm_sec = 0;
+		tmstart.tm_min = start_minute;
+		tmstart.tm_hour = start_hour;
+		tmstart.tm_mday = start_day;
+		tmstart.tm_year = start_year;
+		/* It seems that we can leave the rest of the struct tm fields
+		   as they are, because in probing through the mktime.c sources,
+		   I think that they go unused in that function. */
+		
+		tmend.tm_sec = 0;
+		tmend.tm_min = end_minute;
+		tmend.tm_hour = end_hour;
+		tmend.tm_mday = end_day;
+		tmend.tm_year = end_year;
+		
+		/* Now we must convert the meeting time selector format into
+		   the iCal format, and then convert that into the CalComponent
+		   format; finally, we need to set a new time for the CalComponent,
+		   and tell the meeting editor widget to reload its child widgets. */
+		
+
+		timet_start = mktime (&tmstart);
+		timet_end = mktime (&tmend);
+
+		*(cal_dtstart.value) = icaltime_from_timet (timet_start, TRUE, FALSE);
+		*(cal_dtend.value) = icaltime_from_timet (timet_end, TRUE, FALSE);
+
+		cal_component_set_dtstart (priv->comp, &cal_dtstart);
+		cal_component_set_dtend (priv->comp, &cal_dtend);
+
+		cal_component_free_datetime (&cal_dtstart);
+		cal_component_free_datetime (&cal_dtend);
+
+		event_editor_update_widgets (priv->ee);	
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
@@ -599,7 +660,7 @@ organizer_changed_cb (GtkWidget *widget, gpointer data)
 /* ------------------------------------------------------------ */
 
 EMeetingEditor * 
-e_meeting_editor_new (CalComponent *comp, CalClient *client)
+e_meeting_editor_new (CalComponent *comp, CalClient *client, EventEditor *ee)
 {
 	EMeetingEditor *object;
 	EMeetingEditorPrivate *priv;
@@ -611,6 +672,7 @@ e_meeting_editor_new (CalComponent *comp, CalClient *client)
 	priv->comp = comp;
 	priv->client = client;
 	priv->icalcomp = cal_component_get_icalcomponent (comp);
+	priv->ee = ee;
 	
 	object->priv = priv;
 

@@ -1183,7 +1183,7 @@ schedule_meeting_cb (GtkWidget *widget, gpointer data)
 
 	priv = (EventEditorPrivate *)ee->priv;
 
-	editor = e_meeting_editor_new (priv->comp, priv->client);
+	editor = e_meeting_editor_new (priv->comp, priv->client, ee);
 	e_meeting_edit (editor);
 	e_meeting_editor_free (editor);
 }
