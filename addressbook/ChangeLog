@@ -1,5 +1,9 @@
 2000-08-12  Christopher James Lahey  <clahey@helixcode.com>
 
+	* printing/Makefile.am: Ettore fixed compilation.
+
+2000-08-12  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/.cvsignore: Added load-gnomecard-addressbook.
 
 2000-08-12  Christopher James Lahey  <clahey@helixcode.com>

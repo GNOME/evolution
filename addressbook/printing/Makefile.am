@@ -43,20 +43,20 @@ contact_print_test_SOURCES = 	\
 
 contact_print_test_LDADD =	\
 	$(EXTRA_GNOME_LIBS)	\
-	-lbonobo							\
+	$(BONOBO_GNOME_LIBS)    \
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libversit/libversit.la				\
 	$(top_builddir)/addressbook/ename/libename.la			\
 	libecontactprint.a	\
-	$(GNOME_PRINT_LIBS)
+	$(GNOME_PRINT_LIBS) 
 
 contact_print_style_editor_test_SOURCES = 	\
 	test-contact-print-style-editor.c
 
 contact_print_style_editor_test_LDADD =	\
 	$(EXTRA_GNOME_LIBS)	\
-	-lbonobo							\
+	$(BONOBO_GNOME_LIBS)    \
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libversit/libversit.la				\
