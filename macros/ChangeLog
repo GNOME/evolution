@@ -1,3 +1,11 @@
+2000-05-29  Martin Baulig  <baulig@suse.de>
+
+	* gnome-common.m4, Makefile.am: Install macros to
+	`$(datadir)/aclocal/gnome-macros' when INSIDE_GNOME_COMMON.
+
+	* gnome-autogen.sh: New file. When using gnome-common instead
+	of the macros/ directory, use this in your autogen.sh.
+
 2000-05-15  Russell Steinthal  <rms39@columbia.edu>
 
 	* gnome-pilot.m4 (PILOT_LIBS): An attempt to fix the gnome-pilot
