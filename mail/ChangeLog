@@ -1,3 +1,15 @@
+2003-11-17  Not Zed  <NotZed@Ximian.com>
+
+	* mail-tools.c (mail_tool_get_local_inbox): thin wrapper on
+	mail_component_get_local_inbox.
+
+	* mail-component.c (mail_component_get_local_inbox): helper to get
+	the default local inbox.
+
+	* mail-ops.c (fetch_mail_fetch): if we can't get the inbox, make
+	sure we still unref the filter driver here by using hte same exit
+	code.  Fixes a crash.
+
 2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree.c (emft_popup_new_folder_response): We can't use

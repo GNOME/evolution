@@ -59,15 +59,7 @@
 CamelFolder *
 mail_tool_get_local_inbox (CamelException *ex)
 {
-	CamelFolder *folder;
-	char *url;
-	
-	url = g_strdup_printf("file://%s/local/Inbox",
-			      mail_component_peek_base_directory (mail_component_peek ()));
-	folder = mail_tool_uri_to_folder (url, 0, ex);
-	g_free (url);
-	
-	return folder;
+	return mail_component_get_local_inbox(mail_component_peek(), ex);
 }
 
 CamelFolder *

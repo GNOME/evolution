@@ -676,6 +676,11 @@ mail_component_get_tree_model (MailComponent *component)
 	return model;
 }
 
+struct _CamelFolder *
+mail_component_get_local_inbox(MailComponent *mc, struct _CamelException *ex)
+{
+	return camel_store_get_folder(mc->priv->local_store, "Inbox", 0, ex);
+}
 
 extern struct _CamelSession *session;
 

@@ -270,15 +270,12 @@ fetch_mail_fetch (struct _mail_msg *mm)
 	struct _fetch_mail_msg *m = (struct _fetch_mail_msg *)mm;
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *)mm;
 	int i;
-	
+
 	if (m->cancel)
 		camel_operation_register (m->cancel);
 	
-	if ((fm->destination = mail_tool_get_local_inbox (&mm->ex)) == NULL) {
-		if (m->cancel)
-			camel_operation_unregister (m->cancel);
-		return;
-	}
+	if ((fm->destination = mail_tool_get_local_inbox (&mm->ex)) == NULL)
+		goto fail;
 	
 	/* FIXME: this should support keep_on_server too, which would then perform a spool
 	   access thingy, right?  problem is matching raw messages to uid's etc. */
@@ -355,7 +352,7 @@ fetch_mail_fetch (struct _mail_msg *mm)
 			fm->source_folder = NULL;
 		}
 	}
-	
+fail:	
 	if (m->cancel)
 		camel_operation_unregister (m->cancel);
 	
@@ -372,7 +369,7 @@ static void
 fetch_mail_fetched (struct _mail_msg *mm)
 {
 	struct _fetch_mail_msg *m = (struct _fetch_mail_msg *)mm;
-	
+
 	if (m->done)
 		m->done (m->source_uri, m->data);
 }
@@ -385,7 +382,7 @@ fetch_mail_free (struct _mail_msg *mm)
 	g_free (m->source_uri);
 	if (m->cancel)
 		camel_operation_unref (m->cancel);
-	
+
 	filter_folder_free (mm);
 }
 
@@ -417,7 +414,7 @@ mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation 
 	}
 	m->done = done;
 	m->data = data;
-	
+
 	fm->driver = camel_session_get_filter_driver (session, type, NULL);
 	camel_filter_driver_set_folder_func (fm->driver, get_folder, get_data);
 	if (status)

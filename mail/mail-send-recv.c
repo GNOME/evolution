@@ -162,7 +162,6 @@ free_folder_info(void *key, struct _folder_info *info, void *data)
 
 static void free_send_info(void *key, struct _send_info *info, void *data)
 {
-	d(printf("Freeing send info %p\n", info));
 	g_free(info->uri);
 	camel_operation_unref(info->cancel);
 	if (info->timeout_id != 0)

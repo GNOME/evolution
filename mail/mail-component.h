@@ -29,18 +29,13 @@
 #include <camel/camel-store.h>
 #include <filter/rule-context.h>
 #include <bonobo/bonobo-object.h>
-
-#include "em-folder-tree-model.h"
-
 #include "Evolution.h"
-
 
 #define MAIL_TYPE_COMPONENT			(mail_component_get_type ())
 #define MAIL_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), MAIL_TYPE_COMPONENT, MailComponent))
 #define MAIL_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), MAIL_TYPE_COMPONENT, MailComponentClass))
 #define MAIL_IS_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), MAIL_TYPE_COMPONENT))
 #define MAIL_IS_COMPONENT_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), MAIL_TYPE_COMPONENT))
-
 
 typedef struct _MailComponent        MailComponent;
 typedef struct _MailComponentPrivate MailComponentPrivate;
@@ -57,7 +52,6 @@ struct _MailComponentClass {
 	
 	POA_GNOME_Evolution_Component__epv epv;
 };
-
 
 GType  mail_component_get_type  (void);
 
@@ -85,7 +79,8 @@ void         mail_component_stores_foreach   (MailComponent *component,
 
 void mail_component_remove_folder (MailComponent *component, CamelStore *store, const char *path);
 
-EMFolderTreeModel *mail_component_get_tree_model (MailComponent *component);
+struct _EMFolderTreeModel *mail_component_get_tree_model (MailComponent *component);
+struct _CamelFolder *mail_component_get_local_inbox(MailComponent *mc, struct _CamelException *ex);
 
 char *em_uri_from_camel (const char *curi);
 char *em_uri_to_camel (const char *euri);
