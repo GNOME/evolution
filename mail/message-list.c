@@ -440,12 +440,11 @@ message_list_init_renderers (MessageList *message_list)
 	/*
 	 * for tree view
 	 */
-	if (message_list->is_tree_view) {
-		message_list->render_tree =
-			e_cell_tree_new(message_list->table_model,
-					states_pixmaps[5].pixbuf, states_pixmaps[6].pixbuf,
-					TRUE, message_list->render_text);
-	}
+	message_list->render_tree =
+		e_cell_tree_new (message_list->table_model,
+				 states_pixmaps[5].pixbuf,
+				 states_pixmaps[6].pixbuf,
+				 TRUE, message_list->render_text);
 }
 
 static void
@@ -502,7 +501,7 @@ message_list_init_header (MessageList *message_list)
 		e_table_col_new (
 			COL_SUBJECT, _("Subject"),
 			COL_SUBJECT_EXPANSION, COL_SUBJECT_WIDTH_MIN,
-			message_list->is_tree_view?message_list->render_tree:message_list->render_text,
+			message_list->render_tree,
 			g_str_compare, TRUE);
 
 	message_list->table_cols [COL_SENT] =
@@ -555,8 +554,6 @@ message_list_init (GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
 	char *spec;
-
-	message_list->is_tree_view = TRUE;
 
 	message_list->table_model = (ETableModel *)
 		e_tree_simple_new (ml_tree_icon_at, ml_tree_value_at,
@@ -625,9 +622,7 @@ message_list_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (message_list->render_message_status));
 	gtk_object_unref (GTK_OBJECT (message_list->render_priority));
 	gtk_object_unref (GTK_OBJECT (message_list->render_attachment));
-	if (message_list->is_tree_view) {
-		gtk_object_unref (GTK_OBJECT (message_list->render_tree));
-	}		
+	gtk_object_unref (GTK_OBJECT (message_list->render_tree));
 	
 	gtk_object_unref (GTK_OBJECT (message_list->etable));
 
@@ -781,11 +776,25 @@ build_tree (MessageList *ml, ETreePath *parent, struct _container *c,
 	}
 }
 
+static void
+build_flat (MessageList *ml, ETreePath *parent, GPtrArray *uids)
+{
+	ETreeModel *tree = E_TREE_MODEL (ml->table_model);
+	ETreePath *node;
+	char *uid;
+	int i;
+
+	for (i = 0; i < uids->len; i++) {
+		uid = g_strdup (uids->pdata[i]);
+		node = e_tree_model_node_insert (tree, ml->tree_root, i, uid);
+		g_hash_table_insert (ml->uid_rowmap, uid, GINT_TO_POINTER (i));
+	}
+}
+
 void
 message_list_regenerate (MessageList *message_list, const char *search)
 {
 	ETreeModel *etm = E_TREE_MODEL (message_list->table_model);
-	struct _container *head;
 	GPtrArray *uids;
 	int row = 0;
 
@@ -816,21 +825,21 @@ message_list_regenerate (MessageList *message_list, const char *search)
 
 	/* FIXME: free the old tree data */
 
-	/* Clear the old contents */
+	/* Clear the old contents, build the new */
 	if (message_list->tree_root)
 		e_tree_model_node_remove(etm, message_list->tree_root);
-
-	/* Thread the new */
-	head = thread_messages (message_list->folder, uids);
-
-	/* And populate ... */
 	message_list->tree_root =
 		e_tree_model_node_insert(etm, NULL, 0, message_list);
 	e_tree_model_node_set_expanded (etm, message_list->tree_root, TRUE);
-	build_tree (message_list, message_list->tree_root, head, &row);
 
-	/* No longer need the thread structure or uid list */
-	thread_messages_free (head);
+	if (threaded_view) {
+		struct _container *head;
+
+		head = thread_messages (message_list->folder, uids);
+		build_tree (message_list, message_list->tree_root, head, &row);
+		thread_messages_free (head);
+	} else
+		build_flat (message_list, message_list->tree_root, uids);
 
 	if (search) {
 		g_strfreev ((char **)uids->pdata);
@@ -988,4 +997,16 @@ message_list_foreach (MessageList *message_list,
 	mlfe_data.user_data = user_data;
 	e_table_selected_row_foreach (E_TABLE (message_list->etable),
 				      mlfe_callback, &mlfe_data);
+}
+
+gboolean threaded_view = TRUE;
+
+void
+message_list_toggle_threads (BonoboUIHandler *uih, void *user_data,
+			     const char *path)
+{
+	MessageList *ml = user_data;
+
+	threaded_view = bonobo_ui_handler_menu_get_toggle_state (uih, path);
+	message_list_regenerate (ml, ml->search);
 }

@@ -61,6 +61,16 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 
 	folder_browser = bonobo_control_get_widget (control);
 
+	bonobo_ui_handler_menu_new_toggleitem (uih, "/View/Threaded",
+					       N_("_Threaded Message List"),
+					       NULL, -1, 0, 0, NULL, NULL);
+	bonobo_ui_handler_menu_set_toggle_state (uih, "/View/Threaded",
+						 threaded_view);
+	bonobo_ui_handler_menu_set_callback (uih, "/View/Threaded",
+					     message_list_toggle_threads,
+					     FOLDER_BROWSER (folder_browser)->message_list,
+					     NULL);
+
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/Expunge", N_("_Expunge"),
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
@@ -122,7 +132,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih,
 {
 	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
 
-	bonobo_ui_handler_menu_remove (uih, "/File/Mail");
+	bonobo_ui_handler_menu_remove (uih, "/View/Threaded");
 	bonobo_ui_handler_menu_remove (uih, "/Actions/Expunge");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Filter Druid ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Virtual Folder Druid ...");

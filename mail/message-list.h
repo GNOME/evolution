@@ -5,6 +5,7 @@
 #include "mail-types.h"
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-ui-handler.h>
 #include "camel/camel-folder.h"
 #include "e-table/e-table.h"
 #include "e-table/e-table-simple.h"
@@ -78,8 +79,6 @@ struct _MessageList {
 
 	/* row-selection and seen-marking timers */
 	guint idle_id, seen_id;
-
-	gboolean is_tree_view;	/* if we're doing tree view */
 };
 
 typedef struct {
@@ -103,6 +102,11 @@ void           message_list_foreach    (MessageList *message_list,
 
 void           message_list_select_next(MessageList *message_list, int row,
 					guint32 flags, guint32 mask);
+
+extern gboolean threaded_view;
+void           message_list_toggle_threads (BonoboUIHandler *uih,
+					    void *user_data,
+					    const char *path);
 
 #endif /* _MESSAGE_LIST_H_ */
 
