@@ -72,6 +72,7 @@ struct _ESelectNames
 	EAddressbookModel *model;
 	GtkWidget *categories;
 	GtkWidget *categories_entry;
+	GtkWidget *search_entry;
 	EvolutionStorageListener *listener;
 	GHashTable *folders;
 	char *def;

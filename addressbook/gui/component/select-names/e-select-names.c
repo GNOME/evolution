@@ -346,17 +346,36 @@ static void
 update_query (GtkWidget *button, ESelectNames *e_select_names)
 {
 	char *category = "";
+	char *search = "";
 	char *query;
+	char *q_array[4];
+	int i;
 	if (e_select_names->categories_entry) {
 		category = gtk_entry_get_text (GTK_ENTRY (e_select_names->categories_entry));
 	}
-	if (category && *category) {
-		query = g_strdup_printf ("(and (contains \"email\" \"\") (is \"category\" \"%s\"))", category);
-	} else
-		query = g_strdup ("(contains \"email\" \"\")");
+	if (e_select_names->search_entry) {
+		search = gtk_entry_get_text (GTK_ENTRY (e_select_names->search_entry));
+	}
+	i = 0;
+	q_array[i++] = "(contains \"email\" \"\")";
+	if (category && *category)
+		q_array[i++] = g_strdup_printf ("(is \"category\" \"%s\")", category);
+	if (search && *search)
+		q_array[i++] = g_strdup_printf ("(contains \"x-evolution-any-field\" \"%s\")", search);
+	q_array[i++] = NULL;
+	if (i > 2) {
+		char *temp = g_strjoinv (" ", q_array);
+		query = g_strdup_printf ("(and %s)", temp);
+		g_free (temp);
+	} else {
+		query = g_strdup (q_array[0]);
+	}
 	gtk_object_set (GTK_OBJECT (e_select_names->model),
 			"query", query,
 			NULL);
+	for (i = 1; q_array[i]; i++) {
+		g_free (q_array[i]);
+	}
 	g_free (query);
 }
 
@@ -459,6 +478,15 @@ e_select_names_init (ESelectNames *e_select_names)
 		e_select_names->categories_entry = GTK_COMBO (e_select_names->categories)->entry;
 	} else
 		e_select_names->categories_entry = NULL;
+	e_select_names->search_entry = glade_xml_get_widget (gui, "entry-find");
+	if (e_select_names->search_entry && !GTK_IS_ENTRY (e_select_names->search_entry))
+		e_select_names->search_entry = NULL;
+	if (e_select_names->search_entry)
+		gtk_signal_connect(GTK_OBJECT(e_select_names->search_entry), "activate",
+				   GTK_SIGNAL_FUNC(update_query), e_select_names);
+	if (e_select_names->categories_entry)
+		gtk_signal_connect(GTK_OBJECT(e_select_names->categories_entry), "changed",
+				   GTK_SIGNAL_FUNC(update_query), e_select_names);
 
 	e_select_names->folders = g_hash_table_new(g_str_hash, g_str_equal);
 
@@ -466,11 +494,6 @@ e_select_names_init (ESelectNames *e_select_names)
 
 	gtk_signal_connect (GTK_OBJECT (e_table_scrolled_get_table (e_select_names->table)), "double_click",
 			    GTK_SIGNAL_FUNC (add_address), e_select_names);
-
-	widget = glade_xml_get_widget (gui, "button-update");
-	if (widget && GTK_IS_BUTTON (widget)) 
-		gtk_signal_connect (GTK_OBJECT (widget), "clicked",
-				    GTK_SIGNAL_FUNC (update_query), e_select_names);
 }
 
 static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESelectNames *e_select_names)

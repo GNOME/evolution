@@ -1,5 +1,17 @@
 2001-06-29  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/select-names/e-select-names.c (update_query):
+	Added a search field to the query here.
+	(e_select_names_init): Update the query on a number of signals here.
+
+	* gui/component/select-names/e-select-names.h: Added search_entry
+	here.
+
+	* gui/component/select-names/select-names.glade: Added the search
+	entry here.  Added some labels.  Removed the update button.
+
+2001-06-29  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/select-names/e-select-names.c
 	(e_select_names_option_activated): Change the uri here to have
 	addressbook.db at the end.
