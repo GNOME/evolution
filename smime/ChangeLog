@@ -1,3 +1,48 @@
+2004-03-24  Chris Toshok  <toshok@ximian.com>
+
+	* lib/smime-marshal.list: add BOOL:POINTER,POINTER,POINTER,POINTER
+	for confirm_ca_cert_import.
+
+	* lib/e-cert-db.c (e_cert_db_class_init): initialize the
+	confirm_ca_cert_import signal.
+	(confirm_download_ca_cert): emit confirm_ca_cert_import and use
+	the returned values.
+	(handle_ca_cert_download): fix the ca trust foo.
+	(e_cert_db_import_certs): pass the cerdb to
+	handle_ca_cert_download since we need to emit something on that
+	object.
+
+	* lib/e-cert-db.h (struct _ECertDBClass): add
+	confirm_ca_cert_import signal.
+
+	* gui/smime-ui.glade: give names to the check buttons in the ca
+	trust dialog.
+
+	* gui/component.c (smime_confirm_ca_cert_import): new function,
+	show the trust dialog.
+	(smime_component_init): connect to "confirm_ca_cert_import"
+	signal.
+
+	* gui/certificate-viewer.c (fill_in_general): fix lots of
+	uninitialized variable accesses.
+	(certificate_viewer_show): don't show the dialog (or connect to
+	the response signal.)  that's the caller's job.
+
+	* gui/certificate-manager.c (view_your): do the showing of the
+	certificate_viewer here.
+	(view_contact): same.
+	(view_ca): same.
+	(edit_ca): new function, pop up the ca trust dialog.  we need more
+	here though, to fill in the toggle buttons when bringing up the
+	dialog, and also to save out the settings when the user clicks ok.
+	(initialize_authoritycerts_ui): hook up the edit_ca button.
+
+	* gui/Makefile.am (libevolution_smime_la_SOURCES): add
+	ca-trust-dialog.[ch].
+
+	* gui/ca-trust-dialog.[ch]: new file implementing the ca trust
+	dialog used for importing/editing ca trust levels.
+
 2004-03-19  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #52667 ]

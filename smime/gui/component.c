@@ -25,7 +25,11 @@
 #include <config.h>
 #endif
 
+#include <gtk/gtk.h>
+
 #include <libgnome/gnome-i18n.h>
+
+#include "ca-trust-dialog.h"
 #include "e-cert-db.h"
 #include "e-util/e-passwords.h"
 #include "pk11func.h"
@@ -77,6 +81,21 @@ smime_pk11_change_passwd (ECertDB *db, char **old_passwd, char **passwd, gpointe
 	return TRUE;
 }
 
+static gboolean
+smime_confirm_ca_cert_import (ECertDB *db, ECert *cert, gboolean *trust_ssl, gboolean *trust_email, gboolean *trust_objsign, gpointer arg)
+{
+	GtkWidget *dialog = ca_trust_dialog_show (cert, TRUE);
+	int response;
+
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+	ca_trust_dialog_get_trust (dialog, trust_ssl, trust_email, trust_objsign);
+
+	gtk_widget_destroy (dialog);
+
+	return response != GTK_RESPONSE_CANCEL;
+}
+
 void
 smime_component_init (void)
 {
@@ -92,4 +111,8 @@ smime_component_init (void)
 	g_signal_connect (e_cert_db_peek (),
 			  "pk11_change_passwd",
 			  G_CALLBACK (smime_pk11_change_passwd), NULL);
+
+	g_signal_connect (e_cert_db_peek (),
+			  "confirm_ca_cert_import",
+			  G_CALLBACK (smime_confirm_ca_cert_import), NULL);
 }

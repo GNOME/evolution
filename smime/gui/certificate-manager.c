@@ -33,6 +33,7 @@
 
 #include <glade/glade.h>
 #include "evolution-config-control.h"
+#include "ca-trust-dialog.h"
 #include "certificate-manager.h"
 #include "certificate-viewer.h"
 
@@ -192,8 +193,12 @@ view_your (GtkWidget *widget, CertificateManagerData *cfm)
 				    4, &cert,
 				    -1);
 
-		if (cert)
-			certificate_viewer_show (cert);
+		if (cert) {
+			GtkWidget *dialog = certificate_viewer_show (cert);
+			g_signal_connect (dialog, "response",
+					  G_CALLBACK (gtk_widget_destroy), NULL);
+			gtk_widget_show (dialog);
+		}
 	}
 }
 
@@ -305,8 +310,12 @@ view_contact (GtkWidget *widget, CertificateManagerData *cfm)
 				    3, &cert,
 				    -1);
 
-		if (cert)
-			certificate_viewer_show (cert);
+		if (cert) {
+			GtkWidget *dialog = certificate_viewer_show (cert);
+			g_signal_connect (dialog, "response",
+					  G_CALLBACK (gtk_widget_destroy), NULL);
+			gtk_widget_show (dialog);
+		}
 	}
 }
 
@@ -452,8 +461,39 @@ view_ca (GtkWidget *widget, CertificateManagerData *cfm)
 				    1, &cert,
 				    -1);
 
-		if (cert)
-			certificate_viewer_show (cert);
+		if (cert) {
+			GtkWidget *dialog = certificate_viewer_show (cert);
+			g_signal_connect (dialog, "response",
+					  G_CALLBACK (gtk_widget_destroy), NULL);
+			gtk_widget_show (dialog);
+		}
+	}
+}
+
+static void
+edit_ca (GtkWidget *widget, CertificateManagerData *cfm)
+{
+	GtkTreeIter iter;
+	
+	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW(cfm->authoritycerts_treeview)),
+					     NULL,
+					     &iter)) {
+		ECert *cert;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (cfm->authoritycerts_streemodel),
+				    &iter,
+				    1, &cert,
+				    -1);
+
+		if (cert) {
+			GtkWidget *dialog = ca_trust_dialog_show (cert, FALSE);
+
+			gtk_dialog_run (GTK_DIALOG (dialog));
+
+			/* XXX more stuff here surely */
+
+			gtk_widget_destroy (dialog);
+		}
 	}
 }
 
@@ -555,6 +595,9 @@ initialize_authoritycerts_ui (CertificateManagerData *cfm)
 
 	if (cfm->view_ca_button)
 		g_signal_connect (cfm->view_ca_button, "clicked", G_CALLBACK (view_ca), cfm);
+
+	if (cfm->edit_ca_button)
+		g_signal_connect (cfm->edit_ca_button, "clicked", G_CALLBACK (edit_ca), cfm);
 
 	if (cfm->import_ca_button)
 		g_signal_connect (cfm->import_ca_button, "clicked", G_CALLBACK (import_ca), cfm);

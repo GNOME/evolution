@@ -2,6 +2,7 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
+<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="certificate-viewer-dialog">
   <property name="title" translatable="yes">dialog1</property>
@@ -1861,7 +1862,7 @@
 	  <property name="spacing">0</property>
 
 	  <child>
-	    <widget class="GtkCheckButton" id="checkbutton1">
+	    <widget class="GtkCheckButton" id="ssl_trust_checkbutton">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label" translatable="yes">Trust this CA to identify web sites.</property>
@@ -1879,7 +1880,7 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkCheckButton" id="checkbutton2">
+	    <widget class="GtkCheckButton" id="email_trust_checkbutton">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label" translatable="yes">Trust this CA to identify email users.</property>
@@ -1897,7 +1898,7 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkCheckButton" id="checkbutton3">
+	    <widget class="GtkCheckButton" id="objsign_trust_checkbutton">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label" translatable="yes">Trust this CA to identify software developers.</property>
@@ -1951,7 +1952,7 @@
 	  <property name="yscale">1</property>
 
 	  <child>
-	    <widget class="GtkButton" id="button1">
+	    <widget class="GtkButton" id="view_certificate_button">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label" translatable="yes">View Certificate</property>

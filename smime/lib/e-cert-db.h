@@ -49,8 +49,8 @@ struct _ECertDBClass {
 
 	/* signals */
 	gboolean (*pk11_passwd) (ECertDB *db, PK11SlotInfo *slot, gboolean retry, char **passwd);
-
 	gboolean (*pk11_change_passwd) (ECertDB *db, char **orig_passwd, char **passwd);
+	gboolean (*confirm_ca_cert_import) (ECertDB *db, ECert *cert, gboolean *trust_ssl, gboolean *trust_email, gboolean *trust_objsign);
 
 	/* Padding for future expansion */
 	void (*_ecert_reserved0) (void);

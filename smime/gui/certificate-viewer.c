@@ -70,24 +70,24 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 	char *markup;
 
 	/* issued to */
+	label = glade_xml_get_widget (cvm_data->gui, "issued-to-cn");
 	if (e_cert_get_cn (cert)) {
-		label = glade_xml_get_widget (cvm_data->gui, "issued-to-cn");
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_cn (cert));
 	}
 	else {
 		gtk_label_set_markup (GTK_LABEL (label), NOT_PART_OF_CERT_MARKUP);
 	}
 
+	label = glade_xml_get_widget (cvm_data->gui, "issued-to-o");
 	if (e_cert_get_org (cert)) {
-		label = glade_xml_get_widget (cvm_data->gui, "issued-to-o");
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_org (cert));
 	}
 	else {
 		gtk_label_set_markup (GTK_LABEL (label), NOT_PART_OF_CERT_MARKUP);
 	}
 
+	label = glade_xml_get_widget (cvm_data->gui, "issued-to-ou");
 	if (e_cert_get_org_unit (cert)) {
-		label = glade_xml_get_widget (cvm_data->gui, "issued-to-ou");
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_org_unit (cert));
 	}
 	else {
@@ -99,24 +99,24 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 	gtk_label_set_text (GTK_LABEL (label), text);
 
 	/* issued by */
+	label = glade_xml_get_widget (cvm_data->gui, "issued-by-cn");
 	if (e_cert_get_issuer_cn (cert)) {
-		label = glade_xml_get_widget (cvm_data->gui, "issued-by-cn");
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_issuer_cn (cert));
 	}
 	else {
 		gtk_label_set_markup (GTK_LABEL (label), NOT_PART_OF_CERT_MARKUP);
 	}
 
+	label = glade_xml_get_widget (cvm_data->gui, "issued-by-o");
 	if (e_cert_get_issuer_org (cert)) {
-		label = glade_xml_get_widget (cvm_data->gui, "issued-by-o");
-		gtk_label_set_text (GTK_LABEL (label), e_cert_get_issuer_org (cert));
+			gtk_label_set_text (GTK_LABEL (label), e_cert_get_issuer_org (cert));
 	}
 	else {
 		gtk_label_set_markup (GTK_LABEL (label), NOT_PART_OF_CERT_MARKUP);
 	}
-
+	
+	label = glade_xml_get_widget (cvm_data->gui, "issued-by-ou");
 	if (e_cert_get_issuer_org_unit (cert)) {
-		label = glade_xml_get_widget (cvm_data->gui, "issued-by-ou");
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_issuer_org_unit (cert));
 	}
 	else {
@@ -124,16 +124,16 @@ fill_in_general (CertificateViewerData *cvm_data, ECert *cert)
 	}
 
 	/* validity */
+	label = glade_xml_get_widget (cvm_data->gui, "validity-issued-on");
 	if (e_cert_get_issued_on (cert)) {
-		label = glade_xml_get_widget (cvm_data->gui, "validity-issued-on");
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_issued_on (cert));
 	}
 	else {
 		gtk_label_set_markup (GTK_LABEL (label), NOT_PART_OF_CERT_MARKUP);
 	}
 
+	label = glade_xml_get_widget (cvm_data->gui, "validity-expires-on");
 	if (e_cert_get_expires_on (cert)) {
-		label = glade_xml_get_widget (cvm_data->gui, "validity-expires-on");
 		gtk_label_set_text (GTK_LABEL (label), e_cert_get_expires_on (cert));
 	}
 	else {
@@ -343,9 +343,6 @@ certificate_viewer_show (ECert *cert)
 
 	g_object_weak_ref (G_OBJECT (cvm_data->dialog), free_data, cvm_data);
 
-	g_signal_connect (cvm_data->dialog, "response",
-			  G_CALLBACK (gtk_widget_destroy), NULL);
-
-	gtk_widget_show (cvm_data->dialog);
+	/*	gtk_widget_show (cvm_data->dialog);*/
 	return cvm_data->dialog;
 }

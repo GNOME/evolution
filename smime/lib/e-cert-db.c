@@ -95,6 +95,7 @@
 enum {
 	PK11_PASSWD,
 	PK11_CHANGE_PASSWD,
+	CONFIRM_CA_CERT_IMPORT,
 	LAST_SIGNAL
 };
 
@@ -282,6 +283,16 @@ e_cert_db_class_init (ECertDBClass *klass)
 			      smime_marshal_BOOLEAN__POINTER_POINTER,
 			      G_TYPE_BOOLEAN, 2,
 			      G_TYPE_POINTER, G_TYPE_POINTER);
+
+	e_cert_db_signals[CONFIRM_CA_CERT_IMPORT] =
+		g_signal_new ("confirm_ca_cert_import",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECertDBClass, confirm_ca_cert_import),
+			      NULL, NULL,
+			      smime_marshal_BOOLEAN__POINTER_POINTER_POINTER_POINTER,
+			      G_TYPE_BOOLEAN, 4,
+			      G_TYPE_POINTER, G_TYPE_POINTER, G_TYPE_POINTER, G_TYPE_POINTER);
 }
 
 static void
@@ -475,16 +486,27 @@ e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 }
 
 static gboolean
-_confirm_download_ca_cert (ECert *cert, guint32 *trustBits, gboolean *allow)
+confirm_download_ca_cert (ECertDB *cert_db, ECert *cert, gboolean *trust_ssl, gboolean *trust_email, gboolean *trust_objsign)
 {
-	/* right now just allow it and set the trustBits to 0 */
-	*trustBits = 0;
-	*allow = TRUE;
-	return TRUE;
+	gboolean rv = FALSE;
+
+	*trust_ssl =
+		*trust_email =
+		*trust_objsign = FALSE;
+
+	g_signal_emit (e_cert_db_peek (),
+		       e_cert_db_signals[CONFIRM_CA_CERT_IMPORT], 0,
+		       cert,
+		       trust_ssl,
+		       trust_email,
+		       trust_objsign,
+		       &rv);
+
+	return rv;
 }
 
 static gboolean
-handle_ca_cert_download(GList *certs, GError **error)
+handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 {
 	ECert *certToShow;
 	SECItem der;
@@ -579,23 +601,18 @@ handle_ca_cert_download(GList *certs, GError **error)
 #endif
 
 	if (tmpCert->isperm) {
+		/* XXX we shouldn't be popping up dialogs in this code. */
 		e_notice (NULL, GTK_MESSAGE_WARNING, _("Certificate already exists"));
 		/* XXX gerror */
 		return FALSE;
 	}
 	else {
-		guint32 trustBits;
-		gboolean allow;
+		gboolean trust_ssl, trust_email, trust_objsign;
 		char *nickname;
 		SECStatus srv;
 		CERTCertTrust trust;
 
-		if (!_confirm_download_ca_cert (certToShow, &trustBits, &allow)) {
-			/* XXX gerror */
-			return FALSE;
-		}
-
-		if (!allow) {
+		if (!confirm_download_ca_cert (cert_db, certToShow, &trust_ssl, &trust_email, &trust_objsign)) {
 			/* XXX gerror */
 			return FALSE;
 		}
@@ -609,15 +626,9 @@ handle_ca_cert_download(GList *certs, GError **error)
 		e_cert_trust_init (&trust);
 		e_cert_trust_set_valid_ca (&trust);
 		e_cert_trust_add_ca_trust (&trust,
-#if 1
-					    /* XXX we need that ui working i guess. */
-					    0, 0, 0
-#else
-					    trustBits & nsIX509CertDB::TRUSTED_SSL,
-					    trustBits & nsIX509CertDB::TRUSTED_EMAIL,
-					    trustBits & nsIX509CertDB::TRUSTED_OBJSIGN
-#endif
-);
+					   trust_ssl,
+					   trust_email,
+					   trust_objsign);
 
 		srv = CERT_AddTempCertToPerm(tmpCert,
 					     nickname,
@@ -730,7 +741,7 @@ e_cert_db_import_certs (ECertDB *certdb,
 	}
 	switch (cert_type) {
 	case E_CERT_CA:
-		rv = handle_ca_cert_download(certs, error);
+		rv = handle_ca_cert_download(certdb, certs, error);
 		break;
 	default:
 		/* We only deal with import CA certs in this method currently.*/
