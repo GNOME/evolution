@@ -712,8 +712,10 @@ etta_proxy_node_data_changed (ETreeModel *etm, ETreePath path, ETreeTableAdapter
 {
 	int row = get_row(etta, path);
 
-	if (row == -1)
+	if (row == -1) {
 		e_table_model_no_change(E_TABLE_MODEL(etta));
+		return;
+	}
 
 	e_table_model_row_changed(E_TABLE_MODEL(etta), row);
 }
@@ -723,8 +725,10 @@ etta_proxy_node_col_changed (ETreeModel *etm, ETreePath path, int col, ETreeTabl
 {
 	int row = get_row(etta, path);
 
-	if (row == -1)
+	if (row == -1) {
 		e_table_model_no_change(E_TABLE_MODEL(etta));
+		return;
+	}
 
 	e_table_model_cell_changed(E_TABLE_MODEL(etta), col, row);
 }
