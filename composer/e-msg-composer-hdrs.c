@@ -410,17 +410,15 @@ attach_couple (EMsgComposerHdrs *hdrs, EMsgComposerHdrPair *pair, int line)
 	else
 		pad = 2;
 	
-	gtk_table_attach (
-		GTK_TABLE (hdrs),
-		pair->label, 0, 1,
-		line, line + 1,
-		GTK_FILL, GTK_FILL, pad, pad);
+	gtk_table_attach (GTK_TABLE (hdrs),
+			  pair->label, 0, 1,
+			  line, line + 1,
+			  GTK_FILL, GTK_FILL, pad, pad);
 	
-	gtk_table_attach (
-		GTK_TABLE (hdrs),
-		pair->entry, 1, 2,
-		line, line + 1,
-		GTK_FILL | GTK_EXPAND, 0, 2, 2);
+	gtk_table_attach (GTK_TABLE (hdrs),
+			  pair->entry, 1, 2,
+			  line, line + 1,
+			  GTK_FILL | GTK_EXPAND, 0, 2, 2);
 }
 
 static void
