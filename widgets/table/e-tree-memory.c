@@ -210,7 +210,7 @@ e_tree_memory_thaw(ETreeMemory *etmm)
 /* virtual methods */
 
 static void
-etmm_finalize (GObject *object)
+etmm_dispose (GObject *object)
 {
 	ETreeMemory *etmm = E_TREE_MEMORY (object);
 	ETreeMemoryPriv *priv = etmm->priv;
@@ -225,7 +225,7 @@ etmm_finalize (GObject *object)
 	}
 	etmm->priv = NULL;
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static ETreePath
@@ -368,7 +368,7 @@ e_tree_memory_class_init (ETreeMemoryClass *klass)
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
-	object_class->finalize            = etmm_finalize;
+	object_class->dispose             = etmm_dispose;
 
 	tree_class->get_root              = etmm_get_root;
 	tree_class->get_prev              = etmm_get_prev;
