@@ -101,6 +101,9 @@ static char *em_junk_sa_spamd_binaries [3] = {"spamd", "/usr/sbin/spamd", NULL};
 static time_t em_junk_sa_spamd_restarts [SPAMD_RESTARTS_SIZE] = {0, 0, 0, 0, 0, 0, 0, 0};
 static int em_junk_sa_spamd_restarts_count = 0;
 
+char *em_junk_sa_spamc_gconf_binary = NULL;
+char *em_junk_sa_spamd_gconf_binary = NULL;
+
 static const char *
 em_junk_sa_get_name (void)
 {
@@ -398,21 +401,16 @@ em_junk_sa_test_spamd (void)
 	int i, b;
 	gboolean try_system_spamd = TRUE;
 
-	if (em_junk_sa_gconf) {
-		char *binary;
-
-		binary = gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/spamc_binary", NULL);
-		if (binary) {
-			em_junk_sa_spamc_binaries [0] = binary;
-			em_junk_sa_spamc_binaries [1] = NULL;
-		}
-		binary = gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/spamd_binary", NULL);
-		if (binary) {
-			em_junk_sa_spamd_binaries [0] = binary;
-			em_junk_sa_spamd_binaries [1] = NULL;
-			try_system_spamd = FALSE;
-		}
+	if (em_junk_sa_spamc_gconf_binary) {
+		em_junk_sa_spamc_binaries [0] = em_junk_sa_spamc_gconf_binary;
+		em_junk_sa_spamc_binaries [1] = NULL;
 	}
+  
+	if (em_junk_sa_spamd_gconf_binary) {
+		em_junk_sa_spamd_binaries [0] = em_junk_sa_spamd_gconf_binary;
+		em_junk_sa_spamd_binaries [1] = NULL;
+		try_system_spamd = FALSE;
+  	}
 
 	em_junk_sa_use_spamc = FALSE;
 
@@ -703,6 +701,8 @@ em_junk_filter_get_plugin (void)
 static void
 em_junk_sa_init (void)
 {
+	pthread_mutex_lock (&em_junk_sa_init_lock);
+
 	if (!em_junk_sa_gconf) {
 		em_junk_sa_gconf = gconf_client_get_default();
 		gconf_client_add_dir (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
@@ -718,7 +718,12 @@ em_junk_sa_init (void)
 		gconf_client_notify_add(em_junk_sa_gconf, "/apps/evolution/mail/junk/sa",
 					(GConfClientNotifyFunc)em_junk_sa_setting_notify,
 					NULL, NULL, NULL);
+
+		em_junk_sa_spamc_gconf_binary = gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/spamc_binary", NULL);
+		em_junk_sa_spamd_gconf_binary = gconf_client_get_string (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/spamd_binary", NULL);
 	}
+
+	pthread_mutex_unlock (&em_junk_sa_init_lock);
 
 	atexit (em_junk_sa_finalize);
 }
