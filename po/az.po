@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.3.1\n"
 "POT-Creation-Date: 2001-05-07 14:02+0200\n"
-"PO-Revision-Date: 2001-05-05 01:03GMT +0200\n"
+"PO-Revision-Date: 2001-05-23 00:10GMT +0200\n"
 "Last-Translator: Vasif İsmayıloğlu MD <azerb_linux@hotmail.com>\n"
 "Language-Team: Azerbaijani Turkish <linuxaz@azerimal.net>\n"
 "MIME-Version: 1.0\n"
@@ -1581,8 +1581,7 @@ msgid "Save calendar"
 msgstr "Təqvimi qeyd et"
 
 #: calendar/gui/calendar-commands.c:468
-msgid ""
-"Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Təqvimin görünüşü quraşdırıla bilmir. Lütfən ORBIT və OAF "
 "qurğularınızı yoxlayın."
@@ -1700,10 +1699,8 @@ msgstr ""
 "%s"
 
 #: calendar/gui/calendar-model.c:882
-msgid ""
-"The classification must be 'Public', 'Private', 'Confidential' or 'None'"
-msgstr ""
-"Siniflədirmə 'Ümumi', 'Xüsusi', 'Gizli' ya da 'Heç Biri' olmalıdır"
+msgid "The classification must be 'Public', 'Private', 'Confidential' or 'None'"
+msgstr "Siniflədirmə 'Ümumi', 'Xüsusi', 'Gizli' ya da 'Heç Biri' olmalıdır"
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:896 calendar/gui/calendar-model.c:1120
@@ -1728,13 +1725,11 @@ msgstr ""
 
 #: calendar/gui/calendar-model.c:1010
 msgid "The percent value must be between 0 and 100, inclusive"
-msgstr ""
-"Faiz qiyməti ikisi də daxil olam üzərə 0 ilə 100 arasında olmalıdır"
+msgstr "Faiz qiyməti ikisi də daxil olam üzərə 0 ilə 100 arasında olmalıdır"
 
 #: calendar/gui/calendar-model.c:1051
 msgid "The priority must be 'High', 'Normal', 'Low' or 'Undefined'."
-msgstr ""
-"Üstünlük 'Yüksək', 'Normal', 'Alçaq' və ya 'Təsvirsiz' ola bilər."
+msgstr "Üstünlük 'Yüksək', 'Normal', 'Alçaq' və ya 'Təsvirsiz' ola bilər."
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1064
@@ -1745,8 +1740,7 @@ msgstr "Təsvirsiz"
 
 #: calendar/gui/calendar-model.c:1105
 msgid "The transparency must be 'Transparent', 'Opaque', or 'None'."
-msgstr ""
-"Şəffaflıq 'Şəffaf', 'İşıq Keçirməz' və ya 'Heç Biri' olmalıdır."
+msgstr "Şəffaflıq 'Şəffaf', 'İşıq Keçirməz' və ya 'Heç Biri' olmalıdır."
 
 #: calendar/gui/calendar-model.c:1576
 msgid "Recurring"
@@ -3355,14 +3349,12 @@ msgstr ""
 #: camel/camel-lock.c:201
 #, c-format
 msgid "Failed to get lock using fcntl(2): %s"
-msgstr ""
-"fcntl(2) istifadə edilərək qıfıl faylı alınması ifşlas etdi: %s"
+msgstr "fcntl(2) istifadə edilərək qıfıl faylı alınması ifşlas etdi: %s"
 
 #: camel/camel-lock.c:255
 #, c-format
 msgid "Failed to get lock using flock(2): %s"
-msgstr ""
-"fclock(2) istifadə edilərək qıfıl faylı alınması iflas etdi: %s"
+msgstr "fclock(2) istifadə edilərək qıfıl faylı alınması iflas etdi: %s"
 
 #: camel/camel-movemail.c:101
 #, c-format
@@ -3529,8 +3521,7 @@ msgstr "Adsız"
 
 #: camel/camel-sasl-anonymous.c:35
 msgid "This option will connect to the server using an anonymous login."
-msgstr ""
-"Bu seçənəklə siz vericisiyə adsız olaraq bağlana biləcəksiniz."
+msgstr "Bu seçənəklə siz vericisiyə adsız olaraq bağlana biləcəksiniz."
 
 #: camel/camel-sasl-anonymous.c:110 camel/camel-sasl-plain.c:87
 msgid "Authentication failed."
@@ -3641,8 +3632,7 @@ msgstr "NT Giriş"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr ""
-"Bu seçənəklə siz vericisiyə sadə parol ilə bağlana biləcəksiniz."
+msgstr "Bu seçənəklə siz vericisiyə sadə parol ilə bağlana biləcəksiniz."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
@@ -3694,8 +3684,7 @@ msgstr "_Virtual Qovluq Sehirbazı ..."
 
 #: camel/camel-session.c:70
 msgid "For reading mail as a query of another set of folders"
-msgstr ""
-"Başqa qovluq dəstələrinin istəyi olan məktubların oxunması üçün"
+msgstr "Başqa qovluq dəstələrinin istəyi olan məktubların oxunması üçün"
 
 #: camel/camel-session.c:294 camel/camel-session.c:363
 #, c-format
@@ -3862,8 +3851,7 @@ msgstr "IMAPv4"
 
 #: camel/providers/imap/camel-imap-provider.c:65
 msgid "For reading and storing mail on IMAP servers."
-msgstr ""
-"IMAP vericisində məktubların saxlanması və oxuna bilməsi üçün."
+msgstr "IMAP vericisində məktubların saxlanması və oxuna bilməsi üçün."
 
 #: camel/providers/imap/camel-imap-provider.c:82
 msgid "This option will connect to the IMAP server using a plaintext password."
@@ -3914,8 +3902,7 @@ msgstr "MH-şəklində məktub qovluqları"
 
 #: camel/providers/local/camel-local-provider.c:40
 msgid "For storing local mail in MH-like mail directories"
-msgstr ""
-"Yerli məktubların MH oxşarı məktub qovluqlarında saxlamaq üçün"
+msgstr "Yerli məktubların MH oxşarı məktub qovluqlarında saxlamaq üçün"
 
 #: camel/providers/local/camel-local-provider.c:49
 msgid "Standard Unix mailbox file"
@@ -3931,8 +3918,7 @@ msgstr "Qmail məktun qovluğu şəklindəki məktub faylı"
 
 #: camel/providers/local/camel-local-provider.c:60
 msgid "For storing local mail in qmail maildir directories"
-msgstr ""
-"Yerli məktubları qmail məktub qovluqlarında saxlaya bilmək üçün"
+msgstr "Yerli məktubları qmail məktub qovluqlarında saxlaya bilmək üçün"
 
 #: camel/providers/local/camel-local-store.c:127
 #, c-format
@@ -4375,8 +4361,7 @@ msgstr ""
 "bütün istifadəçilər üçün dəstəklənməz."
 
 #: camel/providers/pop3/camel-pop3-provider.c:91
-msgid ""
-"This will connect to the POP server and use Kerberos 4 to authenticate to it."
+msgid "This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr ""
 "Bu seçənək POP verisici ilə Kerberos 4 istifadə edərək ünsiyyət "
 "quracaqdır."
@@ -4470,8 +4455,7 @@ msgstr "İsmarıc göndərilə bilmədi: %s"
 #: camel/providers/sendmail/camel-sendmail-transport.c:163
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
-msgstr ""
-"sendmail %s siqnalı verərək bağlandı: məktub göndərilə bilmədi."
+msgstr "sendmail %s siqnalı verərək bağlandı: məktub göndərilə bilmədi."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:170
 #, c-format
@@ -4563,8 +4547,7 @@ msgstr "Sorğulanan gediş ləğv edildi; xəta oldu"
 
 #: camel/providers/smtp/camel-smtp-transport.c:193
 msgid "User not local; please try <forward-path>"
-msgstr ""
-"İstifadəçi yerli deyil; lütfən <çatdırma cığırı>nı sınayın"
+msgstr "İstifadəçi yerli deyil; lütfən <çatdırma cığırı>nı sınayın"
 
 #: camel/providers/smtp/camel-smtp-transport.c:195
 msgid "Requested action not taken: insufficient system storage"
@@ -4644,13 +4627,11 @@ msgstr "%s dan(dən) SMTP məktub göndərilməsi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:553
 msgid "Cannot send message: sender address not defined."
-msgstr ""
-"İsmarıc göndrərilə bilmədi: göndərənin ünvanı bildirilməyib."
+msgstr "İsmarıc göndrərilə bilmədi: göndərənin ünvanı bildirilməyib."
 
 #: camel/providers/smtp/camel-smtp-transport.c:560
 msgid "Cannot send message: sender address not valid."
-msgstr ""
-"İsmarıc göndrərilə bilmədi: göndərənin ünvanı hökmsüzdür."
+msgstr "İsmarıc göndrərilə bilmədi: göndərənin ünvanı hökmsüzdür."
 
 #: camel/providers/smtp/camel-smtp-transport.c:574
 msgid "Cannot send message: no recipients defined."
@@ -5080,9 +5061,8 @@ msgid "File does not have a place for the services.\n"
 msgstr "Faylının xidmətlər üçün ayrılmış sahəsi yoxdur.\n"
 
 #: executive-summary/component/e-summary-callbacks.c:126
-#, fuzzy
 msgid "Select a service"
-msgstr "Fayl seç"
+msgstr "Xidmæt seç"
 
 #: executive-summary/component/e-summary-callbacks.c:290
 msgid ""
@@ -6996,8 +6976,7 @@ msgstr "Dəyəsən \"Evolution\"ı ilk dəfə işə salırsan."
 
 #: shell/e-setup.c:196
 msgid "Please click \"OK\" to install the Evolution user files under"
-msgstr ""
-"\"Oldu\"'ya tıqlayıb, \"Evolution\" istifadəçi fayllarını buraya qur"
+msgstr "\"Oldu\"'ya tıqlayıb, \"Evolution\" istifadəçi fayllarını buraya qur"
 
 #: shell/e-setup.c:215
 #, c-format
@@ -7128,12 +7107,10 @@ msgid "Go to folder..."
 msgstr "Qovluğa get ..."
 
 #: shell/e-shell-view-menu.c:562
-#, fuzzy
 msgid "Work online"
-msgstr "Xətdən Qopuq İşlə"
+msgstr "Xətdə İşlə"
 
 #: shell/e-shell-view-menu.c:574 shell/e-shell-view-menu.c:586
-#, fuzzy
 msgid "Work offline"
 msgstr "Xətdən Qopuq İşlə"
 
@@ -7904,8 +7881,7 @@ msgstr "Hər şeyi seçin"
 
 #: ui/evolution-event-editor.xml.h:50 ui/evolution-task-editor-dialog.xml.h:59
 msgid "Setup the page settings for your current printer"
-msgstr ""
-"Səhifə qurğularını hazırkı çap edicinizə göra uyğunlaşdırın"
+msgstr "Səhifə qurğularını hazırkı çap edicinizə göra uyğunlaşdırın"
 
 #: ui/evolution-event-editor.xml.h:51 ui/evolution-task-editor-dialog.xml.h:60
 msgid "Task _Request (FIXME)"
@@ -8903,14 +8879,12 @@ msgid "Advanced ..."
 msgstr "Ətraflı ..."
 
 #: widgets/misc/e-filter-bar.h:101
-#, fuzzy
 msgid "Save As..."
-msgstr "Fərqli _Qeyd Et ..."
+msgstr "Fərqli Qeyd Et ..."
 
 #: widgets/misc/e-filter-bar.h:103
-#, fuzzy
 msgid "Edit..."
-msgstr "Düzəlt"
+msgstr "Düzəlt..."
 
 #: widgets/misc/e-messagebox.c:152
 msgid "Information"
@@ -8957,8 +8931,3 @@ msgstr "init_corba(): GNOME başladıla bilmədi"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Bonobonu başlada bilmədim"
 
-#~ msgid "%s is not a selectable folder"
-#~ msgstr "%s Seçilə bilən qovluq deyildir"
-
-#~ msgid "You must be working online to complete this operation"
-#~ msgstr "Bu əməliyyatı qurtarmaq üçün xətdə olmalısınız"
