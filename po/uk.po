@@ -8232,7 +8232,6 @@ msgid "This folder cannot contain messages."
 msgstr ""
 
 #: mail/component-factory.c:378
-#, fuzzy
 msgid "Properties..."
 msgstr "Властивост╕..."
 
@@ -8248,14 +8247,12 @@ msgid ""
 msgstr ""
 
 #: mail/component-factory.c:857
-#, fuzzy
 msgid "New Mail Message"
-msgstr "В╕д╕слати пов╕домлення"
+msgstr "Нове поштове пов╕домлення"
 
 #: mail/component-factory.c:857
-#, fuzzy
 msgid "New _Mail Message"
-msgstr "В╕д╕слати пов╕домлення"
+msgstr "Нове поштове пов╕домлення"
 
 #: mail/component-factory.c:881
 msgid "Cannot initialize Evolution's mail component."
@@ -8292,12 +8289,12 @@ msgstr "Неможливо створити тимчасовий каталог: %s"
 #: mail/folder-browser.c:733
 #, c-format
 msgid "%d new"
-msgstr ""
+msgstr "%d нових"
 
 #: mail/folder-browser.c:736 mail/folder-browser.c:741
 #: mail/folder-browser.c:763
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: mail/folder-browser.c:737
 #, c-format
@@ -8305,24 +8302,24 @@ msgid "%d hidden"
 msgstr ""
 
 #: mail/folder-browser.c:742
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected"
-msgstr "Стерто"
+msgstr "d вибрано"
 
 #: mail/folder-browser.c:765
-#, fuzzy, c-format
+#, c-format
 msgid "%d unsent"
-msgstr "В╕д╕слати"
+msgstr "%d не в╕д╕слано"
 
 #: mail/folder-browser.c:767
-#, fuzzy, c-format
+#, c-format
 msgid "%d sent"
-msgstr "В╕д╕слати"
+msgstr "%d в╕д╕слано"
 
 #: mail/folder-browser.c:769
 #, c-format
 msgid "%d total"
-msgstr ""
+msgstr "%d всього"
 
 #: mail/folder-browser.c:1012
 #, fuzzy
@@ -8850,23 +8847,20 @@ msgid "(SSL is not supported in this build of evolution)"
 msgstr ""
 
 #: mail/mail-config.glade.h:4
-#, fuzzy
 msgid "Account"
-msgstr "Електронна адреса м╕стить"
+msgstr "Рахунок"
 
 #: mail/mail-config.glade.h:5
-#, fuzzy
 msgid "Account Information"
-msgstr "Нема╓ ╕нформац╕╖"
+msgstr "╤нформац╕я про рахунок"
 
 #: mail/mail-config.glade.h:6 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Account Management"
-msgstr ""
+msgstr "Керування рахунками"
 
 #: mail/mail-config.glade.h:7
-#, fuzzy
 msgid "Accounts"
-msgstr "Електронна адреса м╕стить"
+msgstr "Рахунки"
 
 #: mail/mail-config.glade.h:8
 msgid "Always encrypt to myself when sending encrypted mail"
@@ -8881,9 +8875,8 @@ msgid "Always sign outgoing messages when using this account"
 msgstr ""
 
 #: mail/mail-config.glade.h:11 mail/message-list.etspec.h:1
-#, fuzzy
 msgid "Attachment"
-msgstr "долучення"
+msgstr "Долучення"
 
 #: mail/mail-config.glade.h:12
 msgid "Authentication"
@@ -8895,7 +8888,7 @@ msgstr "Тип автенф╕кац╕╖: "
 
 #: mail/mail-config.glade.h:14
 msgid "Certificate ID:"
-msgstr ""
+msgstr "╤дентиф╕катор сертиф╕ката:"
 
 #: mail/mail-config.glade.h:16
 #, fuzzy
@@ -8903,9 +8896,8 @@ msgid "Composer"
 msgstr "П╕дготувати"
 
 #: mail/mail-config.glade.h:17
-#, fuzzy
 msgid "Configuration"
-msgstr "Конф╕╜урац╕я пошти"
+msgstr "Конф╕╜урац╕я"
 
 #: mail/mail-config.glade.h:18
 #, fuzzy
@@ -8976,9 +8968,8 @@ msgid "Get Digital ID..."
 msgstr ""
 
 #: mail/mail-config.glade.h:38
-#, fuzzy
 msgid "HTML signature file:"
-msgstr "Файл п╕дпису:"
+msgstr "Файл п╕дпису HTML:"
 
 #: mail/mail-config.glade.h:39
 msgid "IMAPv4 "
@@ -9020,9 +9011,8 @@ msgid "NNTP Server:"
 msgstr "Сервер LDAP"
 
 #: mail/mail-config.glade.h:49
-#, fuzzy
 msgid "News"
-msgstr "Новий"
+msgstr "Новини"
 
 #: mail/mail-config.glade.h:51
 #, fuzzy
@@ -9039,7 +9029,7 @@ msgstr "Виб╕р кольору"
 
 #: mail/mail-config.glade.h:57
 msgid "Pretty Good Privacy"
-msgstr ""
+msgstr "Pretty Good Privacy"
 
 #: mail/mail-config.glade.h:58
 #, fuzzy
@@ -9066,13 +9056,12 @@ msgid "Quoted"
 msgstr "Прим╕тки"
 
 #: mail/mail-config.glade.h:63 shell/glade/evolution-startup-wizard.glade.h:6
-#, fuzzy
 msgid "Receiving Email"
-msgstr "Sendmail"
+msgstr "Отримання пошти"
 
 #: mail/mail-config.glade.h:64
 msgid "Receiving Mail"
-msgstr ""
+msgstr "Отримання пошти"
 
 #: mail/mail-config.glade.h:65
 msgid "Receiving Options"
@@ -9088,7 +9077,6 @@ msgid "Secure MIME"
 msgstr ""
 
 #: mail/mail-config.glade.h:69
-#, fuzzy
 msgid "Security"
 msgstr "Безпека"
 
@@ -9102,14 +9090,12 @@ msgid "Select PGP binary"
 msgstr ""
 
 #: mail/mail-config.glade.h:72 shell/glade/evolution-startup-wizard.glade.h:7
-#, fuzzy
 msgid "Sending Email"
-msgstr "Sendmail"
+msgstr "В╕дсилання пошти"
 
 #: mail/mail-config.glade.h:73
-#, fuzzy
 msgid "Sending Mail"
-msgstr "Sendmail"
+msgstr "В╕дсилання пошти"
 
 #: mail/mail-config.glade.h:75 mail/message-list.etspec.h:6
 msgid "Sent"
@@ -9126,14 +9112,12 @@ msgid "Sent messages folder:"
 msgstr "В╕д╕слати пов╕домлення п╕зн╕ше"
 
 #: mail/mail-config.glade.h:78
-#, fuzzy
 msgid "Server Configuration"
-msgstr "Конф╕╜урац╕я пошти"
+msgstr "Конф╕╜урац╕я сервера"
 
 #: mail/mail-config.glade.h:79
-#, fuzzy
 msgid "Server Type: "
-msgstr "Сервер:"
+msgstr "Тип сервера:"
 
 #: mail/mail-config.glade.h:80
 #, fuzzy
