@@ -219,8 +219,11 @@ ep_load(const char *filename)
 	}
 
 	root = xmlDocGetRootElement(doc);
-	if (strcmp(root->name, "e-plugin-list") != 0)
-		goto fail;
+	if (strcmp(root->name, "e-plugin-list") != 0) {
+		g_warning("No <e-plugin-list> root element: %s", filename);
+		xmlFreedoc(doc);
+		return -1;
+	}
 
 	pdoc = g_malloc0(sizeof(*pdoc));
 	pdoc->doc = doc;

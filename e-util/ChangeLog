@@ -1,3 +1,8 @@
+2004-10-08  Not Zed  <NotZed@Ximian.com>
+
+	* e-plugin.c (ep_load): handle wrong root element properly.  From
+	David Trowbridge <David.Trowbridge@Colorado.edu>
+
 2004-10-07  Not Zed  <NotZed@Ximian.com>
 
 	* e-plugin.h: Fix the function pointer types!
