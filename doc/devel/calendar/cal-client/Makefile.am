@@ -52,12 +52,12 @@ GTKDOC_CFLAGS=						\
 	-I$(top_srcdir)/libical/src/libical		\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-GTKDOC_LIBS=									\
-	$(EVOLUTION_CALENDAR_LIBS)						\
+GTKDOC_LIBS=								\
+	$(EVOLUTION_CALENDAR_LIBS)					\
 	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/calendar/cal-client/libcal-client-static.la	\
-	$(top_builddir)/calendar/cal-util/libcal-util-static.la		\
-	$(top_builddir)/libical/src/libical/libical-static.la		\
+	$(top_builddir)/calendar/cal-client/libcal-client.la		\
+	$(top_builddir)/calendar/cal-util/libcal-util.la		\
+	$(top_builddir)/libical/src/libical/libical.la			\
 	$(top_builddir)/libversit/libversit.a				\
 	$(top_builddir)/libwombat/libwombat.la
 
