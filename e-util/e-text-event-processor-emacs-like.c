@@ -429,6 +429,10 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 						command.string = control_keys[(int) (key.keyval - 'a')].string;
 					}
 
+					if (key.keyval == ' ') {
+						command.action = E_TEP_NOP;
+					}
+
 					if (key.keyval == 'x') {
 						command.action = E_TEP_COPY;
 						command.position = E_TEP_SELECTION;
