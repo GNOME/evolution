@@ -1,3 +1,9 @@
+2005-01-12  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/dialogs/cal-attachment-bar.c:
+	(cal_attachment_bar_set_attachment_list):
+	reverting the offset 'hyphen' fix - not required anymore.	
+
 2005-01-10  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-day-view.c (e_day_view_on_editing_stopped): remove the

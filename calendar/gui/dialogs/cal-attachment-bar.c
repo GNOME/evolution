@@ -871,7 +871,7 @@ cal_attachment_bar_set_attachment_list (CalAttachmentBar *bar, GSList *attach_li
 				priv->num_attachments-1);
 		camel_mime_part_set_filename (attach->body,
 				attach_filename + strlen (priv->local_attachment_store)+ 
-				strlen (priv->comp_uid) + 2); 
+				strlen (priv->comp_uid) + 1); 
 		update (bar);
 	}
 }
