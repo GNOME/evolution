@@ -630,7 +630,6 @@ _get_subfolder (CamelFolder *folder,
 	CamelFolder *new_folder;
 	gchar *full_name;
 	const gchar *current_folder_full_name;
-	gchar separator;
 	
 	g_assert (folder->parent_store != NULL);
 	
@@ -638,8 +637,8 @@ _get_subfolder (CamelFolder *folder,
 	if (camel_exception_get_id (ex)) return NULL;
 
 
-	separator = camel_store_get_separator (folder->parent_store, ex);
-	full_name = g_strdup_printf ("%s%d%s", current_folder_full_name, separator, folder_name);
+	full_name = g_strdup_printf ("%s%c%s", current_folder_full_name,
+				     folder->separator, folder_name);
 	
 	new_folder = camel_store_get_folder (folder->parent_store, full_name, ex);
 	return new_folder;
@@ -692,7 +691,6 @@ _create (CamelFolder *folder, CamelException *ex)
 	gchar *prefix;
 	gchar dich_result;
 	CamelFolder *parent;
-	gchar sep;
 	
 	g_assert (folder->parent_store != NULL);
 	g_assert (folder->name != NULL);
@@ -703,7 +701,6 @@ _create (CamelFolder *folder, CamelException *ex)
 		return TRUE;
 	
 	
-	sep = camel_store_get_separator (folder->parent_store, ex);	
 	if (folder->parent_folder) {
 		camel_folder_create (folder->parent_folder, ex);
 		if (camel_exception_get_id (ex)) return FALSE;
@@ -711,7 +708,9 @@ _create (CamelFolder *folder, CamelException *ex)
 	else {   
 		if (folder->full_name) {
 			dich_result = string_dichotomy (
-							folder->full_name, sep, &prefix, NULL,
+							folder->full_name,
+							folder->separator,
+							&prefix, NULL,
 							STRING_DICHOTOMY_STRIP_TRAILING | STRING_DICHOTOMY_RIGHT_DIR);
 			if (dich_result!='o') {
 				if (prefix == NULL) {
