@@ -1,3 +1,7 @@
+2000-08-10  Dan Winship  <danw@helixcode.com>
+
+	* gui/component-factory.c (owner_set_cb): Update prototype.
+
 2000-08-10  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/gnome-cal.c (gnome_calendar_new_appointment): New function.

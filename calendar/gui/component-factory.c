@@ -71,7 +71,8 @@ static gint owner_count = 0;
 
 static void
 owner_set_cb (EvolutionShellComponent *shell_component,
-	      Evolution_Shell shell_interface)
+	      Evolution_Shell shell_interface,
+	      const char *evolution_homedir)
 {
 	owner_count ++;
 }
