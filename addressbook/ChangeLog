@@ -1,3 +1,8 @@
+2005-01-26 Hao Sheng  <hao.sheng@sun.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	(setup_name_selector): add access key to 'Member' Button.
+
 2005-01-25  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/contact-editor/e-contact-editor.c (categories_clicked): use the

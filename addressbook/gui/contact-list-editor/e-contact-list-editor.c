@@ -706,7 +706,7 @@ setup_name_selector (EContactListEditor *editor)
 	editor->name_selector = e_name_selector_new ();
 
 	name_selector_model = e_name_selector_peek_model (editor->name_selector);
-	e_name_selector_model_add_section (name_selector_model, "Members", gettext ("Members"), NULL);
+	e_name_selector_model_add_section (name_selector_model, "Members", gettext ("_Members"), NULL);
 
 	name_selector_dialog = e_name_selector_peek_dialog (editor->name_selector);
 	gtk_window_set_title (GTK_WINDOW (name_selector_dialog), _("Contact List Members"));
