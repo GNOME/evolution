@@ -95,7 +95,6 @@ set_folder (EvolutionFolderSelectorButton *folder_selector_button,
 	priv->selected_folder = folder;
 
 	if (!folder) {
-		/* FIXME: Will this work?  */
 		gtk_image_set_from_pixbuf (GTK_IMAGE (priv->icon), NULL);
 		gtk_label_set_text (GTK_LABEL (priv->label),
 				    _("<click here to select a folder>"));
@@ -103,8 +102,10 @@ set_folder (EvolutionFolderSelectorButton *folder_selector_button,
 	}
 
 	pixbuf = evolution_shell_client_get_pixbuf_for_type (priv->shell_client, folder->type, TRUE);
-	gtk_image_set_from_pixbuf (GTK_IMAGE (priv->icon), pixbuf);
-	g_object_unref (pixbuf);
+	if (pixbuf != NULL) {
+		gtk_image_set_from_pixbuf (GTK_IMAGE (priv->icon), pixbuf);
+		g_object_unref (pixbuf);
+	}
 
 	storage_lname = NULL;
 	p = strchr (folder->evolutionUri, '/');

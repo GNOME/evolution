@@ -26,9 +26,6 @@ module Evolution {
 
 		typedef sequence<string> FolderTypeNameList;
 
-		/* The X display name.  */
-		readonly attribute string displayName;
-
 		/**
 		 * getComponentByType:
 		 * @type: name of a valid folder type

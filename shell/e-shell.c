@@ -327,26 +327,6 @@ raise_exception_if_not_ready (PortableServer_Servant servant,
 	return FALSE;
 }
 
-static CORBA_char *
-impl_Shell__get_displayName (PortableServer_Servant servant,
-			     CORBA_Environment *ev)
-{
-	char *display_string;
-	CORBA_char *retval;
-
-	if (raise_exception_if_not_ready (servant, ev))
-		return NULL;
-
-	display_string = DisplayString (gdk_display);
-	if (display_string == NULL) 
-		return CORBA_string_dup ("");
-
-	retval = CORBA_string_dup (display_string);
-	XFree (display_string);
-
-	return retval;
-}
-
 static GNOME_Evolution_ShellComponent
 impl_Shell_getComponentByType (PortableServer_Servant servant,
 			       const CORBA_char *type,
@@ -1208,7 +1188,6 @@ e_shell_class_init (EShellClass *klass)
 			      G_TYPE_POINTER);
 
 	epv = & klass->epv;
-	epv->_get_displayName     = impl_Shell__get_displayName;
 	epv->getComponentByType   = impl_Shell_getComponentByType;
 	epv->getIconByType        = impl_Shell_getIconByType;
 	epv->createNewView        = impl_Shell_createNewView;

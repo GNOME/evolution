@@ -1,3 +1,26 @@
+2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-folder-selector-button.c (set_folder): If you can't
+	get a pixbuf icon for the folder's type, do not crash.  [#39599]
+
+	* e-shell.c (impl_Shell__get_displayName): Removed.  [#38974]
+	(e_shell_class_init): Do not install anymore.
+
+	* Evolution-Shell.idl: Remove displayName attribute.
+
+2003-03-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* importer/evolution-importer.c
+	(impl_GNOME_Evolution_Importer_loadFile): Get a physical_uri arg
+	instead of a folderpath arg.
+
+	* importer/evolution-importer-client.c
+	(evolution_importer_client_load_file): Get a physical_uri arg.
+
+	* e-shell-importer.c (start_import): Get a physical_uri arg
+	instead of a folderpath.
+	(folder_selected): Updated accordingly.
+
 2003-03-14  Dan Winship  <danw@ximian.com>
 
 	* e-storage.c (e_storage_get_has_subfolders): Add
