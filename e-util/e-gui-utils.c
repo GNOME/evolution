@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include "e-gui-utils.h"
+#include <e-util/e-icon-factory.h>
 
 #include <glib.h>
 #include <gtk/gtkalignment.h>
@@ -27,25 +28,23 @@
 
 #ifdef HAVE_LIBGNOMEUI_GNOME_ICON_LOOKUP_H
 #include <libgnomeui/gnome-icon-lookup.h>
-#else
-#include "art/empty.xpm"
 #endif
 
 GtkWidget *e_create_image_widget(gchar *name,
 				 gchar *string1, gchar *string2,
 				 gint int1, gint int2)
 {
-	char *filename;
 	GtkWidget *alignment = NULL;
 	if (string1) {
 		GtkWidget *w;
+		GdkPixbuf *pixbuf;
 
-		if (*string1 == '/')
-			filename = g_strdup(string1);
-		else
-			filename = g_build_filename (EVOLUTION_IMAGES, string1, NULL);
+		pixbuf = e_icon_factory_get_icon (string1, 48);
 
-		w = gtk_image_new_from_file (filename);
+		w = gtk_image_new_from_pixbuf (pixbuf);
+		g_object_unref (pixbuf);
+
+		gtk_misc_set_alignment (GTK_MISC (w), 0.5, 0.5);
 
 		alignment = gtk_widget_new(gtk_alignment_get_type(),
 					   "child", w,
@@ -56,7 +55,6 @@ GtkWidget *e_create_image_widget(gchar *name,
 					   NULL);
 
 		gtk_widget_show_all (alignment);
-		g_free (filename);
 	}
 
 	return alignment;
@@ -159,7 +157,7 @@ e_icon_for_mime_type (const char *mime_type, int size_hint)
 						      "document-icons/i-regular.png", TRUE, NULL);
 		if (!icon_path) {
 			g_warning ("Could not get any icon for %s!",mime_type);
-			return gdk_pixbuf_new_from_xpm_data((const char **)empty_xpm);
+			return e_icon_factory_get_icon (NULL, size_hint);
 		}
 	}
 #endif

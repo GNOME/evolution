@@ -1,3 +1,10 @@
+2004-04-16  Michael Terry  <mike@mterry.name>
+
+	* Makefile.am: Add e-icon-factory.[ch]
+	* e-gui-utils.c: Use the icon theme via EIconFactory
+	* e-icon-factory.[ch]: Move EIconFactory to e-util, and add icon theme
+	support to the object so evolution uses them
+
 2004-04-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-signature-list.c (gconf_signatures_changed): Don't add an
