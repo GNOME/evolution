@@ -6,7 +6,9 @@
 2001-09-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (storage_remove_folder): Unsubscribe from
-	the folder before deleting it.
+	the folder before deleting it. Also, use the url's path instead of
+	the shell's path since IMAP doesn't necessarily have to use "/" as
+	the dir sep.
 
 	* mail-ops.c (remove_folder_get): If the store supports
 	subscriptions, make sure to unsubscribe from the folder before

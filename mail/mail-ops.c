@@ -293,7 +293,7 @@ fetch_mail_fetch (struct _mail_msg *mm)
 					if (!fm->delete || camel_exception_is_set (&mm->ex))
 						camel_uid_cache_save (cache);
 					
-					/* if we are deleting off the server an no exception occured
+					/* if we are deleting off the server and no exception occured
 					 * then iterate through the folder uids and mark them all
 					 * for deletion. */
 					if (fm->delete && !camel_exception_is_set (&mm->ex)) {

@@ -902,65 +902,66 @@ storage_remove_folder (EvolutionStorage *storage,
 		       gpointer user_data)
 {
 	CamelStore *store = user_data;
-#if 0
 	CamelURL *url = NULL;
-	CamelFolderInfo *fi;
-#endif
+	/*CamelFolderInfo *fi;*/
 	CamelException ex;
-
+	
 	/* FIXME: Jeff does this look right? */
 	
 	g_warning ("storage_remove_folder: path=\"%s\"; uri=\"%s\"", path, physical_uri);
 	
-	if (*physical_uri) {
-		if (strncmp (physical_uri, "vtrash:", 7) == 0) {
-			notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
-			return;
-		}
-
-#if 0		
-		url = camel_url_new (physical_uri, NULL);
-		if (!url) {
-			notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
-			return;
-		}
-#endif
-	} else {
-		if (!*path) {
-			notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
-			return;
-		}
+	if (!path || !physical_uri || !strncmp (physical_uri, "vtrash:", 7)) {
+		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+		return;
+	}
+	
+	url = camel_url_new (physical_uri, NULL);
+	if (!url) {
+		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+		return;
+	}
+	
+	if (!*path) {
+		camel_url_free (url);
+		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+		return;
 	}
 	
 	camel_exception_init (&ex);
 #if 0
-	fi = camel_store_get_folder_info (store, url ? url->path + 1 : path + 1,
+	fi = camel_store_get_folder_info (store, url->path + 1,
 					  CAMEL_STORE_FOLDER_INFO_FAST, &ex);
-	if (url)
-		camel_url_free (url);
+	camel_url_free (url);
 	if (camel_exception_is_set (&ex))
 		goto exception;
-	
-	camel_store_delete_folder (store, fi->full_name, &ex);
-#endif
 	
 	if (camel_store_supports_subscriptions (store))
-		/*camel_store_unsubscribe_folder (store, fi->full_name, NULL);*/
-		camel_store_unsubscribe_folder (store, path+1, NULL);
+		camel_store_unsubscribe_folder (store, fi->full_name, NULL);
 	
-	camel_store_delete_folder (store, path+1, &ex);
+	camel_store_delete_folder (store, fi->full_name, &ex);
+	
+	camel_store_free_folder_info (store, fi);
+#else
+	
+	if (camel_store_supports_subscriptions (store))
+		camel_store_unsubscribe_folder (store, url->path + 1, NULL);
+	
+	camel_store_delete_folder (store, url->path + 1, &ex);
+	
+	camel_url_free (url);
 	if (camel_exception_is_set (&ex))
 		goto exception;
 	
-	evolution_storage_removed_folder (storage, path);
+#endif
 	
-	/*camel_store_free_folder_info (store, fi);*/
+	evolution_storage_removed_folder (storage, path);
 	
 	notify_listener (listener, GNOME_Evolution_Storage_OK);
 	return;
 	
  exception:
 	/* FIXME: do better than this... */
+	camel_exception_clear (&ex);
 #if 0
 	if (fi)
 		camel_store_free_folder_info (store, fi);
