@@ -1,3 +1,13 @@
+2005-02-07  Harry Lu  <harry.lu@sun.com>
+
+	Fix for 72275.
+	* em-folder-view.c: (emfv_popup_menu): try to bring up menu for
+	preivew html object.  
+	(emfv_format_popup_event): handle event == NULL case.
+	* em-format-html-display.c: (em_format_html_display_popup_menu):
+	New function to popup context menu.
+	* em-format-html-display.h: add new function declaration.
+
 2005-02-04  Not Zed  <NotZed@Ximian.com>
 
 	* em-subscribe-editor.c (sub_folderinfo_get): reverted jeff's

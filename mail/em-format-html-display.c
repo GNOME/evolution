@@ -612,6 +612,41 @@ efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormat
 	return res;
 }
 
+gboolean 
+em_format_html_display_popup_menu (EMFormatHTMLDisplay *efhd)
+{
+	GtkHTML *html;
+	HTMLEngine *e;
+	HTMLObject *obj;
+	const char *url;
+	gboolean res = FALSE;
+	gint offset;
+	EMFormatPURI *puri = NULL;
+	char *uri = NULL;
+
+	html = efhd->formathtml.html;
+	e = html->engine;
+	if (!efhd->caret_mode)
+		obj = html_engine_get_focus_object (e, &offset);
+	else {
+		obj = e->cursor->object;
+		offset = e->cursor->offset;
+	}
+
+	if ( obj != NULL
+	     && ((url = html_object_get_src(obj)) != NULL
+		 || (url = html_object_get_url(obj, offset)) != NULL)) {
+		uri = gtk_html_get_url_object_relative(html, obj, url);
+		puri = em_format_find_puri((EMFormat *)efhd, uri);
+	}
+
+	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, NULL, uri, puri?puri->part:NULL, &res);
+
+	g_free(uri);
+
+	return res;
+}
+
 static void
 efhd_html_link_clicked (GtkHTML *html, const char *url, EMFormatHTMLDisplay *efhd)
 {

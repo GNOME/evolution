@@ -2160,9 +2160,19 @@ emfv_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 static gboolean
 emfv_popup_menu (GtkWidget *widget)
 {
+	gboolean ret = FALSE;
 	EMFolderView *emfv = (EMFolderView *)widget;
 
-	emfv_popup (emfv, NULL);
+	/* Try to bring up menu for preview html object. 
+	   Currently we cannot directly connect to html's "popup_menu" signal 
+	   since it doesn't work.
+	*/
+		 
+	if (GTK_WIDGET_HAS_FOCUS (emfv->preview->formathtml.html))
+		ret = em_format_html_display_popup_menu (emfv->preview);
+		
+	if (!ret)
+		emfv_popup (emfv, NULL);
 
 	return TRUE;
 }
@@ -2288,7 +2298,10 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 	}
 
 	menu = e_popup_create_menu_once((EPopup *)emp, target, 0);
-	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
+	if (event == NULL)
+		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
+	else
+		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
 
 	return TRUE;
 }

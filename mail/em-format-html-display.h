@@ -58,6 +58,8 @@ void em_format_html_display_zoom_in (EMFormatHTMLDisplay *efhd);
 void em_format_html_display_zoom_out (EMFormatHTMLDisplay *efhd);
 void em_format_html_display_zoom_reset (EMFormatHTMLDisplay *efhd);
 
+gboolean em_format_html_display_popup_menu (EMFormatHTMLDisplay *efhd);
+
 /* experimental */
 struct _EPopupExtension;
 void em_format_html_display_set_popup(EMFormatHTMLDisplay *, struct _EPopupExtension *);
