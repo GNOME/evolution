@@ -34,15 +34,16 @@
 #define CF_CLASS(so) ((CamelFolderClass *)((CamelObject *)(so))->klass)
 
 static struct {
+	const char *full_name;
 	const char *name;
 	const char *expr;
 	guint32 bit;
 	guint32 flags;
 	const char *error_copy;
 } vdata[] = {
-	{ CAMEL_VTRASH_NAME, "(match-all (system-flag \"Deleted\"))", CAMEL_MESSAGE_DELETED, CAMEL_FOLDER_IS_TRASH,
+	{ CAMEL_VTRASH_NAME, N_("Trash"), "(match-all (system-flag \"Deleted\"))", CAMEL_MESSAGE_DELETED, CAMEL_FOLDER_IS_TRASH,
 	  N_("Cannot copy messages to the Trash folder") },
-	{ CAMEL_VJUNK_NAME, "(match-all (system-flag \"Junk\"))", CAMEL_MESSAGE_JUNK, CAMEL_FOLDER_IS_JUNK,
+	{ CAMEL_VJUNK_NAME, N_("Junk"), "(match-all (system-flag \"Junk\"))", CAMEL_MESSAGE_JUNK, CAMEL_FOLDER_IS_JUNK,
 	  N_("Cannot copy messages to the Junk folder") },
 };
 
@@ -109,7 +110,7 @@ camel_vtrash_folder_new (CamelStore *parent_store, enum _camel_vtrash_folder_t t
 	g_assert(type < CAMEL_VTRASH_FOLDER_LAST);
 
 	vtrash = (CamelVTrashFolder *)camel_object_new(camel_vtrash_folder_get_type());
-	camel_vee_folder_construct(CAMEL_VEE_FOLDER (vtrash), parent_store, vdata[type].name,
+	camel_vee_folder_construct(CAMEL_VEE_FOLDER (vtrash), parent_store, vdata[type].full_name, _(vdata[type].name),
 				   CAMEL_STORE_FOLDER_PRIVATE|CAMEL_STORE_FOLDER_CREATE|CAMEL_STORE_VEE_FOLDER_AUTO);
 
 	((CamelFolder *)vtrash)->folder_flags |= vdata[type].flags;

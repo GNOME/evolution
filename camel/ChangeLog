@@ -1,5 +1,16 @@
 2005-02-01  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #65329
+
+	* camel-vtrash-folder.c (camel_vtrash_folder_new): api chagne and
+	translate the short name.
+
+	* camel-vee-folder.c (camel_vee_folder_construct): take full-name
+	argument separately from short-name.
+	(camel_vee_folder_new): calculate short-name.
+
+2005-02-01  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #38791 and bug #36142.
 
 	* camel-gpg-context.c (gpg_ctx_op_step): use poll rather than

@@ -200,19 +200,13 @@ camel_vee_folder_finalise (CamelObject *obj)
 }
 
 void
-camel_vee_folder_construct (CamelVeeFolder *vf, CamelStore *parent_store, const char *name, guint32 flags)
+camel_vee_folder_construct (CamelVeeFolder *vf, CamelStore *parent_store, const char *full, const char *name, guint32 flags)
 {
 	CamelFolder *folder = (CamelFolder *)vf;
-	char *tmp;
 
 	vf->flags = flags;
-	vf->vname = g_strdup(name);
-	tmp = strrchr(vf->vname, '/');
-	if (tmp)
-		tmp++;
-	else
-		tmp = vf->vname;
-	camel_folder_construct(folder, parent_store, vf->vname, tmp);
+	vf->vname = g_strdup(full);
+	camel_folder_construct(folder, parent_store, full, name);
 
 	/* should CamelVeeMessageInfo be subclassable ..? */
 	folder->summary = camel_folder_summary_new();
@@ -225,7 +219,7 @@ camel_vee_folder_construct (CamelVeeFolder *vf, CamelStore *parent_store, const 
 /**
  * camel_vee_folder_new:
  * @parent_store: the parent CamelVeeStore
- * @name: the vfolder name
+ * @full: the full path to the vfolder.
  * @ex: a CamelException
  *
  * Create a new CamelVeeFolder object.
@@ -233,22 +227,28 @@ camel_vee_folder_construct (CamelVeeFolder *vf, CamelStore *parent_store, const 
  * Return value: A new CamelVeeFolder widget.
  **/
 CamelFolder *
-camel_vee_folder_new(CamelStore *parent_store, const char *name, guint32 flags)
+camel_vee_folder_new(CamelStore *parent_store, const char *full, guint32 flags)
 {
 	CamelVeeFolder *vf;
 	char *tmp;
 	
-	if (CAMEL_IS_VEE_STORE(parent_store) && strcmp(name, CAMEL_UNMATCHED_NAME) == 0) {
+	if (CAMEL_IS_VEE_STORE(parent_store) && strcmp(full, CAMEL_UNMATCHED_NAME) == 0) {
 		vf = ((CamelVeeStore *)parent_store)->folder_unmatched;
 		camel_object_ref(vf);
 	} else {
+		const char *name = strrchr(full, '/');
+
+		if (name == NULL)
+			name = full;
+		else
+			name++;
 		vf = (CamelVeeFolder *)camel_object_new(camel_vee_folder_get_type());
-		camel_vee_folder_construct(vf, parent_store, name, flags);
+		camel_vee_folder_construct(vf, parent_store, full, name, flags);
 	}
 
 	d(printf("returning folder %s %p, count = %d\n", name, vf, camel_folder_get_message_count((CamelFolder *)vf)));
 
-	tmp = g_strdup_printf("%s/%s.cmeta", ((CamelService *)parent_store)->url->path, name);
+	tmp = g_strdup_printf("%s/%s.cmeta", ((CamelService *)parent_store)->url->path, full);
 	camel_object_set(vf, NULL, CAMEL_OBJECT_STATE_FILE, tmp, NULL);
 	g_free(tmp);
 	if (camel_object_state_read(vf) == -1) {

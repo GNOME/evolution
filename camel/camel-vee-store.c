@@ -96,7 +96,7 @@ camel_vee_store_init (CamelVeeStore *obj)
 	/* Set up unmatched folder */
 	obj->unmatched_uids = g_hash_table_new (g_str_hash, g_str_equal);
 	obj->folder_unmatched = (CamelVeeFolder *)camel_object_new (camel_vee_folder_get_type ());
-	camel_vee_folder_construct (obj->folder_unmatched, store, CAMEL_UNMATCHED_NAME, CAMEL_STORE_FOLDER_PRIVATE);
+	camel_vee_folder_construct (obj->folder_unmatched, store, CAMEL_UNMATCHED_NAME, _("Unmatched"), CAMEL_STORE_FOLDER_PRIVATE);
 }
 
 static void
