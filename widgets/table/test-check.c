@@ -14,6 +14,7 @@
 #include "e-table-item.h"
 #include "e-util/e-cursors.h"
 #include "e-util/e-canvas-utils.h"
+#include "e-util/e-canvas.h"
 #include "e-util/e-util.h"
 #include "e-cell-text.h"
 #include "e-cell-checkbox.h"

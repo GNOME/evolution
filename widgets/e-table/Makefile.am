@@ -11,6 +11,7 @@ glade_headers = 				\
 INCLUDES =					\
 	$(EXTRA_GNOME_CFLAGS)			\
 	$(GNOME_INCLUDEDIR)			\
+	-DETABLE_GLADEDIR=\""$(gladedir)"\"	\
 	-I$(top_srcdir)/widgets/e-text		\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)
@@ -31,6 +32,8 @@ libetable_a_SOURCES = 				\
 	e-table.h				\
 	e-table-col.c				\
 	e-table-col.h				\
+	e-table-config.c			\
+	e-table-config.h			\
 	e-table-group.c				\
 	e-table-group.h				\
 	e-table-group-container.c		\

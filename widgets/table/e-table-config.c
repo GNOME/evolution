@@ -18,6 +18,7 @@
 #include "e-table-subset.h"
 #include "e-table-item.h"
 #include "e-table-group.h"
+#include "e-table-config.h"
 
 typedef struct {
 	GladeXML *gui;
@@ -41,18 +42,18 @@ get_fields (ETable *etable)
 	char *s;
 	
 	res = g_string_new ("");
-	xmlRoot = xmlDocGetRootElement (xmlSpec);
+	xmlRoot = xmlDocGetRootElement (etable->specification);
 	xmlColumns = e_xml_get_child_by_name (xmlRoot, "columns-shown");
 
 	for (column = xmlColumns->childs; column; column = column->next){
 		ETableCol *ecol;
-		int col = atoi (colum->childs->content);
+		int col = atoi (column->childs->content);
 
 		ecol = e_table_header_get_column (etable->header, col);
 
-		g_string_append (res, text);
+		g_string_append (res, ecol->text);
 		if (column->next)
-			g_string_appen (res, ", ");
+			g_string_append (res, ", ");
 	}
 	s = res->str;
 	g_string_free (res, FALSE);
@@ -83,9 +84,8 @@ get_filter (ETable *etable)
  * into the dialog for configuring it
  */
 static void
-load_label_data (GladeXML *gui, ETabel *etable)
+load_label_data (GladeXML *gui, ETable *etable)
 {
-	GtkWidget *l;
 	char *s;
 	
 	s = get_fields (etable);
@@ -125,13 +125,14 @@ cb_button_filter (GtkWidget *widget, ETable *etable)
 {
 }
 
-GtkWidget *
+GnomeDialog *
 e_table_gui_config (ETable *etable)
 {
 	GladeXML *gui;
 	GnomeDialog *dialog;
-		
-	gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-config.glade");
+	ConfigData *config_data;
+	
+	gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-config.glade", NULL);
 	if (!gui)
 		return NULL;
 
@@ -150,7 +151,11 @@ e_table_gui_config (ETable *etable)
 		GTK_OBJECT (glade_xml_get_widget (gui, "button-filter")),
 		"clicked", GTK_SIGNAL_FUNC (cb_button_filter), etable);
 
-	load_label_data (etable);
+	load_label_data (gui, etable);
+
+	config_data = g_new (ConfigData, 1);
+	config_data->gui = gui;
+	config_data->old_spec = e_table_get_specification (etable);
 	
 	gtk_object_set_data (
 		GTK_OBJECT (dialog), "config-data",
@@ -165,7 +170,7 @@ e_table_gui_destroy_config_data (GtkWidget *widget)
 	ConfigData *cd = gtk_object_get_data (GTK_OBJECT (widget), "config-data");
 
 	g_free (cd->old_spec);
-	gtk_object_destroy (cd->gui);
+	gtk_object_destroy (GTK_OBJECT (cd->gui));
 	g_free (cd);
 }
 	
@@ -192,7 +197,7 @@ e_table_do_gui_config (GtkWidget *parent, ETable *etable)
 		return;
 
 	if (parent)
-		gnome_dialog_set_parent (dialog, parent);
+		gnome_dialog_set_parent (dialog, GTK_WINDOW (parent));
 	
 	r = gnome_dialog_run (GNOME_DIALOG (dialog));
 

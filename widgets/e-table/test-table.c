@@ -10,6 +10,7 @@
 #include <string.h>
 #include <gnome.h>
 #include "e-util/e-cursors.h"
+#include "e-util/e-canvas.h"
 #include "e-table-simple.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
@@ -343,6 +344,10 @@ do_e_table_demo (const char *spec)
 	gtk_widget_show (vbox);
 	gtk_widget_show (frame);
 	gtk_widget_show (window);
+
+	if (getenv ("TEST")){
+		e_config_do_gui_config (NULL, e_table);
+	}
 }
 
 void
