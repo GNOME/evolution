@@ -1,3 +1,9 @@
+2001-08-07  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/calendar-model.c (calendar_model_free_value): Only unref the
+	FIELD_COMPONENT if it is non-NULL.  We return a NULL for that
+	field from ::initialize_value(), after all.  Fixes bug #6098.
+
 2001-08-07  JP Rosevear  <jpr@ximian.com>
 
 	* gui/itip-utils.c (itip_send_comp): Make calendar.ics the

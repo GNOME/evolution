@@ -1445,7 +1445,8 @@ calendar_model_free_value (ETableModel *etm, int col, void *value)
 
 	switch (col) {
 	case CAL_COMPONENT_FIELD_CATEGORIES:
-		g_free (value);
+		if (value)
+			g_free (value);
 		break;
 
 	case CAL_COMPONENT_FIELD_CLASSIFICATION:
@@ -1460,14 +1461,16 @@ calendar_model_free_value (ETableModel *etm, int col, void *value)
 	case CAL_COMPONENT_FIELD_PRIORITY:
 	case CAL_COMPONENT_FIELD_SUMMARY:
 	case CAL_COMPONENT_FIELD_STATUS:
-		g_free (value);
+		if (value)
+			g_free (value);
 		break;
 
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
 		break;
 
 	case CAL_COMPONENT_FIELD_URL:
-		g_free (value);
+		if (value)
+			g_free (value);
 		break;
 
 	case CAL_COMPONENT_FIELD_HAS_ALARMS:
@@ -1479,7 +1482,8 @@ calendar_model_free_value (ETableModel *etm, int col, void *value)
 		break;
 
 	case CAL_COMPONENT_FIELD_COMPONENT:
-		gtk_object_unref (GTK_OBJECT (value));
+		if (value)
+			gtk_object_unref (GTK_OBJECT (value));
 		break;
 
 	default:
