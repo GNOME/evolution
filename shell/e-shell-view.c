@@ -1008,7 +1008,7 @@ setup_storage_set_subwindow (EShellView *shell_view)
 
 	priv = shell_view->priv;
 
-	storage_set_view = e_storage_set_view_new (e_shell_get_storage_set (priv->shell),
+	storage_set_view = e_storage_set_new_view (e_shell_get_storage_set (priv->shell),
 						   priv->ui_container);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_selected",
 			    GTK_SIGNAL_FUNC (folder_selected_cb), shell_view);

@@ -2012,6 +2012,7 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 	insert_storages (storage_set_view);
 }
 
+/* DON'T USE THIS. Use e_storage_set_new_view() instead. */
 GtkWidget *
 e_storage_set_view_new (EStorageSet *storage_set,
 			BonoboUIContainer *container)

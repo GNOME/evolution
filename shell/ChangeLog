@@ -1,3 +1,14 @@
+2002-03-08  Dan Winship  <danw@ximian.com>
+
+	* e-storage-set-view.[ch]: Note that e_storage_set_view_new
+	shouldn't be used directly.
+
+	* e-shell-view.c (setup_storage_set_subwindow): Use
+	e_storage_set_new_view instead of e_storage_set_view_new.
+
+	* evolution-storage-set-view-factory.c
+	(evolution_storage_set_view_factory_new_view): Likewise.
+
 2002-03-07  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-test-component.c (create_configuration_page): New
