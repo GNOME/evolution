@@ -5947,7 +5947,7 @@ that you add to the directory on the LDAP server. </property>
                 <child>
                   <widget class="GtkLabel" id="label475">
                     <property name="label" translatable="yes">Selecting this option will let you change Evolution's default settings for LDAP
-searches, and for creating and editting contacts. </property>
+searches, and for creating and editing contacts. </property>
                     <property name="justify">GTK_JUSTIFY_LEFT</property>
                     <property name="wrap">no</property>
                     <property name="xalign">0.5</property>
