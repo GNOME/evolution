@@ -104,6 +104,7 @@ struct _EShellViewPrivate {
 	GtkWidget *status_bar;
 	GtkWidget *offline_toggle;
 	GtkWidget *offline_toggle_pixmap;
+	GtkWidget *menu_hint_label;
 	GtkWidget *task_bar;
 
 	/* The view we have already open.  */
@@ -643,11 +644,24 @@ setup_offline_toggle (EShellView *shell_view)
 }
 
 static void
-setup_task_bar (EShellView *task_bar)
+setup_menu_hint_label (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
 
-	priv = task_bar->priv;
+	priv = shell_view->priv;
+
+	priv->menu_hint_label = gtk_label_new ("");
+	gtk_misc_set_alignment (GTK_MISC (priv->menu_hint_label), 0.0, 0.5);
+
+	gtk_box_pack_start (GTK_BOX (priv->status_bar), priv->menu_hint_label, TRUE, TRUE, 0);
+}
+
+static void
+setup_task_bar (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+
+	priv = shell_view->priv;
 
 	priv->task_bar = e_task_bar_new ();
 
@@ -668,6 +682,7 @@ create_status_bar (EShellView *shell_view)
 	gtk_widget_show (priv->status_bar);
 
 	setup_offline_toggle (shell_view);
+	setup_menu_hint_label (shell_view);
 	setup_task_bar (shell_view);
 }
 
@@ -676,7 +691,7 @@ create_status_bar (EShellView *shell_view)
 
 static void
 ui_engine_add_hint_callback (BonoboUIEngine *engine,
-			     const char *str,
+			     const char *hint,
 			     void *data)
 {
 	EShellView *shell_view;
@@ -685,22 +700,41 @@ ui_engine_add_hint_callback (BonoboUIEngine *engine,
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-	g_print ("Hint -- %s\n", str);
+	gtk_label_set (GTK_LABEL (priv->menu_hint_label), hint);
+	gtk_widget_show (priv->menu_hint_label);
+	gtk_widget_hide (priv->task_bar);
+}
 
-	/* FIXME: Implement me.  */
+static void
+ui_engine_remove_hint_callback (BonoboUIEngine *engine,
+				void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	gtk_widget_hide (priv->menu_hint_label);
+	gtk_widget_show (priv->task_bar);
 }
 
 static void
 setup_statusbar_hints (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
+	BonoboUIEngine *ui_engine;
 
 	priv = shell_view->priv;
 
 	g_assert (priv->status_bar != NULL);
 
-	gtk_signal_connect (GTK_OBJECT (bonobo_window_get_ui_engine (BONOBO_WINDOW (shell_view))), "add_hint",
+	ui_engine = bonobo_window_get_ui_engine (BONOBO_WINDOW (shell_view));
+ 
+	gtk_signal_connect (GTK_OBJECT (ui_engine), "add_hint",
 			    GTK_SIGNAL_FUNC (ui_engine_add_hint_callback), shell_view);
+	gtk_signal_connect (GTK_OBJECT (ui_engine), "remove_hint",
+			    GTK_SIGNAL_FUNC (ui_engine_remove_hint_callback), shell_view);
 }
 
 
@@ -959,6 +993,7 @@ init (EShellView *shell_view)
 	priv->status_bar              = NULL;
 	priv->offline_toggle          = NULL;
 	priv->offline_toggle_pixmap   = NULL;
+	priv->menu_hint_label         = NULL;
 	priv->task_bar                = NULL;
 
 	priv->shortcut_bar_mode       = E_SHELL_VIEW_SUBWINDOW_HIDDEN;

@@ -1,5 +1,20 @@
 2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c: New member `menu_hint_label' in
+	`EShellViewPrivate'.
+	(init): Init to NULL.
+	(ui_engine_add_hint_callback): Set the label in the menu hint
+	label, show the menu hint label, hide the task bar.
+	(ui_engine_remove_hint_callback): New callback for the
+	"remove_hint" signal on the BonoboUIEngine; hide the hint label,
+	show the task bar.
+	(setup_statusbar_hints): Connect it.
+	(setup_menu_hint_label): New helper function to create the menu
+	hint label.
+	(create_status_bar): Call it.
+
+2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c (command_quit): Add a `gtk_main_quit()' at
 	the end here.
 
