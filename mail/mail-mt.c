@@ -395,21 +395,23 @@ struct _pass_msg {
 };
 
 /* libgnomeui's idea of an api/gui is very weird ... hence this dumb hack */
-static void focus_on_entry(GtkWidget *widget, void *user_data)
+static void
+focus_on_entry (GtkWidget *widget, void *user_data)
 {
-	if (GTK_IS_ENTRY(widget))
-		gtk_widget_grab_focus(widget);
+	if (GTK_IS_ENTRY (widget))
+		gtk_widget_grab_focus (widget);
 }
 
-static void pass_got(char *string, void *data)
+static void
+pass_got (char *string, void *data)
 {
 	struct _pass_msg *m = data;
-
+	
 	if (string) {
-		MailConfigAccount *mca;
-
+		const MailConfigAccount *mca;
+		
 		m->result = g_strdup (string);
-
+		
 		mca = mail_config_get_account_by_source_url (m->service_url);
 		mail_config_service_set_save_passwd (mca->source,
 			gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->tb)));
@@ -420,14 +422,14 @@ static void
 do_get_pass(struct _mail_msg *mm)
 {
 	struct _pass_msg *m = (struct _pass_msg *)mm;
+	const MailConfigAccount *mca;
 	GtkWidget *dialogue;
 	GtkWidget *tb;
-	MailConfigAccount *mca;
-
+	
 	/* this api is just awful ... hence the hacks */
 	dialogue = gnome_request_dialog(m->secret, m->prompt, NULL,
 					0, pass_got, m, NULL);
-
+	
 	/* Remember the password? */
 	mca = mail_config_get_account_by_source_url (m->service_url);
 	tb = gtk_check_button_new_with_label (_("Remember this password"));

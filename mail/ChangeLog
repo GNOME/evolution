@@ -2,6 +2,7 @@
 
 	* mail-session.c (make_key): Don't make the key url:item if we
 	have the url, just make it url. This fixes bug #5339.
+	(mail_session_set_password): Removed.
 
 2001-07-25  Peter Williams  <peterw@ximian.com>
 

@@ -860,9 +860,7 @@ enumerate_msg (MessageList *ml, const char *uid, gpointer data)
 static EMsgComposer *
 forward_get_composer (CamelMimeMessage *message, const char *subject)
 {
-	const CamelInternetAddress *to_addrs, *cc_addrs;
 	const MailConfigAccount *account = NULL;
-	const GSList *accounts = NULL;
 	EMsgComposer *composer;
 	
 	if (message) {

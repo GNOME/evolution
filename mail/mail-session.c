@@ -460,18 +460,3 @@ mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
 	gnome_config_private_clean_section ("/Evolution/Passwords");
 	gnome_config_sync ();
 }
-
-void
-mail_session_set_password (const char *url_string, const char *password)
-{
-	GHashTable *passwords = MAIL_SESSION (session)->passwords;
-	char *simple_url;
-	CamelURL *url;
-	
-	url = camel_url_new (url_string, NULL);
-	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
-	camel_url_free (url);
-	
-	g_hash_table_insert (passwords, simple_url, g_strdup (password));
-}
-
