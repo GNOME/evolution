@@ -102,11 +102,12 @@ create_importer_gui (NetscapeImporter *importer)
 {
 	GtkWidget *dialog;
 
-	dialog = gnome_message_box_new ("", GNOME_MESSAGE_BOX_INFO, NULL);
+	dialog = gnome_message_box_new (_("Evolution is importing your old Netscape data"), GNOME_MESSAGE_BOX_INFO, NULL);
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Importing..."));
 
 	importer->label = gtk_label_new (_("Please wait"));
 	importer->progressbar = gtk_progress_bar_new ();
+	gtk_progress_set_activity_mode (GTK_PROGRESS (importer->progressbar), TRUE);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
 			    importer->label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
@@ -558,6 +559,21 @@ netscape_can_import (EvolutionIntelligentImporter *ii,
 	}
 }
 
+static gboolean
+importer_timeout_fn (gpointer data)
+{
+	NetscapeImporter *importer = (NetscapeImporter *) data;
+	CORBA_Object objref;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
+	GNOME_Evolution_Importer_processItem (importer->importer, objref, &ev);
+	CORBA_exception_free (&ev);
+
+	return FALSE;
+}
+
 static void
 importer_cb (EvolutionImporterListener *listener,
 	     EvolutionImporterResult result,
@@ -568,7 +584,23 @@ importer_cb (EvolutionImporterListener *listener,
 	CORBA_Object objref;
 	CORBA_Environment ev;
 
+	if (result == EVOLUTION_IMPORTER_NOT_READY ||
+	    result == EVOLUTION_IMPORTER_BUSY) {
+		gtk_timeout_add (5000, importer_timeout_fn, data);
+		return;
+	}
+
 	if (more_items) {
+		GtkAdjustment *adj;
+		float newval;
+
+		adj = GTK_PROGRESS (importer->progressbar)->adjustment;
+		newval = adj->value + 1;
+		if (newval > adj->upper) {
+			newval = adj->lower;
+		}
+
+		gtk_progress_set_value (GTK_PROGRESS (importer->progressbar), newval);
 		CORBA_exception_init (&ev);
 		objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
 		GNOME_Evolution_Importer_processItem (importer->importer,
@@ -581,8 +613,6 @@ importer_cb (EvolutionImporterListener *listener,
 		CORBA_exception_free (&ev);
 		return;
 	}
-
-	gtk_progress_set_value (GTK_PROGRESS (importer->progressbar), 1);
 
 	if (importer->dir_list) {
 		import_next (importer);

@@ -332,6 +332,21 @@ import_addressbook (PineImporter *importer)
 	g_free (uri);
 }
 
+static gboolean
+importer_timeout_fn (gpointer data)
+{
+	PineImporter *importer = (PineImporter *) data;
+	CORBA_Object objref;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
+	GNOME_Evolution_Importer_processItem (importer->importer, objref, &ev);
+	CORBA_exception_free (&ev);
+
+	return FALSE;
+}
+
 static void
 importer_cb (EvolutionImporterListener *listener,
 	     EvolutionImporterResult result,
@@ -341,6 +356,12 @@ importer_cb (EvolutionImporterListener *listener,
 	PineImporter *importer = (PineImporter *) data;
 	CORBA_Object objref;
 	CORBA_Environment ev;
+
+	if (result == EVOLUTION_IMPORTER_NOT_READY ||
+	    result == EVOLUTION_IMPORTER_BUSY) {
+		gtk_timeout_add (5000, importer_timeout_fn, data);
+		return;
+	}
 
 	if (more_items) {
 		CORBA_exception_init (&ev);
@@ -380,7 +401,7 @@ pine_import_file (PineImporter *importer,
 	result = GNOME_Evolution_Importer_loadFile (importer->importer, path,
 						    folderpath, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
-		g_warning ("Exception here: %s", CORBA_exception_id (&ev));
+		g_warning ("Exception here: %s\n%s, %s", CORBA_exception_id (&ev), path, folderpath);
 		CORBA_Object_release (importer->importer, &ev);
 		CORBA_exception_free (&ev);
 		return FALSE;

@@ -1,5 +1,19 @@
 2001-08-29  Iain Holmes  <iain@ximian.com>
 
+	* netscape-importer.c (importer_cb): Handle the case if the importer
+	isn't ready or is busy.
+	(importer_timeout_fn): One shot timeout function to call the importer
+	again.
+	
+	* pine-importer.c (importer_cb): Same.
+
+2001-08-29  Iain Holmes  <iain@ximian.com>
+
+	* netscape-importer.c (create_importer_gui): Add a message.
+	(importer_cb): Make the progressbar move (ohhh pretty).
+
+2001-08-29  Iain Holmes  <iain@ximian.com>
+
 	* netscape-importer.c (create_importer_gui): Create a progress GUI.
 	(importer_cb): Update GUI.
 	(netscape_import_file): Update GUI.
