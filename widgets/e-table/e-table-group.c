@@ -8,93 +8,132 @@
  */
 
 #include <config.h>
+#include <gtk/gtksignal.h>
 #include "e-table-group.h"
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include "e-util.h"
 
-void
-e_table_group_destroy (ETableGroup *etg)
+#define TITLE_HEIGHT         16
+#define GROUP_INDENT         10
+
+#define PARENT_TYPE gnome_canvas_group_get_type ()
+
+static GnomeCanvasGroupClass *etg_parent_class;
+
+static void
+etg_destroy (GtkObject *object)
 {
-	g_return_if_fail (etg != NULL);
-
-	g_free (etg->title);
-
-	if (etg->is_leaf == 0){
-		GSList *l;
-
-		for (l = etg->u.children; l; l = l->next){
-			ETableGroup *child = l->data;
-
-			e_table_group_destroy (child);
-		}
-		g_slist_free (etg->u.children);
-		etg->u.children = NULL;
-	}
-	g_free (etg);
+	ETableGroup *etg = E_TABLE_GROUP (object);
+	
+	gtk_object_unref (GTK_OBJECT (etg->ecol));
+	
+	GTK_OBJECT_CLASS (etg_parent_class)->destroy (object);
 }
 
-ETableGroup *
-e_table_group_new_leaf (const char *title, ETableModel *table)
+static int
+etg_width (ETableGroup *etg)
 {
-	ETableGroup *etg;
-
-	g_return_val_if_fail (title != NULL, NULL);
-	g_return_val_if_fail (table != NULL, NULL);
-	
-	etg = g_new (ETableGroup, 1);
-
-	etg->expanded = 0;
-	etg->is_leaf = 1;
-	etg->u.table = table;
-	etg->title = g_strdup (title);
-
-	return etg;
+	return e_table_header_total_width (etg->header) + GROUP_INDENT;
 }
 
-ETableGroup *
-e_table_group_new (const char *title)
+static int
+etg_height (ETableGroup *etg)
 {
-	ETableGroup *etg;
-
-	g_return_val_if_fail (title != NULL, NULL);
+	GnomeCanvasItem *child = etg->child;
 	
-	etg = g_new (ETableGroup, 1);
+	return TITLE_HEIGHT + (child->y2 - child->y1);
+}
 
-	etg->expanded = 0;
-	etg->is_leaf = 0;
-	etg->u.children = NULL;
-	etg->title = g_strdup (title);
-
-	return etg;
+static void
+etg_header_changed (ETableHeader *header, ETableGroup *etg)
+{
+	gnome_canvas_item_set (
+		etg->rect,
+		"x2", (double) etg_width (etg),
+		NULL);
 }
 
 void
-e_table_group_append_child (ETableGroup *etg, ETableGroup *child)
+e_table_group_construct (GnomeCanvasGroup *parent, ETableGroup *etg, 
+			 ETableHeader *header, int col,
+			 GnomeCanvasItem *child, int open)
 {
-	g_return_if_fail (etg != NULL);
-	g_return_if_fail (child != NULL);
-	g_return_if_fail (etg->is_leaf != 0);
+	gnome_canvas_item_constructv (GNOME_CANVAS_ITEM (etg), parent, 0, NULL);
+	
+	gtk_object_ref (GTK_OBJECT (header));
 
-	etg->u.children = g_slist_append (etg->u.children, child);
+	etg->header = header;
+	etg->col = col;
+	etg->ecol = e_table_header_get_column (header, col);
+	etg->open = open;
+
+	gtk_signal_connect (
+		GTK_OBJECT (header), "dimension_change",
+		GTK_SIGNAL_FUNC (etg_header_changed), etg);
+
+	etg->child = child;
+
+	etg->rect = gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (etg),
+		gnome_canvas_rect_get_type (),
+		"fill_color", "gray",
+		"outline_color", "gray20",
+		"x1", 0.0,
+		"y1", 0.0,
+		"x2", (double) etg_width (etg),
+		"y2", (double) etg_height (etg),
+		NULL);
+
+	
+	/*
+	 * Reparent the child into our space.
+	 */
+	gnome_canvas_item_reparent (child, GNOME_CANVAS_GROUP (etg));
+
+	gnome_canvas_item_set (
+		child,
+		"x", (double) GROUP_INDENT,
+		"y", (double) TITLE_HEIGHT,
+		NULL);
 }
 
-#if 0
-int
-e_table_group_size (ETableGroup *etg)
+GnomeCanvasItem *
+e_table_group_new (GnomeCanvasGroup *parent, ETableHeader *header, int col, GnomeCanvasItem *child, int open)
 {
-	g_return_val_if_fail (etg != NULL, 0);
+	ETableGroup *etg;
 
-	if (etg->is_leaf)
-		return e_table_model_height (etg->u.table);
-	else {
-		GSList *l;
-		int size = 0;
-		
-		for (l = etg->u.children; l; l = l->next){
-			ETableGroup *child = l->data;
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (header != NULL, NULL);	
+	g_return_val_if_fail (child != NULL, NULL);
+	
+	etg = gtk_type_new (e_table_group_get_type ());
 
-			size += e_table_group_size (child);
-		}
-		return size;
-	}
+	e_table_group_construct (parent, etg, header, col, child, open);
+
+	return GNOME_CANVAS_ITEM (etg);
 }
 
-#endif
+static void
+etg_realize (GnomeCanvasItem *item)
+{
+	ETableGroup *etg = E_TABLE_GROUP (item);
+	
+	GNOME_CANVAS_ITEM_CLASS (etg_parent_class)->realize (item);
+}
+
+static void
+etg_class_init (GtkObjectClass *object_class)
+{
+	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
+
+	object_class->destroy = etg_destroy;
+
+	item_class->realize = etg_realize;
+
+	etg_parent_class = gtk_type_class (PARENT_TYPE);
+}
+
+E_MAKE_TYPE (e_table_group, "ETableGroup", ETableGroup, etg_class_init, NULL, PARENT_TYPE);
+
+
+

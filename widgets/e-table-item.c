@@ -461,11 +461,11 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 		
 	case ARG_TABLE_X:
-		eti->x1 = GTK_VALUE_INT (*arg);
+		eti->x1 = GTK_VALUE_DOUBLE (*arg);
 		break;
 
 	case ARG_TABLE_Y:
-		eti->y1 = GTK_VALUE_INT (*arg);
+		eti->y1 = GTK_VALUE_DOUBLE (*arg);
 		break;
 
 	case ARG_LENGHT_THRESHOLD:
@@ -974,9 +974,9 @@ eti_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
 	gtk_object_add_arg_type ("ETableItem::ETableModel", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_TABLE_MODEL);
-	gtk_object_add_arg_type ("ETableItem::x", GTK_TYPE_INT,
+	gtk_object_add_arg_type ("ETableItem::x", GTK_TYPE_DOUBLE,
 				 GTK_ARG_WRITABLE, ARG_TABLE_X);
-	gtk_object_add_arg_type ("ETableItem::y", GTK_TYPE_INT,
+	gtk_object_add_arg_type ("ETableItem::y", GTK_TYPE_DOUBLE,
 				 GTK_ARG_WRITABLE, ARG_TABLE_Y);
 	gtk_object_add_arg_type ("ETableItem::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);

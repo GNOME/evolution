@@ -143,6 +143,7 @@ e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
 	eth_update_offsets (eth);
 
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
+	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE]);
 }
 
 ETableCol *
@@ -283,6 +284,7 @@ e_table_header_move (ETableHeader *eth, int source_index, int target_index)
 	eth_update_offsets (eth);
 	
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
+	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE]);
 }
 
 void
@@ -295,6 +297,7 @@ e_table_header_remove (ETableHeader *eth, int idx)
 
 	eth_do_remove (eth, idx, TRUE);
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
+	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE]);
 }
 
 void

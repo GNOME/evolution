@@ -1,5 +1,16 @@
 1999-12-12  Miguel de Icaza  <miguel@helixcode.com>
 
+	* e-table-item.c (eti_class_init): X and Y arguments are now
+	doubles (to make it consistent with the rest of the canvas x, y
+	arguments). 
+
+	* e-table.c (e_table_create_leaf): Use new argument values here 
+
+	* test-*.c: Update to new argument types for x and y
+
+	* e-table-group.c: New implementation as a canvas item used to
+	group childs. 
+
 	* e-table-item.c (eti_update): Make this play nicely with groups.
 	(eti_draw): ditto.
 	(eti_request_region_redraw): ditto.

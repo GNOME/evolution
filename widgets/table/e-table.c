@@ -19,6 +19,7 @@
 #include "e-table-header-item.h"
 #include "e-table-subset.h"
 #include "e-table-item.h"
+#include "e-table-group.h"
 
 #define COLUMN_HEADER_HEIGHT 16
 #define TITLE_HEIGHT         16
@@ -28,10 +29,10 @@
 
 static GtkObjectClass *e_table_parent_class;
 
-typedef struct {
+typedef struct { 
 	ETableModel     *table;
 	GnomeCanvasItem *table_item;
-	GnomeCanvasItem *rect;
+	GnomeCanvasItem *lead;
 } Leaf;
 
 typedef struct {
@@ -87,6 +88,14 @@ e_table_make_header (ETable *e_table, ETableHeader *full_header, const char *col
 }
 
 static void
+header_canvas_size_alocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_table)
+{
+	gnome_canvas_set_scroll_region (
+		GNOME_CANVAS (e_table->header_canvas),
+		0, 0, alloc->width, COLUMN_HEADER_HEIGHT);
+}
+
+static void
 e_table_setup_header (ETable *e_table)
 {
 	e_table->header_canvas = GNOME_CANVAS (gnome_canvas_new ());
@@ -101,9 +110,11 @@ e_table_setup_header (ETable *e_table)
 		"y", 0,
 		NULL);
 
+	gtk_signal_connect (
+		GTK_OBJECT (e_table->header_canvas), "size_allocate",
+		GTK_SIGNAL_FUNC (header_canvas_size_alocate), e_table);
+				 
 	gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -1, COLUMN_HEADER_HEIGHT);
-	g_warning ("Aqui");
-	e_table->header_canvas = 0;
 	
 	gtk_table_attach (
 		GTK_TABLE (e_table), GTK_WIDGET (e_table->header_canvas),
@@ -112,10 +123,9 @@ e_table_setup_header (ETable *e_table)
 }
 
 static Leaf *
-e_table_create_leaf (ETable *e_table, int x_off, int y_off, ETableModel *etm)
+e_table_create_leaf (ETable *e_table, ETableModel *etm, int col, int height)
 {
 	Leaf *leaf;
-	int height;
 	
 	leaf = g_new (Leaf, 1);
 	leaf->table = etm;
@@ -125,26 +135,21 @@ e_table_create_leaf (ETable *e_table, int x_off, int y_off, ETableModel *etm)
 		e_table_item_get_type (),
 		"ETableHeader", e_table->header,
 		"ETableModel",  etm,
-		"x", x_off + GROUP_INDENT,
-		"y", y_off + TITLE_HEIGHT,
+		"x", (double) 0,
+		"y", (double) 0,
 		"drawgrid", e_table->draw_grid,
 		"drawfocus", e_table->draw_focus,
 		"spreadsheet", e_table->spreadsheet,
 		NULL);
 
-	height = E_TABLE_ITEM (leaf->table_item)->height;
-
-	leaf->rect = gnome_canvas_item_new (
+	leaf->lead = e_table_group_new (
 		gnome_canvas_root (e_table->table_canvas),
-		gnome_canvas_rect_get_type (),
-		"x1", (double) x_off,
-		"y1", (double) y_off,
-		"x2", (double) x_off + e_table->gen_header_width + GROUP_INDENT,
-		"y2", (double) y_off + TITLE_HEIGHT + height,
-		"fill_color", "gray",
-		"outline_color", "gray20",
+		e_table->header, col, leaf->table_item, TRUE);
+
+	gnome_canvas_item_set (
+		leaf->lead,
+		"y", (double) height,
 		NULL);
-	gnome_canvas_item_lower (leaf->rect, 1);
 
 	return leaf;
 }
@@ -242,40 +247,30 @@ e_table_make_subtables (ETableModel *model, GArray *groups)
 static int
 leaf_height (Leaf *leaf)
 {
-	return E_TABLE_ITEM (leaf->table_item)->height + TITLE_HEIGHT;
+	return leaf->lead->y2 - leaf->lead->y1;
 }
 
-static int
+static Leaf *
 e_table_create_nodes (ETable *e_table, ETableModel *model, ETableHeader *header,
-		      GnomeCanvasGroup *root, int x_off, int y_off,
-		      int *groups_list)
+		      GnomeCanvasGroup *root, int height, int *groups_list)
 {
 	GArray *groups;
 	ETableModel **tables;
-	int key_col;
-	int height, i;
+	int key_col, i;
 	GCompareFunc comp;
-
+	Leaf *leaf;
+	GnomeCanvasItem *group;
+	
 	if (groups_list)
 		key_col = *groups_list;
 	else
 		key_col = -1;
 	
 	if (key_col == -1){
-		Leaf *leaf;
-
 		printf ("Leaf->with %d rows\n", e_table_model_row_count (model));
-		leaf = e_table_create_leaf (e_table, x_off, y_off, model);
+		leaf = e_table_create_leaf (e_table, model, key_col, height);
 
-		{
-			static int warn_shown;
-
-			if (!warn_shown){
-				g_warning ("Leak");
-				warn_shown = 1;
-			}
-		}
-		return leaf_height (leaf);
+		return leaf;
 	}
 
 	/*
@@ -286,16 +281,31 @@ e_table_create_nodes (ETable *e_table, ETableModel *model, ETableHeader *header,
 	tables = e_table_make_subtables (e_table->model, groups);
 	e_table_destroy_groups (groups);
 
+	leaf = g_new0 (Leaf, 1);
+
+	leaf->table = NULL;
+	leaf->table_item = NULL;
+	group = gnome_canvas_item_new (
+		root,
+		gnome_canvas_group_get_type (),
+		NULL);
+
 	height = 0;
 	for (i = 0; tables [i] != NULL; i++){
 		printf ("Creating->%d with %d rows\n", i, e_table_model_row_count (tables [i]));
-		height += e_table_create_nodes (
-			e_table, tables [i], header, root,
-			x_off + 20,
-			y_off + height, &groups_list [1]);
+
+		leaf = e_table_create_nodes (
+			e_table, tables [i], header, GNOME_CANVAS_GROUP (group), height,
+			&groups_list [1]);
+		
+		height += leaf_height (leaf);
 	}
+
+	leaf->lead = e_table_group_new (
+		root,
+		e_table->header, key_col, group, TRUE);
 	
-	return height;
+	return leaf;
 }
 
 static int *
@@ -362,8 +372,8 @@ e_table_canvas_realize (GtkWidget *widget)
 {
 	ETableCanvas *e_table_canvas = (ETableCanvas *) widget;
 	ETable *e_table = e_table_canvas->e_table;
+	Leaf *leaf;
 	int *groups;
-	int height;
 
 	GTK_WIDGET_CLASS (e_table_canvas_parent_class)->realize (widget);
 	
@@ -378,9 +388,9 @@ e_table_canvas_realize (GtkWidget *widget)
 		
 	e_table->gen_header_width = e_table_header_total_width (e_table->header);
 	
-	height = e_table_create_nodes (
+	leaf = e_table_create_nodes (
 		e_table, e_table->model,
-		e_table->header, GNOME_CANVAS_GROUP (e_table->root), 0, 0, groups);
+		e_table->header, GNOME_CANVAS_GROUP (e_table->root), 0, groups);
 
 	{
 		static int warn_shown;
@@ -395,7 +405,7 @@ e_table_canvas_realize (GtkWidget *widget)
 		GNOME_CANVAS (e_table_canvas),
 		0, 0,
 		e_table_header_total_width (e_table->header) + 200,
-		height);
+		leaf_height (leaf));
 
 	if (groups)
 		g_free (groups);
