@@ -31,6 +31,11 @@
 
 2003-12-10  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-tree.c (em_folder_tree_get_folder_info__got): check
+	m->fi != NULL before dereferencing it.
+
+2003-12-10  Not Zed  <NotZed@Ximian.com>
+
 	* em-format-html-display.c (efhd_multipart_signed):
 	* em-format-html.c (efh_multipart_signed): 
 	* em-format.c (emf_multipart_signed): treat

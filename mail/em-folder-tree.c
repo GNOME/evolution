@@ -625,7 +625,7 @@ em_folder_tree_get_folder_info__got (struct _mail_msg *mm)
 	/* FIXME: camel's IMAP code is totally on crack here, @top's
 	 * folder info should be @fi and fi->child should be what we
 	 * want to fill our tree with... *sigh* */
-	if (m->top && !strcmp (m->fi->full_name, m->top)) {
+	if (m->top && m->fi && !strcmp (m->fi->full_name, m->top)) {
 		if (!(fi = m->fi->child))
 			fi = m->fi->sibling;
 	} else
