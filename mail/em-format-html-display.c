@@ -642,16 +642,6 @@ static const struct {
 	{ "pgp-signature-nokey.png", N_("Valid signature, cannot verify sender"), N_("This message is signed with a valid signature, but the sender of the message cannot be verified.") },
 };
 
-/* alternate sign_table descriptions for the GOOD signature case */
-static const char *smime_sign_trust[6] = {
-	NULL,
-	N_("This message is signed and valid but the sender is never to be trusted."),
-	N_("This message is signed and valid but there is no indication that the signature belongs to the sender."),
-	NULL,
-	NULL,
-	NULL,
-};
-
 static const struct {
 	const char *icon, *shortdesc, *description;
 } smime_encrypt_table[4] = {
@@ -775,14 +765,7 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 	po->widget = glade_xml_get_widget(xml, "message_security_dialog");
 
 	vbox = glade_xml_get_widget(xml, "signature_vbox");
-	
-	if (po->valid->sign.trust)
-		alt_desc = smime_sign_trust[po->valid->sign.trust];
-	if (po->valid->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD && alt_desc)
-		w = gtk_label_new (_(alt_desc));
-	else
-		w = gtk_label_new (_(smime_sign_table[po->valid->sign.status].description));
-	
+	w = gtk_label_new (_(smime_sign_table[po->valid->sign.status].description));
 	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
 	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
 	gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
@@ -831,11 +814,8 @@ efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	const char *name;
 
 	/* FIXME: need to have it based on encryption and signing too */
-	if (po->valid->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD)
-		name = "pgp-signature-ok.png";
-	else
-		name = "pgp-signature-bad.png";
-
+	name = smime_sign_table[po->valid->sign.status].icon;
+	
 	file = g_build_filename(EVOLUTION_ICONSDIR, name, NULL);
 	pixbuf = gdk_pixbuf_new_from_file(file, NULL);
 	g_free(file);

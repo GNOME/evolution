@@ -1,3 +1,9 @@
+2004-02-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-format-html-display.c (efhd_xpkcs7mime_validity_clicked):
+	Revert change from yesterday.
+	(efhd_xpkcs7mime_button): Use the icon from the table.
+
 2004-02-18  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #54492.
