@@ -1,3 +1,10 @@
+2003-06-05  Not Zed  <NotZed@Ximian.com>
+
+	** For #42691.
+
+	* Makefile.am (%.server.in): use implicit rule.
+	(BUILT_SOURCES): added server_DATA
+
 2003-06-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-mail.c (e_summary_mail_get_info): Protect against

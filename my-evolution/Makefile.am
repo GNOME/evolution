@@ -86,7 +86,7 @@ Location_DATA = Locations
 server_in_files = GNOME_Evolution_Summary.server.in.in
 
 server_DATA = $(server_in_files:.server.in.in=.server)
-$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+%.server.in: %.server.in.in
 	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
@@ -123,7 +123,7 @@ EXTRA_DIST = 				\
 	check-filled.xpm		\
 	check-none.xpm
 
-BUILT_SOURCES = $(IDL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
