@@ -1,3 +1,8 @@
+2003-04-30  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar): removed
+	unused code.
+	
 2003-04-29  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/task-editor.c (task_editor_finalize): ditto

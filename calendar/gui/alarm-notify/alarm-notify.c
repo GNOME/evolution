@@ -436,26 +436,8 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	}
 
 	if (g_hash_table_lookup_extended (priv->uri_client_hash, str_uri, &s_ptr, &lc_ptr)) {
-		char *s;
-
 		lc = lc_ptr;
-		s = s_ptr;
-
 		lc->refcount++;
-
-		/*g_hash_table_remove (priv->uri_client_hash, str_uri);
-
-		g_signal_handlers_disconnect_matched (G_OBJECT (lc->client),
-						      G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, lc);
-		if (lc->timeout_id != -1)
-			g_source_remove (lc->timeout_id);
-		alarm_queue_remove_client (lc->client);
-		g_object_unref (G_OBJECT (lc->client));
-		e_uri_free (lc->uri);
-
-		g_free (lc);
-		g_free (s);*/
 	} else {
 		client = cal_client_new ();
 
