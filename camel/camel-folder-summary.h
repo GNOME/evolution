@@ -103,6 +103,7 @@ enum {
 	CAMEL_MESSAGE_INFO_FROM,
 	CAMEL_MESSAGE_INFO_TO,
 	CAMEL_MESSAGE_INFO_CC,
+	CAMEL_MESSAGE_INFO_MLIST,
 	CAMEL_MESSAGE_INFO_LAST,
 };
 #endif
@@ -113,12 +114,13 @@ struct _CamelMessageInfo {
 #ifdef DOESTRV
 	struct _EStrv *strings;		/* all strings packed into a single compact array */
 #else
-	gchar *subject;
-	gchar *from;
-	gchar *to;
-	gchar *cc;
+	char *subject;
+	char *from;
+	char *to;
+	char *cc;
+	char *mlist;
 
-	gchar *uid;
+	char *uid;
 #endif
 	guint32 flags;
 	guint32 size;
@@ -302,6 +304,7 @@ const char *camel_message_info_string(const CamelMessageInfo *mi, int type);
 #define camel_message_info_to(x) camel_message_info_string((const CamelMessageInfo *)(x), CAMEL_MESSAGE_INFO_TO)
 #define camel_message_info_cc(x) camel_message_info_string((const CamelMessageInfo *)(x), CAMEL_MESSAGE_INFO_CC)
 #define camel_message_info_uid(x) camel_message_info_string((const CamelMessageInfo *)(x), CAMEL_MESSAGE_INFO_UID)
+#define camel_message_info_mlist(x) camel_message_info_string((const CamelMessageInfo *)(x), CAMEL_MESSAGE_INFO_MLIST)
 
 void camel_message_info_set_string(CamelMessageInfo *mi, int type, char *str);
 #define camel_message_info_set_subject(x, s) camel_message_info_set_string(x, CAMEL_MESSAGE_INFO_SUBJECT, s)
@@ -309,6 +312,7 @@ void camel_message_info_set_string(CamelMessageInfo *mi, int type, char *str);
 #define camel_message_info_set_to(x, s) camel_message_info_set_string(x, CAMEL_MESSAGE_INFO_TO, s)
 #define camel_message_info_set_cc(x, s) camel_message_info_set_string(x, CAMEL_MESSAGE_INFO_CC, s)
 #define camel_message_info_set_uid(x, s) camel_message_info_set_string(x, CAMEL_MESSAGE_INFO_UID, s)
+#define camel_message_info_set_mlist(x, s) camel_message_info_set_string(x, CAMEL_MESSAGE_INFO_MLIST, s)
 
 #else
 
@@ -317,12 +321,14 @@ void camel_message_info_set_string(CamelMessageInfo *mi, int type, char *str);
 #define camel_message_info_to(x) (((CamelMessageInfo *)(x))->to?((CamelMessageInfo *)(x))->to:"")
 #define camel_message_info_cc(x) (((CamelMessageInfo *)(x))->cc?((CamelMessageInfo *)(x))->cc:"")
 #define camel_message_info_uid(x) (((CamelMessageInfo *)(x))->uid?((CamelMessageInfo *)(x))->uid:"")
+#define camel_message_info_mlist(x) (((CamelMessageInfo *)(x))->mlist?((CamelMessageInfo *)(x))->mlist:"")
 
 #define camel_message_info_set_subject(x, s) (g_free(((CamelMessageInfo *)(x))->subject),((CamelMessageInfo *)(x))->subject = (s))
 #define camel_message_info_set_from(x, s) (g_free(((CamelMessageInfo *)(x))->from),((CamelMessageInfo *)(x))->from = (s))
 #define camel_message_info_set_to(x, s) (g_free(((CamelMessageInfo *)(x))->to),((CamelMessageInfo *)(x))->to = (s))
 #define camel_message_info_set_cc(x, s) (g_free(((CamelMessageInfo *)(x))->cc),((CamelMessageInfo *)(x))->cc = (s))
 #define camel_message_info_set_uid(x, s) (g_free(((CamelMessageInfo *)(x))->uid),((CamelMessageInfo *)(x))->uid = (s))
+#define camel_message_info_set_mlist(x, s) (g_free(((CamelMessageInfo *)(x))->mlist),((CamelMessageInfo *)(x))->mlist = (s))
 #endif
 
 #endif /* ! _CAMEL_FOLDER_SUMMARY_H */

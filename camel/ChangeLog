@@ -1,3 +1,24 @@
+2001-02-20  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-utils.c (mail_list_magic): Take the ^Header: part out
+	of the expression, since we look that up ourselves.
+	(header_raw_check_mailing_list): When getting the match, get match
+	1, not match 0, we dont want the full string match.
+
+	* camel-folder-summary.c (CAMEL_FOLDER_SUMMARY_VERSION): Bumped
+	for summary change.
+	(message_info_new): Extract the mlist info from the headers.
+	(message_info_load): Load mlist from summary.
+	(message_info_save): Save mlist to summary.
+	(message_info_free): Save the mlist entry.
+	(camel_message_info_new_from_header): Extract mailing list header.
+	(camel_message_info_dup_to): Copy the mlist entry.
+	(camel_message_info_free): Free mlist.
+	(message_info_dump): Dump the mlist.
+
+	* camel-folder-summary.h: Add an mlist (mailing list) string to
+	the summary.
+
 2001-02-19  Not Zed  <NotZed@Ximian.com>
 
 	* providers/vee/camel-vee-folder.c (camel_vee_folder_new): Added

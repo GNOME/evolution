@@ -2899,12 +2899,12 @@ static struct {
 	char *name;
 	char *pattern;
 } mail_list_magic[] = {
-	{ "Sender", "^Sender: owner-([^@]+)" },
-	{ "X-BeenThere", "^X-BeenThere: ([^@]+)" },
-	{ "Delivered-To", "^Delivered-To: mailing list ([^@]+)" },
-	{ "X-Mailing-List", "^X-Mailing-List: ([^@]+)" },
-	{ "X-Loop", "^X-Loop: ([^@]+)" },
-	{ "List-Id", "^List-Id: ([^<]+)" },
+	{ "Sender", " *owner-([^@]+)" },
+	{ "X-BeenThere", " *([^@]+)" },
+	{ "Delivered-To", " *mailing list ([^@]+)" },
+	{ "X-Mailing-List", " *([^@]+)" },
+	{ "X-Loop", " *([^@]+)" },
+	{ "List-Id", " *([^<]+)" },
 };
 
 char *
@@ -2912,7 +2912,7 @@ header_raw_check_mailing_list(struct _header_raw **list)
 {
 	const char *v;
 	regex_t pattern;
-	regmatch_t match[1];
+	regmatch_t match[2];
 	int i;
 
 	for (i=0;i<sizeof(mail_list_magic)/sizeof(mail_list_magic[0]);i++) {
@@ -2922,9 +2922,9 @@ header_raw_check_mailing_list(struct _header_raw **list)
 		}
 
 		v = header_raw_find(list, mail_list_magic[i].name, NULL);
-		if (v != NULL && regexec(&pattern, v, 1, match, 0) == 0 && match[0].rm_so != -1) {
+		if (v != NULL && regexec(&pattern, v, 2, match, 0) == 0 && match[1].rm_so != -1) {
 			regfree(&pattern);
-			return g_strndup(v+match[0].rm_so, match[0].rm_eo-match[0].rm_so);
+			return g_strndup(v+match[1].rm_so, match[1].rm_eo-match[1].rm_so);
 		}
 		regfree(&pattern);
 	}

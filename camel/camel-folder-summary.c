@@ -68,7 +68,7 @@ static pthread_mutex_t info_lock = PTHREAD_MUTEX_INITIALIZER;
 extern int strdup_count, malloc_count, free_count;
 #endif
 
-#define CAMEL_FOLDER_SUMMARY_VERSION (11)
+#define CAMEL_FOLDER_SUMMARY_VERSION (12)
 
 #define _PRIVATE(o) (((CamelFolderSummary *)(o))->priv)
 
@@ -1717,11 +1717,14 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_TO, msgid);
 	msgid = camel_folder_summary_format_address(h, "cc");
 	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_CC, msgid);
+	msgid = header_raw_check_mailing_list(&h);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_MLIST, msgid);
 #else
 	mi->subject = camel_folder_summary_format_string(h, "subject");
 	mi->from = camel_folder_summary_format_address(h, "from");
 	mi->to = camel_folder_summary_format_address(h, "to");
 	mi->cc = camel_folder_summary_format_address(h, "cc");
+	mi->mlist = header_raw_check_mailing_list(&h);
 #endif
 	mi->user_flags = NULL;
 	mi->user_tags = NULL;
@@ -1793,6 +1796,8 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_TO, tmp);
 	camel_folder_summary_decode_string(in, &tmp);
 	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_CC, tmp);
+	camel_folder_summary_decode_string(in, &tmp);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_MLIST, tmp);
 #else
 	camel_folder_summary_decode_string(in, &mi->uid);
 	camel_folder_summary_decode_uint32(in, &mi->flags);
@@ -1803,6 +1808,7 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 	camel_folder_summary_decode_string(in, &mi->from);
 	camel_folder_summary_decode_string(in, &mi->to);
 	camel_folder_summary_decode_string(in, &mi->cc);
+	camel_folder_summary_decode_string(in, &mi->mlist);
 #endif
 	mi->content = NULL;
 
@@ -1871,6 +1877,7 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 	camel_folder_summary_encode_string(out, camel_message_info_from(mi));
 	camel_folder_summary_encode_string(out, camel_message_info_to(mi));
 	camel_folder_summary_encode_string(out, camel_message_info_cc(mi));
+	camel_folder_summary_encode_string(out, camel_message_info_mlist(mi));
 
 	camel_folder_summary_encode_fixed_int32(out, mi->message_id.id.part.hi);
 	camel_folder_summary_encode_fixed_int32(out, mi->message_id.id.part.lo);
@@ -1916,6 +1923,7 @@ message_info_free(CamelFolderSummary *s, CamelMessageInfo *mi)
 	g_free(mi->from);
 	g_free(mi->to);
 	g_free(mi->cc);
+	g_free(mi->mlist);
 #endif
 	g_free(mi->references);
 	camel_flag_list_free(&mi->user_flags);
@@ -2515,19 +2523,21 @@ CamelMessageInfo *
 camel_message_info_new_from_header (struct _header_raw *header)
 {
 	CamelMessageInfo *info;
-	char *subject, *from, *to, *cc;
+	char *subject, *from, *to, *cc, *mlist;
 	
-	subject = camel_folder_summary_format_string (header, "subject");
-	from = camel_folder_summary_format_address (header, "from");
-	to = camel_folder_summary_format_address (header, "to");
-	cc = camel_folder_summary_format_address (header, "cc");
-	
+	subject = camel_folder_summary_format_string(header, "subject");
+	from = camel_folder_summary_format_address(header, "from");
+	to = camel_folder_summary_format_address(header, "to");
+	cc = camel_folder_summary_format_address(header, "cc");
+	mlist = header_raw_check_mailing_list(&header);
+
 	info = camel_message_info_new();
 
-	camel_message_info_set_subject (info, subject);
-	camel_message_info_set_from (info, from);
-	camel_message_info_set_to (info, to);
-	camel_message_info_set_cc (info, cc);
+	camel_message_info_set_subject(info, subject);
+	camel_message_info_set_from(info, from);
+	camel_message_info_set_to(info, to);
+	camel_message_info_set_cc(info, cc);
+	camel_message_info_set_mlist(info, cc);
 
 	return info;
 }
@@ -2563,12 +2573,14 @@ camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to)
 	e_strv_set(to->strings, CAMEL_MESSAGE_INFO_TO, camel_message_info_to(from));
 	e_strv_set(to->strings, CAMEL_MESSAGE_INFO_CC, camel_message_info_cc(from));
 	e_strv_set(to->strings, CAMEL_MESSAGE_INFO_UID, camel_message_info_uid(from));
+	e_strv_set(to->strings, CAMEL_MESSAGE_INFO_UID, camel_message_info_mlist(from));
 #else
 	to->subject = g_strdup(from->subject);
 	to->from = g_strdup(from->from);
 	to->to = g_strdup(from->to);
 	to->cc = g_strdup(from->cc);
 	to->uid = g_strdup(from->uid);
+	to->mlist = g_strdup(from->mlist);
 #endif
 	memcpy(&to->message_id, &from->message_id, sizeof(from->message_id));
 
@@ -2632,6 +2644,7 @@ camel_message_info_free(CamelMessageInfo *mi)
 	g_free(mi->from);
 	g_free(mi->to);
 	g_free(mi->cc);
+	g_free(mi->mlist);
 #endif
 	g_free(mi->references);
 	camel_flag_list_free(&mi->user_flags);
@@ -2693,6 +2706,7 @@ message_info_dump(CamelMessageInfo *mi)
 	printf("Subject: %s\n", camel_message_info_subject(mi));
 	printf("To: %s\n", camel_message_info_to(mi));
 	printf("Cc: %s\n", camel_message_info_cc(mi));
+	printf("mailing list: %s\n", camel_message_info_mlist(mi));
 	printf("From: %s\n", camel_message_info_from(mi));
 	printf("UID: %s\n", camel_message_info_uid(mi));
 	printf("Flags: %04x\n", mi->flags & 0xffff);
