@@ -6,7 +6,7 @@
 CALENDAR_IDLS = $(top_srcdir)/calendar/idl/evolution-calendar.idl
 SHELL_IDLS = \
         $(top_srcdir)/shell/Evolution.idl
-                                                                                                                       
+
 CALENDAR_IDL_GENERATED_H = evolution-calendar.h
 CALENDAR_IDL_GENERATED_C =                              \
         evolution-calendar-common.c                     \
@@ -18,11 +18,11 @@ SHELL_IDL_GENERATED_C =			\
 	Evolution-common.c  		\
 	Evolution-skels.c 		\
 	Evolution-stubs.c
-                                                                                                                       
+
 $(CALENDAR_IDL_GENERATED_H): $(CALENDAR_IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
                 $(top_srcdir)/calendar/idl/evolution-calendar.idl
-                                                                                                                       
+
 $(SHELL_IDL_GENERATED_H): $(SHELL_IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)  \
         $(top_srcdir)/shell/Evolution.idl
@@ -30,7 +30,7 @@ $(SHELL_IDL_GENERATED_H): $(SHELL_IDLS)
 IDL_GENERATED = $(SHELL_IDL_GENERATED_H) $(CALENDAR_IDL_GENERATED_H)
 BUILT_SOURCES = $(IDL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES) $(CALENDAR_IDL_GENERATED_C) $(SHELL_IDL_GENERATED_C)
-                                                                                                                       
+
 privlib_LTLIBRARIES = libevolution-calendar-a11y.la
 
 INCLUDES =						\
@@ -41,6 +41,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/calendar/cal-client		\
 	-I$(top_srcdir)/calendar/gui			\
 	-I$(top_srcdir)/widgets				\
+	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)/a11y				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\

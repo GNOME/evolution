@@ -1,3 +1,8 @@
+2004-04-29  Rodney Dawes  <dobey@ximian.com>
+
+	* calendar/Makefile.am (INCLUDES): Add $(top_srcdir)/widgets/misc
+	for the e-activity-handler.h stuff
+
 2004-04-22  Kidd Wang  <kidd.wang@sun.com>
 
 	* calendar/ea-week-view.c: (ea_week_view_get_n_children): If the
