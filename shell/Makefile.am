@@ -152,10 +152,14 @@ evolution_SOURCES =				\
 	e-shell-about-box.h			\
 	e-shell-config.c			\
 	e-shell-config.h			\
+	e-shell-config-autocompletion.c		\
+	e-shell-config-autocompletion.h		\
 	e-shell-config-offline.c		\
 	e-shell-config-offline.h		\
 	e-shell-config-default-folders.c	\
 	e-shell-config-default-folders.h	\
+	e-shell-config-folder-settings.c	\
+	e-shell-config-folder-settings.h	\
 	e-shell-constants.h			\
 	e-shell-folder-commands.c		\
 	e-shell-folder-commands.h		\

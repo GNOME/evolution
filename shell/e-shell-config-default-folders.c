@@ -27,7 +27,6 @@
 
 #include "e-shell-config-default-folders.h"
 
-#include "evolution-config-control.h"
 #include "evolution-folder-selector-button.h"
 
 #include <glade/glade-xml.h>
@@ -140,8 +139,8 @@ setup_folder_selector (EvolutionDefaultFolderConfig *dfc,
 			    dfc);
 }
 
-BonoboObject *
-e_shell_config_default_folders_create_control (EShell *shell)
+GtkWidget*
+e_shell_config_default_folders_create_widget (EShell *shell, EvolutionConfigControl *config_control)
 {
 	GNOME_Evolution_Shell shell_dup;
 	CORBA_Environment ev;
@@ -175,17 +174,16 @@ e_shell_config_default_folders_create_control (EShell *shell)
 			       &dfc->tasks_uri, "/DefaultFolders/tasks_uri",
 			       tasks_types);
 
-	widget = glade_xml_get_widget (dfc->glade, "default_folders_vbox");
+	widget = glade_xml_get_widget (dfc->glade, "default_folders_table");
 	gtk_widget_ref (widget);
 	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
 	gtk_widget_show (widget);
-	dfc->config_control = evolution_config_control_new (widget);
-	gtk_widget_unref (widget);
+	dfc->config_control = config_control;
 
 	gtk_signal_connect (GTK_OBJECT (dfc->config_control), "apply",
 			    GTK_SIGNAL_FUNC (config_control_apply_cb), dfc);
 	gtk_signal_connect (GTK_OBJECT (dfc->config_control), "destroy",
 			    GTK_SIGNAL_FUNC (config_control_destroy_cb), dfc);
 
-	return BONOBO_OBJECT (dfc->config_control);
+	return widget;
 }

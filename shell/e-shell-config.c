@@ -24,8 +24,7 @@
 
 #include "e-shell-config.h"
 
-#include "e-shell-config-default-folders.h"
-#include "e-shell-config-offline.h"
+#include "e-shell-config-folder-settings.h"
 #include "evolution-config-control.h"
 #include "evolution-folder-selector-button.h"
 
@@ -34,7 +33,7 @@
 
 #define E_SHELL_CONFIG_FACTORY_OAFIID "OAFIID:GNOME_Evolution_Shell_Config_Factory"
 
-#define E_SHELL_CONFIG_DEFAULT_FOLDERS_OAFIID "OAFIID:GNOME_Evolution_Shell_Config_DefaultFolders_Control"
+#define E_SHELL_CONFIG_FOLDER_SETTINGS_OAFIID "OAFIID:GNOME_Evolution_Shell_Config_FolderSettings_Control"
 
 
 static BonoboObject *
@@ -42,10 +41,12 @@ config_control_factory_cb (BonoboGenericFactory *factory,
 			   const char *component_id,
 			   gpointer shell)
 {
-	if (!strcmp (component_id, E_SHELL_CONFIG_DEFAULT_FOLDERS_OAFIID))
-		return e_shell_config_default_folders_create_control (shell);
-	else
-		return e_shell_config_offline_create_control (shell);
+	if (!strcmp (component_id, E_SHELL_CONFIG_FOLDER_SETTINGS_OAFIID))
+		return e_shell_config_folder_settings_create_control (shell);
+	else {
+		g_assert_not_reached();
+		return NULL;
+	}
 }
 
 gboolean

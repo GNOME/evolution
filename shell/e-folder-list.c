@@ -25,6 +25,7 @@
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-folder-list.h"
 #include <gal/e-table/e-table-memory-store.h>
+#include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-option-menu.h>
 #include <libgnome/gnome-i18n.h>
@@ -32,6 +33,7 @@
 #include <gnome-xml/xmlmemory.h>
 #include <gal/util/e-xml-utils.h>
 #include <glade/glade.h>
+#include "Evolution.h"
 
 static GtkVBoxClass *parent_class = NULL;
 #define PARENT_TYPE (gtk_vbox_get_type ())
@@ -59,10 +61,65 @@ struct _EFolderListPrivate {
 	GtkFrame *frame;
 	ETableMemoryStore *model;
 	EvolutionShellClient *client;
+	GNOME_Evolution_StorageRegistry corba_storage_registry;
 	EOptionMenu *option_menu;
 
 	char **possible_types;
 };
+
+
+static GNOME_Evolution_Folder *
+get_folder_for_uri (EFolderList *efl,
+		    const char *uri)
+{
+	EFolderListPrivate *priv = efl->priv;
+	CORBA_Environment ev;
+	GNOME_Evolution_Folder *folder;
+
+	CORBA_exception_init (&ev);
+	folder = GNOME_Evolution_StorageRegistry_getFolderByUri (
+		priv->corba_storage_registry, uri, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		folder = CORBA_OBJECT_NIL;
+	CORBA_exception_free (&ev);
+
+	return folder;
+}
+
+static char *
+create_display_string (EFolderList *efl, char *folder_uri, char *folder_name)
+{
+	char *storage_lname, *p;
+	char *label_text;
+
+	storage_lname = NULL;
+	p = strchr (folder_uri, '/');
+	if (p) {
+		p = strchr (p + 1, '/');
+		if (p) {
+			GNOME_Evolution_Folder *storage_folder;
+			char *storage_uri;
+
+			storage_uri = g_strndup (folder_uri,
+						 p - folder_uri);
+			storage_folder = get_folder_for_uri (efl, storage_uri);
+			storage_lname = e_utf8_to_gtk_string (GTK_WIDGET(efl), storage_folder->displayName);
+			CORBA_free (storage_folder);
+			g_free (storage_uri);
+		}
+	}
+
+	if (storage_lname) {
+		label_text = g_strdup_printf ("\"%s\" in \"%s\"", folder_name,
+					      storage_lname);
+		g_free (storage_lname);
+	} else
+		label_text = g_strdup_printf ("\"%s\"", folder_name);
+
+	return label_text;
+}
+
+
 
 static void
 e_folder_list_changed (EFolderList *efl)
@@ -189,6 +246,14 @@ e_folder_list_class_init (EFolderListClass *klass)
 	"                     no-headers=\"true\"" \
         ">" \
 	"  <ETableColumn model_col=\"0\"" \
+	"	         expansion=\"0.0\"" \
+	"                cell=\"pixbuf\"" \
+ 	"                minimum_width=\"18\"" \
+	"                resizable=\"false\"" \
+	"	         _title=\"icon\"" \
+	"                compare=\"string\"" \
+        "                search=\"string\"/>" \
+	"  <ETableColumn model_col=\"1\"" \
 	"	         expansion=\"1.0\"" \
 	"                cell=\"string\"" \
  	"                minimum_width=\"32\"" \
@@ -198,14 +263,16 @@ e_folder_list_class_init (EFolderListClass *klass)
         "                search=\"string\"/>" \
 	"  <ETableState>" \
 	"    <column source=\"0\"/>" \
+	"    <column source=\"1\"/>" \
 	"    <grouping>" \
-	"      <leaf column=\"0\" ascending=\"true\"/>" \
 	"    </grouping>" \
 	"  </ETableState>" \
 	"</ETableSpecification>"
 
 
 static ETableMemoryStoreColumnInfo columns[] = {
+	E_TABLE_MEMORY_STORE_PIXBUF,
+	E_TABLE_MEMORY_STORE_STRING,
 	E_TABLE_MEMORY_STORE_STRING,
 	E_TABLE_MEMORY_STORE_STRING,
 	E_TABLE_MEMORY_STORE_STRING,
@@ -248,8 +315,15 @@ add_clicked (GtkButton *button, EFolderList *efl)
 						   &folder);
 
 	if (folder != NULL) {
-		e_table_memory_store_insert (efl->priv->model, -1, NULL, folder->displayName, folder->evolutionUri, folder->physicalUri);
+		GdkPixbuf *pixbuf;
+		char *display_string = create_display_string (efl, folder->evolutionUri, folder->displayName);
+
+		pixbuf = evolution_shell_client_get_pixbuf_for_type (efl->priv->client, folder->type, TRUE);
+		e_table_memory_store_insert (efl->priv->model, -1, NULL, pixbuf, display_string,
+					     folder->displayName, folder->evolutionUri, folder->physicalUri);
 		e_folder_list_changed (efl);
+		gdk_pixbuf_unref (pixbuf);
+		g_free (display_string);
 	}
 }
 
@@ -287,33 +361,6 @@ remove_clicked (GtkButton *button, EFolderList *efl)
 }
 
 static void
-edit_clicked (GtkButton *button, EFolderList *efl)
-{
-	ETable *table;
-	GNOME_Evolution_Folder *folder;
-	int cursor_row;
-
-	table = e_table_scrolled_get_table (efl->priv->scrolled_table);
-	cursor_row = e_table_get_cursor_row (table);
-
-	if (cursor_row != -1) {
-		char *initial = e_table_model_value_at (E_TABLE_MODEL (efl->priv->model), 1, cursor_row);
-		evolution_shell_client_user_select_folder (efl->priv->client,
-							   GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (efl))),
-							   _("Edit this Folder"),
-							   initial,
-							   (const gchar **) efl->priv->possible_types,
-							   &folder);
-
-		if (folder != NULL) {
-			e_table_memory_store_remove (efl->priv->model, cursor_row);
-			e_table_memory_store_insert (efl->priv->model, -1, NULL, folder->displayName, folder->evolutionUri, folder->physicalUri);
-			e_folder_list_changed (efl);
-		}
-	}
-}
-
-static void
 optionmenu_changed (EOptionMenu *option_menu, int value, EFolderList *efl)
 {
 	gtk_signal_emit (GTK_OBJECT (efl), signals[OPTION_MENU_CHANGED], value);
@@ -329,9 +376,7 @@ update_buttons (EFolderList *efl)
 	table = e_table_scrolled_get_table (efl->priv->scrolled_table);
 	cursor_row = e_table_get_cursor_row (table);
 	selection_count = e_table_selected_count (table);
-
 	
-	e_glade_xml_set_sensitive (efl->priv->gui, "button-edit", cursor_row != -1);
 	e_glade_xml_set_sensitive (efl->priv->gui, "button-remove", selection_count >= 1);
 }
 
@@ -375,8 +420,6 @@ e_folder_list_init (EFolderList *efl)
 				    GTK_SIGNAL_FUNC (add_clicked), efl);
 	e_glade_xml_connect_widget (gui, "button-remove", "clicked",
 				    GTK_SIGNAL_FUNC (remove_clicked), efl);
-	e_glade_xml_connect_widget (gui, "button-edit", "clicked",
-				    GTK_SIGNAL_FUNC (edit_clicked), efl);
 	e_glade_xml_connect_widget (gui, "custom-optionmenu", "changed",
 				    GTK_SIGNAL_FUNC (optionmenu_changed), efl);
 
@@ -514,6 +557,7 @@ e_folder_list_construct (EFolderList *efl, EvolutionShellClient *client, char *x
 {
 	efl->priv->client = client;
 	bonobo_object_client_ref (BONOBO_OBJECT_CLIENT (efl->priv->client), NULL);
+	efl->priv->corba_storage_registry = evolution_shell_client_get_storage_registry_interface (client);
 	e_folder_list_set_xml (efl, xml);
 	return GTK_WIDGET (efl);
 }
@@ -524,7 +568,21 @@ e_folder_list_set_items (EFolderList *efl, EFolderListItem *items)
 	int i;
 	e_table_memory_store_clear (efl->priv->model);
 	for (i = 0; items[i].uri; i++) {
-		e_table_memory_store_insert (efl->priv->model, -1, NULL, items[i].display_name, items[i].uri, items[i].physical_uri);
+		GNOME_Evolution_Folder *folder;
+		GdkPixbuf *pixbuf;
+		char *display_string;
+
+		display_string = create_display_string (efl, items[i].uri, items[i].display_name);
+
+		folder = get_folder_for_uri (efl, items[i].uri);
+		pixbuf = evolution_shell_client_get_pixbuf_for_type (efl->priv->client, folder->type, TRUE);
+		
+		e_table_memory_store_insert (efl->priv->model, -1, NULL,
+					     pixbuf, display_string,
+					     items[i].display_name, items[i].uri, items[i].physical_uri);
+		CORBA_free (folder);
+		gdk_pixbuf_unref (pixbuf);
+		g_free (display_string);
 	}
 }
 

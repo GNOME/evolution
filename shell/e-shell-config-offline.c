@@ -169,8 +169,8 @@ storage_set_view_has_checkbox_func (EStorageSet *storage_set,
 	return e_folder_get_can_sync_offline (folder);
 }
 
-BonoboObject *
-e_shell_config_offline_create_control (EShell *shell)
+GtkWidget *
+e_shell_config_offline_create_widget (EShell *shell, EvolutionConfigControl *control)
 {
 	PageData *page_data;
 	GtkWidget *scroll_frame;
@@ -196,12 +196,12 @@ e_shell_config_offline_create_control (EShell *shell)
 	gtk_container_add (GTK_CONTAINER (scroll_frame), page_data->storage_set_view);
 	gtk_widget_show (scroll_frame);
 
-	page_data->config_control = evolution_config_control_new (scroll_frame);
+	page_data->config_control = control;
 
 	gtk_signal_connect (GTK_OBJECT (page_data->config_control), "destroy",
 			    GTK_SIGNAL_FUNC (config_control_destroy_callback), page_data);
 	gtk_signal_connect (GTK_OBJECT (page_data->config_control), "apply",
 			    GTK_SIGNAL_FUNC (config_control_apply_callback), page_data);
 
-	return BONOBO_OBJECT (page_data->config_control);
+	return scroll_frame;
 }

@@ -1,6 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-shell-config-default-folders.h - Configuration page for specifying default
- * folders.
+/* e-shell-config-folder-settings.h - Configuration page for folder settings.
  *
  * Copyright (C) 2002 Ximian, Inc.
  *
@@ -18,17 +17,16 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Dan Winship <danw@ximian.com>
+ * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
-#ifndef E_SHELL_CONFIG_DEFAULT_FOLDERS_H
-#define E_SHELL_CONFIG_DEFAULT_FOLDERS_H
+#ifndef E_SHELL_CONFIG_FOLDER_SETTINGS_H
+#define E_SHELL_CONFIG_FOLDER_SETTINGS_H
 
 #include "e-shell.h"
 
-#include <gtk/gtkwidget.h>
-#include "evolution-config-control.h"
+#include <bonobo/bonobo-object.h>
 
-GtkWidget *e_shell_config_default_folders_create_widget (EShell *shell, EvolutionConfigControl *config_control);
+BonoboObject *e_shell_config_folder_settings_create_control (EShell *shell);
 
-#endif /* E_SHELL_CONFIG_DEFAULT_FOLDERS_H */
+#endif /* E_SHELL_CONFIG_FOLDER_SETTINGS_H */

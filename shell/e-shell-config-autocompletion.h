@@ -1,6 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-shell-config-default-folders.h - Configuration page for specifying default
- * folders.
+/* e-shell-config-autocompletion.c - Configuration page for addressbook autocompletion.
  *
  * Copyright (C) 2002 Ximian, Inc.
  *
@@ -18,17 +17,18 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Dan Winship <danw@ximian.com>
+ * Authors: Chris Lahey <clahey@ximian.com>
+ *          Chris Toshok <toshok@ximian.com>
  */
 
-#ifndef E_SHELL_CONFIG_DEFAULT_FOLDERS_H
-#define E_SHELL_CONFIG_DEFAULT_FOLDERS_H
+#ifndef E_SHELL_CONFIG_AUTOCOMPLETION_H
+#define E_SHELL_CONFIG_AUTOCOMPLETION_H
 
 #include "e-shell.h"
 
 #include <gtk/gtkwidget.h>
 #include "evolution-config-control.h"
 
-GtkWidget *e_shell_config_default_folders_create_widget (EShell *shell, EvolutionConfigControl *config_control);
+GtkWidget *e_shell_config_autocompletion_create_widget (EShell *shell, EvolutionConfigControl *config_control);
 
-#endif /* E_SHELL_CONFIG_DEFAULT_FOLDERS_H */
+#endif /* E_SHELL_CONFIG_AUTOCOMPLETION_H */

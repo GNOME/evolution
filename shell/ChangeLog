@@ -1,3 +1,65 @@
+2002-05-24  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes 90% of #25047 ]
+	* e-folder-list.c (get_folder_for_uri): shamelessly lifted from
+	evolution-folder-selector-button.c.
+	(create_display_string): modeled again after
+	evolution-folder-selector-button.c, so we can give a little more
+	context (and make the table look like the folder selector
+	buttons.)
+	(SPEC): add a pixbuf column, also remove the sorting behavior.
+	(columns): add a pixbuf column and another string column (for the
+	display string).
+	(add_clicked): create the display string and get the proper
+	pixbuf, and insert both.
+	(edit_clicked): removed.
+	(update_buttons): remove edit button handling from here.
+	(e_folder_list_init): remove the hooking up of button-edit's
+	"clicked" signal.
+	(e_folder_list_construct): get a reference to the storage registry
+	so we can look up folders.
+	(e_folder_list_set_items): analogous change to add_clicked - get
+	the display string and pixbuf and insert them.
+
+	* glade/e-folder-list.glade: remove the edit button.
+
+	* glade/e-shell-config-default-folders.glade: remove the
+	frame/vbox,  since we embed it in a notebook and the tab has the
+	title already.
+
+	* e-shell-config.c (config_control_factory_cb): the only config
+	control we deal with here now is the folder settings control.
+
+	* e-shell-config-default-folders.c
+	(e_shell_config_default_folders_create_widget): rename
+	e_shell_config_default_folders_create_control to this, return the
+	widget, and take the config control to use as an arg.
+
+	* e-shell-config-offline.c (e_shell_config_offline_create_widget):
+	make an analogous change here as with
+	default_folders_create_widget.
+
+	* e-shell-config-default-folders.h
+	(e_shell_config_default_folders_create_widget): track change to
+	prototype.
+
+	* e-shell-config-offline.h (e_shell_config_offline_create_widget): same.
+
+	* GNOME_Evolution_Shell.oaf.in: remove the DefaultFolders and
+	OfflineFolders controls and add a FolderSettings_Control.
+
+	* Makefile.am (evolution_SOURCES): add
+	e-shell-config-folder-settings.[ch] and
+	e-shell-config-autocompletion.[ch].
+
+	* e-shell-config-folder-settings.[ch]: new files, embed (after a
+	fashion) the default folder, offline, and autocompletion UI's in a
+	notebook.
+
+	* e-shell-config-autocompletion.[ch]: Basically copy over and
+	shell-ize the addressbook autocompletion config control so it can
+	be embedded more easily with the other folder settings.
+
 2002-05-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (quit_box_new): Set @allow_shrink and @allow_grow to

@@ -25,8 +25,9 @@
 
 #include "e-shell.h"
 
-#include <bonobo/bonobo-object.h>
+#include <gtk/gtkwidget.h>
+#include "evolution-config-control.h"
 
-BonoboObject *e_shell_config_offline_create_control (EShell *shell);
+GtkWidget *e_shell_config_offline_create_widget (EShell *shell, EvolutionConfigControl *config_control);
 
 #endif /* E_SHELL_CONFIG_OFFLINE_H */
