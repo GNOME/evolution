@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-10-26 17:45+0200\n"
-"PO-Revision-Date: 2001-10-26 17:52+0200\n"
+"POT-Creation-Date: 2001-10-28 13:00+0100\n"
+"PO-Revision-Date: 2001-10-28 13:04+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1107,6 +1107,18 @@ msgstr ""
 "problemu, wy¶lij e-mail (w jêzyku angielskim) do Jona Trowbridge'a\n"
 "<trow@ximian.com>, szczegó³owo opisuj±c warunki, w jakich pojawi³ siê\n"
 "problem. Dziêkujemy."
+
+#: addressbook/gui/component/select-names/e-select-names.c:1
+msgid ""
+"Evolution is unable to get the addressbook local storage.\n"
+"Under normal circumstances, this should never happen.\n"
+"You may need to exit and restart Evolution in order to\n"
+"correct this problem."
+msgstr ""
+"Nie mo¿na uzyskaæ dostêpu do lokalnego miejsca przechowywania\n"
+"ksi±¿ki adresowej, co nie powinno siê normalnie zdarzyæ.\n"
+"Aby naprawiæ ten problem, konieczne mo¿e byæ zakoñczenie, a\n"
+"nastêpnie ponowne uruchomienie Evolution."
 
 #: addressbook/gui/component/select-names/e-select-names.c:1
 msgid "Select Contacts from Addressbook"
@@ -2584,8 +2596,8 @@ msgstr "Protokó³ nie jest obs³ugiwany"
 #: addressbook/gui/widgets/e-addressbook-util.c:1
 #: calendar/gui/calendar-model.c:1 calendar/gui/calendar-model.c:1
 #: calendar/gui/dialogs/task-details-page.glade.h:1
-#: calendar/gui/e-calendar-table.c:1 camel/camel-service.c:1
-#: camel/camel-service.c:1
+#: calendar/gui/e-calendar-table.c:1 calendar/gui/print.c:1
+#: camel/camel-service.c:1 camel/camel-service.c:1
 msgid "Cancelled"
 msgstr "Anulowane"
 
@@ -3157,20 +3169,20 @@ msgstr "Zajêty"
 
 #: calendar/gui/calendar-model.c:1 calendar/gui/calendar-model.c:1
 #: calendar/gui/dialogs/task-details-page.glade.h:1
-#: calendar/gui/e-calendar-table.c:1
+#: calendar/gui/e-calendar-table.c:1 calendar/gui/print.c:1
 msgid "Not Started"
 msgstr "Przed rozpoczêciem"
 
 #: calendar/gui/calendar-model.c:1 calendar/gui/calendar-model.c:1
 #: calendar/gui/dialogs/task-details-page.glade.h:1
-#: calendar/gui/e-calendar-table.c:1
+#: calendar/gui/e-calendar-table.c:1 calendar/gui/print.c:1
 msgid "In Progress"
 msgstr "Trwaj±ce"
 
 #: calendar/gui/calendar-model.c:1 calendar/gui/calendar-model.c:1
 #: calendar/gui/dialogs/task-details-page.glade.h:1
 #: calendar/gui/e-calendar-table.c:1 calendar/gui/e-meeting-model.c:1
-#: calendar/gui/e-meeting-model.c:1
+#: calendar/gui/e-meeting-model.c:1 calendar/gui/print.c:1
 msgid "Completed"
 msgstr "Zakoñczone"
 
@@ -3908,7 +3920,7 @@ msgstr "Oddelegowanie do:"
 msgid "Enter Delegate"
 msgstr "Oddelegowanie"
 
-#: calendar/gui/dialogs/event-editor.c:1
+#: calendar/gui/dialogs/event-editor.c:1 calendar/gui/print.c:1
 msgid "Appointment"
 msgstr "Termin"
 
@@ -4205,6 +4217,7 @@ msgstr "_Stan:"
 
 #: calendar/gui/dialogs/task-editor.c:1
 #: calendar/gui/dialogs/task-editor.c:1
+#: calendar/gui/dialogs/task-editor.c:1
 msgid "Assignment"
 msgstr "Przyporz±dkowanie"
 
@@ -4278,6 +4291,11 @@ msgid "100%"
 msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:1 calendar/gui/e-day-view.c:1
+#: calendar/gui/e-week-view.c:1
+msgid "Deleting selected objects"
+msgstr "Usuwanie zaznaczonych obiektów"
+
+#: calendar/gui/e-calendar-table.c:1 calendar/gui/e-day-view.c:1
 #: calendar/gui/e-week-view.c:1 mail/folder-browser.c:1
 #: shell/e-shortcuts-view.c:1
 msgid "_Open"
@@ -4319,6 +4337,11 @@ msgstr "_Oznacz zadania jako zakoñczone"
 #: calendar/gui/e-calendar-table.c:1
 msgid "_Delete Selected Tasks"
 msgstr "_Usuñ zaznaczone zadania"
+
+#: calendar/gui/e-calendar-table.c:1 calendar/gui/e-day-view.c:1
+#: calendar/gui/e-week-view.c:1
+msgid "Updating objects"
+msgstr "Aktualizowanie obiektów"
 
 #: calendar/gui/e-calendar-table.c:1
 #: calendar/gui/e-calendar-table.etspec.h:1
@@ -4485,6 +4508,8 @@ msgstr "Czas zakoñczenia informacji o zajêto¶ci: <b>"
 msgid "Ends: <b>"
 msgstr "Zakoñczenie: <b>"
 
+#. Pass TRUE as is_utc, so it gets converted to the current
+#. timezone.
 #: calendar/gui/e-itip-control.c:1
 msgid "Task Completed: <b>"
 msgstr "Zadanie ukoñczone: <b>"
@@ -5286,6 +5311,39 @@ msgstr "Wybrany miesi±c (%b %Y)"
 #: calendar/gui/print.c:1
 msgid "Selected year (%Y)"
 msgstr "Wybrany rok (%Y)"
+
+#: calendar/gui/print.c:1
+msgid "Task"
+msgstr "Zadanie"
+
+#: calendar/gui/print.c:1
+#, c-format
+msgid "Status: %s"
+msgstr "Stan: %s"
+
+#: calendar/gui/print.c:1
+#, c-format
+msgid "Priority: %s"
+msgstr "Priorytet: %s"
+
+#: calendar/gui/print.c:1
+#, c-format
+msgid "Percent Complete: %i"
+msgstr "Procent zakoñczenia: %i"
+
+#: calendar/gui/print.c:1
+#, c-format
+msgid "URL: %s"
+msgstr "URL: %s"
+
+#: calendar/gui/print.c:1
+#, c-format
+msgid "Categories: %s"
+msgstr "Kategorie: %s"
+
+#: calendar/gui/print.c:1
+msgid "Contacts: "
+msgstr "Kontakty: "
 
 #: calendar/gui/print.c:1
 msgid "Print Calendar"
@@ -6402,6 +6460,7 @@ msgstr ""
 "w formacie mbox."
 
 #: camel/providers/local/camel-local-store.c:1
+#: camel/providers/local/camel-local-store.c:1
 #: camel/providers/local/camel-spool-store.c:1
 #, c-format
 msgid "Store root %s is not an absolute path"
@@ -6414,6 +6473,7 @@ msgid "Store root %s is not a regular directory"
 msgstr ""
 "Lokalizacja nadrzêdna miejsca przechowywania %s nie jest zwyk³ym katalogiem"
 
+#: camel/providers/local/camel-local-store.c:1
 #: camel/providers/local/camel-local-store.c:1
 #: camel/providers/local/camel-local-store.c:1
 #, c-format
@@ -6429,7 +6489,7 @@ msgstr "Lokalne miejsca przechowywania nie maj± skrzynki nadchodz±cej"
 msgid "Local mail file %s"
 msgstr "Lokalny plik z listami %s"
 
-#: camel/providers/local/camel-local-store.c:1
+#: camel/providers/local/camel-local-store.c:1 mail/mail-local.c:1
 #, c-format
 msgid "Could not rename folder %s to %s: %s"
 msgstr "Nie mo¿na zmieniæ nazwy folderu %s na %s: %s"
@@ -11721,6 +11781,12 @@ msgstr "Zmiana nazwy folderu \"%s\" na:"
 msgid "Rename folder"
 msgstr "Zmiana nazwy folderu"
 
+#: shell/e-shell-folder-commands.c:1
+#: shell/e-shell-folder-creation-dialog.c:1
+#, c-format
+msgid "The specified folder name is not valid: %s"
+msgstr "Podana nazwa folderu nie jest poprawna: %s"
+
 #: shell/e-shell-folder-creation-dialog.c:1
 #, c-format
 msgid ""
@@ -11729,27 +11795,6 @@ msgid ""
 msgstr ""
 "Nie mo¿na stworzyæ podanego folderu:\n"
 "%s"
-
-#: shell/e-shell-folder-creation-dialog.c:1
-msgid "No folder name specified."
-msgstr "Nie podano nazwy folderu."
-
-#: shell/e-shell-folder-creation-dialog.c:1
-msgid "Folder name cannot contain the Return character."
-msgstr "Nazwa folderu nie mo¿e zawieraæ znaku koñca wiersza."
-
-#: shell/e-shell-folder-creation-dialog.c:1
-msgid "Folder cannot contain the directory separator."
-msgstr "Nazwa folderu nie mo¿e zawieraæ znaku separatora katalogów."
-
-#: shell/e-shell-folder-creation-dialog.c:1
-msgid "'.' and '..' are reserved folder names."
-msgstr "\".\" oraz \"..\" s± zarezerwowanymi nazwami folderów."
-
-#: shell/e-shell-folder-creation-dialog.c:1
-#, c-format
-msgid "The specified folder name is not valid: %s"
-msgstr "Podana nazwa folderu nie jest poprawna: %s"
 
 #: shell/e-shell-folder-creation-dialog.c:1
 msgid "Evolution - Create new folder"
