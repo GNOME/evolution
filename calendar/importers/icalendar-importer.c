@@ -607,21 +607,15 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 		return;
 	}
 
-	/* FIXME */
 	/* Try to open the default calendar & tasks folders. */
 	if (ici->do_calendar) {
-		if (!e_cal_open_default (&calendar_client, E_CAL_SOURCE_TYPE_EVENT, NULL))
-			goto out;
-
-		if (!e_cal_open (calendar_client, FALSE, NULL))
+		calendar_client = auth_new_cal_from_default (E_CAL_SOURCE_TYPE_EVENT);
 			goto out;
 	}
 
 	if (ici->do_tasks) {
-		if (!e_cal_open_default (&tasks_client, E_CAL_SOURCE_TYPE_TODO, NULL))
-			goto out;
-		
-		if (!e_cal_open (tasks_client, FALSE, NULL))
+		tasks_client = auth_new_cal_from_default (E_CAL_SOURCE_TYPE_TODO);
+		if (!tasks_client)
 			goto out;
 	}
 

@@ -1,5 +1,15 @@
 2004-02-04  JP Rosevear <jpr@ximian.com>
 
+	* importers/icalendar-importer.c (gnome_calendar_import_data_fn):
+	use new cal auth functions
+
+	* common/authentication.c (auth_new_cal_from_default): get a
+	default calendar with auth
+
+	* common/authentication.h: add proto
+
+2004-02-04  JP Rosevear <jpr@ximian.com>
+
 	* importers/icalendar-importer.c (importer_destroy_cb): we only
 	have a single client to free
 	(prepare_events): make the vtodo list optional

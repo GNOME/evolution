@@ -37,6 +37,18 @@ auth_func_cb (ECal *ecal, const char *prompt, const char *key, gpointer user_dat
 }
 
 ECal *
+auth_new_cal_from_default (ECalSourceType type)
+{
+	ECal *ecal = NULL;
+	
+	if (!e_cal_open_default (&ecal, type, auth_func_cb, NULL, NULL))
+		return NULL;
+
+
+	return ecal;
+}
+
+ECal *
 auth_new_cal_from_source (ESource *source, ECalSourceType type)
 {
 	ECal *cal;

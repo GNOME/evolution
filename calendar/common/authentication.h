@@ -27,6 +27,7 @@
 #include <libedataserver/e-source.h>
 #include <libecal/e-cal.h>
 
+ECal *auth_new_cal_from_default (ECalSourceType type);
 ECal *auth_new_cal_from_source (ESource *source, ECalSourceType type);
 ECal *auth_new_cal_from_uri (const char *uri, ECalSourceType type);
 
