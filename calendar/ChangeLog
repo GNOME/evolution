@@ -1,3 +1,11 @@
+2001-08-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/tasks-control.c: Update the paths of the Tools menu
+	according to the changes in the XML [i.e. things are moved to the
+	ComponentToolsPlaceholder].
+
+	* gui/calendar-commands.c: Likewise.
+
 2001-08-11  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/event-page.c (init_widgets): 

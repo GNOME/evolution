@@ -499,18 +499,18 @@ static BonoboUIVerb verbs [] = {
 
 static EPixmap pixmaps [] =
 {
-	E_PIXMAP ("/menu/File/New/NewFirstItem/NewAppointment",	"new_appointment.xpm"),
-	E_PIXMAP ("/menu/File/Print/Print",			"print.xpm"),
-	E_PIXMAP ("/menu/File/Print/PrintPreview",		"print-preview.xpm"),
-	E_PIXMAP ("/menu/Actions/Component/NewAppointment",	"new_appointment.xpm"),
-	E_PIXMAP ("/menu/Tools/Component/CalendarSettings",	"configure_16_calendar.xpm"),
+	E_PIXMAP ("/menu/File/New/NewFirstItem/NewAppointment",	              "new_appointment.xpm"),
+	E_PIXMAP ("/menu/File/Print/Print",				      "print.xpm"),
+	E_PIXMAP ("/menu/File/Print/PrintPreview",			      "print-preview.xpm"),
+	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewAppointment", "new_appointment.xpm"),
+	E_PIXMAP ("/menu/ComponentToolsPlaceholder/Tools/CalendarSettings",   "configure_16_calendar.xpm"),
 
-	E_PIXMAP ("/Toolbar/New",				"buttons/new_appointment.png"),
-	E_PIXMAP ("/Toolbar/Print",				"buttons/print.png"),
-	E_PIXMAP ("/Toolbar/DayView",				"buttons/dayview.xpm"),
-	E_PIXMAP ("/Toolbar/WorkWeekView",			"buttons/workweekview.xpm"),
-	E_PIXMAP ("/Toolbar/WeekView",				"buttons/weekview.xpm"),
-	E_PIXMAP ("/Toolbar/MonthView",				"buttons/monthview.xpm"),
+	E_PIXMAP ("/Toolbar/New",					      "buttons/new_appointment.png"),
+	E_PIXMAP ("/Toolbar/Print",					      "buttons/print.png"),
+	E_PIXMAP ("/Toolbar/DayView",					      "buttons/dayview.xpm"),
+	E_PIXMAP ("/Toolbar/WorkWeekView",				      "buttons/workweekview.xpm"),
+	E_PIXMAP ("/Toolbar/WeekView",					      "buttons/weekview.xpm"),
+	E_PIXMAP ("/Toolbar/MonthView",					      "buttons/monthview.xpm"),
 
 	E_PIXMAP_END
 };
