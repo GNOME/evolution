@@ -39,8 +39,9 @@ mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
 /* Get the url for the local inbox */
 gchar *mail_tool_get_local_inbox_url (void);
 
-/* Get the filename for our movemail folder */
+/* Get the filename for our movemail folder or storage */
 gchar *mail_tool_get_local_movemail_path (void);
+gchar *mail_tool_get_local_movemail_url (void);
 
 /* Get the CamelFolder for the local inbox */
 CamelFolder *mail_tool_get_local_inbox (CamelException *ex);
