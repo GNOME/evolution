@@ -1,5 +1,11 @@
 2005-01-09  JP Rosevear  <jpr@novell.com>
 
+	* itip-formatter.c (idle_open_cb): launch an evolution window
+	pointing at the calendar date of the appointment
+	(view_response_cb): use it
+
+2005-01-09  JP Rosevear  <jpr@novell.com>	
+
 	* itip-formatter.c (find_cal_opened_cb): only check for conflicts
 	if the source has the conflict property
 	(initialize_selection): select the "conflict" sources in the

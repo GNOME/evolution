@@ -83,7 +83,7 @@ typedef struct {
 	gchar *calendar_uid;
 
 	EAccountList *accounts;
-
+	
 	gchar *from_address;
 	gchar *delegator_address;
 	gchar *delegator_name;
@@ -904,8 +904,22 @@ extract_itip_data (FormatItipPObject *pitip)
 		pitip->comp = NULL;
 		return;
 	};
+}
 
-//	show_current (itip);	
+static gboolean
+idle_open_cb (gpointer data) 
+{
+	FormatItipPObject *pitip = data;	
+	char *command;
+	
+	command = g_strdup_printf ("evolution-%s \"calendar://?startdate=%s&enddate=%s\"", BASE_VERSION, 
+				   isodate_from_time_t (pitip->start_time), isodate_from_time_t (pitip->end_time));
+	if (!g_spawn_command_line_async (command, NULL)) {
+		g_warning ("Could not launch %s", command);
+	}
+	g_free (command);
+
+	return FALSE;
 }
 
 static void
@@ -948,6 +962,9 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 	case ITIP_VIEW_RESPONSE_REFRESH:
 		send_item (pitip);
 		break;
+	case ITIP_VIEW_RESPONSE_OPEN:
+		g_idle_add (idle_open_cb, pitip);
+		return;
 	default:
 		break;
 	}
