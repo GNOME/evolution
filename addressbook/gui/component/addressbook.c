@@ -589,29 +589,29 @@ addressbook_show_load_error_dialog (GtkWidget *parent, ESource *source, EBookSta
 
 	if (!strncmp (uri, "file:", 5)) {
 		label_string = 
-			_("We were unable to open this addressbook.  Please check that the\n"
+			_("We were unable to open this addressbook.  Please check that the "
 			  "path exists and that you have permission to access it.");
 	}
 	else if (!strncmp (uri, "ldap:", 5)) {
 		/* special case for ldap: contact folders so we can tell the user about openldap */
 #if HAVE_LDAP
 		label_string = 
-			_("We were unable to open this addressbook.  This either\n"
-			  "means you have entered an incorrect URI, or the LDAP server\n"
+			_("We were unable to open this addressbook.  This either "
+			  "means you have entered an incorrect URI, or the LDAP server "
 			  "is unreachable.");
 #else
 		label_string =
-			_("This version of Evolution does not have LDAP support\n"
-			  "compiled in to it.  If you want to use LDAP in Evolution\n"
-			  "you must compile the program from the CVS sources after\n"
-			  "retrieving OpenLDAP from the link below.\n");
+			_("This version of Evolution does not have LDAP support "
+			  "compiled in to it.  If you want to use LDAP in Evolution "
+			  "you must compile the program from the CVS sources after "
+			  "retrieving OpenLDAP from the link below.");
 		href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
 #endif
 	} else {
 		/* other network folders */
 		label_string =
-			_("We were unable to open this addressbook.  This either\n"
-			  "means you have entered an incorrect URI, or the server\n"
+			_("We were unable to open this addressbook.  This either "
+			  "means you have entered an incorrect URI, or the server "
 			  "is unreachable.");
 	}
 

@@ -1,3 +1,11 @@
+2004-01-05  JP Rosevear <jpr@ximian.com>
+
+	* gui/component/addressbook.c
+	(addressbook_show_load_error_dialog): these line breaks in the
+	error messages should actually be spaces
+
+	Fixes #51732
+	
 2003-12-19  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/addressbook-component.c (find_first_source): Impl.
