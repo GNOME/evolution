@@ -1,5 +1,14 @@
 2003-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-utils.c (imap_body_decode): Save the
+	content size in a temp variable until after we've successfully
+	parsed all of the body_type_1part expr. Also fixed a type-o in the
+	body_type_mpart case that caused the parser to fail.
+	(imap_parse_body): On failure to parse the body, as we iterate
+	through the child nodes, set their children/parent/next nodes to
+	NULL so that content_info_free() won't double-free any of the
+	other nodes we have already free'd (or are about to free).
+
 	* camel-gpg-context.c (gpg_ctx_get_utf8_diagnostics): New function
 	to get the UTF-8 version of the diagnostics (if the locale isn't
 	already UTF-8 safe).

@@ -776,6 +776,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 	char *description = NULL;
 	char *encoding = NULL;
 	unsigned int len;
+	size_t size;
 	char *p;
 	
 	if (*inptr++ != '(')
@@ -900,7 +901,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 			goto exception;
 		
 		/* size */
-		ci->size = strtoul ((const char *) inptr, &p, 10);
+		size = strtoul ((const char *) inptr, &p, 10);
 		inptr = (const unsigned char *) p;
 		
 		if (header_content_type_is (ctype, "message", "rfc822")) {
@@ -943,6 +944,7 @@ imap_body_decode (const char **in, CamelMessageContentInfo *ci, CamelFolder *fol
 		ci->id = id;
 		ci->description = description;
 		ci->encoding = encoding;
+		ci->size = size;
 		ci->childs = child;
 	}
 	
@@ -990,6 +992,13 @@ imap_parse_body (const char **body_p, CamelFolder *folder,
 	if (!(imap_body_decode (&inptr, ci, folder, children))) {
 		for (i = 0; i < children->len; i++) {
 			child = children->pdata[i];
+			
+			/* content_info_free will free all the child
+			 * nodes, but we don't want that. */
+			child->next = NULL;
+			child->parent = NULL;
+			child->childs = NULL;
+			
 			camel_folder_summary_content_info_free (folder->summary, child);
 		}
 		*body_p = NULL;
