@@ -629,17 +629,23 @@ camel_folder_summary_save(CamelFolderSummary *s)
 	int i;
 	guint32 count;
 	CamelMessageInfo *mi;
+	char *path;
 
 	if (s->summary_path == NULL
 	    || (s->flags & CAMEL_SUMMARY_DIRTY) == 0)
 		return 0;
 
-	fd = open(s->summary_path, O_RDWR|O_CREAT, 0600);
+	path = alloca(strlen(s->summary_path)+4);
+	sprintf(path, "%s~", s->summary_path);
+	fd = open(path, O_RDWR|O_CREAT|O_TRUNC, 0600);
 	if (fd == -1)
 		return -1;
 	out = fdopen(fd, "w");
 	if ( out == NULL ) {
+		i = errno;
+		unlink(path);
 		close(fd);
+		errno = i;
 		return -1;
 	}
 
@@ -648,13 +654,16 @@ camel_folder_summary_save(CamelFolderSummary *s)
 	CAMEL_SUMMARY_LOCK(s, io_lock);
 
 	if ( ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->summary_header_save(s, out) == -1) {
+		i = errno;
 		fclose(out);
 		CAMEL_SUMMARY_UNLOCK(s, io_lock);
+		unlink(path);
+		errno = i;
 		return -1;
 	}
 
 	/* now write out each message ... */
-	/* FIXME: check returns */
+	/* we check ferorr when done for i/o errors */
 
 	count = s->messages->len;
 	for (i=0;i<count;i++) {
@@ -668,8 +677,19 @@ camel_folder_summary_save(CamelFolderSummary *s)
 
 	CAMEL_SUMMARY_UNLOCK(s, io_lock);
 
-	if (fclose(out) == -1)
+	if (ferror(out) != 0 ||  fclose(out) != 0) {
+		i = errno;
+		unlink(path);
+		errno = i;
 		return -1;
+	}
+
+	if (rename(path, s->summary_path) == -1) {
+		i = errno;
+		unlink(path);
+		errno = i;
+		return -1;
+	}
 
 	s->flags &= ~CAMEL_SUMMARY_DIRTY;
 	return 0;

@@ -47,7 +47,7 @@
 
 #define r(x) 
 #define h(x) 
-#define c(x)  
+#define c(x) 
 #define d(x) 
 
 /*#define PURIFY*/
@@ -1323,7 +1323,7 @@ folder_scan_header(struct _header_scan_state *s, int *lastone)
 						/* otherwise, complete header, add it */
 						s->outptr[0] = 0;
 				
-						h(printf("header '%.20s' at %d\n", s->outbuf, s->header_start));
+						h(printf("header '%.20s' at %d\n", s->outbuf, (int)s->header_start));
 						
 						header_raw_append_parse(&h->headers, s->outbuf, s->header_start);
 						s->outptr = s->outbuf;
@@ -1739,8 +1739,7 @@ tail_recurse:
 				while (f) {
 					camel_mime_filter_filter(f->filter, *databuffer, *datalength, presize,
 								 databuffer, datalength, &presize);
-					d(printf ("Filtered content (%s): '",
-						  camel_type_to_name(((CamelObject *)f->filter)->s.type)));
+					d(printf("Filtered content (%s): '", ((CamelObject *)f->filter)->klass->name));
 					d(fwrite(*databuffer, sizeof(char), *datalength, stdout));
 					d(printf("'\n"));
 					f = f->next;

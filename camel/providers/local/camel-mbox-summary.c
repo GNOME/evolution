@@ -416,6 +416,7 @@ summary_update(CamelLocalSummary *cls, off_t offset, CamelFolderChangeInfo *chan
 				camel_folder_change_info_remove_uid(changeinfo, camel_message_info_uid(mi));
 			camel_folder_summary_remove(s, mi);
 			count--;
+			i--;
 		}
 		camel_folder_summary_info_free(s, mi);
 	}

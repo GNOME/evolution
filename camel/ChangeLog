@@ -1,4 +1,22 @@
+2002-07-25  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-summary.c (camel_folder_summary_save): When writing
+	the summary, use TRUNC flag, duh.  Also, write to a temp file
+	first, and rename when closed successfully, and check ferror() and
+	fclose() against 0 rather than -1.
+
+	* providers/local/camel-mbox-summary.c (summary_update): Decrement
+	i if we remove the summary item so we dont skip every 2nd one.
+
+	* camel-mime-utils.c (header_decode_mailbox): Use
+	rfc2047_decode_word explicitly incase we just found an encoded
+	word.  Stops us re-decoding the string twice, which fixes memory
+	corruption in #26330 when the HUGE string is used later.
+
 2002-07-24  Not Zed  <NotZed@Ximian.com>
+
+	* camel-partition-table.c (camel_key_table_next): Didn't unlock if
+	we exited on an empty key list.
 
 	* providers/imap/camel-imap-folder.c (imap_expunge_uids_online):
 	Sync before doing an expunge if we dont have uidplus.  See #25766.

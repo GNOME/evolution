@@ -946,8 +946,10 @@ camel_key_table_next(CamelKeyTable *ki, camel_key_t next, char **keyp, unsigned 
 
 	if (next == 0) {
 		next = ki->root->first;
-		if (next == 0)
+		if (next == 0) {
+			CAMEL_KEY_TABLE_UNLOCK(ki, lock);
 			return 0;
+		}
 	} else
 		next++;
 

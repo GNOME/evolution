@@ -2487,7 +2487,7 @@ header_decode_mailbox(const char **in)
 			g_free(text);
 
 			/* or maybe that we've added up a bunch of broken bits to make an encoded word */
-			text = header_decode_string(name->str, NULL);
+			text = rfc2047_decode_word(name->str, name->len);
 			if (text) {
 				g_string_truncate(name, 0);
 				g_string_append(name, text);
