@@ -35,6 +35,7 @@ typedef struct {
 	GtkWidget  *widget;
 	GdkWindow  *window;
 	GdkWindow  *decor_window;
+	guint       focus_out_id;
 	int         lower_row; /* zero is first displayed row */
 	int         rows_used;
 	int         x;         /* coords of child's window */
@@ -276,6 +277,9 @@ child_realize (GncalFullDay *fullday, Child *child)
 static void
 child_unrealize (GncalFullDay *fullday, Child *child)
 {
+	if (GTK_WIDGET_REALIZED (child->widget))
+		gtk_widget_unrealize (child->widget);
+
 	gdk_window_set_user_data (child->window, NULL);
 	gdk_window_destroy (child->window);
 	child->window = NULL;
@@ -502,10 +506,6 @@ child_realized_setup (GtkWidget *widget, gpointer data)
 	fullday = GNCAL_FULL_DAY (widget->parent);
 
 	gdk_window_set_cursor (widget->window, fullday->beam_cursor);
-
-	gtk_text_insert (GTK_TEXT (widget), NULL, NULL, NULL,
-			 child->ico->summary,
-			 strlen (child->ico->summary));
 }
 
 static void
@@ -570,13 +570,7 @@ child_set_size (Child *child)
 static gint
 child_focus_in (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
-	Child *child;
-
-	child = data;
-
-	child_set_size (child);
-	gdk_window_raise (child->window);
-
+	child_set_size (data);
 	return FALSE;
 }
 
@@ -586,7 +580,7 @@ child_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 	Child *child;
 	GncalFullDay *fullday;
 	char *text;
-	
+
 	child = data;
 
 	child_set_size (child);
@@ -638,6 +632,7 @@ child_button_press (GtkWidget *widget, GdkEventButton *event, gpointer data)
 	fullday = GNCAL_FULL_DAY (widget->parent);
 
 	gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "button_press_event");
+	gtk_widget_grab_focus (widget);
 	child_popup_menu (fullday, child, event);
 
 	return TRUE;
@@ -687,7 +682,12 @@ child_new (GncalFullDay *fullday, time_t start, time_t end, iCalObject *ico)
 	child_range_changed (fullday, child);
 	child_compute_decor (child);
 
-	/* We set the i-beam cursor and the initial summary text upon realization */
+	if (ico->summary)
+		gtk_text_insert (GTK_TEXT (child->widget), NULL, NULL, NULL,
+				 ico->summary,
+				 strlen (ico->summary));
+
+	/* We set the i-beam cursor of the text widget upon realization */
 
 	gtk_signal_connect (GTK_OBJECT (child->widget), "realize",
 			    (GtkSignalFunc) child_realized_setup,
@@ -697,9 +697,9 @@ child_new (GncalFullDay *fullday, time_t start, time_t end, iCalObject *ico)
 				  (GtkSignalFunc) child_focus_in,
 				  child);
 
-	gtk_signal_connect_after (GTK_OBJECT (child->widget), "focus_out_event",
-				  (GtkSignalFunc) child_focus_out,
-				  child);
+	child->focus_out_id = gtk_signal_connect_after (GTK_OBJECT (child->widget), "focus_out_event",
+							(GtkSignalFunc) child_focus_out,
+							child);
 
 	gtk_signal_connect (GTK_OBJECT (child->widget), "key_press_event",
 			    (GtkSignalFunc) child_key_press,
@@ -720,13 +720,18 @@ child_new (GncalFullDay *fullday, time_t start, time_t end, iCalObject *ico)
 }
 
 static void
+squick (GtkWidget *widget, gpointer data)
+{
+	printf ("destroyed!\n");
+}
+
+static void
 child_destroy (GncalFullDay *fullday, Child *child)
 {
-	/* Unparent the child widget manually as we don't have a remove method */
-
-	gtk_widget_ref (child->widget);
-
-	gtk_widget_unparent (child->widget);
+	/* Disconnect the focus_out_event signal since we will get such an event
+	 * from the destroy call.
+	 */
+	gtk_signal_disconnect (GTK_OBJECT (child->widget), child->focus_out_id);
 
 	if (GTK_WIDGET_MAPPED (fullday))
 		child_unmap (fullday, child);
@@ -734,8 +739,13 @@ child_destroy (GncalFullDay *fullday, Child *child)
 	if (GTK_WIDGET_REALIZED (fullday))
 		child_unrealize (fullday, child);
 
-	gtk_widget_unref (child->widget);
+	/* Unparent the child widget manually as we don't have a remove method */
 
+	gtk_signal_connect (GTK_OBJECT (child->widget), "destroy",
+			    (GtkSignalFunc) squick,
+			    NULL);
+
+	gtk_widget_unparent (child->widget);
 	g_free (child);
 }
 
@@ -922,28 +932,30 @@ gncal_full_day_init (GncalFullDay *fullday)
 	fullday->bell_gc = NULL;
 }
 
+/* Destroys all the children in the full day widget */
+static void
+destroy_children (GncalFullDay *fullday)
+{
+	GList *children;
+
+	for (children = fullday->children; children; children = children->next)
+		child_destroy (fullday, children->data);
+
+	g_list_free (fullday->children);
+	fullday->children = NULL;
+}
+
 static void
 gncal_full_day_destroy (GtkObject *object)
 {
 	GncalFullDay *fullday;
-	GList *children;
-	Child *child;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNCAL_IS_FULL_DAY (object));
 
 	fullday = GNCAL_FULL_DAY (object);
 
-	/* Unparent the children manually as we don't have a remove method */
-
-	for (children = fullday->children; children; children = children->next) {
-		child = children->data;
-
-		gtk_widget_unparent (child->widget);
-	}
-
-	g_list_free (fullday->children);
-	fullday->children = NULL;
+	destroy_children (fullday);
 
 	g_free (fullday->drag_info);
 
@@ -1966,7 +1978,7 @@ gncal_full_day_key_press (GtkWidget *widget, GdkEventKey *event)
 	if ((event->keyval < 0x20) || (event->keyval > 0xFF)
 	    || (event->length == 0) || (event->state & GDK_CONTROL_MASK)
 	    || (event->state & GDK_MOD1_MASK))
-	    return FALSE;
+		return FALSE;
 
 	gtk_signal_emit (GTK_OBJECT (fullday),
 			 fullday_signals[RANGE_ACTIVATED]);
@@ -1975,21 +1987,20 @@ gncal_full_day_key_press (GtkWidget *widget, GdkEventKey *event)
 	 * Find the new child, which should hopefully be focused, and
 	 * insert the keypress.
 	 */
-	for (children = fullday->children; children; children = children->next)
-	    {
+	for (children = fullday->children; children; children = children->next) {
 		child = children->data;
 
 		if (GTK_WIDGET_HAS_FOCUS (child->widget)) {
-		    pos = gtk_text_get_length (GTK_TEXT (child->widget));
+			pos = gtk_text_get_length (GTK_TEXT (child->widget));
 
-		    gtk_editable_insert_text (GTK_EDITABLE (child->widget),
-					      event->string,
-					      event->length,
-					      &pos);
+			gtk_editable_insert_text (GTK_EDITABLE (child->widget),
+						  event->string,
+						  event->length,
+						  &pos);
 
-		    return TRUE;
+			return TRUE;
 		}
-	    }
+	}
 
 	return FALSE;
 }
@@ -2097,19 +2108,14 @@ gncal_full_day_update (GncalFullDay *fullday, iCalObject *ico, int flags)
 
 	/* We have to regenerate and layout our list of children */
 
-	for (children = fullday->children; children; children = children->next)
-		child_destroy (fullday, children->data);
+	destroy_children (fullday);
 
-	g_list_free (fullday->children);
-
-	fullday->children = NULL;
-	
 	calendar_iterate (fullday->calendar->cal,
 			  fullday->lower,
 			  fullday->upper,
 			  fullday_add_children,
 			  fullday);
-	
+
 	layout_children (fullday);
 
 	/* Realize and map children */
@@ -2186,7 +2192,6 @@ gncal_full_day_focus_child (GncalFullDay *fullday, iCalObject *ico)
 {
 	GList *children;
 	Child *child;
-	GdkEvent event;
 
 	g_return_if_fail (fullday != NULL);
 	g_return_if_fail (ico != NULL);
@@ -2196,22 +2201,6 @@ gncal_full_day_focus_child (GncalFullDay *fullday, iCalObject *ico)
 
 		if (child->ico == ico) {
 			gtk_widget_grab_focus (child->widget);
-
-			/* We synthesize a click because GtkText will not set the cursor and
-			 * the user will not be able to type-- this has to be fixed in
-			 * GtkText.  */
-
-			memset (&event, 0, sizeof (event));
-
-			event.type = GDK_BUTTON_PRESS;
-			event.button.window = child->widget->window;
-			event.button.time = GDK_CURRENT_TIME;
-			event.button.x = 0;
-			event.button.y = 0;
-			event.button.button = 1;
-
-			gtk_widget_event (child->widget, &event);
-
 			break;
 		}
 	}

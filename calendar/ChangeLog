@@ -1,3 +1,24 @@
+1999-01-28  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-full-day.c (child_new): Insert the summary text here.
+	(child_focus_in): No need to raise the window, since we have
+	Spiffo(tm) layout code.  Boy, this is old code.
+	(gncal_full_day_focus_child): Now that GtkText works better, we
+	can avoid synthesizing a click which was causing grief, anyway.
+	(child_button_press): Grab the focus before popping up the menu.
+
+	* layout.c (find_index): Added a sanity check.
+
+	* gncal-full-day.c (child_destroy): Unmap and unrealize the child
+	before unparenting/destroying it.
+	(child_unrealize): Unrealize the widget.  What was I thinking?
+	(child_new): Save the focus_out_event signal connection id in
+	Child structure (in a new field).
+	(child_destroy): Disconnect from the focus_out_event signal, since
+	we don't want to get such an event when the widget is destroyed.
+	(gncal_full_day_destroy): Destroy the children properly; it was
+	leaking memory.
+
 1999-01-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* main.c (save_calendar_cmd): Warn if the calendar file has

@@ -101,6 +101,8 @@ find_index (struct layout_info *li, time_t t)
 	for (i = 0; ; i++)
 		if (li->partition[i] == t)
 			return i;
+
+	g_assert_not_reached ();
 }
 
 #define xy(li, x, y) li->array[(y * MAX_EVENTS_PER_ROW) + (x)]
