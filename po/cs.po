@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "POT-Creation-Date: 2004-06-03 11:14-0400\n"
-"PO-Revision-Date: 2004-05-27 13:56+0200\n"
+"PO-Revision-Date: 2004-06-07 11:03+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -415,11 +415,9 @@ msgid "Email address"
 msgstr "E-mailová adresa"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
-#, fuzzy
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
-msgstr ""
-"Evolution bude používat tuto e-mailovou adresu k vaší autentizaci u serveru"
+msgstr "Evolution bude používat tuto e-mailovou adresu k vaší autentizaci u serveru."
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Find Possible Search Bases"
@@ -441,9 +439,8 @@ msgid "Only locations within starting point"
 msgstr "Jen umístění v počátečním bodě"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
-#, fuzzy
 msgid "Search _base:"
-msgstr "Základ vyhledávání:"
+msgstr "Základ _vyhledávání:"
 
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid "Search base only"
@@ -458,40 +455,25 @@ msgid "Search scope:"
 msgstr "Rozsah vyhledávání:"
 
 #: addressbook/gui/component/ldap-config.glade.h:31
-#, fuzzy
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL or TLS."
-msgstr ""
-"Po výběru této volby se Evolution k serveru LDAP připojí pouze tehdy,\n"
-"pokud LDAP server podporuje SSL nebo TLS."
+msgstr "Po výběru této volby se Evolution k serveru LDAP připojí pouze tehdy, pokud LDAP server podporuje SSL nebo TLS."
 
 #: addressbook/gui/component/ldap-config.glade.h:32
-#, fuzzy
 msgid ""
 "Selecting this option means that Evolution will only try to use SSL/TLS if "
 "you are in a insecure environment. For example, if you and your LDAP server "
 "are behind a firewall at work, then Evolution doesn't need to use SSL/TLS "
 "because your connection is already secure."
-msgstr ""
-"Po výběru této volby bude Evolution používat SSL/TLS, jen pokud se "
-"nacházíte\n"
-"v nezabezpečeném prostředí. Pokud se například nacházíte vy a váš LDAP "
-"server\n"
-"v práci za firewallem, není třeba použít SSL/TLS, protože spojení je již "
-"bezpečné."
+msgstr "Po výběru této volby bude Evolution používat SSL/TLS, jen pokud se nacházíte v nezabezpečeném prostředí. Pokud se například nacházíte vy a váš LDAP server v práci za firewallem, není třeba použít SSL/TLS, protože spojení je již bezpečné."
 
 #: addressbook/gui/component/ldap-config.glade.h:33
-#, fuzzy
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS.  This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits. "
-msgstr ""
-"Výběr této volby znamená, že váš server nepodporuje SSL ani TLS. To "
-"znamená,\n"
-"že vaše spojení nebude zabezpečené a můžete se stát terčem bezpečnostního "
-"útoku."
+msgstr "Výběr této volby znamená, že váš server nepodporuje SSL ani TLS. To znamená, že vaše spojení nebude zabezpečené a můžete se stát terčem bezpečnostního útoku. "
 
 #: addressbook/gui/component/ldap-config.glade.h:34
 msgid "Starting point and locations within it"
@@ -502,29 +484,19 @@ msgid "Supported Search Bases"
 msgstr "Podporované základy vyhledávání"
 
 #: addressbook/gui/component/ldap-config.glade.h:36
-#, fuzzy
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
-msgstr ""
-"Základ vyhledávání je distinguished name (DN) záznamu, kde bude začínat\n"
-"vaše hledání. Pokud je ponecháte prázdné, prohledávání začne v kořeni "
-"adresářového stromu."
+msgstr "Základ vyhledávání je distinguished name (DN) záznamu, kde bude začínat vaše hledání. Pokud je ponecháte prázdné, prohledávání začne v kořeni adresářového stromu."
 
 #: addressbook/gui/component/ldap-config.glade.h:37
-#, fuzzy
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
 "your search base. A search scope of \"one\" will only include the entries "
 "one level beneath your base."
-msgstr ""
-"Rozsah vyhledávání označuje, jak hluboko ve stromu chcete hledat.\n"
-"Rozsah vyhledávání \"sub\" zahrnuje všechny záznamy pod základem "
-"vyhledávání.\n"
-"Rozsah vyhledávání \"jeden\" zahrnuje záznamy jednu úroveň pod základem "
-"vyhledávání.\n"
+msgstr "Rozsah vyhledávání označuje, jak hluboko ve stromu chcete hledat. Rozsah vyhledávání \"sub\" zahrnuje všechny záznamy pod základem vyhledávání. Rozsah vyhledávání \"jeden\" zahrnuje záznamy jednu úroveň pod základem vyhledávání."
 
 #: addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -534,14 +506,10 @@ msgstr ""
 "Toto je plný název vašeho LDAP serveru. Například  \"ldap.mycompany.com\"."
 
 #: addressbook/gui/component/ldap-config.glade.h:39
-#, fuzzy
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
-msgstr ""
-"Toto je maximální počet stahovaných položek. Pokud nastavíte toto číslo "
-"příliš\n"
-"vysoké, zpomalí se váš adresář."
+msgstr "Toto je maximální počet stahovaných položek. Pokud nastavíte toto číslo příliš vysoké, zpomalí se váš adresář."
 
 #: addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
@@ -554,25 +522,17 @@ msgstr ""
 "LDAP."
 
 #: addressbook/gui/component/ldap-config.glade.h:41
-#, fuzzy
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
-msgstr ""
-"Toto je jméno pro tento server, které se objeví ve vašem seznamu složek "
-"Evolution.\n"
-"Je pouze pro zobrazování."
+msgstr "Toto je jméno pro tento server, které se objeví ve vašem seznamu složek Evolution. Je pouze pro zobrazování. "
 
 #: addressbook/gui/component/ldap-config.glade.h:42
-#, fuzzy
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
-msgstr ""
-"Toto je port na LDAP serveru, ke kterému se Evolution má připojovat.\n"
-"Seznam standardních portů je předvyplněn. Váš správce systému vám sdělí,\n"
-"které číslo portu máte zadat."
+msgstr "Toto je port na LDAP serveru, ke kterému se Evolution má připojovat. Seznam standardních portů je předvyplněn. Váš správce systému vám sdělí, které číslo portu máte zadat."
 
 #: addressbook/gui/component/ldap-config.glade.h:43
 msgid "Timeout:"
@@ -604,18 +564,16 @@ msgid "_Email address:"
 msgstr "_E-mailová adresa:"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
-#, fuzzy
 msgid "_Find Possible Search Bases"
-msgstr "Hledat možné základy vyhledávání"
+msgstr "_Hledat možné základy vyhledávání"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Log in method:"
 msgstr "_Metoda přihlášení:"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
-#, fuzzy
 msgid "_Log in:"
-msgstr "Přihlášení do systému"
+msgstr "_Přihlášení:"
 
 #: addressbook/gui/component/ldap-config.glade.h:53
 #: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:171
@@ -627,18 +585,16 @@ msgid "_Port:"
 msgstr "_Port:"
 
 #: addressbook/gui/component/ldap-config.glade.h:55
-#, fuzzy
 msgid "_Search scope:"
-msgstr "Rozsah vyhledávání:"
+msgstr "_Rozsah vyhledávání:"
 
 #: addressbook/gui/component/ldap-config.glade.h:56
 msgid "_Server:"
 msgstr "S_erver:"
 
 #: addressbook/gui/component/ldap-config.glade.h:57
-#, fuzzy
 msgid "_Timeout:"
-msgstr "Časový limit:"
+msgstr "_Časový limit:"
 
 #: addressbook/gui/component/ldap-config.glade.h:58
 msgid "_Use secure connection:"
@@ -861,9 +817,8 @@ msgid "Novell Groupwise"
 msgstr "Novell Groupwise"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
-#, fuzzy
 msgid "Office:"
-msgstr "Kancelář"
+msgstr "Kancelář:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "PO Box:"
@@ -878,9 +833,8 @@ msgid "Profession:"
 msgstr "Povolání:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
-#, fuzzy
 msgid "Spouse:"
-msgstr "Partner/-ka"
+msgstr "Partner/-ka:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "State/Province:"
@@ -892,16 +846,15 @@ msgstr "Titul:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "Video Chat:"
-msgstr ""
+msgstr "Video chat:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "Wants to receive HTML mail"
 msgstr "Chce dostávat poštu v HTML"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:42
-#, fuzzy
 msgid "Web Log:"
-msgstr "WWW stránka:"
+msgstr "Web log:"
 
 #. red
 #: addressbook/gui/contact-editor/contact-editor.glade.h:43
@@ -4736,9 +4689,8 @@ msgid "Add A_ttendee"
 msgstr "Přidat _účastníka"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#, fuzzy
 msgid "Add attendees from addressbook."
-msgstr "Přidat odesílatele do _adresáře"
+msgstr "Přidat účastníky z adresáře"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-itip-control.glade.h:9
@@ -6131,26 +6083,22 @@ msgid "No Information"
 msgstr "Žádné informace"
 
 #: calendar/gui/e-meeting-time-sel.c:417
-#, fuzzy
 msgid "Add attendees from addressbook"
-msgstr "Přidat odesílatele do _adresáře"
+msgstr "Přidat účastníky z adresáře"
 
 #: calendar/gui/e-meeting-time-sel.c:440
 msgid "_Options"
 msgstr "_Volby"
 
 #: calendar/gui/e-meeting-time-sel.c:457
-#, fuzzy
 msgid "Show _only working hours"
 msgstr "Zobrazovat pouze _pracovní hodiny"
 
 #: calendar/gui/e-meeting-time-sel.c:467
-#, fuzzy
 msgid "Show _zoomed out"
 msgstr "Zobrazovat z_menšené"
 
 #: calendar/gui/e-meeting-time-sel.c:482
-#, fuzzy
 msgid "_Update free/busy"
 msgstr "_Aktualizovat volný/obsazený čas"
 
@@ -6167,22 +6115,18 @@ msgid ">_>"
 msgstr ">_>"
 
 #: calendar/gui/e-meeting-time-sel.c:547
-#, fuzzy
 msgid "_All people and resources"
 msgstr "_Všichni lidé a zdroje"
 
 #: calendar/gui/e-meeting-time-sel.c:556
-#, fuzzy
 msgid "All _people and one resource"
 msgstr "Všichni _lidé a jeden zdroj"
 
 #: calendar/gui/e-meeting-time-sel.c:565
-#, fuzzy
 msgid "_Required people"
 msgstr "_Nezbytní lidé"
 
 #: calendar/gui/e-meeting-time-sel.c:574
-#, fuzzy
 msgid "Required people and _one resource"
 msgstr "Nezbytní lidé a _jeden zdroj"
 
@@ -10860,9 +10804,9 @@ msgstr "Interní chyba: uid v neplatném formátu: %s"
 #: camel/providers/nntp/camel-nntp-folder.c:331
 #: camel/providers/nntp/camel-nntp-folder.c:373
 #: camel/providers/nntp/camel-nntp-folder.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "Posting failed: %s"
-msgstr "Operace selhala: %s"
+msgstr "Posílání selhalo: %s"
 
 #: camel/providers/nntp/camel-nntp-folder.c:393
 msgid "You cannot post NNTP messages while working offline!"
@@ -10980,19 +10924,17 @@ msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr "Nemůžete odstranit složku z úložiště News: místo toho se odhlaste."
 
 #: camel/providers/nntp/camel-nntp-store.c:1118
-#, fuzzy
 msgid "Authentication requested but not username provided"
-msgstr "Je požadována autentizace"
+msgstr "Je požadována autentizace, ale nebylo poskytnuto jméno uživatele"
 
 #: camel/providers/nntp/camel-nntp-store.c:1146
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot authenticate to server: %s"
-msgstr "Nemohu se autentizovat u IMAP serveru %s pomocí %s"
+msgstr "Nemohu se autentizovat u serveru: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:1262
-#, fuzzy
 msgid "Not connected."
-msgstr "Žádné kontakty"
+msgstr "Nepřipojen."
 
 #: camel/providers/nntp/camel-nntp-store.c:1311
 #, c-format
@@ -11006,14 +10948,14 @@ msgid "%s: Scanning new messages"
 msgstr "%s: Hledám nové zprávy"
 
 #: camel/providers/nntp/camel-nntp-summary.c:225
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected server response from xover: %s"
-msgstr "Neočekávaná odpověď od IMAP serveru: %s"
+msgstr "Neočekávaná odpověď serveru od xover: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:328
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected server response from head: %s"
-msgstr "Neočekávaná odpověď od GnuPG: %s"
+msgstr "Neočekávaná odpověď serveru od head: %s"
 
 #: camel/providers/nntp/camel-nntp-summary.c:368
 msgid "Use cancel"
@@ -11714,7 +11656,6 @@ msgstr "Připojit soubory"
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
-#, fuzzy
 msgid "You cannot attach the file `{0}' to this message."
 msgstr "K této zprávě nemůžete přiložit soubor `${0}'."
 
@@ -11725,9 +11666,8 @@ msgstr "{1}"
 
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
-#, fuzzy
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr "Soubor `${0}' není obyčejný soubor a nemůže být poslán ve zprávě."
+msgstr "Soubor `{0}' není obyčejný soubor a nemůže být poslán ve zprávě."
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
@@ -11817,9 +11757,8 @@ msgstr "Nemohu vytvořit zprávu."
 
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:34
-#, fuzzy
 msgid "Because \"{0}\", you may need to select different mail options."
-msgstr "Protože \"${0}\", možná budete muset zvolit jiná nastavení pošty."
+msgstr "Protože \"{0}\", možná budete muset zvolit jiná nastavení pošty."
 
 #. mail-composer:no-sig-file primary
 #: composer/mail-composer-errors.xml.h:36
@@ -15834,7 +15773,7 @@ msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
 msgid "Toolbar is visible"
-msgstr ""
+msgstr "Lišta nástrojů je viditelná"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "Whether Evolution should start up in offline mode"
@@ -15842,7 +15781,7 @@ msgstr "Jestli se má Evolution spouštět v režimu odpojení"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:12
 msgid "Whether the toolbar should be visible."
-msgstr ""
+msgstr "Jestli má být lišta nástrojů viditelná."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:13
 msgid "Whether to skip the development warning dialog"
@@ -16098,9 +16037,8 @@ msgid "Bug buddy could not be run."
 msgstr "Nemohu spustit bug buddy."
 
 #: shell/e-shell-window-commands.c:323
-#, fuzzy
 msgid "Groupware Suite"
-msgstr "Groupwise"
+msgstr "Sada groupware"
 
 #: shell/e-shell-window-commands.c:563
 msgid "_Work Online"
@@ -16608,7 +16546,7 @@ msgstr "Certifikáty kontaktů"
 
 #: smime/gui/smime-ui.glade.h:20
 msgid "Do not trust the authenticity of this certificate"
-msgstr ""
+msgstr "Nedůvěřovat pravosti tohoto certifikátu"
 
 #: smime/gui/smime-ui.glade.h:21
 msgid "Dummy window only"
@@ -16619,9 +16557,8 @@ msgid "Edit"
 msgstr "Upravit"
 
 #: smime/gui/smime-ui.glade.h:23
-#, fuzzy
 msgid "Email Certificate Trust Settings"
-msgstr "Certifikační autorita e-mailu"
+msgstr "Nastavení dúvěry certifikátům e-mailu"
 
 #: smime/gui/smime-ui.glade.h:24
 msgid "Email Recipient Certificate"
@@ -16665,7 +16602,7 @@ msgstr "Certifikát serveru SSL"
 
 #: smime/gui/smime-ui.glade.h:37
 msgid "Trust the authenticity of this certificate"
-msgstr ""
+msgstr "Důvěřovat pravosti tohoto certifikátu"
 
 #: smime/gui/smime-ui.glade.h:38
 msgid "Trust this CA to identify email users."
@@ -16703,7 +16640,7 @@ msgstr "Vaše certifikáty"
 
 #: smime/gui/smime-ui.glade.h:46
 msgid "_Edit CA Trust"
-msgstr ""
+msgstr "_Upravit důvěru CA"
 
 #: smime/lib/e-cert.c:238 smime/lib/e-cert.c:248
 msgid "%d/%m/%Y"
@@ -16711,14 +16648,12 @@ msgstr "%d. %m. %Y"
 
 #. x509 certificate usage types
 #: smime/lib/e-cert.c:424
-#, fuzzy
 msgid "Sign"
 msgstr "Podepisování"
 
 #: smime/lib/e-cert.c:425
-#, fuzzy
 msgid "Encrypt"
-msgstr "Šifrována"
+msgstr "Šifrování"
 
 #: smime/lib/e-cert.c:530
 msgid "Version"
@@ -18223,18 +18158,16 @@ msgid "_Open Task"
 msgstr "_Otevřít úkol"
 
 #: ui/evolution.xml.h:1
-#, fuzzy
 msgid "About Evolution..."
-msgstr "O Evolution"
+msgstr "O Evolution..."
 
 #: ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
 msgstr "Změnit nastavení Evolution"
 
 #: ui/evolution.xml.h:3
-#, fuzzy
 msgid "Change the visibility of the toolbar"
-msgstr "Změnit vlastnosti této složky"
+msgstr "Změnit viditelnost lišty nástrojů"
 
 #: ui/evolution.xml.h:6
 msgid "Create a new window displaying this folder"
@@ -18245,9 +18178,8 @@ msgid "E_xit"
 msgstr "U_končit"
 
 #: ui/evolution.xml.h:8
-#, fuzzy
 msgid "Evolution _FAQ"
-msgstr "Ximian Evolution _FAQ"
+msgstr "Evolution _FAQ"
 
 #: ui/evolution.xml.h:9
 msgid "Exit the program"
@@ -18287,9 +18219,8 @@ msgid "Set up Pilot configuration"
 msgstr "Nastavení Pilota"
 
 #: ui/evolution.xml.h:19
-#, fuzzy
 msgid "Show information about Evolution"
-msgstr "Zobrazit informace o Ximian Evolution"
+msgstr "Zobrazit informace o Evolution"
 
 #: ui/evolution.xml.h:20
 msgid "Submit Bug Report"
@@ -18304,18 +18235,16 @@ msgid "Submit a bug report using Bug Buddy"
 msgstr "Poslat hlášení o chybě pomocí Bug Buddy"
 
 #: ui/evolution.xml.h:23
-#, fuzzy
 msgid "T_oolbar"
-msgstr "Hlavní nástrojová lišta"
+msgstr "_Lišta nástrojů"
 
 #: ui/evolution.xml.h:24
 msgid "Toggle whether we are working offline."
 msgstr "Přepnout, zdali pracujete off-line."
 
 #: ui/evolution.xml.h:26
-#, fuzzy
 msgid "_About Evolution..."
-msgstr "O Evolution"
+msgstr "O _Evolution..."
 
 #: ui/evolution.xml.h:30
 msgid "_Help"
@@ -18736,20 +18665,8 @@ msgstr "%s (%d%% hotovo)"
 #~ "Některá pole již v editoru kontaktů nelze reprezentovat. Počkejte prosím, "
 #~ "než Evolution zkopíruje tato pole do pole 'Poznámky'..."
 
-#~ msgid "  S_how Supported Bases "
-#~ msgstr "  Zo_brazit podporované základy "
-
-#~ msgid "1:00"
-#~ msgstr "1:00"
-
-#~ msgid "5:00"
-#~ msgstr "5:00"
-
 #~ msgid "Connecting"
 #~ msgstr "Připojení"
-
-#~ msgid "Distinguished _name:"
-#~ msgstr "Distinguished _name:"
 
 #~ msgid "Email address:"
 #~ msgstr "E-mailová adresa:"
@@ -18765,9 +18682,6 @@ msgstr "%s (%d%% hotovo)"
 
 #~ msgid "Searching"
 #~ msgstr "Vyhledávání"
-
-#~ msgid "Sub"
-#~ msgstr "Sub"
 
 #~ msgid "This option controls how long a search will be run."
 #~ msgstr "Tato volba určuje, jak dlouho poběží hledání."
@@ -18801,12 +18715,6 @@ msgstr "%s (%d%% hotovo)"
 
 #~ msgid "Webcam:"
 #~ msgstr "WWW kamera:"
-
-#~ msgid "item7"
-#~ msgstr "item7"
-
-#~ msgid "item8"
-#~ msgstr "item8"
 
 #~ msgid "Calendar Properties"
 #~ msgstr "Vlastnosti kalendáře"
@@ -18860,12 +18768,6 @@ msgstr "%s (%d%% hotovo)"
 #~ msgid "Unknown server response: %s"
 #~ msgstr "Neznámá odpověď serveru: %s"
 
-#~ msgid "${1}"
-#~ msgstr "${1}"
-
-#~ msgid "Because \"${1}\"."
-#~ msgstr "Protože \"${1}\"."
-
 #~ msgid "Brought to you by"
 #~ msgstr "Pro vás vytvořili"
 
@@ -18877,12 +18779,6 @@ msgstr "%s (%d%% hotovo)"
 
 #~ msgid "You have been asked to trust a new Certificate Authority (CA)."
 #~ msgstr "Byli jste požádáni, abyste věřili nové certifikační autoritě (CA)."
-
-#~ msgid "About Ximian Evolution..."
-#~ msgstr "O Ximian Evolution..."
-
-#~ msgid "_About Ximian Evolution..."
-#~ msgstr "O _Ximian Evolution..."
 
 #~ msgid "Failed to connect to LDAP server"
 #~ msgstr "Nemohu se připojit k serveru LDAP."
