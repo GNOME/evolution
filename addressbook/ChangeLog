@@ -1,3 +1,8 @@
+2003-11-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Add
+	component_alias of "contacts".
+
 2003-11-08  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/Makefile.am (libevolution_addressbook_la_SOURCES):
