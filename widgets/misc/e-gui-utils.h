@@ -6,7 +6,7 @@
 
 #include <libgnomeui/gnome-messagebox.h>
 
-void  e_popup_menu                   (GtkMenu *menu, GdkEventButton *event);
+void  e_popup_menu                   (GtkMenu *menu, GdkEvent *event);
 void  e_auto_kill_popup_menu_on_hide (GtkMenu *menu);
 void  e_notice                       (GtkWindow *window, const char *type, const char *format, ...);
 void e_container_foreach_leaf        (GtkContainer *container,

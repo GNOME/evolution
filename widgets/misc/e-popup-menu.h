@@ -20,7 +20,7 @@ GtkMenu *e_popup_menu_create  (EPopupMenu     *menu_list,
 			       void           *closure);
 
 void     e_popup_menu_run     (EPopupMenu     *menu_list,
-			       GdkEventButton *event,
+			       GdkEvent       *event,
 			       guint32         disable_mask,
 			       guint32         hide_mask,
 			       void           *closure);
