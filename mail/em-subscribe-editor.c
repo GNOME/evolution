@@ -844,7 +844,7 @@ GtkDialog *em_subscribe_editor_new(void)
 	se->dialog = (GtkDialog *)glade_xml_get_widget (xml, "subscribe_dialog");
 	g_signal_connect(se->dialog, "destroy", G_CALLBACK(sub_editor_destroy), se);
 	
-	gtk_widget_realize ((GtkWidget *)se->dialog);
+	gtk_widget_ensure_style ((GtkWidget *)se->dialog);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->action_area, 12);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->vbox, 0);
 
