@@ -2,8 +2,7 @@
 /* camel-smtp-transport.c : class for a smtp transport */
 
 /* 
- * Authors:
- *   Jeffrey Stedfast <fejj@helixcode.com>
+ * Authors: Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright (C) 2000 Helix Code, Inc. (www.helixcode.com)
  *
@@ -38,6 +37,7 @@
 #undef MIN
 #undef MAX
 #include "camel-mime-filter-crlf.h"
+#include "camel-mime-filter-linewrap.h"
 #include "camel-stream-filter.h"
 #include "camel-smtp-transport.h"
 #include "camel-mime-message.h"
@@ -85,7 +85,7 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 		CAMEL_SERVICE_CLASS (camel_smtp_transport_class);
 	
 	service_class = CAMEL_SERVICE_CLASS(camel_type_get_global_classfuncs (camel_service_get_type ()));
-
+	
 	/* virtual method overload */
 	camel_service_class->connect = smtp_connect;
 	camel_service_class->disconnect = smtp_disconnect;
@@ -103,7 +103,7 @@ static void
 camel_smtp_transport_init (gpointer object)
 {
 	CamelService *service = CAMEL_SERVICE (object);
-
+	
 	service->url_flags = CAMEL_SERVICE_URL_NEED_HOST;
 }
 
@@ -111,17 +111,18 @@ CamelType
 camel_smtp_transport_get_type (void)
 {
 	static CamelType camel_smtp_transport_type = CAMEL_INVALID_TYPE;
-
+	
 	if (camel_smtp_transport_type == CAMEL_INVALID_TYPE) {
-		camel_smtp_transport_type = camel_type_register (CAMEL_TRANSPORT_TYPE, "CamelSmtpTransport",
-								 sizeof (CamelSmtpTransport),
-								 sizeof (CamelSmtpTransportClass),
-								 (CamelObjectClassInitFunc) camel_smtp_transport_class_init,
-								 NULL,
-								 (CamelObjectInitFunc) camel_smtp_transport_init,
-								 NULL);
+		camel_smtp_transport_type =
+			camel_type_register (CAMEL_TRANSPORT_TYPE, "CamelSmtpTransport",
+					     sizeof (CamelSmtpTransport),
+					     sizeof (CamelSmtpTransportClass),
+					     (CamelObjectClassInitFunc) camel_smtp_transport_class_init,
+					     NULL,
+					     (CamelObjectInitFunc) camel_smtp_transport_init,
+					     NULL);
 	}
-
+	
 	return camel_smtp_transport_type;
 }
 
@@ -134,23 +135,23 @@ smtp_connect (CamelService *service, CamelException *ex)
 	gint fd, num, i;
 	guint32 addrlen;
 	gchar *pass = NULL, *respbuf = NULL;
-
-
+	
+	
 	if (!service_class->connect (service, ex))
 		return FALSE;
-
+	
 	h = camel_service_gethost (service, ex);
 	if (!h)
 		return FALSE;
-
+	
 	/* set some smtp transport defaults */
 	transport->smtp_is_esmtp = FALSE;
 	transport->esmtp_supported_authtypes = NULL;
-
+	
 	sin.sin_family = h->h_addrtype;
 	sin.sin_port = htons (service->url->port ? service->url->port : SMTP_PORT);
 	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
-
+	
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
 	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof (sin)) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -163,15 +164,15 @@ smtp_connect (CamelService *service, CamelException *ex)
 		g_free (pass);
 		return FALSE;
 	}
-
+	
 	/* get the localaddr - needed later by smtp_helo */
 	addrlen = sizeof (transport->localaddr);
 	getsockname (fd, (struct sockaddr*)&transport->localaddr, &addrlen);
-
+	
 	transport->ostream = camel_stream_fs_new_with_fd (fd);
 	transport->istream = camel_stream_buffer_new (transport->ostream, 
 						      CAMEL_STREAM_BUFFER_READ);
-
+	
 	/* Read the greeting, note whether the server is ESMTP or not. */
 	do {
 		/* Check for "220" */
@@ -188,7 +189,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 			transport->smtp_is_esmtp = TRUE;
 	} while (*(respbuf+3) == '-'); /* if we got "220-" then loop again */
 	g_free (respbuf);
-
+	
 	/* send HELO (or EHLO, depending on the service type) */
 	if (!transport->smtp_is_esmtp) {
 		/* If we did not auto-detect ESMTP, we should still send EHLO */
@@ -201,7 +202,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 	} else {
 		smtp_helo (transport, ex);
 	}
-
+	
 	/* check to see if AUTH is required, if so...then AUTH ourselves */
 	if (transport->smtp_is_esmtp && transport->esmtp_supported_authtypes) {
 		/* not really supported yet, but we can at least show what auth types are supported */
@@ -217,7 +218,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 	} else {
 		d(fprintf (stderr, "\ncamel-smtp-transport::connect(): provider does not use AUTH\n\n"));
 	}
-
+	
 	return TRUE;
 }
 
@@ -225,24 +226,24 @@ static gboolean
 smtp_disconnect (CamelService *service, CamelException *ex)
 {
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
-
+	
 	/*if (!service->connected)
 	 *	return TRUE;
 	 */
-
+	
 	/* send the QUIT command to the SMTP server */
-	smtp_quit(transport, ex);
-
+	smtp_quit (transport, ex);
+	
 	if (!service_class->disconnect (service, ex))
 		return FALSE;
-
+	
 	g_free (transport->esmtp_supported_authtypes);
 	transport->esmtp_supported_authtypes = NULL;
 	camel_object_unref (CAMEL_OBJECT (transport->ostream));
 	camel_object_unref (CAMEL_OBJECT (transport->istream));
 	transport->ostream = NULL;
 	transport->istream = NULL;
-
+	
 	return TRUE;
 }
 
@@ -251,20 +252,20 @@ esmtp_get_authtypes (gchar *buffer)
 {
 	GList *ret = NULL;
 	gchar *start, *end;
-
+	
 	/* advance to the first token */
 	for (start = buffer; *start == ' ' || *start == '='; start++);
-
+	
 	for ( ; *start; ) {
 		/* advance to the end of the token */
 		for (end = start; *end && *end != ' '; end++);
-
+		
 		ret = g_list_append (ret, g_strndup (start, end - start));
-
+		
 		/* advance to the next token */
 		for (start = end; *start == ' '; start++);
 	}
-
+	
 	return ret;
 }
 
@@ -272,21 +273,21 @@ esmtp_get_authtypes (gchar *buffer)
 #ifdef notyet
 static CamelServiceAuthType no_authtype = {
 	"No authentication required",
-
+	
 	"This option will connect to the SMTP server without using any "
 	"kind of authentication. This should be fine for connecting to "
 	"most SMTP servers."
-
+	
 	"",
 	FALSE
 };
 
 static CamelServiceAuthType cram_md5_authtype = {
 	"CRAM-MD5",
-
+	
 	"This option will connect to the SMTP server using CRAM-MD5 "
 	"authentication.",
-
+	
 	"CRAM-MD5",
 	TRUE
 };
@@ -298,7 +299,7 @@ query_auth_types_connected (CamelService *service, CamelException *ex)
 	/* FIXME: Re-enable this when auth types are actually
 	 * implemented.
 	 */
-
+	
 	return NULL;
 }
 
@@ -308,7 +309,7 @@ query_auth_types_generic (CamelService *service, CamelException *ex)
 	/* FIXME: Re-enable this when auth types are actually
 	 * implemented.
 	 */
-
+	
 	return NULL;
 }
 
@@ -343,7 +344,7 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 	gchar *recipient, *s, *sender;
 	guint i, len;
 	CamelSmtpTransport *smtp_transport = CAMEL_SMTP_TRANSPORT (transport);
-
+	
 	s = g_strdup(camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message)));
 	if (!s) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -351,13 +352,13 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 				      "sender address not defined.");
 		return FALSE;
 	}
-
+	
 	sender = smtp_get_email_addr_from_text (s);
 	smtp_mail (smtp_transport, sender, ex);
 	g_free (sender);
 	g_free (s);
-
-	if (!(len = g_list_length(recipients))) {
+	
+	if (!(len = g_list_length (recipients))) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Cannot send message: "
 				      "no recipients defined.");
@@ -372,13 +373,13 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 		}
 		g_free (recipient);
 	}
-
+	
 	if (!smtp_data (smtp_transport, message, ex))
 		return FALSE;
-
+	
 	/* reset the service for our next transfer session */
 	smtp_rset (smtp_transport, ex);
-
+	
 	return TRUE;
 }
 
@@ -389,38 +390,38 @@ _send (CamelTransport *transport, CamelMedium *message,
 	const CamelInternetAddress *to, *cc, *bcc;
 	GList *recipients = NULL;
 	guint index, len;
-
+	
 	to = camel_mime_message_get_recipients (CAMEL_MIME_MESSAGE (message), CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients (CAMEL_MIME_MESSAGE (message), CAMEL_RECIPIENT_TYPE_CC);
 	bcc = camel_mime_message_get_recipients (CAMEL_MIME_MESSAGE (message), CAMEL_RECIPIENT_TYPE_BCC);
-
+	
 	/* get all of the To addresses into our recipient list */
 	len = CAMEL_ADDRESS (to)->addresses->len;
 	for (index = 0; index < len; index++) {
 		const char *addr;
-
+		
 		if (camel_internet_address_get (to, index, NULL, &addr))
 			recipients = g_list_append (recipients, g_strdup (addr));
 	}
-
+	
 	/* get all of the Cc addresses into our recipient list */
 	len = CAMEL_ADDRESS (cc)->addresses->len;
 	for (index = 0; index < len; index++) {
 		const char *addr;
-
+		
 		if (camel_internet_address_get (cc, index, NULL, &addr))
 			recipients = g_list_append (recipients, g_strdup (addr));
 	}
-
+	
 	/* get all of the Bcc addresses into our recipient list */
 	len = CAMEL_ADDRESS (bcc)->addresses->len;
 	for (index = 0; index < len; index++) {
 		const char *addr;
-
+		
 		if (camel_internet_address_get (bcc, index, NULL, &addr))
 			recipients = g_list_append (recipients, g_strdup (addr));
 	}
-
+	
 	return _send_to (transport, message, recipients, ex);
 }
 
@@ -434,32 +435,32 @@ smtp_get_email_addr_from_text (gchar *text)
 	 * 3) person@host.com
 	 * 4) person@host.com (The Name)
 	 */
-
+	
 	gchar *tmp, *addr = NULL;
 	gchar *addr_strt;         /* points to start of addr */
 	gchar *addr_end;          /* points to end of addr */
 	gchar *ptr1;
-
-
+	
+	
 	/* check the incoming args */
 	if (!text || !*text)
 		return NULL;
-
+	
 	/* scan the string for an open brace */
 	for (addr_strt = text; *addr_strt; addr_strt++) 
 		if (*addr_strt == '<')
 			break;
-
+	
 	if (*addr_strt) {
 		/* we found an open brace, let's look for it's counterpart */
 		for (addr_end = addr_strt; *addr_end; addr_end++)
 			if (*addr_end == '>') 
 				break;
-
+		
 		/* if we didn't find it, or braces are empty... */
 		if (!(*addr_end) || (addr_strt == addr_end - 1))
 			return NULL;
-			
+		
 		/* addr_strt points to '<' and addr_end points to '>'.
 		 * Now let's adjust 'em slightly to point to the beginning
 		 * and ending of the email addy
@@ -472,25 +473,25 @@ smtp_get_email_addr_from_text (gchar *text)
 			
 		/* find the end of the email addr/string */
 		for (addr_end = addr_strt; *addr_end || *addr_end == ' '; addr_end++);
- 
+		
 		addr_end--;       /* points to NULL, move it back one char */
 	}
-
+	
 	/* now addr_strt & addr_end point to the beginning & ending of the email addy */
-
+	
 	/* copy the string into addr */
 	addr = g_strndup (addr_strt, (gint)(addr_end - addr_strt + 1));
-
+	
 	for (ptr1 = addr_strt; ptr1 <= addr_end; ptr1++)    /* look for an '@' sign */
 		if (*ptr1 == '@')
 			break;
-
+	
 	if (*ptr1 != '@') {
 		/* here we found out the name doesn't have an '@' part
 		 * let's figure out what machine we're on & stick it on the end
 		 */
 		gchar hostname[MAXHOSTNAMELEN];
-
+		
 		if (gethostname (hostname, MAXHOSTNAMELEN)) {
 			g_free (addr);
 			return NULL;
@@ -499,7 +500,7 @@ smtp_get_email_addr_from_text (gchar *text)
 		addr = g_strconcat (tmp, "@", hostname, NULL);
 		g_free (tmp);
 	}
-
+	
 	return addr;
 }
 
@@ -509,10 +510,10 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	/* say hello to the server */
 	gchar *cmdbuf, *respbuf = NULL;
 	struct hostent *host;
-
+	
 	/* get the local host name */
 	host = gethostbyaddr ((gchar *)&transport->localaddr.sin_addr, sizeof (transport->localaddr.sin_addr), AF_INET);
-
+	
 	/* hiya server! how are you today? */
 	if (transport->smtp_is_esmtp) {
 		if (host && host->h_name)
@@ -536,14 +537,14 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 		return FALSE;
 	}
 	g_free (cmdbuf);
-
+	
 	do {
 		/* Check for "250" */
 		g_free (respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
-
+		
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
-
+		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "HELO response error: "
@@ -559,7 +560,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
 	g_free (respbuf);
-
+	
 	return TRUE;
 }
 
@@ -568,12 +569,12 @@ smtp_mail (CamelSmtpTransport *transport, gchar *sender, CamelException *ex)
 {
 	/* we gotta tell the smtp server who we are. (our email addy) */
 	gchar *cmdbuf, *respbuf = NULL;
-
+	
 	/* enclose address in <>'s since some SMTP daemons *require* that */
 	cmdbuf = g_strdup_printf ("MAIL FROM: <%s>\r\n", sender);
-
+	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
-
+	
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -583,14 +584,14 @@ smtp_mail (CamelSmtpTransport *transport, gchar *sender, CamelException *ex)
 		return FALSE;
 	}
 	g_free (cmdbuf);
-
+	
 	do {
 		/* Check for "250 Sender OK..." */
 		g_free (respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
-
+		
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
-
+		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "MAIL FROM response error: "
@@ -600,7 +601,7 @@ smtp_mail (CamelSmtpTransport *transport, gchar *sender, CamelException *ex)
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
 	g_free (respbuf);
-
+	
 	return TRUE;
 }
 
@@ -610,12 +611,12 @@ smtp_rcpt (CamelSmtpTransport *transport, gchar *recipient, CamelException *ex)
 	/* we gotta tell the smtp server who we are going to be sending
 	 * our email to */
 	gchar *cmdbuf, *respbuf = NULL;
-
+	
 	/* enclose address in <>'s since some SMTP daemons *require* that */
 	cmdbuf = g_strdup_printf ("RCPT TO: <%s>\r\n", recipient);
-
+	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
-
+	
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -625,14 +626,14 @@ smtp_rcpt (CamelSmtpTransport *transport, gchar *recipient, CamelException *ex)
 		return FALSE;
 	}
 	g_free (cmdbuf);
-
+	
 	do {
 		/* Check for "250 Sender OK..." */
 		g_free (respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
-
+		
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
-
+		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "RCPT TO response error: "
@@ -642,7 +643,7 @@ smtp_rcpt (CamelSmtpTransport *transport, gchar *recipient, CamelException *ex)
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
 	g_free (respbuf);
-  
+	
 	return TRUE;
 }
 
@@ -652,14 +653,14 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 	/* now we can actually send what's important :p */
 	gchar *cmdbuf, *respbuf = NULL;
 	CamelStreamFilter *filtered_stream;
-	CamelMimeFilter *mimefilter;
-	gint id;
-
+	CamelMimeFilter *crlffilter, *lwfilter;
+	gint crlfid, lwid;
+	
 	/* enclose address in <>'s since some SMTP daemons *require* that */
 	cmdbuf = g_strdup ("DATA\r\n");
-
+	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
-
+	
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -669,11 +670,11 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 		return FALSE;
 	}
 	g_free (cmdbuf);
-
+	
 	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
-
+	
 	d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
-
+	
 	if (!respbuf || strncmp (respbuf, "354", 3)) {
 		/* we should have gotten instructions on how to use the DATA command:
 		 * 354 Enter mail, end with "." on a line by itself
@@ -687,10 +688,13 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 	}
 	
 	/* setup stream filtering */
-	mimefilter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS);
-        filtered_stream = camel_stream_filter_new_with_stream (transport->ostream);
-	id = camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (mimefilter));
-
+	lwfilter = camel_mime_filter_linewrap_new (998, 998, '\t');
+	crlffilter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS);
+	
+	filtered_stream = camel_stream_filter_new_with_stream (transport->ostream);
+	lwid = camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (lwfilter));
+	crlfid = camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlffilter));
+	
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (filtered_stream)) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "DATA send timed out: message termination: "
@@ -698,15 +702,16 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 				      g_strerror (errno));
 		return FALSE;
 	}
-        
-	camel_stream_filter_remove (filtered_stream, id);
-	camel_stream_flush (CAMEL_STREAM(filtered_stream));
-	camel_object_unref (CAMEL_OBJECT(filtered_stream));
-
+	
+	camel_stream_filter_remove (filtered_stream, lwid);
+	camel_stream_filter_remove (filtered_stream, crlfid);
+	camel_stream_flush (CAMEL_STREAM (filtered_stream));
+	camel_object_unref (CAMEL_OBJECT (filtered_stream));
+	
 	/* terminate the message body */
-
+	
 	d(fprintf (stderr, "sending : \\r\\n.\\r\\n\n"));
-
+	
 	if (camel_stream_write (transport->ostream, "\r\n.\r\n", 5) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "DATA send timed out: message termination: "
@@ -714,14 +719,14 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 				      g_strerror (errno));
 		return FALSE;
 	}
-
+	
 	do {
 		/* Check for "250 Sender OK..." */
 		g_free (respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
-
+		
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
-
+		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "DATA response error: message termination: "
@@ -731,7 +736,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
 	g_free (respbuf);
-
+	
 	return TRUE;
 }
 
@@ -740,11 +745,11 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* we are going to reset the smtp server (just to be nice) */
 	gchar *cmdbuf, *respbuf = NULL;
-
+	
 	cmdbuf = g_strdup ("RSET\r\n");
-
+	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
-
+	
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -754,14 +759,14 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 		return FALSE;
 	}
 	g_free (cmdbuf);
-
+	
 	do {
 		/* Check for "250" */
 		g_free (respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
-
+		
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
-
+		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "RSET response error: "
@@ -771,7 +776,7 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
 	g_free (respbuf);
-
+	
 	return TRUE;
 }
 
@@ -780,11 +785,11 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* we are going to reset the smtp server (just to be nice) */
 	gchar *cmdbuf, *respbuf = NULL;
-
+	
 	cmdbuf = g_strdup ("QUIT\r\n");
-
+	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
-
+	
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -794,14 +799,14 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 		return FALSE;
 	}
 	g_free (cmdbuf);
-
+	
 	do {
 		/* Check for "221" */
 		g_free (respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
-
+		
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
-
+		
 		if (!respbuf || strncmp (respbuf, "221", 3)) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "QUIT response error: "
@@ -811,6 +816,6 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "221-" then loop again */
 	g_free (respbuf);
-
+	
 	return TRUE;
 }

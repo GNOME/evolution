@@ -29,6 +29,7 @@ libcamel_la_SOURCES = 				\
 	camel-mime-filter-crlf.c		\
 	camel-mime-filter-from.c		\
 	camel-mime-filter-index.c		\
+	camel-mime-filter-linewrap.c		\
 	camel-mime-filter-save.c		\
 	camel-mime-filter.c			\
 	camel-mime-message.c			\
@@ -77,6 +78,7 @@ libcamelinclude_HEADERS =			\
 	camel-mime-filter-crlf.h		\
 	camel-mime-filter-from.h		\
 	camel-mime-filter-index.h		\
+	camel-mime-filter-linewrap.h		\
 	camel-mime-filter-save.h		\
 	camel-mime-filter.h			\
 	camel-mime-message.h			\
@@ -130,4 +132,3 @@ EXTRA_DIST =					\
 #	$(INTLLIBS)				\
 #	$(PTHREAD_LIB)				\
 #	$(EXTRA_GNOME_LIBS)
-

@@ -1,5 +1,12 @@
 2000-09-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Use the
+	linewrap filter to achieve full RFC0821 compliance.
+
+	* camel-mime-filter-linewrap.[c,h]: New mime-filter to word-wrap.
+
+2000-09-19  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* camel-internet-address.c (internet_encode): When encoding the
 	internet address, quote the name as the name may have commas or
 	any other token which may later confuse our address parser.
