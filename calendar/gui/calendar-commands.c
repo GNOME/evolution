@@ -81,6 +81,17 @@ new_appointment_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 }
 
 static void
+new_meeting_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+{
+	GnomeCalendar *gcal;
+	time_t dtstart, dtend;
+
+	gcal = GNOME_CALENDAR (data);
+	gnome_calendar_get_current_time_range (gcal, &dtstart, &dtend);
+	gnome_calendar_new_appointment_for (gcal, dtstart, dtend, FALSE, TRUE);
+}
+
+static void
 new_event_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	GnomeCalendar *gcal;
@@ -88,7 +99,7 @@ new_event_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 
 	gcal = GNOME_CALENDAR (data);
 	gnome_calendar_get_current_time_range (gcal, &dtstart, &dtend);
-	gnome_calendar_new_appointment_for (gcal, dtstart, dtend, TRUE);
+	gnome_calendar_new_appointment_for (gcal, dtstart, dtend, TRUE, FALSE);
 }
 
 static void
@@ -669,6 +680,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CalendarPrintPreview", file_print_preview_cb),
 
 	BONOBO_UI_VERB ("CalendarNewAppointment", new_appointment_cb),
+	BONOBO_UI_VERB ("CalendarNewMeeting", new_meeting_cb),
 	BONOBO_UI_VERB ("CalendarNewEvent", new_event_cb),
 	BONOBO_UI_VERB ("CalendarNewTask", new_task_cb),
 
@@ -697,6 +709,7 @@ static BonoboUIVerb verbs [] = {
 static EPixmap pixmaps [] =
 {
 	E_PIXMAP ("/menu/File/New/NewFirstItem/NewAppointment",	              "new_appointment.xpm"),
+	E_PIXMAP ("/menu/File/New/NewFirstItem/NewMeeting",	              "meeting.xpm"),
 	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",	              "new_task-16.png"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/Cut",			      "16_cut.png"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/Copy",			      "16_copy.png"),
@@ -706,6 +719,7 @@ static EPixmap pixmaps [] =
 	E_PIXMAP ("/menu/File/Print/PrintPreview",			      "print-preview.xpm"),
 	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewAppointment", "new_appointment.xpm"),
 	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewEvent",       "new_appointment.xpm"),
+	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewMeeting",     "meeting.xpm"),
 	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewTask",        "new_task-16.png"),
 	E_PIXMAP ("/menu/Tools/ComponentPlaceholder/CalendarSettings",        "configure_16_calendar.xpm"),
 	E_PIXMAP ("/menu/View/ViewBegin/Goto",				      "goto-16.png"),

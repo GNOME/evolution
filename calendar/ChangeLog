@@ -1,3 +1,50 @@
+2002-02-07  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-day-view.c: pass meeting boolean for
+	gnome_calendar_edit_object and gnome_calendar_new_appointment_for
+
+	* gui/e-week-view-event-item.c: ditto
+
+	* gui/e-week-view.c: ditto
+
+	* gui/tasks-control.c (confirm_expunge): kill warning
+
+	* gui/calendar-commands.c (new_meeting_cb): show a new meeting
+	dialog
+	(new_event_cb): pass new param
+
+	* gui/gnome-cal.c (gnome_calendar_edit_object): take meeting
+	boolean and show meeting page if true
+	(gnome_calendar_new_appointment_for): takeing meeting param and
+	pass to above
+	(gnome_calendar_new_appointment): add new param
+
+	* gui/gnome-cal.h: update proto
+
+	* gui/component-factory.c (create_component): take a comp editor
+	mode, determine vtype
+	(sc_user_create_new_item_cb): check for meeting user creatable
+	item
+	(create_object): add meeting as user creatable item
+
+	* gui/comp-editor-factory.c (edit_new): get a comp editor mode
+	now, determine vtype and show meeting page if required
+	(queue_edit_new): get comp editor mode
+	(impl_editNew): ditto, plus queue the mode directly instead of
+	determining the vtype
+
+	* gui/dialogs/event-editor.c (show_meeting): new internal util
+	function to show meeting page
+	(event_editor_show_meeting): show the meeting
+	(schedule_meeting_cmd): use show_meeting
+
+	* gui/dialogs/event-editor.h: new proto
+
+	* idl/evolution-calendar.idl: editNew takes a mode rather than a
+	type now
+
+	* cal-util/Makefile.am: fix includes
+
 2002-02-07  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/e-tasks.c (e_tasks_setup_view_menus), gui/gnome-cal.c

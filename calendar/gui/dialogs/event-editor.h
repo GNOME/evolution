@@ -51,9 +51,10 @@ struct _EventEditorClass {
 	CompEditorClass parent_class;
 };
 
-GtkType      event_editor_get_type       (void);
-EventEditor *event_editor_construct      (EventEditor *ee);
-EventEditor *event_editor_new            (void);
+GtkType      event_editor_get_type     (void);
+EventEditor *event_editor_construct    (EventEditor *ee);
+EventEditor *event_editor_new          (void);
+void         event_editor_show_meeting (EventEditor *ee);
 
 
 

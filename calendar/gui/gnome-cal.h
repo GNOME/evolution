@@ -115,12 +115,14 @@ void	   gnome_calendar_get_selected_time_range (GnomeCalendar *gcal,
 						   time_t	 *end_time);
 
 void       gnome_calendar_edit_object           (GnomeCalendar *gcal,
-						 CalComponent  *comp);
+						 CalComponent  *comp,
+						 gboolean meeting);
 
 void       gnome_calendar_new_appointment       (GnomeCalendar *gcal);
 void       gnome_calendar_new_appointment_for   (GnomeCalendar *cal,
 						 time_t dtstart, time_t dtend,
-						 gboolean all_day);
+						 gboolean all_day,
+						 gboolean meeting);
 
 void       gnome_calendar_new_task		(GnomeCalendar *gcal);
 

@@ -418,7 +418,7 @@ static gboolean
 confirm_expunge (ETasks *tasks)
 {
 	GtkWidget *dialog, *label, *checkbox;
-	int button, val;
+	int button;
 	
 	if (!calendar_config_get_confirm_expunge ())
 		return TRUE;

@@ -52,6 +52,7 @@
 
 /* IDs for user creatable items */
 #define CREATE_EVENT_ID "event"
+#define CREATE_MEETING_ID "meeting"
 #define CREATE_TASK_ID "task"
 
 char *evolution_dir;
@@ -527,28 +528,27 @@ get_data_uri (const char *uri, CalComponentVType vtype)
  * uses the default folder for that type of component.
  */
 static void
-create_component (const char *uri, CalComponentVType vtype)
+create_component (const char *uri, GNOME_Evolution_Calendar_CompEditorFactory_CompEditorMode type)
 {
 	char *real_uri;
 	CORBA_Environment ev;
-	GNOME_Evolution_Calendar_CalObjType corba_type;
 	GNOME_Evolution_Calendar_CompEditorFactory factory;
+	CalComponentVType vtype;
 
-	real_uri = get_data_uri (uri, vtype);
-
-	switch (vtype) {
-	case CAL_COMPONENT_EVENT:
-		corba_type = GNOME_Evolution_Calendar_TYPE_EVENT;
+	switch (type) {
+	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT:
+	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING:
+		vtype = CAL_COMPONENT_EVENT;
 		break;
-
-	case CAL_COMPONENT_TODO:
-		corba_type = GNOME_Evolution_Calendar_TYPE_TODO;
+	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:
+		vtype = CAL_COMPONENT_TODO;
 		break;
-
 	default:
 		g_assert_not_reached ();
 		return;
 	}
+
+	real_uri = get_data_uri (uri, vtype);
 
 	/* Get the factory */
 
@@ -567,7 +567,7 @@ create_component (const char *uri, CalComponentVType vtype)
 	/* Create the item */
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_CompEditorFactory_editNew (factory, real_uri, corba_type, &ev);
+	GNOME_Evolution_Calendar_CompEditorFactory_editNew (factory, real_uri, type, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_message ("create_component(): Exception while creating the component");
@@ -594,14 +594,25 @@ sc_user_create_new_item_cb (EvolutionShellComponent *shell_component,
 {
 	if (strcmp (id, CREATE_EVENT_ID) == 0) {
 		if (strcmp (parent_folder_type, FOLDER_CALENDAR) == 0)
-			create_component (parent_folder_physical_uri, CAL_COMPONENT_EVENT);
+			create_component (parent_folder_physical_uri, 
+					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT);
 		else
-			create_component (NULL, CAL_COMPONENT_EVENT);
+			create_component (NULL,
+					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT);
+	} else if (strcmp (id, CREATE_MEETING_ID) == 0) {
+		if (strcmp (parent_folder_type, FOLDER_CALENDAR) == 0)
+			create_component (parent_folder_physical_uri,
+					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING);
+		else
+			create_component (NULL,
+					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING);
 	} else if (strcmp (id, CREATE_TASK_ID) == 0) {
 		if (strcmp (parent_folder_type, FOLDER_TASKS) == 0)
-			create_component (parent_folder_physical_uri, CAL_COMPONENT_TODO);
+			create_component (parent_folder_physical_uri,
+					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO);
 		else
-			create_component (NULL, CAL_COMPONENT_TODO);
+			create_component (NULL, 
+					  GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO);
 	} else
 		g_assert_not_reached ();
 }
@@ -639,14 +650,20 @@ create_object (void)
 
 	evolution_shell_component_add_user_creatable_item (shell_component,
 							   CREATE_EVENT_ID,
-							   _("Create a new appointment"),
-							   _("New _Appointment"), 'a',
+							   _("New appointment"),
+							   _("_Appointment"), 'a',
+							   NULL);
+
+	evolution_shell_component_add_user_creatable_item (shell_component,
+							   CREATE_MEETING_ID,
+							   _("New meeting"),
+							   _("_Meeting"), 's',
 							   NULL);
 
 	evolution_shell_component_add_user_creatable_item (shell_component,
 							   CREATE_TASK_ID,
-							   _("Create a new task"),
-							   _("New _Task"), 't',
+							   _("New task"),
+							   _("_Task"), 't',
 							   NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",

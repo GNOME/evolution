@@ -328,12 +328,17 @@ module Calendar {
 		exception BackendContactError {};
 		exception UnsupportedType {};
 
+		typedef long CompEditorMode;
+		const CompEditorMode EDITOR_MODE_EVENT        = 1 << 0;
+		const CompEditorMode EDITOR_MODE_MEETING      = 1 << 1;
+		const CompEditorMode EDITOR_MODE_TODO         = 1 << 2;
+
 		/* Loads a calendar and opens an editor for the specified object */
 		void editExisting (in string uri, in CalObjUID uid)
 			raises (InvalidURI, BackendContactError);
 
 		/* Loads a calendar and creates a new component of the specified type */
-		void editNew (in string uri, in CalObjType type)
+		void editNew (in string uri, in CompEditorMode mode)
 			raises (InvalidURI, BackendContactError, UnsupportedType);
 	};
 };

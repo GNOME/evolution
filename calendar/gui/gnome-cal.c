@@ -2123,7 +2123,8 @@ editor_closed_cb (GtkWidget *widget, gpointer data)
 }
 
 void
-gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
+gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp, 
+			    gboolean meeting)
 {
 	GnomeCalendarPrivate *priv;
 	EventEditor *ee;
@@ -2147,7 +2148,6 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
 			g_message ("gnome_calendar_edit_object(): Could not create the event editor");
 			return;
 		}
-
 		ec->gcal = gcal;
 		ec->uid = g_strdup (uid);
 
@@ -2159,6 +2159,8 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
 
 		comp_editor_set_cal_client (COMP_EDITOR (ee), priv->client);
 		comp_editor_edit_comp (COMP_EDITOR (ee), comp);
+		if (meeting)
+			event_editor_show_meeting (ee);
 	}
 
 	comp_editor_focus (COMP_EDITOR (ee));
@@ -2178,7 +2180,8 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
 void
 gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 				    time_t dtstart, time_t dtend,
-				    gboolean all_day)
+				    gboolean all_day,
+				    gboolean meeting)
 {
 	GnomeCalendarPrivate *priv;
 	struct icaltimetype itt;
@@ -2235,7 +2238,7 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 
 	cal_component_commit_sequence (comp);
 
-	gnome_calendar_edit_object (cal, comp);
+	gnome_calendar_edit_object (cal, comp, meeting);
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
@@ -2256,7 +2259,7 @@ gnome_calendar_new_appointment (GnomeCalendar *gcal)
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	gnome_calendar_get_current_time_range (gcal, &dtstart, &dtend);
-	gnome_calendar_new_appointment_for (gcal, dtstart, dtend, FALSE);
+	gnome_calendar_new_appointment_for (gcal, dtstart, dtend, FALSE, FALSE);
 }
 
 /**

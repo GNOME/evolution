@@ -2137,7 +2137,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 		dtend = week_view->day_starts[day + 1];
 		gnome_calendar_new_appointment_for (week_view->calendar,
 						    dtstart, dtend,
-						    TRUE);
+						    TRUE, FALSE);
 		return TRUE;
 	}
 
@@ -2973,7 +2973,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		if (week_view->calendar)
 			gnome_calendar_edit_object (week_view->calendar,
-						    event->comp);
+						    event->comp, FALSE);
 		else
 			g_warning ("Calendar not set");
 
@@ -3531,7 +3531,7 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	}
 
 	gnome_calendar_new_appointment_for (
-		week_view->calendar, dtstart, dtend, FALSE);
+		week_view->calendar, dtstart, dtend, FALSE, FALSE);
 }
 
 static void
@@ -3543,7 +3543,7 @@ e_week_view_on_new_event (GtkWidget *widget, gpointer data)
 	dtstart = week_view->day_starts[week_view->selection_start_day];
 	dtend = week_view->day_starts[week_view->selection_end_day + 1];
 	gnome_calendar_new_appointment_for (
-		week_view->calendar, dtstart, dtend, TRUE);
+		week_view->calendar, dtstart, dtend, TRUE, FALSE);
 }
 
 static void
@@ -3577,7 +3577,8 @@ e_week_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 				week_view->popup_event_num);
 
 	if (week_view->calendar)
-		gnome_calendar_edit_object (week_view->calendar, event->comp);
+		gnome_calendar_edit_object (week_view->calendar, event->comp, 
+					    FALSE);
 	else
 		g_warning ("Calendar not set");
 }

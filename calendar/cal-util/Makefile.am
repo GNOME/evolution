@@ -10,7 +10,7 @@ INCLUDES =						\
 	-I$(top_builddir)				\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
-        $(GNOME_INCLUDEDIR)
+	$(EVOLUTION_CALENDAR_CFLAGS)
 
 #
 # cal util library

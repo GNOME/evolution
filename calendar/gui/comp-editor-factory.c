@@ -22,6 +22,7 @@
 #include <config.h>
 #endif
 
+#include <evolution-calendar.h>
 #include <e-util/e-url.h>
 #include <cal-client/cal-client.h>
 #include "calendar-config.h"
@@ -48,7 +49,7 @@ typedef struct {
 		} existing;
 
 		struct {
-			CalComponentVType vtype;
+			 GNOME_Evolution_Calendar_CompEditorFactory_CompEditorMode type;
 		} new;
 	} u;
 } Request;
@@ -379,21 +380,23 @@ get_default_component (CalComponentVType vtype)
 
 /* Edits a new object in the context of a client */
 static void
-edit_new (OpenClient *oc, CalComponentVType vtype)
+edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompEditorMode type)
 {
 	CalComponent *comp;
 	Component *c;
 	CompEditor *editor;
-
-	switch (vtype) {
-	case CAL_COMPONENT_EVENT:
+	CalComponentVType vtype;
+	
+	switch (type) {
+	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT:
+	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING:
 		editor = COMP_EDITOR (event_editor_new ());
+		vtype = CAL_COMPONENT_EVENT;
 		break;
-
-	case CAL_COMPONENT_TODO:
+	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:
 		editor = COMP_EDITOR (task_editor_new ());
+		vtype = CAL_COMPONENT_TODO;
 		break;
-
 	default:
 		g_assert_not_reached ();
 		return;
@@ -415,6 +418,8 @@ edit_new (OpenClient *oc, CalComponentVType vtype)
 
 	comp_editor_set_cal_client (editor, oc->client);
 	comp_editor_edit_comp (editor, comp);
+	if (type == GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING)
+		event_editor_show_meeting (EVENT_EDITOR (editor));
 	comp_editor_focus (editor);
 }
 
@@ -450,7 +455,7 @@ resolve_pending_requests (OpenClient *oc)
 			break;
 
 		case REQUEST_NEW:
-			edit_new (oc, request->u.new.vtype);
+			edit_new (oc, request->u.new.type);
 			break;
 		}
 
@@ -637,7 +642,7 @@ impl_editExisting (PortableServer_Servant servant,
 
 /* Queues a request for creating a new object */
 static void
-queue_edit_new (OpenClient *oc, CalComponentVType vtype)
+queue_edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompEditorMode type)
 {
 	Request *request;
 
@@ -645,7 +650,7 @@ queue_edit_new (OpenClient *oc, CalComponentVType vtype)
 
 	request = g_new (Request, 1);
 	request->type = REQUEST_NEW;
-	request->u.new.vtype = vtype;
+	request->u.new.type = type;
 
 	oc->pending = g_slist_append (oc->pending, request);
 }
@@ -654,14 +659,13 @@ queue_edit_new (OpenClient *oc, CalComponentVType vtype)
 static void
 impl_editNew (PortableServer_Servant servant,
 	      const CORBA_char *str_uri,
-	      const GNOME_Evolution_Calendar_CalObjType corba_type,
+	      const GNOME_Evolution_Calendar_CompEditorFactory_CompEditorMode corba_type,
 	      CORBA_Environment *ev)
 {
 	CompEditorFactory *factory;
 	CompEditorFactoryPrivate *priv;
 	OpenClient *oc;
-	CalComponentVType vtype;
-
+ 
 	factory = COMP_EDITOR_FACTORY (bonobo_object_from_servant (servant));
 	priv = factory->priv;
 
@@ -669,26 +673,10 @@ impl_editNew (PortableServer_Servant servant,
 	if (!oc)
 		return;
 
-	switch (corba_type) {
-	case GNOME_Evolution_Calendar_TYPE_EVENT:
-		vtype = CAL_COMPONENT_EVENT;
-		break;
-
-	case GNOME_Evolution_Calendar_TYPE_TODO:
-		vtype = CAL_COMPONENT_TODO;
-		break;
-
-	default:
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_CompEditorFactory_UnsupportedType,
-				     NULL);
-		return;
-	}
-
 	if (!oc->open)
-		queue_edit_new (oc, vtype);
+		queue_edit_new (oc, corba_type);
 	else
-		edit_new (oc, vtype);
+		edit_new (oc, corba_type);
 }
 
 

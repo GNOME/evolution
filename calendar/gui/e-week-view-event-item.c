@@ -855,7 +855,7 @@ e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
 	e_week_view_stop_editing_event (week_view);
 
 	if (week_view->calendar)
-		gnome_calendar_edit_object (week_view->calendar, event->comp);
+		gnome_calendar_edit_object (week_view->calendar, event->comp, FALSE);
 	else
 		g_warning ("Calendar not set");
 
