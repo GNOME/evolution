@@ -1,5 +1,10 @@
 2000-07-08  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-item.c (eti_event): Don't call e_cell_event if we're not
+	editing.
+
+2000-07-08  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-item.c (eti_table_model_changed): Commented out some
 	unnecessary and buggy code.
 
