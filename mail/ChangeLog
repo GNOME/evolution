@@ -1,3 +1,7 @@
+2000-10-12  Iain Holmes  <iain@helixcode.com>
+
+	* component-factory.c: Disable the executive summary.
+
 2000-10-11  Chris Toshok  <toshok@helixcode.com>
 
 	* subscribe-dialog.c (FOLDER_ETABLE_SPEC): set expansion to 0.0,
