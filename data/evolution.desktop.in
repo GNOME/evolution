@@ -2,6 +2,6 @@
 _Name=Evolution
 _Comment=The Evolution groupware suite
 Exec=evolution
-Icon=evolution-icon.png
+Icon=evolution.png
 Terminal=0
 Type=Application
