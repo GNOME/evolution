@@ -1,6 +1,13 @@
+2000-12-20  JP Rosevear  <jpr@helixcode.com>
+
+	* conduit/address-conduit.c (match): Use my own wrapper
+	functions instead of trying to *directly* access the the data 
+	structures my self
+	(post_sync): Put in hack to prevent syncing the same records twice
+
 2000-12-19  JP Rosevear  <jpr@helixcode.com>
 
-	*conduit/address-conduit.c (ecard_from_remote_record): Convert
+	* conduit/address-conduit.c (ecard_from_remote_record): Convert
 	pilot strings to utf for the e-cards.
 	
 2000-12-19  JP Rosevear  <jpr@helixcode.com>

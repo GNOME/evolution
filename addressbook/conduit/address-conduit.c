@@ -652,7 +652,7 @@ post_sync (GnomePilotConduit *conduit,
 	   GnomePilotDBInfo *dbi,
 	   EAddrConduitContext *ctxt)
 {
-	gchar *filename;
+	gchar *filename, *change_id;
 	
 	LOG ("post_sync: Address Conduit v.%s", CONDUIT_VERSION);
 	LOG ("---------------------------------------------------------\n");
@@ -660,6 +660,13 @@ post_sync (GnomePilotConduit *conduit,
 	filename = map_name (ctxt);
 	e_pilot_map_write (filename, ctxt->map);
 	g_free (filename);
+
+	/* FIX ME ugly hack - our changes musn't count, this does introduce
+	 * a race condition if anyone changes a record elsewhere during sycnc
+         */	
+	change_id = g_strdup_printf ("pilot-sync-evolution-addressbook-%d", ctxt->cfg->pilot_id);
+	e_book_get_changes (ctxt->ebook, change_id, view_cb, ctxt);
+	g_free (change_id);
 	
 	return 0;
 }
@@ -939,7 +946,7 @@ match (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (remote != NULL, -1);
 
 	*local = NULL;
-	uid = g_hash_table_lookup (ctxt->map->pid_map, &remote->ID);
+	uid = e_pilot_map_lookup_uid (ctxt->map, remote->ID);
 	
 	if (!uid)
 		return 0;
