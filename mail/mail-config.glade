@@ -836,7 +836,7 @@ None
 	  <class>GtkTable</class>
 	  <name>table4</name>
 	  <border_width>3</border_width>
-	  <rows>4</rows>
+	  <rows>5</rows>
 	  <columns>2</columns>
 	  <homogeneous>False</homogeneous>
 	  <row_spacing>3</row_spacing>
@@ -1026,6 +1026,33 @@ None
 	      <text_max_length>0</text_max_length>
 	      <text></text>
 	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>source_ssl_disabled</name>
+	    <sensitive>False</sensitive>
+	    <label>(SSL is not supported in this build of evolution)</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>4</top_attach>
+	      <bottom_attach>5</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
 	  </widget>
 	</widget>
       </widget>
