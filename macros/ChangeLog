@@ -1,3 +1,9 @@
+2000-05-15  Russell Steinthal  <rms39@columbia.edu>
+
+	* gnome-pilot.m4 (PILOT_LIBS): An attempt to fix the gnome-pilot
+	check on Solaris (`$GNOME_CONFIG ...` returns more than one word,
+	so we need quotes around it to keep test from bombing out)
+
 2000-05-01  Dan Winship  <danw@helixcode.com>
 
 	* gnome-pilot.m4 (PILOT_LIBS): "But that trick NEVER works!"
