@@ -419,7 +419,8 @@ extern CamelFolder *sent_folder;
 
 /* send 1 message to a specific transport */
 static void
-mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilterDriver *driver, CamelException *ex)
+mail_send_message (CamelMimeMessage *message, const char *destination,
+		   CamelFilterDriver *driver, CamelException *ex)
 {
 	CamelMessageInfo *info;
 	CamelTransport *xport = NULL;
@@ -581,7 +582,8 @@ static void
 send_mail_free (struct _mail_msg *mm)
 {
 	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
-	
+
+	camel_object_unref (CAMEL_OBJECT (m->driver));
 	camel_object_unref (CAMEL_OBJECT (m->message));
 	g_free (m->destination);
 }
