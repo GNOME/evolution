@@ -1,3 +1,10 @@
+2004-10-06  Rodrigo Moya <rodrigo@novell.com>
+
+	Revert fix for #60551
+
+	* gui/dialogs/task-page.c (task_page_fill_component): start date
+	can be after the due date, no need to compare.
+
 2004-10-02  Iván Frade <frade@asturlinux.org>
 
 	Fixes #48116
