@@ -160,14 +160,14 @@ struct prop_info {
 	LIST_PROP   (E_CARD_SIMPLE_FIELD_EMAIL, "email", "mail", email_populate, email_ber, email_compare),
 
 	/* phone numbers */
-	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,      "phone", "primaryTelephoneNumber"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,      "phone", "primaryPhone"),
 	LIST_PROP     (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,     "business_phone", "telephoneNumber", business_populate, business_ber, business_compare),
 	LIST_PROP     (E_CARD_SIMPLE_FIELD_PHONE_HOME,         "home_phone", "homePhone", homephone_populate, homephone_ber, homephone_compare),
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_MOBILE,       "mobile", "mobile"),
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_CAR,          "car", "carPhone"),
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "business_fax", "facsimileTelephoneNumber"), 
-	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "home_fax", "homeFacsimileTelephoneNumber"), 
-	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_OTHER,        "other_phone", "otherTelephoneNumber"), 
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX,     "home_fax", "homeFacsimileTelephoneNumber"), 
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_OTHER,        "other_phone", "otherPhone"), 
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_ISDN,         "isdn", "internationalISDNNumber"), 
 	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_PAGER,        "pager", "pager"),
 
@@ -618,6 +618,7 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 	/* build our mods */
 	mod_array = build_mods_from_ecards (bl, NULL, new_card, NULL);
 
+#if 0
 	if (!mod_array) {
 		/* there's an illegal field in there.  report
                    UnsupportedAttribute back */
@@ -631,6 +632,7 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 
 		return TRUE;
 	}
+#endif
 
 	/* remove the NULL at the end */
 	g_ptr_array_remove (mod_array, NULL);

@@ -1,5 +1,10 @@
 2001-02-06  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (create_card_handler): doh,
+	didn't mean to commit this.
+	
+2001-02-06  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/evolveperson.schema: new file.  this will eventually
 	form the suggested additions to an existing openldap server that,
 	along with support for inetorgperson, will allow people to store
