@@ -1,3 +1,10 @@
+2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (save): Play the "File exists, overwrite?"
+	game.
+	(autosave_run_foreach_cb): Change the return val from a gboolean
+	to void.
+
 2001-07-04  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.c (autosave_load_draft): attach send and postpone

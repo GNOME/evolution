@@ -858,26 +858,49 @@ save (EMsgComposer *composer,
 {
 	CORBA_Environment ev;
 	char *my_file_name;
-
+	int fd;
+	
 	if (file_name != NULL)
 		my_file_name = g_strdup (file_name);
 	else
 		my_file_name = e_msg_composer_select_file (composer, _("Save as..."));
-
+	
 	if (my_file_name == NULL)
 		return;
-
+	
+	/* check to see if we already have the file */
+	if ((fd = open (my_file_name, O_RDONLY | O_CREAT | O_EXCL)) == -1) {
+		GtkWidget *dialog, *label;
+		
+		dialog = gnome_dialog_new (_("Warning!"), GNOME_STOCK_BUTTON_YES,
+					   GNOME_STOCK_BUTTON_NO, NULL);
+		label = gtk_label_new (_("File exists, overwrite?"));
+		gtk_widget_show (label);
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 0);
+		
+		switch (gnome_dialog_run_and_close (GNOME_DIALOG (dialog))) {
+		case -1:
+			gtk_widget_destroy (dialog);
+			return;
+		case 1:
+			return;
+		default:
+			/* ie, the user hit "Yes" so just continue as normal */
+		}
+	} else
+		close (fd);
+	
 	CORBA_exception_init (&ev);
-
+	
 	Bonobo_PersistFile_save (composer->persist_file_interface, my_file_name, &ev);
-
+	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Error saving file: %s"), g_basename (file_name));
 	}
-
+	
 	CORBA_exception_free (&ev);
-
+	
 	g_free (my_file_name);
 }
 
@@ -1134,7 +1157,7 @@ autosave_query_load_orphans (AutosaveManager *am, EMsgComposer *composer)
 	return matches;
 }
 
-static gboolean
+static void
 autosave_run_foreach_cb (gpointer key, gpointer value, gpointer data)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (value);
