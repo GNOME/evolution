@@ -39,6 +39,7 @@
 #include "evolution-shell-component.h"
 #include "evolution-shell-component-dnd.h"
 #include "evolution-storage.h"
+#include "e-folder-list.h"
 
 #include "ebook/e-book.h"
 #include "ebook/e-card.h"
@@ -590,6 +591,48 @@ create_component (void)
 	return BONOBO_OBJECT (shell_component);
 }
 
+static void
+ensure_completion_uris_exist()
+{
+	/* Initialize the completion uris if they aren't set yet.  The
+	   default set is just the local Contacts folder. */
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
+	char *val;
+
+	CORBA_exception_init (&ev);
+	
+	db = addressbook_config_database (&ev);
+		
+	val = bonobo_config_get_string (db, "/Addressbook/Completion/uris", &ev);
+
+	if (!val) {
+		EFolderListItem f[2];
+		char *dirname, *uri;
+		/* in the case where the user is running for the first
+		   time, populate the list with the local contact
+		   folder */
+		dirname = gnome_util_prepend_user_home("evolution/local/Contacts");
+		uri = g_strdup_printf ("file://%s", dirname);
+			
+		f[0].uri = "evolution:/local/Contacts";
+		f[0].physical_uri = uri;
+		f[0].display_name = _("Contacts");
+
+		memset (&f[1], 0, sizeof (f[1]));
+
+		val = e_folder_list_create_xml (f);
+
+		g_free (dirname);
+		g_free (uri);
+		bonobo_config_set_string (db, "/Addressbook/Completion/uris", val, &ev);
+
+		g_free (val);
+	}
+
+	CORBA_exception_free (&ev);
+}
+
 
 /* FIXME this should probably be renamed as we don't use factories anymore.  */
 void
@@ -606,4 +649,9 @@ addressbook_component_factory_init (void)
 					     bonobo_object_corba_objref (object));
 	if (result == OAF_REG_ERROR)
 		g_error ("Cannot register -- %s", GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID);
+
+	/* XXX this could probably go someplace else, but I'll leave
+	   it here for now since it's a component init time
+	   operation. */
+	ensure_completion_uris_exist ();
 }

@@ -15,12 +15,14 @@
 
 #include <gal/e-text/e-entry.h>
 
+#include <libgnome/gnome-i18n.h>
 #include "e-select-names-manager.h"
 #include "e-select-names-model.h"
 #include "e-select-names-text-model.h"
 #include "e-select-names.h"
 #include "e-select-names-completion.h"
 #include "e-select-names-popup.h"
+#include "e-folder-list.h"
 #include <addressbook/backend/ebook/e-destination.h>
 #include <addressbook/gui/component/addressbook.h>
 #include <bonobo-conf/bonobo-config-database.h>
@@ -51,6 +53,7 @@ typedef struct {
 	EEntry *entry;
 	ESelectNamesManager *manager;
 	ESelectNamesModel *model;
+	ECompletion *comp;
 	guint cleaning_tag;
 } ESelectNamesManagerEntry;
 
@@ -175,6 +178,8 @@ focus_in_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
 static gint
 focus_out_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
 {
+#if 0
+	/* XXX fix me */
 	ESelectNamesManagerEntry *entry = user_data;
 	gboolean visible = e_entry_completion_popup_is_visible (entry->entry);
 
@@ -183,17 +188,20 @@ focus_out_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
 		if (entry->cleaning_tag == 0)
 			entry->cleaning_tag = gtk_timeout_add (100, clean_cb, entry);
 	}
-
+#endif
 	return FALSE;
 }
 
 static void
 completion_popup_cb (EEntry *w, gint visible, gpointer user_data)
 {
+#if 0
+	/* XXX fix me */
 	ESelectNamesManagerEntry *entry = user_data;
 
 	if (!visible && !GTK_WIDGET_HAS_FOCUS (GTK_WIDGET (entry->entry->canvas)))
 		e_select_names_model_cardify_all (entry->model, entry->manager->completion_book, 0);
+#endif
 }
 
 static void
@@ -232,7 +240,7 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 {
 	ESelectNamesManagerEntry *entry;
 	ETextModel *text_model;
-	ECompletion *comp;
+	GList *l;
 
 	g_return_val_if_fail (E_IS_SELECT_NAMES_MANAGER (manager), NULL);
 	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), NULL);
@@ -252,13 +260,15 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 
 	gtk_object_ref (GTK_OBJECT (entry->entry));
 
-	comp = e_select_names_completion_new (NULL, E_SELECT_NAMES_TEXT_MODEL (text_model));
-	if (manager->completion_book)
-		e_select_names_completion_add_book (E_SELECT_NAMES_COMPLETION (comp),
-						    manager->completion_book);
+	entry->comp = e_select_names_completion_new (E_SELECT_NAMES_TEXT_MODEL (text_model));
 
-	e_entry_enable_completion_full (entry->entry, comp, 50, completion_handler);
+	for (l = manager->completion_books; l; l = l->next) {
+		EBook *book = l->data;
+		e_select_names_completion_add_book (E_SELECT_NAMES_COMPLETION(entry->comp), book);
+	}
 
+	e_entry_enable_completion_full (entry->entry, entry->comp, 50, completion_handler);
+		
 	entry->manager = manager;
 
 	entry->model = model;
@@ -287,7 +297,7 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 	gtk_object_set_data (GTK_OBJECT (entry->entry), "entry_info", entry);
 	gtk_object_set_data (GTK_OBJECT (entry->entry), "select_names_model", model);
 	gtk_object_set_data (GTK_OBJECT (entry->entry), "select_names_text_model", text_model);
-	gtk_object_set_data (GTK_OBJECT (entry->entry), "completion_handler", comp);
+	gtk_object_set_data (GTK_OBJECT (entry->entry), "completion_handler", entry->comp);
 
 	return entry;
 }
@@ -359,12 +369,75 @@ e_select_names_manager_discard_saved_models (ESelectNamesManager *manager)
 static void
 open_book_cb (EBook *book, EBookStatus status, ESelectNamesManager *manager)
 {
-	if (status != E_BOOK_STATUS_SUCCESS) {
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		GList *l;
+		for (l = manager->entries; l; l = l->next) {
+			ESelectNamesManagerEntry *entry = l->data;
+			e_select_names_completion_add_book (E_SELECT_NAMES_COMPLETION(entry->comp), book);
+		}
+
+		manager->completion_books = g_list_append (manager->completion_books, book);
+	}
+	else {
 		gtk_object_unref (GTK_OBJECT (book));
-		manager->completion_book = NULL;
 	}
 
 	gtk_object_unref (GTK_OBJECT (manager)); /* unref ourself (matches ref before the load_uri call below) */
+}
+
+static void
+read_completion_books_from_db (ESelectNamesManager *manager)
+{
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
+	char *val;
+
+	CORBA_exception_init (&ev);
+
+	db = addressbook_config_database (&ev);
+		
+	val = bonobo_config_get_string (db, "/Addressbook/Completion/uris", &ev);
+
+	CORBA_exception_free (&ev);
+
+	if (val) {
+		EFolderListItem *folders = e_folder_list_parse_xml (val);
+		EFolderListItem *f;
+
+		for (f = folders; f && f->physical_uri; f++) {
+			char *uri;
+			EBook *book = e_book_new ();
+			gtk_object_ref (GTK_OBJECT (manager)); /* ref ourself before our async call */
+
+			if (!strncmp (f->physical_uri, "file:", 5))
+				uri = g_strdup_printf ("%s/addressbook.db", f->physical_uri);
+			else
+				uri = g_strdup (f->physical_uri);
+			addressbook_load_uri (book, uri, (EBookCallback)open_book_cb, manager);
+		}
+		e_folder_list_free_items (folders);
+
+		g_free (val);
+	}
+}
+
+static void
+uris_listener (BonoboListener *listener, char *event_name, 
+	       CORBA_any *any, CORBA_Environment *ev,
+	       gpointer user_data)
+{
+	ESelectNamesManager *manager = E_SELECT_NAMES_MANAGER (user_data);
+	GList *l;
+	for (l = manager->entries; l; l = l->next) {
+		ESelectNamesManagerEntry *entry = l->data;
+		e_select_names_completion_clear_books (E_SELECT_NAMES_COMPLETION (entry->comp));
+	}
+
+	g_list_foreach (manager->completion_books, (GFunc)gtk_object_unref, NULL);
+	g_list_free (manager->completion_books);
+	manager->completion_books = NULL;
+
+	read_completion_books_from_db (manager);
 }
 
 /**
@@ -379,24 +452,19 @@ e_select_names_manager_new (void)
 	ESelectNamesManager *manager = E_SELECT_NAMES_MANAGER(gtk_type_new(e_select_names_manager_get_type()));
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
-	char *val;
 
 	CORBA_exception_init (&ev);
 
 	db = addressbook_config_database (&ev);
 
-	val = bonobo_config_get_string (db, "/Addressbook/Completion/uri", &ev);
-
 	CORBA_exception_free (&ev);
 
-	if (val) {
-		manager->completion_book = e_book_new ();
-		gtk_object_ref (GTK_OBJECT (manager)); /* ref ourself before our async call */
-		addressbook_load_uri (manager->completion_book, val, (EBookCallback)open_book_cb, manager);
-		g_free (val);
-	}
-	else
-		manager->completion_book = NULL;
+	bonobo_event_source_client_add_listener (db, uris_listener,
+						 "Bonobo/ConfigDatabase:change/Addressbook/Completion:",
+						 NULL,
+						 manager);
+
+	read_completion_books_from_db (manager);
 
 	return manager;
 }
@@ -550,6 +618,7 @@ e_select_names_manager_init (ESelectNamesManager *manager)
 {
 	manager->sections = NULL;
 	manager->entries  = NULL;
+	manager->completion_books  = NULL;
 }
 
 static void
@@ -571,6 +640,10 @@ e_select_names_manager_destroy (GtkObject *object)
 	g_list_foreach (manager->entries, (GFunc) e_select_names_manager_entry_free, NULL);
 	g_list_free (manager->entries);
 	manager->entries = NULL;
+
+	g_list_foreach (manager->completion_books, (GFunc) gtk_object_unref, NULL);
+	g_list_free (manager->completion_books);
+	manager->completion_books = NULL;
 }
 
 static void

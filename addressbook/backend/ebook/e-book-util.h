@@ -42,6 +42,7 @@ typedef void (*EBookHaveAddressCallback) (EBook *book, const gchar *addr, ECard 
 
 /* expand file:///foo/foo/ to file:///foo/foo/addressbook.db */
 char                  *e_book_expand_uri                (const char               *uri);
+
 gboolean               e_book_load_address_book_by_uri  (EBook                    *book,
 							 const char               *uri,
 							 EBookCallback             open_response,
@@ -58,6 +59,7 @@ void                   e_book_use_local_address_book    (EBookCommonCallback    
 gboolean               e_book_load_default_book         (EBook                    *book,
 							 EBookCallback             open_response,
 							 gpointer                  closure);
+char                  *e_book_get_default_book_uri      (void);
 
 /* Bonoboconf database interface. */
 Bonobo_ConfigDatabase  e_book_get_config_database       (CORBA_Environment        *ev);

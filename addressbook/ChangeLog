@@ -1,3 +1,66 @@
+2002-05-24  Chris Toshok  <toshok@ximian.com>
+
+	[ #24189 ]
+	* gui/component/select-names/e-select-names-manager.c
+	(focus_out_cb): ifdef out the body of this because it only works
+	with a single completion book.  not sure what to do here, but it
+	doesn't impact most usage scenarios.
+	(completion_popup_cb): same.
+	(e_select_names_manager_entry_new): add the books that have been
+	loaded successfully by the time this entry is created.
+	(open_book_cb): add the opened book to the entries that have
+	already been created, and store it in our list so that entries
+	that are created in the future can catch up.
+	(read_completion_books_from_db): slurp in the folder list from the
+	config db and load all the uris.
+	(uris_listener): listener function - when there's a change it
+	calls _clear_books on all the created entries, and clears our
+	list.  It then re-reads the books from the db.
+	(e_select_names_manager_new): create our bonobo listener and call
+	read_completion_books_from_db.
+	(e_select_names_manager_init): init completion_books.
+	(e_select_names_manager_destroy): free our list of
+	completion_books.
+
+	* gui/component/select-names/e-select-names-manager.h: switch from
+	a single EBook to a GList of completion_books here.
+
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_add_book): deal with the case where
+	there's an active query (by effectively restarting it.)  This is
+	quite a contrived edge case.
+	(e_select_names_completion_clear_books): stop the current query
+	and clear our list of books.
+	(e_select_names_completion_new): track change to prototype, and
+	axe the majority of this method since an EBook* isn't passed
+	anymore.
+	(e_select_names_completion_clear_book_data): split this code out
+	from the destroy method so it can be called from _clear_books.
+
+	* gui/component/select-names/e-select-names-completion.h: the
+	constructor no longer takes an EBook -- pass in as many as you
+	want using _add_book.  Also, add prototype for _clear_books.
+
+	* gui/component/addressbook.c (load_uri_cb): when
+	storing/retrieving passwords, use the cleaned (without params)
+	version of the uri, so changing things like download limit don't
+	cause the user to be prompted for a password again.
+
+	* gui/component/addressbook-component.c
+	(ensure_completion_uris_exist): new function - probably doesn't
+	belong in this file.  Make sure the basic local Contacts folder
+	exists in the completion uris.
+	(addressbook_component_factory_init): call
+	ensure_completion_uris_exist.
+
+	* backend/ebook/e-book-util.h: add prototype for
+	e_book_get_default_book_uri.
+
+	* backend/ebook/e-book-util.c (e_book_get_default_book_uri): new
+	function, just return the default contacts uri.
+	(e_book_load_default_book): change
+	to use e_book_get_default_book_uri.
+
 2002-05-23  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-config.c (addressbook_root_dse_query):

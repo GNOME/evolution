@@ -32,7 +32,7 @@ struct _ESelectNamesManager {
 
 	ESelectNames *names;
 
-	EBook *completion_book;
+	GList *completion_books;
 };
 
 struct _ESelectNamesManagerClass {

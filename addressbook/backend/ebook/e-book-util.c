@@ -242,14 +242,38 @@ e_book_default_book_open (EBook *book, EBookStatus status, gpointer closure)
 gboolean
 e_book_load_default_book (EBook *book, EBookCallback open_response, gpointer closure)
 {
-	char *val, *uri;
+	char *uri;
 	gboolean rv;
-	CORBA_Environment ev;
-	Bonobo_ConfigDatabase config_db;
+	DefaultBookClosure *default_book_closure;
 
 	g_return_val_if_fail (book != NULL,          FALSE);
 	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
 	g_return_val_if_fail (open_response != NULL, FALSE);
+
+	uri = e_book_get_default_book_uri ();
+
+	default_book_closure = g_new (DefaultBookClosure, 1);
+
+	default_book_closure->closure = closure;
+	default_book_closure->open_response = open_response;
+
+	rv = e_book_load_uri (book, uri,
+			      e_book_default_book_open, default_book_closure);
+	g_free (uri);
+
+	if (!rv) {
+		g_warning ("Couldn't load default addressbook");
+	}
+
+	return rv;
+}
+
+char*
+e_book_get_default_book_uri ()
+{
+	CORBA_Environment ev;
+	char *val, *uri;
+	Bonobo_ConfigDatabase config_db;
 
 	CORBA_exception_init (&ev);
 	config_db = e_book_get_config_database (&ev);
@@ -257,29 +281,16 @@ e_book_load_default_book (EBook *book, EBookCallback open_response, gpointer clo
 	CORBA_exception_free (&ev);
 
 	if (val) {
-		DefaultBookClosure *default_book_closure = g_new (DefaultBookClosure, 1);
-		default_book_closure->closure = closure;
-		default_book_closure->open_response = open_response;
-
-		/* Sigh. FIXME. */
-		if (!strncmp (val, "file:", 5))
-			uri = g_strconcat (val, "/addressbook.db", NULL);
-		else
-			uri = g_strdup (val);
-		rv = e_book_load_uri (book, uri,
-				      e_book_default_book_open, default_book_closure);
-		g_free (uri);
-		g_free (val);
+		uri = val;
 	}
 	else {
-		rv = e_book_load_local_address_book (book, open_response, closure);
+		char *filename;
+		filename = gnome_util_prepend_user_home ("evolution/local/Contacts/addressbook.db");
+		uri = g_strdup_printf ("file://%s", filename);
+		g_free (filename);
 	}
 
-	if (!rv) {
-		g_warning ("Couldn't load default addressbook");
-	}
-
-	return rv;
+	return uri;
 }
 
 /*

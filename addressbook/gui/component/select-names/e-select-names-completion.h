@@ -56,8 +56,9 @@ struct _ESelectNamesCompletionClass {
 
 GtkType      e_select_names_completion_get_type (void);
 
-ECompletion *e_select_names_completion_new                     (EBook *, ESelectNamesTextModel *);
+ECompletion *e_select_names_completion_new                     (ESelectNamesTextModel *);
 void         e_select_names_completion_add_book                (ESelectNamesCompletion *, EBook *);
+void         e_select_names_completion_clear_books             (ESelectNamesCompletion *);
 gboolean     e_select_names_completion_get_match_contact_lists (ESelectNamesCompletion *);
 void         e_select_names_completion_set_match_contact_lists (ESelectNamesCompletion *, gboolean);
 
