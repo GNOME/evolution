@@ -118,8 +118,15 @@ static void add_dropdown(ESearchBar *esb, ESearchBarItem *items)
 	GtkWidget *menu = esb->dropdown_menu;
 	GtkWidget *item;
 
-	if (items->text)
-		item = gtk_menu_item_new_with_label (_(items->text));
+	if (items->text) {
+		char *str;
+		str = _(items->text);
+		if (str == items->text) {
+			/* It may be english string, or utf8 rule name */
+			item = e_utf8_gtk_menu_item_new_with_label (menu, str);
+		} else
+			item = gtk_menu_item_new_with_label (str);
+	}
 	else
 		item = gtk_menu_item_new();
 
@@ -189,8 +196,15 @@ set_option(ESearchBar *esb, ESearchBarItem *items)
 	for (i = 0; items[i].id != -1; i++) {
 		GtkWidget *item;
 
-		if (items[i].text)
-			item = gtk_menu_item_new_with_label (_(items[i].text));
+		if (items[i].text) {
+			char *str;
+			str = _(items[i].text);
+			if (str == items[i].text) {
+				/* It may be english string, or utf8 rule name */
+				item = e_utf8_gtk_menu_item_new_with_label (menu, str);
+			} else
+				item = gtk_menu_item_new_with_label (str);
+		}
 		else
 			item = gtk_menu_item_new();
 

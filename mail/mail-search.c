@@ -29,8 +29,10 @@
 #include <config.h>
 #endif
 
-#include <gtkhtml/gtkhtml-search.h>
 #include "mail-search.h"
+
+#include <gal/widgets/e-unicode.h>
+#include <gtkhtml/gtkhtml-search.h>
 
 static GtkObjectClass *parent_class;
 
@@ -40,7 +42,7 @@ mail_search_destroy (GtkObject *obj)
 	MailSearch *ms = MAIL_SEARCH (obj);
 
 	g_free (ms->last_search);
-	gtk_object_unref (ms->mail);
+	gtk_object_unref (GTK_OBJECT (ms->mail));
 }
 
 static void
@@ -101,8 +103,12 @@ dialog_clicked_cb (GtkWidget *w, gint button_number, MailSearch *ms)
 {
 	if (button_number == 0) {        /* "Search" */
 
-		gchar *search_text = gtk_editable_get_chars (GTK_EDITABLE (ms->entry), 0, -1);
-		g_strstrip (search_text);
+		char *search_text, *tmp;
+		
+		tmp = gtk_editable_get_chars (GTK_EDITABLE (ms->entry), 0, -1);
+		g_strstrip (tmp);
+		search_text = e_utf8_from_gtk_string ((GtkWidget *) ms->entry, tmp);
+		g_free (tmp);
 
 		if (search_text && *search_text) {
 		

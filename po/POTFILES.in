@@ -185,6 +185,7 @@ mail/mail-local.c
 mail/mail-mt.c
 mail/mail-ops.c
 mail/mail-search-dialogue.c
+mail/mail-search.c
 mail/mail-send-recv.c
 mail/mail-summary.c
 mail/mail-tools.c

@@ -504,7 +504,7 @@ static char *register_folder_desc(struct _mail_msg *mm, int done)
 {
 	struct _register_msg *m = (struct _register_msg *)mm;
 
-	printf("returning description for %s\n", m->local_folder->uri);
+	d(printf("returning description for %s\n", m->local_folder->uri));
 
 	return g_strdup_printf(_("Opening '%s'"), m->local_folder->uri);
 }

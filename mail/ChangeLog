@@ -1,3 +1,13 @@
+2001-05-08  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* mail-search.c: convert search entry to utf8.
+	
+	* mail-local.c: d() debugging message.
+
+	* mail-send-recv.c: replace " ..." with "..."
+
+	* Makefile.am: removed EVOLUTION_VERSION.
+
 2001-05-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c: s/HAVE_NSS/HAVE_SSL for the SSL checkbox

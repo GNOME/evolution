@@ -1,3 +1,7 @@
+2001-05-08  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* searches.xml: replace title> with _title>. Part of fix to #2253.
+
 2001-03-22  Dan Winship  <danw@ximian.com>
 
 	* local/Inbox/mbox: Change the From address to "The Evolution

@@ -37,6 +37,8 @@
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
 
+#define d(x)
+
 
 enum {
 	LAST_SIGNAL
@@ -137,7 +139,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 
 	switch(id) {
 	case E_FILTERBAR_RESET_ID:
-		printf("Reset menu\n");
+		d(printf("Reset menu\n"));
 		efb->current_query = NULL;
 		gtk_object_set((GtkObject *)esb, "option_choice", efb->option_base, NULL);
 		gtk_object_set((GtkObject *)esb, "text", NULL, NULL);
@@ -185,14 +187,14 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			gtk_widget_show((GtkWidget *)gd);
 		}
 
-		printf("Save menu\n");
+		d(printf("Save menu\n"));
 		break;
 	default:
 		if (id >= efb->menu_base && id < efb->menu_base + efb->menu_rules->len) {
 			GString *out = g_string_new("");
-			printf("Selected rule: %s\n", ((FilterRule *)efb->menu_rules->pdata[id - efb->menu_base])->name);
+			d(printf("Selected rule: %s\n", ((FilterRule *)efb->menu_rules->pdata[id - efb->menu_base])->name));
 			filter_rule_build_code(efb->menu_rules->pdata[id - efb->menu_base], out);
-			printf("query: '%s'\n", out->str);
+			d(printf("query: '%s'\n", out->str));
 			g_string_free(out, 1);
 
 			efb->current_query = (FilterRule *)efb->menu_rules->pdata[id - efb->menu_base];
@@ -216,11 +218,11 @@ option_changed (ESearchBar *esb, void *data)
 	int id = esb->option_choice;
 	char *query;
 
-	printf("option changed, id = %d\n", id);
+	d(printf("option changed, id = %d\n", id));
 
 	switch(id) {
 	case E_FILTERBAR_ADVANCED_ID: {
-		printf("Advanced search!\n");
+		d(printf("Advanced search!\n"));
 
 		if (!efb->save_dialogue && !efb->setquery) {
 			GtkWidget *w;
@@ -313,9 +315,8 @@ static GArray *build_items(ESearchBar *esb, ESearchBarItem *items, int type, int
 
 	/* always add on the advanced menu */
 	if (type == 1) {
-		item.id = E_FILTERBAR_ADVANCED_ID;
-		item.text = _("Advanced ...");
-		g_array_append_vals(menu, &item, 1);
+		ESearchBarItem advanced_item = E_FILTERBAR_ADVANCED;
+		g_array_append_vals(menu, &advanced_item, 1);
 	}
 
 	item.id = -1;

@@ -1,3 +1,21 @@
+2001-05-08  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* misc/e-search-bar.c (add_dropdown), (set_option): first try to
+	translate, then if not suceeded -- convert from utf8. This handles
+	cases when menuitem needs to be translated (it is passed as N_()), or is
+	utf8 search title. However you cannot have a search like "Folders" -- it
+	is translated. Part of fix for #2253.
+	
+	* misc/e-filter-bar.c: d() debugging strings. Use E_FILTERBAR_ADVANCED
+	macro instead of own "Advanced ..." for consistency.
+
+2001-05-07  Gediminas Paulauskas <menesis@delfi.lt>
+	
+	* menus/gal-view-menus.c (build_menus): convert label to locale
+	encoding. Still displays truncated strings.
+	
+	* menus/Makefile.am: removed -DEVOLUTION_VERSION.
+
 2001-04-21  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* menus/gal-view-menus.c: bonobo_ui_node_set_attr expects unstranslated

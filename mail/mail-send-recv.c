@@ -135,7 +135,7 @@ receive_cancel(GtkButton *button, struct _send_info *info)
 	if (info->state == SEND_ACTIVE) {
 		camel_operation_cancel(info->cancel);
 		if (info->bar)
-			gtk_progress_set_format_string((GtkProgress *)info->bar, _("Cancelling ..."));
+			gtk_progress_set_format_string((GtkProgress *)info->bar, _("Cancelling..."));
 		info->state = SEND_CANCELLED;
 	}
 	if (info->stop)
@@ -282,9 +282,9 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 		gtk_progress_set_show_text((GtkProgress *)bar, TRUE);
 
 		if (info->type == SEND_UPDATE) {
-			gtk_progress_set_format_string((GtkProgress *)bar, _("Updating ..."));
+			gtk_progress_set_format_string((GtkProgress *)bar, _("Updating..."));
 		} else {
-			gtk_progress_set_format_string((GtkProgress *)bar, _("Waiting ..."));
+			gtk_progress_set_format_string((GtkProgress *)bar, _("Waiting..."));
 		}
 
 		gtk_table_attach(table, (GtkWidget *)label, 0, 1, row, row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
@@ -330,7 +330,7 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 		bar = (GtkProgressBar *)gtk_progress_bar_new();
 		stop = (GtkButton *)gnome_stock_button(GNOME_STOCK_BUTTON_CANCEL);
 		
-		gtk_progress_set_format_string((GtkProgress *)bar, _("Waiting ..."));
+		gtk_progress_set_format_string((GtkProgress *)bar, _("Waiting..."));
 		gtk_progress_set_show_text((GtkProgress *)bar, TRUE);
 		
 		gtk_table_attach(table, (GtkWidget *)label, 0, 1, row, row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
@@ -527,7 +527,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	if (!folder)
 		return NULL;
 
-	/* we recheck that the folder hasn't snuck in while we were loading it ... */
+	/* we recheck that the folder hasn't snuck in while we were loading it... */
 	/* and we assume the newer one is the same, but unref the old one anyway */
 	g_mutex_lock(info->data->lock);
 	
