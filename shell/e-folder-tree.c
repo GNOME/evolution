@@ -107,7 +107,8 @@ static void
 folder_remove_subfolder (Folder *folder,
 			 Folder *subfolder)
 {
-	g_list_remove (folder->subfolders, folder);
+	folder->subfolders = g_list_remove (folder->subfolders, subfolder);
+	subfolder->parent = NULL;
 }
 
 static void
@@ -142,6 +143,7 @@ remove_folder (EFolderTree *folder_tree,
 			Folder *subfolder;
 
 			subfolder = (Folder *) p->data;
+			subfolder->parent = NULL;
 			remove_folder (folder_tree, subfolder);
 		}
 

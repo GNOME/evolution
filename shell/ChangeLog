@@ -1,3 +1,10 @@
+2001-05-14  jacob berkman  <jacob@ximian.com>
+
+	* e-folder-tree.c (remove_folder): set the subfolder's parent to
+	NULL so the subfolder list doesn't change whilst we are using it
+	(folder_remove_subfolder): this function didn't used to work at
+	all
+
 2001-05-12  Chris Toshok  <toshok@ximian.com>
 
 	* e-storage-set-view.c (tree_drag_data_received): implement the
