@@ -5,6 +5,7 @@
 #include <gdk/gdkx.h>
 
 #include <gal/widgets/e-canvas.h>
+#include <gal/widgets/e-canvas-utils.h>
 #include <gal/util/e-util.h>
 #include <gal/e-text/e-text.h>
 
@@ -289,7 +290,7 @@ e_note_init (ENote *note)
 						 "width", 150.0,
 						 NULL);
 	e_canvas_item_move_absolute(priv->text_item,
-				    5, 25);
+				    5.0, 25.0);
 
 	gtk_signal_connect (GTK_OBJECT (E_TEXT (priv->text_item)->model), "changed",
 			    GTK_SIGNAL_FUNC (e_note_text_changed), note);
@@ -302,14 +303,14 @@ e_note_init (ENote *note)
 	gtk_signal_connect (GTK_OBJECT (button), "motion_notify_event",
 			    GTK_SIGNAL_FUNC (e_note_move_motion_event), note);
 	gtk_widget_show (button);
-	priv->move_button = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (priv->canvas)),
-						   gnome_canvas_widget_get_type (),
-						   "widget", button,
-						   "x", 3.0,
-						   "y", 3.0,
-						   "width", 20.0,
-						   "height", 20.0,
-						   NULL);
+	priv->move_button = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (priv->canvas)), 
+  						   gnome_canvas_widget_get_type (), 
+  						   "widget", button, 
+  						   "x", 3.0, 
+  						   "y", 3.0, 
+  						   "width", 20.0, 
+  						   "height", 20.0, 
+  						   NULL); 
 	button = e_bevel_button_new ();
 	gtk_widget_show (button);
 	priv->close_button = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (priv->canvas)),
