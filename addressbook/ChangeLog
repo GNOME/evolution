@@ -1,3 +1,24 @@
+2004-01-06  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_SOURCES):
+	add addressbook-migrate.[ch].
+
+	* gui/component/addressbook-component.c
+	(addressbook_component_init): remove the source creation from
+	here, it's in the migration code now.
+	(impl_upgradeFromVersion): new function, call the
+	addressbook-migration stuff.
+	(addressbook_component_class_init): fill in
+	epv->upgradeFromVersion, and call smime_component_init.
+	(addressbook_component_peek_base_directory): new function.
+	(addressbook_component_peek_source_list): same.
+
+	* gui/component/addressbook-component.h: add prototypes for
+	_peek_base_directory and _peek_source_list.
+
+	* gui/component/addressbook-migrate.[ch]: add migration code to
+	convert stuff from 1.x over to 1.5/2.0.
+
 2004-01-06  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/contact-editor/e-contact-editor-address.c: Apply

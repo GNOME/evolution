@@ -27,6 +27,7 @@
 
 #include "Evolution.h"
 #include "e-activity-handler.h"
+#include <libedataserver/e-source-list.h>
 
 #define ADDRESSBOOK_TYPE_COMPONENT			(addressbook_component_get_type ())
 #define ADDRESSBOOK_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), ADDRESSBOOK_TYPE_COMPONENT, AddressbookComponent))
@@ -56,7 +57,8 @@ GType addressbook_component_get_type (void);
 
 AddressbookComponent *addressbook_component_peek (void);
 
-EActivityHandler *addressbook_component_peek_activity_handler  (AddressbookComponent *component);
-
+const char *       addressbook_component_peek_base_directory   (AddressbookComponent *component);
+EActivityHandler  *addressbook_component_peek_activity_handler (AddressbookComponent *component);
+ESourceList       *addressbook_component_peek_source_list      (AddressbookComponent *component);
 
 #endif /* _ADDRESSBOOK_COMPONENT_H_ */

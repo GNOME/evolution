@@ -26,6 +26,7 @@
 #include <config.h>
 
 #include "addressbook-component.h"
+#include "addressbook-migrate.h"
 
 #include "addressbook.h"
 #include "addressbook-config.h"
@@ -47,6 +48,10 @@
 #include <gconf/gconf-client.h>
 #include <gal/util/e-util.h>
 
+#if HAVE_NSS
+#include "smime/gui/component.h"
+#endif
+
 
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
@@ -55,6 +60,7 @@ struct _AddressbookComponentPrivate {
 	GConfClient *gconf_client;
 	ESourceList *source_list;
 	GtkWidget *source_selector;
+	char *base_directory;
 
 	EActivityHandler *activity_handler;
 };
@@ -349,6 +355,23 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	g_free (uri);
 }
 
+static CORBA_boolean
+impl_upgradeFromVersion (PortableServer_Servant servant, short major, short minor, short revision, CORBA_Environment *ev)
+{
+	switch (major) {
+	case 1:
+		switch (minor) {
+		case 0:
+		case 2:
+		case 4:
+			addressbook_migrate (addressbook_component_peek ());
+			break;
+		}
+		break;
+	}
+	
+	return TRUE;
+}
 
 /* GObject methods.  */
 
@@ -402,18 +425,20 @@ addressbook_component_class_init (AddressbookComponentClass *class)
 	epv->createControls          = impl_createControls;
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
+	epv->upgradeFromVersion      = impl_upgradeFromVersion;
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
 
 	parent_class = g_type_class_peek_parent (class);
+
+	smime_component_init ();
 }
 
 static void
 addressbook_component_init (AddressbookComponent *component)
 {
 	AddressbookComponentPrivate *priv;
-	GSList *groups;
 
 	priv = g_new0 (AddressbookComponentPrivate, 1);
 
@@ -425,49 +450,7 @@ addressbook_component_init (AddressbookComponent *component)
 							 "/apps/evolution/addressbook/sources");
 
 	priv->activity_handler = e_activity_handler_new ();
-
-	/* Create default addressbooks if there are no groups */
-	groups = e_source_list_peek_groups (priv->source_list);
-	if (!groups) {
-		ESourceGroup *group;
-		ESource *source;
-		char *base_uri, *base_uri_proto, *new_dir;
-
-		/* create the local source group */
-		base_uri = g_build_filename (g_get_home_dir (),
-					     "/.evolution/addressbook/local/OnThisComputer/",
-					     NULL);
-
-		base_uri_proto = g_strconcat ("file://", base_uri, NULL);
-
-		group = e_source_group_new (_("On This Computer"), base_uri_proto);
-		e_source_list_add_group (priv->source_list, group, -1);
-
-		g_free (base_uri_proto);
-
-		/* FIXME: Migrate addressbooks from older setup? */
-
-		/* Create default addressbooks */
-		new_dir = g_build_filename (base_uri, "Personal/", NULL);
-		if (!e_mkdir_hier (new_dir, 0700)) {
-			source = e_source_new (_("Personal"), "Personal");
-			e_source_group_add_source (group, source, -1);
-		}
-		g_free (new_dir);
-
-		new_dir = g_build_filename (base_uri, "Work/", NULL);
-		if (!e_mkdir_hier (new_dir, 0700)) {
-			source = e_source_new (_("Work"), "Work");
-			e_source_group_add_source (group, source, -1);
-		}
-		g_free (new_dir);
-
-		g_free (base_uri);
-
-		/* Create the LDAP source group */
-		group = e_source_group_new (_("On LDAP Servers"), "ldap://");
-		e_source_list_add_group (priv->source_list, group, -1);
-	}
+	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
 
 	component->priv = priv;
 }
@@ -484,6 +467,22 @@ addressbook_component_peek (void)
 		component = g_object_new (addressbook_component_get_type (), NULL);
 
 	return component;
+}
+
+const char *
+addressbook_component_peek_base_directory (AddressbookComponent *component)
+{
+	g_return_val_if_fail (ADDRESSBOOK_IS_COMPONENT (component), NULL);
+
+	return component->priv->base_directory;
+}
+
+ESourceList *
+addressbook_component_peek_source_list (AddressbookComponent *component)
+{
+	g_return_val_if_fail (ADDRESSBOOK_IS_COMPONENT (component), NULL);
+
+	return component->priv->source_list;
 }
 
 

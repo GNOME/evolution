@@ -1,0 +1,559 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* 
+ * Copyright (C) 2004, Novell, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ * Author: Chris Toshok (toshok@ximian.com)
+ */
+
+#include <glib.h>
+#include <string.h>
+#include "addressbook-migrate.h"
+#include <libebook/e-book-async.h>
+#include <libgnome/gnome-i18n.h>
+#include <gal/util/e-util.h>
+#include <gal/util/e-xml-utils.h>
+#include <gtk/gtkwidget.h>
+#include <gtk/gtkvbox.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkprogressbar.h>
+
+static GtkWidget *window;
+static GtkLabel *label;
+static GtkProgressBar *progress;
+
+static void
+setup_progress_dialog (void)
+{
+	GtkWidget *vbox, *hbox, *w;
+	
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title ((GtkWindow *) window, _("Migrating..."));
+	gtk_window_set_modal ((GtkWindow *) window, TRUE);
+	gtk_container_set_border_width ((GtkContainer *) window, 6);
+	
+	vbox = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (vbox);
+	gtk_container_add ((GtkContainer *) window, vbox);
+	
+	w = gtk_label_new (_("The location and hierarchy of the Evolution contact "
+			     "folders has changed since Evolution 1.x.\n\nPlease be "
+			     "patient while Evolution migrates your folders..."));
+	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
+	gtk_widget_show (w);
+	gtk_box_pack_start_defaults ((GtkBox *) vbox, w);
+	
+	hbox = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (hbox);
+	gtk_box_pack_start_defaults ((GtkBox *) vbox, hbox);
+	
+	label = (GtkLabel *) gtk_label_new ("");
+	gtk_widget_show ((GtkWidget *) label);
+	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) label);
+	
+	progress = (GtkProgressBar *) gtk_progress_bar_new ();
+	gtk_widget_show ((GtkWidget *) progress);
+	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) progress);
+	
+	gtk_widget_show (window);
+}
+
+static void
+dialog_close (void)
+{
+	gtk_widget_destroy ((GtkWidget *) window);
+}
+
+static void
+dialog_set_folder_name (const char *folder_name)
+{
+	char *text;
+	
+	text = g_strdup_printf (_("Migrating `%s':"), folder_name);
+	gtk_label_set_text (label, text);
+	g_free (text);
+	
+	gtk_progress_bar_set_fraction (progress, 0.0);
+	
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
+}
+
+static void
+dialog_set_progress (double percent)
+{
+	char text[5];
+	
+	snprintf (text, sizeof (text), "%d%%", (int) (percent * 100.0f));
+	
+	gtk_progress_bar_set_fraction (progress, percent);
+	gtk_progress_bar_set_text (progress, text);
+	
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
+}
+
+static GList*
+find_addressbook_dirs (char *path, gboolean toplevel)
+{
+	char *db_path;
+	char *subfolder_path;
+	GList *list = NULL;
+
+	printf ("find_addressbook_dirs (%s)\n", path);
+
+	/* check if the present path is a db */
+	db_path = g_build_filename (path, "addressbook.db", NULL);
+	if (g_file_test (db_path, G_FILE_TEST_EXISTS))
+		list = g_list_append (list, g_strdup (path));
+	g_free (db_path);
+
+	/* recurse to subfolders */
+	if (toplevel)
+		subfolder_path = g_strdup (path);
+	else
+		subfolder_path = g_build_filename (path, "subfolders", NULL);
+	if (g_file_test (subfolder_path, G_FILE_TEST_IS_DIR)) {
+		GDir *dir = g_dir_open (subfolder_path, 0, NULL);
+
+		if (dir) {
+			const char *name;
+			while ((name = g_dir_read_name (dir))) {
+				if (strcmp (name, ".") && strcmp (name, "..")) {
+					char *p;
+					GList *sublist;
+
+					if (toplevel)
+						p = g_build_filename (path, name, NULL);
+					else
+						p = g_build_filename (path, "subfolders", name, NULL);
+
+					sublist = find_addressbook_dirs (p, FALSE);
+					g_free (p);
+					list = g_list_concat (list, sublist);
+				}
+			}
+			g_dir_close (dir);
+		}
+	}
+
+	g_free (subfolder_path);
+
+	return list;
+}
+
+static gboolean
+check_for_conflict (ESourceGroup *group, char *name)
+{
+	GSList *sources;
+	GSList *s;
+
+	sources = e_source_group_peek_sources (group);
+
+	for (s = sources; s; s = s->next) {
+		ESource *source = E_SOURCE (s->data);
+
+		printf ("checking %s against %s\n", e_source_peek_name (source), name);
+		if (!strcmp (e_source_peek_name (source), name))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+static char *
+get_source_name (ESourceGroup *group, const char *path)
+{
+	char **p = g_strsplit (path, "/", 0);
+	int i, j, starting_index;
+	int num_elements;
+	gboolean conflict;
+	GString *s = g_string_new ("");
+
+	for (i = 0; p[i]; i ++) ;
+
+	num_elements = i;
+	i--;
+
+	/* p[i] is now the last path element */
+
+	/* check if it conflicts */
+	starting_index = i;
+	do {
+		g_string_assign (s, "");
+		for (j = starting_index; j < num_elements; j += 2) {
+			if (j != starting_index)
+				g_string_append_c (s, '_');
+			g_string_append (s, p[j]);
+		}
+
+		printf ("attempting %s\n", s->str);
+
+		conflict = check_for_conflict (group, s->str);
+
+
+		/* if there was a conflict back up 2 levels (skipping the /subfolder/ element) */
+		if (conflict)
+			starting_index -= 2;
+
+		/* we always break out if we can't go any further,
+		   regardless of whether or not we conflict. */
+		if (starting_index < 0)
+			break;
+
+	} while (conflict);
+
+	return g_string_free (s, FALSE);
+}
+
+static void
+migrate_contacts (EBook *old_book, EBook *new_book)
+{
+	EBookQuery *query = e_book_query_any_field_contains ("");
+	GList *l, *contacts;
+	int num_added = 0;
+	int num_contacts;
+
+	/* both books are loaded, start the actual migration */
+	printf ("starting contact copy\n");
+	e_book_get_contacts (old_book, query, &contacts, NULL);
+
+	num_contacts = g_list_length (contacts);
+	for (l = contacts; l; l = l->next) {
+		EContact *contact = l->data;
+		GError *e = NULL;
+		if (!e_book_add_contact (new_book,
+					 contact,
+					 &e))
+			g_warning ("contact add failed: `%s'", e->message);
+
+		num_added ++;
+
+		dialog_set_progress ((double)num_added / num_contacts);
+	}
+}
+
+static void
+migrate_contact_folder (char *old_path, ESourceGroup *dest_group, char *source_name)
+{
+	char *old_uri = g_strdup_printf ("file://%s", old_path);
+	GError *e = NULL;
+
+	EBook *old_book = NULL, *new_book = NULL;
+	ESource *old_source;
+	ESource *new_source;
+	ESourceGroup *group;
+
+	group = e_source_group_new ("", old_uri);
+	old_source = e_source_new ("", "");
+	e_source_set_group (old_source, group);
+	g_object_unref (group);
+
+	new_source = e_source_new (source_name, source_name);
+	e_source_set_group (new_source, dest_group);
+
+	dialog_set_folder_name (source_name);
+
+	printf ("migrating `%s' to `%s'\n", old_uri, e_source_get_uri (new_source));
+	
+	old_book = e_book_new ();
+	if (!e_book_load_source (old_book, old_source, TRUE, &e)) {
+		g_warning ("failed to load source book for migration: `%s'", e->message);
+		goto finish;
+	}
+
+	new_book = e_book_new ();
+	if (!e_book_load_source (new_book, new_source, FALSE, &e)) {
+		g_warning ("failed to load destination book for migration: `%s'", e->message);
+		goto finish;
+	}
+
+	migrate_contacts (old_book, new_book);
+
+ finish:
+	g_object_unref (old_book);
+	g_object_unref (new_book);
+	g_free (old_uri);
+}
+
+static gboolean
+create_groups (AddressbookComponent *component,
+	       ESourceList   *source_list,
+	       ESourceGroup **on_this_computer,
+	       ESourceGroup **on_ldap_servers)
+{
+	GSList *groups;
+
+	groups = e_source_list_peek_groups (source_list);
+	if (groups) {
+		/* groups are already there, we need to search for things... */
+		g_warning ("can't migrate when existing groups are present");
+		return FALSE;
+	}
+	else {
+		ESourceGroup *group;
+		ESource *source;
+		char *base_uri, *base_uri_proto, *new_dir;
+
+		/* create the local source group */
+		base_uri = g_build_filename (addressbook_component_peek_base_directory (component),
+					     "/addressbook/local/OnThisComputer/",
+					     NULL);
+
+		base_uri_proto = g_strconcat ("file://", base_uri, NULL);
+
+		group = e_source_group_new (_("On This Computer"), base_uri_proto);
+		e_source_list_add_group (source_list, group, -1);
+
+		*on_this_computer = group;
+
+		g_free (base_uri_proto);
+
+		/* Create default addressbooks */
+		new_dir = g_build_filename (base_uri, "Personal/", NULL);
+		if (!e_mkdir_hier (new_dir, 0700)) {
+			source = e_source_new (_("Personal"), "Personal");
+			e_source_group_add_source (group, source, -1);
+		}
+		g_free (new_dir);
+
+		g_free (base_uri);
+
+		/* Create the LDAP source group */
+		group = e_source_group_new (_("On LDAP Servers"), "ldap://");
+		e_source_list_add_group (source_list, group, -1);
+
+		*on_ldap_servers = group;
+	}
+
+	return TRUE;
+}
+
+static gboolean
+migrate_local_folders (AddressbookComponent *component, ESourceGroup *on_this_computer)
+{
+	char *old_path = NULL;
+	char *local_contact_folder = NULL;
+	char *source_name = NULL;
+	GList *dirs, *l;
+
+	old_path = g_strdup_printf ("%s/evolution/local", g_get_home_dir ());
+
+	dirs = find_addressbook_dirs (old_path, TRUE);
+
+	printf ("found the following dirs to migrate:\n");
+	for (l = dirs; l; l = l->next) {
+		printf ("l->data = %s\n", (char*)l->data);
+	}
+
+	/* migrate the local addressbook first, to OnThisComputer/Personal */
+	local_contact_folder = g_build_filename (g_get_home_dir (), "/evolution/local/Contacts",
+						 NULL);
+	source_name = "Personal";
+	migrate_contact_folder (local_contact_folder, on_this_computer, source_name);
+
+	for (l = dirs; l; l = l->next) {
+		ESource *source;
+
+		/* skip the local contact folder, since we handle that
+		   specifically, mapping it to Personal */
+		if (!strcmp ((char*)l->data, local_contact_folder))
+			continue;
+
+		source_name = get_source_name (on_this_computer, (char*)l->data + strlen (old_path) + 1);
+
+		source = e_source_new (source_name, source_name);
+		e_source_group_add_source (on_this_computer, source, -1);
+
+		migrate_contact_folder (l->data, on_this_computer, source_name);
+		g_free (source_name);
+	}
+
+	g_free (local_contact_folder);
+	g_free (old_path);
+
+	return TRUE;
+}
+
+static char *
+get_string_value (xmlNode *node,
+		  const char *name)
+{
+	xmlNode *p;
+	xmlChar *xml_string;
+	char *retval;
+
+	p = e_xml_get_child_by_name (node, (xmlChar *) name);
+	if (p == NULL)
+		return NULL;
+
+	p = e_xml_get_child_by_name (p, (xmlChar *) "text");
+	if (p == NULL) /* there's no text between the tags, return the empty string */
+		return g_strdup("");
+
+	xml_string = xmlNodeListGetString (node->doc, p, 1);
+	retval = g_strdup ((char *) xml_string);
+	xmlFree (xml_string);
+
+	return retval;
+}
+
+static int
+get_integer_value (xmlNode *node,
+		   const char *name,
+		   int defval)
+{
+	xmlNode *p;
+	xmlChar *xml_string;
+	int retval;
+
+	p = e_xml_get_child_by_name (node, (xmlChar *) name);
+	if (p == NULL)
+		return defval;
+
+	p = e_xml_get_child_by_name (p, (xmlChar *) "text");
+	if (p == NULL) /* there's no text between the tags, return the default */
+		return defval;
+
+	xml_string = xmlNodeListGetString (node->doc, p, 1);
+	retval = atoi (xml_string);
+	xmlFree (xml_string);
+
+	return retval;
+}
+
+static gboolean
+migrate_ldap_servers (AddressbookComponent *component, ESourceGroup *on_ldap_servers)
+{
+	char *sources_xml = g_strdup_printf ("%s/evolution/addressbook-sources.xml",
+					     g_get_home_dir ());
+
+	printf ("trying to migrate from %s\n", sources_xml);
+
+	if (g_file_test (sources_xml, G_FILE_TEST_EXISTS)) {
+		xmlDoc  *doc = xmlParseFile (sources_xml);
+		xmlNode *root;
+		xmlNode *child;
+		int num_contactservers;
+		int servernum;
+
+		if (!doc)
+			return FALSE;
+
+		root = xmlDocGetRootElement (doc);
+		if (root == NULL || strcmp (root->name, "addressbooks") != 0) {
+			xmlFreeDoc (doc);
+			return FALSE;
+		}
+
+		/* count the number of servers, so we can give progress */
+		num_contactservers = 0;
+		for (child = root->children; child; child = child->next) {
+			if (!strcmp (child->name, "contactserver")) {
+				num_contactservers++;
+			}
+		}
+		printf ("found %d contact servers to migrate\n", num_contactservers);
+
+		dialog_set_folder_name (_("LDAP Servers"));
+
+		servernum = 0;
+		for (child = root->children; child; child = child->next) {
+			if (!strcmp (child->name, "contactserver")) {
+				char *port, *host, *rootdn, *scope, *authmethod, *ssl;
+				char *emailaddr, *binddn, *limitstr;
+				int limit;
+				char *name, *description;
+				GString *uri = g_string_new ("");
+				ESource *source;
+
+				name        = get_string_value (child, "name");
+				description = get_string_value (child, "description");
+				port        = get_string_value (child, "port");
+				host        = get_string_value (child, "host");
+				rootdn      = get_string_value (child, "rootdn");
+			        scope       = get_string_value (child, "scope");
+				authmethod  = get_string_value (child, "authmethod");
+				ssl         = get_string_value (child, "ssl");
+				emailaddr   = get_string_value (child, "emailaddr");
+				binddn      = get_string_value (child, "binddn");
+				limit       = get_integer_value (child, "limit", 100);
+				limitstr    = g_strdup_printf ("%d", limit);
+
+				g_string_append_printf (uri,
+							"%s:%s/%s?"/*trigraph prevention*/"?%s",
+							host, port, rootdn, scope);
+
+				source = e_source_new (name, uri->str);
+				e_source_set_property (source, "description", description);
+				e_source_set_property (source, "limit", limitstr);
+				e_source_set_property (source, "ssl", ssl);
+				e_source_set_property (source, "auth", authmethod);
+				if (emailaddr)
+					e_source_set_property (source, "email_addr", emailaddr);
+				if (binddn)
+					e_source_set_property (source, "binddn", binddn);
+
+				e_source_group_add_source (on_ldap_servers, source, -1);
+
+				g_string_free (uri, TRUE);
+				g_free (port);
+				g_free (host);
+				g_free (rootdn);
+				g_free (scope);
+				g_free (authmethod);
+				g_free (ssl);
+				g_free (emailaddr);
+				g_free (binddn);
+				g_free (limitstr);
+				g_free (name);
+				g_free (description);
+
+				servernum++;
+				dialog_set_progress ((double)servernum/num_contactservers);
+			}
+		}
+
+		xmlFreeDoc (doc);
+	}
+
+	g_free (sources_xml);
+
+	return TRUE;
+}
+
+int
+addressbook_migrate (AddressbookComponent *component)
+{
+	ESourceList *source_list = addressbook_component_peek_source_list (component);
+	ESourceGroup *on_this_computer;
+	ESourceGroup *on_ldap_servers;
+
+	if (!create_groups (component, source_list, &on_this_computer, &on_ldap_servers))
+		return FALSE;
+
+	setup_progress_dialog ();
+
+	migrate_local_folders (component, on_this_computer);
+	migrate_ldap_servers (component, on_ldap_servers);
+
+	dialog_close ();
+
+	e_source_list_sync (source_list, NULL);
+
+	return TRUE;
+}
