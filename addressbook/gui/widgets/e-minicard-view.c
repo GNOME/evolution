@@ -307,17 +307,18 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	switch( event->type ) {
 	case GDK_2BUTTON_PRESS:
-		if (((GdkEventButton *)event)->button == 1)
-		{
-			EBook *book;
+		if (((GdkEventButton *)event)->button == 1) {
 			gboolean editable;
 
-			gtk_object_get(GTK_OBJECT(view), "book", &book, NULL);
 			gtk_object_get(GTK_OBJECT(view->adapter), "editable", &editable, NULL);
-
-			g_assert (E_IS_BOOK (book));
-
-			e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, editable);
+  
+			if (editable) {
+				EBook *book;
+				gtk_object_get(GTK_OBJECT(view), "book", &book, NULL);
+ 
+				if (book && E_IS_BOOK (book))
+					e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, editable);
+			}
 			return TRUE;
 		}
 	case GDK_BUTTON_PRESS:
