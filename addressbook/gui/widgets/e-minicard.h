@@ -122,6 +122,7 @@ int         e_minicard_compare      (EMinicard *minicard1,
 
 int         e_minicard_selected     (EMinicard *minicard,
 				     GdkEvent  *event);
+gboolean    e_minicard_activate_editor	(EMinicard *minicard);
 
 #ifdef __cplusplus
 }

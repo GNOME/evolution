@@ -531,14 +531,14 @@ editor_closed_cb (GtkObject *editor, gpointer data)
 	minicard->editor = NULL;
 }
 
-static gboolean
-activiate_editor(GnomeCanvasItem *item)
+gboolean
+e_minicard_activate_editor(EMinicard *minicard)
 {
-	EMinicard *e_minicard;
-	e_minicard = E_MINICARD (item);
-        
-	if (e_minicard->editor) {
-		eab_editor_raise (e_minicard->editor);
+	GnomeCanvasItem *item = NULL;
+	item = minicard;
+      
+	if (minicard->editor) {
+		eab_editor_raise (minicard->editor);
 	}
 	else {
 		EBook *book = NULL;
@@ -547,20 +547,20 @@ activiate_editor(GnomeCanvasItem *item)
 		}
 
 		if (book != NULL) {
-			if (e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST)) {
-				EContactListEditor *editor = eab_show_contact_list_editor (book, e_minicard->contact,
-												FALSE, e_minicard->editable);
-				e_minicard->editor = EAB_EDITOR (editor);
+			if (e_contact_get (minicard->contact, E_CONTACT_IS_LIST)) {
+				EContactListEditor *editor = eab_show_contact_list_editor (book, minicard->contact,
+												FALSE, minicard->editable);
+				minicard->editor = EAB_EDITOR (editor);
 			}
 			else {
-				EContactEditor *editor = eab_show_contact_editor (book, e_minicard->contact,
-												FALSE, e_minicard->editable);
-				e_minicard->editor = EAB_EDITOR (editor);
+				EContactEditor *editor = eab_show_contact_editor (book, minicard->contact,
+												FALSE, minicard->editable);
+				minicard->editor = EAB_EDITOR (editor);
 			}
 
-			g_object_ref (e_minicard->editor);
-			g_signal_connect (e_minicard->editor, "editor_closed",
-							G_CALLBACK (editor_closed_cb), e_minicard);
+			g_object_ref (minicard->editor);
+			g_signal_connect (minicard->editor, "editor_closed",
+							G_CALLBACK (editor_closed_cb), minicard);
 
 			g_object_unref (book);
 		}
@@ -651,8 +651,8 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_2BUTTON_PRESS:
-		if (event->button.button == 1 && E_IS_MINICARD_VIEW(item->parent)) {
-			return activiate_editor(item);
+		if (event->button.button == 1 && E_IS_MINICARD_VIEW (item->parent)) {
+			return e_minicard_activate_editor (e_minicard);
 		}
 		break;
 	case GDK_KEY_PRESS:
@@ -660,7 +660,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 			event->key.keyval == GDK_KP_Tab ||
 			event->key.keyval == GDK_ISO_Left_Tab) {
 
-			EMinicardView *view = E_MINICARD_VIEW(item->parent);
+			EMinicardView *view = E_MINICARD_VIEW (item->parent);
 			EReflow *reflow = E_REFLOW(view);
 
 			if (reflow == NULL) {
@@ -672,7 +672,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 					return FALSE;
 				}
 				else {
-					int row_count = e_selection_model_row_count(reflow->selection);
+					int row_count = e_selection_model_row_count (reflow->selection);
 					int model_index = e_selection_model_cursor_row (reflow->selection);
 					int view_index = e_sorter_model_to_sorted (reflow->selection->sorter, model_index);
 
@@ -682,7 +682,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 						view_index--;
 
 					model_index = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), view_index);
-					e_canvas_item_grab_focus(reflow->items[model_index], FALSE);
+					e_canvas_item_grab_focus (reflow->items[model_index], FALSE);
 					return TRUE;
 				}
 			}
@@ -708,7 +708,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		else if (event->key.keyval == GDK_Return ||
 				event->key.keyval == GDK_KP_Enter) {
-				return activiate_editor(item);
+				return e_minicard_activate_editor (e_minicard);
 		}
 		break;
 	default:
