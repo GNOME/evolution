@@ -11,6 +11,7 @@
 	(ml_value_at): Changed to use new interface.  Hmm, this returns a
 	static variable, that seems wrong.
 	(message_list_set_folder): Remove folder summary.
+	(ml_row_count): Oops, remove some debug i put there.
 
 2000-04-20  Dan Winship  <danw@helixcode.com>
 

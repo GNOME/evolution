@@ -114,18 +114,14 @@ ml_row_count (ETableModel *etm, void *data)
 	int v;
 	
 	if (!message_list->folder) {
-		printf("nothing???\n");
 		return 0;
 	}
 
 	camel_exception_init (&ex);
 	
 	v = camel_folder_get_message_count (message_list->folder, &ex);
-	printf("message count = %d\n", v);
 	if (camel_exception_get_id (&ex))
 		v = 0;
-	printf("now message count = %d\n", v);
-	
 	
 	/* in the case where no message is available, return 1
 	 * however, cause we want to be able to show a text */
