@@ -1,3 +1,8 @@
+2002-02-09  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: make sure PISOCK cflags are added where
+	appropriate
+
 2002-02-08  Damon Chaplin  <damon@ximian.com>
 
 	* Makefile.am (SUBDIRS): added sounds.
