@@ -22,7 +22,7 @@
 
 $sysname=`uname -s`;
 
-if ($sysname == "SunOS") {
+if ($sysname eq "SunOS") {
 	$killcmd="pkill";
 }
 else {
@@ -37,10 +37,11 @@ sub kill_exe {
 
 	printf ("killing $exe_name\n");
 
-	`$killcmd -9 $exe_name 2> /dev/null`;
-	`$killcmd -9 $lt_name 2> /dev/null`;
-	`$killcmd -9 $sub_exe_name 2> /dev/null`;
-	`$killcmd -9 $sub_lt_name 2> /dev/null`;
+	$redirect = "2> /dev/null";
+	`$killcmd -9 $exe_name $redirect`;
+	`$killcmd -9 $lt_name $redirect`;
+	`$killcmd -9 $sub_exe_name $redirect`;
+	`$killcmd -9 $sub_lt_name $redirect`;
 }
 
 sub kill_exes {

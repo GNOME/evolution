@@ -1,3 +1,7 @@
+2001-10-23  Chris Toshok  <toshok@ximian.com>
+
+	* tools/killev: use eq instead of ==.
+
 2001-10-23  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Bumped required GAL to 0.15.99.3 so EEntry's
