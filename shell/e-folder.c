@@ -41,7 +41,8 @@ struct _EFolderPrivate {
 	char *type;
 	char *description;
 	char *physical_uri;
-	gboolean highlighted;
+	gboolean self_highlight;
+	int child_highlight;
 };
 
 #define EF_CLASS(obj) \
@@ -142,11 +143,12 @@ init (EFolder *folder)
 	EFolderPrivate *priv;
 
 	priv = g_new (EFolderPrivate, 1);
-	priv->type         = NULL;
-	priv->name         = NULL;
-	priv->description  = NULL;
-	priv->physical_uri = NULL;
-	priv->highlighted  = FALSE;
+	priv->type            = NULL;
+	priv->name            = NULL;
+	priv->description     = NULL;
+	priv->physical_uri    = NULL;
+	priv->self_highlight  = FALSE;
+	priv->child_highlight = 0;
 
 	folder->priv = priv;
 }
@@ -235,7 +237,7 @@ e_folder_get_highlighted (EFolder *folder)
 	g_return_val_if_fail (folder != NULL, FALSE);
 	g_return_val_if_fail (E_IS_FOLDER (folder), FALSE);
 
-	return folder->priv->highlighted;
+	return folder->priv->self_highlight || folder->priv->child_highlight;
 }
 
 
@@ -302,7 +304,22 @@ e_folder_set_highlighted (EFolder *folder,
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (E_IS_FOLDER (folder));
 
-	folder->priv->highlighted = highlighted;
+	folder->priv->self_highlight = highlighted;
+
+	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
+}
+
+void
+e_folder_set_child_highlight (EFolder *folder,
+			      gboolean highlighted)
+{
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (E_IS_FOLDER (folder));
+
+	if (highlighted)
+		folder->priv->child_highlight++;
+	else
+		folder->priv->child_highlight--;
 
 	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 }
