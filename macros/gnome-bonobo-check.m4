@@ -146,3 +146,4 @@ int main ()
 AC_DEFUN([BONOBO_CHECK], [
 	AM_PATH_BONOBO(0.1.0,failure)
 ])
+
