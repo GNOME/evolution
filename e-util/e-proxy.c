@@ -43,7 +43,7 @@ set_proxy (GConfClient *client)
 	int proxy_port;
 	gboolean new_proxy_exists;
 
-	new_proxy_exists = gconf_client_dir_exits (client, "/system/http_proxy/", NULL);
+	new_proxy_exists = gconf_client_dir_exists (client, "/system/http_proxy/", NULL);
 
 	if (new_proxy_exists) {
 		use_proxy = gconf_client_get_bool (client, "/system/http_proxy/use_http_proxy", NULL);
@@ -106,7 +106,7 @@ e_proxy_init ()
 	if (!(client = gconf_client_get_default ()))
 		return;
 	
-	new_proxy_exists = gconf_client_dir_exits (client, "/system/http_proxy/", NULL);
+	new_proxy_exists = gconf_client_dir_exists (client, "/system/http_proxy/", NULL);
 
 	/* Listen to the changes in the gnome-vfs path */
 	if (new_proxy_exists) {

@@ -1,3 +1,7 @@
+2003-02-14  Rodney Dawes  <dobey@ximian.com>
+
+	* e-proxy.c: Fixed a typo dir_exits should be dir_exists
+	
 2003-02-11  Rodney Dawes  <dobey@ximian.com>
 
 	* e-proxy.c (set_proxy): Priority use of gnome2 proxy settings if
