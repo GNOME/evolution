@@ -1,3 +1,11 @@
+2001-06-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (build_message): If user is trying to sign
+	his/her message, try first to use the key that they might have
+	provided in their account settings. If that was never set, default
+	to their email address. Also respect their config option to
+	encrypt-to-self.
+
 2001-05-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): Oops. Fix a few compile problems.
