@@ -49,6 +49,7 @@ typedef struct {
 	
 	guint32 command;
 
+	gboolean has_search_capability;
 } CamelImapStore;
 
 

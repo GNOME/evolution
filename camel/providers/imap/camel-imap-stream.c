@@ -95,10 +95,10 @@ camel_imap_stream_new (CamelImapFolder *folder, char *command)
 
 	imap_stream = gtk_type_new (camel_imap_stream_get_type ());
 
-	imap_stream->folder  = folder;
-	gtk_object_ref(GTK_OBJECT (imap_stream->folder));
+	imap_stream->folder = folder;
+	gtk_object_ref (GTK_OBJECT (imap_stream->folder));
 	
-	imap_stream->command = g_strdup(command);
+	imap_stream->command = g_strdup (command);
 	
 	return CAMEL_STREAM (imap_stream);
 }
@@ -108,11 +108,11 @@ finalize (GtkObject *object)
 {
 	CamelImapStream *imap_stream = CAMEL_IMAP_STREAM (object);
 
-	g_free(imap_stream->cache);
-	g_free(imap_stream->command);
+	g_free (imap_stream->cache);
+	g_free (imap_stream->command);
 
 	if (imap_stream->folder)
-		gtk_object_unref(GTK_OBJECT (imap_stream->folder));
+		gtk_object_unref (GTK_OBJECT (imap_stream->folder));
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -130,30 +130,30 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		CamelFolder *folder = CAMEL_FOLDER (imap_stream->folder);
 		gint status;
 		
-		status = camel_imap_command_extended(CAMEL_IMAP_STORE (folder->parent_store),
-						     CAMEL_FOLDER (imap_stream->folder),
-						     &imap_stream->cache, "%s",
-						     imap_stream->command);
-
+		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store),
+						      CAMEL_FOLDER (imap_stream->folder),
+						      &imap_stream->cache, "%s",
+						      imap_stream->command);
+		
 		if (status != CAMEL_IMAP_OK) {
 			/* we got an error, dump this stuff */
-			g_free(imap_stream->cache);
+			g_free (imap_stream->cache);
 			imap_stream->cache = NULL;
 			
 			return -1;
 		}
 		
 		/* we don't need the folder anymore... */
-		gtk_object_unref(GTK_OBJECT (imap_stream->folder));
+		gtk_object_unref (GTK_OBJECT (imap_stream->folder));
 
 		imap_stream->cache_ptr = imap_stream->cache;
 	}
 	
 	/* we've already read this stream, so return whats in the cache */
-	nread = MIN (n, strlen(imap_stream->cache_ptr));
+	nread = MIN (n, strlen (imap_stream->cache_ptr));
 	
 	if (nread > 0) {
-		memcpy(buffer, imap_stream->cache_ptr, nread);
+		memcpy (buffer, imap_stream->cache_ptr, nread);
 		imap_stream->cache_ptr += nread;
 	} else {
 		nread = -1;
@@ -177,16 +177,5 @@ stream_eos (CamelStream *stream)
 {
 	CamelImapStream *imap_stream = CAMEL_IMAP_STREAM (stream);
 
-	return (imap_stream->cache_ptr && strlen(imap_stream->cache_ptr));
+	return (imap_stream->cache_ptr && strlen (imap_stream->cache_ptr));
 }
-
-
-
-
-
-
-
-
-
-
-

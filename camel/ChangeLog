@@ -1,3 +1,16 @@
+2000-06-27  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (imap_connect): Move the 
+	CAPABILITY command here so we don't have to keep checking
+	each time we open a folder.
+	(camel_imap_command_extended): If we are doing an EXAMINE,
+	don't bother doing a SELECT first.
+
+	* providers/imap/camel-imap-folder.c (imap_init): Update so
+	folder->has_search_capability depends on the parent IMAP store
+	(since this is really dependant on the IMAP implementation and
+	not the folder)
+
 2000-06-27  Christopher James Lahey  <clahey@helixcode.com>
 
 	* providers/smtp/camel-smtp-transport.c: Don't close the filter

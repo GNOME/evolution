@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
-/* camel-imap-folder.c : Abstract class for an email folder */
+/* camel-imap-folder.c: Abstract class for an email folder */
 
 /* 
  * Authors: Jeffrey Stedfast <fejj@helixcode.com> 
@@ -198,7 +198,7 @@ imap_finalize (GtkObject *object)
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (object);
 	CamelMessageInfo *info;
 	gint i, max;
-	
+
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 
 	g_return_if_fail (imap_folder->summary != NULL);
@@ -238,30 +238,7 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 	folder->can_hold_messages = TRUE;
 	folder->can_hold_folders = TRUE;
 	folder->has_summary_capability = TRUE;
-
-	/* now lets find out if we can do searches... */
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "CAPABILITY");
-	
-	/* ugh, I forgot that CAPABILITY doesn't have a response code */
-	if (status != CAMEL_IMAP_OK) {
-		CamelService *service = CAMEL_SERVICE (folder->parent_store);
-		
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not get capabilities on IMAP server %s: %s.",
-				      service->url->host, 
-				      status == CAMEL_IMAP_ERR ? result :
-				      "Unknown error");
-	}
-	
-	if (strstrcase (result, "SEARCH"))
-		folder->has_search_capability = TRUE;
-	else
-		folder->has_search_capability = FALSE;
-	
-	g_free (result);
-
-	fprintf (stderr, "IMAP provider does%shave SEARCH support\n", folder->has_search_capability ? " " : "n't ");
+	folder->has_search_capability = CAMEL_IMAP_STORE (store)->has_search_capability;
 	
         /* some IMAP daemons support user-flags           *
 	 * I would not, however, rely on this feature as  *
@@ -508,7 +485,8 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 		folder_path = g_strdup_printf ("%s/%s", url->path, folder->full_name);
 	else
 		folder_path = g_strdup (folder->full_name);
-	
+
+	/* FIXME: len isn't really correct I don't think, we need to filter and possibly other things */
 	status = camel_imap_command (CAMEL_IMAP_STORE (folder->parent_store),
 				     folder, &result,
 				     "APPEND %s (\\Seen) {%d}\r\n%s",

@@ -45,6 +45,7 @@
 #include "camel-stream-buffer.h"
 #include "camel-stream-fs.h"
 #include "camel-url.h"
+#include "string-utils.h"
 
 /* Specified in RFC 2060 */
 #define IMAP_PORT 143
@@ -209,7 +210,7 @@ imap_connect (CamelService *service, CamelException *ex)
 	struct hostent *h;
 	struct sockaddr_in sin;
 	gint fd, status;
-	gchar *buf, *msg;
+	gchar *buf, *msg, *result;
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 
 
@@ -268,9 +269,9 @@ imap_connect (CamelService *service, CamelException *ex)
 	}
 	g_free (buf);
 
-	status = camel_imap_command(store, NULL, &msg, "LOGIN \"%s\" \"%s\"",
-				    service->url->user,
-				    service->url->passwd);
+	status = camel_imap_command (store, NULL, &msg, "LOGIN \"%s\" \"%s\"",
+				     service->url->user,
+				     service->url->passwd);
 
 	if (status != CAMEL_IMAP_OK) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
@@ -284,6 +285,28 @@ imap_connect (CamelService *service, CamelException *ex)
 	} else {
 		g_message ("IMAP Service sucessfully authenticated user %s", service->url->user);
 	}
+
+	/* Now lets find out the IMAP capabilities */
+	status = camel_imap_command_extended (store, NULL, &result, "CAPABILITY");
+	
+	if (status != CAMEL_IMAP_OK) {
+		CamelService *service = CAMEL_SERVICE (store);
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Could not get capabilities on IMAP server %s: %s.",
+				      service->url->host, 
+				      status == CAMEL_IMAP_ERR ? result :
+				      "Unknown error");
+	}
+	
+	if (strstrcase (result, "SEARCH"))
+		store->has_search_capability = TRUE;
+	else
+		store->has_search_capability = FALSE;
+	
+	g_free (result);
+
+	fprintf (stderr, "IMAP provider does%shave SEARCH support\n", store->has_search_capability ? " " : "n't ");
 
 	service_class->connect (service, ex);
 	return TRUE;
@@ -330,6 +353,7 @@ imap_folder_exists (CamelFolder *folder)
 	else
 		folder_path = g_strdup (folder->full_name);
 
+	printf ("doing an EXAMINE...\n");
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), NULL,
 					      &result, "EXAMINE %s", folder_path);
 
@@ -590,7 +614,8 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	gint status = CAMEL_IMAP_OK;
 
 	if (folder && store->current_folder != folder && strncmp (fmt, "SELECT", 6) &&
-	    strncmp (fmt, "STATUS", 6) && strncmp (fmt, "CREATE", 5) && strcmp (fmt, "CAPABILITY")) {
+	    strncmp (fmt, "EXAMINE", 7) && strncmp (fmt, "STATUS", 6) &&
+	    strncmp (fmt, "CREATE", 6) && strcmp (fmt, "CAPABILITY")) {
 		/* We need to select the correct mailbox first */
 		char *r, *folder_path;
 		int s;
