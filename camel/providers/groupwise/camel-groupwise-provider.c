@@ -132,7 +132,7 @@ camel_provider_module_init (CamelSession *session)
 
 	if (!config_listener)	{
 
-		config_listener = groupwise_config_listener_new  (gconf_client_get_default ());	
+		config_listener = camel_gw_listener_new ();	
 		g_atexit ( free_groupwise_listener );
 	}
 	
