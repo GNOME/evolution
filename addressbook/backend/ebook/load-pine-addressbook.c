@@ -92,6 +92,7 @@ static guint
 ebook_create (void)
 {
 	EBook *book;
+	gchar *path, *uri;
 	
 	book = e_book_new ();
 
@@ -103,9 +104,15 @@ ebook_create (void)
 	}
 	
 
-	if (! e_book_load_uri (book, "file:/tmp/test.db", book_open_cb, NULL)) {
+	path = g_concat_dir_and_file (g_get_home_dir (),
+				      "evolution/local/Contacts/addressbook.db");
+	uri = g_strdup_printf ("file://%s", path);
+	g_free (path);
+
+	if (! e_book_load_uri (book, uri, book_open_cb, NULL)) {
 		printf ("error calling load_uri!\n");
 	}
+	g_free(uri);
 
 
 	return FALSE;

@@ -1,3 +1,8 @@
+2000-07-27  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/load-pine-addressbook.c: Changed the URI to load
+	to.
+
 2000-07-26  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/minicard/e-minicard-widget-test.c: Fixed a warning.
