@@ -204,6 +204,7 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 	gss_buffer_desc inbuf, outbuf;
 	GByteArray *challenge = NULL;
 	gss_buffer_t input_token;
+	struct hostent *h;
 	int conf_state;
 	gss_qop_t qop;
 	gss_OID mech;

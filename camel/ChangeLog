@@ -1,21 +1,3 @@
-2004-09-22  Jeffrey Stedfast  <fejj@novell.com>
-
-	* providers/imap/camel-imap-store.c (connect_to_server): Instead
-	of doing a host-lookup ourselves, get it passed in to us as an
-	argument. Also simplified a bit (try_starttls is no longer an
-	option).
-	(connect_to_server_wrapper): Simplified (we no longer have
-	fallback cases for SSL stuff). Also, perform host lookup here.
-
-	* providers/imap4/camel-imap4-store.c: Same changes as above.
-
-	* providers/pop3/camel-pop3-store.c: Same.
-
-	* providers/smtp/camel-smtp-transport.c: Same. Other changes
-	include making the code consistant with the other providers.
-
-	* providers/nntp/camel-nntp-store.c: Same as pop/imap.
-
 2004-09-21  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #63521.

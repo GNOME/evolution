@@ -181,33 +181,39 @@ imap4_get_name (CamelService *service, gboolean brief)
 }
 
 enum {
-	MODE_CLEAR,
-	MODE_SSL,
-	MODE_TLS,
+	USE_SSL_NEVER,
+	USE_SSL_ALWAYS,
+	USE_SSL_WHEN_POSSIBLE
 };
 
 #define SSL_PORT_FLAGS (CAMEL_TCP_STREAM_SSL_ENABLE_SSL2 | CAMEL_TCP_STREAM_SSL_ENABLE_SSL3)
 #define STARTTLS_FLAGS (CAMEL_TCP_STREAM_SSL_ENABLE_TLS)
 
 static gboolean
-connect_to_server (CamelIMAP4Engine *engine, struct addrinfo *ai, int ssl_mode, CamelException *ex)
+connect_to_server (CamelIMAP4Engine *engine, struct hostent *host, int ssl_mode, int try_starttls, CamelException *ex)
 {
 	CamelService *service = engine->service;
 	CamelStream *tcp_stream;
-	CamelIMAP4Command *ic;
-	int id, ret;
+	int port, ret;
 	
-	if (ssl_mode != MODE_CLEAR) {
+	port = service->url->port ? service->url->port : 143;
+	
+	if (ssl_mode) {
 #ifdef HAVE_SSL
-		if (ssl_mode == MODE_TLS) {
+		if (try_starttls) {
 			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, STARTTLS_FLAGS);
 		} else {
+			port = service->url->port ? service->url->port : 993;
 			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, SSL_PORT_FLAGS);
 		}
 #else
+		if (!try_starttls)
+			port = service->url->port ? service->url->port : 993;
+		
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      _("Could not connect to %s: %s"),
-				      service->url->host, _("SSL unavailable"));
+				      _("Could not connect to %s (port %d): %s"),
+				      service->url->host, port,
+				      _("SSL unavailable"));
 		
 		return FALSE;
 #endif /* HAVE_SSL */
@@ -215,14 +221,14 @@ connect_to_server (CamelIMAP4Engine *engine, struct addrinfo *ai, int ssl_mode, 
 		tcp_stream = camel_tcp_stream_raw_new ();
 	}
 	
-	if ((ret = camel_tcp_stream_connect ((CamelTcpStream *) tcp_stream, ai)) == -1) {
+	if ((ret = camel_tcp_stream_connect ((CamelTcpStream *) tcp_stream, host, port)) == -1) {
 		if (errno == EINTR)
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 					     _("Connection cancelled"));
 		else
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      _("Could not connect to %s: %s"),
-					      service->url->host,
+					      _("Could not connect to %s (port %d): %s"),
+					      service->url->host, port,
 					      g_strerror (errno));
 		
 		camel_object_unref (tcp_stream);
@@ -236,88 +242,111 @@ connect_to_server (CamelIMAP4Engine *engine, struct addrinfo *ai, int ssl_mode, 
 	if (camel_imap4_engine_capability (engine, ex) == -1)
 		return FALSE;
 	
-	if (ssl_mode != MODE_TLS) {
-		/* we're done */
-		return TRUE;
+#ifdef HAVE_SSL
+	if (ssl_mode == USE_SSL_WHEN_POSSIBLE) {
+		/* try_starttls is always TRUE here */
+		if (engine->capa & CAMEL_IMAP4_CAPABILITY_STARTTLS)
+			goto starttls;
+	} else if (ssl_mode == USE_SSL_ALWAYS) {
+		if (try_starttls) {
+			if (engine->capa & CAMEL_IMAP4_CAPABILITY_STARTTLS) {
+				goto starttls;
+			} else {
+				/* server doesn't support STARTTLS, abort */
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+						      _("Failed to connect to IMAP server %s in secure mode: "
+							"Server does not support STARTTLS"),
+						      service->url->host);
+				return FALSE;
+			}
+		}
 	}
+#endif /* HAVE_SSL */
 	
-	if (!(engine->capa & CAMEL_IMAP4_CAPABILITY_STARTTLS)) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Failed to connect to IMAP server %s in secure mode: %s"),
-				      service->url->host, _("SSL negotiations failed"));
+	return TRUE;
+	
+#ifdef HAVE_SSL
+ starttls:
+	
+	if (1) {
+		CamelIMAP4Command *ic;
+		int id;
 		
-		return FALSE;
-	}
-	
-	ic = camel_imap4_engine_prequeue (engine, NULL, "STARTTLS\r\n");
-	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
-		;
-	
-	if (id == -1 || ic->result != CAMEL_IMAP4_RESULT_OK) {
-		if (ic->result != CAMEL_IMAP4_RESULT_OK) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Failed to connect to IMAP server %s in secure mode: %s"),
-					      service->url->host, _("Unknown error"));
-		} else {
-			camel_exception_xfer (ex, &ic->ex);
+		ic = camel_imap4_engine_prequeue (engine, NULL, "STARTTLS\r\n");
+		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
+			;
+		
+		if (id == -1 || ic->result != CAMEL_IMAP4_RESULT_OK) {
+			if (ic->result != CAMEL_IMAP4_RESULT_OK) {
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Failed to connect to IMAP server %s in secure mode: %s"),
+						      service->url->host, _("Unknown error"));
+			} else {
+				camel_exception_xfer (ex, &ic->ex);
+			}
+			
+			camel_imap4_command_unref (ic);
+			
+			return FALSE;
 		}
 		
 		camel_imap4_command_unref (ic);
-		
-		return FALSE;
 	}
 	
-	camel_imap4_command_unref (ic);
-	
 	return TRUE;
+#endif /* HAVE_SSL */
 }
 
 static struct {
 	char *value;
-	char *serv;
 	int mode;
 } ssl_options[] = {
-	{ "",              "imaps", MODE_SSL   },  /* really old (1.x) */
-	{ "always",        "imaps", MODE_SSL   },
-	{ "when-possible", "imap",  MODE_TLS   },
-	{ "never",         "imap",  MODE_CLEAR },
-	{ NULL,            "imap",  MODE_CLEAR },
+	{ "",              USE_SSL_ALWAYS        },
+	{ "always",        USE_SSL_ALWAYS        },
+	{ "when-possible", USE_SSL_WHEN_POSSIBLE },
+	{ "never",         USE_SSL_NEVER         },
+	{ NULL,            USE_SSL_NEVER         },
 };
 
 static gboolean
 connect_to_server_wrapper (CamelIMAP4Engine *engine, CamelException *ex)
 {
 	CamelService *service = engine->service;
-	struct addrinfo *ai, hints;
-	const char *ssl_mode;
-	int mode, ret, i;
-	char *serv;
+	const char *use_ssl;
+	struct hostent *h;
+	int ssl_mode;
+	int ret, i;
 	
-	if ((ssl_mode = camel_url_get_param (service->url, "use_ssl"))) {
-		for (i = 0; ssl_options[i].value; i++)
-			if (!strcmp (ssl_options[i].value, ssl_mode))
-				break;
-		mode = ssl_options[i].mode;
-		serv = ssl_options[i].serv;
-	} else {
-		mode = MODE_CLEAR;
-		serv = "imap";
-	}
-	
-	if (service->url->port) {
-		serv = g_alloca (16);
-		sprintf (serv, "%d", service->url->port);
-	}
-	
-	memset (&hints, 0, sizeof (hints));
-	hints.ai_socktype = SOCK_STREAM;
-	hints.ai_family = PF_UNSPEC;
-	if (!(ai = camel_getaddrinfo (service->url->host, serv, &hints, ex)))
+	if (!(h = camel_service_gethost (service, ex)))
 		return FALSE;
 	
-	ret = connect_to_server (engine, ai, mode, ex);
+	if ((use_ssl = camel_url_get_param (service->url, "use_ssl"))) {
+		for (i = 0; ssl_options[i].value; i++)
+			if (!strcmp (ssl_options[i].value, use_ssl))
+				break;
+		ssl_mode = ssl_options[i].mode;
+	} else {
+		ssl_mode = USE_SSL_NEVER;
+	}
 	
-	camel_freeaddrinfo (ai);
+	if (ssl_mode == USE_SSL_ALWAYS) {
+		/* First try the ssl port */
+		if (!(ret = connect_to_server (engine, h, ssl_mode, FALSE, ex))) {
+			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_SERVICE_UNAVAILABLE) {
+				/* The ssl port seems to be unavailable, lets try STARTTLS */
+				camel_exception_clear (ex);
+				ret = connect_to_server (engine, h, ssl_mode, TRUE, ex);
+			}
+		}
+	} else if (ssl_mode == USE_SSL_WHEN_POSSIBLE) {
+		/* If the server supports STARTTLS, use it */
+		ret = connect_to_server (engine, h, ssl_mode, TRUE, ex);
+	} else {
+		/* User doesn't care about SSL */
+		ret = connect_to_server (engine, h, USE_SSL_NEVER, FALSE, ex);
+	}
+	
+	camel_free_host (h);
 	
 	return ret;
 }
