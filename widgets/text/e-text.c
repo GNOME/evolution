@@ -1545,7 +1545,9 @@ e_text_unrealize (GnomeCanvasItem *item)
 	text->gc = NULL;
 
 	gdk_cursor_destroy (text->i_cursor);
+	text->i_cursor = NULL;
 	gdk_cursor_destroy (text->default_cursor);
+	text->default_cursor = NULL;
 
 	if (parent_class->unrealize)
 		(* parent_class->unrealize) (item);
@@ -2566,6 +2568,9 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	ETextEventProcessorEvent e_tep_event;
 
 	gint return_val = 0;
+
+	if (GTK_OBJECT_DESTROYED (item))
+		return FALSE;
 
 	e_tep_event.type = event->type;
 	switch (event->type) {
