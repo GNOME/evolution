@@ -496,9 +496,10 @@ ml_value_to_string (ETableModel *etm, int col, const void *value, void *data)
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
+		return g_strdup_printf("%d", (int) value);
 	case COL_SENT:
 	case COL_RECEIVED:
-		return g_strdup_printf("%d", (int) value);
+		return filter_date(value);
 
 	case COL_FROM:
 	case COL_SUBJECT:
