@@ -1,3 +1,17 @@
+2004-10-11  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #67014.
+
+	* mail-config.c (check_service_describe, check_service_check) 
+	(check_response, mail_config_check_service): removed.
+
+	* mail-account-gui.c (service_check_supported): call
+	mail_check_service to do the checking async.  Make the popopup
+	window non-modal, but de-sensitize the dialog instead.
+
+	* mail-ops.c (mail_check_service): moved here from mail-config,
+	and modified to be a re-usable threaded function.
+
 2004-10-18  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #68006.

@@ -2264,3 +2264,80 @@ mail_execute_shell_command (CamelFilterDriver *driver, int argc, char **argv, vo
 	
 	gnome_execute_async_fds (NULL, argc, argv, TRUE);
 }
+
+/* Async service-checking/authtype-lookup code. */
+struct _check_msg {
+	struct _mail_msg msg;
+
+	char *url;
+	CamelProviderType type;
+	GList *authtypes;
+
+	void (*done)(const char *url, CamelProviderType type, GList *types, void *data);
+	void *data;
+};
+
+static char *
+check_service_describe(struct _mail_msg *mm, int complete)
+{
+	return g_strdup(_("Checking Service"));
+}
+
+static void
+check_service_check(struct _mail_msg *mm)
+{
+	struct _check_msg *m = (struct _check_msg *)mm;
+	CamelService *service;
+
+	service = camel_session_get_service(session, m->url, m->type, &mm->ex);
+	if (!service) {
+		camel_operation_unregister(mm->cancel);
+		return;
+	}
+
+	m->authtypes = camel_service_query_auth_types(service, &mm->ex);
+	camel_object_unref(service);
+}
+
+static void
+check_service_done(struct _mail_msg *mm)
+{
+	struct _check_msg *m = (struct _check_msg *)mm;
+
+	if (m->done)
+		m->done(m->url, m->type, m->authtypes, m->data);
+}
+
+static void
+check_service_free(struct _mail_msg *mm)
+{
+	struct _check_msg *m = (struct _check_msg *)mm;
+
+	g_free(m->url);
+	g_list_free(m->authtypes);
+}
+
+static struct _mail_msg_op check_service_op = {
+	check_service_describe,
+	check_service_check,
+	check_service_done,
+	check_service_free,
+};
+
+int
+mail_check_service(const char *url, CamelProviderType type, void (*done)(const char *url, CamelProviderType type, GList *authtypes, void *data), void *data)
+{
+	struct _check_msg *m;
+	int id;
+	
+	m = mail_msg_new (&check_service_op, NULL, sizeof(*m));
+	m->url = g_strdup(url);
+	m->type = type;
+	m->done = done;
+	m->data = data;
+	
+	id = m->msg.seq;
+	e_thread_put(mail_thread_new, (EMsg *)m);
+
+	return id;
+}

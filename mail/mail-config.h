@@ -161,9 +161,6 @@ void mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri);
 char *mail_config_folder_to_cachename (struct _CamelFolder *folder, const char *prefix);
 char *mail_config_folder_to_safe_url (struct _CamelFolder *folder);
 
-/* Ugh, this totally does not belong in this module */
-gboolean mail_config_check_service (const char *url, CamelProviderType type, GList **authtypes, struct _GtkWindow *window);
-
 GType evolution_mail_config_get_type (void);
 
 gboolean evolution_mail_config_factory_init (void);

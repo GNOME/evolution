@@ -45,6 +45,7 @@
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkdialog.h>
+#include <gtk/gtkstock.h>
 #ifdef USE_GTKFILECHOOSER
 #include <gtk/gtkfilechooser.h>
 #include <gtk/gtkradiobutton.h>
@@ -880,38 +881,95 @@ service_changed (GtkEntry *entry, gpointer user_data)
 				  service_complete (service, NULL, NULL));
 }
 
+/* the fun of async ... */
+struct _service_check_data {
+	MailAccountGuiService *gsvc;
+	GtkWidget *dialog;
+	GtkWidget *window;
+
+	int id;
+	gulong destroy_id;
+	int destroyed:1;
+};
+
+static void
+service_check_done(const char *url, CamelProviderType type, GList *types, void *data)
+{
+	struct _service_check_data *sd = data;
+
+	if (!sd->destroyed) {
+		gtk_widget_set_sensitive(sd->window, TRUE);
+		build_auth_menu(sd->gsvc, sd->gsvc->provider->authtypes, types, TRUE);
+	}
+
+	if (sd->dialog) {
+		gtk_widget_destroy(sd->dialog);
+		sd->dialog = NULL;
+	}
+
+	if (sd->destroy_id)
+		g_signal_handler_disconnect(sd->window, sd->destroy_id);
+
+	g_free(sd);
+}
+
+static void
+service_check_response(GtkDialog *d, int button, struct _service_check_data *sd)
+{
+	mail_msg_cancel(sd->id);
+
+	gtk_widget_destroy(sd->dialog);
+	sd->dialog = NULL;
+}
+
+static void
+service_check_destroy(GtkWindow *w, struct _service_check_data *sd)
+{
+	sd->destroy_id = 0;
+	sd->destroyed = TRUE;
+	mail_msg_cancel(sd->id);
+}
+
 static void
 service_check_supported (GtkButton *button, gpointer user_data)
 {
 	MailAccountGuiService *gsvc = user_data;
 	EAccountService *service;
-	GList *authtypes = NULL;
+	GtkWidget *dialog;
 	GtkWidget *authitem;
-	GtkWidget *window;
-	
-	service = g_new0 (EAccountService, 1);
-	
+	struct _service_check_data *sd;
+
+	sd = g_malloc0(sizeof(*sd));
+	sd->id = -1;
+	sd->gsvc = gsvc;
+
 	/* This is sort of a hack, when checking for supported AUTH
            types we don't want to use whatever authtype is selected
            because it may not be available. */
+	service = g_malloc0(sizeof(*service));
 	authitem = gsvc->authitem;
 	gsvc->authitem = NULL;
-	
 	save_service (gsvc, NULL, service);
-	
 	gsvc->authitem = authitem;
-	
-	window = gtk_widget_get_ancestor (GTK_WIDGET (button), GTK_TYPE_WINDOW);
-	
-	if (mail_config_check_service (service->url, gsvc->provider_type, &authtypes, GTK_WINDOW (window))) {
-		build_auth_menu (gsvc, gsvc->provider->authtypes, authtypes, TRUE);
-		if (!authtypes) {
-			/* provider doesn't support any authtypes */
-			gtk_widget_set_sensitive (GTK_WIDGET (gsvc->check_supported), FALSE);
-		}
-		g_list_free (authtypes);
-	}
-	
+
+	sd->window = gtk_widget_get_toplevel((GtkWidget *)button);
+	sd->destroy_id = g_signal_connect(sd->window, "destroy", G_CALLBACK(service_check_destroy), sd);
+
+	gtk_widget_set_sensitive(sd->window, FALSE);
+	dialog = gtk_dialog_new_with_buttons(_("Connecting to server..."),
+					     (GtkWindow *)sd->window,
+					     GTK_DIALOG_DESTROY_WITH_PARENT,
+					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     NULL);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox),
+			   gtk_label_new(_("Connecting to server...")),
+			   TRUE, TRUE, 10);
+	g_signal_connect(dialog, "response", G_CALLBACK(service_check_response), sd);
+	gtk_widget_show_all(dialog);
+
+	sd->dialog = dialog;
+	sd->id = mail_check_service(service->url, gsvc->provider_type, service_check_done, sd);
+
 	g_free (service->url);
 	g_free (service);
 }
