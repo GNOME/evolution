@@ -29,6 +29,7 @@
 #define CAMEL_FOLDER_PT_PROXY_H 1
 
 #include "camel-folder.h"
+#include "camel-op-queue.h"
 
 
 #define CAMEL_FOLDER_PT_PROXY_TYPE     (camel_folder_pt_proxy_get_type ())
@@ -42,6 +43,11 @@ typedef struct {
 	gchar *real_url;
 	CamelFolder *real_folder;
 	GStaticMutex mutex;
+
+	CamelOpQueue *op_queue;
+	gint pipe_client_fd;
+	gint pipe_server_fd;
+	GIOChannel *notify_source;
 
 } CamelFolderPtProxy;
 

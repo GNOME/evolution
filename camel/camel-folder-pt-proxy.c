@@ -44,6 +44,9 @@
 #include "camel-folder-pt-proxy.h"
 #include "camel-log.h"
 #include <pthread.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
 
 /* needed for proper casts of async funcs when 
  * calling pthreads_create
@@ -132,6 +135,14 @@ camel_folder_proxy_class_init (CamelFolderPtProxyClass *camel_folder_pt_proxy_cl
 
 
 
+static void
+camel_folder_proxy_init (CamelFolderPtProxy *folder_pt_proxy)
+{
+
+	
+	folder_pt_proxy->op_queue = camel_op_queue_new ();
+
+}
 
 
 
@@ -147,7 +158,7 @@ camel_folder_proxy_get_type (void)
 			sizeof (CamelFolderPtProxy),
 			sizeof (CamelFolderPtProxyClass),
 			(GtkClassInitFunc) camel_folder_proxy_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) camel_folder_proxy_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
@@ -174,6 +185,13 @@ _finalize (GtkObject *object)
 }
 
 
+
+static void 
+_plan_op_for_exec (CamelOp *op)
+{
+		
+
+}
 
 
 /* folder->init_with_store implementation */
@@ -210,7 +228,23 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 	CamelFolderPtProxy *proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
 	_InitStoreParam *param;
 	pthread_t init_store_thread;
+	int filedes[2];
+
+#warning Notify io_channel initialization should be elsewhere
+	/* it can not be in camel_folder_proxy_init 
+	 * because of the pipe error handling */ 
 	
+	/* set up the notification channel */
+	if (!pipe (filedes)) {
+		CAMEL_LOG_WARNING ("could not create pipe in for camel_folder_proxy_init");
+		CAMEL_LOG_FULL_DEBUG ("Full error message : %s\n", strerror(errno));
+		return;
+	}
+
+	proxy_folder->pipe_client_fd = filedes [0];
+	proxy_folder->pipe_server_fd = filedes [1];
+	proxy_folder->notify_source =  g_io_channel_unix_new (filedes [0]);
+
 	/* param will be freed in _async_init_with_store */
 	param = g_new (_InitStoreParam, 1);
 	param->folder = folder;

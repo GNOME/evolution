@@ -83,7 +83,28 @@ camel_op_queue_pop_op (CamelOpQueue *queue)
 	op = queue->ops_tail;
 	queue->ops_tail = queue->ops_tail->prev;
 
-	return op;
+	return (CamelOp *)op->data;
 }
 
 
+/**
+ * camel_op_queue_run_next_op: run the next pending operation
+ * @queue: queue object
+ * 
+ * Run the next pending operation in the queue.
+ * 
+ * Return value: TRUE if an operation was launched FALSE if there was no operation pending in the queue.
+ **/
+gboolean
+camel_op_queue_run_next_op (CamelOpQueue *queue)
+{
+	CamelOp *op;
+
+	op = camel_op_queue_pop_op (queue);
+	if (!op) return FALSE;
+
+	/* run the operation */
+	op->op_func (op->param);	
+
+	return FALSE;
+}

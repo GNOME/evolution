@@ -1,10 +1,15 @@
 1999-09-17  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-folder-pt-proxy.c (_init_with_store): 
+	added notify io_channel.
+
 	* camel/camel-op-queue.h: 
 	* camel/camel-op-queue.c: 
 	New object. Operation queue. Meant to be used in 
 	non-blocking proxy objects.
-	
+	(camel_op_queue_run_next_op): new func. 
+	run the next operation.
+
 1999-09-14  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/Makefile.am (libcamel_la_SOURCES): 
