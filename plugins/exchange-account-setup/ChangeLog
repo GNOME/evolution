@@ -1,5 +1,10 @@
 2005-01-18  Sushma Rai  <rsushma@novell.com>
 
+	* exchange-ask-password.c (validate_exchange_user): Filling up
+	user name so that page check doesn't fail. Fixes #71384 
+
+2005-01-18  Sushma Rai  <rsushma@novell.com>
+
 	* exchange-ask-password.c (org_gnome_exchange_read_url):
 	Setting dummy host name, which will be reset to proper
 	hostname once the user is authenticated.

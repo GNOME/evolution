@@ -74,6 +74,7 @@ validate_exchange_user (void *data)
 	char *account_url, *url_string; 
 	const char *source_url;
 	static int count = 0;
+	char *id_name, *at, *user;
 
 	if (count) 
 		return valid;
@@ -89,8 +90,23 @@ validate_exchange_user (void *data)
 	url = camel_url_new_with_base (NULL, account_url);
 
 	validate = provider->priv; 
-	if (validate)
+	if (validate) {
+
+		if (url->user == NULL) {
+			id_name = e_account_get_string (target_account->account,
+							E_ACCOUNT_ID_ADDRESS);
+			if (id_name) {
+				at = strchr(id_name, '@');
+				user = g_alloca(at-id_name+1);
+				memcpy(user, id_name, at-id_name);
+				user[at-id_name] = 0; 
+
+				camel_url_set_user (url, user);
+			}
+		}
+
 		validate->validate_user (url, owa_entry_text, NULL); 
+	}
 	else
 		valid = FALSE; 
 	/* FIXME: need to check for return value */
@@ -110,7 +126,9 @@ validate_exchange_user (void *data)
 static void
 ok_button_clicked (GtkWidget *button, void *data)
 {
-	validate_exchange_user (data); // FIXME: return value
+	gboolean valid = FALSE;
+	
+	valid = validate_exchange_user (data); // FIXME: return value
 }
 
 static void
@@ -160,14 +178,13 @@ add_owa_entry (GtkWidget *parent,
 }
 
 GtkWidget *
-org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data)
+org_gnome_exchange_read_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	EConfig *config;
-	char *account_url = NULL, *exchange_url = NULL, *temp_url;
+	char *account_url = NULL, *exchange_url = NULL;
 	const char *source_url;
 	GtkWidget *owa_entry = NULL, *parent;
-	CamelURL *url;
 
 	config = data->config;
 	target_account = (EMConfigTargetAccount *)data->config->target;
@@ -180,17 +197,6 @@ org_gnome_exchange_read_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 	if (exchange_url) {
 		if (data->old) 
 			return data->old;
-
-		/* hack for making page check work when host is not there */
-		url = camel_url_new_with_base (NULL, account_url);
-		if (url->host == NULL) {
-			camel_url_set_host (url, "localhost");
-			temp_url = camel_url_to_string (url, 0);
-			e_account_set_string (target_account->account,
-					      E_ACCOUNT_SOURCE_URL, temp_url);
-			g_free (temp_url);
-		}
-		camel_url_free (url);
 
 		parent = data->parent;
 		owa_entry = add_owa_entry (parent, config, target_account);
