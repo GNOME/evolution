@@ -44,7 +44,11 @@ extern "C" {
 struct _CamelFolder
 {
 	CamelObject parent_object;
-	
+
+	int frozen;
+	gboolean folder_changed;
+	GList *messages_changed;
+
 	gchar *name;
 	gchar *full_name;
 	gchar *separator;
@@ -171,6 +175,9 @@ typedef struct {
 				 const char *uid,
 				 CamelFolder *destination,
 				 CamelException *ex);
+
+	void (*freeze) (CamelFolder *folder);
+	void (*thaw)   (CamelFolder *folder);
 } CamelFolderClass;
 
 
@@ -293,6 +300,9 @@ void               camel_folder_move_message_to       (CamelFolder *source,
 						       const char *uid,
 						       CamelFolder *dest,
 						       CamelException *ex);
+
+void               camel_folder_freeze                (CamelFolder *folder);
+void               camel_folder_thaw                  (CamelFolder *folder);
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,17 @@
+2000-07-02  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.c (camel_folder_freeze, camel_folder_thaw): New
+	functions to freeze and thaw a folder (to prevent message/folder
+	changed signals in the middle of a long series of operations).
+	(camel_folder_class_init): Change signals to GTK_RUN_FIRST.
+	(message_changed, folder_changed): Add default implementations
+	that stop the emission and record info for later if the folder is
+	frozen.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_sync): leftover fixes
+	from the close->sync change: don't destroy the ibex, summary, and
+	search when syncing.
+
 2000-07-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-utils.c (uudecode_step): A rather complex uudecoder

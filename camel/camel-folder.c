@@ -132,6 +132,15 @@ static void            move_message_to       (CamelFolder *source,
 					      CamelFolder *dest,
 					      CamelException *ex);
 
+static void            freeze                (CamelFolder *folder);
+static void            thaw                  (CamelFolder *folder);
+
+static void            folder_changed        (CamelFolder *folder,
+					      int type);
+static void            message_changed       (CamelFolder *folder,
+					      const char *uid);
+
+
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
 {
@@ -171,13 +180,17 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_message_info = get_message_info;
 	camel_folder_class->copy_message_to = copy_message_to;
 	camel_folder_class->move_message_to = move_message_to;
+	camel_folder_class->freeze = freeze;
+	camel_folder_class->thaw = thaw;
+	camel_folder_class->folder_changed = folder_changed;
+	camel_folder_class->message_changed = message_changed;
 
 	/* virtual method overload */
 	gtk_object_class->finalize = finalize;
 
         signals[FOLDER_CHANGED] =
                 gtk_signal_new ("folder_changed",
-                                GTK_RUN_LAST,
+                                GTK_RUN_FIRST,
                                 gtk_object_class->type,
                                 GTK_SIGNAL_OFFSET (CamelFolderClass,
 						   folder_changed),
@@ -186,7 +199,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 
         signals[MESSAGE_CHANGED] =
                 gtk_signal_new ("message_changed",
-                                GTK_RUN_LAST,
+                                GTK_RUN_FIRST,
                                 gtk_object_class->type,
                                 GTK_SIGNAL_OFFSET (CamelFolderClass,
 						   message_changed),
@@ -228,6 +241,7 @@ static void
 finalize (GtkObject *object)
 {
 	CamelFolder *camel_folder = CAMEL_FOLDER (object);
+	GList *m;
 
 	g_free (camel_folder->name);
 	g_free (camel_folder->full_name);
@@ -236,6 +250,10 @@ finalize (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (camel_folder->parent_store));
 	if (camel_folder->parent_folder)
 		gtk_object_unref (GTK_OBJECT (camel_folder->parent_folder));
+
+	for (m = camel_folder->messages_changed; m; m = m->next)
+		g_free (m->data);
+	g_list_free (camel_folder->messages_changed);
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -301,6 +319,10 @@ init (CamelFolder *folder, CamelStore *parent_store,
 
 	folder->name = g_strdup (name);
 	folder->full_name = full_name;
+
+	folder->frozen = 0;
+	folder->folder_changed = FALSE;
+	folder->messages_changed = NULL;
 }
 
 
@@ -1114,4 +1136,121 @@ camel_folder_move_message_to (CamelFolder *source, const char *uid,
 							   dest, ex);
 	} else
 		return move_message_to (source, uid, dest, ex);
+}
+
+
+static void
+freeze (CamelFolder *folder)
+{
+	folder->frozen++;
+}
+
+/**
+ * camel_folder_freeze:
+ * @folder: a folder
+ *
+ * Freezes the folder so that a series of operation can be performed
+ * without "message_changed" and "folder_changed" signals being emitted.
+ * When the folder is later thawed with camel_folder_thaw(), the
+ * suppressed signals will be emitted.
+ **/
+void
+camel_folder_freeze (CamelFolder *folder)
+{
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	CF_CLASS (folder)->freeze (folder);
+}
+
+
+static void
+thaw (CamelFolder *folder)
+{
+	GList *messages, *m;
+
+	folder->frozen--;
+	if (folder->frozen != 0)
+		return;
+
+	/* Clear messages_changed now in case the signal handler ends
+	 * up calling freeze and thaw itself.
+	 */
+	messages = folder->messages_changed;
+	folder->messages_changed = NULL;
+
+	/* If the folder changed, emit that and ignore the individual
+	 * messages (since the UIDs may no longer be valid).
+	 */
+	if (folder->folder_changed) {
+		folder->folder_changed = FALSE;
+
+		gtk_signal_emit (GTK_OBJECT (folder),
+				 signals[FOLDER_CHANGED], 0);
+	} else if (folder->messages_changed) {
+		/* FIXME: would be nice to not emit more than once for
+		 * a given message
+		 */
+		for (m = messages; m; m = m->next) {
+			gtk_signal_emit_by_name (GTK_OBJECT (folder),
+						 "message_changed", m->data);
+			g_free (m->data);
+		}
+		g_list_free (messages);
+		return;
+	}
+
+	if (messages) {
+		for (m = messages; m; m = m->next)
+			g_free (m->data);
+		g_list_free (messages);
+	}
+}
+
+/**
+ * camel_folder_thaw:
+ * @folder: a folder
+ *
+ * Thaws the folder and emits any pending folder_changed or
+ * message_changed signals.
+ **/
+void
+camel_folder_thaw (CamelFolder *folder)
+{
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (folder->frozen != 0);
+
+	CF_CLASS (folder)->thaw (folder);
+}
+
+
+/* Default signal implementations, which block emission when we're
+ * frozen.
+ */
+static void
+folder_changed (CamelFolder *folder, int type)
+{
+	if (folder->frozen) {
+		gtk_signal_emit_stop (GTK_OBJECT (folder),
+				      signals[FOLDER_CHANGED]);
+		folder->folder_changed = TRUE;
+	}
+}
+
+static void
+message_changed (CamelFolder *folder, const char *uid)
+{
+	if (folder->frozen) {
+		gtk_signal_emit_stop (GTK_OBJECT (folder),
+				      signals[MESSAGE_CHANGED]);
+
+		/* Only record the UID if it will be useful later. */
+		if (!folder->folder_changed &&
+		    gtk_signal_handler_pending (GTK_OBJECT (folder),
+						signals[MESSAGE_CHANGED],
+						FALSE)) {
+			folder->messages_changed =
+				g_list_prepend (folder->messages_changed,
+						g_strdup (uid));
+		}
+	}
 }

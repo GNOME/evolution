@@ -245,19 +245,10 @@ mbox_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 		camel_mbox_summary_sync (mbox_folder->summary, FALSE, ex);
 
 	/* save index */
-	if (mbox_folder->index) {
-		ibex_close(mbox_folder->index);
-		mbox_folder->index = NULL;
-	}
-	if (mbox_folder->summary) {
+	if (mbox_folder->index)
+		ibex_save(mbox_folder->index);
+	if (mbox_folder->summary)
 		camel_folder_summary_save (CAMEL_FOLDER_SUMMARY (mbox_folder->summary));
-		gtk_object_unref (GTK_OBJECT (mbox_folder->summary));
-		mbox_folder->summary = NULL;
-	}
-	if (mbox_folder->search) {
-		gtk_object_unref (GTK_OBJECT (mbox_folder->search));
-		mbox_folder->search = NULL;
-	}
 }
 
 static void
@@ -341,7 +332,8 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	gtk_object_unref (GTK_OBJECT (output_stream));
 
 	/* force a summary update - will only update from the new position, if it can */
-	camel_mbox_summary_update (mbox_folder->summary, seek);
+	if (camel_mbox_summary_update (mbox_folder->summary, seek) == 0)
+		gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed", 0);
 	return;
 
 fail:
