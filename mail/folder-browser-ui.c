@@ -522,7 +522,7 @@ static const char *message_pane_enables[] = {
 	 * selected. */
 	"PrintMessage", "PrintPreviewMessage",
 	"ViewFullHeaders", "ViewLoadImages", "ViewNormal", "ViewSource",
-	"MessageSearch",
+	"MessageSearch", "AddSenderToAddressbook",
 	NULL
 };
 
