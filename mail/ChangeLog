@@ -1,3 +1,8 @@
+2001-07-17  Jason Leach  <jleach@ximian.com>
+
+	* mail-account-gui.c (source_type_changed): Fix for last change:
+	hide the entire widget, not just the entry.
+
 2001-07-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (message_list_drag_data_recieved): Fix to

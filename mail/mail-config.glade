@@ -937,7 +937,7 @@ None
 
 	  <widget>
 	    <class>GnomeFileEntry</class>
-	    <name>fileentry1</name>
+	    <name>source_path_entry</name>
 	    <max_saved>10</max_saved>
 	    <title>Mailbox location</title>
 	    <directory>False</directory>
