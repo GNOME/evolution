@@ -502,10 +502,10 @@ dnl *********
 dnl Libraries
 dnl *********
 
-PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.1)
+PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.6)
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
-GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.1`
+GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.6`
 AC_SUBST(GTKHTML_DATADIR)
 
 
@@ -1061,7 +1061,7 @@ esac
 AM_PATH_ORBIT2(2.9.8)
 
 AC_MSG_CHECKING(for CORBA include paths)
-IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`" -I "`pkg-config --variable=idldir evolution-data-server-1.0`
+IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`" -I "`pkg-config --variable=idldir evolution-data-server-1.2`
 AC_MSG_RESULT($IDL_INCLUDES)
 AC_SUBST(IDL_INCLUDES)
 
@@ -1087,7 +1087,8 @@ dnl --- Required version numbers
 
 GAL_REQUIRED=2.3.0
 GAL_PACKAGE=2.4
-GTKHTML_REQUIRED=3.2.0
+GTKHTML_REQUIRED=3.5.0
+GTKHTML_PACKAGE=3.6
 EDS_REQUIRED=1.1.0
 EDS_PACKAGE=1.2
 BONOBOUI_REQUIRED=2.4.2
@@ -1175,13 +1176,13 @@ AC_SUBST(LIBFILTER_LIBS)
 
 dnl --- evolution (shell) flags
 
-EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgtkhtml-3.1 >= $GTKHTML_REQUIRED)
+EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED)
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED"
+EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -1198,7 +1199,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.2 >= 2.2.0)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1210,17 +1211,17 @@ fi
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss libebook-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss libebook-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
 dnl -- evolution-data-server IDL and version
 
-AC_DEFINE(DATASERVER_API_VERSION, "1.0", evolution-data-server API version)
-AC_DEFINE_UNQUOTED(DATASERVER_VERSION, "`pkg-config --modversion evolution-data-server-1.0`", evolution-data-server version)
+AC_DEFINE(DATASERVER_API_VERSION, "1.2", evolution-data-server API version)
+AC_DEFINE_UNQUOTED(DATASERVER_VERSION, "`pkg-config --modversion evolution-data-server-1.2`", evolution-data-server version)
 
 AC_MSG_CHECKING(for evolution-data-server IDL)
-DATASERVER_IDL=`pkg-config --variable=idldir evolution-data-server-1.0`/Evolution-DataServer.idl
+DATASERVER_IDL=`pkg-config --variable=idldir evolution-data-server-1.2`/Evolution-DataServer.idl
 if test -f "$DATASERVER_IDL"; then
 	AC_MSG_RESULT($DATASERVER_IDL)
 	 AC_SUBST(DATASERVER_IDL)
