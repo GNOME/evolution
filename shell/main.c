@@ -54,6 +54,8 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-cursors.h>
 
+#include "Evolution-Wombat.h"
+
 #include "e-util/e-gtk-utils.h"
 
 #include "e-icon-factory.h"
@@ -187,6 +189,55 @@ destroy_cb (GtkObject *object, gpointer data)
 
 
 static void
+kill_wombat (void)
+{
+	g_print ("(Killing old version of Wombat...)\n");
+
+	system (KILL_PROCESS_CMD " -9 lt-wombat 2> /dev/null");
+	system (KILL_PROCESS_CMD " -9 wombat 2> /dev/null");
+}
+
+static void
+kill_old_wombat (void)
+{
+	GNOME_Evolution_WombatInterfaceCheck iface;
+	CORBA_Environment ev;
+	CORBA_char *version;
+
+	CORBA_exception_init (&ev);
+
+	iface = bonobo_get_object ("wombat:", "GNOME/Evolution/WombatInterfaceCheck", &ev);
+	if (BONOBO_EX (&ev) || iface == CORBA_OBJECT_NIL) {
+		kill_wombat ();
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	version = GNOME_Evolution_WombatInterfaceCheck__get_interfaceVersion (iface, &ev);
+	if (BONOBO_EX (&ev)) {
+		kill_wombat ();
+		bonobo_object_release_unref (iface, &ev);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	if (strcmp (version, VERSION) != 0) {
+		CORBA_free (version);
+		kill_wombat ();
+		bonobo_object_release_unref (iface, &ev);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_free (version);
+
+	bonobo_object_release_unref (iface, &ev);
+
+	CORBA_exception_free (&ev);
+}
+
+
+static void
 upgrade_from_1_0_if_needed (void)
 {
 	Bonobo_ConfigDatabase config_db;
@@ -240,6 +291,8 @@ idle_cb (void *data)
 	gboolean have_evolution_uri;
 	gboolean display_default;
 	gboolean displayed_any;
+
+	kill_old_wombat ();
 
 	upgrade_from_1_0_if_needed ();
 

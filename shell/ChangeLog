@@ -1,3 +1,29 @@
+2002-11-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* main.c (kill_old_wombat): New function to kill running wombat
+	processes whose version is different from ours, using the
+	WombatInterfaceCheck interface.
+	(kill_wombat): New.
+	(idle_cb): Invoke kill_old_wombat().
+
+	* e-storage-set-view.c (path_free_func): New GHFunc to free keys.
+	(impl_destroy): g_hash_table_foreach() it on
+	priv->path_to_etree_node befor destroying the hash table.
+	(e_storage_set_view_set_show_checkboxes): Unref the state object.
+
+	* e-shell-user-creatable-items-handler.c
+	(append_xml_for_menu_item): Free return value from
+	bonobo_ui_util_pixbuf_to_xml().
+
+	* e-shell-folder-title-bar.c (create_pixmap_widget_from_xpm):
+	Unref the pixbuf.
+
+	* e-corba-storage-registry.c (listener_notify): CORBA_free the
+	name string.
+
+	* e-storage.c (e_storage_has_subfolders): Free local variable
+	pseudofolder_path.
+
 2002-11-25  Dan Winship  <danw@ximian.com>
 
 	* e-shell-settings-dialog.c (page_new): e_get_language_list now
