@@ -45,7 +45,7 @@
 		 _tip="Save selected contacts as a VCard."
 		 pixtype="stock" pixname="Save" accel="*Control*v"/>
 
-		<cmd name="ContactsSendContactToOther" _label="Send contact to other"
+		<cmd name="ContactsSendContactToOther" _label="Forward Contact"
 		 _tip="Send selected contacts to another person."/>
 
 		<cmd name="ContactsSendMessageToContact" _label="Send message to contact"
@@ -114,21 +114,21 @@
                         <submenu name="Actions" _label="_Actions">
 
 			    <menuitem name="ContactsSendContactToOther"
-			     _label="Send _contact to other" verb=""/>
+			     _label="Send _Contact to Other" verb=""/>
 
 			    <menuitem name="ContactsSendMessageToContact"
-			     _label="Send _message to contact" verb=""/>
+			     _label="Send _Message to Contact" verb=""/>
 	                </submenu>
 		</placeholder>
 	</menu>
 
 	<dockitem name="Toolbar">
 		<toolitem name="ContactNew" verb=""
-		_label="New contact"
+		_label="New Contact"
 		pixtype="pixbuf" priority="1"/>
 
 		<toolitem name="ContactNewList" verb=""
-		_label="New list"
+		_label="New List"
 		pixtype="pixbuf" priority="1"/>
 
 		<separator/>

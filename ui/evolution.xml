@@ -110,7 +110,7 @@
       <separator/>
       
       <menuitem name="FileImporter" verb=""
-		_label="_Import file..."
+		_label="_Import File..."
 		_tip="Import an external file format" accel="*Control*i"
 		pixtype="pixbuf"/>
 
