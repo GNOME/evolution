@@ -1,3 +1,8 @@
+2001-04-24  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-meeting-time-sel.c, test-meeting-time-sel.c: Added #include
+	<glib.h>.
+	
 2001-04-08  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-meeting-time-sel-item.c (e_meeting_time_selector_item_init):

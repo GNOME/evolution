@@ -26,10 +26,13 @@
 #include <config.h>
 #endif
 
+#include "e-meeting-time-sel.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <glib.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkalignment.h>
 #include <gtk/gtkarrow.h>
@@ -51,7 +54,6 @@
 
 #include <gal/widgets/e-canvas.h>
 #include <gal/widgets/e-canvas-utils.h>
-#include "e-meeting-time-sel.h"
 #include "e-meeting-time-sel-item.h"
 #include "e-meeting-time-sel-list-item.h"
 

@@ -27,6 +27,7 @@
 #endif
 
 #include <time.h>
+#include <glib.h>
 #include <gtk/gtkmain.h>
 #include <gdk_imlib.h>
 #include <libgnome/gnome-defs.h>
