@@ -48,6 +48,7 @@ extern "C" {
 #include <camel/camel-mime-filter-index.h>
 #include <camel/camel-mime-filter-save.h>
 #include <camel/camel-mime-filter-crlf.h>
+#include <camel/camel-mime-filter-tohtml.h>
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-mime-parser.h>
