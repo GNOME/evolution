@@ -1148,6 +1148,7 @@ netscape_filter_to_evol_filter (FilterContext *fc, NsFilter *nsf, gboolean *prio
 		netscape_filter_threads_action_not_supported ();
 		break;
 	default:
+		break;
 	}
 
 	if (!action_added) {
