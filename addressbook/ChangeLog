@@ -1,3 +1,42 @@
+2002-03-07  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-book.c (pas_book_queue_create_card): track
+	union/struct change.
+	(pas_book_queue_remove_card): same.
+	(pas_book_queue_modify_card): same.
+	(pas_book_queue_get_cursor): same.
+	(pas_book_queue_get_vcard): same.
+	(pas_book_queue_authenticate_user): same.
+	(pas_book_queue_get_book_view): same.
+	(pas_book_queue_get_changes): same.
+	(pas_book_free_request): new function - free everything we need to
+	for each type of request.
+	(pas_book_destroy): call pas_book_free_request here instead of
+	just freeing 3 elements of the old struct.  yay plugging memleaks.
+
+	* backend/pas/pas-book.h: make PASRequest a union and split out
+	members into structs, so it's a little clearer which fields are
+	used by which requests.  Also, add prototype for
+	pas_book_free_request so backends can just free everything at once
+	(usually in their requests_queued signal func.)
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_process_create_card): track struct/union change.
+	(pas_backend_file_process_remove_card): same.
+	(pas_backend_file_process_modify_card): same.
+	(pas_backend_file_build_cards_list): same.
+	(pas_backend_file_process_get_vcard): same.
+	(pas_backend_file_process_get_cursor): same.
+	(pas_backend_file_process_get_book_view): same.
+	(pas_backend_file_process_get_changes): same.
+	(pas_backend_file_process_check_connection): same.
+	(pas_backend_file_process_authenticate_user): same.
+	(pas_backend_file_process_get_supported_fields): same.
+	(pas_backend_file_process_client_requests): case the union to the
+	specific struct and pass it to the process_* functions.  also,
+	call pas_book_free_request here, instead of relying on each of the
+	functions to free their stuff.
+
 2002-03-07  Dan Winship  <danw@ximian.com>
 
 	* gui/component/addressbook-storage.c

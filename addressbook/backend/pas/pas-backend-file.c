@@ -535,7 +535,7 @@ do_create(PASBackend *backend,
 static void
 pas_backend_file_process_create_card (PASBackend *backend,
 				      PASBook    *book,
-				      PASRequest *req)
+				      PASCreateCardRequest *req)
 {
 	char *id;
 	char *vcard;
@@ -577,7 +577,7 @@ pas_backend_file_process_create_card (PASBackend *backend,
 static void
 pas_backend_file_process_remove_card (PASBackend *backend,
 				      PASBook    *book,
-				      PASRequest *req)
+				      PASRemoveCardRequest *req)
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	DB             *db = bf->priv->file_db;
@@ -636,7 +636,7 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 static void
 pas_backend_file_process_modify_card (PASBackend *backend,
 				      PASBook    *book,
-				      PASRequest *req)
+				      PASModifyCardRequest *req)
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	DB             *db = bf->priv->file_db;
@@ -671,7 +671,6 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 		pas_book_respond_modify (
 				 book,
 				 GNOME_Evolution_Addressbook_BookListener_CardNotFound);
-		g_free (req->id);
 		return;
 	}
 	old_vcard_string = g_strdup(vcard_dbt.data);
@@ -728,8 +727,8 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 
 static void
 pas_backend_file_build_cards_list(PASBackend *backend,
-				      PASBackendFileCursorPrivate *cursor_data,
-				      char *search)
+				  PASBackendFileCursorPrivate *cursor_data,
+				  char *search)
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	DB             *db = bf->priv->file_db;
@@ -788,7 +787,7 @@ pas_backend_file_build_cards_list(PASBackend *backend,
 static void
 pas_backend_file_process_get_vcard (PASBackend *backend,
 				    PASBook    *book,
-				    PASRequest *req)
+				    PASGetVCardRequest *req)
 {
 	PASBackendFile *bf;
 	DB             *db;
@@ -821,7 +820,7 @@ pas_backend_file_process_get_vcard (PASBackend *backend,
 static void
 pas_backend_file_process_get_cursor (PASBackend *backend,
 				     PASBook    *book,
-				     PASRequest *req)
+				     PASGetCursorRequest *req)
 {
 	/*
 	  PASBackendFile *bf = PAS_BACKEND_FILE (backend);
@@ -871,10 +870,9 @@ pas_backend_file_process_get_cursor (PASBackend *backend,
 static void
 pas_backend_file_process_get_book_view (PASBackend *backend,
 					PASBook    *book,
-					PASRequest *req)
+					PASGetBookViewRequest *req)
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
-	CORBA_Environment ev;
 	PASBookView       *book_view;
 	PASBackendFileBookView view;
 	EIterator *iterator;
@@ -889,7 +887,7 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 			   GTK_SIGNAL_FUNC(view_destroy), book);
 
 	view.book_view = book_view;
-	view.search = req->search;
+	view.search = g_strdup (req->search);
 	view.card_sexp = NULL;
 	view.change_id = NULL;
 	view.change_context = NULL;	
@@ -906,25 +904,12 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	e_iterator_last(iterator);
 	pas_backend_file_search (bf, book, e_iterator_get(iterator));
 	gtk_object_unref(GTK_OBJECT(iterator));
-
-	g_free(req->search);
-	CORBA_exception_init(&ev);
-
-	bonobo_object_unref (BONOBO_OBJECT (book_view));
-	bonobo_object_release_unref (req->listener, &ev);
-	
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("pas_backend_file_process_get_book_view: Exception unreffing "
-			  "listener.\n");
-	}
-
-	CORBA_exception_free(&ev);
 }
 
 static void
 pas_backend_file_process_get_changes (PASBackend *backend,
 				      PASBook    *book,
-				      PASRequest *req)
+				      PASGetChangesRequest *req)
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	CORBA_Environment ev;
@@ -967,7 +952,7 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	pas_backend_file_changes (bf, book, e_iterator_get(iterator));
 	gtk_object_unref(GTK_OBJECT(iterator));
 
-	g_free(req->search);
+	g_free(req->change_id);
 	CORBA_exception_init(&ev);
 	bonobo_object_release_unref (req->listener, &ev);
 	
@@ -982,7 +967,7 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 static void
 pas_backend_file_process_check_connection (PASBackend *backend,
 					   PASBook    *book,
-					   PASRequest *req)
+					   PASCheckConnectionRequest *req)
 {
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 
@@ -1000,7 +985,7 @@ pas_backend_file_extract_path_from_uri (const char *uri)
 static void
 pas_backend_file_process_authenticate_user (PASBackend *backend,
 					    PASBook    *book,
-					    PASRequest *req)
+					    PASAuthenticateUserRequest *req)
 {
 	pas_book_respond_authenticate_user (book,
 					    GNOME_Evolution_Addressbook_BookListener_Success);
@@ -1009,7 +994,7 @@ pas_backend_file_process_authenticate_user (PASBackend *backend,
 static void
 pas_backend_file_process_get_supported_fields (PASBackend *backend,
 					       PASBook    *book,
-					       PASRequest *req)
+					       PASGetSupportedFieldsRequest *req)
 {
 	EList *fields = e_list_new ((EListCopyFunc)g_strdup, (EListFreeFunc)g_free, NULL);
 	ECardSimple *simple;
@@ -1047,47 +1032,47 @@ pas_backend_file_process_client_requests (PASBook *book)
 
 	switch (req->op) {
 	case CreateCard:
-		pas_backend_file_process_create_card (backend, book, req);
+		pas_backend_file_process_create_card (backend, book, (PASCreateCardRequest*)req);
 		break;
 
 	case RemoveCard:
-		pas_backend_file_process_remove_card (backend, book, req);
+		pas_backend_file_process_remove_card (backend, book, (PASRemoveCardRequest*)req);
 		break;
 
 	case ModifyCard:
-		pas_backend_file_process_modify_card (backend, book, req);
+		pas_backend_file_process_modify_card (backend, book, (PASModifyCardRequest*)req);
 		break;
 
 	case CheckConnection:
-		pas_backend_file_process_check_connection (backend, book, req);
+		pas_backend_file_process_check_connection (backend, book, (PASCheckConnectionRequest*)req);
 		break;
 
 	case GetVCard:
-		pas_backend_file_process_get_vcard (backend, book, req);
+		pas_backend_file_process_get_vcard (backend, book, (PASGetVCardRequest*)req);
 		break;
 		
 	case GetCursor:
-		pas_backend_file_process_get_cursor (backend, book, req);
+		pas_backend_file_process_get_cursor (backend, book, (PASGetCursorRequest*)req);
 		break;
 		
 	case GetBookView:
-		pas_backend_file_process_get_book_view (backend, book, req);
+		pas_backend_file_process_get_book_view (backend, book, (PASGetBookViewRequest*)req);
 		break;
 
 	case GetChanges:
-		pas_backend_file_process_get_changes (backend, book, req);
+		pas_backend_file_process_get_changes (backend, book, (PASGetChangesRequest*)req);
 		break;
 
 	case AuthenticateUser:
-		pas_backend_file_process_authenticate_user (backend, book, req);
+		pas_backend_file_process_authenticate_user (backend, book, (PASAuthenticateUserRequest*)req);
 		break;
 
 	case GetSupportedFields:
-		pas_backend_file_process_get_supported_fields (backend, book, req);
+		pas_backend_file_process_get_supported_fields (backend, book, (PASGetSupportedFieldsRequest*)req);
 		break;
 	}
 
-	g_free (req);
+	pas_book_free_request (req);
 }
 
 static void

@@ -74,7 +74,7 @@ pas_book_queue_create_card (PASBook *book, const char *vcard)
 
 	req        = g_new0 (PASRequest, 1);
 	req->op    = CreateCard;
-	req->vcard = g_strdup (vcard);
+	req->create.vcard = g_strdup (vcard);
 
 	pas_book_queue_request (book, req);
 }
@@ -86,7 +86,7 @@ pas_book_queue_remove_card (PASBook *book, const char *id)
 
 	req     = g_new0 (PASRequest, 1);
 	req->op = RemoveCard;
-	req->id = g_strdup (id);
+	req->remove.id = g_strdup (id);
 
 	pas_book_queue_request (book, req);
 }
@@ -98,7 +98,7 @@ pas_book_queue_modify_card (PASBook *book, const char *vcard)
 
 	req        = g_new0 (PASRequest, 1);
 	req->op    = ModifyCard;
-	req->vcard = g_strdup (vcard);
+	req->modify.vcard = g_strdup (vcard);
 
 	pas_book_queue_request (book, req);
 }
@@ -110,7 +110,7 @@ pas_book_queue_get_cursor (PASBook *book, const char *search)
 
 	req         = g_new0 (PASRequest, 1);
 	req->op     = GetCursor;
-	req->search = g_strdup(search);
+	req->get_cursor.search = g_strdup(search);
 
 	pas_book_queue_request (book, req);
 }
@@ -122,7 +122,7 @@ pas_book_queue_get_vcard (PASBook *book, const char *id)
 
 	req     = g_new0 (PASRequest, 1);
 	req->op = GetVCard;
-	req->id = g_strdup(id);
+	req->get_vcard.id = g_strdup(id);
 
 	pas_book_queue_request (book, req);
 }
@@ -135,9 +135,9 @@ pas_book_queue_authenticate_user (PASBook *book,
 
 	req         = g_new0 (PASRequest, 1);
 	req->op     = AuthenticateUser;
-	req->user   = g_strdup(user);
-	req->passwd = g_strdup(passwd);
-	req->auth_method = g_strdup(auth_method);
+	req->auth_user.user   = g_strdup(user);
+	req->auth_user.passwd = g_strdup(passwd);
+	req->auth_user.auth_method = g_strdup(auth_method);
 
 	pas_book_queue_request (book, req);
 }
@@ -162,11 +162,11 @@ pas_book_queue_get_book_view (PASBook *book, const GNOME_Evolution_Addressbook_B
 
 	req           = g_new0 (PASRequest, 1);
 	req->op       = GetBookView;
-	req->search   = g_strdup(search);
+	req->get_book_view.search   = g_strdup(search);
 	
 	CORBA_exception_init (&ev);
 
-	req->listener = bonobo_object_dup_ref(listener, &ev);
+	req->get_book_view.listener = bonobo_object_dup_ref(listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("pas_book_queue_get_book_view: Exception "
@@ -186,11 +186,11 @@ pas_book_queue_get_changes (PASBook *book, const GNOME_Evolution_Addressbook_Boo
 
 	req           = g_new0 (PASRequest, 1);
 	req->op       = GetChanges;
-	req->change_id= g_strdup(change_id);
+	req->get_changes.change_id= g_strdup(change_id);
 	
 	CORBA_exception_init (&ev);
 
-	req->listener = bonobo_object_dup_ref(listener, &ev);
+	req->get_changes.listener = bonobo_object_dup_ref(listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("pas_book_queue_get_changes: Exception "
@@ -766,6 +766,63 @@ pas_book_new (PASBackend             *backend,
 	return book;
 }
 
+void
+pas_book_free_request (PASRequest *req)
+{
+	CORBA_Environment ev;
+	switch (req->op) {
+	case CreateCard:
+		g_free (req->create.id);
+		g_free (req->create.vcard);
+		break;
+	case RemoveCard:
+		g_free (req->remove.id);
+		break;
+	case ModifyCard:
+		g_free (req->modify.vcard);
+		break;
+	case GetVCard:
+		g_free (req->get_vcard.id);
+		break;
+	case GetCursor:
+		g_free (req->get_cursor.search);
+		break;
+	case GetBookView:
+		g_free (req->get_book_view.search);
+		CORBA_exception_init (&ev);
+		bonobo_object_release_unref (req->get_book_view.listener, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("pas_book_free_request(GetBookView): could not release the listener");
+	
+		CORBA_exception_free (&ev);
+		break;
+	case GetChanges:
+		g_free (req->get_changes.change_id);
+		CORBA_exception_init (&ev);
+		bonobo_object_release_unref (req->get_changes.listener, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("pas_book_free_request(GetChanges): could not release the listener");
+
+		CORBA_exception_free (&ev);
+		break;
+	case CheckConnection:
+		/* nothing to free */
+		break;
+	case AuthenticateUser:
+		g_free (req->auth_user.user);
+		g_free (req->auth_user.passwd);
+		g_free (req->auth_user.auth_method);
+		break;
+	case GetSupportedFields:
+		/* nothing to free */
+		break;
+	}
+
+	g_free (req);
+}
+
 static void
 pas_book_destroy (GtkObject *object)
 {
@@ -774,11 +831,7 @@ pas_book_destroy (GtkObject *object)
 	CORBA_Environment ev;
 
 	for (l = book->priv->request_queue; l != NULL; l = l->next) {
-		PASRequest *req = l->data;
-
-		g_free (req->id);
-		g_free (req->vcard);
-		g_free (req);
+		pas_book_free_request ((PASRequest *)l->data);
 	}
 	g_list_free (book->priv->request_queue);
 
