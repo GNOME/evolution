@@ -1,5 +1,10 @@
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Evolution-Component.idl (GNOME.Evolution.Component.UnknownType):
+	New exception.
+
+2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-window.c: New signal "component_changed".
 	(class_init): Install.
 	(switch_view): Emit.
