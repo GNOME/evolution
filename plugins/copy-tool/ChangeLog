@@ -1,3 +1,7 @@
+2004-10-21  JP Rosevear  <jpr@novell.com>
+
+	* org-gnome-copy-tool.eplug.in: s/image/icon/
+
 2004-10-20  Not Zed  <NotZed@Ximian.com>
 
 	* implemented a copy-utils plugin.
