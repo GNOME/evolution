@@ -1,11 +1,11 @@
-Evolution 1.0.4, ???
---------------------
+Evolution 1.0.4, 18-04-2002
+---------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Addressbook
 
-    #22965 -- Comply with RFC 2739 for calCalURI and calFBURL. (Toshok>
+    #22965 -- Comply with RFC 2739 for calCalURI and calFBURL.  (Toshok)
 
   * Calendar
 
@@ -18,20 +18,22 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Mailer
 
-    #22363 -- Problems resyncing IMAP folders when going Online.  (Jeff)
+     #8214 -- "Error Synchronizing Folder" on incoming mail spool.
+              (Michael)
     #18929 -- If we get multiple Content-Type header values, change
               subsequent headers to X-Invalid-Content-Type so it doesn't 
               wreck processing.  (Michael)
+    #22363 -- Problems resyncing IMAP folders when going Online.  (Jeff)
     #21716 -- Fixes to decoding illegally rfc2047 encoded words.  (Michael)
     
 
-Other fixes
+Other fixes:
 
   * Calendar
 
-    - Use default tasks folder in calendar view (Rodrigo)
+    - Use default tasks folder in calendar view.  (Rodrigo)
     - Added getQuery method to CalBackend to allow custom queries for
-      each calendar backend (Rodrigo)
+      each calendar backend.  (Rodrigo)
 
   * Mailer
 
@@ -40,11 +42,23 @@ Other fixes
     - Fixed the annoying EINPROGRESS error dialogs when connecting 
       to IMAP/SMTP/POP via SSL.  (Jeff)
     - Changed the date format used in From-lines in mbox spools to be 
-      the same as those used by Pine to fix interoperability issues.  (Michael)
+      the same as those used by Pine to fix interoperability issues.
+      (Michael)
+    - Fixed some filtertypes.xml typos.  (Michael)
 
   * Summary
 
     - Change the dot.kde.org url.
+
+Updated translations:
+
+  - fi (Sami Pesonen)
+  - fr (Christophe Merlet, Frederic Riss)
+  - ko (Young-Ho Cha)
+  - nl (Tino Meinen)
+  - no (Kjartan Maraas)
+  - pt_BR (Gustavo Maciel Dias Vieira)
+
 
 Evolution 1.0.3, 19-03-2002
 ---------------------------
