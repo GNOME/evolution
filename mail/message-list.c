@@ -37,6 +37,8 @@
 #include <e-util/ename/e-name-western.h>
 #include <e-util/e-memory.h>
 
+#include "filter/filter-label.h"
+
 #include "mail-config.h"
 #include "message-list.h"
 #include "mail-mt.h"
@@ -987,7 +989,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		label = camel_tag_get ((CamelTag **) &msg_info->user_tags, "label");
 		if (colour == NULL) {
 			if (label != NULL) {
-				colour = mail_config_get_label_color_string (atoi (label));
+				colour = mail_config_get_label_color_string (filter_label_index(label));
 			} else if (msg_info->flags & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the xpm somehow. */
 				colour = "#A7453E";

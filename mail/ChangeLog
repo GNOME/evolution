@@ -33,6 +33,14 @@
 
 2002-07-15  Not Zed  <NotZed@Ximian.com>
 
+	* message-list.c (ml_tree_value_at): Lookup the label colour based
+	on the label token, not an integer.
+
+	* folder-browser.c (on_right_click): Lookup the label name from
+	the filter type.  Sigh, a bunch of other code should do similar
+	but i'm going to leave it as integers.
+	(set_msg_label): Set the label directly.
+
 	* mail-vfolder.c (vfolder_editor_clicked): Set the vfolder_editor
 	variable to null before we close the dialogue, otherwise the close
 	destroys it and reverts the file.

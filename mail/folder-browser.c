@@ -49,6 +49,7 @@
 #include "filter/vfolder-context.h"
 #include "filter/filter-option.h"
 #include "filter/filter-input.h"
+#include "filter/filter-label.h"
 
 #include "mail-search-dialogue.h"
 #include "e-util/e-sexp.h"
@@ -1606,7 +1607,7 @@ colour_closures_free (GPtrArray *closures)
 
 struct _label_data {
 	FolderBrowser *fb;
-	int label;
+	const char *label;
 };
 
 static void
@@ -1614,22 +1615,13 @@ set_msg_label (GtkWidget *widget, gpointer user_data)
 {
 	struct _label_data *data = user_data;
 	GPtrArray *uids;
-	char *label;
 	int i;
-	
-	if (data->label != -1)
-		label = g_strdup_printf ("%d", data->label);
-	else
-		label = NULL;
-	
+
 	uids = g_ptr_array_new ();
 	message_list_foreach (data->fb->message_list, enumerate_msg, uids);
-	for (i = 0; i < uids->len; i++) {
-		camel_folder_set_message_user_tag (data->fb->folder, uids->pdata[i], "label", label);
-	}
+	for (i = 0; i < uids->len; i++)
+		camel_folder_set_message_user_tag (data->fb->folder, uids->pdata[i], "label", data->label);
 	g_ptr_array_free (uids, TRUE);
-	
-	g_free (label);
 }
 
 static void
@@ -2024,9 +2016,9 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	g_ptr_array_add (closures, label_menu[0].closure);
 	gtk_object_ref (GTK_OBJECT (fb));
 	((struct _label_data *) label_menu[0].closure)->fb = fb;
-	((struct _label_data *) label_menu[0].closure)->label = -1;
+	((struct _label_data *) label_menu[0].closure)->label = NULL;
 	
-	for (i = 0; i < 5; i++) {
+	for (i = 0; i < filter_label_count(); i++) {
 		struct _label_data *closure;
 		GdkPixmap *pixmap;
 		GdkColormap *map;
@@ -2052,7 +2044,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		closure = g_new (struct _label_data, 1);
 		gtk_object_ref (GTK_OBJECT (fb));
 		closure->fb = fb;
-		closure->label = i;
+		closure->label = filter_label_label(i);
 		
 		g_ptr_array_add (closures, closure);
 		
