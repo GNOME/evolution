@@ -417,8 +417,11 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	message = composer_get_message (composer);
 	if (!message)
 		return;
+
 	transport = mail_config_get_default_transport ();
-	
+	if (!transport)
+		return;
+
 	send = g_malloc (sizeof (*send));
 	send->psd = psd;
 	send->composer = composer;
