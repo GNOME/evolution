@@ -1,6 +1,15 @@
+2002-10-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-signature-editor.c (mail_signature_editor): Mark a string
+	for translation, fixes bug #31942. Thanks to kmaraas@gnome.org for
+	this patch.
+
+	* mail-offline-handler.h: Don't #include config.h here. Fixes bug
+	#31941.
+
 2002-10-07  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* mail-composer-prefs.c (spell_load_values): Don't maek "en" for
+	* mail-composer-prefs.c (spell_load_values): Don't mark "en" for
 	translation. Fixes bug #31788.
 
 	* mail-config.glade: Removed a "xxxxxxxxxxx" string so that

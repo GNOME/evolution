@@ -23,10 +23,6 @@
 #ifndef _MAIL_OFFLINE_HANDLER_H_
 #define _MAIL_OFFLINE_HANDLER_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <bonobo/bonobo-xobject.h>
 #include "Evolution.h"
 

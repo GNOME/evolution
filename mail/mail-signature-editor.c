@@ -329,8 +329,8 @@ mail_signature_editor (MailConfigSignature *sig)
 	
 	editor->sig = sig;
 	editor->html = sig->html;
-
-	title       = g_strdup_printf ("Edit signature");
+	
+	title       = g_strdup_printf (_("Edit signature"));
 	editor->win = bonobo_window_new ("e-sig-editor", title);
 	gtk_window_set_default_size (GTK_WINDOW (editor->win), DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	gtk_window_set_policy (GTK_WINDOW (editor->win), FALSE, TRUE, FALSE);
