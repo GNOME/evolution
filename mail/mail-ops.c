@@ -1480,7 +1480,7 @@ remove_folder_get (struct _mail_msg *mm)
 	
 	store = camel_folder_get_parent_store (folder);
 	if (!store)
-		goto done;
+		return;
 
 	/* Delete every message in this folder, then expunge it */
 	uids = camel_folder_get_uids (folder);
@@ -1496,10 +1496,6 @@ remove_folder_get (struct _mail_msg *mm)
 
 	/* Remove this folder from the folder cache */
 	mail_folder_cache_remove_folder (m->uri);
-	
- done:
-	if (store)
-		camel_object_unref (CAMEL_OBJECT (store));
 }
 
 static void
