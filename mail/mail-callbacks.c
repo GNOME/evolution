@@ -818,6 +818,9 @@ forward_inlined (GtkWidget *widget, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids;
 	
+	if (!fb->message_list->cursor_uid)
+		return;
+	
 	if (!check_send_configuration (fb))
 		return;
 	
@@ -833,6 +836,9 @@ forward_quoted (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids;
+	
+	if (!fb->message_list->cursor_uid)
+		return;
 	
 	if (!check_send_configuration (fb))
 		return;

@@ -1,3 +1,9 @@
+2001-05-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (forward_inlined): If the cursor_uid is NULL,
+	then we can't forward anything so just return.
+	(forward_quoted): Same.
+
 2001-05-10  Jon Trowbridge  <trow@ximian.com>
 
 	* folder-browser.c (folder_browser_config_search): Use the
