@@ -91,6 +91,12 @@ struct ETreePriv {
 
 	int reflow_idle_id;
 
+	int table_model_change_id;
+	int table_row_change_id;
+	int table_cell_change_id;
+	int table_rows_inserted_id;
+	int table_rows_deleted_id;
+
 	GnomeCanvas *header_canvas, *table_canvas;
 
 	GnomeCanvasItem *header_item, *root;
@@ -176,6 +182,32 @@ static gint e_tree_drag_source_event_cb (GtkWidget      *widget,
 static gint et_focus (GtkContainer *container, GtkDirectionType direction);
 
 static void
+et_disconnect_from_etta (ETree *et)
+{
+	if (et->priv->table_model_change_id != 0)
+		gtk_signal_disconnect (GTK_OBJECT (et->priv->etta),
+				       et->priv->table_model_change_id);
+	if (et->priv->table_row_change_id != 0)
+		gtk_signal_disconnect (GTK_OBJECT (et->priv->etta),
+				       et->priv->table_row_change_id);
+	if (et->priv->table_cell_change_id != 0)
+		gtk_signal_disconnect (GTK_OBJECT (et->priv->etta),
+				       et->priv->table_cell_change_id);
+	if (et->priv->table_rows_inserted_id != 0)
+		gtk_signal_disconnect (GTK_OBJECT (et->priv->etta),
+				       et->priv->table_rows_inserted_id);
+	if (et->priv->table_rows_deleted_id != 0)
+		gtk_signal_disconnect (GTK_OBJECT (et->priv->etta),
+				       et->priv->table_rows_deleted_id);
+
+	et->priv->table_model_change_id = 0;
+	et->priv->table_row_change_id = 0;
+	et->priv->table_cell_change_id = 0;
+	et->priv->table_rows_inserted_id = 0;
+	et->priv->table_rows_deleted_id = 0;
+}
+
+static void
 et_destroy (GtkObject *object)
 {
 	ETree *et = E_TREE (object);
@@ -184,6 +216,9 @@ et_destroy (GtkObject *object)
 		g_source_remove(et->priv->reflow_idle_id);
 	et->priv->reflow_idle_id = 0;
 
+	et_disconnect_from_etta (et);
+
+	gtk_object_unref (GTK_OBJECT (et->priv->etta));
 	gtk_object_unref (GTK_OBJECT (et->priv->model));
 	gtk_object_unref (GTK_OBJECT (et->priv->sorted));
 	gtk_object_unref (GTK_OBJECT (et->priv->full_header));
@@ -217,57 +252,57 @@ e_tree_init (GtkObject *object)
 
 	GTK_WIDGET_SET_FLAGS (e_tree, GTK_CAN_FOCUS);
 
-	gtk_table->homogeneous = FALSE;
+	gtk_table->homogeneous                           = FALSE;
 
-	e_tree->priv = g_new(ETreePriv, 1);
+	e_tree->priv                                     = g_new(ETreePriv, 1);
 
-	e_tree->priv->model = NULL;
-	e_tree->priv->sorted = NULL;
-	e_tree->priv->etta = NULL;
+	e_tree->priv->model                              = NULL;
+	e_tree->priv->sorted                             = NULL;
+	e_tree->priv->etta                               = NULL;
 
-	e_tree->priv->full_header = NULL;
-	e_tree->priv->header = NULL;
+	e_tree->priv->full_header                        = NULL;
+	e_tree->priv->header                             = NULL;
 
-	e_tree->priv->sort_info = NULL;
-	e_tree->priv->sorter = NULL;
-	e_tree->priv->reflow_idle_id = 0;
+	e_tree->priv->sort_info                          = NULL;
+	e_tree->priv->sorter                             = NULL;
+	e_tree->priv->reflow_idle_id                     = 0;
 
-	e_tree->priv->horizontal_draw_grid = 1;
-	e_tree->priv->vertical_draw_grid = 1;
-	e_tree->priv->draw_focus = 1;
-	e_tree->priv->cursor_mode = E_CURSOR_SIMPLE;
-	e_tree->priv->length_threshold = 200;
+	e_tree->priv->horizontal_draw_grid               = 1;
+	e_tree->priv->vertical_draw_grid                 = 1;
+	e_tree->priv->draw_focus                         = 1;
+	e_tree->priv->cursor_mode                        = E_CURSOR_SIMPLE;
+	e_tree->priv->length_threshold                   = 200;
 
-	e_tree->priv->row_selection_active = FALSE;
-	e_tree->priv->horizontal_scrolling = FALSE;
+	e_tree->priv->row_selection_active               = FALSE;
+	e_tree->priv->horizontal_scrolling               = FALSE;
 
-	e_tree->priv->drop_row = -1;
-	e_tree->priv->drop_path = NULL;
-	e_tree->priv->drop_col = -1;
+	e_tree->priv->drop_row                           = -1;
+	e_tree->priv->drop_path                          = NULL;
+	e_tree->priv->drop_col                           = -1;
 
-	e_tree->priv->drag_row = -1;
-	e_tree->priv->drag_path = NULL;
-	e_tree->priv->drag_col = -1;
+	e_tree->priv->drag_row                           = -1;
+	e_tree->priv->drag_path                          = NULL;
+	e_tree->priv->drag_col                           = -1;
 
-	e_tree->priv->site = NULL;
-	e_tree->priv->drag_source_button_press_event_id = 0;
+	e_tree->priv->site                               = NULL;
+	e_tree->priv->drag_source_button_press_event_id  = 0;
 	e_tree->priv->drag_source_motion_notify_event_id = 0;
 
 #ifdef E_TREE_USE_TREE_SELECTION
-	e_tree->priv->selection = E_SELECTION_MODEL(e_tree_selection_model_new());
+	e_tree->priv->selection                          = E_SELECTION_MODEL(e_tree_selection_model_new());
 #else
-	e_tree->priv->selection = E_SELECTION_MODEL(e_table_selection_model_new());
+	e_tree->priv->selection                          = E_SELECTION_MODEL(e_table_selection_model_new());
 #endif
-	e_tree->priv->spec = NULL;
+	e_tree->priv->spec                               = NULL;
 
-	e_tree->priv->header_canvas = NULL;
-	e_tree->priv->table_canvas = NULL;
+	e_tree->priv->header_canvas                      = NULL;
+	e_tree->priv->table_canvas                       = NULL;
 
-	e_tree->priv->header_item = NULL;
-	e_tree->priv->root = NULL;
+	e_tree->priv->header_item                        = NULL;
+	e_tree->priv->root                               = NULL;
 
-	e_tree->priv->white_item = NULL;
-	e_tree->priv->item = NULL;
+	e_tree->priv->white_item                         = NULL;
+	e_tree->priv->item                               = NULL;
 }
 
 /* Grab_focus handler for the ETree */
@@ -824,13 +859,64 @@ gchar          *e_tree_get_state                 (ETree               *e_tree)
  */
 void
 e_tree_save_state (ETree      *e_tree,
-		    const gchar *filename)
+		   const gchar *filename)
 {
 	ETableState *state;
 
 	state = e_tree_get_state_object(e_tree);
 	e_table_state_save_to_file(state, filename);
 	gtk_object_unref(GTK_OBJECT(state));
+}
+
+static void
+et_table_model_changed (ETableModel *model, ETree *et)
+{
+	if (et->priv->horizontal_scrolling)
+		e_table_header_update_horizontal(et->priv->header);
+}
+
+static void
+et_table_row_changed (ETableModel *table_model, int row, ETree *et)
+{
+	et_table_model_changed (table_model, et);
+}
+
+static void
+et_table_cell_changed (ETableModel *table_model, int view_col, int row, ETree *et)
+{
+	et_table_model_changed (table_model, et);
+}
+
+static void
+et_table_rows_inserted (ETableModel *table_model, int row, int count, ETree *et)
+{
+	et_table_model_changed (table_model, et);
+}
+
+static void
+et_table_rows_deleted (ETableModel *table_model, int row, int count, ETree *et)
+{
+	et_table_model_changed (table_model, et);
+}
+
+static void
+et_connect_to_etta (ETree *et)
+{
+	et->priv->table_model_change_id = gtk_signal_connect (GTK_OBJECT (et->priv->etta), "model_changed",
+							      GTK_SIGNAL_FUNC (et_table_model_changed), et);
+
+	et->priv->table_row_change_id = gtk_signal_connect (GTK_OBJECT (et->priv->etta), "model_row_changed",
+							    GTK_SIGNAL_FUNC (et_table_row_changed), et);
+
+	et->priv->table_cell_change_id = gtk_signal_connect (GTK_OBJECT (et->priv->etta), "model_cell_changed",
+							     GTK_SIGNAL_FUNC (et_table_cell_changed), et);
+
+	et->priv->table_rows_inserted_id = gtk_signal_connect (GTK_OBJECT (et->priv->etta), "model_rows_inserted",
+							       GTK_SIGNAL_FUNC (et_table_rows_inserted), et);
+
+	et->priv->table_rows_deleted_id = gtk_signal_connect (GTK_OBJECT (et->priv->etta), "model_rows_deleted",
+							      GTK_SIGNAL_FUNC (et_table_rows_deleted), et);
+
 }
 
 static ETree *
@@ -866,6 +952,8 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	e_tree->priv->sorted = e_tree_sorted_new(etm, e_tree->priv->full_header, e_tree->priv->sort_info);
 
 	e_tree->priv->etta = E_TREE_TABLE_ADAPTER(e_tree_table_adapter_new(E_TREE_MODEL(e_tree->priv->sorted)));
+
+	et_connect_to_etta (e_tree);
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());

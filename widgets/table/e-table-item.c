@@ -968,7 +968,7 @@ eti_request_column_width (ETableHeader *eth, int col, ETableItem *eti)
 {
 	int width = 0;
 	
-	if (eti->cell_views) {
+	if (eti->cell_views && eti->cell_views_realized) {
 		width = e_cell_max_width (eti->cell_views[col], view_to_model_col(eti, col), col);
 	}
 
