@@ -16,7 +16,6 @@ INCLUDES =								\
 	$(E_UTIL_CFLAGS)
 
 privlib_LTLIBRARIES = libeutil.la libedb3util.la libeconduit.la
-noinst_LTLIBRARIES = libeutil-static.la libeconduit-static.la
 
 eutilinclude_HEADERS = 				\
 	e-account-list.h			\
@@ -93,13 +92,6 @@ MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 
 libeutil_la_LIBADD = $(E_UTIL_LIBS)
 
-libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
-libeutil_static_la_LIBADD  = $(libeutil_la_LIBADD)
-libeutil_static_la_LDFLAGS = -all-static
-# Make sure libeutil.la and libeutil-static.la are not built in
-# parallel when using a parallel make; libtool can't handle that.
-libeutil_static_la_DEPENDENCIES = libeutil.la
-
 econdinclude_HEADERS =		\
 	e-pilot-map.h		\
 	e-pilot-settings.h	\
@@ -118,9 +110,6 @@ pilot_compile =
 endif
 
 libeconduit_la_SOURCES = $(pilot_compile)
-
-libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
-libeconduit_static_la_LDFLAGS = -all-static
 
 EXTRA_DIST =				\
 	$(pilot_sources)		\

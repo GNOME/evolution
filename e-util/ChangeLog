@@ -1,3 +1,11 @@
+2003-09-11  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (noinst_LTLIBRARIES): Remove libeutil-static.la and
+	libeconduit-static.la
+
+	* ename/Makefile.am (noinst_LTLIBRARIES): Remove
+	libename-static.la
+
 2003-08-28  Hans Petter Jansson  <hpj@ximian.com>
 
 	* eggtrayicon.[ch]: Added for tray icon support. To be removed when
