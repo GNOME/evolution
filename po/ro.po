@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution.gnome-2-8.ro\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-09 11:23+0200\n"
-"PO-Revision-Date: 2004-09-11 21:55+0300\n"
+"PO-Revision-Date: 2004-09-12 13:52+0300\n"
 "Last-Translator: Mugurel Tudor <mugurelu@go.ro>\n"
 "Language-Team: Romanian <gnomero@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -2994,7 +2994,11 @@ msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
+"Deschizând %d contact va deschide de asemenea %d ferestră nouă.\n"
+"Doriţi într-adevăr să afişaţi acest contact?"
 msgstr[1] ""
+"Deschizând %d contacte se vor deschide de asemenea %d ferestre noi.\n"
+"Doriţi într-adevăr să afişaţi aceste contacte?"
 
 #: addressbook/gui/widgets/eab-gui-util.c:304
 #, c-format
@@ -3002,6 +3006,8 @@ msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 msgstr ""
+"%s există deja\n"
+"Doriţi să îl suprascrieţi?"
 
 #: addressbook/gui/widgets/eab-gui-util.c:308
 msgid "Overwrite"
@@ -3437,45 +3443,41 @@ msgstr "Doriţi să trimiteţi tutori"
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
-msgstr ""
+msgstr "Dacă nu trimiteţi o înştiinţare de contramandare, ceilalţi participanţi nu vor şti că întâlnirea s-a anulat."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
 #: calendar/calendar-errors.xml.h:93 calendar/calendar-errors.xml.h:99
 #: calendar/calendar-errors.xml.h:105
-#, fuzzy
 msgid "Don't Send"
-msgstr "Nu şterge"
+msgstr "Nu trimite"
 
 #: calendar/calendar-errors.xml.h:6 calendar/calendar-errors.xml.h:16
 #: calendar/calendar-errors.xml.h:26
-#, fuzzy
 msgid "Send Notice"
-msgstr "Trimite mai târziu"
+msgstr "Trimite înştiinţarea"
 
 #. calendar:prompt-delete-meeting primary
 #: calendar/calendar-errors.xml.h:8
-#, fuzzy
 msgid "Are you sure you want to delete this meeting?"
-msgstr "Sunteţi sigur că doriţi să anulaţi şi ştergeţi această întâlnire?"
+msgstr "Sunteţi sigur că doriţi să ştergeţi această întâlnire?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
 msgid "All information on this meeting will be deleted and can not be restored."
-msgstr ""
+msgstr "Toate informaţiile despre această şedinţă vor fi şterse şi nu vor putea fi restaurate."
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
-msgstr ""
+msgstr "Dacă nu trimiteţi o înştiinţare de contramandare, ceilalţi participanţi nu vor şti că sarcina a fost ştearsă."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
-#, fuzzy
 msgid "Are you sure you want to delete this task?"
-msgstr "Sunteţi sigur că doriţi să ştergeţi task-ul `%d'?"
+msgstr "Sunteţi sigur că doriţi să ştergeţi această sarcină?"
 
 #. calendar:prompt-delete-task secondary
 #. calendar:prompt-delete-named-task secondary
@@ -3483,163 +3485,146 @@ msgstr "Sunteţi sigur că doriţi să ştergeţi task-ul `%d'?"
 #: calendar/calendar-errors.xml.h:20 calendar/calendar-errors.xml.h:42
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
+msgstr "Toate informaţiile despre această sarcină vor fi şterse şi nu vor mai putea fi restaurate."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
-#, fuzzy
 msgid "Would you like to send a cancellation notice for this journal entry?"
-msgstr "Sunteţi sigur că doriţi să anulaţi şi ştergeţi intrarea din jurnal?"
+msgstr "Doriţi să trimiteţi o întiinţare de contramandare pentru această intrare în jurnal?"
 
 #. calendar:prompt-cancel-journal secondary
 #: calendar/calendar-errors.xml.h:24
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
-msgstr ""
+msgstr "Dacă nu trimiteţi o înştiinţare de contramandare, ceilalţi participanţi nu vor şti că intrarea din jurnal a fost ştearsă."
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
-#, fuzzy
 msgid "Are you sure you want to delete this journal entry?"
-msgstr "Sunteţi sigur că doriţi să ştergeţi %d intrări din jurnal?"
+msgstr "Sunteţi sigur că doriţi să ştergeţi această intrăre din jurnal?"
 
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:30
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "Toate informaţiile despre această intrare din jurnal vor fi şterse şi nu vor mai putea fi restaurate."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
-#, fuzzy
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Sunteţi sigur că doriţi să ştergeţi întălnirea `%s'?"
+msgstr "Sunteţi sigur că doriţi să ştergeţi întâlnirea numită '{0}'?"
 
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
 msgid "All information on this appointment will be deleted and can not be restored."
-msgstr ""
+msgstr "Toate informaţiile despre această întâlnire vor fi şterse şi nu vor mai putea fi restaurate."
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
-#, fuzzy
 msgid "Are you sure you want to delete this appointment?"
-msgstr "Sunteţi sigur că doriţi să ştergeţi întălnirea `%d'?"
+msgstr "Sunteţi sigur că doriţi să ştergeţi această întălnire?"
 
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
-#, fuzzy
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr "Sunteţi sigur că doriţî să ştergeţi sarcina `%s'?"
+msgstr "Sunteţi sigur că doriţi să ştergeţi sarcina sarcina '{0}'?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
-#, fuzzy
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "Sunteţi sigur că doriţi să ştergeţi intrarea din jurnal `%s'?"
+msgstr "Sunteţi sigur că doriţi să ştergeţi intrarea din jurnal '{0}'?"
 
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
 msgid "All information in this journal will be deleted and can not be restored."
-msgstr ""
+msgstr "Toate informaţiile din acest jurnal vor fi şterse şi nu vor mai putea fi restaurate."
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
-#, fuzzy
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr "Sunteţi sigur că doriţi să ştergeţi întălnirea `%s'?"
+msgstr "Sunteţi sigur că doriţi să ştergeţi aceste {0} întâlniri?"
 
 #. calendar:prompt-delete-appointments secondary
 #: calendar/calendar-errors.xml.h:58
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "Toate informaţiile despre aceste întâlniri vor fi şterse şi nu vor mai putea fi restaurate."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
-#, fuzzy
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr "Sunteţi sigur că doriţî să ştergeţi sarcina `%s'?"
+msgstr "Sunteţi sigur că doriţi să ştergeţi aceste {0} sarcini?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr ""
+msgstr "Toate informaţiile despre aceste sarcini vor fi şterse şi nu vor mai putea fi restaurate."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
-#, fuzzy
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr "Sunteţi sigur că doriţi să ştergeţi intrarea din jurnal `%s'?"
+msgstr "Sunteţi sigur că doriţi să ştergeţi aceste {0} intrări din jurnal?"
 
 #. calendar:prompt-delete-journals secondary
 #: calendar/calendar-errors.xml.h:66
 msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
-msgstr ""
+msgstr "Toate informaţiile despre aceste intrări din jurnal vor fi şterse şi nu vor mai putea fi restaurate."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
-#, fuzzy
 msgid "Save Appointment"
-msgstr "Întâlnire"
+msgstr "Salvează întâlnirea"
 
 #. calendar:prompt-save-appointment primary
 #: calendar/calendar-errors.xml.h:70
-#, fuzzy
 msgid "Would you like to save your changes to this appointment?"
-msgstr "Doriţi să salvaţi modificările?"
+msgstr "Doriţi să salvaţi modificările aduse acestei întâlniri?"
 
 #. calendar:prompt-save-appointment secondary
 #: calendar/calendar-errors.xml.h:72
-#, fuzzy
 msgid "You have made changes to this appointment, but not yet saved them."
-msgstr "%s Aţi făcut modificări. Ignoraţi aceste modificări şi actualizaţi editorul?"
+msgstr "Aţi adus modificări acestei întâlniri, dar nu le-aţi salvat încă."
 
 #: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
 #: composer/mail-composer-errors.xml.h:33
-#, fuzzy
 msgid "Discard Changes"
-msgstr "Tipăreşte calendar"
+msgstr "Anulează schimbările"
 
 #: calendar/calendar-errors.xml.h:74 calendar/calendar-errors.xml.h:82
-#, fuzzy
 msgid "Save Changes"
-msgstr "Salvează mesajul ca..."
+msgstr "Salvează modificările"
 
 #. calendar:prompt-save-task title
 #: calendar/calendar-errors.xml.h:76
-#, fuzzy
 msgid "Save Task"
-msgstr "Salvează ca"
+msgstr "Salvează sarcina"
 
 #. calendar:prompt-save-task primary
 #: calendar/calendar-errors.xml.h:78
-#, fuzzy
 msgid "Would you like to save your changes to this task?"
-msgstr "Doriţi să salvaţi modificările?"
+msgstr "Doriţi să salvaţi modificările aduse la această sarcină?"
 
 #. calendar:prompt-save-task secondary
 #: calendar/calendar-errors.xml.h:80
-#, fuzzy
 msgid "You have made changes to this task, but not yet saved them."
-msgstr "%s Aţi făcut modificări. Ignoraţi aceste modificări şi actualizaţi editorul?"
+msgstr "Aţi adus modificări acestei sarcini, dar nu le-aţi salvat încă."
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:84
 msgid "Would you like to send meeting invitations to participants?"
-msgstr ""
+msgstr "Doriţi să trimiteţi invaţii pentru întâlnire tuturor participanţilor?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:86
 msgid "Email invitations will be sent to all participants and allow them to RSVP."
-msgstr ""
+msgstr "Invitaţiile vor fi trimise prin email tuturor participanţilor şi li se va permite RSVP."
 
 #: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
 #: calendar/calendar-errors.xml.h:100 calendar/calendar-errors.xml.h:106
@@ -3650,77 +3635,74 @@ msgstr "Trimite"
 #. calendar:prompt-send-updated-meeting-info primary
 #: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
+msgstr "Doriţi să trimiteţi informaţii actualizate despre întâlnire tuturor participanţilor?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: calendar/calendar-errors.xml.h:92
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
-msgstr ""
+msgstr "Trimiterea informaţiilor actualizate le va permite celorlalţi participanţi să aibă calendarele actualizate."
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:96
 msgid "Would you like to send this task to participants?"
-msgstr ""
+msgstr "Doriţi să trimiteţi această sarcină participanţilor?"
 
 #. calendar:prompt-send-task secondary
 #: calendar/calendar-errors.xml.h:98
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr ""
+msgstr "Invitaţii vor fi trimise prin email tuturor participanţilor şi le se va permite să accepte această sarcină."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
+msgstr "Doriţi să trimiteţi informaţii actualizate despre sarcină participanţilor?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: calendar/calendar-errors.xml.h:104
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
-msgstr ""
+msgstr "Trimiterea informaţiilor actualizate va permite celorlalţi participanţi să aibă lista de sarcini actualizată."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:108
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr ""
+msgstr "Sarcinile Evolution s-au terminat în mod neaşteptat."
 
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr ""
+msgstr "Sarcinile dumneavoastră nu vor fi disponibile până când Evolution nu va fi repornit."
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:112
-#, fuzzy
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "Evolution calendar iTip/iMip vizualizator"
+msgstr "Calendarul Evolution s-a terminat în mod neaşteptat."
 
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
+msgstr "Calendarele dumneavoastră nu vor fi disponibile până când Evolution nu va fi repornit."
 
 #: calendar/common/authentication.c:48 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
-#, fuzzy
 msgid "Enter password"
-msgstr "Introduceţi parola pentru %s"
+msgstr "Introduceţi parola"
 
 #: calendar/conduits/calendar/calendar-conduit.c:246
 msgid "Split Multi-Day Events:"
-msgstr ""
+msgstr "Evenimente împărţite pe mai multe zile:"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1356
 #: calendar/conduits/calendar/calendar-conduit.c:1357
 #: calendar/conduits/todo/todo-conduit.c:879
 #: calendar/conduits/todo/todo-conduit.c:880
-#, fuzzy
 msgid "Could not start evolution-data-server"
-msgstr "Nu pot porni serverul wombat"
+msgstr "Nu am putut porni evolution-data-server"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1465
 #: calendar/conduits/calendar/calendar-conduit.c:1468
@@ -3728,9 +3710,8 @@ msgid "Could not read pilot's Calendar application block"
 msgstr "Nu pot citi pilotul blocului aplicaţie calendar"
 
 #: calendar/conduits/todo/todo-conduit.c:234
-#, fuzzy
 msgid "Default Priority:"
-msgstr "_Prioritate:"
+msgstr "Prioritatea implicită:"
 
 #: calendar/conduits/todo/todo-conduit.c:959
 #: calendar/conduits/todo/todo-conduit.c:962
@@ -3738,49 +3719,41 @@ msgid "Could not read pilot's ToDo application block"
 msgstr "Nu pot citi pilotul blocului aplicaţie ToDo"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#, fuzzy
 msgid "Calendar and Tasks"
-msgstr "Setări _mail..."
+msgstr "Calendar şi sarcini"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 #: calendar/gui/calendar-component.c:1079
-#, fuzzy
 msgid "Calendars"
-msgstr "Calendar"
+msgstr "Calendare"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr ""
+msgstr "Configuraţi fusul orar, calendarul şi lista de sarcini aici"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
-#, fuzzy
 msgid "Evolution Calendar and Tasks"
-msgstr "Setări _mail..."
+msgstr "Calendarul şi sarcinile Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
-#, fuzzy
 msgid "Evolution Calendar configuration control"
-msgstr "Procesator pentru componenta de mail Evolution."
+msgstr "Controlul configuraţiei pentru calendarul Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
-#, fuzzy
 msgid "Evolution Calendar scheduling message viewer"
-msgstr "Evolution calendar iTip/iMip vizualizator"
+msgstr "Vizualizatorul pentru mesaje de planificare pentru calendarul Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
-#, fuzzy
 msgid "Evolution Calendar/Task editor"
-msgstr "Editor de ştiri Evolution"
+msgstr "Editorul pentru calendarul/sarcinile Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
-#, fuzzy
 msgid "Evolution's Calendar component"
-msgstr "Componenta Evolution pentru afişarea mailului."
+msgstr "Componenta calendar a Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
-#, fuzzy
 msgid "Evolution's Tasks component"
-msgstr "Compozitorul de mailuiri Evolution."
+msgstr "Componenta de sarcini a Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: calendar/gui/e-tasks.c:1199 calendar/gui/print.c:1819
@@ -3792,54 +3765,46 @@ msgid "Tasks"
 msgstr "Sarcini"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
-#, fuzzy
 msgid "_Calendars"
-msgstr "Calendar"
+msgstr "_Calendare"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: views/tasks/galview.xml.h:3
-#, fuzzy
 msgid "_Tasks"
-msgstr "Sarcină"
+msgstr "_Sarcini"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Calendar alarm notification service"
-msgstr "Procesator pentru serviciul notificare alarme"
+msgstr "Serviciul de notificare pentru alarmele calendarului Evolution"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:213
-#, fuzzy
 msgid "Starting:"
-msgstr "Setări"
+msgstr "Pornire:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:215
-#, fuzzy
 msgid "Ending:"
-msgstr "Umbrire"
+msgstr "Încheiere:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:259
-#, fuzzy
 msgid "Evolution Alarm"
-msgstr "Evolution"
+msgstr "Alarma Evolution"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "Alarm on %s"
-msgstr "Alarme"
+msgstr "Alarma la %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
-#, fuzzy
 msgid "Snooze _time (minutes):"
-msgstr "Durata de sforăire (minute)"
+msgstr "Dura_ta de sforăire (minute):"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "_Edit appointment"
 msgstr "_Editează întălnire"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#, fuzzy
 msgid "_Snooze"
-msgstr "Sforăie"
+msgstr "_Sforăie"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:904
 #: ui/evolution-message-composer.xml.h:10
@@ -3848,11 +3813,11 @@ msgstr "Deschide"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:906
 msgid "Dismiss"
-msgstr ""
+msgstr "Anulează"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:908
 msgid "Dismiss All"
-msgstr ""
+msgstr "Anulează totul"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:973
 msgid "No description available."
@@ -3866,6 +3831,10 @@ msgid ""
 "Starting at %s\n"
 "Ending at %s"
 msgstr ""
+"Alarmă la %s\n"
+"%s\n"
+"Porneşte la %s\n"
+"Se termină la %s"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1092
 #: calendar/gui/alarm-notify/alarm-queue.c:1116
@@ -3879,6 +3848,10 @@ msgid ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
 msgstr ""
+"Evolution nu suportă reamintiri ale calendarului prin\n"
+"intermediul mailurilor, dar această reamintire a fost\n"
+"configurată să trimită un email. Evolution va afişa o\n"
+"fereastră de dialog obişnuită pentru reamintire. "
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1122
 #, c-format
@@ -3890,11 +3863,15 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
+"O reamintire a calendarului Evolution este pe cale de a se declanşa. Această reamintire este configurată să ruleze următorul program:\n"
+"\n"
+"        %s\n"
+"\n"
+"Sunteţi sigur că doriţi să rulaţi acest program?"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1136
-#, fuzzy
 msgid "Do not ask me about this program again."
-msgstr "Nu mă întreba din nou"
+msgstr "Nu mă întreba din nou despre acest program."
 
 #: calendar/gui/alarm-notify/notify-main.c:139
 msgid "Could not initialize Bonobo"
@@ -3905,44 +3882,40 @@ msgid "Could not create the alarm notify service factory"
 msgstr "Nu pot crea procesatorul servicului de notificare alarmă"
 
 #: calendar/gui/alarm-notify/util.c:41
-#, fuzzy
 msgid "invalid time"
-msgstr "Ora d_e sfârşit"
+msgstr "timp invalid"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Allocate less space to weekend appointments"
-msgstr ""
+msgstr "Alocă mai puţin spaţiu întâlnirilor din weekend"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
-#, fuzzy
 msgid "Calendars to run alarms for"
-msgstr "Calendar"
+msgstr "Calendarele pentru care vor rula alarme"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
-#, fuzzy
 msgid "Color of tasks that are due today"
 msgstr "Culoare pentru sarcinile de astăzi"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
-#, fuzzy
 msgid "Color of tasks that are overdue"
-msgstr "Culoare pentru sarcinile de astăzi"
+msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Days that are work days"
-msgstr ""
+msgstr "Zilele care sunt de lucru"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 msgid "Default timezone for meetings"
-msgstr ""
+msgstr "Fusul orar implicit pentru întâlniri"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Hour the workday ends on"
-msgstr ""
+msgstr "Ora la care se termină ziua de lucru"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
 msgid "Hour the workday starts on"
-msgstr ""
+msgstr "Ora la care începe ziua de lucru"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Intervals shown in Day and Work Week views"
@@ -3950,99 +3923,95 @@ msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
-msgstr ""
+msgstr "Listă de URL-uri pentru anunţul liber/ocupat"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
-msgstr ""
+msgstr "Minutul la care se termină ziua de lucru"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Minute the workday starts on"
-msgstr ""
+msgstr "Minutul la care începe ziua de lucru"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Number of units for default reminder"
-msgstr ""
+msgstr "Numărul de unităţi pentru reamintirea implicită"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Number of units for determining when to hide tasks"
-msgstr ""
+msgstr "Numărul de unităţi pentru a determina când se ascund sarcinile"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Position of the horizontal pane"
-msgstr ""
+msgstr "Poziţia panoului orizontal"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Position of the horizontal pane in the month view"
-msgstr ""
+msgstr "Poziţia panoului orizontal în vizualizarea lunii"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Position of the vertical pane"
-msgstr ""
+msgstr "Poziţia panoului vertical"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Position of the vertical pane in the month view"
-msgstr ""
+msgstr "Poziţia panoului vertical în vizualizarea lunii"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Position of the vertical pane in the task view"
-msgstr ""
+msgstr "Poziţia panoului vertical în vizualizarea sarcinilor"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Programs that can run as part of alarms"
-msgstr ""
+msgstr "Programe care pot rula ca parte a alarmelor"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
-#, fuzzy
 msgid "Show where events end in week and month views"
-msgstr "Arată termenul de final al întâlnirilor la afişarea săptămânii şi lunii"
+msgstr "Arată termenul de final al evenimentelor la afişarea săptămânii şi lunii"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Time last alarm ran"
-msgstr ""
+msgstr "Data la care a rulat ultima oară alarma"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Units for determining when to hide tasks"
-msgstr ""
+msgstr "Unităţi pentru determinarea momentului ascunderii sarcinilor"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
-#, fuzzy
 msgid "Units of default reminder"
-msgstr "Crează o întîlnire nouă"
+msgstr "Unităţi pentru reamintirea implicită"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Weekday the week starts on"
-msgstr ""
+msgstr "Ziua cu care începe săptămâna"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Whether or not to use the notification tray for display alarms"
-msgstr ""
+msgstr "Dacă să folosească sau nu tray-ul de notificare pentru a afişa alarmele"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Whether to ask for confirmation on appointment deletion"
-msgstr ""
+msgstr "Dacă să ceară confirmare la ştergerea întâlnirilor"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Whether to ask for confirmation when folder is expunged"
-msgstr ""
+msgstr "Dacă să ceară confirmare la sincronizarea dosarului cu serverul"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
-#, fuzzy
 msgid "Whether to hide completed tasks"
-msgstr "Şterge sarcinile selectate"
+msgstr "Dacă să ascundă sarcinile completate"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Whether to set a default reminder for events"
-msgstr ""
+msgstr "Dacă să seteze reamintirile implicite pentru evenimente"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr ""
+msgstr "Dacă să afişeze timpul în formatul de 24 de ore în loc să foloseasca am/pm"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
-#, fuzzy
 msgid "Whether to show week numbers in date navigator"
-msgstr "Arată numărul de săptămâni"
+msgstr "Dacă să afişeze numărul săptămânilor în vizualizatorul de dată"
 
 #: calendar/gui/cal-search-bar.c:50
 msgid "Summary contains"
@@ -4057,13 +4026,12 @@ msgid "Comment contains"
 msgstr "Comentariul conţine"
 
 #: calendar/gui/cal-search-bar.c:53
-#, fuzzy
 msgid "Location contains"
-msgstr "Descrierea conţine"
+msgstr "Locaţia conţine"
 
 #: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:327
 msgid "Unmatched"
-msgstr ""
+msgstr "Nici o potrivire"
 
 #: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:564
 #: calendar/gui/dialogs/select-source-dialog.c:112
@@ -4078,12 +4046,11 @@ msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
 "events."
-msgstr ""
+msgstr "Această operaţie va şterge permanent toate evenimentele mai vechi decât data specificată. Dacă veţi continua, nu veţi mai putea recupera aceste evenimente."
 
 #: calendar/gui/calendar-commands.c:358
-#, fuzzy
 msgid "Purge events older than"
-msgstr "e mai mic decât"
+msgstr "Şterge evenimentele mai vechi de"
 
 #: calendar/gui/calendar-commands.c:363
 #: calendar/gui/dialogs/alarm-dialog.glade.h:21
@@ -4092,9 +4059,8 @@ msgid "days"
 msgstr "zile"
 
 #: calendar/gui/calendar-commands.c:432
-#, fuzzy
 msgid "%A %d %B %Y"
-msgstr "%A, %d %B %Y"
+msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -4111,15 +4077,13 @@ msgstr "%a %d %b"
 #: calendar/gui/calendar-commands.c:437 calendar/gui/calendar-commands.c:442
 #: calendar/gui/calendar-commands.c:444 calendar/gui/calendar-component.c:521
 #: calendar/gui/calendar-component.c:526 calendar/gui/calendar-component.c:528
-#, fuzzy
 msgid "%a %d %b %Y"
-msgstr "%a %d %Y"
+msgstr "%a %d %b %Y"
 
 #: calendar/gui/calendar-commands.c:461 calendar/gui/calendar-commands.c:467
 #: calendar/gui/calendar-commands.c:473 calendar/gui/calendar-commands.c:475
-#, fuzzy
 msgid "%d %B %Y"
-msgstr "%A, %d %B %Y"
+msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -4132,23 +4096,20 @@ msgstr "%d %B"
 #: calendar/gui/calendar-component.c:370
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
+msgstr "Calendarul „%s” va fi şters. Sunteţi sigur că doriţi să continuaţi?"
 
 #: calendar/gui/calendar-component.c:426
-#, fuzzy
 msgid "New Calendar"
-msgstr "Contact nou"
+msgstr "Calendar nou"
 
 #: calendar/gui/calendar-component.c:516
-#, fuzzy
 msgid "%A %d %b %Y"
-msgstr "%a %d %Y"
+msgstr "%A %d %b %Y"
 
 #: calendar/gui/calendar-component.c:540 calendar/gui/calendar-component.c:547
 #: calendar/gui/calendar-component.c:553 calendar/gui/calendar-component.c:555
-#, fuzzy
 msgid "%d %b %Y"
-msgstr "%A, %d %B %Y"
+msgstr "%d %b %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
@@ -4162,72 +4123,61 @@ msgid "%d %b"
 msgstr "%d %b"
 
 #: calendar/gui/calendar-component.c:635
-#, fuzzy
 msgid "Failed upgrading calendars."
-msgstr "Încarc calendar..."
+msgstr "Eroare la actualizarea calendarelor."
 
 #: calendar/gui/calendar-component.c:931
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
-msgstr ""
+msgstr "Nu am putut deschide calendarul „%s” pentru crearea evenimentelor şi întâlnirilor"
 
 #: calendar/gui/calendar-component.c:947
 msgid "There is no calendar available for creating events and meetings"
-msgstr ""
+msgstr "Nici un calendar nu este disponibil pentru crearea evenimentelor şi întâlnirilor"
 
 #: calendar/gui/calendar-component.c:1245
-#, fuzzy
 msgid "New appointment"
-msgstr "Întâlnire nouă"
+msgstr "Programare nouă"
 
 #: calendar/gui/calendar-component.c:1246
-#, fuzzy
 msgid "_Appointment"
-msgstr "Întâlnire"
+msgstr "_Programare"
 
 #: calendar/gui/calendar-component.c:1247
 msgid "Create a new appointment"
 msgstr "Crează o întîlnire nouă"
 
 #: calendar/gui/calendar-component.c:1253
-#, fuzzy
 msgid "New meeting"
-msgstr "Întâlnire"
+msgstr "Întâlnire nouă"
 
 #: calendar/gui/calendar-component.c:1254
-#, fuzzy
 msgid "M_eeting"
-msgstr "Întâlnire"
+msgstr "Întâlnir_e"
 
 #: calendar/gui/calendar-component.c:1255
-#, fuzzy
 msgid "Create a new meeting request"
-msgstr "Aceasta e o cerere de întâlnire."
+msgstr "Crează o nouă cerere de întâlnire"
 
 #: calendar/gui/calendar-component.c:1261
-#, fuzzy
 msgid "New all day appointment"
-msgstr "Întâlnire nouă"
+msgstr "O programare nouă pentru toată ziua"
 
 #: calendar/gui/calendar-component.c:1262
-#, fuzzy
 msgid "All Day A_ppointment"
-msgstr "Întâlnire nouă"
+msgstr "O _programare nouă pentru toată ziua"
 
 #: calendar/gui/calendar-component.c:1263
-#, fuzzy
 msgid "Create a new all-day appointment"
-msgstr "Crează o întîlnire nouă"
+msgstr "Crează o programare nouă pentru toată ziua"
 
 #: calendar/gui/calendar-component.c:1269
-#, fuzzy
 msgid "New calendar"
-msgstr "Contact nou"
+msgstr "Calendar nou"
 
 #: calendar/gui/calendar-component.c:1270
-#, fuzzy
 msgid "Cale_ndar"
-msgstr "Calendar"
+msgstr "Cale_ndar"
 
 #: calendar/gui/calendar-component.c:1271
 msgid "Create a new calendar"
@@ -4236,12 +4186,12 @@ msgstr "Crează un calendar nou"
 #: calendar/gui/calendar-offline-handler.c:192
 #, c-format
 msgid "backend_go_offline(): %s"
-msgstr ""
+msgstr "backend_go_offline(): %s"
 
 #: calendar/gui/calendar-offline-handler.c:215
 #, c-format
 msgid "backend_go_online(): %s"
-msgstr ""
+msgstr "backend_go_online(): %s"
 
 #: calendar/gui/calendar-view-factory.c:118
 msgid "Day View"
@@ -4260,58 +4210,49 @@ msgid "Month View"
 msgstr "Afişare lună"
 
 #: calendar/gui/comp-editor-factory.c:409
-#, fuzzy
 msgid "Error while opening the calendar"
-msgstr "Eroare in timpul comunicării cu serverul calendar"
+msgstr "Eroare la deschiderea caledarului"
 
 #: calendar/gui/comp-editor-factory.c:420
 msgid "Method not supported when opening the calendar"
-msgstr ""
+msgstr "Metodă nesuportată la deschiderea calendarului"
 
 #: calendar/gui/comp-editor-factory.c:426
-#, fuzzy
 msgid "Permission denied to open the calendar"
-msgstr "Acces interzis"
+msgstr "Nu aveţi permisiunea necesară pentru a deschide calendarul"
 
 #: calendar/gui/comp-editor-factory.c:474
 #, c-format
 msgid "open_client(): %s"
-msgstr ""
+msgstr "open_client(): %s"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:2
-#, fuzzy
 msgid "<b>Alarm</b>\t"
-msgstr "informaţie calendar"
+msgstr "<b>Alarmă<b>\t"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:3
-#, fuzzy
 msgid "<b>Options</b>"
-msgstr "Descriere:"
+msgstr "<b>Opţiuni</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:4
-#, fuzzy
 msgid "<b>Repeat</b>"
-msgstr "Memorator"
+msgstr "<b>Repetă</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:5
-#, fuzzy
 msgid "Add Alarm"
-msgstr "Alarme"
+msgstr "Adaugă alarmă"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:6
-#, fuzzy
 msgid "Custom _message"
-msgstr "Compune un mesaj"
+msgstr "_Mesaj personalizat"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:7
-#, fuzzy
 msgid "Custom alarm sound"
-msgstr "Personalizează bările de unelte"
+msgstr "Sunet personalizat pentru alarmă"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:8
-#, fuzzy
 msgid "Mes_sage:"
-msgstr "Mesaje"
+msgstr "Me_saj:Mesaje"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:9 calendar/gui/e-alarm-list.c:444
 msgid "Play a sound"
@@ -4320,7 +4261,7 @@ msgstr "Redă un sunet"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: calendar/gui/e-alarm-list.c:448
 msgid "Pop up an alert"
-msgstr ""
+msgstr "Afişează un mesaj de alertă"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:11
 #: calendar/gui/e-alarm-list.c:456
@@ -4328,9 +4269,8 @@ msgid "Run a program"
 msgstr "Rulează un program"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:12
-#, fuzzy
 msgid "Send To:"
-msgstr "Timite ca:"
+msgstr "Timite către:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:13
 #: calendar/gui/e-alarm-list.c:452
@@ -4338,24 +4278,20 @@ msgid "Send an email"
 msgstr "Trimite un email"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:14
-#, fuzzy
 msgid "_Arguments:"
-msgstr "Cont"
+msgstr "P_arametri:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:15
-#, fuzzy
 msgid "_Program:"
-msgstr "Rulează programul:"
+msgstr "_Program:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:16
-#, fuzzy
 msgid "_Repeat the alarm"
-msgstr "Repetă alarma"
+msgstr "_Repetă alarma"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:17
-#, fuzzy
 msgid "_Sound:"
-msgstr "Sud"
+msgstr "_Sunet:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "after"
@@ -4397,12 +4333,11 @@ msgstr "început întâlnire"
 
 #: calendar/gui/dialogs/alarm-list-dialog.c:192
 msgid "Action/Trigger"
-msgstr ""
+msgstr "Acţiune/Declanşator"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:1
-#, fuzzy
 msgid "A_dd"
-msgstr "Adaugă"
+msgstr "A_daugă"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:2
 msgid "Alarms"
@@ -4412,19 +4347,16 @@ msgstr "Alarme"
 #. has "activatable" set.
 #: calendar/gui/dialogs/cal-prefs-dialog.c:567 mail/em-account-prefs.c:466
 #: mail/em-composer-prefs.c:677 mail/em-composer-prefs.c:905
-#, fuzzy
 msgid "Enabled"
-msgstr "Validează"
+msgstr "Activat"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:721
-#, fuzzy
 msgid "Are you sure you want to remove this URL?"
-msgstr "Sunteţi sigur că doriţî să ştergeţi dosarul `%s'?"
+msgstr "Sunteţi sigur că doriţi să ştergeţi acest URL?"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:729
-#, fuzzy
 msgid "Don't Remove"
-msgstr "Nu înlătura"
+msgstr "Nu şterge"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:778
 #: calendar/gui/dialogs/cal-prefs-dialog.c:811
@@ -4465,34 +4397,28 @@ msgid "60 minutes"
 msgstr "60 minute"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
-#, fuzzy
 msgid "<b>Alerts</b>"
-msgstr "Descriere:"
+msgstr "<b>Alerte</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
-#, fuzzy
 msgid "<b>General</b>"
-msgstr "Memorator"
+msgstr "<b>General</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
-#, fuzzy
 msgid "<b>Task List</b>"
-msgstr "informaţie calendar"
+msgstr "<b>Listă de sarcini</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
-#, fuzzy
 msgid "<b>Time</b>"
-msgstr "Descriere:"
+msgstr "<b>Timp</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#, fuzzy
 msgid "<b>Work Week</b>"
-msgstr "Săptămâna de lucru"
+msgstr "<b>Săptămâna de lucru</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
-#, fuzzy
 msgid "Calendar and Tasks Settings"
-msgstr "Setări _mail..."
+msgstr "Setări calendar şi sarcini"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "Color for overdue tasks"
@@ -4504,28 +4430,24 @@ msgstr "Culoare pentru sarcinile de astăzi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Day _ends:"
-msgstr ""
+msgstr "Ziua se t_ermină:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-#, fuzzy
 msgid "Days"
-msgstr "Zi"
+msgstr "Zile"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
-#, fuzzy
 msgid "Display"
 msgstr "Afişează"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: mail/mail-config.glade.h:76
-#, fuzzy
 msgid "E_nable"
-msgstr "Validează"
+msgstr "A_ctivează"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#, fuzzy
 msgid "Free/Busy Publishing"
-msgstr "URL liber-ocupat"
+msgstr "Afişare liber/ocupat"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: calendar/gui/dialogs/recurrence-page.c:1038
@@ -4534,14 +4456,12 @@ msgid "Friday"
 msgstr "Vineri"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
-#, fuzzy
 msgid "Hours"
-msgstr "ore"
+msgstr "Ore"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
-#, fuzzy
 msgid "Minutes"
-msgstr "minute"
+msgstr "Minute"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 #: calendar/gui/dialogs/recurrence-page.c:1034
@@ -4550,9 +4470,8 @@ msgid "Monday"
 msgstr "Luni"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#, fuzzy
 msgid "S_un"
-msgstr "Dum"
+msgstr "_Dum"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: calendar/gui/dialogs/recurrence-page.c:1039
@@ -4562,12 +4481,11 @@ msgstr "Sâmbătă"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "Sh_ow a reminder"
-msgstr ""
+msgstr "Afişează o _reamintire"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
-#, fuzzy
 msgid "Show week _numbers in date navigator"
-msgstr "Arată numărul de săptămâni"
+msgstr "Afişează _numărul de săptămâni în vizualizarea datei"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1040
@@ -4576,14 +4494,12 @@ msgid "Sunday"
 msgstr "Duminică"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#, fuzzy
 msgid "T_asks due today:"
-msgstr "Sarcini pentru azi"
+msgstr "S_arcini pentru azi:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
-#, fuzzy
 msgid "T_hu"
-msgstr "Joi"
+msgstr "_Joi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: calendar/gui/dialogs/recurrence-page.c:1037
@@ -4592,9 +4508,8 @@ msgid "Thursday"
 msgstr "Joi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-#, fuzzy
 msgid "Time _zone:"
-msgstr "Zona temporală:"
+msgstr "_Fusul orar:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "Time format:"
@@ -4608,7 +4523,7 @@ msgstr "Marţi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "W_eek starts:"
-msgstr ""
+msgstr "Săptămâna înc_epe:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #: calendar/gui/dialogs/recurrence-page.c:1036
@@ -4618,36 +4533,31 @@ msgstr "Miercuri"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Work days:"
-msgstr ""
+msgstr "Zile lucrătoare:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
-#, fuzzy
 msgid "_12 hour (AM/PM)"
-msgstr "12 ore (am/pm)"
+msgstr "_12 ore (AM/PM)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#, fuzzy
 msgid "_24 hour"
-msgstr "24 ore"
+msgstr "_24 ore"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#, fuzzy
 msgid "_Add URL"
-msgstr "Adaugă ->"
+msgstr "_Adaugă URL"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "_Ask for confirmation when deleting items"
-msgstr ""
+msgstr "_Cere confirmare la ştergerea elementelor"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
-#, fuzzy
 msgid "_Compress weekends in month view"
-msgstr "Comprimă weekend-urile la afişarea lunii"
+msgstr "C_omprimă weekend-urile la afişarea lunii"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#, fuzzy
 msgid "_Day begins:"
-msgstr "Afişează staţiile:"
+msgstr "_Ziua începe:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: calendar/gui/dialogs/recurrence-page.glade.h:6 filter/filter.glade.h:10
@@ -4661,125 +4571,106 @@ msgid "_Edit"
 msgstr "_Editează"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#, fuzzy
 msgid "_Fri"
-msgstr "Vin"
+msgstr "_Vin"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
-#, fuzzy
 msgid "_Hide completed tasks after"
-msgstr "Ascunde mesajele şterse"
+msgstr "_Ascunde sarcinile completate după"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#, fuzzy
 msgid "_Mon"
-msgstr "Lun"
+msgstr "_Lun"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
-#, fuzzy
 msgid "_Overdue tasks:"
-msgstr "Sarcini întârziate"
+msgstr "Sarcini în_târziate:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
-#, fuzzy
 msgid "_Sat"
-msgstr "Sâm"
+msgstr "_Sâm"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
-#, fuzzy
 msgid "_Show appointment end times in week and month views"
-msgstr "Arată termenul de final al întâlnirilor la afişarea săptămânii şi lunii"
+msgstr "_Arată termenul de final al programărilor la afişarea săptămânii şi lunii"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
-#, fuzzy
 msgid "_Time divisions:"
-msgstr "Diviziuni de timp:"
+msgstr "Diviziuni de _timp:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
-#, fuzzy
 msgid "_Tue"
-msgstr "Mar"
+msgstr "_Mar"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
-#, fuzzy
 msgid "_Wed"
-msgstr "Mie"
+msgstr "M_ie"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
-#, fuzzy
 msgid "before every appointment"
-msgstr "înainte de sfîrşitul întâlnirii"
+msgstr "înainte de fiecare programare"
 
 #: calendar/gui/dialogs/calendar-setup.c:172
-#, fuzzy
 msgid "You must specify a location to get the calendar from."
-msgstr "Nume stil:"
+msgstr "Trebuie să specificaţi o locaţie pentru obţinerea calendarului."
 
 #: calendar/gui/dialogs/calendar-setup.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "The source location '%s' is not well-formed."
-msgstr "Metoda necesară pentru a încărca `%s' nesuportată"
+msgstr "Locaţia sursă „%s” nu este formatată corect."
 
 #: calendar/gui/dialogs/calendar-setup.c:195
 #, c-format
 msgid "The source location '%s' is not a webcal source."
-msgstr ""
+msgstr "Locaţia sursă „%s” nu este o sursă webcal."
 
 #: calendar/gui/dialogs/calendar-setup.c:275
 #, c-format
 msgid "Source with name '%s' already exists in the selected group"
-msgstr ""
+msgstr "Sursa cu numele „%s” deja există în grupul selectat"
 
 #: calendar/gui/dialogs/calendar-setup.c:288
 #, c-format
 msgid ""
 "The group '%s' is remote. You must specify a location to get the calendar "
 "from"
-msgstr ""
+msgstr "Grupul „%s” este la distanţă. Trebuie să specificaţi o locaţie pentru obţinerea calendarului"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:2
-#, fuzzy
 msgid "Add Calendar"
-msgstr "Adaugă în calendar"
+msgstr "Adaugă calendar"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:3
-#, fuzzy
 msgid "Add Task List"
-msgstr "Lista de sarcini"
+msgstr "Adaugă listă de sarcini"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
-#, fuzzy
 msgid "C_olor:"
-msgstr "Închide"
+msgstr "Cul_oare:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:5 mail/mail-config.glade.h:110
 msgid "Pick a color"
 msgstr "Alege o culoare"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:6
-#, fuzzy
 msgid "_Add Calendar"
-msgstr "Adaugă în calendar"
+msgstr "_Adaugă calendar"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "Lista de sarcini"
+msgstr "_Adaugă listă de sarcini"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
-#, fuzzy
 msgid "_Refresh:"
-msgstr "Reîmprospătează lista"
+msgstr "_Reîmprospătează:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:10
-#, fuzzy
 msgid "_Type:"
-msgstr "Tip:"
+msgstr "_Tip:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:11
-#, fuzzy
 msgid "_URL:"
-msgstr "URL:"
+msgstr "_URL:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:15 filter/filter.glade.h:20
 msgid "weeks"
@@ -4830,9 +4721,9 @@ msgid "%s  You have made no changes, update the editor?"
 msgstr "%s Nu aţi făcut modificări, actualizaţi editorul?"
 
 #: calendar/gui/dialogs/comp-editor-page.c:464
-#, fuzzy, c-format
+#, c-format
 msgid "Validation error: %s"
-msgstr "Eroare necunoscută: %s"
+msgstr "Eroare de validare: %s"
 
 #: calendar/gui/dialogs/comp-editor-util.c:187 calendar/gui/print.c:2258
 msgid " to "
@@ -4848,16 +4739,15 @@ msgstr "Terminat "
 
 #: calendar/gui/dialogs/comp-editor-util.c:198 calendar/gui/print.c:2269
 msgid " (Due "
-msgstr ""
+msgstr " (datorită "
 
 #: calendar/gui/dialogs/comp-editor-util.c:200 calendar/gui/print.c:2271
 msgid "Due "
-msgstr ""
+msgstr "Datorită "
 
 #: calendar/gui/dialogs/comp-editor.c:264
-#, fuzzy
 msgid "Could not update object"
-msgstr "Nu pot actualiza fişierele corect"
+msgstr "Nu am putut actualiza obiectul"
 
 #: calendar/gui/dialogs/comp-editor.c:878
 #: calendar/gui/dialogs/comp-editor.c:915
@@ -4891,90 +4781,83 @@ msgstr "Nu există rezumat"
 #: calendar/gui/dialogs/comp-editor.c:1335
 #: calendar/gui/dialogs/comp-editor.c:1359
 msgid "Changes made to this item may be discarded if an update arrives"
-msgstr ""
+msgstr "Modificările aduse acestui element ar putea fi anulate în cazul apariţiei unei actualizări"
 
 #: calendar/gui/dialogs/comp-editor.c:1383
-#, fuzzy
 msgid "Unable to use current version!"
-msgstr "Nu pot obţine versiunea curentă!"
+msgstr "Nu pot folosi versiunea curentă!"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:61
-#, fuzzy
 msgid "Could not open source"
-msgstr "Nu pot redenumi dosarul: %s"
+msgstr "Nu pot deschide sursa"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:69
-#, fuzzy
 msgid "Could not open destination"
-msgstr "Anulare operaţie"
+msgstr "Nu pot deschide destinaţia"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:78
 msgid "Destination is read only"
-msgstr ""
+msgstr "Destinaţia este doar pentru citire"
 
 #: calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
-msgstr ""
+msgstr "Evenimentul nu a putut fi şters din cauza unei erori corba"
 
 #: calendar/gui/dialogs/delete-error.c:57
 msgid "The task could not be deleted due to a corba error"
-msgstr ""
+msgstr "Sarcina nu a putut fi ştearsă din cauza unei erori corba"
 
 #: calendar/gui/dialogs/delete-error.c:60
 msgid "The journal entry could not be deleted due to a corba error"
-msgstr ""
+msgstr "Intrarea din jurnal nu a putut fi ştearsă din cauza unei erori corba"
 
 #: calendar/gui/dialogs/delete-error.c:63
 msgid "The item could not be deleted due to a corba error"
-msgstr ""
+msgstr "Elementul nu a putut fi şters din cauza unei erori corba"
 
 #: calendar/gui/dialogs/delete-error.c:70
 msgid "The event could not be deleted because permission was denied"
-msgstr ""
+msgstr "Evenimentul nu a putut fi şters deoarece permisiunea a fost refuzată"
 
 #: calendar/gui/dialogs/delete-error.c:73
 msgid "The task could not be deleted because permission was denied"
-msgstr ""
+msgstr "Sarcina nu a putut fi ştearsă deoarece permisiunea a fost refuzată"
 
 #: calendar/gui/dialogs/delete-error.c:76
 msgid "The journal entry could not be deleted because permission was denied"
-msgstr ""
+msgstr "Intrarea din jurnal nu a putut fi ştearsă deoarece permisiunea a fost refuzată"
 
 #: calendar/gui/dialogs/delete-error.c:79
 msgid "The item could not be deleted because permission was denied"
-msgstr ""
+msgstr "Elementul nu a putut fi şters deoarece permisiunea a fost refuzată"
 
 #: calendar/gui/dialogs/delete-error.c:86
 msgid "The event could not be deleted due to an error"
-msgstr ""
+msgstr "Evenimentul nu a putut fi şters din cauza unei erori"
 
 #: calendar/gui/dialogs/delete-error.c:89
 msgid "The task could not be deleted due to an error"
-msgstr ""
+msgstr "Sarcina nu a putut fi ştearsă din cauza unei erori"
 
 #: calendar/gui/dialogs/delete-error.c:92
-#, fuzzy
 msgid "The journal entry could not be deleted due to an error"
-msgstr "Această intrare în jurnal a fost ştersă."
+msgstr "Intrarea în jurnal nu a putut fi ştearsă din cauza unei erori"
 
 #: calendar/gui/dialogs/delete-error.c:95
 msgid "The item could not be deleted due to an error"
-msgstr ""
+msgstr "Elementul nu a putut fi şters din cauza unei erori"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
-#, fuzzy
 msgid "Contacts..."
-msgstr "_Contacte..."
+msgstr "Contacte..."
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:2
-#, fuzzy
 msgid "Delegate To:"
-msgstr "Delegat la:"
+msgstr "Delegat către:"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:3
-#, fuzzy
 msgid "Enter Delegate"
-msgstr "Şterse"
+msgstr "Introdu delegatul"
 
 #: calendar/gui/dialogs/event-editor.c:153 calendar/gui/print.c:2295
 msgid "Appointment"
@@ -4987,102 +4870,92 @@ msgstr "Revenire"
 #: calendar/gui/dialogs/event-editor.c:169
 #: calendar/gui/dialogs/event-editor.c:239
 #: calendar/gui/dialogs/event-editor.c:381
-#, fuzzy
 msgid "Scheduling"
-msgstr "Progra_mare întâlniri"
+msgstr "Programare"
 
 #: calendar/gui/dialogs/event-editor.c:176
 #: calendar/gui/dialogs/event-editor.c:242
 #: calendar/gui/dialogs/event-editor.c:384
-#, fuzzy
 msgid "Invitations"
-msgstr "Informaţie"
+msgstr "Invitaţii"
 
 #: calendar/gui/dialogs/event-page.c:692
 msgid "Event with no start date"
-msgstr ""
+msgstr "Eveniment fără dată de început"
 
 #: calendar/gui/dialogs/event-page.c:695
 msgid "Event with no end date"
-msgstr ""
+msgstr "Eveniment fără dată de sfârşit"
 
 #: calendar/gui/dialogs/event-page.c:855 calendar/gui/dialogs/task-page.c:523
-#, fuzzy
 msgid "Start date is wrong"
-msgstr "Data început"
+msgstr "Data de început este greşită"
 
 #: calendar/gui/dialogs/event-page.c:865
 msgid "End date is wrong"
-msgstr ""
+msgstr "Data de terminare este greşită"
 
 #: calendar/gui/dialogs/event-page.c:888
-#, fuzzy
 msgid "Start time is wrong"
-msgstr "Ora de început"
+msgstr "Timpul de început este greşit"
 
 #: calendar/gui/dialogs/event-page.c:895
 msgid "End time is wrong"
-msgstr ""
+msgstr "Timpul de sfârşit este greşit"
 
 #: calendar/gui/dialogs/event-page.c:1605
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open the calendar '%s'."
-msgstr "Acces interzis"
+msgstr "Nu pot deschide calendarul „%s”."
 
 #: calendar/gui/dialogs/event-page.c:1804
-#, fuzzy, c-format
+#, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] "înainte de sfîrşitul întâlnirii"
-msgstr[1] "înainte de sfîrşitul întâlnirii"
+msgstr[0] "%d zi înainte de programare"
+msgstr[1] "%d zile înainte de programare"
 
 #: calendar/gui/dialogs/event-page.c:1812
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] "sfârşit întâlnire"
-msgstr[1] "sfârşit întâlnire"
+msgstr[0] "%d oră înainte de programare"
+msgstr[1] "%d ore înainte de programare"
 
 #: calendar/gui/dialogs/event-page.c:1820
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
-msgstr[0] "înainte de sfîrşitul întâlnirii"
-msgstr[1] "înainte de sfîrşitul întâlnirii"
+msgstr[0] "%d minut înainte de programare"
+msgstr[1] "%d minute înainte de programare"
 
 #: calendar/gui/dialogs/event-page.glade.h:2
-#, fuzzy
 msgid "1 day before appointment"
-msgstr "înainte de sfîrşitul întâlnirii"
+msgstr "1 zi înainte de programare"
 
 #: calendar/gui/dialogs/event-page.glade.h:3
-#, fuzzy
 msgid "1 hour before appointment"
-msgstr "înainte de sfîrşitul întâlnirii"
+msgstr "1 oră înainte de programare"
 
 #: calendar/gui/dialogs/event-page.glade.h:4
-#, fuzzy
 msgid "15 minutes before appointment"
-msgstr "înainte de sfîrşitul întâlnirii"
+msgstr "15 minute înainte de întâlnire"
 
 #: calendar/gui/dialogs/event-page.glade.h:5
-#, fuzzy
 msgid "<b>Basics</b>"
-msgstr "informaţie calendar"
+msgstr "<b>Fundamentale</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
-#, fuzzy
 msgid "<b>Date and Time</b>"
-msgstr "Data & Ora"
+msgstr "<b>Data şi ora</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
 msgid "A_ll day event"
 msgstr "Eveniment zi_lnic"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
-#, fuzzy
 msgid "C_ustomize..."
-msgstr "Personalizează"
+msgstr "_Personalizează..."
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:4
@@ -5090,15 +4963,13 @@ msgid "Ca_tegories..."
 msgstr "Ca_tegorii..."
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#, fuzzy
 msgid "Cale_ndar:"
-msgstr "Calendar"
+msgstr "Cale_ndar:"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:5
-#, fuzzy
 msgid "Classi_fication:"
-msgstr "Clasificare"
+msgstr "Clasi_ficare:"
 
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-cal-list-view.c:259
@@ -5107,9 +4978,8 @@ msgid "Confidential"
 msgstr "Confidenţial"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
-#, fuzzy
 msgid "Locat_ion:"
-msgstr "_Acţiune"
+msgstr "Locaţ_ie:"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 #: calendar/gui/dialogs/task-page.glade.h:8 calendar/gui/e-cal-list-view.c:258
@@ -5125,29 +4995,25 @@ msgid "Public"
 msgstr "Public"
 
 #: calendar/gui/dialogs/event-page.glade.h:16
-#, fuzzy
 msgid "Show time as _busy"
-msgstr "Ploaie torenţială"
+msgstr "Afişează timpul ca _ocupat"
 
 #: calendar/gui/dialogs/event-page.glade.h:17
 #: calendar/gui/dialogs/task-page.glade.h:11
-#, fuzzy
 msgid "Su_mmary:"
-msgstr "Cuprins:"
+msgstr "Su_mar:"
 
 #: calendar/gui/dialogs/event-page.glade.h:18
 msgid "This appointment has customized alarms"
-msgstr ""
+msgstr "Această programare are alarme personalizate"
 
 #: calendar/gui/dialogs/event-page.glade.h:19
-#, fuzzy
 msgid "_Alarm"
-msgstr "Alarme"
+msgstr "_Alarmă"
 
 #: calendar/gui/dialogs/event-page.glade.h:20
-#, fuzzy
 msgid "_Description:"
-msgstr "Descriere:"
+msgstr "_Descriere:"
 
 #: calendar/gui/dialogs/event-page.glade.h:21
 #: calendar/gui/e-meeting-time-sel.c:613
@@ -5180,16 +5046,15 @@ msgstr "Inexistent"
 
 #: calendar/gui/dialogs/meeting-page.c:449
 msgid "The organizer selected no longer has an account."
-msgstr ""
+msgstr "Organizatorul selectat nu mai are cont."
 
 #: calendar/gui/dialogs/meeting-page.c:455
-#, fuzzy
 msgid "An organizer is required."
-msgstr "Un organizator trebuie setat."
+msgstr "Este necesar un organizator."
 
 #: calendar/gui/dialogs/meeting-page.c:470
 msgid "At least one attendee is required."
-msgstr ""
+msgstr "Este nevoie de cel puţin un participant."
 
 #: calendar/gui/dialogs/meeting-page.c:793
 msgid "_Delegate To..."
@@ -5208,9 +5073,8 @@ msgstr "Participare"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
-#, fuzzy
 msgid "Click here to add an attendee"
-msgstr "* Click aici să adăugaţi un contact *"
+msgstr "Click aici pentru a adauga un participant"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
@@ -5253,25 +5117,21 @@ msgid "Status"
 msgstr "Stare"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:2
-#, fuzzy
 msgid "<b>Att_endees</b>"
-msgstr "Descriere:"
+msgstr "<b>_Participanţi</b>"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#, fuzzy
 msgid "C_hange Organizer"
-msgstr "Schimbă organizator"
+msgstr "Sc_himbă organizator"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
 #: calendar/gui/e-meeting-time-sel.c:415
-#, fuzzy
 msgid "Con_tacts..."
-msgstr "C_ontacte..."
+msgstr "Con_tacte..."
 
 #: calendar/gui/dialogs/meeting-page.glade.h:6
-#, fuzzy
 msgid "Or_ganizer:"
-msgstr "Organizator:"
+msgstr "Or_ganizator:"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:7
 #: calendar/gui/e-itip-control.glade.h:9
@@ -5279,49 +5139,40 @@ msgid "Organizer:"
 msgstr "Organizator:"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:2
-#, fuzzy
 msgid "<b>Calendar options</b>"
-msgstr "informaţie calendar"
+msgstr "<b>Opţiuni calendar</b>"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:3
-#, fuzzy
 msgid "Add New Calendar"
-msgstr "Adaugă în calendar"
+msgstr "Adaugă calendar nou"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:4
-#, fuzzy
 msgid "Calendar Group"
-msgstr "Calendar"
+msgstr "Grup calendar"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:5
-#, fuzzy
 msgid "Calendar Location"
-msgstr "informaţie calendar"
+msgstr "Locaţie calendar"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:6
-#, fuzzy
 msgid "Calendar Name"
-msgstr "Calendar"
+msgstr "Nume calendar"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:2
-#, fuzzy
 msgid "<b>Task List Options</b>"
-msgstr "informaţie calendar"
+msgstr "<b>Opţiuni listă de sarcini</b>"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:3
-#, fuzzy
 msgid "Add New Task List"
-msgstr "Lista de sarcini"
+msgstr "Adaugă o lista nouă de sarcini"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:4
-#, fuzzy
 msgid "Task List Group"
-msgstr "Lista de sarcini"
+msgstr "Grup listă de sarcini"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:5
-#, fuzzy
 msgid "Task List Name"
-msgstr "Lista de sarcini"
+msgstr "Nume listă de sarcini"
 
 #: calendar/gui/dialogs/recur-comp.c:51
 msgid "You are modifying a recurring event, what would you like to modify?"
@@ -5337,20 +5188,19 @@ msgstr ""
 
 #: calendar/gui/dialogs/recur-comp.c:87
 msgid "This Instance Only"
-msgstr ""
+msgstr "Doar această instanţă"
 
 #: calendar/gui/dialogs/recur-comp.c:91
 msgid "This and Prior Instances"
-msgstr ""
+msgstr "Aceasta şi instanţele mai vechi"
 
 #: calendar/gui/dialogs/recur-comp.c:97
 msgid "This and Future Instances"
-msgstr ""
+msgstr "Aceasta şi instanţele mai noi"
 
 #: calendar/gui/dialogs/recur-comp.c:102
-#, fuzzy
 msgid "All Instances"
-msgstr "Avansat"
+msgstr "Toate instanţele"
 
 #: calendar/gui/dialogs/recurrence-page.c:511
 msgid "This appointment contains recurrences that Evolution cannot edit."
@@ -5365,33 +5215,28 @@ msgid "on"
 msgstr "în"
 
 #: calendar/gui/dialogs/recurrence-page.c:978
-#, fuzzy
 msgid "first"
-msgstr "Ceaţă"
+msgstr "primul"
 
 #: calendar/gui/dialogs/recurrence-page.c:979
 msgid "second"
 msgstr "secundă"
 
 #: calendar/gui/dialogs/recurrence-page.c:980
-#, fuzzy
 msgid "third"
-msgstr "Alte"
+msgstr "al treilea"
 
 #: calendar/gui/dialogs/recurrence-page.c:981
-#, fuzzy
 msgid "fourth"
-msgstr "Nord"
+msgstr "al patrulea"
 
 #: calendar/gui/dialogs/recurrence-page.c:982
-#, fuzzy
 msgid "last"
-msgstr "Ceaţă"
+msgstr "ultimul"
 
 #: calendar/gui/dialogs/recurrence-page.c:1005
-#, fuzzy
 msgid "Other Date"
-msgstr "Alt Fax"
+msgstr "Altă dată"
 
 #: calendar/gui/dialogs/recurrence-page.c:1033
 msgid "day"
@@ -5406,24 +5251,20 @@ msgid "occurrences"
 msgstr "apariţii"
 
 #: calendar/gui/dialogs/recurrence-page.c:2309
-#, fuzzy
 msgid "Date/Time"
 msgstr "Data/Ora"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
-#, fuzzy
 msgid "<b>Exceptions</b>"
-msgstr "Descriere:"
+msgstr "<b>Excepţii</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:2 mail/mail-config.glade.h:4
-#, fuzzy
 msgid "<b>Preview</b>"
-msgstr "Previzualizare"
+msgstr "<b>Previzualizare</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
-#, fuzzy
 msgid "<b>Recurrence</b>"
-msgstr "Revenire"
+msgstr ""
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
@@ -5459,34 +5300,28 @@ msgid "year(s)"
 msgstr "anul"
 
 #: calendar/gui/dialogs/select-source-dialog.c:88
-#, fuzzy
 msgid "Select destination"
-msgstr "Alegeţi dosarul destinaţie pentru importul datelor"
+msgstr "Selectaţi destinaţia"
 
 #: calendar/gui/dialogs/select-source-dialog.c:110
-#, fuzzy
 msgid "_Destination"
-msgstr "Şterge acest dosar"
+msgstr "_Destinaţia"
 
 #: calendar/gui/dialogs/select-source-dialog.c:112
-#, fuzzy
 msgid "Task List"
-msgstr "Lista de sarcini"
+msgstr "Listă de sarcini"
 
 #: calendar/gui/dialogs/task-details-page.c:427
-#, fuzzy
 msgid "Completed date is wrong"
-msgstr "Terminat "
+msgstr "Data completată este greşită"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:1
-#, fuzzy
 msgid "<span weight=\"bold\">Miscellaneous\t</span>"
-msgstr "Mesaj de afişat"
+msgstr "<span weight=\"bold\">Diverse\t</span>"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Status</span>"
-msgstr "Mesaj de afişat"
+msgstr "<span weight=\"bold\">Stare</span>"
 
 #. Pass TRUE as is_utc, so it gets converted to the current
 #. timezone.
@@ -5533,9 +5368,8 @@ msgid "Not Started"
 msgstr "Nepornit"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#, fuzzy
 msgid "P_ercent complete:"
-msgstr "Întâlnire încheiată:"
+msgstr "Proc_ent completat:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:400
@@ -5543,9 +5377,8 @@ msgid "Undefined"
 msgstr "Nedefinit"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#, fuzzy
 msgid "_Date completed:"
-msgstr "Întâlnire încheiată:"
+msgstr "_Data terminării:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:13
 msgid "_Priority:"
@@ -5556,174 +5389,155 @@ msgid "_Status:"
 msgstr "_Stare"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:15
-#, fuzzy
 msgid "_Web Page:"
-msgstr "Adresa paginii de web:"
+msgstr "Pagina _web:"
 
 #: calendar/gui/dialogs/task-editor.c:149 calendar/gui/print.c:2297
-#, fuzzy
 msgid "Task"
 msgstr "Sarcină"
 
 #: calendar/gui/dialogs/task-editor.c:165
 #: calendar/gui/dialogs/task-editor.c:225
 #: calendar/gui/dialogs/task-editor.c:361
-#, fuzzy
 msgid "Assignment"
-msgstr "Alocat"
+msgstr "Asignare"
 
 #: calendar/gui/dialogs/task-page.c:496
 msgid "Due date is wrong"
-msgstr ""
+msgstr "Data scadentă este greşită"
 
 #: calendar/gui/dialogs/task-page.c:831
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open tasks in '%s'."
-msgstr "Nu pot deschide agenda"
+msgstr "Nu pot deschide sarcinile în „%s”."
 
 #: calendar/gui/dialogs/task-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Basics</span>"
-msgstr "Mesaj de afişat"
+msgstr "<span weight=\"bold\">Fundamentale</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:3
-#, fuzzy
 msgid "<span weight=\"bold\">Date and Time</span>"
-msgstr "Mesaj de afişat"
+msgstr "<span weight=\"bold\">Data şi ora</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:7
-#, fuzzy
 msgid "D_escription:"
-msgstr "Descriere:"
+msgstr "D_escriere:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
-#, fuzzy
 msgid "Sta_rt date:"
-msgstr "Data de început:"
+msgstr "Data de î_nceput:"
 
 #: calendar/gui/dialogs/task-page.glade.h:12
-#, fuzzy
 msgid "_Due date:"
 msgstr "_Data scadentă:"
 
 #: calendar/gui/dialogs/task-page.glade.h:13
-#, fuzzy
 msgid "_Group:"
-msgstr "Nume grup:"
+msgstr "_Grup:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:3
-#, fuzzy
 msgid "<b>Free/Busy C_alendars</b>"
-msgstr "Informaţie sursă"
+msgstr "<b>C_alendare Libere/Ocupate</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
 msgid "<b>Publishing Frequency</b>"
-msgstr ""
+msgstr "<b>Frecvenţă publicare</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
-#, fuzzy
 msgid "<b>Publishing _Location</b>"
-msgstr "URL liber-ocupat"
+msgstr "<b>_Locaţie publicare</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
-#, fuzzy
 msgid "Free/Busy Editor"
-msgstr "Informaţie sursă"
+msgstr "Editor liber/ocupat"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
-#, fuzzy
 msgid "_Daily"
-msgstr "Zi"
+msgstr "_Zilnic"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
-#, fuzzy
 msgid "_Manual"
-msgstr "Manager"
+msgstr "_Manual"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
-#, fuzzy
 msgid "_Password:"
-msgstr "Parola"
+msgstr "_Parola:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
-#, fuzzy
 msgid "_Remember password"
-msgstr "Memorez această parolă"
+msgstr "_Memorează parola"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:11
-#, fuzzy
 msgid "_Username:"
-msgstr "Nume utilizator:"
+msgstr "Nume _utilizator:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:12
-#, fuzzy
 msgid "_Weekly"
-msgstr "Săptămână"
+msgstr "_Săptămânal"
 
 #: calendar/gui/e-alarm-list.c:395
-#, fuzzy, c-format
+#, c-format
 msgid "%d day"
 msgid_plural "%d days"
-msgstr[0] "%d zile"
+msgstr[0] "%d zi"
 msgstr[1] "%d zile"
 
 #: calendar/gui/e-alarm-list.c:400
-#, fuzzy, c-format
+#, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] "%d săptămîni"
-msgstr[1] "%d săptămîni"
+msgstr[0] "%d săptămână"
+msgstr[1] "%d săptămâni"
 
 #: calendar/gui/e-alarm-list.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] "%d ore"
+msgstr[0] "%d oră"
 msgstr[1] "%d ore"
 
 #: calendar/gui/e-alarm-list.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "%d minute"
+msgstr[0] "%d minut"
 msgstr[1] "%d minute"
 
 #: calendar/gui/e-alarm-list.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] "%d secunde"
+msgstr[0] "%d secundă"
 msgstr[1] "%d secunde"
 
 #: calendar/gui/e-alarm-list.c:462
-#, fuzzy
 msgid "Unknown action to be performed"
-msgstr "Furtună necunoscută"
+msgstr "Acţiune necunoscută de îndeplinit"
 
 #: calendar/gui/e-alarm-list.c:474
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s before the start of the appointment"
-msgstr "înainte de începerea întâlnirii"
+msgstr "%s %s înainte de începerea acestei programări"
 
 #: calendar/gui/e-alarm-list.c:477
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s after the start of the appointment"
-msgstr "înainte de începerea întâlnirii"
+msgstr "%s %s înainte de începerea acestei programări"
 
 #: calendar/gui/e-alarm-list.c:482
-#, fuzzy, c-format
+#, c-format
 msgid "%s at the start of the appointment"
-msgstr "înainte de începerea întâlnirii"
+msgstr "%s de la începerea acestei programări"
 
 #: calendar/gui/e-alarm-list.c:491
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s before the end of the appointment"
-msgstr "înainte de începerea întâlnirii"
+msgstr "%s %s înainte de terminarea aceste programări"
 
 #: calendar/gui/e-alarm-list.c:494
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s after the end of the appointment"
-msgstr "după sfîrşitul întâlnirii"
+msgstr "%s %s după sfârşitul acestei programări"
 
 #: calendar/gui/e-alarm-list.c:499
 #, fuzzy, c-format
@@ -7462,1556 +7276,1527 @@ msgstr "Deschide calendar"
 #.
 #: calendar/zones.h:7
 msgid "Africa/Abidjan"
-msgstr ""
+msgstr "Africa/Abidjan"
 
 #: calendar/zones.h:8
 msgid "Africa/Accra"
-msgstr ""
+msgstr "Africa/Accra"
 
 #: calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr ""
+msgstr "Africa/Addis_Ababa"
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
-msgstr ""
+msgstr "Africa/Algiers"
 
 #: calendar/zones.h:11
 msgid "Africa/Asmera"
-msgstr ""
+msgstr "Africa/Asmera"
 
 #: calendar/zones.h:12
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "Africa/Bamako"
 
 #: calendar/zones.h:13
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "Africa/Bangui"
 
 #: calendar/zones.h:14
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "Africa/Banjul"
 
 #: calendar/zones.h:15
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "Africa/Bissau"
 
 #: calendar/zones.h:16
 msgid "Africa/Blantyre"
-msgstr ""
+msgstr "Africa/Blantyre"
 
 #: calendar/zones.h:17
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "Africa/Brazzaville"
 
 #: calendar/zones.h:18
 msgid "Africa/Bujumbura"
-msgstr ""
+msgstr "Africa/Bujumbura"
 
 #: calendar/zones.h:19
 msgid "Africa/Cairo"
-msgstr ""
+msgstr "Africa/Cairo"
 
 #: calendar/zones.h:20
 msgid "Africa/Casablanca"
-msgstr ""
+msgstr "Africa/Casablanca"
 
 #: calendar/zones.h:21
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "Africa/Ceuta"
 
 #: calendar/zones.h:22
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "Africa/Conakry"
 
 #: calendar/zones.h:23
 msgid "Africa/Dakar"
-msgstr ""
+msgstr "Africa/Dakar"
 
 #: calendar/zones.h:24
 msgid "Africa/Dar_es_Salaam"
-msgstr ""
+msgstr "Africa/Dar_es_Salaam"
 
 #: calendar/zones.h:25
 msgid "Africa/Djibouti"
-msgstr ""
+msgstr "Africa/Djibouti"
 
 #: calendar/zones.h:26
 msgid "Africa/Douala"
-msgstr ""
+msgstr "Africa/Douala"
 
 #: calendar/zones.h:27
 msgid "Africa/El_Aaiun"
-msgstr ""
+msgstr "Africa/El_Aaiun"
 
 #: calendar/zones.h:28
 msgid "Africa/Freetown"
-msgstr ""
+msgstr "Africa/Freetown"
 
 #: calendar/zones.h:29
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "Africa/Gaborone"
 
 #: calendar/zones.h:30
 msgid "Africa/Harare"
-msgstr ""
+msgstr "Africa/Harare"
 
 #: calendar/zones.h:31
 msgid "Africa/Johannesburg"
-msgstr ""
+msgstr "Africa/Johannesburg"
 
 #: calendar/zones.h:32
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "Africa/Kampala"
 
 #: calendar/zones.h:33
 msgid "Africa/Khartoum"
-msgstr ""
+msgstr "Africa/Khartoum"
 
 #: calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "Africa/Kigali"
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
-msgstr ""
+msgstr "Africa/Kinshasa"
 
 #: calendar/zones.h:36
 msgid "Africa/Lagos"
-msgstr ""
+msgstr "Africa/Lagos"
 
 #: calendar/zones.h:37
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "Africa/Libreville"
 
 #: calendar/zones.h:38
 msgid "Africa/Lome"
-msgstr ""
+msgstr "Africa/Lome"
 
 #: calendar/zones.h:39
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "Africa/Luanda"
 
 #: calendar/zones.h:40
 msgid "Africa/Lubumbashi"
-msgstr ""
+msgstr "Africa/Lubumbashi"
 
 #: calendar/zones.h:41
 msgid "Africa/Lusaka"
-msgstr ""
+msgstr "Africa/Lusaka"
 
 #: calendar/zones.h:42
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "Africa/Malabo"
 
 #: calendar/zones.h:43
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "Africa/Maputo"
 
 #: calendar/zones.h:44
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "Africa/Maseru"
 
 #: calendar/zones.h:45
 msgid "Africa/Mbabane"
-msgstr ""
+msgstr "Africa/Mbabane"
 
 #: calendar/zones.h:46
 msgid "Africa/Mogadishu"
-msgstr ""
+msgstr "Africa/Mogadishu"
 
 #: calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "Africa/Monrovia"
 
 #: calendar/zones.h:48
 msgid "Africa/Nairobi"
-msgstr ""
+msgstr "Africa/Nairobi"
 
 #: calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "Africa/Ndjamena"
 
 #: calendar/zones.h:50
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "Africa/Niamey"
 
 #: calendar/zones.h:51
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "Africa/Nouakchott"
 
 #: calendar/zones.h:52
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "Africa/Ouagadougou"
 
 #: calendar/zones.h:53
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "Africa/Porto-Novo"
 
 #: calendar/zones.h:54
 msgid "Africa/Sao_Tome"
-msgstr ""
+msgstr "Africa/Sao_Tome"
 
 #: calendar/zones.h:55
 msgid "Africa/Timbuktu"
-msgstr ""
+msgstr "Africa/Timbuktu"
 
 #: calendar/zones.h:56
 msgid "Africa/Tripoli"
-msgstr ""
+msgstr "Africa/Tripoli"
 
 #: calendar/zones.h:57
 msgid "Africa/Tunis"
-msgstr ""
+msgstr "Africa/Tunis"
 
 #: calendar/zones.h:58
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "Africa/Windhoek"
 
 #: calendar/zones.h:59
 msgid "America/Adak"
-msgstr ""
+msgstr "America/Adak"
 
 #: calendar/zones.h:60
 msgid "America/Anchorage"
-msgstr ""
+msgstr "America/Anchorage"
 
 #: calendar/zones.h:61
 msgid "America/Anguilla"
-msgstr ""
+msgstr "America/Anguilla"
 
 #: calendar/zones.h:62
 msgid "America/Antigua"
-msgstr ""
+msgstr "America/Antigua"
 
 #: calendar/zones.h:63
 msgid "America/Araguaina"
-msgstr ""
+msgstr "America/Araguaina"
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
-msgstr ""
+msgstr "America/Aruba"
 
 #: calendar/zones.h:65
 msgid "America/Asuncion"
-msgstr ""
+msgstr "America/Asuncion"
 
 #: calendar/zones.h:66
 msgid "America/Barbados"
-msgstr ""
+msgstr "America/Barbados"
 
 #: calendar/zones.h:67
 msgid "America/Belem"
-msgstr ""
+msgstr "America/Belem"
 
 #: calendar/zones.h:68
-#, fuzzy
 msgid "America/Belize"
-msgstr "Mărime"
+msgstr "America/Belize"
 
 #: calendar/zones.h:69
 msgid "America/Boa_Vista"
-msgstr ""
+msgstr "America/Boa_Vista"
 
 #: calendar/zones.h:70
 msgid "America/Bogota"
-msgstr ""
+msgstr "America/Bogota"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
-msgstr ""
+msgstr "America/Boise"
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "America/Buenos_Aires"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
-msgstr ""
+msgstr "America/Cambridge_Bay"
 
 #: calendar/zones.h:74
 msgid "America/Cancun"
-msgstr ""
+msgstr "America/Cancun"
 
 #: calendar/zones.h:75
 msgid "America/Caracas"
-msgstr ""
+msgstr "America/Caracas"
 
 #: calendar/zones.h:76
 msgid "America/Catamarca"
-msgstr ""
+msgstr "America/Catamarca"
 
 #: calendar/zones.h:77
 msgid "America/Cayenne"
-msgstr ""
+msgstr "America/Cayenne"
 
 #: calendar/zones.h:78
 msgid "America/Cayman"
-msgstr ""
+msgstr "America/Cayman"
 
 #: calendar/zones.h:79
 msgid "America/Chicago"
-msgstr ""
+msgstr "America/Chicago"
 
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
-msgstr ""
+msgstr "America/Chihuahua"
 
 #: calendar/zones.h:81
 msgid "America/Cordoba"
-msgstr ""
+msgstr "America/Cordoba"
 
 #: calendar/zones.h:82
 msgid "America/Costa_Rica"
-msgstr ""
+msgstr "America/Costa_Rica"
 
 #: calendar/zones.h:83
 msgid "America/Cuiaba"
-msgstr ""
+msgstr "America/Cuiaba"
 
 #: calendar/zones.h:84
 msgid "America/Curacao"
-msgstr ""
+msgstr "America/Curacao"
 
 #: calendar/zones.h:85
 msgid "America/Danmarkshavn"
-msgstr ""
+msgstr "America/Danmarkshavn"
 
 #: calendar/zones.h:86
 msgid "America/Dawson"
-msgstr ""
+msgstr "America/Dawson"
 
 #: calendar/zones.h:87
 msgid "America/Dawson_Creek"
-msgstr ""
+msgstr "America/Dawson_Creek"
 
 #: calendar/zones.h:88
 msgid "America/Denver"
-msgstr ""
+msgstr "America/Denver"
 
 #: calendar/zones.h:89
 msgid "America/Detroit"
-msgstr ""
+msgstr "America/Detroit"
 
 #: calendar/zones.h:90
 msgid "America/Dominica"
-msgstr ""
+msgstr "America/Dominica"
 
 #: calendar/zones.h:91
 msgid "America/Edmonton"
-msgstr ""
+msgstr "America/Edmonton"
 
 #: calendar/zones.h:92
 msgid "America/Eirunepe"
-msgstr ""
+msgstr "America/Eirunepe"
 
 #: calendar/zones.h:93
 msgid "America/El_Salvador"
-msgstr ""
+msgstr "America/El_Salvador"
 
 #: calendar/zones.h:94
 msgid "America/Fortaleza"
-msgstr ""
+msgstr "America/Fortaleza"
 
 #: calendar/zones.h:95
 msgid "America/Glace_Bay"
-msgstr ""
+msgstr "America/Glace_Bay"
 
 #: calendar/zones.h:96
 msgid "America/Godthab"
-msgstr ""
+msgstr "America/Godthab"
 
 #: calendar/zones.h:97
 msgid "America/Goose_Bay"
-msgstr ""
+msgstr "America/Goose_Bay"
 
 #: calendar/zones.h:98
 msgid "America/Grand_Turk"
-msgstr ""
+msgstr "America/Grand_Turk"
 
 #: calendar/zones.h:99
-#, fuzzy
 msgid "America/Grenada"
-msgstr "Canada"
+msgstr "America/Grenada"
 
 #: calendar/zones.h:100
 msgid "America/Guadeloupe"
-msgstr ""
+msgstr "America/Guadeloupe"
 
 #: calendar/zones.h:101
 msgid "America/Guatemala"
-msgstr ""
+msgstr "America/Guatemala"
 
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
-msgstr ""
+msgstr "America/Guayaquil"
 
 #: calendar/zones.h:103
 msgid "America/Guyana"
-msgstr ""
+msgstr "America/Guyana"
 
 #: calendar/zones.h:104
 msgid "America/Halifax"
-msgstr ""
+msgstr "America/Halifax"
 
 #: calendar/zones.h:105
 msgid "America/Havana"
-msgstr ""
+msgstr "America/Havana"
 
 #: calendar/zones.h:106
 msgid "America/Hermosillo"
-msgstr ""
+msgstr "America/Hermosillo"
 
 #: calendar/zones.h:107
 msgid "America/Indiana/Indianapolis"
-msgstr ""
+msgstr "America/Indiana/Indianapolis"
 
 #: calendar/zones.h:108
 msgid "America/Indiana/Knox"
-msgstr ""
+msgstr "America/Indiana/Knox"
 
 #: calendar/zones.h:109
 msgid "America/Indiana/Marengo"
-msgstr ""
+msgstr "America/Indiana/Marengo"
 
 #: calendar/zones.h:110
 msgid "America/Indiana/Vevay"
-msgstr ""
+msgstr "America/Indiana/Vevay"
 
 #: calendar/zones.h:111
 msgid "America/Indianapolis"
-msgstr ""
+msgstr "America/Indianapolis"
 
 #: calendar/zones.h:112
 msgid "America/Inuvik"
-msgstr ""
+msgstr "America/Inuvik"
 
 #: calendar/zones.h:113
 msgid "America/Iqaluit"
-msgstr ""
+msgstr "America/Iqaluit"
 
 #: calendar/zones.h:114
 msgid "America/Jamaica"
-msgstr ""
+msgstr "America/Jamaica"
 
 #: calendar/zones.h:115
 msgid "America/Jujuy"
-msgstr ""
+msgstr "America/Jujuy"
 
 #: calendar/zones.h:116
 msgid "America/Juneau"
-msgstr ""
+msgstr "America/Juneau"
 
 #: calendar/zones.h:117
 msgid "America/Kentucky/Louisville"
-msgstr ""
+msgstr "America/Kentucky/Louisville"
 
 #: calendar/zones.h:118
 msgid "America/Kentucky/Monticello"
-msgstr ""
+msgstr "America/Kentucky/Monticello"
 
 #: calendar/zones.h:119
 msgid "America/La_Paz"
-msgstr ""
+msgstr "America/La_Paz"
 
 #: calendar/zones.h:120
 msgid "America/Lima"
-msgstr ""
+msgstr "America/Lima"
 
 #: calendar/zones.h:121
 msgid "America/Los_Angeles"
-msgstr ""
+msgstr "America/Los_Angeles"
 
 #: calendar/zones.h:122
 msgid "America/Louisville"
-msgstr ""
+msgstr "America/Louisville"
 
 #: calendar/zones.h:123
 msgid "America/Maceio"
-msgstr ""
+msgstr "America/Maceio"
 
 #: calendar/zones.h:124
 msgid "America/Managua"
-msgstr ""
+msgstr "America/Managua"
 
 #: calendar/zones.h:125
 msgid "America/Manaus"
-msgstr ""
+msgstr "America/Manaus"
 
 #: calendar/zones.h:126
 msgid "America/Martinique"
-msgstr ""
+msgstr "America/Martinique"
 
 #: calendar/zones.h:127
 msgid "America/Mazatlan"
-msgstr ""
+msgstr "America/Mazatlan"
 
 #: calendar/zones.h:128
 msgid "America/Mendoza"
-msgstr ""
+msgstr "America/Mendoza"
 
 #: calendar/zones.h:129
 msgid "America/Menominee"
-msgstr ""
+msgstr "America/Menominee"
 
 #: calendar/zones.h:130
 msgid "America/Merida"
-msgstr ""
+msgstr "America/Merida"
 
 #: calendar/zones.h:131
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "America/Mexico_City"
 
 #: calendar/zones.h:132
 msgid "America/Miquelon"
-msgstr ""
+msgstr "America/Miquelon"
 
 #: calendar/zones.h:133
 msgid "America/Monterrey"
-msgstr ""
+msgstr "America/Monterrey"
 
 #: calendar/zones.h:134
 msgid "America/Montevideo"
-msgstr ""
+msgstr "America/Montevideo"
 
 #: calendar/zones.h:135
 msgid "America/Montreal"
-msgstr ""
+msgstr "America/Montreal"
 
 #: calendar/zones.h:136
 msgid "America/Montserrat"
-msgstr ""
+msgstr "America/Montserrat"
 
 #: calendar/zones.h:137
 msgid "America/Nassau"
-msgstr ""
+msgstr "America/Nassau"
 
 #: calendar/zones.h:138
 msgid "America/New_York"
-msgstr ""
+msgstr "America/New_York"
 
 #: calendar/zones.h:139
 msgid "America/Nipigon"
-msgstr ""
+msgstr "America/Nipigon"
 
 #: calendar/zones.h:140
 msgid "America/Nome"
-msgstr ""
+msgstr "America/Nome"
 
 #: calendar/zones.h:141
 msgid "America/Noronha"
-msgstr ""
+msgstr "America/Noronha"
 
 #: calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr ""
+msgstr "America/North_Dakota/Center"
 
 #: calendar/zones.h:143
-#, fuzzy
 msgid "America/Panama"
-msgstr "Canada"
+msgstr "America/Panama"
 
 #: calendar/zones.h:144
 msgid "America/Pangnirtung"
-msgstr ""
+msgstr "America/Pangnirtung"
 
 #: calendar/zones.h:145
 msgid "America/Paramaribo"
-msgstr ""
+msgstr "America/Paramaribo"
 
 #: calendar/zones.h:146
 msgid "America/Phoenix"
-msgstr ""
+msgstr "America/Phoenix"
 
 #: calendar/zones.h:147
 msgid "America/Port-au-Prince"
-msgstr ""
+msgstr "America/Port-au-Prince"
 
 #: calendar/zones.h:148
 msgid "America/Port_of_Spain"
-msgstr ""
+msgstr "America/Port_of_Spain"
 
 #: calendar/zones.h:149
 msgid "America/Porto_Velho"
-msgstr ""
+msgstr "America/Porto_Velho"
 
 #: calendar/zones.h:150
 msgid "America/Puerto_Rico"
-msgstr ""
+msgstr "America/Porto_Rico"
 
 #: calendar/zones.h:151
 msgid "America/Rainy_River"
-msgstr ""
+msgstr "America/Rainy_River"
 
 #: calendar/zones.h:152
 msgid "America/Rankin_Inlet"
-msgstr ""
+msgstr "America/Rankin_Inlet"
 
 #: calendar/zones.h:153
 msgid "America/Recife"
-msgstr ""
+msgstr "America/Recife"
 
 #: calendar/zones.h:154
 msgid "America/Regina"
-msgstr ""
+msgstr "America/Regina"
 
 #: calendar/zones.h:155
 msgid "America/Rio_Branco"
-msgstr ""
+msgstr "America/Rio_Branco"
 
 #: calendar/zones.h:156
 msgid "America/Rosario"
-msgstr ""
+msgstr "America/Rosario"
 
 #: calendar/zones.h:157
 msgid "America/Santiago"
-msgstr ""
+msgstr "America/Santiago"
 
 #: calendar/zones.h:158
 msgid "America/Santo_Domingo"
-msgstr ""
+msgstr "America/Santo_Domingo"
 
 #: calendar/zones.h:159
 msgid "America/Sao_Paulo"
-msgstr ""
+msgstr "America/Sao_Paulo"
 
 #: calendar/zones.h:160
 msgid "America/Scoresbysund"
-msgstr ""
+msgstr "America/Scoresbysund"
 
 #: calendar/zones.h:161
 msgid "America/Shiprock"
-msgstr ""
+msgstr "America/Shiprock"
 
 #: calendar/zones.h:162
 msgid "America/St_Johns"
-msgstr ""
+msgstr "America/St_Johns"
 
 #: calendar/zones.h:163
 msgid "America/St_Kitts"
-msgstr ""
+msgstr "America/St_Kitts"
 
 #: calendar/zones.h:164
 msgid "America/St_Lucia"
-msgstr ""
+msgstr "America/St_Lucia"
 
 #: calendar/zones.h:165
 msgid "America/St_Thomas"
-msgstr ""
+msgstr "America/St_Thomas"
 
 #: calendar/zones.h:166
 msgid "America/St_Vincent"
-msgstr ""
+msgstr "America/St_Vincent"
 
 #: calendar/zones.h:167
 msgid "America/Swift_Current"
-msgstr ""
+msgstr "America/Swift_Current"
 
 #: calendar/zones.h:168
 msgid "America/Tegucigalpa"
-msgstr ""
+msgstr "America/Tegucigalpa"
 
 #: calendar/zones.h:169
 msgid "America/Thule"
-msgstr ""
+msgstr "America/Thule"
 
 #: calendar/zones.h:170
 msgid "America/Thunder_Bay"
-msgstr ""
+msgstr "America/Thunder_Bay"
 
 #: calendar/zones.h:171
 msgid "America/Tijuana"
-msgstr ""
+msgstr "America/Tijuana"
 
 #: calendar/zones.h:172
 msgid "America/Tortola"
-msgstr ""
+msgstr "America/Tortola"
 
 #: calendar/zones.h:173
 msgid "America/Vancouver"
-msgstr ""
+msgstr "America/Vancouver"
 
 #: calendar/zones.h:174
 msgid "America/Whitehorse"
-msgstr ""
+msgstr "America/Whitehorse"
 
 #: calendar/zones.h:175
 msgid "America/Winnipeg"
-msgstr ""
+msgstr "America/Winnipeg"
 
 #: calendar/zones.h:176
 msgid "America/Yakutat"
-msgstr ""
+msgstr "America/Yakutat"
 
 #: calendar/zones.h:177
 msgid "America/Yellowknife"
-msgstr ""
+msgstr "America/Yellowknife"
 
 #: calendar/zones.h:178
-#, fuzzy
 msgid "Antarctica/Casey"
-msgstr "Automat"
+msgstr "Antarctica/Casey"
 
 #: calendar/zones.h:179
-#, fuzzy
 msgid "Antarctica/Davis"
-msgstr "Automat"
+msgstr "Antarctica/Davis"
 
 #: calendar/zones.h:180
 msgid "Antarctica/DumontDUrville"
-msgstr ""
+msgstr "Antarctica/DumontDUrville"
 
 #: calendar/zones.h:181
-#, fuzzy
 msgid "Antarctica/Mawson"
-msgstr "Automat"
+msgstr "Antarctica/Mawson"
 
 #: calendar/zones.h:182
-#, fuzzy
 msgid "Antarctica/McMurdo"
-msgstr "Automat"
+msgstr "Antarctica/McMurdo"
 
 #: calendar/zones.h:183
-#, fuzzy
 msgid "Antarctica/Palmer"
-msgstr "Automat"
+msgstr "Antarctica/Palmer"
 
 #: calendar/zones.h:184
-#, fuzzy
 msgid "Antarctica/South_Pole"
-msgstr "Automat"
+msgstr "Antarctica/South_Pole"
 
 #: calendar/zones.h:185
-#, fuzzy
 msgid "Antarctica/Syowa"
-msgstr "Automat"
+msgstr "Antarctica/Syowa"
 
 #: calendar/zones.h:186
-#, fuzzy
 msgid "Antarctica/Vostok"
-msgstr "Automat"
+msgstr "Antarctica/Vostok"
 
 #: calendar/zones.h:187
 msgid "Arctic/Longyearbyen"
-msgstr ""
+msgstr "Arctic/Longyearbyen"
 
 #: calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "Asia/Aden"
 
 #: calendar/zones.h:189
 msgid "Asia/Almaty"
-msgstr ""
+msgstr "Asia/Almaty"
 
 #: calendar/zones.h:190
 msgid "Asia/Amman"
-msgstr ""
+msgstr "Asia/Amman"
 
 #: calendar/zones.h:191
 msgid "Asia/Anadyr"
-msgstr ""
+msgstr "Asia/Anadyr"
 
 #: calendar/zones.h:192
 msgid "Asia/Aqtau"
-msgstr ""
+msgstr "Asia/Aqtau"
 
 #: calendar/zones.h:193
 msgid "Asia/Aqtobe"
-msgstr ""
+msgstr "Asia/Aqtobe"
 
 #: calendar/zones.h:194
 msgid "Asia/Ashgabat"
-msgstr ""
+msgstr "Asia/Ashgabat"
 
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
-msgstr ""
+msgstr "Asia/Bagdad"
 
 #: calendar/zones.h:196
 msgid "Asia/Bahrain"
-msgstr ""
+msgstr "Asia/Bahrain"
 
 #: calendar/zones.h:197
 msgid "Asia/Baku"
-msgstr ""
+msgstr "Asia/Baku"
 
 #: calendar/zones.h:198
 msgid "Asia/Bangkok"
-msgstr ""
+msgstr "Asia/Bangkok"
 
 #: calendar/zones.h:199
 msgid "Asia/Beirut"
-msgstr ""
+msgstr "Asia/Beirut"
 
 #: calendar/zones.h:200
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "Asia/Bishkek"
 
 #: calendar/zones.h:201
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "Asia/Brunei"
 
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
-msgstr ""
+msgstr "Asia/Calcutta"
 
 #: calendar/zones.h:203
 msgid "Asia/Choibalsan"
-msgstr ""
+msgstr "Asia/Choibalsan"
 
 #: calendar/zones.h:204
 msgid "Asia/Chongqing"
-msgstr ""
+msgstr "Asia/Chongqing"
 
 #: calendar/zones.h:205
 msgid "Asia/Colombo"
-msgstr ""
+msgstr "Asia/Colombo"
 
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
-msgstr ""
+msgstr "Asia/Damascus"
 
 #: calendar/zones.h:207
 msgid "Asia/Dhaka"
-msgstr ""
+msgstr "Asia/Dhaka"
 
 #: calendar/zones.h:208
 msgid "Asia/Dili"
-msgstr ""
+msgstr "Asia/Dili"
 
 #: calendar/zones.h:209
 msgid "Asia/Dubai"
-msgstr ""
+msgstr "Asia/Dubai"
 
 #: calendar/zones.h:210
 msgid "Asia/Dushanbe"
-msgstr ""
+msgstr "Asia/Dushanbe"
 
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "Asia/Gaza"
 
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "Asia/Harbin"
 
 #: calendar/zones.h:213
 msgid "Asia/Hong_Kong"
-msgstr ""
+msgstr "Asia/Hong_Kong"
 
 #: calendar/zones.h:214
 msgid "Asia/Hovd"
-msgstr ""
+msgstr "Asia/Hovd"
 
 #: calendar/zones.h:215
 msgid "Asia/Irkutsk"
-msgstr ""
+msgstr "Asia/Irkutsk"
 
 #: calendar/zones.h:216
-#, fuzzy
 msgid "Asia/Istanbul"
-msgstr "Asistent"
+msgstr "Asia/Istanbul"
 
 #: calendar/zones.h:217
 msgid "Asia/Jakarta"
-msgstr ""
+msgstr "Asia/Jakarta"
 
 #: calendar/zones.h:218
 msgid "Asia/Jayapura"
-msgstr ""
+msgstr "Asia/Jayapura"
 
 #: calendar/zones.h:219
 msgid "Asia/Jerusalem"
-msgstr ""
+msgstr "Asia/Ierusalim"
 
 #: calendar/zones.h:220
 msgid "Asia/Kabul"
-msgstr ""
+msgstr "Asia/Kabul"
 
 #: calendar/zones.h:221
 msgid "Asia/Kamchatka"
-msgstr ""
+msgstr "Asia/Kamchatka"
 
 #: calendar/zones.h:222
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "Asia/Karachi"
 
 #: calendar/zones.h:223
 msgid "Asia/Kashgar"
-msgstr ""
+msgstr "Asia/Kashgar"
 
 #: calendar/zones.h:224
 msgid "Asia/Katmandu"
-msgstr ""
+msgstr "Asia/Katmandu"
 
 #: calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
-msgstr ""
+msgstr "Asia/Krasnoyarsk"
 
 #: calendar/zones.h:226
 msgid "Asia/Kuala_Lumpur"
-msgstr ""
+msgstr "Asia/Kuala_Lumpur"
 
 #: calendar/zones.h:227
 msgid "Asia/Kuching"
-msgstr ""
+msgstr "Asia/Kuching"
 
 #: calendar/zones.h:228
 msgid "Asia/Kuwait"
-msgstr ""
+msgstr "Asia/Kuwait"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
-msgstr ""
+msgstr "Asia/Macao"
 
 #: calendar/zones.h:230
-#, fuzzy
 msgid "Asia/Macau"
-msgstr "Asistent"
+msgstr "Asia/Macau"
 
 #: calendar/zones.h:231
 msgid "Asia/Magadan"
-msgstr ""
+msgstr "Asia/Magadan"
 
 #: calendar/zones.h:232
-#, fuzzy
 msgid "Asia/Makassar"
-msgstr "după"
+msgstr "Asia/Makassar"
 
 #: calendar/zones.h:233
 msgid "Asia/Manila"
-msgstr ""
+msgstr "Asia/Manila"
 
 #: calendar/zones.h:234
-#, fuzzy
 msgid "Asia/Muscat"
-msgstr "Asistent"
+msgstr "Asia/Muscat"
 
 #: calendar/zones.h:235
 msgid "Asia/Nicosia"
-msgstr ""
+msgstr "Asia/Nicosia"
 
 #: calendar/zones.h:236
 msgid "Asia/Novosibirsk"
-msgstr ""
+msgstr "Asia/Novosibirsk"
 
 #: calendar/zones.h:237
-#, fuzzy
 msgid "Asia/Omsk"
-msgstr "Atribuie task (FIXME)"
+msgstr "Asia/Omsk"
 
 #: calendar/zones.h:238
-#, fuzzy
 msgid "Asia/Oral"
-msgstr "Atribuie task (FIXME)"
+msgstr "Asia/Oral"
 
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
-msgstr ""
+msgstr "Asia/Phnom_Penh"
 
 #: calendar/zones.h:240
 msgid "Asia/Pontianak"
-msgstr ""
+msgstr "Asia/Pontianak"
 
 #: calendar/zones.h:241
 msgid "Asia/Pyongyang"
-msgstr ""
+msgstr "Asia/Pyongyang"
 
 #: calendar/zones.h:242
-#, fuzzy
 msgid "Asia/Qatar"
-msgstr "după"
+msgstr "Asia/Qatar"
 
 #: calendar/zones.h:243
 msgid "Asia/Qyzylorda"
-msgstr ""
+msgstr "Asia/Qyzylorda"
 
 #: calendar/zones.h:244
 msgid "Asia/Rangoon"
-msgstr ""
+msgstr "Asia/Rangoon"
 
 #: calendar/zones.h:245
 msgid "Asia/Riyadh"
-msgstr ""
+msgstr "Asia/Riyadh"
 
 #: calendar/zones.h:246
 msgid "Asia/Saigon"
-msgstr ""
+msgstr "Asia/Saigon"
 
 #: calendar/zones.h:247
 msgid "Asia/Sakhalin"
-msgstr ""
+msgstr "Asia/Sakhalin"
 
 #: calendar/zones.h:248
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "Asia/Samarkand"
 
 #: calendar/zones.h:249
 msgid "Asia/Seoul"
-msgstr ""
+msgstr "Asia/Seul"
 
 #: calendar/zones.h:250
 msgid "Asia/Shanghai"
-msgstr ""
+msgstr "Asia/Shanghai"
 
 #: calendar/zones.h:251
 msgid "Asia/Singapore"
-msgstr ""
+msgstr "Asia/Singapore"
 
 #: calendar/zones.h:252
 msgid "Asia/Taipei"
-msgstr ""
+msgstr "Asia/Taipei"
 
 #: calendar/zones.h:253
 msgid "Asia/Tashkent"
-msgstr ""
+msgstr "Asia/Tashkent"
 
 #: calendar/zones.h:254
 msgid "Asia/Tbilisi"
-msgstr ""
+msgstr "Asia/Tbilisi"
 
 #: calendar/zones.h:255
 msgid "Asia/Tehran"
-msgstr ""
+msgstr "Asia/Teheran"
 
 #: calendar/zones.h:256
 msgid "Asia/Thimphu"
-msgstr ""
+msgstr "Asia/Thimphu"
 
 #: calendar/zones.h:257
 msgid "Asia/Tokyo"
-msgstr ""
+msgstr "Asia/Tokyo"
 
 #: calendar/zones.h:258
 msgid "Asia/Ujung_Pandang"
-msgstr ""
+msgstr "Asia/Ujung_Pandang"
 
 #: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
-msgstr ""
+msgstr "Asia/Ulaanbaatar"
 
 #: calendar/zones.h:260
 msgid "Asia/Urumqi"
-msgstr ""
+msgstr "Asia/Urumqi"
 
 #: calendar/zones.h:261
 msgid "Asia/Vientiane"
-msgstr ""
+msgstr "Asia/Vientiane"
 
 #: calendar/zones.h:262
 msgid "Asia/Vladivostok"
-msgstr ""
+msgstr "Asia/Vladivostok"
 
 #: calendar/zones.h:263
 msgid "Asia/Yakutsk"
-msgstr ""
+msgstr "Asia/Yakutsk"
 
 #: calendar/zones.h:264
 msgid "Asia/Yekaterinburg"
-msgstr ""
+msgstr "Asia/Yekaterinburg"
 
 #: calendar/zones.h:265
 msgid "Asia/Yerevan"
-msgstr ""
+msgstr "Asia/Erevan"
 
 #: calendar/zones.h:266
 msgid "Atlantic/Azores"
-msgstr ""
+msgstr "Atlantic/Azores"
 
 #: calendar/zones.h:267
 msgid "Atlantic/Bermuda"
-msgstr ""
+msgstr "Atlantic/Bermuda"
 
 #: calendar/zones.h:268
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "Atlantic/Canary"
 
 #: calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
-msgstr ""
+msgstr "Atlantic/Capul_Verde"
 
 #: calendar/zones.h:270
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "Atlantic/Faeroe"
 
 #: calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
-msgstr ""
+msgstr "Atlantic/Jan_Mayen"
 
 #: calendar/zones.h:272
 msgid "Atlantic/Madeira"
-msgstr ""
+msgstr "Atlantic/Madeira"
 
 #: calendar/zones.h:273
 msgid "Atlantic/Reykjavik"
-msgstr ""
+msgstr "Atlantic/Reykjavik"
 
 #: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
-msgstr ""
+msgstr "Atlantic/South_Georgia"
 
 #: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
-msgstr ""
+msgstr "Atlantic/St_Helena"
 
 #: calendar/zones.h:276
 msgid "Atlantic/Stanley"
-msgstr ""
+msgstr "Atlantic/Stanley"
 
 #: calendar/zones.h:277
 msgid "Australia/Adelaide"
-msgstr ""
+msgstr "Australia/Adelaide"
 
 #: calendar/zones.h:278
 msgid "Australia/Brisbane"
-msgstr ""
+msgstr "Australia/Brisbane"
 
 #: calendar/zones.h:279
 msgid "Australia/Broken_Hill"
-msgstr ""
+msgstr "Australia/Broken_Hill"
 
 #: calendar/zones.h:280
-#, fuzzy
 msgid "Australia/Darwin"
-msgstr "August"
+msgstr "Australia/Darwin"
 
 #: calendar/zones.h:281
-#, fuzzy
 msgid "Australia/Hobart"
-msgstr "August"
+msgstr "Australia/Hobart"
 
 #: calendar/zones.h:282
 msgid "Australia/Lindeman"
-msgstr ""
+msgstr "Australia/Lindeman"
 
 #: calendar/zones.h:283
 msgid "Australia/Lord_Howe"
-msgstr ""
+msgstr "Australia/Lord_Howe"
 
 #: calendar/zones.h:284
 msgid "Australia/Melbourne"
-msgstr ""
+msgstr "Australia/Melbourne"
 
 #: calendar/zones.h:285
-#, fuzzy
 msgid "Australia/Perth"
-msgstr "August"
+msgstr "Australia/Perth"
 
 #: calendar/zones.h:286
-#, fuzzy
 msgid "Australia/Sydney"
-msgstr "August"
+msgstr "Australia/Sydney"
 
 #: calendar/zones.h:287
 msgid "Europe/Amsterdam"
-msgstr ""
+msgstr "Europa/Amsterdam"
 
 #: calendar/zones.h:288
 msgid "Europe/Andorra"
-msgstr ""
+msgstr "Europa/Andorra"
 
 #: calendar/zones.h:289
-#, fuzzy
 msgid "Europe/Athens"
-msgstr "Proprietăţi"
+msgstr "Europa/Atena"
 
 #: calendar/zones.h:290
 msgid "Europe/Belfast"
-msgstr ""
+msgstr "Europa/Belfast"
 
 #: calendar/zones.h:291
 msgid "Europe/Belgrade"
-msgstr ""
+msgstr "Europa/Belgrad"
 
 #: calendar/zones.h:292
 msgid "Europe/Berlin"
-msgstr ""
+msgstr "Europa/Berlin"
 
 #: calendar/zones.h:293
 msgid "Europe/Bratislava"
-msgstr ""
+msgstr "Europa/Bratislava"
 
 #: calendar/zones.h:294
 msgid "Europe/Brussels"
-msgstr ""
+msgstr "Europa/Bruxelles"
 
 #: calendar/zones.h:295
 msgid "Europe/Bucharest"
-msgstr ""
+msgstr "Europa/Bucureşti"
 
 #: calendar/zones.h:296
 msgid "Europe/Budapest"
-msgstr ""
+msgstr "Europa/Budapesta"
 
 #: calendar/zones.h:297
 msgid "Europe/Chisinau"
-msgstr ""
+msgstr "Europa/Chişinău"
 
 #: calendar/zones.h:298
 msgid "Europe/Copenhagen"
-msgstr ""
+msgstr "Europa/Copenhaga"
 
 #: calendar/zones.h:299
 msgid "Europe/Dublin"
-msgstr ""
+msgstr "Europa/Dublin"
 
 #: calendar/zones.h:300
 msgid "Europe/Gibraltar"
-msgstr ""
+msgstr "Europa/Gibraltar"
 
 #: calendar/zones.h:301
 msgid "Europe/Helsinki"
-msgstr ""
+msgstr "Europa/Helsinki"
 
 #: calendar/zones.h:302
 msgid "Europe/Istanbul"
-msgstr ""
+msgstr "Europa/Istanbul"
 
 #: calendar/zones.h:303
 msgid "Europe/Kaliningrad"
-msgstr ""
+msgstr "Europa/Kaliningrad"
 
 #: calendar/zones.h:304
 msgid "Europe/Kiev"
-msgstr ""
+msgstr "Europa/Kiev"
 
 #: calendar/zones.h:305
 msgid "Europe/Lisbon"
-msgstr ""
+msgstr "Europa/Lisabona"
 
 #: calendar/zones.h:306
 msgid "Europe/Ljubljana"
-msgstr ""
+msgstr "Europa/Ljubljana"
 
 #: calendar/zones.h:307
 msgid "Europe/London"
-msgstr ""
+msgstr "Europa/Londra"
 
 #: calendar/zones.h:308
 msgid "Europe/Luxembourg"
-msgstr ""
+msgstr "Europa/Luxembourg"
 
 #: calendar/zones.h:309
 msgid "Europe/Madrid"
-msgstr ""
+msgstr "Europa/Madrid"
 
 #: calendar/zones.h:310
 msgid "Europe/Malta"
-msgstr ""
+msgstr "Europa/Malta"
 
 #: calendar/zones.h:311
 msgid "Europe/Minsk"
-msgstr ""
+msgstr "Europa/Minsk"
 
 #: calendar/zones.h:312
-#, fuzzy
 msgid "Europe/Monaco"
-msgstr "Luni"
+msgstr "Europa/Monaco"
 
 #: calendar/zones.h:313
 msgid "Europe/Moscow"
-msgstr ""
+msgstr "Europa/Moscova"
 
 #: calendar/zones.h:314
 msgid "Europe/Nicosia"
-msgstr ""
+msgstr "Europa/Nicosia"
 
 #: calendar/zones.h:315
 msgid "Europe/Oslo"
-msgstr ""
+msgstr "Europa/Oslo"
 
 #: calendar/zones.h:316
-#, fuzzy
 msgid "Europe/Paris"
-msgstr "Proprietăţi"
+msgstr "Europa/Paris"
 
 #: calendar/zones.h:317
 msgid "Europe/Prague"
-msgstr ""
+msgstr "Europa/Praga"
 
 #: calendar/zones.h:318
 msgid "Europe/Riga"
-msgstr ""
+msgstr "Europa/Riga"
 
 #: calendar/zones.h:319
 msgid "Europe/Rome"
-msgstr ""
+msgstr "Europa/Roma"
 
 #: calendar/zones.h:320
 msgid "Europe/Samara"
-msgstr ""
+msgstr "Europa/Samara"
 
 #: calendar/zones.h:321
 msgid "Europe/San_Marino"
-msgstr ""
+msgstr "Europa/San_Marino"
 
 #: calendar/zones.h:322
 msgid "Europe/Sarajevo"
-msgstr ""
+msgstr "Europa/Sarajevo"
 
 #: calendar/zones.h:323
 msgid "Europe/Simferopol"
-msgstr ""
+msgstr "Europa/Simferopol"
 
 #: calendar/zones.h:324
 msgid "Europe/Skopje"
-msgstr ""
+msgstr "Europa/Skopje"
 
 #: calendar/zones.h:325
 msgid "Europe/Sofia"
-msgstr ""
+msgstr "Europa/Sofia"
 
 #: calendar/zones.h:326
 msgid "Europe/Stockholm"
-msgstr ""
+msgstr "Europa/Stockholm"
 
 #: calendar/zones.h:327
 msgid "Europe/Tallinn"
-msgstr ""
+msgstr "Europa/Tallinn"
 
 #: calendar/zones.h:328
 msgid "Europe/Tirane"
-msgstr ""
+msgstr "Europa/Tirana"
 
 #: calendar/zones.h:329
 msgid "Europe/Uzhgorod"
-msgstr ""
+msgstr "Europa/Uzhgorod"
 
 #: calendar/zones.h:330
 msgid "Europe/Vaduz"
-msgstr ""
+msgstr "Europa/Vaduz"
 
 #: calendar/zones.h:331
 msgid "Europe/Vatican"
-msgstr ""
+msgstr "Europa/Vatican"
 
 #: calendar/zones.h:332
 msgid "Europe/Vienna"
-msgstr ""
+msgstr "Europa/Viena"
 
 #: calendar/zones.h:333
 msgid "Europe/Vilnius"
-msgstr ""
+msgstr "Europa/Vilnius"
 
 #: calendar/zones.h:334
 msgid "Europe/Warsaw"
-msgstr ""
+msgstr "Europa/Varşovia"
 
 #: calendar/zones.h:335
 msgid "Europe/Zagreb"
-msgstr ""
+msgstr "Europa/Zagreb"
 
 #: calendar/zones.h:336
 msgid "Europe/Zaporozhye"
-msgstr ""
+msgstr "Europa/Zaporozhye"
 
 #: calendar/zones.h:337
 msgid "Europe/Zurich"
-msgstr ""
+msgstr "Europa/Zurich"
 
 #: calendar/zones.h:338
 msgid "Indian/Antananarivo"
-msgstr ""
+msgstr "Indian/Antananarivo"
 
 #: calendar/zones.h:339
 msgid "Indian/Chagos"
-msgstr ""
+msgstr "Indian/Chagos"
 
 #: calendar/zones.h:340
 msgid "Indian/Christmas"
-msgstr ""
+msgstr "Indian/Christmas"
 
 #: calendar/zones.h:341
 msgid "Indian/Cocos"
-msgstr ""
+msgstr "Indian/Cocos"
 
 #: calendar/zones.h:342
-#, fuzzy
 msgid "Indian/Comoro"
-msgstr "Culori"
+msgstr "Indian/Comoro"
 
 #: calendar/zones.h:343
 msgid "Indian/Kerguelen"
-msgstr ""
+msgstr "Indian/Kerguelen"
 
 #: calendar/zones.h:344
 msgid "Indian/Mahe"
-msgstr ""
+msgstr "Indian/Mahe"
 
 #: calendar/zones.h:345
 msgid "Indian/Maldives"
-msgstr ""
+msgstr "Indian/Maldives"
 
 #: calendar/zones.h:346
-#, fuzzy
 msgid "Indian/Mauritius"
-msgstr "Margini"
+msgstr "Indian/Mauritius"
 
 #: calendar/zones.h:347
-#, fuzzy
 msgid "Indian/Mayotte"
-msgstr "Mai"
+msgstr "Indian/Mayotte"
 
 #: calendar/zones.h:348
-#, fuzzy
 msgid "Indian/Reunion"
-msgstr "Regiuni"
+msgstr "Indian/Reunion"
 
 #: calendar/zones.h:349
 msgid "Pacific/Apia"
-msgstr ""
+msgstr "Pacific/Apia"
 
 #: calendar/zones.h:350
 msgid "Pacific/Auckland"
-msgstr ""
+msgstr "Pacific/Auckland"
 
 #: calendar/zones.h:351
 msgid "Pacific/Chatham"
-msgstr ""
+msgstr "Pacific/Chatham"
 
 #: calendar/zones.h:352
 msgid "Pacific/Easter"
-msgstr ""
+msgstr "Pacific/Easter"
 
 #: calendar/zones.h:353
 msgid "Pacific/Efate"
-msgstr ""
+msgstr "Pacific/Efate"
 
 #: calendar/zones.h:354
 msgid "Pacific/Enderbury"
-msgstr ""
+msgstr "Pacific/Enderbury"
 
 #: calendar/zones.h:355
 msgid "Pacific/Fakaofo"
-msgstr ""
+msgstr "Pacific/Fakaofo"
 
 #: calendar/zones.h:356
 msgid "Pacific/Fiji"
-msgstr ""
+msgstr "Pacific/Fiji"
 
 #: calendar/zones.h:357
 msgid "Pacific/Funafuti"
-msgstr ""
+msgstr "Pacific/Funafuti"
 
 #: calendar/zones.h:358
 msgid "Pacific/Galapagos"
-msgstr ""
+msgstr "Pacific/Galapagos"
 
 #: calendar/zones.h:359
 msgid "Pacific/Gambier"
-msgstr ""
+msgstr "Pacific/Gambier"
 
 #: calendar/zones.h:360
 msgid "Pacific/Guadalcanal"
-msgstr ""
+msgstr "Pacific/Guadalcanal"
 
 #: calendar/zones.h:361
 msgid "Pacific/Guam"
-msgstr ""
+msgstr "Pacific/Guam"
 
 #: calendar/zones.h:362
 msgid "Pacific/Honolulu"
-msgstr ""
+msgstr "Pacific/Honolulu"
 
 #: calendar/zones.h:363
 msgid "Pacific/Johnston"
-msgstr ""
+msgstr "Pacific/Johnston"
 
 #: calendar/zones.h:364
 msgid "Pacific/Kiritimati"
-msgstr ""
+msgstr "Pacific/Kiritimati"
 
 #: calendar/zones.h:365
 msgid "Pacific/Kosrae"
-msgstr ""
+msgstr "Pacific/Kosrae"
 
 #: calendar/zones.h:366
 msgid "Pacific/Kwajalein"
-msgstr ""
+msgstr "Pacific/Kwajalein"
 
 #: calendar/zones.h:367
 msgid "Pacific/Majuro"
-msgstr ""
+msgstr "Pacific/Majuro"
 
 #: calendar/zones.h:368
 msgid "Pacific/Marquesas"
-msgstr ""
+msgstr "Pacific/Marquesas"
 
 #: calendar/zones.h:369
 msgid "Pacific/Midway"
-msgstr ""
+msgstr "Pacific/Midway"
 
 #: calendar/zones.h:370
 msgid "Pacific/Nauru"
-msgstr ""
+msgstr "Pacific/Nauru"
 
 #: calendar/zones.h:371
 msgid "Pacific/Niue"
-msgstr ""
+msgstr "Pacific/Niue"
 
 #: calendar/zones.h:372
 msgid "Pacific/Norfolk"
-msgstr ""
+msgstr "Pacific/Norfolk"
 
 #: calendar/zones.h:373
 msgid "Pacific/Noumea"
-msgstr ""
+msgstr "Pacific/Noumea"
 
 #: calendar/zones.h:374
 msgid "Pacific/Pago_Pago"
-msgstr ""
+msgstr "Pacific/Pago_Pago"
 
 #: calendar/zones.h:375
 msgid "Pacific/Palau"
-msgstr ""
+msgstr "Pacific/Palau"
 
 #: calendar/zones.h:376
 msgid "Pacific/Pitcairn"
-msgstr ""
+msgstr "Pacific/Pitcairn"
 
 #: calendar/zones.h:377
 msgid "Pacific/Ponape"
-msgstr ""
+msgstr "Pacific/Ponape"
 
 #: calendar/zones.h:378
 msgid "Pacific/Port_Moresby"
-msgstr ""
+msgstr "Pacific/Port_Moresby"
 
 #: calendar/zones.h:379
 msgid "Pacific/Rarotonga"
-msgstr ""
+msgstr "Pacific/Rarotonga"
 
 #: calendar/zones.h:380
 msgid "Pacific/Saipan"
-msgstr ""
+msgstr "Pacific/Saipan"
 
 #: calendar/zones.h:381
 msgid "Pacific/Tahiti"
-msgstr ""
+msgstr "Pacific/Tahiti"
 
 #: calendar/zones.h:382
 msgid "Pacific/Tarawa"
-msgstr ""
+msgstr "Pacific/Tarawa"
 
 #: calendar/zones.h:383
 msgid "Pacific/Tongatapu"
-msgstr ""
+msgstr "Pacific/Tongatapu"
 
 #: calendar/zones.h:384
 msgid "Pacific/Truk"
-msgstr ""
+msgstr "Pacific/Truk"
 
 #: calendar/zones.h:385
 msgid "Pacific/Wake"
-msgstr ""
+msgstr "Pacific/Wake"
 
 #: calendar/zones.h:386
 msgid "Pacific/Wallis"
-msgstr ""
+msgstr "Pacific/Wallis"
 
 #: calendar/zones.h:387
 msgid "Pacific/Yap"
-msgstr ""
+msgstr "Pacific/Yap"
 
 #: camel/camel-cipher-context.c:102
 msgid "Signing is not supported by this cipher"
