@@ -1,3 +1,9 @@
+2001-02-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* camel-mime-filter-charset.c (complete, filter),
+	camel-mime-utils.c (rfc2047_decode_word, rfc2047_encode_word):
+	Changed this code to match the glibc iconv signature.
+
 2001-02-14  Dan Winship  <danw@ximian.com>
 
 	* camel-store.c (camel_store_create_folder): New method to create
