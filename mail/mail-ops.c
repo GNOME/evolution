@@ -26,6 +26,8 @@
 #include <config.h>
 #include <errno.h>
 #include <gnome.h>
+#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-master-preview.h>
 #include "mail.h"
 #include "mail-threads.h"
 #include "folder-browser.h"
@@ -884,3 +886,22 @@ providers_config (BonoboUIHandler *uih, void *user_data, const char *path)
 	gtk_widget_show (pc);
 }
 
+void
+print_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb = user_data;
+	GnomePrintMaster *print_master;
+	GnomePrintContext *print_context;
+	GtkWidget *preview;
+
+	print_master = gnome_print_master_new ();
+
+	print_context = gnome_print_master_get_context (print_master);
+	gtk_html_print (fb->mail_display->html, print_context);
+
+	preview = GTK_WIDGET (gnome_print_master_preview_new (
+		print_master, "Mail Print Preview"));
+	gtk_widget_show (preview);
+
+	gtk_object_unref (GTK_OBJECT (print_master));
+}

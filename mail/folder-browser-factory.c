@@ -46,7 +46,7 @@ static GnomeUIInfo gnome_toolbar [] = {
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Refile"), N_("Move message to a new folder"), refile_msg, GNOME_STOCK_PIXMAP_MAIL_SND),
 
-	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print the selected message"), random_cb, GNOME_STOCK_PIXMAP_PRINT),
+	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print the selected message"), print_msg, GNOME_STOCK_PIXMAP_PRINT),
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete this message"), delete_msg, GNOME_STOCK_PIXMAP_TRASH),
 

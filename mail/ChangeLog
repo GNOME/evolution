@@ -1,5 +1,9 @@
 2000-06-30  Dan Winship  <danw@helixcode.com>
 
+	* mail-ops.c (print_msg): Use gnome-print to do a print preview.
+
+	* folder-browser-factory.c: Hook up "Print" button.
+
 	* message-list.c (message_list_foreach): New function, a wrapper
 	around e_table_selected_row_foreach, which calls the callback
 	function with UIDs rather than row numbers.
