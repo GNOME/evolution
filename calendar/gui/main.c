@@ -553,7 +553,7 @@ session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_styl
 		    GnomeInteractStyle  interact_style, gint fast, gpointer client_data)
 {
 	char *sess_id;
-	char **argv = (char **) g_malloc ((active_calendars * 4) + 2);
+	char **argv = (char **) g_malloc (sizeof (char *) * ((active_calendars * 4) + 3));
 	GList *l, *free_list = 0;
 	int   i;
 
