@@ -1256,17 +1256,17 @@ comp_editor_focus (CompEditor *editor)
 }
 
 /**
- * comp_editor_page_notify_client_changed:
- * @page: An editor page.
+ * comp_editor_notify_client_changed:
+ * @editor: A component editor.
  * 
- * Makes an editor page emit the "client_changed" signal.  This is meant to be
- * used only by page implementations.
+ * Makes an editor emit the "client_changed" signal.
  **/
 void
 comp_editor_notify_client_changed (CompEditor *editor, ECal *client)
 {
 	GList *l;
 	CompEditorPrivate *priv;
+	gboolean read_only;
 
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
@@ -1278,6 +1278,11 @@ comp_editor_notify_client_changed (CompEditor *editor, ECal *client)
 	comp_editor_set_e_cal (editor, client);
 	for (l = priv->pages; l != NULL; l = l->next)
 		comp_editor_page_notify_client_changed (COMP_EDITOR_PAGE (l->data), client);
+
+	if (!e_cal_is_read_only (client, &read_only, NULL))
+		read_only = TRUE;
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor), GTK_RESPONSE_OK, !read_only);
 }
 
 static void

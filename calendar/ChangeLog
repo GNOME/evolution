@@ -1,3 +1,9 @@
+2004-06-23  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/dialogs/comp-editor.c (comp_editor_notify_client_changed):
+	fixed gtk-doc comments and made it enable/disable the dialog's
+	OK button depending on the selected source.
+
 2004-06-23  Rodney Dawes  <dobey@novell.com>
 
 	* gui/calendar-component.c: Revert previous change to add the
