@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-14 03:30+0200\n"
-"PO-Revision-Date: 2004-07-27 16:30+0530\n"
+"PO-Revision-Date: 2004-07-27 18:55+0530\n"
 "Last-Translator: Jayaradha N <jaya@pune.redhat.com>\n"
 "Language-Team: Tamil <zhakanini@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -5189,151 +5189,151 @@ msgstr "பணி பட்டியலின் பெயர்"
 
 #: calendar/gui/dialogs/recur-comp.c:51
 msgid "You are modifying a recurring event, what would you like to modify?"
-msgstr ""
+msgstr "நீங்கள் மீண்டும் காட்டிய நிகழ்வில் மாற்றம் செய்கிறீர்கள். என்ன மாற்றம் செய்ய விரும்புகிறீர்கள்?"
 
 #: calendar/gui/dialogs/recur-comp.c:55
 msgid "You are modifying a recurring task, what would you like to modify?"
-msgstr ""
+msgstr "நீங்கள் மீண்டும் காட்டிய பணியில் மாற்றம் செய்கிறீர்கள். என்ன மாற்றம் செய்ய விரும்புகிறீர்கள்?"
 
 #: calendar/gui/dialogs/recur-comp.c:59
 msgid "You are modifying a recurring journal entry, what would you like to modify?"
-msgstr ""
+msgstr "நீங்கள் மீண்டும் காட்டிய இதழில் மாற்றம் செய்கிறீர்கள். என்ன மாற்றம் செய்ய விரும்புகிறீர்கள்?"
 
 #: calendar/gui/dialogs/recur-comp.c:85
 msgid "This Instance Only"
-msgstr ""
+msgstr "இந்த நிகழ்வு மட்டும்"
 
 #: calendar/gui/dialogs/recur-comp.c:89
 msgid "This and Prior Instances"
-msgstr ""
+msgstr "இந்த மற்றும் முந்தைய நிகழ்வுகள்"
 
 #: calendar/gui/dialogs/recur-comp.c:95
 msgid "This and Future Instances"
-msgstr ""
+msgstr "இந்த மற்றும் இனிவரும் நிகழ்வுகள்"
 
 #: calendar/gui/dialogs/recur-comp.c:100
 msgid "All Instances"
-msgstr ""
+msgstr "எல்லா நிகழ்வுகளும்"
 
 #: calendar/gui/dialogs/recurrence-page.c:511
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr ""
+msgstr "இந்த நேர ஒதுக்கீட்டில் மீண்டும் வந்துள்ளதால் எவல்யூஷனால் திருத்த முடியாது"
 
 #: calendar/gui/dialogs/recurrence-page.c:806
 msgid "Recurrence date is invalid"
-msgstr ""
+msgstr "மீண்டும் வந்த தேதி செல்லாது"
 
 #: calendar/gui/dialogs/recurrence-page.c:917
 msgid "on"
-msgstr ""
+msgstr "இயக்கு"
 
 #: calendar/gui/dialogs/recurrence-page.c:978
 msgid "first"
-msgstr ""
+msgstr "முதல்"
 
 #: calendar/gui/dialogs/recurrence-page.c:979
 msgid "second"
-msgstr ""
+msgstr "இரண்டாவது"
 
 #: calendar/gui/dialogs/recurrence-page.c:980
 msgid "third"
-msgstr ""
+msgstr "மூன்றாவது"
 
 #: calendar/gui/dialogs/recurrence-page.c:981
 msgid "fourth"
-msgstr ""
+msgstr "நான்காவது"
 
 #: calendar/gui/dialogs/recurrence-page.c:982
 msgid "last"
-msgstr ""
+msgstr "கடைசி"
 
 #: calendar/gui/dialogs/recurrence-page.c:1005
 msgid "Other Date"
-msgstr ""
+msgstr "மற்ற தேதிகள்"
 
 #: calendar/gui/dialogs/recurrence-page.c:1033
 msgid "day"
-msgstr ""
+msgstr "நாள்"
 
 #: calendar/gui/dialogs/recurrence-page.c:1170
 msgid "on the"
-msgstr ""
+msgstr "மேல்"
 
 #: calendar/gui/dialogs/recurrence-page.c:1356
 msgid "occurrences"
-msgstr ""
+msgstr "நிகழ்வுகள்"
 
 #: calendar/gui/dialogs/recurrence-page.c:2309
 msgid "Date/Time"
-msgstr ""
+msgstr "தேதி/நேரம்"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "<b>Exceptions</b>"
-msgstr ""
+msgstr "<b>பிழைகள்</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:2 mail/mail-config.glade.h:4
 msgid "<b>Preview</b>"
-msgstr ""
+msgstr "<b>முன் தோற்றம்</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
 msgid "<b>Recurrence</b>"
-msgstr ""
+msgstr "<b>மீண்டும் நிகழ்தல்</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
-msgstr ""
+msgstr "அனைத்தும்"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
 msgid "This appointment rec_urs"
-msgstr ""
+msgstr "(_u)இந்த நேர ஒதுக்கம் மீண்டும் வந்துள்ளது "
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
 msgid "for"
-msgstr ""
+msgstr "க்கு"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "forever"
-msgstr ""
+msgstr "எப்போதும்"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:10
 msgid "month(s)"
-msgstr ""
+msgstr "மாதம்(ங்கள்)"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:11
 msgid "until"
-msgstr ""
+msgstr "வரை"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:12
 msgid "week(s)"
-msgstr ""
+msgstr "வாரம்(கள்)"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "year(s)"
-msgstr ""
+msgstr "வருடம்(கள்)"
 
 #: calendar/gui/dialogs/select-source-dialog.c:84
 msgid "Select destination"
-msgstr ""
+msgstr "சேருமிடத்தை தேர்வு செய்"
 
 #: calendar/gui/dialogs/select-source-dialog.c:106
 msgid "_Destination"
-msgstr ""
+msgstr "(_D)சேருமிடம்"
 
 #: calendar/gui/dialogs/select-source-dialog.c:108
 msgid "Task List"
-msgstr ""
+msgstr "பணி பட்டியல்"
 
 #: calendar/gui/dialogs/task-details-page.c:427
 msgid "Completed date is wrong"
-msgstr ""
+msgstr "முடிந்த தேதியில் தவறு"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:1
 msgid "<span weight=\"bold\">Miscellaneous\t</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">இன்ன பிற\t</span>"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
 msgid "<span weight=\"bold\">Status</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">நிலை</span>"
 
 #. Pass TRUE as is_utc, so it gets converted to the current
 #. timezone.
@@ -5344,13 +5344,13 @@ msgstr ""
 #: calendar/gui/e-meeting-store.c:187 calendar/gui/e-meeting-store.c:210
 #: calendar/gui/print.c:2346
 msgid "Completed"
-msgstr ""
+msgstr "முடிவுற்றது"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:5
 #: calendar/gui/e-cal-component-preview.c:249
 #: calendar/gui/e-calendar-table.c:374 mail/message-list.c:960
 msgid "High"
-msgstr ""
+msgstr "அதிக"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-cal-component-preview.c:227
@@ -5358,291 +5358,291 @@ msgstr ""
 #: calendar/gui/e-cal-model-tasks.c:726 calendar/gui/e-calendar-table.c:448
 #: calendar/gui/print.c:2343
 msgid "In Progress"
-msgstr ""
+msgstr "நடந்துகொண்டிருக்கிறது"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-cal-component-preview.c:253
 #: calendar/gui/e-calendar-table.c:376 mail/message-list.c:958
 msgid "Low"
-msgstr ""
+msgstr "குறைவாக"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-cal-component-preview.c:251 calendar/gui/e-cal-model.c:909
 #: calendar/gui/e-calendar-table.c:375 mail/message-list.c:959
 msgid "Normal"
-msgstr ""
+msgstr "இயல்பாக"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-cal-component-preview.c:237
 #: calendar/gui/e-cal-model-tasks.c:346 calendar/gui/e-cal-model-tasks.c:649
 #: calendar/gui/e-calendar-table.c:447 calendar/gui/print.c:2340
 msgid "Not Started"
-msgstr ""
+msgstr "துவங்கவில்லை"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:10
 msgid "P_ercent complete:"
-msgstr ""
+msgstr "(_e)முடிந்த விகிதம்:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:377
 msgid "Undefined"
-msgstr ""
+msgstr "குறிப்பில்லா"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
 msgid "_Date completed:"
-msgstr ""
+msgstr "(_D) தேதி முடிந்தது"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:13
 msgid "_Priority:"
-msgstr ""
+msgstr "(_P)முன்னுரிமை"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:14
 msgid "_Status:"
-msgstr ""
+msgstr "(_S)நிலை"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:15
 msgid "_Web Page:"
-msgstr ""
+msgstr "(_W)இணைய பக்கம்:"
 
 #: calendar/gui/dialogs/task-editor.c:149 calendar/gui/print.c:2297
 msgid "Task"
-msgstr ""
+msgstr "பணி"
 
 #: calendar/gui/dialogs/task-editor.c:165
 #: calendar/gui/dialogs/task-editor.c:225
 #: calendar/gui/dialogs/task-editor.c:361
 msgid "Assignment"
-msgstr ""
+msgstr "நியமனம்"
 
 #: calendar/gui/dialogs/task-page.c:496
 msgid "Due date is wrong"
-msgstr ""
+msgstr "நிலுவை தேதி தவறாக உள்ளது"
 
 #: calendar/gui/dialogs/task-page.c:831
 #, c-format
 msgid "Unable to open tasks in '%s'."
-msgstr ""
+msgstr "'%s'. இல் பணியை திறக்கமுடியவில்லை"
 
 #: calendar/gui/dialogs/task-page.glade.h:2
 msgid "<span weight=\"bold\">Basics</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">அடிப்படைகள்</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:3
 msgid "<span weight=\"bold\">Date and Time</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">தேதியும் நேரமும்</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:7
 #: calendar/gui/e-cal-component-preview.c:268
 #: calendar/gui/e-itip-control.c:988 calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:71
 msgid "Description:"
-msgstr ""
+msgstr "விளக்கம்:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
 msgid "Sta_rt date:"
-msgstr ""
+msgstr "(_r)துவக்க தேதி:"
 
 #: calendar/gui/dialogs/task-page.glade.h:12
 msgid "_Due date:"
-msgstr ""
+msgstr "(_D)நிலுவை தேதி:"
 
 #: calendar/gui/dialogs/task-page.glade.h:13
 msgid "_Group:"
-msgstr ""
+msgstr "(_G)குழு:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:3
 msgid "<b>Free/Busy C_alendars</b>"
-msgstr ""
+msgstr "<b>(C_)வேலையில்லாமல்/வேலையில் நாள்காட்டிகள்</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
 msgid "<b>Publishing Frequency</b>"
-msgstr ""
+msgstr "<b>பதிப்பிக்கும் கால இடைவெளி</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
 msgid "<b>Publishing _Location</b>"
-msgstr ""
+msgstr "<b>(_L)பதிப்பிக்கும் இடம்</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Editor"
-msgstr ""
+msgstr "வேலையில்லாமல்/வேலையில் உள்ள தொகுப்பி"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Daily"
-msgstr ""
+msgstr "(_D)தினந்தோரும்"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
 msgid "_Manual"
-msgstr ""
+msgstr "(_M)நீங்களாக"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
 msgid "_Password:"
-msgstr ""
+msgstr "(_P)கடவுச்சொல்:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
 msgid "_Remember password"
-msgstr ""
+msgstr "(_R)கடவுச்சொல்லை நினைவில் கொள்"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:11
 msgid "_Username:"
-msgstr ""
+msgstr "(_U)பயனீட்டாளர் பெயர்"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:12
 msgid "_Weekly"
-msgstr ""
+msgstr "(_W)வாரந்தோரும்"
 
 #: calendar/gui/e-alarm-list.c:395
 #, c-format
 msgid "%d day"
 msgid_plural "%d days"
-msgstr[0] ""
+msgstr[0] "%d நாட்கள்"
 msgstr[1] ""
 
 #: calendar/gui/e-alarm-list.c:400
 #, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] ""
+msgstr[0] "%d வாரங்கள்"
 msgstr[1] ""
 
 #: calendar/gui/e-alarm-list.c:405
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] ""
+msgstr[0] "%d மணி"
 msgstr[1] ""
 
 #: calendar/gui/e-alarm-list.c:410
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] ""
+msgstr[0] "%d நிமிடம்"
 msgstr[1] ""
 
 #: calendar/gui/e-alarm-list.c:415
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] ""
+msgstr[0] "%d வினாடி"
 msgstr[1] ""
 
 #: calendar/gui/e-alarm-list.c:462
 msgid "Unknown action to be performed"
-msgstr ""
+msgstr "தெரியாத செயல் நிகழ்ந்தது"
 
 #: calendar/gui/e-alarm-list.c:474
 #, c-format
 msgid "%s %s before the start of the appointment"
-msgstr ""
+msgstr "%s %s நேர ஒதுக்கத்தை துவக்கும் முன்"
 
 #: calendar/gui/e-alarm-list.c:477
 #, c-format
 msgid "%s %s after the start of the appointment"
-msgstr ""
+msgstr "%s %s நேர ஒதுக்கத்தை துவக்கிய பின்"
 
 #: calendar/gui/e-alarm-list.c:482
 #, c-format
 msgid "%s at the start of the appointment"
-msgstr ""
+msgstr "%s நேரஒதுக்கம் துவங்கும் போது"
 
 #: calendar/gui/e-alarm-list.c:491
 #, c-format
 msgid "%s %s before the end of the appointment"
-msgstr ""
+msgstr "%s %s நேர ஒதுக்கம் முடியும் போது"
 
 #: calendar/gui/e-alarm-list.c:494
 #, c-format
 msgid "%s %s after the end of the appointment"
-msgstr ""
+msgstr "%s %s நேர ஒதுக்கம் முடிந்த பின்"
 
 #: calendar/gui/e-alarm-list.c:499
 #, c-format
 msgid "%s at the end of the appointment"
-msgstr ""
+msgstr "%s நேர ஒதுக்கம் முடியும் போது"
 
 #: calendar/gui/e-alarm-list.c:521
 #, c-format
 msgid "%s at %s"
-msgstr ""
+msgstr "%s %s"
 
 #: calendar/gui/e-alarm-list.c:527
 #, c-format
 msgid "%s for an unknown trigger type"
-msgstr ""
+msgstr "%s தெரியாத துவக்க வகை"
 
 #: calendar/gui/e-cal-component-preview.c:71 mail/em-folder-view.c:2382
 #, c-format
 msgid "Click to open %s"
-msgstr ""
+msgstr "%s திறக்க க்ளிக் செய்யவும்"
 
 #: calendar/gui/e-cal-component-preview.c:156 filter/filter-rule.c:794
 msgid "Untitled"
-msgstr ""
+msgstr "தலைப்பில்லா"
 
 #: calendar/gui/e-cal-component-preview.c:187
 #: calendar/gui/e-itip-control.c:932 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
-msgstr ""
+msgstr "சுருக்கம்:"
 
 #: calendar/gui/e-cal-component-preview.c:194
 #: calendar/gui/e-cal-component-preview.c:205
 msgid "Start Date:"
-msgstr ""
+msgstr "துவக்க தேதி:"
 
 #: calendar/gui/e-cal-component-preview.c:216
 msgid "Due Date:"
-msgstr ""
+msgstr "நிலுவை தேதி:"
 
 #. write status
 #: calendar/gui/e-cal-component-preview.c:223
 #: calendar/gui/e-itip-control.c:956
 msgid "Status:"
-msgstr ""
+msgstr "நிலை:"
 
 #: calendar/gui/e-cal-component-preview.c:247
 msgid "Priority:"
-msgstr ""
+msgstr "முன்னுரிமை:"
 
 #: calendar/gui/e-cal-component-preview.c:300
 msgid "Web Page:"
-msgstr ""
+msgstr "இணைய பக்கம்:"
 
 #: calendar/gui/e-cal-list-view.etspec.h:2
 msgid "End Date"
-msgstr ""
+msgstr "முடியும் தேதி:"
 
 #: calendar/gui/e-cal-list-view.etspec.h:4
 msgid "Start Date"
-msgstr ""
+msgstr "துவக்க தேதி"
 
 #: calendar/gui/e-cal-list-view.etspec.h:5
 #: calendar/gui/e-calendar-table.etspec.h:11 mail/mail-dialogs.glade.h:22
 msgid "Summary"
-msgstr ""
+msgstr "சுருக்கம்"
 
 #: calendar/gui/e-cal-model-calendar.c:163 calendar/gui/e-calendar-table.c:426
 msgid "Free"
-msgstr ""
+msgstr "வேலையில் இல்லை்"
 
 #: calendar/gui/e-cal-model-calendar.c:166 calendar/gui/e-calendar-table.c:427
 #: calendar/gui/e-meeting-time-sel.c:399
 msgid "Busy"
-msgstr ""
+msgstr "வேலையில்"
 
 #: calendar/gui/e-cal-model-tasks.c:302
 msgid "N"
-msgstr ""
+msgstr "N"
 
 #: calendar/gui/e-cal-model-tasks.c:302
 msgid "S"
-msgstr ""
+msgstr "S"
 
 #: calendar/gui/e-cal-model-tasks.c:304 smime/lib/e-cert.c:681
 msgid "E"
-msgstr ""
+msgstr "E"
 
 #: calendar/gui/e-cal-model-tasks.c:304
 msgid "W"
-msgstr ""
+msgstr "W"
 
 #: calendar/gui/e-cal-model-tasks.c:601
 msgid ""
@@ -5650,17 +5650,20 @@ msgid ""
 "\n"
 "45.436845,125.862501"
 msgstr ""
+"நிலவியல் நிலையை இந்த வடிவத்தில் உள்ளிட வேண்டும் : \n"
+"\n"
+"45.436845,125.862501"
 
 #: calendar/gui/e-cal-model-tasks.c:1012 calendar/gui/e-cal-model.c:915
 #: calendar/gui/e-meeting-list-view.c:146 calendar/gui/e-meeting-store.c:159
 #: calendar/gui/e-meeting-store.c:169 calendar/gui/e-meeting-store.c:765
 msgid "Yes"
-msgstr ""
+msgstr "ஆம்"
 
 #: calendar/gui/e-cal-model-tasks.c:1012 calendar/gui/e-cal-model.c:915
 #: calendar/gui/e-meeting-list-view.c:147 calendar/gui/e-meeting-store.c:171
 msgid "No"
-msgstr ""
+msgstr "இல்லை"
 
 #. This is the default filename used for temporary file creation
 #: calendar/gui/e-cal-model.c:334 calendar/gui/e-cal-model.c:337
@@ -5681,84 +5684,84 @@ msgstr ""
 #: shell/e-component-registry.c:207 shell/e-component-registry.c:211
 #: widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
-msgstr ""
+msgstr "தெரியாது"
 
 #: calendar/gui/e-cal-model.c:911
 msgid "Recurring"
-msgstr ""
+msgstr "மீண்டும்நடக்கிறது"
 
 #: calendar/gui/e-cal-model.c:913
 msgid "Assigned"
-msgstr ""
+msgstr "ஒதுக்கப்பட்ட"
 
 #: calendar/gui/e-calendar-table.c:396
 msgid "0%"
-msgstr ""
+msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:397
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:398
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:399
 msgid "30%"
-msgstr ""
+msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:400
 msgid "40%"
-msgstr ""
+msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:401
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:402
 msgid "60%"
-msgstr ""
+msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:403
 msgid "70%"
-msgstr ""
+msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:404
 msgid "80%"
-msgstr ""
+msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:405
 msgid "90%"
-msgstr ""
+msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:406
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:680 calendar/gui/e-calendar-view.c:647
 msgid "Deleting selected objects"
-msgstr ""
+msgstr "தேர்வு செய்யப்பட்ட பொருள் நீக்கப்படுகிறது"
 
 #: calendar/gui/e-calendar-table.c:843 calendar/gui/e-calendar-view.c:751
 msgid "Updating objects"
-msgstr ""
+msgstr "பொருள் புதுப்பிக்கப்படுகிறது"
 
 #: calendar/gui/e-calendar-table.c:1019 calendar/gui/e-calendar-table.c:1060
 #: calendar/gui/e-calendar-view.c:1353 calendar/gui/e-calendar-view.c:1433
 #: mail/em-folder-view.c:898 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
-msgstr ""
+msgstr "(_O)திற"
 
 #: calendar/gui/e-calendar-table.c:1020
 msgid "Open _Web Page"
-msgstr ""
+msgstr "(_W)இணைய பக்கத்தை திற"
 
 #: calendar/gui/e-calendar-table.c:1021 calendar/gui/e-calendar-table.c:1066
 #: calendar/gui/e-calendar-view.c:1354 calendar/gui/e-calendar-view.c:1439
 #: mail/em-folder-view.c:900 mail/em-popup.c:691 mail/em-popup.c:807
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
-msgstr ""
+msgstr "(_S)எனச்சேமி..."
 
 #: calendar/gui/e-calendar-table.c:1022 calendar/gui/e-calendar-table.c:1064
 #: calendar/gui/e-calendar-view.c:1332 calendar/gui/e-calendar-view.c:1355
@@ -5767,14 +5770,14 @@ msgstr ""
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:125
 #: ui/evolution-tasks.xml.h:25
 msgid "_Print..."
-msgstr ""
+msgstr "(_P)அச்சடி..."
 
 #: calendar/gui/e-calendar-table.c:1026 calendar/gui/e-calendar-table.c:1055
 #: calendar/gui/e-calendar-view.c:1360 calendar/gui/e-calendar-view.c:1403
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
-msgstr ""
+msgstr "(_u)வெட்டு"
 
 #: calendar/gui/e-calendar-table.c:1027 calendar/gui/e-calendar-table.c:1053
 #: calendar/gui/e-calendar-view.c:1361 calendar/gui/e-calendar-view.c:1401
@@ -5783,7 +5786,7 @@ msgstr ""
 #: ui/evolution-composer-entries.xml.h:7 ui/evolution-mail-message.xml.h:109
 #: ui/evolution-tasks.xml.h:20
 msgid "_Copy"
-msgstr ""
+msgstr "(_C)நகலெடு"
 
 #: calendar/gui/e-calendar-table.c:1028 calendar/gui/e-calendar-table.c:1062
 #: calendar/gui/e-calendar-view.c:1336 calendar/gui/e-calendar-view.c:1362
@@ -5791,23 +5794,23 @@ msgstr ""
 #: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:123 ui/evolution-tasks.xml.h:24
 msgid "_Paste"
-msgstr ""
+msgstr "(_P)ஒட்டு"
 
 #: calendar/gui/e-calendar-table.c:1032
 msgid "_Assign Task"
-msgstr ""
+msgstr "(_A)பணியை ஒதுக்கு"
 
 #: calendar/gui/e-calendar-table.c:1033
 msgid "_Forward as iCalendar"
-msgstr ""
+msgstr "(_F)iநாள்காட்டியாக அனுப்பு"
 
 #: calendar/gui/e-calendar-table.c:1034
 msgid "_Mark as Complete"
-msgstr ""
+msgstr "(_M)முடிவுற்றது என குறி"
 
 #: calendar/gui/e-calendar-table.c:1035
 msgid "_Mark Selected Tasks as Complete"
-msgstr ""
+msgstr "(_M)தேர்வு செய்யப்பட்ட பணி முடிந்தது என குறி"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1057
@@ -5817,123 +5820,123 @@ msgstr ""
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
-msgstr ""
+msgstr "(_D)நீக்கு"
 
 #: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-calendar-table.c:1058
 msgid "_Delete Selected Tasks"
-msgstr ""
+msgstr "(_D)தேர்வு செய்யப்பட்ட பணியை நீக்கு"
 
 #: calendar/gui/e-calendar-table.c:1172 calendar/gui/e-calendar-view.c:1053
 #: composer/e-msg-composer.c:1193
 msgid "Save as..."
-msgstr ""
+msgstr "எனச்சேமி..."
 
 #: calendar/gui/e-calendar-table.c:1350
 #: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
-msgstr ""
+msgstr "பணியை சேர்க்க க்ளிக் செய்யவும்"
 
 #: calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
 msgid "% Complete"
-msgstr ""
+msgstr "% முடிந்தது"
 
 #: calendar/gui/e-calendar-table.etspec.h:5 camel/camel-filter-driver.c:1178
 #: camel/camel-filter-driver.c:1270 mail/mail-send-recv.c:615
 msgid "Complete"
-msgstr ""
+msgstr "முடிந்தது"
 
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Completion date"
-msgstr ""
+msgstr "முடிந்த தேதி"
 
 #: calendar/gui/e-calendar-table.etspec.h:7
 msgid "Due date"
-msgstr ""
+msgstr "நிலுவை தேதி"
 
 #: calendar/gui/e-calendar-table.etspec.h:8
 msgid "Priority"
-msgstr ""
+msgstr "முன்னுரிமை"
 
 #: calendar/gui/e-calendar-table.etspec.h:9
 msgid "Start date"
-msgstr ""
+msgstr "துவக்க தேதி"
 
 #: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Task sort"
-msgstr ""
+msgstr "பணி அடுக்கு"
 
 #: calendar/gui/e-calendar-view.c:1169
 msgid "Moving items"
-msgstr ""
+msgstr "உருப்படிகளை நகர்த்துகிறது"
 
 #: calendar/gui/e-calendar-view.c:1171
 msgid "Copying items"
-msgstr ""
+msgstr "உருப்படிகளை நகலெடுக்கிறது"
 
 #: calendar/gui/e-calendar-view.c:1325 calendar/gui/e-calendar-view.c:1413
 msgid "New _Appointment..."
-msgstr ""
+msgstr "(_A)புதிய நேர ஒதுக்கங்கள்..."
 
 #: calendar/gui/e-calendar-view.c:1326 calendar/gui/e-calendar-view.c:1418
 msgid "New All Day _Event"
-msgstr ""
+msgstr "(_E)எல்லா நாட்களுக்குமான நிகழ்வுகள்"
 
 #: calendar/gui/e-calendar-view.c:1327 calendar/gui/e-calendar-view.c:1423
 msgid "New Meeting"
-msgstr ""
+msgstr "புதிய கூட்டம்"
 
 #: calendar/gui/e-calendar-view.c:1328 calendar/gui/e-calendar-view.c:1428
 msgid "New Task"
-msgstr ""
+msgstr "புதிய பணி"
 
 #: calendar/gui/e-calendar-view.c:1342 ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
-msgstr ""
+msgstr "(_T)இன்றைய தேதியை தேர்வு செய்"
 
 #: calendar/gui/e-calendar-view.c:1343
 msgid "_Select Date..."
-msgstr ""
+msgstr "(_S)தேதியை தேர்வு செய்.."
 
 #: calendar/gui/e-calendar-view.c:1347 ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
-msgstr ""
+msgstr "(_P)வேலைஇல்லை/வேலையில் தகவலை காட்டு"
 
 #: calendar/gui/e-calendar-view.c:1366
 msgid "Cop_y to Calendar..."
-msgstr ""
+msgstr "(_y)நாள்காட்டியில் நகலெடு..."
 
 #: calendar/gui/e-calendar-view.c:1367
 msgid "Mo_ve to Calendar..."
-msgstr ""
+msgstr "(_v)நாள்காட்டிக்கு நகர்த்து..."
 
 #: calendar/gui/e-calendar-view.c:1368
 msgid "_Schedule Meeting..."
-msgstr ""
+msgstr "(_S)நேரம்முடிவு செய்யப்பட்ட கூட்டம்..."
 
 #: calendar/gui/e-calendar-view.c:1369
 msgid "_Forward as iCalendar..."
-msgstr ""
+msgstr "(_F)iநாள்காட்டியாக அனுப்பு..."
 
 #: calendar/gui/e-calendar-view.c:1374 calendar/gui/e-calendar-view.c:1406
 msgid "Delete this _Occurrence"
-msgstr ""
+msgstr "(_O)இந்த மறுநிகழ்வை நீக்கு"
 
 #: calendar/gui/e-calendar-view.c:1375 calendar/gui/e-calendar-view.c:1407
 msgid "Delete _All Occurrences"
-msgstr ""
+msgstr "(_A)எல்லா மறுநிகழ்வுகளையும் நீக்கு"
 
 #: calendar/gui/e-calendar-view.c:1409
 msgid "Go to _Today"
-msgstr ""
+msgstr "(_T)இன்றைய தேதிக்கு செல்"
 
 #: calendar/gui/e-calendar-view.c:1411
 msgid "_Go to Date..."
-msgstr ""
+msgstr "(_G)தேதிக்கு செல்..."
 
 #: calendar/gui/e-calendar-view.c:1441 ui/evolution.xml.h:35
 msgid "_Settings..."
-msgstr ""
+msgstr "(_S)அமைப்புகள்..."
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #. strptime format of a weekday, a date and a time,
@@ -5943,7 +5946,7 @@ msgstr ""
 #: calendar/gui/e-cell-date-edit-text.c:117 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%a %m/%d/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #. strptime format of a weekday, a date and a time,
@@ -5953,7 +5956,7 @@ msgstr ""
 #: calendar/gui/e-cell-date-edit-text.c:120 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%a %m/%d/%Y %I:%M:%S %p"
 
 #: calendar/gui/e-cell-date-edit-text.c:125
 #, c-format
@@ -5962,11 +5965,14 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"தேதி இந்த வடிவத்தில் உள்ளிடப்பட வேண்டும்: \n"
+"\n"
+"%s"
 
 #: calendar/gui/e-day-view-time-item.c:532
 #, c-format
 msgid "%02i minute divisions"
-msgstr ""
+msgstr "%02i நிமிட பகுப்புகள்"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
@@ -5977,7 +5983,7 @@ msgstr ""
 #: calendar/gui/e-day-view-top-item.c:710 calendar/gui/e-day-view.c:1571
 #: calendar/gui/e-week-view-main-item.c:320 calendar/gui/print.c:1514
 msgid "%A %d %B"
-msgstr ""
+msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
@@ -5987,517 +5993,517 @@ msgstr ""
 #: calendar/gui/e-day-view-top-item.c:718 calendar/gui/e-day-view.c:1604
 #: calendar/gui/e-week-view-main-item.c:343
 msgid "%d %b"
-msgstr ""
+msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:817 calendar/gui/e-week-view.c:573
 #: calendar/gui/print.c:838
 msgid "am"
-msgstr ""
+msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:820 calendar/gui/e-week-view.c:576
 #: calendar/gui/print.c:840
 msgid "pm"
-msgstr ""
+msgstr "pm"
 
 #: calendar/gui/e-itip-control.c:585
 msgid "Yes. (Complex Recurrence)"
-msgstr ""
+msgstr "ஆம்(கடினமான மறுநிகழ்வு)"
 
 #: calendar/gui/e-itip-control.c:596
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
-msgstr[0] ""
+msgstr[0] "எல்லா %d  நாட்களும்"
 msgstr[1] ""
 
 #: calendar/gui/e-itip-control.c:601
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
-msgstr[0] ""
+msgstr[0] "எல்லா %d வாரங்களும்"
 msgstr[1] ""
 
 #: calendar/gui/e-itip-control.c:603
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
-msgstr[0] ""
+msgstr[0] "எல்லா %d வாரத்திலும்"
 msgstr[1] ""
 
 #: calendar/gui/e-itip-control.c:611
 msgid " and "
-msgstr ""
+msgstr "மற்றும்"
 
 #: calendar/gui/e-itip-control.c:618
 #, c-format
 msgid "The %s day of "
-msgstr ""
+msgstr "%s நாளில்"
 
 #: calendar/gui/e-itip-control.c:631
 #, c-format
 msgid "The %s %s of "
-msgstr ""
+msgstr "%s %s இல்"
 
 #: calendar/gui/e-itip-control.c:638
 #, c-format
 msgid "every month"
 msgid_plural "every %d months"
-msgstr[0] ""
+msgstr[0] "எல்லா %d மாதங்களும்"
 msgstr[1] ""
 
 #: calendar/gui/e-itip-control.c:642
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
-msgstr[0] ""
+msgstr[0] "எல்லா %d வருடங்களும்"
 msgstr[1] ""
 
 #: calendar/gui/e-itip-control.c:653
 #, c-format
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
-msgstr[0] ""
+msgstr[0] "%d மொத்த நேரம்"
 msgstr[1] ""
 
 #: calendar/gui/e-itip-control.c:662
 msgid ", ending on "
-msgstr ""
+msgstr ", முடிந்த"
 
 #: calendar/gui/e-itip-control.c:686
 msgid "Starts"
-msgstr ""
+msgstr "துவங்கிய"
 
 #: calendar/gui/e-itip-control.c:699
 msgid "Ends"
-msgstr ""
+msgstr "முடிந்த"
 
 #: calendar/gui/e-itip-control.c:733
 msgid "Due"
-msgstr ""
+msgstr "நிலுவை"
 
 #: calendar/gui/e-itip-control.c:773 calendar/gui/e-itip-control.c:830
 msgid "iCalendar Information"
-msgstr ""
+msgstr "iநாள்காட்டி தகவல்"
 
 #. Title
 #: calendar/gui/e-itip-control.c:790
 msgid "iCalendar Error"
-msgstr ""
+msgstr "iநாள்காட்டி பிழை"
 
 #: calendar/gui/e-itip-control.c:862 calendar/gui/e-itip-control.c:878
 #: calendar/gui/e-itip-control.c:889 calendar/gui/e-itip-control.c:906
 msgid "An unknown person"
-msgstr ""
+msgstr "தெரியாத நபர்"
 
 #. Describe what the user can do
 #: calendar/gui/e-itip-control.c:913
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
-msgstr ""
+msgstr "<br> இந்த தகவலை பார்த்த பிறகு அதற்காக செயலை கீழுள்ள மெனுவிலிருந்து தேர்வு செய்யவும்"
 
 #: calendar/gui/e-itip-control.c:942
 msgid "Location:"
-msgstr ""
+msgstr "இடம்:"
 
 #: calendar/gui/e-itip-control.c:961 calendar/gui/e-meeting-list-view.c:158
 #: calendar/gui/e-meeting-store.c:179 calendar/gui/e-meeting-store.c:202
 #: calendar/gui/itip-utils.c:422
 msgid "Accepted"
-msgstr ""
+msgstr "ஏற்கப்பட்டது"
 
 #: calendar/gui/e-itip-control.c:965 calendar/gui/itip-utils.c:425
 msgid "Tentatively Accepted"
-msgstr ""
+msgstr "ஏற்கப்படலாம்"
 
 #: calendar/gui/e-itip-control.c:969 calendar/gui/e-meeting-list-view.c:159
 #: calendar/gui/e-meeting-store.c:181 calendar/gui/e-meeting-store.c:204
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
 msgid "Declined"
-msgstr ""
+msgstr "நிராகரிக்கப்பட்டது"
 
 #: calendar/gui/e-itip-control.c:1028 calendar/gui/e-itip-control.c:1056
 #: calendar/gui/e-itip-control.c:1082 calendar/gui/e-itip-control.c:1095
 #: calendar/gui/e-itip-control.c:1108 calendar/gui/e-itip-control.c:1121
 msgid "Choose an action:"
-msgstr ""
+msgstr "செயலை தேர்வு செய்:"
 
 #: calendar/gui/e-itip-control.c:1029
 msgid "Update"
-msgstr ""
+msgstr "திருத்து"
 
 #: calendar/gui/e-itip-control.c:1030 calendar/gui/e-itip-control.c:1061
 #: calendar/gui/e-itip-control.c:1084 calendar/gui/e-itip-control.c:1097
 #: calendar/gui/e-itip-control.c:1110 calendar/gui/e-itip-control.c:1123
 #: shell/e-shell.c:1129 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
-msgstr ""
+msgstr "சரி"
 
 #: calendar/gui/e-itip-control.c:1057
 msgid "Accept"
-msgstr ""
+msgstr "ஏற்கப்பட்டது"
 
 #: calendar/gui/e-itip-control.c:1058
 msgid "Tentatively accept"
-msgstr ""
+msgstr "ஏற்கப்படலாம்"
 
 #: calendar/gui/e-itip-control.c:1059
 msgid "Decline"
-msgstr ""
+msgstr "நிராகரிக்கப்பட்டது"
 
 #: calendar/gui/e-itip-control.c:1083
 msgid "Send Free/Busy Information"
-msgstr ""
+msgstr "வேலைஇல்லை /வேலையில் தகவலை அனுப்பு"
 
 #: calendar/gui/e-itip-control.c:1096
 msgid "Update respondent status"
-msgstr ""
+msgstr "பதில் தருபவரின் நிலையை புதுப்பி"
 
 #: calendar/gui/e-itip-control.c:1109
 msgid "Send Latest Information"
-msgstr ""
+msgstr "தற்போதைய தகவலை அனுப்பு"
 
 #: calendar/gui/e-itip-control.c:1122 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
-msgstr ""
+msgstr "ரத்து செய்"
 
 #: calendar/gui/e-itip-control.c:1198
 #, c-format
 msgid "<b>%s</b> has published meeting information."
-msgstr ""
+msgstr "<b>%s</b> கூட்டம் பற்றிய தகவல் பதிப்பிக்கப்பட்டது"
 
 #: calendar/gui/e-itip-control.c:1199
 msgid "Meeting Information"
-msgstr ""
+msgstr "கூட்டம் பற்றிய தகவல்"
 
 #: calendar/gui/e-itip-control.c:1204
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr ""
+msgstr "<b>%s</b> கூட்டத்தின் போது %s இன் வருகை முக்கியம்"
 
 #: calendar/gui/e-itip-control.c:1206
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
-msgstr ""
+msgstr "<b>%s</b> கூட்டத்திற்கு உங்கள் வருகை அவசியம்"
 
 #: calendar/gui/e-itip-control.c:1207
 msgid "Meeting Proposal"
-msgstr ""
+msgstr "கூட்ட அனுமதி"
 
 #: calendar/gui/e-itip-control.c:1211
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
-msgstr ""
+msgstr "<b>%s</b> ஏற்கெனவே உள்ள கூட்டத்தில் சேர்க்க விருப்பம்"
 
 #: calendar/gui/e-itip-control.c:1212
 msgid "Meeting Update"
-msgstr ""
+msgstr "கூட்ட நிகழ்வுகள்"
 
 #: calendar/gui/e-itip-control.c:1216
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr ""
+msgstr "<b>%s</b> சமீபத்திய கூட்ட தகவலை பெற விரும்புகிறார்"
 
 #: calendar/gui/e-itip-control.c:1217
 msgid "Meeting Update Request"
-msgstr ""
+msgstr "கூட்ட தகவல் கோரிக்கை"
 
 #: calendar/gui/e-itip-control.c:1224
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
-msgstr ""
+msgstr "<b>%s</b> கூட்ட தகவலுக்கு பதிலலித்துள்ளார்"
 
 #: calendar/gui/e-itip-control.c:1225
 msgid "Meeting Reply"
-msgstr ""
+msgstr "கூட்ட பதில்"
 
 #: calendar/gui/e-itip-control.c:1232
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
-msgstr ""
+msgstr "<b>%s</b> கூட்டத்தை ரத்து செய்துவிட்டார்"
 
 #: calendar/gui/e-itip-control.c:1233
 msgid "Meeting Cancellation"
-msgstr ""
+msgstr "கூட்டம் ரத்து செய்யபட்டது"
 
 #: calendar/gui/e-itip-control.c:1240 calendar/gui/e-itip-control.c:1308
 #: calendar/gui/e-itip-control.c:1343
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
-msgstr ""
+msgstr "<b>%s</b> தவறான செய்தி அனுப்பி உள்ளார்"
 
 #: calendar/gui/e-itip-control.c:1241
 msgid "Bad Meeting Message"
-msgstr ""
+msgstr "தவறான கூட்ட செய்தி"
 
 #: calendar/gui/e-itip-control.c:1266
 #, c-format
 msgid "<b>%s</b> has published task information."
-msgstr ""
+msgstr "<b>%s</b> பணி தகவலை பதிப்பித்துள்ளார்"
 
 #: calendar/gui/e-itip-control.c:1267
 msgid "Task Information"
-msgstr ""
+msgstr "பணி தகவல்"
 
 #: calendar/gui/e-itip-control.c:1272
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
-msgstr ""
+msgstr "<b>%s</b>இந்த வேலையை %s செய்ய கோரிக்கை விடுத்துள்ளார்"
 
 #: calendar/gui/e-itip-control.c:1274
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
-msgstr ""
+msgstr "<b>%s</b> இந்த வேலையை நீங்கள் செய்யவேண்டும் என்கிறார்"
 
 #: calendar/gui/e-itip-control.c:1275
 msgid "Task Proposal"
-msgstr ""
+msgstr "பணி கோரிக்கை"
 
 #: calendar/gui/e-itip-control.c:1279
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
-msgstr ""
+msgstr "<b>%s</b> ஏற்கெனவே உள்ள பணியில் சேர்க்க விரும்புகிறார்"
 
 #: calendar/gui/e-itip-control.c:1280
 msgid "Task Update"
-msgstr ""
+msgstr "பணி திருத்தம்"
 
 #: calendar/gui/e-itip-control.c:1284
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
-msgstr ""
+msgstr "<b>%s</b> சமீபத்திய பணி பற்றிய தகவலை தெரிந்துகொள்ள விரும்புகிறார்."
 
 #: calendar/gui/e-itip-control.c:1285
 msgid "Task Update Request"
-msgstr ""
+msgstr "பணி புதுப்பித்தல் கோரிக்கை"
 
 #: calendar/gui/e-itip-control.c:1292
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
-msgstr ""
+msgstr "<b>%s</b>பணி ஒதுக்கத்துக்கு பதிலலித்துள்ளார்"
 
 #: calendar/gui/e-itip-control.c:1293
 msgid "Task Reply"
-msgstr ""
+msgstr "பணி பதில்"
 
 #: calendar/gui/e-itip-control.c:1300
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
-msgstr ""
+msgstr "<b>%s</b> பணியை ரத்து செய்து விட்டார்"
 
 #: calendar/gui/e-itip-control.c:1301
 msgid "Task Cancellation"
-msgstr ""
+msgstr "பணி ரத்து செய்யபப்ட்டது"
 
 #: calendar/gui/e-itip-control.c:1309
 msgid "Bad Task Message"
-msgstr ""
+msgstr "தவறான பணி செய்தி"
 
 #: calendar/gui/e-itip-control.c:1328
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
-msgstr ""
+msgstr "<b>%s</b> வேலையில்/வேலையில் இல்லை செய்தியை பதிப்பித்துள்ளார்"
 
 #: calendar/gui/e-itip-control.c:1329
 msgid "Free/Busy Information"
-msgstr ""
+msgstr "வேலையிலில்லை/வேலையில் தகவல்"
 
 #: calendar/gui/e-itip-control.c:1333
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
-msgstr ""
+msgstr "<b>%s</b>நீங்கள் வேலையில்இருக்கிறீர்களா/இல்லையா தகவலை கேட்டுள்ளார்"
 
 #: calendar/gui/e-itip-control.c:1334
 msgid "Free/Busy Request"
-msgstr ""
+msgstr "வேலையில்/இல்லை கோரிக்கை"
 
 #: calendar/gui/e-itip-control.c:1338
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr ""
+msgstr "<b>%s</b>வேலையில்/இல்லை தகவலுக்கு பதிலலித்துள்ளார்"
 
 #: calendar/gui/e-itip-control.c:1339
 msgid "Free/Busy Reply"
-msgstr ""
+msgstr "வேலையில்/இல்லை பதில்"
 
 #: calendar/gui/e-itip-control.c:1344
 msgid "Bad Free/Busy Message"
-msgstr ""
+msgstr "தவறான வேலையில்/இல்லை செய்தி"
 
 #: calendar/gui/e-itip-control.c:1419
 msgid "The message does not appear to be properly formed"
-msgstr ""
+msgstr "செய்தி சரியாக அமைக்கப்படவில்லை என தெரிகிறது"
 
 #: calendar/gui/e-itip-control.c:1478
 msgid "The message contains only unsupported requests."
-msgstr ""
+msgstr "செய்தியில் ஆதரவு இல்லாத கோரிக்கைகள் உள்ளது"
 
 #: calendar/gui/e-itip-control.c:1509
 msgid "The attachment does not contain a valid calendar message"
-msgstr ""
+msgstr "இணைப்பு செய்தியில் சரியான நாள்காட்டி செய்தி இல்லை"
 
 #: calendar/gui/e-itip-control.c:1541
 msgid "The attachment has no viewable calendar items"
-msgstr ""
+msgstr "இணைப்பில் பார்க்க முடிந்த நாள்காட்டி இல்லை"
 
 #: calendar/gui/e-itip-control.c:1775
 msgid "Update complete\n"
-msgstr ""
+msgstr "மேம்படுத்தல் முடிந்தது\n"
 
 #: calendar/gui/e-itip-control.c:1803
 msgid "Object is invalid and cannot be updated\n"
-msgstr ""
+msgstr "பொருள் செல்லாது அதனால் மேம்படுத்த முடியாது\n"
 
 #: calendar/gui/e-itip-control.c:1813
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr ""
+msgstr "இந்த பதில் தற்போதைய பங்கேற்பாளரிடமிருந்து அல்லது. இவரை சேர்க்கலாமா?"
 
 #: calendar/gui/e-itip-control.c:1825
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr ""
+msgstr "பங்கேற்பாளரின் நிலை செல்லாது அதனால் புதுப்பிக்க முடியவில்லை\n"
 
 #: calendar/gui/e-itip-control.c:1842
 msgid "Attendee status updated\n"
-msgstr ""
+msgstr "பங்கேற்பாளர் நிலை புதுப்பிக்கபட்டது\n"
 
 #: calendar/gui/e-itip-control.c:1845
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
+msgstr "பங்கேற்பாளர் நிலை புதுப்பிக்கப்படாதற்கு காரணம் இவர் பட்டியலில் இல்லை"
 
 #: calendar/gui/e-itip-control.c:1872
 msgid "Removal Complete"
-msgstr ""
+msgstr "நீக்கல் முடிந்தது"
 
 #: calendar/gui/e-itip-control.c:1895 calendar/gui/e-itip-control.c:1943
 msgid "Item sent!\n"
-msgstr ""
+msgstr "உருப்படி அனுப்பப்பட்டது\n"
 
 #: calendar/gui/e-itip-control.c:1897 calendar/gui/e-itip-control.c:1947
 msgid "The item could not be sent!\n"
-msgstr ""
+msgstr "உருப்படி அனுப்ப முடியவில்லை!\n"
 
 #: calendar/gui/e-itip-control.glade.h:2
 #, no-c-format
 msgid "%P %%"
-msgstr ""
+msgstr "%P %%"
 
 #: calendar/gui/e-itip-control.glade.h:3
 msgid "--to--"
-msgstr ""
+msgstr "--to--"
 
 #: calendar/gui/e-itip-control.glade.h:4
 msgid "Calendar Message"
-msgstr ""
+msgstr "நாள்காட்டி செய்தி"
 
 #: calendar/gui/e-itip-control.glade.h:5
 msgid "Date:"
-msgstr ""
+msgstr "தேதி:"
 
 #: calendar/gui/e-itip-control.glade.h:7
 msgid "Loading Calendar"
-msgstr ""
+msgstr "நாள்காட்டி ஏற்றப்படுகிறது"
 
 #: calendar/gui/e-itip-control.glade.h:8
 msgid "Loading calendar..."
-msgstr ""
+msgstr "நாள்காட்டி ஏற்றப்படுகிறது..."
 
 #: calendar/gui/e-itip-control.glade.h:9
 msgid "Organizer:"
-msgstr ""
+msgstr "ஒருங்கிணைப்பாளர்:"
 
 #: calendar/gui/e-itip-control.glade.h:10
 msgid "Server Message:"
-msgstr ""
+msgstr "சேவகன் செய்தி:"
 
 #: calendar/gui/e-itip-control.glade.h:12
 msgid "date-end"
-msgstr ""
+msgstr "முடிவு-தேதி"
 
 #: calendar/gui/e-itip-control.glade.h:13
 msgid "date-start"
-msgstr ""
+msgstr "துவக்க-தேதி"
 
 #: calendar/gui/e-meeting-list-view.c:59
 msgid "Chair Persons"
-msgstr ""
+msgstr "நடுவர்"
 
 #: calendar/gui/e-meeting-list-view.c:61
 msgid "Optional Participants"
-msgstr ""
+msgstr "மற்ற பங்கேற்பாளர்கள் "
 
 #: calendar/gui/e-meeting-list-view.c:62
 msgid "Resources"
-msgstr ""
+msgstr "மூலங்கள்"
 
 #: calendar/gui/e-meeting-list-view.c:118 calendar/gui/e-meeting-store.c:90
 #: calendar/gui/e-meeting-store.c:107 calendar/gui/e-meeting-store.c:759
 msgid "Individual"
-msgstr ""
+msgstr "தனிநபர்"
 
 #: calendar/gui/e-meeting-list-view.c:119 calendar/gui/e-meeting-store.c:92
 #: calendar/gui/e-meeting-store.c:109
 msgid "Group"
-msgstr ""
+msgstr "குழு"
 
 #: calendar/gui/e-meeting-list-view.c:120 calendar/gui/e-meeting-store.c:94
 #: calendar/gui/e-meeting-store.c:111
 msgid "Resource"
-msgstr ""
+msgstr "மூலங்கள்"
 
 #: calendar/gui/e-meeting-list-view.c:121 calendar/gui/e-meeting-store.c:96
 #: calendar/gui/e-meeting-store.c:113
 msgid "Room"
-msgstr ""
+msgstr "அறை"
 
 #: calendar/gui/e-meeting-list-view.c:132 calendar/gui/e-meeting-store.c:125
 #: calendar/gui/e-meeting-store.c:142
 msgid "Chair"
-msgstr ""
+msgstr "நடுவர்"
 
 #: calendar/gui/e-meeting-list-view.c:133 calendar/gui/e-meeting-store.c:127
 #: calendar/gui/e-meeting-store.c:144 calendar/gui/e-meeting-store.c:762
 msgid "Required Participant"
-msgstr ""
+msgstr "தேவையான பங்கேற்பாளர்கள்"
 
 #: calendar/gui/e-meeting-list-view.c:134 calendar/gui/e-meeting-store.c:129
 #: calendar/gui/e-meeting-store.c:146
 msgid "Optional Participant"
-msgstr ""
+msgstr "பங்கேற்பாளர்கள்"
 
 #: calendar/gui/e-meeting-list-view.c:135 calendar/gui/e-meeting-store.c:131
 #: calendar/gui/e-meeting-store.c:148
 msgid "Non-Participant"
-msgstr ""
+msgstr "பங்கேற்காதவர்கள்"
 
 #: calendar/gui/e-meeting-list-view.c:157 calendar/gui/e-meeting-store.c:177
 #: calendar/gui/e-meeting-store.c:200 calendar/gui/e-meeting-store.c:772
 msgid "Needs Action"
-msgstr ""
+msgstr "செயல் தேவை"
 
 #: calendar/gui/e-meeting-list-view.c:160 calendar/gui/e-meeting-store.c:183
 #: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:398
 msgid "Tentative"
-msgstr ""
+msgstr "தோராயமாக"
 
 #: calendar/gui/e-meeting-list-view.c:161 calendar/gui/e-meeting-store.c:185
 #: calendar/gui/e-meeting-store.c:208
 msgid "Delegated"
-msgstr ""
+msgstr "விருந்தினராக"
 
 #: calendar/gui/e-meeting-store.c:189 calendar/gui/e-meeting-store.c:212
 msgid "In Process"
-msgstr ""
+msgstr "செயலில் உள்ளது"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:452
 #: calendar/gui/e-meeting-time-sel.c:2053
 msgid "%A, %B %d, %Y"
-msgstr ""
+msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -6509,7 +6515,7 @@ msgstr ""
 #: calendar/gui/e-meeting-time-sel.c:2086 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
-msgstr ""
+msgstr "%a %m/%d/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
@@ -6520,64 +6526,64 @@ msgstr ""
 #: calendar/gui/e-meeting-time-sel-item.c:460 e-util/e-time-utils.c:238
 #: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1604
 msgid "%m/%d/%Y"
-msgstr ""
+msgstr "%m/%d/%Y"
 
 #: calendar/gui/e-meeting-time-sel.c:400 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
-msgstr ""
+msgstr "அலுவலகத்திற்கு வெளியில்"
 
 #: calendar/gui/e-meeting-time-sel.c:401
 msgid "No Information"
-msgstr ""
+msgstr "தகவல் இல்லை"
 
 #: calendar/gui/e-meeting-time-sel.c:432
 msgid "O_ptions"
-msgstr ""
+msgstr "(_p)தேர்வுகள்"
 
 #: calendar/gui/e-meeting-time-sel.c:449
 msgid "Show _only working hours"
-msgstr ""
+msgstr "(_o)வேலை நேரத்தை மட்டும் காட்டு"
 
 #: calendar/gui/e-meeting-time-sel.c:459
 msgid "Show _zoomed out"
-msgstr ""
+msgstr "(_z) பெரிதாக்கபப்ட்டது"
 
 #: calendar/gui/e-meeting-time-sel.c:474
 msgid "_Update free/busy"
-msgstr ""
+msgstr "(_U)வேலை/வேலையில்லை தகவலை புதுப்பி"
 
 #: calendar/gui/e-meeting-time-sel.c:489
 msgid "_<<"
-msgstr ""
+msgstr "_<<"
 
 #: calendar/gui/e-meeting-time-sel.c:507
 msgid "_Autopick"
-msgstr ""
+msgstr "(_A)வேகமாகதேர்வு செய்"
 
 #: calendar/gui/e-meeting-time-sel.c:522
 msgid ">_>"
-msgstr ""
+msgstr ">_>"
 
 #: calendar/gui/e-meeting-time-sel.c:539
 msgid "_All people and resources"
-msgstr ""
+msgstr "(_A)எல்லோரும் மற்றும் மூலங்கள்"
 
 #: calendar/gui/e-meeting-time-sel.c:548
 msgid "All _people and one resource"
-msgstr ""
+msgstr "(_p)எல்லோரும் மற்றும் ஒரே ஒரு மூலம் மட்டும்"
 
 #: calendar/gui/e-meeting-time-sel.c:557
 msgid "_Required people"
-msgstr ""
+msgstr "(_R)தேவையானவர்கள் மட்டும்"
 
 #: calendar/gui/e-meeting-time-sel.c:566
 msgid "Required people and _one resource"
-msgstr ""
+msgstr "(_o)தேவையானவர்கள் மற்றும் ஒரு மூலம்"
 
 #: calendar/gui/e-pub-utils.c:300
 #, c-format
 msgid "Enter the password for %s"
-msgstr ""
+msgstr "%s க்கான கடவுச்சொல்லை உள்ளிடு"
 
 #: calendar/gui/e-tasks.c:718 calendar/gui/gnome-cal.c:2160
 #, c-format
@@ -6585,160 +6591,162 @@ msgid ""
 "Error on %s:\n"
 " %s"
 msgstr ""
+"%s: இல் பிழை\n"
+" %s"
 
 #: calendar/gui/e-tasks.c:764
 msgid "Loading tasks"
-msgstr ""
+msgstr "பணியை ஏற்றுகிறது"
 
 #: calendar/gui/e-tasks.c:855
 #, c-format
 msgid "Opening tasks at %s"
-msgstr ""
+msgstr "%s இல் பணியை திறக்கிறது"
 
 #: calendar/gui/e-tasks.c:971
 msgid "Completing tasks..."
-msgstr ""
+msgstr "பணி முடிகிறது..."
 
 #: calendar/gui/e-tasks.c:994
 msgid "Deleting selected objects..."
-msgstr ""
+msgstr "தேர்வு செய்யப்பட்ட பொருள் நீக்கப்படுகிறது..."
 
 #: calendar/gui/e-tasks.c:1021
 msgid "Expunging"
-msgstr ""
+msgstr "அழிக்கிறது"
 
 #: calendar/gui/gnome-cal.c:704
 msgid "Updating query"
-msgstr ""
+msgstr "கேள்வி புதுப்பிக்கப்படுகிறது"
 
 #: calendar/gui/gnome-cal.c:2007
 #, c-format
 msgid "Loading appointments at %s"
-msgstr ""
+msgstr " %s இல் நேர ஒதுக்கத்தை ஏற்றுகிறது"
 
 #: calendar/gui/gnome-cal.c:2026
 #, c-format
 msgid "Loading tasks at %s"
-msgstr ""
+msgstr "%s இல் வேலையை ஏற்றுகிறது"
 
 #: calendar/gui/gnome-cal.c:2049
 #, c-format
 msgid "Opening %s"
-msgstr ""
+msgstr "%s திறக்கிறது"
 
 #: calendar/gui/gnome-cal.c:3004
 msgid "Purging"
-msgstr ""
+msgstr "தூய்மை படுத்துகிறது"
 
 #: calendar/gui/goto-dialog.glade.h:1
 msgid "April"
-msgstr ""
+msgstr "ஏப்ரல்"
 
 #: calendar/gui/goto-dialog.glade.h:2
 msgid "August"
-msgstr ""
+msgstr "ஆகஸ்டு"
 
 #: calendar/gui/goto-dialog.glade.h:3
 msgid "December"
-msgstr ""
+msgstr "டிசம்பர்"
 
 #: calendar/gui/goto-dialog.glade.h:4
 msgid "February"
-msgstr ""
+msgstr "பிப்ரவரி"
 
 #: calendar/gui/goto-dialog.glade.h:5
 msgid "January"
-msgstr ""
+msgstr "ஜனவரி"
 
 #: calendar/gui/goto-dialog.glade.h:6
 msgid "July"
-msgstr ""
+msgstr "ஜூலை"
 
 #: calendar/gui/goto-dialog.glade.h:7
 msgid "June"
-msgstr ""
+msgstr "ஜூன்"
 
 #: calendar/gui/goto-dialog.glade.h:8
 msgid "March"
-msgstr ""
+msgstr "மார்ச்"
 
 #: calendar/gui/goto-dialog.glade.h:9
 msgid "May"
-msgstr ""
+msgstr "மே"
 
 #: calendar/gui/goto-dialog.glade.h:10
 msgid "November"
-msgstr ""
+msgstr "நவம்பர்"
 
 #: calendar/gui/goto-dialog.glade.h:11
 msgid "October"
-msgstr ""
+msgstr "அக்டோபர்"
 
 #: calendar/gui/goto-dialog.glade.h:12
 msgid "Select Date"
-msgstr ""
+msgstr "தேதியை தேர்வு செய்"
 
 #: calendar/gui/goto-dialog.glade.h:13
 msgid "September"
-msgstr ""
+msgstr "செப்டம்பர்"
 
 #: calendar/gui/goto-dialog.glade.h:14
 msgid "_Select Today"
-msgstr ""
+msgstr "(_S)இன்றைய தேதியை தேர்வு செய்"
 
 #: calendar/gui/itip-utils.c:271 calendar/gui/itip-utils.c:319
 #: calendar/gui/itip-utils.c:351
 msgid "An organizer must be set."
-msgstr ""
+msgstr "ஒருங்கிணைப்பாளர் அமைக்கப்பட வேண்டும்"
 
 #: calendar/gui/itip-utils.c:306
 msgid "At least one attendee is necessary"
-msgstr ""
+msgstr "ஒரு பங்கேற்பாளராவது தேவை"
 
 #: calendar/gui/itip-utils.c:394 calendar/gui/itip-utils.c:503
 msgid "Event information"
-msgstr ""
+msgstr "நிகழ்வு தகவல்"
 
 #: calendar/gui/itip-utils.c:396 calendar/gui/itip-utils.c:505
 msgid "Task information"
-msgstr ""
+msgstr "பணி தகவல்"
 
 #: calendar/gui/itip-utils.c:398 calendar/gui/itip-utils.c:507
 msgid "Journal information"
-msgstr ""
+msgstr "இதழ் தகவல்"
 
 #: calendar/gui/itip-utils.c:400 calendar/gui/itip-utils.c:525
 msgid "Free/Busy information"
-msgstr ""
+msgstr "வேலை/வேலையிலில்லை தகவல்"
 
 #: calendar/gui/itip-utils.c:402
 msgid "Calendar information"
-msgstr ""
+msgstr "நாள்காட்டி தகவல்"
 
 #: calendar/gui/itip-utils.c:438
 msgid "Updated"
-msgstr ""
+msgstr "புதுப்பிக்கப்படுகிறது"
 
 #: calendar/gui/itip-utils.c:446
 msgid "Refresh"
-msgstr ""
+msgstr "புதுப்பி"
 
 #: calendar/gui/itip-utils.c:450
 msgid "Counter-proposal"
-msgstr ""
+msgstr "எதிர்-கோரிக்கை"
 
 #: calendar/gui/itip-utils.c:521
 #, c-format
 msgid "Free/Busy information (%s to %s)"
-msgstr ""
+msgstr "வேலை/வேலையில்லை தகவல்(%s %s க்கு)"
 
 #: calendar/gui/itip-utils.c:531
 msgid "iCalendar information"
-msgstr ""
+msgstr "iநாள்காட்டி தகவல்"
 
 #: calendar/gui/itip-utils.c:673
 msgid "You must be an attendee of the event."
-msgstr ""
+msgstr "இந்த நிகழ்வில் நீங்கள் கலந்துகொள்ள வேண்டும்"
 
 #: calendar/gui/migration.c:146
 msgid ""
@@ -6747,6 +6755,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"எவல்யூஷன் பணியின் இடம் மற்றும் முன்னுரிமை தகவல்கள் மாற்றப்பட்டது எவல்யூஷன் 1.x.\n"
+"\n"
+"எவல்யூஷன் உங்கள் அடைவுகளை நகர்த்தும் வரை காத்திருக்கவும்"
 
 #: calendar/gui/migration.c:150
 msgid ""
@@ -6755,319 +6766,322 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"எவல்யூஷன் நாள்காட்டியின் இடம் மற்றும் முன்னுரிமை தகவல்கள் மாற்றப்பட்டது எவல்யூஷன் 1.x.\n"
+"\n"
+"எவல்யூஷன் உங்கள் அடைவுகளை நகர்த்தும் வரை காத்திருக்கவும்"
 
 #: calendar/gui/migration.c:376
 msgid "Birthdays & Anniversaries"
-msgstr ""
+msgstr "பிறந்த நாள் & ஆண்டு துவக்க நாள்"
 
 #. Create the Webcal source group
 #: calendar/gui/migration.c:462 calendar/gui/migration.c:544
 msgid "On The Web"
-msgstr ""
+msgstr "இணையத்தில்"
 
 #. FIXME: set proper domain/code
 #: calendar/gui/migration.c:708 calendar/gui/migration.c:860
 msgid "Unable to migrate old settings from evolution/config.xmldb"
-msgstr ""
+msgstr "evolution/config.xmldb லிருந்து பழைய அமைப்புகளை நகர்த்த முடியவில்லை"
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:737
 #, c-format
 msgid "Unable to migrate calendar `%s'"
-msgstr ""
+msgstr "`%s' நாள்காட்டியை நகர்த்த முடியவில்லை"
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:889
 #, c-format
 msgid "Unable to migrate tasks `%s'"
-msgstr ""
+msgstr "%s' பணியை நகர்த்த முடியவில்லை"
 
 #: calendar/gui/print.c:489
 msgid "1st"
-msgstr ""
+msgstr "முதல்"
 
 #: calendar/gui/print.c:489
 msgid "2nd"
-msgstr ""
+msgstr "2வது"
 
 #: calendar/gui/print.c:489
 msgid "3rd"
-msgstr ""
+msgstr "3வது"
 
 #: calendar/gui/print.c:489
 msgid "4th"
-msgstr ""
+msgstr "4வது"
 
 #: calendar/gui/print.c:489
 msgid "5th"
-msgstr ""
+msgstr "5வது"
 
 #: calendar/gui/print.c:490
 msgid "6th"
-msgstr ""
+msgstr "6வது"
 
 #: calendar/gui/print.c:490
 msgid "7th"
-msgstr ""
+msgstr "7வது"
 
 #: calendar/gui/print.c:490
 msgid "8th"
-msgstr ""
+msgstr "8வது"
 
 #: calendar/gui/print.c:490
 msgid "9th"
-msgstr ""
+msgstr "9வது"
 
 #: calendar/gui/print.c:490
 msgid "10th"
-msgstr ""
+msgstr "10வது"
 
 #: calendar/gui/print.c:491
 msgid "11th"
-msgstr ""
+msgstr "11வது"
 
 #: calendar/gui/print.c:491
 msgid "12th"
-msgstr ""
+msgstr "12வது"
 
 #: calendar/gui/print.c:491
 msgid "13th"
-msgstr ""
+msgstr "13வது"
 
 #: calendar/gui/print.c:491
 msgid "14th"
-msgstr ""
+msgstr "14வது"
 
 #: calendar/gui/print.c:491
 msgid "15th"
-msgstr ""
+msgstr "15வது"
 
 #: calendar/gui/print.c:492
 msgid "16th"
-msgstr ""
+msgstr "16வது"
 
 #: calendar/gui/print.c:492
 msgid "17th"
-msgstr ""
+msgstr "17வது"
 
 #: calendar/gui/print.c:492
 msgid "18th"
-msgstr ""
+msgstr "18வது"
 
 #: calendar/gui/print.c:492
 msgid "19th"
-msgstr ""
+msgstr "19வது"
 
 #: calendar/gui/print.c:492
 msgid "20th"
-msgstr ""
+msgstr "20வது"
 
 #: calendar/gui/print.c:493
 msgid "21st"
-msgstr ""
+msgstr "21வது"
 
 #: calendar/gui/print.c:493
 msgid "22nd"
-msgstr ""
+msgstr "22வது"
 
 #: calendar/gui/print.c:493
 msgid "23rd"
-msgstr ""
+msgstr "23வது"
 
 #: calendar/gui/print.c:493
 msgid "24th"
-msgstr ""
+msgstr "24வது"
 
 #: calendar/gui/print.c:493
 msgid "25th"
-msgstr ""
+msgstr "25வது"
 
 #: calendar/gui/print.c:494
 msgid "26th"
-msgstr ""
+msgstr "26வது"
 
 #: calendar/gui/print.c:494
 msgid "27th"
-msgstr ""
+msgstr "28வது"
 
 #: calendar/gui/print.c:494
 msgid "28th"
-msgstr ""
+msgstr "29வது"
 
 #: calendar/gui/print.c:494
 msgid "29th"
-msgstr ""
+msgstr "29வது"
 
 #: calendar/gui/print.c:494
 msgid "30th"
-msgstr ""
+msgstr "30வது"
 
 #: calendar/gui/print.c:495
 msgid "31st"
-msgstr ""
+msgstr "31வது"
 
 #: calendar/gui/print.c:570
 msgid "Su"
-msgstr ""
+msgstr "ஞா"
 
 #: calendar/gui/print.c:570
 msgid "Mo"
-msgstr ""
+msgstr "தி"
 
 #: calendar/gui/print.c:570
 msgid "Tu"
-msgstr ""
+msgstr "செ"
 
 #: calendar/gui/print.c:570
 msgid "We"
-msgstr ""
+msgstr "பு"
 
 #: calendar/gui/print.c:571
 msgid "Th"
-msgstr ""
+msgstr "வி"
 
 #: calendar/gui/print.c:571
 msgid "Fr"
-msgstr ""
+msgstr "வெ"
 
 #: calendar/gui/print.c:571
 msgid "Sa"
-msgstr ""
+msgstr "ச"
 
 #. Day
 #: calendar/gui/print.c:1914
 msgid "Selected day (%a %b %d %Y)"
-msgstr ""
+msgstr "(%a %b %d %Y)நாளை தேர்வு செய்யவும்"
 
 #: calendar/gui/print.c:1939 calendar/gui/print.c:1943
 msgid "%a %b %d"
-msgstr ""
+msgstr "%a %b %d"
 
 #: calendar/gui/print.c:1940
 msgid "%a %d %Y"
-msgstr ""
+msgstr "%a %d %Y"
 
 #: calendar/gui/print.c:1944 calendar/gui/print.c:1946
 #: calendar/gui/print.c:1947
 msgid "%a %b %d %Y"
-msgstr ""
+msgstr "%a %b %d %Y"
 
 #: calendar/gui/print.c:1951
 #, c-format
 msgid "Selected week (%s - %s)"
-msgstr ""
+msgstr "(%s - %s) தேர்வு செய்த வாரம்"
 
 #. Month
 #: calendar/gui/print.c:1959
 msgid "Selected month (%b %Y)"
-msgstr ""
+msgstr "(%b %Y) தேர்வு செய்த மாதம்"
 
 #. Year
 #: calendar/gui/print.c:1966
 msgid "Selected year (%Y)"
-msgstr ""
+msgstr "(%Y) தேர்வு செய்த வருடம்"
 
 #: calendar/gui/print.c:2356
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "நிலை : %s"
 
 #: calendar/gui/print.c:2373
 #, c-format
 msgid "Priority: %s"
-msgstr ""
+msgstr "முன்னுரிமை: %s"
 
 #: calendar/gui/print.c:2385
 #, c-format
 msgid "Percent Complete: %i"
-msgstr ""
+msgstr "முடிந்த விகிதம் : %i"
 
 #: calendar/gui/print.c:2397
 #, c-format
 msgid "URL: %s"
-msgstr ""
+msgstr "URL: %s"
 
 #: calendar/gui/print.c:2411
 #, c-format
 msgid "Categories: %s"
-msgstr ""
+msgstr "வகைகள்: %s"
 
 #: calendar/gui/print.c:2422
 msgid "Contacts: "
-msgstr ""
+msgstr "தொடர்புகள்:"
 
 #: calendar/gui/print.c:2559 calendar/gui/print.c:2645
 #: calendar/gui/print.c:2737 mail/em-format-html-print.c:178
 msgid "Print Preview"
-msgstr ""
+msgstr "அச்சடிக்க முன்தோற்றம்"
 
 #: calendar/gui/print.c:2593
 msgid "Print Item"
-msgstr ""
+msgstr "அச்சடிக்க வேண்டிய உருப்படி"
 
 #: calendar/gui/print.c:2759
 msgid "Print Setup"
-msgstr ""
+msgstr "அச்சு அமைப்பு"
 
 #: calendar/gui/tasks-component.c:313
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
+msgstr "பணி பட்டியல் '%s' நீக்கப்பட்டது. தொடர வேண்டுமா?"
 
 #: calendar/gui/tasks-component.c:371
 msgid "New Task List"
-msgstr ""
+msgstr "புதிய பணிபட்டியல்"
 
 #: calendar/gui/tasks-component.c:408
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
-msgstr[0] ""
+msgstr[0] "%d பணி"
 msgstr[1] ""
 
 #: calendar/gui/tasks-component.c:410 mail/mail-component.c:498
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
-msgstr[0] ""
+msgstr[0] ", %d தேர்வு செய்யப்பட்டது"
 msgstr[1] ""
 
 #: calendar/gui/tasks-component.c:457
 msgid "Failed upgrading tasks."
-msgstr ""
+msgstr "பணியை மேம்படுத்தல் தோல்வியில் முடிந்தது"
 
 #: calendar/gui/tasks-component.c:749
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
-msgstr ""
+msgstr "'%s' நிகழ்வு மற்றும் கூட்டத்தை உருவாக்க பணி பட்டியலை திறக்க முடியவில்லை"
 
 #: calendar/gui/tasks-component.c:761
 msgid "There is no calendar available for creating tasks"
-msgstr ""
+msgstr "பணியை உருவாக்க நாள்காட்டி எதுவுமில்லை"
 
 #: calendar/gui/tasks-component.c:1030
 msgid "New task"
-msgstr ""
+msgstr "புதிய பணி"
 
 #: calendar/gui/tasks-component.c:1031
 msgid "_Task"
-msgstr ""
+msgstr "(_T)பணி"
 
 #: calendar/gui/tasks-component.c:1032
 msgid "Create a new task"
-msgstr ""
+msgstr "புதிய பணியை உருவாக்கு"
 
 #: calendar/gui/tasks-component.c:1038
 msgid "New tasks group"
-msgstr ""
+msgstr "புதிய பணி குழுக்கள்"
 
 #: calendar/gui/tasks-component.c:1039
 msgid "Tasks Gro_up"
-msgstr ""
+msgstr "(_u)பணி குழு"
 
 #: calendar/gui/tasks-component.c:1040
 msgid "Create a new tasks group"
-msgstr ""
+msgstr "புதிய பணி குழுவை உருவாக்கு"
 
 #: calendar/gui/tasks-control.c:367
 msgid ""
@@ -7076,60 +7090,65 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
+"இந்த செயல் முடித்த பணிகள் அனைத்தையும் நிரந்தரமாக நீக்கிவிடும். தொடர்தால் தகவல் எதையும்திரும்ப பெற முடியாது.\n"
+"\n"
+"பணிகளை அழிக்க விரும்புகிறீர்களா?"
 
 #: calendar/gui/tasks-control.c:370
 msgid "Do not ask me again."
-msgstr ""
+msgstr "என்னிடம் மீண்டும் கேட்காதே"
 
 #: calendar/gui/tasks-control.c:428
 msgid "Print Tasks"
-msgstr ""
+msgstr "பணியை அச்சடி"
 
 #: calendar/gui/weekday-picker.c:326
 msgid "SMTWTFS"
-msgstr ""
+msgstr "SMTWTFS"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:1
 msgid "Evolution Calendar intelligent importer"
-msgstr ""
+msgstr "எவல்யூஷன் நாள்காட்டி ஏற்றி"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:2
 msgid "Evolution iCalendar importer"
-msgstr ""
+msgstr "எவல்யூஷன் iநாள்காட்டி ஏற்றி"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:3
 msgid "Evolution vCalendar importer"
-msgstr ""
+msgstr "எவல்யூஷன்vநாள்காட்டி ஏற்றி"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:4
 msgid "iCalendar files (.ics)"
-msgstr ""
+msgstr "iநாள்காட்டி கோப்புகள் (.ics)"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:5
 msgid "vCalendar files (.vcf)"
-msgstr ""
+msgstr "vநாள்காட்டி கோப்புகள் (.vcf)"
 
 #: calendar/importers/icalendar-importer.c:78
 msgid "Appointments and Meetings"
-msgstr ""
+msgstr "நேர ஒதுக்கங்கள் மற்றும் கூட்டங்கள்"
 
 #: calendar/importers/icalendar-importer.c:490
 msgid "Reminder!!"
-msgstr ""
+msgstr "நினைவில்கொள்!!"
 
 #: calendar/importers/icalendar-importer.c:698
 msgid "Calendar Events"
-msgstr ""
+msgstr "நாள்காட்டி நிகழ்வுகள்"
 
 #: calendar/importers/icalendar-importer.c:723
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
+"எவல்யூஷன் க்னோம் நாள்காட்டிகோப்பை கண்டுபிடித்துள்ளது \n"
+"இதை எவல்யூஷனில் ஏற்ற விருப்பமா?"
 
 #: calendar/importers/icalendar-importer.c:730
 msgid "Gnome Calendar"
-msgstr ""
+msgstr "க்னோம் நாள்காட்டி"
 
 #.
 #. * These are the timezone names from the Olson timezone data.
@@ -7138,1127 +7157,1127 @@ msgstr ""
 #.
 #: calendar/zones.h:7
 msgid "Africa/Abidjan"
-msgstr ""
+msgstr "ஆப்ரிக்கா/அபிட்ஜான்"
 
 #: calendar/zones.h:8
 msgid "Africa/Accra"
-msgstr ""
+msgstr "ஆப்ரிக்கா/அக்ரா"
 
 #: calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr ""
+msgstr "ஆப்ரிக்கா/அடிஸ்_அபபா"
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
-msgstr ""
+msgstr "ஆப்ரிக்கா/அல்க்ரிஸ்"
 
 #: calendar/zones.h:11
 msgid "Africa/Asmera"
-msgstr ""
+msgstr "ஆப்ரிக்கா/அஸ்மெரா"
 
 #: calendar/zones.h:12
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "ஆப்ரிக்கா/பமகொ"
 
 #: calendar/zones.h:13
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "ஆப்ரிக்கா/பான்க்யூ"
 
 #: calendar/zones.h:14
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "ஆப்ரிக்கா/பன்ஜுல்"
 
 #: calendar/zones.h:15
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "ஆப்ரிக்கா/பிஸ்ஸாவு"
 
 #: calendar/zones.h:16
 msgid "Africa/Blantyre"
-msgstr ""
+msgstr "ஆப்ரிக்கா/ப்ளான்டைரி"
 
 #: calendar/zones.h:17
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "ஆப்ரிக்கா/ப்ராஸ்வில்லா"
 
 #: calendar/zones.h:18
 msgid "Africa/Bujumbura"
-msgstr ""
+msgstr "ஆப்ரிக்கா/புஜும்புரா"
 
 #: calendar/zones.h:19
 msgid "Africa/Cairo"
-msgstr ""
+msgstr "ஆப்ரிக்கா/கைய்ரொ"
 
 #: calendar/zones.h:20
 msgid "Africa/Casablanca"
-msgstr ""
+msgstr "ஆப்ரிக்கா/கசப்லாகா"
 
 #: calendar/zones.h:21
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "ஆப்ரிக்கா/சியூடா"
 
 #: calendar/zones.h:22
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "ஆப்ரிக்கா/கொனக்ரி"
 
 #: calendar/zones.h:23
 msgid "Africa/Dakar"
-msgstr ""
+msgstr "ஆப்ரிக்கா/டகார்"
 
 #: calendar/zones.h:24
 msgid "Africa/Dar_es_Salaam"
-msgstr ""
+msgstr "ஆப்ரிக்கா/டார்_ஸ்_சலாம்"
 
 #: calendar/zones.h:25
 msgid "Africa/Djibouti"
-msgstr ""
+msgstr "ஆப்ரிக்கா/டிஜ்போடி"
 
 #: calendar/zones.h:26
 msgid "Africa/Douala"
-msgstr ""
+msgstr "ஆப்ரிக்கா/டோயுலா"
 
 #: calendar/zones.h:27
 msgid "Africa/El_Aaiun"
-msgstr ""
+msgstr "ஆப்ரிக்கா/எல்_ஐயுன்"
 
 #: calendar/zones.h:28
 msgid "Africa/Freetown"
-msgstr ""
+msgstr "ஆப்ரிக்கா/ஃபீரீடௌன்"
 
 #: calendar/zones.h:29
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "ஆப்ரிக்கா//கப்ரொனி"
 
 #: calendar/zones.h:30
 msgid "Africa/Harare"
-msgstr ""
+msgstr "ஆப்ரிக்கா/ஹராரி"
 
 #: calendar/zones.h:31
 msgid "Africa/Johannesburg"
-msgstr ""
+msgstr "ஆப்ரிக்கா/ஜொஹனஸ்பர்க்"
 
 #: calendar/zones.h:32
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "ஆப்ரிக்கா/கம்பாலா"
 
 #: calendar/zones.h:33
 msgid "Africa/Khartoum"
-msgstr ""
+msgstr "ஆப்ரிக்கா/கஹடொயும்"
 
 #: calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "ஆப்ரிக்கா/கிகாலி"
 
 #: calendar/zones.h:35
 msgid "Africa/Kinshasa"
-msgstr ""
+msgstr "ஆப்ரிக்கா/கின்ஷஷா"
 
 #: calendar/zones.h:36
 msgid "Africa/Lagos"
-msgstr ""
+msgstr "ஆப்ரிக்கா/லகோஸ்"
 
 #: calendar/zones.h:37
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "ஆப்ரிக்கா/லிபெர்வில்லா"
 
 #: calendar/zones.h:38
 msgid "Africa/Lome"
-msgstr ""
+msgstr "ஆப்ரிக்கா/லொமி"
 
 #: calendar/zones.h:39
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "ஆப்ரிக்கா/லௌனாடா"
 
 #: calendar/zones.h:40
 msgid "Africa/Lubumbashi"
-msgstr ""
+msgstr "ஆப்ரிக்கா/லுபும்பாஷி"
 
 #: calendar/zones.h:41
 msgid "Africa/Lusaka"
-msgstr ""
+msgstr "ஆப்ரிக்கா/லுஷாகா"
 
 #: calendar/zones.h:42
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "ஆப்ரிக்கா/மலபொ"
 
 #: calendar/zones.h:43
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "ஆப்ரிக்கா/மாபுடோ"
 
 #: calendar/zones.h:44
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "ஆப்ரிக்கா/மசாரு"
 
 #: calendar/zones.h:45
 msgid "Africa/Mbabane"
-msgstr ""
+msgstr "ஆப்ரிக்கா/மபானானே"
 
 #: calendar/zones.h:46
 msgid "Africa/Mogadishu"
-msgstr ""
+msgstr "ஆப்ரிக்கா/மகடிஷு"
 
 #: calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "ஆப்ரிக்கா/மொரொவியா"
 
 #: calendar/zones.h:48
 msgid "Africa/Nairobi"
-msgstr ""
+msgstr "ஆப்ரிக்கா/நைரோபி"
 
 #: calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "ஆப்ரிக்கா/நஜமினா"
 
 #: calendar/zones.h:50
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "ஆப்ரிக்கா/நியாமி"
 
 #: calendar/zones.h:51
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "ஆப்ரிக்கா/நௌக்சோட்"
 
 #: calendar/zones.h:52
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "ஆப்ரிக்கா/ஒகடோகு"
 
 #: calendar/zones.h:53
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "ஆப்ரிக்கா/போர்டோ-நோவா"
 
 #: calendar/zones.h:54
 msgid "Africa/Sao_Tome"
-msgstr ""
+msgstr "ஆப்ரிக்கா/சாவோ_டோம்"
 
 #: calendar/zones.h:55
 msgid "Africa/Timbuktu"
-msgstr ""
+msgstr "ஆப்ரிக்கா/டிம்புகு"
 
 #: calendar/zones.h:56
 msgid "Africa/Tripoli"
-msgstr ""
+msgstr "ஆப்ரிக்கா/டிரிபோலி"
 
 #: calendar/zones.h:57
 msgid "Africa/Tunis"
-msgstr ""
+msgstr "ஆப்ரிக்கா/டுனிஸ்"
 
 #: calendar/zones.h:58
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "ஆப்ரிக்கா/வின்ஹொக்"
 
 #: calendar/zones.h:59
 msgid "America/Adak"
-msgstr ""
+msgstr "அமெரிக்கா/அடாக்"
 
 #: calendar/zones.h:60
 msgid "America/Anchorage"
-msgstr ""
+msgstr "அமெரிக்கா/ஆங்கோராஞ்"
 
 #: calendar/zones.h:61
 msgid "America/Anguilla"
-msgstr ""
+msgstr "அமெரிக்கா/அங்குலியா"
 
 #: calendar/zones.h:62
 msgid "America/Antigua"
-msgstr ""
+msgstr "அமெரிக்கா/ஆன்டிகுவா"
 
 #: calendar/zones.h:63
 msgid "America/Araguaina"
-msgstr ""
+msgstr "அமெரிக்கா/அரகுனியா"
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
-msgstr ""
+msgstr "அமெரிக்கா/அரூபா"
 
 #: calendar/zones.h:65
 msgid "America/Asuncion"
-msgstr ""
+msgstr "அமெரிக்கா/ஆசுனியான்"
 
 #: calendar/zones.h:66
 msgid "America/Barbados"
-msgstr ""
+msgstr "அமெரிக்கா/பாப்பெடாஸ்"
 
 #: calendar/zones.h:67
 msgid "America/Belem"
-msgstr ""
+msgstr "அமெரிக்கா/பெலிம்"
 
 #: calendar/zones.h:68
 msgid "America/Belize"
-msgstr ""
+msgstr "அமெரிக்கா/பெலிஸ்"
 
 #: calendar/zones.h:69
 msgid "America/Boa_Vista"
-msgstr ""
+msgstr "அமெரிக்கா/போ_விஸ்டா"
 
 #: calendar/zones.h:70
 msgid "America/Bogota"
-msgstr ""
+msgstr "அமெரிக்கா/பொகோடா"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
-msgstr ""
+msgstr "அமெரிக்கா/போயிஸ்"
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
-msgstr ""
+msgstr "அமெரிக்கா/போனஸ்_ஏரிஸ்"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
-msgstr ""
+msgstr "அமெரிக்கா/கேம்பிரிஜ்_வளைகுடா"
 
 #: calendar/zones.h:74
 msgid "America/Cancun"
-msgstr ""
+msgstr "அமெரிக்கா/கான்கன்"
 
 #: calendar/zones.h:75
 msgid "America/Caracas"
-msgstr ""
+msgstr "அமெரிக்கா/கரகஸ்"
 
 #: calendar/zones.h:76
 msgid "America/Catamarca"
-msgstr ""
+msgstr "அமெரிக்கா/கடமர்கா"
 
 #: calendar/zones.h:77
 msgid "America/Cayenne"
-msgstr ""
+msgstr "அமெரிக்கா/கெயென்னி"
 
 #: calendar/zones.h:78
 msgid "America/Cayman"
-msgstr ""
+msgstr "அமெரிக்கா/கேமான்"
 
 #: calendar/zones.h:79
 msgid "America/Chicago"
-msgstr ""
+msgstr "அமெரிக்கா/சிக்காகோ"
 
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
-msgstr ""
+msgstr "அமெரிக்கா/சிஹுவாஹுவா"
 
 #: calendar/zones.h:81
 msgid "America/Cordoba"
-msgstr ""
+msgstr "அமெரிக்கா/கோர்டோபா"
 
 #: calendar/zones.h:82
 msgid "America/Costa_Rica"
-msgstr ""
+msgstr "அமெரிக்கா/கோஸ்டா_ரிக்கா"
 
 #: calendar/zones.h:83
 msgid "America/Cuiaba"
-msgstr ""
+msgstr "அமெரிக்கா/குய்பா"
 
 #: calendar/zones.h:84
 msgid "America/Curacao"
-msgstr ""
+msgstr "அமெரிக்கா/குரகோவா"
 
 #: calendar/zones.h:85
 msgid "America/Danmarkshavn"
-msgstr ""
+msgstr "அமெரிக்கா/டென்மார்ஷான்"
 
 #: calendar/zones.h:86
 msgid "America/Dawson"
-msgstr ""
+msgstr "அமெரிக்கா/டௌசான்"
 
 #: calendar/zones.h:87
 msgid "America/Dawson_Creek"
-msgstr ""
+msgstr "அமெரிக்கா/டௌசன்_க்ரீக்"
 
 #: calendar/zones.h:88
 msgid "America/Denver"
-msgstr ""
+msgstr "அமெரிக்கா/டென்வர்"
 
 #: calendar/zones.h:89
 msgid "America/Detroit"
-msgstr ""
+msgstr "அமெரிக்கா/டெட்ராயிட்"
 
 #: calendar/zones.h:90
 msgid "America/Dominica"
-msgstr ""
+msgstr "அமெரிக்கா/டொமினிக்கா"
 
 #: calendar/zones.h:91
 msgid "America/Edmonton"
-msgstr ""
+msgstr "அமெரிக்கா/எட்மான்டன்"
 
 #: calendar/zones.h:92
 msgid "America/Eirunepe"
-msgstr ""
+msgstr "அமெரிக்கா/எர்ரனிப்"
 
 #: calendar/zones.h:93
 msgid "America/El_Salvador"
-msgstr ""
+msgstr "அமெரிக்கா/எல்-சால்வடார்"
 
 #: calendar/zones.h:94
 msgid "America/Fortaleza"
-msgstr ""
+msgstr "அமெரிக்கா/ஃபோர்ட்லெசா"
 
 #: calendar/zones.h:95
 msgid "America/Glace_Bay"
-msgstr ""
+msgstr "அமெரிக்கா/க்ளேஸ்_வளைகுடா"
 
 #: calendar/zones.h:96
 msgid "America/Godthab"
-msgstr ""
+msgstr "அமெரிக்கா/காட்தாப்"
 
 #: calendar/zones.h:97
 msgid "America/Goose_Bay"
-msgstr ""
+msgstr "அமெரிக்கா/கூஸ்_வளைகுடா"
 
 #: calendar/zones.h:98
 msgid "America/Grand_Turk"
-msgstr ""
+msgstr "அமெரிக்கா/க்ரான்ட்_டர்க்"
 
 #: calendar/zones.h:99
 msgid "America/Grenada"
-msgstr ""
+msgstr "அமெரிக்கா/க்ரெனடா"
 
 #: calendar/zones.h:100
 msgid "America/Guadeloupe"
-msgstr ""
+msgstr "அமெரிக்கா/க்வாடிலோப்"
 
 #: calendar/zones.h:101
 msgid "America/Guatemala"
-msgstr ""
+msgstr "அமெரிக்கா/க்வாதிமாலா"
 
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
-msgstr ""
+msgstr "அமெரிக்கா/குயாக்குள்"
 
 #: calendar/zones.h:103
 msgid "America/Guyana"
-msgstr ""
+msgstr "அமெரிக்கா/குயானா"
 
 #: calendar/zones.h:104
 msgid "America/Halifax"
-msgstr ""
+msgstr "அமெரிக்கா/ஹாலிஃபாக்ஸ்"
 
 #: calendar/zones.h:105
 msgid "America/Havana"
-msgstr ""
+msgstr "அமெரிக்கா/ஹவானா"
 
 #: calendar/zones.h:106
 msgid "America/Hermosillo"
-msgstr ""
+msgstr "அமெரிக்கா/ஹெர்மொசில்லோ"
 
 #: calendar/zones.h:107
 msgid "America/Indiana/Indianapolis"
-msgstr ""
+msgstr "அமெரிக்கா/இன்டியானா/இன்டியானாபோலிஸ்"
 
 #: calendar/zones.h:108
 msgid "America/Indiana/Knox"
-msgstr ""
+msgstr "அமெரிக்கா/இன்டியானா/க்னாக்ஸ்"
 
 #: calendar/zones.h:109
 msgid "America/Indiana/Marengo"
-msgstr ""
+msgstr "அமெரிக்கா/இன்டியானா/மாரிங்கோ"
 
 #: calendar/zones.h:110
 msgid "America/Indiana/Vevay"
-msgstr ""
+msgstr "அமெரிக்கா/இன்டியானா/வீவாய்"
 
 #: calendar/zones.h:111
 msgid "America/Indianapolis"
-msgstr ""
+msgstr "அமெரிக்கா/இன்டியானாபோலிஸ்"
 
 #: calendar/zones.h:112
 msgid "America/Inuvik"
-msgstr ""
+msgstr "அமெரிக்கா/இனுவிக்"
 
 #: calendar/zones.h:113
 msgid "America/Iqaluit"
-msgstr ""
+msgstr "அமெரிக்கா/க்வாலுட்"
 
 #: calendar/zones.h:114
 msgid "America/Jamaica"
-msgstr ""
+msgstr "அமெரிக்கா/ஜமைக்கா"
 
 #: calendar/zones.h:115
 msgid "America/Jujuy"
-msgstr ""
+msgstr "அமெரிக்கா/ஜுஜுய்"
 
 #: calendar/zones.h:116
 msgid "America/Juneau"
-msgstr ""
+msgstr "அமெரிக்கா/ஜுனெய்"
 
 #: calendar/zones.h:117
 msgid "America/Kentucky/Louisville"
-msgstr ""
+msgstr "அமெரிக்கா/கென்டகி/லோஸ்வில்லா"
 
 #: calendar/zones.h:118
 msgid "America/Kentucky/Monticello"
-msgstr ""
+msgstr "அமெரிக்கா/கென்டகி/மோன்டிசிலோ"
 
 #: calendar/zones.h:119
 msgid "America/La_Paz"
-msgstr ""
+msgstr "அமெரிக்கா/லா_பாஸ்"
 
 #: calendar/zones.h:120
 msgid "America/Lima"
-msgstr ""
+msgstr "அமெரிக்கா/லிமா"
 
 #: calendar/zones.h:121
 msgid "America/Los_Angeles"
-msgstr ""
+msgstr "அமெரிக்கா/லாஸ்_ஏஞ்சல்ஸ்"
 
 #: calendar/zones.h:122
 msgid "America/Louisville"
-msgstr ""
+msgstr "அமெரிக்கா/லௌஸ்வில்லா"
 
 #: calendar/zones.h:123
 msgid "America/Maceio"
-msgstr ""
+msgstr "அமெரிக்கா/மெக்சிகோ"
 
 #: calendar/zones.h:124
 msgid "America/Managua"
-msgstr ""
+msgstr "அமெரிக்கா/மனாகுவா"
 
 #: calendar/zones.h:125
 msgid "America/Manaus"
-msgstr ""
+msgstr "அமெரிக்கா/மானஸ்"
 
 #: calendar/zones.h:126
 msgid "America/Martinique"
-msgstr ""
+msgstr "அமெரிக்கா/மார்டினிக்"
 
 #: calendar/zones.h:127
 msgid "America/Mazatlan"
-msgstr ""
+msgstr "அமெரிக்கா/மசட்லான்"
 
 #: calendar/zones.h:128
 msgid "America/Mendoza"
-msgstr ""
+msgstr "அமெரிக்கா/மென்டோஸா"
 
 #: calendar/zones.h:129
 msgid "America/Menominee"
-msgstr ""
+msgstr "அமெரிக்கா/மெனொமினீ"
 
 #: calendar/zones.h:130
 msgid "America/Merida"
-msgstr ""
+msgstr "அமெரிக்கா/மெரிடா"
 
 #: calendar/zones.h:131
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "அமெரிக்கா/மெக்சிகோ_நகரம்்கோ"
 
 #: calendar/zones.h:132
 msgid "America/Miquelon"
-msgstr ""
+msgstr "அமெரிக்கா/மிக்யூலான்"
 
 #: calendar/zones.h:133
 msgid "America/Monterrey"
-msgstr ""
+msgstr "அமெரிக்கா/மோன்டெரி"
 
 #: calendar/zones.h:134
 msgid "America/Montevideo"
-msgstr ""
+msgstr "அமெரிக்கா/மொன்டெவிடீயோ"
 
 #: calendar/zones.h:135
 msgid "America/Montreal"
-msgstr ""
+msgstr "அமெரிக்கா/மோன்ட்ரியல்"
 
 #: calendar/zones.h:136
 msgid "America/Montserrat"
-msgstr ""
+msgstr "அமெரிக்கா/மோன்ஸெராட்"
 
 #: calendar/zones.h:137
 msgid "America/Nassau"
-msgstr ""
+msgstr "அமெரிக்கா/நசாசு"
 
 #: calendar/zones.h:138
 msgid "America/New_York"
-msgstr ""
+msgstr "அமெரிக்கா/நீயூ_யார்க்"
 
 #: calendar/zones.h:139
 msgid "America/Nipigon"
-msgstr ""
+msgstr "அமெரிக்கா/நிபிகான்"
 
 #: calendar/zones.h:140
 msgid "America/Nome"
-msgstr ""
+msgstr "அமெரிக்கா/நோமி"
 
 #: calendar/zones.h:141
 msgid "America/Noronha"
-msgstr ""
+msgstr "அமெரிக்கா/நொரொன்ஹா"
 
 #: calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr ""
+msgstr "அமெரிக்கா/வடக்கு_டகொடா/மத்திய"
 
 #: calendar/zones.h:143
 msgid "America/Panama"
-msgstr ""
+msgstr "அமெரிக்கா/பனாமா"
 
 #: calendar/zones.h:144
 msgid "America/Pangnirtung"
-msgstr ""
+msgstr "அமெரிக்கா/பாங்கிர்டங்"
 
 #: calendar/zones.h:145
 msgid "America/Paramaribo"
-msgstr ""
+msgstr "அமெரிக்கா/பரமரிபோ"
 
 #: calendar/zones.h:146
 msgid "America/Phoenix"
-msgstr ""
+msgstr "அமெரிக்கா/போனிக்ஸ்"
 
 #: calendar/zones.h:147
 msgid "America/Port-au-Prince"
-msgstr ""
+msgstr "அமெரிக்கா/போர்ட்-ஔ-ப்ரின்ஸ்"
 
 #: calendar/zones.h:148
 msgid "America/Port_of_Spain"
-msgstr ""
+msgstr "அமெரிக்கா/போர்ட்-ஆஃப்-ஸ்பெயின்"
 
 #: calendar/zones.h:149
 msgid "America/Porto_Velho"
-msgstr ""
+msgstr "அமெரிக்கா/போர்டோ_வெல்ஹோ"
 
 #: calendar/zones.h:150
 msgid "America/Puerto_Rico"
-msgstr ""
+msgstr "அமெரிக்கா/ப்யூடோ_ரிக்கோ"
 
 #: calendar/zones.h:151
 msgid "America/Rainy_River"
-msgstr ""
+msgstr "அமெரிக்கா/ரெய்னி_ரிவர்"
 
 #: calendar/zones.h:152
 msgid "America/Rankin_Inlet"
-msgstr ""
+msgstr "அமெரிக்கா/ராங்கின்_இன்லெட்"
 
 #: calendar/zones.h:153
 msgid "America/Recife"
-msgstr ""
+msgstr "அமெரிக்கா/ரெக்பி"
 
 #: calendar/zones.h:154
 msgid "America/Regina"
-msgstr ""
+msgstr "அமெரிக்கா/ரெகினா"
 
 #: calendar/zones.h:155
 msgid "America/Rio_Branco"
-msgstr ""
+msgstr "அமெரிக்கா/ரியோ_ப்ராங்கோ"
 
 #: calendar/zones.h:156
 msgid "America/Rosario"
-msgstr ""
+msgstr "அமெரிக்கா/ரொசாரியோ"
 
 #: calendar/zones.h:157
 msgid "America/Santiago"
-msgstr ""
+msgstr "அமெரிக்கா/சான்டியாகோ"
 
 #: calendar/zones.h:158
 msgid "America/Santo_Domingo"
-msgstr ""
+msgstr "அமெரிக்கா/சான்டோ_சொமிங்கோ"
 
 #: calendar/zones.h:159
 msgid "America/Sao_Paulo"
-msgstr ""
+msgstr "அமெரிக்கா/சௌ_பௌலொ"
 
 #: calendar/zones.h:160
 msgid "America/Scoresbysund"
-msgstr ""
+msgstr "அமெரிக்கா/ஸ்கோர்பைசன்ட்"
 
 #: calendar/zones.h:161
 msgid "America/Shiprock"
-msgstr ""
+msgstr "அமெரிக்கா/ஷிப்ராக்"
 
 #: calendar/zones.h:162
 msgid "America/St_Johns"
-msgstr ""
+msgstr "அமெரிக்கா/செயின்ட்_ஜோன்ஸ்"
 
 #: calendar/zones.h:163
 msgid "America/St_Kitts"
-msgstr ""
+msgstr "அமெரிக்கா/செயின்ட்-கிட்ஸ்"
 
 #: calendar/zones.h:164
 msgid "America/St_Lucia"
-msgstr ""
+msgstr "அமெரிக்கா/செயின்ட்_லூசியா"
 
 #: calendar/zones.h:165
 msgid "America/St_Thomas"
-msgstr ""
+msgstr "அமெரிக்கா/செயின்ட்_தாமஸ்"
 
 #: calendar/zones.h:166
 msgid "America/St_Vincent"
-msgstr ""
+msgstr "அமெரிக்கா/செயின்ட்_வின்ஸன்ட்"
 
 #: calendar/zones.h:167
 msgid "America/Swift_Current"
-msgstr ""
+msgstr "அமெரிக்கா/ஸ்ஃப்ட்_கரன்ட்"
 
 #: calendar/zones.h:168
 msgid "America/Tegucigalpa"
-msgstr ""
+msgstr "அமெரிக்கா/டெகுசிகல்பா"
 
 #: calendar/zones.h:169
 msgid "America/Thule"
-msgstr ""
+msgstr "அமெரிக்கா/துலே"
 
 #: calendar/zones.h:170
 msgid "America/Thunder_Bay"
-msgstr ""
+msgstr "அமெரிக்கா/தன்டர்_வளைகுடா"
 
 #: calendar/zones.h:171
 msgid "America/Tijuana"
-msgstr ""
+msgstr "அமெரிக்கா/டிகுவானா"
 
 #: calendar/zones.h:172
 msgid "America/Tortola"
-msgstr ""
+msgstr "அமெரிக்கா/தொறான்ரோ"
 
 #: calendar/zones.h:173
 msgid "America/Vancouver"
-msgstr ""
+msgstr "அமெரிக்கா/வான்கோவெர்"
 
 #: calendar/zones.h:174
 msgid "America/Whitehorse"
-msgstr ""
+msgstr "அமெரிக்கா/ஒயிஹார்ஸ்"
 
 #: calendar/zones.h:175
 msgid "America/Winnipeg"
-msgstr ""
+msgstr "அமெரிக்கா/வினிபெக்"
 
 #: calendar/zones.h:176
 msgid "America/Yakutat"
-msgstr ""
+msgstr "அமெரிக்கா/யகடாட்"
 
 #: calendar/zones.h:177
 msgid "America/Yellowknife"
-msgstr ""
+msgstr "அமெரிக்கா/யெல்லோக்னைஃப்"
 
 #: calendar/zones.h:178
 msgid "Antarctica/Casey"
-msgstr ""
+msgstr "அன்டார்டிக்கா/காசெய்"
 
 #: calendar/zones.h:179
 msgid "Antarctica/Davis"
-msgstr ""
+msgstr "அன்டார்டிக்கா/டாவிஸ்"
 
 #: calendar/zones.h:180
 msgid "Antarctica/DumontDUrville"
-msgstr ""
+msgstr "அன்டார்டிக்கா/டுமொன்டுர்வில்லா"
 
 #: calendar/zones.h:181
 msgid "Antarctica/Mawson"
-msgstr ""
+msgstr "அன்டார்டிக்கா/மௌசன்"
 
 #: calendar/zones.h:182
 msgid "Antarctica/McMurdo"
-msgstr ""
+msgstr "அன்டார்டிக்கா/மெக்முர்டொ"
 
 #: calendar/zones.h:183
 msgid "Antarctica/Palmer"
-msgstr ""
+msgstr "அன்டார்டிக்கா/பால்மெர்"
 
 #: calendar/zones.h:184
 msgid "Antarctica/South_Pole"
-msgstr ""
+msgstr "அன்டார்டிக்கா/தென்_துருவம்"
 
 #: calendar/zones.h:185
 msgid "Antarctica/Syowa"
-msgstr ""
+msgstr "அன்டார்டிக்கா/ஸ்யோவா"
 
 #: calendar/zones.h:186
 msgid "Antarctica/Vostok"
-msgstr ""
+msgstr "அன்டார்டிக்கா/வோஸ்டோக்"
 
 #: calendar/zones.h:187
 msgid "Arctic/Longyearbyen"
-msgstr ""
+msgstr "அன்டார்டிக்கா/லாங்இயர்யென்"
 
 #: calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "ஆசியா/ஏடன்"
 
 #: calendar/zones.h:189
 msgid "Asia/Almaty"
-msgstr ""
+msgstr "ஆசியா/அல்மடி"
 
 #: calendar/zones.h:190
 msgid "Asia/Amman"
-msgstr ""
+msgstr "ஆசியா/அமான்"
 
 #: calendar/zones.h:191
 msgid "Asia/Anadyr"
-msgstr ""
+msgstr "ஆசியா/அன்ட்யார்"
 
 #: calendar/zones.h:192
 msgid "Asia/Aqtau"
-msgstr ""
+msgstr "ஆசியா/அக்டௌ"
 
 #: calendar/zones.h:193
 msgid "Asia/Aqtobe"
-msgstr ""
+msgstr "ஆசியா/அக்டொபி"
 
 #: calendar/zones.h:194
 msgid "Asia/Ashgabat"
-msgstr ""
+msgstr "ஆசியா/அஷ்காபாத்"
 
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
-msgstr ""
+msgstr "ஆசியா/பாக்தாத்"
 
 #: calendar/zones.h:196
 msgid "Asia/Bahrain"
-msgstr ""
+msgstr "ஆசியா/பஹ்ரெயின்"
 
 #: calendar/zones.h:197
 msgid "Asia/Baku"
-msgstr ""
+msgstr "ஆசியா/பாகு"
 
 #: calendar/zones.h:198
 msgid "Asia/Bangkok"
-msgstr ""
+msgstr "ஆசியா/பாங்காக்"
 
 #: calendar/zones.h:199
 msgid "Asia/Beirut"
-msgstr ""
+msgstr "ஆசியா/பெய்ரட்"
 
 #: calendar/zones.h:200
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "ஆசியா/பிஷ்கெக்்"
 
 #: calendar/zones.h:201
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "ஆசியா/ப்ரூனெய்"
 
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
-msgstr ""
+msgstr "ஆசியா/கல்கத்தா"
 
 #: calendar/zones.h:203
 msgid "Asia/Choibalsan"
-msgstr ""
+msgstr "ஆசியா/கோய்பால்சன்"
 
 #: calendar/zones.h:204
 msgid "Asia/Chongqing"
-msgstr ""
+msgstr "ஆசியா/சௌங்குயிங்"
 
 #: calendar/zones.h:205
 msgid "Asia/Colombo"
-msgstr ""
+msgstr "ஆசியா/கொலம்போ"
 
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
-msgstr ""
+msgstr "ஆசியா/டமாஸ்கஸ்"
 
 #: calendar/zones.h:207
 msgid "Asia/Dhaka"
-msgstr ""
+msgstr "ஆசியா/டாக்கா"
 
 #: calendar/zones.h:208
 msgid "Asia/Dili"
-msgstr ""
+msgstr "ஆசியா/டிலி"
 
 #: calendar/zones.h:209
 msgid "Asia/Dubai"
-msgstr ""
+msgstr "ஆசியா/துபாய்"
 
 #: calendar/zones.h:210
 msgid "Asia/Dushanbe"
-msgstr ""
+msgstr "ஆசியா/டுஷான்பி"
 
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
-msgstr ""
+msgstr "ஆசியா/காஸா"
 
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "ஆசியா/ஹார்பின்"
 
 #: calendar/zones.h:213
 msgid "Asia/Hong_Kong"
-msgstr ""
+msgstr "ஆசியா/ஹாங்க்-காங்"
 
 #: calendar/zones.h:214
 msgid "Asia/Hovd"
-msgstr ""
+msgstr "ஆசியா/ஹோவ்ட்"
 
 #: calendar/zones.h:215
 msgid "Asia/Irkutsk"
-msgstr ""
+msgstr "ஆசியா/இர்குஸ்க்"
 
 #: calendar/zones.h:216
 msgid "Asia/Istanbul"
-msgstr ""
+msgstr "ஆசியா/இஸ்தான்புல்"
 
 #: calendar/zones.h:217
 msgid "Asia/Jakarta"
-msgstr ""
+msgstr "ஆசியா/ஜகார்தா"
 
 #: calendar/zones.h:218
 msgid "Asia/Jayapura"
-msgstr ""
+msgstr "ஆசியா/ஜெயபுரா"
 
 #: calendar/zones.h:219
 msgid "Asia/Jerusalem"
-msgstr ""
+msgstr "ஆசியா/ஜெருசலெம்"
 
 #: calendar/zones.h:220
 msgid "Asia/Kabul"
-msgstr ""
+msgstr "ஆசியா/காபூல்"
 
 #: calendar/zones.h:221
 msgid "Asia/Kamchatka"
-msgstr ""
+msgstr "ஆசியா/காம்சட்கா"
 
 #: calendar/zones.h:222
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "ஆசியா/கராச்சி"
 
 #: calendar/zones.h:223
 msgid "Asia/Kashgar"
-msgstr ""
+msgstr "ஆசியா/காஷ்கர்"
 
 #: calendar/zones.h:224
 msgid "Asia/Katmandu"
-msgstr ""
+msgstr "ஆசியா/காட்மாண்டு"
 
 #: calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
-msgstr ""
+msgstr "ஆசியா/கரச்னொயார்ஸ்க்"
 
 #: calendar/zones.h:226
 msgid "Asia/Kuala_Lumpur"
-msgstr ""
+msgstr "ஆசியா/கோலா_லம்பூர்"
 
 #: calendar/zones.h:227
 msgid "Asia/Kuching"
-msgstr ""
+msgstr "ஆசியா/கச்சிங்"
 
 #: calendar/zones.h:228
 msgid "Asia/Kuwait"
-msgstr ""
+msgstr "ஆசியா/குவைத்"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
-msgstr ""
+msgstr "ஆசியா/மாகோ"
 
 #: calendar/zones.h:230
 msgid "Asia/Macau"
-msgstr ""
+msgstr "ஆசியா/மாசௌ"
 
 #: calendar/zones.h:231
 msgid "Asia/Magadan"
-msgstr ""
+msgstr "ஆசியா/மகதான்"
 
 #: calendar/zones.h:232
 msgid "Asia/Makassar"
-msgstr ""
+msgstr "ஆசியா/மகாஸாஸர்"
 
 #: calendar/zones.h:233
 msgid "Asia/Manila"
-msgstr ""
+msgstr "ஆசியா/மனிலா"
 
 #: calendar/zones.h:234
 msgid "Asia/Muscat"
-msgstr ""
+msgstr "ஆசியா/மஸ்கட்"
 
 #: calendar/zones.h:235
 msgid "Asia/Nicosia"
-msgstr ""
+msgstr "ஆசியா/நிகோசியா"
 
 #: calendar/zones.h:236
 msgid "Asia/Novosibirsk"
-msgstr ""
+msgstr "ஆசியா/நொவொசிபிர்க்"
 
 #: calendar/zones.h:237
 msgid "Asia/Omsk"
-msgstr ""
+msgstr "ஆசியா/ஒம்ஸ்க்"
 
 #: calendar/zones.h:238
 msgid "Asia/Oral"
-msgstr ""
+msgstr "ஆசியா/ஓரல்"
 
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
-msgstr ""
+msgstr "ஆசியா/ப்னோம்பெ_ன்ஹ்"
 
 #: calendar/zones.h:240
 msgid "Asia/Pontianak"
-msgstr ""
+msgstr "ஆசியா/பொன்டியானாக்"
 
 #: calendar/zones.h:241
 msgid "Asia/Pyongyang"
-msgstr ""
+msgstr "ஆசியா/ப்யோயாங்"
 
 #: calendar/zones.h:242
 msgid "Asia/Qatar"
-msgstr ""
+msgstr "ஆசியா/கதார்"
 
 #: calendar/zones.h:243
 msgid "Asia/Qyzylorda"
-msgstr ""
+msgstr "ஆசியா/க்வைசிலோர்டா"
 
 #: calendar/zones.h:244
 msgid "Asia/Rangoon"
-msgstr ""
+msgstr "ஆசியா/ரங்கோன்"
 
 #: calendar/zones.h:245
 msgid "Asia/Riyadh"
-msgstr ""
+msgstr "ஆசியா/நியாத்"
 
 #: calendar/zones.h:246
 msgid "Asia/Saigon"
-msgstr ""
+msgstr "ஆசியா/சாய்கோன்"
 
 #: calendar/zones.h:247
 msgid "Asia/Sakhalin"
-msgstr ""
+msgstr "ஆசியா/சக்ஹாலின்"
 
 #: calendar/zones.h:248
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "ஆசியா/சமர்கான்ட்"
 
 #: calendar/zones.h:249
 msgid "Asia/Seoul"
-msgstr ""
+msgstr "ஆசியா/சியோல்"
 
 #: calendar/zones.h:250
 msgid "Asia/Shanghai"
-msgstr ""
+msgstr "ஆசியா/ஷாங்காய்"
 
 #: calendar/zones.h:251
 msgid "Asia/Singapore"
-msgstr ""
+msgstr "ஆசியா/சிங்கப்பூர்"
 
 #: calendar/zones.h:252
 msgid "Asia/Taipei"
-msgstr ""
+msgstr "ஆசியா/தாய்பெய்"
 
 #: calendar/zones.h:253
 msgid "Asia/Tashkent"
-msgstr ""
+msgstr "ஆசியா/தாஷ்கென்ட்"
 
 #: calendar/zones.h:254
 msgid "Asia/Tbilisi"
-msgstr ""
+msgstr "ஆசியா/பிலிசி"
 
 #: calendar/zones.h:255
 msgid "Asia/Tehran"
-msgstr ""
+msgstr "ஆசியா/டெஹ்ரான்"
 
 #: calendar/zones.h:256
 msgid "Asia/Thimphu"
-msgstr ""
+msgstr "ஆசியா/திம்பு"
 
 #: calendar/zones.h:257
 msgid "Asia/Tokyo"
-msgstr ""
+msgstr "ஆசியா/டோக்கியோ"
 
 #: calendar/zones.h:258
 msgid "Asia/Ujung_Pandang"
-msgstr ""
+msgstr "ஆசியா/ஜங்_பன்டாங்"
 
 #: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
-msgstr ""
+msgstr "ஆசியா/உலான்பாடர்"
 
 #: calendar/zones.h:260
 msgid "Asia/Urumqi"
-msgstr ""
+msgstr "ஆசியா/ரும்கி்கி"
 
 #: calendar/zones.h:261
 msgid "Asia/Vientiane"
-msgstr ""
+msgstr "ஆசியா/வியன்டினாம்"
 
 #: calendar/zones.h:262
 msgid "Asia/Vladivostok"
-msgstr ""
+msgstr "ஆசியா/வ்லடிவிஸ்டோல்"
 
 #: calendar/zones.h:263
 msgid "Asia/Yakutsk"
-msgstr ""
+msgstr "ஆசியா/யகுட்ஸ்"
 
 #: calendar/zones.h:264
 msgid "Asia/Yekaterinburg"
-msgstr ""
+msgstr "ஆசியா/யெகடெரிங்பர்க்"
 
 #: calendar/zones.h:265
 msgid "Asia/Yerevan"
-msgstr ""
+msgstr "ஆசியா/யெரிவான்"
 
 #: calendar/zones.h:266
 msgid "Atlantic/Azores"
-msgstr ""
+msgstr "அட்லாண்டிக்ிக்/அசோரிஸ்"
 
 #: calendar/zones.h:267
 msgid "Atlantic/Bermuda"
-msgstr ""
+msgstr "அட்லாண்டிக்/பெர்முடாதா"
 
 #: calendar/zones.h:268
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "அட்லாண்டிக்/கனாரி"
 
 #: calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
-msgstr ""
+msgstr "அட்லாண்டிக்/கேப்_வெர்டி"
 
 #: calendar/zones.h:270
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "அட்லாண்டிக்/ஃப்ரோ"
 
 #: calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
-msgstr ""
+msgstr "அட்லாண்டிக்/ஜான்_மாயென்"
 
 #: calendar/zones.h:272
 msgid "Atlantic/Madeira"
-msgstr ""
+msgstr "அட்லாண்டிக்/மடிரா"
 
 #: calendar/zones.h:273
 msgid "Atlantic/Reykjavik"
-msgstr ""
+msgstr "அட்லாண்டிக்/யேக்ஜாவிக்"
 
 #: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
-msgstr ""
+msgstr "அட்லாண்டிக்/தெற்க_ஜார்ஜியா"
 
 #: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
-msgstr ""
+msgstr "அட்லாண்டிக்/செயின்ட்_ஹெலினா"
 
 #: calendar/zones.h:276
 msgid "Atlantic/Stanley"
-msgstr ""
+msgstr "அட்லாண்டிக்/ஸ்டான்லி"
 
 #: calendar/zones.h:277
 msgid "Australia/Adelaide"
-msgstr ""
+msgstr "ஆஸ்திரேலியா/ண்டிக்/அடிலைட்"
 
 #: calendar/zones.h:278
 msgid "Australia/Brisbane"
-msgstr ""
+msgstr "ஆஸ்திரேலியா/ண்டிக்பேன்/பிரிஸ்"
 
 #: calendar/zones.h:279
 msgid "Australia/Broken_Hill"
-msgstr ""
+msgstr "ஆஸ்திரேலியா/ப்ரோக்கன்_ஹில்"
 
 #: calendar/zones.h:280
 msgid "Australia/Darwin"
-msgstr ""
+msgstr "ஆஸ்திரேலியா/டார்வின்"
 
 #: calendar/zones.h:281
 msgid "Australia/Hobart"
-msgstr ""
+msgstr "ஆஸ்திரேலியா/ஹோபார்ட்"
 
 #: calendar/zones.h:282
 msgid "Australia/Lindeman"
-msgstr ""
+msgstr "ஆஸ்திரேலியா/லின்டெமான்"
 
 #: calendar/zones.h:283
 msgid "Australia/Lord_Howe"
-msgstr ""
+msgstr "ஆஸ்திரேலியா/லார்ட்_ஹௌ"
 
 #: calendar/zones.h:284
 msgid "Australia/Melbourne"
-msgstr ""
+msgstr "ஆஸ்திரேலியா/மெல்பர்ன்"
 
 #: calendar/zones.h:285
 msgid "Australia/Perth"
-msgstr ""
+msgstr "ஆஸ்திரேலியா/பெர்த்"
 
 #: calendar/zones.h:286
 msgid "Australia/Sydney"
-msgstr ""
+msgstr "ஆஸ்திரேலியா/சிட்னி"
 
 #: calendar/zones.h:287
 msgid "Europe/Amsterdam"
-msgstr ""
+msgstr "ஐரோப்பா/ஆம்ஸ்ராடெம்ாடெம்"
 
 #: calendar/zones.h:288
 msgid "Europe/Andorra"
