@@ -494,8 +494,6 @@ build_attr_list (ECellTextView *text_view, int row, int text_length)
 static PangoLayout *
 layout_with_preedit (ECellTextView *text_view, int row, const char *text, gint width)
 {
-	ECellView *ecell_view = (ECellView *) text_view;
-	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	CellEdit *edit = text_view->edit;
 	PangoAttrList *attrs ;
 	PangoLayout *layout;
@@ -559,7 +557,6 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	PangoAttrList *attrs ;
 	PangoLayout *layout;
-	gboolean bold, strikeout, underline;
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (((GnomeCanvasItem *)ecell_view->e_table_item_view)->canvas), text);
 
@@ -876,7 +873,6 @@ static gint
 ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	ECellText *ect = (ECellText *) ((ECellView *)text_view)->ecell;
 	ETextEventProcessorEvent e_tep_event;
 	gboolean edit_display = FALSE;
 	gint preedit_len;
@@ -1784,7 +1780,6 @@ e_cell_text_commit_cb (GtkIMContext *context,
 		  ECellTextView    *tv)
 {
 	CellEdit *edit = tv->edit;
-	ECellText *ect = (ECellText *) ((ECellView *)tv)->ecell;
 	ETextEventProcessorCommand command;
 	                                                  
 	if (g_utf8_validate (str, strlen (str), NULL)) {

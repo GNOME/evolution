@@ -341,7 +341,6 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	int inner_x, inner_y;
 	int inner_width, inner_height;
 	GdkGC *gc;
-	char *text;
 	PangoLayout *layout;
 
 	g_return_if_fail (drawable != NULL);

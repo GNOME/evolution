@@ -28,6 +28,7 @@
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <atk/atkregistry.h>
 
 #include "e-table-header.h"
 #include "e-table-click-to-add.h"
@@ -312,7 +313,7 @@ finish_editing (ETableClickToAdd *etcta)
 		e_table_item_leave_edit (E_TABLE_ITEM (etcta->row));
 		e_table_one_commit(E_TABLE_ONE(etcta->one));
 		etcta_drop_one (etcta);
-		gtk_object_destroy(etcta->row);
+		gtk_object_destroy(GTK_OBJECT (etcta->row));
 		etcta->row = NULL;
 
 		one = e_table_one_new(etcta->model);
@@ -354,11 +355,11 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	case GDK_BUTTON_PRESS:
 		if (etcta->text) {
-			gtk_object_destroy(etcta->text);
+			gtk_object_destroy(GTK_OBJECT (etcta->text));
 			etcta->text = NULL;
 		}
 		if (etcta->rect) {
-			gtk_object_destroy(etcta->rect);
+			gtk_object_destroy(GTK_OBJECT (etcta->rect));
 			etcta->rect = NULL;
 		}
 		if (!etcta->row) {
@@ -545,7 +546,7 @@ e_table_click_to_add_commit (ETableClickToAdd *etcta)
 	if (etcta->row) {
 		e_table_one_commit(E_TABLE_ONE(etcta->one));
 		etcta_drop_one (etcta);
-		gtk_object_destroy(etcta->row);
+		gtk_object_destroy(GTK_OBJECT (etcta->row));
 		etcta->row = NULL;
 	}
 	if (!etcta->rect) {

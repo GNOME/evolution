@@ -33,6 +33,7 @@
 #include "gal/widgets/e-hsv-utils.h"
 #include "e-table-item.h"
 #include "gal/a11y/e-table/gal-a11y-e-cell-toggle.h"
+#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
 
 #define PARENT_TYPE e_cell_get_type ()
 

@@ -39,6 +39,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "e-table-subset.h"
 #include "e-cell.h"
+#include "gal/a11y/e-table/gal-a11y-e-table-item-factory.h"
 #include "gal/widgets/e-hsv-utils.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"

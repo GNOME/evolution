@@ -34,6 +34,7 @@
 #include "e-table-item.h"
 #include "e-cell-popup.h"
 #include "gal/a11y/e-table/gal-a11y-e-cell-popup.h"
+#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
 
 #define E_CELL_POPUP_ARROW_WIDTH	16
 #define E_CELL_POPUP_ARROW_XPAD		3

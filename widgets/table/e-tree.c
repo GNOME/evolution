@@ -29,6 +29,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtksignal.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <atk/atkregistry.h>
 
 #include <gal/util/e-i18n.h>
 #include <gal/util/e-util.h>
@@ -2159,7 +2160,7 @@ e_tree_get_item(ETree * et)
 	g_return_val_if_fail (et != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE (et), NULL);
 
-	return et->priv->item;
+	return E_TABLE_ITEM (et->priv->item);
 }
 
 

@@ -643,7 +643,7 @@ connect_button (ETableConfig *config, GladeXML *gui, const char *widget_name, GC
 static gint
 get_source_model_col_index (ETableConfig *config, gint idx)
 {
-	gint visible_index, result;
+	gint visible_index;
 	ETableModel *src_model = E_TABLE_SUBSET (config->available_model)->source;
 
         visible_index = e_table_subset_view_to_model_row (E_TABLE_SUBSET (config->available_model), idx);

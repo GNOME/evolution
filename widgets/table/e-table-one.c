@@ -134,8 +134,6 @@ one_value_to_string (ETableModel *etm, int col, const void *value)
 static void
 one_finalize (GObject *object)
 {
-	ETableOne *one = E_TABLE_ONE (object);
-
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
