@@ -742,7 +742,25 @@ update_status_bar(FolderBrowser *fb)
 		g_string_append(work, _(", "));
 		g_string_sprintfa(work, _("%d selected"), tmp);
 	}
-	tmp = camel_folder_get_message_count(fb->folder);
+	if (!fb->message_list->hidedeleted || !camel_folder_has_summary_capability(fb->folder)) {
+		tmp = camel_folder_get_message_count(fb->folder);
+	} else {
+		GPtrArray *sum = camel_folder_get_summary(fb->folder);
+		int i;
+
+		if (sum) {
+			tmp = 0;
+			for (i=0;i<sum->len;i++) {
+				CamelMessageInfo *info = sum->pdata[i];
+				
+				if ((info->flags & CAMEL_MESSAGE_DELETED) == 0)
+					tmp++;
+			}
+			camel_folder_free_summary(fb->folder, sum);
+		} else {
+			tmp = camel_folder_get_message_count(fb->folder);
+		}
+	}
 	g_string_append(work, _(", "));
 	if (fb->folder == outbox_folder)
 		g_string_sprintfa(work, _("%d unsent"), tmp);
