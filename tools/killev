@@ -27,3 +27,5 @@ $killcmd -9 lt-evolution-executive-summary 2>/dev/null
 $killcmd -9 lt-evolution-executive-summar 2>/dev/null
 $killcmd -9 lt-evolution-exe 2>/dev/null
 $killcmd -9 evolution 2>/dev/null
+$killcmd -9 rdf-summary 2>/dev/null
+$killcmd -9 lt-rdf-summary 2>/dev/null

@@ -1,3 +1,8 @@
+2001-05-09  Iain Holmes  <iain@ximian.com>
+
+	* tools/killev: Added rdf-summary killing stuff from R Burton
+	(r.burton@180sw.com)
+
 2001-05-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: OpenSSL LDFLAGS also needs to include -lcrypt
