@@ -1,3 +1,11 @@
+2000-11-24  Not Zed  <NotZed@HelixCode.com>
+
+	* configure.in: Added camel/tests stuff to output macro.
+
+2000-11-14  Not Zed  <NotZed@HelixCode.com>
+
+	* configure.in: Added local provider dir to output macro.
+
 2000-11-21  Dan Winship  <danw@helixcode.com>
 
 	* configure.in: Check for libgpgme. (Support not added to mail

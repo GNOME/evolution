@@ -628,7 +628,7 @@ executive-summary/Makefile
 executive-summary/evolution-services/Makefile
 executive-summary/widgets/Makefile
 executive-summary/idl/Makefile
-executive-summary/component/Makefile
+ executive-summary/component/Makefile
 executive-summary/test-service/Makefile
 camel/Makefile
 camel/providers/Makefile
@@ -640,6 +640,10 @@ camel/providers/vee/Makefile
 camel/providers/imap/Makefile
 camel/providers/mh/Makefile
 camel/providers/nntp/Makefile
+camel/providers/local/Makefile
+camel/tests/Makefile
+camel/tests/lib/Makefile
+camel/tests/message/Makefile
 composer/Makefile
 widgets/Makefile
 widgets/meeting-time-sel/Makefile
