@@ -20,27 +20,6 @@ module Calendar {
 	/* A unique identifier for a calendar component */
 	typedef string CalObjUID;
 
-	/* Interface to the alarm notification service */
-	interface AlarmNotify : Bonobo::Unknown {
-		exception InvalidURI {};
-		exception BackendContactError {};
-		exception NotFound {};
-
-		/* Adds a calendar to the alarm notification system so that
-		 * alarms will be triggered for it.  The calendar will be loaded
-		 * automatically whenever the alarm daemon starts up.  
-		 */
-		void addCalendar (in string uri)
-			raises (InvalidURI, BackendContactError);
-
-		/* Removes a calendar from the alarm notification system and
-		 * alarms will no longer be triggered for it.  The calendar will
-		 * no longer be loaded when the alarm daemon starts up. 
-		 */
-		void removeCalendar (in string uri)
-			raises (InvalidURI, NotFound);
-	};
-
 	/* Factory to centralize calendar component editor dialogs */
 	interface CompEditorFactory : Bonobo::Unknown {
 		exception InvalidURI {};

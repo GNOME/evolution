@@ -1,8 +1,10 @@
 /* Evolution calendar - Alarm notification service main file
  *
  * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2003 Novell, Inc.
  *
- * Author: Federico Mena-Quintero <federico@ximian.com>
+ * Authors: Federico Mena-Quintero <federico@ximian.com>
+ *          Rodrigo Moya <rodrigo@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -99,8 +101,7 @@ alarm_notify_factory_fn (BonoboGenericFactory *factory, const char *component_id
 		g_assert (alarm_notify_service != NULL);
 	}
 
-	bonobo_object_ref (BONOBO_OBJECT (alarm_notify_service));
-	return BONOBO_OBJECT (alarm_notify_service);
+	return NULL;
 }
 
 /* Loads the calendars that the alarm daemon has been told to load in the past */
@@ -126,29 +127,10 @@ load_calendars (gpointer user_data)
 
 	for (i = 0; i < uris->len; i++) {
 		char *uri;
-		CORBA_Environment ev;
 
 		uri = uris->pdata[i];
 
-		CORBA_exception_init (&ev);
-		alarm_notify_add_calendar (alarm_notify_service, uri, FALSE, &ev);
-
-		if (ev._major == CORBA_USER_EXCEPTION) {
-			char *ex_id;
-			
-			ex_id = CORBA_exception_id (&ev);
-			if (strcmp (ex_id, ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI) == 0)
-				g_message ("load_calendars(): Invalid URI `%s'; will not load "
-					   "that calendar.", uri);
-			else if (strcmp (ex_id,
-					 ex_GNOME_Evolution_Calendar_AlarmNotify_BackendContactError)
-				 == 0)
-				g_message ("load_calendars(): Could not contact the backend "
-					   "while trying to load `%s'", uri);
-		} else if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("load_calendars(): Exception while loading calendar `%s'", uri);
-
-		CORBA_exception_free (&ev);
+		alarm_notify_add_calendar (alarm_notify_service, uri, FALSE);
 
 		g_free (uri);
 	}
@@ -178,7 +160,7 @@ main (int argc, char **argv)
 
 	gnome_sound_init ("localhost");
 
-	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory",
+	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify",
 					      (BonoboFactoryCallback) alarm_notify_factory_fn, NULL);
 	if (!factory)
 		g_error (_("Could not create the alarm notify service factory"));

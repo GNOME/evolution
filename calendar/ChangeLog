@@ -1,3 +1,32 @@
+2003-11-17  Rodrigo Moya <rodrigo@ximian.com>
+
+	* idl/evolution-calendar.idl: remove the AlarmNotify service, no
+	more need for it, since the alarm daemon will listen for changes
+	on the GConf key.
+
+	* gui/gnome-cal.c (add_alarms): removed function to talk to the
+	alarm daemon.
+	(client_cal_opened_cb): don't call add_alarms().
+
+	* gui/alarm-notify/alarm-notify.[ch]: made it a basic GObject.
+	(AlarmNotify_addCalendar, AlarmNotify_removeCalendar): removed
+	AlarmNotify interface implementation.
+	(alarm_notify_class_init): no epv to initialize.
+	(alarm_notify_remove_calendar): new function, copied from the
+	CORBA method implementation.
+	(alarm_notify_factory_fn): return NULL, since there is no objects
+	that can be created via this factory now.
+
+	* gui/alarm-notify/notify-main.c (main): now the factory is the alarm
+	notification service itself.
+	(load_calendars): no need to use exceptions here.
+
+	* gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in:
+	now the factory is the alarm notification service itself.
+
+	* gui/main.c (launch_alarm_daemon_cb): dont use the AlarmNotify CORBA
+	types.
+
 2003-11-17  Harry Lu  <harry.lu@sun.com>
 
         * gui/dialogs/recurrence-page.c (make_ending_count_special):

@@ -22,8 +22,7 @@
 #ifndef ALARM_NOTIFY_H
 #define ALARM_NOTIFY_H
 
-#include <bonobo/bonobo-object.h>
-#include "evolution-calendar.h"
+#include <glib-object.h>
 
 
 
@@ -40,24 +39,22 @@ typedef struct _AlarmNotifyClass AlarmNotifyClass;
 typedef struct _AlarmNotifyPrivate AlarmNotifyPrivate;
 
 struct _AlarmNotify {
-	BonoboObject xobject;
+	GObject object;
 
 	/* Private data */
 	AlarmNotifyPrivate *priv;
 };
 
 struct _AlarmNotifyClass {
-	BonoboObjectClass parent_class;
-
-	POA_GNOME_Evolution_Calendar_AlarmNotify__epv epv;
+	GObjectClass parent_class;
 };
 
 GType alarm_notify_get_type (void);
 
 AlarmNotify *alarm_notify_new (void);
 
-void alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_afterwards,
-				CORBA_Environment *ev);
+void alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_afterwards);
+void alarm_notify_remove_calendar (AlarmNotify *an, const char *str_uri);
 
 
 

@@ -90,7 +90,7 @@ static gboolean
 launch_alarm_daemon_cb (gpointer data)
 {
 	CORBA_Environment ev;
-	GNOME_Evolution_Calendar_AlarmNotify an;
+	CORBA_Object an;
 	guint *idle_id = (guint *) data;
 
 	/* remove the idle function */

@@ -43,22 +43,32 @@ static void alarm_notify_class_init (AlarmNotifyClass *klass);
 static void alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass);
 static void alarm_notify_finalize (GObject *object);
 
-static void AlarmNotify_addCalendar (PortableServer_Servant servant,
-				     const CORBA_char *str_uri,
-				     CORBA_Environment *ev);
-static void AlarmNotify_removeCalendar (PortableServer_Servant servant,
-					const CORBA_char *str_uri,
-					CORBA_Environment *ev);
-
 
 static BonoboObjectClass *parent_class;
 
 
 
-BONOBO_TYPE_FUNC_FULL (AlarmNotify,
-		       GNOME_Evolution_Calendar_AlarmNotify,
-		       BONOBO_TYPE_OBJECT,
-		       alarm_notify);
+GType
+alarm_notify_get_type (void)
+{
+	static GType type = 0;
+                                                                                
+        if (!type) {
+                static GTypeInfo info = {
+                        sizeof (AlarmNotifyClass),
+                        (GBaseInitFunc) NULL,
+                        (GBaseFinalizeFunc) NULL,
+                        (GClassInitFunc) alarm_notify_class_init,
+                        NULL, NULL,
+                        sizeof (AlarmNotify),
+                        0,
+                        (GInstanceInitFunc) alarm_notify_init
+                };
+                type = g_type_register_static (G_TYPE_OBJECT, "AlarmNotify", &info, 0);
+        }
+
+        return type;
+}
 
 /* Class initialization function for the alarm notify service */
 static void
@@ -69,9 +79,6 @@ alarm_notify_class_init (AlarmNotifyClass *klass)
 	object_class = (GObjectClass *) klass;
 
 	parent_class = g_type_class_peek_parent (klass);
-
-	klass->epv.addCalendar = AlarmNotify_addCalendar;
-	klass->epv.removeCalendar = AlarmNotify_removeCalendar;
 
 	object_class->finalize = alarm_notify_finalize;
 }
@@ -121,8 +128,6 @@ alarm_notify_finalize (GObject *object)
 }
 
 
-
-/* CORBA servant implementation */
 
 /* Looks for a canonicalized URI inside an array of URIs; returns the index
  * within the array or -1 if not found.
@@ -228,41 +233,6 @@ remove_uri_to_load (const char *str_uri)
 	free_uris (loaded_uris);
 }
 
-/* AlarmNotify::addCalendar method */
-static void
-AlarmNotify_addCalendar (PortableServer_Servant servant,
-			 const CORBA_char *str_uri,
-			 CORBA_Environment *ev)
-{
-	AlarmNotify *an;
-
-	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
-	alarm_notify_add_calendar (an, str_uri, TRUE, ev);
-}
-
-/* AlarmNotify::removeCalendar method */
-static void
-AlarmNotify_removeCalendar (PortableServer_Servant servant,
-			    const CORBA_char *str_uri,
-			    CORBA_Environment *ev)
-{
-	AlarmNotify *an;
-	AlarmNotifyPrivate *priv;
-	ECal *client;	
-
-	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
-	priv = an->priv;
-
-	client = g_hash_table_lookup (priv->uri_client_hash, str_uri);
-	if (client) {
-		alarm_queue_remove_client (client);
-
-		g_hash_table_remove (priv->uri_client_hash, str_uri);
-	}
-
-	remove_uri_to_load (str_uri);
-}
-
 
 
 /**
@@ -288,15 +258,13 @@ alarm_notify_new (void)
  * @uri: URI of the calendar to load.
  * @load_afterwards: Whether this calendar should be loaded in the future
  * when the alarm daemon starts up.
- * @ev: CORBA environment for exceptions.
  * 
  * Tells the alarm notification service to load a calendar and start monitoring
  * its alarms.  It can optionally be made to save the URI of this calendar so
  * that it can be loaded in the future when the alarm daemon starts up.
  **/
 void
-alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_afterwards,
-			   CORBA_Environment *ev)
+alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_afterwards)
 {
 	AlarmNotifyPrivate *priv;
 	ECal *client;
@@ -304,7 +272,6 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	g_return_if_fail (an != NULL);
 	g_return_if_fail (IS_ALARM_NOTIFY (an));
 	g_return_if_fail (str_uri != NULL);
-	g_return_if_fail (ev != NULL);
 
 	priv = an->priv;
 
@@ -321,10 +288,22 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 			g_hash_table_insert (priv->uri_client_hash,
 					     g_strdup (str_uri), client);
 		}
-	} else {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_AlarmNotify_BackendContactError,
-				     NULL);
-		return;
 	}
+}
+
+void
+alarm_notify_remove_calendar (AlarmNotify *an, const char *str_uri)
+{
+	AlarmNotifyPrivate *priv;
+	ECal *client;
+
+	priv = an->priv;
+
+	client = g_hash_table_lookup (priv->uri_client_hash, str_uri);
+	if (client) {
+		alarm_queue_remove_client (client);
+
+		g_hash_table_remove (priv->uri_client_hash, str_uri);
+	}
+	remove_uri_to_load (str_uri);
 }

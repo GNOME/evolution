@@ -4,10 +4,12 @@
  * Copyright (C) 1998 The Free Software Foundation
  * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 2001 Ximian, Inc.
+ * Copyright (C) 2003 Novell, Inc
  *
  * Authors: Miguel de Icaza <miguel@ximian.com>
  *          Federico Mena-Quintero <federico@ximian.com>
  *          Seth Alves <alves@hungry.com>
+ *          Rodrigo Moya <rodrigo@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -203,7 +205,6 @@ static void gnome_calendar_on_date_navigator_selection_changed (ECalendarItem   
 								GnomeCalendar    *gcal);
 static void gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal);
 
-static void add_alarms (const char *uri);
 static void update_query (GnomeCalendar *gcal);
 
 
@@ -1818,7 +1819,6 @@ client_cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 		}
 		g_free (msg);
 
-		add_alarms (e_cal_get_uri (client));
 		break;
 
 	case E_CALENDAR_STATUS_OTHER_ERROR:
@@ -2133,52 +2133,6 @@ gnome_calendar_get_task_pad_e_cal (GnomeCalendar *gcal)
 	priv = gcal->priv;
 
 	return priv->task_pad_client;
-}
-
-/* Adds the specified URI to the alarm notification service */
-static void
-add_alarms (const char *uri)
-{
-	CORBA_Environment ev;
-	GNOME_Evolution_Calendar_AlarmNotify an;
-
-	/* Activate the alarm notification service */
-
-	CORBA_exception_init (&ev);
-	an = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
-
-	if (BONOBO_EX (&ev)) {
-		g_warning ("add_alarms(): Could not activate the alarm notification service: %s",
-			   CORBA_exception_id (&ev));
-		CORBA_exception_free (&ev);
-		return;
-	}
-	CORBA_exception_free (&ev);
-
-	/* Ask the service to load the URI */
-
-	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_AlarmNotify_addCalendar (an, uri, &ev);
-
-	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI))
-		g_message ("add_calendar(): Invalid URI reported from the "
-			   "alarm notification service");
-	else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_AlarmNotify_BackendContactError))
-		g_message ("add_calendar(): The alarm notification service could "
-			   "not contact the backend");		
-	else if (BONOBO_EX (&ev))
-		g_message ("add_calendar(): Could not issue the addCalendar request");
-
-	CORBA_exception_free (&ev);
-
-	/* Get rid of the service */
-
-	CORBA_exception_init (&ev);
-	bonobo_object_release_unref (an, &ev);
-	if (BONOBO_EX (&ev))
-		g_message ("add_alarms(): Could not unref the alarm notification service");
-
-	CORBA_exception_free (&ev);
 }
 
 /**
