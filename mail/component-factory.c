@@ -73,17 +73,38 @@ create_view (EvolutionShellComponent *shell_component,
 	GNOME_Evolution_Shell corba_shell;
 	BonoboControl *control;
 
-	if (g_strcasecmp (folder_type, "mail") != 0)
-		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
-
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 
-	control = folder_browser_factory_new_control (physical_uri, corba_shell);
+	if (g_strcasecmp (folder_type, "mail") == 0) {
+		control = folder_browser_factory_new_control (physical_uri,
+							      corba_shell);
+	} else if (g_strcasecmp (folder_type, "mailstorage") == 0) {
+		CamelService *store;
+		EvolutionStorage *storage;
+
+		store = camel_session_get_service (session, physical_uri,
+						   CAMEL_PROVIDER_STORE, NULL);
+		if (!store)
+			return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
+		storage = g_hash_table_lookup (storages_hash, store);
+		if (!storage) {
+			camel_object_unref (CAMEL_OBJECT (store));
+			return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
+		}
+
+		if (!gtk_object_get_data (GTK_OBJECT (storage), "connected"))
+			mail_do_scan_subfolders (store, storage);
+		camel_object_unref (CAMEL_OBJECT (store));
+
+		control = folder_browser_factory_new_control ("", corba_shell);
+	} else
+		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
+
 	if (!control)
 		return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
-	*control_return = control;
 
+	*control_return = control;
 	return EVOLUTION_SHELL_COMPONENT_OK;
 }
 
@@ -163,6 +184,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "mail", "evolution-inbox.png" },
+	{ "mailstorage", "evolution-inbox.png" },
 	{ NULL, NULL }
 };
 
@@ -223,7 +245,7 @@ add_storage (const char *uri, CamelService *store,
 	char *name;
 
 	name = camel_service_get_name (store, TRUE);
-	storage = evolution_storage_new (name, NULL, NULL);
+	storage = evolution_storage_new (name, uri, "mailstorage");
 	g_free (name);
 
 	res = evolution_storage_register_on_shell (storage, corba_shell);

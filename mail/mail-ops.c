@@ -1373,6 +1373,11 @@ cleanup_scan_subfolders (gpointer in_data, gpointer op_data,
 	}
 	g_ptr_array_free (data->new_folders, TRUE);
 
+	if (!camel_exception_is_set (ex)) {
+		gtk_object_set_data (GTK_OBJECT (input->storage),
+				     "connected", GINT_TO_POINTER (1));
+	}
+
 	gtk_object_unref (GTK_OBJECT (input->storage));
 	camel_object_unref (CAMEL_OBJECT (input->store));
 }
