@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: evolution 2.0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-10-16 15:30+0200\n"
-"PO-Revision-Date: 2004-10-16 10:52+0200\n"
+"PO-Revision-Date: 2004-10-18 23:59+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -15931,7 +15931,7 @@ msgstr "Si vous continuez vous ne serez pas capable de récupérer ces messages.
 
 #: mail/mail-errors.xml.h:46
 msgid "_Expunge"
-msgstr "_Nettoyer"
+msgstr "Ne_ttoyer"
 
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
