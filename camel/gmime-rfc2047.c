@@ -166,7 +166,9 @@ rfc2047_decode_word (const gchar *data, const gchar *into_what)
 			g_free(q);
 			return g_strdup(buffer);
 		}
-		unicode_iconv(i, &cook_2, &cook_len, &b, &b_len);
+		if (unicode_iconv(i, &cook_2, &cook_len, &b, &b_len)==-1)
+			/* FIXME : use approximation code if we can't convert it properly. */
+			;
 		unicode_iconv_close(i);
 		*b = 0;
 	}
@@ -174,7 +176,7 @@ rfc2047_decode_word (const gchar *data, const gchar *into_what)
 	return g_strdup(buffer);
 }
 
-static gchar *
+static const gchar *
 find_end_of_encoded_word(const gchar *data) {
 	/* We can't just search for ?=,
            because of the case :
@@ -228,38 +230,111 @@ gmime_rfc2047_decode (const gchar *data, const gchar *into_what)
 	return buffer;
 }
 
-gchar 
-*gmime_rfc2047_encode (const gchar *string, const gchar *charset) 
-{
-	gchar buffer[4096] /* FIXME : constant sized buffer */;
-	gchar *b = buffer;
-	const gchar *s = string;
-	int not_ascii = 0, not_latin1 = 0;
-	while (*s) {
-		if (*s <= 20 || *s >= 0x7f || *s == '=') { not_ascii = 1; }
-		s++;
+#define isnt_ascii(a) ((a) <= 0x1f || (a) >= 0x7f)
+
+static int rfc2047_clean(const gchar *string) {
+	if (strstr(string, "?=")) return 1;
+	while (*string) {
+		if (!isnt_ascii((unsigned char)*string))
+			return 0;
+		string++;
 	}
-	
-	if (!not_ascii) {
-		b += sprintf (b, "%s", string);
-	}
-	
-	else {
-		b += sprintf (b, "=?%s?Q?", charset);
-		s = string;
-		while (*s) {
-			if (*s == ' ') b += sprintf (b, "_");
-			else if (*s < 0x20 || *s >= 0x7f || *s == '=' || *s == '?' || *s == '_') {
-				b += sprintf (b, "=%2x", (unsigned char)*s);
-			} else {
-				b += sprintf (b, "%c", *s);
-			}
-			s++;
+	return 1;
+}
+
+static gchar *encode_word (const gchar *string, const gchar *said_charset) {
+	if (rfc2047_clean(string)) 
+		/* don't bother encoding it if it has no odd characters in it */
+		return g_strdup(string);
+	{
+		char *temp = malloc(strlen(string) * 4 + 1), *t = temp;
+		t += sprintf(t, "=?%s?q?", said_charset);
+		while (*string) {
+			if (*string == ' ')
+				*(t++) = '_';
+			else if (*string <= 0x1f || *string >= 0x7f || *string == '=' || *string == '?') 
+				t += sprintf(t, "=%2x", (unsigned char)*string);
+			else
+				*(t++) = *string;
+			      
+			string++;
 		}
-		b += sprintf (b, "?=");
+		t += sprintf(t, "?=");
+		*t = 0;
+	        return temp;
 	}
+}
+
+gchar *
+gmime_rfc2047_encode (const gchar *string, const gchar *charset) 
+{
+	int temp_len = strlen(string)*4 + 1;
+	char *temp = g_malloc(temp_len), *temp_2 = temp;
+	int string_length = strlen(string);
+	char *encoded = NULL;
+
+	/* first, let us convert to UTF-8 */
+	iconv_t i = unicode_iconv_open("UTF-8", charset);
+	unicode_iconv(i, &string, &string_length, &temp_2, &temp_len);
+	unicode_iconv_close(i);
 	
-	*b = 0;
+	/* null terminate it */
+	*temp_2 = 0;
+
+	/* now encode it as if it were a single word */
+	encoded = encode_word(temp, "UTF-8");
 	
-	return g_strdup (buffer);
+	/*
+	  
+	  real algorithm :
+	  
+	  we need to 
+	  
+	  split it into words
+	  
+	  identify portions that have NOT to be encoded (i.e. <> and the comment starter/ender )
+	  
+	  identify the best character set for each word
+	  
+	  merge words which share a character set, allow jumping and merging with words which 
+	  would be ok to encode in non-US-ASCII.
+	  
+	  if we have to use 2 character sets, try and collapse them into one.
+	  
+	  (e.g. if one word contains letters in latin-1, and another letters in latin-2, use
+	  latin-2 for the first word as well if possible).
+	  
+	  finally :
+	  
+	  if utf-8 will still be used, use it for everything.
+	  
+	  and then, at last, generate the encoded text, using base64/quoted-printable for
+	  each word depending upon which is more efficient.
+	  
+	  TODO :
+	  create a priority list of encodings
+	  
+	  i.e.
+
+            US-ASCII, ISO-8859-1, ISO-8859-2, ISO-8859-3, KOI8, 
+
+          Should survey for most popular charsets :
+          what do people usually use for the following scripts?
+
+	  * Chinese/Japanese/Korean
+          * Greek
+          * Cyrillic
+
+          (any other scripts commonly used in mail/news?)
+
+	  This algorithm is probably far from optimal, but should be
+	  reasonably efficient for simple cases. (and almost free if
+	  the text is just in US-ASCII : like 99% of the text that will
+	  pass through it)
+	  
+	*/
+	
+        g_free(temp);
+	
+	return encoded;
 }
