@@ -155,7 +155,7 @@ make install
 
 2) gnome-pilot
 cvs -z3 co gnome-pilot
-./configure --prefix=<gnome-pilot-prefix> --with-pisock=<pilot-link-prefix>
+./autogen.sh --prefix=<gnome-pilot-prefix> --with-pisock=<pilot-link-prefix>
 make
 make install
 

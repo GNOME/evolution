@@ -1,3 +1,7 @@
+2001-03-12  JP Rosevear  <jpr@ximian.com>
+
+	* README: Update
+
 2001-03-09  Dan Winship  <danw@ximian.com>
 
 	* configure.in (EVOLUTION_MICRO_VERSION): Hm... probably would be
