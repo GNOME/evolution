@@ -1,3 +1,7 @@
+2000-11-28  Not Zed  <NotZed@HelixCode.com>
+
+	* configure.in (AC_OUTPUT): Added camel/tests/folder/Makefile
+
 2000-11-27  JP Rosevear  <jpr@helixcode.com>
 
 	* AUTHORS: Update - hopefully I assigned blame correctly :-)

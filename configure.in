@@ -644,6 +644,7 @@ camel/providers/local/Makefile
 camel/tests/Makefile
 camel/tests/lib/Makefile
 camel/tests/message/Makefile
+camel/tests/folder/Makefile
 composer/Makefile
 widgets/Makefile
 widgets/meeting-time-sel/Makefile
