@@ -1,7 +1,0 @@
-<ETableSpecification no-headers="true" cursor-mode="line" selection-mode="single">
-<ETableColumn model_col= "0" _title="Contact" expansion="1.0" minimum_width="20" resizable="true" cell="string" compare="string" />
-	<ETableState>
-		<column source="0"/>
-	        <grouping> </grouping>
-	</ETableState>
-</ETableSpecification>
