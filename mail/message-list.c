@@ -645,6 +645,8 @@ message_list_new (FolderBrowser *parent_folder_browser)
 
 	message_list->parent_folder_browser = parent_folder_browser;
 
+	message_list->idle_id = 0;
+
 	message_list_construct (message_list, corba_object);
 
 	return BONOBO_OBJECT (message_list);
@@ -728,6 +730,16 @@ message_list_get_widget (MessageList *message_list)
 
 E_MAKE_TYPE (message_list, "MessageList", MessageList, message_list_class_init, message_list_init, PARENT_TYPE);
 
+static gboolean
+on_row_selection_idle (gpointer data)
+{
+	MessageList *message_list = data;
+
+	select_msg (message_list, message_list->row_to_select);
+
+	message_list->idle_id = 0;
+	return FALSE;
+}
 
 static void
 on_row_selection_cmd (ETable *table, 
@@ -735,12 +747,15 @@ on_row_selection_cmd (ETable *table,
 		      gboolean selected,
 		      gpointer user_data)
 {
-	MessageList *message_list;
+	if (selected) {
+		MessageList *message_list;
 
-	message_list = MESSAGE_LIST (user_data);
+		message_list = MESSAGE_LIST (user_data);
 
+		message_list->row_to_select = row;
 
-	if (selected)
-		select_msg (message_list, row);
+		if (!message_list->idle_id)
+			g_idle_add_full (G_PRIORITY_LOW, on_row_selection_idle, message_list, NULL);
+	}
 }
 

@@ -1,5 +1,15 @@
 2000-04-17  Chris Toshok  <toshok@helixcode.com>
 
+	* message-list.c (on_row_selection_idle): new function, actually
+	calls select_msg.
+	(on_row_selection_cmd): register an idle instead of calling
+	select_msg directly.  this fixes the lag before the row is
+	selected - selection is instantaneous now, with message loading
+	happening afterward.
+
+	* message-list.h: add row_to_select and an idle_id to the message
+	list to make the select_msg call happen in an idle func.
+
 	* message-list.c (message_list_init_renderers): no more
 	e_cell_set_editable.  this info always comes from the model.
 

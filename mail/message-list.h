@@ -59,7 +59,10 @@ struct _MessageList {
 
 	CamelFolder  *folder;
 	CamelFolderSummary *folder_summary;
-	
+
+	/* used by the idle-call to select a row */
+	int row_to_select;
+	guint idle_id;
 } ;
 
 typedef struct {
