@@ -147,9 +147,6 @@ import_cb (EvolutionImporterListener *listener,
 	ImporterComponentData *icd = (ImporterComponentData *) data;
 	char *label;
 
-	g_warning ("Recieved callback. Result: %d\tmore_items: %s", result,
-		   more_items ? "TRUE" : "FALSE");
-
 	if (icd->stop != TRUE) {
 		if (result == EVOLUTION_IMPORTER_NOT_READY) {
 			/* Importer isn't ready yet. 
@@ -173,7 +170,6 @@ import_cb (EvolutionImporterListener *listener,
 		}
 
 		if (more_items) {
-			g_warning ("Processing...\n");
 			label = g_strdup_printf (_("Importing %s\nImporting item %d."),
 						 icd->filename, ++(icd->item));
 			gtk_label_set_text (GTK_LABEL (icd->contents), label);
@@ -201,7 +197,6 @@ importer_timeout_fn (gpointer data)
 	ImporterComponentData *icd = (ImporterComponentData *) data;
 	char *label;
 
-	g_warning ("Idle called");
 	label = g_strdup_printf (_("Importing %s\nImporting item %d."),
 				 icd->filename, icd->item);
 	gtk_label_set_text (GTK_LABEL (icd->contents), label);
@@ -237,7 +232,7 @@ get_iid_for_filetype (const char *filename)
 {
 	OAF_ServerInfoList *info_list;
 	CORBA_Environment ev;
-	GList *can_handle = NULL;
+	GList *can_handle = NULL, *l;
 	char *ret_iid;
 	int i, len = 0;
 
@@ -277,8 +272,11 @@ get_iid_for_filetype (const char *filename)
 	} else if (len > 1) {
 		/* FIXME: Some way to choose between multiple iids */
 		/* FIXME: Free stuff */
-		g_warning ("Multiple iids can support");
-		ret_iid = can_handle->data;
+		g_warning ("Multiple iids can support %s", filename);
+		ret_iid = g_strdup (can_handle->data);
+		
+		for (l = can_handle; l; l = l->next)
+			g_free (l->data);
 		g_list_free (can_handle);
 		return ret_iid;
 	} else {
@@ -303,8 +301,15 @@ start_import (const char *filename,
 
 	g_print ("Importing with: %s\n", real_iid);
 
-	if (real_iid == NULL)
+	if (real_iid == NULL) {
+		char *message;
+
+		message = g_strdup_printf (_("There is no importer that is able to handle\n%s"), filename);
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, message);
+		g_free (message);
+
 		return;
+	}
 
 	icd = g_new (ImporterComponentData, 1);
 	icd->stop = FALSE;

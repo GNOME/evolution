@@ -1,5 +1,13 @@
 2001-01-30  Iain Holmes  <iain@ximian.com>
 
+	* importer/importer.c: (start_import): Added a notice if there is no
+	importer that can handle the file.
+	(get_iid_for_filetype): Free the list of multiple items before returning.
+	(importer_timeout_fn): Removed notice.
+	(import_cb): Removed notice.	
+
+2001-01-30  Iain Holmes  <iain@ximian.com>
+
 	* importer/importer.c: Added a nasty hack to change the druids Finish
 	button to be Import.
 
