@@ -9,3 +9,5 @@ Makefile.in
 Makefile
 .deps
 .libs
+mail1.test
+mail2.test
