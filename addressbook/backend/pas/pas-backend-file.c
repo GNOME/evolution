@@ -475,6 +475,7 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 {
 	int     db_error = 0;
 	GList   *cards = NULL;
+	gint    card_count = 0;
 	DB      *db = bf->priv->file_db;
 	DBT     id_dbt, vcard_dbt;
 	int i;
@@ -518,6 +519,18 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 			/* check if the vcard matches the search sexp */
 			if (vcard_matches_search (view, vcard_string)) {
 				cards = g_list_append (cards, g_strdup (vcard_string));
+				++card_count;
+#if 0
+				/* If we've accumulated a number of matches, pass them off to the client. */
+				if (card_count > 50) {
+					pas_book_view_notify_add (view->book_view, cards);
+					/* Clean up the handed-off data. */
+					g_list_foreach (cards, (GFunc)g_free, NULL);
+					g_list_free (cards);
+					cards = NULL;
+					card_count = 0;
+				}
+#endif
 			}
 		}
 		
@@ -528,7 +541,9 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		g_warning ("pas_backend_file_search: error building list\n");
 	}
 
-	pas_book_view_notify_add (view->book_view, cards);
+	//	if (card_count)
+		pas_book_view_notify_add (view->book_view, cards);
+
 	pas_book_view_notify_complete (view->book_view);
 
 	/*

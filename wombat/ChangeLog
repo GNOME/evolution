@@ -1,3 +1,8 @@
+2001-03-15  Jon Trowbridge  <trow@ximian.com>
+
+	* wombat.c (main): If we can't initialize a service on startup,
+	tell us which one before terminating.
+
 2001-02-27  Federico Mena Quintero  <federico@ximian.com>
 
 	* wombat.c (init_corba): Use VERSION and the Wombat description

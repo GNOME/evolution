@@ -29,6 +29,7 @@
 #include <ctype.h>
 #include <gnome.h>
 #include <addressbook/backend/ebook/e-book.h>
+#include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"

@@ -26,6 +26,7 @@
  */
 
 #include <config.h>
+#include <ctype.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-generic-factory.h>
@@ -38,8 +39,13 @@ static void e_address_widget_destroy    (GtkObject *obj);
 
 static gint e_address_widget_button_press_handler (GtkWidget *w, GdkEventButton *ev);
 static void e_address_widget_popup (EAddressWidget *, GdkEventButton *ev);
+static void e_address_widget_schedule_query (EAddressWidget *);
 
 static GtkObjectClass *parent_class;
+
+static EBook *common_book = NULL; /* sort of lame */
+
+static gboolean doing_queries = FALSE;
 
 static void
 e_address_widget_class_init (EAddressWidgetClass *klass)
@@ -67,8 +73,12 @@ e_address_widget_destroy (GtkObject *obj)
 
 	g_free (addr->name);
 	g_free (addr->email);
-	if (addr->card)
-		gtk_object_unref (GTK_OBJECT (addr->card));
+
+	if (addr->query_tag)
+		e_book_simple_query_cancel (common_book, addr->query_tag);
+
+	if (addr->query_idle_tag)
+		gtk_idle_remove (addr->query_idle_tag);
 }
 
 static gint
@@ -123,10 +133,21 @@ e_address_widget_refresh (EAddressWidget *addr)
 	g_return_if_fail (addr && E_IS_ADDRESS_WIDGET (addr));
 
 	have_name = addr->name && *addr->name;
-	have_email = addr->email && *addr->email;
+	have_email = addr->email && *addr->email && (addr->card == NULL || !addr->known_email);
 
 	gtk_label_set_text (GTK_LABEL (addr->name_widget), have_name ? addr->name : "");
 	gtk_widget_visible (addr->name_widget, have_name);
+	if (addr->card) {
+		gint i, N = strlen (addr->name);
+		gchar *pattern = g_malloc (N+1);
+		for (i=0; i<N; ++i)
+			pattern[i] = '_';
+		pattern[i] = '\0';
+		gtk_label_set_pattern (GTK_LABEL (addr->name_widget), pattern);
+		g_free (pattern);
+	} else {
+		gtk_label_set_pattern (GTK_LABEL (addr->name_widget), "");
+	}
 
 	if (have_email) {
 		str = g_strdup_printf (have_name ? "<%s>" : "%s", addr->email);
@@ -140,7 +161,8 @@ e_address_widget_refresh (EAddressWidget *addr)
 	gtk_widget_visible (addr->spacer, have_name && have_email);
 
 	/* Launch a query to find the appropriate card, if necessary. */
-	addr->querying = TRUE;
+	if (addr->card == NULL) 
+		e_address_widget_schedule_query (addr);
 }
 
 void
@@ -209,18 +231,175 @@ e_address_widget_new (void)
 
 /*
  *
+ * Cardification
+ *
+ */
+
+static void
+e_address_widget_cardify (EAddressWidget *addr, ECard *card, gboolean known_email)
+{
+	if (addr->card != card || addr->known_email != known_email) {
+
+		if (addr->card != card) {
+			if (addr->card)
+				gtk_object_unref (GTK_OBJECT (addr->card));
+			addr->card = card;
+			gtk_object_ref (GTK_OBJECT (addr->card));
+		}
+
+		addr->known_email = known_email;
+
+		if (!(addr->name && *addr->name)) {
+			gchar *s = e_card_name_to_string (card->name);
+			e_address_widget_set_name (addr, s);
+			g_free (s);
+		}
+
+		e_address_widget_refresh (addr);
+	}
+}
+
+static void
+query_results_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpointer user_data)
+{
+	EAddressWidget *addr = user_data;
+
+	if (g_list_length ((GList *) cards) == 1) {
+		ECard *card = E_CARD (cards->data);
+		e_address_widget_cardify (addr, card, TRUE);
+	}
+
+	addr->query_tag = 0;
+}
+
+static void
+e_address_widget_do_query (EAddressWidget *addr)
+{
+	e_book_name_and_email_query (common_book, addr->name, addr->email, query_results_cb, addr);
+}
+
+static void
+book_ready_cb (EBook *book, EBookStatus status, gpointer user_data)
+{
+	EAddressWidget *addr = E_ADDRESS_WIDGET (user_data);
+
+	if (common_book == NULL) {
+		common_book = book;
+		gtk_object_ref (GTK_OBJECT (common_book));
+	} else
+		gtk_object_unref (GTK_OBJECT (book));
+
+	e_address_widget_do_query (addr);
+}
+
+static gint
+query_idle_fn (gpointer ptr)
+{
+	EAddressWidget *addr = E_ADDRESS_WIDGET (ptr);
+
+	if (common_book) {
+		e_address_widget_do_query (addr);
+	} else {
+		e_book_load_local_address_book (e_book_new (), book_ready_cb, addr);
+	}
+
+	addr->query_idle_tag = 0;
+	return FALSE;
+}
+
+static void
+e_address_widget_schedule_query (EAddressWidget *addr)
+{
+	if (addr->query_idle_tag || !doing_queries)
+		return;
+	addr->query_idle_tag = gtk_idle_add (query_idle_fn, addr);
+}
+
+/*
+ *
  * Popup Menu
  *
  */
 
 #define ARBITRARY_UIINFO_LIMIT 64
+
+static gint
+popup_add_name_and_address (EAddressWidget *addr, GnomeUIInfo *uiinfo, gint i)
+{
+	gboolean flag = FALSE;
+
+	if (addr->name && *addr->name) {
+		uiinfo[i].type = GNOME_APP_UI_ITEM;
+		uiinfo[i].label = addr->name;
+		++i;
+		flag = TRUE;
+	}
+
+	if (addr->email && *addr->email) {
+		uiinfo[i].type = GNOME_APP_UI_ITEM;
+		uiinfo[i].label = addr->email;
+		++i;
+		flag = TRUE;
+	}
+
+	if (flag) {
+		uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
+		++i;
+	}
+	
+	return i;
+}
+
+static void
+flip_queries_flag_cb (GtkWidget *w, gpointer user_data)
+{
+	doing_queries = !doing_queries;
+}
+
+static gint
+popup_add_query_change (EAddressWidget *addr, GnomeUIInfo *uiinfo, gint i)
+{
+	uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
+	++i;
+
+	uiinfo[i].type = GNOME_APP_UI_ITEM;
+	uiinfo[i].label = doing_queries ? _("Disable Queries") : _("Enable Queries (Dangerous!)");
+	uiinfo[i].moreinfo = flip_queries_flag_cb;
+	++i;
+
+	return i;
+}
+
+
 static GtkWidget *
 popup_menu_card (EAddressWidget *addr)
 {
+	GnomeUIInfo uiinfo[ARBITRARY_UIINFO_LIMIT];
+	GtkWidget *pop;
+	gint i=0;
 	ECard *card = E_CARD (addr->card);
+
 	g_return_val_if_fail (card != NULL, NULL);
 
-	return NULL;
+	memset (uiinfo, 0, sizeof (uiinfo));
+
+	i = popup_add_name_and_address (addr, uiinfo, i);
+
+	uiinfo[i].type = GNOME_APP_UI_ITEM;
+	uiinfo[i].label = _("Edit Contact Info");
+	++i;
+
+	i = popup_add_query_change (addr, uiinfo, i);
+
+	uiinfo[i].type = GNOME_APP_UI_ENDOFINFO;
+	pop = gnome_popup_menu_new (uiinfo);
+	return pop;
+}
+
+static void
+post_quick_add_cb (ECard *card, gpointer user_data)
+{
+	e_address_widget_cardify (E_ADDRESS_WIDGET (user_data), card, TRUE);
 }
 
 static void
@@ -228,7 +407,7 @@ add_contacts_cb (GtkWidget *w, gpointer user_data)
 {
 	EAddressWidget *addr = E_ADDRESS_WIDGET (user_data);
 
-	e_contact_quick_add (addr->name, addr->email, NULL, NULL);
+	e_contact_quick_add (addr->name, addr->email, post_quick_add_cb, addr);
 }
 
 static GtkWidget *
@@ -240,30 +419,17 @@ popup_menu_nocard (EAddressWidget *addr)
 
 	memset (uiinfo, 0, sizeof (uiinfo));
 
-	if (addr->name) {
-		uiinfo[i].type = GNOME_APP_UI_ITEM;
-		uiinfo[i].label = addr->name;
-		++i;
-	}
-
-	if (addr->email) {
-		uiinfo[i].type = GNOME_APP_UI_ITEM;
-		uiinfo[i].label = addr->email;
-		++i;
-	}
-
-	uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
-	++i;
+	i = popup_add_name_and_address (addr, uiinfo, i);
 
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
-	uiinfo[i].label = N_("Add to Contacts");
+	uiinfo[i].label = _("Add to Contacts");
 	uiinfo[i].moreinfo = add_contacts_cb;
 	++i;
 
+	i = popup_add_query_change (addr, uiinfo, i);
+
 	uiinfo[i].type = GNOME_APP_UI_ENDOFINFO;
-
 	pop = gnome_popup_menu_new (uiinfo);
-
 	return pop;
 }
 
@@ -409,3 +575,4 @@ e_address_widget_factory_init (void)
 	if (factory == NULL)
 		g_error ("I could not register an AddressWidget factory.");
 }
+

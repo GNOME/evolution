@@ -9,6 +9,7 @@
  */
 
 #include <config.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1348,6 +1349,154 @@ e_card_name_from_string(const char *full_name)
 	return name;
 }
 
+
+/* This *so* doesn't belong here... at least not implemented in a
+   sucky way like this.  But by getting it in here now, I can fix it
+   up w/o adding a new feature when we are in feature freeze. :-) */
+
+/* This is very Anglocentric.  Maybe it should be by locale? */
+static gchar *name_synonyms[][2] = {
+	{ "Jon", "John" },   /* Ah, the hacker's perogative */
+	{ "Jon", "Jonathan" },
+	{ "Daniel", "Dan" },
+	{ "Joseph", "Joe" },
+	{ "Robert", "Rob" },
+	{ "Robert", "Bob" },
+	{ "Richard", "Rich" },
+	{ "Richard", "Dick" },
+	{ "William", "Will" },
+	{ "William", "Bill" },
+	{ "Anthony", "Tony" },
+	{ "Steven", "Steve" },
+	{ "Michael", "Mike" },
+	{ "Douglas", "Doug" },
+	{ "Sidney", "Sid" },
+	{ "Eric", "Erik" },
+	{ "Chris", "Christopher" },
+	{ "Chris", "Christine" },
+	{ "Chris", "Christy" },
+	{ "Elizabeth", "Liz" },
+	{ "Jeff", "Geoff" },
+	{ "Jeff", "Jeffrey" },
+	{ "Jeff", "Geoffrey" },
+	{ "Jim", "James" },
+	{ "Abigal", "Abby" },
+	{ "Amanda", "Amy" },
+	{ "Amanda", "Manda" },
+	{ "Di", "Diana" },
+	{ "Di", "Diane" },
+	{ "Maxine", "Max" },
+	{ "Rebecca", "Becca" },
+	{ "Rebecca", "Becky" },
+	{ "Jennifer", "Jen" },
+	{ "Jennifer", "Jenny" },
+	/* We could go on and on... */
+	{ NULL, NULL }
+};
+	
+static gboolean
+name_fragment_match (const gchar *a, const gchar *b)
+{
+	gint i;
+	gboolean nickname_match = FALSE;
+
+	if (!g_strcasecmp (a, b))
+		return TRUE;
+
+	/* Check for nicknames.  Yes, the linear search blows. */
+	for (i=0; name_synonyms[i][0]; ++i) {
+		if (!g_strcasecmp (name_synonyms[i][1], a)) {
+			a = name_synonyms[i][0];
+			nickname_match = TRUE;
+			break;
+		}
+	}
+
+	for (i=0; name_synonyms[i][0]; ++i) {
+		if (!g_strcasecmp (name_synonyms[i][1], b)) {
+			b = name_synonyms[i][0];
+			nickname_match = TRUE;
+			break;
+		}
+	}
+
+	return nickname_match && !g_strcasecmp (a, b);
+}
+
+gboolean
+e_card_name_match_string (const ECardName *name, const gchar *str)
+{
+	gchar *cpy, *name_str;
+	gchar **strv, **namev;
+	gint i, j, match_count;
+	gboolean matched = FALSE;
+
+	g_return_val_if_fail (name != NULL, FALSE);
+	g_return_val_if_fail (str != NULL, FALSE);
+
+	cpy = g_strdup (str);
+	strv = g_strsplit (cpy, " ", 0);
+	for (i=0; strv[i]; ++i)
+		g_strstrip (strv[i]);
+
+	name_str = e_card_name_to_string (name);
+	namev = g_strsplit (name_str, " ", 0);
+	for (i=0; namev[i]; ++i)
+		g_strstrip (namev[i]);
+
+	match_count = 0;
+	i = j = 0;
+	while (strv[i] && namev[j]) {
+		gint k1, k2;
+
+		for (k1=0; strv[i+k1]; ++k1) {
+			if (name_fragment_match (strv[i+k1], namev[j]))
+				break;
+		}
+
+		for (k2=0; namev[j+k2]; ++k2) {
+			if (name_fragment_match (strv[i], namev[j+k2]))
+				break;
+		}
+
+		if (strv[i+k1] == NULL && namev[j+k2] == NULL) {
+			matched = FALSE;
+			goto cleanup_and_return;
+		}
+
+		++match_count;
+		
+		if (k1 < k2) {
+			i += k1+1;
+			++j;
+		} else if (k2 < k1) {
+			++i;
+			j += k2+1;
+		} else if (k1 == k2) {
+			i += k1+1;
+			j += k2+1;
+		}
+	}
+
+	/* This rule could be made more precise.
+	   As it is, it will say that "Joe Smith" will match the name
+	   "Joe Allen Smith" (which is good), but "de Icaza" will match
+	   either "Miguel de Icaza" as well as Miguel's shiftless
+	   brother "Roger de Icaza".  In this sort of a case, the match
+	   threshold should go up to 3. */
+	if (match_count >= 2)
+		matched = TRUE;
+
+	
+ cleanup_and_return:
+	g_free (strv);
+	g_free (cpy);
+	g_free (namev);
+	g_free (name_str);
+
+	return matched;
+}
+
 ECardArbitrary *
 e_card_arbitrary_new(void)
 {
@@ -1380,6 +1529,59 @@ e_card_arbitrary_free(ECardArbitrary *arbitrary)
 		g_free(arbitrary->value);
 	}
 	g_free(arbitrary);
+}
+
+/* EMail matching */
+static gboolean
+e_card_email_match_single_string (const gchar *a, const gchar *b)
+{
+	const gchar *xa = NULL, *xb = NULL;
+	gboolean match = TRUE;
+
+	for (xa=a; *xa && *xa != '@'; ++xa);
+	for (xb=b; *xb && *xb != '@'; ++xb);
+
+	if (xa-a != xb-b || *xa != *xb || g_strncasecmp (a, b, xa-a))
+		return FALSE;
+
+	if (*xa == '\0')
+		return TRUE;
+	
+	/* Find the end of the string, then walk through backwards comparing.
+	   This is so that we'll match joe@foobar.com and joe@mail.foobar.com.
+	*/
+	while (*xa)
+		++xa;
+	while (*xb)
+		++xb;
+
+	while (match && *xa != '@' && *xb != '@') {
+		match = (*xa == *xb);
+		--xa;
+		--xb;
+	}
+
+	match = match && ((*xa == *xb) || (*xa == '.') || (*xb == '.'));
+
+	return match;
+}
+
+gboolean
+e_card_email_match_string (const ECard *card, const gchar *str)
+{
+	EIterator *iter;
+	
+	g_return_val_if_fail (card && E_IS_CARD (card), FALSE);
+	g_return_val_if_fail (str != NULL, FALSE);
+
+	iter = e_list_get_iterator (card->email);
+	for (e_iterator_reset (iter); e_iterator_is_valid (iter); e_iterator_next (iter)) {
+		if (e_card_email_match_single_string (e_iterator_get (iter), str))
+			return TRUE;
+	}
+	gtk_object_unref (GTK_OBJECT (iter));
+
+	return FALSE;
 }
 
 /*

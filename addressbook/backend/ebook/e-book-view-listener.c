@@ -33,10 +33,29 @@ struct _EBookViewListenerPrivate {
 static gboolean
 e_book_view_listener_check_queue (EBookViewListener *listener)
 {
+	static gint thrash = 0;
+	gint queue_len;
+
+	queue_len = g_list_length (listener->priv->response_queue);
+
 	bonobo_object_ref (BONOBO_OBJECT (listener));
 	if (listener->priv->response_queue != NULL) {
 		gtk_signal_emit (GTK_OBJECT (listener),
 				 e_book_view_listener_signals [RESPONSES_QUEUED]);
+	}
+
+	/* This means we didn't make any progress in dealing with what is on our
+	   response queue. */
+	if (queue_len == g_list_length (listener->priv->response_queue))
+		++thrash;
+	else
+		thrash = 0;
+
+	if (thrash > 20) {
+		g_error ("e_book_view_listener_check_queue thrashing!");
+		thrash = 0;
+		listener->priv->idle_id = 0;
+		return FALSE;
 	}
 
 	if (listener->priv->response_queue == NULL) {

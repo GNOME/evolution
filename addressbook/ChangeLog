@@ -1,3 +1,38 @@
+2001-03-15  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/e-address-widget.c: Added addressbook querying and
+	"cardification" functions, which are turned off by default for now
+	because of addressbook bugs.  Added a popup menu option to turn
+	queries on, so that others can enjoy the thrill of massive flaming
+	death.
+
+	* gui/component/addressbook-factory.c (main): Made warnings always
+	be fatal.
+
+	* backend/pas/pas-book-view.c: Added some debugging spew.
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_search): Added
+	a little experimental code to try to make file searches scale
+	better.  #if 0/#endif-ed out for now.
+
+	* contact-editor/e-contact-quick-add.c: #included e-book-util.h.
+
+	* backend/ebook/e-card.c (e_card_name_match_string): Added.
+	Looser name-matching function.
+	(e_card_email_match_string): Added.  Loose e-mail matching.
+
+	* backend/ebook/e-book-view-listener.c
+	(e_book_view_listener_check_queue): Added code to cause us to
+	abort rather than get trapped in a 100%-CPU-consuming loop in
+	certain situations.  Now we just need to figure out how to avoid
+	these situations altogether.
+
+	* backend/ebook/e-book-util.c: Added.  Now contains the simple
+	query stuff and the open local addressbook functions.
+
+	* backend/ebook/e-book.c: Moved simple query stuff and open local
+	addressbook functions into e-book-util.c.
+
 2001-03-15  Dan Winship  <danw@ximian.com>
 
 	* gui/widgets/e-minicard-label.c (e_minicard_label_set_arg): 

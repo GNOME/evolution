@@ -43,6 +43,7 @@ libebook_la_SOURCES =					\
 	e-book-view-listener.c				\
 	e-book-view.c					\
 	e-book.c					\
+	e-book-util.c					\
 	e-card-cursor.c					\
 	e-card-simple.c					\
 	e-card.c					\
@@ -56,6 +57,7 @@ libebookinclude_HEADERS =				\
 	e-book-view-listener.h				\
 	e-book-view.h					\
 	e-book.h					\
+	e-book-util.h					\
 	e-card-cursor.h					\
 	e-card-pairs.h					\
 	e-card-simple.h					\

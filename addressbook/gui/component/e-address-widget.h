@@ -30,6 +30,8 @@
 
 #include <gtk/gtk.h>
 #include <libgnome/gnome-defs.h>
+#include <addressbook/backend/ebook/e-book.h>
+#include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/backend/ebook/e-card.h>
 
 BEGIN_GNOME_DECLS
@@ -53,8 +55,11 @@ struct _EAddressWidget {
 	GtkWidget *email_widget;
 	GtkWidget *spacer;
 
-	gboolean querying;
+	guint query_idle_tag;
+	guint query_tag;
+
 	ECard *card;
+	gboolean known_email;
 };
 
 struct _EAddressWidgetClass {
@@ -71,11 +76,25 @@ void e_address_widget_construct (EAddressWidget *);
 GtkWidget *e_address_widget_new (void);
 
 
-void           e_address_widget_factory_init        (void);
+void e_address_widget_factory_init (void);
 
 
 
 END_GNOME_DECLS
 
 #endif /* __E_ADDRESS_WIDGET_H__ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

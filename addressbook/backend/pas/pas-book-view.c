@@ -154,7 +154,7 @@ pas_book_view_notify_status_message (PASBookView *book_view,
 		book_view->priv->listener, message, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("pas_book_view_notify_complete: Exception signaling BookViewListener!\n");
+		g_warning ("pas_book_view_notify_status_message: Exception signaling BookViewListener!\n");
 	}
 
 	CORBA_exception_free (&ev);
@@ -248,7 +248,6 @@ pas_book_view_destroy (GtkObject *object)
 
 	GNOME_Evolution_Addressbook_BookViewListener_unref (book_view->priv->listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("Unable to unref listener object in pas-book-view.c\n");
 		CORBA_exception_free (&ev);
 
 		return;
@@ -256,7 +255,6 @@ pas_book_view_destroy (GtkObject *object)
 
 	CORBA_Object_release (book_view->priv->listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("Unable to release listener object in pas-book-view.c\n");
 		CORBA_exception_free (&ev);
 
 		return;

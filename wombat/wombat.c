@@ -183,8 +183,12 @@ init_bonobo (int *argc, char **argv)
 int
 main (int argc, char **argv)
 {
+	gboolean did_pas=FALSE, did_pcs=FALSE, did_config=FALSE;
+
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
+
+	g_message ("Starting wombat");
 
 	init_bonobo (&argc, argv);
 	setup_vfs (argc, argv);
@@ -193,10 +197,20 @@ main (int argc, char **argv)
 				G_LOG_LEVEL_CRITICAL |
 				G_LOG_LEVEL_WARNING);*/
 
-	if (!(setup_pas (argc, argv)
-	      && setup_pcs (argc, argv)
-	      && setup_config (argc, argv))) {
-		g_message ("main(): could not initialize all of the Wombat services; terminating");
+	if (!( (did_pas = setup_pas (argc, argv))
+	       && (did_pcs = setup_pcs (argc, argv))
+	       && (did_config = setup_config (argc, argv)))) {
+
+		const gchar *failed = NULL;
+
+		if (!did_pas)
+		  failed = "PAS";
+		else if (!did_pcs)
+		  failed = "PCS";
+		else if (!did_config)
+		  failed = "Config";
+
+		g_message ("main(): could not initialize Wombat service \"%s\"; terminating", failed);
 
 		if (pas_book_factory) {
 			bonobo_object_unref (BONOBO_OBJECT (pas_book_factory));

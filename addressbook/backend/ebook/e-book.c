@@ -12,7 +12,6 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkmarshal.h>
 #include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-util.h>
 #include <liboaf/liboaf.h>
 
 #include "addressbook.h"
@@ -515,28 +514,6 @@ e_book_unload_uri (EBook *book)
 
 	book->priv->listener   = NULL;
 	book->priv->load_state = URINotLoaded;
-}
-
-gboolean
-e_book_load_local_address_book (EBook *book, EBookCallback open_response, gpointer closure)
-{
-	gchar *filename;
-	gchar *uri;
-	gboolean rv;
-
-	g_return_val_if_fail (book != NULL,          FALSE);
-	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
-	g_return_val_if_fail (open_response != NULL, FALSE);
-
-	filename = gnome_util_prepend_user_home ("evolution/local/Contacts/addressbook.db");
-	uri = g_strdup_printf ("file://%s", filename);
-
-	rv = e_book_load_uri (book, uri, open_response, closure);
-
-	g_free (filename);
-	g_free (uri);
-
-	return rv;
 }
 
 char *
@@ -1117,157 +1094,6 @@ e_book_get_changes         (EBook                 *book,
 	e_book_queue_op (book, cb, closure, listener);
 
 	return TRUE;
-}
-
-/*
- *
- * Simple Query Stuff
- *
- */
-
-typedef struct _SimpleQueryInfo SimpleQueryInfo;
-struct _SimpleQueryInfo {
-	guint tag;
-	EBook *book;
-	gchar *query;
-	EBookSimpleQueryCallback cb;
-	gpointer closure;
-	EBookView *view;
-	guint add_tag;
-	guint seq_complete_tag;
-	GList *cards;
-};
-
-static SimpleQueryInfo *
-simple_query_new (EBook *book, char *query, EBookSimpleQueryCallback cb, gpointer closure)
-{
-	SimpleQueryInfo *sq = g_new0 (SimpleQueryInfo, 1);
-
-	sq->tag = ++book->priv->sq_tag;
-	sq->book = book;
-	gtk_object_ref (GTK_OBJECT (book));
-	sq->query = g_strdup_printf (query);
-	sq->cb = cb;
-	sq->closure = closure;
-
-	/* Automatically add ourselves to the EBook's pending list. */
-	book->priv->sq_pending = g_list_prepend (book->priv->sq_pending, sq);
-
-	return sq;
-}
-
-static void
-simple_query_free (SimpleQueryInfo *sq)
-{
-	GList *i;
-	gboolean found = FALSE;
-
-	/* Find & remove ourselves from the EBook's pending list. */
-	for (i = sq->book->priv->sq_pending; i != NULL; i = g_list_next (i)) {
-		if (i->data == sq) {
-			sq->book->priv->sq_pending = g_list_remove_link (sq->book->priv->sq_pending, i);
-			g_list_free_1 (i);
-			i = NULL;
-			found = TRUE;
-		} else
-			i = g_list_next (i);
-	}
-
-	g_assert (found);
-	
-	g_free (sq->query);
-
-	if (sq->add_tag)
-		gtk_signal_disconnect (GTK_OBJECT (sq->view), sq->add_tag);
-	if (sq->seq_complete_tag)
-		gtk_signal_disconnect (GTK_OBJECT (sq->view), sq->seq_complete_tag);
-
-	if (sq->view)
-		gtk_object_unref (GTK_OBJECT (sq->view));
-
-	if (sq->book)
-		gtk_object_unref (GTK_OBJECT (sq->book));
-
-	g_list_foreach (sq->cards, (GFunc) gtk_object_unref, NULL);
-	g_list_free (sq->cards);
-
-	g_free (sq);
-}
-
-static void
-simple_query_card_added_cb (EBookView *view, const GList *cards, gpointer closure)
-{
-	SimpleQueryInfo *sq = closure;
-	
-	sq->cards = g_list_concat (sq->cards, g_list_copy ((GList *) cards));
-	g_list_foreach ((GList *) cards, (GFunc) gtk_object_ref, NULL);
-}
-
-static void
-simple_query_sequence_complete_cb (EBookView *view, gpointer closure)
-{
-	SimpleQueryInfo *sq = closure;
-
-	sq->cb (sq->book, E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS, sq->cards, sq->closure);
-	simple_query_free (sq);
-}
-
-static void
-simple_query_book_view_cb (EBook *book, EBookStatus status, EBookView *book_view, gpointer closure)
-{
-	SimpleQueryInfo *sq = closure;
-
-	if (status != E_BOOK_STATUS_SUCCESS) {
-		sq->cb (sq->book, E_BOOK_SIMPLE_QUERY_STATUS_OTHER_ERROR, NULL, sq->closure);
-		simple_query_free (sq);
-		return;
-	}
-
-	sq->view = book_view;
-	gtk_object_ref (GTK_OBJECT (book_view));
-
-	sq->add_tag = gtk_signal_connect (GTK_OBJECT (sq->view),
-					  "card_added",
-					  GTK_SIGNAL_FUNC (simple_query_card_added_cb),
-					  sq);
-	sq->seq_complete_tag = gtk_signal_connect (GTK_OBJECT (sq->view),
-						   "sequence_complete",
-						   GTK_SIGNAL_FUNC (simple_query_sequence_complete_cb),
-						   sq);
-}
-
-guint
-e_book_simple_query (EBook *book, char *query, EBookSimpleQueryCallback cb, gpointer closure)
-{
-	SimpleQueryInfo *sq;
-
-	g_return_val_if_fail (book && E_IS_BOOK (book), 0);
-	g_return_val_if_fail (query, 0);
-	g_return_val_if_fail (cb, 0);
-
-	sq = simple_query_new (book, query, cb, closure);
-	e_book_get_book_view (book, query, simple_query_book_view_cb, sq);
-
-	return sq->tag;
-}
-
-void
-e_book_simple_query_cancel (EBook *book, guint tag)
-{
-	GList *i;
-
-	g_return_if_fail (book && E_IS_BOOK (book));
-
-	for (i=book->priv->sq_pending; i != NULL; i=g_list_next (i)) {
-		SimpleQueryInfo *sq = i->data;
-
-		if (sq->tag == tag) {
-			sq->cb (sq->book, E_BOOK_SIMPLE_QUERY_STATUS_CANCELLED, NULL, sq->closure);
-			simple_query_free (sq);
-			return;
-		}
-	}
-	g_warning ("Simple query tag %d is unknown", tag);
 }
 
 /**

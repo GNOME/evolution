@@ -50,9 +50,6 @@ typedef void (*EBookCursorCallback) (EBook *book, EBookStatus status, ECardCurso
 typedef void (*EBookBookViewCallback) (EBook *book, EBookStatus status, EBookView *book_view, gpointer closure);
 typedef void (*EBookFieldsCallback) (EBook *book, EBookStatus status, EList *fields, gpointer closure);
 
-typedef void (*EBookSimpleQueryCallback) (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpointer closure);
-
-
 /* Creating a new addressbook. */
 EBook    *e_book_new                      (void);
 
@@ -61,10 +58,6 @@ gboolean  e_book_load_uri                 (EBook                 *book,
 					   EBookCallback          open_response,
 					   gpointer               closure);
 void      e_book_unload_uri               (EBook                 *book);
-
-gboolean  e_book_load_local_address_book  (EBook                 *book,
-					   EBookCallback          open_response,
-					   gpointer               closure);
 
 char     *e_book_get_static_capabilities  (EBook                 *book);
 
@@ -132,15 +125,6 @@ gboolean  e_book_get_changes              (EBook                 *book,
 					   char                  *changeid,
 					   EBookBookViewCallback  cb,
 					   gpointer               closure);
-
-/* Simple Query Interface. */
-
-guint     e_book_simple_query             (EBook                    *book,
-					   char                     *query,
-					   EBookSimpleQueryCallback  cb,
-					   gpointer                  closure);
-void      e_book_simple_query_cancel      (EBook                    *book,
-					   guint                     tag);
 
 /* Getting the name of the repository. */
 char     *e_book_get_name                 (EBook                 *book);

@@ -140,11 +140,17 @@ ECardName            *e_card_name_copy                    (const ECardName      
 void                  e_card_name_free                    (ECardName                  *name);
 char                 *e_card_name_to_string               (const ECardName            *name);
 ECardName            *e_card_name_from_string             (const char                 *full_name);
+gboolean              e_card_name_match_string            (const ECardName            *name,
+							   const gchar                *str);
 
 /* ECardArbitrary manipulation */
 ECardArbitrary       *e_card_arbitrary_new                (void);
 ECardArbitrary       *e_card_arbitrary_copy               (const ECardArbitrary       *arbitrary);
 void                  e_card_arbitrary_free               (ECardArbitrary             *arbitrary);
+
+/* ECard email manipulation */
+gboolean              e_card_email_match_string           (const ECard                *card,
+							   const gchar                *str);
 
 /* Specialized functionality */
 GList                *e_card_load_cards_from_file         (const char                 *filename);
