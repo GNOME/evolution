@@ -5,13 +5,13 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.87 2001/07/12 20:58:53 menthos Exp $
+# $Id: sv.po,v 1.88 2001/07/13 11:40:30 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-07-12 22:55+0200\n"
-"PO-Revision-Date: 2001-07-12 22:55+0200\n"
+"POT-Creation-Date: 2001-07-13 13:34+0200\n"
+"PO-Revision-Date: 2001-07-13 13:39+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -562,6 +562,8 @@ msgstr "URI"
 #: addressbook/gui/component/addressbook-config.glade.h:5
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
+#: calendar/gui/dialogs/alarm-page.glade.h:9
+#: calendar/gui/dialogs/recurrence-page.glade.h:11
 #: mail/mail-config.glade.h:102
 msgid "_Add"
 msgstr "_Lägg till"
@@ -744,9 +746,7 @@ msgid "_Search"
 msgstr "_Sök"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#: calendar/gui/dialogs/alarm-page.glade.h:1
-#: calendar/gui/dialogs/recurrence-page.glade.h:1 filter/filter.glade.h:1
-#: mail/mail-config.glade.h:7
+#: filter/filter.glade.h:1 mail/mail-config.glade.h:7
 msgid "Add"
 msgstr "Lägg till"
 
@@ -763,40 +763,40 @@ msgid "Business _Fax"
 msgstr "Arbets_fax"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
-msgid "C_ontacts..."
-msgstr "_Kontakter..."
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:6
 #: calendar/gui/dialogs/event-page.glade.h:2
 #: calendar/gui/dialogs/task-page.glade.h:3
 msgid "Ca_tegories..."
 msgstr "Ka_tegorier..."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:7
+#: addressbook/gui/contact-editor/contact-editor.glade.h:6
 msgid "Contact Editor"
 msgstr "_Kontakteditor"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:8
+#: addressbook/gui/contact-editor/contact-editor.glade.h:7
 #: calendar/gui/dialogs/task-editor.c:135
 msgid "Details"
 msgstr "Detaljer"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:9
+#: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "File As:"
 msgstr "Spara som:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:10
+#: addressbook/gui/contact-editor/contact-editor.glade.h:9
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 msgid "General"
 msgstr "Allmänt"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:11
+#: addressbook/gui/contact-editor/contact-editor.glade.h:10
 msgid "New phone type"
 msgstr "Ny telefontyp"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:12
+#: addressbook/gui/contact-editor/contact-editor.glade.h:11
 msgid "No_tes:"
 msgstr "An_teckningar:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:12
+msgid "Organi_zation:"
+msgstr "Organi_sation:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "Phone Types"
@@ -827,11 +827,15 @@ msgid "_Business"
 msgstr "Företa_g"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-msgid "_Company:"
-msgstr "_Företag:"
+#: calendar/gui/dialogs/event-page.glade.h:9
+#: calendar/gui/dialogs/task-page.glade.h:20
+msgid "_Contacts..."
+msgstr "_Kontakter..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
-#: calendar/gui/dialogs/meeting-page.c:1196 mail/folder-browser.c:1290
+#: calendar/gui/dialogs/alarm-page.glade.h:10
+#: calendar/gui/dialogs/meeting-page.c:1196
+#: calendar/gui/dialogs/recurrence-page.glade.h:12 mail/folder-browser.c:1290
 #: mail/mail-config.glade.h:103 ui/evolution-mail-message.xml.h:78
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:45
 msgid "_Delete"
@@ -1324,9 +1328,7 @@ msgid "Print Envelope"
 msgstr "Skriv ut kuvert"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:235
-#: addressbook/gui/widgets/e-addressbook-view.c:606
-#: calendar/gui/dialogs/alarm-page.glade.h:4
-#: calendar/gui/dialogs/recurrence-page.glade.h:5 filter/filter.glade.h:2
+#: addressbook/gui/widgets/e-addressbook-view.c:606 filter/filter.glade.h:2
 #: filter/libfilter-i18n.h:11 mail/mail-config.glade.h:27
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-mail-message.xml.h:16 ui/evolution-tasks.xml.h:5
@@ -1805,26 +1807,21 @@ msgid "Alarm on %A %b %d %Y %H:%M"
 msgstr "Alarm på %A %d %b %Y %H.%M"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
-#: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:1
-#: ui/evolution-contact-list-editor.xml.h:1
-#: ui/evolution-mail-messagedisplay.xml.h:1
-#: ui/evolution-message-composer.xml.h:3 ui/evolution-signature-editor.xml.h:1
-#: ui/evolution.xml.h:4
-msgid "Close"
-msgstr "Stäng"
+#: ui/evolution-comp-editor.xml.h:1
+msgid "C_lose"
+msgstr "S_täng"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
-msgid "Edit appointment"
-msgstr "Redigera möte"
+msgid "Snoo_ze"
+msgstr "Slu_mra"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#: calendar/gui/alarm-notify/alarm-queue.c:991
-msgid "Snooze"
-msgstr "Slumra"
-
-#: calendar/gui/alarm-notify/alarm-notify.glade.h:4
 msgid "Snooze time (minutes)"
 msgstr "Slumringstid (minuter)"
+
+#: calendar/gui/alarm-notify/alarm-notify.glade.h:4
+msgid "_Edit appointment"
+msgstr "_Redigera möte"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:487
 msgid "No description available."
@@ -1835,6 +1832,10 @@ msgstr "Ingen beskrivning finns tillgänglig."
 #: calendar/gui/alarm-notify/alarm-queue.c:1055
 msgid "Reminder of your appointment at "
 msgstr "Påminnelse om ditt möte klockan "
+
+#: calendar/gui/alarm-notify/alarm-queue.c:991
+msgid "Snooze"
+msgstr "Slumra"
 
 #. Idea: we need Snooze option :-)
 #: calendar/gui/alarm-notify/alarm-queue.c:1004
@@ -2004,7 +2005,7 @@ msgstr ""
 #: calendar/gui/calendar-model.c:987 calendar/gui/calendar-model.c:1228
 #: calendar/gui/calendar-model.c:1282
 #: calendar/gui/dialogs/e-timezone-dialog.c:197
-#: calendar/gui/dialogs/meeting-page.glade.h:3
+#: calendar/gui/dialogs/meeting-page.glade.h:1
 #: calendar/gui/e-calendar-table.c:345 calendar/gui/e-calendar-table.c:420
 #: mail/mail-account-gui.c:1360 mail/mail-accounts.c:129
 #: mail/mail-accounts.c:380 mail/mail-config.glade.h:56
@@ -2192,22 +2193,22 @@ msgid "1 second"
 msgstr "1 sekund"
 
 #: calendar/gui/dialogs/alarm-page.c:331
-#: calendar/gui/dialogs/alarm-page.glade.h:7
+#: calendar/gui/dialogs/alarm-page.glade.h:4
 msgid "Play a sound"
 msgstr "Spela ett ljud"
 
 #: calendar/gui/dialogs/alarm-page.c:335
-#: calendar/gui/dialogs/alarm-page.glade.h:5
+#: calendar/gui/dialogs/alarm-page.glade.h:3
 msgid "Display a message"
 msgstr "Visa ett meddelande"
 
 #: calendar/gui/dialogs/alarm-page.c:339
-#: calendar/gui/dialogs/alarm-page.glade.h:10
+#: calendar/gui/dialogs/alarm-page.glade.h:7
 msgid "Send an email"
 msgstr "Skicka ett brev"
 
 #: calendar/gui/dialogs/alarm-page.c:343
-#: calendar/gui/dialogs/alarm-page.glade.h:9
+#: calendar/gui/dialogs/alarm-page.glade.h:6
 msgid "Run a program"
 msgstr "Kör ett program"
 
@@ -2227,34 +2228,34 @@ msgstr "före slut på möte"
 msgid "after end of appointment"
 msgstr "efter slut på möte"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:2
-#: calendar/gui/dialogs/recurrence-page.glade.h:2
+#: calendar/gui/dialogs/alarm-page.glade.h:1
+#: calendar/gui/dialogs/recurrence-page.glade.h:1
 #: calendar/gui/dialogs/task-details-page.glade.h:1
 msgid "Basics"
 msgstr "Grundläggande"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:3
-#: calendar/gui/dialogs/recurrence-page.glade.h:4
+#: calendar/gui/dialogs/alarm-page.glade.h:2
+#: calendar/gui/dialogs/recurrence-page.glade.h:3
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-itip-control.c:297
 msgid "Date/Time:"
 msgstr "Datum/tid:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:6
-msgid "Options..."
-msgstr "Alternativ..."
-
-#: calendar/gui/dialogs/alarm-page.glade.h:8
+#: calendar/gui/dialogs/alarm-page.glade.h:5
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 msgid "Reminders"
 msgstr "Påminnelser"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:11
-#: calendar/gui/dialogs/recurrence-page.glade.h:13
+#: calendar/gui/dialogs/alarm-page.glade.h:8
+#: calendar/gui/dialogs/recurrence-page.glade.h:10
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-itip-control.c:286 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Sammanfattning:"
+
+#: calendar/gui/dialogs/alarm-page.glade.h:11
+msgid "_Options..."
+msgstr "_Alternativ..."
 
 #. Automatically generated. Do not edit.
 #: calendar/gui/dialogs/alarm-page.glade.h:12 filter/libfilter-i18n.h:2
@@ -2733,11 +2734,6 @@ msgstr "Sa_mmanfattning:"
 msgid "_Confidential"
 msgstr "_Konfidentiellt"
 
-#: calendar/gui/dialogs/event-page.glade.h:9
-#: calendar/gui/dialogs/task-page.glade.h:20
-msgid "_Contacts..."
-msgstr "_Kontakter..."
-
 #: calendar/gui/dialogs/event-page.glade.h:10
 msgid "_End time:"
 msgstr "Slutti_d:"
@@ -2798,23 +2794,23 @@ msgstr "Status"
 msgid "Type"
 msgstr "Typ"
 
-#: calendar/gui/dialogs/meeting-page.glade.h:1
-msgid "Change Organizer"
-msgstr "Ändra organisatör"
-
 #: calendar/gui/dialogs/meeting-page.glade.h:2
-msgid "Invite Others"
-msgstr "Bjud in andra"
-
-#: calendar/gui/dialogs/meeting-page.glade.h:4
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-itip-control.glade.h:9
 msgid "Organizer:"
 msgstr "Organisatör:"
 
+#: calendar/gui/dialogs/meeting-page.glade.h:3
+msgid "_Change Organizer"
+msgstr "_Ändra organisatör"
+
+#: calendar/gui/dialogs/meeting-page.glade.h:4
+msgid "_Invite Others"
+msgstr "_Bjud in andra"
+
 #: calendar/gui/dialogs/meeting-page.glade.h:5
-msgid "Other Organizer"
-msgstr "Annan organisatör"
+msgid "_Other Organizer"
+msgstr "_Annan organisatör"
 
 #: calendar/gui/dialogs/recurrence-page.c:434 calendar/gui/print.c:1839
 #: calendar/gui/print.c:1841 calendar/gui/print.c:1842
@@ -2845,37 +2841,37 @@ msgstr ":e"
 msgid "occurrences"
 msgstr "förekomster"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:3
+#: calendar/gui/dialogs/recurrence-page.glade.h:2
 msgid "Custom recurrence"
 msgstr "Anpassad upprepning"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:6
+#: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
 msgstr "Var"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:7
+#: calendar/gui/dialogs/recurrence-page.glade.h:5
 msgid "Exceptions"
 msgstr "Undantag"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:8
-msgid "Modify"
-msgstr "Ändra"
-
-#: calendar/gui/dialogs/recurrence-page.glade.h:9
+#: calendar/gui/dialogs/recurrence-page.glade.h:6
 msgid "No recurrence"
 msgstr "Ingen upprepning"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:10
+#: calendar/gui/dialogs/recurrence-page.glade.h:7
 msgid "Preview"
 msgstr "Förhandsgranska"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:11
+#: calendar/gui/dialogs/recurrence-page.glade.h:8
 msgid "Recurrence Rule"
 msgstr "Upprepningsregel"
 
-#: calendar/gui/dialogs/recurrence-page.glade.h:12
+#: calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "Simple recurrence"
 msgstr "Enkel upprepning"
+
+#: calendar/gui/dialogs/recurrence-page.glade.h:13
+msgid "_Modify"
+msgstr "_Ändra"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:15
 msgid "for"
@@ -3081,8 +3077,8 @@ msgstr "Alarm"
 msgid "Categories"
 msgstr "Kategorier"
 
-#: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:695
-#: camel/camel-filter-driver.c:807
+#: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:696
+#: camel/camel-filter-driver.c:808
 msgid "Complete"
 msgstr "Färdigt"
 
@@ -3402,40 +3398,40 @@ msgid "Go To Date"
 msgstr "Gå till datum"
 
 #: calendar/gui/goto-dialog.glade.h:6
-msgid "Go To Today"
-msgstr "Gå till idag"
-
-#: calendar/gui/goto-dialog.glade.h:7
 msgid "January"
 msgstr "januari"
 
-#: calendar/gui/goto-dialog.glade.h:8
+#: calendar/gui/goto-dialog.glade.h:7
 msgid "July"
 msgstr "juli"
 
-#: calendar/gui/goto-dialog.glade.h:9
+#: calendar/gui/goto-dialog.glade.h:8
 msgid "June"
 msgstr "juni"
 
-#: calendar/gui/goto-dialog.glade.h:10
+#: calendar/gui/goto-dialog.glade.h:9
 msgid "March"
 msgstr "mars"
 
-#: calendar/gui/goto-dialog.glade.h:11
+#: calendar/gui/goto-dialog.glade.h:10
 msgid "May"
 msgstr "maj"
 
-#: calendar/gui/goto-dialog.glade.h:12
+#: calendar/gui/goto-dialog.glade.h:11
 msgid "November"
 msgstr "november"
 
-#: calendar/gui/goto-dialog.glade.h:13
+#: calendar/gui/goto-dialog.glade.h:12
 msgid "October"
 msgstr "oktober"
 
-#: calendar/gui/goto-dialog.glade.h:14
+#: calendar/gui/goto-dialog.glade.h:13
 msgid "September"
 msgstr "september"
+
+#: calendar/gui/goto-dialog.glade.h:14
+msgid "_Go To Today"
+msgstr "_Gå till idag"
 
 #: calendar/gui/itip-utils.c:223
 msgid "An organizer must be set."
@@ -3742,51 +3738,51 @@ msgstr "Återsynkroniserar med servern"
 msgid "You must be working online to complete this operation"
 msgstr "Du måste vara ansluten för att kunna genomföra detta"
 
-#: camel/camel-filter-driver.c:529 camel/camel-filter-driver.c:538
+#: camel/camel-filter-driver.c:530 camel/camel-filter-driver.c:539
 msgid "Syncing folders"
 msgstr "Synkroniserar mappar"
 
-#: camel/camel-filter-driver.c:640
+#: camel/camel-filter-driver.c:641
 msgid "Unable to open spool folder"
 msgstr "Kan inte öppna spool-mappen"
 
-#: camel/camel-filter-driver.c:649
+#: camel/camel-filter-driver.c:650
 msgid "Unable to process spool folder"
 msgstr "Kan inte bearbeta spool-mappen"
 
-#: camel/camel-filter-driver.c:663
+#: camel/camel-filter-driver.c:664
 msgid "Getting message %d (%d%%)"
 msgstr "Hämtar meddelande %d (%d%%)"
 
-#: camel/camel-filter-driver.c:667 camel/camel-filter-driver.c:680
+#: camel/camel-filter-driver.c:668 camel/camel-filter-driver.c:681
 #, c-format
 msgid "Failed on message %d"
 msgstr "Misslyckades med meddelande %d"
 
-#: camel/camel-filter-driver.c:668
+#: camel/camel-filter-driver.c:669
 msgid "Cannot open message"
 msgstr "Kan inte öppna meddelande"
 
-#: camel/camel-filter-driver.c:691 camel/camel-filter-driver.c:802
+#: camel/camel-filter-driver.c:692 camel/camel-filter-driver.c:803
 msgid "Syncing folder"
 msgstr "Synkroniserar mapp"
 
-#: camel/camel-filter-driver.c:761
+#: camel/camel-filter-driver.c:762
 #, c-format
 msgid "Getting message %d of %d"
 msgstr "Hämtar meddelande %d av %d"
 
-#: camel/camel-filter-driver.c:766 camel/camel-filter-driver.c:784
+#: camel/camel-filter-driver.c:767 camel/camel-filter-driver.c:785
 #, c-format
 msgid "Failed at message %d of %d"
 msgstr "Misslyckades vid meddelande %d av %d"
 
-#: camel/camel-filter-driver.c:884
+#: camel/camel-filter-driver.c:885
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "Fel vid tolkning av filter: %s: %s"
 
-#: camel/camel-filter-driver.c:890
+#: camel/camel-filter-driver.c:891
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Fel vid körning av filter: %s: %s"
@@ -5583,7 +5579,7 @@ msgstr ""
 "Vill du göra ett återställningsförsök?"
 
 #: composer/e-msg-composer.c:1318 data/evolution.desktop.in.h:1
-#: shell/e-shell-view-menu.c:231
+#: shell/e-shell-view-menu.c:215
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -5605,11 +5601,11 @@ msgstr "Öppna fil"
 msgid "Insert File"
 msgstr "Infoga fil"
 
-#: composer/e-msg-composer.c:1855 composer/e-msg-composer.c:2243
+#: composer/e-msg-composer.c:1854 composer/e-msg-composer.c:2242
 msgid "Compose a message"
 msgstr "Skriv ett meddelande"
 
-#: composer/e-msg-composer.c:2337
+#: composer/e-msg-composer.c:2336
 msgid "Could not create composer window."
 msgstr "Kunde inte skapa fönster för meddelanderedigering."
 
@@ -6138,13 +6134,13 @@ msgid "Score Rules"
 msgstr "Poängregler"
 
 #: importers/elm-importer.c:470 importers/evolution-gnomecard-importer.c:228
-#: importers/netscape-importer.c:751 importers/pine-importer.c:627
+#: importers/netscape-importer.c:764 importers/pine-importer.c:627
 #: shell/e-shell-importer.c:651 shell/importer/import.glade.h:4
 #: shell/importer/intelligent.c:194
 msgid "Import"
 msgstr "Importera"
 
-#: importers/elm-importer.c:475 importers/netscape-importer.c:756
+#: importers/elm-importer.c:475 importers/netscape-importer.c:769
 #: importers/pine-importer.c:632 my-evolution/my-evolution.glade.h:12
 msgid "Mail"
 msgstr "E-post"
@@ -6173,11 +6169,11 @@ msgstr ""
 "Evolution har hittat GnomeCard-filer.\n"
 "Vill du importera dem till Evolution?"
 
-#: importers/netscape-importer.c:761
+#: importers/netscape-importer.c:774
 msgid "Settings"
 msgstr "Inställningar"
 
-#: importers/netscape-importer.c:786
+#: importers/netscape-importer.c:799
 msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
@@ -7728,95 +7724,95 @@ msgstr "Utskrift av Mitt Evolution misslyckades"
 msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "Sammanfattningskomponenten kunde inte initiera Bonobo.\n"
 
-#: my-evolution/metar.c:43
+#: my-evolution/metar.c:44
 msgid "Clear sky"
 msgstr "Klar himmel"
 
-#: my-evolution/metar.c:44
+#: my-evolution/metar.c:45
 msgid "Broken clouds"
 msgstr "Växlande molnighet"
 
-#: my-evolution/metar.c:45
+#: my-evolution/metar.c:46
 msgid "Scattered clouds"
 msgstr "Lätt molnighet"
 
-#: my-evolution/metar.c:46
+#: my-evolution/metar.c:47
 msgid "Few clouds"
 msgstr "Halvklart"
 
-#: my-evolution/metar.c:47
+#: my-evolution/metar.c:48
 msgid "Overcast"
 msgstr "Mulet"
 
-#: my-evolution/metar.c:55 my-evolution/metar.c:73 my-evolution/metar.c:136
+#: my-evolution/metar.c:56 my-evolution/metar.c:74 my-evolution/metar.c:137
 msgid "Invalid"
 msgstr "Ogiltig"
 
-#: my-evolution/metar.c:62
+#: my-evolution/metar.c:63
 msgid "Variable"
 msgstr "Variabel"
 
-#: my-evolution/metar.c:63
+#: my-evolution/metar.c:64
 msgid "North"
 msgstr "Nord"
 
-#: my-evolution/metar.c:63
+#: my-evolution/metar.c:64
 msgid "North - NorthEast"
 msgstr "Nord - nordöst"
 
-#: my-evolution/metar.c:63
+#: my-evolution/metar.c:64
 msgid "Northeast"
 msgstr "Nordöst"
 
-#: my-evolution/metar.c:63
+#: my-evolution/metar.c:64
 msgid "East - NorthEast"
 msgstr "Öst - nordöst"
 
-#: my-evolution/metar.c:64
+#: my-evolution/metar.c:65
 msgid "East"
 msgstr "Öst"
 
-#: my-evolution/metar.c:64
+#: my-evolution/metar.c:65
 msgid "East - Southeast"
 msgstr "East - sydväst"
 
-#: my-evolution/metar.c:64
+#: my-evolution/metar.c:65
 msgid "Southeast"
 msgstr "Sydöst"
 
-#: my-evolution/metar.c:64
+#: my-evolution/metar.c:65
 msgid "South - Southeast"
 msgstr "Syd - sydöst"
 
-#: my-evolution/metar.c:65
+#: my-evolution/metar.c:66
 msgid "South"
 msgstr "Syd"
 
-#: my-evolution/metar.c:65
+#: my-evolution/metar.c:66
 msgid "South - Southwest"
 msgstr "Syd - sydväst"
 
-#: my-evolution/metar.c:65
+#: my-evolution/metar.c:66
 msgid "Southwest"
 msgstr "Sydväst"
 
-#: my-evolution/metar.c:65
+#: my-evolution/metar.c:66
 msgid "West - Southwest"
 msgstr "Väst - sydväst"
 
-#: my-evolution/metar.c:66
+#: my-evolution/metar.c:67
 msgid "West"
 msgstr "Väst"
 
-#: my-evolution/metar.c:66
+#: my-evolution/metar.c:67
 msgid "West - Northwest"
 msgstr "Väst - nordväst"
 
-#: my-evolution/metar.c:66
+#: my-evolution/metar.c:67
 msgid "Northwest"
 msgstr "Nordväst"
 
-#: my-evolution/metar.c:66
+#: my-evolution/metar.c:67
 msgid "North - Northwest"
 msgstr "Nord - nordväst"
 
@@ -7824,1057 +7820,1057 @@ msgstr "Nord - nordväst"
 #. ******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
 #. NONE
 #. DRIZZLE
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Drizzle"
 msgstr "Duggregn"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Drizzle in the vicinity"
 msgstr "Duggregn i närheten"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Light drizzle"
 msgstr "Lätt duggregn"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Moderate drizzle"
 msgstr "Måttligt duggregn"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Heavy drizzle"
 msgstr "Kraftigt duggregn"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Shallow drizzle"
 msgstr "Tunt duggregn"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Patches of drizzle"
 msgstr "Områden med duggregn"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Partial drizzle"
 msgstr "Delvis duggregn"
 
-#: my-evolution/metar.c:99 my-evolution/metar.c:100
+#: my-evolution/metar.c:100 my-evolution/metar.c:101
 msgid "Thunderstorm"
 msgstr "Åska"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Windy drizzle"
 msgstr "Blåsigt duggregn"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Showers"
 msgstr "Regnskurar"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Drifting drizzle"
 msgstr "Drivande duggregn"
 
-#: my-evolution/metar.c:99
+#: my-evolution/metar.c:100
 msgid "Freezing drizzle"
 msgstr "Bitande duggregn"
 
 #. RAIN
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Rain"
 msgstr "Regn"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Rain in the vicinity"
 msgstr "Regn i närheten"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Light rain"
 msgstr "Något regn"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Moderate rain"
 msgstr "Måttligt regn"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Heavy rain"
 msgstr "Kraftigt regn"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Shallow rain"
 msgstr "Stänkregn"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Patches of rain"
 msgstr "Områden med regn"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Partial rainfall"
 msgstr "Delvis regn"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Blowing rainfall"
 msgstr "Blåst med regn"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Rain showers"
 msgstr "Regnskurar"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Drifting rain"
 msgstr "Drivande regn"
 
-#: my-evolution/metar.c:100
+#: my-evolution/metar.c:101
 msgid "Freezing rain"
 msgstr "Bitande regn"
 
 #. SNOW
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Snow"
 msgstr "Snö"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Snow in the vicinity"
 msgstr "Snö i närheten"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Light snow"
 msgstr "Lätt snöfall"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Moderate snow"
 msgstr "Måttligt med snö"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Heavy snow"
 msgstr "Kraftigt med snö"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Shallow snow"
 msgstr "Tunt med snö"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Patches of snow"
 msgstr "Områden med snö"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Partial snowfall"
 msgstr "Delvis snöfall"
 
-#: my-evolution/metar.c:101 my-evolution/metar.c:102
+#: my-evolution/metar.c:102 my-evolution/metar.c:103
 msgid "Snowstorm"
 msgstr "Snöstorm"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Blowing snowfall"
 msgstr "Blåsigt snöfall"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Snow showers"
 msgstr "Snöskurar"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Drifting snow"
 msgstr "Drivande snö"
 
-#: my-evolution/metar.c:101
+#: my-evolution/metar.c:102
 msgid "Freezing snow"
 msgstr "Bitande snö"
 
 #. SNOW_GRAINS
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Snow grains"
 msgstr "Snökorn"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Snow grains in the vicinity"
 msgstr "Snökorn i närheten"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Light snow grains"
 msgstr "Lätta snökorn"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Moderate snow grains"
 msgstr "Måttliga snökorn"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Heavy snow grains"
 msgstr "Kraftiga snökorn"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Shallow snow grains"
 msgstr "Tunna snökorn"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Patches of snow grains"
 msgstr "Områden med snökorn"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Partial snow grains"
 msgstr "Delvis snökorn"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Blowing snow grains"
 msgstr "Blåsande snökorn"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Snow grain showers"
 msgstr "Snökornsskurar"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Drifting snow grains"
 msgstr "Drivande snökorn"
 
-#: my-evolution/metar.c:102
+#: my-evolution/metar.c:103
 msgid "Freezing snow grains"
 msgstr "Bitande snökorn"
 
 #. ICE_CRYSTALS
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Ice crystals"
 msgstr "Iskristaller"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Ice crystals in the vicinity"
 msgstr "Iskristaller i närheten"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Few ice crystals"
 msgstr "Få iskristaller"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Moderate ice crystals"
 msgstr "Måttliga iskristaller"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Heavy ice crystals"
 msgstr "Kraftiga iskristaller"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Patches of ice crystals"
 msgstr "Områden med iskristaller"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Partial ice crystals"
 msgstr "Delvis iskristaller"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Ice crystal storm"
 msgstr "Iskristallby"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Blowing ice crystals"
 msgstr "Blåsande iskristaller"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Showers of ice crystals"
 msgstr "Skurar av iskristaller"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Drifting ice crystals"
 msgstr "Drivande iskristaller"
 
-#: my-evolution/metar.c:103
+#: my-evolution/metar.c:104
 msgid "Freezing ice crystals"
 msgstr "Bitande iskristaller"
 
 #. ICE_PELLETS
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Ice pellets"
 msgstr "Ispellets"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Ice pellets in the vicinity"
 msgstr "Ispellets i närheten"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Few ice pellets"
 msgstr "Få ispellets"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Moderate ice pellets"
 msgstr "Måttliga ispellets"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Heavy ice pellets"
 msgstr "Krafiga ispellets"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Shallow ice pellets"
 msgstr "Tunna ispellets"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Patches of ice pellets"
 msgstr "Områden med ispellets"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Partial ice pellets"
 msgstr "Delvis ispellets"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Ice pellet storm"
 msgstr "Ispelletby"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Blowing ice pellets"
 msgstr "Blåsande ispellets"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Showers of ice pellets"
 msgstr "Skurar av ispellets"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Drifting ice pellets"
 msgstr "Drivande ispellets"
 
-#: my-evolution/metar.c:104
+#: my-evolution/metar.c:105
 msgid "Freezing ice pellets"
 msgstr "Bitande ispellets"
 
 #. HAIL
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Hail"
 msgstr "Hagel"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Hail in the vicinity"
 msgstr "Hagel i närheten"
 
-#: my-evolution/metar.c:105 my-evolution/metar.c:106
+#: my-evolution/metar.c:106 my-evolution/metar.c:107
 msgid "Light hail"
 msgstr "Lätt hagel"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Moderate hail"
 msgstr "Måttligt hagel"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Heavy hail"
 msgstr "Tungt hagel"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Shallow hail"
 msgstr "Tunt hagel"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Patches of hail"
 msgstr "Områden med hagel"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Partial hail"
 msgstr "Delvis hagel"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Hailstorm"
 msgstr "Hagelby"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Blowing hail"
 msgstr "Blåsande hagel"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Hail showers"
 msgstr "Hagelskurar"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Drifting hail"
 msgstr "Drivande hagel"
 
-#: my-evolution/metar.c:105
+#: my-evolution/metar.c:106
 msgid "Freezing hail"
 msgstr "Bitande hagel"
 
 #. SMALL_HAIL
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Small hail"
 msgstr "Småhagel"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Small hail in the vicinity"
 msgstr "Småhagel i närheten"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Moderate small hail"
 msgstr "Måttligt småhagel"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Heavy small hail"
 msgstr "Kraftigt småhagel"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Shallow small hail"
 msgstr "Tunt småhagel"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Patches of small hail"
 msgstr "Delar med småhagel"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Partial small hail"
 msgstr "Smått småhagel"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Small hailstorm"
 msgstr "Lätt småhagelby"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Blowing small hail"
 msgstr "Blåsande småhagel"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Showers of small hail"
 msgstr "Skurar av småhagel"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Drifting small hail"
 msgstr "Drivande småhagel"
 
-#: my-evolution/metar.c:106
+#: my-evolution/metar.c:107
 msgid "Freezing small hail"
 msgstr "Bitande småhagel"
 
 #. PRECIPITATION
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Unknown precipitation"
 msgstr "Okänd nederbörd"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Precipitation in the vicinity"
 msgstr "Nederbörd i närheten"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Light precipitation"
 msgstr "Lätt nederbörd"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Moderate precipitation"
 msgstr "Måttlig nederbörd"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Heavy precipitation"
 msgstr "Kraftig nederbörd"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Shallow precipitation"
 msgstr "Tunn nederbörd"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Patches of precipitation"
 msgstr "Områden med nederbörd"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Partial precipitation"
 msgstr "Delvis nederbörd"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Unknown thunderstorm"
 msgstr "Okänd åskstorm"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Blowing precipitation"
 msgstr "Blåsande nederbörd"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Showers, type unknown"
 msgstr "Skurar, okänd typ"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Drifting precipitation"
 msgstr "Drivande nederbörd"
 
-#: my-evolution/metar.c:107
+#: my-evolution/metar.c:108
 msgid "Freezing precipitation"
 msgstr "Bitande nederbörd"
 
 #. MIST
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Mist"
 msgstr "Dis"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Mist in the vicinity"
 msgstr "Dis i närheten"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Light mist"
 msgstr "Lätt dis"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Moderate mist"
 msgstr "Måttligt dis"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Thick mist"
 msgstr "Tjock dis"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Shallow mist"
 msgstr "Tunn dis"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Patches of mist"
 msgstr "Områden med dis"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Partial mist"
 msgstr "Delvis dis"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Mist with wind"
 msgstr "Dis med vind"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Drifting mist"
 msgstr "Drivande dis"
 
-#: my-evolution/metar.c:108
+#: my-evolution/metar.c:109
 msgid "Freezing mist"
 msgstr "Bitande dis"
 
 #. FOG
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Fog"
 msgstr "Dimma"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Fog in the vicinity"
 msgstr "Dimma i närheten"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Light fog"
 msgstr "Lätt dimma"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Moderate fog"
 msgstr "Måttlig dimma"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Thick fog"
 msgstr "Tjock dimma"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Shallow fog"
 msgstr "Tunn dimma"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Patches of fog"
 msgstr "Områden med dimma"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Partial fog"
 msgstr "Delvis dimma"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Fog with wind"
 msgstr "Dimma med vinden"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Drifting fog"
 msgstr "Drivande dimma"
 
-#: my-evolution/metar.c:109
+#: my-evolution/metar.c:110
 msgid "Freezing fog"
 msgstr "Bitande dimma"
 
 #. SMOKE
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Smoke"
 msgstr "Rök"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Smoke in the vicinity"
 msgstr "Rök i närheten"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Thin smoke"
 msgstr "Tunn rök"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Moderate smoke"
 msgstr "Måttlig rök"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Thick smoke"
 msgstr "Tjock rök"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Shallow smoke"
 msgstr "Tunn rök"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Patches of smoke"
 msgstr "Områden med rök"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Partial smoke"
 msgstr "Delvis rök"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Smoke w/ thunders"
 msgstr "Rök med storm"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Smoke with wind"
 msgstr "Rök med vinden"
 
-#: my-evolution/metar.c:110
+#: my-evolution/metar.c:111
 msgid "Drifting smoke"
 msgstr "Drivande rök"
 
 #. VOLCANIC_ASH
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Volcanic ash"
 msgstr "Vulkanisk aska"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Volcanic ash in the vicinity"
 msgstr "Vulkanisk aska i närheten"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Moderate volcanic ash"
 msgstr "Måttlig vulkanisk aska"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Thick volcanic ash"
 msgstr "Tjock vulkanisk aska"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Shallow volcanic ash"
 msgstr "Tunn vulkanisk aska"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Patches of volcanic ash"
 msgstr "Områden med vulkanisk aska"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Partial volcanic ash"
 msgstr "Delvis vulkanisk aska"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Volcanic ash w/ thunders"
 msgstr "Vulkanisk aska med storm"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Blowing volcanic ash"
 msgstr "Blåsande vulkanisk aska"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Showers of volcanic ash "
 msgstr "Skurar av vulkanisk aska"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Drifting volcanic ash"
 msgstr "Drivande vulkanisk aska"
 
-#: my-evolution/metar.c:111
+#: my-evolution/metar.c:112
 msgid "Freezing volcanic ash"
 msgstr "Bitande vulkanisk aska"
 
 #. SAND
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Sand"
 msgstr "Sand"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Sand in the vicinity"
 msgstr "Sand i närheten"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Light sand"
 msgstr "Lätt sand"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Moderate sand"
 msgstr "Måttlig sand"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Heavy sand"
 msgstr "Kraftig sand"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Patches of sand"
 msgstr "Områden med sand"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Partial sand"
 msgstr "Delvis sand"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Blowing sand"
 msgstr "Blåsande sand"
 
-#: my-evolution/metar.c:112
+#: my-evolution/metar.c:113
 msgid "Drifting sand"
 msgstr "Drivande sand"
 
 #. HAZE
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Haze"
 msgstr "Lätt dimma"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Haze in the vicinity"
 msgstr "Lätt dimma i närheten"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Light haze"
 msgstr "Mycket lätt dimma i närheten"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Moderate haze"
 msgstr "Måttlig lätt dimma"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Thick haze"
 msgstr "Tjock lätt dimma"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Shallow haze"
 msgstr "Tunn lätt dimma"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Patches of haze"
 msgstr "Delar med lätt dimma"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Partial haze"
 msgstr "Delvis lätt dimma"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Haze with wind"
 msgstr "Lätt dimma med vinden"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Drifting haze"
 msgstr "Drivande lätt dimma"
 
-#: my-evolution/metar.c:113
+#: my-evolution/metar.c:114
 msgid "Freezing haze"
 msgstr "Bitande lätt dimma"
 
 #. SPRAY
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Sprays"
 msgstr "Små vattendroppar i luften"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Sprays in the vicinity"
 msgstr "Små vattendroppar i luften i närheten"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Light sprays"
 msgstr "Lätta vattendroppar i luften"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Moderate sprays"
 msgstr "Måttliga vattendroppar i luften"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Heavy sprays"
 msgstr "Kraftiga vattendroppar i luften"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Shallow sprays"
 msgstr "Tuna vattendroppar i luften"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Patches of sprays"
 msgstr "Områden med vattendroppar i luften"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Partial sprays"
 msgstr "Delvis vattendroppar i luften"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Blowing sprays"
 msgstr "Blåsande vattendroppar i luften"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Drifting sprays"
 msgstr "Drivande vattendroppar i luften"
 
-#: my-evolution/metar.c:114
+#: my-evolution/metar.c:115
 msgid "Freezing sprays"
 msgstr "Bitande vattendroppar i luften"
 
 #. DUST
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Dust"
 msgstr "Damm"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Dust in the vicinity"
 msgstr "Damm i närheten"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Light dust"
 msgstr "Lätt damm"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Moderate dust"
 msgstr "Måttligt damm"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Heavy dust"
 msgstr "Kraftigt damm"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Patches of dust"
 msgstr "Områden med damm"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Partial dust"
 msgstr "Delvis damm"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Blowing dust"
 msgstr "Blåsande damm"
 
-#: my-evolution/metar.c:115
+#: my-evolution/metar.c:116
 msgid "Drifting dust"
 msgstr "Drivande damm"
 
 #. SQUALL
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Squall"
 msgstr "Kastby"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Squall in the vicinity"
 msgstr "Kastby i närheten"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Light squall"
 msgstr "Lätt kastby"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Moderate squall"
 msgstr "Måttlig kastby"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Heavy squall"
 msgstr "Kraftig kastby"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Partial squall"
 msgstr "Områden med kastbyar"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Thunderous squall"
 msgstr "Åskande kastby"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Blowing squall"
 msgstr "Blåsande kastby"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Drifting squall"
 msgstr "Drivande kastby"
 
-#: my-evolution/metar.c:116
+#: my-evolution/metar.c:117
 msgid "Freezing squall"
 msgstr "Bitande kastby"
 
 #. SANDSTORM
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Sandstorm"
 msgstr "Sandstorm"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Sandstorm in the vicinity"
 msgstr "Sandstorm i närheten"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Light standstorm"
 msgstr "Lätt sandstorm"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Moderate sandstorm"
 msgstr "Måttlig sandstorm"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Heavy sandstorm"
 msgstr "Kraftig sandstorm"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Shallow sandstorm"
 msgstr "Tunn sandstorm"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Partial sandstorm"
 msgstr "Liten sandstorm"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Thunderous sandstorm"
 msgstr "Åska och sandstorm"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Blowing sandstorm"
 msgstr "Blåsande sandstorm"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Drifting sandstorm"
 msgstr "Drivande sandstorm"
 
-#: my-evolution/metar.c:117
+#: my-evolution/metar.c:118
 msgid "Freezing sandstorm"
 msgstr "Bitande sandstorm"
 
 #. DUSTSTORM
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Duststorm"
 msgstr "Dammstorm"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Duststorm in the vicinity"
 msgstr "Dammstorm i närheten"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Light duststorm"
 msgstr "Lätt dammstorm"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Moderate duststorm"
 msgstr "Måttlig dammstorm"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Heavy duststorm"
 msgstr "Kraftig dammstorm"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Shallow duststorm"
 msgstr "Tunn dammstorm"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Partial duststorm"
 msgstr "Områden med dammstorm"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Thunderous duststorm"
 msgstr "Åska och dammstorm"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Blowing duststorm"
 msgstr "Blåsande dammstorm"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Drifting duststorm"
 msgstr "Drivande dammstorm"
 
-#: my-evolution/metar.c:118
+#: my-evolution/metar.c:119
 msgid "Freezing duststorm"
 msgstr "Bitande dammstorm"
 
 #. FUNNEL_CLOUD
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Funnel cloud"
 msgstr "Rökmoln"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Funnel cloud in the vicinity"
 msgstr "Rökmoln i närheten"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Light funnel cloud"
 msgstr "Lätta rökmoln"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Moderate funnel cloud"
 msgstr "Måttliga rökmoln"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Thick funnel cloud"
 msgstr "Tjocka rökmoln"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Shallow funnel cloud"
 msgstr "Tunna rökmoln"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Patches of funnel clouds"
 msgstr "Områden med rökmoln"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Partial funnel clouds"
 msgstr "Delvis rökmoln"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Funnel cloud w/ wind"
 msgstr "Rökmoln med vind"
 
-#: my-evolution/metar.c:119
+#: my-evolution/metar.c:120
 msgid "Drifting funnel cloud"
 msgstr "Drivande rökmoln"
 
 #. TORNADO
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Tornado"
 msgstr "Tornado"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Tornado in the vicinity"
 msgstr "Tornado i närheten"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Moderate tornado"
 msgstr "Måttlig tornado"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Raging tornado"
 msgstr "Våldsam tornado"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Partial tornado"
 msgstr "Områden med tornado"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Thunderous tornado"
 msgstr "Åska och tornado"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Drifting tornado"
 msgstr "Drivande tornado"
 
-#: my-evolution/metar.c:120
+#: my-evolution/metar.c:121
 msgid "Freezing tornado"
 msgstr "Bitande tornado"
 
 #. DUST_WHIRLS
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Dust whirls"
 msgstr "Dammvirvlar"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Dust whirls in the vicinity"
 msgstr "Dammvirvlar i närheten"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Light dust whirls"
 msgstr "Tunna dammvirvlar"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Moderate dust whirls"
 msgstr "Måttliga dammvirvlar"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Heavy dust whirls"
 msgstr "Kraftiga dammvirvlar"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Shallow dust whirls"
 msgstr "Tunna dammvirvlar"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Patches of dust whirls"
 msgstr "Områden med dammvirvlar"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Partial dust whirls"
 msgstr "Delvis dammvirvlar"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Blowing dust whirls"
 msgstr "Blåsande dammvirvlar"
 
-#: my-evolution/metar.c:121
+#: my-evolution/metar.c:122
 msgid "Drifting dust whirls"
 msgstr "Drivande dammvirvlar"
 
@@ -9276,19 +9272,19 @@ msgstr "Välj en destinationsmapp för importen av denna data"
 msgid "Closing connections..."
 msgstr "Kopplar från anslutningar..."
 
-#: shell/e-shell-view-menu.c:182
+#: shell/e-shell-view-menu.c:181
 msgid "Bug buddy was not found in your $PATH."
 msgstr "Bug-buddy hittades inte i din $PATH."
 
-#: shell/e-shell-view-menu.c:188
+#: shell/e-shell-view-menu.c:189
 msgid "Bug buddy could not be run."
 msgstr "Bug-buddy kunde inte köras."
 
-#: shell/e-shell-view-menu.c:233
+#: shell/e-shell-view-menu.c:217
 msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
 msgstr "Copyright 1999, 2000, 2001 Ximian, Inc."
 
-#: shell/e-shell-view-menu.c:235
+#: shell/e-shell-view-menu.c:219
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -9298,27 +9294,27 @@ msgstr ""
 "e-post, kalender- och kontakthantering\n"
 "inom GNOME-skrivbordsmiljön."
 
-#: shell/e-shell-view-menu.c:453
+#: shell/e-shell-view-menu.c:437
 msgid "Go to folder..."
 msgstr "Gå till mapp..."
 
-#: shell/e-shell-view-menu.c:454
+#: shell/e-shell-view-menu.c:438
 msgid "Select the folder that you want to open"
 msgstr "Markera den mapp som du vill öppna"
 
-#: shell/e-shell-view-menu.c:599
+#: shell/e-shell-view-menu.c:583
 msgid "Create a new shortcut"
 msgstr "Skapa en ny genväg"
 
-#: shell/e-shell-view-menu.c:600
+#: shell/e-shell-view-menu.c:584
 msgid "Select the folder you want the shortcut to point to:"
 msgstr "Välj den mapp som du vill att genvägen ska peka till:"
 
-#: shell/e-shell-view-menu.c:705
+#: shell/e-shell-view-menu.c:689
 msgid "Work online"
 msgstr "Arbeta ansluten"
 
-#: shell/e-shell-view-menu.c:717 shell/e-shell-view-menu.c:729
+#: shell/e-shell-view-menu.c:701 shell/e-shell-view-menu.c:713
 msgid "Work offline"
 msgstr "Arbeta frånkopplad"
 
@@ -9926,9 +9922,13 @@ msgstr "_Öppna kalender"
 msgid "_Week"
 msgstr "_Vecka"
 
-#: ui/evolution-comp-editor.xml.h:1
-msgid "C_lose"
-msgstr "S_täng"
+#: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:1
+#: ui/evolution-contact-list-editor.xml.h:1
+#: ui/evolution-mail-messagedisplay.xml.h:1
+#: ui/evolution-message-composer.xml.h:3 ui/evolution-signature-editor.xml.h:1
+#: ui/evolution.xml.h:4
+msgid "Close"
+msgstr "Stäng"
 
 #: ui/evolution-comp-editor.xml.h:3
 msgid "Close this appointment"
@@ -11384,6 +11384,12 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 #: wombat/wombat.c:198
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
+
+#~ msgid "C_ontacts..."
+#~ msgstr "_Kontakter..."
+
+#~ msgid "_Company:"
+#~ msgstr "_Företag:"
 
 #~ msgid ""
 #~ "Notification about your journal entry starting on %s and ending on %s"
