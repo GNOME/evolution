@@ -1,3 +1,77 @@
+2000-11-03  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-view.c: Added mail-display.h.
+
+	* mail-autofilter.c: Removed unecessary headers.  Who ran indent
+	over this code?  Sigh.
+
+	* mail-ops.c (display_message_input_s): Added messagedisplay.
+	(mail_do_display_message): Added messagedisplay arg.
+	(mail_do_display_message): Dont bother doing another thread when
+	we know we dont have a uid.
+	(): Added folder-browser.h to headers.  Sigh.
+
+	* folder-browser-factory.c (control_activate): Setup the
+	viewthreaded callback to the folder_browser function.
+
+	* folder-browser.c (my_folder_browser_init): Connect to
+	right_click of etable of the messagelist here.
+	(on_right_click): Changed for argument changes.
+	(folder_browser_toggle_threads): Changed to take a fb, and to set
+	threaded mode on the messagelist.
+	(my_folder_browser_init): Connect also to the double_click signal.
+	(my_folder_browser_init): Connect to the message_selected signal
+	of the message_list.
+	(on_message_selected): Signal handler for message selected.
+	(my_folder_browser_init): Fix for change to message_list_new().
+
+	* message-list.h: Dont include folder-browser.h.
+	(message_list_toggle_threads): Moved into folder-browser.h.
+	(struct _MessageList): Removed folderbrowser.
+
+	* mail.h: Dont include folder-browser.h here either, but
+	mail-types.h instead.
+	Moved prototypes moved into folder-browser.c into
+	folder-browser.h. (vfolder_*, filter_*).
+
+	* mail-display.h: Dont include folder-browser.h here, but
+	mail-types.h and specific camel headers.
+
+	* message-thread.c (sort_node): Invert the sort order logic so the
+	list is sorted in mailbox order, not reverse mailbox order.
+
+	* message-list.c (free_tree_ids): Fix a merge foo.
+	(remove_node_diff): Removed unused row argument.  Fixed callers/prototype.
+	(clear_tree): pre_change on the removal of the root node.
+	(build_flat): Only perform pre_change if we are rebuilding the
+	whole lot.  For incremental change let etable do its thing.
+	(build_tree): Likewise for building the tree view.  If making
+	incremental updates, do them as we build it.
+	(vfolder_subject): 
+	(vfolder_sender): 
+	(vfolder_recipient): 
+	(filter_subject): 
+	(filter_sender): 
+	(filter_recipient): 
+	(filter_mlist): 
+	(on_right_click): Moved to folder-browser.c, where they belong.
+	(message_list_init): Dont connect to right_click anymore.
+	(message_list_toggle_threads): Moved to folder-browser.c, renamed.
+	(on_double_click): Moved to folder-browser.c
+	(on_click): Set the flags directly, rather than in anothre thread,
+	which is just not necessary.
+	(message_list_class_init): Added a new signal 'message_selected',
+	to indicate when a message was selected.
+	(on_cursor_change_idle): Emit a signal, rather than directly
+	triggering the display update.
+	(select_row): Removed, no longer used.
+	(idle_select_row): And this too.
+	(select_msg): Removed as well.
+	(message_list_select): Emit a signal, rather
+	thandisplaying/clearing the mail-display directly.
+	(mark_msg_seen): Moved to folder-browser.c
+	(message_list_new): Removed folderbrowser argument.
+
 2000-11-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (on_right_click): Sync with message

@@ -8,10 +8,11 @@
 
 #include <gal/widgets/e-scroll-frame.h>
 
-#include "camel/camel-stream.h"
-#include "camel/camel-mime-message.h"
-#include "folder-browser.h"
+#include <camel/camel-stream.h>
+#include <camel/camel-mime-message.h>
+#include <camel/camel-medium.h>
 
+#include "mail-types.h"
 
 #define MAIL_DISPLAY_TYPE        (mail_display_get_type ())
 #define MAIL_DISPLAY(o)          (GTK_CHECK_CAST ((o), MAIL_DISPLAY_TYPE, MailDisplay))

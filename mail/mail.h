@@ -25,7 +25,8 @@
 #include "composer/e-msg-composer.h"
 #include "mail-config.h"
 #include "mail-config-gui.h"
-#include "folder-browser.h"
+/*#include "folder-browser.h"*/
+#include "mail-types.h"
 #include "shell/evolution-storage.h"
 
 extern char *evolution_dir;
@@ -126,13 +127,4 @@ void forget_passwords (BonoboUIComponent *uih, void *user_data,
 		       const char *path);
 extern CamelSession *session;
 
-/* message-list */
-void vfolder_subject   (GtkWidget *w, FolderBrowser *fb);
-void vfolder_sender    (GtkWidget *w, FolderBrowser *fb);
-void vfolder_recipient (GtkWidget *w, FolderBrowser *fb);
-
-void filter_subject    (GtkWidget *w, FolderBrowser *fb);
-void filter_sender     (GtkWidget *w, FolderBrowser *fb);
-void filter_recipient  (GtkWidget *w, FolderBrowser *fb);
-void filter_mlist      (GtkWidget *w, FolderBrowser *fb);
 

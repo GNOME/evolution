@@ -36,11 +36,6 @@
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-popup-menu.h>
 
-#include "Evolution.h"
-#include "evolution-storage.h"
-
-#include "evolution-shell-component.h"
-#include "folder-browser.h"
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 

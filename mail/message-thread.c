@@ -380,9 +380,9 @@ sort_node(const void *a, const void *b)
 	if (a1->order == b1->order)
 		return 0;
 	if (a1->order < b1->order)
-		return 1;
-	else
 		return -1;
+	else
+		return 1;
 }
 
 static void
@@ -534,7 +534,7 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 	gettimeofday(&end, NULL);
 	diff = end.tv_sec * 1000 + end.tv_usec/1000;
 	diff -= start.tv_sec * 1000 + start.tv_usec/1000;
-	printf("Message threading %d messages took %d.%03d seconds\n",
+	printf("Message threading %d messages took %ld.%03ld seconds\n",
 	       uids->len, diff / 1000, diff % 1000);
 #endif
 	return thread;

@@ -21,22 +21,15 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "mail-config.h"
 #include "message-list.h"
 #include "message-thread.h"
 #include "mail-threads.h"
 #include "mail-tools.h"
-#include "mail-mlist-magic.h"
-#include "mail-ops.h"
-#include "mail-config.h"
-#include "mail-vfolder.h"
-#include "mail-autofilter.h"
-#include "mail.h"
-
 #include "Mail.h"
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-popup-menu.h>
 #include <gal/e-table/e-table-header-item.h>
 #include <gal/e-table/e-table-item.h>
 
@@ -62,7 +55,7 @@
 #endif
 
 #define d(x)
-#define t(x) x
+#define t(x)
 
 /*
  * Default sizes for the ETable display
@@ -92,11 +85,7 @@ static BonoboObjectClass *message_list_parent_class;
 static POA_Evolution_MessageList__vepv evolution_message_list_vepv;
 
 static void on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data);
-static void select_row (ETableScrolled *table, gpointer user_data);
-static gint on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list);
 static gint on_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list);
-static void on_double_click (ETableScrolled *table, gint row, MessageList *list);
-static void select_msg (MessageList *message_list, gint row);
 static char *filter_date (const void *data);
 static void free_tree_ids (ETreeModel *etm);
 
@@ -110,6 +99,13 @@ static void mail_do_regenerate_messagelist (MessageList *list, const gchar *sear
 #define id_is_subject(id) (id[0] == 's') /* is this a subject id? */
 #define id_uid(id) (&id[1])	/* get the uid part of the id */
 #define id_subject(id) (&id[1])	/* get the subject part of the id */
+
+enum {
+	MESSAGE_SELECTED,
+	LAST_SIGNAL
+};
+
+static guint message_list_signals [LAST_SIGNAL] = {0, };
 
 static struct {
 	char **image_base;
@@ -284,23 +280,6 @@ get_message_info (MessageList *message_list, int row)
 	return NULL;
 }
 
-
-static gint 
-mark_msg_seen (gpointer data)
-{
-	MessageList *ml = data;
-	GPtrArray *uids;
-
-	if (!ml->cursor_uid) 
-		return FALSE;
-
-	uids = g_ptr_array_new ();
-	g_ptr_array_add (uids, g_strdup (ml->cursor_uid));
-	mail_do_flag_messages (ml->folder, uids, FALSE,
-			       CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-	return FALSE;
-}
-
 /**
  * message_list_select:
  * @message_list: a MessageList
@@ -351,23 +330,13 @@ message_list_select (MessageList *message_list, int base_row,
 		info = get_message_info (message_list, mrow);
 		if (info && (info->flags & mask) == flags) {
 			e_table_scrolled_set_cursor_row (ets, vrow);
-			mail_do_display_message (message_list, info->uid, mark_msg_seen);
+			gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], info->uid);
 			return;
 		}
 		vrow += direction;
 	}
 
-	mail_display_set_message (message_list->parent_folder_browser->mail_display, NULL);
-}
-
-/* select a message and display it */
-static void
-select_msg (MessageList *message_list, gint row)
-{
-	const char *uid;
-
-	uid = get_message_uid (message_list, row);
-	mail_do_display_message (message_list, uid, mark_msg_seen);
+	gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], NULL);
 }
 
 #if 0
@@ -1036,12 +1005,6 @@ message_list_init (GtkObject *object)
 
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "click",
 			    GTK_SIGNAL_FUNC (on_click), message_list);
-	
-	gtk_signal_connect (GTK_OBJECT (message_list->etable), "right_click",
-			    GTK_SIGNAL_FUNC (on_right_click), message_list);
-	
-	gtk_signal_connect (GTK_OBJECT (message_list->etable), "double_click",
-			    GTK_SIGNAL_FUNC (on_double_click), message_list);
 
 #if 0
 	/* drag & drop */
@@ -1147,6 +1110,16 @@ message_list_class_init (GtkObjectClass *object_class)
 
 	message_list_corba_class_init ();
 
+	message_list_signals[MESSAGE_SELECTED] =
+		gtk_signal_new ("message_selected",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (MessageListClass, message_selected),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1, GTK_TYPE_STRING);
+
+	gtk_object_class_add_signals(object_class, message_list_signals, LAST_SIGNAL);
+
 	message_list_init_images ();
 }
 
@@ -1178,12 +1151,10 @@ create_corba_message_list (BonoboObject *object)
 }
 
 BonoboObject *
-message_list_new (FolderBrowser *parent_folder_browser)
+message_list_new (void)
 {
 	Evolution_MessageList corba_object;
 	MessageList *message_list;
-
-	g_assert (parent_folder_browser);
 
 	message_list = gtk_type_new (message_list_get_type ());
 
@@ -1192,8 +1163,6 @@ message_list_new (FolderBrowser *parent_folder_browser)
 		gtk_object_destroy (GTK_OBJECT (message_list));
 		return NULL;
 	}
-
-	message_list->parent_folder_browser = parent_folder_browser;
 
 	message_list->idle_id = 0;
 
@@ -1207,16 +1176,34 @@ clear_tree (MessageList *ml)
 {
 	ETreeModel *etm = E_TREE_MODEL (ml->table_model);
 
+#ifdef TIMEIT
+	struct timeval start, end;
+	unsigned long diff;
+
+	printf("Clearing tree\n");
+	gettimeofday(&start, NULL);
+#endif
+
 	/* we also reset the uid_rowmap since it is no longer useful/valid anyway */
 	g_hash_table_destroy (ml->uid_rowmap);
 	ml->uid_rowmap = g_hash_table_new(g_str_hash, g_str_equal);
 	free_tree_ids(etm);
 	
-	if (ml->tree_root)
+	if (ml->tree_root) {
+		e_table_model_pre_change((ETableModel *)etm);
 		e_tree_model_node_remove (etm, ml->tree_root);
+	}
 
 	ml->tree_root = e_tree_model_node_insert (etm, NULL, 0, NULL);
 	e_tree_model_node_set_expanded (etm, ml->tree_root, TRUE);
+
+#ifdef TIMEIT
+	gettimeofday(&end, NULL);
+	diff = end.tv_sec * 1000 + end.tv_usec/1000;
+	diff -= start.tv_sec * 1000 + start.tv_usec/1000;
+	printf("Clearing tree took %ld.%03ld seconds\n", diff / 1000, diff % 1000);
+#endif
+
 }
 
 /* we save the node id to the file if the node should be closed when
@@ -1315,7 +1302,6 @@ free_tree_state(GHashTable *expanded_nodes)
 static void build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *row, GHashTable *);
 
 static void build_subtree_diff (MessageList *ml, ETreePath *parent, ETreePath *path, struct _container *c, int *row, GHashTable *expanded_nodes);
-static void remove_node_diff(MessageList *ml, ETreePath *node, int depth, int *row);
 
 static void
 build_tree (MessageList *ml, struct _thread_messages *thread)
@@ -1332,8 +1318,6 @@ build_tree (MessageList *ml, struct _thread_messages *thread)
 	printf("Building tree\n");
 	gettimeofday(&start, NULL);
 #endif
-	e_table_model_pre_change(ml->table_model);
-
 	expanded_nodes = load_tree_state(ml);
 
 #ifdef TIMEIT
@@ -1350,15 +1334,15 @@ build_tree (MessageList *ml, struct _thread_messages *thread)
 
 	top = e_tree_model_node_get_first_child(etm, ml->tree_root);
 	if (top == NULL) {
+		e_table_model_pre_change(ml->table_model);
 		build_subtree(ml, ml->tree_root, thread->tree, &row, expanded_nodes);
+		e_table_model_changed(ml->table_model);
 	} else {
 		build_subtree_diff(ml, ml->tree_root, top,  thread->tree, &row, expanded_nodes);
 	}
 
 	free_tree_state(expanded_nodes);
 	
-	e_table_model_changed(ml->table_model);
-
 #ifdef TIMEIT
 	gettimeofday(&end, NULL);
 	diff = end.tv_sec * 1000 + end.tv_usec/1000;
@@ -1479,7 +1463,7 @@ add_node_diff(MessageList *ml, ETreePath *parent, ETreePath *path, struct _conta
 		}
 	}
 
-	t(printf("Adding node: %s\n", id));
+	t(printf("Adding node: %s row %d\n", id, myrow));
 
 	node = e_tree_model_node_insert(etm, parent, myrow, id);
 	(*row)++;
@@ -1492,7 +1476,7 @@ add_node_diff(MessageList *ml, ETreePath *parent, ETreePath *path, struct _conta
 
 /* removes node, children recursively and all associated data */
 static void
-remove_node_diff(MessageList *ml, ETreePath *node, int depth, int *row)
+remove_node_diff(MessageList *ml, ETreePath *node, int depth)
 {
 	ETreeModel *etm = E_TREE_MODEL (ml->table_model);
 	ETreePath *cp, *cn;
@@ -1505,7 +1489,7 @@ remove_node_diff(MessageList *ml, ETreePath *node, int depth, int *row)
 	cp = e_tree_model_node_get_first_child(etm, node);
 	while (cp) {
 		cn = e_tree_model_node_get_next(etm, cp);
-		remove_node_diff(ml, cp, depth+1, row);
+		remove_node_diff(ml, cp, depth+1);
 		cp = cn;
 	}
 
@@ -1514,13 +1498,11 @@ remove_node_diff(MessageList *ml, ETreePath *node, int depth, int *row)
 	if (id_is_uid(uid)
 	    && g_hash_table_lookup_extended(ml->uid_rowmap, id_uid(uid), (void *)&olduid, (void *)&oldrow)
 	    && olduid == id_uid(uid)) {
-		printf("removing rowid map entry: %s\n", id_uid(uid));
+		t(printf("removing rowid map entry: %s\n", id_uid(uid)));
 		g_hash_table_remove(ml->uid_rowmap, id_uid(uid));
 	}
 	g_free(uid);
 	e_tree_model_node_set_data(etm, node, NULL);
-
-	/**row = *row - 1;*/
 
 	/* and only at the toplevel, remove the node (etree should optimise this remove somewhat) */
 	if (depth == 0)
@@ -1541,7 +1523,7 @@ build_subtree_diff(MessageList *ml, ETreePath *parent, ETreePath *path, struct _
 	bp = c;
 
 	while (ap || bp) {
-		/*t(printf("Processing row: %d (subtree row %d)\n", *row, myrow));*/
+		t(printf("Processing row: %d (subtree row %d)\n", *row, myrow));
 		if (ap == NULL) {
 			t(printf("out of old nodes\n"));
 			/* ran out of old nodes - remaining nodes are added */
@@ -1552,7 +1534,7 @@ build_subtree_diff(MessageList *ml, ETreePath *parent, ETreePath *path, struct _
 			t(printf("out of new nodes\n"));
 			/* ran out of new nodes - remaining nodes are removed */
 			tmp = e_tree_model_node_get_next(etm, ap);
-			remove_node_diff(ml, ap, 0, row);
+			remove_node_diff(ml, ap, 0);
 			ap = tmp;
 		} else if (node_equal(etm, ap, bp)) {
 			/*t(printf("nodes match, verify\n"));*/
@@ -1598,14 +1580,14 @@ build_subtree_diff(MessageList *ml, ETreePath *parent, ETreePath *path, struct _
 				if (bi) {
 					bt = bp;
 					while (bt != bi) {
-						printf("adding new node 0\n");
+						t(printf("adding new node 0\n"));
 						add_node_diff(ml, parent, NULL, bt, row, myrow, expanded_nodes);
 						myrow++;
 						bt = bt->next;
 					}
 					bp = bi;
 				} else {
-					printf("adding new node 1\n");
+					t(printf("adding new node 1\n"));
 					/* no match in new nodes, add one, try next */
 					add_node_diff(ml, parent, NULL, bp, row, myrow, expanded_nodes);
 					myrow++;
@@ -1616,21 +1598,21 @@ build_subtree_diff(MessageList *ml, ETreePath *parent, ETreePath *path, struct _
 				if (ai) {
 					at = ap;
 					while (at != ai) {
-						printf("removing old node 0\n");
+						t(printf("removing old node 0\n"));
 						tmp = e_tree_model_node_get_next(etm, at);
-						remove_node_diff(ml, at, 0, &myrow);
+						remove_node_diff(ml, at, 0);
 						at = tmp;
 					}
 					ap = ai;
 				} else {
-					printf("adding new node 2\n");
+					t(printf("adding new node 2\n"));
 					/* didn't find match in old nodes, must be new node? */
 					add_node_diff(ml, parent, NULL, bp, row, myrow, expanded_nodes);
 					myrow++;
 					bp = bp->next;
 #if 0
 					tmp = e_tree_model_node_get_next(etm, ap);
-					remove_node_diff(etm, ap, 0, &myrow);
+					remove_node_diff(etm, ap, 0);
 					ap = tmp;
 #endif
 				}
@@ -1651,8 +1633,8 @@ free_tree_ids (ETreeModel *etm)
 {
 	ETreePath *root = e_tree_model_get_root (etm);
 
-	if (e_tree_model_get_root(etm))
-		e_tree_model_node_traverse (etm, e_tree_model_get_root(etm), free_ids_cb, NULL);
+	if (root)
+		e_tree_model_node_traverse(etm, root, free_ids_cb, NULL);
 }
 
 static void build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes);
@@ -1673,20 +1655,18 @@ build_flat (MessageList *ml, GPtrArray *uids, CamelFolderChangeInfo *changes)
 	gettimeofday(&start, NULL);
 #endif
 
-	e_table_model_pre_change(ml->table_model);
-
 	if (changes) {
 		build_flat_diff(ml, changes);
 	} else {
+		e_table_model_pre_change(ml->table_model);
 		clear_tree (ml);
 		for (i = 0; i < uids->len; i++) {
 			uid = new_id_from_uid(uids->pdata[i]);
 			node = e_tree_model_node_insert (tree, ml->tree_root, -1, uid);
 			g_hash_table_insert (ml->uid_rowmap, id_uid(uid), GINT_TO_POINTER (i));
 		}
+		e_table_model_changed(ml->table_model);
 	}
-
-	e_table_model_changed(ml->table_model);
 
 #ifdef TIMEIT
 	gettimeofday(&end, NULL);
@@ -1920,7 +1900,8 @@ on_cursor_change_idle (gpointer data)
 {
 	MessageList *message_list = data;
 
-	select_msg (message_list, message_list->cursor_row);
+	printf("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid);
+	gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], message_list->cursor_uid);
 
 	message_list->idle_id = 0;
 	return FALSE;
@@ -1930,13 +1911,11 @@ static void
 on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data)
 {
 	MessageList *message_list;
-	const char *uid;
 	
 	message_list = MESSAGE_LIST (user_data);
 	
 	message_list->cursor_row = row;
-	uid = get_message_uid (message_list, row);
-	message_list->cursor_uid = uid; /*NULL ok*/
+	message_list->cursor_uid = get_message_uid (message_list, row);
 
 	if (!message_list->idle_id) {
 		message_list->idle_id =
@@ -1945,153 +1924,11 @@ on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data)
 	}
 }
 
-/* FIXME: this is all a kludge. */
-static gint
-idle_select_row (gpointer user_data)
-{
-	MessageList *ml = MESSAGE_LIST (user_data);
-
-	message_list_select (ml, 0, MESSAGE_LIST_SELECT_NEXT,
-			     0, CAMEL_MESSAGE_SEEN);
-	return FALSE;
-}
-
-static void
-select_row (ETableScrolled *table, gpointer user_data)
-{
-	MessageList *message_list = user_data;
-
-	gtk_idle_add (idle_select_row, message_list);
-}
-
-void
-vfolder_subject(GtkWidget *w, FolderBrowser *fb)
-{
-	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_SUBJECT,
-				     fb->uri);
-}
-
-void
-vfolder_sender(GtkWidget *w, FolderBrowser *fb)
-{
-	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_FROM,
-				     fb->uri);
-}
-
-void
-vfolder_recipient(GtkWidget *w, FolderBrowser *fb)
-{
-	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_TO,
-				     fb->uri);
-}
-
-void
-filter_subject(GtkWidget *w, FolderBrowser *fb)
-{
-	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_SUBJECT);
-}
-
-void
-filter_sender(GtkWidget *w, FolderBrowser *fb)
-{
-	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_FROM);
-}
-
-void
-filter_recipient(GtkWidget *w, FolderBrowser *fb)
-{
-	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_TO);
-}
-
-void
-filter_mlist (GtkWidget *w, FolderBrowser *fb)
-{
-	char *name;
-	char *header_value;
-	const char *header_name;
-
-	name = mail_mlist_magic_detect_list (fb->mail_display->current_message, &header_name, &header_value);
-	if (name == NULL)
-		return;
-
-	filter_gui_add_for_mailing_list (fb->mail_display->current_message, name, header_name, header_value);
-
-	g_free (name);
-	g_free (header_value);
-}
-
-/* TODO: Remove this stuff to external functions, provide the api to allow it */
-static gint
-on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list)
-{
-	FolderBrowser *fb = list->parent_folder_browser;
-	extern CamelFolder *drafts_folder;
-	int enable_mask = 0;
-	EPopupMenu menu[] = {
-		{ _("Open in New Window"),      NULL, GTK_SIGNAL_FUNC (view_msg),          0 },
-		{ _("Edit Message"),            NULL, GTK_SIGNAL_FUNC (edit_msg),          1 },
-		{ _("Print Message"),           NULL, GTK_SIGNAL_FUNC (print_msg),         0 },
-		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
-		{ _("Reply to Sender"),         NULL, GTK_SIGNAL_FUNC (reply_to_sender),   0 },
-		{ _("Reply to All"),            NULL, GTK_SIGNAL_FUNC (reply_to_all),      0 },
-		{ _("Forward Message"),         NULL, GTK_SIGNAL_FUNC (forward_msg),       0 },
-		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
-		{ _("Mark as Read"),            NULL, GTK_SIGNAL_FUNC (mark_as_seen),      0 },
-		{ _("Mark as Unread"),          NULL, GTK_SIGNAL_FUNC (mark_as_unseen),    0 },
-		{ _("Delete Message"),          NULL, GTK_SIGNAL_FUNC (delete_msg),        0 },
-		{ _("Move Message"),            NULL, GTK_SIGNAL_FUNC (move_msg),          0 },
-		{ _("Copy Message"),            NULL, GTK_SIGNAL_FUNC (copy_msg),          0 },
-		{ _("Apply Filters"),           NULL, GTK_SIGNAL_FUNC (apply_filters),     0 },
-		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
-		{ _("VFolder on Subject"),      NULL, GTK_SIGNAL_FUNC (vfolder_subject),   2 },
-		{ _("VFolder on Sender"),       NULL, GTK_SIGNAL_FUNC (vfolder_sender),    2 },
-		{ _("VFolder on Recipients"),   NULL, GTK_SIGNAL_FUNC (vfolder_recipient), 2 },
-		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
-		{ _("Filter on Subject"),       NULL, GTK_SIGNAL_FUNC (filter_subject),    2 },
-		{ _("Filter on Sender"),        NULL, GTK_SIGNAL_FUNC (filter_sender),     2 },
-		{ _("Filter on Recipients"),    NULL, GTK_SIGNAL_FUNC (filter_recipient),  2 },
-		{ _("Filter on Mailing List"),  NULL, GTK_SIGNAL_FUNC (filter_mlist),      6 },
-		{ NULL,                         NULL, NULL,                                0 }
-	};
-	int last_item;
-	char *mailing_list_name;
-
-	/* Evil Hack.  */
-
-	last_item = (sizeof (menu) / sizeof (*menu)) - 2;
-
-	if (fb->folder != drafts_folder)
-		enable_mask |= 1;
-
-	if (fb->mail_display->current_message == NULL) {
-		enable_mask |= 2;
-		mailing_list_name = NULL;
-	} else {
-		mailing_list_name = mail_mlist_magic_detect_list (fb->mail_display->current_message,
-								  NULL, NULL);
-	}
-
-	if (mailing_list_name == NULL) {
-		enable_mask |= 4;
-		menu[last_item].name = g_strdup (_("Filter on Mailing List"));
-	} else {
-		menu[last_item].name = g_strdup_printf (_("Filter on Mailing List (%s)"),
-							mailing_list_name);
-	}
-
-	e_popup_menu_run (menu, (GdkEventButton *)event, enable_mask, 0, fb);
-
-	g_free (menu[last_item].name);
-	
-	return TRUE;
-}
-
 static gint
 on_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list)
 {
-	const char *uid;
-	GPtrArray *uids;
 	int flag;
+	const CamelMessageInfo *info;
 
 	if (col == COL_MESSAGE_STATUS)
 		flag = CAMEL_MESSAGE_SEEN;
@@ -2100,13 +1937,17 @@ on_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageLis
 	else
 		return FALSE;
 
-	uid = get_message_uid (list, row);
-	if (!uid)
-		return FALSE;
+	mail_tool_camel_lock_up();
 
-	uids = g_ptr_array_new ();
-	g_ptr_array_add (uids, g_strdup (uid));
-	mail_do_flag_messages (list->folder, uids, TRUE, flag, flag);
+	info = get_message_info(list, row);
+	if (info == NULL) {
+		mail_tool_camel_lock_down();
+		return FALSE;
+	}
+	
+	camel_folder_set_message_flags(list->folder, info->uid, flag, ~info->flags);
+
+	mail_tool_camel_lock_down();
 
 	if (flag == CAMEL_MESSAGE_SEEN && list->seen_id) {
 		gtk_timeout_remove (list->seen_id);
@@ -2114,14 +1955,6 @@ on_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageLis
 	}
 
 	return TRUE;
-}
-
-static void
-on_double_click (ETableScrolled *table, gint row, MessageList *list)
-{
-	FolderBrowser *fb = list->parent_folder_browser;
-	
-	view_msg (NULL, fb);
 }
 
 struct message_list_foreach_data {
@@ -2158,23 +1991,6 @@ message_list_foreach (MessageList *message_list,
 					       mlfe_callback, &mlfe_data);
 }
 
-/* FIXME: this should not be part of the message list api */
-void
-message_list_toggle_threads (BonoboUIComponent           *component,
-			     const char                  *path,
-			     Bonobo_UIComponent_EventType type,
-			     const char                  *state,
-			     gpointer                     user_data)
-{
-	MessageList *ml = user_data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-	
-	mail_config_set_thread_list(atoi(state));
-	message_list_set_threaded(ml, atoi(state));
-}
-
 /* set whether we are in threaded view or flat view */
 void
 message_list_set_threaded(MessageList *ml, gboolean threaded)
@@ -2194,7 +2010,7 @@ message_list_set_search(MessageList *ml, const char *search)
 		if (ml->search == NULL || ml->search[0]=='\0')
 			return;
 
-	if (search != NULL && ml->search !=NULL && !strcmp(search, ml->search))
+	if (search != NULL && ml->search !=NULL && strcmp(search, ml->search)==0)
 		return;
 
 	clear_tree(ml);

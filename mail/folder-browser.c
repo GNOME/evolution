@@ -17,11 +17,14 @@
 #include "message-list.h"
 #include "mail-threads.h"
 #include "mail-ops.h"
+#include "mail-vfolder.h"
+#include "mail-autofilter.h"
+#include "mail-mlist-magic.h"
+
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/e-paned/e-vpaned.h>
 
-#include "mail-vfolder.h"
 #include "filter/vfolder-rule.h"
 #include "filter/vfolder-context.h"
 #include "filter/filter-option.h"
@@ -31,6 +34,8 @@
 
 #include "mail-local.h"
 #include "mail-config.h"
+
+#include <gal/widgets/e-popup-menu.h>
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
@@ -390,6 +395,143 @@ folder_browser_clear_search (FolderBrowser *fb)
 	message_list_set_search(fb->message_list, NULL);
 }
 
+void
+folder_browser_toggle_threads (BonoboUIComponent           *component,
+			       const char                  *path,
+			       Bonobo_UIComponent_EventType type,
+			       const char                  *state,
+			       gpointer                     user_data)
+{
+	FolderBrowser *fb = user_data;
+
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	mail_config_set_thread_list(atoi(state));
+	message_list_set_threaded(fb->message_list, atoi(state));
+}
+
+void
+vfolder_subject(GtkWidget *w, FolderBrowser *fb)
+{
+	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_SUBJECT,
+				     fb->uri);
+}
+
+void
+vfolder_sender(GtkWidget *w, FolderBrowser *fb)
+{
+	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_FROM,
+				     fb->uri);
+}
+
+void
+vfolder_recipient(GtkWidget *w, FolderBrowser *fb)
+{
+	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_TO,
+				     fb->uri);
+}
+
+void
+filter_subject(GtkWidget *w, FolderBrowser *fb)
+{
+	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_SUBJECT);
+}
+
+void
+filter_sender(GtkWidget *w, FolderBrowser *fb)
+{
+	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_FROM);
+}
+
+void
+filter_recipient(GtkWidget *w, FolderBrowser *fb)
+{
+	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_TO);
+}
+
+void
+filter_mlist (GtkWidget *w, FolderBrowser *fb)
+{
+	char *name;
+	char *header_value;
+	const char *header_name;
+
+	name = mail_mlist_magic_detect_list (fb->mail_display->current_message, &header_name, &header_value);
+	if (name == NULL)
+		return;
+
+	filter_gui_add_for_mailing_list (fb->mail_display->current_message, name, header_name, header_value);
+
+	g_free (name);
+	g_free (header_value);
+}
+
+/* handle context menu over message-list */
+static gint
+on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, FolderBrowser *fb)
+{
+	extern CamelFolder *drafts_folder;
+	int enable_mask = 0;
+	EPopupMenu menu[] = {
+		{ _("Open in New Window"),      NULL, GTK_SIGNAL_FUNC (view_msg),          0 },
+		{ _("Edit Message"),            NULL, GTK_SIGNAL_FUNC (edit_msg),          1 },
+		{ _("Print Message"),           NULL, GTK_SIGNAL_FUNC (print_msg),         0 },
+		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("Reply to Sender"),         NULL, GTK_SIGNAL_FUNC (reply_to_sender),   0 },
+		{ _("Reply to All"),            NULL, GTK_SIGNAL_FUNC (reply_to_all),      0 },
+		{ _("Forward Message"),         NULL, GTK_SIGNAL_FUNC (forward_msg),       0 },
+		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("Mark as Read"),            NULL, GTK_SIGNAL_FUNC (mark_as_seen),      0 },
+		{ _("Mark as Unread"),          NULL, GTK_SIGNAL_FUNC (mark_as_unseen),    0 },
+		{ _("Delete Message"),          NULL, GTK_SIGNAL_FUNC (delete_msg),        0 },
+		{ _("Move Message"),            NULL, GTK_SIGNAL_FUNC (move_msg),          0 },
+		{ _("Copy Message"),            NULL, GTK_SIGNAL_FUNC (copy_msg),          0 },
+		{ _("Apply Filters"),           NULL, GTK_SIGNAL_FUNC (apply_filters),     0 },
+		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("VFolder on Subject"),      NULL, GTK_SIGNAL_FUNC (vfolder_subject),   2 },
+		{ _("VFolder on Sender"),       NULL, GTK_SIGNAL_FUNC (vfolder_sender),    2 },
+		{ _("VFolder on Recipients"),   NULL, GTK_SIGNAL_FUNC (vfolder_recipient), 2 },
+		{ "",                           NULL, GTK_SIGNAL_FUNC (NULL),              0 },
+		{ _("Filter on Subject"),       NULL, GTK_SIGNAL_FUNC (filter_subject),    2 },
+		{ _("Filter on Sender"),        NULL, GTK_SIGNAL_FUNC (filter_sender),     2 },
+		{ _("Filter on Recipients"),    NULL, GTK_SIGNAL_FUNC (filter_recipient),  2 },
+		{ _("Filter on Mailing List"),  NULL, GTK_SIGNAL_FUNC (filter_mlist),      6 },
+		{ NULL,                         NULL, NULL,                                0 }
+	};
+	int last_item;
+	char *mailing_list_name;
+
+	/* Evil Hack.  */
+
+	last_item = (sizeof (menu) / sizeof (*menu)) - 2;
+
+	if (fb->folder != drafts_folder)
+		enable_mask |= 1;
+
+	if (fb->mail_display->current_message == NULL) {
+		enable_mask |= 2;
+		mailing_list_name = NULL;
+	} else {
+		mailing_list_name = mail_mlist_magic_detect_list (fb->mail_display->current_message,
+								  NULL, NULL);
+	}
+
+	if (mailing_list_name == NULL) {
+		enable_mask |= 4;
+		menu[last_item].name = g_strdup (_("Filter on Mailing List"));
+	} else {
+		menu[last_item].name = g_strdup_printf (_("Filter on Mailing List (%s)"),
+							mailing_list_name);
+	}
+
+	e_popup_menu_run (menu, (GdkEventButton *)event, enable_mask, 0, fb);
+
+	g_free (menu[last_item].name);
+	
+	return TRUE;
+}
+
 static int
 etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 {
@@ -462,6 +604,12 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 }
 
 static void
+on_double_click (ETableScrolled *table, gint row, FolderBrowser *fb)
+{
+	view_msg (NULL, fb);
+}
+
+static void
 folder_browser_gui_init (FolderBrowser *fb)
 {
 	GtkWidget *hbox, *label;
@@ -527,6 +675,29 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gtk_widget_show (GTK_WIDGET (fb));
 }
 
+static gint 
+mark_msg_seen (gpointer data)
+{
+	MessageList *ml = data;
+	GPtrArray *uids;
+
+	if (!ml->cursor_uid) 
+		return FALSE;
+
+	uids = g_ptr_array_new ();
+	g_ptr_array_add (uids, g_strdup (ml->cursor_uid));
+	mail_do_flag_messages (ml->folder, uids, FALSE,
+			       CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	return FALSE;
+}
+
+static void
+on_message_selected(MessageList *ml, const char *uid, FolderBrowser *fb)
+{
+	printf("selecting uid %s\n", uid);
+	mail_do_display_message(ml, fb->mail_display, uid, mark_msg_seen);
+}
+
 static void
 folder_browser_init (GtkObject *object)
 {
@@ -546,11 +717,20 @@ my_folder_browser_init (GtkObject *object)
 	/*
 	 * Our instance data
 	 */
-	fb->message_list = MESSAGE_LIST (message_list_new (fb));
-	fb->mail_display = MAIL_DISPLAY (mail_display_new ());
+	fb->message_list = (MessageList *)message_list_new ();
+	fb->mail_display = (MailDisplay *)mail_display_new ();
 
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->etable),
 			    "key_press", GTK_SIGNAL_FUNC (etable_key), fb);
+
+	gtk_signal_connect (GTK_OBJECT (fb->message_list->etable), "right_click",
+			    GTK_SIGNAL_FUNC (on_right_click), fb);
+	
+	gtk_signal_connect (GTK_OBJECT (fb->message_list->etable), "double_click",
+			    GTK_SIGNAL_FUNC (on_double_click), fb);
+
+	gtk_signal_connect (GTK_OBJECT(fb->message_list), "message_selected",
+			    on_message_selected, fb);
 
 	fb->filter_menu_paths = NULL;
 	fb->filter_context = NULL;

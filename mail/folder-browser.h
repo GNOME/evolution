@@ -73,4 +73,20 @@ void       folder_browser_set_message_preview  (FolderBrowser         *folder_br
 						gboolean               show_message_preview);
 void       folder_browser_clear_search         (FolderBrowser         *fb);
 
+/* callbacks for functions on the folder-browser */
+void vfolder_subject   (GtkWidget *w, FolderBrowser *fb);
+void vfolder_sender    (GtkWidget *w, FolderBrowser *fb);
+void vfolder_recipient (GtkWidget *w, FolderBrowser *fb);
+
+void filter_subject    (GtkWidget *w, FolderBrowser *fb);
+void filter_sender     (GtkWidget *w, FolderBrowser *fb);
+void filter_recipient  (GtkWidget *w, FolderBrowser *fb);
+void filter_mlist      (GtkWidget *w, FolderBrowser *fb);
+
+void folder_browser_toggle_threads (BonoboUIComponent           *component,
+				    const char                  *path,
+				    Bonobo_UIComponent_EventType type,
+				    const char                  *state,
+				    gpointer                     user_data);
+
 #endif /* _FOLDER_BROWSER_H_ */

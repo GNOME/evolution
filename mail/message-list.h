@@ -14,8 +14,6 @@
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-checkbox.h>
 #include <gal/e-table/e-cell-tree.h>
-#include "folder-browser.h"
-
 
 #define MESSAGE_LIST_TYPE        (message_list_get_type ())
 #define MESSAGE_LIST(o)          (GTK_CHECK_CAST ((o), MESSAGE_LIST_TYPE, MessageList))
@@ -24,7 +22,6 @@
 #define IS_MESSAGE_LIST_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), MESSAGE_LIST_TYPE))
 
 typedef struct _Renderer Renderer;
-
 
 enum {
 	COL_MESSAGE_STATUS,
@@ -49,12 +46,6 @@ enum {
 struct _MessageList {
 	BonoboObject parent;
 	
-	/* the folder browser that contains the 
-	 * this message list */
-	/* FIXME: This MUST BE REMOVED from this structure.  If we need access to the
-	   mail-display, we should store that instead ... */
-	FolderBrowser *parent_folder_browser;
-	
 	ETableModel  *table_model;
 	
 	ETreePath    *tree_root;
@@ -78,6 +69,9 @@ struct _MessageList {
 
 typedef struct {
 	BonoboObjectClass parent_class;
+
+	/* signals - select a message */
+	void (*message_selected)(MessageList *ml, const char *uid);
 } MessageListClass;
 
 typedef void (*MessageListForeachFunc) (MessageList *message_list,
@@ -90,8 +84,7 @@ typedef enum {
 } MessageListSelectDirection;
 
 GtkType        message_list_get_type   (void);
-/* FIXME: We should be passing the MailDisplay to the list, or maybe raise signals instead */
-BonoboObject   *message_list_new        (FolderBrowser *parent_folder_browser);
+BonoboObject   *message_list_new        (void);
 void           message_list_set_folder (MessageList *message_list,
 					CamelFolder *camel_folder);
 GtkWidget     *message_list_get_widget (MessageList *message_list);
@@ -107,12 +100,5 @@ void           message_list_select     (MessageList *message_list,
 
 void	       message_list_set_threaded(MessageList *ml, gboolean threaded);
 void	       message_list_set_search(MessageList *ml, const char *search);
-
-/* FIXME: This should be an external callback that calls set_threaded() */
-void           message_list_toggle_threads (BonoboUIComponent           *component,
-					    const char                  *path,
-					    Bonobo_UIComponent_EventType type,
-					    const char                  *state,
-					    gpointer                     user_data);
 
 #endif /* _MESSAGE_LIST_H_ */

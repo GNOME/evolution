@@ -33,6 +33,7 @@
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "composer/e-msg-composer.h"
+#include "folder-browser.h"
 
 /* ** FETCH MAIL ********************************************************** */
 
@@ -1894,6 +1895,7 @@ mail_do_sync_folder (CamelFolder *folder)
 typedef struct display_message_input_s
 {
 	MessageList *ml;
+	MailDisplay *md;
 	gchar *uid;
 	gint (*timeout) (gpointer);
 }
@@ -1947,8 +1949,7 @@ do_display_message (gpointer in_data, gpointer op_data, CamelException *ex)
 		return;
 	}
 
-	data->msg = camel_folder_get_message (input->ml->folder,
-					      input->uid, ex);
+	data->msg = camel_folder_get_message (input->ml->folder, input->uid, ex);
 }
 
 static void
@@ -1957,8 +1958,7 @@ cleanup_display_message (gpointer in_data, gpointer op_data,
 {
 	display_message_input_t *input = (display_message_input_t *) in_data;
 	display_message_data_t *data = (display_message_data_t *) op_data;
-
-	MailDisplay *md = input->ml->parent_folder_browser->mail_display;
+	MailDisplay *md = input->md;
 
 	if (data->msg == NULL) {
 		mail_display_set_message (md, NULL);
@@ -1995,7 +1995,7 @@ static const mail_operation_spec op_display_message = {
 };
 
 void
-mail_do_display_message (MessageList *ml, const char *uid,
+mail_do_display_message (MessageList *ml, MailDisplay *md, const char *uid,
 			 gint (*timeout) (gpointer))
 {
 	display_message_input_t *input;
@@ -2003,8 +2003,14 @@ mail_do_display_message (MessageList *ml, const char *uid,
 	g_return_if_fail (IS_MESSAGE_LIST (ml));
 	g_return_if_fail (timeout != NULL);
 
+	if (uid == NULL) {
+		mail_display_set_message (md, NULL);
+		return;
+	}
+
 	input = g_new (display_message_input_t, 1);
 	input->ml = ml;
+	input->md = md;
 	input->uid = g_strdup (uid);
 	input->timeout = timeout;
 

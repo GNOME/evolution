@@ -150,8 +150,7 @@ control_activate (BonoboControl     *control,
 
 	bonobo_ui_component_add_listener (
 		uic, "ViewThreaded",
-		message_list_toggle_threads,
-		FOLDER_BROWSER (folder_browser)->message_list);
+		folder_browser_toggle_threads, folder_browser);
 
 	update_pixmaps (uic);
 
