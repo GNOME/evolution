@@ -39,6 +39,7 @@
 #include "migration.h"
 #include "comp-util.h"
 #include "calendar-config.h"
+#include "common/authentication.h"
 #include "dialogs/comp-editor.h"
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/new-task-list.h"
@@ -643,14 +644,14 @@ setup_create_ecal (TasksComponent *component)
 		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
 		g_free (uid);
 
-		priv->create_ecal = e_cal_new (source, E_CAL_SOURCE_TYPE_TODO);
+		priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
 	} 
 
 	if (!priv->create_ecal) {
 		/* Try to create a default if there isn't one */
 		source = find_first_source (priv->source_list);
 		if (source)
-			priv->create_ecal = e_cal_new (source, E_CAL_SOURCE_TYPE_TODO);
+			priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
 	}
 		
 	if (priv->create_ecal) {

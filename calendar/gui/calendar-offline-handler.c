@@ -34,6 +34,7 @@
 #include "e-util/e-url.h"
 #include <libecal/e-cal.h>
 #include "calendar-offline-handler.h"
+#include "common/authentication.h"
 
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
@@ -184,7 +185,7 @@ backend_go_offline (gpointer data, gpointer user_data)
 	GError *error = NULL;
 
 	/* FIXME This should not use LAST */
-	client = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_LAST);
+	client = auth_new_cal_from_uri (uri, E_CAL_SOURCE_TYPE_LAST);
 	g_signal_connect (client, "cal_opened", G_CALLBACK (backend_cal_opened_offline), offline_handler);
 	success = e_cal_open (client, TRUE, &error);
 	if (!success) {
@@ -206,7 +207,7 @@ backend_go_online (gpointer data, gpointer user_data)
 	GError *error = NULL;
 
 	/* FIXME This should not use LAST */	
-	client = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_LAST);
+	client = auth_new_cal_from_uri (uri, E_CAL_SOURCE_TYPE_LAST);
 	g_signal_connect (G_OBJECT (client), "cal_opened", 
 			  G_CALLBACK (backend_cal_opened_online), offline_handler);
 	success = e_cal_open (client, TRUE, &error);
@@ -330,7 +331,7 @@ calendar_offline_handler_init (CalendarOfflineHandler *offline_handler)
 
 	/* FIXME This should not use LAST */
 	/* FIXME: what URI to use? */
-	priv->client = e_cal_new_from_uri ("", E_CAL_SOURCE_TYPE_LAST);
+	priv->client = auth_new_cal_from_uri ("", E_CAL_SOURCE_TYPE_LAST);
 	priv->listener_interface = CORBA_OBJECT_NIL;
 	priv->is_offline = FALSE;
 }

@@ -4,7 +4,7 @@ else
 CONDUIT_DIR =
 endif
 
-SUBDIRS = idl gui importers $(CONDUIT_DIR)
+SUBDIRS = idl common gui importers $(CONDUIT_DIR)
 
 EXTRA_DIST =			\
 	ChangeLog.pre-1-4	\

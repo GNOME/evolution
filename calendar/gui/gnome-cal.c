@@ -67,6 +67,7 @@
 #include "tag-calendar.h"
 #include "misc.h"
 #include "ea-calendar.h"
+#include "common/authentication.h"
 
 
 
@@ -2031,7 +2032,7 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	/*
 	 * TaskPad Folder Client.
 	 */
-	priv->task_pad_client = e_cal_new_from_uri ("", E_CAL_SOURCE_TYPE_TODO); /* FIXME: use default tasks */
+	priv->task_pad_client = auth_new_cal_from_uri ("", E_CAL_SOURCE_TYPE_TODO); /* FIXME: use default tasks */
 	if (!priv->task_pad_client)
 		return NULL;
 
@@ -2160,7 +2161,7 @@ gnome_calendar_add_event_uri (GnomeCalendar *gcal, const char *str_uri)
 	if (client)
 		return TRUE;
 	
-	client = e_cal_new_from_uri (str_uri, E_CAL_SOURCE_TYPE_EVENT);
+	client = auth_new_cal_from_uri (str_uri, E_CAL_SOURCE_TYPE_EVENT);
 	if (!client)
 		return FALSE;
 

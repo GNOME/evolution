@@ -33,6 +33,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-categories.h>
+#include "common/authentication.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-dialog-widgets.h"
 #include "widgets/misc/e-dateedit.h"
@@ -1212,7 +1213,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 	if (!priv->updating) {
 		ECal *client;
 
-		client = e_cal_new (source, E_CAL_SOURCE_TYPE_EVENT);
+		client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
 		if (!client || !e_cal_open (client, FALSE, NULL)) {
 			GtkWidget *dialog;
 

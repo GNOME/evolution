@@ -37,6 +37,7 @@
 #include <gal/widgets/e-categories.h>
 #include <widgets/misc/e-dateedit.h>
 #include "widgets/misc/e-source-option-menu.h"
+#include "common/authentication.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-categories-config.h"
 #include "../e-timezone-entry.h"
@@ -794,7 +795,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 	if (!priv->updating) {
 		ECal *client;
 
-		client = e_cal_new (source, E_CAL_SOURCE_TYPE_TODO);
+		client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
 		if (!client || !e_cal_open (client, FALSE, NULL)) {
 			GtkWidget *dialog;
 

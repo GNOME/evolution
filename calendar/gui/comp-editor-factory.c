@@ -32,6 +32,7 @@
 #include "e-comp-editor-registry.h"
 #include "comp-editor-factory.h"
 #include "comp-util.h"
+#include "common/authentication.h"
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
 
@@ -496,7 +497,7 @@ open_client (CompEditorFactory *factory, const char *uristr)
 	priv = factory->priv;
 
 	/* FIXME get the type here */
-	client = e_cal_new_from_uri (uristr, E_CAL_SOURCE_TYPE_LAST);
+	client = auth_new_cal_from_uri (uristr, E_CAL_SOURCE_TYPE_LAST);
 	if (!client)
 		return NULL;
 

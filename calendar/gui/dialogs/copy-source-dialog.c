@@ -25,6 +25,7 @@
 #include <bonobo/bonobo-i18n.h>
 #include <widgets/misc/e-source-option-menu.h>
 #include "copy-source-dialog.h"
+#include "common/authentication.h"
 
 typedef struct {
 	GtkWidget *dialog;
@@ -65,7 +66,7 @@ copy_source (CopySourceDialogData *csdd)
 		return FALSE;
 
 	/* open the source */
-	source_client = e_cal_new (csdd->orig_source, csdd->obj_type);
+	source_client = auth_new_cal_from_source (csdd->orig_source, csdd->obj_type);
 	if (!e_cal_open (source_client, TRUE, NULL)) {
 		g_object_unref (source_client);
 		g_warning (G_STRLOC ": Could not open source");
@@ -73,7 +74,7 @@ copy_source (CopySourceDialogData *csdd)
 	}
 
 	/* open the destination */
-	dest_client = e_cal_new (csdd->selected_source, csdd->obj_type);
+	dest_client = auth_new_cal_from_source (csdd->selected_source, csdd->obj_type);
 	if (!e_cal_open (dest_client, FALSE, NULL)) {
 		g_object_unref (dest_client);
 		g_object_unref (source_client);

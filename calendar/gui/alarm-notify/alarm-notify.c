@@ -27,6 +27,7 @@
 #include "alarm-notify.h"
 #include "alarm-queue.h"
 #include "save.h"
+#include "common/authentication.h"
 #include "e-util/e-url.h"
 
 
@@ -173,7 +174,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	if (g_hash_table_lookup (priv->uri_client_hash, str_uri))
 		return;
 
-	client = e_cal_new_from_uri (str_uri, E_CAL_SOURCE_TYPE_EVENT);
+	client = auth_new_cal_from_uri (str_uri, E_CAL_SOURCE_TYPE_EVENT);
 
 	if (client) {
 		if (e_cal_open (client, FALSE, NULL)) {

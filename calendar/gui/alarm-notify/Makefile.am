@@ -21,6 +21,7 @@ INCLUDES = 						\
 	-DG_LOG_DOMAIN=\"evolution-alarm-notify\"	\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
+	-I$(top_srcdir)/calendar			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
@@ -49,6 +50,7 @@ evolution_alarm_notify_SOURCES =	\
 
 evolution_alarm_notify_LDADD =						\
 	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
 	$(EVOLUTION_CALENDAR_LIBS)
 
 server_in_files = GNOME_Evolution_Calendar_AlarmNotify.server.in.in

@@ -213,6 +213,7 @@ libevolution_calendar_la_SOURCES =		\
 libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/shell/libeshell.la				\
+	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
 	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\

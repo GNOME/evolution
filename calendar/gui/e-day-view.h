@@ -33,9 +33,7 @@
 #include "e-cal-view.h"
 #include "gnome-cal.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /*
  * EDayView - displays the Day & Work-Week views of the calendar.
@@ -579,8 +577,6 @@ void e_day_view_ensure_rows_visible (EDayView *day_view,
 				     gint end_row);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_DAY_VIEW_H_ */

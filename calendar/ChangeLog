@@ -1,3 +1,33 @@
+2003-12-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* common/authentication.[ch]: new files for managing interactive
+	authentication with backends.
+
+	* common/Makefile.am: build new private library.
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar):
+	* gui/dialogs/event-page.c (source_changed_cb):
+	* gui/dialogs/task-page.c (source_changed_cb):
+	* gui/dialogs/copy-source-dialog.c (copy_source):
+	* gui/calendar-component.c (setup_create_ecal):
+	* gui/calendar-offline-handler.c (backend_go_offline,
+	backend_go_online, calendar_offline_handler_init):
+	* gui/comp-editor-factory.c (open_client):
+	* gui/e-itip-control.c (start_calendar_server):
+	* gui/e-tasks.c (e_tasks_add_todo_uri):
+	* gui/gnome-cal.c (gnome_calendar_construct,
+	gnome_calendar_add_event_uri):
+	* gui/tasks-component.c (setup_create_ecal):
+	* importers/icalendar-importer.c (load_file_fn, vcal_load_file_fn,
+	gnome_calendar_import_data_fn): create the ECal's via the
+	auth_new_cal_from* functions in the authentication module.
+
+	* gui/alarm-notify/Makefile.am:
+	* gui/Makefile.am:
+	* importers/Makefile.am: link new private library.
+	
+	* Makefile.am: added new directory to the build.
+
 2003-12-21  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-itip-control.[hc]: rewrite for new ecal api, cache all

@@ -54,6 +54,7 @@
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include "e-itip-control.h"
+#include "common/authentication.h"
 
 struct _EItipControlPrivate {
 	GtkWidget *html;
@@ -136,7 +137,7 @@ start_calendar_server (EItipControl *itip, ESource *source, ECalSourceType type)
 	if (ecal)
 		return ecal;
 	
-	ecal = e_cal_new (source, type);
+	ecal = auth_new_cal_from_source (source, type);
 	if (!e_cal_open (ecal, TRUE, NULL))
 		return NULL;
 	
