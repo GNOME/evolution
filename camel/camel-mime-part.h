@@ -120,8 +120,10 @@ CamelMimePartEncodingType camel_mime_part_encoding_from_string (const gchar *str
 int		camel_mime_part_construct_from_parser  (CamelMimePart *, CamelMimeParser *);
 
 /* utility functions */
-void      camel_mime_part_set_text			(CamelMimePart *camel_mime_part, 
-							 const gchar *text);
+void      camel_mime_part_set_content			(CamelMimePart *camel_mime_part, 
+							 const gchar *content,
+							 guint length,
+							 const gchar *type);
 
 
 #ifdef __cplusplus

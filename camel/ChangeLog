@@ -1,5 +1,12 @@
 2000-04-26  Dan Winship  <danw@helixcode.com>
 
+	* camel-medium.c (set_content_object): sink the content object
+	after referencing it.
+
+	* camel-mime-part.c: fix various little things in the handling
+	of CamelMedium methods. Change camel_mime_part_set_text to the
+	more generic camel_mime_part_set_content.
+
 	* camel.h: sync to current reality
 
 	* camel-folder-utils.[ch]: removed

@@ -286,16 +286,8 @@ get_header (CamelMedium *medium, const char *header_name)
 void
 camel_mime_part_set_description (CamelMimePart *mime_part, const gchar *description)
 {
-	char *text;
-
-	/* FIXME: convert header, internationalise, etc. */
-	text = g_strdup(description);
-	/* text = header_encode_string(description); */
-
-	g_free(mime_part->description);
-	mime_part->description = text;
-
-	parent_class->set_header ((CamelMedium *)mime_part, "Content-Description", text);
+	camel_medium_set_header (CAMEL_MEDIUM (mime_part),
+				 "Content-Description", description);
 }
 
 const gchar *
@@ -332,7 +324,8 @@ camel_mime_part_set_disposition (CamelMimePart *mime_part, const gchar *disposit
 	}
 	text = header_disposition_format(mime_part->disposition);
 
-	parent_class->set_header ((CamelMedium *)mime_part, "Content-Description", text);
+	camel_medium_set_header (CAMEL_MEDIUM (mime_part),
+				 "Content-Description", text);
 
 	g_free(text);
 }
@@ -359,8 +352,8 @@ camel_mime_part_set_filename (CamelMimePart *mime_part, gchar *filename)
 	header_set_param(&mime_part->disposition->params, "filename", filename);
 	str = header_disposition_format(mime_part->disposition);
 
-	/* we dont want to override what we just created ... */
-	parent_class->set_header ((CamelMedium *)mime_part, "Content-Disposition", str);
+	camel_medium_set_header (CAMEL_MEDIUM (mime_part),
+				 "Content-Disposition", str);
 	g_free(str);
 }
 
@@ -378,18 +371,8 @@ camel_mime_part_get_filename (CamelMimePart *mime_part)
 void
 camel_mime_part_set_content_id (CamelMimePart *mime_part, const char *contentid)
 {
-	char *text;
-
-	/* perform a syntax check, just 'cause we can */
-	text = header_msgid_decode(contentid);
-	if (text == NULL) {
-		g_warning("Invalid content id being set: '%s'", contentid);
-	} else {
-		g_free(text);
-	}
-	g_free(mime_part->content_id);
-	mime_part->content_id = g_strdup(contentid);
-	parent_class->set_header ((CamelMedium *)mime_part, "Content-ID", contentid);
+	camel_medium_set_header (CAMEL_MEDIUM (mime_part), "Content-ID",
+				 contentid);
 }
 
 const gchar *
@@ -403,9 +386,7 @@ camel_mime_part_get_content_id (CamelMimePart *mime_part)
 void
 camel_mime_part_set_content_MD5 (CamelMimePart *mime_part, const char *md5)
 {
-	g_free(mime_part->content_MD5);
-	mime_part->content_MD5 = g_strdup(md5);
-	parent_class->set_header ((CamelMedium *)mime_part, "Content-MD5", md5);
+	camel_medium_set_header (CAMEL_MEDIUM (mime_part), "Content-MD5", md5);
 }
 
 const gchar *
@@ -422,14 +403,9 @@ camel_mime_part_set_encoding (CamelMimePart *mime_part,
 {
 	const char *text;
 
-	mime_part->encoding = encoding;
 	text = camel_mime_part_encoding_to_string (encoding);
-	if (text[0])
-		text = g_strdup(text);
-	else
-		text = NULL;
-
-	parent_class->set_header ((CamelMedium *)mime_part, "Content-Transfer-Encoding", text);
+	camel_medium_set_header (CAMEL_MEDIUM (mime_part),
+				 "Content-Transfer-Encoding", text);
 }
 
 const CamelMimePartEncodingType
@@ -463,10 +439,8 @@ camel_mime_part_get_content_languages (CamelMimePart *mime_part)
 void 
 camel_mime_part_set_content_type (CamelMimePart *mime_part, gchar *content_type)
 {
-	/* FIXME: need a way to specify content-type parameters without putting them
-	   in a string ... */
-	gmime_content_field_construct_from_string (mime_part->content_type, content_type);
-	parent_class->set_header ((CamelMedium *)mime_part, "Content-Type", content_type);
+	camel_medium_set_header (CAMEL_MEDIUM (mime_part),
+				 "Content-Type", content_type);
 }
 
 GMimeContentField *
@@ -488,16 +462,14 @@ set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 	parent_class->set_content_object (medium, content);
 
 	object_content_field = camel_data_wrapper_get_mime_type_field (content);
-	if (mime_part->content_type && (mime_part->content_type != object_content_field)) {
+	if (mime_part->content_type &&
+	    (mime_part->content_type != object_content_field)) {
 		char *txt;
 
-		gmime_content_field_unref (mime_part->content_type);
 		txt = header_content_type_format(object_content_field?object_content_field->content_type:NULL);
-		parent_class->set_header ((CamelMedium *)mime_part, "Content-Type", txt);
+		camel_medium_set_header (CAMEL_MEDIUM (mime_part),
+					 "Content-Type", txt);
 	}
-	mime_part->content_type = object_content_field;
-
-	gmime_content_field_ref (object_content_field);
 }
 
 /**********************************************************************/
@@ -659,38 +631,36 @@ camel_mime_part_encoding_from_string (const gchar *string)
 
 
 /**
- * camel_mime_part_set_text: set the content to be some text
- * @camel_mime_part: Mime part 
- * @text: the text
+ * camel_mime_part_set_content:
+ * @camel_mime_part: Mime part
+ * @data: data to put into the part
+ * @length: length of @data
+ * @type: Content-Type of the data
  * 
  * Utility function used to set the content of a mime part object to 
- * be a text string. When @text is NULL, this routine can be used as
- * a way to remove old text content.
- * 
- * This can only be used to set US-ASCII text currently.
- *
- * And only text/plain.
- *
- * Perhaps it should accept a type parameter?
+ * be the provided data. If @length is 0, this routine can be used as
+ * a way to remove old content (in which case @data and @type are
+ * ignored and may be %NULL).
  **/
 void 
-camel_mime_part_set_text (CamelMimePart *camel_mime_part, const gchar *text)
+camel_mime_part_set_content (CamelMimePart *camel_mime_part,
+			     const gchar *data, guint length,
+			     const gchar *type)
 {
-	CamelDataWrapper *dw;
-	CamelStreamMem *stream;
 	CamelMedium *medium = CAMEL_MEDIUM (camel_mime_part);
 
-	if (medium->content)
-		gtk_object_unref (GTK_OBJECT (medium->content));
+	if (length) {
+		CamelDataWrapper *dw;
+		CamelStream *stream;
 
-	if (text) {
 		dw = camel_data_wrapper_new();
-		camel_data_wrapper_set_mime_type (dw, "text/plain");
-		stream = (CamelStream *)camel_stream_mem_new_with_buffer(text, strlen(text));
-		camel_data_wrapper_construct_from_stream(dw, (CamelStream *)stream);
-		camel_medium_set_content_object ( medium, dw );
-		gtk_object_unref ((GtkObject *)dw);
+		camel_data_wrapper_set_mime_type (dw, type);
+		stream = camel_stream_mem_new_with_buffer (data, length);
+		camel_data_wrapper_construct_from_stream (dw, stream);
+		camel_medium_set_content_object (medium, dw);
 	} else {
+		if (medium->content)
+			gtk_object_unref (GTK_OBJECT (medium->content));
 		medium->content = NULL;
 	}
 }
