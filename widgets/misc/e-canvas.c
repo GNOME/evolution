@@ -128,6 +128,10 @@ e_canvas_dispose (GObject *object)
 		g_source_remove(canvas->idle_id);
 	canvas->idle_id = 0;
 
+	if (canvas->grab_cancelled_check_id)
+		g_source_remove (canvas->grab_cancelled_check_id);
+	canvas->grab_cancelled_check_id = 0;
+
 	if (canvas->toplevel) {
 		if (canvas->visibility_notify_id)
 			g_signal_handler_disconnect (canvas->toplevel,
