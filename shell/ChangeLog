@@ -1,3 +1,11 @@
+2001-02-23  Iain Holmes  <iain@ximian.com>
+
+	* e-local-storage.c (construct): Connect to the create-folder signal.
+	(impl_async_create_folder): Move this into the real_do_folder_create
+	function.
+	(real_do_folder_create): Function that creates the folder.
+	(create_folder_cb): Creates the folder form a callback.
+
 2001-02-21  Michael Meeks  <michael@ximian.com>
 
 	* importer/importer.c: add include.

@@ -295,6 +295,7 @@ impl_Storage_async_create_folder (PortableServer_Servant servant,
 	storage = EVOLUTION_STORAGE (bonobo_object);
 
 	int_result = GNOME_Evolution_Storage_UNSUPPORTED_OPERATION;
+	g_warning ("Creating %s:%s", path, parent_physical_uri);
 	gtk_signal_emit (GTK_OBJECT (storage), signals[CREATE_FOLDER],
 			 path, type, description, parent_physical_uri,
 			 &int_result);

@@ -367,10 +367,11 @@ component_async_create_folder_callback (EvolutionShellComponentClient *shell_com
 
 	bonobo_object_unref (BONOBO_OBJECT (shell_component_client));
 
-	(* callback_data->callback) (callback_data->storage,
-				     shell_component_result_to_storage_result (result),
-				     callback_data->callback_data);
-
+	if (callback_data->callback != NULL)
+		(* callback_data->callback) (callback_data->storage,
+					     shell_component_result_to_storage_result (result),
+					     callback_data->callback_data);
+	
 	g_free (callback_data->path);
 	g_free (callback_data->display_name);
 	g_free (callback_data->type);
@@ -419,35 +420,36 @@ impl_get_name (EStorage *storage)
 	return E_LOCAL_STORAGE_NAME;
 }
 
-static void
-impl_async_create_folder (EStorage *storage,
-			  const char *path,
-			  const char *type,
-			  const char *description,
-			  EStorageResultCallback callback,
-			  void *data)
+static int
+real_do_folder_create (ELocalStorage *local_storage,
+		       const char *path,
+		       const char *type,
+		       const char *description,
+		       EStorageResultCallback callback,
+		       void *data)
 {
-	ELocalStorage *local_storage;
+	EStorage *storage;
 	ELocalStoragePrivate *priv;
 	EvolutionShellComponentClient *component_client;
-	const char *folder_name;
 	AsyncCreateFolderCallbackData *callback_data;
+	const char *folder_name;
 	char *physical_path;
 	char *physical_uri;
 	char *parent_path;
-
-	local_storage = E_LOCAL_STORAGE (storage);
+	
+	storage = E_STORAGE (local_storage);
 	priv = local_storage->priv;
-
 	component_client = e_folder_type_registry_get_handler_for_type (priv->folder_type_registry,
 									type);
 	if (component_client == NULL) {
-		(* callback) (storage, E_STORAGE_INVALIDTYPE, data);
-		return;
+		if (callback != NULL)
+			(* callback) (storage, E_STORAGE_INVALIDTYPE, data);
+
+		return E_STORAGE_INVALIDTYPE;
 	}
-
+	
 	g_assert (g_path_is_absolute (path));
-
+	
 	folder_name = g_basename (path);
 	if (folder_name == path + 1) {
 		/* We want a direct child of the root, so we don't need to create a
@@ -457,47 +459,51 @@ impl_async_create_folder (EStorage *storage,
 	} else {
 		char *parent_physical_path;
 		char *subfolders_directory_physical_path;
-
+		
 		/* Create the `subfolders' subdirectory under the parent.  */
-
+		
 		parent_path = g_strndup (path, folder_name - path - 1);
 		parent_physical_path = get_physical_path (local_storage, parent_path);
 		subfolders_directory_physical_path = g_concat_dir_and_file (parent_physical_path,
 									    SUBFOLDER_DIR_NAME);
-
+		
 		if (! g_file_exists (subfolders_directory_physical_path)
 		    && mkdir (subfolders_directory_physical_path, 0700) == -1) {
 			g_free (parent_path);
 			g_free (subfolders_directory_physical_path);
 			g_free (parent_physical_path);
-
-			(* callback) (storage, errno_to_storage_result (), data);
-			return;
+			if (callback != NULL)
+				(* callback) (storage, 
+					      errno_to_storage_result (), data);
+			return errno_to_storage_result ();
 		}
-
+		
 		physical_path = g_concat_dir_and_file (subfolders_directory_physical_path,
 						       folder_name);
 		g_free (subfolders_directory_physical_path);
 		g_free (parent_physical_path);
 	}
-
+	
 	/* Create the directory that holds the folder.  */
-
+	
 	if (mkdir (physical_path, 0700) == -1) {
 		g_free (physical_path);
-		(* callback) (storage, errno_to_storage_result (), data);
-		return;
+		if (callback != NULL)
+			(* callback) (storage,
+				      errno_to_storage_result (), data);
+
+		return errno_to_storage_result ();
 	}
 
 	/* Finally tell the component to do the job of creating the physical files in
            it. */
 	/* FIXME: We should put the operations on a queue so that we can cancel them when
            the ELocalStorage is destroyed.  */
-
+	
 	physical_uri = g_strconcat ("file://", physical_path, NULL);
-
+	
 	callback_data = g_new (AsyncCreateFolderCallbackData, 1);
-	callback_data->storage       = storage;
+	callback_data->storage       = E_STORAGE (local_storage);
 	callback_data->path          = g_strdup (path);
 	callback_data->display_name  = g_strdup (folder_name);
 	callback_data->type          = g_strdup (type);
@@ -506,14 +512,48 @@ impl_async_create_folder (EStorage *storage,
 	callback_data->physical_path = physical_path;
 	callback_data->callback      = callback;
 	callback_data->callback_data = data;
-
+	
 	bonobo_object_ref (BONOBO_OBJECT (component_client));
-
+	
 	evolution_shell_component_client_async_create_folder (component_client,
 							      physical_path,
 							      type,
 							      component_async_create_folder_callback,
 							      callback_data);
+	return EVOLUTION_STORAGE_OK;
+}
+
+static int
+create_folder_cb (EvolutionStorage *estorage,
+		  const char *path,
+		  const char *type,
+		  const char *description,
+		  const char *parent_p_path,
+		  void *data)
+{
+	ELocalStorage *local_storage;
+	int ret;
+
+	local_storage = E_LOCAL_STORAGE (data);
+	ret = real_do_folder_create (local_storage, path, type, 
+				     description, NULL, data);
+
+	return ret;
+}
+
+static void
+impl_async_create_folder (EStorage *storage,
+			  const char *path,
+			  const char *type,
+			  const char *description,
+			  EStorageResultCallback callback,
+			  void *data)
+{
+	ELocalStorage *local_storage;
+
+	local_storage = E_LOCAL_STORAGE (storage);
+	real_do_folder_create (local_storage, path, type, 
+			       description, callback, data);
 }
 
 static void
@@ -613,6 +653,8 @@ construct (ELocalStorage *local_storage,
 	g_assert (priv->bonobo_interface == NULL);
 	priv->bonobo_interface = evolution_local_storage_new (E_LOCAL_STORAGE_NAME);
 
+	gtk_signal_connect (GTK_OBJECT (priv->bonobo_interface), "create_folder",
+			    GTK_SIGNAL_FUNC (create_folder_cb), local_storage);
 	gtk_signal_connect (GTK_OBJECT (priv->bonobo_interface), "update_folder",
 			    GTK_SIGNAL_FUNC (bonobo_interface_update_folder_cb),
 			    local_storage);
