@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <gtk/gtkspinbutton.h>
 
-#include "e-util/e-sexp.h"
+#include <libedataserver/e-sexp.h>
 #include "filter-int.h"
 
 #define d(x)

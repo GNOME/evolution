@@ -33,7 +33,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "filter-input.h"
-#include "e-util/e-sexp.h"
+#include "libedataserver/e-sexp.h"
 #include "widgets/misc/e-error.h"
 
 #define d(x)

@@ -32,7 +32,7 @@
 
 #include "filter-option.h"
 #include "filter-part.h"
-#include "e-util/e-sexp.h"
+#include <libedataserver/e-sexp.h>
 
 #define d(x)
 

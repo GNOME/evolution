@@ -34,7 +34,7 @@
 #include <libgnomeui/gnome-file-entry.h>
 
 #include "filter-file.h"
-#include "e-util/e-sexp.h"
+#include "libedataserver/e-sexp.h"
 #include "widgets/misc/e-error.h"
 
 #define d(x)

@@ -28,7 +28,7 @@
 #include <gtk/gtksignal.h>
 #include <libgnomeui/gnome-color-picker.h>
 
-#include "e-util/e-sexp.h"
+#include "libedataserver/e-sexp.h"
 #include "filter-colour.h"
 
 #define d(x)
