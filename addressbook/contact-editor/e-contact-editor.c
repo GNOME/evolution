@@ -584,8 +584,11 @@ fill_in_info(EContactEditor *editor)
 		ECardList *email_list;
 		char *title;
 		char *org;
+		char *org_unit;
 		char *url;
 		char *role;
+		char *nickname;
+		char *fburl;
 		char *note;
 		const ECardDeliveryAddress *address;
 		const ECardPhone *phone;
@@ -603,8 +606,11 @@ fill_in_info(EContactEditor *editor)
 			       "email",      &email_list,
 			       "url",        &url,
 			       "org",        &org,
+			       "org_unit",   &org_unit,
 			       "title",      &title,
 			       "role",       &role,
+			       "nickname",   &nickname,
+			       "fburl",      &fburl,
 			       "note",       &note,
 			       "birth_date", &bday,
 			       NULL);
@@ -655,10 +661,28 @@ fill_in_info(EContactEditor *editor)
 			gtk_editable_insert_text(editable, org, strlen(org), &position);
 
 		position = 0;
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-department"));
+		gtk_editable_delete_text(editable, 0, -1);
+		if (org_unit)
+			gtk_editable_insert_text(editable, org_unit, strlen(org_unit), &position);
+
+		position = 0;
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-jobtitle"));
 		gtk_editable_delete_text(editable, 0, -1);
 		if (title)
 			gtk_editable_insert_text(editable, title, strlen(title), &position);
+
+		position = 0;
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-nickname"));
+		gtk_editable_delete_text(editable, 0, -1);
+		if (nickname)
+			gtk_editable_insert_text(editable, nickname, strlen(nickname), &position);
+
+		position = 0;
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-fburl"));
+		gtk_editable_delete_text(editable, 0, -1);
+		if (fburl)
+			gtk_editable_insert_text(editable, fburl, strlen(fburl), &position);
 
 		position = 0;
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-profession"));
@@ -698,8 +722,11 @@ extract_info(EContactEditor *editor)
 		ECardList *email_list;
 		char *url;
 		char *org;
+		char *org_unit;
 		char *title;
 		char *role;
+		char *nickname;
+		char *fburl;
 		char *note;
 		const ECardDeliveryAddress *address;
 		const ECardPhone *phone;
@@ -805,6 +832,14 @@ extract_info(EContactEditor *editor)
 				       NULL);
 		g_free(org);
 
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-department"));
+		org_unit = gtk_editable_get_chars(editable, 0, -1);
+		if (org_unit && *org_unit)
+			gtk_object_set(GTK_OBJECT(card),
+				       "org_unit", org_unit,
+				       NULL);
+		g_free(org_unit);
+
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-jobtitle"));
 		title = gtk_editable_get_chars(editable, 0, -1);
 		if (title && *title)
@@ -820,6 +855,22 @@ extract_info(EContactEditor *editor)
 				       "role", role,
 				       NULL);
 		g_free(role);
+
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-nickname"));
+		nickname = gtk_editable_get_chars(editable, 0, -1);
+		if (nickname && *nickname)
+			gtk_object_set(GTK_OBJECT(card),
+				       "nickname", nickname,
+				       NULL);
+		g_free(nickname);
+
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-fburl"));
+		fburl = gtk_editable_get_chars(editable, 0, -1);
+		if (fburl && *fburl)
+			gtk_object_set(GTK_OBJECT(card),
+				       "fburl", fburl,
+				       NULL);
+		g_free(fburl);
 
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-comments"));
 		note = gtk_editable_get_chars(editable, 0, -1);

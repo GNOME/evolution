@@ -67,8 +67,11 @@ main (int argc, char **argv)
 	/* Fields */
 	char *fname;
 	char *org;
+	char *org_unit;
         char *title;
 	char *role;
+	char *nickname;
+	char *fburl;
 	ECardName *name;
 	ECardList *address;
 	ECardList *phone;
@@ -102,8 +105,11 @@ main (int argc, char **argv)
 		       "phone",      &phone,
 		       "email",      &email,
 		       "org",        &org,
+		       "org_unit",   &org_unit,
 		       "title",      &title,
 		       "role",       &role,
+		       "nickname",   &nickname,
+		       "fburl",      &fburl,
 		       "birth_date", &bday,
 		       NULL);
 	if ( fname ) {
@@ -126,11 +132,20 @@ main (int argc, char **argv)
 	if ( org ) {
 	  printf("Company : %s\n", org);
         }
+	if ( org_unit ) {
+	  printf("Department : %s\n", org_unit);
+        }
 	if ( title ) {
 	  printf("Title : %s\n", title);
         }
 	if ( role ) {
 	  printf("Profession : %s\n", role);
+        }
+	if ( nickname ) {
+	  printf("Nickname : %s\n", nickname);
+        }
+	if ( fburl ) {
+	  printf("Free Busy URL : %s\n", fburl);
         }
 	if ( bday ) {
 	  printf("BDay : %4d-%02d-%02d\n", bday->year, bday->month, bday->day);

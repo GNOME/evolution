@@ -33,8 +33,11 @@ enum {
 	ARG_BIRTH_DATE,
 	ARG_URL,
 	ARG_ORG,
+	ARG_ORG_UNIT,
 	ARG_TITLE,
 	ARG_ROLE,
+	ARG_NICKNAME,
+	ARG_FBURL,
 	ARG_NOTE,
 	ARG_ID
 };
@@ -66,6 +69,8 @@ static void parse_url(ECard *card, VObject *object);
 static void parse_org(ECard *card, VObject *object);
 static void parse_title(ECard *card, VObject *object);
 static void parse_role(ECard *card, VObject *object);
+static void parse_nickname(ECard *card, VObject *object);
+static void parse_fburl(ECard *card, VObject *object);
 static void parse_note(ECard *card, VObject *object);
 static void parse_id(ECard *card, VObject *object);
 
@@ -91,6 +96,8 @@ struct {
 	{ VCOrgProp,          parse_org },
 	{ VCTitleProp,        parse_title },
 	{ VCBusinessRoleProp, parse_role },
+	{ "NICKNAME",         parse_nickname },
+	{ "FBURL",            parse_fburl },
 	{ VCNoteProp,         parse_note },
 	{ VCUniqueStringProp, parse_id }
 };
@@ -281,12 +288,14 @@ char
 	if (card->url)
 		addPropValue(vobj, VCURLProp, card->url);
 
-	if (card->org) {
+	if (card->org || card->org_unit) {
 		VObject *orgprop;
 		orgprop = addProp(vobj, VCOrgProp);
 		
 		if (card->org)
 			addPropValue(orgprop, VCOrgNameProp, card->org);
+		if (card->org_unit)
+			addPropValue(orgprop, VCOrgUnitProp, card->org_unit);
 	}
 
 	if (card->title)
@@ -294,6 +303,12 @@ char
 
 	if (card->role)
 		addPropValue(vobj, VCBusinessRoleProp, card->role);
+	
+	if (card->nickname)
+		addPropValue(vobj, "NICKNAME", card->nickname);
+	
+	if (card->fburl)
+		addPropValue(vobj, "FBURL", card->fburl);
 	
 	if (card->note)
 		addPropValue(vobj, VCNoteProp, card->note);
@@ -510,6 +525,12 @@ parse_org(ECard *card, VObject *vobj)
 			g_free(card->org);
 		card->org = temp;
 	}
+	temp = e_v_object_get_child_value(vobj, VCOrgUnitProp);
+	if (temp) {
+		if (card->org_unit)
+			g_free(card->org_unit);
+		card->org_unit = temp;
+	}
 }
 
 static void
@@ -526,6 +547,22 @@ parse_role(ECard *card, VObject *vobj)
 	if (card->role)
 		g_free(card->role);
 	assign_string(vobj, &(card->role));
+}
+
+static void
+parse_nickname(ECard *card, VObject *vobj)
+{
+	if (card->nickname)
+		g_free(card->nickname);
+	assign_string(vobj, &(card->nickname));
+}
+
+static void
+parse_fburl(ECard *card, VObject *vobj)
+{
+	if (card->fburl)
+		g_free(card->fburl);
+	assign_string(vobj, &(card->fburl));
 }
 
 static void
@@ -592,10 +629,16 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_URL);  
 	gtk_object_add_arg_type ("ECard::org",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ORG);
+	gtk_object_add_arg_type ("ECard::org_unit",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ORG_UNIT);
 	gtk_object_add_arg_type ("ECard::title",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_TITLE);  
 	gtk_object_add_arg_type ("ECard::role",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ROLE);
+	gtk_object_add_arg_type ("ECard::nickname",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_NICKNAME);
+	gtk_object_add_arg_type ("ECard::fburl",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FBURL);
 	gtk_object_add_arg_type ("ECard::note",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_NOTE);
 	gtk_object_add_arg_type ("ECard::id",
@@ -690,10 +733,16 @@ e_card_destroy (GtkObject *object)
 		g_free(card->url);
 	if (card->org)
 		g_free(card->org);
+	if (card->org_unit)
+		g_free(card->org_unit);
 	if (card->title)
 		g_free(card->title);
 	if (card->role)
 		g_free(card->role);
+	if (card->nickname)
+		g_free(card->nickname);
+	if (card->fburl)
+		g_free(card->fburl);
 	if (card->note)
 		g_free(card->note);
 
@@ -740,6 +789,11 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			g_free(card->org);
 		card->org = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
+	case ARG_ORG_UNIT:
+		if (card->org_unit)
+			g_free(card->org_unit);
+		card->org_unit = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
 	case ARG_TITLE:
 		if ( card->title )
 			g_free(card->title);
@@ -749,6 +803,16 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if (card->role)
 			g_free(card->role);
 		card->role = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_NICKNAME:
+		if (card->nickname)
+			g_free(card->nickname);
+		card->nickname = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_FBURL:
+		if (card->fburl)
+			g_free(card->fburl);
+		card->fburl = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_NOTE:
 		if (card->note)
@@ -810,11 +874,20 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_ORG:
 		GTK_VALUE_STRING(*arg) = card->org;
 		break;
+	case ARG_ORG_UNIT:
+		GTK_VALUE_STRING(*arg) = card->org_unit;
+		break;
 	case ARG_TITLE:
 		GTK_VALUE_STRING(*arg) = card->title;
 		break;
 	case ARG_ROLE:
 		GTK_VALUE_STRING(*arg) = card->role;
+		break;
+	case ARG_NICKNAME:
+		GTK_VALUE_STRING(*arg) = card->nickname;
+		break;
+	case ARG_FBURL:
+		GTK_VALUE_STRING(*arg) = card->fburl;
 		break;
 	case ARG_NOTE:
 		GTK_VALUE_STRING(*arg) = card->note;
@@ -845,8 +918,11 @@ e_card_init (ECard *card)
 	card->address = NULL;
 	card->url = NULL;
 	card->org = NULL;
+	card->org_unit = NULL;
 	card->title = NULL;
 	card->role = NULL;
+	card->nickname = NULL;
+	card->fburl = NULL;
 	card->note = NULL;
 #if 0
 

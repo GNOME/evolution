@@ -4,6 +4,18 @@
 	addressbook/backend/ebook/e-card.h,
 	addressbook/backend/ebook/test-card.c,
 	addressbook/backend/pas/pas-backend-file.c,
+	addressbook/contact-editor/e-contact-editor.c: Added
+	orginizational unit, nickname, and internet free-busy fields.
+
+	* addressbook/contact-editor/contact-editor.glade: Renamed some
+	incorrectly named fields.
+
+2000-04-16  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/backend/ebook/e-card.c,
+	addressbook/backend/ebook/e-card.h,
+	addressbook/backend/ebook/test-card.c,
+	addressbook/backend/pas/pas-backend-file.c,
 	addressbook/gui/minicard/e-minicard.c: Added orginization and role
 	fields.
 

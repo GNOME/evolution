@@ -48,8 +48,13 @@ struct _ECard {
 
 
 	char            *org;           /* The person's organization.       */
-	char            *role;          /* The person's role w/in his ord   */
+	char            *org_unit;      /* The person's organization unit.  */
+	char            *role;          /* The person's role w/in his org   */
 	char            *title;	        /* The person's title w/in his org  */
+
+	char            *nickname;      /* The person's nickname            */
+
+	char            *fburl;         /* Free Busy URL                    */
 
 #if 0
 	ECardOrg        *org;	        /* The person's organization.       */
