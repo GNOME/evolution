@@ -379,7 +379,7 @@ _eos (CamelStream *stream)
 {
 	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (stream);
 
-	return camel_stream_eos(sbf->stream);
+	return camel_stream_eos(sbf->stream) && sbf->ptr == sbf->end;
 }
 
 static void
