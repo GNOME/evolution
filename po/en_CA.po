@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.5\n"
-"POT-Creation-Date: 2004-04-15 16:22-0400\n"
-"PO-Revision-Date: 2004-04-15 19:48-0400\n"
+"POT-Creation-Date: 2004-04-17 12:18-0400\n"
+"PO-Revision-Date: 2004-04-17 19:48-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -207,6 +207,7 @@ msgstr "On This Computer"
 
 #. Create the default Person addressbook
 #: addressbook/gui/component/addressbook-migrate.c:416
+#: addressbook/gui/contact-editor/contact-editor.glade.h:37
 #: calendar/gui/migration.c:445 calendar/gui/migration.c:528
 #: filter/filter-label.c:123 mail/em-migrate.c:926 mail/mail-config.c:67
 #: mail/mail-config.glade.h:106
@@ -287,7 +288,7 @@ msgstr "  S_how Supported Bases "
 
 #: addressbook/gui/component/ldap-config.glade.h:2
 #: addressbook/gui/component/select-names/select-names.glade.h:1
-#: addressbook/gui/contact-editor/contact-editor.glade.h:2
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 #: addressbook/gui/contact-editor/fullname.glade.h:1
 #: addressbook/gui/contact-editor/im.glade.h:1
@@ -382,7 +383,6 @@ msgid "Finished"
 msgstr "Finished"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
-#: addressbook/gui/contact-editor/contact-editor.glade.h:18
 #: calendar/gui/dialogs/calendar-setup.glade.h:7 mail/mail-config.glade.h:84
 #: smime/gui/smime-ui.glade.h:27
 msgid "General"
@@ -782,199 +782,225 @@ msgstr "C_ategory:"
 msgid "_Find"
 msgstr "_Find"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid " B_usiness:"
-msgstr " B_usiness:"
+#: addressbook/gui/contact-editor/contact-editor.glade.h:2
+msgid "<b>Email</b>"
+msgstr "<b>Email</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
-msgid "A_ddress..."
-msgstr "A_ddress..."
+msgid "<b>Home</b>"
+msgstr "<b>Home</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
-msgid "A_ssistant's name:"
-msgstr "A_ssistant's name:"
+msgid "<b>Instant Messaging</b>"
+msgstr "<b>Instant Messaging</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
-msgid "Addressbook:"
-msgstr "Addressbook:"
+msgid "<b>Job</b>"
+msgstr "<b>Job</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
-msgid "Anni_versary:"
-msgstr "Anni_versary:"
+msgid "<b>Miscellaneous</b>"
+msgstr "<b>Miscellaneous</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-msgid "Birthda_y:"
-msgstr "Birthda_y:"
+msgid "<b>Other</b>"
+msgstr "<b>Other</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
-msgid "Blog address:"
-msgstr "Blog address:"
+msgid "<b>Telephone</b>"
+msgstr "<b>Telephone</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:9
-msgid "Business fa_x:"
-msgstr "Business fa_x:"
+msgid "<b>Web Addresses</b>"
+msgstr "<b>Web Addresses</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
-msgid "Collaboration"
-msgstr "Collaboration"
+msgid "<b>Work</b>"
+msgstr "<b>Work</b>"
 
-#. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: addressbook/gui/contact-editor/e-contact-editor.c:1202
-#: addressbook/gui/contact-editor/e-contact-editor.c:2019
-msgid "Contact Editor"
-msgstr "Contact Editor"
+#: addressbook/gui/contact-editor/e-contact-editor.c:174
+#: addressbook/gui/widgets/eab-contact-display.c:305
+#: addressbook/gui/widgets/eab-contact-display.c:324
+msgid "AIM"
+msgstr "AIM"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-msgid "D_epartment:"
-msgstr "D_epartment:"
+msgid "Address 2:"
+msgstr "Address 2:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
-#: calendar/gui/dialogs/task-editor.c:200 mail/mail-security.glade.h:3
-#: smime/gui/smime-ui.glade.h:19
-msgid "Details"
-msgstr "Details"
+msgid "Address:"
+msgstr "Address:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
-msgid "Enter the person's instant messenger accounts here."
-msgstr "Enter the person's instant messenger accounts here."
+msgid "Anniversary:"
+msgstr "Anniversary:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
-msgid "F_ree/Busy URL:"
-msgstr "F_ree/Busy URL:"
+msgid "Assistant:"
+msgstr "Assistant:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
-msgid "File a_s:"
-msgstr "File a_s:"
+msgid "Birthday:"
+msgstr "Birthday:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
+msgid "Blog:"
+msgstr "Blog:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:18
+msgid "Business _fax:"
+msgstr "Business _fax:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:19
+#: calendar/gui/dialogs/event-page.glade.h:5
+msgid "Calendar:"
+msgstr "Calendar:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:20
+msgid "City:"
+msgstr "City:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:21
+msgid "Company:"
+msgstr "Company:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:22
+#: addressbook/gui/contact-editor/e-contact-editor.c:252
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:159
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
+#: addressbook/gui/widgets/e-minicard.c:180
+msgid "Contact"
+msgstr "Contact"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:23
+msgid "Country:"
+msgstr "Country:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:24
+msgid "Department:"
+msgstr "Department:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:25
+msgid "Free/Busy:"
+msgstr "Free/Busy:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "Full _Name..."
 msgstr "Full _Name..."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:19
-msgid ""
-"If this person has the ability to participate in a video conference, enter "
-"their address here."
-msgstr ""
-"If this person has the ability to participate in a video conference, enter "
-"their address here."
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:20
-msgid ""
-"If this person publishes free/busy or other calendar information on the "
-"Internet, enter the address\n"
-"of that information here."
-msgstr ""
-"If this person publishes free/busy or other calendar information on the "
-"Internet, enter the address\n"
-"of that information here."
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:22
-msgid "Instant Messaging"
-msgstr "Instant Messaging"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:23
-msgid "New phone type"
-msgstr "New phone type"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:24
-msgid "No_tes:"
-msgstr "No_tes:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:25
-msgid "Organi_zation:"
-msgstr "Organi_zation:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:26
-msgid "P_rofession:"
-msgstr "P_rofession:"
-
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
-msgid "Primary _email:"
-msgstr "Primary _email:"
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:246
+#: addressbook/gui/contact-editor/e-contact-editor.c:189
+msgid "Home"
+msgstr "Home"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-msgid "S_pouse:"
-msgstr "S_pouse:"
+msgid "Job title:"
+msgstr "Job title:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
-msgid "Wants to receive _HTML mail"
-msgstr "Wants to receive _HTML mail"
+#: calendar/gui/e-itip-control.c:930
+msgid "Location:"
+msgstr "Location:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-msgid "_Add"
-msgstr "_Add"
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:66
+msgid "MSN Messenger"
+msgstr "MSN Messenger"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
+msgid "Mailing Address"
+msgstr "Mailing Address"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:32
+msgid "Manager:"
+msgstr "Manager:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:33
+msgid "Ni_ckname:"
+msgstr "Ni_ckname:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:34
+msgid "Notes:"
+msgstr "Notes:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:35
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:63
+msgid "Novell Groupwise"
+msgstr "Novell Groupwise"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:36
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:254
+#: addressbook/gui/contact-editor/e-contact-editor.c:190
+msgid "Other"
+msgstr "Other"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:38
+msgid "Personal Information"
+msgstr "Personal information"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:39
+msgid "Profession:"
+msgstr "Profession:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:40
+msgid "State/Province:"
+msgstr "State/Province:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:41
+msgid "Wants to receive HTML mail"
+msgstr "Wants to receive HTML mail"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:42
+msgid "Webcam:"
+msgstr "Webcam:"
+
+#. red
+#: addressbook/gui/contact-editor/contact-editor.glade.h:43
+#: addressbook/gui/contact-editor/e-contact-editor-im.c:250
+#: addressbook/gui/contact-editor/e-contact-editor.c:188
+#: filter/filter-label.c:122 mail/em-migrate.c:925 mail/mail-config.c:66
+#: mail/mail-config.glade.h:155
+msgid "Work"
+msgstr "Work"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:44
+msgid "Zip/Postal Code:"
+msgstr "Zip/Postal Code:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:45
 msgid "_Business:"
 msgstr "_Business:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:32
-msgid "_Categories..."
-msgstr "_Categories..."
+#: addressbook/gui/contact-editor/contact-editor.glade.h:46
+msgid "_Categories"
+msgstr "_Categories"
 
-#. FIXME: need to disable for undeletable folders
-#: addressbook/gui/contact-editor/contact-editor.glade.h:33
-#: calendar/gui/dialogs/meeting-page.c:654
-#: calendar/gui/e-calendar-table.c:1060 calendar/gui/e-calendar-table.c:1078
-#: calendar/gui/e-calendar-view.c:1292 calendar/gui/e-calendar-view.c:1323
-#: mail/em-folder-tree.c:2570 mail/em-folder-view.c:794
-#: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
-#: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
-#: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
-msgid "_Delete"
-msgstr "_Delete"
+#: addressbook/gui/contact-editor/contact-editor.glade.h:47
+msgid "_File under:"
+msgstr "_File under:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:34
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41 filter/filter.glade.h:12
-#: mail/mail-config.glade.h:160 ui/evolution-addressbook.xml.h:34
-#: ui/evolution-calendar.xml.h:41 ui/evolution-composer-entries.xml.h:8
-#: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
-#: ui/evolution-message-composer.xml.h:43
-#: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
-#: ui/evolution-tasks.xml.h:22
-msgid "_Edit"
-msgstr "_Edit"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:35
+#: addressbook/gui/contact-editor/contact-editor.glade.h:48
 msgid "_Home:"
 msgstr "_Home:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:36
-msgid "_Job title:"
-msgstr "_Job title:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:37
-msgid "_Manager's name:"
-msgstr "_Manager's name:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:38
+#: addressbook/gui/contact-editor/contact-editor.glade.h:49
 msgid "_Mobile:"
 msgstr "_Mobile:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:39
-msgid "_Nickname:"
-msgstr "_Nickname:"
+#: addressbook/gui/contact-editor/contact-editor.glade.h:50
+msgid "_Where:"
+msgstr "_Where:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:40
-msgid "_Office:"
-msgstr "_Office:"
+#: addressbook/gui/contact-editor/contact-editor.glade.h:51
+msgid "item7"
+msgstr "item7"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:41
-msgid "_Public Calendar URL:"
-msgstr "_Public Calendar URL:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:42
-msgid "_This is the mailing address"
-msgstr "_This is the mailing address"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:43
-msgid "_Video Conferencing URL:"
-msgstr "_Video Conferencing URL:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:44
-msgid "_Web page address:"
-msgstr "_Web page address:"
+#: addressbook/gui/contact-editor/contact-editor.glade.h:52
+msgid "item8"
+msgstr "item8"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
 #: addressbook/gui/widgets/eab-contact-display.c:314
@@ -985,7 +1011,7 @@ msgstr "Address"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:103
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:141
-#: addressbook/gui/contact-editor/e-contact-editor.c:252
+#: addressbook/gui/contact-editor/e-contact-editor.c:273
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:173
 #: addressbook/gui/widgets/e-addressbook-model.c:309
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:392
@@ -1968,12 +1994,8 @@ msgstr "Zimbabwe"
 msgid "AOL Instant Messenger"
 msgstr "AOL Instant Messenger"
 
-#: addressbook/gui/contact-editor/e-contact-editor-im.c:63
-msgid "Novell Groupwise"
-msgstr "Novell Groupwise"
-
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
-#: addressbook/gui/contact-editor/e-contact-editor.c:2835
+#: addressbook/gui/contact-editor/e-contact-editor.c:175
 #: addressbook/gui/widgets/eab-contact-display.c:308
 #: addressbook/gui/widgets/eab-contact-display.c:327
 msgid "Jabber"
@@ -1983,24 +2005,18 @@ msgstr "Jabber"
 msgid "Yahoo Messenger"
 msgstr "Yahoo Messenger"
 
-#: addressbook/gui/contact-editor/e-contact-editor-im.c:66
-msgid "MSN Messenger"
-msgstr "MSN Messenger"
-
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:67
-#: addressbook/gui/contact-editor/e-contact-editor.c:2838
+#: addressbook/gui/contact-editor/e-contact-editor.c:178
 #: addressbook/gui/widgets/eab-contact-display.c:307
 #: addressbook/gui/widgets/eab-contact-display.c:326
 msgid "ICQ"
 msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:118
-#: addressbook/gui/contact-editor/e-contact-editor.c:704
 msgid "Service"
 msgstr "Service"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:127
-#: addressbook/gui/contact-editor/e-contact-editor.c:727
 #: calendar/gui/dialogs/cal-prefs-dialog.c:578
 #: calendar/gui/e-cal-list-view.etspec.h:2
 msgid "Location"
@@ -2010,96 +2026,55 @@ msgstr "Location"
 msgid "Username"
 msgstr "Username"
 
-#: addressbook/gui/contact-editor/e-contact-editor-im.c:246
-#: addressbook/gui/contact-editor/e-contact-editor.c:2503
-#: addressbook/gui/contact-editor/e-contact-editor.c:2799
-msgid "Home"
-msgstr "Home"
-
-#. red
-#: addressbook/gui/contact-editor/e-contact-editor-im.c:250
-#: addressbook/gui/contact-editor/e-contact-editor.c:2803
-#: filter/filter-label.c:122 mail/em-migrate.c:925 mail/mail-config.c:66
-#: mail/mail-config.glade.h:155
-msgid "Work"
-msgstr "Work"
-
-#: addressbook/gui/contact-editor/e-contact-editor-im.c:254
-#: addressbook/gui/contact-editor/e-contact-editor.c:2504
-#: addressbook/gui/contact-editor/e-contact-editor.c:2807
-msgid "Other"
-msgstr "Other"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:217
-msgid "Source Book"
-msgstr "Source Book"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:224
-msgid "Target Book"
-msgstr "Target Book"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:231
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:159
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
-#: addressbook/gui/widgets/e-minicard.c:180
-msgid "Contact"
-msgstr "Contact"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:238
-msgid "Is New Contact"
-msgstr "Is New Contact"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:245
-msgid "Writable Fields"
-msgstr "Writable Fields"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:259
-msgid "Changed"
-msgstr "Changed"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:718
-msgid "Account Name"
-msgstr "Account Name"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:1485
-msgid "Category editor not available."
-msgstr "Category editor not available."
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:1493
-msgid "This contact belongs to these categories:"
-msgstr "This contact belongs to these categories:"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:1717
-msgid "Save Contact as VCard"
-msgstr "Save Contact as VCard"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2502
-msgid "Business"
-msgstr "Business"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2834
-#: addressbook/gui/widgets/eab-contact-display.c:305
-#: addressbook/gui/widgets/eab-contact-display.c:324
-msgid "AIM"
-msgstr "AIM"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2836
+#: addressbook/gui/contact-editor/e-contact-editor.c:176
 #: addressbook/gui/widgets/eab-contact-display.c:310
 #: addressbook/gui/widgets/eab-contact-display.c:329
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2837
+#: addressbook/gui/contact-editor/e-contact-editor.c:177
 #: addressbook/gui/widgets/eab-contact-display.c:309
 #: addressbook/gui/widgets/eab-contact-display.c:328
 msgid "MSN"
 msgstr "MSN"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2839
+#: addressbook/gui/contact-editor/e-contact-editor.c:179
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:3126
+#: addressbook/gui/contact-editor/e-contact-editor.c:238
+msgid "Source Book"
+msgstr "Source Book"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:245
+msgid "Target Book"
+msgstr "Target Book"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:259
+msgid "Is New Contact"
+msgstr "Is New Contact"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:266
+msgid "Writable Fields"
+msgstr "Writable Fields"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:280
+msgid "Changed"
+msgstr "Changed"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:1058
+msgid "Contact Editor"
+msgstr "Contact Editor"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:1265
+msgid "Category editor not available."
+msgstr "Category editor not available."
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:1273
+msgid "This contact belongs to these categories:"
+msgstr "This contact belongs to these categories:"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:2334
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Could not find widget for a field: `%s'"
@@ -3921,8 +3896,8 @@ msgid ""
 "Selected calendar is read-only, events cannot be created. Please select a "
 "read-write calendar."
 msgstr ""
-"Events cannot be created in a read-only calendar. Please select a "
-"read-write calendar."
+"Events cannot be created in a read-only calendar. Please select a read-write "
+"calendar."
 
 #: calendar/gui/calendar-offline-handler.c:192
 #, c-format
@@ -4339,6 +4314,16 @@ msgstr "_Day begins:"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "_Display"
 msgstr "_Display"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41 filter/filter.glade.h:12
+#: mail/mail-config.glade.h:160 ui/evolution-addressbook.xml.h:34
+#: ui/evolution-calendar.xml.h:41 ui/evolution-composer-entries.xml.h:8
+#: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
+#: ui/evolution-message-composer.xml.h:43
+#: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
+#: ui/evolution-tasks.xml.h:22
+msgid "_Edit"
+msgstr "_Edit"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "_Free/Busy Publishing"
@@ -4823,10 +4808,6 @@ msgstr "B_usy"
 msgid "Ca_tegories..."
 msgstr "Ca_tegories..."
 
-#: calendar/gui/dialogs/event-page.glade.h:5
-msgid "Calendar:"
-msgstr "Calendar:"
-
 #: calendar/gui/dialogs/event-page.glade.h:6
 #: calendar/gui/dialogs/task-page.glade.h:3
 msgid "Classification"
@@ -4904,6 +4885,17 @@ msgstr "At least one attendee is required."
 #: calendar/gui/dialogs/meeting-page.c:650
 msgid "_Delegate To..."
 msgstr "_Delegate To..."
+
+#. FIXME: need to disable for undeletable folders
+#: calendar/gui/dialogs/meeting-page.c:654
+#: calendar/gui/e-calendar-table.c:1060 calendar/gui/e-calendar-table.c:1078
+#: calendar/gui/e-calendar-view.c:1292 calendar/gui/e-calendar-view.c:1323
+#: mail/em-folder-tree.c:2570 mail/em-folder-view.c:794
+#: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
+#: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
+#: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
+msgid "_Delete"
+msgstr "_Delete"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:1
 #: calendar/gui/e-meeting-list-view.c:240
@@ -5230,7 +5222,7 @@ msgstr "High"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-cal-model-tasks.c:321 calendar/gui/e-cal-model-tasks.c:595
-#: calendar/gui/e-cal-model-tasks.c:657 calendar/gui/e-calendar-table.c:465
+#: calendar/gui/e-cal-model-tasks.c:662 calendar/gui/e-calendar-table.c:465
 #: calendar/gui/e-tasks.c:206 calendar/gui/print.c:2343
 msgid "In Progress"
 msgstr "In Progress"
@@ -5282,6 +5274,11 @@ msgstr "_Web Page:"
 #: calendar/gui/dialogs/task-editor.c:193
 msgid "Basic"
 msgstr "Basic"
+
+#: calendar/gui/dialogs/task-editor.c:200 mail/mail-security.glade.h:3
+#: smime/gui/smime-ui.glade.h:19
+msgid "Details"
+msgstr "Details"
 
 #: calendar/gui/dialogs/task-editor.c:207
 #: calendar/gui/dialogs/task-editor.c:270
@@ -5510,17 +5507,17 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/e-cal-model-tasks.c:738 calendar/gui/e-cal-model-tasks.c:766
+#: calendar/gui/e-cal-model-tasks.c:743 calendar/gui/e-cal-model-tasks.c:771
 msgid "Due date is before start date!"
 msgstr "Due date is before start date!"
 
-#: calendar/gui/e-cal-model-tasks.c:966 calendar/gui/e-cal-model.c:876
+#: calendar/gui/e-cal-model-tasks.c:971 calendar/gui/e-cal-model.c:876
 #: calendar/gui/e-meeting-list-view.c:168 calendar/gui/e-meeting-store.c:159
 #: calendar/gui/e-meeting-store.c:169 calendar/gui/e-meeting-store.c:765
 msgid "Yes"
 msgstr "Yes"
 
-#: calendar/gui/e-cal-model-tasks.c:966 calendar/gui/e-cal-model.c:876
+#: calendar/gui/e-cal-model-tasks.c:971 calendar/gui/e-cal-model.c:876
 #: calendar/gui/e-meeting-list-view.c:169 calendar/gui/e-meeting-store.c:171
 msgid "No"
 msgstr "No"
@@ -5927,10 +5924,6 @@ msgstr ""
 #: calendar/gui/e-itip-control.c:919
 msgid "<i>None</i>"
 msgstr "<i>None</i>"
-
-#: calendar/gui/e-itip-control.c:930
-msgid "Location:"
-msgstr "Location:"
 
 #. write status
 #: calendar/gui/e-itip-control.c:944 calendar/gui/e-tasks.c:202
@@ -12428,7 +12421,7 @@ msgid "Protocol"
 msgstr "Protocol"
 
 #: mail/em-composer-prefs.c:295 mail/em-composer-prefs.c:418
-#: mail/mail-config.c:1037
+#: mail/mail-config.c:1038
 msgid "Unnamed"
 msgstr "Unnamed"
 
@@ -14153,11 +14146,11 @@ msgstr ""
 "name for this account in the space below. This name will be used for display "
 "purposes only."
 
-#: mail/mail-config.c:887
+#: mail/mail-config.c:888
 msgid "Checking Service"
 msgstr "Checking Service"
 
-#: mail/mail-config.c:965 mail/mail-config.c:969
+#: mail/mail-config.c:966 mail/mail-config.c:970
 msgid "Connecting to server..."
 msgstr "Connecting to server..."
 
@@ -18148,99 +18141,3 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% complete)"
 
-#~ msgid ""
-#~ "Address book '%s' will be removed. Are you sure you want to continue?"
-#~ msgstr ""
-#~ "Address book '%s' will be removed. Are you sure you want to continue?"
-
-#~ msgid "UID of the contacts source that the view will display"
-#~ msgstr "UID of the contacts source that the view will display"
-
-#~ msgid "The URI that the address book will display"
-#~ msgstr "The URI that the address book will display"
-
-#~ msgid "Calendar Creation Assistant"
-#~ msgstr "Calendar Creation Assistant"
-
-#~ msgid ""
-#~ "Congratulations, you are finished setting up this calendar.\n"
-#~ "\n"
-#~ "Please click the \"Apply\" button to save the settings you have entered "
-#~ "here."
-#~ msgstr ""
-#~ "Congratulations, you are finished setting up this calendar.\n"
-#~ "\n"
-#~ "Please click the \"Apply\" button to save the settings you have entered "
-#~ "here."
-
-#~ msgid ""
-#~ "Congratulations, you are finished setting up this task list.\n"
-#~ "\n"
-#~ "Please click the \"Apply\" button to save the settings you have entered "
-#~ "here."
-#~ msgstr ""
-#~ "Congratulations, you are finished setting up this task list.\n"
-#~ "\n"
-#~ "Please click the \"Apply\" button to save the settings you have entered "
-#~ "here."
-
-#~ msgid ""
-#~ "Specifying a display name and group is the first step in setting up a "
-#~ "calendar."
-#~ msgstr ""
-#~ "Specifying a display name and group is the first step in setting up a "
-#~ "calendar."
-
-#~ msgid ""
-#~ "Specifying a display name and group is the first step in setting up a "
-#~ "task list."
-#~ msgstr ""
-#~ "Specifying a display name and group is the first step in setting up a "
-#~ "task list."
-
-#~ msgid "Step 2: Remote Folder Parameters"
-#~ msgstr "Step 2: Remote Folder Parameters"
-
-#~ msgid "Task List Creation Assistant"
-#~ msgstr "Task List Creation Assistant"
-
-#~ msgid ""
-#~ "This assistant will help you create a new calendar. \n"
-#~ "\n"
-#~ "Depending on the type of calendar you create, additional\n"
-#~ "parameters may be required. Please contact your system\n"
-#~ "administrator if you need help finding this information."
-#~ msgstr ""
-#~ "This assistant will help you create a new calendar. \n"
-#~ "\n"
-#~ "Depending on the type of calendar you create, additional\n"
-#~ "parameters may be required. Please contact your system\n"
-#~ "administrator if you need help finding this information."
-
-#~ msgid ""
-#~ "This assistant will help you create a new task list.\n"
-#~ "\n"
-#~ "Depending on the type of task list you create, additional\n"
-#~ "parameters may be required. Please contact your system\n"
-#~ "administrator if you need help finding this information."
-#~ msgstr ""
-#~ "This assistant will help you create a new task list.\n"
-#~ "\n"
-#~ "Depending on the type of task list you create, additional\n"
-#~ "parameters may be required. Please contact your system\n"
-#~ "administrator if you need help finding this information."
-
-#~ msgid ""
-#~ "You're creating a folder in a group that's stored in a remote location. "
-#~ "This requires you\n"
-#~ "to specify additional parameters."
-#~ msgstr ""
-#~ "You're creating a folder in a group that's stored in a remote location. "
-#~ "This requires you\n"
-#~ "to specify additional parameters."
-
-#~ msgid "Internal error: expecting CamelMultipart, got \"%s\""
-#~ msgstr "Internal error: expecting CamelMultipart, got \"%s\""
-
-#~ msgid "Internal error: expecting CamelMimeMessage, got \"%s\""
-#~ msgstr "Internal error: expecting CamelMimeMessage, got \"%s\""
