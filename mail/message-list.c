@@ -618,7 +618,9 @@ subtree_unread(MessageList *ml, ETreePath *node)
 	while (node) {
 		ETreePath *child;
 		uid = e_tree_model_node_get_data((ETreeModel *)ml->table_model, node);
-		if (id_is_uid(uid)) {
+		if (uid == NULL) {
+			g_warning("I got a NULL uid at node %p", node);
+		} else if (id_is_uid(uid)) {
 			info = camel_folder_get_message_info(ml->folder, id_uid(uid));
 			if (!(info->flags & CAMEL_MESSAGE_SEEN))
 				return TRUE;
@@ -670,6 +672,10 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 
 	/* retrieve the message information array */
 	uid = e_tree_model_node_get_data (etm, path);
+	if (uid == NULL) {
+		uid="s ERROR ERROR - UNKNOWN ROW IN TREE";
+		goto fake;
+	}
 	if (!id_is_uid(uid))
 		goto fake;
 	uid = id_uid(uid);
@@ -1344,7 +1350,7 @@ static void build_subtree (MessageList *ml, ETreePath *parent, CamelFolderThread
 static void build_subtree_diff (MessageList *ml, ETreePath *parent, ETreePath *path, CamelFolderThreadNode *c, int *row, GHashTable *expanded_nodes);
 
 static void
-build_tree (MessageList *ml, CamelFolderThread *thread)
+build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *changes)
 {
 	int row = 0;
 	GHashTable *expanded_nodes;
@@ -1371,10 +1377,13 @@ build_tree (MessageList *ml, CamelFolderThread *thread)
 		ml->tree_root =	e_tree_model_node_insert(etm, NULL, 0, NULL);
 		e_tree_model_node_set_expanded(etm, ml->tree_root, TRUE);
 	}
-
+		
 	top = e_tree_model_node_get_first_child(etm, ml->tree_root);
-	if (top == NULL) {
+	if (top == NULL || changes == NULL) {
+		e_tree_model_freeze(etm);
+		clear_tree (ml);
 		build_subtree(ml, ml->tree_root, thread->tree, &row, expanded_nodes);
+		e_tree_model_thaw(etm);
 	} else {
 		build_subtree_diff(ml, ml->tree_root, top,  thread->tree, &row, expanded_nodes);
 	}
@@ -1428,8 +1437,6 @@ build_subtree (MessageList *ml, ETreePath *parent, CamelFolderThreadNode *c, int
 	char *id;
 	int expanded = FALSE;
 
-	e_tree_model_freeze (tree);
-
 	while (c) {
 		if (c->message) {
 			id = new_id_from_uid(c->message->uid);
@@ -1457,8 +1464,6 @@ build_subtree (MessageList *ml, ETreePath *parent, CamelFolderThreadNode *c, int
 		}
 		c = c->next;
 	}
-
-	e_tree_model_thaw (tree);
 }
 
 /* compares a thread tree node with the etable tree node to see if they point to
@@ -1704,14 +1709,14 @@ build_flat (MessageList *ml, GPtrArray *uids, CamelFolderChangeInfo *changes)
 	if (changes) {
 		build_flat_diff(ml, changes);
 	} else {
-		e_table_model_pre_change(ml->table_model);
+		e_tree_model_freeze(tree);
 		clear_tree (ml);
 		for (i = 0; i < uids->len; i++) {
 			uid = new_id_from_uid(uids->pdata[i]);
 			node = e_tree_model_node_insert (tree, ml->tree_root, -1, uid);
 			g_hash_table_insert (ml->uid_rowmap, id_uid(uid), GINT_TO_POINTER (i));
 		}
-		e_table_model_changed(ml->table_model);
+		e_tree_model_thaw(tree);
 	}
 
 #ifdef TIMEIT
@@ -1914,8 +1919,13 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 
 	camel_exception_init (&ex);
 
-	if (message_list->folder)
+	if (message_list->folder) {
+		camel_object_unhook_event((CamelObject *)message_list->folder, "folder_changed",
+					  folder_changed, message_list);
+		camel_object_unhook_event((CamelObject *)message_list->folder, "message_changed",
+					  message_changed, message_list);
 		camel_object_unref (CAMEL_OBJECT (message_list->folder));
+	}
 
 	message_list->folder = camel_folder;
 
@@ -2044,7 +2054,7 @@ message_list_set_threaded(MessageList *ml, gboolean threaded)
 	if (ml->threaded ^ threaded) {
 		ml->threaded = threaded;
 
-		clear_tree(ml);
+		/*clear_tree(ml);*/
 		mail_do_regenerate_messagelist(ml, ml->search, NULL);
 	}
 }
@@ -2059,7 +2069,7 @@ message_list_set_search(MessageList *ml, const char *search)
 	if (search != NULL && ml->search !=NULL && strcmp(search, ml->search)==0)
 		return;
 
-	clear_tree(ml);
+	/*clear_tree(ml);*/
 	mail_do_regenerate_messagelist(ml, search, NULL);
 }
 
@@ -2146,7 +2156,7 @@ static void cleanup_regenerate_messagelist (gpointer in_data, gpointer op_data, 
 	}
 
 	if (input->dotree)
-		build_tree(input->ml, data->tree);
+		build_tree(input->ml, data->tree, input->changes);
 	else
 		build_flat(input->ml, data->uids, input->changes);
 

@@ -1,3 +1,9 @@
+2000-11-21  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-vfolder.c (vfolder_uri_to_folder): IF we dont find a
+	source, clear the exception and ignore it silently.  for e.g. if
+	the user reconfigured their mailboxes and one of them no longer
+	exists.
 2000-11-21  Radek Doulik  <rodo@helixcode.com>
 
 	* mail-display.c: #include <gtkhtml/gtkhtml-embedded.h>
@@ -14,6 +20,22 @@
 	(build_subtree_diff): 
 	(do_regenerate_messagelist):
 	(cleanup_regenerate_messagelist): Changed to use camel-folder-thread.
+	(message_list_set_folder): If we get set a new folder, unhook any
+	events before unrefing the folder too (the folder is never reset
+	currently, but this would cause problems).
+	(subtree_unread): Check for uid null, wont crash, but its a bug.
+	(ml_tree_value_at): If the uid is null, then fake an obviously bad
+	line.
+	(build_subtree): Yeah well, we can't like freeze/thaw here,
+	because this is called recursive, and freeze/thaw isn't
+	recursive, like pre model and post model change was.
+	(build_tree): Maybe we can try it here, although i dont think
+	it'll help much.
+	(build_flat): And this is also a tree.  yes a tree.
+	(build_tree): Added changes arg.  If set, then try the 'diff'
+	approach, unless the tree is already empty.
+	(message_list_set_threaded): Dont clear the tree here.
+	(message_list_set_search): Or here.
 
 2000-11-20  Not Zed  <NotZed@HelixCode.com>
 

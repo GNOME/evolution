@@ -202,11 +202,15 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 	while ( (sourceuri = vfolder_rule_next_source(rule, sourceuri)) ) {
 		d(printf("adding vfolder source: %s\n", sourceuri));
 		sourcefolder = mail_tool_uri_to_folder (sourceuri, ex);
+		printf("source folder = %p\n", sourcefolder);
 		if (sourcefolder) {
 			sources++;
 			mail_tool_camel_lock_up ();
 			camel_vee_folder_add_folder(folder, sourcefolder);
 			mail_tool_camel_lock_down ();
+		} else {
+			/* we'll just silently ignore now-missing sources */
+			camel_exception_clear(ex);
 		}
 	}
 	/* if we didn't have any sources, just use Inbox as the default */
