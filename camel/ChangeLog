@@ -1,5 +1,13 @@
 2004-03-29  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-store.c (get_folder_status): Updated
+	to actually parse the STATUS response into a list of item/value
+	pairs.
+	(create_folder): Updated for above change.
+	(get_folder_counts): Only call get_folder_status() once (we can
+	get both values with a single call now). Fixes a FIXME and might
+	also fix bug #55784.
+
 	* providers/local/camel-mbox-store.c (get_folder_info): Removed
 	debugging printfs.
 

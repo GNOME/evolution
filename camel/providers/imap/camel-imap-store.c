@@ -1644,15 +1644,34 @@ compare_folder_name (gconstpointer a, gconstpointer b)
 	return g_str_equal (aname, bname);
 }
 
-static int
+struct imap_status_item {
+	struct imap_status_item *next;
+	char *name;
+	guint32 value;
+};
+
+static void
+imap_status_item_free (struct imap_status_item *items)
+{
+	struct imap_status_item *next;
+	
+	while (items != NULL) {
+		next = items->next;
+		g_free (items->name);
+		g_free (items);
+		items = next;
+	}
+}
+
+static struct imap_status_item *
 get_folder_status (CamelImapStore *imap_store, const char *folder_name, const char *type)
 {
+	struct imap_status_item *items, *item, *tail;
 	CamelImapResponse *response;
-	char *status, *p;
-	int out;
-
+	char *status, *name, *p;
+	
 	/* FIXME: we assume the server is STATUS-capable */
-
+	
 	response = camel_imap_command (imap_store, NULL, NULL,
 				       "STATUS %F (%s)",
 				       folder_name,
@@ -1667,22 +1686,71 @@ get_folder_status (CamelImapStore *imap_store, const char *folder_name, const ch
 			imap_forget_folder (imap_store, folder_name, &ex);
 		}
 		camel_exception_clear (&ex);
-		return -1;
+		return NULL;
 	}
-
-	status = camel_imap_response_extract (imap_store, response,
-					      "STATUS", NULL);
-	if (!status)
-		return -1;
-
-	p = camel_strstrcase (status, type);
-	if (p)
-		out = strtoul (p + strlen (type), NULL, 10);
-	else
-		out = -1;
-
+	
+	if (!(status = camel_imap_response_extract (imap_store, response, "STATUS", NULL)))
+		return NULL;
+	
+	p = status + strlen ("* STATUS ");
+	while (*p == ' ')
+		p++;
+	
+	/* skip past the mailbox string */
+	if (*p == '"') {
+		p++;
+		while (*p != '\0') {
+			if (*p == '"' && p[-1] != '\\') {
+				p++;
+				break;
+			}
+			
+			p++;
+		}
+	} else {
+		while (*p != ' ')
+			p++;
+	}
+	
+	while (*p == ' ')
+		p++;
+	
+	if (*p++ != '(') {
+		g_free (status);
+		return NULL;
+	}
+	
+	while (*p == ' ')
+		p++;
+	
+	if (*p == ')') {
+		g_free (status);
+		return NULL;
+	}
+	
+	items = NULL;
+	tail = (struct imap_status_item *) &items;
+	
+	do {
+		name = p;
+		while (*p != ' ')
+			p++;
+		
+		item = g_malloc (sizeof (struct imap_status_item));
+		item->next = NULL;
+		item->name = g_strndup (name, p - name);
+		item->value = strtoul (p, &p, 10);
+		
+		tail->next = item;
+		tail = item;
+		
+		while (*p == ' ')
+			p++;
+	} while (*p != ')');
+	
 	g_free (status);
-	return out;
+	
+	return items;
 }
 
 static CamelFolder *
@@ -2064,9 +2132,23 @@ create_folder (CamelStore *store, const char *parent_name,
 	
 	/* if not, check if we can delete it and recreate it */
 	if (need_convert) {
+		struct imap_status_item *items, *item;
+		guint32 messages = 0;
 		char *name;
 		
-		if (get_folder_status (imap_store, parent_name, "MESSAGES")) {
+		item = items = get_folder_status (imap_store, parent_name, "MESSAGES");
+		while (item != NULL) {
+			if (!g_ascii_strcasecmp (item->name, "MESSAGES")) {
+				messages = item->value;
+				break;
+			}
+			
+			item = item->next;
+		}
+		
+		imap_status_item_free (items);
+		
+		if (messages > 0) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
 					     _("The parent folder is not allowed to contain subfolders"));
 			g_free(parent_real);
@@ -2421,9 +2503,24 @@ get_folder_counts(CamelImapStore *imap_store, CamelFolderInfo *fi, CamelExceptio
 					fi->unread = camel_folder_get_unread_message_count (imap_store->current_folder);
 					fi->total = camel_folder_get_message_count(imap_store->current_folder);
 				} else {
-					/* FIXME: this should be one round-trip */
-					fi->unread = get_folder_status (imap_store, fi->full_name, "UNSEEN");
-					fi->total = get_folder_status(imap_store, fi->full_name, "MESSAGES");
+					struct imap_status_item *items, *item;
+					
+					fi->unread = -1;
+					fi->total = -1;
+					
+					item = items = get_folder_status (imap_store, fi->full_name, "MESSAGES UNSEEN");
+					while (item != NULL) {
+						if (!g_ascii_strcasecmp (item->name, "MESSAGES")) {
+							fi->total = item->value;
+						} else if (!g_ascii_strcasecmp (item->name, "UNSEEN")) {
+							fi->unread = item->value;
+						}
+						
+						item = item->next;
+					}
+					
+					imap_status_item_free (items);
+					
 					/* if we have this folder open, and the unread count has changed, update */
 					folder = camel_object_bag_peek(CAMEL_STORE(imap_store)->folders, fi->full_name);
 					if (folder) {
