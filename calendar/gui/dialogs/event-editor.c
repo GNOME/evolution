@@ -382,7 +382,7 @@ show_meeting (EventEditor *ee)
 					 _("Invitations"));
 		priv->meeting_shown = TRUE;
 
- 		comp_editor_set_changed (COMP_EDITOR (ee), priv->meeting_shown);
+ 		comp_editor_set_changed (COMP_EDITOR (ee), FALSE);
 		comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown);
 	}
 	

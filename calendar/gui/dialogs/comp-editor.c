@@ -1183,7 +1183,7 @@ comp_editor_set_group_item (CompEditor *editor, gboolean group_item)
 }
 
 gboolean
-comp_editor_get_is_group_item (CompEditor *editor)
+comp_editor_get_group_item (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
 
@@ -1721,6 +1721,8 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 	cal_attachment_bar_set_comp_uid (priv->attachment_bar, g_strdup	(uid));
 
 	fill_widgets (editor);
+
+	priv->changed =FALSE;
 
 	listen_for_changes (editor);
 }

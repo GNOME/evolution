@@ -1,3 +1,12 @@
+2005-02-23  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #72006	
+	* gui/dialogs/comp-editor.c: (real_edit_comp):
+	* gui/dialogs/event-editor.c: (show_meeting):
+	* gui/dialogs/task-editor.c: (show_assignment): Reset
+	the changed state, to suppress the promt_to_changes
+	dialog when the fields are not changed.
+
 2005-02-21  JP Rosevear  <jpr@novell.com>
  
  	Fixes #63866, #67714, #62089, #47747, #61495, #28947

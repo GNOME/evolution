@@ -360,7 +360,7 @@ show_assignment (TaskEditor *te)
 		priv->assignment_shown = TRUE;
 
 		comp_editor_set_needs_send (COMP_EDITOR (te), priv->assignment_shown);
-		comp_editor_set_changed (COMP_EDITOR (te), TRUE);
+		comp_editor_set_changed (COMP_EDITOR (te), FALSE);
 	}
 
 }
