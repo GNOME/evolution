@@ -365,7 +365,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	popup_cell = e_cell_date_edit_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
+	g_object_unref (cell);
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
 	cal_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
 
@@ -389,7 +389,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
+	g_object_unref (cell);
 
 	strings = NULL;
 	strings = g_list_append (strings, (char*) _("Public"));
@@ -411,7 +411,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
+	g_object_unref (cell);
 
 	strings = NULL;
 	strings = g_list_append (strings, (char*) _("High"));
@@ -433,7 +433,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
+	g_object_unref (cell);
 
 	strings = NULL;
 	strings = g_list_append (strings, (char*) _("0%"));
@@ -463,7 +463,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
+	g_object_unref (cell);
 
 	strings = NULL;
 	strings = g_list_append (strings, (char*) _("Free"));
@@ -484,7 +484,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
+	g_object_unref (cell);
 
 	strings = NULL;
 	strings = g_list_append (strings, (char*) _("Not Started"));
@@ -531,7 +531,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 						     extras,
 						     EVOLUTION_ETSPECDIR "/e-calendar-table.etspec",
 						     NULL);
-	gtk_object_unref (GTK_OBJECT (extras));
+	g_object_unref (extras);
 
 	cal_table->etable = table;
 	gtk_table_attach (GTK_TABLE (cal_table), table, 0, 1, 0, 1,
@@ -574,7 +574,7 @@ e_calendar_table_new (void)
 {
 	GtkWidget *cal_table;
 
-	cal_table = GTK_WIDGET (gtk_type_new (e_calendar_table_get_type ()));
+	cal_table = GTK_WIDGET (g_object_new (e_calendar_table_get_type (), NULL));
 
 	return cal_table;
 }
@@ -605,7 +605,7 @@ e_calendar_table_destroy (GtkObject *object)
 
 	cal_table = E_CALENDAR_TABLE (object);
 
-	gtk_object_unref (GTK_OBJECT (cal_table->model));
+	g_object_unref (cal_table->model);
 	cal_table->model = NULL;
 
 	if (cal_table->invisible)
@@ -1287,7 +1287,7 @@ selection_received (GtkWidget *invisible,
 					calendar_model_get_cal_client (cal_table->model),
 					tmp_comp);
 				free (uid);
-				gtk_object_unref (GTK_OBJECT (tmp_comp));
+				g_object_unref (tmp_comp);
 			}
 			subcomp = icalcomponent_get_next_component (
 				vcal_comp, ICAL_ANY_COMPONENT);
@@ -1303,7 +1303,7 @@ selection_received (GtkWidget *invisible,
 		cal_client_update_object (
 			calendar_model_get_cal_client (cal_table->model),
 			comp);
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
 	}
 
 	calendar_model_set_status_message (e_calendar_table_get_model (cal_table), NULL);

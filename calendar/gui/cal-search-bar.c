@@ -452,7 +452,7 @@ cal_search_bar_new (void)
 {
 	CalSearchBar *cal_search;
 
-	cal_search = gtk_type_new (TYPE_CAL_SEARCH_BAR);
+	cal_search = g_object_new (TYPE_CAL_SEARCH_BAR, NULL);
 	return GTK_WIDGET (cal_search_bar_construct (cal_search));
 }
 

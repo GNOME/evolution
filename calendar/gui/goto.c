@@ -243,7 +243,7 @@ goto_dialog (GnomeCalendar *gcal)
 	if (b == 0)
 		goto_today (dlg);
 
-	gtk_object_unref (GTK_OBJECT (dlg->xml));
+	g_object_unref (dlg->xml);
 	g_free (dlg);
 	dlg = NULL;
 }

@@ -326,7 +326,7 @@ dn_query_obj_updated_cb (CalQuery *query, const char *uid,
 
 	tag_calendar_by_comp (priv->date_navigator, comp, priv->client, FALSE,
 			      TRUE);
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (comp);
 }
 
 /* Callback used when the calendar query reports of a removed object */
@@ -533,7 +533,7 @@ update_query (GnomeCalendar *gcal)
 
 	if (old_query) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (old_query), gcal);
-		gtk_object_unref (GTK_OBJECT (old_query));
+		g_object_unref (old_query);
 	}
 
 	g_assert (priv->sexp != NULL);
@@ -946,7 +946,7 @@ gnome_calendar_destroy (GtkObject *object)
 
 	if (priv->dn_query) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->dn_query), gcal);
-		gtk_object_unref (GTK_OBJECT (priv->dn_query));
+		g_object_unref (priv->dn_query);
 		priv->dn_query = NULL;
 	}
 
@@ -957,23 +957,23 @@ gnome_calendar_destroy (GtkObject *object)
 
 	if (priv->client) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), gcal);
-		gtk_object_unref (GTK_OBJECT (priv->client));
+		g_object_unref (priv->client);
 		priv->client = NULL;
 	}
 
 	if (priv->task_pad_client) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->task_pad_client), gcal);
-		gtk_object_unref (GTK_OBJECT (priv->task_pad_client));
+		g_object_unref (priv->task_pad_client);
 		priv->task_pad_client = NULL;
 	}
 
 	if (priv->view_instance) {
-		gtk_object_unref (GTK_OBJECT (priv->view_instance));
+		g_object_unref (priv->view_instance);
 		priv->view_instance = NULL;
 	}
 
 	if (priv->view_menus) {
-		gtk_object_unref (GTK_OBJECT (priv->view_menus));
+		g_object_unref (priv->view_menus);
 		priv->view_menus = NULL;
 	}
 
@@ -1366,19 +1366,19 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 
 		factory = calendar_view_factory_new (GNOME_CAL_DAY_VIEW);
 		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (factory));
-		gtk_object_unref (GTK_OBJECT (factory));
+		g_object_unref (factory);
 
 		factory = calendar_view_factory_new (GNOME_CAL_WORK_WEEK_VIEW);
 		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (factory));
-		gtk_object_unref (GTK_OBJECT (factory));
+		g_object_unref (factory);
 
 		factory = calendar_view_factory_new (GNOME_CAL_WEEK_VIEW);
 		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (factory));
-		gtk_object_unref (GTK_OBJECT (factory));
+		g_object_unref (factory);
 
 		factory = calendar_view_factory_new (GNOME_CAL_MONTH_VIEW);
 		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (factory));
-		gtk_object_unref (GTK_OBJECT (factory));
+		g_object_unref (factory);
 
 		/* Load the collection and create the menus */
 
@@ -1419,10 +1419,10 @@ gnome_calendar_discard_view_menus (GnomeCalendar *gcal)
 	g_assert (priv->view_instance != NULL);
 	g_assert (priv->view_menus != NULL);
 
-	gtk_object_unref (GTK_OBJECT (priv->view_instance));
+	g_object_unref (priv->view_instance);
 	priv->view_instance = NULL;
 
-	gtk_object_unref (GTK_OBJECT (priv->view_menus));
+	g_object_unref (priv->view_menus);
 	priv->view_menus = NULL;
 }
 
@@ -1845,11 +1845,11 @@ gnome_calendar_new (void)
 {
 	GnomeCalendar *gcal;
 
-	gcal = gtk_type_new (gnome_calendar_get_type ());
+	gcal = g_object_new (gnome_calendar_get_type (), NULL);
 
 	if (!gnome_calendar_construct (gcal)) {
 		g_message ("gnome_calendar_new(): Could not construct the calendar GUI");
-		gtk_object_unref (GTK_OBJECT (gcal));
+		g_object_unref (gcal);
 		return NULL;
 	}
 
@@ -2316,7 +2316,7 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 	cal_component_commit_sequence (comp);
 
 	gnome_calendar_edit_object (cal, comp, meeting);
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (comp);
 }
 
 /**
@@ -2367,7 +2367,7 @@ gnome_calendar_new_task		(GnomeCalendar *gcal)
 	cal_component_set_categories (comp, category);
 
 	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (comp);
 
 	comp_editor_focus (COMP_EDITOR (tedit));
 }

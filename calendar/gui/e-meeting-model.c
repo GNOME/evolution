@@ -717,7 +717,7 @@ destroy (GtkObject *obj)
 	priv = im->priv;
 
 	for (i = 0; i < priv->attendees->len; i++)
-		gtk_object_unref (GTK_OBJECT (g_ptr_array_index (priv->attendees, i)));
+		g_object_unref (g_ptr_array_index (priv->attendees, i));
 	g_ptr_array_free (priv->attendees, TRUE); 
 
 	for (l = priv->tables; l != NULL; l = l->next)
@@ -725,10 +725,10 @@ destroy (GtkObject *obj)
 	g_list_free (priv->tables);
 	
 	if (priv->client != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->client));
+		g_object_unref (priv->client);
 
 	if (priv->ebook != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->ebook));
+		g_object_unref (priv->ebook);
 
 	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
@@ -751,7 +751,7 @@ destroy (GtkObject *obj)
 GtkObject *
 e_meeting_model_new (void)
 {
-	return gtk_type_new (E_TYPE_MEETING_MODEL);
+	return g_object_new (E_TYPE_MEETING_MODEL, NULL);
 }
 
 
@@ -773,10 +773,10 @@ e_meeting_model_set_cal_client (EMeetingModel *im, CalClient *client)
 	priv = im->priv;
 
 	if (priv->client != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->client));
+		g_object_unref (priv->client);
 	
 	if (client != NULL)
-		gtk_object_ref (GTK_OBJECT (client));
+		g_object_ref (client);
 	priv->client = client;
 }
 
@@ -821,7 +821,7 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
+	g_object_unref (cell);
 	
 	strings = NULL;
 	strings = g_list_append (strings, (char*) _("Individual"));
@@ -837,7 +837,7 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
+	g_object_unref (cell);
 	
 	strings = NULL;
 	strings = g_list_append (strings, (char*) _("Chair"));
@@ -853,7 +853,7 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
+	g_object_unref (cell);
 
 	strings = NULL;
 	strings = g_list_append (strings, (char*) _("Yes"));
@@ -866,7 +866,7 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	popup_cell = e_cell_combo_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
+	g_object_unref (cell);
 
 	strings = NULL;
 	strings = g_list_append (strings, (char*) _("Needs Action"));
@@ -889,7 +889,7 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 
 	g_signal_connect (etable, "destroy", G_CALLBACK (table_destroy_state_cb), g_strdup (state_file));
 
-	gtk_object_unref (GTK_OBJECT (extras));
+	g_object_unref (extras);
 	
 	return E_TABLE_SCROLLED (etable);
 }
@@ -903,7 +903,7 @@ e_meeting_model_add_attendee (EMeetingModel *im, EMeetingAttendee *ia)
 	
 	e_table_model_pre_change (E_TABLE_MODEL (im));
 
-	gtk_object_ref (GTK_OBJECT (ia));
+	g_object_ref (ia);
 	g_ptr_array_add (priv->attendees, ia);
 	
 	g_signal_connect (ia, "changed", G_CALLBACK (attendee_changed_cb), im);
@@ -966,7 +966,7 @@ e_meeting_model_remove_attendee (EMeetingModel *im, EMeetingAttendee *ia)
 		e_table_model_pre_change (E_TABLE_MODEL (im));
 
 		g_ptr_array_remove_index (priv->attendees, row);		
-		gtk_object_unref (GTK_OBJECT (ia));
+		g_object_unref (ia);
 
 		e_table_model_row_deleted (E_TABLE_MODEL (im), row);
 	}
@@ -986,7 +986,7 @@ e_meeting_model_remove_all_attendees (EMeetingModel *im)
 
 	for (i = 0; i < len; i++) {
 		EMeetingAttendee *ia = g_ptr_array_index (priv->attendees, i);
-		gtk_object_unref (GTK_OBJECT (ia));
+		g_object_unref (ia);
 	}
 
 	g_ptr_array_set_size (priv->attendees, 0);
@@ -1181,7 +1181,7 @@ refresh_queue_add (EMeetingModel *im, int row,
 		g_ptr_array_add (qdata->data, data);
 	}
 
-	gtk_object_ref (GTK_OBJECT (ia));
+	g_object_ref (ia);
 	g_ptr_array_add (priv->refresh_queue, ia);
 
 	if (priv->refresh_idle_id == -1)
@@ -1207,7 +1207,7 @@ refresh_queue_remove (EMeetingModel *im, EMeetingAttendee *ia)
 
 	/* Unref the attendee */
 	g_ptr_array_remove (priv->refresh_queue, ia);
-	gtk_object_unref (GTK_OBJECT (ia));
+	g_object_unref (ia);
 }
 
 static void

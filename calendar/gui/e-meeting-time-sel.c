@@ -844,7 +844,7 @@ e_meeting_time_selector_new (EMeetingModel *emm)
 {
 	GtkWidget *mts;
 
-	mts = GTK_WIDGET (gtk_type_new (e_meeting_time_selector_get_type ()));
+	mts = GTK_WIDGET (g_object_new (e_meeting_time_selector_get_type (), NULL));
 
 	e_meeting_time_selector_construct (E_MEETING_TIME_SELECTOR (mts), emm);
 	
@@ -864,7 +864,7 @@ e_meeting_time_selector_destroy (GtkObject *object)
 	gdk_bitmap_unref (mts->stipple);
 
 	if (mts->model)
-		gtk_object_unref (GTK_OBJECT (mts->model));
+		g_object_unref (mts->model);
 		
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (parent_class)->destroy)(object);

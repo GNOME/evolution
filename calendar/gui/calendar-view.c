@@ -237,7 +237,7 @@ calendar_view_clone (GalView *view)
 	cal_view = CALENDAR_VIEW (view);
 	priv = cal_view->priv;
 
-	new_view = gtk_type_new (TYPE_CALENDAR_VIEW);
+	new_view = g_object_new (TYPE_CALENDAR_VIEW, NULL);
 	new_priv = new_view->priv;
 
 	new_priv->view_type = priv->view_type;
@@ -291,7 +291,7 @@ calendar_view_new (GnomeCalendarViewType view_type, const char *title)
 {
 	CalendarView *cal_view;
 
-	cal_view = gtk_type_new (TYPE_CALENDAR_VIEW);
+	cal_view = g_object_new (TYPE_CALENDAR_VIEW, NULL);
 	return calendar_view_construct (cal_view, view_type, title);
 }
 

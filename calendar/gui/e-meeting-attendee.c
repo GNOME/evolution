@@ -211,7 +211,7 @@ destroy (GtkObject *obj)
 GtkObject *
 e_meeting_attendee_new (void)
 {
-	return gtk_type_new (E_TYPE_MEETING_ATTENDEE);
+	return g_object_new (E_TYPE_MEETING_ATTENDEE, NULL);
 }
 
 GtkObject *
@@ -219,7 +219,7 @@ e_meeting_attendee_new_from_cal_component_attendee (CalComponentAttendee *ca)
 {
 	EMeetingAttendee *ia;
 	
-	ia = E_MEETING_ATTENDEE (gtk_type_new (E_TYPE_MEETING_ATTENDEE));
+	ia = E_MEETING_ATTENDEE (g_object_new (E_TYPE_MEETING_ATTENDEE, NULL));
 
 	e_meeting_attendee_set_address (ia, g_strdup (ca->value));
 	e_meeting_attendee_set_member (ia, g_strdup (ca->member));

@@ -265,11 +265,11 @@ e_tasks_new (void)
 {
 	ETasks *tasks;
 
-	tasks = gtk_type_new (e_tasks_get_type ());
+	tasks = g_object_new (e_tasks_get_type (), NULL);
 
 	if (!e_tasks_construct (tasks)) {
 		g_message ("e_tasks_new(): Could not construct the tasks GUI");
-		gtk_object_unref (GTK_OBJECT (tasks));
+		g_object_unref (tasks);
 		return NULL;
 	}
 
@@ -303,7 +303,7 @@ e_tasks_destroy (GtkObject *object)
 	priv = tasks->priv;
 
 	if (priv->client) {
-		gtk_object_unref (GTK_OBJECT (priv->client));
+		g_object_unref (priv->client);
 		priv->client = NULL;
 	}
 
@@ -510,7 +510,7 @@ e_tasks_new_task			(ETasks		*tasks)
 	cal_component_set_categories (comp, category);
 
 	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (comp);
 
 	comp_editor_focus (COMP_EDITOR (tedit));
 }
@@ -605,7 +605,7 @@ query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 	set_status_message (tasks, NULL);
 
 	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->query), tasks);
-	gtk_object_unref (GTK_OBJECT (priv->query));
+	g_object_unref (priv->query);
 	priv->query = NULL;
 }
 
@@ -624,7 +624,7 @@ query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *err
 	set_status_message (tasks, NULL);
 
 	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->query), tasks);
-	gtk_object_unref (GTK_OBJECT (priv->query));
+	g_object_unref (priv->query);
 	priv->query = NULL;
 }
 /**
@@ -728,9 +728,9 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 						      EVOLUTION_ETSPECDIR "/e-calendar-table.etspec");
 
 		factory = gal_view_factory_etable_new (spec);
-		gtk_object_unref (GTK_OBJECT (spec));
+		g_object_unref (spec);
 		gal_view_collection_add_factory (collection, factory);
-		gtk_object_unref (GTK_OBJECT (factory));
+		g_object_unref (factory);
 
 		/* Load the collection and create the menus */
 
@@ -768,10 +768,10 @@ e_tasks_discard_view_menus (ETasks *tasks)
 	g_assert (priv->view_instance != NULL);
 	g_assert (priv->view_menus != NULL);
 
-	gtk_object_unref (GTK_OBJECT (priv->view_instance));
+	g_object_unref (priv->view_instance);
 	priv->view_instance = NULL;
 
-	gtk_object_unref (GTK_OBJECT (priv->view_menus));
+	g_object_unref (priv->view_menus);
 	priv->view_menus = NULL;
 }
 

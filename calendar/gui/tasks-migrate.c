@@ -79,7 +79,7 @@ migrate (void)
 			else
 				success = FALSE;
 
-			gtk_object_unref (GTK_OBJECT (comp));
+			g_object_unref (comp);
 			break;
 
 		case CAL_CLIENT_GET_NOT_FOUND:
@@ -170,10 +170,10 @@ tasks_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 		g_assert_not_reached ();
 	}
 
-	gtk_object_unref (GTK_OBJECT (calendar_client));
+	g_object_unref (calendar_client);
 	calendar_client = NULL;
 
-	gtk_object_unref (GTK_OBJECT (tasks_client));
+	g_object_unref (tasks_client);
 	tasks_client = NULL;
 }
 
@@ -204,7 +204,7 @@ load_tasks_client (void)
 	g_message ("load_tasks_client(): could not issue open request for the tasks client");
 
 	if (tasks_client) {
-		gtk_object_unref (GTK_OBJECT (tasks_client));
+		g_object_unref (tasks_client);
 		tasks_client = NULL;
 	}
 
@@ -244,7 +244,7 @@ calendar_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data
 		g_assert_not_reached ();
 	}
 
-	gtk_object_unref (GTK_OBJECT (calendar_client));
+	g_object_unref (calendar_client);
 	calendar_client = NULL;
 }
 
@@ -276,7 +276,7 @@ load_calendar_client (void)
 	g_message ("load_calendar_client(): could not issue open request for the calendar client");
 
 	if (calendar_client) {
-		gtk_object_unref (GTK_OBJECT (calendar_client));
+		g_object_unref (calendar_client);
 		calendar_client = NULL;
 	}
 

@@ -246,6 +246,6 @@ calendar_view_factory_new (GnomeCalendarViewType view_type)
 {
 	CalendarViewFactory *cal_view_factory;
 
-	cal_view_factory = gtk_type_new (TYPE_CALENDAR_VIEW_FACTORY);
+	cal_view_factory = g_object_new (TYPE_CALENDAR_VIEW_FACTORY, NULL);
 	return calendar_view_factory_construct (cal_view_factory, view_type);
 }

@@ -523,7 +523,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 	global_shell_client = shell_client;
 
-	config_control_factory_register (bonobo_object_corba_objref (BONOBO_OBJECT (shell_client)));
+	config_control_factory_register (evolution_shell_client_corba_objref (shell_client));
 }
 
 static void

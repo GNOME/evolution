@@ -110,7 +110,7 @@ e_comp_editor_registry_get_type (void)
 GtkObject *
 e_comp_editor_registry_new (void)
 {
-	return gtk_type_new (E_TYPE_COMP_EDITOR_REGISTRY);
+	return g_object_new (E_TYPE_COMP_EDITOR_REGISTRY, NULL);
 }
 
 void

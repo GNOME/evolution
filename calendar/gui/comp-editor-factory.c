@@ -158,7 +158,7 @@ free_client (OpenClient *oc)
 	g_free (oc->uri);
 	oc->uri = NULL;
 
-	gtk_object_unref (GTK_OBJECT (oc->client));
+	g_object_unref (oc->client);
 	oc->client = NULL;
 
 	for (l = oc->pending; l; l = l->next) {
@@ -281,7 +281,7 @@ edit_existing (OpenClient *oc, const char *uid)
 
 	default:
 		g_message ("edit_exiting(): Unsupported object type %d", (int) vtype);
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
 		return;
 	}
 
@@ -501,7 +501,7 @@ open_client (CompEditorFactory *factory, const char *uristr)
 
 	if (!cal_client_open_calendar (oc->client, uristr, FALSE)) {
 		g_free (oc->uri);
-		gtk_object_unref (GTK_OBJECT (oc->client));
+		g_object_unref (oc->client);
 		g_free (oc);
 
 		return NULL;
@@ -644,7 +644,7 @@ impl_editNew (PortableServer_Servant servant,
 CompEditorFactory *
 comp_editor_factory_new (void)
 {
-	return gtk_type_new (TYPE_COMP_EDITOR_FACTORY);
+	return g_object_new (TYPE_COMP_EDITOR_FACTORY, NULL);
 }
 
 

@@ -799,7 +799,7 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 	return clone;
 
  error:
-	gtk_object_unref (GTK_OBJECT (clone));
+	g_object_unref (clone);
 	return NULL;
 }
 
@@ -884,7 +884,7 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *cl
 	case CAL_COMPONENT_METHOD_REFRESH:
 		/* Need to remove almost everything */
 		temp_clone = comp_minimal (clone, TRUE);
-		gtk_object_unref (GTK_OBJECT (clone));
+		g_object_unref (clone);
 		clone = temp_clone;
 		break;
 	case CAL_COMPONENT_METHOD_COUNTER:
@@ -892,7 +892,7 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *cl
 	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
 		/* Need to remove almost everything */
 		temp_clone = comp_minimal (clone, FALSE);
-		gtk_object_unref (GTK_OBJECT (clone));
+		g_object_unref (clone);
 		clone = temp_clone;
 		break;
 	default:
@@ -1027,7 +1027,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	CORBA_exception_free (&ev);
 
 	if (comp != NULL)
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
 	if (top_level != NULL)
 		icalcomponent_free (top_level);
 

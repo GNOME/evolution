@@ -54,7 +54,7 @@ static gboolean on_timezone_dialog_delete_event	(GnomeDialog	*dialog,
 static void
 do_cleanup (void)
 {
-	gtk_object_unref (GTK_OBJECT (config));
+	g_object_unref (config);
 	config = NULL;
 }
 
@@ -689,7 +689,7 @@ on_timezone_set			(GnomeDialog	*dialog,
 		e_tasks_update_all_config_settings ();
 	}
 
-	gtk_object_unref (GTK_OBJECT (etd));
+	g_object_unref (etd);
 }
 
 
@@ -698,7 +698,7 @@ on_timezone_dialog_delete_event	(GnomeDialog	*dialog,
 				 GdkEvent	*event,
 				 ETimezoneDialog *etd)
 {
-	gtk_object_unref (GTK_OBJECT (etd));
+	g_object_unref (etd);
 	return TRUE;
 }
 

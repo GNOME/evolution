@@ -266,7 +266,7 @@ get_font_for_size (double h, GnomeFontWeight weight, gboolean italic)
 	
 	font = gnome_font_find_closest_from_weight_slant (DEFAULT_FONT, weight, italic, size);
 
-	gtk_object_unref (GTK_OBJECT (face));
+	g_object_unref (face);
 	
 	return font;
 }
@@ -405,7 +405,7 @@ print_text_size(GnomePrintContext *pc, const char *text,
 
 	font = get_font_for_size (t - b, GNOME_FONT_BOOK, FALSE);
 	print_text(pc, font, text, align, l, r, t, b);
-	gtk_object_unref (GTK_OBJECT (font));
+	g_object_unref (font);
 }
 
 /* gets/frees the font for you, as a bold font */
@@ -417,7 +417,7 @@ print_text_size_bold(GnomePrintContext *pc, const char *text,
 
 	font = get_font_for_size (t - b, GNOME_FONT_BOLD, FALSE);
 	print_text(pc, font, text, align, l, r, t, b);
-	gtk_object_unref (GTK_OBJECT (font));
+	g_object_unref (font);
 }
 
 static void
@@ -538,7 +538,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 	}
 	print_text (pc, font, buf, ALIGN_CENTER, left, right,
 		    top, top - header_size);
-	gtk_object_unref (GTK_OBJECT (font));
+	g_object_unref (font);
 
 	top -= header_size;
 
@@ -633,8 +633,8 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 			}
 		}
 	}
-	gtk_object_unref (GTK_OBJECT (font_normal));
-	gtk_object_unref (GTK_OBJECT (font_bold));
+	g_object_unref (font_normal);
+	g_object_unref (font_bold);
 }
 
 
@@ -820,8 +820,8 @@ print_day_background (GnomePrintContext *pc, GnomeCalendar *gcal,
 		row++;
 	}
 
-	gtk_object_unref (GTK_OBJECT (font_hour));
-	gtk_object_unref (GTK_OBJECT (font_minute));
+	g_object_unref (font_hour);
+	g_object_unref (font_minute);
 }
 
 
@@ -857,7 +857,7 @@ print_day_add_event (CalComponent *comp,
 	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
 
 	event.comp = comp;
-	gtk_object_ref (GTK_OBJECT (comp));
+	g_object_ref (comp);
 	event.start = start;
 	event.end = end;
 	event.canvas_item = NULL;
@@ -926,7 +926,7 @@ free_event_array (GArray *array)
 		event = &g_array_index (array, EDayViewEvent, event_num);
 		if (event->canvas_item)
 			gtk_object_destroy (GTK_OBJECT (event->canvas_item));
-		gtk_object_unref (GTK_OBJECT (event->comp));
+		g_object_unref (event->comp);
 	}
 
 	g_array_set_size (array, 0);
@@ -1165,7 +1165,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		print_day_long_event (pc, font, left, right, top, bottom,
 				      DAY_VIEW_ROW_HEIGHT, event, &pdi);
 	}
-	gtk_object_unref (GTK_OBJECT (font));
+	g_object_unref (font);
 
 	/* We always leave space for DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY in the
 	   top display, but we may have more rows than that, in which case
@@ -1202,7 +1202,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		print_day_event (pc, font, left, right, top, bottom,
 				 event, &pdi);
 	}
-	gtk_object_unref (GTK_OBJECT (font));
+	g_object_unref (font);
 
 	/* Free everything. */
 	free_event_array (pdi.long_events);
@@ -1242,7 +1242,7 @@ print_week_summary_cb (CalComponent *comp,
 	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
 
 	event.comp = comp;
-	gtk_object_ref (GTK_OBJECT (event.comp));
+	g_object_ref (event.comp);
 	event.start = start;
 	event.end = end;
 	event.spans_index = 0;
@@ -1610,12 +1610,12 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 				  cell_width, cell_height, event, spans);
 	}
 
-	gtk_object_unref (GTK_OBJECT (font));
+	g_object_unref (font);
 
 	/* Free everything. */
 	for (event_num = 0; event_num < psi.events->len; event_num++) {
 		event = &g_array_index (psi.events, EWeekViewEvent, event_num);
-		gtk_object_unref (GTK_OBJECT (event->comp));
+		g_object_unref (event->comp);
 	}
 	g_array_free (psi.events, TRUE);
 	g_array_free (spans, TRUE);
@@ -1738,7 +1738,7 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		tm.tm_mday++;
 		tm.tm_wday = (tm.tm_wday + 1) % 7;
 	}
-	gtk_object_unref (GTK_OBJECT (font));
+	g_object_unref (font);
 
 	top = y2;
 	print_week_summary (pc, gcal, date, TRUE, 6, month,
@@ -1824,7 +1824,7 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 		y -= 3;
 	}
 
-	gtk_object_unref (GTK_OBJECT (font_summary));
+	g_object_unref (font_summary);
 }
 
 
@@ -2256,7 +2256,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 		      1.0, 0.9);
 	print_text (pc, font, title, ALIGN_CENTER, left, right,
 		    top - header_size * 0.1, top - header_size);
-	gtk_object_unref (GTK_OBJECT (font));
+	g_object_unref (font);
 
 	top -= header_size + 10;
 
@@ -2265,7 +2265,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 	cal_component_get_summary (comp, &text);
 	top = bound_text (pc, font, text.value, left, right,
 			  top - 3, bottom, 0);
-	gtk_object_unref (GTK_OBJECT (font));
+	g_object_unref (font);
 
 	/* Date information */
 	print_date_label (pc, comp, client, left, right, top-3, top - 15);
@@ -2399,7 +2399,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 			top = bound_text (pc, font, text->value, left, right, top-3, bottom, 0);
 	}
 	cal_component_free_text_list (desc);
-	gtk_object_unref (GTK_OBJECT (font));
+	g_object_unref (font);
 
 	gnome_print_showpage (pc);
 }
@@ -2522,7 +2522,7 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		gnome_print_master_print (gpm);
 	}
 
-	gtk_object_unref (GTK_OBJECT (gpm));
+	g_object_unref (gpm);
 #endif
 }
 
@@ -2616,7 +2616,7 @@ print_comp (CalComponent *comp, CalClient *client, gboolean preview)
 		gnome_print_master_print (gpm);
 	}
 
-	gtk_object_unref (GTK_OBJECT (gpm));
+	g_object_unref (gpm);
 #endif
 }
 

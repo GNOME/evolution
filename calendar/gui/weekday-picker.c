@@ -433,7 +433,7 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 GtkWidget *
 weekday_picker_new (void)
 {
-	return gtk_type_new (TYPE_WEEKDAY_PICKER);
+	return g_object_new (TYPE_WEEKDAY_PICKER, NULL);
 }
 
 /**

@@ -295,7 +295,7 @@ free_objects (CalendarModel *model)
 
 		comp = g_array_index (priv->objects, CalComponent *, i);
 		g_assert (comp != NULL);
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
 
 		object_data = &g_array_index (priv->objects_data,
 					      CalendarModelObjectData, i);
@@ -328,7 +328,7 @@ calendar_model_destroy (GtkObject *object)
 
 	if (priv->client) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), model);
-		gtk_object_unref (GTK_OBJECT (priv->client));
+		g_object_unref (priv->client);
 		priv->client = NULL;
 	}
 
@@ -339,7 +339,7 @@ calendar_model_destroy (GtkObject *object)
 
 	if (priv->query) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->query), model);
-		gtk_object_unref (GTK_OBJECT (priv->query));
+		g_object_unref (priv->query);
 		priv->query = NULL;
 	}
 
@@ -361,7 +361,7 @@ calendar_model_destroy (GtkObject *object)
 	itip_addresses_free (priv->addresses);
 
 	if (priv->activity) {
-		gtk_object_unref (GTK_OBJECT (priv->activity));
+		g_object_unref (priv->activity);
 		priv->activity = NULL;
 	}
 
@@ -1414,7 +1414,7 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 		g_message ("calendar_model_append_row(): Could not add new object!");
 	}
 
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (comp);
 }
 
 /* Duplicates a string value */
@@ -1480,7 +1480,7 @@ calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 		CalComponent *comp;
 
 		comp = CAL_COMPONENT (value);
-		gtk_object_ref (GTK_OBJECT (comp));
+		g_object_ref (comp);
 		return comp;
 	}
 
@@ -1536,7 +1536,7 @@ calendar_model_free_value (ETableModel *etm, int col, void *value)
 
 	case CAL_COMPONENT_FIELD_COMPONENT:
 		if (value)
-			gtk_object_unref (GTK_OBJECT (value));
+			g_object_unref (value);
 		break;
 
 	default:
@@ -1761,7 +1761,7 @@ calendar_model_value_to_string (ETableModel *etm, int col, const void *value)
 CalendarModel *
 calendar_model_new (void)
 {
-	return CALENDAR_MODEL (gtk_type_new (TYPE_CALENDAR_MODEL));
+	return CALENDAR_MODEL (g_object_new (TYPE_CALENDAR_MODEL, NULL));
 }
 
 
@@ -1985,7 +1985,7 @@ update_query (CalendarModel *model)
 
 	if (old_query) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (old_query), model);
-		gtk_object_unref (GTK_OBJECT (old_query));
+		g_object_unref (old_query);
 	}
 
 	g_assert (priv->sexp != NULL);
@@ -2080,7 +2080,7 @@ remove_object (CalendarModel *model, const char *uid)
 	calendar_model_free_object_data (model, object_data);
 	g_array_remove_index (priv->objects_data, *idx);
 
-	gtk_object_unref (GTK_OBJECT (orig_comp));
+	g_object_unref (orig_comp);
 
 	n = *idx;
 	g_free (idx);
@@ -2104,7 +2104,7 @@ calendar_model_set_status_message (CalendarModel *model, const char *message)
 
 	if (!message || !*message) {
 		if (priv->activity) {
-			gtk_object_unref (GTK_OBJECT (priv->activity));
+			g_object_unref (priv->activity);
 			priv->activity = NULL;
 		}
 	}
@@ -2172,11 +2172,11 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
 		return;
 
 	if (client)
-		gtk_object_ref (GTK_OBJECT (client));
+		g_object_ref (client);
 
 	if (priv->client) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), model);
-		gtk_object_unref (GTK_OBJECT (priv->client));
+		g_object_unref (priv->client);
 	}
 
 	priv->client = client;

@@ -517,7 +517,7 @@ print_title (GnomePrintContext *pc,
 	gnome_print_setrgbcolor (pc, 0, 0, 0);
 	gnome_print_show (pc, text);
 
-	gtk_object_unref (GTK_OBJECT (font));
+	g_object_unref (font);
 }
 
 
@@ -594,8 +594,8 @@ print_tasks (ETasks *tasks, gboolean preview, gboolean landscape,
 		gnome_print_master_print (master);
 	}
 
-	gtk_object_unref (GTK_OBJECT (master));
-	gtk_object_unref (GTK_OBJECT (printable));
+	g_object_unref (master);
+	g_object_unref (printable);
 #endif
 }
 

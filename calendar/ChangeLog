@@ -1,5 +1,57 @@
 2002-11-08  Ettore Perazzoli  <ettore@ximian.com>
 
+	* calendar-commands.c: Use g_object_ref()/g_object_unref() instead
+	of gtk_object_ref/gtk_object_unref().
+	* calendar-config.c: Likewise.
+	* calendar-model.c: Likewise.
+	* comp-editor-factory.c: Likewise.
+	* comp-util.c: Likewise.
+	* e-calendar-table.c: Likewise.
+	* e-day-view.c: Likewise.
+	* e-itip-control.c: Likewise.
+	* e-meeting-model.c: Likewise.
+	* e-meeting-time-sel.c: Likewise.
+	* e-tasks.c: Likewise.
+	* e-timezone-entry.c: Likewise.
+	* e-week-view.c: Likewise.
+	* gnome-cal.c: Likewise.
+	* goto.c: Likewise.
+	* itip-utils.c: Likewise.
+	* print.c: Likewise.
+	* tasks-control.c: Likewise.
+	* tasks-migrate.c: Likewise.
+
+	* gui/cal-search-bar.c: Use g_object_new() instead of
+	gtk_type_new().
+	* gui/calendar-model.c: Likewise.
+	* gui/calendar-view-factory.c: Likewise.
+	* gui/calendar-view.c: Likewise.
+	* gui/calendar-view.c: Likewise.
+	* gui/comp-editor-factory.c: Likewise.
+	* gui/e-calendar-table.c: Likewise.
+	* gui/e-cell-date-edit-text.c: Likewise.
+	* gui/e-comp-editor-registry.c: Likewise.
+	* gui/e-day-view.c: Likewise.
+	* gui/e-itip-control.c: Likewise.
+	* gui/e-meeting-attendee.c: Likewise.
+	* gui/e-meeting-attendee.c: Likewise.
+	* gui/e-meeting-model.c: Likewise.
+	* gui/e-meeting-time-sel.c: Likewise.
+	* gui/e-tasks.c: Likewise.
+	* gui/e-timezone-entry.c: Likewise.
+	* gui/e-week-view.c: Likewise.
+	* gui/gnome-cal.c: Likewise.
+	* gui/weekday-picker.c: Likewise.
+
+	* gui/e-itip-control.c (get_servers): g_object_unref the
+	shell_client instead of using bonobo_object_unref().
+
+	* gui/component-factory.c (owner_set_cb): Use
+	evolution_shell_client_corba_objref() instead of
+	bonobo_object_corba_objref().
+
+2002-11-08  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/calendar-commands.c: Use g_signal_connect() instead of
 	gtk_signal_connect().
 	* calendar-commands.c: Likewise.

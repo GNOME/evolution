@@ -190,7 +190,7 @@ e_timezone_entry_new			(void)
 {
 	ETimezoneEntry *tentry;
 
-	tentry = gtk_type_new (e_timezone_entry_get_type ());
+	tentry = g_object_new (e_timezone_entry_get_type (), NULL);
 
 	return GTK_WIDGET (tentry);
 }
@@ -254,7 +254,7 @@ on_button_clicked		(GtkWidget	*widget,
 		e_timezone_entry_set_entry_visibility (tentry);
 	}
 
-	gtk_object_unref (GTK_OBJECT (timezone_dialog));
+	g_object_unref (timezone_dialog);
 }
 
 

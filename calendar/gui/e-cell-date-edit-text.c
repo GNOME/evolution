@@ -222,7 +222,7 @@ ECell *
 e_cell_date_edit_text_new (const char *fontname,
 			   GtkJustification justify)
 {
-	ECellDateEditText *ecd = gtk_type_new (e_cell_date_edit_text_get_type ());
+	ECellDateEditText *ecd = g_object_new (e_cell_date_edit_text_get_type (), NULL);
 
 	e_cell_text_construct (E_CELL_TEXT (ecd), fontname, justify);
       

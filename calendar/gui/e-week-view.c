@@ -480,7 +480,7 @@ e_week_view_new (void)
 {
 	GtkWidget *week_view;
 
-	week_view = GTK_WIDGET (gtk_type_new (e_week_view_get_type ()));
+	week_view = GTK_WIDGET (g_object_new (e_week_view_get_type (), NULL));
 
 	return week_view;
 }
@@ -501,7 +501,7 @@ e_week_view_destroy (GtkObject *object)
 
 	if (week_view->client) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->client), week_view);
-		gtk_object_unref (GTK_OBJECT (week_view->client));
+		g_object_unref (week_view->client);
 		week_view->client = NULL;
 	}
 
@@ -512,7 +512,7 @@ e_week_view_destroy (GtkObject *object)
 
 	if (week_view->query) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->query), week_view);
-		gtk_object_unref (GTK_OBJECT (week_view->query));
+		g_object_unref (week_view->query);
 		week_view->query = NULL;
 	}
 
@@ -538,7 +538,7 @@ e_week_view_destroy (GtkObject *object)
 	}
 
 	if (week_view->activity) {
-		gtk_object_unref (GTK_OBJECT (week_view->activity));
+		g_object_unref (week_view->activity);
 		week_view->activity = NULL;
 	}
 
@@ -1062,7 +1062,7 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 			g_print ("updated object's dates unchanged\n");
 #endif
 			e_week_view_foreach_event_with_uid (week_view, uid, e_week_view_update_event_cb, comp);
-			gtk_object_unref (GTK_OBJECT (comp));
+			g_object_unref (comp);
 			gtk_widget_queue_draw (week_view->main_canvas);
 			return;
 		}
@@ -1087,7 +1087,7 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 				      cal_client_resolve_tzid_cb, week_view->client,
 				      week_view->zone);
 
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (comp);
 
 	e_week_view_queue_layout (week_view);
 }
@@ -1194,7 +1194,7 @@ update_query (EWeekView *week_view)
 
 	if (old_query) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (old_query), week_view);
-		gtk_object_unref (GTK_OBJECT (old_query));
+		g_object_unref (old_query);
 	}
 
 	g_assert (week_view->sexp != NULL);
@@ -1258,11 +1258,11 @@ e_week_view_set_cal_client	(EWeekView	*week_view,
 		g_return_if_fail (IS_CAL_CLIENT (client));
 
 	if (client)
-		gtk_object_ref (GTK_OBJECT (client));
+		g_object_ref (client);
 
 	if (week_view->client) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (week_view->client), week_view);
-		gtk_object_unref (GTK_OBJECT (week_view->client));
+		g_object_unref (week_view->client);
 	}
 
 	week_view->client = client;
@@ -1972,9 +1972,9 @@ e_week_view_update_event_cb (EWeekView *week_view,
 
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 
-	gtk_object_unref (GTK_OBJECT (event->comp));
+	g_object_unref (event->comp);
 	event->comp = comp;
-	gtk_object_ref (GTK_OBJECT (comp));
+	g_object_ref (comp);
 
 	for (span_num = 0; span_num < event->num_spans; span_num++) {
 		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
@@ -2059,7 +2059,7 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 		}
 	}
 
-	gtk_object_unref (GTK_OBJECT (event->comp));
+	g_object_unref (event->comp);
 
 	g_array_remove_index (week_view->events, event_num);
 	week_view->events_need_layout = TRUE;
@@ -2404,7 +2404,7 @@ e_week_view_free_events (EWeekView *week_view)
 	for (event_num = 0; event_num < week_view->events->len; event_num++) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
-		gtk_object_unref (GTK_OBJECT (event->comp));
+		g_object_unref (event->comp);
 	}
 
 	g_array_set_size (week_view->events, 0);
@@ -2471,7 +2471,7 @@ e_week_view_add_event (CalComponent *comp,
 						week_view->zone);
 
 	event.comp = comp;
-	gtk_object_ref (GTK_OBJECT (event.comp));
+	g_object_ref (event.comp);
 	event.start = start;
 	event.end = end;
 	event.spans_index = 0;
@@ -3435,7 +3435,7 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (initial_text)
 		g_free (initial_text);
 
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (comp);
 
 	return TRUE;
 }
@@ -3824,7 +3824,7 @@ e_week_view_on_publish (GtkWidget *widget, gpointer data)
 			itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp, 
 					week_view->client, NULL);
 
-			gtk_object_unref (GTK_OBJECT (comp));
+			g_object_unref (comp);
 		}
 
  		g_list_free (comp_list);
@@ -3865,7 +3865,7 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	if (cal_client_update_object (week_view->client, comp) != CAL_CLIENT_RESULT_SUCCESS)
 		g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
 
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (comp);
 }
 
 
@@ -4045,12 +4045,12 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	if (cal_client_update_object (week_view->client, comp) != CAL_CLIENT_RESULT_SUCCESS)
 		g_message ("e_week_view_on_unrecur_appointment(): Could not update the object!");
 
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (comp);
 
 	if (cal_client_update_object (week_view->client, new_comp) != CAL_CLIENT_RESULT_SUCCESS)
 		g_message ("e_week_view_on_unrecur_appointment(): Could not update the object!");
 
-	gtk_object_unref (GTK_OBJECT (new_comp));
+	g_object_unref (new_comp);
 }
 
 
@@ -4251,7 +4251,7 @@ selection_received (GtkWidget *invisible,
 				cal_client_update_object (week_view->client, comp);
 
 				g_free (uid);
-				gtk_object_unref (GTK_OBJECT (comp));
+				g_object_unref (comp);
 			}
 			subcomp = icalcomponent_get_next_component (
 				icalcomp, ICAL_ANY_COMPONENT);
@@ -4293,7 +4293,7 @@ selection_received (GtkWidget *invisible,
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, week_view->client, NULL);
 
 		g_free (uid);
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
 	}
 
 	e_week_view_set_status_message (week_view, NULL);
@@ -4373,7 +4373,7 @@ e_week_view_set_status_message (EWeekView *week_view, const char *message)
 
 	if (!message || !*message) {
 		if (week_view->activity) {
-			gtk_object_unref (GTK_OBJECT (week_view->activity));
+			g_object_unref (week_view->activity);
 			week_view->activity = NULL;
 		}
 	}

@@ -179,7 +179,7 @@ start_calendar_server (char *uri)
 	if (success)
 		return client;
 
-	gtk_object_unref (GTK_OBJECT (client));
+	g_object_unref (client);
 	
 	return NULL;
 }
@@ -210,7 +210,7 @@ start_default_server (gboolean tasks)
 		return client;
 
  error:
-	gtk_object_unref (GTK_OBJECT (client));
+	g_object_unref (client);
 	
 	return NULL;
 }
@@ -267,7 +267,7 @@ get_servers (EvolutionShellClient *shell_client, const char *possible_types[], g
 		CORBA_free (folder_list);		
 	}
 	
-	bonobo_object_unref (BONOBO_OBJECT (shell_client));
+	g_object_unref (shell_client);
 
 	return servers;
 }
@@ -287,8 +287,8 @@ find_server (GPtrArray *servers, CalComponent *comp)
 		client = g_ptr_array_index (servers, i);
 		status = cal_client_get_object (client, uid, &found_comp);
 		if (status == CAL_CLIENT_GET_SUCCESS) {
-			gtk_object_unref (GTK_OBJECT (found_comp));
-			gtk_object_ref (GTK_OBJECT (client));
+			g_object_unref (found_comp);
+			g_object_ref (client);
 
 			return client;
 		}
@@ -355,7 +355,7 @@ clean_up (EItipControl *itip)
 	priv->vcalendar = NULL;
 
 	if (priv->comp)
-		gtk_object_unref (GTK_OBJECT (priv->comp));
+		g_object_unref (priv->comp);
 	priv->comp = NULL;
 
 	icalcomponent_free (priv->top_level);
@@ -396,12 +396,12 @@ destroy (GtkObject *obj)
 
 	if (priv->event_clients) {
 		for (i = 0; i < priv->event_clients->len; i++) 
-			gtk_object_unref (GTK_OBJECT (g_ptr_array_index (priv->event_clients, i)));
+			g_object_unref (g_ptr_array_index (priv->event_clients, i));
 		g_ptr_array_free (priv->event_clients, TRUE);
 	}
 	if (priv->task_clients) {
 		for (i = 0; i < priv->task_clients->len; i++) 
-			gtk_object_unref (GTK_OBJECT (g_ptr_array_index (priv->task_clients, i)));
+			g_object_unref (g_ptr_array_index (priv->task_clients, i));
 		g_ptr_array_free (priv->task_clients, TRUE);
 	}
 
@@ -414,7 +414,7 @@ destroy (GtkObject *obj)
 GtkWidget *
 e_itip_control_new (void)
 {
-	return gtk_type_new (E_TYPE_ITIP_CONTROL);
+	return g_object_new (E_TYPE_ITIP_CONTROL, NULL);
 }
 
 static void
@@ -1066,7 +1066,7 @@ adjust_item (EItipControl *itip, CalComponent *comp)
 		cal_component_set_description_list (comp, l);
 		cal_component_free_text_list (l);
 		
-		gtk_object_unref (GTK_OBJECT (real_comp));
+		g_object_unref (real_comp);
 	} else {
 		CalComponentText text = {_("Unknown"), NULL};
 		
@@ -1273,12 +1273,12 @@ show_current (EItipControl *itip)
 	priv = itip->priv;
 
 	if (priv->comp)
-		gtk_object_unref (GTK_OBJECT (priv->comp));
+		g_object_unref (priv->comp);
 	if (priv->event_client != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->event_client));
+		g_object_unref (priv->event_client);
 	priv->event_client = NULL;
 	if (priv->task_client != NULL)
-		gtk_object_unref (GTK_OBJECT (priv->task_client));
+		g_object_unref (priv->task_client);
 	priv->task_client = NULL;
 
 	/* Determine any delegate sections */
@@ -1310,7 +1310,7 @@ show_current (EItipControl *itip)
 	priv->comp = cal_component_new ();
 	if (!cal_component_set_icalcomponent (priv->comp, priv->ical_comp)) {
 		write_error_html (itip, _("The message does not appear to be properly formed"));
-		gtk_object_unref (GTK_OBJECT (priv->comp));
+		g_object_unref (priv->comp);
 		priv->comp = NULL;
 		return;
 	};
@@ -1767,7 +1767,7 @@ update_attendee_status (EItipControl *itip)
 
  cleanup:
 	if (comp != NULL)
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
 
@@ -1822,7 +1822,7 @@ send_item (EItipControl *itip)
 		default:
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, NULL, NULL);
 		}
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
 		dialog = gnome_ok_dialog (_("Item sent!\n"));
 	} else {
 		dialog = gnome_warning_dialog (_("The item could not be sent!\n"));
@@ -1871,7 +1871,7 @@ send_freebusy (EItipControl *itip)
 			CalComponent *comp = CAL_COMPONENT (l->data);
 			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp, priv->event_client, NULL);
 
-			gtk_object_unref (GTK_OBJECT (comp));
+			g_object_unref (comp);
 		}
 		dialog = gnome_ok_dialog (_("Item sent!\n"));
 
@@ -1898,7 +1898,7 @@ button_selected_cb (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folde
 	else
 		uri = cal_util_expand_uri (folder->physicalUri, FALSE);
 
-	gtk_object_unref (GTK_OBJECT (priv->event_client));
+	g_object_unref (priv->event_client);
 	priv->event_client = start_calendar_server (uri);
 
 	g_free (uri);
@@ -2106,6 +2106,6 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 		default:
 			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp, NULL, NULL);
 		}
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
 	}
 }
