@@ -1,5 +1,12 @@
 2003-03-20  Rodrigo Moya <rodrigo@ximian.com>
 
+	* importers/ical-importer.c: removed activation of shell_client.
+	(importer_destroy_cb): no need to unref shell_client.
+	(connect_to_shell): removed.
+	(ical_importer_new, vcal_importer_new): don't call connect_to_shell.
+
+2003-03-20  Rodrigo Moya <rodrigo@ximian.com>
+
 	* importers/ical-importer.c (get_uri_from_folder_path): removed.
 	(load_file_fn, vcal_load_file_fn): use physical_uri instead of
 	folderpath.

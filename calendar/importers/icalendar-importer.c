@@ -52,7 +52,6 @@ typedef struct {
 	icalcomponent *icalcomp;
 	gboolean folder_contains_events;
 	gboolean folder_contains_tasks;
-	EvolutionShellClient *shell_client;
 } ICalImporter;
 
 typedef struct {
@@ -79,32 +78,7 @@ importer_destroy_cb (gpointer user_data)
 		ici->icalcomp = NULL;
 	}
 
-	if (BONOBO_IS_OBJECT (ici->shell_client)) {
-		bonobo_object_unref (BONOBO_OBJECT (ici->shell_client));
-		ici->shell_client = NULL;
-	}
-
 	g_free (ici);
-}
-
-/* Connects an importer to the Evolution shell */
-static void
-connect_to_shell (ICalImporter *ici)
-{
-	CORBA_Environment ev;
-	GNOME_Evolution_Shell corba_shell;
-
-	CORBA_exception_init (&ev);
-	corba_shell = bonobo_activation_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	ici->shell_client = evolution_shell_client_new (corba_shell);
-
-	CORBA_Object_release (corba_shell, &ev);
-	CORBA_exception_free (&ev);
 }
 
 /* This reads in an entire file and returns it. It returns NULL on error.
@@ -345,7 +319,6 @@ ical_importer_new (void)
 						process_item_fn,
 						NULL,
 						ici);
-	connect_to_shell (ici);
 
 	g_object_weak_ref (G_OBJECT (ici->importer), (GWeakNotify) importer_destroy_cb, ici);
 
@@ -464,7 +437,6 @@ vcal_importer_new (void)
 						process_item_fn,
 						NULL,
 						ici);
-	connect_to_shell (ici);
 
 	g_object_weak_ref (G_OBJECT (ici->importer), (GWeakNotify) importer_destroy_cb, ici);
 
