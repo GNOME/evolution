@@ -1,3 +1,12 @@
+2002-07-31  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-tasks.c (e_tasks_destroy): we no longer need to manually
+	save the state
+	(e_tasks_open): we no longer need to manually load the state
+	(display_view_cb): attach the gal view to the table
+
+	Fixes #27894
+	
 2002-07-29  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_find_work_week_start): make sure

@@ -68,8 +68,6 @@ static void e_tasks_destroy (GtkObject *object);
 
 static void cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data);
 
-static char* e_tasks_get_config_filename (ETasks *tasks);
-
 /* Signal IDs */
 enum {
 	SELECTION_CHANGED,
@@ -297,19 +295,12 @@ e_tasks_destroy (GtkObject *object)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
-	char *config_filename;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (E_IS_TASKS (object));
 
 	tasks = E_TASKS (object);
 	priv = tasks->priv;
-
-	/* Save the ETable layout. */
-	config_filename = e_tasks_get_config_filename (tasks);
-	e_calendar_table_save_state (E_CALENDAR_TABLE (priv->tasks_view),
-				     config_filename);
-	g_free (config_filename);
 
 	if (priv->client) {
 		gtk_object_unref (GTK_OBJECT (priv->client));
@@ -342,7 +333,6 @@ e_tasks_open			(ETasks		*tasks,
 				 char		*file)
 {
 	ETasksPrivate *priv;
-	char *config_filename;
 	char *message;
 	EUri *uri;
 	char *real_uri;
@@ -371,10 +361,6 @@ e_tasks_open			(ETasks		*tasks,
 		return FALSE;
 	}
 
-	config_filename = e_tasks_get_config_filename (tasks);
-	e_calendar_table_load_state (E_CALENDAR_TABLE (priv->tasks_view),
-				     config_filename);
-	g_free (config_filename);
 	g_free (real_uri);
 	e_uri_free (uri);
 
@@ -465,28 +451,6 @@ cal_opened_cb				(CalClient	*client,
 		g_assert_not_reached ();
 	}
 }
-
-
-static char*
-e_tasks_get_config_filename		(ETasks		*tasks)
-{
-	ETasksPrivate *priv;
-	char *url, *filename;
-
-	priv = tasks->priv;
-
-	url = g_strdup (cal_client_get_uri (priv->client));
-
-	/* This turns all funny characters into '_', in the string itself. */
-	e_filename_make_safe (url);
-	
-	filename = g_strdup_printf ("%s/config/et-header-%s", evolution_dir,
-				    url);
-	g_free (url);
-	
-	return filename;
-}
-
 
 /**
  * e_tasks_get_cal_client:
@@ -698,8 +662,7 @@ display_view_cb (GalViewInstance *instance, GalView *view, gpointer data)
 	tasks = E_TASKS (data);
 
 	if (GAL_IS_VIEW_ETABLE (view)) {
-		e_table_set_state_object (e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (tasks->priv->tasks_view)->etable)),
-					  GAL_VIEW_ETABLE (view)->state);
+		gal_view_etable_attach_table (GAL_VIEW_ETABLE (view), e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (tasks->priv->tasks_view)->etable)));
 	}
 }
 
