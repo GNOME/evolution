@@ -17935,7 +17935,7 @@ msgstr "<span weight=\"bold\">Notificació de nou correu</span>"
 
 #: mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr "span weight=\"bold\">Informació opcional</span>"
+msgstr "<span weight=\"bold\">Informació opcional</span>"
 
 #: mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Options</span>"
