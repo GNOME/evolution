@@ -2356,6 +2356,23 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			button.y = y1;
 #endif
 
+			if (e->button.button == 1) {
+				if (eti->maybe_in_drag) {
+					eti->maybe_in_drag = FALSE;
+					if (!eti->maybe_did_something)
+						e_selection_model_do_something(E_SELECTION_MODEL (eti->selection), eti->drag_row, eti->drag_col, eti->drag_state);
+				}
+				if (eti->in_drag) {
+					eti->in_drag = FALSE;
+				}
+			}
+
+			if (eti->grabbed) {
+				d(g_print ("%s: eti_ungrab\n", __FUNCTION__));
+				eti_ungrab (eti, e->button.time);
+				eti->grabbed = FALSE;
+			}
+
 			if (model_row != -1 && model_col != -1) {
 				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
 						 model_row, model_col, e);
