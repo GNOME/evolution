@@ -1055,7 +1055,7 @@ init (EShell *shell)
  * @iid: OAFIID for registering the shell into the name server
  * @local_directory: Local directory for storing local information and folders
  * @show_splash: Whether to display a splash screen.
- * @start_online: Whether to start up in on-line mode.
+ * @startup_line_mode: How to set up the line mode (online or offline) initally.
  * 
  * Construct @shell so that it uses the specified @local_directory and
  * @corba_object.
@@ -1067,17 +1067,23 @@ e_shell_construct (EShell *shell,
 		   const char *iid,
 		   const char *local_directory,
 		   gboolean show_splash,
-		   gboolean start_online)
+		   EShellStartupLineMode startup_line_mode)
 {
 	GtkWidget *splash;
 	EShellPrivate *priv;
 	CORBA_Object corba_object;
 	CORBA_Environment ev;
 	gchar *shortcut_path;
+	gboolean start_online;
+
 	g_return_val_if_fail (shell != NULL, E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	g_return_val_if_fail (E_IS_SHELL (shell), E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	g_return_val_if_fail (local_directory != NULL, E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	g_return_val_if_fail (g_path_is_absolute (local_directory), E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
+	g_return_val_if_fail (startup_line_mode == E_SHELL_STARTUP_LINE_MODE_CONFIG
+			      || startup_line_mode == E_SHELL_STARTUP_LINE_MODE_ONLINE
+			      || startup_line_mode == E_SHELL_STARTUP_LINE_MODE_OFFLINE,
+			      E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	
 	priv = shell->priv;
 
@@ -1180,6 +1186,21 @@ e_shell_construct (EShell *shell,
 
 	priv->is_initialized = TRUE;
 
+	switch (startup_line_mode) {
+	case E_SHELL_STARTUP_LINE_MODE_CONFIG:
+		start_online = ! bonobo_config_get_boolean_with_default (priv->db, "/Shell/StartOffline", FALSE, NULL);
+		break;
+	case E_SHELL_STARTUP_LINE_MODE_ONLINE:
+		start_online = TRUE;
+		break;
+	case E_SHELL_STARTUP_LINE_MODE_OFFLINE:
+		start_online = FALSE;
+		break;
+	default:
+		start_online = FALSE; /* Make compiler happy.  */
+		g_assert_not_reached ();
+	}
+
 	if (start_online)
 		e_shell_go_online (shell, NULL);
 
@@ -1201,7 +1222,7 @@ e_shell_construct (EShell *shell,
 EShell *
 e_shell_new (const char *local_directory,
 	     gboolean show_splash,
-	     gboolean start_online,
+	     EShellStartupLineMode startup_line_mode,
 	     EShellConstructResult *construct_result_return)
 {
 	EShell *new;
@@ -1213,7 +1234,11 @@ e_shell_new (const char *local_directory,
 
 	new = gtk_type_new (e_shell_get_type ());
 
-	construct_result = e_shell_construct (new, E_SHELL_OAFIID, local_directory, show_splash, start_online);
+	construct_result = e_shell_construct (new,
+					      E_SHELL_OAFIID,
+					      local_directory,
+					      show_splash,
+					      startup_line_mode);
 
 	if (construct_result != E_SHELL_CONSTRUCT_RESULT_OK) {
 		*construct_result_return = construct_result;
@@ -1497,6 +1522,20 @@ save_settings_for_components (EShell *shell)
 	return retval;
 }
 
+static gboolean
+save_misc_settings (EShell *shell)
+{
+	EShellPrivate *priv;
+	gboolean is_offline;
+
+	priv = shell->priv;
+
+	is_offline = ( e_shell_get_line_status (shell) == E_SHELL_LINE_STATUS_OFFLINE );
+	bonobo_config_set_boolean (priv->db, "/Shell/StartOffline", is_offline, NULL);
+
+	return TRUE;
+}
+
 /**
  * e_shell_save_settings:
  * @shell: 
@@ -1512,14 +1551,16 @@ e_shell_save_settings (EShell *shell)
 {
 	gboolean views_saved;
 	gboolean components_saved;
+	gboolean misc_saved;
 
 	g_return_val_if_fail (shell != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	views_saved      = save_settings_for_views (shell);
 	components_saved = save_settings_for_components (shell);
+	misc_saved       = save_misc_settings (shell);
 
-	return views_saved && components_saved;
+	return views_saved && components_saved && misc_saved;
 }
 
 /**

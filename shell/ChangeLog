@@ -1,5 +1,22 @@
 2002-02-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #3029, Offline mode should be preserved across sessions.]
+
+	* main.c (idle_cb): Use the e_shell_new() API below so that we use
+	the saved offline settings at the next start-up if neither
+	--offline nor --online has been specified.
+
+	* e-shell.c (save_misc_settings): New function.  For now, just
+	save `/Shell/StartOffline' indicating whether the shell should
+	start in offline mode or not.
+	(e_shell_construct): Replace @start_online with
+	@startup_line_mode.
+	(e_shell_new): Likewise.
+
+	* e-shell.h: New enum EShellStartupLineMode.
+
+2002-02-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (remove_uri_from_history): New helper function to
 	remove all the matching URIs from the history.
 	(history_uri_matching_func): Compare function for using

@@ -187,6 +187,7 @@ idle_cb (void *data)
 	GNOME_Evolution_Shell corba_shell;
 	CORBA_Environment ev;
 	EShellConstructResult result;
+	EShellStartupLineMode startup_line_mode;
 	GSList *p;
 	gboolean have_evolution_uri;
 	gboolean display_default;
@@ -195,7 +196,14 @@ idle_cb (void *data)
 
 	uri_list = (GSList *) data;
 
-	shell = e_shell_new (evolution_directory, ! no_splash, ! start_offline, &result);
+	if (! start_online && ! start_offline)
+		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_CONFIG;
+	else if (start_online)
+		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_ONLINE;
+	else
+		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_OFFLINE;
+
+	shell = e_shell_new (evolution_directory, ! no_splash, startup_line_mode, &result);
 	g_free (evolution_directory);
 
 	switch (result) {
