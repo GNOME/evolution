@@ -200,18 +200,17 @@ int main (void)
 
 #else
 
-#include "camel-charset-map.h"
-#include "camel-charset-map-private.h"
-
-#include <gal/util/e-iconv.h>
-
 #include <glib.h>
 #include <locale.h>
-#include <ctype.h>
-#include <pthread.h>
 #ifdef HAVE_CODESET
 #include <langinfo.h>
 #endif
+
+#include "camel-charset-map.h"
+#include "camel-charset-map-private.h"
+#include "camel-utf8.h"
+
+#include <gal/util/e-iconv.h>
 
 void
 camel_charset_init (CamelCharset *c)
@@ -221,42 +220,34 @@ camel_charset_init (CamelCharset *c)
 }
 
 void
-camel_charset_step (CamelCharset *c, const char *in, int len)
+camel_charset_step (CamelCharset *cc, const char *in, int len)
 {
 	register unsigned int mask;
 	register int level;
-	const char *inptr = in, *inend = in+len;
+	const unsigned char *inptr = in, *inend = in+len;
+	register guint32 c;
 
-	mask = c->mask;
-	level = c->level;
+	mask = cc->mask;
+	level = cc->level;
 
 	/* check what charset a given string will fit in */
-	while (inptr < inend) {
-		gunichar c;
-		const char *newinptr;
-		newinptr = g_utf8_next_char(inptr);
-		c = g_utf8_get_char(inptr);
-		if (newinptr == NULL || !g_unichar_validate (c)) {
-			inptr++;
-			continue;
-		}
-
-		inptr = newinptr;
-		if (c<=0xffff) {
+	while ( (c = camel_utf8_getc_limit(&inptr, inend)) != 0xffff) {
+		if (c < 0xffff) {
 			mask &= charset_mask(c);
 		
 			if (c>=128 && c<256)
 				level = MAX(level, 1);
 			else if (c>=256)
-				level = MAX(level, 2);
+				level = 2;
 		} else {
 			mask = 0;
-			level = MAX(level, 2);
+			level = 2;
+			break;
 		}
 	}
 
-	c->mask = mask;
-	c->level = level;
+	cc->mask = mask;
+	cc->level = level;
 }
 
 /* gets the best charset from the mask of chars in it */

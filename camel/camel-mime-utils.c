@@ -2998,44 +2998,24 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 	const unsigned char *inptr = in;
 	unsigned char *outbuf = NULL;
 	const char *charset;
-	int encoding;
 	GString *out;
 	guint32 c;
 
 	*encoded = FALSE;
 	
 	g_return_val_if_fail (in != NULL, NULL);
-	
-	/* do a quick us-ascii check (the common case?) */
-	while (*inptr) {
-		if (*inptr > 127)
-			break;
-		inptr++;
-	}
-	
-	if (*inptr == '\0')
-		return g_strdup (in);
-	
-	inptr = in;
-	encoding = 0;
-	while ( encoding !=2 && (c = camel_utf8_getc(&inptr)) ) {
-		if (c > 127 && c < 256)
-			encoding = MAX (encoding, 1);
-		else if (c >= 256)
-			encoding = MAX (encoding, 2);
-	}
 
-	if (encoding == 2)
-		charset = camel_charset_best(in, strlen(in));
-	else
-		charset = "iso-8859-1";
+	/* if we have really broken utf8 passed in, we just treat it as binary data */
+
+	charset = camel_charset_best(in, strlen(in));
+	if (charset == NULL)
+		return g_strdup(in);
 	
-	if (strcasecmp(charset, "UTF-8") != 0
-	    && (outbuf = header_convert(charset, "UTF-8", in, strlen(in)))) {
-		inptr = outbuf;
-	} else {
-		charset = "UTF-8";
-		inptr = in;
+	if (g_ascii_strcasecmp(charset, "UTF-8") != 0) {
+		if ((outbuf = header_convert(charset, "UTF-8", in, strlen(in))))
+			inptr = outbuf;
+		else
+			return g_strdup(in);
 	}
 	
 	/* FIXME: set the 'language' as well, assuming we can get that info...? */

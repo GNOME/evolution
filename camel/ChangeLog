@@ -1,3 +1,15 @@
+2005-02-28  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #72609
+
+	* camel-mime-utils.c (header_encode_param): just call
+	camel_charset_best once to get the best charset, and handle a NULL
+	charset name case properly.
+
+	* camel-charset-map.c (camel_charset_step): use the camel utf8
+	functions for robustness (&fix possible buffer-read-overflow).
+	Perform some short-circuit optimisation when we can.
+
 2005-02-22  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #61468
