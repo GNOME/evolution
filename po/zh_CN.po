@@ -19105,7 +19105,7 @@ msgstr "Evolution 正在导入您原来的电子邮件"
 #: importers/elm-importer.c:96 importers/netscape-importer.c:1228
 #: importers/pine-importer.c:101
 msgid "Importing..."
-msgstr "正在导入..."
+msgstr "导入..."
 
 # importers/elm-importer.c:98 importers/netscape-importer.c:109
 # importers/pine-importer.c:103
