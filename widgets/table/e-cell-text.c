@@ -35,6 +35,7 @@
 #include "e-cell-text.h"
 #include "e-util/e-util.h"
 #include "e-util/e-font.h"
+#include "e-util/e-unicode.h"
 #include "e-table-item.h"
 #include "e-text-event-processor.h"
 #include "e-text-event-processor-emacs-like.h"
@@ -912,11 +913,23 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 				e_tep_event.key.time = key.time;
 				e_tep_event.key.state = key.state;
 				e_tep_event.key.keyval = key.keyval;
+
+				/* This is probably ugly hack, but we have to handle UTF-8 input somehow */
+#if 0
 				e_tep_event.key.length = key.length;
 				e_tep_event.key.string = key.string;
+#else
+				e_tep_event.key.string = e_utf8_from_gtk_event_key (canvas, key.keyval, key.string);
+				if (e_tep_event.key.string != NULL) {
+					e_tep_event.key.length = strlen (e_tep_event.key.string);
+				} else {
+					e_tep_event.key.length = 0;
+				}
+#endif
+
 				_get_tep (edit);
-				return_val = e_text_event_processor_handle_event (edit->tep,
-										  &e_tep_event);
+				return_val = e_text_event_processor_handle_event (edit->tep, &e_tep_event);
+				if (e_tep_event.key.string) g_free (e_tep_event.key.string);
 				break;
 			}
 		}

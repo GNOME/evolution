@@ -42,7 +42,9 @@ libeutil_la_SOURCES =			\
 	e-xml-utils.c			\
 	e-xml-utils.h			\
 	e-font.c			\
-	e-font.h
+	e-font.h			\
+	e-unicode.c			\
+	e-unicode.h
 
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
 libeutil_static_la_LDFLAGS = --all-static

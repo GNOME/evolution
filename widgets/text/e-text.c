@@ -28,6 +28,7 @@
 #include <gtk/gtkinvisible.h>
 #include "e-util/e-canvas.h"
 #include "e-util/e-canvas-utils.h"
+#include "e-util/e-unicode.h"
 
 #include "e-text-event-processor-emacs-like.h"
 
@@ -2615,14 +2616,30 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_KEY_RELEASE:
 		if (text->editing) {
 			GdkEventKey key = event->key;
+			gint ret;
+
 			e_tep_event.key.time = key.time;
 			e_tep_event.key.state = key.state;
 			e_tep_event.key.keyval = key.keyval;
+
+			/* This is probably ugly hack, but we have to handle UTF-8 input somehow */
+#if 0
 			e_tep_event.key.length = key.length;
 			e_tep_event.key.string = key.string;
+#else
+			e_tep_event.key.string = e_utf8_from_gtk_event_key (GTK_WIDGET (item->canvas), key.keyval, key.string);
+			if (e_tep_event.key.string != NULL) {
+				e_tep_event.key.length = strlen (e_tep_event.key.string);
+			} else {
+				e_tep_event.key.length = 0;
+			}
+#endif
 			_get_tep(text);
-			return e_text_event_processor_handle_event (text->tep,
-								    &e_tep_event);
+			ret = e_text_event_processor_handle_event (text->tep, &e_tep_event);
+
+			if (e_tep_event.key.string) g_free (e_tep_event.key.string);
+
+			return ret;
 		}
 		else
 			return 0;
