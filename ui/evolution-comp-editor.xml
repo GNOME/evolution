@@ -14,7 +14,7 @@
 
         <cmd name="FileSaveAndClose" _label="Save and Close"
 	_tip="Save the item and close the dialog box"
-	accel="*Control*s"/>
+        accel="*Control*Return"/>
 
         <cmd name="FileSaveAs" _label="Save As..."
 	_tip="Save this item to disk"

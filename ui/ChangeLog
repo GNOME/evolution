@@ -1,7 +1,11 @@
 2001-08-20  JP Rosevear  <jpr@ximian.com>
 
-	* evolution-comp-editor.xml: remove print preview from toolbar
+	* evolution-comp-editor.xml: control-return for save and close
 	
+2001-08-20  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-comp-editor.xml: remove print preview from toolbar
+
 2001-08-20  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-comp-editor.xml: remove print setup option for
