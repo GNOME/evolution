@@ -620,14 +620,14 @@ load_uri_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 static void
 load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-	AddressbookSource *source;
 	LoadUriData *load_uri_data = closure;
 
-	source = addressbook_storage_get_source_by_uri (e_book_get_uri (book));
+	if (status == E_BOOK_STATUS_SUCCESS && book != NULL) {
+		AddressbookSource *source;
 
-	if (status == E_BOOK_STATUS_SUCCESS) {
 		/* check if the addressbook needs authentication */
 
+		source = addressbook_storage_get_source_by_uri (e_book_get_uri (book));
 		if (source &&
 		    source->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
 			const char *password;
