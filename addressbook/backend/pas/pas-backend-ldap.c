@@ -107,7 +107,7 @@ struct _PASBackendLDAPPrivate {
                                   was not built into openldap. */
 	PASBackendLDAPUseTLS use_tls;
 
-	GList    *book_views;
+	EList    *book_views;
 
 	LDAP     *ldap;
 
@@ -291,44 +291,59 @@ remove_view (int msgid, LDAPOp *op, PASBookView *view)
 static void
 view_destroy(GtkObject *object, gpointer data)
 {
-	CORBA_Environment ev;
-	GNOME_Evolution_Addressbook_Book    corba_book;
 	PASBook           *book = (PASBook *)data;
 	PASBackendLDAP    *bl;
-	GList             *list;
+	EIterator         *iter;
 
 	bl = PAS_BACKEND_LDAP(pas_book_get_backend(book));
-	for (list = bl->priv->book_views; list; list = g_list_next(list)) {
-		PASBackendLDAPBookView *view = list->data;
+
+	iter = e_list_get_iterator (bl->priv->book_views);
+
+	while (e_iterator_is_valid (iter)) {
+		PASBackendLDAPBookView *view = (PASBackendLDAPBookView*)e_iterator_get (iter);
+
 		if (view->book_view == PAS_BOOK_VIEW(object)) {
+			GNOME_Evolution_Addressbook_Book    corba_book;
+			CORBA_Environment ev;
+
 			/* if we have an active search, interrupt it */
-			if (view->search_op)
+			if (view->search_op) {
 				ldap_op_finished (view->search_op);
+			}
 			/* and remove us as the view for any other
                            operations that might be using us to spew
                            status messages to the gui */
 			g_hash_table_foreach (bl->priv->id_to_op, (GHFunc)remove_view, view->book_view);
+
+			/* free up the view structure */
 			g_free (view->search);
 			gtk_object_unref (GTK_OBJECT (view->card_sexp));
 			g_free (view);
-			bl->priv->book_views = g_list_remove_link(bl->priv->book_views, list);
-			g_list_free_1(list);
+
+			/* and remove it from our list */
+			e_iterator_delete (iter);
+
+			/* unref the book now */
+			corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
+
+			CORBA_exception_init(&ev);
+
+			GNOME_Evolution_Addressbook_Book_unref(corba_book, &ev);
+	
+			if (ev._major != CORBA_NO_EXCEPTION) {
+				g_warning("view_destroy: Exception unreffing "
+					  "corba book.\n");
+			}
+
+			CORBA_exception_free(&ev);
 			break;
 		}
+
+		e_iterator_next (iter);
 	}
 
-	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
+	gtk_object_unref (GTK_OBJECT (iter));
 
-	CORBA_exception_init(&ev);
-
-	GNOME_Evolution_Addressbook_Book_unref(corba_book, &ev);
-	
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning("view_destroy: Exception unreffing "
-			  "corba book.\n");
-	}
-
-	CORBA_exception_free(&ev);
 }
 
 static void
@@ -342,14 +357,19 @@ book_view_notify_status (PASBookView *view, const char *status)
 static PASBookView*
 find_book_view (PASBackendLDAP *bl)
 {
-	/* just always use the first book view */
-	if (bl->priv->book_views) {
-		PASBackendLDAPBookView *v = bl->priv->book_views->data;
-		return v->book_view;
+	EIterator *iter = e_list_get_iterator (bl->priv->book_views);
+	PASBookView *rv = NULL;
+
+	if (e_iterator_is_valid (iter)) {
+		/* just always use the first book view */
+		PASBackendLDAPBookView *v = (PASBackendLDAPBookView*)e_iterator_get(iter);
+		if (v)
+			rv = v->book_view;
 	}
-	else {
-		return NULL;
-	}
+
+	gtk_object_unref (GTK_OBJECT (iter));
+
+	return rv;
 }
 
 static void
@@ -688,6 +708,10 @@ ldap_op_add (LDAPOp *op, PASBackend *backend,
 	op->handler = handler;
 	op->dtor = dtor;
 
+	if (g_hash_table_lookup (bl->priv->id_to_op, &op->id)) {
+		g_warning ("conflicting ldap msgid's");
+	}
+
 	g_hash_table_insert (bl->priv->id_to_op,
 			     &op->id, op);
 
@@ -713,6 +737,7 @@ ldap_op_finished (LDAPOp *op)
 	op->dtor (op);
 
 	bl->priv->active_ops--;
+
 	if (bl->priv->active_ops == 0) {
 		if (bl->priv->poll_timeout != -1)
 			g_source_remove (bl->priv->poll_timeout);
@@ -1040,11 +1065,13 @@ create_card_handler (LDAPOp *op, LDAPMessage *res)
 
 	if (ldap_error == LDAP_SUCCESS) {
 		/* the card was created, let's let the views know about it */
-		GList *l;
-		for (l = bl->priv->book_views; l; l = l->next) {
+		EIterator *iter;
+
+		iter = e_list_get_iterator (bl->priv->book_views);
+		while (e_iterator_is_valid (iter)) {
 			CORBA_Environment ev;
 			gboolean match;
-			PASBackendLDAPBookView *view = l->data; 
+			PASBackendLDAPBookView *view = (PASBackendLDAPBookView*)e_iterator_get (iter);
 			char *new_vcard;
 
 			CORBA_exception_init(&ev);
@@ -1064,7 +1091,10 @@ create_card_handler (LDAPOp *op, LDAPMessage *res)
 			g_free (new_vcard);
 
 			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
+
+			e_iterator_next (iter);
 		}
+		gtk_object_unref (GTK_OBJECT (iter));
 	}
 	else {
 		ldap_perror (ldap, "create_card");
@@ -1237,10 +1267,11 @@ remove_card_handler (LDAPOp *op, LDAPMessage *res)
 
 	if (ldap_error == LDAP_SUCCESS) {
 		/* the card was removed, let's let the views know about it */
-		GList *l;
-		for (l = bl->priv->book_views; l; l = l->next) {
+		EIterator *iter = e_list_get_iterator (bl->priv->book_views);
+
+		while (e_iterator_is_valid (iter)) {
 			CORBA_Environment ev;
-			PASBackendLDAPBookView *view = l->data; 
+			PASBackendLDAPBookView *view = (PASBackendLDAPBookView*)e_iterator_get (iter);
 					
 			CORBA_exception_init(&ev);
 
@@ -1249,7 +1280,10 @@ remove_card_handler (LDAPOp *op, LDAPMessage *res)
 			pas_book_view_notify_remove (view->book_view, remove_op->id);
 
 			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
+
+			e_iterator_next (iter);
 		}
+		gtk_object_unref (GTK_OBJECT (iter));
 	}
 	else {
 		ldap_perror (bl->priv->ldap, "remove_card");
@@ -1351,11 +1385,11 @@ modify_card_modify_handler (LDAPOp *op, LDAPMessage *res)
 
 	if (ldap_error == LDAP_SUCCESS) {
 		/* the card was modified, let's let the views know about it */
-		GList *l;
-		for (l = bl->priv->book_views; l; l = l->next) {
+		EIterator *iter = e_list_get_iterator (bl->priv->book_views);
+		while (e_iterator_is_valid (iter)) {
 			CORBA_Environment ev;
 			gboolean old_match, new_match;
-			PASBackendLDAPBookView *view = l->data; 
+			PASBackendLDAPBookView *view = (PASBackendLDAPBookView*)e_iterator_get (iter);
 					
 			CORBA_exception_init(&ev);
 
@@ -1374,7 +1408,10 @@ modify_card_modify_handler (LDAPOp *op, LDAPMessage *res)
 			pas_book_view_notify_complete (view->book_view, GNOME_Evolution_Addressbook_BookViewListener_Success);
 
 			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
+
+			e_iterator_next (iter);
 		}
+		gtk_object_unref (GTK_OBJECT (iter));
 	}
 	else {
 		ldap_perror (ldap, "ldap_modify_s");
@@ -1902,10 +1939,11 @@ email_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 static void
 homephone_populate(ECardSimple *card, char **values)
 {
-	if (values[0])
+	if (values[0]) {
 		e_card_simple_set (card, E_CARD_SIMPLE_FIELD_PHONE_HOME, values[0]);
-	if (values[1])
-		e_card_simple_set (card, E_CARD_SIMPLE_FIELD_PHONE_HOME_2, values[1]);
+		if (values[1])
+			e_card_simple_set (card, E_CARD_SIMPLE_FIELD_PHONE_HOME_2, values[1]);
+	}
 }
 
 struct berval**
@@ -1969,10 +2007,11 @@ homephone_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 static void
 business_populate(ECardSimple *card, char **values)
 {
-	if (values[0])
+	if (values[0]) {
 		e_card_simple_set (card, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, values[0]);
-	if (values[1])
-		e_card_simple_set (card, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2, values[1]);
+		if (values[1])
+			e_card_simple_set (card, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2, values[1]);
+	}
 }
 
 struct berval**
@@ -2568,7 +2607,7 @@ typedef struct {
 static ECardSimple *
 build_card_from_entry (LDAP *ldap, LDAPMessage *e, GList **existing_objectclasses)
 {
-	ECard *ecard = E_CARD(gtk_type_new(e_card_get_type()));
+	ECard *ecard = e_card_new ("");
 	ECardSimple *card = e_card_simple_new (ecard);
 	char *dn;
 	char *attr;
@@ -2593,8 +2632,10 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e, GList **existing_objectclasse
 		}
 		else {
 			for (i = 0; i < num_prop_infos; i ++)
-				if (!g_strcasecmp (attr, prop_info[i].ldap_attr))
+				if (!g_strcasecmp (attr, prop_info[i].ldap_attr)) {
 					info = &prop_info[i];
+					break;
+				}
 
 			if (info) {
 				values = ldap_get_values (ldap, e, attr);
@@ -2602,7 +2643,8 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e, GList **existing_objectclasse
 				if (values) {
 					if (info->prop_type & PROP_TYPE_STRING) {
 						/* if it's a normal property just set the string */
-						e_card_simple_set (card, info->field_id, values[0]);
+						if (values[0])
+							e_card_simple_set (card, info->field_id, values[0]);
 
 					}
 					else if (info->prop_type & PROP_TYPE_COMPLEX) {
@@ -2620,11 +2662,6 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e, GList **existing_objectclasse
 		ldap_memfree (attr);
 	}
 
-	/* XXX the openldap man page for
-	   ldap_first_attribute/ldap_next_attribute says that the ber
-	   is freed if there are no more attributes
-	   (ldap_next_attribute returns NULL), but this seems to not
-	   be the case (as of openldap-2.0.23), so free it here. */
 	if (ber)
 		ber_free (ber, 0);
 
@@ -2638,13 +2675,18 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e, GList **existing_objectclasse
 static gboolean
 poll_ldap (PASBackendLDAP *bl)
 {
-	GList *list;
 	LDAP           *ldap = bl->priv->ldap;
 	int            rc;
 	LDAPMessage    *res;
 	GTimeVal cur_time;
 	glong cur_millis;
 	struct timeval timeout;
+	EIterator *iter;
+
+	if (!bl->priv->active_ops) {
+		g_warning ("poll_ldap being called for backend with no active operations");
+		return FALSE;
+	}
 
 	timeout.tv_sec = 0;
 	timeout.tv_usec = LDAP_RESULT_TIMEOUT_MILLIS * 1000;
@@ -2666,10 +2708,11 @@ poll_ldap (PASBackendLDAP *bl)
 			LDAPOp *op;
 
 			op = g_hash_table_lookup (bl->priv->id_to_op, &msgid);
-			if (!op)
-				g_error ("unknown operation, msgid = %d", msgid);
 
-			op->handler (op, res);
+			if (op)
+				op->handler (op, res);
+			else
+				g_warning ("unknown operation, msgid = %d", msgid);
 
 			ldap_msgfree(res);
 		}
@@ -2678,11 +2721,19 @@ poll_ldap (PASBackendLDAP *bl)
 	g_get_current_time (&cur_time);
 	cur_millis = TV_TO_MILLIS (cur_time);
        
-	for (list = bl->priv->book_views; list; list = g_list_next(list)) {
-		PASBackendLDAPBookView *view = list->data;
-		if (view->search_op)
+	iter = e_list_get_iterator (bl->priv->book_views);
+	while (e_iterator_is_valid (iter)) {
+		PASBackendLDAPBookView *view = (PASBackendLDAPBookView *)e_iterator_get (iter);
+		if (view->search_op) {
+			bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), NULL);
+
 			ldap_search_op_timeout (view->search_op, cur_millis);
+
+			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), NULL);
+		}
+		e_iterator_next (iter);
 	}
+	gtk_object_unref (GTK_OBJECT (iter));
 
 	return TRUE;
 }
@@ -2734,10 +2785,13 @@ static void
 ldap_search_handler (LDAPOp *op, LDAPMessage *res)
 {
 	LDAPSearchOp *search_op = (LDAPSearchOp*)op;
+	PASBackendLDAPBookView *view = search_op->view;
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (op->backend);
 	LDAP *ldap = bl->priv->ldap;
 	LDAPMessage *e;
 	int msg_type;
+
+	bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), NULL);
 
 	if (!search_op->notified_receiving_results) {
 		search_op->notified_receiving_results = TRUE;
@@ -2790,6 +2844,9 @@ ldap_search_handler (LDAPOp *op, LDAPMessage *res)
 		pas_book_view_notify_complete (search_op->op.view, GNOME_Evolution_Addressbook_BookViewListener_OtherError);
 		ldap_op_finished (op);
 	}
+
+
+	bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), NULL);
 }
 
 static void
@@ -2800,6 +2857,11 @@ ldap_search_dtor (LDAPOp *op)
 	/* unhook us from our PASBackendLDAPBookView */
 	if (search_op->view)
 		search_op->view->search_op = NULL;
+
+	g_list_foreach (search_op->pending_adds, (GFunc)g_free, NULL);
+	g_list_free (search_op->pending_adds);
+	search_op->pending_adds = NULL;
+	search_op->num_pending_adds = 0;
 
 	g_free (search_op);
 }
@@ -2900,7 +2962,7 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 		view->limit = bl->priv->ldap_limit;
 	}
 
-	bl->priv->book_views = g_list_prepend(bl->priv->book_views, view);
+	e_list_append(bl->priv->book_views, view);
 
 	pas_book_respond_get_book_view (book,
 		(book_view != NULL
@@ -3210,8 +3272,6 @@ pas_backend_ldap_remove_client (PASBackend             *backend,
 				PASBook                *book)
 {
 	PASBackendLDAP *bl;
-	GList *l;
-	PASBook *lbook;
 
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (PAS_IS_BACKEND_LDAP (backend));
@@ -3220,21 +3280,8 @@ pas_backend_ldap_remove_client (PASBackend             *backend,
 
 	bl = PAS_BACKEND_LDAP (backend);
 
-	/* Find the book in the list of clients */
-
-	for (l = bl->priv->clients; l; l = l->next) {
-		lbook = PAS_BOOK (l->data);
-
-		if (lbook == book)
-			break;
-	}
-
-	g_assert (l != NULL);
-
 	/* Disconnect */
-
-	bl->priv->clients = g_list_remove_link (bl->priv->clients, l);
-	g_list_free_1 (l);
+	bl->priv->clients = g_list_remove (bl->priv->clients, book);
 
 	/* When all clients go away, notify the parent factory about it so that
 	 * it may decide whether to kill the backend or not.
@@ -3300,8 +3347,12 @@ pas_backend_ldap_destroy (GtkObject *object)
 	g_hash_table_foreach_remove (bl->priv->id_to_op, (GHRFunc)call_dtor, NULL);
 	g_hash_table_destroy (bl->priv->id_to_op);
 
-	if (bl->priv->poll_timeout != -1)
+	if (bl->priv->poll_timeout != -1) {
+		printf ("removing timeout\n");
 		g_source_remove (bl->priv->poll_timeout);
+	}
+
+	gtk_object_unref (GTK_OBJECT (bl->priv->book_views));
 
 	if (bl->priv->supported_fields)
 		gtk_object_unref (GTK_OBJECT (bl->priv->supported_fields));
@@ -3345,6 +3396,8 @@ pas_backend_ldap_init (PASBackendLDAP *backend)
 	priv->ldap_limit       = 100;
 	priv->id_to_op         = g_hash_table_new (g_int_hash, g_int_equal);
 	priv->poll_timeout     = -1;
+	priv->book_views       = e_list_new (NULL, NULL, NULL);
+
 	backend->priv = priv;
 }
 
