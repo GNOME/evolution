@@ -1,3 +1,8 @@
+2003-11-11  Harry Lu  <harry.lu@sun.com>
+
+	* gui/dialogs/recurrence-page.c (make_ending_count_special):
+	Make ending count of occurrences of Recurrence tab numeric only.
+
 2003-10-31  Harry Lu <harry.lu@sun.com>
 
 	Fix for #50387.
