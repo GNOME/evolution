@@ -1,3 +1,12 @@
+2002-01-30  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_changes):
+	compute the change db filename based on our contact db filename.
+	(pas_backend_file_load_uri): store the filename in
+	bf->priv->filename.
+	(pas_backend_file_destroy): free the filename, and (!) free
+	bf->priv too.
+
 2002-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* backend/ebook/e-destination.c (e_destination_is_valid): Revert

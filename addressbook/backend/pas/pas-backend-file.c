@@ -54,6 +54,7 @@ struct _PASBackendFilePrivate {
 	GList    *clients;
 	gboolean  loaded;
 	char     *uri;
+	char     *filename;
 	DB       *file_db;
 	EList    *book_views;
 	gboolean  writable;
@@ -369,6 +370,7 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 	DBC *dbc;
 	PASBackendFileBookView *view = (PASBackendFileBookView *)cnstview;
 	PASBackendFileChangeContext *ctx = cnstview->change_context;
+	char *dirname, *slash;
 
 	memset (&id_dbt, 0, sizeof (id_dbt));
 	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
@@ -376,11 +378,16 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 	if (!bf->priv->loaded)
 		return;
 
-	/* Find the changed ids - FIX ME, path should not be hard coded */
-	filename = g_strdup_printf ("%s/evolution/local/Contacts/%s.db", g_get_home_dir (), view->change_id);
+	/* Find the changed ids */
+	dirname = g_strdup (bf->priv->filename);
+	slash = strrchr (dirname, '/');
+	*slash = '\0';
+
+	filename = g_strdup_printf ("%s/%s.db", dirname, view->change_id);
 	ehash = e_dbhash_new (filename);
 	g_free (filename);
-	
+	g_free (dirname);
+
 	db_error = db->cursor (db, NULL, &dbc, 0);
 
 	if (db_error != 0) {
@@ -1303,9 +1310,6 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		}
 	}
 
-	g_free (filename);
-
-
 	if (db_error != 0) {
 		bf->priv->file_db = NULL;
 		return FALSE;
@@ -1324,6 +1328,9 @@ pas_backend_file_load_uri (PASBackend             *backend,
 
 	g_free(bf->priv->uri);
 	bf->priv->uri = g_strdup (uri);
+
+	g_free (bf->priv->filename);
+	bf->priv->filename = filename;
 
 	return TRUE;
 }
@@ -1471,6 +1478,9 @@ pas_backend_file_destroy (GtkObject *object)
 
 	gtk_object_unref(GTK_OBJECT(bf->priv->book_views));
 	g_free (bf->priv->uri);
+	g_free (bf->priv->filename);
+
+	g_free (bf->priv);
 
 	GTK_OBJECT_CLASS (pas_backend_file_parent_class)->destroy (object);	
 }
