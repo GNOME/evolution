@@ -1,3 +1,9 @@
+2003-12-05  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-model.c (book_view_loaded): call
+	remove_book_view/free_data here as well, to guard against multiple
+	book_view's being loaded.
+
 2003-12-05  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/widgets/e-addressbook-view.etspec: Clean up and sync with

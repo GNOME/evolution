@@ -449,6 +449,9 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 		return;
 	}
 
+	remove_book_view (model);
+	free_data (model);
+
 	model->book_view = book_view;
 	if (model->book_view)
 		g_object_ref (model->book_view);
