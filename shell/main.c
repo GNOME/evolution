@@ -29,6 +29,15 @@
 
 #include "e-shell.h"
 
+
+static void
+shell_destroy_cb (GtkObject *object,
+		  gpointer data)
+{
+	gtk_main_quit ();
+}
+
+
 #ifdef USING_OAF
 
 #include <liboaf/liboaf.h>
@@ -88,6 +97,14 @@ main (int argc, char **argv)
 	}
 
 	shell = e_shell_new (evolution_directory);
+	if (shell == NULL) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot initialize the Evolution shell."));
+		exit (1);
+	}
+
+	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
+			    GTK_SIGNAL_FUNC (shell_destroy_cb), NULL);
 
 	e_shell_new_view (shell, NULL);
 

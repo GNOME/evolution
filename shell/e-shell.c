@@ -45,6 +45,8 @@ static GtkObjectClass *parent_class = NULL;
 struct _EShellPrivate {
 	char *local_directory;
 
+	GList *views;
+
 	EStorageSet *storage_set;
 	EShortcuts *shortcuts;
 	EFolderTypeRepository *folder_type_repository;
@@ -52,6 +54,13 @@ struct _EShellPrivate {
 
 #define SHORTCUTS_FILE_NAME     "shortcuts.xml"
 #define LOCAL_STORAGE_DIRECTORY "local"
+
+enum {
+	NO_VIEWS_LEFT,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 
 /* Initialization of the storages.  */
@@ -70,13 +79,33 @@ setup_storages (EShell *shell)
 	local_storage = e_local_storage_open (local_storage_path);
 	g_free (local_storage_path);
 
-	if (local_storage == NULL)
+	if (local_storage == NULL) {
+		g_warning (_("Cannot set up local storage -- %s"), local_storage_path);
 		return FALSE;
+	}
 
 	priv->storage_set = e_storage_set_new ();
 	e_storage_set_add_storage (priv->storage_set, local_storage);
 
 	return TRUE;
+}
+
+
+/* EShellView destruction callback.  */
+
+static void
+view_destroy_cb (GtkObject *object,
+		 gpointer data)
+{
+	EShell *shell;
+
+	g_assert (E_IS_SHELL_VIEW (object));
+
+	shell = E_SHELL (data);
+	shell->priv->views = g_list_remove (shell->priv->views, shell);
+
+	if (shell->priv->views == NULL)
+		gtk_signal_emit (GTK_OBJECT (object), signals[NO_VIEWS_LEFT]);
 }
 
 
@@ -87,6 +116,7 @@ destroy (GtkObject *object)
 {
 	EShell *shell;
 	EShellPrivate *priv;
+	GList *p;
 
 	shell = E_SHELL (object);
 	priv = shell->priv;
@@ -100,6 +130,18 @@ destroy (GtkObject *object)
 	if (priv->folder_type_repository != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->folder_type_repository));
 
+	for (p = priv->views; p != NULL; p = p->next) {
+		EShellView *view;
+
+		view = E_SHELL_VIEW (p->data);
+
+		gtk_signal_disconnect_by_func (GTK_OBJECT (view),
+					       GTK_SIGNAL_FUNC (view_destroy_cb), shell);
+		gtk_object_destroy (GTK_OBJECT (view));
+	}
+
+	g_list_free (priv->views);
+
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -111,11 +153,20 @@ class_init (EShellClass *klass)
 {
 	GtkObjectClass *object_class;
 
+	parent_class = gtk_type_class (gtk_object_get_type ());
+
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	signals[NO_VIEWS_LEFT] =
+		gtk_signal_new ("no_views_left",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EShellClass, no_views_left),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
@@ -124,6 +175,8 @@ init (EShell *shell)
 	EShellPrivate *priv;
 
 	priv = g_new (EShellPrivate, 1);
+
+	priv->views = NULL;
 
 	priv->local_directory        = NULL;
 	priv->storage_set            = NULL;
@@ -163,6 +216,8 @@ e_shell_construct (EShell *shell,
 	if (! e_shortcuts_load (priv->shortcuts, shortcut_path)) {
 		gtk_object_unref (GTK_OBJECT (priv->shortcuts));
 		priv->shortcuts = NULL;
+
+		g_warning ("Cannot load shortcuts -- %s", shortcut_path);
 	}
 
 	g_free (shortcut_path);
@@ -192,18 +247,19 @@ GtkWidget *
 e_shell_new_view (EShell *shell,
 		  const char *uri)
 {
-	GtkWidget *view_widget;
-	EShellView *shell_view;
+	GtkWidget *view;
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	view_widget = e_shell_view_new (shell, uri);
-	shell_view = E_SHELL_VIEW (view_widget);
+	view = e_shell_view_new (shell, uri);
 
-	gtk_widget_show (view_widget);
+	gtk_widget_show (view);
+	gtk_signal_connect (GTK_OBJECT (view), "destroy", GTK_SIGNAL_FUNC (view_destroy_cb), shell);
 
-	return view_widget;
+	shell->priv->views = g_list_prepend (shell->priv->views, view);
+
+	return view;
 }
 
 
@@ -232,6 +288,16 @@ e_shell_get_folder_type_repository (EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return shell->priv->folder_type_repository;
+}
+
+
+void
+e_shell_quit (EShell *shell)
+{
+	g_return_if_fail (shell != NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	gtk_object_destroy (GTK_OBJECT (shell));
 }
 
 

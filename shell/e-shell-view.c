@@ -262,7 +262,9 @@ e_shell_view_construct (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
+	gtk_object_ref (GTK_OBJECT (shell));
 	priv->shell = shell;
+
 	priv->uri = g_strdup (uri);
 
 	setup_widgets (shell_view);
@@ -521,6 +523,16 @@ e_shell_view_display_uri (EShellView *shell_view,
 	}
 
 	return TRUE;
+}
+
+
+EShell *
+e_shell_view_get_shell (EShellView *shell_view)
+{
+	g_return_val_if_fail (shell_view != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->shell;
 }
 
 

@@ -56,6 +56,8 @@ struct _EShell {
 
 struct _EShellClass {
 	GtkObjectClass parent_class;
+
+	void (* no_views_left) (EShell *shell);
 };
 
 
@@ -70,6 +72,8 @@ GtkWidget  *e_shell_new_view       (EShell     *shell,
 EShortcuts            *e_shell_get_shortcuts               (EShell *shell);
 EStorageSet           *e_shell_get_storage_set             (EShell *shell);
 EFolderTypeRepository *e_shell_get_folder_type_repository  (EShell *shell);
+
+void  e_shell_quit  (EShell *shell);
 
 #ifdef __cplusplus
 }

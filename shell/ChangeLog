@@ -1,3 +1,42 @@
+2000-05-07  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell.c (e_shell_construct): Output a warning message if the
+	shortcut file is not found.
+	(setup_storages): Output a warning message if the local storage
+	cannot be initialized.
+	(destroy): Destroy all the views.
+
+	* e-shell-view.c
+	(e_shell_view_construct): Ref the shell.
+
+	* e-shortcuts-view.c
+	(e_shortcuts_view_construct): Ref the shortcuts.
+
+	* e-shell.c: Create the "no_views_left" signal.  New member
+	`views' in `EShellPrivate'.
+	(init): Initialize `views' to NULL.
+	(view_destroy_cb): Destroy handler for a view: remove the view
+	from `views', and emit the "no_views_left" signal if this was the
+	last view.
+	(e_shell_new_view): Add the new view to `views' and connect the
+	"destroy" signal to `view_destroy_cb'.
+	(destroy): Destroy the views.
+
+	* e-shell.h: New signal "no_views_left".
+
+	* e-shell-view-menu.c (command_quit): New function, implementation
+	of the "quit" command.
+
+	* e-shell-view.c (e_shell_view_get_shell): New function.
+
+	* e-shell.c (e_shell_quit): New function.
+
+	* main.c (main): If it is not possible to create the shell for
+	some reason, pop up an error message.
+	(shell_destroy_cb): New function, signal handler for "destroy" on
+	the shell object.
+	(main): Connect it.
+
 2000-05-06  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcuts.c (destroy): Be safer about NULL objects.

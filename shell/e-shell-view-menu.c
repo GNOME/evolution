@@ -29,6 +29,23 @@
 #include "e-shell-view.h"
 #include "e-shell-view-menu.h"
 
+
+static void
+command_quit (GtkWidget *widget,
+	      gpointer data)
+{
+	EShellView *shell_view;
+	EShell *shell;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	shell = e_shell_view_get_shell (shell_view);
+	e_shell_quit (shell);
+}
+
+
+/* Unimplemented commands.  */
+
 #define DEFINE_UNIMPLEMENTED(func)					\
 static void								\
 func (GtkWidget *widget, gpointer data)					\
@@ -47,11 +64,11 @@ DEFINE_UNIMPLEMENTED (command_new_journal_entry)
 DEFINE_UNIMPLEMENTED (command_new_note)
 DEFINE_UNIMPLEMENTED (command_open_selected_items)
 DEFINE_UNIMPLEMENTED (command_save_as)
-DEFINE_UNIMPLEMENTED (command_quit)
 DEFINE_UNIMPLEMENTED (command_close_open_items)
 DEFINE_UNIMPLEMENTED (command_toggle_shortcut_bar)
 DEFINE_UNIMPLEMENTED (command_toggle_treeview)
 
+
 /*
  * FIXME
  *
