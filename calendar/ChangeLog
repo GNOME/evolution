@@ -1,5 +1,13 @@
 2004-12-22  JP Rosevear  <jpr@novell.com>
 
+	Fixes #61077
+	
+	* gui/dialogs/task-details-page.glade: remove extraneous tab
+
+	* gui/dialogs/alarm-dialog.c: ditto
+	
+2004-12-22  JP Rosevear  <jpr@novell.com>
+	
 	Fixes #61076
 	
 	* gui/comp-editor-factory.c (open_client): don't translate command
