@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
 /* camel-stream.h : class for an abstract stream */
 
 /*
@@ -53,13 +53,12 @@ typedef struct {
 
 	/* Virtual methods */
 
-	int       (*read)       (CamelStream *stream, char *buffer,
-				 unsigned int n, CamelException *ex);
-	int       (*write)      (CamelStream *stream, const char *buffer,
-				 unsigned int n, CamelException *ex);
-	void      (*flush)      (CamelStream *stream, CamelException *ex);
+	int       (*read)       (CamelStream *stream, char *buffer, unsigned int n);
+	int       (*write)      (CamelStream *stream, const char *buffer, unsigned int n);
+	int       (*close)      (CamelStream *stream);
+	int       (*flush)      (CamelStream *stream);
 	gboolean  (*eos)        (CamelStream *stream);
-	void      (*reset)      (CamelStream *stream, CamelException *ex);
+	int       (*reset)      (CamelStream *stream);
 
 } CamelStreamClass;
 
@@ -67,28 +66,22 @@ typedef struct {
 GtkType camel_stream_get_type (void);
 
 /* public methods */
-int        camel_stream_read       (CamelStream *stream, char *buffer,
-				    unsigned int n, CamelException *ex);
-int        camel_stream_write      (CamelStream *stream, const char *buffer,
-				    unsigned int n, CamelException *ex);
-void       camel_stream_flush      (CamelStream *stream, CamelException *ex);
+int        camel_stream_read       (CamelStream *stream, char *buffer, unsigned int n);
+int        camel_stream_write      (CamelStream *stream, const char *buffer, unsigned int n);
+int        camel_stream_flush      (CamelStream *stream);
+int        camel_stream_close      (CamelStream *stream);
 gboolean   camel_stream_eos        (CamelStream *stream);
-void       camel_stream_reset      (CamelStream *stream, CamelException *ex);
+int        camel_stream_reset      (CamelStream *stream);
 
 /* utility macros and funcs */
-int camel_stream_write_string (CamelStream *stream, const char *string,
-			       CamelException *ex);
-int camel_stream_printf (CamelStream *stream, CamelException *ex,
-			 const char *fmt, ... ) G_GNUC_PRINTF (3, 4);
-int camel_stream_vprintf (CamelStream *stream, CamelException *ex,
-			  const char *fmt, va_list ap);
+int camel_stream_write_string (CamelStream *stream, const char *string);
+int camel_stream_printf (CamelStream *stream, const char *fmt, ... ) G_GNUC_PRINTF (2, 3);
+int camel_stream_vprintf (CamelStream *stream, const char *fmt, va_list ap);
 
 /* Write a whole stream to another stream, until eof or error on
  * either stream.
  */
-int camel_stream_write_to_stream (CamelStream *stream,
-				  CamelStream *output_stream,
-				  CamelException *ex);
+int camel_stream_write_to_stream (CamelStream *stream, CamelStream *output_stream);
 
 #ifdef __cplusplus
 }

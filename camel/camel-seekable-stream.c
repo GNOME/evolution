@@ -32,13 +32,10 @@ static CamelStreamClass *parent_class = NULL;
 #define CSS_CLASS(so) CAMEL_SEEKABLE_STREAM_CLASS (GTK_OBJECT(so)->klass)
 
 static off_t seek        (CamelSeekableStream *stream, off_t offset,
-			  CamelStreamSeekPolicy policy,
-			  CamelException *ex);
+			  CamelStreamSeekPolicy policy);
 static off_t stream_tell (CamelSeekableStream *stream);
-static void reset        (CamelStream *stream, CamelException *ex);
-static void set_bounds   (CamelSeekableStream *stream, off_t start, off_t end,
-			  CamelException *ex);
-
+static int   reset       (CamelStream *stream);
+static int   set_bounds  (CamelSeekableStream *stream, off_t start, off_t end);
 
 static void
 camel_seekable_stream_class_init (CamelSeekableStreamClass *camel_seekable_stream_class)
@@ -93,7 +90,7 @@ camel_seekable_stream_get_type (void)
 
 static off_t
 seek (CamelSeekableStream *stream, off_t offset,
-      CamelStreamSeekPolicy policy, CamelException *ex)
+      CamelStreamSeekPolicy policy)
 {
 	g_warning ("CamelSeekableStream::seek called on default "
 		   "implementation\n");
@@ -105,7 +102,6 @@ seek (CamelSeekableStream *stream, off_t offset,
  * @stream: a CamelStream object.
  * @offset: offset value
  * @policy: what to do with the offset
- * @ex: a CamelException
  *
  * Seek to the specified position in @stream.
  *
@@ -125,12 +121,11 @@ seek (CamelSeekableStream *stream, off_t offset,
  **/
 off_t
 camel_seekable_stream_seek (CamelSeekableStream *stream, off_t offset,
-			    CamelStreamSeekPolicy policy,
-			    CamelException *ex)
+			    CamelStreamSeekPolicy policy)
 {
 	g_return_val_if_fail (CAMEL_IS_SEEKABLE_STREAM (stream), -1);
 
-	return CSS_CLASS (stream)->seek (stream, offset, policy, ex);
+	return CSS_CLASS (stream)->seek (stream, offset, policy);
 }
 
 
@@ -156,17 +151,17 @@ camel_seekable_stream_tell (CamelSeekableStream *stream)
 	return CSS_CLASS (stream)->tell (stream);
 }
 
-
-static void
-set_bounds (CamelSeekableStream *stream, off_t start, off_t end,
-	    CamelException *ex)
+static int
+set_bounds (CamelSeekableStream *stream, off_t start, off_t end)
 {
 	/* store the bounds */
 	stream->bound_start = start;
 	stream->bound_end = end;
 
 	if (start > stream->position)
-		camel_seekable_stream_seek (stream, start, CAMEL_STREAM_SET, ex);
+		return camel_seekable_stream_seek (stream, start, CAMEL_STREAM_SET);
+
+	return 0;
 }
 
 /**
@@ -178,28 +173,30 @@ set_bounds (CamelSeekableStream *stream, off_t start, off_t end,
  * Set the range of valid data this stream is allowed to cover.  If
  * there is to be no @end value, then @end should be set to
  * #CAMEL_STREAM_UNBOUND.
+ *
+ * Return value: -1 on error.
  **/
-void
+int
 camel_seekable_stream_set_bounds (CamelSeekableStream *stream,
-				  off_t start, off_t end, CamelException *ex)
+				  off_t start, off_t end)
 {
-	g_return_if_fail (CAMEL_IS_SEEKABLE_STREAM (stream));
-	g_return_if_fail (end == CAMEL_STREAM_UNBOUND || end >= start);
+	g_return_val_if_fail (CAMEL_IS_SEEKABLE_STREAM (stream), -1);
+	g_return_val_if_fail (end == CAMEL_STREAM_UNBOUND || end >= start, -1);
 
-	CSS_CLASS (stream)->set_bounds (stream, start, end, ex);
+	return CSS_CLASS (stream)->set_bounds (stream, start, end);
 }
 
 /* a default implementation of reset for seekable streams */
-static void
-reset (CamelStream *stream, CamelException *ex)
+static int
+reset (CamelStream *stream)
 {
 	CamelSeekableStream *seekable_stream;
 
 	seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
 
-	camel_seekable_stream_seek (seekable_stream,
-				    seekable_stream->bound_start,
-				    CAMEL_STREAM_SET, ex);
+	return camel_seekable_stream_seek (seekable_stream,
+					   seekable_stream->bound_start,
+					   CAMEL_STREAM_SET);
 }
 
 

@@ -42,15 +42,13 @@ extern "C" {
 #define CAMEL_DATA_WRAPPER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_DATA_WRAPPER_TYPE, CamelDataWrapperClass))
 #define CAMEL_IS_DATA_WRAPPER(o)    (GTK_CHECK_TYPE((o), CAMEL_DATA_WRAPPER_TYPE))
 
-
 struct _CamelDataWrapper
 {
 	CamelObject parent_object;
 
 	GMimeContentField *mime_type;
+	CamelStream *stream;
 };
-
-
 
 typedef struct {
 	CamelObjectClass parent_class;
@@ -68,23 +66,19 @@ typedef struct {
 						       GMimeContentField *mime_type_field);
 
 	int                 (*write_to_stream)        (CamelDataWrapper *data_wrapper,
-						       CamelStream *stream,
-						       CamelException *ex);
+						       CamelStream *stream);
 
 	int                 (*construct_from_stream)  (CamelDataWrapper *data_wrapper,
 						       CamelStream *);
 } CamelDataWrapperClass;
 
-
-
 /* Standard Gtk function */
 GtkType camel_data_wrapper_get_type (void);
 
-
 /* public methods */
+CamelDataWrapper *  camel_data_wrapper_new(void);
 int                 camel_data_wrapper_write_to_stream          (CamelDataWrapper *data_wrapper,
-								 CamelStream *stream,
-								 CamelException *ex);
+								 CamelStream *stream);
 void                camel_data_wrapper_set_mime_type            (CamelDataWrapper *data_wrapper,
 								 const gchar *mime_type);
 gchar *             camel_data_wrapper_get_mime_type            (CamelDataWrapper *data_wrapper);

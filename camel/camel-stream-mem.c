@@ -35,14 +35,11 @@ static CamelStreamClass *parent_class = NULL;
 /* Returns the class for a CamelStreamMem */
 #define CSM_CLASS(so) CAMEL_STREAM_MEM_CLASS (GTK_OBJECT(so)->klass)
 
-static int stream_read (CamelStream *stream, char *buffer, unsigned int n,
-			CamelException *ex);
-static int stream_write (CamelStream *stream, const char *buffer,
-			 unsigned int n, CamelException *ex);
+static int stream_read (CamelStream *stream, char *buffer, unsigned int n);
+static int stream_write (CamelStream *stream, const char *buffer, unsigned int n);
 static gboolean stream_eos (CamelStream *stream);
 static off_t stream_seek (CamelSeekableStream *stream, off_t offset,
-			  CamelStreamSeekPolicy policy,
-			  CamelException *ex);
+			  CamelStreamSeekPolicy policy);
 
 static void finalize (GtkObject *object);
 
@@ -161,8 +158,7 @@ finalize (GtkObject *object)
 }
 
 static int
-stream_read (CamelStream *stream, char *buffer, unsigned int n,
-	     CamelException *ex)
+stream_read (CamelStream *stream, char *buffer, unsigned int n)
 {
 	CamelStreamMem *camel_stream_mem = CAMEL_STREAM_MEM (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
@@ -182,8 +178,7 @@ stream_read (CamelStream *stream, char *buffer, unsigned int n,
 }
 
 static int
-stream_write (CamelStream *stream, const char *buffer, unsigned int n,
-	      CamelException *ex)
+stream_write (CamelStream *stream, const char *buffer, unsigned int n)
 {
 	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
@@ -194,13 +189,11 @@ stream_write (CamelStream *stream, const char *buffer, unsigned int n,
 #warning "g_byte_arrays use g_malloc and so are totally unsuitable for this object"
 	if (seekable->position == stream_mem->buffer->len) {
 		stream_mem->buffer =
-			g_byte_array_append (stream_mem->buffer,
-					     (const guint8 *)buffer, n);
+			g_byte_array_append (stream_mem->buffer, (const guint8 *)buffer, n);
 	} else {
 		g_byte_array_set_size (stream_mem->buffer,
 				       n+stream_mem->buffer->len);
-		memcpy (stream_mem->buffer->data + seekable->position,
-			buffer, n);
+		memcpy (stream_mem->buffer->data + seekable->position, buffer, n);
 	}
 	seekable->position += n;
 
@@ -218,7 +211,7 @@ stream_eos (CamelStream *stream)
 
 static off_t
 stream_seek (CamelSeekableStream *stream, off_t offset,
-	     CamelStreamSeekPolicy policy, CamelException *ex)
+	     CamelStreamSeekPolicy policy)
 {
 	off_t position;
 	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (stream);

@@ -60,22 +60,13 @@ typedef struct {
 /* Standard Gtk function */
 GtkType camel_stream_fs_get_type (void);
 
-
 /* public methods */
-CamelStream * camel_stream_fs_new_with_name            (const char *name,
-							int flags,
-							mode_t mode,
-							CamelException *ex);
-CamelStream * camel_stream_fs_new_with_name_and_bounds (const char *name,
-							int flags, mode_t mode,
-							off_t start,
-							off_t end,
-							CamelException *ex);
+CamelStream * camel_stream_fs_new_with_name            (const char *name, int flags, mode_t mode);
+CamelStream * camel_stream_fs_new_with_name_and_bounds (const char *name, int flags, mode_t mode,
+							off_t start, off_t end);
 
 CamelStream * camel_stream_fs_new_with_fd              (int fd);
-CamelStream * camel_stream_fs_new_with_fd_and_bounds   (int fd, off_t start,
-							off_t end,
-							CamelException *ex);
+CamelStream * camel_stream_fs_new_with_fd_and_bounds   (int fd, off_t start, off_t end);
 
 #ifdef __cplusplus
 }

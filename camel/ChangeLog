@@ -1,3 +1,61 @@
+2000-05-19  NotZed  <NotZed@HelixCode.com>
+
+	* camel-simple-data-wrapper.c (construct_from_stream): If we
+	already have been constructed, unref our content.
+	(write_to_stream): Check we've been constructued, and change for
+	stream api changes.
+
+	* camel-mime-parser.c: Removed exception stuff.
+
+	* md5-utils.c (md5_get_digest_from_stream): repaired.
+
+	* camel-mime-message.c: Remove exception from write_to_stream, and
+	fix, and fix formatting.
+
+	* providers/sendmail/camel-sendmail-transport.c (_send_internal):
+	Fix for stream changes.
+
+	* providers/pop3/camel-pop3-store.c (camel_pop3_command): Fixes
+	for stream changes.
+
+	* providers/mbox/camel-mbox-folder.c, and elsewhere, fix all
+	stream api changes.
+	(mbox_append_message): Use stream_close() now its back.
+	(mbox_append_message): unref the from filter.
+
+	* camel-stream-mem.c: And here.
+
+	* camel-stream-fs.[ch]: Here too.
+
+	* camel-stream-filter.c: Likewise.  This is getting tedious.
+
+	* camel-stream-buffer.c (stream_write): Fix a few little problems.
+	(stream_close): Reimplmeent.
+	(camel_stream_buffer_read_line): Slightly more efficient version,
+	that also only allocates the right amount of memory for strings.
+
+	* camel-seekable-substream.c: Likewise.
+
+	* camel-seekable-stream.[ch]: Remove exceptions, fix formatting,
+	changes for stream (re)fixes.  set_bounds returns an error.
+
+	* camel-stream.[ch]: Remove exceptions.  Make flush and reset return
+	an error code, repair all the screwed up formatting, and put back
+	close.
+
+	* camel-mime-part-utils.c
+	(camel_mime_part_construct_content_from_parser): And here.
+
+	* camel-mime-part.c (camel_mime_part_set_content): And this too.
+	(write_to_stream): Fixed for stream changes.
+
+	* camel.h: Fixed.
+
+	* providers/vee/camel-vee-folder.c (vee_search_by_expression):
+	Implement.  Performs an intersection of the two searches.
+	(camel_vee_folder_finalise): Unref search folders.
+	(vee_append_message): Implement append.
+
 2000-05-18  Dan Winship  <danw@helixcode.com>
 
 	* camel-folder.c: remove message_number_capability and require uid

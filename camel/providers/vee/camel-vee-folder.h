@@ -38,6 +38,8 @@ struct _CamelVeeFolder {
 	struct _CamelVeeFolderPrivate *priv;
 
 	char *expression;	/* query expression */
+	char *vname;		/* local name */
+	CamelFolder *local;	/* local storage for folder */
 
 	/* FIXME: Move this to a summary object??? */
 	GPtrArray *messages; /* message info's */

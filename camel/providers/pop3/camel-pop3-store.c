@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include "camel-pop3-store.h"
 #include "camel-pop3-folder.h"
@@ -376,7 +377,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 						  CAMEL_STREAM_BUFFER_READ);
 
 	/* Read the greeting, note APOP timestamp, if any. */
-	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream), ex);
+	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
 	if (!buf) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not read greeting from POP "
@@ -513,28 +514,25 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 	char *cmdbuf, *respbuf;
 	va_list ap;
 	int status;
-	CamelException *ex = camel_exception_new ();
 
 	va_start (ap, fmt);
 	cmdbuf = g_strdup_vprintf (fmt, ap);
 	va_end (ap);
 
 	/* Send the command */
-	camel_stream_printf (store->ostream, ex, "%s\r\n", cmdbuf);
-	g_free (cmdbuf);
-	if (camel_exception_is_set (ex)) {
+	if (camel_stream_printf (store->ostream, "%s\r\n", cmdbuf) == -1) {
+		g_free (cmdbuf);
 		if (*ret)
-			*ret = g_strdup (camel_exception_get_description (ex));
-		camel_exception_free (ex);
+			*ret = g_strdup(strerror(errno));
 		return CAMEL_POP3_FAIL;
 	}
+	g_free (cmdbuf);
 
 	/* Read the response */
-	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream), ex);
-	if (camel_exception_is_set (ex)) {
+	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
+	if (respbuf == NULL) {
 		if (*ret)
-			*ret = g_strdup (camel_exception_get_description (ex));
-		camel_exception_free (ex);
+			*ret = g_strdup(strerror(errno));
 		return CAMEL_POP3_FAIL;
 	}
 	if (!strncmp (respbuf, "+OK", 3))
@@ -582,7 +580,7 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store,
 
 	data = g_ptr_array_new ();
 	while (1) {
-		buf = camel_stream_buffer_read_line (stream, ex);
+		buf = camel_stream_buffer_read_line (stream);
 		if (!buf) {
 			status = CAMEL_POP3_FAIL;
 			break;

@@ -130,8 +130,7 @@ gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStre
 
 	txt = header_content_type_format(content_field->content_type);
 	if (txt) {
-		/* FIXME. Shouldn't pass NULL for CamelException. */
-		camel_stream_printf (stream, NULL, "Content-Type: %s\n", txt);
+		camel_stream_printf (stream, "Content-Type: %s\n", txt);
 		g_free(txt);
 	}
 }

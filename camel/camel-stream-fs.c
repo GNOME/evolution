@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
 /* camel-stream-fs.c : file system based stream */
 
 /*
@@ -25,7 +25,6 @@
 
 #include <config.h>
 #include "camel-stream-fs.h"
-#include "camel-exception.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -38,15 +37,12 @@ static CamelSeekableStreamClass *parent_class = NULL;
 /* Returns the class for a CamelStreamFS */
 #define CSFS_CLASS(so) CAMEL_STREAM_FS_CLASS (GTK_OBJECT(so)->klass)
 
-static int stream_read   (CamelStream *stream, char *buffer, unsigned int n,
-			  CamelException *ex);
-static int stream_write  (CamelStream *stream, const char *buffer,
-			  unsigned int n, CamelException *ex);
-static void stream_flush (CamelStream *stream, CamelException *ex);
+static int stream_read   (CamelStream *stream, char *buffer, unsigned int n);
+static int stream_write  (CamelStream *stream, const char *buffer, unsigned int n);
+static int stream_flush  (CamelStream *stream);
+static int stream_close  (CamelStream *stream);
 static off_t stream_seek (CamelSeekableStream *stream, off_t offset,
-			  CamelStreamSeekPolicy policy,
-			  CamelException *ex);
-
+			  CamelStreamSeekPolicy policy);
 static void finalize (GtkObject *object);
 
 static void
@@ -65,6 +61,7 @@ camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 	camel_stream_class->read = stream_read;
 	camel_stream_class->write = stream_write;
 	camel_stream_class->flush = stream_flush;
+	camel_stream_class->close = stream_close;
 
 	camel_seekable_stream_class->seek = stream_seek;
 
@@ -151,14 +148,12 @@ camel_stream_fs_new_with_fd (int fd)
  * Return value: the stream
  **/
 CamelStream *
-camel_stream_fs_new_with_fd_and_bounds (int fd, off_t start, off_t end,
-					CamelException *ex)
+camel_stream_fs_new_with_fd_and_bounds (int fd, off_t start, off_t end)
 {
 	CamelStream *stream;
 
 	stream = camel_stream_fs_new_with_fd (fd);
-	camel_seekable_stream_set_bounds (CAMEL_SEEKABLE_STREAM (stream),
-					  start, end, ex);
+	camel_seekable_stream_set_bounds (CAMEL_SEEKABLE_STREAM (stream), start, end);
 
 	return stream;
 }
@@ -168,31 +163,23 @@ camel_stream_fs_new_with_fd_and_bounds (int fd, off_t start, off_t end,
  * @name: a local filename
  * @flags: flags as in open(2)
  * @mode: a file mode
- * @ex: a CamelException.
  *
  * Creates a new CamelStream corresponding to the named file, flags,
- * and mode. If an error occurs, @ex will be set.
+ * and mode.
  *
- * Return value: the stream
+ * Return value: the stream, or #NULL on error.
  **/
 CamelStream *
-camel_stream_fs_new_with_name (const char *name, int flags, mode_t mode,
-			       CamelException *ex)
+camel_stream_fs_new_with_name (const char *name, int flags, mode_t mode)
 {
-	CamelStream *stream;
 	int fd;
 
 	fd = open (name, flags, mode);
 	if (fd == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not open file %s: %s.",
-				      name, g_strerror (errno));
 		return NULL;
 	}
 
-	stream = camel_stream_fs_new_with_fd (fd);
-
-	return stream;
+	return camel_stream_fs_new_with_fd (fd);
 }
 
 /**
@@ -202,38 +189,30 @@ camel_stream_fs_new_with_name (const char *name, int flags, mode_t mode,
  * @mode: a file mode
  * @start: the first valid position in the file
  * @end: the first invalid position in the file, or CAMEL_STREAM_UNBOUND
- * @ex: a CamelException.
  *
- * Creates a new CamelStream corresponding to the given arguments. If
- * an error occurs, @ex will be set.
+ * Creates a new CamelStream corresponding to the given arguments.
  *
- * Return value: the stream
+ * Return value: the stream, or NULL on error.
  **/
 CamelStream *
 camel_stream_fs_new_with_name_and_bounds (const char *name, int flags,
-					  mode_t mode, off_t start, off_t end,
-					  CamelException *ex)
+					  mode_t mode, off_t start, off_t end)
 {
 	CamelStream *stream;
 
-	stream = camel_stream_fs_new_with_name (name, flags, mode, ex);
-	if (camel_exception_is_set (ex))
+	stream = camel_stream_fs_new_with_name (name, flags, mode);
+	if (stream == NULL)
 		return NULL;
 
 	camel_seekable_stream_set_bounds (CAMEL_SEEKABLE_STREAM (stream),
-					  start, end, ex);
-	if (camel_exception_is_set (ex)) {
-		gtk_object_unref (GTK_OBJECT (stream));
-		return NULL;
-	}
+					  start, end);
 
 	return stream;
 }
 
 
 static int
-stream_read (CamelStream *stream, char *buffer, unsigned int n,
-	     CamelException *ex)
+stream_read (CamelStream *stream, char *buffer, unsigned int n)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
@@ -250,18 +229,12 @@ stream_read (CamelStream *stream, char *buffer, unsigned int n,
 		seekable->position += nread;
 	else if (nread == 0)
 		stream->eos = TRUE;
-	else {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not read from stream: %s",
-				      g_strerror (errno));
-	}
 
 	return nread;
 }
 
 static int
-stream_write (CamelStream *stream, const char *buffer, unsigned int n,
-	      CamelException *ex)
+stream_write (CamelStream *stream, const char *buffer, unsigned int n)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
@@ -278,33 +251,31 @@ stream_write (CamelStream *stream, const char *buffer, unsigned int n,
 
 	if (written > 0)
 		seekable->position += written;
-	else if (v == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not write to stream: %s",
-				      g_strerror (errno));
-	}
+	else if (v == -1)
+		return -1;
 
 	return written;
 }
 
-static void
-stream_flush (CamelStream *stream, CamelException *ex)
+static int
+stream_flush (CamelStream *stream)
 {
-	if (fsync (CAMEL_STREAM_FS (stream)->fd) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not flush stream data: %s",
-				      g_strerror (errno));
-	}
+	return fsync(((CamelStreamFs *)stream)->fd);
+}
+
+static int
+stream_close (CamelStream *stream)
+{
+	return close(((CamelStreamFs *)stream)->fd);
 }
 
 static off_t
-stream_seek (CamelSeekableStream *stream, off_t offset,
-	     CamelStreamSeekPolicy policy, CamelException *ex)
+stream_seek (CamelSeekableStream *stream, off_t offset, CamelStreamSeekPolicy policy)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	off_t real = 0;
 
-	switch  (policy) {
+	switch (policy) {
 	case CAMEL_STREAM_SET:
 		real = offset;
 		break;
@@ -316,12 +287,6 @@ stream_seek (CamelSeekableStream *stream, off_t offset,
 			real = lseek(stream_fs->fd, offset, SEEK_END);
 			if (real != -1)
 				stream->position = real;
-			else {
-				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-						      "Could not seek to "
-						      "given offset: %s",
-						      g_strerror (errno));
-			}
 			return real;
 		}
 		real = stream->bound_end + offset;
@@ -333,12 +298,8 @@ stream_seek (CamelSeekableStream *stream, off_t offset,
 	real = MAX (real, stream->bound_start);
 
 	real = lseek(stream_fs->fd, real, SEEK_SET);
-	if (real == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not seek to given offset: %s",
-				      g_strerror (errno));
+	if (real == -1)
 		return -1;
-	}
 
 	if (real != stream->position && ((CamelStream *)stream)->eos)
 		((CamelStream *)stream)->eos = FALSE;

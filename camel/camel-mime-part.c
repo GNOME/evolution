@@ -66,9 +66,7 @@ static CamelMediumClass *parent_class=NULL;
 static void            finalize (GtkObject *object);
 
 /* from CamelDataWrapper */
-static int             write_to_stream                 (CamelDataWrapper *data_wrapper, 
-							CamelStream *stream,
-							CamelException *ex);
+static int             write_to_stream                 (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static int	       construct_from_stream	       (CamelDataWrapper *dw, CamelStream *s);
 
 /* from CamelMedia */ 
@@ -480,13 +478,13 @@ set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 /**********************************************************************/
 
 static int
-write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream,
-		 CamelException *ex)
+write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimePart *mp = CAMEL_MIME_PART (data_wrapper);
 	CamelMedium *medium = CAMEL_MEDIUM (data_wrapper);
 	CamelDataWrapper *content;
 	int total = 0;
+	int count;
 
 	d(printf("mime_part::write_to_stream\n"));
 
@@ -497,19 +495,18 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream,
 	if (mp->headers) {
 		struct _header_raw *h = mp->headers;
 		while (h) {
-			total += camel_stream_printf (stream, ex, "%s%s%s\n",
-						      h->name,
-						      isspace(h->value[0]) ? ":" : ": ",
-						      h->value);
-			if (camel_exception_is_set (ex))
+			count = camel_stream_printf(stream, "%s%s%s\n", h->name, isspace(h->value[0]) ? ":" : ": ", h->value);
+			if (count == -1)
 				return -1;
+			total += count;
 			h = h->next;
 		}
 	}
 
-	total += camel_stream_write (stream, "\n", 1, ex);
-	if (camel_exception_is_set (ex))
+	count = camel_stream_write (stream, "\n", 1);
+	if (count == -1)
 		return -1;
+	total += count;
 
 	content = camel_medium_get_content_object (medium);
 	if (content) {
@@ -537,11 +534,12 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream,
 		}
 
 #endif
-		total += camel_data_wrapper_write_to_stream (content, stream, ex);
+		count = camel_data_wrapper_write_to_stream (content, stream);
 		if (filter_stream)
 			gtk_object_unref((GtkObject *)filter_stream);
-		if (camel_exception_is_set (ex))
+		if (count == -1)
 			return -1;
+		total += count;
 	} else {
 		g_warning("No content for medium, nothing to write");
 	}
@@ -692,7 +690,7 @@ camel_mime_part_set_content (CamelMimePart *camel_mime_part,
 		CamelDataWrapper *dw;
 		CamelStream *stream;
 
-		dw = camel_simple_data_wrapper_new ();
+		dw = camel_data_wrapper_new ();
 		camel_data_wrapper_set_mime_type (dw, type);
 		stream = camel_stream_mem_new_with_buffer (data, length);
 		camel_data_wrapper_construct_from_stream (dw, stream);

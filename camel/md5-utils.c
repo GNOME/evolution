@@ -335,11 +335,10 @@ md5_get_digest_from_stream (CamelStream *stream, guchar digest[16])
 
 	md5_init (&ctx);
 	
-	/* FIXME (the NULL) */
-	nb_bytes_read = camel_stream_read (stream, tmp_buf, 1024, NULL);
+	nb_bytes_read = camel_stream_read (stream, tmp_buf, 1024);
 	while (nb_bytes_read) {
 		md5_update (&ctx, tmp_buf, nb_bytes_read);
-		nb_bytes_read = camel_stream_read (stream, tmp_buf, 1024, NULL);
+		nb_bytes_read = camel_stream_read (stream, tmp_buf, 1024);
 	}
 	
 	md5_final (&ctx, digest);

@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
 /* camelMimeMessage.c : class for a mime_message */
 
 /* 
@@ -66,8 +66,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static void set_message_number (CamelMimeMessage *mime_message, guint number);
 static guint get_message_number (CamelMimeMessage *mime_message);
-static int write_to_stream (CamelDataWrapper *data_wrapper,
-			    CamelStream *stream, CamelException *ex);
+static int write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void finalize (GtkObject *object);
 static void add_header (CamelMedium *medium, const char *header_name, const void *header_value);
 static void set_header (CamelMedium *medium, const char *header_name, const void *header_value);
@@ -592,8 +591,7 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 }
 
 static int
-write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream,
-		 CamelException *ex)
+write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimeMessage *mm = CAMEL_MIME_MESSAGE (data_wrapper);
 
@@ -615,7 +613,7 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream,
 
 	camel_medium_set_header((CamelMedium *)mm, "Mime-Version", "1.0");
 
-	return CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream, ex);
+	return CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream);
 }
 
 static char *

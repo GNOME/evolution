@@ -41,7 +41,6 @@
 #include "camel-mime-filter.h"
 #include "camel-stream.h"
 #include "camel-seekable-stream.h"
-#include "camel-exception.h"
 
 #define r(x)
 #define h(x)
@@ -209,7 +208,6 @@ struct _header_scan_state {
 
 	int fd;			/* input for a fd input */
 	CamelStream *stream;	/* or for a stream */
-	CamelException *ex;	/* exception for the stream */
 
 	/* for scanning input buffers */
 	char *realbuf;		/* the real buffer, SCAN_HEAD*2 + SCAN_BUF bytes */
@@ -826,8 +824,7 @@ folder_read(struct _header_scan_state *s)
 		memcpy(s->inbuf, s->inptr, inoffset);
 	}
 	if (s->stream) {
-		len = camel_stream_read(s->stream, s->inbuf+inoffset,
-					SCAN_BUF-inoffset, s->ex);
+		len = camel_stream_read(s->stream, s->inbuf+inoffset, SCAN_BUF-inoffset);
 	} else {
 		len = read(s->fd, s->inbuf+inoffset, SCAN_BUF-inoffset);
 	}
@@ -872,7 +869,7 @@ folder_seek(struct _header_scan_state *s, off_t offset, int whence)
 		if (CAMEL_IS_SEEKABLE_STREAM(s->stream)) {
 			/* NOTE: assumes whence seekable stream == whence libc, which is probably
 			   the case (or bloody well should've been) */
-			newoffset = camel_seekable_stream_seek((CamelSeekableStream *)s->stream, offset, whence, s->ex);
+			newoffset = camel_seekable_stream_seek((CamelSeekableStream *)s->stream, offset, whence);
 		} else {
 			newoffset = -1;
 			errno = EINVAL;
@@ -889,7 +886,7 @@ folder_seek(struct _header_scan_state *s, off_t offset, int whence)
 		s->inptr = s->inbuf;
 		s->inend = s->inbuf;
 		if (s->stream)
-			len = camel_stream_read(s->stream, s->inbuf, SCAN_BUF, s->ex);
+			len = camel_stream_read(s->stream, s->inbuf, SCAN_BUF);
 		else
 			len = read(s->fd, s->inbuf, SCAN_BUF);
 		if (len>=0) {
@@ -1358,7 +1355,6 @@ folder_scan_close(struct _header_scan_state *s)
 		close(s->fd);
 	if (s->stream) {
 		gtk_object_unref((GtkObject *)s->stream);
-		camel_exception_free(s->ex);
 	}
 	g_free(s);
 }
@@ -1373,7 +1369,6 @@ folder_scan_init(void)
 
 	s->fd = -1;
 	s->stream = NULL;
-	s->ex = NULL;
 
 	s->outbuf = g_malloc(1024);
 	s->outptr = s->outbuf;
@@ -1421,8 +1416,6 @@ folder_scan_init_with_fd(struct _header_scan_state *s, int fd)
 		if (s->stream) {
 			gtk_object_unref((GtkObject *)s->stream);
 			s->stream = NULL;
-			camel_exception_free(s->ex);
-			s->ex = NULL;
 		}
 		return 0;
 	} else {
@@ -1434,11 +1427,9 @@ static int
 folder_scan_init_with_stream(struct _header_scan_state *s, CamelStream *stream)
 {
 	int len;
-	CamelException *ex;
 
-	ex = camel_exception_new();
-	len = camel_stream_read(stream, s->inbuf, SCAN_BUF, ex);
-	if (!camel_exception_is_set (ex)) {
+	len = camel_stream_read(stream, s->inbuf, SCAN_BUF);
+	if (len >= 0) {
 		s->inend = s->inbuf+len;
 		s->inptr = s->inbuf;
 		s->inend[0] = '\n';
@@ -1446,16 +1437,12 @@ folder_scan_init_with_stream(struct _header_scan_state *s, CamelStream *stream)
 			gtk_object_unref((GtkObject *)s->stream);
 		s->stream = stream;
 		gtk_object_ref((GtkObject *)stream);
-		if (s->ex)
-			camel_exception_free(s->ex);
-		s->ex = ex;
 		if (s->fd != -1) {
 			close(s->fd);
 			s->fd = -1;
 		}
 		return 0;
 	} else {
-		camel_exception_free (ex);
 		return -1;
 	}
 }

@@ -602,11 +602,11 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	if (stat(mbox_folder->folder_file_path, &st) != 0)
 		goto fail;
 
-	output_stream = camel_stream_fs_new_with_name (mbox_folder->folder_file_path, O_RDWR, 0600, ex);
+	output_stream = camel_stream_fs_new_with_name (mbox_folder->folder_file_path, O_RDWR, 0600);
 	if (output_stream == NULL)
 		goto fail;
 
-	seek = camel_seekable_stream_seek((CamelSeekableStream *)output_stream, st.st_size, SEEK_SET, ex);
+	seek = camel_seekable_stream_seek((CamelSeekableStream *)output_stream, st.st_size, SEEK_SET);
 	if (seek != st.st_size)
 		goto fail;
 
@@ -618,19 +618,17 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 	g_free(xev);
 
 	/* we must write this to the non-filtered stream ... */
-	if (camel_stream_write_string (output_stream, "From - \n", ex) == -1)
+	if (camel_stream_write_string (output_stream, "From - \n") == -1)
 		goto fail;
 
 	/* and write the content to the filtering stream, that translated '\nFrom' into '\n>From' */
 	filter_stream = (CamelStream *)camel_stream_filter_new_with_stream(output_stream);
 	filter_from = (CamelMimeFilter *)camel_mime_filter_from_new();
 	camel_stream_filter_add((CamelStreamFilter *)filter_stream, filter_from);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), filter_stream, ex);
-#warning "we still need stream_close() for this"
-	if (!camel_exception_is_set (ex))
-		camel_stream_flush (filter_stream, ex);
+	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), filter_stream) == -1)
+		goto fail;
 
-	if (camel_exception_is_set (ex))
+	if (camel_stream_close (filter_stream) == -1)
 		goto fail;
 
 	/* filter stream ref's the output stream itself, so we need to unref it too */
@@ -658,6 +656,9 @@ fail:
 	}
 	if (output_stream)
 		gtk_object_unref ((GtkObject *)output_stream);
+
+	if (filter_from)
+		gtk_object_unref ((GtkObject *)filter_from);
 
 	/* make sure the file isn't munged by us */
 	if (seek != -1) {
@@ -760,7 +761,7 @@ mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 	g_assert(info->frompos != -1);
 
 	/* where we read from */
-	message_stream = camel_stream_fs_new_with_name (mbox_folder->folder_file_path, O_RDONLY, 0, ex);
+	message_stream = camel_stream_fs_new_with_name (mbox_folder->folder_file_path, O_RDONLY, 0);
 	if (message_stream == NULL)
 		goto fail;
 
@@ -800,15 +801,10 @@ mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 	return message;
 
 fail:
-	if (camel_exception_is_set (ex)) {
-		camel_exception_setv (ex, camel_exception_get_id (ex),
-				      "Cannot get message: %s",
-				      camel_exception_get_description (ex));
-	} else {				      
-		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				      "Cannot get message: %s",
-				      g_strerror(errno));
-	}
+	camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+			      "Cannot get message: %s",
+			      g_strerror(errno));
+
 	if (parser)
 		gtk_object_unref((GtkObject *)parser);
 	if (message)

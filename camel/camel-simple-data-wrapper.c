@@ -37,7 +37,7 @@ static CamelDataWrapperClass *parent_class = NULL;
 
 static int construct_from_stream (CamelDataWrapper *, CamelStream *);
 static int write_to_stream (CamelDataWrapper *data_wrapper,
-			    CamelStream *stream, CamelException *ex);
+			    CamelStream *stream);
 
 static void finalize (GtkObject *object);
 
@@ -116,6 +116,9 @@ construct_from_stream (CamelDataWrapper *wrapper, CamelStream *stream)
 	CamelSimpleDataWrapper *simple_data_wrapper =
 		CAMEL_SIMPLE_DATA_WRAPPER (wrapper);
 
+	if (simple_data_wrapper->content)
+		gtk_object_unref((GtkObject *)simple_data_wrapper->content);
+
 	simple_data_wrapper->content = stream;
 	gtk_object_ref (GTK_OBJECT (stream));
 	return 0;
@@ -123,15 +126,16 @@ construct_from_stream (CamelDataWrapper *wrapper, CamelStream *stream)
 
 
 static int
-write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream,
-		 CamelException *ex)
+write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelSimpleDataWrapper *simple_data_wrapper =
 		CAMEL_SIMPLE_DATA_WRAPPER (data_wrapper);
 
-	camel_stream_reset (simple_data_wrapper->content, ex);
-	if (camel_exception_is_set (ex))
+	if (simple_data_wrapper->content == NULL)
 		return -1;
-	return camel_stream_write_to_stream (simple_data_wrapper->content,
-					     stream, ex);
+
+	if (camel_stream_reset (simple_data_wrapper->content) == -1)
+		return -1;
+
+	return camel_stream_write_to_stream (simple_data_wrapper->content, stream);
 }

@@ -31,6 +31,7 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "camel-sendmail-transport.h"
 #include "camel-mime-message.h"
@@ -139,15 +140,15 @@ _send_internal (CamelMedium *message, char **argv, CamelException *ex)
 	/* Parent process. Write the message out. */
 	close (fd[0]);
 	out = camel_stream_fs_new_with_fd (fd[1]);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
-					    out, ex);
-	gtk_object_unref (GTK_OBJECT (out));
-	if (camel_exception_is_set (ex)) {
-		camel_exception_setv (ex, camel_exception_get_id (ex),
+	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), out) == -1
+	    || camel_stream_close(out) == -1) {
+		gtk_object_unref (GTK_OBJECT (out));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Could not send message: %s",
-				      camel_exception_get_description (ex));
+				      strerror(errno));
 		return FALSE;
 	}
+	gtk_object_unref (GTK_OBJECT (out));
 
 	/* Wait for sendmail to exit. */
 	while (waitpid (pid, &wstat, 0) == -1 && errno == EINTR)

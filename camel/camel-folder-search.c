@@ -472,7 +472,7 @@ static ESExpResult *search_user_flag(struct _ESExp *f, int argc, struct _ESExpRe
 	ESExpResult *r;
 	int i;
 
-	r(printf("executing header-contains\n"));
+	r(printf("executing user-flag\n"));
 
 	/* are we inside a match-all? */
 	if (search->current) {

@@ -62,6 +62,9 @@ struct _CamelStreamBuffer
 	unsigned char *buf, *ptr, *end;
 	int size;
 
+	unsigned char *linebuf;	/* for reading lines at a time */
+	int linesize;
+
 	CamelStreamBufferMode mode;
 	unsigned int flags;	/* internal flags */
 };
@@ -95,11 +98,9 @@ CamelStream *camel_stream_buffer_new_with_vbuf (CamelStream *s,
    CamelStream *camel_stream_buffer_set_vbuf (CamelStreamBuffer *b, CamelStreamBufferMode mode, char *buf, guint32 size); */
 
 /* read a line of characters */
-int camel_stream_buffer_gets (CamelStreamBuffer *b, char *buf,
-			      unsigned int max, CamelException *ex);
+int camel_stream_buffer_gets (CamelStreamBuffer *b, char *buf, unsigned int max);
 
-char *camel_stream_buffer_read_line (CamelStreamBuffer *sbf,
-				     CamelException *ex);
+char *camel_stream_buffer_read_line (CamelStreamBuffer *sbf);
 
 #ifdef __cplusplus
 }
