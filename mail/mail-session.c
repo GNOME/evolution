@@ -70,10 +70,6 @@ typedef struct _MailSession {
 	EMutex *lock;
 
 	MailAsyncEvent *async;
-
-	/* must all be accessed with lock held ! */
-	unsigned int timeout_id;/* next camel timneout id */
-	EDList timeouts;	/* list of struct _timeout_data's of current or pending removed timeouts */
 } MailSession;
 
 typedef struct _MailSessionClass {
@@ -84,17 +80,13 @@ typedef struct _MailSessionClass {
 static char *get_password(CamelSession *session, const char *prompt, gboolean reprompt, gboolean secret, CamelService *service, const char *item, CamelException *ex);
 static void forget_password(CamelSession *session, CamelService *service, const char *item, CamelException *ex);
 static gboolean alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel);
-static guint register_timeout(CamelSession *session, guint32 interval, CamelTimeoutCallback cb, gpointer camel_data);
-static gboolean remove_timeout(CamelSession *session, guint handle);
 static CamelFilterDriver *get_filter_driver(CamelSession *session, const char *type, CamelException *ex);
 
 static void
 init (MailSession *session)
 {
 	session->lock = e_mutex_new(E_MUTEX_REC);
-	session->timeout_id = 1; /* first timeout id */
 	session->async = mail_async_event_new();
-	e_dlist_init(&session->timeouts);
 }
 
 static void
@@ -529,233 +521,6 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt
 	e_msgport_destroy(user_message_reply);
 
 	return ret;
-}
-
-/* ******************** */
-
-struct _timeout_data {
-	struct _timeout_data *next;
-	struct _timeout_data *prev;
-
-	CamelSession *session;
-
-	guint32 interval;
-
-	CamelTimeoutCallback cb;
-	void *camel_data;
-
-	guint id;		/* the camel 'id' */
-	guint timeout_id;	/* the gtk 'id' */
-
-	unsigned int busy:1;		/* on if its currently running */
-	unsigned int removed:1;		/* if its been removed since */
-};
-
-struct _timeout_msg {
-	struct _mail_msg msg;
-
-	CamelSession *session;
-	unsigned int id;
-	int result;
-};
-
-static struct _timeout_data *
-find_timeout(EDList *list, unsigned int id)
-{
-	struct _timeout_data *td, *tn;
-
-	td = (struct _timeout_data *)list->head;
-	tn = td->next;
-	while (tn) {
-		if (td->id == id)
-			return td;
-		td = tn;
-		tn = tn->next;
-	}
-
-	return NULL;
-}
-
-static void
-timeout_timeout (struct _mail_msg *mm)
-{
-	struct _timeout_msg *m = (struct _timeout_msg *)mm;
-	MailSession *ms = (MailSession *)m->session;
-	struct _timeout_data *td;
-
-	MAIL_SESSION_LOCK(ms, lock);
-	td = find_timeout(&ms->timeouts, m->id);
-	if (td && !td->removed) {
-		if (td->busy) {
-			g_warning("Timeout event dropped, still busy with last one");
-		} else {
-			td->busy = TRUE;
-			m->result = td->cb(td->camel_data);
-			td->busy = FALSE;
-			td->removed = !m->result;
-		}
-	}
-	MAIL_SESSION_UNLOCK(ms, lock);
-}
-
-static void
-timeout_done (struct _mail_msg *mm)
-{
-	struct _timeout_msg *m = (struct _timeout_msg *) mm;
-	MailSession *ms = (MailSession *) m->session;
-	struct _timeout_data *td;
-	
-	if (!m->result) {
-		MAIL_SESSION_LOCK(ms, lock);
-		td = find_timeout (&ms->timeouts, m->id);
-		if (td) {
-			e_dlist_remove ((EDListNode *) td);
-			if (td->timeout_id)
-				gtk_timeout_remove (td->timeout_id);
-			g_free (td);
-		}
-		MAIL_SESSION_UNLOCK(ms, lock);
-	}
-}
-
-static void
-timeout_free (struct _mail_msg *mm)
-{
-	struct _timeout_msg *m = (struct _timeout_msg *)mm;
-	
-	camel_object_unref (m->session);
-}
-
-static struct _mail_msg_op timeout_op = {
-	NULL,
-	timeout_timeout,
-	timeout_done,
-	timeout_free,
-};
-
-static gboolean 
-camel_timeout (gpointer data)
-{
-	struct _timeout_data *td = data;
-	struct _timeout_msg *m;
-	
-	/* stop if we are removed pending */
-	if (td->removed)
-		return FALSE;
-	
-	m = mail_msg_new (&timeout_op, NULL, sizeof (*m));
-	
-	m->session = td->session;
-	camel_object_ref (td->session);
-	m->id = td->id;
-	
-	e_thread_put (mail_thread_queued, (EMsg *)m);
-	
-	return TRUE;
-}
-
-static void
-main_register_timeout (CamelSession *session, void *event_data, void *data)
-{
-	MailSession *ms = (MailSession *)session;
-	unsigned int handle = GPOINTER_TO_UINT(event_data);
-	struct _timeout_data *td;
-	
-	MAIL_SESSION_LOCK(session, lock);
-	td = find_timeout (&ms->timeouts, handle);
-	if (td) {
-		if (td->removed) {
-			e_dlist_remove ((EDListNode *) td);
-			if (td->timeout_id)
-				gtk_timeout_remove (td->timeout_id);
-			g_free (td);
-		} else {
-			td->timeout_id = gtk_timeout_add (td->interval, camel_timeout, td);
-		}
-	}
-	MAIL_SESSION_UNLOCK(session, lock);
-	
-	camel_object_unref (ms);
-}
-
-static guint
-register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback cb, gpointer camel_data)
-{
-	struct _timeout_data *td;
-	MailSession *ms = (MailSession *) session;
-	guint ret;
-	
-	MAIL_SESSION_LOCK(session, lock);
-	
-	ret = ms->timeout_id;
-	ms->timeout_id++;
-	
-	/* just debugging, the timeout code now ignores excessive events anyway */
-	if (interval < 100)
-		g_warning ("Timeout requested %d is small, may cause performance problems", interval);
-	
-	td = g_malloc (sizeof (*td));
-	td->cb = cb;
-	td->camel_data = camel_data;
-	td->interval = interval;
-	td->id = ret;
-	td->session = session;
-	td->removed = FALSE;
-	td->busy = FALSE;
-	e_dlist_addhead (&ms->timeouts, (EDListNode *) td);
-	
-	MAIL_SESSION_UNLOCK(session, lock);
-	
-	camel_object_ref (ms);
-	mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_register_timeout,
-			       (CamelObject *) session, GUINT_TO_POINTER(ret), NULL);
-
-	return ret;
-}
-
-static void
-main_remove_timeout (CamelSession *session, void *event_data, void *data)
-{
-	MailSession *ms = (MailSession *) session;
-	unsigned int handle = GPOINTER_TO_UINT(event_data);
-	struct _timeout_data *td;
-	
-	MAIL_SESSION_LOCK(session, lock);
-	td = find_timeout (&ms->timeouts, handle);
-	if (td) {
-		e_dlist_remove ((EDListNode *) td);
-		if (td->timeout_id)
-			gtk_timeout_remove (td->timeout_id);
-		g_free (td);
-	}
-	MAIL_SESSION_UNLOCK(session, lock);
-	
-	camel_object_unref (ms);
-}
-
-static gboolean
-remove_timeout (CamelSession *session, guint handle)
-{
-	MailSession *ms = (MailSession *)session;
-	struct _timeout_data *td;
-	int remove = FALSE;
-	
-	MAIL_SESSION_LOCK(session, lock);
-	td = find_timeout (&ms->timeouts, handle);
-	if (td && !td->removed) {
-		td->removed = TRUE;
-		remove = TRUE;
-	}
-	MAIL_SESSION_UNLOCK(session, lock);
-	
-	if (remove) {
-		camel_object_ref (ms);
-		mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_remove_timeout,
-				       (CamelObject *) session, GUINT_TO_POINTER(handle), NULL);
-	} else
-		g_warning ("Removing a timeout i dont know about (or twice): %d", handle);
-
-	return TRUE;
 }
 
 static CamelFolder *

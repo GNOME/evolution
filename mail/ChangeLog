@@ -1,3 +1,8 @@
+2003-08-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (remove_timeout): Removed.
+	(register_timeout): Removed.
+
 2003-08-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_multipart_encrypted): Updated for
