@@ -379,8 +379,11 @@ destroy (GtkObject *object)
 	shortcuts = E_SHORTCUTS (object);
 	priv = shortcuts->priv;
 
-	gtk_object_unref (GTK_OBJECT (priv->storage_set));
-	gtk_object_unref (GTK_OBJECT (priv->folder_type_repository));
+	if (priv->storage_set != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->storage_set));
+
+	if (priv->folder_type_repository != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->folder_type_repository));
 
 	unload_shortcuts (shortcuts);
 

@@ -33,8 +33,9 @@ static void
 es_destroy (GtkObject *object)
 {
 	EShortcut *ef = E_SHORTCUT (object);
-	
-	gtk_object_unref (GTK_OBJECT (ef->efolder));
+
+	if (ef->efolder != NULL)
+		gtk_object_unref (GTK_OBJECT (ef->efolder));
 			  
 	shortcut_parent_class->destroy (object);
 }
@@ -57,8 +58,9 @@ esg_destroy (GtkObject *object)
 
 	for (i = 0; i < shortcut_count; i++){
 		EShortcut *es = g_array_index (efg->shortcuts, EShortcut *, i);
-		
-		gtk_object_unref (GTK_OBJECT (es));
+
+		if (es != NULL)
+			gtk_object_unref (GTK_OBJECT (es));
 	}
 	
 	g_array_free (efg->shortcuts, TRUE);

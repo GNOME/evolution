@@ -1,5 +1,14 @@
 2000-05-06  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shortcuts.c (destroy): Be safer about NULL objects.
+
+	* e-shell.c (destroy): Be safer about NULL objects.
+
+	* e-local-storage.c (load_folders): Use `readdir()', not
+	`readdir_r()'.
+
+2000-05-06  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* main.c (init_corba) [! USING_OAF]: We have no options no
 	popt context.
 

@@ -150,7 +150,6 @@ load_folders (ELocalStorage *local_storage,
 {
 	DIR *dir;
 	char *subfolder_directory_path;
-	struct dirent *dirent;
 
 	if (parent_path == NULL) {
 		/* On the top level, we don't have any folders and, consequently, no
@@ -181,24 +180,21 @@ load_folders (ELocalStorage *local_storage,
 		return FALSE;
 	}
 
-	dirent = g_malloc (sizeof (struct dirent) + MAXPATHLEN + 1);
-
 	while (1) {
 		struct stat file_stat;
-		struct dirent *result;
+		struct dirent *dirent;
 		char *file_path;
 		char *new_path;
 
-		if (readdir_r (dir, dirent, &result) != 0)
-			break;
-		if (result == NULL)
+		dirent = readdir (dir);
+		if (dirent == NULL)
 			break;
 
-		if (strcmp (result->d_name, ".") == 0 || strcmp (result->d_name, "..") == 0)
+		if (strcmp (dirent->d_name, ".") == 0 || strcmp (dirent->d_name, "..") == 0)
 			continue;
 
 		file_path = g_concat_dir_and_file (subfolder_directory_path,
-						   result->d_name);
+						   dirent->d_name);
 
 		if (stat (file_path, &file_stat) < 0) {
 			g_free (file_path);
@@ -209,7 +205,7 @@ load_folders (ELocalStorage *local_storage,
 			continue;
 		}
 
-		new_path = g_concat_dir_and_file (path, result->d_name);
+		new_path = g_concat_dir_and_file (path, dirent->d_name);
 
 		load_folders (local_storage, path, new_path, file_path);
 
@@ -217,7 +213,6 @@ load_folders (ELocalStorage *local_storage,
 		g_free (new_path);
 	}
 
-	g_free (dirent);
 	closedir (dir);
 	g_free (subfolder_directory_path);
 

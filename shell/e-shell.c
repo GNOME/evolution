@@ -91,9 +91,14 @@ destroy (GtkObject *object)
 	shell = E_SHELL (object);
 	priv = shell->priv;
 
-	gtk_object_unref (GTK_OBJECT (priv->storage_set));
-	gtk_object_unref (GTK_OBJECT (priv->shortcuts));
-	gtk_object_unref (GTK_OBJECT (priv->folder_type_repository));
+	if (priv->storage_set != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->storage_set));
+
+	if (priv->shortcuts != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->shortcuts));
+
+	if (priv->folder_type_repository != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->folder_type_repository));
 
 	g_free (priv);
 
