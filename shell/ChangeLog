@@ -1,3 +1,9 @@
+2001-03-30  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-shell-folder-selection-dialog.c (dbl_click_cb): Since this is
+	an ETree now, the signature of the double click callback has
+	changed.
+
 2001-03-30  Dan Winship  <danw@ximian.com>
 
 	* Evolution-ShellComponent.idl: add a "debug" method to tell a
