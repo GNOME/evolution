@@ -676,7 +676,7 @@ get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelExcepti
 }
 
 static void
-add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, const char *full_name, gboolean unread_count)
+add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, const char *translated, gboolean unread_count)
 {
 	CamelFolderInfo *fi, *vinfo, *parent;
 	char *uri, *path;
@@ -726,12 +726,12 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, co
 	
 	/* Fill in the new fields */
 	vinfo->flags |= CAMEL_FOLDER_VIRTUAL|CAMEL_FOLDER_SYSTEM|CAMEL_FOLDER_VTRASH;
-	vinfo->full_name = g_strdup (full_name);
-	vinfo->name = g_strdup (vinfo->full_name);
+	vinfo->full_name = g_strdup (name);
+	vinfo->name = g_strdup (translated);
 	vinfo->uri = uri;
 	if (!unread_count)
 		vinfo->unread = -1;
-	vinfo->path = g_strdup_printf ("/%s", vinfo->name);
+	vinfo->path = g_strdup_printf ("/%s", vinfo->full_name);
 }
 
 static void

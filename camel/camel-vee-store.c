@@ -326,7 +326,7 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 		camel_url_free(url);
 		/*info->url = g_strdup_printf("vfolder:%s#%s", ((CamelService *)store)->url->path, CAMEL_UNMATCHED_NAME);*/
 		info->full_name = g_strdup(CAMEL_UNMATCHED_NAME);
-		info->name = g_strdup(CAMEL_UNMATCHED_NAME);
+		info->name = g_strdup(_("Unmatched"));
 		info->unread = -1;
 		info->flags = CAMEL_FOLDER_NOCHILDREN|CAMEL_FOLDER_NOINFERIORS|CAMEL_FOLDER_SYSTEM|CAMEL_FOLDER_VIRTUAL;
 		camel_folder_info_build_path(info, '/');

@@ -1,3 +1,13 @@
+2004-04-27  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #57659.
+
+	* camel-vee-store.c (vee_get_folder_info): translate Unmatched in
+	the folder display name.
+
+	* camel-store.c (add_special_info): dont translate full_name or
+	path, only do that for name.
+
 2004-04-23  Sarfraaz Ahmed <asarfraaz@novell.com>
 	
 	* camel-provider.h: Added HAS_LICENSE flag for allowing camel
