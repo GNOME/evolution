@@ -286,22 +286,13 @@ child_unrealize (GncalFullDay *fullday, Child *child)
 }
 
 static void
-child_draw_decor (GncalFullDay *fullday, Child *child, GdkRectangle *area)
+child_draw_decor (GncalFullDay *fullday, Child *child)
 {
 	iCalObject *ico = child->ico;
-	GdkRectangle rect;
 	int ry = 0;
 
-	rect.x = child->width - child->decor_width;
-	rect.y = 0;
-	rect.width = child->decor_width;
-	rect.height = child->decor_height;
-
-#if 0
-	if (!gdk_rectangle_intersect (&rect, area, &dest))
-		return;
-#endif
-	if (ico->recur){
+	if (ico->recur) {
+		gdk_gc_set_clip_origin (fullday->recur_gc, 0, ry);
 		gdk_draw_pixmap (child->decor_window,
 				 fullday->recur_gc,
 				 pixmap_recur,
@@ -310,7 +301,9 @@ child_draw_decor (GncalFullDay *fullday, Child *child, GdkRectangle *area)
 				 DECOR_WIDTH, DECOR_HEIGHT);
 		ry += DECOR_HEIGHT;
 	}
-	if (ico->dalarm.enabled || ico->malarm.enabled || ico->palarm.enabled || ico->aalarm.enabled){
+
+	if (ico->dalarm.enabled || ico->malarm.enabled || ico->palarm.enabled || ico->aalarm.enabled) {
+		gdk_gc_set_clip_origin (fullday->bell_gc, 0, ry);
 		gdk_draw_pixmap (child->decor_window,
 				 fullday->bell_gc,
 				 pixmap_bell,
@@ -322,58 +315,69 @@ child_draw_decor (GncalFullDay *fullday, Child *child, GdkRectangle *area)
 }
 
 static void
-child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, int draw_child)
+child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, GdkWindow *window, int draw_child)
 {
 	GdkRectangle arect, rect, dest;
 	int has_focus;
 
-	if (!area) {
-		arect.x = 0;
-		arect.y = 0;
-
-		arect.width = child->width;
-		arect.height = child->height;
-
-		area = &arect;
-	}
-
 	has_focus = GTK_WIDGET_HAS_FOCUS (child->widget);
 
-	/* Left handle */
+	if (!window || (window == child->window)) {
+		if (!area) {
+			arect.x = 0;
+			arect.y = 0;
+			arect.width = child->width;
+			arect.height = child->height;
 
-	rect.x = 0;
-	rect.y = has_focus ? HANDLE_SIZE : 0;
-	rect.width = HANDLE_SIZE;
-	rect.height = has_focus ? (child->height - 2 * HANDLE_SIZE) : child->height;
+			area = &arect;
+		}
 
-	if (gdk_rectangle_intersect (&rect, area, &dest))
-		view_utils_draw_textured_frame (GTK_WIDGET (fullday), child->window, &rect, GTK_SHADOW_OUT);
-
-	if (has_focus) {
-		/* Top handle */
+		/* Left handle */
 
 		rect.x = 0;
-		rect.y = 0;
-		rect.width = child->width - child->decor_width;
-		rect.height = HANDLE_SIZE;
+		rect.y = has_focus ? HANDLE_SIZE : 0;
+		rect.width = HANDLE_SIZE;
+		rect.height = has_focus ? (child->height - 2 * HANDLE_SIZE) : child->height;
 
 		if (gdk_rectangle_intersect (&rect, area, &dest))
 			view_utils_draw_textured_frame (GTK_WIDGET (fullday), child->window, &rect, GTK_SHADOW_OUT);
 
-		/* Bottom handle */
+		if (has_focus) {
+			/* Top handle */
 
-		rect.y = child->height - HANDLE_SIZE;
+			rect.x = 0;
+			rect.y = 0;
+			rect.width = child->width - child->decor_width;
+			rect.height = HANDLE_SIZE;
 
-		if (gdk_rectangle_intersect (&rect, area, &dest))
-			view_utils_draw_textured_frame (GTK_WIDGET (fullday), child->window, &rect, GTK_SHADOW_OUT);
+			if (gdk_rectangle_intersect (&rect, area, &dest))
+				view_utils_draw_textured_frame (GTK_WIDGET (fullday), child->window,
+								&rect, GTK_SHADOW_OUT);
+
+			/* Bottom handle */
+
+			rect.y = child->height - HANDLE_SIZE;
+
+			if (gdk_rectangle_intersect (&rect, area, &dest))
+				view_utils_draw_textured_frame (GTK_WIDGET (fullday), child->window,
+								&rect, GTK_SHADOW_OUT);
+		}
+
+	} else if (!window || (window == child->decor_window)) {
+		if (!area) {
+			arect.x = 0;
+			arect.y = 0;
+			arect.width = child->decor_width;
+			arect.height = child->decor_height;
+
+			area = &arect;
+		}
+
+		child_draw_decor (fullday, child);
 	}
 
-	child_draw_decor (fullday, child, area);
-	if (draw_child) {
-		area->x -= HANDLE_SIZE;
-		area->y -= has_focus ? HANDLE_SIZE : 0;
-		gtk_widget_draw (child->widget, area);
-	}
+	if (draw_child)
+		gtk_widget_draw (child->widget, NULL);
 }
 
 static void
@@ -1421,10 +1425,7 @@ gncal_full_day_draw (GtkWidget *widget, GdkRectangle *area)
 		rect.height = child->height;
 
 		if (gdk_rectangle_intersect (&rect, area, &dest)) {
-			dest.x -= child->x;
-			dest.y -= child->y;
-
-			child_draw (fullday, child, &dest, TRUE);
+			child_draw (fullday, child, NULL, NULL, TRUE);
 		}
 	}
 }
@@ -2010,7 +2011,7 @@ gncal_full_day_expose (GtkWidget *widget, GdkEventExpose *event)
 		child = find_child_by_window (fullday, event->window, &on_text);
 
 		if (child && !on_text)
-			child_draw (fullday, child, &event->area, FALSE);
+			child_draw (fullday, child, &event->area, event->window, FALSE);
 	}
 
 	return FALSE;
@@ -2160,7 +2161,7 @@ gncal_full_day_update (GncalFullDay *fullday, iCalObject *ico, int flags)
 	/* If child was found and nothing but the summary changed, we can just paint the child and return */
 
 	if (children && !(flags & ~CHANGE_SUMMARY)) {
-		child_draw (fullday, child, NULL, TRUE);
+		child_draw (fullday, child, NULL, NULL, TRUE);
 		return;
 	}
 
