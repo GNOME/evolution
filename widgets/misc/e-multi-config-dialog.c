@@ -110,8 +110,7 @@ create_page_container (const char *description,
 {
 	GtkWidget *vbox;
 
-	vbox = gtk_vbox_new (FALSE, 3);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
+	vbox = gtk_vbox_new (FALSE, 0);
 
 #if 0
 	label = e_clipped_label_new (description);
@@ -366,7 +365,8 @@ init (EMultiConfigDialog *multi_config_dialog)
 	ECell *text;
 	ECell *vbox;
 
-	hbox = gtk_hbox_new (FALSE, 2);
+	hbox = gtk_hbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6); 
 	dialog_vbox = GTK_DIALOG (multi_config_dialog)->vbox;
 	gtk_box_set_spacing (GTK_BOX (dialog_vbox), 6); 
 	

@@ -1,3 +1,9 @@
+2003-05-19  Anna Marie Dirks  <anna@ximian.com>
+
+	* e-multi-config-dialog.c (init): Added HIG-appropriate spacing/
+	padding to the main hbox into which the icons and page widgets 
+	are packed.
+
 2003-05-19  Larry Ewing  <lewing@ximian.com>
 
 	* e-charset-picker.c: port to GtkDialog.
