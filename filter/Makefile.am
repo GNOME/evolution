@@ -26,6 +26,8 @@ libfilter_la_SOURCES =				\
 	filter-colour.h				\
 	filter-context.c			\
 	filter-context.h			\
+	filter-datespec.c			\
+	filter-datespec.h			\
 	filter-driver.c				\
 	filter-driver.h				\
 	filter-editor.c				\

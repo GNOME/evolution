@@ -76,5 +76,69 @@
    <title>Expression</title>
    <input type="code" name="code"/>
   </part>
+
+ <part name="sent-date">
+  <title>Message was sent</title>
+  <input type="optionlist" name="date-spec-type">
+   <option value="before">
+    <title>before</title>
+    <code>
+       (match-all (&lt; (get-sent-date) ${versus}))
+    </code>
+   </option>
+   <option value="on-or-before">
+    <title>on or before</title>
+    <code>
+       (match-all (not (&gt; (get-sent-date) ${versus})))
+    </code>
+   </option>
+   <option value="after">
+    <title>after</title>
+    <code>
+       (match-all (&gt; (get-sent-date) ${versus}))
+    </code>
+   </option>
+   <option value="on-or-after">
+    <title>on or after</title>
+    <code>
+       (match-all (not (&lt; (get-sent-date) ${versus})))
+    </code>
+   </option>
+  </input>    
+  <input type="datespec" name="versus">
+  </input>
+ </part>
+
+ <part name="recv-date">
+  <title>Message was received</title>
+  <input type="optionlist" name="date-spec-type">
+   <option value="before">
+    <title>before</title>
+    <code>
+       (match-all (&lt; (get-received-date) ${versus}))
+    </code>
+   </option>
+   <option value="on-or-before">
+    <title>on or before</title>
+    <code>
+       (match-all (not (&gt; (get-received-date) ${versus})))
+    </code>
+   </option>
+   <option value="after">
+    <title>after</title>
+    <code>
+       (match-all (&gt; (get-received-date) ${versus}))
+    </code>
+   </option>
+   <option value="on-or-after">
+    <title>on or after</title>
+    <code>
+       (match-all (not (&lt; (get-received-date) ${versus})))
+    </code>
+   </option>
+  </input>    
+  <input type="datespec" name="versus">
+  </input>
+ </part>
 </partset>
 </filterdescription>

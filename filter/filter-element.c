@@ -26,6 +26,7 @@
 #include "filter-option.h"
 #include "filter-code.h"
 #include "filter-colour.h"
+#include "filter-datespec.h"
 #include "filter-folder.h"
 
 static void xml_create(FilterElement *fe, xmlNodePtr node);
@@ -237,6 +238,8 @@ FilterElement	*filter_element_new_type_name	(const char *type)
 		return (FilterElement *)filter_colour_new();
 	} else if (!strcmp(type, "optionlist")) {
 		return (FilterElement *)filter_option_new();
+	} else if (!strcmp(type, "datespec")) {
+		return (FilterElement *)filter_datespec_new();
 	} else {
 		g_warning("Unknown filter type '%s'", type);
 		return 0;
