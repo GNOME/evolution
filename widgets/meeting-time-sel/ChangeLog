@@ -1,9 +1,0 @@
-2000-06-26  Christopher James Lahey  <clahey@helixcode.com>
-
-	* Makefile.am: Added the include path to top_srcdir.
-
-2000-06-25  Ettore Perazzoli  <ettore@helixcode.com>
-
-	* e-meeting-time-sel.c: Specify the #include path for
-	`e-canvas-utils.h' so that we build with builddir != srcdir.
-
