@@ -795,7 +795,7 @@ init_widgets (AlarmPage *apage)
 
 	/* View */
 	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_title (column, "Action/Trigger");  /* Not shown */
+	gtk_tree_view_column_set_title (column, _("Action/Trigger"));
 	cell_renderer = GTK_CELL_RENDERER (gtk_cell_renderer_text_new ());
 	gtk_tree_view_column_pack_start (column, cell_renderer, TRUE);
 	gtk_tree_view_column_add_attribute (column, cell_renderer, "text", E_ALARM_LIST_COLUMN_DESCRIPTION);

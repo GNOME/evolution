@@ -2331,7 +2331,7 @@ init_widgets (RecurrencePage *rpage)
 
 	/* View */
 	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_title (column, "Date/Time");
+	gtk_tree_view_column_set_title (column, _("Date/Time"));
 	cell_renderer = GTK_CELL_RENDERER (gtk_cell_renderer_text_new ());
 	gtk_tree_view_column_pack_start (column, cell_renderer, TRUE);
 	gtk_tree_view_column_add_attribute (column, cell_renderer, "text", E_DATE_TIME_LIST_COLUMN_DESCRIPTION);
