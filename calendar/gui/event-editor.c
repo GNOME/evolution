@@ -117,6 +117,7 @@ typedef struct {
 
 /* Signal IDs */
 enum {
+	SAVE_ICAL_OBJECT,
 	ICAL_OBJECT_RELEASED,
 	EDITOR_CLOSED,
 	LAST_SIGNAL
@@ -190,6 +191,15 @@ event_editor_class_init (EventEditorClass *class)
 	object_class = (GtkObjectClass *) class;
 
 	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
+
+	event_editor_signals[SAVE_ICAL_OBJECT] =
+		gtk_signal_new ("save_ical_object",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EventEditorClass, save_ical_object),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_POINTER);
 
 	event_editor_signals[ICAL_OBJECT_RELEASED] =
 		gtk_signal_new ("ical_object_released",
@@ -821,6 +831,240 @@ fill_widgets (EventEditor *ee)
 		append_exception (ee, *((time_t *) list->data));
 }
 
+
+
+/* Frees the list of exception dates in an iCalObject */
+static void
+free_exdate (iCalObject *ico)
+{
+	GList *list;
+
+	if (!ico->exdate)
+		return;
+
+	for (list = ico->exdate; list; list = list->next)
+		g_free (list->data);
+
+	g_list_free (ico->exdate);
+	ico->exdate = NULL;
+}
+
+/* Decode the radio button group for classifications */
+static ClassificationType
+classification_get (GtkWidget *widget)
+{
+	return e_dialog_radio_get (widget, classification_map);
+}
+
+/* Get the values of the widgets in the event editor and put them in the iCalObject */
+static void
+dialog_to_ical_object (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+	iCalObject *ico;
+	gboolean all_day_event;
+	int i;
+	time_t *t;
+	GtkCList *exception_list;
+
+	priv = ee->priv;
+	ico = priv->ico;
+
+	if (ico->summary)
+		g_free (ico->summary);
+
+	ico->summary  = e_dialog_editable_get (priv->general_summary);
+
+	ico->dtstart = e_dialog_dateedit_get (priv->start_time);
+	ico->dtend = e_dialog_dateedit_get (priv->end_time);
+
+	all_day_event = e_dialog_toggle_get (priv->all_day_event);
+
+	ico->dalarm.enabled = e_dialog_toggle_get (priv->alarm_display);
+	ico->aalarm.enabled = e_dialog_toggle_get (priv->alarm_program);
+	ico->palarm.enabled = e_dialog_toggle_get (priv->alarm_audio);
+	ico->malarm.enabled = e_dialog_toggle_get (priv->alarm_mail);
+
+	ico->dalarm.count = e_dialog_spin_get_int (priv->alarm_display_amount);
+	ico->aalarm.count = e_dialog_spin_get_int (priv->alarm_audio_amount);
+	ico->palarm.count = e_dialog_spin_get_int (priv->alarm_program_amount);
+	ico->malarm.count = e_dialog_spin_get_int (priv->alarm_mail_amount);
+
+	ico->dalarm.units = alarm_unit_get (priv->alarm_display_unit);
+	ico->aalarm.units = alarm_unit_get (priv->alarm_audio_unit);
+	ico->palarm.units = alarm_unit_get (priv->alarm_program_unit);
+	ico->malarm.units = alarm_unit_get (priv->alarm_mail_unit);
+
+	if (ico->palarm.data)
+		g_free (ico->palarm.data);
+
+	if (ico->malarm.data)
+		g_free (ico->malarm.data);
+
+	ico->palarm.data = e_dialog_editable_get (priv->alarm_program_run_program_entry);
+	ico->malarm.data = e_dialog_editable_get (priv->alarm_mail_mail_to);
+
+	if (ico->class)
+		g_free (ico->class);
+
+	switch (classification_get (priv->classification_radio)) {
+	case CLASSIFICATION_PUBLIC:
+		ico->class = g_strdup ("PUBLIC");
+		break;
+
+	case CLASSIFICATION_PRIVATE:
+		ico->class = g_strdup ("PRIVATE");
+		break;
+
+	case CLASSIFICATION_CONFIDENTIAL:
+		ico->class = g_strdup ("CONFIDENTIAL");
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	/* Recurrence information */
+
+	if (ico->recur) {
+		g_free (ico->recur);
+		ico->recur = NULL;
+	}
+
+	switch (recur_options_get (priv->recurrence_rule_none)) {
+	case RECUR_OPTION_NONE:
+		/* nothing */
+		break;
+
+	case RECUR_OPTION_DAILY:
+		ico->recur = g_new0 (Recurrence, 1);
+		ico->recur->type = RECUR_DAILY;
+		ico->recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_daily_days);
+		break;
+
+	case RECUR_OPTION_WEEKLY:
+		ico->recur = g_new0 (Recurrence, 1);
+		ico->recur->type = RECUR_WEEKLY;
+		ico->recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_weekly_weeks);
+		ico->recur->weekday = 0;
+
+		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_sun))
+			ico->recur->weekday |= 1 << 0;
+		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_mon))
+			ico->recur->weekday |= 1 << 1;
+		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_tue))
+			ico->recur->weekday |= 1 << 2;
+		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_wed))
+			ico->recur->weekday |= 1 << 3;
+		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_thu))
+			ico->recur->weekday |= 1 << 4;
+		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_fri))
+			ico->recur->weekday |= 1 << 5;
+		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_sat))
+			ico->recur->weekday |= 1 << 6;
+
+		break;
+
+	case RECUR_OPTION_MONTHLY:
+		ico->recur = g_new0 (Recurrence, 1);
+
+		if (e_dialog_toggle_get (priv->recurrence_rule_monthly_on_day)) {
+				/* by day of in the month (ex: the 5th) */
+			ico->recur->type = RECUR_MONTHLY_BY_DAY;
+			ico->recur->u.month_day = e_dialog_spin_get_int (
+				priv->recurrence_rule_monthly_day_nth);
+		} else if (e_dialog_toggle_get (priv->recurrence_rule_monthly_weekday)) {
+				/* "recurrence-rule-monthly-weekday" is TRUE */
+				/* by position on the calender (ex: 2nd monday) */
+			ico->recur->type = RECUR_MONTHLY_BY_POS;
+			ico->recur->u.month_pos = e_dialog_option_menu_get (
+				priv->recurrence_rule_monthly_week,
+				month_pos_map);
+			ico->recur->weekday = e_dialog_option_menu_get (
+				priv->recurrence_rule_monthly_weekpos,
+				weekday_map);
+
+		} else
+			g_assert_not_reached ();
+
+		ico->recur->interval = e_dialog_spin_get_int (
+			priv->recurrence_rule_monthly_every_n_months);
+
+		break;
+
+	case RECUR_OPTION_YEARLY:
+		ico->recur = g_new0 (Recurrence, 1);
+		ico->recur->type = RECUR_YEARLY_BY_DAY;
+		ico->recur->interval = e_dialog_spin_get_int (
+			priv->recurrence_rule_yearly_every_n_years);
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	/* recurrence ending date */
+
+	if (ico->recur) {
+		if (e_dialog_toggle_get (priv->recurrence_ending_date_repeat_forever)) {
+			ico->recur->_enddate = 0;
+			ico->recur->enddate = 0;
+			ico->recur->duration = 0;
+		} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_on)) {
+			/* Also here, to ensure that the event is used, we add 86400
+			 * secs to get get next day, in accordance to the RFC
+			 */
+			ico->recur->_enddate = e_dialog_dateedit_get (
+				priv->recurrence_ending_date_end_on_date) + 86400;
+			ico->recur->enddate = ico->recur->_enddate;
+			ico->recur->duration = 0;
+		} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_after)) {
+			ico->recur->duration = e_dialog_spin_get_int (
+				priv->recurrence_ending_date_end_after_count);
+			ical_object_compute_end (ico);
+		} else
+			g_assert_not_reached ();
+	}
+
+	/* Get exceptions from clist into ico->exdate */
+
+	free_exdate (ico);
+	exception_list = GTK_CLIST (priv->recurrence_exceptions_list);
+
+	for (i = 0; i < exception_list->rows; i++) {
+		t = gtk_clist_get_row_data (exception_list, i);
+		ico->exdate = g_list_prepend (ico->exdate, t);
+	}
+}
+
+/* Emits the "save_ical_object" signal if the event editor is editing an object. */
+static void
+save_ical_object (EventEditor *ee)
+{
+	EventEditorPrivate *priv;
+
+	priv = ee->priv;
+
+	if (!priv->ico)
+		return;
+
+	dialog_to_ical_object (ee);
+
+	gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[SAVE_ICAL_OBJECT],
+			 priv->ico);
+}
+
+/* File/Save callback */
+static void
+file_save_cb (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee;
+
+	ee = EVENT_EDITOR (data);
+	save_ical_object (ee);
+}
+
+
+
 /* Menu bar */
 
 static GnomeUIInfo file_new_menu[] = {
@@ -850,7 +1094,7 @@ static GnomeUIInfo file_menu[] = {
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: S_end"), NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_MENU_SAVE_ITEM (NULL, NULL),
+	GNOMEUIINFO_MENU_SAVE_ITEM (file_save_cb, NULL),
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM (NULL, NULL),
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Save Attac_hments..."), NULL, NULL),
 	GNOMEUIINFO_SEPARATOR,
@@ -1008,6 +1252,8 @@ create_menu (EventEditor *ee)
 	bonobo_ui_handler_menu_add_list (priv->uih, "/", list);
 }
 
+
+
 /* Toolbar */
 
 static GnomeUIInfo toolbar[] = {
@@ -1055,6 +1301,8 @@ create_toolbar (EventEditor *ee)
 	list = bonobo_ui_handler_toolbar_parse_uiinfo_list_with_data (toolbar, ee);
 	bonobo_ui_handler_toolbar_add_list (priv->uih, "/Toolbar", list);
 }
+
+
 
 /* Callback used when the dialog box is destroyed */
 static gint
@@ -1230,238 +1478,6 @@ event_editor_focus (EventEditor *ee)
 	gtk_widget_show_now (priv->app);
 	raise_and_focus (priv->app);
 }
-
-static void
-free_exdate (iCalObject *ico)
-{
-	GList *list;
-
-	if (!ico->exdate)
-		return;
-
-	for (list = ico->exdate; list; list = list->next)
-		g_free (list->data);
-
-	g_list_free (ico->exdate);
-	ico->exdate = NULL;
-}
-
-/* Decode the radio button group for classifications */
-static ClassificationType
-classification_get (GtkWidget *widget)
-{
-	return e_dialog_radio_get (widget, classification_map);
-}
-
-/* Get the values of the widgets in the event editor and put them in the iCalObject */
-static void
-dialog_to_ical_object (EventEditor *ee)
-{
-	EventEditorPrivate *priv;
-	iCalObject *ico;
-	gboolean all_day_event;
-	int i;
-	time_t *t;
-	GtkCList *exception_list;
-
-	priv = ee->priv;
-	ico = priv->ico;
-
-	if (ico->summary)
-		g_free (ico->summary);
-
-	ico->summary  = e_dialog_editable_get (priv->general_summary);
-
-	ico->dtstart = e_dialog_dateedit_get (priv->start_time);
-	ico->dtend = e_dialog_dateedit_get (priv->end_time);
-
-	all_day_event = e_dialog_toggle_get (priv->all_day_event);
-
-	ico->dalarm.enabled = e_dialog_toggle_get (priv->alarm_display);
-	ico->aalarm.enabled = e_dialog_toggle_get (priv->alarm_program);
-	ico->palarm.enabled = e_dialog_toggle_get (priv->alarm_audio);
-	ico->malarm.enabled = e_dialog_toggle_get (priv->alarm_mail);
-
-	ico->dalarm.count = e_dialog_spin_get_int (priv->alarm_display_amount);
-	ico->aalarm.count = e_dialog_spin_get_int (priv->alarm_audio_amount);
-	ico->palarm.count = e_dialog_spin_get_int (priv->alarm_program_amount);
-	ico->malarm.count = e_dialog_spin_get_int (priv->alarm_mail_amount);
-
-	ico->dalarm.units = alarm_unit_get (priv->alarm_display_unit);
-	ico->aalarm.units = alarm_unit_get (priv->alarm_audio_unit);
-	ico->palarm.units = alarm_unit_get (priv->alarm_program_unit);
-	ico->malarm.units = alarm_unit_get (priv->alarm_mail_unit);
-
-	if (ico->palarm.data)
-		g_free (ico->palarm.data);
-
-	if (ico->malarm.data)
-		g_free (ico->malarm.data);
-
-	ico->palarm.data = e_dialog_editable_get (priv->alarm_program_run_program);
-	ico->malarm.data = e_dialog_editable_get (priv->alarm_mail_mail_to);
-
-	if (ico->class)
-		g_free (ico->class);
-
-	switch (classification_get (priv->classification_radio)) {
-	case CLASSIFICATION_PUBLIC:
-		ico->class = g_strdup ("PUBLIC");
-		break;
-
-	case CLASSIFICATION_PRIVATE:
-		ico->class = g_strdup ("PRIVATE");
-		break;
-
-	case CLASSIFICATION_CONFIDENTIAL:
-		ico->class = g_strdup ("CONFIDENTIAL");
-		break;
-
-	default:
-		g_assert_not_reached ();
-	}
-
-	/* Recurrence information */
-
-	if (ico->recur) {
-		g_free (ico->recur);
-		ico->recur = NULL;
-	}
-
-	switch (recur_options_get (priv->recurrence_rule_none)) {
-	case RECUR_OPTION_NONE:
-		/* nothing */
-		break;
-
-	case RECUR_OPTION_DAILY:
-		ico->recur = g_new0 (Recurrence, 1);
-		ico->recur->type = RECUR_DAILY;
-		ico->recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_daily_days);
-		break;
-
-	case RECUR_OPTION_WEEKLY:
-		ico->recur = g_new0 (Recurrence, 1);
-		ico->recur->type = RECUR_WEEKLY;
-		ico->recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_weekly_weeks);
-		ico->recur->weekday = 0;
-
-		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_sun))
-			ico->recur->weekday |= 1 << 0;
-		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_mon))
-			ico->recur->weekday |= 1 << 1;
-		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_tue))
-			ico->recur->weekday |= 1 << 2;
-		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_wed))
-			ico->recur->weekday |= 1 << 3;
-		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_thu))
-			ico->recur->weekday |= 1 << 4;
-		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_fri))
-			ico->recur->weekday |= 1 << 5;
-		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_sat))
-			ico->recur->weekday |= 1 << 6;
-
-		break;
-
-	case RECUR_OPTION_MONTHLY:
-		ico->recur = g_new0 (Recurrence, 1);
-
-		if (e_dialog_toggle_get (priv->recurrence_rule_monthly_on_day)) {
-			/* by day of in the month (ex: the 5th) */
-			ico->recur->type = RECUR_MONTHLY_BY_DAY;
-			ico->recur->u.month_day = e_dialog_spin_get_int (
-				priv->recurrence_rule_monthly_day_nth);
-		} else if (e_dialog_toggle_get (priv->recurrence_rule_monthly_weekday)) {
-			/* "recurrence-rule-monthly-weekday" is TRUE */
-			/* by position on the calender (ex: 2nd monday) */
-			ico->recur->type = RECUR_MONTHLY_BY_POS;
-			ico->recur->u.month_pos = e_dialog_option_menu_get (
-				priv->recurrence_rule_monthly_week,
-				month_pos_map);
-			ico->recur->weekday = e_dialog_option_menu_get (
-				priv->recurrence_rule_monthly_weekpos,
-				weekday_map);
-
-		} else
-			g_assert_not_reached ();
-
-		ico->recur->interval = e_dialog_spin_get_int (
-			priv->recurrence_rule_monthly_every_n_months);
-
-		break;
-
-	case RECUR_OPTION_YEARLY:
-		ico->recur = g_new0 (Recurrence, 1);
-		ico->recur->type = RECUR_YEARLY_BY_DAY;
-		ico->recur->interval = e_dialog_spin_get_int (
-			priv->recurrence_rule_yearly_every_n_years);
-
-	default:
-		g_assert_not_reached ();
-	}
-
-	/* recurrence ending date */
-
-	if (e_dialog_toggle_get (priv->recurrence_ending_date_repeat_forever)) {
-		ico->recur->_enddate = 0;
-		ico->recur->enddate = 0;
-		ico->recur->duration = 0;
-	} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_on)) {
-		/* Also here, to ensure that the event is used, we add 86400
-		 * secs to get get next day, in accordance to the RFC
-		 */
-		ico->recur->_enddate = e_dialog_dateedit_get (
-			priv->recurrence_ending_date_end_on_date) + 86400;
-		ico->recur->enddate = ico->recur->_enddate;
-		ico->recur->duration = 0;
-	} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_after)) {
-		ico->recur->duration = e_dialog_spin_get_int (
-			priv->recurrence_ending_date_end_after_count);
-		ical_object_compute_end (ico);
-	} else
-		g_assert_not_reached ();
-
-	/* Get exceptions from clist into ico->exdate */
-
-	free_exdate (ico);
-	exception_list = GTK_CLIST (priv->recurrence_exceptions_list);
-
-	for (i = 0; i < exception_list->rows; i++) {
-		t = gtk_clist_get_row_data (exception_list, i);
-		ico->exdate = g_list_prepend (ico->exdate, t);
-	}
-}
-
-#if 0
-static void
-ee_ok (GtkWidget *widget, EventEditor *ee)
-{
-	EventEditorPrivate *priv;
-
-	priv = ee->priv;
-
-	dialog_to_ical_object (ee);
-
-	if (priv->ico->new)
-		gnome_calendar_add_object (priv->gcal, priv->ico);
-	else
-		gnome_calendar_object_changed (priv->gcal, priv->ico);
-
-	priv->ico->new = FALSE;
-}
-
-static void
-ee_cancel (GtkWidget *widget, EventEditor *ee)
-{
-	EventEditorPrivate *priv;
-
-	priv = ee->priv;
-
-	if (priv->ico) {
-		ical_object_unref (priv->ico);
-		priv->ico = NULL;
-	}
-}
-#endif
 
 static void
 alarm_toggle (GtkWidget *toggle, EventEditor *ee)

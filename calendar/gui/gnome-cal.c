@@ -1014,14 +1014,15 @@ gnome_calendar_open (GnomeCalendar *gcal,
 	return 1;
 }
 
-
 void
-gnome_calendar_add_object (GnomeCalendar *gcal, iCalObject *obj)
+gnome_calendar_update_object (GnomeCalendar *gcal, iCalObject *obj)
 {
 	char *obj_string;
+
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (obj != NULL);
+	g_return_if_fail (obj->uid != NULL);
 
 	obj_string = ical_object_to_string (obj);
 	cal_client_update_object (gcal->client, obj->uid, obj_string);
@@ -1036,21 +1037,9 @@ gnome_calendar_remove_object (GnomeCalendar *gcal, iCalObject *obj)
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (obj != NULL);
+	g_return_if_fail (obj->uid != NULL);
 
 	r = cal_client_remove_object (gcal->client, obj->uid);
-}
-
-void
-gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj)
-{
-	char *obj_string;
-	g_return_if_fail (gcal != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-	g_return_if_fail (obj != NULL);
-
-	obj_string = ical_object_to_string (obj);
-	cal_client_update_object (gcal->client, obj->uid, obj_string);
-	g_free (obj_string);
 }
 
 static void
@@ -1334,6 +1323,16 @@ editor_closed_cb (EventEditor *ee, gpointer data)
 	gtk_object_unref (GTK_OBJECT (ee));
 }
 
+/* Callback used when an event editor requests that an object be saved */
+static void
+save_ical_object_cb (EventEditor *ee, iCalObject *ico, gpointer data)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+	gnome_calendar_update_object (gcal, ico);
+}
+
 void
 gnome_calendar_edit_object (GnomeCalendar *gcal, iCalObject *ico)
 {
@@ -1362,6 +1361,9 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, iCalObject *ico)
 
 		gtk_signal_connect (GTK_OBJECT (ee), "editor_closed",
 				    GTK_SIGNAL_FUNC (editor_closed_cb), gcal);
+
+		gtk_signal_connect (GTK_OBJECT (ee), "save_ical_object",
+				    GTK_SIGNAL_FUNC (save_ical_object_cb), gcal);
 
 		event_editor_set_ical_object (EVENT_EDITOR (ee), ico);
 	}

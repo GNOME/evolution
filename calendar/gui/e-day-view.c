@@ -2346,7 +2346,7 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	ico = ical_object_duplicate (event->ico);
 
 	ical_object_add_exdate (ico, event->start);
-	gnome_calendar_object_changed (day_view->calendar, ico);
+	gnome_calendar_update_object (day_view->calendar, ico);
 	ical_object_unref (ico);
 }
 
@@ -2401,10 +2401,10 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	/* Now update both iCalObjects. Note that we do this last since at
 	   present the updates happen synchronously so our event may disappear.
 	*/
-	gnome_calendar_object_changed (day_view->calendar, ico);
+	gnome_calendar_update_object (day_view->calendar, ico);
 	ical_object_unref (ico);
 
-	gnome_calendar_add_object (day_view->calendar, new_ico);
+	gnome_calendar_update_object (day_view->calendar, new_ico);
 	ical_object_unref (new_ico);
 }
 
@@ -2899,8 +2899,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
-	/* Notify calendar of change */
-	gnome_calendar_object_changed (day_view->calendar, &ico);
+	gnome_calendar_update_object (day_view->calendar, &ico);
 }
 
 
@@ -2940,8 +2939,7 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
-	/* Notify calendar of change */
-	gnome_calendar_object_changed (day_view->calendar, &ico);
+	gnome_calendar_update_object (day_view->calendar, &ico);
 }
 
 
@@ -3890,8 +3888,7 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		g_warning ("Couldn't find event to start editing.\n");
 	}
 
-	gnome_calendar_add_object (day_view->calendar, ico);
-
+	gnome_calendar_update_object (day_view->calendar, ico);
 	ical_object_unref (ico);
 
 	return TRUE;
@@ -4141,9 +4138,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 
 	event->ico->summary = text;
 
-	/* Notify calendar of change. This will result in a call to update,
-	   which will reset the event label as appropriate. */
-	gnome_calendar_object_changed (day_view->calendar, event->ico);
+	gnome_calendar_update_object (day_view->calendar, event->ico);
 }
 
 
@@ -5094,9 +5089,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
-			/* Notify calendar of change */
-			gnome_calendar_object_changed (day_view->calendar, &ico);
-
+			gnome_calendar_update_object (day_view->calendar, &ico);
 			return;
 		}
 	}
@@ -5172,9 +5165,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
-			/* Notify calendar of change */
-			gnome_calendar_object_changed (day_view->calendar, &ico);
-
+			gnome_calendar_update_object (day_view->calendar, &ico);
 			return;
 		}
 	}

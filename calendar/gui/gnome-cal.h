@@ -79,8 +79,8 @@ int        gnome_calendar_open                  (GnomeCalendar *gcal,
 int	   gnome_calendar_create		(GnomeCalendar *gcal,
 						 char *file);
 */
-void       gnome_calendar_add_object       	(GnomeCalendar *gcal,
-						 iCalObject *obj);
+void       gnome_calendar_update_object         (GnomeCalendar *gcal,
+						 iCalObject    *obj);
 void       gnome_calendar_remove_object    	(GnomeCalendar *gcal,
 						 iCalObject *obj);
 void       gnome_calendar_next             	(GnomeCalendar *gcal);
@@ -111,8 +111,6 @@ void	   gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 						  time_t	 *start_time,
 						  time_t	 *end_time);
 
-void       gnome_calendar_object_changed        (GnomeCalendar *gcal,
-						 iCalObject    *obj);
 
 /* Notifies the calendar that the time format has changed and it must update all its views */
 void gnome_calendar_time_format_changed (GnomeCalendar *gcal);

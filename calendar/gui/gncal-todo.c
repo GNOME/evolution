@@ -82,12 +82,7 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 	ico->comment = gtk_editable_get_chars( GTK_EDITABLE(comment), 0, -1);
 	ico->user_data = NULL;
 
-	if (ico->new) {
-		gnome_calendar_add_object (todo->calendar, ico);
-		ico->new = FALSE;
-	} else 
-		gnome_calendar_object_changed (todo->calendar, ico);
-
+	gnome_calendar_update_object (todo->calendar, ico);
 	ical_object_unref (ico);
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));

@@ -1,3 +1,26 @@
+2000-06-02  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/gnome-cal.c (save_ical_object_cb): Implemented.
+	(gnome_calendar_add_object): Removed function, since it was
+	identical to gnome_calendar_update_object().  Modified the rest
+	of the code to use only the latter.
+	(gnome_calendar_remove_object): Be more paranoid about the UID.
+	(gnome_calendar_update_object): Ditto.  Also, renamed this
+	function from gnome_calendar_object_changed(), for consistency
+	with the lower-level CalClient interface.
+
+	* gui/event-editor.c (event_editor_class_init): New
+	"save_ical_object" signal to ask that our parent store the
+	calendar object to the backend.
+	(save_ical_object): New function to save the calendar object,
+	actually if just emits the signal.
+	(file_save_cb): Implemented.
+	(dialog_to_ical_object): We want priv->
+	alarm_program_run_program_entry (i.e. the entry inside the
+	GnomeFileEntry), not the file entry itself.
+	(dialog_to_ical_object): Only insert the recurrence ending date if
+	the event is recurrent!
+
 2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/Makefile.am: Fixed EXTRA_DIST.

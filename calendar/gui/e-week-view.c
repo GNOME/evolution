@@ -2371,9 +2371,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 	event->ico->summary = text;
 
-	/* Notify calendar of change. This will result in a call to update,
-	   which will reset the event label as appropriate. */
-	gnome_calendar_object_changed (week_view->calendar, event->ico);
+	gnome_calendar_update_object (week_view->calendar, event->ico);
 }
 
 
@@ -2528,8 +2526,7 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		g_warning ("Couldn't find event to start editing.\n");
 	}
 
-	gnome_calendar_add_object (week_view->calendar, ico);
-
+	gnome_calendar_update_object (week_view->calendar, ico);
 	ical_object_unref (ico);
 
 	return TRUE;
@@ -2662,7 +2659,7 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	ico = ical_object_duplicate (event->ico);
 
 	ical_object_add_exdate (ico, event->start);
-	gnome_calendar_object_changed (week_view->calendar, ico);
+	gnome_calendar_update_object (week_view->calendar, ico);
 	ical_object_unref (ico);
 }
 
@@ -2718,9 +2715,9 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	/* Now update both iCalObjects. Note that we do this last since at
 	   present the updates happen synchronously so our event may disappear.
 	*/
-	gnome_calendar_object_changed (week_view->calendar, ico);
+	gnome_calendar_update_object (week_view->calendar, ico);
 	ical_object_unref (ico);
 
-	gnome_calendar_add_object (week_view->calendar, new_ico);
+	gnome_calendar_update_object (week_view->calendar, new_ico);
 	ical_object_unref (new_ico);
 }
