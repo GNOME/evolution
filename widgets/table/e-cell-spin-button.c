@@ -657,6 +657,7 @@ e_cell_spin_button_step_float  (ECellSpinButton       *ecsb,
 				   ecsb->min.f, ecsb->max.f);
 		break;
 	default:
+		new_value = value;
 		break;
 	};
 	
