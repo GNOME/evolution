@@ -1,3 +1,10 @@
+2001-06-30  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/gnome-cal.c
+	(gnome_calendar_on_date_navigator_selection_changed): Doh, the
+	call for the day view was supposed to be
+	gnome_calendar_set_view(), not set_view().  Fixes bug #3779.
+
 2001-06-30  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/tasks-control.c (tasks_control_cut_cmd): call
