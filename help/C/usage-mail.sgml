@@ -964,7 +964,7 @@
 	  <para>
             To send all your mail as HTML by default, set your mail
             format preferences in the mail configuration dialog.  See
-            <xref linkend="config-prefs-mail-other"> for more
+            <xref linkend="config-prefs-mail"> for more
             information.
       </para>
       <para>

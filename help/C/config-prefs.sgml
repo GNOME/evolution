@@ -11,70 +11,142 @@
         <application>Evolution</application> settings.  This chapter
         will tell you how to do just that.
       </para>
+      <para>
+        Evolution 1.2 brings with it a redesigned comprehensive
+        settings window that you can open by choosing <menuchoice>
+        <guimenu>Tools</guimenu>
+        <guimenuitem>Configure</guimenuitem></menuchoice>, no matter
+        where you are in Evolution. On the left half of the settings
+        window is a column, similar to the Evolution shortcut bar,
+        which lets you choose which portion of Evolution to
+        customize. The right half of the window is where you'll make
+        your actual changes.
+      </para>
 
-       <sect1 id="config-prefs-mail">
-         <title>Mail Settings</title>
-        <para>
-        To change your mail settings, select <menuchoice>
-        <guimenu>Tools</guimenu> <guimenuitem>Mail
-        Settings</guimenuitem></menuchoice> in the Inbox.  This
-        will open the <interface>mail preferences window</interface>,
-        illustrated in <xref linkend="config-prefs-mail-fig">.  Mail
-        preferences are separated into several categories:
-        <variablelist>
-	  <varlistentry>
-	    <term><guilabel>Accounts</guilabel></term>
-	    <listitem>
-	      <para>
-		This allows you to create and alter one or more
-		identities for your email.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term><guilabel>Display</guilabel></term>
-	    <listitem>
-	      <para>
-		Allows you to edit how email appears.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term><guilabel>Composer</guilabel></term>
-	    <listitem>
-	      <para>
-		Customizes the behavior of the email message composer.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term><guilabel>Other</guilabel></term>
-	    <listitem>
-	      <para>
-		Configures miscellanious aspects of
-		<application>Evolution</application> such as character
-		set and encryption tools.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	</variablelist>
-	
-    </para>
 
       <!-- ==============Figure===================== -->
       <figure id="config-prefs-mail-fig">
-	<title>Account Editor Window</title>
+	<title>Changing Mail Settings</title>
 	<screenshot>
-	  <screeninfo>Account Editor Window</screeninfo>
+	  <screeninfo>Changing Mail Settings</screeninfo>
 	  <mediaobject><imageobject><imagedata fileref="figures/config-mail" format="png" srccredit="Aaron Weber">
 	    </imageobject></mediaobject>
 	</screenshot>
       </figure>
       <!-- ==============End of Figure================-->
 
+  <para>
+    There are eight items you can customize. From top to bottom, they
+    are:
+    <variablelist>
+      <varlistentry>
+	<term>Mail Accounts</term>
+	<listitem>
+	  <para>
+             Here, add or change information about your email
+             accounts: the servers to which you connect, the way you
+             download mail, your password authentication mode, and so
+             forth. This is the most complex item in the list, and is
+             covered in <xref linkend="config-prefs-mail-identity">.
+          </para>
+	</listitem>
+      </varlistentry>
 
-    <sect2 id="config-prefs-mail-identity">
-      <title>Working with the Accounts Tab</title> 
+      <varlistentry>
+	<term>Folder Settings</term>
+	<listitem>
+	  <para>
+             Here, you can choose the default folders for various
+             components of Evolution, the folders that will be cached
+             locally when you go to offline mode, and the folders that
+             Evolution will use when it is searching for
+             autocompletion information as you address a mail.
+          </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>Mail Preferences</term>
+	<listitem>
+	  <para>
+             These are overall mail reading preferences: display
+             settings, notification options, security, and so
+             forth. These are covered in <xref
+             linkend="config-prefs-mail-display">.
+          </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>Composer Preferences</term>
+	<listitem>
+	  <para>
+             Settings for the way that you use the mail composer:
+             shortcuts, signatures, spelling, and so forth. One fun
+             feature here is the ability to substitute graphical
+             smiley-faces for "emoticons" such as :) that many people
+             use in email. This tool is covered in <xref
+             linkend="config-prefs-mail-composer">.
+          </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>Calendar and Tasks</term>
+	<listitem>
+	  <para>
+             Here, you can set the way the calendar behaves, including
+             your time zone and the length of your work-week.
+          </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>Directory Servers</term>
+	<listitem>
+	  <para>
+             If you want to use a shared directory server (LDAP
+             server), this is the place to set it up.
+          </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>Font Preferences</term>
+	<listitem>
+	  <para>
+            Choose the fonts that Evolution will use to display email
+            here.  You can choose fonts for the mail composer by
+            selecting <menuchoice> <guimenu>Edit</guimenu>
+            <guimenuitem>Properties</guimenuitem> </menuchoice> from
+            within the composer window.
+          </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>Summary Preferences</term>
+	<listitem>
+	  <para>
+             Set the mail folders, news feeds, schedule summary
+             length, and weather locations to be displayed here.
+          </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+  </para>
+
+  <sect1 id="config-prefs-mail">
+    <title>Mail Settings</title>
+    <para>
+       The first few tools, with the exception of the folder tool,
+       cover mail tasks:
+    </para>
+
+   <sect2 id="config-prefs-mail-identity">
+      <title>Working with Mail Accounts</title> 
       <para>
          <application>Ximian Evolution</application> allows you to
          maintain multiple accounts, or identities.  This is useful
@@ -105,6 +177,7 @@
          <guibutton>Edit</guibutton> to open the account editor
          dialog.
       </para>
+
      <para>
          The account editor dialog has six sections:
           <variablelist>
@@ -320,6 +393,7 @@ smtp.omniport.com:143
 	</variablelist>
       </para>
     </sect2>
+  
 
     <sect2 id="config-prefs-mail-display">
       <title>Mail Display Options</title>
@@ -370,148 +444,92 @@ smtp.omniport.com:143
 
     <sect2 id="config-prefs-mail-composer">
       <title>Message Composer Preferences</title>
-      
       <para>
-        Mercifully, there are only four preferences you can prefer in
-        the message composer preferences dialog:
+        There are three whole tabs of settings you can change for the
+        message composer. The General tab covers shortcuts and
+        assorted behavior, and the other two control signatures and
+        spell checking.  In the General tab, you can set:
+
          <variablelist>
+
 	  <varlistentry>
-	    <term>Send mail in HTML format by default </term>
+	    <term>Shortcuts Type</term>
 	    <listitem>
 	      <para>
-                 If you would like all email messages that you compose
-                 to begin in HTML format, leave this box checked. You
-                 can convert messages between HTML and plain text by
-                 selecting the <menuchoice> <guimenu>Format</guimenu>
-                 <guimenuitem>HTML</guimenuitem> </menuchoice> toggle
-                 in the message composer.
+                 Choose a keyboard shortcut scheme: do you prefer
+                 keyboard shortcuts similar to those of Microsoft
+                 Windows, XEmacs, or Emacs?
                </para>
 	    </listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Default Forward style</term>
+	    <term>Default Behavior</term>
 	    <listitem>
 	      <para>
-                  Select from: 
-                  <simplelist>
-                   <member><guilabel>Attachment:</guilabel> the
-                  message you forward appended to the message you send
-                  as a seperate file.</member>
-
-                  <member> <guilabel>Inline:</guilabel> The message
-                  you forward is included at the end of the message
-                  you send.</member>
-
-		  <member> 
-                     <guilabel>Quoted:</guilabel> The message
-                     you forward is included at the end of the message
-                     you send, and a greater-than symbol (&gt;) is
-                     inserted at the beginning of each line to
-                     indicate that it is quoted.
-                   </member>
-		</simplelist>
+                 Choose how you will normally forward and reply
+                 messages, what character set they will use, whether
+                 they will be in HTML, and whether that HTML can
+                 contain smiley face images.
                </para>
 	    </listitem>
 	  </varlistentry>
+
 
 	  <varlistentry>
-	    <term>Prompt when sending messages with an empty subject</term>
+	    <term>Alerts</term>
 	    <listitem>
 	      <para>
-                 The composer will warn you if you try to send a
-                 message without a subject.
-               </para>
-	    </listitem>
-	  </varlistentry>
+                 There are two optional alerts here:
+                 <variablelist>
+	         <varlistentry>
+		    <term>Prompt when sending messages with an empty subject</term>
+		    <listitem>
+		      <para>
+			 The composer will warn you if you try to send a
+			 message without a subject.
+		       </para>
+		    </listitem>
+		  </varlistentry>
 
-	  <varlistentry>
-	    <term>Prompt when sending messages with only Bcc recipients defined</term>
-	    <listitem>
-	      <para>
-                 The composer will warn you if you try to send a
-                 message that has only <guilabel>Bcc</guilabel>
-                 recipients. This is important because some mail
-                 servers will fail to honor blind carbon copy if you
-                 do not have at least one recipient that is visible to
-                 all readers.
+		  <varlistentry>
+		    <term>Prompt when sending messages with only Bcc recipients defined</term>
+		    <listitem>
+		      <para>
+			 The composer will warn you if you try to send a
+			 message that has only <guilabel>Bcc</guilabel>
+			 recipients. This is important because some mail
+			 servers will fail to honor blind carbon copy if you
+			 do not have at least one recipient that is visible to
+			 all readers.
+		       </para>
+		    </listitem>
+		  </varlistentry>
+	      </variablelist>
                </para>
 	    </listitem>
 	  </varlistentry>
-	</variablelist>
-      </para>
+      </variablelist>
+    </para>
+
+     <para>
+         The signature editor is new for Evolution 1.2. It allows you
+         to create several different signatures in plain text or in
+         HTML, and to specify which of them will be added to emails
+         you create in the message composer.  If you prefer to use an
+         alternate signature or none at all, you can select it from
+         the mail composer itself.
+    </para>
+    <para>
+       In the spell-checking tool, you can set spelling options,
+       including the language or languages you will use. Note that you
+       must install the gnome-spell package, available through Red
+       Carpet, for spell-checking to be available in
+       Evolution. Alternate dictionaries are aslo available through
+       Red Carpet and are detected automatically if you have installed
+       them.
+    </para>
     </sect2>
-     <sect2 id="config-prefs-mail-other">
-	<title>Other Mail Preferences</title>
-	<para>
-          Not everything fits neatly into categories.  This tab
-          contains some miscellaneous configuration options that
-          didn't fit anywhere else.
-          <variablelist>
-
-	  <varlistentry>
-	    <term> 
-	      <guilabel>PGP binary path</guilabel>
-	    </term>
-	    <listitem>
-	      <para>
-                The complete path to your external encryption tool On
-                most Linux systems, this will be
-                <filename>/usr/bin/gpg</filename>.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term> 
-	      <guilabel>Remember PGP Passphrase until Exit</guilabel>
-	    </term>
-	    <listitem>
-	      <para> Check this box if you want <application>Ximian
-                Evolution</application> to remember your PGP
-                passphrase for as long as it is running.  You will
-                still have to enter your passphrase again each time
-                you start <application>Ximian Evolution</application>.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>
-	      <guilabel>Default Character Encoding</guilabel>
-	    </term>
-	    <listitem> <para> Choose a default character encoding for
-	      your messages.
-	      </para>
-              </listitem>
-             </varlistentry>
-
-	  <varlistentry>
-	    <term>
-	      <guilabel>Empty Trash Folders on Exit</guilabel>
-	    </term>
-	    <listitem> <para> If you would like to expunge all deleted
-	      mail when you quit <application>Ximian
-	      Evolution</application>, check this box.
-	      </para>
-              </listitem>
-             </varlistentry>
-
-	  <varlistentry>
-	    <term>
-	      <guilabel>Log filter actions to:</guilabel>
-	    </term>
-	    <listitem> <para> If you like, you can have
-	      <application>Ximian Evolution</application> write all
-	      its message filter actions to a log file. Select a log
-	      file here.
-	      </para>
-              </listitem>
-             </varlistentry>
-           </variablelist>
-        </para>
-      </sect2>
-    </sect1>
 
 
 <!-- NOT FOR 1.0, see usage-mail.sgml
@@ -536,7 +554,7 @@ smtp.omniport.com:143
           </para>
      </sect2>
 -->
-
+  </sect1>
 
     <sect1 id="config-prefs-cal">
        <title>Configuring the Calendar</title>
@@ -611,7 +629,10 @@ smtp.omniport.com:143
 	    <term>Start of day</term>
 	    <listitem>
 	      <para>
-		Says what time of the day your weekday starts.  This will show all times till the end of the day, regardless of there is an appointment during the time period.
+		Says what time of the day your weekday starts.  This
+		will show all times till the end of the day,
+		regardless of there is an appointment during the time
+		period.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -623,13 +644,26 @@ smtp.omniport.com:143
 	      </para>
 	    </listitem>
 	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term>Alerts</term>
+	    <listitem>
+	      <para>
+		If you'd like to be warned before you delete any
+		appointment, or to have a reminder automatically
+		appear for each event, select the check boxes here.
+	      </para>
+	    </listitem>
+	  </varlistentry>
 	</variablelist>
        </para>
     </sect2>
     <sect2 id="config-prefs-cal-display">
       <title>Display</title>
       <para>
-	The <interface>Display</interface> section lets you configure some visual properties of the calendar.
+	The <interface>Display</interface> section lets you choose how
+	your appointments and tasks will appear in your calendar.
       </para>
       <para>The display properties you can set are:
 
@@ -638,35 +672,9 @@ smtp.omniport.com:143
 	    <term>Time divisions</term>
 	    <listitem>
               <para>
-		Sets the increments shown on the daily view in the calendar.  You can set this to be:
-		<itemizedlist>
-		  <listitem>
-		    <para>
-		      5 minutes
-		    </para>
-		  </listitem>
-		  <listitem>
-		    <para>
-		      10 minutes
-		    </para>
-		  </listitem>
-		  <listitem>
-		    <para>
-		      15 minutes
-		    </para>
-		  </listitem>
-		  <listitem>
-		    <para>
-		      30 minutes
-		    </para>
-		  </listitem>
-		  <listitem>
-		    <para>
-		      60 minutes
-		    </para>
-		  </listitem>
-		</itemizedlist>
-              </para>
+		Sets the increments shown on the daily view in the
+		calendar.  You can set this to be anywhere from five
+		minutes to an hour, in five minute increments.</para>
             </listitem>
 	  </varlistentry>
 
@@ -674,7 +682,10 @@ smtp.omniport.com:143
 	    <term>Show appointment end times in week and month views</term>
 	    <listitem>
 	      <para>
-		If there is space, <application>Evolution</application> will show the end times in the week and month views for each appointment.
+		If there is space,
+		<application>Evolution</application> will show the end
+		times in the week and month views for each
+		appointment.
               </para>
             </listitem>
 	  </varlistentry>
@@ -682,7 +693,8 @@ smtp.omniport.com:143
 	    <term>Compress weekends in month view</term>
 	    <listitem>
 	      <para>
-		If checked, your weekends will be shown in one box, instead of one for each day in the month view.
+		If checked, your weekends will be shown in one box,
+		instead of one for each day in the month view.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -691,25 +703,18 @@ smtp.omniport.com:143
 	    <term>Show week numbers in date navigator</term>
 	    <listitem>
               <para>
-		This will show the week numbers next to the respective weeks in the calendar.
+		This will show the week numbers next to the respective
+		weeks in the calendar.
 	      </para>
             </listitem>
 	  </varlistentry>
-	</variablelist>
-      </para>
-    </sect2>
 
-    <sect2 id="config-prefs-cal-tasklist">
-      <title>Task List Settings</title>
-     <para>
-       You can choose what information the To Do list displays and the
-       way it is displayed.
-       <variablelist>
 	 <varlistentry>
 	   <term>Tasks due today</term>
 	    <listitem>
 	      <para>
-		Configures what color to set your tasks that are due today to.
+		Configures what color to set your tasks that are due
+		today to.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -717,40 +722,14 @@ smtp.omniport.com:143
 	    <term>Overdue tasks</term>
 	    <listitem>
 	      <para>
-		Configures what color to set your overdue items to.
+		Choose the color for overdue tasks.
 	      </para>
 	    </listitem>
 	  </varlistentry>
 	</variablelist>
       </para>
     </sect2>
-
-    <sect2 id="config-prefs-cal-other">
-      <title>Other Calendar Settings</title>
-      <para> 
-	This configures miscellaneous items for the calendar and todo list's functionality.
-	<variablelist>
-	  <varlistentry>
-	    <term>Ask for confirmation when deleting items</term>
-	    <listitem>
-	      <para>
-		When you delete an item in either the Task List or the Calendar, you will be prompted to confirm that you want to delete the item.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term>Create new appointments with a default reminder</term>
-	    <listitem>
-	      <para>
-		All your appointments will be created using a default reminder enabled.  You can still change what way you are reminded though.  If enabled, you can then set the time before your appointment to be reminded.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-	</variablelist>
-      </para>
-    </sect2>
-   </sect1>
-
+  </sect1>
   <sect1 id="config-prefs-contact">
     <title>Managing the Addressbook</title>
     <para>
@@ -887,39 +866,26 @@ smtp.omniport.com:143
 	    </para>
 	  </listitem>
 	</orderedlist>
-<!-- I gotta finish this example -->
+
+
+<!-- Finish this example:
+
 	<example id="ldap-config-example">
 	  <title>LDAP Configuration</title>
 	  <para>
-	    Rich works at a large chip manufacturer.  He needs to
-	    access the company's LDAP server.  Their LDAP address is
-	    wemakechips.com.
+	    Rich works at omniport.net and needs to access the
+	    company's LDAP server so that he can look up the email
+	    addresses of his co-workers. 
 	  </para>
 	  <para>
-	    His Account Name would be: We Make Chips Employees
+	    He uses his email address, rich@omniport.net, 
 	  </para>
 	  <para>
-	    His Server Name would be: ldap.wemakechips.com
+	    His Server Name is: ldap.wemakechips.com
 	  </para>
 	</example>
+-->
       </para>
     </sect2>
   </sect1>
-    
-
-<!--
-  <sect1 id="config-prefs-general">
-    <title>General Preferences</title> 
-    <para>
-      Additional configuration options will be covered here, as
-      they become available.
-    </para>
-  </sect1>
--->
 </chapter>
-    
-
-
-
-
-

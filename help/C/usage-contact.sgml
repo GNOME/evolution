@@ -1,6 +1,7 @@
 <!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
+
 <chapter id="usage-contact">
   <title>Working with Your Contacts</title>
       <para>
@@ -503,14 +504,15 @@
   </sect1>
   
   <sect1 id="usage-contact-sharing">
-    <title>Sharing your Cards</title>
+    <title>LDAP: Shared Addressbooks on a Network</title>
+
     <para>
       The <glossterm linkend="ldap">LDAP</glossterm> protocol was
-      created to let users share contact information over a network.
-      LDAP allows a company to maintain a shared set of contact
-      information for a company or department.  Many companies keep a
-      common LDAP address book for all their employees or for client
-      contacts.
+      created to let users share contact information over a network by
+      sharing access to a central address book.  LDAP allows a company
+      to maintain a shared set of contact information for a company or
+      department.  Many companies keep a common LDAP address book for
+      all their employees or for client contacts.
     </para>
 
     <para>
@@ -546,8 +548,9 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-              LDAP servers do not normally permit individual users to
-              alter or delete cards.
+              You cannot add, delete, or alter cards on the LDAP
+              server. If you need to change information there, you
+              will need to speak to your system administrator
 	    </para>
 	  </listitem>
 	</itemizedlist>
@@ -592,5 +595,6 @@
   </para>
   -->
 </chapter> 
+
 
 

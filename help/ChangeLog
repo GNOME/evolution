@@ -1,3 +1,11 @@
+2002-06-24  Aaron Weber  <aaron@ximian.com>
+
+	* C/config-prefs.sgml: overhaul. still need to improve examples.
+
+	* C/usage-mail.sgml: link to somewhere i have deleted.
+
+	* C/usage-contact.sgml: fix sharing section more
+
 2002-06-10  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-contact.sgml: some of this was shamefully inaccurate.
