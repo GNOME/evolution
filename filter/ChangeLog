@@ -1,3 +1,13 @@
+2004-01-16  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #52467.
+
+	* vfolder-rule.c (vfr_folder_response): convert the uri to an
+	evolution uri, rather than a camel one, for storage.  And remove
+	double-calls to geT_selected_uri.
+	(format_source): treat uri as an evolution uri and convert to a
+	camel one to get something meaningful out of it.
+
 2004-01-15  Radek Doulik  <rodo@ximian.com>
 
 	* filtertypes.xml: s/spam/junk, added junk test rule, it must be
