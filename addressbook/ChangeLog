@@ -1,3 +1,11 @@
+2000-08-22  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/search/e-addressbook-search-dialog.c: Fix an error in the
+	arguments to rule_context_load.
+
+	* backend/ebook/e-card.c: Fix this to not mess up if the person
+	passes a VCard with a carriage return in the mailing address.
+
 2000-08-14  Not Zed  <NotZed@HelixCode.com>
 
 	* gui/search/addresstypes.xml: Fixed fullname->full_name for
