@@ -66,14 +66,28 @@ char *evolution_dir;
 static BonoboGenericFactory *component_factory = NULL;
 static GHashTable *storages_hash;
 
+enum {
+	ACCEPTED_DND_TYPE_MESSAGE_RFC822,
+	ACCEPTED_DND_TYPE_X_EVOLUTION_MESSAGE,
+};
+
 static char *accepted_dnd_types[] = {
 	"message/rfc822",         /* if we drag from nautilus or something... */
 	"x-evolution-message",    /* if we drag from an evolution message list... */
 	NULL
 };
 
+enum {
+	EXPORTED_DND_TYPE_TEXT_PLAIN,
+};
+
+static char *exported_dnd_types[] = {
+	"text/plain",             /* we have to export to nautilus as text/plain or a uri-list */
+	NULL
+};
+
 static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "mail", "evolution-inbox.png", accepted_dnd_types, NULL },
+	{ "mail", "evolution-inbox.png", accepted_dnd_types, exported_dnd_types },
 	{ "mailstorage", "evolution-inbox.png", NULL, NULL },
 	{ "vtrash", "evolution-trash.png", NULL, NULL },
 	{ NULL, NULL, NULL, NULL }
@@ -256,6 +270,7 @@ get_dnd_selection (EvolutionShellComponent *shell_component,
 		   void *closure)
 {
 	g_print ("should get dnd selection for %s\n", physical_uri);
+	
 	return NULL;
 }
 
@@ -320,20 +335,21 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 				const GNOME_Evolution_ShellComponentDnd_Data *data,
 				gpointer user_data)
 {
+	char *url, *name, *in, *inptr, *inend;
 	gboolean retval = FALSE;
+	CamelFolder *source;
+	CamelStream *stream;
+	GPtrArray *uids;
 	
 	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
 		return FALSE; /* we can't create links */
 	
 	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
 	
-	if (data->format == 0) {
-		/* message/rfc822 */
-		CamelFolder *folder;
-		CamelStream *stream;
-		
-		folder = mail_tool_uri_to_folder (physical_uri, NULL);
-		if (!folder)
+	switch (data->format) {
+	case ACCEPTED_DND_TYPE_MESSAGE_RFC822:
+		source = mail_tool_uri_to_folder (physical_uri, NULL);
+		if (!source)
 			return FALSE;
 		
 		/* write the message(s) out to a CamelStream so we can use it */
@@ -341,14 +357,11 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		camel_stream_write (stream, data->bytes._buffer, data->bytes._length);
 		camel_stream_reset (stream);
 		
-		retval = message_rfc822_dnd (folder, stream);
+		retval = message_rfc822_dnd (source, stream);
 		camel_object_unref (CAMEL_OBJECT (stream));
-	} else {
-		/* x-evolution-message */
-		char *url, *name, *in, *inptr, *inend;
-		CamelFolder *source;
-		GPtrArray *uids;
-		
+		camel_object_unref (CAMEL_OBJECT (source));
+		break;
+	case ACCEPTED_DND_TYPE_X_EVOLUTION_MESSAGE:
 		/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
 		
 		in = data->bytes._buffer;
@@ -384,9 +397,12 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		mail_do_transfer_messages (source, uids,
 					   action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE,
 					   physical_uri);
+		
+		camel_object_unref (CAMEL_OBJECT (source));
+		break;
+	default:
+		break;
 	}
-	
-	camel_object_unref (CAMEL_OBJECT (folder));
 	
 	return retval;
 }
