@@ -928,11 +928,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 		message_list->matches = NULL;
 	}
 
-	if (message_list->summary_table)
-		camel_folder_free_summary(message_list->folder, message_list->summary_table);
-	if (message_list->uid_rowmap)
-		g_hash_table_destroy(message_list->uid_rowmap);
-
 	camel_exception_init (&ex);
 	
 	if (message_list->folder)
