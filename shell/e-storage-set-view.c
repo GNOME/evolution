@@ -2196,10 +2196,10 @@ e_storage_set_view_set_show_checkboxes (EStorageSetView *storage_set_view,
 
 	priv = storage_set_view->priv;
 
-	if (show == priv->show_folders)
+	if (show == priv->show_checkboxes)
 		return;
 
-	priv->show_folders = show;
+	priv->show_checkboxes = show;
 
 	if (show)
 		e_tree_load_state (E_TREE (storage_set_view), EVOLUTION_ETSPECDIR "/e-storage-set-view-checkboxes.etstate");

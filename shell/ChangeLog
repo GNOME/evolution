@@ -1,5 +1,11 @@
 2002-04-02  Christopher James Lahey  <clahey@ximian.com>
 
+	* e-storage-set-view.c (e_storage_set_view_set_show_checkboxes):
+	Set the show_checkboxes field here instead of the show_folders
+	field.
+
+2002-04-02  Christopher James Lahey  <clahey@ximian.com>
+
 	* e-storage-set-view.c (etree_value_at): If folder is NULL, return
 	the correct type of data.
 
