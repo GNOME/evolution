@@ -1,3 +1,7 @@
+2002-05-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* filter-rule.c (get_widget): Fix English grammar.
+
 2002-05-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* vfoldertypes.xml: Added a label definition.
