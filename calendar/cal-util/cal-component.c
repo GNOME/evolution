@@ -3017,7 +3017,7 @@ cal_component_free_recur_list (GSList *recur_list)
 		g_assert (l->data != NULL);
 		r = l->data;
 
-		g_free (l);
+		g_free (r);
 	}
 
 	g_slist_free (recur_list);
