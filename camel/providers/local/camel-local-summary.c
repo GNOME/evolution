@@ -33,7 +33,8 @@
 #include <stdlib.h>
 
 #include "camel-local-summary.h"
-#include <camel/camel-mime-message.h>
+#include "camel/camel-mime-message.h"
+#include "camel/camel-stream-null.h"
 
 #define io(x)
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
@@ -393,8 +394,19 @@ local_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, const CamelMess
 			}
 
 			mi->flags = mi->flags | (info->flags & 0xffff);
-			mi->size = info->size;
+			if (info->size)
+				mi->size = info->size;
 		}
+
+		/* we need to calculate the size ourselves */
+		if (mi->size == 0) {
+			CamelStreamNull *sn = (CamelStreamNull *)camel_stream_null_new();
+
+			camel_data_wrapper_write_to_stream((CamelDataWrapper *)msg, (CamelStream *)sn);
+			mi->size = sn->written;
+			camel_object_unref((CamelObject *)sn);
+		}
+
 		mi->flags &= ~(CAMEL_MESSAGE_FOLDER_NOXEV|CAMEL_MESSAGE_FOLDER_FLAGGED);
 		xev = camel_local_summary_encode_x_evolution(cls, mi);
 		camel_medium_set_header((CamelMedium *)msg, "X-Evolution", xev);

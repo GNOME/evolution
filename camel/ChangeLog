@@ -1,3 +1,14 @@
+2001-07-12  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-summary.c
+	(camel_folder_summary_info_new_from_message): Removed some code i
+	wasn't supposed to commit.
+
+	* providers/local/camel-local-summary.c (local_summary_add): Only
+	set info->size if it is not zero.
+	(local_summary_add): If we dont get a size from the info passed
+	in, calculate it using a null stream write.  Should do #4392.
+
 2001-07-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-part-utils.c (extract_metatag_charset): New function
