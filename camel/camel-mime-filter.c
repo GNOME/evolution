@@ -20,6 +20,13 @@
 
 #include "camel-mime-filter.h"
 
+/*#define MALLOC_CHECK */ /* for some malloc checking, requires mcheck enabled */
+
+/* only suitable for glibc */
+#ifdef MALLOC_CHECK
+#include <mcheck.h>
+#endif
+
 struct _CamelMimeFilterPrivate {
 	char *inbuf;
 	size_t inlen;
@@ -108,6 +115,28 @@ camel_mime_filter_new (void)
 	return new;
 }
 
+#ifdef MALLOC_CHECK
+static void
+checkmem(void *p)
+{
+	if (p) {
+		int status = mprobe(p);
+
+		switch (status) {
+		case MCHECK_HEAD:
+			printf("Memory underrun at %p\n", p);
+			abort();
+		case MCHECK_TAIL:
+			printf("Memory overrun at %p\n", p);
+			abort();
+		case MCHECK_FREE:
+			printf("Double free %p\n", p);
+			abort();
+		}
+	}
+}
+#endif
+
 static void filter_run(CamelMimeFilter *f,
 		       char *in, size_t len, size_t prespace,
 		       char **out, size_t *outlen, size_t *outprespace,
@@ -117,6 +146,10 @@ static void filter_run(CamelMimeFilter *f,
 {
 	struct _CamelMimeFilterPrivate *p;
 
+#ifdef MALLOC_CHECK
+	checkmem(f->outreal);
+	checkmem(f->backbuf);
+#endif
 	/*
 	  here we take a performance hit, if the input buffer doesn't
 	  have the pre-space required.  We make a buffer that does ...
@@ -136,6 +169,11 @@ static void filter_run(CamelMimeFilter *f,
 		prespace = p->inlen - len;
 	}
 
+#ifdef MALLOC_CHECK
+	checkmem(f->outreal);
+	checkmem(f->backbuf);
+#endif
+
 	/* preload any backed up data */
 	if (f->backlen > 0) {
 		memcpy(in-f->backlen, f->backbuf, f->backlen);
@@ -146,6 +184,12 @@ static void filter_run(CamelMimeFilter *f,
 	}
 	
 	filterfunc(f, in, len, prespace, out, outlen, outprespace);
+
+#ifdef MALLOC_CHECK
+	checkmem(f->outreal);
+	checkmem(f->backbuf);
+#endif
+
 }
 
 void camel_mime_filter_filter(CamelMimeFilter *f,

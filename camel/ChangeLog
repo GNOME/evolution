@@ -1,3 +1,20 @@
+2000-10-17  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-filter.c: Added some malloc check debugging stuff.
+
+	* camel-mime-parser.c
+	(struct _header_scan_state): Removed top_part, top_start, and
+	pending.  I can't even remember why they were there, and they're
+	not used anymore.
+
+	* camel-mime-filter-basic.c (filter): Forgot to up the space here
+	too.
+
+2000-10-14  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-filter-basic.c (complete): Ok, so we hit a fixme, 3x
+	just wasn't enough for some sequences.
+
 2000-10-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-command.c
@@ -46,6 +63,7 @@
 	the possibility of not getting a LIST response back for the top
 	level.
 
+>>>>>>> 1.531
 2000-10-12  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-summary.c: Simple subclass of
@@ -95,6 +113,7 @@
 	(camel-mime-parser.c doesn't use this code because of the MEMPOOL
 	optimization, so nothing was ever actually calling it before.)
 
+>>>>>>> 1.529
 2000-10-11  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-part.h (struct _CamelMimePart): Removed

@@ -20,6 +20,11 @@
 
 /* What should hopefully be a fast mail parser */
 
+/* Do not change this code without asking me (Michael Zucchi) first
+
+   There is almost always a reason something was done a certain way.
+ */
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -227,11 +232,6 @@ struct _header_scan_state {
 	int start_of_headers;	/* where headers started from the last scan */
 
 	int header_start;	/* start of last header, or -1 */
-
-	struct _header_scan_stack *top_part;	/* top of message header */
-	int top_start;		/* offset of start */
-
-	struct _header_scan_stack *pending; /* if we're pending part info, from the wrong part end */
 
 	/* filters to apply to all content before output */
 	int filterid;		/* id of next filter */
@@ -1576,12 +1576,12 @@ tail_recurse:
 		
 		do {
 			hb = folder_scan_content (s, &state, databuffer, datalength);
+			d(printf ("Content raw: '%.*s'\n", *datalength, *databuffer));
+
 			if (*datalength > 0) {
-				d(printf ("Content raw: '%.*s'\n", *datalength, *databuffer));
-				
 				while (f) {
-					camel_mime_filter_filter (f->filter, *databuffer, *datalength, presize,
-								  databuffer, datalength, &presize);
+					camel_mime_filter_filter(f->filter, *databuffer, *datalength, presize,
+								 databuffer, datalength, &presize);
 					f = f->next;
 				}
 				return;
@@ -1589,12 +1589,12 @@ tail_recurse:
 		} while (hb == h && *datalength > 0);
 		
 		/* check for any filter completion data */
-		while (f) {
-			if (*datalength > 0) {
-				camel_mime_filter_filter (f->filter, *databuffer, *datalength, presize,
-							  databuffer, datalength, &presize);
+		if (*datalength > 0) {
+			while (f) {
+				camel_mime_filter_filter(f->filter, *databuffer, *datalength, presize,
+							 databuffer, datalength, &presize);
+				f = f->next;
 			}
-			f = f->next;
 		}
 		if (*datalength > 0)
 			return;
