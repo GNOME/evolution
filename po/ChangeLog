@@ -1,3 +1,7 @@
+2001-05-08  Jarkko Ranta  <jjranta@cc.joensuu.fi>
+
+	* fi.po: Updated Finnish translation.
+
 2001-05-07  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* POTFILES.in: add mail/mail-search.c
