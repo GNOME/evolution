@@ -181,7 +181,7 @@ em_utils_configure_account (GtkWidget *parent)
 {
 	EMAccountEditor *emae;
 
-	emae = em_account_editor_new(NULL, EMAE_DRUID);
+	emae = em_account_editor_new(NULL, EMAE_DRUID, "org.gnome.evolution.mail.config.accountDruid");
 	if (parent != NULL)
 		e_dialog_set_transient_for((GtkWindow *)emae->editor, parent);
 

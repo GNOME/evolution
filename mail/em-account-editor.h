@@ -64,8 +64,7 @@ struct _EMAccountEditorClass {
 
 GType em_account_editor_get_type(void);
 
-void em_account_editor_construct(EMAccountEditor *emae, struct _EAccount *account, em_account_editor_t type);
-EMAccountEditor *em_account_editor_new(struct _EAccount *account, em_account_editor_t type);
+EMAccountEditor *em_account_editor_new(struct _EAccount *account, em_account_editor_t type, char *id);
 
 gboolean em_account_editor_save (EMAccountEditor *gui);
 void em_account_editor_destroy (EMAccountEditor *gui);

@@ -202,6 +202,7 @@ typedef struct _EMAccountEditorPrivate {
 } EMAccountEditorPrivate;
 
 static void emae_refresh_authtype(EMAccountEditor *emae, EMAccountEditorService *service);
+static void em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account_editor_t type, char *id);
 
 static GtkVBoxClass *emae_parent;
 
@@ -281,11 +282,11 @@ em_account_editor_get_type(void)
  * 
  * Return value: 
  **/
-EMAccountEditor *em_account_editor_new(EAccount *account, em_account_editor_t type)
+EMAccountEditor *em_account_editor_new(EAccount *account, em_account_editor_t type, char *id)
 {
 	EMAccountEditor *emae = g_object_new(em_account_editor_get_type(), 0);
 
-	em_account_editor_construct(emae, account, type);
+	em_account_editor_construct(emae, account, type, id);
 
 	return emae;
 }
@@ -2483,8 +2484,8 @@ emae_editor_destroyed(GtkWidget *dialog, EMAccountEditor *emae)
 	g_object_unref(emae);
 }
 
-void
-em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account_editor_t type)
+static void
+em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account_editor_t type, char *id)
 {
 	EMAccountEditorPrivate *gui = emae->priv;
 	int i, index;
@@ -2520,26 +2521,10 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 	gui->providers = g_list_sort(camel_provider_list(TRUE), (GCompareFunc)provider_compare);
 
 	if (type == EMAE_NOTEBOOK) {
-		/** @HookPoint-EMConfig: Mail Account Editor
-		 * @Id: org.gnome.evolution.mail.config.accountEditor
-		 * @Type: E_CONFIG_BOOK
-		 * @Class: org.gnome.evolution.mail.config:1.0
-		 * @Target: EMConfigTargetAccount
-		 *
-		 * The account editor window.
-		 */
-		ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.config.accountEditor");
+		ec = em_config_new(E_CONFIG_BOOK, id);
 		items = emae_editor_items;
 	} else {
-		/** @HookPoint-EMConfig: New Mail Account Druid
-		 * @Id: org.gnome.evolution.mail.config.accountDruid
-		 * @Type: E_CONFIG_DRUID
-		 * @Class: org.gnome.evolution.mail.config:1.0
-		 * @Target: EMConfigTargetAccount
-		 *
-		 * The new mail account druid.
-		 */
-		ec = em_config_new(E_CONFIG_DRUID, "org.gnome.evolution.mail.config.accountDruid");
+		ec = em_config_new(E_CONFIG_DRUID, id);
 		items = emae_druid_items;
 	}
 

@@ -1,3 +1,20 @@
+2005-02-28  JP Rosevear  <jpr@novell.com>
+
+	* em-utils.c (em_utils_configure_account): pass in accountDruid
+	config id
+
+	* em-account-prefs.c (account_add_clicked): pass in accountDruid
+	config id
+	(account_edit_clicked): pass in accountWizard config id
+	
+	* em-account-editor.h: update protos
+
+	* em-account-editor.c (em_account_editor_new_with_config_id):
+	create a new account editor with a specific config id
+	(em_account_editor_new): pass
+	(em_account_editor_construct): make this static and take the
+	config id as an arg
+
 2005-02-24  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #72609

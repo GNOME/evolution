@@ -1,7 +1,7 @@
 2005-02-28  JP Rosevear  <jpr@novell.com>
 
 	* e-shell-window-commands.c (command_submit_bug): update authors
-	list for about dialogs
+	list for about dialog
 
 2005-02-21  JP Rosevear  <jpr@novell.com>
   

@@ -652,13 +652,6 @@ e_shell_construct (EShell *shell,
 	
 	e_shell_attempt_upgrade(shell);
 
-#if 0
-	if (e_shell_startup_wizard_create () == FALSE) {
-		bonobo_object_unref (BONOBO_OBJECT (shell));
-		exit (0);
-	}
-#endif
-
 	priv->is_initialized = TRUE;
 
 	switch (startup_line_mode) {
@@ -781,6 +774,7 @@ e_shell_attempt_upgrade (EShell *shell)
 	int done_upgrade = FALSE;
 	char *oldpath;
 	struct stat st;
+	ESEvent *ese;
 
 	gconf_client = gconf_client_get_default();
 
@@ -871,6 +865,16 @@ check_old:
 	g_free(oldpath);
 	g_object_unref (gconf_client);
 
+	/** @Event: Shell attempted upgrade
+	 * @Id: upgrade.done
+	 * @Target: ESMenuTargetState
+	 * 
+	 * This event is emitted whenever the shell successfully attempts an upgrade.
+	 *
+	 */
+	ese = es_event_peek();
+	e_event_emit((EEvent *)ese, "upgrade.done", (EEventTarget *)es_event_target_new_upgrade(ese, cmajor, cminor, crevision));
+	
 	return TRUE;
 }
 

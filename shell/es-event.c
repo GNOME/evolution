@@ -129,6 +129,18 @@ es_event_target_new_state(ESEvent *eme, int state)
 	return t;
 }
 
+ESEventTargetUpgrade *
+es_event_target_new_upgrade(ESEvent *eme, int major, int minor, int revision)
+{
+	ESEventTargetUpgrade *t = e_event_target_new(&eme->event, ES_EVENT_TARGET_UPGRADE, sizeof(*t));
+
+	t->major = major;
+	t->minor = minor;
+	t->revision = revision;
+
+	return t;	
+}
+
 /* ********************************************************************** */
 
 static void *emeh_parent_class;
@@ -142,6 +154,7 @@ static const EEventHookTargetMask emeh_state_masks[] = {
 
 static const EEventHookTargetMap emeh_targets[] = {
 	{ "state", ES_EVENT_TARGET_STATE, emeh_state_masks },
+	{ "upgrade", ES_EVENT_TARGET_UPGRADE, NULL },
 	{ 0 }
 };
 

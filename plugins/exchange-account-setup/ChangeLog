@@ -1,3 +1,7 @@
+2005-02-28  JP Rosevear  <jpr@novell.com>
+
+	* org-gnome-exchange-account-setup.eplug.in: add account wizard item
+
 2005-02-27  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-account-setup.c (org_gnome_exchange_settings): Storing the 

@@ -145,7 +145,15 @@ account_add_clicked (GtkButton *button, gpointer user_data)
 	if (prefs->druid == NULL) {
 		EMAccountEditor *emae;
 
-		emae = em_account_editor_new(NULL, EMAE_DRUID);
+		/** @HookPoint-EMConfig: New Mail Account Druid
+		 * @Id: org.gnome.evolution.mail.config.accountDruid
+		 * @Type: E_CONFIG_DRUID
+		 * @Class: org.gnome.evolution.mail.config:1.0
+		 * @Target: EMConfigTargetAccount
+		 *
+		 * The new mail account druid.
+		 */
+		emae = em_account_editor_new(NULL, EMAE_DRUID, "org.gnome.evolution.mail.config.accountDruid");
 		prefs->druid = emae->editor;
 
 		gtk_window_set_transient_for((GtkWindow *)prefs->druid, (GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)prefs));
@@ -187,7 +195,15 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 		if (account) {
 			EMAccountEditor *emae;
 
-			emae = em_account_editor_new(account, EMAE_NOTEBOOK);
+			/** @HookPoint-EMConfig: Mail Account Editor
+			 * @Id: org.gnome.evolution.mail.config.accountEditor
+			 * @Type: E_CONFIG_BOOK
+			 * @Class: org.gnome.evolution.mail.config:1.0
+			 * @Target: EMConfigTargetAccount
+			 *
+			 * The account editor window.
+			 */
+			emae = em_account_editor_new(account, EMAE_NOTEBOOK, "org.gnome.evolution.mail.config.accountEditor");
 			prefs->editor = emae->editor;
 
 			gtk_window_set_transient_for((GtkWindow *)prefs->editor, (GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)prefs));
