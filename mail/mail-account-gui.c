@@ -1779,7 +1779,7 @@ browse_clicked (GnomeFileEntry *fentry, MailAccountGui *gui)
 	char *path;
 	
 	if (GTK_IS_FILE_CHOOSER (fentry->fsw)) {
-		check = gtk_check_button_new_with_label (_("Select individual file"));
+		check = gtk_check_button_new_with_label (_("Select a file"));
 		g_signal_connect (check, "toggled", G_CALLBACK (select_file_toggled), fentry->fsw);
 		gtk_widget_show (check);
 		gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (fentry->fsw), check);
