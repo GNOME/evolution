@@ -1,3 +1,7 @@
+2001-04-16  Dan Winship  <danw@ximian.com>
+
+	* pcs/Makefile.am (INCLUDES): Add EXTRA_GNOME_CFLAGS, for gal.
+
 2001-04-15  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/gnome-cal.c (setup_widgets): Create the ESearchBar thingy.
