@@ -50,7 +50,7 @@ mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part, const char *userid, C
 	
 	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
 					 mail_config_get_pgp_path (),
-					 mail_config_get_pgp_remember_pgp_passphrase ());
+					 mail_config_get_remember_pgp_passphrase ());
 	
 	if (context) {
 		camel_pgp_mime_part_sign (context, mime_part, userid, hash, ex);
@@ -76,7 +76,7 @@ mail_crypto_pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 	
 	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
 					 mail_config_get_pgp_path (),
-					 mail_config_get_pgp_remember_pgp_passphrase ());
+					 mail_config_get_remember_pgp_passphrase ());
 	
 	if (context) {
 		valid = camel_pgp_mime_part_verify (context, mime_part, ex);
@@ -106,7 +106,7 @@ mail_crypto_pgp_mime_part_encrypt (CamelMimePart **mime_part, GPtrArray *recipie
 	
 	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
 					 mail_config_get_pgp_path (),
-					 mail_config_get_pgp_remember_pgp_passphrase ());
+					 mail_config_get_remember_pgp_passphrase ());
 	
 	if (context) {
 		camel_pgp_mime_part_encrypt (context, mime_part, recipients, ex);
@@ -132,7 +132,7 @@ mail_crypto_pgp_mime_part_decrypt (CamelMimePart *mime_part, CamelException *ex)
 	
 	context = camel_pgp_context_new (session, mail_config_get_pgp_type (),
 					 mail_config_get_pgp_path (),
-					 mail_config_get_pgp_remember_pgp_passphrase ());
+					 mail_config_get_remember_pgp_passphrase ());
 	
 	if (context) {
 		part = camel_pgp_mime_part_decrypt (context, mime_part, ex);
