@@ -1,3 +1,12 @@
+2001-09-11  Dan Winship  <danw@ximian.com>
+
+	* mail-folder-cache.c (mail_folder_cache_note_folderinfo): Don't
+	set the folderinfo's unread count to 0 when camel reports -1,
+	since that may overwrite a valid unread count from before.
+	(get_folder_info): Do it here instead when first creating a new
+	folderinfo structure.
+	Should fix bug #1756.
+
 2001-09-11  Larry Ewing  <lewing@ximian.com>
 
 	* mail-account-gui.c (menu_file_save_cb): call menu_file_save_error
@@ -38,7 +47,6 @@
 
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
->>>>>>> 1.1671
 	* mail-account-gui.c (mail_account_gui_new): Hide the S/MIME frame
 	if we don't support S/MIME.
 
@@ -63,7 +71,6 @@
 	mistake in previous commit that made it *always* complain you had
 	invalid recipients.
 
->>>>>>> 1.1665
 2001-09-09  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-callbacks.c (composer_get_message): Complain if we are
@@ -268,7 +275,6 @@
 	* mail-send-recv.c (build_dialogue): Fix capitalization. Fixes bug
 	#7486.
 
-=======
 2001-09-04  Peter Williams  <peterw@ximian.com>
 
 	* mail-local.c (mlf_init): Remove accidentally left-in "choke on
@@ -311,7 +317,6 @@
 	(folder_browser_set_uri): Same.
 	(got_folder): Same.
 	
->>>>>>> 1.1642.2.4
 2001-08-31  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* mail-vfolder.c (vfolder_create_storage): Marked string for

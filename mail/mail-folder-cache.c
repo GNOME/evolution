@@ -126,6 +126,7 @@ get_folder_info (const gchar *uri)
 		mfi->update_info.es = NULL;
 		mfi->timeout_id = 0;
 		mfi->mail_info_id = 0;
+		mfi->unread = 0;
 
 		g_hash_table_insert (folders, mfi->uri, mfi);
 	} else
@@ -830,8 +831,6 @@ mail_folder_cache_note_folderinfo (const gchar *uri, CamelFolderInfo *fi)
 	if (fi->unread_message_count != -1) {
 		mfi->unread = fi->unread_message_count;
 		mfi->flags |= MAIL_FIF_UNREAD_VALID;
-	} else {
-		mfi->unread = 0;
 	}
 
 	if (!(mfi->flags & MAIL_FIF_NAME_VALID)) {
