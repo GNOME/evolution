@@ -90,7 +90,9 @@ static GnomeVFSURI *cal_backend_file_get_uri (CalBackend *backend);
 static CalBackendOpenStatus cal_backend_file_open (CalBackend *backend, GnomeVFSURI *uri,
 						   gboolean only_if_exists);
 static gboolean cal_backend_file_is_loaded (CalBackend *backend);
-static gboolean cal_backend_file_is_remote (CalBackend *backend);
+
+static CalMode cal_backend_file_get_mode (CalBackend *backend);
+static void cal_backend_file_set_mode (CalBackend *backend, CalMode mode);
 
 static int cal_backend_file_get_n_objects (CalBackend *backend, CalObjType type);
 static char *cal_backend_file_get_object (CalBackend *backend, const char *uid);
@@ -170,7 +172,8 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_uri = cal_backend_file_get_uri;
 	backend_class->open = cal_backend_file_open;
 	backend_class->is_loaded = cal_backend_file_is_loaded;
-	backend_class->is_remote = cal_backend_file_is_remote;	
+	backend_class->get_mode = cal_backend_file_get_mode;
+	backend_class->set_mode = cal_backend_file_set_mode;	
 	backend_class->get_n_objects = cal_backend_file_get_n_objects;
 	backend_class->get_object = cal_backend_file_get_object;
 	backend_class->get_object_component = cal_backend_file_get_object_component;
@@ -881,8 +884,8 @@ cal_backend_file_is_loaded (CalBackend *backend)
 }
 
 /* is_remote handler for the file backend */
-static gboolean
-cal_backend_file_is_remote (CalBackend *backend)
+static CalMode
+cal_backend_file_get_mode (CalBackend *backend)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
@@ -890,7 +893,35 @@ cal_backend_file_is_remote (CalBackend *backend)
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
 
-	return FALSE;	
+	return CAL_MODE_LOCAL;	
+}
+
+static void
+notify_mode (CalBackendFile *cbfile, 
+	     GNOME_Evolution_Calendar_Listener_SetModeStatus status, 
+	     GNOME_Evolution_Calendar_CalMode mode)
+{
+	CalBackendFilePrivate *priv;
+	GList *l;
+
+	priv = cbfile->priv;
+
+	for (l = CAL_BACKEND (cbfile)->clients; l; l = l->next) {
+		Cal *cal;
+
+		cal = CAL (l->data);
+		cal_notify_mode (cal, status, mode);
+	}
+}
+
+/* Set_mode handler for the file backend */
+static void
+cal_backend_file_set_mode (CalBackend *backend, CalMode mode)
+{
+	notify_mode (CAL_BACKEND_FILE (backend),
+		     GNOME_Evolution_Calendar_Listener_MODE_NOT_SUPPORTED,
+		     GNOME_Evolution_Calendar_MODE_LOCAL);
+	
 }
 
 /* Get_n_objects handler for the file backend */

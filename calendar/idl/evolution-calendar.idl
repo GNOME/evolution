@@ -49,10 +49,10 @@ module Calendar {
 	const CalObjType TYPE_ANY     = 0x07;
 
 	/* Flags for getting URI sequences */
-	typedef long UriType;
-	const UriType URI_LOCAL   = 1 << 0;
-	const UriType URI_REMOTE  = 1 << 1;
-	const UriType URI_ANY     = 0x07;
+	typedef long CalMode;
+	const CalMode MODE_LOCAL   = 1 << 0;
+	const CalMode MODE_REMOTE  = 1 << 1;
+	const CalMode MODE_ANY     = 0x07;
 
 	/* Types of object changes made */
 	typedef long CalObjChangeType;
@@ -131,10 +131,13 @@ module Calendar {
 		exception InvalidRange {};
 		exception InvalidObject {};
 		exception CouldNotCreate {};
-
+		
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
 
+		/* For going online/offline */
+		void setMode (in CalMode mode);
+		
 		/* Gets the number of components of the specified types */
 		long countObjects (in CalObjType type);
 
@@ -215,11 +218,21 @@ module Calendar {
 			METHOD_NOT_SUPPORTED	/* A method handler is not registered */
 		};
 
+		/* Return status when setting calendar mode */
+		enum SetModeStatus {
+			MODE_SET,                    /* All OK */
+			MODE_NOT_SET,                /* Generic error */
+			MODE_NOT_SUPPORTED           /* Mode not supported */
+		};
+
 		/* Called from a CalFactory when a calendar is initially opened.
 		 * The listener must remember the cal object.  
 		 */
 		void notifyCalOpened (in OpenStatus status, in Cal cal);
 
+                /* Called from a Calendar when the mode is changed */
+		void notifyCalSetMode (in SetModeStatus status, in CalMode mode);
+		
 		/* Called from a Calendar when a component is added or changed */
 		void notifyObjUpdated (in CalObjUID uid);
 
@@ -276,7 +289,7 @@ module Calendar {
 			raises (NilListener);
 
 		/* List of open URI's */
-		StringSeq uriList (in UriType type);
+		StringSeq uriList (in CalMode mode);
 	};
 
 	/* Interface to the alarm notification service */

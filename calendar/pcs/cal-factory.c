@@ -54,7 +54,7 @@ struct _CalFactoryPrivate {
 typedef struct 
 {
 	CalFactory *factory;	
-	GNOME_Evolution_Calendar_UriType type;	
+	GNOME_Evolution_Calendar_CalMode mode;	
 	GNOME_Evolution_Calendar_StringSeq *list;
 } CalFactoryUriData;
 
@@ -314,27 +314,27 @@ add_uri (gpointer key, gpointer value, gpointer data)
 	CalFactoryUriData *cfud = data;
 	CalFactory *factory = cfud->factory;	
 	GNOME_Evolution_Calendar_StringSeq *list = cfud->list;
-	GNOME_Evolution_Calendar_UriType type = cfud->type;
+	GNOME_Evolution_Calendar_CalMode mode = cfud->mode;
 	char *uri_string = key;
 	CalBackend *backend;	
 	GnomeVFSURI *uri;	
 
-	switch (type) {
-	case GNOME_Evolution_Calendar_URI_LOCAL:
+	switch (mode) {
+	case GNOME_Evolution_Calendar_MODE_LOCAL:
 		uri = gnome_vfs_uri_new_private (uri_string, TRUE, TRUE, TRUE);
 		backend = lookup_backend (factory, uri);
 		gnome_vfs_uri_unref (uri);
-		if (backend == NULL && cal_backend_is_remote (backend))
+		if (backend == NULL && cal_backend_get_mode (backend) == CAL_MODE_LOCAL)
 			return;
 		break;		
-	case GNOME_Evolution_Calendar_URI_REMOTE:
+	case GNOME_Evolution_Calendar_MODE_REMOTE:
 		uri = gnome_vfs_uri_new_private (uri_string, TRUE, TRUE, TRUE);
 		backend = lookup_backend (factory, uri);
 		gnome_vfs_uri_unref (uri);
-		if (backend == NULL && !cal_backend_is_remote (backend))			
+		if (backend == NULL && cal_backend_get_mode (backend) == CAL_MODE_REMOTE)
 			return;
 		break;		
-	case GNOME_Evolution_Calendar_URI_ANY:
+	case GNOME_Evolution_Calendar_MODE_ANY:
 		break;
 	}
 	
@@ -470,7 +470,7 @@ impl_CalFactory_open (PortableServer_Servant servant,
 
 static GNOME_Evolution_Calendar_StringSeq *
 impl_CalFactory_uriList (PortableServer_Servant servant,
-			 GNOME_Evolution_Calendar_UriType type,
+			 GNOME_Evolution_Calendar_CalMode mode,
 			 CORBA_Environment *ev)
 {
 	CalFactory *factory;
@@ -487,7 +487,7 @@ impl_CalFactory_uriList (PortableServer_Servant servant,
 	list->_buffer = CORBA_sequence_CORBA_string_allocbuf (list->_maximum);
 
 	cfud.factory = factory;	
-	cfud.type = type;	
+	cfud.mode = mode;	
 	cfud.list = list;
 	g_hash_table_foreach (priv->backends, add_uri, &cfud);
 	

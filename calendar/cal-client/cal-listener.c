@@ -28,6 +28,7 @@
 struct CalListenerPrivate {
 	/* Notification functions and their closure data */
 	CalListenerCalOpenedFn cal_opened_fn;
+	CalListenerCalSetModeFn cal_set_mode_fn;
 	CalListenerObjUpdatedFn obj_updated_fn;
 	CalListenerObjRemovedFn obj_removed_fn;
 	CalListenerCategoriesChangedFn categories_changed_fn;
@@ -47,6 +48,10 @@ static void impl_notifyCalOpened (PortableServer_Servant servant,
 				  GNOME_Evolution_Calendar_Listener_OpenStatus status,
 				  GNOME_Evolution_Calendar_Cal cal,
 				  CORBA_Environment *ev);
+static void impl_notifyCalSetMode (PortableServer_Servant servant,
+				   GNOME_Evolution_Calendar_Listener_SetModeStatus status,
+				   GNOME_Evolution_Calendar_CalMode mode,
+				   CORBA_Environment *ev);
 static void impl_notifyObjUpdated (PortableServer_Servant servant,
 				   GNOME_Evolution_Calendar_CalObjUID uid,
 				   CORBA_Environment *ev);
@@ -77,6 +82,7 @@ cal_listener_class_init (CalListenerClass *class)
 	parent_class = gtk_type_class (BONOBO_X_OBJECT_TYPE);
 
 	class->epv.notifyCalOpened = impl_notifyCalOpened;
+	class->epv.notifyCalSetMode = impl_notifyCalSetMode;
 	class->epv.notifyObjUpdated = impl_notifyObjUpdated;
 	class->epv.notifyObjRemoved = impl_notifyObjRemoved;
 	class->epv.notifyCategoriesChanged = impl_notifyCategoriesChanged;
@@ -165,6 +171,26 @@ impl_notifyCalOpened (PortableServer_Servant servant,
 	(* priv->cal_opened_fn) (listener, status, cal, priv->fn_data);
 }
 
+/* ::notifyCalSetMode method */
+static void
+impl_notifyCalSetMode (PortableServer_Servant servant,
+		       GNOME_Evolution_Calendar_Listener_SetModeStatus status,
+		       GNOME_Evolution_Calendar_CalMode mode,
+		       CORBA_Environment *ev)
+{
+	CalListener *listener;
+	CalListenerPrivate *priv;
+
+	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
+	priv = listener->priv;
+
+	if (!priv->notify)
+		return;
+
+	g_assert (priv->cal_set_mode_fn != NULL);
+	(* priv->cal_set_mode_fn) (listener, status, mode, priv->fn_data);
+}
+
 /* ::notifyObjUpdated method */
 static void
 impl_notifyObjUpdated (PortableServer_Servant servant,
@@ -246,6 +272,7 @@ impl_notifyCategoriesChanged (PortableServer_Servant servant,
 CalListener *
 cal_listener_construct (CalListener *listener,
 			CalListenerCalOpenedFn cal_opened_fn,
+			CalListenerCalSetModeFn cal_set_mode_fn,
 			CalListenerObjUpdatedFn obj_updated_fn,
 			CalListenerObjRemovedFn obj_removed_fn,
 			CalListenerCategoriesChangedFn categories_changed_fn,
@@ -256,6 +283,7 @@ cal_listener_construct (CalListener *listener,
 	g_return_val_if_fail (listener != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_LISTENER (listener), NULL);
 	g_return_val_if_fail (cal_opened_fn != NULL, NULL);
+ 	g_return_val_if_fail (cal_set_mode_fn != NULL, NULL);
 	g_return_val_if_fail (obj_updated_fn != NULL, NULL);
 	g_return_val_if_fail (obj_removed_fn != NULL, NULL);
 	g_return_val_if_fail (categories_changed_fn != NULL, NULL);
@@ -263,6 +291,7 @@ cal_listener_construct (CalListener *listener,
 	priv = listener->priv;
 
 	priv->cal_opened_fn = cal_opened_fn;
+	priv->cal_set_mode_fn = cal_set_mode_fn;
 	priv->obj_updated_fn = obj_updated_fn;
 	priv->obj_removed_fn = obj_removed_fn;
 	priv->categories_changed_fn = categories_changed_fn;
@@ -290,6 +319,7 @@ cal_listener_construct (CalListener *listener,
  **/
 CalListener *
 cal_listener_new (CalListenerCalOpenedFn cal_opened_fn,
+		  CalListenerCalSetModeFn cal_set_mode_fn,
 		  CalListenerObjUpdatedFn obj_updated_fn,
 		  CalListenerObjRemovedFn obj_removed_fn,
 		  CalListenerCategoriesChangedFn categories_changed_fn,
@@ -305,6 +335,7 @@ cal_listener_new (CalListenerCalOpenedFn cal_opened_fn,
 	listener = gtk_type_new (CAL_LISTENER_TYPE);
 	return cal_listener_construct (listener,
 				       cal_opened_fn,
+				       cal_set_mode_fn,
 				       obj_updated_fn,
 				       obj_removed_fn,
 				       categories_changed_fn,

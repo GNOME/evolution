@@ -78,6 +78,20 @@ uncorba_obj_type (GNOME_Evolution_Calendar_CalObjType type)
 		| ((type & GNOME_Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0));
 }
 
+static void
+impl_Cal_set_mode (PortableServer_Servant servant,
+		   GNOME_Evolution_Calendar_CalMode mode,
+		   CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	cal_backend_set_mode (priv->backend, mode);
+}
+
 /* Cal::get_n_objects method */
 static CORBA_long
 impl_Cal_get_n_objects (PortableServer_Servant servant,
@@ -590,6 +604,7 @@ cal_class_init (CalClass *klass)
 
 	/* Epv methods */
 	epv->_get_uri = impl_Cal_get_uri;
+	epv->setMode = impl_Cal_set_mode;
 	epv->countObjects = impl_Cal_get_n_objects;
 	epv->getObject = impl_Cal_get_object;
 	epv->getTimezoneObject = impl_Cal_get_timezone_object;
@@ -618,6 +633,38 @@ cal_init (Cal *cal)
 }
 
 BONOBO_X_TYPE_FUNC_FULL (Cal, GNOME_Evolution_Calendar_Cal, PARENT_TYPE, cal);
+
+/**
+ * cal_notify_mode:
+ * @cal: A calendar client interface.
+ * @status: Status of the mode set.
+ * @mode: The current mode.
+ * 
+ * Notifys the listener of the results of a setMode call.
+ **/
+void
+cal_notify_mode (Cal *cal,
+		 GNOME_Evolution_Calendar_Listener_SetModeStatus status,
+		 GNOME_Evolution_Calendar_CalMode mode)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyCalSetMode (priv->listener, status, mode, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message ("cal_notify_mode(): could not notify the listener "
+			   "about a mode change");
+
+	CORBA_exception_free (&ev);	
+}
 
 /**
  * cal_notify_update:

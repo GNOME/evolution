@@ -144,7 +144,8 @@ cal_backend_class_init (CalBackendClass *class)
 	class->get_uri = NULL;
 	class->open = NULL;
 	class->is_loaded = NULL;
-	class->is_remote = NULL;
+	class->get_mode = NULL;
+	class->set_mode = NULL;	
 	class->get_n_objects = NULL;
 	class->get_object = NULL;
 	class->get_object_component = NULL;
@@ -297,26 +298,44 @@ cal_backend_is_loaded (CalBackend *backend)
 }
 
 /**
- * cal_backend_is_remote:
+ * cal_backend_get_mode:
  * @backend: A calendar backend. 
  * 
  * Queries whether a calendar backend is connected remotely.
  * 
- * Return value: TRUE if the backend is connected remotely, FALSE
- * otherwise.
+ * Return value: The current mode the calendar is in
  **/
-gboolean
-cal_backend_is_remote (CalBackend *backend)
+CalMode
+cal_backend_get_mode (CalBackend *backend)
 {
-	gboolean result;
+	CalMode result;
 
 	g_return_val_if_fail (backend != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
 
-	g_assert (CLASS (backend)->is_remote != NULL);
-	result = (* CLASS (backend)->is_remote) (backend);
+	g_assert (CLASS (backend)->get_mode != NULL);
+	result = (* CLASS (backend)->get_mode) (backend);
 
 	return result;
+}
+
+
+/**
+ * cal_backend_set_mode:
+ * @backend: A calendar backend
+ * @mode: Mode to change to
+ * 
+ * Sets the mode of the calendar
+ * 
+ **/
+void
+cal_backend_set_mode (CalBackend *backend, CalMode mode)
+{
+	g_return_if_fail (backend != NULL);
+	g_return_if_fail (IS_CAL_BACKEND (backend));
+
+	g_assert (CLASS (backend)->set_mode != NULL);
+	(* CLASS (backend)->set_mode) (backend, mode);
 }
 
 /**

@@ -28,6 +28,7 @@
 #endif
 
 #include <gtk/gtkmain.h>
+#include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
@@ -64,9 +65,15 @@ add_connection (gpointer data, gpointer user_data)
 }
 
 static GNOME_Evolution_ConnectionList *
-create_connection_list (GList *uris)
+create_connection_list (CalendarOfflineHandler *offline_handler)
 {
+	CalendarOfflineHandlerPrivate *priv;
 	GNOME_Evolution_ConnectionList *list;
+	GList *uris;
+
+	priv = offline_handler->priv;
+	
+	uris = cal_client_uri_list (priv->client, CAL_MODE_REMOTE);	
 
 	list = GNOME_Evolution_ConnectionList__alloc ();
 	list->_length = 0;
@@ -99,14 +106,11 @@ impl_prepareForOffline (PortableServer_Servant servant,
 {
 	CalendarOfflineHandler *offline_handler;
 	CalendarOfflineHandlerPrivate *priv;
-	GList *uris;
 	
 	offline_handler = CALENDAR_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
 	priv = offline_handler->priv;
 
-	uris = cal_client_uri_list (priv->client, CALURI_TYPE_REMOTE);
-	
-	*active_connection_list = create_connection_list (uris);
+	*active_connection_list = create_connection_list (offline_handler);
 }
 
 static void
@@ -118,8 +122,7 @@ update_offline (CalendarOfflineHandler *offline_handler)
 
 	priv = offline_handler->priv;
 
-#if 0
-	connection_list = create_connection_list ();
+	connection_list = create_connection_list (offline_handler);
 
 	CORBA_exception_init (&ev);
 
@@ -130,9 +133,16 @@ update_offline (CalendarOfflineHandler *offline_handler)
 		g_warning ("Error updating offline progress");
 
 	CORBA_exception_free (&ev);
-#endif
 }
-	
+
+static void
+backend_cal_set_mode (CalClient *client, CalClientSetModeStatus status, CalMode mode, gpointer data)
+{
+	CalendarOfflineHandler *offline_handler = data;
+
+	update_offline (offline_handler);
+}
+
 static void
 backend_cal_opened (CalClient *client, CalClientOpenStatus status, gpointer data)
 {
@@ -143,6 +153,11 @@ backend_cal_opened (CalClient *client, CalClientOpenStatus status, gpointer data
 		gtk_object_unref (GTK_OBJECT (client));
 		return;
 	}
+
+	cal_client_set_mode (client, CAL_MODE_LOCAL);
+
+	gtk_signal_connect (GTK_OBJECT (client), "cal_mode_set", 
+			    backend_cal_set_mode, offline_handler);
 }
 
 static void
@@ -180,7 +195,7 @@ impl_goOffline (PortableServer_Servant servant,
 	/* To update the status */
 	priv->listener_interface = CORBA_Object_duplicate (progress_listener, ev);
 
-	uris = cal_client_uri_list (priv->client, CALURI_TYPE_REMOTE);
+	uris = cal_client_uri_list (priv->client, CAL_MODE_REMOTE);
 
 	g_list_foreach (uris, backend_go_offline, offline_handler);	
 }

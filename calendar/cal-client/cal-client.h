@@ -51,6 +51,13 @@ typedef enum {
 	CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED
 } CalClientOpenStatus;
 
+/* Set mode status for the cal_client_set_mode function */
+typedef enum {
+	CAL_CLIENT_SET_MODE_SUCCESS,
+	CAL_CLIENT_SET_MODE_ERROR,
+	CAL_CLIENT_SET_MODE_NOT_SUPPORTED
+} CalClientSetModeStatus;
+
 /* Get status for the cal_client_get_object() function */
 typedef enum {
 	CAL_CLIENT_GET_SUCCESS,
@@ -78,7 +85,8 @@ struct _CalClientClass {
 	/* Notification signals */
 
 	void (* cal_opened) (CalClient *client, CalClientOpenStatus status);
-
+	void (* cal_set_mode) (CalClient *client, CalClientSetModeStatus status, CalMode mode);
+	
 	void (* obj_updated) (CalClient *client, const char *uid);
 	void (* obj_removed) (CalClient *client, const char *uid);
 
@@ -101,11 +109,13 @@ CalClient *cal_client_new (void);
 void cal_client_set_auth_func (CalClient *client, CalClientAuthFunc func, gpointer data);
 
 gboolean cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exists);
-GList *cal_client_uri_list (CalClient *client, CalUriType type);
+GList *cal_client_uri_list (CalClient *client, CalMode mode);
 
 CalClientLoadState cal_client_get_load_state (CalClient *client);
 
 const char *cal_client_get_uri (CalClient *client);
+
+gboolean cal_client_set_mode (CalClient *client, CalMode mode);
 
 int cal_client_get_n_objects (CalClient *client, CalObjType type);
 

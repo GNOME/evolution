@@ -81,7 +81,10 @@ struct _CalBackendClass {
 				       gboolean only_if_exists);
 
 	gboolean (* is_loaded) (CalBackend *backend);
-	gboolean (* is_remote) (CalBackend *backend);
+
+	/* Mode relate virtual methods */
+	CalMode (* get_mode) (CalBackend *backend);
+	void    (* set_mode) (CalBackend *backend, CalMode mode);	
 
 	/* General object acquirement and information related virtual methods */
 	int (* get_n_objects) (CalBackend *backend, CalObjType type);
@@ -123,7 +126,9 @@ CalBackendOpenStatus cal_backend_open (CalBackend *backend, GnomeVFSURI *uri,
 				       gboolean only_if_exists);
 
 gboolean cal_backend_is_loaded (CalBackend *backend);
-gboolean cal_backend_is_remote (CalBackend *backend);
+
+CalMode cal_backend_get_mode (CalBackend *backend);
+void cal_backend_set_mode (CalBackend *backend, CalMode mode);
 
 int cal_backend_get_n_objects (CalBackend *backend, CalObjType type);
 

@@ -53,12 +53,12 @@ typedef enum {
 	CALOBJ_TYPE_ANY     = 0x07
 } CalObjType;
 
-/* Used for uri list */
+/* Used for mode stuff */
 typedef enum {
-	CALURI_TYPE_LOCAL   = 1 << 0,
-	CALURI_TYPE_REMOTE  = 1 << 1,
-	CALURI_TYPE_ANY     = 0x07
-} CalUriType;
+	CAL_MODE_LOCAL   = 1 << 0,
+	CAL_MODE_REMOTE  = 1 << 1,
+	CAL_MODE_ANY     = 0x07
+} CalMode;
 
 void cal_obj_uid_list_free (GList *list);
 

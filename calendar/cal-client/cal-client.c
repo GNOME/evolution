@@ -70,6 +70,7 @@ struct _CalClientPrivate {
 /* Signal IDs */
 enum {
 	CAL_OPENED,
+	CAL_SET_MODE,
 	OBJ_UPDATED,
 	OBJ_REMOVED,
 	CATEGORIES_CHANGED,
@@ -128,6 +129,8 @@ cal_client_get_type (void)
 	return cal_client_type;
 }
 
+#define marshal_NONE__ENUM_ENUM gtk_marshal_NONE__INT_INT
+
 /* Class initialization function for the calendar client */
 static void
 cal_client_class_init (CalClientClass *class)
@@ -145,6 +148,15 @@ cal_client_class_init (CalClientClass *class)
 				GTK_SIGNAL_OFFSET (CalClientClass, cal_opened),
 				gtk_marshal_NONE__ENUM,
 				GTK_TYPE_NONE, 1,
+				GTK_TYPE_ENUM);
+	cal_client_signals[CAL_SET_MODE] =
+		gtk_signal_new ("cal_set_mode",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalClientClass, cal_set_mode),
+				marshal_NONE__ENUM_ENUM,
+				GTK_TYPE_NONE, 2,
+				GTK_TYPE_ENUM,
 				GTK_TYPE_ENUM);
 	cal_client_signals[OBJ_UPDATED] =
 		gtk_signal_new ("obj_updated",
@@ -443,6 +455,53 @@ cal_opened_cb (CalListener *listener,
 	gtk_object_unref (GTK_OBJECT (client));
 }
 
+/* Handle the cal_set_mode notification from the listener */
+static void
+cal_set_mode_cb (CalListener *listener,
+		 GNOME_Evolution_Calendar_Listener_SetModeStatus status,
+		 GNOME_Evolution_Calendar_CalMode mode,
+		 gpointer data)
+{
+	CalClient *client;
+	CalClientPrivate *priv;
+	CalClientSetModeStatus client_status;
+
+	client = CAL_CLIENT (data);
+	priv = client->priv;
+
+	g_assert (priv->load_state == CAL_CLIENT_LOAD_LOADING);
+	g_assert (priv->uri != NULL);
+
+	client_status = CAL_CLIENT_OPEN_ERROR;
+
+	switch (status) {
+	case GNOME_Evolution_Calendar_Listener_MODE_SET:
+		client_status = CAL_CLIENT_SET_MODE_SUCCESS;
+		break;		
+	case GNOME_Evolution_Calendar_Listener_MODE_NOT_SET:
+		client_status = CAL_CLIENT_SET_MODE_ERROR;
+		break;
+	case GNOME_Evolution_Calendar_Listener_MODE_NOT_SUPPORTED:
+		client_status = CAL_CLIENT_SET_MODE_NOT_SUPPORTED;
+		break;		
+	default:
+		g_assert_not_reached ();
+	}
+
+	/* We are *not* inside a signal handler (this is just a simple callback
+	 * called from the listener), so there is not a temporary reference to
+	 * the client object.  We ref() so that we can safely emit our own
+	 * signal and clean up.
+	 */
+
+	gtk_object_ref (GTK_OBJECT (client));
+
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CAL_SET_MODE],
+			 client_status, mode);
+
+	gtk_object_unref (GTK_OBJECT (client));
+}
+
 /* Handle the obj_updated signal from the listener */
 static void
 obj_updated_cb (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID uid, gpointer data)
@@ -655,6 +714,7 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 	g_return_val_if_fail (str_uri != NULL, FALSE);
 
 	priv->listener = cal_listener_new (cal_opened_cb,
+					   cal_set_mode_cb,
 					   obj_updated_cb,
 					   obj_removed_cb,
 					   categories_changed_cb,
@@ -716,7 +776,7 @@ build_uri_list (GNOME_Evolution_Calendar_StringSeq *seq)
  * Return value: A list of URI's open on the wombat
  **/
 GList *
-cal_client_uri_list (CalClient *client, CalUriType type)
+cal_client_uri_list (CalClient *client, CalMode mode)
 {
 	CalClientPrivate *priv;
 	GNOME_Evolution_Calendar_StringSeq *uri_seq;
@@ -730,7 +790,7 @@ cal_client_uri_list (CalClient *client, CalUriType type)
 
 	CORBA_exception_init (&ev);
 
-	uri_seq = GNOME_Evolution_Calendar_CalFactory_uriList (priv->factory, type, &ev);
+	uri_seq = GNOME_Evolution_Calendar_CalFactory_uriList (priv->factory, mode, &ev);
 
 	if (BONOBO_EX (&ev))
 		g_message ("cal_client_uri_list(): request failed");
@@ -792,6 +852,30 @@ corba_obj_type (CalObjType type)
 	return (((type & CALOBJ_TYPE_EVENT) ? GNOME_Evolution_Calendar_TYPE_EVENT : 0)
 		| ((type & CALOBJ_TYPE_TODO) ? GNOME_Evolution_Calendar_TYPE_TODO : 0)
 		| ((type & CALOBJ_TYPE_JOURNAL) ? GNOME_Evolution_Calendar_TYPE_JOURNAL : 0));
+}
+
+gboolean
+cal_client_set_mode (CalClient *client, CalMode mode)
+{
+	CalClientPrivate *priv;
+	gboolean retval = TRUE;	
+	CORBA_Environment ev;
+
+	g_return_val_if_fail (client != NULL, -1);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), -1);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, -1);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Cal_setMode (priv->cal, mode, &ev);
+
+	if (BONOBO_EX (&ev))
+		retval = FALSE;
+		
+	CORBA_exception_free (&ev);
+
+	return retval;
 }
 
 /**

@@ -1,3 +1,56 @@
+2001-09-26  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal.h: new proto
+
+	* pcs/cal.c (impl_Cal_set_mode): implement set mode method
+	(cal_class_init): set setMode function in epv
+	(cal_notify_mode): notify listener of mode change
+
+	* pcs/cal-factory.c (add_uri): deal with UriType renaming
+
+	* pcs/cal-backend.h: add new virtual methods and protos
+
+	* pcs/cal-backend.c (cal_backend_class_init): init new virtual
+	methods to null
+	(cal_backend_set_mode): sets mode
+	(cal_backend_get_mode): gets mode
+
+	* pcs/cal-backend-file.c (cal_backend_file_class_init): overide
+	get_mode and set_mode methods
+	(cal_backend_file_get_mode): return mode
+	(notify_mode): have listeners notified of the set mode call
+	(cal_backend_file_set_mode): set the mode by indicating not
+	supported
+
+	* cal-client/cal-listener.h: update proto
+
+	* cal-client/cal-listener.c (impl_notifyCalSetMode): implement set
+	mode callback
+	(cal_listener_construct): take set mode callback
+	(cal_listener_new): ditto
+
+	* cal-client/cal-client.h: update protos, add signal proto
+
+	* cal-client/cal-client.c (cal_client_class_init): add
+	cal_set_mode signal
+	(cal_set_mode_cb): handle set mode callback from listener
+	(cal_client_open_calendar): pass additional param to cal_listener_new
+	(cal_client_set_mode): wrapper to set the calendar mode
+
+	* idl/evolution-calendar.idl: make UriType into CalMode, add
+	SetModeStatus enum and notifyCalSetMode method to the listener
+
+	* gui/calendar-offline-handler.c (create_connection_list): fetch
+	the uri list ourselves
+	(impl_prepareForOffline): reflect param change of
+	create_connect_list
+	(update_offline): ditto
+	(backend_cal_set_mode): set mode call back
+	(backend_cal_opened): cal opened call back, set mode to local
+	(impl_goOffline): reflect UriType renaming
+
+	* cal-util/cal-util.h: rename UriType to CalMode
+
 2001-09-25  Federico Mena Quintero  <federico@ximian.com>
 
 	Warning fixes courtesy of Chris Lahey <clahey@ximian.com>.
