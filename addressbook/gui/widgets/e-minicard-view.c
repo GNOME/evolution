@@ -29,6 +29,7 @@
 
 #include <gtk/gtkselection.h>
 #include <gtk/gtkdnd.h>
+#include <gdk/gdkkeysyms.h>
 #include <gal/widgets/e-canvas.h>
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
@@ -353,6 +354,12 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 	case GDK_BUTTON_PRESS:
 		if (event->button.button == 3) {
+			e_minicard_view_right_click (view, event);
+		}
+		break;
+	case GDK_KEY_PRESS:
+		if (event->key.keyval & GDK_SHIFT_MASK &&
+			event->key.keyval == GDK_F10) {
 			e_minicard_view_right_click (view, event);
 		}
 		break;
