@@ -1132,7 +1132,7 @@ storage_remove_folder (EvolutionStorage *storage,
 	
 	g_warning ("storage_remove_folder: path=\"%s\"; uri=\"%s\"", path, physical_uri);
 	
-	if (!path || !physical_uri || !strncmp (physical_uri, "vtrash:", 7)) {
+	if (!path || !*path || !physical_uri || !strncmp (physical_uri, "vtrash:", 7)) {
 		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
 		return;
 	}
@@ -1143,21 +1143,15 @@ storage_remove_folder (EvolutionStorage *storage,
 		return;
 	}
 	
-	if (!*path) {
-		camel_url_free (url);
-		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
-		return;
-	}
-	
 	camel_exception_init (&ex);
-
+	
 	if (url->fragment)
 		name = url->fragment;
 	else if (url->path && url->path[0])
 		name = url->path+1;
 	else
 		name = "";
-
+	
 	if (camel_store_supports_subscriptions (store))
 		camel_store_unsubscribe_folder (store, name, NULL);
 	
@@ -1192,6 +1186,8 @@ storage_xfer_folder (EvolutionStorage *storage,
 
 	d(printf("Transfer folder on store source = '%s' dest = '%s'\n", source_path, destination_path));
 
+	/* FIXME: this is totally not gonna work once we have namespaces */
+	
 	/* Remap the 'path' to the camel friendly name based on the store dir separator */
 	sep = store->dir_sep;
 	src = g_strdup(source_path[0]=='/'?source_path+1:source_path);

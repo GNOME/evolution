@@ -1894,6 +1894,22 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 
 }
 
+static void
+message_list_change_first_visible_parent (MessageList *ml, ETreePath node)
+{
+	ETreePath first_visible = NULL;
+	
+	while (node && (node = e_tree_model_node_get_parent (ml->model, node))) {
+		if (!e_tree_node_is_expanded (ml->tree, node))
+			first_visible = node;
+	}
+	
+	if (first_visible != NULL) {
+		e_tree_model_pre_change (ml->model);
+		e_tree_model_node_data_changed (ml->model, first_visible);
+	}
+}
+
 #ifndef BROKEN_ETREE
 
 static void
@@ -1942,6 +1958,8 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 		if (node) {
 			e_tree_model_pre_change (ml->model);
 			e_tree_model_node_data_changed (ml->model, node);
+			
+			message_list_change_first_visible_parent (ml, node)
 		}
 	}
 
@@ -1954,6 +1972,7 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 
 }
 #endif /* ! BROKEN_ETREE */
+
 
 static void
 main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
@@ -2016,6 +2035,8 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 				if (node) {
 					e_tree_model_pre_change (ml->model);
 					e_tree_model_node_data_changed (ml->model, node);
+					
+					message_list_change_first_visible_parent (ml, node);
 				}
 			}
 			
@@ -2032,14 +2053,14 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	CamelFolderChangeInfo *changes;
 	MessageList *ml = MESSAGE_LIST (user_data);
-
+	
 	if (event_data) {
 		changes = camel_folder_change_info_new();
 		camel_folder_change_info_cat(changes, (CamelFolderChangeInfo *)event_data);
 	} else {
 		changes = NULL;
 	}
-
+	
 	mail_async_event_emit(ml->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)main_folder_changed, o, changes, user_data);
 }
 

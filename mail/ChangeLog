@@ -1,3 +1,16 @@
+2002-06-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (message_list_change_first_visible_parent): New
+	convenience function to find the first parent node that is visible
+	and emit a changed signal on it.
+	(main_folder_changed): If a message changed, call
+	change_first_visible_parent() in case we are in a collapsed thread
+	so that our first visible parent gets updated as well. Fixes bug
+	#26263.
+
+	* component-factory.c (storage_remove_folder): Simplify the error
+	checking.
+
 2002-06-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (get_normalised_string): New convenience function
