@@ -1,6 +1,7 @@
 2001-05-24  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (menu_edit_delete_all_cb): new callback
+	(menu_edit_delete_all_cb): set orig to 0 too
 
 2001-05-23  Radek Doulik  <rodo@ximian.com>
 
