@@ -507,6 +507,30 @@ impl_async_remove_folder (EStorage *storage,
 }
 
 
+/* Callbacks for the `Evolution::LocalStorage' interface we are exposing to the outside world.  */
+
+static void
+bonobo_interface_set_display_name_cb (EvolutionLocalStorage *bonobo_local_storage,
+				      const char *path,
+				      const char *display_name,
+				      void *data)
+{
+	ELocalStorage *local_storage;
+	EFolder *folder;
+
+	local_storage = E_LOCAL_STORAGE (data);
+
+	g_print ("%s -- %s %s\n", __FUNCTION__, path, display_name);
+
+	folder = e_storage_get_folder (E_STORAGE (local_storage), path);
+	if (folder == NULL)
+		return;
+
+	e_folder_set_name (folder, display_name);
+
+}
+
+
 /* Initialization.  */
 
 static void
@@ -568,6 +592,10 @@ construct (ELocalStorage *local_storage,
 
 	g_assert (priv->bonobo_interface == NULL);
 	priv->bonobo_interface = evolution_local_storage_new (E_LOCAL_STORAGE_NAME);
+
+	gtk_signal_connect (GTK_OBJECT (priv->bonobo_interface), "set_display_name",
+			    GTK_SIGNAL_FUNC (bonobo_interface_set_display_name_cb),
+			    local_storage);
 
 	return load_all_folders (local_storage);
 }

@@ -81,28 +81,31 @@ struct _EStorageClass {
 
 	/* Virtual methods.  */
 
-	GList      * (* list_folders)  	     (EStorage *storage, const char *path);
-	EFolder    * (* get_folder)    	     (EStorage *storage, const char *path);
-	const char * (* get_name)      	     (EStorage *storage);
+	GList      * (* get_subfolder_paths)  (EStorage *storage, const char *path);
+	EFolder    * (* get_folder)    	      (EStorage *storage, const char *path);
+	const char * (* get_name)      	      (EStorage *storage);
 
-	void         (* async_create_folder) (EStorage *storage, const char *path,
-					      const char *type, const char *description,
-					      EStorageResultCallback callback, void *data);
-	void         (* async_remove_folder) (EStorage *storage, const char *path,
-					      EStorageResultCallback callback, void *data);
+	void         (* async_create_folder)  (EStorage *storage, const char *path,
+					       const char *type, const char *description,
+					       EStorageResultCallback callback, void *data);
+	void         (* async_remove_folder)  (EStorage *storage, const char *path,
+					       EStorageResultCallback callback, void *data);
 };
 
 
-GtkType     e_storage_get_type          (void);
-void        e_storage_construct         (EStorage   *storage);
-EStorage   *e_storage_new               (void);
-gboolean    e_storage_path_is_relative  (const char *path);
-gboolean    e_storage_path_is_absolute  (const char *path);
+GtkType     e_storage_get_type              (void);
+void        e_storage_construct             (EStorage   *storage);
+EStorage   *e_storage_new                   (void);
 
-GList      *e_storage_list_folders      (EStorage   *storage, const char *path);
-EFolder    *e_storage_get_folder        (EStorage   *storage, const char *path);
+gboolean    e_storage_path_is_relative      (const char *path);
+gboolean    e_storage_path_is_absolute      (const char *path);
 
-const char *e_storage_get_name          (EStorage   *storage);
+GList      *e_storage_get_subfolder_paths   (EStorage   *storage,
+					     const char *path);
+EFolder    *e_storage_get_folder            (EStorage   *storage,
+					     const char *path);
+
+const char *e_storage_get_name              (EStorage   *storage);
 
 /* Folder operations.  */
 

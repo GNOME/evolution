@@ -97,33 +97,14 @@ destroy (GtkObject *object)
 /* EStorage methods.  */
 
 static GList *
-impl_list_folders (EStorage *storage,
-		   const char *path)
+impl_get_subfolder_paths (EStorage *storage,
+			  const char *path)
 {
 	EStoragePrivate *priv;
-	GList *path_list;
-	GList *list;
-	GList *p;
 
 	priv = storage->priv;
 
-	path_list = e_folder_tree_get_subfolders (priv->folder_tree, path);
-
-	list = NULL;
-	for (p = path_list; p != NULL; p = p->next) {
-		EFolder *e_folder;
-		const char *sub_path;
-
-		sub_path = (const char *) p->data;
-		e_folder = e_folder_tree_get_folder (priv->folder_tree, sub_path);
-
-		gtk_object_ref (GTK_OBJECT (e_folder));
-		list = g_list_prepend (list, e_folder);
-	}
-
-	e_free_string_list (path_list);
-
-	return list;
+	return e_folder_tree_get_subfolders (priv->folder_tree, path);
 }
 
 static EFolder *
@@ -179,7 +160,7 @@ class_init (EStorageClass *class)
 
 	object_class->destroy = destroy;
 
-	class->list_folders        = impl_list_folders;
+	class->get_subfolder_paths = impl_get_subfolder_paths;
 	class->get_folder          = impl_get_folder;
 	class->get_name            = impl_get_name;
 	class->async_create_folder = impl_async_create_folder;
@@ -260,15 +241,15 @@ e_storage_path_is_relative (const char *path)
 
 
 GList *
-e_storage_list_folders (EStorage *storage,
-			const char *path)
+e_storage_get_subfolder_paths (EStorage *storage,
+			       const char *path)
 {
 	g_return_val_if_fail (storage != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE (storage), NULL);
 	g_return_val_if_fail (path != NULL, NULL);
 	g_return_val_if_fail (g_path_is_absolute (path), NULL);
 
-	return (* ES_CLASS (storage)->list_folders) (storage, path);
+	return (* ES_CLASS (storage)->get_subfolder_paths) (storage, path);
 }
 
 EFolder *

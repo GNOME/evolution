@@ -1,3 +1,27 @@
+2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-storage.c (impl_list_folders): Removed.
+	(impl_get_subfolder_paths): New static function, implementation
+	for `::get_subfolder_paths'.
+	(class_init): Install it.
+	(e_storage_get_subfolder_paths): New.
+
+	* e-storage.h: `list_folders' virtual method removed.  New virtual
+	method `list_subfolder_paths'.
+
+	* e-storage-set-view.c (etree_icon_at): If the folder is not
+	found, return NULL.
+
+	* e-local-storage.c (bonobo_interface_set_display_name_cb): New
+	function, callback for the `set_display_name' signal on the
+	EvolutionLocalStorage.
+	(construct): Connect it.
+
+	* e-storage-set-view.c (folder_changed_cb): New callback for the
+	"changed" signal emitted by the EFolders.  It makes the model emit
+	the "changed" signal for the appropriate row.
+	(insert_folders): Connect it.
+
 2000-09-09  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-storage-set-view.c (etree_value_at): Return the name of the

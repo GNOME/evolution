@@ -29,6 +29,8 @@
 #include <gnome.h>
 
 #include "e-util/e-util.h"
+#include "e-util/e-gtk-utils.h"
+
 #include "e-shell-constants.h"
 
 #include "e-storage-set-view.h"
@@ -331,8 +333,6 @@ etable_drag_begin (EStorageSetView *storage_set_view,
 	node = e_tree_model_node_at_row (priv->etree_model, row);
 
 	priv->selected_row_path = e_tree_model_node_get_data (priv->etree_model, node);
-
-	g_print ("dragging %s\n", priv->selected_row_path);
 }
 
 static void
@@ -469,8 +469,9 @@ static GdkPixbuf*
 etree_icon_at (ETreeModel *etree, ETreePath *tree_path, void *model_data)
 {
 	EStorageSetView *storage_set_view;
-	char *path;
 	EStorageSet *storage_set;
+	EFolder *folder;
+	char *path;
 
 	/* folders are from depth 2 on.  depth 1 are storages and 0 is
            our (invisible) root node. */
@@ -482,8 +483,11 @@ etree_icon_at (ETreeModel *etree, ETreePath *tree_path, void *model_data)
 
 	path = (char*)e_tree_model_node_get_data (etree, tree_path);
 
-	return get_pixbuf_for_folder (storage_set_view,
-		      e_storage_set_get_folder (storage_set, path));
+	folder = e_storage_set_get_folder (storage_set, path);
+	if (folder == NULL)
+		return NULL;
+
+	return get_pixbuf_for_folder (storage_set_view, folder);
 }
 
 static void*
@@ -608,6 +612,7 @@ new_folder_cb (EStorageSet *storage_set,
 	ETreePath *new_node;
 	const char *last_separator;
 	char *parent_path;
+	char *copy_of_path;
 
 	g_return_if_fail (g_path_is_absolute (path));
 
@@ -628,7 +633,8 @@ new_folder_cb (EStorageSet *storage_set,
 
 	g_free (parent_path);
 
-	new_node = e_tree_model_node_insert (etree, parent_node, -1, (gpointer)g_strdup(path));
+	copy_of_path = g_strdup (path);
+	new_node = e_tree_model_node_insert (etree, parent_node, -1, copy_of_path);
 
 	if (! add_node_to_hash (storage_set_view, path, new_node)) {
 		e_tree_model_node_remove (etree, new_node);
@@ -694,32 +700,58 @@ init (EStorageSetView *storage_set_view)
 
 	priv = g_new (EStorageSetViewPrivate, 1);
 
-	priv->storage_set                    = NULL;
-	priv->path_to_etree_node             = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->type_name_to_pixbuf            = g_hash_table_new (g_str_hash, g_str_equal);
-	priv->selected_row_path              = NULL;
+	priv->storage_set         = NULL;
+	priv->path_to_etree_node  = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->type_name_to_pixbuf = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->selected_row_path   = NULL;
 
 	storage_set_view->priv = priv;
 }
 
 
-static int
-folder_compare_cb (gconstpointer a, gconstpointer b)
+/* Handling of the "changed" signal in EFolders displayed in the EStorageSetView.  */
+
+struct _FolderChangedCallbackData {
+	EStorageSetView *storage_set_view;
+	char *path;
+};
+typedef struct _FolderChangedCallbackData FolderChangedCallbackData;
+
+static void
+folder_changed_callback_data_destroy_notify (void *data)
 {
-	EFolder *folder_a;
-	EFolder *folder_b;
-	const char *name_a;
-	const char *name_b;
+	FolderChangedCallbackData *callback_data;
 
-	folder_a = E_FOLDER (a);
-	folder_b = E_FOLDER (b);
+	callback_data = (FolderChangedCallbackData *) data;
 
-	name_a = e_folder_get_name (folder_a);
-	name_b = e_folder_get_name (folder_b);
-
-	return strcmp (name_a, name_b);
+	g_free (callback_data->path);
+	g_free (callback_data);
 }
 
+static void
+folder_changed_cb (EFolder *folder,
+		   void *data)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	FolderChangedCallbackData *callback_data;
+	ETreePath *node;
+
+	callback_data = (FolderChangedCallbackData *) data;
+
+	storage_set_view = callback_data->storage_set_view;
+	priv = callback_data->storage_set_view->priv;
+
+	node = g_hash_table_lookup (priv->path_to_etree_node, callback_data->path);
+	if (node == NULL) {
+		g_warning ("EStorageSetView -- EFolder::changed emitted for a folder whose path I don't know.");
+		return;
+	}
+
+	e_tree_model_node_changed (priv->etree_model, node);
+}
+
+
 static void
 insert_folders (EStorageSetView *storage_set_view,
 		ETreePath *parent,
@@ -729,7 +761,7 @@ insert_folders (EStorageSetView *storage_set_view,
 	EStorageSetViewPrivate *priv;
 	ETreeModel *etree;
 	ETreePath *node;
-	GList *folder_list;
+	GList *folder_path_list;
 	GList *p;
 	const char *storage_name;
 
@@ -738,35 +770,41 @@ insert_folders (EStorageSetView *storage_set_view,
 
 	storage_name = e_storage_get_name (storage);
 
-	folder_list = e_storage_list_folders (storage, path);
-	if (folder_list == NULL)
+	folder_path_list = e_storage_get_subfolder_paths (storage, path);
+	if (folder_path_list == NULL)
 		return;
 
-	folder_list = g_list_sort (folder_list, folder_compare_cb);
-
-	for (p = folder_list; p != NULL; p = p->next) {
+	for (p = folder_path_list; p != NULL; p = p->next) {
+		FolderChangedCallbackData *folder_changed_callback_data;
 		EFolder *folder;
 		const char *folder_name;
-		char *subpath;
+		const char *folder_path;
 		char *full_path;
 
-		folder = E_FOLDER (p->data);
+		folder_path = (const char *) p->data;
+		folder = e_storage_get_folder (storage, folder_path);
 		folder_name = e_folder_get_name (folder);
 
-		subpath = g_concat_dir_and_file (path, folder_name);
-
-		full_path = g_strconcat("/", storage_name, subpath, NULL);
-
-		node = e_tree_model_node_insert (etree, parent, -1, (gpointer)full_path);
-
-		insert_folders (storage_set_view, node, storage, subpath);
-
+		full_path = g_strconcat ("/", storage_name, folder_path, NULL);
+		node = e_tree_model_node_insert (etree, parent, -1, (void *) full_path);
 		add_node_to_hash (storage_set_view, full_path, node);
 
-		g_free (subpath);
+		insert_folders (storage_set_view, node, storage, folder_path);
+
+		folder_changed_callback_data = g_new (FolderChangedCallbackData, 1);
+		folder_changed_callback_data->storage_set_view = storage_set_view;
+		folder_changed_callback_data->path = g_strdup (folder_path);
+
+		e_gtk_signal_connect_full_while_alive (GTK_OBJECT (folder), "changed",
+						       GTK_SIGNAL_FUNC (folder_changed_cb),
+						       NULL,
+						       folder_changed_callback_data,
+						       folder_changed_callback_data_destroy_notify,
+						       FALSE, FALSE,
+						       GTK_OBJECT (storage_set_view));
 	}
 
-	e_free_object_list (folder_list);
+	e_free_string_list (folder_path_list);
 }
 
 static void
