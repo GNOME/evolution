@@ -233,30 +233,43 @@ load_file_fn (EvolutionImporter *eimporter,
 	}
 
 	importer->mstream = NULL;
-	if (folderpath == NULL || *folderpath == '\0')
+	if (folderpath == NULL || *folderpath == '\0') {
 		importer->folder = mail_tool_get_local_inbox (NULL);
-	else {
+	} else {
 		char *parent;
-		const char *name;
+		const char *name, *fullpath, *homedir, *tmp;
 		BonoboListener *listener;
+		CamelException *ex;
+		
+		tmp = gnome_util_prepend_user_home ("evolution/local");
+		homedir = g_strconcat ("file://", tmp, NULL);
+		g_free (tmp);
 
-		/* Make a new directory */
-		name = strrchr (folderpath, '/');
-		if (name == NULL) {
-			parent = g_strdup ("/");
-			name = folderpath;
-		} else {
-			name += 1;
-			parent = g_dirname (folderpath);
+		fullpath = e_path_to_physical (homedir, folderpath);
+		ex = camel_exception_new ();
+		importer->folder = mail_tool_uri_to_folder (fullpath, ex);
+	
+		if (camel_exception_is_set (ex) || importer->folder == NULL) {
+			/* Make a new directory */
+			name = strrchr (folderpath, '/');
+			if (name == NULL) {
+				parent = g_strdup ("/");
+				name = folderpath;
+			} else {
+				name += 1;
+				parent = g_dirname (folderpath);
+			}
+			
+			listener = bonobo_listener_new (NULL, NULL);
+			gtk_signal_connect (GTK_OBJECT (listener), "event-notify",
+					    GTK_SIGNAL_FUNC (folder_created_cb),
+					    importer);
+			
+			mail_importer_create_folder (parent, name, NULL, listener);
+			g_free (parent);
 		}
-
-		listener = bonobo_listener_new (NULL, NULL);
-		gtk_signal_connect (GTK_OBJECT (listener), "event-notify",
-				    GTK_SIGNAL_FUNC (folder_created_cb),
-				    importer);
-
-		mail_importer_create_folder (parent, name, NULL, listener);
-		g_free (parent);
+		camel_exception_free (ex);
+		g_free (fullpath);
 	}
 
 	if (importer->folder == NULL){

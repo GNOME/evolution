@@ -1,3 +1,8 @@
+2001-07-12  Iain Holmes  <iain@ximian.com>
+
+	* importers/evolution-mbox-importer.c (load_file_fn): Check that the folder
+	does exist before trying to import it.
+
 2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (expunge_folder): Force-hide all deleted
