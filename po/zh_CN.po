@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-14 23:29+0800\n"
-"PO-Revision-Date: 2005-01-11 14:55+0800\n"
+"PO-Revision-Date: 2005-01-14 23:37+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -255,18 +255,16 @@ msgid "evolution calendar item"
 msgstr "Evolution 日历项目"
 
 #: a11y/widgets/ea-combo-button.c:40
-#, fuzzy
 msgid "Combo Button"
-msgstr "时区按钮"
+msgstr "组合按钮"
 
 #: a11y/widgets/ea-combo-button.c:50
-#, fuzzy
 msgid "Activate Default"
-msgstr "使用默认值(_D)"
+msgstr "激活默认"
 
 #: a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
-msgstr ""
+msgstr "弹出菜单"
 
 #. addressbook:ldap-init primary
 #: addressbook/addressbook-errors.xml.h:2
@@ -11892,7 +11890,7 @@ msgstr "账户管理"
 
 #: mail/mail-config.glade.h:36
 msgid "Add Ne_w Signature..."
-msgstr "添加新签名(_N)..."
+msgstr "添加新签名(_W)..."
 
 #: mail/mail-config.glade.h:37
 msgid "Add _Script"
@@ -13033,47 +13031,43 @@ msgstr "立即同步好友列表(_B)"
 #: plugins/calendar-weather/calendar-weather.c:54
 #: plugins/calendar-weather/calendar-weather.c:60
 msgid "Weather: Cloudy"
-msgstr ""
+msgstr "天气：多云"
 
 #: plugins/calendar-weather/calendar-weather.c:61
 msgid "Weather: Fog"
-msgstr ""
+msgstr "天气：雾"
 
 #: plugins/calendar-weather/calendar-weather.c:62
 msgid "Weather: Partly Cloudy"
-msgstr ""
+msgstr "天气：少云"
 
 #: plugins/calendar-weather/calendar-weather.c:63
-#, fuzzy
 msgid "Weather: Rain"
-msgstr "巴林岛"
+msgstr "天气：雨"
 
 #: plugins/calendar-weather/calendar-weather.c:64
 msgid "Weather: Snow"
-msgstr ""
+msgstr "天气：雪"
 
 #: plugins/calendar-weather/calendar-weather.c:65
 msgid "Weather: Sunny"
-msgstr ""
+msgstr "天气：晴"
 
 #: plugins/calendar-weather/calendar-weather.c:66
 msgid "Weather: Thunderstorms"
-msgstr ""
+msgstr "天气：暴风雨"
 
 #: plugins/calendar-weather/calendar-weather.c:100
-#, fuzzy
 msgid "Weather"
-msgstr "稍候"
+msgstr "天气"
 
 #: plugins/calendar-weather/calendar-weather.c:268
-#, fuzzy
 msgid "Select a location"
-msgstr "选择一项活动"
+msgstr "选择一个位置"
 
 #: plugins/calendar-weather/calendar-weather.c:655
-#, fuzzy
 msgid "_Units:"
-msgstr "单位"
+msgstr "单位(_U)："
 
 #: plugins/calendar-weather/calendar-weather.c:662
 msgid "Metric (Celsius, cm, etc)"
@@ -13085,37 +13079,31 @@ msgstr ""
 
 #. Description section
 #: plugins/exchange-account-setup/exchange-account-setup.c:68
-#, fuzzy
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 msgstr ""
-"<small>在您位于办公室外势，如果有人给您发送邮件，则会自动将下面指定的信件\n"
-"送回。</small>"
+"在您位于办公室外时，如果有人给您发送邮件，则会自动将下面指定的信件\n"
+"送回。"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:92
-#, fuzzy
 msgid "I am in the office"
 msgstr "我正在办公室内"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:106
-#, fuzzy
 msgid "I am out of the office"
 msgstr "我正在办公室外"
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:120
-#, fuzzy
 msgid "Out of office Message:"
-msgstr "<b>办公室以外信件：</b>"
+msgstr "办公室以外信件："
 
 #: plugins/exchange-account-setup/exchange-account-setup.c:173
-#, fuzzy
 msgid "Exchange Settings"
-msgstr "设置"
+msgstr "Exchange 设置"
 
 #: plugins/exchange-account-setup/exchange-ask-password.c:120
 #: plugins/exchange-account-setup/exchange-ask-password.c:151
-#, fuzzy
 msgid "_Url:"
 msgstr "_URL："
 
@@ -13130,13 +13118,12 @@ msgstr "待办清单"
 
 #: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr ""
+msgstr "将发送选项添加到 GroupWise 信件"
 
 #: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:2
 #: widgets/misc/e-send-options.glade.h:20
-#, fuzzy
 msgid "Send Options"
-msgstr "<b>发送选项</b>"
+msgstr "发送选项"
 
 #: plugins/itip-formatter/itip-formatter.c:697
 msgid "Unable to parse item"
@@ -13181,11 +13168,8 @@ msgid "Attendee status updated"
 msgstr "参与者状态已更新"
 
 #: plugins/itip-formatter/itip-formatter.c:965
-#, fuzzy
 msgid "The calendar attached is not valid"
-msgstr ""
-"联系人数据无效：\n"
-"\n"
+msgstr "附加的日历无效"
 
 #: plugins/itip-formatter/itip-formatter.c:966
 msgid ""
@@ -13359,24 +13343,24 @@ msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%Y年%-m月%-d日%A %H:%M:%S"
 
 #: plugins/itip-formatter/itip-view.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr "<b>%s</b> 通过 %s 发布了会议信息。"
+msgstr "<b>%s</b> 通过 %s 发布了会议信息："
 
 #: plugins/itip-formatter/itip-view.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following meeting information:"
-msgstr "<b>%s</b> 发布了会议信息。"
+msgstr "<b>%s</b> 发布了会议信息："
 
 #: plugins/itip-formatter/itip-view.c:298
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the presence of %s at the following meeting:"
-msgstr "<b>%s</b> 请求 %s 参加一个会议。"
+msgstr "<b>%s</b> 请求 %s 参加下列会议："
 
 #: plugins/itip-formatter/itip-view.c:301
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> 通过 %s 请求您参加一个会议。"
+msgstr "<b>%s</b> 通过 %s 请求您参加下列会议："
 
 #: plugins/itip-formatter/itip-view.c:303
 #, c-format
@@ -13776,7 +13760,6 @@ msgid ""
 msgstr ""
 
 #: plugins/shared-folder/install-shared.c:215
-#, fuzzy
 msgid "Specify where to postion the folder:"
 msgstr "指定在哪里创建文件夹："
 
@@ -16757,52 +16740,44 @@ msgid "Find _Now"
 msgstr "立即查找(_N)"
 
 #: widgets/misc/e-send-options.c:505
-#, fuzzy
 msgid "When de_leted:"
-msgstr "%d 封已删除"
+msgstr "删除时(_L)："
 
 #: widgets/misc/e-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Delivery Options</b>"
 msgstr "<b>发送选项</b>"
 
 #: widgets/misc/e-send-options.glade.h:2
-#, fuzzy
 msgid "<b>Replies</b>"
-msgstr "<b>重复</b>"
+msgstr "<b>回复数</b>"
 
 #: widgets/misc/e-send-options.glade.h:3
-#, fuzzy
 msgid "<b>Return Notification</b>"
-msgstr "<b>身份验证</b>"
+msgstr "<b>返回通知</b>"
 
 #: widgets/misc/e-send-options.glade.h:4
-#, fuzzy
 msgid "<b>Status Tracking</b>"
-msgstr "<b>搜索</b>"
+msgstr "<b>状态跟踪</b>"
 
 #: widgets/misc/e-send-options.glade.h:5
 msgid "A_uto-delete sent item"
-msgstr ""
+msgstr "自动删除已发项目(_U)"
 
 #: widgets/misc/e-send-options.glade.h:6
-#, fuzzy
 msgid "C_lassification"
-msgstr "分类(_F)："
+msgstr "分类(_L)"
 
 #: widgets/misc/e-send-options.glade.h:7
 msgid "Creat_e a sent item to track information"
 msgstr ""
 
 #: widgets/misc/e-send-options.glade.h:8
-#, fuzzy
 msgid "Deli_vered and opened"
-msgstr "回复及原始邮件"
+msgstr "已发送和已打开(_V)"
 
 #: widgets/misc/e-send-options.glade.h:9
-#, fuzzy
 msgid "Gene_ral Options"
-msgstr "常规"
+msgstr "常规选项(_R)"
 
 #: widgets/misc/e-send-options.glade.h:10
 #, fuzzy
@@ -16850,53 +16825,47 @@ msgstr "宽度"
 
 #: widgets/misc/e-send-options.glade.h:27
 msgid "When acce_pted: "
-msgstr ""
+msgstr "接受时(_P)："
 
 #: widgets/misc/e-send-options.glade.h:28
-#, fuzzy
 msgid "When co_mpleted:"
-msgstr "完成日期(_D)："
+msgstr "完成时(_M)："
 
 #: widgets/misc/e-send-options.glade.h:29
 msgid "When decli_ned:    "
 msgstr ""
 
 #: widgets/misc/e-send-options.glade.h:30
-#, fuzzy
 msgid "_After:"
-msgstr "之后"
+msgstr "之后(_A)："
 
 #: widgets/misc/e-send-options.glade.h:31
-#, fuzzy
 msgid "_All information"
-msgstr "任务信息"
+msgstr "全部信息(_A)"
 
 #: widgets/misc/e-send-options.glade.h:32
-#, fuzzy
 msgid "_Delay message delivery"
-msgstr "每个额外时间"
+msgstr "推迟信件投递(_D)"
 
 #: widgets/misc/e-send-options.glade.h:33
-#, fuzzy
 msgid "_Delivered"
-msgstr "删除(_D)"
+msgstr "已投递(_D)"
 
 #: widgets/misc/e-send-options.glade.h:35
 msgid "_Set expiration  date"
 msgstr ""
 
 #: widgets/misc/e-send-options.glade.h:36
-#, fuzzy
 msgid "_Until:"
-msgstr "无标题"
+msgstr "直到(_U)："
 
 #: widgets/misc/e-send-options.glade.h:37
 msgid "_When convenient"
-msgstr ""
+msgstr "方便时(_W)"
 
 #: widgets/misc/e-send-options.glade.h:38
 msgid "_When opened:     "
-msgstr ""
+msgstr "打开时(_W)："
 
 #. system:ask-save-file-exists-overwrite primary
 #: widgets/misc/e-system-errors.xml.h:4
