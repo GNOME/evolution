@@ -1,3 +1,20 @@
+2000-09-25  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shortcuts-view.c (item_selected): Renamed from
+	`selected_item'.
+	(class_init): Updated accordingly.
+	(impl_shortcut_dropped): New function, implementation for
+	`EShortcutBar::shortcut_dropped'.
+	(impl_shortcut_dragged): New function, implementation for
+	`EShortcutBar::shortcut_dragged'.
+	(e_shortcuts_view_construct): Update to use EShortcutsViewModel.
+	(class_init): Install them.
+
+	* e-shortcuts.c (e_shortcuts_get_group_title): New.
+
+	* e-shortcuts-view-model.c: New.
+	* e-shortcuts-view-model.h: New.
+
 2000-09-24  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell.c (setup_local_storage): Don't unref the local storage.

@@ -76,6 +76,9 @@ EShortcuts  *e_shortcuts_new                     (EStorageSet         *storage_s
 						  const char          *file_name);
 
 GList       *e_shortcuts_get_group_titles        (EShortcuts          *shortcuts);
+const char  *e_shortcuts_get_group_title         (EShortcuts          *shortcuts,
+						  int                  group_num);
+
 GList       *e_shortcuts_get_shortcuts_in_group  (EShortcuts          *shortcuts,
 						  const char          *group_title);
 EStorageSet *e_shortcuts_get_storage_set         (EShortcuts          *shortcuts);

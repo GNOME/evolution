@@ -756,5 +756,25 @@ e_shortcuts_add_group (EShortcuts *shortcuts,
 }
 
 
+const char *
+e_shortcuts_get_group_title (EShortcuts *shortcuts,
+			     int group_num)
+{
+	EShortcutsPrivate *priv;
+	const ShortcutGroup *group;
+
+	g_return_val_if_fail (shortcuts != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), NULL);
+
+	priv = shortcuts->priv;
+
+	group = g_list_nth (priv->groups, group_num);
+	if (group == NULL)
+		return NULL;
+
+	return group->title;
+}
+
+
 E_MAKE_TYPE (e_shortcuts, "EShortcuts", EShortcuts, class_init, init, PARENT_TYPE)
 

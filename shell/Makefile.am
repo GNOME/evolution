@@ -102,6 +102,8 @@ evolution_SOURCES =				\
 	e-shell-view.h				\
 	e-shell.c				\
 	e-shell.h				\
+	e-shortcuts-view-model.c		\
+	e-shortcuts-view-model.h		\
 	e-shortcuts-view.c			\
 	e-shortcuts-view.h			\
 	e-shortcuts.c				\
