@@ -1,3 +1,8 @@
+2000-10-26  Dan Winship  <danw@helixcode.com>
+
+	* mail-display.c (write_data_to_file): Don't destroy a dialog
+	after run_and_close'ing it.
+
 2000-10-26  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (composer_send_cb): Check for the TO recipient

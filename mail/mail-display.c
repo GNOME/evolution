@@ -76,7 +76,6 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 
 		if (gnome_dialog_run_and_close (GNOME_DIALOG (dlg)) != 0)
 			return FALSE;
-		gtk_widget_destroy (dlg);
 
 		fd = open (name, O_WRONLY | O_TRUNC);
 	}
