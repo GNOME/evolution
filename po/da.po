@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
 "POT-Creation-Date: 2000-12-13 16:26-0600\n"
-"PO-Revision-Date: 2000-12-23 00:38+0100\n"
+"PO-Revision-Date: 2000-12-26 10:38+0100\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -784,14 +784,18 @@ msgid ""
 "\n"
 "Mr.\n"
 "Mrs.\n"
+"Ms.\n"
+"Miss\n"
 "Dr.\n"
 msgstr ""
 "\n"
 "Hr.\n"
+"Fru.\n"
 "Fr.\n"
+"Frk.\n"
 "Dr.\n"
 
-#: addressbook/contact-editor/fullname-strings.h:13
+#: addressbook/contact-editor/fullname-strings.h:15
 msgid ""
 "\n"
 "Sr.\n"
@@ -809,23 +813,23 @@ msgstr ""
 "III\n"
 "Esq.\n"
 
-#: addressbook/contact-editor/fullname-strings.h:21
+#: addressbook/contact-editor/fullname-strings.h:23
 msgid "_First:"
 msgstr "_Fornavn:"
 
-#: addressbook/contact-editor/fullname-strings.h:22
+#: addressbook/contact-editor/fullname-strings.h:24
 msgid "_Title:"
 msgstr "_Titel:"
 
-#: addressbook/contact-editor/fullname-strings.h:23
+#: addressbook/contact-editor/fullname-strings.h:25
 msgid "_Middle:"
 msgstr "_Mellemnavn:"
 
-#: addressbook/contact-editor/fullname-strings.h:24
+#: addressbook/contact-editor/fullname-strings.h:26
 msgid "_Last:"
 msgstr "_Efternavn:"
 
-#: addressbook/contact-editor/fullname-strings.h:25
+#: addressbook/contact-editor/fullname-strings.h:27
 msgid "_Suffix:"
 msgstr "_Suffiks:"
 
@@ -1057,7 +1061,7 @@ msgid "z"
 msgstr "z"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:451
-#: addressbook/gui/widgets/e-minicard.c:338
+#: addressbook/gui/widgets/e-minicard.c:339
 msgid "Save as VCard"
 msgstr "Gem som vCard"
 
@@ -1337,7 +1341,7 @@ msgstr "Gem kalender"
 #. strftime format of a weekday and a date.
 #: calendar/gui/calendar-model.c:283
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:467
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:2498
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:2499
 msgid "%a %m/%d/%Y"
 msgstr "%a %Y-%m-%d"
 
@@ -1871,7 +1875,7 @@ msgid "Mark the task complete"
 msgstr "Markér opgaven som fuldført"
 
 #: calendar/gui/e-calendar-table.c:342 filter/libfilter-i18n.h:7
-#: mail/folder-browser.c:608 mail/mail-view.c:165
+#: mail/folder-browser.c:608 mail/mail-view.c:160
 #: po/tmp/event-editor-dialog.glade.h:12 po/tmp/evolution-addressbook.xml.h:8
 #: po/tmp/evolution-event-editor.xml.h:19 po/tmp/evolution-mail.xml.h:11
 #: po/tmp/filter.glade.h:7 po/tmp/mail-config.glade.h:8
@@ -1889,21 +1893,21 @@ msgstr "%02i minutters opdeling"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1209
+#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1211
 #: calendar/gui/e-week-view-main-item.c:325
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:265 calendar/gui/e-day-view.c:1223
+#: calendar/gui/e-day-view-top-item.c:265 calendar/gui/e-day-view.c:1225
 #: calendar/gui/e-week-view-main-item.c:334
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1236
+#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1238
 #: calendar/gui/e-week-view-main-item.c:348
 msgid "%d %b"
 msgstr "%d %b"
@@ -1920,31 +1924,31 @@ msgstr " "
 msgid "pm"
 msgstr " "
 
-#: calendar/gui/e-day-view.c:2946 calendar/gui/e-day-view.c:2953
-#: calendar/gui/e-day-view.c:2962 calendar/gui/e-week-view.c:3169
+#: calendar/gui/e-day-view.c:2948 calendar/gui/e-day-view.c:2955
+#: calendar/gui/e-day-view.c:2964 calendar/gui/e-week-view.c:3169
 #: calendar/gui/e-week-view.c:3176 calendar/gui/e-week-view.c:3185
 msgid "New appointment..."
 msgstr "Ny aftale..."
 
-#: calendar/gui/e-day-view.c:2950 calendar/gui/e-day-view.c:2957
+#: calendar/gui/e-day-view.c:2952 calendar/gui/e-day-view.c:2959
 #: calendar/gui/e-week-view.c:3173 calendar/gui/e-week-view.c:3180
 msgid "Edit this appointment..."
 msgstr "Redigér denne aftale..."
 
-#: calendar/gui/e-day-view.c:2951 calendar/gui/e-week-view.c:3174
+#: calendar/gui/e-day-view.c:2953 calendar/gui/e-week-view.c:3174
 #: po/tmp/evolution-event-editor.xml.h:20
 msgid "Delete this appointment"
 msgstr "Slet denne aftale"
 
-#: calendar/gui/e-day-view.c:2958 calendar/gui/e-week-view.c:3181
+#: calendar/gui/e-day-view.c:2960 calendar/gui/e-week-view.c:3181
 msgid "Make this appointment movable"
 msgstr "Gør denne aftale flytbar"
 
-#: calendar/gui/e-day-view.c:2959 calendar/gui/e-week-view.c:3182
+#: calendar/gui/e-day-view.c:2961 calendar/gui/e-week-view.c:3182
 msgid "Delete this occurrence"
 msgstr "Slet denne opføring"
 
-#: calendar/gui/e-day-view.c:2960 calendar/gui/e-week-view.c:3183
+#: calendar/gui/e-day-view.c:2962 calendar/gui/e-week-view.c:3183
 msgid "Delete all occurrences"
 msgstr "Slet alle opføringer"
 
@@ -2366,7 +2370,7 @@ msgstr "Dette år (%Y)"
 msgid "Print Calendar"
 msgstr "Udskriv kalender"
 
-#: calendar/gui/print.c:1309 mail/mail-callbacks.c:962
+#: calendar/gui/print.c:1309 mail/mail-callbacks.c:914
 msgid "Print Preview"
 msgstr "Forhåndsvisning af udskrift"
 
@@ -2460,61 +2464,61 @@ msgstr "Kunne ikke indlæse %s: %s"
 msgid "Could not load %s: No initialization code in module."
 msgstr "Kunne ikke indlæse %s: Ingen initieringskode i modulet."
 
-#: camel/camel-remote-store.c:182
+#: camel/camel-remote-store.c:191
 #, c-format
 msgid "%s server %s"
 msgstr "%s-tjener %s"
 
-#: camel/camel-remote-store.c:186
+#: camel/camel-remote-store.c:195
 #, c-format
 msgid "%s service for %s on %s"
 msgstr "%s-tjeneste for %s på %s"
 
-#: camel/camel-remote-store.c:227
+#: camel/camel-remote-store.c:243
 #: camel/providers/smtp/camel-smtp-transport.c:162
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
 msgstr "Kunne ikke koble til %s (port %d): %s"
 
-#: camel/camel-remote-store.c:228
+#: camel/camel-remote-store.c:244
 msgid "(unknown host)"
 msgstr "(ukendt vært)"
 
-#: camel/camel-remote-store.c:452
+#: camel/camel-remote-store.c:483
 msgid "Server disconnected."
 msgstr "Server frakoblet."
 
-#: camel/camel-service.c:120
+#: camel/camel-service.c:138
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "URL '%s' skal indeholde et brugernavn"
 
-#: camel/camel-service.c:129
+#: camel/camel-service.c:147
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "URL '%s' skal indeholde et vertsnavn"
 
-#: camel/camel-service.c:138
+#: camel/camel-service.c:156
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "URL '%s' skal indeholde en sti"
 
-#: camel/camel-service.c:488
+#: camel/camel-service.c:526
 #, c-format
 msgid "No such host %s."
 msgstr "Ingen vært %s."
 
-#: camel/camel-service.c:491
+#: camel/camel-service.c:529
 #, c-format
 msgid "Temporarily unable to look up hostname %s."
 msgstr "Midlertidig ude af stand til at slå værtsnavn %s op."
 
-#: camel/camel-session.c:272
+#: camel/camel-session.c:297
 #, c-format
 msgid "No provider available for protocol `%s'"
 msgstr "Ingen udbyder tilgængelig for protokol `%s'"
 
-#: camel/camel-session.c:360
+#: camel/camel-session.c:388
 #, c-format
 msgid ""
 "Could not create directory %s:\n"
@@ -2538,7 +2542,7 @@ msgstr "URL-streng `%s' indeholder en ugyldig protokol"
 msgid "Port number in URL `%s' is non-numeric"
 msgstr "Portnummer i URL `%s' er ikke-numerisk"
 
-#: camel/providers/imap/camel-imap-auth.c:127
+#: camel/providers/imap/camel-imap-auth.c:133
 #, c-format
 msgid ""
 "Could not get Kerberos ticket:\n"
@@ -2547,44 +2551,44 @@ msgstr ""
 "Kunne ikke få fat på Kerberos billet:\n"
 "%s"
 
-#: camel/providers/imap/camel-imap-auth.c:198
+#: camel/providers/imap/camel-imap-auth.c:205
 msgid "Bad authentication response from server."
 msgstr "Forkert autoriseringsbesked fra server."
 
-#: camel/providers/imap/camel-imap-command.c:226
+#: camel/providers/imap/camel-imap-command.c:231
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
 msgstr "Uventet svar fra IMAP-tjener: %s"
 
-#: camel/providers/imap/camel-imap-command.c:234
+#: camel/providers/imap/camel-imap-command.c:239
 #, c-format
 msgid "IMAP command failed: %s"
 msgstr "IMAP-kommando mislykkedes: %s"
 
-#: camel/providers/imap/camel-imap-command.c:235 shell/e-storage.c:411
+#: camel/providers/imap/camel-imap-command.c:240 shell/e-storage.c:411
 msgid "Unknown error"
 msgstr "Ukendt fejl"
 
-#: camel/providers/imap/camel-imap-command.c:281
+#: camel/providers/imap/camel-imap-command.c:286
 msgid "Server response ended too soon."
 msgstr "Serversvar afsluttet for tidligt."
 
-#: camel/providers/imap/camel-imap-command.c:417
+#: camel/providers/imap/camel-imap-command.c:422
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr "Svar fra IMAP-tjener indeholdt ikke %s-information"
 
-#: camel/providers/imap/camel-imap-command.c:453
+#: camel/providers/imap/camel-imap-command.c:458
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Uventet svar 'OK' fra IMAP-tjener: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:220
+#: camel/providers/imap/camel-imap-folder.c:198
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Kunne ikke indlæse sammendrag for %s"
 
-#: camel/providers/imap/camel-imap-folder.c:579
+#: camel/providers/imap/camel-imap-folder.c:542
 msgid "Could not find message body in FETCH response."
 msgstr "Kunne ikke finde beskedskrop i FETCH-svar."
 
@@ -2596,35 +2600,35 @@ msgstr "IMAPv4"
 msgid "For reading and storing mail on IMAP servers."
 msgstr "For læsning og gemning af e-post på IMAP-tjenere."
 
-#: camel/providers/imap/camel-imap-store.c:234
+#: camel/providers/imap/camel-imap-store.c:246
 #: camel/providers/nntp/camel-nntp-store.c:293
 #: camel/providers/pop3/camel-pop3-store.c:148
 msgid "Password"
 msgstr "Adgangskode"
 
-#: camel/providers/imap/camel-imap-store.c:236
+#: camel/providers/imap/camel-imap-store.c:248
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 "Dette valg vil lade dig koble til en IMAP-tjener ved at bruge en "
 "klartekst-adgangskode."
 
-#: camel/providers/imap/camel-imap-store.c:245
+#: camel/providers/imap/camel-imap-store.c:257
 msgid "Kerberos 4"
 msgstr "Kerberos 4"
 
-#: camel/providers/imap/camel-imap-store.c:247
+#: camel/providers/imap/camel-imap-store.c:259
 msgid ""
 "This option will connect to the IMAP server using Kerberos 4 authentication."
 msgstr ""
 "Dette lader dig koble til IMAP-tjeneren ved at bruge Kerberos 4 som "
 "autenticering."
 
-#: camel/providers/imap/camel-imap-store.c:333
+#: camel/providers/imap/camel-imap-store.c:345
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sIndtast venligst IMAP-adgangskode for %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:359
+#: camel/providers/imap/camel-imap-store.c:373
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -2635,7 +2639,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:539
+#: camel/providers/imap/camel-imap-store.c:564
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Kan ikke oprette katalog %s: %s"
@@ -2720,12 +2724,12 @@ msgid "Cannot append message to maildir folder: %s: %s"
 msgstr "Kan ikke tilføje besked i maildir-mappe: %s: %s"
 
 #: camel/providers/local/camel-maildir-folder.c:195
-#: camel/providers/local/camel-maildir-folder.c:204
-#: camel/providers/local/camel-maildir-folder.c:212
-#: camel/providers/local/camel-mbox-folder.c:311
+#: camel/providers/local/camel-maildir-folder.c:207
+#: camel/providers/local/camel-maildir-folder.c:215
+#: camel/providers/local/camel-mbox-folder.c:317
 #: camel/providers/local/camel-mh-folder.c:183
-#: camel/providers/local/camel-mh-folder.c:189
-#: camel/providers/local/camel-mh-folder.c:197
+#: camel/providers/local/camel-mh-folder.c:192
+#: camel/providers/local/camel-mh-folder.c:200
 #, c-format
 msgid ""
 "Cannot get message: %s\n"
@@ -2735,13 +2739,13 @@ msgstr ""
 "  %s"
 
 #: camel/providers/local/camel-maildir-folder.c:195
-#: camel/providers/local/camel-mbox-folder.c:311
+#: camel/providers/local/camel-mbox-folder.c:317
 #: camel/providers/local/camel-mh-folder.c:183
 msgid "No such message"
 msgstr "Ingen sådan besked"
 
-#: camel/providers/local/camel-maildir-folder.c:213
-#: camel/providers/local/camel-mh-folder.c:198
+#: camel/providers/local/camel-maildir-folder.c:216
+#: camel/providers/local/camel-mh-folder.c:201
 msgid "Invalid message contents"
 msgstr "Ugyldigt indhold af meddelelse"
 
@@ -2788,19 +2792,19 @@ msgstr "Kunne ikke slette mappe `%s': %s"
 msgid "not a maildir directory"
 msgstr "ikke et maildir katalog"
 
-#: camel/providers/local/camel-mbox-folder.c:195
+#: camel/providers/local/camel-mbox-folder.c:201
 #, c-format
 msgid "Cannot open mailbox: %s: %s\n"
 msgstr "Kan ikke åbne postboks: %s: %s\n"
 
-#: camel/providers/local/camel-mbox-folder.c:251
+#: camel/providers/local/camel-mbox-folder.c:257
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
 msgstr "Kan ikke tilføje besked i mbox-filen: %s: %s"
 
-#: camel/providers/local/camel-mbox-folder.c:327
-#: camel/providers/local/camel-mbox-folder.c:357
-#: camel/providers/local/camel-mbox-folder.c:368
+#: camel/providers/local/camel-mbox-folder.c:333
+#: camel/providers/local/camel-mbox-folder.c:365
+#: camel/providers/local/camel-mbox-folder.c:378
 #, c-format
 msgid ""
 "Cannot get message: %s from folder %s\n"
@@ -2809,11 +2813,11 @@ msgstr ""
 "Kan ikke hente besked: %s fra mappe %s\n"
 "  %s"
 
-#: camel/providers/local/camel-mbox-folder.c:358
+#: camel/providers/local/camel-mbox-folder.c:366
 msgid "The folder appears to be irrecoverably corrupted."
 msgstr "Mappen set ud til at være uigenkaldeligt ødelagt."
 
-#: camel/providers/local/camel-mbox-folder.c:369
+#: camel/providers/local/camel-mbox-folder.c:379
 msgid "Message construction failed: Corrupt mailbox?"
 msgstr "Fremstilling af besked mislykkedes: Er postkassen ødelagt?"
 
@@ -2866,56 +2870,56 @@ msgstr "Kunne ikke åbne mappe: %s: summerer fra position %ld: %s"
 msgid "Fatal mail parser error near position %ld in folder %s"
 msgstr "Uoprettelig fejl ved fortolkning af post nær position %ld i mappe %s"
 
-#: camel/providers/local/camel-mbox-summary.c:341
+#: camel/providers/local/camel-mbox-summary.c:343
 #, c-format
 msgid "Cannot summarise folder: %s: %s"
 msgstr "Kan ikke lave oversigt over folder: %s: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:475
-#: camel/providers/local/camel-mbox-summary.c:661
+#: camel/providers/local/camel-mbox-summary.c:477
+#: camel/providers/local/camel-mbox-summary.c:668
 #, c-format
 msgid "Could not open folder to summarise: %s: %s"
 msgstr "Kunne ikke åbne folder der skal laves oversigt for: %s: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:491
+#: camel/providers/local/camel-mbox-summary.c:493
 #, c-format
 msgid "Cannot open temporary mailbox: %s"
 msgstr "Kan ikke åbne midlertidig postboks: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:512
-#: camel/providers/local/camel-mbox-summary.c:520
-#: camel/providers/local/camel-mbox-summary.c:691
-#: camel/providers/local/camel-mbox-summary.c:699
+#: camel/providers/local/camel-mbox-summary.c:514
+#: camel/providers/local/camel-mbox-summary.c:522
+#: camel/providers/local/camel-mbox-summary.c:701
+#: camel/providers/local/camel-mbox-summary.c:709
 msgid "Summary and folder mismatch, even after a sync"
 msgstr "Oversigt og mappe uoverensstemmelse, selv efter synkronisering"
 
-#: camel/providers/local/camel-mbox-summary.c:562
+#: camel/providers/local/camel-mbox-summary.c:565
 #, c-format
 msgid "Error writing to temp mailbox: %s"
 msgstr "Fejl under skriving til midlertidig postboks: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:579
+#: camel/providers/local/camel-mbox-summary.c:582
 #, c-format
 msgid "Writing to tmp mailbox failed: %s: %s"
 msgstr "Fejl under skriving til midlertidig postboks: %s: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:595
-#: camel/providers/local/camel-mbox-summary.c:748
+#: camel/providers/local/camel-mbox-summary.c:600
+#: camel/providers/local/camel-mbox-summary.c:759
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr "Kunne ikke lukke kildemappe %s: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:604
+#: camel/providers/local/camel-mbox-summary.c:609
 #, c-format
 msgid "Could not close temp folder: %s"
 msgstr "Kunne ikke lukke midlertidig mappe: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:615
+#: camel/providers/local/camel-mbox-summary.c:620
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "Kunne ikke ændre navn på mappe: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:817
+#: camel/providers/local/camel-mbox-summary.c:830
 #, c-format
 msgid "Unknown error: %s"
 msgstr "Ukendt fejl: %s"
@@ -2948,7 +2952,7 @@ msgstr "Fejl ved sending af brugernavn til tjener"
 msgid "Server rejected username/password"
 msgstr "Tjeneren godtog ikke brugernavn/adgangskode"
 
-#: camel/providers/nntp/camel-nntp-folder.c:144
+#: camel/providers/nntp/camel-nntp-folder.c:115
 #, c-format
 msgid "Message %s not found."
 msgstr "Besked %s ikke fundet"
@@ -3002,16 +3006,16 @@ msgstr ""
 msgid "Unable to open or create .newsrc file for %s: %s"
 msgstr "Kunne ikke åbne eller oprette .newsrc-fil for %s: %s"
 
-#: camel/providers/pop3/camel-pop3-folder.c:179
+#: camel/providers/pop3/camel-pop3-folder.c:180
 msgid "Could not open folder: message listing was incomplete."
 msgstr "Kunne ikke åbne mappe: beskedslisten var ikke komplet."
 
-#: camel/providers/pop3/camel-pop3-folder.c:273
+#: camel/providers/pop3/camel-pop3-folder.c:274
 #, c-format
 msgid "No message with uid %s"
 msgstr "Ingen besked med uid %s"
 
-#: camel/providers/pop3/camel-pop3-folder.c:287
+#: camel/providers/pop3/camel-pop3-folder.c:288
 #, c-format
 msgid "Could not retrieve message from POP server %s: %s"
 msgstr "Kunne ikke hente besked fra POP-tjener %s: %s"
@@ -4014,7 +4018,7 @@ msgstr "Filtrér efter afsender"
 msgid "Filter on Recipients"
 msgstr "Filtrér efter modtager"
 
-#: mail/folder-browser.c:573 mail/folder-browser.c:690
+#: mail/folder-browser.c:573 mail/folder-browser.c:692
 msgid "Filter on Mailing List"
 msgstr "Filtrér efter epostliste"
 
@@ -4035,11 +4039,11 @@ msgstr "Skjul læste"
 msgid "Hide deleted"
 msgstr "Skjul slettede"
 
-#: mail/folder-browser.c:586 mail/folder-browser.c:701
+#: mail/folder-browser.c:586 mail/folder-browser.c:703
 msgid "Hide Subject"
 msgstr "Skjul emne"
 
-#: mail/folder-browser.c:588 mail/folder-browser.c:707
+#: mail/folder-browser.c:588 mail/folder-browser.c:709
 msgid "Hide from Sender"
 msgstr "Skjul for afsender"
 
@@ -4051,7 +4055,7 @@ msgstr "Åbn"
 msgid "Save As..."
 msgstr "Gem som..."
 
-#: mail/folder-browser.c:596 mail/mail-view.c:163
+#: mail/folder-browser.c:596 mail/mail-view.c:158
 #: po/tmp/evolution-addressbook.xml.h:13 po/tmp/evolution-calendar.xml.h:23
 #: po/tmp/evolution-mail.xml.h:32
 msgid "Print"
@@ -4061,12 +4065,12 @@ msgstr "Udskriv"
 msgid "Reply to Sender"
 msgstr "Svar til afsender"
 
-#: mail/folder-browser.c:599 mail/mail-view.c:156
+#: mail/folder-browser.c:599 mail/mail-view.c:151
 #: po/tmp/evolution-mail.xml.h:38
 msgid "Reply to All"
 msgstr "Svar til alle"
 
-#: mail/folder-browser.c:600 mail/mail-view.c:159
+#: mail/folder-browser.c:600 mail/mail-view.c:154
 #: po/tmp/evolution-mail.xml.h:17
 msgid "Forward"
 msgstr "Videresend"
@@ -4109,17 +4113,17 @@ msgstr "Skab regel fra besked"
 msgid "Hide Messages"
 msgstr "Skjul beskeder"
 
-#: mail/folder-browser.c:692
+#: mail/folder-browser.c:694
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Filtrér efter epostliste (%s)"
 
-#: mail/folder-browser.c:698
+#: mail/folder-browser.c:700
 #, c-format
 msgid "Hide Subject \"%s\""
 msgstr "Shjul emne %s"
 
-#: mail/folder-browser.c:704
+#: mail/folder-browser.c:706
 #, c-format
 msgid "Hide from Sender <%s>"
 msgstr "Skjul for afsender <%s>"
@@ -4204,7 +4208,7 @@ msgstr "Flyt meddelelse(r) til"
 msgid "Copy message(s) to"
 msgstr "Kopiér meddelelse(r) til"
 
-#: mail/mail-callbacks.c:665
+#: mail/mail-callbacks.c:669
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -4212,11 +4216,11 @@ msgstr ""
 "Du kan kun redigere beskeder lagret\n"
 "i Skitser-kataloget."
 
-#: mail/mail-callbacks.c:699 mail/mail-display.c:74
+#: mail/mail-callbacks.c:703 mail/mail-display.c:74
 msgid "Overwrite file?"
 msgstr "Overskriv fil?"
 
-#: mail/mail-callbacks.c:703 mail/mail-display.c:78
+#: mail/mail-callbacks.c:707 mail/mail-display.c:78
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -4224,15 +4228,15 @@ msgstr ""
 "En fil med samme navn eksisterer allerede.\n"
 "Overskriv den?"
 
-#: mail/mail-callbacks.c:748
+#: mail/mail-callbacks.c:752
 msgid "Save Message As..."
 msgstr "Gem besked som..."
 
-#: mail/mail-callbacks.c:750
+#: mail/mail-callbacks.c:754
 msgid "Save Messages As..."
 msgstr "Gem beskeder som..."
 
-#: mail/mail-callbacks.c:877
+#: mail/mail-callbacks.c:829
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -4241,11 +4245,11 @@ msgstr ""
 "Fejl ved indlæsning af filter information:\n"
 "%s"
 
-#: mail/mail-callbacks.c:922
+#: mail/mail-callbacks.c:874
 msgid "Print Message"
 msgstr "Udskriv besked"
 
-#: mail/mail-callbacks.c:969
+#: mail/mail-callbacks.c:921
 msgid "Printing of message failed"
 msgstr "Udskrivning af besked mislykkedes"
 
@@ -4646,26 +4650,26 @@ msgstr "Registrerer lokal mappe"
 msgid "Register local folder"
 msgstr "Registrér lokal mappe"
 
-#: mail/mail-ops.c:79
+#: mail/mail-ops.c:82
 #, c-format
 msgid "Fetching email from %s"
 msgstr "Henter epost fra %s"
 
-#: mail/mail-ops.c:81
+#: mail/mail-ops.c:84
 #, c-format
 msgid "Fetch email from %s"
 msgstr "Hent epost fra %s"
 
-#: mail/mail-ops.c:331
+#: mail/mail-ops.c:329
 #, c-format
 msgid "There is no new mail at %s."
 msgstr "Ingen ny epost på %s."
 
-#: mail/mail-ops.c:401
+#: mail/mail-ops.c:399
 msgid "Filtering email on demand"
 msgstr "Fi_ltrerer epost på anmodning"
 
-#: mail/mail-ops.c:403
+#: mail/mail-ops.c:401
 msgid "Filter email on demand"
 msgstr "Fi_ltrér epost på anmodning"
 
@@ -4762,166 +4766,166 @@ msgstr "Markér meddelelser i mappe '%s'"
 msgid "Marking message %d of %d"
 msgstr "Markerer meddelelse %d ud af %d"
 
-#: mail/mail-ops.c:1295
+#: mail/mail-ops.c:1296
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Skanner mapper i '%s'"
 
-#: mail/mail-ops.c:1297
+#: mail/mail-ops.c:1298
 #, c-format
 msgid "Scan folders in \"%s\""
 msgstr "Skan mapper i '%s'"
 
-#: mail/mail-ops.c:1366 mail/subscribe-dialog.c:339
+#: mail/mail-ops.c:1367 mail/subscribe-dialog.c:339
 msgid "(No description)"
 msgstr "(Ingen beskrivelse)"
 
-#: mail/mail-ops.c:1432
+#: mail/mail-ops.c:1433
 #, c-format
 msgid "Attaching messages from folder \"%s\""
 msgstr "Vedhæfter bilag fra mappe '%s'"
 
-#: mail/mail-ops.c:1435
+#: mail/mail-ops.c:1436
 #, c-format
 msgid "Attach messages from \"%s\""
 msgstr "Vedhæft bilag fra '%s'"
 
-#: mail/mail-ops.c:1535
+#: mail/mail-ops.c:1536
 #, c-format
 msgid "Forwarding messages \"%s\""
 msgstr "Videresender meddelelser '%s'"
 
-#: mail/mail-ops.c:1539
+#: mail/mail-ops.c:1540
 msgid "Forwarding a message without a subject"
 msgstr "Videresender en meddelelse uden emne"
 
-#: mail/mail-ops.c:1542
+#: mail/mail-ops.c:1543
 #, c-format
 msgid "Forward message \"%s\""
 msgstr "Videresend meddelelse '%s'"
 
-#: mail/mail-ops.c:1546
+#: mail/mail-ops.c:1547
 msgid "Forward a message without a subject"
 msgstr "Videresend en meddelelse uden emne"
 
-#: mail/mail-ops.c:1593
+#: mail/mail-ops.c:1594
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr "Henter besked nummer %d af %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1610
+#: mail/mail-ops.c:1611
 msgid ""
 "Failed to generate mime part from message while generating forwarded message."
 msgstr ""
 "Kunne ikke generere MIME-del fra besked under generering af videresendt "
 "besked."
 
-#: mail/mail-ops.c:1665
+#: mail/mail-ops.c:1666
 msgid "Forwarded messages"
 msgstr "Videresendte meddelelser"
 
-#: mail/mail-ops.c:1679
+#: mail/mail-ops.c:1680
 msgid "Forwarded message:\n"
 msgstr "Videresendt meddelelse:\n"
 
-#: mail/mail-ops.c:1748
+#: mail/mail-ops.c:1749
 #, c-format
 msgid "Loading \"%s\""
 msgstr "Indlæser '%s'"
 
-#: mail/mail-ops.c:1750
+#: mail/mail-ops.c:1751
 #, c-format
 msgid "Load \"%s\""
 msgstr "Indlæs '%s'"
 
-#: mail/mail-ops.c:1853
+#: mail/mail-ops.c:1854
 #, c-format
 msgid "Creating \"%s\""
 msgstr "Opretter '%s'"
 
-#: mail/mail-ops.c:1855
+#: mail/mail-ops.c:1856
 #, c-format
 msgid "Create \"%s\""
 msgstr "Opret '%s'"
 
-#: mail/mail-ops.c:1903
+#: mail/mail-ops.c:1904
 msgid "Exception while reporting result to shell component listener."
 msgstr "Undtagelse under rapportering af resultat til skalkomponentens lytter."
 
-#: mail/mail-ops.c:1949
+#: mail/mail-ops.c:1950
 #, c-format
 msgid "Synchronizing \"%s\""
 msgstr "Synkroniserer \"%s\""
 
-#: mail/mail-ops.c:1951
+#: mail/mail-ops.c:1952
 #, c-format
 msgid "Synchronize \"%s\""
 msgstr "Synkronisér \"%s\""
 
-#: mail/mail-ops.c:2015
+#: mail/mail-ops.c:2017
 #, c-format
 msgid "Displaying message UID \"%s\""
 msgstr "Viser besked-UID \"%s\""
 
-#: mail/mail-ops.c:2018
+#: mail/mail-ops.c:2020
 msgid "Clearing message display"
 msgstr "Tømmer beskedsvisning"
 
-#: mail/mail-ops.c:2021
+#: mail/mail-ops.c:2023
 #, c-format
 msgid "Display message UID \"%s\""
 msgstr "Vis beskeds-UID \"%s\""
 
-#: mail/mail-ops.c:2024
+#: mail/mail-ops.c:2026
 msgid "Clear message display"
 msgstr "Tøm beskedsvisning"
 
-#: mail/mail-ops.c:2137
+#: mail/mail-ops.c:2217
 #, c-format
 msgid "Opening messages from folder \"%s\""
 msgstr "Åbner beskeder fra mappe \"%s\""
 
-#: mail/mail-ops.c:2140
+#: mail/mail-ops.c:2220
 #, c-format
 msgid "Open messages from \"%s\""
 msgstr "Åbn beskeder fra \"%s\""
 
-#: mail/mail-ops.c:2244
+#: mail/mail-ops.c:2324
 #, c-format
 msgid "Loading %s Folder"
 msgstr "Indlæser '%s' mappe"
 
-#: mail/mail-ops.c:2246
+#: mail/mail-ops.c:2326
 #, c-format
 msgid "Load %s Folder"
 msgstr "Indlæs '%s' mappe"
 
-#: mail/mail-ops.c:2310
+#: mail/mail-ops.c:2390
 #, c-format
 msgid "Viewing messages from folder \"%s\""
 msgstr "Viser beskeder fra mappe \"%s\""
 
-#: mail/mail-ops.c:2313
+#: mail/mail-ops.c:2393
 #, c-format
 msgid "View messages from \"%s\""
 msgstr "Vis beskeder fra \"%s\""
 
-#: mail/mail-ops.c:2346
+#: mail/mail-ops.c:2426
 #, c-format
 msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr "Henter besked %d af %d (uid \"%s\")"
 
-#: mail/mail-ops.c:2437
+#: mail/mail-ops.c:2517
 #, c-format
 msgid "Saving messages from folder \"%s\""
 msgstr "Gemmer beskeder fra mappe '%s'"
 
-#: mail/mail-ops.c:2440
+#: mail/mail-ops.c:2520
 #, c-format
 msgid "Save messages from folder \"%s\""
 msgstr "Gem beskeder fra mappe '%s'"
 
-#: mail/mail-ops.c:2483
+#: mail/mail-ops.c:2563
 #, c-format
 msgid "Saving message %d of %d (uid \"%s\")"
 msgstr "Gemmer besked %d af %d (uid \"%s\")"
@@ -4998,30 +5002,30 @@ msgstr "Henter besked %d af %d"
 msgid "Writing message %d of %d"
 msgstr "Skriver besked %d af %d"
 
-#: mail/mail-tools.c:343
+#: mail/mail-tools.c:346
 #, c-format
 msgid "Saving changes to %s"
 msgstr "gemmer ændringer til %s"
 
-#: mail/mail-tools.c:380
+#: mail/mail-tools.c:383
 #, c-format
 msgid "[%s] (forwarded message)"
 msgstr "[%s] (videresendt meddelelse)"
 
-#: mail/mail-tools.c:390
+#: mail/mail-tools.c:393
 msgid "Fwd: (no subject)"
 msgstr "Fwd: (uden emne)"
 
-#: mail/mail-tools.c:429
+#: mail/mail-tools.c:432
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Videresendt meddelelse - %s"
 
-#: mail/mail-tools.c:431
+#: mail/mail-tools.c:434
 msgid "Forwarded message (no subject)"
 msgstr "Videresendt meddelelse (intet emne)"
 
-#: mail/mail-tools.c:534
+#: mail/mail-tools.c:537
 #, c-format
 msgid ""
 "Cannot open location `%s':\n"
@@ -5040,62 +5044,86 @@ msgstr "Ny VFolder"
 
 #. GNOMEUIINFO_ITEM_STOCK (N_("Save"), N_("Save this message"),
 #. save_msg, GNOME_STOCK_PIXMAP_SAVE),
-#: mail/mail-view.c:153 po/tmp/evolution-mail.xml.h:37
+#: mail/mail-view.c:148 po/tmp/evolution-mail.xml.h:37
 msgid "Reply"
 msgstr "Svar"
 
-#: mail/mail-view.c:153 po/tmp/evolution-mail.xml.h:42
+#: mail/mail-view.c:148 po/tmp/evolution-mail.xml.h:42
 msgid "Reply to the sender of this message"
 msgstr "Svar til afsenderen af denne meddelelse"
 
-#: mail/mail-view.c:156 po/tmp/evolution-mail.xml.h:41
+#: mail/mail-view.c:151 po/tmp/evolution-mail.xml.h:41
 msgid "Reply to all recipients of this message"
 msgstr "Svar til alle modtagere af denne meddelelse"
 
-#: mail/mail-view.c:159 po/tmp/evolution-mail.xml.h:19
+#: mail/mail-view.c:154 po/tmp/evolution-mail.xml.h:19
 msgid "Forward this message"
 msgstr "Videresend denne meddelelse"
 
-#: mail/mail-view.c:163 po/tmp/evolution-mail.xml.h:36
+#: mail/mail-view.c:158 po/tmp/evolution-mail.xml.h:36
 msgid "Print the selected message"
 msgstr "Udskriv den valgte meddelelse"
 
-#: mail/mail-view.c:165 po/tmp/evolution-mail.xml.h:12
+#: mail/mail-view.c:160 po/tmp/evolution-mail.xml.h:12
 msgid "Delete this message"
 msgstr "Slet denne meddelelse"
 
-#: mail/message-list.c:575
+#: mail/message-list.c:590
 msgid "Unseen"
 msgstr "Ulæst"
 
-#: mail/message-list.c:578
+#: mail/message-list.c:593
 msgid "Seen"
 msgstr "Læst"
 
-#: mail/message-list.c:581
+#: mail/message-list.c:596
 msgid "Answered"
 msgstr "Besvaret"
 
-#: mail/message-list.c:849
+#: mail/message-list.c:881
 #, c-format
 msgid "[ %s ]"
 msgstr "[ %s ]"
 
 #. well, we could scan more children, build up a (more accurate) list, but this should do ok
-#: mail/message-list.c:861 mail/message-list.c:876
+#: mail/message-list.c:893 mail/message-list.c:909
 #, c-format
 msgid "%s, et al."
 msgstr "%s m.fl."
 
-#: mail/message-list.c:863 mail/message-list.c:878
+#: mail/message-list.c:896 mail/message-list.c:912
 msgid "<unknown>"
 msgstr "<ukendt>"
 
-#: mail/message-list.c:2275
+#: mail/message-list.c:965
+msgid "?"
+msgstr "?"
+
+#: mail/message-list.c:972
+msgid "Today %l:%M %p"
+msgstr "Idag %h:%M"
+
+#: mail/message-list.c:981
+msgid "Yesterday %l:%M %p"
+msgstr "Igår %h:%M"
+
+#: mail/message-list.c:993
+msgid "%a %l:%M %p"
+msgstr "%a %H:%M"
+
+#: mail/message-list.c:1001
+msgid "%b %d %l:%M %p"
+msgstr "%a %Y-%m-%d %H:%M:%S"
+
+#: mail/message-list.c:1003
+msgid "%b %d %Y"
+msgstr "%a %d %Y"
+
+#: mail/message-list.c:2347
 msgid "Rebuilding message view"
 msgstr "Opbygger beskedsvisningen igen"
 
-#: mail/message-list.c:2277
+#: mail/message-list.c:2349
 msgid "Rebuild message view"
 msgstr "Genopbyg beskedsvisningen"
 
@@ -6215,12 +6243,12 @@ msgid "Hide _Selected messages"
 msgstr "Skjul _valgte beskeder"
 
 #: po/tmp/evolution-mail.xml.h:25
-msgid "Mail _Filters"
-msgstr "E-post _filtre"
+msgid "Mail _Filters..."
+msgstr "E-post _filtre..."
 
 #: po/tmp/evolution-mail.xml.h:26
-msgid "Manage Subscriptions"
-msgstr "Behandl abonnementer"
+msgid "Manage Subscriptions..."
+msgstr "Behandl abonnementer..."
 
 #: po/tmp/evolution-mail.xml.h:27
 msgid "Mar_k As Read"
@@ -6323,8 +6351,8 @@ msgid "_Invert Selection"
 msgstr "Re_versér udvalg"
 
 #: po/tmp/evolution-mail.xml.h:59
-msgid "_Mail Configuration"
-msgstr "_Epost-konfiguration"
+msgid "_Mail Configuration..."
+msgstr "Epost-konfiguration..."
 
 #: po/tmp/evolution-mail.xml.h:60
 msgid "_Message"
@@ -6363,8 +6391,8 @@ msgid "_VFolder on Subject"
 msgstr "_VFolder for emne"
 
 #: po/tmp/evolution-mail.xml.h:69
-msgid "_Virtual Folder Editor"
-msgstr "Redigering af _virtuelle mapper"
+msgid "_Virtual Folder Editor..."
+msgstr "Redigering af _virtuelle mapper..."
 
 #.
 #. * Translatable strings file generated by extract-ui.
@@ -6613,7 +6641,7 @@ msgstr "Opgave"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:463
-#: widgets/meeting-time-sel/e-meeting-time-sel.c:2470
+#: widgets/meeting-time-sel/e-meeting-time-sel.c:2471
 msgid "%A, %B %d, %Y"
 msgstr "%A den %d. %B %Y"
 
@@ -6728,6 +6756,9 @@ msgstr " "
 #, c-format
 msgid "Group %i"
 msgstr "Gruppe %i"
+
+#~ msgid "_Mail Configuration"
+#~ msgstr "_Epost-konfiguration"
 
 #~ msgid "appointment"
 #~ msgstr "aftale"
@@ -7035,9 +7066,6 @@ msgstr "Gruppe %i"
 
 #~ msgid "_Open"
 #~ msgstr "_Åbn"
-
-#~ msgid "_Mail Configuration..."
-#~ msgstr "Epost-konfiguration..."
 
 #~ msgid "Create a new folder"
 #~ msgstr "Opret en ny mappe"
