@@ -26,11 +26,13 @@
  */
 
 #include <config.h>
+#include "e-book-util.h"
+
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
-#include "e-book-util.h"
+#include "e-card-compare.h"
 
 gboolean
 e_book_load_local_address_book (EBook *book, EBookCallback open_response, gpointer closure)
@@ -351,9 +353,10 @@ name_and_email_cb (EBook *book, EBookSimpleQueryStatus status, const GList *card
 
 	while (cards) {
 		ECard *card = E_CARD (cards->data);
-		if ((info->name == NULL || e_card_name_match_string (card->name, info->name))
-		    && (info->email == NULL || e_card_email_match_string (card, info->email)))
+		if ((info->name == NULL || e_card_compare_name_to_string (card, info->name) >= E_CARD_MATCH_VAGUE)
+		    && (info->email == NULL || e_card_email_match_string (card, info->email))) {
 			filtered_cards = g_list_append (filtered_cards, card);
+		}
 		cards = g_list_next (cards);
 	}
 
@@ -392,7 +395,7 @@ e_book_name_and_email_query (EBook *book,
 	 * in the usernames of everyone out there, it shouldn't be that bad.  (Famous last words.)
 	 */
 	if (email) {
-		const gchar *t=email;
+		const gchar *t = email;
 		while (*t && *t != '@')
 			++t;
 		if (*t == '@') {
@@ -414,7 +417,7 @@ e_book_name_and_email_query (EBook *book,
 		gint i, count=0;
 
 		g_strstrip (name_cpy);
-		namev = g_strsplit (" ", name_cpy, 0);
+		namev = g_strsplit (name_cpy, " ", 0);
 		for (i=0; namev[i]; ++i) {
 			if (*namev[i]) {
 				char *str = namev[i];

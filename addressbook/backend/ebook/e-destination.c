@@ -908,10 +908,15 @@ static void
 name_and_email_simple_query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpointer closure)
 {
 	EDestination *dest = E_DESTINATION (closure);
-
+	
 	if (status == E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS && g_list_length ((GList *) cards) == 1) {
 		ECard *card = E_CARD (cards->data);
-		gint email_num = e_card_email_find_number (card, e_destination_get_email (dest));
+		const gchar *email = e_destination_get_email (dest);
+		gint email_num = 0;
+
+		if (e_destination_is_valid (dest) && email && *email) {
+			email_num = e_card_email_find_number (card, e_destination_get_email (dest));
+		}
 
 		if (email_num >= 0) {
 			dest->priv->has_been_cardified = TRUE;
@@ -933,27 +938,36 @@ nickname_simple_query_cb (EBook *book, EBookSimpleQueryStatus status, const GLis
 {
 	EDestination *dest = E_DESTINATION (closure);
 
-	if (status == E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS && g_list_length ((GList *) cards) == 1) {
-		dest->priv->has_been_cardified = TRUE;
-		e_destination_set_card (dest, E_CARD (cards->data), 0); /* Uses primary e-mail by default. */
-		gtk_signal_emit (GTK_OBJECT (dest), e_destination_signals[CARDIFIED]);
+	if (status == E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS) {
 
-		gtk_object_unref (GTK_OBJECT (dest)); /* drop the reference held by the query */
+		if (g_list_length ((GList *) cards) == 1) {
+			dest->priv->has_been_cardified = TRUE;
+			e_destination_set_card (dest, E_CARD (cards->data), 0); /* Uses primary e-mail by default. */
+			gtk_signal_emit (GTK_OBJECT (dest), e_destination_signals[CARDIFIED]);
+			
+			gtk_object_unref (GTK_OBJECT (dest)); /* drop the reference held by the query */
+			
+		} else {
+		
+			/* We can only end up here if we don't look at all like an e-mail address, so
+			   we do a name-only query on the textrep */
 
+			e_book_name_and_email_query (book,
+						     e_destination_get_textrep (dest),
+						     NULL,
+						     name_and_email_simple_query_cb,
+						     dest);
+		}
 	} else {
-
-		e_book_name_and_email_query (book,
-					     e_destination_get_name (dest),
-					     e_destination_get_email (dest),
-					     name_and_email_simple_query_cb,
-					     dest);
+		/* Something went wrong with the query: drop our ref to the destination and return. */
+		gtk_object_unref (GTK_OBJECT (dest));
 	}
 }
 
 static void
 launch_cardify_query (EDestination *dest)
 {
-	if (strchr (e_destination_get_textrep (dest), '@') == NULL) {
+	if (! e_destination_is_valid (dest)) {
 		
 		/* If it doesn't look like an e-mail address, see if it is a nickname. */
 		e_book_nickname_query (dest->priv->cardify_book,

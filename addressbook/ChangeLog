@@ -1,3 +1,31 @@
+2001-09-19  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-destination.c (name_and_email_simple_query_cb):
+	Use the default e-mail address if we have nothing else to go on.
+	Previously we just failed, which basically meant that name-only
+	searches would never work properly.
+	(nickname_simple_query_cb): The logic was a bit tangled here; if
+	our query status isn't SUCCESS, always give up but don't leak the
+	destination.  And if our nickname query fails and we try the
+	name-and-email query, use the textrep for a name-only search.  The
+	only reason we are doing a nickname query in the first place is if
+	we have an obviously invalid e-mail.
+	(launch_cardify_query): Use e_destination_is_valid to determine
+	if we should try a nickname query first.
+	These changes basically fix bug 7728, and generally make the
+	auto-cardification of addresses a lot more clever and robust.
+
+	* backend/ebook/e-book-util.c (name_and_email_cb): Use
+	e_card_compare_name_to_string instead of e_card_name_match_string.
+	(e_book_name_and_email_query): The arguments to g_strsplit were
+	in the wrong order.  Doh!
+
+	* backend/ebook/e-card-compare.c (e_card_compare_name_to_string):
+	Added.  Replaces e_card_name_match_string, and actually works.
+
+	* backend/ebook/e-card.c: Removed e_card_name_match_string
+	function, which didn't work particularly well.
+
 2001-09-19  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (cursor_cb): don't add to the complete

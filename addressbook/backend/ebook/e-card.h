@@ -164,7 +164,6 @@ ECardName            *e_card_name_copy                                    (const
 void                  e_card_name_free                                    (ECardName                  *name);
 char                 *e_card_name_to_string                               (const ECardName            *name);
 ECardName            *e_card_name_from_string                             (const char                 *full_name);
-gboolean              e_card_name_match_string                            (const ECardName            *name,
 									   const gchar                *str);
 
 /* ECardArbitrary manipulation */

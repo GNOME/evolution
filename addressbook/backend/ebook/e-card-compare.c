@@ -62,6 +62,8 @@ static gchar *name_synonyms[][2] = {
 	{ "elizabeth", "liz" },
 	{ "jeff", "geoff" },
 	{ "jeff", "geoffrey" },
+	{ "tom", "thomas" },
+	{ "dave", "david" },
 	{ "jim", "james" },
 	{ "abigal", "abby" },
 	{ "amanda", "amy" },
@@ -101,14 +103,79 @@ name_fragment_match (const gchar *a, const gchar *b)
 }
 
 ECardMatchType
+e_card_compare_name_to_string (ECard *card, const gchar *str)
+{
+	gchar **namev;
+	gboolean matched_given = FALSE, matched_additional = FALSE, matched_family = FALSE, mismatch = FALSE;
+	ECardMatchType match_type;
+	gint i;
+
+	g_return_val_if_fail (E_IS_CARD (card), E_CARD_MATCH_NOT_APPLICABLE);
+	g_return_val_if_fail (card->name != NULL, E_CARD_MATCH_NOT_APPLICABLE);
+	g_return_val_if_fail (str != NULL, E_CARD_MATCH_NOT_APPLICABLE);
+
+	namev = g_strsplit (str, " ", 0);
+	
+	for (i = 0; namev[i] && !mismatch; ++i) {
+		
+		if (card->name->given
+		    && !matched_given
+		    && name_fragment_match (card->name->given, namev[i])) {
+
+			matched_given = TRUE;
+
+		} else if (card->name->additional
+			   && !matched_additional
+			   && name_fragment_match (card->name->additional, namev[i])) {
+
+			matched_additional = TRUE;
+
+		} else if (card->name->family
+			   && !matched_family
+			   && !g_utf8_strcasecmp (card->name->family, namev[i])) {
+
+			matched_family = TRUE;
+
+		} else {
+
+			mismatch = TRUE;
+
+		}
+	}
+
+
+	match_type = E_CARD_MATCH_NONE;
+	if (! mismatch) {
+		
+		switch ( (matched_family ? 1 : 0) + (matched_additional ? 1 : 0) + (matched_given ? 1 : 0)) {
+
+		case 0:
+			match_type =  E_CARD_MATCH_NONE;
+			break;
+		case 1:
+			match_type = E_CARD_MATCH_VAGUE;
+			break;
+		case 2:
+		case 3:
+			match_type = E_CARD_MATCH_PARTIAL;
+			break;
+		}
+	}
+
+	g_strfreev (namev);
+
+	return match_type;
+}
+
+ECardMatchType
 e_card_compare_name (ECard *card1, ECard *card2)
 {
 	ECardName *a, *b;
 	gint matches=0, possible=0;
 	gboolean given_match = FALSE, additional_match = FALSE, family_match = FALSE;
 
-	g_return_val_if_fail (card1 && E_IS_CARD (card1), E_CARD_MATCH_NOT_APPLICABLE);
-	g_return_val_if_fail (card2 && E_IS_CARD (card2), E_CARD_MATCH_NOT_APPLICABLE);
+	g_return_val_if_fail (E_IS_CARD (card1), E_CARD_MATCH_NOT_APPLICABLE);
+	g_return_val_if_fail (E_IS_CARD (card2), E_CARD_MATCH_NOT_APPLICABLE);
 
 	a = card1->name;
 	b = card2->name;

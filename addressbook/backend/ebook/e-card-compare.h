@@ -41,6 +41,8 @@ typedef enum {
 
 typedef void (*ECardMatchQueryCallback) (ECard *card, ECard *match, ECardMatchType type, gpointer closure);
 
+ECardMatchType e_card_compare_name_to_string (ECard *card, const gchar *str);
+
 ECardMatchType e_card_compare_name      (ECard *card1, ECard *card2);
 ECardMatchType e_card_compare_nickname  (ECard *card1, ECard *card2);
 ECardMatchType e_card_compare_email     (ECard *card1, ECard *card2);
