@@ -1190,6 +1190,11 @@ e_table_item_focus (ETableItem *eti, int col, int row)
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
 	
+	/*
+	 * make sure we have the Gtk Focus
+	 */
+	gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (eti));
+
 	if (eti->focused_col != -1)
 		e_table_item_unfocus (eti);
 
@@ -1197,11 +1202,6 @@ e_table_item_focus (ETableItem *eti, int col, int row)
 	eti->focused_row = row;
 
 	eti_request_region_redraw (eti, col, row, col, row, FOCUSED_BORDER);
-
-	/*
-	 * make sure we have the Gtk Focus
-	 */
-	gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (eti));
 }
 
 void
