@@ -58,7 +58,7 @@
 
       <menuitem name="MailFilters" verb="SetMailFilter" _label="Mail _Filters"/>
 
-      <menuitem name="VFolderEdit" verb="SetVFolder" _label="_Vitrual Folder Editor"/>
+      <menuitem name="VFolderEdit" verb="SetVFolder" _label="_Virtual Folder Editor"/>
 
       <menuitem name="SetMailConfig" verb="" _label="_Mail Configuration" />
 
