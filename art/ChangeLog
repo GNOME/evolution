@@ -1,3 +1,7 @@
+2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* about-box.png: New artwork from Jakub.
+
 2003-02-06  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: remove imagesdir, etc, which are now defined in
