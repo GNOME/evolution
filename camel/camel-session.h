@@ -70,10 +70,8 @@ struct _CamelSession
 	gboolean check_junk:1;
 };
 
-#ifdef ENABLE_THREADS
 typedef struct _CamelSessionThreadOps CamelSessionThreadOps;
 typedef struct _CamelSessionThreadMsg CamelSessionThreadMsg;
-#endif
 
 typedef struct {
 	CamelObjectClass parent_class;
@@ -104,15 +102,13 @@ typedef struct {
 	CamelFilterDriver * (*get_filter_driver) (CamelSession *session,
 						  const char *type,
 						  CamelException *ex);
-#ifdef ENABLE_THREADS
+	
 	/* mechanism for creating and maintaining multiple threads of control */
 	void *(*thread_msg_new)(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size);
 	void (*thread_msg_free)(CamelSession *session, CamelSessionThreadMsg *msg);
 	int (*thread_queue)(CamelSession *session, CamelSessionThreadMsg *msg, int flags);
 	void (*thread_wait)(CamelSession *session, int id);
 	void (*thread_status)(CamelSession *session, CamelSessionThreadMsg *msg, const char *text, int pc);
-#endif
-	
 } CamelSessionClass;
 
 
@@ -170,7 +166,6 @@ gboolean  camel_session_check_junk               (CamelSession *session);
 void      camel_session_set_check_junk           (CamelSession *session,
 						  gboolean      check_junk);
 
-#ifdef ENABLE_THREADS
 struct _CamelSessionThreadOps {
 	void (*receive)(CamelSession *session, struct _CamelSessionThreadMsg *m);
 	void (*free)(CamelSession *session, struct _CamelSessionThreadMsg *m);
@@ -194,8 +189,6 @@ void *camel_session_thread_msg_new(CamelSession *session, CamelSessionThreadOps 
 void camel_session_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *msg);
 int camel_session_thread_queue(CamelSession *session, CamelSessionThreadMsg *msg, int flags);
 void camel_session_thread_wait(CamelSession *session, int id);
-
-#endif
 
 #ifdef __cplusplus
 }
