@@ -30,6 +30,8 @@ static void e_canvas_realize        (GtkWidget        *widget);
 static void e_canvas_unrealize      (GtkWidget        *widget);
 static gint e_canvas_key            (GtkWidget        *widget,
 				     GdkEventKey      *event);
+static gint e_canvas_button         (GtkWidget        *widget,
+				     GdkEventButton   *event);
 
 static gint e_canvas_visibility     (GtkWidget        *widget,
 				     GdkEventVisibility *event,
@@ -93,6 +95,8 @@ e_canvas_class_init (ECanvasClass *klass)
 
 	widget_class->key_press_event = e_canvas_key;
 	widget_class->key_release_event = e_canvas_key;
+	widget_class->button_press_event = e_canvas_button;
+	widget_class->button_release_event = e_canvas_button;
 	widget_class->focus_in_event = e_canvas_focus_in;
 	widget_class->focus_out_event = e_canvas_focus_out;
 	widget_class->realize = e_canvas_realize;
@@ -299,6 +303,257 @@ e_canvas_key (GtkWidget *widget, GdkEventKey *event)
 	full_event.key = *event;
 
 	return emit_event (canvas, &full_event);
+}
+
+
+/* This routine invokes the point method of the item.  The argument x, y should
+ * be in the parent's item-relative coordinate system.  This routine applies the
+ * inverse of the item's transform, maintaining the affine invariant.
+ */
+#define HACKISH_AFFINE
+
+static double
+gnome_canvas_item_invoke_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
+				GnomeCanvasItem **actual_item)
+{
+#ifdef HACKISH_AFFINE
+	double i2w[6], w2c[6], i2c[6], c2i[6];
+	ArtPoint c, i;
+#endif
+
+#ifdef HACKISH_AFFINE
+	gnome_canvas_item_i2w_affine (item, i2w);
+	gnome_canvas_w2c_affine (item->canvas, w2c);
+	art_affine_multiply (i2c, i2w, w2c);
+	art_affine_invert (c2i, i2c);
+	c.x = cx;
+	c.y = cy;
+	art_affine_point (&i, &c, c2i);
+	x = i.x;
+	y = i.y;
+#endif
+
+	return (* GNOME_CANVAS_ITEM_CLASS (item->object.klass)->point) (
+		item, x, y, cx, cy, actual_item);
+}
+
+/* Re-picks the current item in the canvas, based on the event's coordinates.
+ * Also emits enter/leave events for items as appropriate.
+ */
+#define DISPLAY_X1(canvas) (GNOME_CANVAS (canvas)->layout.xoffset)
+#define DISPLAY_Y1(canvas) (GNOME_CANVAS (canvas)->layout.yoffset)
+static int
+pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
+{
+	int button_down;
+	double x, y;
+	int cx, cy;
+	int retval;
+
+	retval = FALSE;
+
+	/* If a button is down, we'll perform enter and leave events on the
+	 * current item, but not enter on any other item.  This is more or less
+	 * like X pointer grabbing for canvas items.
+	 */
+	button_down = canvas->state & (GDK_BUTTON1_MASK
+				       | GDK_BUTTON2_MASK
+				       | GDK_BUTTON3_MASK
+				       | GDK_BUTTON4_MASK
+				       | GDK_BUTTON5_MASK);
+	if (!button_down)
+		canvas->left_grabbed_item = FALSE;
+
+	/* Save the event in the canvas.  This is used to synthesize enter and
+	 * leave events in case the current item changes.  It is also used to
+	 * re-pick the current item if the current one gets deleted.  Also,
+	 * synthesize an enter event.
+	 */
+	if (event != &canvas->pick_event) {
+		if ((event->type == GDK_MOTION_NOTIFY) || (event->type == GDK_BUTTON_RELEASE)) {
+			/* these fields have the same offsets in both types of events */
+
+			canvas->pick_event.crossing.type       = GDK_ENTER_NOTIFY;
+			canvas->pick_event.crossing.window     = event->motion.window;
+			canvas->pick_event.crossing.send_event = event->motion.send_event;
+			canvas->pick_event.crossing.subwindow  = NULL;
+			canvas->pick_event.crossing.x          = event->motion.x;
+			canvas->pick_event.crossing.y          = event->motion.y;
+			canvas->pick_event.crossing.mode       = GDK_CROSSING_NORMAL;
+			canvas->pick_event.crossing.detail     = GDK_NOTIFY_NONLINEAR;
+			canvas->pick_event.crossing.focus      = FALSE;
+			canvas->pick_event.crossing.state      = event->motion.state;
+
+			/* these fields don't have the same offsets in both types of events */
+
+			if (event->type == GDK_MOTION_NOTIFY) {
+				canvas->pick_event.crossing.x_root = event->motion.x_root;
+				canvas->pick_event.crossing.y_root = event->motion.y_root;
+			} else {
+				canvas->pick_event.crossing.x_root = event->button.x_root;
+				canvas->pick_event.crossing.y_root = event->button.y_root;
+			}
+		} else
+			canvas->pick_event = *event;
+	}
+
+	/* Don't do anything else if this is a recursive call */
+
+	if (canvas->in_repick)
+		return retval;
+
+	/* LeaveNotify means that there is no current item, so we don't look for one */
+
+	if (canvas->pick_event.type != GDK_LEAVE_NOTIFY) {
+		/* these fields don't have the same offsets in both types of events */
+
+		if (canvas->pick_event.type == GDK_ENTER_NOTIFY) {
+			x = canvas->pick_event.crossing.x + DISPLAY_X1 (canvas) - canvas->zoom_xofs;
+			y = canvas->pick_event.crossing.y + DISPLAY_Y1 (canvas) - canvas->zoom_yofs;
+		} else {
+			x = canvas->pick_event.motion.x + DISPLAY_X1 (canvas) - canvas->zoom_xofs;
+			y = canvas->pick_event.motion.y + DISPLAY_Y1 (canvas) - canvas->zoom_yofs;
+		}
+
+		/* canvas pixel coords */
+
+		cx = (int) (x + 0.5);
+		cy = (int) (y + 0.5);
+
+		/* world coords */
+
+		x = canvas->scroll_x1 + x / canvas->pixels_per_unit;
+		y = canvas->scroll_y1 + y / canvas->pixels_per_unit;
+
+		/* find the closest item */
+
+		if (canvas->root->object.flags & GNOME_CANVAS_ITEM_VISIBLE)
+			gnome_canvas_item_invoke_point (canvas->root, x, y, cx, cy,
+							&canvas->new_current_item);
+		else
+			canvas->new_current_item = NULL;
+	} else
+		canvas->new_current_item = NULL;
+
+	if ((canvas->new_current_item == canvas->current_item) && !canvas->left_grabbed_item)
+		return retval; /* current item did not change */
+
+	/* Synthesize events for old and new current items */
+
+	if ((canvas->new_current_item != canvas->current_item)
+	    && (canvas->current_item != NULL)
+	    && !canvas->left_grabbed_item) {
+		GdkEvent new_event;
+		GnomeCanvasItem *item;
+
+		item = canvas->current_item;
+
+		new_event = canvas->pick_event;
+		new_event.type = GDK_LEAVE_NOTIFY;
+
+		new_event.crossing.detail = GDK_NOTIFY_ANCESTOR;
+		new_event.crossing.subwindow = NULL;
+		canvas->in_repick = TRUE;
+		retval = emit_event (canvas, &new_event);
+		canvas->in_repick = FALSE;
+	}
+
+	/* new_current_item may have been set to NULL during the call to emit_event() above */
+
+	if ((canvas->new_current_item != canvas->current_item) && button_down) {
+		canvas->left_grabbed_item = TRUE;
+		return retval;
+	}
+
+	/* Handle the rest of cases */
+
+	canvas->left_grabbed_item = FALSE;
+	canvas->current_item = canvas->new_current_item;
+
+	if (canvas->current_item != NULL) {
+		GdkEvent new_event;
+
+		new_event = canvas->pick_event;
+		new_event.type = GDK_ENTER_NOTIFY;
+		new_event.crossing.detail = GDK_NOTIFY_ANCESTOR;
+		new_event.crossing.subwindow = NULL;
+		retval = emit_event (canvas, &new_event);
+	}
+
+	return retval;
+}
+
+/* Button event handler for the canvas */
+static gint
+e_canvas_button (GtkWidget *widget, GdkEventButton *event)
+{
+	GnomeCanvas *canvas;
+	int mask;
+	int retval;
+
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (GNOME_IS_CANVAS (widget), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	retval = FALSE;
+
+	canvas = GNOME_CANVAS (widget);
+
+        /* dispatch normally regardless of the event's window if an item has
+           has a pointer grab in effect */
+	if (!canvas->grabbed_item && event->window != canvas->layout.bin_window)
+		return retval;
+
+	switch (event->button) {
+	case 1:
+		mask = GDK_BUTTON1_MASK;
+		break;
+	case 2:
+		mask = GDK_BUTTON2_MASK;
+		break;
+	case 3:
+		mask = GDK_BUTTON3_MASK;
+		break;
+	case 4:
+		mask = GDK_BUTTON4_MASK;
+		break;
+	case 5:
+		mask = GDK_BUTTON5_MASK;
+		break;
+	default:
+		mask = 0;
+	}
+
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+	case GDK_2BUTTON_PRESS:
+	case GDK_3BUTTON_PRESS:
+		/* Pick the current item as if the button were not pressed, and
+		 * then process the event.
+		 */
+		canvas->state = event->state;
+		pick_current_item (canvas, (GdkEvent *) event);
+		canvas->state ^= mask;
+		retval = emit_event (canvas, (GdkEvent *) event);
+		break;
+
+	case GDK_BUTTON_RELEASE:
+		/* Process the event as if the button were pressed, then repick
+		 * after the button has been released
+		 */
+		canvas->state = event->state;
+		retval = emit_event (canvas, (GdkEvent *) event);
+		event->state ^= mask;
+		canvas->state = event->state;
+		pick_current_item (canvas, (GdkEvent *) event);
+		event->state ^= mask;
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	return retval;
 }
 
 /* Key event handler for the canvas */
