@@ -328,7 +328,7 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		cal_component_get_organizer (comp, &organizer);
 		if (organizer.value != NULL) {
 			const gchar *strip = itip_strip_mailto (organizer.value);
-			gchar *s, *string;
+			gchar *string;
 
 			gtk_widget_hide (priv->organizer_table);
 			gtk_widget_show (priv->existing_organizer_table);
@@ -740,7 +740,6 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	priv->addresses = itip_addresses_get ();
 	for (l = priv->addresses; l != NULL; l = l->next) {
 		ItipAddress *a = l->data;
-		char *s;
 		
 		priv->address_strings = g_list_append (priv->address_strings, g_strdup (a->full));
 

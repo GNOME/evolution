@@ -811,18 +811,18 @@ make_icon_from_comp (CalComponent *comp)
 	CalComponentVType type;
 
 	if (!comp)
-		return EVOLUTION_ICONSDIR "/evolution-calendar-mini.png";
+		return EVOLUTION_IMAGESDIR "/evolution-calendar-mini.png";
 
 	type = cal_component_get_vtype (comp);
 	switch (type) {
 	case CAL_COMPONENT_EVENT:
-		return EVOLUTION_ICONSDIR "/buttons/new_appointment.png";
+		return EVOLUTION_IMAGESDIR "/buttons/new_appointment.png";
 		break;
 	case CAL_COMPONENT_TODO:
-		return EVOLUTION_ICONSDIR "/buttons/new_task.png";
+		return EVOLUTION_IMAGESDIR "/buttons/new_task.png";
 		break;
 	default:
-		return EVOLUTION_ICONSDIR "/evolution-calendar-mini.png";
+		return EVOLUTION_IMAGESDIR "/evolution-calendar-mini.png";
 	}
 }
 

@@ -28,12 +28,14 @@
 #include <config.h>
 #endif
 
+#include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktreeview.h>
+#include <gtk/gtktreeselection.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -439,7 +441,6 @@ append_exception (RecurrencePage *rpage, CalComponentDateTime *datetime)
 	RecurrencePagePrivate *priv;
 	GtkTreeView *view;
 	GtkTreeIter  iter;
-	struct icaltimetype *tt;
 
 	priv = rpage->priv;
 	view = GTK_TREE_VIEW (priv->exception_list);
@@ -772,12 +773,10 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 {
 	RecurrencePagePrivate *priv;
 	enum recur_type recur_type;
-	GtkTreeView *exception_list;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gboolean valid_iter;
 	GSList *list;
-	int i;
 
 	priv = rpage->priv;
 	model = GTK_TREE_MODEL (priv->exception_list_store);
@@ -1882,7 +1881,6 @@ recurrence_page_set_summary (CompEditorPage *page, const char *summary)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
-	gchar *s;
 	
 	rpage = RECURRENCE_PAGE (page);
 	priv = rpage->priv;
@@ -2171,7 +2169,6 @@ exception_delete_cb (GtkWidget *widget, gpointer data)
 	GtkTreeIter iter;
 	GtkTreePath *path;
 	gboolean valid_iter;
-	int sel;
 
 	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;

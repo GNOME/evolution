@@ -29,8 +29,10 @@
 #endif
 
 #include <string.h>
+#include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktreeview.h>
+#include <gtk/gtktreeselection.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -471,7 +473,6 @@ append_reminder (AlarmPage *apage, CalComponentAlarm *alarm)
 	AlarmPagePrivate *priv;
 	GtkTreeView *view;
 	GtkTreeIter  iter;
-	int i;
 
 	priv = apage->priv;
 	view = GTK_TREE_VIEW (priv->list);
@@ -546,7 +547,6 @@ alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	GtkTreeIter iter;
 	gboolean valid_iter;
 	GList *list, *l;
-	int i;
 
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
@@ -615,7 +615,6 @@ alarm_page_set_summary (CompEditorPage *page, const char *summary)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
-	gchar *s;
 
 	apage = ALARM_PAGE (page);
 	priv = apage->priv;
@@ -768,7 +767,6 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 	GtkTreeIter iter;
 	GtkTreePath *path;
 	gboolean valid_iter;
-	int sel;
 
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;

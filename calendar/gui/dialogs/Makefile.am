@@ -24,13 +24,11 @@ INCLUDES = 								\
 	-I$(top_srcdir)/shell						\
 	-I$(top_srcdir)/addressbook/backend				\
 	-I$(top_builddir)/addressbook/backend				\
-	-I$(includedir)							\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"				\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
-        -DGNOMELOCALEDIR=\""$(localedir)"\"				\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 noinst_LIBRARIES = libcal-dialogs.a
@@ -78,7 +76,6 @@ libcal_dialogs_a_SOURCES =	\
 	task-page.c		\
 	task-page.h
 
-gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA =				\
 	alarm-options.glade		\
 	alarm-page.glade		\
@@ -91,7 +88,6 @@ glade_DATA =				\
 	task-details-page.glade		\
 	task-page.glade
 
-etspecdir = $(datadir)/evolution-$(BASE_VERSION)/etspec/
 etspec_DATA = meeting-page.etspec
 
 CLEANFILES = $(BUILT_SOURCES)
