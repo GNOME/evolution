@@ -23,13 +23,14 @@
  * USA
  */
 
+
 #ifndef CAMEL_OBJECT_H
 #define CAMEL_OBJECT_H 1
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif				/* __cplusplus } */
+#endif /* __cplusplus */
 
 #include <stdlib.h>		/* size_t */
 #include <glib.h>
@@ -51,14 +52,14 @@ extern "C" {
 typedef struct _CamelObjectClass *CamelType;
 
 #ifdef G_DISABLE_CHECKS
-#define CAMEL_CHECK_CAST( obj, ctype, ptype )         ((ptype *) obj)
-#define CAMEL_CHECK_CLASS_CAST( class, ctype, ptype ) ((ptype *) class)
+#define CAMEL_CHECK_CAST(obj, ctype, ptype)         ((ptype *) obj)
+#define CAMEL_CHECK_CLASS_CAST(klass, ctype, ptype) ((ptype *) klass)
 #else
-#define CAMEL_CHECK_CAST( obj, ctype, ptype )         ((ptype *) camel_object_cast( (CamelObject *)(obj), (CamelType)(ctype) ))
-#define CAMEL_CHECK_CLASS_CAST( class, ctype, ptype ) ((ptype *) camel_object_class_cast( (CamelObjectClass *)(class), (CamelType)(ctype) ))
+#define CAMEL_CHECK_CAST(obj, ctype, ptype)         ((ptype *) camel_object_cast ((CamelObject *)(obj), (CamelType)(ctype)))
+#define CAMEL_CHECK_CLASS_CAST(klass, ctype, ptype) ((ptype *) camel_object_class_cast ((CamelObjectClass *)(klass), (CamelType)(ctype) ))
 #endif
-#define CAMEL_CHECK_TYPE( obj, ctype )                (camel_object_is( (CamelObject *)(obj), (CamelType)(ctype) ))
-#define CAMEL_CHECK_CLASS_TYPE( class, ctype )        (camel_object_class_is( (CamelObjectClass *)(class), (CamelType)(ctype) ))
+#define CAMEL_CHECK_TYPE(obj, ctype)                (camel_object_is ((CamelObject *)(obj), (CamelType)(ctype) ))
+#define CAMEL_CHECK_CLASS_TYPE(klass, ctype)        (camel_object_class_is ((CamelObjectClass *)(klass), (CamelType)(ctype)))
 
 extern CamelType camel_object_type;
 
@@ -163,17 +164,17 @@ CamelType camel_type_register(CamelType parent, const char * name, /*unsigned in
 
 /* object class methods (types == classes now) */
 const char *camel_type_to_name (CamelType type);
-CamelType camel_name_to_type(const char *name);
-void camel_object_class_add_event (CamelObjectClass *class, const char * name, CamelObjectEventPrepFunc prep);
+CamelType camel_name_to_type (const char *name);
+void camel_object_class_add_event (CamelObjectClass *class, const char *name, CamelObjectEventPrepFunc prep);
 
-void camel_object_class_dump_tree(CamelType root);
+void camel_object_class_dump_tree (CamelType root);
 
 /* casting */
-CamelObject *camel_object_cast(CamelObject * obj, CamelType ctype);
-gboolean camel_object_is(CamelObject * obj, CamelType ctype);
+CamelObject *camel_object_cast(CamelObject *obj, CamelType ctype);
+gboolean camel_object_is(CamelObject *obj, CamelType ctype);
 
-CamelObjectClass *camel_object_class_cast (CamelObjectClass *k, CamelType ctype);
-gboolean camel_object_class_is (CamelObjectClass * class, CamelType ctype);
+CamelObjectClass *camel_object_class_cast (CamelObjectClass *klass, CamelType ctype);
+gboolean camel_object_class_is (CamelObjectClass *klass, CamelType ctype);
 
 CamelType camel_object_get_type (void);
 
@@ -202,6 +203,6 @@ int camel_object_getv(CamelObject *obj, struct _CamelException *ex, CamelArgGetV
 
 #ifdef __cplusplus
 }
-#endif				/* __cplusplus */
+#endif /* __cplusplus */
 
-#endif				/* CAMEL_OBJECT_H */
+#endif /* CAMEL_OBJECT_H */

@@ -1,3 +1,8 @@
+2002-05-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-object.h: s/class/klass for arguments so that c++
+	developers don't complain later.
+
 2002-05-07  Dan Winship  <danw@ximian.com>
 
 	* camel-object.c (camel_object_class_cast): Fix a crash in a
