@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+  <e-plugin id="org.gnome.mail.folder.unsubscribe" 
+   type="shlib" domain="evolution" name="Bob's Wonder Extender"
+   description="Extends wonders"
+   location="@PLUGINDIR@/liborg-gnome-mail-folder-unsubscribe.so">
+    <hook class="org.gnome.evolution.mail.popup:1.0">
+      <menu id="org.gnome.mail.storageset.popup.select" target="folder">
+        <item type="item" path="20.emc.03" label="_Unsubscribe"
+         activate="org_gnome_mail_folder_unsubscribe"
+         enable="delete" visible="delete"/>
+      </menu>
+    </hook>
+  </e-plugin>
+</e-plugin-list>
