@@ -65,6 +65,7 @@ etss_value_at (ETableModel *etm, int col, int row)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
+	etss->last_access = row;
 	return e_table_model_value_at (etss->source, col, etss->map_table [row]);
 }
 
@@ -73,6 +74,7 @@ etss_set_value_at (ETableModel *etm, int col, int row, const void *val)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
+	etss->last_access = row;
 	return e_table_model_set_value_at (etss->source, col, etss->map_table [row], val);
 }
 
@@ -153,7 +155,13 @@ etss_class_init (GtkObjectClass *klass)
 	table_class->value_to_string  = etss_value_to_string;
 }
 
-E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, NULL, PARENT_TYPE);
+static void
+etss_init (ETableSubset *etss)
+{
+	etss->last_access = 0;
+}
+
+E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, etss_init, PARENT_TYPE);
 
 static void
 etss_proxy_model_pre_change (ETableModel *etm, ETableSubset *etss)
@@ -170,13 +178,33 @@ etss_proxy_model_changed (ETableModel *etm, ETableSubset *etss)
 static void
 etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
 {
+	int limit;
 	const int n = etss->n_map;
 	const int * const map_table = etss->map_table;
 	int i;
-		
+
+	limit = MIN(n, etss->last_access + 10);
+	for (i = etss->last_access; i < limit; i++) {
+		if (map_table [i] == row){
+			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
+			etss->last_access = i;
+			return;
+		}
+	}
+
+	limit = MAX(0, etss->last_access - 10);
+	for (i = etss->last_access - 1; i >= limit; i--) {
+		if (map_table [i] == row){
+			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
+			etss->last_access = i;
+			return;
+		}
+	}
+
 	for (i = 0; i < n; i++){
 		if (map_table [i] == row){
 			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
+			etss->last_access = i;
 			return;
 		}
 	}
@@ -185,13 +213,33 @@ etss_proxy_model_row_changed (ETableModel *etm, int row, ETableSubset *etss)
 static void
 etss_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSubset *etss)
 {
+	int limit;
 	const int n = etss->n_map;
 	const int * const map_table = etss->map_table;
 	int i;
+
+	limit = MIN(n, etss->last_access + 10);
+	for (i = etss->last_access; i < limit; i++) {
+		if (map_table [i] == row){
+			e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
+			etss->last_access = i;
+			return;
+		}
+	}
+
+	limit = MAX(0, etss->last_access - 10);
+	for (i = etss->last_access - 1; i >= limit; i--) {
+		if (map_table [i] == row){
+			e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
+			etss->last_access = i;
+			return;
+		}
+	}
 		
 	for (i = 0; i < n; i++){
 		if (map_table [i] == row){
 			e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
+			etss->last_access = i;
 			return;
 		}
 	}
