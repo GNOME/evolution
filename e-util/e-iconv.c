@@ -26,9 +26,10 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 
 #include <glib.h>
 #include "e-iconv.h"
@@ -138,6 +139,7 @@ struct {
 	{ "big5hkscs-0",    "BIG5HKCS"   },
 	{ "gb2312-0",       "gb2312"     },
 	{ "gb2312.1980-0",  "gb2312"     },
+	{ "gb-2312",        "gb2312"     },
 	{ "gb18030-0",      "gb18030"    },
 	{ "gbk-0",          "GBK"        },
 
@@ -186,6 +188,37 @@ static EDListNode *e_dlist_remove(EDListNode *n)
         return n;
 }
 
+
+/* fucking glib... */
+static const char *
+e_strdown (char *str)
+{
+	register char *s = str;
+	
+	while (*s) {
+		if (*s >= 'A' && *s <= 'Z')
+			*s += 0x20;
+		s++;
+	}
+	
+	return str;
+}
+
+static const char *
+e_strup (char *str)
+{
+	register char *s = str;
+	
+	while (*s) {
+		if (*s >= 'a' && *s <= 'z')
+			*s -= 0x20;
+		s++;
+	}
+	
+	return str;
+}
+
+
 static void
 locale_parse_lang (const char *locale)
 {
@@ -200,7 +233,7 @@ locale_parse_lang (const char *locale)
 	if (strlen (lang) >= 2) {
 		if (lang[2] == '-' || lang[2] == '_') {
 			/* canonicalise the lang */
-			g_ascii_strdown (lang, 2);
+			e_strdown (lang);
 			
 			/* validate the country code */
 			if (strlen (lang + 3) > 2) {
@@ -208,7 +241,7 @@ locale_parse_lang (const char *locale)
 				lang[2] = '\0';
 			} else {
 				lang[2] = '-';
-				g_ascii_strup (lang + 3, 2);
+				e_strup (lang + 3);
 			}
 		} else if (lang[2] != '\0') {
 			/* invalid language */
@@ -244,7 +277,7 @@ e_iconv_init(int keep)
 	for (i = 0; known_iconv_charsets[i].charset != NULL; i++) {
 		from = g_strdup(known_iconv_charsets[i].charset);
 		to = g_strdup(known_iconv_charsets[i].iconv_name);
-		g_ascii_strdown (from, -1);
+		e_strdown (from);
 		g_hash_table_insert(iconv_charsets, from, to);
 	}
 
@@ -265,7 +298,7 @@ e_iconv_init(int keep)
 	} else {
 #ifdef HAVE_CODESET
 		locale_charset = g_strdup (nl_langinfo (CODESET));
-		g_ascii_strdown (locale_charset, -1);
+		e_strdown (locale_charset);
 #else
 		/* A locale name is typically of  the  form  language[_terri-
 		 * tory][.codeset][@modifier],  where  language is an ISO 639
@@ -282,7 +315,7 @@ e_iconv_init(int keep)
 			/* ; is a hack for debian systems and / is a hack for Solaris systems */
 			for (p = codeset; *p && !strchr ("@;/", *p); p++);
 			locale_charset = g_strndup (codeset, p - codeset);
-			g_ascii_strdown (locale_charset, -1);
+			e_strdown (locale_charset);
 		} else {
 			/* charset unknown */
 			locale_charset = NULL;
@@ -307,7 +340,7 @@ const char *e_iconv_charset_name(const char *charset)
 
 	name = g_alloca (strlen (charset) + 1);
 	strcpy (name, charset);
-	g_ascii_strdown (name, -1);
+	e_strdown (name);
 	
 	e_iconv_init(TRUE);
 	ret = g_hash_table_lookup(iconv_charsets, name);
@@ -401,11 +434,14 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 	char *tofrom;
 	struct _iconv_cache *ic;
 	struct _iconv_cache_node *in;
+	int errnosav;
 	iconv_t ip;
 
-	if (oto == NULL || ofrom == NULL)
-		return (iconv_t)-1;
-
+	if (oto == NULL || ofrom == NULL) {
+		errno = EINVAL;
+		return (iconv_t) -1;
+	}
+	
 	to = e_iconv_charset_name (oto);
 	from = e_iconv_charset_name (ofrom);
 	tofrom = g_alloca (strlen (to) + strlen (from) + 2);
@@ -455,7 +491,7 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 			 * that die if the length arguments are NULL 
 			 */
 			size_t buggy_iconv_len = 0;
-			gchar *buggy_iconv_buf = NULL;
+			char *buggy_iconv_buf = NULL;
 
 			/* resets the converter */
 			iconv(ip, &buggy_iconv_buf, &buggy_iconv_len, &buggy_iconv_buf, &buggy_iconv_len);
@@ -474,8 +510,10 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 			g_hash_table_insert(iconv_cache_open, ip, in);
 			in->busy = TRUE;
 		} else {
+			errnosav = errno;
 			g_warning("Could not open converter for '%s' to '%s' charset", from, to);
 			in->busy = FALSE;
+			errno = errnosav;
 		}
 	}
 
