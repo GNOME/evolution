@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution pre-2.0\n"
 "POT-Creation-Date: 2004-08-19 11:10+0200\n"
-"PO-Revision-Date: 2004-09-09 17:01+0300\n"
+"PO-Revision-Date: 2004-09-10 19:31+0300\n"
 "Last-Translator: Priit Laes <amd@tt.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -57,9 +57,8 @@ msgstr "evolutioni minikaart"
 
 #. addressbook:ldap-init primary
 #: addressbook/addressbook-errors.xml.h:2
-#, fuzzy
 msgid "This addressbook could not be opened."
-msgstr "Kirje saatmine ebaõnnestus!\n"
+msgstr "Seda aadressiraamatut ei õnnestunud avada."
 
 #  addressbook:ldap-init secondary
 #: addressbook/addressbook-errors.xml.h:4
@@ -156,13 +155,11 @@ msgstr "Viga aadressiraamatu laadimisel."
 
 #. addressbook:search-error primary
 #: addressbook/addressbook-errors.xml.h:36
-#, fuzzy
 msgid "Unable to perform search."
-msgstr "Puhverkausta pole võimalik töödelda"
+msgstr "Otsingut ei ole võimalik läbi viia."
 
 #. addressbook:prompt-save primary
 #: addressbook/addressbook-errors.xml.h:40
-#, fuzzy
 msgid "Would you like to save your changes?"
 msgstr "Kas soovid tehtud muudatused salvestada?"
 
@@ -177,9 +174,8 @@ msgstr "_Unusta"
 
 #. addressbook:prompt-move primary
 #: addressbook/addressbook-errors.xml.h:45
-#, fuzzy
 msgid "Cannot move contact."
-msgstr "Konto muudatusi ei saa salvestada."
+msgstr "Kontakti ei saa liigutada."
 
 #. addressbook:prompt-move secondary
 #: addressbook/addressbook-errors.xml.h:47
@@ -570,9 +566,8 @@ msgid "<b>Type:</b>"
 msgstr "<b>Tüüp:</b>"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
-#, fuzzy
 msgid "Add Address Book"
-msgstr "Aadressiraamat"
+msgstr "Aadressiraamatu lisamine"
 
 #: addressbook/gui/component/ldap-config.glade.h:14
 msgid "Address Book Properties"
@@ -639,7 +634,6 @@ msgid "One"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:27
-#, fuzzy
 msgid "Search _base:"
 msgstr "_Otsingu baas:"
 
@@ -758,9 +752,8 @@ msgid "_Server:"
 msgstr "_Server:"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
-#, fuzzy
 msgid "_Timeout:"
-msgstr "ajaületus"
+msgstr "_Taimaut:"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Use secure connection:"
@@ -1020,9 +1013,8 @@ msgid "Title:"
 msgstr "Pealkiri:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:40
-#, fuzzy
 msgid "Video Chat:"
-msgstr "Abi jututuba"
+msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "Wants to receive HTML mail"
@@ -2136,9 +2128,8 @@ msgstr "Antud kontakt kuulub järgnevatesse kategooriatesse:"
 #  Create the selector
 #. Create the selector
 #: addressbook/gui/contact-editor/e-contact-editor.c:2505
-#, fuzzy
 msgid "Please select an image for this contact"
-msgstr "Kustuta valitud kontaktid"
+msgstr "Palun vali kontakti jaoks pilt"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2509
 msgid "No image"
@@ -2315,9 +2306,8 @@ msgid "Add an email to the List"
 msgstr "Lisa kataloog nimistusse"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
-#, fuzzy
 msgid "Insert email adresses from Adress Book"
-msgstr "Kontaktide valimine aadressiraamatust"
+msgstr "Lisa emailiaadressid aadressiraamatust"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:714
@@ -2325,9 +2315,8 @@ msgid "Members"
 msgstr "Liikmed"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#, fuzzy
 msgid "Remove an email address from the List"
-msgstr "Kustutab valitud proxy erandi aadressi nimekirjast."
+msgstr "Kustuta emailiaadress nimekirjast"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "Select"
@@ -2979,9 +2968,8 @@ msgstr "TLS ei ole kättesaadav"
 #  E_BOOK_ERROR_NO_SUCH_SOURCE
 #. E_BOOK_ERROR_CORBA_EXCEPTION
 #: addressbook/gui/widgets/eab-gui-util.c:67
-#, fuzzy
 msgid "No such source"
-msgstr "%s: sellist partitsiooni ei ole\n"
+msgstr "Sellist allikat ei leitud"
 
 #. E_BOOK_ERROR_OTHER_ERROR
 #: addressbook/gui/widgets/eab-gui-util.c:68
@@ -3582,11 +3570,8 @@ msgstr "Kas sa tõesti soovid kustutada seda kokkusaamist?"
 
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
-#, fuzzy
 msgid "Are you sure you want to delete the '{0}' task?"
 msgstr ""
-"Kas sa tõesti soovid\n"
-"kustutada need kontaktid?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
@@ -3615,11 +3600,8 @@ msgstr ""
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
-#, fuzzy
 msgid "Are you sure you want to delete these {0} tasks?"
 msgstr ""
-"Kas sa tõesti soovid\n"
-"kustutada need kontaktid?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
@@ -17164,7 +17146,7 @@ msgstr ""
 #: shell/shell-errors.xml.h:28
 #: shell/shell-errors.xml.h:30
 msgid "Really delete old data?"
-msgstr ""
+msgstr "Kas tõesti kustutan vanad andmed?"
 
 #. shell:upgrade-remove-1-4-confirm secondary
 #: shell/shell-errors.xml.h:32
