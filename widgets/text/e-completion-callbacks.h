@@ -57,7 +57,7 @@ struct _ECompletionCallbacksClass {
 
 GtkType      e_completion_callbacks_get_type (void);
 
-ECompletion* e_completion_callbacks_new (ECompletionCallbacksRequestCompletionFn request_completion,
+ECompletionCallbacks* e_completion_callbacks_new (ECompletionCallbacksRequestCompletionFn request_completion,
 					 ECompletionCallbacksEndCompletionFn end_completion,
 					 gpointer data);
 

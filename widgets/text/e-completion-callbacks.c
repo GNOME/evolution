@@ -78,7 +78,7 @@ callbacks_end_completion (ECompletion *comp)
   cc->end_completion (cc, cc->data);
 }
 
-ECompletion*
+ECompletionCallbacks*
 e_completion_callbacks_new (ECompletionCallbacksRequestCompletionFn request_completion,
 			    ECompletionCallbacksEndCompletionFn end_completion,
 			    gpointer data)
