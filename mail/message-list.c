@@ -302,6 +302,51 @@ ml_free_value (ETableModel *etm, int col, void *value, void *data)
 	}
 }
 
+static void *
+ml_initialize_value (ETableModel *etm, int col, void *data)
+{
+	switch (col){
+	case COL_ONLINE_STATUS:
+	case COL_MESSAGE_STATUS:
+	case COL_PRIORITY:
+	case COL_ATTACHMENT:
+		return NULL;
+
+	case COL_FROM:
+	case COL_SUBJECT:
+	case COL_SENT:
+	case COL_RECEIVE:
+	case COL_TO:
+	case COL_SIZE:
+		return g_strdup("");
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+static gboolean
+ml_value_is_empty (ETableModel *etm, int col, const void *value, void *data)
+{
+	switch (col){
+	case COL_ONLINE_STATUS:
+	case COL_MESSAGE_STATUS:
+	case COL_PRIORITY:
+	case COL_ATTACHMENT:
+		return value == NULL;
+
+	case COL_FROM:
+	case COL_SUBJECT:
+	case COL_SENT:
+	case COL_RECEIVE:
+	case COL_TO:
+	case COL_SIZE:
+		return !(value && *(char *)value);
+	default:
+		g_assert_not_reached ();
+		return FALSE;
+	}
+}
+
 static void
 ml_thaw (ETableModel *etm, void *data)
 {
@@ -502,7 +547,9 @@ message_list_init (GtkObject *object)
 		
 	message_list->table_model = e_table_simple_new (
 		ml_col_count, ml_row_count, ml_value_at,
-		ml_set_value_at, ml_is_cell_editable, ml_duplicate_value, ml_free_value,
+		ml_set_value_at, ml_is_cell_editable,
+		ml_duplicate_value, ml_free_value,
+		ml_initialize_value, ml_value_is_empty,
 		ml_thaw, message_list);
 
 	message_list_init_renderers (message_list);
