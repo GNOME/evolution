@@ -2019,9 +2019,13 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 	CamelProvider *provider;
 	CamelFolder *vtrash;
 	const GSList *accounts;
-	CamelException *ex;
+	CamelException ex;
+	gboolean async;
 	
-	ex = camel_exception_new ();
+	/* the only time all three args are NULL is for empty-on-exit */
+	async = !(uih == NULL && user_data == NULL && path == NULL);
+	
+	camel_exception_init (&ex);
 	
 	/* expunge all remote stores */
 	accounts = mail_config_get_accounts ();
@@ -2030,27 +2034,38 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 		
 		/* make sure this is a valid source */
 		if (account->source && account->source->url) {
-			provider = camel_session_get_provider (session, account->source->url, NULL);			
+			provider = camel_session_get_provider (session, account->source->url, &ex);			
 			if (provider) {
 				/* make sure this store is a remote store */
 				if (provider->flags & CAMEL_PROVIDER_IS_STORAGE &&
 				    provider->flags & CAMEL_PROVIDER_IS_REMOTE) {
-					vtrash = mail_tool_get_trash (account->source->url, NULL);
+					vtrash = mail_tool_get_trash (account->source->url, &ex);
 					
-					if (vtrash)
-						mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
+					if (vtrash) {
+						if (async)
+							mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
+						else
+							camel_folder_sync (vtrash, TRUE, NULL);
+					}
 				}
 			}
+			
+			/* clear the exception for the next round */
+			camel_exception_clear (&ex);
 		}
 		accounts = accounts->next;
 	}
 	
 	/* Now empty the local trash folder */
-	vtrash = mail_tool_get_trash ("file:/", ex);
-	if (vtrash)
-		mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
+	vtrash = mail_tool_get_trash ("file:/", &ex);
+	if (vtrash) {
+		if (async)
+			mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
+		else
+			camel_folder_sync (vtrash, TRUE, NULL);
+	}
 	
-	camel_exception_free (ex);
+	camel_exception_clear (&ex);
 }
 
 static void

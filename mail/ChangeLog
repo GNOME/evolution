@@ -1,3 +1,10 @@
+2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (empty_trash): Yuck. Special case whether or
+	not we want to expunge all the trash folders syncronously or
+	asyncronously based on whether or not we are doing Empty-On-Exit
+	or emptying trash by user request respectively.
+
 2001-08-06  Jason Leach  <jleach@ximian.com>
 
 	* mail-folder-cache.c (make_folder_name): Removed this function,

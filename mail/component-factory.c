@@ -682,7 +682,7 @@ static void
 debug_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
 	extern gboolean camel_verbose_debug;
-
+	
 	camel_verbose_debug = 1;
 }
 
