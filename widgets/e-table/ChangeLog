@@ -1,3 +1,11 @@
+2000-07-08  Dan Winship  <danw@helixcode.com>
+
+	* e-tree-model.c (e_tree_model_node_insert): When inserting a root
+	node, only call e_table_model_row_inserted if root_visible.
+	(e_tree_model_node_remove): Call e_table_model_row_deleted before
+	removing the row from the row_array, because the chain of signal
+	handlers will sometimes need that info.
+
 2000-07-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-item.c (eti_event): Don't call e_cell_event if we're not

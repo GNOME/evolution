@@ -613,11 +613,11 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 	}
 	else {
 		tree_model->root = g_node_new (node);
-		if (tree_model->root_visible)
+		if (tree_model->root_visible) {
 			tree_model->row_array = g_array_insert_val (tree_model->row_array, 0, tree_model->root);
+			e_table_model_row_inserted (E_TABLE_MODEL (tree_model), 0);
+		}
 		new_path = tree_model->root;
-
-		e_table_model_row_inserted (E_TABLE_MODEL (tree_model), 0);
 	}
 
 	return new_path;
@@ -654,8 +654,8 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 	if (parent) {
 		if (e_tree_model_node_is_visible (etree, path)) {
 			int row = e_tree_model_row_of_node (etree, path);
-			etree->row_array = g_array_remove_index (etree->row_array, row);
 			e_table_model_row_deleted (E_TABLE_MODEL (etree), row);
+			etree->row_array = g_array_remove_index (etree->row_array, row);
 
 			/* we need to iterate back up to the root, incrementing the number of visible
 			   descendents */
