@@ -768,6 +768,9 @@ tray_icon_destroyed_cb (GtkWidget *tray, gpointer user_data)
 {
 	TrayIconData *tray_data = user_data;
 
+	g_signal_handlers_disconnect_matched (tray_data->query, G_SIGNAL_MATCH_FUNC,
+					      0, 0, NULL, on_dialog_objs_removed_cb, NULL);
+
 	if (tray_data->cqa != NULL)
 		remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, TRUE, TRUE);
 

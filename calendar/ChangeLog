@@ -1,3 +1,9 @@
+2004-08-10  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/alarm-notify/alarm-queue.c (tray_icon_destroyed_cb): disconnect
+	from signals also when using only the system tray. Fixes a crash when
+	removing an event that had an alarm popup recently.
+
 2004-08-09  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-calendar-view.c: re-added 'Make this occurrence movable' menu
