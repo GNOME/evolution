@@ -1,3 +1,10 @@
+2000-11-10  Dan Winship  <danw@helixcode.com>
+
+	* providers/mbox/camel-mbox-summary.c
+	(camel_mbox_summary_build_from): put a space before a single-digit
+	day of the month since it seems some mailers are fantastically
+	picky about this. (bugs.gnome.org #27232)
+
 2000-11-10  Radek Doulik  <rodo@helixcode.com>
 
 	* camel-mime-utils.c (header_msgid_generate): fix ids ending with '.'
