@@ -41,6 +41,7 @@
 #include "em-format.h"
 #include "em-folder-tree.h"
 #include "em-folder-browser.h"
+#include "em-message-browser.h"
 #include "em-folder-selector.h"
 #include "em-folder-selection.h"
 #include "em-migrate.h"
@@ -728,6 +729,26 @@ impl_requestCreateItem (PortableServer_Servant servant,
 }
 
 static void
+handleuri_got_folder(char *uri, CamelFolder *folder, void *data)
+{
+	CamelURL *url = data;
+	EMMessageBrowser *emmb;
+
+	if (folder != NULL) {
+		emmb = (EMMessageBrowser *)em_message_browser_window_new();
+		/*message_list_set_threaded(((EMFolderView *)emmb)->list, emfv->list->threaded);*/
+		/* FIXME: session needs to be passed easier than this */
+		em_format_set_session((EMFormat *)((EMFolderView *)emmb)->preview, session);
+		em_folder_view_set_folder((EMFolderView *)emmb, folder, uri);
+		em_folder_view_set_message((EMFolderView *)emmb, camel_url_get_param(url, "uid"), FALSE);
+		gtk_widget_show(emmb->window);
+	} else {
+		g_warning("Couldn't open folder '%s'", uri);
+	}
+	camel_url_free(url);
+}
+
+static void
 impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environment *ev)
 {
 	if (!strncmp (uri, "mailto:", 7)) {
@@ -735,6 +756,18 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 			return;
 
 		em_utils_compose_new_message_with_mailto (uri, NULL);
+	} else if (!strncmp(uri, "email:", 6)) {
+		CamelURL *url = camel_url_new(uri, NULL);
+
+		if (camel_url_get_param(url, "uid") != NULL) {
+			char *curi = em_uri_to_camel(uri);
+
+			mail_get_folder(curi, 0, handleuri_got_folder, url, mail_thread_new);
+			g_free(curi);
+		} else {
+			g_warning("email uri's must include a uid parameter");
+			camel_url_free(url);
+		}
 	}
 }
 

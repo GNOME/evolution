@@ -38,6 +38,7 @@
 
     <oaf_attribute name="evolution:uri_schemas" type="stringv">
       <item value="mailto"/>
+      <item value="email"/>
     </oaf_attribute>
   </oaf_server>
 
