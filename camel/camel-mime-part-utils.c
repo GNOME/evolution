@@ -120,7 +120,7 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 	
 	cd = e_iconv_open(to, from);
 	if (cd == (iconv_t) -1) {
-		g_warning ("Cannot convert from '%s' to '%s': %s", from, to, g_strerror (errno));
+		g_warning ("Cannot convert from '%s' to '%s': %s", from, to, strerror (errno));
 		return NULL;
 	}
 	
@@ -179,7 +179,7 @@ convert_buffer (GByteArray *in, const char *to, const char *from)
 	return out;
 	
  fail:
-	g_warning ("Cannot convert from '%s' to '%s': %s", from, to, g_strerror (errno));
+	g_warning ("Cannot convert from '%s' to '%s': %s", from, to, strerror (errno));
 	
 	g_byte_array_free (out, TRUE);
 	

@@ -145,7 +145,9 @@ spool_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex)
 
 	mf->lockfd = open(lf->folder_path, O_RDWR, 0);
 	if (mf->lockfd == -1) {
-		camel_exception_setv(ex, 1, _("Cannot create folder lock on %s: %s"), lf->folder_path, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot create folder lock on %s: %s"),
+				      lf->folder_path, g_strerror (errno));
 		return -1;
 	}
 

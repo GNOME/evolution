@@ -174,7 +174,7 @@ static int camel_mh_summary_add(CamelLocalSummary *cls, const char *name, int fo
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1) {
-		g_warning("Cannot summarise/index: %s: %s", filename, strerror(errno));
+		g_warning ("Cannot summarise/index: %s: %s", filename, strerror (errno));
 		g_free(filename);
 		return -1;
 	}
@@ -240,7 +240,9 @@ mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, Came
 	   no longer exist */
 	dir = opendir(cls->folder_path);
 	if (dir == NULL) {
-		camel_exception_setv(ex, 1, _("Cannot open MH directory path: %s: %s"), cls->folder_path, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot open MH directory path: %s: %s"),
+				      cls->folder_path, g_strerror (errno));
 		return -1;
 	}
 
@@ -348,7 +350,7 @@ mh_summary_sync_message(CamelLocalSummary *cls, CamelMessageInfo *info, CamelExc
 					ret = -1;
 				}
 			} else {
-				g_warning("sync can't create tmp file: %s", strerror(errno));
+				g_warning("sync can't create tmp file: %s", strerror (errno));
 			}
 			g_free(tmpname);
 		} else {

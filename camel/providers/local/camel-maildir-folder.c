@@ -221,8 +221,9 @@ static CamelMimeMessage *maildir_get_message(CamelFolder * folder, const gchar *
 	camel_folder_summary_info_free(folder->summary, info);
 
 	if ((message_stream = camel_stream_fs_new_with_name(name, O_RDONLY, 0)) == NULL) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, _("Cannot get message: %s\n  %s"),
-				     name, g_strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				      _("Cannot get message: %s\n  %s"),
+				      name, g_strerror (errno));
 		g_free(name);
 		return NULL;
 	}

@@ -346,9 +346,10 @@ summary_update(CamelLocalSummary *cls, off_t offset, CamelFolderChangeInfo *chan
 
 	fd = open(cls->folder_path, O_RDONLY);
 	if (fd == -1) {
-		d(printf("%s failed to open: %s\n", cls->folder_path, strerror(errno)));
-		camel_exception_setv(ex, 1, _("Could not open folder: %s: %s"),
-				     cls->folder_path, strerror(errno));
+		d(printf("%s failed to open: %s\n", cls->folder_path, strerror (errno)));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not open folder: %s: %s"),
+				      cls->folder_path, g_strerror (errno));
 		camel_operation_end(NULL);
 		return -1;
 	}
@@ -450,7 +451,9 @@ mbox_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Camel
 	/* check if the summary is up-to-date */
 	if (stat(cls->folder_path, &st) == -1) {
 		camel_folder_summary_clear(s);
-		camel_exception_setv(ex, 1, _("Cannot check folder: %s: %s"), cls->folder_path, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot check folder: %s: %s"),
+				      cls->folder_path, g_strerror (errno));
 		return -1;
 	}
 
@@ -584,9 +587,9 @@ mbox_summary_sync_full(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChang
 
 	fd = open(cls->folder_path, O_RDONLY);
 	if (fd == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not open file: %s: %s"),
-				     cls->folder_path, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not open file: %s: %s"),
+				      cls->folder_path, g_strerror (errno));
 		camel_operation_end(NULL);
 		return -1;
 	}
@@ -596,8 +599,9 @@ mbox_summary_sync_full(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChang
 	d(printf("Writing tmp file to %s\n", tmpname));
 	fdout = open(tmpname, O_WRONLY|O_CREAT|O_TRUNC, 0600);
 	if (fdout == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Cannot open temporary mailbox: %s"), strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot open temporary mailbox: %s"),
+				      g_strerror (errno));
 		goto error;
 	}
 
@@ -607,19 +611,19 @@ mbox_summary_sync_full(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChang
 	d(printf("Closing folders\n"));
 
 	if (close(fd) == -1) {
-		g_warning("Cannot close source folder: %s", strerror(errno));
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not close source folder %s: %s"),
-				     cls->folder_path, strerror(errno));
+		g_warning("Cannot close source folder: %s", strerror (errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not close source folder %s: %s"),
+				      cls->folder_path, g_strerror (errno));
 		fd = -1;
 		goto error;
 	}
 
 	if (close(fdout) == -1) {
-		g_warning("Cannot close tmp folder: %s", strerror(errno));
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not close temp folder: %s"),
-				     strerror(errno));
+		g_warning("Cannot close tmp folder: %s", strerror (errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not close temp folder: %s"),
+				      g_strerror (errno));
 		fdout = -1;
 		goto error;
 	}
@@ -627,10 +631,10 @@ mbox_summary_sync_full(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChang
 	/* this should probably either use unlink/link/unlink, or recopy over
 	   the original mailbox, for various locking reasons/etc */
 	if (rename(tmpname, cls->folder_path) == -1) {
-		g_warning("Cannot rename folder: %s", strerror(errno));
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not rename folder: %s"),
-				     strerror(errno));
+		g_warning("Cannot rename folder: %s", strerror (errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not rename folder: %s"),
+				      g_strerror (errno));
 		goto error;
 	}
 	tmpname = NULL;
@@ -674,9 +678,9 @@ mbox_summary_sync_quick(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChan
 
 	fd = open(cls->folder_path, O_RDWR);
 	if (fd == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not open file: %s: %s"),
-				     cls->folder_path, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not open file: %s: %s"),
+				      cls->folder_path, g_strerror (errno));
 
 		camel_operation_end(NULL);
 		return -1;
@@ -769,10 +773,10 @@ mbox_summary_sync_quick(CamelMboxSummary *mbs, gboolean expunge, CamelFolderChan
 	d(printf("Closing folders\n"));
 
 	if (close(fd) == -1) {
-		g_warning("Cannot close source folder: %s", strerror(errno));
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not close source folder %s: %s"),
-				     cls->folder_path, strerror(errno));
+		g_warning ("Cannot close source folder: %s", strerror (errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not close source folder %s: %s"),
+				      cls->folder_path, g_strerror (errno));
 		fd = -1;
 		goto error;
 	}
@@ -845,7 +849,8 @@ mbox_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInf
 		return -1;
 
 	if (stat(cls->folder_path, &st) == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Unknown error: %s"), strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Unknown error: %s"), g_strerror (errno));
 		return -1;
 	}
 
@@ -879,8 +884,9 @@ camel_mbox_summary_sync_mbox(CamelMboxSummary *cls, guint32 flags, CamelFolderCh
 	/* need to dup this because the mime-parser owns the fd after we give it to it */
 	fd = dup(fd);
 	if (fd == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not store folder: %s"), strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not store folder: %s"),
+				      g_strerror (errno));
 		return -1;
 	}
 
@@ -972,9 +978,9 @@ camel_mbox_summary_sync_mbox(CamelMboxSummary *cls, guint32 flags, CamelFolderCh
 #endif
 			if (len == -1) {
 				d(printf("Error writing to tmp mailbox\n"));
-				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-						     _("Error writing to temp mailbox: %s"),
-						     strerror(errno));
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Error writing to temp mailbox: %s"),
+						      g_strerror (errno));
 				goto error;
 			}
 			info->info.flags &= 0xffff;
@@ -989,17 +995,18 @@ camel_mbox_summary_sync_mbox(CamelMboxSummary *cls, guint32 flags, CamelFolderCh
 			while (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_PRE_FROM) {
 				/*d(printf("copying mbox contents to tmp: '%.*s'\n", len, buffer));*/
 				if (write(fdout, buffer, len) != len) {
-					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-							     _("Writing to tmp mailbox failed: %s: %s"),
-							     ((CamelLocalSummary *)cls)->folder_path, strerror(errno));
+					camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+							      _("Writing to tmp mailbox failed: %s: %s"),
+							      ((CamelLocalSummary *)cls)->folder_path,
+							      g_strerror (errno));
 					goto error;
 				}
 			}
 
 			if (write(fdout, "\n", 1) != 1) {
-				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-						     _("Error writing to temp mailbox: %s"),
-						     strerror(errno));
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Error writing to temp mailbox: %s"),
+						      g_strerror (errno));
 				goto error;
 			}
 

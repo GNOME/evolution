@@ -394,13 +394,15 @@ local_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeIn
 
 	ret = camel_folder_summary_save((CamelFolderSummary *)cls);
 	if (ret == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not save summary: %s: %s"), cls->folder_path, strerror(errno));
-		g_warning("Could not save summary for %s: %s", cls->folder_path, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not save summary: %s: %s"),
+				      cls->folder_path, g_strerror (errno));
+		
+		g_warning ("Could not save summary for %s: %s", cls->folder_path, strerror (errno));
 	}
 
 	if (cls->index && camel_index_sync(cls->index) == -1)
-		g_warning("Could not sync index for %s: %s", cls->folder_path, strerror(errno));
+		g_warning ("Could not sync index for %s: %s", cls->folder_path, strerror (errno));
 
 	return ret;
 }

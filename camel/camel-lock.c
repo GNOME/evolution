@@ -88,7 +88,9 @@ camel_lock_dot(const char *path, CamelException *ex)
 	sprintf(locktmp, "%sXXXXXX", path);
 	if (mktemp(locktmp) == NULL) {
 		/* well, this is really only a programatic error */
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Could not create lock file for %s: %s"), path, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not create lock file for %s: %s"),
+				      path, g_strerror (errno));
 		return -1;
 	}
 #endif
@@ -107,7 +109,9 @@ camel_lock_dot(const char *path, CamelException *ex)
 		fdtmp = open(locktmp, O_RDWR|O_CREAT|O_EXCL, 0600);
 #endif
 		if (fdtmp == -1) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Could not create lock file for %s: %s"), path, strerror(errno));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Could not create lock file for %s: %s"),
+					      path, g_strerror (errno));
 			return -1;
 		}
 		close(fdtmp);
@@ -201,8 +205,9 @@ camel_lock_fcntl(int fd, CamelLockType type, CamelException *ex)
 		   we assume the filesystem doesn't support fcntl() locking */
 		/* this is somewhat system-dependent */
 		if (errno != EINVAL && errno != ENOLCK) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Failed to get lock using fcntl(2): %s"),
-					     strerror(errno));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Failed to get lock using fcntl(2): %s"),
+					      g_strerror (errno));
 			return -1;
 		} else {
 			static int failed = 0;
@@ -263,7 +268,9 @@ camel_lock_flock(int fd, CamelLockType type, CamelException *ex)
 		op = LOCK_EX|LOCK_NB;
 
 	if (flock(fd, op) == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Failed to get lock using flock(2): %s"), strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to get lock using flock(2): %s"),
+				      g_strerror (errno));
 		return -1;
 	}
 #endif

@@ -53,7 +53,7 @@ do_compress(int argc, char **argv)
 			}
 			camel_object_unref((CamelObject *)idx);
 		} else {
-			printf(" Failed: %s\n", strerror(errno));
+			printf(" Failed: %s\n", strerror (errno));
 			return 1;
 		}
 	}
@@ -74,7 +74,7 @@ do_dump(int argc, char **argv)
 			camel_text_index_dump((CamelTextIndex *)idx);
 			camel_object_unref((CamelObject *)idx);
 		} else {
-			printf(" Failed: %s\n", strerror(errno));
+			printf(" Failed: %s\n", strerror (errno));
 			return 1;
 		}
 	}
@@ -94,7 +94,7 @@ do_info(int argc, char **argv)
 			camel_text_index_info((CamelTextIndex *)idx);
 			camel_object_unref((CamelObject *)idx);
 		} else {
-			printf(" Failed: %s\n", strerror(errno));
+			printf(" Failed: %s\n", strerror (errno));
 			return 0;
 		}
 	}
@@ -114,7 +114,7 @@ do_check(int argc, char **argv)
 			camel_text_index_validate((CamelTextIndex *)idx);
 			camel_object_unref((CamelObject *)idx);
 		} else {
-			printf(" Failed: %s\n", strerror(errno));
+			printf(" Failed: %s\n", strerror (errno));
 			return 0;
 		}
 	}

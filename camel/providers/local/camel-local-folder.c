@@ -253,7 +253,7 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 		lf->index = (CamelIndex *)camel_text_index_new(lf->index_path, flag);
 		if (lf->index == NULL) {
 			/* yes, this isn't fatal at all */
-			g_warning("Could not open/create index file: %s: indexing not performed", strerror(errno));
+			g_warning("Could not open/create index file: %s: indexing not performed", strerror (errno));
 			forceindex = FALSE;
 			/* record that we dont have an index afterall */
 			flags &= ~CAMEL_STORE_FOLDER_BODY_INDEX;

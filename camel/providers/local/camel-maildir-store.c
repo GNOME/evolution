@@ -102,20 +102,20 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 
 	if (stat(name, &st) == -1) {
 		if (errno != ENOENT) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Could not open folder `%s':\n%s"),
-					     folder_name, strerror(errno));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Could not open folder `%s':\n%s"),
+					      folder_name, g_strerror (errno));
 		} else if ((flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-					     _("Folder `%s' does not exist."), folder_name);
+			camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+					      _("Folder `%s' does not exist."), folder_name);
 		} else {
 			if (mkdir(name, 0700) != 0
 			    || mkdir(tmp, 0700) != 0
 			    || mkdir(cur, 0700) != 0
 			    || mkdir(new, 0700) != 0) {
-				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-						     _("Could not create folder `%s':\n%s"),
-						     folder_name, strerror(errno));
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Could not create folder `%s':\n%s"),
+						      folder_name, g_strerror (errno));
 				rmdir(tmp);
 				rmdir(cur);
 				rmdir(new);
@@ -163,9 +163,10 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 	    || stat(tmp, &st) == -1 || !S_ISDIR(st.st_mode)
 	    || stat(cur, &st) == -1 || !S_ISDIR(st.st_mode)
 	    || stat(new, &st) == -1 || !S_ISDIR(st.st_mode)) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not delete folder `%s': %s"),
-				     folder_name, errno?strerror(errno):_("not a maildir directory"));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not delete folder `%s': %s"),
+				      folder_name, errno ? g_strerror (errno) :
+				      _("not a maildir directory"));
 	} else {
 		int err = 0;
 
@@ -200,9 +201,9 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 			mkdir(cur, 0700);
 			mkdir(new, 0700);
 			mkdir(tmp, 0700);
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Could not delete folder `%s': %s"),
-					     folder_name, strerror(err));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Could not delete folder `%s': %s"),
+					      folder_name, g_strerror (err));
 		} else {
 			/* and remove metadata */
 			((CamelStoreClass *)parent_class)->delete_folder(store, folder_name, ex);
@@ -331,9 +332,9 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 	if (((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) || parent == NULL)) {
 		dir = opendir(name);
 		if (dir == NULL) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Could not scan folder `%s': %s"),
-					     root, strerror(errno));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Could not scan folder `%s': %s"),
+					      root, g_strerror (errno));
 			g_free(name);
 			return -1;
 		}

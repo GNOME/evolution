@@ -1,3 +1,101 @@
+2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/local/camel-spool-summary.c (spool_summary_sync_full):
+	Use g_strerror when setting an exception string (we need it to be
+	in UTF-8).
+	(spool_summary_check): Here too.
+
+	* providers/local/camel-spool-store.c (construct): Use g_strerror
+	when setting an exception string (we need it to be in UTF-8).
+	(get_folder): Same.
+	(scan_dir): Here too.
+
+	* providers/local/camel-spool-folder.c (spool_lock): Use
+	g_strerror when setting an exception string (we need it to be in
+	UTF-8).
+
+	* providers/local/camel-mh-summary.c (mh_summary_check): Use
+	g_strerror when setting an exception string (we need it to be in
+	UTF-8).
+
+	* providers/local/camel-mh-store.c (delete_folder): Use g_strerror
+	when setting an exception string (we need it to be in UTF-8).
+
+	* providers/local/camel-mbox-summary.c (summary_update): Use
+	g_strerror when setting an exception string (we need it to be in
+	UTF-8).
+	(mbox_summary_sync_full): Here too.
+	(mbox_summary_sync_quick): Same.
+	(mbox_summary_sync): Also here.
+	(camel_mbox_summary_sync_mbox): Again here.
+
+	* providers/local/camel-mbox-folder.c (mbox_lock): Use g_strerror
+	when setting an exception string (we need it to be in UTF-8).
+	(mbox_append_message): Same.
+	(mbox_get_message): Here too.
+
+	* providers/local/camel-maildir-summary.c (maildir_summary_load):
+	Use g_strerror when setting an exception string (we need it to be
+	in UTF-8).
+	(maildir_summary_check): Same.
+
+	* providers/local/camel-maildir-store.c (get_folder): Use
+	g_strerror when setting an exception string (we need it to be in
+	UTF-8).
+	(delete_folder): Same.
+	(delete_folder): Here too.
+
+	* providers/local/camel-local-summary.c (local_summary_sync): Use
+	g_strerror when setting an exception string (we need it to be in
+	UTF-8).
+
+	* providers/local/camel-local-store.c (get_folder): Use g_strerror
+	when setting an exception string (we need it to be in UTF-8).
+	(create_folder): Same.
+	(xrename): Here too.
+	(rename_folder): And here.
+	(delete_folder): Also here.
+
+	* camel-provider.c (camel_provider_init): For debugging printfs,
+	we want to use normal strerror (we want locale charset, not
+	UTF-8).
+
+	* camel-movemail.c (camel_movemail): Use g_strerror when setting
+	an exception string (we need it to be in UTF-8).
+	(movemail_external): Same.
+	(camel_movemail_copy_file): Here too.
+	(camel_movemail_solaris): Also here.
+
+	* camel-mime-utils.c (rfc2047_decode_word): For debugging printfs,
+	we want to use normal strerror (we want locale charset, not
+	UTF-8).
+	(header_encode_param): Same.
+
+	* camel-mime-part-utils.c (convert_buffer): For debugging printfs,
+	we want to use normal strerror (we want locale charset, not
+	UTF-8).
+
+	* camel-lock-client.c (camel_lock_helper_init): Use g_strerror
+	when setting an exception string (we need it to be in UTF-8).
+
+	* camel-data-cache.c (camel_data_cache_remove): Use g_strerror
+	when setting an exception string (we need it to be in UTF-8).
+
+	* camel-tcp-stream-raw.c (flaky_tcp_write): For debugging printfs,
+	we want to use normal strerror (we want locale charset, not
+	UTF-8).
+	(flaky_tcp_read): Same.
+
+	* camel-gpg-context.c (gpg_ctx_op_step): For debugging printfs, we
+	want to use normal strerror (we want locale charset, not UTF-8).
+
+	* camel-service.c (camel_gethostbyname): Use g_strerror when
+	setting an exception string (we need it to be in UTF-8).
+
+	* camel-lock.c (camel_lock_dot): Use g_strerror when setting an
+	exception string (we need it to be in UTF-8).
+	(camel_lock_fcntl): Same.
+
 2002-11-07  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-part.c (camel_mime_part_set_content_type): constify

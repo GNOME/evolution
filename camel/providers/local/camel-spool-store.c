@@ -114,9 +114,9 @@ construct (CamelService *service, CamelSession *session, CamelProvider *provider
 	}
 
 	if (stat(service->url->path, &st) == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				     _("Spool `%s' cannot be opened: %s"),
-				     service->url->path, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				      _("Spool `%s' cannot be opened: %s"),
+				      service->url->path, g_strerror (errno));
 		return;
 	}
 
@@ -156,17 +156,18 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 		name = g_strdup_printf("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 		if (stat(name, &st) == -1) {
 			if (errno != ENOENT) {
-				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-						     _("Could not open folder `%s':\n%s"),
-						     folder_name, strerror(errno));
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Could not open folder `%s':\n%s"),
+						      folder_name, g_strerror (errno));
 			} else if ((flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
-				camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-						     _("Folder `%s' does not exist."), folder_name);
+				camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+						      _("Folder `%s' does not exist."),
+						      folder_name);
 			} else {
-				if (creat(name, 0600) == -1) {
-					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-							     _("Could not create folder `%s':\n%s"),
-							     folder_name, strerror(errno));
+				if (creat (name, 0600) == -1) {
+					camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+							      _("Could not create folder `%s':\n%s"),
+							      folder_name, g_strerror (errno));
 				} else {
 					folder = camel_spool_folder_new(store, folder_name, flags, ex);
 				}
@@ -278,9 +279,9 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 		name = root;
 
 	if (stat(name, &st) == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not scan folder `%s': %s"),
-				     name, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not scan folder `%s': %s"),
+				      name, g_strerror (errno));
 	} else if (S_ISREG(st.st_mode)) {
 		/* incase we start scanning from a file.  messy duplication :-/ */
 		if (path) {
@@ -308,9 +309,9 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 
 	dir = opendir(name);
 	if (dir == NULL) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not scan folder `%s': %s"),
-				     name, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not scan folder `%s': %s"),
+				      name, g_strerror (errno));
 		return -1;
 	}
 

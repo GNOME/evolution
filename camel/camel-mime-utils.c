@@ -1071,7 +1071,7 @@ rfc2047_decode_word(const char *in, size_t len)
 				e_iconv_close (ic);
 			} else {
 				w(g_warning ("Cannot decode charset, header display may be corrupt: %s: %s",
-					     charset, g_strerror (errno)));
+					     charset, strerror (errno)));
 				
 				if (!retried) {
 					charset = e_iconv_locale_charset ();
@@ -1130,7 +1130,7 @@ append_8bit (GString *out, const char *inbuf, size_t inlen, const char *charset)
 	outbuf = outbase = g_malloc(outlen);
 	
 	if (e_iconv(ic, &inbuf, &inlen, &outbuf, &outlen) == (size_t) -1) {
-		w(g_warning("Conversion to '%s' failed: %s", charset, strerror(errno)));
+		w(g_warning("Conversion to '%s' failed: %s", charset, strerror (errno)));
 		g_free(outbase);
 		e_iconv_close(ic);
 		return FALSE;
@@ -1282,7 +1282,7 @@ rfc2047_encode_word(GString *outstring, const char *in, size_t len, const char *
 			convlen = MIN(inlen, CAMEL_FOLD_PREENCODED);
 			p = inptr;
 			if (e_iconv (ic, &inptr, &convlen, &out, &outlen) == (size_t) -1) {
-				w(g_warning("Conversion problem: conversion truncated: %s", strerror(errno)));
+				w(g_warning("Conversion problem: conversion truncated: %s", strerror (errno)));
 				/* blah, we include it anyway, better than infinite loop ... */
 				inptr = p + convlen;
 			} else {
@@ -2987,7 +2987,7 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 		inbuf = in;
 		
 		if (e_iconv (cd, &inbuf, &inleft, &outptr, &outleft) == (size_t) -1) {
-			w(g_warning ("Conversion problem: conversion truncated: %s", g_strerror (errno)));
+			w(g_warning ("Conversion problem: conversion truncated: %s", strerror (errno)));
 		} else {
 			e_iconv (cd, NULL, 0, &outptr, &outleft);
 		}

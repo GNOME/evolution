@@ -503,34 +503,34 @@ camel_certdb_nss_cert_get(CamelCertDB *certdb, CERTCertificate *cert)
 	int fd;
 	ssize_t len;
 	struct stat st;
-
-	fingerprint = cert_fingerprint(cert);
-	ccert = camel_certdb_get_cert(certdb, fingerprint);
+	
+	fingerprint = cert_fingerprint (cert);
+	ccert = camel_certdb_get_cert (certdb, fingerprint);
 	if (ccert == NULL) {
-		g_free(fingerprint);
+		g_free (fingerprint);
 		return ccert;
 	}
-
+	
 	if (ccert->rawcert == NULL) {
-		path = g_strdup_printf("%s/.camel_certs/%s", getenv("HOME"), fingerprint);
-		if (stat(path, &st) == -1
-		    || (fd = open(path, O_RDONLY)) == -1) {
-			g_warning("could not load cert %s: %s", path, strerror(errno));
-			g_free(fingerprint);
-			g_free(path);
-			camel_cert_set_trust(certdb, ccert, CAMEL_CERT_TRUST_UNKNOWN);
-			camel_certdb_touch(certdb);
-
+		path = g_strdup_printf ("%s/.camel_certs/%s", getenv ("HOME"), fingerprint);
+		if (stat (path, &st) == -1
+		    || (fd = open (path, O_RDONLY)) == -1) {
+			g_warning ("could not load cert %s: %s", path, strerror (errno));
+			g_free (fingerprint);
+			g_free (path);
+			camel_cert_set_trust (certdb, ccert, CAMEL_CERT_TRUST_UNKNOWN);
+			camel_certdb_touch (certdb);
+			
 			return ccert;
 		}
 		g_free(path);
 		
-		ccert->rawcert = g_byte_array_new();
+		ccert->rawcert = g_byte_array_new ();
 		g_byte_array_set_size(ccert->rawcert, st.st_size);
 		len = read(fd, ccert->rawcert->data, st.st_size);
 		close(fd);
 		if (len != st.st_size) {
-			g_warning("cert size read truncated %s: %d != %ld", path, len, st.st_size);
+			g_warning ("cert size read truncated %s: %d != %ld", path, len, st.st_size);
 			g_byte_array_free(ccert->rawcert, TRUE);
 			ccert->rawcert = NULL;
 			g_free(fingerprint);
@@ -586,11 +586,12 @@ camel_certdb_nss_cert_set(CamelCertDB *certdb, CamelCert *ccert, CERTCertificate
 	struct stat st;
 	
 	fingerprint = ccert->fingerprint;
-
+	
 	if (ccert->rawcert == NULL)
-		ccert->rawcert = g_byte_array_new();
-	g_byte_array_set_size(ccert->rawcert, cert->derCert.len);
-	memcpy(ccert->rawcert->data, cert->derCert.data, cert->derCert.len);
+		ccert->rawcert = g_byte_array_new ();
+	
+	g_byte_array_set_size (ccert->rawcert, cert->derCert.len);
+	memcpy (ccert->rawcert->data, cert->derCert.data, cert->derCert.len);
 	
 	dir = g_strdup_printf ("%s/.camel_certs", getenv ("HOME"));
 	if (stat (dir, &st) == -1 && mkdir (dir, 0700) == -1) {
@@ -602,19 +603,19 @@ camel_certdb_nss_cert_set(CamelCertDB *certdb, CamelCert *ccert, CERTCertificate
 	path = g_strdup_printf ("%s/%s", dir, fingerprint);
 	g_free (dir);
 	
-	stream = camel_stream_fs_new_with_name(path, O_WRONLY|O_CREAT|O_TRUNC, 0600);
+	stream = camel_stream_fs_new_with_name (path, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (stream != NULL) {
-		if (camel_stream_write(stream, ccert->rawcert->data, ccert->rawcert->len) != ccert->rawcert->len) {
-			g_warning("Could not save cert: %s: %s", path, strerror(errno));
-			unlink(path);
+		if (camel_stream_write (stream, ccert->rawcert->data, ccert->rawcert->len) == -1) {
+			g_warning ("Could not save cert: %s: %s", path, strerror (errno));
+			unlink (path);
 		}
-		camel_stream_close(stream);
-		camel_object_unref(stream);
+		camel_stream_close (stream);
+		camel_object_unref (stream);
 	} else {
-		g_warning("Could not save cert: %s: %s", path, strerror(errno));
+		g_warning ("Could not save cert: %s: %s", path, strerror (errno));
 	}
 	
-	g_free(path);
+	g_free (path);
 }
 
 

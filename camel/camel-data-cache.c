@@ -438,10 +438,10 @@ camel_data_cache_remove(CamelDataCache *cdc, const char *path, const char *key, 
 	}
 
 	/* maybe we were a mem stream */
-	if (unlink(real) == -1 && errno != ENOENT) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not remove cache entry: %s: %s"),
-				     real, strerror(errno));
+	if (unlink (real) == -1 && errno != ENOENT) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not remove cache entry: %s: %s"),
+				      real, g_strerror (errno));
 		ret = -1;
 	} else {
 		ret = 0;

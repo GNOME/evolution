@@ -589,9 +589,9 @@ camel_folder_summary_load(CamelFolderSummary *s)
 	return 0;
 
 error:
-	g_warning("Cannot load summary file: %s", strerror(ferror(in)));
+	g_warning ("Cannot load summary file: %s", strerror (ferror (in)));
 	CAMEL_SUMMARY_UNLOCK(s, io_lock);
-	fclose(in);
+	fclose (in);
 	s->flags |= ~CAMEL_SUMMARY_DIRTY;
 
 	return -1;

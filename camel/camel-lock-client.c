@@ -107,9 +107,9 @@ static int camel_lock_helper_init(CamelException *ex)
 
 	if (pipe(lock_stdin_pipe) == -1
 	    || pipe(lock_stdout_pipe) == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Cannot build locking helper pipe: %s"),
-				     strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot build locking helper pipe: %s"),
+				      g_strerror (errno));
 		return -1;
 	}
 
@@ -120,9 +120,9 @@ static int camel_lock_helper_init(CamelException *ex)
 		close(lock_stdin_pipe[1]);
 		close(lock_stdout_pipe[0]);
 		close(lock_stdout_pipe[1]);
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Cannot fork locking helper: %s"),
-				     strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot fork locking helper: %s"),
+				      g_strerror (errno));
 		return -1;
 	case 0:
 		close(STDIN_FILENO);

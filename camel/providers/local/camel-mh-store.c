@@ -200,7 +200,7 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 		if (errno != ENOENT) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Could not open folder `%s':\n%s"),
-					     folder_name, g_strerror(errno));
+					     folder_name, g_strerror (errno));
 			g_free (name);
 			return NULL;
 		}
@@ -214,7 +214,7 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 		if (mkdir(name, 0700) != 0) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Could not create folder `%s':\n%s"),
-					     folder_name, g_strerror(errno));
+					     folder_name, g_strerror (errno));
 			g_free (name);
 			return NULL;
 		}
@@ -248,9 +248,9 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 	/* remove folder directory - will fail if not empty */
 	name = g_strdup_printf("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 	if (rmdir(name) == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not delete folder `%s': %s"),
-				     folder_name, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not delete folder `%s': %s"),
+				      folder_name, g_strerror (errno));
 		g_free(name);
 		return;
 	}

@@ -413,7 +413,9 @@ static int maildir_summary_load(CamelLocalSummary *cls, int forceindex, CamelExc
 
 	dir = opendir(cur);
 	if (dir == NULL) {
-		camel_exception_setv(ex, 1, _("Cannot open maildir directory path: %s: %s"), cls->folder_path, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot open maildir directory path: %s: %s"),
+				      cls->folder_path, g_strerror (errno));
 		g_free(cur);
 		return -1;
 	}
@@ -461,7 +463,7 @@ static int camel_maildir_summary_add(CamelLocalSummary *cls, const char *name, i
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1) {
-		g_warning("Cannot summarise/index: %s: %s", filename, strerror(errno));
+		g_warning ("Cannot summarise/index: %s: %s", filename, strerror (errno));
 		g_free(filename);
 		return -1;
 	}
@@ -542,7 +544,9 @@ maildir_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Ca
 	   no longer exist */
 	dir = opendir(cur);
 	if (dir == NULL) {
-		camel_exception_setv(ex, 1, _("Cannot open maildir directory path: %s: %s"), cls->folder_path, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot open maildir directory path: %s: %s"),
+				      cls->folder_path, g_strerror (errno));
 		g_free(cur);
 		g_free(new);
 		camel_operation_end(NULL);

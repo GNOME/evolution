@@ -90,25 +90,25 @@ get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelExcep
 		int fd;
 
 		if (errno != ENOENT) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Could not open file `%s':\n%s"),
-					     name, g_strerror(errno));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Could not open file `%s':\n%s"),
+					      name, g_strerror (errno));
 			g_free(name);
 			return NULL;
 		}
 		if ((flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-					     _("Folder `%s' does not exist."),
-					     folder_name);
+			camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+					      _("Folder `%s' does not exist."),
+					      folder_name);
 			g_free(name);
 			return NULL;
 		}
 
 		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0600);
 		if (fd == -1) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Could not create file `%s':\n%s"),
-					     name, g_strerror(errno));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Could not create file `%s':\n%s"),
+					      name, g_strerror (errno));
 			g_free(name);
 			return NULL;
 		}

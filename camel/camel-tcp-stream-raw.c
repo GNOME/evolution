@@ -149,7 +149,7 @@ flaky_tcp_write (int fd, const char *buffer, size_t buflen)
 		printf ("flaky_tcp_write (%d, ..., %d): (%d) '%.*s'", fd, buflen, len, (int) len, buffer);
 		nwritten = write (fd, buffer, len);
 		if (nwritten < 0)
-			printf (" errno => %s\n", g_strerror (errno));
+			printf (" errno => %s\n", strerror (errno));
 		else if (nwritten < len)
 			printf (" only wrote %d bytes\n", nwritten);
 		else
@@ -200,7 +200,7 @@ flaky_tcp_read (int fd, char *buffer, size_t buflen)
 		printf ("flaky_tcp_read (%d, ..., %d): (%d)", fd, buflen, len);
 		nread = read (fd, buffer, len);
 		if (nread < 0)
-			printf (" errno => %s\n", g_strerror (errno));
+			printf (" errno => %s\n", strerror (errno));
 		else if (nread < len)
 			printf (" only read %d bytes\n", nread);
 		else

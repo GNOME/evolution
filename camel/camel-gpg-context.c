@@ -954,7 +954,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		if (errno == EINTR)
 			goto retry;
 		
-		d(printf ("select() failed: %s\n", g_strerror (errno)));
+		d(printf ("select() failed: %s\n", strerror (errno)));
 		
 		return -1;
 	}

@@ -155,7 +155,9 @@ static int mbox_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *e
 
 	mf->lockfd = open(lf->folder_path, O_RDWR, 0);
 	if (mf->lockfd == -1) {
-		camel_exception_setv(ex, 1, _("Cannot create folder lock on %s: %s"), lf->folder_path, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot create folder lock on %s: %s"),
+				      lf->folder_path, g_strerror (errno));
 		return -1;
 	}
 
@@ -212,7 +214,9 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 
 	output_stream = camel_stream_fs_new_with_name(lf->folder_path, O_WRONLY|O_APPEND, 0600);
 	if (output_stream == NULL) {
-		camel_exception_setv(ex, 1, _("Cannot open mailbox: %s: %s\n"), lf->folder_path, strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot open mailbox: %s: %s\n"),
+				      lf->folder_path, g_strerror (errno));
 		goto fail;
 	}
 
@@ -361,9 +365,9 @@ retry:
 
 	fd = open(lf->folder_path, O_RDONLY);
 	if (fd == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				     _("Cannot get message: %s from folder %s\n  %s"), uid, lf->folder_path,
-				     strerror(errno));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				      _("Cannot get message: %s from folder %s\n  %s"),
+				      uid, lf->folder_path, g_strerror (errno));
 		goto fail;
 	}
 

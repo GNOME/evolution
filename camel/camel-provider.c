@@ -67,26 +67,26 @@ camel_provider_init (void)
 	char *p, *name, buf[80];
 	
 	providers = g_hash_table_new (g_strcase_hash, g_strcase_equal);
-
+	
 	dir = opendir (CAMEL_PROVIDERDIR);
 	if (!dir) {
 		g_error ("Could not open camel provider directory: %s",
-			 g_strerror (errno));
+			 strerror (errno));
 		return NULL;
 	}
-
+	
 	while ((d = readdir (dir))) {
 		FILE *fp;
 		
 		p = strchr (d->d_name, '.');
 		if (!p || strcmp (p, ".urls") != 0)
 			continue;
-
+		
 		name = g_strdup_printf ("%s/%s", CAMEL_PROVIDERDIR, d->d_name);
 		fp = fopen (name, "r");
 		if (!fp) {
 			g_warning ("Could not read provider info file %s: %s",
-				   name, g_strerror (errno));
+				   name, strerror (errno));
 			g_free (name);
 			continue;
 		}

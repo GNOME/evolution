@@ -771,7 +771,9 @@ camel_gethostbyname (const char *name, CamelException *ex)
 			} while (status == -1 && errno == EINTR);
 			
 			if (status == -1) {
-				camel_exception_setv(ex, 1, _("Failure in name lookup: %s"), strerror(errno));
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Failure in name lookup: %s"),
+						      g_strerror (errno));
 				d(printf("Cancelling lookup thread\n"));
 				pthread_cancel(id);
 			} else if (FD_ISSET(cancel_fd, &rdset)) {
