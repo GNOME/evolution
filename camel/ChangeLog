@@ -1,3 +1,9 @@
+2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl.c: Plug in GSSAPI support.
+
+	* camel-sasl-gssapi.[c,h]: New source files implementing GSSAPI.
+
 2003-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-part.c (process_header): Use
