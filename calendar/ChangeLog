@@ -1,3 +1,10 @@
+2004-10-12  Li Yuan  <li.yuan@sun.com>
+
+	* gui/e-day-view.c: (e_day_view_on_main_canvas_button_press):
+	* gui/e-week-view.c: (e_week_view_on_button_press):
+	If main_canvas has focus, do not grub it. Emit the 
+	selected_time_changed signal after the selection day changed.
+
 2004-10-12  Not Zed  <NotZed@Ximian.com>
 
 	* gui/dialogs/meeting-page.c (button_press_event): convert menu to

@@ -2144,7 +2144,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 
 	if (event->button == 1) {
 		/* Start the selection drag. */
-		if (!GTK_WIDGET_HAS_FOCUS (week_view))
+		if (!GTK_WIDGET_HAS_FOCUS (week_view) &&  !GTK_WIDGET_HAS_FOCUS (week_view->main_canvas))
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
 		if (gdk_pointer_grab (GTK_LAYOUT (widget)->bin_window, FALSE,
@@ -2154,6 +2154,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 			week_view->selection_start_day = day;
 			week_view->selection_end_day = day;
 			week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_END;
+			g_signal_emit_by_name (week_view, "selected_time_changed");
 
 			/* FIXME: Optimise? */
 			gtk_widget_queue_draw (week_view->main_canvas);

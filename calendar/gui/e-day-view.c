@@ -2866,7 +2866,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 			return TRUE;
 		}
 
-		if (!GTK_WIDGET_HAS_FOCUS (day_view))
+		if (!GTK_WIDGET_HAS_FOCUS (day_view) && !GTK_WIDGET_HAS_FOCUS (day_view->main_canvas))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
 		if (gdk_pointer_grab (GTK_LAYOUT (widget)->bin_window, FALSE,
@@ -2874,6 +2874,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 				      | GDK_BUTTON_RELEASE_MASK,
 				      FALSE, NULL, event->time) == 0) {
 			e_day_view_start_selection (day_view, day, row);
+			g_signal_emit_by_name (day_view, "selected_time_changed");
 		}
 	} else if (event->button == 3) {
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
