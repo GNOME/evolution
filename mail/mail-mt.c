@@ -273,6 +273,7 @@ void mail_msg_check_error(void *msg)
 	g_signal_connect(gd, "response", G_CALLBACK(error_response), m->ops);
 	g_signal_connect(gd, "destroy", G_CALLBACK(error_destroy), m->ops);
 	gtk_widget_show((GtkWidget *)gd);
+	g_free (text);
 }
 
 void mail_msg_cancel(unsigned int msgid)

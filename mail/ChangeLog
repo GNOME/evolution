@@ -1,3 +1,7 @@
+2003-04-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* mail-mt.c (mail_msg_check_error): Free the temporary error text.
+
 2003-04-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-vfolder.c (vfolder_gui_add_rule): Set the correct border
