@@ -78,7 +78,9 @@ typedef enum {
 	CAL_COMPONENT_FIELD_COLOR,		/* not a real field */
 	CAL_COMPONENT_FIELD_STATUS,
 	CAL_COMPONENT_FIELD_COMPONENT,		/* not a real field */
+#if 0
 	CAL_COMPONENT_FIELD_LOCATION,
+#endif
 	CAL_COMPONENT_FIELD_NUM_FIELDS
 } CalComponentField;
 

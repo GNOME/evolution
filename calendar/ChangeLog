@@ -1,5 +1,11 @@
 2001-11-14  Damon Chaplin  <damon@ximian.com>
 
+	* gui/calendar-model.c: 
+	* cal-util/cal-component.h: #ifdef'ed out the LOCATION field for now,
+	since it wasn't supported everywhere, or in the .etspec file.
+
+2001-11-14  Damon Chaplin  <damon@ximian.com>
+
 	* gui/e-calendar-table.c: don't abort when e_table_selected_count()
 	returns odd values. There seems to be a bug in ETable. This is to
 	avoid bug #13843.
