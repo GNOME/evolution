@@ -25,10 +25,9 @@
 #define _MAIL_DISPLAY_H_
 
 #include <gtk/gtkvbox.h>
+#include <gtk/gtkscrolledwindow.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
-
-#include <gal/widgets/e-scroll-frame.h>
 
 #include <camel/camel-stream.h>
 #include <camel/camel-mime-message.h>
@@ -50,7 +49,7 @@ struct _MailDisplay {
 	
 	struct _MailDisplayPrivate *priv;
 	
-	EScrollFrame *scroll;
+	GtkScrolledWindow *scroll;
 	GtkHTML *html;
 	/* GtkHTMLStream *stream; */
 	gint redisplay_counter;

@@ -2627,13 +2627,11 @@ mail_display_new (void)
 	gtk_box_set_homogeneous (GTK_BOX (mail_display), FALSE);
 	gtk_widget_show (GTK_WIDGET (mail_display));
 	
-	scroll = e_scroll_frame_new (NULL, NULL);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC);
-	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll), GTK_SHADOW_IN);
-	gtk_box_pack_start_defaults (GTK_BOX (mail_display), GTK_WIDGET (scroll));
-	gtk_widget_show (GTK_WIDGET (scroll));
+	scroll = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
+	gtk_box_pack_start_defaults (GTK_BOX (mail_display), scroll);
+	gtk_widget_show (scroll);
 	
 	html = gtk_html_new ();
 	tok = e_searching_tokenizer_new ();
@@ -2658,7 +2656,7 @@ mail_display_new (void)
 		gtk_selection_add_target (mail_display->invisible,
 					  clipboard_atom, GDK_SELECTION_TYPE_STRING, 1);
 	
-	mail_display->scroll = E_SCROLL_FRAME (scroll);
+	mail_display->scroll = GTK_SCROLLED_WINDOW (scroll);
 	mail_display->html = GTK_HTML (html);
 	g_object_ref (mail_display->html);
 	mail_display->last_active = NULL;

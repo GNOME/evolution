@@ -1108,7 +1108,7 @@ save_cursor_pos (FolderBrowser *fb)
 	gconf = gconf_client_get_default ();
 	paned_size = gconf_client_get_int (gconf, "/apps/evolution/mail/display/paned_size", NULL);
 	
-	adj = e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (fb->message_list));
+	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (fb->message_list));
 	y += adj->value - ((paned_size - height) / 2);
 	
 	return y;
@@ -1122,7 +1122,7 @@ set_cursor_pos (FolderBrowser *fb, int y)
 	if (y == -1)
 		return;
 	
-	adj = e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (fb->message_list));
+	adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (fb->message_list));
 	gtk_adjustment_set_value (adj, (gfloat)y);
 }
 
@@ -2256,7 +2256,7 @@ etree_key (ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, FolderBr
 	if ((ev->key.state & GDK_CONTROL_MASK) != 0)
 		return FALSE;
 	
-	vadj = e_scroll_frame_get_vadjustment (fb->mail_display->scroll);
+	vadj = gtk_scrolled_window_get_vadjustment (fb->mail_display->scroll);
 	page_size = vadj->page_size - vadj->step_increment;
 	
 	switch (ev->key.keyval) {
