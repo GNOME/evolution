@@ -483,11 +483,9 @@ enumerate_msg (MessageList *ml, const char *uid, gpointer data)
 	g_ptr_array_add ((GPtrArray *) data, g_strdup (uid));
 }
 
-
-void
-forward_msg (GtkWidget *widget, gpointer user_data)
+static void
+forward_message (FolderBrowser *fb, gboolean attach)
 {
-	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	EMsgComposer *composer;
 	CamelMimeMessage *cursor_msg;
 	GPtrArray *uids;
@@ -510,8 +508,19 @@ forward_msg (GtkWidget *widget, gpointer user_data)
 	
 	mail_do_forward_message (cursor_msg,
 				 fb->message_list->folder,
-				 uids,
-				 composer);
+				 uids, composer, attach);
+}
+
+void
+forward_msg (GtkWidget *widget, gpointer user_data)
+{
+	forward_message (FOLDER_BROWSER (user_data), FALSE);
+}
+
+void
+forward_attach (GtkWidget *widget, gpointer user_data)
+{
+	forward_message (FOLDER_BROWSER (user_data), TRUE);
 }
 
 static void
@@ -912,11 +921,25 @@ manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 void
-configure_folder(BonoboUIComponent *uih, void *user_data, const char *path)
+configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
 	
 	local_reconfigure_folder(fb);
+}
+
+void
+view_source (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = user_data;
+	GPtrArray *uids;
+	
+	if (!fb->folder)
+		return;
+	
+	uids = g_ptr_array_new ();
+	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	mail_do_view_message_sources (fb->folder, uids, fb);
 }
 
 void

@@ -59,7 +59,7 @@ void mail_do_attach_message (CamelFolder *folder, const char *uid,
 			     EMsgComposer *composer);
 void mail_do_forward_message (CamelMimeMessage *basis, CamelFolder *source,
 			      GPtrArray *uids,	/*array of allocated gchar *, will all be freed */
-			      EMsgComposer *composer);
+			      EMsgComposer *composer, gboolean attach);
 void mail_do_load_folder (FolderBrowser *fb, const char *url);
 void mail_do_create_folder (const GNOME_Evolution_ShellComponentListener listener,
 			    const char *uri, const char *type);
@@ -71,4 +71,5 @@ void mail_do_edit_messages (CamelFolder *folder, GPtrArray *uids,
 void mail_do_setup_folder (const char *name, CamelFolder **folder);
 void mail_do_view_messages (CamelFolder *folder, GPtrArray *uids,
 			    FolderBrowser *fb);
-
+void mail_do_view_message_sources (CamelFolder *folder, GPtrArray *uids,
+				   FolderBrowser *fb);

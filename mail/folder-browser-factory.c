@@ -58,7 +58,7 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageReplySndr", reply_to_sender),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
 	BONOBO_UI_UNSAFE_VERB ("MessageForward", forward_msg),
-	/*BONOBO_UI_UNSAFE_VERB ("MessageForwardAttach", forward_msg),*/
+	BONOBO_UI_UNSAFE_VERB ("MessageForwardAttach", forward_attach),
 	
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", mark_as_seen),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", mark_as_unseen),

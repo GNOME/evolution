@@ -1,3 +1,28 @@
+2000-11-15  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser-factory.c: Added a new Forward as Attachment
+	bonobo menu item verb.
+
+	* mail-view.c (view_forward_msg): Updated to reflect changes to
+	mail_do_forward_message(). It now forwards the message without
+	attaching it - is this what we want?
+
+	* mail-ops.c (mail_do_view_message_sources): New async function to
+	display message source dialog windows.
+	(setup_forward_messages): If we were asked not to forward the
+	message(s) as attachment(s) and the user chose more than a single
+	message, then default to making each message an attachment.
+	(cleanup_forward_messages): If we aren't forwarding the message as
+	an attachment, then quote the text and set the composer's body
+	with it.
+
+	* mail-callbacks.c (view_source): New callback to view the message
+	source of all messages that are currently selected.
+	(forward_attach): New callback to forward a message as an
+	attachment (forward_msg is now for forwarding a message without it
+	being an attachment).
+	(forward_message): Convenience function for forwarding messages.
+
 2000-11-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* subscribe-dialog.c (subscribe_do_subscribe_folder): Take a

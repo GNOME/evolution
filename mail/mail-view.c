@@ -114,7 +114,7 @@ view_forward_msg (GtkWidget *widget, gpointer user_data)
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 
-	mail_do_forward_message (data->msg, data->source, uids, composer);
+	mail_do_forward_message (data->msg, data->source, uids, composer, FALSE);
 }
 
 static void

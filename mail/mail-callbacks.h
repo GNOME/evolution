@@ -42,6 +42,7 @@ void send_receieve_mail    (GtkWidget *widget, gpointer user_data);
 void compose_msg           (GtkWidget *widget, gpointer user_data);
 void send_to_url           (const char *url);
 void forward_msg           (GtkWidget *widget, gpointer user_data);
+void forward_attach        (GtkWidget *widget, gpointer user_data);
 void reply_to_sender       (GtkWidget *widget, gpointer user_data);
 void reply_to_all          (GtkWidget *widget, gpointer user_data);
 void delete_msg            (GtkWidget *widget, gpointer user_data);
@@ -53,6 +54,7 @@ void print_msg             (GtkWidget *widget, gpointer user_data);
 void print_preview_msg     (GtkWidget *widget, gpointer user_data);
 void edit_msg              (GtkWidget *widget, gpointer user_data);
 void view_msg              (GtkWidget *widget, gpointer user_data);
+void view_source           (GtkWidget *widget, gpointer user_data);
 
 void select_all            (BonoboUIComponent *uih, void *user_data, const char *path);
 void invert_selection      (BonoboUIComponent *uih, void *user_data, const char *path);

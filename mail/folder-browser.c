@@ -466,7 +466,7 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Fold
 		{ _("Reply to Sender"),            NULL, GTK_SIGNAL_FUNC (reply_to_sender),   NULL,  0 },
 		{ _("Reply to All"),               NULL, GTK_SIGNAL_FUNC (reply_to_all),      NULL,  0 },
 		{ _("Forward"),                    NULL, GTK_SIGNAL_FUNC (forward_msg),       NULL,  0 },
-		/*{ _("Forward as Attachment"),      NULL, GTK_SIGNAL_FUNC (forward_msg),       NULL,  0 },*/
+		{ _("Forward as Attachment"),      NULL, GTK_SIGNAL_FUNC (forward_attach),    NULL,  0 },
 		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
 		{ _("Mark as Read"),               NULL, GTK_SIGNAL_FUNC (mark_as_seen),      NULL,  4 },
 		{ _("Mark as Unread"),             NULL, GTK_SIGNAL_FUNC (mark_as_unseen),    NULL,  8 },
@@ -481,6 +481,8 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Fold
 		{ _("Apply Filters"),              NULL, GTK_SIGNAL_FUNC (apply_filters),     NULL,  0 },
 		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
 		{ _("Create Rule From Message"),   NULL, GTK_SIGNAL_FUNC (NULL),       filter_menu,  2 },
+		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
+		{ _("View Message Source"),        NULL, GTK_SIGNAL_FUNC (view_source),       NULL,  0 },
 		{ NULL,                            NULL, NULL,                                NULL,  0 }
 	};
 	

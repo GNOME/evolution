@@ -34,6 +34,7 @@
 #include "mail-ops.h"
 #include "composer/e-msg-composer.h"
 #include "folder-browser.h"
+#include "e-util/e-html-utils.h"
 
 /* ** FETCH MAIL ********************************************************** */
 
@@ -1475,21 +1476,18 @@ mail_do_attach_message (CamelFolder *folder, const char *uid,
 
 /* ** FORWARD MESSAGES **************************************************** */
 
-typedef struct forward_messages_input_s
-{
+typedef struct forward_messages_input_s {
 	CamelMimeMessage *basis;
 	CamelFolder *source;
 	GPtrArray *uids;
 	EMsgComposer *composer;
-}
-forward_messages_input_t;
+	gboolean attach;
+} forward_messages_input_t;
 
-typedef struct forward_messages_data_s
-{
+typedef struct forward_messages_data_s {
 	gchar *subject;
 	GPtrArray *parts;
-}
-forward_messages_data_t;
+} forward_messages_data_t;
 
 static gchar *
 describe_forward_messages (gpointer in_data, gboolean gerund)
@@ -1501,16 +1499,14 @@ describe_forward_messages (gpointer in_data, gboolean gerund)
 			return g_strdup_printf (_("Forwarding messages \"%s\""),
 						input->basis->subject);
 		else
-			return
-				g_strdup_printf
+			return g_strdup_printf
 				(_("Forwarding a message without a subject"));
 	} else {
 		if (input->basis->subject)
 			return g_strdup_printf (_("Forward message \"%s\""),
 						input->basis->subject);
 		else
-			return
-				g_strdup_printf
+			return g_strdup_printf
 				(_("Forward a message without a subject"));
 	}
 }
@@ -1520,7 +1516,14 @@ setup_forward_messages (gpointer in_data, gpointer op_data,
 			CamelException *ex)
 {
 	forward_messages_input_t *input = (forward_messages_input_t *) in_data;
-
+	
+	if (!input->attach && input->uids->len > 1) {
+		/* Hmmm, this behavior is undefined so lets default
+                   back to forwarding each message as an attachment. */
+		
+		input->attach = TRUE;
+	}
+	
 	camel_object_ref (CAMEL_OBJECT (input->basis));
 	camel_object_ref (CAMEL_OBJECT (input->source));
 	gtk_object_ref (GTK_OBJECT (input->composer));
@@ -1531,51 +1534,65 @@ do_forward_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	forward_messages_input_t *input = (forward_messages_input_t *) in_data;
 	forward_messages_data_t *data = (forward_messages_data_t *) op_data;
-	time_t last_update = 0;
 	CamelMimeMessage *message;
-	CamelMimePart *part;
-	int i;
-
+	
 	data->parts = g_ptr_array_new ();
-
+	
 	mail_tool_camel_lock_up ();
-	for (i = 0; i < input->uids->len; i++) {
-		const int last_message = (i+1 == input->uids->len);
-		time_t now;
-
-		/*
-		 * Update the time display ever 2 seconds
-		 */
-		time (&now);
-		if (last_message || ((now - last_update) > 2)){
-			mail_op_set_message (_("Retrieving message number %d of %d (uid \"%s\")"),
-					     i + 1, input->uids->len, (char *) input->uids->pdata[i]);
-			last_update = now;
-		}
-
+	
+	if (input->attach) {
+		CamelMimePart *part;
+		time_t last_update = 0;
+		int i;
 		
-		message =
-			camel_folder_get_message (input->source,
-						  input->uids->pdata[i], ex);
-		g_free (input->uids->pdata[i]);
+		for (i = 0; i < input->uids->len; i++) {
+			const int last_message = (i+1 == input->uids->len);
+			time_t now;
+			
+			/*
+			 * Update the time display every 2 seconds
+			 */
+			time (&now);
+			if (last_message || ((now - last_update) > 2)){
+				mail_op_set_message (_("Retrieving message number %d of %d (uid \"%s\")"),
+						     i + 1, input->uids->len, (char *) input->uids->pdata[i]);
+				last_update = now;
+			}
+			
+			message = camel_folder_get_message (input->source,
+							    input->uids->pdata[i], ex);
+			g_free (input->uids->pdata[i]);
+			if (!message) {
+				mail_tool_camel_lock_down ();
+				return;
+			}
+			
+			part = mail_tool_make_message_attachment (message);
+			if (!part) {
+				camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+						     _("Failed to generate mime part from "
+						       "message while generating forwarded message."));
+				mail_tool_camel_lock_down ();
+				return;
+			}
+			
+			camel_object_unref (CAMEL_OBJECT (message));
+			g_ptr_array_add (data->parts, part);
+		}
+	} else {
+		message = camel_folder_get_message (input->source,
+						    input->uids->pdata[0], ex);
+		g_free (input->uids->pdata[0]);
 		if (!message) {
 			mail_tool_camel_lock_down ();
 			return;
 		}
-		part = mail_tool_make_message_attachment (message);
-		if (!part) {
-			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Failed to generate mime part from "
-					       "message while generating forwarded message."));
-			mail_tool_camel_lock_down ();
-			return;
-		}
-		camel_object_unref (CAMEL_OBJECT (message));
-		g_ptr_array_add (data->parts, part);
+		
+		g_ptr_array_add (data->parts, message);
 	}
-
+	
 	mail_tool_camel_lock_down ();
-
+	
 	data->subject = mail_tool_generate_forward_subject (input->basis);
 }
 
@@ -1583,23 +1600,85 @@ static void
 cleanup_forward_messages (gpointer in_data, gpointer op_data,
 			  CamelException *ex)
 {
-	forward_messages_input_t *input =
-
-		(forward_messages_input_t *) in_data;
+	forward_messages_input_t *input = (forward_messages_input_t *) in_data;
 	forward_messages_data_t *data = (forward_messages_data_t *) op_data;
-
-	int i;
-
-	for (i = 0; i < data->parts->len; i++) {
-		e_msg_composer_attach (input->composer,
-				       data->parts->pdata[i]);
-		camel_object_unref (CAMEL_OBJECT (data->parts->pdata[i]));
+	
+	if (input->attach) {
+		int i;
+		
+		for (i = 0; i < data->parts->len; i++) {
+			e_msg_composer_attach (input->composer, data->parts->pdata[i]);
+			camel_object_unref (CAMEL_OBJECT (data->parts->pdata[i]));
+		}
+	} else {
+		CamelMimeMessage *message = data->parts->pdata[0];
+		CamelDataWrapper *contents;
+		gboolean want_plain, is_html;
+		char *text;
+		
+		want_plain = !mail_config_send_html ();
+		contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
+		text = mail_get_message_body (contents, want_plain, &is_html);
+		
+		/* FIXME: we should share this code with Reply */
+		
+		/* Set the quoted reply text. */
+		if (text) {
+			char *repl_text;
+			
+			if (is_html) {
+				repl_text = g_strdup_printf ("<blockquote><i>\n%s\n"
+							     "</i></blockquote>\n",
+							     text);
+			} else {
+				char *s, *d, *quoted_text;
+				int lines, len;
+				
+				/* Count the number of lines in the body. If
+				 * the text ends with a \n, this will be one
+				 * too high, but that's ok. Allocate enough
+				 * space for the text and the "> "s.
+				 */
+				for (s = text, lines = 0; s; s = strchr (s + 1, '\n'))
+					lines++;
+				quoted_text = g_malloc (strlen (text) + lines * 2);
+				
+				s = text;
+				d = quoted_text;
+				
+				/* Copy text to quoted_text line by line,
+				 * prepending "> ".
+				 */
+				while (1) {
+					len = strcspn (s, "\n");
+					if (len == 0 && !*s)
+						break;
+					sprintf (d, "> %.*s\n", len, s);
+					s += len;
+					if (!*s++)
+						break;
+					d += len + 3;
+				}
+				*d = '\0';
+				
+				/* Now convert that to HTML. */
+				repl_text = e_text_to_html (quoted_text, E_TEXT_TO_HTML_PRE);
+				g_free (quoted_text);
+			}
+			
+			e_msg_composer_set_body_text (input->composer, repl_text);
+			g_free (repl_text);
+			g_free (text);
+		}
+		
+		camel_object_unref (CAMEL_OBJECT (message));
 	}
+	
 	camel_object_unref (CAMEL_OBJECT (input->source));
-
+	
 	e_msg_composer_set_headers (input->composer, NULL, NULL, NULL,
 				    data->subject);
-
+	
 	gtk_object_unref (GTK_OBJECT (input->composer));
 	g_free (data->subject);
 	g_ptr_array_free (data->parts, TRUE);
@@ -1618,21 +1697,24 @@ static const mail_operation_spec op_forward_messages = {
 void
 mail_do_forward_message (CamelMimeMessage *basis,
 			 CamelFolder *source,
-			 GPtrArray *uids, EMsgComposer *composer)
+			 GPtrArray *uids,
+			 EMsgComposer *composer,
+			 gboolean attach)
 {
 	forward_messages_input_t *input;
-
+	
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (basis));
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (uids != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
+	
 	input = g_new (forward_messages_input_t, 1);
 	input->basis = basis;
 	input->source = source;
 	input->uids = uids;
 	input->composer = composer;
-
+	input->attach = attach;
+	
 	mail_operation_queue (&op_forward_messages, input, TRUE);
 }
 
@@ -2313,4 +2395,136 @@ mail_do_view_messages (CamelFolder *folder, GPtrArray *uids,
 	input->fb = fb;
 
 	mail_operation_queue (&op_view_messages, input, TRUE);
+}
+
+/* ** VIEW MESSAGE SOURCE ******************************************************* */
+
+typedef struct view_message_sources_input_s {
+	CamelFolder *folder;
+	GPtrArray *uids;
+	FolderBrowser *fb;
+} view_message_sources_input_t;
+
+typedef struct view_message_sources_data_s {
+	GPtrArray *messages;
+} view_message_sources_data_t;
+
+static gchar *
+describe_view_message_sources (gpointer in_data, gboolean gerund)
+{
+	view_message_sources_input_t *input = (view_message_sources_input_t *) in_data;
+	
+	if (gerund)
+		return g_strdup_printf
+			(_("Viewing message sources from folder \"%s\""),
+			 mail_tool_get_folder_name (input->folder));
+	else
+		return g_strdup_printf (_("View message sources from \"%s\""),
+					mail_tool_get_folder_name (input->folder));
+}
+
+static void
+setup_view_message_sources (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	view_message_sources_input_t *input = (view_message_sources_input_t *) in_data;
+	
+	camel_object_ref (CAMEL_OBJECT (input->folder));
+	gtk_object_ref (GTK_OBJECT (input->fb));
+}
+
+static void
+do_view_message_sources (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	view_message_sources_input_t *input = (view_message_sources_input_t *) in_data;
+	view_message_sources_data_t *data = (view_message_sources_data_t *) op_data;
+	int i;
+	
+	data->messages = g_ptr_array_new ();
+	
+	for (i = 0; i < input->uids->len; i++) {
+		CamelMimeMessage *message;
+		
+		mail_op_set_message (_("Retrieving message %d of %d (uid \"%s\")"),
+				     i + 1, input->uids->len, (char *)input->uids->pdata[i]);
+		
+		mail_tool_camel_lock_up ();
+		message = camel_folder_get_message (input->folder, input->uids->pdata[i], ex);
+		mail_tool_camel_lock_down ();
+		
+		g_ptr_array_add (data->messages, message);
+	}
+}
+
+static void
+cleanup_view_message_sources (gpointer in_data, gpointer op_data,
+		       CamelException *ex)
+{
+	view_message_sources_input_t *input = (view_message_sources_input_t *) in_data;
+	view_message_sources_data_t *data = (view_message_sources_data_t *) op_data;
+	int i;
+	
+	for (i = 0; i < data->messages->len; i++) {
+		CamelMimeMessage *msg;
+		CamelStream *stream;
+		GtkWidget *dialog;
+		GtkWidget *source;
+		
+		if (data->messages->pdata[i] == NULL)
+			continue;
+		
+		msg = data->messages->pdata[i];
+		
+		stream = camel_stream_mem_new ();
+		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (msg), stream);
+		
+		dialog = gnome_dialog_new (camel_mime_message_get_subject (msg), GNOME_STOCK_BUTTON_OK, NULL);
+		gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+		source = gtk_text_new (NULL, NULL);
+		gtk_text_set_editable (GTK_TEXT (source), FALSE);
+		gtk_text_freeze (GTK_TEXT (source));
+		gtk_text_insert (GTK_TEXT (source), NULL, NULL, NULL,
+				 CAMEL_STREAM_MEM (stream)->buffer->data,
+				 CAMEL_STREAM_MEM (stream)->buffer->len);
+		gtk_text_thaw (GTK_TEXT (source));
+		gtk_widget_show (source);
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), source, TRUE, TRUE, 0);
+		
+		/* FIXME: this blocks, we should probably not use a run_and_close */
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		
+		camel_object_unref (CAMEL_OBJECT (stream));
+		camel_object_unref (CAMEL_OBJECT (data->messages->pdata[i]));
+		g_free (input->uids->pdata[i]);
+	}
+	
+	g_ptr_array_free (input->uids, TRUE);
+	g_ptr_array_free (data->messages, TRUE);
+	camel_object_unref (CAMEL_OBJECT (input->folder));
+	gtk_object_unref (GTK_OBJECT (input->fb));
+}
+
+static const mail_operation_spec op_view_message_sources = {
+	describe_view_message_sources,
+	sizeof (view_message_sources_data_t),
+	setup_view_message_sources,
+	do_view_message_sources,
+	cleanup_view_message_sources
+};
+
+void
+mail_do_view_message_sources (CamelFolder *folder, GPtrArray *uids,
+			      FolderBrowser *fb)
+{
+	view_message_sources_input_t *input;
+	
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (uids != NULL);
+	g_return_if_fail (IS_FOLDER_BROWSER (fb));
+	
+	input = g_new (view_message_sources_input_t, 1);
+	input->folder = folder;
+	input->uids = uids;
+	input->fb = fb;
+	
+	mail_operation_queue (&op_view_message_sources, input, TRUE);
 }
