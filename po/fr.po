@@ -3,7 +3,7 @@
 # Vincent Renardias <vincent@debian.org>, 2000.
 # Christophe Merlet (RedFox) <redfox@eikonex.org>, 2000-2002
 # Jean-Noël Guiheneuf <jean-noel.guiheneuf@wanadoo.fr>, 2001
-# Frederic Riss <frederic.riss@laposte.net>, 2001-2002.
+# maintainer: Frederic Riss <frederic.riss@laposte.net>, 2001-2002.
 #
 msgid ""
 msgstr ""
