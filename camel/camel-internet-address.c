@@ -74,74 +74,79 @@ static int
 internet_decode	(CamelAddress *a, const char *raw)
 {
 	struct _header_address *ha, *n;
-
+	
 	/* Should probably use its own decoder or something */
-	ha = header_address_decode(raw);
+	ha = header_address_decode (raw);
 	if (ha) {
 		n = ha;
 		while (n) {
 			if (n->type == HEADER_ADDRESS_NAME) {
-				camel_internet_address_add((CamelInternetAddress *)a, n->name, n->v.addr);
+				camel_internet_address_add ((CamelInternetAddress *)a, n->name, n->v.addr);
 			} else if (n->type == HEADER_ADDRESS_GROUP) {
 				struct _header_address *g = n->v.members;
 				while (g) {
 					if (g->type == HEADER_ADDRESS_NAME)
-						camel_internet_address_add((CamelInternetAddress *)a, g->name, g->v.addr);
+						camel_internet_address_add ((CamelInternetAddress *)a, g->name, g->v.addr);
 					/* otherwise, its an error, infact */
 					g = g->next;
 				}
 			}
 			n = n->next;
 		}
-		header_address_list_clear(&ha);
+		header_address_list_clear (&ha);
 	}
+	
 	return 0;
 }
 
-static char * internet_encode		(CamelAddress *a)
+static char *
+internet_encode	(CamelAddress *a)
 {
 	int i;
 	GString *out;
 	char *ret;
-
+	
 	if (a->addresses->len == 0)
 		return NULL;
-
-	out = g_string_new("");
-
-	for (i=0;i<a->addresses->len;i++) {
-		struct _address *addr = g_ptr_array_index( a->addresses, i );
-		char *name = header_encode_string(addr->name);
-
-		if (i!=0)
-			g_string_append(out, ", ");
-
+	
+	out = g_string_new ("");
+	
+	for (i = 0;i < a->addresses->len; i++) {
+		struct _address *addr = g_ptr_array_index (a->addresses, i);
+		char *name = header_encode_string (addr->name);
+		
+		if (i != 0)
+			g_string_append (out, ", ");
+		
 		if (name) {
 			if (*name)
-				g_string_sprintfa(out, "%s <%s>", name, addr->address);
+				g_string_sprintfa (out, "\"%s\" <%s>", name, addr->address);
 			else if (addr->address)
 				g_string_sprintfa (out, "%s", addr->address);
-			g_free(name);
+			g_free (name);
 		} else
-			g_string_sprintfa(out, "%s", addr->address);
+			g_string_sprintfa (out, "%s", addr->address);
 	}
+	
 	ret = out->str;
-	g_string_free(out, FALSE);
+	g_string_free (out, FALSE);
+	
 	return ret;
 }
 
-static void   internet_remove		(CamelAddress *a, int index)
+static void
+internet_remove	(CamelAddress *a, int index)
 {
 	struct _address *addr;
-
-	if (index <0 || index >= a->addresses->len)
+	
+	if (index < 0 || index >= a->addresses->len)
 		return;
-
-	addr = g_ptr_array_index( a->addresses, index);
-	g_free(addr->name);
-	g_free(addr->address);
-	g_free(addr);
-	g_ptr_array_remove_index( a->addresses, index);
+	
+	addr = g_ptr_array_index (a->addresses, index);
+	g_free (addr->name);
+	g_free (addr->address);
+	g_free (addr);
+	g_ptr_array_remove_index (a->addresses, index);
 }
 
 /**
@@ -154,7 +159,7 @@ static void   internet_remove		(CamelAddress *a, int index)
 CamelInternetAddress *
 camel_internet_address_new (void)
 {
-	CamelInternetAddress *new = CAMEL_INTERNET_ADDRESS ( camel_object_new (camel_internet_address_get_type ()));
+	CamelInternetAddress *new = CAMEL_INTERNET_ADDRESS (camel_object_new (camel_internet_address_get_type ()));
 	return new;
 }
 

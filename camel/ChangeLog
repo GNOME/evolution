@@ -1,3 +1,9 @@
+2000-09-19  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-internet-address.c (internet_encode): When encoding the
+	internet address, quote the name as the name may have commas or
+	any other token which may later confuse our address parser.
+
 2000-09-19  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c
