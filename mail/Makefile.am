@@ -237,7 +237,7 @@ EXTRA_DIST = 				\
 	$(error_DATA)			\
 	$(error_i18n)			\
 	$(glade_DATA)			\
-	$(schema_DATA)			\
+	$(schema_in_files)		\
 	$(server_in_files)		\
 	$(etspec_DATA)			\
 	filtertypes.xml			\
