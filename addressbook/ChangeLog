@@ -1,5 +1,10 @@
 2001-04-11  Christopher James Lahey  <clahey@ximian.com>
 
+	* backend/pas/pas-backend-file.c: Send report_writable signal to
+	newly connected books.
+
+2001-04-11  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-card-simple.h: Added
 	E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING.
 

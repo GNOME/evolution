@@ -7,7 +7,9 @@
  */
 
 #include "config.h"  
+#include <gtk/gtksignal.h>
 #include <stdio.h>
+#include <gnome.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <time.h>
@@ -21,18 +23,14 @@
 #endif
 #endif
 
-#include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-util.h>
-#include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
-
-#include <ebook/e-card-simple.h>
-#include <e-util/e-sexp.h>
-#include <e-util/e-dbhash.h>
 #include "pas-backend-file.h"
 #include "pas-book.h"
 #include "pas-card-cursor.h"
+#include <ebook/e-card-simple.h>
+#include <e-util/e-sexp.h>
+#include <e-util/e-dbhash.h>
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 
 #define PAS_BACKEND_FILE_VERSION_NAME "PAS-DB-VERSION"
 #define PAS_BACKEND_FILE_VERSION "0.1"
@@ -49,6 +47,7 @@ struct _PASBackendFilePrivate {
 	char     *uri;
 	DB       *file_db;
 	EList    *book_views;
+	gboolean  writable;
 };
 
 struct _PASBackendFileCursorPrivate {
@@ -1404,6 +1403,8 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		pas_book_report_writable (book, writable);
 	}
 
+	bf->priv->writable = writable;
+
 	return TRUE;
 }
 
@@ -1458,10 +1459,14 @@ pas_backend_file_add_client (PASBackend             *backend,
 	if (bf->priv->loaded) {
 		pas_book_respond_open (
 			book, GNOME_Evolution_Addressbook_BookListener_Success);
+		if (bf->priv->writable)
+			pas_book_report_writable (book, bf->priv->writable);
 	} else {
 		/* Open the book. */
 		pas_book_respond_open (
 			book, GNOME_Evolution_Addressbook_BookListener_Success);
+		if (bf->priv->writable)
+			pas_book_report_writable (book, bf->priv->writable);
 	}
 
 	return TRUE;
@@ -1585,6 +1590,7 @@ pas_backend_file_init (PASBackendFile *backend)
 	priv->clients    = NULL;
 	priv->book_views = e_list_new((EListCopyFunc) pas_backend_file_book_view_copy, (EListFreeFunc) pas_backend_file_book_view_free, NULL);
 	priv->uri        = NULL;
+	priv->writable   = FALSE;
 
 	backend->priv = priv;
 }
