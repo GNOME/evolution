@@ -1,4 +1,5 @@
 INCLUDES = 			\
+	-I$(includedir)	
 	-I$(includedir)
 
 bin_PROGRAMS = gncal
