@@ -978,6 +978,7 @@ eti_freeze (ETableItem *eti)
 static void
 eti_unfreeze (ETableItem *eti)
 {
+	g_return_if_fail (eti->frozen_count != 0);
 	eti->frozen_count --;
 	if (eti->frozen_count == 0 && eti->queue_show_cursor) {
 		eti_show_cursor (eti, 0);
@@ -1210,7 +1211,8 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 		if (eti->source_model)
 			gtk_object_ref(GTK_OBJECT(eti->source_model));
 	}
-	
+
+	eti_freeze (eti);
 	eti_table_model_changed (table_model, eti);
 }
 

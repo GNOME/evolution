@@ -97,6 +97,11 @@ struct ETreeModelClass {
 	/*
 	 * Signals
 	 */
+	/* During remove, the ETreePath of the child is removed from
+	 * the tree but is still valid.  At node_deleted, the
+	 * ETreePath is no longer valid.
+	 */
+
 	void       (*pre_change)           (ETreeModel *etm);
 	void       (*no_change)            (ETreeModel *etm);
 	void       (*node_changed)         (ETreeModel *etm, ETreePath node);
@@ -104,6 +109,7 @@ struct ETreeModelClass {
 	void       (*node_col_changed)     (ETreeModel *etm, ETreePath node,   int col);
 	void       (*node_inserted)        (ETreeModel *etm, ETreePath parent, ETreePath inserted_node);
 	void       (*node_removed)         (ETreeModel *etm, ETreePath parent, ETreePath removed_node, int old_position);
+	void       (*node_deleted)         (ETreeModel *etm, ETreePath deleted_node);
 };
 GtkType     e_tree_model_get_type              (void);
 ETreeModel *e_tree_model_new                   (void);
@@ -201,6 +207,8 @@ void        e_tree_model_node_removed          (ETreeModel     *tree_model,
 						ETreePath       parent_node,
 						ETreePath       removed_node,
 						int             old_position);
+void        e_tree_model_node_deleted          (ETreeModel     *tree_model,
+						ETreePath       deleted_node);
 
 #ifdef __cplusplus
 }

@@ -79,6 +79,7 @@ struct ETreeSelectionModelPriv {
 	int          tree_model_node_col_changed_id;
 	int          tree_model_node_inserted_id;
 	int          tree_model_node_removed_id;
+	int          tree_model_node_deleted_id;
 
 	int          sorted_model_node_resorted_id;
 };
@@ -378,7 +379,7 @@ etsm_no_change (ETreeModel *etm, ETreeSelectionModel *etsm)
 }
 
 static void
-etsm_node_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
+clear_tree (ETreeSelectionModel *etsm, ETreeModel *etm)
 {
 	int cursor_row;
 
@@ -407,6 +408,12 @@ etsm_node_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
 
 	g_free (etsm->priv->cursor_save_id);
 	etsm->priv->cursor_save_id = NULL;
+}
+
+static void
+etsm_node_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
+{
+	clear_tree (etsm, etm);
 	etsm_unfreeze (etsm);
 }
 
@@ -429,7 +436,8 @@ etsm_node_col_changed (ETreeModel *etm, ETreePath node, int col, ETreeSelectionM
 static void
 etsm_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETreeSelectionModel *etsm)
 {
-	etsm_node_changed(etm, parent, etsm);
+	clear_tree (etsm, etm);
+	etsm_unfreeze (etsm);
 #if 0
 	ETreeSelectionModelNode *node;
 	ETreePath path;
@@ -451,7 +459,13 @@ etsm_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETreeSel
 static void
 etsm_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int old_position, ETreeSelectionModel *etsm)
 {
-	etsm_node_changed(etm, parent, etsm);
+}
+
+static void
+etsm_node_deleted (ETreeModel *etm, ETreePath parent, ETreePath child, int old_position, ETreeSelectionModel *etsm)
+{
+	clear_tree (etsm, etm);
+	etsm_unfreeze (etsm);
 }
 
 
@@ -492,6 +506,8 @@ add_model(ETreeSelectionModel *etsm, ETreeModel *model)
 									  GTK_SIGNAL_FUNC (etsm_node_inserted), etsm);
 	priv->tree_model_node_removed_id      = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_removed",
 									  GTK_SIGNAL_FUNC (etsm_node_removed), etsm);
+	priv->tree_model_node_deleted_id      = gtk_signal_connect_after (GTK_OBJECT (priv->model), "node_deleted",
+									  GTK_SIGNAL_FUNC (etsm_node_deleted), etsm);
 }
 
 static void
@@ -516,6 +532,8 @@ drop_model(ETreeSelectionModel *etsm)
 			       priv->tree_model_node_inserted_id);
 	gtk_signal_disconnect (GTK_OBJECT (priv->model),
 			       priv->tree_model_node_removed_id);
+	gtk_signal_disconnect (GTK_OBJECT (priv->model),
+			       priv->tree_model_node_deleted_id);
 
 	gtk_object_unref (GTK_OBJECT (priv->model));
 	priv->model = NULL;
@@ -527,6 +545,7 @@ drop_model(ETreeSelectionModel *etsm)
 	priv->tree_model_node_col_changed_id = 0;
 	priv->tree_model_node_inserted_id = 0;
 	priv->tree_model_node_removed_id = 0;
+	priv->tree_model_node_deleted_id = 0;
 }
 
 
@@ -1231,6 +1250,7 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 	priv->tree_model_node_col_changed_id    = 0;
 	priv->tree_model_node_inserted_id       = 0;
 	priv->tree_model_node_removed_id        = 0;
+	priv->tree_model_node_deleted_id        = 0;
 
 	priv->sorted_model_node_resorted_id      = 0;
 }

@@ -571,6 +571,9 @@ e_tree_memory_node_remove (ETreeMemory *etree, ETreePath node)
 	if (path == etree->priv->root)
 		etree->priv->root = NULL;
 
+	if (!etree->priv->frozen)
+		e_tree_model_node_deleted(E_TREE_MODEL(etree), path);
+
 	return ret;
 }
 

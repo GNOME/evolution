@@ -99,6 +99,7 @@ struct ETreeSortedPriv {
 	int          tree_model_node_col_changed_id;
 	int          tree_model_node_inserted_id;
 	int          tree_model_node_removed_id;
+	int          tree_model_node_deleted_id;
 
 	int          sort_info_changed_id;
 	int          sort_idle_id;
@@ -611,6 +612,8 @@ ets_destroy (GtkObject *object)
 				       priv->tree_model_node_inserted_id);
 		gtk_signal_disconnect (GTK_OBJECT (priv->source),
 				       priv->tree_model_node_removed_id);
+		gtk_signal_disconnect (GTK_OBJECT (priv->source),
+				       priv->tree_model_node_deleted_id);
 
 		gtk_object_unref (GTK_OBJECT (priv->source));
 		priv->source = NULL;
@@ -622,6 +625,7 @@ ets_destroy (GtkObject *object)
 		priv->tree_model_node_col_changed_id = 0;
 		priv->tree_model_node_inserted_id = 0;
 		priv->tree_model_node_removed_id = 0;
+		priv->tree_model_node_deleted_id = 0;
 	}
 
 	if (priv->sort_info) {
@@ -1154,6 +1158,12 @@ ets_proxy_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int 
 }
 
 static void
+ets_proxy_node_deleted (ETreeModel *etm, ETreePath child, ETreeSorted *ets)
+{
+	e_tree_model_node_deleted(E_TREE_MODEL(ets), NULL);
+}
+
+static void
 ets_sort_info_changed (ETableSortInfo *sort_info, ETreeSorted *ets)
 {
 	schedule_resort(ets, ets->priv->root, TRUE, TRUE);
@@ -1256,6 +1266,7 @@ e_tree_sorted_init (GtkObject *object)
 	priv->tree_model_node_col_changed_id  = 0;
 	priv->tree_model_node_inserted_id     = 0;
 	priv->tree_model_node_removed_id      = 0;
+	priv->tree_model_node_deleted_id      = 0;
 
 	priv->sort_info_changed_id            = 0;
 	priv->sort_idle_id                    = 0;
@@ -1300,6 +1311,8 @@ e_tree_sorted_construct (ETreeSorted *ets, ETreeModel *source, ETableHeader *ful
 									 GTK_SIGNAL_FUNC (ets_proxy_node_inserted), ets);
 	ets->priv->tree_model_node_removed_id      = gtk_signal_connect (GTK_OBJECT (source), "node_removed",
 									 GTK_SIGNAL_FUNC (ets_proxy_node_removed), ets);
+	ets->priv->tree_model_node_deleted_id      = gtk_signal_connect (GTK_OBJECT (source), "node_deleted",
+									 GTK_SIGNAL_FUNC (ets_proxy_node_deleted), ets);
 
 	ets->priv->sort_info_changed_id            = gtk_signal_connect (GTK_OBJECT (sort_info), "sort_info_changed",
 									 GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);

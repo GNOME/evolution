@@ -52,6 +52,7 @@ enum {
 	NODE_COL_CHANGED,
 	NODE_INSERTED,
 	NODE_REMOVED,
+	NODE_DELETED,
 	LAST_SIGNAL
 };
 
@@ -121,6 +122,14 @@ e_tree_model_class_init (GtkObjectClass *klass)
 				e_marshal_NONE__POINTER_POINTER_INT,
 				GTK_TYPE_NONE, 3, GTK_TYPE_POINTER, GTK_TYPE_POINTER, GTK_TYPE_INT);
 
+	e_tree_model_signals [NODE_DELETED] =
+		gtk_signal_new ("node_deleted",
+				GTK_RUN_LAST,
+				E_OBJECT_CLASS_TYPE (klass),
+				GTK_SIGNAL_OFFSET (ETreeModelClass, node_deleted),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
 	E_OBJECT_CLASS_ADD_SIGNALS (klass, e_tree_model_signals, LAST_SIGNAL);
 
 	tree_class->get_root             = NULL;
@@ -165,6 +174,7 @@ e_tree_model_class_init (GtkObjectClass *klass)
 	tree_class->node_col_changed     = NULL;
 	tree_class->node_inserted        = NULL;
 	tree_class->node_removed         = NULL;
+	tree_class->node_deleted         = NULL;
 }
 
 static void
@@ -310,6 +320,24 @@ e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath parent_node, ETree
 	gtk_signal_emit (GTK_OBJECT (tree_model),
 			 e_tree_model_signals [NODE_REMOVED],
 			 parent_node, removed_node, old_position);
+}
+
+/**
+ * e_tree_model_node_deleted:
+ * @tree_model: 
+ * @deleted_node: 
+ * 
+ * 
+ **/
+void
+e_tree_model_node_deleted  (ETreeModel *tree_model, ETreePath deleted_node)
+{
+	g_return_if_fail (tree_model != NULL);
+	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
+	
+	gtk_signal_emit (GTK_OBJECT (tree_model),
+			 e_tree_model_signals [NODE_DELETED],
+			 deleted_node);
 }
 
 
