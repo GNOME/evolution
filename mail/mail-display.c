@@ -84,7 +84,7 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 	if (fd == -1) {
 		char *msg;
 
-		msg = g_strdup_printf ("Could not open file %s:\n%s",
+		msg = g_strdup_printf (_("Could not open file %s:\n%s"),
 				       name, g_strerror (errno));
 		gnome_error_dialog (msg);
 		g_free (msg);
@@ -96,7 +96,7 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 	    || camel_stream_flush (stream_fs) == -1) {
 		char *msg;
 
-		msg = g_strdup_printf ("Could not write data: %s",
+		msg = g_strdup_printf (_("Could not write data: %s"),
 				       strerror (errno));
 		gnome_error_dialog (msg);
 		g_free (msg);
@@ -114,8 +114,10 @@ make_safe_filename (const char *prefix, CamelMimePart *part)
 	char *safe, *p;
 
 	name = camel_mime_part_get_filename (part);
-	if (!name)
-		name = "attachment";
+	if (!name) {
+		/* This is a filename. Translators take note. */
+		name = _("attachment");
+	}
 
 	p = strrchr (name, '/');
 	if (p)
@@ -190,7 +192,7 @@ save_cb (GtkWidget *widget, gpointer user_data)
 
 	filename = make_safe_filename (g_get_home_dir (), part);
 	file_select = GTK_FILE_SELECTION (
-		gtk_file_selection_new ("Save Attachment"));
+		gtk_file_selection_new (_("Save Attachment")));
 	gtk_file_selection_set_filename (file_select, filename);
 	g_free (filename);
 
@@ -230,8 +232,8 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	}
 #endif
 	if (!tmpdir) {
-		char *msg = g_strdup_printf ("Could not create temporary "
-					     "directory: %s",
+		char *msg = g_strdup_printf (_("Could not create temporary "
+					       "directory: %s"),
 					     g_strerror (errno));
 		gnome_error_dialog (msg);
 		g_free (msg);
@@ -291,13 +293,16 @@ pixmap_press (GtkWidget *ebox, GdkEventButton *event, gpointer user_data)
 	handler = mail_lookup_handler (gtk_object_get_data (user_data,
 							    "mime_type"));
 
+	/* Save item */
+	menu[0].name = _(menu[0].name);
+
 	/* External view item */
 	if (handler && handler->application) {
-		menu[1].name = g_strdup_printf (menu[1].name,
+		menu[1].name = g_strdup_printf (_(menu[1].name),
 						handler->application->name);
 	} else {
-		menu[1].name = g_strdup_printf (menu[1].name,
-						N_("External Viewer"));
+		menu[1].name = g_strdup_printf (_(menu[1].name),
+						_("External Viewer"));
 		mask |= 1;
 	}
 
@@ -320,13 +325,13 @@ pixmap_press (GtkWidget *ebox, GdkEventButton *event, gpointer user_data)
 				else
 					name = "bonobo";
 				menu[2].name = g_strdup_printf (
-					N_("View Inline (via %s)"), name);
+					_("View Inline (via %s)"), name);
 			} else
-				menu[2].name = g_strdup (menu[2].name);
+				menu[2].name = g_strdup (_(menu[2].name));
 		} else
-			menu[2].name = g_strdup (N_("Hide"));
+			menu[2].name = g_strdup (_("Hide"));
 	} else {
-		menu[2].name = g_strdup (menu[2].name);
+		menu[2].name = g_strdup (_(menu[2].name));
 		mask |= 2;
 	}
 

@@ -31,10 +31,10 @@
 
 static CamelProvider mbox_provider = {
 	"mbox",
-	"UNIX mbox-format mail files",
+	N_("UNIX mbox-format mail files"),
 
-	"For reading mail delivered by the local system, and for "
-	"storing mail on local disk.",
+	N_("For reading mail delivered by the local system, and for "
+	   "storing mail on local disk."),
 
 	"mail",
 

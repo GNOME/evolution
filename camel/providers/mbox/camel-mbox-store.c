@@ -118,15 +118,14 @@ get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelExcep
 
 		if (errno != ENOENT) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Could not open file `%s':"
-					     "\n%s", name,
-					     g_strerror(errno));
+					     _("Could not open file `%s':\n%s"),
+					     name, g_strerror(errno));
 			g_free(name);
 			return NULL;
 		}
 		if ((flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-					     "Folder `%s' does not exist.",
+					     _("Folder `%s' does not exist."),
 					     folder_name);
 			g_free(name);
 			return NULL;
@@ -135,9 +134,8 @@ get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelExcep
 		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0600);
 		if (fd == -1) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Could not create file `%s':"
-					     "\n%s", name,
-					     g_strerror(errno));
+					     _("Could not create file `%s':\n%s"),
+					     name, g_strerror(errno));
 			g_free(name);
 			return NULL;
 		}
@@ -145,7 +143,7 @@ get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelExcep
 		close(fd);
 	} else if (!S_ISREG(st.st_mode)) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				     "`%s' is not a regular file.",
+				     _("`%s' is not a regular file."),
 				     name);
 		g_free(name);
 		return NULL;
@@ -171,7 +169,7 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		}
 
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not delete folder `%s':\n%s",
+				      _("Could not delete folder `%s':\n%s"),
 				      folder_name, g_strerror (errno));
 		g_free (name);
 		return;
@@ -179,14 +177,14 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 	
 	if (!S_ISREG (st.st_mode)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				      "`%s' is not a regular file.", name);
+				      _("`%s' is not a regular file."), name);
 		g_free (name);
 		return;
 	}
 	
 	if (st.st_size != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_NON_EMPTY,
-				      "Folder `%s' is not empty. Not deleted.",
+				      _("Folder `%s' is not empty. Not deleted."),
 				      folder_name);
 		g_free (name);
 		return;
@@ -207,7 +205,7 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 
 	if (status == -1 && errno != ENOENT) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not delete folder `%s':\n%s",
+				      _("Could not delete folder `%s':\n%s"),
 				      folder_name, g_strerror (errno));
 	}
 }
@@ -224,7 +222,7 @@ static int xrename(const char *oldp, const char *newp, const char *prefix, const
 	/* FIXME: this has races ... */
 	if (!(stat(new, &st) == -1 && errno==ENOENT)) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     "Could not rename folder %s to %s: destination exists",
+				     _("Could not rename folder %s to %s: destination exists"),
 				     old, new);
 	} else if (rename(old, new) == 0 || errno==ENOENT) {
 		ret = 0;
@@ -232,7 +230,6 @@ static int xrename(const char *oldp, const char *newp, const char *prefix, const
 		/* for nfs, check if the rename worked anyway ... */
 		ret = 0;
 	}
-	printf("success = %d\n", ret);
 
 	g_free(old);
 	g_free(new);
@@ -263,7 +260,7 @@ get_folder_name (CamelStore *store, const char *folder_name, CamelException *ex)
 	/* For now, we don't allow hieararchy. FIXME. */
 	if (strchr (folder_name + 1, '/')) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				     "Mbox folders may not be nested.");
+				     _("Mbox folders may not be nested."));
 		return NULL;
 	}
 
@@ -277,7 +274,7 @@ get_name (CamelService *service, gboolean brief)
 	if (brief)
 		return g_strdup (service->url->path);
 	else
-		return g_strdup_printf ("Local mail file %s", service->url->path);
+		return g_strdup_printf (_("Local mail file %s"), service->url->path);
 }
 
 static CamelFolderInfo *

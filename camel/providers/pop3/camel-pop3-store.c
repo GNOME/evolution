@@ -23,8 +23,6 @@
  * USA
  */
 
-#define d(x)
-
 #include "config.h"
 
 #include <sys/types.h>
@@ -149,10 +147,10 @@ finalize (CamelObject *object)
 }
 
 static CamelServiceAuthType password_authtype = {
-	"Password",
+	N_("Password"),
 
-	"This option will connect to the POP server using a plaintext "
-	"password. This is the only option supported by many POP servers.",
+	N_("This option will connect to the POP server using a plaintext "
+	   "password. This is the only option supported by many POP servers."),
 
 	"",
 	TRUE
@@ -161,9 +159,9 @@ static CamelServiceAuthType password_authtype = {
 static CamelServiceAuthType apop_authtype = {
 	"APOP",
 
-	"This option will connect to the POP server using an encrypted "
-	"password via the APOP protocol. This may not work for all users "
-	"even on servers that claim to support it.",
+	N_("This option will connect to the POP server using an encrypted "
+	   "password via the APOP protocol. This may not work for all users "
+	   "even on servers that claim to support it."),
 
 	"+APOP",
 	TRUE
@@ -173,8 +171,8 @@ static CamelServiceAuthType apop_authtype = {
 static CamelServiceAuthType kpop_authtype = {
 	"Kerberos 4 (KPOP)",
 
-	"This will connect to the POP server and use Kerberos 4 "
-	"to authenticate to it.",
+	N_("This will connect to the POP server and use Kerberos 4 "
+	   "to authenticate to it."),
 
 	"+KPOP",
 	FALSE
@@ -217,12 +215,10 @@ connect_to_server (CamelService *service, /*gboolean real, */CamelException *ex)
 				       NULL, NULL, "KPOPV0.1");
 		g_free (hostname);
 		if (status != KSUCCESS) {
-			/*if (real) {*/
-				camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-						      "Could not authenticate "
-						      "to KPOP server: %s",
-						      krb_err_txt[status]);
-				/*}*/
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      _("Could not authenticate to "
+						"KPOP server: %s"),
+					      krb_err_txt[status]);
 			return FALSE;
 		}
 
@@ -338,8 +334,8 @@ query_auth_types_connected (CamelService *service, CamelException *ex)
 
 	if (!ret) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not connect to POP server on "
-				      "%s.", service->url->host);
+				      _("Could not connect to POP server on "
+					"%s."), service->url->host);
 	}				      
 
 	return ret;
@@ -392,8 +388,8 @@ pop3_try_authenticate (CamelService *service, gboolean kpop,
 	if (!service->url->passwd) {
 		char *prompt;
 
-		prompt = g_strdup_printf ("%sPlease enter the POP3 password "
-					  "for %s@%s", errmsg ? errmsg : "",
+		prompt = g_strdup_printf (_("%sPlease enter the POP3 password "
+					    "for %s@%s"), errmsg ? errmsg : "",
 					  service->url->user,
 					  service->url->host);
 		service->url->passwd = camel_session_query_authenticator (
@@ -411,10 +407,10 @@ pop3_try_authenticate (CamelService *service, gboolean kpop,
 		switch (status) {
 		case CAMEL_POP3_ERR:
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-					      "Unable to connect to POP "
-					      "server.\nError sending "
-					      "username: %s",
-					      msg ? msg : "(Unknown)");
+					      _("Unable to connect to POP "
+						"server.\nError sending "
+						"username: %s"),
+					      msg ? msg : _("(Unknown)"));
 			g_free (msg);
 			/*fallll*/
 		case CAMEL_POP3_FAIL:
@@ -441,18 +437,18 @@ pop3_try_authenticate (CamelService *service, gboolean kpop,
 					     service->url->user, md5asc);
 	} else {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-				     "Unable to connect to POP server.\n"
-				     "No support for requested authentication "
-				     "mechanism.");
+				     _("Unable to connect to POP server.\n"
+				       "No support for requested "
+				       "authentication mechanism."));
 		return FALSE;
 	}
 
 	if (status == CAMEL_POP3_ERR) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-				      "Unable to connect to POP server.\n"
-				      "Error sending password: %s",
-				      msg ? msg : "(Unknown)");
-	} /*if status == camel_pop3_fail, ex will be set*/
+				      _("Unable to connect to POP server.\n"
+					"Error sending password: %s"),
+				      msg ? msg : _("(Unknown)"));
+	}
 
 	g_free (msg);
 	return camel_exception_is_set (ex);
@@ -496,7 +492,6 @@ pop3_connect (CamelService *service, CamelException *ex)
 	if (res == FALSE)
 		return FALSE;
 
-	d(printf ("POP3: Connecting to %s\n", service->url->host));
 	/*FIXME integrate these functions */
 	if (!connect_to_server (service, ex))
 		return FALSE;
@@ -538,7 +533,6 @@ pop3_disconnect (CamelService *service, CamelException *ex)
 	if (!CAMEL_SERVICE_CLASS (parent_class)->disconnect (service, ex))
 		return FALSE;
 
-	d(printf ("POP3: Disconnecting from %s\n", service->url->host));
 	return TRUE;
 }
 
@@ -557,7 +551,7 @@ get_folder_name (CamelStore *store, const char *folder_name,
 		return g_strdup ("inbox");
 	else {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
-				      "No such folder `%s'.", folder_name);
+				      _("No such folder `%s'."), folder_name);
 		return NULL;
 	}
 }
@@ -599,13 +593,6 @@ camel_pop3_command (CamelPop3Store *store, char **ret, CamelException *ex, char 
 	cmdbuf = g_strdup_vprintf (fmt, ap);
 	va_end (ap);
 
-#if 0 /*remote-store prints output now*/
-	if (!strncmp (cmdbuf, "PASS", 4))
-		printf ("POP3: >>> PASS xxx\n");
-	else
-		printf ("POP3: >>> %s\n", cmdbuf);
-#endif
-
 	/* Send the command */
 	if (camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex, "%s\r\n", cmdbuf) < 0) {
 		g_free (cmdbuf);
@@ -627,7 +614,6 @@ pop3_get_response (CamelPop3Store *store, char **ret, CamelException *ex)
 	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0) {
 		if (ret)
 			*ret = NULL;
-		d(printf ("POP3: !!! %s\n", camel_exception_get_description (ex)));
 		return CAMEL_POP3_FAIL;
 	}
 
@@ -698,12 +684,6 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store, CamelException *e
 			datap = (char *) data->pdata[i];
 			ptr = (*datap == '.') ? datap + 1 : datap;
 			len = strlen (ptr);
-#if 0 /*remote store prints stuff now */
-			if (i == data->len - 1)
-				printf ("POP3: <<<<<< %s\n", ptr);
-			else if (i == 0)
-				printf ("POP3: <<<<<< %s...\n", ptr);
-#endif
 			memcpy (p, ptr, len);
 			p += len;
 			*p++ = '\n';

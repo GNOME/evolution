@@ -216,7 +216,7 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 	if (!imap_folder->summary) {
 		camel_object_unref (CAMEL_OBJECT (folder));
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not load summary for %s",
+				      _("Could not load summary for %s"),
 				      folder_name);
 		return NULL;
 	}
@@ -575,8 +575,8 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	}
 	if (!p) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not find message body in FETCH "
-				      "response.");
+				      _("Could not find message body in FETCH "
+					"response."));
 		g_free (result);
 		return NULL;
 	}

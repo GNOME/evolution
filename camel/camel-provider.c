@@ -41,11 +41,6 @@
 
 #include <gmodule.h>
 
-char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES] = {
-	"store",
-	"transport"
-};
-
 /**
  * camel_provider_init:
  *
@@ -135,7 +130,7 @@ camel_provider_load (CamelSession *session, const char *path, CamelException *ex
 	module = g_module_open (path, 0);
 	if (!module) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not load %s: %s",
+				      _("Could not load %s: %s"),
 				      path, g_module_error ());
 		return;
 	}
@@ -143,8 +138,8 @@ camel_provider_load (CamelSession *session, const char *path, CamelException *ex
 	if (!g_module_symbol (module, "camel_provider_module_init",
 			      (gpointer *)&camel_provider_module_init)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not load %s: No initialization "
-				      "routine in module.", path);
+				      _("Could not load %s: No initialization "
+					"code in module."), path);
 		g_module_close (module);
 		return;
 	}

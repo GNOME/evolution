@@ -295,8 +295,8 @@ get_signature (const char *sigfile)
 	if (fd == -1) {
 		char *msg;
 		
-		msg = g_strdup_printf ("Could not open signature file %s:\n%s",
-				       sigfile, g_strerror (errno));
+		msg = g_strdup_printf (_("Could not open signature file %s:\n"
+					 "%s"), sigfile, g_strerror (errno));
 		gnome_error_dialog (msg);
 		g_free (msg);
 		
@@ -459,7 +459,7 @@ describe_save_draft (gpointer in_data, gboolean gerund)
 	if (gerund) {
 		return g_strdup (_("Saving changes to message..."));
 	} else {
-		return g_strdup (_("About to save changes to message..."));
+		return g_strdup (_("Save changes to message..."));
 	}
 }
 
@@ -500,7 +500,7 @@ cleanup_save_draft (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (camel_exception_is_set (ex)) {
 		char *reason;
 		
-		reason = g_strdup_printf ("Error saving composition to 'Drafts': %s",
+		reason = g_strdup_printf (_("Error saving composition to 'Drafts': %s"),
 					  camel_exception_get_description (ex));
 		
 		gnome_warning_dialog_parented (reason, GTK_WINDOW (input->composer));

@@ -116,7 +116,7 @@ check_url (CamelService *service, CamelException *ex)
 	    (service->url->user == NULL || service->url->user[0] == '\0')) {
 		url_string = camel_url_to_string (service->url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      "URL '%s' needs a username component",
+				      _("URL '%s' needs a username component"),
 				      url_string);
 		g_free (url_string);
 		return FALSE;
@@ -125,7 +125,7 @@ check_url (CamelService *service, CamelException *ex)
 		   (service->url->host == NULL || service->url->host[0] == '\0')) {
 		url_string = camel_url_to_string (service->url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      "URL '%s' needs a host component",
+				      _("URL '%s' needs a host component"),
 				      url_string);
 		g_free (url_string);
 		return FALSE;
@@ -134,7 +134,7 @@ check_url (CamelService *service, CamelException *ex)
 		   (service->url->path == NULL || service->url->path[0] == '\0')) {
 		url_string = camel_url_to_string (service->url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      "URL '%s' needs a path component",
+				      _("URL '%s' needs a path component"),
 				      url_string);
 		g_free (url_string);
 		return FALSE;
@@ -267,12 +267,7 @@ camel_service_disconnect (CamelService *service, CamelException *ex)
 {
 	gboolean res;
 
-	if (!service->connected) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED,
-				     "Trying to disconnect from a service that isn't connected");
-		return FALSE;
-	}
-	
+	g_return_val_if_fail (service->connected, FALSE);	
 	res = CSERV_CLASS (service)->disconnect (service, ex);
 	service->connected = FALSE;
 	return res;
@@ -518,11 +513,11 @@ camel_service_gethost (CamelService *service, CamelException *ex)
 
 		if (h_errno == HOST_NOT_FOUND || h_errno == NO_DATA) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-					      "No such host %s.", hostname);
+					      _("No such host %s."), hostname);
 		} else {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      "Temporarily unable to look up "
-					      "hostname %s.", hostname);
+					      _("Temporarily unable to look "
+						"up hostname %s."), hostname);
 		}
 		return NULL;
 	}

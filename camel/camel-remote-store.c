@@ -150,10 +150,10 @@ camel_remote_store_get_type (void)
 
 /*
 static CamelServiceAuthType password_authtype = {
-	"SSH Tunneling",
+	N_("SSH Tunneling"),
 	
-	"This option will connect to the server using a "
-	"SSH tunnel.",
+	N_("This option will connect to the server using a "
+	   "SSH tunnel."),
 	
 	"",
 	TRUE
@@ -182,11 +182,11 @@ static char *
 remote_get_name (CamelService *service, gboolean brief)
 {
 	if (brief)
-		return g_strdup_printf ("%s server %s", 
+		return g_strdup_printf (_("%s server %s"),
 					service->provider->name,
 					service->url->host);
 	else {
-		return g_strdup_printf ("%s service for %s on %s",
+		return g_strdup_printf (_("%s service for %s on %s"),
 					service->provider->name,
 					service->url->user,
 					service->url->host);
@@ -227,8 +227,8 @@ remote_connect (CamelService *service, CamelException *ex)
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
 	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof (sin)) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not connect to %s (port %d): %s",
-				      service->url->host ? service->url->host : "(unknown host)", 
+				      _("Could not connect to %s (port %d): %s"),
+				      service->url->host ? service->url->host : _("(unknown host)"),
 				      port, g_strerror (errno));
 		if (fd > -1)
 			close (fd);

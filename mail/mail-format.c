@@ -474,7 +474,7 @@ attachment_header (CamelMimePart *part, const char *mime_type,
 	/* Write the MIME type */
 	info = gnome_vfs_mime_get_value (mime_type, "description");
 	htmlinfo = e_text_to_html (info ? info : mime_type, 0);
-	mail_html_write (md->html, md->stream, "%s attachment", htmlinfo);
+	mail_html_write (md->html, md->stream, _("%s attachment"), htmlinfo);
 	g_free (htmlinfo);
 
 	/* Write the name, if we have it. */
@@ -585,31 +585,33 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			 "cellspacing=0 border=1>"
 			 "<tr><td><table>\n");
 
-	write_field_to_stream ("From:",  camel_mime_message_get_from (message),
+	write_field_to_stream (_("From:"),
+			       camel_mime_message_get_from (message),
 			       TRUE, TRUE, md->html, md->stream);
 
 	reply_to = camel_mime_message_get_reply_to (message);
 	if (reply_to) {
-		write_field_to_stream ("Reply-To:", reply_to, TRUE, FALSE,
+		write_field_to_stream (_("Reply-To:"), reply_to, TRUE, FALSE,
 				       md->html, md->stream);
 	}
 
 	recipients = camel_mime_message_get_recipients (
 		message, CAMEL_RECIPIENT_TYPE_TO);
 	string = camel_address_encode (CAMEL_ADDRESS (recipients));
-	write_field_to_stream ("To:", string ? string : "", TRUE, TRUE,
+	write_field_to_stream (_("To:"), string ? string : "", TRUE, TRUE,
 			       md->html, md->stream);
 	g_free (string);
 
 	recipients = camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_CC);
 	string = camel_address_encode(CAMEL_ADDRESS(recipients));
 	if (string) {
-		write_field_to_stream ("Cc:", string, TRUE, TRUE,
+		write_field_to_stream (_("Cc:"), string, TRUE, TRUE,
 				       md->html, md->stream);
 	}
 	g_free (string);
 	
-	write_field_to_stream ("Subject:", camel_mime_message_get_subject (message),
+	write_field_to_stream (_("Subject:"),
+			       camel_mime_message_get_subject (message),
 			       FALSE, TRUE, md->html, md->stream);
 	
 	mail_html_write (md->html, md->stream,
@@ -829,8 +831,8 @@ decode_pgp (const char *ciphertext, MailDisplay *md)
 	}
 #else
 	camel_exception_set (&ex, CAMEL_EXCEPTION_SYSTEM,
-			     "No GPG/PGP support available in this copy "
-			     "of Evolution.");
+			     _("No GPG/PGP support available in this copy "
+			       "of Evolution."));
 #endif
 
 	mail_html_write (md->html, md->stream,
@@ -840,15 +842,15 @@ decode_pgp (const char *ciphertext, MailDisplay *md)
 			 get_url_for_icon ("gnome-lockscreen.png", md));
 
 	if (camel_exception_is_set (&ex)) {
-		mail_html_write (md->html, md->stream,
-				 "Encrypted message not displayed<br><br>\n");
+		mail_html_write (md->html, md->stream, "%s<br><br>\n",
+				 _("Encrypted message not displayed"));
 		mail_error_write (md->html, md->stream,
 				  camel_exception_get_description (&ex));
 		camel_exception_clear (&ex);
 	} else {
-		mail_html_write (md->html, md->stream,
-				 "Encrypted message<br><br>\n"
-				 "Click icon to decrypt.");
+		mail_html_write (md->html, md->stream, "%s<br><br>\n%s",
+				 _("Encrypted message"),
+				 _("Click icon to decrypt."));
 	}
 
 	mail_html_write (md->html, md->stream, "</td></tr></table>");
@@ -1450,7 +1452,7 @@ handle_message_external_body (CamelMimePart *part, const char *mime_type,
 
 		url = g_strdup_printf ("ftp://%s%s%s", site, path, ftype);
 		g_free (path);
-		desc = g_strdup_printf ("Pointer to FTP site (%s)", url);
+		desc = g_strdup_printf (_("Pointer to FTP site (%s)"), url);
 	} else if (!g_strcasecmp (access_type, "local-file")) {
 		const char *name, *site;
 
@@ -1461,9 +1463,14 @@ handle_message_external_body (CamelMimePart *part, const char *mime_type,
 
 		url = g_strdup_printf ("file://%s%s", *name == '/' ? "" : "/",
 				       name);
-		desc = g_strdup_printf ("Pointer to local file (%s)%s%s%s",
-					name, site ? " valid at site \"" : "",
-					site ? site : "", site ? "\"" : "");
+		if (site) {
+			desc = g_strdup_printf (_("Pointer to local file (%s) "
+						  "valid at site \"%s\""),
+						name, site);
+		} else {
+			desc = g_strdup_printf (_("Pointer to local file (%s)"),
+						name);
+		}
 	} else if (!g_strcasecmp (access_type, "URL")) {
 		const char *urlparam;
 		char *s, *d;
@@ -1495,11 +1502,12 @@ handle_message_external_body (CamelMimePart *part, const char *mime_type,
  fallback:
 	if (!desc) {
 		if (access_type) {
-			desc = g_strdup_printf ("Pointer to unknown external "
-						"data (\"%s\" type)",
+			desc = g_strdup_printf (_("Pointer to unknown "
+						  "external data "
+						  "(\"%s\" type)"),
 						access_type);
 		} else
-			desc = g_strdup ("Malformed external-body part.");
+			desc = g_strdup (_("Malformed external-body part."));
 	}
 
 #if 0 /* FIXME */

@@ -296,7 +296,7 @@ update (EMsgComposerAttachmentBar *bar)
 		if (!desc || *desc == '\0')
 			desc = camel_mime_part_get_filename (attachment->body);
 		if (!desc)
-			desc = "attachment";
+			desc = _("attachment");
 		
 		if (attachment->size) {
 			size_string = size_to_string (attachment->size);

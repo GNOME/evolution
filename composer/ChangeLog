@@ -1,5 +1,8 @@
 2000-10-23  Dan Winship  <danw@helixcode.com>
 
+	* e-msg-composer.c, e-msg-composer-attachment-bar.c: add some
+	missing _()s.
+
 	* e-msg-composer-address-dialog.*, e-msg-composer-address-entry.*:
 	Old cruft. Remove.
 

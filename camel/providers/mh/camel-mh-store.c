@@ -109,18 +109,17 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 
 	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
 
- 	printf("getting folder: %s\n", name);
 	if (stat(name, &st) == -1) {
- 		printf("doesn't exist ...\n");
 		if (errno != ENOENT) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Could not open folder `%s':" "\n%s", folder_name, g_strerror(errno));
+					     _("Could not open folder `%s':\n%s"),
+					     folder_name, g_strerror(errno));
 			g_free (name);
 			return NULL;
 		}
 		if ((flags & CAMEL_STORE_FOLDER_CREATE) == 0) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-					     "Folder `%s' does not exist.", folder_name);
+					     _("Folder `%s' does not exist."), folder_name);
 			g_free (name);
 			return NULL;
 		}
@@ -128,14 +127,16 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 
 		if (mkdir(name, 0700) != 0) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Could not create folder `%s':" "\n%s", folder_name, g_strerror(errno));
+					     _("Could not create folder `%s':\n%s"),
+					     folder_name, g_strerror(errno));
 			g_free (name);
 			return NULL;
 		}
 		printf("created ok?\n");
 
 	} else if (!S_ISDIR(st.st_mode)) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER, "`%s' is not a directory.", name);
+		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				     _("`%s' is not a directory."), name);
 		g_free (name);
 		return NULL;
 	}
@@ -154,7 +155,8 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 	if (stat(name, &st) == -1) {
 		if (errno != ENOENT)
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Could not delete folder `%s': %s", folder_name, strerror(errno));
+					     _("Could not delete folder `%s': %s"),
+					     folder_name, strerror(errno));
 	} else {
 		/* this will 'fail' if there are still messages in the directory -
 		   but only the metadata is lost */
@@ -166,7 +168,8 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 		g_free(str);
 		if (rmdir(name) == -1) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Could not delete folder `%s': %s", folder_name, strerror(errno));
+					     _("Could not delete folder `%s': %s"),
+					     folder_name, strerror(errno));
 		}
 	}
 	g_free(name);
@@ -183,15 +186,15 @@ static void rename_folder (CamelStore *store, const char *old_name, const char *
 		if (stat(old, &st) == 0 && S_ISDIR(st.st_mode)) {
 			if (rename(old, new) != 0) {
 				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-						     "Could not rename folder `%s': %s", old_name, strerror(errno));
+						     _("Could not rename folder `%s': %s"), old_name, strerror(errno));
 			}
 		} else {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Could not rename folder `%s': %s", old_name, strerror(errno));
+					     _("Could not rename folder `%s': %s"), old_name, strerror(errno));
 		}
 	} else {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     "Could not rename folder `%s': %s exists", old_name, new_name);
+				     _("Could not rename folder `%s': %s exists"), old_name, new_name);
 	}
 }
 
@@ -199,7 +202,7 @@ static char *get_folder_name(CamelStore * store, const char *folder_name, CamelE
 {
 	/* For now, we don't allow hieararchy. FIXME. */
 	if (strchr(folder_name + 1, '/')) {
-		camel_exception_set(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER, "Mh folders may not be nested.");
+		camel_exception_set(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER, _("MH folders may not be nested."));
 		return NULL;
 	}
 
@@ -211,7 +214,7 @@ static char *get_name(CamelService * service, gboolean brief)
 	if (brief)
 		return g_strdup(service->url->path);
 	else
-		return g_strdup_printf("Local mail file %s", service->url->path);
+		return g_strdup_printf(_("Local mail directory %s"), service->url->path);
 }
 
 

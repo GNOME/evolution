@@ -217,16 +217,16 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 		g_warning ("Unexpected response from IMAP server: %s",
 			   respbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Unexpected response from IMAP server: "
-				      "%s", respbuf);
+				      _("Unexpected response from IMAP "
+					"server: %s"), respbuf);
 		camel_imap_response_free (response);
 		return NULL;
 	}
 
 	retcode = imap_next_word (retcode);
 	camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-			      "IMAP command failed: %s",
-			      retcode ? retcode : "Unknown error");
+			      _("IMAP command failed: %s"),
+			      retcode ? retcode : _("Unknown error"));
 	camel_imap_response_free (response);
 	return NULL;
 }
@@ -367,8 +367,8 @@ camel_imap_response_extract (CamelImapResponse *response, const char *type,
 	} else {
 		resp = NULL;
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "IMAP server response did not contain "
-				      "%s information", type);
+				      _("IMAP server response did not contain "
+					"%s information"), type);
 	}
 
 	g_ptr_array_free (response->untagged, TRUE);
@@ -403,7 +403,7 @@ camel_imap_response_extract_continuation (CamelImapResponse *response,
 	}
 
 	camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-			      "Unexpected OK response from IMAP server: %s",
+			      _("Unexpected OK response from IMAP server: %s"),
 			      response->status);
 	camel_imap_response_free (response);
 	return NULL;

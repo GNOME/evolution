@@ -18,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <gtk/gtk.h>
+#include <config.h>
 #include <gnome.h>
 #include <gnome-xml/xmlmemory.h>
 
@@ -239,14 +239,11 @@ static GtkWidget *get_widget(FilterElement *fe)
 	GList *l = fo->options;
 	struct _filter_option *op;
 	int index = 0, current=0;
-	gchar *s;
 
 	menu = (GtkMenu *)gtk_menu_new();
 	while (l) {
 		op = l->data;
-		s = e_utf8_to_gtk_string ((GtkWidget *) menu, op->title);
-		item = (GtkMenuItem *)gtk_menu_item_new_with_label(s);
-		g_free (s);
+		item = (GtkMenuItem *)gtk_menu_item_new_with_label(_(op->title));
 		gtk_object_set_data((GtkObject *)item, "option", op);
 		gtk_signal_connect((GtkObject *)item, "activate", option_activate, fo);
 		gtk_menu_append(menu, (GtkWidget *)item);

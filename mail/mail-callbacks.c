@@ -160,8 +160,9 @@ fetch_mail (GtkWidget *widget, gpointer user_data)
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
 							  GTK_TYPE_WINDOW);
 		
-		gnome_error_dialog_parented ("You have no mail sources "
-					     "configured", GTK_WINDOW (win));
+		gnome_error_dialog_parented (_("You have no mail sources "
+					       "configured"),
+					     GTK_WINDOW (win));
 		return;
 	}
 	
@@ -171,8 +172,9 @@ fetch_mail (GtkWidget *widget, gpointer user_data)
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
 							  GTK_TYPE_WINDOW);
 		
-		gnome_error_dialog_parented ("You have no mail sources "
-					     "configured", GTK_WINDOW (win));
+		gnome_error_dialog_parented (_("You have no mail sources "
+					       "configured"),
+					     GTK_WINDOW (win));
 		return;
 	}
 	
@@ -207,7 +209,7 @@ send_queued_mail (GtkWidget *widget, gpointer user_data)
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
 							  GTK_TYPE_WINDOW);
 		
-		gnome_error_dialog_parented ("You have not set a transport method",
+		gnome_error_dialog_parented (_("You have not set a mail transport method"),
 					     GTK_WINDOW (win));
 		return;
 	}
@@ -216,7 +218,7 @@ send_queued_mail (GtkWidget *widget, gpointer user_data)
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
 							  GTK_TYPE_WINDOW);
 		
-		gnome_error_dialog_parented ("You have no Outbox configured",
+		gnome_error_dialog_parented (_("You have no Outbox configured"),
 					     GTK_WINDOW (win));
 		return;
 	}

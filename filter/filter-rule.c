@@ -19,7 +19,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <gtk/gtk.h>
+#include <config.h>
 #include <gnome.h>
 #include <gnome-xml/xmlmemory.h>
 
@@ -376,7 +376,6 @@ get_rule_part_widget (RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	GtkWidget *p;
 	int index = 0, current = 0;
 	struct _part_data *data;
-	gchar *s;
 	
 	data = g_malloc0 (sizeof (*data));
 	data->fr = fr;
@@ -395,9 +394,7 @@ get_rule_part_widget (RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	menu = gtk_menu_new ();
 	/* sigh, this is a little ugly */
 	while ((part = rule_context_next_part (f, part))) {
-		s = e_utf8_to_gtk_string (menu, part->title);
-		item = gtk_menu_item_new_with_label (s);
-		g_free (s);
+		item = gtk_menu_item_new_with_label (_(part->title));
 		gtk_object_set_data (GTK_OBJECT (item), "part", part);
 		gtk_signal_connect (GTK_OBJECT (item), "activate", option_activate, data);
 		gtk_menu_append (GTK_MENU (menu), item);
@@ -503,7 +500,6 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	GtkObject *hadj, *vadj;
 	GList *l;
 	FilterPart *part;
-	char *string;
 	struct _rule_data *data;
 	
 	/* this stuff should probably be a table, but the
@@ -515,7 +511,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	
 	if (!fr->name) {
 		fr->name = g_strdup (_("Untitled"));
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (name), fr->name);
+		gtk_entry_set_text (GTK_ENTRY (name), fr->name);
 		gtk_editable_select_region (GTK_EDITABLE (name), 0, -1);
 		gtk_widget_grab_focus (GTK_WIDGET (name));
 	} else {
@@ -549,16 +545,12 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	
 	menu = gtk_menu_new ();
 	
-	string = e_utf8_to_gtk_string (menu, _("if all criteria are met"));
-	item = gtk_menu_item_new_with_label (string);
-	g_free (string);
+	item = gtk_menu_item_new_with_label (_("if all criteria are met"));
 	gtk_signal_connect (GTK_OBJECT (item), "activate", match_all, fr);
 	gtk_menu_append (GTK_MENU (menu), item);
 	gtk_widget_show (item);
 	
-	string = e_utf8_to_gtk_string (menu, _("if any criteria are met"));
-	item = gtk_menu_item_new_with_label (string);
-	g_free (string);
+	item = gtk_menu_item_new_with_label (_("if any criteria are met"));
 	gtk_signal_connect (GTK_OBJECT (item), "activate", match_any, fr);
 	gtk_menu_append (GTK_MENU (menu), item);
 	gtk_widget_show (item);

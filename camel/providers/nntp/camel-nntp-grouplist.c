@@ -42,7 +42,7 @@ camel_nntp_get_grouplist_from_server (CamelNNTPStore *store, CamelException *ex)
 
 	if (status != NNTP_LIST_FOLLOWS) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not get group list from server.");
+				      _("Could not get group list from server."));
 		return NULL;
 	}
 
@@ -90,7 +90,7 @@ camel_nntp_get_grouplist_from_file (CamelNNTPStore *store, CamelException *ex)
 
 	if (fp == NULL) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Unable to load grouplist file for %s: %s",
+				      _("Unable to load grouplist file for %s: %s"),
 				      CAMEL_SERVICE(store)->url->host,
 				      strerror(errno));
 		return NULL;
@@ -99,7 +99,7 @@ camel_nntp_get_grouplist_from_file (CamelNNTPStore *store, CamelException *ex)
 	/* read the time */
 	if (!fgets (buf, 300, fp)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Unable to load grouplist file for %s: %s",
+				      _("Unable to load grouplist file for %s: %s"),
 				      CAMEL_SERVICE(store)->url->host,
 				      strerror(errno));
 		fclose (fp);
@@ -148,7 +148,7 @@ camel_nntp_grouplist_save (CamelNNTPGroupList *group_list, CamelException *ex)
 
 	if (fp == NULL) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Unable to save grouplist file for %s: %s",
+				      _("Unable to save grouplist file for %s: %s"),
 				      CAMEL_SERVICE(group_list->store)->url->host,
 				      strerror(errno));
 		return;

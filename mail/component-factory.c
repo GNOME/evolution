@@ -327,7 +327,7 @@ mail_add_new_storage (const char *uri, Evolution_Shell corba_shell, CamelExcepti
 
 	if (url->host == NULL) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Bad storage URL (no server): %s",
+				      _("Bad storage URL (no server): %s"),
 				      uri);
 		return;
 	}
@@ -346,7 +346,7 @@ mail_add_new_storage (const char *uri, Evolution_Shell corba_shell, CamelExcepti
 		return;
 	default:
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     "mail_tool_add_new_storage: Cannot register storage on shell");
+				     _("Cannot register storage with shell"));
 		break;
 	}
 

@@ -720,7 +720,7 @@ service_page_item_auth_activate (GtkWidget *menuitem,
 
 	authtype = gtk_object_get_data (GTK_OBJECT (menuitem), "authtype");
 	put_html (GTK_HTML (spitem->auth_html), 
-		  authtype->description);
+		  _(authtype->description));
 }
 
 static void
@@ -885,7 +885,7 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 
 	/* Description */
 	description = html_new (TRUE);
-	put_html (GTK_HTML (description), mcs->provider->description);
+	put_html (GTK_HTML (description), _(mcs->provider->description));
 	gtk_box_pack_start (GTK_BOX (item->vbox),
 			    description->parent->parent,
 			    TRUE, TRUE, 0);
@@ -1104,7 +1104,7 @@ source_page_new (GSList *sources)
 	MailDialogSourcePage *page = g_new0 (MailDialogSourcePage, 1);
 	GtkWidget *html;
 
-	page->page = service_page_new ("Mail source type:", sources);
+	page->page = service_page_new (_("Mail source type:"), sources);
 	page->vbox = page->page->vbox;
 	
 	html = html_new (FALSE);
@@ -1128,7 +1128,7 @@ news_page_new (GSList *sources)
 	MailDialogNewsPage *page = g_new0 (MailDialogNewsPage, 1);
 	GtkWidget *html;
 
-	page->page = service_page_new ("News source type:", sources);
+	page->page = service_page_new (_("News source type:"), sources);
 	page->vbox = page->page->vbox;
 	
 	html = html_new (FALSE);
@@ -2230,9 +2230,9 @@ static gchar *describe_test_service (gpointer in_data, gboolean gerund)
         test_service_input_t *input = (test_service_input_t *) in_data;
 
         if (gerund) {
-                return g_strdup_printf ("Testing \"%s\"", input->url);
+                return g_strdup_printf (_("Testing \"%s\""), input->url);
         } else {
-                return g_strdup_printf ("Test connection to \"%s\"", input->url);
+                return g_strdup_printf (_("Test connection to \"%s\""), input->url);
         }
 }
 
@@ -2240,12 +2240,6 @@ static void setup_test_service (gpointer in_data, gpointer op_data, CamelExcepti
 {
         test_service_input_t *input = (test_service_input_t *) in_data;
         test_service_data_t *data = (test_service_data_t *) op_data;
-
-	if (!input->url) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No URL was provided to test");
-		return;
-	}
 
 	data->success = FALSE;
 }
@@ -2340,18 +2334,6 @@ static void setup_query_authtypes (gpointer in_data, gpointer op_data, CamelExce
 {
         query_authtypes_input_t *input = (query_authtypes_input_t *) in_data;
         query_authtypes_data_t *data = (query_authtypes_data_t *) op_data;
-
-	if (!input->page) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No service page was provided to test");
-		return;
-	}
-
-	if (!input->url) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No URL was provided to test");
-		return;
-	}
 
 	data->items = NULL;
 	data->service = NULL;

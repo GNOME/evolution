@@ -19,7 +19,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <gtk/gtk.h>
+#include <config.h>
 #include <gnome.h>
 #include <glade/glade.h>
 
@@ -401,7 +401,7 @@ filter_editor_construct (struct _FilterContext *f)
         d = glade_xml_get_widget (gui, "edit_filter");
 	gtk_object_set_data_full (GTK_OBJECT (d), "data", data, g_free);
 	
-	gtk_window_set_title (GTK_WINDOW (d), "Edit Filters");
+	gtk_window_set_title (GTK_WINDOW (d), _("Edit Filters"));
 	for (i = 0; i < BUTTON_LAST; i++) {
 		data->buttons[i] = (GtkButton *)w = glade_xml_get_widget (gui, edit_buttons[i].name);
 		gtk_signal_connect (GTK_OBJECT (w), "clicked", edit_buttons[i].func, data);

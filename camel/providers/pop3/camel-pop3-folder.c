@@ -174,8 +174,9 @@ pop3_refresh_info (CamelFolder *folder, CamelException *ex)
 
 		if (!uids) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Could not open folder: message "
-					      "listing was incomplete.");
+					      _("Could not open folder: "
+						"message listing was "
+						"incomplete."));
 			return;
 		}
 	}
@@ -267,7 +268,7 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	num = uid_to_number (CAMEL_POP3_FOLDER (folder), uid);
 	if (num == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				      "No message with uid %s", uid);
+				      _("No message with uid %s"), uid);
 		return NULL;
 	}
 
@@ -281,8 +282,8 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	if (!body) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not retrieve message from POP "
-				      "server %s: %s", service->url->host,
+				      _("Could not retrieve message from POP "
+					"server %s: %s"), service->url->host,
 				      camel_exception_get_description (ex));
 		return NULL;
 	}

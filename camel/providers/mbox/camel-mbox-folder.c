@@ -217,7 +217,7 @@ camel_mbox_folder_new(CamelStore *parent_store, const char *full_name, guint32 f
 						      mbox_folder->folder_file_path, mbox_folder->index);
 	if (mbox_folder->summary == NULL || camel_mbox_summary_load(mbox_folder->summary, forceindex) == -1) {
 		camel_exception_set(ex, CAMEL_EXCEPTION_FOLDER_INVALID,	/* FIXME: right error code */
-				    "Could not create summary");
+				    _("Could not create summary"));
 		camel_object_unref (CAMEL_OBJECT (folder));
 		return NULL;
 	}
@@ -380,10 +380,10 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
       fail:
 	if (camel_exception_is_set(ex)) {
 		camel_exception_setv(ex, camel_exception_get_id(ex),
-				     "Cannot append message to mbox file: %s", camel_exception_get_description(ex));
+				     _("Cannot append message to mbox file: %s"), camel_exception_get_description(ex));
 	} else {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     "Cannot append message to mbox file: %s", g_strerror(errno));
+				     _("Cannot append message to mbox file: %s"), g_strerror(errno));
 	}
 	if (filter_stream) {
 		/*camel_stream_close (filter_stream); */
@@ -486,7 +486,7 @@ mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex)
 	return message;
 
       fail:
-	camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, "Cannot get message: %s", g_strerror(errno));
+	camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, _("Cannot get message: %s"), g_strerror(errno));
 
 	if (parser)
 		camel_object_unref(CAMEL_OBJECT(parser));

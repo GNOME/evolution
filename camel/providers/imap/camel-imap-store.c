@@ -136,10 +136,10 @@ camel_imap_store_get_type (void)
 }
 
 static CamelServiceAuthType password_authtype = {
-	"Password",
+	N_("Password"),
 	
-	"This option will connect to the IMAP server using a "
-	"plaintext password.",
+	N_("This option will connect to the IMAP server using a "
+	   "plaintext password."),
 	
 	"",
 	TRUE
@@ -163,9 +163,9 @@ query_auth_types_connected (CamelService *service, CamelException *ex)
 	
 	if (!ret) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not connect to IMAP server on %s.",
+				      _("Could not connect to IMAP server on %s."),
 				      service->url->host ? service->url->host : 
-				      "(unknown host)");
+				      _("(unknown host)"));
 	}				      
 	
 	return ret;
@@ -227,7 +227,7 @@ imap_connect (CamelService *service, CamelException *ex)
 		if (!service->url->authmech && !service->url->passwd) {
 			gchar *prompt;
 			
-			prompt = g_strdup_printf ("%sPlease enter the IMAP password for %s@%s",
+			prompt = g_strdup_printf (_("%sPlease enter the IMAP password for %s@%s"),
 						  errbuf ? errbuf : "", service->url->user, service->url->host);
 			service->url->passwd =
 				camel_session_query_authenticator (session,
@@ -238,7 +238,7 @@ imap_connect (CamelService *service, CamelException *ex)
 			errbuf = NULL;
 			
 			if (!service->url->passwd) {
-				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, 
+				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 						     "You didn\'t enter a password.");
 				return FALSE;
 			}
@@ -249,12 +249,10 @@ imap_connect (CamelService *service, CamelException *ex)
 					       service->url->user,
 					       service->url->passwd);
 		if (!response) {
-			errbuf = g_strdup_printf ("Unable to authenticate to IMAP server.\n"
-						  "%s\n\n",
+			errbuf = g_strdup_printf (_("Unable to authenticate to IMAP server.\n%s\n\n"),
 						  camel_exception_get_description (ex));
 			camel_exception_clear (ex);
 		} else {
-			g_message ("IMAP Service sucessfully authenticated user %s", service->url->user);
 			authenticated = TRUE;
 			camel_imap_response_free (response);
 		}
@@ -456,7 +454,7 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelExce
 						    summary_file, ex);
 	} else {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not create directory %s: %s",
+				      _("Could not create directory %s: %s"),
 				      summary_file, g_strerror (errno));
 	}
 	g_free (summary_file);

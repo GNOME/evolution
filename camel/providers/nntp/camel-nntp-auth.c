@@ -38,7 +38,7 @@ camel_nntp_auth_authenticate (CamelNNTPStore *store, CamelException *ex)
 	if (!service->url->authmech && !service->url->passwd) {
 		gchar *prompt;
 			
-		prompt = g_strdup_printf ("Please enter the NNTP password for %s@%s",
+		prompt = g_strdup_printf (_("Please enter the NNTP password for %s@%s"),
 					  service->url->user, service->url->host);
 		service->url->passwd =
 			camel_session_query_authenticator (session,
@@ -59,13 +59,13 @@ camel_nntp_auth_authenticate (CamelNNTPStore *store, CamelException *ex)
 
 	if (resp == NNTP_AUTH_REJECTED) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-				      "Server rejected username");
+				      _("Server rejected username"));
 		goto done;
 
 	}
 	else if (resp != NNTP_AUTH_CONTINUE) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-				      "Failed to send username to server");
+				      _("Failed to send username to server"));
 		goto done;
 	}
 
@@ -74,7 +74,7 @@ camel_nntp_auth_authenticate (CamelNNTPStore *store, CamelException *ex)
 
 	if (resp == NNTP_AUTH_REJECTED) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-				      "Server rejected username/password");
+				      _("Server rejected username/password"));
 		goto done;
 	}
 

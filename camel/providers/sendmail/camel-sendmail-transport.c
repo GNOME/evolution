@@ -102,8 +102,8 @@ _send_internal (CamelMedium *message, char **argv, CamelException *ex)
 
 	if (pipe (fd) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not create pipe to sendmail: "
-				      "%s: mail not sent",
+				      _("Could not create pipe to sendmail: "
+					"%s: mail not sent"),
 				      g_strerror (errno));
 		return FALSE;
 	}
@@ -119,8 +119,9 @@ _send_internal (CamelMedium *message, char **argv, CamelException *ex)
 	switch (pid) {
 	case -1:
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not fork sendmail: "
-				      "%s: mail not sent", g_strerror (errno));
+				      _("Could not fork sendmail: "
+					"%s: mail not sent"),
+				      g_strerror (errno));
 		sigprocmask (SIG_SETMASK, &omask, NULL);
 		return FALSE;
 
@@ -144,7 +145,7 @@ _send_internal (CamelMedium *message, char **argv, CamelException *ex)
 	    || camel_stream_close(out) == -1) {
 		camel_object_unref (CAMEL_OBJECT (out));
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not send message: %s",
+				      _("Could not send message: %s"),
 				      strerror(errno));
 		return FALSE;
 	}
@@ -157,19 +158,20 @@ _send_internal (CamelMedium *message, char **argv, CamelException *ex)
 
 	if (!WIFEXITED (wstat)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "sendmail exited with signal %s: "
-				      "mail not sent.",
+				      _("sendmail exited with signal %s: "
+					"mail not sent."),
 				      g_strsignal (WTERMSIG (wstat)));
 		return FALSE;
 	} else if (WEXITSTATUS (wstat) != 0) {
 		if (WEXITSTATUS (wstat) == 255) {
-			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Could not execute "
-					     SENDMAIL_PATH ": mail not sent.");
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Could not execute %s: "
+						"mail not sent."),
+					      SENDMAIL_PATH);
 		} else {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "sendmail exited with status "
-					      "%d: mail not sent.",
+					      _("sendmail exited with status "
+						"%d: mail not sent."),
 					      WEXITSTATUS (wstat));
 		}
 		return FALSE;
@@ -215,7 +217,7 @@ static char *
 get_name (CamelService *service, gboolean brief)
 {
 	if (brief)
-		return g_strdup ("sendmail");
+		return g_strdup (_("sendmail"));
 	else
-		return g_strdup ("Mail delivery via the sendmail program");
+		return g_strdup (_("Mail delivery via the sendmail program"));
 }

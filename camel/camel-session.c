@@ -267,8 +267,7 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 
 	if (!provider || !provider->object_types[type]) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      "No %s available for protocol `%s'",
-				      camel_provider_type_name[type],
+				      _("No provider available for protocol `%s'"),
 				      url->protocol);
 		camel_url_free (url);
 		return NULL;
@@ -356,7 +355,7 @@ camel_session_get_storage_path (CamelSession *session, CamelService *service,
 
 	if (e_mkdir_hier (path, S_IRWXU) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not create directory %s:\n%s",
+				      _("Could not create directory %s:\n%s"),
 				      path, g_strerror (errno));
 		g_free (path);
 		return NULL;

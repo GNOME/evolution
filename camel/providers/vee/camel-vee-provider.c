@@ -27,9 +27,9 @@
 
 static CamelProvider vee_provider = {
 	"vfolder",
-	"Virtual folder email provider",
+	N_("Virtual folder email provider"),
 
-	"For reading mail as a query of another set of folders",
+	N_("For reading mail as a query of another set of folders"),
 
 	"vfolder",
 

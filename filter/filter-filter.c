@@ -19,7 +19,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <gtk/gtk.h>
+#include <config.h>
 #include <gnome.h>
 #include <gnome-xml/xmlmemory.h>
 
@@ -285,7 +285,6 @@ get_rule_part_widget (FilterContext *f, FilterPart *newpart, FilterRule *fr)
 	GtkWidget *p;
 	int index = 0, current = 0;
 	struct _part_data *data;
-	gchar *s;
 	
 	data = g_malloc0 (sizeof (*data));
 	data->fr = fr;
@@ -300,9 +299,7 @@ get_rule_part_widget (FilterContext *f, FilterPart *newpart, FilterRule *fr)
 	
 	menu = gtk_menu_new ();
 	while ((part = filter_context_next_action (f, part))) {
-		s = e_utf8_to_gtk_string (menu, part->title);
-		item = gtk_menu_item_new_with_label (s);
-		g_free (s);
+		item = gtk_menu_item_new_with_label (_(part->title));
 		
 		gtk_object_set_data (GTK_OBJECT (item), "part", part);
 		gtk_signal_connect (GTK_OBJECT (item), "activate", option_activate, data);

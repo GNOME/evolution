@@ -522,32 +522,14 @@ static void cleanup_thread_messages (gpointer in_data, gpointer op_data, CamelEx
 static gchar *describe_thread_messages (gpointer in_data, gboolean gerund)
 {
 	if (gerund)
-		return g_strdup ("Threading message list");
+		return g_strdup (_("Threading message list"));
 	else
-		return g_strdup ("Thread message list");
+		return g_strdup (_("Thread message list"));
 }
 
 static void setup_thread_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	thread_messages_input_t *input = (thread_messages_input_t *) in_data;
-
-	if (!IS_MESSAGE_LIST (input->ml)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No messagelist to thread was provided to thread_messages");
-		return;
-	}
-
-	if (!input->uids) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No uids were provided to thread_messages");
-		return;
-	}
-
-	if (!input->build) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No build callback provided to thread_messages");
-		return;
-	}
 
 	gtk_object_ref (GTK_OBJECT (input->ml));
 }

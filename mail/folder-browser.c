@@ -134,12 +134,12 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 }
 
 static char * search_options[] = {
-	"Body or subject contains",
-	"Body contains",
-	"Subject contains",
-	"Body does not contain",
-	"Subject does not contain",
-	"Custom search",
+	N_("Body or subject contains"),
+	N_("Body contains"),
+	N_("Subject contains"),
+	N_("Body does not contain"),
+	N_("Subject does not contain"),
+	N_("Custom search"),
 	NULL
 };
 
@@ -265,7 +265,11 @@ create_option_menu (char **menu_list, int item, void *data)
 	while (*menu_list){
 		GtkWidget *entry;
 
-		entry = e_utf8_gtk_menu_item_new_with_label (GTK_MENU(menu), *menu_list);
+		/* We don't use e_utf8_gtk_menu_item_new_with_label here
+		 * because the string comes from gettext and so is localized,
+		 * not UTF-8.
+		 */
+		entry = gtk_menu_item_new_with_label (_(*menu_list));
 		gtk_widget_show (entry);
 		gtk_object_set_data((GtkObject *)entry, "search_option", (void *)i);
 		gtk_menu_append (GTK_MENU (menu), entry);
@@ -307,7 +311,7 @@ search_save(GtkWidget *w, FolderBrowser *fb)
 	/* some special case code for the custom search position */
 	if (index == CUSTOM_SEARCH_ID) {
 		g_free(text);
-		text = g_strdup("Custom");
+		text = g_strdup(_("Custom"));
 	} else {
 		if (text == NULL || text[0] == 0) {
 			g_free (text);

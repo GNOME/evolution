@@ -31,11 +31,11 @@
 
 static CamelProvider pop3_provider = {
 	"pop",
-	"POP",
+	N_("POP"),
 
-	"For connecting to POP servers. The POP protocol can also be used "
-	"to retrieve mail from certain web mail providers and proprietary "
-	"email systems.",
+	N_("For connecting to POP servers. The POP protocol can also "
+	   "be used to retrieve mail from certain web mail providers "
+	   "and proprietary email systems."),
 
 	"mail",
 

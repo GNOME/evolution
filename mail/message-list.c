@@ -508,13 +508,13 @@ ml_value_to_string (ETableModel *etm, int col, const void *value, void *data)
 	case COL_MESSAGE_STATUS:
 		switch ((int) value) {
 		case 0:
-			return g_strdup ("Unseen");
+			return g_strdup (_("Unseen"));
 			break;
 		case 1:
-			return g_strdup ("Seen");
+			return g_strdup (_("Seen"));
 			break;
 		case 2:
-			return g_strdup ("Answered");
+			return g_strdup (_("Answered"));
 			break;
 		default:
 			return g_strdup ("");
@@ -1691,21 +1691,15 @@ static void cleanup_regenerate_messagelist (gpointer in_data, gpointer op_data, 
 static gchar *describe_regenerate_messagelist (gpointer in_data, gboolean gerund)
 {
 	if (gerund)
-		return g_strdup ("Rebuilding message view");
+		return g_strdup (_("Rebuilding message view"));
 	else
-		return g_strdup ("Rebuild message view");
+		return g_strdup (_("Rebuild message view"));
 }
 
 static void setup_regenerate_messagelist (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	regenerate_messagelist_input_t *input = (regenerate_messagelist_input_t *) in_data;
 
-	if (!IS_MESSAGE_LIST (input->ml)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No messagelist specified to regenerate");
-		return;
-	}
-	
 	gtk_object_ref (GTK_OBJECT (input->ml));
 	e_table_model_pre_change (input->ml->table_model);
 }

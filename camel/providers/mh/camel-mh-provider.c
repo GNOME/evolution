@@ -31,9 +31,9 @@
 
 static CamelProvider mh_provider = {
 	"mh",
-	"UNIX mh-format mail files",
+	N_("UNIX MH-format mail directories"),
 
-	"For reading mail delivered by the local system, and for " "storing mail on local disk.",
+	N_("For storing local mail in MH-like mail directories"),
 
 	"mail",
 

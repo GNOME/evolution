@@ -35,10 +35,10 @@ static gint nntp_url_equal (gconstpointer a, gconstpointer b);
 
 static CamelProvider news_provider = {
 	"nntp",
-	"USENET news",
+	N_("USENET news"),
 
-	"This is a provider for reading from and posting to"
-	"USENET newsgroups.",
+	N_("This is a provider for reading from and posting to"
+	   "USENET newsgroups."),
 
 	"news",
 

@@ -35,6 +35,7 @@
 #include <string.h>
 #include "camel-url.h"
 #include "camel-exception.h"
+#include "camel-object.h"
 
 /**
  * camel_url_new: create a CamelURL object from a string
@@ -73,7 +74,7 @@ camel_url_new (const char *url_string, CamelException *ex)
 	colon = strchr (url_string, ':');
 	if (!colon) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      "URL string `%s' contains no protocol",
+				      _("URL string `%s' contains no protocol"),
 				      url_string);
 		return NULL;
 	}
@@ -88,7 +89,7 @@ camel_url_new (const char *url_string, CamelException *ex)
 		if (!((*p >= 'a' && *p <= 'z') ||
 		      (*p == '-') || (*p == '+') || (*p == '.'))) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-					      "URL string `%s' contains an invalid protocol",
+					      _("URL string `%s' contains an invalid protocol"),
 					      url_string);
 			return NULL;
 		}
@@ -149,8 +150,8 @@ camel_url_new (const char *url_string, CamelException *ex)
 		url->port = strtoul (colon + 1, &colon, 10);
 		if (*colon && colon != slash) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-					      "Port number in URL `%s' is non-"
-					      "numeric", url_string);
+					      _("Port number in URL `%s' is non-"
+						"numeric"), url_string);
 			camel_url_free (url);
 			return NULL;
 		}

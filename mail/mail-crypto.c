@@ -134,8 +134,8 @@ crypto_exec_with_passwd (char *path, char *argv[], const char *input,
 	if ((pipe (ip_fds) < 0 ) ||
 	    (pipe (op_fds) < 0 ) ||
 	    (pipe (diag_fds) < 0 )) {
-		*diagnostics = g_strdup_printf ("Couldn't create pipe to %s: "
-						"%s", PGP_PROGRAM,
+		*diagnostics = g_strdup_printf (_("Couldn't create pipe to "
+						  "%s: %s"), PGP_PROGRAM,
 						g_strerror (errno));
 		return 0;
 	}
@@ -161,11 +161,11 @@ crypto_exec_with_passwd (char *path, char *argv[], const char *input,
                 cleanup_before_exec(passwd_fds[0]);
 
 		execvp (path, argv);
-		fprintf (stderr, "Could not execute %s: %s\n", argv[0],
+		fprintf (stderr, _("Could not execute %s: %s\n"), argv[0],
 			 g_strerror (errno));
 		_exit (255);
 	} else if (child < 0) {
-		*diagnostics = g_strdup_printf ("Cannot fork %s: %s",
+		*diagnostics = g_strdup_printf (_("Cannot fork %s: %s"),
 						argv[0], g_strerror (errno));
 		return 0;
 	}

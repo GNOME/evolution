@@ -261,7 +261,7 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 
 	/* Get all uids of source */
 
-	mail_op_set_message ("Examining %s", source->full_name);
+	mail_op_set_message (_("Examining %s"), source->full_name);
 
 	uids = camel_folder_get_uids (source);
 	printf ("mail_tool_move_folder: got %d messages in source\n", uids->len);
@@ -312,7 +312,8 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 
 		/* Info */
 
-		mail_op_set_message ("Retrieving message %d of %d", i + 1, uids->len);
+		mail_op_set_message (_("Retrieving message %d of %d"),
+				     i + 1, uids->len);
 
 		/* Get the message */
 
@@ -324,7 +325,8 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 		
 		/* Append it to dest */
 
-		mail_op_set_message ("Writing message %d of %d", i + 1, uids->len);
+		mail_op_set_message (_("Writing message %d of %d"),
+				     i + 1, uids->len);
 
 		if (summary_capability)
 			info = camel_folder_get_message_info (source, uids->pdata[i]);
@@ -352,7 +354,7 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 	} else
 		camel_folder_free_uids (source, uids);
 
-	mail_op_set_message ("Saving changes to %s", source->full_name);
+	mail_op_set_message (_("Saving changes to %s"), source->full_name);
 
 	camel_folder_sync (source, TRUE, ex);
 
@@ -384,7 +386,7 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 
 	if (from) {
 		if (subject && *subject) {
-			fwd_subj = g_strdup_printf (_("[%s] %s"), from, subject);
+			fwd_subj = g_strdup_printf ("[%s] %s", from, subject);
 		} else {
 			fwd_subj = g_strdup_printf (_("[%s] (forwarded message)"),
 						    from);

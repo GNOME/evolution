@@ -1,3 +1,21 @@
+2000-10-24  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am (libfilter-i18n.h): Build a fake header file with
+	the titles from the xml files, for translation purposes.
+
+	* filter-rule.c (get_rule_part_widget): Call _() on the rule's
+	title.
+
+	* filter-option.c (get_widget): Call _() on the option's title.
+
+	* filter.glade: Turn on translatable strings.
+
+	* libfilter-i18n.h, filter.glade.h: Translatable string files.
+
+	* add #include <config.h> to a bunch of C files so that _()
+	actually does anything. Undo some UTF8 frobs since we're now
+	dealing in localized strings.
+
 2000-10-23  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-filter.c (less_parts): Set the remove button insensitive

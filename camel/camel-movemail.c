@@ -93,8 +93,8 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 	if (stat (source, &st) == -1) {
 		if (errno != ENOENT) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Could not check mail file "
-					      "%s: %s", source,
+					      _("Could not check mail file "
+						"%s: %s"), source,
 					      g_strerror (errno));
 		}
 		return;
@@ -130,8 +130,9 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 		}
 #endif
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not create lock file "
-				      "for %s: %s", source, g_strerror (errno));
+				      _("Could not create lock file "
+					"for %s: %s"), source,
+				      g_strerror (errno));
 		return;
 	}
 	close (tmpfd);
@@ -139,7 +140,7 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 	sfd = open (source, O_RDWR);
 	if (sfd == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not open mail file %s: %s",
+				      _("Could not open mail file %s: %s"),
 				      source, g_strerror (errno));
 		unlink (locktmpfile);
 		g_free (locktmpfile);
@@ -149,8 +150,9 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 	dfd = open (dest, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
 	if (dfd == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not open temporary mail "
-				      "file %s: %s", dest, g_strerror (errno));
+				      _("Could not open temporary mail "
+					"file %s: %s"), dest,
+				      g_strerror (errno));
 		close (sfd);
 		unlink (locktmpfile);
 		g_free (locktmpfile);
@@ -175,8 +177,8 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 		 */
 		if (errno != EEXIST) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Could not create lock "
-					      "file for %s: %s", source,
+					      _("Could not create lock "
+						"file for %s: %s"), source,
 					      g_strerror (errno));
 			break;
 		}
@@ -189,8 +191,8 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 
 			/* Some other error. Abort. */
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Could not test lock "
-					      "file for %s: %s", source,
+					      _("Could not test lock "
+						"file for %s: %s"), source,
 					      g_strerror (errno));
 			break;
 		}
@@ -209,9 +211,9 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 		/* Something has gone awry. */
 		if (now >= timeout) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Timed out trying to get "
-					      "lock file on %s. Try again "
-					      "later.", source);
+					      _("Timed out trying to get "
+						"lock file on %s. Try again "
+						"later."), source);
 		}
 		g_free (lockfile);
 		unlink (locktmpfile);
@@ -235,7 +237,7 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 			if (errno == EINTR)
 				continue;
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Error reading mail file: %s",
+					      _("Error reading mail file: %s"),
 					      g_strerror (errno));
 			break;
 		}
@@ -246,8 +248,8 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 				if (errno == EINTR)
 					continue; /* continues inner loop */
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-						      "Error writing "
-						      "mail temp file: %s",
+						      _("Error writing "
+							"mail temp file: %s"),
 						      g_strerror (errno));
 				break;
 			}
@@ -264,8 +266,8 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 			ftruncate (sfd, 0);
 		else {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Failed to store mail in "
-					      "temp file %s: %s", dest,
+					      _("Failed to store mail in "
+						"temp file %s: %s"), dest,
 					      g_strerror (errno));
 		}
 	} else
@@ -296,7 +298,7 @@ movemail_external (const char *source, const char *dest, CamelException *ex)
 	if (pipe (fd) == -1) {
 		sigprocmask (SIG_SETMASK, &omask, NULL);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not create pipe: %s",
+				      _("Could not create pipe: %s"),
 				      g_strerror (errno));
 		return;
 	}
@@ -308,7 +310,7 @@ movemail_external (const char *source, const char *dest, CamelException *ex)
 		close (fd[1]);
 		sigprocmask (SIG_SETMASK, &omask, NULL);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not fork: %s",
+				      _("Could not fork: %s"),
 				      g_strerror (errno));
 		return;
 
@@ -346,8 +348,8 @@ movemail_external (const char *source, const char *dest, CamelException *ex)
 
 	if (!WIFEXITED (status) || WEXITSTATUS (status) != 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Movemail program failed: %s",
-				      output ? output : "(Unknown error)");
+				      _("Movemail program failed: %s"),
+				      output ? output : _("(Unknown error)"));
 	}
 	g_free (output);
 }

@@ -223,7 +223,7 @@ nntp_store_connect (CamelService *service, CamelException *ex)
 
 	if (!ensure_news_dir_exists(store)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not open directory for news server: %s",
+				      _("Could not open directory for news server: %s"),
 				      strerror (errno));
 		return FALSE;
 	}
@@ -284,15 +284,15 @@ nntp_store_get_name (CamelService *service, gboolean brief)
 	if (brief)
 		return g_strdup_printf ("%s", service->url->host);
 	else
-		return g_strdup_printf ("USENET News via %s", service->url->host);
+		return g_strdup_printf (_("USENET News via %s"), service->url->host);
 	
 }
 
 static CamelServiceAuthType password_authtype = {
-	"Password",
+	N_("Password"),
 	
-	"This option will authenticate with the NNTP server using a "
-	"plaintext password.",
+	N_("This option will authenticate with the NNTP server using a "
+	   "plaintext password."),
 	
 	"",
 	TRUE
@@ -330,7 +330,7 @@ nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 
 	if (!nntp_store->newsrc) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Unable to open or create .newsrc file for %s: %s",
+				      _("Unable to open or create .newsrc file for %s: %s"),
 				      CAMEL_SERVICE(store)->url->host,
 				      strerror(errno));
 		return NULL;
@@ -496,7 +496,7 @@ nntp_store_get_folder_info (CamelStore *store, const char *top,
 
 	if (!nntp_store->newsrc) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Unable to open or create .newsrc file for %s: %s",
+				      _("Unable to open or create .newsrc file for %s: %s"),
 				      CAMEL_SERVICE(store)->url->host,
 				      strerror(errno));
 		return NULL;

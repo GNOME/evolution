@@ -144,14 +144,12 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
 }
 
-static void rename_folder (CamelStore *store, const char *old_name,
-			   const char *new_name, CamelException *ex)
+static void
+rename_folder (CamelStore *store, const char *old_name,
+	       const char *new_name, CamelException *ex)
 {
 	g_warning ("CamelStore::rename_folder not implemented for `%s'",
 		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
-	camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-			     "rename folder unimplemented for: %s",
-			     camel_type_to_name (CAMEL_OBJECT_GET_TYPE (store)));
 }
 
 

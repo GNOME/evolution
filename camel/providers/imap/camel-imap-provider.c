@@ -36,9 +36,9 @@ static gint imap_url_equal (gconstpointer a, gconstpointer b);
 
 static CamelProvider imap_provider = {
 	"imap",
-	"IMAPv4",
+	N_("IMAPv4"),
 
-	"For reading and storing mail on IMAP servers.",
+	N_("For reading and storing mail on IMAP servers."),
 
 	"mail",
 

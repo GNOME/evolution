@@ -647,7 +647,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 	fd = open(mbs->folder_path, O_RDWR);
 	if (fd == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     "Could not open summary %s", mbs->folder_path);
+				     _("Could not open summary %s"), mbs->folder_path);
 		return -1;
 	}
 
@@ -668,7 +668,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 			
 			tmpname = NULL;
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Cannot open temporary mailbox: %s", strerror(errno));
+					     _("Cannot open temporary mailbox: %s"), strerror(errno));
 			goto error;
 		}
 	}
@@ -712,7 +712,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 			if (camel_mime_parser_tell_start_from (mp) != info->frompos) {
 				g_warning("Summary/mbox mismatch, aborting sync");
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-						      "Summary mismatch, aborting sync");
+						      _("Summary mismatch, aborting sync"));
 				goto error;
 			}
 			
@@ -732,7 +732,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 				if (!xevok) {
 					g_warning("The summary told me I had an X-Evolution header, but i dont!");
 					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-							     "Summary mismatch, X-Evolution header missing");
+							     _("Summary mismatch, X-Evolution header missing"));
 					goto error;
 				}
 				buffer = g_strdup_printf("X-Evolution: %s", xevnew);
@@ -754,7 +754,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 				if (header_write(fdout, camel_mime_parser_headers_raw(mp), xevnew) == -1) {
 					d(printf("Error writing to tmp mailbox\n"));
 					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-							     "Error writing to temp mailbox: %s",
+							     _("Error writing to temp mailbox: %s"),
 							     strerror(errno));
 					goto error;
 				}
@@ -767,7 +767,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 					       info->info.content->endpos - info->info.content->bodypos) == -1) {
 					g_warning("Cannot copy data to output fd");
 					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-							     "Cannot copy data to output fd: %s",
+							     _("Cannot copy data to output file: %s"),
 							     strerror (errno));
 					goto error;
 				}
@@ -785,7 +785,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 					       info->info.content->endpos - info->frompos) == -1) {
 					g_warning("Cannot copy data to output fd");
 					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-							     "Cannot copy data to output fd: %s",
+							     _("Cannot copy data to output file: %s"),
 							     strerror(errno));
 					goto error;
 				}
@@ -810,7 +810,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 	if (close(fd) == -1) {
 		g_warning("Cannot close source folder: %s", strerror(errno));
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     "Could not close source folder %s: %s",
+				     _("Could not close source folder %s: %s"),
 				     mbs->folder_path, strerror(errno));
 		goto error;
 	}
@@ -819,7 +819,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 		if (close(fdout) == -1) {
 			g_warning("Cannot close tmp folder: %s", strerror(errno));
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Could not close temp folder: %s",
+					     _("Could not close temp folder: %s"),
 					     strerror(errno));
 			goto error;
 		}
@@ -827,7 +827,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 		if (rename(tmpname, mbs->folder_path) == -1) {
 			g_warning("Cannot rename folder: %s", strerror(errno));
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     "Could not rename folder: %s",
+					     _("Could not rename folder: %s"),
 					     strerror(errno));
 			goto error;
 		}
@@ -839,7 +839,7 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 
 	if (stat(mbs->folder_path, &st) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     "Unknown error: %s",
+				     _("Unknown error: %s"),
 				     strerror(errno));
 		goto error;
 	}

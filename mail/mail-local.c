@@ -290,18 +290,6 @@ setup_reconfigure_folder (gpointer in_data, gpointer op_data, CamelException *ex
 {
 	reconfigure_folder_input_t *input = (reconfigure_folder_input_t *) in_data;
 
-	if (!IS_FOLDER_BROWSER (input->fb)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "Input has a bad FolderBrowser in reconfigure_folder");
-		return;
-	}
-
-	if (!input->newtype) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No new folder type in reconfigure_folder");
-		return;
-	}
-
 	gtk_object_ref (GTK_OBJECT (input->fb));
 }
 
@@ -336,7 +324,7 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 
 	/* first, 'close' the old folder */
 	if (input->fb->folder != NULL) {
-		update_progress("Closing current folder", 0.0);
+		update_progress(_("Closing current folder"), 0.0);
 
 		mail_tool_camel_lock_up ();
 		camel_folder_sync(input->fb->folder, FALSE, ex);
@@ -368,7 +356,7 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	/* rename the old mbox and open it again, without indexing */
 	tmpname = g_strdup_printf("%s_reconfig", meta->name);
 	printf("renaming %s to %s, and opening it\n", meta->name, tmpname);
-	update_progress("Renaming old folder and opening", 0.0);
+	update_progress(_("Renaming old folder and opening"), 0.0);
 
 	mail_tool_camel_lock_up ();
 	camel_store_rename_folder(fromstore, meta->name, tmpname, ex);
@@ -389,7 +377,7 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 
 	/* create a new mbox */
 	printf("Creating the destination mbox\n");
-	update_progress("Creating new folder", 0.0);
+	update_progress(_("Creating new folder"), 0.0);
 
 	flags = CAMEL_STORE_FOLDER_CREATE;
 	if (meta->indexed)
@@ -404,7 +392,7 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 		goto cleanup;
 	}
 
-	update_progress("Copying messages", 0.0);
+	update_progress(_("Copying messages"), 0.0);
 	mail_tool_move_folder_contents (fromfolder, tofolder, FALSE, ex);
 
 	printf("delete old mbox ...\n");
@@ -415,9 +403,11 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	g_free(meta->format);
 	meta->format = g_strdup(input->newtype);
 	if (save_metainfo(meta) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, "Cannot save folder metainfo; "
-				      "you'll probably find you can't\n"
-				      "open this folder anymore: %s", tourl);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot save folder metainfo; "
+					"you'll probably find you can't\n"
+					"open this folder anymore: %s"),
+				      tourl);
 	}
 	free_metainfo(meta);
 
@@ -450,8 +440,8 @@ cleanup_reconfigure_folder  (gpointer in_data, gpointer op_data, CamelException 
 
 	if (camel_exception_is_set(ex)) {
 		GtkWidget *win = gtk_widget_get_ancestor((GtkWidget *)input->frame, GTK_TYPE_WINDOW);
-		gnome_error_dialog_parented ("If you can no longer open this mailbox, then\n"
-					     "you may need to repair it manually.", GTK_WINDOW (win));
+		gnome_error_dialog_parented (_("If you can no longer open this mailbox, then\n"
+					       "you may need to repair it manually."), GTK_WINDOW (win));
 	}
 
 	gtk_object_unref (GTK_OBJECT (input->fb));
