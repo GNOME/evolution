@@ -1,0 +1,43 @@
+<!-- ##### SECTION Title ##### -->
+CamelStore
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT CamelStore ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION camel_store_get_separator ##### -->
+<para>
+
+</para>
+
+@store: 
+@Returns: 
+
+
+<!-- ##### FUNCTION camel_store_get_folder ##### -->
+<para>
+
+</para>
+
+@store: 
+@folder_name: 
+@Returns: 
+
+

@@ -1,0 +1,25 @@
+
+<INCLUDE>gnome.h</INCLUDE>
+
+<SECTION>
+<FILE>camel-service</FILE>
+CamelService
+<TITLE>CamelService</TITLE>
+<SUBSECTION Standard>
+CAMEL_SERVICE
+camel_service_get_type
+CAMEL_SERVICE_CLASS
+</SECTION>
+
+<SECTION>
+<FILE>camel-store</FILE>
+CamelStore
+<TITLE>CamelStore</TITLE>
+camel_store_get_separator
+camel_store_get_folder
+<SUBSECTION Standard>
+CAMEL_SERVICE
+camel_store_get_type
+CAMEL_SERVICE_CLASS
+</SECTION>
+

@@ -1,0 +1,3 @@
+#include <gtk/gtk.h>
+
+camel_service_get_type
