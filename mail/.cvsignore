@@ -19,6 +19,10 @@ Spell-common.c
 Spell-skels.c
 Spell-stubs.c
 Spell.h
+Mailer-common.c
+Mailer-skels.c
+Mailer-stubs.c
+Mailer.h
 evolution-mail-upgrade
 evolution-mbox-upgrade
 em-marshal.c
