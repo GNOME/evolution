@@ -1,3 +1,9 @@
+2001-05-28  Dan Winship  <danw@ximian.com>
+
+	* e-storage-set-view.c (new_storage_cb): Call
+	e_tree_node_set_expanded on the storage_set_view, not the
+	storage_set (which is not an ETree).
+
 2001-05-27  Dan Winship  <danw@ximian.com>
 
 	* evolution-shell-component-utils.c: New file.

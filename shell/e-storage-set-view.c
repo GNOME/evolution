@@ -1501,7 +1501,7 @@ new_storage_cb (EStorageSet *storage_set,
 					  -1, path);
 	e_tree_memory_sort_node(E_TREE_MEMORY(priv->etree_model), priv->root_node, storage_sort_callback, storage_set_view);
 
-	e_tree_node_set_expanded (E_TREE(storage_set), node, TRUE);
+	e_tree_node_set_expanded (E_TREE(storage_set_view), node, TRUE);
 
 	if (! add_node_to_hash (storage_set_view, path, node)) {
 		e_tree_memory_node_remove (E_TREE_MEMORY(priv->etree_model), node);
