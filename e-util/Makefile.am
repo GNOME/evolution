@@ -137,5 +137,8 @@ libedb3util_la_SOURCES =		\
 	e-db3-utils.c			\
 	e-dbhash.c
 
+libedb3util_la_LIBADD =			\
+	$(DB3_LDADD)
+
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES    = $(BUILT_SOURCES)
