@@ -1,3 +1,13 @@
+2001-08-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (create_folder): Get the
+	entire directory structure for the folder we just created, meaning
+	if we created a folder named "test.mailbox" where test didn't
+	previously exist, get the listing for "test" and "test.mailbox".
+
+	* providers/imap/camel-imap-utils.c (imap_parse_folder_name): New
+	function.
+
 2001-08-19  Chris Toshok  <toshok@ximian.com>
 
 	* camel-store.h: #include <sys/types.h> for mode_t on freebsd.
