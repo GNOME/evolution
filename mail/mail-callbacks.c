@@ -488,7 +488,7 @@ forward_message (FolderBrowser *fb, gboolean attach)
 	
 	cursor_msg = fb->mail_display->current_message;
 	g_return_if_fail (cursor_msg != NULL);
-
+	
 	if (!check_send_configuration (fb))
 		return;
 	
@@ -496,8 +496,11 @@ forward_message (FolderBrowser *fb, gboolean attach)
 	if (!composer)
 		return;
 	
-	uids = g_ptr_array_new();
-	message_list_foreach (fb->message_list, enumerate_msg, uids);
+	uids = g_ptr_array_new ();
+	if (attach)
+		message_list_foreach (fb->message_list, enumerate_msg, uids);
+	else
+		g_ptr_array_add (uids, fb->message_list->cursor_uid);
 	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);

@@ -1602,6 +1602,7 @@ do_forward_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 			
 			part = mail_tool_make_message_attachment (message);
 			if (!part) {
+				camel_object_unref (CAMEL_OBJECT (message));
 				camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 						     _("Failed to generate mime part from "
 						       "message while generating forwarded message."));
@@ -1637,13 +1638,38 @@ cleanup_forward_messages (gpointer in_data, gpointer op_data,
 	forward_messages_data_t *data = (forward_messages_data_t *) op_data;
 	
 	if (input->attach) {
-		int i;
-		
-		for (i = 0; i < data->parts->len; i++) {
-			e_msg_composer_attach (input->composer, data->parts->pdata[i]);
-			camel_object_unref (CAMEL_OBJECT (data->parts->pdata[i]));
+		if (data->parts->len > 1) {
+			/* construct and attach a multipart/digest */
+			CamelMimePart *digest;
+			CamelMultipart *multipart;
+			int i;
+			
+			multipart = camel_multipart_new ();
+			camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
+							  "multipart/digest");
+			camel_multipart_set_boundary (multipart, NULL);
+			
+			for (i = 0; i < data->parts->len; i++) {
+				camel_multipart_add_part (multipart, CAMEL_MIME_PART (data->parts->pdata[i]));
+				camel_object_unref (CAMEL_OBJECT (data->parts->pdata[i]));
+			}
+			
+			digest = camel_mime_part_new ();
+			camel_medium_set_content_object (CAMEL_MEDIUM (digest),
+							 CAMEL_DATA_WRAPPER (multipart));
+			camel_object_unref (CAMEL_OBJECT (multipart));
+			
+			camel_mime_part_set_description (digest, _("Forwarded messages"));
+			
+			e_msg_composer_attach (input->composer, CAMEL_MIME_PART (digest));
+			camel_object_unref (CAMEL_OBJECT (digest));
+		} else if (data->parts->len == 1) {
+			/* simply attach the message as message/rfc822 */
+			e_msg_composer_attach (input->composer, CAMEL_MIME_PART (data->parts->pdata[0]));
+			camel_object_unref (CAMEL_OBJECT (data->parts->pdata[0]));
 		}
 	} else {
+		/* attach as inlined text */
 		CamelMimeMessage *message = data->parts->pdata[0];
 		char *text;
 		

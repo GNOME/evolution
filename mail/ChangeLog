@@ -1,3 +1,13 @@
+2000-12-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-callbacks.c (forward_message): Only do a
+	message_list_foreach if we plan on attaching messages, otherwise
+	just use ml->cursor_uid.
+
+	* mail-ops.c (cleanup_forward_messages): If attaching multiple
+	forwarded message, wrap them in a multipart/digest otherwise just
+	attach the single message as a message/rfc822.
+
 2000-12-07  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c (on_object_requested): Make the iTip hack spew a
