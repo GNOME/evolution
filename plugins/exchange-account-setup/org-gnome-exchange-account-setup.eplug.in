@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+  <e-plugin
+    type="shlib"
+    id="org.gnome.evolution.plugin.exchange-account-setup"
+    location="@PLUGINDIR@/liborg-gnome-exchange-account-settings.so"
+    load-on-startup="true"
+    name="Exchange Account Setup"
+    description="A pluign for Exchange account specific settings">
+	
+    <hook class="org.gnome.evolution.mail.config:1.0">
+      	<group 
+		target="account" 
+		id="org.gnome.evolution.mail.config.accountEditor">
+		<item type="page" 
+	      		path="40.oof" 
+	      		label="Exchange Settings"
+	      		factory="org_gnome_exchange_account_setup"/>
+      	</group>
+    </hook>
+  </e-plugin>
+</e-plugin-list>
