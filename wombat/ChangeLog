@@ -1,3 +1,7 @@
+2002-04-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Re-Add $(WOMBAT_LIBS) so wombat actually links.
+
 2002-04-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (wombat_LDADD): Put DB3_LDADD and LDAP_LIBS on the

@@ -37,7 +37,8 @@ wombat_LDADD =								\
 	$(top_builddir)/libversit/libversit.a				\
 	$(top_builddir)/e-util/libedb3util.la				\
 	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/libwombat/libwombat.la
+	$(top_builddir)/libwombat/libwombat.la				\
+	$(WOMBAT_LIBS)
 
 oafdir = $(datadir)/oaf
 
