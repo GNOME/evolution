@@ -2969,7 +2969,7 @@ msgstr ""
 #: camel/providers/mbox/camel-mbox-store.c:180
 #, c-format
 msgid "`%s' is not a regular file."
-msgstr `%s' ei ole tavallinen tiedosto."
+msgstr "`%s' ei ole tavallinen tiedosto."
 
 #: camel/providers/mbox/camel-mbox-store.c:172
 #: camel/providers/mbox/camel-mbox-store.c:208
