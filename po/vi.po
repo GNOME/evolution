@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-10-08 13:22+0700\n"
+"PO-Revision-Date: 2004-10-09 00:13+0700\n"
 "Last-Translator: pclouds <pclouds@vnlinux.org>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -76,9 +76,8 @@ msgstr ""
 
 #. addressbook:ldap-search-base primary
 #: addressbook/addressbook-errors.xml.h:10
-#, fuzzy
 msgid "This addressbook server does not have any suggested search bases."
-msgstr "Server trả lời không hỗ trợ cơ sở tìm kiếm"
+msgstr "Máy chủ sổ địa chỉ không đề nghị cơ sở tìm kiếm."
 
 #. addressbook:ldap-search-base secondary
 #: addressbook/addressbook-errors.xml.h:12
@@ -90,9 +89,8 @@ msgstr ""
 
 #. addressbook:ldap-v3-schema primary
 #: addressbook/addressbook-errors.xml.h:14
-#, fuzzy
 msgid "This server does not support LDAPv3 schema information."
-msgstr "Server này không hỗ trợ thông tin schema LDAPv3"
+msgstr "Máy chủ này không hỗ trợ thông tin schema LDAPv3."
 
 #. addressbook:ldap-get-schema primary
 #: addressbook/addressbook-errors.xml.h:16
@@ -132,7 +130,7 @@ msgstr "Không thể loại bỏ sổ địa chỉ."
 #: mail/mail-errors.xml.h:80 mail/mail-errors.xml.h:84
 #: mail/mail-errors.xml.h:88
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #. addressbook:edit-categories primary
 #: addressbook/addressbook-errors.xml.h:24
@@ -164,7 +162,6 @@ msgstr "Không thể thực hiện tìm kiếm."
 
 #. addressbook:prompt-save primary
 #: addressbook/addressbook-errors.xml.h:40
-#, fuzzy
 msgid "Would you like to save your changes?"
 msgstr "Bạn có muốn lưu các thay đổi không?"
 
@@ -428,7 +425,7 @@ msgstr "Thuộc tính..."
 
 #: addressbook/gui/component/addressbook.c:98
 msgid "Accessing LDAP Server anonymously"
-msgstr "Truy cập vô danh tới LDAP server"
+msgstr "Truy cập vô danh tới máy chủ LDAP"
 
 #: addressbook/gui/component/addressbook.c:184
 #: camel/providers/groupwise/camel-gw-listener.c:420
@@ -652,7 +649,7 @@ msgstr ""
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
-msgstr "Đây là tên đầy đủ của LDAP server. Ví dụ, \"ldap.mycompany.com\"."
+msgstr "Đây là tên đầy đủ của máy chủ LDAP. Ví dụ, \"ldap.mycompany.com\"."
 
 #: addressbook/gui/component/ldap-config.glade.h:36
 msgid ""
@@ -667,7 +664,7 @@ msgid ""
 "server."
 msgstr ""
 "Đây là cách Evolution dùng để xác thực bạn. Chú ý rằng đặt cái này là\n"
-"\"Địa chỉ thư\" yêu cầu truy cập vô danh tới LDAP server. "
+"\"Địa chỉ thư\" yêu cầu truy cập vô danh tới máy chủ LDAP. "
 
 #: addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -2280,12 +2277,11 @@ msgstr "\n"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Add an email to the List"
-msgstr ""
+msgstr "Thêm email vào danh sách"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
-#, fuzzy
 msgid "Insert email adresses from Adress Book"
-msgstr "Chọn liên lạc từ sổ địa chỉ"
+msgstr "Chèn địa chỉ email từ Sổ địa chỉ"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:714
@@ -2293,9 +2289,8 @@ msgid "Members"
 msgstr "Thành viên"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#, fuzzy
 msgid "Remove an email address from the List"
-msgstr "Loại bỏ những mục được chọn từ danh sách đồ đính kèm"
+msgstr "Loại bỏ địa chỉ email khỏi danh sách"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "Select"
@@ -2959,9 +2954,7 @@ msgstr ""
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
-msgstr ""
-"Không thể mở sổ địa chỉ này. Nguyên nhân hoặc là do bạn đã nhập sai URI, "
-"hoặc là do server không truy cập."
+msgstr "Không thể mở sổ địa chỉ này. Nguyên nhân hoặc là do bạn đã nhập sai URI, hoặc là do máy chủ không truy cập."
 
 #: addressbook/gui/widgets/eab-gui-util.c:130
 msgid ""
@@ -2970,9 +2963,9 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 msgstr ""
-"Quá nhiều các khớp với truy vấn, nhiều hơn cấu hình của server\n"
+"Quá nhiều các khớp với truy vấn, nhiều hơn cấu hình của máy chủ\n"
 "hoặc cấu hình hiển thị của Evolution. Vui lòng tìm kiếm chính\n"
-"xác hơn hoặc tăng giới hạn kết quả trong Thông số server thư\n"
+"xác hơn hoặc tăng giới hạn kết quả trong Thông số máy chủ thư\n"
 "mục cho sổ địa chỉ này."
 
 #: addressbook/gui/widgets/eab-gui-util.c:136
@@ -2982,9 +2975,9 @@ msgid ""
 "more specific or raise the time limit in the directory server\n"
 "preferences for this addressbook."
 msgstr ""
-"Thời gian thực hiện truy vấn này vượt quá giới hạn server hoặc giới hạn\n"
+"Thời gian thực hiện truy vấn này vượt quá giới hạn máy chủ hoặc giới hạn\n"
 "do bạn cấu hình cho sổ địa chỉ này. Vui lòng tìm kiếm chính xác hơn hoặc\n"
-"tăng giới hạn thời gian trong thông số server thư mục cho sổ địa chỉ này."
+"tăng giới hạn thời gian trong thông số máy chủ thư mục cho sổ địa chỉ này."
 
 #: addressbook/gui/widgets/eab-gui-util.c:142
 msgid "The backend for this addressbook was unable to parse this query."
@@ -3494,9 +3487,8 @@ msgstr "Gửi thông báo"
 
 #. calendar:prompt-delete-meeting primary
 #: calendar/calendar-errors.xml.h:8
-#, fuzzy
 msgid "Are you sure you want to delete this meeting?"
-msgstr "Bạn có chắc muốn hủy bỏ và xoá cuộc họp này?"
+msgstr "Bạn có chắc muốn xóa cuộc họp này không?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
@@ -3513,9 +3505,8 @@ msgstr ""
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
-#, fuzzy
 msgid "Are you sure you want to delete this task?"
-msgstr "Bạn có chắc muốn xóa %d công việc?"
+msgstr "Bạn có chắc muốn xóa công việc này không?"
 
 #. calendar:prompt-delete-task secondary
 #. calendar:prompt-delete-named-task secondary
@@ -3529,7 +3520,7 @@ msgstr ""
 #: calendar/calendar-errors.xml.h:22
 #, fuzzy
 msgid "Would you like to send a cancellation notice for this journal entry?"
-msgstr "Bạn có chắc muốn hủy bỏ và xóa mục nhật ký này?"
+msgstr "Bạn có muốn gửi thông báo hủy bỏ cho mục journal này không?"
 
 #. calendar:prompt-cancel-journal secondary
 #: calendar/calendar-errors.xml.h:24
@@ -3540,9 +3531,8 @@ msgstr ""
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
-#, fuzzy
 msgid "Are you sure you want to delete this journal entry?"
-msgstr "Bạn có chắc muốn xóa %d mục nhật ký?"
+msgstr "Bạn có chắc muốn xóa mục nhật ký này không?"
 
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:30
@@ -3553,9 +3543,8 @@ msgstr ""
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
-#, fuzzy
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Bạn có chắc muốn xóa cuộc hẹn `%s'?"
+msgstr "Bạn có chắc muốn xóa cuộc hẹn tên `{0}' không?"
 
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
@@ -3566,15 +3555,13 @@ msgstr ""
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
-#, fuzzy
 msgid "Are you sure you want to delete this appointment?"
-msgstr "Bạn có chắc muốn xóa %d cuộc hẹn?"
+msgstr "Bạn có chắc muốn xóa cuộc hẹn này không?"
 
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
-#, fuzzy
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr "Bạn có chắc muốn xóa công việc `%s'?"
+msgstr "Bạn có chắc muốn xóa công việc '{0}' không?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
@@ -3591,9 +3578,8 @@ msgstr ""
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
-#, fuzzy
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr "Bạn có chắc muốn xóa cuộc hẹn `%s'?"
+msgstr "Bạn có chắc muốn xóa {0} cuộc hẹn này không?"
 
 #. calendar:prompt-delete-appointments secondary
 #: calendar/calendar-errors.xml.h:58
@@ -3604,9 +3590,8 @@ msgstr ""
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
-#, fuzzy
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr "Bạn có chắc muốn xóa công việc `%s'?"
+msgstr "Bạn có chắc muốn xóa {0} công việc này không?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
@@ -3617,7 +3602,7 @@ msgstr ""
 #: calendar/calendar-errors.xml.h:64
 #, fuzzy
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr "Bạn có chắc muốn xóa mục nhật ky1 `%s'?"
+msgstr "Bạn có chắc muốn xóa mục nhật ký `%s'?"
 
 #. calendar:prompt-delete-journals secondary
 #: calendar/calendar-errors.xml.h:66
@@ -3633,17 +3618,13 @@ msgstr "Lưu cuộc hẹn"
 
 #. calendar:prompt-save-appointment primary
 #: calendar/calendar-errors.xml.h:70
-#, fuzzy
 msgid "Would you like to save your changes to this appointment?"
-msgstr "Bạn có muốn lưu các thay đổi không?"
+msgstr "Bạn có muốn lưu các thay đổi của cuộc hẹn này không?"
 
 #. calendar:prompt-save-appointment secondary
 #: calendar/calendar-errors.xml.h:72
-#, fuzzy
 msgid "You have made changes to this appointment, but not yet saved them."
-msgstr ""
-"%s  Bạn đã tạo ra vài thay đổi. Bỏ qua những thay đổi này và cập nhật bộ "
-"biên soạn?"
+msgstr "Bạn đã tạo ra vài thay đổi trong cuộc hẹn này, nhưng chư lưu lại."
 
 #: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
 #: composer/mail-composer-errors.xml.h:33
@@ -3661,17 +3642,13 @@ msgstr "Lưu công việc"
 
 #. calendar:prompt-save-task primary
 #: calendar/calendar-errors.xml.h:78
-#, fuzzy
 msgid "Would you like to save your changes to this task?"
-msgstr "Bạn có muốn lưu các thay đổi không?"
+msgstr "Bạn có muốn lưu các thay đổi của công việc này không?"
 
 #. calendar:prompt-save-task secondary
 #: calendar/calendar-errors.xml.h:80
-#, fuzzy
 msgid "You have made changes to this task, but not yet saved them."
-msgstr ""
-"%s  Bạn đã tạo ra vài thay đổi. Bỏ qua những thay đổi này và cập nhật bộ "
-"biên soạn?"
+msgstr "Bạn đã tạo ra vài thay đổi trong công việc này nhưng chưa lưu lại."
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:84
@@ -3738,9 +3715,8 @@ msgstr ""
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:112
-#, fuzzy
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "Bộ xem lịch iTip/iMip Evolution"
+msgstr "Lịch Evolution kết thúc bất thường."
 
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:114
@@ -3760,9 +3736,8 @@ msgstr "Tácg sự kiện nhiều ngày:"
 #: calendar/conduits/calendar/calendar-conduit.c:1357
 #: calendar/conduits/todo/todo-conduit.c:879
 #: calendar/conduits/todo/todo-conduit.c:880
-#, fuzzy
 msgid "Could not start evolution-data-server"
-msgstr "Không thể khởi động wombat server"
+msgstr "Không thể khởi động evolution-data-server"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1465
 #: calendar/conduits/calendar/calendar-conduit.c:1468
@@ -4283,7 +4258,7 @@ msgstr "Khung tháng"
 
 #: calendar/gui/comp-editor-factory.c:409
 msgid "Error while opening the calendar"
-msgstr "Lỗi mở server lịch"
+msgstr "Lỗi mở lịch"
 
 #: calendar/gui/comp-editor-factory.c:420
 msgid "Method not supported when opening the calendar"
@@ -4997,7 +4972,7 @@ msgid_plural "%d hours before appointment"
 msgstr[0] "%d giờ trước cuộc hẹn"
 
 #: calendar/gui/dialogs/event-page.c:1820
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d phút trước cuộc hẹn"
@@ -5068,9 +5043,8 @@ msgid "Public"
 msgstr "Công cộng"
 
 #: calendar/gui/dialogs/event-page.glade.h:16
-#, fuzzy
 msgid "Show time as _busy"
-msgstr "Hiện thời giản kiểu"
+msgstr ""
 
 #: calendar/gui/dialogs/event-page.glade.h:17
 #: calendar/gui/dialogs/task-page.glade.h:11
@@ -5082,14 +5056,12 @@ msgid "This appointment has customized alarms"
 msgstr ""
 
 #: calendar/gui/dialogs/event-page.glade.h:19
-#, fuzzy
 msgid "_Alarm"
-msgstr "Báo động"
+msgstr "_Báo động"
 
 #: calendar/gui/dialogs/event-page.glade.h:20
-#, fuzzy
 msgid "_Description:"
-msgstr "Mô tả"
+msgstr "_Mô tả:"
 
 #: calendar/gui/dialogs/event-page.glade.h:21
 #: calendar/gui/e-meeting-time-sel.c:613
@@ -5193,25 +5165,21 @@ msgid "Status"
 msgstr "Trạng thái"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:2
-#, fuzzy
 msgid "<b>Att_endees</b>"
-msgstr "<b>Báo động</b> "
+msgstr "<b>Người tham dự</b> "
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#, fuzzy
 msgid "C_hange Organizer"
 msgstr "Đổ_i tổ chức"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
 #: calendar/gui/e-meeting-time-sel.c:415
-#, fuzzy
 msgid "Con_tacts..."
 msgstr "_Liên lạc..."
 
 #: calendar/gui/dialogs/meeting-page.glade.h:6
-#, fuzzy
 msgid "Or_ganizer:"
-msgstr "Tổ chức:"
+msgstr "_Tổ chức:"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:7
 #: calendar/gui/e-itip-control.glade.h:9
@@ -5336,28 +5304,24 @@ msgid "Date/Time"
 msgstr "Ngày/Giờ"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
-#, fuzzy
 msgid "<b>Exceptions</b>"
-msgstr "Mô tả"
+msgstr "<b>Ngoại lệ</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:2 mail/mail-config.glade.h:4
-#, fuzzy
 msgid "<b>Preview</b>"
-msgstr "Xem thử"
+msgstr "<b>Xem trước</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
-#, fuzzy
 msgid "<b>Recurrence</b>"
-msgstr "Đệ quy"
+msgstr "<b>Lặp lại</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
 msgstr "Mỗi"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
-#, fuzzy
 msgid "This appointment rec_urs"
-msgstr "_Sửa cuộc hẹn"
+msgstr ""
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
 msgid "for"
@@ -5496,9 +5460,8 @@ msgid "Unable to open tasks in '%s'."
 msgstr "Không thể mở công việc trong '%s'."
 
 #: calendar/gui/dialogs/task-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Basics</span>"
-msgstr "Thông điệp hiển thị"
+msgstr "<span weight=\"bold\">Cơ bản</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:3
 msgid "<span weight=\"bold\">Date and Time</span>"
@@ -5530,9 +5493,8 @@ msgid "<b>Publishing Frequency</b>"
 msgstr ""
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
-#, fuzzy
 msgid "<b>Publishing _Location</b>"
-msgstr "Phân loại"
+msgstr "<b>Công bố Đị_a chỉ</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Editor"
@@ -5544,7 +5506,7 @@ msgstr "_Hàng ngày"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
 msgid "_Manual"
-msgstr ""
+msgstr "_Thủ công"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
 msgid "_Password:"
@@ -5945,12 +5907,10 @@ msgid "Task sort"
 msgstr "Loại công việc"
 
 #: calendar/gui/e-calendar-view.c:1176
-#, fuzzy
 msgid "Moving items"
 msgstr "Đang di chuyển"
 
 #: calendar/gui/e-calendar-view.c:1178
-#, fuzzy
 msgid "Copying items"
 msgstr "Đang sao chép"
 
@@ -5999,9 +5959,8 @@ msgid "_Forward as iCalendar..."
 msgstr "_Chuyển như iCalendar..."
 
 #: calendar/gui/e-calendar-view.c:1452
-#, fuzzy
 msgid "Make this Occurrence _Movable"
-msgstr "Xóa lần này"
+msgstr "Cho phép di chuyển _lần này"
 
 #: calendar/gui/e-calendar-view.c:1453 calendar/gui/e-calendar-view.c:1485
 msgid "Delete this _Occurrence"
@@ -6101,7 +6060,7 @@ msgstr[0] "Mỗi tuần"
 msgstr[1] "Mỗi %d tuần"
 
 #: calendar/gui/e-itip-control.c:628
-#, fuzzy, c-format
+#, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
 msgstr[0] "Mỗi tuần lúc "
@@ -6147,19 +6106,16 @@ msgid ", ending on "
 msgstr ", kết thúc lúc "
 
 #: calendar/gui/e-itip-control.c:711
-#, fuzzy
 msgid "Starts"
-msgstr "Trạng thái"
+msgstr "Bắt đầu"
 
 #: calendar/gui/e-itip-control.c:724
-#, fuzzy
 msgid "Ends"
-msgstr "Enid"
+msgstr "Kết thúc"
 
 #: calendar/gui/e-itip-control.c:758
-#, fuzzy
 msgid "Due"
-msgstr "Đến hạn "
+msgstr "Đến hạn"
 
 #: calendar/gui/e-itip-control.c:798 calendar/gui/e-itip-control.c:855
 msgid "iCalendar Information"
@@ -6434,11 +6390,11 @@ msgstr "Thông điệp chỉ chứa yêu cầu chưa được hỗ trợ."
 
 #: calendar/gui/e-itip-control.c:1563
 msgid "The attachment does not contain a valid calendar message"
-msgstr "Đồ đính kèm không chứa thông điệp lịch hợp lệ"
+msgstr "Đính kèm không chứa thông điệp lịch hợp lệ"
 
 #: calendar/gui/e-itip-control.c:1595
 msgid "The attachment has no viewable calendar items"
-msgstr "Đồ đính kèm không chứa mục lịch nào có thể xem được"
+msgstr "Đính kèm không chứa mục lịch nào có thể xem được"
 
 #: calendar/gui/e-itip-control.c:1829
 msgid "Update complete\n"
@@ -6507,7 +6463,7 @@ msgstr "Đang nạp lịch..."
 
 #: calendar/gui/e-itip-control.glade.h:10
 msgid "Server Message:"
-msgstr "Thông điệp server:"
+msgstr "Thông điệp máy chủ:"
 
 #: calendar/gui/e-itip-control.glade.h:12
 msgid "date-end"
@@ -6552,7 +6508,7 @@ msgstr "Phòng"
 #: calendar/gui/e-meeting-list-view.c:132 calendar/gui/e-meeting-store.c:125
 #: calendar/gui/e-meeting-store.c:142
 msgid "Chair"
-msgstr "Ghế"
+msgstr "Chủ trì"
 
 #: calendar/gui/e-meeting-list-view.c:133 calendar/gui/e-meeting-store.c:127
 #: calendar/gui/e-meeting-store.c:144 calendar/gui/e-meeting-store.c:762
@@ -6627,9 +6583,8 @@ msgid "No Information"
 msgstr "Không có thông tin"
 
 #: calendar/gui/e-meeting-time-sel.c:432
-#, fuzzy
 msgid "O_ptions"
-msgstr "Tùy chọn"
+msgstr "_Tùy chọn"
 
 #: calendar/gui/e-meeting-time-sel.c:449
 msgid "Show _only working hours"
@@ -6707,9 +6662,8 @@ msgid "Expunging"
 msgstr "Đang xóa"
 
 #: calendar/gui/gnome-cal.c:705
-#, fuzzy
 msgid "Updating query"
-msgstr "Đang cập nhật đối tượng"
+msgstr "Đang cập nhật truy vấn"
 
 #: calendar/gui/gnome-cal.c:2040
 #, c-format
@@ -7158,34 +7112,28 @@ msgid "Create a new task"
 msgstr "Tạo công việc mới"
 
 #: calendar/gui/tasks-component.c:1055
-#, fuzzy
 msgid "New assigned task"
-msgstr "Gán công việc"
+msgstr "Công việc được gán mới"
 
 #: calendar/gui/tasks-component.c:1056
-#, fuzzy
 msgid "Assigne_d Task"
-msgstr "Gán công việc"
+msgstr "Công việc đã _gán"
 
 #: calendar/gui/tasks-component.c:1057
-#, fuzzy
 msgid "Create a new assigned task"
-msgstr "Tạo công việc mới"
+msgstr "Tạo công việc được gán mới"
 
 #: calendar/gui/tasks-component.c:1063
-#, fuzzy
 msgid "New task list"
-msgstr "Danh sách công việc"
+msgstr "Danh sách công việc mới"
 
 #: calendar/gui/tasks-component.c:1064
-#, fuzzy
 msgid "Task l_ist"
-msgstr "Danh sách công việc"
+msgstr "_Danh sách công việc"
 
 #: calendar/gui/tasks-component.c:1065
-#, fuzzy
 msgid "Create a new task list"
-msgstr "Tạo công việc mới"
+msgstr "Tạo danh sách công việc mới"
 
 #: calendar/gui/tasks-control.c:370
 msgid ""
@@ -8789,36 +8737,32 @@ msgid "Signing is not supported by this cipher"
 msgstr "Loại mã này không hỗ trợ ký tên"
 
 #: camel/camel-cipher-context.c:128
-#, fuzzy
 msgid "Signing message"
-msgstr "Đang gửi thông điệp"
+msgstr "Đang ký thông điệp"
 
 #: camel/camel-cipher-context.c:145
 msgid "Verifying is not supported by this cipher"
 msgstr "Loại mã này không hỗ trợ xác minh"
 
 #: camel/camel-cipher-context.c:171
-#, fuzzy
 msgid "Verifying message"
-msgstr "Đang gửi thông điệp"
+msgstr "Đang xác minh thông điệp"
 
 #: camel/camel-cipher-context.c:189
 msgid "Encryption is not supported by this cipher"
 msgstr "Loại mã này không hỗ trợ mã hóa"
 
 #: camel/camel-cipher-context.c:215
-#, fuzzy
 msgid "Encrypting message"
-msgstr "Đang gửi thông điệp"
+msgstr "Đang mã hóa thông điệp"
 
 #: camel/camel-cipher-context.c:232
 msgid "Decryption is not supported by this cipher"
 msgstr "Loại mã này không hỗ trợ giải mã"
 
 #: camel/camel-cipher-context.c:254
-#, fuzzy
 msgid "Decrypting message"
-msgstr "Đang gửi thông điệp"
+msgstr "Đang giải mã thông điệp"
 
 #: camel/camel-cipher-context.c:271
 msgid "You may not import keys with this cipher"
@@ -8845,7 +8789,7 @@ msgid ""
 "reconnect to the network."
 msgstr ""
 "Không thể ghi log entry: %s\n"
-"Các thao tác sau nữa trên server này sẽ không được thực hiện lại\n"
+"Các thao tác sau nữa trên máy chủ này sẽ không được thực hiện lại\n"
 "khi bạn kết nối vào mạng lần sau."
 
 #: camel/camel-disco-diary.c:257
@@ -8861,7 +8805,7 @@ msgstr ""
 
 #: camel/camel-disco-diary.c:293
 msgid "Resynchronizing with server"
-msgstr "Đang tái đồng bộ với server"
+msgstr "Đang tái đồng bộ với máy chủ"
 
 #: camel/camel-disco-folder.c:41
 msgid "Copy folder content locally for offline operation"
@@ -8887,7 +8831,7 @@ msgid "Failed to create pipe to '%s': %s"
 msgstr "Lỗi tạo ống dẫn tới '%s': %s"
 
 #: camel/camel-filter-driver.c:713 camel/camel-process.c:90
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create child process '%s': %s"
 msgstr "Lỗi tạo tiến trình con '%s': %s"
 
@@ -9302,7 +9246,7 @@ msgstr "Vô danh"
 
 #: camel/camel-sasl-anonymous.c:37
 msgid "This option will connect to the server using an anonymous login."
-msgstr "Tùy chọn này sẽ kết nối tới server bằng cách đang nhập vô danh."
+msgstr "Tùy chọn này sẽ kết nối tới máy chủ bằng cách đang nhập vô danh."
 
 #: camel/camel-sasl-anonymous.c:112 camel/camel-sasl-plain.c:87
 msgid "Authentication failed."
@@ -9343,9 +9287,7 @@ msgstr "CRAM-MD5"
 msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
-msgstr ""
-"Tùy chọn này sẽ kết nối tới server dùng mật khẩu an toàn CRAM-MD5, nếu "
-"server có hỗ trợ."
+msgstr "Tùy chọn này sẽ kết nối tới máy chủ dùng mật khẩu an toàn CRAM-MD5, nếu máy chủ có hỗ trợ."
 
 #: camel/camel-sasl-digest-md5.c:48
 msgid "DIGEST-MD5"
@@ -9355,9 +9297,7 @@ msgstr "DIGEST-MD5"
 msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
-msgstr ""
-"Tùy chọn này sẽ kết nối tới server bằng mật khẩu an toàn DIGEST-MD5, nếu "
-"server có hỗ trợ."
+msgstr "Tùy chọn này sẽ kết nối tới máy chủ bằng mật khẩu an toàn DIGEST-MD5, nếu máy chủ có hỗ trợ."
 
 #: camel/camel-sasl-digest-md5.c:813
 msgid "Server challenge too long (>2048 octets)\n"
@@ -9373,15 +9313,15 @@ msgstr "Server challenge chứa token \"Quality of Protection\" không hợp l�
 
 #: camel/camel-sasl-digest-md5.c:850
 msgid "Server response did not contain authorization data\n"
-msgstr "Hồi đáp của server không chứa dữ liệu để xác thực\n"
+msgstr "Hồi đáp của máy chủ không chứa dữ liệu để xác thực\n"
 
 #: camel/camel-sasl-digest-md5.c:868
 msgid "Server response contained incomplete authorization data\n"
-msgstr "Hồi đáp của server chứa dữ liệu xác thực không hoàn chỉnh\n"
+msgstr "Hồi đáp của máy chủ chứa dữ liệu xác thực không hoàn chỉnh\n"
 
 #: camel/camel-sasl-digest-md5.c:878
 msgid "Server response does not match\n"
-msgstr "Tín hiệu trả lời của server không khớp\n"
+msgstr "Tín hiệu trả lời của máy chủ không khớp\n"
 
 #: camel/camel-sasl-gssapi.c:52
 msgid "GSSAPI"
@@ -9389,7 +9329,7 @@ msgstr "GSSAPI"
 
 #: camel/camel-sasl-gssapi.c:54
 msgid "This option will connect to the server using Kerberos 5 authentication."
-msgstr "Tùy chọn này sẽ kết nối tới server bằng cơ chế xác minh Kerberos 5."
+msgstr "Tùy chọn này sẽ kết nối tới máy chủ bằng cơ chế xác thực Kerberos 5."
 
 #: camel/camel-sasl-gssapi.c:152
 msgid ""
@@ -9448,7 +9388,7 @@ msgstr ""
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1236
 msgid "Bad authentication response from server."
-msgstr "Trả lời xác thực từ server sai."
+msgstr "Trả lời xác thực từ máy chủ sai."
 
 #: camel/camel-sasl-gssapi.c:217
 #, c-format
@@ -9465,7 +9405,7 @@ msgstr "Kerberos 4"
 
 #: camel/camel-sasl-kerberos4.c:43
 msgid "This option will connect to the server using Kerberos 4 authentication."
-msgstr "Tùy chọn này sẽ kết nối server bằng cơ chế xác minh Kerberos 4."
+msgstr "Tùy chọn này sẽ kết nối máy chủ bằng cơ chế xác thực Kerberos 4."
 
 #: camel/camel-sasl-kerberos4.c:162
 #, c-format
@@ -9482,7 +9422,7 @@ msgstr "Đăng nhập"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr "Tùy chọn này sẽ kết nối tới server bằng mật khẩu đơn giản."
+msgstr "Tùy chọn này sẽ kết nối tới máy chủ bằng mật khẩu đơn giản."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
@@ -9496,7 +9436,7 @@ msgstr "NTLM / SPA"
 msgid ""
 "This option will connect to a Windows-based server using NTLM / Secure "
 "Password Authentication."
-msgstr "Tùy chọn này sẽ kết nối tới server trên Windows dùng NTLM / SPA"
+msgstr "Tùy chọn này sẽ kết nối tới máy chủ trên Windows dùng NTLM / SPA"
 
 #: camel/camel-sasl-plain.c:32
 msgid "PLAIN"
@@ -9589,9 +9529,9 @@ msgstr ""
 "%s"
 
 #: camel/camel-smime-context.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "Enter security pass-phrase for `%s'"
-msgstr "Vui lòng nhập passphrase %s của bạn cho %s"
+msgstr "Vui lòng nhập passphrase cho '%s'"
 
 #: camel/camel-smime-context.c:261
 #, c-format
@@ -9704,9 +9644,8 @@ msgid "Malformed signature"
 msgstr "Chữ ký sai dạng thức"
 
 #: camel/camel-smime-context.c:532
-#, fuzzy
 msgid "Processing error"
-msgstr "Lỗi phân tích"
+msgstr "Lỗi xử lý"
 
 #: camel/camel-smime-context.c:569
 #, fuzzy
@@ -9746,9 +9685,9 @@ msgid "Cannot find signature digests"
 msgstr "Sửa chữ ký"
 
 #: camel/camel-smime-context.c:651
-#, fuzzy, c-format
+#, c-format
 msgid "Signer: %s <%s>: %s\n"
-msgstr "Server: %s, Kiểu: %s"
+msgstr "Người ký: %s <%s>: %s\n"
 
 #: camel/camel-smime-context.c:752
 #, fuzzy
@@ -10093,11 +10032,11 @@ msgstr "Không thể đổi tên thư mục: %s: Không có thư mục này"
 #: camel/camel-vtrash-folder.c:44
 #, fuzzy
 msgid "Cannot copy messages to the Trash folder"
-msgstr "Bạn không thể sao chép các thông điệp từ thư mục Thùng rác."
+msgstr "Bạn không thể sao chép các thông điệp từ thư mục Sọt rác."
 
 #: camel/camel-vtrash-folder.c:46
 msgid "Cannot copy messages to the Junk folder"
-msgstr "Không thể sao chép các thông điệp vào thư mục Rác"
+msgstr "Không thể sao chép các thông điệp vào thư mục Sọt rác"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:53
 #: camel/providers/imap4/camel-imap4-provider.c:35
@@ -10136,9 +10075,8 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "_Tự động kiểm tra có thư mới"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
-msgstr "Sổ địa chỉ"
+msgstr "Sổ địa chỉ và lịch"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
 msgid "Post Office Agent:"
@@ -10174,8 +10112,7 @@ msgstr "Mật khẩu"
 #: camel/providers/imap/camel-imap-provider.c:95
 #: camel/providers/imapp/camel-imapp-provider.c:67
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr ""
-"Tùy chọn này sẽ kết nối tới IMAP server bằng mật khẩu thô (không mã hóa)."
+msgstr "Tùy chọn này sẽ kết nối tới máy chủ IMAP bằng mật khẩu thô (không mã hóa)."
 
 #: camel/providers/groupwise/camel-gw-listener.c:332
 #: camel/providers/groupwise/camel-gw-listener.c:362
@@ -10193,7 +10130,7 @@ msgstr "Thao tác bị hủy bỏ"
 #: camel/providers/imap/camel-imap-store.c:3194
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
-msgstr "Server đã ngắt kết nối bất ngờ: %s"
+msgstr "Máy chủ đã ngắt kết nối bất ngờ: %s"
 
 #: camel/providers/imap/camel-imap-command.c:303
 #: camel/providers/imap/camel-imap-command.c:400
@@ -10217,7 +10154,7 @@ msgstr ""
 #: camel/providers/imap/camel-imap-command.c:389
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
-msgstr "Tính hiệu trả lời không mong đợi từ IMAP server: %s"
+msgstr "Tính hiệu trả lời không mong đợi từ máy chủ IMAP: %s"
 
 #: camel/providers/imap/camel-imap-command.c:399
 #, c-format
@@ -10226,17 +10163,17 @@ msgstr "Lỗi lệnh IMAP: %s"
 
 #: camel/providers/imap/camel-imap-command.c:457
 msgid "Server response ended too soon."
-msgstr "Tính hiệu trả lời của server kết thúc quá sớm."
+msgstr "Tính hiệu trả lời của máy chủ  kết thúc quá sớm."
 
 #: camel/providers/imap/camel-imap-command.c:649
 #, c-format
 msgid "IMAP server response did not contain %s information"
-msgstr "Tín hiệu trả lời của IMAP server không chứa thông tin %s"
+msgstr "Tín hiệu trả lời của máy chủ IMAP không chứa thông tin %s"
 
 #: camel/providers/imap/camel-imap-command.c:685
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
-msgstr "Tín hiệu trả lời OK không mong đợi từ IMAP server: %s"
+msgstr "Tín hiệu trả lời OK không mong đợi từ máy chủ IMAP: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:226
 #, c-format
@@ -10250,7 +10187,7 @@ msgstr "Không thể nạp tóm tắt cho %s"
 
 #: camel/providers/imap/camel-imap-folder.c:330
 msgid "Folder was destroyed and recreated on server."
-msgstr "Thư mục đã bị hủy và tạo lại trên server."
+msgstr "Thư mục đã bị hủy và tạo lại trên máy chủ."
 
 #. Check UIDs and flags of all messages we already know of.
 #: camel/providers/imap/camel-imap-folder.c:573
@@ -10328,19 +10265,16 @@ msgid "Failed to cache %s: %s"
 msgstr "Lỗi cache %s: %s"
 
 #: camel/providers/imap/camel-imap-provider.c:43
-#, fuzzy
 msgid "Checking for New Mail"
 msgstr "Kiểm tra tìm thư mới"
 
 #: camel/providers/imap/camel-imap-provider.c:48
-#, fuzzy
 msgid "Connection to Server"
-msgstr "Đang kết nối tới server..."
+msgstr "Kết nối đến máy chủ"
 
 #: camel/providers/imap/camel-imap-provider.c:50
-#, fuzzy
 msgid "Use custom command to connect to server"
-msgstr "Lỗi kết nối tới LDAP server."
+msgstr "Dùng lệnh riêng để kết nối đến máy chủ"
 
 #: camel/providers/imap/camel-imap-provider.c:52
 msgid "Command:"
@@ -10369,9 +10303,7 @@ msgstr "Vùng tên"
 
 #: camel/providers/imap/camel-imap-provider.c:64
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr ""
-"Áp dụng bộ lọc đối với những thông điệp mới trong thư mục INBOX trên server "
-"này"
+msgstr "Áp dụng bộ lọc đối với những thông điệp mới trong thư mục INBOX trên máy chủ này"
 
 #: camel/providers/imap/camel-imap-provider.c:76
 msgid "IMAP"
@@ -10379,7 +10311,7 @@ msgstr "IMAP"
 
 #: camel/providers/imap/camel-imap-provider.c:78
 msgid "For reading and storing mail on IMAP servers."
-msgstr "Để đọc và lưu thư trên IMAP server."
+msgstr "Để đọc và lưu thư trên máy chủ IMAP."
 
 #: camel/providers/imap/camel-imap-store.c:424
 #: camel/providers/imap4/camel-imap4-store.c:177
@@ -10428,7 +10360,7 @@ msgstr "Kết nối bị hủy bỏ"
 #: camel/providers/imap4/camel-imap4-store.c:282
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
-msgstr "Lỗi kết nối tới IMAP server %s trong chế độ an toàn: %s"
+msgstr "Lỗi kết nối tới máy chủ IMAP %s trong chế độ an toàn: %s"
 
 #: camel/providers/imap/camel-imap-store.c:676
 #: camel/providers/pop3/camel-pop3-store.c:233
@@ -10443,12 +10375,12 @@ msgstr "Thương lượng SSL thất bại"
 #: camel/providers/imap/camel-imap-store.c:844
 #, fuzzy, c-format
 msgid "Could not connect with command \"%s\": %s"
-msgstr "Không thể kết nối tới server: %s"
+msgstr "Không thể kết nối tới máy chủ: %s"
 
 #: camel/providers/imap/camel-imap-store.c:1268
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
-msgstr "IMAP server %s không hỗ trợ loại xác thực được yêu cầu %s"
+msgstr "Máy chủ IMAP %s không hỗ trợ loại xác thực được yêu cầu %s"
 
 #: camel/providers/imap/camel-imap-store.c:1278
 #: camel/providers/smtp/camel-smtp-transport.c:486
@@ -10473,7 +10405,7 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
-"Không thể xác thực IMAP server.\n"
+"Không thể xác thực máy chủ IMAP.\n"
 "%s\n"
 "\n"
 
@@ -10513,7 +10445,7 @@ msgstr "Thư mục cha lạ: %s"
 #: camel/providers/imap4/camel-imap4-command.c:557
 #, fuzzy, c-format
 msgid "Failed sending command to IMAP server %s: %s"
-msgstr "Không thể xác thực tại POP server: %s: %s"
+msgstr "Không thể xác thực tại máy chủ IMAP %s: %s"
 
 #: camel/providers/imap4/camel-imap4-command.c:656
 #, fuzzy, c-format
@@ -11294,15 +11226,15 @@ msgstr "Vui lòng nhập mật khẩu NNTP cho %s@%s"
 
 #: camel/providers/nntp/camel-nntp-auth.c:64
 msgid "Server rejected username"
-msgstr "Server từ chối tên người dùng"
+msgstr "Máy chủ từ chối tên người dùng"
 
 #: camel/providers/nntp/camel-nntp-auth.c:70
 msgid "Failed to send username to server"
-msgstr "Lỗi gửi tên người dùng cho server"
+msgstr "Lỗi gửi tên người dùng cho máy chủ"
 
 #: camel/providers/nntp/camel-nntp-auth.c:79
 msgid "Server rejected username/password"
-msgstr "Server từ chối tên người dùng/mật khẩu"
+msgstr "Máy chủ từ chối tên người dùng/mật khẩu"
 
 #: camel/providers/nntp/camel-nntp-folder.c:147
 #: camel/providers/nntp/camel-nntp-folder.c:149
@@ -11350,7 +11282,7 @@ msgstr "Không thể chép thông điệp từ thư mục NNTP!"
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:44
 msgid "Could not get group list from server."
-msgstr "Không thể lấy danh sách nhóm từ server."
+msgstr "Không thể lấy danh sách nhóm từ máy chủ."
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:97
 #: camel/providers/nntp/camel-nntp-grouplist.c:106
@@ -11384,8 +11316,7 @@ msgstr "Đây là bộ cung cấp đọc và gửi thư tới các nhóm tin USE
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
-msgstr ""
-"Tùy chọn này sẽ xác thực với NNTP server bằng mật khẩu thô (không mã hóa)"
+msgstr "Tùy chọn này sẽ xác thực với máy chủ NNTP bằng mật khẩu thô (không mã hóa)"
 
 #: camel/providers/nntp/camel-nntp-store.c:118
 #: camel/providers/nntp/camel-nntp-store.c:1233
@@ -11402,7 +11333,7 @@ msgstr "Không thể đọc lời chào mừng từ %s: %s"
 #: camel/providers/nntp/camel-nntp-store.c:239
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
-msgstr "NNTP server %s trả về mã lỗi %d: %s"
+msgstr "Máy chủ NNTP %s trả về mã lỗi %d: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:403
 #, c-format
@@ -11545,47 +11476,42 @@ msgstr "POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:56
 msgid "For connecting to and downloading mail from POP servers."
-msgstr "Để kết nối và tải thư về từ POP server."
+msgstr "Để kết nối và tải thư về từ máy chủ POP."
 
 #: camel/providers/pop3/camel-pop3-provider.c:73
 msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
-msgstr ""
-"Tùy chọn này sẽ kết nối tới POP server dùng mật khẩu thô (không mã hóa). Đây "
-"là tùy chọn duy nhất được hỗ trợ bởi nhiều server."
+msgstr "Tùy chọn này sẽ kết nối tới máy chủ POP dùng mật khẩu thô (không mã hóa). Đây là tùy chọn duy nhất được hỗ trợ bởi nhiều máy chủ."
 
 #: camel/providers/pop3/camel-pop3-provider.c:83
 msgid ""
 "This option will connect to the POP server using an encrypted password via "
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
-msgstr ""
-"Tùy chọn này sẽ kết nối tới POP server dùng mật khẩu đã mã hoá thông qua "
-"giao thức APOP. Có thể sẽ không hoạt động cho mọi người dùng, kể cả trên "
-"server tuyên bố có hỗ trợ."
+msgstr "Tùy chọn này sẽ kết nối tới máy chủ POP dùng mật khẩu đã mã hoá thông qua giao thức APOP. Có thể sẽ không hoạt động cho mọi người dùng, kể cả trên máy chủ tuyên bố có hỗ trợ."
 
 #: camel/providers/pop3/camel-pop3-store.c:195
 #, c-format
 msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "Không thể kết nối tới POP server %s (cổng %d): %s"
+msgstr "Không thể kết nối tới máy chủ POP %s (cổng %d): %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:214
 #, fuzzy, c-format
 msgid "Failed to read a valid greeting from POP server %s (port %d)"
-msgstr "Không thể xác thực tại POP server: %s: %s"
+msgstr "Không thể xác thực tại máy chủ POP: %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:232
 #: camel/providers/pop3/camel-pop3-store.c:261
 #: camel/providers/pop3/camel-pop3-store.c:273
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
-msgstr "Lỗi kết nối tới POP server %s trong chế độ an toàn: %s"
+msgstr "Lỗi kết nối tới máy chủ POP %s trong chế độ an toàn: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:371
 #, c-format
 msgid "Could not connect to POP server %s"
-msgstr "Không thể kết nối tới POP server %s"
+msgstr "Không thể kết nối tới máy chủ POP %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:412
 #: camel/providers/pop3/camel-pop3-store.c:526
@@ -11593,23 +11519,22 @@ msgstr "Không thể kết nối tới POP server %s"
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
-msgstr ""
-"Không thể kết nối tới POP server %s: Không hỗ trợ cơ chế xác thực yêu cầu."
+msgstr "Không thể kết nối tới máy chủ POP %s: Không hỗ trợ cơ chế xác thực yêu cầu."
 
 #: camel/providers/pop3/camel-pop3-store.c:428
 #, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
-msgstr "Đăng nhập SASL `%s' thất bại với POP server %s: %s"
+msgstr "Đăng nhập SASL `%s' thất bại với máy chủ POP %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:440
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
-msgstr "Không thể đăng nhập vào POP server %s: lỗi giao thức SASL"
+msgstr "Không thể đăng nhập vào máy chủ POP %s: lỗi giao thức SASL"
 
 #: camel/providers/pop3/camel-pop3-store.c:459
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
-msgstr "Không thể xác thực tại POP server: %s: %s"
+msgstr "Không thể xác thực tại máy chủ POP: %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:485
 #, c-format
@@ -11623,17 +11548,17 @@ msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending password: %s"
 msgstr ""
-"Không thể kết nối tới POP server %s.\n"
+"Không thể kết nối tới máy chủ POP %s.\n"
 "Lỗi gửi mật khẩu: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:547
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
 "Error sending username: %s"
 msgstr ""
-"Không thể kết nối tới POP server %s.\n"
-"Lỗi gửi mật khẩu: %s"
+"Không thể kết nối tới máy chủ POP %s.\n"
+"Lỗi gửi tên người dùng: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:652
 #, c-format
@@ -11810,11 +11735,11 @@ msgstr "Lỗi hồi đáp chào mừng"
 #: camel/providers/smtp/camel-smtp-transport.c:382
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr "Lỗi kết nối tới SMTP server %s trong chế độ không an toàn: %s"
+msgstr "Lỗi kết nối tới máy chủ SMTP %s trong chế độ không an toàn: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:344
 msgid "server does not appear to support SSL"
-msgstr "server có lẽ không hỗ trợ SSL"
+msgstr "máy chủ có lẽ không hỗ trợ SSL"
 
 #: camel/providers/smtp/camel-smtp-transport.c:358
 #, c-format
@@ -11828,12 +11753,12 @@ msgstr "Lỗi lệnh STARTTLS"
 #: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
-msgstr "SMTP server %s không hỗ trợ loại xác thực yêu cầu loại %s."
+msgstr "Máy chủ SMTP %s không hỗ trợ loại xác thực yêu cầu loại %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
-msgstr "%sVui lòng nhập mật khẩu SMTP cho %s@%s"
+msgstr "%sVui lòng nhập mật khẩu SMTP cho %s trên máy %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
@@ -11842,14 +11767,14 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
-"Không thể xác thực SMTP server.\n"
+"Không thể xác thực máy chủ SMTP.\n"
 "%s\n"
 "\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:657
 #, c-format
 msgid "SMTP server %s"
-msgstr "SMTP server %s"
+msgstr "Máy chủ SMTP %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:659
 #, c-format
@@ -11857,9 +11782,8 @@ msgid "SMTP mail delivery via %s"
 msgstr "Gửi thư (SMTP) thông qua %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:677
-#, fuzzy
 msgid "Cannot send message: service not connected."
-msgstr "Không thể gửi thông điệp: chưa có địa chỉ người gửi."
+msgstr "Không thể gửi thông điệp: chưa kết nối dịch vụ."
 
 #: camel/providers/smtp/camel-smtp-transport.c:683
 msgid "Cannot send message: sender address not valid."
@@ -11910,7 +11834,7 @@ msgstr "Lỗi lệnh AUTH"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1119
 msgid "Bad authentication response from server.\n"
-msgstr "Trả lời xác thực từ server sai.\n"
+msgstr "Trả lời xác thực từ máy chủ sai.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1144
 #, c-format
@@ -11981,15 +11905,15 @@ msgstr "%.0fG"
 
 #: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:436
 msgid "attachment"
-msgstr "đồ đính kèm"
+msgstr "đính kèm"
 
 #: composer/e-msg-composer-attachment-bar.c:454
 msgid "Remove selected items from the attachment list"
-msgstr "Loại bỏ những mục được chọn từ danh sách đồ đính kèm"
+msgstr "Loại bỏ những mục được chọn từ danh sách đính kèm"
 
 #: composer/e-msg-composer-attachment-bar.c:494
 msgid "Add attachment..."
-msgstr "Thêm đồ đính kèm..."
+msgstr "Thêm đính kèm..."
 
 #: composer/e-msg-composer-attachment-bar.c:495
 msgid "Attach a file to the message"
@@ -12008,7 +11932,7 @@ msgstr "Không thể đính kèm tập tin %s: không phải tập tin bình th�
 
 #: composer/e-msg-composer-attachment.glade.h:2
 msgid "Attachment Properties"
-msgstr "Thuộc tính đồ đính kèm"
+msgstr "Thuộc tính đính kèm"
 
 #: composer/e-msg-composer-attachment.glade.h:4
 msgid "File name:"
@@ -12022,16 +11946,15 @@ msgstr "Kiểu MIME:"
 #: composer/e-msg-composer-select-file.c:92
 #: composer/e-msg-composer-select-file.c:111
 msgid "Suggest automatic display of attachment"
-msgstr "Đề nghị tự động hiển thị đồ đính kèm"
+msgstr "Đề nghị tự động hiển thị đính kèm"
 
 #: composer/e-msg-composer-hdrs.c:512
 msgid "Posting destination"
 msgstr "Đích gửi đến"
 
 #: composer/e-msg-composer-hdrs.c:513
-#, fuzzy
 msgid "Choose folders to post the message to."
-msgstr "Đính kèm tập tin vào thông điệp"
+msgstr "Hãy chọn thư mục để gửi thông điệp vào."
 
 #: composer/e-msg-composer-hdrs.c:547
 msgid "Click here for the address book"
@@ -12098,9 +12021,8 @@ msgid "Post To:"
 msgstr "Gửi tới:"
 
 #: composer/e-msg-composer-hdrs.c:619
-#, fuzzy
 msgid "Click here to select folders to post to"
-msgstr "<nhấn đây để chọn thư mục>"
+msgstr "Nhấn vào đây để chọn thư mục gửi đến"
 
 #: composer/e-msg-composer-select-file.c:186
 msgid "Attach file(s)"
@@ -12120,9 +12042,8 @@ msgid ""
 msgstr "Không thể mã hóa thông điệp: không có văn bản thô nào để mã hóa"
 
 #: composer/e-msg-composer.c:1268
-#, fuzzy
 msgid "Could not open file"
-msgstr "Không thể mở thông điệp"
+msgstr "Không thể mở tập tin"
 
 #: composer/e-msg-composer.c:1276
 msgid "Unable to retrieve message from editor"
@@ -12165,16 +12086,16 @@ msgid "Compose a message"
 msgstr "Biên soạn thông điệp"
 
 #: composer/e-msg-composer.c:2634
-#, fuzzy, c-format
+#, c-format
 msgid "Attached message - %s"
-msgstr "Thông điệp chuyển tiếp - %s"
+msgstr "Thông điệp đính kèm - %s"
 
 #. translators, this count will always be >1
 #: composer/e-msg-composer.c:2639 composer/e-msg-composer.c:2783
-#, fuzzy, c-format
+#, c-format, fuzzy
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "Đính kèm thông điệp gốc"
+msgstr[0] "Thông điệp đính kèm"
 
 #: composer/e-msg-composer.c:4341
 msgid ""
@@ -12186,9 +12107,8 @@ msgstr ""
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
-#, fuzzy
 msgid "You cannot attach the file `{0}' to this message."
-msgstr "Đính kèm tập tin vào thông điệp"
+msgstr "Không thể đính kèm tập tin '{0}' vào thông điệp này."
 
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
@@ -12209,9 +12129,8 @@ msgstr ""
 
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
-#, fuzzy
 msgid "Could not retrieve messages to attach from {0}."
-msgstr "Không thể nhận thông điệp từ POP server %s: %s"
+msgstr "Không thể nhận thông điệp để đính kèm từ {0}."
 
 #. mail-composer:attach-nomessages secondary
 #. mail-composer:no-sig-file secondary
@@ -12228,9 +12147,8 @@ msgstr "Vì \"{1}\"."
 
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:16
-#, fuzzy
 msgid "Unfinished messages found"
-msgstr "Thông điệp chưa đọc _kế"
+msgstr "Tìm thấy thông điệp chưa hoàn tất"
 
 #. mail-composer:recover-autosave primary
 #: composer/mail-composer-errors.xml.h:18
@@ -12246,14 +12164,12 @@ msgid ""
 msgstr ""
 
 #: composer/mail-composer-errors.xml.h:21
-#, fuzzy
 msgid "Don't Recover"
-msgstr "Không loại bỏ"
+msgstr "Không phục hồi"
 
 #: composer/mail-composer-errors.xml.h:22
-#, fuzzy
 msgid "Recover"
-msgstr "Loại bỏ"
+msgstr "Phục hồi"
 
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:24
@@ -12289,9 +12205,8 @@ msgid ""
 msgstr ""
 
 #: composer/mail-composer-errors.xml.h:34
-#, fuzzy
 msgid "Save Message"
-msgstr "Lưu thông điệp là..."
+msgstr "Lưu thông điệp"
 
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:36
@@ -12358,7 +12273,6 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "The Evolution Groupware Suite"
 msgstr "Bộ phần mềm nhóm Evolution"
 
@@ -12587,53 +12501,53 @@ msgid "%I %p"
 msgstr "%I %p"
 
 #: filter/filter-datespec.c:73
-#, fuzzy, c-format
+#, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] "1 giây"
-msgstr[1] "1 giây"
+msgstr[0] "1 giây trước"
+msgstr[1] "%d giây trước"
 
 #: filter/filter-datespec.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] "1 phút"
-msgstr[1] "1 phút"
+msgstr[0] "1 phút trước"
+msgstr[1] "%d phút trước"
 
 #: filter/filter-datespec.c:75
-#, fuzzy, c-format
+#, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] "1 giờ"
-msgstr[1] "1 giờ"
+msgstr[0] "1 giờ trước"
+msgstr[1] "%d giờ trước"
 
 #: filter/filter-datespec.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] "1 ngày"
-msgstr[1] "1 ngày"
+msgstr[0] "1 ngày trước"
+msgstr[1] "%d ngày trước"
 
 #: filter/filter-datespec.c:77
-#, fuzzy, c-format
+#, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] "1 tuần"
-msgstr[1] "1 tuần"
+msgstr[0] "1 tuần trước"
+msgstr[1] "%d tuần trước"
 
 #: filter/filter-datespec.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] "tháng"
-msgstr[1] "tháng"
+msgstr[0] "1 tháng trước"
+msgstr[1] "%d tháng trước"
 
 #: filter/filter-datespec.c:79
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 năm trước"
+msgstr[1] "%d năm trước"
 
 #: filter/filter-datespec.c:280
 msgid "<click here to select a date>"
@@ -12654,9 +12568,8 @@ msgstr "Chọn thời điểm đối chiếu"
 
 #. filter:no-date primary
 #: filter/filter-errors.xml.h:2
-#, fuzzy
 msgid "Missing date."
-msgstr "Cập nhật cuộc họp"
+msgstr "Thiếu ngày."
 
 #. filter:no-date secondary
 #: filter/filter-errors.xml.h:4
@@ -12665,9 +12578,8 @@ msgstr "Bạn phải chọn ngày."
 
 #. filter:no-file primary
 #: filter/filter-errors.xml.h:6
-#, fuzzy
 msgid "Missing file name."
-msgstr "Tên _phân biệt:"
+msgstr "Thiếu tên tập tin."
 
 #. filter:no-file secondary
 #. filter:bad-file secondary
@@ -12677,17 +12589,13 @@ msgstr "Bạn phải xác định tên tập tin."
 
 #. filter:bad-file primary
 #: filter/filter-errors.xml.h:10
-#, fuzzy
 msgid "File \"{0}\" does not exist or is not a regular file."
-msgstr "Tập tin '%s' không tồn tại hoặc không phải là một tập tin bình thường"
+msgstr "Tập tin '{0}' không tồn tại hoặc không phải là một tập tin bình thường"
 
 #. filter:bad-regexp primary
 #: filter/filter-errors.xml.h:14
-#, fuzzy
 msgid "Bad regular expression \"{0}\"."
-msgstr ""
-"Lỗi trong biểu thức chính quy '%s':\n"
-"%s"
+msgstr "Biểu thức chính quy sai '{0}'."
 
 #. filter:bad-regexp secondary
 #: filter/filter-errors.xml.h:16
@@ -12697,9 +12605,8 @@ msgstr ""
 #. filter:no-name primary
 #. mail:no-name-vfolder primary
 #: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
-#, fuzzy
 msgid "Missing name."
-msgstr "Phân công"
+msgstr "Thiếu tên."
 
 #. filter:no-name secondary
 #: filter/filter-errors.xml.h:20
@@ -12786,9 +12693,8 @@ msgid "outgoing"
 msgstr "ra"
 
 #: filter/filter.glade.h:1
-#, fuzzy
 msgid "<b>_Filter Rules</b>"
-msgstr "Quy tắc bộ lọc"
+msgstr "<b>_Quy tắc bộ lọc</b>"
 
 #: filter/filter.glade.h:2
 msgid "Compare against"
@@ -12886,9 +12792,8 @@ msgid "Configure your email accounts here"
 msgstr "Cấu hình tài khoản thư ở đây"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:6
-#, fuzzy
 msgid "Evolution Mail"
-msgstr "Evolution"
+msgstr "Thư Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:7
 #, fuzzy
@@ -12896,14 +12801,12 @@ msgid "Evolution Mail accounts configuration control"
 msgstr "Factory Điều khiển cấu hình Tóm tắt Evolution."
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:8
-#, fuzzy
 msgid "Evolution Mail component"
-msgstr "Bộ soạn thư của Evolution."
+msgstr "Thành phần thư Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:9
-#, fuzzy
 msgid "Evolution Mail composer"
-msgstr "Bộ soạn thư của Evolution."
+msgstr "Bộ soạn thư của Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:10
 #, fuzzy
@@ -12920,7 +12823,7 @@ msgstr "Thành phần tóm tắt thư của Evolution."
 #: mail/importers/pine-importer.c:474 mail/mail-component.c:506
 #: mail/mail-component.c:557
 msgid "Mail"
-msgstr "Thư"
+msgstr "Thư tín"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:13
 msgid "Mail Accounts"
@@ -12932,7 +12835,7 @@ msgstr "Thông số thư"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:15
 msgid "_Mail"
-msgstr "_Thư"
+msgstr "_Thư tín"
 
 #. translators: default account indicator
 #: mail/em-account-prefs.c:418
@@ -12982,9 +12885,8 @@ msgid ""
 msgstr ""
 
 #: mail/em-filter-editor.c:147
-#, fuzzy
 msgid "_Filter Rules"
-msgstr "Quy tắc bộ lọc"
+msgstr "_Quy tắc bộ lọc"
 
 #: mail/em-filter-folder-element.c:237 mail/em-vfolder-rule.c:494
 #: mail/mail-account-gui.c:1347
@@ -13006,7 +12908,7 @@ msgstr "Gán điểm"
 
 #: mail/em-filter-i18n.h:5
 msgid "Attachments"
-msgstr "Đồ đính kèm"
+msgstr "Đính kèm"
 
 #: mail/em-filter-i18n.h:6
 msgid "Beep"
@@ -13117,9 +13019,8 @@ msgid "is not Flagged"
 msgstr "không được đặt cờ"
 
 #: mail/em-filter-i18n.h:36
-#, fuzzy
 msgid "Junk Test"
-msgstr "Tháng Sáu"
+msgstr ""
 
 #: mail/em-filter-i18n.h:37 mail/em-folder-view.c:932
 #: widgets/misc/e-expander.c:189
@@ -13139,23 +13040,20 @@ msgid "Message Header"
 msgstr "Đầu thông điệp"
 
 #: mail/em-filter-i18n.h:41
-#, fuzzy
 msgid "Message is Junk"
-msgstr "Đã gửi thông điệp"
+msgstr "Thông điệp rác"
 
 #: mail/em-filter-i18n.h:42
-#, fuzzy
 msgid "Message is not Junk"
-msgstr "Không tìm thấy thông điệp %s."
+msgstr "Không phải thông điệp rác"
 
 #: mail/em-filter-i18n.h:43
 msgid "Move to Folder"
 msgstr "Chuyển vào thư mục"
 
 #: mail/em-filter-i18n.h:44
-#, fuzzy
 msgid "Pipe to Program"
-msgstr "Thoát chương trình"
+msgstr ""
 
 #: mail/em-filter-i18n.h:45
 msgid "Play Sound"
@@ -13190,9 +13088,8 @@ msgid "returns less than"
 msgstr "trả về nhỏ hơn"
 
 #: mail/em-filter-i18n.h:53
-#, fuzzy
 msgid "Run Program"
-msgstr "Chạy chương trình:"
+msgstr "Chạy chương trình"
 
 #: mail/em-filter-i18n.h:54 mail/message-list.etspec.h:10
 msgid "Score"
@@ -13243,16 +13140,14 @@ msgstr "Bỏ đặt trạng thái"
 
 #. and now for the action area
 #: mail/em-filter-rule.c:488
-#, fuzzy
 msgid "<b>Then</b>"
-msgstr "<b>Tới hạn:</b>"
+msgstr "<b>Thì</b>"
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
 msgstr "Tạo thư mục ả_o từ kết quả tìm kiếm..."
 
 #: mail/em-folder-properties.c:122
-#, fuzzy
 msgid "Folder Properties"
 msgstr "Thuộc tính thư mục"
 
@@ -13402,9 +13297,8 @@ msgid "_Rename..."
 msgstr "Đổi _tên..."
 
 #: mail/em-folder-tree.c:2619 ui/evolution-mail-list.xml.h:27
-#, fuzzy
 msgid "_Properties"
-msgstr "Thuộc tính"
+msgstr "_Thuộc tính"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
 #: mail/em-folder-view.c:900 mail/em-popup.c:690
@@ -13653,9 +13547,8 @@ msgid "This certificate is not viewable"
 msgstr "Chứng nhận chưa hợp lệ"
 
 #: mail/em-format-html-display.c:1004
-#, fuzzy
 msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr "bởi %d %B, %Y, %l:%M %P"
+msgstr "Hoàn thành lúc %d %B, %Y, %l:%M %p"
 
 #: mail/em-format-html-display.c:1012
 msgid "Overdue:"
@@ -13774,7 +13667,7 @@ msgstr "Nhóm tin"
 #: mail/em-format.c:1056
 #, c-format
 msgid "%s attachment"
-msgstr "%s đồ đính kèm"
+msgstr "%s đính kèm"
 
 #: mail/em-format.c:1095 mail/em-format.c:1228
 #, fuzzy
@@ -13931,11 +13824,11 @@ msgstr "Thư mục"
 #. FIXME: This is just to get the shadow, is there a better way?
 #: mail/em-subscribe-editor.c:852
 msgid "Please select a server."
-msgstr "Vui lòng chọn một server."
+msgstr "Vui lòng chọn một máy chủ."
 
 #: mail/em-subscribe-editor.c:873
 msgid "No server has been selected"
-msgstr "Chưa chọn server"
+msgstr "Chưa chọn máy chủ"
 
 #: mail/em-utils.c:104
 msgid "Don't show this message again."
@@ -14070,14 +13963,13 @@ msgid "Draw spelling error indicators on words as you type."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:21
-#, fuzzy
 msgid "Empty Trash folders on exit"
-msgstr "_Xóa thư mục Rác khi thoát"
+msgstr "Làm sạch thư mục Sọt rác khi thoát"
 
 #: mail/evolution-mail.schemas.in.in.h:22
 #, fuzzy
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "_Xóa thư mục Rác khi thoát"
+msgstr "_Xóa thư mục Sọt rác khi thoát"
 
 #: mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -14329,9 +14221,8 @@ msgid "Subscribe dialog default width"
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:78
-#, fuzzy
 msgid "Terminal font"
-msgstr "Liên lạc gốc:"
+msgstr "Phông terminal"
 
 #: mail/evolution-mail.schemas.in.in.h:79
 msgid "The last time empty trash was run, in days since the epoch."
@@ -14729,7 +14620,7 @@ msgid_plural "%d total"
 msgstr[0] "%d tổng cộng"
 
 #: mail/mail-component.c:494
-#, fuzzy, c-format
+#, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] ", %d chưa đọc"
@@ -14747,19 +14638,16 @@ msgid "Compose a new mail message"
 msgstr "Biên soạn thông điệp mới"
 
 #: mail/mail-component.c:667
-#, fuzzy
 msgid "New Mail Folder"
-msgstr "VFolder mới"
+msgstr "Hộp thư mới"
 
 #: mail/mail-component.c:668
-#, fuzzy
 msgid "Mail _Folder"
-msgstr "Bộ lọc thư"
+msgstr "_Hộp thư"
 
 #: mail/mail-component.c:669
-#, fuzzy
 msgid "Create a new mail folder"
-msgstr "Tạo thư mục mới"
+msgstr "Tạo hộp thư mới"
 
 #: mail/mail-component.c:801
 msgid "Failed upgrading Mail settings or folders."
@@ -14781,26 +14669,22 @@ msgstr ""
 
 #: mail/mail-config-druid.c:370 mail/mail-config-druid.c:377
 #: mail/mail-config.glade.h:119
-#, fuzzy
 msgid "Receiving Mail"
-msgstr "_Nhận thư"
+msgstr "Nhận thư"
 
 #: mail/mail-config-druid.c:372
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
-msgstr ""
-"Vui lòng nhập thông tin về server nhận thư (incoming mail server) bên dưới. "
-"Nếu bạn không chắc, hãy hỏi quản trị hệ thống hoặc ISP của bạn."
+msgstr "Vui lòng nhập thông tin về máy chủ nhận thư (incoming mail server) bên dưới. Nếu bạn không chắc, hãy hỏi quản trị hệ thống hoặc ISP của bạn."
 
 #: mail/mail-config-druid.c:379
 msgid "Please select among the following options"
 msgstr "Vui lòng chọn từ các tuỳ chọn sau"
 
 #: mail/mail-config-druid.c:382 mail/mail-config.glade.h:131
-#, fuzzy
 msgid "Sending Mail"
-msgstr "Đan_g gửi thư"
+msgstr "Đang gửi thư"
 
 #: mail/mail-config-druid.c:384
 msgid ""
@@ -14821,11 +14705,7 @@ msgid ""
 "will be grouped together to make an Evolution mail account. Please enter a "
 "name for this account in the space below. This name will be used for display "
 "purposes only."
-msgstr ""
-"Bạn đà hoàn thành gần xong tiến trình cấu hình thư tín. Thực thể, server "
-"nhận thư và cách thức gửi thư mà bạn cung cấp sẽ được nhóm lại với nhau để "
-"tạo nên một tài khoản thư tín Evolution. Vui lòng nhập tên tài khoản này vào "
-"khoảng trắng dưới đây. Tên này sẽ chỉ được dùng để hiển thị thôi."
+msgstr "Bạn đà hoàn thành gần xong tiến trình cấu hình thư tín. Thực thể, máy chủ nhận thư và cách thức gửi thư mà bạn cung cấp sẽ được nhóm lại với nhau để tạo nên một tài khoản thư tín Evolution. Vui lòng nhập tên tài khoản này vào khoảng trắng dưới đây. Tên này sẽ chỉ được dùng để hiển thị thôi."
 
 #: mail/mail-config.c:895
 msgid "Checking Service"
@@ -14833,12 +14713,11 @@ msgstr "Đang kiểm tra dịch vụ"
 
 #: mail/mail-config.c:973 mail/mail-config.c:977
 msgid "Connecting to server..."
-msgstr "Đang kết nối tới server..."
+msgstr "Đang kết nối tới máy chủ..."
 
 #: mail/mail-config.glade.h:1 mail/mail-dialogs.glade.h:5
-#, fuzzy
 msgid "    "
-msgstr "      "
+msgstr "    "
 
 #: mail/mail-config.glade.h:2
 #, fuzzy
@@ -14851,14 +14730,12 @@ msgid "<b>SSL is not supported in this build of evolution</b>"
 msgstr "(Phiên bản Evolution đang dùng không hỗ trợ SSL)"
 
 #: mail/mail-config.glade.h:6
-#, fuzzy
 msgid "<b>S_ignatures</b>"
-msgstr "<b>Trạng thái:</b> "
+msgstr "<b>Chữ _ký</b>"
 
 #: mail/mail-config.glade.h:7
-#, fuzzy
 msgid "<b>_Languages</b>"
-msgstr "<b>Trạng thái:</b> "
+msgstr "<b>Ngôn ngữ</b> "
 
 #: mail/mail-config.glade.h:8
 msgid "<small>This will make the the filter more reliable, but slower</small>"
@@ -14866,81 +14743,79 @@ msgstr ""
 
 #: mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Account Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Thông tin tài khoản</span>"
 
 #: mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Alerts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Báo động</span>"
 
 #: mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Authentication Type</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Kiểu xác thực</span>"
 
 #: mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Authentication</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Xác thực</span>"
 
 #: mail/mail-config.glade.h:13
-#, fuzzy
 msgid "<span weight=\"bold\">Checking for New Mail</span>"
-msgstr "Kiểm tra thư mới"
+msgstr "<span weight=\"bold\">Kiểm tra thư mới</span>"
 
 #: mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Composing Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Soạn thông điệp</span>"
 
 #: mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Cấu hình</span>"
 
 #: mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Default Behavior</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Hành vi mặc định</span>"
 
 #: mail/mail-config.glade.h:17
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Xóa thư</span>"
 
 #: mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">_Header thư được hiển thị</span>"
 
 #: mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Filter Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Tùy chọn bộ lọc</span>"
 
 #: mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">General</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Tổng quát</span>"
 
 #: mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Labels and Colors</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Tên và màu</span>"
 
 #: mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Nạp ảnh</span>"
 
 #: mail/mail-config.glade.h:23
-#, fuzzy
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr "Thông điệp hiển thị"
+msgstr "<span weight=\"bold\">Hiển thị thông điệp</span>"
 
 #: mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Message Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Phông thông điệp</span>"
 
 #: mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">New Mail Notification</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Thông báo thư mới</span>"
 
 #: mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Thông tin tùy chọn</span>"
 
 #: mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Tùy chọn</span>"
 
 #: mail/mail-config.glade.h:28
 #, fuzzy
@@ -14949,11 +14824,11 @@ msgstr "Pretty Good Privacy (PGP/GPG)"
 
 #: mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Printed Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Phông in</span>"
 
 #: mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Required Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Thông tin bắt buộc</span>"
 
 #: mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
@@ -14961,16 +14836,15 @@ msgstr ""
 
 #: mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Security</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Bảo mật</span>"
 
 #: mail/mail-config.glade.h:33
-#, fuzzy
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr "Thông điệp đã gửi và thông điệp nháp"
+msgstr "<span weight=\"bold\">Thông điệp đã gửi và thông điệp nháp</span>"
 
 #: mail/mail-config.glade.h:34
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Cấu hình máy chủ</span>"
 
 #: mail/mail-config.glade.h:35
 #, fuzzy
@@ -14982,12 +14856,10 @@ msgid "Account Editor"
 msgstr "Bộ hiệu chỉnh tài khoản"
 
 #: mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Add Ne_w Signature..."
-msgstr "Lưu chữ ký mới..."
+msgstr "_Thêm chữ ký mới..."
 
 #: mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Add _Script"
 msgstr "Thêm _script"
 
@@ -15020,7 +14892,7 @@ msgstr "Đính kèm thông điệp gốc"
 
 #: mail/mail-config.glade.h:47 mail/message-list.etspec.h:1
 msgid "Attachment"
-msgstr "Đồ đính kèm"
+msgstr "Đính kèm"
 
 #: mail/mail-config.glade.h:48
 #, fuzzy
@@ -15308,7 +15180,7 @@ msgstr "Ser_ver yêu cầu xác thực"
 
 #: mail/mail-config.glade.h:135
 msgid "Server _Type: "
-msgstr "_Kiểu server:"
+msgstr "_Kiểu máy chủ:"
 
 #: mail/mail-config.glade.h:136
 #, fuzzy
@@ -15600,7 +15472,7 @@ msgstr "xác thực"
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "SMTP server %s không hỗ trợ loại xác thực yêu cầu loại %s."
+msgstr "Máy chủ SMTP %s không hỗ trợ loại xác thực yêu cầu loại %s."
 
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
@@ -15741,9 +15613,8 @@ msgid ""
 msgstr "Loại bỏ vĩnh viễn những thông điệp đã xóa của mọi thư mục"
 
 #: mail/mail-errors.xml.h:51
-#, fuzzy
 msgid "_Empty Trash"
-msgstr "Đổ rác"
+msgstr "Làm _sạch Sọt rác"
 
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:53
@@ -16314,7 +16185,7 @@ msgstr ""
 
 #: mail/mail-ops.c:1998
 msgid "Saving attachment"
-msgstr "Đang lưu đồ đính kèm"
+msgstr "Đang lưu đính kèm"
 
 #: mail/mail-ops.c:2010
 #, c-format
@@ -16347,7 +16218,7 @@ msgstr "Đang hủy bỏ..."
 #: mail/mail-send-recv.c:264
 #, c-format
 msgid "Server: %s, Type: %s"
-msgstr "Server: %s, Kiểu: %s"
+msgstr "Máy chủ: %s, Kiểu: %s"
 
 #: mail/mail-send-recv.c:266
 #, c-format
@@ -17752,7 +17623,7 @@ msgstr "Chứng nhận đã nhập"
 
 #: tools/evolution-launch-composer.c:324
 msgid "An attachment to add."
-msgstr "Đồ đính kèm cần thêm."
+msgstr "Đính kèm cần thêm."
 
 #: tools/evolution-launch-composer.c:325
 msgid "Content type of the attachment."
@@ -17764,7 +17635,7 @@ msgstr ""
 
 #: tools/evolution-launch-composer.c:327
 msgid "Description of the attachment."
-msgstr "Mô tả đồ đính kèm."
+msgstr "Mô tả đính kèm."
 
 #: tools/evolution-launch-composer.c:328
 msgid "Mark attachment to be shown inline by default."
@@ -18220,7 +18091,7 @@ msgstr "Tạo hoặc sửa định nghĩa thư mục ảo"
 
 #: ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
-msgstr "Đổ rác"
+msgstr "Làm _sạch Sọt rác"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Open a window for composing a mail message"
@@ -18248,7 +18119,7 @@ msgstr "Hiện khung xem trước"
 
 #: ui/evolution-mail-global.xml.h:13
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr "Đăng ký hoặc hủy đăng ký thư mục trên server từ xa"
+msgstr "Đăng ký hoặc hủy đăng ký thư mục trên máy chủ từ xa"
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Virtual Folder _Editor..."
@@ -18515,7 +18386,7 @@ msgstr "Chuyển tiếp thông điệp được chọn tới người khác"
 
 #: ui/evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
-msgstr "Chuyển tiếp thông điệp được chọn tới người khác như là đồ đính kèm"
+msgstr "Chuyển tiếp thông điệp được chọn tới người khác như là đính kèm"
 
 #: ui/evolution-mail-message.xml.h:47
 msgid "Increase the text size"
@@ -18860,15 +18731,15 @@ msgstr "Gửi thông điệp này"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Show / hide attachments"
-msgstr "Hiện / Ẩn đồ đính kèm"
+msgstr "Hiện / Ẩn đính kèm"
 
 #: ui/evolution-message-composer.xml.h:28
 msgid "Show _attachments"
-msgstr "Hiện đồ đính _kèm"
+msgstr "Hiện đính _kèm"
 
 #: ui/evolution-message-composer.xml.h:29
 msgid "Show attachments"
-msgstr "Hiện đồ đính kèm"
+msgstr "Hiện đính kèm"
 
 #: ui/evolution-message-composer.xml.h:30
 msgid "Sign this message with your PGP key"
@@ -18904,7 +18775,7 @@ msgstr "Bật tắt hiển thị trường To"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
-msgstr "Đồ đính _kèm..."
+msgstr "Đính _kèm..."
 
 #: ui/evolution-message-composer.xml.h:39
 msgid "_Bcc Field"
