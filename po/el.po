@@ -1,13 +1,18 @@
 # Greek translation of evolution.
-# Copyright (C) 2000 Free Software Foundation, Inc.
+# Copyright (C) 2000, 2001 Free Software Foundation, Inc.
 # Spiros Papadimitriou <spapadim+@cs.cmu.edu>, 2000.
+# Simos Xenitellis <simos@hellug.gr>, 2001.
+# 
+# Initial translation by spyros: 33 translated messages, 1084 fuzzy
+# translations, 1846 untranslated messages.
+# 06Oct2001, , simos
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2001-10-01 19:06-0400\n"
-"PO-Revision-Date: 2000-04-04 19:42-0500\n"
-"Last-Translator: Spiros Papadimitriou <spapadim+@cs.cmu.edu>\n"
+"Project-Id-Version: evolution 0.15.99\n"
+"POT-Creation-Date: 2001-10-06 14:27+0100\n"
+"PO-Revision-Date: 2001-10-06 15:43+0100\n"
+"Last-Translator: Simos Xenitellis <simos@hellug.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-7\n"
@@ -28,26 +33,22 @@ msgid "File As"
 msgstr "_Φάκελλος"
 
 #: addressbook/backend/ebook/e-card-simple.c:59
-#, fuzzy
 msgid "Name"
-msgstr "Μετονομασία Ομάδας"
+msgstr "Όνομα"
 
 #: addressbook/backend/ebook/e-card-simple.c:60
 #: addressbook/gui/widgets/e-addressbook-view.c:870
-#, fuzzy
 msgid "Email"
-msgstr "_Μήνυμα"
+msgstr "Ηλεκ. Διεύθ."
 
 #: addressbook/backend/ebook/e-card-simple.c:61
 #: addressbook/gui/contact-editor/e-contact-editor.c:1609
-#, fuzzy
 msgid "Primary"
-msgstr "Προτεραιότητα"
+msgstr "Πρωτεύων"
 
 #: addressbook/backend/ebook/e-card-simple.c:61
-#, fuzzy
 msgid "Prim"
-msgstr "Προτεραιότητα"
+msgstr "Πρωτ"
 
 #: addressbook/backend/ebook/e-card-simple.c:62
 #: addressbook/backend/ebook/e-card-simple.c:92
@@ -76,22 +77,19 @@ msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/gui/contact-editor/e-contact-editor.c:1600
-#, fuzzy
 msgid "Company"
-msgstr "Αντιγραφή"
+msgstr "Εταιρία"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
-#, fuzzy
 msgid "Comp"
-msgstr "Αντιγραφή"
+msgstr "Εταιρ"
 
 #: addressbook/backend/ebook/e-card-simple.c:66
 #: addressbook/backend/ebook/e-card-simple.c:69
 #: addressbook/gui/contact-editor/e-contact-editor.c:1601
 #: addressbook/gui/contact-editor/e-contact-editor.c:1663
-#, fuzzy
 msgid "Home"
-msgstr "Σημείω_μα"
+msgstr "Οικία"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
 #: addressbook/gui/widgets/e-addressbook-view.c:877
@@ -104,9 +102,8 @@ msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:70
 #: addressbook/gui/contact-editor/e-contact-editor.c:1605
-#, fuzzy
 msgid "Mobile"
-msgstr "_Μήνυμα"
+msgstr "Κινητό"
 
 #: addressbook/backend/ebook/e-card-simple.c:71
 #: addressbook/gui/contact-editor/e-contact-editor.c:1599
@@ -126,9 +123,8 @@ msgstr ""
 #: addressbook/backend/ebook/e-card-simple.c:73
 #: addressbook/gui/contact-editor/e-contact-editor.c:1603
 #: addressbook/gui/widgets/e-addressbook-view.c:883
-#, fuzzy
 msgid "Home Fax"
-msgstr "Σημείω_μα"
+msgstr "Φαξ Οικίας"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
 #: addressbook/gui/contact-editor/e-contact-editor.c:1596
@@ -141,9 +137,8 @@ msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:75
 #: addressbook/gui/contact-editor/e-contact-editor.c:1602
-#, fuzzy
 msgid "Home 2"
-msgstr "Σημείω_μα"
+msgstr "Οικία 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
 #: addressbook/gui/contact-editor/e-contact-editor.c:1604
@@ -214,9 +209,8 @@ msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:87
 #: addressbook/gui/widgets/e-addressbook-view.c:897
-#, fuzzy
 msgid "Department"
-msgstr "Επικόλληση"
+msgstr "Τμήμα"
 
 #: addressbook/backend/ebook/e-card-simple.c:87
 msgid "Dep"
@@ -233,15 +227,13 @@ msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:89
 #: addressbook/gui/widgets/e-addressbook-view.c:899
-#, fuzzy
 msgid "Title"
-msgstr "_Φάκελλος"
+msgstr "Τίτλος"
 
 #: addressbook/backend/ebook/e-card-simple.c:90
 #: addressbook/gui/widgets/e-addressbook-view.c:900
-#, fuzzy
 msgid "Profession"
-msgstr "Ε_νέργειες"
+msgstr "Επάγγελμα"
 
 #: addressbook/backend/ebook/e-card-simple.c:90
 msgid "Prof"
@@ -249,14 +241,12 @@ msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:91
 #: addressbook/gui/widgets/e-addressbook-view.c:901
-#, fuzzy
 msgid "Manager"
-msgstr "Επικόλληση"
+msgstr "Διευθυντής"
 
 #: addressbook/backend/ebook/e-card-simple.c:91
-#, fuzzy
 msgid "Man"
-msgstr "Σήμερα"
+msgstr "Διευθ"
 
 #: addressbook/backend/ebook/e-card-simple.c:92
 msgid "Ass"
@@ -273,20 +263,17 @@ msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:94
 #: addressbook/gui/widgets/e-addressbook-view.c:904
-#, fuzzy
 msgid "Spouse"
-msgstr "Νέα Συντόμευση"
+msgstr "Σύζυγος"
 
 #: addressbook/backend/ebook/e-card-simple.c:95
 #: addressbook/gui/widgets/e-addressbook-view.c:905
-#, fuzzy
 msgid "Note"
-msgstr "Σημείω_μα"
+msgstr "Σημείωμα"
 
 #: addressbook/backend/ebook/e-card-simple.c:96
-#, fuzzy
 msgid "Calendar URI"
-msgstr "Ημερολόγιο"
+msgstr "URI Ημερολογίου"
 
 #: addressbook/backend/ebook/e-card-simple.c:96
 msgid "CALUri"
@@ -310,9 +297,8 @@ msgid "Anniv"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:99
-#, fuzzy
 msgid "Birth Date"
-msgstr "Αί_τηση Συνάντησης"
+msgstr "Ημερομηνία Γέννησης"
 
 #: addressbook/backend/ebook/e-card-simple.c:102
 #: calendar/gui/e-calendar-table.etspec.h:4
@@ -556,9 +542,9 @@ msgstr ""
 #: addressbook/backend/ebook/load-pine-addressbook.c:22
 #: addressbook/backend/ebook/test-client-list.c:23
 #: addressbook/backend/ebook/test-client.c:33
-#: addressbook/conduit/address-conduit.c:1167
+#: addressbook/conduit/address-conduit.c:1169
 #: addressbook/gui/component/addressbook-factory.c:48
-#: calendar/conduits/calendar/calendar-conduit.c:1262
+#: calendar/conduits/calendar/calendar-conduit.c:1266
 #: calendar/conduits/todo/todo-conduit.c:1034
 #: calendar/gui/alarm-notify/notify-main.c:78 calendar/gui/main.c:63
 #, fuzzy
@@ -567,20 +553,17 @@ msgstr "Μονάδα Ταχ/μείου: Αρχικοποίηση του Bonobo αδύνατη"
 
 #: addressbook/backend/pas/pas-backend-file.c:257
 #: addressbook/backend/pas/pas-backend-ldap.c:2047
-#, fuzzy
 msgid "Searching..."
-msgstr "Ε_νέργειες"
+msgstr "Γίνετε αναζήτηση..."
 
 #: addressbook/backend/pas/pas-backend-file.c:259
-#, fuzzy
 msgid "Loading..."
-msgstr "Ε_νέργειες"
+msgstr "Γίνετε φόρτωση..."
 
 #. need a different error message here.
 #: addressbook/backend/pas/pas-backend-file.c:268
-#, fuzzy
 msgid "Error in search expression."
-msgstr "Αποστολή παρόντος μηνύματος"
+msgstr "Σφάλμα στην έκφραση αναζήτησης"
 
 #: addressbook/backend/pas/pas-backend-ldap.c:467
 msgid "Connecting to LDAP server..."
@@ -624,21 +607,21 @@ msgstr ""
 msgid "EBook not loaded\n"
 msgstr ""
 
-#: addressbook/conduit/address-conduit.c:731
-#: calendar/conduits/calendar/calendar-conduit.c:837
+#: addressbook/conduit/address-conduit.c:733
+#: calendar/conduits/calendar/calendar-conduit.c:841
 #: calendar/conduits/todo/todo-conduit.c:609
 msgid "Could not start wombat server"
 msgstr ""
 
-#: addressbook/conduit/address-conduit.c:732
-#: calendar/conduits/calendar/calendar-conduit.c:838
+#: addressbook/conduit/address-conduit.c:734
+#: calendar/conduits/calendar/calendar-conduit.c:842
 #: calendar/conduits/todo/todo-conduit.c:610
 #, fuzzy
 msgid "Could not start wombat"
 msgstr "Μονάδα Ταχ/μείου: Αρχικοποίηση του Bonobo αδύνατη"
 
-#: addressbook/conduit/address-conduit.c:762
-#: addressbook/conduit/address-conduit.c:765
+#: addressbook/conduit/address-conduit.c:764
+#: addressbook/conduit/address-conduit.c:767
 msgid "Could not read pilot's Address application block"
 msgstr ""
 
@@ -688,11 +671,9 @@ msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
 
 #: addressbook/gui/component/addressbook-component.c:66
 #: calendar/gui/dialogs/comp-editor-util.c:289
-#: calendar/gui/dialogs/comp-editor-util.c:345 shell/e-local-storage.c:173
-#: shell/e-shortcuts.c:1062
-#, fuzzy
+#: calendar/gui/dialogs/comp-editor-util.c:345 shell/e-shortcuts.c:1062
 msgid "Contacts"
-msgstr "_Γνωριμία"
+msgstr "Γνωριμίες"
 
 #: addressbook/gui/component/addressbook-component.c:66
 #, fuzzy
@@ -740,14 +721,12 @@ msgid "389"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:2
-#, fuzzy
 msgid "Account Name"
-msgstr "Μικρά Εικονίδια"
+msgstr "Όνομα Λογαριασμού"
 
 #: addressbook/gui/component/addressbook-config.glade.h:3
-#, fuzzy
 msgid "Add Addressbook"
-msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
+msgstr "Προσθήκη στο Διευθυνσιολόγιο"
 
 #: addressbook/gui/component/addressbook-config.glade.h:4
 #, fuzzy
@@ -841,12 +820,12 @@ msgstr "Μικρά Εικονίδια"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:7
-#: mail/mail-config.glade.h:91 my-evolution/my-evolution.glade.h:20
+#: mail/mail-config.glade.h:92 my-evolution/my-evolution.glade.h:21
 msgid "_Add"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-config.glade.h:23
-#: filter/filter.glade.h:9 mail/mail-config.glade.h:96
+#: filter/filter.glade.h:9 mail/mail-config.glade.h:97
 #: ui/evolution-addressbook.xml.h:34 ui/evolution-calendar.xml.h:39
 #: ui/evolution-mail-list.xml.h:25 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:47
@@ -869,43 +848,19 @@ msgstr "Προτεραιότητα"
 msgid "_Server name:"
 msgstr "Απεσταλμένα μηνύματα"
 
-#: addressbook/gui/component/addressbook-storage.c:163
-#, fuzzy
-msgid "Other Contacts"
-msgstr "Λοιπές Συντομεύσεις"
-
-#: addressbook/gui/component/addressbook.c:407
-#, c-format
-msgid "Please enter your email address and password for access to %s"
-msgstr ""
-
-#: addressbook/gui/component/addressbook.c:415
-msgid "LDAP Authentication"
-msgstr ""
-
-#: addressbook/gui/component/addressbook.c:426
-#, fuzzy
-msgid "Email Address:"
-msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
-
-#: addressbook/gui/component/addressbook.c:439
-#, fuzzy
-msgid "Password:"
-msgstr "Ημερολόγιο"
-
-#: addressbook/gui/component/addressbook.c:502
+#: addressbook/gui/component/addressbook.c:400
 #, fuzzy
 msgid "Unable to open addressbook"
 msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
 
-#: addressbook/gui/component/addressbook.c:509
+#: addressbook/gui/component/addressbook.c:409
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the LDAP server\n"
 "is down"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:514
+#: addressbook/gui/component/addressbook.c:414
 msgid ""
 "This version of Evolution does not have LDAP support\n"
 "compiled in to it.  If you want to use LDAP in Evolution\n"
@@ -913,60 +868,54 @@ msgid ""
 "retrieving OpenLDAP from the link below.\n"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:522
+#: addressbook/gui/component/addressbook.c:422
 msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:663
+#: addressbook/gui/component/addressbook.c:550
+#, c-format
+msgid "Enter password for %s (user %s)"
+msgstr ""
+
+#: addressbook/gui/component/addressbook.c:655
 #: calendar/gui/cal-search-bar.c:55
 #, fuzzy
 msgid "Any field contains"
 msgstr "Φάκελος που περιέχει εκκρεμότητες"
 
-#: addressbook/gui/component/addressbook.c:664
+#: addressbook/gui/component/addressbook.c:656
 msgid "Name contains"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:665
+#: addressbook/gui/component/addressbook.c:657
 #, fuzzy
 msgid "Email contains"
 msgstr "Μικρά Εικονίδια"
 
-#: addressbook/gui/component/addressbook.c:666
+#: addressbook/gui/component/addressbook.c:658
 #: calendar/gui/cal-search-bar.c:59
 #, fuzzy
 msgid "Category is"
 msgstr "Μικρά Εικονίδια"
 
 #. We attach subitems below
-#: addressbook/gui/component/addressbook.c:667 widgets/misc/e-filter-bar.h:97
-#: widgets/misc/e-filter-bar.h:104
+#: addressbook/gui/component/addressbook.c:659 widgets/misc/e-filter-bar.h:104
 #, fuzzy
 msgid "Advanced..."
 msgstr "Αναζήτηση για Προχωρημένους"
 
 #. All, unmatched, separator
-#: addressbook/gui/component/addressbook.c:897
+#: addressbook/gui/component/addressbook.c:889
 #: calendar/gui/cal-search-bar.c:412
 #, fuzzy
 msgid "Any Category"
 msgstr "Προτεραιότητα"
 
-#: addressbook/gui/component/addressbook.c:939
+#: addressbook/gui/component/addressbook.c:929
 msgid "The URI that the Folder Browser will display"
 msgstr "Το URI που θα εμφανίσει ο Εξερευνητής Φακέλλων"
-
-#.
-#. * This is the code for the UI thingie that lets you manipulate the e-mail
-#. * addresses (and *only* the e-mail addresses) associated with an existing
-#. * card.
-#.
-#: addressbook/gui/component/e-address-popup.c:178
-#, fuzzy
-msgid "(none)"
-msgstr "Σημείω_μα"
 
 #: addressbook/gui/component/e-address-popup.c:466
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
@@ -1029,7 +978,7 @@ msgid "Factory for the Addressbook's name selection interface"
 msgstr ""
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:164
-#: addressbook/gui/component/select-names/e-select-names.c:764
+#: addressbook/gui/component/select-names/e-select-names.c:763
 #: composer/e-msg-composer-attachment-bar.c:477 filter/filter-filter.c:436
 #: filter/filter-rule.c:613 shell/e-shortcuts-view.c:181
 msgid "Remove"
@@ -1065,16 +1014,16 @@ msgstr ""
 msgid "Unnamed Contact"
 msgstr "Λοιπές Συντομεύσεις"
 
-#: addressbook/gui/component/select-names/e-select-names.c:521
+#: addressbook/gui/component/select-names/e-select-names.c:522
 msgid ""
 "Evolution is unable to get the addressbook local storage. This may have been "
 "caused by the evolution-addressbook component crashing. To help us better "
 "understand and ultimately resolve this problem, please send an e-mail to Jon "
-"Trowbridge <trow@ximian.com> with a detailed description of the "
-"circumstances under which this error occurred.  Thank you."
+"Trowbridge <trow@ximian.com> with a detailed description of the circumstances "
+"under which this error occurred.  Thank you."
 msgstr ""
 
-#: addressbook/gui/component/select-names/e-select-names.c:598
+#: addressbook/gui/component/select-names/e-select-names.c:599
 msgid "Select Contacts from Addressbook"
 msgstr ""
 
@@ -1218,7 +1167,7 @@ msgstr "_Γνωριμία"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
 #: calendar/gui/dialogs/alarm-page.glade.h:9
 #: calendar/gui/dialogs/meeting-page.c:834 filter/filter.glade.h:8
-#: mail/folder-browser.c:1406 mail/mail-config.glade.h:95
+#: mail/folder-browser.c:1400 mail/mail-config.glade.h:96
 #: ui/evolution-calendar.xml.h:38 ui/evolution-mail-message.xml.h:88
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:35
 msgid "_Delete"
@@ -1281,12 +1230,6 @@ msgid "_Web page address:"
 msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:1
-msgid ""
-"Are you sure you want\n"
-"to delete this contact?"
-msgstr ""
-
-#: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
 #, fuzzy
 msgid "Delete Contact?"
 msgstr "Επιλέξτε επισύναψη"
@@ -1492,9 +1435,8 @@ msgid "Cameroon"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:40
-#, fuzzy
 msgid "Canada"
-msgstr "Ημερολόγιο"
+msgstr "Καναδάς"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:41
 msgid "Cape Verde"
@@ -1509,18 +1451,16 @@ msgid "Central African Republic"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:44
-#, fuzzy
 msgid "Chad"
-msgstr "Ημερολόγιο"
+msgstr "Τσάντ"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:45
 msgid "Check Address"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:46
-#, fuzzy
 msgid "Chile"
-msgstr "_Φάκελλος"
+msgstr "Χιλή"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:47
 msgid "China"
@@ -1539,14 +1479,12 @@ msgid "Colombia"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:51
-#, fuzzy
 msgid "Comoros"
-msgstr "Νέα Συντόμευση"
+msgstr "Κομόρος"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:52
-#, fuzzy
 msgid "Congo"
-msgstr "Αντιγραφή"
+msgstr "Κογκό"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:53
 msgid "Cook Islands"
@@ -1646,15 +1584,15 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:77
 msgid "France"
-msgstr ""
+msgstr "Γαλλία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:78
 msgid "French Guiana"
-msgstr ""
+msgstr "Γαλλική Γουϊάνα"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:79
 msgid "French Polynesia"
-msgstr ""
+msgstr "Γαλλική Πολυνησία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:80
 msgid "French Southern Territories"
@@ -1693,9 +1631,8 @@ msgid "Greenland"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:89
-#, fuzzy
 msgid "Grenada"
-msgstr "Ημερολόγιο"
+msgstr "Γρενάδα"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:90
 msgid "Guadeloupe"
@@ -1722,9 +1659,8 @@ msgid "Guyana"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:96
-#, fuzzy
 msgid "Haiti"
-msgstr "_Μήνυμα"
+msgstr "Αϊτή"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:97
 msgid "Heard And McDonald Islands"
@@ -1743,9 +1679,8 @@ msgid "Hong Kong"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:101
-#, fuzzy
 msgid "Hungary"
-msgstr "Αποστολή"
+msgstr "Ουγγαρία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:102
 msgid "Iceland"
@@ -1768,9 +1703,8 @@ msgid "Israel"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:107
-#, fuzzy
 msgid "Italy"
-msgstr "Σήμερα"
+msgstr "Ιταλία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:108
 msgid "Jamaica"
@@ -1821,9 +1755,8 @@ msgid "Lesotho"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:120
-#, fuzzy
 msgid "Liberia"
-msgstr "Επικόλληση"
+msgstr "Λιβερία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:121
 msgid "Liechtenstein"
@@ -1850,9 +1783,8 @@ msgid "Madagascar"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:127
-#, fuzzy
 msgid "Malawi"
-msgstr "_Μήνυμα"
+msgstr "Μαλάουι"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:128
 msgid "Malaysia"
@@ -1863,14 +1795,12 @@ msgid "Maldives"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:130
-#, fuzzy
 msgid "Mali"
-msgstr "_Μήνυμα"
+msgstr "Μάλι"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:131
-#, fuzzy
 msgid "Malta"
-msgstr "_Μήνυμα"
+msgstr "Μάλτα"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:132
 msgid "Marshall Islands"
@@ -1889,9 +1819,8 @@ msgid "Mauritius"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:136
-#, fuzzy
 msgid "Mayotte"
-msgstr "Σήμερα"
+msgstr "Μαγιότε"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:137
 msgid "Mexico"
@@ -1902,9 +1831,8 @@ msgid "Micronesia"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:139
-#, fuzzy
 msgid "Monaco"
-msgstr "Σήμερα"
+msgstr "Μονακό"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:140
 msgid "Mongolia"
@@ -1919,14 +1847,12 @@ msgid "Morocco"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:143
-#, fuzzy
 msgid "Mozambique"
-msgstr "_Μήνυμα"
+msgstr "Μοζαμβίκι"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:144
-#, fuzzy
 msgid "Myanmar"
-msgstr "Επικόλληση"
+msgstr "Μιανμάρ"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:145
 msgid "Namibia"
@@ -1937,42 +1863,36 @@ msgid "Nauru"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:147
-#, fuzzy
 msgid "Nepal"
-msgstr "_Μήνυμα"
+msgstr "Νεπάλ"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:148
-#, fuzzy
 msgid "Netherlands"
-msgstr "Επιλε_γμένα Αντικείμενα"
+msgstr "Ολλανδία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:149
 msgid "Netherlands Antilles"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:150
-#, fuzzy
 msgid "New Caledonia"
-msgstr "_Γνωριμία"
+msgstr "Νέα Καληδονία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:151
-#, fuzzy
 msgid "New Zealand"
-msgstr "_Μήνυμα"
+msgstr "Νέα Ζηλανδία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:152
 msgid "Nicaragua"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:153
-#, fuzzy
 msgid "Niger"
-msgstr "Επικόλληση"
+msgstr "Νίγηρ"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:154
-#, fuzzy
 msgid "Nigeria"
-msgstr "Επικόλληση"
+msgstr "Νιγηρία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:155
 msgid "Niue"
@@ -1987,27 +1907,24 @@ msgid "Northern Mariana Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:158
-#, fuzzy
 msgid "Norway"
-msgstr "_Νέο"
+msgstr "Νορβηγία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:159
 msgid "Oman"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:160
-#, fuzzy
 msgid "Pakistan"
-msgstr "Επικόλληση"
+msgstr "Πακιστάν"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:161
 msgid "Palau"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:162
-#, fuzzy
 msgid "Panama"
-msgstr "Ημερολόγιο"
+msgstr "Παναμάς"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:163
 msgid "Papua New Guinea"
@@ -2018,9 +1935,8 @@ msgid "Paraguay"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:165
-#, fuzzy
 msgid "Peru"
-msgstr "Επικόλληση"
+msgstr "Περού"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:166
 msgid "Philippines"
@@ -2031,23 +1947,20 @@ msgid "Pitcairn"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:168
-#, fuzzy
 msgid "Poland"
-msgstr "Αποστολή"
+msgstr "Πολωνία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:169
-#, fuzzy
 msgid "Portugal"
-msgstr "Προτεραιότητα"
+msgstr "Πορτογαλλία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:170
 msgid "Puerto Rico"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:171
-#, fuzzy
 msgid "Qatar"
-msgstr "Επικόλληση"
+msgstr "Κατάρ"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:172
 msgid "Republic Of Korea"
@@ -2058,9 +1971,8 @@ msgid "Republic Of Moldova"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:174
-#, fuzzy
 msgid "Reunion"
-msgstr "Ε_νέργειες"
+msgstr "Ρεουνιόν"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:175
 msgid "Romania"
@@ -2071,9 +1983,8 @@ msgid "Russian Federation"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:177
-#, fuzzy
 msgid "Rwanda"
-msgstr "Ημερολόγιο"
+msgstr "Ρουάντα"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:178
 msgid "Saint Kitts And Nevis"
@@ -2088,9 +1999,8 @@ msgid "Saint Vincent And The Grena-dines"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:181
-#, fuzzy
 msgid "Samoa"
-msgstr "Νέα Συντόμευση"
+msgstr "Σαμόα"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:182
 msgid "San Marino"
@@ -2105,14 +2015,12 @@ msgid "Saudi Arabia"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:185
-#, fuzzy
 msgid "Senegal"
-msgstr "Αποστολή"
+msgstr "Σενεγάλη"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:186
-#, fuzzy
 msgid "Seychelles"
-msgstr "_Φάκελλος"
+msgstr "Σεϋχέλλες"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:187
 msgid "Sierra Leone"
@@ -2135,9 +2043,8 @@ msgid "Solomon Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:192
-#, fuzzy
 msgid "Somalia"
-msgstr "Από"
+msgstr "Σομαλία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:193
 msgid "South Africa"
@@ -2148,9 +2055,8 @@ msgid "South Georgia And The South Sandwich Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:195
-#, fuzzy
 msgid "Spain"
-msgstr "Αποστολή"
+msgstr "Ισπανία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:196
 msgid "Sri Lanka"
@@ -2165,9 +2071,8 @@ msgid "St. Pierre And Miquelon"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:199
-#, fuzzy
 msgid "Sudan"
-msgstr "Αποστολή"
+msgstr "Σουδάν"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:200
 msgid "Suriname"
@@ -2178,14 +2083,12 @@ msgid "Svalbard And Jan Mayen Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:202
-#, fuzzy
 msgid "Swaziland"
-msgstr "Αποστολή"
+msgstr "Σουαζιλάνδη"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:203
-#, fuzzy
 msgid "Sweden"
-msgstr "Αποστολή"
+msgstr "Σουηδία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:204
 msgid "Switzerland"
@@ -2196,27 +2099,24 @@ msgid "Taiwan"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:206
-#, fuzzy
 msgid "Tajikistan"
-msgstr "Κατάλογος εκκρεμοτήτων"
+msgstr "Τατζικιστάν"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:207
 msgid "Thailand"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:208
-#, fuzzy
 msgid "Togo"
-msgstr "Προς"
+msgstr "Τόγκο"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:209
 msgid "Tokelau"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:210
-#, fuzzy
 msgid "Tonga"
-msgstr "Σήμερα"
+msgstr "Τόγκα"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:211
 msgid "Trinidad And Tobago"
@@ -2227,14 +2127,12 @@ msgid "Tunisia"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:213
-#, fuzzy
 msgid "Turkey"
-msgstr "Σήμερα"
+msgstr "Τουρκία"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:214
-#, fuzzy
 msgid "Turkmenistan"
-msgstr "Εκκρεμό_τητα"
+msgstr "Τουρκμενιστάν"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:215
 msgid "Turks And Caicos Islands"
@@ -2249,9 +2147,8 @@ msgid "U.S. Virgin Islands"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:218
-#, fuzzy
 msgid "Uganda"
-msgstr "Ημερολόγιο"
+msgstr "Ουγκάντα"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:219
 msgid "Ukraine"
@@ -2270,9 +2167,8 @@ msgid "United Republic Of Tanzania"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:223
-#, fuzzy
 msgid "United States"
-msgstr "Απεσταλμένα μηνύματα"
+msgstr "Ηνωμένες Πολιτείες"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:224
 msgid "United States Minor Outlying Islands"
@@ -2295,9 +2191,8 @@ msgid "Venezuela"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:229
-#, fuzzy
 msgid "Viet Nam"
-msgstr "Επιλε_γμένα Αντικείμενα"
+msgstr "Βιετνάμ"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:230
 msgid "Wallis And Futuna Islands"
@@ -2308,9 +2203,8 @@ msgid "Western Sahara"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:232
-#, fuzzy
 msgid "Yemen"
-msgstr "Αποστολή"
+msgstr "Υεμένη"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:233
 msgid "Yugoslavia"
@@ -2329,9 +2223,8 @@ msgid "_Address:"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:237
-#, fuzzy
 msgid "_City:"
-msgstr "Προτεραιότητα"
+msgstr "_Πόλη:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:238
 msgid "_PO Box:"
@@ -2511,14 +2404,13 @@ msgid "No cards"
 msgstr "Ημερολόγιο"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:124
-#, fuzzy
 msgid "1 card"
-msgstr "Ημερολόγιο"
+msgstr "1 κάρτα"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:127
-#, fuzzy, c-format
+#, c-format
 msgid "%d cards"
-msgstr "Αποστολή"
+msgstr "%d κάρτες"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:138
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:267
@@ -2585,7 +2477,7 @@ msgid "Success"
 msgstr "Νέα Συντόμευση"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:35
-#: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1702
+#: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1712
 #: shell/e-storage.c:520
 msgid "Unknown error"
 msgstr ""
@@ -2614,8 +2506,8 @@ msgstr ""
 #: addressbook/gui/widgets/e-addressbook-util.c:41
 #: calendar/gui/calendar-model.c:726 calendar/gui/calendar-model.c:1247
 #: calendar/gui/dialogs/task-details-page.glade.h:3
-#: calendar/gui/e-calendar-table.c:461 camel/camel-service.c:598
-#: camel/camel-service.c:634
+#: calendar/gui/e-calendar-table.c:461 camel/camel-service.c:603
+#: camel/camel-service.c:639
 msgid "Cancelled"
 msgstr ""
 
@@ -2973,9 +2865,8 @@ msgstr "Από"
 #: calendar/cal-util/cal-util.c:422 calendar/cal-util/cal-util.c:444
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-calendar-table.c:387 mail/message-list.c:650
-#, fuzzy
 msgid "Low"
-msgstr "_Νέο"
+msgstr "Χαμηλή"
 
 #. An empty string is the same as 'None'.
 #: calendar/cal-util/cal-util.c:438
@@ -2984,13 +2875,13 @@ msgstr "_Νέο"
 msgid "Undefined"
 msgstr ""
 
-#: calendar/conduits/calendar/calendar-conduit.c:793
+#: calendar/conduits/calendar/calendar-conduit.c:797
 #: calendar/conduits/todo/todo-conduit.c:564
 msgid "Error while communicating with calendar server"
 msgstr ""
 
-#: calendar/conduits/calendar/calendar-conduit.c:896
-#: calendar/conduits/calendar/calendar-conduit.c:899
+#: calendar/conduits/calendar/calendar-conduit.c:900
+#: calendar/conduits/calendar/calendar-conduit.c:903
 msgid "Could not read pilot's Calendar application block"
 msgstr ""
 
@@ -3194,7 +3085,7 @@ msgstr "Επικόλληση"
 #: calendar/gui/calendar-model.c:402 calendar/gui/calendar-model.c:996
 #: calendar/gui/e-calendar-table.c:365
 msgid "Confidential"
-msgstr ""
+msgstr "Εμπιστευτικό"
 
 #: calendar/gui/calendar-model.c:405 calendar/gui/e-calendar-table.c:363
 msgid "Public"
@@ -3244,7 +3135,7 @@ msgstr ""
 #: calendar/gui/e-calendar-table.c:460 calendar/gui/e-meeting-model.c:298
 #: calendar/gui/e-meeting-model.c:321
 msgid "Completed"
-msgstr ""
+msgstr "Ολοκληρωμένο"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: calendar/gui/calendar-model.c:908 e-util/e-time-utils.c:163
@@ -3342,13 +3233,12 @@ msgstr "Θέμα"
 msgid "Comment contains"
 msgstr "Θέμα"
 
-#: calendar/gui/cal-search-bar.c:416 mail/mail-ops.c:1054
+#: calendar/gui/cal-search-bar.c:416
 msgid "Unmatched"
 msgstr ""
 
 #: calendar/gui/component-factory.c:63 my-evolution/my-evolution.glade.h:6
-#: shell/e-local-storage.c:172 shell/e-shortcuts.c:1056
-#, fuzzy
+#: shell/e-shortcuts.c:1056
 msgid "Calendar"
 msgstr "Ημερολόγιο"
 
@@ -3357,9 +3247,8 @@ msgstr "Ημερολόγιο"
 msgid "Folder containing appointments and events"
 msgstr "Φάκελλος που περιέχει στοιχεία ημερολογίου"
 
-#: calendar/gui/component-factory.c:68 calendar/gui/print.c:1723
-#: my-evolution/e-summary-tasks.c:237 my-evolution/e-summary-tasks.c:253
-#: shell/e-local-storage.c:178 shell/e-shortcuts.c:1059
+#: calendar/gui/component-factory.c:68 my-evolution/e-summary-tasks.c:235
+#: my-evolution/e-summary-tasks.c:251 shell/e-shortcuts.c:1059
 #: views/tasks/galview.xml.h:1
 #, fuzzy
 msgid "Tasks"
@@ -3468,14 +3357,13 @@ msgid "minutes"
 msgstr ""
 
 #: calendar/gui/dialogs/alarm-page.c:307
-#, fuzzy, c-format
+#, c-format
 msgid "%d days"
-msgstr "Πρόχειρα"
+msgstr "%d ημέρες"
 
 #: calendar/gui/dialogs/alarm-page.c:310
-#, fuzzy
 msgid "1 day"
-msgstr "Πρόχειρα"
+msgstr "1 ημέρα"
 
 #: calendar/gui/dialogs/alarm-page.c:315
 #, c-format
@@ -3496,24 +3384,22 @@ msgid "1 hour"
 msgstr ""
 
 #: calendar/gui/dialogs/alarm-page.c:331
-#, fuzzy, c-format
+#, c-format
 msgid "%d minutes"
-msgstr "Γνωριμίες"
+msgstr "%d λεπτά"
 
 #: calendar/gui/dialogs/alarm-page.c:334
-#, fuzzy
 msgid "1 minute"
-msgstr "Γνωριμίες"
+msgstr "1 λεπτό"
 
 #: calendar/gui/dialogs/alarm-page.c:339
-#, fuzzy, c-format
+#, c-format
 msgid "%d seconds"
-msgstr "Αποστολή"
+msgstr "%d δευτερόλεπτα"
 
 #: calendar/gui/dialogs/alarm-page.c:342
-#, fuzzy
 msgid "1 second"
-msgstr "Αποστολή"
+msgstr "1 δευτερόλεπτο"
 
 #: calendar/gui/dialogs/alarm-page.c:373
 #: calendar/gui/dialogs/alarm-page.glade.h:4
@@ -3605,9 +3491,8 @@ msgstr "Αποστολή"
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
 #: calendar/gui/e-itip-control.glade.h:11
-#, fuzzy
 msgid "Summary:"
-msgstr "Αποστολή"
+msgstr "Περίληψη:"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:10
 #, fuzzy
@@ -3639,7 +3524,7 @@ msgstr "Ρ_αντεβού"
 msgid "hour(s)"
 msgstr ""
 
-#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:116
+#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:117
 #, fuzzy
 msgid "minute(s)"
 msgstr "Γνωριμίες"
@@ -3655,24 +3540,20 @@ msgid "05 minutes"
 msgstr "Γνωριμίες"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
-#, fuzzy
 msgid "10 minutes"
-msgstr "Γνωριμίες"
+msgstr "10 λεπτά"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
-#, fuzzy
 msgid "15 minutes"
-msgstr "Γνωριμίες"
+msgstr "15 λεπτά"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
-#, fuzzy
 msgid "30 minutes"
-msgstr "Γνωριμίες"
+msgstr "30 λεπτά"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
-#, fuzzy
 msgid "60 minutes"
-msgstr "Γνωριμίες"
+msgstr "60 λεπτά"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
 #, fuzzy
@@ -3702,7 +3583,7 @@ msgid "First day of wee_k:"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: calendar/gui/dialogs/recurrence-page.c:955
+#: calendar/gui/dialogs/recurrence-page.c:956
 #, fuzzy
 msgid "Friday"
 msgstr "Προτεραιότητα"
@@ -3718,7 +3599,7 @@ msgid "Minutes"
 msgstr "Γνωριμίες"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-#: calendar/gui/dialogs/recurrence-page.c:951
+#: calendar/gui/dialogs/recurrence-page.c:952
 #, fuzzy
 msgid "Monday"
 msgstr "Σήμερα"
@@ -3728,7 +3609,7 @@ msgid "O_verdue tasks:"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: calendar/gui/dialogs/recurrence-page.c:956
+#: calendar/gui/dialogs/recurrence-page.c:957
 #, fuzzy
 msgid "Saturday"
 msgstr "Αποστολή"
@@ -3753,7 +3634,7 @@ msgid "Su_n"
 msgstr "Αποστολή"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
-#: calendar/gui/dialogs/recurrence-page.c:957
+#: calendar/gui/dialogs/recurrence-page.c:958
 #, fuzzy
 msgid "Sunday"
 msgstr "Αποστολή"
@@ -3771,7 +3652,7 @@ msgid "Tas_ks due today:"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
-#: calendar/gui/dialogs/recurrence-page.c:954
+#: calendar/gui/dialogs/recurrence-page.c:955
 #, fuzzy
 msgid "Thursday"
 msgstr "Σήμερα"
@@ -3796,13 +3677,13 @@ msgid "Time format:"
 msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-#: calendar/gui/dialogs/recurrence-page.c:952
+#: calendar/gui/dialogs/recurrence-page.c:953
 #, fuzzy
 msgid "Tuesday"
 msgstr "Σήμερα"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-#: calendar/gui/dialogs/recurrence-page.c:953
+#: calendar/gui/dialogs/recurrence-page.c:954
 msgid "Wednesday"
 msgstr ""
 
@@ -3950,7 +3831,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/comp-editor-util.c:173 calendar/gui/print.c:2138
 msgid "Completed "
-msgstr ""
+msgstr "Ολοκληρωμένο "
 
 #: calendar/gui/dialogs/comp-editor-util.c:178 calendar/gui/print.c:2143
 msgid " (Due "
@@ -3984,24 +3865,24 @@ msgstr "Καταχώρηση Ημερο_λογίου"
 msgid "No summary"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:952 mail/mail-callbacks.c:1671
+#: calendar/gui/dialogs/comp-editor.c:954 mail/mail-callbacks.c:1747
 #: mail/mail-display.c:100
 msgid "Overwrite file?"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:956 mail/mail-callbacks.c:1677
+#: calendar/gui/dialogs/comp-editor.c:958 mail/mail-callbacks.c:1755
 #: mail/mail-display.c:104
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:1019 ui/evolution-comp-editor.xml.h:13
+#: calendar/gui/dialogs/comp-editor.c:1021 ui/evolution-comp-editor.xml.h:13
 #: widgets/misc/e-filter-bar.h:101
 msgid "Save As..."
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:1172
+#: calendar/gui/dialogs/comp-editor.c:1174
 msgid "Unable to obtain current version!"
 msgstr ""
 
@@ -4129,7 +4010,7 @@ msgid "Pu_blic"
 msgstr ""
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#: calendar/gui/e-calendar-table.etspec.h:13
+#: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Show Time As"
 msgstr ""
 
@@ -4176,9 +4057,8 @@ msgid "Non-Participants"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.c:661
-#, fuzzy
 msgid "Sent By:"
-msgstr "Αποστολή"
+msgstr "Στάλθηκε Από:"
 
 #: calendar/gui/dialogs/meeting-page.c:829
 msgid "_Delegate To..."
@@ -4191,58 +4071,51 @@ msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
-#, fuzzy
-msgid "Click here to add an attendee"
-msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
+msgid "Common Name"
+msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
-msgid "Common Name"
+msgid "Delegated From"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:4
 #: calendar/gui/e-meeting-time-sel.etspec.h:4
-msgid "Delegated From"
+msgid "Delegated To"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:5
 #: calendar/gui/e-meeting-time-sel.etspec.h:5
-msgid "Delegated To"
-msgstr ""
+msgid "Language"
+msgstr "Γλώσσα"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:6
 #: calendar/gui/e-meeting-time-sel.etspec.h:6
-#, fuzzy
-msgid "Language"
-msgstr "Επικόλληση"
+msgid "Member"
+msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:7
 #: calendar/gui/e-meeting-time-sel.etspec.h:7
-msgid "Member"
+msgid "RSVP"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
-msgid "RSVP"
-msgstr ""
-
-#: calendar/gui/dialogs/meeting-page.etspec.h:9
-#: calendar/gui/e-meeting-time-sel.etspec.h:9
 #, fuzzy
 msgid "Role"
 msgstr "_Μήνυμα"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:10
-#: calendar/gui/e-calendar-table.etspec.h:15
-#: calendar/gui/e-meeting-time-sel.etspec.h:10 filter/libfilter-i18n.h:49
+#: calendar/gui/dialogs/meeting-page.etspec.h:9
+#: calendar/gui/e-calendar-table.etspec.h:14
+#: calendar/gui/e-meeting-time-sel.etspec.h:9 filter/libfilter-i18n.h:49
 #: mail/message-list.etspec.h:8
 #, fuzzy
 msgid "Status"
 msgstr "Κατάσταση σύνδεσης"
 
-#: calendar/gui/dialogs/meeting-page.etspec.h:11
-#: calendar/gui/e-calendar-table.etspec.h:18
-#: calendar/gui/e-meeting-time-sel.etspec.h:11 mail/mail-config.glade.h:86
+#: calendar/gui/dialogs/meeting-page.etspec.h:10
+#: calendar/gui/e-calendar-table.etspec.h:17
+#: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/mail-config.glade.h:87
 #: shell/glade/e-active-connection-dialog.glade.h:5
 msgid "Type"
 msgstr ""
@@ -4264,34 +4137,29 @@ msgstr ""
 msgid "_Other Organizer"
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:422 calendar/gui/print.c:1855
-#: calendar/gui/print.c:1857 calendar/gui/print.c:1858
-msgid "%a %b %d %Y"
-msgstr ""
-
-#: calendar/gui/dialogs/recurrence-page.c:570
+#: calendar/gui/dialogs/recurrence-page.c:571
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:924
+#: calendar/gui/dialogs/recurrence-page.c:925
 #, fuzzy
 msgid "on"
 msgstr "Προς"
 
-#: calendar/gui/dialogs/recurrence-page.c:950 filter/filter-datespec.c:83
+#: calendar/gui/dialogs/recurrence-page.c:951 filter/filter-datespec.c:83
 msgid "day"
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:1080
+#: calendar/gui/dialogs/recurrence-page.c:1081
 #, fuzzy
 msgid "on the"
 msgstr "Γνωριμίες"
 
-#: calendar/gui/dialogs/recurrence-page.c:1088
+#: calendar/gui/dialogs/recurrence-page.c:1089
 msgid "th"
 msgstr ""
 
-#: calendar/gui/dialogs/recurrence-page.c:1261
+#: calendar/gui/dialogs/recurrence-page.c:1262
 #, fuzzy
 msgid "occurrences"
 msgstr "Αποστολή παρόντος μηνύματος"
@@ -4490,7 +4358,7 @@ msgid "100%"
 msgstr ""
 
 #: calendar/gui/e-calendar-table.c:914 calendar/gui/e-day-view.c:3443
-#: calendar/gui/e-week-view.c:3296 mail/folder-browser.c:1371
+#: calendar/gui/e-week-view.c:3296 mail/folder-browser.c:1379
 #: shell/e-shortcuts-view.c:385
 #, fuzzy
 msgid "_Open"
@@ -4541,7 +4409,6 @@ msgid "_Delete Selected Tasks"
 msgstr "Αποστολή παρόντος μηνύματος"
 
 #: calendar/gui/e-calendar-table.c:1194
-#: calendar/gui/e-calendar-table.etspec.h:6
 #, fuzzy
 msgid "Click to add a task"
 msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
@@ -4551,52 +4418,51 @@ msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
 msgid "Alarms"
 msgstr "Επικόλληση"
 
-#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:718
+#: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:718
 #: camel/camel-filter-driver.c:834
 msgid "Complete"
-msgstr ""
+msgstr "Ολοκληρώθηκε"
+
+#: calendar/gui/e-calendar-table.etspec.h:7
+msgid "Completion Date"
+msgstr "Ημερομηνία Ολοκλήρωσης"
 
 #: calendar/gui/e-calendar-table.etspec.h:8
-msgid "Completion Date"
-msgstr ""
-
-#: calendar/gui/e-calendar-table.etspec.h:9
 msgid "Due Date"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.etspec.h:10
+#: calendar/gui/e-calendar-table.etspec.h:9
 #, fuzzy
 msgid "End Date"
 msgstr "Αί_τηση Συνάντησης"
 
-#: calendar/gui/e-calendar-table.etspec.h:11
+#: calendar/gui/e-calendar-table.etspec.h:10
 msgid "Geographical Position"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.etspec.h:12
+#: calendar/gui/e-calendar-table.etspec.h:11
 msgid "Priority"
 msgstr "Προτεραιότητα"
 
-#: calendar/gui/e-calendar-table.etspec.h:14
+#: calendar/gui/e-calendar-table.etspec.h:13
 #, fuzzy
 msgid "Start Date"
 msgstr "Αί_τηση Συνάντησης"
 
 #. FIXME: Inbox shortcut should point to something else for
 #. people who won't care about using /Local Folders/Inbox
-#: calendar/gui/e-calendar-table.etspec.h:16
+#: calendar/gui/e-calendar-table.etspec.h:15
 #: my-evolution/component-factory.c:45 shell/e-shortcuts.c:1050
-#: shell/e-storage-set-view.c:1420 shell/e-summary-storage.c:80
-#, fuzzy
+#: shell/e-storage-set-view.c:1444
 msgid "Summary"
-msgstr "Αποστολή"
+msgstr "Περίληψη"
 
-#: calendar/gui/e-calendar-table.etspec.h:17
+#: calendar/gui/e-calendar-table.etspec.h:16
 #, fuzzy
 msgid "Task sort"
 msgstr "Κατάλογος εκκρεμοτήτων"
 
-#: calendar/gui/e-calendar-table.etspec.h:19
+#: calendar/gui/e-calendar-table.etspec.h:18
 msgid "URL"
 msgstr ""
 
@@ -4621,13 +4487,11 @@ msgstr ""
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:608 calendar/gui/e-week-view.c:345
-#: calendar/gui/print.c:769
 msgid "am"
 msgstr ""
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/gui/e-day-view.c:611 calendar/gui/e-week-view.c:348
-#: calendar/gui/print.c:771
 msgid "pm"
 msgstr ""
 
@@ -4666,44 +4530,6 @@ msgstr "Αποστολή παρόντος μηνύματος"
 #, fuzzy
 msgid "Delete _All Occurrences"
 msgstr "Αποστολή παρόντος μηνύματος"
-
-#: calendar/gui/e-itip-control.c:469
-msgid "Meeting begins: <b>"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:474
-msgid "Task begins: <b>"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:479
-#, fuzzy
-msgid "Free/Busy info begins: <b>"
-msgstr "Επισύναψη"
-
-#: calendar/gui/e-itip-control.c:483
-msgid "Begins: <b>"
-msgstr ""
-
-#. Describe what the user can do
-#: calendar/gui/e-itip-control.c:677
-msgid ""
-"<br> Please review the following information, and then select an action from "
-"the menu below."
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:692
-#, c-format
-msgid "<b>Summary:</b> %s<br><br>"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:692
-msgid "<i>None</i>"
-msgstr ""
-
-#: calendar/gui/e-itip-control.c:702
-#, fuzzy, c-format
-msgid "<b>Description:</b> %s"
-msgstr "Θέμα"
 
 #: calendar/gui/e-itip-control.c:737
 #, c-format
@@ -5159,12 +4985,12 @@ msgstr ""
 msgid "New _Appointment..."
 msgstr "Ρ_αντεβού"
 
-#: calendar/gui/gnome-cal.c:1319
+#: calendar/gui/gnome-cal.c:1318
 #, fuzzy, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: calendar/gui/gnome-cal.c:1330
+#: calendar/gui/gnome-cal.c:1329
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr ""
@@ -5229,7 +5055,7 @@ msgstr ""
 msgid "September"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:274
+#: calendar/gui/itip-utils.c:258
 msgid "An organizer must be set."
 msgstr ""
 
@@ -5404,6 +5230,11 @@ msgstr ""
 msgid "%a %d %Y"
 msgstr ""
 
+#: calendar/gui/print.c:1855 calendar/gui/print.c:1857
+#: calendar/gui/print.c:1858
+msgid "%a %b %d %Y"
+msgstr ""
+
 #: calendar/gui/print.c:1862
 #, c-format
 msgid "Selected week (%s - %s)"
@@ -5425,7 +5256,7 @@ msgid "Print Calendar"
 msgstr "Ημερολόγιο"
 
 #: calendar/gui/print.c:2312 calendar/gui/print.c:2404
-#: mail/mail-callbacks.c:2080 my-evolution/e-summary.c:607
+#: mail/mail-callbacks.c:2163 my-evolution/e-summary.c:607
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:64
 msgid "Print Preview"
 msgstr ""
@@ -5469,8 +5300,8 @@ msgstr ""
 #: calendar/gui/tasks-migrate.c:134
 #, c-format
 msgid ""
-"The method required to load `%s' is not supported; no items from the "
-"calendar folder will be migrated to the tasks folder."
+"The method required to load `%s' is not supported; no items from the calendar "
+"folder will be migrated to the tasks folder."
 msgstr ""
 
 #: calendar/gui/weekday-picker.c:315 calendar/gui/weekday-picker.c:410
@@ -5551,8 +5382,8 @@ msgstr ""
 
 #: calendar/pcs/query.c:675
 msgid ""
-"contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
-"\""
+"contains? expects argument 1 to be one of \"any\", \"summary\", "
+"\"description\""
 msgstr ""
 
 #: calendar/pcs/query.c:717
@@ -5641,7 +5472,7 @@ msgid "Unable to process spool folder"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
 #: camel/camel-filter-driver.c:683
-#, fuzzy, c-format
+#, fuzzy
 msgid "Getting message %d (%d%%)"
 msgstr "Νέα μηνύματα"
 
@@ -5680,22 +5511,22 @@ msgstr "Αποστολή παρόντος μηνύματος"
 msgid "Error executing filter: %s: %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: camel/camel-filter-search.c:494 camel/camel-filter-search.c:501
+#: camel/camel-filter-search.c:493 camel/camel-filter-search.c:500
 #, fuzzy, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Αποστολή παρόντος μηνύματος"
 
-#: camel/camel-folder.c:472
+#: camel/camel-folder.c:479
 #, c-format
 msgid "Unsupported operation: append message: for %s"
 msgstr ""
 
-#: camel/camel-folder.c:1039
+#: camel/camel-folder.c:1048
 #, fuzzy, c-format
 msgid "Unsupported operation: search by expression: for %s"
 msgstr "Αποστολή παρόντος μηνύματος"
 
-#: camel/camel-folder.c:1219
+#: camel/camel-folder.c:1229
 #, fuzzy
 msgid "Moving messages"
 msgstr "Απεσταλμένα μηνύματα"
@@ -5993,8 +5824,8 @@ msgstr ""
 
 #: camel/camel-sasl-digest-md5.c:45
 msgid ""
-"This option will connect to the server using a secure DIGEST-MD5 password, "
-"if the server supports it."
+"This option will connect to the server using a secure DIGEST-MD5 password, if "
+"the server supports it."
 msgstr ""
 
 #: camel/camel-sasl-digest-md5.c:810
@@ -6026,7 +5857,8 @@ msgid "Kerberos 4"
 msgstr ""
 
 #: camel/camel-sasl-kerberos4.c:42
-msgid "This option will connect to the server using Kerberos 4 authentication."
+msgid ""
+"This option will connect to the server using Kerberos 4 authentication."
 msgstr ""
 
 #: camel/camel-sasl-kerberos4.c:161
@@ -6080,42 +5912,42 @@ msgstr ""
 msgid "POP Before SMTP auth using a non-pop source"
 msgstr ""
 
-#: camel/camel-search-private.c:111
+#: camel/camel-search-private.c:113
 #, c-format
 msgid "Regular expression compilation failed: %s: %s"
 msgstr ""
 
-#: camel/camel-service.c:157
+#: camel/camel-service.c:158
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr ""
 
-#: camel/camel-service.c:165
+#: camel/camel-service.c:166
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr ""
 
-#: camel/camel-service.c:173
+#: camel/camel-service.c:174
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr ""
 
-#: camel/camel-service.c:602
+#: camel/camel-service.c:607
 #, c-format
 msgid "Resolving: %s"
 msgstr ""
 
-#: camel/camel-service.c:629
+#: camel/camel-service.c:634
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr ""
 
-#: camel/camel-service.c:654
+#: camel/camel-service.c:659
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr ""
 
-#: camel/camel-service.c:656
+#: camel/camel-service.c:661
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr ""
@@ -6178,7 +6010,12 @@ msgstr "Αποστολή παρόντος μηνύματος"
 msgid "Failed to verify certificates."
 msgstr ""
 
-#: camel/camel-store.c:273
+#: camel/camel-store.c:218
+#, fuzzy
+msgid "Cannot get folder: Invalid operation on this store"
+msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
+
+#: camel/camel-store.c:279
 #, fuzzy
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
@@ -6233,17 +6070,17 @@ msgstr "Αποστολή του μηνύματος"
 msgid "Cannot delete folder: %s: Invalid operation"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: camel/camel-vee-store.c:286
+#: camel/camel-vee-store.c:285
 #, fuzzy, c-format
 msgid "Cannot delete folder: %s: No such folder"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: camel/camel-vee-store.c:298
+#: camel/camel-vee-store.c:297
 #, fuzzy, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: camel/camel-vee-store.c:326
+#: camel/camel-vee-store.c:325
 #, fuzzy, c-format
 msgid "Cannot rename folder: %s: No such folder"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
@@ -6298,7 +6135,7 @@ msgid "Scanning for changed messages"
 msgstr "Αποστολή του μηνύματος"
 
 #: camel/providers/imap/camel-imap-folder.c:1491
-#: camel/providers/imap/camel-imap-folder.c:1899
+#: camel/providers/imap/camel-imap-folder.c:1894
 msgid "This message is not currently available"
 msgstr ""
 
@@ -6312,7 +6149,7 @@ msgstr ""
 msgid "Scanning for new messages"
 msgstr "Απεσταλμένα μηνύματα"
 
-#: camel/providers/imap/camel-imap-folder.c:1936
+#: camel/providers/imap/camel-imap-folder.c:1931
 msgid "Could not find message body in FETCH response."
 msgstr ""
 
@@ -6338,7 +6175,7 @@ msgstr ""
 msgid "Check for new messages in all folders"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:767
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:836
 #, fuzzy
 msgid "Folders"
 msgstr "_Φάκελλος"
@@ -6369,7 +6206,8 @@ msgid "For reading and storing mail on IMAP servers."
 msgstr ""
 
 #: camel/providers/imap/camel-imap-provider.c:82
-msgid "This option will connect to the IMAP server using a plaintext password."
+msgid ""
+"This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:517
@@ -6406,45 +6244,45 @@ msgstr ""
 msgid "No such folder %s"
 msgstr "Αποστολή του μηνύματος"
 
-#: camel/providers/imap/camel-imap-store.c:1131
+#: camel/providers/imap/camel-imap-store.c:1148
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr ""
 
-#: camel/providers/local/camel-local-provider.c:40
+#: camel/providers/local/camel-local-provider.c:43
 msgid "MH-format mail directories"
 msgstr ""
 
-#: camel/providers/local/camel-local-provider.c:41
+#: camel/providers/local/camel-local-provider.c:44
 msgid "For storing local mail in MH-like mail directories."
 msgstr ""
 
-#: camel/providers/local/camel-local-provider.c:50
+#: camel/providers/local/camel-local-provider.c:53
 #, fuzzy
 msgid "Local delivery"
 msgstr "_Φάκελλος"
 
-#: camel/providers/local/camel-local-provider.c:51
+#: camel/providers/local/camel-local-provider.c:54
 msgid "For retrieving local mail from standard mbox formated spools."
 msgstr ""
 
-#: camel/providers/local/camel-local-provider.c:60
+#: camel/providers/local/camel-local-provider.c:63
 #, fuzzy
 msgid "Apply filters to new messages in INBOX"
 msgstr "Εισάγετε τον παραλήπτη του μηνύματος"
 
-#: camel/providers/local/camel-local-provider.c:66
+#: camel/providers/local/camel-local-provider.c:69
 msgid "Qmail maildir-format mail files"
 msgstr ""
 
-#: camel/providers/local/camel-local-provider.c:67
+#: camel/providers/local/camel-local-provider.c:70
 msgid "For storing local mail in qmail maildir directories."
 msgstr ""
 
-#: camel/providers/local/camel-local-provider.c:78
+#: camel/providers/local/camel-local-provider.c:81
 msgid "Standard Unix mbox spools"
 msgstr ""
 
-#: camel/providers/local/camel-local-provider.c:79
+#: camel/providers/local/camel-local-provider.c:82
 msgid "For reading and storing local mail in standard mbox spool files."
 msgstr ""
 
@@ -6489,7 +6327,12 @@ msgstr ""
 msgid "Could not delete folder index file `%s': %s"
 msgstr ""
 
-#: camel/providers/local/camel-local-summary.c:418
+#: camel/providers/local/camel-local-summary.c:367
+#, fuzzy, c-format
+msgid "Could not save summary: %s: %s"
+msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
+
+#: camel/providers/local/camel-local-summary.c:423
 #: camel/providers/local/camel-spool-summary.c:1158
 msgid "Unable to add message to summary: unknown reason"
 msgstr ""
@@ -6651,8 +6494,8 @@ msgstr ""
 #. FIXME: If there is a failure, it shouldn't clear the summary and restart,
 #. it should try and merge the summary info's.  This is a bit tricky.
 #: camel/providers/local/camel-mbox-summary.c:249
-#: camel/providers/local/camel-mbox-summary.c:502
-#: camel/providers/local/camel-mbox-summary.c:703
+#: camel/providers/local/camel-mbox-summary.c:499
+#: camel/providers/local/camel-mbox-summary.c:700
 #: camel/providers/local/camel-spool-summary.c:644
 #: camel/providers/local/camel-spool-summary.c:936
 #, fuzzy
@@ -6675,23 +6518,23 @@ msgstr ""
 msgid "Cannot check folder: %s: %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: camel/providers/local/camel-mbox-summary.c:507
-#: camel/providers/local/camel-mbox-summary.c:708
+#: camel/providers/local/camel-mbox-summary.c:504
+#: camel/providers/local/camel-mbox-summary.c:705
 #: camel/providers/local/camel-spool-summary.c:649
 #, fuzzy, c-format
 msgid "Could not open file: %s: %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: camel/providers/local/camel-mbox-summary.c:524
+#: camel/providers/local/camel-mbox-summary.c:521
 #: camel/providers/local/camel-spool-summary.c:673
 #, c-format
 msgid "Cannot open temporary mailbox: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:549
-#: camel/providers/local/camel-mbox-summary.c:557
-#: camel/providers/local/camel-mbox-summary.c:746
-#: camel/providers/local/camel-mbox-summary.c:754
+#: camel/providers/local/camel-mbox-summary.c:546
+#: camel/providers/local/camel-mbox-summary.c:554
+#: camel/providers/local/camel-mbox-summary.c:743
+#: camel/providers/local/camel-mbox-summary.c:751
 #: camel/providers/local/camel-spool-summary.c:698
 #: camel/providers/local/camel-spool-summary.c:706
 #: camel/providers/local/camel-spool-summary.c:979
@@ -6699,36 +6542,36 @@ msgstr ""
 msgid "Summary and folder mismatch, even after a sync"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:600
+#: camel/providers/local/camel-mbox-summary.c:597
 #: camel/providers/local/camel-spool-summary.c:750
 #, c-format
 msgid "Error writing to temp mailbox: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:617
+#: camel/providers/local/camel-mbox-summary.c:614
 #: camel/providers/local/camel-spool-summary.c:772
 #, c-format
 msgid "Writing to tmp mailbox failed: %s: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:635
-#: camel/providers/local/camel-mbox-summary.c:804
+#: camel/providers/local/camel-mbox-summary.c:632
+#: camel/providers/local/camel-mbox-summary.c:801
 #: camel/providers/local/camel-spool-summary.c:1037
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:644
+#: camel/providers/local/camel-mbox-summary.c:641
 #, fuzzy, c-format
 msgid "Could not close temp folder: %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: camel/providers/local/camel-mbox-summary.c:655
+#: camel/providers/local/camel-mbox-summary.c:652
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:878
+#: camel/providers/local/camel-mbox-summary.c:875
 #: camel/providers/local/camel-spool-summary.c:545
 #: camel/providers/local/camel-spool-summary.c:1111
 #, c-format
@@ -6959,8 +6802,8 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-provider.c:80
 msgid ""
 "This option will connect to the POP server using an encrypted password via "
-"the APOP protocol. This may not work for all users even on servers that "
-"claim to support it."
+"the APOP protocol. This may not work for all users even on servers that claim "
+"to support it."
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-provider.c:92
@@ -7024,10 +6867,9 @@ msgid "Unexpected response from POP server: %s"
 msgstr ""
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:37
-#: mail/mail-config.glade.h:73
-#, fuzzy
+#: mail/mail-config.glade.h:74
 msgid "Sendmail"
-msgstr "Αποστολή"
+msgstr "Sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:39
 msgid ""
@@ -7078,7 +6920,7 @@ msgstr ""
 msgid "Mail delivery via the sendmail program"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-provider.c:38 mail/mail-config.glade.h:66
+#: camel/providers/smtp/camel-smtp-provider.c:38 mail/mail-config.glade.h:67
 msgid "SMTP"
 msgstr ""
 
@@ -7229,7 +7071,7 @@ msgstr ""
 msgid "Cannot send message: sender address not valid."
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:595 mail/mail-ops.c:553
+#: camel/providers/smtp/camel-smtp-transport.c:595 mail/mail-ops.c:546
 #, fuzzy
 msgid "Sending message"
 msgstr "Απεσταλμένα μηνύματα"
@@ -7404,9 +7246,8 @@ msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
 #. * From:
 #.
 #: composer/e-msg-composer-hdrs.c:357
-#, fuzzy
 msgid "From:"
-msgstr "Από"
+msgstr "Από:"
 
 #.
 #. * Reply-To:
@@ -7499,60 +7340,60 @@ msgstr "Αποστολή παρόντος μηνύματος"
 msgid "Unable to retrieve message from editor"
 msgstr ""
 
-#: composer/e-msg-composer.c:1050
+#: composer/e-msg-composer.c:1051
 #, fuzzy, c-format
 msgid ""
 "Unable to seek on file: %s\n"
 "%s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: composer/e-msg-composer.c:1056
+#: composer/e-msg-composer.c:1058
 #, fuzzy, c-format
 msgid ""
 "Unable to truncate file: %s\n"
 "%s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: composer/e-msg-composer.c:1065
+#: composer/e-msg-composer.c:1067
 #, fuzzy, c-format
 msgid ""
 "Error autosaving message: %s\n"
 " %s"
 msgstr "Αποστολή παρόντος μηνύματος"
 
-#: composer/e-msg-composer.c:1165
+#: composer/e-msg-composer.c:1169
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1313
+#: composer/e-msg-composer.c:1317
 msgid ""
 "This message has not been sent.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1320
+#: composer/e-msg-composer.c:1324
 #, fuzzy
 msgid "Warning: Modified Message"
 msgstr "Αποστολή παρόντος μηνύματος"
 
-#: composer/e-msg-composer.c:1343
+#: composer/e-msg-composer.c:1347
 #, fuzzy
 msgid "Open file"
 msgstr "Άνοιγμα Φακέλλου"
 
-#: composer/e-msg-composer.c:1492
+#: composer/e-msg-composer.c:1496
 msgid "Insert File"
 msgstr ""
 
-#: composer/e-msg-composer.c:1868 composer/e-msg-composer.c:2314
+#: composer/e-msg-composer.c:1870 composer/e-msg-composer.c:2316
 #, fuzzy
 msgid "Compose a message"
 msgstr "Συγγραφή νέου μηνύματος"
 
-#: composer/e-msg-composer.c:2404
+#: composer/e-msg-composer.c:2406
 msgid "Could not create composer window."
 msgstr ""
 
@@ -7567,7 +7408,7 @@ msgstr ""
 msgid "Cannot initialize Evolution's composer."
 msgstr "Αρχικοποίησης του συστήματος μονάδων Bonobo ανεπιτυχής"
 
-#: data/evolution.desktop.in.h:1 shell/main.c:76
+#: data/evolution.desktop.in.h:1 shell/main.c:80
 msgid "Evolution"
 msgstr ""
 
@@ -7754,11 +7595,11 @@ msgid "seconds"
 msgstr "Αποστολή"
 
 #: filter/filter-datespec.c:194
-msgid "Oops. You have forgotten to choose a date."
+msgid "You have forgotten to choose a date."
 msgstr ""
 
 #: filter/filter-datespec.c:196
-msgid "Oops. You have chosen an invalid date."
+msgid "You have chosen an invalid date."
 msgstr ""
 
 #: filter/filter-datespec.c:271
@@ -7842,7 +7683,7 @@ msgstr "Ε_νέργειες"
 
 #: filter/filter-folder.c:147
 msgid ""
-"Oops, you forgot to choose a folder.\n"
+"You forgot to choose a folder.\n"
 "Please go back and specify a valid folder to deliver mail to."
 msgstr ""
 
@@ -8114,7 +7955,7 @@ msgstr ""
 msgid "Score"
 msgstr ""
 
-#: filter/libfilter-i18n.h:42 mail/mail-callbacks.c:1251
+#: filter/libfilter-i18n.h:42 mail/mail-callbacks.c:1325
 #, fuzzy
 msgid "Sender"
 msgstr "Αποστολή"
@@ -8150,7 +7991,7 @@ msgstr ""
 msgid "Stop Processing"
 msgstr ""
 
-#: filter/libfilter-i18n.h:51 mail/mail-format.c:917
+#: filter/libfilter-i18n.h:51 mail/mail-format.c:921
 #: mail/message-list.etspec.h:9
 msgid "Subject"
 msgstr "Θέμα"
@@ -8184,7 +8025,7 @@ msgid "Score Rules"
 msgstr "_Φάκελλος"
 
 #: filter/vfolder-rule.c:206
-msgid "Oops.  You need to to specify at least one folder as a source."
+msgid "You need to to specify at least one folder as a source."
 msgstr ""
 
 #: importers/elm-importer.c:96
@@ -8348,46 +8189,56 @@ msgstr "_Φάκελλος"
 msgid "This folder cannot contain messages."
 msgstr ""
 
-#: mail/component-factory.c:356
+#: mail/component-factory.c:357
 #, fuzzy
 msgid "Properties..."
 msgstr "Ιδιότητες"
 
-#: mail/component-factory.c:356
+#: mail/component-factory.c:357
 msgid "Change this folder's properties"
 msgstr ""
 
-#: mail/component-factory.c:698
+#: mail/component-factory.c:700
 msgid ""
 "Some of your mail settings seem corrupt, please check that everything is in "
 "order."
 msgstr ""
 
-#: mail/component-factory.c:812
+#: mail/component-factory.c:814
 #, fuzzy
 msgid "New Mail Message"
 msgstr "_Μήνυμα"
 
-#: mail/component-factory.c:812
+#: mail/component-factory.c:814
 #, fuzzy
 msgid "New _Mail Message"
 msgstr "_Μήνυμα"
 
-#: mail/component-factory.c:843
+#: mail/component-factory.c:845
 #, fuzzy
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Αρχικοποίησης του συστήματος μονάδων Bonobo ανεπιτυχής"
 
-#: mail/component-factory.c:1032
+#: mail/component-factory.c:854
+#, fuzzy
+msgid "Cannot initialize Evolution's mail config component."
+msgstr "Αρχικοποίησης του συστήματος μονάδων Bonobo ανεπιτυχής"
+
+#: mail/component-factory.c:860
+#, fuzzy
+msgid "Cannot initialize Evolution's folder info component."
+msgstr "Αρχικοποίησης του συστήματος μονάδων Bonobo ανεπιτυχής"
+
+#: mail/component-factory.c:1025
 msgid "Cannot register storage with shell"
 msgstr ""
 
-#: mail/folder-browser-ui.c:261
+#: mail/folder-browser-ui.c:267
 #, fuzzy, c-format
 msgid "Properties for \"%s\""
 msgstr "Ιδιότητες"
 
-#: mail/folder-browser-ui.c:263
+#: mail/folder-browser-ui.c:269
 #, fuzzy
 msgid "Properties"
 msgstr "Ιδιότητες"
@@ -8403,7 +8254,7 @@ msgid "%d new"
 msgstr ""
 
 #: mail/folder-browser.c:737 mail/folder-browser.c:742
-#: mail/folder-browser.c:746
+#: mail/folder-browser.c:764
 msgid ", "
 msgstr ""
 
@@ -8413,94 +8264,96 @@ msgid "%d hidden"
 msgstr ""
 
 #: mail/folder-browser.c:743
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected"
-msgstr "Αποστολή"
+msgstr "%d επελεγμένα"
 
-#: mail/folder-browser.c:748
-#, fuzzy, c-format
+#: mail/folder-browser.c:766
+#, c-format
 msgid "%d unsent"
-msgstr "Αποστολή"
+msgstr "%d μη απεσταλμένα"
 
-#: mail/folder-browser.c:750
+#: mail/folder-browser.c:768
+#, c-format
+msgid "%d sent"
+msgstr "%d απεσταλμένα"
+
+#: mail/folder-browser.c:770
 #, c-format
 msgid "%d total"
 msgstr ""
 
-#: mail/folder-browser.c:993
+#: mail/folder-browser.c:1013
 #, fuzzy
 msgid "Create vFolder from Search"
 msgstr "Πρόχειρα μηνύματα"
 
-#: mail/folder-browser.c:1338
+#: mail/folder-browser.c:1362
 #, fuzzy
 msgid "VFolder on _Subject"
 msgstr "Θέμα"
 
-#: mail/folder-browser.c:1341
+#: mail/folder-browser.c:1363
 msgid "VFolder on Se_nder"
 msgstr ""
 
-#: mail/folder-browser.c:1344
+#: mail/folder-browser.c:1364
 #, fuzzy
 msgid "VFolder on _Recipients"
 msgstr "Κατάσταση μηνυμάτων"
 
-#: mail/folder-browser.c:1347
+#: mail/folder-browser.c:1365
 #, fuzzy
 msgid "VFolder on Mailing _List"
 msgstr "Φάκελλος που περιέχει μηνύματα"
 
-#: mail/folder-browser.c:1353
+#: mail/folder-browser.c:1369
 #, fuzzy
 msgid "Filter on Sub_ject"
 msgstr "Θέμα"
 
-#: mail/folder-browser.c:1356
+#: mail/folder-browser.c:1370
 #, fuzzy
 msgid "Filter on Sen_der"
 msgstr "Θέμα"
 
-#: mail/folder-browser.c:1359
+#: mail/folder-browser.c:1371
 #, fuzzy
 msgid "Filter on Re_cipients"
 msgstr "Κατάσταση μηνυμάτων"
 
-#: mail/folder-browser.c:1362
+#: mail/folder-browser.c:1372
 #, fuzzy
 msgid "Filter on _Mailing List"
 msgstr "Φάκελλος που περιέχει μηνύματα"
 
-#: mail/folder-browser.c:1373 ui/evolution-mail-message.xml.h:89
+#: mail/folder-browser.c:1380 ui/evolution-mail-message.xml.h:89
 #, fuzzy
 msgid "_Edit as New Message..."
 msgstr "Απεσταλμένα μηνύματα"
 
-#: mail/folder-browser.c:1375 ui/evolution-mail-message.xml.h:97
+#: mail/folder-browser.c:1381 ui/evolution-mail-message.xml.h:97
 #, fuzzy
 msgid "_Save As..."
 msgstr "Αποθήκευση στο φάκελλο..."
 
-#: mail/folder-browser.c:1377
-#, fuzzy
+#: mail/folder-browser.c:1382
 msgid "_Print"
-msgstr "Προτεραιότητα"
+msgstr "_Εκτύπωση"
 
-#: mail/folder-browser.c:1382 ui/evolution-mail-message.xml.h:96
-#, fuzzy
+#: mail/folder-browser.c:1386 ui/evolution-mail-message.xml.h:96
 msgid "_Reply to Sender"
-msgstr "Αποθήκευση στο φάκελλο..."
+msgstr "_Απάντηση στον Αποστολέα"
 
-#: mail/folder-browser.c:1384 ui/evolution-mail-message.xml.h:69
-#, fuzzy
+#: mail/folder-browser.c:1387 ui/evolution-mail-message.xml.h:69
 msgid "Reply to _List"
-msgstr "Αποθήκευση στο φάκελλο..."
+msgstr "Απάντηση στη _Λίστα"
 
-#: mail/folder-browser.c:1386 ui/evolution-mail-message.xml.h:68
+#: mail/folder-browser.c:1388 ui/evolution-mail-message.xml.h:68
 msgid "Reply to _All"
-msgstr ""
+msgstr "Απάντηση σε _Όλους"
 
-#: mail/folder-browser.c:1388
+#: mail/folder-browser.c:1389
 msgid "_Forward"
 msgstr ""
 
@@ -8508,62 +8361,59 @@ msgstr ""
 msgid "Mar_k as Read"
 msgstr ""
 
-#: mail/folder-browser.c:1393 ui/evolution-mail-message.xml.h:42
+#: mail/folder-browser.c:1392 ui/evolution-mail-message.xml.h:42
 msgid "Mark as U_nread"
 msgstr ""
 
-#: mail/folder-browser.c:1395
+#: mail/folder-browser.c:1393
 msgid "Mark as _Important"
 msgstr ""
 
-#: mail/folder-browser.c:1397
+#: mail/folder-browser.c:1394
 msgid "Mark as Unim_portant"
 msgstr ""
 
-#: mail/folder-browser.c:1402
-#, fuzzy
+#: mail/folder-browser.c:1398
 msgid "_Move to Folder..."
-msgstr "Αποθήκευση στο φάκελλο..."
+msgstr "_Μετακίνηση στο Φάκελλο..."
 
-#: mail/folder-browser.c:1404
-#, fuzzy
+#: mail/folder-browser.c:1399
 msgid "_Copy to Folder..."
-msgstr "Αποθήκευση στο φάκελλο..."
+msgstr "Αντιγραφή στο Φάκελλο..."
 
-#: mail/folder-browser.c:1408 ui/evolution-mail-message.xml.h:99
+#: mail/folder-browser.c:1401 ui/evolution-mail-message.xml.h:99
 msgid "_Undelete"
 msgstr ""
 
-#: mail/folder-browser.c:1413
-#, fuzzy
+#: mail/folder-browser.c:1405
 msgid "Add Sender to Address Book"
-msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
+msgstr "Προσθήκη Αποστολέα στο Διευθυνσιολόγιο"
 
-#: mail/folder-browser.c:1418
+#: mail/folder-browser.c:1408
 #, fuzzy
 msgid "Apply Filters"
 msgstr "_Φάκελλος"
 
-#: mail/folder-browser.c:1422
+#: mail/folder-browser.c:1410
 #, fuzzy
 msgid "Create Ru_le From Message"
 msgstr "Πρόχειρα μηνύματα"
 
-#: mail/folder-browser.c:1573
+#: mail/folder-browser.c:1560
 msgid "Filter on Mailing List"
 msgstr ""
 
-#: mail/folder-browser.c:1574
+#: mail/folder-browser.c:1561
 #, fuzzy
 msgid "VFolder on Mailing List"
 msgstr "Φάκελλος που περιέχει μηνύματα"
 
-#: mail/folder-browser.c:1576
+#: mail/folder-browser.c:1563
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr ""
 
-#: mail/folder-browser.c:1577
+#: mail/folder-browser.c:1564
 #, c-format
 msgid "VFolder on Mailing List (%s)"
 msgstr ""
@@ -8692,7 +8542,7 @@ msgid "Are you sure you want to delete this news account?"
 msgstr ""
 
 #. give our dialog an Close button and title
-#: mail/mail-accounts.c:760 mail/mail-config.glade.h:45
+#: mail/mail-accounts.c:769 mail/mail-config.glade.h:45
 #, fuzzy
 msgid "Mail Settings"
 msgstr "Ε_νέργειες"
@@ -8722,7 +8572,7 @@ msgstr ""
 msgid "Add Filter Rule"
 msgstr "_Φάκελλος"
 
-#: mail/mail-callbacks.c:96
+#: mail/mail-callbacks.c:163
 msgid ""
 "You have not configured the mail client.\n"
 "You need to do this before you can send,\n"
@@ -8730,127 +8580,127 @@ msgid ""
 "Would you like to configure it now?"
 msgstr ""
 
-#: mail/mail-callbacks.c:149
+#: mail/mail-callbacks.c:215
 msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
 msgstr ""
 
-#: mail/mail-callbacks.c:161
+#: mail/mail-callbacks.c:227
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
 msgstr ""
 
-#: mail/mail-callbacks.c:185
+#: mail/mail-callbacks.c:251
 msgid "You have not set a mail transport method"
 msgstr ""
 
 #. FIXME: this wording sucks
-#: mail/mail-callbacks.c:216
+#: mail/mail-callbacks.c:282
 msgid ""
 "You are sending an HTML-formatted message, but the following recipients do "
 "not want HTML-formatted mail:\n"
 msgstr ""
 
-#: mail/mail-callbacks.c:231
+#: mail/mail-callbacks.c:297
 #, fuzzy
 msgid "Send anyway?"
 msgstr "Αποστολή"
 
-#: mail/mail-callbacks.c:273
+#: mail/mail-callbacks.c:339
 msgid ""
 "This message has no subject.\n"
 "Really send?"
 msgstr ""
 
-#: mail/mail-callbacks.c:317
+#: mail/mail-callbacks.c:383
 msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
 msgstr ""
 
-#: mail/mail-callbacks.c:321
+#: mail/mail-callbacks.c:387
 msgid "This message contains only Bcc recipients."
 msgstr ""
 
-#: mail/mail-callbacks.c:325
+#: mail/mail-callbacks.c:391
 msgid ""
 "It is possible that the mail server may reveal the recipients by adding an "
 "Apparently-To header.\n"
 "Send anyway?"
 msgstr ""
 
-#: mail/mail-callbacks.c:419
+#: mail/mail-callbacks.c:485
 msgid "This message contains invalid recipients:"
 msgstr ""
 
-#: mail/mail-callbacks.c:454
+#: mail/mail-callbacks.c:520
 msgid "You must specify recipients in order to send this message."
 msgstr ""
 
-#: mail/mail-callbacks.c:550
+#: mail/mail-callbacks.c:616
 msgid "You must configure an account before you can send this email."
 msgstr ""
 
-#: mail/mail-callbacks.c:783
+#: mail/mail-callbacks.c:849
 msgid "an unknown sender"
 msgstr ""
 
-#: mail/mail-callbacks.c:788
+#: mail/mail-callbacks.c:854
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr ""
 
-#: mail/mail-callbacks.c:1171
+#: mail/mail-callbacks.c:1243
 #, fuzzy
 msgid "Move message(s) to"
 msgstr "Νέα μηνύματα"
 
-#: mail/mail-callbacks.c:1173
+#: mail/mail-callbacks.c:1245
 #, fuzzy
 msgid "Copy message(s) to"
 msgstr "Νέα μηνύματα"
 
-#: mail/mail-callbacks.c:1547
+#: mail/mail-callbacks.c:1621
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:1569
+#: mail/mail-callbacks.c:1643
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
 msgstr ""
 
-#: mail/mail-callbacks.c:1603
+#: mail/mail-callbacks.c:1678
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
 msgstr ""
 
-#: mail/mail-callbacks.c:1615
+#: mail/mail-callbacks.c:1691
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:1636
+#: mail/mail-callbacks.c:1712
 #, fuzzy
 msgid "No Message Selected"
 msgstr "Κατάσταση μηνυμάτων"
 
-#: mail/mail-callbacks.c:1721
+#: mail/mail-callbacks.c:1799
 msgid "Save Message As..."
 msgstr ""
 
-#: mail/mail-callbacks.c:1723
+#: mail/mail-callbacks.c:1801
 msgid "Save Messages As..."
 msgstr ""
 
-#: mail/mail-callbacks.c:1868 widgets/misc/e-messagebox.c:159
+#: mail/mail-callbacks.c:1946 widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr ""
 
-#: mail/mail-callbacks.c:1873
+#: mail/mail-callbacks.c:1953
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -8858,83 +8708,75 @@ msgid ""
 "Really erase these messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:1880
+#: mail/mail-callbacks.c:1960
 #, fuzzy
 msgid "Do not ask me again."
 msgstr "Αποστολή παρόντος μηνύματος"
 
-#: mail/mail-callbacks.c:1985
+#: mail/mail-callbacks.c:2065
 #, c-format
 msgid ""
 "Error loading filter information:\n"
 "%s"
 msgstr ""
 
-#: mail/mail-callbacks.c:1995
-#, fuzzy
+#: mail/mail-callbacks.c:2076
 msgid "Filters"
-msgstr "_Φάκελλος"
+msgstr "Φίλτρα"
 
-#: mail/mail-callbacks.c:2041
-#, fuzzy
+#: mail/mail-callbacks.c:2124
 msgid "Print Message"
-msgstr "Απεσταλμένα μηνύματα"
+msgstr "Εκτύπωση Μηνύματος"
 
-#: mail/mail-callbacks.c:2087
+#: mail/mail-callbacks.c:2170
 msgid "Printing of message failed"
 msgstr ""
 
-#: mail/mail-callbacks.c:2171
+#: mail/mail-callbacks.c:2259
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
 
-#: mail/mail-config-druid.c:135
+#: mail/mail-config-druid.c:136
 msgid ""
-"Please enter your name and email address below. The \"optional\" fields "
-"below do not need to be filled in,\n"
+"Please enter your name and email address below. The \"optional\" fields below "
+"do not need to be filled in,\n"
 "unless you wish to include this information in email you send."
 msgstr ""
 
-#: mail/mail-config-druid.c:137
+#: mail/mail-config-druid.c:138
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
 
-#: mail/mail-config-druid.c:139
+#: mail/mail-config-druid.c:140
 msgid "Please select among the following options"
 msgstr ""
 
-#: mail/mail-config-druid.c:141
+#: mail/mail-config-druid.c:142
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
 
-#: mail/mail-config-druid.c:143
+#: mail/mail-config-druid.c:144
 msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and\n"
 "outgoing mail transport method which you provided will be grouped together "
-"to\n"
-"make an Evolution mail account. Please enter a name for this account in the "
-"space below.\n"
+"to\nmake an Evolution mail account. Please enter a name for this account in "
+"the space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
 
 #. set window title
-#: mail/mail-config-druid.c:570
+#: mail/mail-config-druid.c:569
 #, fuzzy
 msgid "Evolution Account Assistant"
 msgstr "Γ_ραμμή Συντομεύσεων του Evolution"
-
-#: mail/mail-config.c:315
-#, fuzzy, c-format
-msgid "Account %d"
-msgstr "Μικρά Εικονίδια"
 
 #: mail/mail-config.c:1618
 #, c-format
@@ -8943,14 +8785,6 @@ msgid ""
 "%s\n"
 "No shortcut will be created."
 msgstr ""
-
-#. Create the shortcut. FIXME: This only works if the
-#. * full name matches the path.
-#.
-#: mail/mail-config.c:1629
-#, fuzzy, c-format
-msgid "%s: Inbox"
-msgstr "Εισερχόμενα"
 
 #: mail/mail-config.c:1873
 msgid "Checking Service"
@@ -8973,23 +8807,20 @@ msgid "(SSL is not supported in this build of evolution)"
 msgstr ""
 
 #: mail/mail-config.glade.h:4
-#, fuzzy
 msgid "Account"
-msgstr "Μικρά Εικονίδια"
+msgstr "Λογαριασμός"
 
 #: mail/mail-config.glade.h:5
-#, fuzzy
 msgid "Account Information"
-msgstr "Επισύναψη"
+msgstr "Πληροφορίες Λογαριασμού"
 
 #: mail/mail-config.glade.h:6 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Account Management"
 msgstr ""
 
 #: mail/mail-config.glade.h:7
-#, fuzzy
 msgid "Accounts"
-msgstr "Μικρά Εικονίδια"
+msgstr "Λογαριασμοί"
 
 #: mail/mail-config.glade.h:8
 msgid "Always encrypt to myself when sending encrypted mail"
@@ -9069,7 +8900,7 @@ msgstr ""
 msgid "Done"
 msgstr "Σημείω_μα"
 
-#: mail/mail-config.glade.h:32 shell/e-local-storage.c:174
+#: mail/mail-config.glade.h:32
 #, fuzzy
 msgid "Drafts"
 msgstr "Επικόλληση"
@@ -9083,8 +8914,7 @@ msgstr "Αποθήκευση στο φάκελλο..."
 msgid "E_nable"
 msgstr ""
 
-#: mail/mail-config.glade.h:35 widgets/misc/e-filter-bar.h:96
-#: widgets/misc/e-filter-bar.h:103
+#: mail/mail-config.glade.h:35 widgets/misc/e-filter-bar.h:103
 #, fuzzy
 msgid "Edit..."
 msgstr "Προτεραιότητα"
@@ -9164,241 +8994,241 @@ msgid "Pretty Good Privacy"
 msgstr ""
 
 #: mail/mail-config.glade.h:58
-msgid "Prompt when sending messages with an _empty subject"
+msgid "Prompt when sending HTML messages to contacts that don't want them"
 msgstr ""
 
 #: mail/mail-config.glade.h:59
-msgid "Prompt when sending messages with only _Bcc recipients defined"
+msgid "Prompt when sending messages with an _empty subject"
 msgstr ""
 
 #: mail/mail-config.glade.h:60
-msgid "Qmail maildir "
+msgid "Prompt when sending messages with only _Bcc recipients defined"
 msgstr ""
 
 #: mail/mail-config.glade.h:61
+msgid "Qmail maildir "
+msgstr ""
+
+#: mail/mail-config.glade.h:62
 #, fuzzy
 msgid "Quoted"
 msgstr "Σημείω_μα"
 
-#: mail/mail-config.glade.h:62 shell/glade/evolution-startup-wizard.glade.h:6
+#: mail/mail-config.glade.h:63 shell/glade/evolution-startup-wizard.glade.h:6
 msgid "Receiving Email"
 msgstr ""
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:64
 msgid "Receiving Mail"
 msgstr ""
 
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:65
 msgid "Receiving Options"
 msgstr ""
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:66
 msgid "Required Information"
 msgstr ""
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:68
 msgid "Secure MIME"
 msgstr ""
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:69
 msgid "Security"
 msgstr ""
 
-#: mail/mail-config.glade.h:69
+#: mail/mail-config.glade.h:70
 #, fuzzy
 msgid "Select Filter Log file..."
 msgstr "Επιλε_γμένα Αντικείμενα"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:71
 msgid "Select PGP binary"
 msgstr ""
 
-#: mail/mail-config.glade.h:71 shell/glade/evolution-startup-wizard.glade.h:7
+#: mail/mail-config.glade.h:72 shell/glade/evolution-startup-wizard.glade.h:7
 #, fuzzy
 msgid "Sending Email"
 msgstr "Αποστολή"
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:73
 #, fuzzy
 msgid "Sending Mail"
 msgstr "Αποστολή"
 
-#: mail/mail-config.glade.h:74 mail/message-list.etspec.h:6
-#: shell/e-local-storage.c:177
-#, fuzzy
+#: mail/mail-config.glade.h:75 mail/message-list.etspec.h:6
 msgid "Sent"
-msgstr "Αποστολή"
+msgstr "Στάλθηκε"
 
-#: mail/mail-config.glade.h:75
+#: mail/mail-config.glade.h:76
 #, fuzzy
 msgid "Sent and Draft Messages"
 msgstr "Αποστολή του μηνύματος"
 
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:77
 #, fuzzy
 msgid "Sent messages folder:"
 msgstr "Αποστολή του μηνύματος"
 
-#: mail/mail-config.glade.h:77
+#: mail/mail-config.glade.h:78
 #, fuzzy
 msgid "Server Configuration"
 msgstr "Γ_ραμμή Συντομεύσεων του Evolution"
 
-#: mail/mail-config.glade.h:78
-#, fuzzy
-msgid "Server Type: "
-msgstr "Αποστολή"
-
 #: mail/mail-config.glade.h:79
+msgid "Server Type: "
+msgstr "Είδος Εξυπηρετητή: "
+
+#: mail/mail-config.glade.h:80
 msgid "Server requires _authentication"
 msgstr ""
 
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:81
 msgid "Signature file:"
 msgstr ""
 
-#: mail/mail-config.glade.h:81
+#: mail/mail-config.glade.h:82
 #, fuzzy
 msgid "Source"
 msgstr "Νέα Συντόμευση"
 
-#: mail/mail-config.glade.h:82
+#: mail/mail-config.glade.h:83
 #, fuzzy
 msgid "Source Information"
 msgstr "Επισύναψη"
 
-#: mail/mail-config.glade.h:83
+#: mail/mail-config.glade.h:84
 #, fuzzy
 msgid "Sources"
 msgstr "Νέα Συντόμευση"
 
-#: mail/mail-config.glade.h:84
-#, fuzzy
-msgid "Special Folders"
-msgstr "_Φάκελλος"
-
 #: mail/mail-config.glade.h:85
+msgid "Special Folders"
+msgstr "Ειδικοί Φάκελλοι"
+
+#: mail/mail-config.glade.h:86
 msgid "Standard Unix mbox"
 msgstr ""
 
-#: mail/mail-config.glade.h:87
+#: mail/mail-config.glade.h:88
 msgid "Use secure connection (_SSL)"
 msgstr ""
 
-#: mail/mail-config.glade.h:88
+#: mail/mail-config.glade.h:89
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
 "Click \"Next\" to begin. "
 msgstr ""
 
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:93
 msgid "_Always load images off the net"
 msgstr ""
 
-#: mail/mail-config.glade.h:93
+#: mail/mail-config.glade.h:94
 msgid "_Automatically check for new mail every"
 msgstr ""
 
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:95
 msgid "_Check for supported types"
 msgstr ""
 
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:98
 #, fuzzy
 msgid "_Email Address:"
 msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
 
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:99
 msgid "_Empty trash folders on exit"
 msgstr ""
 
-#: mail/mail-config.glade.h:99
+#: mail/mail-config.glade.h:100
 #, fuzzy
 msgid "_Full Name:"
 msgstr "Μετονομασία Ομάδας"
 
-#: mail/mail-config.glade.h:100
+#: mail/mail-config.glade.h:101
 #, fuzzy
 msgid "_HTML Signature:"
 msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
 
-#: mail/mail-config.glade.h:101
+#: mail/mail-config.glade.h:102
 msgid "_Highlight citations with"
 msgstr ""
 
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:103
 msgid "_Host:"
 msgstr ""
 
-#: mail/mail-config.glade.h:103
+#: mail/mail-config.glade.h:104
 msgid "_Load images if sender is in addressbook"
 msgstr ""
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:105
 msgid "_Log filter actions to:"
 msgstr ""
 
-#: mail/mail-config.glade.h:105
+#: mail/mail-config.glade.h:106
 #, fuzzy
 msgid "_Mark messages as Read after"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:107
 #, fuzzy
 msgid "_Name:"
 msgstr "Μετονομασία Ομάδας"
 
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:108
 msgid "_Never load images off the net"
 msgstr ""
 
-#: mail/mail-config.glade.h:108
+#: mail/mail-config.glade.h:109
 msgid "_Organization:"
 msgstr ""
 
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:110
 msgid "_PGP binary path:"
 msgstr ""
 
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:111
 #, fuzzy
 msgid "_Path:"
 msgstr "Επικόλληση"
 
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:112
 #, fuzzy
 msgid "_Remember this password"
 msgstr "Μετονομασία Συντόμευσης"
 
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:113
 msgid "_Send mail in HTML format by default."
 msgstr ""
 
-#: mail/mail-config.glade.h:113
+#: mail/mail-config.glade.h:114
 #, fuzzy
 msgid "_Signature file:"
 msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
 
-#: mail/mail-config.glade.h:114
+#: mail/mail-config.glade.h:115
 #, fuzzy
 msgid "_Username:"
 msgstr "Σημείω_μα"
 
-#: mail/mail-config.glade.h:115
+#: mail/mail-config.glade.h:116
 #, fuzzy
 msgid "description"
 msgstr "Θέμα"
 
-#: mail/mail-config.glade.h:117
+#: mail/mail-config.glade.h:118
 msgid "newswindow1"
 msgstr ""
 
-#: mail/mail-config.glade.h:118
+#: mail/mail-config.glade.h:119
 msgid "placeholder"
 msgstr ""
 
-#: mail/mail-config.glade.h:119
+#: mail/mail-config.glade.h:120
 #, fuzzy
 msgid "seconds."
 msgstr "Αποστολή"
@@ -9470,27 +9300,27 @@ msgstr ""
 msgid "External Viewer"
 msgstr ""
 
-#: mail/mail-display.c:1053
+#: mail/mail-display.c:1055
 #, fuzzy
 msgid "Loading message content"
 msgstr "Απεσταλμένα μηνύματα"
 
-#: mail/mail-display.c:1515
+#: mail/mail-display.c:1517
 #, fuzzy
 msgid "Open Link in Browser"
 msgstr "Άνοιγμα σε Νέο Παράθυρο"
 
-#: mail/mail-display.c:1517
+#: mail/mail-display.c:1519
 #, fuzzy
 msgid "Copy Link Location"
 msgstr "_Γνωριμία"
 
-#: mail/mail-display.c:1520
+#: mail/mail-display.c:1522
 #, fuzzy
 msgid "Save Link as (FIXME)"
 msgstr "Αποθήκευση στο φάκελλο..."
 
-#: mail/mail-display.c:1523
+#: mail/mail-display.c:1525
 #, fuzzy
 msgid "Save Image as..."
 msgstr "Αποθήκευση στο φάκελλο..."
@@ -9509,128 +9339,129 @@ msgstr ""
 msgid "Date"
 msgstr "Επικόλληση"
 
-#: mail/mail-format.c:862
+#: mail/mail-format.c:866
 #, fuzzy
 msgid "Bad Address"
 msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
 
-#: mail/mail-format.c:903 mail/message-list.etspec.h:3
+#: mail/mail-format.c:907 mail/message-list.etspec.h:3
 #, fuzzy
 msgid "From"
 msgstr "Από"
 
-#: mail/mail-format.c:906
+#: mail/mail-format.c:910
 #, fuzzy
 msgid "Reply-To"
 msgstr "Ελήφθη"
 
-#: mail/mail-format.c:910 mail/message-list.etspec.h:10
+#: mail/mail-format.c:914 mail/message-list.etspec.h:10
 msgid "To"
 msgstr "Προς"
 
-#: mail/mail-format.c:914
+#: mail/mail-format.c:918
 #, fuzzy
 msgid "Cc"
 msgstr "Αντίγραφο:"
 
-#: mail/mail-format.c:1357
+#: mail/mail-format.c:1361
 msgid "No GPG/PGP program configured."
 msgstr ""
 
-#: mail/mail-format.c:1373
+#: mail/mail-format.c:1377
 msgid "Encrypted message not displayed"
 msgstr ""
 
-#: mail/mail-format.c:1384
+#: mail/mail-format.c:1388
 #, fuzzy
 msgid "Encrypted message"
 msgstr "Αποστολή του μηνύματος"
 
-#: mail/mail-format.c:1385
+#: mail/mail-format.c:1389
 msgid "Click icon to decrypt."
 msgstr ""
 
-#: mail/mail-format.c:1440
+#: mail/mail-format.c:1444
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr ""
 
-#: mail/mail-format.c:1451
-msgid "This message is digitally signed but can not be proven to be authentic."
+#: mail/mail-format.c:1455
+msgid ""
+"This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 
-#: mail/mail-format.c:2128
+#: mail/mail-format.c:2132
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr ""
 
-#: mail/mail-format.c:2142
+#: mail/mail-format.c:2146
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr ""
 
-#: mail/mail-format.c:2147
+#: mail/mail-format.c:2151
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr ""
 
-#: mail/mail-format.c:2176
+#: mail/mail-format.c:2180
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr ""
 
-#: mail/mail-format.c:2184
+#: mail/mail-format.c:2188
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr ""
 
-#: mail/mail-format.c:2189
+#: mail/mail-format.c:2193
 msgid "Malformed external-body part."
 msgstr ""
 
-#: mail/mail-local.c:563
+#: mail/mail-local.c:565
 #, fuzzy
 msgid "Reconfiguring folder"
 msgstr "_Νέος Φάκελλος"
 
-#: mail/mail-local.c:636
+#: mail/mail-local.c:638
 #, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
 "open this folder anymore: %s: %s"
 msgstr ""
 
-#: mail/mail-local.c:689
+#: mail/mail-local.c:691
 #, fuzzy, c-format
 msgid "Cannot save folder metainfo to %s: %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: mail/mail-local.c:735
+#: mail/mail-local.c:737
 #, fuzzy, c-format
 msgid "Cannot delete folder metadata %s: %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: mail/mail-local.c:1075
+#: mail/mail-local.c:1102
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr ""
 
-#: mail/mail-local.c:1090
+#: mail/mail-local.c:1117
 #, c-format
 msgid "%s may not be reconfigured because it is not a local folder"
 msgstr ""
 
-#: mail/mail-local.c:1112
+#: mail/mail-local.c:1139
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
 msgstr ""
 
-#: mail/mail-local.c:1200
+#: mail/mail-local.c:1227
 #, fuzzy
 msgid "You cannot change the format of a non-local folder."
 msgstr "Το Evolution δε μπορεί να δημιουργήσει τους τοπικούς φακέλλους"
 
-#: mail/mail-local.c:1209
+#: mail/mail-local.c:1236
 #, fuzzy, c-format
 msgid "Reconfigure /%s"
 msgstr "_Νέος Φάκελλος"
@@ -9650,25 +9481,25 @@ msgid ""
 msgstr ""
 
 #. Remember the password?
-#: mail/mail-mt.c:509
+#: mail/mail-mt.c:506
 msgid "Remember this password"
 msgstr ""
 
-#: mail/mail-mt.c:510
+#: mail/mail-mt.c:507
 msgid "Remember this password for the remainder of this session"
 msgstr ""
 
-#: mail/mail-mt.c:567
+#: mail/mail-mt.c:564
 #, c-format
 msgid "Enter Password for %s"
 msgstr ""
 
-#: mail/mail-mt.c:570
+#: mail/mail-mt.c:567
 #, fuzzy
 msgid "Enter Password"
 msgstr "Ημερολόγιο"
 
-#: mail/mail-mt.c:886
+#: mail/mail-mt.c:883
 msgid "Working"
 msgstr ""
 
@@ -9682,65 +9513,59 @@ msgstr "_Νέος Φάκελλος"
 msgid "Fetching Mail"
 msgstr "Αποστολή"
 
-#: mail/mail-ops.c:482 mail/mail-ops.c:512
+#: mail/mail-ops.c:473 mail/mail-ops.c:505
 msgid "However, the message was successfully sent."
 msgstr ""
 
-#: mail/mail-ops.c:549
+#: mail/mail-ops.c:542
 #, c-format
 msgid "Sending \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:668
+#: mail/mail-ops.c:661
 #, fuzzy, c-format
 msgid "Sending message %d of %d"
 msgstr "Απεσταλμένα μηνύματα"
 
-#: mail/mail-ops.c:687
+#: mail/mail-ops.c:680
 #, fuzzy, c-format
 msgid "Failed on message %d of %d"
 msgstr "Αποστολή παρόντος μηνύματος"
 
-#: mail/mail-ops.c:689 mail/mail-send-recv.c:522
+#: mail/mail-ops.c:682 mail/mail-send-recv.c:522
 msgid "Complete."
-msgstr ""
+msgstr "Ολοκληρώθηκε."
 
-#: mail/mail-ops.c:782
+#: mail/mail-ops.c:775
 #, fuzzy
 msgid "Saving message to folder"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: mail/mail-ops.c:861
+#: mail/mail-ops.c:855
 #, fuzzy, c-format
 msgid "Moving messages to %s"
 msgstr "Νέα μηνύματα"
 
-#: mail/mail-ops.c:861
+#: mail/mail-ops.c:855
 #, fuzzy, c-format
 msgid "Copying messages to %s"
 msgstr "Απεσταλμένα μηνύματα"
 
-#: mail/mail-ops.c:878
+#: mail/mail-ops.c:872
 msgid "Moving"
 msgstr ""
 
-#: mail/mail-ops.c:881
+#: mail/mail-ops.c:875
 #, fuzzy
 msgid "Copying"
 msgstr "Αντιγραφή"
 
-#: mail/mail-ops.c:993
+#: mail/mail-ops.c:989
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr ""
 
-#. Fill in the new fields
-#: mail/mail-ops.c:1040 shell/e-local-storage.c:179
-#, fuzzy
-msgid "Trash"
-msgstr "Εκκρεμό_τητα"
-
-#: mail/mail-ops.c:1173
+#: mail/mail-ops.c:1172
 #, fuzzy
 msgid "Forwarded messages"
 msgstr "Αποστολή παρόντος μηνύματος"
@@ -9750,110 +9575,105 @@ msgstr "Αποστολή παρόντος μηνύματος"
 msgid "Opening folder %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: mail/mail-ops.c:1284
+#: mail/mail-ops.c:1287
 #, fuzzy, c-format
 msgid "Opening store %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: mail/mail-ops.c:1353
+#: mail/mail-ops.c:1356
 #, fuzzy, c-format
 msgid "Removing folder %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: mail/mail-ops.c:1445
+#: mail/mail-ops.c:1450
 #, fuzzy, c-format
 msgid "Storing folder '%s'"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: mail/mail-ops.c:1496
+#: mail/mail-ops.c:1501
 #, fuzzy
 msgid "Refreshing folder"
 msgstr "_Νέος Φάκελλος"
 
-#: mail/mail-ops.c:1532
+#: mail/mail-ops.c:1537
 msgid "Expunging folder"
 msgstr ""
 
-#: mail/mail-ops.c:1581
+#: mail/mail-ops.c:1586
 #, fuzzy, c-format
 msgid "Retrieving message %s"
 msgstr "Νέα μηνύματα"
 
-#: mail/mail-ops.c:1648
+#: mail/mail-ops.c:1653
 #, fuzzy, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Απεσταλμένα μηνύματα"
 
-#: mail/mail-ops.c:1734
+#: mail/mail-ops.c:1739
 #, fuzzy, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Απεσταλμένα μηνύματα"
 
-#: mail/mail-ops.c:1846
+#: mail/mail-ops.c:1851
 #, fuzzy, c-format
 msgid ""
 "Unable to create output file: %s\n"
 " %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: mail/mail-ops.c:1874
+#: mail/mail-ops.c:1879
 #, fuzzy, c-format
 msgid ""
 "Error saving messages to: %s:\n"
 " %s"
 msgstr "Αποστολή παρόντος μηνύματος"
 
-#: mail/mail-ops.c:1948
+#: mail/mail-ops.c:1953
 #, fuzzy
 msgid "Saving attachment"
 msgstr "Νέα επισύναψη..."
 
-#: mail/mail-ops.c:1964
+#: mail/mail-ops.c:1969
 #, fuzzy, c-format
 msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: mail/mail-ops.c:1995
+#: mail/mail-ops.c:2000
 #, c-format
 msgid "Could not write data: %s"
 msgstr ""
 
-#: mail/mail-ops.c:2064
+#: mail/mail-ops.c:2069
 #, c-format
 msgid "Disconnecting from %s"
 msgstr ""
 
-#: mail/mail-ops.c:2065
+#: mail/mail-ops.c:2070
 #, fuzzy, c-format
 msgid "Reconnecting to %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
 #: mail/mail-search-dialogue.c:113
-#, fuzzy
 msgid "_Search"
-msgstr "Ημερολόγιο"
+msgstr "_Αναζήτηση"
 
 #: mail/mail-search.c:138
-#, fuzzy
 msgid "(Untitled Message)"
-msgstr "Απεσταλμένα μηνύματα"
+msgstr "(Μήνυμα Χωρίς Τίτλο)"
 
 #: mail/mail-search.c:241
-#, fuzzy
 msgid "Untitled Message"
-msgstr "Απεσταλμένα μηνύματα"
+msgstr "Μήνυμα Χωρίς Τίτλο"
 
 #: mail/mail-search.c:245
-#, fuzzy
 msgid "Empty Message"
-msgstr "Αποστολή του μηνύματος"
+msgstr "Κενό Μήνυμα"
 
 #: mail/mail-search.c:292
-#, fuzzy
 msgid "Find in Message"
-msgstr "Αποστολή του μηνύματος"
+msgstr "Εύρεση στο Μήνυμα"
 
 #: mail/mail-search.c:322
 msgid "Case Sensitive"
@@ -9864,23 +9684,21 @@ msgid "Search Forward"
 msgstr ""
 
 #: mail/mail-search.c:344
-#, fuzzy
 msgid "Find:"
-msgstr "Προτεραιότητα"
+msgstr "Εύρεση:"
 
 #: mail/mail-search.c:347
-#, fuzzy
 msgid "Matches:"
-msgstr "Επικόλληση"
+msgstr "Ταιριάσματα:"
 
 #: mail/mail-send-recv.c:139
 msgid "Cancelling..."
 msgstr ""
 
 #: mail/mail-send-recv.c:243
-#, fuzzy, c-format
+#, c-format
 msgid "Server: %s, Type: %s"
-msgstr "Αποστολή"
+msgstr "Εξυπηρετητής: %s, Είδος: %s"
 
 #: mail/mail-send-recv.c:245
 #, c-format
@@ -9898,9 +9716,8 @@ msgid "Send & Receive Mail"
 msgstr "Ελήφθη"
 
 #: mail/mail-send-recv.c:284
-#, fuzzy
 msgid "Cancel All"
-msgstr "Ημερολόγιο"
+msgstr "Ακύρωση Όλων"
 
 #: mail/mail-send-recv.c:333
 #, fuzzy
@@ -9940,17 +9757,17 @@ msgstr "Αποστολή παρόντος μηνύματος"
 msgid "Forwarded Message"
 msgstr "Αποστολή παρόντος μηνύματος"
 
-#: mail/mail-vfolder.c:84
+#: mail/mail-vfolder.c:86
 #, fuzzy, c-format
 msgid "Setting up vfolder: %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: mail/mail-vfolder.c:201
+#: mail/mail-vfolder.c:203
 #, fuzzy, c-format
 msgid "Updating vfolders for uri: %s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: mail/mail-vfolder.c:414
+#: mail/mail-vfolder.c:416
 #, c-format
 msgid ""
 "The following vFolder(s):\n"
@@ -9959,25 +9776,29 @@ msgid ""
 "And have been updated."
 msgstr ""
 
-#: mail/mail-vfolder.c:636
+#: mail/mail-vfolder.c:736
 #, fuzzy
-msgid "VFolders"
+msgid "Edit VFolder"
 msgstr "_Φάκελλος"
 
-#: mail/mail-vfolder.c:742
+#: mail/mail-vfolder.c:751
+#, c-format
+msgid "Trying to edit a vfolder '%s' which doesn't exist."
+msgstr ""
+
+#: mail/mail-vfolder.c:805
 #, fuzzy
 msgid "New VFolder"
 msgstr "_Νέος Φάκελλος"
 
 #: mail/message-browser.c:121
-#, fuzzy
 msgid "(No subject)"
-msgstr "Θέμα"
+msgstr "(Χωρίς Θέμα)"
 
 #: mail/message-browser.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Message"
-msgstr "Κατάσταση μηνυμάτων"
+msgstr "%s - Μήνυμα"
 
 #: mail/message-list.c:640
 msgid "Unseen"
@@ -10038,7 +9859,7 @@ msgstr ""
 msgid "%b %d %Y"
 msgstr ""
 
-#: mail/message-list.c:2334
+#: mail/message-list.c:2338
 #, fuzzy
 msgid "Generating message list"
 msgstr "Απεσταλμένα μηνύματα"
@@ -10140,21 +9961,21 @@ msgstr ""
 msgid "Cannot initialize Evolution's Executive Summary component."
 msgstr "Αρχικοποίησης του συστήματος μονάδων Bonobo ανεπιτυχής"
 
-#: my-evolution/e-summary-calendar.c:263 my-evolution/e-summary-calendar.c:281
+#: my-evolution/e-summary-calendar.c:326 my-evolution/e-summary-calendar.c:344
 #, fuzzy
 msgid "Appointments"
 msgstr "Ρ_αντεβού"
 
-#: my-evolution/e-summary-calendar.c:264
+#: my-evolution/e-summary-calendar.c:327
 #, fuzzy
 msgid "No appointments"
 msgstr "Ρ_αντεβού"
 
-#: my-evolution/e-summary-calendar.c:301
+#: my-evolution/e-summary-calendar.c:364
 msgid "%k%M %d %B"
 msgstr ""
 
-#: my-evolution/e-summary-calendar.c:303
+#: my-evolution/e-summary-calendar.c:366
 msgid "%l:%M %d %B"
 msgstr ""
 
@@ -10168,7 +9989,6 @@ msgstr "Αποστολή"
 #. stations and their codes in Evolution sources
 #. (evolution/my-evolution/Locations)
 #: my-evolution/e-summary-preferences.c:80
-#: my-evolution/e-summary-weather.c:630
 msgid "KBOS:ZSAM:EGAA"
 msgstr ""
 
@@ -10209,15 +10029,14 @@ msgstr "Αποστολή παρόντος μηνύματος"
 msgid "News Feed"
 msgstr "Νέα Συντόμευση"
 
-#: my-evolution/e-summary-tasks.c:238
+#: my-evolution/e-summary-tasks.c:236
 #, fuzzy
 msgid "No tasks"
 msgstr "Εμφάνιση επισυνά_ψεων"
 
-#: my-evolution/e-summary-tasks.c:277
-#, fuzzy
+#: my-evolution/e-summary-tasks.c:275
 msgid "(No Description)"
-msgstr "Θέμα"
+msgstr "(Χωρίς Περιγραφή)"
 
 #: my-evolution/e-summary-weather.c:72
 msgid "My Weather"
@@ -10231,6 +10050,14 @@ msgstr ""
 #, fuzzy
 msgid "Weather"
 msgstr "Επικόλληση"
+
+#. translators: Put here a list of codes for locations you want to
+#. see in My Evolution by default. You can find the list of all
+#. stations and their codes in Evolution sources
+#. (evolution/my-evolution/Locations)
+#: my-evolution/e-summary-weather.c:630
+msgid "KBOS:EGAA:RJTT"
+msgstr ""
 
 #: my-evolution/e-summary-weather.c:691
 #, fuzzy
@@ -10254,41 +10081,6 @@ msgstr ""
 #, fuzzy
 msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "Μονάδα Ταχ/μείου: Αρχικοποίηση του Bonobo αδύνατη"
-
-#: my-evolution/metar.c:29
-msgid "°F"
-msgstr ""
-
-#: my-evolution/metar.c:29
-msgid "°C"
-msgstr ""
-
-#: my-evolution/metar.c:33
-#, fuzzy
-msgid "knots"
-msgstr "Γνωριμίες"
-
-#: my-evolution/metar.c:33
-msgid "kph"
-msgstr ""
-
-#: my-evolution/metar.c:38
-msgid "inHg"
-msgstr ""
-
-#: my-evolution/metar.c:38
-msgid "mmHg"
-msgstr ""
-
-#: my-evolution/metar.c:41
-#, fuzzy
-msgid "miles"
-msgstr "_Φάκελλος"
-
-#: my-evolution/metar.c:41
-#, fuzzy
-msgid "kilometers"
-msgstr "_Φάκελλος"
 
 #: my-evolution/metar.c:44
 #, fuzzy
@@ -10356,9 +10148,8 @@ msgid "South - Southeast"
 msgstr ""
 
 #: my-evolution/metar.c:66
-#, fuzzy
 msgid "South"
-msgstr "Γνωριμίες"
+msgstr "Νότια"
 
 #: my-evolution/metar.c:66
 msgid "South - Southwest"
@@ -11462,9 +11253,8 @@ msgid "Drifting dust whirls"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:1
-#, fuzzy
 msgid " _Remove"
-msgstr "Διαγραφή"
+msgstr " _Διαγραφή"
 
 #: my-evolution/my-evolution.glade.h:2
 #, fuzzy
@@ -11491,112 +11281,110 @@ msgid "How many days should the calendar display at once?"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:8
-msgid "Ma_x number of items shown:"
+msgid "M_etric"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:9
-msgid "News Feed Settings"
+msgid "Ma_x number of items shown:"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:10
+msgid "News Feed Settings"
+msgstr ""
+
+#: my-evolution/my-evolution.glade.h:11
 #, fuzzy
 msgid "One mont_h"
 msgstr "Γνωριμίες"
 
-#: my-evolution/my-evolution.glade.h:11
+#: my-evolution/my-evolution.glade.h:12
 msgid "One w_eek"
 msgstr ""
 
-#: my-evolution/my-evolution.glade.h:12
+#: my-evolution/my-evolution.glade.h:13
 msgid "R_efresh time (seconds):"
 msgstr ""
 
-#: my-evolution/my-evolution.glade.h:13
+#: my-evolution/my-evolution.glade.h:14
 msgid "Refresh _time (seconds):"
 msgstr ""
 
-#: my-evolution/my-evolution.glade.h:14
+#: my-evolution/my-evolution.glade.h:15
 #, fuzzy
 msgid "S_how full path for folders"
 msgstr "Μετονομασία Ομάδας"
 
-#: my-evolution/my-evolution.glade.h:15
+#: my-evolution/my-evolution.glade.h:16
 #, fuzzy
 msgid "Show _all tasks"
 msgstr "Εμφάνιση επισυνά_ψεων"
 
-#: my-evolution/my-evolution.glade.h:16
+#: my-evolution/my-evolution.glade.h:17
 #, fuzzy
 msgid "Show _today's tasks"
 msgstr "Εμφάνιση επισυνά_ψεων"
 
-#: my-evolution/my-evolution.glade.h:17
-#, fuzzy
-msgid "Tasks "
-msgstr "Εκκρεμό_τητα"
-
 #: my-evolution/my-evolution.glade.h:18
+msgid "Tasks "
+msgstr "Εκκρεμότητες "
+
+#: my-evolution/my-evolution.glade.h:19
 msgid "Units: "
 msgstr ""
 
-#: my-evolution/my-evolution.glade.h:19
-#, fuzzy
+#: my-evolution/my-evolution.glade.h:20
 msgid "Weather settings"
-msgstr "Εισάγετε τον παραλήπτη του μηνύματος"
+msgstr "Ρυθμίσεις καιρού"
 
-#: my-evolution/my-evolution.glade.h:21
+#: my-evolution/my-evolution.glade.h:22
 #, fuzzy
 msgid "_Display folders:"
 msgstr "Αποθήκευση στο φάκελλο..."
 
-#: my-evolution/my-evolution.glade.h:22
+#: my-evolution/my-evolution.glade.h:23
 #, fuzzy
 msgid "_Display stations:"
 msgstr "Ε_νέργειες"
 
-#: my-evolution/my-evolution.glade.h:23
+#: my-evolution/my-evolution.glade.h:24
 #, fuzzy
 msgid "_Displayed feeds:"
 msgstr "Αποθήκευση στο φάκελλο..."
 
-#: my-evolution/my-evolution.glade.h:24
+#: my-evolution/my-evolution.glade.h:25
 #, fuzzy
 msgid "_Five days"
 msgstr "Προτεραιότητα"
 
-#: my-evolution/my-evolution.glade.h:25
+#: my-evolution/my-evolution.glade.h:26
+#, fuzzy
+msgid "_Imperial"
+msgstr "Επικόλληση"
+
+#: my-evolution/my-evolution.glade.h:27
 #, fuzzy
 msgid "_Mail"
 msgstr "_Μήνυμα"
 
-#: my-evolution/my-evolution.glade.h:26
+#: my-evolution/my-evolution.glade.h:28
 #, fuzzy
 msgid "_News Feeds"
 msgstr "Νέα Συντόμευση"
 
-#: my-evolution/my-evolution.glade.h:27
+#: my-evolution/my-evolution.glade.h:29
 #, fuzzy
 msgid "_One day"
 msgstr "Σήμερα"
 
-#: my-evolution/my-evolution.glade.h:28
+#: my-evolution/my-evolution.glade.h:30
 #, fuzzy
 msgid "_Schedule"
 msgstr "_Φάκελλος"
 
-#: my-evolution/my-evolution.glade.h:29
+#: my-evolution/my-evolution.glade.h:31
 #, fuzzy
 msgid "_Weather"
 msgstr "Επικόλληση"
-
-#: my-evolution/my-evolution.glade.h:30
-#, fuzzy
-msgid "_imperial"
-msgstr "Επικόλληση"
-
-#: my-evolution/my-evolution.glade.h:31
-msgid "m_etric"
-msgstr ""
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:1
 msgid "The Evolution shell."
@@ -11610,21 +11398,6 @@ msgstr "Εμφάνιση επισυνά_ψεων"
 #: shell/e-activity-handler.c:202
 msgid "Cancel Operation"
 msgstr ""
-
-#: shell/e-local-storage.c:175 shell/e-shortcuts.c:1053
-#, fuzzy
-msgid "Inbox"
-msgstr "Εισερχόμενα"
-
-#: shell/e-local-storage.c:176
-#, fuzzy
-msgid "Outbox"
-msgstr "Εισερχόμενα"
-
-#: shell/e-local-storage.c:624
-#, fuzzy
-msgid "Local Folders"
-msgstr "_Φάκελλος"
 
 #: shell/e-setup.c:125
 msgid "Evolution installation"
@@ -11697,57 +11470,57 @@ msgstr ""
 msgid "Cannot move a folder into one of its descendants."
 msgstr ""
 
-#: shell/e-shell-folder-commands.c:312
+#: shell/e-shell-folder-commands.c:308
 #, c-format
 msgid "Specify a folder to copy folder \"%s\" into:"
 msgstr ""
 
-#: shell/e-shell-folder-commands.c:317
+#: shell/e-shell-folder-commands.c:313
 #, fuzzy
 msgid "Copy folder"
 msgstr "Αποθήκευση στο φάκελλο..."
 
-#: shell/e-shell-folder-commands.c:359
+#: shell/e-shell-folder-commands.c:355
 #, c-format
 msgid "Specify a folder to move folder \"%s\" into:"
 msgstr ""
 
-#: shell/e-shell-folder-commands.c:364
+#: shell/e-shell-folder-commands.c:360
 #, fuzzy
 msgid "Move folder"
 msgstr "Αποθήκευση στο φάκελλο..."
 
-#: shell/e-shell-folder-commands.c:390
+#: shell/e-shell-folder-commands.c:386
 #, fuzzy, c-format
 msgid ""
 "Cannot delete folder:\n"
 "%s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: shell/e-shell-folder-commands.c:406
+#: shell/e-shell-folder-commands.c:402
 #, fuzzy, c-format
 msgid "Delete \"%s\""
 msgstr "Αποστολή παρόντος μηνύματος"
 
 #. "Are you sure..." label
-#: shell/e-shell-folder-commands.c:416
+#: shell/e-shell-folder-commands.c:412
 #, c-format
 msgid "Are you sure you want to remove the \"%s\" folder?"
 msgstr ""
 
-#: shell/e-shell-folder-commands.c:470
+#: shell/e-shell-folder-commands.c:457
 #, fuzzy, c-format
 msgid ""
 "Cannot rename folder:\n"
 "%s"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: shell/e-shell-folder-commands.c:503
+#: shell/e-shell-folder-commands.c:490
 #, fuzzy, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
-#: shell/e-shell-folder-commands.c:506
+#: shell/e-shell-folder-commands.c:493
 #, fuzzy
 msgid "Rename folder"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
@@ -12020,69 +11793,69 @@ msgstr ""
 msgid "(No folder displayed)"
 msgstr ""
 
-#: shell/e-shell-view.c:1512
+#: shell/e-shell-view.c:1584
 #, c-format
 msgid "%s (%d)"
 msgstr ""
 
-#: shell/e-shell-view.c:1514
-#, fuzzy
+#: shell/e-shell-view.c:1586
 msgid "(None)"
-msgstr "Σημείω_μα"
+msgstr "(Κενό)"
 
-#: shell/e-shell-view.c:1519
+#: shell/e-shell-view.c:1591
 #, c-format
 msgid "%s - Ximian Evolution %s"
 msgstr ""
 
-#: shell/e-shell-view.c:1521
+#: shell/e-shell-view.c:1593
 #, c-format
 msgid "%s - Ximian Evolution %s [%s]"
 msgstr ""
 
-#: shell/e-shell-view.c:1561
+#: shell/e-shell-view.c:1633
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 
-#: shell/e-shell-view.c:1568
+#: shell/e-shell-view.c:1640
 msgid "Ximian Evolution is in the process of going offline."
 msgstr ""
 
-#: shell/e-shell-view.c:1574
+#: shell/e-shell-view.c:1646
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 
-#: shell/e-shell.c:562
+#: shell/e-shell.c:563
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr ""
 
-#: shell/e-shell.c:1488
+#: shell/e-shell.c:1497
 #, c-format
 msgid ""
-"Ooops!  The views for `%s' have died unexpectedly.  :-(\n"
-"This probably means that the %s component has crashed."
+"The Evolution component that handles folders of type \"%s\"\n"
+"has unexpectedly quit. You will need to quit Evolution and restart\n"
+"in order to access that data again."
 msgstr ""
 
-#: shell/e-shell.c:1692 widgets/misc/e-cell-date-edit.c:248
+#: shell/e-shell.c:1702 widgets/misc/e-cell-date-edit.c:248
 msgid "OK"
 msgstr ""
 
-#: shell/e-shell.c:1694
+#: shell/e-shell.c:1704
 msgid "Invalid arguments"
 msgstr ""
 
-#: shell/e-shell.c:1696
+#: shell/e-shell.c:1706
 msgid "Cannot register on OAF"
 msgstr ""
 
-#: shell/e-shell.c:1698
+#: shell/e-shell.c:1708
 msgid "Configuration Database not found"
 msgstr ""
 
-#: shell/e-shell.c:1700 shell/e-storage.c:496
+#: shell/e-shell.c:1710 shell/e-storage.c:496
 msgid "Generic error"
 msgstr ""
 
@@ -12225,6 +11998,10 @@ msgstr "Κυρίως Συντομεύσεις"
 msgid "Shortcuts"
 msgstr "Διαγραφή από Γραμμή Συντομεύσεων"
 
+#: shell/e-shortcuts.c:1053
+msgid "Inbox"
+msgstr "Εισερχόμενα"
+
 #: shell/e-storage-set-view.c:645
 #, fuzzy, c-format
 msgid ""
@@ -12286,14 +12063,12 @@ msgid "%s (...)"
 msgstr ""
 
 #: shell/e-task-widget.c:197
-#, c-format
 msgid "%s (%d%% complete)"
 msgstr ""
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
-#, fuzzy
 msgid "Active connections"
-msgstr "Φάκελος που περιέχει εκκρεμότητες"
+msgstr "Ενεργές συνδέσεις"
 
 #: shell/glade/e-active-connection-dialog.glade.h:2
 msgid "Click OK to close these connections and go offline"
@@ -12408,12 +12183,12 @@ msgstr "Αποστολή παρόντος μηνύματος"
 msgid "Evolution can import data from the following files:"
 msgstr ""
 
-#: shell/main.c:82
+#: shell/main.c:86
 #, fuzzy
 msgid "Evolution is now exiting ..."
 msgstr "Ε_νέργειες"
 
-#: shell/main.c:153
+#: shell/main.c:162
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -12430,31 +12205,31 @@ msgid ""
 "eagerly await your contributions!\n"
 msgstr ""
 
-#: shell/main.c:174
+#: shell/main.c:183
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
 msgstr ""
 
-#: shell/main.c:231
+#: shell/main.c:236
 #, fuzzy
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Αρχικοποίησης του συστήματος μονάδων Bonobo ανεπιτυχής"
 
-#: shell/main.c:242
+#: shell/main.c:245
 #, fuzzy, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Αρχικοποίησης του συστήματος μονάδων Bonobo ανεπιτυχής"
 
-#: shell/main.c:286
+#: shell/main.c:301
 msgid "Disable splash screen"
 msgstr ""
 
-#: shell/main.c:287
+#: shell/main.c:302
 msgid "Send the debugging output of all components to a file."
 msgstr ""
 
-#: shell/main.c:329
+#: shell/main.c:344
 #, fuzzy
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Αρχικοποίησης του συστήματος μονάδων Bonobo ανεπιτυχής"
@@ -12809,9 +12584,8 @@ msgstr ""
 #: ui/evolution-message-composer.xml.h:48
 #: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:11
 #: ui/evolution.xml.h:36
-#, fuzzy
 msgid "_File"
-msgstr "_Φάκελλος"
+msgstr "_Αρχείο"
 
 #: ui/evolution-contact-editor.xml.h:5
 #, fuzzy
@@ -12938,9 +12712,8 @@ msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr ""
 
 #: ui/evolution-mail-global.xml.h:10
-#, fuzzy
 msgid "New Message"
-msgstr "Κατάσταση μηνυμάτων"
+msgstr "Νέο Μήνυμα"
 
 #: ui/evolution-mail-global.xml.h:11
 msgid "Open a window for composing a mail message"
@@ -12952,9 +12725,8 @@ msgid "Permanently remove all deleted messages from all folders"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελλο"
 
 #: ui/evolution-mail-global.xml.h:13
-#, fuzzy
 msgid "Send / Receive"
-msgstr "Ελήφθη"
+msgstr "Αποστολή / Λήψη"
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Send queued mail and retrieve new mail"
@@ -13254,7 +13026,7 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Forward"
-msgstr ""
+msgstr "Προώθηση"
 
 #: ui/evolution-mail-message.xml.h:30
 #, fuzzy
@@ -13408,11 +13180,11 @@ msgstr "Απεσταλμένα μηνύματα"
 
 #: ui/evolution-mail-message.xml.h:66
 msgid "Reply"
-msgstr ""
+msgstr "Απάντηση"
 
 #: ui/evolution-mail-message.xml.h:67
 msgid "Reply to All"
-msgstr ""
+msgstr "Απάντηση σε Όλους"
 
 #: ui/evolution-mail-message.xml.h:70
 #, fuzzy
@@ -13539,9 +13311,8 @@ msgstr ""
 
 #: ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:55 ui/evolution.xml.h:50
-#, fuzzy
 msgid "_View"
-msgstr "_Νέο"
+msgstr "_Προβολή"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Attach"
@@ -14137,7 +13908,7 @@ msgstr "_Νέο"
 msgid "Today"
 msgstr "Σήμερα"
 
-#: widgets/misc/e-cell-date-edit.c:732
+#: widgets/misc/e-cell-date-edit.c:738
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr ""
@@ -14233,16 +14004,6 @@ msgstr "_Γνωριμία"
 msgid "Save Search"
 msgstr "Το ημερολόγιό σας"
 
-#: widgets/misc/e-filter-bar.h:94
-#, fuzzy
-msgid "Add to Saved Searches"
-msgstr "Το ημερολόγιό σας"
-
-#: widgets/misc/e-filter-bar.h:95
-#, fuzzy
-msgid "Clear"
-msgstr "Ημερολόγιο"
-
 #: widgets/misc/e-filter-bar.h:102
 msgid "Show All"
 msgstr ""
@@ -14275,16 +14036,17 @@ msgid "Sear_ch"
 msgstr ""
 
 #: widgets/misc/e-search-bar.c:460
-#, fuzzy
 msgid "Find Now"
-msgstr "Προτεραιότητα"
+msgstr "Εύρεση Τώρα"
 
-#: wombat/GNOME_Evolution_Wombat.oaf.in.h:1
+#: wombat/GNOME_Evolution_WombatLDAP.oaf.in.h:1
+#: wombat/GNOME_Evolution_WombatNOLDAP.oaf.in.h:1
 #, fuzzy
 msgid "The Personal Addressbook Server"
 msgstr "Νέα Συντόμευση"
 
-#: wombat/GNOME_Evolution_Wombat.oaf.in.h:2
+#: wombat/GNOME_Evolution_WombatLDAP.oaf.in.h:2
+#: wombat/GNOME_Evolution_WombatNOLDAP.oaf.in.h:2
 msgid "The Personal Calendar Server; calendar factory"
 msgstr ""
 
@@ -14302,6 +14064,78 @@ msgstr "Μονάδα Ταχ/μείου: Αρχικοποίηση του Bonobo αδύνατη"
 #, fuzzy
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "Μονάδα Ταχ/μείου: Αρχικοποίηση του Bonobo αδύνατη"
+
+#, fuzzy
+#~ msgid "Other Contacts"
+#~ msgstr "Λοιπές Συντομεύσεις"
+
+#, fuzzy
+#~ msgid "Email Address:"
+#~ msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
+
+#, fuzzy
+#~ msgid "Password:"
+#~ msgstr "Ημερολόγιο"
+
+#, fuzzy
+#~ msgid "(none)"
+#~ msgstr "Σημείω_μα"
+
+#, fuzzy
+#~ msgid "Click here to add an attendee"
+#~ msgstr "Κλίκ εδώ για το διευθυνσιολόγιο"
+
+#, fuzzy
+#~ msgid "Free/Busy info begins: <b>"
+#~ msgstr "Επισύναψη"
+
+#, fuzzy
+#~ msgid "<b>Description:</b> %s"
+#~ msgstr "Θέμα"
+
+#, fuzzy
+#~ msgid "Account %d"
+#~ msgstr "Μικρά Εικονίδια"
+
+#, fuzzy
+#~ msgid "%s: Inbox"
+#~ msgstr "Εισερχόμενα"
+
+#, fuzzy
+#~ msgid "Trash"
+#~ msgstr "Εκκρεμό_τητα"
+
+#, fuzzy
+#~ msgid "VFolders"
+#~ msgstr "_Φάκελλος"
+
+#, fuzzy
+#~ msgid "knots"
+#~ msgstr "Γνωριμίες"
+
+#, fuzzy
+#~ msgid "miles"
+#~ msgstr "_Φάκελλος"
+
+#, fuzzy
+#~ msgid "kilometers"
+#~ msgstr "_Φάκελλος"
+
+#, fuzzy
+#~ msgid "Outbox"
+#~ msgstr "Εισερχόμενα"
+
+#, fuzzy
+#~ msgid "Local Folders"
+#~ msgstr "_Φάκελλος"
+
+#, fuzzy
+#~ msgid "Add to Saved Searches"
+#~ msgstr "Το ημερολόγιό σας"
+
+#, fuzzy
+#~ msgid "Clear"
+#~ msgstr "Ημερολόγιο"
 
 #, fuzzy
 #~ msgid "_Calendar Information:"
@@ -14817,16 +14651,12 @@ msgstr "Μονάδα Ταχ/μείου: Αρχικοποίηση του Bonobo αδύνατη"
 #~ msgstr "Αναζήτηση για Προχωρημένους"
 
 #, fuzzy
-#~ msgid "Cannot initialize Evolution's notes component."
-#~ msgstr "Αρχικοποίησης του συστήματος μονάδων Bonobo ανεπιτυχής"
-
-#, fuzzy
 #~ msgid ""
 #~ "An error occured when trying to fetch\n"
 #~ "pilot list from the gnome-pilot daemon"
 #~ msgstr ""
-#~ "Προέκυψε εξαίρεση κατά την απόπειρα ανάγνωσης δεδομένων με PersistStream "
-#~ "από τη μονάδα"
+#~ "Προέκυψε εξαίρεση κατά την απόπειρα ανάγνωσης δεδομένων με PersistStream από "
+#~ "τη μονάδα"
 
 #, fuzzy
 #~ msgid "Evolution Calendar Conduit"
@@ -15054,8 +14884,7 @@ msgstr "Μονάδα Ταχ/μείου: Αρχικοποίηση του Bonobo αδύνατη"
 
 #~ msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 #~ msgstr ""
-#~ "Μας συγχψρείτε, η αρχικοποίηση του εξερευνητή φακέλλων του Evolution "
-#~ "απέτυχε."
+#~ "Μας συγχψρείτε, η αρχικοποίηση του εξερευνητή φακέλλων του Evolution απέτυχε."
 
 #~ msgid "Clos_e All Items"
 #~ msgstr "Κλ_είσιμο Όλων"
