@@ -1,3 +1,11 @@
+2003-06-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes part of #43388
+
+	* importers/icalendar-importer.c (prepare_events):
+	(prepare_tasks): use external iterators for removing components from
+	the main component.
+
 2003-05-29  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #43763

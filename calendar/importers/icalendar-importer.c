@@ -127,25 +127,24 @@ read_file (const char *filename)
 static GList*
 prepare_events (icalcomponent *icalcomp)
 {
-	icalcomponent *subcomp, *next_subcomp;
+	icalcomponent *subcomp;
 	GList *vtodos = NULL;
+	icalcompiter iter;
 
-	subcomp = icalcomponent_get_first_component (icalcomp,
-						     ICAL_ANY_COMPONENT);
-	while (subcomp) {
+	iter = icalcomponent_begin_component (icalcomp, ICAL_ANY_COMPONENT);
+	while ((subcomp = icalcompiter_deref (&iter)) != NULL) {
 		icalcomponent_kind child_kind = icalcomponent_isa (subcomp);
-		next_subcomp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
 		if (child_kind != ICAL_VEVENT_COMPONENT
 		    && child_kind != ICAL_VTIMEZONE_COMPONENT) {
 
-			icalcomponent_remove_component (icalcomp,
-							subcomp);
+			icalcomponent_remove_component (icalcomp, subcomp);
 			if (child_kind == ICAL_VTODO_COMPONENT)
 				vtodos = g_list_prepend (vtodos, subcomp);
 			else
 				icalcomponent_free (subcomp);
 		}
-		subcomp = next_subcomp;
+
+		icalcompiter_next (&iter);
 	}
 
 	return vtodos;
@@ -158,20 +157,20 @@ prepare_events (icalcomponent *icalcomp)
 static void
 prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
 {
-	icalcomponent *subcomp, *next_subcomp;
+	icalcomponent *subcomp;
 	GList *elem;
+	icalcompiter iter;
 
-	subcomp = icalcomponent_get_first_component (icalcomp,
-						     ICAL_ANY_COMPONENT);
-	while (subcomp) {
+	iter = icalcomponent_begin_component (icalcomp, ICAL_ANY_COMPONENT);
+	while ((subcomp = icalcompiter_deref (&iter)) != NULL) {
 		icalcomponent_kind child_kind = icalcomponent_isa (subcomp);
-		next_subcomp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
 		if (child_kind != ICAL_VTODO_COMPONENT
 		    && child_kind != ICAL_VTIMEZONE_COMPONENT) {
 			icalcomponent_remove_component (icalcomp, subcomp);
 			icalcomponent_free (subcomp);
 		}
-		subcomp = next_subcomp;
+
+		icalcompiter_next (&iter);
 	}
 
 	for (elem = vtodos; elem; elem = elem->next) {
