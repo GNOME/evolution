@@ -874,6 +874,36 @@ cal_notify_remove (Cal *cal, const char *uid)
 }
 
 /**
+ * cal_notify_error
+ * @cal: A calendar client interface.
+ * @message: Error message.
+ *
+ * Notify a calendar client of an error occurred in the backend.
+ */
+void
+cal_notify_error (Cal *cal, const char *message)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+	g_return_if_fail (message != NULL);
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyErrorOccurred (priv->listener, (char *) message, &ev);
+
+	if (BONOBO_EX (&ev))
+		g_message ("cal_notify_remove(): could not notify the listener "
+			   "about a removed object");
+
+	CORBA_exception_free (&ev);
+}
+
+/**
  * cal_notify_categories_changed:
  * @cal: A calendar client interface.
  * @categories: List of categories.

@@ -107,6 +107,8 @@ struct _CalClientClass {
 	void (* obj_updated) (CalClient *client, const char *uid);
 	void (* obj_removed) (CalClient *client, const char *uid);
 
+	void (* backend_error) (CalClient *client, const char *message);
+
 	void (* categories_changed) (CalClient *client, GPtrArray *categories);
 
 	void (* forget_password) (CalClient *client, const char *key);

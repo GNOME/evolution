@@ -263,6 +263,9 @@ module Calendar {
 
 		/* Called from a Calendar when the list of categories changes */
 		void notifyCategoriesChanged (in StringSeq categories);
+
+		/* Called from a Calendar when there is an error not notified otherwise */
+		void notifyErrorOccurred (in string message);
 	};
 
 	/* Handle to a live query on a calendar */

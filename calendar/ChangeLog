@@ -1,3 +1,36 @@
+2002-10-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #15892
+
+	* idl/evolution-calendar.idl: added notifyErrorOccurred method to
+	the Listener interface, so that backends can notify clients of errors
+	that can't be reported otherwise.
+
+	* pcs/cal.[ch] (cal_notify_error): new function.
+
+	* pcs/cal-backend-file.c (save): made to save to temporary file and
+	then moved to the correct file, so that we don't lose any data if
+	there's a problem while saving.
+	(notify_error): new function for notifying error messages to clients.
+
+	* cal-client/cal-listener.[ch]: added new callback function for getting
+	error messages from backends.
+	(impl_notifyErrorOccurred): new method implementation.
+	(cal_listener_class_init): initialize new epv member.
+	(cal_listener_init, cal_listener_destroy, cal_listener_construct,
+	 cal_listener_new): initialize new function pointer.
+
+	* cal-client/cal-client.[ch]: adapted to changes in CalListener class.
+	(cal_client_class_init): added "backend_error" signal to CalClient class.
+	(backend_error_cb): callback for "error_occurred" signal on the CalListener,
+	which just emits the "backend_error" signal of CalClient.
+
+	* gui/gnome-cal.c (gnome_calendar_construct): connect to "backend_error"
+	signal on the CalClient's we create.
+	(backend_error_cb): display error message on error from backend.
+
+	* gui/e-tasks.c: likewise.
+
 2002-10-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/notify-main.c (alarm_notify_factory_fn): removed

@@ -66,6 +66,7 @@ void cal_notify_mode (Cal *cal,
 		      GNOME_Evolution_Calendar_CalMode mode);
 void cal_notify_update (Cal *cal, const char *uid);
 void cal_notify_remove (Cal *cal, const char *uid);
+void cal_notify_error (Cal *cal, const char *message);
 
 void cal_notify_categories_changed (Cal *cal, GNOME_Evolution_Calendar_StringSeq *categories);
 

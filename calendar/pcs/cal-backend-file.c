@@ -282,11 +282,11 @@ static void
 save (CalBackendFile *cbfile)
 {
 	CalBackendFilePrivate *priv;
-	GnomeVFSURI *uri;
+	GnomeVFSURI *uri, *backup_uri;
 	GnomeVFSHandle *handle = NULL;
 	GnomeVFSResult result;
 	GnomeVFSFileSize out;
-	gchar *tmp;
+	gchar *tmp, *backup_uristr;
 	char *buf;
 	
 	priv = cbfile->priv;
@@ -297,43 +297,54 @@ save (CalBackendFile *cbfile)
 	if (!uri)
 		goto error;
 
-	/* Make a backup copy of the file if it exists */
+	/* save calendar to backup file */
 	tmp = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
-	if (tmp) {
-		GnomeVFSURI *backup_uri;
-		gchar *backup_uristr;
+	if (!tmp) {
+		gnome_vfs_uri_unref (uri);
+		goto error;
+	}
 		
-		backup_uristr = g_strconcat (tmp, "~", NULL);
-		backup_uri = gnome_vfs_uri_new (backup_uristr);
-		
-		result = gnome_vfs_move_uri (uri, backup_uri, TRUE);
-		gnome_vfs_uri_unref (backup_uri);
-		
-		g_free (tmp);
-		g_free (backup_uristr);
+	backup_uristr = g_strconcat (tmp, "~", NULL);
+	backup_uri = gnome_vfs_uri_new (backup_uristr);
+
+	g_free (tmp);
+	g_free (backup_uristr);
+
+	if (!backup_uri) {
+		gnome_vfs_uri_unref (uri);
+		goto error;
 	}
 	
-	/* Now write the new file out */
-	result = gnome_vfs_create_uri (&handle, uri, 
-				       GNOME_VFS_OPEN_WRITE,
-				       FALSE, 0666);
-	
-	if (result != GNOME_VFS_OK)
+	result = gnome_vfs_create_uri (&handle, backup_uri,
+                                       GNOME_VFS_OPEN_WRITE,
+                                       FALSE, 0666);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_uri_unref (uri);
+		gnome_vfs_uri_unref (backup_uri);
 		goto error;
-	
+	}
+
 	buf = icalcomponent_as_ical_string (priv->icalcomp);
 	result = gnome_vfs_write (handle, buf, strlen (buf) * sizeof (char), &out);
+	gnome_vfs_close (handle);
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_uri_unref (uri);
+		gnome_vfs_uri_unref (backup_uri);
+		goto error;
+	}
 
+	/* now copy the temporary file to the real file */
+	result = gnome_vfs_move_uri (backup_uri, uri, TRUE);
+
+	gnome_vfs_uri_unref (uri);
+	gnome_vfs_uri_unref (backup_uri);
 	if (result != GNOME_VFS_OK)
 		goto error;
-
-	gnome_vfs_close (handle);
-	gnome_vfs_uri_unref (uri);
 
 	return;
 	
  error:
-	g_warning ("Error writing calendar file.");
+	notify_error (cbfile, gnome_vfs_result_to_string (result));
 	return;
 }
 
@@ -1710,6 +1721,23 @@ notify_remove (CalBackendFile *cbfile, const char *uid)
 
 		cal = CAL (l->data);
 		cal_notify_remove (cal, uid);
+	}
+}
+
+/* Notifies a backend's clients that an error has occurred */
+static void
+notify_error (CalBackendFile *cbfile, const char *message)
+{
+	CalBackendFilePrivate *priv;
+	GList *l;
+
+	priv = cbfile->priv;
+
+	for (l = CAL_BACKEND (cbfile)->clients; l; l = l->next) {
+		Cal *cal;
+
+		cal = CAL (l->data);
+		cal_notify_error (cal, message);
 	}
 }
 

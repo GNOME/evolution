@@ -1730,6 +1730,22 @@ client_categories_changed_cb (CalClient *client, GPtrArray *categories, gpointer
 	free_categories (merged);
 }
 
+/* Callback when we get an error message from the backend */
+static void
+backend_error_cb (CalClient *client, const char *message, gpointer data)
+{
+	GnomeCalendar *gcal;
+	GnomeCalendarPrivate *priv;
+	char *errmsg;
+
+	gcal = GNOME_CALENDAR (data);
+	priv = gcal->priv;
+
+	errmsg = g_strdup_printf (_("Error on %s:\n %s"), cal_client_get_uri (client), message);
+	gnome_error_dialog_parented (errmsg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
+	g_free (errmsg);
+}
+
 /* Callback when the backend dies */
 static void
 backend_died_cb (CalClient *client, gpointer data)
@@ -1779,6 +1795,8 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 
 	gtk_signal_connect (GTK_OBJECT (priv->client), "cal_opened",
 			    GTK_SIGNAL_FUNC (client_cal_opened_cb), gcal);
+	gtk_signal_connect (GTK_OBJECT (priv->client), "backend_error",
+			    GTK_SIGNAL_FUNC (backend_error_cb), gcal);
 	gtk_signal_connect (GTK_OBJECT (priv->client), "categories_changed",
 			    GTK_SIGNAL_FUNC (client_categories_changed_cb), gcal);
 	gtk_signal_connect (GTK_OBJECT (priv->client), "backend_died",
@@ -1801,7 +1819,9 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 		return NULL;
 
 	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "cal_opened",
-			    GTK_SIGNAL_FUNC (client_cal_opened_cb), gcal);
+			    GTK_SIGNAL_FUNC (client_cal_opened_cb), gcal);	
+	gtk_signal_connect (GTK_OBJECT (priv->client), "backend_error",
+			    GTK_SIGNAL_FUNC (backend_error_cb), gcal);
 	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "categories_changed",
 			    GTK_SIGNAL_FUNC (client_categories_changed_cb), gcal);
 	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "backend_died",

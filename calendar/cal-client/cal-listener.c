@@ -30,6 +30,7 @@ struct CalListenerPrivate {
 	CalListenerCalSetModeFn cal_set_mode_fn;
 	CalListenerObjUpdatedFn obj_updated_fn;
 	CalListenerObjRemovedFn obj_removed_fn;
+	CalListenerErrorOccurredFn error_occurred_fn;
 	CalListenerCategoriesChangedFn categories_changed_fn;
 	gpointer fn_data;
 
@@ -57,6 +58,9 @@ static void impl_notifyObjUpdated (PortableServer_Servant servant,
 static void impl_notifyObjRemoved (PortableServer_Servant servant,
 				   GNOME_Evolution_Calendar_CalObjUID uid,
 				   CORBA_Environment *ev);
+static void impl_notifyErrorOccurred (PortableServer_Servant servant,
+				      const CORBA_char *message,
+				      CORBA_Environment *ev);
 static void impl_notifyCategoriesChanged (PortableServer_Servant servant,
 					  const GNOME_Evolution_Calendar_StringSeq *categories,
 					  CORBA_Environment *ev);
@@ -84,6 +88,7 @@ cal_listener_class_init (CalListenerClass *class)
 	class->epv.notifyCalSetMode = impl_notifyCalSetMode;
 	class->epv.notifyObjUpdated = impl_notifyObjUpdated;
 	class->epv.notifyObjRemoved = impl_notifyObjRemoved;
+	class->epv.notifyErrorOccurred = impl_notifyErrorOccurred;
 	class->epv.notifyCategoriesChanged = impl_notifyCategoriesChanged;
 
 	object_class->destroy = cal_listener_destroy;
@@ -101,6 +106,7 @@ cal_listener_init (CalListener *listener)
 	priv->cal_opened_fn = NULL;
 	priv->obj_updated_fn = NULL;
 	priv->obj_removed_fn = NULL;
+	priv->error_occurred_fn = NULL;
 	priv->categories_changed_fn = NULL;
 
 	priv->notify = TRUE;
@@ -122,6 +128,7 @@ cal_listener_destroy (GtkObject *object)
 	priv->cal_opened_fn = NULL;
 	priv->obj_updated_fn = NULL;
 	priv->obj_removed_fn = NULL;
+	priv->error_occurred_fn = NULL;
 	priv->categories_changed_fn = NULL;
 	priv->fn_data = NULL;
 
@@ -228,6 +235,25 @@ impl_notifyObjRemoved (PortableServer_Servant servant,
 	(* priv->obj_removed_fn) (listener, uid, priv->fn_data);
 }
 
+/* ::notifyErrorOccurred method */
+static void
+impl_notifyErrorOccurred (PortableServer_Servant servant,
+			  const CORBA_char *message,
+			  CORBA_Environment *ev)
+{
+	CalListener *listener;
+	CalListenerPrivate *priv;
+
+	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
+	priv = listener->priv;
+
+	if (!priv->notify)
+		return;
+
+	g_assert (priv->error_occurred_fn != NULL);
+	(* priv->error_occurred_fn) (listener, message, priv->fn_data);
+}
+
 /* ::notifyCategoriesChanged method */
 static void
 impl_notifyCategoriesChanged (PortableServer_Servant servant,
@@ -258,6 +284,7 @@ impl_notifyCategoriesChanged (PortableServer_Servant servant,
  * calendar was updated.
  * @obj_removed_fn: Function that will be called to notify that an object in the
  * calendar was removed.
+ * @error_occurred_fn: Function that will be called to notify errors.
  * @categories_changed_fn: Function that will be called to notify that the list
  * of categories that are present in the calendar's objects has changed.
  * @fn_data: Closure data pointer that will be passed to the notification
@@ -274,6 +301,7 @@ cal_listener_construct (CalListener *listener,
 			CalListenerCalSetModeFn cal_set_mode_fn,
 			CalListenerObjUpdatedFn obj_updated_fn,
 			CalListenerObjRemovedFn obj_removed_fn,
+			CalListenerErrorOccurredFn error_occurred_fn,
 			CalListenerCategoriesChangedFn categories_changed_fn,
 			gpointer fn_data)
 {
@@ -285,6 +313,7 @@ cal_listener_construct (CalListener *listener,
  	g_return_val_if_fail (cal_set_mode_fn != NULL, NULL);
 	g_return_val_if_fail (obj_updated_fn != NULL, NULL);
 	g_return_val_if_fail (obj_removed_fn != NULL, NULL);
+	g_return_val_if_fail (error_occurred_fn != NULL, NULL);
 	g_return_val_if_fail (categories_changed_fn != NULL, NULL);
 
 	priv = listener->priv;
@@ -293,6 +322,7 @@ cal_listener_construct (CalListener *listener,
 	priv->cal_set_mode_fn = cal_set_mode_fn;
 	priv->obj_updated_fn = obj_updated_fn;
 	priv->obj_removed_fn = obj_removed_fn;
+	priv->error_occurred_fn = error_occurred_fn;
 	priv->categories_changed_fn = categories_changed_fn;
 	priv->fn_data = fn_data;
 
@@ -307,6 +337,7 @@ cal_listener_construct (CalListener *listener,
  * calendar was updated.
  * @obj_removed_fn: Function that will be called to notify that an object in the
  * calendar was removed.
+ * @error_occurred_fn: Function that will be called to notify errors.
  * @categories_changed_fn: Function that will be called to notify that the list
  * of categories that are present in the calendar's objects has changed.
  * @fn_data: Closure data pointer that will be passed to the notification
@@ -321,6 +352,7 @@ cal_listener_new (CalListenerCalOpenedFn cal_opened_fn,
 		  CalListenerCalSetModeFn cal_set_mode_fn,
 		  CalListenerObjUpdatedFn obj_updated_fn,
 		  CalListenerObjRemovedFn obj_removed_fn,
+		  CalListenerErrorOccurredFn error_occurred_fn,
 		  CalListenerCategoriesChangedFn categories_changed_fn,
 		  gpointer fn_data)
 {
@@ -329,6 +361,7 @@ cal_listener_new (CalListenerCalOpenedFn cal_opened_fn,
 	g_return_val_if_fail (cal_opened_fn != NULL, NULL);
 	g_return_val_if_fail (obj_updated_fn != NULL, NULL);
 	g_return_val_if_fail (obj_removed_fn != NULL, NULL);
+	g_return_val_if_fail (error_occurred_fn != NULL, NULL);
 	g_return_val_if_fail (categories_changed_fn != NULL, NULL);
 
 	listener = gtk_type_new (CAL_LISTENER_TYPE);
@@ -337,6 +370,7 @@ cal_listener_new (CalListenerCalOpenedFn cal_opened_fn,
 				       cal_set_mode_fn,
 				       obj_updated_fn,
 				       obj_removed_fn,
+				       error_occurred_fn,
 				       categories_changed_fn,
 				       fn_data);
 }

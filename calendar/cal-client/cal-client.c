@@ -86,6 +86,7 @@ enum {
 	CAL_SET_MODE,
 	OBJ_UPDATED,
 	OBJ_REMOVED,
+	BACKEND_ERROR,
 	CATEGORIES_CHANGED,
 	FORGET_PASSWORD,
 	BACKEND_DIED,
@@ -185,6 +186,14 @@ cal_client_class_init (CalClientClass *class)
 				GTK_RUN_FIRST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (CalClientClass, obj_removed),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
+	cal_client_signals[BACKEND_ERROR] =
+		gtk_signal_new ("backend_error",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalClientClass, backend_error),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
@@ -561,6 +570,16 @@ obj_removed_cb (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID 
 	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_REMOVED], uid);
 }
 
+/* Handle the error_occurred signal from the listener */
+static void
+backend_error_cb (CalListener *listener, const char *message, gpointer data)
+{
+	CalClient *client;
+
+	client = CAL_CLIENT (data);
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[BACKEND_ERROR], message);
+}
+
 /* Handle the categories_changed signal from the listener */
 static void
 categories_changed_cb (CalListener *listener, const GNOME_Evolution_Calendar_StringSeq *categories,
@@ -752,6 +771,7 @@ real_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exi
 					   cal_set_mode_cb,
 					   obj_updated_cb,
 					   obj_removed_cb,
+					   backend_error_cb,
 					   categories_changed_cb,
 					   client);
 	if (!priv->listener) {

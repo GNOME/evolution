@@ -67,6 +67,7 @@ static void setup_widgets (ETasks *tasks);
 static void e_tasks_destroy (GtkObject *object);
 
 static void cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data);
+static void backend_error_cb (CalClient *client, const char *message, gpointer data);
 
 /* Signal IDs */
 enum {
@@ -248,6 +249,8 @@ e_tasks_construct (ETasks *tasks)
 
 	gtk_signal_connect (GTK_OBJECT (priv->client), "cal_opened",
 			    GTK_SIGNAL_FUNC (cal_opened_cb), tasks);
+	gtk_signal_connect (GTK_OBJECT (priv->client), "backend_error",
+			    GTK_SIGNAL_FUNC (backend_error_cb), tasks);
 	gtk_signal_connect (GTK_OBJECT (priv->client), "categories_changed",
 			    GTK_SIGNAL_FUNC (client_categories_changed_cb), tasks);
 
@@ -450,6 +453,22 @@ cal_opened_cb				(CalClient	*client,
 	default:
 		g_assert_not_reached ();
 	}
+}
+
+/* Callback from the calendar client when an error occurs in the backend */
+static void
+backend_error_cb (CalClient *client, const char *message, gpointer data)
+{
+	ETasks *tasks;
+	ETasksPrivate *priv;
+	char *errmsg;
+
+	tasks = E_TASKS (data);
+	priv = tasks->priv;
+
+	errmsg = g_strdup_printf (_("Error on %s:\n %s"), cal_client_get_uri (client), message);
+	gnome_error_dialog_parented (errmsg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
+	g_free (errmsg);
 }
 
 /**
