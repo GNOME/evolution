@@ -959,29 +959,48 @@ filter_date (const void *data)
 	time_t yesdate;
 	struct tm then, now, yesterday;
 	char buf[26];
+	gboolean done = FALSE;
 
 	if (date == 0)
-		return g_strdup ("?");
+		return g_strdup (_("?"));
 
 	localtime_r (&date, &then);
 	localtime_r (&nowdate, &now);
 	if (then.tm_mday == now.tm_mday &&
 	    then.tm_mon == now.tm_mon &&
 	    then.tm_year == now.tm_year) {
-		strftime (buf, 26, "Today %T", &then);
-	} else {
+		strftime (buf, 26, _("Today %T"), &then);
+		done = TRUE;
+	}
+	if (!done) {
 		yesdate = nowdate - 60 * 60 * 24;
 		localtime_r (&yesdate, &yesterday);
 		if (then.tm_mday == yesterday.tm_mday &&
 		    then.tm_mon == yesterday.tm_mon &&
 		    then.tm_year == yesterday.tm_year) {
-			strftime (buf, 26, "Yesterday %T", &then);
-		} else {
-			if (then.tm_year == now.tm_year) {
-				strftime (buf, 26, "%b %d %T", &then);
-			} else {
-				strftime (buf, 26, "%b %d %Y", &then);
+			strftime (buf, 26, _("Yesterday %T"), &then);
+			done = TRUE;
+		}
+	}
+	if (!done) {
+		int i;
+		for (i = 2; i < 7; i++) {
+			yesdate = nowdate - 60 * 60 * 24 * i;
+			localtime_r (&yesdate, &yesterday);
+			if (then.tm_mday == yesterday.tm_mday &&
+			    then.tm_mon == yesterday.tm_mon &&
+			    then.tm_year == yesterday.tm_year) {
+				strftime (buf, 26, _("%a %T"), &then);
+				done = TRUE;
+				break;
 			}
+		}
+	}
+	if (!done) {
+		if (then.tm_year == now.tm_year) {
+			strftime (buf, 26, _("%b %d %T"), &then);
+		} else {
+			strftime (buf, 26, _("%b %d %Y"), &then);
 		}
 	}
 #if 0
