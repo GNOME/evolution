@@ -1,3 +1,12 @@
+2001-01-15  Tuomas Kuosmanen  <tigert@ximian.com>
+
+	* art/evolution-calendar-mini.png: New version of calendar icon that
+	looks more like a calendar and not a dictionary or something :)
+
+	Btw, the icons get scaled for some reason, even though that is
+	not necessary as all of those should be 16x16 pixels. Can anyone look 
+	into this? 
+
 2001-01-15  Dietmar Maurer  <dietmar@ximian.com>
 
 	* *.c: changed the signature of the property_bag get/set
