@@ -1,7 +1,11 @@
+2001-07-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): Initialize `me' to NULL.
+
 2001-07-24  Peter Williams  <peterw@ximian.com>
 
-	* mail-config.c (mail_config_write): Um, write the HTML signature settings
-	in the right place. Whoops.
+	* mail-config.c (mail_config_write): Um, write the HTML signature
+	settings in the right place. Whoops.
 
 2001-07-24  Jason Leach  <jleach@ximian.com>
 

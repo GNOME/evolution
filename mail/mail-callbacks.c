@@ -634,7 +634,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	const char *name = NULL, *address = NULL, *source = NULL;
 	const char *message_id, *references, *reply_addr = NULL;
 	char *text, *subject, *date_str;
-	const MailConfigAccount *me;
+	const MailConfigAccount *me = NULL;
 	const GSList *accounts = NULL;
 	GList *to = NULL, *cc = NULL;
 	EMsgComposer *composer;

@@ -1266,22 +1266,22 @@ mail_config_set_default_charset (const char *charset)
 const MailConfigAccount *
 mail_config_get_default_account (void)
 {
-	MailConfigAccount *retval;
-
+	MailConfigAccount *account;
+	
 	if (!config->accounts)
 		return NULL;
-
-	retval = g_slist_nth_data (config->accounts,
+	
+	account = g_slist_nth_data (config->accounts,
 				   config->default_account);
-
+	
 	/* Looks like we have no default, so make the first account
            the default */
-	if (retval == NULL) {
+	if (account == NULL) {
 		mail_config_set_default_account_num (0);
-		retval = config->accounts->data;
+		account = config->accounts->data;
 	}
-
-	return retval;
+	
+	return account;
 }
 
 const MailConfigAccount *
