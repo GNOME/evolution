@@ -26,6 +26,8 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #21198 -- Outlook didn't recognize Evolution's acceptance of an
 	      updated meeting request (Dan)
     #20783 -- accepting updated meeting request doesn't work? (Rodrigo)
+    #21240 -- Calendar Reminders don't appear for appointments in remote
+              servers (Rodrigo)
 
   * Shell
 
