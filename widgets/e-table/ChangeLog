@@ -1,3 +1,7 @@
+2000-02-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* Makefile.am (INCLUDES): Add EXTRA_GNOME_CFLAGS to INCLUDES>
+
 2000-02-12  Iain Holmes  <ih@csd.abdn.ac.uk>
 
 	* e-table-header-item.c (ethi_drag_motion): Check the ethi is actually

@@ -1,4 +1,5 @@
 INCLUDES =					\
+	$(EXTRA_GNOME_CFLAGS)			\
 	$(GNOME_INCLUDEDIR)			\
 	-I$(top_srcdir)/widgets/e-text		\
 	-I$(top_srcdir)/e-util			\
