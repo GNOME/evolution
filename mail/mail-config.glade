@@ -2047,7 +2047,6 @@ Kerberos
       <xpad>0</xpad>
       <ypad>0</ypad>
     </widget>
-
   </widget>
 </widget>
 
@@ -2761,6 +2760,20 @@ Quoted
 	<can_focus>True</can_focus>
 	<label>Empty trash folders on exit</label>
 	<active>False</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>chkPromptEmptySubject</name>
+	<can_focus>True</can_focus>
+	<label>Prompt when sending messages with an empty subject</label>
+	<active>True</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
 	  <padding>0</padding>

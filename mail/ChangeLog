@@ -1,5 +1,11 @@
 2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-accounts.c (construct): Add a checkbox for prompting when
+	sending a message with an empty subject.
+
+	* mail-ops.c (mail_send_message): If filtering fails, return right
+	away.
+
 	* mail-config.c (mail_config_set_show_preview): Okay, apparently I
 	was wrong. Oh well.
 	(mail_config_set_thread_list): Fix this one too.

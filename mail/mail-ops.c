@@ -471,7 +471,7 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 			camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
 		}
 	}
-
+	
 	xport = camel_session_get_transport (session, transport_url ? transport_url : destination, ex);
 	g_free (transport_url);
 	if (!xport) {
@@ -496,9 +496,15 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 		g_free (acct_header);
 	}
 	
-	if (driver)
+	if (driver) {
 		camel_filter_driver_filter_message (driver, message, info,
 						    NULL, NULL, NULL, "", ex);
+		
+		if (camel_exception_is_set (ex)) {
+			camel_message_info_free (info);
+			return;
+		}
+	}
 	
 	if (sent_folder_uri) {
 		folder = mail_tool_uri_to_folder (sent_folder_uri, NULL);
@@ -534,48 +540,52 @@ struct _send_mail_msg {
 	void *data;
 };
 
-static char *send_mail_desc(struct _mail_msg *mm, int done)
+static char *
+send_mail_desc (struct _mail_msg *mm, int done)
 {
 	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
 	char *subject;
 	const char *subject_utf8;
 	
-	subject_utf8 = camel_mime_message_get_subject(m->message);
+	subject_utf8 = camel_mime_message_get_subject (m->message);
 	
 	if (subject_utf8) {
 		char *desc;
-
+		
 		subject = e_utf8_to_locale_string (subject_utf8);
 		desc = g_strdup_printf (_("Sending \"%s\""), subject);
 		g_free (subject);
 		return desc;
 	} else
-		return g_strdup(_("Sending message"));
+		return g_strdup (_("Sending message"));
 }
 
-static void send_mail_send(struct _mail_msg *mm)
+static void
+send_mail_send (struct _mail_msg *mm)
 {
 	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
-
-	camel_operation_register(mm->cancel);
-	mail_send_message(m->message, m->destination, m->driver, &mm->ex);
-	camel_operation_unregister(mm->cancel);
+	
+	camel_operation_register (mm->cancel);
+	mail_send_message (m->message, m->destination, m->driver, &mm->ex);
+	camel_operation_unregister (mm->cancel);
 }
 
-static void send_mail_sent(struct _mail_msg *mm)
+static void
+send_mail_sent (struct _mail_msg *mm)
 {
 	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
-
+	
 	if (m->done)
-		m->done(m->destination, m->message, !camel_exception_is_set(&mm->ex), m->data);
+		m->done (m->destination, m->message, !camel_exception_is_set (&mm->ex), m->data);
 }
 
-static void send_mail_free(struct _mail_msg *mm)
+static void
+send_mail_free (struct _mail_msg *mm)
 {
 	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
-
-	camel_object_unref((CamelObject *)m->message);
-	g_free(m->destination);
+	
+	camel_object_unref (CAMEL_OBJECT (m->message));
+	g_free (m->destination);
 }
 
 static struct _mail_msg_op send_mail_op = {
@@ -586,23 +596,25 @@ static struct _mail_msg_op send_mail_op = {
 };
 
 int
-mail_send_mail(const char *uri, CamelMimeMessage *message, void (*done) (char *uri, CamelMimeMessage *message, gboolean sent, void *data), void *data)
+mail_send_mail (const char *uri, CamelMimeMessage *message,
+		void (*done) (char *uri, CamelMimeMessage *message, gboolean sent, void *data),
+		void *data)
 {
 	struct _send_mail_msg *m;
 	int id;
-
-	m = mail_msg_new(&send_mail_op, NULL, sizeof(*m));
-	m->destination = g_strdup(uri);
+	
+	m = mail_msg_new (&send_mail_op, NULL, sizeof (*m));
+	m->destination = g_strdup (uri);
 	m->message = message;
-	camel_object_ref((CamelObject *)message);
+	camel_object_ref (CAMEL_OBJECT (message));
 	m->data = data;
 	m->done = done;
-
+	
 	id = m->msg.seq;
-
-	m->driver = camel_session_get_filter_driver(session, FILTER_SOURCE_OUTGOING, NULL);
-
-	e_thread_put(mail_thread_new, (EMsg *)m);
+	
+	m->driver = camel_session_get_filter_driver (session, FILTER_SOURCE_OUTGOING, NULL);
+	
+	e_thread_put (mail_thread_new, (EMsg *)m);
 	return id;
 }
 
@@ -765,12 +777,14 @@ struct _append_msg {
 	void *data;
 };
 
-static char *append_mail_desc(struct _mail_msg *mm, int done)
+static char *
+append_mail_desc (struct _mail_msg *mm, int done)
 {
-	return g_strdup(_("Saving message to folder"));
+	return g_strdup (_("Saving message to folder"));
 }
 
-static void append_mail_append(struct _mail_msg *mm)
+static void
+append_mail_append (struct _mail_msg *mm)
 {
 	struct _append_msg *m = (struct _append_msg *)mm;
 
@@ -778,7 +792,8 @@ static void append_mail_append(struct _mail_msg *mm)
 	camel_folder_append_message(m->folder, m->message, m->info, &mm->ex);
 }
 
-static void append_mail_appended(struct _mail_msg *mm)
+static void
+append_mail_appended (struct _mail_msg *mm)
 {
 	struct _append_msg *m = (struct _append_msg *)mm;
 
@@ -786,7 +801,8 @@ static void append_mail_appended(struct _mail_msg *mm)
 		m->done(m->folder, m->message, m->info, !camel_exception_is_set(&mm->ex), m->data);
 }
 
-static void append_mail_free(struct _mail_msg *mm)
+static void
+append_mail_free (struct _mail_msg *mm)
 {
 	struct _append_msg *m = (struct _append_msg *)mm;
 
@@ -802,9 +818,7 @@ static struct _mail_msg_op append_mail_op = {
 };
 
 void
-mail_append_mail (CamelFolder *folder,
-		  CamelMimeMessage *message,
-		  CamelMessageInfo *info,
+mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,
 		  void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data),
 		  void *data)
 {

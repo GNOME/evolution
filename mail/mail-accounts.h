@@ -85,6 +85,7 @@ struct _MailAccountsDialog {
 	
 	/* Other page */
 	GtkToggleButton *empty_trash;
+	GtkToggleButton *prompt_empty_subject;
 	
 	/* PGP page */
 	GnomeFileEntry *pgp_path;
