@@ -14515,7 +14515,7 @@ msgstr "No s'ha pogut enviar el missatge: l'adreça del remitent no és vàlida.
 # fitxer: camel.ca.po.1
 #: camel/providers/smtp/camel-smtp-transport.c:687
 msgid "Sending message"
-msgstr "Enviar missatges"
+msgstr "S'està enviant el missatge"
 
 # fitxer: camel.ca.po.1
 #: camel/providers/smtp/camel-smtp-transport.c:702
@@ -23078,7 +23078,7 @@ msgstr "Configuració de_l Pilot..."
 # fitxer: ui.evolution.xml.h.ca.po
 #: ui/evolution.xml.h:16
 msgid "Send / Receive"
-msgstr "_Envia / reb"
+msgstr "Envia / reb"
 
 # fitxer: ui.evolution.xml.h.ca.po
 #: ui/evolution.xml.h:17
