@@ -109,6 +109,16 @@ calendar_config_locale_supports_12_hour_format (void)
 	return s[0] != '\0';
 }
 
+static void 
+property_change_cb (BonoboListener    *listener,
+		    char              *event_name, 
+		    CORBA_any         *any,
+		    CORBA_Environment *ev,
+		    gpointer           user_data)
+{
+	calendar_config_set_timezone (BONOBO_ARG_GET_STRING (any));
+}
+
 static void
 config_read				(void)
 {
@@ -124,6 +134,13 @@ config_read				(void)
 		CORBA_exception_free (&ev);
 		return;
  	}
+
+	/* The start up wizard can set the timezone externally */
+	bonobo_event_source_client_add_listener (db, property_change_cb,
+						 "=Bonobo/ConfigDatabase:change/Calendar/Display:Timezone", 
+						 &ev, NULL);
+	if (BONOBO_EX (&ev))
+		g_message ("config_read(): Could not listen to db changes");
 
 	CORBA_exception_free (&ev);
 

@@ -1,3 +1,12 @@
+2002-07-01  JP Rosevear  <jpr@ximian.com>
+
+	* gui/calendar-config.c (config_read): listen for timezone config
+	change
+	(property_change_cb): set the timezone if it changed elsewhere
+
+	* gui/main.c (init_bonobo): call bonobo_activate because we make
+	bonobo related calls before the bonobo_main call
+
 2002-06-25  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #25410
@@ -6,8 +15,8 @@
 	cleanup on removal of clients.
 	(alarm_notify_add_calendar): ditto.
 
-2002-06-25  JP Rosevear  <jpr@ximian.com>
-
+2002-06-27  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/itip-utils.c (comp_compliant): plug leak and actually use
 	the minimal comp we create
 	

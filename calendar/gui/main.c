@@ -65,6 +65,9 @@ init_bonobo (int argc, char **argv)
 
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
+
+	if (!bonobo_activate ())
+		g_error (_("Could not activate Bonobo"));
 }
 
 /* Factory function for the calendar component factory; just creates and
