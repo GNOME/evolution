@@ -1,5 +1,10 @@
 2004-03-11  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-tree-model.c (sort_cb): when we sort, handle not
+	having the node in the tree.  otherwise we always compare against
+	"" which puts it at the head of the branch, rather than the tail.
+	See #55428.
+
 	* em-folder-tree.c (tree_drag_motion): make dnd look funny for
 	joe.  #55246.
 

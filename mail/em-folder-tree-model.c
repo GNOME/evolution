@@ -197,7 +197,7 @@ sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data
 			aname = gtk_tree_path_to_string (path);
 			gtk_tree_path_free (path);
 		} else {
-			aname = g_strdup("");
+			return 1;
 		}
 		
 		path = gtk_tree_model_get_path (model, b);
@@ -205,10 +205,12 @@ sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data
 			bname = gtk_tree_path_to_string (path);
 			gtk_tree_path_free (path);
 		} else {
-			bname = g_strdup("");
+			g_free(aname);
+			return -1;
 		}
-		
+
 		ret = strcmp (aname, bname);
+
 		g_free (aname);
 		g_free (bname);
 		
