@@ -1,3 +1,8 @@
+2000-10-11  Jesse Pavel		<jpavel@helixcode.com>
+
+	* data/evolution.keys: Added support for the text/calendar and
+	text/x-calendar MIME types.
+
 2000-10-10  Gediminas Paulauskas  <menesis@delfi.lt>
 
 	* configure.in: Added lt to ALL_LINGUAS.
