@@ -158,6 +158,22 @@ e_passwords_clear_component_passwords ()
 	g_free (path);
 }
 
+static char *
+password_path (const char *key)
+{
+	int len, state, save;
+	char *key64, *path;
+
+	len = strlen (key);
+	key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
+	state = save = 0;
+	base64_encode_close ((char*)key, len, FALSE, key64, &state, &save);
+	path = g_strdup_printf ("/Passwords/%s/%s", component_name, key64);
+	g_free (key64);
+
+	return path;
+}
+
 /**
  * e_passwords_remember_password:
  * @key: the key
@@ -168,19 +184,14 @@ void
 e_passwords_remember_password (const char *key)
 {
 	gpointer okey, value;
-	char *path, *key64, *pass64;
+	char *path, *pass64;
 	int len, state, save;
 
 	if (!g_hash_table_lookup_extended (passwords, key, &okey, &value))
 		return;
 
 	/* add it to the on-disk cache of passwords */
-	len = strlen (okey);
-	key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
-	state = save = 0;
-	base64_encode_close (okey, len, FALSE, key64, &state, &save);
-	path = g_strdup_printf ("/Passwords/%s/%s", component_name, key64);
-	g_free (key64);
+	path = password_path (okey);
 
 	len = strlen (value);
 	pass64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
@@ -201,20 +212,28 @@ e_passwords_remember_password (const char *key)
  * e_passwords_forget_password:
  * @key: the key
  *
- * Forgets the password associated with @key for the rest of the session,
- * but does not affect the on-disk cache.
+ * Forgets the password associated with @key, in memory and on disk.
  **/
 void
 e_passwords_forget_password (const char *key)
 {
 	gpointer okey, value;
-	
+	CORBA_Environment ev;
+	char *path;
+
 	if (g_hash_table_lookup_extended (passwords, key, &okey, &value)) {
 		g_hash_table_remove (passwords, key);
 		memset (value, 0, strlen (value));
 		g_free (okey);
 		g_free (value);
 	}
+
+	/* clear it in the on disk db */
+	path = password_path (key);
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_removeValue (db, path, &ev);
+	CORBA_exception_free (&ev);
+	g_free (path);
 }
 
 /**
@@ -228,20 +247,14 @@ char *
 e_passwords_get_password (const char *key)
 {
 	char *passwd = g_hash_table_lookup (passwords, key);
-	char *path, *key64;
-	int len, state, save;
+	char *path;
 	CORBA_Environment ev;
 
 	if (passwd)
 		return g_strdup (passwd);
 
 	/* not part of the session hash, look it up in the on disk db */
-	len = strlen (key);
-	key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
-	state = save = 0;
-	base64_encode_close ((char*)key, len, FALSE, key64, &state, &save);
-	path = g_strdup_printf ("/Passwords/%s/%s", component_name, key64);
-	g_free (key64);
+	path = password_path (key);
 
 	/* We need to pass an ev to bonobo-conf, or it will emit a
 	 * g_warning if the data isn't found.
