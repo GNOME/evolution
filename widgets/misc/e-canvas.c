@@ -51,6 +51,8 @@ static int emit_event (GnomeCanvas *canvas, GdkEvent *event);
 
 static GnomeCanvasClass *parent_class = NULL;
 
+#define d(x)
+
 enum {
 	REFLOW,
 	LAST_SIGNAL
@@ -163,17 +165,6 @@ e_canvas_new ()
 }
 
 
-/* Returns whether the item is an inferior of or is equal to the parent. */
-static int
-is_descendant (GnomeCanvasItem *item, GnomeCanvasItem *parent)
-{
-	for (; item; item = item->parent)
-		if (item == parent)
-			return TRUE;
-
-	return FALSE;
-}
-
 /* Emits an event for an item in the canvas, be it the current item, grabbed
  * item, or focused item, as appropriate.
  */
@@ -186,10 +177,18 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 	GnomeCanvasItem *parent;
 	guint mask;
 
-	/* Perform checks for grabbed items */
+	/* Choose where we send the event */
 
-	if (canvas->grabbed_item && !is_descendant (canvas->current_item, canvas->grabbed_item))
-		return FALSE;
+	item = canvas->current_item;
+
+	if (canvas->focused_item
+	    && ((event->type == GDK_KEY_PRESS) || (event->type == GDK_KEY_RELEASE) || (event->type == GDK_FOCUS_CHANGE)))
+		item = canvas->focused_item;
+
+	if (canvas->grabbed_item)
+		item = canvas->grabbed_item;
+
+	/* Perform checks for grabbed items */
 
 	if (canvas->grabbed_item) {
 		switch (event->type) {
@@ -259,14 +258,6 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 	default:
 		break;
 	}
-
-	/* Choose where we send the event */
-
-	item = canvas->current_item;
-
-	if (canvas->focused_item
-	    && ((event->type == GDK_KEY_PRESS) || (event->type == GDK_KEY_RELEASE) || (event->type == GDK_FOCUS_CHANGE)))
-		item = canvas->focused_item;
 
 	/* The event is propagated up the hierarchy (for if someone connected to
 	 * a group instead of a leaf event), and emission is stopped if a
@@ -368,6 +359,7 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 				       | GDK_BUTTON3_MASK
 				       | GDK_BUTTON4_MASK
 				       | GDK_BUTTON5_MASK);
+	d(g_print ("%s:%d: button_down = %s\n", __FUNCTION__, __LINE__, button_down ? "TRUE" : "FALSE"));
 	if (!button_down)
 		canvas->left_grabbed_item = FALSE;
 
@@ -505,6 +497,12 @@ e_canvas_button (GtkWidget *widget, GdkEventButton *event)
 	retval = FALSE;
 
 	canvas = GNOME_CANVAS (widget);
+
+	d(g_print ("button %d, event type %d, grabbed=%p, current=%p\n",
+		   event->button,
+		   event->type,
+		   canvas->grabbed_item,
+		   canvas->current_item));
 
         /* dispatch normally regardless of the event's window if an item has
            has a pointer grab in effect */
