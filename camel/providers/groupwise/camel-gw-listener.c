@@ -24,7 +24,7 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-                                                                                                                             
+
 #include "camel-gw-listener.h"
 #include <string.h>
 
@@ -36,8 +36,7 @@ static 	GList *groupwise_accounts = NULL;
 struct _CamelGwListenerPrivate {
 	GConfClient *gconf_client;
 	/* we get notification about mail account changes form this object */
-	EAccountList *account_list;
-                  
+	EAccountList *account_list;                  
 };
 
 struct _GwAccountInfo {
@@ -54,10 +53,10 @@ typedef struct _GwAccountInfo GwAccountInfo;
 #define PARENT_TYPE G_TYPE_OBJECT
 
 static GObjectClass *parent_class = NULL;
-                                                                                                                             
+
 static void dispose (GObject *object);
 static void finalize (GObject *object);
-                                                                                                                             
+
 
 static void 
 camel_gw_listener_class_init (CamelGwListenerClass *class)
@@ -70,14 +69,12 @@ camel_gw_listener_class_init (CamelGwListenerClass *class)
 	/* virtual method override */
 	object_class->dispose = dispose;
 	object_class->finalize = finalize;
-
 }
 
 static void 
 camel_gw_listener_init (CamelGwListener *config_listener,  CamelGwListenerClass *class)
 {
-	config_listener->priv = g_new0 (CamelGwListenerPrivate, 1);
-	
+	config_listener->priv = g_new0 (CamelGwListenerPrivate, 1);	
 }
 
 static void 
@@ -89,7 +86,6 @@ dispose (GObject *object)
 	g_object_unref (config_listener->priv->account_list);
 
 	G_OBJECT_CLASS (parent_class)->dispose (object);
-
 }
 
 static void 
@@ -117,7 +113,6 @@ finalize (GObject *object)
 	}
 	
 	g_list_free (groupwise_accounts);
-
 }
 
 /*determines whehter the passed in account is groupwise or not by looking at source url */
@@ -126,13 +121,11 @@ static gboolean
 is_groupwise_account (EAccount *account)
 {
 	if (account->source->url != NULL) {
-		
 		return (strncmp (account->source->url,  GROUPWISE_URI_PREFIX, GROUPWISE_PREFIX_LENGTH ) == 0);
 	} else {
 		return FALSE;
 	}
 }
-
 
 /* looks up for an existing groupwise account info in the groupwise_accounts list based on uid */
 
@@ -149,14 +142,12 @@ lookup_account_info (const char *key)
 	info = NULL;
 
         for (list = g_list_first (groupwise_accounts);  list;  list = g_list_next (list)) {
-                                                                                                                                      
                 info = (GwAccountInfo *) (list->data);
                 found = strcmp (info->uid, key) == 0;
 		if (found)
 			break;
-                                                                                                                       
 	}
-	                                                                                                                             
+
 	return info;
 }
 
@@ -296,7 +287,8 @@ add_calendar_tasks_sources (GwAccountInfo *info)
 	char *relative_uri;
 	
 	url = camel_url_new (info->source_url, NULL);
-	relative_uri =  g_strdup_printf ("%s@%s", url->user, url->host);
+	/* FIXME: don't hard-code the port number */
+	relative_uri =  g_strdup_printf ("%s@%s:7181", url->user, url->host);
 	add_esource ("/apps/evolution/calendar/sources", info->name,  "Default", relative_uri);
 	add_esource ("/apps/evolution/tasks/sources", info->name,  "Default", relative_uri);
 	
