@@ -1,5 +1,11 @@
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* mail-component.c (impl_createControls): Use
+	e_storage_browser_peek_widget_scrolled() to retrieve the scrolled
+	window that the EStorageSetView is contained in.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* GNOME_Evolution_Mail.server.in.in: Add an
 	"evolution:button_label" attribute to the Component for use in the
 	shell.

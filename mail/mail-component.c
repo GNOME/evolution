@@ -930,6 +930,7 @@ impl_createControls (PortableServer_Servant servant,
 	MailComponentPrivate *priv = mail_component->priv;
 	EStorageBrowser *browser;
 	GtkWidget *tree_widget;
+	GtkWidget *tree_widget_scrolled;
 	GtkWidget *view_widget;
 	BonoboControl *sidebar_control;
 	BonoboControl *view_control;
@@ -937,6 +938,7 @@ impl_createControls (PortableServer_Servant servant,
 	browser = e_storage_browser_new (priv->storage_set, "/", create_view_callback, NULL);
 
 	tree_widget = e_storage_browser_peek_tree_widget (browser);
+	tree_widget_scrolled = e_storage_browser_peek_tree_widget_scrolled (browser);
 	view_widget = e_storage_browser_peek_view_widget (browser);
 	
 	e_storage_set_view_set_drag_types ((EStorageSetView *) tree_widget, drag_types, num_drag_types);
@@ -946,10 +948,10 @@ impl_createControls (PortableServer_Servant servant,
 	g_signal_connect (tree_widget, "folder_dragged", G_CALLBACK (folder_dragged_cb), browser);
 	g_signal_connect (tree_widget, "folder_receive_drop", G_CALLBACK (folder_receive_drop_cb), browser);
 	
-	gtk_widget_show (tree_widget);
+	gtk_widget_show (tree_widget_scrolled);
 	gtk_widget_show (view_widget);
 
-	sidebar_control = bonobo_control_new (tree_widget);
+	sidebar_control = bonobo_control_new (tree_widget_scrolled);
 	view_control = bonobo_control_new (view_widget);
 
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);

@@ -42,6 +42,7 @@
 #include <gal/util/e-util.h>
 
 #include <gtk/gtknotebook.h>
+#include <gtk/gtkscrolledwindow.h>
 #include <string.h>
 
 
@@ -55,6 +56,7 @@ struct _EStorageBrowserPrivate {
 
 	GtkWidget *view_notebook;
 	GtkWidget *storage_set_view;
+	GtkWidget *storage_set_view_scrolled;
 
 	GHashTable *path_to_view; /* (char *, GtkWidget *) */
 
@@ -221,7 +223,14 @@ e_storage_browser_new  (EStorageSet *storage_set,
 	new->priv->create_view_callback      = create_view_callback;
 	new->priv->create_view_callback_data = callback_data;
 	new->priv->starting_path             = g_strdup (starting_path);
+
 	new->priv->storage_set_view          = e_storage_set_create_new_view (storage_set, NULL);
+	gtk_widget_show (new->priv->storage_set_view);
+
+	new->priv->storage_set_view_scrolled = gtk_scrolled_window_new (NULL, NULL);
+	gtk_container_add (GTK_CONTAINER (new->priv->storage_set_view_scrolled), new->priv->storage_set_view);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (new->priv->storage_set_view_scrolled),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
 	g_object_weak_ref (G_OBJECT (new->priv->storage_set_view), (GWeakNotify) storage_set_view_weak_notify, new);
 
@@ -245,6 +254,12 @@ GtkWidget *
 e_storage_browser_peek_tree_widget (EStorageBrowser *browser)
 {
 	return browser->priv->storage_set_view;
+}
+
+GtkWidget *
+e_storage_browser_peek_tree_widget_scrolled (EStorageBrowser *browser)
+{
+	return browser->priv->storage_set_view_scrolled;
 }
 
 GtkWidget *

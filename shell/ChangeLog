@@ -1,5 +1,14 @@
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-browser.c (struct _EStorageBrowserPrivate): New member
+	"storage_set_view_scrolled".
+	(e_storage_browser_new): Put the storage_set_view in a scrolled
+	window.  Set priv->storage_set_view_scrolled to this scrolled
+	window.
+	(e_storage_browser_peek_tree_widget_scrolled): New.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-sidebar.c (PADDING): Increase to 6 pixels.
 	(button_toggled_callback): Add a cast.
 	(e_sidebar_set_selection_widget): Handle the NULL widget case

@@ -70,9 +70,10 @@ EStorageBrowser *e_storage_browser_new  (EStorageSet                       *stor
 					 EStorageBrowserCreateViewCallback  create_view_callback,
 					 void                              *create_view_callback_data);
 
-GtkWidget   *e_storage_browser_peek_tree_widget  (EStorageBrowser *browser);
-GtkWidget   *e_storage_browser_peek_view_widget  (EStorageBrowser *browser);
-EStorageSet *e_storage_browser_peek_storage_set  (EStorageBrowser *browser);
+GtkWidget   *e_storage_browser_peek_tree_widget           (EStorageBrowser *browser);
+GtkWidget   *e_storage_browser_peek_tree_widget_scrolled  (EStorageBrowser *browser);
+GtkWidget   *e_storage_browser_peek_view_widget           (EStorageBrowser *browser);
+EStorageSet *e_storage_browser_peek_storage_set           (EStorageBrowser *browser);
 
 gboolean  e_storage_browser_show_path             (EStorageBrowser   *browser,
 						   const char *path);
