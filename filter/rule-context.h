@@ -118,7 +118,7 @@ void rule_context_add_rule_gui (RuleContext *rc, FilterRule *rule, const char *t
 void rule_context_remove_rule (RuleContext *rc, FilterRule *rule);
 
 /* get/set the rank (position) of a rule */
-void rule_context_rank_rule (RuleContext *rc, FilterRule *rule, int rank);
+void rule_context_rank_rule (RuleContext *rc, FilterRule *rule, const char *source, int rank);
 int rule_context_get_rank_rule (RuleContext *rc, FilterRule *rule, const char *source);
 
 /* setup type for set parts */

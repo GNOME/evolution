@@ -37,7 +37,7 @@ static int enable_undo = 0;
 void rule_editor_add_undo (RuleEditor *re, int type, FilterRule *rule, int rank, int newrank);
 void rule_editor_play_undo (RuleEditor *re);
 
-#define d(x) 
+#define d(x)
 
 static void set_source (RuleEditor *re, const char *source);
 static void set_sensitive (RuleEditor *re);
@@ -445,10 +445,10 @@ rule_move (RuleEditor *re, int from, int to)
 	
 	g_object_ref (re->current);
 	rule_editor_add_undo (re, RULE_EDITOR_LOG_RANK, re->current,
-			      rule_context_get_rank_rule (re->context, re->current, re->current->source), to);
+			      rule_context_get_rank_rule (re->context, re->current, re->source), to);
 	
 	d(printf ("moving %d to %d\n", from, to));
-	rule_context_rank_rule (re->context, re->current, to);
+	rule_context_rank_rule (re->context, re->current, re->source, to);
 	
 	path = gtk_tree_path_new ();
 	gtk_tree_path_append_index (path, from);
@@ -630,12 +630,12 @@ rule_editor_play_undo (RuleEditor *re)
 			d(printf ("Undoing remove on rule '%s'\n", undo->rule->name));
 			g_object_ref (undo->rule);
 			rule_context_add_rule (re->context, undo->rule);
-			rule_context_rank_rule (re->context, undo->rule, undo->rank);
+			rule_context_rank_rule (re->context, undo->rule, re->source, undo->rank);
 			break;
 		case RULE_EDITOR_LOG_RANK:
 			rule = rule_context_find_rank_rule (re->context, undo->newrank, undo->rule->source);
 			if (rule)
-				rule_context_rank_rule (re->context, rule, undo->rank);
+				rule_context_rank_rule (re->context, rule, re->source, undo->rank);
 			break;
 		}
 		

@@ -542,11 +542,11 @@ revert(RuleContext *rc, const char *user)
 								filter_rule_copy(frule, part);
 							
 							g_object_unref(part);
-							rule_context_rank_rule(rc, frule, rest_data->rank);
+							rule_context_rank_rule(rc, frule, frule->source, rest_data->rank);
 							g_hash_table_remove(rest_data->rules, frule->name);
 						} else {
 							rule_context_add_rule(rc, part);
-							rule_context_rank_rule(rc, part, rest_data->rank);
+							rule_context_rank_rule(rc, part, part->source, rest_data->rank);
 						}
 						rest_data->rank++;
 					} else {
@@ -733,7 +733,7 @@ rule_context_remove_rule(RuleContext *rc, FilterRule *rule)
 }
 
 void
-rule_context_rank_rule(RuleContext *rc, FilterRule *rule, int rank)
+rule_context_rank_rule(RuleContext *rc, FilterRule *rule, const char *source, int rank)
 {
 	GList *node;
 	int i = 0, index = 0;
@@ -741,7 +741,7 @@ rule_context_rank_rule(RuleContext *rc, FilterRule *rule, int rank)
 	g_assert(rc);
 	g_assert(rule);
 	
-	if (rule_context_get_rank_rule(rc, rule, rule->source) == rank)
+	if (rule_context_get_rank_rule (rc, rule, source) == rank)
 		return;
 	
 	rc->rules = g_list_remove(rc->rules, rule);
@@ -758,7 +758,7 @@ rule_context_rank_rule(RuleContext *rc, FilterRule *rule, int rank)
 		}
 		
 		index++;		
-		if (rule->source == NULL || (r->source && strcmp(r->source, rule->source) == 0))
+		if (source == NULL || (r->source && strcmp(r->source, source) == 0))
 			i++;
 		
 		node = node->next;

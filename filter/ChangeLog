@@ -1,3 +1,20 @@
+2003-04-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #41578.
+
+	* rule-editor.c (rule_move): Pass re->source instead of
+	re->current->source to rule_context_get_rank_rule(). Also updated
+	to pass re->source to rule_context_rank_rule().
+	(rule_editor_play_undo): Updated to pass re->source to
+	rule_context_rank_rule().
+
+	* rule-context.c (rule_context_rank_rule): Now takes a 'source'
+	argument rather than using rule->source (vfolder editor lists
+	rules of all sources, not just same-source rules).
+	(revert): Pass frule->source/part->source to
+	rule_context_rank_rule() - might not be right but should preserve
+	the prior behaviour at least.
+
 2003-04-18  Not Zed  <NotZed@Ximian.com>
 
 	* rule-editor.c (d): removed debug spew.
