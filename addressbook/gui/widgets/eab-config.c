@@ -157,7 +157,7 @@ ecph_class_init (EPluginHookClass *klass)
 {
 	int i;
 
-	klass->id = "org.gnome.evolution.calendar.config:1.0";
+	klass->id = "org.gnome.evolution.addressbook.config:1.0";
 
 	for (i = 0; ecph_targets[i].type; i++) {
 		e_config_hook_class_add_target_map ((EConfigHookClass *)klass, &ecph_targets[i]);
