@@ -114,7 +114,9 @@ folder_creation_dialog_result_cb (EShell *shell,
 	dialog = E_SHELL_FOLDER_SELECTION_DIALOG (data);
 	priv = dialog->priv;
 
-	e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view), path);
+	if (result == E_SHELL_FOLDER_CREATION_DIALOG_RESULT_SUCCESS)
+		e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view),
+						       path);
 }
 
 
