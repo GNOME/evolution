@@ -52,7 +52,7 @@ struct {
 };
 
 
-static CamelFolder *get_folder(CamelFilterDriver *d, const char *uri, void *data)
+static CamelFolder *get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelException *ex)
 {
 	int i;
 
@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 	CamelStream *mbox;
 	CamelFilterDriver *driver;
 
-	gtk_init(&argc, &argv);
+	/*gtk_init(&argc, &argv);*/
 
 	camel_test_init(argc, argv);
 
@@ -153,7 +153,7 @@ int main(int argc, char **argv)
 
 	push("Executing filters");
 	camel_filter_driver_set_default_folder(driver, mailboxes[0].folder);
-	camel_filter_driver_filter_mbox(driver, "/tmp/camel-test/inbox", "", ex);
+	camel_filter_driver_filter_mbox(driver, "/tmp/camel-test/inbox", ex);
 	check_msg(!camel_exception_is_set(ex), "%s", camel_exception_get_description(ex));
 
 	/* now need to check the folder counts/etc */

@@ -1,5 +1,7 @@
 2001-01-24  Not Zed  <NotZed@Ximian.com>
 
+	* tests/folder/test9.c (main): Fix for api changes.
+
 	* camel-filter-driver.c (camel_filter_driver_filter_mbox): Remove
 	the 'finished message' bit.
 	(camel_filter_driver_filter_message): Remove an accidentally
