@@ -28,6 +28,7 @@ typedef struct {
 	GtkWidget   *week_view;
 	GtkWidget   *day_view;
 	GtkWidget   *day_view_container;
+	GtkWidget   *day_view_label;
 	GtkWidget   *year_view;
 	GtkWidget   *task_view;
 	void        *event_editor;

@@ -1102,3 +1102,21 @@ ical_object_compute_end (iCalObject *ico)
 	ico->recur->_enddate = 0;
 	ical_object_generate_events (ico, ico->dtstart, 0, duration_callback, &count);
 }
+
+int
+alarm_compute_offset (CalendarAlarm *a)
+{
+	if (!a->enabled)
+		return -1;
+	switch (a->units){
+	case ALARM_MINUTES:
+		a->offset = a->count * 60;
+		break;
+	case ALARM_HOURS:
+		a->offset = a->count * 3600;
+		break;
+	case ALARM_DAYS:
+		a->offset = a->count * 24 * 3600;
+	}
+	return a->offset;
+}

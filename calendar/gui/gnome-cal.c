@@ -6,6 +6,8 @@
  */
 
 #include <gnome.h>
+#include <unistd.h>
+#include <signal.h>
 #include "calendar.h"
 #include "gnome-cal.h"
 #include "gncal-full-day.h"
@@ -54,11 +56,22 @@ day_view_range_activated (GncalFullDay *fullday, GnomeCalendar *gcal)
 }
 
 static void
-setup_day_view (GnomeCalendar *gcal)
+set_day_view_label (GnomeCalendar *gcal, time_t t)
 {
-	time_t a, b, now;
+	static char buf[256];
+
+	strftime (buf, sizeof (buf), "%a %b %d %Y", localtime (&t));
+	gtk_label_set (GTK_LABEL (gcal->day_view_label), buf);
+}
+
+static void
+setup_day_view (GnomeCalendar *gcal, time_t now)
+{
+	GtkTable  *t;
+	GtkWidget *sw;
 	
-	now = time (NULL);
+	time_t a, b;
+	
 	a = time_start_of_day (now);
 	b = time_end_of_day (now);
 	
@@ -66,12 +79,29 @@ setup_day_view (GnomeCalendar *gcal)
 	gtk_signal_connect (GTK_OBJECT (gcal->day_view), "range_activated",
 			    (GtkSignalFunc) day_view_range_activated,
 			    gcal);
-	gcal->day_view_container = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (gcal->day_view_container),
+
+	t = (GtkTable *) gcal->day_view_container = gtk_table_new (0, 0, 0);
+	gtk_container_border_width (GTK_CONTAINER (t), 4);
+	gtk_table_set_row_spacings (t, 4);
+	gtk_table_set_col_spacings (t, 4);
+	
+	gcal->day_view_label = gtk_label_new ("");
+	set_day_view_label (gcal, now);
+	gtk_table_attach (t, gcal->day_view_label, 0, 1, 0, 1,
+			  GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 0);
+
+	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
-	gtk_container_add (GTK_CONTAINER (gcal->day_view_container), gcal->day_view);
-	gtk_widget_show (gcal->day_view);
+	gtk_table_attach (t, sw, 0, 1, 1, 2,
+			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+			  0, 0);
+	gtk_container_add (GTK_CONTAINER (sw), gcal->day_view);
+	gtk_widget_show_all (GTK_WIDGET (t));
 }
 
 static void
@@ -86,7 +116,7 @@ setup_widgets (GnomeCalendar *gcal)
 	gcal->year_view = gncal_year_view_new (gcal, now);
 	gcal->task_view = tasks_create (gcal);
 
-	setup_day_view (gcal);
+	setup_day_view (gcal, now);
 	
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view_container,  gtk_label_new (_("Day View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->week_view, gtk_label_new (_("Week View")));
@@ -129,6 +159,7 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 		gncal_full_day_set_bounds (GNCAL_FULL_DAY (gcal->day_view),
 					   time_start_of_day (new_time),
 					   time_end_of_day (new_time));
+		set_day_view_label (gcal, new_time);
 	} else if (current == gcal->year_view)
 		gncal_year_view_set (GNCAL_YEAR_VIEW (gcal->year_view), new_time);
 	else
@@ -157,7 +188,7 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 void
 gnome_calendar_next (GnomeCalendar *gcal)
 {
-	gnome_calendar_direction (gcal, 1);
+gnome_calendar_direction (gcal, 1);
 }
 
 void
@@ -244,3 +275,111 @@ gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj, int flags)
 
 	gnome_calendar_update_all (gcal, obj, flags);
 }
+
+static int
+max_open_files (void)
+{
+        static int files;
+
+        if (files)
+                return files;
+
+        files = sysconf (_SC_OPEN_MAX);
+        if (files != -1)
+                return files;
+#ifdef OPEN_MAX
+        return files = OPEN_MAX;
+#else
+        return files = 256;
+#endif
+}
+
+static void
+execute (char *command, int close_standard)
+{
+	struct sigaction ignore, save_intr, save_quit;
+	int status = 0, i;
+	pid_t pid;
+	
+	ignore.sa_handler = SIG_IGN;
+	sigemptyset (&ignore.sa_mask);
+	ignore.sa_flags = 0;
+    
+	sigaction (SIGINT, &ignore, &save_intr);    
+	sigaction (SIGQUIT, &ignore, &save_quit);
+
+	if ((pid = fork ()) < 0){
+		fprintf (stderr, "\n\nfork () = -1\n");
+		return;
+	}
+	if (pid == 0){
+		pid = fork ();
+		if (pid == 0){
+			const int top = max_open_files ();
+			sigaction (SIGINT,  &save_intr, NULL);
+			sigaction (SIGQUIT, &save_quit, NULL);
+			
+			for (i = (close_standard ? 0 : 3); i < 4096; i++)
+				close (i);
+			
+			/* FIXME: As an excercise to the reader, copy the
+			 * code from mc to setup shell properly instead of
+			 * /bin/sh.  Yes, this comment is larger than a cut and paste.
+			 */
+			execl ("/bin/sh", "/bin/sh", "-c", command, (char *) 0);
+			
+			exit (127);
+		} else {
+			exit (127);
+		}
+	}
+	wait (&status);
+	sigaction (SIGINT,  &save_intr, NULL);
+	sigaction (SIGQUIT, &save_quit, NULL);
+}
+
+void
+calendar_notify (time_t time, void *data)
+{
+	iCalObject *ico = data;
+
+	if (ico->aalarm.enabled && ico->aalarm.trigger == time){
+		printf ("bip\n");
+		return;
+	}
+
+        if (ico->palarm.enabled && ico->palarm.trigger == time){
+		execute (ico->palarm.data, 0);
+		return;
+	}
+
+	if (ico->malarm.enabled && ico->malarm.trigger == time){
+		char *command;
+		time_t app = ico->malarm.trigger + ico->malarm.offset;
+		
+		command = g_copy_strings ("mail -s '",
+					  _("Reminder of your appointment at "),
+					  ctime (&app), "' '",
+					  ico->malarm.data, "' ",
+					  NULL);
+		execute (command, 1);
+		
+		g_free (command);
+		return;
+	}
+
+	if (ico->dalarm.enabled && ico->dalarm.trigger == time){
+		time_t app = ico->dalarm.trigger + ico->dalarm.offset;
+		GtkWidget *w;
+		char *msg;
+
+		msg = g_copy_strings (_("Reminder of your appointment at "),
+					ctime (&app), "`",
+					ico->summary, "'", NULL);
+		w = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO, "Ok", NULL);
+		gtk_widget_show (w);
+		return;
+	}
+}
+
+

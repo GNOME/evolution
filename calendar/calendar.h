@@ -54,6 +54,7 @@ GList    *calendar_get_events_in_range  (Calendar *cal, time_t start, time_t end
 /* Destroy the above list with this method */
 void      calendar_destroy_event_list (GList *l);
 
+void      calendar_notify (time_t, void *data);
 END_GNOME_DECLS
 
 #endif

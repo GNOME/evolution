@@ -57,7 +57,7 @@ isodate_from_time_t (time_t t)
 	static char isotime [40];
 
 	tm = localtime (&t);
-	strftime (isotime, sizeof (isotime)-1, "%Y%m%dT%H%M%sZ", tm);
+	strftime (isotime, sizeof (isotime)-1, "%Y%m%dT%H%M%SZ", tm);
 	return isotime;
 }
 

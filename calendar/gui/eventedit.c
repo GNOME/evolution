@@ -1265,7 +1265,7 @@ get_exception_string (time_t t)
 {
 	static char buf[256];
 
-	strftime (buf, 256, "%a %b %d %Y", localtime (&t)); /* FIXME: how to i18n this? */
+	strftime (buf, sizeof(buf), "%a %b %d %Y", localtime (&t)); /* FIXME: how to i18n this? */
 	return buf;
 }
 
@@ -1483,7 +1483,7 @@ event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 	ee = EVENT_EDITOR (retval);
 	
 	if (ical == 0){
-		ical = ical_new ("Test Comment", user_name, "Test Summary");
+		ical = ical_new ("", user_name, "");
 		ical->new = 1;
 	}
 

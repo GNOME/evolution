@@ -11,6 +11,7 @@
 #include <gnome.h>
 #include <pwd.h>
 #include <sys/types.h>
+
 #include "calendar.h"
 #include "eventedit.h"
 #include "gnome-cal.h"
@@ -96,6 +97,8 @@ init_calendar (void)
 	gnome_config_pop_prefix ();
 }
 
+void save_calendar_cmd (GtkWidget *widget, void *data);
+
 void
 about_calendar_cmd (GtkWidget *widget, void *data)
 {
@@ -125,27 +128,31 @@ display_objedit (GtkWidget *widget, GnomeCalendar *gcal)
 }
 
 void
-quit_cmd (GtkWidget *widget, GnomeCalendar *gcal)
-{
-	/* FIXME: check all of the calendars for their state (modified) */
-
-	gtk_main_quit ();
-}
-
-void
 close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	if (gcal->cal->modified){
-		gnome_message_box_new (_("The calendar has unsaved changes, Save them?"),
-				       GNOME_MESSAGE_BOX_WARNING,
-				       "Yes", "No");
+		if (!gcal->cal->filename)
+			save_calendar_cmd (widget, gcal);
+		else
+			calendar_save (gcal->cal, gcal->cal->filename);
 	}
 
-	gtk_widget_destroy (widget);
+	gtk_widget_destroy (GTK_WIDGET (gcal));
 	active_calendars--;
-
+	all_calendars = g_list_remove (all_calendars, gcal);
+	
 	if (active_calendars == 0)
 		gtk_main_quit ();
+}
+
+void
+quit_cmd (GtkWidget *widget, GnomeCalendar *gcal)
+{
+	while (all_calendars){
+		GnomeCalendar *cal = GNOME_CALENDAR (all_calendars->data);
+
+		close_cmd (GTK_WIDGET (cal), cal);
+	}
 }
 
 void
@@ -307,7 +314,6 @@ new_calendar (char *full_name, char *calendar_file)
 		printf ("Trying to load %s\n", calendar_file);
 		gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
 	}
-
 	active_calendars++;
 	all_calendars = g_list_prepend (all_calendars, toplevel);
 	gtk_widget_show (toplevel);
@@ -320,12 +326,12 @@ main(int argc, char *argv[])
 
 	argp_program_version = VERSION;
 
-	/* Initialise the i18n stuff */
 	bindtextdomain(PACKAGE, GNOMELOCALEDIR);
 	textdomain(PACKAGE);
 
 	gnome_init ("gncal", NULL, argc, argv, 0, NULL);
 
+	alarm_init ();
 	init_calendar ();
 
 	new_calendar (full_name, user_calendar_file);

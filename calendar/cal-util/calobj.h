@@ -32,6 +32,10 @@ typedef struct {
 	int            count;
 	enum AlarmUnit units;
 	char           *data;
+
+	/* Does not get saved, internally used */
+	time_t         offset;
+	time_t         trigger;
 	
 	/* Widgets */
 	void           *w_count;      /* A GtkEntry */
@@ -179,6 +183,9 @@ void        ical_object_generate_events     (iCalObject *ico, time_t start, time
 
 /* Computes the enddate field of the recurrence based on the duration */
 void        ical_object_compute_end         (iCalObject *ico);
+
+/* Returns the number of seconds configured to trigger the alarm in advance to an event */
+int         alarm_compute_offset (CalendarAlarm *a);
 
 END_GNOME_DECLS
 

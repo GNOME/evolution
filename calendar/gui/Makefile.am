@@ -9,6 +9,8 @@ INCLUDES = 			\
 bin_PROGRAMS = gnomecal
 
 gnomecal_SOURCES = \
+	alarm.c			\
+	alarm.h			\
 	calendar.c		\
 	calendar.h		\
 	calobj.c		\

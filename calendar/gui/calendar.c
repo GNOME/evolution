@@ -18,6 +18,9 @@
 #include "timeutil.h"
 #include "versit/vcc.h"
 
+/* Our day range */
+time_t calendar_day_begin, calendar_day_end;
+
 Calendar *
 calendar_new (char *title)
 {
@@ -29,12 +32,71 @@ calendar_new (char *title)
 	return cal;
 }
 
+static void
+try_add (iCalObject *ico, CalendarAlarm *alarm, time_t start, time_t end)
+{
+	alarm->trigger = start-alarm->offset;
+	
+	if (alarm->trigger < calendar_day_begin)
+		return;
+	if (alarm->trigger > calendar_day_end)
+		return;
+	alarm_add (alarm->trigger, calendar_notify, ico);
+}
+
+static int
+add_alarm (iCalObject *obj, time_t start, time_t end, void *closure)
+{
+	if (obj->aalarm.enabled)
+		try_add (obj, &obj->aalarm, start, end);
+	if (obj->dalarm.enabled)
+		try_add (obj, &obj->dalarm, start, end);
+	if (obj->palarm.enabled)
+		try_add (obj,&obj->palarm, start, end);
+	if (obj->malarm.enabled)
+		try_add (obj, &obj->malarm, start, end);
+	
+	return TRUE;
+}
+
+#define max(a,b) ((a > b) ? a : b)
+
+void
+ical_object_try_alarms (iCalObject *obj)
+{
+	GList *alarms, *p;
+	int ao, po, od, mo;
+	int max_o;
+	
+	ao = alarm_compute_offset (&obj->aalarm);
+	po = alarm_compute_offset (&obj->palarm);
+	od = alarm_compute_offset (&obj->dalarm);
+	mo = alarm_compute_offset (&obj->malarm);
+	
+	max_o = max (ao, max (po, max (od, mo)));
+	if (max_o == -1)
+		return;
+	
+	ical_object_generate_events (obj, calendar_day_begin, calendar_day_end + max_o, add_alarm, obj);
+}
+
+void
+calendar_add_alarms (Calendar *cal)
+{
+	time_t now = time (NULL);
+	GList *events = cal->events;
+
+	for (; events; events=events->next)
+		ical_object_try_alarms (events->data);
+}
+
 void
 calendar_add_object (Calendar *cal, iCalObject *obj)
 {
 	switch (obj->type){
 	case ICAL_EVENT:
 		cal->events = g_list_prepend (cal->events, obj);
+		ical_object_try_alarms (obj);
 		break;
 
 	case ICAL_TODO:
@@ -207,6 +269,7 @@ char *
 calendar_load (Calendar *cal, char *fname)
 {
 	VObject *vcal;
+	time_t calendar_today;
 	
 	if (cal->filename){
 		g_warning ("Calendar load called again\n");
@@ -217,7 +280,11 @@ calendar_load (Calendar *cal, char *fname)
 	vcal = Parse_MIME_FromFileName (fname);
 	if (!vcal)
 		return "Could not load the calendar";
-	
+
+	calendar_today     = time (NULL);
+	calendar_day_begin = time_start_of_day (calendar_today);
+	calendar_day_end   = time_end_of_day   (calendar_today);
+		
 	calendar_load_from_vobject (cal, vcal);
 	cleanVObject (vcal);
 	cleanStrTbl ();
