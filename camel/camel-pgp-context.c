@@ -144,8 +144,9 @@ camel_pgp_context_new (CamelSession *session, CamelPgpType type, const char *pat
 	CamelPgpContext *context;
 	
 	g_return_val_if_fail (session != NULL, NULL);
-	g_return_val_if_fail (type != CAMEL_PGP_TYPE_NONE, NULL);
-	g_return_val_if_fail (path != NULL, NULL);
+	
+	if (type == CAMEL_PGP_TYPE_NONE || !path || !*path)
+		return NULL;
 	
 	context = CAMEL_PGP_CONTEXT (camel_object_new (CAMEL_PGP_CONTEXT_TYPE));
 	
