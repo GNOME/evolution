@@ -93,6 +93,9 @@ EXTRA_DIST = $(server_DATA)				\
 BUILT_SOURCES = $(IDL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
+
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 
