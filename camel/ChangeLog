@@ -1,5 +1,9 @@
 2004-06-04  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/imap4/camel-imap4-store.c (connect_to_server_wrapper):
+	Duh. If the user doesn't care about SSL/TLS - use USE_SSL_NEVER,
+	not USE_SSL_ALWAYS.
+
 	* camel-tcp-stream-ssl.c (stream_flush): Always just return 0,
 	don't try to PR_Sync() - fsync on a socket causes an error.
 

@@ -353,7 +353,7 @@ connect_to_server_wrapper (CamelService *service, CamelException *ex)
 		ret = connect_to_server (service, h, ssl_mode, TRUE, ex);
 	} else {
 		/* User doesn't care about SSL */
-		ret = connect_to_server (service, h, USE_SSL_ALWAYS, FALSE, ex);
+		ret = connect_to_server (service, h, USE_SSL_NEVER, FALSE, ex);
 	}
 	
 	camel_free_host (h);
