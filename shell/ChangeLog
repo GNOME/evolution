@@ -1,3 +1,8 @@
+2001-03-28  Jon Trowbridge  <trow@gnu.org>
+
+	* e-shell-view-menu.c: In a fit of egomania, added myself to the
+	authors array.
+
 2001-03-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-component-client.c

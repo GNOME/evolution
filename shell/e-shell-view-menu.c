@@ -64,6 +64,7 @@ const char *authors[] = {
 	"Russell Steinthal",
 	"Peter Teichman",
 	"Chris Toshok",
+	"Jon Trowbridge",
 	"Peter Williams",
 	"Dan Winship",
 	"Michael Zucchi",
