@@ -1226,7 +1226,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 				break;
 			}
 
-			if (selected){
+			if (col_selected){
 				background = &canvas->style->bg [GTK_STATE_SELECTED];
 			} else {
 #if 0
