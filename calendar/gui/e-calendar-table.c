@@ -134,35 +134,37 @@ e_calendar_table_class_init (ECalendarTableClass *class)
 
 
 #define E_CALENDAR_TABLE_SPEC				\
-	"<ETableSpecification click-to-add=\"1\">"	\
-	"<columns-shown>"				\
+	"<ETableSpecification click-to-add=\"true\"> draw-grid=\"true\""	\
+        "<ETableColumn model_col= \"0\" _title=\"Categories\"            expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
+        "<ETableColumn model_col= \"1\" _title=\"Classification\"        expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
+        "<ETableColumn model_col= \"2\" _title=\"Completion Date\"       expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
+        "<ETableColumn model_col= \"3\" _title=\"End Date\"              expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
+        "<ETableColumn model_col= \"4\" _title=\"Start Date\"            expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
+        "<ETableColumn model_col= \"5\" _title=\"Due Date\"              expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
+        "<ETableColumn model_col= \"6\" _title=\"Geographical Position\" expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
+        "<ETableColumn model_col= \"7\" _title=\"Percent complete\"      expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
+        "<ETableColumn model_col= \"8\" _title=\"Priority\"              expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
+        "<ETableColumn model_col= \"9\" _title=\"Summary\"               expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"summary\"  compare=\"string\"/>"  \
+        "<ETableColumn model_col=\"10\" _title=\"Transparency\"          expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
+        "<ETableColumn model_col=\"11\" _title=\"URL\"                   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
+        "<ETableColumn model_col=\"12\" _title=\"Alarms\"                expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
+        "<ETableColumn model_col=\"13\" pixbuf=\"icon\"                  expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"icon\"     compare=\"integer\"/>" \
+        "<ETableColumn model_col=\"14\" pixbuf=\"complete\"              expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"checkbox\" compare=\"integer\"/>" \
+	"<ETableState>" 				\
 		"<column> 13 </column>"			\
 		"<column> 9 </column>"			\
 		"<column> 14 </column>"			\
-	"</columns-shown>"				\
-	"<grouping> </grouping>"			\
+        	"<grouping> </grouping>"		\
+	"</ETableState>"				\
 	"</ETableSpecification>"
-
-/* Creates a text column for the table header */
-static void
-create_column (ETableHeader *header, ETableModel *model, int id, const char *text)
-{
-	ECell *cell;
-	ETableCol *column;
-
-	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-	column = e_table_col_new (id, text, 1.0, 10, cell, g_str_compare, TRUE);
-	e_table_header_add_column (header, column, id);
-}
 
 static void
 e_calendar_table_init (ECalendarTable *cal_table)
 {
 	GtkWidget *table;
 	ETableModel *model;
-	ETableHeader *header;
 	ECell *cell;
-	ETableCol *column;
+	ETableExtras *extras;
 	gint i;
 	GdkPixbuf *pixbuf;
 	GdkColormap *colormap;
@@ -188,35 +190,17 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	cal_table->model = calendar_model_new ();
 	model = E_TABLE_MODEL (cal_table->model);
 
-	header = e_table_header_new ();
-	gtk_object_ref (GTK_OBJECT (header));
-	gtk_object_sink (GTK_OBJECT (header));
-
 	/* Create the header columns */
-	create_column (header, model, CAL_COMPONENT_FIELD_CATEGORIES, _("Categories"));
-	create_column (header, model, CAL_COMPONENT_FIELD_CLASSIFICATION, _("Classification"));
-	create_column (header, model, CAL_COMPONENT_FIELD_COMPLETED, _("Completion date"));
-	create_column (header, model, CAL_COMPONENT_FIELD_DTEND, _("End date"));
-	create_column (header, model, CAL_COMPONENT_FIELD_DTSTART, _("Start date"));
-	create_column (header, model, CAL_COMPONENT_FIELD_DUE, _("Due date"));
-	create_column (header, model, CAL_COMPONENT_FIELD_GEO, _("Geographical position"));
-	create_column (header, model, CAL_COMPONENT_FIELD_PERCENT, _("Percent complete"));
-	create_column (header, model, CAL_COMPONENT_FIELD_PRIORITY, _("Priority"));
 
-	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
+	extras = e_table_extras_new();
+
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
 			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
 			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
 			"color_column", CAL_COMPONENT_FIELD_COLOR,
 			NULL);
-	column = e_table_col_new (CAL_COMPONENT_FIELD_SUMMARY, _("Summary"),
-				  1.0, 10, cell, g_str_compare, TRUE);
-	e_table_header_add_column (header, column, CAL_COMPONENT_FIELD_SUMMARY);
-
-	create_column (header, model, CAL_COMPONENT_FIELD_TRANSPARENCY, _("Transparency"));
-	create_column (header, model, CAL_COMPONENT_FIELD_URL, _("URL"));
-
-	create_column (header, model, CAL_COMPONENT_FIELD_HAS_ALARMS, _("Alarms"));
+	e_table_extras_add_cell(extras, "summary", cell);
 
 	/* Create pixmaps */
 
@@ -227,21 +211,16 @@ e_calendar_table_init (ECalendarTable *cal_table)
 		}
 
 	cell = e_cell_toggle_new (0, E_CALENDAR_MODEL_NUM_ICONS, icon_pixbufs);
-	column = e_table_col_new_with_pixbuf (CAL_COMPONENT_FIELD_ICON,
-					      icon_pixbufs[0], 0.0, 16, cell,
-					      g_int_compare, FALSE);
-	e_table_header_add_column (header, column, CAL_COMPONENT_FIELD_ICON);
+	e_table_extras_add_cell(extras, "icon", cell);
+	e_table_extras_add_pixbuf(extras, "icon", icon_pixbufs[0]);
 
-	cell = e_cell_checkbox_new ();
 	pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) check_filled_xpm);
-	column = e_table_col_new_with_pixbuf (CAL_COMPONENT_FIELD_COMPLETE,
-					      pixbuf, 0.0, 16, cell,
-					      g_int_compare, FALSE);
-	e_table_header_add_column (header, column, CAL_COMPONENT_FIELD_COMPLETE);
+	e_table_extras_add_pixbuf(extras, "complete", pixbuf);
+	gdk_pixbuf_unref(pixbuf);
 
 	/* Create the table */
 
-	table = e_table_scrolled_new (header, model, E_CALENDAR_TABLE_SPEC);
+	table = e_table_scrolled_new (model, extras, E_CALENDAR_TABLE_SPEC, NULL);
 	gtk_object_set (GTK_OBJECT (table),
 			"click_to_add_message", "Click here to add a new Task",
 			NULL);
