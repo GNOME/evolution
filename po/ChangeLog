@@ -1,3 +1,7 @@
+2000-12-23  JP Rosevear  <jpr@helixcode.com>
+
+	* POTFILES.in: Remove deleted file
+
 2000-12-22  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian translation.

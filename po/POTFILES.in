@@ -52,7 +52,6 @@ calendar/gui/goto.c
 calendar/gui/main.c
 calendar/gui/popup-menu.c
 calendar/gui/print.c
-calendar/gui/prop.c
 calendar/gui/weekday-picker.c
 camel/camel-folder-thread.c
 camel/camel-lock.c
