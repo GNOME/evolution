@@ -1094,7 +1094,6 @@ addressbook_config_edit_source (GtkWidget *parent, ESource *source)
 	}
 
 	/* HACK: doesn't work if you don't do this */
-	e_source_set_absolute_uri(sdialog->source, NULL);
 	e_source_set_group(sdialog->source, sdialog->source_group);
 
 #if d(!)0

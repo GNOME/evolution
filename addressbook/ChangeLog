@@ -1,3 +1,8 @@
+2005-02-24  Sushma Rai  <rsushma@novell.com>
+
+	* gui/component/addressbook-config.c (addressbook_config_edit_source):
+	Removed the hack, setting absolute URI to NULL. Fixes #72715
+
 2005-02-23  Hans Petter Jansson  <hpj@novell.com>
 
 	* gui/component/addressbook-view.c:
