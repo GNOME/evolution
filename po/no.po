@@ -1,13 +1,13 @@
 # Norwegian translation of evolution (bokmål dialect).
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# Kjartan Maraas <kmaraas@online.no>, 2000.
+# Kjartan Maraas <kmaraas@gnome.org>, 2000.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-08-07 22:07+0200\n"
-"PO-Revision-Date: 2000-08-07 22:11+02:00\n"
-"Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
+"Project-Id-Version: evolution 0.4\n"
+"POT-Creation-Date: 2000-08-15 22:52+0200\n"
+"PO-Revision-Date: 2000-08-19 21:36+02:00\n"
+"Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -15,9 +15,147 @@ msgstr ""
 
 #: addressbook/backend/ebook/load-gnomecard-addressbook.c:41
 #: addressbook/backend/ebook/load-pine-addressbook.c:41
-#: addressbook/gui/component/addressbook-factory.c:59 calendar/gui/main.c:68
+#: addressbook/backend/ebook/test-client-list.c:29
+#: addressbook/backend/ebook/test-client.c:54
+#: addressbook/conduit/address-conduit.c:1201
+#: addressbook/demo/addressbook-factory.c:32
+#: addressbook/gui/component/addressbook-factory.c:59
+#: addressbook/gui/minicard/test-minicard-view.c:45
+#: calendar/conduits/calendar/calendar-conduit.c:1669
+#: calendar/conduits/todo/todo-conduit.c:1298 calendar/gui/main.c:68
 msgid "Could not initialize Bonobo"
 msgstr "Kunne ikke initialisere Bonobo"
+
+#. This array must be in the same order as enumerations
+#. in GnomePilotConduitSyncType as they are used as index.
+#. Custom type implies Disabled state.
+#.
+#: addressbook/conduit/address-conduit-control-applet.c:54
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:55
+#: calendar/conduits/todo/todo-conduit-control-applet.c:55
+msgid "Disabled"
+msgstr "Slått av"
+
+#: addressbook/conduit/address-conduit-control-applet.c:55
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:56
+#: calendar/conduits/todo/todo-conduit-control-applet.c:56
+msgid "Synchronize"
+msgstr "Synkronisér"
+
+#: addressbook/conduit/address-conduit-control-applet.c:56
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:57
+#: calendar/conduits/todo/todo-conduit-control-applet.c:57
+msgid "Copy From Pilot"
+msgstr "Kopiér fra Pilot"
+
+#: addressbook/conduit/address-conduit-control-applet.c:57
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:58
+#: calendar/conduits/todo/todo-conduit-control-applet.c:58
+msgid "Copy To Pilot"
+msgstr "Kopiér til Pilot"
+
+#: addressbook/conduit/address-conduit-control-applet.c:58
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:59
+#: calendar/conduits/todo/todo-conduit-control-applet.c:59
+msgid "Merge From Pilot"
+msgstr "Flett fra Pilot"
+
+#: addressbook/conduit/address-conduit-control-applet.c:59
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:60
+#: calendar/conduits/todo/todo-conduit-control-applet.c:60
+msgid "Merge To Pilot"
+msgstr "Flett til Pilot"
+
+#: addressbook/conduit/address-conduit-control-applet.c:143
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:144
+#: calendar/conduits/todo/todo-conduit-control-applet.c:144
+msgid "Eskil Heyn Olsen <deity@eskil.dk>"
+msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
+
+#: addressbook/conduit/address-conduit-control-applet.c:145
+msgid "Gpilotd address conduit"
+msgstr "Gpilotd addressekomponent"
+
+#: addressbook/conduit/address-conduit-control-applet.c:146
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:147
+#: calendar/conduits/todo/todo-conduit-control-applet.c:147
+msgid "(C) 1998 the Free Software Foundation"
+msgstr "(C) 1998 the Free Software Foundation"
+
+#: addressbook/conduit/address-conduit-control-applet.c:148
+msgid "Configuration utility for the address conduit.\n"
+msgstr "Konfigurasjonsverktøy for adressekomponenten.\n"
+
+#: addressbook/conduit/address-conduit-control-applet.c:149
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:150
+#: calendar/conduits/todo/todo-conduit-control-applet.c:150
+msgid "gnome-unknown.xpm"
+msgstr "gnome-unknown.xpm"
+
+#: addressbook/conduit/address-conduit-control-applet.c:190
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:191
+#: calendar/conduits/todo/todo-conduit-control-applet.c:191
+msgid "Synchronize Action"
+msgstr "Synkroniseringshandling"
+
+#: addressbook/conduit/address-conduit-control-applet.c:261
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:262
+#: calendar/conduits/todo/todo-conduit-control-applet.c:262
+msgid "Conduit state"
+msgstr "Komponent-tilstand"
+
+#: addressbook/conduit/address-conduit-control-applet.c:315
+#: addressbook/conduit/address-conduit-control-applet.c:328
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:316
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:329
+#: calendar/conduits/todo/todo-conduit-control-applet.c:316
+#: calendar/conduits/todo/todo-conduit-control-applet.c:329
+msgid ""
+"No pilot configured, please choose the\n"
+"'Pilot Link Properties' capplet first."
+msgstr ""
+"Ingen pilot er konfigurert, vennligst\n"
+"velg cappleten 'Egenskaper for pilot link' først."
+
+#: addressbook/conduit/address-conduit-control-applet.c:334
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:335
+#: calendar/conduits/todo/todo-conduit-control-applet.c:335
+msgid "Not connected to the gnome-pilot daemon"
+msgstr "Ikke tilkoblet gnome-pilot daemon"
+
+#: addressbook/conduit/address-conduit-control-applet.c:339
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:340
+#: calendar/conduits/todo/todo-conduit-control-applet.c:340
+msgid ""
+"An error occured when trying to fetch\n"
+"pilot list from the gnome-pilot daemon"
+msgstr ""
+"En feil oppsto under forsøk på å hente\n"
+"pilot-listen fra gnome-pilot daemonen"
+
+#: addressbook/conduit/address-conduit.c:128
+#: addressbook/conduit/address-conduit.c:142
+msgid "BLARG\n"
+msgstr "BLARG\n"
+
+#: addressbook/conduit/address-conduit.c:459
+#, c-format
+msgid "Address holds %ld address entries"
+msgstr "Adressen har %ld adresseoppføringer"
+
+#: addressbook/conduit/address-conduit.c:485
+#: addressbook/conduit/address-conduit.c:487
+msgid "Could not start addressbook server"
+msgstr "Kunne ikke starte adressebok-tjeneren"
+
+#: addressbook/conduit/address-conduit.c:500
+#: addressbook/conduit/address-conduit.c:503
+msgid "Could not read pilot's Address application block"
+msgstr "Kunne ikke lese pilotens adresseapplikasjonsblokk"
+
+#: addressbook/conduit/address-conduit.c:841
+msgid "Error while communicating with address server"
+msgstr "Feil under kommunikasjon med adresse-tjeneren"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -37,72 +175,72 @@ msgid "Available Categories:"
 msgstr "Tilgjengelige kategorier:"
 
 #: addressbook/contact-editor/e-contact-editor.c:643
-#: calendar/gui/dialogs/task-editor.c:218 calendar/gui/event-editor.c:1168
+#: calendar/gui/dialogs/task-editor.c:217 calendar/gui/event-editor.c:1168
 msgid "FIXME: _Appointment"
 msgstr "_Avtale"
 
 #: addressbook/contact-editor/e-contact-editor.c:644
-#: calendar/gui/dialogs/task-editor.c:219 calendar/gui/event-editor.c:1169
+#: calendar/gui/dialogs/task-editor.c:218 calendar/gui/event-editor.c:1169
 msgid "FIXME: Meeting Re_quest"
 msgstr "Møteforesp_ørsel"
 
 #: addressbook/contact-editor/e-contact-editor.c:646
-#: calendar/gui/dialogs/task-editor.c:217 calendar/gui/event-editor.c:1171
+#: calendar/gui/dialogs/task-editor.c:216 calendar/gui/event-editor.c:1171
 msgid "FIXME: _Mail Message"
 msgstr "Send _melding"
 
 #: addressbook/contact-editor/e-contact-editor.c:647
-#: calendar/gui/dialogs/task-editor.c:220 calendar/gui/event-editor.c:1172
+#: calendar/gui/dialogs/task-editor.c:219 calendar/gui/event-editor.c:1172
 msgid "FIXME: _Contact"
 msgstr "_Kontakt"
 
 #: addressbook/contact-editor/e-contact-editor.c:648
-#: calendar/gui/dialogs/task-editor.c:214
-#: calendar/gui/dialogs/task-editor.c:221 calendar/gui/event-editor.c:1173
+#: calendar/gui/dialogs/task-editor.c:213
+#: calendar/gui/dialogs/task-editor.c:220 calendar/gui/event-editor.c:1173
 msgid "FIXME: _Task"
 msgstr "_Oppgave"
 
 #: addressbook/contact-editor/e-contact-editor.c:649
-#: calendar/gui/dialogs/task-editor.c:215
-#: calendar/gui/dialogs/task-editor.c:222 calendar/gui/event-editor.c:1174
+#: calendar/gui/dialogs/task-editor.c:214
+#: calendar/gui/dialogs/task-editor.c:221 calendar/gui/event-editor.c:1174
 msgid "FIXME: Task _Request"
 msgstr "Oppgavefo_respørsel"
 
 #: addressbook/contact-editor/e-contact-editor.c:650
-#: calendar/gui/dialogs/task-editor.c:223 calendar/gui/event-editor.c:1175
+#: calendar/gui/dialogs/task-editor.c:222 calendar/gui/event-editor.c:1175
 msgid "FIXME: _Journal Entry"
 msgstr "_Journaloppføring"
 
 #: addressbook/contact-editor/e-contact-editor.c:651
-#: calendar/gui/dialogs/task-editor.c:224 calendar/gui/event-editor.c:1176
+#: calendar/gui/dialogs/task-editor.c:223 calendar/gui/event-editor.c:1176
 msgid "FIXME: _Note"
 msgstr "_Notis"
 
 #: addressbook/contact-editor/e-contact-editor.c:653
 #: addressbook/contact-editor/e-contact-editor.c:758
-#: calendar/gui/dialogs/task-editor.c:226
-#: calendar/gui/dialogs/task-editor.c:333 calendar/gui/event-editor.c:1178
+#: calendar/gui/dialogs/task-editor.c:225
+#: calendar/gui/dialogs/task-editor.c:332 calendar/gui/event-editor.c:1178
 #: calendar/gui/event-editor.c:1285
 msgid "FIXME: Ch_oose Form..."
 msgstr "Velg skjema..."
 
 #: addressbook/contact-editor/e-contact-editor.c:658
-#: calendar/gui/dialogs/task-editor.c:231 calendar/gui/event-editor.c:1183
+#: calendar/gui/dialogs/task-editor.c:230 calendar/gui/event-editor.c:1183
 msgid "FIXME: _Memo Style"
 msgstr "_Notis-stil"
 
 #: addressbook/contact-editor/e-contact-editor.c:660
-#: calendar/gui/dialogs/task-editor.c:233 calendar/gui/event-editor.c:1185
+#: calendar/gui/dialogs/task-editor.c:232 calendar/gui/event-editor.c:1185
 msgid "FIXME: Define Print _Styles..."
 msgstr "Definér utskriftstiler..."
 
 #: addressbook/contact-editor/e-contact-editor.c:667
-#: calendar/gui/dialogs/task-editor.c:240 calendar/gui/event-editor.c:1192
+#: calendar/gui/dialogs/task-editor.c:239 calendar/gui/event-editor.c:1192
 msgid "FIXME: S_end"
 msgstr "_Send"
 
 #: addressbook/contact-editor/e-contact-editor.c:671
-#: calendar/gui/dialogs/task-editor.c:244 calendar/gui/event-editor.c:1196
+#: calendar/gui/dialogs/task-editor.c:243 calendar/gui/event-editor.c:1196
 msgid "FIXME: Save Attac_hments..."
 msgstr "Lagre vedlegg..."
 
@@ -112,153 +250,153 @@ msgid "_Delete"
 msgstr "_Slett"
 
 #: addressbook/contact-editor/e-contact-editor.c:674
-#: calendar/gui/dialogs/task-editor.c:247 calendar/gui/event-editor.c:1199
+#: calendar/gui/dialogs/task-editor.c:246 calendar/gui/event-editor.c:1199
 msgid "FIXME: _Move to Folder..."
 msgstr "_Flytt til mappe..."
 
 #: addressbook/contact-editor/e-contact-editor.c:675
-#: calendar/gui/dialogs/task-editor.c:248 calendar/gui/event-editor.c:1200
+#: calendar/gui/dialogs/task-editor.c:247 calendar/gui/event-editor.c:1200
 msgid "FIXME: Cop_y to Folder..."
 msgstr "Kopiér til mappe..."
 
 #: addressbook/contact-editor/e-contact-editor.c:677
-#: calendar/gui/dialogs/task-editor.c:250 calendar/gui/event-editor.c:1202
+#: calendar/gui/dialogs/task-editor.c:249 calendar/gui/event-editor.c:1202
 msgid "Page Set_up"
 msgstr "Sideoppsett"
 
 #: addressbook/contact-editor/e-contact-editor.c:678
-#: calendar/gui/dialogs/task-editor.c:251 calendar/gui/event-editor.c:1203
+#: calendar/gui/dialogs/task-editor.c:250 calendar/gui/event-editor.c:1203
 msgid "FIXME: Print Pre_view"
 msgstr "Forhåndsvisning av utskrift"
 
 #: addressbook/contact-editor/e-contact-editor.c:699
-#: calendar/gui/dialogs/task-editor.c:272 calendar/gui/event-editor.c:1224
+#: calendar/gui/dialogs/task-editor.c:271 calendar/gui/event-editor.c:1224
 msgid "FIXME: Paste _Special..."
 msgstr "Lim inn _spesial..."
 
 #: addressbook/contact-editor/e-contact-editor.c:704
-#: calendar/gui/dialogs/task-editor.c:277 calendar/gui/event-editor.c:1229
+#: calendar/gui/dialogs/task-editor.c:276 calendar/gui/event-editor.c:1229
 msgid "FIXME: Mark as U_nread"
 msgstr "Merk som ulest"
 
 #: addressbook/contact-editor/e-contact-editor.c:708
-#: calendar/gui/dialogs/task-editor.c:281 calendar/gui/event-editor.c:1233
+#: calendar/gui/dialogs/task-editor.c:280 calendar/gui/event-editor.c:1233
 msgid "_Object"
 msgstr "_Objekt"
 
 #: addressbook/contact-editor/e-contact-editor.c:713
 #: addressbook/contact-editor/e-contact-editor.c:720
-#: calendar/gui/dialogs/task-editor.c:286
-#: calendar/gui/dialogs/task-editor.c:294 calendar/gui/event-editor.c:1238
+#: calendar/gui/dialogs/task-editor.c:285
+#: calendar/gui/dialogs/task-editor.c:293 calendar/gui/event-editor.c:1238
 #: calendar/gui/event-editor.c:1245
 msgid "FIXME: _Item"
 msgstr "_Oppføring"
 
 #: addressbook/contact-editor/e-contact-editor.c:714
 #: addressbook/contact-editor/e-contact-editor.c:721
-#: calendar/gui/dialogs/task-editor.c:287
-#: calendar/gui/dialogs/task-editor.c:295 calendar/gui/event-editor.c:1239
+#: calendar/gui/dialogs/task-editor.c:286
+#: calendar/gui/dialogs/task-editor.c:294 calendar/gui/event-editor.c:1239
 #: calendar/gui/event-editor.c:1246
 msgid "FIXME: _Unread Item"
 msgstr "_Ulest oppføring"
 
 #: addressbook/contact-editor/e-contact-editor.c:715
-#: calendar/gui/dialogs/task-editor.c:289 calendar/gui/event-editor.c:1240
+#: calendar/gui/dialogs/task-editor.c:288 calendar/gui/event-editor.c:1240
 msgid "FIXME: Fi_rst Item in Folder"
 msgstr "Fø_rste oppføring i mappe"
 
 #: addressbook/contact-editor/e-contact-editor.c:722
-#: calendar/gui/dialogs/task-editor.c:297 calendar/gui/event-editor.c:1247
+#: calendar/gui/dialogs/task-editor.c:296 calendar/gui/event-editor.c:1247
 msgid "FIXME: _Last Item in Folder"
 msgstr "_Siste oppføring i mappe"
 
 #: addressbook/contact-editor/e-contact-editor.c:727
-#: calendar/gui/dialogs/task-editor.c:302 calendar/gui/event-editor.c:1252
+#: calendar/gui/dialogs/task-editor.c:301 calendar/gui/event-editor.c:1252
 msgid "FIXME: _Standard"
 msgstr "_Standard"
 
 #: addressbook/contact-editor/e-contact-editor.c:729
-#: calendar/gui/dialogs/task-editor.c:304 calendar/gui/event-editor.c:1254
+#: calendar/gui/dialogs/task-editor.c:303 calendar/gui/event-editor.c:1254
 msgid "FIXME: __Formatting"
 msgstr "_Formatering"
 
 #: addressbook/contact-editor/e-contact-editor.c:732
-#: calendar/gui/dialogs/task-editor.c:307 calendar/gui/event-editor.c:1257
+#: calendar/gui/dialogs/task-editor.c:306 calendar/gui/event-editor.c:1257
 msgid "FIXME: _Customize..."
 msgstr "_Tilpass..."
 
 #: addressbook/contact-editor/e-contact-editor.c:737
-#: calendar/gui/dialogs/task-editor.c:312 calendar/gui/event-editor.c:1262
+#: calendar/gui/dialogs/task-editor.c:311 calendar/gui/event-editor.c:1262
 msgid "Pre_vious"
 msgstr "Forri_ge"
 
 #: addressbook/contact-editor/e-contact-editor.c:738
-#: calendar/gui/dialogs/task-editor.c:313 calendar/gui/event-editor.c:1263
+#: calendar/gui/dialogs/task-editor.c:312 calendar/gui/event-editor.c:1263
 msgid "Ne_xt"
 msgstr "Nes_te"
 
 #: addressbook/contact-editor/e-contact-editor.c:740
-#: calendar/gui/dialogs/task-editor.c:315 calendar/gui/event-editor.c:1267
+#: calendar/gui/dialogs/task-editor.c:314 calendar/gui/event-editor.c:1267
 msgid "_Toolbars"
 msgstr "Verk_tøylinjer"
 
 #: addressbook/contact-editor/e-contact-editor.c:745
-#: calendar/gui/dialogs/task-editor.c:320 calendar/gui/event-editor.c:1272
+#: calendar/gui/dialogs/task-editor.c:319 calendar/gui/event-editor.c:1272
 msgid "FIXME: _File..."
 msgstr "_Fil..."
 
 #: addressbook/contact-editor/e-contact-editor.c:746
-#: calendar/gui/dialogs/task-editor.c:321 calendar/gui/event-editor.c:1273
+#: calendar/gui/dialogs/task-editor.c:320 calendar/gui/event-editor.c:1273
 msgid "FIXME: It_em..."
 msgstr "Opp_føring"
 
 #: addressbook/contact-editor/e-contact-editor.c:747
-#: calendar/gui/dialogs/task-editor.c:322 calendar/gui/event-editor.c:1274
+#: calendar/gui/dialogs/task-editor.c:321 calendar/gui/event-editor.c:1274
 msgid "FIXME: _Object..."
 msgstr "_Objekt..."
 
 #: addressbook/contact-editor/e-contact-editor.c:752
-#: calendar/gui/dialogs/task-editor.c:327 calendar/gui/event-editor.c:1279
+#: calendar/gui/dialogs/task-editor.c:326 calendar/gui/event-editor.c:1279
 msgid "FIXME: _Font..."
 msgstr "FIXME: Skri_fttyper..."
 
 #: addressbook/contact-editor/e-contact-editor.c:753
-#: calendar/gui/dialogs/task-editor.c:328 calendar/gui/event-editor.c:1280
+#: calendar/gui/dialogs/task-editor.c:327 calendar/gui/event-editor.c:1280
 msgid "FIXME: _Paragraph..."
 msgstr "_Avsnitt..."
 
 #: addressbook/contact-editor/e-contact-editor.c:760
-#: calendar/gui/dialogs/task-editor.c:335 calendar/gui/event-editor.c:1287
+#: calendar/gui/dialogs/task-editor.c:334 calendar/gui/event-editor.c:1287
 msgid "FIXME: Desi_gn This Form"
 msgstr "_Utform dette skjemaet"
 
 #: addressbook/contact-editor/e-contact-editor.c:761
-#: calendar/gui/dialogs/task-editor.c:336 calendar/gui/event-editor.c:1288
+#: calendar/gui/dialogs/task-editor.c:335 calendar/gui/event-editor.c:1288
 msgid "FIXME: D_esign a Form..."
 msgstr "U_tform et skjema..."
 
 #: addressbook/contact-editor/e-contact-editor.c:763
-#: calendar/gui/dialogs/task-editor.c:338 calendar/gui/event-editor.c:1290
+#: calendar/gui/dialogs/task-editor.c:337 calendar/gui/event-editor.c:1290
 msgid "FIXME: Publish _Form..."
 msgstr "Publisér skjema..."
 
 #: addressbook/contact-editor/e-contact-editor.c:764
-#: calendar/gui/dialogs/task-editor.c:339 calendar/gui/event-editor.c:1291
+#: calendar/gui/dialogs/task-editor.c:338 calendar/gui/event-editor.c:1291
 msgid "FIXME: Pu_blish Form As..."
 msgstr "Pu_blisér skjema som..."
 
 #: addressbook/contact-editor/e-contact-editor.c:766
-#: calendar/gui/dialogs/task-editor.c:341 calendar/gui/event-editor.c:1293
+#: calendar/gui/dialogs/task-editor.c:340 calendar/gui/event-editor.c:1293
 msgid "FIXME: Script _Debugger"
 msgstr "Feilsøking i skript"
 
 #: addressbook/contact-editor/e-contact-editor.c:771
-#: calendar/gui/dialogs/task-editor.c:346 calendar/gui/event-editor.c:1298
+#: calendar/gui/dialogs/task-editor.c:345 calendar/gui/event-editor.c:1298
 msgid "FIXME: _Spelling..."
 msgstr "_Stavekontroll..."
 
 #: addressbook/contact-editor/e-contact-editor.c:773
-#: calendar/gui/dialogs/task-editor.c:351 calendar/gui/event-editor.c:1303
+#: calendar/gui/dialogs/task-editor.c:350 calendar/gui/event-editor.c:1303
 msgid "_Forms"
 msgstr "Sk_jemaer"
 
@@ -311,28 +449,28 @@ msgid "FIXME: Forward as _vCard"
 msgstr "Videresend som _vCard"
 
 #: addressbook/contact-editor/e-contact-editor.c:793
-#: calendar/gui/dialogs/task-editor.c:368 calendar/gui/event-editor.c:1316
+#: calendar/gui/dialogs/task-editor.c:367 calendar/gui/event-editor.c:1316
 msgid "FIXME: For_ward"
 msgstr "_Videresend"
 
 #: addressbook/contact-editor/e-contact-editor.c:805
-#: calendar/gui/dialogs/task-editor.c:381 calendar/gui/event-editor.c:1329
+#: calendar/gui/dialogs/task-editor.c:380 calendar/gui/event-editor.c:1329
 msgid "_Insert"
 msgstr "Sett _inn"
 
 #: addressbook/contact-editor/e-contact-editor.c:806
-#: calendar/gui/dialogs/task-editor.c:382 calendar/gui/event-editor.c:1330
+#: calendar/gui/dialogs/task-editor.c:381 calendar/gui/event-editor.c:1330
 msgid "F_ormat"
 msgstr "F_ormat"
 
 #: addressbook/contact-editor/e-contact-editor.c:807
-#: calendar/gui/dialogs/task-editor.c:383 calendar/gui/event-editor.c:1331
-#: shell/e-shell-view-menu.c:510
+#: calendar/gui/dialogs/task-editor.c:382 calendar/gui/event-editor.c:1331
+#: shell/e-shell-view-menu.c:513
 msgid "_Tools"
 msgstr "_Verktøy"
 
 #: addressbook/contact-editor/e-contact-editor.c:808
-#: calendar/gui/dialogs/task-editor.c:384 calendar/gui/event-editor.c:1332
+#: calendar/gui/dialogs/task-editor.c:383 calendar/gui/event-editor.c:1332
 msgid "Actio_ns"
 msgstr "Ha_ndlinger"
 
@@ -346,161 +484,163 @@ msgid "Save the appointment and close the dialog box"
 msgstr "Lagre avtalen og lukk dialogboksen"
 
 #: addressbook/contact-editor/e-contact-editor.c:844
-#: calendar/gui/calendar-commands.c:674
+#: calendar/gui/calendar-commands.c:654
 msgid "Print..."
 msgstr "Skriv ut..."
 
 #: addressbook/contact-editor/e-contact-editor.c:845
-#: calendar/gui/dialogs/task-editor.c:416 calendar/gui/event-editor.c:1376
+#: calendar/gui/dialogs/task-editor.c:415 calendar/gui/event-editor.c:1376
 msgid "Print this item"
 msgstr "Skriv ut denne oppføringen"
 
 #: addressbook/contact-editor/e-contact-editor.c:848
-#: calendar/gui/dialogs/task-editor.c:417 calendar/gui/event-editor.c:1377
+#: calendar/gui/dialogs/task-editor.c:416 calendar/gui/event-editor.c:1377
 msgid "FIXME: Insert File..."
 msgstr "Sett inn fil..."
 
 #: addressbook/contact-editor/e-contact-editor.c:849
-#: calendar/gui/dialogs/task-editor.c:418 calendar/gui/event-editor.c:1378
+#: calendar/gui/dialogs/task-editor.c:417 calendar/gui/event-editor.c:1378
 msgid "Insert a file as an attachment"
 msgstr "Sett inn en fil som vedlegg"
 
 #. Delete
 #: addressbook/contact-editor/e-contact-editor.c:852
-#: addressbook/gui/component/addressbook.c:426
-#: calendar/gui/e-calendar-table.c:374
+#: addressbook/demo/addressbook.c:84
+#: addressbook/gui/component/addressbook.c:424
+#: calendar/gui/e-calendar-table.c:375
 #: calendar/gui/event-editor-dialog.glade.h:93 calendar/gui/gncal-todo.c:508
-#: mail/folder-browser-factory.c:39 mail/mail-config.glade.h:13
+#: mail/folder-browser-factory.c:50 mail/mail-config.glade.h:13
 #: mail/mail-config.glade.h:18 mail/mail-config.glade.h:24
+#: mail/mail-view.c:147
 msgid "Delete"
 msgstr "Slett"
 
 #: addressbook/contact-editor/e-contact-editor.c:853
-#: calendar/gui/dialogs/task-editor.c:427 calendar/gui/event-editor.c:1387
+#: calendar/gui/dialogs/task-editor.c:426 calendar/gui/event-editor.c:1387
 #: calendar/gui/gncal-todo.c:336
 msgid "Delete this item"
 msgstr "Slett denne oppføringen"
 
-#: addressbook/contact-editor/e-contact-editor.c:856
-#: calendar/gui/dialogs/task-editor.c:429 calendar/gui/event-editor.c:1389
+#: addressbook/contact-editor/e-contact-editor.c:857
+#: calendar/gui/dialogs/task-editor.c:428 calendar/gui/event-editor.c:1389
 msgid "FIXME: Previous"
 msgstr "Forrige"
 
-#: addressbook/contact-editor/e-contact-editor.c:857
-#: calendar/gui/dialogs/task-editor.c:430 calendar/gui/event-editor.c:1390
+#: addressbook/contact-editor/e-contact-editor.c:858
+#: calendar/gui/dialogs/task-editor.c:429 calendar/gui/event-editor.c:1390
 msgid "Go to the previous item"
 msgstr "Gå til forrige oppføring"
 
-#: addressbook/contact-editor/e-contact-editor.c:859
-#: calendar/gui/dialogs/task-editor.c:431 calendar/gui/event-editor.c:1391
+#: addressbook/contact-editor/e-contact-editor.c:860
+#: calendar/gui/dialogs/task-editor.c:430 calendar/gui/event-editor.c:1391
 msgid "FIXME: Next"
 msgstr "Neste"
 
-#: addressbook/contact-editor/e-contact-editor.c:860
-#: calendar/gui/dialogs/task-editor.c:432 calendar/gui/event-editor.c:1392
+#: addressbook/contact-editor/e-contact-editor.c:861
+#: calendar/gui/dialogs/task-editor.c:431 calendar/gui/event-editor.c:1392
 msgid "Go to the next item"
 msgstr "Gå til neste oppføring"
 
-#: addressbook/contact-editor/e-contact-editor.c:862
-#: calendar/gui/dialogs/task-editor.c:433 calendar/gui/event-editor.c:1393
+#: addressbook/contact-editor/e-contact-editor.c:864
+#: calendar/gui/dialogs/task-editor.c:432 calendar/gui/event-editor.c:1393
 msgid "FIXME: Help"
 msgstr "Hjelp"
 
-#: addressbook/contact-editor/e-contact-editor.c:863
-#: calendar/gui/dialogs/task-editor.c:434 calendar/gui/event-editor.c:1394
+#: addressbook/contact-editor/e-contact-editor.c:865
+#: calendar/gui/dialogs/task-editor.c:433 calendar/gui/event-editor.c:1394
 msgid "See online help"
 msgstr "Se hjelp"
 
-#: addressbook/contact-editor/e-contact-editor.c:1278
+#: addressbook/contact-editor/e-contact-editor.c:1320
 msgid "Assistant"
 msgstr "Assistent"
 
-#: addressbook/contact-editor/e-contact-editor.c:1279
-#: addressbook/contact-editor/e-contact-editor.c:1383
+#: addressbook/contact-editor/e-contact-editor.c:1321
+#: addressbook/contact-editor/e-contact-editor.c:1425
 msgid "Business"
 msgstr "Arbeid"
 
-#: addressbook/contact-editor/e-contact-editor.c:1280
+#: addressbook/contact-editor/e-contact-editor.c:1322
 msgid "Business 2"
 msgstr "Arbeid 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1281
+#: addressbook/contact-editor/e-contact-editor.c:1323
 msgid "Business Fax"
 msgstr "Faks på arbeid"
 
-#: addressbook/contact-editor/e-contact-editor.c:1282
+#: addressbook/contact-editor/e-contact-editor.c:1324
 msgid "Callback"
 msgstr "Tilbakering"
 
-#: addressbook/contact-editor/e-contact-editor.c:1283
+#: addressbook/contact-editor/e-contact-editor.c:1325
 msgid "Car"
 msgstr "Bil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1284
+#: addressbook/contact-editor/e-contact-editor.c:1326
 msgid "Company"
 msgstr "Firma"
 
-#: addressbook/contact-editor/e-contact-editor.c:1285
-#: addressbook/contact-editor/e-contact-editor.c:1384
+#: addressbook/contact-editor/e-contact-editor.c:1327
+#: addressbook/contact-editor/e-contact-editor.c:1426
 msgid "Home"
 msgstr "Hjemme"
 
-#: addressbook/contact-editor/e-contact-editor.c:1286
+#: addressbook/contact-editor/e-contact-editor.c:1328
 msgid "Home 2"
 msgstr "Hjemme 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1287
+#: addressbook/contact-editor/e-contact-editor.c:1329
 msgid "Home Fax"
 msgstr "Faks hjemme"
 
-#: addressbook/contact-editor/e-contact-editor.c:1288
+#: addressbook/contact-editor/e-contact-editor.c:1330
 msgid "ISDN"
 msgstr "ISDN"
 
-#: addressbook/contact-editor/e-contact-editor.c:1289
+#: addressbook/contact-editor/e-contact-editor.c:1331
 msgid "Mobile"
 msgstr "Mobil"
 
-#: addressbook/contact-editor/e-contact-editor.c:1290
-#: addressbook/contact-editor/e-contact-editor.c:1385
+#: addressbook/contact-editor/e-contact-editor.c:1332
+#: addressbook/contact-editor/e-contact-editor.c:1427
 #: mail/mail-config.glade.h:27
 msgid "Other"
 msgstr "Annet"
 
-#: addressbook/contact-editor/e-contact-editor.c:1291
+#: addressbook/contact-editor/e-contact-editor.c:1333
 msgid "Other Fax"
 msgstr "Annen faks"
 
-#: addressbook/contact-editor/e-contact-editor.c:1292
+#: addressbook/contact-editor/e-contact-editor.c:1334
 msgid "Pager"
 msgstr "Personsøker"
 
-#: addressbook/contact-editor/e-contact-editor.c:1293
+#: addressbook/contact-editor/e-contact-editor.c:1335
 msgid "Primary"
 msgstr "Primær"
 
-#: addressbook/contact-editor/e-contact-editor.c:1294
+#: addressbook/contact-editor/e-contact-editor.c:1336
 msgid "Radio"
 msgstr "Radio"
 
-#: addressbook/contact-editor/e-contact-editor.c:1295
+#: addressbook/contact-editor/e-contact-editor.c:1337
 msgid "Telex"
 msgstr "Teleks"
 
-#: addressbook/contact-editor/e-contact-editor.c:1296
+#: addressbook/contact-editor/e-contact-editor.c:1338
 msgid "TTY/TDD"
 msgstr "TTY/TTD"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:23
-#: addressbook/contact-editor/e-contact-editor.c:1340
+#: addressbook/contact-editor/e-contact-editor.c:1382
 msgid "Primary Email"
 msgstr "Primær e-post"
 
-#: addressbook/contact-editor/e-contact-editor.c:1341
+#: addressbook/contact-editor/e-contact-editor.c:1383
 msgid "Email 2"
 msgstr "E-post 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1342
+#: addressbook/contact-editor/e-contact-editor.c:1384
 msgid "Email 3"
 msgstr "E-post 3"
 
@@ -719,55 +859,67 @@ msgstr ""
 "III\n"
 "Esq.\n"
 
-#: addressbook/gui/component/addressbook.c:420
-#: calendar/gui/calendar-commands.c:544
+#: addressbook/demo/addressbook.c:78
+#: addressbook/gui/component/addressbook.c:418
+#: calendar/gui/calendar-commands.c:511 notes/component-factory.c:27
 msgid "New"
 msgstr "Ny"
 
-#: addressbook/gui/component/addressbook.c:420
+#: addressbook/demo/addressbook.c:78
+#: addressbook/gui/component/addressbook.c:418
 msgid "Create a new contact"
 msgstr "Opprett en ny kontakt"
 
-#: addressbook/gui/component/addressbook.c:424
+#: addressbook/demo/addressbook.c:82
+#: addressbook/gui/component/addressbook.c:422
 msgid "Find"
 msgstr "Finn"
 
-#: addressbook/gui/component/addressbook.c:424
+#: addressbook/demo/addressbook.c:82
+#: addressbook/gui/component/addressbook.c:422
 msgid "Find a contact"
 msgstr "Finn en kontakt"
 
-#: addressbook/gui/component/addressbook.c:425
-#: addressbook/gui/component/addressbook.c:493
-#: calendar/gui/calendar-commands.c:548 mail/folder-browser-factory.c:37
+#: addressbook/demo/addressbook.c:83
+#: addressbook/gui/component/addressbook.c:423
+#: calendar/gui/calendar-commands.c:516 mail/folder-browser-factory.c:48
+#: mail/mail-view.c:145
 msgid "Print"
 msgstr "Skriv ut"
 
-#: addressbook/gui/component/addressbook.c:425
+#: addressbook/demo/addressbook.c:83
+#: addressbook/gui/component/addressbook.c:423
 msgid "Print contacts"
 msgstr "Skriv ut kontakter"
 
-#: addressbook/gui/component/addressbook.c:426
+#: addressbook/demo/addressbook.c:84
+#: addressbook/gui/component/addressbook.c:424
 msgid "Delete a contact"
 msgstr "Slett en kontakt"
 
-#: addressbook/gui/component/addressbook.c:500
-#: addressbook/gui/component/addressbook.c:1035
-msgid "As _Table"
-msgstr "Som _tabell"
-
-#: addressbook/gui/component/addressbook.c:507
+#: addressbook/demo/addressbook.c:103
+#: addressbook/gui/component/addressbook.c:509
 msgid "_New Contact"
 msgstr "_Ny kontakt"
 
-#: addressbook/gui/component/addressbook.c:515
+#: addressbook/gui/component/addressbook.c:492
+msgid "_Print Contacts..."
+msgstr "_Skriv ut kontakter..."
+
+#: addressbook/gui/component/addressbook.c:502
+#: addressbook/gui/component/addressbook.c:972
+msgid "As _Table"
+msgstr "Som _tabell"
+
+#: addressbook/gui/component/addressbook.c:517
 msgid "N_ew Directory Server"
 msgstr "N_y katalogtjener"
 
-#: addressbook/gui/component/addressbook.c:594
+#: addressbook/gui/component/addressbook.c:600
 msgid "Unable to open addressbook"
 msgstr "Kunne ikke åpne adresseboken"
 
-#: addressbook/gui/component/addressbook.c:599
+#: addressbook/gui/component/addressbook.c:605
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or have tried\n"
@@ -788,20 +940,20 @@ msgstr ""
 "installere OpenLDAP, deretter må du kompilere og\n"
 "installere Evolution på nytt.\n"
 
-#: addressbook/gui/component/addressbook.c:939
+#: addressbook/gui/component/addressbook.c:876
 #: addressbook/gui/minicard/e-minicard.c:330
 msgid "Save as VCard"
 msgstr "Lagre som VCard"
 
-#: addressbook/gui/component/addressbook.c:1006
+#: addressbook/gui/component/addressbook.c:943
 msgid "* Click here to add a contact *"
 msgstr "* Klikk her for å legge til en kontakt *"
 
-#: addressbook/gui/component/addressbook.c:1042
+#: addressbook/gui/component/addressbook.c:979
 msgid "As _Minicards"
 msgstr "Som _minikort"
 
-#: addressbook/gui/component/addressbook.c:1093
+#: addressbook/gui/component/addressbook.c:1030
 msgid "The URI that the Folder Browser will display"
 msgstr "URIen som mappeutforskeren vil vise"
 
@@ -923,7 +1075,7 @@ msgstr "y"
 msgid "z"
 msgstr "z"
 
-#: addressbook/gui/component/e-ldap-storage.c:87
+#: addressbook/gui/component/e-ldap-storage.c:88
 msgid "External Directories"
 msgstr "Eksterne kataloger"
 
@@ -954,6 +1106,31 @@ msgstr "Rot DN:"
 msgid "Name:"
 msgstr "Navn:"
 
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: addressbook/gui/component/select-names/select-names.glade.h:7
+msgid "Select Names"
+msgstr "Velg navn"
+
+#: addressbook/gui/component/select-names/select-names.glade.h:8
+msgid "Find..."
+msgstr "Finn..."
+
+#: addressbook/gui/component/select-names/select-names.glade.h:9
+msgid "Select name from List:"
+msgstr "Velg navn fra liste:"
+
+#: addressbook/gui/component/select-names/select-names.glade.h:10
+msgid "Message Recipients"
+msgstr "Meldingsmottakere:"
+
+#: addressbook/gui/minicard/e-minicard-control.c:276
+msgid "Save in addressbook"
+msgstr "Lagre i adressebok"
+
 #: addressbook/gui/minicard/e-minicard-view.c:110
 msgid ""
 "\n"
@@ -967,6 +1144,24 @@ msgstr ""
 "Ingen oppføringer i denne visningen\n"
 "\n"
 "Dobbelklikk her for å opprette en ny kontakt."
+
+#: addressbook/gui/minicard/test-minicard-view.c:100
+msgid "Reflow Test"
+msgstr "Test av \"reflow\""
+
+#: addressbook/gui/minicard/test-minicard-view.c:101
+msgid "Copyright (C) 2000, Helix Code, Inc."
+msgstr "Copyright (C) 2000, Helix Code, Inc."
+
+#: addressbook/gui/minicard/test-minicard-view.c:103
+msgid "This should test the reflow canvas item"
+msgstr "Dette tester \"canvas-funksjonen \"reflow\""
+
+#. gtk_signal_connect(fb->search_entry, "changed", search_activate, fb);
+#: addressbook/gui/search/e-addressbook-search-dialog.c:127
+#: mail/folder-browser.c:349
+msgid "Search"
+msgstr "Søk"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1150,51 +1345,91 @@ msgstr "Motsatt på like sider"
 msgid "Header/Footer"
 msgstr "Topp-/bunntekst"
 
-#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:544
+#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:596
 msgid "am"
 msgstr "am"
 
-#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:543
+#: calendar/cal-util/timeutil.c:129 calendar/gui/print.c:595
 msgid "pm"
 msgstr "pm"
 
-#: calendar/gui/calendar-commands.c:56
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:146
+msgid "Gpilotd calendar conduit"
+msgstr "Gpilotd kalenderkomponent"
+
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:149
+msgid "Configuration utility for the calendar conduit.\n"
+msgstr "Konfigurasjonsverktøy for kalenderkomponenten.\n"
+
+#: calendar/conduits/calendar/calendar-conduit.c:399
+#: calendar/conduits/calendar/calendar-conduit.c:1109
+#: calendar/conduits/todo/todo-conduit.c:443
+#: calendar/conduits/todo/todo-conduit.c:1025
+msgid "Error while communicating with calendar server"
+msgstr "Feil under kommunikasjon med kalendertjeneren"
+
+#: calendar/conduits/calendar/calendar-conduit.c:776
+#: calendar/conduits/calendar/calendar-conduit.c:778
+#: calendar/conduits/todo/todo-conduit.c:707
+#: calendar/conduits/todo/todo-conduit.c:709
+msgid "Could not start gnomecal server"
+msgstr "Kunne ikke starte gnomecal-tjeneren"
+
+#: calendar/conduits/calendar/calendar-conduit.c:806
+#: calendar/conduits/calendar/calendar-conduit.c:809
+msgid "Could not read pilot's DateBook application block"
+msgstr "Kunne ikke lese pilotens DateBook applikasjonsblokk"
+
+#: calendar/conduits/todo/todo-conduit-control-applet.c:146
+msgid "Gpilotd todo conduit"
+msgstr "Gpilotd oppgavelistekomponent"
+
+#: calendar/conduits/todo/todo-conduit-control-applet.c:149
+msgid "Configuration utility for the todo conduit.\n"
+msgstr "Konfigurasjonsverktøy for oppgavelistekomponenten.\n"
+
+#: calendar/conduits/todo/todo-conduit.c:737
+#: calendar/conduits/todo/todo-conduit.c:740
+msgid "Could not read pilot's ToDo application block"
+msgstr "Kunne ikke lese pilotens applikasjonsblokk for oppgaveliste"
+
+#: calendar/gui/calendar-commands.c:59
 msgid "Outline:"
 msgstr "Omriss:"
 
-#: calendar/gui/calendar-commands.c:57
+#: calendar/gui/calendar-commands.c:60
 msgid "Headings:"
 msgstr "Topptekster:"
 
-#: calendar/gui/calendar-commands.c:58
+#: calendar/gui/calendar-commands.c:61
 msgid "Empty days:"
 msgstr "Tomme dager:"
 
-#: calendar/gui/calendar-commands.c:59
+#: calendar/gui/calendar-commands.c:62
 msgid "Appointments:"
 msgstr "Avtaler:"
 
-#: calendar/gui/calendar-commands.c:60
+#: calendar/gui/calendar-commands.c:63
 msgid "Highlighted day:"
 msgstr "Merket dag:"
 
-#: calendar/gui/calendar-commands.c:61
+#: calendar/gui/calendar-commands.c:64
 msgid "Day numbers:"
 msgstr "Dagnummer:"
 
-#: calendar/gui/calendar-commands.c:62
+#: calendar/gui/calendar-commands.c:65
 msgid "Current day's number:"
 msgstr "Nummer for idag:"
 
-#: calendar/gui/calendar-commands.c:63
+#: calendar/gui/calendar-commands.c:66
 msgid "To-Do item that is not yet due:"
 msgstr "Oppgavelisteoppføring som ikke har gått ut ennå:"
 
-#: calendar/gui/calendar-commands.c:64
+#: calendar/gui/calendar-commands.c:67
 msgid "To-Do item that is due today:"
 msgstr "Oppgavelisteoppføring som går ut idag:"
 
-#: calendar/gui/calendar-commands.c:65
+#: calendar/gui/calendar-commands.c:68
 msgid "To-Do item that is overdue:"
 msgstr "Oppgavelisteoppføring som har gått ut:"
 
@@ -1206,153 +1441,186 @@ msgstr "GNOME kalender"
 msgid "The GNOME personal calendar and schedule manager."
 msgstr "GNOME's personlige kalender og tidsplanlegger."
 
-#: calendar/gui/calendar-commands.c:434
+#: calendar/gui/calendar-commands.c:401 tests/ui-tests/message-browser.c:676
 msgid "File not found"
 msgstr "Fil ikke funnet"
 
-#: calendar/gui/calendar-commands.c:456
+#: calendar/gui/calendar-commands.c:423
 msgid "Open calendar"
 msgstr "Åpne kalender"
 
-#: calendar/gui/calendar-commands.c:495
+#: calendar/gui/calendar-commands.c:462
 msgid "Save calendar"
 msgstr "Lagre kalender"
 
-#: calendar/gui/calendar-commands.c:522 calendar/gui/gncal-todo.c:722
+#: calendar/gui/calendar-commands.c:489 calendar/gui/gncal-todo.c:722
 #: calendar/gui/gncal-todo.c:726
 msgid "Day"
 msgstr "Dag"
 
-#: calendar/gui/calendar-commands.c:522
+#: calendar/gui/calendar-commands.c:489
 msgid "Show 1 day"
 msgstr "Vis 1 dag"
 
-#: calendar/gui/calendar-commands.c:525
+#: calendar/gui/calendar-commands.c:492
 msgid "5 Days"
 msgstr "5 dager"
 
-#: calendar/gui/calendar-commands.c:525
+#: calendar/gui/calendar-commands.c:492
 msgid "Show the working week"
 msgstr "Vis arbeidsuken"
 
-#: calendar/gui/calendar-commands.c:528 calendar/gui/gncal-todo.c:721
+#: calendar/gui/calendar-commands.c:495 calendar/gui/gncal-todo.c:721
 msgid "Week"
 msgstr "Uke"
 
-#: calendar/gui/calendar-commands.c:528
+#: calendar/gui/calendar-commands.c:495
 msgid "Show 1 week"
 msgstr "Vis 1 uke"
 
-#: calendar/gui/calendar-commands.c:531
+#: calendar/gui/calendar-commands.c:498
 msgid "Month"
 msgstr "Måned"
 
-#: calendar/gui/calendar-commands.c:531
+#: calendar/gui/calendar-commands.c:498
 msgid "Show 1 month"
 msgstr "Vis 1 måned"
 
-#: calendar/gui/calendar-commands.c:535
+#: calendar/gui/calendar-commands.c:502
 msgid "Year"
 msgstr "År"
 
-#: calendar/gui/calendar-commands.c:535
+#: calendar/gui/calendar-commands.c:502
 msgid "Show 1 year"
 msgstr "Vis 1 år"
 
-#: calendar/gui/calendar-commands.c:544 calendar/gui/calendar-commands.c:683
+#: calendar/gui/calendar-commands.c:511 calendar/gui/calendar-commands.c:663
 msgid "Create a new appointment"
 msgstr "Opprett en ny avtale"
 
-#: calendar/gui/calendar-commands.c:548 calendar/gui/calendar-commands.c:675
+#: calendar/gui/calendar-commands.c:516 calendar/gui/calendar-commands.c:655
 msgid "Print this calendar"
 msgstr "Skriv ut denne kalenderen"
 
-#: calendar/gui/calendar-commands.c:552
+#: calendar/gui/calendar-commands.c:520
 msgid "Prev"
 msgstr "Forrige"
 
-#: calendar/gui/calendar-commands.c:552
+#: calendar/gui/calendar-commands.c:520
 msgid "Go back in time"
 msgstr "Gå tilbake i tid"
 
-#: calendar/gui/calendar-commands.c:553
+#: calendar/gui/calendar-commands.c:521
 msgid "Today"
 msgstr "Idag"
 
-#: calendar/gui/calendar-commands.c:553
+#: calendar/gui/calendar-commands.c:521
 msgid "Go to present time"
 msgstr "Gå til nåtiden"
 
-#: calendar/gui/calendar-commands.c:554
+#: calendar/gui/calendar-commands.c:522
 msgid "Next"
 msgstr "Neste"
 
-#: calendar/gui/calendar-commands.c:554
+#: calendar/gui/calendar-commands.c:522
 msgid "Go forward in time"
 msgstr "Gå frem i tid"
 
-#: calendar/gui/calendar-commands.c:558
+#: calendar/gui/calendar-commands.c:526
 msgid "Go to"
 msgstr "Gå til"
 
-#: calendar/gui/calendar-commands.c:558
+#: calendar/gui/calendar-commands.c:526
 msgid "Go to a specific date"
 msgstr "Gå til en spesifikk dato"
 
 #. file menu
-#: calendar/gui/calendar-commands.c:660
+#: calendar/gui/calendar-commands.c:640
 msgid "New Ca_lendar"
 msgstr "Ny ka_lenderen"
 
-#: calendar/gui/calendar-commands.c:661
+#: calendar/gui/calendar-commands.c:641
 msgid "Create a new calendar"
 msgstr "Opprett en ny kalender"
 
-#: calendar/gui/calendar-commands.c:664
+#: calendar/gui/calendar-commands.c:644
 msgid "Open Ca_lendar"
 msgstr "Åpne ka_lender"
 
-#: calendar/gui/calendar-commands.c:665
+#: calendar/gui/calendar-commands.c:645
 msgid "Open a calendar"
 msgstr "Åpne en kalender"
 
-#: calendar/gui/calendar-commands.c:669 calendar/gui/calendar-commands.c:670
+#: calendar/gui/calendar-commands.c:649 calendar/gui/calendar-commands.c:650
 msgid "Save Calendar As"
 msgstr "Lagre kalender som"
 
-#: calendar/gui/calendar-commands.c:683
+#: calendar/gui/calendar-commands.c:663
 msgid "_New appointment..."
 msgstr "_Ny avtale..."
 
-#: calendar/gui/calendar-commands.c:688
-msgid "New appointment for _today..."
-msgstr "Ny av_tale for idag..."
-
-#: calendar/gui/calendar-commands.c:689
-msgid "Create a new appointment for today"
-msgstr "Lag en ny avtale for idag"
-
-#: calendar/gui/calendar-commands.c:697 calendar/gui/prop.c:712
+#: calendar/gui/calendar-commands.c:671 calendar/gui/prop.c:716
 msgid "Preferences"
 msgstr "Brukervalg"
 
-#: calendar/gui/calendar-commands.c:704 calendar/gui/calendar-commands.c:705
+#: calendar/gui/calendar-commands.c:678 calendar/gui/calendar-commands.c:679
 msgid "About Calendar"
 msgstr "Om kalender"
 
 #. i18n: This "%s%s" indicates possession. Languages where the order is
 #. * the inverse should translate it to "%2$s%1$s".
 #.
-#: calendar/gui/calendar-commands.c:747
+#: calendar/gui/calendar-commands.c:721
 #, c-format
 msgid "%s%s"
 msgstr "%s%s"
 
-#: calendar/gui/calendar-commands.c:747
+#: calendar/gui/calendar-commands.c:721
 msgid "'s calendar"
 msgstr "sin kalender"
 
-#: calendar/gui/calendar-model.c:452
+#: calendar/gui/calendar-model.c:323
+msgid "Public"
+msgstr "Offentlig"
+
+#: calendar/gui/calendar-model.c:326
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:27
+msgid "Private"
+msgstr "Privat"
+
+#: calendar/gui/calendar-model.c:329
+msgid "Confidential"
+msgstr "Konfidensiell"
+
+#: calendar/gui/calendar-model.c:332 calendar/gui/calendar-model.c:499
+msgid "Unknown"
+msgstr "Ukjent"
+
+#: calendar/gui/calendar-model.c:419
+msgid "N"
+msgstr "N"
+
+#: calendar/gui/calendar-model.c:419
+msgid "S"
+msgstr "S"
+
+#: calendar/gui/calendar-model.c:421
+msgid "E"
+msgstr "Ø"
+
+#: calendar/gui/calendar-model.c:421
+msgid "W"
+msgstr "V"
+
+#: calendar/gui/calendar-model.c:493
+msgid "Transparent"
+msgstr "Gjennomsiktig"
+
+#: calendar/gui/calendar-model.c:496
+msgid "Opaque"
+msgstr "Ugjennomsiktig"
+
+#: calendar/gui/calendar-model.c:747
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -1363,7 +1631,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: calendar/gui/calendar-model.c:525
+#: calendar/gui/calendar-model.c:820
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -1373,25 +1641,29 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/calendar-model.c:570
+#: calendar/gui/calendar-model.c:865
 msgid "The percent value must be between 0 and 100"
 msgstr "Prosentverdien må være mellom 0 og 100"
 
-#: calendar/gui/calendar-model.c:603
+#: calendar/gui/calendar-model.c:898
 msgid "The priority must be between 0 and 10"
 msgstr "Prioriteten må være mellom 0 og 10"
 
-#: calendar/gui/control-factory.c:136
+#: calendar/gui/control-factory.c:132
 msgid "The URI that the calendar will display"
 msgstr "URIen som kalenderen skal vise"
 
-#: calendar/gui/dialogs/alarm-notify-dialog.c:181
+#: calendar/gui/dialogs/alarm-notify-dialog.c:183
 msgid "Alarm on %A %b %d %Y %H:%M"
 msgstr "Alarm på %A %b %d %Y %H:%M"
 
-#: calendar/gui/dialogs/alarm-notify-dialog.c:188
+#: calendar/gui/dialogs/alarm-notify-dialog.c:190
 msgid "Notification about your appointment on %A %b %d %Y %H:%M"
 msgstr "Melding om din avtale på %A %b %d %Y %H:%M"
+
+#: calendar/gui/dialogs/alarm-notify-dialog.c:201
+msgid "No summary available."
+msgstr "Ingen sammendrag tilgjengelig."
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1414,84 +1686,84 @@ msgstr "Rediger avtale:"
 msgid "Snooze time (minutes)"
 msgstr "Utsett-tid (minutter)"
 
-#: calendar/gui/dialogs/task-editor.c:246 calendar/gui/event-editor.c:1198
+#: calendar/gui/dialogs/task-editor.c:245 calendar/gui/event-editor.c:1198
 msgid "FIXME: _Delete"
 msgstr "_Slett"
 
-#: calendar/gui/dialogs/task-editor.c:288
-#: calendar/gui/dialogs/task-editor.c:296
+#: calendar/gui/dialogs/task-editor.c:287
+#: calendar/gui/dialogs/task-editor.c:295
 msgid "FIXME: In_complete Task"
 msgstr "U_komplett oppgave"
 
-#: calendar/gui/dialogs/task-editor.c:348 calendar/gui/event-editor.c:1300
+#: calendar/gui/dialogs/task-editor.c:347 calendar/gui/event-editor.c:1300
 msgid "FIXME: Chec_k Names"
 msgstr "Sjek_k navn"
 
-#: calendar/gui/dialogs/task-editor.c:349 calendar/gui/event-editor.c:1301
+#: calendar/gui/dialogs/task-editor.c:348 calendar/gui/event-editor.c:1301
 msgid "FIXME: Address _Book..."
 msgstr "Addresse_bok..."
 
-#: calendar/gui/dialogs/task-editor.c:356
+#: calendar/gui/dialogs/task-editor.c:355
 msgid "FIXME: _New Task"
 msgstr "_Ny oppgave"
 
-#: calendar/gui/dialogs/task-editor.c:358
+#: calendar/gui/dialogs/task-editor.c:357
 msgid "FIXME: S_end Status Report"
 msgstr "S_end statusrapport"
 
-#: calendar/gui/dialogs/task-editor.c:359
+#: calendar/gui/dialogs/task-editor.c:358
 msgid "FIXME: _Mark Complete"
 msgstr "_Merk som fullført"
 
-#: calendar/gui/dialogs/task-editor.c:361 calendar/gui/event-editor.c:1310
+#: calendar/gui/dialogs/task-editor.c:360 calendar/gui/event-editor.c:1310
 msgid "FIXME: Rec_urrence..."
 msgstr "Gjentakelse..."
 
-#: calendar/gui/dialogs/task-editor.c:362
+#: calendar/gui/dialogs/task-editor.c:361
 msgid "FIXME: S_kip Occurrence"
 msgstr "Hopp over gjenta_kelse"
 
-#: calendar/gui/dialogs/task-editor.c:364
+#: calendar/gui/dialogs/task-editor.c:363
 msgid "FIXME: Assig_n Task"
 msgstr "Tildel o_ppgave"
 
-#: calendar/gui/dialogs/task-editor.c:366
+#: calendar/gui/dialogs/task-editor.c:365
 msgid "FIXME: _Reply"
 msgstr "Sva_r"
 
-#: calendar/gui/dialogs/task-editor.c:367
+#: calendar/gui/dialogs/task-editor.c:366
 msgid "FIXME: Reply to A_ll"
 msgstr "Svar til a_lle"
 
-#: calendar/gui/dialogs/task-editor.c:410 calendar/gui/event-editor.c:1370
+#: calendar/gui/dialogs/task-editor.c:409 calendar/gui/event-editor.c:1370
 msgid "FIXME: Save and Close"
 msgstr "Lagre og lukk"
 
-#: calendar/gui/dialogs/task-editor.c:411
+#: calendar/gui/dialogs/task-editor.c:410
 msgid "Save the task and close the dialog box"
 msgstr "Lagre oppgaven og lukk dialogboksen"
 
-#: calendar/gui/dialogs/task-editor.c:415 calendar/gui/event-editor.c:1375
+#: calendar/gui/dialogs/task-editor.c:414 calendar/gui/event-editor.c:1375
 msgid "FIXME: Print..."
 msgstr "Skriv ut..."
 
-#: calendar/gui/dialogs/task-editor.c:420 calendar/gui/event-editor.c:1380
+#: calendar/gui/dialogs/task-editor.c:419 calendar/gui/event-editor.c:1380
 msgid "FIXME: Recurrence..."
 msgstr "Gjentakelse..."
 
-#: calendar/gui/dialogs/task-editor.c:421 calendar/gui/event-editor.c:1381
+#: calendar/gui/dialogs/task-editor.c:420 calendar/gui/event-editor.c:1381
 msgid "Configure recurrence rules"
 msgstr "Konfigurér regler for gjenintrffelse"
 
-#: calendar/gui/dialogs/task-editor.c:423
+#: calendar/gui/dialogs/task-editor.c:422
 msgid "FIXME: Assign Task..."
 msgstr "Tildel oppgave..."
 
-#: calendar/gui/dialogs/task-editor.c:424
+#: calendar/gui/dialogs/task-editor.c:423
 msgid "Assign the task to someone"
 msgstr "Tildel oppgaven til noen"
 
-#: calendar/gui/dialogs/task-editor.c:426 calendar/gui/event-editor.c:1386
+#: calendar/gui/dialogs/task-editor.c:425 calendar/gui/event-editor.c:1386
 msgid "FIXME: Delete"
 msgstr "Slett"
 
@@ -1562,10 +1834,6 @@ msgstr "% ferdi_g:"
 msgid "_Contacts..."
 msgstr "_Kontakter..."
 
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:27
-msgid "Private"
-msgstr "Privat"
-
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:28
 msgid "Task"
 msgstr "Oppgave"
@@ -1586,89 +1854,89 @@ msgstr "URL:"
 msgid "Resources:"
 msgstr "Ressurser:"
 
-#: calendar/gui/e-calendar-table.c:188
+#: calendar/gui/e-calendar-table.c:189
 msgid "Comment"
 msgstr "Kommentar"
 
-#: calendar/gui/e-calendar-table.c:193
+#: calendar/gui/e-calendar-table.c:194
 msgid "Completed"
 msgstr "Fullført"
 
-#: calendar/gui/e-calendar-table.c:198
+#: calendar/gui/e-calendar-table.c:199
 msgid "Created"
 msgstr "Opprettet"
 
-#: calendar/gui/e-calendar-table.c:203
+#: calendar/gui/e-calendar-table.c:204
 msgid "Description"
 msgstr "Beskrivelse"
 
-#: calendar/gui/e-calendar-table.c:208
+#: calendar/gui/e-calendar-table.c:209
 msgid "Timestamp"
 msgstr "Tidsmerking"
 
-#: calendar/gui/e-calendar-table.c:213
+#: calendar/gui/e-calendar-table.c:214
 msgid "Start Date"
 msgstr "Start-dato"
 
-#: calendar/gui/e-calendar-table.c:218
+#: calendar/gui/e-calendar-table.c:219
 msgid "End Date"
 msgstr "Slutt-dato"
 
-#: calendar/gui/e-calendar-table.c:223
+#: calendar/gui/e-calendar-table.c:224
 msgid "Geographical Position"
 msgstr "Geografisk plassering"
 
-#: calendar/gui/e-calendar-table.c:228
+#: calendar/gui/e-calendar-table.c:229
 msgid "Last Modification Date"
 msgstr "Dato for siste endring"
 
-#: calendar/gui/e-calendar-table.c:233
+#: calendar/gui/e-calendar-table.c:234
 msgid "Location"
 msgstr "Plassering"
 
-#: calendar/gui/e-calendar-table.c:238
+#: calendar/gui/e-calendar-table.c:239
 msgid "Organizer"
 msgstr "Organiserer"
 
-#: calendar/gui/e-calendar-table.c:243
+#: calendar/gui/e-calendar-table.c:244
 msgid "% Complete"
 msgstr "% ferdig"
 
-#: calendar/gui/e-calendar-table.c:248 calendar/gui/gncal-todo.c:436
-#: calendar/gui/prop.c:605 mail/message-list.c:476
+#: calendar/gui/e-calendar-table.c:249 calendar/gui/gncal-todo.c:436
+#: calendar/gui/prop.c:609 mail/message-list.c:507
 msgid "Priority"
 msgstr "Prioritet"
 
-#: calendar/gui/e-calendar-table.c:259
+#: calendar/gui/e-calendar-table.c:260
 msgid "TaskPad"
 msgstr "Oppgaveblokk"
 
-#: calendar/gui/e-calendar-table.c:264
+#: calendar/gui/e-calendar-table.c:265
 msgid "URL"
 msgstr "URL"
 
-#: calendar/gui/e-calendar-table.c:269
+#: calendar/gui/e-calendar-table.c:270
 #: calendar/gui/event-editor-dialog.glade.h:41
 msgid "Reminder"
 msgstr "Påminnelse"
 
-#: calendar/gui/e-calendar-table.c:368
+#: calendar/gui/e-calendar-table.c:369
 msgid "Open..."
 msgstr "Åpne..."
 
-#: calendar/gui/e-calendar-table.c:369
+#: calendar/gui/e-calendar-table.c:370
 msgid "Open the task"
 msgstr "Åpne oppgaven"
 
-#: calendar/gui/e-calendar-table.c:371
+#: calendar/gui/e-calendar-table.c:372
 msgid "Mark Complete"
 msgstr "Merk som fullført"
 
-#: calendar/gui/e-calendar-table.c:372
+#: calendar/gui/e-calendar-table.c:373
 msgid "Mark the task complete"
 msgstr "Merk oppgaven som fullført"
 
-#: calendar/gui/e-calendar-table.c:375
+#: calendar/gui/e-calendar-table.c:376
 msgid "Delete the task"
 msgstr "Slett oppgaven"
 
@@ -1869,7 +2137,7 @@ msgstr "Kjø_r program:"
 msgid "Recurrence rule"
 msgstr "Regel for gjenintreffelse"
 
-#: calendar/gui/event-editor-dialog.glade.h:43 shell/e-shell-view.c:736
+#: calendar/gui/event-editor-dialog.glade.h:43 shell/e-shell-view.c:875
 msgid "None"
 msgstr "Ingen"
 
@@ -2289,7 +2557,7 @@ msgstr "Redigér denne oppføringen..."
 msgid "Summary"
 msgstr "Sammendrag"
 
-#: calendar/gui/gncal-todo.c:435 calendar/gui/prop.c:604
+#: calendar/gui/gncal-todo.c:435 calendar/gui/prop.c:608
 msgid "Due Date"
 msgstr "Ferdig-dato"
 
@@ -2378,246 +2646,246 @@ msgstr ""
 msgid "Go to today"
 msgstr "Gå til idag"
 
-#: calendar/gui/print.c:265
+#: calendar/gui/print.c:288
 msgid "1st"
 msgstr "1"
 
-#: calendar/gui/print.c:265
+#: calendar/gui/print.c:288
 msgid "2nd"
 msgstr "2"
 
-#: calendar/gui/print.c:265
+#: calendar/gui/print.c:288
 msgid "3rd"
 msgstr "3"
 
-#: calendar/gui/print.c:265
+#: calendar/gui/print.c:288
 msgid "4th"
 msgstr "4"
 
-#: calendar/gui/print.c:265
+#: calendar/gui/print.c:288
 msgid "5th"
 msgstr "5"
 
-#: calendar/gui/print.c:266
+#: calendar/gui/print.c:289
 msgid "6th"
 msgstr "6"
 
-#: calendar/gui/print.c:266
+#: calendar/gui/print.c:289
 msgid "7th"
 msgstr "7"
 
-#: calendar/gui/print.c:266
+#: calendar/gui/print.c:289
 msgid "8th"
 msgstr "8"
 
-#: calendar/gui/print.c:266
+#: calendar/gui/print.c:289
 msgid "9th"
 msgstr "9"
 
-#: calendar/gui/print.c:266
+#: calendar/gui/print.c:289
 msgid "10th"
 msgstr "10"
 
-#: calendar/gui/print.c:267
+#: calendar/gui/print.c:290
 msgid "11th"
 msgstr "11"
 
-#: calendar/gui/print.c:267
+#: calendar/gui/print.c:290
 msgid "12th"
 msgstr "12"
 
-#: calendar/gui/print.c:267
+#: calendar/gui/print.c:290
 msgid "13th"
 msgstr "13"
 
-#: calendar/gui/print.c:267
+#: calendar/gui/print.c:290
 msgid "14th"
 msgstr "14"
 
-#: calendar/gui/print.c:267
+#: calendar/gui/print.c:290
 msgid "15th"
 msgstr "15"
 
-#: calendar/gui/print.c:268
+#: calendar/gui/print.c:291
 msgid "16th"
 msgstr "16"
 
-#: calendar/gui/print.c:268
+#: calendar/gui/print.c:291
 msgid "17th"
 msgstr "17"
 
-#: calendar/gui/print.c:268
+#: calendar/gui/print.c:291
 msgid "18th"
 msgstr "18"
 
-#: calendar/gui/print.c:268
+#: calendar/gui/print.c:291
 msgid "19th"
 msgstr "19"
 
-#: calendar/gui/print.c:268
+#: calendar/gui/print.c:291
 msgid "20th"
 msgstr "20"
 
-#: calendar/gui/print.c:269
+#: calendar/gui/print.c:292
 msgid "21st"
 msgstr "21"
 
-#: calendar/gui/print.c:269
+#: calendar/gui/print.c:292
 msgid "22nd"
 msgstr "22"
 
-#: calendar/gui/print.c:269
+#: calendar/gui/print.c:292
 msgid "23rd"
 msgstr "23"
 
-#: calendar/gui/print.c:269
+#: calendar/gui/print.c:292
 msgid "24th"
 msgstr "24"
 
-#: calendar/gui/print.c:269
+#: calendar/gui/print.c:292
 msgid "25th"
 msgstr "25"
 
-#: calendar/gui/print.c:270
+#: calendar/gui/print.c:293
 msgid "26th"
 msgstr "26"
 
-#: calendar/gui/print.c:270
+#: calendar/gui/print.c:293
 msgid "27th"
 msgstr "27"
 
-#: calendar/gui/print.c:270
+#: calendar/gui/print.c:293
 msgid "28th"
 msgstr "28"
 
-#: calendar/gui/print.c:270
+#: calendar/gui/print.c:293
 msgid "29th"
 msgstr "29"
 
-#: calendar/gui/print.c:270
+#: calendar/gui/print.c:293
 msgid "30th"
 msgstr "30"
 
-#: calendar/gui/print.c:271
+#: calendar/gui/print.c:294
 msgid "31st"
 msgstr "31"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "Su"
 msgstr "Søn"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "Mo"
 msgstr "Man"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "Tu"
 msgstr "Tir"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "We"
 msgstr "Ons"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "Th"
 msgstr "Tor"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "Fr"
 msgstr "Fre"
 
-#: calendar/gui/print.c:326
+#: calendar/gui/print.c:349
 msgid "Sa"
 msgstr "Lør"
 
-#: calendar/gui/print.c:868
+#: calendar/gui/print.c:937
 msgid "TODO Items"
 msgstr "Oppgavelisteoppføringer"
 
 #. Day
-#: calendar/gui/print.c:980
+#: calendar/gui/print.c:1038
 msgid "Current day (%a %b %d %Y)"
 msgstr "I dag (%a %b %d %Y)"
 
-#: calendar/gui/print.c:1000 calendar/gui/print.c:1014
-#: calendar/gui/print.c:1015
+#: calendar/gui/print.c:1058 calendar/gui/print.c:1072
+#: calendar/gui/print.c:1073
 msgid "%a"
 msgstr "%a"
 
-#: calendar/gui/print.c:1001 calendar/gui/print.c:1002
-#: calendar/gui/print.c:1016 calendar/gui/print.c:1017
+#: calendar/gui/print.c:1059 calendar/gui/print.c:1060
+#: calendar/gui/print.c:1074 calendar/gui/print.c:1075
 msgid "%b"
 msgstr "%b"
 
-#: calendar/gui/print.c:1004
+#: calendar/gui/print.c:1062
 #, c-format
 msgid "Current week (%s %s %d - %s %d %d)"
 msgstr "Denne uken (%s %s %d - %s %d %d)"
 
-#: calendar/gui/print.c:1021
+#: calendar/gui/print.c:1079
 #, c-format
 msgid "Current week (%s %s %d - %s %s %d %d)"
 msgstr "Denne uken (%s %s %d - %s %s %d %d)"
 
-#: calendar/gui/print.c:1027
+#: calendar/gui/print.c:1085
 #, c-format
 msgid "Current week (%s %s %d %d - %s %s %d %d)"
 msgstr "Denne uken (%s %s %d %d - %s %s %d %d)"
 
 #. Month
-#: calendar/gui/print.c:1040
+#: calendar/gui/print.c:1098
 msgid "Current month (%a %Y)"
 msgstr "Denne måneden (%a %Y)"
 
 #. Year
-#: calendar/gui/print.c:1047
+#: calendar/gui/print.c:1105
 msgid "Current year (%Y)"
 msgstr "Dette året (%Y)"
 
-#: calendar/gui/print.c:1084
+#: calendar/gui/print.c:1142
 msgid "Print Calendar"
 msgstr "Skriv ut kalender"
 
-#: calendar/gui/print.c:1249
+#: calendar/gui/print.c:1307
 msgid "Print Preview"
 msgstr "Forhåndsvisning av utskrift"
 
-#: calendar/gui/prop.c:330
+#: calendar/gui/prop.c:334
 msgid "Time display"
 msgstr "Tidsvisning"
 
 #. Time format
-#: calendar/gui/prop.c:334
+#: calendar/gui/prop.c:338
 msgid "Time format"
 msgstr "Tidsformat"
 
-#: calendar/gui/prop.c:335
+#: calendar/gui/prop.c:339
 msgid "12-hour (AM/PM)"
 msgstr "12 timer (AM/PM)"
 
-#: calendar/gui/prop.c:336
+#: calendar/gui/prop.c:340
 msgid "24-hour"
 msgstr "24 timer"
 
 #. Weeks start on
-#: calendar/gui/prop.c:346
+#: calendar/gui/prop.c:350
 msgid "Weeks start on"
 msgstr "Uken starter på"
 
-#: calendar/gui/prop.c:347
+#: calendar/gui/prop.c:351
 msgid "Sunday"
 msgstr "Søndag"
 
-#: calendar/gui/prop.c:348
+#: calendar/gui/prop.c:352
 msgid "Monday"
 msgstr "Mandag"
 
 #. Day range
-#: calendar/gui/prop.c:358
+#: calendar/gui/prop.c:362
 msgid "Day range"
 msgstr "Dagområde"
 
-#: calendar/gui/prop.c:369
+#: calendar/gui/prop.c:373
 msgid ""
 "Please select the start and end hours you want\n"
 "to be displayed in the day view and week view.\n"
@@ -2629,111 +2897,112 @@ msgstr ""
 "Tider utenfor dette området vil ikke vises\n"
 "som standard."
 
-#: calendar/gui/prop.c:385
+#: calendar/gui/prop.c:389
 msgid "Day start:"
 msgstr "Dagens start:"
 
-#: calendar/gui/prop.c:396
+#: calendar/gui/prop.c:400
 msgid "Day end:"
 msgstr "Dagens slutt:"
 
-#: calendar/gui/prop.c:519
+#: calendar/gui/prop.c:523
 msgid "Colors for display"
 msgstr "Farger i visning"
 
-#: calendar/gui/prop.c:522
+#: calendar/gui/prop.c:526
 msgid "Colors"
 msgstr "Farger"
 
-#: calendar/gui/prop.c:599
+#: calendar/gui/prop.c:603
 msgid "Show on TODO List:"
 msgstr "Vis på oppgavelisten:"
 
-#: calendar/gui/prop.c:606
+#: calendar/gui/prop.c:610
 msgid "Time Until Due"
 msgstr "Tid før den går ut"
 
-#: calendar/gui/prop.c:637
+#: calendar/gui/prop.c:641
 msgid "To Do List style options:"
 msgstr "Alternativer for stil for oppgaveliste:"
 
-#: calendar/gui/prop.c:642
+#: calendar/gui/prop.c:646
 msgid "Highlight overdue items"
 msgstr "Merk utgåtte oppføringer"
 
-#: calendar/gui/prop.c:645
+#: calendar/gui/prop.c:649
 msgid "Highlight not yet due items"
 msgstr "Merk oppføringer som ikke har gått ut"
 
-#: calendar/gui/prop.c:648
+#: calendar/gui/prop.c:652
 msgid "Highlight items due today"
 msgstr "Merk oppføringer som går ut idag"
 
-#: calendar/gui/prop.c:678
+#: calendar/gui/prop.c:682
 msgid "To Do List Properties"
 msgstr "Egenskaper for oppgaveliste"
 
-#: calendar/gui/prop.c:681
+#: calendar/gui/prop.c:685
 msgid "To Do List"
 msgstr "Oppgaveliste"
 
-#: calendar/gui/prop.c:780
+#: calendar/gui/prop.c:784
 msgid "Alarms"
 msgstr "Alarmer"
 
 #. build miscellaneous box
-#: calendar/gui/prop.c:783
+#: calendar/gui/prop.c:787
 msgid "Alarm Properties"
 msgstr "Egenskaper for alarmer"
 
-#: calendar/gui/prop.c:793
+#: calendar/gui/prop.c:797
 msgid "Beep on display alarms"
 msgstr "Pip ved visning av alarmer"
 
-#: calendar/gui/prop.c:803
+#: calendar/gui/prop.c:807
 msgid "Audio alarms timeout after"
 msgstr "Tidsavbrudd for lydalarmer"
 
-#: calendar/gui/prop.c:814 calendar/gui/prop.c:831
+#: calendar/gui/prop.c:818 calendar/gui/prop.c:835
 msgid " seconds"
 msgstr " sekunder"
 
-#: calendar/gui/prop.c:820
+#: calendar/gui/prop.c:824
 msgid "Enable snoozing for "
 msgstr "Slå på utsetting for "
 
 #. populate default frame/box
-#: calendar/gui/prop.c:836
+#: calendar/gui/prop.c:840
 msgid "Defaults"
 msgstr "Forvalg"
 
-#: composer/e-msg-composer-address-dialog.c:183
+#: composer/e-msg-composer-address-dialog.c:182
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: composer/e-msg-composer-address-dialog.c:184
+#: composer/e-msg-composer-address-dialog.c:183
 msgid "Cut selected item into clipboard"
 msgstr "Klipp ut valgt oppføring til utklippstavlen"
 
-#: composer/e-msg-composer-address-dialog.c:187
+#: composer/e-msg-composer-address-dialog.c:186
+#: mail/folder-browser-factory.c:46
 msgid "Copy"
 msgstr "Kopiér"
 
-#: composer/e-msg-composer-address-dialog.c:188
+#: composer/e-msg-composer-address-dialog.c:187
 msgid "Copy selected item into clipboard"
 msgstr "Kopiér valgt oppføring til utklippstavlen"
 
-#: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199
+#: composer/e-msg-composer-address-dialog.c:190
+#: composer/e-msg-composer-address-dialog.c:198
 msgid "Paste"
 msgstr "Lim inn"
 
-#: composer/e-msg-composer-address-dialog.c:192
-#: composer/e-msg-composer-address-dialog.c:200
+#: composer/e-msg-composer-address-dialog.c:191
+#: composer/e-msg-composer-address-dialog.c:199
 msgid "Paste item from clipboard"
 msgstr "Lim inn fra utklippstavlen"
 
-#: composer/e-msg-composer-address-dialog.c:528
+#: composer/e-msg-composer-address-dialog.c:525
 msgid "Select recipients' addresses"
 msgstr "Velg mottakerenes adresser"
 
@@ -2848,31 +3117,39 @@ msgstr "MIME-type:"
 msgid "File name:"
 msgstr "Filnavn:"
 
-#: composer/e-msg-composer-hdrs.c:174
+#: composer/e-msg-composer-hdrs.c:137 composer/e-msg-composer-hdrs.c:295
+msgid "From:"
+msgstr "Fra:"
+
+#: composer/e-msg-composer-hdrs.c:243
 msgid "Click here for the address book"
 msgstr "Klikk her for å få opp adresseboken"
 
-#: composer/e-msg-composer-hdrs.c:216
+#: composer/e-msg-composer-hdrs.c:296
+msgid "Enter the identitiy you wish to send this message from"
+msgstr "Skriv inn identitet for avsender av denne meldingen"
+
+#: composer/e-msg-composer-hdrs.c:300
 msgid "To:"
 msgstr "Til:"
 
-#: composer/e-msg-composer-hdrs.c:217
+#: composer/e-msg-composer-hdrs.c:301
 msgid "Enter the recipients of the message"
 msgstr "Skriv inn mottakerene for meldingen"
 
-#: composer/e-msg-composer-hdrs.c:221
+#: composer/e-msg-composer-hdrs.c:305
 msgid "Cc:"
 msgstr "Cc:"
 
-#: composer/e-msg-composer-hdrs.c:222
+#: composer/e-msg-composer-hdrs.c:306
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Skriv inn adressene som skal motta en kopi av meldingen"
 
-#: composer/e-msg-composer-hdrs.c:227
+#: composer/e-msg-composer-hdrs.c:311
 msgid "Bcc:"
 msgstr "Bcc:"
 
-#: composer/e-msg-composer-hdrs.c:228
+#: composer/e-msg-composer-hdrs.c:312
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -2880,33 +3157,41 @@ msgstr ""
 "Skriv inn adressene som skal motta en kopi av meldingen uten å komme til "
 "syne i mottakerlisten for meldingen."
 
-#: composer/e-msg-composer-hdrs.c:234
+#: composer/e-msg-composer-hdrs.c:318
 msgid "Subject:"
 msgstr "Emne:"
 
-#: composer/e-msg-composer-hdrs.c:235
+#: composer/e-msg-composer-hdrs.c:319
 msgid "Enter the subject of the mail"
 msgstr "Skriv inn emnet for meldingen"
 
-#: composer/e-msg-composer.c:450
+#: composer/e-msg-composer.c:451
 msgid "Save as..."
 msgstr "Lagre som..."
 
-#: composer/e-msg-composer.c:461
+#: composer/e-msg-composer.c:462
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Feil under lagring av fil: %s"
 
-#: composer/e-msg-composer.c:481
+#: composer/e-msg-composer.c:482
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Feil under lasting av fil: %s"
 
-#: composer/e-msg-composer.c:534 shell/e-shell-view-menu.c:164
+#: composer/e-msg-composer.c:504
+msgid "Saving changes to message..."
+msgstr "Lagre endringer i meldingen..."
+
+#: composer/e-msg-composer.c:506
+msgid "About to save changes to message..."
+msgstr "Lagrer endringer til meldingen..."
+
+#: composer/e-msg-composer.c:590 shell/e-shell-view-menu.c:165
 msgid "Evolution"
 msgstr "Evolution"
 
-#: composer/e-msg-composer.c:540
+#: composer/e-msg-composer.c:596
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -2916,27 +3201,27 @@ msgstr ""
 "\n"
 "Vil du lagre endringene?"
 
-#: composer/e-msg-composer.c:563
+#: composer/e-msg-composer.c:618
 msgid "Open file"
 msgstr "Åpne fil"
 
-#: composer/e-msg-composer.c:675
+#: composer/e-msg-composer.c:730
 msgid "That file does not exist."
 msgstr "Filen eksisterer ikke."
 
-#: composer/e-msg-composer.c:685
+#: composer/e-msg-composer.c:740
 msgid "That is not a regular file."
 msgstr "Er ikke en vanlig fil."
 
-#: composer/e-msg-composer.c:695
+#: composer/e-msg-composer.c:750
 msgid "That file exists but is not readable."
 msgstr "Filen eksisterer men er ikke lesbar."
 
-#: composer/e-msg-composer.c:705
+#: composer/e-msg-composer.c:760
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Filen ser ut til å være tilgjengelig men open(2) feilet."
 
-#: composer/e-msg-composer.c:727
+#: composer/e-msg-composer.c:782
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -2944,116 +3229,116 @@ msgstr ""
 "File en meget stor (mer enn 100K).\n"
 "Er du sikker på at du vil sette den inn?"
 
-#: composer/e-msg-composer.c:748
+#: composer/e-msg-composer.c:803
 msgid "An error occurred while reading the file."
 msgstr "En feil oppsto under lesing fra filen."
 
-#: composer/e-msg-composer.c:844 shell/e-shell-view-menu.c:433
+#: composer/e-msg-composer.c:899 shell/e-shell-view-menu.c:434
 msgid "_File"
 msgstr "_Fil"
 
-#: composer/e-msg-composer.c:850
+#: composer/e-msg-composer.c:905
 msgid "_Open..."
 msgstr "_Åpne..."
 
-#: composer/e-msg-composer.c:851
+#: composer/e-msg-composer.c:906
 msgid "Load a previously saved message"
 msgstr "Les en tidligere lagret melding"
 
-#: composer/e-msg-composer.c:859
+#: composer/e-msg-composer.c:914
 msgid "_Save..."
 msgstr "_Lagre..."
 
-#: composer/e-msg-composer.c:860
+#: composer/e-msg-composer.c:915
 msgid "Save message"
 msgstr "Send melding"
 
-#: composer/e-msg-composer.c:868
+#: composer/e-msg-composer.c:923
 msgid "_Save as..."
 msgstr "Lagre _som..."
 
-#: composer/e-msg-composer.c:869
+#: composer/e-msg-composer.c:924
 msgid "Save message with a different name"
 msgstr "Lagre meldingen med et nytt navn"
 
-#: composer/e-msg-composer.c:877
+#: composer/e-msg-composer.c:932
 msgid "Save in _folder..."
 msgstr "Lagre i _mappe..."
 
-#: composer/e-msg-composer.c:878
+#: composer/e-msg-composer.c:933
 msgid "Save the message in a specified folder"
 msgstr "Lagre meldingen i en spesifisert mappe"
 
-#: composer/e-msg-composer.c:887
+#: composer/e-msg-composer.c:942
 msgid "_Insert text file... (FIXME)"
 msgstr "Sett _inn tekstfil..."
 
-#: composer/e-msg-composer.c:888
+#: composer/e-msg-composer.c:943
 msgid "Insert a file as text into the message"
 msgstr "Sett inn en tekstfil i meldingen"
 
-#: composer/e-msg-composer.c:897
+#: composer/e-msg-composer.c:952
 msgid "_Send"
 msgstr "_Send"
 
-#: composer/e-msg-composer.c:898
+#: composer/e-msg-composer.c:953
 msgid "Send the message"
 msgstr "Send meldingen"
 
-#: composer/e-msg-composer.c:908
+#: composer/e-msg-composer.c:963
 msgid "_Close..."
 msgstr "L_ukk..."
 
-#: composer/e-msg-composer.c:909
+#: composer/e-msg-composer.c:964
 msgid "Quit the message composer"
 msgstr "Avslutt meldingsredigering"
 
-#: composer/e-msg-composer.c:922 shell/e-shell-view-menu.c:475
+#: composer/e-msg-composer.c:977 shell/e-shell-view-menu.c:478
 msgid "_Edit"
 msgstr "R_edigér"
 
-#: composer/e-msg-composer.c:933
+#: composer/e-msg-composer.c:988
 msgid "_Format"
 msgstr "_Formatér"
 
-#: composer/e-msg-composer.c:939
+#: composer/e-msg-composer.c:994
 msgid "HTML"
 msgstr "HTML"
 
-#: composer/e-msg-composer.c:940
+#: composer/e-msg-composer.c:995
 msgid "Send the mail in HTML format"
 msgstr "Send meldingen i HTML-format"
 
-#: composer/e-msg-composer.c:953 shell/e-shell-view-menu.c:382
-#: shell/e-shell-view-menu.c:486 shell/e-storage-set-view.c:242
+#: composer/e-msg-composer.c:1008 shell/e-shell-view-menu.c:383
+#: shell/e-shell-view-menu.c:489 shell/e-storage-set-view.c:242
 msgid "_View"
 msgstr "_Vis"
 
-#: composer/e-msg-composer.c:959
+#: composer/e-msg-composer.c:1014
 msgid "Show _attachments"
 msgstr "Vis _vedlegg"
 
-#: composer/e-msg-composer.c:960
+#: composer/e-msg-composer.c:1015
 msgid "Show/hide attachments"
 msgstr "Vis/skjul vedlegg"
 
-#: composer/e-msg-composer.c:993
+#: composer/e-msg-composer.c:1048
 msgid "Send"
 msgstr "Send"
 
-#: composer/e-msg-composer.c:994
+#: composer/e-msg-composer.c:1049
 msgid "Send this message"
 msgstr "Send denne meldingen"
 
-#: composer/e-msg-composer.c:1003
+#: composer/e-msg-composer.c:1058
 msgid "Attach"
 msgstr "Legg ved"
 
-#: composer/e-msg-composer.c:1004
+#: composer/e-msg-composer.c:1059
 msgid "Attach a file"
 msgstr "Legg ved en fil"
 
-#: composer/e-msg-composer.c:1191
+#: composer/e-msg-composer.c:1246
 msgid "Compose a message"
 msgstr "Skriv en melding"
 
@@ -3061,103 +3346,174 @@ msgstr "Skriv en melding"
 msgid "Select Folder"
 msgstr "Velg mappe"
 
-#: filter/filter-folder.c:246
+#: filter/filter-folder.c:245
 msgid "<click here to select a folder>"
 msgstr "<klikk her for å velge en mappe>"
 
-#: mail/component-factory.c:226
+#: mail/component-factory.c:187
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Kan ikke initialisere Evolutions e-postkomponent."
 
-#: mail/folder-browser-factory.c:23
+#: mail/folder-browser-factory.c:33
 msgid "Get mail"
 msgstr "Hent e-post"
 
-#: mail/folder-browser-factory.c:23
+#: mail/folder-browser-factory.c:33
 msgid "Check for new mail"
 msgstr "Sjekk etter ny e-post"
 
-#: mail/folder-browser-factory.c:24
+#: mail/folder-browser-factory.c:34
 msgid "Compose"
 msgstr "Skriv"
 
-#: mail/folder-browser-factory.c:24
+#: mail/folder-browser-factory.c:34
 msgid "Compose a new message"
 msgstr "Skriv en ny melding"
 
-#: mail/folder-browser-factory.c:28
+#. GNOMEUIINFO_ITEM_STOCK (N_("Save"), N_("Save this message"),
+#. save_msg, GNOME_STOCK_PIXMAP_SAVE),
+#: mail/folder-browser-factory.c:38 mail/mail-view.c:135
 msgid "Reply"
 msgstr "Svar"
 
-#: mail/folder-browser-factory.c:28
+#: mail/folder-browser-factory.c:38 mail/mail-view.c:135
 msgid "Reply to the sender of this message"
 msgstr "Svar til avsender av denne meldingen"
 
-#: mail/folder-browser-factory.c:29
+#: mail/folder-browser-factory.c:39 mail/mail-view.c:138
 msgid "Reply to All"
 msgstr "Svar til alle"
 
-#: mail/folder-browser-factory.c:29
+#: mail/folder-browser-factory.c:39 mail/mail-view.c:138
 msgid "Reply to all recipients of this message"
 msgstr "Svar til alle mottakere av denne meldingen"
 
-#: mail/folder-browser-factory.c:31
+#: mail/folder-browser-factory.c:41 mail/mail-view.c:141
 msgid "Forward"
 msgstr "Videresend"
 
-#: mail/folder-browser-factory.c:31
+#: mail/folder-browser-factory.c:41 mail/mail-view.c:141
 msgid "Forward this message"
 msgstr "Videresend denne meldingen"
 
-#: mail/folder-browser-factory.c:35
+#: mail/folder-browser-factory.c:45
 msgid "Move"
 msgstr "Flytt"
 
-#: mail/folder-browser-factory.c:35
+#: mail/folder-browser-factory.c:45
 msgid "Move message to a new folder"
 msgstr "Flytt meldingen til en ny mappe"
 
-#: mail/folder-browser-factory.c:37
+#: mail/folder-browser-factory.c:46
+msgid "Copy message to a new folder"
+msgstr "Kopiér melding til en ny mappe"
+
+#: mail/folder-browser-factory.c:48 mail/mail-view.c:145
 msgid "Print the selected message"
 msgstr "Skriv ut den valgte meldingen"
 
-#: mail/folder-browser-factory.c:39
+#: mail/folder-browser-factory.c:50 mail/mail-view.c:147
 msgid "Delete this message"
 msgstr "Slett denne meldingen"
 
-#: mail/folder-browser-factory.c:60
+#: mail/folder-browser-factory.c:72
 msgid "_Threaded Message List"
 msgstr "Meldingsliste med _tråder"
 
-#: mail/folder-browser-factory.c:70
-msgid "_Mark all messages seen"
-msgstr "_Merk alle meldinger som lest"
+#: mail/folder-browser-factory.c:82
+msgid "_Print message"
+msgstr "Skriv _ut melding"
 
-#: mail/folder-browser-factory.c:76
+#: mail/folder-browser-factory.c:90
 msgid "E_dit Message"
 msgstr "Re_digér melding"
 
-#: mail/folder-browser-factory.c:82
+#: mail/folder-browser-factory.c:97
+msgid "_View Message"
+msgstr "_Vis melding"
+
+#: mail/folder-browser-factory.c:106
+msgid "_Mark all messages seen"
+msgstr "_Merk alle meldinger som lest"
+
+#: mail/folder-browser-factory.c:110
 msgid "_Expunge"
 msgstr "_Fjern"
 
-#: mail/folder-browser-factory.c:88
+#: mail/folder-browser-factory.c:116
 msgid "Mail _Filters ..."
 msgstr "E-post _filtre ..."
 
-#: mail/folder-browser-factory.c:94
+#: mail/folder-browser-factory.c:122
 msgid "_vFolder Editor ..."
 msgstr "_vFolder-redigering ..."
 
-#: mail/folder-browser-factory.c:100
+#: mail/folder-browser-factory.c:128
 msgid "_Mail Configuration ..."
 msgstr "_E-post konfigurasjon ..."
 
-#: mail/folder-browser-factory.c:106
+#: mail/folder-browser-factory.c:134
 msgid "Forget _Passwords"
 msgstr "Glem _passord"
 
-#: mail/mail-config.c:724
+#: mail/folder-browser-factory.c:141
+msgid "_Configure Folder"
+msgstr "_Konfigurér mappe"
+
+#: mail/folder-browser.c:352
+msgid "Save"
+msgstr "Lagre"
+
+#: mail/mail-callbacks.c:134
+msgid ""
+"This message has no subject.\n"
+"Really send?"
+msgstr ""
+"Denne meldingen har ikke emne.\n"
+"Send likevel?"
+
+#: mail/mail-callbacks.c:166
+msgid ""
+"You need to configure an identity\n"
+"before you can send mail."
+msgstr ""
+"Du må konfigurere en identitet\n"
+"før du kan sende e-post."
+
+#: mail/mail-callbacks.c:182
+msgid ""
+"You need to configure a mail transport\n"
+"before you can send mail."
+msgstr ""
+"Du må konfigurere en e-post-transport\n"
+"før du kan sende e-post."
+
+#: mail/mail-callbacks.c:389
+msgid "Move message(s) to"
+msgstr "Flytt melding(er) til"
+
+#: mail/mail-callbacks.c:391
+msgid "Copy message(s) to"
+msgstr "Kopiér melding(er) til"
+
+#: mail/mail-callbacks.c:448
+msgid ""
+"You may only edit messages saved\n"
+"in the Drafts folder."
+msgstr ""
+"Du kan kun redigere meldinger lagret\n"
+"i Skisser-katalogen."
+
+#: mail/mail-callbacks.c:536
+#, c-format
+msgid ""
+"Error loading filter information:\n"
+"%s"
+msgstr ""
+"Feil under lasting av filter-informasjon:\n"
+"%s"
+
+#: mail/mail-config-gui.c:430
 msgid ""
 "Enter your name and email address to be used in outgoing mail. You may also, "
 "optionally, enter the name of your organization, and the name of a file to "
@@ -3166,51 +3522,55 @@ msgstr ""
 "Skriv inn ditt navn og din e-post adresse for bruk i utgående post. Du kan "
 "også skrive inn navnet på din organisasjon, og navnet på en signaturfil."
 
-#: mail/mail-config.c:737
+#: mail/mail-config-gui.c:443
 msgid "Full name:"
 msgstr "Fullt navn:"
 
-#: mail/mail-config.c:761
+#: mail/mail-config-gui.c:467
 msgid "Email address:"
 msgstr "E-post adresse:"
 
-#: mail/mail-config.c:776
+#: mail/mail-config-gui.c:482
 msgid "Organization:"
 msgstr "Organisasjon:"
 
-#: mail/mail-config.c:787
+#: mail/mail-config-gui.c:493
 msgid "Signature file:"
 msgstr "Signaturfil:"
 
-#: mail/mail-config.c:792 mail/mail-config.glade.h:10
+#: mail/mail-config-gui.c:498 mail/mail-config.glade.h:10
 msgid "Signature File"
 msgstr "Signaturfil"
 
-#: mail/mail-config.c:1207
+#: mail/mail-config-gui.c:897
 msgid "Server:"
 msgstr "Tjener:"
 
-#: mail/mail-config.c:1213
+#: mail/mail-config-gui.c:903
 msgid "Username:"
 msgstr "Brukernavn:"
 
-#: mail/mail-config.c:1219
+#: mail/mail-config-gui.c:909
 msgid "Path:"
 msgstr "Sti:"
 
-#: mail/mail-config.c:1227
+#: mail/mail-config-gui.c:917
 msgid "Authentication:"
 msgstr "Autentisering:"
 
-#: mail/mail-config.c:1239
+#: mail/mail-config-gui.c:929
 msgid "Detect supported types..."
 msgstr "Søk etter støttede typer..."
 
-#: mail/mail-config.c:1262
+#: mail/mail-config-gui.c:952
+msgid "Don't delete messages from server"
+msgstr "Ikke slett meldinger fra tjeneren"
+
+#: mail/mail-config-gui.c:964
 msgid "Test Settings"
 msgstr "Prøv ut innstillinger"
 
-#: mail/mail-config.c:1395 mail/mail-config.c:1443
+#: mail/mail-config-gui.c:1094 mail/mail-config-gui.c:1142
 msgid ""
 "Select the kind of mail server you have, and enter the relevant information "
 "about it.\n"
@@ -3224,7 +3584,7 @@ msgstr ""
 "Hvis tjeneren trenger autentisering, kan du klikke på \"Søk etter støttede "
 "typer...\" knappen etter at du har skrevet inn resten av informasjonen."
 
-#: mail/mail-config.c:1419
+#: mail/mail-config-gui.c:1118
 msgid ""
 "Select the kind of news server you have, and enter the relevant information "
 "about it.\n"
@@ -3238,29 +3598,33 @@ msgstr ""
 "Hvis tjeneren trenger autentisering, kan du klikke på \"Søk etter støttede "
 "typer...\"-knappen etter at du har skrevet inn resten av informasjonen."
 
-#: mail/mail-config.c:1493
+#: mail/mail-config-gui.c:1192
 msgid "Edit Identity"
 msgstr "Rediger identitet"
 
-#: mail/mail-config.c:1495
+#: mail/mail-config-gui.c:1194
 msgid "Add Identity"
 msgstr "Legg til identitet"
 
-#: mail/mail-config.c:1588
+#: mail/mail-config-gui.c:1288
 msgid "Edit Source"
 msgstr "Rediger kilde"
 
-#: mail/mail-config.c:1590
+#: mail/mail-config-gui.c:1290
 msgid "Add Source"
 msgstr "Legg til kilde"
 
-#: mail/mail-config.c:1686
+#: mail/mail-config-gui.c:1387
 msgid "Edit News Server"
 msgstr "Redigér news-tjener"
 
-#: mail/mail-config.c:1688
+#: mail/mail-config-gui.c:1389
 msgid "Add News Server"
 msgstr "Legg til news-tjener"
+
+#: mail/mail-config-gui.c:2217
+msgid "The connection was successful!"
+msgstr "Tilkoblingen var vellykket!"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3342,90 +3706,313 @@ msgstr ""
 "Din e-post-konfigurasjon er nå komplett.\n"
 "Klikk \"Fullfør\" for å lagre dine nye innstillinger"
 
-#: mail/mail-crypto.c:343 mail/mail-crypto.c:421
-msgid "No GPG/PGP program available."
-msgstr "GPG/PGP-program ikke tilgjengelig."
+#: mail/mail-crypto.c:338 mail/mail-crypto.c:418
+msgid "Please enter your PGP/GPG passphrase."
+msgstr "Vennligst skriv inn din PGP/GPG passphrase."
 
-#: mail/mail-crypto.c:349 mail/mail-crypto.c:427
+#: mail/mail-crypto.c:342 mail/mail-crypto.c:422
+msgid "No password provided."
+msgstr "Ingen passord gitt."
+
+#: mail/mail-crypto.c:348 mail/mail-crypto.c:428
 #, c-format
 msgid "Couldn't create pipe to GPG/PGP: %s"
 msgstr "Kunne ikke opprette rør til GPG/PGP: %s"
 
-#: mail/mail-ops.c:396
-msgid "Fetching mail"
-msgstr "Henter e-post"
+#: mail/mail-local.c:256
+#, c-format
+msgid "Changing folder \"%s\" to \"%s\" format"
+msgstr "Endrer mappe \"%s\" til \"%s\"-format"
 
-#: mail/mail-ops.c:408
+#: mail/mail-local.c:260
+#, c-format
+msgid "Change folder \"%s\" to \"%s\" format"
+msgstr "Endre mappe \"%s\" til \"%s\"-format"
+
+#: mail/mail-ops.c:74
+#, c-format
+msgid "Fetching email from %s"
+msgstr "Henter e-post fra %s"
+
+#: mail/mail-ops.c:76
+#, c-format
+msgid "Fetch email from %s"
+msgstr "Hent e-post fra %s"
+
+#: mail/mail-ops.c:87
+msgid "You have no remote mail source configured to fetch mail from."
+msgstr "Du har ikke konfigurert en ekstern e-post-kilde å hente e-post fra."
+
+#: mail/mail-ops.c:97
+msgid "Bad folder passed to fetch_mail"
+msgstr "Ugyldig mappe sendt til fetch_mail"
+
+#: mail/mail-ops.c:165
+msgid "There is no new mail."
+msgstr "Ingen ny e-post."
+
+#: mail/mail-ops.c:234
+#, c-format
+msgid "Sending \"%s\""
+msgstr "Sender \"%s\""
+
+#: mail/mail-ops.c:239
+msgid "Sending a message without a subject"
+msgstr "Sender en melding uten emne"
+
+#: mail/mail-ops.c:242
+#, c-format
+msgid "Send \"%s\""
+msgstr "Send \"%s\""
+
+#: mail/mail-ops.c:245
+msgid "Send a message without a subject"
+msgstr "Send en melding uten emne"
+
+#: mail/mail-ops.c:410
+#, c-format
+msgid "Expunging \"%s\""
+msgstr "Fjerner \"%s\""
+
+#: mail/mail-ops.c:412
+#, c-format
+msgid "Expunge \"%s\""
+msgstr "Fjern \"%s\""
+
+#: mail/mail-ops.c:484
+#, c-format
+msgid "Moving messages from \"%s\" into \"%s\""
+msgstr "Flytter meldinger fra \"%s\" til \"%s\""
+
+#: mail/mail-ops.c:486
+#, c-format
+msgid "Copying messages from \"%s\" into \"%s\""
+msgstr "Kopierer meldinger fra \"%s\" til \"%s\""
+
+#: mail/mail-ops.c:489
+#, c-format
+msgid "Move messages from \"%s\" into \"%s\""
+msgstr "Flytt meldinger fra \"%s\" til \"%s\""
+
+#: mail/mail-ops.c:491
+#, c-format
+msgid "Copy messages from \"%s\" into \"%s\""
+msgstr "Kopiér meldinger fra \"%s\" til \"%s\""
+
+#: mail/mail-ops.c:637
+#, c-format
+msgid "Marking messages in folder \"%s\""
+msgstr "Merker meldinger i mappe \"%s"
+
+#: mail/mail-ops.c:640
+#, c-format
+msgid "Mark messages in folder \"%s\""
+msgstr "Merk meldinger i mappe \"%s\""
+
+#: mail/mail-ops.c:769
+#, c-format
+msgid "Scanning folders in \"%s\""
+msgstr "Skanner mapper i \"%s\""
+
+#: mail/mail-ops.c:772
+#, c-format
+msgid "Scan folders in \"%s\""
+msgstr "Skann foldere i \"%s\""
+
+#: mail/mail-ops.c:859
+msgid "(No description)"
+msgstr "(Ingen beskrivelse)"
+
+#: mail/mail-ops.c:922
+#, c-format
+msgid "Attaching messages from folder \"%s\""
+msgstr "Legger ved meldinger fra mappe \"%s\""
+
+#: mail/mail-ops.c:925
+#, c-format
+msgid "Attach messages from \"%s\""
+msgstr "Legg ved meldinger fra \"%s\""
+
+#: mail/mail-ops.c:1051
+#, c-format
+msgid "Forwarding messages \"%s\""
+msgstr "Videresender meldinger \"%s\""
+
+#: mail/mail-ops.c:1056
+msgid "Forwarding a message without a subject"
+msgstr "Videresender en melding uten emne"
+
+#: mail/mail-ops.c:1059
+#, c-format
+msgid "Forward message \"%s\""
+msgstr "Videresend meldingen \"%s\""
+
+#: mail/mail-ops.c:1064
+msgid "Forward a message without a subject"
+msgstr "Videresend en melding uten emne"
+
+#: mail/mail-ops.c:1129
 msgid ""
-"This message has no subject.\n"
-"Really send?"
-msgstr ""
-"Denne meldingen har ikke emne.\n"
-"Send likevel?"
+"Failed to generate mime part from message while generating forwarded message."
+msgstr "Kunne ikke generere MIME-del fra melding under generering av videresendt melding."
 
-#: mail/mail-ops.c:528
+#: mail/mail-ops.c:1218
+#, c-format
+msgid "Loading \"%s\""
+msgstr "Laster \"%s\""
+
+#: mail/mail-ops.c:1220
+#, c-format
+msgid "Load \"%s\""
+msgstr "Last \"%s\""
+
+#: mail/mail-ops.c:1339
+#, c-format
+msgid "Creating \"%s\""
+msgstr "Oppretter \"%s\""
+
+#: mail/mail-ops.c:1341
+#, c-format
+msgid "Create \"%s\""
+msgstr "Opprett \"%s\""
+
+#: mail/mail-ops.c:1412
+msgid "Exception while reporting result to shell component listener."
+msgstr "Unntak under rapportering av resultat til skallkomponentens lytter."
+
+#: mail/mail-ops.c:1465
+#, c-format
+msgid "Synchronizing \"%s\""
+msgstr "Synkroniserer \"%s\""
+
+#: mail/mail-ops.c:1467
+#, c-format
+msgid "Synchronize \"%s\""
+msgstr "Synkronisér \"%s\""
+
+#: mail/mail-ops.c:1543
+#, c-format
+msgid "Displaying message UID \"%s\""
+msgstr "Viser melding-UID \"%s\""
+
+#: mail/mail-ops.c:1546
+msgid "Clearing message display"
+msgstr "Tømmer meldingsvisning"
+
+#: mail/mail-ops.c:1549
+#, c-format
+msgid "Display message UID \"%s\""
+msgstr "Vis meldings-UID \"%s\""
+
+#: mail/mail-ops.c:1552
+msgid "Clear message dispaly"
+msgstr "Tøm meldingsvisning"
+
+#: mail/mail-ops.c:1671
+#, c-format
+msgid "Opening messages from folder \"%s\""
+msgstr "Åpner meldinger fra mappe \"%s\""
+
+#: mail/mail-ops.c:1674
+#, c-format
+msgid "Open messages from \"%s\""
+msgstr "Åpne meldinger fra \"%s\""
+
+#: mail/mail-ops.c:1786
+msgid "Loading Draftbox"
+msgstr "Laster skissemappe"
+
+#: mail/mail-ops.c:1788
+msgid "Load Draftbox"
+msgstr "Last skissemappe"
+
+#: mail/mail-ops.c:1856
+#, c-format
+msgid "Viewing messages from folder \"%s\""
+msgstr "Viser meldinger fra mappe \"%s\""
+
+#: mail/mail-ops.c:1859
+#, c-format
+msgid "View messages from \"%s\""
+msgstr "Vis meldinger fra \"%s\""
+
+#: mail/mail-threads.c:274
+#, c-format
 msgid ""
-"You need to configure an identity\n"
-"before you can send mail."
+"Error while preparing to %s:\n"
+"%s"
 msgstr ""
-"Du må konfigurere en identitet\n"
-"før du kan sende e-post."
+"Feil under forberedelser til %s:\n"
+"%s"
 
-#: mail/mail-ops.c:802
-msgid "Move message(s) to"
-msgstr "Flytt melding(er) til"
+#: mail/mail-threads.c:622
+#, c-format
+msgid ""
+"Error while `%s':\n"
+"%s"
+msgstr ""
+"Feil under `%s':\n"
+"%s"
 
-#: mail/mail-threads.c:483
-msgid "Currently pending operations:"
-msgstr "Aktive utestående operasjoner:"
-
-#: mail/mail-threads.c:621
+#: mail/mail-threads.c:675
 msgid "Incomplete message written on pipe!"
 msgstr "Uferdig melding skrevet på rør!"
 
-#: mail/mail-threads.c:623
+#: mail/mail-threads.c:679
 msgid "Error reading commands from dispatching thread."
 msgstr "Feil under lesing av kommandoer fra utsender-tråd."
 
-#: mail/mail-threads.c:712
+#: mail/mail-threads.c:744
 msgid "Corrupted message from dispatching thread?"
 msgstr "Korrupt melding fra utsender-tråd?"
 
-#: mail/mail-threads.c:814
+#: mail/mail-threads.c:856
 msgid "Could not create dialog box."
 msgstr "Kan ikke opprette dialogboks."
 
-#: mail/mail-threads.c:849
+#: mail/mail-threads.c:867
 msgid "User cancelled query."
 msgstr "Spørring avbrutt av bruker."
 
-#: mail/message-list.c:458
+#: mail/message-list.c:489
 msgid "Online Status"
 msgstr "Tilkoblet status"
 
-#: mail/message-list.c:494
+#: mail/message-list.c:525
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:501
+#: mail/message-list.c:532
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:508
+#: mail/message-list.c:539
 msgid "Date"
 msgstr "Dato"
 
-#: mail/message-list.c:515
+#: mail/message-list.c:546
 msgid "Received"
 msgstr "Mottatt"
 
-#: mail/message-list.c:522
+#: mail/message-list.c:553
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:529
+#: mail/message-list.c:560
 msgid "Size"
 msgstr "Størrelse"
+
+#: notes/component-factory.c:27
+msgid "Create a new note"
+msgstr "Opprett en ny notis"
+
+#: notes/component-factory.c:148
+msgid "Cannot initialize Evolution's notes component."
+msgstr "Kan ikke initialisere Evolutions notiskomponent."
+
+#: notes/main.c:30
+msgid "Notes Component: Could not initialize bonobo"
+msgstr "Notiskomponent: Kunne ikke initialisere Bonobo"
 
 #: shell/e-setup.c:47
 msgid "Evolution installation"
@@ -3463,16 +4050,27 @@ msgstr ""
 msgid "Evolution files successfully installed."
 msgstr "Evolutions filer ble installert."
 
-#: shell/e-setup.c:108
+#: shell/e-setup.c:109
 #, c-format
 msgid ""
 "The file `%s' is not a directory.\n"
-"Please remove it in order to allow installation\n"
+"Please move it in order to allow installation\n"
 "of the Evolution user files."
 msgstr ""
 "Filen '%s' er ikke en katalog.\n"
-"Venligst fjern denne for å tillate installasjon\n"
+"Venligst flytt denne for å tillate installasjon\n"
 "av Evolution's brukerfiler."
+
+#: shell/e-setup.c:121
+#, c-format
+msgid ""
+"The directory `%s' exists but is not the\n"
+"Evolution directory.  Please move it in order\n"
+"to allow installation of the Evolution user files."
+msgstr ""
+"Katalogen `%s' eksisterer men er ikke.\n"
+"Evolution-katalogen. Venligst flytt den for å \n"
+"tillate installasjon av Evolution's brukerfiler."
 
 #: shell/e-shell-folder-creation-dialog.c:81
 #, c-format
@@ -3519,11 +4117,11 @@ msgstr "Bug buddy ble ikke funnet i din $PATH."
 msgid "Bug buddy could not be run."
 msgstr "Bug buddy kunne ikke kjøres."
 
-#: shell/e-shell-view-menu.c:166
+#: shell/e-shell-view-menu.c:167
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:168
+#: shell/e-shell-view-menu.c:169
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -3533,132 +4131,132 @@ msgstr ""
 "for e-post, kalender og kontaktdatabaser for\n"
 "GNOME skrivebordsmiljøet."
 
-#: shell/e-shell-view-menu.c:318
+#: shell/e-shell-view-menu.c:319
 msgid "Go to folder..."
 msgstr "Gå til mappe..."
 
-#: shell/e-shell-view-menu.c:376
+#: shell/e-shell-view-menu.c:377
 msgid "_New"
 msgstr "_Ny"
 
-#: shell/e-shell-view-menu.c:388
+#: shell/e-shell-view-menu.c:389
 msgid "_Folder"
 msgstr "_Mappe"
 
-#: shell/e-shell-view-menu.c:394
+#: shell/e-shell-view-menu.c:395
 msgid "Evolution bar _shortcut"
 msgstr "_Snarvei til Evolution-linje"
 
-#: shell/e-shell-view-menu.c:403
+#: shell/e-shell-view-menu.c:404
 msgid "_Mail message (FIXME)"
 msgstr "E-post _melding"
 
-#: shell/e-shell-view-menu.c:409
+#: shell/e-shell-view-menu.c:410
 msgid "_Appointment (FIXME)"
 msgstr "_Avtale"
 
-#: shell/e-shell-view-menu.c:415
+#: shell/e-shell-view-menu.c:416
 msgid "_Contact (FIXME)"
 msgstr "_Kontakt"
 
-#: shell/e-shell-view-menu.c:421
+#: shell/e-shell-view-menu.c:422
 msgid "_Task (FIXME)"
 msgstr "_Oppgave"
 
-#: shell/e-shell-view-menu.c:443
+#: shell/e-shell-view-menu.c:444
 msgid "_Go to folder..."
 msgstr "_Gå til mappe..."
 
-#: shell/e-shell-view-menu.c:444
+#: shell/e-shell-view-menu.c:445
 msgid "Display a different folder"
 msgstr "Vis en annen mappe"
 
-#: shell/e-shell-view-menu.c:451
+#: shell/e-shell-view-menu.c:452
 msgid "_Create new folder..."
 msgstr "_Opprett ny  mappe..."
 
-#: shell/e-shell-view-menu.c:452 shell/e-shell-view-menu.c:462
+#: shell/e-shell-view-menu.c:453 shell/e-shell-view-menu.c:465
 msgid "Create a new folder"
 msgstr "Opprett en ny mappe"
 
-#: shell/e-shell-view-menu.c:461
+#: shell/e-shell-view-menu.c:464
 msgid "E_xit..."
 msgstr "A_vslutt..."
 
-#: shell/e-shell-view-menu.c:492
+#: shell/e-shell-view-menu.c:495
 msgid "Show _shortcut bar"
 msgstr "Vis _snarveilinje"
 
-#: shell/e-shell-view-menu.c:493
+#: shell/e-shell-view-menu.c:496
 msgid "Show the shortcut bar"
 msgstr "Viser snarveilinjen"
 
-#: shell/e-shell-view-menu.c:498
+#: shell/e-shell-view-menu.c:501
 msgid "Show _folder bar"
 msgstr "Vis _folderlinje"
 
-#: shell/e-shell-view-menu.c:499
+#: shell/e-shell-view-menu.c:502
 msgid "Show the folder bar"
 msgstr "Viser folderlinjen"
 
-#: shell/e-shell-view-menu.c:521
+#: shell/e-shell-view-menu.c:524
 msgid "_Actions"
 msgstr "H_andlinger"
 
-#: shell/e-shell-view-menu.c:532
+#: shell/e-shell-view-menu.c:535
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: shell/e-shell-view-menu.c:538
+#: shell/e-shell-view-menu.c:541
 msgid "Help _index"
 msgstr "Hjelp _indeks"
 
-#: shell/e-shell-view-menu.c:545
+#: shell/e-shell-view-menu.c:548
 msgid "Getting _started"
 msgstr "Kom _igang"
 
-#: shell/e-shell-view-menu.c:552
+#: shell/e-shell-view-menu.c:555
 msgid "Using the _mailer"
 msgstr "Bruk av _e-postleseren"
 
-#: shell/e-shell-view-menu.c:559
+#: shell/e-shell-view-menu.c:562
 msgid "Using the _calendar"
 msgstr "Bruk av _kalenderen"
 
-#: shell/e-shell-view-menu.c:566
+#: shell/e-shell-view-menu.c:569
 msgid "Using the c_ontact manager"
 msgstr "Bruk av k_ontaktlisten"
 
-#: shell/e-shell-view-menu.c:576
+#: shell/e-shell-view-menu.c:579
 msgid "_Submit bug report"
 msgstr "_Send feilrapport"
 
-#: shell/e-shell-view-menu.c:577
+#: shell/e-shell-view-menu.c:580
 msgid "Submit bug report using Bug Buddy"
 msgstr "Send feilrapport med bug-buddy"
 
-#: shell/e-shell-view-menu.c:586
+#: shell/e-shell-view-menu.c:589
 msgid "_About Evolution..."
 msgstr "_Om Evolution..."
 
-#: shell/e-shell-view-menu.c:587
+#: shell/e-shell-view-menu.c:590
 msgid "Show information about Evolution"
 msgstr "Vis informasjon om Evolution"
 
-#: shell/e-shell-view.c:114
+#: shell/e-shell-view.c:122
 msgid "(No folder displayed)"
 msgstr "(Ingen mappe vist)"
 
-#: shell/e-shell-view.c:342
+#: shell/e-shell-view.c:350
 msgid "Folders"
 msgstr "Mapper"
 
-#: shell/e-shell-view.c:740
+#: shell/e-shell-view.c:879
 #, c-format
 msgid "Evolution - %s"
 msgstr "Evolution - %s"
 
-#: shell/e-shell.c:291
+#: shell/e-shell.c:293
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Kan ikke sette opp lokal lagring -- %s"
@@ -3806,6 +4404,25 @@ msgstr "Kan ikke initialisere Evolution skallet."
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Kunne ikke initialisere Bonobo komponentsystemet."
 
+#: tests/ui-tests/message-browser.c:360
+msgid "The component now claims that it doesn't support PersistStream!"
+msgstr "Komponenten hevder nå at den ikke støtter PersistStream!"
+
+#: tests/ui-tests/message-browser.c:378
+msgid ""
+"An exception occured while trying to load data into the component with "
+"PersistStream"
+msgstr "Et unntak oppsto under forsøk på å laste data inn i komponenten med PersistStream"
+
+#: tests/ui-tests/message-browser.c:471
+#, c-format
+msgid "The %s component doesn't support PersistStream!\n"
+msgstr "Komponenten %s støtter ikke PersistStream!\n"
+
+#: tests/ui-tests/message-browser.c:710
+msgid "Open Mime Message"
+msgstr "Åpne MIME-melding"
+
 #.
 #. * Translatable strings file generated by Glade.
 #. * Add this file to your project's POTFILES.in.
@@ -3833,6 +4450,7 @@ msgstr "Filter"
 #. * DO NOT compile it as part of your application.
 #.
 #: widgets/e-table/e-table-field-chooser.glade.h:7
+#: widgets/e-table/e-table-header-item.c:1164
 msgid "Field Chooser"
 msgstr "Feltvelger"
 
@@ -3876,6 +4494,46 @@ msgstr "Legg til >>"
 #: widgets/e-table/e-table-group.glade.h:13
 msgid "<< Remove"
 msgstr "<< Fjern"
+
+#: widgets/e-table/e-table-header-item.c:1156
+msgid "Sort Ascending"
+msgstr "Sortér stigende"
+
+#: widgets/e-table/e-table-header-item.c:1157
+msgid "Sort Descending"
+msgstr "Sortér synkende"
+
+#: widgets/e-table/e-table-header-item.c:1158
+msgid "Unsort"
+msgstr "Ikke sortér"
+
+#: widgets/e-table/e-table-header-item.c:1160
+msgid "Group By This Field"
+msgstr "Gruppér etter dette feltet"
+
+#: widgets/e-table/e-table-header-item.c:1161
+msgid "Group By Box"
+msgstr "Gruppér etter boks"
+
+#: widgets/e-table/e-table-header-item.c:1163
+msgid "Remove This Column"
+msgstr "Fjern denne kolonnen"
+
+#: widgets/e-table/e-table-header-item.c:1166
+msgid "Alignment"
+msgstr "Justering"
+
+#: widgets/e-table/e-table-header-item.c:1167
+msgid "Best Fit"
+msgstr "Beste tilpasning"
+
+#: widgets/e-table/e-table-header-item.c:1168
+msgid "Format Columns..."
+msgstr "Formatér kolonner..."
+
+#: widgets/e-table/e-table-header-item.c:1170
+msgid "Customize Current View..."
+msgstr "Tilpass aktiv visning..."
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:386
 msgid "Tentative"
