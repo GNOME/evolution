@@ -1708,7 +1708,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		eti->tooltip->row = row;
 		eti->tooltip->cx = e->motion.x;
 		eti->tooltip->cy = e->motion.y;
-		eti->tooltip->timer = gtk_timeout_add (1000, (GSourceFunc)_do_tooltip, eti);
+		eti->tooltip->timer = gtk_timeout_add (100, (GSourceFunc)_do_tooltip, eti);
 
 		if (cursor_row == view_to_model_row(eti, row) && cursor_col == view_to_model_col(eti, col)){
 			ecell_view = eti->cell_views [col];

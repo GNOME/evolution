@@ -1425,7 +1425,7 @@ ect_show_tooltip (ECellView *ecell_view,
 				      "y1", (double) 0.0,
 				      "x2", (double) max_width + 4,
 				      "y2", (double) text_height,
-				      "fill_color", "yellow",
+				      "fill_color", "light gray",
 				      NULL);
 
 	tooltip_text = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
