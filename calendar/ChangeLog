@@ -1,3 +1,10 @@
+2004-09-08  JP Rosevear  <jpr@novell.com>
+
+	Fixes #62728
+	
+	* gui/e-week-view.c (e_week_view_set_week_start_day): trigger a
+	redraw when changing the start day
+
 2004-09-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-calendar-table.c
