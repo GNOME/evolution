@@ -26,6 +26,7 @@ libcamelnntp_la_SOURCES = 			\
 	camel-nntp-utils.c
 
 libcamelnntpinclude_HEADERS =			\
+	camel-nntp-auth.h			\
 	camel-nntp-resp-codes.h			\
 	camel-nntp-folder.h			\
 	camel-nntp-newsrc.h			\

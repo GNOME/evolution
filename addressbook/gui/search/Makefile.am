@@ -1,6 +1,8 @@
 ruledir = $(prefix)/share/evolution
 rule_DATA = addresstypes.xml
 
+EXTRA_DIST = addresstypes.xml
+
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"e-addressbook-search\"		\
 	-I$(top_srcdir)					\
