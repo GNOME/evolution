@@ -300,6 +300,24 @@ eti_compute_height (ETableItem *eti)
 	}
 }
 
+static void
+eti_item_region_redraw (ETableItem *eti, int x0, int y0, int x1, int y1)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
+	ArtDRect rect;
+	double i2c [6];
+	
+	rect.x0 = x0;
+	rect.y0 = y0;
+	rect.x1 = x1;
+	rect.y1 = y1;
+
+	gnome_canvas_item_i2c_affine (item, i2c);
+	art_drect_affine_transform (&rect, &rect, i2c);
+	
+	gnome_canvas_request_redraw (item->canvas, rect.x0, rect.y0, rect.x1, rect.y1);
+}
+
 /*
  * Callback routine: invoked when the ETableModel has suffered a change
  */
@@ -318,24 +336,6 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
 
 	eti_item_region_redraw (eti, 0, 0, eti->width, eti->height);
-}
-
-static void
-eti_item_region_redraw (ETableItem *eti, int x0, int y0, int x1, int y1)
-{
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
-	ArtDRect rect;
-	double i2c [6];
-	
-	rect.x0 = x0;
-	rect.y0 = y0;
-	rect.x1 = x1;
-	rect.y1 = y1;
-
-	gnome_canvas_item_i2c_affine (item, i2c);
-	art_drect_affine_transform (&rect, &rect, i2c);
-	
-	gnome_canvas_request_redraw (item->canvas, rect.x0, rect.y0, rect.x1, rect.y1);
 }
 
 /*
