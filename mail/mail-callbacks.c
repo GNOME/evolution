@@ -2319,6 +2319,7 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	GnomePrintMaster *print_master;
 	GnomePrintDialog *dialog;
 	GnomePrinter *printer = NULL;
+	GnomePaper *paper;
 	int copies = 1;
 	int collate = FALSE;
 	
@@ -2350,7 +2351,10 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	
 	if (printer)
 		gnome_print_master_set_printer (print_master, printer);
-	gnome_print_master_set_paper (print_master, gnome_paper_with_name (_("US-Letter")));
+	paper = gnome_paper_with_name (_("US-Letter"));
+	if (!paper)
+		paper = gnome_paper_with_name (gnome_paper_name_default ());
+	gnome_print_master_set_paper (print_master, paper);
 	gnome_print_master_set_copies (print_master, copies, collate);
 	print_context = gnome_print_master_get_context (print_master);
 	gtk_html_print_set_master (fb->mail_display->html, print_master);
