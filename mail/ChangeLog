@@ -1,3 +1,12 @@
+2000-05-07  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (select_msg): unref the message after displaying
+	it.
+
+	* mail-format.c (get_data_wrapper_text):
+	(handle_text_plain_flowed): 
+	(handle_via_bonobo): Replace camel_stream_close calls.
+
 2000-05-07  Matt Loper  <matt@helixcode.com>
 
 	* folder-browser-factory.c: Changed a toolbar button from saying

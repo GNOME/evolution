@@ -423,7 +423,7 @@ get_data_wrapper_text (CamelDataWrapper *data)
 	memcpy (text, ba->data, ba->len);
 	text[ba->len] = '\0';
 
-	camel_stream_close (memstream);
+	gtk_object_unref (GTK_OBJECT (memstream));
 	return text;
 }
 
@@ -534,7 +534,7 @@ handle_text_plain_flowed (CamelMimePart *part, CamelMimeMessage *root,
 		g_free (line);
 	} while (!camel_stream_eos (buffer));
 
-	camel_stream_close (buffer);
+	gtk_object_unref (GTK_OBJECT (buffer));
 
 	mail_html_write (html, stream, "</tt>\n");
 	mail_html_end (html, stream, TRUE, box);
@@ -1061,7 +1061,7 @@ handle_via_bonobo (CamelMimePart *part, CamelMimeMessage *root, GtkBox *box)
 
 	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
 	bstream = bonobo_stream_mem_create (ba->data, ba->len, TRUE, FALSE);
-	camel_stream_close (cstream);
+	gtk_object_unref (GTK_OBJECT (cstream));
 
 	/* ...and hydrate the PersistStream from the BonoboStream. */
 	CORBA_exception_init (&ev);
@@ -1351,7 +1351,8 @@ mail_generate_forward (CamelMimeMessage *mime_message,
 	stream = camel_stream_fs_new_with_fd (fd);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (mime_message),
 					    stream);
-	camel_stream_close (stream);
+	camel_stream_flush (stream);
+	gtk_object_unref (GTK_OBJECT (stream));
 
 	composer = E_MSG_COMPOSER (e_msg_composer_new ());
 	e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar), tmpfile);

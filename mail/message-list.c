@@ -112,6 +112,7 @@ select_msg (MessageList *message_list, gint row)
 			gtk_signal_connect((GtkObject *)message, "message_changed", message_changed, message_list);
 			mail_display_set_message (message_list->parent_folder_browser->mail_display,
 						  CAMEL_MEDIUM (message));
+			gtk_object_unref (GTK_OBJECT (message));
 		}
 	}
 	
