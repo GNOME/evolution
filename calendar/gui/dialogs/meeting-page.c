@@ -748,7 +748,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	}
 
 	/* Address information */
-	backend_address = cal_client_get_email_address (client);
+	backend_address = cal_client_get_cal_address (client);
 
 	priv->accounts = itip_addresses_get ();
 	def_account = itip_addresses_get_default();

@@ -174,7 +174,7 @@ cal_backend_class_init (CalBackendClass *class)
 	class->obj_removed = NULL;
 
 	class->get_uri = NULL;
-	class->get_email_address = NULL;
+	class->get_cal_address = NULL;
 	class->get_alarm_email_address = NULL;
 	class->get_static_capabilities = NULL;
 	class->open = NULL;
@@ -265,22 +265,22 @@ cal_backend_get_uri (CalBackend *backend)
 }
 
 /**
- * cal_backend_get_email_address:
+ * cal_backend_get_cal_address:
  * @backend: A calendar backend.
  *
- * Queries the email address associated with a calendar backend, which
+ * Queries the cal address associated with a calendar backend, which
  * must already have an open calendar.
  *
- * Return value: The email address associated with the calendar.
+ * Return value: The cal address associated with the calendar.
  **/
 const char *
-cal_backend_get_email_address (CalBackend *backend)
+cal_backend_get_cal_address (CalBackend *backend)
 {
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
-	g_assert (CLASS (backend)->get_email_address != NULL);
-	return (* CLASS (backend)->get_email_address) (backend);
+	g_assert (CLASS (backend)->get_cal_address != NULL);
+	return (* CLASS (backend)->get_cal_address) (backend);
 }
 
 const char *

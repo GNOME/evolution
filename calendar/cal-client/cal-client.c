@@ -48,7 +48,7 @@ struct _CalClientPrivate {
 	char *uri;
 
 	/* Email address associated with this calendar, or NULL */
-	char *email_address;
+	char *cal_address;
 	char *alarm_email_address;
 
 	/* Scheduling info */
@@ -312,7 +312,7 @@ cal_client_init (CalClient *client, CalClientClass *klass)
 
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
 	priv->uri = NULL;
-	priv->email_address = NULL;
+	priv->cal_address = NULL;
 	priv->alarm_email_address = NULL;
 	priv->capabilities = FALSE;
 	priv->factories = NULL;
@@ -449,13 +449,13 @@ cal_client_finalize (GObject *object)
 		priv->uri = NULL;
 	}
 
-	if (priv->email_address) {
-		g_free (priv->email_address);
-		priv->email_address = NULL;
+	if (priv->cal_address) {
+		g_free (priv->cal_address);
+		priv->cal_address = NULL;
 	}
 	if (priv->alarm_email_address) {
-		g_free (priv->email_address);
-		priv->email_address = NULL;
+		g_free (priv->alarm_email_address);
+		priv->alarm_email_address = NULL;
 	}
 	if (priv->capabilities) {
 		g_free (priv->capabilities);
@@ -1156,17 +1156,17 @@ cal_client_is_read_only (CalClient *client)
 }
 
 /**
- * cal_client_get_email_address:
+ * cal_client_get_cal_address:
  * @client: A calendar client.
  * 
- * Queries the email address associated with a calendar client.
+ * Queries the calendar address associated with a calendar client.
  * 
- * Return value: The email address associated with the calendar that
+ * Return value: The calendar address associated with the calendar that
  * is loaded or being loaded, or %NULL if the client has not started a
  * load request yet or the calendar has no associated email address.
  **/
 const char *
-cal_client_get_email_address (CalClient *client)
+cal_client_get_cal_address (CalClient *client)
 {
 	CalClientPrivate *priv;
 
@@ -1176,20 +1176,20 @@ cal_client_get_email_address (CalClient *client)
 	priv = client->priv;
 	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, NULL);
 
-	if (priv->email_address == NULL) {
+	if (priv->cal_address == NULL) {
 		CORBA_Environment ev;
-		CORBA_char *email_address;
+		CORBA_char *cal_address;
 
 		CORBA_exception_init (&ev);
-		email_address = GNOME_Evolution_Calendar_Cal_getEmailAddress (priv->cal, &ev);
+		cal_address = GNOME_Evolution_Calendar_Cal_getCalAddress (priv->cal, &ev);
 		if (!BONOBO_EX (&ev)) {
-			priv->email_address = g_strdup (email_address);
-			CORBA_free (email_address);
+			priv->cal_address = g_strdup (cal_address);
+			CORBA_free (cal_address);
 		}
 		CORBA_exception_free (&ev);
 	}
 
-	return priv->email_address;
+	return priv->cal_address;
 }
 
 const char *

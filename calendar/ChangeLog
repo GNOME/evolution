@@ -1,8 +1,39 @@
-2003-02-05  JP Rosevear  <jpr@ximian.com>
+2003-03-04  JP Rosevear  <jpr@ximian.com>
+
+       * gui/itip-utils.c (itip_organizer_is_user): call
+       cal_client_get_cal_address instead of cal_client_get_email_address
+
+       * gui/dialogs/meeting-page.c (meeting_page_construct): ditto
+
+       * pcs/cal.c (impl_Cal_get_cal_address): implement updated method
+       name
+       (cal_class_init): set method implementation
+
+       * pcs/cal-backend.c (cal_backend_class_init): init get_cal_address
+       virtual function
+       (cal_backend_get_cal_address): call proper function
+
+       * pcs/cal-backend.h: update proto, rename get_email_address
+       virtual function to get_cal_address virtual function
+
+       * pcs/cal-backend-file.c (cal_backend_file_class_init): match
+       get_cal_address call
+       (cal_backend_file_get_cal_address): rename from
+       cal_backend_file_get_email_address
+
+       * cal-client/cal-client.c: rename email_address private member to
+       cal_address
+       (cal_client_init): init cal_address
+       (cal_client_destroy): free cal_address and properly free
+       alarm_email_address
+       (cal_client_get_cal_address): rename from
+       cal_client_get_email_address and call proper corba function
+       
+2003-03-04  JP Rosevear  <jpr@ximian.com>
  
   	* idl/evolution-calendar.idl: fix comment
 	
-2003-02-05  JP Rosevear  <jpr@ximian.com>
+2003-03-04  JP Rosevear  <jpr@ximian.com>
  
  	* gui/calendar-model.c (calendar_model_append_row): update FIXME
  	note
