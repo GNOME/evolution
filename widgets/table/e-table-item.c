@@ -459,6 +459,11 @@ eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 	eti->cols = e_table_header_count (eti->header);
 	eti->width = e_table_header_total_width (eti->header);
 
+	/*
+	 * There should be at least one column
+	 */
+	g_assert (eti->cols != 0);
+	
 	if (eti->cell_views){
 		eti_unrealize_cell_views (eti);
 		eti_detach_cell_views (eti);
