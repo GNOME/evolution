@@ -1,3 +1,11 @@
+2002-01-23  Dan Winship  <danw@ximian.com>
+
+	* mail-folder-cache.c (mail_note_store): Allow this to be called
+	with both storage and corba_storage NULL.
+
+	* mail-send-recv.c (receive_update_got_store): Remove the
+	2001-12-07 hack since it's no longer needed.
+
 2002-01-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (message_list_select): When performing a
