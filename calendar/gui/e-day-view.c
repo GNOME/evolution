@@ -1080,7 +1080,7 @@ e_day_view_update_event	(EDayView	*day_view,
 		return;
 
 	/* If one non-recurring event was added, we can just add it. */
-	if (flags == CHANGE_NEW && !ico->recur) {
+	if (flags == CHANGE_NEW && ico && !ico->recur) {
 		if (ico->dtstart < day_view->upper
 		    && ico->dtend > day_view->lower) {
 			e_day_view_add_event (ico, ico->dtstart, ico->dtend,

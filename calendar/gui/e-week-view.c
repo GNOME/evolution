@@ -926,7 +926,7 @@ e_week_view_update_event	(EWeekView	*week_view,
 		return;
 
 	/* If one non-recurring event was added, we can just add it. */
-	if (flags == CHANGE_NEW && !ico->recur) {
+	if (flags == CHANGE_NEW && ico && !ico->recur) {
 		num_days = week_view->display_month
 			? E_WEEK_VIEW_MAX_WEEKS * 7 : 7;
 		if (ico->dtstart < week_view->day_starts[num_days]

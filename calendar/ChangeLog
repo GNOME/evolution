@@ -1,3 +1,9 @@
+2000-04-25  Seth Alves  <alves@hungry.com>
+
+	* gui/e-day-view.c (e_day_view_update_event): allow for null ico
+
+	* gui/e-week-view.c (e_week_view_update_event): allow for null ico
+
 2000-04-24  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-client/client-test.c (main): The path to the test calendar

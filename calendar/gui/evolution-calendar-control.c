@@ -160,7 +160,7 @@ main (int argc, char **argv)
 	alarm_init ();
 	init_calendar ();
 
-	g_log_set_always_fatal ((GLogLevelFlags) 0xFFFF);
+	//g_log_set_always_fatal ((GLogLevelFlags) 0xFFFF);
 
 	CORBA_exception_init (&ev);
 
