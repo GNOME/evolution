@@ -62,7 +62,7 @@ typedef struct {
 	/* For adding fields. */
 	ETableHeader    *full_header;
 	ETable          *table;
-	GtkWidget       *config;
+	void            *config;
 } ETableHeaderItem;
 
 typedef struct {

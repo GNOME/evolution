@@ -373,12 +373,13 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 	GdkEventButton click;
 	switch (key->keyval) {
 	case GDK_Page_Down:
-		gtk_adjustment_set_value(gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas)),
-					 CLAMP(gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas))->value +
-					       (gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas))->page_size - 20),
-					       0, 
-					       gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas))->upper - 
-					       gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas))->page_size));
+		gtk_adjustment_set_value(
+			gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas)),
+			CLAMP(gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas))->value +
+			      (gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas))->page_size - 20),
+			      0, 
+			      gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas))->upper - 
+			      gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas))->page_size));
 		click.type = GDK_BUTTON_PRESS;
 		click.window = GTK_LAYOUT (et->table_canvas)->bin_window;
 		click.send_event = key->send_event;
@@ -392,9 +393,10 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		return_val = 1;
 		break;
 	case GDK_Page_Up:
-		gtk_adjustment_set_value(gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas)),
-					 gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas))->value -
-					 (gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas))->page_size - 20));
+		gtk_adjustment_set_value(
+			gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas)),
+			gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas))->value -
+			(gtk_layout_get_vadjustment (GTK_LAYOUT (et->table_canvas))->page_size - 20));
 		click.type = GDK_BUTTON_PRESS;
 		click.window = GTK_LAYOUT (et->table_canvas)->bin_window;
 		click.send_event = key->send_event;

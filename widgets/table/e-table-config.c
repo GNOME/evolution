@@ -10,303 +10,324 @@
 
 #include <config.h>
 #include <stdlib.h>
-#include <gnome.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <glade/glade.h>
 #include "e-table-config.h"
 #include "e-table-config-field.h"
 #include "gal/util/e-util.h"
 
-#define PARENT_TYPE (gnome_dialog_get_type())
 
-static GnomeDialogClass *etco_parent_class;
+#define PARENT_TYPE (gtk_object_get_type())
+
+static GtkObjectClass *config_parent_class;
 
 static void
-etco_destroy (GtkObject *object)
+config_destroy (GtkObject *object)
 {
-	ETableConfig *etco = E_TABLE_CONFIG (object);
+	ETableConfig *config = E_TABLE_CONFIG (object);
 
-	if (etco->state) {
-		if (etco->sorting_changed_id)
-			gtk_signal_disconnect(GTK_OBJECT(etco->state->sort_info), etco->sorting_changed_id);
-		if (etco->grouping_changed_id)
-			gtk_signal_disconnect(GTK_OBJECT(etco->state->sort_info), etco->grouping_changed_id);
-		gtk_object_unref(GTK_OBJECT(etco->state));
+	if (config->state) {
+		if (config->sorting_changed_id)
+			gtk_signal_disconnect(GTK_OBJECT(config->state->sort_info), config->sorting_changed_id);
+		if (config->grouping_changed_id)
+			gtk_signal_disconnect(GTK_OBJECT(config->state->sort_info), config->grouping_changed_id);
+		gtk_object_unref(GTK_OBJECT(config->state));
 	}
 
-	gtk_object_unref(GTK_OBJECT(etco->spec));
+	gtk_object_unref(GTK_OBJECT(config->spec));
 
-	GTK_OBJECT_CLASS (etco_parent_class)->destroy (object);
+	GTK_OBJECT_CLASS (config_parent_class)->destroy (object);
 }
 
 static void
-etco_class_init (GtkObjectClass *klass)
+config_class_init (GtkObjectClass *klass)
 {
-	etco_parent_class = gtk_type_class (PARENT_TYPE);
+	config_parent_class = gtk_type_class (PARENT_TYPE);
 	
-	klass->destroy = etco_destroy;
+	klass->destroy = config_destroy;
 }
 
 static void
-etco_clear_sort(GtkWidget *widget, ETableConfig *etco)
+config_clear_sort (GtkWidget *widget, ETableConfig *config)
 {
-	etco->sort_dialog = NULL;
-	gtk_object_unref(GTK_OBJECT(etco));
+	config->sort_dialog = NULL;
+	gtk_object_unref(GTK_OBJECT(config));
 }
 
 static void
-etco_clear_group(GtkWidget *widget, ETableConfig *etco)
+config_clear_group (GtkWidget *widget, ETableConfig *config)
 {
-	etco->group_dialog = NULL;
-	gtk_object_unref(GTK_OBJECT(etco));
+	config->group_dialog = NULL;
+	gtk_object_unref(GTK_OBJECT(config));
 }
 
 static void
-etco_sort_config_show(GtkWidget *widget, ETableConfig *etco)
+config_sort_config_show (GtkWidget *widget, ETableConfig *config)
 {
-	if (etco->sort_dialog)
-		gdk_window_raise(GTK_WIDGET(etco->sort_dialog)->window);
+	if (config->sort_dialog)
+		gdk_window_raise (GTK_WIDGET (config->sort_dialog)->window);
 	else {
 		GtkWidget *etcf;
-		etco->sort_dialog = gnome_dialog_new(_("Sort"),
+		config->sort_dialog = gnome_dialog_new(_("Sort"),
 						     GNOME_STOCK_BUTTON_OK,
 						     NULL);
-		etcf = GTK_WIDGET(e_table_config_field_new(etco->spec,
-							   etco->state->sort_info,
+		etcf = GTK_WIDGET(e_table_config_field_new(config->spec,
+							   config->state->sort_info,
 							   FALSE));
-		gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(etco->sort_dialog)->vbox), etcf, FALSE, FALSE, 0);
-		gnome_dialog_set_parent(GNOME_DIALOG(etco->sort_dialog),
-					GTK_WINDOW(etco));
+		gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(config->sort_dialog)->vbox), etcf, FALSE, FALSE, 0);
+		gnome_dialog_set_parent(GNOME_DIALOG(config->sort_dialog),
+					GTK_WINDOW(config));
 
-		gtk_signal_connect(GTK_OBJECT(etco->sort_dialog), "destroy",
-				   GTK_SIGNAL_FUNC(etco_clear_sort), etco);
-		gtk_object_ref(GTK_OBJECT(etco));
+		gtk_signal_connect(GTK_OBJECT(config->sort_dialog), "destroy",
+				   GTK_SIGNAL_FUNC(config_clear_sort), config);
+		gtk_object_ref(GTK_OBJECT(config));
 
-		gtk_signal_connect(GTK_OBJECT(etco->sort_dialog), "clicked",
-				   GTK_SIGNAL_FUNC(gnome_dialog_close), etco);
+		gtk_signal_connect(GTK_OBJECT(config->sort_dialog), "clicked",
+				   GTK_SIGNAL_FUNC(gnome_dialog_close), config);
 
 		gtk_widget_show(GTK_WIDGET(etcf));
-		gtk_widget_show(GTK_WIDGET(etco->sort_dialog));
+		gtk_widget_show(GTK_WIDGET(config->sort_dialog));
 	}
 }
 
 static void
-etco_group_config_show(GtkWidget *widget, ETableConfig *etco)
+config_group_config_show(GtkWidget *widget, ETableConfig *config)
 {
-	if (etco->group_dialog)
-		gdk_window_raise(GTK_WIDGET(etco->group_dialog)->window);
+	if (config->group_dialog)
+		gdk_window_raise(GTK_WIDGET(config->group_dialog)->window);
 	else {
 		GtkWidget *etcf;
-		etco->group_dialog = gnome_dialog_new(_("Group"),
+		config->group_dialog = gnome_dialog_new(_("Group"),
 						      GNOME_STOCK_BUTTON_OK,
 						      NULL);
-		etcf = GTK_WIDGET(e_table_config_field_new(etco->spec,
-							   etco->state->sort_info,
+		etcf = GTK_WIDGET(e_table_config_field_new(config->spec,
+							   config->state->sort_info,
 							   TRUE));
-		gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(etco->group_dialog)->vbox), etcf, FALSE, FALSE, 0);
-		gnome_dialog_set_parent(GNOME_DIALOG(etco->group_dialog),
-					GTK_WINDOW(etco));
+		gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(config->group_dialog)->vbox), etcf, FALSE, FALSE, 0);
+		gnome_dialog_set_parent(GNOME_DIALOG(config->group_dialog),
+					GTK_WINDOW(config));
 
-		gtk_signal_connect(GTK_OBJECT(etco->group_dialog), "destroy",
-				   GTK_SIGNAL_FUNC(etco_clear_group), etco);
-		gtk_signal_connect(GTK_OBJECT(etco->group_dialog), "clicked",
-				   GTK_SIGNAL_FUNC(gnome_dialog_close), etco);
-		gtk_object_ref(GTK_OBJECT(etco));
+		gtk_signal_connect(GTK_OBJECT(config->group_dialog), "destroy",
+				   GTK_SIGNAL_FUNC(config_clear_group), config);
+		gtk_signal_connect(GTK_OBJECT(config->group_dialog), "clicked",
+				   GTK_SIGNAL_FUNC(gnome_dialog_close), config);
+		gtk_object_ref(GTK_OBJECT(config));
 
 		gtk_widget_show(GTK_WIDGET(etcf));
-		gtk_widget_show(GTK_WIDGET(etco->group_dialog));
+		gtk_widget_show(GTK_WIDGET(config->group_dialog));
 	}
 }
 
 static void
-etco_sort_info_update(ETableSortInfo *info, ETableConfig *etco)
+config_sort_info_update (ETableConfig *config)
 {
-	int count;
-	int i;
-	gchar **strings;
-	gchar *substrings[3];
-	int stringcount = 0;
-	gchar *string;
+	ETableSortInfo *info = config->state->sort_info;
+	GString *res;
+	int count, i;
 
-	count = e_table_sort_info_sorting_get_count(info);
-	strings = g_new(gchar *, count + 1);
+	count = e_table_sort_info_sorting_get_count (info);
+	res = g_string_new ("");
 
 	for (i = 0; i < count; i++) {
-		ETableSortColumn col = e_table_sort_info_sorting_get_nth(info, i);
+		ETableSortColumn col = e_table_sort_info_sorting_get_nth (info, i);
 		ETableColumnSpecification **column;
 
-		substrings[0] = NULL;
-
-		for (column = etco->spec->columns; *column; column++) {
+		for (column = config->spec->columns; *column; column++) {
 			if (col.column == (*column)->model_col) {
-				substrings[0] = (*column)->title_;
+				g_string_append (res, (*column)->title_);
+				g_string_append_c (res, ' ');
+				g_string_append (
+					res,
+					col.ascending ?
+					_("(Ascending)") : _("(Descending)"));
 				break;
 			}
 		}
-
-		if (substrings[0]) {
-			substrings[1] = col.ascending ? _("(Ascending)") : _("(Descending)");
-			substrings[2] = NULL;
-			strings[stringcount++] = g_strjoinv(" ", substrings);
-		}
 	}
-	strings[stringcount] = NULL;
-	string = g_strjoinv(", ", strings);
+	if (res->str [0] == 0)
+		g_string_append (res, _("Not sorted"));
+	
+	gtk_label_set_text (GTK_LABEL(config->sort_label), res->str);
 
-	for (i = 0; strings[i]; i++) {
-		g_free(strings[i]);
-	}
-	gtk_label_set_text(GTK_LABEL(etco->sort_label), string);
-	g_free(string);
-
+	g_string_free (res, TRUE);
 }
 
 static void
-etco_group_info_update(ETableSortInfo *info, ETableConfig *etco)
+config_group_info_update (ETableConfig *config)
 {
-	int count;
-	int i;
-	gchar **strings;
-	gchar *substrings[3];
-	int stringcount = 0;
-	gchar *string;
+	ETableSortInfo *info = config->state->sort_info;
+	GString *res;
+	int count, i;
 
-	count = e_table_sort_info_grouping_get_count(info);
-	strings = g_new(gchar *, count + 1);
+	count = e_table_sort_info_grouping_get_count (info);
+	res = g_string_new ("");
 
 	for (i = 0; i < count; i++) {
-		ETableSortColumn col = e_table_sort_info_grouping_get_nth(info, i);
+		ETableSortColumn col = e_table_sort_info_grouping_get_nth (info, i);
 		ETableColumnSpecification **column;
 
-		substrings[0] = NULL;
-
-		for (column = etco->spec->columns; *column; column++) {
+		for (column = config->spec->columns; *column; column++) {
 			if (col.column == (*column)->model_col) {
-				substrings[0] = (*column)->title_;
-				break;
+				g_string_append (res, (*column)->title_);
+				g_string_append_c (res, ' ');
+				g_string_append (
+					res,
+					col.ascending ?
+					_("(Ascending)") : _("(Descending)"));
 			}
 		}
-
-		if (substrings[0]) {
-			substrings[1] = col.ascending ? _("(Ascending)") : _("(Descending)");
-			substrings[2] = NULL;
-			strings[stringcount++] = g_strjoinv(" ", substrings);
-		}
 	}
-	strings[stringcount] = NULL;
-	string = g_strjoinv(", ", strings);
-
-	for (i = 0; strings[i]; i++) {
-		g_free(strings[i]);
-	}
-	gtk_label_set_text(GTK_LABEL(etco->group_label), string);
-	g_free(string);
-
+	if (res->str [0] == 0)
+		g_string_append (res, _("No grouping"));
+	
+	gtk_label_set_text (GTK_LABEL (config->group_label), res->str);
+	g_string_free (res, TRUE);
 }
 
 static void
-etco_init (ETableConfig *etco)
+config_fields_info_update (ETableConfig *config)
 {
-	GtkWidget *frame;
-	GtkWidget *table;
+	ETableColumnSpecification **column;
+	GString *res = g_string_new ("");
+
+	for (column = config->spec->columns; *column; *column++){
+		g_string_append (res, (*column)->title_);
+		if (column [1])
+			g_string_append (res, ", ");
+	}
+
+	gtk_label_set_text (GTK_LABEL (config->fields_label), res->str);
+	g_string_free (res, TRUE);
+}
+
+static void
+apply_changes (ETableConfig *config)
+{
+	/* Do apply changes here */
+}
+
+static void
+dialog_destroyed (GtkObject *dialog, ETableConfig *config)
+{
+	gtk_object_destroy (GTK_OBJECT (config));
+}
+
+static void
+setup_gui (ETableConfig *config)
+{
 	GtkWidget *sort_button;
 	GtkWidget *group_button;
+	GladeXML *gui = glade_xml_new (
+		ETABLE_GLADEDIR "/e-table-config.glade", NULL);
+	
+	config->dialog_toplevel = glade_xml_get_widget (
+		gui, "e-table-config");
 
-	gtk_window_set_title(GTK_WINDOW(etco), _("View Summary"));
-	gnome_dialog_append_buttons(GNOME_DIALOG(etco),
-				    GNOME_STOCK_BUTTON_OK,
-				    NULL);
-	gnome_dialog_set_default(GNOME_DIALOG(etco), 0);
+	gtk_notebook_set_show_tabs (
+		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (
+			config->dialog_toplevel)->notebook),
+		FALSE);
+	
+	gtk_signal_connect (
+		GTK_OBJECT (config->dialog_toplevel), "apply",
+		GTK_SIGNAL_FUNC (apply_changes), config);
+	
+	config->dialog_show_fields = glade_xml_get_widget (
+		gui, "dialog-show-fields");
+	config->dialog_group_by = glade_xml_get_widget (
+		gui, "dialog-group-by");
+	config->dialog_sort = glade_xml_get_widget (
+		gui, "dialog-sort");
 
-	frame = gtk_frame_new(_("Description"));
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(etco)->vbox), frame, FALSE, FALSE, 0);
+	config->sort_label = glade_xml_get_widget (
+		gui, "label-sort");
+	config->group_label = glade_xml_get_widget (
+		gui, "label-group");
+	config->fields_label = glade_xml_get_widget (
+		gui, "label-fields");
 
-	table = gtk_table_new(2, 2, FALSE);
-	gtk_table_set_row_spacings(GTK_TABLE(table), 6);
-	gtk_table_set_col_spacings(GTK_TABLE(table), 6);
-	gtk_container_add(GTK_CONTAINER(frame), table);
-	gtk_container_set_border_width(GTK_CONTAINER(table), 6);
+	sort_button = glade_xml_get_widget (gui, "button-sort");
+	gtk_signal_connect(
+		GTK_OBJECT(sort_button), "clicked",
+		GTK_SIGNAL_FUNC (config_sort_config_show), config);
 
-	sort_button = gtk_button_new_with_label(_("Sort..."));
-	gtk_table_attach(GTK_TABLE(table),
-			 sort_button,
-			 0, 1, 0, 1,
-			 GTK_FILL,
-			 GTK_FILL,
-			 0, 0);
+	group_button = glade_xml_get_widget (gui, "button-group");
+	gtk_signal_connect(
+		GTK_OBJECT(group_button), "clicked",
+		GTK_SIGNAL_FUNC (config_group_config_show), config);
 
-	group_button = gtk_button_new_with_label(_("Group By..."));
-	gtk_table_attach(GTK_TABLE(table),
-			 group_button,
-			 0, 1, 1, 2,
-			 GTK_FILL,
-			 GTK_FILL,
-			 0, 0);
-
-	etco->sort_label = gtk_label_new("");
-	gtk_table_attach(GTK_TABLE(table),
-			 etco->sort_label,
-			 1, 2, 0, 1,
-			 GTK_FILL | GTK_EXPAND,
-			 GTK_FILL,
-			 0, 0);
-
-	etco->group_label = gtk_label_new("");
-	gtk_table_attach(GTK_TABLE(table),
-			 etco->group_label,
-			 1, 2, 1, 2,
-			 GTK_FILL | GTK_EXPAND,
-			 GTK_FILL,
-			 0, 0);
-
-	gtk_signal_connect(GTK_OBJECT(sort_button), "clicked",
-			   GTK_SIGNAL_FUNC(etco_sort_config_show), etco);
-	gtk_signal_connect(GTK_OBJECT(group_button), "clicked",
-			   GTK_SIGNAL_FUNC(etco_group_config_show), etco);
-
-	gtk_widget_show(etco->group_label);
-	gtk_widget_show(etco->sort_label);
-	gtk_widget_show(group_button);
-	gtk_widget_show(sort_button);
-	gtk_widget_show(table);
-	gtk_widget_show(frame);
-
-	etco->sorting_changed_id = 0;
-	etco->grouping_changed_id = 0;
+	gtk_signal_connect (
+		GTK_OBJECT (config->dialog_toplevel), "destroy",
+		GTK_SIGNAL_FUNC (dialog_destroyed), config);
+	
+	gtk_object_unref (GTK_OBJECT (gui));
 }
 
-E_MAKE_TYPE(e_table_config, "ETableConfig", ETableConfig, etco_class_init, etco_init, PARENT_TYPE);
-
-GtkWidget *
-e_table_config_new       (ETableSpecification *spec,
-			  ETableState         *state)
+static void
+config_init (ETableConfig *config)
 {
-	ETableConfig *etco = gtk_type_new (E_TABLE_CONFIG_TYPE);
+	glade_gnome_init ();
+	setup_gui (config);
 
-	e_table_config_construct(etco, spec, state);
-
-	return GTK_WIDGET(etco);
+	config->sorting_changed_id = 0;
+	config->grouping_changed_id = 0;
 }
 
-GtkWidget *
-e_table_config_construct (ETableConfig        *etco,
+E_MAKE_TYPE(e_table_config, "ETableConfig", ETableConfig, config_class_init, config_init, PARENT_TYPE);
+
+ETableConfig *
+e_table_config_new (const char          *header,
+		    ETableSpecification *spec,
+		    ETableState         *state)
+{
+	ETableConfig *config = gtk_type_new (E_TABLE_CONFIG_TYPE);
+
+	if (e_table_config_construct (config, config, spec, state) == NULL){
+		gtk_object_destroy (GTK_OBJECT (config));
+		return NULL;
+	}
+
+	gtk_widget_show (config->dialog_toplevel);
+	return E_TABLE_CONFIG (config);
+}
+
+ETableConfig *
+e_table_config_construct (ETableConfig        *config,
+			  const char          *header,
 			  ETableSpecification *spec,
 			  ETableState         *state)
 {
-	etco->spec = spec;
-	etco->state = state;
+	config->spec = spec;
+	config->state = state;
 
-	if (etco->spec)
-		gtk_object_ref(GTK_OBJECT(etco->spec));
-	if (etco->state)
-		gtk_object_ref(GTK_OBJECT(etco->state));
+	if (config->spec)
+		gtk_object_ref (GTK_OBJECT(config->spec));
+	if (config->state)
+		gtk_object_ref (GTK_OBJECT(config->state));
 
-	etco->sorting_changed_id = gtk_signal_connect(GTK_OBJECT(etco->state->sort_info), "sort_info_changed",
-						      GTK_SIGNAL_FUNC(etco_sort_info_update), etco);
-	etco->grouping_changed_id = gtk_signal_connect(GTK_OBJECT(etco->state->sort_info), "group_info_changed",
-						       GTK_SIGNAL_FUNC(etco_group_info_update), etco);
+	/*
+	 * FIXME:
+	 *
+	 * Are we going to allow async changes to the ETable?  If so,
+	 * we are in for some more work than required
+	 *
+	 */
+	config->sorting_changed_id = gtk_signal_connect (
+		GTK_OBJECT(config->state->sort_info), "sort_info_changed",
+		GTK_SIGNAL_FUNC(config_sort_info_update), config);
+	config->grouping_changed_id = gtk_signal_connect (
+		GTK_OBJECT(config->state->sort_info), "group_info_changed",
+		GTK_SIGNAL_FUNC (config_group_info_update), config);
 
-	etco_sort_info_update(etco->state->sort_info, etco);
-	etco_group_info_update(etco->state->sort_info, etco);
-
-	return GTK_WIDGET(etco);
+	config_sort_info_update   (config);
+	config_group_info_update  (config);
+	config_fields_info_update (config);
+	
+	return E_TABLE_CONFIG (config);
 }
 
+void
+e_table_config_raise (ETableConfig *config)
+{
+	gdk_window_raise (GTK_WIDGET (config->dialog_toplevel)->window);
+}

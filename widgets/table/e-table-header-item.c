@@ -1186,21 +1186,27 @@ ethi_popup_format_columns(GtkWidget *widget, EthiHeaderInfo *info)
 }
 
 static void
+config_destroyed (GtkObject *object, ETableHeaderItem *ethi)
+{
+	ethi->config = NULL;
+}
+
+static void
 ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 {
 	ETableHeaderItem *ethi = info->ethi;
 	ETableState *state;
 
 	if (ethi->config)
-		gdk_window_raise(GTK_WIDGET(ethi->config)->window);
+		e_table_config_raise (E_TABLE_CONFIG (ethi->config));
 	else {
 		state = e_table_get_state_object(ethi->table);
 
-		ethi->config = e_table_config_new(ethi->table->spec,
-						  state);
-		gtk_signal_connect(GTK_OBJECT(ethi->config), "clicked",
-				   GTK_SIGNAL_FUNC(gnome_dialog_close), ethi);
-		gtk_widget_show(ethi->config);
+		ethi->config = e_table_config_new (
+			_("Configuring view: FIXME"),
+			ethi->table->spec, state);
+		gtk_signal_connect (GTK_OBJECT (ethi->config), "destroy",
+				    GTK_SIGNAL_FUNC (config_destroyed), ethi);
 	}
 }
 

@@ -13,14 +13,26 @@
 #define E_IS_TABLE_CONFIG_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_CONFIG_TYPE))
 
 typedef struct {
-	GnomeDialog base;
+	GtkObject parent;
 
+	/*
+	 * Our various dialog boxes
+	 */
+	GtkWidget *dialog_toplevel;
+	GtkWidget *dialog_show_fields;
+	GtkWidget *dialog_group_by;
+	GtkWidget *dialog_sort;
+
+	/*
+	 * The state we manipulate
+	 */
 	ETableSpecification *spec;
 	ETableState         *state;
 
 	GtkWidget *sort_label;
 	GtkWidget *group_label;
-
+	GtkWidget *fields_label;
+	
 	GtkWidget *sort_dialog;
 	GtkWidget *group_dialog;
 
@@ -29,14 +41,17 @@ typedef struct {
 } ETableConfig;
 
 typedef struct {
-	GnomeDialogClass parent_class;
+	GtkObjectClass parent_class;
 } ETableConfigClass;
 
-GtkType    e_table_config_get_type  (void);
-GtkWidget *e_table_config_new       (ETableSpecification *spec,
-				     ETableState         *state);
-GtkWidget *e_table_config_construct (ETableConfig        *etco,
-				     ETableSpecification *spec,
-				     ETableState         *state);
+GtkType       e_table_config_get_type  (void);
+ETableConfig *e_table_config_new       (const char          *header,
+					ETableSpecification *spec,
+					ETableState         *state);
+ETableConfig *e_table_config_construct (ETableConfig        *etco,
+					const char          *header,
+					ETableSpecification *spec,
+					ETableState         *state);
+void          e_table_config_raise     (ETableConfig *config);
 
 #endif /* _E_TABLE_CONFIG_H */

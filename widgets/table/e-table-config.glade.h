@@ -4,15 +4,6 @@
  * DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("View Summary");
-gchar *s = N_("Description");
-gchar *s = N_("_Fields...");
-gchar *s = N_("_Sort...");
-gchar *s = N_("_Group By...");
-gchar *s = N_("Icon, Attachment, Flag Status,\n"
-              "Full Name, Company, ");
-gchar *s = N_("None");
-gchar *s = N_("File As (ascending)");
 gchar *s = N_("Show Fields");
 gchar *s = N_("A_vailable Fields:");
 gchar *s = N_("Sh_ow these fields in order:");
@@ -55,3 +46,8 @@ gchar *s = N_("Sort Items By");
 gchar *s = N_("File By");
 gchar *s = N_("Ascending");
 gchar *s = N_("Descending");
+gchar *s = N_("Description");
+gchar *s = N_("_Fields...");
+gchar *s = N_("_Sort...");
+gchar *s = N_("_Group By...");
+gchar *s = N_("label20");
