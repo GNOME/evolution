@@ -1,3 +1,11 @@
+2001-05-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (message_list_select_uid): g_strdup the uid into
+	the ml->cursor_uid.
+
+	* message-browser.c (message_browser_forward_msg): Use the default
+	forward style.
+
 2001-05-24  Dan Winship  <danw@ximian.com>
 
 	* mail-identify.c (mail_identify_mime_part): If the message data

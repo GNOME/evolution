@@ -670,7 +670,7 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolea
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (msg != NULL);
 	g_return_if_fail (uid != NULL);
-
+	
 	psd = g_new (struct post_send_data, 1);
 	psd->folder = folder;
 	camel_object_ref (CAMEL_OBJECT (psd->folder));
@@ -687,7 +687,7 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolea
 			    GTK_SIGNAL_FUNC (composer_postpone_cb), psd);
 	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
 			    GTK_SIGNAL_FUNC (free_psd), psd);
-
+	
 	gtk_widget_show (GTK_WIDGET (composer));	
 	e_msg_composer_unset_changed (composer);
 }
@@ -708,10 +708,10 @@ void
 reply_to_all (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-
+	
 	if (!check_send_configuration (fb))
 		return;
-
+	
 	mail_reply (fb->folder, fb->mail_display->current_message, 
 		    fb->message_list->cursor_uid, TRUE);
 }

@@ -105,7 +105,7 @@ message_browser_forward_msg (GtkWidget *widget, gpointer user_data)
 {
 	MessageBrowser *mb = MESSAGE_BROWSER (user_data);
 	
-	forward_attached (NULL, mb->fb);
+	forward (NULL, mb->fb);
 }
 
 static void

@@ -413,7 +413,9 @@ message_list_select (MessageList *message_list, int base_row,
 		info = get_message_info (message_list, node);
 		if (info && (info->flags & mask) == flags) {
 			e_tree_set_cursor (et, node);
-			gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals [MESSAGE_SELECTED], camel_message_info_uid(info));
+			
+			gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED],
+					 camel_message_info_uid (info));
 			return;
 		}
 		vrow += direction;
@@ -439,6 +441,10 @@ message_list_select_uid (MessageList *message_list, const char *uid)
 		
 		info = get_message_info (message_list, node);
 		e_tree_set_cursor (message_list->tree, node);
+		
+		g_free (message_list->cursor_uid);
+		message_list->cursor_uid = g_strdup (camel_message_info_uid (info));
+		
 		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED],
 				 camel_message_info_uid (info));
 	} else {
