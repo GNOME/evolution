@@ -1,3 +1,8 @@
+2000-08-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/calendar-model.c: Emit "model_pre_change" signals as
+	appropriate.
+
 2000-08-02  Federico Mena Quintero  <federico@helixcode.com>
 
 	* pcs/cal-backend-file.[ch]: New files for the iCalendar file

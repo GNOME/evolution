@@ -1262,6 +1262,7 @@ cal_loaded_cb (CalClient *client,
 {
 	g_return_if_fail (IS_CALENDAR_MODEL (model));
 
+	e_table_model_pre_change (E_TABLE_MODEL (model));
 	load_objects (model);
 	e_table_model_changed (E_TABLE_MODEL (model));
 }
@@ -1506,6 +1507,8 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
 
 	if (priv->client == client && priv->type == type)
 		return;
+
+	e_table_model_pre_change (E_TABLE_MODEL(model));
 
 	if (client)
 		gtk_object_ref (GTK_OBJECT (client));
