@@ -120,6 +120,8 @@ void              e_shell_go_offline       (EShell       *shell,
 void              e_shell_go_online        (EShell       *shell,
 					    EShellWindow *action_window);
 
+void  e_shell_send_receive  (EShell *shell);
+
 void  e_shell_show_settings  (EShell       *shell,
 			      const char   *type,
 			      EShellWindow *shell_window);

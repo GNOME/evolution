@@ -9,6 +9,10 @@
     <cmd name="HelpSubmitBug" _label="Submit Bug Report"
       _tip="Submit a bug report using Bug Buddy"/>
 
+    <cmd name="SendReceive"
+     _tip="Send queued items and retrieve new items"
+     pixtype="pixbuf"/>
+
     <cmd name="Settings" pixtype="pixbuf"/>
 
     <cmd name="ToggleOffline" _type="Toggle"
@@ -65,6 +69,7 @@
     </submenu>
 
     <submenu name="Actions" _label="_Actions">
+      <menuitem name="SendReceive" verb="" _label="_Send / Receive" accel="F9"/>
       <placeholder name="ComponentActionsPlaceholder"/>
     </submenu>
 
@@ -104,6 +109,10 @@
             hlook="both_horiz" vlook="icon">
     <control name="NewComboButton"/>
     <separator f="" name="eshell4"/>
+
+    <toolitem name="SendReceive" verb="SendReceive"
+     _label="Send / Receive" priority="1"
+     pixtype="pixbuf"/>
   </dockitem>
 
   <popups>

@@ -197,6 +197,14 @@ command_work_online (BonoboUIComponent *uih,
 	e_shell_go_online (e_shell_window_peek_shell (window), window);
 }
 
+static void
+command_send_receive (BonoboUIComponent *uih,
+		      EShellWindow *window,
+		      const char *path)
+{
+	e_shell_send_receive (e_shell_window_peek_shell (window));
+}
+
 
 /* Tools menu.  */
 
@@ -228,6 +236,12 @@ static BonoboUIVerb file_verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
+static BonoboUIVerb actions_verbs[] = {
+	BONOBO_UI_VERB ("SendReceive", (BonoboUIVerbFn) command_send_receive),
+
+	BONOBO_UI_VERB_END
+};
+
 static BonoboUIVerb tools_verbs[] = {
 	BONOBO_UI_VERB ("Settings", (BonoboUIVerbFn) command_settings),
 	BONOBO_UI_VERB ("PilotSettings", (BonoboUIVerbFn) command_pilot_settings),
@@ -244,6 +258,7 @@ static BonoboUIVerb help_verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
+	E_PIXMAP ("/commands/SendReceive", "send-receive.xpm"),
 	E_PIXMAP ("/menu/File/FileImporter", "import.xpm"),
 	E_PIXMAP ("/menu/File/ToggleOffline", "work_offline.xpm"),
 	E_PIXMAP ("/menu/Tools/Settings", "settings-16.png"),
@@ -341,6 +356,7 @@ e_shell_window_commands_setup (EShellWindow *shell_window)
 	shell = e_shell_window_peek_shell (shell_window);
 
 	bonobo_ui_component_add_verb_list_with_data (uic, file_verbs, shell_window);
+	bonobo_ui_component_add_verb_list_with_data (uic, actions_verbs, shell_window);
 	bonobo_ui_component_add_verb_list_with_data (uic, tools_verbs, shell_window);
 	bonobo_ui_component_add_verb_list_with_data (uic, help_verbs, shell_window);
 

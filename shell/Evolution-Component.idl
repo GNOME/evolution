@@ -59,6 +59,11 @@ module Evolution {
 		   @item_type_name.  */
 		void requestCreateItem (in string item_type_name)
 			raises (UnknownType);
+
+
+		/*** Send/receive.  ***/
+
+		void sendAndReceive ();
 	};
 
 };

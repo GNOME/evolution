@@ -845,6 +845,32 @@ e_shell_go_online (EShell *shell,
 
 
 void
+e_shell_send_receive (EShell *shell)
+{
+	GSList *component_list;
+	GSList *p;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	component_list = e_component_registry_peek_list (shell->priv->component_registry);
+
+	for (p = component_list; p != NULL; p = p->next) {
+		EComponentInfo *info = p->data;
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+
+		GNOME_Evolution_Component_sendAndReceive (info->iface, &ev);
+
+		// Ignore errors, the components can decide to not implement
+		// this interface.
+
+		CORBA_exception_free (&ev);
+	}
+}
+
+
+void
 e_shell_show_settings (EShell *shell,
 		       const char *type,
 		       EShellWindow *shell_window)
