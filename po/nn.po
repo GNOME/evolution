@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-0.11\n"
-"POT-Creation-Date: 2001-10-31 01:43+0100\n"
+"POT-Creation-Date: 2001-10-31 17:21-0500\n"
 "PO-Revision-Date: 2000-10-31 20:17+02:00\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: Norwegian (Nynorsk)\n"
@@ -575,7 +575,7 @@ msgstr "Kort 1:"
 #: addressbook/backend/ebook/test-client.c:33
 #: addressbook/conduit/address-conduit.c:1537
 #: addressbook/gui/component/addressbook-factory.c:50
-#: calendar/conduits/calendar/calendar-conduit.c:1452
+#: calendar/conduits/calendar/calendar-conduit.c:1449
 #: calendar/conduits/todo/todo-conduit.c:1128
 #: calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
 #: tools/evolution-addressbook-export.c:60
@@ -646,14 +646,14 @@ msgid "EBook not loaded\n"
 msgstr ""
 
 #: addressbook/conduit/address-conduit.c:1093
-#: calendar/conduits/calendar/calendar-conduit.c:984
+#: calendar/conduits/calendar/calendar-conduit.c:981
 #: calendar/conduits/todo/todo-conduit.c:692
 #, fuzzy
 msgid "Could not start wombat server"
 msgstr "Kunne ikkje starta underprosess."
 
 #: addressbook/conduit/address-conduit.c:1094
-#: calendar/conduits/calendar/calendar-conduit.c:985
+#: calendar/conduits/calendar/calendar-conduit.c:982
 #: calendar/conduits/todo/todo-conduit.c:693
 #, fuzzy
 msgid "Could not start wombat"
@@ -882,7 +882,7 @@ msgstr "_Legg til"
 #: ui/evolution-addressbook.xml.h:34 ui/evolution-calendar.xml.h:39
 #: ui/evolution-mail-list.xml.h:25 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:47
-#: ui/evolution-signature-editor.xml.h:6 ui/evolution-subscribe.xml.h:10
+#: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:16
 msgid "_Edit"
 msgstr "_Rediger"
@@ -1057,7 +1057,7 @@ msgid "Factory for the Addressbook's name selection interface"
 msgstr ""
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
-#: addressbook/gui/component/select-names/e-select-names.c:772
+#: addressbook/gui/component/select-names/e-select-names.c:777
 #: composer/e-msg-composer-attachment-bar.c:499 filter/filter-filter.c:436
 #: filter/filter-rule.c:625 shell/e-shortcuts-view.c:180
 msgid "Remove"
@@ -2687,13 +2687,13 @@ msgid "Error modifying card"
 msgstr "Feil ved lasting av oppsett"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:33
-#: shell/evolution-shell-component.c:971
+#: shell/evolution-shell-component.c:1007
 msgid "Success"
 msgstr "Vellukka"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:34
 #: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1894
-#: shell/e-storage.c:528 shell/evolution-shell-component.c:1008
+#: shell/e-storage.c:528 shell/evolution-shell-component.c:1044
 msgid "Unknown error"
 msgstr "Ukjend feil"
 
@@ -2703,7 +2703,7 @@ msgid "Repository offline"
 msgstr "depot i vcs"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:36 shell/e-storage.c:516
-#: shell/evolution-shell-component.c:999
+#: shell/evolution-shell-component.c:1035
 msgid "Permission denied"
 msgstr "Nekta tilgang"
 
@@ -3080,6 +3080,11 @@ msgstr "Skriv ut alle"
 msgid "Print envelope"
 msgstr "Private meldingar"
 
+#: calendar/cal-util/cal-component.c:1202
+#, fuzzy
+msgid "Untitled appointment"
+msgstr "&Endra avtale ..."
+
 #: calendar/cal-util/cal-util.c:495 calendar/cal-util/cal-util.c:517
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-calendar-table.c:405 mail/message-list.c:651
@@ -3087,7 +3092,7 @@ msgid "High"
 msgstr "Høg"
 
 #: calendar/cal-util/cal-util.c:497 calendar/cal-util/cal-util.c:519
-#: calendar/gui/calendar-model.c:1700
+#: calendar/gui/calendar-model.c:1703
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-calendar-table.c:406 mail/message-list.c:650
 msgid "Normal"
@@ -3106,14 +3111,14 @@ msgstr "Låg"
 msgid "Undefined"
 msgstr ""
 
-#: calendar/conduits/calendar/calendar-conduit.c:938
+#: calendar/conduits/calendar/calendar-conduit.c:935
 #: calendar/conduits/todo/todo-conduit.c:647
 #, fuzzy
 msgid "Error while communicating with calendar server"
 msgstr "Feil ved tilkopling til tenar."
 
+#: calendar/conduits/calendar/calendar-conduit.c:1075
 #: calendar/conduits/calendar/calendar-conduit.c:1078
-#: calendar/conduits/calendar/calendar-conduit.c:1081
 #, fuzzy
 msgid "Could not read pilot's Calendar application block"
 msgstr "Kunne ikkje lasta kalender '%1'.\n"
@@ -3272,26 +3277,26 @@ msgstr ""
 "%1:\n"
 "%2"
 
-#: calendar/gui/calendar-commands.c:438
+#: calendar/gui/calendar-commands.c:446
 #, fuzzy
 msgid "%A %d %B %Y"
 msgstr "%1 bit %2 %3"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/calendar-commands.c:441 calendar/gui/e-day-view-top-item.c:288
+#: calendar/gui/calendar-commands.c:449 calendar/gui/e-day-view-top-item.c:288
 #: calendar/gui/e-day-view.c:1401 calendar/gui/e-week-view-main-item.c:333
 msgid "%a %d %b"
 msgstr ""
 
-#: calendar/gui/calendar-commands.c:443 calendar/gui/calendar-commands.c:448
-#: calendar/gui/calendar-commands.c:450
+#: calendar/gui/calendar-commands.c:451 calendar/gui/calendar-commands.c:456
+#: calendar/gui/calendar-commands.c:458
 #, fuzzy
 msgid "%a %d %b %Y"
 msgstr "%1 bit %2 %3"
 
-#: calendar/gui/calendar-commands.c:461 calendar/gui/calendar-commands.c:468
-#: calendar/gui/calendar-commands.c:474 calendar/gui/calendar-commands.c:476
+#: calendar/gui/calendar-commands.c:469 calendar/gui/calendar-commands.c:476
+#: calendar/gui/calendar-commands.c:482 calendar/gui/calendar-commands.c:484
 #, fuzzy
 msgid "%d %B %Y"
 msgstr "%1 bit %2 %3"
@@ -3299,13 +3304,13 @@ msgstr "%1 bit %2 %3"
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-commands.c:466
+#: calendar/gui/calendar-commands.c:474
 #: calendar/gui/e-week-view-main-item.c:341 calendar/gui/print.c:1445
 #, fuzzy
 msgid "%d %B"
 msgstr "%1 %2"
 
-#: calendar/gui/calendar-commands.c:676
+#: calendar/gui/calendar-commands.c:805
 msgid ""
 "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
@@ -3350,7 +3355,8 @@ msgid "Free"
 msgstr "Ledig"
 
 #: calendar/gui/calendar-model.c:605 calendar/gui/e-calendar-table.c:458
-#: calendar/gui/e-meeting-time-sel.c:409 shell/evolution-shell-component.c:993
+#: calendar/gui/e-meeting-time-sel.c:409
+#: shell/evolution-shell-component.c:1029
 msgid "Busy"
 msgstr "Oppteke"
 
@@ -3382,38 +3388,38 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1185 calendar/gui/dialogs/meeting-page.c:311
-#: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1460
+#: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1482
 #: mail/mail-accounts.c:143 mail/mail-accounts.c:391
 #: mail/mail-config.glade.h:47
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:203
 #: widgets/misc/e-cell-date-edit.c:246 widgets/misc/e-dateedit.c:452
-#: widgets/misc/e-dateedit.c:1458 widgets/misc/e-dateedit.c:1573
+#: widgets/misc/e-dateedit.c:1459 widgets/misc/e-dateedit.c:1574
 msgid "None"
 msgstr "Ingen"
 
-#: calendar/gui/calendar-model.c:1702
+#: calendar/gui/calendar-model.c:1705
 #, fuzzy
 msgid "Recurring"
 msgstr "Repetering"
 
-#: calendar/gui/calendar-model.c:1704
+#: calendar/gui/calendar-model.c:1707
 msgid "Assigned"
 msgstr ""
 
-#: calendar/gui/calendar-model.c:1710 calendar/gui/e-meeting-model.c:300
+#: calendar/gui/calendar-model.c:1713 calendar/gui/e-meeting-model.c:300
 #: calendar/gui/e-meeting-model.c:310 calendar/gui/e-meeting-model.c:536
 #: calendar/gui/e-meeting-model.c:776
 #, fuzzy
 msgid "Yes"
 msgstr "Ja"
 
-#: calendar/gui/calendar-model.c:1710 calendar/gui/e-meeting-model.c:312
+#: calendar/gui/calendar-model.c:1713 calendar/gui/e-meeting-model.c:312
 #: calendar/gui/e-meeting-model.c:777
 msgid "No"
 msgstr "Nei"
 
 #. No time range is set, so don't start a query
-#: calendar/gui/calendar-model.c:1963 calendar/gui/e-day-view.c:1675
+#: calendar/gui/calendar-model.c:1966 calendar/gui/e-day-view.c:1675
 #: calendar/gui/e-week-view.c:1182
 #, fuzzy
 msgid "Searching"
@@ -3504,27 +3510,27 @@ msgstr "Oppgåve"
 msgid "The URI that the calendar will display"
 msgstr "Viser korleis datoverdiar vert viste."
 
-#: calendar/gui/dialogs/alarm-options.c:358
+#: calendar/gui/dialogs/alarm-options.c:359
 #, fuzzy
 msgid "Audio Alarm Options"
 msgstr "Alarm"
 
-#: calendar/gui/dialogs/alarm-options.c:367
+#: calendar/gui/dialogs/alarm-options.c:368
 #, fuzzy
 msgid "Message Alarm Options"
 msgstr "Eigenskapar for meldingsdel"
 
-#: calendar/gui/dialogs/alarm-options.c:376
+#: calendar/gui/dialogs/alarm-options.c:377
 #, fuzzy
 msgid "Mail Alarm Options"
 msgstr "Tar-val"
 
-#: calendar/gui/dialogs/alarm-options.c:385
+#: calendar/gui/dialogs/alarm-options.c:386
 #, fuzzy
 msgid "Program Alarm Options"
 msgstr "Programplasseringar"
 
-#: calendar/gui/dialogs/alarm-options.c:394
+#: calendar/gui/dialogs/alarm-options.c:395
 #, fuzzy
 msgid "Unknown Alarm Options"
 msgstr "Kjende program"
@@ -4099,38 +4105,38 @@ msgstr "Forfall"
 msgid "Could not update object!"
 msgstr "Kunne ikkje laga kio-jobb.\n"
 
-#: calendar/gui/dialogs/comp-editor.c:671
+#: calendar/gui/dialogs/comp-editor.c:676
 #, fuzzy
 msgid "Edit Appointment"
 msgstr "&Endra avtale ..."
 
-#: calendar/gui/dialogs/comp-editor.c:676
+#: calendar/gui/dialogs/comp-editor.c:681
 #, fuzzy, c-format
 msgid "Appointment - %s"
 msgstr "Avtale"
 
-#: calendar/gui/dialogs/comp-editor.c:679
+#: calendar/gui/dialogs/comp-editor.c:684
 #, fuzzy, c-format
 msgid "Task - %s"
 msgstr "Oppgåver"
 
-#: calendar/gui/dialogs/comp-editor.c:682
+#: calendar/gui/dialogs/comp-editor.c:687
 #, c-format
 msgid "Journal entry - %s"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:696
+#: calendar/gui/dialogs/comp-editor.c:701
 #, fuzzy
 msgid "No summary"
 msgstr "oppsummering"
 
-#: calendar/gui/dialogs/comp-editor.c:1054 mail/mail-callbacks.c:1876
+#: calendar/gui/dialogs/comp-editor.c:1059 mail/mail-callbacks.c:1876
 #: mail/mail-display.c:102
 #, fuzzy
 msgid "Overwrite file?"
 msgstr "Overskriv filer"
 
-#: calendar/gui/dialogs/comp-editor.c:1058 mail/mail-callbacks.c:1883
+#: calendar/gui/dialogs/comp-editor.c:1063 mail/mail-callbacks.c:1883
 #: mail/mail-display.c:106
 #, fuzzy
 msgid ""
@@ -4138,12 +4144,12 @@ msgid ""
 "Overwrite it?"
 msgstr "Ei fil med det namnet finst alt. Vil du skriva over den?"
 
-#: calendar/gui/dialogs/comp-editor.c:1104 ui/evolution-comp-editor.xml.h:13
+#: calendar/gui/dialogs/comp-editor.c:1109 ui/evolution-comp-editor.xml.h:13
 #: widgets/misc/e-filter-bar.h:102
 msgid "Save As..."
 msgstr "Lagre som ..."
 
-#: calendar/gui/dialogs/comp-editor.c:1265
+#: calendar/gui/dialogs/comp-editor.c:1270
 #, fuzzy
 msgid "Unable to obtain current version!"
 msgstr "Kan ikkje setja opp utskriftstenaren."
@@ -4302,6 +4308,10 @@ msgstr "Start-tid:"
 
 #: calendar/gui/dialogs/meeting-page.c:422
 msgid "An organizer is required."
+msgstr ""
+
+#: calendar/gui/dialogs/meeting-page.c:443
+msgid "At least one attendee is required."
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.c:623
@@ -4527,7 +4537,7 @@ msgid "Progress"
 msgstr "Framgang"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#: my-evolution/e-summary-preferences.c:938
+#: my-evolution/e-summary-preferences.c:966
 #, fuzzy
 msgid "URL:"
 msgstr "URL:"
@@ -4709,8 +4719,8 @@ msgstr "Ein bandindeks må vera valt i treet."
 msgid "Alarms"
 msgstr "Alarm"
 
-#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:720
-#: camel/camel-filter-driver.c:836
+#: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:721
+#: camel/camel-filter-driver.c:835
 #, fuzzy
 msgid "Complete"
 msgstr "Ferdig"
@@ -4747,7 +4757,7 @@ msgstr "Start-dato:"
 #. people who won't care about using /Local Folders/Inbox
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:44 shell/e-shortcuts.c:1049
-#: shell/e-storage-set-view.c:1460 shell/e-summary-storage.c:79
+#: shell/e-storage-set-view.c:1465 shell/e-summary-storage.c:79
 msgid "Summary"
 msgstr "Samandrag"
 
@@ -5340,7 +5350,7 @@ msgstr ""
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:480 e-util/e-time-utils.c:221
-#: e-util/e-time-utils.c:279 widgets/misc/e-dateedit.c:1582
+#: e-util/e-time-utils.c:279 widgets/misc/e-dateedit.c:1583
 msgid "%m/%d/%Y"
 msgstr ""
 
@@ -5433,7 +5443,7 @@ msgstr "Metoden %1 er ikkje støtta."
 msgid "New _Appointment..."
 msgstr "&Vis avtale ..."
 
-#: calendar/gui/gnome-cal.c:1315
+#: calendar/gui/gnome-cal.c:1499
 #, fuzzy, c-format
 msgid "Could not open the folder in `%s'"
 msgstr ""
@@ -5441,12 +5451,12 @@ msgstr ""
 "postboksen '%1':\n"
 "%2"
 
-#: calendar/gui/gnome-cal.c:1326
+#: calendar/gui/gnome-cal.c:1510
 #, fuzzy, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "Metoden %1 er ikkje støtta."
 
-#: calendar/gui/gnome-cal.c:1681
+#: calendar/gui/gnome-cal.c:1865
 #, fuzzy, c-format
 msgid "Opening calendar at %s"
 msgstr "Feil ved opning"
@@ -5987,54 +5997,54 @@ msgstr "Kan ikkje gjera LIST-operasjon ferdig"
 msgid "Syncing folders"
 msgstr "Synkroniser"
 
-#: camel/camel-filter-driver.c:661
+#: camel/camel-filter-driver.c:662
 #, fuzzy
 msgid "Unable to open spool folder"
 msgstr "Kan ikkje 'chown' 'spool'-katalogen"
 
-#: camel/camel-filter-driver.c:670
+#: camel/camel-filter-driver.c:671
 #, fuzzy
 msgid "Unable to process spool folder"
 msgstr "Kan ikkje laga 'spool'-katalog"
 
-#: camel/camel-filter-driver.c:685
+#: camel/camel-filter-driver.c:686
 #, fuzzy, c-format
 msgid "Getting message %d (%d%%)"
 msgstr "Mottek meldingar frå %1"
 
-#: camel/camel-filter-driver.c:689 camel/camel-filter-driver.c:702
+#: camel/camel-filter-driver.c:690 camel/camel-filter-driver.c:703
 #, fuzzy, c-format
 msgid "Failed on message %d"
 msgstr "Kunne ikkje leggja til melding:\n"
 
-#: camel/camel-filter-driver.c:690
+#: camel/camel-filter-driver.c:691
 #, fuzzy
 msgid "Cannot open message"
 msgstr "Kan ikkje dekryptera melding:"
 
-#: camel/camel-filter-driver.c:716 camel/camel-filter-driver.c:831
+#: camel/camel-filter-driver.c:717 camel/camel-filter-driver.c:830
 #, fuzzy
 msgid "Syncing folder"
 msgstr "Synkroniser"
 
-#: camel/camel-filter-driver.c:788
+#: camel/camel-filter-driver.c:787
 #, fuzzy, c-format
 msgid "Getting message %d of %d"
 msgstr "Mottek meldingar frå %1"
 
-#: camel/camel-filter-driver.c:793 camel/camel-filter-driver.c:811
+#: camel/camel-filter-driver.c:792 camel/camel-filter-driver.c:810
 #, fuzzy, c-format
 msgid "Failed at message %d of %d"
 msgstr "Mottek meldingar frå %1"
 
-#: camel/camel-filter-driver.c:920
+#: camel/camel-filter-driver.c:919
 #, fuzzy, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr ""
 "Feil ved lesing a fil:\n"
 "%1"
 
-#: camel/camel-filter-driver.c:926
+#: camel/camel-filter-driver.c:925
 #, fuzzy, c-format
 msgid "Error executing filter: %s: %s"
 msgstr ""
@@ -6103,12 +6113,12 @@ msgstr ""
 msgid "Invalid type in body-contains, expecting string"
 msgstr ""
 
-#: camel/camel-lock-client.c:109
+#: camel/camel-lock-client.c:111
 #, fuzzy, c-format
 msgid "Cannot build locking helper pipe: %s"
 msgstr "Kunne ikkje laga katalog\n"
 
-#: camel/camel-lock-client.c:122
+#: camel/camel-lock-client.c:124
 #, fuzzy, c-format
 msgid "Cannot fork locking helper: %s"
 msgstr ""
@@ -6116,12 +6126,12 @@ msgstr ""
 "postboksen '%1':\n"
 "%2"
 
-#: camel/camel-lock-client.c:198 camel/camel-lock-client.c:221
+#: camel/camel-lock-client.c:202 camel/camel-lock-client.c:225
 #, c-format
 msgid "Could not lock '%s': protocol error with lock-helper"
 msgstr ""
 
-#: camel/camel-lock-client.c:211
+#: camel/camel-lock-client.c:215
 #, fuzzy, c-format
 msgid "Could not lock '%s'"
 msgstr "Kunne ikkje starta %1."
@@ -6749,7 +6759,7 @@ msgstr "Berre sjekk for ny e-post."
 msgid "Check for new messages in all folders"
 msgstr "Berre sjekk for ny e-post."
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:839
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:820
 msgid "Folders"
 msgstr "Mapper"
 
@@ -7935,7 +7945,7 @@ msgstr ""
 msgid "Attach a file"
 msgstr "Legg ved fil"
 
-#: composer/e-msg-composer.c:700
+#: composer/e-msg-composer.c:690
 #, fuzzy, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -7944,67 +7954,67 @@ msgstr ""
 "Feil ved lesing av fil:\n"
 "%s"
 
-#: composer/e-msg-composer.c:883
+#: composer/e-msg-composer.c:873
 msgid "Save as..."
 msgstr "Lagre som ..."
 
-#: composer/e-msg-composer.c:892
+#: composer/e-msg-composer.c:882
 #, fuzzy
 msgid "Warning!"
 msgstr "Flyttar"
 
-#: composer/e-msg-composer.c:896
+#: composer/e-msg-composer.c:886
 #, fuzzy
 msgid "File exists, overwrite?"
 msgstr "Loggfil eksisterer, overskriv?"
 
-#: composer/e-msg-composer.c:918
+#: composer/e-msg-composer.c:908
 #, fuzzy, c-format
 msgid "Error saving file: %s"
 msgstr ""
 "Feil ved lesing a fil:\n"
 "%1"
 
-#: composer/e-msg-composer.c:937
+#: composer/e-msg-composer.c:927
 #, fuzzy, c-format
 msgid "Error loading file: %s"
 msgstr ""
 "Feil ved nedlasting av fil:\n"
 "%1"
 
-#: composer/e-msg-composer.c:1008
+#: composer/e-msg-composer.c:998
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1061
+#: composer/e-msg-composer.c:1048
 #, fuzzy, c-format
 msgid "Error accessing file: %s"
 msgstr ""
 "Feil ved lesing a fil:\n"
 "%1"
 
-#: composer/e-msg-composer.c:1069
+#: composer/e-msg-composer.c:1056
 #, fuzzy
 msgid "Unable to retrieve message from editor"
 msgstr "Kunne ikkje motta fil"
 
-#: composer/e-msg-composer.c:1076
+#: composer/e-msg-composer.c:1063
 #, fuzzy, c-format
 msgid ""
 "Unable to seek on file: %s\n"
 "%s"
 msgstr "Kunne ikkje lasta kalender '%1'.\n"
 
-#: composer/e-msg-composer.c:1083
+#: composer/e-msg-composer.c:1070
 #, fuzzy, c-format
 msgid ""
 "Unable to truncate file: %s\n"
 "%s"
 msgstr "Kunne ikkje lasta kalender '%1'.\n"
 
-#: composer/e-msg-composer.c:1092
+#: composer/e-msg-composer.c:1079
 #, fuzzy, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -8013,13 +8023,13 @@ msgstr ""
 "Feil ved lesing a fil:\n"
 "%1"
 
-#: composer/e-msg-composer.c:1194
+#: composer/e-msg-composer.c:1181
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1345
+#: composer/e-msg-composer.c:1334
 #, fuzzy
 msgid ""
 "This message has not been sent.\n"
@@ -8029,44 +8039,44 @@ msgstr ""
 "Dette er siste trekk.\n"
 "Vil du leggja til fleire trekk?"
 
-#: composer/e-msg-composer.c:1352
+#: composer/e-msg-composer.c:1341
 #, fuzzy
 msgid "Warning: Modified Message"
 msgstr "Vidaresendt melding frå %1"
 
-#: composer/e-msg-composer.c:1375
+#: composer/e-msg-composer.c:1364
 msgid "Open file"
 msgstr "Opna fil"
 
-#: composer/e-msg-composer.c:1524
+#: composer/e-msg-composer.c:1513
 msgid "Insert File"
 msgstr "Set inn fil"
 
-#: composer/e-msg-composer.c:1899 composer/e-msg-composer.c:2340
+#: composer/e-msg-composer.c:1888 composer/e-msg-composer.c:2329
 #, fuzzy
 msgid "Compose a message"
 msgstr "Lukk melding"
 
-#: composer/e-msg-composer.c:2357
+#: composer/e-msg-composer.c:2346
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:2380
+#: composer/e-msg-composer.c:2369
 #, fuzzy
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
 msgstr "Kan ikkje laga nytt vindauge.\n"
 
-#: composer/evolution-composer.c:360
+#: composer/evolution-composer.c:367
 msgid ""
 "Could not create composer window, because you have not yet\n"
 "configured any identities in the mail component."
 msgstr ""
 
-#: composer/evolution-composer.c:375
+#: composer/evolution-composer.c:382
 #, fuzzy
 msgid "Cannot initialize Evolution's composer."
 msgstr "Kan ikkje initialisera lokale variablar"
@@ -8215,13 +8225,13 @@ msgstr "%H:%M:%S"
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
 #: e-util/e-time-utils.c:312 e-util/e-time-utils.c:399
-#: widgets/misc/e-dateedit.c:1390 widgets/misc/e-dateedit.c:1617
+#: widgets/misc/e-dateedit.c:1391 widgets/misc/e-dateedit.c:1618
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:316 e-util/e-time-utils.c:391
-#: widgets/misc/e-dateedit.c:1387 widgets/misc/e-dateedit.c:1614
+#: widgets/misc/e-dateedit.c:1388 widgets/misc/e-dateedit.c:1615
 #, fuzzy
 msgid "%H:%M"
 msgstr "%H:%M"
@@ -8709,7 +8719,7 @@ msgstr ""
 msgid "Stop Processing"
 msgstr ""
 
-#: filter/libfilter-i18n.h:51 mail/mail-format.c:922
+#: filter/libfilter-i18n.h:51 mail/mail-format.c:901
 #: mail/message-list.etspec.h:9
 msgid "Subject"
 msgstr "Emne"
@@ -9255,7 +9265,7 @@ msgstr ""
 "Dette er siste trekk.\n"
 "Vil du leggja til fleire trekk?"
 
-#: mail/mail-account-gui.c:1629
+#: mail/mail-account-gui.c:1651
 msgid "You may not create two accounts with the same name."
 msgstr ""
 
@@ -10180,76 +10190,76 @@ msgstr ""
 msgid "Date"
 msgstr "Dato"
 
-#: mail/mail-format.c:862
+#: mail/mail-format.c:843
 #, fuzzy
 msgid "Bad Address"
 msgstr "E-post-adresse:"
 
-#: mail/mail-format.c:904 mail/message-list.etspec.h:3
+#: mail/mail-format.c:883 mail/message-list.etspec.h:3
 msgid "From"
 msgstr "Frå"
 
-#: mail/mail-format.c:907
+#: mail/mail-format.c:886
 #, fuzzy
 msgid "Reply-To"
 msgstr "Svar"
 
-#: mail/mail-format.c:911 mail/message-list.etspec.h:10
+#: mail/mail-format.c:890 mail/message-list.etspec.h:10
 msgid "To"
 msgstr "Til"
 
-#: mail/mail-format.c:915
+#: mail/mail-format.c:894
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/mail-format.c:919
+#: mail/mail-format.c:898
 #, fuzzy
 msgid "Bcc"
 msgstr "&Bcc:"
 
-#: mail/mail-format.c:1821
+#: mail/mail-format.c:1799
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 
-#: mail/mail-format.c:1844
+#: mail/mail-format.c:1822
 msgid "Evolution does not recognize this type of signed message."
 msgstr ""
 
-#: mail/mail-format.c:1852
+#: mail/mail-format.c:1830
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr ""
 
-#: mail/mail-format.c:1860
+#: mail/mail-format.c:1838
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 
-#: mail/mail-format.c:2076
+#: mail/mail-format.c:2054
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr ""
 
-#: mail/mail-format.c:2090
+#: mail/mail-format.c:2068
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr ""
 
-#: mail/mail-format.c:2095
+#: mail/mail-format.c:2073
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr ""
 
-#: mail/mail-format.c:2124
+#: mail/mail-format.c:2102
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr ""
 
-#: mail/mail-format.c:2132
+#: mail/mail-format.c:2110
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr ""
 
-#: mail/mail-format.c:2137
+#: mail/mail-format.c:2115
 msgid "Malformed external-body part."
 msgstr ""
 
@@ -10301,7 +10311,7 @@ msgstr "Vil du lagra denne artikkelen i Kladd-mappa?"
 msgid "Reconfigure /%s"
 msgstr "Set opp %1"
 
-#: mail/mail-mt.c:251
+#: mail/mail-mt.c:254
 #, fuzzy, c-format
 msgid ""
 "Error while '%s':\n"
@@ -10310,7 +10320,7 @@ msgstr ""
 "Feil ved laging av fil '%1':\n"
 "%2"
 
-#: mail/mail-mt.c:254
+#: mail/mail-mt.c:257
 #, fuzzy, c-format
 msgid ""
 "Error while performing operation:\n"
@@ -10319,7 +10329,7 @@ msgstr ""
 "Feil ved lesing av fil:\n"
 "%s"
 
-#: mail/mail-mt.c:893
+#: mail/mail-mt.c:901
 #, fuzzy
 msgid "Working"
 msgstr "Flyttar"
@@ -10846,31 +10856,41 @@ msgstr "%H:%M"
 msgid "Mail summary"
 msgstr "oppsummering"
 
-#: my-evolution/e-summary-preferences.c:423
+#. translators: Put a list of codes for locations you want to see in
+#. My Evolution by default here. You can find the list of all
+#. stations and their codes in Evolution sources.
+#. (evolution/my-evolution/Locations)
+#. Codes are seperated with : eg. "KBOS:EGAA"
+#: my-evolution/e-summary-preferences.c:80
+#: my-evolution/e-summary-weather.c:661
+msgid "KBOS"
+msgstr ""
+
+#: my-evolution/e-summary-preferences.c:444
 msgid "Dictionary.com Word of the Day"
 msgstr ""
 
-#: my-evolution/e-summary-preferences.c:446
+#: my-evolution/e-summary-preferences.c:467
 #, fuzzy
 msgid "Quotes of the Day"
 msgstr "Tips for dagen"
 
-#: my-evolution/e-summary-preferences.c:918
+#: my-evolution/e-summary-preferences.c:946
 #, fuzzy
 msgid "Add a news feed"
 msgstr "Legg til ei ny oppføring"
 
-#: my-evolution/e-summary-preferences.c:926
+#: my-evolution/e-summary-preferences.c:954
 #, fuzzy
 msgid "Enter the URL of the news feed you wish to add"
 msgstr "Oppgi namnet på gruppa du vil leggja til."
 
-#: my-evolution/e-summary-preferences.c:930
+#: my-evolution/e-summary-preferences.c:958
 #, fuzzy
 msgid "Name:"
 msgstr "Namn:"
 
-#: my-evolution/e-summary-preferences.c:1476
+#: my-evolution/e-summary-preferences.c:1504
 #, fuzzy
 msgid "Summary Settings"
 msgstr "Spørjinga inneheld"
@@ -10911,14 +10931,6 @@ msgstr ""
 #, fuzzy
 msgid "Weather"
 msgstr "Vatn"
-
-#. translators: Put here a list of codes for locations you want to
-#. see in My Evolution by default. You can find the list of all
-#. stations and their codes in Evolution sources
-#. (evolution/my-evolution/Locations)
-#: my-evolution/e-summary-weather.c:661
-msgid "KBOS"
-msgstr ""
 
 #: my-evolution/e-summary-weather.c:722
 msgid "Regions"
@@ -12784,6 +12796,29 @@ msgid ""
 "that you would like to import"
 msgstr ""
 
+#: shell/e-shell-utils.c:114
+#, fuzzy
+msgid "No folder name specified."
+msgstr "Gå til side"
+
+#: shell/e-shell-utils.c:121
+#, fuzzy
+msgid "Folder name cannot contain the Return character."
+msgstr ""
+"Kan ikkje laga heimekatalog\n"
+"Feil: %1"
+
+#: shell/e-shell-utils.c:127
+#, fuzzy
+msgid "Folder name cannot contain slashes."
+msgstr ""
+"Kan ikkje laga heimekatalog\n"
+"Feil: %1"
+
+#: shell/e-shell-utils.c:133
+msgid "'.' and '..' are reserved folder names."
+msgstr ""
+
 #: shell/e-shell-view-menu.c:165
 msgid "Bug buddy was not found in your $PATH."
 msgstr ""
@@ -12848,26 +12883,26 @@ msgstr "Flyttar"
 msgid "(No folder displayed)"
 msgstr ""
 
-#: shell/e-shell-view.c:1592
+#: shell/e-shell-view.c:1574
 #, c-format
 msgid "%s (%d)"
 msgstr ""
 
-#: shell/e-shell-view.c:1594
+#: shell/e-shell-view.c:1576
 #, fuzzy
 msgid "(None)"
 msgstr "(ingen)"
 
-#: shell/e-shell-view.c:1641
+#: shell/e-shell-view.c:1623
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 
-#: shell/e-shell-view.c:1648
+#: shell/e-shell-view.c:1630
 msgid "Ximian Evolution is in the process of going offline."
 msgstr ""
 
-#: shell/e-shell-view.c:1654
+#: shell/e-shell-view.c:1636
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
@@ -13128,70 +13163,70 @@ msgstr ""
 msgid "%s (%d%% complete)"
 msgstr "%1 av %2 ferdig"
 
-#: shell/evolution-shell-component.c:973
+#: shell/evolution-shell-component.c:1009
 #, fuzzy
 msgid "CORBA error"
 msgstr "IU-feil"
 
-#: shell/evolution-shell-component.c:975
+#: shell/evolution-shell-component.c:1011
 msgid "Interrupted"
 msgstr ""
 
-#: shell/evolution-shell-component.c:977
+#: shell/evolution-shell-component.c:1013
 #, fuzzy
 msgid "Invalid argument"
 msgstr "(ugyldig)"
 
-#: shell/evolution-shell-component.c:979
+#: shell/evolution-shell-component.c:1015
 msgid "Already has an owner"
 msgstr ""
 
-#: shell/evolution-shell-component.c:981
+#: shell/evolution-shell-component.c:1017
 #, fuzzy
 msgid "No owner"
 msgstr "Ingen"
 
-#: shell/evolution-shell-component.c:983
+#: shell/evolution-shell-component.c:1019
 #, fuzzy
 msgid "Not found"
 msgstr "Fann ikkje fil"
 
-#: shell/evolution-shell-component.c:985
+#: shell/evolution-shell-component.c:1021
 #, fuzzy
 msgid "Unsupported type"
 msgstr "Vel modemtype ..."
 
-#: shell/evolution-shell-component.c:987
+#: shell/evolution-shell-component.c:1023
 msgid "Unsupported schema"
 msgstr ""
 
-#: shell/evolution-shell-component.c:989
+#: shell/evolution-shell-component.c:1025
 msgid "Unsupported operation"
 msgstr "Ustøtta operasjon"
 
-#: shell/evolution-shell-component.c:991
+#: shell/evolution-shell-component.c:1027
 msgid "Internal error"
 msgstr "Intern feil"
 
-#: shell/evolution-shell-component.c:995
+#: shell/evolution-shell-component.c:1031
 msgid "Exists"
 msgstr "Eksisterar"
 
-#: shell/evolution-shell-component.c:997
+#: shell/evolution-shell-component.c:1033
 msgid "Invalid URI"
 msgstr "Ugyldig URI"
 
-#: shell/evolution-shell-component.c:1001
+#: shell/evolution-shell-component.c:1037
 #, fuzzy
 msgid "Has subfolders"
 msgstr "Vidaresendt melding"
 
-#: shell/evolution-shell-component.c:1003
+#: shell/evolution-shell-component.c:1039
 #, fuzzy
 msgid "No space left"
 msgstr "Ingen rektangel valt!"
 
-#: shell/evolution-shell-component.c:1005
+#: shell/evolution-shell-component.c:1041
 msgid "Old owner has died"
 msgstr ""
 
@@ -13350,49 +13385,26 @@ msgstr "Bruk på følgjande delar:"
 msgid "Evolution is now exiting ..."
 msgstr "Skriftinnstillingar"
 
-#: shell/main.c:193
-#, no-c-format
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
-"of the Ximian Evolution groupware suite.\n"
-"\n"
-"Ximian Evolution is not yet complete. It's getting close, but there are\n"
-"places where features are either missing or only half working. \n"
-"\n"
-"If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-"This product comes with no warranty and is not intended for\n"
-"individuals prone to violent fits of anger.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we\n"
-"eagerly await your contributions!\n"
-msgstr ""
-
-#: shell/main.c:214
-msgid ""
-"Thanks\n"
-"The Ximian Evolution Team\n"
-msgstr ""
-
-#: shell/main.c:268
+#: shell/main.c:210
 #, fuzzy
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Kan ikkje initialisera adresseboka"
 
-#: shell/main.c:277
+#: shell/main.c:219
 #, fuzzy, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Kan ikkje initialisera adresseboka"
 
-#: shell/main.c:347
+#: shell/main.c:289
 #, fuzzy
 msgid "Disable splash screen"
 msgstr "KDE-oppstartsskjermen."
 
-#: shell/main.c:348
+#: shell/main.c:290
 msgid "Send the debugging output of all components to a file."
 msgstr ""
 
-#: shell/main.c:390
+#: shell/main.c:332
 #, fuzzy
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Kan ikkje initialisera adresseboka"
@@ -13750,6 +13762,7 @@ msgid "Save"
 msgstr "Lagre"
 
 #: ui/evolution-comp-editor.xml.h:14 ui/evolution-contact-editor.xml.h:8
+#: ui/evolution-signature-editor.xml.h:4
 #, fuzzy
 msgid "Save and Close"
 msgstr "Lagra ei fil"
@@ -13767,7 +13780,7 @@ msgstr "Lagra til disk"
 #: ui/evolution-contact-list-editor.xml.h:11
 #: ui/evolution-mail-messagedisplay.xml.h:7
 #: ui/evolution-message-composer.xml.h:48
-#: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:11
+#: ui/evolution-signature-editor.xml.h:8 ui/evolution-subscribe.xml.h:11
 #: ui/evolution.xml.h:36
 msgid "_File"
 msgstr "_Fil"
@@ -13790,7 +13803,7 @@ msgstr ""
 #: ui/evolution-contact-editor.xml.h:15
 #: ui/evolution-contact-list-editor.xml.h:12
 #: ui/evolution-message-composer.xml.h:53
-#: ui/evolution-signature-editor.xml.h:10
+#: ui/evolution-signature-editor.xml.h:11
 msgid "_Save"
 msgstr "_Lagre"
 
@@ -14530,7 +14543,7 @@ msgstr "&Slett avtale"
 
 #: ui/evolution-mail-messagedisplay.xml.h:5
 #: ui/evolution-message-composer.xml.h:45
-#: ui/evolution-signature-editor.xml.h:5 ui/evolution-subscribe.xml.h:9
+#: ui/evolution-signature-editor.xml.h:6 ui/evolution-subscribe.xml.h:9
 #: ui/evolution.xml.h:33
 msgid "_Close"
 msgstr "_Lukk"
@@ -14564,8 +14577,9 @@ msgid "Encrypt this message with your S/MIME Encryption Cetificate"
 msgstr ""
 
 #: ui/evolution-message-composer.xml.h:8
-msgid "F_ormat"
-msgstr "F_ormat"
+#, fuzzy
+msgid "For_mat"
+msgstr "Format"
 
 #: ui/evolution-message-composer.xml.h:9
 #, fuzzy
@@ -14622,7 +14636,7 @@ msgid "Save in folder..."
 msgstr "Lagrar fil ..."
 
 #: ui/evolution-message-composer.xml.h:24
-#: ui/evolution-signature-editor.xml.h:4
+#: ui/evolution-signature-editor.xml.h:5
 msgid "Save the current file"
 msgstr "Lagre gjeldande fil"
 
@@ -14728,7 +14742,7 @@ msgid "_From Field"
 msgstr ""
 
 #: ui/evolution-message-composer.xml.h:50
-#: ui/evolution-signature-editor.xml.h:9
+#: ui/evolution-signature-editor.xml.h:10
 msgid "_Insert"
 msgstr "Set _inn"
 
@@ -14745,7 +14759,7 @@ msgstr "Svar"
 msgid "_Security"
 msgstr ""
 
-#: ui/evolution-signature-editor.xml.h:8 ui/evolution.xml.h:40
+#: ui/evolution-signature-editor.xml.h:9 ui/evolution.xml.h:40
 msgid "_Help"
 msgstr "_Hjelp"
 
@@ -15302,6 +15316,9 @@ msgstr "Kunne ikkje initiere Bonobo"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "Kunne ikkje initiere Bonobo"
 
+#~ msgid "F_ormat"
+#~ msgstr "F_ormat"
+
 #, fuzzy
 #~ msgid "_Invite Others"
 #~ msgstr "Andre ..."
@@ -15376,12 +15393,6 @@ msgstr "Kunne ikkje initiere Bonobo"
 #, fuzzy
 #~ msgid "_Imperial"
 #~ msgstr "seriell"
-
-#, fuzzy
-#~ msgid "Folder cannot contain the directory separator."
-#~ msgstr ""
-#~ "Kan ikkje laga heimekatalog\n"
-#~ "Feil: %1"
 
 #, fuzzy
 #~ msgid "Ximian Evolution"

@@ -1,3 +1,7 @@
+2001-10-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Update version to 0.17.100.
+
 2001-10-31  JP Rosevear  <jpr@ximian.com>
 
 	* NEWS (Conduits): update

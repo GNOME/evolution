@@ -5,12 +5,12 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.129 2001/10/31 11:36:43 menthos Exp $
+# $Id: sv.po,v 1.130 2001/10/31 23:07:29 ettore Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-10-31 12:35+0100\n"
+"POT-Creation-Date: 2001-10-31 17:21-0500\n"
 "PO-Revision-Date: 2001-10-31 12:30+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -2919,6 +2919,11 @@ msgstr "Skriv ut kort"
 msgid "Print envelope"
 msgstr "Skriv ut kuvert"
 
+#: calendar/cal-util/cal-component.c:1202
+#, fuzzy
+msgid "Untitled appointment"
+msgstr "_Redigera möte"
+
 #: calendar/cal-util/cal-util.c:495 calendar/cal-util/cal-util.c:517
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-calendar-table.c:405 mail/message-list.c:651
@@ -3309,23 +3314,23 @@ msgstr "Ny _uppgift"
 msgid "The URI that the calendar will display"
 msgstr "URI:n som kalendern kommer att visa"
 
-#: calendar/gui/dialogs/alarm-options.c:358
+#: calendar/gui/dialogs/alarm-options.c:359
 msgid "Audio Alarm Options"
 msgstr "Alternativ för ljudalarm"
 
-#: calendar/gui/dialogs/alarm-options.c:367
+#: calendar/gui/dialogs/alarm-options.c:368
 msgid "Message Alarm Options"
 msgstr "Alternativ för meddelandealarm"
 
-#: calendar/gui/dialogs/alarm-options.c:376
+#: calendar/gui/dialogs/alarm-options.c:377
 msgid "Mail Alarm Options"
 msgstr "Alternativ för e-postalarm"
 
-#: calendar/gui/dialogs/alarm-options.c:385
+#: calendar/gui/dialogs/alarm-options.c:386
 msgid "Program Alarm Options"
 msgstr "Alternativ för programalarm"
 
-#: calendar/gui/dialogs/alarm-options.c:394
+#: calendar/gui/dialogs/alarm-options.c:395
 msgid "Unknown Alarm Options"
 msgstr "Alternativ för okända alarm"
 
@@ -4209,7 +4214,7 @@ msgid "Progress"
 msgstr "Förlopp"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#: my-evolution/e-summary-preferences.c:945
+#: my-evolution/e-summary-preferences.c:966
 msgid "URL:"
 msgstr "URL:"
 
@@ -4414,7 +4419,7 @@ msgstr "Startdatum"
 #. people who won't care about using /Local Folders/Inbox
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:44 shell/e-shortcuts.c:1049
-#: shell/e-storage-set-view.c:1460 shell/e-summary-storage.c:79
+#: shell/e-storage-set-view.c:1465 shell/e-summary-storage.c:79
 msgid "Summary"
 msgstr "Sammanfattning"
 
@@ -5037,17 +5042,17 @@ msgstr "Metoden som krävs för att läsa in \"%s\" stöds inte"
 msgid "New _Appointment..."
 msgstr "Nytt _möte..."
 
-#: calendar/gui/gnome-cal.c:1489
+#: calendar/gui/gnome-cal.c:1499
 #, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "Kunde inte öppna mappen i \"%s\""
 
-#: calendar/gui/gnome-cal.c:1500
+#: calendar/gui/gnome-cal.c:1510
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "Metoden som krävs för att öppna \"%s\" stöds inte"
 
-#: calendar/gui/gnome-cal.c:1855
+#: calendar/gui/gnome-cal.c:1865
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Öppnar kalender i %s"
@@ -9573,51 +9578,51 @@ msgstr "Kopia"
 msgid "Bcc"
 msgstr "Blindkopia"
 
-#: mail/mail-format.c:1800
+#: mail/mail-format.c:1799
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Detta meddelande är digitalt signerat. Klicka på låsikonen för mer "
 "information."
 
-#: mail/mail-format.c:1823
+#: mail/mail-format.c:1822
 msgid "Evolution does not recognize this type of signed message."
 msgstr "Evolution känner inte igen denna typ av signerat meddelande."
 
-#: mail/mail-format.c:1831
+#: mail/mail-format.c:1830
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Detta meddelande är digitalt signerat och har befunnits äkta."
 
-#: mail/mail-format.c:1839
+#: mail/mail-format.c:1838
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Detta meddelande är digitalt signerat men äktheten kan inte bevisas."
 
-#: mail/mail-format.c:2055
+#: mail/mail-format.c:2054
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Pekare till FTP-plats (%s)"
 
-#: mail/mail-format.c:2069
+#: mail/mail-format.c:2068
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Pekare till lokal fil (%s) giltig på platsen \"%s\""
 
-#: mail/mail-format.c:2074
+#: mail/mail-format.c:2073
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Pekare till lokal fil (%s)"
 
-#: mail/mail-format.c:2103
+#: mail/mail-format.c:2102
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Pekare till fjärrdata (%s)"
 
-#: mail/mail-format.c:2111
+#: mail/mail-format.c:2110
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Pekare till okänd extern data (typen \"%s\")"
 
-#: mail/mail-format.c:2116
+#: mail/mail-format.c:2115
 msgid "Malformed external-body part."
 msgstr "Felaktig del med extern meddelandetext."
 
@@ -10168,29 +10173,39 @@ msgstr "%l.%M %d %B"
 msgid "Mail summary"
 msgstr "E-postsammanfattning"
 
-#: my-evolution/e-summary-preferences.c:423
+#. translators: Put a list of codes for locations you want to see in
+#. My Evolution by default here. You can find the list of all
+#. stations and their codes in Evolution sources.
+#. (evolution/my-evolution/Locations)
+#. Codes are seperated with : eg. "KBOS:EGAA"
+#: my-evolution/e-summary-preferences.c:80
+#: my-evolution/e-summary-weather.c:661
+msgid "KBOS"
+msgstr "ESGG:ESMS:ESSA:ESNU"
+
+#: my-evolution/e-summary-preferences.c:444
 msgid "Dictionary.com Word of the Day"
 msgstr "Dagens ord från dictionary.com"
 
-#: my-evolution/e-summary-preferences.c:446
+#: my-evolution/e-summary-preferences.c:467
 msgid "Quotes of the Day"
 msgstr "Dagens citat"
 
 # Detta är inte diskussionsgrupper utan nyheter
-#: my-evolution/e-summary-preferences.c:925
+#: my-evolution/e-summary-preferences.c:946
 msgid "Add a news feed"
 msgstr "Lägg till en nyhetskälla"
 
 # Detta är inte diskussionsgrupper utan nyheter
-#: my-evolution/e-summary-preferences.c:933
+#: my-evolution/e-summary-preferences.c:954
 msgid "Enter the URL of the news feed you wish to add"
 msgstr "Ange URL:en till den nyhetskälla som du vill lägga till"
 
-#: my-evolution/e-summary-preferences.c:937
+#: my-evolution/e-summary-preferences.c:958
 msgid "Name:"
 msgstr "Namn:"
 
-#: my-evolution/e-summary-preferences.c:1483
+#: my-evolution/e-summary-preferences.c:1504
 msgid "Summary Settings"
 msgstr "Sammanfattningsinställningar"
 
@@ -10222,14 +10237,6 @@ msgstr "<dd><b>Väderservern kunde inte kontaktas</b></dd>"
 #: my-evolution/e-summary-weather.c:559
 msgid "Weather"
 msgstr "Väder"
-
-#. translators: Put here a list of codes for locations you want to
-#. see in My Evolution by default. You can find the list of all
-#. stations and their codes in Evolution sources
-#. (evolution/my-evolution/Locations)
-#: my-evolution/e-summary-weather.c:661
-msgid "KBOS"
-msgstr "ESGG:ESMS:ESSA:ESNU"
 
 #: my-evolution/e-summary-weather.c:722
 msgid "Regions"
@@ -11935,6 +11942,23 @@ msgid ""
 msgstr ""
 "Välj den information som\n"
 "du vill importera"
+
+#: shell/e-shell-utils.c:114
+msgid "No folder name specified."
+msgstr "Inget mappnamn är angivet."
+
+#: shell/e-shell-utils.c:121
+msgid "Folder name cannot contain the Return character."
+msgstr "Mappnamnet kan inte innehålla Retur-tecknet."
+
+#: shell/e-shell-utils.c:127
+#, fuzzy
+msgid "Folder name cannot contain slashes."
+msgstr "Denna mapp kan inte innehålla meddelanden."
+
+#: shell/e-shell-utils.c:133
+msgid "'.' and '..' are reserved folder names."
+msgstr "\".\" och \"..\" är reserverade mappnamn."
 
 #: shell/e-shell-view-menu.c:165
 msgid "Bug buddy was not found in your $PATH."
@@ -14144,17 +14168,8 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgid "KBOS:EGAA:RJTT"
 #~ msgstr "ESGG:ESMS:ESSA:ESNU"
 
-#~ msgid "No folder name specified."
-#~ msgstr "Inget mappnamn är angivet."
-
-#~ msgid "Folder name cannot contain the Return character."
-#~ msgstr "Mappnamnet kan inte innehålla Retur-tecknet."
-
 #~ msgid "Folder cannot contain the directory separator."
 #~ msgstr "Mappen kan inte innehålla katalogavskiljaren."
-
-#~ msgid "'.' and '..' are reserved folder names."
-#~ msgstr "\".\" och \"..\" är reserverade mappnamn."
 
 #~ msgid ""
 #~ "Hi.  Thanks for taking the time to download this preview release\n"
