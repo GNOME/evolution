@@ -1,3 +1,11 @@
+2003-09-23  Charles Zhang  <charles.zhang@sun.com>
+ 
+	* e-msg-composer-attachment-bar.c (remove_attachment): Add some
+	assertion. Send Close response signal to the properties dialog
+	while removeing an attachment.
+	* e-msg-composer-attachment-bar.c (remove_selected): Fix a re-
+	remove-attachment bug. [#48466]
+
 2003-09-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer-hdrs.c (header_new_recipient): Make the entry
@@ -15,6 +23,14 @@
 	* e-msg-composer.c (create_composer): use EVOLUTION_IMAGESDIR
 	and composer icon name to get the path of composer icon.
 	[#47781]
+
+2003-09-13  Charles Zhang  <charles.zhang@sun.com>
+
+	* e-msg-composer-attachment-bar.c (remove_attachment): Add some
+	assertion. Send Close response signal to the properties dialog
+	while removeing an attachment.
+	* e-msg-composer-attachment-bar.c (remove_selected): Fix a re-
+	remove-attachment bug. [#48466]
 
 2003-08-19  Jeffrey Stedfast  <fejj@ximian.com>
 
