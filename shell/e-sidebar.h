@@ -36,6 +36,11 @@ typedef struct _ESidebar        ESidebar;
 typedef struct _ESidebarPrivate ESidebarPrivate;
 typedef struct _ESidebarClass   ESidebarClass;
 
+typedef enum {
+	E_SIDEBAR_MODE_TEXT,
+	E_SIDEBAR_MODE_ICON
+} ESidebarMode;
+
 struct _ESidebar {
 	GtkContainer parent;
 
@@ -62,5 +67,9 @@ void  e_sidebar_add_button  (ESidebar   *sidebar,
 
 void  e_sidebar_select_button  (ESidebar *sidebar,
 				int       id);
+
+ESidebarMode e_sidebar_get_mode (ESidebar *sidebar);
+void e_sidebar_set_mode (ESidebar *sidebar, ESidebarMode mode);
+
 
 #endif /* _E_SIDEBAR_H_ */

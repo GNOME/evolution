@@ -1,5 +1,22 @@
 2004-01-11  JP Rosevear <jpr@ximian.com>
 
+	* e-sidebar.c (button_new): track hbox and label widget
+	(button_free): unref them
+	(do_layout_text_buttons): layout buttons with text
+	(do_layout_icon_buttons): layout icon only buttons
+	(do_layout): layout based on mode
+	(impl_size_request): distinguish between horizontal and vertical
+	padding
+	(init): set a default mode
+	(e_sidebar_add_button): align the button text to the left, only
+	add the text if we are in the text mode
+	(e_sidebar_get_mode): accessor
+	(e_sidebar_set_mode): accessor
+
+	* e-sidebar.h: add prototype and mode enum
+
+2004-01-11  JP Rosevear <jpr@ximian.com>
+
 	* GNOME_Evolution_Test.server.in.in: proper server file for test
 	components
 
