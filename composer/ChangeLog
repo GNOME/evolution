@@ -1,3 +1,13 @@
+2003-01-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (composer_get_default_charset): Convenience
+	function.
+	(get_file_content): Use the convenience function to get the
+	default charset setting.
+	(best_charset): Same.
+	(e_msg_composer_new): Use gconf to get the send_html setting.
+	(e_msg_composer_new_post): Same.
+
 2003-01-06  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: Remove idldir definition. (It's defined in

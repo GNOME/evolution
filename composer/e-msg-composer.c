@@ -55,6 +55,9 @@
 
 #include <gtk/gtkoptionmenu.h>
 
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <libgnome/gnome-exec.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-window-icon.h>
@@ -72,6 +75,7 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/e-text/e-entry.h>
+#include <gal/util/e-iconv.h>
 
 #include "widgets/misc/e-charset-picker.h"
 
@@ -224,6 +228,21 @@ best_encoding (GByteArray *buf, const char *charset)
 }
 
 static const char *
+composer_get_default_charset_setting (void)
+{
+	GConfClient *gconf;
+	const char *charset;
+	char *buf;
+	
+	gconf = gconf_client_get_default ();
+	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
+	charset = e_iconv_charset_name (buf);
+	g_free (buf);
+	
+	return charset;
+}
+
+static const char *
 best_charset (GByteArray *buf, const char *default_charset, CamelMimePartEncodingType *encoding)
 {
 	const char *charset;
@@ -240,7 +259,7 @@ best_charset (GByteArray *buf, const char *default_charset, CamelMimePartEncodin
 		return charset;
 	
 	/* Now try the user's default charset from the mail config */
-	charset = mail_config_get_default_charset ();
+	charset = composer_get_default_charset_setting ();
 	*encoding = best_encoding (buf, charset);
 	if (*encoding != -1)
 		return charset;
@@ -251,6 +270,7 @@ best_charset (GByteArray *buf, const char *default_charset, CamelMimePartEncodin
 		*encoding = CAMEL_MIME_PART_ENCODING_7BIT;
 	else
 		*encoding = best_encoding (buf, charset);
+	
 	return charset;
 }
 
@@ -820,7 +840,7 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 		filtered_stream = camel_stream_filter_new_with_stream (stream);
 		camel_object_unref (stream);
 		
-		charset = composer ? composer->charset : mail_config_get_default_charset ();
+		charset = composer ? composer->charset : composer_get_default_charset_setting ();
 		charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8");
 		camel_stream_filter_add (filtered_stream, charenc);
 		camel_object_unref (charenc);
@@ -2931,11 +2951,16 @@ set_editor_signature (EMsgComposer *composer)
 EMsgComposer *
 e_msg_composer_new (void)
 {
+	gboolean send_html;
+	GConfClient *gconf;
 	EMsgComposer *new;
+	
+	gconf = gconf_client_get_default ();
+	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
 	
 	new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_MAIL);
 	if (new) {
-		e_msg_composer_set_send_html (new, mail_config_get_send_html ());
+		e_msg_composer_set_send_html (new, send_html);
 		set_editor_text (new, "");
 		set_editor_signature (new);
 	}
@@ -2954,11 +2979,16 @@ e_msg_composer_new (void)
 EMsgComposer *
 e_msg_composer_new_post (void)
 {
+	gboolean send_html;
+	GConfClient *gconf;
 	EMsgComposer *new;
+	
+	gconf = gconf_client_get_default ();
+	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
 	
 	new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_POST);
 	if (new) {
-		e_msg_composer_set_send_html (new, mail_config_get_send_html ());
+		e_msg_composer_set_send_html (new, send_html);
 		set_editor_text (new, "");
 		set_editor_signature (new);
 	}
