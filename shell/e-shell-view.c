@@ -1006,9 +1006,9 @@ setup_widgets (EShellView *shell_view)
 /* GtkObject methods.  */
 
 static void
-hash_forall_destroy_view (void *name,
-			  void *value,
-			  void *data)
+hash_foreach_destroy_view (void *name,
+			   void *value,
+			   void *data)
 {
 	View *view;
 
@@ -1017,8 +1017,6 @@ hash_forall_destroy_view (void *name,
 	gtk_widget_destroy (view->control);
 
 	view_destroy (view);
-
-	g_free (name);
 }
 
 static void
@@ -1049,7 +1047,7 @@ destroy (GtkObject *object)
 		gtk_signal_disconnect (GTK_OBJECT (socket_widget), destroy_connection_id);
 	}
 
-	g_hash_table_foreach (priv->uri_to_view, hash_forall_destroy_view, NULL);
+	g_hash_table_foreach (priv->uri_to_view, hash_foreach_destroy_view, NULL);
 	g_hash_table_destroy (priv->uri_to_view);
 
 	bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
@@ -1694,7 +1692,6 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 	View *view;
 	const char *uri;
 	gboolean viewing_closed_uri;
-	char *copy_of_uri;
 	const char *current_uri;
 	const char *path;
 	const char *folder_type;
@@ -1704,9 +1701,8 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 
 	uri = (const char *) gtk_object_get_data (GTK_OBJECT (socket_widget), "e_shell_view_folder_uri");
 
-	if (!g_hash_table_lookup_extended (priv->uri_to_view, uri,
-					   (gpointer *)&copy_of_uri,
-					   (gpointer *)&view)) {
+	view = g_hash_table_lookup (priv->uri_to_view, uri);
+	if (view == NULL) {
 		g_warning ("What?! Destroyed socket for non-existing URI?  -- %s", uri);
 		return;
 	}
@@ -1715,9 +1711,8 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 
 	gtk_widget_destroy (view->control);
 
+	g_hash_table_remove (priv->uri_to_view, view->uri);
 	view_destroy (view);
-	g_hash_table_remove (priv->uri_to_view, uri);
-	g_free (copy_of_uri);
 
 	path = get_storage_set_path_from_uri (uri);
 	folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
@@ -1901,6 +1896,7 @@ show_existing_view (EShellView *shell_view,
 
 		/* Out with the old.  */
 		gtk_container_remove (GTK_CONTAINER (parent), view->control);
+		g_hash_table_remove (priv->uri_to_view, view->uri);
 		view_destroy (view);
 
 		/* In with the new.  */
@@ -1910,11 +1906,7 @@ show_existing_view (EShellView *shell_view,
 
 		gtk_container_add (GTK_CONTAINER (parent), view->control);
 
-		/* The old (destroyed) view is already in the hash table,
-		 * and g_hash_table_insert will re-use its old (strdup'ed)
-		 * key rather than the one we pass here.
-		 */
-		g_hash_table_insert (priv->uri_to_view, (char *)uri, view);
+		g_hash_table_insert (priv->uri_to_view, view->uri, view);
 
 		/* Show.  */
 		gtk_widget_show (view->control);
@@ -1953,7 +1945,7 @@ create_new_view_for_uri (EShellView *shell_view,
 	g_assert (page_num != -1);
 	set_current_notebook_page (shell_view, page_num);
 
-	g_hash_table_insert (priv->uri_to_view, g_strdup (uri), view);
+	g_hash_table_insert (priv->uri_to_view, view->uri, view);
 
 	return TRUE;
 }
@@ -2031,7 +2023,6 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 	GtkWidget *control;
 	int page_num;
 	int destroy_connection_id;
-	char *old_key;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
@@ -2039,17 +2030,15 @@ e_shell_view_remove_control_for_uri (EShellView *shell_view,
 	priv = shell_view->priv;
 
 	/* Get the control, remove it from our hash of controls */
-	if (!g_hash_table_lookup_extended (priv->uri_to_view, uri,
-					   (gpointer *)&old_key,
-					   (gpointer *)&view)) {
+	view = g_hash_table_lookup (priv->uri_to_view, uri);
+	if (view == NULL) {
 		g_message ("Trying to remove view for non-existing URI -- %s", uri);
 		return FALSE;
 	}
 
 	control = view->control;
+	g_hash_table_remove (priv->uri_to_view, view->uri);
 	view_destroy (view);
-	g_hash_table_remove (priv->uri_to_view, uri);
-	g_free (old_key);
 
 	/* Get the socket, remove it from our list of sockets */
 	socket = find_socket (GTK_CONTAINER (control));

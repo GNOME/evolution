@@ -1,3 +1,16 @@
+2001-09-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #9060, Shell crash after mailer crash.]
+
+	* e-shell-view.c (hash_foreach_destroy_view): Renamed from
+	`hash_forall_destroy_view'.  Don't free `name'.
+	(socket_destroy_cb): Use `g_hash_table_lookup()' instead of
+	`g_hash_table_lookup_extended()'.  Don't free the URI.
+	(e_shell_view_remove_control_for_uri): Likewise.
+	(show_existing_view): Use view->uri as the key when inserting the
+	view.  Remove the old view from the hash when destroying it.
+	(create_new_view_for_uri): Same here.
+
 2001-09-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c (e_shell_view_show_folder_bar): Hide the
