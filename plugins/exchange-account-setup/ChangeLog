@@ -1,3 +1,9 @@
+2005-03-05  Sushma Rai  <rsushma@novell.com>
+
+	* org-gnome-exchange-account-setup.eplug.in: Added the commit function
+	to save OOF data. This got missed in the previous commit. Also removed 
+	duplicate accountWizard definition.
+
 2005-02-28  JP Rosevear  <jpr@novell.com>
 
 	* org-gnome-exchange-account-setup.eplug.in: add account wizard item
@@ -14,7 +20,6 @@
 	oof state and message to the file. 
 	(destroy_oof_data): Frees OOFData. 
 	
-
 2005-02-26  Sushma Rai  <rsushma@novell.com>
 
         * exchange-account-setup.c (org_gnome_exchange_check_options):
