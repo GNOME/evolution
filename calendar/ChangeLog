@@ -1,5 +1,14 @@
 2003-12-03  JP Rosevear <jpr@ximian.com>
 
+	* gui/tasks-component.c (rename_task_list_cb): cast the parent
+	(impl_createControls): add notification for primary tasks
+	(config_primary_selection_changed_cb): handle primary selection
+	changing in gconf
+
+	* gui/calendar-config-keys.h: fix config key for primary tasks
+
+2003-12-03  JP Rosevear <jpr@ximian.com>
+
 	* gui/calendar-component.c (rename_calendar_cb): cast the parent
 	(config_primary_selection_changed_cb): handle the primary
 	selection changing elsewhere

@@ -66,7 +66,7 @@ struct _TasksComponentPrivate {
 	ETasks *tasks;
 	GtkWidget *source_selector;
 
-	guint selected_not;
+	GList *notifications;
 };
 
 /* Utility functions.  */
@@ -369,7 +369,7 @@ rename_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 		return;
 
 	/* create the dialog to prompt the user for the new name */
-	dialog = gtk_message_dialog_new (gtk_widget_get_toplevel (widget),
+	dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
 					 GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_OK_CANCEL,
@@ -418,6 +418,12 @@ static void
 config_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	update_selection (data);
+}
+
+static void
+config_primary_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	update_primary_selection (data);
 }
 
 /* GObject methods */
@@ -480,7 +486,8 @@ impl_createControls (PortableServer_Servant servant,
 	TasksComponentPrivate *priv;
 	GtkWidget *selector_scrolled_window;
 	BonoboControl *sidebar_control, *view_control;
-
+	guint not;
+	
 	priv = component->priv;
 
 	/* create sidebar selector */
@@ -530,9 +537,14 @@ impl_createControls (PortableServer_Servant servant,
 	update_selection (component);
 	update_primary_selection (component);
 
-	/* If it gets fiddled with, ie from another evolution window, update it */
-	priv->selected_not = calendar_config_add_notification_calendars_selected (config_selection_changed_cb, 
-										  component);
+	/* If it gets fiddled with update */
+	not = calendar_config_add_notification_tasks_selected (config_selection_changed_cb, 
+							       component);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	not = calendar_config_add_notification_primary_tasks (config_primary_selection_changed_cb, 
+							      component);
+	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
 
 	/* Return the controls */
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
@@ -540,7 +552,7 @@ impl_createControls (PortableServer_Servant servant,
 
 	/* The tasks component doesn't use the status bar so just return an empty label.  */
 	{
-		GtkLabel *label = gtk_label_new ("");
+		GtkWidget *label = gtk_label_new ("");
 		BonoboControl *control;
 
 		gtk_widget_show (label);
