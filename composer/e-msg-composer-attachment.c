@@ -189,13 +189,23 @@ e_msg_composer_attachment_new (const char *file_name,
 	
 	wrapper = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream (wrapper, stream);
-	camel_object_unref (CAMEL_OBJECT (stream));
+	
 	mime_type = e_msg_composer_guess_mime_type (file_name);
 	if (mime_type) {
+		if (!strcasecmp (mime_type, "message/rfc822")) {
+			camel_object_unref (wrapper);
+			wrapper = (CamelDataWrapper *) camel_mime_message_new ();
+			
+			camel_stream_reset (stream);
+			camel_data_wrapper_construct_from_stream (wrapper, stream);
+		}
+		
 		camel_data_wrapper_set_mime_type (wrapper, mime_type);
 		g_free (mime_type);
 	} else
 		camel_data_wrapper_set_mime_type (wrapper, "application/octet-stream");
+	
+	camel_object_unref (CAMEL_OBJECT (stream));
 	
 	part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);

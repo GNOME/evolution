@@ -1,3 +1,9 @@
+2002-10-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new): We
+	need to treat message/rfc822 streams differently. Fixes bug
+	#32378.
+
 2002-10-16  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-select-file.c (select_file_internal): Mark the
