@@ -518,7 +518,7 @@ build_message (EMsgComposer *composer)
 			if (hdrs->account && hdrs->account->pgp_encrypt_to_self) {
 				CamelInternetAddress *from = NULL;
 				
-				if (hdrs->accounts && hdrs->account->pgp_key && *hdrs->account->pgp_key) {
+				if (hdrs->account && hdrs->account->pgp_key && *hdrs->account->pgp_key) {
 					address = hdrs->account->pgp_key;
 				} else {
 					/* time for plan b */
