@@ -433,7 +433,7 @@ e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 	struct tm date_tm;
 	GDate date;
 	ECalendarItem *calitem;
-	static char buffer[64], *format;
+	char buffer[64];
 
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
 	cell_text = e_table_model_value_at (ecv->e_table_model,
@@ -449,28 +449,8 @@ e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 		e_calendar_item_set_selection (calitem, NULL, NULL);
 		gtk_list_unselect_all (GTK_LIST (ecde->time_list));
 	} else {
-		if (ecde->use_24_hour_format) {
-			if (date_tm.tm_sec == 0)
-				/* strftime format of a time in 24-hour format,
-				   without seconds. */
-				format = _("%H:%M");
-			else
-				/* strftime format of a time in 24-hour format.
-				 */
-				format = _("%H:%M:%S");
-		} else {
-			if (date_tm.tm_sec == 0)
-				/* strftime format of a time in 12-hour format,
-				   without seconds. */
-				format = _("%I:%M %p");
-			else
-				/* strftime format of a time in 12-hour format.
-				 */
-				format = _("%I:%M:%S %p");
-		}
-			
-		strftime (buffer, sizeof (buffer), format, &date_tm);
-
+		e_time_format_time (&date_tm, ecde->use_24_hour_format, FALSE,
+				    buffer, sizeof (buffer));
 		gtk_entry_set_text (GTK_ENTRY (ecde->time_entry), buffer);
 
 		g_date_clear (&date, 1);
@@ -666,16 +646,8 @@ e_cell_date_edit_rebuild_time_list		(ECellDateEdit	*ecde)
 		     min += 30) {
 			tmp_tm.tm_hour = hour;
 			tmp_tm.tm_min  = min;
-
-			if (ecde->use_24_hour_format)
-				/* This is a strftime() format. %H = hour (0-23), %M = minute. */
-				format = _("%H:%M");
-			else
-				/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
-				format = _("%I:%M %p");
-
-			strftime (buffer, sizeof (buffer), format, &tmp_tm);
-
+			e_time_format_time (&tmp_tm, ecde->use_24_hour_format,
+					    FALSE, buffer, sizeof (buffer));
 			listitem = gtk_list_item_new_with_label (buffer);
 			gtk_widget_show (listitem);
 			gtk_container_add (GTK_CONTAINER (list), listitem);
@@ -731,12 +703,32 @@ static void
 e_cell_date_edit_show_time_invalid_warning	(ECellDateEdit	*ecde)
 {
 	GtkWidget *dialog;
+	struct tm date_tm;
+	char buffer[64], *message;
 
-	/* FIXME: Better message needed. */
-	dialog = gnome_message_box_new (_("The time is invalid"),
-					GNOME_MESSAGE_BOX_ERROR,
+	/* Create a useful error message showing the correct format. */
+	date_tm.tm_year = 100;
+	date_tm.tm_mon = 0;
+	date_tm.tm_mday = 1;
+	date_tm.tm_hour = 1;
+	date_tm.tm_min = 30;
+	date_tm.tm_sec = 0;
+	date_tm.tm_isdst = -1;
+	e_time_format_time (&date_tm, ecde->use_24_hour_format, FALSE,
+			    buffer, sizeof (buffer));
+
+	message = g_strdup_printf (_("The time must be in the format: %s"),
+				   buffer);
+
+	dialog = gnome_message_box_new (message, GNOME_MESSAGE_BOX_ERROR,
 					GNOME_STOCK_BUTTON_OK, NULL);
-	gtk_widget_show (dialog);
+	/* FIXME: Fix transient settings - I'm not sure it works with popup
+	   windows. Maybe we need to use a normal window without decorations.*/
+	gtk_window_set_transient_for (GTK_WINDOW (dialog),
+				      GTK_WINDOW (ecde->popup_window));
+	gnome_dialog_run (GNOME_DIALOG (dialog));
+
+	g_free (message);
 }
 
 

@@ -1,3 +1,10 @@
+2001-03-18  Damon Chaplin  <damon@ximian.com>
+
+	* e-cell-date-edit.c (e_cell_date_edit_show_time_invalid_warning): 
+	use gnome_dialog_run() to make the warning dialog modal. Also created
+	a better warning message showing the format expected.
+	Also used e_time_format_time() to format all times.
+
 2001-03-15  Not Zed  <NotZed@Ximian.com>
 
 	* e-filter-bar.c (menubar_activated): If we click on the edit
