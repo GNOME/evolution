@@ -2125,7 +2125,7 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 							ICAL_PARTSTAT_DECLINED);
 				if (status) {
 					e_cal_component_rescan (priv->comp);
-					remove_item (itip);
+					update_item (itip);
 				}
 				break;
 			case 'F':
@@ -2151,6 +2151,8 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 
 	}
 	g_strfreev (fields);
+	if (e_cal_get_save_schedules (priv->current_ecal))
+		return;
 
 	if (rsvp && status) {
 		ECalComponent *comp = NULL;

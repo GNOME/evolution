@@ -1,3 +1,10 @@
+2004-08-04  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/e-itip-control.c: (ok_clicked_cb): Handle decline request by
+	using update_item rather than remove_item, so the backend receives
+	the notification and can handle it. Also, do not rsvp if the backend
+	has the 'save_schedule' capability.
+
 2004-08-01  JP Rosevear  <jpr@novell.com>
  
  	* conduits/todo/todo-conduit.c (todoconduit_load_configuration):
