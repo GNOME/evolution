@@ -66,6 +66,11 @@ static const int sept_1752[42] = {
 #define SEPT_1752_START 2		/* Start day within month */
 #define SEPT_1752_END 20		/* End day within month */
 
+/* FIXME: This needs to be able to render using all the options from the new
+ * calendar configuration stuff.
+ */
+#define WEEK_STARTS_ON_MONDAY FALSE
+
 struct pdinfo
 {
 	GList *slots;
@@ -363,7 +368,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal,
         tm = *localtime (&month);
 
 	/* get month days */
-	build_month(tm.tm_mon, tm.tm_year+1900, week_starts_on_monday, days, 0, 0);
+	build_month(tm.tm_mon, tm.tm_year+1900, WEEK_STARTS_ON_MONDAY, days, 0, 0);
 
 	/* build day-busy bits */
 	now = time_month_begin(month);
@@ -384,7 +389,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal,
 
 	gnome_print_setrgbcolor (pc, 0,0,0);
 	for (x=0;x<7;x++) {
-		print_text(pc, font_bold, daynames[(week_starts_on_monday?x+1:x)%7], ALIGN_CENTRE,
+		print_text(pc, font_bold, daynames[(WEEK_STARTS_ON_MONDAY?x+1:x)%7], ALIGN_CENTRE,
 			   left+x*xpad, left+(x+1)*xpad, bottom+7*ypad, bottom+7*ypad-gnome_font_get_size(font_bold));
 	}
 
@@ -882,7 +887,7 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
         tm = *localtime (&now);
 
 	/* get month days */
-	build_month(tm.tm_mon, tm.tm_year+1900, week_starts_on_monday, days, 0, 0);
+	build_month(tm.tm_mon, tm.tm_year+1900, WEEK_STARTS_ON_MONDAY, days, 0, 0);
 
 	/* a little margin */
 	top -= 4;

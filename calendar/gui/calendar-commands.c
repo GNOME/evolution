@@ -20,8 +20,9 @@
 #include <libgnorba/gnorba.h>
 #include <bonobo.h>
 #include <cal-util/timeutil.h>
-#include "gnome-cal.h"
 #include "calendar-commands.h"
+#include "gnome-cal.h"
+#include "goto.h"
 #include "print.h"
 #include "dialogs/cal-prefs-dialog.h"
 
@@ -34,64 +35,8 @@
 #endif
 
 
-/* The username, used to set the `owner' field of the event */
-char *user_name;
-
-/* The full user name from the Gecos field */
-char *full_name;
-
-/* a gnome-config string prefix that can be used to access the calendar config info */
-char *calendar_settings;
-
-/* Day begin, day end parameters */
-int day_begin, day_end;
-
-/* Whether weeks starts on Sunday or Monday */
-int week_starts_on_monday;
-
-/* If AM/PM indicators should be used. This may not be supported by the new
-   views. */
-int am_pm_flag = 0;
-
-/* The array of color properties -- keep in sync with the enumeration defined in main.h.  The color
- * values specified here are the defaults for the program.
- */
-struct color_prop color_props[] = {
-	{ 0x3e72, 0x35ec, 0x8ba2, N_("Outline:"),              "/calendar/Colors/outline" },
-	{ 0xffff, 0xffff, 0xffff, N_("Headings:"),             "/calendar/Colors/headings" },
-	{ 0xf26c, 0xecec, 0xbbe7, N_("Empty days:"),           "/calendar/Colors/empty_bg" },
-	{ 0xfc1e, 0xf87f, 0x5f80, N_("Appointments:"),         "/calendar/Colors/mark_bg" },
-	{ 0xd364, 0xc6b7, 0x7969, N_("Highlighted day:"),      "/calendar/Colors/prelight_bg" },
-	{ 0x01f0, 0x01f0, 0x01f0, N_("Day numbers:"),          "/calendar/Colors/day_fg" },
-	{ 0x0000, 0x0000, 0xffff, N_("Current day's number:"), "/calendar/Colors/current_fg" },
-	{ 0xbbbb, 0xbbbb, 0x0000, N_("To-Do item that is not yet due:"), "/calendar/Colors/todo_not_yet" },
-	{ 0xdddd, 0xbbbb, 0x0000, N_("To-Do item that is due today:"),   "/calendar/Colors/todo_today" },
-	{ 0xbbbb, 0xdddd, 0x0000, N_("To-Do item that is overdue:"),     "/calendar/Colors/todo_overdue" }
-};
-
 /* A list of all of the calendars started */
 static GList *all_calendars = NULL;
-
-/* If set, beep on display alarms */
-gboolean beep_on_display = 0;
-
-/* If true, timeout the beeper on audio alarms */
-
-gboolean enable_aalarm_timeout = 0;
-guint audio_alarm_timeout = 0;
-const guint MAX_AALARM_TIMEOUT = 3600;
-const guint MAX_SNOOZE_SECS = 3600;
-gboolean enable_snooze = 0;
-guint snooze_secs = 60;
-
-#if 0
-CalendarAlarm alarm_defaults[4] = {
-        { ALARM_MAIL, 0, 15, ALARM_MINUTES },
-        { ALARM_PROGRAM, 0, 15, ALARM_MINUTES },
-        { ALARM_DISPLAY, 0, 15, ALARM_MINUTES },
-        { ALARM_AUDIO, 0, 15, ALARM_MINUTES }
-};
-#endif
 
 /* We have one global preferences dialog. */
 static CalPrefsDialog *preferences_dialog = NULL;
@@ -102,72 +47,6 @@ static void set_pixmap		(BonoboUIComponent *uic,
 				 const char        *xml_path,
 				 char		  **xpm_data);
 
-
-
-static void
-init_username (void)
-{
-        user_name = g_strdup(g_get_user_name());
-        full_name = g_strdup(g_get_real_name());
-}
-
-static int
-range_check_hour (int hour)
-{
-	if (hour < 0)
-		hour = 0;
-	else if (hour >= 24)
-		hour = 23;
-
-	return hour;
-}
-
-#if 0
-static void
-init_default_alarms (void)
-{
-	int i;
-	gboolean def;
-
-	alarm_defaults [ALARM_DISPLAY].type = ALARM_DISPLAY;
-	alarm_defaults [ALARM_AUDIO].type   = ALARM_AUDIO;
-	alarm_defaults [ALARM_PROGRAM].type = ALARM_PROGRAM;
-	alarm_defaults [ALARM_MAIL].type    = ALARM_MAIL;
-
-	for (i = 0; i < 4; i++) {
-		switch (alarm_defaults [i].type) {
-		case ALARM_DISPLAY:
-			gnome_config_push_prefix ("/calendar/alarms/def_disp_");
-			break;
-		case ALARM_AUDIO:
-			gnome_config_push_prefix ("/calendar/alarms/def_audio_");
-			break;
-		case ALARM_PROGRAM:
-			gnome_config_push_prefix ("/calendar/alarms/def_prog_");
-			break;
-		case ALARM_MAIL:
-			gnome_config_push_prefix ("/calendar/alarms/def_mail_");
-			break;
-		}
-
-		alarm_defaults[i].enabled = gnome_config_get_int ("enabled=0");
-		if (alarm_defaults[i].type != ALARM_MAIL) {
-			alarm_defaults[i].count   = gnome_config_get_int ("count=15");
-			alarm_defaults[i].units   = gnome_config_get_int ("units=0");
-		} else {
-			alarm_defaults[i].count   = gnome_config_get_int ("count=1");
-			alarm_defaults[i].count   = gnome_config_get_int ("count=2");
-		}
-
-		alarm_defaults[i].data = gnome_config_get_string_with_default ("data=",
-									       &def);
-		if (def)
-			alarm_defaults[i].data = NULL;
-
-		gnome_config_pop_prefix ();
-	}
-}
-#endif
 
 /* Callback for the new appointment command */
 static void
@@ -317,32 +196,8 @@ show_month_view_clicked (BonoboUIComponent *uih, void *user_data, const char *pa
 static void
 new_calendar_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	new_calendar (full_name);
+	new_calendar ();
 }
-
-static void
-close_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
-{
-	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
-	all_calendars = g_list_remove (all_calendars, gcal);
-
-	gtk_widget_destroy (GTK_WIDGET (gcal));
-
-	if (all_calendars == NULL)
-		gtk_main_quit ();
-}
-
-
-void
-quit_cmd (BonoboUIComponent *uih, void *user_data, const char *path)
-{
-	while (all_calendars){
-		GnomeCalendar *cal = GNOME_CALENDAR (all_calendars->data);
-
-		close_cmd (uih, cal, path);
-	}
-}
-
 
 static void
 open_ok (GtkWidget *widget, GtkFileSelection *fs)
@@ -545,7 +400,7 @@ calendar_control_deactivate (BonoboControl *control)
 }
 
 GnomeCalendar *
-new_calendar (char *full_name)
+new_calendar (void)
 {
 	GtkWidget *gcal;
 
@@ -558,67 +413,11 @@ new_calendar (char *full_name)
 }
 
 
-void calendar_set_uri (GnomeCalendar *gcal, char *calendar_file)
+void
+calendar_set_uri (GnomeCalendar *gcal, char *calendar_file)
 {
 	g_return_if_fail (gcal);
 	g_return_if_fail (calendar_file);
 
-	gnome_calendar_open (gcal,
-			     calendar_file,
-			     CALENDAR_OPEN_OR_CREATE);
-}
-
-
-
-
-
-/*
- * Initializes the calendar internal variables, loads defaults
- */
-void
-init_calendar (void)
-{
-	int i;
-	char *cspec, *color;
-	char *str;
-
-	init_username ();
-	/*user_calendar_file = g_concat_dir_and_file (gnome_util_user_home (), ".gnome/user-cal.vcf");*/
-
-	gnome_config_push_prefix (calendar_settings);
-
-	/* Read calendar settings */
-
-	day_begin  = range_check_hour (gnome_config_get_int  ("/calendar/Calendar/Day start=8"));
-	day_end    = range_check_hour (gnome_config_get_int  ("/calendar/Calendar/Day end=17"));
-	am_pm_flag = gnome_config_get_bool ("/calendar/Calendar/AM PM flag=0");
-	week_starts_on_monday = gnome_config_get_bool ("/calendar/Calendar/Week starts on Monday=0");
-
-	if (day_end < day_begin) {
-		day_begin = 8;
-		day_end   = 17;
-	}
-
-	/* read alarm settings */
-	beep_on_display = gnome_config_get_bool ("/calendar/alarms/beep_on_display=FALSE");
-	enable_aalarm_timeout = gnome_config_get_bool ("/calendar/alarms/enable_audio_timeout=FALSE");
-	audio_alarm_timeout = gnome_config_get_int ("/calendar/alarms/audio_alarm_timeout=60");
-	if (audio_alarm_timeout < 1)
-		audio_alarm_timeout = 1;
-	if (audio_alarm_timeout > MAX_AALARM_TIMEOUT)
-		audio_alarm_timeout = MAX_AALARM_TIMEOUT;
-	enable_snooze = gnome_config_get_bool ("/calendar/alarms/enable_snooze=FALSE");
-	snooze_secs = gnome_config_get_int ("/calendar/alarms/snooze_secs=300");
-	if (snooze_secs < 1)
-		snooze_secs = 1;
-	if (snooze_secs > MAX_SNOOZE_SECS)
-		snooze_secs = MAX_SNOOZE_SECS;
-
-#if 0
-	init_default_alarms ();
-#endif
-
-	/* Done */
-
-	gnome_config_pop_prefix ();
+	gnome_calendar_open (gcal, calendar_file, CALENDAR_OPEN_OR_CREATE);
 }

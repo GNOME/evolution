@@ -172,10 +172,6 @@ static void event_editor_destroy (GtkObject *object);
 
 static GtkObjectClass *parent_class;
 
-extern int day_begin, day_end;
-extern char *user_name;
-extern int am_pm_flag;
-
 
 static void append_exception (EventEditor *ee, time_t t);
 static void check_all_day (EventEditor *ee);

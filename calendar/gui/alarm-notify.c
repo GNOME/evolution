@@ -509,3 +509,409 @@ alarm_notify_remove_client (CalClient *client)
 
 	g_hash_table_remove (client_alarms_hash, client);
 }
+
+
+
+#if 0
+
+/* Sends a mail notification of an alarm trigger */
+static void
+mail_notification (char *mail_address, char *text, time_t app_time)
+{
+	pid_t pid;
+	int   p [2];
+	char *command;
+
+	pipe (p);
+	pid = fork ();
+	if (pid == 0){
+		int dev_null;
+
+		dev_null = open ("/dev/null", O_RDWR);
+		dup2 (p [0], 0);
+		dup2 (dev_null, 1);
+		dup2 (dev_null, 2);
+		execl ("/usr/lib/sendmail", "/usr/lib/sendmail",
+		       mail_address, NULL);
+		_exit (127);
+	}
+	command = g_strconcat ("To: ", mail_address, "\n",
+			       "Subject: ", _("Reminder of your appointment at "),
+			       ctime (&app_time), "\n\n", text, "\n", NULL);
+	write (p [1], command, strlen (command));
+ 	close (p [1]);
+	close (p [0]);
+	g_free (command);
+}
+
+static int
+max_open_files (void)
+{
+        static int files;
+
+        if (files)
+                return files;
+
+        files = sysconf (_SC_OPEN_MAX);
+        if (files != -1)
+                return files;
+#ifdef OPEN_MAX
+        return files = OPEN_MAX;
+#else
+        return files = 256;
+#endif
+}
+
+/* Executes a program as a notification of an alarm trigger */
+static void
+program_notification (char *command, int close_standard)
+{
+	struct sigaction ignore, save_intr, save_quit;
+	int status = 0, i;
+	pid_t pid;
+
+	ignore.sa_handler = SIG_IGN;
+	sigemptyset (&ignore.sa_mask);
+	ignore.sa_flags = 0;
+
+	sigaction (SIGINT, &ignore, &save_intr);
+	sigaction (SIGQUIT, &ignore, &save_quit);
+
+	if ((pid = fork ()) < 0){
+		fprintf (stderr, "\n\nfork () = -1\n");
+		return;
+	}
+	if (pid == 0){
+		pid = fork ();
+		if (pid == 0){
+			const int top = max_open_files ();
+			sigaction (SIGINT,  &save_intr, NULL);
+			sigaction (SIGQUIT, &save_quit, NULL);
+
+			for (i = (close_standard ? 0 : 3); i < top; i++)
+				close (i);
+
+			/* FIXME: As an excercise to the reader, copy the
+			 * code from mc to setup shell properly instead of
+			 * /bin/sh.  Yes, this comment is larger than a cut and paste.
+			 */
+			execl ("/bin/sh", "/bin/sh", "-c", command, (char *) 0);
+
+			_exit (127);
+		} else {
+			_exit (127);
+		}
+	}
+	wait (&status);
+	sigaction (SIGINT,  &save_intr, NULL);
+	sigaction (SIGQUIT, &save_quit, NULL);
+}
+
+/* Queues a snooze alarm */
+static void
+snooze (GnomeCalendar *gcal, CalComponent *comp, time_t occur, int snooze_mins, gboolean audio)
+{
+	time_t now, trigger;
+	struct tm tm;
+	CalAlarmInstance ai;
+
+	now = time (NULL);
+	tm = *localtime (&now);
+	tm.tm_min += snooze_mins;
+
+	trigger = mktime (&tm);
+	if (trigger == -1) {
+		g_message ("snooze(): produced invalid time_t; not queueing alarm!");
+		return;
+	}
+
+#if 0
+	cal_component_get_uid (comp, &ai.uid);
+	ai.type = audio ? ALARM_AUDIO : ALARM_DISPLAY;
+#endif
+	ai.trigger = trigger;
+	ai.occur = occur;
+
+	setup_alarm (gcal, &ai);
+}
+
+struct alarm_notify_closure {
+	GnomeCalendar *gcal;
+	CalComponent *comp;
+	time_t occur;
+};
+
+/* Callback used for the result of the alarm notification dialog */
+static void
+display_notification_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
+{
+	struct alarm_notify_closure *c;
+
+	c = data;
+
+	switch (result) {
+	case ALARM_NOTIFY_CLOSE:
+		break;
+
+	case ALARM_NOTIFY_SNOOZE:
+		snooze (c->gcal, c->comp, c->occur, snooze_mins, FALSE);
+		break;
+
+	case ALARM_NOTIFY_EDIT:
+		gnome_calendar_edit_object (c->gcal, c->comp);
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	gtk_object_unref (GTK_OBJECT (c->comp));
+	g_free (c);
+}
+
+/* Present a display notification of an alarm trigger */
+static void
+display_notification (time_t trigger, time_t occur, CalComponent *comp, GnomeCalendar *gcal)
+{
+	gboolean result;
+	struct alarm_notify_closure *c;
+
+	gtk_object_ref (GTK_OBJECT (comp));
+
+	c = g_new (struct alarm_notify_closure, 1);
+	c->gcal = gcal;
+	c->comp = comp;
+	c->occur = occur;
+
+	result = alarm_notify_dialog (trigger, occur, comp, display_notification_cb, c);
+	if (!result) {
+		g_message ("display_notification(): could not display the alarm notification dialog");
+		g_free (c);
+		gtk_object_unref (GTK_OBJECT (comp));
+	}
+}
+
+/* Present an audible notification of an alarm trigger */
+static void
+audio_notification (time_t trigger, time_t occur, CalComponent *comp, GnomeCalendar *gcal)
+{
+	g_message ("AUDIO NOTIFICATION!");
+	/* FIXME */
+}
+
+/* Callback function used when an alarm is triggered */
+static void
+trigger_alarm_cb (gpointer alarm_id, time_t trigger, gpointer data)
+{
+	struct trigger_alarm_closure *c;
+	GnomeCalendarPrivate *priv;
+	CalComponent *comp;
+	CalClientGetStatus status;
+	const char *uid;
+	ObjectAlarms *oa;
+   	GList *l;
+
+	c = data;
+	priv = c->gcal->priv;
+
+	/* Fetch the object */
+
+	status = cal_client_get_object (priv->client, c->uid, &comp);
+
+	switch (status) {
+	case CAL_CLIENT_GET_SUCCESS:
+		/* Go on */
+		break;
+	case CAL_CLIENT_GET_SYNTAX_ERROR:
+	case CAL_CLIENT_GET_NOT_FOUND:
+		g_message ("trigger_alarm_cb(): syntax error in fetched object");
+		return;
+	}
+
+	g_assert (comp != NULL);
+
+	/* Present notification */
+
+	switch (c->type) {
+	case CAL_COMPONENT_ALARM_EMAIL:
+#if 0
+		g_assert (ico->malarm.enabled);
+		mail_notification (ico->malarm.data, ico->summary, c->occur);
+#endif
+		break;
+
+	case CAL_COMPONENT_ALARM_PROCEDURE:
+#if 0
+		g_assert (ico->palarm.enabled);
+		program_notification (ico->palarm.data, FALSE);
+#endif
+		break;
+
+	case CAL_COMPONENT_ALARM_DISPLAY:
+#if 0
+		g_assert (ico->dalarm.enabled);
+#endif
+		display_notification (trigger, c->occur, comp, c->gcal);
+		break;
+
+	case CAL_COMPONENT_ALARM_AUDIO:
+#if 0
+		g_assert (ico->aalarm.enabled);
+#endif
+		audio_notification (trigger, c->occur, comp, c->gcal);
+		break;
+
+	default:
+		break;
+	}
+
+	/* Remove the alarm from the hash table */
+	cal_component_get_uid (comp, &uid);
+	oa = g_hash_table_lookup (priv->alarms, uid);
+	g_assert (oa != NULL);
+
+	l = g_list_find (oa->alarm_ids, alarm_id);
+	g_assert (l != NULL);
+
+	oa->alarm_ids = g_list_remove_link (oa->alarm_ids, l);
+	g_list_free_1 (l);
+
+	if (!oa->alarm_ids) {
+		g_hash_table_remove (priv->alarms, uid);
+		g_free (oa->uid);
+		g_free (oa);
+	}
+
+	gtk_object_unref (GTK_OBJECT (comp));
+}
+
+#endif
+
+#if 0
+
+static void
+stop_beeping (GtkObject* object, gpointer data)
+{
+	guint timer_tag, beep_tag;
+	timer_tag = GPOINTER_TO_INT (gtk_object_get_data (object, "timer_tag"));
+	beep_tag  = GPOINTER_TO_INT (gtk_object_get_data (object, "beep_tag"));
+
+	if (beep_tag > 0) {
+		gtk_timeout_remove (beep_tag);
+		gtk_object_set_data (object, "beep_tag", GINT_TO_POINTER (0));
+	}
+	if (timer_tag > 0) {
+		gtk_timeout_remove (timer_tag);
+		gtk_object_set_data (object, "timer_tag", GINT_TO_POINTER (0));
+	}
+}
+
+static gint
+start_beeping (gpointer data)
+{
+	gdk_beep ();
+
+	return TRUE;
+}
+
+static gint
+timeout_beep (gpointer data)
+{
+	stop_beeping (data, NULL);
+	return FALSE;
+}
+
+void
+calendar_notify (time_t activation_time, CalendarAlarm *which, void *data)
+{
+	iCalObject *ico = data;
+	guint beep_tag, timer_tag;
+	int ret;
+	gchar* snooze_button = (enable_snooze ? _("Snooze") : NULL);
+	time_t now, diff;
+
+	if (&ico->aalarm == which){
+		time_t app = ico->aalarm.trigger + ico->aalarm.offset;
+		GtkWidget *w;
+		char *msg;
+
+		msg = g_strconcat (_("Reminder of your appointment at "),
+					ctime (&app), "`",
+					ico->summary, "'", NULL);
+
+		/* Idea: we need Snooze option :-) */
+		w = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO, _("Ok"), snooze_button, NULL);
+		beep_tag = gtk_timeout_add (1000, start_beeping, NULL);
+		if (enable_aalarm_timeout)
+			timer_tag = gtk_timeout_add (audio_alarm_timeout*1000,
+						     timeout_beep, w);
+		else
+			timer_tag = 0;
+		gtk_object_set_data (GTK_OBJECT (w), "timer_tag",
+				     GINT_TO_POINTER (timer_tag));
+		gtk_object_set_data (GTK_OBJECT (w), "beep_tag",
+				     GINT_TO_POINTER (beep_tag));
+		gtk_widget_ref (w);
+		gtk_window_set_modal (GTK_WINDOW (w), FALSE);
+		ret = gnome_dialog_run (GNOME_DIALOG (w));
+		switch (ret) {
+		case 1:
+			stop_beeping (GTK_OBJECT (w), NULL);
+			now = time (NULL);
+			diff = now - which->trigger;
+			which->trigger = which->trigger + diff + snooze_secs;
+			which->offset  = which->offset - diff - snooze_secs;
+			alarm_add (which, &calendar_notify, data);
+			break;
+		default:
+			stop_beeping (GTK_OBJECT (w), NULL);
+			break;
+		}
+
+		gtk_widget_unref (w);
+		return;
+	}
+
+        if (&ico->palarm == which){
+		execute (ico->palarm.data, 0);
+		return;
+	}
+
+	if (&ico->malarm == which){
+		time_t app = ico->malarm.trigger + ico->malarm.offset;
+
+		mail_notify (ico->malarm.data, ico->summary, app);
+		return;
+	}
+
+	if (&ico->dalarm == which){
+		time_t app = ico->dalarm.trigger + ico->dalarm.offset;
+		GtkWidget *w;
+		char *msg;
+
+		if (beep_on_display)
+			gdk_beep ();
+		msg = g_strconcat (_("Reminder of your appointment at "),
+					ctime (&app), "`",
+					ico->summary, "'", NULL);
+		w = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO,
+					   _("Ok"), snooze_button, NULL);
+		gtk_window_set_modal (GTK_WINDOW (w), FALSE);
+		ret = gnome_dialog_run (GNOME_DIALOG (w));
+		switch (ret) {
+		case 1:
+			now = time (NULL);
+			diff = now - which->trigger;
+			which->trigger = which->trigger + diff + snooze_secs;
+			which->offset  = which->offset - diff - snooze_secs;
+			alarm_add (which, &calendar_notify, data);
+			break;
+		default:
+			break;
+		}
+
+		return;
+	}
+}
+
+#endif

@@ -1,3 +1,23 @@
+2001-01-01  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/gnome-cal.c (gnome_calendar_destroy): Unconditionally remove
+	the client from the alarm notification system.
+	Removed all the obsolete alarm code.
+
+	* gui/event-editor.c: Removed some crufty externs left over from
+	Gnomecal.
+
+	* gui/calendar-commands.c: #include "goto.h"
+	Removed crufty variables left over from Gnomecal.
+	(new_calendar): Do not take a full_name parameter.
+	(init_username): Removed function.
+	(init_calendar): Wheeeeeeee!  Removed crufty function.
+	(quit_cmd): Removed function.
+
+	* gui/print.c (WEEK_STARTS_ON_MONDAY): Made it unconditionally
+	FALSE because we do not use the configuration setting anyways.
+	Sigh, all the printing code needs to be revamped.
+
 2000-12-26  Iain Holmes  <iain@helixcode.com>
 
 	* gui/calendar-summary.c (create_summary_view): Create a shared

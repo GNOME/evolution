@@ -67,8 +67,6 @@ main (int argc, char **argv)
 	alarm_notify_init ();
 	e_cursors_init ();
 
-	init_calendar ();
-
 #if 0
 	//g_log_set_always_fatal ((GLogLevelFlags) 0xFFFF);
 	g_log_set_always_fatal (G_LOG_LEVEL_ERROR |
