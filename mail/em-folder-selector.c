@@ -311,6 +311,8 @@ em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const char *ti
 	
 	gtk_box_pack_start ((GtkBox *) ((GtkDialog *) emfs)->vbox, hbox, FALSE, TRUE, 0);
 	
+	gtk_widget_grab_focus ((GtkWidget *) emfs->name_entry);
+	
 	return (GtkWidget *) emfs;
 }
 

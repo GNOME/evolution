@@ -1,5 +1,11 @@
 2004-03-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-component.c (impl_requestCreateItem): Don't focus the
+	name_entry widget here.
+
+	* em-folder-selector.c (em_folder_selector_create_new): Focus the
+	name_entry widget here rather than in mail-component.c
+
 	* em-folder-tree.c (emft_drop_async_desc): New function to return
 	a description of the async drop operation. Fixes bug #54808.
 

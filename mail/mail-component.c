@@ -624,15 +624,13 @@ impl_requestCreateItem (PortableServer_Servant servant,
 		/* This api is fucked up, too tightly integrated with the tree view */
 		EMFolderTree *folder_tree;
 		GtkWidget *dialog;
-	
+		
 		folder_tree = (EMFolderTree *) em_folder_tree_new_with_model(mc->priv->model);
 		dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
 		/* We need to get this from the currently activated component?
 		  em_folder_selector_set_selected ((EMFolderSelector *) dialog, emft->priv->selected_uri);*/
 		g_signal_connect (dialog, "response", G_CALLBACK(emc_new_folder_response), mc);
 		gtk_widget_show(dialog);
-		/* FIXME: what is this crap, this should go in the folder selector */
-		gtk_widget_grab_focus((GtkWidget *)((EMFolderSelector *)dialog)->name_entry);
 	} else {
 
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
