@@ -1,3 +1,12 @@
+2003-04-07  Not Zed  <NotZed@Ximian.com>
+ 
+ 	Fixes #40252.
+ 
+ 	* conduit/address-conduit.c:  Change the LOG macro to a
+ 	single arg macro which copies its arg.  Fix all callers.  Change
+ 	WARN and INFO to simply g_warning/g_message.  Init G_LOG_DOMAIN
+ 	before including anything.
+ 
 2003-04-07  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (SUBDIRS): add tools.
