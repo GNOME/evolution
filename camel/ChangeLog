@@ -1,3 +1,9 @@
+2004-10-18  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-store.c (imap4_try_authenticate):
+	Change the service string for the sasl mechanism to"imap" rather
+	than "imap4".
+
 2004-10-13  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap4/camel-imap4-folder.c (camel_imap4_folder_new)

@@ -405,7 +405,7 @@ imap4_try_authenticate (CamelIMAP4Engine *engine, gboolean reprompt, const char 
 		CamelServiceAuthType *mech;
 		
 		mech = g_hash_table_lookup (engine->authtypes, service->url->authmech);
-		sasl = camel_sasl_new ("imap4", mech->authproto, service);
+		sasl = camel_sasl_new ("imap", mech->authproto, service);
 		
 		ic = camel_imap4_engine_prequeue (engine, NULL, "AUTHENTICATE %s\r\n", service->url->authmech);
 		ic->plus = sasl_auth;
