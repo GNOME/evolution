@@ -33,6 +33,13 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+
+#include <sys/param.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
 #include "camel-transport.h"
 
 #define CAMEL_SMTP_TRANSPORT_TYPE     (camel_smtp_transport_get_type ())
@@ -45,6 +52,12 @@ typedef struct {
 	CamelTransport parent_object;
 
 	CamelStream *istream, *ostream;
+
+	gboolean smtp_is_esmtp;
+
+	struct sockaddr_in localaddr;
+
+	GList *esmtp_supported_authtypes;
 	
 } CamelSmtpTransport;
 

@@ -1,3 +1,9 @@
+2000-05-24  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/smtp/camel-smtp-transport.[c,h]: Moved global
+	variables into struct CamelSmtpTransport to make SMTP
+	thread-safe
+
 2000-05-23  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap: Added some initial code to the camel tree
@@ -60,7 +66,7 @@
 	* camel-stream-filter.c: Likewise.  This is getting tedious.
 
 	* camel-stream-buffer.c (stream_write): Fix a few little problems.
-	(stream_close): Reimplmeent.
+	(stream_close): Reimplement.
 	(camel_stream_buffer_read_line): Slightly more efficient version,
 	that also only allocates the right amount of memory for strings.
 

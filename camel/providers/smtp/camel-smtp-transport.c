@@ -71,9 +71,6 @@ static gboolean smtp_quit (CamelSmtpTransport *transport, CamelException *ex);
 
 /* private data members */
 static CamelServiceClass *service_class = NULL;
-static gboolean smtp_is_esmtp = FALSE;
-static struct sockaddr_in localaddr;
-static GList *esmtp_supported_authtypes = NULL;
 
 static void
 camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_class)
@@ -145,6 +142,10 @@ smtp_connect (CamelService *service, CamelException *ex)
 	if (!h)
 		return FALSE;
 
+	/* set some smtp transport defaults */
+	transport->smtp_is_esmtp = FALSE;
+	transport->esmtp_supported_authtypes = NULL;
+
 	sin.sin_family = h->h_addrtype;
 	sin.sin_port = htons (service->url->port ? service->url->port : SMTP_PORT);
 	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
@@ -162,8 +163,8 @@ smtp_connect (CamelService *service, CamelException *ex)
 	}
 
 	/* get the localaddr - needed later by smtp_helo */
-	addrlen = sizeof(localaddr);
-	getsockname(fd, (struct sockaddr*)&localaddr, &addrlen);
+	addrlen = sizeof(transport->localaddr);
+	getsockname(fd, (struct sockaddr*)&transport->localaddr, &addrlen);
 
 	transport->ostream = camel_stream_fs_new_with_fd (fd);
 	transport->istream = camel_stream_buffer_new (transport->ostream, 
@@ -182,7 +183,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 			return FALSE;
 		}
 		if (strstr(respbuf, "ESMTP"))
-			smtp_is_esmtp = TRUE;
+			transport->smtp_is_esmtp = TRUE;
 	} while ( *(respbuf+3) == '-' ); /* if we got "220-" then loop again */
 	g_free(respbuf);
 
@@ -190,14 +191,17 @@ smtp_connect (CamelService *service, CamelException *ex)
 	smtp_helo(transport, ex);
 
 	/* check to see if AUTH is required, if so...then AUTH ourselves */
-	if (smtp_is_esmtp && esmtp_supported_authtypes) {
+	if (transport->smtp_is_esmtp && transport->esmtp_supported_authtypes) {
 		/* not really supported yet, but we can at least show what auth types are supported */
 		fprintf(stderr, "camel-smtp-transport::connect(): %s requires AUTH\n", service->url->host);
-		num = g_list_length(esmtp_supported_authtypes);
+		num = g_list_length(transport->esmtp_supported_authtypes);
+
 		for (i = 0; i < num; i++)
-			fprintf(stderr, "\nSupported AUTH: %s\n\n", (gchar *) g_list_nth_data(esmtp_supported_authtypes, i));
-		g_list_free(esmtp_supported_authtypes);
-		esmtp_supported_authtypes = NULL;
+			fprintf(stderr, "\nSupported AUTH: %s\n\n", 
+				(gchar *) g_list_nth_data(transport->esmtp_supported_authtypes, i));
+
+		g_list_free(transport->esmtp_supported_authtypes);
+		transport->esmtp_supported_authtypes = NULL;
 	} else {
 		fprintf(stderr, "\ncamel-smtp-transport::connect(): provider does not use AUTH\n\n");
 	}
@@ -219,6 +223,8 @@ smtp_disconnect (CamelService *service, CamelException *ex)
 	if (!service_class->disconnect (service, ex))
 		return FALSE;
 
+	g_free(transport->esmtp_supported_authtypes);
+	transport->esmtp_supported_authtypes = NULL;
 	gtk_object_unref (GTK_OBJECT (transport->ostream));
 	gtk_object_unref (GTK_OBJECT (transport->istream));
 	transport->ostream = NULL;
@@ -474,13 +480,15 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	struct hostent *host;
 
 	/* get the local host name */
-	host = gethostbyaddr((gchar *)&localaddr.sin_addr, sizeof(localaddr.sin_addr), AF_INET);
+	host = gethostbyaddr((gchar *)&transport->localaddr.sin_addr, sizeof(transport->localaddr.sin_addr), AF_INET);
 
 	/* hiya server! how are you today? */
-	if (smtp_is_esmtp)
-		cmdbuf = g_strdup_printf ("EHLO %s\r\n", host && host->h_name ? host->h_name : inet_ntoa(localaddr.sin_addr));
+	if (transport->smtp_is_esmtp)
+		cmdbuf = g_strdup_printf ("EHLO %s\r\n", host && host->h_name ? host->h_name : 
+					  inet_ntoa(transport->localaddr.sin_addr));
 	else
-		cmdbuf = g_strdup_printf ("HELO %s\r\n", host && host->h_name ? host->h_name : inet_ntoa(localaddr.sin_addr));
+		cmdbuf = g_strdup_printf ("HELO %s\r\n", host && host->h_name ? host->h_name : 
+					  inet_ntoa(transport->localaddr.sin_addr));
 
 	fprintf(stderr, "sending : %s", cmdbuf);
 	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf)) == -1) {
@@ -507,10 +515,10 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 
 		fprintf(stderr, "received: %s\n", respbuf);
 
-		if (smtp_is_esmtp && strstr(respbuf, "AUTH")) {
+		if (transport->smtp_is_esmtp && strstr(respbuf, "AUTH")) {
 			/* parse for supported AUTH types */
 			g_strchomp(respbuf);
-			esmtp_supported_authtypes = esmtp_get_authtypes(respbuf);
+			transport->esmtp_supported_authtypes = esmtp_get_authtypes(respbuf);
 		}
 	} while ( *(respbuf+3) == '-' ); /* if we got "250-" then loop again */
 	g_free(respbuf);
