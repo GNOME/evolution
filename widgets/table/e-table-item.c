@@ -1515,7 +1515,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			return_val = FALSE;
 
 			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CLICK],
-					 row, col, e, &return_val);
+					 row, view_to_model_col(eti, col), e, &return_val);
 
 			if (return_val)
 				return TRUE;
@@ -1553,7 +1553,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			e_table_selection_model_maybe_do_something(eti->selection, view_to_model_row(eti, row), view_to_model_col(eti, col), 0);
 			
 			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [RIGHT_CLICK],
-					 row, col, e, &return_val);
+					 row, view_to_model_col(eti, col), e, &return_val);
 			break;
 		case 4:
 		case 5:
