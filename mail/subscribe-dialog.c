@@ -137,6 +137,8 @@ struct _FolderETree {
 	GHashTable *scan_ops;
 	GHashTable *subscribe_ops;
 
+	GHashTable *node_full_name;
+
 	CamelStore *store;
 	EvolutionStorage *e_storage;
 	char *service_name;
@@ -702,7 +704,6 @@ fe_sort_folder (ETreeMemory *etmm, ETreePath left, ETreePath right, gpointer use
 }
 
 /* scanning */
-
 static void
 fe_got_children (CamelStore *store, char *prefix, CamelFolderInfo *info, gpointer data)
 {
@@ -718,7 +719,7 @@ fe_got_children (CamelStore *store, char *prefix, CamelFolderInfo *info, gpointe
 		ETreePath   child_path;
 		ftree_node *node;
 
-		if (strcmp (info->full_name, prefix) == 0)
+		if (g_hash_table_lookup(closure->ftree->node_full_name, info->full_name))
 			continue;
 
 		node = ftree_node_new (store, info);
@@ -726,11 +727,13 @@ fe_got_children (CamelStore *store, char *prefix, CamelFolderInfo *info, gpointe
 							closure->path,
 							0,
 							node);
-		e_tree_memory_sort_node (E_TREE_MEMORY (closure->ftree), 
-					 closure->path,
-					 fe_sort_folder,
-					 NULL);
+		g_hash_table_insert(closure->ftree->node_full_name, ftree_node_get_full_name(node), child_path);
 	}
+
+	e_tree_memory_sort_node (E_TREE_MEMORY (closure->ftree), 
+				 closure->path,
+				 fe_sort_folder,
+				 NULL);
 
 	if (closure->data)
 		closure->data->flags |= FTREE_NODE_GOT_CHILDREN;
@@ -864,6 +867,7 @@ fe_destroy (GtkObject *obj)
 	
 	g_hash_table_destroy (ftree->scan_ops);
 	g_hash_table_destroy (ftree->subscribe_ops);
+	g_hash_table_destroy(ftree->node_full_name);
 
 	camel_object_unref (CAMEL_OBJECT (ftree->store));
 	bonobo_object_unref (BONOBO_OBJECT (ftree->e_storage));
@@ -912,6 +916,7 @@ folder_etree_init (GtkObject *object)
 	ftree->search = g_strdup ("");
 
 	ftree->activity_level = 0;
+	ftree->node_full_name = g_hash_table_new(g_str_hash, g_str_equal);
 }
 
 static FolderETree *
@@ -960,6 +965,8 @@ folder_etree_clear_tree (FolderETree *ftree)
 	e_tree_memory_freeze (E_TREE_MEMORY (ftree));
 	e_tree_memory_node_remove (E_TREE_MEMORY (ftree), ftree->root);
 	fe_create_root_node (ftree);
+	g_hash_table_destroy(ftree->node_full_name);
+	ftree->node_full_name = g_hash_table_new(g_str_hash, g_str_equal);
 	e_tree_memory_thaw (E_TREE_MEMORY (ftree));
 }
 

@@ -1,3 +1,13 @@
+2002-10-24  Not Zed  <NotZed@Ximian.com>
+
+	* subscribe-dialog.c (fe_got_children): Use a hashtable to only
+	insert nodes we dont have already, rather than relying on the
+	scanning logic.  Also, only re-sort this tree level once done
+	rather than on each insert.
+	(folder_etree_init): Setup hash to track nodes setup.
+	(folder_etree_clear_tree): Reset hash.
+	(fe_destroy): Free hash.
+
 2002-10-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (folder_browser_query_changed): Only perform
