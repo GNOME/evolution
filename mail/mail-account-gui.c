@@ -2006,10 +2006,11 @@ mail_account_gui_save (MailAccountGui *gui)
 	if (account->source->url) {
 		provider = camel_session_get_provider (session, account->source->url, NULL);
 		source_url = provider ? camel_url_new (account->source->url, NULL) : NULL;
-		
-		if (old_enabled)
-			account->source->enabled = TRUE;
 	}
+	
+	if (old_enabled)
+		account->source->enabled = TRUE;
+	
 	account->source->auto_check = gtk_toggle_button_get_active (gui->source_auto_check);
 	if (account->source->auto_check)
 		account->source->auto_check_time = gtk_spin_button_get_value_as_int (gui->source_auto_check_min);

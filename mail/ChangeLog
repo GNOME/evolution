@@ -1,3 +1,9 @@
+2002-05-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): Make sure that even
+	if the new source url is NULL, that we preserve the enabledness of
+	the source.
+
 2002-05-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (add_storage): Pass %FALSE as
