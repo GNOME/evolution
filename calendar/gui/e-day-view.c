@@ -321,6 +321,9 @@ static void e_day_view_on_delete_occurrence (GtkWidget *widget,
 					     gpointer data);
 static void e_day_view_on_delete_appointment (GtkWidget *widget,
 					      gpointer data);
+static void e_day_view_on_cut (GtkWidget *widget, gpointer data);
+static void e_day_view_on_copy (GtkWidget *widget, gpointer data);
+static void e_day_view_on_paste (GtkWidget *widget, gpointer data);
 static void e_day_view_on_schedule_meet (GtkWidget *widget,
 					 gpointer data);
 static void e_day_view_on_unrecur_appointment (GtkWidget *widget,
@@ -3195,6 +3198,12 @@ static EPopupMenu child_items [] = {
 	  e_day_view_on_edit_appointment, NULL, MASK_EDITABLE | MASK_EDITING },
 	{ N_("Delete this Appointment"), NULL,
 	  e_day_view_on_delete_appointment, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
+	{ N_("Cut"), NULL,
+	  e_day_view_on_cut, NULL, MASK_EDITABLE | MASK_EDITING },
+	{ N_("Copy"), NULL,
+	  e_day_view_on_copy, NULL, 0 },
+	{ N_("Paste"), NULL,
+	  e_day_view_on_paste, NULL, MASK_EDITABLE | MASK_EDITING },
 	{ N_("Schedule Meeting"), NULL,
 	  e_day_view_on_schedule_meet, NULL, MASK_EDITING },
 
@@ -3378,6 +3387,56 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	}
 }
 
+static void
+e_day_view_on_cut (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view;
+	EDayViewEvent *event;
+	const char *uid;
+
+	day_view = E_DAY_VIEW (data);
+
+	e_day_view_on_copy (widget, data);
+
+	event = e_day_view_get_popup_menu_event (day_view);
+	if (event == NULL)
+		return;
+
+	cal_component_get_uid (event->comp, &uid);
+	cal_client_remove_object (day_view->client, uid);
+}
+
+static void
+e_day_view_on_copy (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view;
+	EDayViewEvent *event;
+	char *comp_str;
+
+	day_view = E_DAY_VIEW (data);
+
+	event = e_day_view_get_popup_menu_event (day_view);
+	if (event == NULL)
+		return;
+
+	comp_str = cal_component_get_as_string (event->comp);
+	if (day_view->clipboard_selection)
+		g_free (day_view->clipboard_selection);
+	day_view->clipboard_selection = comp_str;
+
+	gtk_selection_owner_set (day_view->invisible, clipboard_atom, GDK_CURRENT_TIME);
+}
+
+static void
+e_day_view_on_paste (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view = E_DAY_VIEW (data);
+
+	gtk_selection_convert (day_view->invisible,
+			       clipboard_atom,
+			       GDK_SELECTION_TYPE_STRING,
+			       GDK_CURRENT_TIME);
+}
 
 static void
 e_day_view_on_schedule_meet (GtkWidget *widget, gpointer data)
@@ -6462,8 +6521,4 @@ static void selection_received (GtkWidget *invisible,
 	    selection_data->type != GDK_SELECTION_TYPE_STRING) {
 		return;
 	}
-
-	if (day_view->clipboard_selection != NULL)
-		g_free (day_view->clipboard_selection);
-	day_view->clipboard_selection = g_strdup ((gchar *) selection_data->data);
 }

@@ -1,8 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * Author :
+ * Authors :
  *  Damon Chaplin <damon@ximian.com>
+ *  Rodrigo Moya <rodrigo@ximian.com>
  *
  * Copyright 1999, Helix Code, Inc.
  * Copyright 2001, Ximian, Inc.
@@ -162,6 +163,9 @@ static void e_week_view_on_delete_occurrence (GtkWidget *widget,
 					      gpointer data);
 static void e_week_view_on_delete_appointment (GtkWidget *widget,
 					       gpointer data);
+static void e_week_view_on_cut (GtkWidget *widget, gpointer data);
+static void e_week_view_on_copy (GtkWidget *widget, gpointer data);
+static void e_week_view_on_paste (GtkWidget *widget, gpointer data);
 static void e_week_view_on_schedule_meet (GtkWidget *widget, 
 					  gpointer data);
 static void e_week_view_on_unrecur_appointment (GtkWidget *widget,
@@ -3032,6 +3036,12 @@ static EPopupMenu child_items [] = {
 	  e_week_view_on_edit_appointment, NULL, MASK_EDITABLE | MASK_EDITING },
 	{ N_("Delete this Appointment"), NULL,
 	  e_week_view_on_delete_appointment, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
+	{ N_("Cut"), NULL,
+	  e_week_view_on_cut, NULL, MASK_EDITING | MASK_EDITABLE },
+	{ N_("Copy"), NULL,
+	  e_week_view_on_copy, NULL, MASK_EDITING | MASK_EDITABLE },
+	{ N_("Paste"), NULL,
+	  e_week_view_on_paste, NULL, 0 },
 	{ N_("Schedule Meeting"), NULL,
 	  e_week_view_on_schedule_meet, NULL, MASK_EDITING },
 	{ "", NULL, NULL, NULL, 0},
@@ -3211,6 +3221,61 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 		 */
 		cal_client_remove_object (week_view->client, uid);
 	}
+}
+
+static void
+e_week_view_on_cut (GtkWidget *widget, gpointer data)
+{
+	EWeekView *week_view;
+	EWeekViewEvent *event;
+	const char *uid;
+
+	week_view = E_WEEK_VIEW (data);
+
+	e_week_view_on_copy (widget, data);
+
+	if (week_view->popup_event_num == -1)
+		return;
+
+	event = &g_array_index (week_view->events, EWeekViewEvent,
+				week_view->popup_event_num);
+
+	cal_component_get_uid (event->comp, &uid);
+	cal_client_remove_object (week_view->client, uid);
+}
+
+static void
+e_week_view_on_copy (GtkWidget *widget, gpointer data)
+{
+	EWeekView *week_view;
+	EWeekViewEvent *event;
+	char *comp_str;
+
+	week_view = E_WEEK_VIEW (data);
+
+	if (week_view->popup_event_num == -1)
+		return;
+
+	event = &g_array_index (week_view->events, EWeekViewEvent,
+				week_view->popup_event_num);
+
+	comp_str = cal_component_get_as_string (event->comp);
+	if (week_view->clipboard_selection)
+		g_free (week_view->clipboard_selection);
+	week_view->clipboard_selection = comp_str;
+
+	gtk_selection_owner_set (week_view->invisible, clipboard_atom, GDK_CURRENT_TIME);
+}
+
+static void
+e_week_view_on_paste (GtkWidget *widget, gpointer data)
+{
+	EWeekView *week_view = E_WEEK_VIEW (data);
+
+	gtk_selection_convert (week_view->invisible,
+			       clipboard_atom,
+			       GDK_SELECTION_TYPE_STRING,
+			       GDK_CURRENT_TIME);
 }
 
 static void
@@ -3408,8 +3473,4 @@ static void selection_received (GtkWidget *invisible,
 	    selection_data->type != GDK_SELECTION_TYPE_STRING) {
 		return;
 	}
-
-	if (week_view->clipboard_selection != NULL)
-		g_free (week_view->clipboard_selection);
-	week_view->clipboard_selection = g_strdup ((gchar *) selection_data->data);
 }

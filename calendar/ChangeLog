@@ -1,3 +1,9 @@
+2001-06-14  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.[ch]: added popup menu items for cut/copy/paste
+
+	* gui/e-week-view.[ch]: ditto
+
 2001-06-14  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-timezone-entry.[hc]: new widget to enter a timezone.
