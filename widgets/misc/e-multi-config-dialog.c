@@ -245,6 +245,9 @@ impl_destroy (GtkObject *object)
 	if (priv->set_page_timeout_id != 0)
 		g_source_remove (priv->set_page_timeout_id);
 
+	if (priv->list_e_table_model != NULL)
+		gtk_object_unref (GTK_OBJECT (priv->list_e_table_model));
+
 	g_slist_free (priv->pages);
 
 	g_free (priv);

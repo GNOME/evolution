@@ -1,3 +1,8 @@
+2002-11-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-multi-config-dialog.c (impl_destroy): Unref the
+	list_e_table_model.
+
 2002-11-04  JP Rosevear  <jpr@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_ensure_days_visible): set the
