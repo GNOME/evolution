@@ -409,7 +409,7 @@ mail_preferences_apply (MailPreferences *prefs)
 	mail_config_set_confirm_unwanted_html (gtk_toggle_button_get_active (prefs->prompt_unwanted_html));
 	
 	/* Security */
-	entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (prefs->notify_sound_file));
+	entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (prefs->pgp_path));
 	string = gtk_entry_get_text (GTK_ENTRY (entry));
 	
 	pgp_type = string && *string ? mail_config_pgp_type_detect_from_path (string) : MAIL_CONFIG_PGP_TYPE_NONE;
