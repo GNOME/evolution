@@ -49,10 +49,6 @@
 
 /*#define DEBUG_XML*/
 
-#define DRAG_RESISTANCE 3	/* FIXME hardcoded in ETable to this value as
-				 * well, and there is no way for us to use the
-				 * same value as it's not exported.  */
-
 #define ROOT_NODE_NAME "/RootNode"
 
 
@@ -98,12 +94,6 @@ struct _EStorageSetViewPrivate {
 
 	/* The data.  */
 	GNOME_Evolution_ShellComponentDnd_Data *drag_corba_data;
-
-	/* When dragging, the X/Y coordinates of the point we drag from, as
-	   well as the corresponding row/column numbers in the table.  */
-	int drag_x, drag_y;
-	int drag_column, drag_row;
-	ETreePath drag_path;
 };
 
 
@@ -787,84 +777,33 @@ destroy (GtkObject *object)
 }
 
 
-/* GtkWidget methods.  */
 
-static int
-button_press_event (GtkWidget *widget,
-		    GdkEventButton *event)
+static gint
+tree_start_drag (ETree *tree, int row, ETreePath path, int col, GdkEvent *event)
 {
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-	ETree *tree;
-	int row, column;
-
-	storage_set_view = E_STORAGE_SET_VIEW (widget);
-	priv = storage_set_view->priv;
-
-	tree = E_TREE (widget);
-
-	/* FIXME correct? */
-	if (GTK_WIDGET_CLASS (parent_class)->button_press_event != NULL)
-		(* GTK_WIDGET_CLASS (parent_class)->button_press_event) (widget, event);
-
-	if (event->button != 1)
-		return FALSE;
-
-	e_tree_get_cell_at (tree, event->x, event->y, &row, &column);
-
-	priv->drag_x = event->x;
-	priv->drag_y = event->y;
-	priv->drag_column = column;
-	priv->drag_path = e_tree_node_at_row(E_TREE(storage_set_view), row);
-	priv->drag_row = row;
-
-	/* FIXME correct? */
-	return TRUE;
-}
-
-static int
-motion_notify_event (GtkWidget *widget,
-		     GdkEventMotion *event)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-	ETree *tree;
+	GdkDragContext *context;
 	GtkTargetList *target_list;
 	GdkDragAction actions;
-	GdkDragContext *context;
+	EStorageSetView *storage_set_view;
 
-	storage_set_view = E_STORAGE_SET_VIEW (widget);
-	priv = storage_set_view->priv;
+	storage_set_view = E_STORAGE_SET_VIEW (tree);
 
-	tree = E_TREE (widget);
-
-	/* FIXME correct? */
-	if (GTK_WIDGET_CLASS (parent_class)->motion_notify_event != NULL)
-		(* GTK_WIDGET_CLASS (parent_class)->motion_notify_event) (widget, event);
-
-	/* FIXME correct? */
-	if (! (event->state & GDK_BUTTON1_MASK))
-		return FALSE;
-
-	if (ABS (priv->drag_x - event->x) < DRAG_RESISTANCE
-	    && ABS (priv->drag_y - event->y) < DRAG_RESISTANCE)
-		return FALSE;
-
-	target_list = create_target_list_for_node (storage_set_view, priv->drag_path);
+	target_list = create_target_list_for_node (storage_set_view, path);
 	if (target_list == NULL)
 		return FALSE;
 
 	actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
 
-	context = e_tree_drag_begin (tree,
-				     priv->drag_row, priv->drag_column,
-				     target_list, actions,
-				     1, (GdkEvent *) event);
+	context = e_tree_drag_begin (tree, row, col,
+				     target_list,
+				     actions,
+				     1, event);
+
 	gtk_drag_set_icon_default (context);
 
 	gtk_target_list_unref (target_list);
 
-	return FALSE;
+	return TRUE;
 }
 
 
@@ -1691,20 +1630,16 @@ class_init (EStorageSetViewClass *klass)
 {
 	GtkObjectClass *object_class;
 	ETreeClass *etree_class;
-	GtkWidgetClass *widget_class;
 
 	parent_class = gtk_type_class (e_tree_get_type ());
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
 
-	widget_class = GTK_WIDGET_CLASS (klass);
-	widget_class->button_press_event  = button_press_event;
-	widget_class->motion_notify_event = motion_notify_event;
-
 	etree_class = E_TREE_CLASS (klass);
 	etree_class->right_click             = right_click;
 	etree_class->cursor_activated        = cursor_activated;
+	etree_class->start_drag              = tree_start_drag;
 	etree_class->tree_drag_begin         = tree_drag_begin;
 	etree_class->tree_drag_end           = tree_drag_end;
 	etree_class->tree_drag_data_get      = tree_drag_data_get;
@@ -1764,12 +1699,6 @@ init (EStorageSetView *storage_set_view)
 
 	priv->drag_corba_source_context   = NULL;
 	priv->drag_corba_data             = NULL;
-
-	priv->drag_x                      = 0;
-	priv->drag_y                      = 0;
-	priv->drag_column                 = 0;
-	priv->drag_row                    = 0;
-	priv->drag_path                   = NULL;
 
 	storage_set_view->priv = priv;
 }

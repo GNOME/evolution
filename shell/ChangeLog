@@ -1,3 +1,8 @@
+2001-09-07  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-storage-set-view.c (tree_start_drag): Changed this to use the
+	new ETable/ETree drag stuff.
+
 2001-09-07  Dan Winship  <danw@ximian.com>
 
 	* evolution-shell-component-client.c
