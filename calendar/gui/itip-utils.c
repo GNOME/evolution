@@ -751,11 +751,6 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp)
 		comp_sentby (clone);
 		break;	
 	case CAL_COMPONENT_METHOD_REPLY:
-		/* Need to remove almost everything in case the user
-                   made some other change */
-		temp_clone = comp_minimal (clone, TRUE);
-		gtk_object_unref (GTK_OBJECT (clone));
-		clone = temp_clone;
 		break;
 	case CAL_COMPONENT_METHOD_ADD:
 		break;
