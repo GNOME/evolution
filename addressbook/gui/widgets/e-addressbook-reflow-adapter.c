@@ -3,19 +3,18 @@
 
 #include <config.h>
 
+#include <libgnome/gnome-i18n.h>
+#include "e-addressbook-marshal.h"
 #include "e-addressbook-reflow-adapter.h"
 #include "e-addressbook-model.h"
 #include "e-addressbook-view.h"
 #include "e-addressbook-util.h"
-
-#include <gal/util/e-i18n.h>
 
 #include "e-minicard.h"
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-font.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/unicode/gunicode.h>
 #include "e-contact-save-as.h"
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
@@ -33,11 +32,11 @@ EReflowModel *parent_class;
 #define d(x)
 
 enum {
-	ARG_0,
-	ARG_BOOK,
-	ARG_QUERY,
-	ARG_EDITABLE,
-	ARG_MODEL,
+	PROP_0,
+	PROP_BOOK,
+	PROP_QUERY,
+	PROP_EDITABLE,
+	PROP_MODEL,
 };
 
 enum {
@@ -52,18 +51,18 @@ unlink_model(EAddressbookReflowAdapter *adapter)
 {
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
-	gtk_signal_disconnect(GTK_OBJECT (priv->model),
-			      priv->create_card_id);
-	gtk_signal_disconnect(GTK_OBJECT (priv->model),
-			      priv->remove_card_id);
-	gtk_signal_disconnect(GTK_OBJECT (priv->model),
-			      priv->modify_card_id);
+	g_signal_handler_disconnect (priv->model,
+				     priv->create_card_id);
+	g_signal_handler_disconnect (priv->model,
+				     priv->remove_card_id);
+	g_signal_handler_disconnect (priv->model,
+				     priv->modify_card_id);
 
 	priv->create_card_id = 0;
 	priv->remove_card_id = 0;
 	priv->modify_card_id = 0;
 
-	gtk_object_unref(GTK_OBJECT(priv->model));
+	g_object_unref (priv->model);
 
 	priv->model = NULL;
 }
@@ -87,7 +86,7 @@ count_lines (const gchar *text)
 static int
 text_height (GnomeCanvas *canvas, const gchar *text)
 {
-	EFont *font = e_font_from_gdk_font (((GtkWidget *) canvas)->style->font);
+	EFont *font = e_font_from_gdk_font (gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (canvas))));
 	gint height = e_font_height (font) * count_lines (text) / canvas->pixels_per_unit;
 
 	e_font_unref (font);
@@ -95,7 +94,7 @@ text_height (GnomeCanvas *canvas, const gchar *text)
 }
 
 static void
-addressbook_finalize(GtkObject *object)
+addressbook_finalize(GObject *object)
 {
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(object);
 
@@ -159,7 +158,7 @@ addressbook_height (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 	}
 	height += 2;
 
-	gtk_object_unref (GTK_OBJECT (simple));
+	g_object_unref (simple);
 
 	return height;
 }
@@ -198,9 +197,9 @@ adapter_drag_begin (EMinicard *card, GdkEvent *event, EAddressbookReflowAdapter 
 {
 	gint ret_val = 0;
 
-	gtk_signal_emit (GTK_OBJECT(adapter),
-			 e_addressbook_reflow_adapter_signals[DRAG_BEGIN],
-			 event, &ret_val);
+	g_signal_emit (adapter,
+		       e_addressbook_reflow_adapter_signals[DRAG_BEGIN], 0,
+		       event, &ret_val);
 
 	return ret_val;
 }
@@ -219,13 +218,13 @@ addressbook_incarnate (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 				     NULL);
 
 #if 0
-	gtk_signal_connect (GTK_OBJECT (item), "selected",
-			    GTK_SIGNAL_FUNC(card_selected), emvm);
+	g_signal_connect (item, "selected",
+			  G_CALLBACK(card_selected), 0, emvm);
 #endif
 
-	gtk_signal_connect (GTK_OBJECT (item), "drag_begin",
-			    GTK_SIGNAL_FUNC(adapter_drag_begin), adapter);
-
+	g_signal_connect (item, "drag_begin",
+			  G_CALLBACK(adapter_drag_begin), adapter);
+	
 	return item;
 }
 
@@ -276,106 +275,121 @@ model_changed(EAddressbookModel *model,
 }
 
 static void
-addressbook_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+addressbook_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(o);
+	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(object);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
-	switch (arg_id){
-	case ARG_BOOK:
-		gtk_object_set (GTK_OBJECT (priv->model),
-				"book", GTK_VALUE_OBJECT (*arg),
-				NULL);
+	switch (prop_id) {
+	case PROP_BOOK:
+		g_object_set (priv->model,
+			      "book", g_value_get_object (value),
+			      NULL);
 		break;
-	case ARG_QUERY:
-		gtk_object_set (GTK_OBJECT (priv->model),
-				"query", GTK_VALUE_STRING (*arg),
-				NULL);
+	case PROP_QUERY:
+		g_object_set (priv->model,
+			      "query", g_value_get_string (value),
+			      NULL);
 		break;
-	case ARG_EDITABLE:
-		gtk_object_set (GTK_OBJECT (priv->model),
-				"editable", GTK_VALUE_BOOL (*arg),
-				NULL);
-		break;
-	}
-}
-
-static void
-addressbook_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
-{
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(o);
-	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
-
-	switch (arg_id) {
-	case ARG_BOOK: {
-		EBook *book;
-		gtk_object_get (GTK_OBJECT (priv->model),
-				"book", &book,
-				NULL);
-		if (book)
-			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(book);
-		else
-			GTK_VALUE_OBJECT (*arg) = NULL;
-		break;
-	}
-	case ARG_QUERY: {
-		char *query;
-		gtk_object_get (GTK_OBJECT (priv->model),
-				"query", &query,
-				NULL);
-		GTK_VALUE_STRING (*arg) = query;
-		break;
-	}
-	case ARG_EDITABLE: {
-		gboolean editable;
-		gtk_object_get (GTK_OBJECT (priv->model),
-				"editable", &editable,
-				NULL);
-		GTK_VALUE_BOOL (*arg) = editable;
-		break;
-	}
-	case ARG_MODEL:
-		if (priv->model)
-			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT (priv->model);
-		else
-			GTK_VALUE_OBJECT (*arg) = NULL;
+	case PROP_EDITABLE:
+		g_object_set (priv->model,
+			      "editable", g_value_get_boolean (value),
+			      NULL);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-e_addressbook_reflow_adapter_class_init (GtkObjectClass *object_class)
+addressbook_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+{
+	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(object);
+	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
+
+	switch (prop_id) {
+	case PROP_BOOK: {
+		EBook *book;
+		g_object_get (GTK_OBJECT (priv->model),
+			      "book", &book,
+			      NULL);
+
+		g_value_set_object (value, book);
+		break;
+	}
+	case PROP_QUERY: {
+		char *query;
+		g_object_get (priv->model,
+			      "query", &query,
+			      NULL);
+		g_value_set_string (value, query);
+		break;
+	}
+	case PROP_EDITABLE: {
+		gboolean editable;
+		g_object_get (priv->model,
+			      "editable", &editable,
+			      NULL);
+		g_value_set_boolean (value, editable);
+		break;
+	}
+	case PROP_MODEL:
+		g_value_set_object (value, priv->model);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
+	}
+}
+
+static void
+e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 {
 	EReflowModelClass *model_class = (EReflowModelClass *) object_class;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class->set_arg = addressbook_set_arg;
-	object_class->get_arg = addressbook_get_arg;
+	object_class->set_property = addressbook_set_property;
+	object_class->get_property = addressbook_get_property;
 	object_class->finalize = addressbook_finalize;
 
-	gtk_object_add_arg_type ("EAddressbookReflowAdapter::book", GTK_TYPE_OBJECT, 
-				 GTK_ARG_READWRITE, ARG_BOOK);
-	gtk_object_add_arg_type ("EAddressbookReflowAdapter::query", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_QUERY);
-	gtk_object_add_arg_type ("EAddressbookReflowAdapter::editable", GTK_TYPE_BOOL,
-				 GTK_ARG_READWRITE, ARG_EDITABLE);
-	gtk_object_add_arg_type ("EAddressbookReflowAdapter::model", E_ADDRESSBOOK_MODEL_TYPE,
-				 GTK_ARG_READABLE, ARG_MODEL);
+	g_object_class_install_property (object_class, PROP_BOOK, 
+					 g_param_spec_object ("book",
+							      _("Book"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TYPE_BOOK,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_QUERY,
+					 g_param_spec_string ("query",
+							      _("Query"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_EDITABLE,
+					 g_param_spec_boolean ("editable",
+							       _("Editable"),
+							       /*_( */"XXX blurb" /*)*/,
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_MODEL,
+					 g_param_spec_object ("model",
+							       _("Model"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TYPE_ADDRESSBOOK_MODEL,
+							      G_PARAM_READABLE));
 
 	e_addressbook_reflow_adapter_signals [DRAG_BEGIN] =
-		gtk_signal_new ("drag_begin",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EAddressbookReflowAdapterClass, drag_begin),
-				gtk_marshal_INT__POINTER,
-				GTK_TYPE_INT, 1, GTK_TYPE_POINTER);
-
-
-	gtk_object_class_add_signals (object_class, e_addressbook_reflow_adapter_signals, LAST_SIGNAL);
+		g_signal_new ("drag_begin",
+			      G_OBJECT_CLASS_TYPE(object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EAddressbookReflowAdapterClass, drag_begin),
+			      NULL, NULL,
+			      e_addressbook_marshal_INT__POINTER,
+			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
 	model_class->set_width = addressbook_set_width;
 	model_class->count = addressbook_count;
@@ -429,24 +443,24 @@ e_addressbook_reflow_adapter_construct (EAddressbookReflowAdapter *adapter,
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
 	priv->model = model;
-	gtk_object_ref (GTK_OBJECT (priv->model));
+	g_object_ref (priv->model);
 
-	priv->create_card_id = gtk_signal_connect(GTK_OBJECT(priv->model),
-						  "card_added",
-						  GTK_SIGNAL_FUNC(create_card),
+	priv->create_card_id = g_signal_connect(priv->model,
+						"card_added",
+						G_CALLBACK(create_card),
+						adapter);
+	priv->remove_card_id = g_signal_connect(priv->model,
+						"card_removed",
+						G_CALLBACK(remove_card),
+						adapter);
+	priv->modify_card_id = g_signal_connect(priv->model,
+						"card_changed",
+						G_CALLBACK(modify_card),
+						adapter);
+	priv->model_changed_id = g_signal_connect(priv->model,
+						  "model_changed",
+						  G_CALLBACK(model_changed),
 						  adapter);
-	priv->remove_card_id = gtk_signal_connect(GTK_OBJECT(priv->model),
-						  "card_removed",
-						  GTK_SIGNAL_FUNC(remove_card),
-						  adapter);
-	priv->modify_card_id = gtk_signal_connect(GTK_OBJECT(priv->model),
-						  "card_changed",
-						  GTK_SIGNAL_FUNC(modify_card),
-						  adapter);
-	priv->model_changed_id = gtk_signal_connect(GTK_OBJECT(priv->model),
-						    "model_changed",
-						    GTK_SIGNAL_FUNC(model_changed),
-						    adapter);
 }
 
 EReflowModel *

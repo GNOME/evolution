@@ -25,6 +25,7 @@
 
 #include "e-addressbook-util.h"
 
+#include "e-addressbook-marshal.h"
 #include <gtk/gtkselection.h>
 #include <gtk/gtkdnd.h>
 #include <gal/widgets/e-canvas.h>
@@ -92,7 +93,7 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 	}
 	}
 
-	g_list_foreach (view->drag_list, (GFunc)gtk_object_unref, NULL);
+	g_list_foreach (view->drag_list, (GFunc)g_object_unref, NULL);
 	g_list_free (view->drag_list);
 	view->drag_list = NULL;
 }
@@ -114,10 +115,10 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter, GdkEvent *event,
 				  target_list, actions, 1/*XXX*/, event);
 
 	if (!view->canvas_drag_data_get_id)
-		view->canvas_drag_data_get_id = gtk_signal_connect (GTK_OBJECT (GNOME_CANVAS_ITEM (view)->canvas),
-								    "drag_data_get",
-								    GTK_SIGNAL_FUNC (e_minicard_view_drag_data_get),
-								    view);
+		view->canvas_drag_data_get_id = g_signal_connect (GNOME_CANVAS_ITEM (view)->canvas,
+								  "drag_data_get",
+								  G_CALLBACK (e_minicard_view_drag_data_get),
+								  view);
 
 	gtk_drag_set_icon_default (context);
 
@@ -142,9 +143,9 @@ set_empty_message (EMinicardView *view)
 	else
 		empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view."));
 
-	gtk_object_set (GTK_OBJECT(view),
-			"empty_message", empty_message,
-			NULL);
+	g_object_set (view,
+		      "empty_message", empty_message,
+		      NULL);
 
 	g_free (empty_message);
 }
@@ -160,8 +161,8 @@ adapter_changed (EMinicardView *view)
 {
 	set_empty_message (view);
 
-	gtk_signal_connect (GTK_OBJECT (view->adapter), "drag_begin",
-			    GTK_SIGNAL_FUNC (e_minicard_view_drag_begin), view);
+	g_signal_connect (view->adapter, "drag_begin",
+			  G_CALLBACK (e_minicard_view_drag_begin), view);
 }
 
 static void
@@ -182,19 +183,19 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 						"model", &model,
 						NULL);
 				if (model) {
-					gtk_signal_disconnect (GTK_OBJECT (model), view->writable_status_id);
+					g_signal_handler_disconnect (model, view->writable_status_id);
 				}
 			}
 
-			gtk_object_unref (GTK_OBJECT(view->adapter));
+			g_object_unref (view->adapter);
 		}
 		view->writable_status_id = 0;
 		view->adapter = GTK_VALUE_POINTER (*arg);
-		gtk_object_ref (GTK_OBJECT (view->adapter));
+		g_object_ref (view->adapter);
 		adapter_changed (view);
-		gtk_object_set (GTK_OBJECT (view),
-				"model", view->adapter,
-				NULL);
+		g_object_set (view,
+			      "model", view->adapter,
+			      NULL);
 		if (view->adapter) {
 			EAddressbookModel *model;
 			gtk_object_get (GTK_OBJECT (view->adapter),
@@ -202,27 +203,27 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 					NULL);
 			if (model) {
 				view->writable_status_id =
-					gtk_signal_connect (GTK_OBJECT (model), "writable_status",
-							    GTK_SIGNAL_FUNC (writable_status_change), view);
+					g_signal_connect (model, "writable_status",
+							  G_CALLBACK (writable_status_change), view);
 			}
 							    
 		}
 		break;
 	case ARG_BOOK:
-		gtk_object_set (GTK_OBJECT (view->adapter),
-					    "book", GTK_VALUE_OBJECT (*arg),
-					    NULL);
+		g_object_set (view->adapter,
+			      "book", GTK_VALUE_OBJECT (*arg),
+			      NULL);
 		set_empty_message (view);
 		break;
 	case ARG_QUERY:
-		gtk_object_set (GTK_OBJECT (view->adapter),
-					    "query", GTK_VALUE_STRING (*arg),
-					    NULL);
+		g_object_set (view->adapter,
+			      "query", GTK_VALUE_STRING (*arg),
+			      NULL);
 		break;
 	case ARG_EDITABLE:
-		gtk_object_set (GTK_OBJECT (view->adapter),
-					    "editable", GTK_VALUE_BOOL (*arg),
-					    NULL);
+		g_object_set (view->adapter,
+			      "editable", GTK_VALUE_BOOL (*arg),
+			      NULL);
 		set_empty_message (view);
 		break;
 	}
@@ -266,8 +267,8 @@ e_minicard_view_destroy (GtkObject *object)
 	EMinicardView *view = E_MINICARD_VIEW(object);
 
 	if (view->canvas_drag_data_get_id) {
-		gtk_signal_disconnect (GTK_OBJECT (GNOME_CANVAS_ITEM (view)->canvas),
-				       view->canvas_drag_data_get_id);
+		g_signal_handler_disconnect (GNOME_CANVAS_ITEM (view)->canvas,
+					     view->canvas_drag_data_get_id);
 	}
 
 	if (view->adapter) {
@@ -277,11 +278,11 @@ e_minicard_view_destroy (GtkObject *object)
 					"model", &model,
 					NULL);
 			if (model) {
-				gtk_signal_disconnect (GTK_OBJECT (model), view->writable_status_id);
+				g_signal_handler_disconnect (model, view->writable_status_id);
 			}
 		}
 
-		gtk_object_unref (GTK_OBJECT(view->adapter));
+		g_object_unref (view->adapter);
 	}
 	view->writable_status_id = 0;
 	view->adapter = NULL;
@@ -293,8 +294,8 @@ static guint
 e_minicard_view_right_click (EMinicardView *view, GdkEvent *event)
 {
 	guint ret_val = 0;
-	gtk_signal_emit (GTK_OBJECT (view), signals[RIGHT_CLICK],
-			 event, &ret_val);
+	g_signal_emit (view, signals[RIGHT_CLICK], 0,
+		       event, &ret_val);
 	return ret_val;
 }
 
@@ -396,7 +397,7 @@ do_remove (int i, gpointer user_data)
 
 	e_book_remove_card(book, card, cb, closure);
 
-	gtk_object_unref (GTK_OBJECT (card));
+	g_object_unref (card);
 }
 
 #if 0
@@ -438,6 +439,10 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 	
 	parent_class = gtk_type_class (PARENT_TYPE);
 	
+	object_class->set_arg         = e_minicard_view_set_arg;
+	object_class->get_arg         = e_minicard_view_get_arg;
+	object_class->destroy         = e_minicard_view_destroy;
+
 	gtk_object_add_arg_type ("EMinicardView::adapter", GTK_TYPE_OBJECT, 
 				 GTK_ARG_READWRITE, ARG_ADAPTER);
 	gtk_object_add_arg_type ("EMinicardView::book", GTK_TYPE_OBJECT, 
@@ -448,18 +453,13 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
 
 	signals [RIGHT_CLICK] =
-		gtk_signal_new ("right_click",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMinicardViewClass, right_click),
-				gtk_marshal_INT__POINTER,
-				GTK_TYPE_INT, 1, GTK_TYPE_GDK_EVENT);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
-
-	object_class->set_arg         = e_minicard_view_set_arg;
-	object_class->get_arg         = e_minicard_view_get_arg;
-	object_class->destroy         = e_minicard_view_destroy;
+		g_signal_new ("right_click",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EMinicardViewClass, right_click),
+			      NULL, NULL,
+			      e_addressbook_marshal_INT__POINTER,
+			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
 	item_class->event             = e_minicard_view_event;
 

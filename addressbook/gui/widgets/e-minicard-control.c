@@ -10,16 +10,17 @@
 
 #include <config.h>
 
+#include <gtk/gtk.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-persist.h>
 #include <bonobo/bonobo-persist-stream.h>
 #include <bonobo/bonobo-stream-client.h>
-#include <addressbook/backend/ebook/e-book.h>
-#include <addressbook/backend/ebook/e-book-util.h>
-#include <addressbook/backend/ebook/e-card.h>
 #include <gal/util/e-util.h>
 
 #include <addressbook/gui/component/addressbook.h>
+#include <addressbook/backend/ebook/e-book.h>
+#include <addressbook/backend/ebook/e-book-util.h>
+#include <addressbook/backend/ebook/e-card.h>
 
 #include "e-minicard-control.h"
 #include "e-minicard-widget.h"
@@ -84,8 +85,8 @@ set_prop (BonoboPropertyBag *bag,
 		else
 			gtk_clock_stop (clock);
 
-		gtk_object_set_data (GTK_OBJECT (clock), RUNNING_KEY,
-				     GUINT_TO_POINTER (i));
+		g_object_set_data (clock, RUNNING_KEY,
+				   GUINT_TO_POINTER (i));
 		break;
 	}
 
@@ -175,9 +176,9 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	g_free(vcard);
 	minicard_control->card_list = list;
 	if (list)
-		gtk_object_set(GTK_OBJECT(minicard_control->minicard),
-			       "card", list->data,
-			       NULL);
+		g_object_set(minicard_control->minicard,
+			     "card", list->data,
+			     NULL);
 	if (list && list->next) {
 		char *message;
 		int length = g_list_length (list) - 1;
@@ -250,7 +251,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		for (p = list; p; p = p->next) {
 			e_card_merging_book_add_card(book, p->data, NULL, NULL);
 		}
-		gtk_object_unref (GTK_OBJECT (book));
+		g_object_unref (book);
 	}
 	e_free_object_list (list);
 }
@@ -267,10 +268,10 @@ save_in_addressbook(GtkWidget *button, gpointer data)
 	list = g_list_copy (minicard_control->card_list);
 
 	for (p = list; p; p = p->next)
-		gtk_object_ref (GTK_OBJECT (p->data));
+		g_object_ref (p->data);
 
 	if (!addressbook_load_default_book (book, book_open_cb, list)) {
-		gtk_object_unref (GTK_OBJECT (book));
+		g_object_unref (book);
 		book_open_cb (NULL, E_BOOK_STATUS_OTHER_ERROR, list);
 	}
 }
@@ -284,7 +285,9 @@ free_struct (GtkWidget *control, gpointer data)
 }
 
 static BonoboObject *
-e_minicard_control_factory (BonoboGenericFactory *Factory, void *closure)
+e_minicard_control_factory (BonoboGenericFactory *Factory,
+			    const char           *component_id,
+			    void *closure)
 {
 #if 0
 	BonoboPropertyBag  *pb;
@@ -314,8 +317,8 @@ e_minicard_control_factory (BonoboGenericFactory *Factory, void *closure)
 	minicard_control->label = label;
 
 	button = gtk_button_new_with_label(_("Save in addressbook"));
-	gtk_signal_connect(GTK_OBJECT(button), "clicked",
-			   save_in_addressbook, minicard_control);
+	g_signal_connect (button, "clicked",
+			  G_CALLBACK (save_in_addressbook), minicard_control);
 	gtk_widget_show (button);
 
 	vbox = gtk_vbox_new(FALSE, 0);
@@ -326,8 +329,8 @@ e_minicard_control_factory (BonoboGenericFactory *Factory, void *closure)
 
 	control = bonobo_control_new (vbox);
 
-	gtk_signal_connect (GTK_OBJECT (control), "destroy",
-			    free_struct, minicard_control);
+	g_signal_connect (control, "destroy",
+			  G_CALLBACK (free_struct), minicard_control);
 
 	stream = bonobo_persist_stream_new (pstream_load, pstream_save,
 					    pstream_get_max_size,

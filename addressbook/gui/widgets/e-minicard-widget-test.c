@@ -99,16 +99,16 @@ int main( int argc, char *argv[] )
 
   minicard = e_minicard_widget_new();
   card = e_card_new(TEST_VCARD);
-  gtk_object_set(GTK_OBJECT(minicard),
-		 "card", card,
-		 NULL);
+  g_object_set(minicard,
+	       "card", card,
+	       NULL);
 
   gnome_app_set_contents( GNOME_APP( app ), minicard );
 
   /* Connect the signals */
-  gtk_signal_connect( GTK_OBJECT( app ), "destroy",
-		      GTK_SIGNAL_FUNC( destroy_callback ),
-		      ( gpointer ) app );
+  g_signal_connect( app, "destroy",
+		    G_CALLBACK( destroy_callback ),
+		    ( gpointer ) app );
 
   gtk_widget_show_all( app );
 

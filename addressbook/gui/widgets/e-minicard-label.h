@@ -21,7 +21,7 @@
 #define __E_MINICARD_LABEL_H__
 
 #include <glib.h>
-#include <libgnomeui/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas.h>
 
 #ifdef __cplusplus
 extern "C" {

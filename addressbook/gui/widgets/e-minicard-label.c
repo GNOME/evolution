@@ -24,7 +24,7 @@
 #include "e-minicard-label.h"
 
 #include <gtk/gtksignal.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gal/util/e-util.h>
 #include <gal/e-text/e-text.h>
 #include <gal/widgets/e-canvas.h>
@@ -167,7 +167,7 @@ e_minicard_label_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_EDITABLE:
 		e_minicard_label->editable = GTK_VALUE_BOOL (*arg);
-		gtk_object_set (GTK_OBJECT (e_minicard_label->field), "editable", e_minicard_label->editable, NULL);
+		g_object_set (e_minicard_label->field, "editable", e_minicard_label->editable, NULL);
 		break;
 	}
 }
@@ -235,7 +235,7 @@ e_minicard_label_construct (GnomeCanvasItem *item)
 	GnomeCanvasGroup *group;
 	GdkFont *font;
 
-	font = ((GtkWidget *) item->canvas)->style->font;
+	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (item->canvas)));
 
 	e_minicard_label = E_MINICARD_LABEL (item);
 	group = GNOME_CANVAS_GROUP( item );
@@ -387,7 +387,7 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 		    break;
 	    }
 #endif	    
-	    gtk_signal_emit_by_name(GTK_OBJECT(e_minicard_label->field), "event", event, &return_val);
+	    g_signal_emit_by_name(e_minicard_label->field, "event", event, &return_val);
 	    return return_val;
 	    break;
     }

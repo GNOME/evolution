@@ -30,14 +30,14 @@ unlink_model(EAddressbookTableAdapter *adapter)
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	int i;
 
-	gtk_signal_disconnect(GTK_OBJECT (priv->model),
-			      priv->create_card_id);
-	gtk_signal_disconnect(GTK_OBJECT (priv->model),
-			      priv->remove_card_id);
-	gtk_signal_disconnect(GTK_OBJECT (priv->model),
-			      priv->modify_card_id);
-	gtk_signal_disconnect(GTK_OBJECT (priv->model),
-			      priv->model_changed_id);
+	g_signal_handler_disconnect (priv->model,
+				     priv->create_card_id);
+	g_signal_handler_disconnect (priv->model,
+				     priv->remove_card_id);
+	g_signal_handler_disconnect (priv->model,
+				     priv->modify_card_id);
+	g_signal_handler_disconnect (priv->model,
+				     priv->model_changed_id);
 
 	priv->create_card_id = 0;
 	priv->remove_card_id = 0;
@@ -47,12 +47,12 @@ unlink_model(EAddressbookTableAdapter *adapter)
 	/* free up the existing mapping if there is one */
 	if (priv->simples) {
 		for (i = 0; i < priv->count; i ++)
-			gtk_object_unref (GTK_OBJECT (priv->simples[i]));
+			g_object_unref (priv->simples[i]);
 		g_free (priv->simples);
 		priv->simples = NULL;
 	}
 
-	gtk_object_unref(GTK_OBJECT(priv->model));
+	g_object_unref (priv->model);
 
 	priv->model = NULL;
 }
@@ -66,7 +66,7 @@ build_simple_mapping(EAddressbookTableAdapter *adapter)
 	/* free up the existing mapping if there is one */
 	if (priv->simples) {
 		for (i = 0; i < priv->count; i ++)
-			gtk_object_unref (GTK_OBJECT (priv->simples[i]));
+			g_object_unref (priv->simples[i]);
 		g_free (priv->simples);
 	}
 
@@ -75,7 +75,7 @@ build_simple_mapping(EAddressbookTableAdapter *adapter)
 	priv->simples = g_new (ECardSimple*, priv->count);
 	for (i = 0; i < priv->count; i ++) {
 		priv->simples[i] = e_card_simple_new (e_addressbook_model_card_at (priv->model, i));
-		gtk_object_ref (GTK_OBJECT (priv->simples[i]));
+		g_object_ref (priv->simples[i]);
 	}
 }
 
@@ -124,7 +124,7 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 		if (dest) {
 			g_free ((gchar *) value);
 			value = g_strdup (e_destination_get_address (dest));
-			gtk_object_unref (GTK_OBJECT (dest));
+			g_object_unref (dest);
 		}
 	}
 
@@ -210,8 +210,8 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 	}
 	e_card_simple_sync_card(simple);
 	e_card_merging_book_add_card (e_addressbook_model_get_ebook (priv->model), card, NULL, NULL);
-	gtk_object_unref(GTK_OBJECT(simple));
-	gtk_object_unref(GTK_OBJECT(card));
+	g_object_unref (simple);
+	g_object_unref (card);
 }
 
 /* This function duplicates the value passed to it. */
@@ -313,7 +313,7 @@ remove_card (EAddressbookModel *model,
 
 	e_table_model_pre_change (E_TABLE_MODEL (adapter));
 
-	gtk_object_unref (GTK_OBJECT (priv->simples[index]));
+	g_object_unref (priv->simples[index]);
 	memmove (priv->simples + index, priv->simples + index + 1, (priv->count - index - 1) * sizeof (ECardSimple *));
 	priv->count --;
 	e_table_model_rows_deleted (E_TABLE_MODEL (adapter), index, 1);
@@ -328,9 +328,9 @@ modify_card (EAddressbookModel *model,
 
 	e_table_model_pre_change (E_TABLE_MODEL (adapter));
 
-	gtk_object_unref (GTK_OBJECT (priv->simples[index]));
+	g_object_unref (priv->simples[index]);
 	priv->simples[index] = e_card_simple_new (e_addressbook_model_card_at (priv->model, index));
-	gtk_object_ref (GTK_OBJECT (priv->simples[index]));
+	g_object_ref (priv->simples[index]);
 	e_table_model_row_changed (E_TABLE_MODEL (adapter), index);
 }
 
@@ -373,24 +373,24 @@ e_addressbook_table_adapter_construct (EAddressbookTableAdapter *adapter,
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
 	priv->model = model;
-	gtk_object_ref (GTK_OBJECT (priv->model));
+	g_object_ref (priv->model);
 
-	priv->create_card_id = gtk_signal_connect(GTK_OBJECT(priv->model),
-						  "card_added",
-						  GTK_SIGNAL_FUNC(create_card),
+	priv->create_card_id = g_signal_connect(priv->model,
+						"card_added",
+						G_CALLBACK(create_card),
+						adapter);
+	priv->remove_card_id = g_signal_connect(priv->model,
+						"card_removed",
+						G_CALLBACK(remove_card),
+						adapter);
+	priv->modify_card_id = g_signal_connect(priv->model,
+						"card_changed",
+						G_CALLBACK(modify_card),
+						adapter);
+	priv->model_changed_id = g_signal_connect(priv->model,
+						  "model_changed",
+						  G_CALLBACK(model_changed),
 						  adapter);
-	priv->remove_card_id = gtk_signal_connect(GTK_OBJECT(priv->model),
-						  "card_removed",
-						  GTK_SIGNAL_FUNC(remove_card),
-						  adapter);
-	priv->modify_card_id = gtk_signal_connect(GTK_OBJECT(priv->model),
-						  "card_changed",
-						  GTK_SIGNAL_FUNC(modify_card),
-						  adapter);
-	priv->model_changed_id = gtk_signal_connect(GTK_OBJECT(priv->model),
-						    "model_changed",
-						    GTK_SIGNAL_FUNC(model_changed),
-						    adapter);
 
 	build_simple_mapping (adapter);
 }

@@ -106,7 +106,7 @@ deleted_cb (EBook* book, EBookStatus status,
 static void
 editor_closed_cb (GtkObject *editor, gpointer data)
 {
-	gtk_object_unref (editor);
+	g_object_unref (editor);
 }
 
 EContactEditor *
@@ -118,14 +118,14 @@ e_addressbook_show_contact_editor (EBook *book, ECard *card,
 
 	ce = e_contact_editor_new (book, card, is_new_card, editable);
 
-	gtk_signal_connect (GTK_OBJECT (ce), "card_added",
-			    GTK_SIGNAL_FUNC (added_cb), GINT_TO_POINTER (FALSE));
-	gtk_signal_connect (GTK_OBJECT (ce), "card_modified",
-			    GTK_SIGNAL_FUNC (modified_cb), GINT_TO_POINTER (FALSE));
-	gtk_signal_connect (GTK_OBJECT (ce), "card_deleted",
-			    GTK_SIGNAL_FUNC (deleted_cb), GINT_TO_POINTER (FALSE));
-	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
-			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
+	g_signal_connect (ce, "card_added",
+			  G_CALLBACK (added_cb), GINT_TO_POINTER (FALSE));
+	g_signal_connect (ce, "card_modified",
+			  G_CALLBACK (modified_cb), GINT_TO_POINTER (FALSE));
+	g_signal_connect (ce, "card_deleted",
+			  G_CALLBACK (deleted_cb), GINT_TO_POINTER (FALSE));
+	g_signal_connect (ce, "editor_closed",
+			  G_CALLBACK (editor_closed_cb), NULL);
 
 	return ce;
 }
@@ -139,14 +139,14 @@ e_addressbook_show_contact_list_editor (EBook *book, ECard *card,
 
 	ce = e_contact_list_editor_new (book, card, is_new_card, editable);
 
-	gtk_signal_connect (GTK_OBJECT (ce), "list_added",
-			    GTK_SIGNAL_FUNC (added_cb), GINT_TO_POINTER (TRUE));
-	gtk_signal_connect (GTK_OBJECT (ce), "list_modified",
-			    GTK_SIGNAL_FUNC (modified_cb), GINT_TO_POINTER (TRUE));
-	gtk_signal_connect (GTK_OBJECT (ce), "list_deleted",
-			    GTK_SIGNAL_FUNC (deleted_cb), GINT_TO_POINTER (TRUE));
-	gtk_signal_connect (GTK_OBJECT (ce), "editor_closed",
-			    GTK_SIGNAL_FUNC (editor_closed_cb), GINT_TO_POINTER (TRUE));
+	g_signal_connect (ce, "list_added",
+			  G_CALLBACK (added_cb), GINT_TO_POINTER (TRUE));
+	g_signal_connect (ce, "list_modified",
+			  G_CALLBACK (modified_cb), GINT_TO_POINTER (TRUE));
+	g_signal_connect (ce, "list_deleted",
+			  G_CALLBACK (deleted_cb), GINT_TO_POINTER (TRUE));
+	g_signal_connect (ce, "editor_closed",
+			  G_CALLBACK (editor_closed_cb), GINT_TO_POINTER (TRUE));
 
 	e_contact_list_editor_show (ce);
 
@@ -215,10 +215,10 @@ e_addressbook_show_multiple_cards (EBook *book,
 			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), gtk_label_new (string), FALSE, FALSE, 0);
 			g_free (string);
 
-			gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
-					    GTK_SIGNAL_FUNC (view_question_destroyed), &bnl);
-			gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-					    GTK_SIGNAL_FUNC (view_question_clicked), &bnl);
+			g_signal_connect (dialog, "destroy",
+					  G_CALLBACK (view_question_destroyed), &bnl);
+			g_signal_connect (dialog, "clicked",
+					  G_CALLBACK (view_question_clicked), &bnl);
 
 			gtk_widget_show_all (dialog);
 
@@ -277,8 +277,8 @@ process_unref (CardCopyProcess *process)
 			process->done_cb (process);
 		}
 		e_free_object_list(process->cards);
-		gtk_object_unref (GTK_OBJECT (process->source));
-		gtk_object_unref (GTK_OBJECT (process->destination));
+		g_object_unref (process->source);
+		g_object_unref (process->destination);
 		g_free (process);
 	}
 }
@@ -318,7 +318,7 @@ got_book_cb (EBook *book, gpointer closure)
 	process = closure;
 	if (book) {
 		process->destination = book;
-		gtk_object_ref (GTK_OBJECT (book));
+		g_object_ref (book);
 		g_list_foreach (process->cards,
 				do_copy,
 				process);
@@ -370,7 +370,7 @@ e_addressbook_transfer_cards (EBook *source, GList *cards /* adopted */, gboolea
 	process = g_new (CardCopyProcess, 1);
 	process->count = 1;
 	process->source = source;
-	gtk_object_ref (GTK_OBJECT (source));
+	g_object_ref (source);
 	process->cards = cards;
 	process->destination = NULL;
 

@@ -110,17 +110,17 @@ int main( int argc, char *argv[] )
 
 
   /* Connect the signals */
-  gtk_signal_connect( GTK_OBJECT( app ), "destroy",
-		      GTK_SIGNAL_FUNC( destroy_callback ),
-		      ( gpointer ) app );
+  g_signal_connect( app, "destroy",
+		    G_CALLBACK( destroy_callback ),
+		    ( gpointer ) app );
 
-  gtk_signal_connect( GTK_OBJECT( canvas ), "size_allocate",
-		      GTK_SIGNAL_FUNC( allocate_callback ),
-		      ( gpointer ) app );
+  g_signal_connect( canvas , "size_allocate",
+		    G_CALLBACK ( allocate_callback ),
+		    ( gpointer ) app );
 
-  gtk_signal_connect( GTK_OBJECT( canvas ), "button_press_event",
-		      GTK_SIGNAL_FUNC( button_press_callback ),
-		      ( gpointer ) app );
+  g_signal_connect( canvas , "button_press_event",
+		    G_CALLBACK ( button_press_callback ),
+		    ( gpointer ) app );
 
   gtk_widget_show_all( app );
 

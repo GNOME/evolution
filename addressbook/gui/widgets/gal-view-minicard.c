@@ -195,15 +195,15 @@ gal_view_minicard_attach (GalViewMinicard *view, EMinicardViewWidget *emvw)
 
 	view->emvw = emvw;
 
-	gtk_object_ref (GTK_OBJECT (view->emvw));
+	g_object_ref (view->emvw);
 
-	gtk_object_set (GTK_OBJECT (view->emvw),
-			"column_width", (int) view->column_width,
-			NULL);
+	g_object_set (view->emvw,
+		      "column_width", (int) view->column_width,
+		      NULL);
 
 	view->emvw_column_width_changed_id =
-		gtk_signal_connect(GTK_OBJECT(view->emvw), "column_width_changed",
-				   GTK_SIGNAL_FUNC (column_width_changed), view);
+		g_signal_connect(view->emvw, "column_width_changed",
+				 G_CALLBACK (column_width_changed), view);
 }
 
 void
@@ -212,10 +212,10 @@ gal_view_minicard_detach (GalViewMinicard *view)
 	if (view->emvw == NULL)
 		return;
 	if (view->emvw_column_width_changed_id) {
-		gtk_signal_disconnect (GTK_OBJECT (view->emvw),
-				       view->emvw_column_width_changed_id);
+		g_signal_handler_disconnect (view->emvw,
+					     view->emvw_column_width_changed_id);
 		view->emvw_column_width_changed_id = 0;
 	}
-	gtk_object_unref (GTK_OBJECT (view->emvw));
+	g_object_unref (view->emvw);
 	view->emvw = NULL;
 }

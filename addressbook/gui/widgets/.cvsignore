@@ -10,3 +10,5 @@ minicard-test
 minicard-view-test
 minicard-widget-test
 reflow-test
+e-addressbook-marshal.c
+e-addressbook-marshal.h

@@ -18,6 +18,7 @@ noinst_LIBRARIES =				\
 	libeminicard.a
 
 libeminicard_a_SOURCES =			\
+	e-addressbook-marshal.c			\
 	e-addressbook-reflow-adapter.c		\
 	e-addressbook-reflow-adapter.h		\
 	e-addressbook-table-adapter.c		\
@@ -44,6 +45,20 @@ libeminicard_a_SOURCES =			\
 	gal-view-factory-minicard.h		\
 	gal-view-minicard.c			\
 	gal-view-minicard.h
+
+# GLib marshalling cruft
+
+e-addressbook-marshal.h: e-addressbook-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=e_addressbook_marshal e-addressbook-marshal.list --header > e-addressbook-marshal.tmp \
+	&& mv e-addressbook-marshal.tmp e-addressbook-marshal.h ) \
+	|| ( rm -f e-addressbook-marshal.tmp && exit 1 )
+
+e-addressbook-marshal.c: e-addressbook-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=e_addressbook_marshal e-addressbook-marshal.list --body > e-addressbook-marshal.tmp \
+	&& mv e-addressbook-marshal.tmp e-addressbook-marshal.c ) \
+	|| ( rm -f e-addressbook-marshal.tmp && exit 1 )
+
+MARSHAL_GENERATED = e-addressbook-marshal.c e-addressbook-marshal.h
 
 #noinst_PROGRAMS =				\
 #	 minicard-widget-test			\
@@ -135,5 +150,5 @@ etspec_DATA= e-addressbook-view.etspec
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
-	$(etspec_DATA)
-	
+	$(etspec_DATA)		\
+	e-addressbook-marshal.list

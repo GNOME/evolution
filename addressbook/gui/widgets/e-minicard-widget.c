@@ -20,7 +20,7 @@
  */
 
 #include <config.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include "e-minicard-widget.h"
 #include "e-minicard.h"
 
@@ -178,7 +178,7 @@ e_minicard_widget_destroy (GtkObject *object)
 	EMinicardWidget *emw = E_MINICARD_WIDGET(object);
 
 	if (emw->card)
-		gtk_object_unref(GTK_OBJECT(emw->card));
+		g_object_unref (emw->card);
 	
 	if (GTK_OBJECT_CLASS(parent_class)->destroy)
 		GTK_OBJECT_CLASS(parent_class)->destroy(object);
@@ -234,16 +234,16 @@ e_minicard_widget_set_card (EMinicardWidget *emw, ECard *card)
 	if (card != emw->card) {
 
 		if (emw->card)
-			gtk_object_unref (GTK_OBJECT (emw->card));
+			g_object_unref (emw->card);
 
 		emw->card = card;
 
 		if (emw->card)
-			gtk_object_ref (GTK_OBJECT (emw->card));
+			g_object_ref (emw->card);
 
 		if (emw->item)
-			gtk_object_set (GTK_OBJECT (emw->item),
-				       "card", emw->card,
-				       NULL);
+			g_object_set (emw->item,
+				      "card", emw->card,
+				      NULL);
 	}
 }

@@ -24,14 +24,16 @@
 #include <gtk/gtksignal.h>
 #include <gal/widgets/e-canvas-background.h>
 #include <gal/widgets/e-canvas.h>
+#include <libgnome/gnome-i18n.h>
 
+#include "e-addressbook-marshal.h"
 #include "e-minicard-view-widget.h"
 
 static void e_minicard_view_widget_init		 (EMinicardViewWidget		 *widget);
 static void e_minicard_view_widget_class_init	 (EMinicardViewWidgetClass	 *klass);
-static void e_minicard_view_widget_set_arg       (GtkObject *o, GtkArg *arg, guint arg_id);
-static void e_minicard_view_widget_get_arg       (GtkObject *object, GtkArg *arg, guint arg_id);
-static void e_minicard_view_widget_destroy       (GtkObject *object);
+static void e_minicard_view_widget_set_property  (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
+static void e_minicard_view_widget_get_property  (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void e_minicard_view_widget_dispose       (GObject *object);
 static void e_minicard_view_widget_reflow        (ECanvas *canvas);
 static void e_minicard_view_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
 static void e_minicard_view_widget_realize       (GtkWidget *widget);
@@ -40,11 +42,11 @@ static ECanvasClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_BOOK,
-	ARG_QUERY,
-	ARG_EDITABLE,
-	ARG_COLUMN_WIDTH
+	PROP_0,
+	PROP_BOOK,
+	PROP_QUERY,
+	PROP_EDITABLE,
+	PROP_COLUMN_WIDTH
 };
 
 enum {
@@ -84,54 +86,74 @@ e_minicard_view_widget_get_type (void)
 static void
 e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	ECanvasClass *canvas_class;
 
-	object_class = (GtkObjectClass*) klass;
+	object_class = (GObjectClass*) klass;
 	widget_class = GTK_WIDGET_CLASS (klass);
 	canvas_class = E_CANVAS_CLASS (klass);
 
 	parent_class = gtk_type_class (e_canvas_get_type ());
 
-	gtk_object_add_arg_type ("EMinicardViewWidget::book", GTK_TYPE_OBJECT, 
-				 GTK_ARG_READWRITE, ARG_BOOK);
-	gtk_object_add_arg_type ("EMinicardViewWidget::query", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_QUERY);
-	gtk_object_add_arg_type ("EMinicardViewWidget::editable", GTK_TYPE_BOOL,
-				 GTK_ARG_READWRITE, ARG_EDITABLE);
-	gtk_object_add_arg_type ("EMinicardViewWidget::column_width", GTK_TYPE_INT,
-				 GTK_ARG_READWRITE, ARG_COLUMN_WIDTH);
+	object_class->set_property       = e_minicard_view_widget_set_property;
+	object_class->get_property       = e_minicard_view_widget_get_property;
+	object_class->dispose            = e_minicard_view_widget_dispose;
+
+	g_object_class_install_property (object_class, PROP_BOOK, 
+					 g_param_spec_object ("book",
+							      _("Book"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TYPE_BOOK,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_QUERY, 
+					 g_param_spec_string ("query",
+							      _("Query"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_EDITABLE, 
+					 g_param_spec_boolean ("editable",
+							       _("Editable"),
+							       /*_( */"XXX blurb" /*)*/,
+							       FALSE,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_COLUMN_WIDTH, 
+					 g_param_spec_int ("column_width",
+							   _("Column Width"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, 0, 0,
+							   G_PARAM_READWRITE | G_PARAM_LAX_VALIDATION));
 
 	signals [SELECTION_CHANGE] =
-		gtk_signal_new ("selection_change",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMinicardViewWidgetClass, selection_change),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("selection_change",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, selection_change),
+			      NULL, NULL,
+			      e_addressbook_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
 	signals [COLUMN_WIDTH_CHANGED] =
-		gtk_signal_new ("column_width_changed",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMinicardViewWidgetClass, column_width_changed),
-				e_marshal_NONE__DOUBLE,
-				GTK_TYPE_NONE, 1, GTK_TYPE_DOUBLE);
+		g_signal_new ("column_width_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, column_width_changed),
+			      NULL, NULL,
+			      e_addressbook_marshal_NONE__DOUBLE,
+			      G_TYPE_NONE, 1, G_TYPE_DOUBLE);
 
 	signals [RIGHT_CLICK] =
-		gtk_signal_new ("right_click",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMinicardViewWidgetClass, right_click),
-				gtk_marshal_INT__POINTER,
-				GTK_TYPE_INT, 1, GTK_TYPE_GDK_EVENT);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
-
-	object_class->set_arg       = e_minicard_view_widget_set_arg;
-	object_class->get_arg       = e_minicard_view_widget_get_arg;
-	object_class->destroy       = e_minicard_view_widget_destroy;
+		g_signal_new ("right_click",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, right_click),
+			      NULL, NULL,
+			      e_addressbook_marshal_INT__POINTER,
+			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
 	widget_class->realize       = e_minicard_view_widget_realize;
 	widget_class->size_allocate = e_minicard_view_widget_size_allocate;
@@ -160,119 +182,128 @@ e_minicard_view_widget_new (EAddressbookReflowAdapter *adapter)
 	EMinicardViewWidget *widget = E_MINICARD_VIEW_WIDGET (gtk_type_new (e_minicard_view_widget_get_type ()));
 
 	widget->adapter = adapter;
-	gtk_object_ref (GTK_OBJECT (widget->adapter));
+	g_object_ref (widget->adapter);
 
 	return GTK_WIDGET (widget);
 }
 
 static void
-e_minicard_view_widget_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
-{
-	EMinicardViewWidget *emvw;
-
-	emvw = E_MINICARD_VIEW_WIDGET (o);
-
-	switch (arg_id){
-	case ARG_BOOK:
-		if (emvw->book)
-			gtk_object_unref(GTK_OBJECT(emvw->book));
-		if (GTK_VALUE_OBJECT (*arg)) {
-			emvw->book = E_BOOK(GTK_VALUE_OBJECT (*arg));
-			if (emvw->book)
-				gtk_object_ref(GTK_OBJECT(emvw->book));
-		} else
-			emvw->book = NULL;
-		if (emvw->emv)
-			gtk_object_set(GTK_OBJECT(emvw->emv),
-				       "book", emvw->book,
-				       NULL);
-		break;
-	case ARG_QUERY:
-		emvw->query = g_strdup(GTK_VALUE_STRING (*arg));
-		if (emvw->emv)
-			gtk_object_set(GTK_OBJECT(emvw->emv),
-				       "query", emvw->query,
-				       NULL);
-		break;
-	case ARG_EDITABLE:
-		emvw->editable = GTK_VALUE_BOOL(*arg);
-		if (emvw->emv)
-			gtk_object_set (GTK_OBJECT(emvw->emv),
-					"editable", emvw->editable,
-					NULL);
-		break;
-	case ARG_COLUMN_WIDTH:
-		emvw->column_width = GTK_VALUE_INT (*arg);
-		if (emvw->emv) {
-			gtk_object_set (GTK_OBJECT(emvw->emv),
-					"column_width", (int) emvw->column_width,
-					NULL);
-		}
-		break;
-	}
-}
-
-static void
-e_minicard_view_widget_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_minicard_view_widget_set_property (GObject *object,
+				     guint prop_id,
+				     const GValue *value,
+				     GParamSpec *pspec)
 {
 	EMinicardViewWidget *emvw;
 
 	emvw = E_MINICARD_VIEW_WIDGET (object);
 
-	switch (arg_id) {
-	case ARG_BOOK:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(emvw->book);
+	switch (prop_id){
+	case PROP_BOOK:
+		if (emvw->book)
+			g_object_unref (emvw->book);
+		if (g_value_get_object (value)) {
+			emvw->book = E_BOOK(g_value_get_object (value));
+			if (emvw->book)
+				g_object_ref(emvw->book);
+		} else
+			emvw->book = NULL;
+		if (emvw->emv)
+			g_object_set(emvw->emv,
+				     "book", emvw->book,
+				       NULL);
 		break;
-	case ARG_QUERY:
-		GTK_VALUE_STRING (*arg) = g_strdup(emvw->query);
+	case PROP_QUERY:
+		emvw->query = g_strdup(g_value_get_string (value));
+		if (emvw->emv)
+			g_object_set(emvw->emv,
+				     "query", emvw->query,
+				     NULL);
 		break;
-	case ARG_EDITABLE:
-		GTK_VALUE_BOOL (*arg) = emvw->editable;
+	case PROP_EDITABLE:
+		emvw->editable = g_value_get_boolean (value);
+		if (emvw->emv)
+			g_object_set (emvw->emv,
+				      "editable", emvw->editable,
+				      NULL);
 		break;
-	case ARG_COLUMN_WIDTH:
-		GTK_VALUE_INT (*arg) = emvw->column_width;
+	case PROP_COLUMN_WIDTH:
+		emvw->column_width = g_value_get_int (value);
+		if (emvw->emv) {
+			g_object_set (emvw->emv,
+				      "column_width", (int) emvw->column_width,
+				      NULL);
+		}
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-e_minicard_view_widget_destroy (GtkObject *object)
+e_minicard_view_widget_get_property (GObject *object,
+				     guint prop_id,
+				     GValue *value,
+				     GParamSpec *pspec)
+{
+	EMinicardViewWidget *emvw;
+
+	emvw = E_MINICARD_VIEW_WIDGET (object);
+
+	switch (prop_id) {
+	case PROP_BOOK:
+		g_value_set_object (value, emvw->book);
+		break;
+	case PROP_QUERY:
+		g_value_set_string (value, emvw->query);
+		break;
+	case PROP_EDITABLE:
+		g_value_set_boolean (value, emvw->editable);
+		break;
+	case PROP_COLUMN_WIDTH:
+		g_value_set_int (value, emvw->column_width);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
+	}
+}
+
+static void
+e_minicard_view_widget_dispose (GObject *object)
 {
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(object);
 
 	if (view->book)
-		gtk_object_unref(GTK_OBJECT(view->book));
+		g_object_unref (view->book);
 	g_free(view->query);
 
-	gtk_object_unref (GTK_OBJECT (view->adapter));
+	g_object_unref (view->adapter);
 
-	GTK_OBJECT_CLASS(parent_class)->destroy (object);
+	G_OBJECT_CLASS(parent_class)->dispose (object);
 }
 
 static void
 selection_change (ESelectionModel *esm, EMinicardViewWidget *widget)
 {
-	gtk_signal_emit (GTK_OBJECT(widget),
-			 signals [SELECTION_CHANGE]);
+	g_signal_emit (widget,
+		       signals [SELECTION_CHANGE], 0);
 }
 
 static void
 column_width_changed (ESelectionModel *esm, double width, EMinicardViewWidget *widget)
 {
-	gtk_signal_emit (GTK_OBJECT(widget),
-			 signals [COLUMN_WIDTH_CHANGED], width);
+	g_signal_emit (widget,
+		       signals [COLUMN_WIDTH_CHANGED], width, 0);
 }
 
 static guint
 right_click (EMinicardView *view, GdkEvent *event, EMinicardViewWidget *widget)
 {
 	guint ret_val;
-	gtk_signal_emit (GTK_OBJECT(widget),
-			 signals [RIGHT_CLICK],
-			 event, &ret_val);
+	g_signal_emit (widget,
+		       signals [RIGHT_CLICK], 0,
+		       event, &ret_val);
 	return ret_val;
 }
 
@@ -295,15 +326,15 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 		"column_width", (int) view->column_width,
 		NULL );
 
-	gtk_signal_connect (GTK_OBJECT (E_REFLOW(view->emv)->selection),
-			    "selection_changed",
-			    selection_change, view);
-	gtk_signal_connect (GTK_OBJECT (view->emv),
-			    "column_width_changed",
-			    column_width_changed, view);
-	gtk_signal_connect (GTK_OBJECT (view->emv),
-			    "right_click",
-			    GTK_SIGNAL_FUNC (right_click), view);
+	g_signal_connect (E_REFLOW(view->emv)->selection,
+			  "selection_changed",
+			  G_CALLBACK (selection_change), view);
+	g_signal_connect (view->emv,
+			  "column_width_changed",
+			  G_CALLBACK (column_width_changed), view);
+	g_signal_connect (view->emv,
+			  "right_click",
+			  G_CALLBACK (right_click), view);
 
 	if (GTK_WIDGET_CLASS(parent_class)->realize)
 		GTK_WIDGET_CLASS(parent_class)->realize (widget);

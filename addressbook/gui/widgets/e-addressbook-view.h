@@ -26,7 +26,6 @@
 #include "e-addressbook-model.h"
 #include "widgets/menus/gal-view-menus.h"
 #include "addressbook/backend/ebook/e-book.h"
-#include <gal/unicode/gunicode.h>
 
 #ifdef __cplusplus
 extern "C" {

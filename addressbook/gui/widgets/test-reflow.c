@@ -155,9 +155,9 @@ int main( int argc, char *argv[] )
 				  "height", (double) 100,
 				  "minimum_width", (double) 100,
 				  NULL );
-  gtk_signal_connect( GTK_OBJECT( canvas ), "reflow",
-		      GTK_SIGNAL_FUNC( resize ),
-		      ( gpointer ) app);
+  g_signal_connect( canvas, "reflow",
+		    G_CALLBACK ( resize ),
+		    ( gpointer ) app);
   for ( i = 0; i < 200; i++ )
     {
       GnomeCanvasItem *item;
@@ -183,13 +183,13 @@ int main( int argc, char *argv[] )
   gnome_app_set_contents( GNOME_APP( app ), scrollframe );
 
   /* Connect the signals */
-  gtk_signal_connect( GTK_OBJECT( app ), "destroy",
-		      GTK_SIGNAL_FUNC( destroy_callback ),
-		      ( gpointer ) app );
+  g_signal_connect( app, "destroy",
+		    G_CALLBACK ( destroy_callback ),
+		    ( gpointer ) app );
 
-  gtk_signal_connect( GTK_OBJECT( canvas ), "size_allocate",
-		      GTK_SIGNAL_FUNC( allocate_callback ),
-		      ( gpointer ) app );
+  g_signal_connect( canvas, "size_allocate",
+		    G_CALLBACK ( allocate_callback ),
+		    ( gpointer ) app );
 
   gtk_widget_show_all( app );
   gdk_window_set_back_pixmap( GTK_LAYOUT(canvas)->bin_window, NULL, FALSE);

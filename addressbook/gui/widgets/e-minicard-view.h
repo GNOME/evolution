@@ -24,7 +24,6 @@
 
 #include <gal/widgets/e-reflow.h>
 #include <gal/widgets/e-selection-model-simple.h>
-#include <gal/unicode/gunicode.h>
 #include "addressbook/backend/ebook/e-book.h"
 #include "e-addressbook-reflow-adapter.h"
 
