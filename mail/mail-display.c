@@ -38,6 +38,7 @@
 #include <gtkhtml/htmlengine.h>	/* XXX */
 #include <gtkhtml/htmlobject.h>	/* XXX */
 #include <gtkhtml/htmlinterval.h> /* XXX */
+#include <gtkhtml/htmltext.h> /* XXX */
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
@@ -1122,11 +1123,57 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 	return FALSE;
 }
 
+static inline void
+set_underline (HTMLEngine *e, HTMLObject *o, gboolean underline)
+{
+	HTMLText *text = HTML_TEXT (o);
+
+	html_text_set_font_style (text, e, underline
+				  ? html_text_get_font_style (text) | GTK_HTML_FONT_STYLE_UNDERLINE
+				  : html_text_get_font_style (text) & ~GTK_HTML_FONT_STYLE_UNDERLINE);
+	html_engine_queue_draw (e, o);
+}
+
+static gint
+html_motion_notify_event (GtkWidget *widget, GdkEventMotion *event, MailDisplay *mail_display)
+{
+	HTMLPoint *point;
+	const gchar *email;
+	gint x, y;
+
+	g_return_val_if_fail (widget != NULL, 0);
+	g_return_val_if_fail (GTK_IS_HTML (widget), 0);
+	g_return_val_if_fail (event != NULL, 0);
+
+	if (!event->is_hint) {
+		x = event->x;
+		y = event->y;
+	}
+
+	point = html_engine_get_point_at (GTK_HTML (widget)->engine, event->x, event->y, FALSE);
+	if (mail_display->last_active && (!point || mail_display->last_active != point->object)) {
+		set_underline (GTK_HTML (widget)->engine, HTML_OBJECT (mail_display->last_active), FALSE);
+		mail_display->last_active = NULL;
+	}
+	if (point) {
+		email = (const gchar *) html_object_get_data (point->object, "email");
+		if (email && html_object_is_text (point->object)) {
+			set_underline (GTK_HTML (widget)->engine, point->object, TRUE);
+			mail_display->last_active = point->object;
+		}
+		html_point_destroy (point);
+	}
+
+	return TRUE;
+}
+
 static void
 html_iframe_created (GtkWidget *w, GtkHTML *iframe, MailDisplay *mail_display)
 {
 	gtk_signal_connect (GTK_OBJECT (iframe), "button_press_event",
 			    GTK_SIGNAL_FUNC (html_button_press_event), mail_display);
+	gtk_signal_connect (GTK_OBJECT (iframe), "motion_notify_event",
+			    GTK_SIGNAL_FUNC (html_motion_notify_event), mail_display);
 }
 
 GtkWidget *
@@ -1161,6 +1208,8 @@ mail_display_new (void)
 			    mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "button_press_event",
 			    GTK_SIGNAL_FUNC (html_button_press_event), mail_display);
+	gtk_signal_connect (GTK_OBJECT (html), "motion_notify_event",
+			    GTK_SIGNAL_FUNC (html_motion_notify_event), mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "iframe_created",
 			    GTK_SIGNAL_FUNC (html_iframe_created), mail_display);
 
@@ -1170,6 +1219,7 @@ mail_display_new (void)
 	mail_display->scroll = E_SCROLL_FRAME (scroll);
 	mail_display->html = GTK_HTML (html);
 	mail_display->stream = NULL;
+	mail_display->last_active = NULL;
 	mail_display->data = g_new0 (GData *, 1);
 	g_datalist_init (mail_display->data);
 

@@ -26,6 +26,7 @@ struct _MailDisplay {
 	EScrollFrame *scroll;
 	GtkHTML *html;
 	GtkHTMLStream *stream;
+	gpointer last_active;
 	guint idle_id;
 	
 	CamelMimeMessage *current_message;

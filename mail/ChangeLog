@@ -9,6 +9,8 @@
 	connecting to button_press_event of all iframes
 	: plus bunch of empty methods for popup menu items - to be
 	implemented
+	(html_motion_notify_event): new handler, highlights addresses by
+	underline
 
 	* mail-format.c (write_address): revert back to raw HTML text,
 	store name and email to Text objects, workaround gtkhtml tables
