@@ -184,18 +184,20 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 	if (fd == -1 && errno == EEXIST && !unique) {
 		GtkWidget *dlg;
 		GtkWidget *text;
+		char *msg;
 		
 		dlg = gnome_dialog_new (_("Overwrite file?"),
 					GNOME_STOCK_BUTTON_YES, 
 					GNOME_STOCK_BUTTON_NO,
 					NULL);
-		char *msg = g_strdup_printf (_("File `%s' already exists.\nOverwrite it?"),
-				name);
+		
+		msg = g_strdup_printf (_("File `%s' already exists.\nOverwrite it?"), name);
 		text = gtk_label_new (msg);
+		g_free (msg);
+		
 		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox), text, TRUE, TRUE, 4);
 		gtk_window_set_policy (GTK_WINDOW (dlg), FALSE, TRUE, FALSE);
 		gtk_widget_show (text);
-		g_free (msg);
 		
 		if (gnome_dialog_run_and_close (GNOME_DIALOG (dlg)) != 0)
 			return FALSE;
