@@ -1,8 +1,8 @@
 2004-07-12 Sivaiah Nallagatla <snallagatla@novell.com>
 
-	* providers/groupwise/camel-gw-listener.c (add_esource,
-	modify_esource, add_addressbook_source,
-	modify_addressbook_sources): pass "use_ssl" value to these
+	* providers/groupwise/camel-gw-listener.c (add_esource)
+	(modify_esource, add_addressbook_source)
+	(modify_addressbook_sources): pass "use_ssl" value to these
 	functions and set it on e-source
 	(add_calendar_tasks_source): read the "use_ssl" param from camel
 	url and pass it to add_esource) calls
