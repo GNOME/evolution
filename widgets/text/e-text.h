@@ -177,6 +177,11 @@ struct _EText {
 	gint tooltip_timeout;           /* Timeout for the tooltip */
 	GtkWidget *tooltip_window;      /* GtkWindow for displaying the tooltip */
 	gint tooltip_count;             /* GDK_ENTER_NOTIFY count. */
+
+	guint needs_redraw : 1;         /* Needs redraw */
+	guint needs_recalc_bounds : 1;  /* Need recalc_bounds */
+	guint needs_calc_line_widths : 1; /* Needs calc_line_widths */
+	guint needs_split_into_lines : 1; /* Needs split_into_lines */
 };
 
 struct _ETextClass {

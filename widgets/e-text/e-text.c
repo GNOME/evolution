@@ -540,22 +540,6 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 	}
 }
 
-/* Recalculates the bounding box of the text item.  The bounding box is defined
- * by the text's extents if the clip rectangle is disabled.  If it is enabled,
- * the bounding box is defined by the clip rectangle itself.
- */
-static void
-recalc_bounds (EText *text)
-{
-	GnomeCanvasItem *item;
-
-	item = GNOME_CANVAS_ITEM (text);
-
-	get_bounds (text, &item->x1, &item->y1, &item->x2, &item->y2);
-
-	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
-}
-
 static void
 calc_ellipsis (EText *text)
 {
@@ -814,18 +798,17 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			g_free (text->text);
 
 		text->text = g_strdup (GTK_VALUE_STRING (*arg));
-		split_into_lines (text);
-		recalc_bounds (text);
+		text->needs_split_into_lines = 1;
 		break;
 
 	case ARG_X:
 		text->x = GTK_VALUE_DOUBLE (*arg);
-		recalc_bounds (text);
+		text->needs_recalc_bounds = 1;
 		break;
 
 	case ARG_Y:
 		text->y = GTK_VALUE_DOUBLE (*arg);
-		recalc_bounds (text);
+		text->needs_recalc_bounds = 1;
 		break;
 
 	case ARG_FONT:
@@ -843,10 +826,9 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		
 		calc_ellipsis (text);
 		if ( text->line_wrap )
-			split_into_lines (text);
+			text->needs_split_into_lines = 1;
 		else
-			calc_line_widths (text);
-		recalc_bounds (text);
+			text->needs_calc_line_widths = 1;
 		break;
 
 	case ARG_FONTSET:
@@ -864,10 +846,9 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 		calc_ellipsis (text);
 		if ( text->line_wrap )
-			split_into_lines (text);
+			text->needs_split_into_lines = 1;
 		else
-			calc_line_widths (text);
-		recalc_bounds (text);
+			text->needs_calc_line_widths = 1;
 		break;
 
 	case ARG_FONT_GDK:
@@ -885,54 +866,52 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		calc_ellipsis (text);
 		if ( text->line_wrap )
-			split_into_lines (text);
+			text->needs_split_into_lines = 1;
 		else
-			calc_line_widths (text);
-		recalc_bounds (text);
+			text->needs_calc_line_widths = 1;
 		break;
 
 	case ARG_ANCHOR:
 		text->anchor = GTK_VALUE_ENUM (*arg);
-		recalc_bounds (text);
+		text->needs_recalc_bounds = 1;
 		break;
 
 	case ARG_JUSTIFICATION:
 		text->justification = GTK_VALUE_ENUM (*arg);
+		text->needs_redraw = 1;
 		break;
 
 	case ARG_CLIP_WIDTH:
 		text->clip_width = fabs (GTK_VALUE_DOUBLE (*arg));
 		calc_ellipsis (text);
 		if ( text->line_wrap )
-			split_into_lines (text);
+			text->needs_split_into_lines = 1;
 		else
-			calc_line_widths (text);
-		recalc_bounds (text);
+			text->needs_calc_line_widths = 1;
 		break;
 
 	case ARG_CLIP_HEIGHT:
 		text->clip_height = fabs (GTK_VALUE_DOUBLE (*arg));
-		recalc_bounds (text);
+		text->needs_recalc_bounds = 1;
 		break;
 
 	case ARG_CLIP:
 		text->clip = GTK_VALUE_BOOL (*arg);
 		calc_ellipsis (text);
 		if ( text->line_wrap )
-			split_into_lines (text);
+			text->needs_split_into_lines = 1;
 		else
-			calc_line_widths (text);
-		recalc_bounds (text);
+			text->needs_calc_line_widths = 1;
 		break;
 
 	case ARG_X_OFFSET:
 		text->xofs = GTK_VALUE_DOUBLE (*arg);
-		recalc_bounds (text);
+		text->needs_recalc_bounds = 1;
 		break;
 
 	case ARG_Y_OFFSET:
 		text->yofs = GTK_VALUE_DOUBLE (*arg);
-		recalc_bounds (text);
+		text->needs_recalc_bounds = 1;
 		break;
 
         case ARG_FILL_COLOR:
@@ -944,6 +923,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			      (color.blue & 0xff00) |
 			      0xff);
 		color_changed = TRUE;
+		text->needs_redraw = 1;
 		break;
 
 	case ARG_FILL_COLOR_GDK:
@@ -959,25 +939,28 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			      (color.blue & 0xff00) |
 			      0xff);
 		color_changed = TRUE;
+		text->needs_redraw = 1;
 		break;
 
         case ARG_FILL_COLOR_RGBA:
 		text->rgba = GTK_VALUE_UINT (*arg);
 		color_changed = TRUE;
+		text->needs_redraw = 1;
 		break;
 
 	case ARG_FILL_STIPPLE:
 		set_stipple (text, GTK_VALUE_BOXED (*arg), FALSE);
+		text->needs_redraw = 1;
 		break;
 
 	case ARG_EDITABLE:
 		text->editable = GTK_VALUE_BOOL (*arg);
+		text->needs_redraw = 1;
 		break;
 
 	case ARG_USE_ELLIPSIS:
 		text->use_ellipsis = GTK_VALUE_BOOL (*arg);
-		calc_line_widths (text);
-		recalc_bounds (text);
+		text->needs_calc_line_widths = 1;
 		break;
 
 	case ARG_ELLIPSIS:
@@ -986,24 +969,21 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 		text->ellipsis = g_strdup (GTK_VALUE_STRING (*arg));
 		calc_ellipsis (text);
-		calc_line_widths (text);
-		recalc_bounds (text);
+		text->needs_calc_line_widths = 1;
 		break;
 
 	case ARG_LINE_WRAP:
 		text->line_wrap = GTK_VALUE_BOOL (*arg);
-		split_into_lines (text);
-		recalc_bounds (text);
+		text->needs_split_into_lines = 1;
 		break;
 
 	case ARG_MAX_LINES:
 		text->max_lines = GTK_VALUE_INT (*arg);
-		split_into_lines (text);
-		recalc_bounds (text);
+		text->needs_split_into_lines = 1;
 		break;
 
 	default:
-		break;
+		return;
 	}
 
 	if (color_changed) {
@@ -1015,8 +995,9 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if (!item->canvas->aa)
 			set_text_gc_foreground (text);
 
-		gnome_canvas_item_request_update (item);
 	}
+
+	gnome_canvas_item_request_update (item);
 }
 
 /* Get_arg handler for the text item */
@@ -1136,20 +1117,38 @@ e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int fla
 	if (parent_class->update)
 		(* parent_class->update) (item, affine, clip_path, flags);
 
-	if (!item->canvas->aa) {
-		set_text_gc_foreground (text);
-		set_stipple (text, text->stipple, TRUE);
-		get_bounds (text, &x1, &y1, &x2, &y2);
-
-		gnome_canvas_update_bbox (item, x1, y1, x2, y2);
-	} else {
-		/* aa rendering */
-		for (i = 0; i < 6; i++)
-			text->affine[i] = affine[i];
-		get_bounds_item_relative (text, &i_bbox.x0, &i_bbox.y0, &i_bbox.x1, &i_bbox.y1);
-		art_drect_affine_transform (&c_bbox, &i_bbox, affine);
-		gnome_canvas_update_bbox (item, c_bbox.x0, c_bbox.y0, c_bbox.x1, c_bbox.y1);
-
+	if ( text->needs_split_into_lines ) {
+		split_into_lines(text);
+		text->needs_split_into_lines = 0;
+		text->needs_calc_line_widths = 1;
+	}
+	if ( text->needs_calc_line_widths ) {
+		calc_line_widths(text);
+		text->needs_calc_line_widths = 0;
+		text->needs_recalc_bounds = 1;
+	}
+	if ( text->needs_recalc_bounds ) {
+		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+		if (!item->canvas->aa) {
+			set_text_gc_foreground (text);
+			set_stipple (text, text->stipple, TRUE);
+			get_bounds (text, &x1, &y1, &x2, &y2);
+		} else {
+			/* aa rendering */
+			for (i = 0; i < 6; i++)
+				text->affine[i] = affine[i];
+			get_bounds_item_relative (text, &i_bbox.x0, &i_bbox.y0, &i_bbox.x1, &i_bbox.y1);
+			art_drect_affine_transform (&c_bbox, &i_bbox, affine);
+		}
+		item->x1 = x1;
+		item->y1 = y1;
+		item->x2 = x2;
+		item->y2 = y2;
+		text->needs_recalc_bounds = 0;
+		text->needs_redraw = 1;
+	}
+	if ( text->needs_redraw ) {
+		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
 	}
 }
 
@@ -1816,8 +1815,10 @@ _blink_scroll_timeout (gpointer data)
 			redraw = TRUE;
 		text->show_cursor = FALSE;
 	}
-	if (redraw)
+	if (redraw) {
+		text->needs_redraw = 1;
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
+	}
 	return TRUE;
 }
 
@@ -2264,6 +2265,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		}
 	}
 
+	text->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 }
 
@@ -2319,6 +2321,7 @@ _selection_clear_event (GtkInvisible *invisible,
 		text->primary_length = 0;
 
 		text->has_selection = FALSE;
+		text->needs_redraw = 1;
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
 
 	} else if (event->selection == clipboard_atom) {

@@ -1,3 +1,8 @@
+2000-02-28  Chris Lahey  <clahey@umich.edu>
+
+	* widgets/e-text/e-text.c, widgets/e-text/e-text.h: Updated these
+	to use the canvas ::update system properly.
+
 2000-02-24  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-util/e-xml-utils.c, e-util/e-xml-utils.h: Added
