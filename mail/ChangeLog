@@ -1,3 +1,8 @@
+2002-03-07  Anna Marie Dirks  <anna@ximian.com>
+
+	* folder-browser.c: Made all the acclerators in the context menu on a message work. (There are 22 different menu items here, so picking a unique accelerator for each label was tricky, and some of the choices I made are different from the ones I would have made if there weren't so many stinking menu items.)
+	
+
 2002-03-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (config_import_old_signatures): Don't use an

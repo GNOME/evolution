@@ -1474,32 +1474,32 @@ static EPopupMenu context_menu[] = {
 	
 	E_POPUP_SEPARATOR,
 	
-	{ N_("Follow _Up..."),              NULL, GTK_SIGNAL_FUNC (flag_for_followup),       NULL, CAN_FLAG_FOR_FOLLOWUP },
-	{ N_("Flag Com_pleted"),            NULL, GTK_SIGNAL_FUNC (flag_followup_completed), NULL, CAN_FLAG_COMPLETED },
-	{ N_("Clear Fla_g"),                NULL, GTK_SIGNAL_FUNC (flag_followup_clear),     NULL, CAN_CLEAR_FLAG },
+	{ N_("Follo_w Up..."),              NULL, GTK_SIGNAL_FUNC (flag_for_followup),       NULL, CAN_FLAG_FOR_FOLLOWUP },
+	{ N_("Fla_g Completed"),            NULL, GTK_SIGNAL_FUNC (flag_followup_completed), NULL, CAN_FLAG_COMPLETED },
+	{ N_("Cl_ear Flag"),                NULL, GTK_SIGNAL_FUNC (flag_followup_clear),     NULL, CAN_CLEAR_FLAG },
 	
 	/* separator here? */
 	
 	{ N_("Mar_k as Read"),              NULL, GTK_SIGNAL_FUNC (mark_as_seen),     NULL,  CAN_MARK_READ },
-	{ N_("Mark as U_nread"),            NULL, GTK_SIGNAL_FUNC (mark_as_unseen),   NULL,  CAN_MARK_UNREAD },
+	{ N_("Mark as _Unread"),            NULL, GTK_SIGNAL_FUNC (mark_as_unseen),   NULL,  CAN_MARK_UNREAD },
 	{ N_("Mark as _Important"),         NULL, GTK_SIGNAL_FUNC (mark_as_important), NULL, CAN_MARK_IMPORTANT },
-	{ N_("Mark as Unim_portant"),       NULL, GTK_SIGNAL_FUNC (mark_as_unimportant), NULL, CAN_MARK_UNIMPORTANT },
+	{ N_("_Mark as Unimportant"),       NULL, GTK_SIGNAL_FUNC (mark_as_unimportant), NULL, CAN_MARK_UNIMPORTANT },
 	
 	E_POPUP_SEPARATOR,
 	
-	{ N_("_Move to Folder..."),         NULL, GTK_SIGNAL_FUNC (move_msg_cb),      NULL,  0 },
+	{ N_("Mo_ve to Folder..."),         NULL, GTK_SIGNAL_FUNC (move_msg_cb),      NULL,  0 },
 	{ N_("_Copy to Folder..."),         NULL, GTK_SIGNAL_FUNC (copy_msg_cb),      NULL,  0 },
 	{ N_("_Delete"),                    NULL, GTK_SIGNAL_FUNC (delete_msg),       NULL, CAN_DELETE },
-	{ N_("_Undelete"),                  NULL, GTK_SIGNAL_FUNC (undelete_msg),     NULL, CAN_UNDELETE },
+	{ N_("U_ndelete"),                  NULL, GTK_SIGNAL_FUNC (undelete_msg),     NULL, CAN_UNDELETE },
 	
 	E_POPUP_SEPARATOR,
 	
-	{ N_("Add Sender to Address Book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),  NULL,  SELECTION_SET },
+	{ N_("Add Sender to Address_book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),  NULL,  SELECTION_SET },
 	  { "",                             NULL, GTK_SIGNAL_FUNC (NULL),             NULL,  0 },
 	
-	{ N_("Apply Filters"),              NULL, GTK_SIGNAL_FUNC (apply_filters),    NULL,  0 },
+	{ N_("Appl_y Filters"),              NULL, GTK_SIGNAL_FUNC (apply_filters),    NULL,  0 },
 	{ "",                               NULL, GTK_SIGNAL_FUNC (NULL),             NULL,  0 },
-	{ N_("Create Ru_le From Message"),  NULL, GTK_SIGNAL_FUNC (NULL), filter_menu,  SELECTION_SET },
+	{ N_("Crea_te Rule From Message"),  NULL, GTK_SIGNAL_FUNC (NULL), filter_menu,  SELECTION_SET },
 	
 	E_POPUP_TERMINATOR
 };
@@ -1690,11 +1690,11 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	/* generate the "Filter on Mailing List menu item name */
 	if (mlist == NULL) {
 		enable_mask |= IS_MAILING_LIST;
-		filter_menu[MLIST_FILTER].name = g_strdup (_("Filter on Mailing List"));
-		filter_menu[MLIST_VFOLDER].name = g_strdup (_("VFolder on Mailing List"));
+		filter_menu[MLIST_FILTER].name = g_strdup (_("Filter on _Mailing List"));
+		filter_menu[MLIST_VFOLDER].name = g_strdup (_("VFolder on M_ailing List"));
 	} else {
-		filter_menu[MLIST_FILTER].name = g_strdup_printf (_("Filter on Mailing List (%s)"), mlist);
-		filter_menu[MLIST_VFOLDER].name = g_strdup_printf (_("VFolder on Mailing List (%s)"), mlist);
+		filter_menu[MLIST_FILTER].name = g_strdup_printf (_("Filter on _Mailing List (%s)"), mlist);
+		filter_menu[MLIST_VFOLDER].name = g_strdup_printf (_("VFolder on M_ailing List (%s)"), mlist);
 	}
 	
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
