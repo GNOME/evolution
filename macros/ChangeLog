@@ -1,3 +1,8 @@
+Wed Mar  4 01:02:55 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* gnome-support.m4 (GNOME_SUPPORT_CHECKS): Check for argp code,
+	strndup, program_invocation_name, program_invocation_short_name.
+
 Mon Mar  2 15:27:44 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* gnome-x-checks.m4 (GNOME_X_CHECKS): Also check for SMlib.h; some
