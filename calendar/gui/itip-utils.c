@@ -533,7 +533,7 @@ comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *
 	CalClientSendResult result;
 	icalcomponent *top_level, *new_top_level = NULL;
 	char error_msg[256];
-	gboolean retval = FALSE;
+	gboolean retval = TRUE;
 	
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
 	result = cal_client_send_object (client, top_level, &new_top_level, users, error_msg);
@@ -545,8 +545,6 @@ comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *
 		icalcomponent_remove_component (new_top_level, ical_comp);
 		cal_component_set_icalcomponent (comp, ical_comp);
 		icalcomponent_free (new_top_level);
-		
-		retval = TRUE;
 	} else if (result == CAL_CLIENT_SEND_BUSY) {
 		e_notice (NULL, GTK_MESSAGE_ERROR, error_msg);
 
@@ -828,7 +826,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	CORBA_Object *composer_server;
 	CalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
-	GList *users;
+	GList *users = NULL;
 	GNOME_Evolution_Composer_RecipientList *to_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;

@@ -1,3 +1,14 @@
+2003-04-07  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/event-page.glade: create button properly
+
+	* gui/itip-utils.c (comp_server_send): for errors other than busy,
+	we want to email the results
+
+	* pcs/cal-backend.c (cal_backend_ref_categories): insert the new
+	category in the category list as well
+	(idle_notify_categories_changed): reset idle id
+
 2003-04-07  Not Zed  <NotZed@Ximian.com>
  
  	Fixes #40252
