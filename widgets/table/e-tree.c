@@ -2049,7 +2049,7 @@ find_next_in_range (ETree *et, gint start, gint end, ETreePathFunc func, gpointe
 
 	for (row = start; row <= end; row++) {
 		path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
-		if (func (et->priv->model, path, data))
+		if (path && func (et->priv->model, path, data))
 			return path;
 	}
 
@@ -2064,7 +2064,7 @@ find_prev_in_range (ETree *et, gint start, gint end, ETreePathFunc func, gpointe
 
 	for (row = start; row >= end; row--) {
 		path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
-		if (func (et->priv->model, path, data))
+		if (path && func (et->priv->model, path, data))
 			return path;
 	}
 
