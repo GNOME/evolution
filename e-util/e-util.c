@@ -253,6 +253,102 @@ e_marshal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL (GtkObject * object,
 				func_data);
 }
 
+typedef void (*GtkSignal_NONE__INT_INT_POINTER_POINTER_INT_INT) (GtkObject * object,
+								 gint arg1, 
+								 gint arg2,
+								 gpointer arg3,
+								 gpointer arg4,
+								 gint arg5,
+								 gint arg6,
+								 gpointer user_data);
+void
+e_marshal_NONE__INT_INT_POINTER_POINTER_INT_INT (GtkObject * object,
+					   GtkSignalFunc func,
+					   gpointer func_data, GtkArg * args)
+{
+  GtkSignal_NONE__INT_INT_POINTER_POINTER_INT_INT rfunc;
+  rfunc = (GtkSignal_NONE__INT_INT_POINTER_POINTER_INT_INT) func;
+  (*rfunc) (object,
+	    GTK_VALUE_INT (args[0]), GTK_VALUE_INT (args[1]), 
+	    GTK_VALUE_POINTER (args[2]),
+	    GTK_VALUE_POINTER (args[3]),
+	    GTK_VALUE_INT (args[4]), GTK_VALUE_INT (args[5]), func_data);
+}
+
+typedef void (*GtkSignal_NONE__INT_INT_POINTER_INT) (GtkObject * object,
+						     gint arg1, 
+						     gint arg2,
+						     gpointer arg3,
+						     gint arg4, gpointer user_data);
+void
+e_marshal_NONE__INT_INT_POINTER_INT (GtkObject * object,
+			       GtkSignalFunc func,
+			       gpointer func_data, GtkArg * args)
+{
+  GtkSignal_NONE__INT_INT_POINTER_INT rfunc;
+  rfunc = (GtkSignal_NONE__INT_INT_POINTER_INT) func;
+  (*rfunc) (object,
+	    GTK_VALUE_INT (args[0]), GTK_VALUE_INT (args[1]), 
+	    GTK_VALUE_POINTER (args[2]), GTK_VALUE_INT (args[3]), func_data);
+}
+
+typedef gboolean (*GtkSignal_BOOL__INT_INT_POINTER_INT_INT_INT) (GtkObject * object,
+								 gint arg1, 
+								 gint arg2,
+								 gpointer arg3,
+								 gint arg4,
+								 gint arg5,
+								 gint arg6,
+								 gpointer user_data);
+void
+e_marshal_BOOL__INT_INT_POINTER_INT_INT_INT (GtkObject * object,
+				       GtkSignalFunc func,
+				       gpointer func_data, GtkArg * args)
+{
+  GtkSignal_BOOL__INT_INT_POINTER_INT_INT_INT rfunc;
+  gboolean *return_val;
+  return_val = GTK_RETLOC_BOOL (args[6]);
+  rfunc = (GtkSignal_BOOL__INT_INT_POINTER_INT_INT_INT) func;
+  *return_val = (*rfunc) (object,
+			  GTK_VALUE_INT (args[0]),
+			  GTK_VALUE_INT (args[1]), 
+			  GTK_VALUE_POINTER (args[2]),
+			  GTK_VALUE_INT (args[3]),
+			  GTK_VALUE_INT (args[4]),
+			  GTK_VALUE_INT (args[5]), func_data);
+}
+
+typedef void (*GtkSignal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT) (GtkObject *
+									 object,
+									 gint arg1, 
+									 gint arg2,
+									 gpointer
+									 arg3,
+									 gint arg4,
+									 gint arg5,
+									 gpointer
+									 arg6,
+									 gint arg7,
+									 gint arg8,
+									 gpointer
+									 user_data);
+void
+e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT (GtkObject * object,
+						   GtkSignalFunc func,
+						   gpointer func_data,
+						   GtkArg * args)
+{
+  GtkSignal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT rfunc;
+  rfunc = (GtkSignal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT) func;
+  (*rfunc) (object,
+	    GTK_VALUE_INT (args[0]), GTK_VALUE_INT (args[1]), 
+	    GTK_VALUE_POINTER (args[2]),
+	    GTK_VALUE_INT (args[3]),
+	    GTK_VALUE_INT (args[4]),
+	    GTK_VALUE_POINTER (args[5]),
+	    GTK_VALUE_INT (args[6]), GTK_VALUE_INT (args[7]), func_data);
+}
+
 gchar**
 e_strsplit (const gchar *string,
 	    const gchar *delimiter,
@@ -306,7 +402,7 @@ e_strsplit (const gchar *string,
   return str_array;
 }
 
-gchar *
+const gchar *
 e_strstrcase (const gchar *haystack, const gchar *needle)
 {
 	/* find the needle in the haystack neglecting case */
@@ -321,7 +417,7 @@ e_strstrcase (const gchar *haystack, const gchar *needle)
 		return NULL;
 
 	if (len == 0)
-		return haystack;
+		return (char *)haystack;
 
 	for (ptr = (char *)haystack; *(ptr + len - 1) != '\0'; ptr++)
 		if (!g_strncasecmp(ptr, needle, len))

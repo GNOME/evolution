@@ -46,8 +46,8 @@ gchar **e_strsplit (const gchar *string,
 		    const gchar *delimiter,
 		    gint         max_tokens);
 
-gchar *e_strstrcase (const gchar *haystack,
-		     const gchar *needle);
+const gchar *e_strstrcase (const gchar *haystack,
+			   const gchar *needle);
 
 void e_marshal_INT__INT_INT_POINTER (GtkObject * object,
 				     GtkSignalFunc func,
@@ -65,5 +65,27 @@ void e_marshal_BOOL__OBJECT_DOUBLE_DOUBLE_BOOL (GtkObject * object,
 						GtkSignalFunc func,
 						gpointer func_data, GtkArg * args);
 
+#define e_marshal_NONE__INT_INT_POINTER_POINTER_UINT_UINT e_marshal_NONE__INT_INT_POINTER_POINTER_INT_INT
+void e_marshal_NONE__INT_INT_POINTER_POINTER_INT_INT (GtkObject * object,
+						      GtkSignalFunc func,
+						      gpointer func_data,
+						      GtkArg * args);
+
+#define e_marshal_NONE__INT_INT_POINTER_UINT e_marshal_NONE__INT_INT_POINTER_INT
+void e_marshal_NONE__INT_INT_POINTER_INT (GtkObject * object,
+					  GtkSignalFunc func,
+					  gpointer func_data, GtkArg * args);
+
+#define e_marshal_BOOL__INT_INT_POINTER_INT_INT_UINT e_marshal_BOOL__INT_INT_POINTER_INT_INT_INT
+void e_marshal_BOOL__INT_INT_POINTER_INT_INT_INT (GtkObject * object,
+						  GtkSignalFunc func,
+						  gpointer func_data,
+						  GtkArg * args);
+
+#define e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_UINT_UINT e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT
+void e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT (GtkObject * object,
+							      GtkSignalFunc func,
+							      gpointer func_data,
+							      GtkArg * args);
 
 #endif /* _E_UTIL_H_ */
