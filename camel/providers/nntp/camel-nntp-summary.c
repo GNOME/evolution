@@ -243,6 +243,17 @@ camel_nntp_summary_save (CamelNNTPSummary *summary, const gchar *filename,
 		write (fd, &data, sizeof (data));
 		if (msg_info->headers.received_date)
 			write (fd, msg_info->headers.received_date, field_length);
+
+		/* Write uid date. */
+		if (msg_info->headers.uid)
+			field_length = strlen (msg_info->headers.uid);
+		else
+			field_length = 0;
+		data = htonl (field_length);
+		write (fd, &data, sizeof (data));
+		if (msg_info->headers.uid)
+			write (fd, msg_info->headers.uid, field_length);
+
 	}
 
 	close (fd);
@@ -357,6 +368,17 @@ camel_nntp_summary_load (const gchar *newsgroup, const gchar *filename, CamelExc
 			      field_length);
 		} else 
 			msg_info->headers.received_date = NULL;
+
+		/* Read the uid field. */
+		read (fd, &field_length, sizeof (field_length));
+		field_length = ntohl (field_length);
+		if (field_length > 0) {			
+			msg_info->headers.uid =
+				g_new0 (gchar, field_length + 1);
+			read (fd, msg_info->headers.uid,
+			      field_length);
+		} else 
+			msg_info->headers.uid = NULL;
 	}		
 
 	close (fd);

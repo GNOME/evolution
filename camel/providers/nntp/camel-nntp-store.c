@@ -115,6 +115,8 @@ _get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
 	CamelNNTPFolder *new_nntp_folder;
 	CamelFolder *new_folder;
 
+	folder_name = "netscape.public.mozilla.announce";
+
 	/* check if folder has already been created */
 	/* call the standard routine for that when  */
 	/* it is done ... */
@@ -271,10 +273,22 @@ camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
 	va_list ap;
 	int status;
 	int resp_code;
+	CamelException *ex;
 
 	va_start (ap, fmt);
 	cmdbuf = g_strdup_vprintf (fmt, ap);
 	va_end (ap);
+
+	ex = camel_exception_new();
+
+	/* make sure we're connected */
+	if (store->ostream == NULL)
+		nntp_connect (CAMEL_SERVICE (store), ex);
+
+	if (camel_exception_get_id (ex)) {
+		camel_exception_free (ex);
+		return CAMEL_NNTP_FAIL;
+	}
 
 	/* Send the command */
 	camel_stream_write (store->ostream, cmdbuf, strlen (cmdbuf));

@@ -79,8 +79,8 @@ static CamelMimeMessage *_get_message_by_uid (CamelFolder *folder, const gchar *
 #if 0
 static void _expunge (CamelFolder *folder, CamelException *ex);
 static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder, CamelException *ex);
-static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 #endif
+static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 
 static void _finalize (GtkObject *object);
 
@@ -106,13 +106,13 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 	camel_folder_class->list_subfolders = _list_subfolders;
 	camel_folder_class->get_message_by_number = _get_message_by_number;
 	camel_folder_class->get_message_count = _get_message_count;
+	camel_folder_class->get_uid_list = _get_uid_list;
+	camel_folder_class->get_message_by_uid = _get_message_by_uid;
 #if 0 
 	camel_folder_class->append_message = _append_message;
-	camel_folder_class->get_uid_list = _get_uid_list;
 	camel_folder_class->expunge = _expunge;
 	camel_folder_class->copy_message_to = _copy_message_to;
 	camel_folder_class->get_message_uid = _get_message_uid;
-	camel_folder_class->get_message_by_uid = _get_message_by_uid;
 #endif
 
 	gtk_object_class->finalize = _finalize;
@@ -198,7 +198,7 @@ _init (CamelFolder *folder, CamelStore *parent_store,
 	    folder->can_hold_folders = TRUE;
 	  }
 
-	folder->has_uid_capability = FALSE;
+	folder->has_uid_capability = TRUE;
 	folder->has_search_capability = FALSE;
  	folder->summary = NULL;
 
@@ -448,11 +448,9 @@ _get_message_count (CamelFolder *folder, CamelException *ex)
 	gint message_count = 0;
 
 	g_assert (folder);
-#if 0
 	g_assert (folder->summary);
 
 	message_count = CAMEL_NNTP_SUMMARY (folder->summary)->nb_message;
-#endif
 
 	CAMEL_LOG_FULL_DEBUG ("CamelNNTPFolder::get_message_count found %d messages\n", message_count);
 	return message_count;
@@ -588,7 +586,6 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 
 
 
-#if 0
 static GList *
 _get_uid_list (CamelFolder *folder, CamelException *ex) 
 {
@@ -604,21 +601,43 @@ _get_uid_list (CamelFolder *folder, CamelException *ex)
 	
 	for (i=0; i<message_info_array->len; i++) {
 		message_info = (CamelNNTPSummaryInformation *)(message_info_array->data) + i;
-		uid_list = g_list_prepend (uid_list, g_strdup_printf ("%u", message_info->uid));
+		uid_list = g_list_prepend (uid_list, g_strdup (message_info->headers.uid));
 	}
 	
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelNNTPFolder::get_uid_list\n");
 	
 	return uid_list;
 }
-#endif
 
 
 
 static CamelMimeMessage *
 _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 {
-	
+	GArray *message_info_array;
+	CamelNNTPSummaryInformation *message_info;
+
+	message_info_array =
+		CAMEL_NNTP_SUMMARY (folder->summary)->message_info;
+
+	if (number > message_info_array->len) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
+				      "No such message %d in folder `%s'.",
+				      number, folder->name);
+		return NULL;
+	}
+
+	message_info =
+		(CamelNNTPSummaryInformation *)(message_info_array->data) +
+		(number - 1);
+
+	return _get_message_by_uid (folder, message_info->headers.uid, ex);
+}
+
+
+static CamelMimeMessage *
+_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
+{
 	CamelStream *nntp_istream;
 	CamelStream *message_stream;
 	CamelMimeMessage *message = NULL;
@@ -637,17 +656,17 @@ _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 		return NULL;
 	}
 
-	nntp_istream = CAMEL_NNTP_STORE (parent_store)->istream;
+	status = camel_nntp_command (CAMEL_NNTP_STORE( parent_store ), NULL, "ARTICLE %s", uid);
 
-	status = camel_nntp_command (CAMEL_NNTP_STORE( parent_store ), NULL, "ARTICLE %d", number);
+	nntp_istream = CAMEL_NNTP_STORE (parent_store)->istream;
 
 	/* if the uid was not found, raise an exception and return */
 	if (status != CAMEL_NNTP_OK) {
 		camel_exception_setv (ex, 
 				     CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				     "message %d not found in the group",
-				      number);
-		CAMEL_LOG_FULL_DEBUG ("Leaving CamelNNTPFolder::get_message_by_number\n");
+				     "message %s not found.",
+				      uid);
+		CAMEL_LOG_FULL_DEBUG ("Leaving CamelNNTPFolder::get_message_by_uid\n");
 		return NULL;
 	}
 
@@ -657,6 +676,8 @@ _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 	buf_len = 0;
 	buf = malloc(buf_alloc);
 	done = FALSE;
+
+	buf[0] = 0;
 
 	while (!done) {
 		char *line = camel_stream_buffer_read_line ( CAMEL_STREAM_BUFFER ( nntp_istream ));
@@ -671,6 +692,10 @@ _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 				buf_alloc *= 2;
 				buf = realloc (buf, buf_alloc);
 			}
+			strcat(buf, line);
+			strcat(buf, "\n");
+			buf_len += strlen(line);
+			g_free (line);
 		}
 	}
 
@@ -682,6 +707,6 @@ _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 	message = camel_mime_message_new_with_session (camel_service_get_session (CAMEL_SERVICE (parent_store)));
 	camel_data_wrapper_set_input_stream (CAMEL_DATA_WRAPPER (message), message_stream);
 	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelNNTPFolder::get_message_by_number\n");	
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelNNTPFolder::get_message_by_uid\n");	
 	return message;
 }
