@@ -1,3 +1,8 @@
+2003-01-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-canon.c (complete): Set the backbuflen to 0 so
+	that calling us again won't re-flush the same data.
+
 2003-01-17  Larry Ewing  <lewing@ximian.com>
 
 	* camel-mime-filter-enriched.c (enriched_to_html): only grow the
