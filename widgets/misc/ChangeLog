@@ -2,6 +2,8 @@
 
 	* Makefile.am (EXTRA_DIST): e-util-marshal.list, not
 	e-book-marshal.list.
+	(widgetsinclude_HEADERS): Add e-bonobo-widget.h.
+	(libemiscwidgets_a_SOURCES): Add e-bonobo-widget.c.
 
 2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
 

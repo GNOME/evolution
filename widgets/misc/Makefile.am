@@ -14,42 +14,44 @@ privlib_LIBRARIES =	\
 
 widgetsincludedir = $(includedir)/evolution/widgets
 
-widgetsinclude_HEADERS = 	\
-	e-calendar.h		\
-	e-calendar-item.h	\
-	e-cell-date-edit.h	\
-	e-cell-percent.h	\
-	e-charset-picker.h	\
-	e-clipped-label.h	\
-	e-config-page.h		\
-	e-combo-button.h	\
-	e-dateedit.h		\
-	e-dropdown-button.h	\
-	e-map.h			\
-	e-messagebox.h		\
-	e-multi-config-dialog.h \
-	e-search-bar.h		\
-	e-title-bar.h		\
+widgetsinclude_HEADERS =			\
+	e-bonobo-widget.h			\
+	e-calendar.h				\
+	e-calendar-item.h			\
+	e-cell-date-edit.h			\
+	e-cell-percent.h			\
+	e-charset-picker.h			\
+	e-clipped-label.h			\
+	e-config-page.h				\
+	e-combo-button.h			\
+	e-dateedit.h				\
+	e-dropdown-button.h			\
+	e-map.h					\
+	e-messagebox.h				\
+	e-multi-config-dialog.h			\
+	e-search-bar.h				\
+	e-title-bar.h				\
 	e-url-entry.h
 
-libemiscwidgets_a_SOURCES = 	\
-	$(widgetsinclude_HEADERS) \
-	e-calendar.c		\
-	e-calendar-item.c	\
-	e-cell-date-edit.c	\
-	e-cell-percent.c	\
-	e-charset-picker.c	\
-	e-clipped-label.c	\
-	e-config-page.c		\
-	e-combo-button.c	\
-	e-dateedit.c		\
-	e-dropdown-button.c	\
-	e-map.c			\
-	e-messagebox.c		\
-	e-multi-config-dialog.c \
-	e-search-bar.c		\
-	e-title-bar.c		\
-	e-url-entry.c		\
+libemiscwidgets_a_SOURCES =			\
+	$(widgetsinclude_HEADERS)		\
+	e-bonobo-widget.c			\
+	e-calendar.c				\
+	e-calendar-item.c			\
+	e-cell-date-edit.c			\
+	e-cell-percent.c			\
+	e-charset-picker.c			\
+	e-clipped-label.c			\
+	e-config-page.c				\
+	e-combo-button.c			\
+	e-dateedit.c				\
+	e-dropdown-button.c			\
+	e-map.c					\
+	e-messagebox.c				\
+	e-multi-config-dialog.c			\
+	e-search-bar.c				\
+	e-title-bar.c				\
+	e-url-entry.c				\
 	e-util-marshal.c
 
 # GLib marshalling cruft
