@@ -11,15 +11,9 @@
 Introduction:
 -------------
 
-[ NB. Camel has been written now. Please convert future tense to
-present tense. Thank you.
-
-	-- Peter Williams <peterw@ximian.com> 7/2/2001
-]
-
-Camel will be a generic messaging library. It will evntually support 
-the standard messaging system for receiving and sending messages.
-It aims at being the backend for the future gnome-mailer system.
+Camel is a generic messaging library. It supports the standard 
+messaging system for receiving and sending messages. It is the 
+messaging backend for Evolution.
 
 The name "camel" stands for ... nothing. Open area of development there.
 You know, that "bazaar" thing. Maybe could we organize a big contest on
@@ -29,21 +23,18 @@ Camel draws heavily from JavaMail and the IMAP4rev1 RFC. People
 wanting to hack on a provider should read the JavaMail API
 specification, but CMC and MAPI are of interest too.
 
-Please, before starting anything, wait for me to finish the abstract
-classes. Some parts are not definitive yet.
-
  
 Organization:
 -------------
 
 The library is roughly a set of abstract classes, some kind of generic
-"interfaces" (idl interfaces, not java interfaces ).
+"interfaces" (IDL interfaces, not Java interfaces).
 
 Particular implementations are called providers.
 
 Here are the basic objects:
 
-* CamelService : an abstract class representing an access to a server.
+* CamelService : An abstract class representing an access to a server.
 Handles the connection and authentication to any server.
 
 * CamelStore (CamelService): A hierarchy of folders on a server.
