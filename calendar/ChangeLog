@@ -1,3 +1,8 @@
+2004-06-08  JP Rosevear  <jpr@novell.com>
+
+	* gui/e-week-view.c (e_week_view_do_key_press): cast week view
+	correctly
+
 2004-06-08  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/dialogs/recurrence-page.c (recurrence_page_construct): connect

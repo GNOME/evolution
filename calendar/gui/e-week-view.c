@@ -3707,7 +3707,7 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 #endif
 
 	/* Handle the cursor keys for moving the selection */
-	view_type = gnome_calendar_get_view (e_calendar_view_get_calendar (E_CAL_VIEW (week_view)));
+	view_type = gnome_calendar_get_view (e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view)));
 	stop_emission = FALSE;
 	if (!(event->state & GDK_SHIFT_MASK)
 		&& !(event->state & GDK_MOD1_MASK)) {
