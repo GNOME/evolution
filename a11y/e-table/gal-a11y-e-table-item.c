@@ -13,6 +13,8 @@
 #include "gal-a11y-e-cell.h"
 #include "gal-a11y-util.h"
 #include <gal/e-table/e-table-subset.h>
+#include <gal/e-table/e-table.h>
+#include <gal/e-table/e-tree.h>
 
 #include <atk/atkobject.h>
 #include <atk/atktable.h>
@@ -40,6 +42,7 @@ struct _GalA11yETableItemPrivate {
 	int cursor_change_id;
 	ETableCol ** columns;
 	ESelectionModel *selection;
+	GtkWidget *widget;
 };
 
 static gboolean gal_a11y_e_table_item_ref_selection (GalA11yETableItem *a11y,
@@ -294,7 +297,9 @@ eti_ref_at (AtkTable *table, gint row, gint column)
 		ETableCol *ecol = e_table_header_get_column (item->header, column);
 		gpointer * cell_data;
 
-		cell_data = GET_PRIVATE (table)->cell_data;
+		cell_data = eti_reinit_data (table, item);
+		if (cell_data == NULL) 
+			return NULL;
 
 		if (cell_data[row*item->cols + column] == NULL) {
 			ret = gal_a11y_e_cell_registry_get_object (NULL,
@@ -309,7 +314,6 @@ eti_ref_at (AtkTable *table, gint row, gint column)
 				g_object_weak_ref (G_OBJECT (ret),
 						   (GWeakNotify) cell_destroyed,
 						   ret);
-
 			else
 				ret = NULL;
 		} else {
@@ -675,6 +679,79 @@ eti_rows_inserted (ETableModel * model, int row, int count,
 	g_signal_emit_by_name (table_item, "visible-data-changed");
 }
 
+/* 
+ * reinit the eti's private data
+ * make sure it is synchronized with the gal-e-table-item
+ */
+static gpointer *
+eti_reinit_data (AtkTable *table, ETableItem *item)
+{
+	gpointer * cell_data;
+
+	int oldsize, newsize;
+	cell_data = GET_PRIVATE (table)->cell_data;
+	if (GET_PRIVATE (table)->rows != item->rows 
+		|| GET_PRIVATE (table)->cols != item->cols ) { /* reinit cell_data */
+		oldsize = GET_PRIVATE (table)->cols * GET_PRIVATE (table)->rows;
+		newsize = item->cols*item->rows;
+		GET_PRIVATE (table)->cols = item->cols;
+		GET_PRIVATE (table)->rows = item->rows;
+
+		cell_data = g_realloc(cell_data, newsize*sizeof(gpointer));
+		if (newsize > oldsize)
+			memset(&cell_data[oldsize], 0, (newsize-oldsize)*sizeof(gpointer));
+		
+		GET_PRIVATE (table)->cell_data = cell_data;
+	}
+	return cell_data;
+}
+
+/* 
+ * clear all the AtkObjects stored in the cell_data
+ * doesn't free the cell_data or resize it.
+ */
+static void
+eti_clear_rows (ETableModel * model, AtkObject * table_item, int row, int count)
+{
+	gint i,j, n_rows, n_cols;
+	gpointer *cell_data;
+
+	g_return_if_fail (model && table_item);
+
+	cell_data = GET_PRIVATE (table_item)->cell_data;
+	g_return_if_fail (cell_data);
+
+	n_rows = GET_PRIVATE (table_item)->rows;
+	n_cols = GET_PRIVATE (table_item)->cols;
+
+	g_return_if_fail( row >= 0 && count > 0 && row+count <= n_rows);
+
+	/* DEFUNCT the deleted cells. */
+	for (i = row; i < row+count; i ++) {
+		for (j = 0; j < n_cols; j ++) {
+			if (cell_data[i*n_cols + j] != NULL) {
+				AtkObject * a11y;
+
+				a11y = ATK_OBJECT(cell_data[i*n_cols + j]);
+				gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL(a11y), ATK_STATE_DEFUNCT, TRUE);
+				cell_data[i*n_cols + j] = NULL;
+			}
+		}
+	}
+
+	g_signal_emit_by_name (table_item, "row-deleted", row,
+			       count, NULL);
+
+	for (i = row; i < row+count; i ++) {
+		for (j = 0; j < n_cols; j ++) {
+			g_signal_emit_by_name (table_item,
+				"children_changed::remove",
+				( (i*n_cols) + j), NULL, NULL);
+		}
+        }
+	g_signal_emit_by_name (table_item, "visible-data-changed");
+}
+
 static void
 eti_rows_deleted (ETableModel * model, int row, int count, 
 		  AtkObject * table_item)
@@ -740,6 +817,22 @@ eti_rows_deleted (ETableModel * model, int row, int count,
 		}
         }
 	g_signal_emit_by_name (table_item, "visible-data-changed");
+}
+
+static void
+eti_tree_model_node_changed_cb (ETreeModel *model, ETreePath node, ETableItem *eti)
+{
+	AtkObject *atk_obj;
+	GalA11yETableItem *a11y;
+
+	g_return_if_fail (E_IS_TABLE_ITEM (eti));
+
+	atk_obj = atk_gobject_accessible_for_object (G_OBJECT (eti));
+	a11y = GAL_A11Y_E_TABLE_ITEM (atk_obj);
+
+	/* we can't figure out which rows are changed, so just clear all of them ... */
+	if  (GET_PRIVATE (a11y)->rows > 0)
+		eti_clear_rows (eti->table_model, atk_obj, 0, GET_PRIVATE (a11y)->rows);
 }
 
 enum {
@@ -1046,9 +1139,9 @@ gal_a11y_e_table_item_new (AtkObject *parent,
 	GET_PRIVATE (a11y)->parent = parent;
 	GET_PRIVATE (a11y)->index_in_parent = index_in_parent;
 
-
 	accessible  = ATK_OBJECT(a11y);
 	accessible->role = ATK_ROLE_TREE_TABLE;
+
 	/* Initialize cell data. */
 	n = item->cols * item->rows;
 	GET_PRIVATE (a11y)->cols = item->cols;
@@ -1074,6 +1167,15 @@ gal_a11y_e_table_item_new (AtkObject *parent,
 		if (item->selection)
 			gal_a11y_e_table_item_ref_selection (a11y,
 							     item->selection);
+
+		/* find the TableItem's parent: table or tree */
+		GET_PRIVATE (a11y)->widget = gtk_widget_get_parent (GTK_WIDGET (item->parent.canvas));
+		if (E_IS_TREE (GET_PRIVATE (a11y)->widget)) {
+			ETreeModel *model;
+			model = e_tree_get_model (E_TREE (GET_PRIVATE (a11y)->widget));
+			g_signal_connect (G_OBJECT(model), "node_changed",
+					G_CALLBACK (eti_tree_model_node_changed_cb), item);
+		} 
 	}
 	if (parent)
 		g_object_ref (parent);
@@ -1200,6 +1302,7 @@ eti_a11y_cursor_changed_cb (ESelectionModel *selection,
                                         cell);
 		atk_focus_tracker_notify (cell);
 	}
+
 }
 
 /* atk selection */
