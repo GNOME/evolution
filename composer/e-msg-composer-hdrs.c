@@ -446,7 +446,7 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs, const char *name)
 	CORBA_exception_free (&ev);
 	
 	control_widget = bonobo_widget_new_control_from_objref (
-		corba_control, CORBA_OBJECT_NIL);
+			corba_control, bonobo_ui_component_get_container (priv->uic));
 	
 	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (control_widget));
 	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);

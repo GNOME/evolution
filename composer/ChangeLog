@@ -1,3 +1,15 @@
+2003-04-07  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #39763 ]
+	* e-msg-composer.c (setup_cut_copy_paste): remove the
+	control_entry_focus_{in,out}_event_cb signal stuff.
+	(control_entry_focus_in_event_cb): nuke
+	(control_entry_focus_in_event_cb): same.
+
+	* e-msg-composer-hdrs.c (create_addressbook_entry): pass the
+	contain to bonobo_widget_new_control_from_objref when creating the
+	entries.
+
 2003-04-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (autosave_save_draft): If the composer isn't

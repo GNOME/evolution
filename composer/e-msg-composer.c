@@ -2841,30 +2841,6 @@ composer_entry_focus_out_event_cb (GtkWidget *widget, GdkEventFocus *event, gpoi
 	return FALSE;
 }
 
-static gboolean
-control_entry_focus_in_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
-{
-	EMsgComposer *composer = user_data;
-	
-	g_assert (composer->focused_entry == NULL);
-	
-	bonobo_control_frame_control_activate (bonobo_widget_get_control_frame (BONOBO_WIDGET (widget)));
-	
-	return FALSE;
-}
-
-static gboolean
-control_entry_focus_out_event_cb (GtkWidget *widget, GdkEventFocus *event, gpointer user_data)
-{
-	EMsgComposer *composer = user_data;
-	
-	g_assert (composer->focused_entry == NULL);
-	
-	bonobo_control_frame_control_deactivate (bonobo_widget_get_control_frame (BONOBO_WIDGET (widget)));
-	
-	return FALSE;
-}
-
 static void
 setup_cut_copy_paste (EMsgComposer *composer)
 {
@@ -2880,20 +2856,6 @@ setup_cut_copy_paste (EMsgComposer *composer)
 	entry = e_msg_composer_hdrs_get_reply_to_entry (hdrs);
 	g_signal_connect (entry, "focus-in-event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
 	g_signal_connect (entry, "focus-out-event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
-	
-	entry = e_msg_composer_hdrs_get_to_entry (hdrs);
-	g_signal_connect (entry, "focus-in-event", G_CALLBACK (control_entry_focus_in_event_cb), composer);
-	g_signal_connect (entry, "focus-out-event", G_CALLBACK (control_entry_focus_out_event_cb), composer);
-	
-	entry = e_msg_composer_hdrs_get_cc_entry (hdrs);
-	g_signal_connect (entry, "focus-in-event", G_CALLBACK (control_entry_focus_in_event_cb), composer);
-	g_signal_connect (entry, "focus-out-event", G_CALLBACK (control_entry_focus_out_event_cb), composer);
-	
-	entry = e_msg_composer_hdrs_get_bcc_entry (hdrs);
-	g_signal_connect (entry, "focus-in-event", G_CALLBACK (control_entry_focus_in_event_cb), composer);
-	g_signal_connect (entry, "focus-out-event", G_CALLBACK (control_entry_focus_out_event_cb), composer);
-	
-	/* FIXME: do the same for the gtkhtml editor */
 }
 
 static EMsgComposer *
