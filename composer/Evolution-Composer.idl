@@ -48,11 +48,11 @@ module Evolution {
 		 * Sets the kind of multipart message that is being
 		 * created.
 		 *
-		 * If @type is MIXED (the default), setBodyText()
+		 * If @type is MIXED (the default), setBody()
 		 * will create the body, and attachMIME() and
 		 * attachData() will create attachments.
 		 *
-		 * If @type is ALTERNATIVE, setBodyText() will create
+		 * If @type is ALTERNATIVE, setBody() will create
 		 * text/plain alternative, and each following
 		 * attachMIME() or attachData() call will create
 		 * another alternative.
@@ -63,13 +63,19 @@ module Evolution {
 		void setMultipartType (in MultipartType type);
 
 		/**
-		 * setBodyText:
+		 * setBody:
 		 * @body: the body
+		 * @mime_type: the MIME type of @body
 		 *
-		 * Sets the text in the body of the composer to
-		 * the given UTF-8 plain text.
+		 * Sets the body of the composer to @body. If
+		 * @mime_type is something other than "text/plain" or
+		 * "text/html", the composer will not be editable
+		 * (calling show() will raise an exception), and the
+		 * composer will not attempt to assign a non-UTF8
+		 * character set to the data. However, @mime_type may
+		 * include parameters in that case.
 		 **/
-		void setBodyText (in string body);
+		void setBody (in string body, in string mime_type);
 
 		/**
 		 * attachMIME:
@@ -117,7 +123,9 @@ module Evolution {
 		 * Shows the composer and lets the user edit things
 		 * and send the message.
 		 **/
-		void show ();
+		exception CannotShow {};
+		void show ()
+			raises (CannotShow);
 
 
 		/**
