@@ -1,3 +1,9 @@
+2002-05-01  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.c (verbs): Changed
+	some of these to bind to the ContactListEditor verbs since they're
+	marked as that in the ui file.  Fixes Ximian bug #13034.
+
 2002-04-30  JP Rosevear  <jpr@ximian.com>
 
 	* gui/component/Makefile.am (EXTRA_DIST): fix

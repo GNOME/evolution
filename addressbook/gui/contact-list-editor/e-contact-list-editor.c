@@ -501,9 +501,9 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSave", file_save_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSaveClose", tb_save_and_close_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorDelete", delete_cb),
-	BONOBO_UI_UNSAFE_VERB ("ContactEditorSaveAs", file_save_as_cb),
-	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendAs", file_send_as_cb),
-	BONOBO_UI_UNSAFE_VERB ("ContactEditorSendTo", file_send_to_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSaveAs", file_save_as_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSendAs", file_send_as_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactListEditorSendTo", file_send_to_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactListEditorClose", file_close_cb),
 	BONOBO_UI_VERB_END
 };
