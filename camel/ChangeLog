@@ -1,3 +1,8 @@
+2002-11-07  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-part.c (camel_mime_part_set_content_type): constify
+	the content_type.
+
 2002-11-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-i18n.h: Added.

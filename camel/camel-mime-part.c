@@ -531,7 +531,7 @@ camel_mime_part_get_content_languages (CamelMimePart *mime_part)
 /* **** Content-Type: */
 
 void 
-camel_mime_part_set_content_type (CamelMimePart *mime_part, gchar *content_type)
+camel_mime_part_set_content_type (CamelMimePart *mime_part, const gchar *content_type)
 {
 	camel_medium_set_header (CAMEL_MEDIUM (mime_part),
 				 "Content-Type", content_type);
