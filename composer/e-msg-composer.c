@@ -77,7 +77,7 @@ create_editor (EMsgComposer *composer)
 {
 	GtkWidget *control;
 
-	control = bonobo_widget_new_control ((HTML_EDITOR_CONTROL_ID,
+	control = bonobo_widget_new_control (HTML_EDITOR_CONTROL_ID,
 					     bonobo_object_corba_objref (BONOBO_OBJECT (composer->uih)));
 	if (control == NULL) {
 		g_error ("Cannot get `%s'.", HTML_EDITOR_CONTROL_ID);
