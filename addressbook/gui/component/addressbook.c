@@ -493,7 +493,8 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	bonobo_ui_handler_menu_new_item (uih, "/File/<Print Placeholder>/Print contacts...",
 					 N_("_Print Contacts..."),
 					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_MENU_PRINT,
 					 0, 0, print_cb,
 					 (gpointer) view);
 
