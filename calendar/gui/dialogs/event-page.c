@@ -27,6 +27,8 @@
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-categories.h>
@@ -650,12 +652,20 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	end_date.value = &end_tt;
 	end_date.tzid = NULL;
 
+	if (!e_date_edit_date_is_valid (E_DATE_EDIT (priv->start_time))) {
+		comp_editor_page_display_validation_error (page, _("Start date is wrong"), priv->start_time);
+		return FALSE;
+	}
 	start_date_set = e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
 					       &start_tt.year,
 					       &start_tt.month,
 					       &start_tt.day);
 	g_assert (start_date_set);
 
+	if (!e_date_edit_date_is_valid (E_DATE_EDIT (priv->end_time))) {
+		comp_editor_page_display_validation_error (page, _("End date is wrong"), priv->end_time);
+		return FALSE;
+	}
 	end_date_set = e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
 					     &end_tt.year,
 					     &end_tt.month,
@@ -675,9 +685,17 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	} else {
 		icaltimezone *start_zone, *end_zone;
 
+		if (!e_date_edit_time_is_valid (E_DATE_EDIT (priv->start_time))) {
+			comp_editor_page_display_validation_error (page, _("Start time is wrong"), priv->start_time);
+			return FALSE;
+		}
 		e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
 					     &start_tt.hour,
 					     &start_tt.minute);
+		if (!e_date_edit_time_is_valid (E_DATE_EDIT (priv->end_time))) {
+			comp_editor_page_display_validation_error (page, _("End time is wrong"), priv->end_time);
+			return FALSE;
+		}
 		e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
 					     &end_tt.hour,
 					     &end_tt.minute);

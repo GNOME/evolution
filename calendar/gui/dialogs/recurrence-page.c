@@ -893,6 +893,12 @@ fill_component (RecurrencePage *rpage, CalComponent *comp)
 
 		dt = gtk_clist_get_row_data (exception_list, i);
 		g_assert (dt != NULL);
+		if (!icaltime_is_valid_time (*dt->value)) {
+			comp_editor_page_display_validation_error (COMP_EDITOR_PAGE (rpage),
+								   _("Recurrent date is wrong"),
+								   exception_list);
+			return FALSE;
+		}
 
 		*cdt->value = *dt->value;
 		cdt->tzid = g_strdup (dt->tzid);

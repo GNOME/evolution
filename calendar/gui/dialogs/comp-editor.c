@@ -317,6 +317,7 @@ save_comp (CompEditor *editor)
 	for (l = priv->pages; l != NULL; l = l->next) {
 		if (!comp_editor_page_fill_component (l->data, clone)) {
 			gtk_object_unref (GTK_OBJECT (clone));
+			comp_editor_show_page (editor, COMP_EDITOR_PAGE (l->data));
 			return FALSE;
 		}
 	}

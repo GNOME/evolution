@@ -23,6 +23,10 @@
 #endif
 
 #include <gtk/gtksignal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
 #include "comp-editor-page.h"
 
 
@@ -383,4 +387,35 @@ comp_editor_page_notify_dates_changed (CompEditorPage *page,
 	gtk_signal_emit (GTK_OBJECT (page),
 			 comp_editor_page_signals[DATES_CHANGED],
 			 dates);
+}
+
+/**
+ * comp_editor_page_display_validation_error:
+ * @page: An editor page.
+ * @msg: Error message to display.
+ * @field: Widget that caused the validation error.
+ *
+ * Displays an error message about a validation problem in the
+ * given field. Once the error message has been displayed, the
+ * focus is set to the widget that caused the validation error.
+ */
+void
+comp_editor_page_display_validation_error (CompEditorPage *page,
+					   const char *msg,
+					   GtkWidget *field)
+{
+	GtkWidget *dialog;
+	char *real_msg;
+
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+	g_return_if_fail (msg != NULL);
+	g_return_if_fail (GTK_IS_WIDGET (field));
+
+	real_msg = g_strdup_printf (_("Validation error: %s"), msg);
+	dialog = gnome_error_dialog (real_msg);
+	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+
+	gtk_widget_grab_focus (field);
+
+	g_free (real_msg);
 }

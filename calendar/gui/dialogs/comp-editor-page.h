@@ -100,6 +100,9 @@ void       comp_editor_page_notify_summary_changed (CompEditorPage      *page,
 						    const char          *summary);
 void       comp_editor_page_notify_dates_changed   (CompEditorPage      *page,
 						    CompEditorPageDates *dates);
+void       comp_editor_display_validation_error    (CompEditorPage      *page,
+						    const char          *msg,
+						    GtkWidget           *field);
 
 
 

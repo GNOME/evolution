@@ -1,3 +1,20 @@
+2002-10-08  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #11434
+	
+	* gui/dialogs/comp-editor-page.[ch]
+	(comp_editor_page_display_validation_error): new function.
+	
+	* gui/dialogs/event-page.c (event_page_fill_component):
+	* gui/dialogs/recurrence-page.c (fill_component):
+	* gui/dialogs/task-details-page.c (task_details_page_fill_component):
+	* gui/dialogs/task-page.c (task_page_fill_component): added
+	checks for all date values, and return FALSE if we find
+	some invalid date/times.
+	
+	* gui/dialogs/comp-editor.c (save_comp): activate the page that
+	returns error in fill_component.
+
 2002-10-08  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/cal-prefs-dialog.c

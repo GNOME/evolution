@@ -27,6 +27,8 @@
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
 #include <widgets/misc/e-dateedit.h>
@@ -413,6 +415,12 @@ task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	icaltime.is_utc = 1;
 
 	/* Completed Date. */
+	if (!e_date_edit_date_is_valid (E_DATE_EDIT (priv->completed_date)) ||
+	    !e_date_edit_time_is_valid (E_DATE_EDIT (priv->completed_date))) {
+		comp_editor_page_display_validation_error (page, _("Completed date is wrong"), priv->completed_date);
+		return FALSE;
+	}
+
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->completed_date),
 					 &icaltime.year,
 					 &icaltime.month,
