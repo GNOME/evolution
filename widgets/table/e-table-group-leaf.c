@@ -47,8 +47,35 @@ etgl_destroy (GtkObject *object)
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF(object);
 	if (etgl->ets)
 		gtk_object_unref (GTK_OBJECT(etgl->ets));
-	if (etgl->item)
+	if (etgl->item) {
+		if (etgl->etgl_cursor_change_id != 0)
+			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
+					       etgl->etgl_cursor_change_id);
+		if (etgl->etgl_cursor_activated_id != 0)
+			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
+					       etgl->etgl_cursor_activated_id);
+		if (etgl->etgl_double_click_id != 0)
+			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
+					       etgl->etgl_double_click_id);
+		if (etgl->etgl_right_click_id != 0)
+			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
+					       etgl->etgl_right_click_id);
+		if (etgl->etgl_click_id != 0)
+			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
+					       etgl->etgl_click_id);
+		if (etgl->etgl_key_press_id != 0)   
+			gtk_signal_disconnect (GTK_OBJECT (etgl->item),
+					       etgl->etgl_key_press_id);
 		gtk_object_destroy (GTK_OBJECT(etgl->item));
+
+		etgl->etgl_cursor_change_id = 0;
+		etgl->etgl_cursor_activated_id = 0;
+		etgl->etgl_double_click_id = 0;
+		etgl->etgl_right_click_id = 0;
+		etgl->etgl_click_id = 0;
+		etgl->etgl_key_press_id = 0;
+		etgl->item = NULL;
+	}
 	if (etgl->selection_model)
 		gtk_object_unref (GTK_OBJECT(etgl->selection_model));
 	if (GTK_OBJECT_CLASS (etgl_parent_class)->destroy)
@@ -127,7 +154,7 @@ etgl_double_click (GtkObject *object, gint row, gint col, GdkEvent *event, ETabl
 static gint
 etgl_key_press (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGroupLeaf *etgl)
 {
-	if (row < E_TABLE_SUBSET(etgl->ets)->n_map)
+	if (row < E_TABLE_SUBSET(etgl->ets)->n_map && row >= 0)
 		return e_table_group_key_press (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->ets)->map_table[row], col, event);
 	else
 		return 0;
@@ -186,18 +213,12 @@ etgl_realize (GnomeCanvasItem *item)
 							 "selection_model", etgl->selection_model,
 							 NULL));
 	
-	gtk_signal_connect (GTK_OBJECT(etgl->item), "cursor_change",
-			    GTK_SIGNAL_FUNC(etgl_cursor_change), etgl);
-	gtk_signal_connect (GTK_OBJECT(etgl->item), "cursor_activated",
-			    GTK_SIGNAL_FUNC(etgl_cursor_activated), etgl);
-	gtk_signal_connect (GTK_OBJECT(etgl->item), "double_click",
-			    GTK_SIGNAL_FUNC(etgl_double_click), etgl);
-	gtk_signal_connect (GTK_OBJECT(etgl->item), "right_click",
-			    GTK_SIGNAL_FUNC(etgl_right_click), etgl);
-	gtk_signal_connect (GTK_OBJECT(etgl->item), "click",
-			    GTK_SIGNAL_FUNC(etgl_click), etgl);
-	gtk_signal_connect (GTK_OBJECT(etgl->item), "key_press",
-			    GTK_SIGNAL_FUNC(etgl_key_press), etgl);
+	etgl->etgl_cursor_change_id    = gtk_signal_connect (GTK_OBJECT(etgl->item), "cursor_change", GTK_SIGNAL_FUNC(etgl_cursor_change), etgl);
+	etgl->etgl_cursor_activated_id = gtk_signal_connect (GTK_OBJECT(etgl->item), "cursor_activated", GTK_SIGNAL_FUNC(etgl_cursor_activated), etgl);
+	etgl->etgl_double_click_id     = gtk_signal_connect (GTK_OBJECT(etgl->item), "double_click", GTK_SIGNAL_FUNC(etgl_double_click), etgl);
+	etgl->etgl_right_click_id      = gtk_signal_connect (GTK_OBJECT(etgl->item), "right_click", GTK_SIGNAL_FUNC(etgl_right_click), etgl);
+	etgl->etgl_click_id            = gtk_signal_connect (GTK_OBJECT(etgl->item), "click", GTK_SIGNAL_FUNC(etgl_click), etgl);
+	etgl->etgl_key_press_id        = gtk_signal_connect (GTK_OBJECT(etgl->item), "key_press", GTK_SIGNAL_FUNC(etgl_key_press), etgl);
 	e_canvas_item_request_reflow(item);
 }
 
@@ -483,7 +504,14 @@ etgl_init (GtkObject *object)
 
 	etgl->ets = NULL;
 	etgl->item = NULL;
-	
+
+	etgl->etgl_cursor_change_id = 0;
+	etgl->etgl_cursor_activated_id = 0;
+	etgl->etgl_double_click_id = 0;
+	etgl->etgl_right_click_id = 0;
+	etgl->etgl_click_id = 0;
+	etgl->etgl_key_press_id = 0;
+
 	etgl->alternating_row_colors = 1;
 	etgl->horizontal_draw_grid = 1;
 	etgl->vertical_draw_grid = 1;

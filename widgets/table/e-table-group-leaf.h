@@ -38,6 +38,13 @@ typedef struct {
 	guint draw_focus : 1;
 	ECursorMode cursor_mode;
 
+	int etgl_cursor_change_id;
+	int etgl_cursor_activated_id;
+	int etgl_double_click_id;
+	int etgl_right_click_id;
+	int etgl_click_id;
+	int etgl_key_press_id;
+
 	ESelectionModel *selection_model;
 } ETableGroupLeaf;
 
