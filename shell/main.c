@@ -31,8 +31,7 @@
 
 
 static void
-shell_destroy_cb (GtkObject *object,
-		  gpointer data)
+no_views_left_cb (EShell *shell, gpointer data)
 {
 	gtk_main_quit ();
 }
@@ -103,8 +102,8 @@ main (int argc, char **argv)
 		exit (1);
 	}
 
-	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
-			    GTK_SIGNAL_FUNC (shell_destroy_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell), "no_views_left",
+			    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
 
 	e_shell_new_view (shell, NULL);
 

@@ -102,10 +102,10 @@ view_destroy_cb (GtkObject *object,
 	g_assert (E_IS_SHELL_VIEW (object));
 
 	shell = E_SHELL (data);
-	shell->priv->views = g_list_remove (shell->priv->views, shell);
+	shell->priv->views = g_list_remove (shell->priv->views, object);
 
 	if (shell->priv->views == NULL)
-		gtk_signal_emit (GTK_OBJECT (object), signals[NO_VIEWS_LEFT]);
+		gtk_signal_emit (GTK_OBJECT (shell), signals[NO_VIEWS_LEFT]);
 }
 
 

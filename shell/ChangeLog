@@ -1,5 +1,11 @@
 2000-05-07  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* main.c (main): Connect to "no_views_left", not "destroy".
+
+	* e-shell.c (view_destroy_cb): Grmpf.
+
+2000-05-07  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell.c (e_shell_construct): Output a warning message if the
 	shortcut file is not found.
 	(setup_storages): Output a warning message if the local storage
