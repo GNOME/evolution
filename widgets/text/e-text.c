@@ -153,6 +153,9 @@ static void _selection_received (GtkInvisible *invisible,
 
 static void calc_height (EText *text);
 
+static gboolean show_pango_rectangle (EText *text, PangoRectangle rect);
+
+
 static GnomeCanvasItemClass *parent_class;
 static GdkAtom clipboard_atom = GDK_NONE;
 
