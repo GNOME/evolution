@@ -814,7 +814,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 
 	/* Recipients */
 	to_list = comp_to_list (method, comp, users);
-	if (to_list == NULL)
+	if (to_list == NULL || to_list->_length == 0)
 		goto cleanup;
 	
 	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
