@@ -126,7 +126,7 @@ const char *
 weather_conditions_string (Weather *w)
 {
     if (!w->cond.significant) {
-	    return "-";
+	    return " ";
     } else {
 	    if (w->cond.phenomenon >= 0 &&
 		w->cond.phenomenon < 24 &&

@@ -1,3 +1,8 @@
+2001-09-04  Iain Holmes  <iain@ximian.com>
+
+	* metar.c (weather_conditions_string): Don't return '-' if there is no
+	condition, as it makes the temperature look negative.
+
 2001-08-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-weather.c (weather_make_html): Make local variable

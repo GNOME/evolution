@@ -2345,7 +2345,7 @@ loc9=Tlemcen\\ Zenata DAON ------ ---
 
 [OZ]
 name=Australasia
-states=AU NZ
+states=AU NZ AN
 
 [OZ_AU]
 name=Australia
@@ -2372,6 +2372,10 @@ name=New Zealand
 loc0=Auckland NZAA ------ ---
 loc1=Christchurch NZCH ------ ---
 loc2=Wellington NZWN ------ ---
+
+[OZ_AN]
+name=Antartica
+loc0=Williams\\ Field NZCM ------ ---
 
 [AS]
 name=Asia
