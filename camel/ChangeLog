@@ -1,3 +1,15 @@
+2004-03-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #55018.
+
+	* providers/imap/camel-imap-store.c (create_folder): Don't allow
+	the suer to create folders with #, %, * or the directory separator
+	in the folder name (added the checks for %, * and #).
+	(get_folder_online): Add a check to make sure the folder name is
+	sane before sending a CREATE (ie. we want to allow getting of
+	folders with discouraged characters in them if they exist, but we
+	don't want to allow the user to create them).
+
 2004-03-25  Martyn Russell  <ginxd@btopenworld.com>
 
 	* providers/smtp/camel-smtp-provider.c: Removed newline character

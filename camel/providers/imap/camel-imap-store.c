@@ -1703,7 +1703,8 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 	response = camel_imap_command (imap_store, NULL, ex, "SELECT %F", folder_name);
 	if (!response) {
 		char *folder_real;
-
+		const char *c;
+		
 		if (camel_exception_get_id(ex) == CAMEL_EXCEPTION_USER_CANCEL) {
 			CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
 			return NULL;
@@ -1717,7 +1718,20 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 					      _("No such folder %s"), folder_name);
 			return NULL;
 		}
-
+		
+		c = folder_name;
+		while (*c && *c != imap_store->dir_sep && !strchr ("#%*", *c))
+			c++;
+		
+		if (*c != '\0') {
+			CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
+			camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
+					      _("The folder name \"%s\" is invalid because "
+						"it containes the character \"%c\""),
+					      folder_name, *c);
+			return NULL;
+		}
+		
 		folder_real = camel_imap_store_summary_path_to_full(imap_store->summary, folder_name, store->dir_sep);
 
 		response = camel_imap_command (imap_store, NULL, ex, "CREATE %S", folder_real);
@@ -1988,17 +2002,22 @@ create_folder (CamelStore *store, const char *parent_name,
 	CamelFolderInfo *root = NULL;
 	gboolean need_convert;
 	int i = 0, flags;
+	const char *c;
 	
 	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
 		return NULL;
 	if (!parent_name)
 		parent_name = "";
 	
-	if (strchr (folder_name, imap_store->dir_sep)) {
+	c = folder_name;
+	while (*c && *c != imap_store->dir_sep && !strchr ("#%*", *c))
+		c++;
+	
+	if (*c != '\0') {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
 				      _("The folder name \"%s\" is invalid because "
 					"it containes the character \"%c\""),
-				      folder_name, imap_store->dir_sep);
+				      folder_name, *c);
 		return NULL;
 	}
 	
