@@ -64,7 +64,7 @@ recur_component_dialog (CalComponent *comp,
 	}
 
 
-	dialog = gtk_message_dialog_new(parent, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, "%s", str);
+	dialog = gtk_message_dialog_new (parent, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, "%s", str);
 	g_free (str);
 	
 	hbox = gtk_hbox_new (FALSE, 2);

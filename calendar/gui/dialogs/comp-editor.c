@@ -371,7 +371,7 @@ save_comp_with_send (CompEditor *editor)
 	if (!save_comp (editor))
 		return FALSE;
 
- 	if (send && send_component_dialog (priv->client, priv->comp, !priv->existing_org)) {
+ 	if (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org)) {
  		if (itip_organizer_is_user (priv->comp, priv->client))
  			return comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
  		else
@@ -1312,7 +1312,8 @@ delete_cmd (GtkWidget *widget, gpointer data)
 
 	if (delete_component_dialog (priv->comp, FALSE, 1, vtype, GTK_WIDGET (editor))) {
 		if (itip_organizer_is_user (priv->comp, priv->client) 
-		    && cancel_component_dialog (priv->client, priv->comp, TRUE))
+		    && cancel_component_dialog ((GtkWindow *) editor,
+						priv->client, priv->comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, priv->comp, priv->client, NULL);
 
 		delete_comp (editor);
@@ -1448,7 +1449,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	cal_component_get_uid (priv->comp, &edit_uid);
 
 	if (!strcmp (uid, edit_uid) && !priv->updating) {
-		if (changed_component_dialog (priv->comp, FALSE, priv->changed)) {
+		if (changed_component_dialog ((GtkWindow *) editor, priv->comp, FALSE, priv->changed)) {
 			status = cal_client_get_object (priv->client, uid, &comp);
 			if (status == CAL_CLIENT_GET_SUCCESS) {
 				comp_editor_edit_comp (editor, comp);
@@ -1475,7 +1476,7 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 	cal_component_get_uid (priv->comp, &edit_uid);
 
 	if (!strcmp (uid, edit_uid) && !priv->updating) {
-		if (changed_component_dialog (priv->comp, TRUE, priv->changed))
+		if (changed_component_dialog ((GtkWindow *) editor, priv->comp, TRUE, priv->changed))
 			close_dialog (editor);
 	}
 }

@@ -481,7 +481,8 @@ cancel_meeting_cmd (GtkWidget *widget, gpointer data)
 	CalComponent *comp;
 	
 	comp = comp_editor_get_current_comp (COMP_EDITOR (ee));
-	if (cancel_component_dialog (comp_editor_get_cal_client (COMP_EDITOR (ee)), comp, FALSE)) {
+	if (cancel_component_dialog ((GtkWindow *) ee,
+				     comp_editor_get_cal_client (COMP_EDITOR (ee)), comp, FALSE)) {
 		comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_CANCEL);
 		comp_editor_delete_comp (COMP_EDITOR (ee));
 	}

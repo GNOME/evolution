@@ -21,7 +21,7 @@
 #ifndef RECUR_COMP_H
 #define RECUR_COMP_H
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtkwindow.h>
 #include <cal-util/cal-component.h>
 #include <cal-util/cal-util.h>
 

@@ -22,8 +22,9 @@
 #define CHANGED_COMP_H
 
 #include <glib.h>
+#include <gtk/gtkwindow.h>
 #include <cal-util/cal-component.h>
 
-gboolean changed_component_dialog (CalComponent *comp, gboolean deleted, gboolean changed);
+gboolean changed_component_dialog (GtkWindow *window, CalComponent *comp, gboolean deleted, gboolean changed);
 
 #endif
