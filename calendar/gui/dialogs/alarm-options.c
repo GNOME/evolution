@@ -30,6 +30,8 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtktextbuffer.h>
+#include <gtk/gtktextview.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-widget.h>
@@ -304,10 +306,12 @@ static void
 alarm_to_dalarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	CalComponentText description;
-
+	GtkTextBuffer *text_buffer;
+	
 	cal_component_alarm_get_description (alarm, &description);
 
-	e_dialog_editable_set (dialog->dalarm_description, description.value);
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
+	gtk_text_buffer_set_text (text_buffer, description.value ? description.value : "", -1);
 }
 
 /* Fills the mail alarm widgets with the values from the alarm component */
@@ -315,6 +319,7 @@ static void
 alarm_to_malarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	CalComponentText description;
+	GtkTextBuffer *text_buffer;	
 	GSList *attendee_list, *l;
 	EDestination **destv;
 	int len, i;
@@ -357,7 +362,9 @@ alarm_to_malarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 
 	/* Description */
 	cal_component_alarm_get_description (alarm, &description);
-	e_dialog_editable_set (dialog->malarm_description, description.value);
+
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));
+	gtk_text_buffer_set_text (text_buffer, description.value ? description.value : "", -1);
 }
 
 /* Fills the procedure alarm widgets with the values from the alarm component */
@@ -433,7 +440,7 @@ alarm_to_repeat_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 
 	/* Sensitivity */
 
-	if (dialog->repeat || repeat.repetitions == 0) {
+	if (!dialog->repeat || repeat.repetitions == 0) {
 		gtk_widget_set_sensitive (dialog->repeat_toggle, dialog->repeat);
 		gtk_widget_set_sensitive (dialog->repeat_group, FALSE);
 		e_dialog_toggle_set (dialog->repeat_toggle, FALSE);
@@ -575,10 +582,16 @@ dalarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	char *str;
 	CalComponentText description;
+	GtkTextBuffer *text_buffer;
+	GtkTextIter text_iter_start, text_iter_end;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
 
-	str = e_dialog_editable_get (dialog->dalarm_description);
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
+	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
+	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
+	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
+
 	description.value = str;
 	description.altrep = NULL;
 
@@ -610,6 +623,8 @@ malarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 	CalComponentText description;
 	GSList *attendee_list = NULL;
 	EDestination **destv;
+	GtkTextBuffer *text_buffer;
+	GtkTextIter text_iter_start, text_iter_end;
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
 	int i;
@@ -639,7 +654,11 @@ malarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 	e_destination_freev (destv);	
 
 	/* Description */
-	str = e_dialog_editable_get (dialog->malarm_description);
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->dalarm_description));
+	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
+	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
+	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
+
 	description.value = str;
 	description.altrep = NULL;
 

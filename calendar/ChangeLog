@@ -1,3 +1,12 @@
+2003-04-04  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/alarm-options.c (alarm_to_dalarm_widgets):
+	description is a text buffer
+	(alarm_to_malarm_widgets): ditto
+	(dalarm_widgets_to_alarm): ditto
+	(malarm_widgets_to_alarm): ditto
+	(alarm_to_repeat_widgets): check repeat status correctly
+
 2003-04-04  Dan Winship  <danw@ximian.com>
 
 	* gui/e-itip-control.c (write_html): Don't free static string.
