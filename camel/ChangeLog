@@ -1,3 +1,8 @@
+2003-01-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl-gssapi.[c,h]: New source files implementing the
+	GSSAPI SASL mechanism.
+
 2003-01-13  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-filter-tohtml.c: fix header include order.
