@@ -1,3 +1,9 @@
+2001-02-05  Christopher James Lahey  <clahey@helixcode.com>
+
+	* camel-stream-fs.c: Added a missing #include.
+
+	* camel-search-private.c: Added a missing #include.
+
 2001-02-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-remote-store.c (remote_query_auth_types): Oops. Change

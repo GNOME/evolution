@@ -25,6 +25,7 @@
 
 #include <config.h>
 #include "camel-stream-fs.h"
+#include "camel-session.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>

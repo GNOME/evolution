@@ -30,6 +30,8 @@
 #include <ctype.h>
 #include <stdio.h>
 
+#include <gal/widgets/e-unicode.h>
+
 #include "camel-exception.h"
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
