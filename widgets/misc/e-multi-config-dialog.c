@@ -182,13 +182,13 @@ page_changed_callback (EConfigPage *page,
 /* Button handling.  */
 
 static void
-cancel (EMultiConfigDialog *dialog)
+do_close (EMultiConfigDialog *dialog)
 {
 	gnome_dialog_close (GNOME_DIALOG (dialog));
 }
 
 static void
-apply (EMultiConfigDialog *dialog)
+do_apply (EMultiConfigDialog *dialog)
 {
 	EMultiConfigDialogPrivate *priv;
 	GSList *p;
@@ -211,10 +211,10 @@ apply (EMultiConfigDialog *dialog)
 }
 
 static void
-ok (EMultiConfigDialog *dialog)
+do_ok (EMultiConfigDialog *dialog)
 {
-	apply (dialog);
-	cancel (dialog);
+	do_apply (dialog);
+	do_close (dialog);
 }
 
 
@@ -356,13 +356,13 @@ impl_clicked (GnomeDialog *dialog,
 
 	switch (button_number) {
 	case 0:			/* OK */
-		ok (multi_config_dialog);
+		do_ok (multi_config_dialog);
 		break;
 	case 1:			/* Apply */
-		apply (multi_config_dialog);
+		do_apply (multi_config_dialog);
 		break;
-	case 2:			/* Cancel */
-		cancel (multi_config_dialog);
+	case 2:			/* Close */
+		do_close (multi_config_dialog);
 		break;
 	default:
 		g_assert_not_reached ();
@@ -433,7 +433,7 @@ init (EMultiConfigDialog *multi_config_dialog)
 	gnome_dialog_append_buttons (GNOME_DIALOG (multi_config_dialog),
 				     GNOME_STOCK_BUTTON_OK,
 				     GNOME_STOCK_BUTTON_APPLY,
-				     GNOME_STOCK_BUTTON_CANCEL,
+				     GNOME_STOCK_BUTTON_CLOSE,
 				     NULL);
 	gnome_dialog_set_default (GNOME_DIALOG (multi_config_dialog), 0);
 

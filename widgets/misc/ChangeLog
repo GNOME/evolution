@@ -1,3 +1,11 @@
+2002-03-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-multi-config-dialog.c (init): Use GNOME_STOCK_BUTTON_CLOSE,
+	not GNOME_STOCK_BUTTON_CANCEL.
+	(do_close): Renamed from `cancel'.
+	(do_apply): Renamed from `apply'.
+	(do_ok): Renamed from `ok'.
+
 2002-03-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-multi-config-dialog.c: Rename Page.widget -> Page.page_widget;
