@@ -738,8 +738,6 @@ BonoboUIVerb verbs [] = {
 static void
 create_ui (EContactEditor *ce)
 {
-	char *fname;
-	BonoboUINode *ui;
 	BonoboUIComponent *component;
 	Bonobo_UIContainer container;
 

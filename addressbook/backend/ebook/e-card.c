@@ -951,26 +951,24 @@ parse(ECard *card, VObject *vobj)
 	while(moreIteration (&iterator)) {
 		parse_attribute(card, nextVObject(&iterator));
 	}
+	if (!card->fname) {
+		card->fname = g_strdup("");
+	}
 	if (!card->name) {
-		if (card->fname) {
-			card->name = e_card_name_from_string(card->fname);
-		}
+		card->name = e_card_name_from_string(card->fname);
 	}
 	if (!card->file_as) {
-		if (card->name) {
-			ECardName *name = card->name;
-			char *strings[3], **stringptr;
-			char *string;
-			stringptr = strings;
-			if (name->family && *name->family)
-				*(stringptr++) = name->family;
-			if (name->given && *name->given)
-				*(stringptr++) = name->given;
-			*stringptr = NULL;
-			string = g_strjoinv(", ", strings);
-			card->file_as = string;
-		} else
-			card->file_as = g_strdup("");
+		ECardName *name = card->name;
+		char *strings[3], **stringptr;
+		char *string;
+		stringptr = strings;
+		if (name->family && *name->family)
+			*(stringptr++) = name->family;
+		if (name->given && *name->given)
+			*(stringptr++) = name->given;
+		*stringptr = NULL;
+		string = g_strjoinv(", ", strings);
+		card->file_as = string;
 	}
 }
 
@@ -1299,6 +1297,9 @@ char *
 e_card_name_to_string(const ECardName *name)
 {
 	char *strings[6], **stringptr = strings;
+
+	g_return_val_if_fail (name != NULL, NULL);
+
 	if (name->prefix && *name->prefix)
 		*(stringptr++) = name->prefix;
 	if (name->given && *name->given)

@@ -1,3 +1,22 @@
+Tue Sep 26 16:28:47 2000  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card.c: Make sure that card->name and
+ 	card->full_name are always valid.
+
+	* contact-editor/e-contact-editor.c: Removed some unused
+ 	variables.
+
+2000-09-22  Matt Bissiri  <bissiri@eecs.umich.edu>
+
+	* contact-editor/e-contact-editor-fullname.c (extract_info): If
+	(editor->name == NULL), store ptr to newly allocated ECardName in
+ 	editor->name, not just in a stack variable.  This fixes a crash
+ 	which happened when you click "New", then click "Full Name...",
+ 	then enter name, then click "OK".
+
+	* backend/ebook/e-card.c (e_card_name_to_string): Add
+ 	g_return_val_if_fail.
+
 2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* gui/widgets/Makefile.am:
@@ -26,15 +45,15 @@
 2000-09-22  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/pas/pas-backend-ldap.c: lots of changes.  flesh out the
-	remove/modify/create functions.  add another flag for the property
-	table, PROP_DN, which makes it easy for us to determine when we
-	need to create a new DN for a record when we're modifying.  also
-	add a ber_func to the table for PROP_TYPE_LIST fields, which fills
-	in the list of bvalues that we send to the ldap server.  The
-	add/modify/delete stuff hasn't been tested yet, and it hopelessly
-	complex (yay ldap).
+ 	remove/modify/create functions.  add another flag for the property
+ 	table, PROP_DN, which makes it easy for us to determine when we
+ 	need to create a new DN for a record when we're modifying.  also
+ 	add a ber_func to the table for PROP_TYPE_LIST fields, which fills
+ 	in the list of bvalues that we send to the ldap server.  The
+ 	add/modify/delete stuff hasn't been tested yet, and it hopelessly
+ 	complex (yay ldap).
 	(ldap_search_handler): act synchronous when ldap_search responds
-	with -1.
+ 	with -1.
 	(view_destroy): use pas_book_view_notify_status_message.
 	(ldap_op_process_current): same
 	(ldap_op_process): same
@@ -43,25 +62,27 @@
 
 2000-09-22  Chris Toshok  <toshok@helixcode.com>
 
-	* backend/ebook/e-card-simple.h: add E_CARD_SIMPLE_FIELD_FAMILY_NAME to the enum.
+	* backend/ebook/e-card-simple.h: add
+ 	E_CARD_SIMPLE_FIELD_FAMILY_NAME to the enum.
 
-	* backend/ebook/e-card-simple.c (field_data): add E_CARD_SIMPLE_FIELD_FAMILY_NAME.
+	* backend/ebook/e-card-simple.c (field_data): add
+ 	E_CARD_SIMPLE_FIELD_FAMILY_NAME.
 	(e_card_simple_get): add getter for FAMILY_NAME.
 
 2000-09-22  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-card.c: Made addresses be quoted printable again
-	so that they will encode properly if they have carriage returns in
-	them.  This is possible now because of a fix in libversit.
+ 	so that they will encode properly if they have carriage returns in
+ 	them.  This is possible now because of a fix in libversit.
 
 2000-09-22  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-book-view-listener.c,
-	backend/ebook/e-book-view-listener.h, backend/ebook/e-book-view.c,
-	backend/ebook/e-book-view.h, backend/idl/addressbook.idl,
-	backend/pas/pas-book-view.c, backend/pas/pas-book-view.h: Added a
-	function to set the status message associated with a given view.
-	This is not yet implemented in the gui.
+ 	backend/ebook/e-book-view-listener.h, backend/ebook/e-book-view.c,
+ 	backend/ebook/e-book-view.h, backend/idl/addressbook.idl,
+ 	backend/pas/pas-book-view.c, backend/pas/pas-book-view.h: Added a
+ 	function to set the status message associated with a given view.
+  	This is not yet implemented in the gui.
 
 2000-09-22  Christopher James Lahey  <clahey@helixcode.com>
 

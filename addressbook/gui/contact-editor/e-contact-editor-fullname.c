@@ -205,8 +205,11 @@ static void
 extract_info(EContactEditorFullname *editor)
 {
 	ECardName *name = editor->name;
-	if (!name)
+	if (!name) {
 		name = e_card_name_new();
+		editor->name = name;
+	}
+
 	name->prefix     = extract_field(editor, "entry-title" );
 	name->given      = extract_field(editor, "entry-first" );
 	name->additional = extract_field(editor, "entry-middle");
