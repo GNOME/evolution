@@ -1,5 +1,10 @@
 2003-11-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-component.c (impl_handleURI): Implemented.
+	(mail_component_class_init): Overload the handleURI method.
+
+2003-11-20  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Fixes bug #51012.
 
 	* em-folder-tree.c (emft_popup_rename_folder): Fixed a FIXME to

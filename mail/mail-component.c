@@ -347,8 +347,7 @@ impl_createControls (PortableServer_Servant servant,
 
 
 static GNOME_Evolution_CreatableItemTypeList *
-impl__get_userCreatableItems (PortableServer_Servant servant,
-			      CORBA_Environment *ev)
+impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
 
@@ -378,13 +377,20 @@ impl_requestCreateItem (PortableServer_Servant servant,
 				     ex_GNOME_Evolution_Component_UnknownType, NULL);
 		return;
 	}
-
+	
 	em_utils_compose_new_message ();
 }
 
 static void
-impl_sendAndReceive (PortableServer_Servant servant,
-		     CORBA_Environment *ev)
+impl_handleURI (PortableServer_Servant servant, const CORBA_char *uri, CORBA_Environment *ev)
+{
+	if (!strncmp (uri, "mailto:", 7)) {
+		em_utils_compose_new_message_with_mailto (uri);
+	}
+}
+
+static void
+impl_sendAndReceive (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	mail_send_receive ();
 }
@@ -397,15 +403,16 @@ mail_component_class_init (MailComponentClass *class)
 {
 	POA_GNOME_Evolution_Component__epv *epv = &class->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
-
+	
 	parent_class = g_type_class_peek_parent (class);
-
+	
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
-
+	
 	epv->createControls          = impl_createControls;
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
+	epv->handleURI               = impl_handleURI;
 	epv->sendAndReceive          = impl_sendAndReceive;
 }
 
