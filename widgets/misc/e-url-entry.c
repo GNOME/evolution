@@ -39,6 +39,7 @@ static void init (EUrlEntry *url_entry);
 static void destroy (GtkObject *obj);
 
 static void button_clicked_cb (GtkWidget *widget, gpointer data);
+static void entry_changed_cb (GtkEditable *editable, gpointer data);
 
 static gboolean mnemonic_activate (GtkWidget *widget, gboolean group_cycling);
 
@@ -99,6 +100,7 @@ init (EUrlEntry *url_entry)
 	priv->entry = gtk_entry_new ();
 	gtk_box_pack_start (GTK_BOX (url_entry), priv->entry, TRUE, TRUE, 0);
 	priv->button = gtk_button_new ();
+	gtk_widget_set_sensitive (priv->button, FALSE);
 	gtk_box_pack_start (GTK_BOX (url_entry), priv->button, FALSE, FALSE, 0);
 	pixmap = gtk_image_new_from_file (MAP_DIR "/connect_to_url-16.xpm");
 	gtk_container_add (GTK_CONTAINER (priv->button), pixmap);
@@ -107,8 +109,10 @@ init (EUrlEntry *url_entry)
 	gtk_widget_show (priv->button);
 	gtk_widget_show (priv->entry);
 	
-	g_signal_connect((priv->button), "clicked",
-			    G_CALLBACK (button_clicked_cb), url_entry);
+	g_signal_connect (priv->button, "clicked",
+			  G_CALLBACK (button_clicked_cb), url_entry);
+	g_signal_connect (priv->entry, "changed",
+			  G_CALLBACK (entry_changed_cb), url_entry);
 }
 
 static void
@@ -165,12 +169,23 @@ button_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	EUrlEntry *url_entry;
 	EUrlEntryPrivate *priv;
-	char *url;
+
+	url_entry = E_URL_ENTRY (data);
+	priv = url_entry->priv;
+
+	gnome_url_show (gtk_entry_get_text (GTK_ENTRY (priv->entry)), NULL);
+}
+
+static void
+entry_changed_cb (GtkEditable *editable, gpointer data)
+{
+	EUrlEntry *url_entry;
+	EUrlEntryPrivate *priv;
+	const char *url;
 	
 	url_entry = E_URL_ENTRY (data);
 	priv = url_entry->priv;
 	
-	url = gtk_editable_get_chars (GTK_EDITABLE (priv->entry), 0, -1);
-	gnome_url_show (url, NULL);
-	g_free (url);
+	url = gtk_entry_get_text (GTK_ENTRY (priv->entry));
+	gtk_widget_set_sensitive (priv->button, url != NULL && *url != '\0');
 }

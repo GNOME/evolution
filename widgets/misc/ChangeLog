@@ -1,3 +1,12 @@
+2004-04-01  Dan Winship  <danw@ximian.com>
+
+	* e-url-entry.c (init): Make the button initially insensitive.
+	Connect to the entry's "changed" signal.
+	(entry_changed_cb): sensitize the button iff the entry is
+	non-empty
+	(button_clicked_cb): simplify a bit by using gtk_entry_get_text
+	rather than gtk_editable_get_chars.
+
 2004-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-charset-picker.c (e_charset_picker_new): Create a new class
