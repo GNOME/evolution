@@ -1,3 +1,9 @@
+2001-08-16  Federico Mena Quintero  <federico@ximian.com>
+
+	* src/libical/icalvalue.c (icalmemory_strdup_and_dequote): Dequote
+	the same characters that we know how to quote in
+	icalvalue_text_as_ical_string().  Fixes Ximian bug #7433.
+
 2001-08-01  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icaltimezone.c: removed some debugging messages.

@@ -181,18 +181,39 @@ char* icalmemory_strdup_and_dequote(const char* str)
 
 		}
 		case 'n':
-		{
-		    *pout = '\n';
-		    break;
-		}
 		case 'N':
 		{
 		    *pout = '\n';
 		    break;
 		}
-		case '\\':
-		case ',':
+		case 't':
+		case 'T':
+		{
+		    *pout = '\t';
+		    break;
+		}
+		case 'r':
+		case 'R':
+		{
+		    *pout = '\r';
+		    break;
+		}
+		case 'b':
+		case 'B':
+		{
+		    *pout = '\b';
+		    break;
+		}
+		case 'f':
+		case 'F':
+		{
+		    *pout = '\f';
+		    break;
+		}
 		case ';':
+		case ',':
+		case '"':
+		case '\\':
 		{
 		    *pout = *p;
 		    break;
@@ -665,14 +686,9 @@ char* icalvalue_text_as_ical_string(icalvalue* value) {
 	    }
 
 	    case ';':
-	    case ',':{
-		icalmemory_append_char(&str,&str_p,&buf_sz,'\\');
-		icalmemory_append_char(&str,&str_p,&buf_sz,*p);
-		line_length+=3;
-		break;
-	    }
-
-	    case '"':{
+	    case ',':
+	    case '"':
+	    case '\\':{
 		icalmemory_append_char(&str,&str_p,&buf_sz,'\\');
 		icalmemory_append_char(&str,&str_p,&buf_sz,*p);
 		line_length+=3;
