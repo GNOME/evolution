@@ -14,7 +14,7 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #25757 -- Fix quoting of icalendar properties (JP)
     #25829, #25830, #26066 
 	   -- Fix a number of meeting usability and interop issues (JP)
-    #25697 -- Exchange reminders still not quite working
+    #25697 -- Exchange reminders still not quite working (Rodrigo)
     
 Other fixes:
 
