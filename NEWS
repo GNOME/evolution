@@ -3,9 +3,18 @@ Evolution 1.0.2, ???
 
 Bugs fixed:
 
+  * Mail
+
+    #17694 -- Work around a bug in Exchange 5.5 that sometimes reports
+              2 messages as having the same UID.
+
+    #16947 -- Make sure that the connect_op is non-NULL before unreffing
+
+           -- Follow symlinks for mbox files 
+
   * Importers
 
-    #17441 - Crash trying to import VCards file into an LDAP folder
+    #17441 -- Crash trying to import VCards file into an LDAP folder
 
 Evolution 1.0.1, 12-18-2001
 ---------------------------
