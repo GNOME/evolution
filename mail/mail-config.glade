@@ -2179,6 +2179,20 @@ Kerberos
 
 	  <widget>
 	    <class>GtkCheckButton</class>
+	    <name>pgp_no_imip_sign</name>
+	    <can_focus>True</can_focus>
+	    <label>Don't sign _meeting requests (for Outlook compatibility)</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
 	    <name>pgp_encrypt_to_self</name>
 	    <can_focus>True</can_focus>
 	    <label>Al_ways encrypt to myself when sending encrypted mail</label>

@@ -268,6 +268,7 @@ account_copy (const MailConfigAccount *account)
 	new->pgp_key = g_strdup (account->pgp_key);
 	new->pgp_encrypt_to_self = account->pgp_encrypt_to_self;
 	new->pgp_always_sign = account->pgp_always_sign;
+	new->pgp_no_imip_sign = account->pgp_no_imip_sign;
 	new->pgp_always_trust = account->pgp_always_trust;
 	
 	new->smime_key = g_strdup (account->smime_key);
@@ -689,6 +690,11 @@ config_read (void)
 		        config->db, path, FALSE, NULL);
 		g_free (path);
 		
+		path = g_strdup_printf ("/Mail/Accounts/account_pgp_no_imip_sign_%d", i);
+		account->pgp_no_imip_sign = bonobo_config_get_boolean_with_default (
+		        config->db, path, FALSE, NULL);
+		g_free (path);
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
 		account->pgp_encrypt_to_self = bonobo_config_get_boolean_with_default (
 		        config->db, path, TRUE, NULL);
@@ -1084,6 +1090,10 @@ mail_config_write (void)
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_always_sign_%d", i);
 		bonobo_config_set_boolean (config->db, path, account->pgp_always_sign, NULL);
+		g_free (path);
+		
+		path = g_strdup_printf ("/Mail/Accounts/account_pgp_no_imip_sign_%d", i);
+		bonobo_config_set_boolean (config->db, path, account->pgp_no_imip_sign, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);

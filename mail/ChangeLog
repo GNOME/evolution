@@ -1,3 +1,16 @@
+2002-08-14  Dan Winship  <danw@ximian.com>
+
+	* mail-config.glade: Add a "don't sign meeting requests" option to
+	the security pane, since some versions of Outlook won't recognize
+	pgp-signed meeting requests. Sigh.
+
+	* mail-config.c (account_copy, config_read, mail_config_write):
+	Handle pgp_no_imip_sign.
+
+	* mail-account-gui.c (mail_account_gui_new,
+	mail_account_gui_save): Setup/save "don't sign meeting requests"
+	button.
+
 2002-08-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (forward_message): Removed an unused variable.

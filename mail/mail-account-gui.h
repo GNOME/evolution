@@ -107,6 +107,7 @@ typedef struct {
 	GtkEntry *pgp_key;
 	GtkToggleButton *pgp_encrypt_to_self;
 	GtkToggleButton *pgp_always_sign;
+	GtkToggleButton *pgp_no_imip_sign;
 	GtkToggleButton *pgp_always_trust;
 	GtkEntry *smime_key;
 	GtkToggleButton *smime_encrypt_to_self;
