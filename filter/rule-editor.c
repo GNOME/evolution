@@ -513,7 +513,7 @@ set_source (RuleEditor *re, const char *source)
 		char *s;
 		
 		d(printf("   hit %s(%s)\n", rule->name, source?source:"<nil>"));
-		s = e_utf8_to_gtk_string (GTK_WIDGET (re->list), U_(rule->name));
+		s = e_utf8_to_gtk_string (GTK_WIDGET (re->list), rule->name);
 		item = gtk_list_item_new_with_label (s);
 		g_free (s);
 		gtk_object_set_data (GTK_OBJECT (item), "rule", rule);
