@@ -1,0 +1,246 @@
+
+<chapter id="usage-summary">
+  <title
+>Introducción al Resumen de Ximian Evolution</title>
+  
+  <sect1 id="summary-intro">
+    <title
+>Uso de la herramienta Resumen</title>
+    <para
+> El Resumen de Ximian Evolution puede mostrar todo lo que necesite saber con rapidez. Le mostrará las tareas de la jornada, cuánto correo tiene pendiente y mucho más. </para>
+    <para
+> Para ver el Resumen haga clic en la barra de <guilabel
+>Atajos</guilabel
+> o en <guilabel
+>Resumen</guilabel
+>, al principio de la barra de <guilabel
+>Carpetas</guilabel
+>. La configuración de fábrica incluye: <itemizedlist
+> <listitem
+> <para
+> Informe meteorológico </para
+> </listitem
+> <listitem
+> <para
+> Titulares periodísticos a través de Internet </para
+> </listitem
+> <listitem
+> <para
+> Resumen de correo </para
+> </listitem
+> <listitem
+> <para
+> Citas </para
+> </listitem
+> <listitem
+> <para
+> Tareas </para
+> </listitem
+> </itemizedlist
+> </para>
+  </sect1>
+  <sect1 id="customizing-summary">
+    <title
+>Personalización de los módulos del Resumen</title>
+    <para
+> Los módulos de <application
+>Evolution</application
+> pueden personalizarse para satisfacer sus necesidades. Por ejemplo puede elegir qué buzones de correo resumir y qué servicios de noticias quiere que aparezcan. </para>
+
+
+  <note id="summary-http-proxy"
+> <title
+>Uso del Resumen a través de un "proxy" HTTP</title
+> <para
+> Si utiliza un «proxy» HTTP, <application
+>Ximian Evolution</application
+> debe ser capaz de encontrarlo  a través del subsistema <systemitem
+>gnome-vfs</systemitem
+> antes de poder acceder a los servicios  de información meteorológica y de noticias a través de Internet. Ocurre lo mismo si quiere ver imágenes remotas en un mensaje de correo HTML. </para
+> <para
+> La herramienta de configuración de «proxy» se encuentra en el Centro de Control. </para
+> </note>
+
+
+    <sect2 id="customizing-summary-weather">
+      <title
+>En el Centro de control encontrará la herramienta de configuración del proxy.</title>
+      <para
+> Personalización del Resumen meteorológico <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Elija <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+> </menuchoice
+> y elija  la herramienta<guilabel
+>Configuración del resumen</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> En <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+> </menuchoice
+> elija <guilabel
+>Preferencias del Resumen</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en la ficha <guilabel
+>Meteorología</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Elija la ciudad en la columna de la izquierda. </para
+> </listitem
+> </orderedlist
+> </para>
+      <para
+> Debajo de la lista de ciudades puede elegir el tiempo, en segundos, entre cada actualización y si quiere ver las temperaturas en grados Celsius o Farenheit. </para>
+
+    </sect2>
+    <sect2 id="customizing-feeds">
+      <title
+><application
+>Evolution</application
+> implementa los sistemas métricos internacional y anglosajón para los informes meteorológicos. El sistema anglosajón corresponde al sistema británico pero se utiliza casi exclusivamente en EEUU. Gran Bretaña y el resto del mundo utilizan el sistema métrico.</title>
+      <para
+> Personalización de la captura de titulares <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Elija <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+> </menuchoice
+> y lance la herramienta <guilabel
+>Configuración del resumen</guilabel
+>. Entonces elija la solapa <guilabel
+>Proveedores de noticias</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+> </menuchoice
+> y elija <guilabel
+>Preferencias del Resumen</guilabel
+>. Entonces elija la ficha <guilabel
+>Fuentes de Noticias</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Elija la ciudad en la columna de la izquierda. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Aceptar</guibutton
+>. </para
+> </listitem
+> </orderedlist
+> </para>
+      <para
+> También puede añadir sus propios proveedores de noticias. Evolution mostrará las noticias en RDF-XML del servidor de su elección. En la mayoría de los casos se trata de un archivo llamado «index.rdf». </para>
+
+    </sect2>
+    <sect2 id="customizing-mail">
+      <title
+>Es posible incluir titulares de orígenes personalizados. Evolution es capaz de utilizar titulares en formato RDF del sitio Web de su elección.</title>
+      <para
+> Personalización del Resumen del correo <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Elija <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+> </menuchoice
+> y elija  la herramienta<guilabel
+>Configuración del resumen</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Elija <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+> </menuchoice
+> y a continuación <guilabel
+>Preferencias del Resumen</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Expande el árbol de carpetas para las carpetas que quier ver en el Resumen. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en la casilla a la izquierda de la carpeta. </para
+> </listitem
+> </orderedlist
+> </para>
+    </sect2>
+    <sect2 id="customizing-cal">
+      <title
+>Haga clic en <guibutton
+>Añadir</guibutton
+>.</title>
+      <para
+> Personalización del Resumen de planificación <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Elija <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+> </menuchoice
+> y elija  la herramienta<guilabel
+>Configuración del resumen</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Elija <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+> </menuchoice
+> y a continuación <guilabel
+>Preferencias del Resumen</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Elija la ficha <guibutton
+>Planificación</guibutton
+>. </para
+> </listitem
+> <listitem
+> <para
+> Indique si desea agrupar sus citas por un día, cinco, una semana o un mes. </para
+> </listitem
+> </orderedlist
+> </para>
+    </sect2>
+  </sect1>
+</chapter>

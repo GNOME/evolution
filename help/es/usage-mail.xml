@@ -1,0 +1,1901 @@
+<chapter id="usage-mail"
+>
+  <title
+>Usar el correo electrónico con Evolution</title
+>
+  <para
+> Este capítulo, así como <xref linkend="usage-mail-organize"/>, le ofrece una guía en profundidad de las posibilidades de Evolution como cliente de correo. Para saber más sobre cómo configurar su cuenta de correo consulte <xref linkend="config-prefs-mail"/>. </para
+>
+  
+  <note
+> <title
+>S usa correo IMAP</title
+> <para
+> Si durante el proceso de configuración IMAP eligió usar el correo IMAP  debe suscribirse a sus carpetas de correo si quiere poder leer su correo en ellas. Consulte<xref linkend="usage-mail-subscriptions"/> para saber cómo hacerlo. </para
+> </note
+>
+  
+  
+  <sect1 id="usage-mail-getnsend-read"
+>
+    <title
+>Leer correo electrónico</title
+>    
+    <para
+> Lance el cliente de correo haciendo clic sobre el icono <guibutton
+>Bandeja de entrada</guibutton
+> en la barra de atajos o eligiendo una carpeta de correo de la barra de carpetas. Para leer un mensaje elíjalo de la lista de mensajes y si quiere verlo en su propia ventana hágale un doble clic o pulse <keycombo action="simul"
+> <keycap
+>Ctrl</keycap
+> <keycap
+>O</keycap
+> </keycombo
+>. </para
+>
+
+
+      <tip id="spaceandbs"
+> <title
+>Leyendo correo mediante el teclado</title
+> <para
+> Al leer un mensaje puede pulsar la barra de espacio para avanzar y la tecla retroceso para retroceder una página. Esto le puede ayudar a leer su correo más rápidamente. </para
+> <para
+> Puede navegar por la lista de mensajes usando las teclas de las flechas arriba y abajo. Para saltar al siguiente mensaje pulse la tecla <keycap
+>.</keycap
+> (punto) o <keycap
+>]</keycap
+> (cerrar corchete). Puede saltar al mensaje anterior pulsando <keycap
+>,</keycap
+> (coma) o <keycap
+>[</keycap
+> (cerrar corechete). </para
+> </tip
+>
+
+    <sect2 id="usage-mail-listorder"
+>
+      <title
+>Ordena la lista de mensajes</title
+>
+      <para
+> <application
+>Evolution</application
+> le ayuda en su trabajo permitiéndole ordenar su correo. Para ordenarlo por destinatario, asunto o fecha haga clic en las barras etiquetadas encima de la lista de mensajes. La dirección de la flecha en la misma le indicará el sentido de la ordenación y si vuelve a hacer clic, la ordenación cambiará al sentido inverso. Por ejemplo haga clic una vez en <guilabel
+>Fecha</guilabel
+> para ordenar los mensajes por la fecha, desde el más viejo al más reciente. Haga clic de nuevo y <application
+>Evolution</application
+> ordenará la lista desde el más nuevo al más antiguo. También puede hacer clic con el botón derecho sobre la cabecera del mensaje para disponer de un juego de opciones de ordenación y añadir o borrar columnas de la lista de mensajes. Puede encontrar instrucciones detalladas sobre cómo personalizar las columnas de la lista de mensajes en <xref linkend="usage-mail-organize-columns"/>. </para
+>
+
+      <tip id="view-headers"
+> <title
+>Cabeceras de mensajes</title
+> <para
+> Para ver completas las cabeceras de un mensaje elija <menuchoice
+> <guimenu
+>Ver</guimenu
+><guisubmenu
+>Mostrar mensaje</guisubmenu
+> <guimenuitem
+>Ver cabeceras completas</guimenuitem
+></menuchoice
+>. Para ver absolutamente todo el mensaje elija <menuchoice
+><guimenu
+>Ver</guimenu
+> <guisubmenu
+>Mostrar mensaje</guisubmenu
+> <guimenuitem
+>Mostrar el fuente</guimenuitem
+></menuchoice
+>. </para
+> </tip
+>
+
+      <para
+> Puede elegir una vista de mensajes por conversaciones. Elija <menuchoice
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Lista de mensajes por conversaciones</guimenuitem
+> </menuchoice
+> para activarla o desactivarla. Cuando elije esta opción, <application
+>Evolution</application
+> agrupa las respuestas de un mensaje con el original, por lo que puede seguir el hilo de la conversación de un mensaje al siguiente. </para
+>
+      <figure
+>
+        <title
+>Las listas de mensajes en conversación en acción</title
+>
+	<screenshot
+> <screeninfo
+>Las listas de mensajes en conversación en acción</screeninfo
+> <mediaobject
+><imageobject
+> <imagedata format="PNG" fileref="figures/mail-threaded" srccredit="Aaron Weber"/> </imageobject
+></mediaobject
+> </screenshot
+>
+      </figure
+>
+
+    </sect2
+>
+    
+    <sect2 id="usage-mail-getnsend-delete"
+>
+        <title
+>Eliminación de correo</title
+>
+        <para
+> Una vez que haya leído su correo puede que quiera desembarazarse de él. Para borrar un mensaje: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Haga clic sobre el mensaje para seleccionarlo </para
+> </listitem
+> <listitem
+> <para
+> Pulse el botón suprimir o haga doble clic sobre el mensaje y elija <guilabel
+>Borrar</guilabel
+>. </para
+> <note
+> <title
+>¿Por qué sigo viendo el correo borrado?</title
+> <para
+> Cuando pulsa <guibutton
+>Borrar</guibutton
+> o pulse sobre el botón de la papelera su correo no se borra realmente sino que se marca para ser eliminado. Su correo no desaparece definitivamente hasta que no lo haya purgado. Cuando «Purga» una carpeta realmente está elimiando todo el correo marcado como borrado. </para
+> <para
+> Si no le gusta este comportamiento, elija<menuchoice
+><guimenu
+>Ver</guimenu
+> <guimenuitem
+>Ocultar mensajes borrados</guimenuitem
+></menuchoice
+>. Entonces sólo verá los mensajes eliminados cuando mire en su carpeta <guilabel
+>Papelera</guilabel
+>. </para
+> </note
+> </listitem
+> <listitem
+> <para
+> Abra <menuchoice
+> <guimenu
+>Acciones</guimenu
+> <guimenuitem
+>Purgar</guimenuitem
+>  </menuchoice
+> o presione la combinación de teclas <keycombo action="simul"
+> <keycap
+>Ctrl</keycap
+> <keycap
+>E</keycap
+> </keycombo
+> </para
+> </listitem
+> </orderedlist
+> </para
+>
+      <note
+> <title
+>¿Realmente la Papelera es una carpeta virtual?</title
+> <para
+> Tanto la carpeta local Papelera como la IMAP realmente son carpetas virtuales que muestran todos los mensajes que ha marcado para su posterior eliminación. Para saber más acerca de las carpetas virtuales consulte <xref linkend="usage-mail-organize-vfolders"/>. Dado que vaciar su papelera purga los mensajes en su carpeta Papelera, elegir<menuchoice
+> <guimenu
+>Acciones</guimenu
+> <guimenuitem
+>Vaciar papelera</guimenuitem
+> </menuchoice
+> es lo mismo que purgar el correo borrado en <emphasis
+>todas</emphasis
+> sus carpetas.. </para
+> <para
+> Sin embargo esto no es cierto paro la carpeta Papelera situada en servidores Exchange, que se comporta exactamente igual que lo haría en Outlook. Es decir, la carpeta Papelera en un servidor Exchange es una carpeta normal con verdaderos mensajes dentro. </para
+> </note
+>
+    </sect2
+>
+    <sect2 id="usage-mail-getnsend-undelete"
+>
+      <title
+>Recuperar mensajes</title
+>
+      <para
+> Para recuperar un mensaje: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Seleccione un mensaje que haya marcado para su eliminación. </para
+> </listitem
+> <listitem
+> <para
+> Pulse <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>U</keycap
+> </keycombo
+> o elija <menuchoice
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Recuperar</guimenuitem
+> </menuchoice
+> </para
+> <note
+> <title
+>¿Qué es lo que Recuperar hace realmente?</title
+> <para
+> Si ha marcado un mensaje para su eliminación, recuperándolo eliminará la marca y el mensaje se borrará de la carpeta Papelera. Sin embargo no se pueden recuperar mensajes que ya han sido purgados. </para
+> </note
+> </listitem
+> </orderedlist
+> </para
+>
+    </sect2
+>
+  </sect1
+>
+
+  <sect1 id="usage-mail-getnsend-get"
+>
+    <title
+>Comprobación de correo nuevo</title
+>
+    <para
+> Ahora que le ha dado un vistazo a la <interface
+>Bandeja de entrada</interface
+> es el momento para comprobar el correo nuevo. Haga clic en<guibutton
+>Enviar/Recibir</guibutton
+> en la barra de herramientas. Si aún no ha introducido ninguna configuración de correo el <interface
+>asistente de configuración</interface
+> le preguntará la información que necesita para descargar su correo. </para
+>
+    <para
+> El asistente le presentará una serie de ventanas donde puede configurar: <itemizedlist
+> <listitem
+> <para
+> su información personal </para
+> </listitem
+> <listitem
+> <para
+> datos del servidor para el correo saliente </para
+> </listitem
+> <listitem
+> <para
+> el nombre identificativo de su cuenta </para
+> </listitem
+> </itemizedlist
+> </para
+>
+
+
+   <figure id="usage-mail-druid-pic"
+>
+	<title
+>Asistente para la configuración del correo</title
+>
+	<screenshot
+> <screeninfo
+>Asistente para la configuración del correo</screeninfo
+> <mediaobject
+> <imageobject
+> <imagedata fileref="figures/mail-druid-pic" format="PNG" srccredit="Aaron Weber"/> </imageobject
+> </mediaobject
+> </screenshot
+>
+	</figure
+>
+
+
+    <para
+> Para comprobar su correo su correo pulse el botón <guibutton
+>Enviar/Recibir</guibutton
+>. Si es la primera vez que lo hace o nunca le pidió a <application
+>Evolution</application
+> que almacenara su contraseña, éste le pedirá que la escriba. Con ella podrá descargar su correo. </para
+>
+    <note id="badmailsettings"
+> <title
+>¿No puede comprobar su correo?</title
+> <para
+> Si recibe un mensaje de error en lugar de correo puede que tenga que revisar su configuración de acceso a la red. Para saber cómo hacerlo dele un vistazo a <xref linkend="config-prefs-mail"/> o pregunte a su administrador de sistemas. </para
+> </note
+>
+
+
+
+          <tip
+> <title
+>Compartiendo los buzones de correo con otros programas de correo</title
+> <para
+> Si quiere usar <application
+> Evolution</application
+> y además otro cliente de correo electrónico, como <application
+>Mutt</application
+>, he aquí cómo poder hacerlo: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Descargar su correo en la otra aplicación como haría con normalidad. </para
+> </listitem
+> <listitem
+> <para
+> En <application
+>Evolution</application
+> elija <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+> Configuración</guimenuitem
+></menuchoice
+>. Lance la herramienta de configuración de cuentas de correo y elija la cuenta que quiere usar para compartir correo. Puede que prefiiera crear una cuenta nueva sólo para este propósito. </para
+> </listitem
+> <listitem
+> <para
+> Bajo la solapa <guilabel
+>Recepción de correo</guilabel
+> elija el tipo de archivo de correo que usa su otra aplicación y escriba la ruta de directorios completa del archivo. Una eleción habitual son los ficheros mbox, con la ruta «/home/nombresdelusuario/Mail». </para
+> </listitem
+> <listitem
+> <para
+> Pinche en el botón <guibutton
+>Aceptar</guibutton
+>. </para
+> </listitem
+> </orderedlist
+> </para
+> </tip
+>
+
+
+<!-- NOT FOR 1.0
+       <sect2 id="usage-mail-getnsend-get-news"
+>
+	  <title
+>Using Evolution for News</title
+>
+	<para
+>
+	  Newsgroups are so similar to email that there's no reason not
+	  to read them side by side.  If you want to do that, add a
+	  news source to your configuration (see <xref
+	  linkend="config-prefs-network-news"/>). The news server will
+	  appear as a remote server, and will look quite similar to an
+        IMAP folder.  When you click <guibutton
+>Send/Receive</guibutton
+>,
+	  <application
+>Evolution</application
+> will also check for news
+	  messages.
+	</para
+>
+	</sect2
+>
+-->
+
+     <sect2 id="usage-mail-getnsend-get-attach"
+>
+	 <title
+>Trabajar con adjuntos y correo HTML</title
+>
+	 <para
+> Si recibe un mensaje de alguien con un fichero<glossterm linkend="attachment"
+>adjunto</glossterm
+>. <application
+>Evolution</application
+> lo mostrará al pie del mensaje al cual está anexado. Lo que sea texto, incluido formateo HTML e imágenes empotradas, aparecerá como parte del mensaje, y no en en el pie del mismo como si fueran adjuntos. </para
+>
+
+     <sect3 id="usage-mail-getnsend-get-attach-actions"
+>
+     <title
+>Abriendo o guardando adjuntos</title
+>
+     <para
+> Si recibe un adjunto dentro de un mensaje de correo electrónica, <application
+>Ximian Evolution</application
+> le ayuda a guardarlo o a abrirlo con las aplicaciones adecuadas. </para
+>
+     <para
+> Guardar un adjunto en el disco: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Pinche en la flecha apuntando hacia abajo en el icono del adjunto y elija <guimenuitem
+>Guardar adjunto</guimenuitem
+>. </para
+> </listitem
+> <listitem
+> <para
+> Elija dónde quiere guardar el archivo y cómo nombrarlo. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Aceptar</guibutton
+>. </para
+> </listitem
+> </orderedlist
+> </para
+>
+
+      <para
+> Abrir un anexo en una aplicación: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Abrir el mensaje de correo  que contiene el adjunto que quiere leer. </para
+> </listitem
+> <listitem
+> <para
+> Pinche en la flecha junto el icono del adjunto. </para
+> </listitem
+> <listitem
+> <para
+> Elija el programa que quiere usar. Se abrirá y abrirá el documento. </para
+> </listitem
+> </orderedlist
+> </para
+>
+      <para
+> </para
+>
+      </sect3
+>
+
+      <sect3 id="usage-mail-getnsend-get-attach-html"
+>
+      <title
+>Imágenes dentro de mensajes HTML</title
+>
+      <para
+> Cuando alguien le envía un mensaje HTML que una imagen en su interior (por ejemplo el mensaje de bienvenida que encontrará en la Bandeja de entrada la primera vez que ejecute <application
+>Ximian Evolution</application
+>) <application
+>Evolution</application
+> mostrará la imagen dentro del propio mensaje. Usted también puede crear mensajes como ese seleccionando en el menú del editor de mensajes <menuchoice
+> <guimenu
+>Insertar</guimenu
+> <guimenuitem
+>Imagen</guimenuitem
+></menuchoice
+> </para
+>
+
+      <para
+> Si la imagen no está dentro del mensaje pero es un enlace a una imagen en Internet <application
+>Evolution</application
+> puede descargarla. Sin embargo, no lo hará a menos que se lo pida explícitamente. Esto se explica porque las imágenes remotas pueden tardar un poco en set descargadas y mostradas y porquepueden ser usadas por «spammers» para llevar un control de quién lee sus indeseables mensajes. Puede proteger un poco más su privacidad si no configura para que las images se descarguen automáticamente. </para
+>
+      <para
+> Si quiere ver las imágenes de un mensaje elija <menuchoice
+><guimenu
+>Ver</guimenu
+> <guisubmenu
+>Mostrar mensaje</guisubmenu
+> <guimenuitem
+>Cargar imágenes</guimenuitem
+></menuchoice
+>. Si quiere que<application
+>Ximian Evolution</application
+> descargue imágenes desde Internet, elija<menuchoice
+><guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+></menuchoice
+> y pinche en la herramienta de configuración del correo <guilabel
+>Opciones de correo</guilabel
+>. Allí abra la solapa <guilabel
+>Correo en HTML</guilabel
+> y elija una de las opciones <guilabel
+>No cargar nunca imágenes desde la red</guilabel
+> <guilabel
+>Cargar imágenes si el remitente está en la libreta de direcciones</guilabel
+> <guilabel
+>Cargar siempre las imágenes desde la red</guilabel
+>. </para
+>
+      <note id="http-proxy"
+> <title
+>Cargar imágenes desde Internet usando un «proxy» HTTP</title
+> <para
+> Si utiliza un «proxy» HTTP (como ocurre en muchas grandes organizaciones) <application
+>Ximian Evolution</application
+> debe poderencontrarlo a través del subsistema <systemitem
+>gnome-vfs</systemitem
+> antes de poder descargar imágenes desde Internet. Ocurre igual con la información de noticias y metereología a través de la herramienta Resumen. </para
+> <para
+> Si está usando GNOME 1.4, tendrá que configurar esto en el menú <guilabel
+>Preferencias</guilabel
+>  de Nautilus. Sin embargo, en GNOME 2.0 y posteriores puede usar el Centro de Control de GNOME desde el menú en la parte superior del escritorio o desde el menú GNOME<menuchoice
+><guimenu
+>Sistema</guimenu
+> <guimenuitem
+>Configuración personal</guimenuitem
+></menuchoice
+>  desde el panel-menú o desde el menú GNOME y pinchar en el botón <guibutton
+>Configuración del proxy de la red</guibutton
+>  de la sección<guilabel
+>Configuración del sistema</guilabel
+>. Escriba la información de su proxy y si tiene dudas, consulte a su administrador de red o a su ISP.  </para
+> </note
+>
+     </sect3
+>
+    </sect2
+>
+  </sect1
+>
+
+    <sect1 id="usage-mail-getnsend-send"
+>
+      <title
+>Escribir nuevos mensajes de correo electrónico</title
+>
+      <para
+> Para crear un nuevo mensaje de correo electrónico elija <menuchoice
+>  <guimenu
+>Archivo</guimenu
+> <guisubmenu
+>Nuevo</guisubmenu
+> <guimenuitem
+>Mensaje de correo</guimenuitem
+> </menuchoice
+> o haga clic en <guibutton
+>Nuevo</guibutton
+>, en la izquierda de la barra de herramientas. Se abrirá el cuadro de diálogo <interface
+>Redactar un mensaje</interface
+> tal y como se muestra en <xref linkend="usage-mail-newmsg-fig"/>. </para
+>
+
+<!--   ==============Figure=================================== -->
+      <figure id="usage-mail-newmsg-fig"
+>
+        <title
+>Ventana de creación de un mensaje</title
+>
+        <screenshot
+> <screeninfo
+>La ventana principal de Ximian Evolution</screeninfo
+> <mediaobject
+><imageobject
+><imagedata fileref="figures/newmsg" format="PNG" srccredit="Aaron Weber"/> </imageobject
+></mediaobject
+> </screenshot
+>
+      </figure
+>
+<!-- ==============End of Figure=================================== -->
+
+      <para
+> Escriba una dirección en el campo <guilabel
+>Para</guilabel
+>. Si lo desea, escriba el asunto en <guilabel
+>Asunto</guilabel
+>, y en la caja que hay abajo el texto del mensaje. Una vez que haya acabado pulse en <guibutton
+>Enviar</guibutton
+>. </para
+>
+
+     <sect2 id="usage-mail-getnsend-send-delay"
+>
+        <title
+>Enviar los mensajes nuevos más tarde</title
+>
+        <para
+> En general <application
+>Evolution</application
+> enviará los mensajes a su destinatario en cuanto pulse el botón <guibutton
+>Enviar</guibutton
+>. Sin embargo hay unas cuantas maneras de guardar un mensaje para enviarlo más tarde. <itemizedlist
+> <listitem
+> <para
+> Si está desconectado de la red, <application
+>Evolution</application
+> guardará sus mensajes en la carpeta <guilabel
+> Bandeja de salida</guilabel
+>. El mensaje se enviará la próxima vez que se conecte a Internet y renvíe o reciba correo. </para
+> </listitem
+> <listitem
+><para
+> Elija <menuchoice
+><guimenu
+>Archivo</guimenu
+><guimenuitem
+>Guardar borrador</guimenuitem
+></menuchoice
+> para guardar sus mensajes en la carpeta de borradores y poder revisarlos después. </para
+></listitem
+> <listitem
+><para
+> Si prefiere guardar el mensaje como un archivo de texto elija <guimenuitem
+> Guardar como</guimenuitem
+> y después escriba el nombre del mismo. </para
+> </listitem
+> </itemizedlist
+> </para
+>
+    </sect2
+>
+
+    <sect2 id="usage-mail-getnsend-offline"
+>
+      <title
+>Trabajando desconectado</title
+>
+    
+      <para
+> El modo desconectado es una herramienta diseñada para usar cuentas de correo IMAP o Exchange en situaciones en las que no podrá estar siempre conectado a la red local. Guarda copia de una o más carpetas y le permite crear nuevos mensajes, guardarlos en la <guilabel
+>Bandeja de salida</guilabel
+> y enviarlo en cuanto vuelva a conectarse.  </para
+>
+     
+      <para
+> En tanto que el correo POP descarga todos sus mensajes a su escritorio, las conexiones IMAP y Exchange normalmente sólo descargan las cabeceras y traen el resto solamente cuando quiere leer el mensaje entero. Antes de desconectar, Evolution descargará todos los mensajes sin leer desde las carpetas que haya elegido copiar al escritorio. </para
+>
+
+      <para
+> Para marcar una carpeta para usarla cuando esté desconectado elija <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+> </menuchoice
+> y pinche en el icono <guilabel
+>Configuración de carpetas</guilabel
+>. Elija la solapa <guilabel
+>Carpetas sin conexión</guilabel
+> y active las casilla junto a las carpetas que quiera poder usar cuando no esté conectado. </para
+>
+
+      <para
+> En la esquina inferior izquierda de la ventana principal de Evolution encontrará el indicador de estado de la conexión. Cuando está conectado mostrará dos cables enchufados. Cuando esté desconectado los cables estarán desenchufados. </para
+>
+
+      <para
+> Para copiar al disco local las carpetas elegidas y desconectar de la red elija <menuchoice
+><guimenu
+>Archivo</guimenu
+> <guimenuitem
+> Trabajar desconectado</guimenuitem
+></menuchoice
+> o pinche en el icono indicador de estado de conexión en la esquina inferior izquierda de la ventana. Cuando quiera volver a conectar elija <menuchoice
+><guimenu
+>Archivo</guimenu
+> <guimenuitem
+> Trabajarconectado</guimenuitem
+></menuchoice
+> o pinche de nuevo en el icono indicador de conexión. </para
+>
+           
+       </sect2
+>
+    <sect2 id="usage-mail-getnsend-send-compose"
+>
+      <title
+>Más sobre la redacción de mensajes</title
+>
+      <para
+> Es las próximas secciones veremos cómo <application
+>Evolution</application
+>.maneja sus funciones avanzadas de gestión de correo, incluyendo largas listas de destinatarios, adjuntos y reenvíos. </para
+>
+      <sect3 id="usage-mail-getnsend-send-attach"
+>
+        <title
+>Adjuntos</title
+>
+        <para
+> Para adjuntar un archivo a su mensaje: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Pulse el botón Adjuntar en la barra de herramientas del editor. </para
+> </listitem
+> <listitem
+> <para
+> Elija el fichero que quiere adjuntar </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Aceptar</guibutton
+>. </para
+> </listitem
+> </orderedlist
+> </para
+>
+	<para
+> También puede arrastrar un archivo desde su escritorio a la ventana del editor para adjuntarlo. </para
+>
+        <para
+> Para esconder la vista de los archivos que ha adjuntado al mensaje desactive<menuchoice
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Mostrar adjuntos</guimenuitem
+> </menuchoice
+>; y para verlos de nuevo marque la misma casilla <guimenuitem
+>Mostrar adjuntos</guimenuitem
+>. </para
+>
+        <para
+> Cuando mande un mensaje irá con él una copia del archivo. Tenga presente que los adjuntos de gran tamaño pueden tomar mucho tiempo al ser descargados. </para
+>
+       </sect3
+>
+
+      <sect3 id="usage-mail-getnsend-send-to-types"
+>
+	<title
+>Especificar destinatarios de correo electrónico</title
+>
+        <para
+> <application
+> Evolution</application
+>, como la mayoría de los programas de correo electrónico reconoce tres tipos de destinatarios: los principales, los secundarios y los ocultos (también llamados «ciegos»). </para
+>
+         <para
+> La manera más sencilla de dirigir un mensaje es escribir las direcciones de correo electrónico de los destinatarios en los campos  <guilabel
+>Para</guilabel
+>, indicando que son los destinatarios principales. Para enviar el mensaje a más de una o dos personas puede usar el campo <guilabel
+>Cc:</guilabel
+> (con copia). </para
+>
+          <para
+> Al principio de los tiempos, cuando los humanos usaban máquinas de escribir y no había fotocopiadoras, «Cc:» significaba «copia de carbón». Use esta función siempre que quiera compartir con otra persona un mensaje destinado a otro. Nota del traductor: en general en español no es común el uso de la expresión sajona «copia de carbón» o «copia carbón» sino más bien «copia con calco» o sencillamente «copia». Sin embargo parece que la expresión está prosperando en la jerga informática en el contexto del correo electrónico. </para
+>
+          <para
+> <guilabel
+>Cco:</guilabel
+> es un poco más complicado. Se usa como <guilabel
+>Cc:</guilabel
+> pero la gente que figura en la lista <guilabel
+>Cco:</guilabel
+> estará oculta para los otros destinatarios del mensaje. Use esta función para mandar mensajes a grandes grupos de personas especialmente si ellos no se conocen entre sí o si es importante mantener la privacidad. Si el campo <guilabel
+>Cco:</guilabel
+> no está a la vista pinche en  <menuchoice
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Campo «Cco»</guimenuitem
+> </menuchoice
+>. </para
+>
+
+         <para
+> Si  escribe con frecuencia a los mismos grupos de personas, puede crear listas de direcciones en el gestor de contactos, y escribirles como si cada grupo tuviera una única dirección de correo. Para saber cómo hacerlo consulte <xref linkend="usage-contact-organize-group-list"/>. </para
+>
+
+	<tip id="reply-to-per-mail"
+> <title
+>Configurar «Responder a» mensaje a mensaje</title
+> <para
+> <application
+>Evolution</application
+> tiene la habilidad de permitirle especificar el campo «Responder a:» de un mensaje: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Abra una ventana de Nautilus </para
+> </listitem
+> <listitem
+> <para
+> Para abrir el campo «Responder a» marque la casilla <menuchoice
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Responder a</guimenuitem
+> </menuchoice
+> </para
+> </listitem
+> <listitem
+> <para
+> Escriba la dirección a la que quiere que le respondan en el nuevo campo «Responder a»Enter the address you wish to have be the Reply-To address in the new Reply-To field. </para
+> </listitem
+> </orderedlist
+> </para
+> </tip
+>
+        </sect3
+>
+			 
+        <sect3 id="usage-mail-getnsend-send-to"
+>
+	      <title
+>Eligiendo los destinatarios rápidamente</title
+>
+	      <para
+> Si tiene disponibles tarjetas de visita en el gestor de contactos, también puede usar apodos y otras partes de la información allí guardada para que <application
+>Evolution</application
+> busque y muestra una lista desplegable de todas las posibles direcciones que encajan con lo escrito. Si escriba un nombe o un apodo que encaja con más de una ficha, Evolution abrirá un diálogo para que elija la persona a la que quiere escribir. </para
+>
+
+          <para
+> También puede pulsar en los botones  <guibutton
+>Para</guibutton
+>, <guibutton
+>Cc:</guibutton
+>, o <guibutton
+>Cco:</guibutton
+> para obtener una lista, que puede llegar a ser realmente larga, de todas las direcciones de correo de su gestor de contactos. Elija las direcciones y pinche en las flechas para moverlas en las columnas de direcciones que desea. </para
+>
+          <para
+> Para saber más acerca de cómo usar correo electrónico con el gestor de contactos y con el calendario consulte <xref linkend="contact-automation-basic"/> y <xref linkend="usage-calendar-apts"/>. </para
+>
+        </sect3
+>
+      </sect2
+>
+
+      <sect2 id="usage-mail-getnsend-send-reply"
+>
+        <title
+>Responder un mensaje</title
+>
+        <para
+> Para contestar a un mensaje, selecciónelo y  pulse el botón <guibutton
+>Responder</guibutton
+> o pínchelo con el botón derecho del ratón y elija <guimenuitem
+>Responder al remitente</guimenuitem
+> y se abrirá la <interface
+>ventana del editor de correo</interface
+>. Los campos <guilabel
+>Para</guilabel
+> y  <guilabel
+>Asunto</guilabel
+> ya estarán escritos, aunque los puede modificar a placer. Además, se insertará el texto completo del mensaje original, bien en gris con una línea azul a un lado (en el modo HTML) o con un signo &gt; delante de cada línea (cuando usesólo puro texto) para indicar que ese es un mensaje anterior. Mucha gente intercala su texto entre el material citado, como se muesta en  <xref linkend="usage-mail-getnsend-reply-fig"/>. <figure id="usage-mail-getnsend-reply-fig"
+> <title
+>Contestando un mensaje</title
+> <screenshot
+> <screeninfo
+>Ventana principal de Evolution</screeninfo
+> <mediaobject
+><imageobject
+><imagedata fileref="figures/replymsg" format="PNG" srccredit="Aaron Weber"/> </imageobject
+></mediaobject
+> </screenshot
+> </figure
+> </para
+>
+        <para
+> Si está leyendo un mensaje que tiene varios destinatarios puede que desee <guibutton
+>Responder a todos</guibutton
+> en lugar de <guibutton
+> Responder</guibutton
+>. Y es que puede ahorrar mucho tiempo si tiene a muchas personas en los campos <guilabel
+>Cc:</guilabel
+><guilabel
+>Para:</guilabel
+>. <example
+> <title
+>Uso de la característica de Responder a todos</title
+> <para
+> Susan envía un mensaje a un cliente y pone copia a Tim y a una lista de correo interna de la compañía para sus compañeros de trabajo. Si Tim quiere mandar un comentario para que lo lean todos sus compañeros, él pinchará en <guibutton
+>Responder a todos</guibutton
+> pero si lo que quiere es solamente decirle a Susan que está de acuerdo con ella, usará <guibutton
+> Responder</guibutton
+>.  Observe que esta respuesta no la recibirá nadie a quien Susan haya incluido en la lista de <guilabel
+> Cco:</guilabel
+> de su mensaje original porque tal lista no ha sido compartida con nadie. </para
+> </example
+> </para
+>
+        <para
+> Si está suscrito a una lista de correo y quiere que su respuesta sólo vaya a la misma en lugar de al remitente pinche en <guibutton
+> Responder la lista</guibutton
+> en lugar de<guibutton
+> Responder</guibutton
+> o de<guibutton
+>Responder a todos</guibutton
+>. <note
+> <title
+>¿Qué es una lista de correo?</title
+> <para
+> Las listas de correo son una de las herramientas de trabajo en grupo más populares de Internet. Así es como funcionan: <simplelist
+><member
+>alguien envía un mensaje a una única dirección de correo, como <email
+>evolution@ximian.com</email
+></member
+> <member
+>ea dirección pertenece a un programa que distribuye el mensaje a una lista de destinatarios</member
+></simplelist
+>. El programa de gestión de correo permite gestionar las altas y bajas de la lista individualmente, sin que el remitente tenga que recordar todas las direcciones de las personas apuntadas. </para
+> <para
+> Los servidores de listas de correo suelen permitir al administrador de la red controlar la entrada y salida del correo, la lista de miembros e incluso moderar el contenido de las listas. </para
+> </note
+> </para
+>
+      </sect2
+>
+
+      <sect2 id="usage-mail-getnsend-send-find"
+>
+        <title
+>Buscar y sustituir en el editor de mensajes</title
+>
+        <para
+> Probablemente ya está familiarizado con las funciones de búsqueda y sustitución en cualquier clase de software de edición de textos. Y si tiene experiencia en Linux o Unix puede que también sepa qué es lo que hace <guimenuitem
+>Buscar expresión regular</guimenuitem
+>. Si no está entre los afortunados que ya lo conocen, aquí tiene un rápido resumen de las funciones de búsqueda automática de texto que el editor de mensajes pone a su disposición. </para
+>
+        <para
+> <variablelist
+> <varlistentry
+> <term
+><guimenuitem
+>Buscar</guimenuitem
+></term
+> <listitem
+><para
+> Escriba una palabra o frase y <application
+>Evolution</application
+> la encontrará en el mensaje. </para
+></listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guimenuitem
+>Buscar expresión regular</guimenuitem
+></term
+> <listitem
+> <para
+> Buscar una «regex», también llamada una <glossterm linkend="regular-expression"
+>expresión regular</glossterm
+>, en la ventana de editor. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guimenuitem
+>Buscar siguiente</guimenuitem
+></term
+> <listitem
+><para
+> Seleccionar este elemento para repetir la última búsqueda que haya realizado. </para
+></listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guimenuitem
+>Sustituir</guimenuitem
+></term
+> <listitem
+><para
+> Buscar una palabra o una frase y sustituirla por otra cosa. </para
+></listitem
+> </varlistentry
+> </variablelist
+> </para
+>
+
+        <para
+> Para todos estas opciones puede elegir si quiere o no <guilabel
+>Hacia atrás</guilabel
+>, desde el punto el que se encuentra el cursor. Para todas, excepto para las búsquedas con expresiones regulares  -que no las necesitan-, tiene disponible una casilla para decidir si quiere que la búsqueda <guilabel
+>distinga mayus./minus.</guilabel
+>. </para
+>
+      </sect2
+>
+
+      <sect2 id="usage-mail-getnsend-send-html"
+>
+        <title
+>Mejore su correo electrónico con HTML</title
+>
+        <para
+> Normalmente no se pueden aplicar estilos o insertar ilustraciones en mensajes de correo electrónico, por lo que con frecuencia se le considera poco comunicativo y frío y por lo que a veces la gente abuse del uso de signos de exclamación para expresar sus sentimientos. Sin embargo la mayoría de los clientes de correo moderno son capaces de mostrar imágenes y estilos en el texto, como alineado básico y formateo de los párrafos. Esto es posible por usar <glossterm linkend="html"
+>HTML</glossterm
+> de la misma manera que lo hacen las páginas web. </para
+>
+        <note
+> <title
+>El correo HTML no es una opción predeterminada</title
+> <para
+> Algunas personas no tienen clientes de correo capaces de leer HTML o prefieren no recibir mensajes enriquecidos con HTML porque son más lentos de descargar y de mostrar en pantalla. Por eso <application
+> Evolution</application
+> envía mensajes de texto puro a menos que explícitamente le pida que los componga con HTML. </para
+> </note
+>
+
+	 <para
+> Puede cambiar el formato de un mensaje de correo de texto puro a HTML a través de <menuchoice
+><guimenu
+>Formato</guimenu
+> <guimenuitem
+>HTML</guimenuitem
+>  </menuchoice
+>. </para
+>
+	  <para
+> Para que todos los mensajes que envíe estén compuestos con HTML predeterminadamente, asigne sus preferencias de formato del correo en el diálogo de configuración del correo. Para más información consulte <xref linkend="config-prefs-mail-composer"/>. </para
+>
+      <para
+> Las herramientas de formateo HTML se encuentran en la barra de herramientas justo encima del espacio en el que realmente compone su mensaje y también aparecen en los menús <guimenu
+>Insertar</guimenu
+> y <guimenu
+>Formato</guimenu
+>. </para
+>
+      <para
+> Los iconos de la barra de herramientas se explican en <glossterm linkend="tooltip"
+>consejos</glossterm
+> que aparecen cuando mantiene el ratón sobre los botones. Estos se clasifican en cuatro categorías: <variablelist
+> <varlistentry
+> <term
+>Cabeceras y listas</term
+> <listitem
+> <para
+> A la izquierda de la barra de herramientas, puede elegir el estilo de texto predeterminado<guilabel
+>Normal</guilabel
+> o los diferentes tamaños de cabecera disponibles desde <guilabel
+>Cabecera 1</guilabel
+> (el más grande) hasta  <guilabel
+>Cabecera 6</guilabel
+> (el más pequeño). Otros estilos disponibles para los más organizados son <guilabel
+>Preformato</guilabel
+>, la lista de puntos o los tres tipos de listas numeradas. </para
+> <tip
+> <title
+>Cómo hacer más atractivo su correo electrónico</title
+> <para
+> En lugar de usar asteriscos para marcar una lista de puntos, pruebe el estilo Lista de puntos desde el menú desplegable de estilos. <application
+>Evolution</application
+> usa adornos más atractivos y maneja varios niveles de sangría y el reformateo de los párrafos.  </para
+> </tip
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Estilo del texto</term
+> <listitem
+> <para
+> Use estos botones para fijar la apariencia de sus cartas. Si tiene seleccionado un texto, el estilo se aplicará sobre él. Si no, el estilo se aplicará a lo próximo que escriba. Los botones son: <itemizedlist mark="none"
+> <listitem
+><para
+>Pinche en <guiicon
+>A en negrita</guiicon
+> para poner el texto en negrita</para
+></listitem
+> <listitem
+><para
+>Pinche en <guiicon
+>A en itálica</guiicon
+> para poner el texto en itálicas</para
+></listitem
+> <listitem
+><para
+>Pinche en <guiicon
+>A subrayada</guiicon
+> para poner el texto subrayado</para
+></listitem
+> <listitem
+><para
+>Pinche en <guiicon
+>A tachada</guiicon
+> para poner el texto tachado.</para
+></listitem
+> </itemizedlist
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Alineación</term
+> <listitem
+> <para
+> Situado próximo a los botones de estilo del texto, estos tres iconos de párrafo deberían ser familiares para los usuarios de procesadores de textos. El que está más a la izquierda alinea el texto a la izquierda, el del centro, lo centra y el de la derecha lo alinea hacia el lado derecho. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Reglas de sangrado</term
+> <listitem
+> <para
+> El botón con la flecha que apunta a la izquierda reducirá la sangría de un párrafo y el de la derecha la incrementará. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Elección de color</term
+> <listitem
+> <para
+> En el extremo de la derecha está la herramiente de elección del colo. La caja coloreada muestra el color actual del texto. Para elegir uno nuevo pinche sobre el botón de la flecha que está a su derecha. Si tiene un trozo de texto seleccionado el color se aplicará al mismo. Si no, el color se aplicará a lo que escriba después. Para el fondo puede elegir un color o una imagen pinchando con el botón derecho sobre el fondo del texto y eligiendo <menuchoice
+> <guimenuitem
+>Estilo</guimenuitem
+><guimenuitem
+>Estilo de página</guimenuitem
+></menuchoice
+>. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para
+>
+        <para
+> El menú <guimenu
+>Insertar</guimenu
+> le ofrece medios para acicalar su correo electrónico y hacerlo más atractivo. <variablelist
+> <varlistentry
+> <term
+><guimenuitem
+>Insertar enlace</guimenuitem
+></term
+> <listitem
+> <para
+> Enlace un texto con un sitio web. Ponga hiperenlaces con esta herramienta dentro de sus mensajes HTML. Si no quiere escribir ningún texto en particular, sólo tiene que escribir la dirección directamente y <application
+> Evolution</application
+>la reconocerá como un enlace. Para añadir un enlace: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Elija el texto en el que quiere poner el enlace. </para
+> </listitem
+> <listitem
+> <para
+> Pinche con el botón de la derecha y elija <guibutton
+>Enlace</guibutton
+>. </para
+> </listitem
+> <listitem
+> <para
+> Escriba la dirección que quiere escribir en el campo <guilabel
+>URL</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Aceptar</guibutton
+>. </para
+> </listitem
+> </orderedlist
+> </para
+> <note
+> <para
+> Si está escribiendo la dirección de una página web para que sea formateada automáticamente, tenga en cuenta que un espacio da por finalizado el enlace. </para
+> </note
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guimenuitem
+>Insertar imagen</guimenuitem
+></term
+> <listitem
+> <para
+> Ponga una imagen junto al texto. </para
+> <para
+> Para insertar una imagen en su correo: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Asegúrese que el selector <menuchoice
+> <guimenu
+>Formato</guimenu
+> <guimenuitem
+>HTML</guimenuitem
+> </menuchoice
+>.está marcado. </para
+> </listitem
+> <listitem
+> <para
+> Pinche en el botón <guibutton
+>Insertar imageb</guibutton
+> que está en la barra de herramientas o elija <menuchoice
+> <guimenu
+>Insertar</guimenu
+> <guimenuitem
+>Imagen</guimenuitem
+> </menuchoice
+>. </para
+> </listitem
+> <listitem
+> <para
+> Elija la imagien pinchando en el botón <guibutton
+>Examinar</guibutton
+>. </para
+> </listitem
+> <listitem
+> <para
+> Para insertar la imagen pulse el botón <guibutton
+>Insertar</guibutton
+>. </para
+> </listitem
+> </orderedlist
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guimenuitem
+>Insertar regla</guimenuitem
+></term
+> <listitem
+> <para
+> Insertar una línea horizontal en el texto para dividirlo en dos secciones. </para
+> <para
+> Para insertar una regla: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Asegúrese que el selector <menuchoice
+> <guimenu
+>Formato</guimenu
+> <guimenuitem
+>HTML</guimenuitem
+> </menuchoice
+>.está marcado. </para
+> </listitem
+> <listitem
+> <para
+> Pinche en el botón <guibutton
+>Regla</guibutton
+> que está en la <guilabel
+>Barra de herramientas</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Elija el tipo de regla. Puede usar una línea plana, una 3D o una amarilla con flores. </para
+> </listitem
+> <listitem
+> <para
+> Elija el tamaño de la línea, como un porcentaje del ancho de la ventana del mensaje. </para
+> </listitem
+> <listitem
+> <para
+> Elija la alineación y el estilo. Para una línea plana puede elegir su grosor y si será sombreada o sólida. Para los otros tipos sólo puede elegir cómo alinearlas. </para
+> </listitem
+> <listitem
+> <para
+> Pinche en <guibutton
+>Insertar</guibutton
+> para insertar la regla. </para
+> </listitem
+> </orderedlist
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Insertar tabla</term
+> <listitem
+> <para
+> Insertar una tabla en el texto para dividirlo en dos secciones. </para
+> <para
+> Para insertar una tabla: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Asegúrese que el selector <menuchoice
+> <guimenu
+>Formato</guimenu
+> <guimenuitem
+>HTML</guimenuitem
+> </menuchoice
+>.está marcado. </para
+> </listitem
+> <listitem
+> <para
+> Pinche en el botón <guibutton
+>Tabla</guibutton
+> que está en la <guilabel
+>barra de herramientas</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Elija la tabla <guibutton
+>Plantilla</guibutton
+> que quiera usar. Cada una tiene una apariencia y organización ligeramente diferentes. </para
+> </listitem
+> <listitem
+> <para
+> Si lo desea, puede cambiar el número de filas, columnas, el espaciado entre celdas, etc. </para
+> </listitem
+> <listitem
+> <para
+> Pinche en el botón <guibutton
+> Insertar</guibutton
+>. </para
+> </listitem
+> </orderedlist
+> </para
+> <para
+> Una vez que la tabla está en su lugar, puede pinchar con el botón derecho sobre ella y obtener la lista de posibilidades de modificarla, como cambiar el color de fondo, expandirla o borrarle una fila o una celda. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Plantillas</term
+> <listitem
+> <para
+> <application
+>Evolution</application
+> no sólo permite decorar su correo con texto HTML y gráficos sino que también le ofrece plantillas prediseñadas para aprovechar estas mejoras. Puede usarlas para enfatizar un punto o enmarcar una imagen de una manera vistosa. </para
+> <para
+> Para incluir una plantilla en su correo compuesto con HTML: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Asegúrese que el selector <menuchoice
+> <guimenu
+>Formato</guimenu
+> <guimenuitem
+>HTML</guimenuitem
+> </menuchoice
+>.está marcado. </para
+> </listitem
+> <listitem
+> <para
+> Pinche en el botón <guibutton
+>Insertar plantilla HTML</guibutton
+>que está en la <guilabel
+>Barra de herramientas</guilabel
+> o elija <menuchoice
+> <guimenu
+>Insertar </guimenu
+> <guimenuitem
+>Plantilla</guimenuitem
+> </menuchoice
+> </para
+> </listitem
+> <listitem
+> <para
+> Elija el tipo de plantilla en la caja de selección <guilabel
+>Plantilla</guilabel
+>. Puede elegir entre <guilabel
+>Nota</guilabel
+> e <guilabel
+>Imagen con marco</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Elija el tamaño y alineación de la plantilla de HTML. </para
+> </listitem
+> <listitem
+> <para
+> Pinche en <guibutton
+>Insertar</guibutton
+> para insertarlo en la posición del cursor. </para
+> </listitem
+> <listitem
+> <para
+> Pinche sobre el texto en la plantilla y escriba el que quiera que aparezca finalmente. </para
+> <para
+> Si ha seleccionado una plantilla con marco e imagen, pinche con el botón derecho sobre la imagen y en <guimenuitem
+> Imagen</guimenuitem
+> elija qué imagen quiere poner en el marco. </para
+> </listitem
+> </orderedlist
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para
+>
+</sect2
+>
+    
+    <sect2 id="usage-mail-getnsend-fwd"
+>
+        <title
+>Reenviar correo</title
+>
+        <para
+> La oficina de correos le reenvía su correo cuando usted cambia de dirección y usted puede reenviar una carta que ha llegado hasta usted por error. El botón de correo <guilabel
+>Reenviar</guilabel
+> funciona de manera parecida. Es particularmente útil cuando recibe un mensaje que cree que otra persona también debería ver. Puede reenviar los mensajes como si fueran adjuntos a un mensaje nuevo (este es el comportamiento predeterminado) o puede enviarlo  <glossterm linkend="inline"
+>incluido</glossterm
+>, como una parte citada en el mensaje que está enviando. El reenvío en forma de adjunto es el mejor si quiere enviar una copia íntegra del mensaje. Los envíos incluídos son mejores si sólo quiere enviar partes del mensaje o si tiene que hacer una gran cantidad de comentarios a diferentes partes del mensaje que reenvía. Recuerde que es importante citar al autor original del mensaje y diferenciar claramente las partes del texto que ha modificado, borrado o añadido. </para
+>
+        <para
+> Si está leyendo un mensaje y quiere reenviarlo, pulse el botón de la barra de herramientas<guibutton
+>Reenviar</guibutton
+> o <menuchoice
+><guimenu
+>Acciones</guimenu
+> <guimenuitem
+>Reenviar</guimenuitem
+></menuchoice
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>J</keycap
+> </keycombo
+>. Si prefiere reenviarlo <glossterm linkend="inline"
+>en línea</glossterm
+> en lugar de adjunto, elija en el menú:<menuchoice
+><guimenu
+>Acciones</guimenu
+>  <guisubmenu
+>Reenviar</guisubmenu
+><guimenuitem
+>Incluido en línea</guimenuitem
+> </menuchoice
+>. Escriba el destinatario como haría con un mensaje nuevo. El asunto ya estará escrito, aunque podrá modificarlo si lo desea. Añada sus comentarios en la<interface
+>caja del texo</interface
+> y pulse <guibutton
+>Enviar</guibutton
+> cuando haya acabado. </para
+>
+      </sect2
+>
+
+      <sect2 id="usage-mail-getnsend-ettiquette"
+>
+        <title
+>Siete consejos de cortesía para el correo electrónico</title
+>
+        <para
+> <itemizedlist
+> <listitem
+> <para
+> No envíe «spam» o reenvíe los mensajes en cadena. Y si tiene que hacerlo, cuídese de mensajes en broma o de leyendas urbanas y asegúrese de que el mensaje no tiene varias capas de signos de mayor que (&gt;) que indican sucesivos reenvíos descuidados. </para
+> </listitem
+> <listitem
+> <para
+> Siempre empiece y acaba con un saludo. Diga «por favor» y «gracias» de la misma manera que haría en la vida real. Puede ser breve en sus cumplidos ¡pero sea atento! </para
+> </listitem
+> <listitem
+> <para
+> ¡CUANDO ESCRIBE CON MAYÚSCULAS SIGNIFICA QUE ESTÁ GRITANDO! No escriba mensajes enteros con mayúsculas porque a la gente le dolerán los oídos. </para
+> </listitem
+> <listitem
+> <para
+> Compruebe su ortografía y use frases completas. <application
+>Evolution</application
+>. está preconfigurado para destacar las palabras que no reconozca con una línea roja bajo las palabras conforme las vaya escribiendo. </para
+> </listitem
+> <listitem
+> <para
+> No envíe mensajes desagradables. Si recibe alguno, mejor no lo responda. </para
+> </listitem
+> <listitem
+> <para
+> Cuando conteste o reenvíe un mensaje incluya del mensaje anterior lo justo para proveer del contexto necesario: ni mucho ni poco. </para
+> </listitem
+> <listitem
+> <para
+> No envíe spam. </para
+> </listitem
+> </itemizedlist
+> </para
+>
+    </sect2
+>
+  </sect1
+>
+  <sect1 id="rsvp-stuff"
+>
+    <title
+>Envío de confirmaciones de asistencia por correo</title
+>
+    <para
+> Al crear un evento en la agenda puede enviar invitaciones por correo electrónicoa la lista de invitados. Las invitaciones se envían como archivos adjuntos en formato iCal. </para
+>
+    <para
+> Si pincha sobre el botón del adjunto y elije <guimenuitem
+>Ver incluido</guimenuitem
+>,<application
+>Ximian Evolution</application
+> mostrará los datos de la reunión y le permitirá  dar su respuesta a la convocatoria. Elija la respuesta y pulse en <guibutton
+>Aceptar</guibutton
+>. </para
+>
+   <para
+> Sus opciones con: <variablelist
+> <varlistentry
+> <term
+>Aceptar</term
+> <listitem
+> <para
+> Elija su respuesta y pulse el botón<guibutton
+> Aceptar</guibutton
+> para que la reunión se apunte en el calendario de su agenda. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Aceptado provisionalmente</term
+> <listitem
+> <para
+> Elija esta opción si es probable que asista a la reunión. Cuando pulse <guibutton
+>Aceptar</guibutton
+> la reunión se apuntará en su agenda, pero marcada como provisional. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Rehusar</term
+> <listitem
+> <para
+> Elija esta opción si no va a poder asistir a la reunión. AL pulsar<guibutton
+>Aceptar</guibutton
+> no se anotará en su agenda pero si ha marcado la casilla <guilabel
+>Confirmar</guilabel
+> se enviará automáticamente un mensaje con su respuesta. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>RSVP (confirmación de asistencia)</term
+> <listitem
+> <para
+> Marque esta casilla si quiere que su respuesta llegue a los organizadores de la reunión. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para
+>
+  </sect1
+>
+
+  <sect1 id="usage-mail-subscriptions"
+>
+    <title
+>Gestión de suscripciones</title
+>
+    <para
+> Dado que las carpetas IMAP están en el servidor y que abrirlas y cerrarlas toma su tiempo, necesita un control muy fino en la manera de gestionarlas. Por eso <application
+>Evolution</application
+> tiene un gestor de suscripciones IMAP. Si quiere que se le muestren todas las carpetas de correo también puede elegir esa opción, sin embargo, si quiere escoger elementos específicos y excluir el resto, puede usar la herramienta de gestión de suscripciones. </para
+>
+    <para
+> He aquí como: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Seleccione <menuchoice
+><guimenu
+>Herramientas</guimenu
+><guimenuitem
+>Suscribirse a carpetas</guimenuitem
+></menuchoice
+>. </para
+> </listitem
+> <listitem
+> <para
+> Si tiene cuentas en varios servidores IMAP, elija el servidor donde quiere gestionar sus suscripciones y  <application
+>Evolution</application
+> mostrará la lista de carpetas y archivos disponibles. </para
+> </listitem
+> <listitem
+> <para
+> Para elegir un archivo o una carpeta pínchelos con el ratón. Al menos necesitará seleccionar la carpeta <guilabel
+>Bandeja de entrada</guilabel
+>. En función de cómo esté configurado su servidor IMAP la lista de ficheros puede incluir carpetas que no son de correo, que puede ignorar sin más problema.  </para
+> </listitem
+> <listitem
+> <para
+> Pinche en <guibutton
+>Suscribir</guibutton
+> para añadir el elemento a su lista de suscripción. </para
+> </listitem
+> <listitem
+> <para
+> Cierre la ventana cuando se haya suscrito a las carpetas que desea. </para
+> </listitem
+> </orderedlist
+> </para
+>
+  </sect1
+>
+
+  <sect1 id="encryption"
+>
+    <title
+>Cifrado</title
+>
+    <sect2 id="encryption-whatis"
+>
+      <title
+>¿Qué es el cifrado?</title
+>
+      <para
+> El cifrado es un antiguo método para proteger la información de las miradas curiosas. <application
+>Evolution</application
+> le ayuda a proteger su privacidad haciendo uso de la aplicación <application
+>gpg</application
+>,  que es una implementación del poderoso algoritmo de <glossterm linkend="public-key-encryption"
+>cifrado de clave pública.</glossterm
+> </para
+>
+
+	<note id="pub-priv"
+> <title
+>¿Clave pública? ¿Privada? ¿Cuál es la diferencia?</title
+> <para
+> GPG usa dos claves: una pública y otra privada. Puede darle su clave pública a cualquiera del que quiera recibir mensajes cifrados o puede ponerla en un servidor de claves públicas para que cualquiera pueda mirar allí antes de escribirle. <emphasis
+>Nunca jamás le de a nadie su clave privada</emphasis
+>. La clave privada es la que le permite descifrar cualquier mensaje cifrado con su clave pública. </para
+> </note
+>
+
+      <para
+> Enviar correo cifrado exige un poco de previsión. Para mandar un mensaje cifrado necesita usar la clave pública del destinatario a quien pretende enviarlo. Para poder recibir y<emphasis
+>leer</emphasis
+> un mensaje es preciso que el remitente tenga su clave pública (la suya, de usted). Para firmar mensajes ocurre el inverso: usted cifra la firma del mensaje con su clave privada de manera que solamente su clave pública puede desvelar la firma. Cuando envía el mensaje, el destinatario toma su clave pñublica, desvela la firma y verifica su identidad. </para
+>
+
+      <para
+> El cifrado puede usarse de dos maneras diferentes: <simplelist
+> <member
+> Cifre el mensaje entero para que nadie, excepto el destinatario, pueda leerlo. </member
+> <member
+> Adjuntar una firma cifrada a un mensaje de puro texto, para que el recipiente pueda leer el mensaje sin tener que descifrarlo. Sólo necesitaría descifrar la firma cuando quiera verificar la identidad del remitente. </member
+> </simplelist
+> </para
+>
+
+	<example
+> <title
+>Enviar un mensaje cifrado</title
+> <para
+> Kevin quiere enviar un mensaje cifrado a su amiga Rachel. Él busca su clave pública en un servidor público y entonces le pide a <application
+>Evolution</application
+> que cifra el mensaje. El mensaje ahora tiene una apariencia del estilo «@#$23ui7yr87#@!48970fsd». Cuando llega a Rachel, ella usa su clave privada para descifrarlo y el mensaje quedará listo para su lectura. </para
+> </example
+>
+      <tip id="always-sign"
+> <title
+>Firme siempre</title
+> <para
+> Puede configurar  <application
+>Evolution</application
+> para que firme siempre sus mensajes de correo electrónico: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Elija <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+> </menuchoice
+>, vaya a <guiicon
+>Cuentas de correo</guiicon
+> y elija la cuenta en la que quiere usar las funciones de cifrado. </para
+> </listitem
+> <listitem
+> <para
+> Abra la solapa<guilabel
+>Seguridad</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Pinche en el botón <guibutton
+>Firmar siempre el correo saliente al usar esta cuenta </guibutton
+>.  </para
+> </listitem
+> </orderedlist
+> </para
+> </tip
+>
+    </sect2
+>
+
+
+
+    <sect2 id="encryption-keygen"
+>
+      <title
+>Crear claves de cifrado</title
+>
+      <para
+> Antes de poder enviar o recibir correo cifrado necesita generar sus claves privada y pública usando GPG. He aquí cómo: </para
+>
+      <tip
+> <title
+>Versiones de GPG</title
+> <para
+> Este manual describe la versión 1.0.6 de <application
+>GPG</application
+>. Si su versión es diferente puede que este texto no sea completamente exacto. Puede averiguar la versión exacta usando la orden <command
+>gpg --version</command
+>. </para
+> </tip
+>
+      <para
+> <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Abra una terminal y escriba la orden <command
+>gpg --gen-key</command
+>. </para
+> </listitem
+> <listitem
+> <para
+> Elija el algoritmo predeterminado, «DSA y ElGamal». </para
+> </listitem
+> <listitem
+> <para
+> Elija el tamaño de su clave. La predeterminada es de 1024 bits, lo que debería ser suficiente. </para
+> </listitem
+> <listitem
+> <para
+> Especifique si quiere que su clave caduque, y en caso positivo, cuándo. </para
+> </listitem
+> <listitem
+> <para
+> Escriba su nombre, su dirección de correo y cualquier otro dato personal que crea que es apropiado. No falsifique esta información porque será necesaria para poder identificar después su identidad. </para
+> </listitem
+> <listitem
+> <para
+> Siguiente, escriba el santo y seña. No tiene por qué ser igual que la contraseña de su buzón de correo o la que usa para identificar en el sistema. En realidad, probablemente debería ser diferente. No la olvide. Si la pierde, sus claves serán inútiles del todo y no podrá descifrar los mensajes que le manden usando esas claves. </para
+> </listitem
+> <listitem
+> <para
+> Ahora GPG generará sus claves. Esto puede tardar un rato, así que aproveche para hacer alguna otra cosa mientras. En realidad,  usar el sistema para otros asuntos genera mejores claves porque el uso aumenta la aleatoriedad matemática en la semilla del generador de claves. </para
+> </listitem
+> </orderedlist
+> </para
+>
+      <para
+> Una vez que las claves están generadas puede ver los datos de las mismas con<command
+>gpg --list-keys</command
+>. Verá algo parecido a esto: <programlisting
+>
+	    
+	</programlisting
+> </para
+>
+      <para
+> GPG creará una lista, o llavero, con todas las claves públicas que tenga y otra para las privadas. Todas las claves públicas que conoce están guardadas en en <filename
+>~/.gnupg/pubring.gpg</filename
+>. Si quiere darle a alguien su clave, envíele este fichero. </para
+>
+      <para
+> Si lo desea puede subir sus claves a un servidor de claves: <orderedlist
+> <listitem
+> <para
+> Compruebe su identificador de clave pública con<command
+>gpg --list-keys</command
+>. Su identificador será la cadena que está detras de 1024D en la línea que empieza con «pub». En estte ejemplo es 32j38dk2. </para
+> </listitem
+> <listitem
+> <para
+> Escirba la orden  <command
+>gpg --send-keys --keyserver wwwkeys.pgp.net 32j38dk2</command
+>. Substituya el identificador de su clave por  32j38dk2. Necesitará su contraseña para poder hacerlo. </para
+> </listitem
+> </orderedlist
+> <note id="why-keyserver"
+> <title
+>¿Por qué usar un servidor de claves?</title
+> <para
+> Los servidores de claves almacenan sus claves públicas para que sus amigos puedan descifrar sus mensajes. Si opta por no usar un servidor de claves, entonces puede enviarlas manualmente, incluyéndola en el adjunto con la firma, o publicándola en su propia página web. Sin embargo es más fácil publicarla de una vez y permitir a los demás descargarlas desde un servidor central cuando ellos quieran. </para
+> <para
+>  </para
+> </note
+> </para
+>
+    </sect2
+>
+
+    <sect2 id="encrypt-getting-key"
+>
+      <title
+>Obteniendo y usando claves públicas</title
+>
+      <para
+> Para cifrar un mensaje para quien sea, necesitará usar su clave pública en combinación con su clave privada.  <application
+>Evolution</application
+> lo hace por usted, pero con todo necesitará obtener su clave y añadirla a su llavero. </para
+>
+     <para
+> Para obtener claves públicas desde un servidor de claves públicas escriba la orden <command
+> gpg --recv-keys --keyserver wwwkeys.pgp.net keyid </command
+>, substituyendo «keyid» por el identificador del destinatario. Necesitará escribir su contraseña y su identificador se añadirá automáticamente a su llavero. Cuando le envíe un mensaje,  <application
+>Evolution</application
+> le permitirá cifrar sus mensajes. </para
+>
+      <para
+> Si alguien le envía directamente su clave pública, guárdela como un fichero de texto puro y en la terminal escriba la orden <command
+>gpg nombredelfichero</command
+>. Así la añadirá a su llavero. </para
+>
+    </sect2
+>
+
+    <sect2 id="encrypt-evo-integ"
+>
+      <title
+>Configuración del cifrado en Evolution</title
+>
+      <para
+> Tiene que abrir <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+> </menuchoice
+> y pulsar el botón<guilabel
+>Cuentas de correo</guilabel
+>; elija la cuenta que quiere usar con seguridad y pulse el botón  <guibutton
+>Editar</guibutton
+>. Abra la solapa <guilabel
+>Seguridad </guilabel
+> y verá una sección llamada <guilabel
+>Pretty Good Privacy</guilabel
+>. Escriba su identificador (ID)  y pulse en <guibutton
+>Aceptar</guibutton
+>. Ahora su clave está integrada en su identidad en<application
+>Evolution</application
+>. </para
+>
+      <note
+> <title
+>De nuevo ¿Qué es mi identificador de clave?</title
+> <para
+> <application
+> Evolution</application
+> necesita que usted sepa su identificador (ID) de clave. Si no lo recuerda puede encontrarlo con la orden  <command
+>gpg --list-keys</command
+> en una terminal. El identificador de clave es una cadena de 8 caracteres con números y letras aleatorios. </para
+> </note
+>
+    </sect2
+>
+
+    <sect2 id="encrypt-sending"
+>
+      <title
+>Enviar mensajes cifrados</title
+>
+      <para
+> Como sabe, puede cifrar un mensaje para ocultarlo completamente o sólo para verificar su firma. Una vez que ha generado sus claves privada y pública y dispone de las claves públicas de la gente a la que quiere mandar mensajes, he aquí lo que hacer: </para
+>
+    </sect2
+>
+    
+    <sect2 id="sign-msg"
+>
+      <title
+>Firmar un mensaje</title
+>
+      <para
+> Para firmar un mensaje elija <menuchoice
+> <guimenu
+>Seguridad</guimenu
+> <guimenuitem
+>Firmar con PGP</guimenuitem
+> </menuchoice
+> . Tendrá que introducir su contraseña de cifrado. Después pulse <guibutton
+>Aceptar</guibutton
+> y su mensaje será firmado. </para
+>
+    </sect2
+>
+      
+      <sect2 id="encrypt-msg"
+>
+	<title
+>Cifrar un mensaje</title
+>
+	<para
+> Cifrar un mensaje es muy parecido a firmarlo. Simplemente abra en el menú <menuchoice
+> <guimenu
+>Seguridad</guimenu
+> <guimenuitem
+>Cifrar con PGP</guimenuitem
+> </menuchoice
+> </para
+>
+      </sect2
+>
+      <sect2 id="unencrypting"
+>
+	<title
+>Descifrar un mensaje recibido</title
+>
+	<para
+> Si recibe un mensaje cifrado necesita descifrarlo antes de poder leerlo. Recuerde que el remitente tiene que tener su clave pública (la suya, de usted) antes de enviarle un mensaje cifrado. </para
+>
+	<para
+> Cuando vea el mensaje  <application
+>Evolution</application
+> le pedirá que escriba su contraseña PGP. Escríbala y el mensaje será mostrado apropiadamente. </para
+>
+    </sect2
+>
+  </sect1
+>
+</chapter
+>
+
