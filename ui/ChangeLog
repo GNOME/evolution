@@ -1,3 +1,8 @@
+2004-12-16  Rodney Dawes  <dobey@novell.com>
+
+	* evolution-mail-message.xml: Add stock zoom icons for the text size
+	menu items
+
 2004-12-09  Rodney Dawes  <dobey@novell.com>
 
 	* evolution.xml: Add pixtype of pixbuf to the OpenNewWindow menu item

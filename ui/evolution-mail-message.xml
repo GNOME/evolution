@@ -295,12 +295,15 @@
 	<separator f="" name="emaillist"/>
 
 	<submenu name="TextSize" _label="Text Si_ze">
-	  <menuitem name="TextZoomOut" verb="" _label="S_maller"/>
-	  <menuitem name="TextZoomIn" verb="" _label="_Larger"/>
+	  <menuitem name="TextZoomOut" verb="" _label="S_maller"
+           pixtype="stock" pixname="gtk-zoom-out"/>
+	  <menuitem name="TextZoomIn" verb="" _label="_Larger"
+           pixtype="stock" pixname="gtk-zoom-in"/>
 	  
 	  <separator f="" name="emaillist"/>
 	  
-	  <menuitem name="TextZoomReset" verb="" _label="Original Si_ze"/>
+	  <menuitem name="TextZoomReset" verb="" _label="Original Si_ze"
+           pixtype="stock" pixname="gtk-zoom-100"/>
 	</submenu>
         <submenu name="MessageDisplay" _label="_Message Display">
           <menuitem name="ViewLoadImages" verb="" _label="Load _Images"/>
