@@ -11,14 +11,14 @@
 # meeting = sammanträde
 # event = evenemang
 #
-# $Id: sv.po,v 1.211 2005/02/27 22:52:23 menthos Exp $
+# $Id: sv.po,v 1.211.2.1 2005/03/08 23:05:34 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-27 23:51+0100\n"
-"PO-Revision-Date: 2005-02-27 23:51+0100\n"
+"POT-Creation-Date: 2005-03-09 00:03+0100\n"
+"PO-Revision-Date: 2005-03-09 00:04+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr[0] "aktuella adressboksmappen har %d kort"
 msgstr[1] "aktuella adressboksmappen har %d kort"
 
 #: a11y/addressbook/ea-minicard.c:31
-#: calendar/gui/alarm-notify/alarm-queue.c:863
+#: calendar/gui/alarm-notify/alarm-queue.c:878
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Öppna"
@@ -877,7 +877,7 @@ msgid "Add Address Book"
 msgstr "Lägg till adressbok"
 
 #: addressbook/gui/component/ldap-config.glade.h:15
-#: mail/em-account-editor.c:301
+#: mail/em-account-editor.c:302
 msgid "Always"
 msgstr "Alltid"
 
@@ -913,7 +913,7 @@ msgid "Lo_gin:"
 msgstr "Inlo_ggning:"
 
 #: addressbook/gui/component/ldap-config.glade.h:25
-#: mail/em-account-editor.c:299
+#: mail/em-account-editor.c:300
 msgid "Never"
 msgstr "Aldrig"
 
@@ -1038,7 +1038,7 @@ msgid "Using email address"
 msgstr "Använder e-postadress"
 
 #: addressbook/gui/component/ldap-config.glade.h:42
-#: mail/em-account-editor.c:300
+#: mail/em-account-editor.c:301
 msgid "Whenever Possible"
 msgstr "Närsomhelst"
 
@@ -1092,7 +1092,7 @@ msgstr "kort"
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:12
 #: calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: calendar/gui/dialogs/calendar-setup.glade.h:14 filter/filter.glade.h:16
-#: mail/em-account-editor.c:1884 plugins/calendar-http/calendar-http.c:263
+#: mail/em-account-editor.c:1885 plugins/calendar-http/calendar-http.c:263
 #: plugins/calendar-weather/calendar-weather.c:564
 msgid "minutes"
 msgstr "minut"
@@ -4102,10 +4102,10 @@ msgstr "Uppgiftslistan är inte märkt för frånkopplad användning"
 
 #. calendar:server-version secondary
 #: calendar/calendar-errors.xml.h:146
-msgid " Some features may not work correctly with your current server version"
+msgid " Some features may not work correctly with your current server version "
 msgstr ""
 " En del funktioner kanske inte fungerar korrekt med din nuvarande "
-"serverversion"
+"serverversion "
 
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -4266,30 +4266,30 @@ msgid "start-time"
 msgstr "starttid"
 
 # Osäker
-#: calendar/gui/alarm-notify/alarm-queue.c:864
+#: calendar/gui/alarm-notify/alarm-queue.c:879
 msgid "Dismiss"
 msgstr "Avfärda"
 
 # Osäker
-#: calendar/gui/alarm-notify/alarm-queue.c:865
+#: calendar/gui/alarm-notify/alarm-queue.c:880
 msgid "Dismiss All"
 msgstr "Avfärda alla"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:947
+#: calendar/gui/alarm-notify/alarm-queue.c:962
 msgid "No summary available."
 msgstr "Ingen sammanfattning finns tillgänglig."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:956
-#: calendar/gui/alarm-notify/alarm-queue.c:958
+#: calendar/gui/alarm-notify/alarm-queue.c:971
+#: calendar/gui/alarm-notify/alarm-queue.c:973
 msgid "No description available."
 msgstr "Ingen beskrivning finns tillgänglig."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:966
+#: calendar/gui/alarm-notify/alarm-queue.c:981
 msgid "No location information available."
 msgstr "Ingen platsinformation finns tillgänglig."
 
 # Osäker
-#: calendar/gui/alarm-notify/alarm-queue.c:982
+#: calendar/gui/alarm-notify/alarm-queue.c:997
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -4302,12 +4302,12 @@ msgstr ""
 "Startar %s\n"
 "Slutar %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1084
-#: calendar/gui/alarm-notify/alarm-queue.c:1108
+#: calendar/gui/alarm-notify/alarm-queue.c:1099
+#: calendar/gui/alarm-notify/alarm-queue.c:1123
 msgid "Warning"
 msgstr "Varning"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1088
+#: calendar/gui/alarm-notify/alarm-queue.c:1103
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4319,7 +4319,7 @@ msgstr ""
 "konfigurerad att skicka e-post. Evolution kommer att\n"
 "visa en normal dialogruta istället."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1114
+#: calendar/gui/alarm-notify/alarm-queue.c:1129
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4336,7 +4336,7 @@ msgstr ""
 "\n"
 "Är du säker på att du vill köra detta program?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1128
+#: calendar/gui/alarm-notify/alarm-queue.c:1143
 msgid "Do not ask me about this program again."
 msgstr "Fråga mig inte om detta program igen."
 
@@ -4691,7 +4691,7 @@ msgid "Unmatched"
 msgstr "Omatchade"
 
 #: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:708
-#: calendar/gui/dialogs/calendar-setup.c:362 calendar/gui/gnome-cal.c:1943
+#: calendar/gui/dialogs/calendar-setup.c:362 calendar/gui/gnome-cal.c:1942
 #: plugins/groupwise-account-setup/camel-gw-listener.c:382
 #: plugins/groupwise-account-setup/camel-gw-listener.c:412
 msgid "Calendar"
@@ -4839,7 +4839,7 @@ msgstr "Metoden stöds inte vid öppnande av kalendern"
 msgid "Permission denied to open the calendar"
 msgstr "Åtkomst nekas för öppnande av kalendern"
 
-#: calendar/gui/comp-editor-factory.c:437 shell/e-shell.c:1260
+#: calendar/gui/comp-editor-factory.c:437 shell/e-shell.c:1264
 msgid "Unknown error"
 msgstr "Okänt fel"
 
@@ -4980,7 +4980,7 @@ msgid "%.0fG"
 msgstr "%.0f G"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:298
-#: calendar/gui/dialogs/cal-attachment-bar.c:913
+#: calendar/gui/dialogs/cal-attachment-bar.c:922
 #: composer/e-msg-composer-attachment-bar.c:295 mail/em-utils.c:436
 msgid "attachment"
 msgstr "bilaga"
@@ -5059,7 +5059,7 @@ msgid "MIME type:"
 msgstr "MIME-typ:"
 
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
-#: calendar/gui/dialogs/cal-prefs-dialog.c:576 mail/em-account-prefs.c:460
+#: calendar/gui/dialogs/cal-prefs-dialog.c:576 mail/em-account-prefs.c:476
 #: mail/em-composer-prefs.c:888 plugins/plugin-manager/plugin-manager.c:213
 msgid "Enabled"
 msgstr "Aktiverad"
@@ -5078,15 +5078,15 @@ msgstr "Ta inte bort"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:787
 #: calendar/gui/dialogs/cal-prefs-dialog.c:820
-#: calendar/gui/dialogs/cal-prefs-dialog.c:853 mail/em-account-prefs.c:307
-#: mail/em-account-prefs.c:335 mail/em-account-prefs.c:366
+#: calendar/gui/dialogs/cal-prefs-dialog.c:853 mail/em-account-prefs.c:323
+#: mail/em-account-prefs.c:351 mail/em-account-prefs.c:382
 msgid "Disable"
 msgstr "Inaktivera"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:787
 #: calendar/gui/dialogs/cal-prefs-dialog.c:820
-#: calendar/gui/dialogs/cal-prefs-dialog.c:855 mail/em-account-prefs.c:307
-#: mail/em-account-prefs.c:335 mail/em-account-prefs.c:368
+#: calendar/gui/dialogs/cal-prefs-dialog.c:855 mail/em-account-prefs.c:323
+#: mail/em-account-prefs.c:351 mail/em-account-prefs.c:384
 msgid "Enable"
 msgstr "Aktivera"
 
@@ -5507,80 +5507,80 @@ msgstr "_Flytta"
 msgid "Cancel _Drag"
 msgstr "Avbryt _dragning"
 
-#: calendar/gui/dialogs/comp-editor.c:659
+#: calendar/gui/dialogs/comp-editor.c:682
 msgid "Could not update object"
 msgstr "Kunde inte uppdatera objekt"
 
-#: calendar/gui/dialogs/comp-editor.c:820 composer/e-msg-composer.c:2310
+#: calendar/gui/dialogs/comp-editor.c:843 composer/e-msg-composer.c:2310
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
 msgstr[0] "<b>%d</b> fil bifogad"
 msgstr[1] "<b>%d</b> filer bifogade"
 
-#: calendar/gui/dialogs/comp-editor.c:873 composer/e-msg-composer.c:2339
+#: calendar/gui/dialogs/comp-editor.c:900 composer/e-msg-composer.c:2339
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "Dölj _bilageraden (släpp bilagor här)"
 
-#: calendar/gui/dialogs/comp-editor.c:876
-#: calendar/gui/dialogs/comp-editor.c:928 composer/e-msg-composer.c:2342
+#: calendar/gui/dialogs/comp-editor.c:903
+#: calendar/gui/dialogs/comp-editor.c:955 composer/e-msg-composer.c:2342
 #: composer/e-msg-composer.c:3471
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "Visa _bilageraden (släpp bilagor här)"
 
-#: calendar/gui/dialogs/comp-editor.c:952 composer/e-msg-composer.c:3493
+#: calendar/gui/dialogs/comp-editor.c:979 composer/e-msg-composer.c:3493
 msgid "Attachment Button: Press space key to toggle attachment bar"
 msgstr "Bilageknapp: Tryck på blankstegstangenten för att växla bilageraden"
 
-#: calendar/gui/dialogs/comp-editor.c:1499
-#: calendar/gui/dialogs/comp-editor.c:1542
+#: calendar/gui/dialogs/comp-editor.c:1526
+#: calendar/gui/dialogs/comp-editor.c:1569
 msgid "Edit Appointment"
 msgstr "Redigera möte"
 
-#: calendar/gui/dialogs/comp-editor.c:1505
-#: calendar/gui/dialogs/comp-editor.c:1548
+#: calendar/gui/dialogs/comp-editor.c:1532
+#: calendar/gui/dialogs/comp-editor.c:1575
 #, c-format
 msgid "Meeting - %s"
 msgstr "Sammanträde - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1507
-#: calendar/gui/dialogs/comp-editor.c:1550
+#: calendar/gui/dialogs/comp-editor.c:1534
+#: calendar/gui/dialogs/comp-editor.c:1577
 #, c-format
 msgid "Appointment - %s"
 msgstr "Möte - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1511
-#: calendar/gui/dialogs/comp-editor.c:1554
+#: calendar/gui/dialogs/comp-editor.c:1538
+#: calendar/gui/dialogs/comp-editor.c:1581
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tilldelad uppgift - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1513
-#: calendar/gui/dialogs/comp-editor.c:1556
+#: calendar/gui/dialogs/comp-editor.c:1540
+#: calendar/gui/dialogs/comp-editor.c:1583
 #, c-format
 msgid "Task - %s"
 msgstr "Uppgift - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1516
-#: calendar/gui/dialogs/comp-editor.c:1559
+#: calendar/gui/dialogs/comp-editor.c:1543
+#: calendar/gui/dialogs/comp-editor.c:1586
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Dagbokspost - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:1527
-#: calendar/gui/dialogs/comp-editor.c:1569
+#: calendar/gui/dialogs/comp-editor.c:1554
+#: calendar/gui/dialogs/comp-editor.c:1596
 msgid "No summary"
 msgstr "Ingen sammanfattning"
 
-#: calendar/gui/dialogs/comp-editor.c:2003
-#: calendar/gui/dialogs/comp-editor.c:2036
-#: calendar/gui/dialogs/comp-editor.c:2060
+#: calendar/gui/dialogs/comp-editor.c:2030
+#: calendar/gui/dialogs/comp-editor.c:2063
+#: calendar/gui/dialogs/comp-editor.c:2087
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Ändringar som görs i detta objekt kan komma att kastas om en uppdatering "
 "kommer"
 
-#: calendar/gui/dialogs/comp-editor.c:2084
+#: calendar/gui/dialogs/comp-editor.c:2111
 msgid "Unable to use current version!"
 msgstr "Kan inte använda aktuell version!"
 
@@ -5843,8 +5843,8 @@ msgstr "_Starttid:"
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-cal-model-tasks.c:652 calendar/gui/e-itip-control.c:1104
 #: composer/e-msg-composer.c:2117 filter/filter-rule.c:878
-#: mail/em-account-editor.c:684 mail/em-account-editor.c:1290
-#: mail/em-account-prefs.c:421 mail/em-folder-view.c:993
+#: mail/em-account-editor.c:685 mail/em-account-editor.c:1291
+#: mail/em-account-prefs.c:437 mail/em-folder-view.c:993
 #: plugins/calendar-weather/calendar-weather.c:371
 #: plugins/calendar-weather/calendar-weather.c:425
 #: plugins/itip-formatter/itip-formatter.c:1376
@@ -5986,32 +5986,32 @@ msgstr "Uppgiftslistegrupp"
 msgid "Task List Name"
 msgstr "Namn på uppgiftslista"
 
-#: calendar/gui/dialogs/recur-comp.c:51
+#: calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event, what would you like to modify?"
 msgstr "Du ändrar ett återkommande evenemang. Vad vill du ändra?"
 
-#: calendar/gui/dialogs/recur-comp.c:55
+#: calendar/gui/dialogs/recur-comp.c:56
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Du ändrar en återkommande uppgift. Vad vill du ändra?"
 
-#: calendar/gui/dialogs/recur-comp.c:59
+#: calendar/gui/dialogs/recur-comp.c:60
 msgid ""
 "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr "Du ändrar en återkommande dagsbokspost. Vad vill du ändra?"
 
-#: calendar/gui/dialogs/recur-comp.c:87
+#: calendar/gui/dialogs/recur-comp.c:88
 msgid "This Instance Only"
 msgstr "Endast denna instans"
 
-#: calendar/gui/dialogs/recur-comp.c:91
+#: calendar/gui/dialogs/recur-comp.c:92
 msgid "This and Prior Instances"
 msgstr "Denna och tidigare instanser"
 
-#: calendar/gui/dialogs/recur-comp.c:97
+#: calendar/gui/dialogs/recur-comp.c:98
 msgid "This and Future Instances"
 msgstr "Denna och framtida instanser"
 
-#: calendar/gui/dialogs/recur-comp.c:102
+#: calendar/gui/dialogs/recur-comp.c:103
 msgid "All Instances"
 msgstr "Alla instanser"
 
@@ -7397,7 +7397,7 @@ msgstr "Folk som krävs _och en resurs"
 msgid "Enter the password for %s"
 msgstr "Ange lösenordet för %s"
 
-#: calendar/gui/e-tasks.c:763 calendar/gui/gnome-cal.c:2373
+#: calendar/gui/e-tasks.c:763 calendar/gui/gnome-cal.c:2372
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7443,34 +7443,34 @@ msgid "Updating query"
 msgstr "Uppdaterar fråga"
 
 #. bonobo displays this string so it must be in locale
-#: calendar/gui/gnome-cal.c:2058 widgets/menus/gal-view-menus.c:351
+#: calendar/gui/gnome-cal.c:2057 widgets/menus/gal-view-menus.c:351
 msgid "Custom View"
 msgstr "Anpassad vy"
 
-#: calendar/gui/gnome-cal.c:2059
+#: calendar/gui/gnome-cal.c:2058
 msgid "Save Custom View"
 msgstr "Spara anpassad vy"
 
-#: calendar/gui/gnome-cal.c:2064 widgets/menus/gal-view-menus.c:373
+#: calendar/gui/gnome-cal.c:2063 widgets/menus/gal-view-menus.c:373
 msgid "Define Views..."
 msgstr "Definiera vyer..."
 
-#: calendar/gui/gnome-cal.c:2223
+#: calendar/gui/gnome-cal.c:2222
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Läser in möten i %s"
 
-#: calendar/gui/gnome-cal.c:2242
+#: calendar/gui/gnome-cal.c:2241
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Läser in uppgifter i %s"
 
-#: calendar/gui/gnome-cal.c:2339
+#: calendar/gui/gnome-cal.c:2338
 #, c-format
 msgid "Opening %s"
 msgstr "Öppnar %s"
 
-#: calendar/gui/gnome-cal.c:3229
+#: calendar/gui/gnome-cal.c:3228
 msgid "Purging"
 msgstr "Tömmer"
 
@@ -9632,8 +9632,8 @@ msgstr "Namnlöst meddelande"
 msgid "Open File"
 msgstr "Öppna fil"
 
-#: composer/e-msg-composer.c:2001 mail/em-account-editor.c:587
-#: mail/em-account-editor.c:632 mail/em-account-editor.c:699
+#: composer/e-msg-composer.c:2001 mail/em-account-editor.c:588
+#: mail/em-account-editor.c:633 mail/em-account-editor.c:700
 msgid "Autogenerated"
 msgstr "Automatiskt genererad"
 
@@ -10390,12 +10390,12 @@ msgstr "E-postinställningar"
 msgid "_Mail"
 msgstr "_E-post"
 
-#: mail/em-account-editor.c:386
+#: mail/em-account-editor.c:387
 #, c-format
 msgid "%s License Agreement"
 msgstr "Licensavtal för %s"
 
-#: mail/em-account-editor.c:393
+#: mail/em-account-editor.c:394
 #, c-format
 msgid ""
 "\n"
@@ -10407,62 +10407,62 @@ msgstr ""
 "Läs licensavtalet för %s nedan noggrannt\n"
 "och kryssa för kryssrutan för att godkänna det\n"
 
-#: mail/em-account-editor.c:463 mail/em-filter-folder-element.c:237
+#: mail/em-account-editor.c:464 mail/em-filter-folder-element.c:237
 #: mail/em-vfolder-rule.c:494
 msgid "Select Folder"
 msgstr "Välj mapp"
 
-#: mail/em-account-editor.c:1663 mail/mail-config.glade.h:89
+#: mail/em-account-editor.c:1664 mail/mail-config.glade.h:89
 msgid "Identity"
 msgstr "Identitet"
 
-#: mail/em-account-editor.c:1699 mail/mail-config.glade.h:114
+#: mail/em-account-editor.c:1700 mail/mail-config.glade.h:114
 msgid "Receiving Email"
 msgstr "Mottagande av e-post"
 
-#: mail/em-account-editor.c:1876
+#: mail/em-account-editor.c:1877
 msgid "Automatically check for _new mail every"
 msgstr "Kontrollera automatiskt _ny e-post var"
 
-#: mail/em-account-editor.c:2044 mail/mail-config.glade.h:124
+#: mail/em-account-editor.c:2045 mail/mail-config.glade.h:124
 msgid "Sending Email"
 msgstr "Skickande av e-post"
 
-#: mail/em-account-editor.c:2088 mail/mail-config.glade.h:67
+#: mail/em-account-editor.c:2089 mail/mail-config.glade.h:67
 msgid "Defaults"
 msgstr "Standardvärden"
 
-#: mail/em-account-editor.c:2147 mail/mail-config.glade.h:119
+#: mail/em-account-editor.c:2148 mail/mail-config.glade.h:119
 msgid "Security"
 msgstr "Säkerhet"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: mail/em-account-editor.c:2184 mail/em-account-editor.c:2259
+#: mail/em-account-editor.c:2185 mail/em-account-editor.c:2260
 msgid "Receiving Options"
 msgstr "Alternativ för mottagning"
 
-#: mail/em-account-editor.c:2185 mail/em-account-editor.c:2260
+#: mail/em-account-editor.c:2186 mail/em-account-editor.c:2261
 msgid "Checking for New Mail"
 msgstr "Kontroll av ny e-post"
 
-#: mail/em-account-editor.c:2600 mail/mail-config.glade.h:33
+#: mail/em-account-editor.c:2585 mail/mail-config.glade.h:33
 msgid "Account Editor"
 msgstr "Kontoredigerare"
 
-#: mail/em-account-editor.c:2600 mail/mail-config.glade.h:79
+#: mail/em-account-editor.c:2585 mail/mail-config.glade.h:79
 msgid "Evolution Account Assistant"
 msgstr "Evolutions kontoassistent"
 
 #. translators: default account indicator
-#: mail/em-account-prefs.c:412
+#: mail/em-account-prefs.c:428
 msgid "[Default]"
 msgstr "[Standard]"
 
-#: mail/em-account-prefs.c:466
+#: mail/em-account-prefs.c:482
 msgid "Account name"
 msgstr "Kontonamn"
 
-#: mail/em-account-prefs.c:468
+#: mail/em-account-prefs.c:484
 msgid "Protocol"
 msgstr "Protokoll"
 
@@ -15362,7 +15362,7 @@ msgstr "Bug-buddy kunde inte köras."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: shell/e-shell-window-commands.c:428
+#: shell/e-shell-window-commands.c:501
 msgid "translator-credits"
 msgstr ""
 "Christian Rose\n"
@@ -15372,19 +15372,19 @@ msgstr ""
 "Andreas Hydén\n"
 "Skicka synpunkter på översättningen till sv@li.org"
 
-#: shell/e-shell-window-commands.c:442
+#: shell/e-shell-window-commands.c:515
 msgid "Groupware Suite"
 msgstr "Grupprogramvarusvit"
 
-#: shell/e-shell-window-commands.c:669
+#: shell/e-shell-window-commands.c:742
 msgid "_Work Online"
 msgstr "A_rbeta ansluten"
 
-#: shell/e-shell-window-commands.c:682 ui/evolution.xml.h:51
+#: shell/e-shell-window-commands.c:755 ui/evolution.xml.h:51
 msgid "_Work Offline"
 msgstr "A_rbeta frånkopplad"
 
-#: shell/e-shell-window-commands.c:695 ui/evolution.xml.h:34
+#: shell/e-shell-window-commands.c:768 ui/evolution.xml.h:34
 msgid "Work Offline"
 msgstr "Arbeta frånkopplad"
 
@@ -15412,28 +15412,28 @@ msgstr "Växla till %s"
 msgid "Uknown system error."
 msgstr "Okänt systemfel."
 
-#: shell/e-shell.c:806 shell/e-shell.c:807
+#: shell/e-shell.c:800 shell/e-shell.c:801
 #, c-format
 msgid "%ld KB"
 msgstr "%ld kB"
 
-#: shell/e-shell.c:1250 widgets/misc/e-cell-date-edit.c:256
+#: shell/e-shell.c:1254 widgets/misc/e-cell-date-edit.c:256
 msgid "OK"
 msgstr "OK"
 
-#: shell/e-shell.c:1252
+#: shell/e-shell.c:1256
 msgid "Invalid arguments"
 msgstr "Ogiltiga argument"
 
-#: shell/e-shell.c:1254
+#: shell/e-shell.c:1258
 msgid "Cannot register on OAF"
 msgstr "Kan inte registrera på OAF"
 
-#: shell/e-shell.c:1256
+#: shell/e-shell.c:1260
 msgid "Configuration Database not found"
 msgstr "Konfigurationsdatabasen hittades inte"
 
-#: shell/e-shell.c:1258
+#: shell/e-shell.c:1262
 msgid "Generic error"
 msgstr "Allmänt fel"
 
@@ -18189,6 +18189,12 @@ msgstr "%s (%d%% färdigt)"
 #: widgets/misc/e-url-entry.c:107
 msgid "click here to go to url"
 msgstr "klicka här för att gå till url"
+
+#~ msgid ""
+#~ " Some features may not work correctly with your current server version"
+#~ msgstr ""
+#~ " En del funktioner kanske inte fungerar korrekt med din nuvarande "
+#~ "serverversion"
 
 #~ msgid ""
 #~ "Some features may not work correctly with your current server version."

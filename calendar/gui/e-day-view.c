@@ -3458,8 +3458,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					day_view->pressed_event_num);
 
-		if ((e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
-		     !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
+		if (!e_cal_util_component_has_recurrences (event->comp_data->icalcomp)
 		    && (abs (canvas_x - day_view->drag_event_x)
 			> E_DAY_VIEW_DRAG_START_OFFSET
 			|| abs (canvas_y - day_view->drag_event_y)
@@ -3487,8 +3486,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Recurring events can't be resized. */
-		if (event && (e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
-			      !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))) {
+		if (event && !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))  {
 			switch (pos) {
 			case E_CALENDAR_VIEW_POS_LEFT_EDGE:
 			case E_CALENDAR_VIEW_POS_RIGHT_EDGE:
@@ -3564,8 +3562,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 
 		event = &g_array_index (day_view->events[day_view->pressed_event_day], EDayViewEvent, day_view->pressed_event_num);
 
-		if ((e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
-		     !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
+		if (!e_cal_util_component_has_recurrences (event->comp_data->icalcomp)
 		    && (abs (canvas_x - day_view->drag_event_x)
 			> E_DAY_VIEW_DRAG_START_OFFSET
 			|| abs (canvas_y - day_view->drag_event_y)
@@ -3593,8 +3590,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Recurring events can't be resized. */
-		if (event && (e_cal_util_component_is_instance (event->comp_data->icalcomp) ||
-			      !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))) {
+		if (event && !e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
 			switch (pos) {
 			case E_CALENDAR_VIEW_POS_LEFT_EDGE:
 				cursor = day_view->move_cursor;
@@ -7317,6 +7313,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			*date.value = icaltime_from_timet_with_zone (dt, FALSE,
 								     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 			e_cal_component_set_dtend (comp, &date);
+			e_cal_component_abort_sequence (comp);
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
 

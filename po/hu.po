@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-01 14:11+0100\n"
-"PO-Revision-Date: 2005-03-04 14:07+0100\n"
+"POT-Creation-Date: 2005-03-05 04:16+0100\n"
+"PO-Revision-Date: 2005-03-05 10:47+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <gnome@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgstr[0] "a jelenlegi címjegyzék-mappa %d kártyát tartalmaz"
 msgstr[1] "a jelenlegi címjegyzék-mappa %d kártyát tartalmaz"
 
 #: a11y/addressbook/ea-minicard.c:31
-#: calendar/gui/alarm-notify/alarm-queue.c:863
+#: calendar/gui/alarm-notify/alarm-queue.c:876
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Megnyitás"
@@ -4257,28 +4257,28 @@ msgstr "hely"
 msgid "start-time"
 msgstr "kezdés időpontja"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:864
+#: calendar/gui/alarm-notify/alarm-queue.c:877
 msgid "Dismiss"
 msgstr "Eltüntetés"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:865
+#: calendar/gui/alarm-notify/alarm-queue.c:878
 msgid "Dismiss All"
 msgstr "Mindet eltünteti"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:947
+#: calendar/gui/alarm-notify/alarm-queue.c:960
 msgid "No summary available."
 msgstr "Nem áll rendelkezésre összegzés."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:956
-#: calendar/gui/alarm-notify/alarm-queue.c:958
+#: calendar/gui/alarm-notify/alarm-queue.c:969
+#: calendar/gui/alarm-notify/alarm-queue.c:971
 msgid "No description available."
 msgstr "Nem áll rendelkezésre leírás."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:966
+#: calendar/gui/alarm-notify/alarm-queue.c:979
 msgid "No location information available."
 msgstr "Nem áll rendelkezésre hely információ."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:982
+#: calendar/gui/alarm-notify/alarm-queue.c:995
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -4291,12 +4291,12 @@ msgstr ""
 "Kezdődik: %s\n"
 "Befejeződik: %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1084
-#: calendar/gui/alarm-notify/alarm-queue.c:1108
+#: calendar/gui/alarm-notify/alarm-queue.c:1097
+#: calendar/gui/alarm-notify/alarm-queue.c:1121
 msgid "Warning"
 msgstr "Figyelmeztetés"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1088
+#: calendar/gui/alarm-notify/alarm-queue.c:1101
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4308,7 +4308,7 @@ msgstr ""
 "lett beállítva. Az Evolution a szokásos emlékeztető\n"
 "párbeszédablakot fogja ehelyett megjeleníteni."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1114
+#: calendar/gui/alarm-notify/alarm-queue.c:1127
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4325,7 +4325,7 @@ msgstr ""
 "\n"
 "Biztosan futtatni szeretné ezt a programot?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1128
+#: calendar/gui/alarm-notify/alarm-queue.c:1141
 msgid "Do not ask me about this program again."
 msgstr "Ne kérdezzen meg többet ezzel a programmal kapcsolatban."
 

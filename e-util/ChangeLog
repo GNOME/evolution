@@ -1,11 +1,3 @@
-2005-03-14  Not Zed  <NotZed@Ximian.com>
-
-	** See bug #73550 (related for config pages)
-
-	* e-config.c (ech_config_widget_factory): if we are disabled, then
-	noop.
-	(ech_config_factory, ech_commit, ech_abort): same.
-
 2005-03-01  Not Zed  <NotZed@Ximian.com>
 
 	* *.c: Remove/disable debug.
