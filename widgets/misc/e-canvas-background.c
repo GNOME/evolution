@@ -177,6 +177,11 @@ ecb_dispose (GObject *object)
 		gdk_bitmap_unref (ecb->priv->stipple);
 	ecb->priv->stipple = NULL;
 
+	if (ecb->priv) {
+		g_free (ecb->priv);
+		ecb->priv = NULL;
+	}
+
 	if (G_OBJECT_CLASS (parent_class)->dispose)
                 G_OBJECT_CLASS (parent_class)->dispose (object);
 }

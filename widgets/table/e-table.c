@@ -1348,6 +1348,8 @@ e_table_get_state_object (ETable *e_table)
 	int i, j;
 
 	state = e_table_state_new();
+	if (state->sort_info)
+		g_object_unref (state->sort_info);
 	state->sort_info = e_table->sort_info;
 	g_object_ref(state->sort_info);
 
