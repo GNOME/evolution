@@ -1625,14 +1625,15 @@ message_list_destroy(GtkObject *object)
 	
 	if (message_list->folder) {
 		/* need to do this before removing folder, folderinfo's might not exist after */
+		save_tree_state(message_list);
+		save_hide_state(message_list);
+		
 		if (message_list->uid_nodemap) {
 			g_hash_table_foreach(message_list->uid_nodemap, (GHFunc)clear_info, message_list);
 			g_hash_table_destroy (message_list->uid_nodemap);
 			message_list->uid_nodemap = NULL;
 		}
 		
-		save_tree_state(message_list);
-		save_hide_state(message_list);
 		camel_object_unhook_event(message_list->folder, "folder_changed", folder_changed, message_list);
 		camel_object_unref (message_list->folder);
 		message_list->folder = NULL;
@@ -2543,10 +2544,14 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		}
 	}
 	
+	if (message_list->folder != NULL) {
+		save_tree_state (message_list);
+		save_hide_state (message_list);
+	}
+	
 	clear_tree (message_list);
 	
 	if (message_list->folder) {
-		save_hide_state(message_list);
 		camel_object_unhook_event((CamelObject *)message_list->folder, "folder_changed",
 					  folder_changed, message_list);
 		camel_object_unref (message_list->folder);
@@ -2575,6 +2580,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		
 		camel_object_ref (folder);
 		message_list->folder = folder;
+		message_list->just_set_folder = TRUE;
 		
 		/* Setup the strikeout effect for non-trash folders */
 		if (!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH))
@@ -2681,10 +2687,8 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 	else
 		return FALSE;
 	
-	info = get_message_info (list, path);
-	if (info == NULL) {
+	if (!(info = get_message_info (list, path)))
 		return FALSE;
-	}
 	
 	/* If a message was marked as deleted and the user flags it as
 	   important, marks it as needing a reply, marks it as unread,
@@ -3286,7 +3290,10 @@ regen_list_regened (struct _mail_msg *mm)
 		return;
 
 	if (m->dotree) {
-		save_tree_state (m->ml);
+		if (m->ml->just_set_folder)
+			m->ml->just_set_folder = FALSE;
+		else
+			save_tree_state (m->ml);
 		
 		build_tree (m->ml, m->tree, m->changes);
 		if (m->ml->thread_tree)

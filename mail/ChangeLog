@@ -1,3 +1,18 @@
+2004-05-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #57968
+
+	* message-list.c (message_list_set_folder): Save the tree/hide
+	state of the current folder before clearing the message-list.
+	(message_list_set_folder): Note that a new folder has just been
+	set (now needed by the regen code to tell whether or not it should
+	save the tree state before clearing the tree).
+	(message_list_destroy): Save the tree/hide state before destroying
+	the message-info's, not after.
+	(regen_list_regened): If the regen is being performed in response
+	to a message_list_set_folder, don't save the tree state before
+	clearing the tree or we'll clobber the real state with bogus data.
+
 2004-05-03  William Jon McCann  <mccann@jhu.edu>
 
 	* mail-account-gui.c: Add gtkdialog header to fix build.

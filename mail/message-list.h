@@ -108,6 +108,9 @@ struct _MessageList {
 	/* Current search string, or %NULL */
 	char *search;
 	
+	/* are we regenerating the message_list because set_folder was just called? */
+	guint just_set_folder : 1;
+	
 	/* Are we displaying threaded view? */
 	guint threaded : 1;
 	

@@ -338,7 +338,7 @@ service_complete (MailAccountGuiService *service, GHashTable *extra_config, GtkW
 	return TRUE;
 }
 
-gboolean
+static gboolean
 mail_account_gui_check_for_license (CamelProvider *prov)
 {
 	GConfClient *gconf;
