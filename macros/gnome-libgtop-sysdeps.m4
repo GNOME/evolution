@@ -17,6 +17,12 @@ AC_DEFUN([GNOME_LIBGTOP_SYSDEPS],[
 	AC_SUBST(libgtop_use_machine_h)
 	AC_SUBST(libgtop_need_server)
 
+	AC_ARG_WITH(libgtop-examples,
+	[  --with-libgtop-examples Build the libgtop examples (default=yes)],[
+	build_examples="$withval"], [build_examples=yes])
+
+	AM_CONDITIONAL(EXAMPLES, test x"$build_examples" = xyes)
+
 	AC_ARG_WITH(linux-table,
 	[  --with-linux-table      Use the table () function from Martin Baulig],[
 	linux_table="$withval"],[linux_table=auto])
