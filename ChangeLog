@@ -1,3 +1,7 @@
+2002-12-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* tools/evolution-launch-composer.c: New.
+
 2002-11-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Define KILL_PROCESS_CMD.
