@@ -1,3 +1,12 @@
+2001-10-13  Larry Ewing  <lewing@ximian.com>
+
+	* gui/dialogs/comp-editor.c (real_edit_comp): call
+	set_icon_from_comp.
+	(set_icon_from_comp): set the window icon from the comp.
+	(make_icon_from_comp): get the icon path based on comp type.
+	
+	* gui/dialogs/Makefile.am (iconsdir): EVOLUTION_ICONSDIR bits.
+
 2001-10-13  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/task-editor.c (task_editor_send_comp): send

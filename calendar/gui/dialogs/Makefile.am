@@ -31,6 +31,7 @@ INCLUDES = 						\
 	$(EXTRA_GNOME_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
         -DGNOMELOCALEDIR=\""$(localedir)"\"
@@ -79,6 +80,8 @@ libcal_dialogs_a_SOURCES =	\
 	task-details-page.h	\
 	task-page.c		\
 	task-page.h
+
+iconsdir = $(datadir)/images/evolution
 
 gladedir = $(datadir)/evolution/glade
 glade_DATA =				\

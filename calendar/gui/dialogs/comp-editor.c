@@ -657,6 +657,28 @@ make_title_from_comp (CalComponent *comp)
 	return title;
 }
 
+static const char *
+make_icon_from_comp (CalComponent *comp)
+{
+	CalComponentVType type;
+        const char *icon_path;
+	
+	if (!comp)
+		return EVOLUTION_ICONSDIR "/evolution-calendar-mini.png";
+
+	type = cal_component_get_vtype (comp);
+	switch (type) {
+	case CAL_COMPONENT_EVENT:
+		return EVOLUTION_ICONSDIR "/buttons/new_appointment.png";
+		break;
+	case CAL_COMPONENT_TODO:
+		return EVOLUTION_ICONSDIR "/buttons/new_task.png"; 
+		break;
+	default:		
+		return EVOLUTION_ICONSDIR "/evolution-calendar-mini.png";
+	}
+}
+
 /* Sets the event editor's window title from a calendar component */
 static void
 set_title_from_comp (CompEditor *editor)
@@ -668,6 +690,17 @@ set_title_from_comp (CompEditor *editor)
 	title = make_title_from_comp (priv->comp);
 	gtk_window_set_title (GTK_WINDOW (priv->window), title);
 	g_free (title);
+}
+
+static void
+set_icon_from_comp (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+	char *file;
+
+	priv = editor->priv;
+	file = make_icon_from_comp (priv->comp);
+	gnome_window_icon_set_from_file (GTK_WINDOW (priv->window), file);
 }
 
 static void
@@ -741,6 +774,7 @@ real_edit_comp (CompEditor *editor, CalComponent *comp)
 		priv->comp = cal_component_clone (comp);
 
 	set_title_from_comp (editor);
+	set_icon_from_comp (editor);
 	fill_widgets (editor);	
 }
 
