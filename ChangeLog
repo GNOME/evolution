@@ -1,3 +1,8 @@
+1999-09-04  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder-summary.[ch]: 
+	basic summary framework
+
 1999-09-03  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* devel-docs/camel/Makefile.am:

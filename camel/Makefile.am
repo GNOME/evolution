@@ -17,6 +17,7 @@ libcamel_la_SOURCES = 				\
 	camel-data-wrapper.c			\
 	camel-simple-data-wrapper.c		\
 	camel-folder.c				\
+	camel-folder-summary.c			\
 	camel-medium.c				\
 	camel-mime-body-part.c			\
 	camel-mime-message.c			\
@@ -46,6 +47,7 @@ libcamelinclude_HEADERS =			\
 	camel-data-wrapper.h			\
 	camel-simple-data-wrapper.h		\
 	camel-folder.h				\
+	camel-folder-summary.h			\
 	camel-mime-body-part.h			\
 	camel-medium.h				\
 	camel-mime-message.h			\
