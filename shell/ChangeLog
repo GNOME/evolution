@@ -1,5 +1,9 @@
 2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-local-storage.c (new_folder): Removed debugging message.
+
+2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* evolution-storage.c (evolution_storage_new_folder): If
 	description is NULL, use the empty string instead.
 

@@ -163,8 +163,6 @@ new_folder (ELocalStorage *local_storage,
 
 	priv = local_storage->priv;
 
-	g_print ("%s:%s -- %s\n", __FILE__, __FUNCTION__, path);
-
 	e_storage_new_folder (E_STORAGE (local_storage), path, folder);
 
 	evolution_storage_new_folder (EVOLUTION_STORAGE (priv->bonobo_interface),
