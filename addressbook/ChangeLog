@@ -1,3 +1,8 @@
+2002-01-15  JP Rosevear  <jpr@ximian.com>
+
+	* gui/component/select-names/select-names.glade: remove misleading
+	title and fix spacing
+
 2002-01-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook.c (alphabet_state_changed): Handle
