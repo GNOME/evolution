@@ -852,6 +852,18 @@ wizard_help_cb (EvolutionWizard *wizard,
 {
 }
 
+static void
+wizard_free (MailConfigWizard *wizard)
+{
+	if (wizard->gui)
+		mail_account_gui_destroy (wizard->gui);
+	
+	if (wizard->account)
+		account_destroy (wizard->account);
+	
+	g_free (wizard);
+}
+
 static BonoboObject *
 evolution_mail_config_wizard_factory_fn (BonoboGenericFactory *factory,
 					 void *closure)
@@ -861,17 +873,20 @@ evolution_mail_config_wizard_factory_fn (BonoboGenericFactory *factory,
         MailConfigWizard *gui;
 	
         account = make_account ();
-
+	
         gui = g_new (MailConfigWizard, 1);
+	gui->gui = NULL;
         gui->account = account;
-  	gui->gui = NULL;
-
+	gui->identity_copied = FALSE;
+	gui->last_source = NULL;
+	
         wizard = evolution_wizard_new (get_fn, 5, gui);
 	account_wizard = wizard;
-
-	gtk_object_set_data (GTK_OBJECT (account_wizard), "account-data", gui);
+	
+	gtk_object_set_data_full (GTK_OBJECT (account_wizard),
+				  "account-data", gui, wizard_free);
 	gui->wizard = wizard;
-
+	
         gtk_signal_connect (GTK_OBJECT (wizard), "next",
                             GTK_SIGNAL_FUNC (wizard_next_cb), gui);
         gtk_signal_connect (GTK_OBJECT (wizard), "prepare",
@@ -884,6 +899,7 @@ evolution_mail_config_wizard_factory_fn (BonoboGenericFactory *factory,
                             GTK_SIGNAL_FUNC (wizard_cancel_cb), gui);
         gtk_signal_connect (GTK_OBJECT (wizard), "help",
                             GTK_SIGNAL_FUNC (wizard_help_cb), gui);
+	
         return BONOBO_OBJECT (wizard);
 }
 
