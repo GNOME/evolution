@@ -733,6 +733,13 @@ imap_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 		store->subscribed_folders = NULL;
 	}
 
+	if (imap_store->authtypes) {
+		g_hash_table_foreach_remove (imap_store->authtypes,
+					     free_key, NULL);
+		g_hash_table_destroy (imap_store->authtypes);
+		imap_store->authtypes = NULL;
+	}
+
 	if (store->namespace && !(store->parameters & IMAP_PARAM_OVERRIDE_NAMESPACE)) {
 		g_free (store->namespace);
 		store->namespace = NULL;
@@ -1147,8 +1154,10 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 			return NULL;
 		if (folders->len) {
 			fi = folders->pdata[0];
-			if (!fi->url)
+			if (!fi->url) {
+				camel_folder_info_free (fi);
 				g_ptr_array_remove_index (folders, 0);
+			}
 		}
 
 		/* If we want to look at only subscribed folders AND

@@ -23,11 +23,7 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
-#include <string.h>
 #include "camel-object.h"
 
 /* I just mashed the keyboard for these... */
@@ -690,6 +686,7 @@ camel_object_hook_event (CamelObject * obj, const gchar * name,
 {
 	GSList *hooklist;
 	CamelHookPair *pair;
+	gpointer old_name, old_hooklist;
 
 	g_return_if_fail (CAMEL_IS_OBJECT (obj));
 	g_return_if_fail (name);
@@ -703,10 +700,16 @@ camel_object_hook_event (CamelObject * obj, const gchar * name,
 	pair->func = hook;
 	pair->user_data = user_data;
 
-	hooklist = g_hash_table_lookup (obj->event_to_hooklist, name);
-	hooklist = g_slist_prepend (hooklist, pair);
-	g_hash_table_insert (obj->event_to_hooklist, g_strdup (name),
-			     hooklist);
+	if (g_hash_table_lookup_extended (obj->event_to_hooklist, name,
+					  &old_name, &old_hooklist)) {
+		hooklist = g_slist_prepend (old_hooklist, pair);
+		g_hash_table_insert (obj->event_to_hooklist, old_name,
+				     hooklist);
+	} else {
+		hooklist = g_slist_prepend (NULL, pair);
+		g_hash_table_insert (obj->event_to_hooklist, g_strdup (name),
+				     hooklist);
+	}
 }
 
 void

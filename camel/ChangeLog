@@ -29,7 +29,24 @@
 	* providers/smtp/Makefile.am (INCLUDES): Add
 	`$(EXTRA_GNOME_CFLAGS)'.
 
+2001-04-13  Dan Winship  <danw@ximian.com>
+
+	* camel-object.c (camel_object_hook_event):
+	* camel-uid-cache.c (camel_uid_cache_get_new_uids):
+	* camel-url.c (camel_url_new_with_base): Plug leaks.
+
+	* camel-remote-store.c (camel_remote_store_init): Don't
+	re-initialize the folders hash table.
+
+	* providers/imap/camel-imap-store.c (imap_disconnect): Free
+	authtypes since they'll be re-read on re-connect.
+	(get_folder_info): Free folderinfos that we're discarding from the
+	list.
+
 2001-04-12  Dan Winship  <danw@ximian.com>
+
+	* camel-mime-filter-crlf.c (filter): Fix a pair of array bounds
+	reads noted by purify
 
 	* providers/imap/camel-imap-message-cache.c
 	(camel_imap_message_cache_remove): 

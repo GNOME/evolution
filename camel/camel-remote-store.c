@@ -23,9 +23,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <sys/time.h>
 #include <sys/types.h>
@@ -106,10 +104,7 @@ camel_remote_store_class_init (CamelRemoteStoreClass *camel_remote_store_class)
 static void
 camel_remote_store_init (CamelObject *object)
 {
-	CamelStore *store = CAMEL_STORE (object);
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
-	
-	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	remote_store->istream = NULL;
 	remote_store->ostream = NULL;
@@ -236,7 +231,6 @@ remote_connect (CamelService *service, CamelException *ex)
 #endif /* HAVE_NSS */
 	
 	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
-	camel_free_host(h);
 	if (ret == -1) {
 		if (errno == EINTR)
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
