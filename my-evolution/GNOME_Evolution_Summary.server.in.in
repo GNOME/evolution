@@ -9,7 +9,7 @@
     </oaf_attribute>
 
     <oaf_attribute name="name" type="string"
-                   _value="Evolution Summary">
+                   _value="Evolution Summary"/>
 
   </oaf_server>
 

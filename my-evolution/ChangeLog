@@ -1,3 +1,8 @@
+2003-04-08  Not Zed  <NotZed@Ximian.com>
+
+	* GNOME_Evolution_Summary.server.in.in: Properly terminate the
+	"name" attribute tag added in the last change.
+
 2003-04-07  Dan Winship  <danw@ximian.com>
 
 	* Locations: Add Darwin, Australia [#12066]. Fix Vilnius
