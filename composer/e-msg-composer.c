@@ -1516,7 +1516,7 @@ do_exit (EMsgComposer *composer)
 	subject = e_utf8_to_locale_string (subject_utf8);
 	g_free (subject_utf8);
 	
-	label = g_strdup_printf (("The message \"%s\" has not been sent.\n\nDo you wish to save your changes?"), subject);
+	label = g_strdup_printf (_("The message \"%s\" has not been sent.\n\nDo you wish to save your changes?"), subject);
 	g_free (subject);
 	
 	dialog = gnome_message_box_new (label, GNOME_MESSAGE_BOX_QUESTION,
