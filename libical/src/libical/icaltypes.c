@@ -182,7 +182,7 @@ struct icalreqstattype icalreqstattype_from_string(char* str)
   p1 = strchr(str,';');
 
   if (p1 == 0){
-    icalerror_set_errno(ICAL_BADARG_ERROR);
+/*    icalerror_set_errno(ICAL_BADARG_ERROR);*/
     return stat;
   }
 

@@ -134,11 +134,17 @@ icalproperty_kind icalenum_string_to_property_kind(char* string)
 	return ICAL_NO_PROPERTY;
     }
 
+
     for (i=0; property_map[i].kind  != ICAL_NO_PROPERTY; i++) {
 	if (strcmp(property_map[i].name, string) == 0) {
 	    return property_map[i].kind;
 	}
     }
+
+    if(strncmp(string,"X-",2)==0){
+	return ICAL_X_PROPERTY;
+    }
+
 
     return ICAL_NO_PROPERTY;
 }
@@ -173,6 +179,7 @@ static struct icalparameter_kind_map parameter_map[] =
     { ICAL_SENTBY_PARAMETER, "SENT-BY"},
     { ICAL_TZID_PARAMETER, "TZID"},
     { ICAL_VALUE_PARAMETER, "VALUE"},
+    { ICAL_X_PARAMETER, "X"},
 
     /* CAP parameters */
 
@@ -210,6 +217,10 @@ icalparameter_kind icalenum_string_to_parameter_kind(char* string)
 	if (strcmp(parameter_map[i].name, string) == 0) {
 	    return parameter_map[i].kind;
 	}
+    }
+
+    if(strncmp(string,"X-",2)==0){
+	return ICAL_X_PARAMETER;
     }
 
     return ICAL_NO_PARAMETER;

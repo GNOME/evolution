@@ -1,3 +1,15 @@
+2000-12-12  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalparser.c Addedd support for x-parameters. 
+
+	* icalenum.c Fixed icalenum_parameter_type_to_string and
+ 	icalenum_property_type_to_string to property identify X- parameers
+ 	and properties.
+
+	* icalparameter.c Fixed icalparameter_as_ical_string to property
+ 	write out X-Parameters.
+
+	
 2000-12-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* src/libical/icalerror.h: Added a name to the parameter to
