@@ -13,8 +13,8 @@
 
 2004-03-13  Trent Lloyd  <lathiat@sixlabs.org>
 
-	* e-search-bar.c (remove_bonobo_menus): move function about
-	setup_bonobo_menus which requires it so its not implicitly defined
+	* e-search-bar.c (remove_bonobo_menus): move function above
+	setup_bonobo_menus, fixes implicit declaration.
 
 2004-03-12  Kidd Wang  <kidd.wang@sun.com>
 
