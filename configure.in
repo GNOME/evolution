@@ -496,6 +496,7 @@ dnl GNOME Libraries
 dnl ***************
 EVO_CHECK_LIB(Bonobo, bonobox, 1.0.3)
 EVO_CHECK_LIB(OAF, oaf, 0.6.2)
+EVO_CHECK_LIB(Bonobo Conf, bonobo_conf, 0.2)
 EVO_CHECK_LIB(libglade, libglade, 0.14)
 EVO_CHECK_LIB(gdk-pixbuf with GNOME canvas support, gnomecanvaspixbuf, 0.9.0)
 EVO_CHECK_LIB(GAL, gal, 0.8.99.7)
@@ -518,6 +519,11 @@ GAL_CFLAGS="`gnome-config --cflags gal`"
 GAL_LIBS="`gnome-config --libs gal`"
 AC_SUBST(GAL_CFLAGS)
 AC_SUBST(GAL_LIBS)
+
+BONOBO_CONF_CFLAGS="`gnome-config --cflags bonobo_conf`"
+BONOBO_CONF_LIBS="`gnome-config --libs bonobo_conf`"
+AC_SUBST(BONOBO_CONF_CFLAGS)
+AC_SUBST(BONOBO_CONF_LIBS)
 
 EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_LIBS"
 EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_CFLAGS"

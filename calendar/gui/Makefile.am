@@ -48,6 +48,7 @@ INCLUDES = 						\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	$(GNOME_VFS_CFLAGS)				\
 	$(GAL_CFLAGS)					\
+	$(BONOBO_CONF_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"
@@ -143,6 +144,7 @@ evolution_calendar_LDADD =								\
 	$(EXTRA_GNOME_LIBS)							\
 	$(BONOBO_HTML_GNOME_LIBS)							\
 	$(GNOME_VFS_LIBS)								\
+	$(BONOBO_CONF_LIBS)								\
 	$(GAL_LIBS)									\
 	$(INTLLIBS)
 

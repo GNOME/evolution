@@ -6,6 +6,7 @@ INCLUDES = -O								\
 	-I$(top_srcdir)							\
 	$(BONOBO_GNOME_CFLAGS)						\
 	$(EXTRA_GNOME_CFLAGS)						\
+	$(BONOBO_CONF_CFLAGS)						\
 	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            		\
@@ -165,6 +166,7 @@ evolution_LDADD =						\
 	$(EXTRA_GNOME_LIBS)					\
 	$(GNOME_PRINT_LIBS)					\
 	$(GTKHTML_LIBS)						\
+	$(BONOBO_CONF_LIBS)					\
 	$(BONOBO_GNOME_LIBS)
 
 # Test component

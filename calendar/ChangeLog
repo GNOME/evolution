@@ -1,3 +1,8 @@
+2001-07-02  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/Makefile.am (INCLUDES): Added $(BONOBO_CONF_CFLAGS).
+	(evolution_calendar_LDADD): Added $(BONOBO_CONF_LIBS).
+
 2001-07-02  Federico Mena Quintero  <federico@ximian.com>
 
 	Support for ATTACH, DESCRIPTION properties in alarm components.

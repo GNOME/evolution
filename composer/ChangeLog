@@ -1,3 +1,7 @@
+2001-07-02  Christopher James Lahey  <clahey@ximian.com>
+
+	* Makefile.am (INCLUDES): Added $(BONOBO_CONF_CFLAGS).
+
 2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (attach_to_multipart): Set the
