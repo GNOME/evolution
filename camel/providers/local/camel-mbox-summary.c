@@ -531,7 +531,7 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 
 		g_assert(info);
 
-		d(printf("Looking at message %s\n", info->info.uid));
+		d(printf("Looking at message %s\n", camel_message_info_uid(info)));
 
 		/* only need to seek past deleted messages, otherwise we should be at the right spot/state already */
 		if (lastdel) {
@@ -582,7 +582,7 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 		}
 
 		if (info && info->info.flags & (CAMEL_MESSAGE_FOLDER_NOXEV | CAMEL_MESSAGE_FOLDER_FLAGGED)) {
-			d(printf("Updating header for %s flags = %08x\n", info->info.uid, info->info.flags));
+			d(printf("Updating header for %s flags = %08x\n", camel_message_info_uid(info), info->info.flags));
 
 			if (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM_END) {
 				g_warning("camel_mime_parser_step failed (2)");
@@ -607,7 +607,7 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 		if (info) {
 			d(printf("looking for message content to copy across from %d\n", (int)camel_mime_parser_tell(mp)));
 			while (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_PRE_FROM) {
-				d(printf("copying mbox contents to tmp: '%.*s'\n", len, buffer));
+				/*d(printf("copying mbox contents to tmp: '%.*s'\n", len, buffer));*/
 				if (write(fdout, buffer, len) != len) {
 					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 							     _("Writing to tmp mailbox failed: %s: %s"),
@@ -724,7 +724,7 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 
 		g_assert(info);
 
-		d(printf("Checking message %s %08x\n", info->info.uid, info->info.flags));
+		d(printf("Checking message %s %08x\n", camel_message_info_uid(info), info->info.flags));
 
 		if ((info->info.flags & CAMEL_MESSAGE_FOLDER_FLAGGED) == 0) {
 			camel_folder_summary_info_free(s, (CamelMessageInfo *)info);
@@ -732,7 +732,7 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 			continue;
 		}
 
-		d(printf("Updating message %s\n", info->info.uid));
+		d(printf("Updating message %s\n", camel_message_info_uid(info)));
 
 		camel_mime_parser_seek(mp, info->frompos, SEEK_SET);
 
