@@ -35,22 +35,32 @@ struct _EBookListenerPrivate {
 static gboolean
 e_book_listener_check_queue (EBookListener *listener)
 {
+	gboolean retval;
+
+	/* Hold a reference locally, so that we can't get blown away
+	   during the signal emission. */
+	bonobo_object_ref (BONOBO_OBJECT (listener));
+	retval = TRUE;
+
 	if (listener->priv->response_queue != NULL) {
 		gtk_signal_emit (GTK_OBJECT (listener),
 				 e_book_listener_signals [RESPONSES_QUEUED]);
 	}
 
-	if (listener->priv->response_queue == NULL) {
+	/* Make sure that ->idle_id != 0, so that only the first reentrant call to
+	   this function unrefs our "global" reference. */
+	if (listener->priv->response_queue == NULL && listener->priv->idle_id != 0) {
 		listener->priv->idle_id = 0;
 
 		/* We only release our reference to the listener when the idle
 		   function is totally finished. */
 		bonobo_object_unref (BONOBO_OBJECT (listener));
-
-		return FALSE;
+		retval = FALSE;
 	}
 
-	return TRUE;
+	bonobo_object_unref (BONOBO_OBJECT (listener));
+
+	return retval;
 }
 
 static void
