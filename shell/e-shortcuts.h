@@ -63,8 +63,9 @@ struct _EShortcutsClass {
 	void  (* new_group)        (EShortcuts *shortcuts, int group_num);
 	void  (* remove_group)     (EShortcuts *shortcuts, int group_num);
 	void  (* new_shortcut)     (EShortcuts *shortcuts, int group_num, int item_num);
-	void  (* remove_shortcut)  (EShortcuts *shortcuts, int group_num, int item_num);}
-;
+	void  (* remove_shortcut)  (EShortcuts *shortcuts, int group_num, int item_num);
+};
+
 
 
 GtkType      e_shortcuts_get_type                (void);
@@ -100,11 +101,21 @@ void         e_shortcuts_add_shortcut            (EShortcuts          *shortcuts
 						  int                  group_num,
 						  int                  num,
 						  const char          *uri);
+void         e_shortcuts_update_shortcut         (EShortcuts *shortcuts,
+						  int         group_num,
+						  int         num,
+						  const char *uri);
 void         e_shortcuts_remove_group            (EShortcuts          *shortcuts,
 						  int                  group_num);
 void         e_shortcuts_add_group               (EShortcuts          *shortcuts,
 						  int                  group_num,
 						  const char          *group_name);
+
+void         e_shortcuts_remove_shortcut_by_uri (EShortcuts *shortcuts,
+						 const char *uri);
+
+void         e_shortcuts_update_shortcut_by_uri  (EShortcuts *shortcuts,
+						  const char *uri);
 
 #ifdef __cplusplus
 }

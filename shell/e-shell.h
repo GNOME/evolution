@@ -44,6 +44,7 @@ typedef struct _EShellClass   EShellClass;
 #include "Evolution.h"
 #include "e-shortcuts.h"
 #include "e-shell-view.h"
+#include "e-local-storage.h"
 
 
 #define E_TYPE_SHELL			(e_shell_get_type ())
@@ -85,6 +86,7 @@ EShellView *e_shell_new_view  (EShell     *shell,
 const char          *e_shell_get_local_directory       (EShell          *shell);
 EShortcuts          *e_shell_get_shortcuts             (EShell          *shell);
 EStorageSet         *e_shell_get_storage_set           (EShell          *shell);
+ELocalStorage       *e_shell_get_local_storage         (EShell          *shell);
 EFolderTypeRegistry *e_shell_get_folder_type_registry  (EShell          *shell);
 
 gboolean             e_shell_save_settings             (EShell          *shell);

@@ -129,6 +129,9 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 #define DEFAULT_URI "evolution:/local/Inbox"
 
+static void update_for_current_uri (EShellView *shell_view);
+static const char * get_storage_set_path_from_uri (const char *uri);
+
 
 /* Utility functions.  */
 
@@ -884,6 +887,38 @@ unmerge_on_error (BonoboObject *object,
 			win, cobject);
 }
 
+static void
+folder_updated_cb (EStorage   *storage,
+		   const char *path,
+		   void       *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+	char *full_path;
+	char *uri;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	/* Build the URI from the @path we're given */
+        if (! g_path_is_absolute (path))
+                full_path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage),
+				   G_DIR_SEPARATOR_S, path, NULL);
+        else
+                full_path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage),
+				   path, NULL);
+
+	uri = g_strconcat (E_SHELL_URI_PREFIX, full_path, NULL);
+	g_free (full_path);
+
+	/* Update the shortcut bar */
+	e_shortcuts_update_shortcut_by_uri (e_shell_get_shortcuts (priv->shell), uri);
+	g_free (uri);
+
+	/* Update the folder title bar and the window title bar */
+	update_for_current_uri (shell_view);
+}
+
 
 EShellView *
 e_shell_view_construct (EShellView *shell_view,
@@ -914,6 +949,11 @@ e_shell_view_construct (EShellView *shell_view,
 			    (GtkSignalFunc) delete_event, NULL);
 
 	priv->shell = shell;
+
+	gtk_signal_connect (GTK_OBJECT (e_shell_get_local_storage (priv->shell)), "folder_updated",
+			    folder_updated_cb, shell_view);
+	gtk_signal_connect (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "updated_folder",
+			    folder_updated_cb, shell_view);
 
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (shell_view));
@@ -1662,6 +1702,53 @@ e_shell_view_get_current_uri (EShellView *shell_view)
 	return shell_view->priv->uri;
 }
 
+static void
+save_shortcut_bar_icon_modes (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+	EShortcutBar *shortcut_bar;
+	int num_groups;
+	int group;
+
+	priv = shell_view->priv;
+	shortcut_bar = E_SHORTCUT_BAR (priv->shortcut_bar);
+
+	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
+
+	for (group = 0; group < num_groups; group++) {
+		char *tmp;
+
+		tmp = g_strdup_printf ("ShortcutBarGroup%dIconMode", group);
+		gnome_config_set_int (tmp, e_shortcut_bar_get_view_type (shortcut_bar, group));
+		g_free (tmp);
+	}
+}
+
+static void
+load_shortcut_bar_icon_modes (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+	EShortcutBar *shortcut_bar;
+	int num_groups;
+	int group;
+
+	priv = shell_view->priv;
+	shortcut_bar = E_SHORTCUT_BAR (priv->shortcut_bar);
+
+	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
+
+	for (group = 0; group < num_groups; group++) {
+		char *tmp;
+		int iconmode;
+
+		tmp = g_strdup_printf ("ShortcutBarGroup%dIconMode", group);
+		iconmode = gnome_config_get_int (tmp);
+		g_free (tmp);
+
+		e_shortcut_bar_set_view_type (shortcut_bar, group, iconmode);
+	}
+}
+
 
 /**
  * e_shell_view_save_settings:
@@ -1697,6 +1784,8 @@ e_shell_view_save_settings (EShellView *shell_view,
 		gnome_config_set_string ("DisplayedURI", uri);
 	else
 		gnome_config_set_string ("DisplayedURI", DEFAULT_URI);
+
+	save_shortcut_bar_icon_modes (shell_view);
 
 	gnome_config_pop_prefix ();
 	
@@ -1744,6 +1833,8 @@ e_shell_view_load_settings (EShellView *shell_view,
 	if (! e_shell_view_display_uri (shell_view, stringval))
 		e_shell_view_display_uri (shell_view, DEFAULT_URI);
 	g_free (stringval);
+
+	load_shortcut_bar_icon_modes (shell_view);
 
 	gnome_config_pop_prefix ();
 	

@@ -69,6 +69,13 @@ struct _ELocalStoragePrivate {
 	EvolutionLocalStorage *bonobo_interface;
 };
 
+enum {
+	FOLDER_UPDATED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
 
 /* Utility functions.  */
 
@@ -548,6 +555,8 @@ bonobo_interface_update_folder_cb (EvolutionLocalStorage *bonobo_local_storage,
 
 	e_folder_set_name (folder, display_name);
 	e_folder_set_highlighted (folder, highlighted);
+
+	gtk_signal_emit (GTK_OBJECT (local_storage), signals[FOLDER_UPDATED], path);
 }
 
 
@@ -568,6 +577,17 @@ class_init (ELocalStorageClass *class)
 	storage_class->get_name            = impl_get_name;
 	storage_class->async_create_folder = impl_async_create_folder;
 	storage_class->async_remove_folder = impl_async_remove_folder;
+
+	signals[FOLDER_UPDATED] =
+		gtk_signal_new ("folder_updated",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ELocalStorageClass, folder_updated),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_STRING);
+
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void

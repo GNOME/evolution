@@ -54,6 +54,8 @@ struct _ELocalStorage {
 
 struct _ELocalStorageClass {
 	EStorageClass parent_class;
+
+	void (* folder_updated) (ELocalStorage *local_storage, const char *path);
 };
 
 

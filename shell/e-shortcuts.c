@@ -58,6 +58,7 @@
 #include "e-shortcuts-view.h"
 
 #include "e-shortcuts.h"
+#include "e-shell-constants.h"
 
 
 #define PARENT_TYPE GTK_TYPE_OBJECT
@@ -312,6 +313,22 @@ make_dirty (EShortcuts *shortcuts)
 	schedule_idle (shortcuts);
 }
 
+/* Signal handlers for the storage set */
+static void
+removed_folder_cb (EStorageSet *storage_set,
+		   const char  *path,
+		   void        *data)
+{
+	EShortcuts *shortcuts;
+	char *tmp;
+
+	shortcuts = E_SHORTCUTS (data);
+
+	tmp = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+	e_shortcuts_remove_shortcut_by_uri (shortcuts, tmp);
+	g_free (tmp);
+}
+
 
 /* Signal handlers for the views.  */
 
@@ -453,6 +470,9 @@ e_shortcuts_construct (EShortcuts  *shortcuts,
 
 	gtk_object_ref (GTK_OBJECT (storage_set));
 	priv->storage_set = storage_set;
+
+	gtk_signal_connect (GTK_OBJECT (priv->storage_set), "removed_folder",
+			    removed_folder_cb, shortcuts);
 
 	gtk_object_ref (GTK_OBJECT (folder_type_registry));
 	priv->folder_type_registry = folder_type_registry;
@@ -705,6 +725,112 @@ e_shortcuts_add_shortcut (EShortcuts *shortcuts,
 	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[NEW_SHORTCUT], group_num, num);
 
 	make_dirty (shortcuts);
+}
+
+void
+e_shortcuts_update_shortcut (EShortcuts *shortcuts,
+			     int         group_num,
+			     int         num,
+			     const char *uri)
+{
+	g_return_if_fail (shortcuts != NULL);
+	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
+		
+	/* FIXME: need support in e-shortcut-bar widget (and also
+           e-icon-bar) to be able to "update" a shortcut without doing
+           this lame remove then add */
+
+	e_shortcuts_remove_shortcut (shortcuts, group_num, num);
+	e_shortcuts_add_shortcut (shortcuts, group_num, num, uri);
+}
+
+
+/* The shortcuts_by_uri functions */
+
+
+typedef struct {
+	int group_num;
+	int num;
+} EShortcutPosition;
+
+static GList *
+find_positions_by_uri (EShortcuts  *shortcuts,
+		       const char  *uri)
+{
+	EShortcutsPrivate *priv;
+	GList *p = NULL, *q = NULL;
+	GList *retval = NULL;
+	int group_num = 0, num = 0;
+
+	priv = shortcuts->priv;
+
+	for (p = priv->groups; p != NULL; p = p->next) {
+		ShortcutGroup *group;
+
+		group = (ShortcutGroup *) p->data;
+
+		for (q = group->shortcuts; q != NULL; q = q->next) {
+			char *listeduri = q->data;
+
+			if (!strcmp (uri, listeduri)) {
+				EShortcutPosition *position;
+
+				position = g_new (EShortcutPosition, 1);
+				position->group_num = group_num;
+				position->num = num;
+				
+				retval = g_list_append (retval, position);
+			}
+			num++;
+		}
+
+		group_num++;
+		num = 0;
+	}
+
+	return g_list_first (retval);
+}
+
+void
+e_shortcuts_remove_shortcut_by_uri (EShortcuts *shortcuts,
+				    const char *uri)
+{
+	GList *items = NULL;
+
+	items = find_positions_by_uri (shortcuts, uri);
+
+	while (items) {
+		EShortcutPosition *pos = (EShortcutPosition *) items->data;
+
+		if (pos) {
+			e_shortcuts_remove_shortcut (shortcuts, pos->group_num, pos->num);
+			g_free (pos);
+		}
+		items = g_list_next (items);
+	}
+	g_list_free (items);
+}
+
+void
+e_shortcuts_update_shortcut_by_uri (EShortcuts *shortcuts,
+				    const char *uri)
+{
+	GList *items = NULL;
+
+	items = find_positions_by_uri (shortcuts, uri);
+
+	while (items) {
+		EShortcutPosition *pos = (EShortcutPosition *) items->data;
+
+		if (pos) {
+			e_shortcuts_update_shortcut (shortcuts,
+						     pos->group_num, pos->num,
+						     uri);
+			g_free (pos);
+		}
+		items = g_list_next (items);
+	}
+	g_list_free (items);
 }
 
 void

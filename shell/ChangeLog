@@ -1,3 +1,42 @@
+2001-01-17  Jason Leach  <jasonleach@usa.net>
+
+	(Bug #883: Shortcut bar does not update when a folders display
+	 name changes)
+
+	* e-local-storage.c (class_init): Define a new "folder_updated"
+	signal here.
+	(bonobo_interface_update_folder_cb): Emit the new folder_updated
+	signal here.
+
+	* e-shell-view.c (e_shell_view_construct): Connect the
+	EShell::ELocalStorage folder_updated signal here.  Also connect
+	the updated_folder signal coming from EShell::EStorageSet to the
+	new callback.
+
+	* e-shell-view.c (folder_updated_cb): Callback that actually
+	initiates the shell updating.
+	
+	* e-shortcuts.c (e_shortcuts_update_shortcut_by_uri): New
+	function.  Given a uri for a shortcut bar item, we'll update it.
+
+	* e-shortcuts.c (e_shortcuts_remove_shortcut_by_uri): New
+	function.  Given a uri for a shortcut bar item, we'll remove it.
+
+	* e-shortcuts.c (removed_folder_cb): Connect this callback that
+	will remove a renamed vfolder from the shortcut bar.  Temporary
+	fix to the problem of renaming vfolders and having the shortcut
+	bar think the old vfolder still exists.
+	
+	(Bug #1168: Shortcut bar and icon size persistence)
+	
+	* e-shell-view.c (save_shortcut_bar_icon_modes): New static
+	function, save the icon modes (for all shortcut bar groups, even
+	though we only have one group now).
+
+	(load_shortcut_bar_icon_modes): New static function, load the
+	saved shortcut bar group icon modes and apply them to our shortcut
+	bar.
+
 2001-01-17  Federico Mena Quintero  <federico@ximian.com>
 
 	* importer/evolution-importer.h: Use "typedef enum { ... } Blah;"

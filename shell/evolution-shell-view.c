@@ -25,7 +25,7 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <gtk/gtksignal.h>
 #include <bonobo.h>
 
 #include <gal/util/e-util.h>

@@ -911,6 +911,23 @@ e_shell_get_folder_type_registry (EShell *shell)
 	return shell->priv->folder_type_registry;
 }
 
+/**
+ * e_shell_get_local_storage:
+ * @shell: An EShell object.
+ *
+ * Get the local storage associated to @shell.
+ *
+ * Return value: A pointer to the ELocalStorage associated to @shell.
+ **/
+ELocalStorage *
+e_shell_get_local_storage (EShell *shell)
+{
+	g_return_val_if_fail (shell != NULL, NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->local_storage;
+}
+
 
 static gboolean
 save_settings_for_views (EShell *shell)
