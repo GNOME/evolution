@@ -897,9 +897,13 @@ eti_show_cursor (ETableItem *eti, int delay)
 		return;
 	}
 	
+#if 0
 	g_object_get(eti->selection,
 		     "cursor_row", &cursor_row,
 		     NULL);
+#else
+	cursor_row = e_selection_model_cursor_row (eti->selection);
+#endif
 
 	d(g_print ("%s: cursor row: %d\n", __FUNCTION__, cursor_row));
 

@@ -28,6 +28,8 @@
 #include <glib-object.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-tree-model.h>
+#include <gal/e-table/e-table-sort-info.h>
+#include <gal/e-table/e-table-header.h>
 
 G_BEGIN_DECLS
 
@@ -51,9 +53,13 @@ typedef struct {
 } ETreeTableAdapterClass;
 
 GType        e_tree_table_adapter_get_type                   (void);
-ETableModel *e_tree_table_adapter_new                        (ETreeModel        *source);
+ETableModel *e_tree_table_adapter_new                        (ETreeModel        *source,
+							      ETableSortInfo    *sort_info,
+							      ETableHeader	*header);
 ETableModel *e_tree_table_adapter_construct                  (ETreeTableAdapter *ets,
-							      ETreeModel        *source);
+							      ETreeModel        *source,
+		      					      ETableSortInfo    *sort_info,
+							      ETableHeader	*header);
 
 gboolean     e_tree_table_adapter_node_is_expanded           (ETreeTableAdapter *etta,
 							      ETreePath          path);
@@ -78,6 +84,9 @@ void         e_tree_table_adapter_save_expanded_state        (ETreeTableAdapter 
 							      const char        *filename);
 void         e_tree_table_adapter_load_expanded_state        (ETreeTableAdapter *etta,
 							      const char        *filename);
+
+void         e_tree_table_adapter_set_sort_info              (ETreeTableAdapter *etta,
+							      ETableSortInfo    *sort_info);
 
 G_END_DECLS
 

@@ -49,7 +49,6 @@
 #include <gal/e-table/e-table-selection-model.h>
 #endif
 
-#include <gal/e-table/e-tree-sorted.h>
 #include <gal/e-table/e-tree-table-adapter.h>
 
 #include "e-tree.h"
@@ -114,7 +113,6 @@ enum {
 
 struct ETreePriv {
 	ETreeModel *model;
-	ETreeSorted *sorted;
 	ETreeTableAdapter *etta;
 
 	ETableHeader *full_header, *header;
@@ -406,7 +404,6 @@ et_dispose (GObject *object)
 
 		g_object_unref (et->priv->etta);
 		g_object_unref (et->priv->model);
-		g_object_unref (et->priv->sorted);
 		g_object_unref (et->priv->full_header);
 		disconnect_header (et);
 		g_object_unref (et->priv->selection);
@@ -477,21 +474,20 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 	cb_data.string = string;
 
 	cursor = e_tree_get_cursor (et);
-	cursor = e_tree_sorted_model_to_view_path (et->priv->sorted, cursor);
 
 	if (flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) {
 		const void *value;
 
-		value = e_tree_model_value_at (E_TREE_MODEL (et->priv->sorted), cursor, col->col_idx);
+		value = e_tree_model_value_at (et->priv->model, cursor, col->col_idx);
 
 		if (col->search (value, string)) {
 			return TRUE;
 		}
 	}
 
-	found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), cursor, NULL, E_TREE_FIND_NEXT_FORWARD, search_search_callback, &cb_data);
+	found = e_tree_model_node_find (et->priv->model, cursor, NULL, E_TREE_FIND_NEXT_FORWARD, search_search_callback, &cb_data);
 	if (found == NULL)
-		found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), NULL, cursor, E_TREE_FIND_NEXT_FORWARD, search_search_callback, &cb_data);
+		found = e_tree_model_node_find (et->priv->model, NULL, cursor, E_TREE_FIND_NEXT_FORWARD, search_search_callback, &cb_data);
 
 	if (found && found != cursor) {
 		int model_row;
@@ -499,14 +495,14 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 		e_tree_table_adapter_show_node (et->priv->etta, found);
 		model_row = e_tree_table_adapter_row_of_node (et->priv->etta, found);
 
-		cursor = e_tree_sorted_view_to_model_path (et->priv->sorted, found);
+		cursor = found;
 
 		e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->priv->selection), model_row, col->col_idx, GDK_CONTROL_MASK);
 		return TRUE;
 	} else if (!(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST)) {
 		const void *value;
 
-		value = e_tree_model_value_at (E_TREE_MODEL (et->priv->sorted), cursor, col->col_idx);
+		value = e_tree_model_value_at (et->priv->model, cursor, col->col_idx);
 
 		return col->search (value, string);
 	} else
@@ -541,7 +537,6 @@ e_tree_init (GtkObject *object)
 	e_tree->priv                         = g_new(ETreePriv, 1);
 
 	e_tree->priv->model                  = NULL;
-	e_tree->priv->sorted                 = NULL;
 	e_tree->priv->etta                   = NULL;
 
 	e_tree->priv->full_header            = NULL;
@@ -784,7 +779,6 @@ static void
 item_cursor_change (ETableItem *eti, int row, ETree *et)
 {
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 	g_signal_emit (et,
 		       et_signals [CURSOR_CHANGE], 0,
 		       row, path);
@@ -794,8 +788,6 @@ static void
 item_cursor_activated (ETableItem *eti, int row, ETree *et)
 {
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	if (path)
-		path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 	g_signal_emit (et,
 		       et_signals [CURSOR_ACTIVATED], 0,
 		       row, path);
@@ -806,7 +798,6 @@ static void
 item_double_click (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 {
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 	g_signal_emit (et,
 		       et_signals [DOUBLE_CLICK], 0,
 		       row, path, col, event);
@@ -817,7 +808,6 @@ item_right_click (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 {
 	int return_val = 0;
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 	g_signal_emit (et,
 		       et_signals [RIGHT_CLICK], 0,
 		       row, path, col, event, &return_val);
@@ -829,7 +819,6 @@ item_click (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 {
 	int return_val = 0;
 	ETreePath path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 	g_signal_emit (et,
 		       et_signals [CLICK], 0,
 		       row, path, col, event, &return_val);
@@ -916,7 +905,6 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 			e_table_search_input_character (et->priv->search, key->keyval);
 		}
 		path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-		path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 		g_signal_emit (et,
 			       et_signals [KEY_PRESS], 0,
 			       row, path, col, event, &return_val);
@@ -932,7 +920,6 @@ item_start_drag (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 	gint return_val = 0;
 
 	path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 
 	g_signal_emit (et,
 		       et_signals [START_DRAG], 0,
@@ -1163,8 +1150,8 @@ e_tree_set_state_object(ETree *e_tree, ETableState *state)
 			     "ETableHeader", e_tree->priv->header,
 			     NULL);
 
-	if (e_tree->priv->sorted)
-		e_tree_sorted_set_sort_info (e_tree->priv->sorted, e_tree->priv->sort_info);
+	if (e_tree->priv->etta)
+		e_tree_table_adapter_set_sort_info (e_tree->priv->etta, e_tree->priv->sort_info);
 
 	e_tree_state_change (e_tree);
 }
@@ -1396,9 +1383,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	e_tree->priv->model = etm;
 	g_object_ref (etm);
 
-	e_tree->priv->sorted = e_tree_sorted_new(etm, e_tree->priv->full_header, e_tree->priv->sort_info);
-
-	e_tree->priv->etta = E_TREE_TABLE_ADAPTER(e_tree_table_adapter_new(E_TREE_MODEL(e_tree->priv->sorted)));
+	e_tree->priv->etta = E_TREE_TABLE_ADAPTER(e_tree_table_adapter_new(e_tree->priv->model, e_tree->priv->sort_info, e_tree->priv->full_header));
 
 	et_connect_to_etta (e_tree);
 
@@ -1410,7 +1395,6 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		      "sorter", e_tree->priv->sorter,
 #ifdef E_TREE_USE_TREE_SELECTION
 		      "model", e_tree->priv->model,
-		      "ets", e_tree->priv->sorted,
 		      "etta", e_tree->priv->etta,
 #else
 		      "model", e_tree->priv->etta,
@@ -1665,8 +1649,6 @@ e_tree_set_cursor (ETree *e_tree, ETreePath path)
 	e_tree_selection_model_select_single_path (E_TREE_SELECTION_MODEL(e_tree->priv->selection), path);
 	e_tree_selection_model_change_cursor (E_TREE_SELECTION_MODEL(e_tree->priv->selection), path);
 #else
-	path = e_tree_sorted_model_to_view_path(e_tree->priv->sorted, path);
-
 	row = e_tree_table_adapter_row_of_node(E_TREE_TABLE_ADAPTER(e_tree->priv->etta), path);
 
 	if (row == -1)
@@ -1695,7 +1677,6 @@ e_tree_get_cursor (ETree *e_tree)
 	if (row == -1)
 		return NULL;
 	path = e_tree_table_adapter_node_at_row(E_TREE_TABLE_ADAPTER(e_tree->priv->etta), row);
-	path = e_tree_sorted_view_to_model_path(e_tree->priv->sorted, path);
 	return path;
 #endif
 }
@@ -1962,8 +1943,6 @@ e_tree_view_to_model_row        (ETree *e_tree,
 gboolean
 e_tree_node_is_expanded (ETree *et, ETreePath path)
 {
-	path = e_tree_sorted_model_to_view_path(et->priv->sorted, path);
-
 	g_return_val_if_fail(path, FALSE);
 
 	return e_tree_table_adapter_node_is_expanded (et->priv->etta, path);
@@ -1975,8 +1954,6 @@ e_tree_node_set_expanded (ETree *et, ETreePath path, gboolean expanded)
 	g_return_if_fail (et != NULL);
 	g_return_if_fail (E_IS_TREE(et));
 
-	path = e_tree_sorted_model_to_view_path(et->priv->sorted, path);
-
 	e_tree_table_adapter_node_set_expanded (et->priv->etta, path, expanded);
 }
 
@@ -1985,8 +1962,6 @@ e_tree_node_set_expanded_recurse (ETree *et, ETreePath path, gboolean expanded)
 {
 	g_return_if_fail (et != NULL);
 	g_return_if_fail (E_IS_TREE(et));
-
-	path = e_tree_sorted_model_to_view_path(et->priv->sorted, path);
 
 	e_tree_table_adapter_node_set_expanded_recurse (et->priv->etta, path, expanded);
 }
@@ -2006,7 +1981,6 @@ e_tree_node_at_row (ETree *et, int row)
 	ETreePath path;
 
 	path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 
 	return path;
 }
@@ -2014,7 +1988,6 @@ e_tree_node_at_row (ETree *et, int row)
 int
 e_tree_row_of_node (ETree *et, ETreePath path)
 {
-	path = e_tree_sorted_model_to_view_path(et->priv->sorted, path);
 	return e_tree_table_adapter_row_of_node (et->priv->etta, path);
 }
 
@@ -2029,8 +2002,6 @@ e_tree_show_node (ETree *et, ETreePath path)
 {
 	g_return_if_fail (et != NULL);
 	g_return_if_fail (E_IS_TREE(et));
-
-	path = e_tree_sorted_model_to_view_path(et->priv->sorted, path);
 
 	e_tree_table_adapter_show_node (et->priv->etta, path);
 }
@@ -2074,8 +2045,6 @@ find_next_callback (ETreeModel *model, ETreePath path, gpointer data)
 	FindNextCallback *cb_data = data;
 	ETree *et = cb_data->et;
 
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
-
 	return cb_data->func (et->priv->model, path, cb_data->data);
 }
 
@@ -2091,23 +2060,22 @@ e_tree_find_next (ETree *et, ETreeFindNextParams params, ETreePathFunc func, gpo
 	cb_data.et   = et;
 
 	cursor = e_tree_get_cursor (et);
-	cursor = e_tree_sorted_model_to_view_path (et->priv->sorted, cursor);
 
-	found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), cursor, NULL, params & E_TREE_FIND_NEXT_FORWARD, find_next_callback, &cb_data);
+	found = e_tree_model_node_find (et->priv->model, cursor, NULL, params & E_TREE_FIND_NEXT_FORWARD, find_next_callback, &cb_data);
 
 	if (found) {
 		e_tree_table_adapter_show_node (et->priv->etta, found);
-		cursor = e_tree_sorted_view_to_model_path (et->priv->sorted, found);
+		cursor = found;
 		e_tree_set_cursor (et, cursor);
 		return TRUE;
 	}
 
 	if (params & E_TREE_FIND_NEXT_WRAP) {
-		found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), NULL, cursor, params & E_TREE_FIND_NEXT_FORWARD, find_next_callback, &cb_data);
+		found = e_tree_model_node_find (et->priv->model, NULL, cursor, params & E_TREE_FIND_NEXT_FORWARD, find_next_callback, &cb_data);
 
 		if (found && found != cursor) {
 			e_tree_table_adapter_show_node (et->priv->etta, found);
-			cursor = e_tree_sorted_view_to_model_path (et->priv->sorted, found);
+			cursor = found;
 			e_tree_set_cursor (et, cursor);
 			return TRUE;
 		}
@@ -2257,7 +2225,6 @@ e_tree_drag_get_data (ETree         *tree,
 	g_return_if_fail(E_IS_TREE(tree));
 
 	path = e_tree_table_adapter_node_at_row(tree->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(tree->priv->sorted, path);
 
 	gtk_drag_get_data(GTK_WIDGET(tree),
 			  context,
@@ -2265,29 +2232,6 @@ e_tree_drag_get_data (ETree         *tree,
 			  time);
 
 }
-
-#if 0
-static void
-e_tree_request_hightlight_redraw (ETree *tree)
-{
-	int row = tree->drop_highlight_row;
-	int col = tree->drop_highlight_col;
-
-	if (row != -1) {
-		int x, y, width, height;
-		if (col == -1) {
-			e_tree_get_cell_geometry (tree, row, 0, &x, &y, &width, &height);
-			x = 0;
-			width = tree->allocation.width;
-		} else {
-			e_tree_get_cell_geometry (tree, row, col, &x, &y, &width, &height);
-			x += GTK_LAYOUT(tree->priv->table_canvas)->hadjustment->value;
-		}
-		y += GTK_LAYOUT(tree->priv->table_canvas)->vadjustment->value;
-		gnome_canvas_request_redraw (tree->priv->table_canvas, x, y, x + width - 1, y + height - 1);
-	}
-}
-#endif
 
 /**
  * e_tree_drag_highlight:
@@ -2509,7 +2453,6 @@ e_tree_drag_begin (ETree            *tree,
 	g_return_val_if_fail (E_IS_TREE(tree), NULL);
 
 	path = e_tree_table_adapter_node_at_row(tree->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(tree->priv->sorted, path);
 
 	tree->priv->drag_row = row;
 	tree->priv->drag_path = path;
@@ -2680,7 +2623,6 @@ do_drag_motion(ETree *et,
 	}
 
 	path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 
 	et->priv->drop_row = row;
 	et->priv->drop_path = path;
@@ -2777,10 +2719,10 @@ hover_timeout (gpointer data)
 			    &col);
 
 	path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	if (path && e_tree_model_node_is_expandable (E_TREE_MODEL (et->priv->sorted), path)) {
+	if (path && e_tree_model_node_is_expandable (et->priv->model, path)) {
 		if (!e_tree_table_adapter_node_is_expanded (et->priv->etta, path)) {
-			if (e_tree_model_has_save_id (E_TREE_MODEL (et->priv->sorted)) && e_tree_model_has_get_node_by_id (E_TREE_MODEL (et->priv->sorted)))
-				et->priv->expanded_list = g_list_prepend (et->priv->expanded_list, e_tree_model_get_save_id (E_TREE_MODEL (et->priv->sorted), path));
+			if (e_tree_model_has_save_id (et->priv->model) && e_tree_model_has_get_node_by_id (et->priv->model))
+				et->priv->expanded_list = g_list_prepend (et->priv->expanded_list, e_tree_model_get_save_id (et->priv->model, path));
 			e_tree_table_adapter_node_set_expanded (et->priv->etta, path, TRUE);
 		}
 	}
@@ -2814,19 +2756,19 @@ collapse_drag (ETree *et, ETreePath drop)
 
 	/* We only want to leave open parents of the node dropped in.  Not the node itself. */
 	if (drop) {
-		drop = e_tree_model_node_get_parent (E_TREE_MODEL (et->priv->sorted), drop);
+		drop = e_tree_model_node_get_parent (et->priv->model, drop);
 	}
 
 	for (list = et->priv->expanded_list; list; list = list->next) {
 		char *save_id = list->data;
 		ETreePath path;
 
-		path = e_tree_model_get_node_by_id (E_TREE_MODEL (et->priv->sorted), save_id);
+		path = e_tree_model_get_node_by_id (et->priv->model, save_id);
 		if (path) {
 			ETreePath search;
 			gboolean found = FALSE;
 
-			for (search = drop; search; search = e_tree_model_node_get_parent (E_TREE_MODEL (et->priv->sorted), search)) {
+			for (search = drop; search; search = e_tree_model_node_get_parent (et->priv->model, search)) {
 				if (path == search) {
 					found = TRUE;
 					break;
@@ -2950,7 +2892,6 @@ et_drag_drop(GtkWidget *widget,
 	gboolean ret_val = FALSE;
 	int row, col;
 	ETreePath path;
-	ETreePath sorted_path;
 	y -= widget->allocation.y;
 	x -= widget->allocation.x;
 	e_tree_get_cell_at(et,
@@ -2958,8 +2899,7 @@ et_drag_drop(GtkWidget *widget,
 			   y,
 			   &row,
 			   &col);
-	sorted_path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, sorted_path);
+	path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 
 	if (row != et->priv->drop_row && col != et->priv->drop_row) {
 		g_signal_emit (et,
@@ -2999,7 +2939,7 @@ et_drag_drop(GtkWidget *widget,
 	et->priv->drop_path = NULL;
 	et->priv->drop_col = -1;
 
-	collapse_drag (et, sorted_path); 
+	collapse_drag (et, path); 
 
 	scroll_off (et);
 	return ret_val;
@@ -3025,7 +2965,6 @@ et_drag_data_received(GtkWidget *widget,
 			   &row,
 			   &col);
 	path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
-	path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 	g_signal_emit (et,
 		       et_signals [TREE_DRAG_DATA_RECEIVED], 0,
 		       row,
