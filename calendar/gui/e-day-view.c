@@ -3922,7 +3922,7 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	if (day_view->last_edited_comp_string != NULL) {
 		g_free (day_view->last_edited_comp_string);
-		day_view->last_edited_comp_string == NULL;
+		day_view->last_edited_comp_string = NULL;
 	}
 
 	day_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
