@@ -1,3 +1,9 @@
+1999-08-09  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* devel-docs/misc/ref_and_id_proposition.txt:
+	new file. Document message UID and vfolder
+	implementation.
+
 1999-08-08  Robert Brady  <rwb197@ecs.soton.ac.uk>
 
 	* camel/gmime-rfc2047.c: more advanced RFC2047 encoder started.
