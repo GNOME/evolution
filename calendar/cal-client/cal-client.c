@@ -534,7 +534,7 @@ cal_opened_cb (CalListener *listener,
 		client_status = CAL_CLIENT_OPEN_SUCCESS;
 
 		/* setup component listener */
-		priv->comp_listener = e_component_listener_new (priv->cal, 0);
+		priv->comp_listener = e_component_listener_new (priv->cal);
 		g_signal_connect (G_OBJECT (priv->comp_listener), "component_died",
 				  G_CALLBACK (backend_died_cb), client);
 		goto out;

@@ -1463,7 +1463,7 @@ start_cached_query_cb (gpointer data)
 	    priv->state == QUERY_WAIT_FOR_BACKEND) {
 		priv->listeners = g_list_append (priv->listeners, info->ql);
 
-		cl = e_component_listener_new (info->ql, 0);
+		cl = e_component_listener_new (info->ql);
 		priv->component_listeners = g_list_append (priv->component_listeners, cl);
 		g_signal_connect (G_OBJECT (cl), "component_died",
 				  G_CALLBACK (listener_died_cb), info->query);
@@ -1534,7 +1534,7 @@ start_cached_query_cb (gpointer data)
 		/* setup private data and notify listener that the query ended */
 		priv->listeners = g_list_append (priv->listeners, info->ql);
 
-		cl = e_component_listener_new (info->ql, 0);
+		cl = e_component_listener_new (info->ql);
 		priv->component_listeners = g_list_append (priv->component_listeners, cl);
 		g_signal_connect (G_OBJECT (cl), "component_died",
 				  G_CALLBACK (listener_died_cb), info->query);
@@ -1637,7 +1637,7 @@ query_construct (Query *query,
 	}
 	CORBA_exception_free (&ev);
 
-	cl = e_component_listener_new (ql, 0);
+	cl = e_component_listener_new (ql);
 	priv->component_listeners = g_list_append (priv->component_listeners, cl);
 	g_signal_connect (G_OBJECT (cl), "component_died",
 			  G_CALLBACK (listener_died_cb), query);

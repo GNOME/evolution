@@ -1,3 +1,11 @@
+2003-06-04  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/query.c (start_cached_query_cb): adapted to changes in
+	EComponentListener API.
+	(query_construct): ditto.
+
+	* cal-client/cal-client.c (cal_opened_cb): ditto.
+
 2003-06-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes part of #43388
