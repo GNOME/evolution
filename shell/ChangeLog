@@ -1,5 +1,13 @@
 2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (impl_Shell_handleURI): Handle the return value from
+	`evolution_shell_component_client_handle_external_uri()' as an
+	EvolutionShellComponentClientResult instead of treating it as a
+	boolean.  This prevents the incorrect NotFound exceptions we were
+	getting for `mailto:' invocations.
+
+2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (quit_box_new): Also `gdk_flush()'.
 	(idle_cb): If the user doesn't specify at least one `evolution:'
 	URI, restore from the settings.  [Fixes #6093.]

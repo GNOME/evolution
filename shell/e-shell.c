@@ -348,7 +348,8 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 		return;
 	}
 
-	if (! evolution_shell_component_client_handle_external_uri (schema_handler, uri)) {
+	if (evolution_shell_component_client_handle_external_uri (schema_handler, uri)
+	    != EVOLUTION_SHELL_COMPONENT_OK) {
 		/* FIXME: Just a wild guess here.  */
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Shell_NotFound, NULL);
