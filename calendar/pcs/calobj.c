@@ -1099,7 +1099,7 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 
 			/* Advance by day for scanning the week or by interval at week end */
 			if (tm->tm_wday == 6)
-				current = time_add_day (current, recur->interval);
+				current = time_add_day (current, (recur->interval-1) * 7 + 1);
 			else
 				current = time_add_day (current, 1);
 

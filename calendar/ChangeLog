@@ -1,3 +1,8 @@
+1998-05-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* calobj.c (ical_object_generate_events): Fix for the weekly event
+	generation.  Was reported on the bug tracking system. 
+
 1998-05-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gncal-full-day.c (layout_children): Implemented ultra-cool
