@@ -584,6 +584,9 @@ void
 camel_imap_response_free_without_processing (CamelImapStore *store,
 					     CamelImapResponse *response)
 {
+	if (!response)
+		return;
+	
 	if (response->folder) {
 		camel_object_unref (CAMEL_OBJECT (response->folder));
 		response->folder = NULL;

@@ -1,5 +1,12 @@
 2002-08-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-command.c
+	(camel_imap_response_free_without_processing): If the response is
+	NULL, just return. (now works the same way as imap_response_free
+	which allowed a NULL response argument). Fixes bug #25491.
+
+2002-08-26  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-store.c:
 
 	* providers/imap/camel-imap-folder.c:
