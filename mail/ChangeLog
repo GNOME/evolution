@@ -1,3 +1,8 @@
+2003-11-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_Mail.server.in.in: Add an
+	"evolution:uri_schemas" attribute.
+
 2003-11-19  Not Zed  <NotZed@Ximian.com>
 
 	* mail-component.c (em_uri_to_camel): if we're setting the

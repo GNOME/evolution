@@ -49,6 +49,10 @@
 
     <oaf_attribute name="evolution:component_icon" type="string" value="evolution-inbox.png"/>
     <oaf_attribute name="evolution:component_display_order" type="number" value="1"/>
+
+    <oaf_attribute name="evolution:uri_schemas" type="stringv">
+      <item value="mailto"/>
+    </oaf_attribute>
   </oaf_server>
 
   <!-- Shell Component -->
