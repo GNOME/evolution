@@ -1,3 +1,6 @@
+2004-08-18  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* configure.in: Added «nb» to ALL_LINGUAS.
 2004-08-13  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version. requires
