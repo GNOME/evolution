@@ -68,6 +68,9 @@ Mail:
     functionality, particularly involving multithreading, message
     threading, filters/searching, and regression testing. (NotZed)
 
+  - Importers for Outlook Express 4 and mbox (used by most mailers like
+    Netscape, Pine, Elm, Eudora) (Iain & Jeff)
+
 Calendar:
 
   - New "go to date" dialog (JP).
@@ -117,6 +120,17 @@ Conduits:
 
   - Many bug fixes and cleanups (JP)
 
+Executive Summary:
+
+  - Bugfixes and memory leaks removed (Iain)
+
+  - Calendar summary component. (Iain)
+
+  - RDF Summary saves it's state. (Iain)
+
+  - Mail summary shows vFolder summaries as well. (Iain)
+
+  - User changable number of columns. (Iain)
 
 Version 0.8 "Archaeopteryx", 2000-12-14
 ---------------------------------------
