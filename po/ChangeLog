@@ -1,6 +1,6 @@
 2001-01-16  Martin Norbäck  <d95mback@dtek.chalmers.se>
 
-	* sv.po: Updated Swedish translation.
+	* sv.po: Updated Swedish translation, using xml-i18n-update.
 
 2001-01-16  Christopher R. Gabriel  <cgabriel@softwarelibero.org>
 
