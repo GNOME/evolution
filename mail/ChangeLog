@@ -1,5 +1,9 @@
 2002-07-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (mail_execute_shell_command): No real need for this
+	to be an async function sync we are going to call
+	gnome_execute_async anyway.
+
 	* component-factory.c (create_component): Add a new menu item for
 	posting to the New toolbar button thing.
 	(destination_folder_handle_drop): Don't use a NULL exception when

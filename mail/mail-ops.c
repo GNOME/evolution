@@ -2275,93 +2275,11 @@ mail_store_set_offline (CamelStore *store, gboolean offline,
 
 /* ** Execute Shell Command ***************************************************** */
 
-struct _execute_shell_command_msg {
-	struct _mail_msg msg;
-	
-	GPtrArray *argv;
-};
-
-static char *
-execute_shell_command_desc (struct _mail_msg *mm, int done)
-{
-	struct _execute_shell_command_msg *m = (struct _execute_shell_command_msg *) mm;
-	char *msg;
-	
-	msg = g_strdup_printf (_("Executing shell command: %s"), m->argv->pdata[0]);
-	
-	return msg;
-}
-
-static void
-execute_shell_command_do (struct _mail_msg *mm)
-{
-	struct _execute_shell_command_msg *m = (struct _execute_shell_command_msg *) mm;
-	pid_t result, pid;
-	int status;
-	
-	if (!(pid = fork ())) {
-		/* child process */
-		GPtrArray *args;
-		int maxfd, i;
-		
-		setsid ();
-		
-		maxfd = sysconf (_SC_OPEN_MAX);
-		for (i = 0; i < maxfd; i++)
-			close (i);
-		
-		execvp (m->argv->pdata[0], (char **) m->argv->pdata);
-		
-		d(printf ("Could not execute %s: %s\n", m->argv->pdata[0], g_strerror (errno)));
-		_exit (255);
-	} else if (pid < 0) {
-		camel_exception_setv (&mm->ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Failed to create create child process '%s': %s"),
-				      m->argv->pdata[0], g_strerror (errno));
-		return -1;
-	}
-	
-	do {
-		result = waitpid (pid, &status, 0);
-	} while (result != pid);
-}
-
-static void
-execute_shell_command_free (struct _mail_msg *mm)
-{
-	struct _execute_shell_command_msg *m = (struct _execute_shell_command_msg *) mm;
-	int i;
-	
-	for (i = 0; i < m->argv; i++)
-		g_free (m->argv->pdata[i]);
-	
-	g_ptr_array_free (m->argv, TRUE);
-}
-
-static struct _mail_msg_op execute_shell_command_op = {
-	execute_shell_command_desc,
-	execute_shell_command_do,
-	NULL,
-	execute_shell_command_free,
-};
-
 void
 mail_execute_shell_command (CamelFilterDriver *driver, int argc, char **argv, void *data)
 {
-	struct _execute_shell_command_msg *m;
-	GPtrArray *args;
-	int i;
-	
 	if (argc <= 0)
 		return;
 	
-	args = g_ptr_array_new ();
-	for (i = 0; i < argc; i++)
-		g_ptr_array_add (args, g_strdup (argv[i]));
-	g_ptr_array_add (args, NULL);
-	
-	m = mail_msg_new (&execute_shell_command_op, NULL, sizeof (*m));
-	m->argv = args;
-	
-	e_thread_put (mail_thread_queued, (EMsg *) m);
+	gnome_execute_async_fds (NULL, argc, argv, TRUE);
 }
