@@ -193,8 +193,14 @@ et_destroy (GtkObject *object)
 	if (et->priv->spec)
 		gtk_object_unref (GTK_OBJECT (et->priv->spec));
 
-	if (et->priv->header_canvas != NULL)
+	if (et->priv->sorter)
+		gtk_object_unref (GTK_OBJECT (et->priv->sorter));
+
+	if (et->priv->header_canvas)
 		gtk_widget_destroy (GTK_WIDGET (et->priv->header_canvas));
+
+	if (et->priv->site)
+		e_tree_drag_source_unset (et);
 
 	gtk_widget_destroy (GTK_WIDGET (et->priv->table_canvas));
 
@@ -676,8 +682,6 @@ e_tree_set_state_object(ETree *e_tree, ETableState *state)
 	if (e_tree->priv->header)
 		gtk_object_unref(GTK_OBJECT(e_tree->priv->header));
 	e_tree->priv->header = e_table_state_to_header (GTK_WIDGET(e_tree), e_tree->priv->full_header, state);
-	if (e_tree->priv->header)
-		gtk_object_ref(GTK_OBJECT(e_tree->priv->header));
 
 	gtk_object_set (GTK_OBJECT (e_tree->priv->header),
 			"width", (double) (GTK_WIDGET(e_tree->priv->table_canvas)->allocation.width),

@@ -179,6 +179,9 @@ et_destroy (GtkObject *object)
 	if (et->header_canvas != NULL)
 		gtk_widget_destroy (GTK_WIDGET (et->header_canvas));
 
+	if (et->site != NULL)
+		e_table_drag_source_unset (et);
+
 	gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
 
 	if (et->rebuild_idle_id) {
