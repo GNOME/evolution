@@ -1,3 +1,8 @@
+2000-04-09  Jeffrey Stedfast  <fejj@stampede.org>
+
+	* providers/smtp/camel-smtp-transport.c: reformatted to fit
+	the standard indent format used by helix code
+
 2000-04-09  Dan Winship  <danw@helixcode.com>
 
 	* camel-movemail.c: New file with new function to dot-lock an mbox
