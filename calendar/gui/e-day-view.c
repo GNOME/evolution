@@ -2415,10 +2415,10 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	date.value = &itt;
 	date.tzid = NULL;
 
-	*date.value = icaltime_from_timet (dtstart, FALSE, TRUE);
+	*date.value = icaltime_from_timet (dtstart, FALSE, FALSE);
 	cal_component_set_dtstart (comp, &date);
 
-	*date.value = icaltime_from_timet (dtend, FALSE, TRUE);
+	*date.value = icaltime_from_timet (dtend, FALSE, FALSE);
 	cal_component_set_dtend (comp, &date);
 
 	cal_component_commit_sequence (comp);

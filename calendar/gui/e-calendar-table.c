@@ -23,7 +23,7 @@
  */
 
 /*
- * ECalendarTable - displays the iCalendar objects in a table (an ETable).
+ * ECalendarTable - displays the CalComponent objects in a table (an ETable).
  * Used for calendar events and tasks.
  */
 

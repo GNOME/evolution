@@ -2746,7 +2746,8 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	CalComponent *comp;
 	CalComponentDateTime date;
 	struct icaltimetype itt;
-
+	time_t dt;
+	
 	week_view = E_WEEK_VIEW (data);
 
 	comp = cal_component_new ();
@@ -2755,14 +2756,12 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	date.value = &itt;
 	date.tzid = NULL;
 
-	*date.value = 
-		icaltime_from_timet (week_view->day_starts[week_view->selection_start_day], 
-					 FALSE, TRUE);
+	dt = week_view->day_starts[week_view->selection_start_day];
+	*date.value = icaltime_from_timet (dt, FALSE, FALSE);
 	cal_component_set_dtstart (comp, &date);
 
-	*date.value = 
-		icaltime_from_timet (week_view->day_starts[week_view->selection_end_day + 1], 
-					 FALSE, TRUE);
+	dt = week_view->day_starts[week_view->selection_end_day + 1];
+	*date.value = icaltime_from_timet (dt, FALSE, FALSE);
 	cal_component_set_dtend (comp, &date);
 
 	gnome_calendar_edit_object (week_view->calendar, comp);

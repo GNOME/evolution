@@ -929,12 +929,12 @@ dialog_to_comp_object (EventEditor *ee)
 	CalComponent *comp;
 	CalComponentText *text;
 	CalComponentDateTime date;
-	time_t t;
 	struct icalrecurrencetype *recur;
+	time_t t;
 	gboolean all_day_event;
-	int i, pos = 0;
 	GtkCList *exception_list;
-	GSList *list = NULL;
+	GSList *list;
+	int i, pos = 0;
 	
 	priv = ee->priv;
 	comp = priv->comp;
@@ -943,11 +943,11 @@ dialog_to_comp_object (EventEditor *ee)
 	text->value = e_dialog_editable_get (priv->general_summary);
 	cal_component_set_summary (comp, text);
 
+	list = NULL;
 	text->value  = e_dialog_editable_get (priv->description);
-	g_slist_prepend (list, text);
+	list = g_slist_prepend (list, text);
 	cal_component_set_description_list (comp, list);
 	cal_component_free_text_list (list);
-	list = NULL;
 	
 	date.value = g_new (struct icaltimetype, 1);
 	t = e_dialog_dateedit_get (priv->start_time);
@@ -994,6 +994,7 @@ dialog_to_comp_object (EventEditor *ee)
 	cal_component_set_classification (comp, classification_get (priv->classification_radio));
 
 	/* Recurrence information */
+	list = NULL;
 	recur = g_new (struct icalrecurrencetype, 1);
   	icalrecurrencetype_clear (recur);
 	recur->freq = recur_options_get (priv->recurrence_rule_none);
@@ -1070,11 +1071,11 @@ dialog_to_comp_object (EventEditor *ee)
 	} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_after)) {
 		recur->count = e_dialog_spin_get_int (priv->recurrence_ending_date_end_after_count);
 	}
-	g_slist_append (list, recur);
+	list = g_slist_append (list, recur);
 	cal_component_set_rrule_list (comp, list);
-	list = NULL;
 	
 	/* Get exceptions from clist into ico->exdate */
+	list = NULL;
 	exception_list = GTK_CLIST (priv->recurrence_exceptions_list);
 	for (i = 0; i < exception_list->rows; i++) {
 		struct icaltimetype *tt = g_new (struct icaltimetype, 1);

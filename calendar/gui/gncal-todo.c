@@ -101,7 +101,7 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 	comment = GTK_TEXT(gtk_object_get_data (GTK_OBJECT(dialog), "comment"));
 	t = gtk_editable_get_chars (entry, 0, -1);
 	text->value = t;
-	g_slist_append (l, text);
+	l = g_slist_append (l, text);
 	cal_component_set_comment_list (comp, l);
 	cal_component_free_text_list (l);
 	
