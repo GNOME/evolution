@@ -291,34 +291,18 @@ e_gethostbyaddr_r (const char *addr, int addrlen, int type, struct hostent *host
 		   char *buf, size_t buflen, int *herr)
 {
 #ifdef ENABLE_IPv6
-	struct addrinfo hints, *res;
-	const char *name;
 	int retval, len;
 	
-	if ((name = inet_ntop (type, addr, buf, buflen)) == NULL) {
-		if (errno == ENOSPC)
-			return ERANGE;
-		
-		return -1;
-	}
-	
-	memset (&hints, 0, sizeof (struct addrinfo));
-	hints.ai_flags = AI_CANONNAME;
-	hints.ai_family = type == AF_INET6 ? PF_INET6 : PF_INET;
-	hints.ai_socktype = 0;
-	hints.ai_protocol = 0;
-	
-	if ((retval = getaddrinfo (name, NULL, &hints, &res)) != 0) {
+	if ((retval = getnameinfo (addr, addrlen, buf, buflen, NULL, 0, NI_NAMEREQD)) != 0) {
 		*herr = ai_to_herr (retval);
 		return -1;
 	}
 	
-	len = ALIGN (strlen (res->ai_canonname) + 1);
-	if (buflen < IPv6_BUFLEN_MIN + len + res->ai_addrlen + sizeof (char *))
+	len = ALIGN (strlen (buf) + 1);
+	if (buflen < IPv6_BUFLEN_MIN + len + addrlen + sizeof (char *))
 		return ERANGE;
 	
 	/* h_name */
-	strcpy (buf, res->ai_canonname);
 	host->h_name = buf;
 	buf += len;
 	
@@ -328,16 +312,8 @@ e_gethostbyaddr_r (const char *addr, int addrlen, int type, struct hostent *host
 	buf += sizeof (char *);
 	
 	/* h_addrtype and h_length */
-	host->h_length = res->ai_addrlen;
-	if (res->ai_family == PF_INET6) {
-		host->h_addrtype = AF_INET6;
-		
-		addr = (char *) &((struct sockaddr_in6 *) res->ai_addr)->sin6_addr;
-	} else {
-		host->h_addrtype = AF_INET;
-		
-		addr = (char *) &((struct sockaddr_in *) res->ai_addr)->sin_addr;
-	}
+	host->h_length = addrlen;
+	host->h_addrtype = type;
 	
 	memcpy (buf, addr, host->h_length);
 	addr = buf;
@@ -347,8 +323,6 @@ e_gethostbyaddr_r (const char *addr, int addrlen, int type, struct hostent *host
 	((char **) buf)[0] = addr;
 	((char **) buf)[1] = NULL;
 	host->h_addr_list = (char **) buf;
-	
-	freeaddrinfo (res);
 	
 	return 0;
 #else /* No support for IPv6 addresses */

@@ -1,3 +1,9 @@
+2003-09-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-host-utils.c (e_gethostbyaddr_r): IPv6 implementation
+	rewritten to use getnameinfo() which is the proper function to use
+	in this case. Fixes bug #46006.
+
 2003-09-04  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: Kill off libeconduit-static: it was only needed for
