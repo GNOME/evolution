@@ -1,3 +1,7 @@
+2005-01-20  Harry Lu  <harry.lu@sun.com>
+
+	* e-search-bar.c: (activate_by_subitems): add a translater note.
+
 2005-01-19  Harry Lu  <harry.lu@sun.com>
 
 	Fix for 46359, enable "Alt+Down Arrow" to show the popup for

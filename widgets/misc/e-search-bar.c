@@ -338,6 +338,8 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 			gtk_widget_show(esb->entry);
 
 			a11y = gtk_widget_get_accessible (esb->entry);
+			/* To translaters: This is the accessibility name of 
+			the search bar's text entry widget */
 			atk_object_set_name (a11y, _("Search Text Entry"));
 
 			esb->subitem_id = -1;
