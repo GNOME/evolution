@@ -29,6 +29,9 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
 
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <libgnome/gnome-config.h>
 #include <libgnome/gnome-sound.h>
 
@@ -746,10 +749,14 @@ static CamelFilterDriver *
 main_get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 {
 	CamelFilterDriver *driver;
-	RuleContext *fc;
 	GString *fsearch, *faction;
 	FilterRule *rule = NULL;
 	char *user, *system;
+	GConfClient *gconf;
+	RuleContext *fc;
+	long notify;
+	
+	gconf = gconf_client_get_default ();
 	
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
@@ -760,16 +767,19 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	driver = camel_filter_driver_new (session);
 	camel_filter_driver_set_folder_func (driver, get_folder, NULL);
 	
-	if (mail_config_get_filter_log ()) {
+	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/filters/log", NULL)) {
 		MailSession *ms = (MailSession *) session;
 		
 		if (ms->filter_logfile == NULL) {
-			const char *filename;
+			char *filename;
 			
-			filename = mail_config_get_filter_log_path ();
-			if (filename)
+			filename = gconf_client_get_string (gconf, "/apps/evolution/mail/filters/logfile", NULL);
+			if (filename) {
 				ms->filter_logfile = fopen (filename, "a+");
+				g_free (filename);
+			}
 		}
+		
 		if (ms->filter_logfile)
 			camel_filter_driver_set_logfile (driver, ms->filter_logfile);
 	}
@@ -786,18 +796,25 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	/* FIXME: we need a way to distinguish between filtering new
            mail and re-filtering a folder because both use the
            "incoming" filter type */
-	if (mail_config_get_new_mail_notify () && !strcmp (type, "incoming")) {
+	notify = gconf_client_get_bool (gconf, "/apps/evolution/mail/notify/type", NULL);
+	if (notify != MAIL_CONFIG_NOTIFY_NOT && !strcmp (type, "incoming")) {
+		char *filename;
+		
 		g_string_truncate (faction, 0);
 		
 		g_string_append (faction, "(only-once \"new-mail-notification\" ");
 		
-		switch (mail_config_get_new_mail_notify ()) {
+		switch (notify) {
+		case MAIL_CONFIG_NOTIFY_PLAY_SOUND:
+			filename = gconf_client_get_string (gconf, "/apps/evolution/mail/notify/sound", NULL);
+			if (filename) {
+				g_string_append_printf (faction, "\"(play-sound \\\"%s\\\")\"", filename);
+				g_free (filename);
+				break;
+			}
+			/* fall through */
 		case MAIL_CONFIG_NOTIFY_BEEP:
 			g_string_append (faction, "\"(beep)\"");
-			break;
-		case MAIL_CONFIG_NOTIFY_PLAY_SOUND:
-			g_string_append_printf (faction, "\"(play-sound \\\"%s\\\")\"",
-						mail_config_get_new_mail_notify_sound_file ());
 			break;
 		default:
 			break;

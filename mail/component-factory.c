@@ -24,10 +24,13 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <bonobo/bonobo-generic-factory.h>
 #include <gal/widgets/e-gui-utils.h>
-
-#include <string.h>
 
 #include "camel.h"
 
@@ -938,12 +941,15 @@ static struct {
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
+	GConfClient *gconf;
 	int i;
+	
+	gconf = gconf_client_get_default ();
 	
 	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++)
 		g_signal_handler_disconnect((GtkObject *)shell_component, shell_component_handlers[i].hand);
 	
-	if (mail_config_get_empty_trash_on_exit ())
+	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/trash/empty_on_exit", NULL))
 		empty_trash (NULL, NULL, NULL);
 	
 	unref_standard_folders ();
@@ -952,7 +958,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	global_shell_client = NULL;
 	mail_session_set_interactive (FALSE);
 	
-	g_object_unref((search_context));
+	g_object_unref (search_context);
 	search_context = NULL;
 	
 	g_timeout_add(100, idle_quit, NULL);
@@ -1491,7 +1497,7 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources)
 			continue;
 		
 		/* don't auto-connect here; the shell will tell us to goOnline */
-		if (account->source->enabled)
+		if (account->enabled)
 			mail_load_storage_by_uri (shell, service->url, name);
 	}
 }

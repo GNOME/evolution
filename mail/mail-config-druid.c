@@ -947,8 +947,7 @@ wizard_finish_cb (EvolutionWizard *wizard,
 		/* problem. Um, how to keep the druid alive? */
 		return;
 	
-	if (gui->account->source)
-		gui->account->source->enabled = TRUE;
+	gui->account->enabled = TRUE;
 	
 	/* Write out the config info */
 	mail_config_write ();

@@ -234,7 +234,7 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 		int len;
 		
 		/* remove it from the folder-tree in the shell */
-		if (account->source && account->source->url && account->source->enabled)
+		if (account->enabled && account->source && account->source->url)
 			mail_remove_storage_by_uri (account->source->url);
 		
 		/* remove it from the config file */
@@ -285,7 +285,7 @@ static void
 account_able_clicked (GtkButton *button, gpointer user_data)
 {
 	MailAccountsTab *prefs = user_data;
-	const MailConfigAccount *account = NULL;
+	MailConfigAccount *account = NULL;
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -293,15 +293,15 @@ account_able_clicked (GtkButton *button, gpointer user_data)
 	selection = gtk_tree_view_get_selection (prefs->table);
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter, 3, &account, -1);
-		account->source->enabled = !account->source->enabled;
-		gtk_list_store_set ((GtkListStore *) model, &iter, 0, account->source->enabled, -1);
+		account->enabled = !account->enabled;
+		gtk_list_store_set ((GtkListStore *) model, &iter, 0, account->enabled, -1);
 	}
 	
 	if (account) {
 		/* if the account got disabled, remove it from the
 		   folder-tree, otherwise add it to the folder-tree */
 		if (account->source->url) {
-			if (account->source->enabled)
+			if (account->enabled)
 				mail_load_storage_by_uri (prefs->shell, account->source->url, account->name);
 			else
 				mail_remove_storage_by_uri (account->source->url);
@@ -331,7 +331,7 @@ account_cursor_change (GtkTreeSelection *selection, MailAccountsTab *prefs)
 	state = gtk_tree_selection_get_selected (selection, &model, &iter);
 	if (state) {
 		gtk_tree_model_get (model, &iter, 3, &account, -1);
-		if (account->source && account->source->enabled)
+		if (account->source && account->enabled)
 			gtk_button_set_label (prefs->mail_able, _("Disable"));
 		else
 			gtk_button_set_label (prefs->mail_able, _("Enable"));
@@ -379,7 +379,7 @@ mail_accounts_load (MailAccountsTab *prefs)
 		}
 		
 		gtk_list_store_set (model, &iter,
-				    0, account->source->enabled,
+				    0, account->enabled,
 				    1, val,
 				    2, url && url->protocol ? url->protocol : (char *) _("None"),
 				    3, account,

@@ -40,6 +40,9 @@
 
 #include <glade/glade.h>
 
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-pixmap.h>
 
@@ -215,23 +218,51 @@ completed_toggled (GtkToggleButton *button, gpointer user_data)
 		followup->completed_date = 0;
 }
 
+static int
+get_week_start_day (void)
+{
+	/* FIXME: make sure the gconf key is correct? */
+	GConfClient *gconf;
+	
+	gconf = gconf_client_get_default ();
+	return gconf_client_get_int (gconf, "/apps/evolution/calendar/display/week_start_day", NULL);
+}
+
+static gboolean
+locale_supports_12_hour_format (void)
+{
+	char s[16];
+	time_t t = 0;
+	
+	strftime(s, sizeof s, "%p", gmtime (&t));
+	return s[0] != '\0';
+}
+
 GtkWidget *target_date_new (const char *s1, const char *s2, int i1, int i2);
 
 GtkWidget *
 target_date_new (const char *s1, const char *s2, int i1, int i2)
 {
+	gboolean time_24hour = TRUE;
+	GConfClient *gconf;
 	GtkWidget *widget;
 	int start;
-
+	
 	widget = e_date_edit_new ();
 	e_date_edit_set_show_date (E_DATE_EDIT (widget), TRUE);
 	e_date_edit_set_show_time (E_DATE_EDIT (widget), TRUE);
 	
 	/* Note that this is 0 (Sun) to 6 (Sat), conver to 0 (mon) to 6 (sun) */
-	start = (mail_config_get_week_start_day() + 6) % 7;
+	start = (get_week_start_day () + 6) % 7;
+	
+	/* FIXME: make sure the calendar gconf key is correct */
+	if (locale_supports_12_hour_format ()) {
+		gconf = gconf_client_get_default ();
+		time_24hour = gconf_client_get_bool (gconf, "/apps/evolution/calendar/display/use_24hour_format", NULL);
+	}
 	
 	e_date_edit_set_week_start_day (E_DATE_EDIT (widget), start);
-	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (widget), mail_config_get_time_24hour ());
+	e_date_edit_set_use_24_hour_format (E_DATE_EDIT (widget), time_24hour);
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (widget), TRUE);
 	e_date_edit_set_time_popup_range (E_DATE_EDIT (widget), 0, 24);
 	

@@ -104,15 +104,15 @@
     <!-- Display Settings -->
 
     <schema>
-      <key>/schemas/apps/evolution/mail/display/highlight_citations</key>
-      <applyto>/apps/evolution/mail/display/highlight_citations</applyto>
+      <key>/schemas/apps/evolution/mail/display/mark_citations</key>
+      <applyto>/apps/evolution/mail/display/mark_citations</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-         <short>Highlight citations in the message "Preview"</short>
+         <short>Mark citations in the message "Preview"</short>
          <long>
-          Highlight citations in the message "Preview".
+          Mark citations in the message "Preview".
          </long>
       </locale>
     </schema>
@@ -149,8 +149,8 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/display/xmailer_display_style</key>
-      <applyto>/apps/evolution/mail/display/xmailer_display_style</applyto>
+      <key>/schemas/apps/evolution/mail/display/xmailer_mask</key>
+      <applyto>/apps/evolution/mail/display/xmailer_mask</applyto>
       <owner>evolution-mail</owner>
       <type>long</type>
       <default>0</default>
@@ -219,15 +219,15 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/display/preview_size</key>
-      <applyto>/apps/evolution/mail/display/preview_size</applyto>
+      <key>/schemas/apps/evolution/mail/display/paned_size</key>
+      <applyto>/apps/evolution/mail/display/paned_size</applyto>
       <owner>evolution-mail</owner>
       <type>long</type>
       <default>122</default>
       <locale name="C">
-         <short>Size of the "Preview" pane</short>
+         <short>Height of the message-list pane</short>
          <long>
-          Size of the "Preview" pane.
+          Height of the message-list pane.
          </long>
       </locale>
     </schema>

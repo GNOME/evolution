@@ -1,3 +1,155 @@
+2003-01-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (save_cursor_pos): Use gconf to get the paned
+	size.
+	(folder_browser_set_message_preview): Same.
+	(folder_browser_toggle_hide_deleted): Use gconf to set the
+	hide-deleted state.
+	(folder_browser_set_message_display_style): Same but for the
+	message_display_style.
+	(fb_resize_cb): Save the paned_size via gconf.
+	(paned_size_changed): Callback for when the paned_size gets
+	changed. Change the folder-browser's paned size to the new
+	setting.
+	(folder_browser_gui_init): Listen to changes to the paned_size and
+	also get the initial size from gconf.
+
+	* message-list.c (message_list_set_folder): Use gconf.
+	(regen_list_regen): Use gconf.
+
+	* message-browser.c (transfer_msg_done): Use gconf to get the
+	hide_deleted setting.
+
+	* mail-account-gui.c (sig_add_new_signature): Use gconf.
+
+	* folder-browser-ui.c (folder_browser_ui_add_list): Use gconf.
+
+	* folder-browser.c (save_cursor_pos): Use gconf.
+	(folder_browser_set_message_preview): Same.
+	(folder_browser_toggle_hide_deleted): Here too.
+	(folder_browser_set_message_display_style): And here.
+	(folder_browser_gui_init): Here too.
+	(done_message_selected): And here.
+
+	* mail-config.c (mail_config_get_thread_subject): Removed.
+	(mail_config_set_thread_subject): Removed.
+	(mail_config_get_empty_trash_on_exit): Removed.
+	(mail_config_set_empty_trash_on_exit): Removed.
+	(mail_config_get_last_filesel_dir): Removed.
+	(mail_config_set_last_filesel_dir): Removed.
+	(mail_config_get_hide_deleted): Removed.
+	(mail_config_set_hide_deleted): Removed.
+	(mail_config_get_paned_size): Removed.
+	(mail_config_set_paned_size): Removed.
+	(mail_config_get_send_html): Removed.
+	(mail_config_set_send_html): Removed.
+	(mail_config_get_confirm_unwanted_html): Removed.
+	(mail_config_set_confirm_unwanted_html): Removed.
+	(mail_config_get_citation_highlight): Removed.
+	(mail_config_set_citation_highlight): Removed.
+	(mail_config_get_citation_color): Removed.
+	(mail_config_set_citation_color): Removed.
+	(mail_config_get_do_seen_timeout): Removed.
+	(mail_config_set_do_seen_timeout): Removed.
+	(mail_config_get_mark_as_seen_timeout): Removed.
+	(mail_config_set_mark_as_seen_timeout): Removed.
+	(mail_config_get_prompt_empty_subject): Removed.
+	(mail_config_set_prompt_empty_subject): Removed.
+	(mail_config_get_prompt_only_bcc): Removed.
+	(mail_config_set_prompt_only_bcc): Removed.
+	(mail_config_get_confirm_expunge): Removed.
+	(mail_config_set_confirm_expunge): Removed.
+	(mail_config_get_confirm_goto_next_folder): Removed.
+	(mail_config_set_confirm_goto_next_folder): Removed.
+	(mail_config_get_goto_next_folder): Removed.
+	(mail_config_set_goto_next_folder): Removed.
+	(mail_config_get_http_mode): Removed.
+	(mail_config_set_http_mode): Removed.
+	(mail_config_get_default_forward_style): Removed.
+	(mail_config_set_default_forward_style): Removed.
+	(mail_config_get_default_reply_style): Removed.
+	(mail_config_set_default_reply_style): Removed.
+	(mail_config_get_message_display_style): Removed.
+	(mail_config_set_message_display_style): Removed.
+	(mail_config_get_default_charset): Removed.
+	(mail_config_set_default_charset): Removed.
+	(mail_config_get_x_mailer_display_style): Removed.
+	(mail_config_set_x_mailer_display_style): Removed.
+
+	* subscribe-dialog.c (populate_store_list): Use the list of
+	accounts. We can't get the list of sources anymore.
+	(populate_store_foreach): Updated.
+
+	* mail-callbacks.c (guess_me_from_accounts): Use account->enabled.
+	(mail_generate_reply): Same.
+	(empty_trash): Here too.
+
+	* mail-accounts.c (account_delete_clicked): Use account->enabled
+	rather than source->enabled.
+	(account_able_clicked): Same.
+	(account_cursor_change): Here too.
+	(mail_accounts_load): And here.
+
+	* component-factory.c (owner_unset_cb): Use gconf empty-on-exit
+	settings.
+	(mail_load_storages): Use account->enabled rather than
+	account->source->enabled. The struct changed.
+
+	* mail-composer-prefs.c (sig_add): Get the send_html pref from gconf.
+
+	* message-tag-followup.c (target_date_new): Use gconf.
+
+	* mail-config.c (mail_config_get_week_start_day): Removed.
+
+	* mail-tools.c (mail_tool_quote_message): Use gconf here too, but
+	we don't need to parse the colour - just use it as a raw string.
+	(mail_tool_forward_message): Use gconf.
+
+	* mail-format.c (mail_format_data_wrapper_write_to_stream): Use gconf.
+	(write_headers): Use gconf.
+	(handle_text_plain): Same.
+
+	* mail-display.c (mail_text_write): Updated to use gconf and parse
+	GdkColour strings.
+	(on_url_requested): Updated to use gconf.
+
+	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): Use gconf
+	rather than the old mail-config APIs which will be removed.
+	(ask_confirm_for_empty_subject): Same.
+	(ask_confirm_for_only_bcc): Here too.
+	(composer_get_message): And here.
+	(create_msg_composer): Same.
+	(transfer_msg_done): Again here.
+	(delete_msg): Here too.
+	(confirm_expunge): And finally here.
+
+	* mail-config.c (mail_config_write): Use gconf.
+	(mail_config_get_sources): Removed.
+
+	* mail-account-gui.c (mail_account_gui_save): No need to save
+	enabled-state anymore for a source.
+
+	* mail-config-druid.c (wizard_finish_cb): Instead of setting
+	account->source->enabled to TRUE, just set account->enabled to
+	TRUE. The structures changed a bit.
+
+	* mail-send-recv.c (mail_send_receive): Get the list of accounts
+	instead of sources, and pass them along to build_dialogue. I'm
+	trying to get rid of the mail_config_get_sources() api.
+	(mail_autoreceive_setup): Here too.
+
+	* mail-config.c (mail_config_get_filter_log): Removed.
+	(mail_config_set_filter_log): Removed.
+	(mail_config_get_filter_log_path): Removed.
+	(mail_config_set_filter_log_path): Removed.
+	(mail_config_get_new_mail_notify): Removed.
+	(mail_config_set_new_mail_notify): Removed.
+	(mail_config_get_new_mail_notify_sound_file): Removed.
+	(mail_config_set_new_mail_notify_sound_file): Removed.
+
+	* mail-session.c (main_get_filter_driver): Updated to use the
+	gconf settings.
+
 2003-01-07  Dan Winship  <danw@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_auto_detect_extra_conf,

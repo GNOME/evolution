@@ -30,6 +30,9 @@
 #include <string.h>
 #include <stdarg.h>
 
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <gal/widgets/e-gui-utils.h>
 
 #include "evolution-folder-selector-button.h"
@@ -1259,12 +1262,18 @@ sig_switch_to_list (GtkWidget *w, MailAccountGui *gui)
 static void
 sig_add_new_signature (GtkWidget *w, MailAccountGui *gui)
 {
+	GConfClient *gconf;
+	gboolean send_html;
+	
 	if (!gui->dialog)
 		return;
 	
 	sig_switch_to_list (w, gui);
 	
-	gui->def_signature = mail_composer_prefs_new_signature (NULL, mail_config_get_send_html (), NULL);
+	gconf = gconf_client_get_default ();
+	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
+	
+	gui->def_signature = mail_composer_prefs_new_signature (NULL, send_html, NULL);
 	gui->auto_signature = FALSE;
 	
 	gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_menu), sig_gui_get_index (gui));
@@ -1814,7 +1823,6 @@ mail_account_gui_save (MailAccountGui *gui)
 	CamelURL *source_url = NULL, *url;
 	const char *new_name;
 	gboolean is_storage;
-	gboolean enabled;
 	
 	if (!mail_account_gui_identity_complete (gui, NULL) ||
 	    !mail_account_gui_source_complete (gui, NULL) ||
@@ -1853,7 +1861,6 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->id->def_signature = gui->def_signature;
 	account->id->auto_signature = gui->auto_signature;
 	
-	enabled = account->source && account->source->enabled;
 	service_destroy (account->source);
 	account->source = g_new0 (MailConfigService, 1);
 	save_service (&gui->source, gui->extra_config, account->source);
@@ -1861,8 +1868,6 @@ mail_account_gui_save (MailAccountGui *gui)
 		provider = camel_session_get_provider (session, account->source->url, NULL);
 		source_url = provider ? camel_url_new (account->source->url, NULL) : NULL;
 	}
-	
-	account->source->enabled = enabled;
 	
 	account->source->auto_check = gtk_toggle_button_get_active (gui->source_auto_check);
 	if (account->source->auto_check)

@@ -30,6 +30,9 @@
 #include <ctype.h>
 #include <fcntl.h>
 
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <libgnome/gnome-util.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <gal/util/e-iconv.h>
@@ -913,8 +916,7 @@ write_default_header (CamelMimeMessage *message, MailDisplay *md,
 
 static gboolean
 write_xmailer_header (CamelMimeMessage *message, MailDisplay *md,
-		      MailDisplayStream *stream,
-		      MailConfigXMailerDisplayStyle xm)
+		      MailDisplayStream *stream, int xmask)
 {
 	const char *xmailer, *evolution;
 	
@@ -926,11 +928,11 @@ write_xmailer_header (CamelMimeMessage *message, MailDisplay *md,
 	}
 	
 	evolution = strstr (xmailer, "Evolution");
-	if ((xm & MAIL_CONFIG_XMAILER_OTHER) ||
-	    (evolution && (xm & MAIL_CONFIG_XMAILER_EVO)))
+	if ((xmask & MAIL_CONFIG_XMAILER_OTHER) ||
+	    (evolution && (xmask & MAIL_CONFIG_XMAILER_EVO)))
 		write_text_header (stream, _("Mailer"), xmailer, WRITE_BOLD);
 	
-	return evolution != NULL && (xm & MAIL_CONFIG_XMAILER_RUPERT_APPROVED);
+	return evolution != NULL && (xmask & MAIL_CONFIG_XMAILER_RUPERT_APPROVED);
 }
 
 #define COLOR_IS_LIGHT(r, g, b)  ((r + g + b) > (128 * 3))
@@ -938,12 +940,15 @@ write_xmailer_header (CamelMimeMessage *message, MailDisplay *md,
 static void
 write_headers (MailDisplayStream *stream, MailDisplay *md, CamelMimeMessage *message)
 {
-	MailConfigXMailerDisplayStyle xm = mail_config_get_x_mailer_display_style ();
 	gboolean full = (md->display_style == MAIL_CONFIG_DISPLAY_FULL_HEADERS);
 	char bgcolor[7], fontcolor[7];
 	GtkStyle *style = NULL;
 	gboolean evo_icon = FALSE;
-	int i;
+	GConfClient *gconf;
+	int xmask, i;
+	
+	gconf = gconf_client_get_default ();
+	xmask = gconf_client_get_int (gconf, "/apps/evolution/mail/display/xmailer_mask", NULL);
 	
 	/* My favorite thing to do... muck around with colors so we respect people's stupid themes.
 	   However, we only do this if we are rendering to the screen -- we ignore the theme
@@ -1026,8 +1031,8 @@ write_headers (MailDisplayStream *stream, MailDisplay *md, CamelMimeMessage *mes
 	} else {
 		for (i = 0; i < sizeof (default_headers) / sizeof (default_headers[0]); i++)
 			write_default_header (message, md, stream, i, 0);
-		if (xm != MAIL_CONFIG_XMAILER_NONE)
-			evo_icon = write_xmailer_header (message, md, stream, xm);
+		if (xmask != MAIL_CONFIG_XMAILER_NONE)
+			evo_icon = write_xmailer_header (message, md, stream, xmask);
 	}
 	
 	/* Close off the internal header table */
@@ -1092,7 +1097,10 @@ mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper, MailDisplay
 	
 	if (wrapper->rawtext || (mail_display && mail_display->charset)) {
 		CamelMimeFilterCharset *filter;
-		const char *charset;
+		GConfClient *gconf;
+		char *charset;
+		
+		gconf = gconf_client_get_default ();
 		
 		if (!wrapper->rawtext) {
 			/* data wrapper had been successfully converted to UTF-8 using the mime
@@ -1102,31 +1110,35 @@ mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper, MailDisplay
 			
 			/* get the original charset of the mime part */
 			content_type = camel_data_wrapper_get_mime_type_field (wrapper);
-			charset = content_type ? header_content_type_param (content_type, "charset") : NULL;
+			charset = (char *) (content_type ? header_content_type_param (content_type, "charset") : NULL);
 			if (!charset)
-				charset = mail_config_get_default_charset ();
+				charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
+			else
+				charset = g_strdup (charset);
 			
 			/* since the content is already in UTF-8, we need to decode into the
 			   original charset before we can convert back to UTF-8 using the charset
 			   the user is overriding with... */
-			filter = camel_mime_filter_charset_new_convert ("utf-8", charset);
-			if (filter) {
+			if ((filter = camel_mime_filter_charset_new_convert ("utf-8", charset))) {
 				camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (filter));
 				camel_object_unref (filter);
 			}
+			
+			g_free (charset);
 		}
 		
 		/* find out the charset the user wants to override to */
 		if (mail_display && mail_display->charset)
 			charset = mail_display->charset;
 		else
-			charset = mail_config_get_default_charset ();
+			charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
 		
-		filter = camel_mime_filter_charset_new_convert (charset, "utf-8");
-		if (filter) {
+		if ((filter = camel_mime_filter_charset_new_convert (charset, "utf-8"))) {
 			camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (filter));
 			camel_object_unref (filter);
 		}
+		
+		g_free (charset);
 	}
 	
 	written = camel_data_wrapper_write_to_stream (wrapper, CAMEL_STREAM (filtered_stream));
@@ -1185,16 +1197,26 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *html_filter;
 	CamelDataWrapper *wrapper;
-	guint32 flags, colour = 0;
 	CamelContentType *type;
 	const char *format;
+	GConfClient *gconf;
+	guint32 flags, rgb = 0;
+	GdkColor colour;
+	char *buf;
+	
+	gconf = gconf_client_get_default ();
 	
 	flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
 	if (!md->printing) {
 		flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
-		if (mail_config_get_citation_highlight ()) {
+		if (gconf_client_get_bool (gconf, "/apps/evolution/mail/display/mark_citations", NULL)) {
 			flags |= CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
-			colour = mail_config_get_citation_color ();
+			
+			buf = gconf_client_get_string (gconf, "/apps/evolution/mail/display/citation_colour", NULL);
+			gdk_color_parse (buf ? buf : "#737373", &colour);
+			g_free (buf);
+			
+			rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff00) >> 8);
 		}
 	}
 	
@@ -1204,7 +1226,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	if (format && !strcasecmp (format, "flowed"))
 		flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 	
-	html_filter = camel_mime_filter_tohtml_new (flags, colour);
+	html_filter = camel_mime_filter_tohtml_new (flags, rgb);
 	filtered_stream = camel_stream_filter_new_with_stream ((CamelStream *) stream);
 	camel_stream_filter_add (filtered_stream, html_filter);
 	camel_object_unref (html_filter);

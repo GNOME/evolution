@@ -32,6 +32,9 @@
 #include <errno.h>
 #include <string.h>
 
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <camel/camel.h>
 #include <camel/camel-vee-folder.h>
 
@@ -52,12 +55,13 @@
 CamelFolder *
 mail_tool_get_local_inbox (CamelException *ex)
 {
-	gchar *url;
 	CamelFolder *folder;
-
+	char *url;
+	
 	url = g_strdup_printf("file://%s/local/Inbox", evolution_dir);
 	folder = mail_tool_uri_to_folder (url, 0, ex);
 	g_free (url);
+	
 	return folder;
 }
 
@@ -66,14 +70,14 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 {
 	CamelStore *store;
 	CamelFolder *folder;
-
+	
 	store = camel_session_get_store (session, url, ex);
 	if (!store)
 		return NULL;
-
+	
 	folder = camel_store_get_inbox (store, ex);
 	camel_object_unref (store);
-
+	
 	return folder;
 }
 
@@ -82,20 +86,20 @@ mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 {
 	CamelStore *store;
 	CamelFolder *trash;
-
+	
 	if (connect)
 		store = camel_session_get_store (session, url, ex);
 	else
-		store = (CamelStore *)camel_session_get_service(session, url, CAMEL_PROVIDER_STORE, ex);
-
+		store = (CamelStore *) camel_session_get_service (session, url, CAMEL_PROVIDER_STORE, ex);
+	
 	if (!store)
 		return NULL;
 	
-	if (connect || ((CamelService *)store)->status == CAMEL_SERVICE_CONNECTED)
+	if (connect || ((CamelService *) store)->status == CAMEL_SERVICE_CONNECTED)
 		trash = camel_store_get_trash (store, ex);
 	else
 		trash = NULL;
-
+	
 	camel_object_unref (store);
 	
 	return trash;
@@ -344,7 +348,10 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 {
 	CamelDataWrapper *contents;
 	gboolean want_plain;
-	gchar *text;
+	char *text, *colour;
+	GConfClient *gconf;
+	
+	gconf = gconf_client_get_default ();
 	
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	/* We pass "want_plain" for "cite", since if it's HTML, we'll
@@ -378,16 +385,21 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 			va_end (ap);
 		}
 		
+		colour = gconf_client_get_string (gconf, "/apps/evolution/mail/display/citation_colour", NULL);
+		
 		ret_text = g_strdup_printf ("%s<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"orig\" value=\"1\">-->"
-					    "<font color=\"%06x\">\n%s%s%s</font>"
+					    "<font color=\"%s\">\n%s%s%s</font>"
 					    "<!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->",
 					    credits ? credits : "",
-					    mail_config_get_citation_color (),
+					    colour ? colour : "#737373",
 					    want_plain ? "" : "<blockquote type=cite><i>",
 					    text,
 					    want_plain ? "" : "</i></blockquote>");
+		
 		g_free (text);
+		g_free (colour);
 		g_free (credits);
+		
 		return ret_text;
 	}
 	
@@ -406,13 +418,17 @@ gchar *
 mail_tool_forward_message (CamelMimeMessage *message, gboolean quoted)
 {
 	char *title, *body, *ret;
+	gboolean send_html;
+	GConfClient *gconf;
 	
-	body = mail_get_message_body (CAMEL_DATA_WRAPPER (message),
-				      !mail_config_get_send_html (),
-				      quoted);
+	gconf = gconf_client_get_default ();
+	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
+	
+	body = mail_get_message_body (CAMEL_DATA_WRAPPER (message), !send_html, quoted);
 	title = _("Forwarded Message");
 	ret = g_strdup_printf ("-----%s-----<br>%s", title, body ? body : "");
 	g_free (body);
+	
 	return ret;
 }
 

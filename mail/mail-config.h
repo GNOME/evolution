@@ -55,11 +55,12 @@ typedef struct {
 	gboolean auto_check;
 	int auto_check_time;
 	gboolean save_passwd;
-	gboolean enabled;
 } MailConfigService;
 
 typedef struct {
 	char *name;
+	
+	gboolean enabled;
 	
 	MailConfigIdentity *id;
 	MailConfigService *source;
@@ -157,17 +158,6 @@ void mail_config_write_on_exit (void);
 gboolean mail_config_is_configured            (void);
 gboolean mail_config_is_corrupt               (void);
 
-gboolean    mail_config_get_filter_log        (void);
-void        mail_config_set_filter_log        (gboolean value);
-const char *mail_config_get_filter_log_path   (void);
-void        mail_config_set_filter_log_path   (const char *path);
-
-const char *mail_config_get_last_filesel_dir  (void);
-void        mail_config_set_last_filesel_dir  (const char *path);
-
-gboolean mail_config_get_empty_trash_on_exit  (void);
-void     mail_config_set_empty_trash_on_exit  (gboolean value);
-
 gboolean mail_config_get_thread_list          (const char *uri);
 void     mail_config_set_thread_list          (const char *uri, gboolean value);
 
@@ -177,72 +167,14 @@ void     mail_config_set_thread_subject       (gboolean thread_subject);
 gboolean mail_config_get_show_preview         (const char *uri);
 void     mail_config_set_show_preview         (const char *uri, gboolean value);
 
-gboolean mail_config_get_hide_deleted         (void);
-void     mail_config_set_hide_deleted         (gboolean value);
-
 int      mail_config_get_paned_size           (void);
 void     mail_config_set_paned_size           (int size);
-
-gboolean mail_config_get_send_html            (void);
-void     mail_config_set_send_html            (gboolean send_html);
-
-gboolean mail_config_get_confirm_unwanted_html (void);
-void     mail_config_set_confirm_unwanted_html (gboolean html_warning);
-
-gboolean mail_config_get_citation_highlight   (void);
-void     mail_config_set_citation_highlight   (gboolean);
-
-guint32  mail_config_get_citation_color       (void);
-void     mail_config_set_citation_color       (guint32);
 
 const char *mail_config_get_label_name  (int label);
 void        mail_config_set_label_name  (int label, const char *name);
 guint32     mail_config_get_label_color (int label);
 void        mail_config_set_label_color (int label, guint32 color);
 const char *mail_config_get_label_color_string (int label);
-
-gint     mail_config_get_do_seen_timeout      (void);
-void     mail_config_set_do_seen_timeout      (gboolean do_seen_timeout);
-
-int      mail_config_get_mark_as_seen_timeout (void);
-void     mail_config_set_mark_as_seen_timeout (int timeout);
-
-gboolean mail_config_get_prompt_empty_subject (void);
-void     mail_config_set_prompt_empty_subject (gboolean value);
-
-gboolean mail_config_get_prompt_only_bcc (void);
-void     mail_config_set_prompt_only_bcc (gboolean value);
-
-gboolean mail_config_get_confirm_expunge (void);
-void     mail_config_set_confirm_expunge (gboolean value);
-
-gboolean mail_config_get_confirm_goto_next_folder (void);
-void     mail_config_set_confirm_goto_next_folder (gboolean value);
-gboolean mail_config_get_goto_next_folder (void);
-void     mail_config_set_goto_next_folder (gboolean value);
-
-MailConfigHTTPMode mail_config_get_http_mode (void);
-void               mail_config_set_http_mode (MailConfigHTTPMode);
-
-MailConfigForwardStyle mail_config_get_default_forward_style (void);
-void                   mail_config_set_default_forward_style (MailConfigForwardStyle style);
-
-MailConfigReplyStyle mail_config_get_default_reply_style (void);
-void                   mail_config_set_default_reply_style (MailConfigReplyStyle style);
-
-MailConfigDisplayStyle mail_config_get_message_display_style (void);
-void                   mail_config_set_message_display_style (MailConfigDisplayStyle style);
-
-MailConfigNewMailNotify mail_config_get_new_mail_notify (void);
-void                    mail_config_set_new_mail_notify (MailConfigNewMailNotify type);
-const char             *mail_config_get_new_mail_notify_sound_file (void);
-void                    mail_config_set_new_mail_notify_sound_file (const char *filename);
-
-MailConfigXMailerDisplayStyle mail_config_get_x_mailer_display_style (void);
-void                          mail_config_set_x_mailer_display_style (MailConfigXMailerDisplayStyle style);
-
-const char *mail_config_get_default_charset (void);
-void        mail_config_set_default_charset (const char *charset);
 
 void mail_config_service_set_save_passwd (MailConfigService *service, gboolean save_passwd);
 
@@ -269,9 +201,6 @@ void mail_config_uri_deleted(GCompareFunc uri_cmp, const char *uri);
 
 GtkType evolution_mail_config_get_type (void);
 
-/* convenience functions to help ease the transition over to the new codebase */
-GSList *mail_config_get_sources (void);
-
 /* static utility functions */
 char *mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix);
 char *mail_config_folder_to_safe_url (CamelFolder *folder);
@@ -282,7 +211,7 @@ gboolean mail_config_check_service (const char *url, CamelProviderType type, GLi
 
 gboolean evolution_mail_config_factory_init (void);
 
-GList * mail_config_get_signature_list (void);
+GList *mail_config_get_signature_list (void);
 MailConfigSignature *mail_config_signature_add (gboolean html, const gchar *script);
 void mail_config_signature_delete (MailConfigSignature *sig);
 void mail_config_signature_write (MailConfigSignature *sig);
@@ -304,11 +233,8 @@ void mail_config_signature_register_client (MailConfigSignatureClient client, gp
 void mail_config_signature_unregister_client (MailConfigSignatureClient client, gpointer data);
 void mail_config_signature_emit_event (MailConfigSigEvent event, MailConfigSignature *sig);
 
-void mail_config_write_account_sig (MailConfigAccount *account, gint i);
-gchar * mail_config_signature_run_script (gchar *script);
-
-int mail_config_get_week_start_day(void);
-int mail_config_get_time_24hour(void);
+void mail_config_write_account_sig (MailConfigAccount *account, int i);
+char *mail_config_signature_run_script (char *script);
 
 #ifdef __cplusplus
 }

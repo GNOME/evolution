@@ -38,6 +38,9 @@
 #include <gtk/gtkinvisible.h>
 #include <libgnome/gnome-program.h>
 
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <bonobo/bonobo-control-frame.h>
@@ -235,18 +238,19 @@ make_safe_filename (const char *prefix,CamelMimePart *part)
 static void
 save_data_cb (GtkWidget *widget, gpointer user_data)
 {
-	GtkFileSelection *file_select = (GtkFileSelection *)
-		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
+	GtkFileSelection *file_select;
+	GConfClient *gconf;
 	char *dir;
+	
+	file_select = (GtkFileSelection *) gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
 	
 	/* uh, this doesn't really feel right, but i dont know what to do better */
 	gtk_widget_hide (GTK_WIDGET (file_select));
-	write_data_to_file (user_data, gtk_file_selection_get_filename (file_select),
-			    FALSE);
+	write_data_to_file (user_data, gtk_file_selection_get_filename (file_select), FALSE);
 	
 	/* preserve the pathname */
 	dir = g_path_get_dirname (gtk_file_selection_get_filename (file_select));
-	mail_config_set_last_filesel_dir (dir);
+	gconf_client_set_string (gconf, "/apps/evolution/mail/save_dir", dir, NULL);
 	g_free (dir);
 	
 	gtk_widget_destroy (GTK_WIDGET (file_select));
@@ -307,11 +311,15 @@ static void
 save_part (CamelMimePart *part)
 {
 	GtkFileSelection *file_select;
-	char *filename, *base;
+	char *filename, *dir, *base;
+	GConfClient *gconf;
 	
 	camel_object_ref (CAMEL_OBJECT (part));
 	
-	filename = make_safe_filename (mail_config_get_last_filesel_dir (), part);
+	gconf = gconf_client_get_default ();
+	dir = gconf_client_get_string (gconf, "/apps/evolution/mail/save_dir", NULL);
+	filename = make_safe_filename (dir, part);
+	g_free (dir);
 	
 	file_select = GTK_FILE_SELECTION (
 		gtk_file_selection_new (_("Save Attachment")));
@@ -1191,9 +1199,12 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		  gpointer user_data)
 {
 	MailDisplay *md = user_data;
+	GConfClient *gconf;
 	GHashTable *urls;
 	CamelMedium *medium;
 	GByteArray *ba;
+	
+	gconf = gconf_client_get_default ();
 	
 	urls = g_datalist_get_data (md->data, "part_urls");
 	g_return_if_fail (urls != NULL);
@@ -1252,10 +1263,13 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	
 	/* See if it's something we can load. */
 	if (strncmp (url, "http:", 5) == 0 || strncmp (url, "https:", 6) == 0) {
-		if (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS ||
+		int http_mode;
+		
+		http_mode = gconf_client_get_int (gconf, "/apps/evolution/mail/display/load_http_images", NULL);
+		if (http_mode == MAIL_CONFIG_HTTP_ALWAYS ||
 		    g_datalist_get_data (md->data, "load_images")) {
 			fetch_remote (md, url, html, handle);
-		} else if (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_SOMETIMES &&
+		} else if (http_mode == MAIL_CONFIG_HTTP_SOMETIMES &&
 			   !g_datalist_get_data (md->data, "checking_from")) {
 			const CamelInternetAddress *from;
 			const char *name, *addr;
@@ -1264,7 +1278,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 			g_datalist_set_data (md->data, "checking_from", GINT_TO_POINTER (1));
 			
 			/* Make sure we aren't deal w/ some sort of a
-                           pathological message w/o a From: header */
+			   pathological message w/o a From: header */
 			if (from != NULL && camel_internet_address_get (from, 0, &name, &addr))
 				e_book_query_address_default (addr, ebook_callback, md);
 			else
@@ -1666,17 +1680,27 @@ mail_text_write (MailDisplayStream *stream, MailDisplay *md, CamelMimePart *part
 {
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *html_filter;
-	guint32 flags;
+	GConfClient *gconf;
+	guint32 flags, rgb;
+	GdkColor colour;
+	char *buf;
+	
+	gconf = gconf_client_get_default ();
 	
 	flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
 	
 	if (!printing)
 		flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
 	
-	if (!printing && mail_config_get_citation_highlight ())
+	if (!printing && gconf_client_get_bool (gconf, "/apps/evolution/mail/display/mark_citations", NULL))
 		flags |= CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 	
-	html_filter = camel_mime_filter_tohtml_new (flags, mail_config_get_citation_color ());
+	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/display/citation_colour", NULL);
+	gdk_color_parse (buf ? buf : "#737373", &colour);
+	g_free (buf);
+	
+	rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff00) >> 8);
+	html_filter = camel_mime_filter_tohtml_new (flags, rgb);
 	filtered_stream = camel_stream_filter_new_with_stream ((CamelStream *) stream);
 	camel_stream_filter_add (filtered_stream, html_filter);
 	camel_object_unref (html_filter);
@@ -1971,6 +1995,8 @@ static void
 mail_display_init (GObject *object)
 {
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
+	GConfClient *gconf;
+	int style;
 	
 	mail_display->scroll            = NULL;
 	mail_display->html              = NULL;
@@ -1988,7 +2014,9 @@ mail_display_init (GObject *object)
 	g_object_ref (mail_display->invisible);
 	gtk_object_sink ((GtkObject *) mail_display->invisible);
 	
-	mail_display->display_style     = mail_config_get_message_display_style ();
+	gconf = gconf_client_get_default ();
+	style = gconf_client_get_int (gconf, "/apps/evolution/mail/format/message_display_style", NULL);
+	mail_display->display_style     = style;
 	
 	mail_display->printing          = FALSE;
 	

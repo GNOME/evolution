@@ -237,7 +237,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	g_free (buf);
 	
 	prefs->citation_highlight = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkHighlightCitations"));
-	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/display/highlight_citations", NULL);
+	bool = gconf_client_get_bool (prefs->gconf, "/apps/evolution/mail/display/mark_citations", NULL);
 	gtk_toggle_button_set_active (prefs->citation_highlight, bool);
 	g_signal_connect (prefs->citation_highlight, "toggled", G_CALLBACK (toggle_button_toggled), prefs);
 	
@@ -402,7 +402,7 @@ mail_preferences_apply (MailPreferences *prefs)
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/format/charset", string, NULL);
 	g_free (string);
 	
-	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/display/highlight_citations",
+	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/display/mark_citations",
 			       gtk_toggle_button_get_active (prefs->citation_highlight), NULL);
 	
 	rgb = colorpicker_get_color (prefs->citation_color);

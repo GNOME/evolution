@@ -1377,14 +1377,14 @@ sc_filter_toggled (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-populate_store_foreach (MailConfigService *service, SubscribeDialog *sc)
+populate_store_foreach (MailConfigAccount *account, SubscribeDialog *sc)
 {
-	StoreData            *sd;
-
-	if (service->url == NULL || service->enabled == FALSE)
+	StoreData *sd;
+	
+	if (!account->enabled || !account->source || !account->source->url)
 		return;
-
-	sd = store_data_new (service->url);
+	
+	sd = store_data_new (account->source->url);
 	sc->priv->store_list = g_list_prepend (sc->priv->store_list, sd);
 }
 
@@ -1515,14 +1515,13 @@ got_sd_store (StoreData *sd, CamelStore *store, gpointer data)
 static void
 populate_store_list (SubscribeDialog *sc)
 {
-	GSList       *sources;
-	GList        *iter;
-	GtkWidget    *menu;
-	GtkWidget    *omenu;
-
-	sources = mail_config_get_sources ();
-	g_slist_foreach (sources, (GFunc) populate_store_foreach, sc);
-	g_slist_free (sources);
+	const GSList *accounts;
+	GList *iter;
+	GtkWidget *menu;
+	GtkWidget *omenu;
+	
+	accounts = mail_config_get_accounts ();
+	g_slist_foreach ((GSList *) accounts, (GFunc) populate_store_foreach, sc);
 	
 	menu = gtk_menu_new ();
 

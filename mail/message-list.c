@@ -32,6 +32,9 @@
 
 #include <glib/gunicode.h>
 
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/e-table/e-cell-text.h>
@@ -2101,20 +2104,22 @@ message_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 void
 message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, gboolean outgoing)
 {
+	gboolean hide_deleted;
+	GConfClient *gconf;
 	CamelException ex;
-
+	
 	g_return_if_fail (message_list != NULL);
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
-
+	
 	if (message_list->folder == camel_folder)
 		return;
-
+	
 	camel_exception_init (&ex);
-
+	
 	/* cancel any outstanding regeneration requests */
 	if (message_list->regen) {
 		GList *l = message_list->regen;
-
+		
 		while (l) {
 			struct _mail_msg *mm = l->data;
 
@@ -2123,8 +2128,8 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 			l = l->next;
 		}
 	}
-
-	clear_tree(message_list);
+	
+	clear_tree (message_list);
 	
 	if (message_list->folder) {
 		hide_save_state(message_list);
@@ -2134,41 +2139,41 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 					  message_changed, message_list);
 		camel_object_unref (message_list->folder);
 	}
-
+	
 	if (message_list->thread_tree) {
 		camel_folder_thread_messages_unref(message_list->thread_tree);
 		message_list->thread_tree = NULL;
 	}
-
+	
 	message_list->folder = camel_folder;
-
+	
 	if (message_list->cursor_uid) {
 		g_free(message_list->cursor_uid);
 		message_list->cursor_uid = NULL;
 		g_signal_emit(message_list, message_list_signals[MESSAGE_SELECTED], 0, NULL);
 	}
-
+	
 	if (camel_folder) {
 		/* Setup the strikeout effect for non-trash folders */
 		if (!(camel_folder->folder_flags & CAMEL_FOLDER_IS_TRASH)) {
 			ECell *cell;
-
+			
 			cell = e_table_extras_get_cell (message_list->extras, "render_date");
 			g_object_set (cell,
 				      "strikeout_column", COL_DELETED,
 				      NULL);
-
+			
 			cell = e_table_extras_get_cell (message_list->extras, "render_text");
 			g_object_set (cell,
 				      "strikeout_column", COL_DELETED,
 				      NULL);
-
+			
 			cell = e_table_extras_get_cell (message_list->extras, "render_size");
 			g_object_set (cell,
 				      "strikeout_column", COL_DELETED,
 				      NULL);
 		}
-
+		
 		/* Build the etree suitable for this folder */
 		message_list_setup_etree (message_list, outgoing);
 		
@@ -2179,8 +2184,10 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 		
 		camel_object_ref (camel_folder);
 		
-		message_list->hidedeleted = mail_config_get_hide_deleted ()
-			&& !(camel_folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
+		/* FIXME: probably listen for updates to show_deleted? */
+		gconf = gconf_client_get_default ();
+		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
+		message_list->hidedeleted = hide_deleted && !(camel_folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 		
 		hide_load_state (message_list);
 		mail_regen_list (message_list, message_list->search, NULL, NULL);
@@ -2194,7 +2201,7 @@ on_cursor_activated_idle (gpointer data)
 {
 	MessageList *message_list = data;
 	ESelectionModel *esm = e_tree_get_selection_model (message_list->tree);
-	gint selected = e_selection_model_selected_count (esm);
+	int selected = e_selection_model_selected_count (esm);
 	
 	if (selected == 1 && message_list->cursor_uid) {
 		d(printf ("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid));
@@ -2594,7 +2601,9 @@ regen_list_regen (struct _mail_msg *mm)
 {
 	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
 	GPtrArray *uids, *uidnew, *showuids, *searchuids = NULL;
+	gboolean thread_subject;
 	CamelMessageInfo *info;
+	GConfClient *gconf;
 	int i;
 
 	/* if we have hidedeleted on, use a search to find it out, merge with existing search if set */
@@ -2696,15 +2705,17 @@ regen_list_regen (struct _mail_msg *mm)
 	}
 	
 	MESSAGE_LIST_UNLOCK(m->ml, hide_lock);
-
+	
+	gconf = gconf_client_get_default ();
+	thread_subject = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/thread_subject", NULL);
+	
 	if (!camel_operation_cancel_check(mm->cancel)) {
 		/* update/build a new tree */
 		if (m->dotree) {
 			if (m->tree)
-				camel_folder_thread_messages_apply(m->tree, showuids);
+				camel_folder_thread_messages_apply (m->tree, showuids);
 			else
-				m->tree = camel_folder_thread_messages_new (m->folder, showuids,
-									    mail_config_get_thread_subject ());
+				m->tree = camel_folder_thread_messages_new (m->folder, showuids, thread_subject);
 		} else {
 			m->summary = g_ptr_array_new ();
 			for (i = 0; i < showuids->len; i++) {

@@ -37,7 +37,12 @@
 #include <gtk/gtkdialog.h>
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
-#include <e-util/e-config-listener.h>
+
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
+#include <libxml/tree.h>
+#include <libxml/parser.h>
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
@@ -68,59 +73,24 @@ MailConfigLabel label_defaults[5] = {
 };
 
 typedef struct {
-	EConfigListener *db;
+	GConfClient *gconf;
 	
 	gboolean corrupt;
-	
-	gboolean show_preview;
-	gboolean thread_list;
-	gboolean hide_deleted;
-	int paned_size;
-	gboolean send_html;
-	gboolean confirm_unwanted_html;
-	gboolean citation_highlight;
-	guint32  citation_color;
-	gboolean prompt_empty_subject;
-	gboolean prompt_only_bcc;
-	gboolean confirm_expunge;
-	gboolean confirm_goto_next_folder;
-	gboolean goto_next_folder;
-	gboolean do_seen_timeout;
-	int seen_timeout;
-	gboolean empty_trash_on_exit;
-	
-	gboolean thread_subject;
 	
 	GSList *accounts;
 	int default_account;
 	
-	MailConfigHTTPMode http_mode;
-	MailConfigForwardStyle default_forward_style;
-	MailConfigReplyStyle default_reply_style;
-	MailConfigDisplayStyle message_display_style;
-	MailConfigXMailerDisplayStyle x_mailer_display_style;
-	char *default_charset;
-	
 	GHashTable *threaded_hash;
 	GHashTable *preview_hash;
-	
-	gboolean filter_log;
-	char *filter_log_path;
-	
-	MailConfigNewMailNotify notify;
-	char *notify_filename;
-	
-	char *last_filesel_dir;
 	
 	GList *signature_list;
 	int signatures;
 	
 	MailConfigLabel labels[5];
-
+	
 	gboolean signature_info;
-
+	
 	/* readonly fields from calendar */
-	int week_start_day;
 	int time_24hour;
 } MailConfig;
 
@@ -207,7 +177,6 @@ service_copy (const MailConfigService *source)
 	new->keep_on_server = source->keep_on_server;
 	new->auto_check = source->auto_check;
 	new->auto_check_time = source->auto_check_time;
-	new->enabled = source->enabled;
 	new->save_passwd = source->save_passwd;
 	
 	return new;
@@ -227,7 +196,7 @@ service_destroy (MailConfigService *source)
 void
 service_destroy_each (gpointer item, gpointer data)
 {
-	service_destroy ((MailConfigService *)item);
+	service_destroy ((MailConfigService *) item);
 }
 
 /* Account */
@@ -240,6 +209,8 @@ account_copy (const MailConfigAccount *account)
 	
 	new = g_new0 (MailConfigAccount, 1);
 	new->name = g_strdup (account->name);
+	
+	new->enabled = account->enabled;
 	
 	new->id = identity_copy (account->id);
 	new->source = service_copy (account->source);
@@ -293,7 +264,327 @@ account_destroy (MailConfigAccount *account)
 void
 account_destroy_each (gpointer item, gpointer data)
 {
-	account_destroy ((MailConfigAccount *)item);
+	account_destroy ((MailConfigAccount *) item);
+}
+
+
+static gboolean
+xml_get_bool (xmlNodePtr node, const char *name)
+{
+	gboolean bool = FALSE;
+	char *buf;
+	
+	if ((buf = xmlGetProp (node, name))) {
+		bool = (!strcmp (buf, "true") || !strcmp (buf, "yes"));
+		xmlFree (buf);
+	}
+	
+	return bool;
+}
+
+static int
+xml_get_int (xmlNodePtr node, const char *name)
+{
+	int number = 0;
+	char *buf;
+	
+	if ((buf = xmlGetProp (node, name))) {
+		number = strtol (buf, NULL, 10);
+		xmlFree (buf);
+	}
+	
+	return number;
+}
+
+static char *
+xml_get_prop (xmlNodePtr node, const char *name)
+{
+	char *buf, *val;
+	
+	buf = xmlGetProp (node, name);
+	val = g_strdup (buf);
+	g_free (buf);
+	
+	return val;
+}
+
+static char *
+xml_get_content (xmlNodePtr node)
+{
+	char *buf, *val;
+	
+	buf = xmlNodeGetContent (node);
+        val = g_strdup (buf);
+	xmlFree (buf);
+	
+	return val;
+}
+
+static MailConfigSignature *
+lookup_signature (int i)
+{
+	MailConfigSignature *sig;
+	GList *l;
+	
+	if (i == -1)
+		return NULL;
+	
+	for (l = config->signature_list; l; l = l->next) {
+		sig = (MailConfigSignature *) l->data;
+		if (sig->id == i)
+			return sig;
+	}
+	
+	return NULL;
+}
+
+static MailConfigAccount *
+account_new_from_xml (char *in)
+{
+	MailConfigAccount *account;
+	xmlNodePtr node, cur;
+	xmlDocPtr doc;
+	char *buf;
+	
+	if (!(doc = xmlParseDoc (in)))
+		return NULL;
+	
+	node = doc->children;
+	if (strcmp (node->name, "account") != 0) {
+		xmlFreeDoc (doc);
+		return NULL;
+	}
+	
+	account = g_new0 (MailConfigAccount, 1);
+	account->name = xml_get_prop (node, "name");
+	account->enabled = xml_get_bool (node, "enabled");
+	
+	node = node->children;
+	while (node != NULL) {
+		if (!strcmp (node->name, "identity")) {
+			account->id = g_new0 (MailConfigIdentity, 1);
+			
+			cur = node->children;
+			while (cur != NULL) {
+				if (!strcmp (cur->name, "name")) {
+					account->id->name = xml_get_content (cur);
+				} else if (!strcmp (cur->name, "addr-spec")) {
+					account->id->address = xml_get_content (cur);
+				} else if (!strcmp (cur->name, "reply-to")) {
+					account->id->reply_to = xml_get_content (cur);
+				} else if (!strcmp (cur->name, "organization")) {
+					account->id->organization = xml_get_content (cur);
+				} else if (!strcmp (cur->name, "signature")) {
+					account->id->auto_signature = xml_get_bool (cur, "auto");
+					account->id->def_signature = lookup_signature (xml_get_int (cur, "default"));
+				}
+				
+				cur = cur->next;
+			}
+		} else if (!strcmp (node->name, "source")) {
+			account->source = g_new0 (MailConfigService, 1);
+			account->source->save_passwd = xml_get_bool (node, "save-passwd");
+			account->source->keep_on_server = xml_get_bool (node, "keep-on-server");
+			account->source->auto_check = xml_get_bool (node, "auto-check");
+			
+			/* FIXME: account->source->auto_check_time */
+			
+			cur = node->children;
+			while (cur != NULL) {
+				if (!strcmp (cur->name, "url")) {
+					account->source->url = xml_get_content (cur);
+					break;
+				}
+				cur = cur->next;
+			}
+		} else if (!strcmp (node->name, "transport")) {
+			account->transport = g_new0 (MailConfigService, 1);
+			account->transport->save_passwd = xml_get_bool (node, "save-passwd");
+			
+			cur = node->children;
+			while (cur != NULL) {
+				if (!strcmp (cur->name, "url")) {
+					account->transport->url = xml_get_content (cur);
+					break;
+				}
+				cur = cur->next;
+			}
+		} else if (!strcmp (node->name, "drafts-folder")) {
+			account->drafts_folder_uri = xml_get_content (node);
+		} else if (!strcmp (node->name, "sent-folder")) {
+			account->sent_folder_uri = xml_get_content (node);
+		} else if (!strcmp (node->name, "auto-cc")) {
+			account->always_cc = xml_get_bool (node, "always");
+			account->cc_addrs = xml_get_content (node);
+		} else if (!strcmp (node->name, "auto-bcc")) {
+			account->always_cc = xml_get_bool (node, "always");
+			account->bcc_addrs = xml_get_content (node);
+		} else if (!strcmp (node->name, "pgp")) {
+			account->pgp_encrypt_to_self = xml_get_bool (node, "encrypt-to-self");
+			account->pgp_always_trust = xml_get_bool (node, "always-trust");
+			account->pgp_always_sign = xml_get_bool (node, "always-sign");
+			account->pgp_no_imip_sign = !xml_get_bool (node, "sign-imip");
+			
+			if (node->children) {
+				cur = node->children;
+				while (cur != NULL) {
+					if (!strcmp (cur->name, "key-id")) {
+						account->pgp_key = xml_get_content (cur);
+						break;
+					}
+					
+					cur = cur->next;
+				}
+			}
+		} else if (!strcmp (node->name, "smime")) {
+			account->smime_encrypt_to_self = xml_get_bool (node, "encrypt-to-self");
+			account->smime_always_sign = xml_get_bool (node, "always-sign");
+			
+			if (node->children) {
+				cur = node->children;
+				while (cur != NULL) {
+					if (!strcmp (cur->name, "key-id")) {
+						account->smime_key = xml_get_content (cur);
+						break;
+					}
+					
+					cur = cur->next;
+				}
+			}
+		}
+		
+		node = node->next;
+	}
+	
+	xmlFreeDoc (doc);
+	
+	return account;
+}
+
+static char *
+account_to_xml (MailConfigAccount *account)
+{
+	xmlNodePtr root, node, id, src, xport;
+	char *xmlbuf, *tmp, buf[20];
+	xmlDocPtr doc;
+	int n;
+	
+	doc = xmlNewDoc ("1.0");
+	
+	root = xmlNewDocNode (doc, NULL, "account", NULL);
+	xmlDocSetRootElement (doc, root);
+	
+	xmlSetProp (root, "name", account->name);
+	xmlSetProp (root, "enabled", account->enabled ? "true" : "false");
+	
+	id = xmlNewChild (root, NULL, "identity", NULL);
+	if (account->id->name)
+		xmlNewTextChild (id, NULL, "name", account->id->name);
+	if (account->id->address)
+		xmlNewTextChild (id, NULL, "addr-spec", account->id->address);
+	if (account->id->reply_to)
+		xmlNewTextChild (id, NULL, "reply-to", account->id->reply_to);
+	if (account->id->organization)
+		xmlNewTextChild (id, NULL, "organization", account->id->organization);
+	
+	node = xmlNewChild (id, NULL, "signature", NULL);
+	xmlSetProp (node, "auto", account->id->auto_signature ? "true" : "false");
+	sprintf (buf, "%d", account->id->def_signature);
+	xmlSetProp (node, "default", buf);
+	
+	src = xmlNewChild (root, NULL, "source", NULL);
+	xmlSetProp (src, "save-passwd", account->source->save_passwd ? "true" : "false");
+	xmlSetProp (src, "keep-on-server", account->source->keep_on_server ? "true" : "false");
+	xmlSetProp (src, "auto-check", account->source->auto_check ? "true" : "false");
+	if (account->source->url)
+		xmlNewTextChild (src, NULL, "url", account->source->url);
+	
+	/* FIXME: save auto-check timeout value */
+	
+	xport = xmlNewChild (root, NULL, "transport", NULL);
+	xmlSetProp (xport, "save-passwd", account->transport->save_passwd ? "true" : "false");
+	if (account->transport->url)
+		xmlNewTextChild (xport, NULL, "url", account->transport->url);
+	
+	xmlNewTextChild (root, NULL, "drafts-folder", account->drafts_folder_uri);
+	xmlNewTextChild (root, NULL, "sent-folder", account->sent_folder_uri);
+	
+	node = xmlNewChild (root, NULL, "auto-cc", NULL);
+	xmlSetProp (node, "always", account->always_cc ? "true" : "false");
+	if (account->cc_addrs)
+		xmlNewTextChild (node, NULL, "recipients", account->cc_addrs);
+	
+	node = xmlNewChild (root, NULL, "auto-bcc", NULL);
+	xmlSetProp (node, "always", account->always_bcc ? "true" : "false");
+	if (account->bcc_addrs)
+		xmlNewTextChild (node, NULL, "recipients", account->bcc_addrs);
+	
+	node = xmlNewChild (root, NULL, "pgp", NULL);
+	xmlSetProp (node, "encrypt-to-self", account->pgp_encrypt_to_self ? "true" : "false");
+	xmlSetProp (node, "always-trust", account->pgp_always_trust ? "true" : "false");
+	xmlSetProp (node, "always-sign", account->pgp_always_sign ? "true" : "false");
+	xmlSetProp (node, "sign-imip", !account->pgp_no_imip_sign ? "true" : "false");
+	if (account->pgp_key)
+		xmlNewTextChild (node, NULL, "key-id", account->pgp_key);
+	
+	node = xmlNewChild (root, NULL, "smime", NULL);
+	xmlSetProp (node, "encrypt-to-self", account->smime_encrypt_to_self ? "true" : "false");
+	xmlSetProp (node, "always-sign", account->smime_always_sign ? "true" : "false");
+	if (account->smime_key)
+		xmlNewTextChild (node, NULL, "key-id", account->smime_key);
+	
+	xmlDocDumpMemory (doc, &xmlbuf, &n);
+	xmlFreeDoc (doc);
+	
+	if (!(tmp = realloc (xmlbuf, n + 1))) {
+		g_free (xmlbuf);
+		return NULL;
+	}
+	
+	xmlbuf[n] = '\0';
+	
+	return xmlbuf;
+}
+
+static void
+accounts_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
+{
+	GSList *list, *l, *tail, *n;
+	
+	if (config->accounts != NULL) {
+		l = config->accounts;
+		while (l != NULL) {
+			n = l->next;
+			account_destroy ((MailConfigAccount *) l->data);
+			g_slist_free_1 (l);
+			l = n;
+		}
+		
+		config->accounts = NULL;
+	}
+	
+	tail = (GSList *) &config->accounts;
+	
+	list = gconf_client_get_list (config->gconf, "/apps/evolution/mail/accounts",
+				      GCONF_VALUE_STRING, NULL);
+	
+	l = list;
+	while (l != NULL) {
+		MailConfigAccount *account;
+		
+		if ((account = account_new_from_xml ((char *) l->data))) {
+			n = g_slist_alloc ();
+			n->data = account;
+			n->next = NULL;
+			
+			tail->next = n;
+			tail = n;
+		}
+		
+		n = l->next;
+		g_slist_free_1 (l);
+		l = n;
+	}
 }
 
 /* Config struct routines */
@@ -304,7 +595,13 @@ mail_config_init (void)
 		return;
 	
 	config = g_new0 (MailConfig, 1);
-	config->db = e_config_listener_new();
+	config->gconf = gconf_client_get_default ();
+	
+	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/accounts",
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	
+	gconf_client_notify_add (config->gconf, "/apps/evolution/mail/accounts",
+				 accounts_changed, NULL, NULL, NULL);
 	
 	config_read ();
 }
@@ -312,28 +609,21 @@ mail_config_init (void)
 void
 mail_config_clear (void)
 {
+	GSList *list, *l, *n;
 	int i;
 	
 	if (!config)
 		return;
 	
-	if (config->accounts) {
-		g_slist_foreach (config->accounts, account_destroy_each, NULL);
-		g_slist_free (config->accounts);
-		config->accounts = NULL;
+	l = config->accounts;
+	while (l != NULL) {
+		n = l->next;
+		account_destroy ((MailConfigAccount *) l->data);
+		g_slist_free_1 (l);
+		l = n;
 	}
 	
-	g_free (config->default_charset);
-	config->default_charset = NULL;
-	
-	g_free (config->filter_log_path);
-	config->filter_log_path = NULL;
-	
-	g_free (config->notify_filename);
-	config->notify_filename = NULL;
-	
-	g_free (config->last_filesel_dir);
-	config->last_filesel_dir = NULL;
+	config->accounts = NULL;
 	
 	for (i = 0; i < 5; i++) {
 		g_free (config->labels[i].name);
@@ -344,7 +634,7 @@ mail_config_clear (void)
 }
 
 static MailConfigSignature *
-config_read_signature (gint i)
+config_read_signature (int i)
 {
 	MailConfigSignature *sig;
 	char *path, *val;
@@ -352,7 +642,9 @@ config_read_signature (gint i)
 	sig = g_new0 (MailConfigSignature, 1);
 	
 	sig->id = i;
-	
+
+#warning "need to rewrite the config_read_signature()"
+#if 0
 	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/name_%d", i);
 	val = e_config_listener_get_string (config->db, path);
 	g_free (path);
@@ -376,10 +668,11 @@ config_read_signature (gint i)
 		sig->script = val;
 	else
 		g_free (val);
-
+	
 	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/html_%d", i);
 	sig->html = e_config_listener_get_boolean_with_default (config->db, path, FALSE, NULL);
 	g_free (path);
+#endif
 	
 	return sig;
 }
@@ -388,183 +681,74 @@ static void
 config_read_signatures ()
 {
 	MailConfigSignature *sig;
-	gint i;
-
+	int i;
+	
 	config->signature_list = NULL;
+	config->signatures = 0;
+	
+#warning "need to rewrite config_read_signatures()"
+#if 0
 	config->signatures = e_config_listener_get_long_with_default (config->db, "/apps/Evolution/Mail/Signatures/num", 0, NULL);
-
+	
 	for (i = 0; i < config->signatures; i ++) {
 		sig = config_read_signature (i);
 		config->signature_list = g_list_append (config->signature_list, sig);
 	}
+#endif
 }
 
 static void
 config_write_signature (MailConfigSignature *sig, gint i)
 {
+#warning "need to rewrite config_write_signature()"
+#if 0
 	char *path;
-
+	
 	printf ("config_write_signature i: %d id: %d\n", i, sig->id);
-
+	
 	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/name_%d", i);
 	e_config_listener_set_string (config->db, path, sig->name ? sig->name : "");
 	g_free (path);
-
+	
 	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/filename_%d", i);
 	e_config_listener_set_string (config->db, path, sig->filename ? sig->filename : "");
 	g_free (path);
-
+	
 	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/script_%d", i);
 	e_config_listener_set_string (config->db, path, sig->script ? sig->script : "");
 	g_free (path);
-
+	
 	path = g_strdup_printf ("/apps/Evolution/Mail/Signatures/html_%d", i);
 	e_config_listener_set_boolean (config->db, path, sig->html);
 	g_free (path);
+#endif
 }
 
 static void
 config_write_signatures_num ()
 {
-	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Signatures/num", config->signatures);
+#warning "need to rewrite config_write_signatures_num()"
+	/*e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Signatures/num", config->signatures);*/
 }
 
 static void
 config_write_signatures ()
 {
 	GList *l;
-	gint id;
-
+	int id;
+	
 	for (id = 0, l = config->signature_list; l; l = l->next, id ++) {
 		config_write_signature ((MailConfigSignature *) l->data, id);
 	}
-
+	
 	config_write_signatures_num ();
 }
 
-static MailConfigSignature *
-lookup_signature (gint i)
+void
+mail_config_write_account_sig (MailConfigAccount *account, int id)
 {
-	MailConfigSignature *sig;
-	GList *l;
-
-	if (i == -1)
-		return NULL;
-
-	for (l = config->signature_list; l; l = l->next) {
-		sig = (MailConfigSignature *) l->data;
-		if (sig->id == i)
-			return sig;
-	}
-
-	return NULL;
-}
-
-static void
-config_write_imported_signature (gchar *filename, gint i, gboolean html)
-{
-	MailConfigSignature *sig = g_new0 (MailConfigSignature, 1);
-	gchar *name;
-
-	name = strrchr (filename, '/');
-	if (!name)
-		name = filename;
-	else
-		name ++;
-
-	sig->name = g_strdup (name);
-	sig->filename = filename;
-	sig->html = html;
-
-	config_write_signature (sig, i);
-	signature_destroy (sig);
-}
-
-static void
-config_import_old_signatures ()
-{
-	int num;
-	
-	num = e_config_listener_get_long_with_default (config->db, "/apps/Evolution/Mail/Signatures/num", -1, NULL);
-	
-	if (num == -1) {
-		/* there are no signatures defined
-		 * look for old config to create new ones from old ones
-		 */
-		GHashTable *cache;
-		int i, accounts;
-		
-		cache = g_hash_table_new (g_str_hash, g_str_equal);
-		accounts = e_config_listener_get_long_with_default (config->db, "/apps/Evolution/Mail/Accounts/num", 0, NULL);
-		num = 0;
-		for (i = 0; i < accounts; i ++) {
-			char *path, *val;
-			
-			/* read text signature file */
-			path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_signature_%d", i);
-			val = e_config_listener_get_string (config->db, path);
-			g_free (path);
-			if (val && *val) {
-				gpointer orig_key, node_val;
-				int id;
-				
-				if (g_hash_table_lookup_extended (cache, val, &orig_key, &node_val)) {
-					id = GPOINTER_TO_INT (node_val);
-				} else {
-					g_hash_table_insert (cache, g_strdup (val), GINT_TO_POINTER (num));
-					config_write_imported_signature (val, num, FALSE);
-					id = num;
-					num ++;
-				}
-				
-				/* set new text signature to this identity */
-				path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_signature_text_%d", i);
-				e_config_listener_set_long (config->db, path, id);
-				g_free (path);
-			} else
-				g_free (val);
-			
-			path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_has_html_signature_%d", i);
-			if (e_config_listener_get_boolean_with_default (config->db, path, FALSE, NULL)) {
-				g_free (path);
-				path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_html_signature_%d", i);
-				val = e_config_listener_get_string (config->db, path);
-				if (val && *val) {
-					gpointer orig_key, node_val;
-					int id;
-					
-					if (g_hash_table_lookup_extended (cache, val, &orig_key, &node_val)) {
-						id = GPOINTER_TO_INT (node_val);
-					} else {
-						g_hash_table_insert (cache, g_strdup (val), GINT_TO_POINTER (num));
-						config_write_imported_signature (val, num, TRUE);
-						id = num;
-						num ++;
-					}
-					
-					/* set new html signature to this identity */
-					g_free (path);
-					path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_signature_html_%d", i);
-					e_config_listener_set_long (config->db, path, id);
-				} else
-					g_free (val);
-			}
-			g_free (path);
-		}
-		e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Signatures/num", num);
-		g_hash_table_destroy (cache);
-	}
-}
-
-/* copied from calendar-config */
-static gboolean
-locale_supports_12_hour_format(void)
-{
-	char s[16];
-	time_t t = 0;
-	
-	strftime(s, sizeof s, "%p", gmtime (&t));
-	return s[0] != '\0';
+	/* FIXME: what is this supposed to do? */
+	;
 }
 
 static void
@@ -575,564 +759,58 @@ config_read (void)
 	
 	mail_config_clear ();
 	
-	config_import_old_signatures ();
 	config_read_signatures ();
 	
-	len = e_config_listener_get_long_with_default (config->db, 
-	        "/apps/Evolution/Mail/Accounts/num", 0, NULL);
+	accounts_changed (config->gconf, 0, NULL, NULL);
 	
-	for (i = 0; i < len; i++) {
-		MailConfigAccount *account;
-		MailConfigIdentity *id;
-		MailConfigService *source;
-		MailConfigService *transport;
-		
-		account = g_new0 (MailConfigAccount, 1);
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_name_%d", i);
-		val = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		if (val && *val) {
-			account->name = val;
-		} else {
-			g_free (val);
-			account->name = g_strdup_printf (_("Account %d"), i + 1);
-			config->corrupt = TRUE;
-		}
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_drafts_folder_uri_%d", i);
-		val = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		if (val && *val)
-			account->drafts_folder_uri = val;
-		else
-			g_free (val);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_sent_folder_uri_%d", i);
-		val = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		if (val && *val)
-			account->sent_folder_uri = val;
-		else
-			g_free (val);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_cc_%d", i);
-		account->always_cc = e_config_listener_get_boolean_with_default (
-		        config->db, path, FALSE, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_cc_addrs_%d", i);
-		val = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		if (val && *val)
-			account->cc_addrs = val;
-		else
-			g_free (val);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_bcc_%d", i);
-		account->always_bcc = e_config_listener_get_boolean_with_default (
-		        config->db, path, FALSE, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_bcc_addrs_%d", i);
-		val = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		if (val && *val)
-			account->bcc_addrs = val;
-		else
-			g_free (val);
-		
-		/* get the pgp info */
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_key_%d", i);
-		val = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		if (val && *val)
-			account->pgp_key = val;
-		else
-			g_free (val);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_always_sign_%d", i);
-		account->pgp_always_sign = e_config_listener_get_boolean_with_default (
-		        config->db, path, FALSE, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_no_imip_sign_%d", i);
-		account->pgp_no_imip_sign = e_config_listener_get_boolean_with_default (
-		        config->db, path, FALSE, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
-		account->pgp_encrypt_to_self = e_config_listener_get_boolean_with_default (
-		        config->db, path, TRUE, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_always_trust_%d", i);
-		account->pgp_always_trust = e_config_listener_get_boolean_with_default (
-		        config->db, path, FALSE, NULL);
-		g_free (path);
-		
-		/* get the s/mime info */
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_smime_key_%d", i);
-		val = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		if (val && *val)
-			account->smime_key = val;
-		else
-			g_free (val);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_smime_always_sign_%d", i);
-		account->smime_always_sign = e_config_listener_get_boolean_with_default (
-		        config->db, path, FALSE, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
-		account->smime_encrypt_to_self = e_config_listener_get_boolean_with_default (
-		        config->db, path, TRUE, NULL);
-		g_free (path);
-		
-		/* get the identity info */
-		id = g_new0 (MailConfigIdentity, 1);		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_name_%d", i);
-		id->name = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_address_%d", i);
-		id->address = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_reply_to_%d", i);
-		id->reply_to = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_organization_%d", i);
-		id->organization = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		
-		/* id signatures */
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_def_signature_%d", i);
-		id->def_signature = lookup_signature (e_config_listener_get_long_with_default (config->db, path, -1, NULL));
-		g_free (path);
-		
-		/* autogenerated signature */
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_autogenerated_signature_%d", i);
-		id->auto_signature = e_config_listener_get_boolean_with_default (config->db, path, TRUE, NULL);
-		g_free (path);
-		
-		/* get the source */
-		source = g_new0 (MailConfigService, 1);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_url_%d", i);
-		val = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		if (val && *val)
-			source->url = val;
-		else
-			g_free (val);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_keep_on_server_%d", i);
-		source->keep_on_server = e_config_listener_get_boolean (config->db, path);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_auto_check_%d", i);
-		source->auto_check = e_config_listener_get_boolean_with_default (
-                        config->db, path, FALSE, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_auto_check_time_%d", i);
-		source->auto_check_time = e_config_listener_get_long_with_default ( 
-			config->db, path, -1, NULL);
-		
-		if (source->auto_check && source->auto_check_time <= 0) {
-			source->auto_check_time = 5;
-			source->auto_check = FALSE;
-		}
-		
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_enabled_%d", i);
-		source->enabled = e_config_listener_get_boolean_with_default (
-			config->db, path, TRUE, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf 
-			("/apps/Evolution/Mail/Accounts/source_save_passwd_%d", i);
-		source->save_passwd = e_config_listener_get_boolean_with_default ( 
-			config->db, path, TRUE, NULL);
-		g_free (path);
-		
-		/* get the transport */
-		transport = g_new0 (MailConfigService, 1);
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/transport_url_%d", i);
-		val = e_config_listener_get_string (config->db, path);
-		g_free (path);
-		if (val && *val)
-			transport->url = val;
-		else
-			g_free (val);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/transport_save_passwd_%d", i);
-		transport->save_passwd = e_config_listener_get_boolean (config->db, path);
-		g_free (path);
-		
-		account->id = id;
-		account->source = source;
-		account->transport = transport;
-		
-		config->accounts = g_slist_append (config->accounts, account);
-	}
-	
-	default_num = e_config_listener_get_long_with_default (config->db,
-		"/apps/Evolution/Mail/Accounts/default_account", 0, NULL);
-	
+	default_num = gconf_client_get_int (config->gconf, "/apps/evolution/mail/default_account", NULL);
 	mail_config_set_default_account_num (default_num);
-	
-	/* Format */
-	config->send_html = e_config_listener_get_boolean_with_default (config->db,
-	        "/apps/Evolution/Mail/Format/send_html", FALSE, NULL);
-	
-	/* Confirm Sending Unwanted HTML */
-	config->confirm_unwanted_html = e_config_listener_get_boolean_with_default (config->db,
-	        "/apps/Evolution/Mail/Format/confirm_unwanted_html", TRUE, NULL);
-	
-	/* Citation */
-	config->citation_highlight = e_config_listener_get_boolean_with_default (
-		config->db, "/apps/Evolution/Mail/Display/citation_highlight", TRUE, NULL);
-	
-	config->citation_color = e_config_listener_get_long_with_default (
-		config->db, "/apps/Evolution/Mail/Display/citation_color", 0x737373, NULL);
-	
-	/* Mark as seen toggle */
-	config->do_seen_timeout = e_config_listener_get_boolean_with_default (
-		config->db, "/apps/Evolution/Mail/Display/do_seen_timeout", TRUE, NULL);
-	
-	/* Mark as seen timeout */
-	config->seen_timeout = e_config_listener_get_long_with_default (config->db,
-                "/apps/Evolution/Mail/Display/seen_timeout", 1500, NULL);
-	
-	/* Show Messages Threaded */
-	config->thread_list = e_config_listener_get_boolean_with_default (
-                config->db, "/apps/Evolution/Mail/Display/thread_list", FALSE, NULL);
-	
-	config->thread_subject = e_config_listener_get_boolean_with_default (
-                config->db, "/apps/Evolution/Mail/Display/thread_subject", FALSE, NULL);
-	
-	config->show_preview = e_config_listener_get_boolean_with_default (
-		config->db, "/apps/Evolution/Mail/Display/preview_pane", TRUE, NULL);
-	
-	/* Hide deleted automatically */
-	config->hide_deleted = e_config_listener_get_boolean_with_default (
-		config->db, "/apps/Evolution/Mail/Display/hide_deleted", FALSE, NULL);
-	
-	/* Size of vpaned in mail view */
-	config->paned_size = e_config_listener_get_long_with_default (config->db, 
-                "/apps/Evolution/Mail/Display/paned_size", 200, NULL);
-	
-	/* Goto next folder when user has reached the bottom of the message-list */
-	config->goto_next_folder = e_config_listener_get_boolean_with_default (
-		config->db, "/apps/Evolution/Mail/MessageList/goto_next_folder", FALSE, NULL);
-	
-	/* Empty Subject */
-	config->prompt_empty_subject = e_config_listener_get_boolean_with_default (
-		config->db, "/apps/Evolution/Mail/Prompts/empty_subject", TRUE, NULL);
-	
-	/* Only Bcc */
-	config->prompt_only_bcc = e_config_listener_get_boolean_with_default (
-		config->db, "/apps/Evolution/Mail/Prompts/only_bcc", TRUE, NULL);
-	
-	/* Expunge */
-	config->confirm_expunge = e_config_listener_get_boolean_with_default (
-		config->db, "/apps/Evolution/Mail/Prompts/confirm_expunge", TRUE, NULL);
-	
-	/* Goto next folder */
-	config->confirm_goto_next_folder = e_config_listener_get_boolean_with_default (
-		config->db, "/apps/Evolution/Mail/Prompts/confirm_goto_next_folder", TRUE, NULL);
-	
-	/* HTTP images */
-	config->http_mode = e_config_listener_get_long_with_default (config->db, 
-		"/apps/Evolution/Mail/Display/http_images", MAIL_CONFIG_HTTP_NEVER, NULL);
-	
-	/* Forwarding */
-	config->default_forward_style = e_config_listener_get_long_with_default (
-		config->db, "/apps/Evolution/Mail/Format/default_forward_style", 
-		MAIL_CONFIG_FORWARD_ATTACHED, NULL);
-	
-	/* Replying */
-	config->default_reply_style = e_config_listener_get_long_with_default (
-		config->db, "/apps/Evolution/Mail/Format/default_reply_style", 
-		MAIL_CONFIG_REPLY_QUOTED, NULL);
-	
-	/* Message Display */
-	config->message_display_style = e_config_listener_get_long_with_default (
-		config->db, "/apps/Evolution/Mail/Format/message_display_style", 
-		MAIL_CONFIG_DISPLAY_NORMAL, NULL);
-	
-	/* Default charset */
-	config->default_charset = e_config_listener_get_string (config->db, 
-								"/apps/Evolution/Mail/Format/default_charset");
-	
-	if (!config->default_charset) {
-		const char *def;
-
-		g_get_charset (&def);
-		config->default_charset = g_strdup(def);
-		if (!config->default_charset ||
-		    !g_strcasecmp (config->default_charset, "US-ASCII"))
-			config->default_charset = g_strdup ("ISO-8859-1");
-		else
-			config->default_charset = g_strdup (config->default_charset);
-	}
-	
-	/* Trash folders */
-	config->empty_trash_on_exit = e_config_listener_get_boolean_with_default (
-		config->db, "/apps/Evolution/Mail/Trash/empty_on_exit", FALSE, NULL);
-	
-	/* Filter logging */
-	config->filter_log = e_config_listener_get_boolean_with_default (
-		config->db, "/apps/Evolution/Mail/Filters/log", FALSE, NULL);
-	
-	config->filter_log_path = e_config_listener_get_string (
-		config->db, "/apps/Evolution/Mail/Filters/log_path");
-	
-	/* New Mail Notification */
-	config->notify = e_config_listener_get_long_with_default (
-		config->db, "/apps/Evolution/Mail/Notify/new_mail_notification", 
-		MAIL_CONFIG_NOTIFY_NOT, NULL);
-	
-	config->notify_filename = e_config_listener_get_string (
-		config->db, "/apps/Evolution/Mail/Notify/new_mail_notification_sound_file");
-	
-	/* X-Mailer header display */
-	config->x_mailer_display_style = e_config_listener_get_long_with_default (
-		config->db, "/apps/Evolution/Mail/Display/x_mailer_display_style", 
-		MAIL_CONFIG_XMAILER_NONE, NULL);
-	
-	/* last filesel dir */
-	config->last_filesel_dir = e_config_listener_get_string (
-		config->db, "/apps/Evolution/Mail/Filesel/last_filesel_dir");
-	
-	/* Color labels */
-	/* Note: we avoid having to malloc/free 10 times this way... */
-	path = g_malloc (sizeof ("/apps/Evolution/Mail/Labels/") + sizeof ("label_#") + 1);
-	strcpy (path, "/apps/Evolution/Mail/Labels/label_#");
-	p = path + strlen (path) - 1;
-	for (i = 0; i < 5; i++) {
-		*p = '0' + i;
-		val = e_config_listener_get_string (config->db, path);
-		if (!(val && *val)) {
-			g_free (val);
-			val = NULL;
-		}
-		config->labels[i].name = val;
-	}
-	strcpy (path, "/apps/Evolution/Mail/Labels/color_#");
-	p = path + strlen (path) - 1;
-	for (i = 0; i < 5; i++) {
-		*p = '0' + i;
-		config->labels[i].color = e_config_listener_get_long_with_default (config->db, path,
-									       label_defaults[i].color, NULL);
-	}
-	g_free (path);
-	
-	config->week_start_day = e_config_listener_get_long_with_default(config->db, "/apps/Evolution/Calendar/Display/WeekStartDay", 1, NULL);
-	if (locale_supports_12_hour_format()) {
-		config->time_24hour = e_config_listener_get_boolean_with_default(config->db, "/apps/Evolution/Calendar/Display/Use24HourFormat", FALSE, NULL);
-	} else {
-		config->time_24hour = TRUE;
-	}
-}
-
-#define e_config_listener_set_string_wrapper(db, path, val) e_config_listener_set_string (db, path, val ? val : "")
-
-void
-mail_config_write_account_sig (MailConfigAccount *account, gint i)
-{
-	char *path;
-	
-	mail_config_init ();
-	
-	if (i == -1) {
-		GSList *link;
-		
-		link = g_slist_find (config->accounts, account);
-		if (!link) {
-			g_warning ("Can't find account in accounts list");
-			return;
-		}
-		i = g_slist_position (config->accounts, link);
-	}
-	
-	/* id signatures */
-	path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_def_signature_%d", i);
-	e_config_listener_set_long (config->db, path, account->id->def_signature
-				? account->id->def_signature->id : -1);
-	g_free (path);
-	
-	path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_autogenerated_signature_%d", i);
-	e_config_listener_set_boolean (config->db, path, account->id->auto_signature);
-	g_free (path);
 }
 
 void
 mail_config_write (void)
 {
-	CORBA_Environment ev;
-	int len, i, default_num;
-	
-	/* Accounts */
+	GSList *list, *l, *tail, *n;
+	int default_num, i;
+	char *xmlbuf;
 	
 	if (!config)
 		return;
-
-#if 0
-	/* FIXME: remove, do we need to do anything about this with e-config-listner? */
-	CORBA_exception_init (&ev);
-	Bonobo_ConfigDatabase_removeDir (config->db, "/apps/Evolution/Mail/Accounts", &ev);
-	CORBA_exception_init (&ev);
-	Bonobo_ConfigDatabase_removeDir (config->db, "/apps/Evolution/News/Sources", &ev);
-	CORBA_exception_init (&ev);
-	Bonobo_ConfigDatabase_sync (config->db, &ev);
-#endif
-
+	
 	config_write_signatures ();
 	
-	len = g_slist_length (config->accounts);
-	e_config_listener_set_long (config->db,
-				"/apps/Evolution/Mail/Accounts/num", len);
-	
+	/* Accounts */
 	default_num = mail_config_get_default_account_num ();
-	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Accounts/default_account", default_num);
+	gconf_client_set_int (config->gconf, "/apps/evolution/mail/default_account", default_num, NULL);
 	
-	for (i = 0; i < len; i++) {
-		MailConfigAccount *account;
-		char *path;
+	list = NULL;
+	tail = (GSList *) &list;
+	
+	l = config->accounts;
+	while (l != NULL) {
+		if ((xmlbuf = account_to_xml ((MailConfigAccount *) l->data))) {
+			n = g_slist_alloc ();
+			n->data = xmlbuf;
+			n->next = NULL;
+			
+			tail->next = n;
+			tail = n;
+		}
 		
-		account = g_slist_nth_data (config->accounts, i);
-		
-		/* account info */
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_name_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->name);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_drafts_folder_uri_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->drafts_folder_uri);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_sent_folder_uri_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->sent_folder_uri);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_cc_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->always_cc);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_cc_addrs_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->cc_addrs);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_bcc_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->always_bcc);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_always_bcc_addrs_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->bcc_addrs);
-		g_free (path);
-		
-		/* account pgp options */
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_key_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->pgp_key);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_always_sign_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->pgp_always_sign);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_no_imip_sign_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->pgp_no_imip_sign);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->pgp_encrypt_to_self);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_pgp_always_trust_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->pgp_always_trust);
-		g_free (path);
-		
-		/* account s/mime options */
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_smime_key_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->smime_key);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_smime_always_sign_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->smime_always_sign);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->smime_encrypt_to_self);
-		g_free (path);
-		
-		/* identity info */
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_name_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->id->name);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_address_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->id->address);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_reply_to_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->id->reply_to);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_organization_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->id->organization);
-		g_free (path);
-		
-		mail_config_write_account_sig (account, i);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/identity_autogenerated_signature_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->id->auto_signature);
-		g_free (path);
-		
-		/* source info */
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_url_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->source->url);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_keep_on_server_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->source->keep_on_server);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_auto_check_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->source->auto_check);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_auto_check_time_%d", i);
-		e_config_listener_set_long (config->db, path, account->source->auto_check_time);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_enabled_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->source->enabled);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/source_save_passwd_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->source->save_passwd);
-		g_free (path);
-		
-		/* transport info */
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/transport_url_%d", i);
-		e_config_listener_set_string_wrapper (config->db, path, account->transport->url);
-		g_free (path);
-		
-		path = g_strdup_printf ("/apps/Evolution/Mail/Accounts/transport_save_passwd_%d", i);
-		e_config_listener_set_boolean (config->db, path, account->transport->save_passwd);
-		g_free (path);
+		l = l->next;
 	}
-
-#if 0
-	CORBA_exception_init (&ev);
-	Bonobo_ConfigDatabase_sync (config->db, &ev);
-	CORBA_exception_free (&ev);
-#endif
+	
+	gconf_client_set_list (config->gconf, "/apps/evolution/mail/accounts", GCONF_VALUE_STRING, list, NULL);
+	
+	l = list;
+	while (l != NULL) {
+		n = l->next;
+		g_free (l->data);
+		g_slist_free_1 (l);
+		l = n;
+	}
+	
+	gconf_client_suggest_sync (config->gconf, NULL);
 }
 
 static gboolean
@@ -1141,11 +819,14 @@ hash_save_state (gpointer key, gpointer value, gpointer user_data)
 	char *path;
 	gboolean bool = GPOINTER_TO_INT (value);
 	
+#warning "need to rewrite hash_save_state(), probably shouldn't use gconf tho"
+#if 0
 	path = g_strconcat ("/apps/Evolution/Mail/", (char *)user_data, "/", (char *)key, 
 			    NULL);
 	e_config_listener_set_boolean (config->db, path, bool);
 	g_free (path);
 	g_free (key);
+#endif
 	
 	return TRUE;
 }
@@ -1153,7 +834,6 @@ hash_save_state (gpointer key, gpointer value, gpointer user_data)
 void
 mail_config_write_on_exit (void)
 {
-	CORBA_Environment ev;
 	MailConfigAccount *account;
 	const GSList *accounts;
 	char *path, *p;
@@ -1164,102 +844,6 @@ mail_config_write_on_exit (void)
 		config_write_timeout = 0;
 		mail_config_write ();
 	}
-
-	/* Show Messages Threaded */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Display/thread_list", config->thread_list);
-	
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Display/thread_subject", config->thread_subject);
-	
-	/* Show Message Preview */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Display/preview_pane",config->show_preview);
-	
-	/* Hide deleted automatically */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Display/hide_deleted", config->hide_deleted);
-	
-	/* Size of vpaned in mail view */
-	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Display/paned_size", config->paned_size);
-	
-	/* Mark as seen toggle */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Display/do_seen_timeout", config->do_seen_timeout);
-	/* Mark as seen timeout */
-	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Display/seen_timeout", config->seen_timeout);
-	
-	/* Format */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Format/send_html", config->send_html);
-	
-	/* Confirm Sending Unwanted HTML */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Format/confirm_unwanted_html", config->confirm_unwanted_html);
-	
-	/* Citation */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Display/citation_highlight", config->citation_highlight);
-	
-	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Display/citation_color", config->citation_color);
-	
-	/* Goto next folder */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/MessageList/goto_next_folder", config->goto_next_folder);
-	
-	/* Empty Subject */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Prompts/empty_subject", config->prompt_empty_subject);
-	
-	/* Only Bcc */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Prompts/only_bcc", config->prompt_only_bcc);
-	
-	/* Expunge */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Prompts/confirm_expunge", config->confirm_expunge);
-	
-	/* Goto next folder */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Prompts/confirm_goto_next_folder", config->confirm_goto_next_folder);
-	
-	/* HTTP images */
-	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Display/http_images", config->http_mode);
-	
-	/* Forwarding */
-	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Format/default_forward_style", config->default_forward_style);
-	
-	/* Replying */
-	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Format/default_reply_style", config->default_reply_style);
-	
-	/* Message Display */
-	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Format/message_display_style", config->message_display_style);
-	
-	/* Default charset */
-	e_config_listener_set_string_wrapper (config->db, "/apps/Evolution/Mail/Format/default_charset", config->default_charset);
-	
-	/* Trash folders */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Trash/empty_on_exit", config->empty_trash_on_exit);
-	
-	/* Filter logging */
-	e_config_listener_set_boolean (config->db, "/apps/Evolution/Mail/Filters/log", config->filter_log);
-	
-	e_config_listener_set_string_wrapper (config->db, "/apps/Evolution/Mail/Filters/log_path", config->filter_log_path);
-	
-	/* New Mail Notification */
-	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Notify/new_mail_notification", config->notify);
-	
-	e_config_listener_set_string_wrapper (config->db, "/apps/Evolution/Mail/Notify/new_mail_notification_sound_file", config->notify_filename);
-	
-	/* X-Mailer Display */
-	e_config_listener_set_long (config->db, "/apps/Evolution/Mail/Display/x_mailer_display_style", config->x_mailer_display_style);
-	
-	/* last filesel dir */
-	e_config_listener_set_string_wrapper (config->db, "/apps/Evolution/Mail/Filesel/last_filesel_dir", config->last_filesel_dir);
-	
-	/* Color labels */
-	/* Note: we avoid having to malloc/free 10 times this way... */
-	path = g_malloc (sizeof ("/apps/Evolution/Mail/Labels/") + sizeof ("label_#") + 1);
-	strcpy (path, "/apps/Evolution/Mail/Labels/label_#");
-	p = path + strlen (path) - 1;
-	for (i = 0; i < 5; i++) {
-		*p = '0' + i;
-		e_config_listener_set_string_wrapper (config->db, path, config->labels[i].name);
-	}
-	strcpy (path, "/apps/Evolution/Mail/Labels/color_#");
-	p = path + strlen (path) - 1;
-	for (i = 0; i < 5; i++) {
-		*p = '0' + i;
-		e_config_listener_set_long (config->db, path, config->labels[i].color);
-	}
-	g_free (path);
 	
 	/* Message Threading */
 	if (config->threaded_hash)
@@ -1268,17 +852,12 @@ mail_config_write_on_exit (void)
 	/* Message Preview */
 	if (config->preview_hash)
 		g_hash_table_foreach_remove (config->preview_hash, hash_save_state, "Preview");
-
-#if 0
-	CORBA_exception_init (&ev);
-	Bonobo_ConfigDatabase_sync (config->db, &ev);
-	CORBA_exception_free (&ev);
-#endif	
+	
 	/* Passwords */
 	
 	/* then we make sure the ones we want to remember are in the
            session cache */
-	accounts = mail_config_get_accounts ();
+	accounts = config->accounts;
 	for ( ; accounts; accounts = accounts->next) {
 		char *passwd;
 		account = accounts->data;
@@ -1301,7 +880,7 @@ mail_config_write_on_exit (void)
 	e_passwords_clear_component_passwords ("Mail");
 	
 	/* then we remember them */
-	accounts = mail_config_get_accounts ();
+	accounts = config->accounts;
 	for ( ; accounts; accounts = accounts->next) {
 		account = accounts->data;
 		if (account->source->save_passwd && account->source->url)
@@ -1346,32 +925,10 @@ uri_to_key (const char *uri)
 }
 
 gboolean
-mail_config_get_thread_subject (void)
-{
-	return config->thread_subject;
-}
-
-void
-mail_config_set_thread_subject (gboolean thread_subject)
-{
-	config->thread_subject = thread_subject;
-}
-
-gboolean
-mail_config_get_empty_trash_on_exit (void)
-{
-	return config->empty_trash_on_exit;
-}
-
-void
-mail_config_set_empty_trash_on_exit (gboolean value)
-{
-	config->empty_trash_on_exit = value;
-}
-
-gboolean
 mail_config_get_show_preview (const char *uri)
 {
+#warning "FIXME: need to rework how we save state, probably shouldn't use gconf"
+#if 0
 	if (uri && *uri) {
 		gpointer key, val;
 		char *dbkey;
@@ -1398,10 +955,11 @@ mail_config_get_show_preview (const char *uri)
 			return GPOINTER_TO_INT (val);
 		}
 	}
+#endif
 	
 	/* return the default value */
 	
-	return config->show_preview;
+	return gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/show_preview", NULL);
 }
 
 void
@@ -1422,13 +980,14 @@ mail_config_set_show_preview (const char *uri, gboolean value)
 			g_hash_table_insert (config->preview_hash, dbkey, 
 					     GINT_TO_POINTER (value));
 		}
-	} else
-		config->show_preview = value;
+	}
 }
 
 gboolean
 mail_config_get_thread_list (const char *uri)
 {
+#warning "FIXME: need to rework how we save state, probably shouldn't use gconf"
+#if 0
 	if (uri && *uri) {
 		gpointer key, val;
 		char *dbkey;
@@ -1455,10 +1014,11 @@ mail_config_get_thread_list (const char *uri)
 			return GPOINTER_TO_INT (val);
 		}
 	}
+#endif
 	
 	/* return the default value */
 	
-	return config->thread_list;
+	return gconf_client_get_bool (config->gconf, "/apps/evolution/mail/display/thread_list", NULL);
 }
 
 void
@@ -1479,303 +1039,7 @@ mail_config_set_thread_list (const char *uri, gboolean value)
 			g_hash_table_insert (config->threaded_hash, dbkey, 
 					     GINT_TO_POINTER (value));
 		}
-	} else
-		config->thread_list = value;
-}
-
-gboolean
-mail_config_get_filter_log (void)
-{
-	return config->filter_log;
-}
-
-void
-mail_config_set_filter_log (gboolean value)
-{
-	config->filter_log = value;
-}
-
-const char *
-mail_config_get_filter_log_path (void)
-{
-	return config->filter_log_path;
-}
-
-void
-mail_config_set_filter_log_path (const char *path)
-{
-	g_free (config->filter_log_path);
-	config->filter_log_path = g_strdup (path);
-}
-
-const char *
-mail_config_get_last_filesel_dir (void)
-{
-	if (config->last_filesel_dir)
-		return config->last_filesel_dir;
-	else
-		return g_get_home_dir ();
-}
-
-void
-mail_config_set_last_filesel_dir (const char *path)
-{
-	g_free (config->last_filesel_dir);
-	config->last_filesel_dir = g_strdup (path);
-}
-
-gboolean
-mail_config_get_hide_deleted (void)
-{
-	return config->hide_deleted;
-}
-
-void
-mail_config_set_hide_deleted (gboolean value)
-{
-	config->hide_deleted = value;
-}
-
-int
-mail_config_get_paned_size (void)
-{
-	return config->paned_size;
-}
-
-void
-mail_config_set_paned_size (int value)
-{
-	config->paned_size = value;
-}
-
-gboolean
-mail_config_get_send_html (void)
-{
-	return config->send_html;
-}
-
-void
-mail_config_set_send_html (gboolean send_html)
-{
-	config->send_html = send_html;
-}
-
-gboolean
-mail_config_get_confirm_unwanted_html (void)
-{
-	return config->confirm_unwanted_html;
-}
-
-void
-mail_config_set_confirm_unwanted_html (gboolean confirm)
-{
-	config->confirm_unwanted_html = confirm;
-}
-
-gboolean
-mail_config_get_citation_highlight (void)
-{
-	return config->citation_highlight;
-}
-
-void
-mail_config_set_citation_highlight (gboolean citation_highlight)
-{
-	config->citation_highlight = citation_highlight;
-}
-
-guint32
-mail_config_get_citation_color (void)
-{
-	return config->citation_color;
-}
-
-void
-mail_config_set_citation_color (guint32 citation_color)
-{
-	config->citation_color = citation_color;
-}
-
-gboolean
-mail_config_get_do_seen_timeout (void)
-{
-	return config->do_seen_timeout;
-}
-
-void
-mail_config_set_do_seen_timeout (gboolean do_seen_timeout)
-{
-	config->do_seen_timeout = do_seen_timeout;
-}
-
-int
-mail_config_get_mark_as_seen_timeout (void)
-{
-	return config->seen_timeout;
-}
-
-void
-mail_config_set_mark_as_seen_timeout (int timeout)
-{
-	config->seen_timeout = timeout;
-}
-
-gboolean
-mail_config_get_prompt_empty_subject (void)
-{
-	return config->prompt_empty_subject;
-}
-
-void
-mail_config_set_prompt_empty_subject (gboolean value)
-{
-	config->prompt_empty_subject = value;
-}
-
-gboolean
-mail_config_get_prompt_only_bcc (void)
-{
-	return config->prompt_only_bcc;
-}
-
-void
-mail_config_set_prompt_only_bcc (gboolean value)
-{
-	config->prompt_only_bcc = value;
-}
-
-gboolean
-mail_config_get_confirm_expunge (void)
-{
-	return config->confirm_expunge;
-}
-
-void
-mail_config_set_confirm_expunge (gboolean value)
-{
-	config->confirm_expunge = value;
-}
-
-gboolean
-mail_config_get_confirm_goto_next_folder (void)
-{
-	return config->confirm_goto_next_folder;
-}
-
-void
-mail_config_set_confirm_goto_next_folder (gboolean value)
-{
-	config->confirm_goto_next_folder = value;
-}
-
-gboolean
-mail_config_get_goto_next_folder (void)
-{
-	return config->goto_next_folder;
-}
-
-void
-mail_config_set_goto_next_folder (gboolean value)
-{
-	config->goto_next_folder = value;
-}
-
-MailConfigHTTPMode
-mail_config_get_http_mode (void)
-{
-	return config->http_mode;
-}
-
-void
-mail_config_set_http_mode (MailConfigHTTPMode mode)
-{
-	config->http_mode = mode;
-}
-
-MailConfigForwardStyle
-mail_config_get_default_forward_style (void)
-{
-	return config->default_forward_style;
-}
-
-void
-mail_config_set_default_forward_style (MailConfigForwardStyle style)
-{
-	config->default_forward_style = style;
-}
-
-MailConfigReplyStyle
-mail_config_get_default_reply_style (void)
-{
-	return config->default_reply_style;
-}
-
-void
-mail_config_set_default_reply_style (MailConfigReplyStyle style)
-{
-	config->default_reply_style = style;
-}
-
-MailConfigDisplayStyle
-mail_config_get_message_display_style (void)
-{
-	return config->message_display_style;
-}
-
-void
-mail_config_set_message_display_style (MailConfigDisplayStyle style)
-{
-	config->message_display_style = style;
-}
-
-const char *
-mail_config_get_default_charset (void)
-{
-	return config->default_charset;
-}
-
-void
-mail_config_set_default_charset (const char *charset)
-{
-	g_free (config->default_charset);
-	config->default_charset = g_strdup (charset);
-}
-
-MailConfigNewMailNotify
-mail_config_get_new_mail_notify (void)
-{
-	return config->notify;
-}
-
-void
-mail_config_set_new_mail_notify (MailConfigNewMailNotify type)
-{
-	config->notify = type;
-}
-
-const char *
-mail_config_get_new_mail_notify_sound_file (void)
-{
-	return config->notify_filename;
-}
-
-void
-mail_config_set_new_mail_notify_sound_file (const char *filename)
-{
-	g_free (config->notify_filename);
-	config->notify_filename = g_strdup (filename);
-}
-
-MailConfigXMailerDisplayStyle
-mail_config_get_x_mailer_display_style (void)
-{
-	return config->x_mailer_display_style;
-}
-
-void
-mail_config_set_x_mailer_display_style (MailConfigXMailerDisplayStyle style)
-{
-	config->x_mailer_display_style = style;
+	}
 }
 
 const char *
@@ -2197,25 +1461,6 @@ mail_config_uri_deleted(GCompareFunc uri_cmp, const char *uri)
 		mail_config_write();
 }
 
-GSList *
-mail_config_get_sources (void)
-{
-	const GSList *accounts;
-	GSList *sources = NULL;
-	
-	accounts = mail_config_get_accounts ();
-	while (accounts) {
-		const MailConfigAccount *account = accounts->data;
-		
-		if (account->source)
-			sources = g_slist_append (sources, account->source);
-		
-		accounts = accounts->next;
-	}
-	
-	return sources;
-}
-
 void 
 mail_config_service_set_save_passwd (MailConfigService *service, gboolean save_passwd)
 {
@@ -2398,6 +1643,7 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	
 	mail_account = g_new0 (MailConfigAccount, 1);
 	mail_account->name = g_strdup (account->name);
+	mail_account->enabled = source.enabled;
 	
 	/* Copy ID */
 	id = account->id;
@@ -2421,7 +1667,6 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	mail_service->auto_check = source.auto_check;
 	mail_service->auto_check_time = source.auto_check_time;
 	mail_service->save_passwd = source.save_passwd;
-	mail_service->enabled = source.enabled;
 	
 	mail_account->source = mail_service;
 	
@@ -2438,13 +1683,12 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	mail_service->auto_check = transport.auto_check;
 	mail_service->auto_check_time = transport.auto_check_time;
 	mail_service->save_passwd = transport.save_passwd;
-	mail_service->enabled = transport.enabled;
 	
 	mail_account->transport = mail_service;
 	
 	/* Add new account */
 	mail_config_add_account (mail_account);
-
+	
 	/* Don't write out the config right away in case the remote
 	 * component is creating or removing multiple accounts.
 	 */
@@ -2713,6 +1957,7 @@ mail_config_signature_emit_event (MailConfigSigEvent event, MailConfigSignature 
 gchar *
 mail_config_signature_run_script (gchar *script)
 {
+	GConfClient *gconf;
 	int result, status;
 	int in_fds[2];
 	pid_t pid;
@@ -2721,6 +1966,8 @@ mail_config_signature_run_script (gchar *script)
 		g_warning ("Failed to create pipe to '%s': %s", script, g_strerror (errno));
 		return NULL;
 	}
+	
+	gconf = gconf_client_get_default ();
 	
 	if (!(pid = fork ())) {
 		/* child process */
@@ -2781,7 +2028,8 @@ mail_config_signature_run_script (gchar *script)
 			filtered_stream = camel_stream_filter_new_with_stream (stream);
 			camel_object_unref (stream);
 			
-			charset = mail_config_get_default_charset ();
+			/* FIXME: if the composer ever gets it's own charset setting, use that instead? */
+			charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
 			charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8");
 			camel_stream_filter_add (filtered_stream, charenc);
 			camel_object_unref (charenc);
@@ -2827,12 +2075,6 @@ mail_config_signature_set_html (MailConfigSignature *sig, gboolean html)
 		mail_config_signature_write (sig);
 		mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_HTML_CHANGED, sig);
 	}
-}
-
-int
-mail_config_get_week_start_day(void)
-{
-	return config->week_start_day;
 }
 
 int

@@ -31,7 +31,11 @@
 
 #include <time.h>
 #include <errno.h>
+
 #include <gtkhtml/gtkhtml.h>
+
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
 
 #include <gtk/gtkmessagedialog.h>
 
@@ -240,10 +244,13 @@ static gboolean
 ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recipients)
 {
 	gboolean show_again, res;
+	GConfClient *gconf;
 	GString *str;
 	int i;
-
-	if (!mail_config_get_confirm_unwanted_html ())
+	
+	gconf = gconf_client_get_default ();
+	
+	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/unwanted_html", NULL))
 		return TRUE;
 	
 	/* FIXME: this wording sucks */
@@ -260,10 +267,11 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 	}
 	
 	g_string_append (str, _("Send anyway?"));
-	res = e_question((GtkWindow *)composer, GTK_RESPONSE_YES, &show_again, "%s", str->str);
-	g_string_free(str, TRUE);
-	mail_config_set_confirm_unwanted_html (show_again);
-
+	res = e_question ((GtkWindow *) composer, GTK_RESPONSE_YES, &show_again, "%s", str->str);
+	g_string_free (str, TRUE);
+	
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/prompts/unwanted_html", show_again, NULL);
+	
 	return res;
 }
 
@@ -272,13 +280,17 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
 	gboolean show_again, res;
 	GtkWidget *mbox, *check;
+	GConfClient *gconf;
 	
-	if (!mail_config_get_prompt_empty_subject ())
+	gconf = gconf_client_get_default ();
+	
+	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/empty_subject", NULL))
 		return TRUE;
-
-	res = e_question((GtkWindow *)composer, GTK_RESPONSE_YES, &show_again,
-			 _("This message has no subject.\nReally send?"));
-	mail_config_set_prompt_empty_subject (show_again);
+	
+	res = e_question ((GtkWindow *) composer, GTK_RESPONSE_YES, &show_again,
+			  _("This message has no subject.\nReally send?"));
+	
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/prompts/empty_subject", show_again, NULL);
 	
 	return res;
 }
@@ -288,8 +300,11 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 {
 	gboolean show_again, res;
 	const char *first_text;
+	GConfClient *gconf;
 	
-	if (!mail_config_get_prompt_only_bcc ())
+	gconf = gconf_client_get_default ();
+	
+	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/only_bcc", NULL))
 		return TRUE;
 	
 	/* If the user is mailing a hidden contact list, it is possible for
@@ -305,13 +320,13 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 	} else {
 		first_text = _("This message contains only Bcc recipients.");
 	}
-
-	res = e_question((GtkWindow *)composer, GTK_RESPONSE_YES, &show_again,
-			 "%s\n%s", first_text,
-			 _("It is possible that the mail server may reveal the recipients "
-			   "by adding an Apparently-To header.\nSend anyway?"));
 	
-	mail_config_set_prompt_only_bcc (show_again);
+	res = e_question ((GtkWindow *) composer, GTK_RESPONSE_YES, &show_again,
+			  "%s\n%s", first_text,
+			  _("It is possible that the mail server may reveal the recipients "
+			    "by adding an Apparently-To header.\nSend anyway?"));
+	
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/prompts/only_bcc", show_again, NULL);
 	
 	return res;
 }
@@ -394,10 +409,14 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 	const MailConfigAccount *account;
 	CamelMimeMessage *message = NULL;
 	EDestination **recipients, **recipients_bcc;
-	char *subject;
-	int i;
+	gboolean send_html, confirm_html;
 	int hidden = 0, shown = 0;
 	int num = 0, num_bcc = 0;
+	GConfClient *gconf;
+	char *subject;
+	int i;
+	
+	gconf = gconf_client_get_default ();
 	
 	/* We should do all of the validity checks based on the composer, and not on
 	   the created message, as extra interaction may occur when we get the message
@@ -431,13 +450,14 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 			if (addr && addr[0])
 				num_bcc++;
 		}
+		
 		e_destination_freev (recipients_bcc);
 	}
 	
 	/* I'm sensing a lack of love, er, I mean recipients. */
 	if (num == 0 && !post) {
-		e_notice((GtkWindow *)composer, GTK_MESSAGE_WARNING,
-			 _("You must specify recipients in order to send this message."));
+		e_notice ((GtkWindow *) composer, GTK_MESSAGE_WARNING,
+			  _("You must specify recipients in order to send this message."));
 		goto finished;
 	}
 	
@@ -447,15 +467,17 @@ composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_
 			goto finished;
 	}
 	
+	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
+	confirm_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/unwanted_html", NULL);
+	
 	/* Only show this warning if our default is to send html.  If it isn't, we've
 	   manually switched into html mode in the composer and (presumably) had a good
 	   reason for doing this. */
-	if (e_msg_composer_get_send_html (composer) && mail_config_get_send_html ()
-	    && mail_config_get_confirm_unwanted_html ()) {
+	if (e_msg_composer_get_send_html (composer) && send_html && confirm_html) {
 		gboolean html_problem = FALSE;
 		
 		if (recipients) {
-			for (i = 0; recipients[i] != NULL && !html_problem; ++i) {
+			for (i = 0; recipients[i] != NULL && !html_problem; i++) {
 				if (!e_destination_get_html_mail_pref (recipients[i]))
 					html_problem = TRUE;
 			}
@@ -725,16 +747,17 @@ static GtkWidget *
 create_msg_composer (const MailConfigAccount *account, gboolean post, const char *url)
 {
 	EMsgComposer *composer;
+	GConfClient *gconf;
 	gboolean send_html;
 	
 	/* Make sure that we've actually been passed in an account. If one has
 	 * not been passed in, grab the default account.
 	 */
-	if (account == NULL) {
+	if (account == NULL)
 		account = mail_config_get_default_account ();
-	}
 	
-	send_html = mail_config_get_send_html ();
+	gconf = gconf_client_get_default ();
+	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
 	
 	if (post)
 		composer = e_msg_composer_new_post ();
@@ -900,7 +923,7 @@ guess_me_from_accounts (const CamelInternetAddress *to, const CamelInternetAddre
 			 * account always takes precedence no matter what.
 			 */
 			acnt = g_hash_table_lookup (account_hash, account->id->address);
-			if (acnt && acnt != def && !acnt->source->enabled && account->source->enabled) {
+			if (acnt && acnt != def && !acnt->enabled && account->enabled) {
 				g_hash_table_remove (account_hash, acnt->id->address);
 				acnt = NULL;
 			}
@@ -955,8 +978,11 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	EDestination **tov, **ccv;
 	EMsgComposer *composer;
 	CamelMimePart *part;
+	GConfClient *gconf;
 	time_t date;
 	char *url;
+	
+	gconf = gconf_client_get_default ();
 	
 	if (mode == REPLY_POST) {
 		composer = e_msg_composer_new_post ();
@@ -997,7 +1023,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			 * account always takes precedence no matter what.
 			 */
 			acnt = g_hash_table_lookup (account_hash, account->id->address);
-			if (acnt && acnt != def && !acnt->source->enabled && account->source->enabled) {
+			if (acnt && acnt != def && !acnt->enabled && account->enabled) {
 				g_hash_table_remove (account_hash, acnt->id->address);
 				acnt = NULL;
 			}
@@ -1126,7 +1152,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	}
 	
 	/* set body text here as we want all ignored words to take effect */
-	switch (mail_config_get_default_reply_style ()) {
+	switch (gconf_client_get_int (gconf, "/apps/evolution/mail/format/reply_style", NULL)) {
 	case MAIL_CONFIG_REPLY_DO_NOT_QUOTE:
 		/* do nothing */
 		break;
@@ -1454,7 +1480,11 @@ forward_attached (GtkWidget *widget, gpointer user_data)
 void
 forward (GtkWidget *widget, gpointer user_data)
 {
-	MailConfigForwardStyle style = mail_config_get_default_forward_style ();
+	MailConfigForwardStyle style;
+	GConfClient *gconf;
+	
+	gconf = gconf_client_get_default ();
+	style = gconf_client_get_int (gconf, "/apps/evolution/mail/format/forward_style", NULL);
 	
 	if (style == MAIL_CONFIG_FORWARD_ATTACHED)
 		forward_attached (widget, user_data);
@@ -1600,16 +1630,20 @@ static void
 transfer_msg_done (gboolean ok, void *data)
 {
 	FolderBrowser *fb = data;
+	gboolean hide_deleted;
+	GConfClient *gconf;
 	int row;
 	
 	if (ok && !FOLDER_BROWSER_IS_DESTROYED (fb)) {
+		gconf = gconf_client_get_default ();
+		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
+		
 		row = e_tree_row_of_node (fb->message_list->tree,
 					  e_tree_get_cursor (fb->message_list->tree));
 		
 		/* If this is the last message and deleted messages
                    are hidden, select the previous */
-		if ((row + 1 == e_tree_row_count (fb->message_list->tree))
-		    && mail_config_get_hide_deleted ())
+		if ((row + 1 == e_tree_row_count (fb->message_list->tree)) && hide_deleted)
 			message_list_select (fb->message_list, MESSAGE_LIST_SELECT_PREVIOUS,
 					     0, CAMEL_MESSAGE_DELETED, FALSE);
 		else
@@ -2481,10 +2515,14 @@ void
 delete_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	gboolean hide_deleted;
+	GConfClient *gconf;
 	int deleted, row;
 	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
+	
+	gconf = gconf_client_get_default ();
 	
 	deleted = flag_messages (fb, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN,
 				 CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
@@ -2494,10 +2532,11 @@ delete_msg (GtkWidget *button, gpointer user_data)
 		row = e_tree_row_of_node (fb->message_list->tree,
 					  e_tree_get_cursor (fb->message_list->tree));
 		
+		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
+		
 		/* If this is the last message and deleted messages
                    are hidden, select the previous */
-		if ((row + 1 == e_tree_row_count (fb->message_list->tree))
-		    && mail_config_get_hide_deleted ())
+		if ((row + 1 == e_tree_row_count (fb->message_list->tree)) && hide_deleted)
 			message_list_select (fb->message_list, MESSAGE_LIST_SELECT_PREVIOUS,
 					     0, CAMEL_MESSAGE_DELETED, FALSE);
 		else
@@ -2511,127 +2550,6 @@ undelete_msg (GtkWidget *button, gpointer user_data)
 {
 	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_DELETED, 0);
 }
-
-
-#if 0
-static gboolean
-confirm_goto_next_folder (FolderBrowser *fb)
-{
-	gboolean res, show_again;
-	
-	if (!mail_config_get_confirm_goto_next_folder ())
-		return mail_config_get_goto_next_folder ();
-
-	/*gtk_window_set_title((GtkWindow *)dialog, _("Go to next folder with unread messages?"));*/
-
-	res = e_question(FB_WINDOW(fb), GTK_RESPONSE_YES, &show_again,
-			 _("There are no more new messages in this folder.\n"
-			   "Would you like to go to the next folder?"));
-	mail_config_set_confirm_goto_next_folder(show_again);
-	mail_config_set_goto_next_folder (res);
-
-	return res;
-}
-
-static CamelFolderInfo *
-find_current_folder (CamelFolderInfo *root, const char *current_uri)
-{
-	CamelFolderInfo *node, *current = NULL;
-	
-	node = root;
-	while (node) {
-		if (!strcmp (current_uri, node->url)) {
-			current = node;
-			break;
-		}
-		
-		current = find_current_folder (node->child, current_uri);
-		if (current)
-			break;
-		
-		node = node->sibling;
-	}
-	
-	return current;
-}
-
-static CamelFolderInfo *
-find_next_folder_r (CamelFolderInfo *node)
-{
-	CamelFolderInfo *next;
-	
-	while (node) {
-		if (node->unread_message_count > 0)
-			return node;
-		
-		next = find_next_folder_r (node->child);
-		if (next)
-			return next;
-		
-		node = node->sibling;
-	}
-	
-	return NULL;
-}
-
-static CamelFolderInfo *
-find_next_folder (CamelFolderInfo *current)
-{
-	CamelFolderInfo *next;
-	
-	/* first search subfolders... */
-	next = find_next_folder_r (current->child);
-	if (next)
-		return next;
-	
-	/* now search siblings... */
-	next = find_next_folder_r (current->sibling);
-	if (next)
-		return next;
-	
-	/* now go up one level (if we can) and search... */
-	if (current->parent && current->parent->sibling) {
-		return find_next_folder_r (current->parent->sibling);
-	} else {
-		return NULL;
-	}
-}
-
-static void
-do_evil_kludgy_goto_next_folder_hack (FolderBrowser *fb)
-{
-	CamelFolderInfo *root, *current, *node;
-	CORBA_Environment ev;
-	CamelStore *store;
-	
-	store = camel_folder_get_parent_store (fb->folder);
-	
-	/* FIXME: loop over all available mail stores? */
-	
-	root = camel_store_get_folder_info (store, "", CAMEL_STORE_FOLDER_INFO_RECURSIVE |
-					    CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);
-	
-	if (!root)
-		return;
-	
-	current = find_current_folder (root, fb->uri);
-	g_assert (current != NULL);
-	
-	node = find_next_folder (current);
-	if (node) {
-		g_warning ("doin' my thang...");
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_ShellView_changeCurrentView (fb->shell_view, "evolution:/local/Inbox", &ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("got an exception");
-		CORBA_exception_free (&ev);
-	} else {
-		g_warning ("can't find a folder with unread mail?");
-	}
-	
-	camel_store_free_folder_info (store, root);
-}
-#endif
 
 void
 next_msg (GtkWidget *button, gpointer user_data)
@@ -2652,12 +2570,7 @@ next_unread_msg (GtkWidget *button, gpointer user_data)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
-	if (!message_list_select (fb->message_list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE)) {
-#if 0
-		if (confirm_goto_next_folder (fb))
-			do_evil_kludgy_goto_next_folder_hack (fb);
-#endif
-	}
+	message_list_select (fb->message_list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN, TRUE);
 }
 
 void
@@ -2735,17 +2648,20 @@ static gboolean
 confirm_expunge (FolderBrowser *fb)
 {
 	gboolean res, show_again;
-
-	if (!mail_config_get_confirm_expunge ())
+	GConfClient *gconf;
+	
+	gconf = gconf_client_get_default ();
+	
+	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/expunge", NULL))
 		return TRUE;
-
-	res = e_question(FB_WINDOW(fb), GTK_RESPONSE_NO, &show_again,
-			 _("This operation will permanently erase all messages marked as\n"
-			   "deleted. If you continue, you will not be able to recover these messages.\n"
-			   "\nReally erase these messages?"));
-
-	mail_config_set_confirm_expunge(show_again);
-
+	
+	res = e_question (FB_WINDOW (fb), GTK_RESPONSE_NO, &show_again,
+			  _("This operation will permanently erase all messages marked as\n"
+			    "deleted. If you continue, you will not be able to recover these messages.\n"
+			    "\nReally erase these messages?"));
+	
+	gconf_client_set_bool (gconf, "/apps/evolution/mail/prompts/expunge", show_again, NULL);
+	
 	return res;
 }
 
@@ -3255,7 +3171,7 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 		account = accounts->data;
 		
 		/* make sure this is a valid source */
-		if (account->source && account->source->enabled && account->source->url) {
+		if (account->source && account->enabled && account->source->url) {
 			provider = camel_session_get_provider (session, account->source->url, &ex);
 			if (provider) {
 				/* make sure this store is a remote store */

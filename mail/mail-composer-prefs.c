@@ -277,7 +277,13 @@ sig_delete (GtkWidget *widget, MailComposerPrefs *prefs)
 static void
 sig_add (GtkWidget *widget, MailComposerPrefs *prefs)
 {
-	mail_composer_prefs_new_signature (prefs, mail_config_get_send_html (), NULL);
+	GConfClient *gconf;
+	gboolean send_html;
+	
+	gconf = gconf_client_get_default ();
+	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
+	
+	mail_composer_prefs_new_signature (prefs, send_html, NULL);
 }
 
 static void

@@ -24,6 +24,9 @@
 #include <config.h>
 #endif
 
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <gal/util/e-util.h>
 
 #include <bonobo/bonobo-exception.h>
@@ -65,7 +68,7 @@ message_browser_destroy (GtkObject *object)
 	MessageBrowser *message_browser;
 	
 	message_browser = MESSAGE_BROWSER (object);
-
+	
 	if (message_browser->fb) {
 		g_signal_handlers_disconnect_matched(message_browser->fb, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, message_browser);
 		g_object_unref((message_browser->fb));
@@ -94,18 +97,22 @@ static void
 transfer_msg_done (gboolean ok, void *data)
 {
 	MessageBrowser *mb = data;
+	gboolean hide_deleted;
+	GConfClient *gconf;
 	int row;
 	
 #warning "GTK_OBJECT_DESTROYED"
 	/*if (ok && !GTK_OBJECT_DESTROYED (mb)) {*/
 	if (ok) {
+		gconf = gconf_client_get_default ();
+		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
+		
 		row = e_tree_row_of_node (mb->fb->message_list->tree,
 					  e_tree_get_cursor (mb->fb->message_list->tree));
 		
 		/* If this is the last message and deleted messages
                    are hidden, select the previous */
-		if ((row + 1 == e_tree_row_count (mb->fb->message_list->tree))
-		    && mail_config_get_hide_deleted ())
+		if ((row + 1 == e_tree_row_count (mb->fb->message_list->tree)) && hide_deleted)
 			message_list_select (mb->fb->message_list, MESSAGE_LIST_SELECT_PREVIOUS,
 					     0, CAMEL_MESSAGE_DELETED, FALSE);
 		else
@@ -113,7 +120,7 @@ transfer_msg_done (gboolean ok, void *data)
 					     0, 0, FALSE);
 	}
 	
-	g_object_unref((mb));
+	g_object_unref (mb);
 }
 
 static void

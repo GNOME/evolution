@@ -28,6 +28,9 @@
 
 #include <string.h>
 
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
+
 #include <libgnome/gnome-util.h> /* gnome_util_prepend_user_home */
 
 #include <bonobo/bonobo-exception.h>
@@ -371,7 +374,7 @@ folder_browser_ui_setup_view_menus (FolderBrowser *fb)
 		gal_view_collection_load (collection);
 	}
 	
-	id = mail_config_folder_to_safe_url(fb->folder);
+	id = mail_config_folder_to_safe_url (fb->folder);
 	fb->view_instance = gal_view_instance_new (collection, id);
 	g_free (id);
 	
@@ -549,6 +552,7 @@ void
 folder_browser_ui_add_list (FolderBrowser *fb)
 {
 	BonoboUIComponent *uic = fb->uicomp;
+	GConfClient *gconf;
 	int state;
 	
 	if (fb->sensitise_state) {
@@ -563,7 +567,7 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 		fbui_sensitise_item (fb, "HideDeleted", FALSE);
 		state = FALSE;
 	} else {
-		state = mail_config_get_hide_deleted ();
+		state = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
 	}
 	
 	bonobo_ui_component_set_prop (uic, "/commands/HideDeleted", "state", state ? "1" : "0", NULL);

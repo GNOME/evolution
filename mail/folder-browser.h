@@ -59,6 +59,8 @@ struct  _FolderBrowser {
 	guint	     loading_id;
 	guint        seen_id;
 	
+	gulong       resize_id;
+	
 	/* a folder we are expunging, dont use other than to compare the pointer value */
 	CamelFolder *expunging;
 	

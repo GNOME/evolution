@@ -280,11 +280,11 @@ static send_info_t get_receive_type(const char *url)
 }
 
 static struct _send_data *
-build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
+build_dialogue (const GSList *accounts, CamelFolder *outbox, const char *destination)
 {
 	GtkDialog *gd;
 	GtkTable *table;
-	int row;
+	int row, num_sources;
 	GList *list = NULL;
 	struct _send_data *data;
         GtkWidget *send_icon, *recv_icon; 
@@ -294,7 +294,8 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	GtkHSeparator *line;
 	struct _send_info *info;
 	char *pretty_url; 
-
+	const GSList *l;
+	
 	gd = (GtkDialog *)send_recv_dialogue = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, 0, NULL);
 	stop = (GtkButton *)gtk_button_new_from_stock(GTK_STOCK_CANCEL);
 	gtk_button_set_label(stop, _("Cancel All"));
@@ -302,18 +303,31 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 	g_object_set(gd, "resizable", FALSE, NULL);
 	gnome_window_icon_set_from_file (GTK_WINDOW (gd), EVOLUTION_ICONSDIR "/send-receive.xpm");
 	
-	table = (GtkTable *)gtk_table_new (g_slist_length (sources), 4, FALSE);
+	num_sources = 0;
+	l = accounts;
+	while (l != NULL) {
+		MailConfigAccount *account = l->data;
+		
+		if (account->source && account->source->url)
+			num_sources++;
+		
+		l = l->next;
+	}
+	
+	table = (GtkTable *)gtk_table_new (num_sources, 4, FALSE);
        	gtk_box_pack_start (GTK_BOX (gd->vbox), GTK_WIDGET (table), TRUE, TRUE, 0);
-
+	
 	/* must bet setup after send_recv_dialogue as it may re-trigger send-recv button */
 	data = setup_send_data ();
 	
 	row = 0;
-	while (sources) {
-		MailConfigService *source = sources->data;
+	while (accounts) {
+		MailConfigAccount *account = accounts->data;
+		MailConfigService *source;
 		
-		if (!source->url || !source->enabled) {
-			sources = sources->next;
+		source = account->source;
+		if (!account->enabled || !source || !source->url) {
+			accounts = accounts->next;
 			continue;
 		}
 		
@@ -324,12 +338,13 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 			
 			type = get_receive_type (source->url);
 			if (type == SEND_INVALID) {
-				sources = sources->next;
+				accounts = accounts->next;
 				continue;
 			}
 			
 			info = g_malloc0 (sizeof (*info));
 			info->type = type;
+			
 			d(printf("adding source %s\n", source->url));
 			
 			info->uri = g_strdup (source->url);
@@ -342,7 +357,7 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 			list = g_list_prepend (list, info);
 		} else if (info->bar != NULL) {
 			/* incase we get the same source pop up again */
-			sources = sources->next;
+			accounts = accounts->next;
 			continue;
 		} else if (info->timeout_id == 0)
 			info->timeout_id = gtk_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
@@ -375,7 +390,7 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 		info->data = data;
                 
 		g_signal_connect(stop, "clicked", G_CALLBACK(receive_cancel), info);
-		sources = sources->next;
+		accounts = accounts->next;
 		row = row + 2;
 	}
 	
@@ -650,12 +665,12 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 
 void mail_send_receive (void)
 {
-	GSList *sources;
+	const GSList *accounts;
 	GList *scan;
 	struct _send_data *data;
 	extern CamelFolder *outbox_folder;
 	const MailConfigAccount *account;
-
+	
 	if (send_recv_dialogue != NULL) {
 		if (GTK_WIDGET_REALIZED(send_recv_dialogue)) {
 			gdk_window_show(send_recv_dialogue->window);
@@ -667,18 +682,18 @@ void mail_send_receive (void)
 	if (!camel_session_is_online (session))
 		return;
 	
-	sources = mail_config_get_sources();
-	if (!sources)
+	if (!(accounts = mail_config_get_accounts ()))
 		return;
-	account = mail_config_get_default_account();
+	
+	account = mail_config_get_default_account ();
 	if (!account || !account->transport)
 		return;
 	
-	data = build_dialogue(sources, outbox_folder, account->transport->url);
+	data = build_dialogue (accounts, outbox_folder, account->transport->url);
 	scan = data->infos;
 	while (scan) {
 		struct _send_info *info = scan->data;
-
+		
 		switch(info->type) {
 		case SEND_RECEIVE:
 			mail_fetch_mail(info->uri, info->keep,
@@ -748,26 +763,28 @@ void
 mail_autoreceive_setup (void)
 {
 	GHashTable *set_hash;
-	GSList *sources;
+	const GSList *accounts;
 	
-	sources = mail_config_get_sources();
-	
-	if (!sources)
+	if (!(accounts = mail_config_get_accounts ()))
 		return;
-
+	
 	if (auto_active == NULL)
 		auto_active = g_hash_table_new(g_str_hash, g_str_equal);
-
+	
 	set_hash = g_hash_table_new(g_str_hash, g_str_equal);
 	g_hash_table_foreach(auto_active, (GHFunc)auto_setup_set, set_hash);
-
-	while (sources) {
-		MailConfigService *source = sources->data;
-		if (source->url && source->auto_check && source->enabled) {
+	
+	while (accounts) {
+		MailConfigAccount *account = accounts->data;
+		MailConfigService *source;
+		
+		source = account->source;
+		
+		if (account->enabled && source && source->url && source->auto_check) {
 			struct _auto_data *info;
-
+			
 			d(printf("setting up auto-receive mail for : %s\n", source->url));
-
+			
 			g_hash_table_remove(set_hash, source->url);
 			info = g_hash_table_lookup(auto_active, source->url);
 			if (info) {
@@ -789,8 +806,8 @@ mail_autoreceive_setup (void)
 				/*mail_receive_uri(source->url, source->keep_on_server);*/
 			}
 		}
-
-		sources = sources->next;
+		
+		accounts = accounts->next;
 	}
 
 	g_hash_table_foreach(set_hash, (GHFunc)auto_clean_set, auto_active);
