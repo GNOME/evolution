@@ -28,11 +28,21 @@
 #include <gnome.h>
 #include <camel/camel.h>
 
+#include <bonobo.h>
+
+#include <liboaf/liboaf.h>
+
+#include "Evolution-Addressbook-SelectNames.h"
+
 #include "e-msg-composer-address-entry.h"
 #include "e-msg-composer-hdrs.h"
 
 
+#define SELECT_NAMES_OAFID "OAFIID:addressbook:select-names:39301deb-174b-40d1-8a6e-5edc300f7b61"
+
 struct _EMsgComposerHdrsPrivate {
+	Evolution_Addressbook_SelectNames corba_select_names;
+
 	/* Total number of headers that we have.  */
 	guint num_hdrs;
 
@@ -57,11 +67,86 @@ enum {
 static gint signals[LAST_SIGNAL];
 
 
+static gboolean
+setup_corba (EMsgComposerHdrs *hdrs)
+{
+	EMsgComposerHdrsPrivate *priv;
+	CORBA_Environment ev;
+
+	priv = hdrs->priv;
+
+	g_assert (priv->corba_select_names == CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+
+	priv->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
+
+	/* OAF seems to be broken -- it can return a CORBA_OBJECT_NIL without
+           raising an exception in `ev'.  */
+	if (ev._major != CORBA_NO_EXCEPTION || priv->corba_select_names == CORBA_OBJECT_NIL) {
+		g_warning ("Cannot activate -- %s", SELECT_NAMES_OAFID);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
+	CORBA_exception_free (&ev);
+
+	return TRUE;
+}
+
+
 static void
 address_button_clicked_cb (GtkButton *button,
 			   gpointer data)
 {
-	gtk_signal_emit (GTK_OBJECT (data), signals[SHOW_ADDRESS_DIALOG]);
+	EMsgComposerHdrs *hdrs;
+	EMsgComposerHdrsPrivate *priv;
+	CORBA_Environment ev;
+
+	hdrs = E_MSG_COMPOSER_HDRS (data);
+	priv = hdrs->priv;
+
+	CORBA_exception_init (&ev);
+
+	/* FIXME section.  */
+	Evolution_Addressbook_SelectNames_activate_dialog (priv->corba_select_names, "", &ev);
+
+	CORBA_exception_free (&ev);
+}
+
+static GtkWidget *
+create_addressbook_entry (EMsgComposerHdrs *hdrs,
+			  const char *name)
+{
+	EMsgComposerHdrsPrivate *priv;
+	Evolution_Addressbook_SelectNames corba_select_names;
+	Bonobo_Control corba_control;
+	GtkWidget *control_widget;
+	CORBA_Environment ev;
+
+	priv = hdrs->priv;
+	corba_select_names = priv->corba_select_names;
+
+	CORBA_exception_init (&ev);
+
+	Evolution_Addressbook_SelectNames_add_section (corba_select_names, name, name, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	corba_control = Evolution_Addressbook_SelectNames_get_entry_for_section (corba_select_names, name, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	CORBA_exception_free (&ev);
+
+	control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
+
+	return control_widget;
 }
 
 static GtkWidget *
@@ -69,7 +154,7 @@ add_header (EMsgComposerHdrs *hdrs,
 	    const gchar *name,
 	    const gchar *tip,
 	    const gchar *tip_private,
-	    gboolean addrbook_button)
+	    gboolean is_addrbook)
 {
 	EMsgComposerHdrsPrivate *priv;
 	GtkWidget *label;
@@ -78,7 +163,7 @@ add_header (EMsgComposerHdrs *hdrs,
 
 	priv = hdrs->priv;
 
-	if (addrbook_button) {
+	if (is_addrbook) {
 		label = gtk_button_new_with_label (name);
 		GTK_OBJECT_UNSET_FLAGS(label, GTK_CAN_FOCUS);
 		gtk_signal_connect (GTK_OBJECT (label), "clicked",
@@ -99,14 +184,20 @@ add_header (EMsgComposerHdrs *hdrs,
 			  pad, pad);
 	gtk_widget_show (label);
 
-	entry = e_msg_composer_address_entry_new ();
-	gtk_table_attach (GTK_TABLE (hdrs), entry,
-			  1, 2, priv->num_hdrs, priv->num_hdrs + 1,
-			  GTK_FILL | GTK_EXPAND, GTK_FILL,
-			  2, 2);
-	gtk_widget_show (entry);
+	if (is_addrbook)
+		entry = create_addressbook_entry (hdrs, name);
+	else
+		entry = gtk_entry_new ();
 
-	gtk_tooltips_set_tip (hdrs->priv->tooltips, entry, tip, tip_private);
+	if (entry != NULL) {
+		gtk_table_attach (GTK_TABLE (hdrs), entry,
+				  1, 2, priv->num_hdrs, priv->num_hdrs + 1,
+				  GTK_FILL | GTK_EXPAND, GTK_FILL,
+				  2, 2);
+		gtk_widget_show (entry);
+
+		gtk_tooltips_set_tip (hdrs->priv->tooltips, entry, tip, tip_private);
+	}
 
 	priv->num_hdrs++;
 
@@ -157,6 +248,14 @@ destroy (GtkObject *object)
 	hdrs = E_MSG_COMPOSER_HDRS (object);
 	priv = hdrs->priv;
 
+	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		CORBA_Object_release (priv->corba_select_names, &ev);
+		CORBA_exception_free (&ev);
+	}
+
 	gtk_object_destroy (GTK_OBJECT (priv->tooltips));
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
@@ -193,9 +292,11 @@ init (EMsgComposerHdrs *hdrs)
 
 	priv = g_new (EMsgComposerHdrsPrivate, 1);
 
-	priv->to_entry = NULL;
-	priv->cc_entry = NULL;
-	priv->bcc_entry = NULL;
+	priv->corba_select_names = CORBA_OBJECT_NIL;
+
+	priv->to_entry      = NULL;
+	priv->cc_entry      = NULL;
+	priv->bcc_entry     = NULL;
 	priv->subject_entry = NULL;
 
 	priv->tooltips = gtk_tooltips_new ();
@@ -238,24 +339,81 @@ e_msg_composer_hdrs_new (void)
 	new = gtk_type_new (e_msg_composer_hdrs_get_type ());
 	priv = new->priv;
 
-	setup_headers (E_MSG_COMPOSER_HDRS (new));
+	if (! setup_corba (new)) {
+		gtk_widget_destroy (GTK_WIDGET (new));
+		return NULL;
+	}
+
+	setup_headers (new);
 
 	return GTK_WIDGET (new);
 }
 
 
+static GList *
+decode_addresses (const char *s)
+{
+	const char *p, *oldp;
+	gboolean in_quotes;
+	GList *list;
+
+	g_print ("Decoding addresses -- %s\n", s ? s : "(null)");
+
+	if (s == NULL)
+		return NULL;
+
+	in_quotes = FALSE;
+	list = NULL;
+
+	p = s;
+	oldp = s;
+
+	while (1) {
+		if (*p == '"') {
+			in_quotes = ! in_quotes;
+			p++;
+		} else if ((! in_quotes && *p == ',') || *p == 0) {
+			if (p != oldp) {
+				char *new_addr;
+
+				new_addr = g_strndup (oldp, p - oldp);
+				new_addr = g_strstrip (new_addr);
+				if (*new_addr != '\0')
+					list = g_list_prepend (list, new_addr);
+				else
+					g_free (new_addr);
+			}
+
+			while (*p == ',' || *p == ' ' || *p == '\t')
+				p++;
+
+			if (*p == 0)
+				break;
+
+			oldp = p;
+		} else {
+			p++;
+		}
+	}
+
+	return g_list_reverse (list);
+}
+
 static void
 set_recipients (CamelMimeMessage *msg,
 		GtkWidget *entry_widget,
 		const gchar *type)
 {
-	EMsgComposerAddressEntry *entry;
 	GList *list;
 	GList *p;
 	struct _header_address *addr;
+	char *s;
 
-	entry = E_MSG_COMPOSER_ADDRESS_ENTRY (entry_widget);
-	list = e_msg_composer_address_entry_get_addresses (entry);
+	bonobo_widget_get_property (BONOBO_WIDGET (entry_widget), "text", &s, NULL);
+
+	list = decode_addresses (s);
+
+	g_free (s);
 
 	/* FIXME leak?  */
 
@@ -419,4 +577,3 @@ e_msg_composer_hdrs_get_subject_entry (EMsgComposerHdrs *hdrs)
 
 	return hdrs->priv->subject_entry;
 }
-
