@@ -1018,19 +1018,17 @@ msgid "Send HTML Mail?"
 msgstr "Sendmail"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:406
-#, fuzzy
 msgid "Edit Contact List"
-msgstr "Контакт"
+msgstr "Виправити контактний список"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:424
-#, fuzzy
 msgid "Unnamed Contact List"
-msgstr "╤нш╕ контакти"
+msgstr "Неназваний контактний список"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:441
 #, c-format
 msgid "(%d not shown)"
-msgstr ""
+msgstr "(%d не показано)"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:507
 msgid "Unnamed Contact"
@@ -1102,7 +1100,7 @@ msgstr "Категор╕╖..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
 msgid "Collaboration"
-msgstr ""
+msgstr "Сп╕впраця"
 
 #. Construct the app
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
@@ -1117,12 +1115,11 @@ msgstr "Подробиц╕"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "F_ree/Busy URL:"
-msgstr ""
+msgstr "URL зайнятост╕:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:9
-#, fuzzy
 msgid "File A_s:"
-msgstr "Файл"
+msgstr "Файл як:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
 msgid "General"
@@ -4432,17 +4429,16 @@ msgstr "М╕сце"
 
 #: calendar/gui/e-meeting-model.c:256 calendar/gui/e-meeting-model.c:273
 #: calendar/gui/e-meeting-model.c:522
-#, fuzzy
 msgid "Required Participant"
-msgstr "Потр╕бн╕ люди"
+msgstr "Потр╕бний учасник"
 
 #: calendar/gui/e-meeting-model.c:258 calendar/gui/e-meeting-model.c:275
 msgid "Optional Participant"
-msgstr ""
+msgstr "Необов'язковий учасник"
 
 #: calendar/gui/e-meeting-model.c:260 calendar/gui/e-meeting-model.c:277
 msgid "Non-Participant"
-msgstr ""
+msgstr "Не учасник"
 
 #: calendar/gui/e-meeting-model.c:306 calendar/gui/e-meeting-model.c:329
 #: calendar/gui/e-meeting-model.c:530
@@ -4464,9 +4460,8 @@ msgid "Tentative"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:314 calendar/gui/e-meeting-model.c:337
-#, fuzzy
 msgid "Delegated"
-msgstr "Стерто"
+msgstr "Доручено"
 
 #: calendar/gui/e-meeting-model.c:318 calendar/gui/e-meeting-model.c:341
 msgid "In Process"
@@ -4479,19 +4474,16 @@ msgstr "Автомоб╕льний телефон"
 
 #: calendar/gui/e-meeting-model.c:1351 calendar/gui/e-meeting-model.c:1418
 #: calendar/gui/e-meeting-model.c:1465
-#, fuzzy
 msgid "Required Participants"
-msgstr "Потр╕бн╕ люди"
+msgstr "Потр╕бн╕ учасники"
 
 #: calendar/gui/e-meeting-model.c:1352 calendar/gui/e-meeting-model.c:1467
-#, fuzzy
 msgid "Optional Participants"
-msgstr "Потр╕бн╕ люди"
+msgstr "Необов'язков╕ учасники"
 
 #: calendar/gui/e-meeting-model.c:1353 calendar/gui/e-meeting-model.c:1469
-#, fuzzy
 msgid "Non-Participants"
-msgstr "Потр╕бн╕ люди"
+msgstr "Не учасники"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
@@ -4541,7 +4533,7 @@ msgstr "Показати зменшене"
 
 #: calendar/gui/e-meeting-time-sel.c:496
 msgid "_Update Free/Busy"
-msgstr ""
+msgstr "Поновити зайнят╕сть"
 
 #: calendar/gui/e-meeting-time-sel.c:514
 msgid "_<<"
@@ -9007,26 +8999,25 @@ msgstr ""
 #: mail/mail-format.c:2073
 #, c-format
 msgid "Pointer to local file (%s)"
-msgstr ""
+msgstr "Вказ╕вник на локальний файл (%s)"
 
 #: mail/mail-format.c:2102
 #, c-format
 msgid "Pointer to remote data (%s)"
-msgstr ""
+msgstr "Вказ╕вник на в╕ддален╕ дан╕ (%s)"
 
 #: mail/mail-format.c:2110
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr ""
+msgstr "Вказ╕вник на нев╕дом╕ завн╕шн╕ дан╕ (типу \"%s\")"
 
 #: mail/mail-format.c:2115
 msgid "Malformed external-body part."
 msgstr ""
 
 #: mail/mail-local.c:589
-#, fuzzy
 msgid "Reconfiguring folder"
-msgstr "Конф╕╜урувати теку"
+msgstr "Переконф╕╜урування теки"
 
 #: mail/mail-local.c:670
 #, c-format
@@ -9463,9 +9454,8 @@ msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
 #: mail/message-list.c:2327
-#, fuzzy
 msgid "Generating message list"
-msgstr "Збереження пов╕домлень"
+msgstr "Створення списку пов╕домлень"
 
 #: mail/message-list.etspec.h:2
 msgid "Flagged"
@@ -9505,13 +9495,12 @@ msgid "Folder"
 msgstr "Тека"
 
 #: mail/subscribe-dialog.c:1519
-#, fuzzy
 msgid "No server has been selected"
-msgstr "Пов╕домлення було отримано"
+msgstr "Не було вибрано сервера"
 
 #: mail/subscribe-dialog.c:1580
 msgid "Please select a server."
-msgstr ""
+msgstr "Будь ласка, вибер╕ть сервер."
 
 #: mail/subscribe-dialog.glade.h:1
 msgid " _Refresh List "
@@ -9527,7 +9516,7 @@ msgstr "Параметри в╕дображення"
 
 #: mail/subscribe-dialog.glade.h:4
 msgid "Folders whose names begin with:"
-msgstr ""
+msgstr "Теки, назви яких починаються з:"
 
 #: mail/subscribe-dialog.glade.h:5
 msgid "Manage Subscriptions"
@@ -9535,7 +9524,7 @@ msgstr "Керування передплатами"
 
 #: mail/subscribe-dialog.glade.h:6
 msgid "Show _folders from server: "
-msgstr ""
+msgstr "Показати теки з сервера:"
 
 #: mail/subscribe-dialog.glade.h:7
 msgid "_Subscribe"
@@ -9633,7 +9622,7 @@ msgstr "Моя погода"
 
 #: my-evolution/e-summary-weather.c:349
 msgid "<dd><b>The weather server could not be contacted</b></dd>"
-msgstr ""
+msgstr "<dd><b>Не можливо з'╓днатися з сервером погоди</b></dd>"
 
 #: my-evolution/e-summary-weather.c:559
 msgid "Weather"
@@ -12086,7 +12075,7 @@ msgstr "Надрукувати цей календар"
 
 #: ui/evolution-calendar.xml.h:27
 msgid "Publish Free/Busy information for this calendar"
-msgstr ""
+msgstr "Опубл╕кувати ╕нформац╕ю про зайнят╕сть для цього календаря"
 
 #: ui/evolution-calendar.xml.h:28
 msgid "Show one day"
@@ -12117,9 +12106,8 @@ msgid "_Calendar Settings..."
 msgstr "параметри календаря..."
 
 #: ui/evolution-calendar.xml.h:42
-#, fuzzy
 msgid "_Publish Free/Busy Information"
-msgstr "Нема╓ ╕нформац╕╖"
+msgstr "Опубл╕кувати ╕нформац╕ю про зайнят╕сть"
 
 #: ui/evolution-calendar.xml.h:43
 msgid "_Task..."
