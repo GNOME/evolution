@@ -1,3 +1,8 @@
+2003-04-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-session.c (mail_session_forget_passwords): Forget all
+	passwords again.  [#41817]
+
 2003-04-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.glade: Made toplevel container widgets set a

@@ -1004,7 +1004,7 @@ void
 mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
 			       const char *path)
 {
-	e_passwords_clear_component_passwords ("Mail");
+	e_passwords_forget_passwords ();
 }
 
 void
