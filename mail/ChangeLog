@@ -1,3 +1,9 @@
+2005-03-16  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-format-html.c (efh_format_headers): Don't show multiple
+	"Mailer" headers even if multiple x-mailer/user-agent/whatever
+	headers exist. Fixes bug #70394.
+
 2005-03-16  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #73363
@@ -29,6 +35,7 @@
 	* em-format-hook.c (emfh_format_format): if we are disabled, don't
 	invoke handler, try to invoke old handler if there was one.
 
+>>>>>>> 1.3608
 2005-03-10  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #73293

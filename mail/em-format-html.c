@@ -1639,6 +1639,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			header = header->next;
 		}
 	} else {
+		int mailer_shown = FALSE;
+		
 		while (h->next) {
 			int mailer;
 
@@ -1646,13 +1648,14 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			mailer = !g_ascii_strcasecmp (h->name, "X-Evolution-Mailer");
 			
 			while (header) {
-				if (mailer && (!g_ascii_strcasecmp (header->name, "X-Mailer") ||
+				if (!mailer_shown && mailer && (!g_ascii_strcasecmp (header->name, "X-Mailer") ||
 					       !g_ascii_strcasecmp (header->name, "User-Agent") ||
 					       !g_ascii_strcasecmp (header->name, "X-Newsreader"))) {
 					struct _camel_header_raw xmailer;
 					
 					xmailer.name = "X-Evolution-Mailer";
 					xmailer.value = header->value;
+					mailer_shown = TRUE;
 					
 					efh_format_header (emf, stream, part, &xmailer, h->flags, charset);
 					if (strstr(header->value, "Evolution"))
