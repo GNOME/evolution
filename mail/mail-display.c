@@ -1056,7 +1056,7 @@ drag_data_get_cb (GtkWidget *widget,
 		g_object_set_data_full ((GObject *) widget, "uri-list", uri_list, g_free);		
 		break;
 	case DND_TARGET_TYPE_PART_MIME_TYPE:
-		if (header_content_type_is (((CamelDataWrapper *) part)->mime_type, "text", "*")) {
+		if (camel_content_type_is (((CamelDataWrapper *) part)->mime_type, "text", "*")) {
 		        GByteArray *ba;
 			
 			ba = mail_format_get_data_wrapper_text ((CamelDataWrapper *) part, NULL);
@@ -1149,7 +1149,7 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	}
 	
 	/* Drag & Drop */
-	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = header_content_type_simple (((CamelDataWrapper *) part)->mime_type);
+	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = camel_content_type_simple (((CamelDataWrapper *) part)->mime_type);
 	camel_strdown (drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target);
 	
 	gtk_drag_source_set (button, GDK_BUTTON1_MASK,
@@ -1389,7 +1389,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		
 		html_stream = mail_display_stream_new (html, handle);
 		
-		if (header_content_type_is (content_type, "text", "*")) {
+		if (camel_content_type_is (content_type, "text", "*")) {
 			mail_format_data_wrapper_write_to_stream (wrapper, TRUE, md, html_stream);
 		} else {
 			camel_data_wrapper_decode_to_stream (wrapper, html_stream);
@@ -1997,7 +1997,7 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 		
 		due_by = camel_tag_get (&md->info->user_tags, "due-by");
 		if (due_by && *due_by) {
-			target_date = header_decode_date (due_by, &offset);
+			target_date = camel_header_decode_date (due_by, &offset);
 			now = time (NULL);
 			if (now >= target_date)
 				overdue = _("Overdue:");

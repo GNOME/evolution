@@ -1936,7 +1936,7 @@ save_prepare_part (CamelMimePart *mime_part)
 			
 			/* We want to save textual parts as 8bit instead of encoded */
 			type = camel_data_wrapper_get_mime_type_field (wrapper);
-			if (header_content_type_is (type, "text", "*"))
+			if (camel_content_type_is (type, "text", "*"))
 				camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_8BIT);
 		}
 	}
@@ -2087,8 +2087,8 @@ save_part_save (struct _mail_msg *mm)
 	
 	data = camel_medium_get_content_object (CAMEL_MEDIUM (m->part));
 	content_type = camel_mime_part_get_content_type (m->part);
-	if (header_content_type_is (content_type, "text", "*")
-	    && (charset = header_content_type_param (content_type, "charset"))
+	if (camel_content_type_is (content_type, "text", "*")
+	    && (charset = camel_content_type_param (content_type, "charset"))
 	    && strcasecmp (charset, "utf-8") != 0) {
 		charsetfilter = camel_mime_filter_charset_new_convert ("utf-8", charset);
 		filtered_stream = (CamelStream *) camel_stream_filter_new_with_stream (stream_fs);
