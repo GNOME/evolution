@@ -4,6 +4,7 @@
 <glade-interface>
 
 <widget class="GtkDialog" id="dialog-duplicate-contact">
+  <property name="border_width">6</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">Duplicate Contact Detected</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -17,7 +18,7 @@
     <widget class="GtkVBox" id="dialog-vbox1">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">8</property>
+      <property name="spacing">6</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area1">
@@ -29,10 +30,10 @@
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">Change Anyway</property>
-	      <property name="use_underline">True</property>
+	      <property name="label">gtk-cancel</property>
+	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="response_id">0</property>
+	      <property name="response_id">1</property>
 	    </widget>
 	  </child>
 
@@ -41,10 +42,10 @@
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label">gtk-cancel</property>
+	      <property name="label">gtk-add</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="response_id">1</property>
+	      <property name="response_id">0</property>
 	    </widget>
 	  </child>
 	</widget>
@@ -58,6 +59,7 @@
 
       <child>
 	<widget class="GtkTable" id="table1">
+	  <property name="border_width">6</property>
 	  <property name="visible">True</property>
 	  <property name="n_rows">5</property>
 	  <property name="n_columns">2</property>
