@@ -302,7 +302,6 @@ reposition_path (ETreeSorted *ets, ETreeSortedPath *path)
 	ETreeSortedPath *parent = path->parent;
 	if (parent) {
 		if (ets->priv->sort_idle_id == 0) {
-			ets->priv->insert_count++;
 			if (ets->priv->insert_count > ETS_INSERT_MAX) {
 				/* schedule a sort, and append instead */
 				schedule_resort(ets, parent, TRUE, FALSE);
@@ -322,20 +321,22 @@ reposition_path (ETreeSorted *ets, ETreeSortedPath *path)
 
 				if (new_index > old_index) {
 					int i;
-					e_tree_model_pre_change(E_TREE_MODEL(ets));
+					ets->priv->insert_count++;
 					memmove(parent->children + old_index, parent->children + old_index + 1, sizeof (ETreePath) * (new_index - old_index));
 					parent->children[new_index] = path;
 					for (i = old_index; i <= new_index; i++)
 						parent->children[i]->position = i;
 					e_tree_model_node_changed(E_TREE_MODEL(ets), parent);
+					e_tree_model_pre_change(E_TREE_MODEL(ets));
 				} else if (new_index < old_index) {
 					int i;
-					e_tree_model_pre_change(E_TREE_MODEL(ets));
+					ets->priv->insert_count++;
 					memmove(parent->children + new_index + 1, parent->children + new_index, sizeof (ETreePath) * (old_index - new_index));
 					parent->children[new_index] = path;
 					for (i = new_index; i <= old_index; i++)
 						parent->children[i]->position = i;
 					e_tree_model_node_changed(E_TREE_MODEL(ets), parent);
+					e_tree_model_pre_change(E_TREE_MODEL(ets));
 				}
 			}
 		} else
