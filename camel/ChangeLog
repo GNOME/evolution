@@ -1,3 +1,23 @@
+2002-11-05  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am (camel_lock_helper_LDADD): Created temporary link
+	list, we need to link with something for gettext.
+
+	* camel.h: Remove gstring-util.h and hash-table-utils.h.
+
+	* camel-text-index.c: 
+	(text_index_normalise): Changed for g_utf8_strdown api change.
+
+	* camel-search-private.c:
+	* camel-mime-utils.c:
+	* camel-mime-part-utils.c:
+	* camel-html-parser.c:
+	* camel-charset-map.c: Include glib/gunicode.h from glib instead
+	of gal.
+
+	* camel-filter-driver.c: Remove include of gtk/gtk.h, should never
+	have been there.
+
 2002-11-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (g_string_append_len): Removed. Glib2 has

@@ -30,7 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <gal/unicode/gunicode.h>
+#include <glib/gunicode.h>
 #include <ctype.h>
 
 /* if defined, must also compile in dump_tag() below somewhere */

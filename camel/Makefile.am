@@ -230,13 +230,18 @@ camel_lock_helper_SOURCES = 			\
 	camel-lock.c				\
 	camel-lock.h
 
+# NOTE: This needs to be cleaned up, it shouldn't link with all this crap,
+# because it might be setuid.
+camel_lock_helper_LDADD =			\
+	$(libcamel_la_LIBADD)
+
 camel_index_control_SOURCES =			\
 	camel-index-control.c
 
 camel_index_control_LDADD =			\
 	$(libcamel_la_LIBADD)			\
-	libcamel.la				\
-	$(EVOLUTION_MAIL_LIBS)
+	libcamel.la
+#	$(EVOLUTION_MAIL_LIBS)
 
 install-exec-hook:
 	@if test -n "$(CAMEL_LOCK_HELPER_USER)"; then \

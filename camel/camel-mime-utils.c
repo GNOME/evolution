@@ -48,7 +48,7 @@
 #include <regex.h>
 
 #include <glib.h>
-#include <gal/unicode/gunicode.h>
+#include <glib/gunicode.h>
 #include <gal/util/e-iconv.h>
 #include "e-time-utils.h"
 

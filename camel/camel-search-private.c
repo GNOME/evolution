@@ -43,7 +43,7 @@
 
 #include "camel-search-private.h"
 
-#include <gal/unicode/gunicode.h>
+#include <glib/gunicode.h>
 
 #define d(x)
 

@@ -34,7 +34,6 @@
 #include <time.h>
 
 #include <glib.h>
-#include <gtk/gtk.h>
 
 #include "camel-filter-driver.h"
 #include "camel-filter-search.h"

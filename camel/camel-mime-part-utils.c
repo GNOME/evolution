@@ -32,7 +32,7 @@
 #include <errno.h>
 
 #include <gal/util/e-iconv.h>
-#include <gal/unicode/gunicode.h>
+#include <glib/gunicode.h>
 
 #include "string-utils.h"
 #include "camel-mime-part-utils.h"

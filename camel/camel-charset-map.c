@@ -200,7 +200,7 @@ int main (void)
 #include "camel-charset-map.h"
 #include "camel-charset-map-private.h"
 #include "string-utils.h"
-#include <gal/unicode/gunicode.h>
+#include <glib/gunicode.h>
 #include <locale.h>
 #include <string.h>
 #include <ctype.h>

@@ -44,7 +44,7 @@
 #include "camel-block-file.h"
 #include "camel-partition-table.h"
 
-#include <gal/unicode/gunicode.h>
+#include <glib/gunicode.h>
 
 #include <stdio.h>
 
@@ -819,7 +819,7 @@ text_index_normalise(CamelIndex *idx, const char *in, void *data)
 
 	/* Sigh, this is really expensive */
 	word = g_strdup(in); /*g_utf8_normalize(in, strlen(in), G_NORMALIZE_ALL);*/
-	g_utf8_strdown(word);
+	g_utf8_strdown(word, -1);
 
 	return word;
 }
