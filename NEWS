@@ -25,6 +25,9 @@ Mail:
   - Fixed keep-on-server for POP servers that don't support UIDL.
     (Jeff)
 
+  - Several IMAP fixes. (Peter, Jeff, Danw)
+
+
   - Fix crash after conversion of an empty folder to another
     format. (Peter)
 
@@ -38,9 +41,52 @@ Mail:
 
 Calendar & Tasks:
 
+  - Calendar no longer crashes when you scroll a busy month view
+    (Federico).
+
+  - Performance improvements throughout (Damon).
+
+  - Improved search bar; now handles categories.  (Jon, Federico)
+
+  - The date navigator now reflects the results of the search bar.
+    (Federico)
+
+  - An empty task is no longer added when you have selected a
+    category. (Federico)
+
+  - Internationalization fixes (Zbigniew).
+
+  - Timezone fixes (Damon).
+
+  - Time transparency and component classification support (Damon).
+
+  - Folder bar now displays the selected time range (Damon).
+
+  - Improved settings dialog (Anna, Damon, Federico).
+
+  - iTIP/iMIP fixes for attendees, cancellation. (JP).
+
+  - Category icon drawing fixes. (Rodrigo)
+
+  - Alarm fixes. (Federico)
+
+  - Calendar components can be saved independently. (JP)
+
+  - New icons. (Tuomas)
+
+  - Contacts support. (Damon)
+
+  - You can double-click on appointments to edit them. (Damon)
+
+  - Share more code between the backends. (Rodrigo)
+
+  - Miscellaneous fixes all over the place. (Damon, JP, Rodrigo, Federico)
+
 Addressbook:
 
 My Evolution:
+
+Conduits:
 
 
 Version 0.12 (Beta 2), 2001-07-31
