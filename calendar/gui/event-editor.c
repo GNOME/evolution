@@ -3080,17 +3080,3 @@ make_spin_button (int val, int low, int high)
 
 	return spin;
 }
-
-
-/* todo
-
-   get the apply button to work right
-
-   make the properties stuff unglobal
-
-   figure out why alarm units aren't sticking between edits
-
-   closing the dialog window with the wm caused a crash
-   Gtk-WARNING **: invalid cast from `(unknown)' to `GnomeDialog'
-   on line 669:  gnome_dialog_close (GNOME_DIALOG(dialog->dialog));
- */

@@ -307,6 +307,8 @@ cal_component_destroy (GtkObject *object)
 	priv = comp->priv;
 
 	free_icalcomponent (comp);
+	g_hash_table_destroy (priv->alarm_uid_hash);
+	priv->alarm_uid_hash = NULL;
 
 	g_free (priv);
 	comp->priv = NULL;

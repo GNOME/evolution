@@ -1,3 +1,30 @@
+2000-12-06  Federico Mena Quintero  <federico@helixcode.com>
+
+	Fixes bug #920.
+
+	* gui/e-calendar-table.c (delete_component): New function.
+	(e_calendar_table_on_delete_task): Use delete_component().
+	(e_calendar_table_on_key_press): Likewise.  Also, mark the event
+	as handled.
+
+	* gui/calendar-model.c (calendar_model_get_component): Renamed
+	function from calendar_model_get_cal_object().
+	(calendar_model_delete_task): Removed function.
+
+	* gui/dialogs/delete-comp.[ch]: New files with the dialog for
+	deleting a calendar component.
+
+	* gui/e-day-view.c (e_day_view_on_delete_appointment): Confirm
+	before actually deleting the appointment.
+
+	* gui/e-week-view.c (e_week_view_on_delete_appointment): Likewise.
+
+	* gui/dialogs/Makefile.am (libcal_dialogs_a_SOURCES): Added
+	delete-comp.[ch] to the list of sources.
+
+	* cal-util/cal-component.c (cal_component_destroy): Free the alarm
+	UID hash.
+
 2000-12-06  JP Rosevear  <jpr@helixcode.com>
 
 	* pcs/cal.c (build_change_seq): kill

@@ -1854,33 +1854,6 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
 
 
 void
-calendar_model_delete_task (CalendarModel *model,
-			    gint row)
-{
-	CalendarModelPrivate *priv;
-	CalComponent *comp;
-	const char *uid;
-
-	g_return_if_fail (model != NULL);
-	g_return_if_fail (IS_CALENDAR_MODEL (model));
-
-	priv = model->priv;
-
-	g_return_if_fail (row >= 0 && row < priv->objects->len);
-
-	comp = g_array_index (priv->objects, CalComponent *, row);
-	g_assert (comp != NULL);
-
-	cal_component_get_uid (comp, &uid);
-
-	/* We don't check the return value; FALSE can mean the object was not in
-	 * the server anyways.
-	 */
-	cal_client_remove_object (priv->client, uid);
-}
-
-
-void
 calendar_model_mark_task_complete (CalendarModel *model,
 				   gint row)
 {
@@ -1904,9 +1877,17 @@ calendar_model_mark_task_complete (CalendarModel *model,
 }
 
 
-/* Frees the objects stored in the calendar model */
+/**
+ * calendar_model_get_component:
+ * @model: A calendar model.
+ * @row: Row number of sought calendar component.
+ * 
+ * Queries a calendar component from a calendar model based on its row number.
+ * 
+ * Return value: The sought calendar component.
+ **/
 CalComponent *
-calendar_model_get_cal_object (CalendarModel *model,
+calendar_model_get_component (CalendarModel *model,
 			       gint	      row)
 {
 	CalendarModelPrivate *priv;

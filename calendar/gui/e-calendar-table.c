@@ -37,6 +37,7 @@
 #include <gal/e-table/e-cell-text.h>
 #include "e-calendar-table.h"
 #include "calendar-model.h"
+#include "dialogs/delete-comp.h"
 #include "dialogs/task-editor.h"
 
 /* Pixmaps. */
@@ -390,14 +391,35 @@ e_calendar_table_on_mark_task_complete (GtkWidget *menuitem,
 }
 
 
+/* Deletes a component from the table */
+static void
+delete_component (CalendarModel *model, int row)
+{
+	CalComponent *comp;
+
+	comp = calendar_model_get_component (model, row);
+
+	if (delete_component_dialog (comp)) {
+		CalClient *client;
+		const char *uid;
+
+		client = calendar_model_get_cal_client (model);
+		cal_component_get_uid (comp, &uid);
+
+		/* We don't check the return value; FALSE can mean the object
+		 * was not in the server anyways.
+		 */
+		cal_client_remove_object (client, uid);
+	}
+}
+
 static void
 e_calendar_table_on_delete_task (GtkWidget *menuitem,
 				 gpointer   data)
 {
 	ECalendarMenuData *menu_data = (ECalendarMenuData*) data;
 
-	calendar_model_delete_task (menu_data->cal_table->model,
-				    menu_data->row);
+	delete_component (menu_data->cal_table->model, menu_data->row);
 }
 
 
@@ -410,7 +432,8 @@ e_calendar_table_on_key_press (ETable *table,
 			       ECalendarTable *cal_table)
 {
 	if (event->keyval == GDK_Delete) {
-		calendar_model_delete_task (cal_table->model, row);
+		delete_component (cal_table->model, row);
+		return TRUE;
 	}
 
 	return FALSE;
@@ -427,7 +450,7 @@ e_calendar_table_open_task (ECalendarTable *cal_table,
 	tedit = task_editor_new ();
 	task_editor_set_cal_client (tedit, calendar_model_get_cal_client (cal_table->model));
 
-	comp = calendar_model_get_cal_object (cal_table->model, row);
+	comp = calendar_model_get_component (cal_table->model, row);
 	task_editor_set_todo_object (tedit, comp);
 }
 

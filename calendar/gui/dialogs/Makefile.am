@@ -19,6 +19,8 @@ libcal_dialogs_a_SOURCES =	\
 	alarm-notify-dialog.h	\
 	cal-prefs-dialog.c	\
 	cal-prefs-dialog.h	\
+	delete-comp.c		\
+	delete-comp.h		\
 	task-editor.c		\
 	task-editor.h
 

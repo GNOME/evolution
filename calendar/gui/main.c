@@ -60,7 +60,7 @@ main (int argc, char **argv)
 {
 	bindtextdomain(PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain(PACKAGE);
-	
+
 	init_bonobo (&argc, argv);
 	glade_gnome_init ();
 	alarm_init ();

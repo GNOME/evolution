@@ -64,10 +64,8 @@ void		calendar_model_set_cal_client	  (CalendarModel   *model,
 
 void		calendar_model_mark_task_complete (CalendarModel   *model,
 						   gint		    row);
-void		calendar_model_delete_task	  (CalendarModel   *model,
-						   gint		    row);
 
-CalComponent*	calendar_model_get_cal_object	  (CalendarModel   *model,
+CalComponent*	calendar_model_get_component	  (CalendarModel   *model,
 						   gint		    row);
 
 /* Whether we use 24 hour format to display the times. */

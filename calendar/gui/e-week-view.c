@@ -31,6 +31,7 @@
 #include <gnome.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include "dialogs/delete-comp.h"
 #include "calendar-commands.h"
 #include "comp-util.h"
 #include "e-week-view.h"
@@ -3311,7 +3312,6 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
-	const char *uid;
 
 	week_view = E_WEEK_VIEW (data);
 
@@ -3321,12 +3321,16 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 
-	cal_component_get_uid (event->comp, &uid);
+	if (delete_component_dialog (event->comp)) {
+		const char *uid;
 
-	/* We don't check the return value; FALSE can mean the object was not in
-	 * the server anyways.
-	 */
-	cal_client_remove_object (week_view->client, uid);
+		cal_component_get_uid (event->comp, &uid);
+
+		/* We don't check the return value; FALSE can mean the object
+		 * was not in the server anyways.
+		 */
+		cal_client_remove_object (week_view->client, uid);
+	}
 }
 
 

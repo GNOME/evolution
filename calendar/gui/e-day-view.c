@@ -32,6 +32,7 @@
 #include <gnome.h>
 #include <gdk/gdkx.h>
 #include <cal-util/timeutil.h>
+#include "dialogs/delete-comp.h"
 #include "comp-util.h"
 #include "e-day-view.h"
 #include "e-day-view-time-item.h"
@@ -3077,7 +3078,6 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
-	const char *uid;
 
 	day_view = E_DAY_VIEW (data);
 
@@ -3088,12 +3088,16 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	if (day_view->editing_event_day >= 0)
 		e_day_view_stop_editing_event (day_view);
 
-	cal_component_get_uid (event->comp, &uid);
+	if (delete_component_dialog (event->comp)) {
+		const char *uid;
 
-	/* We don't check the return value; FALSE can mean the object was not in
-	 * the server anyways.
-	 */
-	cal_client_remove_object (day_view->client, uid);
+		cal_component_get_uid (event->comp, &uid);
+
+		/* We don't check the return value; FALSE can mean the object
+		 * was not in the server anyways.
+		 */
+		cal_client_remove_object (day_view->client, uid);
+	}
 }
 
 
