@@ -1,3 +1,9 @@
+2005-03-29  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #73969
+	* gui/e-calendar-view.c: (delete_event): Remove the
+	recurrence id property if its present.
+
 2005-03-30  Li Yuan  <li.yuan@sun.com>
 
 	Fixes #73914
