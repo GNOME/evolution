@@ -1,5 +1,8 @@
 2004-04-29  Not Zed  <NotZed@Ximian.com>
 
+	* mail-session.c (error_type[]): forgot to prefix error type with
+	"mail:"
+
 	* em-account-prefs.c (account_delete_clicked): duh, use the right
 	error id.
 

@@ -455,8 +455,8 @@ user_message_destroy_notify (struct _user_message_msg *m, GObject *deadbeef)
 
 /* This is kinda ugly/inefficient, but oh well, it works */
 static const char *error_type[] = {
-	"session-message-info", "session-message-warning", "session-message-error",
-	"session-message-info-cancel", "session-message-warning-cancel", "session-message-error-cancel"
+	"mail:session-message-info", "mail:session-message-warning", "mail:session-message-error",
+	"mail:session-message-info-cancel", "mail:session-message-warning-cancel", "mail:session-message-error-cancel"
 };
 
 static void
