@@ -1,3 +1,9 @@
+2000-03-07  bertrand  <bertrand@helixcode.com>
+
+	* folder-browser-factory.c (development_warning): 
+	added a warning so that the user knows that this 
+	version may crash his mails.
+
 2000-03-05  bertrand  <bertrand@helixcode.com>
 
 	* message-list.h: include a referrence to the parent 

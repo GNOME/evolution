@@ -32,15 +32,15 @@ development_warning ()
 	GtkWidget *label, *warning_dialog;
 
 	warning_dialog = gnome_dialog_new ("Don't do that",
-				   "I know what I'm doing",
+				   "I know what I'm doing,\nI want to crash my mail files",
 				   "I'll try it later",
 				   NULL);
 
 	label = gtk_label_new ("This is a developement version of Evolution.\n "
 			       "Using the mail component on your mail files\n "
-			       "is extremely hazardous. It could destroy all your\n"
-			       "mails. Please backup all your mails before trying\n "
-			       "this program. You have been warned\n");
+			       "is extremely hazardous.\n"
+			       "Please backup all your mails before trying\n "
+			       "this program. \n     You have been warned\n");
 	gtk_widget_show (label);
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
@@ -48,8 +48,8 @@ development_warning ()
 
 	result = gnome_dialog_run (GNOME_DIALOG (warning_dialog));
 	
-	gtk_object_unref (GTK_OBJECT (label));
-	gtk_object_unref (GTK_OBJECT (warning_dialog));
+	gtk_object_destroy (GTK_OBJECT (label));
+	gtk_object_destroy (GTK_OBJECT (warning_dialog));
 
 	return result;
 	
