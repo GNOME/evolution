@@ -21,11 +21,13 @@
  * Author: Iain Holmes  <iain@helixcode.com>
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <gnome.h>
+
 #include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-object-directory.h>
 #include <liboaf/liboaf.h>
 #include <glade/glade.h>
 
@@ -35,7 +37,6 @@
 
 #include "gal/widgets/e-gui-utils.h"
 #include "gal/widgets/e-cursors.h"
-#include "gal/widgets/e-unicode.h"
 
 #include <libgnomevfs/gnome-vfs.h>
 #include "component-factory.h"
@@ -45,7 +46,7 @@ main (int argc,
       char **argv)
 {
   CORBA_ORB orb;
-
+  
   bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
   textdomain (PACKAGE);
 

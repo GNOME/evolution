@@ -23,12 +23,14 @@
 
 #include <e-summary-util.h>
 
-#include <gnome.h>
-
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
+
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
 
 /**
  * e_pixmap_file:

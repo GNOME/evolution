@@ -25,7 +25,9 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <stdio.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-config.h>
 #include "e-summary-prefs.h"
 #include "e-summary.h"
 

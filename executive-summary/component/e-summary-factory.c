@@ -26,7 +26,6 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>

@@ -16,6 +16,8 @@ module Summary {
 
 	interface HTMLView : Bonobo::Unknown {
 		string getHtml ();
+
+		void handleURI (in string uri);
 	};
 };
 };

@@ -25,8 +25,11 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
-#include <bonobo.h>
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-event-source.h>
+#include <bonobo/bonobo-listener.h>
+#include <bonobo/bonobo-property-bag.h>
+#include <bonobo/bonobo-property-control.h>
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
@@ -479,7 +482,7 @@ e_summary_rebuild_page (ESummary *esummary)
 	gtk_layout_freeze (GTK_LAYOUT (priv->html));
 	e_summary_start_load (esummary);
 	
-	if (priv->header == NULL) {
+	if (priv->header == NULL || *priv->header == '\0') {
 		load_default_header (esummary);
 	} else {
 		gtk_html_write (GTK_HTML (priv->html), priv->stream,
@@ -504,7 +507,6 @@ e_summary_rebuild_page (ESummary *esummary)
 	for (i = 0; i < numrows; i++) {
 		GList *window = windows;
 		
-		g_print ("i: %d/%d\n", i, numrows);
 		/* Do the same row twice: 
 		   Once for the title, once for the contents */
 		for (j = 0; j < 2; j++) {
@@ -516,7 +518,6 @@ e_summary_rebuild_page (ESummary *esummary)
 			limit = MIN (columns, (numwindows - (i * columns)));
 			for (k = 0; k < limit; k++) {
 				
-				g_print ("%d of %d\n", k, limit);
 				if (window == NULL)
 					break;
 
@@ -553,7 +554,7 @@ e_summary_rebuild_page (ESummary *esummary)
 	}
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, "</tr></table>", 13);
 	
-	if (priv->footer == NULL) {
+	if (priv->footer == NULL || *priv->footer == '\0') {
 		load_default_footer (esummary);
 	} else {
 		gtk_html_write (GTK_HTML (priv->html), priv->stream,
@@ -658,7 +659,12 @@ e_summary_add_service (ESummary *esummary,
 		return NULL;
 	}
 
-	window->event_source = Bonobo_Unknown_queryInterface(window->component,
+	unknown = Bonobo_Unknown_queryInterface (component,
+						 "IDL:Bonobo/PropertyBag:1.0",
+						 &ev);
+	window->propertybag = (Bonobo_PropertyBag) unknown;
+
+	window->event_source = Bonobo_Unknown_queryInterface(window->propertybag,
 							     "IDL:Bonobo/EventSource:1.0", &ev);
 	if (window->event_source == CORBA_OBJECT_NIL) {
 		g_warning ("There is no Bonobo::EventSource interface");
@@ -675,11 +681,6 @@ e_summary_add_service (ESummary *esummary,
 	window->listener_id = Bonobo_EventSource_addListener (window->event_source, listener, &ev);
 
 	unknown = Bonobo_Unknown_queryInterface (component,
-						 "IDL:Bonobo/PropertyBag:1.0",
-						 &ev);
-	window->propertybag = (Bonobo_PropertyBag) unknown;
-
-	unknown = Bonobo_Unknown_queryInterface (component,
 						 "IDL:Bonobo/PersistStream:1.0",
 						 &ev);
 	window->persiststream = (Bonobo_PersistStream) unknown;
@@ -693,8 +694,10 @@ e_summary_add_service (ESummary *esummary,
 	window->title = bonobo_property_bag_client_get_value_string (window->propertybag,
 								     "window_title", 
 								     NULL);
+	g_print ("title: %s\n", window->title);
 	window->icon = bonobo_property_bag_client_get_value_string (window->propertybag,
 								    "window_icon", NULL);
+	g_print ("icon: %s\n", window->icon);
 
 	CORBA_exception_free (&ev);
 	priv->window_list = g_list_append (priv->window_list, window);
@@ -748,7 +751,7 @@ e_summary_window_free (ESummaryWindow *window)
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("CORBA ERROR: %s", CORBA_exception_id (&ev));
 		}
-    		bonobo_object_release_unref (window->event_source, &ev);
+		bonobo_object_release_unref (window->event_source, &ev);
 	}
 
 	bonobo_object_release_unref (window->propertybag, &ev);
@@ -756,10 +759,9 @@ e_summary_window_free (ESummaryWindow *window)
 	bonobo_object_release_unref (window->propertycontrol, &ev);
 	bonobo_object_unref (BONOBO_OBJECT (window->listener));
 	bonobo_object_release_unref (window->html, &ev);
-	
+
 	bonobo_object_release_unref (window->component, &ev);
 	CORBA_exception_free (&ev);
-
 	g_free (window);
 }
 
@@ -1211,7 +1213,6 @@ e_summary_save_state (ESummary *esummary,
 	fullpath = g_strdup_printf("%s/Executive-Summary", path);
 	g_print ("fullpath: %s\n", fullpath);
 
-	/* FIXME: Use RC's rmdir function */
 	e_summary_rm_dir (fullpath);
 
 	storage = bonobo_storage_open (STORAGE_TYPE, fullpath,

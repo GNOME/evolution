@@ -26,7 +26,7 @@
 
 #include <gtk/gtkvbox.h>
 
-#include <bonobo.h>
+#include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-listener.h>
 #include <bonobo/bonobo-event-source.h>
 #include <Evolution.h>

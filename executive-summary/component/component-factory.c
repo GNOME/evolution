@@ -26,8 +26,8 @@
 #include <config.h>
 #endif
 
-#include <bonobo.h>
-#include <gnome.h>
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-generic-factory.h>
 
 #include "Evolution.h"
 #include "evolution-storage.h"
@@ -106,7 +106,7 @@ component_destroy_cb (GtkObject *object,
 }
 
 static void
-factory_destroy (BonoboEmbeddable *embeddable,
+factory_destroy (BonoboObject *component,
 		 gpointer dummy)
 {
 	running_objects--;

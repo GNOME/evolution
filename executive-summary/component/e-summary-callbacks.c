@@ -26,8 +26,13 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
-#include <bonobo.h>
+#include <libgnomeui/gnome-propertybox.h>
+#include <libgnomeui/gnome-file-entry.h>
+#include <libgnome/gnome-i18n.h>
+
+#include <bonobo/bonobo-selector.h>
+
+#include <stdlib.h> /* For atoi */
 
 #include <liboaf/liboaf.h>
 #include <glade/glade.h>

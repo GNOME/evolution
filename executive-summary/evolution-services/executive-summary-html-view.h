@@ -47,6 +47,9 @@ struct _ExecutiveSummaryHtmlView {
 
 struct _ExecutiveSummaryHtmlViewClass {
 	BonoboObjectClass parent_class;
+
+	void (* handle_uri) (ExecutiveSummaryHtmlView *view,
+			     char *uri);
 };
 
 GtkType executive_summary_html_view_get_type (void);

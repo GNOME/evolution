@@ -1,3 +1,29 @@
+2001-02-14  Iain Holmes  <iain@ximian.com>
+
+	* evolution-services/executive-summary-html-view.c 
+	(executive_summary_html_view_destroy): Don't unref the event source.
+	(impl_GNOME_Evolution_Summary_HTMLView_handleURI): Emit the signal.
+	(corba_class_init): Hook up the handleURI method.
+	(executive_summary_html_view_class_init): Create the signal.
+
+	* idl/HTMLView.idl: Add the handleURI method.
+
+2001-02-13  Iain Holmes  <iain@ximian.com>
+
+	* test-service/rdf-summary.c (property_control): Add an update now button.
+
+2001-02-12  Iain Holmes  <iain@ximian.com>
+
+	* test-service/rdf-summary.c (property_control): Add a "Update" spinner.
+	(property_action): Only download a new RDF if the URL changed. Use a cached
+	version otherwise.
+
+2001-02-08  Iain Holmes  <iain@ximian.com>
+
+	* component/e-summary-url.c (e_summary_url_click): Close and remove the
+	window on an idle, so that the whole desktop isn't locked by a 
+	GNOME-VFS bug.
+
 2001-02-13  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* Makefile.am: xml-i18n-tools setup for .oaf.in files.

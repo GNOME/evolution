@@ -47,6 +47,9 @@ struct _RdfSummary {
 	GtkWidget *rdf;
 	GtkWidget *g_limit;
 	GtkWidget *g_title;
+	GtkWidget *g_update;
+	GtkWidget *g_update_container;
+	GtkAdjustment *adjustment;
 
 	char *title;
 	char *icon;
@@ -54,10 +57,16 @@ struct _RdfSummary {
 	int limit;
 	gboolean showtitle;
 
+	gboolean usetimer;
+	int time;
+	int timer;
+
 	GString *str;
 	char *buffer;
 
 	GnomeVFSAsyncHandle *handle;
+
+	xmlDocPtr cache;
 };
 typedef struct _RdfSummary RdfSummary;
 
@@ -279,8 +288,14 @@ view_destroyed (GtkObject *object,
 {
 	RdfSummary *summary = (RdfSummary *) data;
 
+	g_warning ("RDF: Point 1");
 	if (summary->handle)
 		gnome_vfs_async_cancel (summary->handle);
+
+	g_warning ("RDF: Point 2");
+
+	if (summary->cache != NULL)
+		xmlFreeDoc (summary->cache);
 
 	g_free (summary->title);
 	g_free (summary->icon);
@@ -291,6 +306,7 @@ view_destroyed (GtkObject *object,
 	if (running_views <= 0) {
 		gtk_main_quit ();
 	}
+	g_warning ("RDF: Point 3");
 }
 
 /* PersistStream callbacks */
@@ -320,7 +336,6 @@ load_from_stream (BonoboPersistStream *ps,
 		return;
 	}
 
-	g_print ("Hydrating with %s\n", str);
 	doc = xmlParseDoc ((xmlChar *) str);
 	
 	if (doc == NULL) {
@@ -361,6 +376,24 @@ load_from_stream (BonoboPersistStream *ps,
 			continue;
 		}
 
+		if (strcasecmp (children->name, "usetimer") == 0) {
+			xml_str = xmlNodeListGetString (doc, children->childs, 1);
+			summary->usetimer = atoi (xml_str);
+			xmlFree (xml_str);
+
+			children = children->next;
+			continue;
+		}
+
+		if (strcasecmp (children->name, "timer") == 0) {
+			xml_str = xmlNodeListGetString (doc, children->childs, 1);
+			summary->timer = atoi (xml_str);
+			xmlFree (xml_str);
+
+			children = children->next;
+			continue;
+		}
+
 		g_print ("Unknown name: %s\n", children->name);
 		children = children->next;
 	}
@@ -378,7 +411,7 @@ summary_to_string (RdfSummary *summary)
 	char *tmp_str;
 	
 	doc = xmlNewDoc ("1.0");
-	ns = xmlNewGlobalNs (doc, "http://www.helixcode.com", "rdf");
+	ns = xmlNewGlobalNs (doc, "http://www.ximian.com", "rdf");
 	
 	doc->root = xmlNewDocNode (doc, ns, "rdf-summary", NULL);
 
@@ -391,8 +424,15 @@ summary_to_string (RdfSummary *summary)
 	xmlNewChild (doc->root, ns, "showtitle", tmp_str);
 	g_free (tmp_str);
 
+	tmp_str = g_strdup_printf ("%d", summary->usetimer);
+	xmlNewChild (doc->root, ns, "usetimer", tmp_str);
+	g_free (tmp_str);
+
+	tmp_str = g_strdup_printf ("%d", summary->timer);
+	xmlNewChild (doc->root, ns, "timer", tmp_str);
+	g_free (tmp_str);
+
 	xmlDocDumpMemory (doc, &out_str, &out_len);
-	g_print ("%s\n", out_str);
 
 	return out_str;
 }
@@ -429,12 +469,23 @@ content_types (BonoboPersistStream *ps,
 	return bonobo_persist_generate_content_types (1, "application/x-rdf-summary");
 }
 
+static void 
+display_doc (RdfSummary *summary)
+{
+	GString *html;
+
+	html = g_string_new ("");
+
+	tree_walk (summary->cache->root, summary, html);
+	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (summary->view), html->str);
+	g_string_free (html, TRUE);
+}
+
 static void
 close_callback (GnomeVFSAsyncHandle *handle,
 		GnomeVFSResult result,
 		RdfSummary *summary)
 {
-	GString *html;
 	xmlDocPtr doc;
 	char *xml;
 
@@ -445,6 +496,9 @@ close_callback (GnomeVFSAsyncHandle *handle,
 	g_free (summary->buffer);
 	xml = summary->str->str;
 	g_string_free (summary->str, FALSE);
+
+	if (summary->cache != NULL)
+		xmlFreeDoc (summary->cache);
 
 	doc = xmlParseMemory (xml, strlen (xml));
 	if (doc == NULL) {
@@ -468,11 +522,12 @@ close_callback (GnomeVFSAsyncHandle *handle,
 	}
 	
 	g_free (xml);
-	html = g_string_new ("");
 
-	tree_walk (doc->root, summary, html);
-	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (summary->view), html->str);
-	g_string_free (html, TRUE);
+	/* Cache it for later */
+	summary->cache = doc;
+
+	/* Draw it */
+	display_doc (summary);
 }
 
 static void
@@ -632,9 +687,15 @@ set_prop (BonoboPropertyBag *bag,
 }
 
 static void
-item_changed (GtkEntry *entry,
+item_changed (GtkWidget *widget,
 	      RdfSummary *summary)
 {
+	if (widget == summary->g_update) {
+		summary->usetimer = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
+		gtk_widget_set_sensitive (summary->g_update_container, 
+					  summary->usetimer);
+	}
+
 	bonobo_property_control_changed (summary->property_control, NULL);
 }
 
@@ -645,7 +706,7 @@ property_control (BonoboPropertyControl *property_control,
 {
 	BonoboControl *control;
 	RdfSummary *summary = (RdfSummary *) user_data;
-	GtkWidget *container, *label, *hbox;
+	GtkWidget *container, *label, *hbox, *spinner, *button;
 	char *climit;
 
 	container = gtk_vbox_new (FALSE, 2);
@@ -695,8 +756,46 @@ property_control (BonoboPropertyControl *property_control,
 			    GTK_SIGNAL_FUNC (item_changed), summary);
 
 	gtk_box_pack_start (GTK_BOX (hbox), summary->g_title, TRUE, TRUE, 0);
-
 	gtk_box_pack_start (GTK_BOX (container), hbox, FALSE, FALSE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 2);
+
+	/* Update */
+	hbox = gtk_hbox_new (FALSE, 2);
+	label = gtk_label_new (_("Update automatically"));
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	summary->g_update = gtk_check_button_new ();
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (summary->g_update),
+				      summary->usetimer);
+
+	gtk_signal_connect (GTK_OBJECT (summary->g_update), "toggled",
+			    GTK_SIGNAL_FUNC (item_changed), summary);
+	gtk_box_pack_start (GTK_BOX (hbox), summary->g_update, TRUE, TRUE, 0);
+
+	button = gtk_button_new_with_label (_("Update now"));
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (download), summary);
+	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (container), hbox, FALSE, FALSE, 0);
+
+	/* Timer */
+	hbox = gtk_hbox_new (FALSE, 2);
+	summary->g_update_container = hbox;
+
+	label = gtk_label_new (_("Update every "));
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+	summary->adjustment = gtk_adjustment_new (summary->time / 1000 / 60,
+						  0.0, 1000.0, 1.0, 10.0, 1.0);
+	spinner = gtk_spin_button_new (summary->adjustment, 1.0, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), spinner, FALSE, FALSE, 0);
+	
+	label = gtk_label_new (_("minutes"));
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	
+	gtk_box_pack_start (GTK_BOX (container), hbox, FALSE, FALSE, 0);
+	gtk_widget_set_sensitive (hbox, summary->usetimer);
+
 	gtk_widget_show_all (container);
 
 	control = bonobo_control_new (container);
@@ -709,13 +808,30 @@ property_action (GtkObject *property_control,
 		 Bonobo_PropertyControl_Action action,
 		 RdfSummary *summary)
 {
+	gboolean changed = FALSE;
+	char *old_location;
+
 	switch (action) {
 	case Bonobo_PropertyControl_APPLY:
-		g_free (summary->location);
+		old_location = summary->location;
 		summary->showtitle = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (summary->g_title));
 		summary->location = g_strdup (gtk_entry_get_text (GTK_ENTRY (summary->rdf)));
+		if (strcmp (old_location, summary->location) != 0) 
+			changed = TRUE;
+
 		summary->limit = atoi (gtk_entry_get_text (GTK_ENTRY (summary->g_limit)));
-		g_idle_add ((GSourceFunc) download, summary);
+		summary->time = summary->adjustment->value * 60 * 1000;
+		if (summary->timer)
+			gtk_timeout_remove (summary->timer);
+		summary->timer = gtk_timeout_add (summary->time, 
+						  (GSourceFunc)download, summary);
+		
+		if (changed)
+			g_idle_add ((GSourceFunc) download, summary);
+		else
+			g_idle_add ((GSourceFunc) display_doc, summary);
+
+		g_free (old_location);
 		break;
  
 	case Bonobo_PropertyControl_HELP:
@@ -744,6 +860,13 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	summary->location = g_strdup ("http://news.gnome.org/gnome-news/rdf");
 	summary->limit = 10;
 	summary->showtitle = TRUE;
+
+	summary->cache = NULL;
+	
+	summary->usetimer = TRUE;
+	summary->time = 600000; /* 10 minutes */
+	summary->timer = gtk_timeout_add (summary->time, (GSourceFunc) download,
+					  summary);
 
 	component = executive_summary_component_new ();
 	gtk_signal_connect (GTK_OBJECT (component), "destroy",
@@ -776,7 +899,8 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 				 BONOBO_ARG_STRING, NULL,
 				 "The icon for this component's window", 0);
 	bonobo_object_add_interface (component, BONOBO_OBJECT(bag));
-				 
+
+	/* Bonobo::PropertyControl */
 	property = bonobo_property_control_new_full (property_control, 1,
 						     event_source,
 						     summary);
@@ -793,7 +917,7 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	bonobo_object_add_interface (component, BONOBO_OBJECT (stream));
 
 	running_views++;
-	gtk_timeout_add (5000, (GSourceFunc) download, summary);
+	gtk_idle_add ((GSourceFunc) download, summary);
 
 	return component;
 }

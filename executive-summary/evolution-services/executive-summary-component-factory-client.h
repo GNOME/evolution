@@ -51,7 +51,7 @@ GtkType executive_summary_component_factory_client_get_type (void);
 void executive_summary_component_factory_client_construct (ExecutiveSummaryComponentFactoryClient *client,
 							   CORBA_Object corba_object);
 ExecutiveSummaryComponentFactoryClient *executive_summary_component_factory_client_new (const char *id);
-GNOME_Evolution_Summary_Component executive_summary_component_factory_client_create_view (ExecutiveSummaryComponentFactoryClient *client);
+CORBA_Object executive_summary_component_factory_client_create_view (ExecutiveSummaryComponentFactoryClient *client);
 
 #endif
 
