@@ -174,7 +174,6 @@ camel_mbox_summary_save (CamelMboxSummary *summary, const gchar *filename,
 	gint fd;
 	gint write_result; /* XXX use this */
 	guint32 data;
-	struct stat st;
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary entering \n");
 
