@@ -650,82 +650,30 @@ set_entry_changed_signals(EContactEditor *editor)
 	set_entry_changed_signal_phone(editor, "entry-phone2");
 	set_entry_changed_signal_phone(editor, "entry-phone3");
 	set_entry_changed_signal_phone(editor, "entry-phone4");
-	widget = glade_xml_get_widget(editor->gui, "entry-email1");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect(widget, "changed",
-				 G_CALLBACK (email_entry_changed), editor);
-	}
+
+	set_entry_changed_signal_field(editor, "entry-email1");
+
 	widget = glade_xml_get_widget(editor->gui, "text-address");
 	if (widget && GTK_IS_TEXT_VIEW(widget)) {
 		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
 		g_signal_connect(buffer, "changed",
 				 G_CALLBACK (address_text_changed), editor);
 	}
-	widget = glade_xml_get_widget(editor->gui, "entry-fullname");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect(widget, "changed",
-				 G_CALLBACK (name_entry_changed), editor);
-	}
-	widget = glade_xml_get_widget(editor->gui, "entry-company");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect(widget, "changed",
-				 G_CALLBACK (company_entry_changed), editor);
-	}
-	widget = glade_xml_get_widget(editor->gui, "entry-web");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect(widget, "changed",
-				 G_CALLBACK (widget_changed), editor);
-	}
-	widget = glade_xml_get_widget(editor->gui, "entry-categories");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect(widget, "changed",
-				 G_CALLBACK (widget_changed), editor);
-	}
-	widget = glade_xml_get_widget(editor->gui, "entry-jobtitle");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect(widget, "changed",
-				 G_CALLBACK (widget_changed), editor);
-	}
-	widget = glade_xml_get_widget(editor->gui, "entry-file-as");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect(widget, "changed",
-				 G_CALLBACK (widget_changed), editor);
-	}
-	widget = glade_xml_get_widget(editor->gui, "entry-manager");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect (widget, "changed",
-				  G_CALLBACK (widget_changed), editor);
-	}
-	widget = glade_xml_get_widget(editor->gui, "entry-assistant");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect (widget, "changed",
-				  G_CALLBACK (widget_changed), editor);
-	}
-	widget = glade_xml_get_widget(editor->gui, "entry-office");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect (widget, "changed",
-				  G_CALLBACK (widget_changed), editor);
-	}
-	widget = glade_xml_get_widget(editor->gui, "entry-department");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect (widget, "changed",
-				  G_CALLBACK (widget_changed), editor);
-	}
-	widget = glade_xml_get_widget(editor->gui, "entry-profession");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect (widget, "changed",
-				  G_CALLBACK (widget_changed), editor);
-	}
-	widget = glade_xml_get_widget(editor->gui, "entry-nickname");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect (widget, "changed",
-				  G_CALLBACK (widget_changed), editor);
-	}
-	widget = glade_xml_get_widget(editor->gui, "entry-spouse");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect (widget, "changed",
-				  G_CALLBACK (widget_changed), editor);
-	}
+
+	set_entry_changed_signal_field(editor, "entry-fullname");
+	set_entry_changed_signal_field(editor, "entry-company");
+	set_entry_changed_signal_field(editor, "entry-web");
+	set_entry_changed_signal_field(editor, "entry-categories");
+	set_entry_changed_signal_field(editor, "entry-jobtitle");
+	set_entry_changed_signal_field(editor, "entry-file-as");
+	set_entry_changed_signal_field(editor, "entry-manager");
+	set_entry_changed_signal_field(editor, "entry-assistant");
+	set_entry_changed_signal_field(editor, "entry-office");
+	set_entry_changed_signal_field(editor, "entry-department");
+	set_entry_changed_signal_field(editor, "entry-profession");
+	set_entry_changed_signal_field(editor, "entry-nickname");
+	set_entry_changed_signal_field(editor, "entry-spouse");
+
 	widget = glade_xml_get_widget(editor->gui, "text-comments");
 	if (widget && GTK_IS_TEXT_VIEW(widget)) {
 		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
@@ -742,11 +690,9 @@ set_entry_changed_signals(EContactEditor *editor)
 		g_signal_connect (widget, "changed",
 				  G_CALLBACK (widget_changed), editor);
 	}
-	widget = glade_xml_get_widget(editor->gui, "entry-web");
-	if (widget && GTK_IS_ENTRY(widget)) {
-		g_signal_connect (widget, "changed",
-				  G_CALLBACK (widget_changed), editor);
-	}
+
+	set_entry_changed_signal_field(editor, "entry-caluri");
+	set_entry_changed_signal_field(editor, "entry-fburl");
 
 }
 
@@ -895,46 +841,6 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 	}
 	gtk_widget_destroy(GTK_WIDGET(dialog));
 }
-
-static void
-ensure_select_names_contact (EContactEditor *editor)
-{
-	if (editor->select_names_contacts == NULL) {
-		editor->select_names_contacts = e_select_names_manager_new ();
-		e_select_names_manager_add_section (editor->select_names_contacts,
-						    "contacts",
-						    "Related Contacts");
-	}
-
-	set_entry_changed_signal_field(editor, "entry-caluri");
-	set_entry_changed_signal_field(editor, "entry-fburl");
-}
-
-static void
-contacts_clicked (GtkWidget *button, EContactEditor *editor)
-{
-	ensure_select_names_contact (editor);
-	e_select_names_manager_activate_dialog (editor->select_names_contacts,
-						"contacts");
-}
-
-static void
-add_lists (EContactEditor *editor)
-{
-	GtkWidget *table = glade_xml_get_widget (editor->gui, "table-contacts");
-	if (table && GTK_IS_TABLE (table)) {
-		GtkWidget *entry;
-
-		ensure_select_names_contact (editor);
-		entry = e_select_names_manager_create_entry (editor->select_names_contacts,
-							     "contacts");
-		g_signal_connect (entry, "changed",
-				  G_CALLBACK (widget_changed), editor);
-		gtk_table_attach_defaults (GTK_TABLE (table), entry, 0, 1, 0, 1);
-		gtk_widget_show (entry);
-	}
-}
-
 
 typedef struct {
 	EContactEditor *ce;
@@ -1328,7 +1234,6 @@ setup_tab_order(GladeXML *gui)
 		list = add_to_tab_order(list, gui, "entry-web");
 		list = add_to_tab_order(list, gui, "button-fulladdr");
 		list = add_to_tab_order(list, gui, "text-address");
-		list = add_to_tab_order(list, gui, "alignment-contacts");
 		list = g_list_reverse(list);
 		e_container_change_tab_order(GTK_CONTAINER(container), list);
 		g_list_free(list);
@@ -1386,7 +1291,6 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 				  e_contact_editor);
 
 	_replace_buttons(e_contact_editor);
-	add_lists (e_contact_editor);
 	set_entry_changed_signals(e_contact_editor);
 
 	wants_html = glade_xml_get_widget(e_contact_editor->gui, "checkbutton-htmlmail");
@@ -1413,12 +1317,6 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	if (widget && GTK_IS_BUTTON(widget))
 		g_signal_connect (widget, "clicked",
 				  G_CALLBACK (categories_clicked), e_contact_editor);
-
-	widget = glade_xml_get_widget(e_contact_editor->gui, "button-contacts");
-	if (widget && GTK_IS_BUTTON(widget))
-		g_signal_connect (widget, "clicked",
-				  G_CALLBACK (contacts_clicked), e_contact_editor);
-
 
 	/* Construct the app */
 	bonobo_win = bonobo_window_new ("contact-editor-dialog", _("Contact Editor"));
@@ -1527,11 +1425,6 @@ e_contact_editor_dispose (GObject *object) {
 	if (e_contact_editor->book) {
 		g_object_unref(e_contact_editor->book);
 		e_contact_editor->book = NULL;
-	}
-
-	if (e_contact_editor->select_names_contacts) {
-		g_object_unref(e_contact_editor->select_names_contacts);
-		e_contact_editor->select_names_contacts = NULL;
 	}
 
 	if (e_contact_editor->name) {
@@ -2183,7 +2076,6 @@ add_field_callback(GtkWidget *widget, EContactEditor *editor)
 		"entry-spouse",
 		"text-comments",
 		"entry-categories",
-		"entry-contacts",
 		"entry-file-as",
 		"dateedit-anniversary",
 		"dateedit-birthday",
@@ -2594,12 +2486,6 @@ fill_in_info(EContactEditor *editor)
 				e_date_edit_set_time (dateedit, -1);
 		}
 
-		if (editor->select_names_contacts && related_contacts && *related_contacts) {
-			ESelectNamesModel *model = e_select_names_manager_get_source (editor->select_names_contacts,
-										      "contacts");
-			e_select_names_model_import_destinationv (model, related_contacts);
-		}
-
 		set_fields(editor);
 	}
 }
@@ -2679,21 +2565,6 @@ extract_info(EContactEditor *editor)
 
 		for (list = editor->arbitrary_fields; list; list = list->next) {
 			extract_single_field(editor, list->data);
-		}
-
-		if (editor->select_names_contacts) {
-			ESelectNamesModel *model = e_select_names_manager_get_source (editor->select_names_contacts,
-										      "contacts");
-			char *string = e_select_names_model_export_destinationv (model);
-			if (string && *string)
-				g_object_set (card,
-						"related_contacts", string,
-						NULL);
-			else
-				g_object_set (card,
-						"related_contacts", NULL,
-						NULL);
-			g_free (string);
 		}
 
 		if (editor->name)
