@@ -1,3 +1,8 @@
+2000-08-01  Peter Williams  <peterw@helixcode.com>
+
+	* e-msg-composer.c (set_editor_text): sizeof("--\") !=
+	strlen("--\n"), breaking the test for the signature prefix.
+
 2000-07-28  JP Rosevear  <jpr@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_sig_file): New

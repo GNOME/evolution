@@ -363,7 +363,7 @@ set_editor_text (BonoboWidget *editor, char *sig_file, const char *text)
 
 	sig = get_signature (sig_file);
 	if (sig) {
-		if (!strncmp ("--\n", sig, sizeof ("--\n")))
+		if (!strncmp ("--\n", sig, 3))
 			fulltext = g_strdup_printf ("%s<BR>\n<PRE>\n%s</PRE>",
 						    text, sig);
 		else
