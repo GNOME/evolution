@@ -1,3 +1,9 @@
+2004-09-03  JP Rosevear  <jpr@novell.com>
+
+	Fixes #65030
+	
+	* en_GB.po: Correct typo
+	
 2004-09-03  Baris Cicek <baris@teamforce.name.tr>
 
 	* tr.po: Updated Turkish Translation

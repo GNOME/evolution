@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: evolution 0.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-07-31 10:40-0400\n"
+"PO-Revision-Date: 2004-09-03 15:47-0400\n"
 "Last-Translator: Gareth Owen <gowen72@yahoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -5123,8 +5123,9 @@ msgid "Su_mmary:"
 msgstr "Su_mmary:"
 
 #: calendar/gui/dialogs/event-page.glade.h:18
+#, fuzzy
 msgid "This appointment has customized alarms"
-msgstr "This appointment has customirsed alarms"
+msgstr "This appointment has customised alarms"
 
 #: calendar/gui/dialogs/event-page.glade.h:19
 msgid "_Alarm"
