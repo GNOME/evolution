@@ -1,4 +1,13 @@
-2003-06-25  Bolian Yin <bolian.yin@sun.com
+2003-06-25  Bolian Yin <bolian.yin@sun.com>
+
+	Fixes #45275
+
+	* gui/e-calendar-table.c (e_calendar_table_show_popup_menu): new function.
+	(e_calendar_table_on_right_click_menu): call e_calendar_table_show_popup_menu.
+	(e_calendar_table_on_popup_menu): callback for "popup_menu" signal.
+	(e_calendar_table_init): connect to ETable's "popup_menu" signal.
+
+2003-06-25  Bolian Yin <bolian.yin@sun.com>
 
 	Fixes #45273
 

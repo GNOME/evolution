@@ -33,6 +33,7 @@
 #include <unistd.h>
 #include <gnome.h>
 #include <gtk/gtkinvisible.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <gal/e-table/e-cell-checkbox.h>
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-text.h>
@@ -70,11 +71,18 @@ static void e_calendar_table_on_double_click	(ETable		*table,
 						 gint		 col,
 						 GdkEvent	*event,
 						 ECalendarTable *cal_table);
+static gint e_calendar_table_show_popup_menu    (ETable *table,
+						 GdkEvent *gdk_event,
+						 ECalendarTable *cal_table);
+
 static gint e_calendar_table_on_right_click	(ETable		*table,
 						 gint		 row,
 						 gint		 col,
-						 GdkEventButton *event,
+						 GdkEvent       *event,
 						 ECalendarTable *cal_table);
+static gboolean e_calendar_table_on_popup_menu  (GtkWidget *widget,
+						 gpointer data);
+
 static void e_calendar_table_on_open_task	(GtkWidget	*menuitem,
 						 gpointer	 data);
 static void e_calendar_table_on_save_as	        (GtkWidget	*menuitem,
@@ -519,6 +527,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	g_signal_connect (e_table, "double_click", G_CALLBACK (e_calendar_table_on_double_click), cal_table);
 	g_signal_connect (e_table, "right_click", G_CALLBACK (e_calendar_table_on_right_click), cal_table);
 	g_signal_connect (e_table, "key_press", G_CALLBACK (e_calendar_table_on_key_press), cal_table);
+	g_signal_connect (e_table, "popup_menu", G_CALLBACK (e_calendar_table_on_popup_menu), cal_table);
 
 	/* Set up the invisible widget for the clipboard selections */
 	cal_table->invisible = gtk_invisible_new ();
@@ -972,15 +981,14 @@ static EPopupMenu tasks_popup_menu [] = {
 };
 
 static gint
-e_calendar_table_on_right_click (ETable *table,
-				 gint row,
-				 gint col,
-				 GdkEventButton *event,
-				 ECalendarTable *cal_table)
+e_calendar_table_show_popup_menu (ETable *table,
+				  GdkEvent *gdk_event,
+				  ECalendarTable *cal_table)
 {
 	int n_selected;
 	int hide_mask = 0;
 	int disable_mask = 0;
+	GtkMenu *gtk_menu;
 
 	n_selected = e_table_selected_count (table);
 	if (n_selected <= 0)
@@ -998,12 +1006,33 @@ e_calendar_table_on_right_click (ETable *table,
 					      CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT))
 		disable_mask |= MASK_ASSIGNABLE;
 
-	e_popup_menu_run (tasks_popup_menu, (GdkEvent *) event,
-			  disable_mask, hide_mask, cal_table);
+        gtk_menu = e_popup_menu_create (tasks_popup_menu, disable_mask,
+					hide_mask, cal_table);
+                                                                            
+        e_popup_menu (gtk_menu, gdk_event);
 
 	return TRUE;
 }
 
+static gint
+e_calendar_table_on_right_click (ETable *table,
+				 gint row,
+				 gint col,
+				 GdkEvent *event,
+				 ECalendarTable *cal_table)
+{
+	return e_calendar_table_show_popup_menu (table, event, cal_table);
+}
+
+static gboolean
+e_calendar_table_on_popup_menu (GtkWidget *widget, gpointer data)
+{
+	ETable *table = E_TABLE(widget);
+	g_return_if_fail(table);
+
+	return e_calendar_table_show_popup_menu (table, NULL,
+						 E_CALENDAR_TABLE(data));
+}
 
 static void
 e_calendar_table_on_open_task (GtkWidget *menuitem,
