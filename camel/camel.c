@@ -36,7 +36,6 @@
 #endif /* HAVE_NSS */
 
 #include "camel.h"
-#include "camel-iconv.h"
 #include "camel-certdb.h"
 #include "camel-mime-utils.h"
 
