@@ -29,9 +29,9 @@ figs = \
 	figures/summary.png			\
 	figures/vfolder-createrule-fig.png
 figdir = figures
-docname = evolution-1.4
+docname = evolution-1.5
 lang = C
-omffile = evolution-1.4-C.omf
+omffile = evolution-1.5-C.omf
 entities =	\
 	apx-authors.xml		\
 	apx-bugs.xml		\

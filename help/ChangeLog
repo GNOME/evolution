@@ -1,0 +1,4 @@
+2003-11-17  JP Rosevear <jpr@ximian.com>
+
+	* C/Makefile.am: Switch version to 1.5
+
