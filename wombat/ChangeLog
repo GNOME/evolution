@@ -1,3 +1,7 @@
+2003-02-07  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am: privlibexecdir not evolibexecdir for the server file
+	
 2003-02-06  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: cleanup
