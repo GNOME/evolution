@@ -770,7 +770,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 		/* FIXME: do we want the following code in the future? */
 		/*gtk_editable_select_region (GTK_EDITABLE (name), 0, -1);*/
 	} else {
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (name), fr->name);
+		e_utf8_gtk_entry_set_text (GTK_ENTRY (name), _(fr->name));
 	}
 	
 	/* evil kludgy hack because gtk sucks */
