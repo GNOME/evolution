@@ -1,3 +1,24 @@
+2004-06-22  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-tree.c (emft_maybe_expand_row): As toshok discovered,
+	gtk_tree_model_get() strdup's string arguments, *sigh*, so we need
+	to free them.
+	(tree_drag_data_delete): Same.
+	(tree_drag_data_get): Same.
+	(tree_drag_data_received): Same.
+	(emft_drop_target): Same
+	(em_folder_tree_get_selected_uris): Same.
+	(get_selected_uris_path_iterate): Same.
+	(emft_update_model_expanded_state): Same.
+	(emft_tree_row_expanded): Same.
+	(emft_tree_row_activated): Same.
+	(emft_popup_delete_response): Same.
+	(emft_popup_delete_folder): Same.
+	(emft_popup_rename_folder): Same.
+	(emft_popup_properties): Same.
+	(emft_tree_button_press): Same.
+	(emft_tree_selection_changed): Same.
+
 2004-06-22  Chris Toshok  <toshok@ximian.com>
 
 	* em-folder-tree.c (render_pixbuf): gtk_tree_model_get on a string
