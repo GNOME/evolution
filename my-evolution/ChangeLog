@@ -1,3 +1,11 @@
+2001-09-05  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-calendar.c (generate_html): Check if we need to use 24hr
+	format. Don't try to do fancy things with the date and time of an
+	appointment.
+	(locale_uses_24h_time_format): Cut and pasted from calendar.
+	(e_summary_calendar_init): Get the 24hour preferences from the calendar.
+
 2001-09-04  Iain Holmes  <iain@ximian.com>
 
 	* Locations: Applied patch from Evert Verhellen to fix the Belgium 

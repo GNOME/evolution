@@ -18,10 +18,15 @@
 #include <cal-client/cal-client.h>
 #include <cal-util/timeutil.h>
 
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
+
 struct _ESummaryCalendar {
 	CalClient *client;
 
 	char *html;
+	gboolean wants24hr;
 };
 
 const char *
@@ -169,6 +174,7 @@ generate_html (gpointer data)
 		break;
 
 	case E_SUMMARY_CALENDAR_ONE_MONTH:
+	default:
 		f = time_add_month (t, 1);
 		end = time_day_end (f);
 		break;
@@ -228,16 +234,10 @@ generate_html (gpointer data)
 
 			start_str = g_new (char, 20);
 			start_tm = localtime (&start_t);
-			dt = start_t - t;
-			/* 86400 == 1 day
-			   604800 == 1 week
-			   Otherwise: Month */
-			if (dt < 86400) {
-				strftime (start_str, 19, _("%l:%M%p"), start_tm);
-			} else if (dt < 604800) {
-				strftime (start_str, 19, _("%a %l:%M%p"), start_tm);
+			if (calendar->wants24hr == TRUE) {
+				strftime (start_str, 19, _("%k%M %d %B"), start_tm);
 			} else {
-				strftime (start_str, 19, _("%d %B"), start_tm);
+				strftime (start_str, 19, _("%l:%M %d %B"), start_tm);
 			}
 
 			tmp = g_strdup_printf ("<img align=\"middle\" src=\"new_appointment.xpm\" "
@@ -291,9 +291,21 @@ e_summary_calendar_protocol (ESummary *summary,
 
 }
 
+static gboolean
+locale_uses_24h_time_format (void)
+{
+	char s[16];
+	time_t t = 0;
+
+	strftime (s, sizeof s, "%p", gmtime (&t));
+	return s[0] == '\0';
+}
+
 void
 e_summary_calendar_init (ESummary *summary)
 {
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
 	ESummaryCalendar *calendar;
 	gboolean result;
 	char *uri;
@@ -323,6 +335,16 @@ e_summary_calendar_init (ESummary *summary)
 	if (result == FALSE) {
 		g_message ("Open calendar failed");
 	}
+
+	CORBA_exception_init (&ev);
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting Wombat. Using defaults");
+	} else {
+		calendar->wants24hr = bonobo_config_get_boolean_with_default (db, "/Calendar/Display/Use24HourFormat", locale_uses_24h_time_format (), NULL);
+		bonobo_object_release_unref (db, NULL);
+	}
+	CORBA_exception_free (&ev);
 
 	e_summary_add_protocol_listener (summary, "calendar", e_summary_calendar_protocol, calendar);
 }
