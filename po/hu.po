@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
-"POT-Creation-Date: 2001-04-28 12:59+0200\n"
-"PO-Revision-Date: 2001-04-28 14:29+02:00\n"
+"POT-Creation-Date: 2001-05-04 12:50+0200\n"
+"PO-Revision-Date: 2001-05-04 15:39+02:00\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -603,12 +603,11 @@ msgstr "3. email"
 
 #: addressbook/contact-editor/e-contact-quick-add.c:225
 msgid "Contact Quick-Add"
-msgstr ""
+msgstr "Gyors névjegyhozzáadás"
 
 #: addressbook/contact-editor/e-contact-quick-add.c:227
-#, fuzzy
 msgid "Edit Full"
-msgstr "Szûrõk szerkesztése"
+msgstr "Részletes szerkesztés"
 
 #: addressbook/contact-editor/e-contact-quick-add.c:268
 msgid "Full Name"
@@ -3674,7 +3673,7 @@ msgstr "Authentikáció:"
 #: camel/providers/imap/camel-imap-store.c:478
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
-msgstr ""
+msgstr "%sAdd meg %s@%s IMAP jelszavát!"
 
 #: camel/providers/imap/camel-imap-store.c:493
 #: camel/providers/smtp/camel-smtp-transport.c:389
@@ -3993,7 +3992,7 @@ msgstr "'%s' nem könyvtár."
 #: camel/providers/nntp/camel-nntp-auth.c:41
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
-msgstr ""
+msgstr "Add meg %s@%s NNTP jelszavát!"
 
 #: camel/providers/nntp/camel-nntp-auth.c:62
 msgid "Server rejected username"
@@ -4137,21 +4136,19 @@ msgid "Could not authenticate to KPOP server: %s"
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-store.c:220
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to server: %s"
-msgstr ""
-"Nem tudom elkészíteni a megadott mappát:\n"
-"%s"
+msgstr "Nem sikerült kapcsolódni a kiszolgálóhoz: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:324
 #, c-format
 msgid "Could not connect to POP server on %s."
-msgstr ""
+msgstr "Nem sikerült a POP kiszolgálóhoz kapcsolódni a %s gépen."
 
 #: camel/providers/pop3/camel-pop3-store.c:363
 #, c-format
 msgid "%sPlease enter the POP3 password for %s@%s"
-msgstr ""
+msgstr "%sAdd meg %s@%s POP3 jelszavát!"
 
 #: camel/providers/pop3/camel-pop3-store.c:382
 #, c-format
@@ -4159,6 +4156,8 @@ msgid ""
 "Unable to connect to POP server.\n"
 "Error sending username: %s"
 msgstr ""
+"Nem sikerült kapcsolódni a POP kiszolgálóhoz.\n"
+"Hiba a felhasználónév küldése közben: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:385
 #: camel/providers/pop3/camel-pop3-store.c:422
@@ -4170,6 +4169,8 @@ msgid ""
 "Unable to connect to POP server.\n"
 "No support for requested authentication mechanism."
 msgstr ""
+"Nem sikerült kapcsolódni a POP kiszolgálóhoz.\n"
+"A kért authentikációs mechanizmus nem támogatott."
 
 #: camel/providers/pop3/camel-pop3-store.c:420
 #, c-format
@@ -4177,6 +4178,8 @@ msgid ""
 "Unable to connect to POP server.\n"
 "Error sending password: %s"
 msgstr ""
+"Nem sikerült kapcsolódni a POP kiszolgálóhoz.\n"
+"Hiba a jelszó küldése közben: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:488
 #, c-format
@@ -5964,7 +5967,7 @@ msgstr ""
 #: ui/evolution-message-composer.xml.h:43 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-task-editor-dialog.xml.h:70 ui/evolution.xml.h:29
 msgid "_Edit"
-msgstr "_Szerkesztés"
+msgstr "S_zerkesztés"
 
 #: mail/mail-config-druid.c:94
 msgid ""
@@ -6302,24 +6305,20 @@ msgid "Could not write data: %s"
 msgstr "Nem tudom a dialógust elkészíteni."
 
 #: mail/mail-search-dialogue.c:107
-#, fuzzy
 msgid "_Search"
-msgstr "Keresés"
+msgstr "_Keresés"
 
 #: mail/mail-send-recv.c:136
-#, fuzzy
 msgid "Cancelling ..."
-msgstr "Mégsem"
+msgstr "Megszakítás..."
 
 #: mail/mail-send-recv.c:231
-#, fuzzy
 msgid "Send & Receive mail"
-msgstr "Sendmail"
+msgstr "Levelek küldése és fogadása"
 
 #: mail/mail-send-recv.c:234
-#, fuzzy
 msgid "Receiving"
-msgstr "Fogadás dátuma"
+msgstr "Fogadás"
 
 #: mail/mail-send-recv.c:283
 msgid "Updating ..."
@@ -6509,7 +6508,6 @@ msgstr ""
 
 #: mail/openpgp-utils.c:455 mail/openpgp-utils.c:562 mail/openpgp-utils.c:763
 #: mail/openpgp-utils.c:917 mail/openpgp-utils.c:1076
-#, fuzzy
 msgid "No GPG/PGP program available."
 msgstr "Nincs elérhetõ GPG/PGP program."
 
@@ -6538,9 +6536,8 @@ msgid "Folder"
 msgstr "Mappa"
 
 #: mail/subscribe-dialog.c:77
-#, fuzzy
 msgid "Store"
-msgstr "Pontszám"
+msgstr "Tároló"
 
 #: mail/subscribe-dialog.c:138
 msgid "Display folders starting with:"
@@ -6563,9 +6560,8 @@ msgstr "Nem tudom beállítani a helyi tárterületet -- %s"
 
 #. Construct the app
 #: mail/subscribe-dialog.c:873
-#, fuzzy
 msgid "Manage Subscriptions"
-msgstr "Leírás:"
+msgstr "Elõfizetések kezelése"
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:1
 #, fuzzy
@@ -6591,9 +6587,8 @@ msgid ""
 msgstr ""
 
 #: mail/importers/elm-importer.c:426
-#, fuzzy
 msgid "Elm mail"
-msgstr "Email"
+msgstr "Elm levél"
 
 #: mail/importers/netscape-importer.c:441
 msgid ""
@@ -6608,9 +6603,8 @@ msgid ""
 msgstr ""
 
 #: mail/importers/pine-importer.c:391
-#, fuzzy
 msgid "Pine mail"
-msgstr "Elsõdleges email"
+msgstr "Pine levél"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
@@ -6621,9 +6615,8 @@ msgid "Folder type:"
 msgstr "Mappatípus"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
-#, fuzzy
 msgid "Specify where to create the folder:"
-msgstr "Nincs elég hely a mappa elkészítéséhez"
+msgstr "Add meg, hogy hol hozod létre a mappát."
 
 #. Importer isn't ready yet.
 #. Wait 5 seconds and try again.
@@ -6711,14 +6704,12 @@ msgid "Click \"Import\" to begin importing the file into Evolution. "
 msgstr ""
 
 #: shell/importer/import.glade.h:2
-#, fuzzy
 msgid "Evolution Import Utility"
-msgstr "Evolúció tennivaló csatorna"
+msgstr "Evolúció importáló segédeszköz"
 
 #: shell/importer/import.glade.h:3
-#, fuzzy
 msgid "Evolution Importer Utility"
-msgstr "Evolúció tennivaló csatorna"
+msgstr "Evolúció importáló segédeszköz"
 
 #: shell/importer/import.glade.h:6
 msgid ""
@@ -6728,14 +6719,12 @@ msgid ""
 msgstr ""
 
 #: shell/importer/intelligent.c:109
-#, fuzzy
 msgid "Import files"
-msgstr "Fájl _importálása..."
+msgstr "Fájlok importálása"
 
 #: shell/importer/intelligent.c:122
-#, fuzzy
 msgid "Don't ask me again"
-msgstr "Ne jelenjen meg többé ez az üzenet."
+msgstr "Ne kérdezze meg többet."
 
 #: shell/e-setup.c:114 shell/e-setup.c:187
 msgid "Evolution installation"
@@ -6944,32 +6933,28 @@ msgid "_New Group..."
 msgstr "Ú_j csoport..."
 
 #: shell/e-shortcuts-view.c:281
-#, fuzzy
 msgid "Create a new shortcut group"
-msgstr "Egy új névjegy készítése"
+msgstr "Új indítócsoport létrehozása"
 
 #: shell/e-shortcuts-view.c:283
 msgid "_Remove This Group..."
-msgstr ""
+msgstr "_Csoport eltávolítása..."
 
 #: shell/e-shortcuts-view.c:284
-#, fuzzy
 msgid "Remove this shortcut group"
-msgstr "Vedd le ezt az elemet az indítósávról"
+msgstr "Indítócsoport eltávolítása az indítósávról"
 
 #: shell/e-shortcuts-view.c:289
-#, fuzzy
 msgid "_Hide the Shortcut Bar"
-msgstr "Nagy ikonok mutatása az elemeken"
+msgstr "Indítósáv el_rejtése"
 
 #: shell/e-shortcuts-view.c:290
-#, fuzzy
 msgid "Hide the shortcut bar"
-msgstr "Nagy ikonok mutatása az elemeken"
+msgstr "Indítósáv elrejtése"
 
 #: shell/e-shortcuts-view.c:374
 msgid "Activate"
-msgstr "Aktivál"
+msgstr "Aktiválás"
 
 #: shell/e-shortcuts-view.c:374
 msgid "Activate this shortcut"
@@ -7127,9 +7112,8 @@ msgid "New contact"
 msgstr "Új névjegy"
 
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-mail.xml.h:28
-#, fuzzy
 msgid "Previews the message to be printed"
-msgstr "Témaszerinti levél lista"
+msgstr "Elõnézeti képet ad a nyomtatandó levélrõl"
 
 #: ui/evolution-addressbook.xml.h:11
 msgid "Print contacts"
@@ -7489,9 +7473,8 @@ msgid "In_complete Task (FIXME)"
 msgstr "Befe_jezetlen feladat (FIXME)"
 
 #: ui/evolution-event-editor.xml.h:27 ui/evolution-task-editor-dialog.xml.h:30
-#, fuzzy
 msgid "Modify the file's properties"
-msgstr "Tennivaló lista beállításai"
+msgstr "Fájl tulajdonságainak módosítása"
 
 #: ui/evolution-event-editor.xml.h:28 ui/evolution-task-editor-dialog.xml.h:31
 msgid "N_ext"
@@ -7797,9 +7780,8 @@ msgid "Show _All"
 msgstr "_Mindet mutatja"
 
 #: ui/evolution-mail.xml.h:49
-#, fuzzy
 msgid "Threaded Message list"
-msgstr "Témaszerinti levél lista"
+msgstr "Téma szerinti levéllista"
 
 #: ui/evolution-mail.xml.h:50
 msgid "VFolder on Se_nder"
@@ -7902,7 +7884,7 @@ msgstr "_Küldés / Fogadás"
 
 #: ui/evolution-mail.xml.h:77
 msgid "_Threaded"
-msgstr ""
+msgstr "_Szálanként"
 
 #: ui/evolution-mail.xml.h:79
 msgid "_Undelete"
@@ -8224,9 +8206,8 @@ msgid "Exit the program"
 msgstr "Kilépés a programból"
 
 #: ui/evolution.xml.h:11
-#, fuzzy
 msgid "Getting _Started"
-msgstr "Nem indult még el"
+msgstr "_Kezdetek"
 
 #: ui/evolution.xml.h:12
 msgid "Import an external file format"
@@ -8311,14 +8292,12 @@ msgid "_New Folder"
 msgstr "Új _mappa"
 
 #: ui/evolution.xml.h:40
-#, fuzzy
 msgid "_Shortcut"
-msgstr "Nagy ikonok mutatása az elemeken"
+msgstr "_Indítóikon"
 
 #: ui/evolution.xml.h:41
-#, fuzzy
 msgid "_Shortcut Bar"
-msgstr "Nagy ikonok mutatása az elemeken"
+msgstr "_Indítósáv"
 
 #: views/addressbook/galview.xml.h:1
 msgid "Adress Cards"
@@ -8369,7 +8348,7 @@ msgstr "Foglalt"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:389
 msgid "Out of Office"
-msgstr "Üzemen kívül"
+msgstr "Nincs bent"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:390
 msgid "No Information"
