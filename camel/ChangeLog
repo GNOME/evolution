@@ -1,3 +1,9 @@
+2003-04-29  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (camel_lock_helper_SOURCES): Remove camel-lock.c
+	from here because it upsets automake 1.6 for some reason
+	(camel_lock_helper_LDADD): Add camel-lock.o here
+
 2003-04-29  Jeremy Katz  <katzj@redhat.com>
 
 	* providers/imap/camel-imap-folder.c (parse_fetch_response):

@@ -233,13 +233,12 @@ libcamel_static_la_LDFLAGS = --all-static
 
 camel_lock_helper_SOURCES = 			\
 	camel-lock-helper.c 			\
-	camel-lock-helper.h			\
-	camel-lock.c				\
-	camel-lock.h
+	camel-lock-helper.h
 
 # NOTE: This needs to be cleaned up, it shouldn't link with all this crap,
 # because it might be setuid.
 camel_lock_helper_LDADD =			\
+	camel-lock.o				\
 	$(libcamel_la_LIBADD)
 
 camel_index_control_SOURCES =			\
