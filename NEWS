@@ -1,16 +1,23 @@
-Evolution x.x.x, ????-??-??
+Evolution 1.3.3, ????-??-??
 ---------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Addressbook
 
+    #37351 - Contact List drag-n-drop broken from sorted list view. (Toshok)
     #40954 - Wombat crashes when opening an appointment. (Toshok)
 
   * Mail
 
     #40694 - Focus not in To field of new message when From field is
              visible. (Toshok)
+
+Other bugs:
+
+  * Addressbook
+
+    - Mostly, if not completely, fixed 33708.  (Dan, Toshok)
 
 Evolution 1.3.2, 2003-04-11
 ---------------------------
