@@ -24,8 +24,10 @@
 #undef USE_FLOCK
 #undef ENABLE_NNTP
 
-#undef HAVE_DB_H
-#undef HAVE_DB3_DB_H
+/* db3 version */
+#undef EVOLUTION_DB_VERSION_MAJOR
+#undef EVOLUTION_DB_VERSION_MINOR
+#undef EVOLUTION_DB_VERSION_PATCH
 
 /* Sub-version identification string.  */
 #undef SUB_VERSION
