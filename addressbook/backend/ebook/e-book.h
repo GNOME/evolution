@@ -53,16 +53,23 @@ typedef void (*EBookFieldsCallback) (EBook *book, EBookStatus status, EList *fie
 
 /* Creating a new addressbook. */
 EBook    *e_book_new                      (void);
+
 gboolean  e_book_load_uri                 (EBook                 *book,
 					   const char            *uri,
 					   EBookCallback          open_response,
 					   gpointer               closure);
 void      e_book_unload_uri               (EBook                 *book);
+
+gboolean  e_book_load_local_address_book  (EBook                 *book,
+					   EBookCallback          open_response,
+					   gpointer               closure);
+
 char     *e_book_get_static_capabilities  (EBook                 *book);
 
 gboolean  e_book_get_supported_fields     (EBook                 *book,
-					   EBookFieldsCallback   cb,
-					   gpointer              closure);
+					   EBookFieldsCallback    cb,
+					   gpointer               closure);
+
 
 /* User authentication. */
 void      e_book_authenticate_user        (EBook                 *book,

@@ -11,6 +11,8 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkmarshal.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
 #include <liboaf/liboaf.h>
 
 #include "addressbook.h"
@@ -510,6 +512,28 @@ e_book_unload_uri (EBook *book)
 
 	book->priv->listener   = NULL;
 	book->priv->load_state = URINotLoaded;
+}
+
+gboolean
+e_book_load_local_address_book (EBook *book, EBookCallback open_response, gpointer closure)
+{
+	gchar *filename;
+	gchar *uri;
+	gboolean rv;
+
+	g_return_val_if_fail (book != NULL,          FALSE);
+	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
+	g_return_val_if_fail (open_response != NULL, FALSE);
+
+	filename = gnome_util_prepend_user_home ("evolution/local/Contacts/addressbook.db");
+	uri = g_strdup_printf ("file://%s", filename);
+
+	rv = e_book_load_uri (book, uri, open_response, closure);
+
+	g_free (filename);
+	g_free (uri);
+
+	return rv;
 }
 
 char *
