@@ -522,8 +522,7 @@
 	<screenshot>
 	  <screeninfo>Appointment Scheduling Window</screeninfo>
 	  <mediaobject><imageobject>
-	      <imagedata  format="PNG" fileref="figures/schedule"
-	  srccredit="Kevin Breit"/>
+	      <imagedata  format="PNG" fileref="figures/schedule" srccredit="Kevin Breit"/>
 	    </imageobject></mediaobject>
 	</screenshot>
       </figure>

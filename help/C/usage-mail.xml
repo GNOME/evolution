@@ -97,9 +97,9 @@
 	conversation from one message to the next.
       </para>
       <figure>
-        <title>Threaded Mail View</title>
+        <title>Message Threading In Action</title>
 	<screenshot>
-	  <screeninfo>Threaded Mail View</screeninfo>
+	  <screeninfo>Message Threading In Action</screeninfo>
 	  <mediaobject><imageobject>
 	      <imagedata  format="PNG" fileref="figures/mail-threaded" srccredit="Aaron Weber"/>
 	    </imageobject></mediaobject>
@@ -248,6 +248,22 @@
 	</listitem>
       </itemizedlist>
     </para>
+
+
+   <figure id="usage-mail-druid-pic">
+	<title>Mail Setup Assistant</title>
+	<screenshot>
+	  <screeninfo>Mail Setup Assistant</screeninfo>
+	    <mediaobject>
+	      <imageobject>
+		<imagedata fileref="figures/mail-druid-pic" format="PNG"
+			   srccredit="Aaron Weber"/>
+	      </imageobject>
+	    </mediaobject>
+	  </screenshot>
+	</figure>
+
+
     <para>
       To check your email, press the <guibutton>Check Mail</guibutton>
       button.  If this is your first time checking mail, or you
@@ -751,12 +767,12 @@
            <guilabel>To:</guilabel> and <guilabel>Subject:</guilabel>
            fields will already be filled, although you can alter them
            if you wish.  In addition, the full text of the old message
-           is inserted into the new message, either grey (for
-           HTML display) or with the &gt; character before each line
-           (in plain text mode), to indicate that it's part of the
-           previous message.  People often intersperse their message
-           with the quoted material as shown in <xref
-           linkend="usage-mail-getnsend-reply-fig"/>.
+           is inserted into the new message, either in grey with a
+           blue line to one side (for HTML display) or with the &gt;
+           character before each line (in plain text mode), to
+           indicate that it's part of the previous message.  People
+           often intersperse their message with the quoted material as
+           shown in <xref linkend="usage-mail-getnsend-reply-fig"/>.
 
  <!-- ==============Figure=================================== -->
        <figure id="usage-mail-getnsend-reply-fig">

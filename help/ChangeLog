@@ -1,3 +1,20 @@
+2003-05-19  Aaron Weber  <aaron@ximian.com>
+
+	* C/config-prefs.xml: fix glossterms not to be inside
+	<guilabel>s. None of these should be inside <term>s anyway.
+	
+2003-05-02  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail-org.xml: Filter-new-fig.png
+
+	* C/figures/filter-assist-fig.png: removed this figure image. Didn't need it and -new.
+	* C/figures/small_desktop.png: removed this figure image. Not sure why we had it.
+	* C/Makefile.am: remove filter-assist-fig.png, 
+
+2003-04-15  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-exchange.xml: delegation
+
 2003-04-27  Rodney Dawes  <dobey@ximian.com>
 
 	* C/Makefile.am: Add figures/outline.png to $(figs)

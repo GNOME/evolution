@@ -572,6 +572,19 @@
 
 <para>
 
+   <figure id="usage-mail-filter-fig-createrule">
+	<title>Creating a Mail Filter</title>
+	<screenshot>
+	  <screeninfo>Creating a Mail Filter</screeninfo>
+	    <mediaobject>
+	      <imageobject>
+		<imagedata fileref="figures/filter-new-fig" format="PNG"
+			   srccredit="Aaron Weber"/>
+	      </imageobject>
+	    </mediaobject>
+	  </screenshot>
+	</figure>
+
       <note id="lots-of-filters">
         <title>What if Multiple Filters Match One Message?</title>
          <para>
@@ -1124,6 +1137,21 @@
 	      Select your search criteria. For each criterion, you
 	      must first select which of the following parts of the
 	      message you want the search to examine:
+
+      <figure id="usage-mail-vfolder-fig-createrule">
+	<title>Selecting a vFolder Rule</title>
+	<screenshot>
+	  <screeninfo>Creating a vFolder Rule</screeninfo>
+	    <mediaobject>
+	      <imageobject>
+		<imagedata fileref="figures/vfolder-createrule-fig" format="PNG"
+			   srccredit="Aaron Weber"/>
+	      </imageobject>
+	    </mediaobject>
+	  </screenshot>
+	</figure>
+      </para>
+       <para>
 	      <itemizedlist>
 		<listitem><para>
 		    Sender - The sender's address.
@@ -1270,20 +1298,7 @@
 	server; you must be connected to your mail server for the vFolder to
 	include any messages from that source.
       </para>
-      <para>
-      <figure id="usage-mail-vfolder-fig-createrule">
-	<title>Selecting a vFolder Rule</title>
-	<screenshot>
-	  <screeninfo>Creating a vFolder Rule</screeninfo>
-	    <mediaobject>
-	      <imageobject>
-		<imagedata fileref="figures/vfolder-createrule-fig" format="PNG"
-			   srccredit="Aaron Weber"/>
-	      </imageobject>
-	    </mediaobject>
-	  </screenshot>
-	</figure>
-      </para>
+   
     </sect2>
   </sect1>
 </chapter>

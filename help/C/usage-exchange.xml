@@ -331,7 +331,7 @@ There are, however, some features which are not available:
          done so already, start Ximian
          Evolution and configure an account as described
          below.  Then, quit the application and place the
-         <systemitem>connector-key.data</systemitem> file in your
+         <systemitem>connector-key.txt</systemitem> file in your
          <systemitem>evolution</systemitem> directory. When you start
          Evolution again, the license will
          be verified and Ximian Connector will work properly.
@@ -381,10 +381,18 @@ There are, however, some features which are not available:
                       firewall.
                    </para>
 		  </listitem>
+
 		  <listitem>
 		    <para>
-                       If you would like
-                       Evolution to
+                      Select the kind of authentication your network
+                      uses. You can click the <guibutton>Check for Supported
+                      Types</guibutton> button to see which kinds will work.
+                    </para>
+		  </listitem>
+
+		  <listitem>
+		    <para>
+                       If you would like Evolution to
                        remember your password, check the box labeled
                        <guilabel>Remember this password</guilabel>.
                      </para>
@@ -419,6 +427,18 @@ There are, however, some features which are not available:
                       server, and many servers will refuse to return
                       more than 1000 results, no matter how many you
                       ask for.
+
+                  <note id="why-you-need-gal">
+                    <title>The Global Catalog Server</title>
+                    <para>
+                      The Global Catalog server provides you with
+                      access access to the Global Address List,
+                      free/busy information, and folder delegation
+                      features. These may not work properly if you do
+                      not have a Global Catalog server.
+                    </para>
+                  </note>
+
                      </para>
 		  </listitem>
 
@@ -428,28 +448,24 @@ There are, however, some features which are not available:
                       <itemizedlist>
                         <listitem>
                           <para>
-                            Exchange mailbox name is different
-                            from user name: If your exchange mailbox
-                            name is different from your user name,
-                            check this box and enter the mailbox name
-                            here.
+                            Exchange mailbox name: Enter your exchange
+                            mailbox name. The suggested value is
+                            probably correct.
                           </para>
                         </listitem>
                         <listitem>
                           <para>
-                            OWA path is not /exchange: In most cases,
+                            Outlook Web Access (OWA) Path: In most cases,
                             the URL for Outlook Web Access is
                             "http://server.company.com/exchange." If your
-                            system has a path that is not "/exchange," check
-                            the box and enter the custom path here.
+                            system has a URL that does not end in
+                            "/exchange," enter the custom path here.
                           </para>
                         </listitem>
                         <listitem>
                           <para>
-                            Public Folder Location: If your Exchange
-                            system has a custom or nonstandard Public
-                            Folder location, check this box and enter
-                            the URL for public folders here.
+                            Public Folder Server: Enter the name of
+                            your public folder server here.
                           </para>
                         </listitem>
                       </itemizedlist>
@@ -495,35 +511,6 @@ There are, however, some features which are not available:
           you're ready to get to work on the Exchange server.
         </para>
 
-	<figure>
-        <title>Creating an Exchange Account, Step One: Identity</title>
-	<screenshot>
-	  <screeninfo>Creating an Exchange Account, Step One: Identity</screeninfo>
-	  <mediaobject><imageobject>
-	      <imagedata  format="PNG" fileref="figures/exchange-identity" srccredit="Aaron Weber"/>
-	    </imageobject></mediaobject>
-	</screenshot>
-      </figure>
-
-	<figure>
-        <title>Creating an Exchange Account, Step Two: Receiving Mail</title>
-	<screenshot>
-	  <screeninfo>Creating an Exchange Account, Step Two: Receiving Mail</screeninfo>
-	  <mediaobject><imageobject>
-	      <imagedata  format="PNG" fileref="figures/exchange-receive" srccredit="Aaron Weber"/>
-	    </imageobject></mediaobject>
-	</screenshot>
-      </figure>
-
-	<figure>
-        <title>Creating an Exchange Account, Step Three: Mail Options</title>
-	<screenshot>
-	  <screeninfo>Creating an Exchange Account, Step Three: Mail Options</screeninfo>
-	  <mediaobject><imageobject>
-	      <imagedata  format="PNG" fileref="figures/exchange-receive-options" srccredit="Aaron Weber"/>
-	    </imageobject></mediaobject>
-	</screenshot>
-      </figure>
 
 
       </sect3>
@@ -537,6 +524,18 @@ There are, however, some features which are not available:
 	    to change settings in the following tabs of the account
 	    dialog:
 	  </para>
+
+	<figure>
+        <title>Exchange Account Settings: Identity</title>
+	<screenshot>
+	  <screeninfo>Creating an Exchange Account, Step One: Identity</screeninfo>
+	  <mediaobject><imageobject>
+	      <imagedata  format="PNG" fileref="figures/exchange-identity" srccredit="Aaron Weber"/>
+	    </imageobject></mediaobject>
+	</screenshot>
+      </figure>
+
+
 	  <variablelist>
 	    <varlistentry>
 	      <term>Identity</term>
@@ -548,6 +547,7 @@ There are, however, some features which are not available:
 	      </para>
 	      </listitem>
 	    </varlistentry>
+
 	    <varlistentry>
 	      <term>Receiving Mail</term>
 	      <listitem>
@@ -559,14 +559,31 @@ There are, however, some features which are not available:
 		  server supports SSL (Secure Socket Layer) encryption, it
 		  you can check the <guilabel>Use SSL</guilabel> box to
 		  take advantage of more secure data transfers.
+
+
+
+	<figure>
+        <title>Exchange Account Settings: Receiving Mail</title>
+	<screenshot>
+	  <screeninfo>Creating an Exchange Account, Step Two: Receiving Mail</screeninfo>
+	  <mediaobject><imageobject>
+	      <imagedata  format="PNG" fileref="figures/exchange-receive" srccredit="Aaron Weber"/>
+	    </imageobject></mediaobject>
+	</screenshot>
+      </figure>
+
 		</para>
+
+
 	      </listitem>
 	    </varlistentry>
+
+
 	    <varlistentry>
 	      <term>Receiving Options</term>
 	      <listitem>
 		  <para>
-		    Here, tab, you'll find some additional settings:
+		    Here, you'll find some additional settings:
 		    <variablelist>
 		     <varlistentry>
 		      <term>Checking for New Mail</term>
@@ -577,8 +594,29 @@ There are, however, some features which are not available:
 			 </para>
 		       </listitem>
 		    </varlistentry>
+		 
 		    <varlistentry>
-		      <term>Mailbox Name and Web Access Path</term>
+		      <term>Global Address List/Active Directory</term>
+		       <listitem>
+			 <para>
+			   The Global Address List (GAL) is an
+			   addressbook for everyone represented in
+			   your organization's Exchange deployment. To
+			   use the GAL, click the tab labeled
+			   <guilabel>Receiving Options</guilabel> and
+			   enter the name of your Global Catalog
+			   Server. The GAL is maintained by your
+			   system administrator and you cannot add,
+			   change, or remove items from it using
+			   Ximian Evolution. However, you can use it
+			   to invite people to meetings and to look up
+			   addresses and other information.
+			 </para>
+		       </listitem>
+		    </varlistentry>
+
+              <varlistentry>
+		      <term>Exchange Server</term>
 		       <listitem>
 			 <para>
 			   If your Exchange server requires you to use a
@@ -593,30 +631,26 @@ There are, however, some features which are not available:
 			  system has a path that is not "exchange," check
 			  the box and enter the custom path here.
 			 </para>
+                         <para>
+                            If your network uses a different server
+                            for Public Folders than for personal
+                            folders, enter its name here.
+                         </para>
 		       </listitem>
 		    </varlistentry>
-		    <varlistentry>
-		      <term>Active Directory</term>
-		       <listitem>
-			 <para>
-			   If you would like to use the Global Address
-			   List (GAL) maintained on your Exchange server,
-			   click the tab labeled <guilabel>Receiving
-			   Options</guilabel> and check the box labeled
-			   <guilabel>Create a Global Address List
-			   folder</guilabel>.  The GAL is maintained by
-			   your system administrator and you cannot add,
-			   change, or remove items from it using Ximian
-			   Evolution. However, you can use it to invite
-			   people to meetings and to look up addresses and
-			   other information. In many organizations, the
-			   GAL is stored on a different server from email.
-			   If this is the case, you should also specify
-			   the directory server name here.
-			 </para>
-		       </listitem>
-		    </varlistentry>
+
 		  </variablelist>
+
+	<figure>
+        <title>Exchange Account Settings: Receiving Mail</title>
+	<screenshot>
+	  <screeninfo>Creating an Exchange Account, Step Three: Mail Options</screeninfo>
+	  <mediaobject><imageobject>
+	      <imagedata  format="PNG" fileref="figures/exchange-receive-options" srccredit="Aaron Weber"/>
+	    </imageobject></mediaobject>
+	</screenshot>
+      </figure>
+
 		</para>
 	      </listitem>
 	    </varlistentry>
@@ -729,6 +763,18 @@ There are, however, some features which are not available:
           decide whether the access you grant applies to items marked
           <guilabel>Private</guilabel>, or only to public items.
         </para>
+
+
+	<figure>
+        <title>Exchange Account Delegation</title>
+	<screenshot>
+	  <screeninfo>Exchange Account Delegation Settings</screeninfo>
+	  <mediaobject><imageobject>
+	      <imagedata  format="PNG" fileref="figures/exchange-delegation" srccredit="Aaron Weber"/>
+	    </imageobject></mediaobject>
+	</screenshot>
+      </figure>
+
 
         <para>
           For each of the four types of folder, you may select one of

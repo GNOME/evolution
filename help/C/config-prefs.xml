@@ -113,7 +113,7 @@
       </varlistentry>
 
       <varlistentry>
-	<term></guiicon>Directory Servers</guiicon></term>
+	<term><guiicon>Directory Servers</guiicon></term>
 	<listitem>
 	  <para>
              This item allows you to enter account information for
@@ -965,7 +965,7 @@ smtp.omniport.com:143
 	      Enter the server information as requested by the assistant:
 	    <variablelist>
 		<varlistentry>
-		  <term><guilabel>Server name</guilabel></term>
+		  <term>Server name</term>
 		  <listitem>
 		    <para>
 		      Address of the server where the addressbook is located.
@@ -973,7 +973,7 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term><guilabel>Login Method</guilabel></term>
+		  <term>Login Method</term>
 		  <listitem>
 		    <para>
 		      Specify whether your login is anonymous, using
@@ -984,7 +984,7 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term><guilabel>Port</guilabel></term>
+		  <term>Port</term>
 		  <listitem>
 		    <para>
 		      The internet port
@@ -995,7 +995,7 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
                 <varlistentry>
-                  <term><guilabel>Use SSL/TLS</guilabel></term>
+                  <term>Use SSL/TLS</term>
 		  <listitem>
 		    <para>
                       SSL and TLS are security mechanisms. If you
@@ -1011,24 +1011,26 @@ smtp.omniport.com:143
 
 
 		<varlistentry>
-		  <term><guilabel><glossterm linkend="search-base">Search base</glossterm></guilabel></term>
+		  <term>Search base</term>
 		  <listitem>
 		    <para>
-		      The base entry to use for all your searches.
-		      Contact your administrator for information about
+		      The <glossterm linkend="search-base">search
+                    base</glossterm> is the starting point for a directory search. 
+		      Contact your network administrator for information about
 		      the correct settings.
 		    </para>
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term><guilabel><glossterm linkend="search-scope">Search scope</glossterm></guilabel></term>
+		  <term>Search scope</term>
 		  <listitem>
 		    <para>
-		      How broad the search is in the directory.  The
-		      following options are available:
+                      The <glossterm linkend="search-scope">search
+                    scope</glossterm> is the breadth of a given search. 
+		    The  following options are available:
 		      <variablelist>
 			<varlistentry>
-			  <term><guilabel>One</</term>
+			  <term><guilabel>One</guilabel></term>
 			  <listitem>
 			    <para>
 			      Searches the Search Base and one entry
@@ -1051,7 +1053,7 @@ smtp.omniport.com:143
                 </varlistentry>
 
                 <varlistentry>
-                  <term><guilabel>Timeout Limit</guilabel></term>
+                  <term>Timeout Limit</term>
 		  <listitem>
 		    <para>
                       This is the maximum time Evolution will attempt to
@@ -1062,7 +1064,7 @@ smtp.omniport.com:143
 
 
                 <varlistentry>
-                  <term><guilabel>Download Limit</guilabel></term>
+                  <term>Download Limit</term>
 		  <listitem>
 		    <para>
 		      Set the maximum number of results for a given
@@ -1076,11 +1078,11 @@ smtp.omniport.com:143
 
 
                 <varlistentry>
-                  <term><guilabel>Display name</guilabel></term>
+                  <term>Display name</term>
 		  <listitem>
 		    <para>
-		      The name that you see on the screen.  This could
-		      be anything you wish.
+		      This is the name you will use to label this
+                      folder, and may be any name you choose.
 		    </para>
 		  </listitem>
 		</varlistentry>

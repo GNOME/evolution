@@ -111,7 +111,7 @@
 	you will enter some basic personal information.  You can
 	define multiple identities later on with the
 	<menuchoice><guimenu>Tools</guimenu>
-	<guimenuitem>Configure</guimenuitem></menuchoice> tool and
+	<guimenuitem>Settings</guimenuitem></menuchoice> tool and
 	clicking the <guibutton>Mail Accounts</guibutton> button.
 	<itemizedlist>
 	  <listitem>
@@ -332,40 +332,42 @@
 	  </listitem>
 
 	  <listitem>
-	    <para>Mailbox Name is Different from Login Name: If your active directory user name
-	    is different from your Exchange mailbox name, check this
-	    box and enter your mailbox name here.
-	    </para>
-	  </listitem>
-	  <listitem>
 	    <para>
-	      Override Outlook Web Access Path: In most cases,
-	      the URL for web access is
-	      "http://server.company.com/exchange." If your
-	      system has a path that is not "exchange," check
-	      the box and enter the custom path here.
-	     </para>
-	  </listitem>
-	  <listitem>
-	    <para>Create a Global Address List folder: If you want to
-	    use your organization's Active Directory or Global Address
-	    List, leave this box checked. </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-              Active Directory Server Name: Enter the Active Directory
-	      server name here.
+              Global Address List/Active Directory: Enter the name of
+              your global catalog server here. You may also choose to
+              limit the server's responses and select a maximum number
+              of results for an address search. A maximum number of
+              results limits the load on your system and on your
+              network.
             </para>
 	  </listitem>
 
 	  <listitem>
-	    <para>Limit number of Responses: Select a maximum number
-	    of results for an address search. A maximum number of
-	    results limits the load on your system and on your network.
-              </para>
+	    <para>Mailbox Name: If your active directory user name is
+	    different from your Exchange mailbox name, enter the
+	    mailbox name here.
+	    </para>
 	  </listitem>
-	</itemizedlist>
+	  <listitem>
+	    <para>
+	      Outlook Web Access (OWA) Path: In most cases, the URL
+	      for web access is "http://server.company.com/exchange."
+	      If your system has a path that is not "exchange," enter
+	      the appropriate value here.
+	     </para>
+	  </listitem>
+	  <listitem>
+	    <para>Public Folder Server: Enter the name of your organization's public folder server, if any, here.</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>Apply filters to new messages in Inbox on this
+	    server: Check this box to use filters when you visit the
+	    Inbox for this account.
             </para>
+	  </listitem>
+        </itemizedlist>
+      </para>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
@@ -472,13 +474,17 @@
 		  </para>
 		</listitem>
 	      </itemizedlist>
-	    </para>
-	  </listitem>
+            </para>
+          </listitem>
+        </itemizedlist>
+      </para>
+      <para>
+        If you choose SMTP, there are a few additional items to enter:
+        <itemizedlist>
 	  <listitem>
 	    <para>
-	      Host: If you chose <guilabel>SMTP</guilabel> or
-	      <guilabel>Microsoft Exchange</guilabel>, enter the
-	      server's name or IP address here.
+	      Host: enter your mail sending server's name or IP
+              address here.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -799,7 +805,7 @@ the workaround described in the note below.
 	<screeninfo>Inbox</screeninfo>
 	  <mediaobject>
              <imageobject>
-                 <imagedata fileref="figures/mainwindow-pic" format="PNG" srccredit="Kevin Breit"/> 
+                 <imagedata fileref="figures/mainwindow-pic" format="PNG" srccredit="Aaron Weber"/> 
              </imageobject>
           </mediaobject>
       </screenshot>
@@ -860,6 +866,7 @@ the workaround described in the note below.
       with precision so you can easily find what you're looking for.
     </para>
 
+    
 
   <sect2 id="usage-mainwindow-shortcutbar">
     <title>The Shortcut Bar</title>
@@ -875,7 +882,7 @@ the workaround described in the note below.
         rectangular group buttons.
     </para>
     <para>
-       Take a look at the <guilabel>Shortcut Bar</guilabel>
+       Take a look at the <guilabel>Shortcut Bar</guilabel>.
        The shortcut buttons in that category are:
 
 	    <variablelist>
@@ -961,6 +968,20 @@ the workaround described in the note below.
       <guilabel>vFolders</guilabel>, or virtual folders, discussed in
       <xref linkend="usage-mail-organize-vfolders"/>,
     </para>
+
+
+    <figure id="mainwin-folderbar">
+      <title>Using the Folder Bar</title>
+      <screenshot>
+	<screeninfo>Inbox with Folder Bar</screeninfo>
+	  <mediaobject>
+             <imageobject>
+                 <imagedata fileref="figures/folder-bar" format="PNG" srccredit="Aaron Weber"/> 
+             </imageobject>
+          </mediaobject>
+      </screenshot>
+    </figure>
+    
     <para>
        
       A typical <guilabel>Local</guilabel> folder contains the following folders:
@@ -1277,13 +1298,7 @@ Shows you how many email messages you have in your selected folders, waiting to 
 <inlinemediaobject><imageobject><imagedata fileref="figures/full-4" format="PNG"/></imageobject></inlinemediaobject> <guilabel>Calendar Summary</guilabel>
 </para>
 <para>
-Shows you your calendar.
-</para>
-<para>
-<inlinemediaobject><imageobject><imagedata fileref="figures/full-5" format="PNG"/></imageobject></inlinemediaobject> <guilabel>Tasks</guilabel>
-</para>
-<para>
-Shows your pending tasks
+Shows you your calendar. Tasks are displayed below calendar appointments.
 </para>
 
 
@@ -1356,7 +1371,7 @@ Shows your pending tasks
           <title>Ximian Evolution Mail</title>
           <screenshot>
             <screeninfo>Inbox</screeninfo>
-            <mediaobject><imageobject><imagedata  fileref="figures/mail-inbox" format="PNG" srccredit="Kevin Breit"/>
+            <mediaobject><imageobject><imagedata  fileref="figures/mail-inbox" format="PNG" srccredit="Aaron Weber"/>
         </imageobject></mediaobject>
         </screenshot>
       </figure>
@@ -1399,7 +1414,7 @@ Shows your pending tasks
       </para>
       <para>
         Most of the mail-related actions you'll want to perform are
-        listed in the <guimenu>Message</guimenu> menu in the menu bar.
+        listed in the <guimenu>Actions</guimenu> menu in the menu bar.
         The most frequently used ones, like
         <guimenuitem>Reply</guimenuitem> and
         <guimenuitem>Forward</guimenuitem>, also appear as buttons in
@@ -1463,18 +1478,21 @@ Shows your pending tasks
         <guilabel>Appointment List </guilabel> as it keeps track of
         tasks which don't have a time associated with them. Tasks can
         have complex notes associated with them, and you can also note
-        their completeness on a percentage scale.
+        their completeness on a percentage scale. To display more
+        information about your notes, drag the column border to the
+        left.
       </para>
 
       <para>
 	<inlinemediaobject><imageobject><imagedata  fileref="figures/full-3" format="PNG"/></imageobject></inlinemediaobject>
-	<guilabel>Calendar Window</guilabel>
+	<guilabel>Month Pane</guilabel>
       </para>
 
       <para>
-	The <guilabel>Calendar Window</guilabel> has a graphical representation of
-	the calendar, so you can select what days to view in the <guilabel>Appointment
-	List</guilabel>.
+	The month pane is a small view of your calendar by month.  To
+	display more months here, drag the column border to the left.
+	If you select a range of days in the month pane they will be
+	displayed <guilabel>Appointment List</guilabel>.
       </para>
 
       <para>
@@ -1530,9 +1548,24 @@ Shows your pending tasks
         format="PNG"/></imageobject></inlinemediaobject> <guilabel>Contact
         List</guilabel>
       </para>
+
       <para>
-        The <guilabel>Contact List</guilabel> lists your contacts.
+        The <guilabel>Contact List</guilabel> lists your contact cards.
+        You can also search through the cards in the same way 
+        that you search email folders, with the search bar just
+        above the contact list.
       </para>
+
+      <para>
+	<inlinemediaobject><imageobject><imagedata  fileref="figures/full-2" format="PNG"/></imageobject></inlinemediaobject>
+	<guilabel>Alphanumeric Shortcuts</guilabel>
+      </para>
+      <para> Click one of the buttons along the right side of the
+        window to view contacts that begin with the letter or number
+        you click.
+      </para>
+
+
       <para>
           For detailed instructions on how to use the address book,
           read <xref linkend="usage-contact"/>.
