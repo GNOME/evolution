@@ -182,8 +182,6 @@ e_passwords_remember_password (const char *component_name, const char *key)
 	state = save = 0;
 	base64_encode_close (value, len, FALSE, pass64, &state, &save);
 
-	printf ("remembering password for (%s): %s\n", path, pass64);
-
 	gnome_config_private_set_string (path, pass64);
 	g_free (path);
 	g_free (pass64);
