@@ -1,5 +1,13 @@
 2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #11326, The folder list can become detached from its parent
+	window.]
+
+	* e-shell-view.c (folder_context_menu_popped_down_cb): Pop down
+	the folder bar if it's popped up.
+
+2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (e_shell_component_maybe_crashed): Make the crash
 	message less dorky.  [#10264]
 

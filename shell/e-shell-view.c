@@ -740,6 +740,9 @@ folder_context_menu_popped_down_cb (EStorageSetView *storage_set_view,
 	shell_view = E_SHELL_VIEW (data);
 
 	setup_verb_sensitivity_for_folder (shell_view, e_shell_view_get_current_path (shell_view));
+
+	if (shell_view->priv->folder_bar_popup != NULL)
+		popdown_transient_folder_bar (shell_view);
 }
 
 /* Callback called when the button on the tree's title bar is clicked.  */
