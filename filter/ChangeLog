@@ -1,3 +1,12 @@
+2001-01-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-filter.c (less_parts): Er, don't set the button
+	insensitive if there is *1* action, set it insensitive if there
+	are less than or equal to *1* actions. Doh!
+	(more_parts): Only set the remove button sensitive if there is
+	more than 1 action.
+	(get_widget): Here too.
+
 2001-01-16  Jason Leach  <jasonleach@usa.net>
 
 	* e-search-bar.[ch]: Moved ESearchBar to $(toplevel)/widgets/misc,

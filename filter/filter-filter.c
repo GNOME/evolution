@@ -355,7 +355,7 @@ less_parts (GtkWidget *button, struct _rule_data *data)
 	gtk_container_remove (GTK_CONTAINER (data->parts), w);
 	
 	/* if there's only 1 action, we can't remove anymore so set insensitive */
-	if (g_list_length (((FilterFilter *)data->fr)->actions) == 1)
+	if (g_list_length (((FilterFilter *)data->fr)->actions) <= 1)
 		gtk_widget_set_sensitive (button, FALSE);
 }
 
@@ -375,8 +375,10 @@ more_parts (GtkWidget *button, struct _rule_data *data)
 	}
 	
 	/* set the "Remove action" button sensitive */
-	w = gtk_object_get_data (GTK_OBJECT (button), "remove");
-	gtk_widget_set_sensitive (w, TRUE);
+	if (g_list_length (((FilterFilter *)data->fr)->actions) > 1) {
+		w = gtk_object_get_data (GTK_OBJECT (button), "remove");
+		gtk_widget_set_sensitive (w, TRUE);
+	}
 }
 
 static GtkWidget *
@@ -424,7 +426,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_box_pack_start (GTK_BOX (hbox), remove, FALSE, FALSE, 3);
 	
 	/* if we only have 1 action, then we can't remove any more so disable this */
-	if (g_list_length (ff->actions) == 1)
+	if (g_list_length (ff->actions) <= 1)
 		gtk_widget_set_sensitive (remove, FALSE);
 	
 	gtk_box_pack_start (GTK_BOX (inframe), hbox, FALSE, FALSE, 3);
