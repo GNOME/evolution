@@ -328,6 +328,25 @@ set_bonobo_ui (GtkWidget *widget, FolderBrowser *fb)
 	/*bonobo_ui_component_thaw (uic, NULL);*/
 }
 
+static int
+on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
+{
+	MessageBrowser *mb = data;
+	
+	if (key->state & GDK_CONTROL_MASK)
+		return FALSE;
+	
+	switch (key->keyval) {
+	case GDK_Delete:
+	case GDK_KP_Delete:
+		message_browser_delete (NULL, mb, NULL);
+		return TRUE;
+	default:
+	}
+	
+	return FALSE;
+}
+
 GtkWidget *
 message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const char *uid)
 {
@@ -368,6 +387,8 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	/* more evil hackery... */
 	new->loaded_id = g_signal_connect (fb, "folder_loaded", G_CALLBACK (message_browser_folder_loaded), new);
 	g_signal_connect (fb, "message_loaded", G_CALLBACK (message_browser_message_loaded), new);
+	
+	g_signal_connect (new, "key_press_event", G_CALLBACK (on_key_press), new);
 	
 	return GTK_WIDGET (new);
 }
