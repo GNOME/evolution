@@ -32,6 +32,7 @@ wombat_LDADD =							\
 	$(top_builddir)/libversit/libversit.la			\
 	$(top_builddir)/e-util/libedb3util.la			\
 	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/libwombat/libwombat.la			\
 	$(LDAP_LIBS)						\
 	$(EXTRA_GNOME_LIBS)					\
 	$(BONOBO_VFS_GNOME_LIBS)

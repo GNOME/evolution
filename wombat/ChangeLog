@@ -1,3 +1,7 @@
+2001-06-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am (wombat_LDADD): Added libwombat/libwombat.la
+
 2001-06-21  Rodrigo Moya <rodrigo@ximian.com>
 
 	* wombat.idl: added new interface (WombatClient)
