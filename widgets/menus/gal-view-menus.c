@@ -483,7 +483,8 @@ gal_view_menus_unmerge   (GalViewMenus      *gvm,
 			  CORBA_Environment *opt_ev)
 {
 	d(g_print ("%s:\n", G_GNUC_FUNCTION));
-	if (bonobo_ui_component_path_exists  (gvm->priv->component, CURRENT_VIEW_PATH, opt_ev)) {
+	if (bonobo_ui_component_get_container (gvm->priv->component) != NULL
+	    && bonobo_ui_component_path_exists  (gvm->priv->component, CURRENT_VIEW_PATH, opt_ev)) {
 		d(g_print ("%s: Removing path\n", G_GNUC_FUNCTION));
 		bonobo_ui_component_rm (gvm->priv->component, CURRENT_VIEW_PATH, opt_ev);
 	}
