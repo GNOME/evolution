@@ -125,7 +125,7 @@ camel_session_get_store_from_provider (CamelSession *session, CamelProvider *pro
 	g_assert(session);
 	g_assert(provider);
 
-	store = gtk_object_new (provider->object_type, NULL);
+	store = CAMEL_STORE (gtk_object_new (provider->object_type, NULL));
 #warning set the url to a useful value.
 	camel_store_init(store, session, NULL);
 	return store;

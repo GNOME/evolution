@@ -29,21 +29,24 @@ static GtkObjectClass *parent_class=NULL;
 /* Returns the class for a CamelFolder */
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
-static void camel_folder_init_with_store(CamelFolder *folder, CamelStore *parent_store);
-static void camel_folder_open(CamelFolder *folder);
-static void camel_folder_close(CamelFolder *folder, gboolean expunge);
-static void camel_folder_set_name(CamelFolder *folder, GString *name_);
-static void camel_folder_set_full_name(CamelFolder *folder, GString *name);
-static GString *camel_folder_get_name(CamelFolder *folder);
-static GString *camel_folder_get_full_name(CamelFolder *folder);
-static gboolean camel_folder_can_hold_folders(CamelFolder *folder);
-static gboolean camel_folder_can_hold_messages(CamelFolder *folder);
-static gboolean camel_folder_exists(CamelFolder *folder);
-static gboolean camel_folder_is_open(CamelFolder *folder);
-static CamelFolder *camel_folder_get_folder(CamelFolder *folder, GString *folder_name);
+static void __camel_folder_init_with_store(CamelFolder *folder, CamelStore *parent_store);
+static void __camel_folder_open(CamelFolder *folder, CamelFolderOpenMode mode);
+static void __camel_folder_close(CamelFolder *folder, gboolean expunge);
+static void __camel_folder_set_name(CamelFolder *folder, GString *name_);
+static void __camel_folder_set_full_name(CamelFolder *folder, GString *name);
+static GString *__camel_folder_get_name(CamelFolder *folder);
+static GString *__camel_folder_get_full_name(CamelFolder *folder);
+static gboolean __camel_folder_can_hold_folders(CamelFolder *folder);
+static gboolean __camel_folder_can_hold_messages(CamelFolder *folder);
+static gboolean __camel_folder_exists(CamelFolder *folder);
+static gboolean __camel_folder_is_open(CamelFolder *folder);
+static CamelFolder *__camel_folder_get_folder(CamelFolder *folder, GString *folder_name);
 static gboolean __camel_folder_create(CamelFolder *folder);
 static gboolean __camel_folder_delete (CamelFolder *folder, gboolean recurse);
 static gboolean __camel_folder_delete_messages(CamelFolder *folder);
+static CamelFolder *__camel_folder_get_parent_folder (CamelFolder *folder);
+static CamelStore *__camel_folder_get_parent_store (CamelFolder *folder);
+static CamelFolderOpenMode __camel_folder_get_mode(CamelFolder *folder);
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
@@ -51,19 +54,23 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
-	camel_folder_class->init_with_store = camel_folder_init_with_store;
-	camel_folder_class->open = camel_folder_open;
-	camel_folder_class->close = camel_folder_close;
-	camel_folder_class->set_name = camel_folder_set_name;
-	camel_folder_class->get_name = camel_folder_get_name;
-	camel_folder_class->can_hold_folders = camel_folder_can_hold_folders;
-	camel_folder_class->can_hold_messages = camel_folder_can_hold_messages;
-	camel_folder_class->exists = camel_folder_exists;
-	camel_folder_class->is_open = camel_folder_is_open;
-	camel_folder_class->get_folder = camel_folder_get_folder;
+	camel_folder_class->init_with_store = __camel_folder_init_with_store;
+	camel_folder_class->open = __camel_folder_open;
+	camel_folder_class->close = __camel_folder_close;
+	camel_folder_class->set_name = __camel_folder_set_name;
+	camel_folder_class->get_name = __camel_folder_get_name;
+	camel_folder_class->can_hold_folders = __camel_folder_can_hold_folders;
+	camel_folder_class->can_hold_messages = __camel_folder_can_hold_messages;
+	camel_folder_class->exists = __camel_folder_exists;
+	camel_folder_class->is_open = __camel_folder_is_open;
+	camel_folder_class->get_folder = __camel_folder_get_folder;
 	camel_folder_class->create = __camel_folder_create;
 	camel_folder_class->delete = __camel_folder_delete;
 	camel_folder_class->delete_messages = __camel_folder_delete_messages;
+	camel_folder_class->get_parent_folder = __camel_folder_get_parent_folder;
+	camel_folder_class->get_parent_store = __camel_folder_get_parent_store;
+	camel_folder_class->get_mode = __camel_folder_get_mode;
+
 	/* virtual method overload */
 }
 
@@ -101,14 +108,14 @@ camel_folder_get_type (void)
 
 
 /**
- * camel_folder_init_with_store: init the folder by setting its parent store.
+ * __camel_folder_init_with_store: init the folder by setting its parent store.
  * @folder: folder object to initialize
  * @parent_store: parent store object of the folder
  * 
  * 
  **/
 static void 
-camel_folder_init_with_store(CamelFolder *folder, CamelStore *parent_store)
+__camel_folder_init_with_store(CamelFolder *folder, CamelStore *parent_store)
 {
 	g_assert(folder);
 	g_assert(parent_store);
@@ -120,20 +127,21 @@ camel_folder_init_with_store(CamelFolder *folder, CamelStore *parent_store)
 
 
 /**
- * camel_folder_open: Open a folder
+ * __camel_folder_open: Open a folder
  * @folder: 
- * 
+ * @mode: open mode (R/W/RW ?)
  * 
  **/
 static void
-camel_folder_open(CamelFolder *folder)
+__camel_folder_open(CamelFolder *folder, CamelFolderOpenMode mode)
 {
 	folder->open_state = FOLDER_OPEN;
+	folder->open_mode = mode;
 }
 
 
 /**
- * camel_folder_close:Close a folder.
+ * __camel_folder_close:Close a folder.
  * @folder: 
  * @expunge: if TRUE, the flagged message are deleted.
  * 
@@ -141,7 +149,7 @@ camel_folder_open(CamelFolder *folder)
  * expunge the flagged messages.
  **/
 static void
-camel_folder_close(CamelFolder *folder, gboolean expunge)
+__camel_folder_close(CamelFolder *folder, gboolean expunge)
 {
 #warning implement the expunge flag
     folder->open_state = FOLDER_CLOSE;
@@ -151,7 +159,7 @@ camel_folder_close(CamelFolder *folder, gboolean expunge)
 
 
 /**
- * camel_folder_set_name:set the (short) name of the folder
+ * __camel_folder_set_name:set the (short) name of the folder
  * @folder: folder
  * @name: new name of the folder
  * 
@@ -160,7 +168,7 @@ camel_folder_close(CamelFolder *folder, gboolean expunge)
  * 
  **/
 static void
-camel_folder_set_name(CamelFolder *folder, GString *name)
+__camel_folder_set_name(CamelFolder *folder, GString *name)
 {
     if (folder->name) g_string_free(folder->name, 0);;
     folder->name = name;
@@ -169,7 +177,7 @@ camel_folder_set_name(CamelFolder *folder, GString *name)
 
 
 /**
- * camel_folder_set_full_name:set the (full) name of the folder
+ * __camel_folder_set_full_name:set the (full) name of the folder
  * @folder: folder
  * @name: new name of the folder
  * 
@@ -178,7 +186,7 @@ camel_folder_set_name(CamelFolder *folder, GString *name)
  * 
  **/
 static void
-camel_folder_set_full_name(CamelFolder *folder, GString *name)
+__camel_folder_set_full_name(CamelFolder *folder, GString *name)
 {
     if (folder->full_name) g_string_free(folder->full_name, 0);;
     folder->full_name = name;
@@ -188,7 +196,7 @@ camel_folder_set_full_name(CamelFolder *folder, GString *name)
 
 
 /**
- * camel_folder_get_name: get the (short) name of the folder
+ * __camel_folder_get_name: get the (short) name of the folder
  * @folder: 
  * 
  * get the name of the folder. The fully qualified name
@@ -197,14 +205,14 @@ camel_folder_set_full_name(CamelFolder *folder, GString *name)
  * Return value: name of the folder
  **/
 static GString *
-camel_folder_get_name(CamelFolder *folder)
+__camel_folder_get_name(CamelFolder *folder)
 {
 	return folder->name;
 }
 
 
 /**
- * camel_folder_get_full_name:get the (full) name of the folder
+ * __camel_folder_get_full_name:get the (full) name of the folder
  * @folder: folder to get the name 
  * 
  * get the name of the folder. 
@@ -212,7 +220,7 @@ camel_folder_get_name(CamelFolder *folder)
  * Return value: full name of the folder
  **/
 static GString *
-camel_folder_get_full_name(CamelFolder *folder)
+__camel_folder_get_full_name(CamelFolder *folder)
 {
 	return folder->full_name;
 }
@@ -220,7 +228,7 @@ camel_folder_get_full_name(CamelFolder *folder)
 
 
 /**
- * camel_folder_can_hold_folders: tests if the folder can contain other folders
+ * __camel_folder_can_hold_folders: tests if the folder can contain other folders
  * @folder: 
  * 
  * 
@@ -228,7 +236,7 @@ camel_folder_get_full_name(CamelFolder *folder)
  * Return value: 
  **/
 static gboolean
-camel_folder_can_hold_folders(CamelFolder *folder)
+__camel_folder_can_hold_folders(CamelFolder *folder)
 {
     return folder->can_hold_folders;
 }
@@ -237,7 +245,7 @@ camel_folder_can_hold_folders(CamelFolder *folder)
 
 
 /**
- * camel_folder_can_hold_messages: tests if the folder can contain messages
+ * __camel_folder_can_hold_messages: tests if the folder can contain messages
  * @folder: 
  * 
  * 
@@ -245,7 +253,7 @@ camel_folder_can_hold_folders(CamelFolder *folder)
  * Return value: 
  **/
 static gboolean
-camel_folder_can_hold_messages(CamelFolder *folder)
+__camel_folder_can_hold_messages(CamelFolder *folder)
 {
     return folder->can_hold_messages;
 }
@@ -253,7 +261,7 @@ camel_folder_can_hold_messages(CamelFolder *folder)
 
 
 /**
- * camel_folder_exists: tests if the folder object exists on the store.
+ * __camel_folder_exists: tests if the folder object exists on the store.
  * @folder: 
  * 
  * 
@@ -261,7 +269,7 @@ camel_folder_can_hold_messages(CamelFolder *folder)
  * Return value: 
  **/
 static gboolean
-camel_folder_exists(CamelFolder *folder)
+__camel_folder_exists(CamelFolder *folder)
 {
     return folder->exists_on_store;
 }
@@ -269,7 +277,7 @@ camel_folder_exists(CamelFolder *folder)
 
 
 /**
- * camel_folder_is_open:
+ * __camel_folder_is_open:
  * @folder: 
  * 
  * 
@@ -277,7 +285,7 @@ camel_folder_exists(CamelFolder *folder)
  * Return value: 
  **/
 static gboolean
-camel_folder_is_open(CamelFolder *folder)
+__camel_folder_is_open(CamelFolder *folder)
 {
     return (folder->open_state==FOLDER_OPEN);
 }
@@ -286,7 +294,7 @@ camel_folder_is_open(CamelFolder *folder)
 
 
 /** 
- * camel_folder_get_folder: return the (sub)folder object that
+ * __camel_folder_get_folder: return the (sub)folder object that
  * is specified.
  *
  * This method returns a folder objects. This folder
@@ -299,7 +307,7 @@ camel_folder_is_open(CamelFolder *folder)
  *        could not be created
  **/
 static CamelFolder *
-camel_folder_get_folder(CamelFolder *folder, GString *folder_name)
+__camel_folder_get_folder(CamelFolder *folder, GString *folder_name)
 {
     g_warning("getFolder called on the abstract CamelFolder class\n");
     return NULL;
@@ -478,7 +486,102 @@ __camel_folder_delete_messages(CamelFolder *folder)
  * Return value: TRUE if the messages could be deleted
  **/
 gboolean
-camel_folder_delete_messages(CamelFolder *folder)
+camel_folder_delete_messages (CamelFolder *folder)
 {
 	return CF_CLASS(folder)->delete_messages(folder);
+}
+
+
+
+
+
+
+/**
+ * __camel_folder_get_parent_folder: return parent folder
+ * @folder: folder to get the parent
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+static CamelFolder *
+__camel_folder_get_parent_folder (CamelFolder *folder)
+{
+	return folder->parent_folder;
+}
+
+
+/**
+ * camel_folder_get_parent_folder:return parent folder
+ * @folder: folder to get the parent
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+CamelFolder *
+camel_folder_get_parent_folder (CamelFolder *folder)
+{
+	return CF_CLASS(folder)->get_parent_folder(folder);
+}
+
+
+/**
+ * __camel_folder_get_parent_store: return parent store
+ * @folder: folder to get the parent
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+static CamelStore *
+__camel_folder_get_parent_store (CamelFolder *folder)
+{
+	return folder->parent_store;
+}
+
+
+/**
+ * camel_folder_get_parent_store:return parent store
+ * @folder: folder to get the parent
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+CamelStore *
+camel_folder_get_parent_store (CamelFolder *folder)
+{
+	return CF_CLASS(folder)->get_parent_store(folder);
+}
+
+
+
+/**
+ * __camel_folder_get_mode: return the open mode of a folder
+ * @folder: 
+ * 
+ * 
+ * 
+ * Return value:  open mode of the folder
+ **/
+static CamelFolderOpenMode
+__camel_folder_get_mode(CamelFolder *folder)
+{
+    return folder->open_mode;
+}
+
+
+/**
+ * camel_folder_get_mode: return the open mode of a folder
+ * @folder: 
+ * 
+ * 
+ * 
+ * Return value:  open mode of the folder
+ **/
+static CamelFolderOpenMode
+camel_folder_get_mode(CamelFolder *folder)
+{
+    return CF_CLASS(folder)->get_mode(folder);
 }

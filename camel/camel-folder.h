@@ -79,7 +79,7 @@ typedef struct {
 
 	/* Virtual methods */	
 	void   (*init_with_store) (CamelFolder *folder, CamelStore *parent_store);
-	void   (*open) (CamelFolder *object);
+	void   (*open) (CamelFolder *object, CamelFolderOpenMode mode);
 	void   (*close) (CamelFolder *folder, gboolean expunge);
 	void   (*set_name) (CamelFolder *folder, GString *name);
 	void   (*set_full_name) (CamelFolder *folder, GString *name);
@@ -93,6 +93,10 @@ typedef struct {
 	gboolean   (*create) (CamelFolder *folder);
 	gboolean   (*delete) (CamelFolder *folder, gboolean recurse);
 	gboolean   (*delete_messages) (CamelFolder *folder);
+	CamelFolder *  (*get_parent_folder) (CamelFolder *folder);
+	CamelStore *  (*get_parent_store) (CamelFolder *folder);
+	CamelFolderOpenMode (*get_mode) (CamelFolder *folder);
+
 } CamelFolderClass;
 
 
@@ -105,6 +109,9 @@ GtkType camel_folder_get_type (void);
 gboolean camel_folder_create(CamelFolder *folder);
 gboolean camel_folder_delete (CamelFolder *folder, gboolean recurse);
 gboolean camel_folder_delete_messages (CamelFolder *folder);
+CamelFolder *camel_folder_get_parent_folder (CamelFolder *folder);
+CamelStore *camel_folder_get_parent_store (CamelFolder *folder);
+CamelFolderOpenMode camel_folder_get_mode(CamelFolder *folder);
 
 
 

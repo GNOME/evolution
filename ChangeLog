@@ -1,5 +1,17 @@
 1999-05-01  bertrand <Bertrand.Guiheneuf@inria.fr>
 
+	* camel/camel-folder.c 
+	(__camel_folder_get_mode): 
+	(camel_folder_get_mode): 
+	(camel_folder_get_parent_store): 
+	(__camel_folder_get_parent_store): 
+	(camel_folder_get_parent_folder): 
+	(__camel_folder_get_parent_folder): 
+	new methods
+
+	* camel/camel-service.c: put __ prefix before
+	private virtual funcs.
+
 	* camel/camel-folder.c (camel_folder_delete): 
 	(camel_folder_delete_messages): 
 	new methods.
