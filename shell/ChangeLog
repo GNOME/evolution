@@ -1,5 +1,8 @@
 2003-02-05  Dan Winship  <danw@ximian.com>
 
+	* importer/evolution-intelligent-importer.c:
+	s/BonoboXObject/BonoboObject/
+
 	* e-folder-list.c (e_folder_list_class_init):
 	s/glade_gnome_init/glade_init/
 

@@ -30,7 +30,7 @@
 
 #include "GNOME_Evolution_Importer.h"
 
-#define PARENT_TYPE BONOBO_X_OBJECT_TYPE
+#define PARENT_TYPE BONOBO_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
 
 struct _EvolutionIntelligentImporterPrivate {
@@ -191,7 +191,7 @@ evolution_intelligent_importer_new (EvolutionIntelligentImporterCanImportFn can_
 	return ii;
 }
 
-BONOBO_X_TYPE_FUNC_FULL (EvolutionIntelligentImporter,
-			 GNOME_Evolution_IntelligentImporter,
-			 PARENT_TYPE,
-			 evolution_intelligent_importer);
+BONOBO_TYPE_FUNC_FULL (EvolutionIntelligentImporter,
+		       GNOME_Evolution_IntelligentImporter,
+		       PARENT_TYPE,
+		       evolution_intelligent_importer);

@@ -24,7 +24,7 @@
 #define EVOLUTION_INTELLIGENT_IMPORTER_H
 
 #include <glib.h>
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
 #ifdef __cplusplus
@@ -48,13 +48,13 @@ typedef void (* EvolutionIntelligentImporterImportDataFn) (EvolutionIntelligentI
 							   void *closure);
 
 struct _EvolutionIntelligentImporter {
-  BonoboXObject parent;
+  BonoboObject parent;
 
   EvolutionIntelligentImporterPrivate *priv;
 };
 
 struct _EvolutionIntelligentImporterClass {
-  BonoboXObjectClass parent_class;
+  BonoboObjectClass parent_class;
 
   POA_GNOME_Evolution_IntelligentImporter__epv epv;
 };
