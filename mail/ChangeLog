@@ -1,3 +1,9 @@
+2002-07-15  Not Zed  <NotZed@Ximian.com>
+
+	* component-factory.c (populate_folder_context_menu): Oops,
+	accidentally checked in some unfinished, unworking code.
+	Reverted.
+
 2002-07-10  Not Zed  <NotZed@Ximian.com>
 
 	** fixes for #10781
