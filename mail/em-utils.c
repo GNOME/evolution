@@ -225,7 +225,7 @@ filter_editor_response (GtkWidget *dialog, int button, gpointer user_data)
 {
 	FilterContext *fc;
 	
-	if (button == GTK_RESPONSE_ACCEPT) {
+	if (button == GTK_RESPONSE_OK) {
 		char *user;
 		
 		fc = g_object_get_data ((GObject *) dialog, "context");

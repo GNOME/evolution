@@ -807,7 +807,7 @@ vfolder_editor_response (GtkWidget *dialog, int button, void *data)
 	user = g_strdup_printf ("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
 
 	switch(button) {
-	case GTK_RESPONSE_ACCEPT:
+	case GTK_RESPONSE_OK:
 		rule_context_save((RuleContext *)context, user);
 		break;
 	default:

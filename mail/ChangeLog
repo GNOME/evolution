@@ -1,5 +1,14 @@
 2004-01-09  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-tree.c (emft_popup_properties_got_folder): add total +
+	unread counts to properties page.
+
+	* em-utils.c (filter_editor_response):
+	* mail-vfolder.c (vfolder_editor_response): change for rule editor
+	changes, ACCEPT->OK.
+
+2004-01-09  Not Zed  <NotZed@Ximian.com>
+
 	* em-format.c (em_format_format_text): keep the windows charset
 	filter around until we're done since if we set it up we reference
 	its memory.  Causes warnings and breaks message display.
