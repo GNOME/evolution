@@ -340,7 +340,6 @@ netscape_import_accounts (NetscapeImporter *importer)
 	/* Create account */
 	nstr = netscape_get_string ("mail.identity.username");
 	account.name = CORBA_string_dup (nstr ? nstr : "");
-	account.default_account = FALSE;
 	account.id = id;
 	account.transport = transport;
 

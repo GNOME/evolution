@@ -1,3 +1,8 @@
+2001-07-18  Jon Trowbridge  <trow@ximian.com>
+
+	* netscape-importer.c (netscape_import_accounts): Remove obsolete
+	reference to account.default_account.
+
 2001-07-16  Iain Holmes  <iain@ximian.com>
 
 	* netscape-importer.c (is_dir_empty): Find out if a dir is either empty
