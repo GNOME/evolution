@@ -2447,7 +2447,7 @@ CamelMessageInfo *
 camel_message_info_new_from_header (struct _header_raw *header)
 {
 	CamelMessageInfo *info;
-	char *subject, *from, *to, *cc, *mlist;
+	char *subject, *from, *to, *cc, *date, *mlist;
 	struct _header_content_type *ct = NULL;
 	const char *content, *charset = NULL;
 
@@ -2463,6 +2463,7 @@ camel_message_info_new_from_header (struct _header_raw *header)
 	from = summary_format_address(header, "from");
 	to = summary_format_address(header, "to");
 	cc = summary_format_address(header, "cc");
+	date = header_raw_find (&header, "Date", NULL);
 	mlist = header_raw_check_mailing_list(&header);
 
 	if (ct)
@@ -2475,7 +2476,10 @@ camel_message_info_new_from_header (struct _header_raw *header)
 	camel_message_info_set_to(info, to);
 	camel_message_info_set_cc(info, cc);
 	camel_message_info_set_mlist(info, mlist);
-
+	
+	info->date_sent = header_decode_date (date, NULL);
+	info->date_received = header_decode_date (date, NULL);
+	
 	return info;
 }
 

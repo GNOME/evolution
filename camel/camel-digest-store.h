@@ -50,7 +50,7 @@ struct _CamelDigestStoreClass {
 
 CamelType camel_digest_store_get_type (void);
 
-CamelStore *camel_digest_store_new (void);
+CamelStore *camel_digest_store_new (const char *url);
 
 #ifdef __cplusplus
 }

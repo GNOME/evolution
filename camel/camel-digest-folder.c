@@ -160,7 +160,7 @@ multipart_contains_message_parts (CamelMultipart *multipart)
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 		if (CAMEL_IS_MULTIPART (wrapper)) {
 			has_message_parts = multipart_contains_message_parts (CAMEL_MULTIPART (wrapper));
-		} else if (header_content_type_is (part->content_type, "message", "rfc822")) {
+		} else if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
 			has_message_parts = TRUE;
 		}
 	}
@@ -179,8 +179,8 @@ camel_digest_folder_new (CamelStore *parent_store, CamelMimeMessage *message)
 	if (!wrapper || !CAMEL_IS_MULTIPART (wrapper))
 		return NULL;
 	
+	/* Make sure we have a multipart/digest subpart or at least some message/rfc822 attachments... */
 	if (!header_content_type_is (CAMEL_MIME_PART (message)->content_type, "multipart", "digest")) {
-		/* Make sure we have a multipart/digest subpart or at least some message/rfc822 attachments... */
 		if (!multipart_contains_message_parts (CAMEL_MULTIPART (wrapper)))
 			return NULL;
 	}
@@ -215,37 +215,36 @@ digest_expunge (CamelFolder *folder, CamelException *ex)
 }
 
 static void
-digest_add_multipart (CamelDigestFolder *digest, CamelMultipart *multipart,
-		      GPtrArray *summary, GPtrArray *uids, GHashTable *info_hash,
+digest_add_multipart (CamelMultipart *multipart, GPtrArray *summary,
+		      GPtrArray *uids, GHashTable *info_hash,
 		      const char *preuid)
 {
+	CamelDataWrapper *wrapper;
+	CamelMessageInfo *info;
+	CamelMimePart *part;
 	int parts, i;
+	char *uid;
 	
 	parts = camel_multipart_get_number (multipart);
 	for (i = 0; i < parts; i++) {
-		CamelDataWrapper *wrapper;
-		CamelMessageInfo *info;
-		CamelMimePart *part;
-		char *uid;
-		
 		part = camel_multipart_get_part (multipart, i);
 		
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 		
 		if (CAMEL_IS_MULTIPART (wrapper)) {
 			uid = g_strdup_printf ("%s%d.", preuid, i);
-			digest_add_multipart (digest, CAMEL_MULTIPART (wrapper),
+			digest_add_multipart (CAMEL_MULTIPART (wrapper),
 					      summary, uids, info_hash, uid);
 			g_free (uid);
 			continue;
-		} else if (!header_content_type_is (part->content_type, "message", "rfc822")) {
+		} else if (!CAMEL_IS_MIME_MESSAGE (wrapper)) {
 			continue;
 		}
 		
-		info = camel_message_info_new_from_header (part->headers);
+		info = camel_message_info_new_from_header (CAMEL_MIME_PART (wrapper)->headers);
 		
 		uid = g_strdup_printf ("%s%d", preuid, i);
-		camel_message_info_set_uid (info, uid);
+		camel_message_info_set_uid (info, g_strdup (uid));
 		
 		g_ptr_array_add (uids, uid);
 		g_ptr_array_add (summary, info);
@@ -270,7 +269,7 @@ digest_get_uids (CamelFolder *folder)
 	info_hash = digest_folder->priv->info_hash;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (digest_folder->priv->message));
-	digest_add_multipart (digest_folder, CAMEL_MULTIPART (wrapper), summary, uids, info_hash, "");
+	digest_add_multipart (CAMEL_MULTIPART (wrapper), summary, uids, info_hash, "");
 	
 	digest_folder->priv->uids = uids;
 	digest_folder->priv->summary = summary;
@@ -326,25 +325,26 @@ digest_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	CamelDataWrapper *wrapper;
 	CamelMimeMessage *message;
 	CamelMimePart *part;
-	char *subuid = "";
+	char *subuid;
 	int id;
 	
 	part = CAMEL_MIME_PART (digest->priv->message);
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	
 	do {
 		id = strtoul (uid, &subuid, 10);
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 		if (!CAMEL_IS_MULTIPART (wrapper))
 			return NULL;
 		
 		part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), id);
-		uid = subuid++;
-	} while (*uid == '.');
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+		uid = subuid + 1;
+	} while (*subuid == '.');
 	
-	if (!CAMEL_IS_MIME_MESSAGE (part))
+	if (!CAMEL_IS_MIME_MESSAGE (wrapper))
 		return NULL;
 	
-	message = CAMEL_MIME_MESSAGE (part);
+	message = CAMEL_MIME_MESSAGE (wrapper);
 	camel_object_ref (CAMEL_OBJECT (message));
 	
 	return message;

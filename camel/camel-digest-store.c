@@ -105,15 +105,24 @@ camel_digest_store_finalise (CamelObject *obj)
 
 /**
  * camel_digest_store_new:
+ * @url:
  *
  * Create a new CamelDigestStore object.
  * 
  * Return value: A new CamelDigestStore widget.
  **/
 CamelStore *
-camel_digest_store_new (void)
+camel_digest_store_new (const char *url)
 {
-	CamelStore *store = CAMEL_STORE (camel_object_new (camel_digest_store_get_type ()));
+	CamelStore *store;
+	CamelURL *uri;
+	
+	uri = camel_url_new (url, NULL);
+	if (!uri)
+		return NULL;
+	
+	store = CAMEL_STORE (camel_object_new (camel_digest_store_get_type ()));
+	CAMEL_SERVICE (store)->url = uri;
 	
 	return store;
 }

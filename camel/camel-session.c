@@ -69,7 +69,7 @@ static int session_thread_queue(CamelSession *session, CamelSessionThreadMsg *ms
 static void session_thread_wait(CamelSession *session, int id);
 #endif
 
-/* The vfolder provider is always avilable */
+/* The vfolder provider is always available */
 static CamelProvider vee_provider = {
 	"vfolder",
 	N_("Virtual folder email provider"),

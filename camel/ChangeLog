@@ -1,3 +1,18 @@
+2002-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-digest-store.c (camel_digest_store_new): Now takes a url
+	argument.
+
+	* camel-digest-folder.c (digest_add_multipart): Fixed some memory
+	corruption and also modified to use CAMEL_IS_MIME_MESSAGE() rather
+	than comparing content-type strings.
+	(digest_get_message): Fixed a logic blooper.
+
+	* camel-folder-summary.c (camel_message_info_new_from_header): Set
+	the date fields of the CamelMessageInfo as well. This may even fix
+	some filter-related bugs where the user was trying to compare
+	dates.
+
 2002-03-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-digest-store.c: A pretty empty store implementation to be
