@@ -1,4 +1,3 @@
 
 SUBDIRS = lib \
-	message folder stream
-
+	message folder stream misc

@@ -1,15 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camel-url.c : utility functions to parse URLs */
 
-
 /* 
  * Authors:
- *  Bertrand Guiheneuf <bertrand@helixcode.com>
- *  Dan Winship <danw@helixcode.com>
+ *  Dan Winship <danw@ximian.com>
  *  Tiago Antào <tiagoantao@bigfoot.com>
- *  Jeffrey Stedfast <fejj@helixcode.com>
+ *  Jeffrey Stedfast <fejj@ximian.com>
  *
- * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
+ * Copyright 1999-2001 Ximian, Inc. (http://www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -35,198 +33,349 @@
 #include <string.h>
 #include "camel-url.h"
 #include "camel-mime-utils.h"
-#include "camel-exception.h"
 #include "camel-object.h"
 
+static void copy_param (GQuark key_id, gpointer data, gpointer user_data);
+static void output_param (GQuark key_id, gpointer data, gpointer user_data);
+
 /**
- * camel_url_new: create a CamelURL object from a string
- * @url_string: The string containing the URL to scan
- * 
- * This routine takes a string and parses it as a URL of the form:
+ * camel_url_new_with_base:
+ * @base: a base URL
+ * @url_string: the URL
  *
- *   protocol://user;AUTH=mech:password@host:port/path
+ * Parses @url_string relative to @base.
  *
- * The protocol, followed by a ":" is required. If it is followed by * "//",
- * there must be an "authority" containing at least a host,
- * which ends at the end of the string or at the next "/". If there
- * is an "@" in the authority, there must be a username before it,
- * and the host comes after it. The authmech, password, and port are
- * optional, and the punctuation that preceeds them is omitted if
- * they are. Everything after the authority (or everything after the
- * protocol if there was no authority) is the path. We consider the
- * "/" between the authority and the path to be part of the path,
- * although this is incorrect according to RFC 1738.
- *
- * The port, if present, must be numeric.
- * 
- * Return value: a CamelURL structure containing the URL items.
+ * Return value: a parsed CamelURL.
  **/
 CamelURL *
-camel_url_new (const char *url_string, CamelException *ex)
+camel_url_new_with_base (CamelURL *base, const char *url_string)
 {
 	CamelURL *url;
-	char *semi, *colon, *at, *slash;
-	char *p;
+	const char *end, *hash, *colon, *semi, *at, *slash, *question;
+	const char *p;
 
-	g_assert (url_string);
-
-	/* Find protocol: initial substring until ":" */
-	colon = strchr (url_string, ':');
-	if (!colon) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-				      _("URL string `%s' contains no protocol"),
-				      url_string);
-		return NULL;
-	}
-	
 	url = g_new0 (CamelURL, 1);
-	url->protocol = g_strndup (url_string, colon - url_string);
-	g_strdown (url->protocol);
 
-	/* Check protocol */
-	p = url->protocol;
-	while (*p) {
-		if (!((*p >= 'a' && *p <= 'z') ||
-		      (*p == '-') || (*p == '+') || (*p == '.'))) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-					      _("URL string `%s' contains an invalid protocol"),
-					      url_string);
-			return NULL;
-		}
-		p++;
-	}
-
-	if (strncmp (colon, "://", 3) != 0) {
-		if (*(colon + 1)) {
-			url->path = g_strdup (colon + 1);
-			camel_url_decode (url->path);
-		}
-		return url;
-	}
-
-	url_string = colon + 3;
-
-	/* If there is an @ sign in the authority, look for user,
-	 * authmech, and password before it.
+	/* See RFC1808 for details. IF YOU CHANGE ANYTHING IN THIS
+	 * FUNCTION, RUN tests/misc/url AFTERWARDS.
 	 */
-	slash = strchr (url_string, '/');
-	at = strchr (url_string, '@');
-	if (at && (!slash || at < slash)) {
-		colon = strchr (url_string, ':');
-		if (colon && colon < at) {
-			url->passwd = g_strndup (colon + 1, at - colon - 1);
-			camel_url_decode (url->passwd);
-		} else {
-			url->passwd = NULL;
-			colon = at;
-		}
 
-		semi = strchr(url_string, ';');
-		if (semi && (semi < colon || (!colon && semi < at)) &&
-		    !strncasecmp (semi, ";auth=", 6)) {
-			url->authmech = g_strndup (semi + 6,
-						     colon - semi - 6);
-			camel_url_decode (url->authmech);
-		} else {
-			url->authmech = NULL;
-			semi = colon;
-		}
-
-		url->user = g_strndup (url_string, semi - url_string);
-		camel_url_decode (url->user);
-		url_string = at + 1;
+	/* Find fragment. */
+	end = hash = strchr (url_string, '#');
+	if (hash && hash[1]) {
+		url->fragment = g_strdup (hash + 1);
+		camel_url_decode (url->fragment);
 	} else
-		url->user = url->passwd = url->authmech = NULL;
+		end = url_string + strlen (url_string);
 
-	/* Find host and port. */
-	slash = strchr (url_string, '/');
-	colon = strchr (url_string, ':');
-	if (slash && colon > slash)
-		colon = NULL;
+	/* Find protocol: initial [a-z+.-]* substring until ":" */
+	p = url_string;
+	while (p < end && (isalnum ((unsigned char)*p) ||
+			   *p == '.' || *p == '+' || *p == '-'))
+		p++;
 
-	if (colon) {
-		url->host = g_strndup (url_string, colon - url_string);
-		url->port = strtoul (colon + 1, &colon, 10);
-		if (*colon && colon != slash) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
-					      _("Port number in URL `%s' is non-"
-						"numeric"), url_string);
-			camel_url_free (url);
-			return NULL;
-		}
-	} else if (slash) {
-		url->host = g_strndup (url_string, slash - url_string);
-		camel_url_decode (url->host);
-		url->port = 0;
-	} else {
-		url->host = g_strdup (url_string);
-		camel_url_decode (url->host);
-		url->port = 0;
+	if (p > url_string && *p == ':') {
+		url->protocol = g_strndup (url_string, p - url_string);
+		g_strdown (url->protocol);
+		url_string = p + 1;
 	}
 
-	if (!slash)
-		slash = "/";
-	url->path = g_strdup (slash);
-	camel_url_decode (url->path);
+	if (!*url_string && !base)
+		return url;
+
+	/* Check for authority */
+	if (strncmp (url_string, "//", 2) == 0) {
+		url_string += 2;
+
+		slash = url_string + strcspn (url_string, "/#");
+		at = strchr (url_string, '@');
+		if (at && at < slash) {
+			colon = strchr (url_string, ':');
+			if (colon && colon < at) {
+				url->passwd = g_strndup (colon + 1,
+							 at - colon - 1);
+				camel_url_decode (url->passwd);
+			} else {
+				url->passwd = NULL;
+				colon = at;
+			}
+
+			semi = strchr(url_string, ';');
+			if (semi && semi < colon &&
+			    !strncasecmp (semi, ";auth=", 6)) {
+				url->authmech = g_strndup (semi + 6,
+							   colon - semi - 6);
+				camel_url_decode (url->authmech);
+			} else {
+				url->authmech = NULL;
+				semi = colon;
+			}
+
+			url->user = g_strndup (url_string, semi - url_string);
+			camel_url_decode (url->user);
+			url_string = at + 1;
+		} else
+			url->user = url->passwd = url->authmech = NULL;
+
+		/* Find host and port. */
+		colon = strchr (url_string, ':');
+		if (colon && colon < slash) {
+			url->host = g_strndup (url_string, colon - url_string);
+			url->port = strtoul (colon + 1, NULL, 10);
+		} else {
+			url->host = g_strndup (url_string, slash - url_string);
+			camel_url_decode (url->host);
+			url->port = 0;
+		}
+
+		url_string = slash;
+	}
+
+	/* Find query */
+	question = memchr (url_string, '?', end - url_string);
+	if (question) {
+		if (question[1]) {
+			url->query = g_strndup (question + 1,
+						end - (question + 1));
+			camel_url_decode (url->query);
+		}
+		end = question;
+	}
+
+	/* Find parameters */
+	semi = memchr (url_string, ';', end - url_string);
+	if (semi) {
+		if (semi[1]) {
+			const char *cur, *p, *eq;
+			char *name, *value;
+
+			for (cur = semi + 1; cur < end; cur = p + 1) {
+				p = memchr (cur, ';', end - cur);
+				if (!p)
+					p = end;
+				eq = memchr (cur, '=', p - cur);
+				if (eq) {
+					name = g_strndup (cur, eq - cur);
+					value = g_strndup (eq + 1, end - (eq + 1));
+					camel_url_decode (value);
+				} else {
+					name = g_strndup (cur, end - cur);
+					value = g_strdup ("");
+				}
+				camel_url_decode (name);
+				g_datalist_set_data_full (&url->params, name,
+							  value, g_free);
+			}
+		}
+		end = semi;
+	}
+
+	if (end != url_string) {
+		url->path = g_strndup (url_string, end - url_string);
+		camel_url_decode (url->path);
+	}
+
+	/* Apply base URL. Again, this is spelled out in RFC 1808. */
+	if (base && !url->protocol && url->host)
+		url->protocol = g_strdup (base->protocol);
+	else if (base && !url->protocol) {
+		if (!url->user && !url->authmech && !url->passwd &&
+		    !url->host && !url->port && !url->path &&
+		    !url->params && !url->query && !url->fragment)
+			url->fragment = g_strdup (base->fragment);
+
+		url->protocol = g_strdup (base->protocol);
+		url->user = g_strdup (base->user);
+		url->authmech = g_strdup (base->authmech);
+		url->passwd = g_strdup (base->passwd);
+		url->host = g_strdup (base->host);
+		url->port = base->port;
+
+		if (!url->path) {
+			url->path = g_strdup (base->path);
+			if (!url->params) {
+				g_datalist_foreach (&base->params, copy_param,
+						    &url->params);
+				if (!url->query)
+					url->query = g_strdup (base->query);
+			}
+		} else if (*url->path != '/') {
+			char *newpath, *last, *p, *q;
+
+			last = strrchr (base->path, '/');
+			if (last) {
+				newpath = g_strdup_printf ("%.*s/%s",
+							   last - base->path,
+							   base->path,
+							   url->path);
+			} else
+				newpath = g_strdup_printf ("/%s", url->path);
+
+			/* Remove "./" where "." is a complete segment. */
+			for (p = newpath + 1; *p; ) {
+				if (*(p - 1) == '/' &&
+				    *p == '.' && *(p + 1) == '/')
+					memmove (p, p + 2, strlen (p + 2) + 1);
+				else
+					p++;
+			}
+			/* Remove "." at end. */
+			if (p > newpath + 2 &&
+			    *(p - 1) == '.' && *(p - 2) == '/')
+				*(p - 1) = '\0';
+			/* Remove "<segment>/../" where <segment> != ".." */
+			for (p = newpath + 1; *p; ) {
+				if (!strncmp (p, "../", 3)) {
+					p += 3;
+					continue;
+				}
+				q = strchr (p + 1, '/');
+				if (!q)
+					break;
+				if (strncmp (q, "/../", 4) != 0) {
+					p = q + 1;
+					continue;
+				}
+				memmove (p, q + 4, strlen (q + 4) + 1);
+				p = newpath + 1;
+			}
+			/* Remove "<segment>/.." at end */
+			q = strrchr (newpath, '/');
+			if (q && !strcmp (q, "/..")) {
+				p = q - 1;
+				while (p > newpath && *p != '/')
+					p--;
+				if (strncmp (p, "/../", 4) != 0)
+					*(p + 1) = 0;
+			}
+			g_free (url->path);
+			url->path = newpath;
+		}
+	}
 
 	return url;
 }
 
+static void
+copy_param (GQuark key_id, gpointer data, gpointer user_data)
+{
+	GData **copy = user_data;
+
+	g_datalist_id_set_data_full (copy, key_id, g_strdup (data), g_free);
+}
+
+/**
+ * camel_url_new:
+ * @url_string: a URL
+ *
+ * Parses an absolute URL.
+ *
+ * Return value: a CamelURL, or %NULL.
+ **/
+CamelURL *
+camel_url_new (const char *url_string)
+{
+	CamelURL *url = camel_url_new_with_base (NULL, url_string);
+
+	if (!url->protocol) {
+		camel_url_free (url);
+		return NULL;
+	}
+	return url;
+}
+
+/**
+ * camel_url_to_string:
+ * @url: a CamelURL
+ * @show_password: whether or not to include the password in the output
+ *
+ * Return value: a string representing @url, which the caller must free.
+ **/
 char *
 camel_url_to_string (CamelURL *url, gboolean show_passwd)
 {
-	char *return_result;
-	char *user = NULL, *authmech = NULL, *passwd = NULL;
-	char *host = NULL, *path = NULL;
-	char port[20];
+	GString *str;
+	char *enc, *return_result;
 
-	if (url->user)
-		user = camel_url_encode (url->user, TRUE, ":;@/");
-	
-	if (url->authmech && *url->authmech)
-		authmech = camel_url_encode (url->authmech, TRUE, ":@/");
-	
-	if (show_passwd && url->passwd)
-		passwd = camel_url_encode (url->passwd, TRUE, "@/");
-	
-	if (url->host)
-		host = camel_url_encode (url->host, TRUE, ":/");
-	
-	if (url->port)
-		g_snprintf (port, sizeof (port), "%d", url->port);
-	else
-		*port = '\0';
-	
-	if (url->path)
-		path = camel_url_encode (url->path, FALSE, NULL);
+	/* IF YOU CHANGE ANYTHING IN THIS FUNCTION, RUN
+	 * tests/misc/url AFTERWARD.
+	 */
 
-	return_result = g_strdup_printf ("%s:%s%s%s%s%s%s%s%s%s%s%s%s",
-					 url->protocol,
-					 host ? "//" : "",
-					 user ? user : "",
-					 authmech ? ";auth=" : "",
-					 authmech ? authmech : "",
-					 passwd ? ":" : "",
-					 passwd ? passwd : "",
-					 user ? "@" : "",
-					 host ? host : "",
-					 *port ? ":" : "",
-					 port,
-					 path && host && *path != '/' ? "/" : "",
-					 path ? path : "");
-	g_free (user);
-	g_free (authmech);
-	g_free (passwd);
-	g_free (host);
-	g_free (path);
+	str = g_string_sized_new (20);
 
+	if (url->protocol)
+		g_string_sprintfa (str, "%s:", url->protocol);
+	if (url->host) {
+		g_string_append (str, "//");
+		if (url->user) {
+			enc = camel_url_encode (url->user, TRUE, ":;@/");
+			g_string_append (str, enc);
+			g_free (enc);
+		}
+		if (url->authmech && *url->authmech) {
+			enc = camel_url_encode (url->authmech, TRUE, ":@/");
+			g_string_sprintfa (str, ";auth=%s", enc);
+			g_free (enc);
+		}
+		if (show_passwd && url->passwd) {
+			enc = camel_url_encode (url->passwd, TRUE, "@/");
+			g_string_sprintfa (str, ":%s", enc);
+			g_free (enc);
+		}
+		if (url->host) {
+			enc = camel_url_encode (url->host, TRUE, ":/");
+			g_string_sprintfa (str, "%s%s", url->user ? "@" : "", enc);
+		}
+		if (url->port)
+			g_string_sprintfa (str, ":%d", url->port);
+		if (!url->path && (url->params || url->query || url->fragment))
+			g_string_append_c (str, '/');
+	}
+
+	if (url->path) {
+		enc = camel_url_encode (url->path, FALSE, ";?#");
+		g_string_sprintfa (str, "%s", enc);
+		g_free (enc);
+	}
+	if (url->params)
+		g_datalist_foreach (&url->params, output_param, str);
+	if (url->query) {
+		enc = camel_url_encode (url->query, FALSE, "#");
+		g_string_sprintfa (str, "?%s", enc);
+		g_free (enc);
+	}
+	if (url->fragment) {
+		enc = camel_url_encode (url->fragment, FALSE, NULL);
+		g_string_sprintfa (str, "#%s", enc);
+		g_free (enc);
+	}
+
+	return_result = str->str;
+	g_string_free (str, FALSE);
 	return return_result;
 }
 
+static void
+output_param (GQuark key_id, gpointer data, gpointer user_data)
+{
+	GString *str = user_data;
+	char *enc;
+
+	enc = camel_url_encode (g_quark_to_string (key_id), FALSE, "?#");
+	g_string_sprintfa (str, ";%s", enc);
+	g_free (enc);
+}
+
+/**
+ * camel_url_free:
+ * @url: a CamelURL
+ *
+ * Frees @url
+ **/
 void
 camel_url_free (CamelURL *url)
 {
-	g_assert (url);
+	g_return_if_fail (url);
 
 	g_free (url->protocol);
 	g_free (url->user);
@@ -234,30 +383,41 @@ camel_url_free (CamelURL *url)
 	g_free (url->passwd);
 	g_free (url->host);
 	g_free (url->path);
+	g_datalist_clear (&url->params);
+	g_free (url->query);
+	g_free (url->fragment);
 
 	g_free (url);
 }
 
-void camel_url_set_protocol(CamelURL *url, const char *p)
-{
-	g_free(url->protocol);
-	url->protocol = g_strdup(p);
+
+#define DEFINE_CAMEL_URL_SET(part)			\
+void							\
+camel_url_set_##part (CamelURL *url, const char *part)	\
+{							\
+	g_free (url->part);				\
+	url->part = g_strdup (part);			\
 }
 
-void camel_url_set_host(CamelURL *url, const char *h)
-{
-	g_free(url->host);
-	url->host = g_strdup(h);
-}
+DEFINE_CAMEL_URL_SET (protocol)
+DEFINE_CAMEL_URL_SET (user)
+DEFINE_CAMEL_URL_SET (authmech)
+DEFINE_CAMEL_URL_SET (passwd)
+DEFINE_CAMEL_URL_SET (host)
+DEFINE_CAMEL_URL_SET (path)
+DEFINE_CAMEL_URL_SET (query)
+DEFINE_CAMEL_URL_SET (fragment)
 
-void camel_url_set_port(CamelURL *url, int port)
+void
+camel_url_set_port (CamelURL *url, int port)
 {
 	url->port = port;
 }
-void camel_url_set_path(CamelURL *url, const char *p)
+
+void
+camel_url_set_param (CamelURL *url, const char *name, const char *value)
 {
-	g_free(url->path);
-	url->path = g_strdup(p);
+	g_datalist_set_data (&url->params, name, value ? g_strdup (value) : NULL);
 }
 
 
@@ -322,23 +482,20 @@ camel_url_decode (char *part)
 	*d = '\0';
 }
 
-static void
-add_hash (guint *hash, char *s)
-{
-	if (s)
-		*hash ^= g_str_hash(s);
-}
-
-guint camel_url_hash (const void *v)
+guint
+camel_url_hash (const void *v)
 {
 	const CamelURL *u = v;
 	guint hash = 0;
 
-	add_hash (&hash, u->protocol);
-	add_hash (&hash, u->user);
-	add_hash (&hash, u->authmech);
-	add_hash (&hash, u->host);
-	add_hash (&hash, u->path);
+#define ADD_HASH(s) if (s) hash ^= g_str_hash (s);
+
+	ADD_HASH (u->protocol);
+	ADD_HASH (u->user);
+	ADD_HASH (u->authmech);
+	ADD_HASH (u->host);
+	ADD_HASH (u->path);
+	ADD_HASH (u->query);
 	hash ^= u->port;
 	
 	return hash;
@@ -360,7 +517,8 @@ check_equal (char *s1, char *s2)
 	return strcmp (s1, s2) == 0;
 }
 
-int camel_url_equal(const void *v, const void *v2)
+int
+camel_url_equal(const void *v, const void *v2)
 {
 	const CamelURL *u1 = v, *u2 = v2;
 	
@@ -369,5 +527,6 @@ int camel_url_equal(const void *v, const void *v2)
 		&& check_equal(u1->authmech, u2->authmech)
 		&& check_equal(u1->host, u2->host)
 		&& check_equal(u1->path, u2->path)
+		&& check_equal(u1->query, u2->query)
 		&& u1->port == u2->port;
 }
