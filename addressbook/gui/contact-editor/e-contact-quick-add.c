@@ -237,13 +237,15 @@ edit_card (QuickAdd *qa)
 	}
 }
 
+#define QUICK_ADD_RESPONSE_EDIT_FULL 2
+
 static void
 clicked_cb (GtkWidget *w, gint button, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
 	/* Get data out of entries. */
-	if (button == 0 || button == 1) {
+	if (button == GTK_RESPONSE_OK || button == QUICK_ADD_RESPONSE_EDIT_FULL) {
 		gchar *name = NULL;
 		gchar *email = NULL;
 
@@ -270,12 +272,12 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 
 	gtk_widget_destroy (w);
 
-	if (button == 0) {
+	if (button == GTK_RESPONSE_OK) {
 
 		/* OK */
 		quick_add_merge_card (qa);
 
-	} else if (button == 1) {
+	} else if (button == QUICK_ADD_RESPONSE_EDIT_FULL) {
 		
 		/* EDIT FULL */
 		edit_card (qa);
@@ -296,13 +298,15 @@ build_quick_add_dialog (QuickAdd *qa)
 
 	g_return_val_if_fail (qa != NULL, NULL);
 
-	dialog = gnome_dialog_new (_("Contact Quick-Add"),
-				   GNOME_STOCK_BUTTON_OK,
-				   _("Edit Full"),
-				   GNOME_STOCK_BUTTON_CANCEL,
-				   NULL);
+	dialog = gtk_dialog_new_with_buttons (_("Contact Quick-Add"),
+					      NULL, /* XXX */
+					      (GtkDialogFlags) 0,
+					      GTK_STOCK_OK, GTK_RESPONSE_OK,
+					      _("Edit Full"), QUICK_ADD_RESPONSE_EDIT_FULL,
+					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					      NULL);
 
-	g_signal_connect (dialog, "clicked",
+	g_signal_connect (dialog, "reponse",
 			  G_CALLBACK (clicked_cb), qa);
 
 	qa->name_entry = gtk_entry_new ();
@@ -335,7 +339,7 @@ build_quick_add_dialog (QuickAdd *qa)
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND, xpad, ypad);
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 			    GTK_WIDGET (table),
 			    TRUE, TRUE, 0);
 	gtk_widget_show_all (GTK_WIDGET (table));

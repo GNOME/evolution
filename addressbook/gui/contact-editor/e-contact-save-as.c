@@ -26,7 +26,7 @@
 #include <fcntl.h>
 #include <gtk/gtkfilesel.h>
 #include <gtk/gtksignal.h>
-#include <gtk/gtkdialog.h>
+#include <gtk/gtkmessagedialog.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <libgnome/gnome-i18n.h>
@@ -64,11 +64,13 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 		GtkWidget *dialog;
 		char *str;
 
-		str = g_strdup_printf ("Error saving %s: %s", filename, strerror(errno));
-		dialog = gnome_message_box_new (str, GNOME_MESSAGE_BOX_ERROR, GNOME_STOCK_BUTTON_OK, NULL);
+		str = g_strdup_printf (_("Error saving %s: %s"), filename, strerror(errno));
+		dialog = gtk_message_dialog_new (GTK_WINDOW (info->filesel),
+						 GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_ERROR,
+						 GTK_BUTTONS_OK,
+						 str);
 		g_free (str);
-
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (info->filesel));
 
 		gtk_widget_show (dialog);
 		
@@ -205,14 +207,14 @@ e_contact_list_save_as(char *title, GList *list, GtkWindow *parent_window)
 static int
 file_exists(GtkFileSelection *filesel, const char *filename)
 {
-	GnomeDialog *dialog = NULL;
+	GtkDialog *dialog = NULL;
 	GtkWidget *label;
 	GladeXML *gui = NULL;
 	int result = 0;
 	char *string;
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/file-exists.glade", NULL, NULL);
-	dialog = GNOME_DIALOG(glade_xml_get_widget(gui, "dialog-exists"));
+	dialog = GTK_DIALOG(glade_xml_get_widget(gui, "dialog-exists"));
 	
 	label = glade_xml_get_widget (gui, "label-exists");
 	if (GTK_IS_LABEL (label)) {
@@ -221,10 +223,11 @@ file_exists(GtkFileSelection *filesel, const char *filename)
 		g_free (string);
 	}
 
-	gnome_dialog_set_parent(dialog, GTK_WINDOW(filesel));
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW(filesel));
 
 	gtk_widget_show (GTK_WIDGET (dialog));
-	result = gnome_dialog_run_and_close(dialog);
+	result = gtk_dialog_run(dialog);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 
 	g_free(gui);
 

@@ -24,10 +24,7 @@
 #include <glade/glade.h>
 #include <ebook/e-card.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /* EContactEditorAddress - A dialog displaying information about a contact.
  *
@@ -38,11 +35,11 @@ extern "C" {
  * name         ECardName *     RW              The card currently being edited. Returns a copy.
  */
 
-#define E_CONTACT_EDITOR_ADDRESS_TYPE			(e_contact_editor_address_get_type ())
-#define E_CONTACT_EDITOR_ADDRESS(obj)			(GTK_CHECK_CAST ((obj), E_CONTACT_EDITOR_ADDRESS_TYPE, EContactEditorAddress))
-#define E_CONTACT_EDITOR_ADDRESS_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_CONTACT_EDITOR_ADDRESS_TYPE, EContactEditorAddressClass))
-#define E_IS_CONTACT_EDITOR_ADDRESS(obj)		(GTK_CHECK_TYPE ((obj), E_CONTACT_EDITOR_ADDRESS_TYPE))
-#define E_IS_CONTACT_EDITOR_ADDRESS_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_CONTACT_EDITOR_ADDRESS_TYPE))
+#define E_TYPE_CONTACT_EDITOR_ADDRESS			(e_contact_editor_address_get_type ())
+#define E_CONTACT_EDITOR_ADDRESS(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CONTACT_EDITOR_ADDRESS, EContactEditorAddress))
+#define E_CONTACT_EDITOR_ADDRESS_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_CONTACT_EDITOR_ADDRESS, EContactEditorAddressClass))
+#define E_IS_CONTACT_EDITOR_ADDRESS(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CONTACT_EDITOR_ADDRESS))
+#define E_IS_CONTACT_EDITOR_ADDRESS_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_CONTACT_EDITOR_ADDRESS))
 
 
 typedef struct _EContactEditorAddress       EContactEditorAddress;
@@ -67,11 +64,8 @@ struct _EContactEditorAddressClass
 
 
 GtkWidget *e_contact_editor_address_new(const ECardDeliveryAddress *name);
-GtkType    e_contact_editor_address_get_type (void);
+GType      e_contact_editor_address_get_type (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
+G_END_DECLS
 
 #endif /* __E_CONTACT_EDITOR_ADDRESS_H__ */

@@ -1,5 +1,17 @@
 2002-11-08  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-editor/e-contact-editor-address.[ch]: port work.
+
+	* gui/contact-editor/e-contact-editor-fullname.[ch]: port work.
+
+	* gui/contact-editor/e-contact-editor.[ch]: port work.
+
+	* gui/contact-editor/e-contact-quick-add.c: port work.
+
+	* gui/contact-editor/e-contact-save-as.c: port work.
+
+2002-11-08  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/e-book-util.c
 	(set_default_book_uri_from_config_db): prepend /apps/Evolution to
 	config db paths.

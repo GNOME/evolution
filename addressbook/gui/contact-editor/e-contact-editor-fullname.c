@@ -26,6 +26,7 @@
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkcombo.h>
+#include <gtk/gtkstock.h>
 
 static void e_contact_editor_fullname_init		(EContactEditorFullname		 *card);
 static void e_contact_editor_fullname_class_init	(EContactEditorFullnameClass	 *klass);
@@ -45,27 +46,26 @@ enum {
 	PROP_IS_READ_ONLY
 };
 
-GtkType
+GType
 e_contact_editor_fullname_get_type (void)
 {
-	static GtkType contact_editor_fullname_type = 0;
+	static GType contact_editor_fullname_type = 0;
 
-	if (!contact_editor_fullname_type)
-		{
-			static const GtkTypeInfo contact_editor_fullname_info =
-			{
-				"EContactEditorFullname",
-				sizeof (EContactEditorFullname),
-				sizeof (EContactEditorFullnameClass),
-				(GtkClassInitFunc) e_contact_editor_fullname_class_init,
-				(GtkObjectInitFunc) e_contact_editor_fullname_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-				(GtkClassInitFunc) NULL,
-			};
+	if (!contact_editor_fullname_type) {
+		static const GTypeInfo contact_editor_fullname_info =  {
+			sizeof (EContactEditorFullnameClass),
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_contact_editor_fullname_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (EContactEditorFullname),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_contact_editor_fullname_init,
+		};
 
-			contact_editor_fullname_type = gtk_type_unique (gnome_dialog_get_type (), &contact_editor_fullname_info);
-		}
+		contact_editor_fullname_type = g_type_register_static (GTK_TYPE_DIALOG, "EContactEditorFullname", &contact_editor_fullname_info, 0);
+	}
 
 	return contact_editor_fullname_type;
 }
@@ -77,8 +77,7 @@ e_contact_editor_fullname_class_init (EContactEditorFullnameClass *klass)
 
 	object_class = G_OBJECT_CLASS (klass);
 
-	parent_class = gtk_type_class (gnome_dialog_get_type ());
-
+	parent_class = g_type_class_ref (GTK_TYPE_DIALOG);
 
 	object_class->set_property = e_contact_editor_fullname_set_property;
 	object_class->get_property = e_contact_editor_fullname_get_property;
@@ -105,13 +104,10 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	GtkWidget *widget;
 	char *icon_path;
 
-#if 0
-	gnome_dialog_append_button ( GNOME_DIALOG(e_contact_editor_fullname),
-				     GNOME_STOCK_BUTTON_OK);
-	
-	gnome_dialog_append_button ( GNOME_DIALOG(e_contact_editor_fullname),
-				     GNOME_STOCK_BUTTON_CANCEL);
-#endif
+	gtk_dialog_add_buttons (GTK_DIALOG (e_contact_editor_fullname),
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				NULL);
 
 	gtk_window_set_policy(GTK_WINDOW(e_contact_editor_fullname), TRUE, TRUE, FALSE);
 
@@ -139,15 +135,21 @@ e_contact_editor_fullname_dispose (GObject *object)
 {
 	EContactEditorFullname *e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME(object);
 
-	if (e_contact_editor_fullname->gui)
+	if (e_contact_editor_fullname->gui) {
 		g_object_unref(e_contact_editor_fullname->gui);
-	e_card_name_unref(e_contact_editor_fullname->name);
+		e_contact_editor_fullname->gui = NULL;
+	}
+	
+	if (e_contact_editor_fullname->name) {
+		e_card_name_unref(e_contact_editor_fullname->name);
+		e_contact_editor_fullname->name = NULL;
+	}
 }
 
 GtkWidget*
 e_contact_editor_fullname_new (const ECardName *name)
 {
-	GtkWidget *widget = GTK_WIDGET (gtk_type_new (e_contact_editor_fullname_get_type ()));
+	GtkWidget *widget = g_object_new (E_TYPE_CONTACT_EDITOR_FULLNAME, NULL);
 	g_object_set (widget,
 			"name", name,
 			NULL);
@@ -227,7 +229,7 @@ fill_in_field(EContactEditorFullname *editor, char *field, char *string)
 	GtkEntry *entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, field));
 	if (entry) {
 		if (string)
-			e_utf8_gtk_entry_set_text(entry, string);
+			gtk_entry_set_text(entry, string);
 		else
 			gtk_entry_set_text(entry, "");
 	}

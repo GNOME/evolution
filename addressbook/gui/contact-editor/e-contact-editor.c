@@ -27,9 +27,7 @@
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkcombo.h>
-#define GTK_ENABLE_BROKEN
-#include <gtk/gtktext.h>
-#undef GTK_ENABLE_BROKEN
+#include <gtk/gtktextview.h>
 #include <libgnomeui/gnome-popup-menu.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnome/gnome-i18n.h>
@@ -116,29 +114,28 @@ enum {
 
 static GSList *all_contact_editors = NULL;
 
-GtkType
+GType
 e_contact_editor_get_type (void)
 {
-  static GtkType contact_editor_type = 0;
+	static GType contact_editor_type = 0;
 
-  if (!contact_editor_type)
-    {
-      static const GtkTypeInfo contact_editor_info =
-      {
-        "EContactEditor",
-        sizeof (EContactEditor),
-        sizeof (EContactEditorClass),
-        (GtkClassInitFunc) e_contact_editor_class_init,
-        (GtkObjectInitFunc) e_contact_editor_init,
-        /* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
+	if (!contact_editor_type) {
+		static const GTypeInfo contact_editor_info =  {
+			sizeof (EContactEditorClass),
+			NULL,           /* base_init */
+			NULL,           /* base_finalize */
+			(GClassInitFunc) e_contact_editor_class_init,
+			NULL,           /* class_finalize */
+			NULL,           /* class_data */
+			sizeof (EContactEditor),
+			0,             /* n_preallocs */
+			(GInstanceInitFunc) e_contact_editor_init,
+		};
 
-      contact_editor_type = gtk_type_unique (GTK_TYPE_OBJECT, &contact_editor_info);
-    }
+		contact_editor_type = g_type_register_static (GTK_TYPE_OBJECT, "EContactEditor", &contact_editor_info, 0);
+	}
 
-  return contact_editor_type;
+	return contact_editor_type;
 }
 
 static void
@@ -146,7 +143,7 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-  parent_class = gtk_type_class (GTK_TYPE_OBJECT);
+  parent_class = g_type_class_ref (GTK_TYPE_OBJECT);
 
   object_class->set_property = e_contact_editor_set_property;
   object_class->get_property = e_contact_editor_get_property;
@@ -318,10 +315,10 @@ email_entry_changed (GtkWidget *widget, EContactEditor *editor)
 }
 
 static void
-address_text_changed (GtkWidget *widget, EContactEditor *editor)
+address_text_changed (GtkTextBuffer *buffer, EContactEditor *editor)
 {
-	GtkEditable *editable = GTK_EDITABLE(widget);
 	ECardAddrLabel *address;
+	GtkTextIter start_iter, end_iter;
 
 	if (editor->address_choice == -1)
 		return;
@@ -347,12 +344,15 @@ address_text_changed (GtkWidget *widget, EContactEditor *editor)
 		}
 	}
 	
-	address->data = e_utf8_gtk_editable_get_chars(editable, 0, -1);
+	gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (buffer), &start_iter);
+	gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER (buffer), &end_iter);
+
+	address->data = gtk_text_buffer_get_text (GTK_TEXT_BUFFER (buffer), &start_iter, &end_iter, FALSE);
 
 	e_card_simple_set_address(editor->simple, editor->address_choice, address);
 	e_card_address_label_unref(address);
 
-	widget_changed (widget, editor);
+	widget_changed (NULL, editor);
 }
 
 
@@ -370,7 +370,9 @@ address_mailing_changed (GtkWidget *widget, EContactEditor *editor)
 	
 	/* Mark the current address as the mailing address */
  	text = glade_xml_get_widget(editor->gui, "text-address");
-	if (text && GTK_IS_TEXT(text)) {
+	if (text && GTK_IS_TEXT_VIEW(text)) {
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text));
+		GtkTextIter start_iter, end_iter;
 
 		address = e_card_address_label_new();
 		
@@ -378,8 +380,12 @@ address_mailing_changed (GtkWidget *widget, EContactEditor *editor)
 			address->flags |= E_CARD_ADDR_DEFAULT;
 		else
 			address->flags &= ~E_CARD_ADDR_DEFAULT;
-		address->data = e_utf8_gtk_editable_get_chars(GTK_EDITABLE (text), 0, -1);
-	
+
+		gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (buffer), &start_iter);
+		gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER (buffer), &end_iter);
+
+		address->data = gtk_text_buffer_get_text (buffer, &start_iter, &end_iter, FALSE);
+
 		e_card_simple_set_address(editor->simple, editor->address_choice, address);
 		e_card_address_label_unref(address);
 	}
@@ -651,8 +657,9 @@ set_entry_changed_signals(EContactEditor *editor)
 				 G_CALLBACK (email_entry_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "text-address");
-	if (widget && GTK_IS_TEXT(widget)) {
-		g_signal_connect(widget, "changed",
+	if (widget && GTK_IS_TEXT_VIEW(widget)) {
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
+		g_signal_connect(buffer, "changed",
 				 G_CALLBACK (address_text_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "entry-fullname");
@@ -721,8 +728,9 @@ set_entry_changed_signals(EContactEditor *editor)
 				  G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "text-comments");
-	if (widget && GTK_IS_TEXT(widget)) {
-		g_signal_connect (widget, "changed",
+	if (widget && GTK_IS_TEXT_VIEW(widget)) {
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
+		g_signal_connect (buffer, "changed",
 				  G_CALLBACK (widget_changed), editor);
 	}
 	widget = glade_xml_get_widget(editor->gui, "dateedit-birthday");
@@ -779,7 +787,7 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 
 		file_as_set_style(editor, style);
 	}
-	g_object_unref(dialog);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void
@@ -810,9 +818,20 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 			       NULL);
 
 		address_widget = glade_xml_get_widget(editor->gui, "text-address");
-		if (address_widget && GTK_IS_EDITABLE(address_widget)) {
+		if (address_widget && GTK_IS_TEXT_VIEW(address_widget)) {
+			GtkTextBuffer *buffer;
+			GtkTextIter start_iter, end_iter;
 			char *string = e_card_delivery_address_to_string(new_address);
-			e_utf8_gtk_editable_set_text(GTK_EDITABLE(address_widget), string);
+
+			buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (address_widget));
+
+			gtk_text_buffer_get_start_iter (buffer, &start_iter);
+			gtk_text_buffer_get_end_iter (buffer, &end_iter);
+
+			gtk_text_buffer_delete (buffer, &start_iter, &end_iter);
+
+			gtk_text_buffer_insert (buffer, &start_iter, string, strlen (string));
+
 			g_free(string);
 		} else {
 			ECardAddrLabel *address = e_card_delivery_address_to_label(new_address);
@@ -824,7 +843,7 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 
 		e_card_delivery_address_unref(new_address);
 	}
-	g_object_unref(dialog);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void
@@ -861,9 +880,9 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 		       NULL);
 	g_object_unref (ecml);
 	gtk_widget_show(GTK_WIDGET(dialog));
-	result = gnome_dialog_run (dialog);
+	result = gtk_dialog_run (dialog);
 	g_free (categories);
-	if (result == 0) {
+	if (result == GTK_RESPONSE_OK) {
 		g_object_get (dialog,
 			       "categories", &categories,
 			       NULL);
@@ -1107,17 +1126,19 @@ file_send_to_cb (GtkWidget *widget, gpointer data)
 gboolean
 e_contact_editor_confirm_delete(GtkWindow *parent)
 {
-	GnomeDialog *dialog;
+	GtkDialog *dialog;
 	GladeXML *gui;
 	int result;
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/e-contact-editor-confirm-delete.glade", NULL, NULL);
 
-	dialog = GNOME_DIALOG(glade_xml_get_widget(gui, "confirm-dialog"));
+	dialog = GTK_DIALOG(glade_xml_get_widget(gui, "confirm-dialog"));
 
-	gnome_dialog_set_parent(dialog, parent);
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
 	
-	result = gnome_dialog_run_and_close(dialog);
+	result = gtk_dialog_run(dialog);
+
+	gtk_widget_hide (GTK_WIDGET (dialog));
 
 	g_object_unref(gui);
 
@@ -1447,50 +1468,74 @@ e_contact_editor_dispose (GObject *object) {
 
 	if (e_contact_editor->writable_fields) {
 		g_object_unref(e_contact_editor->writable_fields);
+		e_contact_editor->writable_fields = NULL;
 	}
 	if (e_contact_editor->email_list) {
 		g_list_foreach(e_contact_editor->email_list, (GFunc) g_free, NULL);
 		g_list_free(e_contact_editor->email_list);
+		e_contact_editor->email_list = NULL;
 	}
 	if (e_contact_editor->email_info) {
 		g_free(e_contact_editor->email_info);
+		e_contact_editor->email_info = NULL;
 	}
 	if (e_contact_editor->email_popup) {
 		g_object_unref(e_contact_editor->email_popup);
+		e_contact_editor->email_popup = NULL;
 	}
 	
 	if (e_contact_editor->phone_list) {
 		g_list_foreach(e_contact_editor->phone_list, (GFunc) g_free, NULL);
 		g_list_free(e_contact_editor->phone_list);
+		e_contact_editor->phone_list = NULL;
 	}
 	if (e_contact_editor->phone_info) {
 		g_free(e_contact_editor->phone_info);
+		e_contact_editor->phone_info = NULL;
 	}
 	if (e_contact_editor->phone_popup) {
 		g_object_unref(e_contact_editor->phone_popup);
+		e_contact_editor->phone_popup = NULL;
 	}
 	
 	if (e_contact_editor->address_list) {
 		g_list_foreach(e_contact_editor->address_list, (GFunc) g_free, NULL);
 		g_list_free(e_contact_editor->address_list);
+		e_contact_editor->address_list = NULL;
 	}
 	if (e_contact_editor->address_info) {
 		g_free(e_contact_editor->address_info);
+		e_contact_editor->address_info = NULL;
 	}
 	if (e_contact_editor->address_popup) {
 		g_object_unref(e_contact_editor->address_popup);
+		e_contact_editor->address_popup = NULL;
 	}
 	
-	if (e_contact_editor->simple)
+	if (e_contact_editor->simple) {
 		g_object_unref(e_contact_editor->simple);
+		e_contact_editor->simple = NULL;
+	}
 
-	if (e_contact_editor->book)
+	if (e_contact_editor->book) {
 		g_object_unref(e_contact_editor->book);
+		e_contact_editor->book = NULL;
+	}
 
-	e_card_name_unref(e_contact_editor->name);
-	g_free (e_contact_editor->company);
+	if (e_contact_editor->name) {
+		e_card_name_unref(e_contact_editor->name);
+		e_contact_editor->name = NULL;
+	}
 
-	g_object_unref(e_contact_editor->gui);
+	if (e_contact_editor->company) {
+		g_free (e_contact_editor->company);
+		e_contact_editor->company = NULL;
+	}
+
+	if (e_contact_editor->gui) {
+		g_object_unref(e_contact_editor->gui);
+		e_contact_editor->gui = NULL;
+	}
 }
 
 static void
@@ -1548,7 +1593,7 @@ e_contact_editor_new (EBook *book,
 	g_return_val_if_fail (E_IS_BOOK (book), NULL);
 	g_return_val_if_fail (E_IS_CARD (card), NULL);
 
-	ce = E_CONTACT_EDITOR (gtk_type_new (E_CONTACT_EDITOR_TYPE));
+	ce = g_object_new (E_TYPE_CONTACT_EDITOR, NULL);
 
 	all_contact_editors = g_slist_prepend (all_contact_editors, ce);
 	g_object_weak_ref (G_OBJECT (ce), contact_editor_destroy_notify, ce);
@@ -1859,93 +1904,6 @@ e_contact_editor_build_address_ui (EContactEditor *editor)
 		editor->address_popup = gnome_popup_menu_new(editor->address_info);
 	}
 }
-#if 0
-static void
-_dialog_clicked(GtkWidget *dialog, gint button, EContactEditor *editor)
-{
-	GtkWidget *label = g_object_get_data(G_OBJECT(dialog),
-					     "e_contact_editor_label");
-
-	GtkWidget *dialog_entry = g_object_get_data(G_OBJECT(dialog),
-						    "e_contact_editor_dialog_entry");
-	
-	GList **list = g_object_get_data(G_OBJECT(dialog),
-					 "e_contact_editor_list");
-	GList **info = g_object_get_data(G_OBJECT(dialog),
-					 "e_contact_editor_info");
-	switch (button) {
-	case 0:
-		if (label && GTK_IS_LABEL(label)) {
-			g_object_set (label,
-				       "label", gtk_entry_get_text(GTK_ENTRY(dialog_entry)),
-				       NULL);
-			*list = g_list_append(*list, e_utf8_gtk_entry_get_text(GTK_ENTRY(dialog_entry)));
-			g_free(*info);
-			*info = NULL;
-		}
-		break;
-	}
-	gnome_dialog_close(GNOME_DIALOG(dialog));
-}
-
-static void
-_dialog_destroy(EContactEditor *editor, GtkWidget *dialog)
-{
-	gnome_dialog_close(GNOME_DIALOG(dialog));
-}
-
-static GtkWidget *
-e_contact_editor_build_dialog(EContactEditor *editor, gchar *entry_id, gchar *label_id, gchar *title, GList **list, GnomeUIInfo **info)
-{
-	GtkWidget *dialog_entry = gtk_entry_new();
-	GtkWidget *entry = glade_xml_get_widget(editor->gui, entry_id);
-	GtkWidget *label = glade_xml_get_widget(editor->gui, label_id);
-	
-	GtkWidget *dialog = gnome_dialog_new(title,
-					     NULL);
-	
-	gtk_container_add(GTK_CONTAINER(GNOME_DIALOG(dialog)->vbox),
-			  gtk_widget_new (gtk_frame_get_type(),
-					  "border_width", 4,
-					  "label", title,
-					  "child", gtk_widget_new(gtk_alignment_get_type(),
-								  "child", dialog_entry,
-								  "xalign", .5,
-								  "yalign", .5,
-								  "xscale", 1.0,
-								  "yscale", 1.0,
-								  "border_width", 9,
-								  NULL),
-					  NULL));
-
-	gnome_dialog_append_button_with_pixmap(GNOME_DIALOG(dialog),
-					       "Add",
-					       GNOME_STOCK_PIXMAP_ADD);
-	gnome_dialog_append_button(GNOME_DIALOG(dialog), GNOME_STOCK_BUTTON_CANCEL);
-	gnome_dialog_set_default(GNOME_DIALOG(dialog), 0);
-	
-	g_signal_connect (dialog, "clicked",
-			   _dialog_clicked, editor);
-	g_signal_connect_object(editor, "destroy",
-				_dialog_destroy,
-				G_OBJECT(dialog),
-				G_CONNECT_SWAPPED);
-	
-	g_object_set_data(G_OBJECT(dialog),
-			  "e_contact_editor_entry", entry);
-	gk_object_set_data(G_OBJECT(dialog),
-			   "e_contact_editor_label", label);
-	g_object_set_data(G_OBJECT(dialog),
-			  "e_contact_editor_dialog_entry", dialog_entry);
-	g_object_set_data(G_OBJECT(dialog),
-			  "e_contact_editor_list", list);
-	g_object_set_data(G_OBJECT(dialog),
-			  "e_contact_editor_info", info);
-
-	gtk_widget_show_all(dialog);
-	return dialog;
-}
-#endif
 
 static void
 _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor)
@@ -2152,25 +2110,26 @@ set_address_field(EContactEditor *editor, int result)
 	
 	text = glade_xml_get_widget(editor->gui, "text-address");
 
-	if (text && GTK_IS_TEXT(text)) {
-		int position;
-		GtkEditable *editable;
+	if (text && GTK_IS_TEXT_VIEW(text)) {
+		GtkTextView *text_view = GTK_TEXT_VIEW (text);
+		GtkTextBuffer *buffer;
+		GtkTextIter start_iter, end_iter;
 		const ECardAddrLabel *address;
 
 		if (result == -1)
 			result = editor->address_choice;
 		editor->address_choice = -1;
 
-		position = 0;
-		editable = GTK_EDITABLE(text);
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text));
 
-		gtk_editable_delete_text(editable, 0, -1);
+		gtk_text_buffer_get_start_iter (buffer, &start_iter);
+		gtk_text_buffer_get_end_iter (buffer, &end_iter);
+
+		gtk_text_buffer_delete (buffer, &start_iter, &end_iter);
+
 		address = e_card_simple_get_address(editor->simple, result);
-		if (address && address->data) {
-			gchar *u = e_utf8_to_gtk_string ((GtkWidget *) editable, address->data);
-			gtk_editable_insert_text(editable, u, strlen(u), &position);
-			g_free (u);
-		}
+		if (address && address->data)
+			gtk_text_buffer_insert (buffer, &start_iter, address->data, strlen (address->data));
 
 		check = glade_xml_get_widget(editor->gui, "checkbutton-mailingaddress");
 		if (check && GTK_IS_CHECK_BUTTON (check)) {
@@ -2226,7 +2185,7 @@ add_field_callback(GtkWidget *widget, EContactEditor *editor)
 			if (!strcmp(name, builtins[i]))
 				return;
 		}
-		if (GTK_IS_ENTRY(widget) || GTK_IS_TEXT(widget)) {
+		if (GTK_IS_ENTRY(widget) || GTK_IS_TEXT_VIEW(widget)) {
 			editor->arbitrary_fields = g_list_prepend(editor->arbitrary_fields, g_strdup(name));
 		}
 	}
@@ -2798,8 +2757,8 @@ enable_widget (GtkWidget *widget, gboolean enabled)
 	if (GTK_IS_ENTRY (widget)) {
 		gtk_entry_set_editable (GTK_ENTRY (widget), enabled);
 	}
-	else if (GTK_IS_TEXT (widget)) {
-		gtk_text_set_editable (GTK_TEXT (widget), enabled);
+	else if (GTK_IS_TEXT_VIEW (widget)) {
+		gtk_text_view_set_editable (GTK_TEXT_VIEW (widget), enabled);
 	}
 	else if (GTK_IS_COMBO (widget)) {
 		gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (widget)->entry),
