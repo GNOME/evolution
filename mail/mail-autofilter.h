@@ -43,8 +43,11 @@ FilterRule *filter_rule_from_mlist(FilterContext *context, const char *mlist);
 
 /* easiest place to put this */
 
-void  filter_gui_add_from_message      (CamelMimeMessage *msg,
-					int               flags);
-void filter_gui_add_from_mlist (const char *mlist);
+void  filter_gui_add_from_message(CamelMimeMessage *msg, int flags);
+void filter_gui_add_from_mlist(const char *mlist);
+
+/* Also easiest place for these, we should really share a global rule context for this stuff ... */
+void mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri);
+void mail_filter_delete_uri(CamelStore *store, const char *uri);
 
 #endif

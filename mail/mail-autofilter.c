@@ -48,6 +48,8 @@
 #include "filter/filter-editor.h"
 #include "filter/filter-option.h"
 
+extern char *evolution_dir;
+
 static void
 rule_match_recipients (RuleContext *context, FilterRule *rule, CamelInternetAddress *iaddr)
 {
@@ -319,7 +321,6 @@ filter_gui_add_from_message (CamelMimeMessage *msg, int flags)
 	FilterContext *fc;
 	char *user, *system;
 	FilterRule *rule;
-	extern char *evolution_dir;
 
 	g_return_if_fail (msg != NULL);
 	
@@ -342,7 +343,6 @@ filter_gui_add_from_mlist (const char *mlist)
 	FilterContext *fc;
 	char *user, *system;
 	FilterRule *rule;
-	extern char *evolution_dir;
 
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
@@ -354,5 +354,49 @@ filter_gui_add_from_mlist (const char *mlist)
 	
 	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), user);
 	g_free (user);
+	gtk_object_unref (GTK_OBJECT (fc));
+}
+
+void
+mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri)
+{
+	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
+	FilterContext *fc;
+	char *user, *system;
+
+	fc = filter_context_new ();
+	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
+	rule_context_load ((RuleContext *)fc, system, user);
+
+	if (rule_context_rename_uri((RuleContext *)fc, olduri, newuri, uri_cmp) > 0) {
+		printf("Folder rename '%s' -> '%s' changed filters, resaving\n", olduri, newuri);
+		if (rule_context_save((RuleContext *)fc, user) == -1)
+			g_warning("Could not write out changed filter rules\n");
+	}
+
+	g_free(user);
+	gtk_object_unref (GTK_OBJECT (fc));
+}
+
+void
+mail_filter_delete_uri(CamelStore *store, const char *uri)
+{
+	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
+	FilterContext *fc;
+	char *user, *system;
+
+	fc = filter_context_new ();
+	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
+	rule_context_load ((RuleContext *)fc, system, user);
+
+	if (rule_context_delete_uri((RuleContext *)fc, uri, uri_cmp) > 0) {
+		printf("Folder deleterename '%s' changed filters, resaving\n", uri);
+		if (rule_context_save((RuleContext *)fc, user) == -1)
+			g_warning("Could not write out changed filter rules\n");
+	}
+
+	g_free(user);
 	gtk_object_unref (GTK_OBJECT (fc));
 }

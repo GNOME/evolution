@@ -440,7 +440,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *from, const char *to)
 	CamelVeeFolder *vf;
 	int changed = 0;
 
-	printf("vfolder rename uri: %s to %s\n", from, to);
+	d(printf("vfolder rename uri: %s to %s\n", from, to));
 
 	if (context == NULL || !strncmp(from, "vtrash:", 7) || !strncmp(to, "vtrash:", 7))
 		return;
@@ -457,7 +457,7 @@ mail_vfolder_rename_uri(CamelStore *store, const char *from, const char *to)
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
 			if (uri_cmp(from, source)) {
-				printf("Vfolder '%s' used '%s' ('%s') now uses '%s'\n", rule->name, source, from, to);
+				d(printf("Vfolder '%s' used '%s' ('%s') now uses '%s'\n", rule->name, source, from, to));
 				vf = g_hash_table_lookup(vfolder_hash, rule->name);
 				g_assert(vf);
 				gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, vf);
@@ -502,7 +502,7 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 		CamelFolder *old;
 
 		LOCK();
-		printf("Changing folder name in hash table to '%s'\n", rule->name);
+		d(printf("Changing folder name in hash table to '%s'\n", rule->name));
 		if (g_hash_table_lookup_extended(vfolder_hash, folder->full_name, (void **)&key, (void **)&old)) {
 			g_hash_table_remove(vfolder_hash, key);
 			g_free(key);
@@ -666,11 +666,11 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 
 	/* This should be more-or-less thread-safe */
 
-	printf("Folder renamed to '%s' from '%s'\n", info->new->full_name, info->old_base);
+	d(printf("Folder renamed to '%s' from '%s'\n", info->new->full_name, info->old_base));
 
 	/* Folder is already renamed? */
 	LOCK();
-	printf("Changing folder name in hash table to '%s'\n", info->new->full_name);
+	d(printf("Changing folder name in hash table to '%s'\n", info->new->full_name));
 	if (g_hash_table_lookup_extended(vfolder_hash, info->old_base, (void **)&key, (void **)&folder)) {
 		g_hash_table_remove(vfolder_hash, key);
 		g_free(key);

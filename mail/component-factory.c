@@ -384,6 +384,13 @@ xfer_folder (EvolutionShellComponent *shell_component,
 
 		if (camel_exception_is_set(&ex))
 			GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
+		else {
+			/* Since the shell doesn't play nice with local folders, we have to do this manually */
+			mail_vfolder_rename_uri(store, source_physical_uri, destination_physical_uri);
+			mail_filter_rename_uri(store, source_physical_uri, destination_physical_uri);
+			GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_OK, &ev);
+		}
+		camel_object_unref((CamelObject *)store);
 	} else {
 		source = mail_tool_uri_to_folder (source_physical_uri, 0, &ex);
 	

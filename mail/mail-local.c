@@ -473,7 +473,6 @@ mlf_set_folder(MailLocalFolder *mlf, guint32 flags, CamelException *ex)
 
 	g_assert(mlf->real_folder == NULL);
 
-	/*uri = g_strdup_printf("%s:%s%s", mlf->meta->format, ((CamelService *)folder->parent_store)->url->path, mlf->real_path);*/
 	uri = g_strdup_printf("%s:%s", mlf->meta->format, ((CamelService *)folder->parent_store)->url->path);
 
 	d(printf("opening real store: %s\n", uri));
@@ -786,6 +785,7 @@ mls_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 	if (real_store == NULL) {
 		g_free(metapath);
 		free_metainfo(meta);
+		camel_object_unref((CamelObject *)real_store);
 		return;
 	}
 
@@ -796,8 +796,11 @@ mls_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 		camel_exception_xfer(ex, &local_ex);
 		g_free(metapath);
 		free_metainfo(meta);
+		camel_object_unref((CamelObject *)real_store);
 		return;
 	}
+
+	camel_object_unref((CamelObject *)real_store);
 
 	free_metainfo(meta);
 
@@ -813,46 +816,97 @@ mls_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 static void
 mls_rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
 {
+	CamelStore *real_store;
+	MailLocalStore *mls = (MailLocalStore *)store;
+	char *uri;
+	/*CamelException local_ex;*/
+	struct _local_meta *meta;
 	char *oldname, *newname;
+	char *oldmeta, *newmeta;
+	struct stat st;
 
 	/* folder:rename() updates all our in-memory data to match */
 
 	/* FIXME: Need to lock the subfolder that matches this if its open
 	   Then rename it and unlock it when done */
 
-	printf("Renaming folder from '%s' to '%s'\n", old_name, new_name);
+	d(printf("Renaming folder from '%s' to '%s'\n", old_name, new_name));
 
-	oldname = g_strdup_printf("%s%s", ((CamelService *)store)->url->path, old_name);
-	newname = g_strdup_printf("%s%s", ((CamelService *)store)->url->path, new_name);
+	oldmeta = g_strdup_printf("%s%s/local-metadata.xml", ((CamelService *)store)->url->path, old_name);
+	newmeta = g_strdup_printf("%s%s/local-metadata.xml", ((CamelService *)store)->url->path, new_name);
 
-	if (rename(oldname, newname) == -1) {
-		printf("Rename failed!\n");
-		camel_exception_setv(ex, 1, "Rename failed: %s", strerror(errno));
-	}
-
-	g_free(oldname);
-	g_free(newname);
-#if 0	
-	/* find the real store for this folder, and proxy the call */
-	metapath = g_strdup_printf("%s%s/local-metadata.xml", ((CamelService *)store)->url->path, old_name);
-	meta = load_metainfo(metapath);
-	uri = g_strdup_printf("%s:%s%s", meta->format, ((CamelService *)store)->url->path);
+	meta = load_metainfo(oldmeta);
+	uri = g_strdup_printf("%s:%s", meta->format, ((CamelService *)store)->url->path);
 	real_store = (CamelStore *)camel_session_get_service(session, uri, CAMEL_PROVIDER_STORE, ex);
 	g_free(uri);
 	if (real_store == NULL) {
-		g_free(metapath);
+		g_free(newmeta);
+		g_free(oldmeta);
 		free_metainfo(meta);
 		return;
 	}
-	oldname = g_strdup_printf("%s/%s", old_name, mlf->meta->name);
-	newname = g_strdup_printf("%s/%s", new_name, mlf->meta->name);
 
-	camel_store_rename_folder(real_store, old_name, new_name, &local_ex);
+	oldname = g_strdup_printf("%s%s/%s", ((CamelService *)store)->url->path, old_name, meta->name);
+	newname = g_strdup_printf("%s%s/%s", ((CamelService *)store)->url->path, new_name, meta->name);
 
-	
+	camel_store_rename_folder(real_store, oldname, newname, ex);
+	if (!camel_exception_is_set(ex)) {
+		/* If this fails?  Well, doesn't really matter but 'fail' anyway */
+		if (stat(oldmeta, &st) == 0
+		    && rename(oldmeta, newmeta) == -1) {
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("Could not rename folder %s to %s: %s"),
+					     old_name, new_name, strerror(errno));
+		} else {
+			/* So .. .the shell does a remove/add now the rename worked, so we dont
+			   have to do this.  However totally broken that idea might be */
+#if 0
+			CamelFolderInfo *info;
+			const char *tmp;
+			char *olduri, *newuri;
 
-	camel_exception_setv(ex, 1, "Not supported");
+			olduri = g_strdup_printf("%s:%s%s", ((CamelService *)store)->url->protocol, ((CamelService *)store)->url->path, old_name);
+			newuri = g_strdup_printf("%s:%s%s", ((CamelService *)store)->url->protocol, ((CamelService *)store)->url->path, new_name);
+			info = g_hash_table_lookup(mls->folder_infos, olduri);
+			if (info) {
+				CamelRenameInfo reninfo;
+
+				g_free(info->url);
+				g_free(info->full_name);
+				g_free(info->name);
+				g_free(info->path);
+				info->url = newuri;
+				info->full_name = g_strdup(new_name);
+				info->path = g_strdup_printf("/%s", new_name);
+				tmp = strchr(new_name, '/');
+				if (tmp == NULL)
+					tmp = new_name;
+				info->name = g_strdup(tmp);
+				g_hash_table_insert(mls->folder_infos, info->url, info);
+
+				reninfo.new = info;
+				reninfo.old_base = (char *)old_name;
+				
+				camel_object_trigger_event((CamelObject *)store, "folder_renamed", &reninfo);
+			} else {
+				g_free(newuri);
+				g_warning("Cannot find existing folder '%s' in table?\n", olduri);
+			}
+
+			g_free(olduri);
 #endif
+		}
+	}
+
+	g_free(newname);
+	g_free(oldname);
+
+	camel_object_unref((CamelObject *)real_store);
+
+	free_metainfo(meta);
+
+	g_free(newmeta);
+	g_free(oldmeta);
 }
 
 static char *
@@ -926,7 +980,7 @@ static void mail_local_store_add_folder(MailLocalStore *mls, const char *uri, co
 	CamelFolderInfo *info = NULL;
 	CamelURL *url;
 
-	d(printf("Shell adding folder: '%s' path = '%s'\n", uri, path));
+	(printf("Shell adding folder: '%s' path = '%s'\n", uri, path));
 
 	url = camel_url_new(uri, NULL);
 	if (url == NULL) {
@@ -982,6 +1036,8 @@ remove_find_path(char *uri, CamelFolderInfo *info, struct _search_info *data)
 static void mail_local_store_remove_folder(MailLocalStore *mls, const char *path)
 {
 	struct _search_info data = { path, NULL };
+
+	printf("shell removing folder? '%s'\n", path);
 
 	/* we're keyed on uri, not path, so have to search for it manually */
 

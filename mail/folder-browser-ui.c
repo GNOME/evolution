@@ -455,7 +455,6 @@ static gboolean
 fbui_sensitize_timeout (gpointer data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (data);
-	BonoboUIComponent *uic = fb->uicomp;
 	GSList *iter;
 	struct sensitize_data *sd;
 	int i;

@@ -1,3 +1,13 @@
+2001-10-28    <NotZed@Ximian.com>
+
+	* folder-browser-ui.c (fbui_sensitize_timeout): Remove uic, kill
+	dumb warning.
+
+	* mail-autofilter.c (mail_filter_rename_uri): Implement function
+	for filters to keep track of uri's being renamed.
+	(mail_filter_delete_uri): Similarly for deleting uri's.  Note that
+	these functions are just noops though.
+
 2001-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c: Deactivate the Print right-click menu option
@@ -13,12 +23,16 @@
 
 	* mail-folder-cache.c (real_flush_updates): Pass the rename event
 	to vfolder rename uri.
+	(real_flush_updates): Also rename and delete uri's from filters.
 
 	* mail-local.c (mail_local_folder_reconfigure): Change the store
 	path to be same as parent + mbox to be full path.
 	(mls_delete_folder): Change store path to be parent path, and mbox
 	to be full path.
 	(mail_local_folder_reconfigure): Fix a leak of tmpname.
+	(mls_delete_folder): Unref the store when done.
+	(mls_rename_folder): Fix implementation, shell already created
+	destination folder, so we can't just rename :(
 
 	* component-factory.c (xfer_folder): Only do a rename if we have
 	remove set, cleaned up logic a bit.
@@ -26,6 +40,9 @@
 	all.
 	(storage_create_folder): IF we have a fragment, use that as part
 	part for parent.
+	(xfer_folder): Manually call rename code, since the shell will do
+	a remove/add later on, AND there's no way we can determine the new
+	path from the crock of an api we have to work with.
 
 2001-10-27  Jeffrey Stedfast  <fejj@ximian.com>
 
