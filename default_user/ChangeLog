@@ -1,3 +1,9 @@
+2000-09-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* local/Makefile.am: Renamed Sentbox to Sent\ Mail
+
+	* local/Sent\ Mail/*: Updated
+
 2000-09-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* local/Makefile.am: Added Sentbox
