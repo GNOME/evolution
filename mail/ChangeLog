@@ -1,3 +1,8 @@
+2003-05-30  Radek Doulik  <rodo@ximian.com>
+
+	* mail-config.c (config_write_style): use %02x instead of %2x when
+	formatting color for rc file
+
 2003-05-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #43805.

@@ -466,7 +466,7 @@ config_write_style (void)
 	blue  = gconf_client_get_int (config->gconf, "/GNOME/Spell/spell_error_color_blue", NULL);
 
 	fprintf (rc, "style \"evolution-mail-custom-fonts\" {\n");
-	fprintf (rc, "        GtkHTML::spell_error_color = \"#%2x%2x%2x\"\n",
+	fprintf (rc, "        GtkHTML::spell_error_color = \"#%02x%02x%02x\"\n",
 		 red >> 8, green >> 8, blue >> 8);
 
 	if (custom && var_font && fix_font) {
