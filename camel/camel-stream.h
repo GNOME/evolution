@@ -72,6 +72,11 @@ gint camel_stream_read (CamelStream *stream, gchar *buffer, gint n);
 gint camel_stream_write (CamelStream *stream, gchar *buffer, gint n);
 void camel_stream_close (CamelStream *stream);
 
+/* utility macros and funcs */
+#define camel_stream_write_string(stream, string) camel_stream_write ((stream), (string), strlen (string))
+
+void camel_stream_write_strings (CamelStream *stream, ... );
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

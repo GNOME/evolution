@@ -31,20 +31,20 @@
 void
 gmime_write_header_pair_to_stream (CamelStream *stream, gchar* name, GString *value)
 {
-	g_assert(name);
-	g_assert(value);
-	g_assert(value->str);
 
 	GString *strtmp;
 	guint len;
 
+	g_assert(name);
+
+	if (!value || !(value->str)) return;
 	len = strlen (name) + strlen (value->str) +3;
 	/* 3 is for ": " and "\n" */
 	strtmp = g_string_sized_new (len);
 	
 	sprintf(strtmp->str, "%s: %s\n", name, value->str);
 	camel_stream_write (stream, strtmp->str, len);
-		
+	CAMEL_LOG (FULL_DEBUG, "gmime_write_header_pair_to_stream:\n  writing %s\n", strtmp->str);
 	g_string_free (strtmp, FALSE);
 }
 
@@ -80,7 +80,6 @@ write_header_with_glist_to_stream (CamelStream *stream, gchar *header_name, GLis
 		{
 			gboolean first;
 			
-			fprintf(file, "%s: ", header_name);
 			camel_stream_write (stream, header_name, strlen (header_name) );
 			camel_stream_write (stream, ": ", 2);
 			first = TRUE;

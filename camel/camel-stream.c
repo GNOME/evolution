@@ -192,3 +192,25 @@ camel_stream_close (CamelStream *stream)
 {
 	CS_CLASS (stream)->close (stream);
 }
+
+
+
+
+
+/***************** Utility functions ********************/
+
+void
+camel_stream_write_strings (CamelStream *stream, ... )
+{
+	va_list args;
+	char *string;
+	
+	va_start(args, stream);
+	string = va_arg (args, char *);
+	
+	while (string) {
+		camel_stream_write_string(stream, string);
+		string = va_arg (args, char *);
+	}
+	va_end (args);
+}

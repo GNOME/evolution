@@ -34,6 +34,7 @@ extern "C" {
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include "gmime-content-field.h"
+#include "camel-stream.h"
 
 
 

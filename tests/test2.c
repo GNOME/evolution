@@ -30,37 +30,31 @@ void print_header_pair (gpointer key, gpointer value, gpointer user_data)
 void
 main (int argc, char**argv)
 {
-	FILE *output_file;
 	GHashTable *header_table;
 	CamelMimeMessage *message;
-	CamelStream *stream;
+	CamelStream *input_stream, *output_stream;
 	
 	gtk_init (&argc, &argv);
 	camel_debug_level = FULL_DEBUG;
 	message = camel_mime_message_new_with_session( (CamelSession *)NULL);
 
-	/*  input_file = fopen ("mail.test", "r"); */
-	stream = camel_stream_fs_new_with_name (g_string_new ("mail.test"), CAMEL_STREAM_FS_READ);
-	if (!stream) {
+	
+	input_stream = camel_stream_fs_new_with_name (g_string_new ("mail1.test"), CAMEL_STREAM_FS_READ);
+	if (!input_stream) {
 		perror("could not open input file");
 		exit(2);
 	}
 	
-	//header_table = get_header_table_from_file (input_file);
-	header_table = get_header_table_from_stream (stream);
+	header_table = get_header_table_from_stream (input_stream);
 
 	if (header_table) g_hash_table_foreach (header_table, print_header_pair, (gpointer)message);
 	else printf("header is empty, no header line present\n");
 
-	camel_stream_close (stream);
+	camel_stream_close (input_stream);
 
-	output_file = fopen ("mail2.test", "w");
-	if (!output_file) {
-		perror("could not open output file");
-		exit(2);
-	}
-	camel_data_wrapper_write_to_file (CAMEL_DATA_WRAPPER (message), output_file);
-	fclose (output_file);
+	output_stream = camel_stream_fs_new_with_name (g_string_new ("mail2.test"), CAMEL_STREAM_FS_WRITE);
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
+	camel_stream_close (output_stream);
 
 	
 

@@ -33,6 +33,7 @@ extern "C" {
 
 #include <glib.h>
 #include <stdio.h>
+#include "camel-stream.h"
 
 typedef struct {
 
@@ -44,7 +45,7 @@ typedef struct {
 
 GMimeContentField *gmime_content_field_new (GString *type, GString *subtype);
 void gmime_content_field_set_parameter(GMimeContentField *content_field, GString *attribute, GString *value);
-void gmime_content_field_write_to_file(GMimeContentField *content_field, FILE *file);
+void gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStream *stream);
 
 
 #ifdef __cplusplus

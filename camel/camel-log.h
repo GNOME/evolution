@@ -38,7 +38,9 @@ typedef enum {
 	FULL_DEBUG =     10
 } CamelLogLevel;
 
-/* the goal here is to be able to have a hard maximum log 
+#define HARD_LOG_LEVEL FULL_DEBUG
+
+/* the idea here is to be able to have a hard maximum log 
 level, given at compilation time, and a soft one, given at 
 runtime (with camel_debug_level). For the moment, only 
 soft level is implmented, but one day, when performance 

@@ -63,29 +63,39 @@ gmime_content_field_set_parameter(GMimeContentField *content_field, GString *att
 static void
 _print_parameter (gpointer name, gpointer value, gpointer user_data)
 {
-	FILE *file = (FILE *)user_data;
+	CamelStream *stream = (CamelStream *)user_data;
 	
-	fprintf (file, "; \n    %s=%s", ((GString *)name)->str, ((GString *)value)->str);
+	camel_stream_write_strings (stream, 
+				    "; \n    ", 
+				    ((GString *)name)->str, 
+				    "=", 
+				    ((GString *)value)->str,
+				    NULL);
+	
 }
 
 /**
- * gmime_content_field_write_to_file: write a mime content type to a file
+ * gmime_content_field_write_to: write a mime content type to a stream
  * @content_field: content type object
- * @file: file to write the content type field
+ * @stream: the stream
  * 
  * 
  **/
 void
-gmime_content_field_write_to_file(GMimeContentField *content_field, FILE *file)
+gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStream *stream)
 {
 	if (!content_field) return;
 	if ((content_field->type) && ((content_field->type)->str)) {
-		fprintf (file, "Content-Type: %s", content_field->type->str);
+		//fprintf (file, "Content-Type: %s", content_field->type->str);
+		camel_stream_write_strings (stream, "Content-Type: ", content_field->type->str, NULL);
 		if ((content_field->subtype) && ((content_field->subtype)->str)) {
-			fprintf (file, "/%s", content_field->subtype->str);
+			//fprintf (file, "/%s", content_field->subtype->str);
+			camel_stream_write_strings (stream, "/", content_field->type->str, NULL);
 		}
 		/* print all parameters */
-		g_hash_table_foreach (content_field->parameters, _print_parameter, file);
-		fprintf (file, "\n");
+		g_hash_table_foreach (content_field->parameters, _print_parameter, stream);
+		//fprintf (file, "\n");
+		camel_stream_write_string (stream, "\n");
 	}
 }
+

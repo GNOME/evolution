@@ -70,7 +70,7 @@ static gboolean _get_flag (CamelMimeMessage *mime_message, GString *flag);
 static void _set_message_number (CamelMimeMessage *mime_message, guint number);
 static guint _get_message_number (CamelMimeMessage *mime_message);
 
-static void _write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
+static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static gboolean _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *header_value);
 
 /* Returns the class for a CamelMimeMessage */
@@ -125,7 +125,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	camel_mime_message_class->get_message_number = _get_message_number;
 	
 	/* virtual method overload */
-	camel_data_wrapper_class->write_to_file = _write_to_file;
+	camel_data_wrapper_class->write_to_stream = _write_to_stream;
 	camel_mime_part_class->parse_header_pair = _parse_header_pair;
 
 }
@@ -514,39 +514,44 @@ camel_mime_message_get_message_number (CamelMimeMessage *mime_message)
 
 
 
-#ifdef WHPTF
-#warning : WHPTF is already defined !!!!!!
+#ifdef WHPT
+#warning : WHPT is already defined !!!!!!
 #endif
-#define WHPTF gmime_write_header_pair_to_file
+#define WHPT gmime_write_header_pair_to_stream
 
 static void
-_write_one_recipient_to_file (gpointer key, gpointer value, gpointer user_data)
+_write_one_recipient_to_stream (gpointer key, gpointer value, gpointer user_data)
 {
 	GString *recipient_type = (GString *)key;
 	GList *recipients = (GList *)value;
 	//	GString *current;
-	FILE *file = (FILE *)user_data;
+	CamelStream *stream = (CamelStream *)user_data;
 	if ( (recipient_type) && (recipient_type->str) )
-	     write_header_with_glist_to_file (file, recipient_type->str, recipients);
+	     write_header_with_glist_to_stream (stream, recipient_type->str, recipients);
 }
 
 static void
-_write_recipients_to_file (CamelMimeMessage *mime_message, FILE *file)
+_write_recipients_to_stream (CamelMimeMessage *mime_message, CamelStream *stream)
 {
-	g_hash_table_foreach (mime_message->recipients, _write_one_recipient_to_file, (gpointer)file);
+	g_hash_table_foreach (mime_message->recipients, _write_one_recipient_to_stream, (gpointer)stream);
 }
 
 static void
-_write_to_file (CamelDataWrapper *data_wrapper, FILE *file)
+_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimeMessage *mm = CAMEL_MIME_MESSAGE (data_wrapper);
-	
-	WHPTF (file, "From", mm->from);
-	WHPTF (file, "Reply-To", mm->reply_to);
-	_write_recipients_to_file (mm, file);
-	WHPTF (file, "Date", mm->received_date);
-	WHPTF (file, "Subject", mm->subject);
-	CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_file (data_wrapper, file);
+	CAMEL_LOG (FULL_DEBUG, "CamelMimeMessage::write_to_stream\n");
+	CAMEL_LOG (FULL_DEBUG, "Writing \"From\"\n");
+	WHPT (stream, "From", mm->from);
+	CAMEL_LOG (FULL_DEBUG, "Writing \"Reply-To\"\n");
+	WHPT (stream, "Reply-To", mm->reply_to);
+	CAMEL_LOG (FULL_DEBUG, "Writing recipients\n");
+	_write_recipients_to_stream (mm, stream);
+	CAMEL_LOG (FULL_DEBUG, "Writing \"Date\"\n");
+	WHPT (stream, "Date", mm->received_date);
+	CAMEL_LOG (FULL_DEBUG, "Writing \"Subject\"\n");
+	WHPT (stream, "Subject", mm->subject);
+	CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream);
 	
 }
 

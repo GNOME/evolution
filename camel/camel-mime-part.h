@@ -33,6 +33,7 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include "camel-data-wrapper.h"
+#include "camel-stream.h"
 
 
 

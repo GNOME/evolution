@@ -67,7 +67,7 @@ static void _set_header_lines (CamelMimePart *mime_part, GList *header_lines);
 static GList *_get_header_lines (CamelMimePart *mime_part);
 
 static CamelDataWrapper *_get_content_object(CamelMimePart *mime_part);
-static void _write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
+static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 
 static gboolean _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *header_value);
 
@@ -117,7 +117,7 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 	
 	
 	/* virtual method overload */
-	camel_data_wrapper_class->write_to_file = _write_to_file;
+	camel_data_wrapper_class->write_to_stream = _write_to_stream;
 }
 
 static void
@@ -481,15 +481,15 @@ camel_mime_part_get_content_object(CamelMimePart *mime_part)
 	return CMP_CLASS(mime_part)->get_content_object (mime_part);
 }
 
-#ifdef WHPTF
-#warning : WHPTF is already defined !!!!!!
+#ifdef WHPT
+#warning : WHPT is already defined !!!!!!
 #endif
-#define WHPTF gmime_write_header_pair_to_file
+#define WHPT gmime_write_header_pair_to_stream
 
 
 /* This is not used for the moment */
 static void
-_write_content_to_file (CamelMimePart *mime_part, FILE *file)
+_write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 {
 	guint buffer_size;
 	gchar *buffer;
@@ -498,16 +498,17 @@ _write_content_to_file (CamelMimePart *mime_part, FILE *file)
 	CamelDataWrapper *content = mime_part->content;
 	//	buffer_size = camel_data_wrapper_size (content);
 	buffer = g_malloc (buffer_size);
-	camel_data_wrapper_write_to_buffer (content, buffer);
+	camel_data_wrapper_write_to_stream (content, stream);
 	
 	if (mime_part->encoding) {
 		// encoded_buffer_size = gmime_encoded_size(buffer, buffer_size, encoding);
 		// encoded_buffer = g_malloc (encoded_buffer_size);
 		// gmime_encode_buffer (buffer, encoded_buffer, encoding);
-		// fwrite (encoded_buffer, encoded_buffer_size, 1, file);
+		// camel_stream_write (stream, encoded_buffer, encoded_buffer_size);
 		// g_free (encoded_buffer);
 	} else 
-		fwrite (buffer, buffer_size, 1, file);
+		//fwrite (buffer, buffer_size, 1, file);
+		camel_stream_write (stream, buffer, buffer_size);
 	g_free (buffer);
 }
 
@@ -516,19 +517,30 @@ _write_content_to_file (CamelMimePart *mime_part, FILE *file)
 
 
 static void
-_write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
+_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimePart *mp = CAMEL_MIME_PART (data_wrapper);
-	gmime_content_field_write_to_file(data_wrapper->content_type, file);
-	gmime_content_field_write_to_file(mp->disposition, file);
-	WHPTF (file, "Content-Transfer-Encoding", mp->encoding);
-	WHPTF (file, "Content-Description", mp->description);
-	WHPTF (file, "Content-MD5", mp->content_MD5);
-	WHPTF (file, "Content-id", mp->content_id);
-	write_header_with_glist_to_file (file, "Content-Language", mp->content_languages);
-	write_header_table_to_file (file, mp->headers);
-	fprintf(file,"\n");
-	if (mp->content) camel_data_wrapper_write_to_file (mp->content, file);
+	
+	CAMEL_LOG (FULL_DEBUG, "Entering CamelMimePart::write_to_stream\n");
+
+	CAMEL_LOG (FULL_DEBUG, "CamelMimePart::write_to_stream writing content-type\n");
+	gmime_content_field_write_to_stream(data_wrapper->content_type, stream);
+	CAMEL_LOG (FULL_DEBUG, "CamelMimePart::write_to_stream writing content-disposition\n");
+	gmime_content_field_write_to_stream(mp->disposition, stream);
+	CAMEL_LOG (FULL_DEBUG, "CamelMimePart::write_to_stream writing content-transfer-encoding\n");
+	WHPT (stream, "Content-Transfer-Encoding", mp->encoding);
+	CAMEL_LOG (FULL_DEBUG, "CamelMimePart::write_to_stream writing content-description\n");
+	WHPT (stream, "Content-Description", mp->description);
+	CAMEL_LOG (FULL_DEBUG, "CamelMimePart::write_to_stream writing content-MD5\n");
+	WHPT (stream, "Content-MD5", mp->content_MD5);
+	CAMEL_LOG (FULL_DEBUG, "CamelMimePart::write_to_stream writing content-id\n");
+	WHPT (stream, "Content-id", mp->content_id);
+	CAMEL_LOG (FULL_DEBUG, "CamelMimePart::write_to_stream writing content-languages\n");
+	write_header_with_glist_to_stream (stream, "Content-Language", mp->content_languages);
+	CAMEL_LOG (FULL_DEBUG, "CamelMimePart::write_to_stream writing other headers\n");
+	write_header_table_to_stream (stream, mp->headers);
+	camel_stream_write_string(stream,"\n");
+	if (mp->content) camel_data_wrapper_write_to_stream (mp->content, stream);
 	
 }
 
