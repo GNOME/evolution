@@ -1,3 +1,11 @@
+2002-10-04  Chris Toshok  <toshok@ximian.com>
+
+	* e-shell-folder-selection-dialog.c (delete_event_cb): new
+	function, emit cancelled so the folder selector button will
+	sensitize the parent window again.
+	(e_shell_folder_selection_dialog_construct): connect the
+	delete_event signal.
+
 2002-09-30  Aaron Weber  <aaron@ximian.com>
 
 	* importer/import.glade: Import Assistant vs. Importer assistant.

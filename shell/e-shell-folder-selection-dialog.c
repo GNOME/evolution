@@ -317,6 +317,16 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 		gnome_dialog_set_sensitive (GNOME_DIALOG (dialog), 0, FALSE);
 }
 
+static gint
+delete_event_cb (GtkWidget *w, GdkEvent *event, gpointer data)
+{
+	EShellFolderSelectionDialog *dialog = data;
+
+	gtk_signal_emit (GTK_OBJECT (dialog), signals[CANCELLED]);
+
+	return TRUE;
+}
+
 static void
 double_click_cb (EStorageSetView *essv,
 		 int row,
@@ -374,6 +384,8 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	gtk_window_set_default_size (GTK_WINDOW (folder_selection_dialog), 350, 300);
 	gtk_window_set_modal (GTK_WINDOW (folder_selection_dialog), TRUE);
 	gtk_window_set_title (GTK_WINDOW (folder_selection_dialog), title);
+	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "delete_event",
+			    GTK_SIGNAL_FUNC (delete_event_cb), folder_selection_dialog);
 
 	gnome_dialog_append_buttons (GNOME_DIALOG (folder_selection_dialog),
 				     GNOME_STOCK_BUTTON_OK,
