@@ -607,7 +607,6 @@ calendar/conduits/Makefile
 calendar/conduits/calendar/Makefile
 calendar/conduits/todo/Makefile
 filter/Makefile
-notes/Makefile
 wombat/Makefile
 art/Makefile
 default_user/Makefile

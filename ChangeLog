@@ -1,5 +1,10 @@
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* configure.in: The notes subdir isn't actually used, so remove
+	it.
+
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* configure.in: 0.5.
 
 2000-09-12  Jeffrey Stedfast  <fejj@helixcode.com>
