@@ -25,14 +25,22 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
+enum {
+	E_ICON_SIZE_MENU          = 16,
+	E_ICON_SIZE_BUTTON        = 20,
+	E_ICON_SIZE_SMALL_TOOLBAR = 18,
+	E_ICON_SIZE_LARGE_TOOLBAR = 24,
+	E_ICON_SIZE_DND           = 32,
+	E_ICON_SIZE_DIALOG        = 48,
+	E_ICON_NUM_SIZES
+};
+
 void       e_icon_factory_init              (void);
 
-gchar     *e_icon_factory_get_icon_filename (const gchar *icon_name,
-				             gint        icon_size);
+char      *e_icon_factory_get_icon_filename (const char *icon_name, int icon_size);
 
-GdkPixbuf *e_icon_factory_get_icon          (const gchar *icon_name,
-				             gint        icon_size);
+GdkPixbuf *e_icon_factory_get_icon          (const char *icon_name, int icon_size);
 
-GList     *e_icon_factory_get_icon_list     (const gchar *icon_name);
+GList     *e_icon_factory_get_icon_list     (const char *icon_name);
 
 #endif /* _E_ICON_FACTORY_H_ */
