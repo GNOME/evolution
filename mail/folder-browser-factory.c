@@ -51,7 +51,6 @@ control_activate (BonoboControl     *control,
 {
 	GtkWidget         *folder_browser;
 	Bonobo_UIContainer container;
-	int state;
 
 	container = bonobo_control_get_remote_ui_container (control);
 	bonobo_ui_component_set_container (uic, container);
