@@ -270,6 +270,7 @@ load_file_fn (EvolutionImporter *eimporter,
 		fullpath = e_path_to_physical (homedir, folderpath);
 		ex = camel_exception_new ();
 		importer->folder = mail_tool_uri_to_folder (fullpath, ex);
+		g_free (homedir);
 	
 		if (camel_exception_is_set (ex) || importer->folder == NULL) {
 			/* Make a new directory */

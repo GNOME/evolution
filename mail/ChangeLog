@@ -1,3 +1,7 @@
+2001-09-12  Iain Holmes  <iain@ximian.com>
+
+	* importers/evolution-mbox-importer.c (load_file_fn): Fix memory leak.
+
 2001-09-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (ask_confirm_for_unwanted_html_mail): Convert
