@@ -137,8 +137,6 @@ main (int argc, char *argv [])
 	bonobo_main ();
 	GDK_THREADS_LEAVE ();
 	
-	camel_shutdown ();
-	
 	mail_config_write_on_exit ();
 
 	return 0;

@@ -1,5 +1,7 @@
 2001-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* main.c (main): No need to camel_shutdown() anymore...
+
 	* mail-callbacks.c (next_msg): Don't filter on Seen status.
 	(previous_msg): Same.
 	(next_unread_msg): New function that does what the old callback
