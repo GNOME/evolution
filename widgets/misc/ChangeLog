@@ -1,3 +1,10 @@
+2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #7736.]
+
+	* e-search-bar.c (activate_by_subitems): Don't set the entry to be
+	an empty string here.
+
 2002-06-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-filter-bar.c (build_items): Put the numbers in front of the

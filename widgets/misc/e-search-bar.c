@@ -323,8 +323,6 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 			gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->entry);
 			esb->subitem_id = -1;
 		}
-		
-		gtk_entry_set_text (GTK_ENTRY (esb->entry), "");
 	} else {
 		/* This item uses a submenu */
 		GtkWidget *menu;
