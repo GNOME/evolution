@@ -1,3 +1,7 @@
+2004-06-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-errors.xml.h: Re-added - THIS IS NOT TO BE REMOVED!!!!
+
 2004-06-17  Rodney Dawes  <dobey@novell.com>
 
 	* filter-errors.xml.h: Remove this generated file from CVS
