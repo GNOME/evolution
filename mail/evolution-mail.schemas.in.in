@@ -493,7 +493,7 @@
       <type>int</type>
       <default>400</default>
       <locale name="C">
-         <short>Subscribe dialog default hight</short>
+         <short>Subscribe dialog default height</short>
          <long>Default height of the Subscribe dialog</long>
       </locale>
     </schema>

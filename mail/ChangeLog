@@ -1,3 +1,7 @@
+2004-04-30  Enver ALTIN  <enver.altin@frontsite.com.tr>
+
+	* evolution-mail.schemas.in.in: Fixed a type-o.
+
 2004-04-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (message_list_set_folder): Properly initialise
