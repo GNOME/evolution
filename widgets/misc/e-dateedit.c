@@ -30,9 +30,6 @@
  * time field with popups for entering a date.
  */
 
-/* We need this for strptime. */
-#define _XOPEN_SOURCE 4
-
 #include <config.h>
 
 #include "e-dateedit.h"
@@ -60,6 +57,7 @@
 #include <gtk/gtkvbox.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include "e-util/e-time-utils.h"
 #include "e-calendar.h"
 
 
@@ -1307,9 +1305,7 @@ e_date_edit_parse_date (EDateEdit *dedit,
 	struct tm *tmp_tm;
 	time_t t;
 
-	/* This is a strptime() format for a short date. %m = month,
-	   %d = day of month, %Y = year (all digits). */
-	if (!strptime (date_text, _("%m/%d/%Y"), date_tm))
+	if (e_time_parse_date (date_text, date_tm) != E_TIME_PARSE_OK)
 		return FALSE;
 
 	/* If the user entered a 2-digit year we use the current century. */
@@ -1333,22 +1329,13 @@ e_date_edit_parse_time	(EDateEdit	*dedit,
 			 gchar		*time_text,
 			 struct tm	*time_tm)
 {
-	gchar *format;
-
 	if (field_set_to_none (time_text)) {
 		time_tm->tm_hour = 0;
 		time_tm->tm_min = 0;
 		return TRUE;
 	}
 
-	if (dedit->priv->use_24_hour_format)
-		/* This is a strptime() format. %H = hour (0-23), %M = minute. */
-		format = _("%H:%M");
-	else
-		/* This is a strptime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
-		format = _("%I:%M %p");
-
-	if (!strptime (time_text, format, time_tm))
+	if (e_time_parse_time (time_text, time_tm) != E_TIME_PARSE_OK)
 		return FALSE;
 
 	return TRUE;
