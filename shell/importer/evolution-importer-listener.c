@@ -185,7 +185,6 @@ evolution_importer_listener_init (EvolutionImporterListener *listener)
 
 static void
 evolution_importer_listener_construct (EvolutionImporterListener *listener,
-				       GNOME_Evolution_ImporterListener corba_object,
 				       EvolutionImporterListenerCallback callback,
 				       void *closure)
 {
@@ -193,14 +192,11 @@ evolution_importer_listener_construct (EvolutionImporterListener *listener,
 
 	g_return_if_fail (listener != NULL);
 	g_return_if_fail (EVOLUTION_IS_IMPORTER_LISTENER (listener));
-	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
 	g_return_if_fail (callback != NULL);
 
 	priv = listener->priv;
 	priv->callback = callback;
 	priv->closure = closure;
-
-	bonobo_object_construct (BONOBO_OBJECT (listener), corba_object);
 }
 
 /**
@@ -217,12 +213,10 @@ evolution_importer_listener_new (EvolutionImporterListenerCallback callback,
 				 void *closure)
 {
 	EvolutionImporterListener *listener;
-	GNOME_Evolution_ImporterListener corba_object;
 
 	listener = gtk_type_new (evolution_importer_listener_get_type ());
 
-	evolution_importer_listener_construct (listener, corba_object, 
-					       callback, closure);
+	evolution_importer_listener_construct (listener, callback, closure);
 	return listener;
 }
 

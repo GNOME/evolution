@@ -1,3 +1,8 @@
+2001-03-22  Iain Holmes  <iain@ximian.com>
+
+	* backend/ebook/evolution-gnomecard-importer.c: Update to the new
+	IDL.
+
 2001-03-20  Miguel de Icaza  <miguel@ximian.com>
 
 	* gui/component/addressbook.c (update_pixmaps): Added artwork from

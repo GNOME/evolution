@@ -449,6 +449,28 @@ impl_get_name (EStorage *storage)
 	return E_LOCAL_STORAGE_NAME;
 }
 
+const char *invalid_names[6] = {
+	"Calendar",
+	"Contacts",
+	"Trash",
+	"Executive-Summary",
+	"Tasks",
+	NULL};
+/* Checks that @foldername isn't an invalid name like Trash, Calendar etc */
+static gboolean
+check_valid_name (const char *foldername)
+{
+	int i;
+	
+	g_return_val_if_fail (foldername != NULL, FALSE);
+	for (i = 0; invalid_names[i] != NULL; i++) {
+		if (strcmp (invalid_names[i], foldername) == 0)
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
 static void
 real_do_folder_create (ELocalStorage *local_storage,
 		       Bonobo_Listener listener,
@@ -476,11 +498,21 @@ real_do_folder_create (ELocalStorage *local_storage,
 			(* callback) (storage, E_STORAGE_INVALIDTYPE, data);
 
 		notify_listener (listener, E_STORAGE_INVALIDTYPE, NULL);
+		return;
 	}
 	
 	g_assert (g_path_is_absolute (path));
 	
 	folder_name = g_basename (path);
+	/* Some validity checks */
+	if (!check_valid_name (folder_name)) {
+		if (callback != NULL)
+			(*callback) (storage, E_STORAGE_INVALIDNAME, data);
+
+		notify_listener (listener, E_STORAGE_INVALIDNAME, NULL);
+		return;
+	}
+
 	if (folder_name == path + 1) {
 		/* We want a direct child of the root, so we don't need to create a
 		   `subfolders' directory.  */
@@ -496,20 +528,24 @@ real_do_folder_create (ELocalStorage *local_storage,
 		parent_physical_path = get_physical_path (local_storage, parent_path);
 		subfolders_directory_physical_path = g_concat_dir_and_file (parent_physical_path,
 									    SUBFOLDER_DIR_NAME);
-		
-#if 0
-		if (! g_file_exists (subfolders_directory_physical_path)
+		if (! g_file_exists (subfolders_directory_physical_path) 
 		    && mkdir (subfolders_directory_physical_path, 0700) == -1) {
-			g_free (parent_path);
-			g_free (subfolders_directory_physical_path);
-			g_free (parent_physical_path);
-			if (callback != NULL)
-				(* callback) (storage, 
-					      errno_to_storage_result (), data);
-			return errno_to_storage_result ();
+			if (errno != EEXIST) {
+				/* Really bad error which we can't recover from */
+				g_free (parent_path);
+				g_free (subfolders_directory_physical_path);
+				g_free (parent_physical_path);
+				if (callback != NULL)
+					(* callback) (storage,
+						      errno_to_storage_result (),
+						      data);
+
+				notify_listener (listener,
+						 errno_to_storage_result (), NULL);
+				return;
+			}
 		}
-#endif
-	
+
 		physical_path = g_concat_dir_and_file (subfolders_directory_physical_path,
 						       folder_name);
 		g_free (subfolders_directory_physical_path);
@@ -518,17 +554,14 @@ real_do_folder_create (ELocalStorage *local_storage,
 	
 	/* Create the directory that holds the folder.  */
 	
-	if (e_mkdir_hier (physical_path, 0700) == -1) {
-
-		/* Bad error which we can't recover from */
-		if (errno != EEXIST) {
-			notify_listener (listener, errno_to_storage_result (),
-					 physical_path);
-			g_free (physical_path);
-			if (callback != NULL)
-				(* callback) (storage,
-					      errno_to_storage_result (), data);
-		}
+	if (mkdir (physical_path, 0700) == -1) {
+		notify_listener (listener, errno_to_storage_result (),
+				 physical_path);
+		g_free (physical_path);
+		if (callback != NULL)
+			(* callback) (storage,
+				      errno_to_storage_result (), data);
+		return;
 	}
 
 	/* Finally tell the component to do the job of creating the physical files in

@@ -60,6 +60,15 @@ typedef struct _ImportData {
 	char *choosen_iid;
 } ImportData;
 
+#define IMPORTER_DEBUG
+#ifdef IMPORTER_DEBUG
+#define IN g_print ("=====> %s (%d)\n", __FUNCTION__, __LINE__)
+#define OUT g_print ("<==== %s (%d)\n", __FUNCTION__, __LINE__)
+#else
+#define IN
+#define OUT
+#endif
+
 /* Some HTML helper functions from mail/mail-config-gui.c */
 static void
 html_size_req (GtkWidget *widget,
@@ -149,6 +158,7 @@ import_cb (EvolutionImporterListener *listener,
 	ImporterComponentData *icd = (ImporterComponentData *) data;
 	char *label;
 
+	IN;
 	if (icd->stop != TRUE) {
 		if (result == EVOLUTION_IMPORTER_NOT_READY) {
 			/* Importer isn't ready yet. 
@@ -163,11 +173,13 @@ import_cb (EvolutionImporterListener *listener,
 				gtk_main_iteration ();
 			
 			gtk_timeout_add (5000, importer_timeout_fn, data);
+			OUT;
 			return;
 		}
 		
 		if (result == EVOLUTION_IMPORTER_BUSY) {
 			gtk_timeout_add (5000, importer_timeout_fn, data);
+			OUT;
 			return;
 		}
 
@@ -181,6 +193,7 @@ import_cb (EvolutionImporterListener *listener,
 			
 			g_idle_add_full (G_PRIORITY_LOW, importer_timeout_fn, 
 					 data, NULL);
+			OUT;
 			return;
 		}
 	}
@@ -191,6 +204,8 @@ import_cb (EvolutionImporterListener *listener,
 	bonobo_object_unref (BONOBO_OBJECT (icd->listener));
 	bonobo_object_unref (BONOBO_OBJECT (icd->client));
 	g_free (icd);
+
+	OUT;
 }
 
 static gboolean
@@ -199,6 +214,7 @@ importer_timeout_fn (gpointer data)
 	ImporterComponentData *icd = (ImporterComponentData *) data;
 	char *label;
 
+	IN;
 	label = g_strdup_printf (_("Importing %s\nImporting item %d."),
 				 icd->filename, icd->item);
 	gtk_label_set_text (GTK_LABEL (icd->contents), label);
@@ -207,6 +223,7 @@ importer_timeout_fn (gpointer data)
 		gtk_main_iteration ();
 	
 	evolution_importer_client_process_item (icd->client, icd->listener);
+	OUT;
 	return FALSE;
 }
 
@@ -338,7 +355,8 @@ start_import (const char *filename,
 	icd->client = evolution_importer_client_new_from_id (real_iid);
 	g_free (real_iid);
 
-	if (evolution_importer_client_load_file (icd->client, filename) == FALSE) {
+	/* NULL for folderpath means use Inbox */
+	if (evolution_importer_client_load_file (icd->client, filename, NULL) == FALSE) {
 		label = g_strdup_printf (_("Error loading %s"), filename);
 		gtk_label_set_text (GTK_LABEL (icd->contents), label);
 		g_free (label);

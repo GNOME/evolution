@@ -44,6 +44,8 @@
 
 #include <importer/evolution-intelligent-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
+#include <evolution-storage.h>
+
 #include "mail-importer.h"
 #include "mail-tools.h"
 
@@ -52,6 +54,7 @@ static char *nsmail_dir = NULL;
 extern char *evolution_dir;
 
 #define NETSCAPE_INTELLIGENT_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Netscape_Intelligent_Importer_Factory"
+#define MBOX_IMPORTER_IID "OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory"
 #define KEY "netscape-mail-imported"
 
 /*#define SUPER_IMPORTER_DEBUG*/
@@ -229,7 +232,7 @@ netscape_import_file (NetscapeImporter *importer,
 	char *protocol;
 	CamelException *ex;
 	CamelFolder *folder;
-	
+
 	/* Do import */
 	d(g_warning ("Importing %s as %s\n", filename, fullpath));
 
@@ -241,6 +244,8 @@ netscape_import_file (NetscapeImporter *importer,
 		camel_exception_free (ex);
 		return;
 	}
+
+	g_free (protocol);
 
 	if (folder == NULL) {
 		g_warning ("Folder for %s is NULL", fullpath);
@@ -267,6 +272,7 @@ netscape_dir_created (BonoboListener *listener,
 		      CORBA_Environment *ev,
 		      NetscapeImporter *importer)
 {
+	EvolutionStorageResult storage_result;
 	NetscapeCreateDirectoryData *data;
 	GList *l;
 	GNOME_Evolution_Storage_FolderResult *result;
@@ -277,7 +283,10 @@ netscape_dir_created (BonoboListener *listener,
 	}
 
 	result = event_data->_value;
+	storage_result = result->result;
 	fullpath = result->path;
+
+	g_warning ("path: %s\tresult: %d", fullpath, storage_result);
 
 	l = importer->dir_list;
 	importer->dir_list = g_list_remove_link (importer->dir_list, l);
@@ -286,7 +295,8 @@ netscape_dir_created (BonoboListener *listener,
 
 	/* Import the file */
 	/* We got the folder, so try to import the file into it. */
-	netscape_import_file (data->importer, data->path, fullpath);
+	if (fullpath != NULL || *fullpath != '\0')
+		netscape_import_file (data->importer, data->path, fullpath);
 
 	g_free (data->parent);
 	g_free (data->path);

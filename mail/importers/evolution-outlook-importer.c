@@ -218,6 +218,7 @@ importer_destroy_cb (GtkObject *object,
 static gboolean
 load_file_fn (EvolutionImporter *eimporter,
 	      const char *filename,
+	      const char *folderpath,
 	      void *closure)
 {
 	OutlookImporter *oli;
@@ -256,7 +257,10 @@ load_file_fn (EvolutionImporter *eimporter,
 
 	importer->mstream = NULL;
 
-	importer->folder = mail_tool_get_local_inbox (NULL);
+	if (folderpath == NULL)
+		importer->folder = mail_tool_get_local_inbox (NULL);
+	else
+		importer->folder = mail_tool_uri_to_folder (folderpath);
 
 	if (importer->folder == NULL){
 		g_warning ("Bad folder");

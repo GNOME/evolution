@@ -1,3 +1,11 @@
+2001-03-22  Iain Holmes  <iain@ximian.com>
+
+	* importers/evolution-outlook-importer.c: Update for new IDL.
+
+	* importers/evolution-mbox-importer.c: Update for new IDL.
+
+	* importers/Makefile.am: Build the elm importer.
+
 2001-03-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (mail_double_click): New callback to handle a

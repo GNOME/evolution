@@ -1,3 +1,22 @@
+2001-03-22  Iain Holmes  <iain@ximian.com>
+
+	* importer/evolution-importer-listener.c (evolution_importer_listener_new):
+	Remove the usage of the corba_object thing.
+	(evolution_importer_listener_construct): Ditto.
+
+	* e-local-storage.c (real_do_folder_create): Revert the e_mkdir_hier call
+	to two seperate calls to mkdir. If the directory exists, just call the 
+	callback and notify the listener.
+
+	* importer/GNOME_Evolution_Importer.idl: Add a folderpath paramater to the
+	loadFile method.
+
+	* importer/evolution-importer.[ch]: Update for the new folderpath param.
+	
+	* importer/evolution-importer-client.[ch]: Ditto.
+
+	* importer/importer.c: Ditto.
+
 2001-03-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (motion_notify_event): Unref the target

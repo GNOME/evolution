@@ -141,6 +141,7 @@ importer_destroy_cb (GtkObject *object,
 static gboolean
 load_file_fn (EvolutionImporter *importer,
 	      const char *filename,
+	      const char *folderpath,
 	      void *closure)
 {
 	GnomeCardImporter *gci;
