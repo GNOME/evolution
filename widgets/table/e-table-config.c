@@ -465,9 +465,10 @@ connect_button (ETableConfig *config, GladeXML *gui, const char *widget_name, vo
 {
 	GtkWidget *button = glade_xml_get_widget (gui, widget_name);
 
-	gtk_signal_connect(
-		GTK_OBJECT (button), "clicked",
-		GTK_SIGNAL_FUNC (cback), config);
+	if (button) {
+		gtk_signal_connect (GTK_OBJECT (button), "clicked",
+				    GTK_SIGNAL_FUNC (cback), config);
+	}
 }
 
 static void
@@ -687,8 +688,13 @@ configure_group_dialog (ETableConfig *config, GladeXML *gui)
 static void
 setup_gui (ETableConfig *config)
 {
-	GladeXML *gui = glade_xml_new_with_domain (
-		ETABLE_GLADEDIR "/e-table-config.glade", NULL, PACKAGE);
+	GladeXML *gui;
+
+	if (e_table_sort_info_get_can_group (config->state->sort_info)) {
+		gui = glade_xml_new_with_domain (ETABLE_GLADEDIR "/e-table-config.glade", NULL, PACKAGE);
+	} else {
+		gui = glade_xml_new_with_domain (ETABLE_GLADEDIR "/e-table-config-no-group.glade", NULL, PACKAGE);
+	}
 	
 	config->dialog_toplevel = glade_xml_get_widget (
 		gui, "e-table-config");
@@ -727,12 +733,6 @@ setup_gui (ETableConfig *config)
 		GTK_OBJECT (config->dialog_toplevel), "apply",
 		GTK_SIGNAL_FUNC (dialog_apply), config);
 
-	if (!e_table_sort_info_get_can_group (config->state->sort_info)) {
-		GtkWidget *button = glade_xml_get_widget (gui, "button-group");
-		gtk_widget_hide (button);
-		gtk_widget_hide (config->group_label);
-	}
-	
 	gtk_object_unref (GTK_OBJECT (gui));
 }
 

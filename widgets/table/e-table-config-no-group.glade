@@ -1605,37 +1605,11 @@
 	<class>GtkTable</class>
 	<name>table1</name>
 	<border_width>2</border_width>
-	<rows>2</rows>
+	<rows>1</rows>
 	<columns>3</columns>
 	<homogeneous>False</homogeneous>
 	<row_spacing>2</row_spacing>
 	<column_spacing>4</column_spacing>
-
-	<widget>
-	  <class>GtkLabel</class>
-	  <name>label3</name>
-	  <label></label>
-	  <justify>GTK_JUSTIFY_CENTER</justify>
-	  <wrap>False</wrap>
-	  <xalign>0</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <child>
-	    <left_attach>2</left_attach>
-	    <right_attach>3</right_attach>
-	    <top_attach>0</top_attach>
-	    <bottom_attach>1</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>False</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>False</yfill>
-	  </child>
-	</widget>
 
 	<widget>
 	  <class>GtkLabel</class>
@@ -1650,8 +1624,8 @@
 	  <child>
 	    <left_attach>2</left_attach>
 	    <right_attach>3</right_attach>
-	    <top_attach>1</top_attach>
-	    <bottom_attach>2</bottom_attach>
+	    <top_attach>0</top_attach>
+	    <bottom_attach>1</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
 	    <xexpand>False</xexpand>
@@ -1678,34 +1652,6 @@
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>1</right_attach>
-	    <top_attach>1</top_attach>
-	    <bottom_attach>2</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>False</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>False</yfill>
-	  </child>
-	</widget>
-
-	<widget>
-	  <class>GtkButton</class>
-	  <name>button-group</name>
-	  <can_default>True</can_default>
-	  <can_focus>True</can_focus>
-	  <signal>
-	    <name>clicked</name>
-	    <handler>on_group_by_clicked</handler>
-	    <last_modification_time>Tue, 03 Oct 2000 22:10:50 GMT</last_modification_time>
-	  </signal>
-	  <label>_Group By...</label>
-	  <relief>GTK_RELIEF_NORMAL</relief>
-	  <child>
-	    <left_attach>0</left_attach>
-	    <right_attach>1</right_attach>
 	    <top_attach>0</top_attach>
 	    <bottom_attach>1</bottom_attach>
 	    <xpad>0</xpad>
@@ -1716,32 +1662,6 @@
 	    <yshrink>False</yshrink>
 	    <xfill>True</xfill>
 	    <yfill>False</yfill>
-	  </child>
-	</widget>
-
-	<widget>
-	  <class>GtkLabel</class>
-	  <name>label-group</name>
-	  <label></label>
-	  <justify>GTK_JUSTIFY_LEFT</justify>
-	  <wrap>True</wrap>
-	  <xalign>0</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <child>
-	    <left_attach>1</left_attach>
-	    <right_attach>2</right_attach>
-	    <top_attach>0</top_attach>
-	    <bottom_attach>1</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>True</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>True</yfill>
 	  </child>
 	</widget>
 
@@ -1758,8 +1678,8 @@
 	  <child>
 	    <left_attach>1</left_attach>
 	    <right_attach>2</right_attach>
-	    <top_attach>1</top_attach>
-	    <bottom_attach>2</bottom_attach>
+	    <top_attach>0</top_attach>
+	    <bottom_attach>1</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
 	    <xexpand>True</xexpand>
