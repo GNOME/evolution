@@ -1,4 +1,10 @@
+2005-01-08 Priit Laes <amd@store20.com>
+	
+	* configure.in : Remove duplicate entry for itip-formatter in
+	plugins list.
+
 2005-01-08 Harish Krishnaswamy <kharish@novell.com>
+
 	* configure.in : Add gnome-vfs-module-2.0 to Evo compile flags for
 	the calendar.
 
