@@ -1,3 +1,7 @@
+2002-11-18  Chris Toshok  <toshok@ximian.com>
+
+	* importer/import.glade: run libglade-convert.
+
 2002-11-16  Chris Toshok  <toshok@ximian.com>
 
 	* e-folder-list.c (e_folder_list_init): force the scrolled table

@@ -1,145 +1,138 @@
-<?xml version="1.0"?>
-<GTK-Interface>
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd" >
 
-<project>
-  <name>import</name>
-  <program_name>import</program_name>
-  <directory></directory>
-  <source_directory>.</source_directory>
-  <pixmaps_directory>../../art</pixmaps_directory>
-  <language>C</language>
-  <gnome_support>True</gnome_support>
-  <gettext_support>True</gettext_support>
-  <output_main_file>False</output_main_file>
-  <output_support_files>False</output_support_files>
-  <output_build_files>False</output_build_files>
-</project>
+<glade-interface>
+  <requires lib="gnome" />
 
-<widget>
-  <class>GtkWindow</class>
-  <name>importwizard</name>
-  <visible>False</visible>
-  <title>Evolution Import Assistant</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
+  <widget class="GtkWindow" id="importwizard">
+    <property name="visible">no</property>
+    <property name="title" translatable="yes">Evolution Import Assistant</property>
+    <property name="type">GTK_WINDOW_TOPLEVEL</property>
+    <property name="modal">no</property>
+    <property name="allow_shrink">no</property>
+    <property name="allow_grow">yes</property>
+    <property name="window-position">GTK_WIN_POS_NONE</property>
 
-  <widget>
-    <class>GnomeDruid</class>
-    <name>druid1</name>
+    <child>
+      <widget class="GnomeDruid" id="druid1">
+        <property name="visible">yes</property>
 
-    <widget>
-      <class>GnomeDruidPageStart</class>
-      <name>page0</name>
-      <title>Evolution Import Assistant</title>
-      <text>Welcome to the Evolution Import Assistant.
+        <child>
+          <widget class="GnomeDruidPageEdge" id="page0">
+            <property name="title" translatable="yes">Evolution Import Assistant</property>
+            <property name="text" translatable="yes">Welcome to the Evolution Import Assistant.
 With this assistant you will be guided through the process of
-importing external files into Evolution.</text>
-      <title_color>255,255,255</title_color>
-      <text_color>0,0,0</text_color>
-      <background_color>1,1,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <textbox_color>255,255,255</textbox_color>
-      <logo_image>import.png</logo_image>
-    </widget>
+importing external files into Evolution.</property>
+            <property name="logo_image">import.png</property>
+            <property name="position">GNOME_EDGE_START</property>
+            <property name="visible">yes</property>
+            <property name="title_color">#ffffff</property>
+            <property name="text_color">#000000</property>
+            <property name="background_color">#010101</property>
+            <property name="logo_background_color">#010101</property>
+            <property name="textbox_color">#ffffff</property>
+          </widget>
+        </child>
 
-    <widget>
-      <class>GnomeDruidPageStandard</class>
-      <name>page1</name>
-      <title>Importer Type (step 1 of 3)</title>
-      <title_color>255,255,255</title_color>
-      <background_color>0,0,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <logo_image>import.png</logo_image>
+        <child>
+          <widget class="GnomeDruidPageStandard" id="page1">
+            <property name="title" translatable="yes">Importer Type (step 1 of 3)</property>
+            <property name="logo">import.png</property>
+            <property name="visible">yes</property>
+            <property name="title_foreground">#ffffff</property>
+            <property name="background">#000001</property>
+            <property name="logo_background">#010101</property>
 
-      <widget>
-	<class>GtkVBox</class>
-	<child_name>GnomeDruidPageStandard:vbox</child_name>
-	<name>druid-vbox2</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
+            <child internal-child="vbox">
+              <widget class="GtkVBox" id="druid-vbox2">
+                <property name="homogeneous">no</property>
+                <property name="spacing">0</property>
+                <property name="visible">yes</property>
 
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">yes</property>
+                <property name="fill">yes</property>
+              </packing>
+            </child>
+          </widget>
+        </child>
+
+        <child>
+          <widget class="GnomeDruidPageStandard" id="page2-file">
+            <property name="title" translatable="yes">Select a File (step 2 of 3)</property>
+            <property name="logo">import.png</property>
+            <property name="visible">yes</property>
+            <property name="title_foreground">#ffffff</property>
+            <property name="background">#010101</property>
+            <property name="logo_background">#010101</property>
+
+            <child internal-child="vbox">
+              <widget class="GtkVBox" id="druid-vbox1">
+                <property name="homogeneous">no</property>
+                <property name="spacing">0</property>
+                <property name="visible">yes</property>
+
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">yes</property>
+                <property name="fill">yes</property>
+              </packing>
+            </child>
+          </widget>
+        </child>
+
+        <child>
+          <widget class="GnomeDruidPageStandard" id="page2-intelligent">
+            <property name="title" translatable="yes">Select Importers (step 2 of 3)</property>
+            <property name="logo">import.png</property>
+            <property name="visible">yes</property>
+            <property name="title_foreground">#ffffff</property>
+            <property name="background">#000001</property>
+            <property name="logo_background">#010101</property>
+
+            <child internal-child="vbox">
+              <widget class="GtkVBox" id="druid-vbox3">
+                <property name="homogeneous">no</property>
+                <property name="spacing">0</property>
+                <property name="visible">yes</property>
+
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">yes</property>
+                <property name="fill">yes</property>
+              </packing>
+            </child>
+          </widget>
+        </child>
+
+        <child>
+          <widget class="GnomeDruidPageEdge" id="page3">
+            <property name="title" translatable="yes">Import File (step 3 of 3)</property>
+            <property name="text" translatable="yes">Click &quot;Import&quot; to begin importing the file into Evolution. </property>
+            <property name="logo_image">import.png</property>
+            <property name="position">GNOME_EDGE_FINISH</property>
+            <property name="visible">yes</property>
+            <property name="title_color">#ffffff</property>
+            <property name="text_color">#000000</property>
+            <property name="background_color">#010101</property>
+            <property name="logo_background_color">#010101</property>
+            <property name="textbox_color">#ffffff</property>
+          </widget>
+        </child>
       </widget>
-    </widget>
-
-    <widget>
-      <class>GnomeDruidPageStandard</class>
-      <name>page2-file</name>
-      <title>Select a File (step 2 of 3)</title>
-      <title_color>255,255,255</title_color>
-      <background_color>1,1,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <logo_image>import.png</logo_image>
-
-      <widget>
-	<class>GtkVBox</class>
-	<child_name>GnomeDruidPageStandard:vbox</child_name>
-	<name>druid-vbox1</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GnomeDruidPageStandard</class>
-      <name>page2-intelligent</name>
-      <title>Select Importers (step 2 of 3)</title>
-      <title_color>255,255,255</title_color>
-      <background_color>0,0,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <logo_image>import.png</logo_image>
-
-      <widget>
-	<class>GtkVBox</class>
-	<child_name>GnomeDruidPageStandard:vbox</child_name>
-	<name>druid-vbox3</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GnomeDruidPageFinish</class>
-      <name>page3</name>
-      <title>Import File (step 3 of 3)</title>
-      <text>Click &quot;Import&quot; to begin importing the file into Evolution. </text>
-      <background_color>1,1,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <textbox_color>255,255,255</textbox_color>
-      <text_color>0,0,0</text_color>
-      <title_color>255,255,255</title_color>
-      <logo_image>import.png</logo_image>
-    </widget>
+    </child>
   </widget>
-</widget>
-
-</GTK-Interface>
+</glade-interface>
