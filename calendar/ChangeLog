@@ -1,5 +1,10 @@
 2000-09-10  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/calendar-model.c (get_is_complete): Relying on the status
+	field is somewhat faulty since it is related to group scheduling
+
+2000-09-10  JP Rosevear  <jpr@helixcode.com>
+
 	* conduits/todo/todo-conduit.c (update_calendar_entry_in_repository): 
 	Make log output a little more sensible
 	(comp_from_remote_record): Minor correction when making a CalComponent

@@ -543,16 +543,10 @@ get_has_alarms (CalComponent *comp)
 static gboolean
 get_is_complete (CalComponent *comp)
 {
-	const char *status;
-
-	cal_component_get_status (comp, &status);
-	return (status && !strcmp (status, "COMPLETED"));
-
-#if 0
 	struct icaltimetype *t;
 	gboolean retval;
 
-	/* I don't think this is as reliable, especially at the moment when
+	/* May not be reliable, especially at the moment when
 	   we can't set a Completed Date to None. */
 	cal_component_get_completed (comp, &t);
 	retval = (t != NULL);
@@ -561,7 +555,6 @@ get_is_complete (CalComponent *comp)
 		cal_component_free_icaltimetype (t);
 
 	return retval;
-#endif
 }
 
 /* Returns whether a calendar component is overdue.
