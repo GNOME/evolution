@@ -39,6 +39,7 @@ struct _ESelectNamesManagerClass {
 	GtkObjectClass parent_class;
 
 	void (*changed) (ESelectNamesManager *, const gchar *section_id, gint changed_working_copy);
+	void (*ok)      (ESelectNamesManager *);
 };
 
 ESelectNamesManager *e_select_names_manager_new                    (void);

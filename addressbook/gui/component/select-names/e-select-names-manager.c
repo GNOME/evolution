@@ -34,6 +34,7 @@ enum {
 
 enum {
 	CHANGED,
+	OK,
 	LAST_SIGNAL
 };
 
@@ -161,6 +162,15 @@ e_select_names_manager_class_init (ESelectNamesManagerClass *klass)
 				GTK_TYPE_NONE, 2,
 				GTK_TYPE_POINTER,
 				GTK_TYPE_INT);
+
+	e_select_names_manager_signals[OK] =
+		gtk_signal_new ("ok",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ESelectNamesManagerClass, ok),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
 	gtk_object_class_add_signals (object_class, e_select_names_manager_signals, LAST_SIGNAL);
 }
 
@@ -526,7 +536,9 @@ e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNamesManager *m
 
 	switch(button) {
 	case 0:
-		/* We don't need to do anything if they click on OK */
+		/* We don't need to do much if they click on OK */
+
+		gtk_signal_emit (GTK_OBJECT (manager), e_select_names_manager_signals[OK]);
 		break;
 
 	case 1: {

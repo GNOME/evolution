@@ -243,6 +243,37 @@ entry_changed (GtkWidget *widget, BonoboControl *control)
 		bonobo_control_set_property (control, "entry_changed", TRUE, NULL);
 }
 
+static void
+manager_changed_cb (ESelectNamesManager *manager, const gchar *section_id, gint changed_working_copy, gpointer closure)
+{
+	ESelectNamesBonobo *select_names = E_SELECT_NAMES_BONOBO (closure);
+	BonoboArg *arg;
+
+	arg = bonobo_arg_new (BONOBO_ARG_STRING);
+	BONOBO_ARG_SET_STRING (arg, section_id);
+
+	bonobo_event_source_notify_listeners_full (select_names->priv->event_source,
+						   "GNOME/Evolution",
+						   "changed",
+						   changed_working_copy ? "working_copy" : "model",
+						   arg, NULL);
+
+	bonobo_arg_release (arg);
+}
+
+static void
+manager_ok_cb (ESelectNamesManager *manager, gpointer closure)
+{
+	ESelectNamesBonobo *select_names = E_SELECT_NAMES_BONOBO (closure);
+
+	bonobo_event_source_notify_listeners_full (select_names->priv->event_source,
+						   "GNOME/Evolution",
+						   "ok",
+						   "dialog",
+						   NULL,
+						   NULL);
+}
+
 static Bonobo_Control
 impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 					const CORBA_char *section_id,
@@ -288,8 +319,7 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 
 	bonobo_control_set_properties (control, property_bag);
 
-	gtk_signal_connect (GTK_OBJECT (entry_widget), "changed",
-			    GTK_SIGNAL_FUNC (entry_changed), control);
+	gtk_signal_connect (GTK_OBJECT (entry_widget), "changed", GTK_SIGNAL_FUNC (entry_changed), control);
 
 	return CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (control)), ev);
 }
@@ -365,24 +395,6 @@ class_init (ESelectNamesBonoboClass *klass)
 }
 
 static void
-manager_changed_cb (ESelectNamesManager *manager, const gchar *section_id, gint changed_working_copy, gpointer closure)
-{
-	ESelectNamesBonobo *select_names = E_SELECT_NAMES_BONOBO (closure);
-	BonoboArg *arg;
-
-	arg = bonobo_arg_new (BONOBO_ARG_STRING);
-	BONOBO_ARG_SET_STRING (arg, section_id);
-
-	bonobo_event_source_notify_listeners_full (select_names->priv->event_source,
-						   "GNOME/Evolution",
-						   "changed",
-						   changed_working_copy ? "working_copy" : "model",
-						   arg, NULL);
-
-	bonobo_arg_release (arg);
-}
-
-static void
 init (ESelectNamesBonobo *select_names)
 {
 	ESelectNamesBonoboPrivate *priv;
@@ -395,6 +407,11 @@ init (ESelectNamesBonobo *select_names)
 	gtk_signal_connect (GTK_OBJECT (priv->manager),
 			    "changed",
 			    GTK_SIGNAL_FUNC (manager_changed_cb),
+			    select_names);
+
+	gtk_signal_connect (GTK_OBJECT (priv->manager),
+			    "ok",
+			    GTK_SIGNAL_FUNC (manager_ok_cb),
 			    select_names);
 
 	select_names->priv = priv;
