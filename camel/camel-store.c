@@ -234,8 +234,6 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 	if (!(flags & CAMEL_STORE_FOLDER_CREATE))
 		flags &= ~CAMEL_STORE_FOLDER_EXCL;
 	
-	CAMEL_STORE_LOCK(store, folder_lock);
-	
 	if (store->folders) {
 		/* Try cache first. */
 		folder = camel_object_bag_reserve(store->folders, folder_name);
@@ -280,8 +278,6 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 				camel_object_bag_abort(store->folders, folder_name);
 		}
 	}
-
-	CAMEL_STORE_UNLOCK(store, folder_lock);
 
 	return folder;
 }
@@ -770,9 +766,7 @@ camel_store_get_folder_info(CamelStore *store, const char *top, guint32 flags, C
 			      !(flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED),
 			      NULL);
 
-	CAMEL_STORE_LOCK(store, folder_lock);
 	info = CS_CLASS (store)->get_folder_info (store, top, flags, ex);
-	CAMEL_STORE_UNLOCK(store, folder_lock);
 	
 	if (info && (top == NULL || *top == '\0') && (flags & CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL) == 0) {
 		if (info->uri && (store->flags & CAMEL_STORE_VTRASH))
@@ -783,7 +777,6 @@ camel_store_get_folder_info(CamelStore *store, const char *top, guint32 flags, C
 	
 	return info;
 }
-
 
 static void
 free_folder_info (CamelStore *store, CamelFolderInfo *fi)

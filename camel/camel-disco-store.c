@@ -140,6 +140,7 @@ disco_connect (CamelService *service, CamelException *ex)
 {
 	CamelDiscoStore *store = CAMEL_DISCO_STORE (service);
 	CamelDiscoStoreStatus status;
+	struct _CamelDiscoDiary *diary;
 
 	status = camel_disco_store_status (store);
 	if (status != CAMEL_DISCO_STORE_OFFLINE) {
@@ -160,9 +161,13 @@ disco_connect (CamelService *service, CamelException *ex)
 		if (camel_disco_diary_empty (store->diary))
 			return TRUE;
 
-		/* Need to resync */
+		/* Need to resync.  Note we do the ref thing since during the replay
+		   disconnect could be called, which will remove store->diary and unref it */
 		store->status = CAMEL_DISCO_STORE_RESYNCING;
-		camel_disco_diary_replay (store->diary, ex);
+		diary = store->diary;
+		camel_object_ref(diary);
+		camel_disco_diary_replay(diary, ex);
+		camel_object_unref(diary);
 		store->status = CAMEL_DISCO_STORE_ONLINE;
 		if (camel_exception_is_set (ex))
 			return FALSE;

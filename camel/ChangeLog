@@ -1,5 +1,14 @@
 2004-03-19  Not Zed  <NotZed@Ximian.com>
 
+	* camel-disco-store.c (disco_connect): ref the diary before
+	replaying it.  it could get unreffed during replay if there's an
+	error and we disconnect.
+
+	* camel-store.c (camel_store_get_folder): no longer use
+	folder_lock, we already have adequate serialisation code here or
+	below here.  I hope.
+	(camel_store_get_folder_info): same here.
+
 	* providers/imap/camel-imap-store.h: remove async_thread thing.
 
 2004-03-17  Jeffrey Stedfast  <fejj@ximian.com>
