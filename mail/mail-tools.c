@@ -221,6 +221,7 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 	return dest_path;
 }
 
+#if 0
 void
 mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean use_cache, CamelException *ex)
 {
@@ -352,6 +353,7 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 	camel_object_unref (CAMEL_OBJECT (dest));
 	mail_tool_camel_lock_down();
 }
+#endif
 
 void
 mail_tool_set_uid_flags (CamelFolder *folder, const char *uid, guint32 mask, guint32 set)
@@ -424,7 +426,6 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 	const char *subject;
 	gchar *desc;
 
-	mail_tool_camel_lock_up();
 	/*camel_object_ref (CAMEL_OBJECT (message));*/
 
 	subject = camel_mime_message_get_subject (message);
@@ -440,7 +441,6 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 					 CAMEL_DATA_WRAPPER (message));
 	camel_mime_part_set_content_type (part, "message/rfc822");
 	/*camel_object_unref (CAMEL_OBJECT (message));*/
-	mail_tool_camel_lock_down();
 	return part;
 }
 
@@ -493,7 +493,6 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 	if (!strcmp (url->protocol, "vfolder")) {
 		folder = vfolder_uri_to_folder (uri, ex);
 	} else {
-		mail_tool_camel_lock_up ();
 		store = camel_session_get_store (session, uri, ex);
 		if (store) {
 			char *name;
@@ -505,7 +504,6 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 			folder = camel_store_get_folder (
 				store, name, CAMEL_STORE_FOLDER_CREATE, ex);
 		}
-		mail_tool_camel_lock_down ();
 	}
 
 	if (camel_exception_is_set (ex)) {
@@ -543,6 +541,8 @@ mail_tool_uri_to_folder_noex (const char *uri)
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 	}
+
+	camel_exception_clear(&ex);
 
 	return result;
 }

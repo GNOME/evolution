@@ -118,6 +118,15 @@ create_folder (EvolutionShellComponent *shell_component,
 	mail_do_create_folder (listener, physical_uri, type);
 }
 
+static struct {
+	char *name;
+	CamelFolder **folder;
+} standard_folders[] = {
+	{ "Drafts", &drafts_folder },
+	{ "Outbox", &outbox_folder },
+	{ "Sent", &sent_folder },
+};
+
 static void
 owner_set_cb (EvolutionShellComponent *shell_component,
 	      EvolutionShellClient *shell_client,
@@ -126,6 +135,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 {
 	GSList *sources;
 	GNOME_Evolution_Shell corba_shell;
+	int i;
 
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 	
@@ -146,11 +156,11 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 	mail_local_storage_startup (shell_client, evolution_dir);
 
-	mail_do_setup_folder ("Drafts", &drafts_folder);
-	mail_do_setup_folder ("Outbox", &outbox_folder);
-	mail_do_setup_folder ("Sent", &sent_folder);
-	/* Don't proceed until those _folder variables are valid. */
-	mail_operation_wait_for_finish ();
+	for (i=0;i<sizeof(standard_folders)/sizeof(standard_folders[0]);i++) {
+		char *uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
+		*standard_folders[i].folder = mail_tool_uri_to_folder_noex(uri);
+		g_free(uri);
+	}
 
 	mail_session_enable_interaction (TRUE);
 }

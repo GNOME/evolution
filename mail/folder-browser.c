@@ -65,7 +65,7 @@ folder_browser_destroy (GtkObject *object)
 	g_free (folder_browser->uri);
 	
 	if (folder_browser->folder) {
-		mail_do_sync_folder (folder_browser->folder);
+		mail_sync_folder (folder_browser->folder, NULL, NULL);
 		camel_object_unref (CAMEL_OBJECT (folder_browser->folder));
 	}
 	
@@ -109,11 +109,53 @@ folder_browser_class_init (GtkObjectClass *object_class)
 
 #define EQUAL(a,b) (strcmp (a,b) == 0)
 
+static void
+got_folder(char *uri, CamelFolder *folder, void *data)
+{
+	FolderBrowser *fb = data;
+
+	printf("got folder '%s' = %p\n", uri, folder);
+
+	if (fb->folder == folder)
+		goto done;
+
+	if (fb->folder)
+		camel_object_unref((CamelObject *)fb->folder);
+	g_free(fb->uri);
+	fb->uri = g_strdup(uri);
+	fb->folder = folder;
+
+	if (folder == NULL)
+		goto done;
+
+	camel_object_ref((CamelObject *)folder);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (fb->search->entry),
+				  camel_folder_has_search_capability (folder));
+	gtk_widget_set_sensitive (GTK_WIDGET (fb->search->option),
+				  camel_folder_has_search_capability (folder));
+	message_list_set_threaded(fb->message_list, mail_config_thread_list());
+	message_list_set_folder(fb->message_list, folder);
+done:
+	gtk_object_unref((GtkObject *)fb);
+
+	/* Sigh, i dont like this (it can be set in reconfigure folder),
+	   but its just easier right now to do it this way */
+	fb->reconfigure = FALSE;
+}
+
 gboolean
 folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
 {
-	if (*uri)
-		mail_do_load_folder (folder_browser, uri);
+	if (uri && *uri) {
+		gtk_object_ref((GtkObject *)folder_browser);
+		mail_get_folder(uri, got_folder, folder_browser);
+	} else {
+		/* Sigh, i dont like this (it can be set in reconfigure folder),
+		   but its just easier right now to do it this way */
+		folder_browser->reconfigure = FALSE;
+	}
+
 	return TRUE;
 }
 
@@ -507,8 +549,6 @@ hide_subject(GtkWidget *w, FolderBrowser *fb)
 	GString *expr;
 
 	if (fb->mail_display->current_message) {
-		/* need to lock for full life of const data */
-		mail_tool_camel_lock_up();
 		subject = camel_mime_message_get_subject(fb->mail_display->current_message);
 		if (subject) {
 			subject = strip_re(subject);
@@ -522,7 +562,6 @@ hide_subject(GtkWidget *w, FolderBrowser *fb)
 				return;
 			}
 		}
-		mail_tool_camel_lock_down();
 	}
 }
 
@@ -534,8 +573,6 @@ hide_sender(GtkWidget *w, FolderBrowser *fb)
 	GString *expr;
 
 	if (fb->mail_display->current_message) {
-		/* need to lock for full life of const data */
-		mail_tool_camel_lock_up();
 		from = camel_mime_message_get_from(fb->mail_display->current_message);
 		if (camel_internet_address_get(from, 0, &real, &addr)) {
 			expr = g_string_new("(match-all (header-contains \"from\" ");
@@ -546,7 +583,6 @@ hide_sender(GtkWidget *w, FolderBrowser *fb)
 			g_string_free(expr, TRUE);
 			return;
 		}
-		mail_tool_camel_lock_down();
 	}
 }
 
@@ -559,7 +595,7 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 	GPtrArray *uids;
 	int enable_mask = 0;
 	int last_item, i;
-	char *mailing_list_name;
+	char *mailing_list_name = NULL;
 	char *subject_match = NULL, *from_match = NULL;
 
 	EPopupMenu filter_menu[] = {
@@ -618,6 +654,11 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 	};
 	
 	last_item = (sizeof (filter_menu) / sizeof (*filter_menu)) - 2;
+
+	if (fb->reconfigure) {
+		enable_mask = 0;
+		goto display_menu;
+	}
 	
 	if (fb->folder != drafts_folder)
 		enable_mask |= 1;
@@ -629,7 +670,6 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		const char *subject, *real, *addr;
 		const CamelInternetAddress *from;
 
-		mail_tool_camel_lock_up();
 		mailing_list_name = mail_mlist_magic_detect_list (fb->mail_display->current_message, NULL, NULL);
 
 		if ((subject = camel_mime_message_get_subject(fb->mail_display->current_message))
@@ -641,8 +681,6 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		    && camel_internet_address_get(from, 0, &real, &addr)
 		    && addr && addr[0])
 			from_match = g_strdup(addr);
-
-		mail_tool_camel_lock_down();
 	}
 	
 	/* get a list of uids */
@@ -655,9 +693,11 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		gboolean have_seen = FALSE;
 		gboolean have_unseen = FALSE;
 
-		mail_tool_camel_lock_up();
 		for (i = 0; i < uids->len; i++) {
 			info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
+			if (info == NULL)
+				continue;
+
 			if (info->flags & CAMEL_MESSAGE_SEEN)
 				have_seen = TRUE;
 			else
@@ -673,7 +713,6 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 			if (have_seen && have_unseen && have_deleted && have_undeleted)
 				break;
 		}
-		mail_tool_camel_lock_down();
 
 		if (!have_unseen)
 			enable_mask |= 4;
@@ -685,6 +724,13 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		if (!have_deleted)
 			enable_mask |= 32;
 	}
+
+	/* free uids */
+	for (i = 0; i < uids->len; i++)
+		g_free (uids->pdata[i]);
+	g_ptr_array_free (uids, TRUE);
+
+display_menu:
 	
 	/* generate the "Filter on Mailing List menu item name */
 	if (mailing_list_name == NULL) {
@@ -712,11 +758,6 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 	if (fb->message_list->hidden == NULL)
 		enable_mask |= 128;
 
-	/* free uids */
-	for (i = 0; i < uids->len; i++)
-		g_free (uids->pdata[i]);
-	g_ptr_array_free (uids, TRUE);
-	
 	e_popup_menu_run (menu, (GdkEventButton *)event, enable_mask, 0, fb);
 	
 	g_free(filter_menu[last_item].name);
@@ -850,23 +891,94 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gtk_widget_show (GTK_WIDGET (fb));
 }
 
+/* mark the message seen if the current message still matches */
 static gint 
-mark_msg_seen (gpointer data)
+do_mark_seen (gpointer data)
 {
-	MessageList *ml = data;
+	FolderBrowser *fb = data;
 
-	if (!ml->cursor_uid) 
-		return FALSE;
-	
-	camel_folder_set_message_flags(ml->folder, ml->cursor_uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	if (fb->new_uid && fb->loaded_uid
+	    && strcmp(fb->new_uid, fb->loaded_uid) == 0) {
+		camel_folder_set_message_flags(fb->folder, fb->new_uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	}
+
 	return FALSE;
 }
 
+/* callback when we have the message to display, after async loading it (see below) */
+/* if we have pending uid's, it means another was selected before we finished displaying
+   the last one - so we cycle through and start loading the pending one immediately now */
+static void done_message_selected(CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data)
+{
+	FolderBrowser *fb = data;
+	int timeout = mail_config_mark_as_seen_timeout ();
+
+	if (folder != fb->folder)
+		return;
+
+	mail_display_set_message(fb->mail_display, (CamelMedium *)msg);
+
+	/* pain, if we have pending stuff, re-run */
+	if (fb->pending_uid) {	
+		g_free(fb->loading_uid);
+		fb->loading_uid = fb->pending_uid;
+		fb->pending_uid = NULL;
+
+		mail_get_message(fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
+		return;
+	}
+
+	g_free(fb->loaded_uid);
+	fb->loaded_uid = fb->loading_uid;
+	fb->loading_uid = NULL;
+
+	/* if we are still on the same message, do the 'idle read' thing */
+	if (fb->seen_id)
+		gtk_timeout_remove(fb->seen_id);
+
+	if (msg) {
+		if (timeout > 0)
+			fb->seen_id = gtk_timeout_add(timeout, do_mark_seen, fb);
+		else
+			do_mark_seen(fb);
+	}
+}
+
+/* ok we waited enough, display it anyway (see below) */
+static gboolean
+do_message_selected(FolderBrowser *fb)
+{
+	d(printf ("selecting uid %s (delayed)\n", fb->new_uid));
+
+	/* keep polling if we are busy */
+	if (fb->reconfigure)
+		return TRUE;
+
+	fb->loading_id = 0;
+
+	/* if we are loading, then set a pending, but leave the loading, coudl cancel here (?) */
+	if (fb->loading_uid) {
+		g_free(fb->pending_uid);
+		fb->pending_uid = g_strdup(fb->new_uid);
+	} else {
+		fb->loading_uid = g_strdup(fb->new_uid);
+		mail_get_message(fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
+	}
+
+	return FALSE;
+}
+
+/* when a message is selected, wait a while before trying to display it */
 static void
 on_message_selected (MessageList *ml, const char *uid, FolderBrowser *fb)
 {
-	d(printf ("selecting uid %s\n", uid));
-	mail_do_display_message (ml, fb->mail_display, uid, mark_msg_seen);
+	d(printf ("selecting uid %s (direct)\n", uid));
+	g_free(fb->new_uid);
+	fb->new_uid = g_strdup(uid);
+	if (fb->loading_id != 0)
+		gtk_timeout_remove(fb->loading_id);
+
+	fb->loading_id = gtk_timeout_add(100, (GtkFunction)do_message_selected, fb);
 }
 
 static void

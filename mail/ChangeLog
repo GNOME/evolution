@@ -1,3 +1,122 @@
+2001-01-02  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-callbacks.c (view_msg): Fix for mail_get_message change,
+	use queue thread.
+
+	* folder-browser.c (done_message_selected): Fix mail_Get_message
+	calls, use new thread.
+	(do_message_selected): "
+
+	* mail-ops.c (mail_get_message): Add a thread argument so callers
+	can specify which queue it executes on.
+
+	* mail-mt.c (mail_msg_free): Fix a free order problem.
+	(mail_msg_destroy): Call mail_msg_free to do the work.
+	(mail_msgport_replied): "
+	(mail_msgport_replied): Check/display errors if we get them.
+	(mail_msgport_received): If we have a describe function, say what
+	we're doing, also set busy/unbusy.
+	(mail_msgport_replied): Clear busy when we get a reply.
+	(mail_get_password): Unset busy.
+	(mail_msg_received): Set busy as we go.
+	(mail_msg_destroy): Unset busy when done.
+	(mail_status): Blah blah, new status interface, the other wans't
+	workable with the way the shell api works.
+
+2000-12-29  Not Zed  <NotZed@HelixCode.com>
+
+	* folder-browser.c (do_message_selected): If we are reconfiguring,
+	just keep polling till we are done (yeah kinda shitty, but easy).
+	(folder_browser_set_uri): Clear reconfigure flag here.  ick.
+	(got_folder): And here too.
+	(on_right_click): Remove locking.
+	(hide_sender): and here too.
+	(hide_subject): And here.
+	(on_right_click): If we are in reconfigure, then the whole menu is disabled.
+
+	* mail-mt.c (status_busy_timeout): Clear the status_busy_timeout_id.
+
+	* mail-local.c (local_storage_new_folder_cb): Made getting folders
+	completely synchronous.  The shell expects it, and it was only
+	synchronous before by a sideeffect.
+	(do_reconfigure_folder): Remove locking stuff.
+	(do_reconfigure_folder): Use our own much simpler copying routine
+	than that stupid move_folder_contents thing.
+	(update_progress): Use mail_status_message() instead.
+	(do_reconfigure_folder): Set the reconfigure flag during
+	reconfigure & set busy flag.
+	(cleanup_reconfigure_folder): clear busy flag.
+
+	* mail-tools.c (mail_tool_uri_to_folder): Remove the tool_lock
+	stuff.
+	(mail_tool_uri_to_folder_noex): Clear exception on exit.
+	(mail_tool_move_folder_contents): Get rid of this really stupid
+	function that is only used in one place.
+
+	* component-factory.c (owner_set_cb): Use direct calls to get the
+	folders, as this code must run synchronous.  Remove the event wait
+	stuff.
+
+	* mail-callbacks.c (edit_msg): Call mail_get_messages, and create
+	the composers ourself.
+	(do_edit_messages): get_messages callback, create the composers
+	and connect to signals we need.
+	(view_msg): Dont call do_view_messages, just call
+	mail_get_messge for each to get them in parallel.
+	(do_view_message): view a single message.
+
+	* mail-ops.c (mail_edit_messages): Just use mail_get_messages
+	for this operation.  Removed the other async operation stuff.
+	Changed my mind, just removed entirely.
+	(mail_do_view_messages): Removed.
+	(mail_do_setup_folder): Removed.
+	(mail_do_scan_subfolders): Make this run synchronously, as every
+	caller expects it to (even if they didn't realise).
+
+2000-12-28  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-callbacks.c (send_queued_mail): Dont expunge the folder
+	here, but in send_queue, otherwise it might execute out of order.
+	(expunge_folder): Remove the talbe prechange stuff, and infact
+	references to the message_list folder, as we have our own folder.
+	Also, dont allow expunge if we're already expunging.
+	(expunged_folder): Clkear the expunging flag if we're finished.
+
+	* folder-browser-factory.c (control_deactivate): Likewise here.
+	Hrm, i thought this function required a callback, silly me.
+
+	* mail-tools.c (mail_tool_make_message_attachment): Remov e
+	locking.
+
+	* folder-browser.c (on_message_selected): Use a timeout handler so
+	we dont select immediately.
+	(folder_browser_set_uri): Changed to use mail_get_folder.
+	(got_folder): New callback called when get_folder is finished.
+	(folder_browser_destroy): Use new sync interface.
+
+	* mail-ops.c (mail_get_message): New function to asynchrounously
+	get a message.
+	: #define out mail_tool_camel_lock stuff entirely.
+	(mail_get_folder): New function to asynchrounously get a folder.
+	(mail_do_load_folder): Removed, replaced by more generic function
+	above.
+	(mail_do_display_message): Removed, replaced by the more generic
+	funciton get_message.
+	(mail_get_messages): New function to get a list of messages
+	asynchronously.
+	(mail_sync_folder): New interface to sync a folder async.
+	(mail_expunge_folder): New interface for expunging folder, with
+	callback.
+	(do_send_queue): Remove lock stuff, and expunge if (and only if)
+	successful, also sync the sent folder while we're at it.
+
+	* session.c (mail_session_request_dialog): Changed to use new
+	mail_get_password call.
+
+	* mail-mt.[ch]: New threading/interthread messaging framework.
+
+	* main.c (main): Init the message/thread system.
+
 2001-01-02  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c (mail_part_is_inline): 

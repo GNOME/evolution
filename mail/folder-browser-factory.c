@@ -191,7 +191,7 @@ control_deactivate (BonoboControl     *control,
  	bonobo_ui_component_unset_container (uic);
 
 	if (fb->folder)
-		mail_do_sync_folder (fb->folder);
+		mail_sync_folder (fb->folder, NULL, NULL);
 }
 
 static void

@@ -29,6 +29,7 @@
 #include "component-factory.h"
 #include "composer/evolution-composer.h"
 #include "mail.h"
+#include "mail-mt.h"
 
 #if 0
 static int blowup(int status)
@@ -79,6 +80,8 @@ main (int argc, char *argv [])
 	gnome_vfs_init ();
 
 	e_cursors_init ();
+
+	mail_msg_init();
 
 	component_factory_init ();
 	evolution_composer_factory_init (composer_send_cb,

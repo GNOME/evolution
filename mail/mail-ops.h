@@ -28,6 +28,7 @@
 #include "evolution-storage.h"	/*EvolutionStorage */
 #include "composer/e-msg-composer.h"	/*EMsgComposer */
 #include "message-list.h"	/*MessageList */
+#include "mail-mt.h"
 
 void mail_do_fetch_mail (const gchar *source_url, gboolean keep_on_server,
 			 CamelFolder *destination,
@@ -45,7 +46,6 @@ void mail_do_send_queue (CamelFolder *folder_queue,
 void mail_do_append_mail (CamelFolder *folder,
 			  CamelMimeMessage *message,
 			  CamelMessageInfo *info);
-void mail_do_expunge_folder (CamelFolder *folder);
 void mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,
 				gboolean delete_from_source,
 				gchar *dest_uri);
@@ -60,16 +60,26 @@ void mail_do_attach_message (CamelFolder *folder, const char *uid,
 void mail_do_forward_message (CamelMimeMessage *basis, CamelFolder *source,
 			      GPtrArray *uids,	/*array of allocated gchar *, will all be freed */
 			      EMsgComposer *composer, gboolean attach);
-void mail_do_load_folder (FolderBrowser *fb, const char *url);
 void mail_do_create_folder (const GNOME_Evolution_ShellComponentListener listener,
 			    const char *uri, const char *type);
-void mail_do_sync_folder (CamelFolder *folder);
-void mail_do_display_message (MessageList *ml, MailDisplay *md, const char *uid,
-			      gint (*timeout) (gpointer));
-void mail_do_edit_messages (CamelFolder *folder, GPtrArray *uids,
-			    GtkSignalFunc signal);
-void mail_do_setup_folder (const char *name, CamelFolder **folder);
 void mail_do_setup_trash (const char *name, const char *store_uri, CamelFolder **folder);
-void mail_do_view_messages (CamelFolder *folder, GPtrArray *uids,
-			    FolderBrowser *fb);
 void mail_do_save_messages (CamelFolder *folder, GPtrArray *uids, gchar *path);
+
+/* get a single message, asynchronously */
+void mail_get_message(CamelFolder *folder, const char *uid,
+		      void (*done) (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data), void *data,
+		      EThread *thread);
+
+/* get several messages */
+void mail_get_messages(CamelFolder *folder, GPtrArray *uids,
+		       void (*done) (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *data), void *data);
+
+/* same for a folder */
+void mail_get_folder(const char *uri,
+		     void (*done) (char *uri, CamelFolder *folder, void *data), void *data);
+
+void mail_sync_folder(CamelFolder *folder,
+		      void (*done) (CamelFolder *folder, void *data), void *data);
+void mail_expunge_folder(CamelFolder *folder,
+			 void (*done) (CamelFolder *folder, void *data), void *data);
+

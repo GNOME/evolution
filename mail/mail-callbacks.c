@@ -225,8 +225,6 @@ send_queued_mail (GtkWidget *widget, gpointer user_data)
 	}
 	
 	mail_do_send_queue (outbox_folder, transport->url);
-	
-	mail_do_expunge_folder (outbox_folder);
 }
 
 void
@@ -655,6 +653,26 @@ mark_as_unseen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_SEEN, 0);
 }
+
+static void
+do_edit_messages(CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *data)
+{
+	/*FolderBrowser *fb = data;*/
+	int i;
+
+	for (i=0; i<messages->len; i++) {
+		EMsgComposer *composer;
+
+		composer = e_msg_composer_new_with_message(messages->pdata[i]);
+		if (composer) {
+			gtk_signal_connect (GTK_OBJECT (composer), "send",
+					    composer_send_cb, NULL);
+			gtk_signal_connect (GTK_OBJECT (composer), "postpone",
+					    composer_postpone_cb, NULL);
+			gtk_widget_show (GTK_WIDGET (composer));
+		}
+	}
+}
 				   
 void
 edit_msg (GtkWidget *widget, gpointer user_data)
@@ -678,8 +696,7 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
-	/* FIXME: do we need to pass the postpone callback too? */
-	mail_do_edit_messages (fb->folder, uids, (GtkSignalFunc) composer_send_cb);
+	mail_get_messages(fb->folder, uids, do_edit_messages, fb);
 }
 
 static void
@@ -777,15 +794,24 @@ undelete_msg (GtkWidget *button, gpointer user_data)
 	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_DELETED, 0);
 }
 
+static void expunged_folder(CamelFolder *f, void *data)
+{
+	FolderBrowser *fb = data;
+
+	fb->expunging = NULL;
+}
+
 void
 expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER(user_data);
-	
-	e_table_model_pre_change (fb->message_list->table_model);
-	
-	if (fb->message_list->folder)
-		mail_do_expunge_folder (fb->message_list->folder);
+
+	if (fb->folder
+	    && (fb->expunging == NULL
+		|| fb->folder != fb->expunging)) {
+		fb->expunging = fb->folder;
+		mail_expunge_folder(fb->folder, expunged_folder, fb);
+	}
 }
 
 static void
@@ -969,18 +995,35 @@ configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 	mail_local_reconfigure_folder(fb);
 }
 
+static void
+do_view_message(CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
+{
+	/*FolderBrowser *fb = data;*/
+	GtkWidget *view;
+
+	if (message) {
+		view = mail_view_create(folder, uid, message);
+		gtk_widget_show(view);
+	}
+}
+
 void
 view_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;
 	GPtrArray *uids;
-	
+	int i;
+
 	if (!fb->folder)
 		return;
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
-	mail_do_view_messages (fb->folder, uids, fb);
+	for (i=0;i<uids->len;i++) {
+		mail_get_message(fb->folder, uids->pdata[i], do_view_message, fb, mail_thread_queued);
+		g_free(uids->pdata[i]);
+	}
+	g_ptr_array_free(uids, TRUE);
 }
 
 void

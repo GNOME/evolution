@@ -11,6 +11,7 @@
 #include "mail.h"
 #include "mail-session.h"
 #include "mail-threads.h"
+#include "mail-mt.h"
 
 CamelSession *session;
 
@@ -55,7 +56,7 @@ mail_session_request_dialog (const char *prompt, gboolean secret, const char *ke
 		    ans == NULL)
 			return NULL;
 	} else {
-		if (!mail_op_get_password ((char *) prompt, secret, &ans))
+		if ((ans = mail_get_password ((char *) prompt, secret)) == NULL)
 			return NULL;
 	}
 

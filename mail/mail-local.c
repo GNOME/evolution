@@ -59,6 +59,7 @@
 #include "mail-tools.h"
 #include "mail-threads.h"
 #include "folder-browser.h"
+#include "mail-mt.h"
 
 #define d(x)
 
@@ -179,7 +180,7 @@ static void
 update_progress(char *fmt, float percent)
 {
 	if (fmt)
-		mail_op_set_message ("%s", fmt);
+		mail_status(fmt);
 	/*mail_op_set_percentage (percent);*/
 }
 
@@ -237,7 +238,8 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	CamelStore *fromstore = NULL, *tostore = NULL;
 	char *fromurl = NULL, *tourl = NULL;
 	CamelFolder *fromfolder = NULL, *tofolder = NULL;
-
+	GPtrArray *uids;
+	int i;
 	char *metapath;
 	char *tmpname;
 	CamelURL *url = NULL;
@@ -245,6 +247,11 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	guint32 flags;
 
 	d(printf("reconfiguring folder: %s to type %s\n", input->fb->uri, input->newtype));
+
+	mail_status_start(_("Reconfiguring folder"));
+
+	/* NOTE: This var is cleared by the folder_browser via the set_uri method */
+	input->fb->reconfigure = TRUE;
 
 	/* get the actual location of the mailbox */
 	url = camel_url_new(input->fb->uri, ex);
@@ -261,9 +268,7 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	if (input->fb->folder != NULL) {
 		update_progress(_("Closing current folder"), 0.0);
 
-		mail_tool_camel_lock_up ();
 		camel_folder_sync(input->fb->folder, FALSE, ex);
-		mail_tool_camel_lock_down ();
 		camel_object_unref (CAMEL_OBJECT (input->fb->folder));
 		input->fb->folder = NULL;
 	}
@@ -275,16 +280,12 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 
 	d(printf("opening stores %s and %s\n", fromurl, tourl));
 
-	mail_tool_camel_lock_up ();
 	fromstore = camel_session_get_store(session, fromurl, ex);
-	mail_tool_camel_lock_down ();
 
 	if (camel_exception_is_set(ex))
 		goto cleanup;
 
-	mail_tool_camel_lock_up ();
 	tostore = camel_session_get_store(session, tourl, ex);
-	mail_tool_camel_lock_down ();
 	if (camel_exception_is_set(ex))
 		goto cleanup;
 
@@ -293,10 +294,8 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 	d(printf("renaming %s to %s, and opening it\n", meta->name, tmpname));
 	update_progress(_("Renaming old folder and opening"), 0.0);
 
-	mail_tool_camel_lock_up ();
 	camel_store_rename_folder(fromstore, meta->name, tmpname, ex);
 	if (camel_exception_is_set(ex)) {
-		mail_tool_camel_lock_down ();
 		goto cleanup;
 	}
 	
@@ -306,7 +305,6 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 		/* try and recover ... */
 		camel_exception_clear (ex);
 		camel_store_rename_folder(fromstore, tmpname, meta->name, ex);
-		mail_tool_camel_lock_down ();
 		goto cleanup;
 	}
 
@@ -323,16 +321,24 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 		/* try and recover ... */
 		camel_exception_clear (ex);
 		camel_store_rename_folder(fromstore, tmpname, meta->name, ex);
-		mail_tool_camel_lock_down ();
 		goto cleanup;
 	}
 
 	update_progress(_("Copying messages"), 0.0);
-	mail_tool_move_folder_contents (fromfolder, tofolder, FALSE, ex);
+	uids = camel_folder_get_uids(fromfolder);
+	for (i=0;i<uids->len;i++) {
+		mail_statusf("Copying message %d of %d", i, uids->len);
+		camel_folder_move_message_to(fromfolder, uids->pdata[i], tofolder, ex);
+		if (camel_exception_is_set(ex)) {
+			camel_folder_free_uids(fromfolder, uids);
+			goto cleanup;
+		}
+	}
+	camel_folder_free_uids(fromfolder, uids);
+	camel_folder_expunge(fromfolder, ex);
 
 	d(printf("delete old mbox ...\n"));
 	camel_store_delete_folder(fromstore, tmpname, ex);
-	mail_tool_camel_lock_down ();
 
 	/* switch format */
 	g_free(meta->format);
@@ -380,6 +386,8 @@ cleanup_reconfigure_folder  (gpointer in_data, gpointer op_data, CamelException 
 	folder_browser_set_uri(input->fb, uri);
 	g_free(uri);
 
+	mail_status_end();
+
 	gtk_object_unref (GTK_OBJECT (input->fb));
 	g_free (input->newtype);
 }
@@ -417,9 +425,6 @@ reconfigure_clicked(GnomeDialog *d, int button, reconfigure_folder_input_t *data
 	if (button != -1)
 		gnome_dialog_close(d);
 }
-
-/* kills a very annoying warning */
-void local_reconfigure_folder(FolderBrowser *fb);
 
 void
 mail_local_reconfigure_folder(FolderBrowser *fb)
@@ -809,6 +814,7 @@ do_register_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (meta->indexed)
 		flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
 	local_folder->folder = camel_store_get_folder (store, meta->name, flags, ex);
+	printf("got folder exception %s\n", camel_exception_get_description(ex));
 	local_folder->last_unread = camel_folder_get_unread_message_count(local_folder->folder);
 	camel_object_unref (CAMEL_OBJECT (store));
 	free_metainfo (meta);
@@ -868,7 +874,32 @@ local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 	local_folder->path = g_strdup (path);
 	local_folder->local_store = local_store;
 	camel_object_ref((CamelObject *)local_store);
-	mail_operation_queue (&op_register_folder, local_folder, FALSE);
+
+	/* Note: This needs to be synchronous, as that is what the shell
+	   expects.  Doesn't that suck. */
+	/* This used to be made 'synchronous' by having us wait for
+	   outstanding requests, which was BAD */
+
+	/*mail_operation_queue (&op_register_folder, local_folder, FALSE);*/
+	{
+		CamelException *ex = camel_exception_new();
+
+		do_register_folder(local_folder, NULL, ex);
+		cleanup_register_folder(local_folder, NULL, ex);
+
+#if 0
+		/* yay, so we can't do this, because we've probably got the bloody
+		   splash screen up */
+		if (camel_exception_is_set(ex)) {
+			char *msg = g_strdup_printf(_("Unable to register folder '%s':\n%s"),
+						    path, camel_exception_get_description(ex));
+			GnomeDialog *gd = (GnomeDialog *)gnome_error_dialog(msg);
+			gnome_dialog_run_and_close(gd);
+			g_free(msg);
+		}
+#endif
+		camel_exception_free(ex);
+	}
 }
 
 static void
