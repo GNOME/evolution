@@ -92,14 +92,11 @@ ${prefix}/bin in your PATH and ${prefix}/lib in your LD_LIBRARY_PATH.
 DEPENDENCIES
 ------------
 
-GNOME LIBRARIES
----------------
-
-The following libraries are available in GNOME CVS, under the given
-names. Most (but not all) of them are also available as tarballs on
-ftp.gnome.org. The (*)ed packages are available in Ximian GNOME
-(http://www.ximian.com/desktop/) Other packages may be available from
-the Ximian GNOME evolution preview mirror.
+The following required libraries are available in GNOME CVS, under the
+given names.  Most (but not all) of them are also available as
+tarballs on ftp.gnome.org.  The (*)ed packages are available in Ximian
+GNOME ( http://www.ximian.com/desktop/ ).  Other packages may be
+available from the Ximian GNOME evolution preview mirror.
 
 If installing from packages, remember that you need both the runtime
 and -devel packages for each library.
@@ -144,13 +141,11 @@ and -devel packages for each library.
    *** either gnome-libs or evolution for the Makefiles to work
    *** properly.
 
- - gal (GNOME Application Library) - 0.10.99.2 or later
+ - gal (GNOME Application Library) - 0.11.99.2 or later
 
  - gtkhtml - later than 0.11.0
 
-
-3RD PARTY DEPENDENCIES
-----------------------
+Other non-GNOME Dependencies:
 
  - Berkeley's libdb - 3.1.17
 
