@@ -72,7 +72,7 @@ get_message_info(MessageList *message_list, gint row)
 						(CamelMessageInfo *) camel_folder_summary_get_by_uid(message_list->folder, uid);
 					if (!info)
 						g_warning ("get_message_info: unknown uid %s", uid);
-				} else {
+				} else
 					g_warning ("get_message_info: row %d not in matches", row);
 			}
 		} else
