@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Ximian Evolution 1.4\n"
-"POT-Creation-Date: 2003-08-23 17:46+0200\n"
-"PO-Revision-Date: 2003-08-23 17:50+0200\n"
+"POT-Creation-Date: 2003-09-02 16:26+0200\n"
+"PO-Revision-Date: 2003-09-02 16:25+0200\n"
 "Last-Translator: Igor Nestorović <jung@one.ekof.bg.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -3961,7 +3961,7 @@ msgstr ""
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:442
-#: widgets/misc/e-dateedit.c:1458 widgets/misc/e-dateedit.c:1573
+#: widgets/misc/e-dateedit.c:1470 widgets/misc/e-dateedit.c:1585
 msgid "None"
 msgstr "Ništa"
 
@@ -5593,7 +5593,7 @@ msgstr "Odbijeno"
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:932 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:936 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Nepoznato"
 
@@ -6021,7 +6021,7 @@ msgstr "%a %m/%d/%Y"
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:238
-#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1582
+#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1594
 msgid "%m/%d/%Y"
 msgstr "%m/%d/%Y"
 
@@ -8277,11 +8277,11 @@ msgstr ""
 "Greška kod izvršavanja izraza za pretragu: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:575 camel/camel-folder-search.c:603
+#: camel/camel-folder-search.c:569 camel/camel-folder-search.c:598
 msgid "(match-all) requires a single bool result"
 msgstr "(odgovara-sve) zahteva samo jedan logički rezultat"
 
-#: camel/camel-folder-search.c:655
+#: camel/camel-folder-search.c:650
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr "Izvršavam pretragu na nepoznato zaglavlje: %s"
@@ -10932,13 +10932,13 @@ msgstr "%H:%M:%S"
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
-#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1617
+#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1629
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
-#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1614
+#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1626
 msgid "%H:%M"
 msgstr "%H:%M"
 
@@ -11827,7 +11827,7 @@ msgstr "Osobine za „%s‟"
 msgid "Properties"
 msgstr "Osobine"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:921
+#: mail/folder-browser.c:329 mail/mail-display.c:397 mail/mail-display.c:925
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Nisam mogao da napravim privremeni direktorijum: %s"
@@ -13077,70 +13077,70 @@ msgstr ""
 "Datoteka `%s' već postoji.\n"
 "Da je prepišem?"
 
-#: mail/mail-display.c:335
+#: mail/mail-display.c:339
 msgid "Save Attachment"
 msgstr "Sačuvaj prilog"
 
-#: mail/mail-display.c:408
+#: mail/mail-display.c:412
 #, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "Nisam mogao da napravim privremenu datoteku '%s': %s"
 
-#: mail/mail-display.c:480
+#: mail/mail-display.c:484
 msgid "Save Attachment..."
 msgstr "Sačuvaj prilog..."
 
-#: mail/mail-display.c:481
+#: mail/mail-display.c:485
 msgid "View Inline"
 msgstr "Pogledaj unutar"
 
-#: mail/mail-display.c:482
+#: mail/mail-display.c:486
 #, c-format
 msgid "Open in %s..."
 msgstr "Otvori u %s..."
 
-#: mail/mail-display.c:542
+#: mail/mail-display.c:546
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Pogledaj unutar (preko %s)"
 
-#: mail/mail-display.c:546
+#: mail/mail-display.c:550
 msgid "Hide"
 msgstr "Sakri"
 
-#: mail/mail-display.c:566
+#: mail/mail-display.c:570
 msgid "External Viewer"
 msgstr "Spoljni preglednik"
 
-#: mail/mail-display.c:1352
+#: mail/mail-display.c:1356
 msgid "Downloading images"
 msgstr "Preuzimam slike"
 
-#: mail/mail-display.c:1529
+#: mail/mail-display.c:1533
 msgid "Loading message content"
 msgstr "Učitavam poruku"
 
-#: mail/mail-display.c:1871
+#: mail/mail-display.c:1875
 msgid "Overdue:"
 msgstr "Prekoračeno:"
 
-#: mail/mail-display.c:1875
+#: mail/mail-display.c:1879
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "do %d. %B, %Y. %k:%M"
 
-#: mail/mail-display.c:2239
+#: mail/mail-display.c:2243
 msgid "Open Link in Browser"
 msgstr "Otvori vezu u čitaču"
 
-#: mail/mail-display.c:2240
+#: mail/mail-display.c:2244
 msgid "Copy Link Location"
 msgstr "Kopiraj adresu veze"
 
-#: mail/mail-display.c:2242
+#: mail/mail-display.c:2246
 msgid "Save Link as (FIXME)"
 msgstr "Sačuvaj vezu kao (FIXME)"
 
-#: mail/mail-display.c:2244
+#: mail/mail-display.c:2248
 msgid "Save Image as..."
 msgstr "Sačuvaj sliku kao..."
 
@@ -27044,7 +27044,7 @@ msgid "Reset the text to its original size"
 msgstr "Vrati tekst na izvornu veličinu"
 
 #: ui/evolution-mail-message.xml.h:77
-msgid "S_earch Message..."
+msgid "S_earch in Message..."
 msgstr "Pre_traži poruku..."
 
 #: ui/evolution-mail-message.xml.h:78
