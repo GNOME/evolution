@@ -46,13 +46,15 @@
 #define COMPLETION_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_Addressbook_Autocompletion_ConfigControl:" BASE_VERSION
 #define CERTIFICATE_MANAGER_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_SMime_CertificateManager_ConfigControl:" BASE_VERSION
 
+#define d(x)
+
 
 static BonoboObject *
 factory (BonoboGenericFactory *factory,
 	 const char *component_id,
 	 void *closure)
 {
-	printf ("asked to activate component_id `%s'\n", component_id);
+	d(printf ("asked to activate component_id `%s'\n", component_id));
 
 	if (strcmp (component_id, VCARD_CONTROL_ID) == 0)
 		return BONOBO_OBJECT (eab_vcard_control_new ());
