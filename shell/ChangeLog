@@ -1,3 +1,11 @@
+2001-10-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view-menu.c (command_about_box): Use EShellAboutBox.
+	(zero_pointer): Removed.
+
+	* e-shell-about-box.h: New.
+	* e-shell-about-box.c: New.
+
 2001-10-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (evolution_SOURCES): Ooops.  Remove stale files

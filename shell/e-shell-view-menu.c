@@ -54,46 +54,11 @@
 
 #include "e-shell-view-menu.h"
 #include "e-shell-importer.h"
+#include "e-shell-about-box.h"
 
 #include "e-shell-folder-commands.h"
 
 #include "evolution-shell-component-utils.h"
-
-
-const char *authors[] = {
-	"Seth Alves",
-	"Anders Carlsson",
-	"Damon Chaplin",
-	"Clifford R. Conover",
-	"Anna Dirks",
-	"Miguel de Icaza",
-	"Radek Doulik",
-	"Arturo Espinoza",
-	"Larry Ewing",
-	"Nat Friedman",
-	"Bertrand Guiheneuf",
-	"Iain Holmes",
-	"Tuomas Kuosmanen",
-	"Christopher J. Lahey",
-	"Jason Leach",
-	"Matthew Loper",
-	"Federico Mena",
-	"Rodrigo Moya",
-	"Eskil Heyn Olsen",
-	"Jesse Pavel",
-	"Ettore Perazzoli",
-	"JP Rosevear",
-	"Jeffrey Stedfast",
-        "Jakub Steiner",
-	"Russell Steinthal",
-	"Peter Teichman",
-	"Chris Toshok",
-	"Jon Trowbridge",
-	"Peter Williams",
-	"Dan Winship",
-	"Michael Zucchi",
-	NULL
-};
 
 
 /* Utility functions.  */
@@ -209,10 +174,19 @@ command_submit_bug (BonoboUIComponent *uih,
                 gnome_error_dialog (_("Bug buddy could not be run."));
 }
 
-static void
-zero_pointer(GtkObject *object, void **pointer)
+static int
+about_box_event_callback (GtkWidget *widget,
+			  GdkEvent *event,
+			  void *data)
 {
-	*pointer = NULL;
+	GtkWidget **widget_pointer;
+
+	widget_pointer = (GtkWidget **) data;
+
+	gtk_widget_destroy (GTK_WIDGET (*widget_pointer));
+	*widget_pointer = NULL;
+
+	return TRUE;
 }
 
 static void
@@ -220,32 +194,27 @@ command_about_box (BonoboUIComponent *uih,
 		   void *data,
 		   const char *path)
 {
-	static GtkWidget *about_box = NULL;
+	static GtkWidget *about_box_window = NULL;
+	GtkWidget *about_box;
 
-	if (about_box) {
-		gdk_window_raise(GTK_WIDGET(about_box)->window);
-	} else {
-		char *version;
-
-		if (SUB_VERSION[0] == '\0')
-			version = g_strdup (VERSION);
-		else
-			version = g_strdup_printf ("%s [%s]", VERSION, SUB_VERSION);
-
-		about_box = gnome_about_new(_("Ximian Evolution"),
-					    version,
-					    _("Copyright 1999, 2000, 2001 Ximian, Inc."),
-					    authors,
-					    _("Ximian Evolution is a suite of groupware applications\n"
-					      "for mail, calendaring, and contact management\n"
-					      "within the GNOME desktop environment."),
-					    NULL);
-		gtk_signal_connect(GTK_OBJECT(about_box), "destroy",
-				   GTK_SIGNAL_FUNC (zero_pointer), &about_box);
-		gtk_widget_show(about_box);
-
-		g_free (version);
+	if (about_box_window != NULL) {
+		gdk_window_raise (about_box_window->window);
+		return;
 	}
+
+	about_box = e_shell_about_box_new ();
+	gtk_widget_show (about_box);
+
+	about_box_window = gtk_window_new (GTK_WINDOW_DIALOG);
+	gtk_signal_connect (GTK_OBJECT (about_box_window), "button_press_event",
+			    GTK_SIGNAL_FUNC (about_box_event_callback), &about_box_window);
+	gtk_signal_connect (GTK_OBJECT (about_box_window), "delete_event",
+			    GTK_SIGNAL_FUNC (about_box_event_callback), &about_box_window);
+
+	gtk_window_set_transient_for (GTK_WINDOW (about_box_window), GTK_WINDOW (data));
+	gtk_window_set_title (GTK_WINDOW (about_box_window), _("About Ximian Evolution"));
+	gtk_container_add (GTK_CONTAINER (about_box_window), about_box);
+	gtk_widget_show (about_box_window);
 }
 
 static void
