@@ -45,6 +45,14 @@
 static BonoboObjectClass *message_list_parent_class;
 static POA_Evolution_MessageList__vepv evolution_message_list_vepv;
 
+static void
+on_row_selection_cmd (ETable *table, 
+		      int row, 
+		      gboolean selected,
+		      gpointer user_data);
+
+
+
 /*
  * SimpleTableModel::col_count
  */
@@ -440,6 +448,9 @@ message_list_init (GtkObject *object)
 	 */
 	
 	message_list->etable = e_table_new (message_list->header_model, message_list->table_model, "<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> <column> 7 </column> <column> 8 </column> <column> 9 </column> </columns-shown> <grouping> <group column=\"4\" ascending=\"1\"> <leaf column=\"5\" ascending=\"1\"/> </group> </grouping> </ETableSpecification>"); 
+	
+	gtk_signal_connect(GTK_OBJECT(message_list->etable), "row_selection",
+			   GTK_SIGNAL_FUNC(on_row_selection_cmd), message_list);
 
 	gtk_widget_show(message_list->etable);
 	
@@ -662,7 +673,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 		if (msg_info_array->len > 0 ) {
 			msg_info = g_array_index (msg_info_array, CamelMessageInfo, 0);
 			
-			message = camel_folder_get_message_by_uid (camel_folder, 
+			message = camel_folder_get_message_by_uid (message_list->folder, 
 								   msg_info.uid,
 								   &ex);
 			if (camel_exception_get_id (&ex)) {
@@ -673,9 +684,9 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 		}
 
 		printf ("Message = %p\n", message);
-		if (message)
+		/*if (message)
 			mail_display_set_message (message_list->parent_folder_browser->mail_display,
-						  CAMEL_MEDIUM (message));
+			CAMEL_MEDIUM (message));*/
 			
 		
 		
@@ -691,3 +702,54 @@ message_list_get_widget (MessageList *message_list)
 }
 
 E_MAKE_TYPE (message_list, "MessageList", MessageList, message_list_class_init, message_list_init, PARENT_TYPE);
+
+
+
+static void
+on_row_selection_cmd (ETable *table, 
+		      int row, 
+		      gboolean selected,
+		      gpointer user_data)
+{
+	MessageList *message_list;
+	CamelException ex;
+	gboolean folder_exists;
+	CamelMimeMessage *message;
+
+	message_list = MESSAGE_LIST (user_data);
+	camel_exception_init (&ex);
+
+	if ( selected ) {
+		g_print ("Row %d selected\n", row);
+		/* FIXME : put that in a separate function */
+		/* display the (first) message (in this case) */
+		if (camel_folder_has_uid_capability  (message_list->folder)) {
+			const GArray *msg_info_array;
+			CamelMessageInfo msg_info;
+			
+			msg_info_array = camel_folder_summary_get_message_info_list 
+				(message_list->folder_summary);
+			
+			if (msg_info_array->len > 0 ) {
+				msg_info = g_array_index (msg_info_array, CamelMessageInfo, row);
+				
+				message = camel_folder_get_message_by_uid (message_list->folder, 
+									   msg_info.uid,
+									   &ex);
+				if (camel_exception_get_id (&ex)) {
+					printf ("Unable to get message: %s\n",
+						ex.desc?ex.desc:"unknown_reason");
+					return;
+				}
+			}
+			
+			printf ("Message = %p\n", message);
+			if (message)
+				mail_display_set_message (message_list->parent_folder_browser->mail_display,
+							  CAMEL_MEDIUM (message));
+		}
+	} else {
+		g_print ("Row %d unselected\n", row);
+	}
+}
+
