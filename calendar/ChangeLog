@@ -1,3 +1,8 @@
+2001-02-08  Iain Holmes  <iain@ximian.com>
+
+	* gui/calendar-summary.c: Load the tasks.ics file as well, so that tasks are
+	displayed again.
+
 2001-02-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	* conduits/todo/Makefile.am (INCLUDES): `-I$(top_srcdir)/e-util',
