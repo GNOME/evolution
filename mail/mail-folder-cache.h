@@ -41,4 +41,8 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
  */
 void mail_note_folder(struct _CamelFolder *folder);
 
+/* Returns true if a folder is available (yet), and also sets *folderp (if supplied)
+   to a (referenced) copy of the folder if it has already been opened */
+int mail_note_get_folder_from_uri(const char *uri, CamelFolder **folderp);
+
 #endif

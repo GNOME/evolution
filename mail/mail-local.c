@@ -858,7 +858,7 @@ struct _search_info {
 static void
 remove_find_path(char *uri, CamelFolderInfo *info, struct _search_info *data)
 {
-	if (!strcmp(info->full_name, data->path))
+	if (!strcmp(info->path, data->path))
 		data->info = info;
 }
 
@@ -870,14 +870,18 @@ static void mail_local_store_remove_folder(MailLocalStore *mls, const char *path
 
 	LOCAL_STORE_LOCK(mls);
 	g_hash_table_foreach(mls->folder_infos, (GHFunc)remove_find_path, &data);
-	if (data.info) {
+	if (data.info)
 		g_hash_table_remove(mls->folder_infos, data.info->url);
+	LOCAL_STORE_UNLOCK(mls);
+
+	if (data.info) {
+		camel_object_trigger_event((CamelObject *)mls, "folder_deleted", data.info);
+
 		g_free(data.info->url);
 		g_free(data.info->full_name);
 		g_free(data.info->name);
 		g_free(data.info);
 	}
-	LOCAL_STORE_UNLOCK(mls);
 }
 
 /* ** Local Provider ************************************************************** */

@@ -672,6 +672,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
+	vfolder_load_storage(corba_shell);
+
 	accounts = mail_config_get_accounts ();
 	mail_load_storages (corba_shell, accounts, TRUE);
 	
@@ -689,9 +691,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	}
 	
 	mail_session_enable_interaction (TRUE);
-	
-	vfolder_load_storage(corba_shell);
-	
+		
 	mail_autoreceive_setup ();
 	
 	if (mail_config_is_corrupt ()) {

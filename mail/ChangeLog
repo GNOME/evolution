@@ -1,3 +1,48 @@
+2001-09-28    <NotZed@Ximian.com>
+
+	* mail-local.c (mail_local_store_remove_folder): Emit
+	folder_deleted event.
+	(remove_find_path): Fix, compare against path, not full_name.
+
+	* mail-tools.c (mail_tool_uri_to_folder): Dont
+	vfolder_register_source anymore.
+
+	* mail-vfolder.c (rule_changed): Changed to access
+	mail_fodler_cahce to find out if the folder exist yet before
+	trying to open them, also use the cache as a cache so we dont have
+	to open the folder if its already been opened.
+	(vfolder_register_source, register_source): Removed.
+	(source_finalise): Removed,
+	(check_source): Removed.  All handled through diff mechanism.
+	(mail_vfolder_add_uri): New function, records uri's of available
+	folders, and adds them to any active vfolders if required.
+	(mail_vfolder_remove_uri): New function, removes a uri from
+	available folders, and checks any rules to see fi they need
+	updating.
+	(vfolder_adduri): New async function to add a uri to all vfolders
+	that need it.
+	(store_folder_deleted): oops!  free user, not rule!!
+
+	* mail-folder-cache.c: Add uri->folderinfo hashtable, and the
+	store from which they come into the store info struct.
+	Add uri to the folder_info.
+	(setup_folder): Store the uri in the folderinfo.
+	(setup_folder): And the uri in the folder_uri hashtable.
+	(mail_note_store): Store the store in the storeinfo, and setup the
+	folders_uri hashtable via the store's hash functions.
+	(setup_folder): Call mail_vfolder_add_uri to note this newly setup
+	folder uri.
+	(store_folder_deleted): Proxy call to main thread.
+	(real_folder_deleted): And tell the vfolder to remove this uri
+	from its folder list.
+	(setup_folder): Dont call vfolder_add_uri if noselect is set on
+	the uri.
+
+2001-09-27    <NotZed@Ximian.com>
+
+	* mail-vfolder.c: Removed vfolder_info struct, vfolder_storage.
+	Neither used anymore.
+
 2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_get_account_by_transport_url): Use

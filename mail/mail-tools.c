@@ -360,10 +360,8 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 		camel_object_unref (CAMEL_OBJECT (store));
 	}
 	
-	if (folder) {
-		vfolder_register_source (folder);
+	if (folder)
 		mail_note_folder (folder);
-	}
 	
 	camel_url_free (url);
 	

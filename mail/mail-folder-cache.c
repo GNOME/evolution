@@ -40,6 +40,7 @@
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 #include "mail-ops.h"
+#include "mail-vfolder.h"
 
 #define d(x) 
 
@@ -56,11 +57,16 @@ struct _folder_info {
 	char *path;		/* shell path */
 	char *name;		/* shell display name? */
 	char *full_name;	/* full name of folder/folderinfo */
+	char *uri;		/* uri of folder */
+
 	CamelFolder *folder;	/* if known */
 };
 
 struct _store_info {
 	GHashTable *folders;	/* by full_name */
+	GHashTable *folders_uri; /* by uri */
+
+	CamelStore *store;	/* the store for these folders */
 
 	/* only 1 should be set */
 	EvolutionStorage *storage;
@@ -136,6 +142,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 {
 	struct _folder_info *mfi;
 	char *type;
+	CamelStore *store;
 
 	LOCK(info_lock);
 	mfi = g_hash_table_lookup(si->folders, fi->full_name);
@@ -149,8 +156,12 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		mfi->path = g_strdup(fi->path);
 		mfi->name = g_strdup(fi->name);
 		mfi->full_name = g_strdup(fi->full_name);
+		mfi->uri = g_strdup(fi->url);
 		mfi->store_info = si;
 		g_hash_table_insert(si->folders, mfi->full_name, mfi);
+		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
+		store = si->store;
+		camel_object_ref((CamelObject *)store);
 		UNLOCK(info_lock);
 
 		if (si->storage != NULL) {
@@ -160,6 +171,11 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 			evolution_storage_new_folder(si->storage, mfi->path, mfi->name, type,
 						     fi->url, mfi->name, unread);
 		}
+
+		if (strstr(fi->url, ";noselect") == NULL)
+			mail_vfolder_add_uri(store, fi->url);
+
+		camel_object_unref((CamelObject *)store);
 	}
 }
 
@@ -248,7 +264,7 @@ real_folder_created(CamelStore *store, void *event_data, CamelFolderInfo *fi)
 {
 	struct _store_info *si;
 
-	d(printf("real_folder_created: %s (%s)\n", fi->full_name, fi->url));
+	(printf("real_folder_created: %s (%s)\n", fi->full_name, fi->url));
 
 	LOCK(info_lock);
 	si = g_hash_table_lookup(stores, store);
@@ -274,6 +290,15 @@ store_folder_created(CamelObject *o, void *event_data, void *data)
 }
 
 static void
+real_folder_deleted(CamelStore *store, void *event_data, CamelFolderInfo *fi)
+{
+	(printf("real_folder_deleted: %s (%s)\n", fi->full_name, fi->url));
+	
+	if (strstr(fi->url, ";noselect") == NULL)
+		mail_vfolder_remove_uri(store, fi->url);
+}
+
+static void
 store_folder_deleted(CamelObject *o, void *event_data, void *data)
 {
 	CamelStore *store = (CamelStore *)o;
@@ -284,6 +309,8 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 
 	/* should really remove it? */
 	d(printf("folder deleted: %s\n", info->full_name));
+
+	mail_msg_wait(mail_proxy_event((CamelObjectEventHookFunc)real_folder_deleted, o, NULL, info));
 }
 
 static void
@@ -292,6 +319,7 @@ free_folder_info(char *path, struct _folder_info *info, void *data)
 	g_free(info->path);
 	g_free(info->name);
 	g_free(info->full_name);
+	g_free(info->uri);
 }
 
 static void
@@ -315,8 +343,10 @@ store_finalised(CamelObject *o, void *event_data, void *data)
 static void
 create_folders(CamelFolderInfo *fi, struct _store_info *si)
 {
+	printf("Setup new folder: %s\n", fi->url);
+
 	setup_folder(fi, si);
-	
+
 	if (fi->child)
 		create_folders(fi->child, si);
 	if (fi->sibling)
@@ -365,12 +395,15 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 
 		d(printf("Noting a new store: %p: %s\n", store, camel_url_to_string(((CamelService *)store)->url, 0)));
 
-		/* FIXME: Need to ref the storages or something?? */
+		/* FIXME: Need to ref the storages & store or something?? */
 
 		si = g_malloc0(sizeof(*si));
 		si->folders = g_hash_table_new(g_str_hash, g_str_equal);
+		si->folders_uri = g_hash_table_new(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->hash_folder_name,
+						   CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name);
 		si->storage = storage;
 		si->corba_storage = corba_storage;
+		si->store = store;
 		g_hash_table_insert(stores, store, si);
 
 		camel_object_hook_event((CamelObject *)store, "folder_created", store_folder_created, NULL);
@@ -386,4 +419,40 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 	ud->data = data;
 
 	mail_get_folderinfo(store, update_folders, ud);
+}
+
+struct _find_info {
+	const char *uri;
+	struct _folder_info *fi;
+};
+
+/* look up on each storeinfo using proper hash function for that stores uri's */
+static void storeinfo_find_folder_info(CamelStore *store, struct _store_info *si, struct _find_info *fi)
+{
+	if (fi->fi == NULL)
+		fi->fi = g_hash_table_lookup(si->folders_uri, fi->uri);
+}
+
+/* returns TRUE if the uri is available, folderp is set to a
+   reffed folder if the folder has also already been opened */
+int mail_note_get_folder_from_uri(const char *uri, CamelFolder **folderp)
+{
+	struct _find_info fi = { uri, NULL };
+
+	if (stores == NULL)
+		return FALSE;
+
+	LOCK(info_lock);
+	g_hash_table_foreach(stores, (GHFunc)storeinfo_find_folder_info, &fi);
+	if (folderp) {
+		if (fi.fi && fi.fi->folder) {
+			*folderp = fi.fi->folder;
+			camel_object_ref((CamelObject *)*folderp);
+		} else {
+			*folderp = NULL;
+		}
+	}
+	UNLOCK(info_lock);
+
+	return fi.fi != NULL;
 }
