@@ -25,7 +25,6 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-font.h>
 

@@ -24,7 +24,7 @@
 #ifndef _EXECUTIVE_SUMMARY_CLIENT_H__
 #define _EXECUTIVE_SUMMARY_CLIENT_H__
 
-#include <bonobo.h>
+#include <bonobo/bonobo-object.h>
 #include <evolution-services/executive-summary-component.h>
 
 #define EXECUTIVE_SUMMARY_CLIENT_TYPE (executive_summary_client_get_type ())

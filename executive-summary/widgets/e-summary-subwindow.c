@@ -25,13 +25,13 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-font.h>
 
 #include <gal/e-text/e-text.h>
 
 #include "e-summary-subwindow.h"
+#include "e-summary-titlebar.h"
 
 #define PARENT_TYPE (gnome_canvas_group_get_type ())
 #define TITLEBAR_BORDER_WIDTH 2

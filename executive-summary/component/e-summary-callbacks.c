@@ -36,11 +36,11 @@
 
 #include <liboaf/liboaf.h>
 #include <glade/glade.h>
-#include <e-summary-callbacks.h>
 #include <gtkhtml/gtkhtml.h>
 #include <e-util/e-html-utils.h>
 
 #include "e-summary.h"
+#include "e-summary-callbacks.h"
 
 #include "Composer.h"
 

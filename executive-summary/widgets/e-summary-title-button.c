@@ -25,7 +25,7 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <gal/util/e-util.h>
 
 #include <gdk-pixbuf/gdk-pixbuf.h>

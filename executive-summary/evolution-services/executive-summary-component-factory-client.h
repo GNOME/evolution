@@ -24,7 +24,7 @@
 #ifndef _EXECUTIVE_SUMMARY_COMPONENT_FACTORY_CLIENT_H__
 #define _EXECUTIVE_SUMMARY_COMPONENT_FACTORY_CLIENT_H__
 
-#include <bonobo.h>
+#include <bonobo/bonobo-object-client.h>
 
 #define EXECUTIVE_SUMMARY_COMPONENT_FACTORY_CLIENT_TYPE (executive_summary_component_factory_client_get_type ())
 #define EXECUTIVE_SUMMARY_COMPONENT_FACTORY_CLIENT(obj) (GTK_CHECK_CAST ((obj), EXECUTIVE_SUMMARY_COMPONENT_FACTORY_CLIENT_TYPE, ExecutiveSummaryComponentFactoryClient))

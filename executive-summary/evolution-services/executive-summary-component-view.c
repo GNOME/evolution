@@ -26,8 +26,6 @@
 #include <config.h>
 #endif
 
-#include <bonobo.h>
-#include <gnome.h>
 #include <gal/util/e-util.h>
 
 #include <evolution-services/executive-summary-component.h>

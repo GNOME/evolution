@@ -26,9 +26,9 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
-#include <bonobo.h>
-
+#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-persist-stream.h>
+#include <bonobo/bonobo-property-bag.h>
 #include <evolution-services/executive-summary-component.h>
 #include <evolution-services/executive-summary-html-view.h>
 

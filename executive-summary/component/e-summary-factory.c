@@ -26,15 +26,17 @@
 #include <config.h>
 #endif
 
+#include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-ui-util.h>
 
 #include <liboaf/liboaf.h>
 
-#include "gal/util/e-util.h"
-#include "e-util/e-gui-utils.h"
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gal/util/e-util.h>
+#include <e-util/e-gui-utils.h>
 
 #include "e-summary-factory.h"
 

@@ -1,7 +1,9 @@
-#include <gnome.h>
 #include <gal/widgets/e-canvas.h>
 #include "e-summary-subwindow.h"
 #include "e-summary-titlebar.h"
+
+
+void close_test (GtkWidget *widget, gpointer data);
 
 void
 close_test (GtkWidget *widget,

@@ -1,3 +1,8 @@
+2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* *.*: Clean up includes. Remove/replace <gnome.h>, <bonobo.h>
+	and <gtk/gtk.h>.
+	
 2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component/component-factory.c (factory_fn): Specify a NULL

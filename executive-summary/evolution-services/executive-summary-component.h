@@ -25,7 +25,7 @@
 #define _EXECUTIVE_SUMMARY_COMPONENT_H__
 
 #include <gtk/gtksignal.h>
-#include <bonobo.h>
+#include <bonobo/bonobo-object.h>
 
 #define EXECUTIVE_SUMMARY_COMPONENT_TYPE (executive_summary_component_get_type ())
 #define EXECUTIVE_SUMMARY_COMPONENT(obj) (GTK_CHECK_CAST ((obj), EXECUTIVE_SUMMARY_COMPONENT_TYPE, ExecutiveSummaryComponent))

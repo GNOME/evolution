@@ -25,11 +25,17 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-event-source.h>
 #include <bonobo/bonobo-listener.h>
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-property-control.h>
+#include <bonobo/bonobo-storage.h>
+#include <bonobo/bonobo-stream-client.h>
 
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>

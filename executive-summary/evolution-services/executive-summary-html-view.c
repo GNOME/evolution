@@ -26,9 +26,8 @@
 #include <config.h>
 #endif
 
-#include <bonobo.h>
+#include <gtk/gtksignal.h>
 #include <bonobo/bonobo-event-source.h>
-#include <gnome.h>
 #include <gal/util/e-util.h>
 
 #include "Executive-Summary.h"
