@@ -33,8 +33,7 @@ typedef enum _e_account_item_t {
 	E_ACCOUNT_ID_ADDRESS,
 	E_ACCOUNT_ID_REPLY_TO,
 	E_ACCOUNT_ID_ORGANIZATION,
-	E_ACCOUNT_ID_DEF_SIGNATURE, /* why aren't these two options the same? */
-	E_ACCOUNT_ID_AUTO_SIGNATURE,
+	E_ACCOUNT_ID_SIGNATURE,
 
 	E_ACCOUNT_SOURCE_URL,
 	E_ACCOUNT_SOURCE_KEEP_ON_SERVER,
@@ -78,9 +77,7 @@ typedef struct _EAccountIdentity {
 	char *address;
 	char *reply_to;
 	char *organization;
-	
-	int def_signature;
-	gboolean auto_signature;
+	char *sig_uid;
 } EAccountIdentity;
 
 typedef struct _EAccountService {

@@ -1,3 +1,9 @@
+2004-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-account.c: Reference signatures by their UID rather than by an
+	integer id. Also removed the need to have 2 signature settings (no
+	need for the "auto" signature boolean anymore).
+
 2004-03-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-signature.[c,h]: New class similar to EAccount but for

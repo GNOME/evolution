@@ -101,7 +101,8 @@ identity_destroy (EAccountIdentity *id)
 	g_free (id->address);
 	g_free (id->reply_to);
 	g_free (id->organization);
-
+	g_free (id->sig_uid);
+	
 	g_free (id);
 }
 
@@ -280,8 +281,7 @@ xml_set_identity (xmlNodePtr node, EAccountIdentity *id)
 		else if (!strcmp (node->name, "organization"))
 			changed |= xml_set_content (node, &id->organization);
 		else if (!strcmp (node->name, "signature")) {
-			changed |= xml_set_bool (node, "auto", &id->auto_signature);
-			changed |= xml_set_int (node, "default", &id->def_signature);
+			changed |= xml_set_prop (node, "uid", &id->sig_uid);
 		}
 	}
 
@@ -423,8 +423,7 @@ e_account_import (EAccount *dest, EAccount *src)
 	dest->id->reply_to = g_strdup (src->id->reply_to);
 	g_free (dest->id->organization);
 	dest->id->organization = g_strdup (src->id->organization);
-	dest->id->def_signature = src->id->def_signature;
-	dest->id->auto_signature = src->id->auto_signature;
+	dest->id->sig_uid = g_strdup (src->id->sig_uid);
 	
 	g_free (dest->source->url);
 	dest->source->url = g_strdup (src->source->url);
@@ -503,12 +502,10 @@ e_account_to_xml (EAccount *account)
 		xmlNewTextChild (id, NULL, "reply-to", account->id->reply_to);
 	if (account->id->organization)
 		xmlNewTextChild (id, NULL, "organization", account->id->organization);
-
+	
 	node = xmlNewChild (id, NULL, "signature",NULL);
-	xmlSetProp (node, "auto", account->id->auto_signature ? "true" : "false");
-	sprintf (buf, "%d", account->id->def_signature);
-	xmlSetProp (node, "default", buf);
-
+	xmlSetProp (node, "uid", account->id->sig_uid);
+	
 	src = xmlNewChild (root, NULL, "source", NULL);
 	xmlSetProp (src, "save-passwd", account->source->save_passwd ? "true" : "false");
 	xmlSetProp (src, "keep-on-server", account->source->keep_on_server ? "true" : "false");
@@ -635,8 +632,7 @@ static struct {
 	{ /* E_ACCOUNT_ID_ADDRESS, */ },
 	{ /* E_ACCOUNT_ID_REPLY_TO, */ },
 	{ /* E_ACCOUNT_ID_ORGANIZATION */ },
-	{ /* E_ACCOUNT_ID_DEF_SIGNATURE */ 1<<EAP_LOCK_SIGNATURE },
-	{ /* E_ACCOUNT_ID_AUTO_SIGNATURE */ 1<<EAP_LOCK_SIGNATURE },
+	{ /* E_ACCOUNT_ID_SIGNATURE */ 1<<EAP_LOCK_SIGNATURE },
 
 	{ /* E_ACCOUNT_SOURCE_URL */ 1<<EAP_LOCK_SOURCE },
 	{ /* E_ACCOUNT_SOURCE_KEEP_ON_SERVER */ },
