@@ -1,6 +1,6 @@
 desktopdir = $(datadir)/applications
 desktop_in_file = evolution.desktop.in
-desktop_DATA = $(desktop_in_file:.desktop.in=.desktop)
+desktop_file = $(desktop_in_file:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
 keysdir = $(datadir)/mime-info
@@ -26,13 +26,14 @@ install-kde-applnk:
 endif
 
 noinst_MANS = evolution.1
+noinst_DATA = $(keys_file)
 
 SUBDIRS = cde_app_root
 
 install-data-local: install-kde-applnk
 	$(mkinstalldirs) $(DESTDIR)$(desktopdir);							\
 	$(INSTALL_DATA) $(desktop_file)									\
-			$(DESTDIR)$(desktopdir)/$(desktop_file:.desktop=-$(BASE_VERSION).desktop) ;	\
+			$(DESTDIR)$(desktopdir)/$(desktop_file:.desktop.in=-$(BASE_VERSION).desktop) ;	\
 	$(mkinstalldirs) $(DESTDIR)$(keysdir);								\
 	$(INSTALL_DATA) $(keys_file) $(DESTDIR)$(keysdir)/$(keys_file:.keys=-$(BASE_VERSION).keys) ;	\
 	$(mkinstalldirs) $(DESTDIR)$(mimedir);								\
@@ -53,7 +54,7 @@ dtappunintegrate:
 endif
 
 EXTRA_DIST =					\
-	$(desktop_DATA)				\
+	$(desktop_file)				\
 	$(desktop_in_file)			\
 	$(mime_file)				\
 	$(keys_file)				\

@@ -1,3 +1,13 @@
+2003-03-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* data/Makefile.am (install-data-local): Fix installation of the
+	.desktop file.
+
+2003-03-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Add gal-2.0 to the list of packages to determine
+	WOMBAT_CFLAGS and WOMBAT_LIBS.
+
 2003-03-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Autogen help/Makefile.
