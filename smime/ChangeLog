@@ -1,3 +1,8 @@
+2003-12-10  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-cert-selector.c (e_cert_selector_new): if we get no
+	matching certs, show empty menu rather than crashing.  #51922.
+
 2003-12-05  JP Rosevear  <jpr@ximian.com>
 
 	* lib/e-cert.c: fix for C89

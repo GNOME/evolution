@@ -176,19 +176,21 @@ e_cert_selector_new(int type, const char *currentid)
 
 	certlist = CERT_FindUserCertsByUsage(CERT_GetDefaultCertDB(), usage, FALSE, TRUE, NULL);
 	ecs->priv->certlist = certlist;
-	node = CERT_LIST_HEAD(certlist);
-	while (!CERT_LIST_END(node, certlist)) {
-		w = gtk_menu_item_new_with_label(node->cert->nickname);
-		gtk_menu_shell_append((GtkMenuShell *)menu, w);
-		gtk_widget_show(w);
+	if (certlist != NULL) {
+		node = CERT_LIST_HEAD(certlist);
+		while (!CERT_LIST_END(node, certlist)) {
+			w = gtk_menu_item_new_with_label(node->cert->nickname);
+			gtk_menu_shell_append((GtkMenuShell *)menu, w);
+			gtk_widget_show(w);
 
-		if (currentid != NULL
-		    && (strcmp(node->cert->nickname, currentid) == 0
-			|| strcmp(node->cert->emailAddr, currentid) == 0))
-			active = n;
+			if (currentid != NULL
+			    && (strcmp(node->cert->nickname, currentid) == 0
+				|| strcmp(node->cert->emailAddr, currentid) == 0))
+				active = n;
 
-		n++;
-		node = CERT_LIST_NEXT(node);
+			n++;
+			node = CERT_LIST_NEXT(node);
+		}
 	}
 
 	gtk_option_menu_set_menu((GtkOptionMenu *)p->menu, menu);
