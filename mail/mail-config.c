@@ -30,6 +30,8 @@
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-stock.h>
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
 
@@ -949,9 +951,13 @@ static void check_service_check(struct _mail_msg *mm)
 	struct _check_msg *m = (struct _check_msg *)mm;
 	CamelService *service = NULL;
 
+	camel_operation_register(mm->cancel);
+
 	service = camel_session_get_service (session, m->url, m->type, &mm->ex);
-	if (!service)
+	if (!service) {
+		camel_operation_unregister(mm->cancel);
 		return;
+	}
 
 	if (m->authtypes)
 		*m->authtypes = camel_service_query_auth_types (service, &mm->ex);
@@ -960,6 +966,8 @@ static void check_service_check(struct _mail_msg *mm)
 
 	camel_object_unref (CAMEL_OBJECT (service));
 	*m->success = !camel_exception_is_set(&mm->ex);
+
+	camel_operation_unregister(mm->cancel);
 }
 
 static struct _mail_msg_op check_service_op = {
@@ -968,6 +976,14 @@ static struct _mail_msg_op check_service_op = {
 	NULL,
 	NULL
 };
+
+static void
+check_cancelled (GnomeDialog *dialog, int button, gpointer data)
+{
+	int *msg_id = data;
+
+	mail_msg_cancel (*msg_id);
+}
 
 /**
  * mail_config_check_service:
@@ -980,13 +996,13 @@ static struct _mail_msg_op check_service_op = {
  *
  * Return value: %TRUE on success or %FALSE on error.
  **/
-
 gboolean
 mail_config_check_service (const char *url, CamelProviderType type, GList **authtypes)
 {
 	gboolean ret = FALSE;
 	struct _check_msg *m;
 	int id;
+	GtkWidget *dialog, *label;
 
 	m = mail_msg_new(&check_service_op, NULL, sizeof(*m));
 	m->url = url;
@@ -996,7 +1012,21 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 
 	id = m->msg.seq;
 	e_thread_put(mail_thread_queued, (EMsg *)m);
+
+	dialog = gnome_dialog_new (_("Connecting to server..."),
+				   GNOME_STOCK_BUTTON_CANCEL,
+				   NULL);
+	label = gtk_label_new (_("Connecting to server..."));
+	gtk_box_pack_start (GNOME_DIALOG (dialog)->vbox, label, TRUE, TRUE, 10);
+	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
+			    GTK_SIGNAL_FUNC (check_cancelled), &id);
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_widget_show_all (dialog);
+
 	mail_msg_wait(id);
-	
+
+	gtk_widget_destroy (dialog);
+
 	return ret;
 }
