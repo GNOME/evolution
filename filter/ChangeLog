@@ -1,3 +1,12 @@
+2001-10-04    <NotZed@Ximian.com>
+
+	* rule-context.c (save): "safe" save code, first save to .#name,
+	then rename to name if it worked, also create backups to name~.
+	Means filters/etc wont get reset/lost if disk fills up, although
+	relies on libxml failing properly.
+	(new_rule_clicked): Removed warning, we do now have changed
+	signals!
+
 2001-09-28    <NotZed@Ximian.com>
 
 	* vfolder-rule.c (vfolder_rule_add_source): Emit changed events

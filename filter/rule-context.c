@@ -22,6 +22,10 @@
 #include <config.h>
 #endif
 
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
+
 #include <errno.h>
 #include <string.h>
 #include <gtk/gtksignal.h>
@@ -356,6 +360,8 @@ save (RuleContext *f, const char *user)
 	GList *l;
 	FilterRule *rule;
 	struct _rule_set_map *map;
+	char *usersav, *userbak, *slash;
+	int ret;
 
 	doc = xmlNewDoc ("1.0");
 	root = xmlNewDocNode (doc, NULL, "filteroptions", NULL);
@@ -373,9 +379,23 @@ save (RuleContext *f, const char *user)
 		}
 		l = g_list_next (l);
 	}
-	xmlSaveFile (user, doc);
+
+	usersav = alloca(strlen(user)+5);
+	userbak = alloca(strlen(user)+5);
+	slash = strrchr(user, '/');
+	if (slash)
+		sprintf(usersav, "%.*s.#%s", slash-user+1, user, slash+1);
+	else
+		sprintf(usersav, ".#%s", user);
+	sprintf(userbak, "%s~", user);
+	printf("saving rules to '%s' then backup '%s'\n", usersav, userbak);
+	ret = xmlSaveFile(usersav, doc);
+	if (ret != -1) {
+		rename(user, userbak);
+		ret = rename(usersav, user);
+	}
 	xmlFreeDoc (doc);
-	return 0;
+	return ret;
 }
 
 FilterPart *
@@ -432,9 +452,6 @@ rule_context_add_rule (RuleContext *f, FilterRule *new)
 static void
 new_rule_clicked (GtkWidget *dialog, int button, RuleContext *context)
 {
-#ifndef NO_WARNINGS
-#warning "Need a changed signal for this to work best"
-#endif
 	if (button == 0) {
 		FilterRule *rule = gtk_object_get_data (GTK_OBJECT (dialog), "rule");
 		char *user = gtk_object_get_data (GTK_OBJECT (dialog), "path");
