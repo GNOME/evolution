@@ -327,7 +327,7 @@ e_folder_type_registry_set_handler_for_type  (EFolderTypeRegistry *folder_type_r
 
 
 gboolean
-e_folder_type_register_type_registered  (EFolderTypeRegistry *folder_type_registry,
+e_folder_type_registry_type_registered  (EFolderTypeRegistry *folder_type_registry,
 					 const char *type_name)
 {
 	EFolderTypeRegistryPrivate *priv;
@@ -345,7 +345,7 @@ e_folder_type_register_type_registered  (EFolderTypeRegistry *folder_type_regist
 }
 
 void
-e_folder_type_register_unregister_type (EFolderTypeRegistry *folder_type_registry,
+e_folder_type_registry_unregister_type (EFolderTypeRegistry *folder_type_registry,
 					const char *type_name)
 {
 	EFolderTypeRegistryPrivate *priv;
@@ -359,7 +359,7 @@ e_folder_type_register_unregister_type (EFolderTypeRegistry *folder_type_registr
 
 	folder_type = get_folder_type (folder_type_registry, type_name);
 	if (folder_type == NULL) {
-		g_warning ("e_folder_type_register_unregister_type(): cannot find type `%s'\n",
+		g_warning ("e_folder_type_registry_unregister_type(): cannot find type `%s'\n",
 			   type_name);
 		return;
 	}

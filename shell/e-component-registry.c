@@ -177,8 +177,8 @@ register_type (EComponentRegistry *component_registry,
 	g_assert (folder_type_registry != NULL);
 
 	if (override_duplicate
-	    && e_folder_type_register_type_registered (folder_type_registry, name))
-		e_folder_type_register_unregister_type (folder_type_registry, name);
+	    && e_folder_type_registry_type_registered (folder_type_registry, name))
+		e_folder_type_registry_unregister_type (folder_type_registry, name);
 
 	if (! e_folder_type_registry_register_type (folder_type_registry,
 						    name, icon_name, 

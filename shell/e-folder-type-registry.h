@@ -75,9 +75,9 @@ gboolean  e_folder_type_registry_set_handler_for_type  (EFolderTypeRegistry     
 
 GList *e_folder_type_registry_get_type_names  (EFolderTypeRegistry *folder_type_registry);
 
-gboolean  e_folder_type_register_type_registered  (EFolderTypeRegistry *folder_type_registry,
+gboolean  e_folder_type_registry_type_registered  (EFolderTypeRegistry *folder_type_registry,
 						   const char          *type_name);
-void      e_folder_type_register_unregister_type  (EFolderTypeRegistry *folder_type_registry,
+void      e_folder_type_registry_unregister_type  (EFolderTypeRegistry *folder_type_registry,
 						   const char          *type_name);
 
 GdkPixbuf                     *e_folder_type_registry_get_icon_for_type          (EFolderTypeRegistry *folder_type_registry,
