@@ -702,7 +702,7 @@ set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 s
 	camel_folder_summary_touch(folder->summary);
 	camel_folder_summary_info_free(folder->summary, info);
 
-	camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
+	camel_object_trigger_event (folder, "message_changed", (char *) uid);
 }
 
 /**
@@ -779,7 +779,7 @@ set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gb
 	if (camel_flag_set(&info->user_flags, name, value)) {
 		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
 		camel_folder_summary_touch(folder->summary);
-		camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
+		camel_object_trigger_event (folder, "message_changed", (char *) uid);
 	}
 	camel_folder_summary_info_free(folder->summary, info);
 }
@@ -859,7 +859,7 @@ set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, con
 	if (camel_tag_set(&info->user_tags, name, value)) {
 		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
 		camel_folder_summary_touch(folder->summary);
-		camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
+		camel_object_trigger_event (folder, "message_changed", (char *) uid);
 	}
 	camel_folder_summary_info_free(folder->summary, info);
 }
@@ -1289,7 +1289,7 @@ transfer_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 	}
 	
 	camel_folder_append_message (dest, msg, info, transferred_uid, ex);
-	camel_object_unref (CAMEL_OBJECT (msg));
+	camel_object_unref (msg);
 	
 	if (delete_original && !camel_exception_is_set (ex))
 		camel_folder_set_message_flags (source, uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, ~0);
@@ -1415,7 +1415,7 @@ camel_folder_delete (CamelFolder *folder)
 
 	CAMEL_FOLDER_UNLOCK (folder, lock);
 
-	camel_object_trigger_event (CAMEL_OBJECT (folder), "deleted", NULL);
+	camel_object_trigger_event (folder, "deleted", NULL);
 }
 
 static void
@@ -1451,7 +1451,7 @@ camel_folder_rename(CamelFolder *folder, const char *new)
 
 	CF_CLASS (folder)->rename(folder, new);
 
-	camel_object_trigger_event (CAMEL_OBJECT (folder), "renamed", old);
+	camel_object_trigger_event (folder, "renamed", old);
 	g_free(old);
 }
 
@@ -1507,7 +1507,7 @@ thaw (CamelFolder * folder)
 	CAMEL_FOLDER_UNLOCK(folder, change_lock);
 
 	if (info) {
-		camel_object_trigger_event(CAMEL_OBJECT(folder), "folder_changed", info);
+		camel_object_trigger_event (folder, "folder_changed", info);
 		camel_folder_change_info_free(info);
 	}
 }

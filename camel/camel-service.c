@@ -23,6 +23,7 @@
  * USA
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -117,7 +118,7 @@ camel_service_finalize (CamelObject *object)
 	if (service->url)
 		camel_url_free (service->url);
 	if (service->session)
-		camel_object_unref (CAMEL_OBJECT (service->session));
+		camel_object_unref (service->session);
 	
 	e_mutex_destroy (service->priv->connect_lock);
 	e_mutex_destroy (service->priv->connect_op_lock);
@@ -299,7 +300,7 @@ construct (CamelService *service, CamelSession *session,
 	service->provider = provider;
 	service->url = url;
 	service->session = session;
-	camel_object_ref (CAMEL_OBJECT (session));
+	camel_object_ref (session);
 	
 	service->status = CAMEL_SERVICE_DISCONNECTED;
 }

@@ -91,7 +91,7 @@ camel_medium_finalize (CamelObject *object)
 	CamelMedium *medium = CAMEL_MEDIUM (object);
 
 	if (medium->content)
-		camel_object_unref (CAMEL_OBJECT (medium->content));
+		camel_object_unref (medium->content);
 }
 
 
@@ -309,8 +309,8 @@ static void
 set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 {
 	if (medium->content)
-		camel_object_unref (CAMEL_OBJECT (medium->content));
-	camel_object_ref (CAMEL_OBJECT (content));
+		camel_object_unref (medium->content);
+	camel_object_ref (content);
 	medium->content = content;
 }
 

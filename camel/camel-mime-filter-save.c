@@ -109,7 +109,7 @@ camel_mime_filter_save_new_with_stream (CamelStream *stream)
 	CamelMimeFilterSave *save = CAMEL_MIME_FILTER_SAVE (camel_object_new (CAMEL_MIME_FILTER_SAVE_TYPE));
 	
 	save->stream = stream;
-	camel_object_ref (CAMEL_OBJECT (stream));
+	camel_object_ref (stream);
 	
 	return (CamelMimeFilter *) save;
 }

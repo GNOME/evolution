@@ -116,14 +116,14 @@ digest_finalize (CamelObject *object)
 	CamelFolder *folder = CAMEL_FOLDER (object);
 	
 	if (folder->summary) {
-		camel_object_unref (CAMEL_OBJECT (folder->summary));
+		camel_object_unref (folder->summary);
 		folder->summary = NULL;
 	}
 	
-	camel_object_unref (CAMEL_OBJECT (digest_folder->priv->message));
+	camel_object_unref (digest_folder->priv->message);
 	
 	if (digest_folder->priv->search)
-		camel_object_unref (CAMEL_OBJECT (digest_folder->priv->search));
+		camel_object_unref (digest_folder->priv->search);
 	
 	g_mutex_free (digest_folder->priv->search_lock);
 	
@@ -231,7 +231,7 @@ camel_digest_folder_new (CamelStore *parent_store, CamelMimeMessage *message)
 	
 	camel_folder_construct (folder, parent_store, "folder_name", "short_name");
 	
-	camel_object_ref (CAMEL_OBJECT (message));
+	camel_object_ref (message);
 	digest_folder->priv->message = message;
 	
 	construct_summary (folder, CAMEL_MULTIPART (wrapper));
@@ -310,7 +310,7 @@ digest_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		return NULL;
 	
 	message = CAMEL_MIME_MESSAGE (wrapper);
-	camel_object_ref (CAMEL_OBJECT (message));
+	camel_object_ref (message);
 	
 	return message;
 }

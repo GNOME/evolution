@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2001 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2001-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -19,6 +19,7 @@
  * Boston, MA 02111-1307, USA.
  *
  */
+
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -37,6 +38,7 @@
 #include "camel-sasl-plain.h"
 #include "camel-sasl-popb4smtp.h"
 #include "camel-sasl-ntlm.h"
+
 
 #define w(x)
 
@@ -60,8 +62,8 @@ static void
 camel_sasl_finalize (CamelSasl *sasl)
 {
 	g_free (sasl->service_name);
-	g_free(sasl->mech);
-	camel_object_unref (CAMEL_OBJECT (sasl->service));
+	g_free (sasl->mech);
+	camel_object_unref (sasl->service);
 }
 
 CamelType
@@ -191,32 +193,32 @@ camel_sasl_new (const char *service_name, const char *mechanism, CamelService *s
 	/* We don't do ANONYMOUS here, because it's a little bit weird. */
 	
 	if (!strcmp (mechanism, "CRAM-MD5"))
-		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_CRAM_MD5_TYPE);
+		sasl = (CamelSasl *) camel_object_new (CAMEL_SASL_CRAM_MD5_TYPE);
 	else if (!strcmp (mechanism, "DIGEST-MD5"))
-		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_DIGEST_MD5_TYPE);
+		sasl = (CamelSasl *) camel_object_new (CAMEL_SASL_DIGEST_MD5_TYPE);
 #ifdef HAVE_KRB5
 	else if (!strcmp (mechanism, "GSSAPI"))
-		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_GSSAPI_TYPE);
+		sasl = (CamelSasl *) camel_object_new (CAMEL_SASL_GSSAPI_TYPE);
 #endif
 #ifdef HAVE_KRB4
 	else if (!strcmp (mechanism, "KERBEROS_V4"))
-		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_KERBEROS4_TYPE);
+		sasl = (CamelSasl *) camel_object_new (CAMEL_SASL_KERBEROS4_TYPE);
 #endif
 	else if (!strcmp (mechanism, "PLAIN"))
-		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_PLAIN_TYPE);
+		sasl = (CamelSasl *) camel_object_new (CAMEL_SASL_PLAIN_TYPE);
 	else if (!strcmp (mechanism, "LOGIN"))
-		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_LOGIN_TYPE);
+		sasl = (CamelSasl *) camel_object_new (CAMEL_SASL_LOGIN_TYPE);
 	else if (!strcmp (mechanism, "POPB4SMTP"))
-		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_POPB4SMTP_TYPE);
+		sasl = (CamelSasl *) camel_object_new (CAMEL_SASL_POPB4SMTP_TYPE);
 	else if (!strcmp (mechanism, "NTLM"))
-		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_NTLM_TYPE);
+		sasl = (CamelSasl *) camel_object_new (CAMEL_SASL_NTLM_TYPE);
 	else
 		return NULL;
 
-	sasl->mech = g_strdup(mechanism);
+	sasl->mech = g_strdup (mechanism);
 	sasl->service_name = g_strdup (service_name);
 	sasl->service = service;
-	camel_object_ref (CAMEL_OBJECT (service));
+	camel_object_ref (service);
 	
 	return sasl;
 }

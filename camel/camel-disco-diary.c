@@ -405,7 +405,7 @@ camel_disco_diary_new (CamelDiscoStore *store, const char *filename, CamelExcept
 
 	diary->file = fopen (filename, "a+");
 	if (!diary->file) {
-		camel_object_unref (CAMEL_OBJECT (diary));
+		camel_object_unref (diary);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Could not open journal file: %s",
 				      g_strerror (errno));

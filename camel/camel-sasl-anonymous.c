@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2001 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2001-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -20,6 +20,7 @@
  *
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -28,6 +29,7 @@
 #include "camel-sasl-anonymous.h"
 #include "camel-internet-address.h"
 #include <string.h>
+
 
 CamelServiceAuthType camel_sasl_anonymous_authtype = {
 	N_("Anonymous"),
@@ -118,10 +120,10 @@ anon_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 					      _("Invalid email address trace information:\n%s"),
 					      sasl_anon->trace_info);
-			camel_object_unref (CAMEL_OBJECT (cia));
+			camel_object_unref (cia);
 			return NULL;
 		}
-		camel_object_unref (CAMEL_OBJECT (cia));
+		camel_object_unref (cia);
 		ret = g_byte_array_new ();
 		g_byte_array_append (ret, sasl_anon->trace_info, strlen (sasl_anon->trace_info));
 		break;

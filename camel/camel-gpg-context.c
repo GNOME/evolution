@@ -297,7 +297,7 @@ gpg_ctx_new (CamelSession *session)
 	gpg = g_new (struct _GpgCtx, 1);
 	gpg->mode = GPG_CTX_MODE_SIGN;
 	gpg->session = session;
-	camel_object_ref (CAMEL_OBJECT (session));
+	camel_object_ref (session);
 	gpg->userid_hint = g_hash_table_new (g_str_hash, g_str_equal);
 	gpg->complete = FALSE;
 	gpg->seen_eof1 = TRUE;
@@ -411,18 +411,18 @@ gpg_ctx_set_armor (struct _GpgCtx *gpg, gboolean armor)
 static void
 gpg_ctx_set_istream (struct _GpgCtx *gpg, CamelStream *istream)
 {
-	camel_object_ref (CAMEL_OBJECT (istream));
+	camel_object_ref (istream);
 	if (gpg->istream)
-		camel_object_unref (CAMEL_OBJECT (gpg->istream));
+		camel_object_unref (gpg->istream);
 	gpg->istream = istream;
 }
 
 static void
 gpg_ctx_set_ostream (struct _GpgCtx *gpg, CamelStream *ostream)
 {
-	camel_object_ref (CAMEL_OBJECT (ostream));
+	camel_object_ref (ostream);
 	if (gpg->ostream)
-		camel_object_unref (CAMEL_OBJECT (gpg->ostream));
+		camel_object_unref (gpg->ostream);
 	gpg->ostream = ostream;
 	gpg->seen_eof1 = FALSE;
 }
@@ -455,7 +455,7 @@ gpg_ctx_free (struct _GpgCtx *gpg)
 	int i;
 	
 	if (gpg->session)
-		camel_object_unref (CAMEL_OBJECT (gpg->session));
+		camel_object_unref (gpg->session);
 	
 	g_hash_table_foreach (gpg->userid_hint, userid_hint_free, NULL);
 	g_hash_table_destroy (gpg->userid_hint);
@@ -488,10 +488,10 @@ gpg_ctx_free (struct _GpgCtx *gpg)
 		g_free (gpg->passwd);
 	
 	if (gpg->istream)
-		camel_object_unref (CAMEL_OBJECT (gpg->istream));
+		camel_object_unref (gpg->istream);
 	
 	if (gpg->ostream)
-		camel_object_unref (CAMEL_OBJECT (gpg->ostream));
+		camel_object_unref (gpg->ostream);
 	
 	camel_object_unref (gpg->diagnostics);
 	
@@ -1349,7 +1349,8 @@ swrite (CamelStream *istream)
 		if (ret != -1)
 			ret = camel_stream_close (ostream);
 	}
-	camel_object_unref (CAMEL_OBJECT (ostream));
+	
+	camel_object_unref (ostream);
 	
 	if (ret == -1) {
 		unlink (template);

@@ -147,7 +147,7 @@ camel_multipart_get_type (void)
 static void
 unref_part (gpointer data, gpointer user_data)
 {
-	CamelObject *part = CAMEL_OBJECT (data);
+	CamelObject *part = data;
 
 	camel_object_unref (part);
 }
@@ -176,7 +176,7 @@ static void
 add_part (CamelMultipart *multipart, CamelMimePart *part)
 {
 	multipart->parts = g_list_append (multipart->parts, part);
-	camel_object_ref (CAMEL_OBJECT (part));
+	camel_object_ref (part);
 }
 
 /**
@@ -200,7 +200,7 @@ static void
 add_part_at (CamelMultipart *multipart, CamelMimePart *part, guint index)
 {
 	multipart->parts = g_list_insert (multipart->parts, part, index);
-	camel_object_ref (CAMEL_OBJECT (part));
+	camel_object_ref (part);
 }
 
 /**
@@ -230,7 +230,7 @@ remove_part (CamelMultipart *multipart, CamelMimePart *part)
 	if (!multipart->parts)
 		return;
 	multipart->parts = g_list_remove (multipart->parts, part);
-	camel_object_unref (CAMEL_OBJECT (part));
+	camel_object_unref (part);
 }
 
 /**
@@ -272,7 +272,7 @@ remove_part_at (CamelMultipart *multipart, guint index)
 
 	multipart->parts = g_list_remove_link (parts_list, part_to_remove);
 	if (part_to_remove->data)
-		camel_object_unref (CAMEL_OBJECT (part_to_remove->data));
+		camel_object_unref (part_to_remove->data);
 	g_list_free_1 (part_to_remove);
 
 	return removed_part;

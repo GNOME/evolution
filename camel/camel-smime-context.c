@@ -20,6 +20,8 @@
  *
  */
 
+/* Note: much of the NSS code was copied from Mozilla's cmsutil.c program */
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -380,7 +382,7 @@ smime_sign (CamelCMSContext *ctx, CamelMimeMessage *message,
 	NSS_CMSEncoder_Update (ecx, buf->data, buf->len);
 	NSS_CMSEncoder_Finish (ecx);
 	
-	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_object_unref (stream);
 	g_free (data);
 	
 	/* write the result to a camel stream */
@@ -394,7 +396,7 @@ smime_sign (CamelCMSContext *ctx, CamelMimeMessage *message,
 	mesg = camel_mime_message_new ();
 	camel_stream_reset (stream);
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (mesg), stream);
-	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_object_unref (stream);
 	
 	return mesg;
 }
@@ -495,7 +497,7 @@ smime_certsonly (CamelCMSContext *ctx, CamelMimeMessage *message,
 	NSS_CMSEncoder_Update (ecx, buf->data, buf->len);
 	NSS_CMSEncoder_Finish (ecx);
 	
-	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_object_unref (stream);
 	g_free (data);
 	
 	/* write the result to a camel stream */
@@ -509,7 +511,7 @@ smime_certsonly (CamelCMSContext *ctx, CamelMimeMessage *message,
 	mesg = camel_mime_message_new ();
 	camel_stream_reset (stream);
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (mesg), stream);
-	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_object_unref (stream);
 	
 	return mesg;
 }
@@ -618,7 +620,7 @@ smime_envelope (CamelCMSContext *ctx, CamelMimeMessage *message,
 	NSS_CMSEncoder_Update (ecx, buf->data, buf->len);
 	NSS_CMSEncoder_Finish (ecx);
 	
-	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_object_unref (stream);
 	g_free (data);
 	
 	/* write the result to a camel stream */
@@ -632,7 +634,7 @@ smime_envelope (CamelCMSContext *ctx, CamelMimeMessage *message,
 	mesg = camel_mime_message_new ();
 	camel_stream_reset (stream);
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (mesg), stream);
-	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_object_unref (stream);
 	
 	return mesg;
 }
@@ -747,14 +749,14 @@ smime_encrypt (CamelCMSContext *ctx, CamelMimeMessage *message,
 	stream = camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), buf);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
-	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_object_unref (stream);
 	
 	stream = camel_stream_mem_new ();
 	cmsg = encrypted_data (CAMEL_SMIME_CONTEXT (ctx), buf, bulkkey, stream, ex);
 	g_byte_array_free (buf, TRUE);
 	g_free (bulkkey);
 	if (!cmsg) {
-		camel_object_unref (CAMEL_OBJECT (stream));
+		camel_object_unref (stream);
 		return NULL;
 	}
 	
@@ -764,7 +766,7 @@ smime_encrypt (CamelCMSContext *ctx, CamelMimeMessage *message,
 	mesg = camel_mime_message_new ();
 	camel_stream_reset (stream);
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (mesg), stream);
-	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_object_unref (stream);
 	
 	return mesg;
 }
@@ -933,9 +935,9 @@ smime_decode (CamelCMSContext *ctx, CamelMimeMessage *message,
 	
 	ostream = camel_stream_mem_new ();
 	cmsg = decode_data (CAMEL_SMIME_CONTEXT (ctx), buf, ostream, info, ex);
-	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_object_unref (stream);
 	if (!cmsg) {
-		camel_object_unref (CAMEL_OBJECT (ostream));
+		camel_object_unref (ostream);
 		return NULL;
 	}
 	
@@ -943,7 +945,7 @@ smime_decode (CamelCMSContext *ctx, CamelMimeMessage *message,
 	mesg = camel_mime_message_new ();
 	camel_stream_reset (ostream);
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (mesg), ostream);
-	camel_object_unref (CAMEL_OBJECT (ostream));
+	camel_object_unref (ostream);
 	
 	return mesg;
 }

@@ -424,7 +424,7 @@ camel_store_rename_folder (CamelStore *store, const char *old_name, const char *
 		reninfo.old_base = (char *)old_name;
 		reninfo.new = ((CamelStoreClass *)((CamelObject *)store)->klass)->get_folder_info(store, new_name, flags, ex);
 		if (reninfo.new != NULL) {
-			camel_object_trigger_event(CAMEL_OBJECT(store), "folder_renamed", &reninfo);
+			camel_object_trigger_event (store, "folder_renamed", &reninfo);
 			((CamelStoreClass *)((CamelObject *)store)->klass)->free_folder_info(store, reninfo.new);
 		}
 	} else {
@@ -490,7 +490,7 @@ init_trash (CamelStore *store)
 	if (store->vtrash) {
 		/* FIXME: this should probably use the object bag or another one ? ... */
 		/* attach to the finalise event of the vtrash */
-		camel_object_hook_event (CAMEL_OBJECT (store->vtrash), "finalize",
+		camel_object_hook_event (store->vtrash, "finalize",
 					 trash_finalize, store);
 		
 		/* add all the pre-opened folders to the vtrash */
@@ -512,14 +512,14 @@ static CamelFolder *
 get_trash (CamelStore *store, CamelException *ex)
 {
 	if (store->vtrash) {
-		camel_object_ref (CAMEL_OBJECT (store->vtrash));
+		camel_object_ref (store->vtrash);
 		return store->vtrash;
 	} else {
 		CS_CLASS (store)->init_trash (store);
 		if (store->vtrash) {
 			/* We don't ref here because we don't want the
                            store to own a ref on the trash folder */
-			/*camel_object_ref (CAMEL_OBJECT (store->vtrash));*/
+			/*camel_object_ref (store->vtrash);*/
 			return store->vtrash;
 		} else {
 			w(g_warning ("This store does not support vTrash."));

@@ -497,7 +497,7 @@ camel_session_get_service_connected (CamelSession *session,
 
 	if (svc->status != CAMEL_SERVICE_CONNECTED) {
 		if (camel_service_connect (svc, ex) == FALSE) {
-			camel_object_unref (CAMEL_OBJECT (svc));
+			camel_object_unref (svc);
 			return NULL;
 		}
 	}

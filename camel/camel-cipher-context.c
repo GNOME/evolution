@@ -74,7 +74,7 @@ camel_cipher_context_finalise (CamelObject *o)
 {
 	CamelCipherContext *context = (CamelCipherContext *)o;
 	
-	camel_object_unref (CAMEL_OBJECT (context->session));
+	camel_object_unref (context->session);
 	
 	g_mutex_free (context->priv->lock);
 	
@@ -134,7 +134,7 @@ camel_cipher_context_new (CamelSession *session)
 	
 	context = CAMEL_CIPHER_CONTEXT (camel_object_new (CAMEL_CIPHER_CONTEXT_TYPE));
 	
-	camel_object_ref (CAMEL_OBJECT (session));
+	camel_object_ref (session);
 	context->session = session;
 	
 	return context;
@@ -154,7 +154,7 @@ camel_cipher_context_construct (CamelCipherContext *context, CamelSession *sessi
 	g_return_if_fail (CAMEL_IS_CIPHER_CONTEXT (context));
 	g_return_if_fail (CAMEL_IS_SESSION (session));
 	
-	camel_object_ref (CAMEL_OBJECT (session));
+	camel_object_ref (session);
 	context->session = session;
 }
 

@@ -254,7 +254,7 @@ camel_filter_driver_finalise (CamelObject *obj)
 	
 	if (p->defaultfolder) {
 		camel_folder_thaw (p->defaultfolder);
-		camel_object_unref (CAMEL_OBJECT (p->defaultfolder));
+		camel_object_unref (p->defaultfolder);
 	}
 
 	while ((node = (struct _filter_rule *)e_dlist_remhead(&p->rules))) {
@@ -345,14 +345,14 @@ camel_filter_driver_set_default_folder (CamelFilterDriver *d, CamelFolder *def)
 	
 	if (p->defaultfolder) {
 		camel_folder_thaw (p->defaultfolder);
-		camel_object_unref (CAMEL_OBJECT (p->defaultfolder));
+		camel_object_unref (p->defaultfolder);
 	}
 	
 	p->defaultfolder = def;
 	
 	if (p->defaultfolder) {
 		camel_folder_freeze (p->defaultfolder);
-		camel_object_ref (CAMEL_OBJECT (p->defaultfolder));
+		camel_object_ref (p->defaultfolder);
 	}
 }
 
@@ -934,7 +934,7 @@ close_folder (void *key, void *value, void *data)
 	if (folder != FOLDER_INVALID) {
 		camel_folder_sync (folder, FALSE, p->ex);
 		camel_folder_thaw (folder);
-		camel_object_unref (CAMEL_OBJECT (folder));
+		camel_object_unref (folder);
 	}
 
 	report_status(driver, CAMEL_FILTER_STATUS_PROGRESS, g_hash_table_size(p->folders)* 100 / p->closed, _("Syncing folders"));
@@ -1141,7 +1141,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
 			camel_exception_set (ex, (errno==EINTR)?CAMEL_EXCEPTION_USER_CANCEL:CAMEL_EXCEPTION_SYSTEM, _("Cannot open message"));
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed on message %d"), i);
-			camel_object_unref (CAMEL_OBJECT (msg));
+			camel_object_unref (msg);
 			goto fail;
 		}
 		
@@ -1150,7 +1150,7 @@ camel_filter_driver_filter_mbox (CamelFilterDriver *driver, const char *mbox, co
 		last = camel_mime_parser_tell(mp);
 		status = camel_filter_driver_filter_message (driver, msg, info, NULL, NULL, source_url, 
 							     original_source_url ? original_source_url : source_url, ex);
-		camel_object_unref (CAMEL_OBJECT (msg));
+		camel_object_unref (msg);
 		if (camel_exception_is_set (ex) || status == -1) {
 			report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Failed on message %d"), i);
 			camel_message_info_free (info);
@@ -1178,7 +1178,7 @@ fail:
 	if (fd != -1)
 		close (fd);
 	if (mp)
-		camel_object_unref (CAMEL_OBJECT (mp));
+		camel_object_unref (mp);
 	
 	return -1;
 }
@@ -1352,7 +1352,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		struct _camel_header_raw *h;
 		
 		if (message) {
-			camel_object_ref (CAMEL_OBJECT (message));
+			camel_object_ref (message);
 		} else {
 			message = camel_folder_get_message (source, uid, ex);
 			if (!message)
@@ -1369,7 +1369,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		uid = camel_message_info_uid (info);
 		
 		if (message)
-			camel_object_ref (CAMEL_OBJECT (message));
+			camel_object_ref (message);
 	}
 	
 	p->ex = ex;
@@ -1458,7 +1458,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	}
 	
 	if (p->message)
-		camel_object_unref (CAMEL_OBJECT (p->message));
+		camel_object_unref (p->message);
 	
 	if (freeinfo)
 		camel_message_info_free (info);
@@ -1470,7 +1470,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		camel_filter_driver_log (driver, FILTER_LOG_END, NULL);
 	
 	if (p->message)
-		camel_object_unref (CAMEL_OBJECT (p->message));
+		camel_object_unref (p->message);
 	
 	if (freeinfo)
 		camel_message_info_free (info);

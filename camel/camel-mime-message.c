@@ -179,7 +179,7 @@ camel_mime_message_get_type (void)
 static void
 unref_recipient (gpointer key, gpointer value, gpointer user_data)
 {
-	camel_object_unref (CAMEL_OBJECT (value));
+	camel_object_unref (value);
 }
 
 CamelMimeMessage *
@@ -527,13 +527,13 @@ process_header (CamelMedium *medium, const char *name, const char *value)
 	switch (header_type) {
 	case HEADER_FROM:
 		if (message->from)
-			camel_object_unref (CAMEL_OBJECT (message->from));
+			camel_object_unref (message->from);
 		message->from = camel_internet_address_new ();
 		camel_address_decode (CAMEL_ADDRESS (message->from), value);
 		break;
 	case HEADER_REPLY_TO:
 		if (message->reply_to)
-			camel_object_unref (CAMEL_OBJECT (message->reply_to));
+			camel_object_unref (message->reply_to);
 		message->reply_to = camel_internet_address_new ();
 		camel_address_decode (CAMEL_ADDRESS (message->reply_to), value);
 		break;
@@ -873,7 +873,7 @@ check_content_id (CamelMimeMessage *message, CamelMimePart *part, void *data)
 	found = content_id && !strcmp (content_id, check->content_id) ? TRUE : FALSE;
 	if (found) {
 		check->part = part;
-		camel_object_ref (CAMEL_OBJECT (part));
+		camel_object_ref (part);
 	}
 	
 	return !found;

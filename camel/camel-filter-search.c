@@ -563,7 +563,7 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 	
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
 	camel_stream_flush (stream);
-	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_object_unref (stream);
 	
 	result = waitpid (pid, &status, 0);
 	
@@ -676,13 +676,13 @@ camel_filter_search_match (CamelSession *session,
 	e_sexp_unref (sexp);
 	
 	if (fms.message)
-		camel_object_unref (CAMEL_OBJECT (fms.message));
+		camel_object_unref (fms.message);
 	
 	return retval;
 	
  error:
 	if (fms.message)
-		camel_object_unref (CAMEL_OBJECT (fms.message));
+		camel_object_unref (fms.message);
 	
 	e_sexp_unref (sexp);
 	

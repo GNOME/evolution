@@ -200,7 +200,7 @@ http_connect (CamelHttpStream *http, CamelURL *url)
 	
 	if (camel_tcp_stream_connect (CAMEL_TCP_STREAM (stream), host, url->port ? url->port : 80) == -1) {
 		errsave = errno;
-		camel_object_unref (CAMEL_OBJECT (stream));
+		camel_object_unref (stream);
 		camel_free_host (host);
 		errno = errsave;
 		return NULL;
@@ -280,7 +280,7 @@ http_get_headers (CamelHttpStream *http)
 	int err;
 	
 	if (http->parser)
-		camel_object_unref (CAMEL_OBJECT (http->parser));
+		camel_object_unref (http->parser);
 	
 	http->parser = camel_mime_parser_new ();
 	camel_mime_parser_init_with_stream (http->parser, http->read);
@@ -324,7 +324,7 @@ http_get_headers (CamelHttpStream *http)
 	err = camel_mime_parser_errno (http->parser);
 	
 	if (err != 0) {
-		camel_object_unref (CAMEL_OBJECT (http->parser));
+		camel_object_unref (http->parser);
 		http->parser = NULL;
 		goto exception;
 	}

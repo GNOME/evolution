@@ -901,12 +901,12 @@ camel_mime_part_set_content (CamelMimePart *camel_mime_part,
 		camel_data_wrapper_set_mime_type (dw, type);
 		stream = camel_stream_mem_new_with_buffer (data, length);
 		camel_data_wrapper_construct_from_stream (dw, stream);
-		camel_object_unref (CAMEL_OBJECT (stream));
+		camel_object_unref (stream);
 		camel_medium_set_content_object (medium, dw);
-		camel_object_unref (CAMEL_OBJECT (dw));
+		camel_object_unref (dw);
 	} else {
 		if (medium->content)
-			camel_object_unref (CAMEL_OBJECT (medium->content));
+			camel_object_unref (medium->content);
 		medium->content = NULL;
 	}
 }

@@ -82,7 +82,7 @@ camel_cms_context_finalise (CamelObject *o)
 {
 	CamelCMSContext *context = (CamelCMSContext *)o;
 	
-	camel_object_unref (CAMEL_OBJECT (context->session));
+	camel_object_unref (context->session);
 	
 #ifdef ENABLE_THREADS
 	g_mutex_free (context->priv->lock);
@@ -143,7 +143,7 @@ camel_cms_context_new (CamelSession *session)
 	
 	context = CAMEL_CMS_CONTEXT (camel_object_new (CAMEL_CMS_CONTEXT_TYPE));
 	
-	camel_object_ref (CAMEL_OBJECT (session));
+	camel_object_ref (session);
 	context->session = session;
 	
 	return context;
@@ -163,7 +163,7 @@ camel_cms_context_construct (CamelCMSContext *context, CamelSession *session)
 	g_return_if_fail (CAMEL_IS_CMS_CONTEXT (context));
 	g_return_if_fail (CAMEL_IS_SESSION (session));
 	
-	camel_object_ref (CAMEL_OBJECT (session));
+	camel_object_ref (session);
 	context->session = session;
 }
 

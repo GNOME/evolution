@@ -867,7 +867,8 @@ match_words_1message (CamelDataWrapper *object, struct _camel_search_words *word
 					return TRUE;
 			}
 		}
-		camel_object_unref (CAMEL_OBJECT (mem));
+		
+		camel_object_unref (mem);
 	}
 	
 	return truth;

@@ -4,7 +4,7 @@
  * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
  *	    Michael Zucchi <notzed@ximian.com>
  *
- * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
+ * Copyright 1999-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -70,7 +70,7 @@ camel_seekable_substream_finalize (CamelObject *object)
 		CAMEL_SEEKABLE_SUBSTREAM (object);
 
 	if (seekable_substream->parent_stream)
-		camel_object_unref (CAMEL_OBJECT (seekable_substream->parent_stream));
+		camel_object_unref (seekable_substream->parent_stream);
 }
 
 
@@ -121,7 +121,7 @@ camel_seekable_substream_new(CamelSeekableStream *parent_stream, off_t start, of
 
 	/* Initialize it. */
 	seekable_substream->parent_stream = parent_stream;
-	camel_object_ref (CAMEL_OBJECT (parent_stream));
+	camel_object_ref (parent_stream);
 
 	/* Set the bound of the substream. We can ignore any possible error
 	 * here, because if we fail to seek now, it will try again later.

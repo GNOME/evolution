@@ -4,7 +4,7 @@
  *
  * Authors: Michael Zucchi <notzed@ximian.com>
  *
- * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
+ * Copyright 1999-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -93,7 +93,7 @@ camel_stream_buffer_finalize (CamelObject *object)
 		g_free(sbf->buf);
 	}
 	if (sbf->stream)
-		camel_object_unref(CAMEL_OBJECT(sbf->stream));
+		camel_object_unref (sbf->stream);
 
 	g_free(sbf->linebuf);
 }
@@ -140,9 +140,9 @@ init_vbuf(CamelStreamBuffer *sbf, CamelStream *s, CamelStreamBufferMode mode, ch
 {
 	set_vbuf(sbf, buf, mode, size);
 	if (sbf->stream)
-		camel_object_unref(CAMEL_OBJECT(sbf->stream));
+		camel_object_unref (sbf->stream);
 	sbf->stream = s;
-	camel_object_ref(CAMEL_OBJECT(sbf->stream));
+	camel_object_ref (sbf->stream);
 }
 
 static void
