@@ -151,7 +151,7 @@ struct _EMeetingTimeSelector
 	/* The vertical scrollbar which scrolls attendees & display_main. */
 	GtkWidget *vscrollbar;
 
-	/* The 2 GnomeDateEdit widgets for the meeting start & end times. */
+	/* The 2 EDateEdit widgets for the meeting start & end times. */
 	GtkWidget *start_date_edit;
 	GtkWidget *end_date_edit;
 

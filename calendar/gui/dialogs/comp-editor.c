@@ -83,10 +83,10 @@ static void real_send_comp (CompEditor *editor, CalComponentItipMethod method);
 static void delete_comp (CompEditor *editor);
 static void close_dialog (CompEditor *editor);
 
-static void page_changed_cb (GtkWidget *widget, gpointer data);
-static void page_needs_send_cb (GtkWidget *widget, gpointer data);
-static void page_summary_changed_cb (GtkWidget *widget, const char *summary, gpointer data);
-static void page_dates_changed_cb (GtkWidget *widget, CompEditorPageDates *dates, gpointer data);
+static void page_changed_cb (GtkObject *obj, gpointer data);
+static void page_needs_send_cb (GtkObject *obj, gpointer data);
+static void page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data);
+static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, gpointer data);
 
 static void obj_updated_cb (CalClient *client, const char *uid, gpointer data);
 static void obj_removed_cb (CalClient *client, const char *uid, gpointer data);
@@ -1147,7 +1147,7 @@ close_cmd (GtkWidget *widget, gpointer data)
 }
 
 static void
-page_changed_cb (GtkWidget *widget, gpointer data)
+page_changed_cb (GtkObject *obj, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
@@ -1158,7 +1158,7 @@ page_changed_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-page_needs_send_cb (GtkWidget *widget, gpointer data)
+page_needs_send_cb (GtkObject *obj, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
@@ -1170,7 +1170,7 @@ page_needs_send_cb (GtkWidget *widget, gpointer data)
 
 /* Page signal callbacks */
 static void
-page_summary_changed_cb (GtkWidget *widget, const char *summary, gpointer data)
+page_summary_changed_cb (GtkObject *obj, const char *summary, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
@@ -1179,13 +1179,14 @@ page_summary_changed_cb (GtkWidget *widget, const char *summary, gpointer data)
 	priv = editor->priv;
 	
 	for (l = priv->pages; l != NULL; l = l->next)
-		comp_editor_page_set_summary (l->data, summary);
+		if (obj != l->data)
+			comp_editor_page_set_summary (l->data, summary);
 	
 	priv->changed = TRUE;
 }
 
 static void
-page_dates_changed_cb (GtkWidget *widget,
+page_dates_changed_cb (GtkObject *obj,
 		       CompEditorPageDates *dates,
 		       gpointer data)
 {
@@ -1196,7 +1197,8 @@ page_dates_changed_cb (GtkWidget *widget,
 	priv = editor->priv;
 
 	for (l = priv->pages; l != NULL; l = l->next)
-		comp_editor_page_set_dates (l->data, dates);
+		if (obj != l->data)
+			comp_editor_page_set_dates (l->data, dates);
 
 	priv->changed = TRUE;
 }

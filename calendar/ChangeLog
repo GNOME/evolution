@@ -1,3 +1,23 @@
+2001-10-21  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/schedule-page.c (init_widgets): listen for changes
+	in the date editors
+	(schedule_page_set_dates): update the times when they change
+	elsewhere
+	(update_time): set the time in the dialog
+	(time_changed_cb): notify of changed times
+	
+	* gui/dialogs/comp-editor.c (page_dates_changed_cb): don't call
+	the set dates function on the page that noted the change
+	(page_summary_changed_cb): same for set summary function
+	
+	* gui/dialogs/event-page.c (update_time): move time setting stuff
+	to util function
+	(event_page_set_dates): use it
+	(event_page_fill_component): ditto
+
+	* gui/e-meeting-time-sel.h: fix comment
+
 2001-10-19  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/alarm-notify/alarm-notify.c (add_uri_to_load): Do not assert

@@ -80,6 +80,9 @@ static GtkWidget *schedule_page_get_widget (CompEditorPage *page);
 static void schedule_page_focus_main_widget (CompEditorPage *page);
 static void schedule_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static gboolean schedule_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static void schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
+
+static void time_changed_cb (GtkWidget *widget, gpointer data);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -135,7 +138,7 @@ schedule_page_class_init (SchedulePageClass *class)
 	editor_page_class->fill_widgets = schedule_page_fill_widgets;
 	editor_page_class->fill_component = schedule_page_fill_component;
 	editor_page_class->set_summary = NULL;
-	editor_page_class->set_dates = NULL;
+	editor_page_class->set_dates = schedule_page_set_dates;
 
 	object_class->destroy = schedule_page_destroy;
 }
@@ -211,6 +214,57 @@ schedule_page_focus_main_widget (CompEditorPage *page)
 	gtk_widget_grab_focus (GTK_WIDGET (priv->sel));
 }
 
+/* Set date/time */
+static void
+update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponentDateTime *end_date) 
+{
+	SchedulePagePrivate *priv;
+	struct icaltimetype *start_tt, *end_tt;
+	icaltimezone *start_zone = NULL, *end_zone = NULL;
+	CalClientGetStatus status;
+
+	priv = spage->priv;
+	
+	/* Note that if we are creating a new event, the timezones may not be
+	   on the server, so we try to get the builtin timezone with the TZID
+	   first. */
+	start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date->tzid);
+	if (!start_zone) {
+		status = cal_client_get_timezone (COMP_EDITOR_PAGE (spage)->client,
+						  start_date->tzid,
+						  &start_zone);
+		/* FIXME: Handle error better. */
+		if (status != CAL_CLIENT_GET_SUCCESS)
+			g_warning ("Couldn't get timezone from server: %s",
+				   start_date->tzid ? start_date->tzid : "");
+	}
+
+	end_zone = icaltimezone_get_builtin_timezone_from_tzid (end_date->tzid);
+	if (!end_zone) {
+		status = cal_client_get_timezone (COMP_EDITOR_PAGE (spage)->client,
+						  end_date->tzid,
+						  &end_zone);
+		/* FIXME: Handle error better. */
+		if (status != CAL_CLIENT_GET_SUCCESS)
+		  g_warning ("Couldn't get timezone from server: %s",
+			     end_date->tzid ? end_date->tzid : "");
+	}
+
+	start_tt = start_date->value;
+	end_tt = end_date->value;
+	
+	e_date_edit_set_date (E_DATE_EDIT (priv->sel->start_date_edit), start_tt->year,
+			      start_tt->month, start_tt->day);
+	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->sel->start_date_edit),
+				     start_tt->hour, start_tt->minute);
+
+	e_date_edit_set_date (E_DATE_EDIT (priv->sel->end_date_edit), end_tt->year,
+			      end_tt->month, end_tt->day);
+	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->sel->end_date_edit),
+				     end_tt->hour, end_tt->minute);
+}
+
+		
 /* Fills the widgets with default values */
 static void
 clear_widgets (SchedulePage *spage)
@@ -226,7 +280,8 @@ schedule_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 {
 	SchedulePage *spage;
 	SchedulePagePrivate *priv;
-	
+	CalComponentDateTime start_date, end_date;
+
 	spage = SCHEDULE_PAGE (page);
 	priv = spage->priv;
 
@@ -235,6 +290,14 @@ schedule_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Clean the screen */
 	clear_widgets (spage);
 
+	/* Start and end times */
+	cal_component_get_dtstart (comp, &start_date);
+	cal_component_get_dtend (comp, &end_date);
+	update_time (spage, &start_date, &end_date);
+	
+	cal_component_free_datetime (&start_date);
+	cal_component_free_datetime (&end_date);
+	
 	priv->updating = FALSE;
 }
 
@@ -249,6 +312,22 @@ schedule_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	priv = spage->priv;
 
 	return TRUE;
+}
+
+static void
+schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
+{
+	SchedulePage *spage;
+	SchedulePagePrivate *priv;
+	
+	spage = SCHEDULE_PAGE (page);
+	priv = spage->priv;
+
+	priv->updating = TRUE;
+	
+	update_time (spage, dates->start, dates->end);
+
+	priv->updating = FALSE;
 }
 
 
@@ -273,6 +352,22 @@ get_widgets (SchedulePage *spage)
 #undef GW
 
 	return TRUE;
+}
+
+static gboolean
+init_widgets (SchedulePage *spage) 
+{
+	SchedulePagePrivate *priv;
+
+	priv = spage->priv;
+
+	gtk_signal_connect (GTK_OBJECT (priv->sel->start_date_edit), 
+			    "changed", time_changed_cb, spage);
+	gtk_signal_connect (GTK_OBJECT (priv->sel->end_date_edit), 
+			    "changed", time_changed_cb, spage);
+
+	return TRUE;
+	
 }
 
 
@@ -316,6 +411,12 @@ schedule_page_construct (SchedulePage *spage, EMeetingModel *emm)
 	gtk_widget_show (GTK_WIDGET (priv->sel));
 	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->sel), TRUE, TRUE, 2);
 
+	if (!init_widgets (spage)) {
+		g_message ("schedule_page_construct(): " 
+			   "Could not initialize the widgets!");
+		return NULL;
+	}
+
 	return spage;
 }
 
@@ -339,4 +440,48 @@ schedule_page_new (EMeetingModel *emm)
 	}
 
 	return spage;
+}
+
+static void
+time_changed_cb (GtkWidget *widget, gpointer data)
+{
+	SchedulePage *spage = data;
+	SchedulePagePrivate *priv;
+	CompEditorPageDates dates;
+	CalComponentDateTime start_dt, end_dt;
+	struct icaltimetype start_tt, end_tt;
+	
+	priv = spage->priv;
+
+	if (priv->updating)
+		return;
+	
+	e_date_edit_get_date (E_DATE_EDIT (priv->sel->start_date_edit),
+			      &start_tt.year,
+			      &start_tt.month,
+			      &start_tt.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->sel->start_date_edit),
+				     &start_tt.hour,
+				     &start_tt.minute);
+	e_date_edit_get_date (E_DATE_EDIT (priv->sel->end_date_edit),
+			      &end_tt.year,
+			      &end_tt.month,
+			      &end_tt.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->sel->end_date_edit),
+				     &end_tt.hour,
+				     &end_tt.minute);
+
+	start_dt.value = &start_tt;
+	end_dt.value = &end_tt;
+
+	start_dt.tzid = NULL;
+	end_dt.tzid = NULL;
+
+	dates.start = &start_dt;
+	dates.end = &end_dt;	
+	dates.due = NULL;
+	dates.complete = NULL;
+
+	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (spage),
+					       &dates);
 }
