@@ -1,3 +1,7 @@
+2001-01-12  Miguel de Icaza  <miguel@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c: added i18n for etable.
+
 2001-01-11  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/pas/pas-backend-ldap.c

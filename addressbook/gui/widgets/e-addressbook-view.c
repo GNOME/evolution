@@ -560,6 +560,39 @@ status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
 			 status);
 }
 
+#ifdef JUST_FOR_TRANSLATORS
+static char *list [] = {
+	N_("Name"),
+	N_("Email"),
+	N_("Primary"),
+	N_("Business"),
+	N_("Home"),
+	N_("Organization"),
+	N_("Mobile"),
+	N_("Car"),
+	N_("Business Fax"),
+	N_("Home Fax"),
+	N_("Business 2"),
+	N_("Home 2"),
+	N_("ISDN"),
+	N_("Other"),
+	N_("Pager"),
+	N_("Email 2"),
+	N_("Email 3"),
+	N_("Web Site"),
+	N_("Department"),
+	N_("Office"),
+	N_("Title"),
+	N_("Profession"),
+	N_("Manager"),
+	N_("Assistant"),
+	N_("Nickname"),
+	N_("Spouse"),
+	N_("Note"),
+	N_("Free-busy URL"),
+};
+#endif
+
 #define SPEC "<?xml version=\"1.0\"?>      \
 <ETableSpecification click-to-add=\"true\" draw-grid=\"true\" _click-to-add-message=\"* Click here to add a contact *\">   \
   <ETableColumn model_col= \"0\" _title=\"Name\"          expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"string\"       compare=\"string\"/> \
