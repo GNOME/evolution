@@ -30,6 +30,7 @@
 #include <glib/gdate.h>
 #include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
+#include <gal/util/e-util.h>
 #include "ea-calendar-item.h"
 #include "ea-calendar-cell.h"
 #include "ea-cell-table.h"
@@ -112,7 +113,6 @@ static gboolean selection_interface_is_child_selected (AtkSelection *selection,
 /* callbacks */
 static void selection_preview_change_cb (ECalendarItem *calitem);
 static void date_range_changed_cb (ECalendarItem *calitem);
-static void selection_changed_cb (ECalendarItem *calitem);
 
 /* helpers */
 static EaCellTable *ea_calendar_item_get_cell_data (EaCalendarItem *ea_calitem);
@@ -128,6 +128,8 @@ static gboolean ea_calendar_item_get_row_label (EaCalendarItem *ea_calitem,
 static gboolean e_calendar_item_get_offset_for_date (ECalendarItem *calitem,
 						     gint year, gint month, gint day,
 						     gint *offset);
+static void ea_calendar_set_focus_object (EaCalendarItem *ea_calitem, 
+					  AtkObject *item_cell);
 
 #ifdef ACC_DEBUG
 static gint n_ea_calendar_item_created = 0;
@@ -215,12 +217,19 @@ ea_calendar_item_new (GObject *obj)
 {
 	gpointer object;
 	AtkObject *atk_object;
+	AtkObject *item_cell;
 
 	g_return_val_if_fail (E_IS_CALENDAR_ITEM (obj), NULL);
 	object = g_object_new (EA_TYPE_CALENDAR_ITEM, NULL);
 	atk_object = ATK_OBJECT (object);
 	atk_object_initialize (atk_object, obj);
-	atk_object->role = ATK_ROLE_TABLE;
+	atk_object->role = ATK_ROLE_CALENDAR;
+
+	item_cell = atk_selection_ref_selection (ATK_SELECTION (atk_object),
+							0);
+	if (item_cell)
+		ea_calendar_set_focus_object (EA_CALENDAR_ITEM (atk_object), item_cell);
+
 #ifdef ACC_DEBUG
 	++n_ea_calendar_item_created;
 	g_print ("ACC_DEBUG: n_ea_calendar_item_created = %d\n",
@@ -232,9 +241,6 @@ ea_calendar_item_new (GObject *obj)
 			  atk_object);
 	g_signal_connect (obj, "date_range_changed",
 			  G_CALLBACK (date_range_changed_cb),
-			  atk_object);
-	g_signal_connect (obj, "selection_preview_changed",
-			  G_CALLBACK (selection_changed_cb),
 			  atk_object);
 
 	return atk_object;
@@ -992,20 +998,19 @@ static void
 selection_preview_change_cb (ECalendarItem *calitem)
 {
 	AtkObject *atk_obj;
-	AtkObject *item_cell = NULL;
+	AtkObject *item_cell;
 
 	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
 	atk_obj = atk_gobject_accessible_for_object (G_OBJECT (calitem));
+	ea_calendar_item_destory_cell_data (EA_CALENDAR_ITEM (atk_obj));
 
 	/* only deal with the first selected child, for now */
 	item_cell = atk_selection_ref_selection (ATK_SELECTION (atk_obj),
 						 0);
-	if (item_cell) {
-		AtkStateSet *state_set;
-		state_set = atk_object_ref_state_set (item_cell);
-		atk_state_set_add_state (state_set, ATK_STATE_FOCUSED);
-		g_object_unref (state_set);
-	}
+
+	if (item_cell)
+		ea_calendar_set_focus_object (EA_CALENDAR_ITEM (atk_obj), item_cell);
+
 	g_signal_emit_by_name (atk_obj,
 			       "active-descendant-changed",
 			       item_cell);
@@ -1016,18 +1021,18 @@ static void
 date_range_changed_cb (ECalendarItem *calitem)
 {
 	AtkObject *atk_obj;
+	AtkObject *item_cell;
 
 	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
 	atk_obj = atk_gobject_accessible_for_object (G_OBJECT (calitem));
 	ea_calendar_item_destory_cell_data (EA_CALENDAR_ITEM (atk_obj));
 
-	g_signal_emit_by_name (atk_obj, "model_changed");
-}
+	item_cell = atk_selection_ref_selection (ATK_SELECTION (atk_obj),
+							0);
+	if (item_cell)
+		ea_calendar_set_focus_object (EA_CALENDAR_ITEM (atk_obj), item_cell);
 
-static void
-selection_changed_cb (ECalendarItem *calitem)
-{
-	selection_preview_change_cb (calitem);
+	g_signal_emit_by_name (atk_obj, "model_changed");
 }
 
 /* helpers */
@@ -1297,4 +1302,25 @@ e_calendar_item_get_n_days_from_week_start (ECalendarItem *calitem,
 	days_from_week_start = (start_weekday + 7 - calitem->week_start_day)
 		% 7;
 	return days_from_week_start;
+}
+
+static void
+ea_calendar_set_focus_object (EaCalendarItem *ea_calitem, AtkObject *item_cell)
+{
+	AtkStateSet *state_set, *old_state_set;
+	AtkObject *old_cell;
+
+	old_cell = (AtkObject *)g_object_get_data (G_OBJECT(ea_calitem), "gail-focus-object");
+	if (old_cell && EA_IS_CALENDAR_CELL (old_cell)) {
+		old_state_set = atk_object_ref_state_set (old_cell);
+		atk_state_set_remove_state (old_state_set, ATK_STATE_FOCUSED);
+		g_object_unref (old_state_set);
+	}
+	if (old_cell)
+		g_object_unref (old_cell);
+
+	state_set = atk_object_ref_state_set (item_cell);
+	atk_state_set_add_state (state_set, ATK_STATE_FOCUSED);
+	g_object_set_data (G_OBJECT(ea_calitem), "gail-focus-object", item_cell);
+	g_object_unref (state_set);
 }

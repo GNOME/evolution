@@ -59,8 +59,6 @@ ea_cell_table_destroy (EaCellTable * cell_data)
 	gint index;
 	g_return_if_fail (cell_data);
 
-	g_print ("destroy cell table (%d, %d)\n", cell_data->rows,
-		  cell_data->columns);
 	for (index = 0; index < cell_data->columns; ++index)
 		if (cell_data->column_labels [index])
 			g_free (cell_data->column_labels [index]);

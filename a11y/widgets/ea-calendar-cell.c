@@ -23,6 +23,8 @@
  *
  */
 
+#include <gtk/gtk.h>
+#include <gal/util/e-util.h>
 #include "ea-calendar-cell.h"
 #include "ea-calendar-item.h"
 #include "ea-factory.h"
@@ -89,11 +91,13 @@ e_calendar_cell_new (ECalendarItem *calitem, gint row, gint column)
 /* EaCalendarCell */
 
 static void ea_calendar_cell_class_init (EaCalendarCellClass *klass);
+static void ea_calendar_cell_init (EaCalendarCell *a11y);
 
 static G_CONST_RETURN gchar* ea_calendar_cell_get_name (AtkObject *accessible);
 static G_CONST_RETURN gchar* ea_calendar_cell_get_description (AtkObject *accessible);
 static AtkObject * ea_calendar_cell_get_parent (AtkObject *accessible);
 static gint ea_calendar_cell_get_index_in_parent (AtkObject *accessible);
+static AtkStateSet *ea_calendar_cell_ref_state_set (AtkObject *accessible);
 
 /* component interface */
 static void atk_component_interface_init (AtkComponentIface *iface);
@@ -101,6 +105,7 @@ static void component_interface_get_extents (AtkComponent *component,
 					     gint *x, gint *y,
 					     gint *width, gint *height,
 					     AtkCoordType coord_type);
+static gboolean component_interface_grab_focus (AtkComponent *component);
 
 static gpointer parent_class = NULL;
 
@@ -124,7 +129,7 @@ ea_calendar_cell_get_type (void)
 			NULL, /* class data */
 			sizeof (EaCalendarCell), /* instance size */
 			0, /* nb preallocs */
-			(GInstanceInitFunc) NULL, /* instance init */
+			(GInstanceInitFunc) ea_calendar_cell_init, /* instance init */
 			NULL /* value table */
 		};
 
@@ -160,6 +165,19 @@ ea_calendar_cell_class_init (EaCalendarCellClass *klass)
 
 	class->get_parent = ea_calendar_cell_get_parent;
 	class->get_index_in_parent = ea_calendar_cell_get_index_in_parent;
+	class->ref_state_set = ea_calendar_cell_ref_state_set;
+}
+
+static void
+ea_calendar_cell_init (EaCalendarCell *a11y)
+{
+	a11y->state_set = atk_state_set_new ();
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_TRANSIENT);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_ENABLED);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_SENSITIVE);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_SELECTABLE);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_SHOWING);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_FOCUSABLE);
 }
 
 AtkObject* 
@@ -172,7 +190,7 @@ ea_calendar_cell_new (GObject *obj)
 	object = g_object_new (EA_TYPE_CALENDAR_CELL, NULL);
 	atk_object = ATK_OBJECT (object);
 	atk_object_initialize (atk_object, obj);
-	atk_object->role = ATK_ROLE_UNKNOWN;
+	atk_object->role = ATK_ROLE_TABLE_CELL;
 
 #ifdef ACC_DEBUG
 	++n_ea_calendar_cell_created;
@@ -268,6 +286,19 @@ ea_calendar_cell_get_index_in_parent (AtkObject *accessible)
 				       cell->row, cell->column);
 }
 
+static AtkStateSet *
+ea_calendar_cell_ref_state_set (AtkObject *accessible)
+{
+	EaCalendarCell *atk_cell = EA_CALENDAR_CELL (accessible);
+
+	g_return_val_if_fail (atk_cell->state_set, NULL);
+
+	g_object_ref(atk_cell->state_set);
+
+	return atk_cell->state_set;
+	
+}
+
 /* Atk Component Interface */
 
 static void 
@@ -276,6 +307,7 @@ atk_component_interface_init (AtkComponentIface *iface)
 	g_return_if_fail (iface != NULL);
 
 	iface->get_extents = component_interface_get_extents;
+	iface->grab_focus  = component_interface_grab_focus;
 }
 
 static void 
@@ -322,4 +354,34 @@ component_interface_get_extents (AtkComponent *component,
 					     coord_type);
 	*x += canvas_x;
 	*y += canvas_y;
+}
+
+static gboolean
+component_interface_grab_focus (AtkComponent *component)
+{
+	GObject *g_obj;
+	GtkWidget *toplevel;
+	AtkObject *ea_calitem;
+	ECalendarItem *calitem;
+	EaCalendarCell *a11y;
+	gint index;
+
+	a11y = EA_CALENDAR_CELL (component);
+	ea_calitem = ea_calendar_cell_get_parent (ATK_OBJECT (a11y));
+
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(ea_calitem));
+	calitem = E_CALENDAR_ITEM (g_obj);
+
+	index = atk_object_get_index_in_parent (ATK_OBJECT (a11y));
+	
+	atk_selection_clear_selection (ATK_SELECTION (ea_calitem));
+	atk_selection_add_selection (ATK_SELECTION (ea_calitem), index);
+	
+	gtk_widget_grab_focus (GTK_WIDGET (GNOME_CANVAS_ITEM (calitem)->canvas));
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (GNOME_CANVAS_ITEM (calitem)->canvas));
+	if (toplevel && GTK_WIDGET_TOPLEVEL (toplevel))
+		gtk_window_present (GTK_WINDOW (toplevel));
+
+	return TRUE;
+
 }

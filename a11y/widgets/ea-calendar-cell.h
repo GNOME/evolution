@@ -74,6 +74,7 @@ typedef struct _EaCalendarCellClass              EaCalendarCellClass;
 struct _EaCalendarCell
 {
 	AtkGObjectAccessible parent;
+	AtkStateSet *state_set;
 };
 
 GType ea_calendar_cell_get_type (void);

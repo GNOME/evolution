@@ -1,3 +1,26 @@
+2005-02-23  Li Yuan  <li.yuan@sun.com>
+
+	Fix for 72897 and 72797.
+	* ea-cell-table.c: 
+	(ea_cell_table_destroy): no need to output the information.
+	* widgets/ea-calendar-cell.c: 
+	(ea_calendar_cell_get_type): add instance init function.
+	(ea_calendar_cell_class_init): add ref_state_set function.
+	(ea_calendar_cell_init): instance init function.
+	(ea_calendar_cell_new): change the cell's role to ATK_ROLE_TABLE_CELL.
+	(ea_calendar_cell_ref_state_set): the ref_state_set function.
+	(atk_component_interface_init),
+	(component_interface_get_extents),
+	(component_interface_grab_focus): implement grab focus function.
+	* widgets/ea-calendar-cell.h:
+	add the state_set variable.
+	* widgets/ea-calendar-item.c: 
+	(ea_calendar_item_new): change the item's role to ATK_ROLE_CALENDAR.
+	no need to connect "selection_preview_changed" signal here.
+	(date_range_changed_cb): call ea_calendar_set_focus_object.
+	(ea_calendar_set_focus_object): make the "gail-focus-object" of the item
+	point to the focused cell.
+
 2005-02-21  Harry Lu <harry.lu@sun.com>
 
 	Fix for 72781
