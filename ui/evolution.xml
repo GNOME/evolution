@@ -121,7 +121,12 @@
       <menuitem name="FileOpenOtherUsersFolder"
 		verb="FileOpenOtherUsersFolder"
 		_label="Open Other _User's Folder..."
-		_tip="Open a folder that is made available by some other user on the server"/>
+		_tip="Open a folder belonging to some other user on the server"/>
+
+      <menuitem name="FileRemoveOtherUsersFolder"
+		verb="FileRemoveOtherUsersFolder"
+		_label="_Remove Other User's Folder..."
+		_tip="Remove a folder added with &quot;Open Other User's Folder&quot;"/>
 
       <separator f="" name="eshell4"/>
       
