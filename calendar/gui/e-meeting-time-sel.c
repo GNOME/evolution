@@ -839,6 +839,20 @@ e_meeting_time_selector_unrealize (GtkWidget *widget)
 		(*GTK_WIDGET_CLASS (parent_class)->unrealize)(widget);
 }
 
+static int
+get_cell_height (GtkTreeView *tree)
+{
+	GtkTreeViewColumn *column;
+	int height = -1;
+
+	column = gtk_tree_view_get_column (tree, 0);
+	gtk_tree_view_column_cell_get_size (column, NULL,
+					    NULL, NULL,
+					    NULL, &height);
+	
+	return height;
+}
+
 static void
 e_meeting_time_selector_style_set (GtkWidget *widget,
 				   GtkStyle  *previous_style)
@@ -878,7 +892,7 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 		max_hour_width = MAX (max_hour_width, mts->hour_widths[hour]);
 	}
               
-	pango_layout_get_pixel_size (layout, NULL, &mts->row_height);
+	mts->row_height = get_cell_height (GTK_TREE_VIEW (mts->list_view));
 	mts->col_width = max_hour_width + 6;
 
 	e_meeting_time_selector_save_position (mts, &saved_time);
@@ -886,18 +900,20 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 	e_meeting_time_selector_restore_position (mts, &saved_time);
               
 	gtk_widget_set_usize (mts->display_top, -1, mts->row_height * 3 + 4);
+ 
+	/*
+	 * FIXME: I can't find a way to get the treeview header heights
+	 * other than the below but it isn't nice to realize that widget here
+	 *
 
-	/* Calculate header height */
-	if (GTK_WIDGET_REALIZED (mts->list_view)) {
-		path = gtk_tree_path_new ();
-		gtk_tree_path_append_index (path, 0);
-		gtk_tree_view_get_cell_area (GTK_TREE_VIEW (mts->list_view), path, NULL, &cell_area);
-		gtk_tree_path_free (path);
-		maxheight = cell_area.y;
-	} else 
-		maxheight = 10;
-
+	gtk_widget_realize (mts->list_view);
+	gdk_window_get_position (gtk_tree_view_get_bin_window (GTK_TREE_VIEW (mts->list_view)),
+				 NULL, &maxheight);
 	gtk_widget_set_usize (mts->attendees_vbox_spacer, 1, mts->row_height * 3 - maxheight);
+
+	*/	
+
+	gtk_widget_set_usize (mts->attendees_vbox_spacer, 1, mts->row_height * 2 - 4);
 
 	GTK_LAYOUT (mts->display_main)->hadjustment->step_increment = mts->col_width;
 	GTK_LAYOUT (mts->display_main)->vadjustment->step_increment = mts->row_height;

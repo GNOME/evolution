@@ -1,3 +1,9 @@
+2004-07-16  Larry Ewing  <lewing@ximian.com>
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_style_set):
+	fix the row heights and tweek the offsets so that things come out
+	OK.
+
 2004-07-21  JP Rosevear  <jpr@novell.com>
  
   	Fixes #61776
@@ -43,6 +49,12 @@
 	option if the event is no where to be found
 	(show_current_event): pass in kind
 	(show_current_todo): ditto
+
+2004-07-16  Larry Ewing  <lewing@ximian.com>
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_style_set):
+	fix the row heights and tweek the offsets so that things come out
+	OK.
 
 2004-07-16  Larry Ewing  <lewing@ximian.com>
 
