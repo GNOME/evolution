@@ -2,11 +2,11 @@
 #ifndef _MESSAGE_LIST_H_
 #define _MESSAGE_LIST_H_
 
+#include <gnome.h>
 #include "mail-types.h"
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-ui-handler.h>
-#include "camel/camel-folder.h"
 #include "e-table/e-table-scrolled.h"
 #include "e-table/e-table-simple.h"
 #include "e-table/e-tree-simple.h"
@@ -116,4 +116,3 @@ void           message_list_toggle_threads (BonoboUIHandler *uih,
 					    const char *path);
 
 #endif /* _MESSAGE_LIST_H_ */
-

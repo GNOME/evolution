@@ -1,3 +1,19 @@
+2000-08-08  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-ops.c (view_msg): New convenience function with params of a
+	normal Gtk callback function. We also now create a new
+	FolderBrowser object so that the message-view window isn't tied to
+	the display in the main window
+	(view_message): Now calls view_msg (this function is a bonobo
+	callback and can't be used with gtk widgets)
+	(edit_msg): Same idea as view_msg()
+	(edit_message): Again, same as view_message()
+
+	* message-list.c (on_right_click): Callback for creating an
+	e-popup-menu
+	(message_list_init): Added a right_click event to trigger a pop-up
+	menu to be displayed
+
 2000-08-08  Dan Winship  <danw@helixcode.com>
 
 	* mail-config-gui.c: Add "Don't delete messages from server"

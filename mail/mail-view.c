@@ -94,6 +94,7 @@ mail_view_create (CamelMimeMessage *msg, FolderBrowser *folder_browser)
 		subject = "";
 	
 	window = gnome_app_new ("Evolution", subject);
+	
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_BOTH);
 	
 	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (toolbar),
@@ -127,5 +128,3 @@ mail_view_create (CamelMimeMessage *msg, FolderBrowser *folder_browser)
 	
 	return window;
 }
-
-

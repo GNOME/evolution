@@ -720,13 +720,13 @@ reply (FolderBrowser *fb, gboolean to_all)
 }
 
 void
-reply_to_sender (GtkWidget *button, gpointer user_data)
+reply_to_sender (GtkWidget *widget, gpointer user_data)
 {
 	reply (FOLDER_BROWSER (user_data), FALSE);
 }
 
 void
-reply_to_all (GtkWidget *button, gpointer user_data)
+reply_to_all (GtkWidget *widget, gpointer user_data)
 {
 	reply (FOLDER_BROWSER (user_data), TRUE);
 }
@@ -739,7 +739,7 @@ attach_msg (MessageList *ml, const char *uid, gpointer data)
 	CamelMimePart *part;
 	const char *subject;
 	char *desc;
-
+	
 	message = camel_folder_get_message (ml->folder, uid, NULL);
 	if (!message)
 		return;
@@ -748,23 +748,23 @@ attach_msg (MessageList *ml, const char *uid, gpointer data)
 		desc = g_strdup_printf ("Forwarded message - %s", subject);
 	else
 		desc = g_strdup ("Forwarded message");
-
+	
 	part = camel_mime_part_new ();
 	camel_mime_part_set_disposition (part, "inline");
 	camel_mime_part_set_description (part, desc);
 	camel_medium_set_content_object (CAMEL_MEDIUM (part),
 					 CAMEL_DATA_WRAPPER (message));
 	camel_mime_part_set_content_type (part, "message/rfc822");
-
+	
 	e_msg_composer_attach (composer, part);
-
+	
 	gtk_object_unref (GTK_OBJECT (part));
 	gtk_object_unref (GTK_OBJECT (message));
 	g_free (desc);
 }
 
 void
-forward_msg (GtkWidget *button, gpointer user_data)
+forward_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	EMsgComposer *composer;
@@ -818,7 +818,7 @@ real_move_msg (MessageList *ml, const char *uid, gpointer user_data)
 }
 
 void
-move_msg (GtkWidget *button, gpointer user_data)
+move_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;
 	MessageList *ml = fb->message_list;
@@ -894,7 +894,7 @@ real_edit_msg (MessageList *ml, const char *uid, gpointer user_data)
 }
 
 void
-edit_message (BonoboUIHandler *uih, void *user_data, const char *path)
+edit_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	MessageList *ml = fb->message_list;
@@ -916,6 +916,12 @@ edit_message (BonoboUIHandler *uih, void *user_data, const char *path)
 		camel_exception_clear (&ex);
 		return;
 	}
+}
+
+void
+edit_message (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	edit_msg (NULL, user_data);
 }
 
 static void
@@ -1094,16 +1100,20 @@ real_view_msg (MessageList *ml, const char *uid, gpointer user_data)
 }
 
 void
-view_message (BonoboUIHandler *uih, void *user_data, const char *path)
+view_msg (GtkWidget *widget, gpointer user_data)
 {
 	struct view_msg_data data;
 	FolderBrowser *fb = user_data;
+	FolderBrowser *folder_browser;
 	CamelException ex;
 	MessageList *ml;
 	
 	camel_exception_init (&ex);
 	
-	data.fb = fb;
+	folder_browser = FOLDER_BROWSER (folder_browser_new ());
+	folder_browser_set_uri (folder_browser, fb->uri);
+	
+	data.fb = folder_browser;
 	data.ex = &ex;
 	
 	ml = fb->message_list;
@@ -1115,3 +1125,8 @@ view_message (BonoboUIHandler *uih, void *user_data, const char *path)
 	}
 }
 
+void
+view_message (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	view_msg (NULL, user_data);
+}

@@ -22,14 +22,14 @@
 
 struct  _FolderBrowser {
 	GtkTable parent;
-
+	
 	BonoboPropertyBag *properties;
-
+	
 	Evolution_Shell shell;
-
+	
 	/* This is a kludge for the toolbar problem. */
 	int serial;
-
+	
 	/*
 	 * The current URI being displayed by the FolderBrowser
 	 */
@@ -42,9 +42,9 @@ struct  _FolderBrowser {
 	GtkWidget   *vpaned;
 	GtkWidget   *search_menu;
 	GtkWidget   *search_entry;
-
+	
 	gboolean     preview_shown;
-
+	
 };
 
 

@@ -61,15 +61,17 @@ char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain,
 char *mail_identify_mime_part (CamelMimePart *part);
 
 /* mail-ops */
-void fetch_mail (GtkWidget *button, gpointer user_data);
-void compose_msg (GtkWidget *button, gpointer user_data);
+void fetch_mail (GtkWidget *widget, gpointer user_data);
+void compose_msg (GtkWidget *widget, gpointer user_data);
 void send_to_url (const char *url);
-void forward_msg (GtkWidget *button, gpointer user_data);
-void reply_to_sender (GtkWidget *button, gpointer user_data);
-void reply_to_all (GtkWidget *button, gpointer user_data);
-void delete_msg (GtkWidget *button, gpointer user_data);
-void move_msg (GtkWidget *button, gpointer user_data);
-void print_msg (GtkWidget *button, gpointer user_data);
+void forward_msg (GtkWidget *widget, gpointer user_data);
+void reply_to_sender (GtkWidget *widget, gpointer user_data);
+void reply_to_all (GtkWidget *widget, gpointer user_data);
+void delete_msg (GtkWidget *widget, gpointer user_data);
+void move_msg (GtkWidget *widget, gpointer user_data);
+void print_msg (GtkWidget *widget, gpointer user_data);
+void edit_msg (GtkWidget *widget, gpointer user_data);
+void view_msg (GtkWidget *widget, gpointer user_data);
 
 void mark_all_seen (BonoboUIHandler *uih, void *user_data, const char *path);
 void edit_message (BonoboUIHandler *uih, void *user_data, const char *path);

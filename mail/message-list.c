@@ -12,12 +12,14 @@
 #include <config.h>
 #include <gnome.h>
 #include <bonobo/bonobo-main.h>
-#include "e-util/e-util.h"
-#include "e-util/e-gui-utils.h"
-#include "camel/camel-exception.h"
+#include <e-util/e-util.h>
+#include <e-util/e-gui-utils.h>
+#include <e-util/e-popup-menu.h>
+#include <camel/camel-exception.h>
 #include <camel/camel-folder.h>
 #include "message-list.h"
 #include "message-thread.h"
+#include "mail.h"
 #include "Mail.h"
 #include "widgets/e-table/e-table-header-item.h"
 #include "widgets/e-table/e-table-item.h"
@@ -58,6 +60,7 @@ static POA_Evolution_MessageList__vepv evolution_message_list_vepv;
 
 static void on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data);
 static void select_row (ETableScrolled *table, gpointer user_data);
+static gint on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list);
 static void select_msg (MessageList *message_list, gint row);
 static char *filter_date (const void *data);
 
@@ -553,38 +556,41 @@ message_list_init (GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
 	char *spec;
-
+	
 	message_list->table_model = (ETableModel *)
 		e_tree_simple_new (ml_tree_icon_at, ml_tree_value_at,
 				   ml_tree_set_value_at,
 				   ml_tree_is_cell_editable,
 				   message_list);
 	e_tree_model_root_node_set_visible ((ETreeModel *)message_list->table_model, FALSE);
-
+	
 	message_list_init_renderers (message_list);
 	message_list_init_header (message_list);
-
+	
 	/*
 	 * The etable
 	 */
-
+	
 	spec = message_list_get_layout (message_list);
 	message_list->etable = e_table_scrolled_new (
 		message_list->header_model, message_list->table_model, spec);
 	g_free (spec);
-
+	
 	gtk_object_set(GTK_OBJECT(message_list->etable),
 		       "cursor_mode", E_TABLE_CURSOR_LINE,
 		       "drawfocus", FALSE,
 		       "drawgrid", FALSE,
 		       NULL);
-
+	
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "realize",
 			    GTK_SIGNAL_FUNC (select_row), message_list);
 	
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "cursor_change",
 			   GTK_SIGNAL_FUNC (on_cursor_change_cmd), message_list);
-
+	
+	gtk_signal_connect (GTK_OBJECT (message_list->etable), "right_click",
+			   GTK_SIGNAL_FUNC (on_right_click), message_list);
+	
 	gtk_widget_show (message_list->etable);
 	
 	gtk_object_ref (GTK_OBJECT (message_list->table_model));
@@ -967,6 +973,29 @@ select_row (ETableScrolled *table, gpointer user_data)
 	gtk_idle_add (idle_select_row, message_list->etable);
 }
 
+static gint
+on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list)
+{
+	FolderBrowser *fb = list->parent_folder_browser;
+	extern CamelFolder *drafts_folder;
+	EPopupMenu menu[] = {
+		{ "View Message",    NULL, GTK_SIGNAL_FUNC (view_msg),        0	},
+		{ "Edit Message",    NULL, GTK_SIGNAL_FUNC (edit_msg),        1	},
+		{ "Print Message",   NULL, GTK_SIGNAL_FUNC (print_msg),       0	},
+		{ "",                NULL, GTK_SIGNAL_FUNC (NULL),            0	},
+		{ "Reply to Sender", NULL, GTK_SIGNAL_FUNC (reply_to_sender), 0	},
+		{ "Reply to All",    NULL, GTK_SIGNAL_FUNC (reply_to_all),    0	},
+		{ "Forward Message", NULL, GTK_SIGNAL_FUNC (forward_msg),     0	},
+		{ "",                NULL, GTK_SIGNAL_FUNC (NULL),            0	},
+		{ "Delete Message",  NULL, GTK_SIGNAL_FUNC (delete_msg),      0	},
+		{ "Move Message",    NULL, GTK_SIGNAL_FUNC (move_msg),        0	},
+		{ NULL,              NULL, NULL,                              0	}
+	};
+	
+	e_popup_menu_run (menu, (GdkEventButton *)event, (fb->folder == drafts_folder) ? 0 : 1, fb);
+	
+	return TRUE;
+}
 
 struct message_list_foreach_data {
 	MessageList *message_list;
