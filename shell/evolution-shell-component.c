@@ -275,7 +275,7 @@ impl_ShellComponent_populate_folder_context_menu (PortableServer_Servant servant
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
-	BonoboUIHandler *uih;
+	BonoboUIComponent *uic;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
@@ -284,13 +284,13 @@ impl_ShellComponent_populate_folder_context_menu (PortableServer_Servant servant
 	if (priv->populate_folder_context_menu_fn == NULL)
 		return;
 
-	uih = bonobo_ui_handler_new ();
-	bonobo_ui_handler_set_container (uih, corba_uih);
+	uic = bonobo_ui_component_new_default ();
+	bonobo_ui_component_set_container (uic, corba_uih);
 	bonobo_object_release_unref (corba_uih, NULL);
 
-	(* priv->populate_folder_context_menu_fn) (shell_component, uih, physical_uri, type, priv->closure);
+	(* priv->populate_folder_context_menu_fn) (shell_component, uic, physical_uri, type, priv->closure);
 
-	bonobo_object_unref (BONOBO_OBJECT (uih));
+	bonobo_object_unref (BONOBO_OBJECT (uic));
 }
 
 

@@ -1,3 +1,8 @@
+2000-10-18  Michael Meeks  <michael@helixcode.com>
+
+	* notes/component-factory.c (control_activate, control_deactivate),
+	(create_view): cripple, not worth updating to new UI code.
+
 2000-10-17  Tuomas Kuosmanen  <tigert@helixcode.com>
 
 	* art/splash.png: This looks happier than the dark piece of rusty

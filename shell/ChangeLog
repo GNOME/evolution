@@ -1,3 +1,8 @@
+2000-10-18  Michael Meeks  <michael@helixcode.com>
+
+	* evolution-shell-component.c (impl_ShellComponent_populate_folder_context_menu):
+	update for new UI handler.
+
 2000-10-18  Iain Holmes  <iain@helixcode.com>
 
 	* e-shell-view.c (start_progress_bar): If the widget is not realized

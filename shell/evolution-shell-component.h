@@ -89,7 +89,7 @@ typedef void (* EvolutionShellComponentRemoveFolderFn) (EvolutionShellComponent 
 						        const Evolution_ShellComponentListener listener,
 						        void *closure);
 typedef void (* EvolutionShellComponentPopulateFolderContextMenu) (EvolutionShellComponent *shell_component,
-								   BonoboUIHandler *uih,
+								   BonoboUIComponent *uic,
 								   const char *physical_uri,
 								   const char *type,
 								   void *closure);
