@@ -1604,6 +1604,16 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is
 	return text;
 }
 
+static void
+free_recipients (GList *list)
+{
+	GList *l;
+	
+	for (l = list; l; l = l->next)
+		g_free (l->data);
+	g_list_free (list);
+}
+
 EMsgComposer *
 mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 {
@@ -1714,7 +1724,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 				fulladdr = g_strdup_printf ("\"%s\" <%s>", name, addr);
 			} else
 				fulladdr = g_strdup (addr);
-
+			
 			if (strcmp (addr, id->address) != 0)
                                 cc = g_list_append (cc, fulladdr);
 		}
@@ -1733,8 +1743,8 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	}
 	
 	e_msg_composer_set_headers (composer, to, cc, NULL, subject);
-	g_list_free (to);
-	g_list_free (cc);
+	free_recipients (to);
+	free_recipients (cc);
 	g_free (subject);
 	
 	/* Add In-Reply-To and References. */

@@ -5,6 +5,7 @@
  * Author : 
  *  Dan Winship <danw@helixcode.com>
  *  Peter Williams <peterw@helixcode.com>
+ *  Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -62,15 +63,15 @@ describe_fetch_mail (gpointer in_data, gboolean gerund)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
 	char *name;
-
+	
 	/*source = camel_session_get_store (session, input->source_url, NULL);
 	 *if (source) {
 	 *	name = camel_service_get_name (CAMEL_SERVICE (source), FALSE);
 	 *	camel_object_unref (CAMEL_OBJECT (source));
 	 *} else
 	 */
-		name = input->source_url;
-
+	name = input->source_url;
+	
 	if (gerund)
 		return g_strdup_printf (_("Fetching email from %s"), name);
 	else
@@ -82,23 +83,23 @@ setup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
 	fetch_mail_data_t *data = (fetch_mail_data_t *) op_data;
-
+	
 	if (!input->source_url) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     _("You have no remote mail source configured "
 				     "to fetch mail from."));
 		return;
 	}
-
+	
 	if (input->destination == NULL)
 		return;
-
+	
 	if (!CAMEL_IS_FOLDER (input->destination)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     _("Bad folder passed to fetch_mail"));
 		return;
 	}
-
+	
 	data->empty = FALSE;
 	camel_object_ref (CAMEL_OBJECT (input->destination));
 }
