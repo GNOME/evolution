@@ -1,3 +1,8 @@
+2000-06-20  Dan Winship  <danw@helixcode.com>
+
+	* mail-sources.c: Oops. This should have been removed a long time
+	ago.
+
 2000-06-20  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser.c (folder_browser_load_folder): Working on getting 
