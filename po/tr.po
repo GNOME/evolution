@@ -5,13 +5,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-28 21:36+0000\n"
-"PO-Revision-Date: 2003-06-19 18:09+0000\n"
+"POT-Creation-Date: 2003-12-29 00:13+0000\n"
+"PO-Revision-Date: 2003-12-29 01:13+0000\n"
 "Last-Translator: Görkem Çetin <gorkem@kde.org>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -19,9 +19,8 @@ msgstr "Öntanımlı Eşzamanlama Adresi:"
 
 #: addressbook/conduit/address-conduit.c:1150
 #: addressbook/conduit/address-conduit.c:1151
-#, fuzzy
 msgid "Could not load addressbook"
-msgstr "%s yüklenemedi: %s"
+msgstr "Adres defteri yüklenemedi"
 
 #: addressbook/conduit/address-conduit.c:1214
 #: addressbook/conduit/address-conduit.c:1217
@@ -29,14 +28,12 @@ msgid "Could not read pilot's Address application block"
 msgstr "Pilot adres uygulama defteri okunamadı"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
-#, fuzzy
 msgid "Autocompletion"
-msgstr "Otomatik Tamamlama Dizini"
+msgstr "Otomatik Tamamlama"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
-#, fuzzy
 msgid "Certificates"
-msgstr "_Sertifika No:"
+msgstr "Sertifikalar"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
 #, fuzzy
@@ -94,9 +91,8 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-component.c:211
 #: addressbook/gui/component/ldap-config.glade.h:28
-#, fuzzy
 msgid "New Addressbook"
-msgstr "Adres Defteri"
+msgstr "Yeni Adres Defteri"
 
 #: addressbook/gui/component/addressbook-component.c:212
 msgid "Properties..."
@@ -114,14 +110,12 @@ msgstr "Sil"
 
 #: addressbook/gui/component/addressbook-component.c:214
 #: calendar/gui/calendar-component.c:435 calendar/gui/tasks-component.c:416
-#, fuzzy
 msgid "Rename"
-msgstr "_Yeniden adlandır"
+msgstr "Yeniden adlandır"
 
 #: addressbook/gui/component/addressbook-component.c:285
-#, fuzzy
 msgid "New Contact"
-msgstr "Yeni Bağlantı:"
+msgstr "Yeni Bağlantı"
 
 #: addressbook/gui/component/addressbook-component.c:286
 msgid "_Contact"
@@ -136,9 +130,8 @@ msgid "New Contact List"
 msgstr "Yeni Bağlantı Listesi"
 
 #: addressbook/gui/component/addressbook-component.c:293
-#, fuzzy
 msgid "Contact _List"
-msgstr "Yeni Bağlantı _Listesi"
+msgstr "B_ağlantı Listesi"
 
 #: addressbook/gui/component/addressbook-component.c:294
 msgid "Create a new contact list"
@@ -147,7 +140,7 @@ msgstr "Yeni bir bağlantı listesi yarat"
 #: addressbook/gui/component/addressbook-component.c:443
 #: calendar/gui/calendar-component.c:831 calendar/gui/tasks-component.c:772
 msgid "On This Computer"
-msgstr ""
+msgstr "Bu Bilgisayarda"
 
 #. orange
 #: addressbook/gui/component/addressbook-component.c:453
@@ -168,15 +161,14 @@ msgstr "İş"
 
 #. Create the LDAP source group
 #: addressbook/gui/component/addressbook-component.c:468
-#, fuzzy
 msgid "On LDAP Servers"
-msgstr "LDAP Sunucusu"
+msgstr "LDAP Sunucuları Üzerinde"
 
 #. FIXME: parent
 #: addressbook/gui/component/addressbook-config.c:244
 #, fuzzy
 msgid "Could not create a directory for the new addressbook."
-msgstr "%s dizini yaratılamadı: %s"
+msgstr "Haber grubu sunucusu için dizin açılamadı: %s"
 
 #: addressbook/gui/component/addressbook-config.c:416
 msgid "Failed to connect to LDAP server"
@@ -293,9 +285,8 @@ msgid "%sEnter password for %s (user %s)"
 msgstr "%s%s için parolayı girin (kullanıcı: %s)"
 
 #: addressbook/gui/component/addressbook.c:1030
-#, fuzzy
 msgid "UID of the contacts source that the view will display"
-msgstr "Takvimin gösterecek olduğu URI"
+msgstr ""
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "EFolderList xml for the list of completion uris"
@@ -365,9 +356,8 @@ msgid "636"
 msgstr "636"
 
 #: addressbook/gui/component/ldap-config.glade.h:11
-#, fuzzy
 msgid "Addressbook Creation Assistant"
-msgstr "LDAP Yapılandırma Sihirbazı"
+msgstr "Adres Defteri Oluşturma Sihirbazı"
 
 #: addressbook/gui/component/ldap-config.glade.h:12
 msgid "Addressbook Sources"
@@ -383,17 +373,15 @@ msgid "Anonymously"
 msgstr "Anonim"
 
 #: addressbook/gui/component/ldap-config.glade.h:15
-#, fuzzy
 msgid ""
 "Congratulations, you are finished setting up this addressbook.\n"
 "\n"
 "Please click the \"Finish\" button to save the settings you have entered "
 "here."
 msgstr ""
-"Tebrikler, LDAP sunucusunu başarıyla ayarladınız. Bu dizine \n"
-"bağlantı kurmaya hazırsınız.\n"
+"Tebrikler, bu adres defterini başarıyla ayarladınız. Bu dizine \n"
 "\n"
-"Lütfen girdiğiniz bilgileri tamamlamak için \"Uygula\" düğmesine tıklayın."
+"Lütfen girdiğiniz bilgileri tamamlamak için \"Bitir\" düğmesine tıklayın."
 
 #: addressbook/gui/component/ldap-config.glade.h:18
 msgid "Connecting"
@@ -431,9 +419,8 @@ msgid "General"
 msgstr "Genel"
 
 #: addressbook/gui/component/ldap-config.glade.h:26
-#, fuzzy
 msgid "Group:"
-msgstr "Grup"
+msgstr "Grup:"
 
 #: addressbook/gui/component/ldap-config.glade.h:27 mail/mail-account-gui.c:68
 #: mail/mail-config.glade.h:78
@@ -530,22 +517,19 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:48
 msgid "Step 1: Folder Characteristics"
-msgstr ""
+msgstr "1. Adım: Dizin Özellikleri"
 
 #: addressbook/gui/component/ldap-config.glade.h:49
-#, fuzzy
 msgid "Step 2: Server Information"
-msgstr "1. Adım: Sunucu Bilgisi"
+msgstr "2. Adım: Sunucu Bilgisi"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
-#, fuzzy
 msgid "Step 3: Connecting to Server"
-msgstr "2. Adım: Sunucuya Bağlantı Kuruluyor"
+msgstr "3. Adım: Sunucuya Bağlantı"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
-#, fuzzy
 msgid "Step 4: Searching the Directory"
-msgstr "3. Adım: Dizin Aranıyor"
+msgstr "4. Adım: Dizin Arama"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
 msgid "Sub"
@@ -673,15 +657,13 @@ msgid "Whenever Possible"
 msgstr "Ne zaman mümkünse"
 
 #: addressbook/gui/component/ldap-config.glade.h:83
-#, fuzzy
 msgid ""
 "You have decided to configure an LDAP server. The first step in doing this "
 "is to provide its name and your\n"
 "log in information. Please ask your system administrator if you are unsure "
 "of this information."
 msgstr ""
-"Bir LDAP sunucuyu tanımlarken ilk gerekecek bilgi bu sunucunun adı ve "
-"sizin \n"
+"Bir LDAP sunucuyu tanımlarken ilk gerekecek bilgi bu sunucunun adı ve sizin \n"
 "giriş bilgilerinizdir. Lütfen bu konuda emin değilseniz sistem yöneticinize "
 "danışın."
 
@@ -836,9 +818,8 @@ msgid "A_ssistant's name:"
 msgstr "_Sekreterinin adı:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
-#, fuzzy
 msgid "Addressbook:"
-msgstr "Adres Defteri"
+msgstr "Adres Defteri:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
 msgid "Anni_versary:"
@@ -849,9 +830,8 @@ msgid "Birthda_y:"
 msgstr "_Doğum günü:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
-#, fuzzy
 msgid "Blog address:"
-msgstr "E-posta adresi:"
+msgstr "Blog adresi:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "Business fa_x:"
@@ -1937,9 +1917,8 @@ msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:191
-#, fuzzy
 msgid "Source Book"
-msgstr "Kaynak"
+msgstr "Kaynak Kitabı"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:198
 msgid "Target Book"
@@ -1953,9 +1932,8 @@ msgid "Contact"
 msgstr "Bağlantı"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:212
-#, fuzzy
 msgid "Is New Contact"
-msgstr "Yeni Bağlantı"
+msgstr "Bu Yeni Bir Bağlantı"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:219
 msgid "Writable Fields"
@@ -2213,19 +2191,17 @@ msgid "Advanced Search"
 msgstr "Gelişmiş Arama"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:148
-#, fuzzy
 msgid "No contacts"
-msgstr "Bağlantıları Göster"
+msgstr "Bağlantı yok"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:151
-#, fuzzy
 msgid "1 contact"
-msgstr "Bağlantı"
+msgstr "1 bağlantı"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:154
-#, fuzzy, c-format
+#, c-format
 msgid "%d contacts"
-msgstr "Bağlantılar"
+msgstr "%d bağlantı"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:305
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:385
@@ -2466,9 +2442,8 @@ msgid "Home Phone 2"
 msgstr "2. Ev Telefonu"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:20
-#, fuzzy
 msgid "ISDN Phone"
-msgstr "Telefon"
+msgstr "ISDN Telefonu"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 #, fuzzy
@@ -2544,9 +2519,8 @@ msgid "Title"
 msgstr "Sıfat"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
-#, fuzzy
 msgid "Unit"
-msgstr "Unst"
+msgstr "Birim"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Web Site"
@@ -2631,24 +2605,21 @@ msgstr "Mayport"
 
 #: addressbook/gui/widgets/eab-contact-display.c:198
 #: addressbook/gui/widgets/eab-contact-display.c:324
-#, fuzzy
 msgid "List Members"
-msgstr "Üyeler"
+msgstr "Liste Üyeleri"
 
 #: addressbook/gui/widgets/eab-contact-display.c:214
 #: addressbook/gui/widgets/eab-contact-display.c:344
-#, fuzzy
 msgid "Job Title"
-msgstr "_Meslek tanımı:"
+msgstr "Meslek Tanımı"
 
 #: addressbook/gui/widgets/eab-contact-display.c:221
 msgid "Home Address"
 msgstr "Ev Adresi"
 
 #: addressbook/gui/widgets/eab-contact-display.c:222
-#, fuzzy
 msgid "Work Address"
-msgstr "Ev Adresi"
+msgstr "Çalışma Adresi"
 
 #: addressbook/gui/widgets/eab-contact-display.c:223
 msgid "Other Address"
@@ -2656,15 +2627,13 @@ msgstr "Diğer Adres"
 
 #: addressbook/gui/widgets/eab-contact-display.c:227
 #: addressbook/gui/widgets/eab-contact-display.c:375
-#, fuzzy
 msgid "Home page"
-msgstr "Ev Faksı"
+msgstr "Web sayfası"
 
 #: addressbook/gui/widgets/eab-contact-display.c:228
 #: addressbook/gui/widgets/eab-contact-display.c:383
-#, fuzzy
 msgid "Blog"
-msgstr "Bologna"
+msgstr "Blog"
 
 #: addressbook/gui/widgets/eab-gui-util.c:43
 msgid "Success"
@@ -2687,9 +2656,8 @@ msgid "Permission denied"
 msgstr "İzin yok"
 
 #: addressbook/gui/widgets/eab-gui-util.c:47
-#, fuzzy
 msgid "Contact not found"
-msgstr "Kart bulunamadı"
+msgstr "Bağlantı bulunamadı"
 
 #: addressbook/gui/widgets/eab-gui-util.c:48
 #, fuzzy
@@ -2745,18 +2713,16 @@ msgstr "Liste eklenirken hata oluştu"
 
 #: addressbook/gui/widgets/eab-gui-util.c:103
 #: addressbook/gui/widgets/eab-gui-util.c:457
-#, fuzzy
 msgid "Error adding contact"
-msgstr "Kart eklenirken hata oluştu"
+msgstr "Bağlantı eklenirken hata oluştu"
 
 #: addressbook/gui/widgets/eab-gui-util.c:112
 msgid "Error modifying list"
 msgstr "Liste düzenlenirken hata oluştu"
 
 #: addressbook/gui/widgets/eab-gui-util.c:112
-#, fuzzy
 msgid "Error modifying contact"
-msgstr "Kartlar düzenlenirken bir hata oluştu"
+msgstr "Bağlantı düzenlenirken bir hata oluştu"
 
 #: addressbook/gui/widgets/eab-gui-util.c:122
 msgid "Error removing list"
@@ -2764,9 +2730,8 @@ msgstr "Listeyi silerken bir hata oluştu"
 
 #: addressbook/gui/widgets/eab-gui-util.c:122
 #: addressbook/gui/widgets/eab-gui-util.c:415
-#, fuzzy
 msgid "Error removing contact"
-msgstr "Kartı silerken bir hata oluştu"
+msgstr "Bağlantıyı silerken bir hata oluştu"
 
 #: addressbook/gui/widgets/eab-gui-util.c:204
 #, fuzzy, c-format
@@ -3623,7 +3588,6 @@ msgid "M_eeting"
 msgstr "_Toplantı"
 
 #: calendar/gui/calendar-component.c:624
-#, fuzzy
 msgid "Create a new meeting request"
 msgstr "Yeni bir toplantı isteği oluştur"
 
@@ -3637,9 +3601,8 @@ msgid "All _Day Appointment"
 msgstr "_Tüm Gün Randevusu"
 
 #: calendar/gui/calendar-component.c:631
-#, fuzzy
 msgid "Create a new all-day appointment"
-msgstr "Yeni bir randevu oluştur"
+msgstr "Yeni bir tüm gün randevusu oluştur"
 
 #: calendar/gui/calendar-component.c:636
 #, fuzzy
@@ -3763,14 +3726,12 @@ msgid "    "
 msgstr "      "
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
-#, fuzzy
 msgid "<b>Alarm Action</b>"
-msgstr "Takvim bilgisi"
+msgstr ""
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
-#, fuzzy
 msgid "<b>Alarm Email</b>"
-msgstr "<b>Gönderilen İletiler</b>"
+msgstr "<b>Alarm E-postası</b>"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:5
 #, fuzzy
@@ -3778,9 +3739,8 @@ msgid "<b>Alarm Repeat</b>"
 msgstr "Alarm Tekrarı"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:6
-#, fuzzy
 msgid "<b>Alarm Sound</b>"
-msgstr "Takvim bilgisi"
+msgstr ""
 
 #: calendar/gui/dialogs/alarm-options.glade.h:7
 #, fuzzy
@@ -3931,7 +3891,7 @@ msgstr "<b>Başlangıç:</b> "
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #, fuzzy
 msgid "<b>Task List</b>"
-msgstr "Takvim bilgisi"
+msgstr "Görev Listesi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 #, fuzzy
@@ -4271,9 +4231,8 @@ msgid "Unable to obtain current version!"
 msgstr ""
 
 #: calendar/gui/dialogs/copy-source-dialog.c:142
-#, fuzzy
 msgid "Select destination source"
-msgstr "Bu veriyi almak için hedef dizin seçin"
+msgstr ""
 
 #: calendar/gui/dialogs/delete-comp.c:95
 #, c-format
@@ -4630,7 +4589,7 @@ msgstr ""
 #: calendar/gui/dialogs/new-calendar.c:155
 #, fuzzy
 msgid "Could not create cache for new calendar"
-msgstr "%s dizini yaratılamadı: %s"
+msgstr "Bileşen düzenleyici mimarisi oluşturulamadı."
 
 #: calendar/gui/dialogs/new-calendar.c:174
 #, fuzzy
@@ -4649,24 +4608,20 @@ msgid "<b>Calendar options</b>"
 msgstr "Takvim bilgisi"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:3
-#, fuzzy
 msgid "Add New Calendar"
-msgstr "Yeni Kaledonya"
+msgstr "Yeni Takvim Ekle"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:4
-#, fuzzy
 msgid "Calendar Group"
-msgstr "iCalendar Hatası"
+msgstr "Takvim Grubu"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:5
-#, fuzzy
 msgid "Calendar Location"
-msgstr "Takvim bilgisi"
+msgstr "Takvim Konumu"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:6
-#, fuzzy
 msgid "Calendar Name"
-msgstr "Takvim"
+msgstr "Takvim Adı"
 
 #: calendar/gui/dialogs/new-task-list.c:56
 #, fuzzy
@@ -4674,24 +4629,20 @@ msgid "Could not create directory for new task list"
 msgstr "%s dizini yaratılamadı: %s"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:2
-#, fuzzy
 msgid "<b>Task List Options</b>"
-msgstr "Takvim bilgisi"
+msgstr ""
 
 #: calendar/gui/dialogs/new-task-list.glade.h:3
-#, fuzzy
 msgid "Add New Task List"
-msgstr "Görev Listesi"
+msgstr "Yeni Görev Listesi Ekle"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:4
-#, fuzzy
 msgid "Task List Group"
-msgstr "Görev Listesi"
+msgstr "Görev Listesi Grubu"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:5
-#, fuzzy
 msgid "Task List Name"
-msgstr "Görev Listesi"
+msgstr "Görev Listesi Adı"
 
 #: calendar/gui/dialogs/recur-comp.c:50
 msgid "You are modifying a recurring event, what would you like to modify?"
@@ -4772,9 +4723,8 @@ msgid "occurrences"
 msgstr "tekrarlar"
 
 #: calendar/gui/dialogs/recurrence-page.c:2334
-#, fuzzy
 msgid "Date/Time"
-msgstr "Tarih/Zaman:"
+msgstr "Tarih/Zaman"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
 #, fuzzy
@@ -4882,9 +4832,9 @@ msgid "Completed date is wrong"
 msgstr "Tamamlanma tarihi yanlış"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:3
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% _Complete"
-msgstr "Biten %"
+msgstr "_Biten %"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #, fuzzy
@@ -4892,9 +4842,8 @@ msgid "<b>Progress</b>"
 msgstr "İşlem"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:5
-#, fuzzy
 msgid "<b>Web Page</b>"
-msgstr "<b>Gönderilen İletiler</b>"
+msgstr ""
 
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-cal-model-tasks.c:323 calendar/gui/e-cal-model-tasks.c:599
@@ -4943,9 +4892,8 @@ msgid "Undefined"
 msgstr "Tanımsız"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:14
-#, fuzzy
 msgid "_Date Completed:"
-msgstr "Tamamlama Tarihi:"
+msgstr "T_amamlama Tarihi:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:15
 msgid "_Priority:"
@@ -4983,9 +4931,8 @@ msgid "Con_fidential"
 msgstr "_Gizli"
 
 #: calendar/gui/dialogs/task-page.glade.h:9
-#, fuzzy
 msgid "Folder:"
-msgstr "_Dizin:"
+msgstr "Dizin:"
 
 #: calendar/gui/dialogs/task-page.glade.h:12
 msgid "Sta_rt Date:"
@@ -5110,9 +5057,8 @@ msgstr "Sınıflandırma"
 
 #: calendar/gui/e-cal-list-view.etspec.h:3
 #: calendar/gui/e-calendar-table.etspec.h:9
-#, fuzzy
 msgid "Description"
-msgstr "Açıklama:"
+msgstr "Açıklama"
 
 #: calendar/gui/e-cal-list-view.etspec.h:4
 #: calendar/gui/e-calendar-table.etspec.h:13
@@ -5130,9 +5076,8 @@ msgid "color"
 msgstr "rengi ile tanımla"
 
 #: calendar/gui/e-cal-list-view.etspec.h:7
-#, fuzzy
 msgid "component"
-msgstr "Randevu"
+msgstr "bileşen"
 
 #: calendar/gui/e-cal-model-calendar.c:163 calendar/gui/e-calendar-table.c:441
 msgid "Free"
@@ -5355,9 +5300,8 @@ msgid "100%"
 msgstr "%100"
 
 #: calendar/gui/e-calendar-table.c:1024
-#, fuzzy
 msgid "Open _Web Page"
-msgstr "İ_letiyi Aç "
+msgstr "W_eb Sayfasını Aç"
 
 #: calendar/gui/e-calendar-table.c:1036
 msgid "_Assign Task"
@@ -5608,9 +5552,8 @@ msgid "Accepted"
 msgstr "Onaylandı"
 
 #: calendar/gui/e-itip-control.c:965 calendar/gui/itip-utils.c:421
-#, fuzzy
 msgid "Tentatively Accepted"
-msgstr "Girişimli"
+msgstr "Geçici Olarak Kabul Edildi"
 
 #: calendar/gui/e-itip-control.c:969 calendar/gui/e-meeting-list-view.c:181
 #: calendar/gui/e-meeting-model.c:283 calendar/gui/e-meeting-model.c:306
@@ -5648,9 +5591,8 @@ msgid "Accept"
 msgstr "Onayla"
 
 #: calendar/gui/e-itip-control.c:1058
-#, fuzzy
 msgid "Tentatively accept"
-msgstr "Girişimli"
+msgstr "Geçici olarak kabul et"
 
 #: calendar/gui/e-itip-control.c:1059
 msgid "Decline"
@@ -6122,26 +6064,22 @@ msgid "Meeting _end time:"
 msgstr "Toplantı _bitiş saati:"
 
 #: calendar/gui/e-tasks.c:181
-#, fuzzy
 msgid "Start Date:"
-msgstr "_Başlangıç Tarihi:"
+msgstr "Başlangıç Tarihi:"
 
 #: calendar/gui/e-tasks.c:197
-#, fuzzy
 msgid "Due Date:"
-msgstr "_Tarihe Göre:"
+msgstr "Son tarih:"
 
 #. write priority
 #: calendar/gui/e-tasks.c:225
-#, fuzzy
 msgid "Priority:"
-msgstr "Ö_ncelik:"
+msgstr "Öncelik:"
 
 #. URL
 #: calendar/gui/e-tasks.c:281
-#, fuzzy
 msgid "Web Page:"
-msgstr "Sayfa"
+msgstr "Web Sayfası:"
 
 #: calendar/gui/e-tasks.c:710 calendar/gui/tasks-control.c:200
 #, c-format
@@ -6195,9 +6133,9 @@ msgid "The method required to open `%s' is not supported"
 msgstr "`%s' açmak için gereken yöntem desteklenmiyor"
 
 #: calendar/gui/gnome-cal.c:1808
-#, fuzzy, c-format
+#, c-format
 msgid "Adding %s"
-msgstr "\"%s\" gönderiliyor"
+msgstr "%s ekleniyor"
 
 #: calendar/gui/gnome-cal.c:1999
 #, c-format
@@ -6589,19 +6527,16 @@ msgid "Create a new task"
 msgstr "Yeni bir görev oluştur"
 
 #: calendar/gui/tasks-component.c:594
-#, fuzzy
 msgid "New task list"
-msgstr "Görev Listesi"
+msgstr "Yeni görev listesi"
 
 #: calendar/gui/tasks-component.c:595
-#, fuzzy
 msgid "_Task List"
-msgstr "Görev Listesi"
+msgstr "_Görev Listesi"
 
 #: calendar/gui/tasks-component.c:596
-#, fuzzy
 msgid "Create a new task list"
-msgstr "Yeni bir görev oluştur"
+msgstr "Yeni bir görev listesi oluştur"
 
 #: calendar/gui/tasks-component.c:663
 #, c-format
@@ -11280,73 +11215,67 @@ msgid "%I %p"
 msgstr "%I %p"
 
 #: filter/filter-datespec.c:65
-#, fuzzy
 msgid "1 second ago"
-msgstr "1 saniye"
+msgstr "1 saniye önce"
 
 #: filter/filter-datespec.c:65
-#, fuzzy, c-format
+#, c-format
 msgid "%d seconds ago"
-msgstr "%d saniye"
+msgstr "%d saniye önce"
 
 #: filter/filter-datespec.c:66
-#, fuzzy
 msgid "1 minute ago"
-msgstr "1 dakika"
+msgstr "1 dakika önce"
 
 #: filter/filter-datespec.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "%d minutes ago"
-msgstr "%d dakika"
+msgstr "%d dakika önce"
 
 #: filter/filter-datespec.c:67
-#, fuzzy
 msgid "1 hour ago"
-msgstr "1 saat"
+msgstr "1 saat önce"
 
 #: filter/filter-datespec.c:67
-#, fuzzy, c-format
+#, c-format
 msgid "%d hours ago"
-msgstr "%d saat"
+msgstr "%d saat önce"
 
 #: filter/filter-datespec.c:68
-#, fuzzy
 msgid "1 day ago"
-msgstr "1 gün"
+msgstr "1 gün önce"
 
 #: filter/filter-datespec.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "%d days ago"
-msgstr "%d %s önce"
+msgstr "%d gün önce"
 
 #: filter/filter-datespec.c:69
-#, fuzzy
 msgid "1 week ago"
-msgstr "1 hafta"
+msgstr "1 hafta önce"
 
 #: filter/filter-datespec.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "%d weeks ago"
-msgstr "%d hafta"
+msgstr "%d hafta önce"
 
 #: filter/filter-datespec.c:70
-#, fuzzy
 msgid "1 month ago"
-msgstr "ay"
+msgstr "1 ay önce"
 
 #: filter/filter-datespec.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "%d months ago"
-msgstr "%d %s önce"
+msgstr "%d ay önce"
 
 #: filter/filter-datespec.c:71
 msgid "1 year ago"
 msgstr ""
 
 #: filter/filter-datespec.c:71
-#, fuzzy, c-format
+#, c-format
 msgid "%d years ago"
-msgstr "%d %s önce"
+msgstr "%d yıl önce"
 
 #: filter/filter-datespec.c:176
 msgid "You must choose a date."
@@ -12336,9 +12265,8 @@ msgstr ""
 "Bu ileti dijital olarak imzalanmış, fakat güvenli olduğu kanıtlanmamıştır."
 
 #: mail/em-format-html-display.c:604 mail/em-format-html.c:565
-#, fuzzy
 msgid "Valid signature"
-msgstr "İmzayi düzenle"
+msgstr "Geçerli imza"
 
 #: mail/em-format-html-display.c:604
 msgid ""
@@ -12347,9 +12275,8 @@ msgid ""
 msgstr ""
 
 #: mail/em-format-html-display.c:605 mail/em-format-html.c:566
-#, fuzzy
 msgid "Invalid signature"
-msgstr "İmzayi düzenle"
+msgstr "Geçersiz imza"
 
 #: mail/em-format-html-display.c:605
 msgid ""
@@ -12368,9 +12295,8 @@ msgid ""
 msgstr ""
 
 #: mail/em-format-html-display.c:612 mail/em-format-html.c:573
-#, fuzzy
 msgid "Unencrypted"
-msgstr "Kesintiye uğradı"
+msgstr "Şifrelenmemiş"
 
 #: mail/em-format-html-display.c:612
 msgid ""
@@ -12390,9 +12316,8 @@ msgid ""
 msgstr ""
 
 #: mail/em-format-html-display.c:614 mail/em-format-html.c:575
-#, fuzzy
 msgid "Encrypted"
-msgstr "PGP Şifre"
+msgstr "Şifrelenmiş"
 
 #: mail/em-format-html-display.c:614
 msgid ""
@@ -12412,9 +12337,8 @@ msgid ""
 msgstr ""
 
 #: mail/em-format-html-display.c:699
-#, fuzzy
 msgid "_View Certificate"
-msgstr "_Sertifika No:"
+msgstr "_Sertifikayı Görüntüle"
 
 #: mail/em-format-html-display.c:704
 #, fuzzy
@@ -12443,9 +12367,8 @@ msgid "_View Inline"
 msgstr "İzle"
 
 #: mail/em-format-html-display.c:1008
-#, fuzzy
 msgid "_Hide"
-msgstr "Gizle"
+msgstr "_Gizle"
 
 #: mail/em-format-html-print.c:99
 #, c-format
@@ -12560,9 +12483,8 @@ msgid "Spamassassin (built-in)"
 msgstr ""
 
 #: mail/em-migrate.c:120
-#, fuzzy
 msgid "Migrating..."
-msgstr "Bekleniyor..."
+msgstr "Geçiş yapılıyor..."
 
 #: mail/em-migrate.c:128
 msgid ""
@@ -12573,14 +12495,14 @@ msgid ""
 msgstr ""
 
 #: mail/em-migrate.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "Migrating `%s':"
-msgstr "%s adresine ping gönderiliyor"
+msgstr "'%s' geçiş yapılıyor:"
 
 #: mail/em-migrate.c:775
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to migrate `%s': %s"
-msgstr "%s önbelleğe atılamadı: %s"
+msgstr "'%s' geçiş yapılamadı: %s"
 
 #: mail/em-migrate.c:801 mail/em-migrate.c:818
 #, fuzzy, c-format
@@ -12606,14 +12528,12 @@ msgid "Set as _Background"
 msgstr ""
 
 #: mail/em-popup.c:715
-#, fuzzy
 msgid "_Reply to sender"
-msgstr "_Gönderene Cevapla"
+msgstr "_Gönderene cevapla"
 
 #: mail/em-popup.c:763
-#, fuzzy
 msgid "_Open Link in Browser"
-msgstr "Bağlantıyı Tarayıcıda Aç"
+msgstr "_Bağlantıyı Tarayıcıda Aç"
 
 #: mail/em-popup.c:764
 #, fuzzy
@@ -12621,9 +12541,8 @@ msgid "Se_nd message to..."
 msgstr "İletiyi _listeye gönder..."
 
 #: mail/em-popup.c:765
-#, fuzzy
 msgid "_Add to Addressbook"
-msgstr "Adres Defterine Ekle"
+msgstr "Adres Defterine Ek_le"
 
 #: mail/em-popup.c:871
 #, c-format
@@ -12720,9 +12639,8 @@ msgid "Save Message..."
 msgstr "İletiyi Farklı Kaydet..."
 
 #: mail/em-utils.c:1524
-#, fuzzy
 msgid "Add address"
-msgstr "Addres"
+msgstr "Adres ekle"
 
 #: mail/em-utils.c:2314
 #, fuzzy, c-format
@@ -13714,9 +13632,8 @@ msgid "Format messages in _HTML"
 msgstr "İ_letileri HTML biçimle"
 
 #: mail/mail-config.glade.h:62
-#, fuzzy
 msgid "H_eaders"
-msgstr "Üstbilgi"
+msgstr "_Başlıklar"
 
 #: mail/mail-config.glade.h:63
 msgid "Highlight _quotations with"
@@ -13894,7 +13811,7 @@ msgstr "Su_nucu Türü: "
 #: mail/mail-config.glade.h:117
 #, fuzzy
 msgid "Si_gning certificate:"
-msgstr "Yapılandırma Veritabanı bulunamadı"
+msgstr "_Sertifika No:"
 
 #: mail/mail-config.glade.h:118
 msgid "Specify _filename:"
@@ -14084,9 +14001,8 @@ msgid "_Script:"
 msgstr "_Betik:"
 
 #: mail/mail-config.glade.h:172
-#, fuzzy
 msgid "_Select..."
-msgstr "Sil..."
+msgstr "_Seç..."
 
 #: mail/mail-config.glade.h:173
 msgid "_Sending Mail"
@@ -14333,19 +14249,16 @@ msgid "Search"
 msgstr "Ara"
 
 #: mail/mail-security.glade.h:2
-#, fuzzy
 msgid "Digital Signature"
-msgstr "İmzayi düzenle"
+msgstr "Sayısal İmza"
 
 #: mail/mail-security.glade.h:3
-#, fuzzy
 msgid "Encryption"
-msgstr "İstisnalar"
+msgstr "Şifreleme"
 
 #: mail/mail-security.glade.h:4
-#, fuzzy
 msgid "Security Information"
-msgstr "Hesap Bilgisi"
+msgstr "Güvenlik bilgisi"
 
 #: mail/mail-send-recv.c:146
 msgid "Cancelling..."
@@ -14371,9 +14284,8 @@ msgid "Send & Receive Mail"
 msgstr "İletileri Al ve Gönder"
 
 #: mail/mail-send-recv.c:307
-#, fuzzy
 msgid "Cancel _All"
-msgstr "Hepsini İptal Et"
+msgstr "Hepsini İptal _Et"
 
 #: mail/mail-send-recv.c:388
 msgid "Updating..."
@@ -14449,9 +14361,9 @@ msgid "Forwarded message"
 msgstr "Yönlendirilmiş ileti"
 
 #: mail/mail-tools.c:313
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid folder: `%s'"
-msgstr "%s dizini açılıyor"
+msgstr "Geçersiz dizin:'%s'"
 
 #: mail/mail-vfolder.c:87
 #, c-format
@@ -14619,9 +14531,8 @@ msgid "Reply to All"
 msgstr "Herkese cevapla"
 
 #: mail/message-tag-followup.c:71
-#, fuzzy
 msgid "Review"
-msgstr "Önizleme"
+msgstr ""
 
 #: mail/message-tag-followup.c:281 mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
@@ -14648,19 +14559,16 @@ msgid "_Flag:"
 msgstr "_Bayraklar:"
 
 #: mail/subscribe-dialog.glade.h:1
-#, fuzzy
 msgid "Folder Subscriptions"
-msgstr "Üyelikleri Düzenle"
+msgstr "Dizin Üyelikleri"
 
 #: mail/subscribe-dialog.glade.h:2
-#, fuzzy
 msgid "None Selected"
-msgstr "Seçilen:"
+msgstr ""
 
 #: mail/subscribe-dialog.glade.h:3
-#, fuzzy
 msgid "S_erver:"
-msgstr "_her"
+msgstr "S_unucu:"
 
 #: mail/subscribe-dialog.glade.h:4
 msgid "_Subscribe"
@@ -14671,14 +14579,12 @@ msgid "_Unsubscribe"
 msgstr "Ü_yelikten çık"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Shell"
-msgstr "Evolution kabuğu."
+msgstr "Evolution Kabuğu"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
-#, fuzzy
 msgid "480"
-msgstr "380"
+msgstr "480"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
 #, fuzzy
@@ -15798,7 +15704,7 @@ msgstr "Sertifika Otoritesi Güvenilir Değil"
 #: smime/gui/smime-ui.glade.h:16
 #, fuzzy
 msgid "Certificate details"
-msgstr "_Sertifika No:"
+msgstr "Sertifika geçersiz"
 
 #: smime/gui/smime-ui.glade.h:17
 #, fuzzy
@@ -15956,41 +15862,36 @@ msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgstr ""
 
 #: smime/lib/e-cert.c:585
-#, fuzzy
 msgid "C"
-msgstr " C"
+msgstr "C"
 
 #: smime/lib/e-cert.c:588
-#, fuzzy
 msgid "CN"
-msgstr "K"
+msgstr "CN"
 
 #: smime/lib/e-cert.c:591
 msgid "OU"
 msgstr ""
 
 #: smime/lib/e-cert.c:594
-#, fuzzy
 msgid "O"
-msgstr "Tamam"
+msgstr "O"
 
 #: smime/lib/e-cert.c:597
 msgid "L"
 msgstr ""
 
 #: smime/lib/e-cert.c:600
-#, fuzzy
 msgid "DN"
-msgstr "K"
+msgstr "DN"
 
 #: smime/lib/e-cert.c:603
 msgid "DC"
 msgstr ""
 
 #: smime/lib/e-cert.c:606
-#, fuzzy
 msgid "ST"
-msgstr "SMTP"
+msgstr "ST"
 
 #: smime/lib/e-cert.c:609
 msgid "PKCS #1 RSA Encryption"
@@ -15999,12 +15900,11 @@ msgstr ""
 #: smime/lib/e-cert.c:612
 #, fuzzy
 msgid "Certificate Key Usage"
-msgstr "_Sertifika No:"
+msgstr "Sertifika reddedildi"
 
 #: smime/lib/e-cert.c:615
-#, fuzzy
 msgid "Netscape Certificate Type"
-msgstr "_Sertifika No:"
+msgstr ""
 
 #: smime/lib/e-cert.c:618
 #, fuzzy
@@ -16090,7 +15990,7 @@ msgstr ""
 #: smime/lib/e-cert.c:829
 #, fuzzy
 msgid "Certificate Signer"
-msgstr "_Sertifika No:"
+msgstr "Sertifika imza hatası"
 
 #: smime/lib/e-cert.c:833
 msgid "CRL Signer"
@@ -17470,7 +17370,7 @@ msgstr "Evolution ayarlarını değiştir"
 #: ui/evolution.xml.h:5
 #, fuzzy
 msgid "Create a new window"
-msgstr "Yeni bir toplantı isteği oluştur"
+msgstr "Yeni bir dizin yarat"
 
 #: ui/evolution.xml.h:6
 msgid "E_xit"
@@ -17551,9 +17451,8 @@ msgid "_Send / Receive"
 msgstr "_Gönder / Al"
 
 #: ui/evolution.xml.h:33
-#, fuzzy
 msgid "_Window"
-msgstr "Ş_imdi Bul"
+msgstr "_Pencere"
 
 #: ui/my-evolution.xml.h:2
 msgid "Print Summary"
@@ -17615,19 +17514,16 @@ msgid "By Se_nder"
 msgstr "Gönderene Göre"
 
 #: views/mail/galview.xml.h:4
-#, fuzzy
 msgid "By Su_bject"
-msgstr "Konuya Göre"
+msgstr "Konuy_a Göre"
 
 #: views/mail/galview.xml.h:5
-#, fuzzy
 msgid "By _Follow Up Flag"
-msgstr "İzleme Bayrağına Göre"
+msgstr "İzleme Bayrağına Gö_re"
 
 #: views/mail/galview.xml.h:6
-#, fuzzy
 msgid "_Messages"
-msgstr "İletiler"
+msgstr "İ_letiler"
 
 #: views/tasks/galview.xml.h:1
 msgid "With _Category"
@@ -17837,364 +17733,10 @@ msgid "Text"
 msgstr "Metin"
 
 #: widgets/misc/e-search-bar.c:930
-#, fuzzy
 msgid "Find _Now"
-msgstr "Şimdi Bul"
-
-#~ msgid "Basics"
-#~ msgstr "Temel"
-
-#~ msgid "Time"
-#~ msgstr "Zaman"
-
-#~ msgid "Su_mmary:"
-#~ msgstr "Ö_zet:"
-
-#, fuzzy
-#~ msgid "_Web Page:"
-#~ msgstr "W_eb sayfası adresi:"
-
-#~ msgid "Select Calendar Folder"
-#~ msgstr "Takvim Dizinini Seçin"
-
-#~ msgid "Select Tasks Folder"
-#~ msgstr "Görevler Dizinini Seçin"
-
-#~ msgid "Adding alarms for %s"
-#~ msgstr "%s için alarm ekleniyor"
-
-#~ msgid "Folder Settings"
-#~ msgstr "Dizin Ayarları"
-
-#, fuzzy
-#~ msgid "New _Calendar"
-#~ msgstr "Yeni Kaledonya"
-
-#~ msgid "_Forward Message"
-#~ msgstr "İletiyi _Yönlendir"
-
-#~ msgid "Account Name"
-#~ msgstr "Hesap Adı:"
-
-#~ msgid "Server Name"
-#~ msgstr "Sunucu Adı"
-
-#~ msgid "LDAP was not enabled in this build of Evolution"
-#~ msgstr "(Evolution'un bu sürümünde LDAP desteklenmiyor)"
-
-#~ msgid "Other Contacts"
-#~ msgstr "Diğer Bağlantılar"
-
-#~ msgid "Configure access to LDAP directory servers here"
-#~ msgstr "LDAP dizin servislerine erişimi buradan yapılandırın"
-
-#~ msgid "Directory Servers"
-#~ msgstr "Dizin Servisleri"
-
-#~ msgid "Evolution Addressbook LDAP Configuration Control"
-#~ msgstr "Evolution Adres Defteri LDAP Yapılandırma Sistemi"
-
-#~ msgid "Add LDAP Server"
-#~ msgstr "LDAP Sunucusu Ekle"
-
-#~ msgid "Step 4: Display Name"
-#~ msgstr "4. Adım: Görüntülenecek İsim"
-
-#~ msgid "Find contact in"
-#~ msgstr "Bağlantıyı burada bul:"
-
-#~ msgid "* Click here to add a contact *"
-#~ msgstr "* Bağlantı eklemek buraya tıklayın *"
-
-#~ msgid "Business Address"
-#~ msgstr "İşyeri Adresi"
-
-#~ msgid "Department"
-#~ msgstr "Bölüm"
-
-#~ msgid "Free-busy URL"
-#~ msgstr "Web Sayfası"
-
-#~ msgid "ISDN"
-#~ msgstr "ISDN"
-
-#~ msgid "Profession"
-#~ msgstr "Uzmanlık alanı"
-
-#~ msgid "TTY"
-#~ msgstr "TTY"
-
-#~ msgid "Opening tasks at %s"
-#~ msgstr "%s tarihinde görevler açılıyor"
-
-#~ msgid "Send anyway?"
-#~ msgstr "Yine de gönderilsin mi?"
-
-#, fuzzy
-#~ msgid "Folder _name"
-#~ msgstr "Dizin _adı:"
-
-#~ msgid ""
-#~ "This message is digitally signed. Click the lock icon for more "
-#~ "information."
-#~ msgstr ""
-#~ "Bu ileti dijital olarak imzalanmıştır ve güvenlidir. Daha fazla bilgi "
-#~ "için kilit simgesi üzerine tıklayın."
-
-#, fuzzy
-#~ msgid "No signature present"
-#~ msgstr "HTML imza dosyası:"
-
-#~ msgid "Connecting..."
-#~ msgstr "Bağlanıyor..."
-
-#~ msgid "This folder cannot contain messages."
-#~ msgstr "Bu dizinde ileti bulunamaz."
-
-#, fuzzy
-#~ msgid "Could not open source folder: %s"
-#~ msgstr "Paylaşımlı dizin açılamadı: %s"
-
-#, fuzzy
-#~ msgid "Select destination to move folder into"
-#~ msgstr "Bu veriyi almak için hedef dizin seçin"
-
-#~ msgid ""
-#~ "Cannot transfer folder:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Dizin aktarılamadı:\n"
-#~ "%s"
-
-#~ msgid "Add a Folder"
-#~ msgstr "Dizin Ekle"
-
-#~ msgid "Drafts"
-#~ msgstr "Taslaklar"
-
-#~ msgid "Outbox"
-#~ msgstr "Giden"
-
-#~ msgid "Sent"
-#~ msgstr "Gönderilen"
-
-#, fuzzy
-#~ msgid ""
-#~ "Error synchronizing \"%s\":\n"
-#~ "%s"
-#~ msgstr ""
-#~ "'%s' sırasında hata:\n"
-#~ "%s"
-
-#, fuzzy
-#~ msgid "Syncing Folder"
-#~ msgstr "Dizin eşzamanlı hale getiriliyor"
-
-#~ msgid "Synchronizing \"%s\" (%d of %d) ..."
-#~ msgstr "\"%s\" senkronize ediliyor (%d / %d) ..."
-
-#~ msgid "(No folder displayed)"
-#~ msgstr "(dizin gösterilmiyor)"
-
-#~ msgid "%s (%d)"
-#~ msgstr "%s (%d)"
-
-#~ msgid "(None)"
-#~ msgstr "(Hiçbiri)"
-
-#~ msgid "No error"
-#~ msgstr "Hata yok"
-
-#~ msgid "A folder with the same name already exists"
-#~ msgstr "Aynı isimli bir dizin zaten var"
-
-#~ msgid "The specified folder type is not valid"
-#~ msgstr "Belirtilen dizin türü geçerli değildir"
-
-#~ msgid "I/O error"
-#~ msgstr "G/Ç hatası"
-
-#~ msgid "Not enough space to create the folder"
-#~ msgstr "Dizin yaratmak için gerekli disk alanı yok"
-
-#~ msgid "The folder is not empty"
-#~ msgstr "Dizin boş değil"
-
-#~ msgid "The specified folder was not found"
-#~ msgstr "Belirtilen dizin bulunamadı"
-
-#~ msgid "Function not implemented in this storage"
-#~ msgstr "Fonksiyon desteklenmiyor"
-
-#~ msgid "Operation not supported"
-#~ msgstr "İşlem desteklenmiyor"
-
-#~ msgid "The specified type is not supported in this storage"
-#~ msgstr "Bu kayıtta belirtilen tip desteklenmiyor"
-
-#~ msgid "The specified folder cannot be modified or removed"
-#~ msgstr "Belirtilen dizin düzenlenemedi ya da silinemedi"
-
-#~ msgid "Cannot create a folder with that name"
-#~ msgstr "Bu isimde bir dizin yaratılamadı"
-
-#~ msgid "Checkbox"
-#~ msgstr "Denetim kutusu"
-
-#~ msgid "CORBA error"
-#~ msgstr "CORBA hatası"
-
-#~ msgid "Invalid argument"
-#~ msgstr "Geçersiz argüman"
-
-#~ msgid "Already has an owner"
-#~ msgstr "Bunun bir sahibi zaten var"
-
-#~ msgid "No owner"
-#~ msgstr "Sahibi yok"
-
-#~ msgid "Unsupported type"
-#~ msgstr "Desteklenmeyen tür"
-
-#~ msgid "Unsupported schema"
-#~ msgstr "Desteklenmeyen şema"
-
-#~ msgid "Unsupported operation"
-#~ msgstr "Desteklenmeyen işlem"
-
-#~ msgid "Internal error"
-#~ msgstr "İç hata"
-
-#~ msgid "Exists"
-#~ msgstr "Bulunur"
-
-#~ msgid "Invalid URI"
-#~ msgstr "Geçersiz URI"
-
-#~ msgid "Has subfolders"
-#~ msgstr "Alt dizinler"
-
-#~ msgid "No space left"
-#~ msgstr "Hiç boş alan kalmadı"
-
-#~ msgid "Test type"
-#~ msgstr "Test türü"
-
-#~ msgid "Evolution Test Component"
-#~ msgstr "Evolution Test Bileşeni"
-
-#, fuzzy
-#~ msgid "import"
-#~ msgstr "Aktar"
-
-#, fuzzy
-#~ msgid "Create a new all-day event"
-#~ msgstr "Yeni bir tüm gün randevusu oluştur"
-
-#~ msgid "New _Appointment"
-#~ msgstr "Yeni _Randevu"
-
-#, fuzzy
-#~ msgid "New _Meeting"
-#~ msgstr "Yeni Toplantı"
-
-#~ msgid "New _Task"
-#~ msgstr "Yeni _Görev"
-
-#~ msgid "Evolution _Window"
-#~ msgstr "Evolution _Penceresi"
-
-#, fuzzy
-#~ msgid "Open a new Evolution window"
-#~ msgstr "Evolution _Penceresi"
-
-#~ msgid "Toggle"
-#~ msgstr "Aç/kapat"
-
-#~ msgid "Clear"
-#~ msgstr "Temizle"
-
-#, fuzzy
-#~ msgid "e_book_cancel: there is no current operation"
-#~ msgstr "Şimdiki e-posta işlemini iptal et"
-
-#, fuzzy
-#~ msgid "Address List"
-#~ msgstr "Addres"
-
-#, fuzzy
-#~ msgid "Home Address Label"
-#~ msgstr "Address Etiketi"
-
-#, fuzzy
-#~ msgid "Work Address Label"
-#~ msgstr "Address Etiketi"
-
-#, fuzzy
-#~ msgid "Other Address Label"
-#~ msgstr "Address Etiketi"
-
-#, fuzzy
-#~ msgid "Email List"
-#~ msgstr "E-posta adresi"
-
-#, fuzzy
-#~ msgid "Email 1"
-#~ msgstr "3. E-posta Adresi"
-
-#, fuzzy
-#~ msgid "Wants HTML Mail"
-#~ msgstr "HTML ister"
-
-#, fuzzy
-#~ msgid "Jabber Id List"
-#~ msgstr "İsimsiz Liste"
-
-#, fuzzy
-#~ msgid "ICQ Id List"
-#~ msgstr "Yeni Liste"
-
-#~ msgid "Organizational Unit"
-#~ msgstr "Bölüm"
-
-#, fuzzy
-#~ msgid "Photo"
-#~ msgstr "Porto"
-
-#, fuzzy
-#~ msgid "Logo"
-#~ msgstr "Togo"
-
-#~ msgid "Category List"
-#~ msgstr "Kategori Listesi"
-
-#~ msgid "Calendar URI"
-#~ msgstr "Takvim URI"
-
-#~ msgid "Free/Busy URL"
-#~ msgstr "Boş/Meşgul URL"
-
-#~ msgid "ICS Calendar"
-#~ msgstr "ICS Takvimi"
-
-#, fuzzy
-#~ msgid "Spouse's Name"
-#~ msgstr "Eş"
-
-#~ msgid "Birth Date"
-#~ msgstr "Doğum Günü"
-
-#~ msgid "Anniversary"
-#~ msgstr "Yıldönümü"
-
-#~ msgid "List Show Addresses"
-#~ msgstr "Liste Adresleri"
+msgstr "Ş_imdi Bul"
 
 #~ msgid "Evolution LDIF importer"
-#~ msgstr "Evolution LDIF alıcısı"
-
-#, fuzzy
-#~ msgid "Evolution LDIF importer factory"
 #~ msgstr "Evolution LDIF alıcısı"
 
 #~ msgid "LDAP Data Interchange Format (.ldif)"
@@ -18209,6 +17751,147 @@ msgstr "Şimdi Bul"
 #~ msgid "VCard (.vcf, .gcrd)"
 #~ msgstr "VCard (.vcf, .gcrd)"
 
+#~ msgid "Primary"
+#~ msgstr "İlk"
+
+#~ msgid "Prim"
+#~ msgstr "İlk"
+
+#~ msgid "Bus"
+#~ msgstr "Meşg"
+
+#~ msgid "Callback"
+#~ msgstr "Geri Arama"
+
+#~ msgid "Company"
+#~ msgstr "Şirket"
+
+#~ msgid "Comp"
+#~ msgstr "Şirk"
+
+#~ msgid "Org"
+#~ msgstr "Kur"
+
+#~ msgid "Mobile"
+#~ msgstr "Cep"
+
+#~ msgid "Car"
+#~ msgstr "Araba"
+
+#~ msgid "Bus Fax"
+#~ msgstr "İşy Faks"
+
+#~ msgid "Business 2"
+#~ msgstr "2. Meslek"
+
+#~ msgid "Bus 2"
+#~ msgstr "Meşgul 2"
+
+#~ msgid "Home 2"
+#~ msgstr "2. ev"
+
+#~ msgid "ISDN"
+#~ msgstr "ISDN"
+
+#~ msgid "TTY"
+#~ msgstr "TTY"
+
+#~ msgid "Url"
+#~ msgstr "Url"
+
+#~ msgid "Department"
+#~ msgstr "Bölüm"
+
+#~ msgid "Dep"
+#~ msgstr "Böl"
+
+#~ msgid "Off"
+#~ msgstr "Ofis"
+
+#~ msgid "Profession"
+#~ msgstr "Uzmanlık alanı"
+
+#~ msgid "Prof"
+#~ msgstr "Prof"
+
+#~ msgid "Man"
+#~ msgstr "Yön"
+
+#~ msgid "Ass"
+#~ msgstr "Asis"
+
+#~ msgid "Nick"
+#~ msgstr "Lakap"
+
+#~ msgid "Calendar URI"
+#~ msgstr "Takvim URI"
+
+#~ msgid "CALUri"
+#~ msgstr "CALUri"
+
+#~ msgid "Free-busy URL"
+#~ msgstr "Web Sayfası"
+
+#~ msgid "FBUrl"
+#~ msgstr "FBUrl"
+
+#~ msgid "Default server calendar"
+#~ msgstr "Öntanımlı sunucu takvimi"
+
+#~ msgid "icsCalendar"
+#~ msgstr "icsCalendar"
+
+#~ msgid "Anniversary"
+#~ msgstr "Yıldönümü"
+
+#~ msgid "Anniv"
+#~ msgstr "Yıldön"
+
+#~ msgid "Birth Date"
+#~ msgstr "Doğum Günü"
+
+#~ msgid "ECard"
+#~ msgstr "ECard"
+
+#~ msgid "%x"
+#~ msgstr "%x"
+
+#~ msgid "Address Label"
+#~ msgstr "Address Etiketi"
+
+#~ msgid "Birth date"
+#~ msgstr "Doğum tarihi"
+
+#~ msgid "Free/Busy URL"
+#~ msgstr "Boş/Meşgul URL"
+
+#~ msgid "ICS Calendar"
+#~ msgstr "ICS Takvimi"
+
+#~ msgid "Related Contacts"
+#~ msgstr "Seçilen Bağlantılar"
+
+#~ msgid "Category List"
+#~ msgstr "Kategori Listesi"
+
+#~ msgid "Wants HTML"
+#~ msgstr "HTML ister"
+
+#~ msgid "Wants HTML set"
+#~ msgstr "HTML kümesi ister"
+
+#~ msgid "List Show Addresses"
+#~ msgstr "Liste Adresleri"
+
+#~ msgid "Arbitrary"
+#~ msgstr "Rastgele"
+
+#~ msgid "Last Use"
+#~ msgstr "Son Kullanım"
+
+#~ msgid "Use Score"
+#~ msgstr "Kullanım Puanı"
+
 #~ msgid "Searching..."
 #~ msgstr "Aranıyor..."
 
@@ -18221,16 +17904,13 @@ msgstr "Şimdi Bul"
 #~ msgid "Reconnecting to LDAP server..."
 #~ msgstr "LDAP sunucuya yeniden bağlantı kuruluyor..."
 
-#, fuzzy
-#~ msgid "Adding contact to LDAP server..."
+#~ msgid "Adding card to LDAP server..."
 #~ msgstr "LDAP sunucuya kart ekleniyor..."
 
-#, fuzzy
-#~ msgid "Removing contact from LDAP server..."
+#~ msgid "Removing card from LDAP server..."
 #~ msgstr "LDAP sunucudaki kart siliniyor..."
 
-#, fuzzy
-#~ msgid "Modifying contact from LDAP server..."
+#~ msgid "Modifying card from LDAP server..."
 #~ msgstr "LDAP sunucudaki kart düzenleniyor..."
 
 #~ msgid "Receiving LDAP search results..."
@@ -18239,40 +17919,190 @@ msgstr "Şimdi Bul"
 #~ msgid "Error performing search"
 #~ msgstr "Arama yaparken bir hata oluştu"
 
-#, fuzzy
-#~ msgid "Repository is offline"
-#~ msgstr "Depo çevrimdışı"
+#~ msgid "Cursor could not be loaded\n"
+#~ msgstr "İmleç yüklenemedi\n"
 
-#, fuzzy
-#~ msgid "No such calendar"
-#~ msgstr "Bu isimde bir dizin yok: `%s'"
-
-#, fuzzy
-#~ msgid "Object not found"
-#~ msgstr "Öğe bulunamadı\n"
-
-#, fuzzy
-#~ msgid "Invalid object"
-#~ msgstr "Geçersiz argüman"
-
-#, fuzzy
-#~ msgid "URI not loaded"
+#~ msgid "EBook not loaded\n"
 #~ msgstr "EBook yüklenmedi\n"
 
-#, fuzzy
-#~ msgid "Operation has been cancelled"
-#~ msgstr "İşlem iptal edildi"
+#~ msgid "Configure access to LDAP directory servers here"
+#~ msgstr "LDAP dizin servislerine erişimi buradan yapılandırın"
 
-#, fuzzy
-#~ msgid "Could not cancel operation"
-#~ msgstr "İşlemi İ_ptal Et"
+#~ msgid "Directory Servers"
+#~ msgstr "Dizin Servisleri"
 
-#, fuzzy
-#~ msgid "Authentication failed"
-#~ msgstr "Kimlik denetimi başarısız."
+#~ msgid "Evolution Addressbook LDAP Configuration Control"
+#~ msgstr "Evolution Adres Defteri LDAP Yapılandırma Sistemi"
+
+#~ msgid "Folder containing contact information"
+#~ msgstr "Bağlantı bilgisini içeren dizin"
+
+#~ msgid "LDAP server containing contact information"
+#~ msgstr "Bağlantı bilgisini içeren LDAP sunucusu"
+
+#~ msgid "Public Contacts"
+#~ msgstr "Ortak Bağlantılar"
+
+#~ msgid "Public folder containing contact information"
+#~ msgstr "Bağlantı bilgisini içeren ortak dizin"
+
+#~ msgid "Account Name"
+#~ msgstr "Hesap Adı:"
+
+#~ msgid "Server Name"
+#~ msgstr "Sunucu Adı"
+
+#~ msgid "LDAP was not enabled in this build of Evolution"
+#~ msgstr "(Evolution'un bu sürümünde LDAP desteklenmiyor)"
+
+#~ msgid "Other Contacts"
+#~ msgstr "Diğer Bağlantılar"
+
+#~ msgid "The URI that the Folder Browser will display"
+#~ msgstr "Dizin tarayıcısının göstereceği URI"
+
+#~ msgid "Disable Queries"
+#~ msgstr "Aramaları Kapat"
+
+#~ msgid "Enable Queries (Dangerous!)"
+#~ msgstr "Aramaları Etkinleştir (Tehlikeli!)"
+
+#~ msgid "Add LDAP Server"
+#~ msgstr "LDAP Sunucusu Ekle"
+
+#~ msgid "Step 4: Display Name"
+#~ msgstr "4. Adım: Görüntülenecek İsim"
+
+#~ msgid "Find contact in"
+#~ msgstr "Bağlantıyı burada bul:"
+
+#~ msgid "Card"
+#~ msgstr "Kart"
+
+#~ msgid "Is New Card"
+#~ msgstr "Yeni bir Kart"
+
+#~ msgid "No cards"
+#~ msgstr "Kart yok"
+
+#~ msgid "1 card"
+#~ msgstr "1 kart"
+
+#~ msgid "%d cards"
+#~ msgstr "%d kart"
+
+#~ msgid ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
+#~ msgstr ",123,a,b,c,ç,d,e,f,g,h,ı,i,j,k,l,m,n,o,ö,p,q,r,s,ş,t,u,ü,v,w,x,y,z"
+
+#~ msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
+#~ msgstr ",0,a,b,c,ç,d,e,f,g,h,ı,i,j,k,l,m,n,o,ö,p,q,r,s,ş,t,u,ü,v,w,x,y,z"
+
+#~ msgid "* Click here to add a contact *"
+#~ msgstr "* Bağlantı eklemek buraya tıklayın *"
+
+#~ msgid "Business Address"
+#~ msgstr "İşyeri Adresi"
+
+#~ msgid "Print cards"
+#~ msgstr "Kartları yazdır"
+
+#~ msgid "Print card"
+#~ msgstr "Kartı yazdır"
 
 #~ msgid "Untitled appointment"
 #~ msgstr "Başlıksız toplantı"
+
+#~ msgid "Error while communicating with calendar server"
+#~ msgstr "Takvim sunucusuyla iletişimde hata oluştu"
+
+#~ msgid ""
+#~ "Could not create the calendar view.  Please check your ORBit and OAF "
+#~ "setup."
+#~ msgstr ""
+#~ "Takvim görünümü yaratılamadı. ORBit ve OAF kurulumunu gözden geçirin."
+
+#~ msgid "Folder containing appointments and events"
+#~ msgstr "Randevuları tutan dizin"
+
+#~ msgid "Public Calendar"
+#~ msgstr "Genel Takvim"
+
+#~ msgid "Folder containing to-do items"
+#~ msgstr "Yapılacaklar listesini tutan dizin"
+
+#~ msgid "Public Tasks"
+#~ msgstr "Genel Görevler"
+
+#~ msgid "Public folder containing to-do items"
+#~ msgstr "Yapılacaklar öğesini içeren genel dizin"
+
+#~ msgid "Basics"
+#~ msgstr "Temel"
+
+#~ msgid "Time"
+#~ msgstr "Zaman"
+
+#~ msgid "Could not update invalid object"
+#~ msgstr "Öğe güncellenemedi"
+
+#~ msgid "Object not found, not updated"
+#~ msgstr "Öğe bulunamadı ve güncellenemedi"
+
+#~ msgid "You don't have permissions to update this object"
+#~ msgstr "Bu öğeyi güncellemek için izniniz yoktur."
+
+#~ msgid "The event could not be deleted because it was invalid"
+#~ msgstr "Geçersiz olduğu için bu olay silinemedi"
+
+#, fuzzy
+#~ msgid "The task could not be deleted because it was invalid"
+#~ msgstr "Katılımcı bilgileri geçersiz bir durum nedeniyle güncellenemedi!\n"
+
+#, fuzzy
+#~ msgid "The item could not be deleted because it was invalid"
+#~ msgstr "Katılımcı bilgileri geçersiz bir durum nedeniyle güncellenemedi!\n"
+
+#~ msgid "Su_mmary:"
+#~ msgstr "Ö_zet:"
+
+#~ msgid "That person is already attending the meeting!"
+#~ msgstr "Bu kişi toplantıya zaten katılıyor!"
+
+#~ msgid "URL:"
+#~ msgstr "URL:"
+
+#~ msgid "_Save as..."
+#~ msgstr "_Farklı kaydet..."
+
+#~ msgid "End Date"
+#~ msgstr "Bitiş Tarihi"
+
+#~ msgid "New _Appointment"
+#~ msgstr "Yeni _Randevu"
+
+#~ msgid "Print..."
+#~ msgstr "Yazdır..."
+
+#~ msgid "Make this Occurrence _Movable"
+#~ msgstr "Bu _Oluşumu Taşınabilir Yap"
+
+#~ msgid "You do not have the right permissions to update the calendar\n"
+#~ msgstr "Bu takvimi güncellemek için yeterli izniniz yoktur\n"
+
+#~ msgid "Select Calendar Folder"
+#~ msgstr "Takvim Dizinini Seçin"
+
+#~ msgid "Select Tasks Folder"
+#~ msgstr "Görevler Dizinini Seçin"
+
+#~ msgid "Opening tasks at %s"
+#~ msgstr "%s tarihinde görevler açılıyor"
+
+#~ msgid "Adding alarms for %s"
+#~ msgstr "%s için alarm ekleniyor"
+
+#~ msgid "Opening calendar at %s"
+#~ msgstr "%s tarihinde takvim açılıyor"
 
 #~ msgid "Can't save calendar data: Malformed URI."
 #~ msgstr "Takvim verisi kaydedilemedi. Hatalı URI."
@@ -18337,14 +18167,6 @@ msgstr "Şimdi Bul"
 #~ msgstr "contains? birinci argümanı dizgi şeklinde istiyor"
 
 #, fuzzy
-#~ msgid "has-alarms? expects at least 1 argument"
-#~ msgstr "make-time 1 argüman istiyor"
-
-#, fuzzy
-#~ msgid "has-alarms? excepts argument to be a boolean"
-#~ msgstr "contains? ikinci argümanı dizgi şeklinde istiyor"
-
-#, fuzzy
 #~ msgid "has-categories? expects at least 1 argument"
 #~ msgstr "make-time 1 argüman istiyor"
 
@@ -18359,246 +18181,6 @@ msgstr "Şimdi Bul"
 #, fuzzy
 #~ msgid "completed-before? expects argument 1 to be a time_t"
 #~ msgstr "time-day-begin birinci argümanı time_t biçiminde istiyor"
-
-#~ msgid "Alwa_ys sign outgoing messages when using this account"
-#~ msgstr "B_u hesabı kullanırken giden iletileri her zaman imzala"
-
-#~ msgid "Digital IDs..."
-#~ msgstr "Sayısal Numaralar..."
-
-#~ msgid "Get Digital ID..."
-#~ msgstr "Sayısal Numarayı Al..."
-
-#~ msgid "_Certificate ID:"
-#~ msgstr "_Sertifika No:"
-
-#~ msgid "Evolution Addressbook local/LDAP backend"
-#~ msgstr "Evolution Adres Defteri yerel/LDAP arayüzü"
-
-#~ msgid "Evolution Calendar local file backend"
-#~ msgstr "Evolution Takvim yerel dosya arkayüzü"
-
-#, fuzzy
-#~ msgid "Evolution Addressbook local backend"
-#~ msgstr "Evolution Adres Defteri yerel/LDAP arayüzü"
-
-#~ msgid "Primary"
-#~ msgstr "İlk"
-
-#~ msgid "Prim"
-#~ msgstr "İlk"
-
-#~ msgid "Bus"
-#~ msgstr "Meşg"
-
-#~ msgid "Callback"
-#~ msgstr "Geri Arama"
-
-#~ msgid "Company"
-#~ msgstr "Şirket"
-
-#~ msgid "Comp"
-#~ msgstr "Şirk"
-
-#~ msgid "Org"
-#~ msgstr "Kur"
-
-#~ msgid "Mobile"
-#~ msgstr "Cep"
-
-#~ msgid "Car"
-#~ msgstr "Araba"
-
-#~ msgid "Bus Fax"
-#~ msgstr "İşy Faks"
-
-#~ msgid "Business 2"
-#~ msgstr "2. Meslek"
-
-#~ msgid "Bus 2"
-#~ msgstr "Meşgul 2"
-
-#~ msgid "Home 2"
-#~ msgstr "2. ev"
-
-#~ msgid "Url"
-#~ msgstr "Url"
-
-#~ msgid "Dep"
-#~ msgstr "Böl"
-
-#~ msgid "Off"
-#~ msgstr "Ofis"
-
-#~ msgid "Prof"
-#~ msgstr "Prof"
-
-#~ msgid "Man"
-#~ msgstr "Yön"
-
-#~ msgid "Ass"
-#~ msgstr "Asis"
-
-#~ msgid "Nick"
-#~ msgstr "Lakap"
-
-#~ msgid "CALUri"
-#~ msgstr "CALUri"
-
-#~ msgid "FBUrl"
-#~ msgstr "FBUrl"
-
-#~ msgid "Default server calendar"
-#~ msgstr "Öntanımlı sunucu takvimi"
-
-#~ msgid "icsCalendar"
-#~ msgstr "icsCalendar"
-
-#~ msgid "Anniv"
-#~ msgstr "Yıldön"
-
-#~ msgid "ECard"
-#~ msgstr "ECard"
-
-#~ msgid "%x"
-#~ msgstr "%x"
-
-#~ msgid "Birth date"
-#~ msgstr "Doğum tarihi"
-
-#~ msgid "Related Contacts"
-#~ msgstr "Seçilen Bağlantılar"
-
-#~ msgid "Wants HTML set"
-#~ msgstr "HTML kümesi ister"
-
-#~ msgid "Arbitrary"
-#~ msgstr "Rastgele"
-
-#~ msgid "Last Use"
-#~ msgstr "Son Kullanım"
-
-#~ msgid "Use Score"
-#~ msgstr "Kullanım Puanı"
-
-#~ msgid "Cursor could not be loaded\n"
-#~ msgstr "İmleç yüklenemedi\n"
-
-#~ msgid "Folder containing contact information"
-#~ msgstr "Bağlantı bilgisini içeren dizin"
-
-#~ msgid "LDAP server containing contact information"
-#~ msgstr "Bağlantı bilgisini içeren LDAP sunucusu"
-
-#~ msgid "Public Contacts"
-#~ msgstr "Ortak Bağlantılar"
-
-#~ msgid "Public folder containing contact information"
-#~ msgstr "Bağlantı bilgisini içeren ortak dizin"
-
-#~ msgid "The URI that the Folder Browser will display"
-#~ msgstr "Dizin tarayıcısının göstereceği URI"
-
-#~ msgid "Disable Queries"
-#~ msgstr "Aramaları Kapat"
-
-#~ msgid "Enable Queries (Dangerous!)"
-#~ msgstr "Aramaları Etkinleştir (Tehlikeli!)"
-
-#~ msgid "Card"
-#~ msgstr "Kart"
-
-#~ msgid "Is New Card"
-#~ msgstr "Yeni bir Kart"
-
-#~ msgid "No cards"
-#~ msgstr "Kart yok"
-
-#~ msgid "1 card"
-#~ msgstr "1 kart"
-
-#~ msgid "%d cards"
-#~ msgstr "%d kart"
-
-#~ msgid ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
-#~ msgstr ",123,a,b,c,ç,d,e,f,g,h,ı,i,j,k,l,m,n,o,ö,p,q,r,s,ş,t,u,ü,v,w,x,y,z"
-
-#~ msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
-#~ msgstr ",0,a,b,c,ç,d,e,f,g,h,ı,i,j,k,l,m,n,o,ö,p,q,r,s,ş,t,u,ü,v,w,x,y,z"
-
-#~ msgid "Print cards"
-#~ msgstr "Kartları yazdır"
-
-#~ msgid "Print card"
-#~ msgstr "Kartı yazdır"
-
-#~ msgid "Error while communicating with calendar server"
-#~ msgstr "Takvim sunucusuyla iletişimde hata oluştu"
-
-#~ msgid ""
-#~ "Could not create the calendar view.  Please check your ORBit and OAF "
-#~ "setup."
-#~ msgstr ""
-#~ "Takvim görünümü yaratılamadı. ORBit ve OAF kurulumunu gözden geçirin."
-
-#~ msgid "Folder containing appointments and events"
-#~ msgstr "Randevuları tutan dizin"
-
-#~ msgid "Public Calendar"
-#~ msgstr "Genel Takvim"
-
-#~ msgid "Folder containing to-do items"
-#~ msgstr "Yapılacaklar listesini tutan dizin"
-
-#~ msgid "Public Tasks"
-#~ msgstr "Genel Görevler"
-
-#~ msgid "Public folder containing to-do items"
-#~ msgstr "Yapılacaklar öğesini içeren genel dizin"
-
-#~ msgid "Could not update invalid object"
-#~ msgstr "Öğe güncellenemedi"
-
-#~ msgid "Object not found, not updated"
-#~ msgstr "Öğe bulunamadı ve güncellenemedi"
-
-#~ msgid "You don't have permissions to update this object"
-#~ msgstr "Bu öğeyi güncellemek için izniniz yoktur."
-
-#~ msgid "The event could not be deleted because it was invalid"
-#~ msgstr "Geçersiz olduğu için bu olay silinemedi"
-
-#, fuzzy
-#~ msgid "The task could not be deleted because it was invalid"
-#~ msgstr "Katılımcı bilgileri geçersiz bir durum nedeniyle güncellenemedi!\n"
-
-#, fuzzy
-#~ msgid "The item could not be deleted because it was invalid"
-#~ msgstr "Katılımcı bilgileri geçersiz bir durum nedeniyle güncellenemedi!\n"
-
-#~ msgid "That person is already attending the meeting!"
-#~ msgstr "Bu kişi toplantıya zaten katılıyor!"
-
-#~ msgid "URL:"
-#~ msgstr "URL:"
-
-#~ msgid "_Save as..."
-#~ msgstr "_Farklı kaydet..."
-
-#~ msgid "End Date"
-#~ msgstr "Bitiş Tarihi"
-
-#~ msgid "Print..."
-#~ msgstr "Yazdır..."
-
-#~ msgid "Make this Occurrence _Movable"
-#~ msgstr "Bu _Oluşumu Taşınabilir Yap"
-
-#~ msgid "You do not have the right permissions to update the calendar\n"
-#~ msgstr "Bu takvimi güncellemek için yeterli izniniz yoktur\n"
-
-#~ msgid "Opening calendar at %s"
-#~ msgstr "%s tarihinde takvim açılıyor"
 
 #~ msgid "Please enter your password for %s"
 #~ msgstr "%s için parolanızı girin"
@@ -18640,6 +18222,9 @@ msgstr "Şimdi Bul"
 #~ msgid "Virtual Trash folder"
 #~ msgstr "Sanal Çöp dizini"
 
+#~ msgid "This folder cannot contain messages."
+#~ msgstr "Bu dizinde ileti bulunamaz."
+
 #~ msgid "Change this folder's properties"
 #~ msgstr "Bu dizinin özelliklerini değiştir"
 
@@ -18658,6 +18243,9 @@ msgstr "Şimdi Bul"
 
 #~ msgid "Post a new mail message"
 #~ msgstr "Yeni bir e-posta gönder"
+
+#~ msgid "Connecting..."
+#~ msgstr "Bağlanıyor..."
 
 #~ msgid "Cannot register storage with shell"
 #~ msgstr "Depo kabuğa kayıt ettirilemedi"
@@ -18710,6 +18298,14 @@ msgstr "Şimdi Bul"
 #~ "önce yapmanız gerekiyor.\n"
 #~ "Şimdi yapılandırmak istiyor musunuz?"
 
+#, fuzzy
+#~ msgid ""
+#~ "You need to configure an account\n"
+#~ "before you can compose mail."
+#~ msgstr ""
+#~ "İleti göndermeden önce kendinize\n"
+#~ "ait bir kimlik oluşturmalısınız."
+
 #~ msgid ""
 #~ "You need to configure an identity\n"
 #~ "before you can compose mail."
@@ -18723,6 +18319,9 @@ msgstr "Şimdi Bul"
 #~ msgstr ""
 #~ "İleti göndermeden önce bir posta\n"
 #~ "iletim ayarı yapmalısınız."
+
+#~ msgid "Send anyway?"
+#~ msgstr "Yine de gönderilsin mi?"
 
 #~ msgid "Move message(s) to"
 #~ msgstr "İletileri buraya taşı"
@@ -18761,6 +18360,15 @@ msgstr "Şimdi Bul"
 
 #~ msgid "Are you sure you want to open all %d messages in separate windows?"
 #~ msgstr "Gerçekten %d iletiyi farklı pencerelerde açmak istiyor musunuz?"
+
+#~ msgid "Alwa_ys sign outgoing messages when using this account"
+#~ msgstr "B_u hesabı kullanırken giden iletileri her zaman imzala"
+
+#~ msgid "Digital IDs..."
+#~ msgstr "Sayısal Numaralar..."
+
+#~ msgid "Get Digital ID..."
+#~ msgstr "Sayısal Numarayı Al..."
 
 #~ msgid "Could not create a S/MIME signature context."
 #~ msgstr "S/MIME imzası oluşturulamadı."
@@ -18803,7 +18411,7 @@ msgstr "Şimdi Bul"
 #~ msgstr "İleti içeriği yükleniyor"
 
 #, fuzzy
-#~ msgid "by %B %d, %Y, %l:%M %P"
+#~ msgid "by %B %d, %Y, %l:%M %p"
 #~ msgstr "%d %b %l:%M %p"
 
 #~ msgid "Save Link as (FIXME)"
@@ -18814,6 +18422,13 @@ msgstr "Şimdi Bul"
 
 #~ msgid "Bad Address"
 #~ msgstr "Hatalı Adres"
+
+#~ msgid ""
+#~ "This message is digitally signed. Click the lock icon for more "
+#~ "information."
+#~ msgstr ""
+#~ "Bu ileti dijital olarak imzalanmıştır ve güvenlidir. Daha fazla bilgi "
+#~ "için kilit simgesi üzerine tıklayın."
 
 #~ msgid "Could not create a PGP verfication context"
 #~ msgstr "PGP onaylama dosyası oluşturulamadı."
@@ -18850,9 +18465,6 @@ msgstr "Şimdi Bul"
 #, fuzzy
 #~ msgid "You cannot change the format of a non-local folder."
 #~ msgstr "Bu çöp dizininden ileti kopyalayamazsınız."
-
-#~ msgid "However, the message was successfully sent."
-#~ msgstr "Mesaj başarıyla gönderilmiştir."
 
 #~ msgid "(Untitled Message)"
 #~ msgstr "(Başlıksız İleti)"
@@ -24027,6 +23639,9 @@ msgstr "Şimdi Bul"
 #~ msgid "Portland"
 #~ msgstr "Portland"
 
+#~ msgid "Porto"
+#~ msgstr "Porto"
+
 #~ msgid "Porto Alegre"
 #~ msgstr "Porto Alegre"
 
@@ -26218,7 +25833,7 @@ msgstr "Şimdi Bul"
 #~ msgstr "%k:%M %d %B"
 
 #, fuzzy
-#~ msgid "%l:%M%P %d %B"
+#~ msgid "%l:%M%p %d %B"
 #~ msgstr "%l:%M %d %B"
 
 #~ msgid "No description"
@@ -27160,6 +26775,55 @@ msgstr "Şimdi Bul"
 #~ msgid "_Show full path for folders"
 #~ msgstr "_Dizinlerin tam yolunu göster"
 
+#~ msgid "Folder Settings"
+#~ msgstr "Dizin Ayarları"
+
+#~ msgid "Cancel Operation"
+#~ msgstr "İşlemi İ_ptal Et"
+
+#~ msgid ""
+#~ "Cannot transfer folder:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Dizin aktarılamadı:\n"
+#~ "%s"
+
+#~ msgid "Add a Folder"
+#~ msgstr "Dizin Ekle"
+
+#~ msgid "Drafts"
+#~ msgstr "Taslaklar"
+
+#~ msgid "Outbox"
+#~ msgstr "Giden"
+
+#~ msgid "Sent"
+#~ msgstr "Gönderilen"
+
+#, fuzzy
+#~ msgid ""
+#~ "Error synchronizing \"%s\":\n"
+#~ "%s"
+#~ msgstr ""
+#~ "'%s' sırasında hata:\n"
+#~ "%s"
+
+#, fuzzy
+#~ msgid "Syncing Folder"
+#~ msgstr "Dizin eşzamanlı hale getiriliyor"
+
+#~ msgid "Synchronizing \"%s\" (%d of %d) ..."
+#~ msgstr "\"%s\" senkronize ediliyor (%d / %d) ..."
+
+#~ msgid "(No folder displayed)"
+#~ msgstr "(dizin gösterilmiyor)"
+
+#~ msgid "%s (%d)"
+#~ msgstr "%s (%d)"
+
+#~ msgid "(None)"
+#~ msgstr "(Hiçbiri)"
+
 #, fuzzy
 #~ msgid ""
 #~ "Cannot activate component %s :\n"
@@ -27173,6 +26837,75 @@ msgstr "Şimdi Bul"
 
 #~ msgid "Cannot set up local storage -- %s"
 #~ msgstr "Yerel kayıt kurulamadı -- %s"
+
+#~ msgid "Checkbox"
+#~ msgstr "Denetim kutusu"
+
+#~ msgid "No error"
+#~ msgstr "Hata yok"
+
+#~ msgid "A folder with the same name already exists"
+#~ msgstr "Aynı isimli bir dizin zaten var"
+
+#~ msgid "The specified folder type is not valid"
+#~ msgstr "Belirtilen dizin türü geçerli değildir"
+
+#~ msgid "I/O error"
+#~ msgstr "G/Ç hatası"
+
+#~ msgid "Not enough space to create the folder"
+#~ msgstr "Dizin yaratmak için gerekli disk alanı yok"
+
+#~ msgid "The folder is not empty"
+#~ msgstr "Dizin boş değil"
+
+#~ msgid "The specified folder was not found"
+#~ msgstr "Belirtilen dizin bulunamadı"
+
+#~ msgid "Function not implemented in this storage"
+#~ msgstr "Fonksiyon desteklenmiyor"
+
+#~ msgid "Operation not supported"
+#~ msgstr "İşlem desteklenmiyor"
+
+#~ msgid "The specified type is not supported in this storage"
+#~ msgstr "Bu kayıtta belirtilen tip desteklenmiyor"
+
+#~ msgid "The specified folder cannot be modified or removed"
+#~ msgstr "Belirtilen dizin düzenlenemedi ya da silinemedi"
+
+#~ msgid "CORBA error"
+#~ msgstr "CORBA hatası"
+
+#~ msgid "Invalid argument"
+#~ msgstr "Geçersiz argüman"
+
+#~ msgid "Already has an owner"
+#~ msgstr "Bunun bir sahibi zaten var"
+
+#~ msgid "No owner"
+#~ msgstr "Sahibi yok"
+
+#~ msgid "Unsupported type"
+#~ msgstr "Desteklenmeyen tür"
+
+#~ msgid "Unsupported operation"
+#~ msgstr "Desteklenmeyen işlem"
+
+#~ msgid "Exists"
+#~ msgstr "Bulunur"
+
+#~ msgid "Invalid URI"
+#~ msgstr "Geçersiz URI"
+
+#~ msgid "Has subfolders"
+#~ msgstr "Alt dizinler"
+
+#~ msgid "No space left"
+#~ msgstr "Hiç boş alan kalmadı"
+
+#~ msgid "Test type"
+#~ msgstr "Test türü"
 
 #~ msgid "Disable splash screen"
 #~ msgstr "Açılış ekranıni gösterme"
@@ -27201,6 +26934,9 @@ msgstr "Şimdi Bul"
 #~ msgid "Display a different folder"
 #~ msgstr "Farklı bir dizin göster"
 
+#~ msgid "Evolution _Window"
+#~ msgstr "Evolution _Penceresi"
+
 #~ msgid "Move this folder to another place"
 #~ msgstr "Bu dizini başka bir yere taşı"
 
@@ -27212,6 +26948,9 @@ msgstr "Şimdi Bul"
 
 #~ msgid "Open this folder in an other window"
 #~ msgstr "Bu dizini yeni bir pencerede aç"
+
+#~ msgid "Toggle"
+#~ msgstr "Aç/kapat"
 
 #~ msgid "View the selected folder"
 #~ msgstr "Seçili dizini göster"
@@ -27255,8 +26994,23 @@ msgstr "Şimdi Bul"
 #~ msgid "Question"
 #~ msgstr "Soru"
 
+#~ msgid "Evolution Addressbook local/LDAP backend"
+#~ msgstr "Evolution Adres Defteri yerel/LDAP arayüzü"
+
+#~ msgid "Evolution Calendar local file backend"
+#~ msgstr "Evolution Takvim yerel dosya arkayüzü"
+
 #~ msgid "Evolution Addressbook local file backend"
 #~ msgstr "Evolution Adres Defteri yerel dosya arkayüzü"
+
+#~ msgid "_Forward Message"
+#~ msgstr "İletiyi _Yönlendir"
+
+#~ msgid "Clear"
+#~ msgstr "Temizle"
+
+#~ msgid "However, the message was successfully sent."
+#~ msgstr "Mesaj başarıyla gönderilmiştir."
 
 #~ msgid "De_lete"
 #~ msgstr "_Sil"
@@ -27400,9 +27154,6 @@ msgstr "Şimdi Bul"
 #~ msgid "Mappings"
 #~ msgstr "Marjin"
 
-#~ msgid "Select"
-#~ msgstr "Seç"
-
 #~ msgid "_Add ->"
 #~ msgstr "_Ekle ->"
 
@@ -27533,9 +27284,6 @@ msgstr "Şimdi Bul"
 
 #~ msgid "Could not activate Bonobo"
 #~ msgstr "Bonobo başlatılamadı"
-
-#~ msgid "Could not create the component editor factory"
-#~ msgstr "Bileşen düzenleyici mimarisi oluşturulamadı."
 
 #~ msgid "Print Calendar"
 #~ msgstr "Takvimi Yazdır"
@@ -28126,9 +27874,6 @@ msgstr "Şimdi Bul"
 #~ msgid "Could not find 'From' address in message"
 #~ msgstr "İleti gövdesinde 'Gönderen' adresi bulunamadı"
 
-#~ msgid "Could not open directory for news server: %s"
-#~ msgstr "Haber grubu sunucusu için dizin açılamadı: %s"
-
 #~ msgid "Create a New All Day _Event"
 #~ msgstr "Y_eni Tüm Gün Olayı Oluştur"
 
@@ -28153,6 +27898,9 @@ msgstr "Şimdi Bul"
 #~ msgid "Edit..."
 #~ msgstr "Düzenle..."
 
+#~ msgid "Email is"
+#~ msgstr "E-posta adresi"
+
 #~ msgid "Error in search expression."
 #~ msgstr "Arama ifadesinde hata."
 
@@ -28173,6 +27921,9 @@ msgstr "Şimdi Bul"
 
 #~ msgid "Free/Busy info ends: <b>"
 #~ msgstr "Boş/Meşgul bilgi bitişi: <b>"
+
+#~ msgid "HTML signature file:"
+#~ msgstr "HTML imza dosyası:"
 
 #~ msgid ""
 #~ "Importing %s\n"
@@ -28222,11 +27973,17 @@ msgstr "Şimdi Bul"
 #~ msgid "NT Login"
 #~ msgstr "NT Girişi"
 
+#~ msgid "New Contact _List"
+#~ msgstr "Yeni Bağlantı _Listesi"
+
 #~ msgid "New _Contact"
 #~ msgstr "Yeni _Bağlantı"
 
 #~ msgid "New _Mail Message"
 #~ msgstr "_Yeni İleti"
+
+#~ msgid "New _Task"
+#~ msgstr "Yeni _Görev"
 
 #~ msgid "News"
 #~ msgstr "Haberler"
