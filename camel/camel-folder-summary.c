@@ -1379,7 +1379,9 @@ static CamelMessageContentInfo * content_info_new_from_message(CamelFolderSummar
 	return ci;
 }
 
+#ifndef NO_WARNINGS
 #warning "These should be made private again, easy to fix (used in filter-driver)"
+#endif
 char *
 camel_folder_summary_format_address(struct _header_raw *h, const char *name)
 {
@@ -2206,7 +2208,7 @@ camel_system_flag_get (guint32 flags, const char *name)
  * Returns a new CamelMessageInfo structure.
  **/
 CamelMessageInfo *
-camel_message_info_new ()
+camel_message_info_new (void)
 {
 	CamelMessageInfo *info;
 	

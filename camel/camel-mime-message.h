@@ -35,6 +35,7 @@ extern "C" {
 #include <camel/camel-mime-part.h>
 #include <camel/camel-mime-utils.h>
 #include <camel/camel-internet-address.h>
+#include <camel/camel-mime-filter-bestenc.h>
 
 #define CAMEL_RECIPIENT_TYPE_TO "To"
 #define CAMEL_RECIPIENT_TYPE_CC "Cc"
@@ -80,32 +81,41 @@ typedef struct {
 
 
 /* Standard Camel function */
-CamelType camel_mime_message_get_type (void);
+CamelType                   camel_mime_message_get_type           (void);
 
 
 /* public methods */
-CamelMimeMessage * camel_mime_message_new                  (void);
+CamelMimeMessage           *camel_mime_message_new                (void);
+void                        camel_mime_message_set_date           (CamelMimeMessage           *mime_message,
+								   time_t                      date,
+								   int                         offset);
+time_t                      camel_mime_message_get_date           (CamelMimeMessage           *mime_message,
+								   int                        *offset);
+time_t                      camel_mime_message_get_date_received  (CamelMimeMessage           *mime_message,
+								   int                        *offset);
+void                        camel_mime_message_set_reply_to       (CamelMimeMessage           *mime_message,
+								   const CamelInternetAddress *reply_to);
+const CamelInternetAddress *camel_mime_message_get_reply_to       (CamelMimeMessage           *mime_message);
 
+void                        camel_mime_message_set_subject        (CamelMimeMessage           *mime_message,
+								   const char                 *subject);
+const char                 *camel_mime_message_get_subject        (CamelMimeMessage           *mime_message);
+void                        camel_mime_message_set_from           (CamelMimeMessage           *mime_message,
+								   const CamelInternetAddress *from);
+const CamelInternetAddress *camel_mime_message_get_from           (CamelMimeMessage           *mime_message);
 
-void            camel_mime_message_set_date		(CamelMimeMessage *mime_message, time_t date, int offset);
-
-time_t          camel_mime_message_get_date		(CamelMimeMessage *mime_message, int *offset);
-time_t          camel_mime_message_get_date_received	(CamelMimeMessage *mime_message, int *offset);
-
-void            camel_mime_message_set_reply_to         (CamelMimeMessage *mime_message, const CamelInternetAddress *reply_to);
-const CamelInternetAddress *camel_mime_message_get_reply_to         (CamelMimeMessage *mime_message);
-void        	camel_mime_message_set_subject          (CamelMimeMessage *mime_message, 
-							 const char *subject);
-const char *	camel_mime_message_get_subject          (CamelMimeMessage *mime_message);
-void        	camel_mime_message_set_from             (CamelMimeMessage *mime_message, const CamelInternetAddress *from);
-const CamelInternetAddress *camel_mime_message_get_from             (CamelMimeMessage *mime_message);
-
-const CamelInternetAddress *camel_mime_message_get_recipients (CamelMimeMessage *mime_message, const char *type);
-void			    camel_mime_message_set_recipients (CamelMimeMessage *mime_message, const char *type, const CamelInternetAddress *r);
+const CamelInternetAddress *camel_mime_message_get_recipients     (CamelMimeMessage           *mime_message,
+								   const char                 *type);
+void                        camel_mime_message_set_recipients     (CamelMimeMessage           *mime_message,
+								   const char                 *type,
+								   const CamelInternetAddress *r);
 
 /* utility functions */
-gboolean camel_mime_message_has_8bit_parts    (CamelMimeMessage *mime_message);
-void     camel_mime_message_encode_8bit_parts (CamelMimeMessage *mime_message);
+gboolean                    camel_mime_message_has_8bit_parts     (CamelMimeMessage           *mime_message);
+void                        camel_mime_message_set_best_encoding  (CamelMimeMessage           *msg,
+								   CamelBestencRequired        required,
+								   CamelBestencEncoding        enctype);
+void                        camel_mime_message_encode_8bit_parts  (CamelMimeMessage           *mime_message);
 
 #ifdef __cplusplus
 }

@@ -220,7 +220,7 @@ stream_flush (CamelStream *stream)
 {
 	CamelSeekableSubstream *sus = (CamelSeekableSubstream *)stream;
 
-	return camel_stream_flush(sus->parent_stream);
+	return camel_stream_flush(CAMEL_STREAM(sus->parent_stream));
 }
 
 static int

@@ -24,6 +24,8 @@
 
 #include <config.h>
 
+#include <netinet/in.h>
+
 #include <string.h>
 
 #ifdef HAVE_KRB4

@@ -1,3 +1,27 @@
+2000-12-12  Christopher James Lahey  <clahey@helixcode.com>
+
+	* camel-folder-summary.c, camel-folder-summary.h: Added #ifndef
+	NO_WARNINGS around a #warning.  Added (void) to the prototype and
+	declaration of camel_message_info_new.
+
+	* camel-mime-message.h: Added an include for
+	camel-mime-filter-bestenc.h.  Added a prototype for
+	camel_mime_message_set_best_encoding.  Reformatted prototypes to
+	line up.
+
+	* camel-mime-parser.c: Added #if d(!)0 around the states string
+	lookup table since it's only used in debugging output.
+
+	* camel-seekable-substream.c (stream_flush): Added a cast.
+
+	* providers/imap/camel-imap-auth.c: Added #include <netinet/in.h>.
+
+	* providers/imap/camel-imap-folder.c (imap_refresh_info): Made uid
+	and flags const to fix warnings here.
+
+	* providers/imap/camel-imap-store.c (get_folder_info): Made p
+	const to fix warnings here.
+
 2000-12-12  Dan Winship  <danw@helixcode.com>
 
 	* tests/lib/Makefile.am: Add missing .h file. (From campd.)

@@ -245,7 +245,8 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 		char *uid;
 		guint32 flags;
 	} *new;
-	char *resp, *uid, *p, *flags;
+	char *resp, *p;
+	const char *uid, *flags;
 	int i, seq, summary_len;
 	CamelMessageInfo *info;
 	gboolean folder_changed = FALSE;

@@ -293,6 +293,7 @@ static void header_append_mempool(struct _header_scan_state *s, struct _header_s
 static void camel_mime_parser_class_init (CamelMimeParserClass *klass);
 static void camel_mime_parser_init       (CamelMimeParser *obj);
 
+#if d(!)0
 static char *states[] = {
 	"HSCAN_INITIAL",
 	"HSCAN_PRE_FROM",	/* pre-from data */
@@ -312,6 +313,7 @@ static char *states[] = {
 	"HSCAN_MULTIPART_END",
 	"HSCAN_MESSAGE_END",
 };
+#endif
 
 static CamelObjectClass *camel_mime_parser_parent;
 

@@ -609,7 +609,8 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	GPtrArray *folders;
 	const char *name;
 	char *pattern, *list;
-	char *status, *p;
+	char *status;
+	const char *p;
 	CamelFolderInfo *topfi, *fi;
 
 	name = top;
