@@ -1,3 +1,12 @@
+2003-04-24  Chris Toshok  <toshok@ximian.com>
+
+	[ for bug #41211 ]
+	
+	* e-gui-utils.h (e_button_new_with_stock_icon): add prototype.
+
+	* e-gui-utils.c (e_button_new_with_stock_icon): new function,
+	allow us to create a custom labeled button with a stock icon.
+
 2003-04-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-host-utils.c: Added #include <netinet/in.h> for the
