@@ -2100,7 +2100,7 @@ setup_signatures_menu (EMsgComposer *composer)
 
 	composer->sig_menu = (GtkOptionMenu *) gtk_option_menu_new ();
 
-	gtk_label_set_mnemonic_widget (label, composer->sig_menu);
+	gtk_label_set_mnemonic_widget ((GtkLabel *) label, (GtkWidget *)composer->sig_menu);
 
 	gtk_box_pack_end_defaults (GTK_BOX (hbox), (GtkWidget *) composer->sig_menu);
 	gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, TRUE, 0);
@@ -3153,27 +3153,20 @@ static void
 map_default_cb (EMsgComposer *composer, gpointer user_data)
 {
 	GtkWidget *widget;
-	BonoboControlFrame *cf;
-	Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
 	CORBA_Environment ev;
 	const char *subject;
-	char *text;
+	const char *text;
 
-	/* If the 'To:' field is empty, focus it (This is ridiculously complicated) */
-	
+	/* If the 'To:' field is empty, focus it */	
+
 	widget = e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs));
-	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (widget));
-	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
-	text = bonobo_pbclient_get_string (pb, "text", NULL);
-	bonobo_object_release_unref (pb, NULL);
+	text = gtk_entry_get_text (GTK_ENTRY (widget));
 	
 	if (!text || text[0] == '\0') {
-		bonobo_control_frame_control_activate (cf);
+		gtk_widget_grab_focus (widget);
 		
-		g_free (text);
 		return;
 	}
-	g_free (text);
 	
 	/* If not, check the subject field */
 	
