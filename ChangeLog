@@ -1,5 +1,9 @@
 2004-09-13  JP Rosevear  <jpr@novell.com>
 
+	* configure.in: bump version, requires
+
+2004-09-13  JP Rosevear  <jpr@novell.com>
+	
 	Fixes #63369
 	
 	* README: Update
