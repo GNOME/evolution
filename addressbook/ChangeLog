@@ -46,7 +46,6 @@
 	assumed that event->button.button is 1, 2, or 3, causing disaster
 	when using a wheel-mouse.  Fixed. (bug #9400)
 
->>>>>>> 1.776
 2001-09-16  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (_phone_arrow_pressed):
