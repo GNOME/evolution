@@ -303,6 +303,9 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
 	else {
 		g_hash_table_remove (priv->uri_client_hash[e_cal_get_source_type (client)],
 				     e_cal_get_uri (client));
+		g_signal_handlers_disconnect_matched (G_OBJECT (client), G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, an);
+		g_object_unref (client);
 	}
 }
 
