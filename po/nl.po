@@ -39,8 +39,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-01 22:13+0100\n"
-"PO-Revision-Date: 2005-03-02 17:07+0100\n"
+"POT-Creation-Date: 2005-03-03 11:50+0100\n"
+"PO-Revision-Date: 2005-03-04 01:57+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -288,13 +288,10 @@ msgstr "Dit adresboek kon niet worden geopend."
 
 #. addressbook:ldap-init secondary
 #: addressbook/addressbook-errors.xml.h:4
-#, fuzzy
 msgid ""
 "This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
-msgstr ""
-"Deze adresboek-server kan onbereikbaar zijn of de dserver naam kan \n"
-"verkeerd gespeld zijn of de netwerk verbinding kan verbroken zijn."
+msgstr "Deze adresboek-server kan onbereikbaar zijn of de servernaam kan verkeerd gespeld zijn of de netwerkverbinding kan verbroken zijn."
 
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
@@ -474,13 +471,10 @@ msgstr "Adres '{0} bestaat al."
 
 #. addressbook:ask-list-add-exists secondary
 #: addressbook/addressbook-errors.xml.h:61
-#, fuzzy
 msgid ""
 "A contact already exists with this address.  Would you like to add a new "
 "card with the same address anyway?"
-msgstr ""
-"De naam of het e-mailadres van dit contact bestaat reeds\n"
-"in deze map. Wilt u het toch toevoegen?"
+msgstr "Een contact met dit e-mailadres bestaat al. Wilt u het toch een nieuwe kaart met ditzelfde adres toevoegen?"
 
 #: addressbook/addressbook-errors.xml.h:62 mail/em-vfolder-rule.c:494
 #: plugins/shared-folder/properties.glade.h:10
@@ -502,7 +496,9 @@ msgstr "Uw server heeft een update nodig"
 #. addressbook:server-version secondary
 #: addressbook/addressbook-errors.xml.h:68
 msgid "Some features may not work correctly with your current server version"
-msgstr "Bepaalde mogelijkheden werken mogelijk niet correct met uw huidige server-versie"
+msgstr ""
+"Bepaalde mogelijkheden werken mogelijk niet correct met uw huidige server-"
+"versie"
 
 #: addressbook/conduit/address-conduit.c:298
 msgid "Default Sync Address:"
@@ -518,9 +514,12 @@ msgstr "Kon adresboek niet laden"
 msgid "Could not read pilot's Address application block"
 msgstr "Kon de adresgegevens niet uit de pilot lezen"
 
+# was eerst: auto-afmaken,
+# maar het gaat er om welke adresboeken worden gebruikt bij het
+# automatisch aanvullen van een adres (als je 3 of meer letters hebt getypt)
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
-msgstr "Auto-afmaken"
+msgstr "Auto-aanvullen"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "C_ontacts"
@@ -532,7 +531,7 @@ msgstr "Certificaten"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 msgid "Configure autocomplete here"
-msgstr "Configure autocomplete here"
+msgstr "Automatsch aanvullen hier configureren"
 
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
@@ -654,9 +653,8 @@ msgid "_Type:"
 msgstr "_Type:"
 
 #: addressbook/gui/component/addressbook-config.c:609
-#, fuzzy
 msgid "Copy book content locally for offline operation"
-msgstr "Kopieër de inhoud van de map lokaal voor offline gebruik"
+msgstr "De inhoud van het adresboek lokaal kopiëren voor offline gebruik"
 
 #: addressbook/gui/component/addressbook-config.c:904
 #: addressbook/gui/component/ldap-config.glade.h:23
@@ -777,9 +775,8 @@ msgid "Properties..."
 msgstr "Eigenschappen..."
 
 #: addressbook/gui/component/addressbook-view.c:1130
-#, fuzzy
 msgid "Contact Source Selector"
-msgstr "Geen bronnen geselecteerd."
+msgstr "Contactenbron-selectie"
 
 #: addressbook/gui/component/addressbook.c:98
 msgid "Accessing LDAP Server anonymously"
@@ -792,54 +789,45 @@ msgstr "Fout bij het aanmelden.\n"
 
 #: addressbook/gui/component/addressbook.c:200
 #: plugins/groupwise-account-setup/camel-gw-listener.c:461
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for %s (user %s)"
-msgstr "%sVoer uw wachtwoord in voor %s (gebruiker %s)"
+msgstr "Voer het wachtwoord in voor %s (gebruiker %s)"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
-#, fuzzy
 msgid "Autocomplete length"
-msgstr "Auto-afmaken"
+msgstr "Auto-aanvullen lengte"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
-#, fuzzy
 msgid "EFolderList XML for the list of completion URIs"
-msgstr "EFolderList xml voor de lijst met autoafmaak uri's"
+msgstr "EFolderList XML voor de lijst met auto-aanvullen URI's"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
-#, fuzzy
 msgid "EFolderList XML for the list of completion URIs."
-msgstr "EFolderList xml voor de lijst met autoafmaak uri's"
+msgstr "EFolderList XML voor de lijst met auto-aanvullen URI's."
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
-#, fuzzy
 msgid ""
 "Position of the vertical pane, between the card and list views and the "
 "preview pane, in pixels."
-msgstr "Positie van het vertikale paneel in maand weergave"
+msgstr "Positie van het vertikale paneel, tussen de kaart- en lijstweergave en het voorbeeldpaneel, in pixels."
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
-#, fuzzy
 msgid "Show preview pane"
-msgstr "Toon het voorbeeld paneel"
+msgstr "Het voorbeeldpaneel tonen"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
-#, fuzzy
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
-msgstr ""
-"Het aantal karakters dat getypt moet worden voordat evolution zal proberen "
-"het automatisch aan te vullen"
+msgstr "Het aantal tekens dat getypt moet worden voordat evolution het zal pogen automatisch aan te vullen."
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
 msgstr "URI voor de laatst gebruikte map in de slecteer namen dialoog"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
-#, fuzzy
 msgid "URI for the folder last used in the select names dialog."
-msgstr "URI voor de laatst gebruikte map in de slecteer namen dialoog"
+msgstr "URI voor de laatst gebruikte map in het dialoog: namen selecteren."
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
@@ -1041,19 +1029,14 @@ msgstr ""
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
-msgstr ""
-"Dit is het maximum aantal kaarten dat zal worden opgehaald. Als u het te "
-"hoog instelt zal het adresboek langzaam worden."
+msgstr "Dit is het maximum aantal kaarten dat zal worden opgehaald. Als u het te hoog instelt zal het adresboek traag worden."
 
 #: addressbook/gui/component/ldap-config.glade.h:37
-#, fuzzy
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
-msgstr ""
-"Dit is de methode die evolution zal gebruiken om u aan te melden. Als het op "
-"\"E-mailadres\" wordt gezet, is anonieme toegang tot de ldap server vereist."
+msgstr "Dit is de methode die Evolution zal gebruiken om u aan te melden. Als het op \"E-mailadres\" wordt gezet, is anonieme toegang tot de ldap server vereist."
 
 #: addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -2445,7 +2428,9 @@ msgstr "Geen afbeelding"
 msgid ""
 "The contact data is invalid:\n"
 "\n"
-msgstr "De contact-data is ongeldig:\n\n"
+msgstr ""
+"De contact-data is ongeldig:\n"
+"\n"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2907
 msgid "Invalid contact."
@@ -3070,7 +3055,10 @@ msgid ""
 "\n"
 "\n"
 "Search for the Contact."
-msgstr "\n\nZoeken naar het contact."
+msgstr ""
+"\n"
+"\n"
+"Zoeken naar het contact."
 
 #: addressbook/gui/widgets/e-minicard-view.c:181
 msgid ""
@@ -4111,7 +4099,9 @@ msgstr "Weet u zeker dat u de afspraak wilt versturen zonder samenvatting?"
 msgid ""
 "Adding a meaningful Summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
-msgstr "Het toevoegen van een samenvatting aan uw afspraakbericht zal de geadresseerden een hint geven waar de afspraak over gaat."
+msgstr ""
+"Het toevoegen van een samenvatting aan uw afspraakbericht zal de "
+"geadresseerden een hint geven waar de afspraak over gaat."
 
 # in outlook wordt de 'e' als sneltoets gebruikt
 #: calendar/calendar-errors.xml.h:127 calendar/calendar-errors.xml.h:132
@@ -4122,9 +4112,8 @@ msgstr "V_erzenden"
 
 #. calendar:prompt-send-no-subject-task primary
 #: calendar/calendar-errors.xml.h:129
-#, fuzzy
 msgid "Are you sure you want to send the task without a summary?"
-msgstr "Weet u zeker dat u een bericht zonder onderwerp wilt versturen?"
+msgstr "Weet u zeker dat u de taak zonder onderwerp wilt versturen?"
 
 #. calendar:prompt-send-no-subject-task secondary
 #: calendar/calendar-errors.xml.h:131
@@ -4159,7 +4148,9 @@ msgstr "De takenlijst is niet aangemerkt voor offline gebruik"
 #. calendar:server-version secondary
 #: calendar/calendar-errors.xml.h:146
 msgid " Some features may not work correctly with your current server version"
-msgstr "Bepaalde mogelijkheden werken mogelijk niet correct met uw huidige server-versie"
+msgstr ""
+"Bepaalde mogelijkheden werken mogelijk niet correct met uw huidige server-"
+"versie"
 
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -4415,11 +4406,15 @@ msgstr "Vragen om bevestiging bij het wissen van items"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-msgstr "Achtergrondkleur voor taken die vandaag gedaan moeten worden, in \"rrggbb\"-formaat."
+msgstr ""
+"Achtergrondkleur voor taken die vandaag gedaan moeten worden, in \"rrggbb\"-"
+"formaat."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-msgstr "Achtergrondkleur voor taken die al gedaan hadden moeten zijn, in \"rrggbb\"-formaat."
+msgstr ""
+"Achtergrondkleur voor taken die al gedaan hadden moeten zijn, in \"rrggbb\"-"
+"formaat."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Calendars to run alarms for"
@@ -4454,27 +4449,24 @@ msgid "Default reminder value"
 msgstr "Eenheden van standaard herinnering"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
-#, fuzzy
 msgid "Free/busy server urls"
-msgstr "Vrij/Bezet Verzoek"
+msgstr "Vrij/bezet server-urls"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
-#, fuzzy
 msgid "Free/busy template url"
-msgstr "Vrij/Bezet Antwoord"
+msgstr "Vrij/bezet sjabloon-url"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Hide completed tasks"
 msgstr "Voltooide taken verbergen"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
-#, fuzzy
 msgid "Hide task units"
-msgstr "Nieuwe takenlijst"
+msgstr "Taakeenheden verbergen"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Hide task value"
-msgstr ""
+msgstr "Taakwaarde verbergen"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Horizontal pane position"
@@ -4521,7 +4513,8 @@ msgstr "Aantal eenheden voor een standaard herinnering."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Number of units for determining when to hide tasks."
-msgstr "Aantal eenheden voor het bepalen wanneer taken verborgen moeten worden."
+msgstr ""
+"Aantal eenheden voor het bepalen wanneer taken verborgen moeten worden."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Overdue tasks color"
@@ -4532,7 +4525,9 @@ msgstr "Kleur van verlopen taken"
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels."
-msgstr "Positie van het horizontale paneel, tussen de datumkiezer-agenda en de takenlijst, wanneer niet in maandweergave, in pixels."
+msgstr ""
+"Positie van het horizontale paneel, tussen de datumkiezer-agenda en de "
+"takenlijst, wanneer niet in maandweergave, in pixels."
 
 # engels: zin klopt niet:
 # Position of the horizontal pane, between the view and the date navigator
@@ -4541,25 +4536,34 @@ msgstr "Positie van het horizontale paneel, tussen de datumkiezer-agenda en de t
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
-msgstr "Positie van het horizontale paneel, tussen het weergavegedeelte en de datumkiezer-agenda en de takenlijst, bij maandweergave, in pixels."
+msgstr ""
+"Positie van het horizontale paneel, tussen het weergavegedeelte en de "
+"datumkiezer-agenda en de takenlijst, bij maandweergave, in pixels."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid ""
 "Position of the vertical pane, between task list and the task preview pane, "
 "in pixels."
-msgstr "Positie van het verticale paneel, tussen takenlijst en de taken-voorbeelpaneel, in pixels."
+msgstr ""
+"Positie van het verticale paneel, tussen takenlijst en de taken-"
+"voorbeelpaneel, in pixels."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
-msgstr "Positie van het verticale paneel, tussen het weergavegedeelte en de datumkiezer-agenda en takenlijst, bij maandweergave, in pixels."
+msgstr ""
+"Positie van het verticale paneel, tussen het weergavegedeelte en de "
+"datumkiezer-agenda en takenlijst, bij maandweergave, in pixels."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list when not in the month view, in pixels."
-msgstr "Positie van het verticale paneel, tussen het weergavegedeelte en de datumkiezer-agenda en de takenlijst, wanneer niet in maandweergave, in pixels."
+msgstr ""
+"Positie van het verticale paneel, tussen het weergavegedeelte en de "
+"datumkiezer-agenda en de takenlijst, wanneer niet in maandweergave, in "
+"pixels."
 
 # Programma's die kunnen fungeren als deel van een alarm
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:34
@@ -4607,9 +4611,8 @@ msgid ""
 msgstr "Intervallen die getoont worden in dag- en week-weergave"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
-#, fuzzy
 msgid "Time the last alarm ran, in time_t."
-msgstr "Tijd van het laatste alarm"
+msgstr "Tijd wanneer het laatste alarm is afgegaan, in time_t."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Timezone"
@@ -4617,11 +4620,12 @@ msgstr "Tijdzone"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
 msgid "Twenty four hour time format"
-msgstr "Vierentwintiguurs tijdsformaat"
+msgstr "24-uurs tijdsformaat"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr "Eenheden voor een standaard-herinnering, \"minuten\", \"uren\" of \"dagen\"."
+msgstr ""
+"Eenheden voor een standaard-herinnering, \"minuten\", \"uren\" of \"dagen\"."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 #, fuzzy
@@ -4661,7 +4665,8 @@ msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid "Whether to display the end time of events in the week and month views."
-msgstr "If de eindtijden van afspraken worden getoond in week- en maandweergave."
+msgstr ""
+"If de eindtijden van afspraken worden getoond in week- en maandweergave."
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
 msgid "Whether to hide completed tasks in the tasks view."
@@ -4700,6 +4705,7 @@ msgstr "Werdag eerste uur"
 msgid "Workday start minute"
 msgstr "Werkdag eerste minuut"
 
+# onderwerp/samevatting
 #: calendar/gui/cal-search-bar.c:49
 msgid "Summary contains"
 msgstr "Samenvatting bevat"
@@ -4732,7 +4738,9 @@ msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
 "events."
-msgstr "Deze bewerking zal alle taken die ouder zijn de gespecificeerde tijd definitief verwijderen. Als u doorgaat zult u ze niet meer kunnen herstellen."
+msgstr ""
+"Deze bewerking zal alle taken die ouder zijn de gespecificeerde tijd "
+"definitief verwijderen. Als u doorgaat zult u ze niet meer kunnen herstellen."
 
 #: calendar/gui/calendar-commands.c:361
 msgid "Purge events older than"
@@ -4778,11 +4786,13 @@ msgstr "Bijwerken van agenda's mislukt."
 #: calendar/gui/calendar-component.c:1139
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
-msgstr "Kan de agenda '%s' niet openen voor het maken van notities en bijeenkomsten"
+msgstr ""
+"Kan de agenda '%s' niet openen voor het maken van notities en bijeenkomsten"
 
 #: calendar/gui/calendar-component.c:1155
 msgid "There is no calendar available for creating events and meetings"
-msgstr "Er is geen agenda beschikbaar voor het maken van notities en bijeenkomsten"
+msgstr ""
+"Er is geen agenda beschikbaar voor het maken van notities en bijeenkomsten"
 
 #: calendar/gui/calendar-component.c:1265
 msgid "Calendar Source Selector"
@@ -5595,6 +5605,7 @@ msgstr "Taak - %s"
 msgid "Journal entry - %s"
 msgstr "Dagboekaantekening - %s"
 
+# samenvatting/onderwerp
 #: calendar/gui/dialogs/comp-editor.c:1554
 #: calendar/gui/dialogs/comp-editor.c:1596
 msgid "No summary"
@@ -6409,6 +6420,7 @@ msgstr "Klik hier om %s te openen"
 msgid "Untitled"
 msgstr "Naamloos"
 
+# samenvatting/onderwerp
 #: calendar/gui/e-cal-component-preview.c:186
 #: calendar/gui/e-itip-control.c:1108 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
@@ -7133,7 +7145,9 @@ msgstr "Object is ongeldig en kan niet worden bijgewerkt\n"
 # toevoegen als komt/aanwezige/aanwezig
 #: calendar/gui/e-itip-control.c:1947
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr "Dit antwoord is niet van een geregistreerd staand persoon. Toevoegen als aanwezige?"
+msgstr ""
+"Dit antwoord is niet van een geregistreerd staand persoon. Toevoegen als "
+"aanwezige?"
 
 #: calendar/gui/e-itip-control.c:1959
 msgid "Attendee status could not be updated because of an invalid status!\n"
@@ -7888,7 +7902,7 @@ msgstr "Er is geen agenda beschikbaar voor het aanmaken van taken"
 
 #: calendar/gui/tasks-component.c:956
 msgid "Task Source Selector"
-msgstr "Takenbron selectie"
+msgstr "Takenbron-selectie"
 
 #: calendar/gui/tasks-component.c:1139
 msgid "New task"
@@ -7933,7 +7947,8 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
-"Deze bewerking zal alle taken die als 'voltooid' gemarkeerd zijn, definitief verwijderen. Als u doorgaat zult u ze niet meer kunnen herstellen.\n"
+"Deze bewerking zal alle taken die als 'voltooid' gemarkeerd zijn, definitief "
+"verwijderen. Als u doorgaat zult u ze niet meer kunnen herstellen.\n"
 "\n"
 "De taken echt verwijderen?"
 
@@ -9766,7 +9781,11 @@ msgid ""
 "Closing this composer window will discard the message permanently, unless "
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
-msgstr "Het afsluiten van het opstelvenster heeft tot gevolg dat het bericht definitief wordt weggegooid, tenzij u besluit het bericht op te slaan in de kladmap. Dit geeft u de mogelijkheid om op een later tijdstip verder te gaan met het bericht."
+msgstr ""
+"Het afsluiten van het opstelvenster heeft tot gevolg dat het bericht "
+"definitief wordt weggegooid, tenzij u besluit het bericht op te slaan in de "
+"kladmap. Dit geeft u de mogelijkheid om op een later tijdstip verder te gaan "
+"met het bericht."
 
 #: composer/mail-composer-errors.xml.h:33
 msgid "_Discard Changes"
@@ -12356,8 +12375,7 @@ msgstr "<b>Ta_len</b>"
 
 #: mail/mail-config.glade.h:7
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr ""
-"<small>Dit zal het filter betrouwbaarder maken, maar ook langzamer</small>"
+msgstr "<small>Dit zal het filter betrouwbaarder maken, maar ook trager</small>"
 
 #: mail/mail-config.glade.h:8
 msgid "<span weight=\"bold\">Account Information</span>"
@@ -12881,7 +12899,6 @@ msgid "_Do not notify me when new mail arrives"
 msgstr "_Geen melding bij binnenkomst van nieuwe e-mail"
 
 #: mail/mail-config.glade.h:152
-#, fuzzy
 msgid "_Don't sign meeting requests (for Outlook compatibility)"
 msgstr ""
 "Aanvragen voor bijeenkomsten _niet ondertekenen (voor Outlook "
@@ -12942,9 +12959,8 @@ msgid "_Show animated images"
 msgstr "Bewegende afbeeldingen _weergeven"
 
 #: mail/mail-config.glade.h:168
-#, fuzzy
 msgid "_Use Secure Connection:"
-msgstr "Beveiligde verbinding (SSL) gebr_uiken:"
+msgstr "Beveiligde verbinding gebr_uiken:"
 
 #: mail/mail-config.glade.h:169
 msgid "_Use the same fonts as other applications"
@@ -13172,13 +13188,13 @@ msgstr ""
 "toch alle geadresserden in uw bericht tonen.  Om dit te vermijden moet u "
 "tenminste één geadresseerde geven in het veld \"Aan:\" of \"CC:\"."
 
+# vrij vertaald, was eerst: omdat u geen geadresseerden heeft opgegeven.
+# maar het is duidelijker als er staat dat het adresveld leeg is.
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
 msgid ""
 "This message cannot be sent because you have not specified any Recipients"
-msgstr ""
-"Dit bericht kan niet worden verzonden omdat u geen geadresseerden heeft "
-"opgegeven"
+msgstr "Dit bericht kan niet worden verzonden omdat u geen adres heeft ingevuld"
 
 #. mail:send-no-recipients secondary
 #: mail/mail-errors.xml.h:36
@@ -13212,7 +13228,9 @@ msgstr "_Standaard gebruiken"
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr "Weet u zeker dat u alle verwijderde berichten in map \"{0}\" definitief wilt weggooien?"
+msgstr ""
+"Weet u zeker dat u alle verwijderde berichten in map \"{0}\" definitief wilt "
+"weggooien?"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
@@ -13231,7 +13249,9 @@ msgstr "_Leegmaken"
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "Weet u zeker dat u alle verwijderde berichten van alle mappen definitief wilt weggooien?"
+msgstr ""
+"Weet u zeker dat u alle verwijderde berichten van alle mappen definitief "
+"wilt weggooien?"
 
 #: mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
@@ -13239,10 +13259,8 @@ msgstr "_Prullenbak legen"
 
 #. mail:ask-open-many primary
 #: mail/mail-errors.xml.h:53
-#, fuzzy
 msgid "Are you sure you want to open {0} messages at once?"
-msgstr ""
-"Weet u zeker dat u een bericht met enkel BCC-geadresseerden wilt versturen?"
+msgstr "Weet u zeker dat u {0} berichten tegelijk wilt openen?"
 
 #. mail:ask-open-many secondary
 #: mail/mail-errors.xml.h:55
@@ -13250,9 +13268,8 @@ msgid "Opening too many messages at once may take a long time."
 msgstr "Teveel berichten tegelijk openen kan lang duren."
 
 #: mail/mail-errors.xml.h:56
-#, fuzzy
 msgid "_Open Messages"
-msgstr "Bericht _openen"
+msgstr "Berichten _openen"
 
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:58
@@ -13393,7 +13410,9 @@ msgstr "De map \"{0}\" en alle submappen echt verwijderen?"
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr "Indien u deze map verwijdert zal de gehele inhoud inclusief alle submappen definitief worden verwijderd."
+msgstr ""
+"Indien u deze map verwijdert zal de gehele inhoud inclusief alle submappen "
+"definitief worden verwijderd."
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
@@ -13477,7 +13496,8 @@ msgstr "Weet u zeker dat u deze account wilt verwijderen?"
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:173
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr "Indien u verdergaat, zal de account-informatie definitief worden verwijderd."
+msgstr ""
+"Indien u verdergaat, zal de account-informatie definitief worden verwijderd."
 
 #: mail/mail-errors.xml.h:174
 msgid "Don't delete"
@@ -14207,7 +14227,8 @@ msgstr "<span weight=\"bold\">Automatisch contacten</span>"
 #: plugins/bbdb/bbdb.c:410
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
-msgstr "_Automatisch kaarten aanmaken in het adresboek bij het beantwoorden van mail"
+msgstr ""
+"_Automatisch kaarten aanmaken in het adresboek bij het beantwoorden van mail"
 
 #: plugins/bbdb/bbdb.c:428
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
@@ -14218,7 +14239,9 @@ msgstr "<span weight=\"bold\">Instant messaging contacten</span>"
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
-msgstr "Periodiek de contactinformatie en afbeeldingen met mijn _instant messanger synchroniseren"
+msgstr ""
+"Periodiek de contactinformatie en afbeeldingen met mijn _instant messanger "
+"synchroniseren"
 
 #. Synchronize now button.
 #: plugins/bbdb/bbdb.c:448
@@ -14426,7 +14449,9 @@ msgstr "De bijgevoegde agenda is niet geldig"
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
-msgstr "Het bericht claimt een agenda te bevatten, maar de agenda is geen geldige iCalendar."
+msgstr ""
+"Het bericht claimt een agenda te bevatten, maar de agenda is geen geldige "
+"iCalendar."
 
 #: plugins/itip-formatter/itip-formatter.c:1008
 #: plugins/itip-formatter/itip-formatter.c:1064
@@ -14438,7 +14463,9 @@ msgstr "Het item in de agenda is niet geldig"
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
-msgstr "Het bericht bevat een agenda, maar de agenda bevat geen aantekenigen, taken of vrij/bezet-informatie"
+msgstr ""
+"Het bericht bevat een agenda, maar de agenda bevat geen aantekenigen, taken "
+"of vrij/bezet-informatie"
 
 #: plugins/itip-formatter/itip-formatter.c:1020
 msgid "The calendar attached contains multiple items"
@@ -14448,7 +14475,9 @@ msgstr "De bijgevoegde agenda bevat meerdere items"
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr "Om al deze items te verwerken, moet het bestand worden opgeslagen en de agenda worden geïmporteerd"
+msgstr ""
+"Om al deze items te verwerken, moet het bestand worden opgeslagen en de "
+"agenda worden geïmporteerd"
 
 #: plugins/itip-formatter/itip-formatter.c:1658
 msgid "Meetings and Tasks"
@@ -14458,12 +14487,12 @@ msgstr "Bijeenkomsten en taken"
 #. FIXME Need a schema for this
 #: plugins/itip-formatter/itip-formatter.c:1681
 msgid "_Delete message after acting"
-msgstr ""
+msgstr "_Bericht verwijderen na actie"
 
+# vrij vertaald
 #: plugins/itip-formatter/itip-formatter.c:1691
-#, fuzzy
 msgid "<span weight=\"bold\">Conflict Search</span>"
-msgstr "<span weight=\"bold\">Configuratie</span>"
+msgstr "<span weight=\"bold\">Dubbele afspraken</span>"
 
 #. Source selector
 #: plugins/itip-formatter/itip-formatter.c:1704
@@ -14614,39 +14643,39 @@ msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
 #: plugins/itip-formatter/itip-view.c:335
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
-msgstr "<b>%s</b> heeft bijeenkomstgegevens beschikbaar gemaakt."
+msgstr "<b>%s</b> heeft via %s de volgende bijeenkomstgegevens beschikbaar gesteld:"
 
 #: plugins/itip-formatter/itip-view.c:337
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following meeting information:"
-msgstr "<b>%s</b> heeft bijeenkomstgegevens beschikbaar gemaakt."
+msgstr "<b>%s</b> heeft de volgende bijeenkomstgegevens beschikbaar gesteld:"
 
 #: plugins/itip-formatter/itip-view.c:342
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the presence of %s at the following meeting:"
-msgstr "<b>%s</b> verzoekt %s om bij de bijeenkomst aanwezig te zijn."
+msgstr "<b>%s</b> verzoekt %s om bij de volgende bijeenkomst aanwezig te zijn:"
 
 #: plugins/itip-formatter/itip-view.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr "<b>%s</b> verzoekt u bij de bijeenkomst aanwezig te zijn."
+msgstr "<b>%s</b> vraagt u op verzoek van %s bij de volgende bijeenkomst aanwezig te zijn:"
 
 #: plugins/itip-formatter/itip-view.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
-msgstr "<b>%s</b> verzoekt u bij de bijeenkomst aanwezig te zijn."
+msgstr "<b>%s</b> verzoekt u bij de volgende bijeenkomst aanwezig te zijn:"
 
 #: plugins/itip-formatter/itip-view.c:353
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
-msgstr "<b>%s</b> wil graag aan een bestaande bijeenkomst bijdragen."
+msgstr "<b>%s</b> wil op verzoek van %s graag aan een bestaande bijeenkomst bijdragen:"
 
 #: plugins/itip-formatter/itip-view.c:355
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
-msgstr "<b>%s</b> wil graag aan een bestaande bijeenkomst bijdragen."
+msgstr "<b>%s</b> wil graag aan een bestaande bijeenkomst bijdragen:"
 
 #: plugins/itip-formatter/itip-view.c:358
 #, fuzzy, c-format
@@ -14759,28 +14788,25 @@ msgstr "<b>%s</b> heeft een taakopdracht beantwoord."
 #. Comment
 #: plugins/itip-formatter/itip-view.c:892
 #: plugins/itip-formatter/itip-view.c:942
-#, fuzzy
 msgid "Comment:"
-msgstr "Opdracht:"
+msgstr "Commentaar:"
 
 #. org.gnome.mailing-list-actions:no-header primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:2
-#, fuzzy
 msgid "Action not available"
-msgstr "TLS is niet beschikbaar"
+msgstr "Actie is niet beschikbaar"
 
 #. org.gnome.mailing-list-actions:no-header secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:4
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr ""
+msgstr "Dit bericht bevat de header-informatie niet die vereist is voor deze actie."
 
 #. org.gnome.mailing-list-actions:posting-not-allowed primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:6
-#, fuzzy
 msgid "Posting not allowed"
-msgstr "Plaatsen mislukt: %s"
+msgstr "Mail sturen niet toegestaan"
 
 #. org.gnome.mailing-list-actions:posting-not-allowed secondary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:8
@@ -15789,7 +15815,10 @@ msgid ""
 msgstr ""
 "De vorige versie van Evolution bewaarde de gegevens op een andere lokatie.\n"
 "\n"
-"Indien u besluit deze data te verwijderen zal de gehele inhoud van de map \"evolution\" definitief worden verwijderd. Indien u nu besluit deze data te behouden kunt u op een later tijdstip, wanneer het u uitkomt, handmatig de inhoud van de map \"evolution\" verwijderen.\n"
+"Indien u besluit deze data te verwijderen zal de gehele inhoud van de map "
+"\"evolution\" definitief worden verwijderd. Indien u nu besluit deze data te "
+"behouden kunt u op een later tijdstip, wanneer het u uitkomt, handmatig de "
+"inhoud van de map \"evolution\" verwijderen.\n"
 
 #: shell/shell-errors.xml.h:25
 msgid "_Remind Me Later"
@@ -15818,11 +15847,15 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
-"De gehele inhoud van de map \"evolution\" staat op het punt definitief te worden verwijderd.\n"
+"De gehele inhoud van de map \"evolution\" staat op het punt definitief te "
+"worden verwijderd.\n"
 "\n"
-"U wordt aangeraden zelf te controleren dat al uw mail, contacten en agendagegevens aanwezig zijn en dat deze versie van Evolution correct functioneert, alvorens u deze oude gegevens verwijdert.\n"
+"U wordt aangeraden zelf te controleren dat al uw mail, contacten en "
+"agendagegevens aanwezig zijn en dat deze versie van Evolution correct "
+"functioneert, alvorens u deze oude gegevens verwijdert.\n"
 "\n"
-"Eenmaal verwijderd, kunt u niet eenvoudig naar een vorige versie van Evolution teruggaan zonder handmatige interventie.\n"
+"Eenmaal verwijderd, kunt u niet eenvoudig naar een vorige versie van "
+"Evolution teruggaan zonder handmatige interventie.\n"
 
 #. shell:noshell title
 #. shell:noshell-reason title
