@@ -25,4 +25,3 @@ notes/main.c
 shell/GNOME_Evolution_Shell.server.in
 tests/ui-tests/message-browser.c
 tests/ui-tests/store_listing.glade
-wombat/GNOME_Evolution_Wombat.server.in
