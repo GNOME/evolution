@@ -1,3 +1,8 @@
+2002-05-29  Radek Doulik  <rodo@ximian.com>
+
+	* mail-accounts.c (mail_accounts_load): use _ instead of U_ for
+	clist
+
 2002-05-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-window.c (folder_browser_window_new): Revert a

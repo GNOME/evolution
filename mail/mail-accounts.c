@@ -445,7 +445,7 @@ mail_accounts_load (MailAccountsTab *prefs)
 			
 			text[0] = NULL;
 			text[1] = e_utf8_to_gtk_string (GTK_WIDGET (prefs->table), account->name);
-			text[2] = url && url->protocol ? url->protocol : (char *) U_("None");
+			text[2] = url && url->protocol ? url->protocol : (char *) _("None");
 			
 			gtk_clist_insert (prefs->table, row, text);
 			
