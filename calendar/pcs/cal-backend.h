@@ -36,11 +36,11 @@ G_BEGIN_DECLS
 
 
 #define CAL_BACKEND_TYPE            (cal_backend_get_type ())
-#define CAL_BACKEND(obj)            (GTK_CHECK_CAST ((obj), CAL_BACKEND_TYPE, CalBackend))
-#define CAL_BACKEND_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), CAL_BACKEND_TYPE,		\
+#define CAL_BACKEND(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), CAL_BACKEND_TYPE, CalBackend))
+#define CAL_BACKEND_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), CAL_BACKEND_TYPE,		\
 				     CalBackendClass))
-#define IS_CAL_BACKEND(obj)         (GTK_CHECK_TYPE ((obj), CAL_BACKEND_TYPE))
-#define IS_CAL_BACKEND_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_BACKEND_TYPE))
+#define IS_CAL_BACKEND(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CAL_BACKEND_TYPE))
+#define IS_CAL_BACKEND_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), CAL_BACKEND_TYPE))
 
 /* Open status values */
 typedef enum {
@@ -74,12 +74,12 @@ typedef enum {
 } CalBackendGetAlarmsForObjectResult;
 
 struct _CalBackend {
-	GtkObject object;
+	GObject object;
 	GList *clients;
 };
 
 struct _CalBackendClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/* Notification signals */
 	void (* last_client_gone) (CalBackend *backend);
@@ -144,7 +144,7 @@ struct _CalBackendClass {
 	gboolean (* set_default_timezone) (CalBackend *backend, const char *tzid);
 };
 
-GtkType cal_backend_get_type (void);
+GType cal_backend_get_type (void);
 
 const char *cal_backend_get_uri (CalBackend *backend);
 

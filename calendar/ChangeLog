@@ -1,3 +1,8 @@
+2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-file.[ch]:
+	* pcs/cal-backend.[ch]: GObjectify.
+
 2002-11-06  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/cal-prefs-dialog.c: #include gtkoptionmenu.h.

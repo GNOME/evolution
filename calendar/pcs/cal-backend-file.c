@@ -21,7 +21,6 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <libgnomevfs/gnome-vfs.h>
@@ -87,8 +86,8 @@ struct _CalBackendFilePrivate {
 
 
 static void cal_backend_file_class_init (CalBackendFileClass *class);
-static void cal_backend_file_init (CalBackendFile *cbfile);
-static void cal_backend_file_destroy (GtkObject *object);
+static void cal_backend_file_init (CalBackendFile *cbfile, CalBackendFileClass *class);
+static void cal_backend_file_finalize (GObject *object);
 
 static const char *cal_backend_file_get_uri (CalBackend *backend);
 static gboolean cal_backend_file_is_read_only (CalBackend *backend);
@@ -151,24 +150,24 @@ static CalBackendClass *parent_class;
  * 
  * Return value: The type ID of the #CalBackendFile class.
  **/
-GtkType
+GType
 cal_backend_file_get_type (void)
 {
-	static GtkType cal_backend_file_type = 0;
+	static GType cal_backend_file_type = 0;
 
 	if (!cal_backend_file_type) {
-		static const GtkTypeInfo cal_backend_file_info = {
-			"CalBackendFile",
-			sizeof (CalBackendFile),
-			sizeof (CalBackendFileClass),
-			(GtkClassInitFunc) cal_backend_file_class_init,
-			(GtkObjectInitFunc) cal_backend_file_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		cal_backend_file_type = gtk_type_unique (CAL_BACKEND_TYPE, &cal_backend_file_info);
+		static GTypeInfo info = {
+                        sizeof (CalBackendFileClass),
+                        (GBaseInitFunc) NULL,
+                        (GBaseFinalizeFunc) NULL,
+                        (GClassInitFunc) cal_backend_file_class_init,
+                        NULL, NULL,
+                        sizeof (CalBackendFile),
+                        0,
+                        (GInstanceInitFunc) cal_backend_file_init
+                };
+		cal_backend_file_type = g_type_register_static (CAL_BACKEND_TYPE,
+								"CalBackendFile", &info, 0);
 	}
 
 	return cal_backend_file_type;
@@ -178,15 +177,15 @@ cal_backend_file_get_type (void)
 static void
 cal_backend_file_class_init (CalBackendFileClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	CalBackendClass *backend_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 	backend_class = (CalBackendClass *) class;
 
-	parent_class = gtk_type_class (CAL_BACKEND_TYPE);
+	parent_class = (CalBackendClass *) g_type_class_peek_parent (class);
 
-	object_class->destroy = cal_backend_file_destroy;
+	object_class->finalize = cal_backend_file_finalize;
 
 	backend_class->get_uri = cal_backend_file_get_uri;
 	backend_class->is_read_only = cal_backend_file_is_read_only;
@@ -241,7 +240,7 @@ cal_added_cb (CalBackend *backend, gpointer user_data)
 
 /* Object initialization function for the file backend */
 static void
-cal_backend_file_init (CalBackendFile *cbfile)
+cal_backend_file_init (CalBackendFile *cbfile, CalBackendFileClass *class)
 {
 	CalBackendFilePrivate *priv;
 
@@ -263,8 +262,8 @@ cal_backend_file_init (CalBackendFile *cbfile)
 
 	priv->db = load_db ();
 	
-	gtk_signal_connect (GTK_OBJECT (cbfile), "cal_added",
-			    GTK_SIGNAL_FUNC (cal_added_cb), NULL);
+	g_signal_connect (G_OBJECT (cbfile), "cal_added",
+			  G_CALLBACK (cal_added_cb), NULL);
 }
 
 /* g_hash_table_foreach() callback to destroy a CalComponent */
@@ -274,7 +273,7 @@ free_cal_component (gpointer key, gpointer value, gpointer data)
 	CalComponent *comp;
 
 	comp = CAL_COMPONENT (value);
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (comp);
 }
 
 /* Saves the calendar data */
@@ -359,9 +358,9 @@ free_category_cb (gpointer key, gpointer value, gpointer data)
 	g_free (c);
 }
 
-/* Destroy handler for the file backend */
+/* Finalize handler for the file backend */
 static void
-cal_backend_file_destroy (GtkObject *object)
+cal_backend_file_finalize (GObject *object)
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
@@ -424,8 +423,8 @@ cal_backend_file_destroy (GtkObject *object)
 	g_free (priv);
 	cbfile->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -764,7 +763,7 @@ remove_component (CalBackendFile *cbfile, CalComponent *comp)
 
 	update_categories_from_comp (cbfile, comp, FALSE);
 
-	gtk_object_unref (GTK_OBJECT (comp));
+	g_object_unref (comp);
 }
 
 /* Scans the toplevel VCALENDAR component and stores the objects it finds */
@@ -1466,7 +1465,7 @@ cal_backend_file_compute_changes_foreach_key (const char *key, gpointer data)
 		be_data->change_ids = g_list_prepend (be_data->change_ids, g_strdup (key));
 
 		g_free (calobj);
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
  	}
 }
 
@@ -1784,14 +1783,14 @@ cal_backend_file_update_object (CalBackendFile *cbfile,
 	/* Create a CalComponent wrapper for the icalcomponent. */
 	comp = cal_component_new ();
 	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
 		return NULL;
 	}
 
 	/* Get the UID, and check it isn't empty. */
 	cal_component_get_uid (comp, &comp_uid);
 	if (!comp_uid || !comp_uid[0]) {
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref (comp);
 		return NULL;
 	}
 
