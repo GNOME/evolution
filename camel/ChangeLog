@@ -1,5 +1,11 @@
 2001-08-29  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-smime-context.c (smime_sign_prepare): Do the same here as
+	what we did in the pgp code a moment ago.
+	(smime_sign_restore): And again here.
+	(smime_sign): And update thise code to pass in the address of the
+	encodings list when restoring parts.
+
 	* camel-pgp-mime.c (pgp_mime_part_sign_prepare_part): Special-case
 	message/rfc822 mime parts - don't set an encoding on these,
 	instead traverse into their subparts and set the encodings for
@@ -8,6 +14,8 @@
 	message/rfc822 parts in the above prepare_part() function and also
 	take a pointer to a GSList of encodings instead of just a GSList
 	so we can properly keep track of which encoding we are on.
+	(camel_pgp_mime_part_sign): Pass in the address to the encodings
+	list when restoring parts.
 
 2001-08-29  Not Zed  <NotZed@Ximian.com>
 

@@ -272,7 +272,7 @@ signed_data (CamelSMimeContext *ctx, const char *userid, gboolean signing_time,
 }
 
 static void
-smime_sign_restore (CamelMimePart *mime_part, GSList *encodings)
+smime_sign_restore (CamelMimePart *mime_part, GSList **encodings)
 {
 	CamelDataWrapper *wrapper;
 	
@@ -288,14 +288,19 @@ smime_sign_restore (CamelMimePart *mime_part, GSList *encodings)
 			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), i);
 			
 			smime_sign_restore (part, encodings);
-			encodings = encodings->next;
+			*encodings = (*encodings)->next;
 		}
 	} else {
 		CamelMimePartEncodingType encoding;
 		
-		encoding = GPOINTER_TO_INT (encodings->data);
-		
-		camel_mime_part_set_encoding (mime_part, encoding);
+		if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
+			/* restore the message parts' subparts */
+			smime_sign_restore (CAMEL_MIME_PART (wrapper), encodings);
+		} else {
+			encoding = GPOINTER_TO_INT ((*encodings)->data);
+			
+			camel_mime_part_set_encoding (mime_part, encoding);
+		}
 	}
 }
 
@@ -319,14 +324,19 @@ smime_sign_prepare (CamelMimePart *mime_part, GSList **encodings)
 	} else {
 		CamelMimePartEncodingType encoding;
 		
-		encoding = camel_mime_part_get_encoding (mime_part);
-		
-		/* FIXME: find the best encoding for this part and use that instead?? */
-		/* the encoding should really be QP or Base64 */
-		if (encoding != CAMEL_MIME_PART_ENCODING_BASE64)
-			camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
-		
-		*encodings = g_slist_append (*encodings, GINT_TO_POINTER (encoding));
+		if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
+			/* prepare the message parts' subparts */
+			smime_sign_prepare (CAMEL_MIME_PART (wrapper), encodings);
+		} else {
+			encoding = camel_mime_part_get_encoding (mime_part);
+			
+			/* FIXME: find the best encoding for this part and use that instead?? */
+			/* the encoding should really be QP or Base64 */
+			if (encoding != CAMEL_MIME_PART_ENCODING_BASE64)
+				camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
+			
+			*encodings = g_slist_append (*encodings, GINT_TO_POINTER (encoding));
+		}
 	}
 }
 
@@ -343,7 +353,7 @@ smime_sign (CamelCMSContext *ctx, CamelMimeMessage *message,
 	NSSCMSEncoderContext *ecx;
 	SECItem output = { 0, 0, 0 };
 	CamelStream *stream;
-	GSList *encodings = NULL;
+	GSList *list, *encodings = NULL;
 	GByteArray *buf;
 	
 	cmsg = signed_data (CAMEL_SMIME_CONTEXT (ctx), userid, signing_time, detached, ex);
@@ -363,7 +373,8 @@ smime_sign (CamelCMSContext *ctx, CamelMimeMessage *message,
 	
 	smime_sign_prepare (CAMEL_MIME_PART (message), &encodings);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
-	smime_sign_restore (CAMEL_MIME_PART (message), encodings);
+	list = encodings;
+	smime_sign_restore (CAMEL_MIME_PART (message), &list);
 	g_slist_free (encodings);
 	
 	buf = CAMEL_STREAM_MEM (stream)->buffer;
