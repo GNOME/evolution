@@ -1,5 +1,11 @@
 2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-commands.c
+	(folder_selection_dialog_folder_selected_callback): Actually
+	return if the folder is being moved into one of its descendants.
+
+2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-title-bar.c (label_realize_callback): `#if 0'ed
 	out.
 	(make_bold): Likewise.

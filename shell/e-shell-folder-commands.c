@@ -188,6 +188,7 @@ folder_selection_dialog_folder_selected_callback (EShellFolderSelectionDialog *f
 			     source_len) == 0) {
 			e_notice (GTK_WINDOW (folder_selection_dialog), GNOME_MESSAGE_BOX_ERROR,
 				  _("Cannot move a folder into one of its descendants."));
+			return;
 		}
 	}
 
