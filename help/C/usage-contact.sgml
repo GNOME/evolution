@@ -1,4 +1,4 @@
-<!--  DEBUGGING COMMENT
+<!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
 
@@ -124,12 +124,12 @@
        than you'd think would fit onto a file card.
     </para>
 
-         <para>
-	  The contact editor window has two tabs,
-    	  <guilabel>General</guilabel>, for basic contact information,
-    	  and <guilabel>Details</guilabel>, for a more specific
-    	  description of the person.  In addition, it contains a full
-    	  menu bar, which is still evolving rapidly.  <!-- FIXME -->
+      <para>
+	The contact editor window has two tabs,
+    	<guilabel>General</guilabel>, for basic contact information,
+    	and <guilabel>Details</guilabel>, for a more specific
+    	description of the person.  In addition, it contains a full
+    	menu bar, which is still evolving rapidly.  <!-- FIXME -->
       </para>
       
       <figure id="usage-contact-editor-fig">
@@ -150,112 +150,109 @@
         Title</guilabel> and <guilabel>Web page address</guilabel>,
         but there are several parts of the window that are a little
         more interesting.
+    </para>
+    <para>
+      The <guilabel>Categories</guilabel> feature is discussed in
+      <xref linkend="usage-contact-organize">, but the remaining
+      features are described here:
+      <variablelist>
+	<varlistentry>
+	  <term>Full Name</term>
+	  <listitem>
+	    <para>
+              The <guilabel>Full Name</guilabel> field has two
+              major features:
+              <itemizedlist>
+		<listitem>
+		  <para>
+                    You can enter a name into the <guibutton>Full
+                    Name</guibutton> field, but you can also click the
+                    <guibutton>Full Name</guibutton> button to bring
+                    up a small dialog box with a few text boxes
+                    <variablelist>
+		      <varlistentry>
+			<term><guilabel>Title: </guilabel></term>
+			<listitem> <para>
+	                  Enter an honorific or select one from the menu.
+	                </para></listitem>
+		      </varlistentry>
+		      <varlistentry>
+			<term><guilabel>First: </guilabel></term>
+			<listitem> <para>
+		             The person's first, or given, name.
+			 </para></listitem> 
+		      </varlistentry>
+		      <varlistentry>
+			<term><guilabel>Middle: </guilabel></term>
+			<listitem> <para>
+			  The middle name or initial, if any, goes here.
+			</para></listitem>
+		      </varlistentry>
+		      <varlistentry>
+			<term><guilabel>Last: </guilabel></term>
+			<listitem> <para>
+			   The last name (surname) belongs here.
+			 </para></listitem>
+		      </varlistentry>
+		      <varlistentry>
+			<term><guilabel>Suffix: </guilabel></term>
+			<listitem> <para>
+			   Suffixes such as "Jr." or "III" can go here. 
+			</para></listitem>
+		      </varlistentry>
+		    </variablelist>
+                   </para>
+		</listitem>
+	        <listitem>
+		  <para>
+                    The <guilabel>Full Name</guilabel> field also
+                    interacts with the <guilabel>File As</guilabel>
+                    box to help you organize your contacts.
+                  </para>
+                  <para>
+                    To see how it works, type a name in the
+                    <guilabel>Full Name</guilabel> field:
+                    <userinput>Eva Lucianne Tester</userinput>.
+                    You'll notice that the <guilabel>File
+                    As</guilabel> field also fills up, but in reverse:
+                    <computeroutput>Tester, Lucianne</computeroutput>.
+                    You can pick <computeroutput>Eva
+                    Tester</computeroutput> from the drop-down, or
+                    type in your own, such as <userinput>Lucianne
+                    Tester, Eva</userinput>.
+                 </para>
+		  <tip>
+		    <title>Filing Suggestion</title>
+		    <para>
+                      Don't enter something entirely different from
+                      the actual name, since you might forget that
+                      you've filed Eva's information under "F" for
+                      "Fictitious Helix Code Employees"
+                    </para>
+		  </tip>
+		</listitem>
+	      </itemizedlist>
+             </para>
+           </listitem>
+	</varlistentry>
+	<varlistentry>
+            <term>Multiple Values for Fields</term>
+            <listitem>
+	      <para>
+                If you click on the small arrow buttons next to the
+                <guilabel>Primary Email</guilabel> field, you can also
+                choose <guilabel>Email 2</guilabel> and
+                <guilabel>Email 3</guilabel>.  Although the contact
+                editor will only display one of those at any given
+                time, <application>Evolution</application> will
+                remember them all.  The arrow buttons next to the
+                telephone and postal address fields work in the same
+                way.
+              </para>
+          </listitem>
+	</varlistentry>
+      </variablelist>
      </para>
-      <para>
-        <guilabel>Categories</guilabel> feature, which is discussed in
-        <xref linkend="usage-contact-organize">, there are a few
-        things you'll want to know about: the first of these is the
-        <guilabel>Full Name</guilabel> button.
-      </para>
-      <para>
-        You can enter a name into the <guibutton>Full Name</guibutton>
-        field, or you can click the button to bring up a small dialog
-        box with a few text boxes:
-        <variablelist>
-          <varlistentry>
-	    <term><guilabel>Title: </guilabel></term>
-            <listitem> <para>
-	    Enter an honorific or select one from the menu.
-	    </para></listitem>
-	  </varlistentry>
-          <varlistentry>
-           <term><guilabel>First: </guilabel></term>
-	    <listitem> <para>The person's first, or given, name.
-    	  </para></listitem>
-          </varlistentry>
-          <varlistentry>
-             <term><guilabel>Middle: </guilabel></term>
-	     <listitem> <para>
-                The middle name or initial, if any, goes here.
-             </para></listitem>
-          </varlistentry>
-          <varlistentry>
-           <term><guilabel>Last: </guilabel></term>
- 	  <listitem> <para>
-	   The last name (the surname, or family name), belongs here.
-	  </para></listitem>
-          </varlistentry>
-          <varlistentry>
-          <term><guilabel>Suffix: </guilabel></term>
-	  <listitem> <para>
-            Suffixes such as "Jr." or "III" can go here. 
-	  </para></listitem>
-          </varlistentry>
-	</variablelist>
-      </para>
-      
-      <para>
-         The <guilabel>Full Name</guilabel> field has one more trick
-         up its sleeve: it interacts with the <guilabel>File
-             As</guilabel> box to help you organize your contacts.  To
-             see how it works, type a name in the <guilabel>Full
-             Name</guilabel> field: <userinput>Eva Lucianne
-             Tester</userinput>.  You'll notice that the
-             <guilabel>File As</guilabel> field also fills up, but in
-             reverse: <computeroutput>Tester,
-             Lucianne</computeroutput>.  You can pick
-         <computeroutput>Eva Tester</computeroutput> from the
-             drop-down, or type in your own, such as
-         <userinput>Lucianne Tester, Eva</userinput>.  I suggest that
-             you don't enter something entirely different from the
-             actual name, since you might forget that you've filed
-             Eva's information under "F" for "Fictitious Helix Code
-             Employees" </para>
-    
-      <para>   
-        The other feature I want to mention involves the little
-        squares next to several of the fields.  Click on them and
-        you'll get a menu of different labels; for the fields in the
-        telephone section, it's a long list involving things like
-        <guilabel>Home</guilabel>, <guilabel>Home 2</guilabel>,
-        <guilabel>Other Fax</guilabel>, and
-        <guilabel>Pager</guilabel>.  Select from among them to
-        determine which four telephone numbers to display at any given
-        time.  Of course, these connected times mean that people often
-        have more than four telephone numbers.  You can display only
-        four in the editor, but <application>Evolution</application>
-        can remember them all for you.  When you click the little
-        square button for the list of labels, any that you've already
-        filled in will be marked.  </para>
-
-    <!--  FIXME: do this whole thing right before release 0.4! FIXME.
-	  <variablelist>
-	     <listitem>
-	      <term>
-	      <itemizedlist>
-	    <listitem> <para>
-		   <guilabel>Name:</guilabel> Enter the person's name here
-		</para></listitem>
-	    <listitem> <para>
-
-		</para></listitem>
-	    <listitem> <para>
-		  <guilabel>Business:</guilabel>
-		</para></listitem>
-
-	    <listitem> <para>
-		  <guilabel>Job Title:</guilabel>
-		</para></listitem>
-
-	    <listitem> <para>
-		   <guilabel>Home:</guilabel> 
-		</para></listitem>
-	  </itemizedlist>
-	    </para>
-
-    -->
-   
-
 <!--- ############# This section isn't implemented yet either:
     <sect2>
       <title></title>
@@ -362,15 +359,15 @@
 	<para>
            To mark a card as belonging to a category, click the
            <guibutton>Categories</guibutton> button at the lower
-           right.  A dialog box will pop up with check-boxes for
-           different categories in it.  You can select as many or as
-           few categories as you like.
+           right.  From the dialog box that appears, you can check as
+           many or as few categories as you like.
         </para>
 	<para>
            Then, you can refer to all the cards in that category by:
+           FEATURE NOT IMPLEMENTED... FIXME
          </para>
 	<para>
-           If the master list of categories don't suit you, you can
+           If the master list of categories doesn't suit you, you can
            add your own.  Just enter the new category's name in the
            text box, then click <guibutton>Categories</guibutton> and
            choose <guilabel>Add to Master List</guilabel> in the
@@ -430,16 +427,18 @@
   </sect1>
 
   <sect1 id="usage-contact-automate">
-    <title>Extra Contact Manager Tools</title>
+    <title>Contact Manager Tools</title>
     <para>
-       The most obvious contact manager tool is that it works with the
-       mailer and the calendar to help you add new address cards
-       quickly.  However, it can also manage mailing lists and help
-       you find directions between the locations of any two contacts.
+       The contact manager works with
+       <application>Evolution</application> mail and the calendar to
+       help you add new address cards quickly.  However, it can also
+       manage mailing lists.  There are more tools planned, and when
+       they arrive, <!-- FIXME --> they will be described in this
+       section.
     </para>
 
     <sect2 id="contact-automation-basic">
-      <title>Send me a card: Adding New Cards Quickly</title>
+      <title>Send me a Card: Adding New Cards Quickly</title>
       <para>
 	As noted before, when you get information about a person in
 	the mail or in a calendar entry, you can add it to an address
@@ -470,8 +469,9 @@
 	 or prepare large postal mailings.
       </para>
     </sect2>
+<!--
     <sect2 id="usage-contact-automation-extra">
-      <title>Map It! and other extra features</title>
+      <title>Map It!</title>
       <para>
 	 Need a map or directions? Click
 	 <guibutton>MapIt</guibutton> from within the contact
@@ -479,6 +479,13 @@
 	 map the address for you online.
       </para>
     </sect2>
+-->
+
+  </sect1>
+  <sect1 id="usage-contact-menubar">
+    <title>Contact Manager Menubar Reference</title>
+     <para>
+     </para>
   </sect1>
 </chapter> 
 

@@ -7,10 +7,12 @@
   <para>
     To begin using the calendar, select
     <guibutton>Calendar</guibutton> from the <interface>shortcut
-    bar</interface>.  By default, the calendar starts with a display
-    of one day on a yellow ruled background.  There's a month calendar
-    in the upper right and a To-do list in the lower right. The
-    calendar's daily view is shown in <xref
+    bar</interface>.  By default, the calendar starts showing today's
+    schedule on a grey and white ruled background.  At the upper
+    right, there's a monthly calendar you can use to switch days.
+    Below that, there's a <guilabel>TaskPad</guilabel>, where you can
+    keep a sort of glorified to-do list that's not linked to your
+    calendar.  The calendar's daily view is shown in <xref
     linkend="usage-calendar-fig">.
 
    <!-- ============== Figure ============================= -->
@@ -27,10 +29,23 @@
   </para>
     <sect1 id ="usage-calendar-view"> 
     <title>Ways of Looking at your Calendar</title>
+
     <para>
        You can view your calendar by the day, by the week, by the
        month, or by the year; press the calendar-shaped buttons on the
        right side of the toolbar to switch between views.
+    </para>
+    <para>
+       To view yesterday's appointments, (last week's, if you're in
+       the weekly view, and last month's for the monthly view), click
+       the <guibutton>Pref</guibutton> button.  For tomorrow, next week,
+       or next month, click <guibutton>Next</guibutton>, and of course,
+       click <guibutton>Today</guibutton> for today.
+    </para>
+    <para>
+       To visit a specific date's calendar entries, click
+       <guibutton>Go To</guibutton> and select the date in the dialog
+       box that appears.
     </para>
 
 
@@ -54,10 +69,8 @@ lack of time, resources, and interest.
        schedule events for yourself or a group of people.  It can
        handle events that repeat, event lengths from ten minutes to
        multiple days, and events that have a date but no specific
-       time.  You can set overlapping events, although
-       <application>Evolution</application> will warn you about trying
-       to do two things at once.  You can also set event reminders so
-       that you don't forget about everything you've just put into
+       time.  Of course, you can also set event reminders and alarms
+       so that you don't forget about everything you've just put into
        your calendar. Basically, it can handle almost any schedule you
        throw at it.
     </para>
@@ -83,13 +96,22 @@ lack of time, resources, and interest.
         <guilabel>All day event</guilabel> begins at ten in the
         morning, runs until eleven at night, and is displayed at the
         top of a day's event list rather than inside it.  That makes
-        it easy to have events that overlap.  For example, a
-        conference might be an all day event, and the meetings at the
-        conference would be timed events.  Events with starting and
-        ending times can also overlap, however, and when they do
-        they're displayed as multiple columns in the day view of the
-        calendar.
+        it easy to have events that overlap and fit inside each other.
+        For example, a conference might be an all day event, and the
+        meetings at the conference would be timed events.  Events with
+        starting and ending times can also overlap, however, and when
+        they do they're displayed as multiple columns in the day view
+        of the calendar.
       </para>
+      <note>
+       <title>Doing Two Things At Once</title>
+         <para>
+           If you create two calendar events that overlap,
+           <application>Evolution</application> will display them as
+           multiple columns in the calendar window.  If you manage to
+           do both things at once, I'd like to meet you.
+         </para>
+      </note>
       <para>
          You can have as many as four different
          <guilabel>Alarms</guilabel>, any time prior to the event
@@ -160,10 +182,8 @@ lack of time, resources, and interest.
 	icon in the toolbar.  That will save the event and close the
 	event editor window. If you want, you can alter an event
 	summary in the calendar view by clicking on it and typing. You
-	can change other settings by clicking once on the event in the
-	<interface>calendar view</interface> to select it, and then
-	choosing <guimenuitem>Event Properties</guimenuitem> from the
-	<guimenu>Settings</guimenu> menu.
+	can change other settings by right-clicking on the event in
+	the and then choosing <guimenuitem>Edit this Appointment</guimenuitem>.
       </para>
     </sect2>
 
@@ -224,12 +244,10 @@ lack of time, resources, and interest.
 
   </sect1>
 
-
-
   <sect1 id="usage-calendar-todo">
-   <title>The To-Do List</title>
+   <title>The Task Pad</title>
     <para>
-       The to-do list, located in the lower right corner of the
+       The Task Pad, located in the lower right corner of the
        calendar, lets you keep a list of tasks separate from your
        calendar events.  Tasks are colored and sorted by priority and
        due-date (see <xref linkend="config-prefs"> for more
@@ -315,12 +333,13 @@ lack of time, resources, and interest.
     <para>
       To create a new calendar, select 
       <menuchoice>
-	<guimenu>File</guimenu>
-	<guisubmenu>New</guisubmenu>
+	<guimenu>File</guimenu> <guisubmenu>New</guisubmenu>
 	<guimenuitem>Calendar</guimenuitem>
       </menuchoice>.
+
        You can place the calendar in any calendar folder and access it
-       from the folder view.
+       from the folder view.  Alarms, configuration, and display for
+       each calendar are seperate from each other.
     </para>
     
   </sect1>

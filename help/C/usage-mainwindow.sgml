@@ -172,9 +172,9 @@
       your own hot keys for functions that don't have any; this is
       covered in <xref linkend="config">.  If you're using the
       keyboard shortcuts you may also want to hide the
-      <interface>shortcut bar</interface> by selecting
-      the <guimenuitem>Show Shortcut Bar</guimenuitem> toggle in the
-      <guimenu>View</guimenu> menu.
+      <interface>shortcut bar</interface> by selecting 
+      <menuchoice> <guimenu>View</guimenu> <guimenuitem>Show Shortcut
+      Bar</guimenuitem> </menuchoice>.
     </para>
 
     <tip>
@@ -191,9 +191,9 @@
   </sect1>
 
   <sect1 id="usage-mainwindow-folderbar">
-    <title>The Folder View</title>
+    <title>The Folder Bar</title>
     <para>
-      The <interface>folder view</interface> is a more comprehensive
+      The <interface>folder bar</interface> is a more comprehensive
       way to view the information you've stored with
       <application>Evolution</application>. It displays all your
       appointments, address cards, and email in a tree that's a lot
@@ -251,7 +251,7 @@
     </para>
 
     <note>
-	  <title>Folders have Limits</title>
+	  <title>Folders Have Limits</title>
 	  <para>
 	      You can always place a folder inside other folders,
 	      regardless of folder type.  However, calendars,

@@ -13,6 +13,7 @@
 <!ENTITY APX-BUGS SYSTEM "apx-bugs.sgml">
 <!ENTITY APX-AUTHORS SYSTEM "apx-authors.sgml">
 <!ENTITY APX-FDL SYSTEM "apx-fdl.sgml">
+<!ENTITY APX-GPL SYSTEM "apx-gpl.sgml">
 
 ]>
 
@@ -35,15 +36,22 @@
       <para>
         Permission is granted to copy, distribute and/or modify this
         document under the terms of the <citetitle>GNU Free
-        Documentation License</citetitle>, Version 1.1 or any later
+        Documentation License</citetitle>, (FDL) Version 1.1 or any later
         version published by the Free Software Foundation with no
         Invariant Sections, no Front-Cover Texts, and no Back-Cover
-        Texts. The license is included with this document in <xref
-        linkend="fdl">, and you may also obtain a copy from the Free
-        Software Foundation by visiting <ulink type="http"
-        url="http://www.fsf.org">their Web site</ulink> or by writing
-        to: Free Software Foundation, Inc., 59 Temple Place - Suite
-        330, Boston, MA 02111-1307, USA.
+        Texts.
+      </para>
+      <para>
+        The software described by this document falls under the
+        <citetitle>GNU General Public License</citetitle>, or GPL.
+      </para>
+      <para>
+        The licenses are included with this document in <xref
+        linkend="fdl">, and <xref linkend="gpl">; you may also obtain
+        a copy from the Free Software Foundation by visiting <ulink
+        type="http" url="http://www.fsf.org">their Web site</ulink> or
+        by writing to: Free Software Foundation, Inc., 59 Temple Place
+        - Suite 330, Boston, MA 02111-1307, USA.
       </para>
       <para>
         Many of the names used by companies to distinguish their
@@ -52,12 +60,13 @@
         are made aware to the members of the GNOME Documentation
         Project, the names have been printed in caps or initial caps.
       </para>
+
     </legalnotice>
 
     <releaseinfo>
-       This is version 0.4 of the Evolution manual.  
-    </releaseinfo> 
-    <!-- this is version of manual, not application -->
+       This is version 0.4 of the Evolution manual, describing version 
+       0.3.1 of Evolution.  
+   </releaseinfo>
 
   </bookinfo>
 
@@ -107,6 +116,7 @@
   &APX-BUGS;
   &APX-AUTHORS; 
   &APX-FDL;
+  &APX-GPL;
 
 </book>
 

@@ -126,7 +126,7 @@
         your password.  If you'd like
         <application>Evolution</application> to forget your password
         sooner, select
-        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Forget
+        <menuchoice><guimenu>Actions</guimenu><guimenuitem>Forget
         Passwords</guimenuitem></menuchoice>, and it will do so
         immediately.
       </para>
@@ -286,8 +286,8 @@
 	    <example>
 	      <title>Using the Cc: field</title>
 	      <para>
-	         Say, for example, Susan sends an email to a client.
-	         She puts her co-worker, Tim, in the in the
+	         When Susan sends an email to a client, she puts her
+	         co-worker, Tim, in the in the
 	         <guilabel>Cc:</guilabel> field, so that he know
 	         what's going on.  The client can see that Tim also
 	         received the message, and knows that he can talk to
@@ -638,7 +638,7 @@ possibly never will be due to security evil. -->
 	      <para>
 		 Never write anything in email you wouldn't say in
 		 public.  Old messages have a nasty habit of
-		 resurfacing when you least expect them to.
+		 resurfacing when you least expect.
 	      </para>
 	    </listitem>
 
@@ -699,8 +699,9 @@ possibly never will be due to security evil. -->
       <para>
         When you click <guibutton>OK</guibutton>, your new folder will
 	appear in the <interface>folder view</interface>.  You can
-	then put messages in it by dragging and dropping them.  If you
-	create a filter with the <interface>filter
+	then put messages in it by dragging and dropping them, or by
+	using the <guibutton>Move</guibutton> button in the toolbar.
+	If you create a filter with the <interface>filter
 	assistant</interface>, you can have mail moved to your folder
 	automatically.
       </para>
@@ -833,14 +834,17 @@ possibly never will be due to security evil. -->
       <para>
        Then, the filter assistant will ask you which emails it should
        act upon.  You can set criteria based on message size, the
-       sender, primary addressee or Cc: list, or words in the subject
-       or body of the message.  Once you've decided which messages to
-       filter, the assistant will ask you the sort of action you wish
-       to take.  You can file, delete, or forward the message, and you
-       can also have it be exempted from other filters which would
-       otherwise have acted upon it.  
+       sender, primary addressee or Cc: list, words in the subject or
+       body of the message, or any combination of criteria.  Check the
+       boxes next to each criterion you would like to use.
       </para>
-
+      <para>
+        Once you've decided which messages to filter, the assistant
+        will ask you the sort of action you wish to take.  You can
+        file, delete, or forward the message, and you can also have it
+        be exempted from other filters which would otherwise have
+        acted upon it.
+      </para>
 
       <note>
 	<title>Two Notable Filter Features</title>
@@ -862,10 +866,10 @@ possibly never will be due to security evil. -->
     <sect2 id="usage-mail-organize-vFolders">
       <title>Getting Really Organized with Virtual Folders</title>
       <para>
-	If you find that filters aren't flexible enough for you, or
-	end up performing the same search again and again, consider a
-	virtual folder. Virtual folders, or vFolders, are an advanced
-	way of viewing your email messages within
+	If filters aren't flexible enough for you, or you find
+	yourself performing the same search again and again, consider
+	a virtual folder. Virtual folders, or vFolders, are an
+	advanced way of viewing your email messages within
 	<application>Evolution</application>.  If you get a lot of
 	mail or often forget where you put messages, vFolders can help
 	you stay on top of things.
@@ -916,7 +920,7 @@ possibly never will be due to security evil. -->
 	That sounds silly, but imagine a business trying to keep track
 	of mail from hundreds of vendors and clients, or a university
 	with overlapping and changing groups of faculty, staff,
-	administrators and students.  The larger the system, the less
+	administrators and students.  The more mail you need to organize, the less
 	you can afford the sort of confusion that stems from an
 	organizational system that's not flexible enough.  vFolders
 	make for better organization because they can accept
@@ -941,7 +945,7 @@ possibly never will be due to security evil. -->
 	   and when I open the "Project" folder I'm really performing
 	   a search for all the mail about the project.
 
-	<!--  (INSERT SCREENSHOT HERE) -->
+	<!--  (INSERT SCREENSHOT HERE: vFolders in action) -->
 
 	</para>
       </example>
@@ -968,9 +972,10 @@ possibly never will be due to security evil. -->
 	    <term><guilabel>For matching messages:</guilabel></term>
 	    <listitem>
 	      <para>
-	        You may select one or more search criteria; the
-	        vFolder you create will contain messages that match
-	        all of them.
+	        Choose this to create your own set of rules for the
+	        vFolder.  You may select one or more search criteria;
+	        the vFolder you create will contain messages that
+	        match all of them.
 	     </para>
 	    </listitem>
 	  </varlistentry>
@@ -978,8 +983,9 @@ possibly never will be due to security evil. -->
 	    <term><guilabel>Messages from a certain person:</guilabel></term>
 	    <listitem>
 	      <para>
-		 The vFolder will contain messages from an address
-		 you enter.
+		 The remaining three rules are simpler.  Select this
+		 one to create a vFolder that will contain only
+		 messages from an address you enter.
 	     </para>
 	   </listitem>
 	  </varlistentry>
@@ -988,7 +994,8 @@ possibly never will be due to security evil. -->
 	    <listitem>
 	      <para>
 	         Any messages sent directly to this address will be in
-	         the vFolder you create.
+	         the vFolder you create.  This vFolder is an absolute
+	         must for people with multiple email addresses.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -1017,13 +1024,16 @@ possibly never will be due to security evil. -->
       </para>
       <para>
 
-	Once you click <guibutton>Next</guibutton>, you'll
-	customize the vFolder rule.  This process is somewhat
-	complicated, but promises to get much more simple in
-	future versions of <application>Evolution</application>.
-	As it stands now, try clicking different things to have
-	the sentence in the bottom frame make sense.
-
+	Once you click <guibutton>Next</guibutton>, you'll customize
+	the vFolder rule.  The rules for the vFolder you're creating
+	will appear as phrases in the bottom pane of the window.  You
+	can click on the blue underlined text in the phrase to alter
+	it to your liking.  For example, when I create a vFolder to
+	contain all messages from <email>rupert@helixcode.com</email>
+	that have the word "evolution" in the message body, the bottom
+	frame says: <computeroutput>The From address matches
+	rupert@helixcode.com and the body contains
+	"evolution".</computeroutput>.
       </para>
     </sect2>
 

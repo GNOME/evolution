@@ -409,7 +409,7 @@
     </sect2>
 
     <sect2 id="config-prefs-cal-todo">
-      <title>To Do list settings</title>
+      <title>To Do List Settings</title>
      <para>
        You can choose what information the To Do list displays and the
        way it is displayed.  The two areas of the <interface>To Do
