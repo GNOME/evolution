@@ -4,6 +4,7 @@ INCLUDES = 					\
 	-I$(top_srcdir)/addressbook/backend	\
 	-I$(top_builddir)/e-util		\
 	$(BONOBO_VFS_GNOME_CFLAGS)		\
+	$(PISOCK_INCLUDEDIR)			\
 	$(GNOME_PILOT_CFLAGS)
 
 # Address Capplet
