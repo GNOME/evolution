@@ -1,9 +1,8 @@
-evolibexecdir = $(libexecdir)/evolution/$(BASE_VERSION)
-evolibexecdir_PROGRAMS = evolution-calendar-importer
+privlibexec_PROGRAMS = evolution-calendar-importer
 
 INCLUDES = 						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-DEVOLUTION_SOUNDDIR=\""$(sounddir)"\"		\
+	-DEVOLUTION_SOUNDDIR=\""$(soundsdir)"\"		\
 	-DG_LOG_DOMAIN=\"Evolution-Importer\"		\
 	-I$(top_srcdir)					\
 	-I$(top_builddir)/shell				\
@@ -32,11 +31,10 @@ evolution_calendar_importer_LDADD =				\
 	$(top_builddir)/libical/src/libicalvcal/libicalvcal-evolution.la \
 	$(EVOLUTION_CALENDAR_LIBS)
 
-serversdir = $(libdir)/bonobo/servers
 server_in_files = GNOME_Evolution_Calendar_Importer.server.in
 
-servers_DATA = $(server_in_files:.server.in=.server)
+server_DATA = $(server_in_files:.server.in=.server)
 
-EXTRA_DIST = $(server_in_files) $(servers_DATA)
+EXTRA_DIST = $(server_in_files) $(server_DATA)
 
 @INTLTOOL_SERVER_RULE@
