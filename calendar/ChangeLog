@@ -1,3 +1,9 @@
+2004-11-29  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	* gui/dialogs/comp-editor.c (response_cb): Moved the call
+	for the warning dialog (send_component_prompt_subject) after 
+	the component is saved (save_comp_with_send). 
+	
 2004-11-26  JP Rosevear  <jpr@novell.com>
 
 	* gui/alarm-notify/alarm-queue.c (display_notification): ditto

@@ -359,15 +359,17 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
 				return;
 		
-		e_cal_component_get_summary (priv->comp, &text);
+		if (save_comp_with_send (editor)) {
+
+			e_cal_component_get_summary (priv->comp, &text);
 		
-		if (!text.value) {
-			if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
-				return;
+			if (!text.value) {
+				if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
+					return;
+			}
+				close_dialog (editor);
 		}
 
-		if (save_comp_with_send (editor))
-			close_dialog (editor);
 		break;
 	case GTK_RESPONSE_CANCEL:
 	case GTK_RESPONSE_DELETE_EVENT:
