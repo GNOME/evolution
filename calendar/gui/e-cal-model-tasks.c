@@ -959,8 +959,7 @@ ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 		break;
 	}
 
-	return "black";
-	/* return E_CAL_MODEL_CLASS (parent_class)->get_color_for_component (model, comp_data); */
+	return E_CAL_MODEL_CLASS (parent_class)->get_color_for_component (model, comp_data);
 }
 
 static void

@@ -1,3 +1,11 @@
+2004-01-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-calendar-table.c (e_calendar_table_init): use the colors from
+	the model as background, not as foreground.
+
+	* gui/e-cal-model-tasks.c (ecmt_get_color_for_component): return the
+	color assigned to each URI if it's not overdue.
+
 2004-01-24  JP Rosevear <jpr@ximian.com>
 
 	* gui/tasks-component.c (setup_create_ecal): listen for the
