@@ -610,20 +610,21 @@ pop3_connect (CamelService *service, CamelException *ex)
 	if (!connect_to_server_wrapper (service, ex))
 		return FALSE;
 	
-	do {
+	while (1) {
 		status = pop3_try_authenticate (service, reprompt, errbuf, ex);
 		g_free (errbuf);
 		errbuf = NULL;
 		
 		/* we only re-prompt if we failed to authenticate, any other error and we just abort */
-		if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE) {
+		if (status == 0 && camel_exception_get_id (ex) == CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE) {
 			errbuf = g_strdup_printf ("%s\n\n", camel_exception_get_description (ex));
 			g_free (service->url->passwd);
 			service->url->passwd = NULL;
 			reprompt = TRUE;
 			camel_exception_clear (ex);
-		}
-	} while (status != -1 && ex->id == CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE);
+		} else
+			break;
+	}
 	
 	g_free (errbuf);
 	

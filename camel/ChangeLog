@@ -1,3 +1,16 @@
+2005-01-24  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #71427.
+
+	* providers/pop3/camel-pop3-store.c (pop3_connect): fix the
+	exception case for re-prompting for the password.
+
+	** See bug #71625, and bug #56110.
+
+	* providers/imap/camel-imap-folder.c (get_content): when getting a
+	simple content for a message, don't get .TEXT, as that is the full
+	content of a message, not the part itself.
+
 2005-01-17  Not Zed  <NotZed@Ximian.com>
 
 	* camel-multipart-signed.c (skip_content): in the message state

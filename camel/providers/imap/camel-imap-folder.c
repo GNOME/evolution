@@ -1848,9 +1848,10 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		CamelTransferEncoding enc;
 		char *spec;
 
+		/* NB: we need this differently to multipart/signed case above on purpose */
 		spec = g_alloca(strlen(part_spec) + 6);
 		if (frommsg)
-			sprintf(spec, part_spec[0] ? "%s.TEXT" : "1.TEXT", part_spec);
+			sprintf(spec, part_spec[0] ? "%s.1" : "1", part_spec);
 		else
 			strcpy(spec, part_spec[0]?part_spec:"1");
 
