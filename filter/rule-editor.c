@@ -498,7 +498,7 @@ set_source (RuleEditor *re, const char *source)
 		GtkWidget *item;
 		char *s;
 		
-		d(printf("   hit %s(%s)\n", rule->name, source?source:"<nil">));
+		d(printf("   hit %s(%s)\n", rule->name, source?source:"<nil>"));
 		s = e_utf8_to_gtk_string (GTK_WIDGET (re->list), U_(rule->name));
 		item = gtk_list_item_new_with_label (s);
 		g_free (s);

@@ -2,6 +2,7 @@
 
 	* rule-editor.c: Some debug printf fixes for printf's that dont
 	like null %s's.
+	Fixed previous fix.
 
 2001-10-28    <NotZed@Ximian.com>
 
