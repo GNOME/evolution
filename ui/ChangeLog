@@ -1,3 +1,8 @@
+2001-07-26  Federico Mena Quintero  <federico@ximian.com>
+
+	* evolution-calendar.xml: Consistency fixes, and reindented the
+	goddamn thing.
+
 2001-07-27  Jason Leach  <jleach@ximian.com>
 
 	* evolution-addressbook.xml: Removed the unused "Settings"
