@@ -34,8 +34,6 @@
 #include <bonobo/bonobo-shlib-factory.h>
 #include <bonobo/bonobo-exception.h>
 
-#include <gal/widgets/e-cursors.h>
-
 #include "dialogs/cal-prefs-dialog.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"

@@ -1,5 +1,21 @@
 2004-10-07  JP Rosevear  <jpr@novell.com>
 
+	* gui/print.c: guard config.h
+
+	* gui/tasks-control.c: guard config.h, remove useless include
+
+	* gui/migration.c: remove useless include
+
+	* gui/main.c: remove useless include
+
+	* gui/e-calendar-view.h: #define the type
+
+	* gui/calendar-offline-handler.c: remove useless include
+
+	* gui/calendar-config.c: tidy header
+
+2004-10-07  JP Rosevear  <jpr@novell.com>
+	
 	* gui/calendar-commands.c: guard config.h include, kill warning
 	and remove useless include
 

@@ -35,6 +35,7 @@ G_BEGIN_DECLS
  * EView - base widget class for the calendar views.
  */
 
+#define E_TYPE_CALENDAR_VIEW          (e_calendar_view_get_type ())
 #define E_CALENDAR_VIEW(obj)          GTK_CHECK_CAST (obj, e_calendar_view_get_type (), ECalendarView)
 #define E_CALENDAR_VIEW_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, e_calendar_view_get_type (), ECalendarViewClass)
 #define E_IS_CALENDAR_VIEW(obj)       GTK_CHECK_TYPE (obj, e_calendar_view_get_type ())

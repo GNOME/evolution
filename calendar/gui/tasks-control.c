@@ -21,7 +21,10 @@
  *	    Ettore Perazzoli
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <gtk/gtksignal.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcheckbutton.h>
@@ -40,7 +43,6 @@
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-util.h>
-#include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include "dialogs/cal-prefs-dialog.h"
 #include "calendar-config.h"
