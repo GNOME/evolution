@@ -65,7 +65,7 @@ summary_sources =				\
 	weather.h
 
 summary_libs =				 				\
-	$(top_builddir)/calendar/gui/alarm-notify/libalarm.a		\
+	$(top_builddir)/calendar/gui/alarm-notify/libalarm.la		\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a			\
 	$(top_builddir)/e-util/libeutil.la				\
