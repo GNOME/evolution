@@ -1,3 +1,8 @@
+2001-08-15  Peter Williams  <peterw@ximian.com>
+
+	* providers/imap/camel-imap-store.c (imap_connect_online): Oh crap,
+	huge killer typo.
+
 2001-08-14  Peter Williams  <peterw@ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_connect_online):

@@ -649,7 +649,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 
 	/* canonicalize the namespace to end with dir_sep */
 	len = strlen (store->namespace);
-	if (store->namespace[len] != store->dir_sep) {
+	if (store->namespace[len - 1] != store->dir_sep) {
 		gchar *tmp;
 		
 		tmp = g_strdup_printf ("%s%c", store->namespace, store->dir_sep);
