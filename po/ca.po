@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-23 20:04+0100\n"
-"PO-Revision-Date: 2005-02-21 11:41+0100\n"
+"POT-Creation-Date: 2005-03-26 13:39+0100\n"
+"PO-Revision-Date: 2005-03-26 15:00+0100\n"
 "Last-Translator: Xavier Conde Rueda <xaviconde@eresmas.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr[1] "la llibreta d'adreces té %d targetes"
 
 # fitxer: ui.evolution-message-composer.xml.h.ca.po
 #: ../a11y/addressbook/ea-minicard.c:31
-#: ../calendar/gui/alarm-notify/alarm-queue.c:863
+#: ../calendar/gui/alarm-notify/alarm-queue.c:878
 #: ../ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Obre"
@@ -116,7 +116,7 @@ msgid "New All Day Event"
 msgstr "Nou esdeveniment de tot el dia"
 
 # fitxer: calendar.ca.po.4
-#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1372
+#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1374
 msgid "New Meeting"
 msgstr "Nova reunió"
 
@@ -170,7 +170,7 @@ msgstr "visualització de calendari per a un o més dies"
 
 # fitxer: calendar.ca.po.5
 #: ../a11y/calendar/ea-gnome-calendar.c:187
-#: ../calendar/gui/calendar-component.c:660
+#: ../calendar/gui/calendar-component.c:671
 msgid "%A %d %b %Y"
 msgstr "%A, %d de %B del %Y"
 
@@ -182,7 +182,7 @@ msgstr "%A, %d de %B del %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:190
-#: ../calendar/gui/calendar-component.c:663
+#: ../calendar/gui/calendar-component.c:674
 #: ../calendar/gui/e-day-view-top-item.c:719 ../calendar/gui/e-day-view.c:1511
 #: ../calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
@@ -192,9 +192,9 @@ msgstr "%a %d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:192
 #: ../a11y/calendar/ea-gnome-calendar.c:197
 #: ../a11y/calendar/ea-gnome-calendar.c:199
-#: ../calendar/gui/calendar-component.c:665
-#: ../calendar/gui/calendar-component.c:670
-#: ../calendar/gui/calendar-component.c:672
+#: ../calendar/gui/calendar-component.c:676
+#: ../calendar/gui/calendar-component.c:681
+#: ../calendar/gui/calendar-component.c:683
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -203,10 +203,10 @@ msgstr "%a %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:222
 #: ../a11y/calendar/ea-gnome-calendar.c:228
 #: ../a11y/calendar/ea-gnome-calendar.c:230
-#: ../calendar/gui/calendar-component.c:684
-#: ../calendar/gui/calendar-component.c:691
-#: ../calendar/gui/calendar-component.c:697
-#: ../calendar/gui/calendar-component.c:699
+#: ../calendar/gui/calendar-component.c:695
+#: ../calendar/gui/calendar-component.c:702
+#: ../calendar/gui/calendar-component.c:708
+#: ../calendar/gui/calendar-component.c:710
 msgid "%d %b %Y"
 msgstr "%d de %B del %Y"
 
@@ -217,7 +217,7 @@ msgstr "%d de %B del %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:220
-#: ../calendar/gui/calendar-component.c:689
+#: ../calendar/gui/calendar-component.c:700
 #: ../calendar/gui/e-day-view-top-item.c:723 ../calendar/gui/e-day-view.c:1527
 #: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
@@ -228,7 +228,7 @@ msgstr "%d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:255
 #: ../calendar/importers/icalendar-importer.c:726
 msgid "Gnome Calendar"
-msgstr "Gnome Calendar"
+msgstr "Calendari del Gnome"
 
 # fitxer: addressbook.gui.component.ca.po
 #: ../a11y/calendar/ea-gnome-calendar.c:290
@@ -271,19 +271,19 @@ msgid "calendar view for one or more weeks"
 msgstr "visualització del calendari per a una o més setmanes"
 
 # fitxer: calendar.ca.po.5
-#: ../a11y/widgets/ea-calendar-item.c:290
 #: ../a11y/widgets/ea-calendar-item.c:296
+#: ../a11y/widgets/ea-calendar-item.c:302
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 # fitxer: calendar.ca.po.3
-#: ../a11y/widgets/ea-calendar-item.c:298
+#: ../a11y/widgets/ea-calendar-item.c:304
 #, c-format
 msgid "Calendar: from %s to %s"
 msgstr "Calendari: de %s a %s"
 
 # fitxer: calendar.ca.po.2
-#: ../a11y/widgets/ea-calendar-item.c:333
+#: ../a11y/widgets/ea-calendar-item.c:339
 msgid "evolution calendar item"
 msgstr "element de calendari d'evolution"
 
@@ -561,7 +561,7 @@ msgstr "No s'ha pogut llegir el bloc d'aplicació d'adreces del pilot"
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "Autocompletion"
-msgstr "Completat automàtic"
+msgstr "Compleció automàtica"
 
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
@@ -576,13 +576,13 @@ msgstr "Certificats"
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 msgid "Configure autocomplete here"
-msgstr "Configureu aquí el completat automàtic"
+msgstr "Configureu aquí la compleció automàtica"
 
 # fitxer: addressbook.gui.component.ca.po
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1119
-#: ../calendar/gui/calendar-component.c:235 ../calendar/gui/migration.c:385
+#: ../calendar/gui/calendar-component.c:246 ../calendar/gui/migration.c:385
 msgid "Contacts"
 msgstr "Contactes"
 
@@ -650,7 +650,7 @@ msgstr "En aquest ordinador"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: ../calendar/gui/calendar-component.c:216 ../calendar/gui/migration.c:467
 #: ../calendar/gui/migration.c:560 ../calendar/gui/tasks-component.c:196
-#: ../filter/filter-label.c:123 ../mail/em-migrate.c:1013
+#: ../filter/filter-label.c:123 ../mail/em-migrate.c:1043
 #: ../mail/mail-config.c:78 ../mail/mail-config.glade.h:101
 msgid "Personal"
 msgstr "Personal"
@@ -684,7 +684,7 @@ msgstr "Crea una nova llista de contactes"
 
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/addressbook-component.c:212
-#: ../addressbook/gui/component/addressbook-config.c:1121
+#: ../addressbook/gui/component/addressbook-config.c:1120
 #: ../addressbook/gui/component/addressbook-view.c:757
 msgid "New Address Book"
 msgstr "Nova llibreta d'adreces"
@@ -750,7 +750,7 @@ msgstr "Autenticació"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/component/addressbook-config.c:914
 #: ../addressbook/gui/component/ldap-config.glade.h:18
-#: ../mail/mail-dialogs.glade.h:12 ../smime/gui/smime-ui.glade.h:19
+#: ../mail/mail-dialogs.glade.h:8 ../smime/gui/smime-ui.glade.h:19
 msgid "Details"
 msgstr "Detalls"
 
@@ -765,20 +765,20 @@ msgid "Downloading"
 msgstr "Descàrrega"
 
 # fitxer: addressbook.gui.component.ca.po
-#: ../addressbook/gui/component/addressbook-config.c:1119
+#: ../addressbook/gui/component/addressbook-config.c:1118
 #: ../addressbook/gui/component/ldap-config.glade.h:14
 msgid "Address Book Properties"
 msgstr "Propietats de la llibreta d'adreces"
 
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/addressbook-migrate.c:72
-#: ../calendar/gui/migration.c:142 ../mail/em-migrate.c:1160
+#: ../calendar/gui/migration.c:142 ../mail/em-migrate.c:1190
 msgid "Migrating..."
 msgstr "S'està migrant..."
 
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/addressbook-migrate.c:124
-#: ../calendar/gui/migration.c:189 ../mail/em-migrate.c:1201
+#: ../calendar/gui/migration.c:189 ../mail/em-migrate.c:1231
 #, c-format
 msgid "Migrating `%s':"
 msgstr "S'està migrant '%s':"
@@ -791,7 +791,7 @@ msgstr "Servidors d'LDAP"
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/addressbook-migrate.c:752
 msgid "Autocompletion Settings"
-msgstr "Paràmetres del completat automàtic"
+msgstr "Paràmetres de la compleció automàtica"
 
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/addressbook-migrate.c:1123
@@ -843,8 +843,8 @@ msgstr ""
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/addressbook-view.c:758
 #: ../addressbook/gui/widgets/e-addressbook-view.c:935
-#: ../calendar/gui/calendar-component.c:526
-#: ../calendar/gui/tasks-component.c:430 ../mail/em-filter-i18n.h:11
+#: ../calendar/gui/calendar-component.c:537
+#: ../calendar/gui/tasks-component.c:441 ../mail/em-filter-i18n.h:11
 #: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:5
 #: ../ui/evolution-mail-message.xml.h:24 ../ui/evolution-tasks.xml.h:6
 msgid "Delete"
@@ -852,8 +852,8 @@ msgstr "Suprimeix"
 
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/addressbook-view.c:760
-#: ../calendar/gui/calendar-component.c:527
-#: ../calendar/gui/tasks-component.c:431
+#: ../calendar/gui/calendar-component.c:538
+#: ../calendar/gui/tasks-component.c:442
 msgid "Properties..."
 msgstr "Propietats..."
 
@@ -868,13 +868,13 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "S'està accedint anònimament al servidor d'LDAP"
 
 # fitxer: addressbook.gui.component.ca.po
-#: ../addressbook/gui/component/addressbook.c:193
+#: ../addressbook/gui/component/addressbook.c:194
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:478
 msgid "Failed to authenticate.\n"
 msgstr "S'ha produït un error en l'autenticació.\n"
 
 # fitxer: addressbook.gui.component.ca.po
-#: ../addressbook/gui/component/addressbook.c:200
+#: ../addressbook/gui/component/addressbook.c:201
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:461
 #, c-format
 msgid "Enter password for %s (user %s)"
@@ -953,7 +953,7 @@ msgstr "Si s'ha de mostrar la subfinestra de previsualització."
 #: ../calendar/gui/dialogs/new-task-list.glade.h:1
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
 #: ../composer/e-msg-composer-attachment.glade.h:1
-#: ../mail/mail-dialogs.glade.h:6 ../mail/message-tags.glade.h:1
+#: ../mail/mail-dialogs.glade.h:2 ../mail/message-tags.glade.h:1
 #: ../plugins/shared-folder/properties.glade.h:1
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "*"
@@ -1020,7 +1020,7 @@ msgstr "Afegeix llibreta d'adreces"
 
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/ldap-config.glade.h:15
-#: ../mail/em-account-editor.c:301
+#: ../mail/em-account-editor.c:302
 msgid "Always"
 msgstr "Sempre"
 
@@ -1064,7 +1064,7 @@ msgstr "_Entra:"
 
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/ldap-config.glade.h:25
-#: ../mail/em-account-editor.c:299
+#: ../mail/em-account-editor.c:300
 msgid "Never"
 msgstr "Mai"
 
@@ -1205,7 +1205,7 @@ msgstr "Usar l'adreça de correu electrònic"
 
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/ldap-config.glade.h:42
-#: ../mail/em-account-editor.c:300
+#: ../mail/em-account-editor.c:301
 msgid "Whenever Possible"
 msgstr "Sempre que sigui possible"
 
@@ -1222,7 +1222,7 @@ msgstr "Límit de baixa_da:"
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/ldap-config.glade.h:45
 msgid "_Find Possible Search Bases"
-msgstr "_Troba les bases de cerca possibles"
+msgstr "Cerca les _bases de cerca possibles"
 
 # fitxer: addressbook.gui.component.ca.po
 #: ../addressbook/gui/component/ldap-config.glade.h:46
@@ -1272,7 +1272,7 @@ msgstr "targetes"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:12
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1884
+#: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1882
 #: ../plugins/calendar-http/calendar-http.c:263
 #: ../plugins/calendar-weather/calendar-weather.c:564
 msgid "minutes"
@@ -1391,7 +1391,7 @@ msgstr "Telèfon"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:235
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:199
-#: ../filter/filter-label.c:122 ../mail/em-migrate.c:1012
+#: ../filter/filter-label.c:122 ../mail/em-migrate.c:1042
 #: ../mail/mail-config.c:77 ../mail/mail-config.glade.h:148
 msgid "Work"
 msgstr "Feina"
@@ -1653,10 +1653,10 @@ msgstr "Bangladesh"
 msgid "Barbados"
 msgstr "Barbados"
 
-# fitxer: addressbook.gui.contact-editor.ca.po
+# NOTE: suposo que es refereixen al país i no l'idioma
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:156
 msgid "Belarus"
-msgstr "Belarus"
+msgstr "Bealorússia"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:157
@@ -1691,7 +1691,7 @@ msgstr "Bolívia"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:163
 msgid "Bosnia And Herzegowina"
-msgstr "Bosnia And Herzegowina"
+msgstr "Bòsnia i Herzegovina"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:164
@@ -2156,12 +2156,12 @@ msgstr "Laos"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Latvia"
-msgstr "Latvia"
+msgstr "Letònia"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Lebanon"
-msgstr "Lebanon"
+msgstr "Líban"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:258
@@ -2266,12 +2266,12 @@ msgstr "Mèxic"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Micronesia"
-msgstr "Micronesia"
+msgstr "Micronèsia"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Moldova, Republic Of"
-msgstr "Moldova, Republic Of"
+msgstr "Moldàvia, República de"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:280
@@ -2456,7 +2456,7 @@ msgstr "Romania"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:316
 msgid "Russian Federation"
-msgstr "Rússia"
+msgstr "Federació Russa"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:317
@@ -2491,7 +2491,7 @@ msgstr "San Marino"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:323
 msgid "Sao Tome And Principe"
-msgstr "Sao Tome i Principe"
+msgstr "Sao Tome et Principe"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:324
@@ -2621,7 +2621,7 @@ msgstr "Tajikistan"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:349
 msgid "Tanzania, United Republic Of"
-msgstr "Tanzania, United Republic Of"
+msgstr "Tanzània, República unida de"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:350
@@ -2691,7 +2691,7 @@ msgstr "Ucraïna"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:363
 msgid "United Arab Emirates"
-msgstr "Emirats Àrabs"
+msgstr "Emirats Àrabs Units"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:364
@@ -2849,7 +2849,7 @@ msgstr "Llibreta d'adreces d'origen"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:263
 msgid "Target Book"
-msgstr "Llibreta d'adreces objectiu"
+msgstr "Llibreta d'adreces de destí"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:277
@@ -2902,12 +2902,12 @@ msgstr "Afegeix un contacte ràpidament"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "_Edit Full"
-msgstr "_Edita el complet"
+msgstr "_Edita sencer"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:306
 msgid "_Full name:"
-msgstr "Nom compl_et:"
+msgstr "No_m complet:"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:316
@@ -2915,7 +2915,7 @@ msgid "E-_mail:"
 msgstr "Correu electrò_nic:"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
-#: ../addressbook/gui/contact-editor/eab-editor.c:324
+#: ../addressbook/gui/contact-editor/eab-editor.c:326
 msgid ""
 "Are you sure you want\n"
 "to delete these contacts?"
@@ -2924,7 +2924,7 @@ msgstr ""
 "suprimir aquests contactes?"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
-#: ../addressbook/gui/contact-editor/eab-editor.c:327
+#: ../addressbook/gui/contact-editor/eab-editor.c:329
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
@@ -3263,7 +3263,7 @@ msgstr "Font"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:244
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:319
+#: ../calendar/gui/e-meeting-list-view.c:320
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 msgid "Type"
 msgstr "Tipus"
@@ -3304,7 +3304,7 @@ msgstr "Envia un missatge al contacte"
 
 # fitxer: addressbook.gui.widgets.ca.po
 #: ../addressbook/gui/widgets/e-addressbook-view.c:925
-#: ../calendar/gui/calendar-commands.c:120 ../calendar/gui/print.c:2489
+#: ../calendar/gui/calendar-commands.c:120 ../calendar/gui/print.c:2502
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
 #: ../ui/evolution-mail-message.xml.h:80 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
@@ -3328,8 +3328,8 @@ msgstr "Retalla"
 
 # fitxer: addressbook.gui.widgets.ca.po
 #: ../addressbook/gui/widgets/e-addressbook-view.c:933
-#: ../calendar/gui/calendar-component.c:525
-#: ../calendar/gui/tasks-component.c:429 ../ui/evolution-addressbook.xml.h:2
+#: ../calendar/gui/calendar-component.c:536
+#: ../calendar/gui/tasks-component.c:440 ../ui/evolution-addressbook.xml.h:2
 #: ../ui/evolution-mail-message.xml.h:9 ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Copia"
@@ -3505,7 +3505,7 @@ msgstr "Un altre telèfon"
 # fitxer: addressbook.gui.widgets.ca.po
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:30
 msgid "Pager"
-msgstr "Paginador"
+msgstr "Cercapersones"
 
 # fitxer: addressbook.gui.widgets.ca.po
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:31
@@ -3520,7 +3520,7 @@ msgstr "Ràdio"
 # fitxer: addressbook.gui.widgets.ca.po
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:326
+#: ../calendar/gui/e-meeting-list-view.c:327
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
 msgstr "Rol"
@@ -3544,7 +3544,7 @@ msgstr "TTYTDD"
 # fitxer: addressbook.gui.widgets.ca.po
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:42
 msgid "Telex"
-msgstr "Telex"
+msgstr "Tèlex"
 
 # fitxer: addressbook.gui.widgets.ca.po
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:43
@@ -3807,7 +3807,7 @@ msgstr "El protocol no està suportat"
 #: ../calendar/gui/e-cal-component-preview.c:232
 #: ../calendar/gui/e-cal-model-tasks.c:347
 #: ../calendar/gui/e-cal-model-tasks.c:660
-#: ../calendar/gui/e-calendar-table.c:458 ../calendar/gui/print.c:2352
+#: ../calendar/gui/e-calendar-table.c:458 ../calendar/gui/print.c:2365
 msgid "Cancelled"
 msgstr "Cancel·lat"
 
@@ -4898,10 +4898,10 @@ msgstr "No s'ha marcat la llista de tasques per usar en mode desconnectat"
 
 #. calendar:server-version secondary
 #: ../calendar/calendar-errors.xml.h:146
-msgid " Some features may not work correctly with your current server version"
+msgid " Some features may not work correctly with your current server version "
 msgstr ""
 " Algunes característiques no funcionaran correctament amb la versió actual "
-"del vostre servidor."
+"del vostre servidor "
 
 # fitxer: calendar.ca.po.5
 #: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:301
@@ -4946,7 +4946,7 @@ msgstr "Calendari i tasques"
 
 # fitxer: calendar.ca.po.5
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1290
+#: ../calendar/gui/calendar-component.c:1301
 msgid "Calendars"
 msgstr "Calendaris"
 
@@ -4988,7 +4988,7 @@ msgstr "Component de tasques de l'Evolution"
 # fitxer: calendar.ca.po.5
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
 #: ../calendar/gui/e-tasks.c:1219 ../calendar/gui/print.c:1822
-#: ../calendar/gui/tasks-component.c:508 ../calendar/gui/tasks-component.c:981
+#: ../calendar/gui/tasks-component.c:519 ../calendar/gui/tasks-component.c:992
 #: ../calendar/gui/tasks-control.c:408
 #: ../calendar/importers/icalendar-importer.c:83
 #: ../calendar/importers/icalendar-importer.c:701
@@ -5040,7 +5040,7 @@ msgstr "Hora de finalització:"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: ../calendar/gui/e-itip-control.c:1118
+#: ../calendar/gui/e-itip-control.c:1118 ../calendar/gui/print.c:2329
 #: ../plugins/itip-formatter/itip-view.c:859
 msgid "Location:"
 msgstr "Ubicació:"
@@ -5098,33 +5098,33 @@ msgid "start-time"
 msgstr "hora d'inici"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/alarm-notify/alarm-queue.c:864
+#: ../calendar/gui/alarm-notify/alarm-queue.c:879
 msgid "Dismiss"
 msgstr "Descarta"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/alarm-notify/alarm-queue.c:865
+#: ../calendar/gui/alarm-notify/alarm-queue.c:880
 msgid "Dismiss All"
 msgstr "Descarta-ho tot"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/alarm-notify/alarm-queue.c:947
+#: ../calendar/gui/alarm-notify/alarm-queue.c:962
 msgid "No summary available."
 msgstr "No hi ha cap resum disponible."
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/alarm-notify/alarm-queue.c:956
-#: ../calendar/gui/alarm-notify/alarm-queue.c:958
+#: ../calendar/gui/alarm-notify/alarm-queue.c:971
+#: ../calendar/gui/alarm-notify/alarm-queue.c:973
 msgid "No description available."
 msgstr "No hi ha cap descripció disponible"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/alarm-notify/alarm-queue.c:966
+#: ../calendar/gui/alarm-notify/alarm-queue.c:981
 msgid "No location information available."
 msgstr "No hi ha cap informació d'ubicació disponible."
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/alarm-notify/alarm-queue.c:982
+#: ../calendar/gui/alarm-notify/alarm-queue.c:997
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -5138,13 +5138,13 @@ msgstr ""
 "Finalitza a %s"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1084
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1108
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1099
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1123
 msgid "Warning"
 msgstr "Avís"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1088
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1103
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -5157,7 +5157,7 @@ msgstr ""
 "una caixa de diàleg de recordatori normal."
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1114
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1129
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -5175,7 +5175,7 @@ msgstr ""
 "Esteu segur de voler executar aquest programa?"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1128
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1143
 msgid "Do not ask me about this program again."
 msgstr "No facis més preguntes sobre aquest programa."
 
@@ -5572,9 +5572,9 @@ msgstr "Sense coincidència"
 
 # fitxer: calendar.ca.po.5
 #: ../calendar/gui/calendar-commands.c:120
-#: ../calendar/gui/calendar-component.c:708
+#: ../calendar/gui/calendar-component.c:719
 #: ../calendar/gui/dialogs/calendar-setup.c:362
-#: ../calendar/gui/gnome-cal.c:1943
+#: ../calendar/gui/gnome-cal.c:1952
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:382
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:412
 msgid "Calendar"
@@ -5609,108 +5609,108 @@ msgstr "dies"
 #. Create the On the web source group
 #. Create the Webcal source group
 #. Create the LDAP source group
-#: ../calendar/gui/calendar-component.c:223 ../calendar/gui/migration.c:486
-#: ../calendar/gui/migration.c:579 ../calendar/gui/tasks-component.c:204
+#: ../calendar/gui/calendar-component.c:234 ../calendar/gui/migration.c:486
+#: ../calendar/gui/migration.c:579 ../calendar/gui/tasks-component.c:215
 msgid "On The Web"
 msgstr "A la web"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/calendar-component.c:241 ../calendar/gui/migration.c:388
+#: ../calendar/gui/calendar-component.c:252 ../calendar/gui/migration.c:388
 msgid "Birthdays & Anniversaries"
 msgstr "Aniversaris"
 
 # fitxer: filter.ca.po
 #. Create the weather group
-#: ../calendar/gui/calendar-component.c:247
+#: ../calendar/gui/calendar-component.c:258
 #: ../plugins/calendar-weather/calendar-weather.c:100
 msgid "Weather"
 msgstr "Temps"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:524
+#: ../calendar/gui/calendar-component.c:535
 #: ../calendar/gui/dialogs/calendar-setup.c:442
 msgid "New Calendar"
 msgstr "Nou calendari"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/calendar-component.c:843
+#: ../calendar/gui/calendar-component.c:854
 msgid "Failed upgrading calendars."
 msgstr "No s'han actualitzats el calendari."
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1139
+#: ../calendar/gui/calendar-component.c:1150
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr ""
 "No s'ha pogut obrir el calendari '%s' per crear esdeveniments i reunions"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1155
+#: ../calendar/gui/calendar-component.c:1166
 msgid "There is no calendar available for creating events and meetings"
 msgstr "No hi ha cap calendari disponible per crear esdeveniment i reunions"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/calendar-component.c:1265
+#: ../calendar/gui/calendar-component.c:1276
 msgid "Calendar Source Selector"
 msgstr "Selector d'origen del calendari"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1456
+#: ../calendar/gui/calendar-component.c:1467
 msgid "New appointment"
 msgstr "Nova cit_a"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1457
+#: ../calendar/gui/calendar-component.c:1468
 msgid "_Appointment"
 msgstr "Cit_a"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1458
+#: ../calendar/gui/calendar-component.c:1469
 msgid "Create a new appointment"
 msgstr "Crea una nova cita"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1464
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New meeting"
 msgstr "Nova reunió"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1465
+#: ../calendar/gui/calendar-component.c:1476
 msgid "M_eeting"
 msgstr "R_eunió"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1466
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new meeting request"
 msgstr "Crea una nova petició de reunió"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1472
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New all day appointment"
 msgstr "Nova cita de tot el dia"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1484
 msgid "All Day A_ppointment"
 msgstr "Cita de tot el _dia"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new all-day appointment"
 msgstr "Crea una nova cita de tot el dia"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1480
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New calendar"
 msgstr "Nou calendari"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1492
 msgid "Cale_ndar"
 msgstr "Cale_ndari"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new calendar"
 msgstr "Crea un nou calendari"
 
@@ -5750,7 +5750,7 @@ msgid "Permission denied to open the calendar"
 msgstr "No teniu permís per obrir el calendari"
 
 # fitxer: addressbook.gui.widgets.ca.po
-#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1260
+#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1264
 msgid "Unknown error"
 msgstr "Error desconegut"
 
@@ -5923,8 +5923,8 @@ msgstr "%.0fG"
 
 # fitxer: composer.ca.po
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:298
-#: ../calendar/gui/dialogs/cal-attachment-bar.c:913
-#: ../composer/e-msg-composer-attachment-bar.c:295 ../mail/em-utils.c:436
+#: ../calendar/gui/dialogs/cal-attachment-bar.c:922
+#: ../composer/e-msg-composer-attachment-bar.c:295 ../mail/em-utils.c:438
 msgid "attachment"
 msgstr "fitxer adjunt"
 
@@ -5939,7 +5939,7 @@ msgstr "Sup_rimeix"
 # fitxer: mail.ca.po.3
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:440
 #: ../composer/e-msg-composer-attachment-bar.c:438
-#: ../mail/em-folder-tree.c:2818 ../ui/evolution-mail-list.xml.h:27
+#: ../mail/em-folder-tree.c:2819 ../ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Propietats"
 
@@ -6018,7 +6018,7 @@ msgstr "Tipus MIME:"
 # fitxer: calendar.ca.po.5
 #. g_object_set((GObject *)renderer, "activatable", TRUE, NULL);
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:576
-#: ../mail/em-account-prefs.c:460 ../mail/em-composer-prefs.c:888
+#: ../mail/em-account-prefs.c:476 ../mail/em-composer-prefs.c:888
 #: ../plugins/plugin-manager/plugin-manager.c:213
 msgid "Enabled"
 msgstr "Habilitat"
@@ -6042,8 +6042,8 @@ msgstr "No el suprimeixis"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:787
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:820
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:853
-#: ../mail/em-account-prefs.c:307 ../mail/em-account-prefs.c:335
-#: ../mail/em-account-prefs.c:366
+#: ../mail/em-account-prefs.c:323 ../mail/em-account-prefs.c:351
+#: ../mail/em-account-prefs.c:382
 msgid "Disable"
 msgstr "Inhabilita"
 
@@ -6051,8 +6051,8 @@ msgstr "Inhabilita"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:787
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:820
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:855
-#: ../mail/em-account-prefs.c:307 ../mail/em-account-prefs.c:335
-#: ../mail/em-account-prefs.c:368
+#: ../mail/em-account-prefs.c:323 ../mail/em-account-prefs.c:351
+#: ../mail/em-account-prefs.c:384
 msgid "Enable"
 msgstr "Habilita"
 
@@ -6542,8 +6542,8 @@ msgstr[1] "%d missatges adjunts"
 # fitxer: calendar.ca.po.3
 #: ../calendar/gui/dialogs/comp-editor.c:412
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1402 ../composer/e-msg-composer.c:2906
-#: ../mail/em-folder-tree.c:1046 ../mail/em-folder-view.c:966
+#: ../calendar/gui/e-calendar-view.c:1404 ../composer/e-msg-composer.c:2906
+#: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:980
 #: ../mail/message-list.c:1707 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
 #: ../ui/evolution-mail-message.xml.h:105 ../ui/evolution-tasks.xml.h:20
@@ -6552,24 +6552,24 @@ msgstr "_Copia"
 
 # fitxer: mail.ca.po.3
 #: ../calendar/gui/dialogs/comp-editor.c:413 ../composer/e-msg-composer.c:2907
-#: ../mail/em-folder-tree.c:1047 ../mail/em-folder-tree.c:2311
-#: ../mail/em-folder-view.c:862 ../mail/message-list.c:1708
+#: ../mail/em-folder-tree.c:1048 ../mail/em-folder-tree.c:2312
+#: ../mail/em-folder-view.c:876 ../mail/message-list.c:1708
 msgid "_Move"
 msgstr "_Mou"
 
 # fitxer: ui.evolution-task-editor.xml.h.ca.po
 #: ../calendar/gui/dialogs/comp-editor.c:415 ../composer/e-msg-composer.c:2909
-#: ../mail/em-folder-tree.c:1049 ../mail/message-list.c:1710
+#: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1710
 msgid "Cancel _Drag"
 msgstr "_Desfés l'arrossegament"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/comp-editor.c:659
+#: ../calendar/gui/dialogs/comp-editor.c:682
 msgid "Could not update object"
 msgstr "No s'ha pogut actualitzar l'objecte"
 
 # fitxer: composer.ca.po
-#: ../calendar/gui/dialogs/comp-editor.c:820 ../composer/e-msg-composer.c:2310
+#: ../calendar/gui/dialogs/comp-editor.c:843 ../composer/e-msg-composer.c:2310
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
@@ -6577,83 +6577,83 @@ msgstr[0] "S'ha adjuntat <b>%d</b> fitxer"
 msgstr[1] "S'han adjuntat <b>%d</b> fitxers"
 
 # fitxer: composer.ca.po
-#: ../calendar/gui/dialogs/comp-editor.c:873 ../composer/e-msg-composer.c:2339
+#: ../calendar/gui/dialogs/comp-editor.c:900 ../composer/e-msg-composer.c:2339
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr ""
 "_Oculta la barra de fitxers adjunts (deixeu-hi anar els fitxers adjunts)"
 
 # fitxer: composer.ca.po
-#: ../calendar/gui/dialogs/comp-editor.c:876
-#: ../calendar/gui/dialogs/comp-editor.c:928 ../composer/e-msg-composer.c:2342
-#: ../composer/e-msg-composer.c:3471
+#: ../calendar/gui/dialogs/comp-editor.c:903
+#: ../calendar/gui/dialogs/comp-editor.c:955 ../composer/e-msg-composer.c:2342
+#: ../composer/e-msg-composer.c:3487
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr ""
 "_Mostra la barra de fitxers adjunts (deixeu-hi anar els fitxers adjunts)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:952 ../composer/e-msg-composer.c:3493
+#: ../calendar/gui/dialogs/comp-editor.c:979 ../composer/e-msg-composer.c:3509
 msgid "Attachment Button: Press space key to toggle attachment bar"
 msgstr ""
 "Botó d'adjuncions: premeu la tecla espaiadora per commutar la barra "
 "d'adjuncions"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/comp-editor.c:1499
-#: ../calendar/gui/dialogs/comp-editor.c:1542
+#: ../calendar/gui/dialogs/comp-editor.c:1526
+#: ../calendar/gui/dialogs/comp-editor.c:1569
 msgid "Edit Appointment"
 msgstr "Edita la cita"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/comp-editor.c:1505
-#: ../calendar/gui/dialogs/comp-editor.c:1548
+#: ../calendar/gui/dialogs/comp-editor.c:1532
+#: ../calendar/gui/dialogs/comp-editor.c:1575
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunió - %s"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/comp-editor.c:1507
-#: ../calendar/gui/dialogs/comp-editor.c:1550
+#: ../calendar/gui/dialogs/comp-editor.c:1534
+#: ../calendar/gui/dialogs/comp-editor.c:1577
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
 # fitxer: ui.evolution-task-editor.xml.h.ca.po
-#: ../calendar/gui/dialogs/comp-editor.c:1511
-#: ../calendar/gui/dialogs/comp-editor.c:1554
+#: ../calendar/gui/dialogs/comp-editor.c:1538
+#: ../calendar/gui/dialogs/comp-editor.c:1581
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tasca assignada - %s"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/comp-editor.c:1513
-#: ../calendar/gui/dialogs/comp-editor.c:1556
+#: ../calendar/gui/dialogs/comp-editor.c:1540
+#: ../calendar/gui/dialogs/comp-editor.c:1583
 #, c-format
 msgid "Task - %s"
 msgstr "Tasca - %s"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/comp-editor.c:1516
-#: ../calendar/gui/dialogs/comp-editor.c:1559
+#: ../calendar/gui/dialogs/comp-editor.c:1543
+#: ../calendar/gui/dialogs/comp-editor.c:1586
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Entrada al diari - %s"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/comp-editor.c:1527
-#: ../calendar/gui/dialogs/comp-editor.c:1569
+#: ../calendar/gui/dialogs/comp-editor.c:1554
+#: ../calendar/gui/dialogs/comp-editor.c:1596
 msgid "No summary"
 msgstr "Sense resum"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/comp-editor.c:2003
-#: ../calendar/gui/dialogs/comp-editor.c:2036
-#: ../calendar/gui/dialogs/comp-editor.c:2060
+#: ../calendar/gui/dialogs/comp-editor.c:2033
+#: ../calendar/gui/dialogs/comp-editor.c:2066
+#: ../calendar/gui/dialogs/comp-editor.c:2090
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Els canvis realitzats en aquest element es descartaran en produir-se una "
 "actualització"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/comp-editor.c:2084
+#: ../calendar/gui/dialogs/comp-editor.c:2114
 msgid "Unable to use current version!"
 msgstr "No s'ha pogut utilitzar la versió actual"
 
@@ -6770,43 +6770,43 @@ msgid "Invitations"
 msgstr "Invitacions"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/event-page.c:725
+#: ../calendar/gui/dialogs/event-page.c:721
 msgid "Event with no start date"
 msgstr "L'esdeveniment no té data d'inici"
 
-#: ../calendar/gui/dialogs/event-page.c:728
+#: ../calendar/gui/dialogs/event-page.c:724
 msgid "Event with no end date"
 msgstr "L'esdeveniment no té data de fi"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/event-page.c:894
-#: ../calendar/gui/dialogs/task-page.c:561
+#: ../calendar/gui/dialogs/event-page.c:890
+#: ../calendar/gui/dialogs/task-page.c:557
 msgid "Start date is wrong"
 msgstr "La data d'inici és errònia"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/event-page.c:904
+#: ../calendar/gui/dialogs/event-page.c:900
 msgid "End date is wrong"
 msgstr "La data de finalització és errònia"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/event-page.c:927
+#: ../calendar/gui/dialogs/event-page.c:923
 msgid "Start time is wrong"
 msgstr "L'hora d'inici és errònia"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/event-page.c:934
+#: ../calendar/gui/dialogs/event-page.c:930
 msgid "End time is wrong"
 msgstr "L'hora de finalització és errònia"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/event-page.c:1675
+#: ../calendar/gui/dialogs/event-page.c:1676
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "No s'ha pogut obrir el calendari '%s'."
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/dialogs/event-page.c:1881
+#: ../calendar/gui/dialogs/event-page.c:1882
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
@@ -6814,7 +6814,7 @@ msgstr[0] "%d dia abans de la cita"
 msgstr[1] "%d dies abans de la cita"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/dialogs/event-page.c:1889
+#: ../calendar/gui/dialogs/event-page.c:1890
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
@@ -6822,7 +6822,7 @@ msgstr[0] "%d hora abans de la cita"
 msgstr[1] "%d hores abans de la cita"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/dialogs/event-page.c:1897
+#: ../calendar/gui/dialogs/event-page.c:1898
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -6974,12 +6974,12 @@ msgstr "Hora d'_inici:"
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/e-cal-model-tasks.c:652
 #: ../calendar/gui/e-itip-control.c:1104 ../composer/e-msg-composer.c:2117
-#: ../filter/filter-rule.c:878 ../mail/em-account-editor.c:684
-#: ../mail/em-account-editor.c:1290 ../mail/em-account-prefs.c:421
-#: ../mail/em-folder-view.c:993
+#: ../filter/filter-rule.c:878 ../mail/em-account-editor.c:683
+#: ../mail/em-account-editor.c:1288 ../mail/em-account-prefs.c:437
+#: ../mail/em-folder-view.c:1007
 #: ../plugins/calendar-weather/calendar-weather.c:371
 #: ../plugins/calendar-weather/calendar-weather.c:425
-#: ../plugins/itip-formatter/itip-formatter.c:1376
+#: ../plugins/itip-formatter/itip-formatter.c:1390
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:458
 #: ../widgets/misc/e-dateedit.c:1497 ../widgets/misc/e-dateedit.c:1651
@@ -7008,7 +7008,7 @@ msgstr "_Delega a..."
 
 # fitxer: calendar.ca.po.4
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:1
-#: ../calendar/gui/e-meeting-list-view.c:308
+#: ../calendar/gui/e-meeting-list-view.c:309
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
 msgstr "Assistents"
@@ -7051,7 +7051,7 @@ msgstr "Membre"
 
 # fitxer: calendar.ca.po.4
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:333
+#: ../calendar/gui/e-meeting-list-view.c:334
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -7060,7 +7060,7 @@ msgstr "RSVP"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/dialogs/task-editor.c:146
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:340
+#: ../calendar/gui/e-meeting-list-view.c:341
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:12
 msgid "Status"
@@ -7144,38 +7144,38 @@ msgid "Task List Name"
 msgstr "Nom de la llista de tasques"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/recur-comp.c:51
+#: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event, what would you like to modify?"
 msgstr "Esteu modificant un esdeveniment periòdic. Què voleu modificar?"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/recur-comp.c:55
+#: ../calendar/gui/dialogs/recur-comp.c:56
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Esteu modificant una tasca periòdica. Què voleu modificar?"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/recur-comp.c:59
+#: ../calendar/gui/dialogs/recur-comp.c:60
 msgid ""
 "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr "Esteu modificant una entrada al diari periòdica. Què voleu modificar?"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/recur-comp.c:87
+#: ../calendar/gui/dialogs/recur-comp.c:88
 msgid "This Instance Only"
 msgstr "Només aquest cas"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/recur-comp.c:91
+#: ../calendar/gui/dialogs/recur-comp.c:92
 msgid "This and Prior Instances"
 msgstr "Aquests casos i els anteriors"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/recur-comp.c:97
+#: ../calendar/gui/dialogs/recur-comp.c:98
 msgid "This and Future Instances"
 msgstr "Aquests casos i els futurs"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/recur-comp.c:102
+#: ../calendar/gui/dialogs/recur-comp.c:103
 msgid "All Instances"
 msgstr "Tots els casos"
 
@@ -7328,14 +7328,14 @@ msgstr "<span weight=\"bold\">Estat</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:658
 #: ../calendar/gui/e-calendar-table.c:457 ../calendar/gui/e-itip-control.c:896
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
-#: ../calendar/gui/print.c:2349
+#: ../calendar/gui/print.c:2362
 msgid "Completed"
 msgstr "Completada"
 
 # fitxer: calendar.ca.po.4
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:248
-#: ../calendar/gui/e-calendar-table.c:382 ../mail/message-list.c:1006
+#: ../calendar/gui/e-calendar-table.c:382 ../mail/message-list.c:1007
 msgid "High"
 msgstr "Alta"
 
@@ -7345,14 +7345,14 @@ msgstr "Alta"
 #: ../calendar/gui/e-cal-model-tasks.c:343
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-cal-model-tasks.c:731
-#: ../calendar/gui/e-calendar-table.c:456 ../calendar/gui/print.c:2346
+#: ../calendar/gui/e-calendar-table.c:456 ../calendar/gui/print.c:2359
 msgid "In Progress"
 msgstr "En procés"
 
 # fitxer: calendar.ca.po.4
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:252
-#: ../calendar/gui/e-calendar-table.c:384 ../mail/message-list.c:1004
+#: ../calendar/gui/e-calendar-table.c:384 ../mail/message-list.c:1005
 msgid "Low"
 msgstr "Baixa"
 
@@ -7360,7 +7360,7 @@ msgstr "Baixa"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:250
 #: ../calendar/gui/e-cal-model.c:899 ../calendar/gui/e-calendar-table.c:383
-#: ../mail/message-list.c:1005
+#: ../mail/message-list.c:1006
 msgid "Normal"
 msgstr "Normal"
 
@@ -7369,7 +7369,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-cal-component-preview.c:236
 #: ../calendar/gui/e-cal-model-tasks.c:341
 #: ../calendar/gui/e-cal-model-tasks.c:654
-#: ../calendar/gui/e-calendar-table.c:455 ../calendar/gui/print.c:2343
+#: ../calendar/gui/e-calendar-table.c:455 ../calendar/gui/print.c:2356
 msgid "Not Started"
 msgstr "No s'ha iniciat"
 
@@ -7418,12 +7418,12 @@ msgid "Assignment"
 msgstr "Assignació"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/task-page.c:534
+#: ../calendar/gui/dialogs/task-page.c:530
 msgid "Due date is wrong"
 msgstr "La data de venciment és errònia"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/task-page.c:878
+#: ../calendar/gui/dialogs/task-page.c:874
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "No s'han pogut obrir les tasques a '%s'."
@@ -7601,7 +7601,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s per a un tipus d'activador desconegut"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2573
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2609
 #, c-format
 msgid "Click to open %s"
 msgstr "Cliqueu per obrir %s"
@@ -7614,7 +7614,7 @@ msgstr "Sense títol"
 # fitxer: calendar.ca.po.5
 #: ../calendar/gui/e-cal-component-preview.c:186
 #: ../calendar/gui/e-itip-control.c:1108
-#: ../calendar/gui/e-itip-control.glade.h:11
+#: ../calendar/gui/e-itip-control.glade.h:11 ../calendar/gui/print.c:2320
 msgid "Summary:"
 msgstr "Resum:"
 
@@ -7635,7 +7635,7 @@ msgstr "Data de venciment:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:129
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:209
 #: ../plugins/itip-formatter/itip-view.c:884
 msgid "Status:"
 msgstr "Estat:"
@@ -7663,7 +7663,7 @@ msgstr "Data d'inici"
 # fitxer: calendar.ca.po.4
 #: ../calendar/gui/e-cal-list-view.etspec.h:5
 #: ../calendar/gui/e-calendar-table.etspec.h:11
-#: ../mail/mail-dialogs.glade.h:21
+#: ../mail/mail-dialogs.glade.h:17
 msgid "Summary"
 msgstr "Resum"
 
@@ -7733,9 +7733,9 @@ msgstr "No"
 #: ../calendar/gui/e-meeting-list-view.c:139
 #: ../calendar/gui/e-meeting-list-view.c:153
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
-#: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1173
+#: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1175
 #: ../plugins/itip-formatter/itip-formatter.c:251
-#: ../plugins/itip-formatter/itip-formatter.c:1398
+#: ../plugins/itip-formatter/itip-formatter.c:1412
 #: ../plugins/plugin-manager/plugin-manager.c:72
 #: ../shell/e-component-registry.c:201 ../shell/e-component-registry.c:205
 #: ../widgets/misc/e-charset-picker.c:62
@@ -7832,7 +7832,7 @@ msgstr "Anomena i desa..."
 
 # fitxer: calendar.ca.po.5
 #: ../calendar/gui/e-calendar-table.c:1156
-#: ../calendar/gui/e-calendar-view.c:1395 ../ui/evolution-addressbook.xml.h:37
+#: ../calendar/gui/e-calendar-view.c:1397 ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Obre"
 
@@ -7843,15 +7843,15 @@ msgstr "Obre una pàgina _web"
 
 # fitxer: calendar.ca.po.3
 #: ../calendar/gui/e-calendar-table.c:1158
-#: ../calendar/gui/e-calendar-view.c:1396 ../mail/em-folder-view.c:976
+#: ../calendar/gui/e-calendar-view.c:1398 ../mail/em-folder-view.c:990
 #: ../mail/em-popup.c:494 ../ui/evolution-mail-message.xml.h:124
 msgid "_Save As..."
 msgstr "Anomena i de_sa..."
 
 # fitxer: calendar.ca.po.4
 #: ../calendar/gui/e-calendar-table.c:1159
-#: ../calendar/gui/e-calendar-view.c:1376
-#: ../calendar/gui/e-calendar-view.c:1397 ../ui/evolution-addressbook.xml.h:40
+#: ../calendar/gui/e-calendar-view.c:1378
+#: ../calendar/gui/e-calendar-view.c:1399 ../ui/evolution-addressbook.xml.h:40
 #: ../ui/evolution-calendar.xml.h:44 ../ui/evolution-mail-message.xml.h:121
 #: ../ui/evolution-tasks.xml.h:25
 msgid "_Print..."
@@ -7859,15 +7859,15 @@ msgstr "Im_primeix..."
 
 # fitxer: calendar.ca.po.3
 #: ../calendar/gui/e-calendar-table.c:1163
-#: ../calendar/gui/e-calendar-view.c:1401 ../ui/evolution-addressbook.xml.h:1
+#: ../calendar/gui/e-calendar-view.c:1403 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Re_talla"
 
 # fitxer: calendar.ca.po.4
 #: ../calendar/gui/e-calendar-table.c:1165
-#: ../calendar/gui/e-calendar-view.c:1379
-#: ../calendar/gui/e-calendar-view.c:1403 ../ui/evolution-addressbook.xml.h:38
+#: ../calendar/gui/e-calendar-view.c:1381
+#: ../calendar/gui/e-calendar-view.c:1405 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
 #: ../ui/evolution-mail-message.xml.h:119 ../ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -7896,8 +7896,8 @@ msgstr "_Marca les tasques seleccionades com a acabades"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1414 ../mail/em-folder-tree.c:2814
-#: ../mail/em-folder-view.c:980 ../ui/evolution-addressbook.xml.h:33
+#: ../calendar/gui/e-calendar-view.c:1416 ../mail/em-folder-tree.c:2815
+#: ../mail/em-folder-view.c:994 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-message.xml.h:108
 #: ../ui/evolution-tasks.xml.h:21
 msgid "_Delete"
@@ -7961,74 +7961,74 @@ msgid "Copying items"
 msgstr "Copiar elements"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/e-calendar-view.c:1370
+#: ../calendar/gui/e-calendar-view.c:1372
 msgid "New _Appointment..."
 msgstr "Nova cit_a..."
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/e-calendar-view.c:1371
+#: ../calendar/gui/e-calendar-view.c:1373
 msgid "New All Day _Event"
 msgstr "Nou _esdeveniment de tot el dia"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/e-calendar-view.c:1373
+#: ../calendar/gui/e-calendar-view.c:1375
 msgid "New Task"
 msgstr "Nova tasca"
 
 # fitxer: addressbook.gui.widgets.ca.po
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1383
+#: ../calendar/gui/e-calendar-view.c:1385
 msgid "Current View"
 msgstr "Visualització actual"
 
 # fitxer: ui.evolution-mail-list.xml.h.ca.po
-#: ../calendar/gui/e-calendar-view.c:1385 ../ui/evolution-calendar.xml.h:26
+#: ../calendar/gui/e-calendar-view.c:1387 ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Selecciona av_ui"
 
 # fitxer: mail.ca.po.1
-#: ../calendar/gui/e-calendar-view.c:1386
+#: ../calendar/gui/e-calendar-view.c:1388
 msgid "_Select Date..."
 msgstr "_Selecciona data..."
 
 # fitxer: calendar.ca.po.3
 #. TODO: Why is this in a context menu when it applies globally?
-#: ../calendar/gui/e-calendar-view.c:1391 ../ui/evolution-calendar.xml.h:45
+#: ../calendar/gui/e-calendar-view.c:1393 ../ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "_Publica la informació lliure/ocupat"
 
 # fitxer: ui.evolution-addressbook.xml.h.ca.po
-#: ../calendar/gui/e-calendar-view.c:1407
+#: ../calendar/gui/e-calendar-view.c:1409
 msgid "Cop_y to Calendar..."
 msgstr "Cop_ia al calendari..."
 
 # fitxer: mail.ca.po.3
-#: ../calendar/gui/e-calendar-view.c:1408
+#: ../calendar/gui/e-calendar-view.c:1410
 msgid "Mo_ve to Calendar..."
 msgstr "Mo_u al calendari..."
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/e-calendar-view.c:1409
+#: ../calendar/gui/e-calendar-view.c:1411
 msgid "_Schedule Meeting..."
 msgstr "Planifica la _reunió..."
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/e-calendar-view.c:1410
+#: ../calendar/gui/e-calendar-view.c:1412
 msgid "_Forward as iCalendar..."
 msgstr "R_eenvia com a iCalendar..."
 
 # fitxer: ui.evolution-calendar.xml.h.ca.po
-#: ../calendar/gui/e-calendar-view.c:1415
+#: ../calendar/gui/e-calendar-view.c:1417
 msgid "Make this Occurrence _Movable"
 msgstr "Per_met moure aquest element"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/e-calendar-view.c:1416
+#: ../calendar/gui/e-calendar-view.c:1418
 msgid "Delete this _Occurrence"
 msgstr "Suprimeix aquesta a_parició"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/e-calendar-view.c:1417
+#: ../calendar/gui/e-calendar-view.c:1419
 msgid "Delete _All Occurrences"
 msgstr "Suprimeix totes les _aparicions"
 
@@ -8222,13 +8222,13 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:175
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:421
-#: ../plugins/itip-formatter/itip-formatter.c:1389
+#: ../plugins/itip-formatter/itip-formatter.c:1403
 msgid "Accepted"
 msgstr "Acceptat"
 
 # fitxer: calendar.ca.po.3
 #: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:424
-#: ../plugins/itip-formatter/itip-formatter.c:1392
+#: ../plugins/itip-formatter/itip-formatter.c:1406
 msgid "Tentatively Accepted"
 msgstr "Provisionalment acceptat"
 
@@ -8237,7 +8237,7 @@ msgstr "Provisionalment acceptat"
 #: ../calendar/gui/e-meeting-list-view.c:176
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
 #: ../calendar/gui/itip-utils.c:427 ../calendar/gui/itip-utils.c:453
-#: ../plugins/itip-formatter/itip-formatter.c:1395
+#: ../plugins/itip-formatter/itip-formatter.c:1409
 msgid "Declined"
 msgstr "Declinat"
 
@@ -8820,7 +8820,7 @@ msgid "Enter the password for %s"
 msgstr "Introduïu la contrasenya de %s"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2373
+#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2384
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -8869,46 +8869,46 @@ msgid "%d %B"
 msgstr "%d %B"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/gnome-cal.c:718
+#: ../calendar/gui/gnome-cal.c:724
 msgid "Updating query"
 msgstr "Actualitzar petició"
 
 # fitxer: widgets.ca.po
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2058 ../widgets/menus/gal-view-menus.c:351
+#: ../calendar/gui/gnome-cal.c:2067 ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Visualització personalitzada"
 
 # fitxer: widgets.ca.po
-#: ../calendar/gui/gnome-cal.c:2059
+#: ../calendar/gui/gnome-cal.c:2068
 msgid "Save Custom View"
 msgstr "Desa la visualització personalitzada"
 
 # fitxer: widgets.ca.po
-#: ../calendar/gui/gnome-cal.c:2064 ../widgets/menus/gal-view-menus.c:373
+#: ../calendar/gui/gnome-cal.c:2073 ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Defineix les visualitzacions..."
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/gnome-cal.c:2223
+#: ../calendar/gui/gnome-cal.c:2233
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "S'estan carregant les cites a %s"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/gnome-cal.c:2242
+#: ../calendar/gui/gnome-cal.c:2252
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "S'estan carregant les tasques a %s"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/gnome-cal.c:2339
+#: ../calendar/gui/gnome-cal.c:2350
 #, c-format
 msgid "Opening %s"
 msgstr "S'està obrint %s"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/gnome-cal.c:3229
+#: ../calendar/gui/gnome-cal.c:3240
 msgid "Purging"
 msgstr "S'està buidant"
 
@@ -8991,7 +8991,7 @@ msgstr "S'ha d'especificar un organitzador."
 # fitxer: calendar.ca.po.3
 #: ../calendar/gui/itip-utils.c:305
 msgid "At least one attendee is necessary"
-msgstr "Com a mínim és necessàri un assistent"
+msgstr "Com a mínim cal un assistent"
 
 # fitxer: calendar.ca.po.3
 #: ../calendar/gui/itip-utils.c:393 ../calendar/gui/itip-utils.c:502
@@ -9047,7 +9047,7 @@ msgstr "Informació de l'iCalendar"
 # fitxer: calendar.ca.po.3
 #: ../calendar/gui/itip-utils.c:672
 msgid "You must be an attendee of the event."
-msgstr "Heu d'assistir a l'esdeveniment."
+msgstr "Heu de ser un assistent de l'esdeveniment."
 
 # fitxer: calendar.ca.po.3
 #: ../calendar/gui/migration.c:151
@@ -9327,58 +9327,58 @@ msgid "Selected year (%Y)"
 msgstr "Any seleccionat (%Y)"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2359
+#: ../calendar/gui/print.c:2372
 #, c-format
 msgid "Status: %s"
 msgstr "Estat: %s"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2376
+#: ../calendar/gui/print.c:2389
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioritat: %s"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2388
+#: ../calendar/gui/print.c:2401
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Percentatge acabat: %i"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2400
+#: ../calendar/gui/print.c:2413
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2414
+#: ../calendar/gui/print.c:2427
 #, c-format
 msgid "Categories: %s"
 msgstr "Categories: %s"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2425
+#: ../calendar/gui/print.c:2438
 msgid "Contacts: "
 msgstr "Contactes:"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2565 ../calendar/gui/print.c:2653
-#: ../calendar/gui/print.c:2779 ../mail/em-format-html-print.c:178
+#: ../calendar/gui/print.c:2578 ../calendar/gui/print.c:2666
+#: ../calendar/gui/print.c:2792 ../mail/em-format-html-print.c:178
 msgid "Print Preview"
 msgstr "Previsualització de la impressió"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2600
+#: ../calendar/gui/print.c:2613
 msgid "Print Item"
 msgstr "Imprimeix l'element"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/tasks-component.c:428
+#: ../calendar/gui/tasks-component.c:439
 msgid "New Task List"
 msgstr "Nova llista de tasques"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/tasks-component.c:504
+#: ../calendar/gui/tasks-component.c:515
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
@@ -9386,7 +9386,7 @@ msgstr[0] "%d tasca"
 msgstr[1] "%d tasques"
 
 # fitxer: addressbook.gui.widgets.ca.po
-#: ../calendar/gui/tasks-component.c:506 ../mail/mail-component.c:544
+#: ../calendar/gui/tasks-component.c:517 ../mail/mail-component.c:544
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
@@ -9394,68 +9394,68 @@ msgstr[0] "%d seleccionada"
 msgstr[1] "%d seleccionades"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/tasks-component.c:553
+#: ../calendar/gui/tasks-component.c:564
 msgid "Failed upgrading tasks."
 msgstr "No s'ha pogut actualitzar les tasques."
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/tasks-component.c:847
+#: ../calendar/gui/tasks-component.c:858
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "No es pot obrir la llista '%s' per crear esdeveniments i reunions"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/tasks-component.c:862
+#: ../calendar/gui/tasks-component.c:873
 msgid "There is no calendar available for creating tasks"
 msgstr "No hi ha cap calendari disponible per crear les tasques"
 
 # fitxer: mail.ca.po.3
-#: ../calendar/gui/tasks-component.c:956
+#: ../calendar/gui/tasks-component.c:967
 msgid "Task Source Selector"
 msgstr "Selector de font de la tasca"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/tasks-component.c:1139
+#: ../calendar/gui/tasks-component.c:1150
 msgid "New task"
 msgstr "Nova tasca"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/tasks-component.c:1140
+#: ../calendar/gui/tasks-component.c:1151
 msgid "_Task"
 msgstr "_Tasca"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/tasks-component.c:1141
+#: ../calendar/gui/tasks-component.c:1152
 msgid "Create a new task"
 msgstr "Crea una nova tasca"
 
 # fitxer: ui.evolution-task-editor.xml.h.ca.po
-#: ../calendar/gui/tasks-component.c:1147
+#: ../calendar/gui/tasks-component.c:1158
 msgid "New assigned task"
 msgstr "Nova tasca assignada"
 
 # fitxer: ui.evolution-task-editor.xml.h.ca.po
-#: ../calendar/gui/tasks-component.c:1148
+#: ../calendar/gui/tasks-component.c:1159
 msgid "Assigne_d Task"
 msgstr "Tasca assigna_da"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/tasks-component.c:1149
+#: ../calendar/gui/tasks-component.c:1160
 msgid "Create a new assigned task"
 msgstr "Crea una nova tasca assignada"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/tasks-component.c:1155
+#: ../calendar/gui/tasks-component.c:1166
 msgid "New task list"
 msgstr "Nova llista de tasques"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/tasks-component.c:1156
+#: ../calendar/gui/tasks-component.c:1167
 msgid "Task l_ist"
 msgstr "Ll_ista de tasques"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/tasks-component.c:1157
+#: ../calendar/gui/tasks-component.c:1168
 msgid "Create a new task list"
 msgstr "Crea una nova llista de tasques"
 
@@ -11449,17 +11449,17 @@ msgid "Pacific/Yap"
 msgstr "Pacífic/Yap"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer-hdrs.c:519
+#: ../composer/e-msg-composer-hdrs.c:520
 msgid "Posting destination"
 msgstr "Destí de l'enviament"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer-hdrs.c:520
+#: ../composer/e-msg-composer-hdrs.c:521
 msgid "Choose folders to post the message to."
 msgstr "Escolliu a quines carpetes s'enviarà el missatge."
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer-hdrs.c:554
+#: ../composer/e-msg-composer-hdrs.c:555
 msgid "Click here for the address book"
 msgstr "Cliqueu per anar a la llibreta d'adreces"
 
@@ -11471,7 +11471,7 @@ msgstr "Cliqueu per anar a la llibreta d'adreces"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: ../composer/e-msg-composer-hdrs.c:584
+#: ../composer/e-msg-composer-hdrs.c:585
 msgid "_Reply-To:"
 msgstr "_Respon a:"
 
@@ -11479,7 +11479,7 @@ msgstr "_Respon a:"
 #.
 #. * From
 #.
-#: ../composer/e-msg-composer-hdrs.c:591
+#: ../composer/e-msg-composer-hdrs.c:592
 msgid "Fr_om:"
 msgstr "D_e:"
 
@@ -11487,37 +11487,37 @@ msgstr "D_e:"
 #.
 #. * Subject
 #.
-#: ../composer/e-msg-composer-hdrs.c:598
+#: ../composer/e-msg-composer-hdrs.c:599
 msgid "S_ubject:"
 msgstr "Ass_umpte:"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer-hdrs.c:608
+#: ../composer/e-msg-composer-hdrs.c:609
 msgid "_To:"
 msgstr "_Per a:"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer-hdrs.c:609
+#: ../composer/e-msg-composer-hdrs.c:610
 msgid "Enter the recipients of the message"
 msgstr "Introduïu els destinataris del missatge"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer-hdrs.c:612
+#: ../composer/e-msg-composer-hdrs.c:613
 msgid "_Cc:"
 msgstr "_Cc:"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer-hdrs.c:613
+#: ../composer/e-msg-composer-hdrs.c:614
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Introduïu les adreces que rebran una còpia del missatge"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer-hdrs.c:616
+#: ../composer/e-msg-composer-hdrs.c:617
 msgid "_Bcc:"
 msgstr "_Bcc:"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer-hdrs.c:617
+#: ../composer/e-msg-composer-hdrs.c:618
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -11529,17 +11529,17 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: ../composer/e-msg-composer-hdrs.c:624
+#: ../composer/e-msg-composer-hdrs.c:625
 msgid "_Post To:"
 msgstr "_Envia a:"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer-hdrs.c:629
+#: ../composer/e-msg-composer-hdrs.c:630
 msgid "Click here to select folders to post to"
 msgstr "Cliqueu per seleccionar les carpetes on s'hi envia"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer-hdrs.c:635
+#: ../composer/e-msg-composer-hdrs.c:636
 msgid "Post To:"
 msgstr "Envia a:"
 
@@ -11587,8 +11587,8 @@ msgid "Open File"
 msgstr "Obre un fitxer"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer.c:2001 ../mail/em-account-editor.c:587
-#: ../mail/em-account-editor.c:632 ../mail/em-account-editor.c:699
+#: ../composer/e-msg-composer.c:2001 ../mail/em-account-editor.c:588
+#: ../mail/em-account-editor.c:633 ../mail/em-account-editor.c:698
 msgid "Autogenerated"
 msgstr "Generat automàticament"
 
@@ -11598,13 +11598,13 @@ msgid "Si_gnature:"
 msgstr "Si_gnatura:"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer.c:2359 ../composer/e-msg-composer.c:3360
-#: ../composer/e-msg-composer.c:3361
+#: ../composer/e-msg-composer.c:2359 ../composer/e-msg-composer.c:3376
+#: ../composer/e-msg-composer.c:3377
 msgid "Compose a message"
 msgstr "Redacta un missatge"
 
 # fitxer: composer.ca.po
-#: ../composer/e-msg-composer.c:4542
+#: ../composer/e-msg-composer.c:4570
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11791,7 +11791,7 @@ msgstr ""
 "libgtkhtml."
 
 # fitxer: shell.ca.po
-#: ../data/evolution.desktop.in.in.h:1 ../shell/main.c:521
+#: ../data/evolution.desktop.in.in.h:1 ../shell/main.c:517
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -12218,21 +12218,21 @@ msgstr "Escolliu un fitxer"
 
 # fitxer: filter.ca.po
 #: ../filter/filter-label.c:121 ../mail/em-filter-i18n.h:26
-#: ../mail/em-migrate.c:1011 ../mail/mail-config.c:76
+#: ../mail/em-migrate.c:1041 ../mail/mail-config.c:76
 #: ../mail/mail-config.glade.h:90
 msgid "Important"
 msgstr "Important"
 
 # fitxer: filter.ca.po
 #. forest green
-#: ../filter/filter-label.c:124 ../mail/em-migrate.c:1014
+#: ../filter/filter-label.c:124 ../mail/em-migrate.c:1044
 #: ../mail/mail-config.c:79 ../mail/mail-config.glade.h:140
 msgid "To Do"
 msgstr "Per fer"
 
 # fitxer: filter.ca.po
 #. blue
-#: ../filter/filter-label.c:125 ../mail/em-migrate.c:1015
+#: ../filter/filter-label.c:125 ../mail/em-migrate.c:1045
 #: ../mail/mail-config.c:80 ../mail/mail-config.glade.h:93
 msgid "Later"
 msgstr "Després"
@@ -12444,7 +12444,7 @@ msgid "Evolution Mail preferences control"
 msgstr "Control de preferències de correu de l'Evolution"
 
 # fitxer: mail.ca.po.3
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:469
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:480
 #: ../mail/importers/elm-importer.c:418
 #: ../mail/importers/netscape-importer.c:1902
 #: ../mail/importers/pine-importer.c:474 ../mail/mail-component.c:557
@@ -12469,12 +12469,12 @@ msgid "_Mail"
 msgstr "_Correu"
 
 # fitxer: smime.ca.po
-#: ../mail/em-account-editor.c:386
+#: ../mail/em-account-editor.c:387
 #, c-format
 msgid "%s License Agreement"
 msgstr "Acord de llicència de %s"
 
-#: ../mail/em-account-editor.c:393
+#: ../mail/em-account-editor.c:394
 #, c-format
 msgid ""
 "\n"
@@ -12488,75 +12488,75 @@ msgstr ""
 "i marqueu la casella de verificació per acceptar-la\n"
 
 # fitxer: filter.ca.po
-#: ../mail/em-account-editor.c:463 ../mail/em-filter-folder-element.c:237
+#: ../mail/em-account-editor.c:464 ../mail/em-filter-folder-element.c:237
 #: ../mail/em-vfolder-rule.c:494
 msgid "Select Folder"
 msgstr "Seleccioneu una carpeta"
 
 # fitxer: mail.ca.po.2
-#: ../mail/em-account-editor.c:1663 ../mail/mail-config.glade.h:89
+#: ../mail/em-account-editor.c:1661 ../mail/mail-config.glade.h:89
 msgid "Identity"
 msgstr "Identitat"
 
 # fitxer: mail.ca.po.1
-#: ../mail/em-account-editor.c:1699 ../mail/mail-config.glade.h:114
+#: ../mail/em-account-editor.c:1697 ../mail/mail-config.glade.h:114
 msgid "Receiving Email"
 msgstr "Rebre correu"
 
 # fitxer: mail.ca.po.1
-#: ../mail/em-account-editor.c:1876
+#: ../mail/em-account-editor.c:1874
 msgid "Automatically check for _new mail every"
-msgstr "Comprova automàticame_nt si hi ha nou correu cada"
+msgstr "Comprova _automàticament si hi ha nou correu cada"
 
 # fitxer: mail.ca.po.1
-#: ../mail/em-account-editor.c:2040 ../mail/mail-config.glade.h:124
+#: ../mail/em-account-editor.c:2042 ../mail/mail-config.glade.h:124
 msgid "Sending Email"
 msgstr "Enviar correu"
 
 # fitxer: mail.ca.po.1
-#: ../mail/em-account-editor.c:2084 ../mail/mail-config.glade.h:67
+#: ../mail/em-account-editor.c:2086 ../mail/mail-config.glade.h:67
 msgid "Defaults"
 msgstr "Predeterminats"
 
 # fitxer: ui.evolution-message-composer.xml.h.ca.po
-#: ../mail/em-account-editor.c:2143 ../mail/mail-config.glade.h:119
+#: ../mail/em-account-editor.c:2145 ../mail/mail-config.glade.h:119
 msgid "Security"
 msgstr "Seguretat"
 
 # fitxer: mail.ca.po.1
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2180 ../mail/em-account-editor.c:2255
+#: ../mail/em-account-editor.c:2182 ../mail/em-account-editor.c:2256
 msgid "Receiving Options"
 msgstr "Opcions de recepció"
 
 # fitxer: camel.ca.po.3
-#: ../mail/em-account-editor.c:2181 ../mail/em-account-editor.c:2256
+#: ../mail/em-account-editor.c:2183 ../mail/em-account-editor.c:2257
 msgid "Checking for New Mail"
-msgstr "S'està comprovant si hi ha correu nou"
+msgstr "Comprovació de correu nou"
 
 # fitxer: mail.ca.po.2
-#: ../mail/em-account-editor.c:2596 ../mail/mail-config.glade.h:33
+#: ../mail/em-account-editor.c:2581 ../mail/mail-config.glade.h:33
 msgid "Account Editor"
 msgstr "Editor de compte"
 
 # fitxer: mail.ca.po.2
-#: ../mail/em-account-editor.c:2596 ../mail/mail-config.glade.h:79
+#: ../mail/em-account-editor.c:2581 ../mail/mail-config.glade.h:79
 msgid "Evolution Account Assistant"
 msgstr "Assitent per als comptes d'Evolution"
 
 # fitxer: mail.ca.po.3
 #. translators: default account indicator
-#: ../mail/em-account-prefs.c:412
+#: ../mail/em-account-prefs.c:428
 msgid "[Default]"
 msgstr "[Predeterminat]"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-account-prefs.c:466
+#: ../mail/em-account-prefs.c:482
 msgid "Account name"
 msgstr "Nom del compte"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-account-prefs.c:468
+#: ../mail/em-account-prefs.c:484
 msgid "Protocol"
 msgstr "Protocol"
 
@@ -12582,19 +12582,19 @@ msgid "Signature(s)"
 msgstr "Signatures"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-composer-utils.c:910
+#: ../mail/em-composer-utils.c:849
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Missatge reenviat --------"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-composer-utils.c:1526
+#: ../mail/em-composer-utils.c:1459
 msgid "an unknown sender"
 msgstr "un/a remitent anònim/a"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1573
+#: ../mail/em-composer-utils.c:1506
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -12743,11 +12743,11 @@ msgstr "està senyalat"
 
 #: ../mail/em-filter-i18n.h:31
 msgid "is greater than"
-msgstr "és més de"
+msgstr "és més gran que"
 
 #: ../mail/em-filter-i18n.h:32
 msgid "is less than"
-msgstr "és menys de"
+msgstr "és més petit que"
 
 # fitxer: ui.evolution-calendar.xml.h.ca.po
 #: ../mail/em-filter-i18n.h:33
@@ -12771,7 +12771,7 @@ msgid "Junk Test"
 msgstr "Prova de brossa"
 
 # fitxer: filter.ca.po
-#: ../mail/em-filter-i18n.h:37 ../mail/em-folder-view.c:992
+#: ../mail/em-filter-i18n.h:37 ../mail/em-folder-view.c:1006
 #: ../widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Etiqueta"
@@ -12846,12 +12846,12 @@ msgstr "retorna"
 
 #: ../mail/em-filter-i18n.h:52
 msgid "returns greater than"
-msgstr "retorna més de"
+msgstr "retorna més gran que"
 
 # fitxer: calendar.ca.po.5
 #: ../mail/em-filter-i18n.h:53
 msgid "returns less than"
-msgstr "retorna menys de"
+msgstr "retorna més petit que"
 
 # fitxer: calendar.ca.po.5
 #: ../mail/em-filter-i18n.h:54
@@ -12902,7 +12902,7 @@ msgid "Stop Processing"
 msgstr "Atura el processament"
 
 # fitxer: filter.ca.po
-#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1533
+#: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1532
 #: ../mail/em-format-quote.c:306 ../mail/em-format.c:853
 #: ../mail/em-mailer-prefs.c:88 ../mail/message-list.etspec.h:13
 #: ../mail/message-tag-followup.c:330
@@ -12958,8 +12958,8 @@ msgid "Create New Folder"
 msgstr "Crea una carpeta nova"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-selector.c:166 ../mail/em-folder-tree.c:2527
-#: ../mail/mail-component.c:760 ../plugins/shared-folder/install-shared.c:144
+#: ../mail/em-folder-selector.c:166 ../mail/em-folder-tree.c:2528
+#: ../mail/mail-component.c:770 ../plugins/shared-folder/install-shared.c:144
 #: ../plugins/shared-folder/share-folder-common.c:345
 msgid "Specify where to create the folder:"
 msgstr "Especifiqueu on s'ha de crear la carpeta:"
@@ -13012,106 +13012,106 @@ msgid "Loading..."
 msgstr "S'està carregant..."
 
 # fitxer: mail.ca.po.2
-#: ../mail/em-folder-tree.c:688
+#: ../mail/em-folder-tree.c:689
 msgid "Mail Folder Tree"
 msgstr "Arbre de carpetes de correu"
 
 # fitxer: mail.ca.po.1
-#: ../mail/em-folder-tree.c:921
+#: ../mail/em-folder-tree.c:922
 #, c-format
 msgid "Moving folder %s"
 msgstr "S'està movent la carpeta %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/em-folder-tree.c:923
+#: ../mail/em-folder-tree.c:924
 #, c-format
 msgid "Copying folder %s"
 msgstr "S'està copiant la carpeta %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/em-folder-tree.c:930 ../mail/message-list.c:1612
+#: ../mail/em-folder-tree.c:931 ../mail/message-list.c:1612
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "S'estan movent els missatges a la carpeta %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/em-folder-tree.c:932 ../mail/message-list.c:1614
+#: ../mail/em-folder-tree.c:933 ../mail/message-list.c:1614
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "S'estan copiant els missatges a la carpeta %s"
 
 # fitxer: camel.ca.po.3
-#: ../mail/em-folder-tree.c:948
+#: ../mail/em-folder-tree.c:949
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No s'ha deixar anar els missatges al magatzem de nivell superior"
 
 # fitxer: ui.evolution-mail-message.xml.h.ca.po
-#: ../mail/em-folder-tree.c:1044 ../ui/evolution-mail-message.xml.h:106
+#: ../mail/em-folder-tree.c:1045 ../ui/evolution-mail-message.xml.h:106
 msgid "_Copy to Folder"
 msgstr "_Copia a la carpeta"
 
 # fitxer: ui.evolution-mail-message.xml.h.ca.po
-#: ../mail/em-folder-tree.c:1045 ../ui/evolution-mail-message.xml.h:115
+#: ../mail/em-folder-tree.c:1046 ../ui/evolution-mail-message.xml.h:115
 msgid "_Move to Folder"
 msgstr "_Mou a la carpeta"
 
 # fitxer: mail.ca.po.1
-#: ../mail/em-folder-tree.c:1750 ../mail/mail-ops.c:1026
+#: ../mail/em-folder-tree.c:1751 ../mail/mail-ops.c:1051
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr "S'estan escanejant les carpetes de '%s'"
+msgstr "S'estan analitzant les carpetes de '%s'"
 
 # fitxer: mail.ca.po.1
-#: ../mail/em-folder-tree.c:2023
+#: ../mail/em-folder-tree.c:2024
 #, c-format
 msgid "Copying `%s' to `%s'"
 msgstr "S'està copiant '%s' a '%s'"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-tree.c:2297 ../mail/em-folder-tree.c:2311
-#: ../mail/em-folder-view.c:862 ../mail/em-folder-view.c:877
+#: ../mail/em-folder-tree.c:2298 ../mail/em-folder-tree.c:2312
+#: ../mail/em-folder-view.c:876 ../mail/em-folder-view.c:891
 #: ../mail/importers/evolution-mbox-importer.c:120
 #: ../mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Seleccioneu una carpeta"
 
 # fitxer: addressbook.gui.widgets.ca.po
-#: ../mail/em-folder-tree.c:2297 ../mail/em-folder-view.c:877
+#: ../mail/em-folder-tree.c:2298 ../mail/em-folder-view.c:891
 msgid "C_opy"
 msgstr "C_opia"
 
 # fitxer: mail.ca.po.1
-#: ../mail/em-folder-tree.c:2338
+#: ../mail/em-folder-tree.c:2339
 #: ../plugins/shared-folder/share-folder-common.c:138
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "S'està creant la carpeta '%s'"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-tree.c:2527 ../mail/mail-component.c:760
+#: ../mail/em-folder-tree.c:2528 ../mail/mail-component.c:770
 #: ../plugins/shared-folder/install-shared.c:144
 #: ../plugins/shared-folder/share-folder-common.c:345
 msgid "Create folder"
 msgstr "Crea una carpeta"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-tree.c:2720
+#: ../mail/em-folder-tree.c:2721
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Canvia el nom de la carpeta '%s' a:"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-tree.c:2722
+#: ../mail/em-folder-tree.c:2723
 msgid "Rename Folder"
 msgstr "Canvia el nom de la carpeta"
 
 # fitxer: shell.ca.po
-#: ../mail/em-folder-tree.c:2728
+#: ../mail/em-folder-tree.c:2729
 msgid "Folder names cannot contain '/'"
 msgstr "El nom de la carpeta no pot contenir el caràcter '/'"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-tree.c:2802 ../ui/evolution-addressbook.xml.h:44
+#: ../mail/em-folder-tree.c:2803 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:17
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:53 ../ui/evolution.xml.h:49
@@ -13119,183 +13119,183 @@ msgid "_View"
 msgstr "_Visualitza"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-tree.c:2803
+#: ../mail/em-folder-tree.c:2804
 msgid "Open in _New Window"
 msgstr "Obre e_n una finestra nova"
 
 # fitxer: calendar.ca.po.3
-#: ../mail/em-folder-tree.c:2807
+#: ../mail/em-folder-tree.c:2808
 msgid "_Copy..."
 msgstr "_Copia..."
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-tree.c:2808
+#: ../mail/em-folder-tree.c:2809
 msgid "_Move..."
 msgstr "_Mou..."
 
 # fitxer: mail.ca.po.3
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2812
+#: ../mail/em-folder-tree.c:2813
 msgid "_New Folder..."
 msgstr "_Nova carpeta..."
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-tree.c:2815
+#: ../mail/em-folder-tree.c:2816
 msgid "_Rename..."
 msgstr "_Reanomena..."
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:970 ../mail/em-popup.c:499
+#: ../mail/em-folder-view.c:984 ../mail/em-popup.c:499
 #: ../ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Respon a _tots"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:971 ../ui/evolution-mail-message.xml.h:123
+#: ../mail/em-folder-view.c:985 ../ui/evolution-mail-message.xml.h:123
 msgid "_Reply to Sender"
 msgstr "_Respon al remitent"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:972 ../mail/em-popup.c:501
+#: ../mail/em-folder-view.c:986 ../mail/em-popup.c:501
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "_Reenvia"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:975 ../ui/evolution-mail-message.xml.h:109
+#: ../mail/em-folder-view.c:989 ../ui/evolution-mail-message.xml.h:109
 msgid "_Edit as New Message..."
 msgstr "_Edita com a missatge nou..."
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:977
+#: ../mail/em-folder-view.c:991
 msgid "_Print"
 msgstr "Im_primeix"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:981
+#: ../mail/em-folder-view.c:995
 msgid "U_ndelete"
 msgstr "Desfés la su_pressió"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:982
+#: ../mail/em-folder-view.c:996
 msgid "Mo_ve to Folder..."
 msgstr "Mo_u a la carpeta..."
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:983 ../ui/evolution-addressbook.xml.h:32
+#: ../mail/em-folder-view.c:997 ../ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "_Copia a la carpeta..."
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:986
+#: ../mail/em-folder-view.c:1000
 msgid "Mark as _Important"
 msgstr "Marca'l com a _important"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:987
+#: ../mail/em-folder-view.c:1001
 msgid "_Mark as Unimportant"
 msgstr "No el _marquis com a important"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:988 ../ui/evolution-mail-message.xml.h:54
+#: ../mail/em-folder-view.c:1002 ../ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Marca'l com a bro_ssa"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:989 ../ui/evolution-mail-message.xml.h:55
+#: ../mail/em-folder-view.c:1003 ../ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "_No el marquis com a brossa"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:990
+#: ../mail/em-folder-view.c:1004
 msgid "Mark for Follo_w Up..."
 msgstr "Marca per al se_guiment..."
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:998
+#: ../mail/em-folder-view.c:1012
 msgid "Fla_g Completed"
 msgstr "S'ha completat el sen_yalador"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:999
+#: ../mail/em-folder-view.c:1013
 msgid "Cl_ear Flag"
 msgstr "N_eteja el senyalador"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:1002
+#: ../mail/em-folder-view.c:1016
 msgid "Crea_te Rule From Message"
 msgstr "C_rea una regla del missatge"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:1003
+#: ../mail/em-folder-view.c:1017
 msgid "vFolder on _Subject"
 msgstr "Carpeta virtual de l'a_ssumpte"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:1004
+#: ../mail/em-folder-view.c:1018
 msgid "vFolder on Se_nder"
 msgstr "Carpeta virtual del remite_nt"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:1005
+#: ../mail/em-folder-view.c:1019
 msgid "vFolder on _Recipients"
 msgstr "Ca_rpeta virtual dels destinataris"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:1006
+#: ../mail/em-folder-view.c:1020
 msgid "vFolder on Mailing _List"
 msgstr "Carpeta virtual de _llista de correu"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:1010
+#: ../mail/em-folder-view.c:1024
 msgid "Filter on Sub_ject"
 msgstr "Filtra per l'a_ssumpte"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:1011
+#: ../mail/em-folder-view.c:1025
 msgid "Filter on Sen_der"
 msgstr "Filtra pel remi_tent"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:1012
+#: ../mail/em-folder-view.c:1026
 msgid "Filter on Re_cipients"
 msgstr "Filtra pels _destinataris"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:1013
+#: ../mail/em-folder-view.c:1027
 msgid "Filter on _Mailing List"
 msgstr "Fil_tra per la llista de correu"
 
 # fitxer: camel.ca.po.3
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1844 ../mail/em-folder-view.c:1888
+#: ../mail/em-folder-view.c:1858 ../mail/em-folder-view.c:1902
 msgid "Default"
 msgstr "Predeterminat"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:1987
+#: ../mail/em-folder-view.c:2001
 msgid "Print Message"
 msgstr "Imprimeix el missatge"
 
-#: ../mail/em-folder-view.c:2295
+#: ../mail/em-folder-view.c:2331
 msgid "_Copy Link Location"
 msgstr "_Copia la ubicació de l'enllaç"
 
-#: ../mail/em-folder-view.c:2297
+#: ../mail/em-folder-view.c:2333
 msgid "Create _vFolder"
 msgstr "Crea una carpeta _virtual"
 
-#: ../mail/em-folder-view.c:2298
+#: ../mail/em-folder-view.c:2334
 msgid "_From this Address"
 msgstr "D'a_questa adreça"
 
 # fitxer: addressbook.gui.contact-editor.ca.po
-#: ../mail/em-folder-view.c:2299
+#: ../mail/em-folder-view.c:2335
 msgid "_To this Address"
 msgstr "A aques_ta adreça"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-folder-view.c:2568
+#: ../mail/em-folder-view.c:2604
 #, c-format
 msgid "Click to mail %s"
 msgstr "Cliqueu per enviar un correu a en/na %s"
@@ -13556,31 +13556,31 @@ msgstr "Bcc"
 
 # fitxer: mail.ca.po.3
 #. pseudo-header
-#: ../mail/em-format-html.c:1537 ../mail/em-format-quote.c:315
+#: ../mail/em-format-html.c:1536 ../mail/em-format-quote.c:315
 #: ../mail/em-mailer-prefs.c:986
 msgid "Mailer"
 msgstr "Generador del correu"
 
 # fitxer: mail.ca.po.3
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: ../mail/em-format-html.c:1564
+#: ../mail/em-format-html.c:1563
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a a les %R %Z)</I>"
 
 # fitxer: mail.ca.po.3
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: ../mail/em-format-html.c:1567
+#: ../mail/em-format-html.c:1566
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-format-html.c:1577 ../mail/em-format-quote.c:322
+#: ../mail/em-format-html.c:1576 ../mail/em-format-quote.c:322
 #: ../mail/em-format.c:854 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Data"
 
-#: ../mail/em-format-html.c:1600 ../mail/em-format.c:855
+#: ../mail/em-format-html.c:1599 ../mail/em-format.c:855
 #: ../mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
 msgstr "Grups de notícies"
@@ -13645,7 +13645,7 @@ msgid "Once per month"
 msgstr "Una vegada al mes"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-migrate.c:1168
+#: ../mail/em-migrate.c:1198
 msgid ""
 "The location and hierarchy of the Evolution mailbox folders has changed "
 "since Evolution 1.x.\n"
@@ -13655,57 +13655,57 @@ msgstr ""
 "Des de l'Evolution 1.x, ha canviat la ubicació i la jerarquia de les "
 "carpetes de les bústies de correu.\n"
 "\n"
-"Espereu mentres l'Evolution migra les vostres carpetes..."
+"Espereu mentre l'Evolution migra les vostres carpetes..."
 
 # fitxer: camel.ca.po.2
-#: ../mail/em-migrate.c:1602
+#: ../mail/em-migrate.c:1632
 #, c-format
 msgid "Unable to create new folder `%s': %s"
 msgstr "No es pot crear la nova carpeta '%s': %s"
 
 # fitxer: composer.ca.po
-#: ../mail/em-migrate.c:1628
+#: ../mail/em-migrate.c:1658
 #, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
 msgstr "No es pot copiar la carpeta '%s' a '%s': %s"
 
 # fitxer: camel.ca.po.1
-#: ../mail/em-migrate.c:1813
+#: ../mail/em-migrate.c:1843
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
 msgstr "No es pot cercar bústies de correu existents a '%s': %s"
 
 # fitxer: camel.ca.po.1
-#: ../mail/em-migrate.c:2017
+#: ../mail/em-migrate.c:2047
 #, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
 msgstr "No s'han pogut obrir les dades velles '%s' POP3 keep-on-server: %s"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-migrate.c:2031
+#: ../mail/em-migrate.c:2061
 #, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
 msgstr ""
 "No s'han pogut crear el directori de dades '%s' POP3 keep-on-server: %s"
 
-#: ../mail/em-migrate.c:2060
+#: ../mail/em-migrate.c:2090
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
 msgstr "No s'han pogut copiar les dades '%s' POP3 keep-on-server: %s"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-migrate.c:2494 ../mail/em-migrate.c:2506
+#: ../mail/em-migrate.c:2561 ../mail/em-migrate.c:2573
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "No s'ha pogut crear el magatzem de correu local '%s': %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/em-migrate.c:2657
+#: ../mail/em-migrate.c:2693
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "No s'ha pogut crear les carpetes de correu local a '%s': %s"
 
-#: ../mail/em-migrate.c:2675
+#: ../mail/em-migrate.c:2711
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
@@ -13763,7 +13763,7 @@ msgstr "Obre a %s..."
 # fitxer: mail.ca.po.3
 #: ../mail/em-subscribe-editor.c:611
 msgid "This store does not support subscriptions, or they are not enabled."
-msgstr "El magatzem no suporta subscripcions, o no estan habilitades."
+msgstr "El magatzem no permet subscripcions, o no estan habilitades."
 
 # fitxer: mail.ca.po.3
 #: ../mail/em-subscribe-editor.c:640
@@ -13797,23 +13797,23 @@ msgid "Filters"
 msgstr "Filtres"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-utils.c:434
+#: ../mail/em-utils.c:436
 msgid "message"
 msgstr "missatge"
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-utils.c:543
+#: ../mail/em-utils.c:545
 msgid "Save Message..."
 msgstr "Desa el missatge..."
 
 # fitxer: mail.ca.po.3
-#: ../mail/em-utils.c:592
+#: ../mail/em-utils.c:594
 msgid "Add address"
 msgstr "Afegeix una adreça"
 
 # fitxer: mail.ca.po.2
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1071
+#: ../mail/em-utils.c:1073
 #, c-format
 msgid "Messages from %s"
 msgstr "Missatges de %s"
@@ -13962,7 +13962,7 @@ msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr ""
-"Pregunta a l'usuari si de debó vol obrir deu o més missatges a la vegada."
+"Pregunta a l'usuari si de debò vol obrir deu o més missatges a la vegada."
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
 msgid ""
@@ -13970,9 +13970,9 @@ msgid ""
 "any mime-types appearing in this list which map to a bonobo-component viewer "
 "in GNOME's mime-type database may be used for displaying content."
 msgstr ""
-"Si no hi ha cap visualitzador intern de l'Evolution per a un tipus mime "
+"Si no hi ha cap visualitzador intern de l'Evolution per a un tipus mime en "
 "particular, s'usarà els tipus mime d'aquesta llista que es corresponen amb "
-"un visualitzador bonobo-component en la base de dades de tipus mime del "
+"un visualitzador bonobo-component de la base de dades de tipus mime del "
 "GNOME per visualitzar el contingut."
 
 #: ../mail/evolution-mail.schemas.in.in.h:29
@@ -14202,7 +14202,7 @@ msgstr "Mostra la subfinestra 'Previsualització'."
 
 #: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
-msgstr "Fitxer de so que es reprodueix quan arrivi nou correu."
+msgstr "Fitxer de so que es reproduïrà quan arrivi correu nou."
 
 #: ../mail/evolution-mail.schemas.in.in.h:76
 msgid "Specifies the type of New Mail Notification the user wishes to use."
@@ -14576,31 +14576,31 @@ msgid "Pine"
 msgstr "Pine"
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail-autofilter.c:74
+#: ../mail/mail-autofilter.c:75
 #, c-format
 msgid "Mail to %s"
 msgstr "Correu per a %s"
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail-autofilter.c:238 ../mail/mail-autofilter.c:277
+#: ../mail/mail-autofilter.c:239 ../mail/mail-autofilter.c:278
 #, c-format
 msgid "Mail from %s"
 msgstr "Correu de %s"
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail-autofilter.c:261
+#: ../mail/mail-autofilter.c:262
 #, c-format
 msgid "Subject is %s"
 msgstr "L'assumpte és %s"
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail-autofilter.c:296
+#: ../mail/mail-autofilter.c:297
 #, c-format
 msgid "%s mailing list"
 msgstr "Llista de correu %s"
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail-autofilter.c:365
+#: ../mail/mail-autofilter.c:366
 msgid "Add Filter Rule"
 msgstr "Afegeix una regla de filtre"
 
@@ -14659,41 +14659,41 @@ msgstr[0] ", %d sense llegir"
 msgstr[1] ", %d sense llegir"
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail-component.c:712
+#: ../mail/mail-component.c:722
 msgid "New Mail Message"
 msgstr "Nou missatge de correu"
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail-component.c:713
+#: ../mail/mail-component.c:723
 msgid "_Mail Message"
 msgstr "_Missatge de correu"
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail-component.c:714
+#: ../mail/mail-component.c:724
 msgid "Compose a new mail message"
 msgstr "Redacta un nou missatge de correu"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-component.c:720
+#: ../mail/mail-component.c:730
 msgid "New Mail Folder"
 msgstr "Nova carpeta de correu"
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail-component.c:721
+#: ../mail/mail-component.c:731
 msgid "Mail _Folder"
 msgstr "Car_peta de correu"
 
 # fitxer: calendar.ca.po.5
-#: ../mail/mail-component.c:722
+#: ../mail/mail-component.c:732
 msgid "Create a new mail folder"
 msgstr "Crea una nova carpeta de correu"
 
-#: ../mail/mail-component.c:869
+#: ../mail/mail-component.c:879
 msgid "Failed upgrading Mail settings or folders."
 msgstr "No s'ha pogut actualitzar la configuració o les carpetes."
 
 # fitxer: designs.ca.po
-#: ../mail/mail-config.glade.h:1 ../mail/mail-dialogs.glade.h:5
+#: ../mail/mail-config.glade.h:1 ../mail/mail-dialogs.glade.h:1
 msgid "    "
 msgstr "    "
 
@@ -14761,7 +14761,7 @@ msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">Opcions de filtre</span>"
 
 #: ../mail/mail-config.glade.h:18
-#: ../plugins/itip-formatter/itip-formatter.c:1667
+#: ../plugins/itip-formatter/itip-formatter.c:1681
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">General</span>"
 
@@ -15077,7 +15077,7 @@ msgstr ""
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:99
 msgid "Or_ganization:"
-msgstr "Or_ganització:"
+msgstr "_Organització:"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:100
@@ -15094,8 +15094,8 @@ msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
-"Entreu un nom descriptiu per a aquest compte en l'espai inferior.\n"
-"Aquest nom s'usarà només per a visualització."
+"Entreu un nom descriptiu per a aquest compte aquí sota.\n"
+"Aquest nom només s'usarà per a visualitzar-lo."
 
 #: ../mail/mail-config.glade.h:106
 msgid ""
@@ -15111,13 +15111,13 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"Introduïu el vostre nom i la vostra adreça de correu a sota. Els camps "
-"'opcionals' de sota no són necessaris, a menys que vulgueu afegir aquesta "
-"informació dins el correu que enviareu."
+"Introduïu el vostre nom i la vostra adreça de correu aquí sota. Els camps "
+"'opcionals' no són necessaris, a no ser que els vulgueu afegir en els correu "
+"que enviareu."
 
 #: ../mail/mail-config.glade.h:108
 msgid "Please select among the following options"
-msgstr "Seleccioneu entre les següents opcions"
+msgstr "Seleccioneu alguna de les següents opcions"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:109
@@ -15137,12 +15137,12 @@ msgstr "Citat"
 # fitxer: calendar.ca.po.4
 #: ../mail/mail-config.glade.h:112
 msgid "Re_member password"
-msgstr "Recorda la co_ntrasenya"
+msgstr "_Recorda la contrasenya"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:113
 msgid "Re_ply-To:"
-msgstr "Res_pon-A:"
+msgstr "_Respon-A:"
 
 # fitxer: calendar.ca.po.4
 #: ../mail/mail-config.glade.h:115
@@ -15264,13 +15264,13 @@ msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
-"Teclegeu el nom que voleu fer servir per referir-se a aquest compte.\n"
+"Entreu el nom que vulgueu fer servir per referir-vos a aquest compte.\n"
 "Per exemple: 'Feina' o 'Personal'"
 
 # fitxer: mail.ca.po.2
 #: ../mail/mail-config.glade.h:143
 msgid "User_name:"
-msgstr "_Nom d'usuari:"
+msgstr "Nom d'_usuari:"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:144
@@ -15284,7 +15284,7 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
-"Benvingut a l'assistent de configuració de correu de l'Evolution.\n"
+"Benvingut a l'auxiliar de configuració de correu de l'Evolution.\n"
 "\n"
 "Cliqueu 'Endavant' per començar. "
 
@@ -15320,7 +15320,7 @@ msgstr "Nom compl_et:"
 # fitxer: mail.ca.po.2
 #: ../mail/mail-config.glade.h:156
 msgid "_Host:"
-msgstr "Mà_quina:"
+msgstr "_Ordinador:"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:157
@@ -15330,12 +15330,12 @@ msgstr "Carrega _les imatges si el remitent és a la llibreta d'adreces"
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:158
 msgid "_Make this my default account"
-msgstr "Fes-lo el _meu compte per defecte"
+msgstr "Fes-lo el meu compte per _defecte"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:159
 msgid "_Mark messages as read after"
-msgstr "_Marca els missatges com a llegits després de"
+msgstr "_Marca els missatges com a llegits al cap de"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:161
@@ -15350,12 +15350,12 @@ msgstr "_Camí:"
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:163
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr "_Pregunta quan enviïs missatges HTML als contactes que no ho volen"
+msgstr "_Pregunta quan s'envïin missatges HTML als contactes que no ho volen"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:164
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "_Pregunta quan enviïs missatges amb l'assumpte buit"
+msgstr "_Pregunta quan s'enviïn missatges amb l'assumpte buit"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:165
@@ -15375,7 +15375,7 @@ msgstr "Mo_stra les imatges animades"
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:168
 msgid "_Use Secure Connection:"
-msgstr "_Usa una conexió segura:"
+msgstr "Usa una conexió _segura:"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-config.glade.h:169
@@ -15392,83 +15392,72 @@ msgstr "color"
 msgid "description"
 msgstr "descripció"
 
-#: ../mail/mail-dialogs.glade.h:1
-msgid ""
-"\n"
-" Please read carefully the license agreement displayed\n"
-" below and tick the check box for accepting it\n"
-msgstr ""
-"\n"
-" Llegiu detingudament l'acord de llicència\n"
-" que es mostra a sota i activeu la casella\n"
-" de verificació per acceptar-la\n"
-
 # fitxer: filter.ca.po
-#: ../mail/mail-dialogs.glade.h:7
+#: ../mail/mail-dialogs.glade.h:3
 msgid "<b>vFolder Sources</b>"
 msgstr "<b>Fonts de la carpeta virtual</b>"
 
-#: ../mail/mail-dialogs.glade.h:8
+#: ../mail/mail-dialogs.glade.h:4
 msgid "<span weight=\"bold\">Digital Signature</span>"
 msgstr "<span weight=\"bold\">Signatura digital</span>"
 
-#: ../mail/mail-dialogs.glade.h:9
+#: ../mail/mail-dialogs.glade.h:5
 msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Xifratge</span>"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:10
+#: ../mail/mail-dialogs.glade.h:6
 msgid "Case _Sensitive"
 msgstr "Diferencia les majú_scules de les minúscules"
 
 # fitxer: calendar.ca.po.4
-#: ../mail/mail-dialogs.glade.h:11 ../mail/message-tags.glade.h:2
+#: ../mail/mail-dialogs.glade.h:7 ../mail/message-tags.glade.h:2
 msgid "Co_mpleted"
 msgstr "Co_mpletat"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:13
+#: ../mail/mail-dialogs.glade.h:9
 msgid "F_ind:"
 msgstr "Ce_rca:"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:14
+#: ../mail/mail-dialogs.glade.h:10
 msgid "Find in Message"
 msgstr "Cerca en el missatge"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:15 ../mail/message-tag-followup.c:295
+#: ../mail/mail-dialogs.glade.h:11 ../mail/message-tag-followup.c:295
 #: ../mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
 msgstr "Senyala per respondre"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:16
+#: ../mail/mail-dialogs.glade.h:12
 msgid "Folder Subscriptions"
 msgstr "Subscripció a carpetes"
 
 # fitxer: smime.ca.po
-#: ../mail/mail-dialogs.glade.h:17
+#: ../mail/mail-dialogs.glade.h:13
 msgid "License Agreement"
 msgstr "Acord de llicència"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:18
+#: ../mail/mail-dialogs.glade.h:14
 msgid "None Selected"
 msgstr "Cap seleccionat"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:19
+#: ../mail/mail-dialogs.glade.h:15
 msgid "S_erver:"
 msgstr "S_ervidor:"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:20
+#: ../mail/mail-dialogs.glade.h:16
 msgid "Security Information"
 msgstr "Informació sobre seguretat"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:22 ../mail/message-tags.glade.h:4
+#: ../mail/mail-dialogs.glade.h:18 ../mail/message-tags.glade.h:4
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
@@ -15477,52 +15466,52 @@ msgstr ""
 "Seleccioneu una acció per respondre-hi al menú 'Senyalador'."
 
 # fitxer: calendar.ca.po.3
-#: ../mail/mail-dialogs.glade.h:24
+#: ../mail/mail-dialogs.glade.h:20
 msgid "_Accept License"
 msgstr "_Accepteu la llicència"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:25 ../mail/message-tags.glade.h:6
+#: ../mail/mail-dialogs.glade.h:21 ../mail/message-tags.glade.h:6
 msgid "_Due By:"
 msgstr "_Venciment:"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:26 ../mail/message-tags.glade.h:7
+#: ../mail/mail-dialogs.glade.h:22 ../mail/message-tags.glade.h:7
 msgid "_Flag:"
 msgstr "Sen_yalador:"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:27
+#: ../mail/mail-dialogs.glade.h:23
 msgid "_Subscribe"
 msgstr "_Subscriu"
 
 # fitxer: mail.ca.po.2
-#: ../mail/mail-dialogs.glade.h:28
+#: ../mail/mail-dialogs.glade.h:24
 msgid "_Tick this to accept the license agreement"
 msgstr "Habili_teu-lo per a acceptar l'acord de llicència"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-dialogs.glade.h:29
+#: ../mail/mail-dialogs.glade.h:25
 msgid "_Unsubscribe"
 msgstr "Cancel·la la s_ubscripció"
 
 # fitxer: filter.ca.po
-#: ../mail/mail-dialogs.glade.h:30
+#: ../mail/mail-dialogs.glade.h:26
 msgid "specific folders only"
 msgstr "només les carpetes específiques"
 
 # fitxer: filter.ca.po
-#: ../mail/mail-dialogs.glade.h:31
+#: ../mail/mail-dialogs.glade.h:27
 msgid "with all active remote folders"
 msgstr "amb totes les carpetes remotes actives"
 
 # fitxer: filter.ca.po
-#: ../mail/mail-dialogs.glade.h:32
+#: ../mail/mail-dialogs.glade.h:28
 msgid "with all local and active remote folders"
 msgstr "amb totes les carpetes locals i les remotes actives"
 
 # fitxer: filter.ca.po
-#: ../mail/mail-dialogs.glade.h:33
+#: ../mail/mail-dialogs.glade.h:29
 msgid "with all local folders"
 msgstr "amb totes les carpetes locals"
 
@@ -16088,7 +16077,7 @@ msgstr "Heu d'especificar una carpeta."
 #. mail:no-name-vfolder secondary
 #: ../mail/mail-errors.xml.h:221
 msgid "You must name this vFolder."
-msgstr "Heu d'assignar un nom a aquesta carpetes virtuals."
+msgstr "Heu d'assignar un nom a aquesta carpeta virtual."
 
 # fitxer: mail.ca.po.3
 #. mail:vfolder-no-source primary
@@ -16110,7 +16099,7 @@ msgstr ""
 #. mail:ask-migrate-existing primary
 #: ../mail/mail-errors.xml.h:229
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr "Problema en migra la carpeta de correu antiga '{0}'."
+msgstr "Hi ha hagut un problema en migrar la carpeta de correu antiga '{0}'."
 
 #. mail:ask-migrate-existing secondary
 #: ../mail/mail-errors.xml.h:231
@@ -16160,7 +16149,7 @@ msgstr ""
 #. mail:checking-service title
 #: ../mail/mail-errors.xml.h:245
 msgid "Querying server"
-msgstr "Consultant el servidor"
+msgstr "S'està consultant el servidor"
 
 # fitxer: mail.ca.po.2
 #. mail:checking-service primary
@@ -16188,7 +16177,7 @@ msgid ""
 "Please check your account settings and try again.\n"
 msgstr ""
 "\n"
-"Comproveu la vostra configuració de comptes i proveu de nou.\n"
+"Comproveu la vostra configuració de comptes i proveu-ho de nou.\n"
 
 # fitxer: mail.ca.po.1
 #: ../mail/mail-folder-cache.c:813
@@ -16207,7 +16196,7 @@ msgid "Fetching Mail"
 msgstr "S'està recollint el correu electrònic"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:542 ../mail/mail-ops.c:585
+#: ../mail/mail-ops.c:556 ../mail/mail-ops.c:598
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -16218,125 +16207,125 @@ msgstr ""
 
 # fitxer: mail.ca.po.1
 #. sending mail, filtering failed
-#: ../mail/mail-ops.c:564
+#: ../mail/mail-ops.c:577
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "No s'han pogut aplicar els filtres de sortida: %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:602
+#: ../mail/mail-ops.c:615
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "No s'han pogut afegir a la carpeta local 'Enviat': %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:702
+#: ../mail/mail-ops.c:727
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "S'està enviant el missatge %d de %d"
 
 # fitxer: camel.ca.po.4
-#: ../mail/mail-ops.c:727
+#: ../mail/mail-ops.c:752
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "No s'han pogut enviar %d de %d missatges"
 
 # fitxer: camel.ca.po.4
-#: ../mail/mail-ops.c:729 ../mail/mail-send-recv.c:613
+#: ../mail/mail-ops.c:754 ../mail/mail-send-recv.c:613
 msgid "Cancelled."
 msgstr "S'ha cancel·lat."
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:731
+#: ../mail/mail-ops.c:756
 msgid "Complete."
 msgstr "Complet."
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:828
+#: ../mail/mail-ops.c:853
 msgid "Saving message to folder"
 msgstr "S'està desant el missatge a la carpeta"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:913
+#: ../mail/mail-ops.c:938
 #, c-format
 msgid "Moving messages to %s"
 msgstr "S'estan movent els missatges a %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:913
+#: ../mail/mail-ops.c:938
 #, c-format
 msgid "Copying messages to %s"
 msgstr "S'estan copiant els missatges a %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1139
+#: ../mail/mail-ops.c:1164
 msgid "Forwarded messages"
 msgstr "Missatges reenviats"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1182
+#: ../mail/mail-ops.c:1207
 #, c-format
 msgid "Opening folder %s"
 msgstr "S'està obrint la carpeta %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1254
+#: ../mail/mail-ops.c:1279
 #, c-format
 msgid "Opening store %s"
 msgstr "S'està obrint el magatzem %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1332
+#: ../mail/mail-ops.c:1357
 #, c-format
 msgid "Removing folder %s"
 msgstr "S'està suprimint la carpeta %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1426
+#: ../mail/mail-ops.c:1451
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "S'està emmagatzemant la carpeta '%s'"
 
-#: ../mail/mail-ops.c:1491
+#: ../mail/mail-ops.c:1516
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "S'està buidant i emmagatzemant el compte '%s'"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1492
+#: ../mail/mail-ops.c:1517
 #, c-format
 msgid "Storing account '%s'"
 msgstr "S'està emmagatzemant el compte '%s'"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1547
+#: ../mail/mail-ops.c:1572
 msgid "Refreshing folder"
 msgstr "S'està refrescant la carpeta"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1583 ../mail/mail-ops.c:1634
+#: ../mail/mail-ops.c:1608 ../mail/mail-ops.c:1659
 msgid "Expunging folder"
 msgstr "S'està suprimint la carpeta"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1631
+#: ../mail/mail-ops.c:1656
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "S'està buidant la paperera a '%s'"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1632
+#: ../mail/mail-ops.c:1657
 msgid "Local Folders"
 msgstr "Carpetes locals"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1715
+#: ../mail/mail-ops.c:1740
 #, c-format
 msgid "Retrieving message %s"
 msgstr "S'està recuperant el missatge %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1787
+#: ../mail/mail-ops.c:1812
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
@@ -16344,7 +16333,7 @@ msgstr[0] "S'està recuperant %d missatge"
 msgstr[1] "S'estan recuperant %d missatges"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1873
+#: ../mail/mail-ops.c:1898
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
@@ -16352,7 +16341,7 @@ msgstr[0] "S'està desant %d missatge"
 msgstr[1] "S'estan desant %d missatges"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1923
+#: ../mail/mail-ops.c:1948
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -16362,7 +16351,7 @@ msgstr ""
 " %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:1951
+#: ../mail/mail-ops.c:1976
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -16372,12 +16361,12 @@ msgstr ""
 " %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:2022
+#: ../mail/mail-ops.c:2047
 msgid "Saving attachment"
 msgstr "S'està desant el fitxer adjunt"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:2034
+#: ../mail/mail-ops.c:2059
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -16387,24 +16376,24 @@ msgstr ""
 " %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:2044
+#: ../mail/mail-ops.c:2069
 #, c-format
 msgid "Could not write data: %s"
 msgstr "No s'han pogut escriure les dades: %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:2194
+#: ../mail/mail-ops.c:2219
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "S'està desconnectant de %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-ops.c:2194
+#: ../mail/mail-ops.c:2219
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "S'està tornant a connectar a %s"
 
-#: ../mail/mail-ops.c:2310
+#: ../mail/mail-ops.c:2335
 msgid "Checking Service"
 msgstr "Comprovació del servei"
 
@@ -16495,18 +16484,18 @@ msgid "Trying to movemail a non-mbox source `%s'"
 msgstr "S'està intentant moure correus d'una font no mbx '%s'"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-tools.c:277
+#: ../mail/mail-tools.c:241
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Missatge reenviat - %s"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-tools.c:279
+#: ../mail/mail-tools.c:243
 msgid "Forwarded message"
 msgstr "Missatge reenviat"
 
 # fitxer: mail.ca.po.1
-#: ../mail/mail-tools.c:320
+#: ../mail/mail-tools.c:283
 #, c-format
 msgid "Invalid folder: `%s'"
 msgstr "La carpeta no és vàlida: '%s'"
@@ -16540,79 +16529,79 @@ msgid "New vFolder"
 msgstr "Nova carpeta virtual"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:994
+#: ../mail/message-list.c:995
 msgid "Unseen"
 msgstr "No vist"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:995
+#: ../mail/message-list.c:996
 msgid "Seen"
 msgstr "Vist"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:996
+#: ../mail/message-list.c:997
 msgid "Answered"
 msgstr "Respost"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:997
+#: ../mail/message-list.c:998
 msgid "Multiple Unseen Messages"
 msgstr "Múltiples missatges sense veure"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:998
+#: ../mail/message-list.c:999
 msgid "Multiple Messages"
 msgstr "Missatges múltiples"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:1002
+#: ../mail/message-list.c:1003
 msgid "Lowest"
 msgstr "Molt baixa"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:1003
+#: ../mail/message-list.c:1004
 msgid "Lower"
 msgstr "Abaixa"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:1007
+#: ../mail/message-list.c:1008
 msgid "Higher"
 msgstr "Alta"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:1008
+#: ../mail/message-list.c:1009
 msgid "Highest"
 msgstr "Molt alta"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:1336
+#: ../mail/message-list.c:1337
 msgid "?"
 msgstr "?"
 
 # fitxer: mail.ca.po.1
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1343 ../plugins/itip-formatter/itip-view.c:189
+#: ../mail/message-list.c:1344 ../plugins/itip-formatter/itip-view.c:189
 msgid "Today %l:%M %p"
 msgstr "Avui a les %k:%M"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:1352
+#: ../mail/message-list.c:1353
 msgid "Yesterday %l:%M %p"
 msgstr "Ahir a les %k:%M"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:1364
+#: ../mail/message-list.c:1365
 msgid "%a %l:%M %p"
 msgstr "%a a les %k:%M"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:1372
+#: ../mail/message-list.c:1373
 msgid "%b %d %l:%M %p"
 msgstr "el %d de %b a les %k:%M"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:1374
+#: ../mail/message-list.c:1375
 msgid "%b %d %Y"
 msgstr "%d de %b del %Y"
 
@@ -16622,7 +16611,7 @@ msgid "Message List"
 msgstr "Llista de missatges"
 
 # fitxer: mail.ca.po.1
-#: ../mail/message-list.c:3384
+#: ../mail/message-list.c:3386
 msgid "Generating message list"
 msgstr "S'està generant la llista de missatges"
 
@@ -16746,7 +16735,7 @@ msgstr "_Reinicia l'Evolution després de la còpia de seguretat"
 
 #: ../plugins/backup-restore/backup-restore.c:89
 msgid "Select Evolution archive to restore"
-msgstr "Seleccioneu l'arxiu d'Evolution per restaurar"
+msgstr "Seleccioneu l'arxiu d'Evolution a restaurar"
 
 #: ../plugins/backup-restore/backup-restore.c:97
 msgid "_Restart Evolution after restore"
@@ -16801,7 +16790,7 @@ msgstr "<span weight=\"bold\">Contactes automàtics</span>"
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
-"Crea _automàticament entrades en la llibreta d'adreces quan responguis al "
+"Crea _automàticament entrades a la llibreta d'adreces quan es respongui al "
 "correu"
 
 #: ../plugins/bbdb/bbdb.c:428
@@ -16815,7 +16804,7 @@ msgid ""
 "messenger"
 msgstr ""
 "S_incronitza periòdicament la informació de contactes i les imatges del meu "
-"programa de missatgeria."
+"programa de missatgeria instantània"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:448
@@ -16882,13 +16871,13 @@ msgstr "Marca com a predeterminada"
 
 # fitxer: mail.ca.po.1
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:53
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:59
 msgid "Secure Password"
 msgstr "Contrasenya segura"
 
 # fitxer: camel.ca.po.4
 #. i18n: "NTLM" probably doesn't translate
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:56
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:62
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -16897,12 +16886,12 @@ msgstr ""
 "basada en contrasenya segura (NTLM)."
 
 # fitxer: mail.ca.po.1
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:64
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:70
 msgid "Plaintext Password"
 msgstr "Contrasenya sense xifrar"
 
 # fitxer: camel.ca.po.3
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:66
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:72
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
@@ -16912,7 +16901,7 @@ msgstr ""
 
 # fitxer: designs.ca.po
 #. Description section
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:113
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:193
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -16922,45 +16911,47 @@ msgstr ""
 "que us enviïn un correu quan no esteu a l'oficina."
 
 # fitxer: designs.ca.po
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:140
-msgid "I am in the office"
-msgstr "Estic a l'oficina"
-
-# fitxer: designs.ca.po
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:154
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:221
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:231
 msgid "I am out of the office"
 msgstr "No estic a l'oficina"
 
 # fitxer: designs.ca.po
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:168
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:224
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:228
+msgid "I am in the office"
+msgstr "Estic a l'oficina"
+
+# fitxer: designs.ca.po
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:257
 msgid "Out of office Message:"
 msgstr "Missatge d'absència de l'oficina:"
 
 # fitxer: mail.ca.po.2
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:194
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:302
 msgid "Exchange Settings"
 msgstr "Configuració d'Exchange"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:342
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:475
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:200
 msgid "_OWA Url:"
 msgstr "_OWA Url:"
 
 # fitxer: addressbook.gui.widgets.ca.po
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:350
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:500
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:193
 msgid "A_uthenticate"
 msgstr "A_utenticació"
 
 # fitxer: addressbook.gui.widgets.ca.po
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:467
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:722
 msgid "Authentication Type"
 msgstr "Tipus d'autenticació"
 
 # fitxer: mail.ca.po.2
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:481
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:736
 msgid "Ch_eck for Supported Types"
-msgstr "Comprova _els tipus suportats"
+msgstr "Comprova els tipus _disponibles"
 
 # fitxer: camel.ca.po.2
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
@@ -17043,12 +17034,14 @@ msgid ""
 msgstr "El missatge no conté un calendari iCalendar vàlid."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1008
-#: ../plugins/itip-formatter/itip-formatter.c:1064
+#: ../plugins/itip-formatter/itip-formatter.c:1023
+#: ../plugins/itip-formatter/itip-formatter.c:1078
 msgid "The item in the calendar is not valid"
 msgstr "L'element en el calendari no és vàlid"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1009
-#: ../plugins/itip-formatter/itip-formatter.c:1065
+#: ../plugins/itip-formatter/itip-formatter.c:1024
+#: ../plugins/itip-formatter/itip-formatter.c:1079
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -17056,11 +17049,11 @@ msgstr ""
 "El missatge conté un calendari, però el calendari no conté esdeveniments, "
 "tasques o informació de lliure/ocupat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1020
+#: ../plugins/itip-formatter/itip-formatter.c:1034
 msgid "The calendar attached contains multiple items"
 msgstr "El calendari adjunt conté múltiples elements"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1021
+#: ../plugins/itip-formatter/itip-formatter.c:1035
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -17069,22 +17062,22 @@ msgstr ""
 "calendari"
 
 # fitxer: calendar.ca.po.5
-#: ../plugins/itip-formatter/itip-formatter.c:1658
+#: ../plugins/itip-formatter/itip-formatter.c:1672
 msgid "Meetings and Tasks"
 msgstr "Reunions i tasques"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:1681
+#: ../plugins/itip-formatter/itip-formatter.c:1695
 msgid "_Delete message after acting"
 msgstr "Suprimeix el missatge _després d'actuar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1691
+#: ../plugins/itip-formatter/itip-formatter.c:1705
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">Cerca conflictes</span>"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:1704
+#: ../plugins/itip-formatter/itip-formatter.c:1718
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Seleccioneu els calendaris per cercar conflictes entre reunions"
 
@@ -17679,7 +17672,7 @@ msgid "Comma separated value format (.csv)"
 msgstr "Format de valors separats per comes (.csv)"
 
 # fitxer: calendar.ca.po.2
-#: ../plugins/save-calendar/ical-format.c:120
+#: ../plugins/save-calendar/ical-format.c:136
 msgid "iCalendar format (.ics)"
 msgstr "Format de l'iCalendar (.ics)"
 
@@ -17688,12 +17681,12 @@ msgid "RDF format (.rdf)"
 msgstr "Format RDF (.rdf)"
 
 # fitxer: calendar.ca.po.4
-#: ../plugins/save-calendar/save-calendar.c:172
-#: ../plugins/save-calendar/save-calendar.c:182
+#: ../plugins/save-calendar/save-calendar.c:171
+#: ../plugins/save-calendar/save-calendar.c:181
 msgid "Select destination file"
 msgstr "Seleccioneu el fitxer destí"
 
-#: ../plugins/save-calendar/save-calendar.c:217
+#: ../plugins/save-calendar/save-calendar.c:216
 #, c-format
 msgid ""
 "The suggested filename extension of this filetype (%s) is unused in the "
@@ -17790,9 +17783,47 @@ msgid "Enter the users and set permissions"
 msgstr "Introduïu els usuaris i establiu els permissos"
 
 # fitxer: addressbook.printing.ca.po
-#: ../plugins/shared-folder/share-folder-common.c:401
+#: ../plugins/shared-folder/share-folder-common.c:403
 msgid "Sharing"
 msgstr "Compartició"
+
+# fitxer: shell.ca.po
+#: ../plugins/startup-wizard/startup-wizard.c:255
+#: ../shell/evolution-startup-wizard.glade.h:2
+msgid "Evolution Setup Assistant"
+msgstr "Auxiliar de configuració de l'Evolution"
+
+#: ../plugins/startup-wizard/startup-wizard.c:260
+#: ../shell/evolution-startup-wizard.glade.h:5
+msgid "Welcome"
+msgstr "Benvingut"
+
+#: ../plugins/startup-wizard/startup-wizard.c:261
+#: ../shell/evolution-startup-wizard.glade.h:6
+msgid ""
+"Welcome to Evolution. The next few screens will allow Evolution to connect "
+"to your email accounts, and to import files from other applications. \n"
+"\n"
+"Please click the \"Forward\" button to continue. "
+msgstr ""
+"Benvingut a l'Evolution! En les següents pantalles configurareu l'Evolution "
+"per connectar-se als vostres comptes de correu\n"
+"i importar fitxers d'altres aplicacions.\n"
+"\n"
+"Cliqueu \"Endavant\" per continuar."
+
+# fitxer: shell.ca.po
+#: ../plugins/startup-wizard/startup-wizard.c:306
+#: ../shell/e-shell-importer.c:159 ../shell/e-shell-startup-wizard.c:750
+msgid "Please select the information that you would like to import:"
+msgstr "Seleccioneu la informació que voleu importar:"
+
+# fitxer: shell.ca.po
+#: ../plugins/startup-wizard/startup-wizard.c:321
+#: ../shell/e-shell-importer.c:899 ../shell/e-shell-startup-wizard.c:700
+#, c-format
+msgid "From %s:"
+msgstr "De %s:"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
@@ -17869,7 +17900,7 @@ msgid "Skip development warning dialog"
 msgstr "Si s'ha d'ometre el diàleg d'avís per desenvolupament"
 
 # fitxer: shell.ca.po
-#: ../shell/apps_evolution_shell.schemas.in.in.h:11 ../shell/main.c:476
+#: ../shell/apps_evolution_shell.schemas.in.in.h:11 ../shell/main.c:472
 msgid "Start in offline mode"
 msgstr "Inicia desconnectat"
 
@@ -17991,11 +18022,6 @@ msgid "Choose the destination for this import"
 msgstr "Escolliu la destinació per a aquesta importació"
 
 # fitxer: shell.ca.po
-#: ../shell/e-shell-importer.c:159 ../shell/e-shell-startup-wizard.c:750
-msgid "Please select the information that you would like to import:"
-msgstr "Seleccioneu la informació que voleu importar:"
-
-# fitxer: shell.ca.po
 #: ../shell/e-shell-importer.c:162
 msgid ""
 "Evolution checked for settings to import from the following\n"
@@ -18100,12 +18126,6 @@ msgstr ""
 msgid "Starting Intelligent Importers"
 msgstr "S'estan iniciant els importadors intel·ligents"
 
-# fitxer: shell.ca.po
-#: ../shell/e-shell-importer.c:899 ../shell/e-shell-startup-wizard.c:700
-#, c-format
-msgid "From %s:"
-msgstr "De %s:"
-
 # fitxer: camel.ca.po.3
 #: ../shell/e-shell-importer.c:1105
 #, c-format
@@ -18146,12 +18166,12 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
-"Si sortiu de l'assistent de configuració de l'Evolution es perdrà tota la "
-"informació que heu introduït. Caldrà que el torneu a executar abans "
+"Si sortiu de l'auxiliar de configuració de l'Evolution es perdrà tota la "
+"informació que hagueu introduït. Caldrà que el torneu a executar abans "
 "d'utilitzar l'\n"
 "Evolution.\n"
 "\n"
-"Esteu segur de voler sortir de l'assistent?"
+"Esteu segur de voler sortir de l'auxiliar?"
 
 # fitxer: shell.ca.po
 #: ../shell/e-shell-utils.c:116
@@ -18203,7 +18223,7 @@ msgstr "No es pot executar el Bug buddy."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:428
+#: ../shell/e-shell-window-commands.c:501
 msgid "translator-credits"
 msgstr ""
 "Víctor Nieto <vnie2025@alu-etsetb.upc.es>\n"
@@ -18214,22 +18234,22 @@ msgstr ""
 "Xavier Conde Rueda <xaviconde@eresmas.com>"
 
 # fitxer: calendar.ca.po.3
-#: ../shell/e-shell-window-commands.c:442
+#: ../shell/e-shell-window-commands.c:515
 msgid "Groupware Suite"
 msgstr "Aplicacions de treball en grup"
 
 # fitxer: shell.ca.po
-#: ../shell/e-shell-window-commands.c:669
+#: ../shell/e-shell-window-commands.c:742
 msgid "_Work Online"
 msgstr "_Treballa connectat"
 
 # fitxer: shell.ca.po
-#: ../shell/e-shell-window-commands.c:682 ../ui/evolution.xml.h:51
+#: ../shell/e-shell-window-commands.c:755 ../ui/evolution.xml.h:51
 msgid "_Work Offline"
 msgstr "_Treballa desconnectat"
 
 # fitxer: shell.ca.po
-#: ../shell/e-shell-window-commands.c:695 ../ui/evolution.xml.h:34
+#: ../shell/e-shell-window-commands.c:768 ../ui/evolution.xml.h:34
 msgid "Work Offline"
 msgstr "Treballa desconnectat"
 
@@ -18264,33 +18284,33 @@ msgid "Uknown system error."
 msgstr "Error del sistema desconegut."
 
 # fitxer: calendar.ca.po.5
-#: ../shell/e-shell.c:806 ../shell/e-shell.c:807
+#: ../shell/e-shell.c:800 ../shell/e-shell.c:801
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
 # fitxer: calendar.ca.po.3
-#: ../shell/e-shell.c:1250 ../widgets/misc/e-cell-date-edit.c:256
+#: ../shell/e-shell.c:1254 ../widgets/misc/e-cell-date-edit.c:256
 msgid "OK"
 msgstr "D'acord"
 
 # fitxer: shell.ca.po
-#: ../shell/e-shell.c:1252
+#: ../shell/e-shell.c:1256
 msgid "Invalid arguments"
 msgstr "Els arguments no són vàlids"
 
 # fitxer: shell.ca.po
-#: ../shell/e-shell.c:1254
+#: ../shell/e-shell.c:1258
 msgid "Cannot register on OAF"
 msgstr "No s'ha pogut registrar l'OAF"
 
 # fitxer: shell.ca.po
-#: ../shell/e-shell.c:1256
+#: ../shell/e-shell.c:1260
 msgid "Configuration Database not found"
 msgstr "No s'ha pogut trobar la base de dades de configuració."
 
 # fitxer: shell.ca.po
-#: ../shell/e-shell.c:1258
+#: ../shell/e-shell.c:1262
 msgid "Generic error"
 msgstr "Error genèric"
 
@@ -18298,11 +18318,6 @@ msgstr "Error genèric"
 #: ../shell/e-user-creatable-items-handler.c:685
 msgid "New"
 msgstr "Nou"
-
-# fitxer: shell.ca.po
-#: ../shell/evolution-startup-wizard.glade.h:2
-msgid "Evolution Setup Assistant"
-msgstr "Assistent de configuració de l'Evolution"
 
 # fitxer: shell.ca.po
 #: ../shell/evolution-startup-wizard.glade.h:3
@@ -18313,23 +18328,6 @@ msgstr "Importa fitxers"
 #: ../shell/evolution-startup-wizard.glade.h:4
 msgid "Timezone "
 msgstr "Fus horari "
-
-#: ../shell/evolution-startup-wizard.glade.h:5
-msgid "Welcome"
-msgstr "Benvingut"
-
-#: ../shell/evolution-startup-wizard.glade.h:6
-msgid ""
-"Welcome to Evolution. The next few screens will allow Evolution to connect "
-"to your email accounts, and to import files from other applications. \n"
-"\n"
-"Please click the \"Forward\" button to continue. "
-msgstr ""
-"Benvingut a l'Evolution! En les següents pantalles configurareu l'Evolution "
-"per connectar-se als vostres comptes de correu\n"
-"i importar fitxers d'altres aplicacions.\n"
-"\n"
-"Cliqueu \"Endavant\" per continuar."
 
 #: ../shell/evolution-startup-wizard.glade.h:9
 msgid ""
@@ -18366,7 +18364,7 @@ msgstr ""
 # fitxer: shell.ca.po
 #: ../shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
-msgstr "Assistent d'importació de l'Evolution"
+msgstr "Auxiliar d'importació de l'Evolution"
 
 # fitxer: shell.ca.po
 #: ../shell/importer/import.glade.h:3
@@ -18400,8 +18398,8 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
-"Benvingut a l'assistent d'importació de l'Evolution.\n"
-"Aquest assistent us guiarà a través dels passos necessaris\n"
+"Benvingut a l'auxiliar d'importació de l'Evolution.\n"
+"Aquest auxiliar us guiarà a través dels passos necessaris\n"
 "per importar fitxers externs a l'Evolution."
 
 # fitxer: shell.ca.po
@@ -18431,7 +18429,7 @@ msgstr "L'Evolution pot importar les dades dels fitxers següents:"
 
 # fitxer: shell.ca.po
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:238
+#: ../shell/main.c:234
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -18459,17 +18457,17 @@ msgstr ""
 "\n"
 "Si voleu utilitzar una versió estable de l'Evolution us suggerim que "
 "desinstal·leu\n"
-"aquesta versió, i instal·lar la versió %s.\n"
+"aquesta versió, i instal·leu la versió %s.\n"
 "\n"
 "Si trobeu algun error, informeu-nos-en a bugzilla.ximian.com.\n"
-"Aquest producte es distribueix sense cap garantia i no és adequada\n"
+"Aquest producte es distribueix sense cap garantia i no és adequat\n"
 "per a persones propenses a reaccions violentes.\n"
 "\n"
 "Esperem que gaudiu del resultat de la nostra feina, i esperem\n"
 "ansiosament les vostres contribucions.\n"
 
 # fitxer: shell.ca.po
-#: ../shell/main.c:262
+#: ../shell/main.c:258
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -18478,44 +18476,44 @@ msgstr ""
 "L'equip de l'Evolution\n"
 
 # fitxer: shell.ca.po
-#: ../shell/main.c:269
+#: ../shell/main.c:265
 msgid "Don't tell me again"
-msgstr "No m'ho tornis a dir"
+msgstr "No ho tornis a mostrar"
 
 # fitxer: shell.ca.po
-#: ../shell/main.c:474
+#: ../shell/main.c:470
 msgid "Start Evolution activating the specified component"
 msgstr "Inicia l'Evolution activant el component especificat"
 
 # fitxer: shell.ca.po
-#: ../shell/main.c:478
+#: ../shell/main.c:474
 msgid "Start in online mode"
 msgstr "Inicia connectat"
 
 # fitxer: shell.ca.po
-#: ../shell/main.c:481
+#: ../shell/main.c:477
 msgid "Forcibly shut down all Evolution components"
 msgstr "Força l'aturada de tots els components de l'Evolution"
 
-#: ../shell/main.c:485
+#: ../shell/main.c:481
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Força tornar a migrar des de l'Evolution 1.4"
 
 # fitxer: shell.ca.po
-#: ../shell/main.c:488
+#: ../shell/main.c:484
 msgid "Send the debugging output of all components to a file."
 msgstr "Envia la sortida de la depuració de tots els components a un fitxer."
 
-#: ../shell/main.c:491
+#: ../shell/main.c:487
 msgid "Disable the mono plugin environment."
 msgstr "Inhabilita l'entorn de connectors de mono."
 
-#: ../shell/main.c:494
+#: ../shell/main.c:490
 msgid "Disable loading of any plugins."
 msgstr "Inhabilita la càrrega de connectors."
 
 # fitxer: shell.ca.po
-#: ../shell/main.c:525
+#: ../shell/main.c:521
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -18527,7 +18525,7 @@ msgstr ""
 #. shell:upgrade-nospace primary
 #: ../shell/shell-errors.xml.h:2
 msgid "Insufficient disk space for upgrade."
-msgstr "Espai insuficient de disc per actualitzar."
+msgstr "Espai insuficient de disc per a actualitzar."
 
 #. shell:upgrade-nospace secondary
 #: ../shell/shell-errors.xml.h:4
@@ -18706,39 +18704,39 @@ msgstr ""
 # fitxer: smime.ca.po
 #: ../smime/gui/certificate-manager.c:134
 #: ../smime/gui/certificate-manager.c:142
-#: ../smime/gui/certificate-manager.c:375
-#: ../smime/gui/certificate-manager.c:383
-#: ../smime/gui/certificate-manager.c:595
-#: ../smime/gui/certificate-manager.c:603
+#: ../smime/gui/certificate-manager.c:377
+#: ../smime/gui/certificate-manager.c:385
+#: ../smime/gui/certificate-manager.c:597
+#: ../smime/gui/certificate-manager.c:605
 msgid "Select a cert to import..."
 msgstr "Seleccioneu quin certificat s'importarà..."
 
 # fitxer: smime.ca.po
-#: ../smime/gui/certificate-manager.c:263
-#: ../smime/gui/certificate-manager.c:472
-#: ../smime/gui/certificate-manager.c:690
+#: ../smime/gui/certificate-manager.c:265
+#: ../smime/gui/certificate-manager.c:474
+#: ../smime/gui/certificate-manager.c:692
 msgid "Certificate Name"
 msgstr "Nom del certificat"
 
 # fitxer: smime.ca.po
-#: ../smime/gui/certificate-manager.c:272
-#: ../smime/gui/certificate-manager.c:490
+#: ../smime/gui/certificate-manager.c:274
+#: ../smime/gui/certificate-manager.c:492
 msgid "Purposes"
 msgstr "Propòsits"
 
 # fitxer: smime.ca.po
-#: ../smime/gui/certificate-manager.c:281 ../smime/gui/smime-ui.glade.h:36
+#: ../smime/gui/certificate-manager.c:283 ../smime/gui/smime-ui.glade.h:36
 #: ../smime/lib/e-cert.c:569
 msgid "Serial Number"
 msgstr "Nombre de sèrie"
 
 # fitxer: smime.ca.po
-#: ../smime/gui/certificate-manager.c:289
+#: ../smime/gui/certificate-manager.c:291
 msgid "Expires"
 msgstr "Caduca"
 
 # fitxer: smime.ca.po
-#: ../smime/gui/certificate-manager.c:481
+#: ../smime/gui/certificate-manager.c:483
 msgid "E-Mail Address"
 msgstr "Adreça de correu electrònic"
 
@@ -21047,12 +21045,12 @@ msgstr ""
 "Useu el botó dret del ratolí per desfer l'ampliació anterior."
 
 # fitxer: widgets.ca.po
-#: ../widgets/menus/gal-view-menus.c:292
+#: ../widgets/menus/gal-view-menus.c:291
 msgid "_Current View"
 msgstr "Visualització a_ctual"
 
 # fitxer: widgets.ca.po
-#: ../widgets/menus/gal-view-menus.c:360
+#: ../widgets/menus/gal-view-menus.c:359
 msgid "Save Custom View..."
 msgstr "Desa la visualització personalitzada..."
 
@@ -21401,52 +21399,52 @@ msgstr "Categories de sincronització:"
 # fitxer: widgets.ca.po
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
-#: ../widgets/misc/e-search-bar.c:343
+#: ../widgets/misc/e-search-bar.c:345
 msgid "Search Text Entry"
 msgstr "Entrada de cerca de text"
 
 # fitxer: widgets.ca.po
-#: ../widgets/misc/e-search-bar.c:547
+#: ../widgets/misc/e-search-bar.c:549
 msgid "_Search"
 msgstr "_Cerca"
 
 # fitxer: widgets.ca.po
-#: ../widgets/misc/e-search-bar.c:553
+#: ../widgets/misc/e-search-bar.c:555
 msgid "_Find Now"
 msgstr "_Cerca ara"
 
 # fitxer: widgets.ca.po
-#: ../widgets/misc/e-search-bar.c:554 ../widgets/misc/e-search-bar.c:941
+#: ../widgets/misc/e-search-bar.c:556 ../widgets/misc/e-search-bar.c:943
 msgid "_Clear"
 msgstr "_Neteja"
 
 # fitxer: addressbook.gui.component.ca.po
-#: ../widgets/misc/e-search-bar.c:645
+#: ../widgets/misc/e-search-bar.c:647
 msgid "Search Type"
 msgstr "Tipus de cerca"
 
 # fitxer: widgets.ca.po
-#: ../widgets/misc/e-search-bar.c:849
+#: ../widgets/misc/e-search-bar.c:851
 msgid "Item ID"
 msgstr "ID de l'element"
 
 # fitxer: widgets.ca.po
-#: ../widgets/misc/e-search-bar.c:856
+#: ../widgets/misc/e-search-bar.c:858
 msgid "Subitem ID"
 msgstr "ID del subelement"
 
 # fitxer: widgets.ca.po
-#: ../widgets/misc/e-search-bar.c:863
+#: ../widgets/misc/e-search-bar.c:865
 msgid "Text"
 msgstr "Text"
 
 # fitxer: widgets.ca.po
-#: ../widgets/misc/e-search-bar.c:943
+#: ../widgets/misc/e-search-bar.c:945
 msgid "Find _Now"
 msgstr "Cerca _ara"
 
 # fitxer: filter.ca.po
-#: ../widgets/misc/e-send-options.c:505
+#: ../widgets/misc/e-send-options.c:506
 msgid "When de_leted:"
 msgstr "_En suprimir:"
 
@@ -21639,6 +21637,16 @@ msgstr "%s (%d%% complet)"
 #: ../widgets/misc/e-url-entry.c:107
 msgid "click here to go to url"
 msgstr "cliqueu per a anar a la url"
+
+#~ msgid ""
+#~ "\n"
+#~ " Please read carefully the license agreement displayed\n"
+#~ " below and tick the check box for accepting it\n"
+#~ msgstr ""
+#~ "\n"
+#~ " Llegiu detingudament l'acord de llicència\n"
+#~ " que es mostra a sota i activeu la casella\n"
+#~ " de verificació per acceptar-la\n"
 
 # fitxer: mail.ca.po.1
 #~ msgid "_Remember this password"
