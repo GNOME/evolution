@@ -1,3 +1,8 @@
+2001-02-03  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/dialogs/save-comp.c (save_component_dialog):
+	gnome_dialog_grab_focus() on the Yes button.  Fixes bug #1242.
+
 2001-01-30  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/e-calendar-table.c: Mark a string for translation.

@@ -36,11 +36,12 @@
 
 /**
  * save_component_dialog:
- * @widget: 
+ * @parent: Window to use as the transient dialog's parent.
  * 
+ * Pops up a dialog box asking the user whether he wants to save changes for
+ * a calendar component.
  * 
- * 
- * Return value: 
+ * Return value: TRUE if changes shold be saved, FALSE otherwise.
  **/
 gint
 save_component_dialog (GtkWindow *parent)
@@ -55,6 +56,7 @@ save_component_dialog (GtkWindow *parent)
 					NULL);
 
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+	gnome_dialog_grab_focus (GNOME_DIALOG (dialog), 0);
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog), parent);
 
 	return gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
