@@ -68,6 +68,8 @@ struct _EContactListEditor
 	GtkWidget *visible_addrs_checkbutton;
 	GtkWidget *list_image;
 	GtkWidget *source_menu;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
 
 	/* Whether we are editing a new contact or an existing one */
 	guint is_new_list : 1;

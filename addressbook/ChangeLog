@@ -1,3 +1,14 @@
+2004-06-04  Larry Ewing  <lewing@ximian.com>
+
+	* gui/contact-list-editor/e-contact-list-editor.c: remove bonobo
+	menus and cruft add ok/cancel buttons.
+
+	* gui/contact-list-editor/e-contact-list-editor.h: add buttons for
+	ok/cancel.
+
+	* gui/contact-list-editor/contact-list-editor.glade: add fields for
+	ok/cancel reparent to GtkDialog, other minor adjustments.
+
 2004-06-04  JP Rosevear  <jpr@novell.com>
 
 	Fixes #55945
