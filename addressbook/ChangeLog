@@ -1,3 +1,25 @@
+2001-04-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-book-listener.c
+	(impl_BookListener_respond_get_cursor): Ref the cursor here when
+	we receive it.
+	(impl_BookListener_respond_get_view,
+	impl_BookListener_respond_get_changes): Ref the book_view here
+	when we receive it.
+	(impl_BookListener_respond_open_book): Ref the book here when we
+	receive it.
+	(e_book_listener_destroy): Unref the objects in our queue here.
+
+	* backend/ebook/e-book-view.c (e_book_view_construct): Cleaned
+	this up using bonobo_object_dup_ref.
+	(e_book_view_destroy): Cleaned this up using
+	bonobo_object_release_unref.
+
+	* backend/ebook/e-book.c (e_book_do_response_get_cursor,
+	e_book_do_response_get_view, e_book_do_response_get_changes,
+	e_book_unload_uri): Cleaned this up using
+	bonobo_object_release_unref.
+
 2001-04-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names-bonobo.c

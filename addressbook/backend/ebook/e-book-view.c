@@ -136,24 +136,10 @@ e_book_view_construct (EBookView *book_view, GNOME_Evolution_Addressbook_BookVie
 	 */
 	CORBA_exception_init (&ev);
 
-	book_view->priv->corba_book_view = CORBA_Object_duplicate(corba_book_view, &ev);
+	book_view->priv->corba_book_view = bonobo_object_dup_ref(corba_book_view, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("e_book_view_construct: Exception duplicating corba_book_view.\n");
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
-
-	GNOME_Evolution_Addressbook_BookView_ref(book_view->priv->corba_book_view, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_view_construct: Exception reffing corba_book_view.\n");
-		CORBA_exception_free (&ev);
-		CORBA_exception_init (&ev);
-	        CORBA_Object_release (book_view->priv->corba_book_view, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("e_book_view_construct: Exception releasing corba_book_view.\n");
-		}
 		CORBA_exception_free (&ev);
 		book_view->priv->corba_book_view = NULL;
 		return FALSE;
@@ -209,15 +195,8 @@ e_book_view_destroy (GtkObject *object)
 	if (book_view->priv->corba_book_view) {
 		CORBA_exception_init (&ev);
 
-		GNOME_Evolution_Addressbook_BookView_unref(book_view->priv->corba_book_view, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("EBookView: Exception while unreffing BookView\n");
-			
-			CORBA_exception_free (&ev);
-			CORBA_exception_init (&ev);
-		}
+		bonobo_object_release_unref (book_view->priv->corba_book_view, &ev);
 
-		CORBA_Object_release (book_view->priv->corba_book_view, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("EBookView: Exception while releasing BookView\n");
 		}
