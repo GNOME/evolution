@@ -1560,9 +1560,47 @@ static void
 filter_filter(CamelSession *session, CamelSessionThreadMsg *msg)
 {
 	struct _folder_filter_msg *m = (struct _folder_filter_msg *)msg;
-	
-	camel_filter_driver_filter_folder(m->driver, m->folder, NULL, m->recents, FALSE, &m->ex);
-	camel_filter_driver_flush (m->driver, &m->ex);
+	CamelMessageInfo *info;
+	int i, status = 0;
+	CamelURL *uri;
+	char *source_url;
+	CamelException ex;
+
+	/* FIXME: progress? (old code didn't have useful progress either) */
+
+	source_url = camel_service_get_url((CamelService *)m->folder->parent_store);
+	uri = camel_url_new(source_url, NULL);
+	g_free(source_url);
+	if (m->folder->full_name && m->folder->full_name[0] != '/') {
+		char *tmp = alloca(strlen(m->folder->full_name)+2);
+
+		sprintf(tmp, "/%s", m->folder->full_name);
+		camel_url_set_path(uri, tmp);
+	} else
+		camel_url_set_path(uri, m->folder->full_name);
+	source_url = camel_url_to_string(uri, CAMEL_URL_HIDE_ALL);
+	camel_url_free(uri);
+
+	for (i=0;status == 0 && i<m->recents->len;i++) {
+		char *uid = m->recents->pdata[i];
+
+		info = camel_folder_get_message_info(m->folder, uid);
+		if (info == NULL) {
+			g_warning("uid %s vanished from folder: %s", uid, source_url);
+			continue;
+		}
+
+		status = camel_filter_driver_filter_message(m->driver, NULL, info, uid, m->folder, source_url, source_url, &m->ex);
+
+		camel_folder_free_message_info(m->folder, info);
+	}
+
+	camel_exception_init(&ex);
+	camel_filter_driver_flush(m->driver, &ex);
+	if (!camel_exception_is_set(&m->ex))
+		camel_exception_xfer(&m->ex, &ex);
+
+	g_free(source_url);
 }
 
 static void
