@@ -989,6 +989,10 @@ void         e_tree_table_adapter_node_set_expanded_recurse (ETreeTableAdapter *
 
 ETreePath    e_tree_table_adapter_node_at_row (ETreeTableAdapter *etta, int row)
 {
+	if (row < 0)
+		return NULL;
+	if (row >= etta->priv->n_map)
+		return NULL;
 	if (etta->priv->root_visible)
 		return etta->priv->map_table[row];
 	else
