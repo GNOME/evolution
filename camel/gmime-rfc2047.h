@@ -1,6 +1,7 @@
-#ifndef GMIME_RFC2047_H
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* gmime-rfc2047.c: implemention of RFC2047 */
 
-/* 
+/*
  * Copyright (C) 1999 Bertrand Guiheneuf <Bertrand.Guiheneuf@inria.fr> .
  * 
  * This program is free software; you can redistribute it and/or 
@@ -20,10 +21,12 @@
  *
  */
 
+#ifndef GMIME_RFC2047_H
+#define GMIME_RFC2047_H 1
 #include <glib.h>
 
-gchar *gmime_rfc2047_decode(const gchar *text, const gchar* charset);
-gchar *gmime_rfc2047_encode(const gchar *text, const gchar* charset);
+gchar *gmime_rfc2047_decode (const gchar *text, const gchar* charset);
+gchar *gmime_rfc2047_encode (const gchar *text, const gchar* charset);
 
 /* 
  * pass text and charset, (e.g. "UTF-8", or "ISO-8859-1"), and
@@ -39,4 +42,4 @@ gchar *gmime_rfc2047_encode(const gchar *text, const gchar* charset);
  * The caller will need to free the memory for the string.
  */
 
-#endif
+#endif /* GMIME_RFC2047_H */
