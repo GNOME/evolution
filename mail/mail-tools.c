@@ -302,7 +302,6 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 
 	g_return_val_if_fail (uri != NULL, NULL);
 	
-	/* This hack is still needed for file:/ since it's its own EvolutionStorage type */
 	if (!strncmp (uri, "vtrash:", 7))
 		offset = 7;
 	else if (!strncmp (uri, "vjunk:", 6))

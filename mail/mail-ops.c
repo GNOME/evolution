@@ -1689,15 +1689,23 @@ static char *empty_trash_desc(struct _mail_msg *mm, int done)
 static void empty_trash_empty(struct _mail_msg *mm)
 {
 	struct _empty_trash_msg *m = (struct _empty_trash_msg *)mm;
+	const char *evolution_dir;
 	CamelFolder *trash;
-
-	if (m->account)
+	char *uri;
+	
+	if (m->account) {
 		trash = mail_tool_get_trash (m->account->source->url, FALSE, &mm->ex);
-	else
-		trash = mail_tool_get_trash ("file:/", TRUE, &mm->ex);
+	} else {
+		evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
+		uri = g_strdup_printf ("mbox:%s/mail/local", evolution_dir);
+		trash = mail_tool_get_trash (uri, TRUE, &mm->ex);
+		g_free (uri);
+	}
+	
 	if (trash)
 		camel_folder_expunge (trash, &mm->ex);
-	camel_object_unref(trash);
+	
+	camel_object_unref (trash);
 }
 
 static void empty_trash_emptied(struct _mail_msg *mm)

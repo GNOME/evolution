@@ -1,5 +1,10 @@
 2003-12-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes bug #51618
+
+	* mail-ops.c (empty_trash_empty): Get the proper local folders
+	store uri (it's not file:/ anymore).
+
 	Fixes bug #51605.
 
 	* em-folder-selector.c (emfs_response): Handle creating a new
