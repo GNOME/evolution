@@ -1097,10 +1097,9 @@ set_editor_text(EMsgComposer *composer, const char *text, int setsig)
 	if (setsig && (sig = get_signature_html (composer))) {
 		char *p;
 		
-		len += strlen (sig) + 4;
+		len += strlen (sig);
 		content = p = mem = g_malloc (len + 1);
 		p = g_stpcpy (mem, text);
-		p = g_stpcpy (p, "<br>");
 		strcpy (p, sig);
 		g_free (sig);
 	} else {

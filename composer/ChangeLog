@@ -1,3 +1,8 @@
+2004-03-29  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (set_editor_text): do not add <br> between text
+	and signature
+
 2004-03-22  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (disable_editor): do not set editor
