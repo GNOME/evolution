@@ -1,3 +1,8 @@
+Fri Jul 24 00:45:38 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* Makefile.am (MACROS): Added linger.m4.
+	* linger.m4: New file.
+
 Thu Jul 23 22:41:23 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* Makefile.am (MACROS): Added gnome-undelfs.m4, gnome-vfs.m4.

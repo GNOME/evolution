@@ -13,6 +13,7 @@ MACROS=						\
   gnome-vfs.m4					\
   gnome-x-checks.m4				\
   gnome.m4					\
+  linger.m4					\
   need-declaration.m4
 
 EXTRA_DIST=$(MACROS) autogen.sh macros.dep
