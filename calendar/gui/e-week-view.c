@@ -379,7 +379,6 @@ e_week_view_init (EWeekView *week_view)
 			  2, 3, 1, 2, 0, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (week_view->vscrollbar);
 
-
 	/* Create the cursors. */
 	week_view->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	week_view->move_cursor = gdk_cursor_new (GDK_FLEUR);

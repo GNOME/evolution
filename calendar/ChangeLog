@@ -1,3 +1,52 @@
+2001-05-16  Federico Mena Quintero  <federico@ximian.com>
+
+	Split the event and task editors into different objects for the
+	separate pages; this way they can be shared by both editors.
+
+	* gui/dialogs/editor-page.[ch]: New abstract class for a page in a
+	calendar component editor.
+
+	* gui/dialogs/event-page.[ch]: Main page of an event editor.
+
+	* gui/dialogs/alarm-page.[ch]: Alarm page of a calendar component
+	editor.
+
+	* gui/dialogs/recurrence-page.[ch]: Recurrence page of a calendar
+	component editor.
+
+	* gui/dialogs/event-page.c (event_page_fill_widgets): Eeek, this
+	was missing a bunch of break statements.
+	(event_page_fill_component): Use a temporary variable rather than
+	allocating a struct icaltimetype.
+
+	* gui/dialogs/alarm-page.c (get_alarm_string): Do not use
+	fixed-size buffers.
+	(alarm_page_fill_widgets): Use cal_obj_uid_list_free().
+	(append_reminder): Now the list stores the plain CalComponentAlarm
+	structures in the row data.  We do *NOT* want to be frobbing the
+	component's data directly.  Rather, we clone the alarms from the
+	component and maintain them on our own.
+	(alarm_page_fill_component): Clone the alarms before adding them
+	to the component so that we maintain the invariant that the alarm
+	structures in the list did *not* come from the component.
+
+	* cal-util/cal-component.c (cal_component_add_alarm): Added
+	documentation.
+	(cal_component_remove_alarm): Added documentation.
+	(cal_component_remove_alarm): Do a lookup in our hash table of
+	alarms instead of scanning the whole component.
+	(CalComponentAlarm): Removed the `parent' field, since it was
+	unused.
+	(cal_component_free_alarm_uids): Removed function, since
+	cal_component_get_alarm_uids() is documented so that the user will
+	know that he must use cal_obj_uid_list_free().
+	(cal_component_alarm_clone): New function.
+
+2001-05-09  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Added
+	editor-page.[ch] to the list of sources.
+
 2001-05-09  JP Rosevear  <jpr@ximian.com>
 
 	* gui/event-editor.c (reminder_add_cb): switch on the correct

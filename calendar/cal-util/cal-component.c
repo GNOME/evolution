@@ -110,9 +110,6 @@ struct _CalComponentPrivate {
 
 /* Private structure for alarms */
 struct _CalComponentAlarm {
-	/* Our parent component */
-	CalComponent *parent;
-
 	/* Alarm icalcomponent we wrap */
 	icalcomponent *icalcomp;
 
@@ -348,7 +345,7 @@ cal_component_gen_uid (void)
 
 	iso = isodate_from_time_t (t);
 	ret = g_strdup_printf ("%s-%d-%d-%d-%d@%s",
-			       iso, 
+			       iso,
 			       getpid (),
 			       getgid (),
 			       getppid (),
@@ -691,17 +688,6 @@ add_alarm (CalComponent *comp, icalcomponent *alarm, const char *auid)
 	g_hash_table_insert (priv->alarm_uid_hash, (char *) auid, alarm);
 	return auid;
 }
-
-static void
-remove_alarm (CalComponent *comp, const char *auid) 
-{
-	CalComponentPrivate *priv;
-	
-	priv = comp->priv;
-	
-	g_hash_table_remove (priv->alarm_uid_hash, auid);
-}
-
 
 /* Scans an alarm subcomponent, adds an UID extension property to it (so that we
  * can reference alarms by unique IDs), and adds its mapping to the component.  */
@@ -1129,12 +1115,12 @@ cal_component_set_uid (CalComponent *comp, const char *uid)
 
 /**
  * cal_component_get_categories:
- * @comp: A calendar component object. 
- * @categories: 
- * 
- * 
+ * @comp: A calendar component object.
+ * @categories:
+ *
+ *
  **/
-void 
+void
 cal_component_get_categories (CalComponent *comp, const char **categories)
 {
 	CalComponentPrivate *priv;
@@ -1155,11 +1141,11 @@ cal_component_get_categories (CalComponent *comp, const char **categories)
 /**
  * cal_component_set_categories:
  * @comp: A calendar component object.
- * @categories: 
- * 
- * 
+ * @categories:
+ *
+ *
  **/
-void 
+void
 cal_component_set_categories (CalComponent *comp, const char *categories)
 {
 	CalComponentPrivate *priv;
@@ -1286,7 +1272,7 @@ cal_component_set_categories_list (CalComponent *comp, GSList *categ_list)
 			icalcomponent_remove_property (priv->icalcomp, priv->categories);
 			icalproperty_free (priv->categories);
 		}
-		
+
 		return;
 	}
 
@@ -3457,63 +3443,64 @@ cal_component_has_alarms (CalComponent *comp)
 	return g_hash_table_size (priv->alarm_uid_hash) != 0;
 }
 
-void 
+/**
+ * cal_component_add_alarm:
+ * @comp: A calendar component.
+ * @alarm: An alarm.
+ * 
+ * Adds an alarm subcomponent to a calendar component.  You should have created
+ * the @alarm by using cal_component_alarm_new(); it is invalid to use a
+ * #CalComponentAlarm structure that came from cal_component_get_alarm().  After
+ * adding the alarm, the @alarm structure is no longer valid because the
+ * internal structures may change and you should get rid of it by using
+ * cal_component_alarm_free().
+ **/
+void
 cal_component_add_alarm (CalComponent *comp, CalComponentAlarm *alarm)
 {
 	CalComponentPrivate *priv;
-	
+
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
 	g_return_if_fail (alarm != NULL);
-	
+
 	priv = comp->priv;
-	
-	alarm->parent = comp;
+
 	add_alarm (comp, alarm->icalcomp, icalproperty_get_x (alarm->uid));
 	icalcomponent_add_component (priv->icalcomp, alarm->icalcomp);
 }
 
-void 
+/**
+ * cal_component_remove_alarm:
+ * @comp: A calendar component.
+ * @auid: UID of the alarm to remove.
+ * 
+ * Removes an alarm subcomponent from a calendar component.  If the alarm that
+ * corresponds to the specified @auid had been fetched with
+ * cal_component_get_alarm(), then those alarm structures will be invalid; you
+ * should get rid of them with cal_component_alarm_free() before using this
+ * function.
+ **/
+void
 cal_component_remove_alarm (CalComponent *comp, const char *auid)
 {
 	CalComponentPrivate *priv;
-	icalcompiter iter;
+	icalcomponent *alarm;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
 	g_return_if_fail (auid != NULL);
 
 	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
 
-	for (iter = icalcomponent_begin_component (priv->icalcomp, ICAL_VALARM_COMPONENT);
-	     icalcompiter_deref (&iter) != NULL;
-	     icalcompiter_next (&iter)) {
-		icalproperty *prop;
-		icalcomponent *subcomp;
+	alarm = g_hash_table_lookup (priv->alarm_uid_hash, auid);
+	if (!alarm)
+		return;
 
-		subcomp = icalcompiter_deref (&iter);
-		for (prop = icalcomponent_get_first_property (subcomp, ICAL_X_PROPERTY);
-		     prop;
-		     prop = icalcomponent_get_next_property (subcomp, ICAL_X_PROPERTY)) {
-			const char *xname;
-			const char *alarm_uid;
-			
-			xname = icalproperty_get_x_name (prop);
-			g_assert (xname != NULL);
-
-			if (strcmp (xname, EVOLUTION_ALARM_UID_PROPERTY) == 0) {
-				alarm_uid = alarm_uid_from_prop (prop);
-				if (strcmp (alarm_uid, auid) == 0) {
-					remove_alarm (comp, auid);
-					icalcomponent_remove_component (priv->icalcomp, subcomp);
-					icalcomponent_free (subcomp);
-					break;
-				}
-				
-				return;
-			}
-		}
-	}
+	g_hash_table_remove (priv->alarm_uid_hash, auid);
+	icalcomponent_remove_component (priv->icalcomp, alarm);
+	icalcomponent_free (alarm);
 }
 
 
@@ -3553,14 +3540,13 @@ scan_alarm_property (CalComponentAlarm *alarm, icalproperty *prop)
 
 /* Creates a CalComponentAlarm from a libical alarm subcomponent */
 static CalComponentAlarm *
-make_alarm (CalComponent *comp, icalcomponent *subcomp)
+make_alarm (icalcomponent *subcomp)
 {
 	CalComponentAlarm *alarm;
 	icalproperty *prop;
 
 	alarm = g_new (CalComponentAlarm, 1);
 
-	alarm->parent = comp;
 	alarm->icalcomp = subcomp;
 	alarm->uid = NULL;
 
@@ -3590,10 +3576,10 @@ add_alarm_uid (gpointer key, gpointer value, gpointer data)
 /**
  * cal_component_get_alarm_uids:
  * @comp: A calendar component.
- * 
+ *
  * Builds a list of the unique identifiers of the alarm subcomponents inside a
  * calendar component.
- * 
+ *
  * Return value: List of unique identifiers for alarms.  This should be freed
  * using cal_obj_uid_list_free().
  **/
@@ -3619,9 +3605,9 @@ cal_component_get_alarm_uids (CalComponent *comp)
  * cal_component_get_alarm:
  * @comp: A calendar component.
  * @auid: Unique identifier for the sought alarm subcomponent.
- * 
+ *
  * Queries a particular alarm subcomponent of a calendar component.
- * 
+ *
  * Return value: The alarm subcomponent that corresponds to the specified @auid,
  * or #NULL if no alarm exists with that UID.  This should be freed using
  * cal_component_alarm_free().
@@ -3643,21 +3629,15 @@ cal_component_get_alarm (CalComponent *comp, const char *auid)
 	alarm = g_hash_table_lookup (priv->alarm_uid_hash, auid);
 
 	if (alarm)
-		return make_alarm (comp, alarm);
+		return make_alarm (alarm);
 	else
 		return NULL;
-}
-
-void 
-cal_component_free_alarm_uids (GList *alarm_uids)
-{
-	g_list_foreach (alarm_uids, (GFunc)g_free, NULL);
 }
 
 /**
  * cal_component_alarms_free:
  * @alarms: Component alarms structure.
- * 
+ *
  * Frees a #CalComponentAlarms structure.
  **/
 void
@@ -3684,16 +3664,18 @@ cal_component_alarms_free (CalComponentAlarms *alarms)
 
 /**
  * cal_component_alarm_new:
-  * 
- * 
- * 
+ *
+ *
+ *
  * Return value: a new alarm component
  **/
 CalComponentAlarm *
 cal_component_alarm_new (void)
 {
-	CalComponentAlarm *alarm = g_new0 (CalComponentAlarm, 1);
+	CalComponentAlarm *alarm;
 	char *new_auid ;
+
+	alarm = g_new (CalComponentAlarm, 1);
 
 	alarm->icalcomp = icalcomponent_new (ICAL_VALARM_COMPONENT);
 
@@ -3702,16 +3684,39 @@ cal_component_alarm_new (void)
 	icalproperty_set_x_name (alarm->uid, EVOLUTION_ALARM_UID_PROPERTY);
 	icalcomponent_add_property (alarm->icalcomp, alarm->uid);
 	g_free (new_auid);
-	
+
+	alarm->action = NULL;
+	alarm->trigger = NULL;
+
 	return alarm;
+}
+
+/**
+ * cal_component_alarm_clone:
+ * @alarm: An alarm subcomponent.
+ * 
+ * Creates a new alarm subcomponent by copying the information from another one.
+ * 
+ * Return value: A newly-created alarm subcomponent with the same values as the
+ * original one.  Should be freed with cal_component_alarm_free().
+ **/
+CalComponentAlarm *
+cal_component_alarm_clone (CalComponentAlarm *alarm)
+{
+	icalcomponent *icalcomp;
+
+	g_return_val_if_fail (alarm != NULL, NULL);
+
+	icalcomp = icalcomponent_new_clone (alarm->icalcomp);
+	return make_alarm (icalcomp);
 }
 
 /**
  * cal_component_alarm_get_uid:
  * @alarm: An alarm subcomponent.
- * 
+ *
  * Queries the unique identifier of an alarm subcomponent.
- * 
+ *
  * Return value: UID of the alarm.
  **/
 const char *
@@ -4007,9 +4012,9 @@ cal_component_alarm_free (CalComponentAlarm *alarm)
 		icalcomponent_free (alarm->icalcomp);
 
 	alarm->icalcomp = NULL;
-
-	alarm->parent = NULL;
+	alarm->uid = NULL;
 	alarm->action = NULL;
+	alarm->trigger = NULL;
 
 	g_free (alarm);
 }

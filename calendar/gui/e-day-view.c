@@ -803,11 +803,11 @@ e_day_view_init (EDayView *day_view)
 	gtk_drag_dest_set (day_view->top_canvas,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,
-			   GDK_ACTION_COPY | GDK_ACTION_MOVE);
+			   GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
 	gtk_drag_dest_set (day_view->main_canvas,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,
-			   GDK_ACTION_COPY | GDK_ACTION_MOVE);
+			   GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
 }
 
 

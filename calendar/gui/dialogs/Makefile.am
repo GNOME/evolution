@@ -20,19 +20,30 @@ noinst_LIBRARIES = libcal-dialogs.a
 libcal_dialogs_a_SOURCES =	\
 	alarm-notify-dialog.c	\
 	alarm-notify-dialog.h	\
+	alarm-page.c		\
+	alarm-page.h		\
 	cal-prefs-dialog.c	\
 	cal-prefs-dialog.h	\
 	delete-comp.c		\
 	delete-comp.h		\
+	editor-page.c		\
+	editor-page.h		\
+	event-page.c		\
+	event-page.h		\
 	save-comp.c		\
 	save-comp.h		\
 	task-editor.c		\
 	task-editor.h
 
-glade_DATA =			\
-	alarm-notify.glade	\
-	cal-prefs-dialog.glade	\
-	task-editor-dialog.glade
+glade_DATA =				\
+	alarm-notify.glade		\
+	alarm-page.glade		\
+	cal-prefs-dialog.glade		\
+	event-page.glade		\
+	recurrence-page.glade		\
+	task-details-page.glade		\
+	task-editor-dialog.glade	\
+	task-page.glade
 
 EXTRA_DIST =			\
 	$(glade_DATA)

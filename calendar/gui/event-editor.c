@@ -1656,7 +1656,7 @@ fill_reminder_widgets (EventEditor *ee)
 		/* Add it to the clist */
 		append_reminder (ee, ca, EXISTING_ALARM);
 	}
-	cal_component_free_alarm_uids (alarms);
+	cal_obj_uid_list_free (alarms);
 }
 
 /* Fills in the recurrence widgets with the values from the calendar component.
