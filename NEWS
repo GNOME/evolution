@@ -34,6 +34,9 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #41579 - Double clicked on meeting in Exchange calendar, Evo crashed (Rodrigo)
     #40972 - connector crashed while evolution was idle (Rodrigo)
     #42220 - calendar not refreshing correctly after changing meeting times (Rodrigo)
+    #41935 - day view ignores scroll wheel (JP)
+    #43029 - When running under valgrind Evolution crashed while exiting (JP)
+    #41930 - Warning while running gdb includes: "Some clown returned undeclared exception" (JP)
 
   * Mail
 
@@ -77,6 +80,7 @@ Other bugs:
   * Calendar
 
     - Fixed crash in cal_client_discard_alarm (Rodrigo)
+    - Fixed Bonobo unrefing problems on components (JP)
 
   * Mail
 
