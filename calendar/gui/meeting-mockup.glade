@@ -442,7 +442,7 @@
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>label61</name>
-      <label>Meeting</label>
+      <label>_Meeting</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -474,7 +474,7 @@
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>label65</name>
-      <label>Attendees</label>
+      <label>Atten_dees</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>

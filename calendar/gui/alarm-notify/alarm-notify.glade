@@ -102,7 +102,7 @@
 	  <class>GtkButton</class>
 	  <name>close</name>
 	  <can_focus>True</can_focus>
-	  <label>Close</label>
+	  <label>C_lose</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
@@ -115,7 +115,7 @@
 	  <class>GtkButton</class>
 	  <name>snooze</name>
 	  <can_focus>True</can_focus>
-	  <label>Snooze</label>
+	  <label>Snoo_ze</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
@@ -128,7 +128,7 @@
 	  <class>GtkButton</class>
 	  <name>edit</name>
 	  <can_focus>True</can_focus>
-	  <label>Edit appointment</label>
+	  <label>_Edit appointment</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>

@@ -1,3 +1,13 @@
+2001-07-12  Taylor Hayward  <taylorhayward@yahoo.com>
+
+	* gui/goto-dialog.glade:
+	* gui/meeting-mockup.glade:
+	* gui/alarm-notifyålarm-notify.glade:
+	* gui/dialogs/alarm-page.glade:
+	* gui/dialogs/meeting-page.glade:
+	* gui/dialogs/recurrence-page.glade: Added missing underlined
+	shortcuts.
+
 2001-07-12  JP Rosevear  <jpr@ximian.com>
 	
 	* cal-util/cal-util.h: new proto
