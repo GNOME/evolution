@@ -472,7 +472,7 @@ setup_widgets (ETasks *tasks)
 			  G_CALLBACK (search_bar_sexp_changed_cb), tasks);
 	g_signal_connect (priv->search_bar, "category_changed",
 			  G_CALLBACK (search_bar_category_changed_cb), tasks);
-	config_categories_changed_cb (priv->config_listener, "/apps/evolution/general//category_master_list", tasks);
+	config_categories_changed_cb (priv->config_listener, "/apps/evolution/general/category_master_list", tasks);
 
 	gtk_table_attach (GTK_TABLE (tasks), priv->search_bar, 0, 1, 0, 1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK, 0, 0, 0);

@@ -1,5 +1,10 @@
 2005-01-28  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/e-tasks.c (setup_widgets):
+	* gui/gnome-cal.c (setup_widgets): use correct key name.
+
+2005-01-28  Rodrigo Moya <rodrigo@novell.com>
+
 	Fixes #33078
 
 	* gui/gnome-cal.c: deal now with categories entirely here, no more

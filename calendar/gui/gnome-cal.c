@@ -1221,7 +1221,7 @@ setup_widgets (GnomeCalendar *gcal)
 			  G_CALLBACK (search_bar_sexp_changed_cb), gcal);
 	g_signal_connect (priv->search_bar, "category_changed",
 			  G_CALLBACK (search_bar_category_changed_cb), gcal);
-	config_categories_changed_cb (priv->config_listener, "/apps/evolution/general//category_master_list", gcal);
+	config_categories_changed_cb (priv->config_listener, "/apps/evolution/general/category_master_list", gcal);
 
 	gtk_widget_show (priv->search_bar);
 	gtk_box_pack_start (GTK_BOX (gcal), priv->search_bar, FALSE, FALSE, 6);
