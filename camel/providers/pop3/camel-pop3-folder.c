@@ -222,12 +222,13 @@ pop3_refresh_info (CamelFolder *folder, CamelException *ex)
 	
 	if (pop3_store->supports_uidl == FALSE) {
 		uids = pop3_generate_uids (folder, count, ex);
-		
 		camel_operation_end (NULL);
+		if (!uids || camel_exception_is_set (ex))
+			return;
 	} else {
 		data = camel_pop3_command_get_additional_data (pop3_store, 0, ex);
-		camel_operation_end(NULL);
-		if (camel_exception_is_set (ex))
+		camel_operation_end (NULL);
+		if (!data || camel_exception_is_set (ex))
 			return;
 		
 		uids = parse_listing (count, data);
