@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-05-25 18:51+0200\n"
-"PO-Revision-Date: 2004-05-25 19:00+0200\n"
+"PO-Revision-Date: 2004-06-03 09:40+0200\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -12749,9 +12749,8 @@ msgid "Execute actions"
 msgstr "Esegui le azioni"
 
 #: filter/filter-rule.c:877
-#, fuzzy
 msgid "All related"
-msgstr "Delegato"
+msgstr "Tutti i relativi"
 
 #: filter/filter-rule.c:877
 msgid "Replies"
@@ -15414,14 +15413,10 @@ msgstr "La connessione al server \"{0}\" come \"{1}\" è fallita."
 
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
-#, fuzzy
 msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
-msgstr ""
-"Controllate se avete scritto correttamente la password. Ricordate che nelle "
-"password le maiuscole sono significative e potreste aver premuto il tasto "
-"delle maiuscole."
+msgstr "Controllate se avete scritto correttamente la password. Ricordate che nelle password le maiuscole sono significative e potreste aver premuto il tasto di blocco delle maiuscole."
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
@@ -15429,15 +15424,15 @@ msgid "Are you sure you want to send a message in HTML format?"
 msgstr "Sicuro di voler spedire un messaggio in formato HTML?"
 
 #: mail/mail-errors.xml.h:12
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
 "{0}\n"
 "Send anyway?"
 msgstr ""
-"Verificare che i seguenti destinatari vogliano e possano ricevere posta in "
-"formato HTML: {0} Spedire comunque?"
+"Verificare che i seguenti destinatari vogliano e possano ricevere posta in formato HTML:\n"
+"{0}\n"
+"Spedire comunque?"
 
 #: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
 #: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
@@ -15582,17 +15577,12 @@ msgid "Your message with the subject \"{0}\" was not delivered."
 msgstr "Il messaggio con oggetto \"{0}\" non è stato spedito."
 
 #: mail/mail-errors.xml.h:59
-#, fuzzy
 msgid ""
 "The message was sent via the \"sendmail\" external application.  Sendmail "
 "reports the following error: status 67: mail not sent.\n"
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
-msgstr ""
-"Il messaggio è stato spedito tramite il programma esterno \"sendmail\". "
-"Sendmail riporta il seguente errore: stato 67: posta non spedita. Il "
-"messaggio è memorizzato nella cartella di usita. Controllare il messaggio "
-"per eventuali errori e rispedirlo."
+msgstr "Il messaggio è stato spedito tramite il programma esterno \"sendmail\". Sendmail riporta il seguente errore: stato 67: posta non spedita. Il messaggio è memorizzato nella cartella di usita. Controllare il messaggio per eventuali errori e rispedirlo."
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
@@ -15850,12 +15840,8 @@ msgstr "Salvare le modifiche?"
 
 #. mail:ask-signature-changed secondary
 #: mail/mail-errors.xml.h:183
-#, fuzzy
 msgid "This signature has been changed, but has not been saved."
-msgstr ""
-"Questa firma è stata modificata, ma non è stata salvata\n"
-"\n"
-"Salvare le modifiche?"
+msgstr "Questa firma è stata modificata, ma non è stata salvata."
 
 #: mail/mail-errors.xml.h:184
 msgid "_Discard changes"
@@ -15863,9 +15849,8 @@ msgstr "Annulla i ca_mbiamenti"
 
 #. mail:vfolder-notexist primary
 #: mail/mail-errors.xml.h:186
-#, fuzzy
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr "La cartella `%s' non esiste."
+msgstr "Impossibile modificare la cartella virtuale \"{0}\" non esiste."
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:188
@@ -15887,7 +15872,6 @@ msgid "vFolders automatically updated."
 msgstr "Cartelle virtuali aggiornate automaticamente."
 
 #: mail/mail-errors.xml.h:196
-#, fuzzy
 msgid ""
 "The following vFolder(s):\n"
 "{0}\n"
@@ -15896,8 +15880,9 @@ msgid ""
 "And have been updated."
 msgstr ""
 "Le seguenti cartelle virtuali:\n"
-"%sUsavano la cartella:\n"
-"    '%s'\n"
+"{0}\n"
+"Usavano la cartella:\n"
+"    \"{1}\"\n"
 "che ora è stata rimossa, e quindi sono state aggiornate."
 
 #. mail:filter-updated primary
@@ -15906,7 +15891,6 @@ msgid "Mail filters automatically updated."
 msgstr "Filtri posta aggiornati automaticamente."
 
 #: mail/mail-errors.xml.h:204
-#, fuzzy
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -15914,8 +15898,11 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
-"I seguenti filtri: {0} usavano la cartella ora cancellata: \"{1}\" e sono "
-"stati aggiornati."
+"I seguenti filtri:\n"
+"{0}\n"
+"usavano la cartella \n"
+"    \"{1}\"\n"
+"ora cancellata e quindi sono stati aggiornati."
 
 #. mail:ask-migrate-existing primary
 #: mail/mail-errors.xml.h:210
@@ -15944,9 +15931,8 @@ msgid "_Overwrite"
 msgstr "S_ovrascrivi"
 
 #: mail/mail-errors.xml.h:218
-#, fuzzy
 msgid "_Append"
-msgstr "_Invia"
+msgstr "_Aggiungi"
 
 #: mail/mail-folder-cache.c:791
 #, c-format
@@ -15986,9 +15972,9 @@ msgid "Sending message %d of %d"
 msgstr "Invio del messaggio %d di %d"
 
 #: mail/mail-ops.c:703
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to send %d of %d messages"
-msgstr "Errore al messaggio %d di %d"
+msgstr "Fallita la spedizione di %d di %d messaggi"
 
 #: mail/mail-ops.c:707
 msgid "Complete."
@@ -16070,18 +16056,18 @@ msgid "Retrieving message %s"
 msgstr "Scaricamento del messaggio %s"
 
 #: mail/mail-ops.c:1763
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] "Ricezione di %d messaggio(i)"
-msgstr[1] "Ricezione di %d messaggio(i)"
+msgstr[0] "Ricezione di %d messaggio"
+msgstr[1] "Ricezione di %d messaggi"
 
 #: mail/mail-ops.c:1849
-#, fuzzy, c-format
+#, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
-msgstr[0] "Salvataggiodi %d messaggio(i)"
-msgstr[1] "Salvataggiodi %d messaggio(i)"
+msgstr[0] "Salvataggio di %d messaggio"
+msgstr[1] "Salvataggio di %d messaggi"
 
 #: mail/mail-ops.c:1899
 #, c-format
@@ -16222,11 +16208,9 @@ msgid "Name:"
 msgstr "Nome:"
 
 #: mail/mail-tools.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create spool directory `%s': %s"
-msgstr ""
-"Impossibile creare la directory `%s':\n"
-"%s"
+msgstr "Impossibile creare la directory di spool `%s': %s"
 
 #: mail/mail-tools.c:141
 #, c-format
@@ -16253,14 +16237,14 @@ msgid "Setting up vfolder: %s"
 msgstr "Impostazione cartella virtuale %s in corso"
 
 #: mail/mail-vfolder.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vFolders for '%s:%s'"
-msgstr "Aggiornamento cartella virtuale per %s in corso"
+msgstr "Aggiornamento cartelle virtuali per '%s:%s' in corso"
 
 #: mail/mail-vfolder.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vFolders for '%s'"
-msgstr "Aggiornamento cartella virtuale per %s in corso"
+msgstr "Aggiornamento cartelle virtuali per '%s' in corso"
 
 #: mail/mail-vfolder.c:958
 msgid "vFolders"
@@ -16419,9 +16403,8 @@ msgstr ""
 "Selezionare un'azione seguente dal menu \"Segnalazioni\"."
 
 #: mail/message-tags.glade.h:6
-#, fuzzy
 msgid "_Due By:"
-msgstr "Scadenza il:"
+msgstr "Sca_denza il:"
 
 #: mail/message-tags.glade.h:7
 msgid "_Flag:"
@@ -16514,14 +16497,13 @@ msgid "Brought to you by"
 msgstr "Sviluppato da"
 
 #: shell/e-shell.c:545 shell/e-shell.c:546
-#, fuzzy, c-format
+#, c-format
 msgid "%ld KB"
-msgstr "%d %B"
+msgstr "%ld KB"
 
 #: shell/e-shell.c:743
-#, fuzzy
 msgid "Uknown system error."
-msgstr "Errore sconosciuto"
+msgstr "Errore sconosciuto di sistema."
 
 #: shell/e-shell.c:1100
 msgid "Invalid arguments"
@@ -16562,9 +16544,8 @@ msgstr ""
 "in questo caso Evolution tenterà rilevarlo automaticamente."
 
 #: shell/e-shell-importer.c:155
-#, fuzzy
 msgid "Choose the destination for this import"
-msgstr "Annulla la riunione su questo argomento"
+msgstr "Scegliere la destinazione per questa importazione"
 
 #: shell/e-shell-importer.c:158 shell/e-shell-startup-wizard.c:748
 msgid "Please select the information that you would like to import:"
@@ -16605,9 +16586,9 @@ msgid "Importing"
 msgstr "Importazione"
 
 #: shell/e-shell-importer.c:467
-#, fuzzy, c-format
+#, c-format
 msgid "Importing %s.\n"
-msgstr "Importazione"
+msgstr "Importazione di %s.\n"
 
 #: shell/e-shell-importer.c:477 shell/e-shell-importer.c:478
 #, c-format
@@ -16665,14 +16646,13 @@ msgid "From %s:"
 msgstr "Da %s:"
 
 #: shell/e-shell-importer.c:1044
-#, fuzzy, c-format
+#, c-format
 msgid "No importer available for file %s"
-msgstr "Nessun fornitore disponibile per il protocollo `%s'"
+msgstr "Nessun importatore disponibile per il file %s"
 
 #: shell/e-shell-importer.c:1056
-#, fuzzy
 msgid "Unable to execute importer"
-msgstr "Esecuzione di gpg non riuscita."
+msgstr "Esecuzione dell'importatore non riuscita"
 
 #: shell/e-shell-importer.c:1169
 msgid "_Import"
@@ -16725,28 +16705,21 @@ msgid "'.' and '..' are reserved folder names."
 msgstr "I nomi di cartelle '.' e '..' sono riservati."
 
 #: shell/e-shell-window.c:336
-#, fuzzy
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr ""
-"Evolution di Ximian è in modalità in linea. Fare clic su questo tasto per "
-"lavorare non in linea."
+msgstr "Evolution è in modalità in linea. Fare clic su questo tasto per lavorare non in linea."
 
 #: shell/e-shell-window.c:343
-#, fuzzy
 msgid "Evolution is in the process of going offline."
-msgstr "Evolution di Ximian sta andando in modalità non in linea."
+msgstr "Evolution sta andando in modalità non in linea."
 
 #: shell/e-shell-window.c:349
-#, fuzzy
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr ""
-"Evolution di Ximian è attualmente in modalità non in linea. Fare clic su "
-"questo tasto per lavorare in linea."
+msgstr "Evolution è attualmente in modalità non in linea. Fare clic su questo tasto per lavorare in linea."
 
 #: shell/e-shell-window.c:621
-#, fuzzy, c-format
+#, c-format
 msgid "Switch to %s"
-msgstr "Posta a %s"
+msgstr "Passaggio a %s"
 
 #: shell/e-shell-window-commands.c:64
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -16766,9 +16739,8 @@ msgid "Bug buddy could not be run."
 msgstr "Bug buddy non può essere eseguito."
 
 #: shell/e-shell-window-commands.c:171
-#, fuzzy
 msgid "About Evolution"
-msgstr "Informazioni su Ximian Evolution"
+msgstr "Informazioni su Evolution"
 
 #: shell/e-shell-window-commands.c:382
 msgid "_Work Online"
@@ -16803,9 +16775,8 @@ msgid "Create a new test item"
 msgstr "Crea una nuova voce di test"
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
-#, fuzzy
 msgid "<b>Active Connections</b>"
-msgstr "Connessioni attive"
+msgstr "<b>Connessioni attive</b>"
 
 #: shell/glade/e-active-connection-dialog.glade.h:2
 msgid "Active Connections"
@@ -16816,29 +16787,24 @@ msgid "Click OK to close these connections and go offline"
 msgstr "Fare clic su OK per chiudere queste connessioni e disconnettersi"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:1
-#, fuzzy
 msgid "C_alendar:"
-msgstr "C_alendario"
+msgstr "C_alendario:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:2
-#, fuzzy
 msgid "_Contacts:"
-msgstr "Contatti: "
+msgstr "_Contatti:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:3
-#, fuzzy
 msgid "_Mail:"
-msgstr "Posta"
+msgstr "_Posta:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:4
-#, fuzzy
 msgid "_Tasks:"
-msgstr "_Attività"
+msgstr "_Attività:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
-#, fuzzy
 msgid "Folder _type:"
-msgstr "_Tipo di file:"
+msgstr "_Tipo di cartella:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:1
 #, fuzzy
@@ -16846,19 +16812,16 @@ msgid "Open Other User's Folder"
 msgstr "Cartella _messaggi inviati:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:2
-#, fuzzy
 msgid "_Account:"
-msgstr "Nome account:"
+msgstr "_Account:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:3
-#, fuzzy
 msgid "_Folder Name:"
-msgstr "Nome della cartella"
+msgstr "_Nome della cartella:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:4
-#, fuzzy
 msgid "_User:"
-msgstr "_Nome utente:"
+msgstr "_Utente:"
 
 #: shell/glade/evolution-startup-wizard.glade.h:2
 msgid "Evolution Setup Assistant"
@@ -16924,29 +16887,24 @@ msgid "Evolution Import Assistant"
 msgstr "Assistente all'importazione di Evolution"
 
 #: shell/importer/import.glade.h:3
-#, fuzzy
 msgid "Import File"
 msgstr "Importazione file"
 
 #: shell/importer/import.glade.h:4
-#, fuzzy
 msgid "Import Location"
-msgstr "Posizione"
+msgstr "Posizione importazione"
 
 #: shell/importer/import.glade.h:5
-#, fuzzy
 msgid "Importer Type"
-msgstr "Importatori"
+msgstr "Tipo di importatore"
 
 #: shell/importer/import.glade.h:6
-#, fuzzy
 msgid "Select Importers"
-msgstr "Seleziona importatore"
+msgstr "Selezione importatori"
 
 #: shell/importer/import.glade.h:7
-#, fuzzy
 msgid "Select a File"
-msgstr "Scegliere un file"
+msgstr "Seleziona un file"
 
 #: shell/importer/import.glade.h:8
 msgid ""
@@ -17015,13 +16973,12 @@ msgstr ""
 "ansia i Vostri contributi!\n"
 
 #: shell/main.c:255
-#, fuzzy
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
 "Grazie\n"
-"Il Gruppo Evolution di Ximian\n"
+"Il team di Evolution\n"
 
 #: shell/main.c:262
 msgid "Don't tell me again"
@@ -17110,16 +17067,14 @@ msgstr "Continua"
 #. shell:noshell title
 #. shell:noshell-reason title
 #: shell/shell-errors.xml.h:17 shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "Cannot start Evolution"
-msgstr "Impossibile inizializzare la shell di Ximian Evolution."
+msgstr "Impossibile eseguire Evolution"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
 #: shell/shell-errors.xml.h:19 shell/shell-errors.xml.h:27
-#, fuzzy
 msgid "Evolution can not start."
-msgstr "Guida agli account di Evolution"
+msgstr "Evolution non può essere eseguito."
 
 #: shell/shell-errors.xml.h:21
 msgid ""
@@ -17211,9 +17166,8 @@ msgstr ""
 "  Soggetto: %s\n"
 
 #: smime/gui/e-cert-selector.c:169
-#, fuzzy
 msgid "Select certificate"
-msgstr "Certificato del client SSL"
+msgstr "Seleziona certificato"
 
 #: smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
@@ -17742,9 +17696,8 @@ msgid "_Preview Pane"
 msgstr "_Anteprima"
 
 #: ui/evolution-addressbook.xml.h:41
-#, fuzzy
 msgid "_Save as VCard..."
-msgstr "_Salva come VCard"
+msgstr "_Salva come VCard..."
 
 #: ui/evolution-addressbook.xml.h:42
 msgid "_Select All"
@@ -18211,7 +18164,6 @@ msgid "_Close"
 msgstr "_Chiudi"
 
 #: ui/evolution-mail-message.xml.h:1
-#, fuzzy
 msgid "A_dd Sender to Address Book"
 msgstr "Aggiungi mittente alla _rubrica"
 
@@ -18220,7 +18172,6 @@ msgid "A_pply Filters"
 msgstr "A_pplica filtri"
 
 #: ui/evolution-mail-message.xml.h:3
-#, fuzzy
 msgid "Add Sender to Address Book"
 msgstr "Aggiungi mittente alla rubrica"
 
@@ -18323,7 +18274,7 @@ msgstr "In_oltra a..."
 #: ui/evolution-mail-message.xml.h:33
 #, fuzzy
 msgid "Filter _Junk"
-msgstr "Regole dei filtri"
+msgstr "Filtra posta _indesiderata"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
@@ -18344,11 +18295,12 @@ msgstr "Filtra sull'_oggetto..."
 #: ui/evolution-mail-message.xml.h:38
 #, fuzzy
 msgid "Filter the selected messages for junk status"
-msgstr "Segna i messaggi selezionati come da cestinare"
+msgstr "Segna i messaggi selezionati come indesiderati"
 
 #: ui/evolution-mail-message.xml.h:39
+#, fuzzy
 msgid "Flag selected message(s) for follow-up"
-msgstr "Segnala messaggio(i) selezionato(i) come seguente"
+msgstr "Segnala messaggi selezionati come seguenti"
 
 #: ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
@@ -18451,10 +18403,8 @@ msgid "Open the selected message in a new window"
 msgstr "Apre il messaggio selezionato in una nuova finestra"
 
 #: ui/evolution-mail-message.xml.h:71
-#, fuzzy
 msgid "Open the selected message in the composer for editing"
-msgstr ""
-"Apre il messaggio selezionato in una finestra di composizione per rinviarlo"
+msgstr "Apre il messaggio selezionato in una finestra per la modifica"
 
 #: ui/evolution-mail-message.xml.h:72
 msgid "Original Si_ze"
@@ -18914,9 +18864,8 @@ msgid "Change Evolution's settings"
 msgstr "Cambia le impostazioni di Evolution"
 
 #: ui/evolution.xml.h:5
-#, fuzzy
 msgid "Create a new window displaying this folder"
-msgstr "Crea un nuovo calendario"
+msgstr "Crea un nuova finestra che visualizza questa cartella"
 
 #: ui/evolution.xml.h:6
 msgid "E_xit"
@@ -18940,9 +18889,8 @@ msgid "Import data from other programs"
 msgstr "Importare dati da altre applicazioni"
 
 #: ui/evolution.xml.h:12
-#, fuzzy
 msgid "New _Window"
-msgstr "_Finestra"
+msgstr "Nuova _finestra"
 
 #: ui/evolution.xml.h:13
 msgid "Pi_lot Settings..."
@@ -19001,16 +18949,14 @@ msgid "_New"
 msgstr "_Nuovo"
 
 #: ui/evolution.xml.h:31
-#, fuzzy
 msgid "_Quick Reference"
-msgstr "Preferenze di posta"
+msgstr "Preferenze _veloci"
 
 #: ui/evolution.xml.h:32
 msgid "_Send / Receive"
 msgstr "_Invia / ricevi"
 
 #: ui/evolution.xml.h:36
-#, fuzzy
 msgid "_Window"
 msgstr "_Finestra"
 
@@ -19035,9 +18981,8 @@ msgid "_Day View"
 msgstr "Vista giornaliera"
 
 #: views/calendar/galview.xml.h:3
-#, fuzzy
 msgid "_List View"
-msgstr "Vista elenco"
+msgstr "Vista e_lenco"
 
 #: views/calendar/galview.xml.h:4
 msgid "_Month View"
@@ -19072,14 +19017,12 @@ msgid "_Messages"
 msgstr "_Messaggi"
 
 #: views/tasks/galview.xml.h:1
-#, fuzzy
 msgid "With _Due Date"
-msgstr "Sca_denza:"
+msgstr "Con sca_denza"
 
 #: views/tasks/galview.xml.h:2
-#, fuzzy
 msgid "With _Status"
-msgstr "Imposta _stato"
+msgstr "Con _stato"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:197
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:635
@@ -19087,14 +19030,12 @@ msgid "UTC"
 msgstr "UTC"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
-#, fuzzy
 msgid "<b>Time Zones</b>"
-msgstr "Fuso orario"
+msgstr "<b>Fusi orari</b>"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
-#, fuzzy
 msgid "<b>_Selection</b>"
-msgstr "_Selezione:"
+msgstr "<b>_Selezione</b>"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "Select a Time Zone"
@@ -19196,9 +19137,8 @@ msgid "Western European"
 msgstr "Europeo occidentale"
 
 #: widgets/misc/e-charset-picker.c:74
-#, fuzzy
 msgid "Western European, New"
-msgstr "Europeo occidentale"
+msgstr "Europeo occidentale, nuovo"
 
 #: widgets/misc/e-charset-picker.c:91 widgets/misc/e-charset-picker.c:92
 #: widgets/misc/e-charset-picker.c:93
@@ -19241,20 +19181,17 @@ msgstr "..."
 
 #: widgets/misc/e-error.c:79 widgets/misc/e-error.c:80
 #: widgets/misc/e-error.c:122
-#, fuzzy
 msgid "Evolution Error"
-msgstr "Evolution"
+msgstr "Errore di Evolution"
 
 #: widgets/misc/e-error.c:81 widgets/misc/e-error.c:82
 #: widgets/misc/e-error.c:120
-#, fuzzy
 msgid "Evolution Warning"
-msgstr "Posta di Evolution"
+msgstr "Avvertimento di Evolution"
 
 #: widgets/misc/e-error.c:119
-#, fuzzy
 msgid "Evolution Information"
-msgstr "Dettagli della riunione"
+msgstr "Informazione di Evolution"
 
 #: widgets/misc/e-error.c:121
 msgid "Evolution Query"
