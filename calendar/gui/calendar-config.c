@@ -554,14 +554,13 @@ calendar_config_configure_e_calendar	(ECalendar	*cal)
 
 
 /* This sets all the common config settings for an EDateEdit widget.
-   These are the week start day, whether we show week numbers, whether we
-   use 24 hour format, and the hours of the working day to use in the time
-   popup. */
+   These are the week start day, whether we show week numbers, and whether we
+   use 24 hour format. */
 void
 calendar_config_configure_e_date_edit	(EDateEdit	*dedit)
 {
 	gboolean dnav_show_week_no, use_24_hour;
-	gint week_start_day, start_hour, end_hour;
+	gint week_start_day;
 
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
@@ -575,16 +574,9 @@ calendar_config_configure_e_date_edit	(EDateEdit	*dedit)
 
 	use_24_hour = calendar_config_get_24_hour_format ();
 
-	start_hour = calendar_config_get_day_start_hour ();
-	end_hour = calendar_config_get_day_end_hour ();
-	/* Round up the end hour. */
-	if (calendar_config_get_day_end_minute () != 0)
-		end_hour = end_hour + 1 % 24;
-
 	e_date_edit_set_week_start_day (dedit, week_start_day);
 	e_date_edit_set_show_week_numbers (dedit, dnav_show_week_no);
 	e_date_edit_set_use_24_hour_format (dedit, use_24_hour);
-	e_date_edit_set_time_popup_range (dedit, start_hour, end_hour);
 }
 
 

@@ -232,7 +232,7 @@
 		<class>GtkRadioButton</class>
 		<name>use_12_hour</name>
 		<can_focus>True</can_focus>
-		<label>_12 hour (am/pm)</label>
+		<label>_12 hour (AM/PM)</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<group>time_format_group</group>

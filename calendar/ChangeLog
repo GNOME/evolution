@@ -1,3 +1,13 @@
+2001-08-16  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/calendar-config.c (calendar_config_configure_e_date_edit):
+	Do not set the time popup range.  We also want to be able to
+	create appointments that are not within nine-to-five!  Think of
+	going to the movies!  Fixes bug #7436.
+
+	* gui/dialogs/cal-prefs-dialog.glade: "am/pm" is now "AM/PM".
+	Fixes bug #7367.
+
 2001-08-16  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/cal-search-bar.c: Changed to reflect my renaming of some of
