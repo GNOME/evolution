@@ -57,9 +57,10 @@ EOF
 
 AC_DEFUN([GNOME_INIT_OBJC],
 [
-        AC_MSG_CHECKING(for obGnomeConf.sh file in $gnome_prefix)
-	if test -f $gnome_prefix/obGnomeConf.sh; then
-	    . $gnome_prefix/obGnomeConf.sh
+	AC_MSG_CHECKING(for an obGnomeConf.sh)
+	my_gnome_prefix=`$GNOME_CONFIG --prefix`
+	if test -f $my_gnome_prefix/obGnomeConf.sh; then
+	    . $my_gnome_prefix/obGnomeConf.sh
 	    AC_MSG_RESULT(found)
 	else
 	    AC_MSG_RESULT(not found)
