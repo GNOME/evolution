@@ -1,3 +1,12 @@
+1999-04-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gncal-todo.c (edit_activated): Kill all grabs from the CList
+	before running the new dialog box.  
+
+	This fixes the problem of button-3/Edit on the todo item blocking
+	the GUI (actually, the main window responds, but not the todo
+	window). 
+
 1999-04-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gncal-todo.c (gncal_todo_init): Make sure we can get events for

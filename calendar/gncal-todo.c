@@ -264,6 +264,11 @@ add_activated (GtkWidget *widget, GncalTodo *todo)
 static void
 edit_activated (GtkWidget *widget, GncalTodo *todo)
 {
+	GtkWidget *w;
+
+	while ((w = gtk_grab_get_current ()) != NULL)
+		gtk_grab_remove (w);
+	
 	edit_todo (todo);
 }
 
