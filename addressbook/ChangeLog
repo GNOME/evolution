@@ -1,5 +1,10 @@
 2001-11-28  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/contact-editor/e-contact-editor-address.c (setup_tab_order):
+	Setup the tab order here.  Fixes Ximian bug #13751.
+
+2001-11-28  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/addressbook.c (connect_master_list_changed,
 	make_suboptions): Changed how this list of categories gets
 	computed.  Fixes Ximian bugs #7707 and #7708.
