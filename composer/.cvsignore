@@ -13,3 +13,5 @@ Editor.h
 Makefile
 Makefile.in
 mail-composer-errors.xml
+composer-marshal.c
+composer-marshal.h
