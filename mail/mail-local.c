@@ -707,6 +707,7 @@ cleanup_register_folder (gpointer in_data, gpointer op_data,
 			 CamelException *ex)
 {
 	MailLocalFolder *local_folder = in_data;
+	int unread;
 
 	if (!local_folder->folder) {
 		g_free (local_folder);
@@ -720,8 +721,10 @@ cleanup_register_folder (gpointer in_data, gpointer op_data,
 	camel_object_hook_event (CAMEL_OBJECT (local_folder->folder),
 				 "folder_changed", local_folder_changed_proxy,
 				 local_folder);
+	unread = local_folder->last_unread;
+	local_folder->last_unread = 0;
 	local_folder_changed (CAMEL_OBJECT (local_folder->folder),
-			      NULL, local_folder);
+			      GINT_TO_POINTER (unread), local_folder);
 }
 
 static const mail_operation_spec op_register_folder =
