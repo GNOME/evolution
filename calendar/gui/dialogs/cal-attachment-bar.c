@@ -534,17 +534,14 @@ destroy (GtkObject *object)
 	
 	if (bar->priv) {
 		free_attachment_list (bar);
+		if (bar->priv->local_attachment_store)
+			g_free (bar->priv->local_attachment_store);
+		if (bar->priv->comp_uid)
+			g_free (bar->priv->comp_uid);
 		g_free (bar->priv);
 		bar->priv = NULL;
 	}
-	
-	/* TODO leaking this here to prevent a crash */
-	/*
-	if (bar->priv->local_attachment_store)
-		g_free (bar->priv->local_attachment_store);
-	if (bar->priv->comp_uid)
-		g_free (bar->priv->comp_uid);
-	*/
+
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
