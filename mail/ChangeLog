@@ -1,3 +1,12 @@
+2004-01-19  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.c (emfv_on_url_cb): properly decode the mailto
+	url rather than treating it as a simple string.
+
+	* em-format-html.c (efh_format_address): if we have a name part,
+	add it to the mailto part.  As per rfc2368.  So it isn't lost for
+	clicking/etc.
+
 2004-01-16  JP Rosevear <jpr@ximian.com>
 
 	* em-format-html-display.c (efhd_bonobo_object): pass in an

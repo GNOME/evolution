@@ -1467,10 +1467,19 @@ efh_format_address (GString *out, struct _camel_header_address *a)
 		
 		switch (a->type) {
 		case CAMEL_HEADER_ADDRESS_NAME:
-			if (name && *name)
+			if (name && *name) {
+				char *real, *mailaddr;
+
 				g_string_append_printf (out, "%s &lt;", name);
-			
-			mailto = camel_url_encode (a->v.addr, "");
+				/* rfc2368 for mailto syntax and url encoding extras */
+				real = camel_header_encode_phrase(a->name);
+				mailaddr = g_strdup_printf("%s <%s>", real, a->v.addr);
+				g_free(real);
+				mailto = camel_url_encode(mailaddr, "?=&()");
+				g_free(mailaddr);
+			} else {
+				mailto = camel_url_encode (a->v.addr, "?=&()");
+			}
 			addr = camel_text_to_html (a->v.addr, flags, 0);
 			g_string_append_printf (out, "<a href=\"mailto:%s\">%s</a>", mailto, addr);
 			g_free (mailto);

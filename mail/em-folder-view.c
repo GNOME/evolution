@@ -2121,9 +2121,19 @@ emfv_on_url_cb (GObject *emitter, const char *url, EMFolderView *emfv)
 	char *nice_url = NULL;
 
 	if (url) {
-		if (strncmp (url, "mailto:", 7) == 0)
-			nice_url = g_strdup_printf (_("Click to mail %s"), url + 7);
-		else
+		if (strncmp (url, "mailto:", 7) == 0) {
+			CamelInternetAddress *cia = camel_internet_address_new();
+			CamelURL *curl;
+			char *addr;
+
+			curl = camel_url_new(url, NULL);
+			camel_address_decode((CamelAddress *)cia, curl->path);
+			addr = camel_address_format((CamelAddress *)cia);
+			nice_url = g_strdup_printf (_("Click to mail %s"), addr&&addr[0]?addr:(url + 7));
+			g_free(addr);
+			camel_url_free(curl);
+			camel_object_unref(cia);
+		} else
 			nice_url = g_strdup_printf (_("Click to open %s"), url);
 	}
 	
