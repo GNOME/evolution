@@ -1226,7 +1226,7 @@ message_list_construct (MessageList *message_list)
 	
 	message_list->tree = e_tree_scrolled_get_tree(E_TREE_SCROLLED (message_list));
 	e_tree_root_node_set_visible (message_list->tree, FALSE);
-	
+
 	gtk_signal_connect (GTK_OBJECT (message_list->tree), "cursor_activated",
 			    GTK_SIGNAL_FUNC (on_cursor_activated_cmd),
 			    message_list);
@@ -1969,12 +1969,19 @@ static gboolean
 on_cursor_activated_idle (gpointer data)
 {
 	MessageList *message_list = data;
+	ESelectionModel *esm = e_tree_get_selection_model (message_list->tree);
+	gint selected = e_selection_model_selected_count (esm);
 
-	printf("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid);
-	gtk_signal_emit(GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED], message_list->cursor_uid);
+	if (selected > 1) {
+		return TRUE;
+	} else {
+		printf ("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid);
+		gtk_signal_emit (GTK_OBJECT (message_list),
+				 message_list_signals[MESSAGE_SELECTED], message_list->cursor_uid);
 
-	message_list->idle_id = 0;
-	return FALSE;
+		message_list->idle_id = 0;
+		return FALSE;
+	}
 }
 
 static void

@@ -1,3 +1,14 @@
+2001-08-10  Jason Leach  <jleach@ximian.com>
+
+	* mail-callbacks.c (next_unread_msg): Since 'N' keypresses go
+	through here now, use wrap-around selecting.
+	(previous_unread_msg): Same for 'P' here.
+
+	* message-list.c (on_cursor_activated_idle): Stop this idle timer
+	when we have multiple items selected, this keeps it from loading
+	and then marking the last item in your selection list as read.
+	Bug #4693.
+
 2001-08-10  Peter Williams  <peterw@ximian.com>
 
 	* mail-accounts.c (mail_delete): Don't remove the account from the

@@ -1601,7 +1601,7 @@ next_unread_msg (GtkWidget *button, gpointer user_data)
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
 			     MESSAGE_LIST_SELECT_NEXT,
-			     0, CAMEL_MESSAGE_SEEN, FALSE);
+			     0, CAMEL_MESSAGE_SEEN, TRUE);
 }
 
 void
@@ -1649,7 +1649,7 @@ previous_flagged_msg (GtkWidget *button, gpointer user_data)
 	row = e_tree_row_of_node (fb->message_list->tree, e_tree_get_cursor (fb->message_list->tree));
 	message_list_select (fb->message_list, row,
 			     MESSAGE_LIST_SELECT_PREVIOUS,
-			     CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED, FALSE);
+			     CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED, TRUE);
 }
 
 struct _expunged_folder_data {
