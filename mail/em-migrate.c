@@ -1485,7 +1485,7 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 	
 	/* get old store & folder */
 	path = g_strdup_printf ("%s/local-metadata.xml", dirname);
-	if (!(uri = get_local_store_uri (dirname, path, &name, &index, &thread_list, &ex))) {
+	if (!(uri = get_local_store_uri (dirname, path, &name, &index, &ex))) {
 		g_warning ("error opening old store for `%s': %s", full_name, ex.desc);
 		camel_exception_clear (&ex);
 		g_free (path);
@@ -1551,14 +1551,14 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 				goto cmeta_err;
 			
 			/* write the meta count */
-			if (camel_file_util_encode_uint32 (fp, threaded != -1 ? 1 : 0) == -1)
+			if (camel_file_util_encode_uint32 (fp, thread_list != -1 ? 1 : 0) == -1)
 				goto cmeta_err;
 			
-			if (threaded != -1) {
+			if (thread_list != -1) {
 				if (camel_file_util_encode_string (fp, "evolution:thread_list") == -1)
 					goto cmeta_err;
 				
-				if (camel_file_util_encode_string (fp, threaded ? "1" : "0") == -1)
+				if (camel_file_util_encode_string (fp, thread_list ? "1" : "0") == -1)
 					goto cmeta_err;
 			}
 			
