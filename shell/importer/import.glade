@@ -32,7 +32,7 @@ importing external files into Evolution.</property>
       <child>
 	<widget class="GnomeDruidPageStandard" id="page1">
 	  <property name="visible">True</property>
-	  <property name="title" translatable="yes">Importer Type (step 1 of 3)</property>
+	  <property name="title" translatable="yes">Importer Type</property>
 	  <property name="logo">import.png</property>
 
 	  <child internal-child="vbox">
@@ -53,7 +53,7 @@ importing external files into Evolution.</property>
       <child>
 	<widget class="GnomeDruidPageStandard" id="page2-file">
 	  <property name="visible">True</property>
-	  <property name="title" translatable="yes">Select a File (step 2 of 3)</property>
+	  <property name="title" translatable="yes">Select a File</property>
 	  <property name="logo">import.png</property>
 
 	  <child internal-child="vbox">
@@ -74,7 +74,7 @@ importing external files into Evolution.</property>
       <child>
 	<widget class="GnomeDruidPageStandard" id="page3-file">
 	  <property name="visible">True</property>
-	  <property name="title" translatable="yes">Import to...</property>
+	  <property name="title" translatable="yes">Import Location</property>
 	  <property name="logo">import.png</property>
 
 	  <child internal-child="vbox">
@@ -95,7 +95,7 @@ importing external files into Evolution.</property>
       <child>
 	<widget class="GnomeDruidPageStandard" id="page2-intelligent">
 	  <property name="visible">True</property>
-	  <property name="title" translatable="yes">Select Importers (step 2 of 3)</property>
+	  <property name="title" translatable="yes">Select Importers</property>
 	  <property name="logo">import.png</property>
 
 	  <child internal-child="vbox">
@@ -117,7 +117,7 @@ importing external files into Evolution.</property>
 	<widget class="GnomeDruidPageEdge" id="page4">
 	  <property name="visible">True</property>
 	  <property name="position">GNOME_EDGE_FINISH</property>
-	  <property name="title" translatable="yes">Import File (step 3 of 3)</property>
+	  <property name="title" translatable="yes">Import File</property>
 	  <property name="text" translatable="yes">Click &quot;Import&quot; to begin importing the file into Evolution. </property>
 	</widget>
       </child>
