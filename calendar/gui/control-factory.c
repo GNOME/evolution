@@ -93,6 +93,9 @@ get_prop (BonoboPropertyBag *bag,
 		case GNOME_CAL_MONTH_VIEW:
 			BONOBO_ARG_SET_STRING (arg, "month");
 			break;
+		case GNOME_CAL_LIST_VIEW:
+			BONOBO_ARG_SET_STRING (arg, "list");
+			break;
 		}
 		break;
 

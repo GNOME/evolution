@@ -1,3 +1,43 @@
+2003-10-10  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/Makefile.am (etspec_DATA): Add e-cal-list-view.etspec.
+	(libevolution_calendar_la_SOURCES): Add e-cal-list-view.[ch].
+
+	* gui/calendar-commands.c (show_list_view_clicked): Implement.
+	(calendar_get_text_for_folder_bar_label): Add case for list view.
+	Use month case and tweak it so it doesn't show "%d - %d" if the
+	time span contains only one day.
+	(verbs): Add list view.
+	(pixmaps): Add list view.
+
+	* gui/calendar-view-factory.c (calendar_view_factory_get_title):
+	Add list view case.
+	(calendar_view_factory_get_type_code): Add list view case.
+
+	* gui/control-factory.c (get_prop): Add list view case.
+
+	* gui/e-cal-model.c (get_classification): Fix to conform to updated
+	libical.
+	(ecm_set_value_at): Add missing break statements.
+	(ecm_get_color_for_component): Add braces for clarity.
+
+	* gui/gnome-cal.c (gnome_calendar_get_current_view_widget): Add
+	list view case.
+	(get_focus_location): Add list view case.
+	(connect_list_view_focus): Implement.
+	(setup_widgets): Set up list view.
+	(gnome_calendar_direction): Add list view case.
+	(set_view): Add list view case.
+	(gnome_calendar_setup_view_menus): Add list view factory.
+	(gnome_calendar_construct): Account for list view.
+	(gnome_calendar_update_config_settings): Account for list view.
+	(get_days_shown): Implement list view case.
+
+	* gui/gnome-cal.h (GnomeCalendarViewType): Add list view.
+
+	* gui/e-cal-list-view.[ch]: Implement ECalListView, subclassing
+	ECalView.
+
 2003-10-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* cal-client/Makefile.am: INCLUDE path fixes for changes made to

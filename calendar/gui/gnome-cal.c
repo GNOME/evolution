@@ -48,6 +48,7 @@
 #include "e-day-view.h"
 #include "e-day-view-time-item.h"
 #include "e-week-view.h"
+#include "e-cal-list-view.h"
 #include "evolution-calendar.h"
 #include "gnome-cal.h"
 #include "calendar-component.h"
@@ -108,6 +109,7 @@ struct _GnomeCalendarPrivate {
 	GtkWidget   *work_week_view;
 	GtkWidget   *week_view;
 	GtkWidget   *month_view;
+	GtkWidget   *list_view;
 
 	/* Calendar query for the date navigator */
 	GList       *dn_queries; /* list of CalQueries */
@@ -452,7 +454,7 @@ dn_query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 	fprintf (stderr, "eval error: %s\n", error_str);
 }
 
-/* Returns the current view widget, a EDayView or EWeekView. */
+/* Returns the current view widget, an EDayView, EWeekView or ECalListView. */
 GtkWidget*
 gnome_calendar_get_current_view_widget (GnomeCalendar *gcal)
 {
@@ -473,6 +475,9 @@ gnome_calendar_get_current_view_widget (GnomeCalendar *gcal)
 		break;
 	case GNOME_CAL_MONTH_VIEW:
 		retval = priv->month_view;
+		break;
+	case GNOME_CAL_LIST_VIEW:
+		retval = priv->list_view;
 		break;
 	default:
 		g_assert_not_reached ();
@@ -500,6 +505,7 @@ get_focus_location (GnomeCalendar *gcal)
 		GtkWidget *widget;
 		EDayView *dv;
 		EWeekView *wv;
+		ECalListView *lv;
 
 		widget = gnome_calendar_get_current_view_widget (gcal);
 
@@ -519,6 +525,14 @@ get_focus_location (GnomeCalendar *gcal)
 			wv = E_WEEK_VIEW (widget);
 
 			if (GTK_WIDGET_HAS_FOCUS (wv->main_canvas))
+				return FOCUS_CALENDAR;
+			else
+				return FOCUS_OTHER;
+
+		case GNOME_CAL_LIST_VIEW:
+			lv = E_CAL_LIST_VIEW (widget);
+
+			if (GTK_WIDGET_HAS_FOCUS (e_table_scrolled_get_table (lv->table_scrolled)))
 				return FOCUS_CALENDAR;
 			else
 				return FOCUS_OTHER;
@@ -808,6 +822,15 @@ connect_week_view_focus (GnomeCalendar *gcal, EWeekView *wv)
 			  G_CALLBACK (calendar_focus_change_cb), gcal);
 }
 
+static void
+connect_list_view_focus (GnomeCalendar *gcal, ECalListView *lv)
+{
+	g_signal_connect (lv, "focus_in_event",
+			  G_CALLBACK (calendar_focus_change_cb), gcal);
+	g_signal_connect (lv, "focus_out_event",
+			  G_CALLBACK (calendar_focus_change_cb), gcal);
+}
+
 /* Callback used when the selection in the taskpad table changes.  We just proxy
  * the signal with our own one.
  */
@@ -953,14 +976,26 @@ setup_widgets (GnomeCalendar *gcal)
 
 	connect_week_view_focus (gcal, E_WEEK_VIEW (priv->month_view));
 
+	/* The List View. */
+	filename = g_strdup_printf ("%s/config/CalListView", evolution_dir);
+	priv->list_view = e_cal_list_view_new (filename);
+	g_free (filename);
+
+	e_cal_view_set_calendar (E_CAL_VIEW (priv->list_view), gcal);
+	gtk_widget_show (priv->list_view);
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
+				  priv->list_view, gtk_label_new (""));
+
+	connect_list_view_focus (gcal, E_CAL_LIST_VIEW (priv->list_view));
+
 	model = (ECalModel *) e_cal_model_calendar_new ();
 	e_cal_view_set_model (E_CAL_VIEW (priv->day_view), model);
 	e_cal_view_set_model (E_CAL_VIEW (priv->work_week_view), model);
 	e_cal_view_set_model (E_CAL_VIEW (priv->week_view), model);
 	e_cal_view_set_model (E_CAL_VIEW (priv->month_view), model);
+	e_cal_view_set_model (E_CAL_VIEW (priv->list_view), model);
 
 	g_object_unref (model);
-
 	gnome_calendar_update_config_settings (gcal, TRUE);
 }
 
@@ -1265,6 +1300,8 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 						    priv->zone);
 		break;
 
+	case GNOME_CAL_LIST_VIEW:
+		g_warning ("Using month view time interval for list view.");
 	case GNOME_CAL_MONTH_VIEW:
 		start_time = time_add_month_with_zone (start_time, direction,
 						       priv->zone);
@@ -1415,6 +1452,11 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 		round_selection = TRUE;
 		break;
 
+	case GNOME_CAL_LIST_VIEW:
+		view_id = "List_View";
+		focus_widget = priv->list_view;
+		break;
+
 	default:
 		g_warning ("A penguin is loose!");
 		g_assert_not_reached ();
@@ -1547,6 +1589,10 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 		g_object_unref (factory);
 
 		factory = calendar_view_factory_new (GNOME_CAL_MONTH_VIEW);
+		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (factory));
+		g_object_unref (factory);
+
+		factory = calendar_view_factory_new (GNOME_CAL_LIST_VIEW);
 		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (factory));
 		g_object_unref (factory);
 
@@ -1965,7 +2011,7 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 
 	/* Get the default view to show. */
 	view_type = calendar_config_get_default_view ();
-	if (view_type < GNOME_CAL_DAY_VIEW || view_type > GNOME_CAL_MONTH_VIEW)
+	if (view_type < GNOME_CAL_DAY_VIEW || view_type > GNOME_CAL_LIST_VIEW)
 		view_type = GNOME_CAL_DAY_VIEW;
 
 	gnome_calendar_set_view (gcal, view_type, FALSE, FALSE);
@@ -2278,6 +2324,7 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	e_cal_view_set_timezone (E_CAL_VIEW (priv->work_week_view), priv->zone);
 	e_cal_view_set_timezone (E_CAL_VIEW (priv->week_view), priv->zone);
 	e_cal_view_set_timezone (E_CAL_VIEW (priv->month_view), priv->zone);
+	e_cal_view_set_timezone (E_CAL_VIEW (priv->list_view), priv->zone);
 
 	if (initializing) {
 		priv->hpane_pos = calendar_config_get_hpane_pos ();
@@ -2592,6 +2639,18 @@ get_days_shown (GnomeCalendar *gcal, GDate *start_date, gint *days_shown)
 		else
 			*days_shown = 7;
 
+		break;
+
+	case GNOME_CAL_LIST_VIEW:
+		if (!e_cal_list_view_get_range_shown (E_CAL_LIST_VIEW (priv->list_view),
+						      start_date, days_shown)) {
+			/* No valid items in list */
+			time_to_gdate_with_zone (start_date, time (NULL), priv->zone);
+			*days_shown = 1;
+		}
+		else if (*days_shown < 1) {
+			*days_shown = 1;
+		}
 		break;
 
 	default:

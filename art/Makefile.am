@@ -183,6 +183,7 @@ buttons_DATA = 				\
 	fetch-mail.png			\
 	forward.png			\
 	goto-24.png  			\
+	listview.xpm			\
 	monthview.xpm  			\
 	move-message.png		\
 	next-message.png		\

@@ -126,6 +126,9 @@ calendar_view_factory_get_title (GalViewFactory *factory)
 	case GNOME_CAL_MONTH_VIEW:
 		return _("Month View");
 
+	case GNOME_CAL_LIST_VIEW:
+		return _("List View");
+
 	default:
 		g_assert_not_reached ();
 		return NULL;
@@ -154,6 +157,9 @@ calendar_view_factory_get_type_code (GalViewFactory *factory)
 
 	case GNOME_CAL_MONTH_VIEW:
 		return "month_view";
+
+	case GNOME_CAL_LIST_VIEW:
+		return "list_view";
 
 	default:
 		g_assert_not_reached ();

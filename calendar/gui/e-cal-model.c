@@ -272,13 +272,28 @@ static char *
 get_classification (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
+	icalproperty_class class;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CLASS_PROPERTY);
 
-	if (prop)
-		return (char *) icalproperty_get_class (prop);
+	if (!prop)
+		return _("Public");
 
-	return _("Public");
+	class = icalproperty_get_class (prop);
+
+	switch (class)
+	{
+	case ICAL_CLASS_PUBLIC:
+		return _("Public");
+	case ICAL_CLASS_PRIVATE:
+		return _("Private");
+	case ICAL_CLASS_CONFIDENTIAL:
+		return _("Confidential");
+	default:
+		return _("Unknown");
+	}
+
+	return _("Unknown");
 }
 
 static const char *
@@ -579,14 +594,19 @@ ecm_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :
 		set_categories (comp_data, value);
+		break;
 	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 		set_classification (comp_data, value);
+		break;
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 		set_description (comp_data, value);
+		break;
 	case E_CAL_MODEL_FIELD_DTSTART :
 		set_dtstart (model, comp_data, value);
+		break;
 	case E_CAL_MODEL_FIELD_SUMMARY :
 		set_summary (comp_data, value);
+		break;
 	}
 
 	if (cal_client_update_objects (comp_data->client, comp_data->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
@@ -858,7 +878,9 @@ ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 		for (l = assigned_colors[i].uris; l != NULL; l = l->next) {
 			if (!strcmp ((const char *) l->data,
 				     cal_client_get_uri (comp_data->client)))
+			{
 				return assigned_colors[i].color;
+			}
 		}
 	}
 

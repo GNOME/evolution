@@ -1,3 +1,7 @@
+2003-10-10  Hans Petter Jansson  <hpj@ximian.com>
+
+	* evolution-calendar.xml: Add calendar list view task button.
+
 2003-10-02  Rodney Dawes  <dobey@ximian.com>
 
 	* evolution-mail-message.xml: Patch to use Control-L for "Reply

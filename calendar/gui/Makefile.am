@@ -70,7 +70,10 @@ glade_DATA = 					\
 	e-itip-control.glade			\
 	goto-dialog.glade
 
-etspec_DATA = e-calendar-table.etspec e-meeting-time-sel.etspec
+etspec_DATA =				\
+	e-calendar-table.etspec		\
+	e-meeting-time-sel.etspec	\
+	e-cal-list-view.etspec
 
 libevolution_calendar_la_SOURCES =		\
 	$(IDL_GENERATED)			\
@@ -104,6 +107,8 @@ libevolution_calendar_la_SOURCES =		\
 	e-cal-model.h				\
 	e-cal-view.c				\
 	e-cal-view.h				\
+	e-cal-list-view.c			\
+	e-cal-list-view.h			\
 	e-calendar-table.h			\
 	e-calendar-table.c			\
 	e-cell-date-edit-text.h			\
