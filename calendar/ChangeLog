@@ -1,3 +1,11 @@
+2003-04-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-notify.glade: removed 'heading' and
+	'message' labels.
+
+	* gui/alarm-notify/alarm-notify-dialog.c: removed deleted widgets.
+	(alarm_notify_dialog): don't load the removed widgets.
+
 2003-04-18  Rodney Dawes  <dobey@ximian.com>
 
 	Fixes #21499

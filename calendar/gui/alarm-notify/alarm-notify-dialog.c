@@ -52,8 +52,6 @@ typedef struct {
 	GtkWidget *close;
 	GtkWidget *snooze;
 	GtkWidget *edit;
-	GtkWidget *heading;
-	GtkWidget *message;
 	GtkWidget *snooze_time;
 	GtkWidget *html;
 
@@ -344,12 +342,10 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	an->close = glade_xml_get_widget (an->xml, "close");
 	an->snooze = glade_xml_get_widget (an->xml, "snooze");
 	an->edit = glade_xml_get_widget (an->xml, "edit");
-	an->heading = glade_xml_get_widget (an->xml, "heading");
-	an->message = glade_xml_get_widget (an->xml, "message");
 	an->snooze_time = glade_xml_get_widget (an->xml, "snooze-time");
 	an->html = g_object_get_data (G_OBJECT (glade_xml_get_widget (an->xml, "frame")), "html");
 
-	if (!(an->dialog && an->close && an->snooze && an->edit && an->heading && an->message
+	if (!(an->dialog && an->close && an->snooze && an->edit
 	      && an->snooze_time)) {
 		g_message ("alarm_notify_dialog(): Could not find all widgets in Glade file!");
 		g_object_unref (an->xml);
