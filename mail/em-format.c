@@ -339,8 +339,7 @@ em_format_add_puri(EMFormat *emf, size_t size, const char *cid, CamelMimePart *p
 		tmp = camel_mime_part_get_content_location(part);
 		puri->uri = NULL;
 		if (tmp == NULL) {
-			if (emf->base)
-				puri->uri = camel_url_to_string(emf->base, 0);
+			/* no location, don't set a uri at all, html parts do this themselves */
 		} else {
 			if (strchr(tmp, ':') == NULL && emf->base != NULL) {
 				CamelURL *uri;

@@ -797,8 +797,9 @@ efh_write_text_html(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 static void
 efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
-	const char *location, *base;
+	const char *location, *base, *tmp;
 	EMFormatPURI *puri;
+	char *cid = NULL;
 
 	camel_stream_printf (stream,
 			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
@@ -823,14 +824,36 @@ efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFor
 		gtk_html_set_base(efh->html, base);
 	}
 
-	puri = em_format_add_puri((EMFormat *)efh, sizeof(EMFormatPURI), NULL, part, efh_write_text_html);
-	location = puri->uri?puri->uri:puri->cid;
-	d(printf("adding iframe, location %s\n", location));
+	/* calculate our own location string so add_puri doesn't do it
+	   for us. our iframes are special cases, we need to use the
+	   proper base url to access them, but other children parts
+	   shouldn't blindly inherit the container's location. */
+	tmp = camel_mime_part_get_content_location(part);
+	if (tmp == NULL) {
+		if (((EMFormat *)efh)->base)
+			cid = camel_url_to_string(((EMFormat *)efh)->base, 0);
+		else
+			cid = g_strdup(((EMFormat *)efh)->part_id->str);
+	} else {
+		if (strchr(tmp, ':') == NULL && ((EMFormat *)efh)->base != NULL) {
+			CamelURL *uri;
+			
+			uri = camel_url_new_with_base(((EMFormat *)efh)->base, tmp);
+			cid = camel_url_to_string(uri, 0);
+			camel_url_free(uri);
+		} else {
+			cid = g_strdup(tmp);
+		}
+	}
+
+	puri = em_format_add_puri((EMFormat *)efh, sizeof(EMFormatPURI), cid, part, efh_write_text_html);
+	d(printf("adding iframe, location %s\n", cid));
 	camel_stream_printf(stream,
 			    "<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>\n"
 			    "</td></tr></table>\n"
 			    "</td></tr></table>\n",
-			    location, location);
+			    cid, cid);
+	g_free(cid);
 }
 
 /* This is a lot of code for something useless ... */
