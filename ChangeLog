@@ -1,3 +1,9 @@
+2003-07-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Version 1.4.3.99.
+
+	* NEWS: Add info for 1.4.3 (which is on its own mini-branch).
+
 == Version 1.4.2 ==
 
 2003-06-30  Ettore Perazzoli  <ettore@ximian.com>

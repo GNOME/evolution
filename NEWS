@@ -12,8 +12,29 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #45329 - Alt+PageUp/PageDown, go to the first/last day in current month
              in weekview (Bolian Yin)
     #45910 - Application crash when assigning tasks (Jack Jia, Rodrigo)
-    #45767 - Evolution 1.4.1 building failed with forte on Solaris8 (Antonio Xu)
+    #45767 - Evolution 1.4.1 building failed with Forte on Solaris8 (Antonio Xu)
     #46075 - same date can be added repeatedly in Exceptions date list (Harry Lu)
+
+
+Evolution 1.4.3, 2003-07-08
+---------------------------
+
+Bugs fixed:
+
+  * Addresbook
+
+    - Fixed a race condition that could cause a crash on exit and some
+      memory leaks.  (Dan)
+
+  * Calendar
+
+    - Make it compile against GTK 2.0 again.  (Rodrigo)
+
+Updated translations:
+
+  - cs (Miloslav Trmac)
+  - hu (Andras Timar)
+
 
 Evolution 1.4.2, 2003-06-30
 ---------------------------
