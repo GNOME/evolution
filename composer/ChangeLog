@@ -1,3 +1,10 @@
+2000-10-27  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer.c (e_msg_composer_new_with_message): Fixed my
+	not-quite-right logic so that we don't accidently set the body
+	contents using a plain text attachment instead of the actual body
+	of the message :-)
+
 2000-10-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_message): Populate the

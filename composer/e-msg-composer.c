@@ -1259,6 +1259,44 @@ e_msg_composer_new_with_sig_file (const char *sig_file)
 }
 
 static void
+handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart)
+{
+	/* Find the text/html part and set the composer body to it's contents */
+	int i, nparts;
+	
+	nparts = camel_multipart_get_number (multipart);
+	
+	for (i = 0; i < nparts; i++) {
+		GMimeContentField *content_type;
+		CamelMimePart *mime_part;
+		
+		mime_part = camel_multipart_get_part (multipart, i);
+		content_type = camel_mime_part_get_content_type (mime_part);
+		
+		if (gmime_content_field_is_type (content_type, "text", "html")) {
+			CamelDataWrapper *contents;
+			char *text, *final_text;
+			gboolean is_html;
+			
+			contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			text = mail_get_message_body (contents, FALSE, &is_html);
+			if (text) {
+				if (is_html)
+					final_text = g_strdup (text);
+				else
+					final_text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL |
+								     E_TEXT_TO_HTML_CONVERT_SPACES);
+				g_free (text);
+				
+				e_msg_composer_set_body_text (composer, final_text);
+			}
+			
+			return;
+		}
+	}
+}
+
+static void
 handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 {
 	int i, nparts;
@@ -1266,13 +1304,23 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 	nparts = camel_multipart_get_number (multipart);
 	
 	for (i = 0; i < nparts; i++) {
-		GMimeContentField *content;
+		GMimeContentField *content_type;
 		CamelMimePart *mime_part;
 		
 		mime_part = camel_multipart_get_part (multipart, i);
-		content = camel_mime_part_get_content_type (mime_part);
+		content_type = camel_mime_part_get_content_type (mime_part);
 		
-		if (gmime_content_field_is_type (content, "multipart", "*")) {
+		if (gmime_content_field_is_type (content_type, "multipart", "alternative")) {
+			/* this structure contains the body */
+			CamelDataWrapper *wrapper;
+			CamelMultipart *mpart;
+			
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			mpart = CAMEL_MULTIPART (wrapper);
+			
+			handle_multipart_alternative (composer, mpart);
+		} else if (gmime_content_field_is_type (content_type, "multipart", "*")) {
+			/* another layer of multipartness... */
 			CamelDataWrapper *wrapper;
 			CamelMultipart *mpart;
 			
@@ -1280,29 +1328,27 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 			mpart = CAMEL_MULTIPART (wrapper);
 			
 			handle_multipart (composer, mpart, depth + 1);
-		} else {
-			if (depth == 0) {
-				/* toplevel contains the body contents */
-				CamelDataWrapper *contents;
-				char *text, *final_text;
-				gboolean is_html;
+		} else if (depth == 0 && i == 0) {
+			/* Since the first part is not multipart/alternative, then this must be the body */
+			CamelDataWrapper *contents;
+			char *text, *final_text;
+			gboolean is_html;
+			
+			contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+			text = mail_get_message_body (contents, FALSE, &is_html);
+			if (text) {
+				if (is_html)
+					final_text = g_strdup (text);
+				else
+					final_text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL |
+								     E_TEXT_TO_HTML_CONVERT_SPACES);
+				g_free (text);
 				
-				contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-				text = mail_get_message_body (contents, FALSE, &is_html);
-				if (text) {
-					if (is_html)
-						final_text = g_strdup (text);
-					else
-						final_text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL |
-									     E_TEXT_TO_HTML_CONVERT_SPACES);
-					g_free (text);
-					
-					e_msg_composer_set_body_text (composer, final_text);
-				}
-			} else {
-				/* non top-level */
-				e_msg_composer_attach (composer, mime_part);
+				e_msg_composer_set_body_text (composer, final_text);
 			}
+		} else {
+			/* this is a leaf of the tree, so attach it */
+			e_msg_composer_attach (composer, mime_part);
 		}
 	}
 }
@@ -1367,7 +1413,17 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	free_recipients (Bcc);
 	
 	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (msg));
-	if (gmime_content_field_is_type (content_type, "multipart", "*")) {
+	if (gmime_content_field_is_type (content_type, "multipart", "alternative")) {
+		/* multipart/alternative contains the text/plain and text/html versions of the message body */
+		CamelDataWrapper *wrapper;
+		CamelMultipart *multipart;
+		
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (msg)));
+		multipart = CAMEL_MULTIPART (wrapper);
+		
+		handle_multipart_alternative (new, multipart);
+	} else if (gmime_content_field_is_type (content_type, "multipart", "*")) {
+		/* there must be attachments... */
 		CamelDataWrapper *wrapper;
 		CamelMultipart *multipart;
 		
@@ -1376,6 +1432,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 		
 		handle_multipart (new, multipart, 0);
 	} else {
+		/* We either have a text/plain or a text/html part */
 		CamelDataWrapper *contents;
 		char *text, *final_text;
 		gboolean is_html;
