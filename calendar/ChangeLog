@@ -1,4 +1,17 @@
 2001-07-12  JP Rosevear  <jpr@ximian.com>
+	
+	* cal-util/cal-util.h: new proto
+
+	* cal-util/cal-util.c (cal_util_new_top_level): standard place to
+	get your top level calendar component
+
+	* pcs/cal-backend-file.c (create_cal): use it
+
+	* gui/itip-utils.c (itip_send_comp): ditto
+
+	* gui/e-calendar-table.c (e_calendar_table_copy_clipboard): ditto
+	
+2001-07-12  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_copy_clipboard): fix
 	typo breaking compilation

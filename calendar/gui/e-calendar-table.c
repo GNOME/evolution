@@ -788,7 +788,7 @@ e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
 	}
 
 	/* create temporary VCALENDAR object */
-	cal_table->tmp_vcal = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
+	cal_table->tmp_vcal = cal_util_new_top_level ();
 
 	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
 	e_table_selected_row_foreach (etable, copy_row_cb, cal_table);

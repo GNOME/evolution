@@ -275,17 +275,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 		icalvalue *value;
 		gchar *ical_string;
 
-		icomp = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
-		
-		prop = icalproperty_new (ICAL_PRODID_PROPERTY);
-		value = icalvalue_new_text ("-//Ximian/Evolution//EN");
-		icalproperty_set_value (prop, value);
-		icalcomponent_add_property (icomp, prop);
-
-		prop = icalproperty_new (ICAL_VERSION_PROPERTY);
-		value = icalvalue_new_text ("2.0");
-		icalproperty_set_value (prop, value);
-		icalcomponent_add_property (icomp, prop);
+		icomp = cal_util_new_top_level ();
 
 		prop = icalproperty_new (ICAL_METHOD_PROPERTY);
 		value = icalvalue_new_method (itip_methods_enum[method]);

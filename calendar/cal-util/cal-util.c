@@ -73,3 +73,28 @@ cal_obj_uid_list_free (GList *list)
 
 	g_list_free (list);
 }
+
+icalcomponent *
+cal_util_new_top_level (void)
+{
+	icalcomponent *icalcomp;
+	icalproperty *prop;
+	
+	icalcomp = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
+
+	/* RFC 2445, section 4.7.1 */
+	prop = icalproperty_new_calscale ("GREGORIAN");
+	icalcomponent_add_property (icalcomp, prop);
+	
+       /* RFC 2445, section 4.7.3 */
+	prop = icalproperty_new_prodid ("-//Ximian//NONSGML Evolution Calendar//EN");
+	icalcomponent_add_property (icalcomp, prop);
+
+	/* RFC 2445, section 4.7.4.  This is the iCalendar spec version, *NOT*
+	 * the product version!  Do not change this!
+	 */
+	prop = icalproperty_new_version ("2.0");
+	icalcomponent_add_property (icalcomp, prop);
+
+	return icalcomp;
+}

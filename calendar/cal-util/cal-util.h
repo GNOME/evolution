@@ -24,6 +24,7 @@
 #define CAL_UTIL_H
 
 #include <libgnome/gnome-defs.h>
+#include <ical.h>
 #include <time.h>
 #include <glib.h>
 
@@ -51,6 +52,8 @@ typedef enum {
 } CalObjType;
 
 void cal_obj_uid_list_free (GList *list);
+
+icalcomponent *cal_util_new_top_level (void);
 
 END_GNOME_DECLS
 

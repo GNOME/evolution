@@ -24,6 +24,7 @@
 #include <gtk/gtksignal.h>
 #include "e-util/e-dbhash.h"
 #include "cal-util/cal-recur.h"
+#include "cal-util/cal-util.h"
 #include "cal-backend-file.h"
 
 
@@ -677,30 +678,13 @@ static CalBackendOpenStatus
 create_cal (CalBackendFile *cbfile, GnomeVFSURI *uri)
 {
 	CalBackendFilePrivate *priv;
-	icalproperty *prop;
 
 	priv = cbfile->priv;
 
 	/* Create the new calendar information */
-
-	priv->icalcomp = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
-
-	/* RFC 2445, section 4.7.1 */
-	prop = icalproperty_new_calscale ("GREGORIAN");
-	icalcomponent_add_property (priv->icalcomp, prop);
-
-	/* RFC 2445, section 4.7.3 */
-	prop = icalproperty_new_prodid ("-//Ximian//NONSGML Evolution Calendar//EN");
-	icalcomponent_add_property (priv->icalcomp, prop);
-
-	/* RFC 2445, section 4.7.4.  This is the iCalendar spec version, *NOT*
-	 * the product version!  Do not change this!
-	 */
-	prop = icalproperty_new_version ("2.0");
-	icalcomponent_add_property (priv->icalcomp, prop);
+	priv->icalcomp = cal_util_new_top_level ();
 
 	/* Create our internal data */
-
 	priv->comp_uid_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	gnome_vfs_uri_ref (uri);
