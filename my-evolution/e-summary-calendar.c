@@ -99,6 +99,14 @@ e_cal_comp_util_compare_event_timezones (CalComponent *comp,
         cal_component_get_dtstart (comp, &start_datetime);
         cal_component_get_dtend (comp, &end_datetime);
 
+	/* If either the DTSTART or the DTEND is a DATE value, we return TRUE.
+	   Maybe if one was a DATE-TIME we should check that, but that should
+	   not happen often. */
+	if (start_datetime.value->is_date || end_datetime.value->is_date) {
+		retval = TRUE;
+		goto out;
+	}
+
         /* FIXME: DURATION may be used instead. */
         if (cal_component_compare_tzid (tzid, start_datetime.tzid)
             && cal_component_compare_tzid (tzid, end_datetime.tzid)) {
@@ -244,7 +252,8 @@ uids_to_array (ESummary *summary,
 			recur->summary = summary;
 			cal_recur_generate_instances (event->comp, begin, end,
 						      add_recurrances, recur,
-						      cal_client_resolve_tzid_cb, client);
+						      cal_client_resolve_tzid_cb, client,
+						      recur->summary->tz);
 			g_free (recur);
 			g_free (event->uid);
 			g_free (event);
@@ -293,6 +302,12 @@ generate_html (gpointer data)
 	GString *string;
 	char *tmp;
 	time_t t, begin, end, f;
+
+	/* Set the default timezone on the server. */
+	if (summary->tz) {
+		cal_client_set_default_timezone (calendar->client,
+						 summary->tz);
+	}
 
 	t = time (NULL);
 	begin = time_day_begin_with_zone (t, summary->tz);

@@ -1,3 +1,14 @@
+2001-10-22  Damon Chaplin  <damon@ximian.com>
+
+	* e-summary-tasks.c (generate_html): set the default timezone on the
+	server.
+
+	* e-summary-calendar.c (e_cal_comp_util_compare_event_timezones): 
+	update to check for DATE values.
+	(uids_to_array): pass the default timezone
+	to cal_recur_generate_instances.
+	(generate_html): set the default timezone on the server.
+
 2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-preferences.c (e_summary_configure): Remove the

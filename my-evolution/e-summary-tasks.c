@@ -217,6 +217,12 @@ generate_html (gpointer data)
 	char *tmp;
 	time_t t;
 
+	/* Set the default timezone on the server. */
+	if (summary->tz) {
+		cal_client_set_default_timezone (tasks->client,
+						 summary->tz);
+	}
+
 	t = time (NULL);
 
 	uids = cal_client_get_uids (tasks->client, CALOBJ_TYPE_TODO);
