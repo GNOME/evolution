@@ -323,8 +323,9 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 	GSList *l;
 
 	/* No alarms? */
-	if (alarms->alarms == NULL) {
-		e_cal_component_alarms_free (alarms);
+	if (alarms == NULL || alarms->alarms == NULL) {
+		if (alarms)
+			e_cal_component_alarms_free (alarms);
 		return;
 	}
 
