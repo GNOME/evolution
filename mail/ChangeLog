@@ -1,3 +1,15 @@
+2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-local.c (mail_local_store_class_init): Override the default
+	init_trash() with the our custom one (since MailLocalStore doesn't
+	let the CamelStore keep a hash of opened folders and instead
+	keepts track of them itself).
+	(init_trash): custom implementation of the init_trash method for
+	MailLocalStores
+	(get_folder): i18nize.
+	(register_folder_registered): Don't add the folder to the vtrash
+	here.
+
 2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (component_fn): Specify a NULL

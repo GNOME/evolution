@@ -49,6 +49,7 @@
 #include "evolution-storage-listener.h"
 
 #include "camel/camel.h"
+#include "camel/camel-vee-store.h"
 #include "camel/camel-vee-folder.h"
 
 #include "filter/vfolder-context.h"
@@ -175,11 +176,11 @@ typedef struct {
 
 	GNOME_Evolution_LocalStorage corba_local_storage;
 	EvolutionStorageListener *local_storage_listener;
-
+	
 	char *local_path;
 	int local_pathlen;
-	GHashTable *folders, /* points to MailLocalFolder */
-		*unread;
+	GHashTable *folders; /* points to MailLocalFolder */
+	GHashTable *unread;
 } MailLocalStore;
 
 typedef struct {
@@ -211,6 +212,8 @@ static void delete_folder (CamelStore *store, const char *folder_name,
 static void rename_folder (CamelStore *store, const char *old_name,
 			   const char *new_name, CamelException *ex);
 
+static void init_trash (CamelStore *store);
+
 static CamelStoreClass *local_parent_class;
 
 static void
@@ -227,7 +230,8 @@ mail_local_store_class_init (MailLocalStoreClass *mail_local_store_class)
 	/* Don't cache folders */
 	camel_store_class->hash_folder_name = NULL;
 	camel_store_class->compare_folder_name = NULL;
-
+	
+	camel_store_class->init_trash = init_trash;
 	camel_store_class->get_folder = get_folder;
 	camel_store_class->get_folder_info = get_folder_info;
 	camel_store_class->free_folder_info = camel_store_free_folder_info_full;
@@ -320,7 +324,7 @@ get_folder (CamelStore *store, const char *folder_name,
 	MailLocalStore *local_store = (MailLocalStore *)store;
 	CamelFolder *folder;
 	MailLocalFolder *local_folder;
-
+	
 	local_folder = g_hash_table_lookup (local_store->folders, folder_name);
 	if (local_folder) {
 		folder = local_folder->folder;
@@ -328,9 +332,55 @@ get_folder (CamelStore *store, const char *folder_name,
 	} else {
 		folder = NULL;
 		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				      "No such folder %s", folder_name);
+				      _("No such folder %s"), folder_name);
 	}
+	
 	return folder;
+}
+
+static void
+trash_add_folder (gpointer key, gpointer value, gpointer data)
+{
+	MailLocalFolder *local_folder = (MailLocalFolder *) value;
+	CamelFolder *folder = local_folder->folder;
+	CamelStore *store = CAMEL_STORE (data);
+	
+	camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (store->vtrash), folder);
+}
+
+static void
+trash_finalize (CamelObject *trash, gpointer event_data, gpointer user_data)
+{
+	CamelStore *store = CAMEL_STORE (user_data);
+	
+	store->vtrash = NULL;
+}
+
+static void
+init_trash (CamelStore *store)
+{
+	MailLocalStore *local_store = MAIL_LOCAL_STORE (store);
+	char *name;
+	
+	name = g_strdup_printf ("%s?(match-all (system-flag \"Deleted\"))", "vTrash");
+	
+	store->vtrash = camel_vee_folder_new (store, name, CAMEL_STORE_FOLDER_CREATE |
+					      CAMEL_STORE_VEE_FOLDER_AUTO, NULL);
+	
+	g_free (name);
+	
+	if (store->vtrash) {
+		/* attach to the finalize event of the vtrash */
+		camel_object_hook_event (CAMEL_OBJECT (store->vtrash), "finalize",
+					 trash_finalize, store);
+		
+		/* add all the pre-opened folders to the vtrash */
+		if (local_store->folders) {
+			/* lock? */
+			g_hash_table_foreach (local_store->folders, trash_add_folder, store);
+			/* unlock? */
+		}
+	}
 }
 
 static void
@@ -509,21 +559,14 @@ register_folder_registered(struct _mail_msg *mm)
 	struct _register_msg *m = (struct _register_msg *)mm;
 	MailLocalFolder *local_folder = m->local_folder;
 	int unread;
-
+	
 	if (local_folder->folder) {
-		CamelStore *store = CAMEL_STORE (local_folder->local_store);
-		
 		g_hash_table_insert (local_folder->local_store->folders, local_folder->uri + 8,
 				     local_folder);
 		
-		/* Add the folder to the vTrash folder */
-		if (store->vtrash)
-			camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (store->vtrash),
-						     local_folder->folder);
-		
 		/* add the folder to the vfolder lists FIXME: merge stuff above with this */
 		vfolder_register_source(local_folder->folder);
-
+		
 		unread = local_folder->last_unread;
 		local_folder->last_unread = 0;
 		local_folder_changed (CAMEL_OBJECT (local_folder->folder), GINT_TO_POINTER (unread),
