@@ -702,18 +702,6 @@
       <note id="when-filters-go-wrong">
         <title>When Are Filters Applied?</title>
          <para>
-           If you move mail from your server into your local system
-           using POP mail, filters are applied to incoming mail every
-           time you check for mail.
-        </para>
-        <para>
-           If you store your mail on the mail server and check your
-           mail with IMAP, filters are applied to the INBOX when you
-           open it. In some cases, you will see a number of unread
-           messages in the INBOX, click the INBOX, and then have the
-           messages move elsewhere as they are filtered out.
-         </para>
-         <para>
            If you use Ximian Connector to store your mail on an
            Exchange server, filters are not applied until you open
            your INBOX folder and select
@@ -722,22 +710,34 @@
            <keycombo><keycap>Ctrl</keycap><keycap>Y</keycap></keycombo>
          </para>
       </note>
+
       <example id="filter-example">
          <title>Using a Filter to Avoid Spam</title>
          <para>
-           A good deal of bulk mail is eventually tagged with the
-           <computeroutput>Precedence: Bulk</computeroutput> header at
-           one point or another.  Not all of it is, of course, and
-           there are "good" messages (mailing lists you subscribe to,
-           for example) that are also considered "Bulk" mail.
-           However, if you filter out all the mail with that header,
-           you'll catch a lot of the mail you don't want to get.
+           Spam, also known as unsolicited commercial email (UCE), is
+           the bane of many email boxes, but it doesn't have to
+           be. Using Ximian Evolution filters and an external Spam
+           detection tool like SpamAssassin (<ulink
+           url="http://spamassassin.org/">http://spamassassin.org/</ulink>),
+         you can catch the vast majority of junk mail and drop it
+         directly into the trash.
+         </para>
+         <para>
+           The easiest way to do this is to get your system
+           administrator to install SpamAssassin (or its equivalent)
+           on your mail server. There, it will flag messages it
+           suspects of being Spam with the "X-Spam-Status" header to
+           your mail, which you can then search for in a
+           filter. Because SpamAssassin scores mails based on the
+           likelyhood that messages are junk, you can even choose how
+           strict you want it to be. If you don't have a friendly
+           network administrator, never fear: you can install
+           SpamAssassin on your own system, then pipe messages through
+           it before reading them.
          </para>
 
-
          <para>
-           To catch them and automatically mark them for deletion, do
-           the following:
+           If your system administrator or ISP has SpamAssassin, here's how to siphon off the junk mail:
             <orderedlist>
 
              <listitem><para>
@@ -745,15 +745,15 @@
              </para></listitem>
 
              <listitem><para>
-                 Click <guibutton>New</guibutton>.
+                 Click <guibutton>Add</guibutton>.
              </para></listitem>
 
              <listitem><para>
-               Set the first part of your search critera to look in a <guilabel>Specific header</guilabel>.
+               Set the first part of your search criterion to look in a <guilabel>Specific header</guilabel>.
              </para></listitem>
 
              <listitem><para>
-               Enter <userinput>Precedence</userinput> as the name of the header.
+               Enter <userinput>X-Spam-Flag</userinput> as the name of the header.
              </para></listitem>
 
              <listitem><para>
@@ -761,31 +761,124 @@
              </para></listitem>
 
              <listitem><para>
-               Enter <userinput>Bulk</userinput> as the content to search for. 
-               You're now working with all email that has the word "Bulk" in the 
-               "Precedence" header.
+               Enter <userinput>YES</userinput> as the content to search for. 
+               You're now working with all email that has the word "YES" in the 
+               "X-Spam-Status" header.
              </para></listitem>
 
              <listitem><para>
-               For actions, select "Move to Folder" and choose the
-               folder where you'd like to place bulk mail.
+               For actions, choose what you'd like to do with the
+             messages. You can delete the messages automatically, but
+             it's more prudent to place them in a "Possible Junk Mail"
+             folder, and check them over just to make sure a genuine
+             message didn't get flagged by accident.
              </para></listitem>
-
-             <listitem><para> If you like, add another action and
-               choose <guilabel>Delete</guilabel>.
-               </para></listitem>
 
              <listitem><para>
                 Click OK. You're done.
              </para></listitem>
 	   </orderedlist>
          </para>
-      </example>
-    </sect2>
+         <para>
+           If you don't have SpamAssassin or other junk mail filtering
+           on your mail server, there's still hope, although it's not
+           quite as simple. First, download
+           and install SpamAssassin from <ulink
+           url="http://spamassassin.org">http://spamassassin.org</ulink>. Instructions
+         for installation are on the site; you'll need to download  the "spamassassin"
+         and "perl-Mail-SpamAssassin"
+         packages. You can install them with Red Carpet by selecting
+         <guimenuitem>Install Local Packages</guimenuitem> from the
+         <guimenu>File</guimenu> menu.) Once you have the software
+         installed, do the following: 
 
+         <orderedlist>
+           <listitem>
+           <para>
+             Open a new create a text file with any text editor (
+             <menuchoice>
+               <guimenu>
+                 Programs
+               </guimenu>
+               <guisubmenu>
+                 Accessories
+               </guisubmenu>
+               <guimenuitem>
+                 Text Editor
+               </guimenuitem>
+             </menuchoice> is the most convenient) and paste in the following:
+             <screen>
+               spamassassin -e &lt;
+             </screen>
+             This will run the SpamAssassin command and report back 0
+             if the message is not junk.
+           </para>
+         </listitem>
+         <listitem>
+           <para>
+             Create a directory called "bin" in your home directory, and save the file there as "spam-filter.sh"
+           </para>
+         </listitem>
+         <listitem>
+           <para>
+              Mark the file as an executable program: 
+             Open your home directory in Nautilus, right click on
+             filterscript.sh there, and select
+             <guimenuitem>Properties</guimenuitem>. Then, click the
+             "Permissions" tab and check the box in the
+             <guilabel>Execute</guilabel> column and the
+             <guilabel>Owner</guilabel> row. Alternately, open a terminal
+             (<menuchoice>
+             <guimenu>
+               Programs
+             </guimenu>
+             <guisubmenu>
+               Accessories
+             </guisubmenu>
+             <guimenuitem>
+               Terminal
+             </guimenuitem>
+           </menuchoice>) and enter the command: chmod +x bin/spam-filter.sh.
+       </para>
+     </listitem>
+     <listitem>
+       <para>
+          Back in Evolution, create a new filter: Select
+         <menuchoice><guimenu>Tools</guimenu><guimenuitem>Filters</guimenuitem></menuchoice>,
+         then click <guibutton>Add</guibutton>.
+     </para>
+   </listitem>
 
-    
-    <sect2 id="filters-edit">
+             <listitem><para> 
+             Select "Pipe Message to Shell Command" as the first portion of the criterion.
+               </para></listitem>
+
+             <listitem><para> 
+             Enter "/home/username/bin/spam-filter.sh" as the shell command, then select
+             "Does Not Return" and "0" as the remaining two
+             items. Substitute your username for "username" so that
+             Evolution can find the script.
+           </para></listitem>
+
+             <listitem><para>
+               For actions, choose what you'd like to do with the
+             messages. You can delete the messages automatically, but
+             it's more prudent to place them in a "Possible Junk Mail"
+             folder, and check them over just to make sure a genuine
+             message didn't get flagged by accident.
+             </para></listitem>
+           <listitem>
+             <para>
+               You're done. Click "OK" to close the filter and "OK" to
+               close the filter editor.
+             </para>
+           </listitem>
+         </orderedlist>
+       </para>
+     </example>
+   </sect2>
+   
+   <sect2 id="filters-edit">
       <title>Editing Filters</title>
       <para>
 	To edit a filter:
