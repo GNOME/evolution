@@ -136,18 +136,6 @@ one_finalize (GObject *object)
 {
 	ETableOne *one = E_TABLE_ONE (object);
 
-	if (one->data) {
-		int i;
-		int col_count;
-
-		col_count = e_table_model_column_count(one->source);
-
-		for (i = 0; i < col_count; i++)
-			e_table_model_free_value(one->source, i, one->data[i]);
-		g_free (one->data);
-	}
-	one->data = NULL;
-
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
@@ -155,7 +143,23 @@ static void
 one_dispose (GObject *object)
 {
 	ETableOne *one = E_TABLE_ONE (object);
-	
+
+
+	if (one->data) {
+		int i;
+		int col_count;
+
+		if (one->source) {
+			col_count = e_table_model_column_count(one->source);
+
+			for (i = 0; i < col_count; i++)
+				e_table_model_free_value(one->source, i, one->data[i]);
+		}
+		
+		g_free (one->data);
+	}
+	one->data = NULL;
+
 	if (one->source)
 		g_object_unref(one->source);
 	one->source = NULL;
