@@ -112,11 +112,11 @@
      A way of describing a group of files on a computer.  With the
      perversity typical of computer (and especially Unix and Linux)
      nomenclature, the top of the tree is called the root directory,
-     and denoted by <systemitem><filename>/</filename></systemitem>.
+     and denoted by <filename>/</filename>.
      The rest of the "branches" spread downwards from the root.  Don't
-     confuse the root directory with the <systemitem>root</systemitem>
+     confuse the root directory with the root
      account, or root's home directory,
-     <systemitem><filename>/home/root</filename></systemitem>.
+     <filename>/home/root</filename>.b
    </para>
   </glossdef>
  </glossentry>

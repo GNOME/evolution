@@ -45,8 +45,8 @@
 	  <title>Print Preview</title>
 	  <screenshot>
 	    <screeninfo>Print Preview</screeninfo>
-	    <graphic fileref="figures/print-preview" format="png" srccredit="Aaron Weber">
-	</graphic>
+	    <mediaobject><imageobject><imagedata fileref="figures/print-preview" format="png" srccredit="Aaron Weber">
+	</imageobject></mediaobject>
 	</screenshot>
       </figure>
 <!-- ==============End of Figure============================== -->
@@ -85,8 +85,8 @@
 	  <title>Choosing a Printer</title>
 	  <screenshot>
 	    <screeninfo>Choosing a Printer</screeninfo>
-	    <graphic fileref="figures/print-dest" format="png" srccredit="Aaron Weber">
-	</graphic>
+	    <mediaobject><imageobject><imagedata fileref="figures/print-dest" format="png" srccredit="Aaron Weber">
+	</imageobject></mediaobject>
 	</screenshot>
       </figure>
 <!-- ==============End of Figure============================== -->

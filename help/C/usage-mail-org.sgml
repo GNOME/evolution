@@ -757,8 +757,10 @@
 	<title>Selecting a vFolder Rule</title>
 	<screenshot>
 	  <screeninfo>Creating a vFolder Rule</screeninfo>
-	  <graphic fileref="figures/vfolder-createrule-fig" format="png" srccredit="Aaron Weber">
-	  </graphic>
+	  <mediaobject><imageobject><imagedata
+	  fileref="figures/vfolder-createrule-fig" format="png"
+	  srccredit="Aaron Weber">
+	  </imageobject></mediaobject>
 	</screenshot>
       </figure>
       </para>

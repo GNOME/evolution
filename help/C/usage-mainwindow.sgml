@@ -406,13 +406,14 @@
       <title>The Ximian Evolution Main Window</title>
       <screenshot>
 	<screeninfo>Inbox</screeninfo>
-	<graphic fileref="figures/mainwindow-pic" format="png" srccredit="Kevin Breit">
-	</graphic>
+	<mediaobject><imageobject><imagedata
+	fileref="figures/mainwindow-pic" format="png" srccredit="Kevin
+	Breit"> </imageobject></mediaobject>
       </screenshot>
     </figure>
     
     <para>
-      <inlinegraphic fileref="figures/full-1" format="png"></inlinegraphic>
+      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-1" format="png"></imageobject></inlinemediaobject>
       <guilabel>Menubar</guilabel>
     </para>
     
@@ -422,7 +423,7 @@
     </para>
 
     <para>
-      <inlinegraphic fileref="figures/full-2" format="png"></inlinegraphic>
+      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-2" format="png"></imageobject></inlinemediaobject>
       <guilabel>Toolbar</guilabel>
     </para>
 
@@ -432,7 +433,7 @@
     </para>
     
     <para>
-      <inlinegraphic fileref="figures/full-3" format="png"></inlinegraphic>
+      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-3" format="png"></imageobject></inlinemediaobject>
       <guilabel>Shortcut Bar</guilabel>
     </para>
     
@@ -442,7 +443,7 @@
     </para>
     
     <para>
-      <inlinegraphic fileref="figures/full-4" format="png"></inlinegraphic>
+      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-4" format="png"></imageobject></inlinemediaobject>
       <guilabel>Status Bar</guilabel>
     </para>
     
@@ -454,7 +455,7 @@
     </para>
     
     <para>
-      <inlinegraphic fileref="figures/full-5" format="png"></inlinegraphic>
+      <inlinemediaobject><imageobject><imagedata  fileref="figures/full-5" format="png"></imageobject></inlinemediaobject>
       <guilabel>Search Tools</guilabel>
     </para>
     
@@ -882,8 +883,8 @@
               It supports multiple mail sources, including <glossterm
               linkend="imap">IMAP</glossterm>, <glossterm
               linkend="pop">POP3</glossterm>, local
-              <systemitem><filename>mbox</filename></systemitem> and
-              <systemitem><filename>mh</filename></systemitem> files.
+              <filename>mbox</filename> and
+              <filename>mh</filename> files.
 
 <!-- NOT FOR 1.0, but maybe later 
               and even NNTP messages (newsgroups), which aren't
@@ -921,15 +922,15 @@
           <title>Ximian Evolution Mail</title>
           <screenshot>
             <screeninfo>Inbox</screeninfo>
-            <graphic fileref="figures/mail-inbox" format="png" srccredit="Kevin Breit">
-        </graphic>
+            <mediaobject><imageobject><imagedata  fileref="figures/mail-inbox" format="png" srccredit="Kevin Breit">
+        </imageobject></mediaobject>
         </screenshot>
       </figure>
 <!-- ==============End of Figure============================== -->
 </para>
       <para>
-        <inlinegraphic fileref="figures/full-1"
-        format="png"></inlinegraphic> <guilabel>Email
+        <inlinemediaobject><imageobject><imagedata  fileref="figures/full-1"
+        format="png"></imageobject></inlinemediaobject> <guilabel>Email
         Viewer</guilabel>
       </para>
     
@@ -938,8 +939,8 @@
       </para>
 
       <para>
-        <inlinegraphic fileref="figures/full-2"
-        format="png"></inlinegraphic> <guilabel>Email List</guilabel>
+        <inlinemediaobject><imageobject><imagedata  fileref="figures/full-2"
+        format="png"></imageobject></inlinemediaobject> <guilabel>Email List</guilabel>
       </para>
     
       <para>
@@ -994,8 +995,8 @@
       <title>Ximian Evolution Calendar View</title>
       <screenshot>
 	<screeninfo>Ximian Evolution Contact Manager Window</screeninfo>
-	<graphic fileref="figures/calendar" format="png" srccredit="Aaron Weber">
-	</graphic>
+	<mediaobject><imageobject><imagedata  fileref="figures/calendar" format="png" srccredit="Aaron Weber">
+	</imageobject></mediaobject>
       </screenshot>
     </figure>
   <!-- ============== End of Figure ============================= --> 
@@ -1003,8 +1004,8 @@
     </para>
 
       <para>
-        <inlinegraphic fileref="figures/full-1"
-        format="png"></inlinegraphic> <guilabel>Appointment
+        <inlinemediaobject><imageobject><imagedata  fileref="figures/full-1"
+        format="png"></imageobject></inlinemediaobject> <guilabel>Appointment
         List</guilabel>
       </para>
   
@@ -1015,7 +1016,7 @@
       </para>
 
       <para>
-	<inlinegraphic fileref="figures/full-2" format="png"></inlinegraphic>
+	<inlinemediaobject><imageobject><imagedata  fileref="figures/full-2" format="png"></imageobject></inlinemediaobject>
 	<guilabel>Task List</guilabel>
       </para>
 
@@ -1028,7 +1029,7 @@
       </para>
 
       <para>
-	<inlinegraphic fileref="figures/full-3" format="png"></inlinegraphic>
+	<inlinemediaobject><imageobject><imagedata  fileref="figures/full-3" format="png"></imageobject></inlinemediaobject>
 	<guilabel>Calendar Window</guilabel>
       </para>
 
@@ -1083,14 +1084,14 @@
 	<title>Ximian Evolution Contact Interface</title>
 	<screenshot>
 	  <screeninfo>Ximian Evolution Contact List Window</screeninfo>
-	  <graphic fileref="figures/contact" format="png" srccredit="Kevin Breit">
-  	  </graphic>
+	  <mediaobject><imageobject><imagedata  fileref="figures/contact" format="png" srccredit="Kevin Breit">
+  	  </imageobject></mediaobject>
 	</screenshot>
       </figure>
      </para>
       <para>
-        <inlinegraphic fileref="figures/full-1"
-        format="png"></inlinegraphic> <guilabel>Contact
+        <inlinemediaobject><imageobject><imagedata  fileref="figures/full-1"
+        format="png"></imageobject></inlinemediaobject> <guilabel>Contact
         List</guilabel>
       </para>
       <para>

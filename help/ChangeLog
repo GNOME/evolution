@@ -1,3 +1,17 @@
+2001-09-20  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mainwindow.sgml:  move to DocBook 4.1
+
+	* C/usage-mail-org.sgml: move to DocBook 4.1
+	
+	* C/usage-mail.sgml: move to DocBook 4.1
+
+	* C/config-sync.sgml: move to DocBook 4.1
+
+	* C/apx-gloss.sgml: move to DocBook 4.1
+
+	* C/evolution.sgml: move to DocBook 4.1
+
 2001-09-19  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-calendar.sgml: more meetings-by-mail additions. Had no

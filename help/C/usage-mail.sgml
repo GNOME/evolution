@@ -94,8 +94,8 @@
         <title>Threaded Mail View</title>
 <screenshot>
 <screeninfo>Threaded Mail View</screeninfo>
-<graphic  format="png" fileref="mail-threaded" srccredit="Aaron Weber">
-</graphic>
+<mediaobject><imageobject><imagedata  format="png" fileref="mail-threaded" srccredit="Aaron Weber">
+</imageobject></mediaobject>
 </screenshot>
 </figure>
 
@@ -528,8 +528,8 @@
         <title>New Message Window</title>
         <screenshot>
           <screeninfo>Evolution Main Window</screeninfo>
-          <graphic fileref="figures/newmsg" format="png" srccredit="Aaron Weber">
-        </graphic>
+          <mediaobject><imageobject><imagedata fileref="figures/newmsg" format="png" srccredit="Aaron Weber">
+        </imageobject></mediaobject>
         </screenshot>
       </figure>
 <!-- ==============End of Figure=================================== -->
@@ -760,8 +760,8 @@
          <title>Reply Message Window</title>
          <screenshot>
           <screeninfo>Evolution Main Window</screeninfo>
-          <graphic fileref="figures/replymsg" format="png" srccredit="Aaron Weber">
-        </graphic>
+          <mediaobject><imageobject><imagedata fileref="figures/replymsg" format="png" srccredit="Aaron Weber">
+        </imageobject></mediaobject>
         </screenshot>
       </figure>
 <!-- ==============End of Figure=================================== -->

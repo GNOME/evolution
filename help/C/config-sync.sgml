@@ -113,8 +113,8 @@
 	  <title>Data Loss Prevention</title> 
 	  <para>
 	    It's always a good idea to make a backup.  To do that,
-	    make a copy of your <systemitem>
-	    <filename>~/evolution</filename> </systemitem> directory.
+	    make a copy of your
+	    <filename>~/evolution</filename> directory.
           </para>
 	</tip>
        </para>

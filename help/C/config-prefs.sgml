@@ -66,8 +66,8 @@
 	<title>Mail Preferences Dialog</title>
 	<screenshot>
 	  <screeninfo>Setting mail preferences</screeninfo>
-	  <graphic fileref="figures/config-mail" format="png" srccredit="Aaron Weber">
-	    </graphic>
+	  <mediaobject><imageobject><imagedata fileref="figures/config-mail" format="png" srccredit="Aaron Weber">
+	    </imageobject></mediaobject>
 	</screenshot>
       </figure>
       <!-- ==============End of Figure================-->
@@ -87,8 +87,8 @@
 
        <para>
          Clicking <guibutton>Get Mail</guibutton> will refresh any
-         IMAP, <systemitem><filename>mh</filename></systemitem>, or
-         <systemitem><filename>mbox</filename></systemitem> listings
+         IMAP, <filename>mh</filename>, or
+         <filename>mbox</filename> listings
          and check and download mail from all POP servers.  In other
          words, <guibutton>Get Mail</guibutton> gets your mail, no
          matter how many sources you have, or what types they are.  If
@@ -333,7 +333,7 @@ smtp.omniport.com:143
 	      <para>
                 The complete path to your external encryption tool On
                 most Linux systems, this will be
-                <systemitem><filename>/usr/bin/gpg</filename></systemitem>.
+                <filename>/usr/bin/gpg</filename>.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -432,8 +432,8 @@ smtp.omniport.com:143
 	<title>Calendar Preferences Dialog</title>
 	<screenshot>
 	  <screeninfo>If this worked on my job as well as my calendar...</screeninfo>
-	  <graphic fileref="figures/config-cal" format="png" srccredit="Aaron Weber">
-	    </graphic>
+	  <mediaobject><imageobject><imagedata fileref="figures/config-cal" format="png" srccredit="Aaron Weber">
+	    </imageobject></mediaobject>
 	</screenshot>
       </figure>
       <!-- ==============End of Figure================-->
