@@ -1,3 +1,9 @@
+2004-08-16  Not Zed  <NotZed@Ximian.com>
+
+	* providers/groupwise/camel-groupwise-provider.c
+	(camel_provider_module_init): pass an exception handle to
+	camel_provider_get.
+
 2004-08-13  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-summary.c (imap4_summary_fetch_all):
