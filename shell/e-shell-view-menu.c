@@ -167,6 +167,16 @@ command_about_box (GtkWidget *menuitem, gpointer data)
 }
 
 static void
+command_help (BonoboUIHandler *uih, void *data, const char *path)
+{
+	char *url;
+
+	url = g_strdup_printf ("ghelp:%s/gnome/help/evolution/C/%s",
+			       EVOLUTION_DATADIR, (char *)data);
+	gnome_url_show (url);
+}
+
+static void
 command_toggle_folder_bar (BonoboUIHandler *uih,
 			   void *data,
 			   const char *path)
@@ -340,7 +350,26 @@ static GnomeUIInfo menu_actions [] = {
 
 static GnomeUIInfo menu_help [] = {
 	GNOMEUIINFO_MENU_ABOUT_ITEM(command_about_box, NULL),
-	{ GNOME_APP_UI_ITEM, N_("_Submit bug"),
+
+	GNOMEUIINFO_SEPARATOR,
+	{ GNOME_APP_UI_ITEM, N_("Help _Index"), NULL,
+	  command_help, "index.html",
+	  NULL, 0, 0, 0, 0 },
+	{ GNOME_APP_UI_ITEM, N_("Using the _Shell"), NULL,
+	  command_help, "usage-mainwindow.html",
+	  NULL, 0, 0, 0, 0 },
+	{ GNOME_APP_UI_ITEM, N_("Using the _Mailer"), NULL,
+	  command_help, "usage-mail.html",
+	  NULL, 0, 0, 0, 0 },
+	{ GNOME_APP_UI_ITEM, N_("Using the _Calendar"), NULL,
+	  command_help, "usage-calendar.html",
+	  NULL, 0, 0, 0, 0 },
+	{ GNOME_APP_UI_ITEM, N_("Using the Cont_act Manager"), NULL,
+	  command_help, "usage-contact.html",
+	  NULL, 0, 0, 0, 0 },
+
+	GNOMEUIINFO_SEPARATOR,
+	{ GNOME_APP_UI_ITEM, N_("_Submit bug report"),
 	  N_("Submit bug-report via bug-buddy"), command_run_bugbuddy, NULL,
 	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	GNOMEUIINFO_END
@@ -358,9 +387,12 @@ static GnomeUIInfo menu [] = {
 
 	{ GNOME_APP_UI_SUBTREE, N_("_Tools"), NULL, menu_tools },
 	{ GNOME_APP_UI_SUBTREE, N_("_Actions"), NULL, menu_actions },
-	GNOMEUIINFO_MENU_HELP_TREE (menu_help),
 
-	/* FIXME: Should provide a help menu here; Bonobo needs it.  */
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo menu_2 [] = {
+	GNOMEUIINFO_MENU_HELP_TREE (menu_help),
 
 	GNOMEUIINFO_END
 };
@@ -382,6 +414,11 @@ e_shell_view_menu_setup (EShellView *shell_view)
 	uih = e_shell_view_get_bonobo_ui_handler (shell_view);
 
 	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (menu, shell_view);
+	bonobo_ui_handler_menu_add_list (uih, "/", list);
+	bonobo_ui_handler_menu_free_list (list);
+
+	/* Parse the Help menu without bashing over the user_data */
+	list = bonobo_ui_handler_menu_parse_uiinfo_list (menu_2);
 	bonobo_ui_handler_menu_add_list (uih, "/", list);
 	bonobo_ui_handler_menu_free_list (list);
 

@@ -1,5 +1,10 @@
 2000-06-01  Dan Winship  <danw@helixcode.com>
 
+	* e-shell-view-menu.c (command_help): New menu callback to launch
+	the help browser.
+	(menu_help): add pointers to the users' guide.
+	(e_shell_view_menu_setup): Add the help menu stuff to the uih.
+
 	* main.c (main): Set up gettext. (Problem noted by Héctor García
 	Alvarez)
 
