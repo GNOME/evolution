@@ -75,6 +75,7 @@ ldif_fields[] = {
 	{ "ou", E_CONTACT_ORG_UNIT },
 	{ "pagerphone", E_CONTACT_PHONE_PAGER },
 	{ "cellphone", E_CONTACT_PHONE_MOBILE },
+	{ "mobile", E_CONTACT_PHONE_MOBILE },
 	{ "homeurl", E_CONTACT_HOMEPAGE_URL },
 	{ "description", E_CONTACT_NOTE },
 	{ "xmozillausehtmlmail", E_CONTACT_WANTS_HTML }

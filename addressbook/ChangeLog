@@ -1,3 +1,9 @@
+2004-04-25  Chris Toshok  <toshok@ximian.com>
+
+	* importers/evolution-ldif-importer.c (ldif_fields): add "mobile"
+	mapping to E_CONTACT_PHONE_MOBILE, which is what thunderbird uses
+	(and really what we should have always been using.)
+
 2004-04-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* conduit/address-conduit.c (get_next_mail): The firt EMAIL item
