@@ -372,8 +372,13 @@ setup_fields (ETableConfig *config)
 
 	if (config->temp_state) {
 		for (i = 0; i < config->temp_state->col_count; i++) {
-			e_table_subset_variable_add (config->shown_model, config->temp_state->columns[i]);
-			e_table_without_hide (config->available_model, GINT_TO_POINTER(config->temp_state->columns[i]));
+			gint j, idx;
+			for (j = 0, idx = 0; j < config->temp_state->columns[i]; j++)
+				if (!config->source_spec->columns[j]->disabled)
+					idx++;
+
+			e_table_subset_variable_add (config->shown_model, idx);
+			e_table_without_hide (config->available_model, GINT_TO_POINTER(idx));
 		}
 	}
 }
