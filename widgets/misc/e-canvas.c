@@ -800,8 +800,9 @@ e_canvas_item_invoke_reflow (GnomeCanvasItem *item, int flags)
 
 	if (item->object.flags & E_CANVAS_ITEM_NEEDS_REFLOW) {
 		ECanvasItemReflowFunc func;
-		func = gtk_object_get_data (GTK_OBJECT (item),
-					    "ECanvasItem::reflow_callback");
+		func = (ECanvasItemReflowFunc)
+			gtk_object_get_data (GTK_OBJECT (item),
+					     "ECanvasItem::reflow_callback");
 		if (func)
 			func (item, flags);
 	}
@@ -917,7 +918,7 @@ e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
 	for (list = canvas->selection; list; list = g_list_next(list)) {
 		info = list->data;
 
-		func = gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_callback");
+		func = (ECanvasItemSelectionFunc)gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_callback");
 		if (func)
 			func(info->item, flags, info->id);
 		g_message ("ECANVAS: free info (2): item %p, id %p",
@@ -938,7 +939,7 @@ e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
 	g_message ("ECANVAS: new info item %p, id %p", item, id);
 
 	flags = E_CANVAS_ITEM_SELECTION_SELECT | E_CANVAS_ITEM_SELECTION_CURSOR;
-	func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
+	func = (ECanvasItemSelectionFunc)gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
 	if (func)
 		func(item, flags, id);
 
@@ -969,7 +970,7 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 	canvas = E_CANVAS(item->canvas);
 
 	if (canvas->cursor) {
-		func = gtk_object_get_data(GTK_OBJECT(canvas->cursor->item), "ECanvasItem::selection_callback");
+		func = (ECanvasItemSelectionFunc)gtk_object_get_data(GTK_OBJECT(canvas->cursor->item), "ECanvasItem::selection_callback");
 		if (func)
 			func(canvas->cursor->item, flags, canvas->cursor->id);
 	}
@@ -984,11 +985,11 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 
 		if (search->item == item) {
 			ECanvasItemSelectionCompareFunc compare_func;
-			compare_func = gtk_object_get_data(GTK_OBJECT(search->item), "ECanvasItem::selection_compare_callback");
+			compare_func = (ECanvasItemSelectionCompareFunc)gtk_object_get_data(GTK_OBJECT(search->item), "ECanvasItem::selection_compare_callback");
 
 			if (compare_func(search->item, search->id, id, 0) == 0) {
 				canvas->cursor = search;
-				func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
+				func = (ECanvasItemSelectionFunc)gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
 				if (func)
 					func(item, flags, search->id);
 				return;
@@ -1002,7 +1003,7 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 	info->id = id;
 	g_message ("ECANVAS: new info (2): item %p, id %p", item, id);
 
-	func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
+	func = (ECanvasItemSelectionFunc)gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
 	if (func)
 		func(item, flags, id);
 
@@ -1031,11 +1032,11 @@ e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id)
 
 		if (info->item == item) {
 			ECanvasItemSelectionCompareFunc compare_func;
-			compare_func = gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_compare_callback");
+			compare_func = (ECanvasItemSelectionCompareFunc)gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_compare_callback");
 
 			if (compare_func(info->item, info->id, id, 0) == 0) {
 				ECanvasItemSelectionFunc func;
-				func = gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_callback");
+				func = (ECanvasItemSelectionFunc) gtk_object_get_data(GTK_OBJECT(info->item), "ECanvasItem::selection_callback");
 				if (func)
 					func(info->item, flags, info->id);
 				canvas->selection = g_list_remove_link(canvas->selection, list);

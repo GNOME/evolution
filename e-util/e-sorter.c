@@ -59,7 +59,7 @@ es_init (ESorter *es)
 {
 }
 
-E_MAKE_TYPE(e_sorter, "ESorter", ESorter, es_class_init, es_init, PARENT_TYPE);
+E_MAKE_TYPE(e_sorter, "ESorter", ESorter, es_class_init, es_init, PARENT_TYPE)
 
 ESorter *
 e_sorter_new (void)

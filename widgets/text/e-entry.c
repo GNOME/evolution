@@ -97,7 +97,7 @@ enum {
 	ARG_DRAW_BACKGROUND,
 	ARG_DRAW_BUTTON,
 	ARG_EMULATE_LABEL_RESIZE,
-	ARG_CURSOR_POS,
+	ARG_CURSOR_POS
 };
 
 typedef struct _EEntryPrivate EEntryPrivate;
@@ -1352,4 +1352,4 @@ e_entry_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_CURSOR_POS);
 }
 
-E_MAKE_TYPE(e_entry, "EEntry", EEntry, e_entry_class_init, e_entry_init, PARENT_TYPE);
+E_MAKE_TYPE(e_entry, "EEntry", EEntry, e_entry_class_init, e_entry_init, PARENT_TYPE)

@@ -48,7 +48,7 @@ e_bit_array_insert_real(EBitArray *eba, int row)
 	if(eba->bit_count >= 0) {
 		/* Add another word if needed. */
 		if ((eba->bit_count & 0x1f) == 0) {
-			eba->data = g_renew(gint, eba->data, (eba->bit_count >> 5) + 1);
+			eba->data = g_renew(guint32, eba->data, (eba->bit_count >> 5) + 1);
 			eba->data[eba->bit_count >> 5] = 0;
 		}
 
@@ -97,7 +97,7 @@ e_bit_array_delete_real(EBitArray *eba, int row, gboolean move_selection_mode)
 		eba->bit_count --;
 		/* Remove the last word if not needed. */
 		if ((eba->bit_count & 0x1f) == 0) {
-			eba->data = g_renew(gint, eba->data, eba->bit_count >> 5);
+			eba->data = g_renew(guint32, eba->data, eba->bit_count >> 5);
 		}
 		if (move_selection_mode && selected) {
 			e_bit_array_select_single_row (eba, row > 0 ? row - 1 : 0);
@@ -266,7 +266,7 @@ e_bit_array_select_all (EBitArray *eba)
 	int i;
 	
 	if (!eba->data)
-		eba->data = g_new0 (gint, (eba->bit_count + 31) / 32);
+		eba->data = g_new0 (guint32, (eba->bit_count + 31) / 32);
 	
 	for (i = 0; i < (eba->bit_count + 31) / 32; i ++) {
 		eba->data[i] = ONES;
@@ -298,7 +298,7 @@ e_bit_array_invert_selection (EBitArray *eba)
 	int i;
 
 	if (!eba->data)
-		eba->data = g_new0 (gint, (eba->bit_count + 31) / 32);
+		eba->data = g_new0 (guint32, (eba->bit_count + 31) / 32);
 	
 	for (i = 0; i < (eba->bit_count + 31) / 32; i ++) {
 		eba->data[i] = ~eba->data[i];
@@ -379,7 +379,7 @@ e_bit_array_select_single_row (EBitArray *eba, int row)
 		if (!((i == BOX(row) && eba->data[i] == BITMASK(row)) ||
 		      (i != BOX(row) && eba->data[i] == 0))) {
 			g_free(eba->data);
-			eba->data = g_new0(gint, (eba->bit_count + 31) / 32);
+			eba->data = g_new0(guint32, (eba->bit_count + 31) / 32);
 			eba->data[BOX(row)] = BITMASK(row);
 
 			break;
@@ -417,13 +417,13 @@ e_bit_array_class_init (EBitArrayClass *klass)
 }
 
 E_MAKE_TYPE(e_bit_array, "EBitArray", EBitArray,
-	    e_bit_array_class_init, e_bit_array_init, PARENT_TYPE);
+	    e_bit_array_class_init, e_bit_array_init, PARENT_TYPE)
 
 EBitArray *
 e_bit_array_new (int count)
 {
 	EBitArray *eba = gtk_type_new (e_bit_array_get_type ());
 	eba->bit_count = count;
-	eba->data = g_new0(gint, (eba->bit_count + 31) / 32);
+	eba->data = g_new0(guint32, (eba->bit_count + 31) / 32);
 	return eba;
 }

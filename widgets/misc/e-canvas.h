@@ -66,7 +66,7 @@ enum {
 enum {
 	E_CANVAS_ITEM_SELECTION_SELECT        = 1 << 0, /* TRUE = select.  FALSE = unselect. */
 	E_CANVAS_ITEM_SELECTION_CURSOR        = 1 << 1, /* TRUE = has become cursor.  FALSE = not cursor. */
-	E_CANVAS_ITEM_SELECTION_DELETE_DATA   = 1 << 2,
+	E_CANVAS_ITEM_SELECTION_DELETE_DATA   = 1 << 2
 };
 
 typedef struct {
