@@ -476,9 +476,10 @@ the workaround described in the note below.
       <para>
 	<application>mutt</application> is a full-featured mail client
 	which is shipped with most Linux and Unix distributions.
-	<application>mutt</application> uses the standard mbox file
-	format, which makes importing your mail into
-	<application>Evolution</application> easy.
+	<application>mutt</application> uses the standard mbox,
+	maildir, and MH file formats, which makes importing your mail into
+	<application>Evolution</application> easy.  By default,
+	<application>mutt</application> uses the mbox file format.
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -512,7 +513,10 @@ the workaround described in the note below.
 	  <listitem>
 	    <para>
 	      Click <guibutton>Browse</guibutton> and select the file
-	      you would like to import from.
+	      you would like to import from.  By default, your email
+	      is stored in <filename>~/mbox</filename> for the mbox
+	      format and <filename
+	      class="directory">~/Maildir</filename> for the Maildir format.
 	    </para>
 	  </listitem>
 	  <listitem>
