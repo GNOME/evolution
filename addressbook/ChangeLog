@@ -1,3 +1,9 @@
+2000-12-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* contact-editor/e-contact-editor.c (full_name_clicked): Made it
+	so that the editor->name is set after the entry is changed.  This
+	means that the reparse that the person chose is saved.
+
 2000-12-07  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/e-ldap-storage.c (setup_ldap_storage): Pass NULL

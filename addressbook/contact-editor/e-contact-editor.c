@@ -506,8 +506,6 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 		gtk_object_get(GTK_OBJECT(dialog),
 			       "name", &name,
 			       NULL);
-		e_card_name_free(editor->name);
-		editor->name = e_card_name_copy(name);
 
 		fname_widget = glade_xml_get_widget(editor->gui, "entry-fullname");
 		if (fname_widget && GTK_IS_ENTRY(fname_widget)) {
@@ -515,6 +513,9 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 			e_utf8_gtk_entry_set_text(GTK_ENTRY(fname_widget), full_name);
 			g_free(full_name);
 		}
+
+		e_card_name_free(editor->name);
+		editor->name = e_card_name_copy(name);
 	}
 	gtk_object_unref(GTK_OBJECT(dialog));
 }
