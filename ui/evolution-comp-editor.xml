@@ -55,21 +55,9 @@
 
 </submenu>	
 
-<submenu name="Edit" _label="_Edit">
-
-	<placeholder name="Edit"/>
-
-</submenu>
-
 <submenu name="Actions" _label="_Action">
 
 	<placeholder name="Actions"/>
-
-</submenu>
-
-<submenu name="Help" _label="_Help">
-	
-	<placeholder name="BuiltMenuItems"/>
 
 </submenu>
 
