@@ -822,6 +822,12 @@ e_shell_construct (EShell *shell,
 
 	if (BONOBO_EX (&ev) || priv->db == CORBA_OBJECT_NIL) {
 		g_warning ("Cannot access Bonobo/ConfigDatabase on wombat:");
+
+		/* Make sure the DB object is NIL so we don't mess up
+		   (`bonobo_get_object()' might return an undefined value in
+		   the case of an exception).  */
+		priv->db = CORBA_OBJECT_NIL;
+
 		CORBA_exception_free (&ev);
 		return FALSE;
  	}

@@ -1,5 +1,15 @@
 2001-08-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fixes #4663, startup crash.]
+
+	* e-shell.c (e_shell_construct): Make sure the pointer to the db
+	object is CORBA_OBJECT_NIL if `bonobo_get_object()' raises an
+	exception.
+
+2001-08-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixes #3818, crash when going off-line.]
+
 	* e-shell-offline-handler.c (component_info_free): Also call
 	`PortableServer_POA_deactivate_object()' on the progress listener
 	object so it gets deactivated.
