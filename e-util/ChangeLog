@@ -1,3 +1,7 @@
+2004-04-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-icon-factory.c: Remove the warnings about using E_ICON_SIZE enums.
+
 2004-04-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-icon-factory.c (e_icon_factory_get_icon): Make

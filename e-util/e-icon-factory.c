@@ -178,7 +178,6 @@ e_icon_factory_get_icon_filename (const char *icon_name, int icon_size)
 	g_return_val_if_fail (strcmp (icon_name, ""), NULL);
 	
 	if (icon_size >= E_ICON_NUM_SIZES) {
-		g_warning ("e_icon_factory_get_icon_filename(): Invalid argument for icon_size: use one of the E_ICON_SIZE_* enum values");
 		if ((icon_size = pixel_size_to_icon_size (icon_size)) == -1)
 			return NULL;
 	}
@@ -201,7 +200,6 @@ e_icon_factory_get_icon (const char *icon_name, int icon_size)
 	int size;
 	
 	if (icon_size >= E_ICON_NUM_SIZES) {
-		g_warning ("e_icon_factory_get_icon(): Invalid argument for icon_size: use one of the E_ICON_SIZE_* enum values");
 		if ((icon_size = pixel_size_to_icon_size (icon_size)) == -1)
 			return NULL;
 	}
