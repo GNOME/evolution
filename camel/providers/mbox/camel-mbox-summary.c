@@ -659,7 +659,6 @@ camel_mbox_summary_sync(CamelMboxSummary *mbs, gboolean expunge, CamelException 
 				if (unlink(tmpname) != -1)
 					goto retry_out;
 			
-			free (tmpname);
 			tmpname = NULL;
 			g_warning ("Something failed (yo!)");
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,

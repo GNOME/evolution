@@ -1,3 +1,8 @@
+2000-08-28  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_sync):
+	Never ever free `tmpname' as it comes from `alloca()'!
+
 2000-08-26  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* camel-mime-utils.c (header_decode_text): Use `g_free()', not
