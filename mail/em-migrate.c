@@ -26,14 +26,19 @@
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <regex.h>
 #include <errno.h>
+#include <ctype.h>
 
 #include <gtk/gtk.h>
+
+#include <gconf/gconf-client.h>
 
 #include <camel/camel.h>
 #include <camel/camel-session.h>
@@ -45,8 +50,1343 @@
 
 #include <gal/util/e-xml-utils.h>
 
+#include "mail-component.h" /* for em_uri_from_camel() */
 #include "em-migrate.h"
 
+#define d(x) x
+
+
+/* upgrade helper functions */
+
+static xmlNodePtr
+xml_find_node (xmlNodePtr parent, const char *name)
+{
+	xmlNodePtr node;
+	
+	node = parent->children;
+	while (node != NULL) {
+		if (node->name && !strcmp (node->name, name))
+			return node;
+		
+		node = node->next;
+	}
+	
+	return NULL;
+}
+
+static int
+upgrade_xml_uris (xmlDocPtr doc, char * (* upgrade_uri) (const char *uri))
+{
+	xmlNodePtr root, node;
+	char *uri, *new;
+	
+	if (!doc || !(root = xmlDocGetRootElement (doc)))
+		return 0;
+	
+	if (!root->name || strcmp (root->name, "filteroptions") != 0) {
+		/* root node is not <filteroptions>, nothing to upgrade */
+		return 0;
+	}
+	
+	if (!(node = xml_find_node (root, "ruleset"))) {
+		/* no ruleset node, nothing to upgrade */
+		return 0;
+	}
+	
+	node = node->children;
+	while (node != NULL) {
+		if (node->name && !strcmp (node->name, "rule")) {
+			xmlNodePtr actionset, part, val, n;
+			
+			if ((actionset = xml_find_node (node, "actionset"))) {
+				/* filters.xml */
+				part = actionset->children;
+				while (part != NULL) {
+					if (part->name && !strcmp (part->name, "part")) {
+						val = part->children;
+						while (val != NULL) {
+							if (val->name && !strcmp (val->name, "value")) {
+								char *type;
+								
+								type = xmlGetProp (val, "type");
+								if (type && !strcmp (type, "folder")) {
+									if ((n = xml_find_node (val, "folder"))) {
+										uri = xmlGetProp (n, "uri");
+										new = upgrade_uri (uri);
+										xmlFree (uri);
+										
+										xmlSetProp (n, "uri", new);
+										g_free (new);
+									}
+								}
+								
+								xmlFree (type);
+							}
+							
+							val = val->next;
+						}
+					}
+					
+					part = part->next;
+				}
+			} else if ((actionset = xml_find_node (node, "sources"))) {
+				/* vfolders.xml */
+				n = actionset->children;
+				while (n != NULL) {
+					if (n->name && !strcmp (n->name, "folder")) {
+						uri = xmlGetProp (n, "uri");
+						new = upgrade_uri (uri);
+						xmlFree (uri);
+						
+						xmlSetProp (n, "uri", new);
+						g_free (new);
+					}
+					
+					n = n->next;
+				}
+			}
+		}
+		
+		node = node->next;
+	}
+	
+	return 0;
+}
+
+/* 1.0 upgrade functions & data */
+
+/* as much info as we have on a given account */
+struct _account_info_1_0 {
+	char *name;
+	char *uri;
+	char *base_uri;
+	union {
+		struct {
+			/* for imap */
+			char *namespace;
+			char *namespace_full;
+			guint32 capabilities;
+			GHashTable *folders;
+			char dir_sep;
+		} imap;
+	} u;
+};
+
+struct _imap_folder_info_1_0 {
+	char *folder;
+	/* encoded?  decoded?  canonicalised? */
+	char dir_sep;
+};
+
+static GHashTable *accounts_1_0 = NULL;
+static GHashTable *accounts_name_1_0 = NULL;
+
+static void
+imap_folder_info_1_0_free (gpointer key, gpointer value, gpointer user_data)
+{
+	struct _imap_folder_info_1_0 *fi = value;
+	
+	g_free (fi->folder);
+	g_free (fi);
+}
+
+static void
+account_info_1_0_free (struct _account_info_1_0 *ai)
+{
+	g_free (ai->name);
+	g_free (ai->uri);
+	g_free (ai->base_uri);
+	g_free (ai->u.imap.namespace);
+	g_free (ai->u.imap.namespace_full);
+	g_hash_table_foreach (ai->u.imap.folders, (GHFunc) imap_folder_info_1_0_free, NULL);
+	g_hash_table_destroy (ai->u.imap.folders);
+	g_free (ai);
+}
+
+static void
+accounts_1_0_free (gpointer key, gpointer value, gpointer user_data)
+{
+	account_info_1_0_free (value);
+}
+
+static char hexnib[256] = {
+	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+	 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,-1,-1,-1,-1,-1,-1,
+	-1,10,11,12,13,14,15,16,-1,-1,-1,-1,-1,-1,-1,-1,
+	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+	-1,10,11,12,13,14,15,16,-1,-1,-1,-1,-1,-1,-1,-1,
+	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+	-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+};
+
+static char *
+hex_decode (const char *val)
+{
+	const unsigned char *p = (const unsigned char *) val;
+	char *o, *res;
+	
+	o = res = g_malloc (strlen(val)/2 + 1);
+	for (p = val; (p[0] && p[1]); p += 2)
+		*o++ = (hexnib[p[0]] << 4) | hexnib[p[1]];
+	*o = 0;
+	
+	return res;
+}
+
+static char *
+url_decode (const char *val)
+{
+	const unsigned char *p = (const unsigned char *) val;
+	char *o, *res, c;
+	
+	o = res = g_malloc (strlen (val) + 1);
+	while (*p) {
+		c = *p++;
+		if (c == '%'
+		    && hexnib[p[0]] != -1 && hexnib[p[1]] != -1) {
+			*o++ = (hexnib[p[0]] << 4) | hexnib[p[1]];
+			p+=2;
+		} else
+			*o++ = c;
+	}
+	*o = 0;
+	
+	return res;
+}
+
+static xmlNodePtr
+lookup_bconf_path (xmlDocPtr doc, const char *path)
+{
+	xmlNodePtr root;
+	char *val;
+	int found;
+	
+	root = doc->children;
+	if (strcmp (root->name, "bonobo-config") != 0) {
+		g_warning ("not bonobo-config xml file\n");
+		return NULL;
+	}
+	
+	root = root->children;
+	while (root) {
+		if (!strcmp (root->name, "section")) {
+			val = xmlGetProp (root, "path");
+			found = val && strcmp (val, path) == 0;
+			xmlFree (val);
+			if (found)
+				break;
+		}
+		root = root->next;
+	}
+	
+	return root;
+}
+
+static xmlNodePtr
+bconf_get_entry (xmlNodePtr root, const char *name)
+{
+	xmlNodePtr node = root->children;
+	int found;
+	char *val;
+	
+	while (node) {
+		if (!strcmp (node->name, "entry")) {
+			val = xmlGetProp (node, "name");
+			found = val && strcmp (val, name) == 0;
+			xmlFree (val);
+			if (found)
+				break;
+		}
+		node = node->next;
+	}
+	
+	return node;
+}
+
+static char *
+bconf_get_value (xmlNodePtr root, const char *name)
+{
+	xmlNodePtr node = bconf_get_entry (root, name);
+	
+	if (node)
+		return xmlGetProp (node, "value");
+	else
+		return NULL;
+}
+
+static char *
+bconf_get_bool (xmlNodePtr root, const char *name)
+{
+	char *val, *res;
+	
+	if ((val = bconf_get_value (root, name))) {
+		res = g_strdup (val[0] == '1' ? "true" : "false");
+		xmlFree (val);
+	} else
+		res = NULL;
+	
+	return res;
+}
+
+static char *
+bconf_get_long (xmlNodePtr root, const char *name)
+{
+	char *val, *res;
+	
+	if ((val = bconf_get_value (root, name))) {
+		res = g_strdup (val);
+		xmlFree (val);
+	} else
+		res = NULL;
+	
+	return res;
+}
+
+static char *
+bconf_get_string (xmlNodePtr root, const char *name)
+{
+	char *val, *res;
+	
+	if ((val = bconf_get_value (root, name))) {
+		res = hex_decode (val);
+		xmlFree (val);
+	} else
+		res = NULL;
+	
+	return res;
+}
+
+static char *
+get_base_uri (const char *val)
+{
+	const char *tmp;
+	
+	tmp = strchr (val, ':');
+	if (tmp) {
+		tmp++;
+		if (strncmp (tmp, "//", 2) == 0)
+			tmp += 2;
+		tmp = strchr (tmp, '/');
+	}
+	
+	if (tmp)
+		return g_strndup (val, tmp-val);
+	else
+		return g_strdup (val);
+}
+
+static char *
+upgrade_xml_uris_1_0 (const char *uri)
+{
+	char *out = NULL;
+	
+	/* upgrades camel uri's */
+	if (strncmp (uri, "imap:", 5) == 0) {
+		char *base_uri, dir_sep, *folder, *p;
+		struct _account_info_1_0 *ai;
+		
+		/* add namespace, canonicalise dir_sep to / */
+		base_uri = get_base_uri (uri);
+		ai = g_hash_table_lookup (accounts_1_0, base_uri);
+		
+		if (ai == NULL) {
+			g_free (base_uri);
+			return NULL;
+		}
+		
+		dir_sep = ai->u.imap.dir_sep;
+		if (dir_sep == 0) {
+			/* no dir_sep listed, try get it from the namespace, if set */
+			if (ai->u.imap.namespace != NULL) {
+				p = ai->u.imap.namespace;
+				while ((dir_sep = *p++)) {
+					if (dir_sep < '0'
+					    || (dir_sep > '9' && dir_sep < 'A')
+					    || (dir_sep > 'Z' && dir_sep < 'a')
+					    || (dir_sep > 'z')) {
+						break;
+					}
+					p++;
+				}
+			}
+			
+			/* give up ... */
+			if (dir_sep == 0) {
+				g_free (base_uri);
+				return NULL;
+			}
+		}
+		
+		folder = g_strdup (uri + strlen (base_uri) + 1);
+		
+		/* Add the namespace before the mailbox name, unless the mailbox is INBOX */
+		if (ai->u.imap.namespace && strcmp (folder, "INBOX") != 0)
+			out = g_strdup_printf ("%s/%s/%s", base_uri, ai->u.imap.namespace, folder);
+		else
+			out = g_strdup_printf ("%s/%s", base_uri, folder);
+		
+		p = out;
+		while (*p) {
+			if (*p == dir_sep)
+				*p = '/';
+			p++;
+		}
+		
+		g_free (folder);
+		g_free (base_uri);
+	} else if (strncmp (uri, "exchange:", 9) == 0) {
+		char *base_uri, *folder, *p;
+		
+		/*  exchange://user@host/exchange/ * -> exchange://user@host/personal/ * */
+		/*  Any url encoding (%xx) in the folder name is also removed */
+		base_uri = get_base_uri (uri);
+		uri += strlen (base_uri) + 1;
+		if (strncmp (uri, "exchange/", 9) == 0) {
+			folder = url_decode (uri + 9);
+			p = strchr (folder, '/');
+			out = g_strdup_printf ("%s/personal%s", base_uri, p ? p : "/");
+			g_free (folder);
+		}
+	} else if (strncmp (uri, "exchanget:", 10) == 0) {
+		/* these should be converted in the accounts table when it is loaded */
+		g_warning ("exchanget: uri not converted: '%s'", uri);
+	}
+	
+	return out;
+}
+
+static int
+em_upgrade_xml_1_0 (xmlDocPtr doc)
+{
+	return upgrade_xml_uris (doc, upgrade_xml_uris_1_0);
+}
+
+static char *
+parse_lsub (const char *lsub, char *dir_sep)
+{
+	static int comp;
+	static regex_t pat;
+	regmatch_t match[3];
+	char *m = "^\\* LSUB \\([^)]*\\) \"?([^\" ]+)\"? \"?(.*)\"?$";
+	
+	if (!comp) {
+		if (regcomp (&pat, m, REG_EXTENDED|REG_ICASE) == -1) {
+			g_warning ("reg comp '%s' failed: %s", m, g_strerror (errno));
+			return NULL;
+		}
+		comp = 1;
+	}
+	
+	if (regexec (&pat, lsub, 3, match, 0) == 0) {
+		if (match[1].rm_so != -1 && match[2].rm_so != -1) {
+			if (dir_sep)
+				*dir_sep = (match[1].rm_eo - match[1].rm_so == 1) ? lsub[match[1].rm_so] : 0;
+			return g_strndup (lsub + match[2].rm_so, match[2].rm_eo - match[2].rm_so);
+		}
+	}
+	
+	return NULL;
+}
+
+static int
+read_imap_storeinfo (struct _account_info_1_0 *si)
+{
+	FILE *storeinfo;
+	guint32 tmp;
+	char *buf, *folder, dir_sep, *path, *name, *p;
+	struct _imap_folder_info_1_0 *fi;
+	
+	si->u.imap.folders = g_hash_table_new (g_str_hash, g_str_equal);
+	
+	/* get details from uri first */
+	name = strstr (si->uri, ";override_namespace");
+	if (name) {
+		name = strstr (si->uri, ";namespace=");
+		if (name) {
+			char *end;
+			
+			name += strlen (";namespace=");
+			if (*name == '\"') {
+				name++;
+				end = strchr (name, '\"');
+			} else {
+				end = strchr (name, ';');
+			}
+			
+			if (end) {
+				/* try get the dir_sep from the namespace */
+				si->u.imap.namespace = g_strndup (name, end-name);
+				
+				p = si->u.imap.namespace;
+				while ((dir_sep = *p++)) {
+					if (dir_sep < '0'
+					    || (dir_sep > '9' && dir_sep < 'A')
+					    || (dir_sep > 'Z' && dir_sep < 'a')
+					    || (dir_sep > 'z')) {
+						si->u.imap.dir_sep = dir_sep;
+						break;
+					}
+					p++;
+				}
+			}
+		}
+	}
+	
+	/* now load storeinfo if it exists */
+	path = g_build_filename (g_get_home_dir (), "evolution", "mail", "imap", si->base_uri + 7, "storeinfo", NULL);
+	storeinfo = fopen (path, "r");
+	g_free (path);
+	if (storeinfo == NULL) {
+		g_warning ("could not find imap store info '%s'", path);
+		return -1;
+	}
+	
+	/* ignore version */
+	camel_file_util_decode_uint32 (storeinfo, &tmp);
+	camel_file_util_decode_uint32 (storeinfo, &si->u.imap.capabilities);
+	g_free (si->u.imap.namespace);
+	camel_file_util_decode_string (storeinfo, &si->u.imap.namespace);
+	camel_file_util_decode_uint32 (storeinfo, &tmp);
+	si->u.imap.dir_sep = tmp;
+	/* strip trailing dir_sep or / */
+	if (si->u.imap.namespace
+	    && (si->u.imap.namespace[strlen (si->u.imap.namespace) - 1] == si->u.imap.dir_sep
+		|| si->u.imap.namespace[strlen (si->u.imap.namespace) - 1] == '/')) {
+		si->u.imap.namespace[strlen (si->u.imap.namespace) - 1] = 0;
+	}
+	
+	d(printf ("namespace '%s' dir_sep '%c'\n", si->u.imap.namespace, si->u.imap.dir_sep ? si->u.imap.dir_sep : '?'));
+	
+	while (camel_file_util_decode_string (storeinfo, &buf) == 0) {
+		folder = parse_lsub (buf, &dir_sep);
+		if (folder) {
+			fi = g_new0 (struct _imap_folder_info_1_0, 1);
+			fi->folder = folder;
+			fi->dir_sep = dir_sep;
+#if d(!)0
+			printf (" add folder '%s' ", folder);
+			if (dir_sep)
+				printf ("'%c'\n", dir_sep);
+			else
+				printf ("NIL\n");
+#endif
+			g_hash_table_insert (si->u.imap.folders, fi->folder, fi);
+		} else {
+			g_warning ("Could not parse LIST result '%s'\n", buf);
+		}
+	}
+	
+	fclose (storeinfo);
+	
+	return 0;
+}
+
+static int
+load_accounts_1_0 (xmlDocPtr doc)
+{
+	xmlNodePtr source;
+	char *val, *tmp;
+	int count = 0, i;
+	char key[32];
+	
+	if (!(source = lookup_bconf_path (doc, "/Mail/Accounts")))
+		return 0;
+	
+	if ((val = bconf_get_value (source, "num"))) {
+		count = atoi (val);
+		xmlFree (val);
+	}
+	
+	/* load account upgrade info for each account */
+	for (i = 0; i < count; i++) {
+		struct _account_info_1_0 *ai;
+		char *rawuri;
+		
+		sprintf (key, "source_url_%d", i);
+		if (!(rawuri = bconf_get_value (source, key)))
+			continue;
+		
+		ai = g_malloc0 (sizeof (struct _account_info_1_0));
+		ai->uri = hex_decode (rawuri);
+		ai->base_uri = get_base_uri (ai->uri);
+		sprintf (key, "account_name_%d", i);
+		ai->name = bconf_get_string (source, key);
+		
+		d(printf("load account '%s'\n", ai->uri));
+		
+		if (!strncmp (ai->uri, "imap:", 5)) {
+			read_imap_storeinfo (ai);
+		} else if (!strncmp (ai->uri, "exchange:", 9)) {
+			xmlNodePtr node;
+			
+			d(printf (" upgrade exchange account\n"));
+			/* small hack, poke the source_url into the transport_url for exchanget: transports
+			   - this will be picked up later in the conversion */
+			sprintf (key, "transport_url_%d", i);
+			node = bconf_get_entry (source, key);
+			if (node && (val = xmlGetProp (node, "value"))) {
+				tmp = hex_decode (val);
+				xmlFree (val);
+				if (strncmp (tmp, "exchanget:", 10) == 0)
+					xmlSetProp (node, "value", rawuri);
+				g_free (tmp);
+			} else {
+				d(printf (" couldn't find transport uri?\n"));
+			}
+		}
+		xmlFree (rawuri);
+		
+		g_hash_table_insert (accounts_1_0, ai->base_uri, ai);
+		if (ai->name)
+			g_hash_table_insert (accounts_name_1_0, ai->name, ai);
+	}
+	
+	return 0;
+}
+
+static int
+em_migrate_1_0 (const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
+{
+	accounts_1_0 = g_hash_table_new (g_str_hash, g_str_equal);
+	accounts_name_1_0 = g_hash_table_new (g_str_hash, g_str_equal);	
+	load_accounts_1_0 (config_xmldb);
+	
+	em_upgrade_xml_1_0 (filters);
+	em_upgrade_xml_1_0 (vfolders);
+	
+	g_hash_table_foreach (accounts_1_0, (GHFunc) accounts_1_0_free, NULL);
+	g_hash_table_destroy (accounts_1_0);
+	g_hash_table_destroy (accounts_name_1_0);
+	
+	return 0;
+}
+
+
+/* 1.2 upgrade functions */
+
+static int
+is_xml1encoded (const char *txt)
+{
+	const unsigned char *p;
+	int isxml1 = FALSE;
+	int is8bit = FALSE;
+	
+	p = (const unsigned char *)txt;
+	while (*p) {
+		if (p[0] == '\\' && p[1] == 'U' && p[2] == '+'
+		    && isxdigit (p[3]) && isxdigit (p[4]) && isxdigit (p[5]) && isxdigit (p[6])
+		    && p[7] == '\\') {
+			isxml1 = TRUE;
+			p+=7;
+		} else if (p[0] >= 0x80)
+			is8bit = TRUE;
+		p++;
+	}
+	
+	/* check for invalid utf8 that needs cleaning */
+	if (is8bit && !isxml1)
+		isxml1 = !g_utf8_validate (txt, -1, NULL);
+	
+	return isxml1;
+}
+
+static char *
+decode_xml1 (const char *txt)
+{
+	GString *out = g_string_new ("");
+	const unsigned char *p;
+	char *res;
+	
+	/* convert:
+	   \U+XXXX\ -> utf8
+	   8 bit characters -> utf8 (iso-8859-1) */
+	
+	p = (const unsigned char *) txt;
+	while (*p) {
+		if (p[0] > 0x80
+		    || (p[0] == '\\' && p[1] == 'U' && p[2] == '+'
+			&& isxdigit (p[3]) && isxdigit (p[4]) && isxdigit (p[5]) && isxdigit (p[6])
+			&& p[7] == '\\')) {
+			char utf8[8];
+			gunichar u;
+			
+			if (p[0] == '\\') {
+				memcpy (utf8, p + 3, 4);
+				utf8[4] = 0;
+				u = strtoul (utf8, NULL, 16);
+				p+=7;
+			} else
+				u = p[0];
+			utf8[g_unichar_to_utf8 (u, utf8)] = 0;
+			g_string_append (out, utf8);
+		} else {
+			g_string_append_c (out, *p);
+		}
+		p++;
+	}
+	
+	res = out->str;
+	g_string_free (out, FALSE);
+	
+	return res;
+}
+
+static char *
+utf8_reencode (const char *txt)
+{
+	GString *out = g_string_new ("");
+	const unsigned char *p;
+	char *res;
+	
+	/* convert:
+        libxml1  8 bit utf8 converted to xml entities byte-by-byte chars -> utf8 */
+	
+	p =  (const unsigned char *) txt;
+	
+	while (*p) {
+		g_string_append_c (out,(char) g_utf8_get_char (p));
+		p = g_utf8_next_char (p);
+	}
+	
+	res = out->str;
+	if (g_utf8_validate (res, -1, NULL)) {
+		g_string_free (out, FALSE);
+		return res;
+	} else {
+		g_string_free (out, TRUE);
+		return g_strdup (txt);
+	}
+}
+
+static int
+upgrade_xml_1_2_rec (xmlNodePtr node)
+{
+	const char *value_tags[] = { "string", "address", "regex", "file", "command", NULL };
+	const char *rule_tags[] = { "title", NULL };
+	const char *item_props[] = { "name", NULL };
+	struct {
+		const char *name;
+		const char **tags;
+		const char **props;
+	} tags[] = {
+		{ "value", value_tags, NULL },
+		{ "rule", rule_tags, NULL },
+		{ "item", NULL, item_props },
+		{ 0 },
+	};
+	int changed = 0;
+	xmlNodePtr work;
+	int i,j;
+	char *txt, *tmp;
+	
+	/* upgrades the content of a node, if the node has a specific parent/node name */
+	
+	for (i = 0; tags[i].name; i++) {
+		if (!strcmp (node->name, tags[i].name)) {
+			if (tags[i].tags != NULL) {
+				work = node->children;
+				while (work) {
+					for (j = 0; tags[i].tags[j]; j++) {
+						if (!strcmp (work->name, tags[i].tags[j])) {
+							txt = xmlNodeGetContent (work);
+							if (is_xml1encoded (txt)) {
+								tmp = decode_xml1 (txt);
+								d(printf ("upgrading xml node %s/%s '%s' -> '%s'\n",
+									  tags[i].name, tags[i].tags[j], txt, tmp));
+								xmlNodeSetContent (work, tmp);
+								changed = 1;
+								g_free (tmp);
+							}
+							xmlFree (txt);
+						}
+					}
+					work = work->next;
+				}
+				break;
+			}
+			
+			if (tags[i].props != NULL) {
+				for (j = 0; tags[i].props[j]; j++) {
+					txt = xmlGetProp (node, tags[i].props[j]);
+					tmp = utf8_reencode (txt);
+					d(printf ("upgrading xml property %s on node %s '%s' -> '%s'\n",
+						  tags[i].props[j], tags[i].name, txt, tmp));
+					xmlSetProp (node, tags[i].props[j], tmp);
+					changed = 1;
+					g_free (tmp);
+					xmlFree (txt);
+				}
+			}
+		}
+	}
+	
+	node = node->children;
+	while (node) {
+		changed |= upgrade_xml_1_2_rec (node);
+		node = node->next;
+	}
+	
+	return changed;
+}
+
+static int
+em_upgrade_xml_1_2 (xmlDocPtr doc)
+{
+	xmlNodePtr root;
+	
+	if (!doc || !(root = xmlDocGetRootElement (doc)))
+		return 0;
+	
+	return upgrade_xml_1_2_rec (root);
+}
+
+/* ********************************************************************** */
+/*  Tables for converting flat bonobo conf -> gconf xml blob		  */
+/* ********************************************************************** */
+
+/* for remapping bonobo-conf account data into the new xml blob format */
+/* These are used in build_xml, and order must match the lookup_table */
+enum _map_t {
+	MAP_END = 0,		/* end of line*/
+	MAP_BOOL,		/* bool -> prop of name 'to' value true or false */
+	MAP_LONG,		/* long -> prop of name 'to' value a long */
+	MAP_STRING,		/* string -> prop of name 'to' */
+	MAP_ENUM,		/* long/bool -> prop of name 'to', with the value indexed into the child map table's from field */
+	MAP_CHILD,		/* a new child of name 'to' */
+	MAP_MASK = 0x3f,
+	MAP_CONTENT = 0x80,	/* if set, create a new node of name 'to' instead of a property */
+};
+
+struct _map_table {
+	char *from;
+	char *to;
+	int type;
+	struct _map_table *child;
+};
+
+/* Mail/Accounts/ * */
+struct _map_table cc_map[] = {
+	{ "account_always_cc_%i", "always", MAP_BOOL },
+	{ "account_always_cc_addrs_%i", "recipients", MAP_STRING|MAP_CONTENT },
+	{ NULL },
+};
+
+struct _map_table bcc_map[] = {
+	{ "account_always_cc_%i", "always", MAP_BOOL },
+	{ "account_always_bcc_addrs_%i", "recipients", MAP_STRING|MAP_CONTENT },
+	{ NULL },
+};
+
+struct _map_table pgp_map[] = {
+	{ "account_pgp_encrypt_to_self_%i", "encrypt-to-self", MAP_BOOL },
+	{ "account_pgp_always_trust_%i", "always-trust", MAP_BOOL },
+	{ "account_pgp_always_sign_%i", "always-sign", MAP_BOOL },
+	{ "account_pgp_no_imip_sign_%i", "no-imip-sign", MAP_BOOL },
+	{ "account_pgp_key_%i", "key-id", MAP_STRING|MAP_CONTENT },
+	{ NULL },
+};
+
+struct _map_table smime_map[] = {
+	{ "account_smime_encrypt_to_self_%i", "encrypt-to-self", MAP_BOOL },
+	{ "account_smime_always_sign_%i", "always-sign", MAP_BOOL },
+	{ "account_smime_key_%i", "key-id", MAP_STRING|MAP_CONTENT },
+	{ NULL },
+};
+
+struct _map_table identity_sig_map[] = {
+	{ "identity_autogenerated_signature_%i", "auto", MAP_BOOL },
+	{ "identity_def_signature_%i", "default", MAP_LONG },
+	{ NULL },
+};
+
+struct _map_table identity_map[] = {
+	{ "identity_name_%i", "name", MAP_STRING|MAP_CONTENT },
+	{ "identity_address_%i", "addr-spec", MAP_STRING|MAP_CONTENT },
+	{ "identity_reply_to_%i", "reply-to", MAP_STRING|MAP_CONTENT },
+	{ "identity_organization_%i", "organization", MAP_STRING|MAP_CONTENT },
+	{ NULL, "signature", MAP_CHILD, identity_sig_map },
+	{ NULL },
+};
+
+struct _map_table source_map[] = {
+	{ "source_save_passwd_%i", "save-passwd", MAP_BOOL },
+	{ "source_keep_on_server_%i", "keep-on-server", MAP_BOOL },
+	{ "source_auto_check_%i", "auto-check", MAP_BOOL },
+	{ "source_auto_check_time_%i", "auto-check-timeout", MAP_LONG },
+	{ "source_url_%i", "url", MAP_STRING|MAP_CONTENT },
+	{ NULL },
+};
+
+struct _map_table transport_map[] = {
+	{ "transport_save_passwd_%i", "save-passwd", MAP_BOOL },
+	{ "transport_url_%i", "url", MAP_STRING|MAP_CONTENT },
+	{ NULL },
+};
+
+struct _map_table account_map[] = {
+	{ "account_name_%i", "name", MAP_STRING },
+	{ "source_enabled_%i", "enabled", MAP_BOOL },
+	{ NULL, "identity", MAP_CHILD, identity_map },
+	{ NULL, "source", MAP_CHILD, source_map },
+	{ NULL, "transport", MAP_CHILD, transport_map },
+	{ "account_drafts_folder_uri_%i", "drafts-folder", MAP_STRING|MAP_CONTENT },
+	{ "account_sent_folder_uri_%i", "sent-folder", MAP_STRING|MAP_CONTENT },
+	{ NULL, "auto-cc", MAP_CHILD, cc_map },
+	{ NULL, "auto-bcc", MAP_CHILD, bcc_map },
+	{ NULL, "pgp", MAP_CHILD, pgp_map },
+	{ NULL, "smime", MAP_CHILD, smime_map },
+	{ NULL },
+};
+
+/* /Mail/Signatures/ * */
+struct _map_table signature_format_map[] = {
+	{ "text/plain", },
+	{ "text/html", },
+	{ NULL }
+};
+
+struct _map_table signature_map[] = {
+	{ "name_%i", "name", MAP_STRING },
+	{ "html_%i", "format", MAP_ENUM, signature_format_map },
+	{ "filename_%i", "filename", MAP_STRING|MAP_CONTENT },
+	{ "script_%i", "script", MAP_STRING|MAP_CONTENT },
+	{ NULL },
+};
+
+
+static char *
+get_name (const char *in, int index)
+{
+	GString *out = g_string_new ("");
+	char c, *res;
+	
+	while ((c = *in++)) {
+		if (c == '%') {
+			c = *in++;
+			switch (c) {
+			case '%':
+				g_string_append_c (out, '%');
+				break;
+			case 'i':
+				g_string_append_printf (out, "%d", index);
+				break;
+			}
+		} else {
+			g_string_append_c (out, c);
+		}
+	}
+	
+	res = out->str;
+	g_string_free (out, FALSE);
+	
+	return res;
+}
+
+static char *
+bconf_lookup_bool (xmlNodePtr source, const char *name, struct _map_table *map)
+{
+	return bconf_get_bool (source, name);
+}
+
+static char *
+bconf_lookup_long (xmlNodePtr source, const char *name, struct _map_table *map)
+{
+	return bconf_get_long (source, name);
+}
+
+static char *
+bconf_lookup_string (xmlNodePtr source, const char *name, struct _map_table *map)
+{
+	return bconf_get_string (source, name);
+}
+
+static char *
+bconf_lookup_enum (xmlNodePtr source, const char *name, struct _map_table *map)
+{
+	char *val;
+	int index = 0, i;
+	
+	if ((val = bconf_get_value (source, name))) {
+		index = atoi (val);
+		xmlFree (val);
+	}
+	
+	for (i = 0; map->child[i].from; i++)
+		if (i == index)
+			return g_strdup (map->child[i].from);
+	
+	return NULL;
+}
+
+typedef char * (*bconf_lookup_func) (xmlNodePtr, const char *, struct _map_table *);
+
+static void
+build_xml (xmlNodePtr root, struct _map_table *map, int index, xmlNodePtr source)
+{
+	bconf_lookup_func lookup_table[] = { bconf_lookup_bool, bconf_lookup_long, bconf_lookup_string, bconf_lookup_enum };
+	char *name, *value;
+	xmlNodePtr node;
+	
+	while (map->type != MAP_END) {
+		if ((map->type & MAP_MASK) == MAP_CHILD) {
+			node = xmlNewChild (root, NULL, map->to, NULL);
+			build_xml (node, map->child, index, source);
+		} else {
+			name = get_name (map->from, index);
+			value = lookup_table[(map->type & MAP_MASK) - 1] (source, name, map);
+			
+			d(printf ("key '%s=%s' -> ", name, value));
+			
+			if (map->type & MAP_CONTENT) {
+				if (value && value[0])
+					xmlNewTextChild (root, NULL, map->to, value);
+			} else {
+				xmlSetProp (root, map->to, value);
+			}
+			g_free (value);
+			g_free (name);
+		}
+		map++;
+	}
+}
+
+static int
+convert_xml_blob (GConfClient *gconf, xmlDocPtr doc, struct _map_table *map, const char *path,
+		  const char *outpath, const char *name, const char *idparam)
+{
+	xmlNodePtr source;
+	int count = 0, i;
+	GSList *list, *l;
+	char *val;
+	
+	source = lookup_bconf_path (doc, path);
+	if (source) {
+		list = NULL;
+		if ((val = bconf_get_value (source, "num"))) {
+			count = atoi (val);
+			xmlFree (val);
+		}
+		
+		d(printf("Found %d blobs at %s\n", count, path));
+		
+		for (i = 0; i < count; i++) {
+			xmlDocPtr docout;
+			xmlChar *xmlbuf;
+			int n;
+			xmlNodePtr root;
+			
+			docout = xmlNewDoc ("1.0");
+			root = xmlNewDocNode (docout, NULL, name, NULL);
+			xmlDocSetRootElement (docout, root);
+			
+			/* This could be set with a MAP_UID type ... */
+			if (idparam) {
+				char buf[16];
+				
+				sprintf (buf, "%d", i);
+				xmlSetProp (root, idparam, buf);
+			}
+			
+			build_xml (root, map, i, source);
+			
+			xmlDocDumpMemory (docout, &xmlbuf, &n);
+			xmlFreeDoc (docout);
+			
+			list = g_slist_append (list, xmlbuf);
+		}
+		
+		gconf_client_set_list (gconf, outpath, GCONF_VALUE_STRING, list, NULL);
+		while (list) {
+			l = list->next;
+			xmlFree (list->data);
+			g_slist_free_1 (list);
+			list = l;
+		}
+	} else {
+		g_warning ("could not find '%s' in old config database, skipping", path);
+	}
+	
+	return 0;
+}
+
+/* ********************************************************************** */
+/*  Tables for bonobo conf -> gconf conversion				  */
+/* ********************************************************************** */
+
+/* order important here, used to index a few tables below */
+enum {
+	BMAP_BOOL,
+	BMAP_BOOLNOT,
+	BMAP_INT,
+	BMAP_STRING,
+	BMAP_SIMPLESTRING,	/* a non-encoded string */
+	BMAP_COLOUR,
+	BMAP_MASK = 0x7f,
+};
+
+struct _gconf_map {
+	char *from;
+	char *to;
+	int type;
+};
+
+/* ********************************************************************** */
+
+static struct _gconf_map mail_accounts_map[] = {
+	/* /Mail/Accounts - most entries are processed via the xml blob routine */
+	/* This also works because the initial uid mapping is 1:1 with the list order */
+	{ "default_account", "mail/default_account", BMAP_SIMPLESTRING },
+	{ 0 },
+};
+
+static struct _gconf_map mail_display_map[] = {
+	/* /Mail/Display */
+	{ "thread_list", "mail/display/thread_list", BMAP_BOOL },
+	{ "thread_subject", "mail/display/thread_subject", BMAP_BOOL },
+	{ "hide_deleted", "mail/display/show_deleted", BMAP_BOOLNOT },
+	{ "preview_pane", "mail/display/show_preview", BMAP_BOOL },
+	{ "paned_size", "mail/display/paned_size", BMAP_INT },
+	{ "seen_timeout", "mail/display/mark_seen_timeout", BMAP_INT },
+	{ "do_seen_timeout", "mail/display/mark_seen", BMAP_BOOL },
+	{ "http_images", "mail/display/load_http_images", BMAP_INT },
+	{ "citation_highlight", "mail/display/mark_citations", BMAP_BOOL },
+	{ "citation_color", "mail/display/citation_colour", BMAP_COLOUR },
+	{ "x_mailer_display_style", "mail/display/xmailer_mask", BMAP_INT },
+	{ 0 },
+};
+
+static struct _gconf_map mail_format_map[] = {
+	/* /Mail/Format */
+	{ "message_display_style", "mail/display/message_style", BMAP_INT },
+	{ "send_html", "mail/composer/send_html", BMAP_BOOL },
+	{ "default_reply_style", "mail/format/reply_style", BMAP_INT },
+	{ "default_forward_style", "mail/format/forward_style", BMAP_INT },
+	{ "default_charset", "mail/composer/charset", BMAP_STRING },
+	{ "confirm_unwanted_html", "mail/prompts/unwanted_html", BMAP_BOOL },
+	{ 0 },
+};
+
+static struct _gconf_map mail_trash_map[] = {
+	/* /Mail/Trash */
+	{ "empty_on_exit", "mail/trash/empty_on_exit", BMAP_BOOL },
+	{ 0 },
+};
+
+static struct _gconf_map mail_prompts_map[] = {
+	/* /Mail/Prompts */
+	{ "confirm_expunge", "mail/prompts/expunge", BMAP_BOOL },
+	{ "empty_subject", "mail/prompts/empty_subject", BMAP_BOOL },
+	{ "only_bcc", "mail/prompts/only_bcc", BMAP_BOOL },
+	{ 0 }
+};
+
+static struct _gconf_map mail_filters_map[] = {
+	/* /Mail/Filters */
+	{ "log", "mail/filters/log", BMAP_BOOL },
+	{ "log_path", "mail/filters/logfile", BMAP_STRING },
+	{ 0 }
+};
+
+static struct _gconf_map mail_notify_map[] = {
+	/* /Mail/Notify */
+	{ "new_mail_notification", "mail/notify/type", BMAP_INT },
+	{ "new_mail_notification_sound_file", "mail/notify/sound", BMAP_STRING },
+	{ 0 }
+};
+
+static struct _gconf_map mail_filesel_map[] = {
+	/* /Mail/Filesel */
+	{ "last_filesel_dir", "mail/save_dir", BMAP_STRING },
+	{ 0 }
+};
+
+static struct _gconf_map mail_composer_map[] = {
+	/* /Mail/Composer */
+	{ "ViewFrom", "mail/composer/view/From", BMAP_BOOL },
+	{ "ViewReplyTo", "mail/composer/view/ReplyTo", BMAP_BOOL },
+	{ "ViewCC", "mail/composer/view/Cc", BMAP_BOOL },
+	{ "ViewBCC", "mail/composer/view/Bcc", BMAP_BOOL },
+	{ "ViewSubject", "mail/composer/view/Subject", BMAP_BOOL },
+	{ 0 },
+};
+
+/* ********************************************************************** */
+
+static struct _gconf_map importer_elm_map[] = {
+	/* /Importer/Elm */
+	{ "mail", "importer/elm/mail", BMAP_BOOL },
+	{ "mail-imported", "importer/elm/mail-imported", BMAP_BOOL },
+	{ 0 },
+};
+
+static struct _gconf_map importer_pine_map[] = {
+	/* /Importer/Pine */
+	{ "mail", "importer/elm/mail", BMAP_BOOL },
+	{ "address", "importer/elm/address", BMAP_BOOL },
+	{ 0 },
+};
+
+static struct _gconf_map importer_netscape_map[] = {
+	/* /Importer/Netscape */
+	{ "mail", "importer/netscape/mail", BMAP_BOOL },
+	{ "settings", "importer/netscape/settings", BMAP_BOOL },
+	{ "filters", "importer/netscape/filters", BMAP_BOOL },
+	{ 0 },
+};
+
+/* ********************************************************************** */
+
+static struct {
+	char *root;
+	struct _gconf_map *map;
+} gconf_remap_list[] = {
+	{ "/Mail/Accounts", mail_accounts_map },
+	{ "/Mail/Display", mail_display_map },
+	{ "/Mail/Format", mail_format_map },
+	{ "/Mail/Trash", mail_trash_map },
+	{ "/Mail/Prompts", mail_prompts_map },
+	{ "/Mail/Filters", mail_filters_map },
+	{ "/Mail/Notify", mail_notify_map },
+	{ "/Mail/Filesel", mail_filesel_map },
+	{ "/Mail/Composer", mail_composer_map },
+	
+	{ "/Importer/Elm", importer_elm_map },
+	{ "/Importer/Pine", importer_pine_map },
+	{ "/Importer/Netscape", importer_netscape_map },
+	
+	{ 0 },
+};
+
+struct {
+	char *label;
+	char *colour;
+} label_default[5] = {
+	{ N_("Important"), "#ff0000" },  /* red */
+	{ N_("Work"),      "#ff8c00" },  /* orange */
+	{ N_("Personal"),  "#008b00" },  /* forest green */
+	{ N_("To Do"),     "#0000ff" },  /* blue */
+	{ N_("Later"),     "#8b008b" }   /* magenta */
+};
+
+/* remaps mail config from bconf to gconf */
+static int
+import_bonobo_config (xmlDocPtr config_xmldb, GConfClient *gconf)
+{
+	xmlNodePtr source;
+	struct _gconf_map *map;
+	char *path, *val, *tmp;
+	GSList *list, *l;
+	char buf[32];
+	int i, j;
+	
+	/* process all flat config */
+	for (i = 0; gconf_remap_list[i].root; i++) {
+		d(printf ("Path: %s\n", gconf_remap_list[i].root));
+		if (!(source = lookup_bconf_path (config_xmldb, gconf_remap_list[i].root)))
+			continue;
+		
+		map = gconf_remap_list[i].map;
+		for (j = 0; map[j].from; j++) {
+			if (!(val = bconf_get_value (source, map[j].from)))
+				continue;
+			
+			d(printf (" %s = '%s' -> %s [%d]\n",
+				  map[j].from,
+				  val == NULL ? "(null)" : val,
+				  map[j].to,
+				  map[j].type));
+			
+			path = g_strdup_printf ("/apps/evolution/%s", map[j].to);
+			switch (map[j].type) {
+			case BMAP_BOOL:
+				gconf_client_set_bool (gconf, path, atoi (val), NULL);
+				break;
+			case BMAP_BOOLNOT:
+				gconf_client_set_bool (gconf, path, !atoi (val), NULL);
+				break;
+			case BMAP_INT:
+				gconf_client_set_int (gconf, path, atoi (val), NULL);
+				break;
+			case BMAP_STRING:
+				tmp = hex_decode (val);
+				gconf_client_set_string (gconf, path, tmp, NULL);
+				g_free(tmp);
+				break;
+			case BMAP_SIMPLESTRING:
+				gconf_client_set_string (gconf, path, val, NULL);
+				break;
+			case BMAP_COLOUR:
+				sprintf (buf, "#%06x", atoi (val) & 0xffffff);
+				gconf_client_set_string (gconf, path, buf, NULL);
+				break;
+			}
+			
+			/* FIXME: handle errors */
+			g_free (path);
+			xmlFree (val);
+		}
+	}
+	
+	/* Labels:
+	  label string + label colour as integer
+	   -> label string:# colour as hex */
+	source = lookup_bconf_path (config_xmldb, "/Mail/Labels");
+	if (source) {
+		list = NULL;
+		for (i = 0; i < 5; i++) {
+			char labx[16], colx[16];
+			char *lab, *col;
+			
+			sprintf (labx, "label_%d", i);
+			sprintf (colx, "color_%d", i);
+			lab = bconf_get_string (source, labx);
+			if ((col = bconf_get_value (source, colx))) {
+				sprintf (colx, "#%06x", atoi (col) & 0xffffff);
+				xmlFree (col);
+			} else
+				strcpy (colx, label_default[i].colour);
+			val = g_strdup_printf ("%s:%s", lab ? lab : label_default[i].label, colx);
+			list = g_slist_append (list, val);
+			g_free (lab);
+		}
+		
+		gconf_client_set_list (gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, list, NULL);
+		while (list) {
+			l = list->next;
+			g_free (list->data);
+			g_slist_free_1 (list);
+			list = l;
+		}
+	} else {
+		g_warning ("could not find /Mail/Labels in old config database, skipping");
+	}
+	
+	/* Accounts: The flat bonobo-config structure is remapped to a list of xml blobs.  Upgrades as necessary */
+	convert_xml_blob (gconf, config_xmldb, account_map, "/Mail/Accounts", "/apps/evolution/mail/accounts", "account", "uid");
+	/* Same for signatures */
+	convert_xml_blob (gconf, config_xmldb, signature_map, "/Mail/Signatures", "/apps/evolution/mail/signatures", "signature", NULL);
+	
+	return 0;
+}
+
+static int
+em_migrate_1_2 (const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
+{
+	GConfClient *gconf;
+	
+	gconf = gconf_client_get_default ();
+	import_bonobo_config (config_xmldb, gconf);
+	g_object_unref (gconf);
+	
+	em_upgrade_xml_1_2 (filters);
+	em_upgrade_xml_1_2 (vfolders);
+	
+	return 0;
+}
+
+/* 1.4 upgrade functions */
 
 #define EM_MIGRATE_SESSION_TYPE     (em_migrate_session_get_type ())
 #define EM_MIGRATE_SESSION(obj)     (CAMEL_CHECK_CAST((obj), EM_MIGRATE_SESSION_TYPE, EMMigrateSession))
@@ -181,7 +1521,6 @@ em_migrate_set_progress (double percent)
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 }
-
 
 static gboolean
 is_mail_folder (const char *metadata)
@@ -645,7 +1984,7 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 }
 
 static void
-em_migrate_local_folders (EMMigrateSession *session)
+em_migrate_local_folders_from_14_to_20 (EMMigrateSession *session)
 {
 	struct dirent *dent;
 	struct stat st;
@@ -679,25 +2018,8 @@ em_migrate_local_folders (EMMigrateSession *session)
 	em_migrate_close_progress_dialog ();
 }
 
-
-static xmlNodePtr
-xml_find_node (xmlNodePtr parent, const char *name)
-{
-	xmlNodePtr node;
-	
-	node = parent->children;
-	while (node != NULL) {
-		if (node->name && !strcmp (node->name, name))
-			return node;
-		
-		node = node->next;
-	}
-	
-	return NULL;
-}
-
 static char *
-em_migrate_uri (const char *uri)
+upgrade_xml_uris_1_4 (const char *uri)
 {
 	char *path, *prefix, *p;
 	CamelURL *url;
@@ -735,114 +2057,13 @@ em_migrate_uri (const char *uri)
 }
 
 static int
-em_migrate_filter_file (const char *evolution_dir, const char *filename, CamelException *ex)
+em_upgrade_xml_1_4 (xmlDocPtr doc)
 {
-	char *path, *uri, *new;
-	xmlNodePtr node;
-	xmlDocPtr doc;
-	int retval;
-	
-	path = g_build_filename (g_get_home_dir (), "evolution", filename, NULL);
-	
-	if (!(doc = xmlParseFile (path))) {
-		/* can't parse - this means nothing to upgrade */
-		g_free (path);
-		return 0;
-	}
-	
-	g_free (path);
-	
-	if (!(node = xmlDocGetRootElement (doc))) {
-		/* document contains no root node - nothing to upgrade */
-		xmlFreeDoc (doc);
-		return 0;
-	}
-	
-	if (!node->name || strcmp (node->name, "filteroptions") != 0) {
-		/* root node is not <filteroptions>, nothing to upgrade */
-		xmlFreeDoc (doc);
-		return 0;
-	}
-	
-	if (!(node = xml_find_node (node, "ruleset"))) {
-		/* no ruleset node, nothing to upgrade */
-		xmlFreeDoc (doc);
-		return 0;
-	}
-	
-	node = node->children;
-	while (node != NULL) {
-		if (node->name && !strcmp (node->name, "rule")) {
-			xmlNodePtr actionset, part, val, n;
-			
-			if ((actionset = xml_find_node (node, "actionset"))) {
-				/* filters.xml */
-				part = actionset->children;
-				while (part != NULL) {
-					if (part->name && !strcmp (part->name, "part")) {
-						val = part->children;
-						while (val != NULL) {
-							if (val->name && !strcmp (val->name, "value")) {
-								char *type;
-								
-								type = xmlGetProp (val, "type");
-								if (type && !strcmp (type, "folder")) {
-									if ((n = xml_find_node (val, "folder"))) {
-										uri = xmlGetProp (n, "uri");
-										new = em_migrate_uri (uri);
-										xmlFree (uri);
-										
-										xmlSetProp (n, "uri", new);
-										g_free (new);
-									}
-								}
-								
-								xmlFree (type);
-							}
-							
-							val = val->next;
-						}
-					}
-					
-					part = part->next;
-				}
-			} else if ((actionset = xml_find_node (node, "sources"))) {
-				/* vfolders.xml */
-				n = actionset->children;
-				while (n != NULL) {
-					if (n->name && !strcmp (n->name, "folder")) {
-						uri = xmlGetProp (n, "uri");
-						new = em_uri_from_camel (uri);
-						xmlFree (uri);
-						
-						xmlSetProp (n, "uri", new);
-						g_free (new);
-					}
-					
-					n = n->next;
-				}
-			}
-		}
-		
-		node = node->next;
-	}
-	
-	path = g_build_filename (evolution_dir, "mail", filename, NULL);
-	if ((retval = e_xml_save_file (path, doc)) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Failed to migrate `%s': %s"),
-				      filename, g_strerror (errno));
-	}
-	
-	g_free (path);
-	
-	xmlFreeDoc (doc);
-	
-	return retval;
+	return upgrade_xml_uris (doc, upgrade_xml_uris_1_4);
 }
 
 static int
-em_migrate_pop_uid_caches (const char *evolution_dir, CamelException *ex)
+em_upgrade_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 {
 	GString *oldpath, *newpath;
 	struct dirent *dent;
@@ -914,32 +2135,21 @@ em_migrate_pop_uid_caches (const char *evolution_dir, CamelException *ex)
 }
 
 
-int
-em_migrate (MailComponent *component, CamelException *ex)
+static int
+em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
 {
-	const char *evolution_dir;
 	EMMigrateSession *session;
 	CamelException lex;
 	struct stat st;
 	char *path;
 	
-	evolution_dir = mail_component_peek_base_directory (component);
-	path = g_strdup_printf ("%s/mail", evolution_dir);
-	if (stat (path, &st) == -1) {
-		if (errno != ENOENT || camel_mkdir (path, 0777) == -1) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, 
-					      _("Failed to create directory `%s': %s"),
-					      path, g_strerror (errno));
-			g_free (path);
-			return -1;
-		}
-	}
+	path = g_build_filename (evolution_dir, "mail", NULL);
 	
 	camel_init (path, TRUE);
 	session = (EMMigrateSession *) em_migrate_session_new (path);
 	g_free (path);
 	
-	session->srcdir = g_strdup_printf ("%s/evolution/local", g_get_home_dir ());
+	session->srcdir = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
 	
 	path = g_strdup_printf ("mbox:%s/.evolution/mail/local", g_get_home_dir ());
 	if (stat (path + 5, &st) == -1) {
@@ -967,21 +2177,137 @@ em_migrate (MailComponent *component, CamelException *ex)
 	}
 	g_free (path);
 	
-	em_migrate_local_folders (session);
+	em_migrate_local_folders_from_14_to_20 (session);
 	
 	camel_object_unref (session->store);
 	g_free (session->srcdir);
 	
 	camel_object_unref (session);
 	
-	if (em_migrate_filter_file (evolution_dir, "filters.xml", ex) == -1)
+	if (em_upgrade_xml_1_4 (filters) == -1)
 		return -1;
 	
-	if (em_migrate_filter_file (evolution_dir, "vfolders.xml", ex) == -1)
+	if (em_upgrade_xml_1_4 (vfolders) == -1)
 		return -1;
 	
-	if (em_migrate_pop_uid_caches (evolution_dir, ex) == -1)
+	if (em_upgrade_pop_uid_caches_1_4 (evolution_dir, ex) == -1)
 		return -1;
+	
+	return 0;
+}
+
+
+static xmlDocPtr
+emm_load_xml (const char *dirname, const char *filename)
+{
+	xmlDocPtr doc;
+	struct stat st;
+	char *path;
+	
+	path = g_strdup_printf ("%s/%s", dirname, filename);
+	if (stat (path, &st) == -1 || !(doc = xmlParseFile (path))) {
+		g_free (path);
+		return NULL;
+	}
+	
+	g_free (path);
+	
+	return doc;
+}
+
+static int
+emm_save_xml (xmlDocPtr doc, const char *dirname, const char *filename)
+{
+	char *path;
+	int retval;
+	
+	path = g_strdup_printf ("%s/%s", dirname, filename);
+	retval = e_xml_save_file (path, doc);
+	g_free (path);
+	
+	return retval;
+}
+
+
+int
+em_migrate (const char *evolution_dir, int major, int minor, int revision, CamelException *ex)
+{
+	struct stat st;
+	char *path;
+	
+	/* make sure ~/.evolution/mail exists */
+	path = g_build_filename (evolution_dir, "mail", NULL);
+	if (stat (path, &st) == -1) {
+		if (errno != ENOENT || camel_mkdir (path, 0777) == -1) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, 
+					      _("Failed to create directory `%s': %s"),
+					      path, g_strerror (errno));
+			g_free (path);
+			return -1;
+		}
+	}
+	
+	g_free (path);
+	
+	if (major == 0) {
+		/* special-case - this means brand new install of evolution */
+		/* FIXME: create default folders and stuff... */
+		
+		return 0;
+	}
+	
+	if (major == 1 && minor < 5) {
+		xmlDocPtr config_xmldb = NULL, filters, vfolders;
+		
+		path = g_build_filename (g_get_home_dir (), "evolution", NULL);
+		filters = emm_load_xml (path, "filters.xml");
+		vfolders = emm_load_xml (path, "vfolders.xml");
+		if (minor <= 2)
+			config_xmldb = emm_load_xml (path, "config.xmldb");
+		g_free (path);
+		
+		if (minor <= 0) {
+			if (em_migrate_1_0 (evolution_dir, config_xmldb, filters, vfolders, ex) == -1) {
+				xmlFreeDoc (config_xmldb);
+				xmlFreeDoc (filters);
+				xmlFreeDoc (vfolders);
+				return -1;
+			}
+		}
+		
+		if (minor <= 2) {
+			if (em_migrate_1_2 (evolution_dir, config_xmldb, filters, vfolders, ex) == -1) {
+				xmlFreeDoc (config_xmldb);
+				xmlFreeDoc (filters);
+				xmlFreeDoc (vfolders);
+				return -1;
+			}
+			
+			xmlFreeDoc (config_xmldb);
+		}
+		
+		if (minor <= 4) {
+			if (em_migrate_1_4 (evolution_dir, filters, vfolders, ex) == -1) {
+				xmlFreeDoc (filters);
+				xmlFreeDoc (vfolders);
+				return -1;
+			}
+		}
+		
+		path = g_build_filename (evolution_dir, "mail", NULL);
+		
+		if (filters) {
+			emm_save_xml (filters, path, "filters.xml");
+			xmlFreeDoc (filters);
+		}
+		
+		if (vfolders) {
+			emm_save_xml (vfolders, path, "vfolders.xml");
+			xmlFreeDoc (vfolders);
+		}
+		
+		g_free (path);
+	}
 	
 	return 0;
 }

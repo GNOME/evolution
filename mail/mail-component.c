@@ -481,23 +481,17 @@ impl_sendAndReceive (PortableServer_Servant servant, CORBA_Environment *ev)
 static gboolean
 impl_upgradeFromVersion (PortableServer_Servant servant, short major, short minor, short revision, CORBA_Environment *ev)
 {
+	MailComponent *component;
 	CamelException ex;
 	
+	component = mail_component_peek ();
+	
 	camel_exception_init (&ex);
-	
-	switch (major) {
-	case 1:
-		switch (minor) {
-		case 0:
-		case 2:
-		case 4:
-			em_migrate (mail_component_peek (), &ex);
-			break;
-		}
-		break;
+	if (em_migrate (component->priv->base_directory, major, minor, revision, &ex) == -1) {
+		/* FIXME: report errors? */
+		camel_exception_clear (&ex);
+		return FALSE;
 	}
-	
-	camel_exception_clear (&ex);
 	
 	return TRUE;
 }
