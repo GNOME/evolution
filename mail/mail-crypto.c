@@ -424,7 +424,7 @@ mail_crypto_openpgp_encrypt (const char *plaintext,
 	GPtrArray *recipient_list = NULL;
 	int retval, i, r;
 	char *path, *argv[12];
-	char *passphrase, *ciphertext = NULL, *diagnostics = NULL;
+	char *passphrase = NULL, *ciphertext = NULL, *diagnostics = NULL;
 	int passwd_fds[2];
 	char passwd_fd[32];
 	
