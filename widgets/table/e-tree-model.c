@@ -856,6 +856,7 @@ e_tree_model_node_sort (ETreeModel *tree_model,
 	gboolean *expanded;
 	int i;
 	int child_index;
+	gboolean node_expanded = e_tree_model_node_is_expanded (tree_model, node);
 
 	if (num_nodes == 0)
 		return;
@@ -869,7 +870,8 @@ e_tree_model_node_sort (ETreeModel *tree_model,
 		path_array[i] = g_node_first_child(node);
 		expanded[i] = e_tree_model_node_is_expanded (tree_model, path_array[i]);
 		e_tree_model_node_set_expanded(tree_model, path_array[i], FALSE);
-		tree_model->row_array = g_array_remove_index (tree_model->row_array, child_index);
+		if (node_expanded)
+			tree_model->row_array = g_array_remove_index (tree_model->row_array, child_index);
 		g_node_unlink (path_array[i]);
 	}
 
@@ -877,7 +879,8 @@ e_tree_model_node_sort (ETreeModel *tree_model,
 	
 	for (i = num_nodes - 1; i >= 0; i --) {
 		g_node_prepend (node, path_array[i]);
-		tree_model->row_array = g_array_insert_val (tree_model->row_array, child_index, path_array[i]);
+		if (node_expanded)
+			tree_model->row_array = g_array_insert_val (tree_model->row_array, child_index, path_array[i]);
 		e_tree_model_node_set_expanded (tree_model, path_array[i], expanded[i]);
 	}
 
