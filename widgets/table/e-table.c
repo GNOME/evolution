@@ -290,65 +290,79 @@ et_destroy (GtkObject *object)
 			gtk_signal_disconnect (GTK_OBJECT (et->search),
 					       et->search_accept_id);
 		gtk_object_unref (GTK_OBJECT (et->search));
+		et->search = NULL;
 	}
 
-	if (et->group_info_change_id)
+	if (et->group_info_change_id) {
 		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->group_info_change_id);
-	et->group_info_change_id = 0;
+		et->group_info_change_id = 0;
+	}
 	
-	if (et->sort_info_change_id)
+	if (et->sort_info_change_id) {
 		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->sort_info_change_id);
-	et->sort_info_change_id = 0;
+		et->sort_info_change_id = 0;
+	}
 
-	if (et->reflow_idle_id)
+	if (et->reflow_idle_id) {
 		g_source_remove(et->reflow_idle_id);
-	et->reflow_idle_id = 0;
+		et->reflow_idle_id = 0;
+	}
 
 	scroll_off (et);
 
 	disconnect_header (et);
 
-	if (et->model)
+	if (et->model) {
 		gtk_object_unref (GTK_OBJECT (et->model));
-	et->model = NULL;
+		et->model = NULL;
+	}
 
-	if (et->full_header)
+	if (et->full_header) {
 		gtk_object_unref (GTK_OBJECT (et->full_header));
-	et->full_header = NULL;
+		et->full_header = NULL;
+	}
 
-	if (et->sort_info)
+	if (et->sort_info) {
 		gtk_object_unref (GTK_OBJECT (et->sort_info));
-	et->sort_info = NULL;
+		et->sort_info = NULL;
+	}
 
-	if (et->sorter)
+	if (et->sorter) {
 		gtk_object_unref (GTK_OBJECT (et->sorter));
-	et->sorter = NULL;
+		et->sorter = NULL;
+	}
 
-	if (et->selection)
+	if (et->selection) {
 		gtk_object_unref (GTK_OBJECT (et->selection));
-	et->selection = NULL;
+		et->selection = NULL;
+	}
 
-	if (et->spec)
+	if (et->spec) {
 		gtk_object_unref (GTK_OBJECT (et->spec));
-	et->spec = NULL;
+		et->spec = NULL;
+	}
 
-	if (et->header_canvas != NULL)
+	if (et->header_canvas != NULL) {
 		gtk_widget_destroy (GTK_WIDGET (et->header_canvas));
-	et->header_canvas = NULL;
+		et->header_canvas = NULL;
+	}
 
-	if (et->site != NULL)
+	if (et->site != NULL) {
 		e_table_drag_source_unset (et);
-	et->site = NULL;
+		et->site = NULL;
+	}
 
-	if (et->table_canvas != NULL)
+	if (et->table_canvas != NULL) {
 		gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
-	et->table_canvas = NULL;
+		et->table_canvas = NULL;
+	}
 
-	if (et->rebuild_idle_id != 0)
+	if (et->rebuild_idle_id != 0) {
 		g_source_remove (et->rebuild_idle_id);
-	et->rebuild_idle_id = 0;
+		et->rebuild_idle_id = 0;
+	}
 
 	parent_class->destroy (object);
 }

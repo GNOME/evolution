@@ -133,8 +133,8 @@ e_table_search_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableSearchClass, search),
-				e_marshal_BOOLEAN__STRING_ENUM,
-				GTK_TYPE_BOOL, 2, GTK_TYPE_STRING, GTK_TYPE_ENUM);
+				e_marshal_BOOLEAN__STRING_INT,
+				GTK_TYPE_BOOL, 2, GTK_TYPE_STRING, GTK_TYPE_INT);
 
 	e_table_search_signals [SEARCH_ACCEPT] =
 		gtk_signal_new ("accept",

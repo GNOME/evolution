@@ -452,7 +452,7 @@ ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap)
 }
 
 static PangoLayout *
-build_layout (ECellTextView *text_view, int row, char *text)
+build_layout (ECellTextView *text_view, int row, const char *text)
 {
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
@@ -461,7 +461,9 @@ build_layout (ECellTextView *text_view, int row, char *text)
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (((GnomeCanvasItem *)ecell_view->e_table_item_view)->canvas), text);
 
-	bold = ect->bold_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row);
+	bold = ect->bold_column >= 0 &&
+		row >= 0 &&
+		e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row);
 	strikeout = ect->strikeout_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->strikeout_column, row);
 
 	if (bold || strikeout) {
@@ -494,7 +496,6 @@ generate_layout (ECellTextView *text_view, int model_col, int view_col, int row)
 {
 	ECellView *ecell_view = (ECellView *) text_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
-	char *temp;
 	PangoLayout *layout;
 	CellEdit *edit = text_view->edit;
 
@@ -503,11 +504,12 @@ generate_layout (ECellTextView *text_view, int model_col, int view_col, int row)
 		return edit->layout;
 	}
 
-	temp = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
-
-	layout = build_layout (text_view, row, temp);
-
-	e_cell_text_free_text(ect, temp);
+	if (row >= 0) {
+		char *temp = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
+		layout = build_layout (text_view, row, temp);
+		e_cell_text_free_text(ect, temp);
+	} else
+		layout = build_layout (text_view, row, "Mumbo Jumbo");
 
 	return layout;
 }
