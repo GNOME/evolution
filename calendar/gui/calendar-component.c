@@ -379,6 +379,8 @@ delete_calendar_cb (GtkWidget *widget, CalendarComponent *comp)
 		/* first, ask the backend to remove the calendar */
 		uri = e_source_get_uri (selected_source);
 		cal = e_cal_model_get_client_for_uri (gnome_calendar_get_calendar_model (priv->calendar), uri);
+		if (!cal)
+			cal = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_EVENT);
 		g_free (uri);
 		if (cal) {
 			if (e_cal_remove (cal, NULL)) {

@@ -310,6 +310,8 @@ delete_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 		cal = e_cal_model_get_client_for_uri (
 			e_calendar_table_get_model (E_CALENDAR_TABLE (e_tasks_get_calendar_table (priv->tasks))),
 			uri);
+		if (!cal)
+			cal = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_TODO);
 		g_free (uri);
 		if (cal) {
 			if (e_cal_remove (cal, NULL)) {
