@@ -300,7 +300,7 @@ eab_contact_compare_name (EContact *contact1, EContact *contact2)
 	if (a == NULL || b == NULL)
 		return EAB_CONTACT_MATCH_NOT_APPLICABLE;
 
-	if (a->given && b->given) {
+	if (a->given && b->given && *a->given && *b->given) {
 		++possible;
 		if (name_fragment_match_with_synonyms (a->given, b->given, FALSE /* both inputs are complete */)) {
 			++matches;
@@ -308,7 +308,7 @@ eab_contact_compare_name (EContact *contact1, EContact *contact2)
 		}
 	}
 
-	if (a->additional && b->additional) {
+	if (a->additional && b->additional && *a->additional && *b->additional) {
 		++possible;
 		if (name_fragment_match_with_synonyms (a->additional, b->additional, FALSE /* both inputs are complete */)) {
 			++matches;
@@ -316,7 +316,7 @@ eab_contact_compare_name (EContact *contact1, EContact *contact2)
 		}
 	}
 
-	if (a->family && b->family) {
+	if (a->family && b->family && *a->family && *b->family) {
 		++possible;
 		/* We don't allow "loose matching" (i.e. John vs. Jon) on family names */
 		if (! e_utf8_casefold_collate (a->family, b->family)) {

@@ -1,3 +1,11 @@
+2004-02-17  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #53620 ]
+	
+	* gui/merging/eab-contact-compare.c (eab_contact_compare_name): ""
+	is a valid (and common) value for elements of EContactName now.
+	it's semantically equivalent to NULL in the old ECard foo.
+
 2004-02-12  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-migrate.c (migrate_contacts): free up
