@@ -1,3 +1,9 @@
+2001-09-21  Dan Winship  <danw@ximian.com>
+
+	* e-summary-weather.c (weather_make_html): Add missing
+	width/height tags to the sunny/cloudy/etc images to make the page
+	render more smoothly.
+
 2001-09-21  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-calendar.c (generate_html): If the appointment is in a

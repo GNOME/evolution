@@ -103,7 +103,8 @@ weather_make_html (Weather *w)
 	icon_name = icon_from_weather (w);
 	string = g_string_new ("");
 	g_string_sprintf (string, "<dd><img align=\"middle\" "
-			  "src=\"%s\">&#160;<b>", icon_name);
+			  "src=\"%s\" width=\"16\" height=\"16\">&#160;<b>",
+			  icon_name);
 	location = g_hash_table_lookup (locations_hash, w->location);
 #if 0
 	if (location == NULL) {
