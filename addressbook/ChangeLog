@@ -1,3 +1,20 @@
+2004-02-02  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (eab_view_new): hook up
+	contact_changed/contact_removed signals.
+	(contact_changed): new function.  if the changed contact is the
+	one we're displaying, re-render it.
+	(contact_removed): new function.  if the removed contact is the
+	one we're displaying, clear the display.
+	(render_contact): set displayed_contact to the row.
+	(eab_view_init): init displayed_contact to -1.
+	(selection_changed): set displayed_contact to -1 when we clear the
+	display.
+	
+	* gui/widgets/e-addressbook-view.h (struct _EABView): add
+	"displayed_contact" so we can update the contact preview when it
+	changes.
+
 2004-01-30  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c: enable d&d drop photos.

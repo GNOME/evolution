@@ -92,8 +92,11 @@ static void status_message     (GtkObject *object, const gchar *status, EABView 
 static void search_result      (GtkObject *object, EBookViewStatus status, EABView *eav);
 static void folder_bar_message (GtkObject *object, const gchar *status, EABView *eav);
 static void stop_state_changed (GtkObject *object, EABView *eav);
-static void writable_status (GtkObject *object, gboolean writable, EABView *eav);
-static void backend_died (GtkObject *object, EABView *eav);
+static void writable_status    (GtkObject *object, gboolean writable, EABView *eav);
+static void backend_died       (GtkObject *object, EABView *eav);
+static void contact_changed    (EABModel *model, gint index, EABView *eav);
+static void contact_removed    (EABModel *model, gint index, EABView *eav);
+
 static void command_state_change (EABView *eav);
 
 static void selection_clear_event (GtkWidget *invisible, GdkEventSelection *event,
@@ -281,6 +284,7 @@ eab_view_init (EABView *eav)
 	eav->widget = NULL;
 	eav->scrolled = NULL;
 	eav->contact_display = NULL;
+	eav->displayed_contact = -1;
 
 	eav->view_instance = NULL;
 	eav->view_menus = NULL;
@@ -363,12 +367,15 @@ set_paned_position (EABView *eav)
 	GConfClient *gconf_client;
 	gint         pos;
 
+	/* XXX this should use the addressbook's global gconf client */
 	gconf_client = gconf_client_get_default ();
 	pos = gconf_client_get_int (gconf_client, "/apps/evolution/addressbook/display/vpane_position", NULL);
 	if (pos < 1)
 		pos = 144;
 
 	gtk_paned_set_position (GTK_PANED (eav->paned), pos);
+
+	g_object_unref (gconf_client);
 }
 
 static gboolean
@@ -377,10 +384,13 @@ get_paned_position (EABView *eav)
 	GConfClient *gconf_client;
 	gint pos;
 
+	/* XXX this should use the addressbook's global gconf client */
 	gconf_client = gconf_client_get_default ();
 
 	pos = gtk_paned_get_position (GTK_PANED (eav->paned));
 	gconf_client_set_int (gconf_client, "/apps/evolution/addressbook/display/vpane_position", pos, NULL);
+
+	g_object_unref (gconf_client);
 
 	return FALSE;
 }
@@ -406,6 +416,10 @@ eab_view_new (void)
 			  G_CALLBACK (writable_status), eav);
 	g_signal_connect (eav->model, "backend_died",
 			  G_CALLBACK (backend_died), eav);
+	g_signal_connect (eav->model, "contact_changed",
+			  G_CALLBACK (contact_changed), eav);
+	g_signal_connect (eav->model, "contact_removed",
+			  G_CALLBACK (contact_removed), eav);
 
 	eav->editable = FALSE;
 	eav->query = g_strdup (SHOW_ALL_SEARCH);
@@ -515,6 +529,23 @@ init_collection (void)
 }
 
 static void
+set_view_preview (EABView *view)
+{
+	/* XXX this should use the addressbook's global gconf client */
+	GConfClient *gconf_client;
+	gboolean state;
+
+	gconf_client = gconf_client_get_default();
+	state = gconf_client_get_bool(gconf_client, "/apps/evolution/addressbook/display/show_preview", NULL);
+	bonobo_ui_component_set_prop (view->uic,
+				      "/commands/ContactsViewPreview",
+				      "state",
+				      state ? "1" : "0", NULL);
+	
+	g_object_unref (gconf_client);
+}
+
+static void
 display_view(GalViewInstance *instance,
 	     GalView *view,
 	     gpointer data)
@@ -537,26 +568,25 @@ display_view(GalViewInstance *instance,
 	address_view->current_view = view;
 
 	set_paned_position (address_view);
+	set_view_preview (address_view);
 }
 
 static void
 view_preview(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
 {
-	GConfClient *gconf;
+	/* XXX this should use the addressbook's global gconf client */
+	GConfClient *gconf_client;
 	EABView *view = EAB_VIEW (data);
 
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
 
-#if 0
-	gconf = mail_config_get_gconf_client ();
-	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_preview", state[0] != '0', NULL);
-
-	if (camel_object_meta_set(emfv->folder, "evolution:show_preview", state))
-		camel_object_state_write(emfv->folder);
-#endif
+	gconf_client = gconf_client_get_default();
+	gconf_client_set_bool(gconf_client, "/apps/evolution/addressbook/display/show_preview", state[0] != '0', NULL);
 
 	eab_view_show_contact_preview(view, state[0] != '0');
+
+	g_object_unref (gconf_client);
 }
 
 static void
@@ -577,8 +607,9 @@ setup_menus (EABView *view)
 				 G_CALLBACK (display_view), view);
 	}
 
-
 	bonobo_ui_component_add_listener(view->uic, "ContactsViewPreview", view_preview, view);
+
+	set_view_preview (view);
 }
 
 static void
@@ -1080,6 +1111,8 @@ render_contact (int row, EABView *view)
 {
 	EContact *contact = eab_model_get_contact (view->model, row);
 
+	view->displayed_contact = row;
+
 	eab_contact_display_render (EAB_CONTACT_DISPLAY (view->contact_display), contact,
 				    EAB_CONTACT_DISPLAY_RENDER_NORMAL);
 }
@@ -1096,9 +1129,11 @@ selection_changed (GObject *o, EABView *view)
 	if (e_selection_model_selected_count (selection_model) == 1)
 		e_selection_model_foreach (selection_model,
 					   (EForeachFunc)render_contact, view);
-	else
+	else {
+		view->displayed_contact = -1;
 		eab_contact_display_render (EAB_CONTACT_DISPLAY (view->contact_display), NULL,
 					    EAB_CONTACT_DISPLAY_RENDER_NORMAL);
+	}
 					    
 }
 
@@ -1238,6 +1273,26 @@ backend_died (GtkObject *object, EABView *eav)
 					 e_book_get_uri (eav->book));
         gnome_error_dialog_parented (message, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (eav))));
         g_free (message);
+}
+
+static void
+contact_changed (EABModel *model, gint index, EABView *eav)
+{
+	if (eav->displayed_contact == index) {
+		/* if the contact that's presently displayed is changed, re-render it */
+		render_contact (index, eav);
+	}
+}
+
+static void
+contact_removed (EABModel *model, gint index, EABView *eav)
+{
+	if (eav->displayed_contact == index) {
+		/* if the contact that's presently displayed is changed, clear the display */
+		eab_contact_display_render (EAB_CONTACT_DISPLAY (eav->contact_display), NULL,
+					    EAB_CONTACT_DISPLAY_RENDER_NORMAL);
+		eav->displayed_contact = -1;
+	}
 }
 
 static void

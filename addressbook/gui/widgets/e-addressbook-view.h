@@ -76,6 +76,8 @@ struct _EABView
 	char  *query;
 	guint editable : 1;
 
+	gint displayed_contact;
+
 	GObject *object;
 	GtkWidget *widget;
 
