@@ -421,7 +421,7 @@ evolution_activity_client_update (EvolutionActivityClient *activity_client,
 	g_return_val_if_fail (activity_client != NULL, FALSE);
 	g_return_val_if_fail (EVOLUTION_IS_ACTIVITY_CLIENT (activity_client), FALSE);
 	g_return_val_if_fail (information != NULL, FALSE);
-	g_return_val_if_fail (progress >= 0.0 && progress <= 1.0, FALSE);
+	g_return_val_if_fail (progress == -1.0 || (progress >= 0.0 && progress <= 1.0), FALSE);
 
 	priv = activity_client->priv;
 
