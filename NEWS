@@ -41,6 +41,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              etc.) (Gilbert Fang)
     #20210 - Cannot save changes when invoked from mailer (Toshok)
     #19178 - importers only target default contact folder. (Toshok)
+    #7103  - Addressbook doesn't play nice with dark themes (Toshok)
 
   * Mail
 
