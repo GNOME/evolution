@@ -24,6 +24,7 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	    ifelse([$1], [], :, [$1])
 	else
 	    PISOCK_CFLAGS="-I$withval/include"
+	    incdir="$withval/include"
 	    PISOCK_LIBS="-L$withval/lib -lpisock"
 	    AC_MSG_CHECKING("for existance of $withval/lib/libpisock.so")
 	    if test -r $withval/lib/libpisock.so; then
@@ -52,7 +53,7 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	    ])
 	fi
 		
-	if test x$PISOCK_LIBS = x; then
+	if test "x$PISOCK_LIBS" = "x"; then
 		AC_CHECK_LIB(pisock, pi_accept, [ PISOCK_LIBS=-lpisock ], 
 			[ AC_MSG_ERROR("Unable to find libpisock. Try ftp://ryeham.ee.ryerson.ca/pub/PalmOS/.") ])
 	fi
