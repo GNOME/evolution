@@ -1,3 +1,7 @@
+2005-03-02  Philip Van Hoof  <pvanhoof@gnome.org>
+
+	* csv-format.c: Fixes for Bug #73099 and Bug #73098
+	
 2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
 
 	* org-gnome-save-calendar.eplug.in: Fixed description and added
