@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.15\n"
-"POT-Creation-Date: 2001-10-01 12:29-0300\n"
+"POT-Creation-Date: 2001-10-01 19:06-0400\n"
 "PO-Revision-Date: 2001-10-01 12:31-03:00\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -602,7 +602,7 @@ msgstr "VCard para %s"
 #: addressbook/backend/ebook/test-client.c:33
 #: addressbook/conduit/address-conduit.c:1167
 #: addressbook/gui/component/addressbook-factory.c:48
-#: calendar/conduits/calendar/calendar-conduit.c:1220
+#: calendar/conduits/calendar/calendar-conduit.c:1262
 #: calendar/conduits/todo/todo-conduit.c:1034
 #: calendar/gui/alarm-notify/notify-main.c:78 calendar/gui/main.c:63
 msgid "Could not initialize Bonobo"
@@ -663,13 +663,13 @@ msgid "EBook not loaded\n"
 msgstr "EBook não foi carregado\n"
 
 #: addressbook/conduit/address-conduit.c:731
-#: calendar/conduits/calendar/calendar-conduit.c:795
+#: calendar/conduits/calendar/calendar-conduit.c:837
 #: calendar/conduits/todo/todo-conduit.c:609
 msgid "Could not start wombat server"
 msgstr "Não foi possível iniciar o servidor wombat"
 
 #: addressbook/conduit/address-conduit.c:732
-#: calendar/conduits/calendar/calendar-conduit.c:796
+#: calendar/conduits/calendar/calendar-conduit.c:838
 #: calendar/conduits/todo/todo-conduit.c:610
 msgid "Could not start wombat"
 msgstr "Não foi possível iniciar wombat"
@@ -873,8 +873,8 @@ msgstr "_Adicionar"
 #: filter/filter.glade.h:9 mail/mail-config.glade.h:96
 #: ui/evolution-addressbook.xml.h:34 ui/evolution-calendar.xml.h:39
 #: ui/evolution-mail-list.xml.h:25 ui/evolution-mail-messagedisplay.xml.h:6
-#: ui/evolution-message-composer.xml.h:48
-#: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:10
+#: ui/evolution-message-composer.xml.h:47
+#: ui/evolution-signature-editor.xml.h:6 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:16
 msgid "_Edit"
 msgstr "_Editar"
@@ -966,7 +966,8 @@ msgid "Category is"
 msgstr "Categoria é"
 
 #. We attach subitems below
-#: addressbook/gui/component/addressbook.c:667 widgets/misc/e-filter-bar.h:104
+#: addressbook/gui/component/addressbook.c:667 widgets/misc/e-filter-bar.h:97
+#: widgets/misc/e-filter-bar.h:104
 msgid "Advanced..."
 msgstr "Avançado..."
 
@@ -979,6 +980,16 @@ msgstr "Qualquer categoria"
 #: addressbook/gui/component/addressbook.c:939
 msgid "The URI that the Folder Browser will display"
 msgstr "A URI que o navegador de pastas vai exibir"
+
+#.
+#. * This is the code for the UI thingie that lets you manipulate the e-mail
+#. * addresses (and *only* the e-mail addresses) associated with an existing
+#. * card.
+#.
+#: addressbook/gui/component/e-address-popup.c:178
+#, fuzzy
+msgid "(none)"
+msgstr "Nenhum"
 
 #: addressbook/gui/component/e-address-popup.c:466
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
@@ -1077,11 +1088,11 @@ msgid ""
 "circumstances under which this error occurred.  Thank you."
 msgstr ""
 "O Evolution não pôde obter o repositório local de catálogo de endereços. "
-"Isto pode ter sido causado por uma falha no componente "
-"evolution-addressbook. Para nos ajudar a entender melhor este problema e "
-"finalmente resolvê-lo, por favor envie um e-mail para Jon Trowbridge "
-"<trow@ximian.com> com uma descrição detalhada das circunstâncias sob as "
-"quais este erro ocorreu. Obrigado."
+"Isto pode ter sido causado por uma falha no componente evolution-"
+"addressbook. Para nos ajudar a entender melhor este problema e finalmente "
+"resolvê-lo, por favor envie um e-mail para Jon Trowbridge <trow@ximian.com> "
+"com uma descrição detalhada das circunstâncias sob as quais este erro "
+"ocorreu. Obrigado."
 
 #: addressbook/gui/component/select-names/e-select-names.c:598
 msgid "Select Contacts from Addressbook"
@@ -2875,13 +2886,13 @@ msgstr "Baixa"
 msgid "Undefined"
 msgstr "Indefinido"
 
-#: calendar/conduits/calendar/calendar-conduit.c:751
+#: calendar/conduits/calendar/calendar-conduit.c:793
 #: calendar/conduits/todo/todo-conduit.c:564
 msgid "Error while communicating with calendar server"
 msgstr "Erro ao comunicar com o servidor de agenda"
 
-#: calendar/conduits/calendar/calendar-conduit.c:854
-#: calendar/conduits/calendar/calendar-conduit.c:857
+#: calendar/conduits/calendar/calendar-conduit.c:896
+#: calendar/conduits/calendar/calendar-conduit.c:899
 msgid "Could not read pilot's Calendar application block"
 msgstr "Não foi possível ler os dados do aplicativo de agenda do pilot"
 
@@ -2934,45 +2945,45 @@ msgstr "Serviço de notificação de alarme"
 msgid "Factory for the alarm notification service"
 msgstr "Fábrica para o serviço de notificação de alarme"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:151
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:152
 #, c-format
 msgid "Notification about your appointment starting on %s and ending on %s"
 msgstr "Notificação sobre seu compromisso com início em %s e com fim em %s"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:155
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:156
 #, c-format
 msgid "Notification about your appointment starting on %s"
 msgstr "Notificação sobre seu compromisso com início em %s"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:160
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:161
 #, c-format
 msgid "Notification about your appointment ending on %s"
 msgstr "Notificação sobre seu compromisso com fim em %s"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:164
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:165
 msgid "Notification about your appointment"
 msgstr "Notificação sobre seu compromisso"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:171
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:172
 #, c-format
 msgid "Notification about your task starting on %s and ending on %s"
 msgstr "Notificação sobre sua tarefa com início em %s e com fim em %s"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:175
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:176
 #, c-format
 msgid "Notification about your task starting on %s"
 msgstr "Notificação sobre sua tarefa com início em %s"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:180
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:181
 #, c-format
 msgid "Notification about your task ending on %s"
 msgstr "Notificação sobre sua tarefa com fim em %s"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:184
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:185
 msgid "Notification about your task"
 msgstr "Notificação sobre sua tarefa"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:266
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:267
 msgid "Alarm on %A %b %d %Y %H:%M"
 msgstr "Alarme em %A %d %b %Y %H:%M"
 
@@ -3789,35 +3800,35 @@ msgstr " (Prazo "
 msgid "Due "
 msgstr "Prazo "
 
-#: calendar/gui/dialogs/comp-editor.c:514
+#: calendar/gui/dialogs/comp-editor.c:521
 msgid "Edit Appointment"
 msgstr "Editar compromisso"
 
-#: calendar/gui/dialogs/comp-editor.c:519
+#: calendar/gui/dialogs/comp-editor.c:526
 #, c-format
 msgid "Appointment - %s"
 msgstr "Compromisso - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:522
+#: calendar/gui/dialogs/comp-editor.c:529
 #, c-format
 msgid "Task - %s"
 msgstr "Tarefa - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:525
+#: calendar/gui/dialogs/comp-editor.c:532
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Item de diário - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:539
+#: calendar/gui/dialogs/comp-editor.c:546
 msgid "No summary"
 msgstr "Sem resumo"
 
-#: calendar/gui/dialogs/comp-editor.c:949 mail/mail-callbacks.c:1671
+#: calendar/gui/dialogs/comp-editor.c:952 mail/mail-callbacks.c:1671
 #: mail/mail-display.c:100
 msgid "Overwrite file?"
 msgstr "Sobrescrever arquivo?"
 
-#: calendar/gui/dialogs/comp-editor.c:953 mail/mail-callbacks.c:1677
+#: calendar/gui/dialogs/comp-editor.c:956 mail/mail-callbacks.c:1677
 #: mail/mail-display.c:104
 msgid ""
 "A file by that name already exists.\n"
@@ -3826,12 +3837,12 @@ msgstr ""
 "Já existe um arquivo com este nome.\n"
 "Sobrescrevê-lo?"
 
-#: calendar/gui/dialogs/comp-editor.c:1016 ui/evolution-comp-editor.xml.h:13
+#: calendar/gui/dialogs/comp-editor.c:1019 ui/evolution-comp-editor.xml.h:13
 #: widgets/misc/e-filter-bar.h:101
 msgid "Save As..."
 msgstr "Salvar como..."
 
-#: calendar/gui/dialogs/comp-editor.c:1169
+#: calendar/gui/dialogs/comp-editor.c:1172
 msgid "Unable to obtain current version!"
 msgstr "Não foi possível obter a versão atual!"
 
@@ -5300,8 +5311,8 @@ msgstr "contains? espera que o argument 2 seja uma string"
 
 #: calendar/pcs/query.c:675
 msgid ""
-"contains? expects argument 1 to be one of \"any\", \"summary\", "
-"\"description\""
+"contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
+"\""
 msgstr ""
 "contains? espera que o argument 1 seja um de \"any\", \"summary\", "
 "\"description\""
@@ -5397,6 +5408,7 @@ msgid "Unable to process spool folder"
 msgstr "Não é possível processar a pasta de fila"
 
 #: camel/camel-filter-driver.c:683
+#, c-format
 msgid "Getting message %d (%d%%)"
 msgstr "Obtendo mensagem %d (%d%%)"
 
@@ -5603,8 +5615,8 @@ msgstr "Não é possível assinar esta mensagem: não foi fornecida uma senha"
 #, c-format
 msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
 msgstr ""
-"Não é possível assinar esta mensagem: não foi possível criar pipe para "
-"GPG/PGP: %s"
+"Não é possível assinar esta mensagem: não foi possível criar pipe para GPG/"
+"PGP: %s"
 
 #: camel/camel-pgp-context.c:699
 msgid "Cannot sign this message: no plaintext to clearsign"
@@ -5621,8 +5633,8 @@ msgstr ""
 #, c-format
 msgid "Cannot verify this message: couldn't create pipe to GPG/PGP: %s"
 msgstr ""
-"Não é possível verificar esta mensagem: não foi possível criar pipe para "
-"GPG/PGP: %s"
+"Não é possível verificar esta mensagem: não foi possível criar pipe para GPG/"
+"PGP: %s"
 
 #: camel/camel-pgp-context.c:908
 #, c-format
@@ -5644,8 +5656,8 @@ msgstr "Não é possível cifrar esta mensagem: não foi fornecida uma senha"
 #, c-format
 msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
 msgstr ""
-"Não é possível cifrar esta mensagem: não foi possível criar pipe para "
-"GPG/PGP: %s"
+"Não é possível cifrar esta mensagem: não foi possível criar pipe para GPG/"
+"PGP: %s"
 
 #: camel/camel-pgp-context.c:1102
 msgid "Cannot encrypt this message: no recipients specified"
@@ -5664,8 +5676,8 @@ msgstr "Não é possível decifrar esta mensagem: não foi fornecida uma senha"
 #, c-format
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
 msgstr ""
-"Não é possível decifrar esta mensagem: não foi possível criar pipe para "
-"GPG/PGP: %s"
+"Não é possível decifrar esta mensagem: não foi possível criar pipe para GPG/"
+"PGP: %s"
 
 #: camel/camel-provider.c:131
 #, c-format
@@ -5825,7 +5837,7 @@ msgstr ""
 "%s"
 
 #: camel/camel-sasl-kerberos4.c:218
-#: camel/providers/imap/camel-imap-store.c:492
+#: camel/providers/imap/camel-imap-store.c:494
 msgid "Bad authentication response from server."
 msgstr "Resposta de autenticação inválida do servidor."
 
@@ -6167,28 +6179,28 @@ msgstr "Para ler e armazenar correio em servidores IMAP."
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr "Esta opção conectará ao servidor IMAP usando uma senha em texto claro."
 
-#: camel/providers/imap/camel-imap-store.c:515
+#: camel/providers/imap/camel-imap-store.c:517
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "O servidor IMAP %s não suporta o tipo de autenticação pedido %s"
 
-#: camel/providers/imap/camel-imap-store.c:525
+#: camel/providers/imap/camel-imap-store.c:527
 #: camel/providers/smtp/camel-smtp-transport.c:388
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Sem suporte para o tipo de autenticação %s"
 
-#: camel/providers/imap/camel-imap-store.c:549
+#: camel/providers/imap/camel-imap-store.c:551
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sPor favor entre a senha IMAP para %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:564
+#: camel/providers/imap/camel-imap-store.c:566
 #: camel/providers/smtp/camel-smtp-transport.c:432
 msgid "You didn't enter a password."
 msgstr "Você não entrou uma senha."
 
-#: camel/providers/imap/camel-imap-store.c:590
+#: camel/providers/imap/camel-imap-store.c:592
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -6199,12 +6211,12 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:889
+#: camel/providers/imap/camel-imap-store.c:891
 #, c-format
 msgid "No such folder %s"
 msgstr "Não existe a pasta %s"
 
-#: camel/providers/imap/camel-imap-store.c:1090
+#: camel/providers/imap/camel-imap-store.c:1131
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "A pasta pai não pode conter sub-pastas"
 
@@ -6236,51 +6248,51 @@ msgstr "Arquivos de correio no formato qmail maildir"
 msgid "For storing local mail in qmail maildir directories."
 msgstr "Para armazenar correio local em diretórios no formato qmail maildir."
 
-#: camel/providers/local/camel-local-provider.c:77
+#: camel/providers/local/camel-local-provider.c:78
 msgid "Standard Unix mbox spools"
 msgstr "Filas mbox padrão do Unix"
 
-#: camel/providers/local/camel-local-provider.c:78
+#: camel/providers/local/camel-local-provider.c:79
 msgid "For reading and storing local mail in standard mbox spool files."
 msgstr "Para ler e armazenar correio local em arquivos de fila mbox padrão."
 
-#: camel/providers/local/camel-local-store.c:127
-#: camel/providers/local/camel-spool-store.c:112
+#: camel/providers/local/camel-local-store.c:132
+#: camel/providers/local/camel-spool-store.c:110
 #, c-format
 msgid "Store root %s is not an absolute path"
 msgstr "Raiz de armazenagem %s não é um caminho absoluto"
 
-#: camel/providers/local/camel-local-store.c:134
+#: camel/providers/local/camel-local-store.c:139
 #, c-format
 msgid "Store root %s is not a regular directory"
 msgstr "Raiz de armazenagem %s não é um diretório comum"
 
-#: camel/providers/local/camel-local-store.c:142
-#: camel/providers/local/camel-local-store.c:158
+#: camel/providers/local/camel-local-store.c:147
+#: camel/providers/local/camel-local-store.c:163
 #, c-format
 msgid "Cannot get folder: %s: %s"
 msgstr "Não é possível obter pasta: %s: %s"
 
-#: camel/providers/local/camel-local-store.c:173
+#: camel/providers/local/camel-local-store.c:178
 msgid "Local stores do not have an inbox"
 msgstr "Repositórios locais não possuem uma caixa de entrada"
 
-#: camel/providers/local/camel-local-store.c:183
+#: camel/providers/local/camel-local-store.c:190
 #, c-format
 msgid "Local mail file %s"
 msgstr "Arquivo de correio local %s"
 
-#: camel/providers/local/camel-local-store.c:240
+#: camel/providers/local/camel-local-store.c:247
 #, c-format
 msgid "Could not rename folder %s to %s: %s"
 msgstr "Não foi possível renomear pasta %s para %s: %s"
 
-#: camel/providers/local/camel-local-store.c:282
+#: camel/providers/local/camel-local-store.c:289
 #, c-format
 msgid "Could not delete folder summary file `%s': %s"
 msgstr "Não foi possível excluir arquivo de resumo de pasta `%s': %s"
 
-#: camel/providers/local/camel-local-store.c:292
+#: camel/providers/local/camel-local-store.c:299
 #, c-format
 msgid "Could not delete folder index file `%s': %s"
 msgstr "Não foi possível excluir arquivo de índice de pasta `%s': %s"
@@ -6563,26 +6575,26 @@ msgstr "Não é possível abrir diretório MH: %s: %s"
 msgid "Cannot append message to spool file: %s: %s"
 msgstr "Não é possível acrescentar mensagem ao arquivo de fila: %s: %s"
 
-#: camel/providers/local/camel-spool-store.c:133
+#: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Spool `%s' does not exist or is not a regular file"
 msgstr "Fila `%s' não existe ou não é um arquivo comum"
 
-#: camel/providers/local/camel-spool-store.c:159
+#: camel/providers/local/camel-spool-store.c:142
 #, c-format
 msgid "Folder `%s/%s' does not exist."
 msgstr "Pasta `%s/%s' não existe."
 
-#: camel/providers/local/camel-spool-store.c:181
+#: camel/providers/local/camel-spool-store.c:164
 #, c-format
 msgid "Spool mail file %s"
 msgstr "Arquivo de fila de correio %s"
 
-#: camel/providers/local/camel-spool-store.c:227
+#: camel/providers/local/camel-spool-store.c:210
 msgid "Spool folders cannot be renamed"
 msgstr "Pastas de fila não podem ser renomeadas"
 
-#: camel/providers/local/camel-spool-store.c:235
+#: camel/providers/local/camel-spool-store.c:218
 msgid "Spool folders cannot be deleted"
 msgstr "Pastas de fila não podem ser excluídas"
 
@@ -8721,26 +8733,32 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr "Assistente de contas do Evolution"
 
-#: mail/mail-config.c:313
+#: mail/mail-config.c:315
 #, c-format
 msgid "Account %d"
 msgstr "Conta %d"
 
-#. right now, the URL always works basically as a matter of luck...
-#. * both IMAP and mbox spool stores have INBOX as their inbox folder
-#. * name. I don't think this will work with maildir. How can we figure out
-#. * what shortcut to insert?
+#: mail/mail-config.c:1618
+#, c-format
+msgid ""
+"Could not get inbox for new mail store:\n"
+"%s\n"
+"No shortcut will be created."
+msgstr ""
+
+#. Create the shortcut. FIXME: This only works if the
+#. * full name matches the path.
 #.
-#: mail/mail-config.c:1613
+#: mail/mail-config.c:1629
 #, c-format
 msgid "%s: Inbox"
 msgstr "%s: Inbox"
 
-#: mail/mail-config.c:1846
+#: mail/mail-config.c:1873
 msgid "Checking Service"
 msgstr "Verificando serviço"
 
-#: mail/mail-config.c:1917 mail/mail-config.c:1920
+#: mail/mail-config.c:1944 mail/mail-config.c:1947
 msgid "Connecting to server..."
 msgstr "Conectando ao servidor..."
 
@@ -8865,7 +8883,8 @@ msgstr "Pasta de rascunho:"
 msgid "E_nable"
 msgstr "A_tivar"
 
-#: mail/mail-config.glade.h:35 widgets/misc/e-filter-bar.h:103
+#: mail/mail-config.glade.h:35 widgets/misc/e-filter-bar.h:96
+#: widgets/misc/e-filter-bar.h:103
 msgid "Edit..."
 msgstr "Editar..."
 
@@ -9389,17 +9408,17 @@ msgstr ""
 "Não foi possível excluir pasta `%s':\n"
 "%s"
 
-#: mail/mail-local.c:1071
+#: mail/mail-local.c:1075
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "Alterando pasta \"%s\" para o formato \"%s\""
 
-#: mail/mail-local.c:1086
+#: mail/mail-local.c:1090
 #, c-format
 msgid "%s may not be reconfigured because it is not a local folder"
 msgstr ""
 
-#: mail/mail-local.c:1108
+#: mail/mail-local.c:1112
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -9407,7 +9426,7 @@ msgstr ""
 "Se você não pode mais abrir esta caixa postal\n"
 "então você precisar repará-la manualmente."
 
-#: mail/mail-local.c:1199
+#: mail/mail-local.c:1200
 #, fuzzy
 msgid "You cannot change the format of a non-local folder."
 msgstr ""
@@ -9415,8 +9434,8 @@ msgstr ""
 "na pasta Drafts."
 
 #: mail/mail-local.c:1209
-#, c-format
-msgid "Reconfigure %s"
+#, fuzzy, c-format
+msgid "Reconfigure /%s"
 msgstr "Reconfigurar %s"
 
 #: mail/mail-mt.c:199
@@ -9673,11 +9692,11 @@ msgstr ""
 msgid "Type: %s"
 msgstr "Tipo: %s"
 
-#: mail/mail-send-recv.c:282
+#: mail/mail-send-recv.c:283
 msgid "Send & Receive Mail"
 msgstr "Receber e enviar correio"
 
-#: mail/mail-send-recv.c:283
+#: mail/mail-send-recv.c:284
 msgid "Cancel All"
 msgstr "Cancelar todos"
 
@@ -9697,21 +9716,21 @@ msgstr "Cancelada."
 msgid "User canceled operation."
 msgstr "O usuário cancelou a operação."
 
-#: mail/mail-tools.c:173
+#: mail/mail-tools.c:133
 #, c-format
 msgid "Couldn't create temporary mbox `%s': %s"
 msgstr "Não foi possível criar mbox temporário `%s': %s"
 
-#: mail/mail-tools.c:299
+#: mail/mail-tools.c:259
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Mensagem encaminhada - %s"
 
-#: mail/mail-tools.c:303
+#: mail/mail-tools.c:263
 msgid "Forwarded message"
 msgstr "Mensagem encaminhada"
 
-#: mail/mail-tools.c:437
+#: mail/mail-tools.c:396
 msgid "Forwarded Message"
 msgstr "Mensagem encaminhada"
 
@@ -9965,13 +9984,13 @@ msgstr "Nome:"
 msgid "Summary Settings"
 msgstr "E-mail contém"
 
-#: my-evolution/e-summary-rdf.c:291 my-evolution/e-summary-rdf.c:376
-#: my-evolution/e-summary-rdf.c:409
+#: my-evolution/e-summary-rdf.c:297 my-evolution/e-summary-rdf.c:382
+#: my-evolution/e-summary-rdf.c:415
 #, fuzzy
 msgid "Error downloading RDF"
 msgstr "<b>Erro ao carregar agenda</b>"
 
-#: my-evolution/e-summary-rdf.c:501
+#: my-evolution/e-summary-rdf.c:507
 #, fuzzy
 msgid "News Feed"
 msgstr "Nova pasta virtual"
@@ -10016,6 +10035,42 @@ msgstr "Falhou a impressão do resumo"
 #, fuzzy
 msgid "Executive summary component could not initialize Bonobo.\n"
 msgstr "init_bonobo(): não foi possível iniciar Bonobo"
+
+#: my-evolution/metar.c:29
+msgid "°F"
+msgstr ""
+
+#: my-evolution/metar.c:29
+msgid "°C"
+msgstr ""
+
+#: my-evolution/metar.c:33
+#, fuzzy
+msgid "knots"
+msgstr "Fontes"
+
+#: my-evolution/metar.c:33
+msgid "kph"
+msgstr ""
+
+#: my-evolution/metar.c:38
+#, fuzzy
+msgid "inHg"
+msgstr "Movendo"
+
+#: my-evolution/metar.c:38
+msgid "mmHg"
+msgstr ""
+
+#: my-evolution/metar.c:41
+#, fuzzy
+msgid "miles"
+msgstr "Filtros"
+
+#: my-evolution/metar.c:41
+#, fuzzy
+msgid "kilometers"
+msgstr "Filtros"
 
 #: my-evolution/metar.c:44
 msgid "Clear sky"
@@ -12040,7 +12095,7 @@ msgid "%s (...)"
 msgstr ""
 
 #: shell/e-task-widget.c:197
-#, fuzzy
+#, fuzzy, c-format
 msgid "%s (%d%% complete)"
 msgstr "% Cu_mprida:"
 
@@ -12578,8 +12633,8 @@ msgstr "Mudar a visualização para %s"
 #: ui/evolution-comp-editor.xml.h:18 ui/evolution-contact-editor.xml.h:12
 #: ui/evolution-contact-list-editor.xml.h:11
 #: ui/evolution-mail-messagedisplay.xml.h:7
-#: ui/evolution-message-composer.xml.h:49
-#: ui/evolution-signature-editor.xml.h:8 ui/evolution-subscribe.xml.h:11
+#: ui/evolution-message-composer.xml.h:48
+#: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:11
 #: ui/evolution.xml.h:36
 msgid "_File"
 msgstr "_Arquivo"
@@ -12600,8 +12655,8 @@ msgstr "Salva o contato e fecha a caixa de diálogo"
 
 #: ui/evolution-contact-editor.xml.h:15
 #: ui/evolution-contact-list-editor.xml.h:12
-#: ui/evolution-message-composer.xml.h:54
-#: ui/evolution-signature-editor.xml.h:11
+#: ui/evolution-message-composer.xml.h:53
+#: ui/evolution-signature-editor.xml.h:10
 msgid "_Save"
 msgstr "_Salvar"
 
@@ -13224,7 +13279,7 @@ msgid "_Close"
 msgstr "_Fechar"
 
 #: ui/evolution-mail-messagedisplay.xml.h:8
-#: ui/evolution-message-composer.xml.h:56 ui/evolution.xml.h:50
+#: ui/evolution-message-composer.xml.h:55 ui/evolution.xml.h:50
 msgid "_View"
 msgstr "_Ver"
 
@@ -13386,36 +13441,31 @@ msgid "_Cc Field"
 msgstr "Campo _Cc"
 
 #: ui/evolution-message-composer.xml.h:46
-#: ui/evolution-signature-editor.xml.h:6
-msgid "_Debug"
-msgstr "_Depurar"
-
-#: ui/evolution-message-composer.xml.h:47
 msgid "_Delete all"
 msgstr "_Excluir todos"
 
-#: ui/evolution-message-composer.xml.h:50
+#: ui/evolution-message-composer.xml.h:49
 msgid "_From Field"
 msgstr "Campo _De"
 
-#: ui/evolution-message-composer.xml.h:51
-#: ui/evolution-signature-editor.xml.h:10
+#: ui/evolution-message-composer.xml.h:50
+#: ui/evolution-signature-editor.xml.h:9
 msgid "_Insert"
 msgstr "_Inserir"
 
-#: ui/evolution-message-composer.xml.h:52
+#: ui/evolution-message-composer.xml.h:51
 msgid "_Open..."
 msgstr "_Abrir..."
 
-#: ui/evolution-message-composer.xml.h:53
+#: ui/evolution-message-composer.xml.h:52
 msgid "_Reply-To Field"
 msgstr "Campo _Responder-a"
 
-#: ui/evolution-message-composer.xml.h:55
+#: ui/evolution-message-composer.xml.h:54
 msgid "_Security"
 msgstr "_Segurança"
 
-#: ui/evolution-signature-editor.xml.h:9 ui/evolution.xml.h:40
+#: ui/evolution-signature-editor.xml.h:8 ui/evolution.xml.h:40
 msgid "_Help"
 msgstr "Aj_uda"
 
@@ -13848,6 +13898,16 @@ msgstr "Editor de buscas"
 msgid "Save Search"
 msgstr "Salvar busca"
 
+#: widgets/misc/e-filter-bar.h:94
+#, fuzzy
+msgid "Add to Saved Searches"
+msgstr "Salvar busca"
+
+#: widgets/misc/e-filter-bar.h:95
+#, fuzzy
+msgid "Clear"
+msgstr "Agenda"
+
 #: widgets/misc/e-filter-bar.h:102
 msgid "Show All"
 msgstr "Exibir todos"
@@ -13900,3 +13960,6 @@ msgstr "init_corba(): não foi possível iniciar GNOME"
 #: wombat/wombat.c:201
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): não foi possível iniciar Bonobo"
+
+#~ msgid "_Debug"
+#~ msgstr "_Depurar"
