@@ -1,3 +1,9 @@
+2002-07-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Prepend "$(WERROR)" to all the *_CFLAGS variables
+	so you can do `make WERROR=-Werror' to turn all compiler warnings
+	into errors.
+
 2002-07-09  Peter Williams  <peterw@ximian.com>
 
 	* libversit/Makefile.am (privlib_LIBRARIES): Install libversit.a so

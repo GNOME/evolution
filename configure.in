@@ -1039,11 +1039,12 @@ dnl *************************
 dnl CFLAGS and LIBS and stuff
 dnl *************************
 
+dnl Utility macro to set compiler flags for a specific lib.
 AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
 	deps="$2"
 	extra_cflags="$3"
 	extra_libs="$4"
-	$1_CFLAGS="`gnome-config --cflags $deps` $extra_cflags"
+	$1_CFLAGS="\$(WERROR) `gnome-config --cflags $deps` $extra_cflags"
 	$1_LIBS="`gnome-config --libs $deps` $extra_libs"
 ])
 
