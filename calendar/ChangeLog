@@ -1,6 +1,18 @@
 2004-10-14  JP Rosevear  <jpr@novell.com>
 
-	* gui/dialogs/comp-editor.c: conver to G_DEFINE_TYPE
+	* gui/e-day-view.c: convert to G_DEFINE_TYPE
+	
+	* gui/e-day-view-config.c: ditto
+
+	* gui/e-day-view-main-item.c: ditto
+
+	* gui/e-day-view-time-item.c: ditto
+
+	* gui/e-day-view-top-item.c: ditto
+
+2004-10-14  JP Rosevear  <jpr@novell.com>
+	
+	* gui/dialogs/comp-editor.c: convert to G_DEFINE_TYPE
 	
 	* gui/dialogs/meeting-page.c: ditto
 

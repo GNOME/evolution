@@ -27,14 +27,14 @@
  * data in the main Day/Work Week display.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include "e-util/e-categories-config.h"
 #include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
 #include "ea-calendar.h"
-
-static void e_day_view_main_item_class_init (EDayViewMainItemClass *class);
-static void e_day_view_main_item_init (EDayViewMainItem *dvtitem);
 
 static void e_day_view_main_item_set_arg (GtkObject *o, GtkArg *arg,
 					  guint arg_id);
@@ -74,24 +74,19 @@ static void e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 						 int width, int height,
 						 gint day, gint event_num);
 
-static GnomeCanvasItemClass *parent_class;
-
 /* The arguments we take */
 enum {
 	ARG_0,
 	ARG_DAY_VIEW
 };
 
-E_MAKE_TYPE (e_day_view_main_item, "EDayViewMainItem", EDayViewMainItem,
-	     e_day_view_main_item_class_init, e_day_view_main_item_init, GNOME_TYPE_CANVAS_ITEM);
+G_DEFINE_TYPE (EDayViewMainItem, e_day_view_main_item, GNOME_TYPE_CANVAS_ITEM);
 
 static void
 e_day_view_main_item_class_init (EDayViewMainItemClass *class)
 {
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = (GtkObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
@@ -143,8 +138,8 @@ e_day_view_main_item_update (GnomeCanvasItem *item,
 			    ArtSVP *clip_path,
 			    int flags)
 {
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->update)
-		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->update) (item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (e_day_view_main_item_parent_class)->update)
+		(* GNOME_CANVAS_ITEM_CLASS (e_day_view_main_item_parent_class)->update) (item, affine, clip_path, flags);
 
 	/* The item covers the entire canvas area. */
 	item->x1 = 0;

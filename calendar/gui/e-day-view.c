@@ -47,7 +47,6 @@
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
-#include <gal/util/e-util.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-exec.h>
@@ -122,8 +121,6 @@ static GtkTargetEntry target_table[] = {
 };
 static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
 
-static void e_day_view_class_init (EDayViewClass *class);
-static void e_day_view_init (EDayView *day_view);
 static void e_day_view_destroy (GtkObject *object);
 static void e_day_view_realize (GtkWidget *widget);
 static void e_day_view_unrealize (GtkWidget *widget);
@@ -441,10 +438,7 @@ static void e_day_view_queue_layout (EDayView *day_view);
 static void e_day_view_cancel_layout (EDayView *day_view);
 static gboolean e_day_view_layout_timeout_cb (gpointer data);
 
-static GtkTableClass *parent_class;
-
-E_MAKE_TYPE (e_day_view, "EDayView", EDayView, e_day_view_class_init,
-	     e_day_view_init, e_calendar_view_get_type ());
+G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW);
 
 static void
 e_day_view_class_init (EDayViewClass *class)
@@ -453,7 +447,6 @@ e_day_view_class_init (EDayViewClass *class)
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 	view_class = (ECalendarViewClass *) class;
@@ -1137,7 +1130,7 @@ e_day_view_destroy (GtkObject *object)
 		}
 	}
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	GTK_OBJECT_CLASS (e_day_view_parent_class)->destroy (object);
 }
 
 
@@ -1149,8 +1142,8 @@ e_day_view_realize (GtkWidget *widget)
 	gboolean success[E_DAY_VIEW_COLOR_LAST];
 	gint nfailed;
 
-	if (GTK_WIDGET_CLASS (parent_class)->realize)
-		(*GTK_WIDGET_CLASS (parent_class)->realize)(widget);
+	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)
+		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)(widget);
 
 	day_view = E_DAY_VIEW (widget);
 	day_view->main_gc = gdk_gc_new (widget->window);
@@ -1293,8 +1286,8 @@ e_day_view_unrealize (GtkWidget *widget)
 	g_object_unref (day_view->meeting_icon);
 	day_view->meeting_icon = NULL;
 
-	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
-		(*GTK_WIDGET_CLASS (parent_class)->unrealize)(widget);
+	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)
+		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)(widget);
 }
 
 
@@ -1317,8 +1310,8 @@ e_day_view_style_set (GtkWidget *widget,
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 
-	if (GTK_WIDGET_CLASS (parent_class)->style_set)
-		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
+	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)
+		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)(widget, previous_style);
 
 	day_view = E_DAY_VIEW (widget);
 
@@ -1476,7 +1469,7 @@ e_day_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 #endif
 	day_view = E_DAY_VIEW (widget);
 
-	(*GTK_WIDGET_CLASS (parent_class)->size_allocate) (widget, allocation);
+	(*GTK_WIDGET_CLASS (e_day_view_parent_class)->size_allocate) (widget, allocation);
 
 	e_day_view_recalc_cell_sizes (day_view);
 
@@ -4889,7 +4882,7 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	/* if not handled, try key bindings */
 	if (!handled)
-		handled = GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
+		handled = GTK_WIDGET_CLASS (e_day_view_parent_class)->key_press_event (widget, event);
 	return handled;
 }
 
