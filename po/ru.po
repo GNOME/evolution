@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-10-28 17:46+0400\n"
-"PO-Revision-Date: 2000-10-28 18:02+04:00\n"
+"POT-Creation-Date: 2000-10-30 22:26+0300\n"
+"PO-Revision-Date: 2000-10-30 23:12+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1045,15 +1045,15 @@ msgstr "Задания, которые должны быть выполнены сегодня:"
 msgid "To-Do item that is overdue:"
 msgstr "Просроченные задания:"
 
-#: calendar/gui/calendar-commands.c:386
+#: calendar/gui/calendar-commands.c:382
 msgid "File not found"
 msgstr "Файл не найден"
 
-#: calendar/gui/calendar-commands.c:410
+#: calendar/gui/calendar-commands.c:406
 msgid "Open calendar"
 msgstr "Открыть календарь"
 
-#: calendar/gui/calendar-commands.c:449
+#: calendar/gui/calendar-commands.c:445
 msgid "Save calendar"
 msgstr "Сохранить календарь"
 
@@ -1685,7 +1685,7 @@ msgstr "в"
 msgid "ocurrences"
 msgstr "случаи"
 
-#: calendar/gui/event-editor.c:2371 calendar/gui/print.c:1085
+#: calendar/gui/event-editor.c:2382 calendar/gui/print.c:1085
 #: calendar/gui/print.c:1087 calendar/gui/print.c:1088
 msgid "%a %b %d %Y"
 msgstr "%a %b %d %Y"
@@ -2504,7 +2504,9 @@ msgstr "Невозможно проверить файл блокировки для %s: %s"
 #: camel/camel-movemail.c:214
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
-msgstr "Превышение времени при попытке заплокировать файл %s. Попробуйте еще раз позже."
+msgstr ""
+"Превышение времени при попытке заплокировать файл %s. Попробуйте еще раз "
+"позже."
 
 #: camel/camel-movemail.c:240
 #, c-format
@@ -2534,7 +2536,7 @@ msgstr "Не удалось разветвить: %s"
 #: camel/camel-movemail.c:351
 #, c-format
 msgid "Movemail program failed: %s"
-msgstr ""
+msgstr "Сбой программы перемещения почты: %s"
 
 #: camel/camel-movemail.c:352
 msgid "(Unknown error)"
@@ -2565,7 +2567,7 @@ msgstr "%s сервис для %s на %s"
 msgid "Could not connect to %s (port %d): %s"
 msgstr "Не удалось подключиться к %s (порт %d): %s"
 
-#: camel/camel-remote-store.c:231 camel/providers/imap/camel-imap-store.c:190
+#: camel/camel-remote-store.c:231
 msgid "(unknown host)"
 msgstr "(неизвестный хост)"
 
@@ -2623,174 +2625,180 @@ msgstr "Строка URL \"%s\" содержит недопустимый протокол"
 msgid "Port number in URL `%s' is non-numeric"
 msgstr "Номер порта в URL \"%s\" не является числом"
 
-#: camel/providers/imap/camel-imap-command.c:220
+#: camel/providers/imap/camel-imap-command.c:216
 #, c-format
 msgid "Unexpected response from IMAP server: %s"
 msgstr "Неожиданный ответ от сервера IMAP: %s"
 
-#: camel/providers/imap/camel-imap-command.c:228
+#: camel/providers/imap/camel-imap-command.c:224
 #, c-format
 msgid "IMAP command failed: %s"
 msgstr "Сбой команды IMAP: %s"
 
-#: camel/providers/imap/camel-imap-command.c:229 shell/e-storage.c:340
+#: camel/providers/imap/camel-imap-command.c:225 shell/e-storage.c:340
 msgid "Unknown error"
 msgstr "Неизвестная ошибка"
 
-#: camel/providers/imap/camel-imap-command.c:370
+#: camel/providers/imap/camel-imap-command.c:366
 #, c-format
 msgid "IMAP server response did not contain %s information"
-msgstr ""
+msgstr "Ответ IMAP сервера не содержит информации об %s"
 
-#: camel/providers/imap/camel-imap-command.c:406
+#: camel/providers/imap/camel-imap-command.c:402
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
-msgstr ""
+msgstr "Неожиданный ответ \"OK\" от IMAP сервера: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:219
-#, fuzzy, c-format
+#: camel/providers/imap/camel-imap-folder.c:216
+#, c-format
 msgid "Could not load summary for %s"
-msgstr "Невозможно загрузить календарь в \"%s\""
+msgstr "Невозможно загрузить итог для %s"
 
-#: camel/providers/imap/camel-imap-folder.c:578
+#: camel/providers/imap/camel-imap-folder.c:581
 msgid "Could not find message body in FETCH response."
-msgstr ""
+msgstr "Невозможно найти тело сообщения в ответе FETCH."
 
 #: camel/providers/imap/camel-imap-provider.c:39
 msgid "IMAPv4"
-msgstr ""
+msgstr "IMAPv4"
 
 #: camel/providers/imap/camel-imap-provider.c:41
 msgid "For reading and storing mail on IMAP servers."
-msgstr ""
+msgstr "Для чтения и хранения почты на серверах IMAP."
 
-#: camel/providers/imap/camel-imap-store.c:161
-#: camel/providers/pop3/camel-pop3-store.c:150
-#, fuzzy
+#: camel/providers/imap/camel-imap-store.c:232
+#: camel/providers/pop3/camel-pop3-store.c:152
 msgid "Password"
-msgstr "Забыть пароли"
+msgstr "Пароль"
 
-#: camel/providers/imap/camel-imap-store.c:163
+#: camel/providers/imap/camel-imap-store.c:234
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr ""
+msgstr "Подключение к IMAP серверу будет производиться с использованием незашифрованного пароля."
 
-#: camel/providers/imap/camel-imap-store.c:188
-#, c-format
-msgid "Could not connect to IMAP server on %s."
-msgstr ""
+#: camel/providers/imap/camel-imap-store.c:243
+msgid "Kerberos 4"
+msgstr "Kerberos 4"
 
-#: camel/providers/imap/camel-imap-store.c:252
+#: camel/providers/imap/camel-imap-store.c:245
+msgid ""
+"This option will connect to the IMAP server using Kerberos 4 authentication."
+msgstr "Подключение к IMAP серверу будет производиться с использованием для идентификации протокола Kerberos 4."
+
+#: camel/providers/imap/camel-imap-store.c:331
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
-msgstr ""
+msgstr "%sПожалуйста, введите пароль IMAP для %s@%s"
 
-#: camel/providers/imap/camel-imap-store.c:274
+#: camel/providers/imap/camel-imap-store.c:357
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
 "%s\n"
 "\n"
 msgstr ""
-
-#: camel/providers/imap/camel-imap-store.c:479
-#, fuzzy, c-format
-msgid "Could not create directory %s: %s"
-msgstr ""
-"Невозможно создать каталог\n"
+"Невозможно идентифицироваться на сервере IMAP.\n"
 "%s\n"
-"Ошибка: %s"
+"\n"
+
+#: camel/providers/imap/camel-imap-store.c:537
+#, c-format
+msgid "Could not create directory %s: %s"
+msgstr "Невозможно создать каталог %s: %s"
 
 #. FIXME: right error code
 #: camel/providers/mbox/camel-mbox-folder.c:220
-#, fuzzy
 msgid "Could not create summary"
-msgstr "Невозможно создать окно диалога."
+msgstr "Невозможно создать итог"
 
 #: camel/providers/mbox/camel-mbox-folder.c:383
 #: camel/providers/mbox/camel-mbox-folder.c:386
 #, c-format
 msgid "Cannot append message to mbox file: %s"
-msgstr ""
+msgstr "Невозможно присоединить сообщение к файлу mbox: %s"
 
 #: camel/providers/mbox/camel-mbox-folder.c:489
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message: %s"
-msgstr "Невозможно установить локальное хранилище -- %s"
+msgstr "Невозможно получить сообщение: %s"
 
 #: camel/providers/mbox/camel-mbox-provider.c:34
 msgid "UNIX mbox-format mail files"
-msgstr ""
+msgstr "Почтовые файлы в формате UNIX mbox"
 
 #: camel/providers/mbox/camel-mbox-provider.c:36
 msgid ""
 "For reading mail delivered by the local system, and for storing mail on "
 "local disk."
-msgstr ""
+msgstr "Для чтения почты доставленной локальной системой и хранения почты на локальном диске."
 
 #: camel/providers/mbox/camel-mbox-store.c:121
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open file `%s':\n"
 "%s"
 msgstr ""
-"Невозможно открыть положение \"%s\":\n"
+"Невозможно открыть файл \"%s\":\n"
 "%s"
 
 #: camel/providers/mbox/camel-mbox-store.c:128
 #: camel/providers/mh/camel-mh-store.c:122
-#, fuzzy, c-format
+#, c-format
 msgid "Folder `%s' does not exist."
-msgstr "Этот файл не существует."
+msgstr "Папка \"%s\" не существует."
 
 #: camel/providers/mbox/camel-mbox-store.c:137
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create file `%s':\n"
 "%s"
-msgstr "Не удалось создать календарь в \"%s\""
+msgstr ""
+"Не удалось создать файл \"%s\":\n"
+"%s"
 
 #: camel/providers/mbox/camel-mbox-store.c:146
 #: camel/providers/mbox/camel-mbox-store.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' is not a regular file."
-msgstr "Это не обычный файл."
+msgstr "%s не является обычным файлом."
 
 #: camel/providers/mbox/camel-mbox-store.c:172
 #: camel/providers/mbox/camel-mbox-store.c:208
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not delete folder `%s':\n"
 "%s"
-msgstr "Невозможно загрузить календарь в \"%s\""
+msgstr ""
+"Невозможно удалить папку \"%s\":\n"
+"%s"
 
 #: camel/providers/mbox/camel-mbox-store.c:187
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
-msgstr ""
+msgstr "Папка \"%s\" не пуста. Не удалена."
 
 #: camel/providers/mbox/camel-mbox-store.c:225
 #, c-format
 msgid "Could not rename folder %s to %s: destination exists"
-msgstr ""
+msgstr "Не удалось переименовать папку %s в %s: такое имя уже существует"
 
 #: camel/providers/mbox/camel-mbox-store.c:263
 msgid "Mbox folders may not be nested."
 msgstr ""
 
 #: camel/providers/mbox/camel-mbox-store.c:277
-#, fuzzy, c-format
+#, c-format
 msgid "Local mail file %s"
-msgstr "Ошибка сохранения файла: %s"
+msgstr "Локальный почтовый файл %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:650
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open summary %s"
-msgstr "Невозможно загрузить календарь в \"%s\""
+msgstr "Невозможно открыть итог %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:671
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open temporary mailbox: %s"
-msgstr "Не удалось создать временный mbox \"%s\": %s"
+msgstr "Не удалось открыть временный почтовый ящик: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:715
 msgid "Summary mismatch, aborting sync"
@@ -2803,100 +2811,103 @@ msgstr ""
 #: camel/providers/mbox/camel-mbox-summary.c:757
 #, c-format
 msgid "Error writing to temp mailbox: %s"
-msgstr ""
+msgstr "Ошибка записи во временный почтовый ящик: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:770
 #: camel/providers/mbox/camel-mbox-summary.c:788
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy data to output file: %s"
-msgstr ""
-"Невозможно скопировать файлы в\n"
-"\"%s\"."
+msgstr "Невозможно скопировать данные в файл вывода: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:813
-#, fuzzy, c-format
+#, c-format
 msgid "Could not close source folder %s: %s"
-msgstr "Невозможно загрузить календарь в \"%s\""
+msgstr "Невозможно закрыть исходную папку %s: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:822
-#, fuzzy, c-format
+#, c-format
 msgid "Could not close temp folder: %s"
-msgstr "Невозможно загрузить календарь в \"%s\""
+msgstr "Невозможно закрыть временную папку: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:830
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename folder: %s"
-msgstr "Не удалось создать календарь в \"%s\""
+msgstr "Не удалось переименовать папку: %s"
 
 #: camel/providers/mbox/camel-mbox-summary.c:842
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown error: %s"
-msgstr "Неизвестная ошибка"
+msgstr "Неизвестная ошибка: %s"
 
 #. FIXME: right error code
 #: camel/providers/mh/camel-mh-folder.c:211
-#, fuzzy
 msgid "Could not load or create summary"
-msgstr "Невозможно загрузить календарь в \"%s\""
+msgstr "Невозможно загрузить или создать итог"
 
 #: camel/providers/mh/camel-mh-folder.c:330
 #: camel/providers/mh/camel-mh-folder.c:333
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to mh folder: %s"
-msgstr "Открытие сообщений из папки \"%s\""
+msgstr "Невозможно добавить сообщение к папке mh: %s"
 
 #: camel/providers/mh/camel-mh-folder.c:399
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot get message: %s\n"
 "  %s"
-msgstr "Помечание сообщений в папке %d из %d"
+msgstr ""
+"Невозможно получить сообщение: %s\n"
+"  %s"
 
 #: camel/providers/mh/camel-mh-provider.c:34
 msgid "UNIX MH-format mail directories"
-msgstr ""
+msgstr "Почтовые каталоги в формате UNIX MH"
 
 #: camel/providers/mh/camel-mh-provider.c:36
 msgid "For storing local mail in MH-like mail directories"
-msgstr ""
+msgstr "Для хранения локальной почты в почтовых каталогах типа MH"
 
 #: camel/providers/mh/camel-mh-store.c:115
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open folder `%s':\n"
 "%s"
 msgstr ""
-"Невозможно открыть положение \"%s\":\n"
+"Невозможно открыть папку \"%s\":\n"
 "%s"
 
 #: camel/providers/mh/camel-mh-store.c:130
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create folder `%s':\n"
 "%s"
-msgstr "Не удалось создать календарь в \"%s\""
+msgstr ""
+"Не удалось создать папку \"%s\":\n"
+"%s"
 
 #: camel/providers/mh/camel-mh-store.c:139
 #, c-format
 msgid "`%s' is not a directory."
-msgstr ""
+msgstr "\"%s\" не является каталогом."
 
 #: camel/providers/mh/camel-mh-store.c:158
 #: camel/providers/mh/camel-mh-store.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "Could not delete folder `%s': %s"
-msgstr "Невозможно загрузить календарь в \"%s\""
+msgstr ""
+"Невозможно удалить папку \"%s\":\n"
+"%s"
 
 #: camel/providers/mh/camel-mh-store.c:189
 #: camel/providers/mh/camel-mh-store.c:193
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename folder `%s': %s"
-msgstr "Не удалось создать календарь в \"%s\""
+msgstr "Не удалось переименовать папку \"%s\": %s"
 
 #: camel/providers/mh/camel-mh-store.c:197
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename folder `%s': %s exists"
-msgstr "Не удалось создать календарь в \"%s\""
+msgstr "Не удалось переименовать папку \"%s\": %s существует"
 
 #: camel/providers/mh/camel-mh-store.c:205
 msgid "MH folders may not be nested."
@@ -2905,156 +2916,160 @@ msgstr ""
 #: camel/providers/mh/camel-mh-store.c:217
 #, c-format
 msgid "Local mail directory %s"
-msgstr ""
+msgstr "Локальный почтовый каталог %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:177
 msgid "Could not open folder: message listing was incomplete."
-msgstr ""
+msgstr "Не удалось открыть папку: список сообщений был неполон."
 
 #: camel/providers/pop3/camel-pop3-folder.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "No message with uid %s"
-msgstr "%s сообщения %d из %d (uid \"%s\")"
+msgstr "Нет сообщения с uid %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:285
-#, fuzzy, c-format
+#, c-format
 msgid "Could not retrieve message from POP server %s: %s"
-msgstr "Не удалять сообщения с сервера"
+msgstr "Не удалось получить сообщение с POP сервера %s: %s"
 
 #: camel/providers/pop3/camel-pop3-provider.c:34
 msgid "POP"
-msgstr ""
+msgstr "POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:36
 msgid ""
 "For connecting to POP servers. The POP protocol can also be used to retrieve "
 "mail from certain web mail providers and proprietary email systems."
-msgstr ""
+msgstr "Для подключения к POP серверам. POP протокол может быть также использован для получения почты от обычных провайдеров Web-почты и специфических систем электронной почты."
 
-#: camel/providers/pop3/camel-pop3-store.c:152
+#: camel/providers/pop3/camel-pop3-store.c:154
 msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
-msgstr ""
+msgstr "Подключение к POP серверу будет производиться с использованием незашифрованного пароля. Большинством POP серверов поддерживается только этот вариант."
 
-#: camel/providers/pop3/camel-pop3-store.c:162
+#: camel/providers/pop3/camel-pop3-store.c:164
 msgid ""
 "This option will connect to the POP server using an encrypted password via "
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
-msgstr ""
+msgstr "Подключение к POP серверу будет производиться с использованием шифрованного пароля по протоколу APOP. Это может работать не для всех пользователея даже на серверах, которые якобы поддерживают это."
 
-#: camel/providers/pop3/camel-pop3-store.c:174
+#: camel/providers/pop3/camel-pop3-store.c:176
 msgid ""
 "This will connect to the POP server and use Kerberos 4 to authenticate to it."
-msgstr ""
+msgstr "Подключение к POP серверу будет производиться с использованием Kerberos 4 для идентификации."
 
-#: camel/providers/pop3/camel-pop3-store.c:219
-#, fuzzy, c-format
+#: camel/providers/pop3/camel-pop3-store.c:221
+#, c-format
 msgid "Could not authenticate to KPOP server: %s"
-msgstr "Не удалось запустить сервер wombat"
+msgstr "Не удалось идентифицироваться на KPOP сервере: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:337
-#, fuzzy, c-format
+#: camel/providers/pop3/camel-pop3-store.c:339
+#, c-format
 msgid "Could not connect to POP server on %s."
-msgstr "Не удалось создать календарь в \"%s\""
+msgstr "Не удалось подключиться к POP серверу на %s."
 
-#: camel/providers/pop3/camel-pop3-store.c:391
+#: camel/providers/pop3/camel-pop3-store.c:393
 #, c-format
 msgid "%sPlease enter the POP3 password for %s@%s"
-msgstr ""
+msgstr "%sПожалуйста, введите POP3 пароль для %s@%s"
 
-#: camel/providers/pop3/camel-pop3-store.c:410
+#: camel/providers/pop3/camel-pop3-store.c:412
 #, c-format
 msgid ""
 "Unable to connect to POP server.\n"
 "Error sending username: %s"
 msgstr ""
+"Не удалось подключиться к POP серверу.\n"
+"Ошибка отправки имени пользователя: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:413
-#: camel/providers/pop3/camel-pop3-store.c:450
-#, fuzzy
+#: camel/providers/pop3/camel-pop3-store.c:415
+#: camel/providers/pop3/camel-pop3-store.c:452
 msgid "(Unknown)"
-msgstr "Неизвестное"
+msgstr "(Неизвестное)"
 
-#: camel/providers/pop3/camel-pop3-store.c:440
+#: camel/providers/pop3/camel-pop3-store.c:442
 msgid ""
 "Unable to connect to POP server.\n"
 "No support for requested authentication mechanism."
 msgstr ""
+"Не удалось подключиться к POP серверу.\n"
+"Не поддерживается затребованный механизм идентификации."
 
-#: camel/providers/pop3/camel-pop3-store.c:448
+#: camel/providers/pop3/camel-pop3-store.c:450
 #, c-format
 msgid ""
 "Unable to connect to POP server.\n"
 "Error sending password: %s"
 msgstr ""
+"Не удалось подключиться к POP серверу.\n"
+"Ошибка отправки пароля: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:554
+#: camel/providers/pop3/camel-pop3-store.c:556
 #, c-format
 msgid "No such folder `%s'."
-msgstr ""
+msgstr "Нет такой папки \"%s\""
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:34
 msgid "Sendmail"
-msgstr ""
+msgstr "Sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr ""
+msgstr "Для доставки почты передачей её программе \"Sendmail\" на локальной системе."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:105
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create pipe to sendmail: %s: mail not sent"
-msgstr "Не удалось создать календарь в \"%s\""
+msgstr "Не удалось создать канал к Sendmail: %s: почта не отправлена"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:122
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
-msgstr ""
+msgstr "Не удалось разветвить Sendmail: %s: почта не отправлена"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "Could not send message: %s"
-msgstr "Пересланное сообщение - %s"
+msgstr "Не удалось отправить сообщение: %s"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:161
 #, c-format
 msgid "sendmail exited with signal %s: mail not sent."
-msgstr ""
+msgstr "Sendmail завершила работу с сигналом %s: почта не отправлена."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:168
 #, c-format
 msgid "Could not execute %s: mail not sent."
-msgstr ""
+msgstr "Не удалось выполнить %s: почта не отправлена."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:173
 #, c-format
 msgid "sendmail exited with status %d: mail not sent."
-msgstr ""
+msgstr "Sendmail завершила работу с состоянием %d: почта не отправлена."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:220
 msgid "sendmail"
-msgstr ""
+msgstr "sendmail"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:222
 msgid "Mail delivery via the sendmail program"
-msgstr ""
+msgstr "Доставка почты через программу sendmail"
 
 #: camel/providers/smtp/camel-smtp-provider.c:36
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-msgstr ""
+msgstr "Для доставки почты с помощью подключеия к удаленному почтовому узлу по протоколу SMTP."
 
 #: camel/providers/vee/camel-vee-provider.c:30
-#, fuzzy
 msgid "Virtual folder email provider"
-msgstr "Редактор виртуальных папок..."
+msgstr "Провайдер виртуальных папок электронной почты"
 
 #: camel/providers/vee/camel-vee-provider.c:32
 msgid "For reading mail as a query of another set of folders"
-msgstr ""
+msgstr "Для чтения почты по запросу к другому набору папок"
 
 #: composer/e-msg-composer-attachment-bar.c:85
 msgid "1 byte"
@@ -3082,14 +3097,12 @@ msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
 #: composer/e-msg-composer-attachment-bar.c:299 mail/mail-display.c:118
-#, fuzzy
 msgid "attachment"
-msgstr "Добавить вложение"
+msgstr "вложение"
 
 #: composer/e-msg-composer-attachment-bar.c:395
-#, fuzzy
 msgid "Attach a file"
-msgstr "Присоединить файл к сообщению"
+msgstr "Присоединить файл"
 
 #: composer/e-msg-composer-attachment-bar.c:442 filter/filter.glade.h:22
 #: filter/filter.glade.h:25 shell/e-shortcuts-view.c:239
@@ -3175,12 +3188,12 @@ msgid "Enter the subject of the mail"
 msgstr "Введите тему письма"
 
 #: composer/e-msg-composer.c:299
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open signature file %s:\n"
 "%s"
 msgstr ""
-"Невозможно открыть положение \"%s\":\n"
+"Невозможно открыть файл подписи %s:\n"
 "%s"
 
 #: composer/e-msg-composer.c:406
@@ -3202,14 +3215,13 @@ msgid "Saving changes to message..."
 msgstr "Сохранить изменения в сообщении..."
 
 #: composer/e-msg-composer.c:461
-#, fuzzy
 msgid "Save changes to message..."
 msgstr "Сохранить изменения в сообщении..."
 
 #: composer/e-msg-composer.c:502
 #, c-format
 msgid "Error saving composition to 'Drafts': %s"
-msgstr ""
+msgstr "Ошибка сохранения сочинения в \"Черновиках\": %s"
 
 #: composer/e-msg-composer.c:546 shell/e-shell-view-menu.c:167
 msgid "Evolution"
@@ -3349,9 +3361,8 @@ msgid "Add Filter Rule"
 msgstr "Добавить правило фильтра"
 
 #: filter/filter-editor.c:207
-#, fuzzy
 msgid "Edit Filter Rule"
-msgstr "Правка правила вирт.папки"
+msgstr "Правка правила фильтра"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3359,9 +3370,8 @@ msgstr "Правка правила вирт.папки"
 #. * DO NOT compile it as part of your application.
 #.
 #: filter/filter-editor.c:404 filter/filter.glade.h:7
-#, fuzzy
 msgid "Edit Filters"
-msgstr "Правка правила"
+msgstr "Правка фильтров"
 
 #. and now for the action area
 #: filter/filter-filter.c:401
@@ -3397,9 +3407,8 @@ msgid "Rule name: "
 msgstr "Название фильтра: "
 
 #: filter/filter-rule.c:513
-#, fuzzy
 msgid "Untitled"
-msgstr "(Без заголовка)"
+msgstr "Неозаглавленное"
 
 #: filter/filter-rule.c:527
 msgid "If"
@@ -3418,25 +3427,24 @@ msgid "if any criteria are met"
 msgstr "если удовлетворяет любому из критериев"
 
 #: filter/filter-rule.c:564
-#, fuzzy
 msgid "Add criterion"
-msgstr "Добавить действие"
+msgstr "Добавить критерий"
 
 #: filter/filter-rule.c:570
-#, fuzzy
 msgid "Remove criterion"
-msgstr "Удалить действие"
+msgstr "Удалить критерий"
 
 #: filter/filter.glade.h:8
 msgid ""
 "Incoming\n"
 "Outgoing\n"
 msgstr ""
+"Входящие\n"
+"Исходящие\n"
 
 #: filter/filter.glade.h:11
-#, fuzzy
 msgid "Filter Rules"
-msgstr "Добавить правило фильтра"
+msgstr "Правила фильтра"
 
 #: filter/filter.glade.h:13 filter/filter.glade.h:18
 #: mail/mail-config.glade.h:12 mail/mail-config.glade.h:17
@@ -3445,188 +3453,165 @@ msgid "Edit"
 msgstr "Правка"
 
 #: filter/filter.glade.h:15
-#, fuzzy
 msgid "Edit VFolders"
-msgstr "Правка правила вирт.папки"
+msgstr "Правка вирт.папок"
 
 #: filter/filter.glade.h:16
-#, fuzzy
 msgid "Virtual Folders"
-msgstr "Редактор виртуальных папок..."
+msgstr "Виртуальные папки"
 
 #: filter/filter.glade.h:20 filter/filter.glade.h:23
-#, fuzzy
 msgid "vFolder Sources"
-msgstr "Источники почты"
+msgstr "Источники вирт.папки"
 
 #. Automatically generated. Do not edit.
 #: filter/libfilter-i18n.h:2
 msgid "Assign Colour"
-msgstr ""
+msgstr "Связать цвет"
 
 #: filter/libfilter-i18n.h:3
 msgid "Assign Score"
-msgstr ""
+msgstr "Связать подсчет"
 
 #: filter/libfilter-i18n.h:4
-#, fuzzy
 msgid "Copy to Folder"
 msgstr "Скопировать в папку"
 
 #: filter/libfilter-i18n.h:5
 msgid "Date received"
-msgstr ""
+msgstr "Дата получения"
 
 #: filter/libfilter-i18n.h:6
 msgid "Date sent"
-msgstr ""
+msgstr "Дата отправки"
 
 #: filter/libfilter-i18n.h:8
-#, fuzzy
 msgid "Expression"
-msgstr "Профессия:"
+msgstr "Выражение"
 
 #: filter/libfilter-i18n.h:9
-#, fuzzy
 msgid "Forward to Address"
-msgstr "Переслать это сообщение"
+msgstr "Переслать по адресу"
 
 #: filter/libfilter-i18n.h:10
-#, fuzzy
 msgid "Message Body"
-msgstr "Сообщение"
+msgstr "Тело сообщения"
 
 #: filter/libfilter-i18n.h:11
-#, fuzzy
 msgid "Message was received"
-msgstr "Получатели сообщения"
+msgstr "Сообщение было получено"
 
 #: filter/libfilter-i18n.h:12
-#, fuzzy
 msgid "Message was sent"
-msgstr "Отметить сообщение как просмотренное [мс]:"
+msgstr "Сообщение было отправлено"
 
 #: filter/libfilter-i18n.h:13
-#, fuzzy
 msgid "Move to Folder"
 msgstr "Переместить в папку"
 
 #: filter/libfilter-i18n.h:15
-#, fuzzy
 msgid "Recipients"
-msgstr "Список получателей:"
+msgstr "Получатели"
 
 #: filter/libfilter-i18n.h:16
-#, fuzzy
 msgid "Sender"
-msgstr "Напоминание"
+msgstr "Отправитель"
 
 #: filter/libfilter-i18n.h:17
-#, fuzzy
 msgid "Source"
-msgstr "Источники"
+msgstr "Источник"
 
 #: filter/libfilter-i18n.h:18
 msgid "Specific header"
-msgstr ""
+msgstr "Специфический заголовок"
 
 #: filter/libfilter-i18n.h:19
-#, fuzzy
 msgid "Stop Processing"
-msgstr "Остановить загрузку"
+msgstr "Остановить обработку"
 
 #: filter/libfilter-i18n.h:20
-#, fuzzy
 msgid "Subject"
-msgstr "Тема:"
+msgstr "Тема"
 
 #: filter/libfilter-i18n.h:21
-#, fuzzy
 msgid "after"
-msgstr "Закончить после"
+msgstr "после"
 
 #: filter/libfilter-i18n.h:22
 msgid "before"
-msgstr ""
+msgstr "до"
 
 #: filter/libfilter-i18n.h:23
-#, fuzzy
 msgid "contains"
-msgstr "Действия"
+msgstr "содержит"
 
 #: filter/libfilter-i18n.h:24
 msgid "does not contain"
-msgstr ""
+msgstr "не содержит"
 
 #: filter/libfilter-i18n.h:25
 msgid "does not end with"
-msgstr ""
+msgstr "не заканчивается на"
 
 #: filter/libfilter-i18n.h:26
-#, fuzzy
 msgid "does not exist"
-msgstr "Этот файл не существует."
+msgstr "не существует."
 
 #: filter/libfilter-i18n.h:27
 msgid "does not match regex"
-msgstr ""
+msgstr "не совпадает с рег.выражением"
 
 #: filter/libfilter-i18n.h:28
-#, fuzzy
 msgid "does not start with"
-msgstr "Не удалось запустить wombat"
+msgstr "не начинается с"
 
 #: filter/libfilter-i18n.h:29
 msgid "ends with"
-msgstr ""
+msgstr "заканчивается на"
 
 #: filter/libfilter-i18n.h:30
-#, fuzzy
 msgid "exists"
-msgstr "cлед."
+msgstr "cуществует"
 
 #: filter/libfilter-i18n.h:31
 msgid "is greater than"
-msgstr ""
+msgstr "больше чем"
 
 #: filter/libfilter-i18n.h:32
 msgid "is less than"
-msgstr ""
+msgstr "меньше чем"
 
 #: filter/libfilter-i18n.h:33
 msgid "is not"
-msgstr ""
+msgstr "не является"
 
 #: filter/libfilter-i18n.h:34
-#, fuzzy
 msgid "is"
-msgstr "i"
+msgstr "является"
 
 #: filter/libfilter-i18n.h:35
 msgid "matches regex"
-msgstr ""
+msgstr "совпадает с рег.выражением"
 
 #: filter/libfilter-i18n.h:36
-#, fuzzy
 msgid "on or after"
-msgstr "Закончить после"
+msgstr "на или после"
 
 #: filter/libfilter-i18n.h:37
 msgid "on or before"
-msgstr ""
+msgstr "на или до"
 
 #: filter/libfilter-i18n.h:38
 msgid "starts with"
-msgstr ""
+msgstr "начинается с"
 
 #: filter/libfilter-i18n.h:39
-#, fuzzy
 msgid "was after"
-msgstr "Закончить после"
+msgstr "было после"
 
 #: filter/libfilter-i18n.h:40
 msgid "was before"
-msgstr ""
+msgstr "было до"
 
 #: filter/score-editor.c:127
 msgid "Add Rule"
@@ -3641,9 +3626,8 @@ msgid "Score"
 msgstr "Подсчет"
 
 #: filter/vfolder-editor.c:155
-#, fuzzy
 msgid "Add VFolder Rule"
-msgstr "Правка правила вирт.папки"
+msgstr "Добавить правило вирт.папки"
 
 #: filter/vfolder-editor.c:204
 msgid "Edit VFolder Rule"
@@ -3672,32 +3656,31 @@ msgstr ""
 
 #: mail/folder-browser.c:137
 msgid "Body or subject contains"
-msgstr ""
+msgstr "Тело или тема содержат"
 
 #: mail/folder-browser.c:138
 msgid "Body contains"
-msgstr ""
+msgstr "Тело содержит"
 
 #: mail/folder-browser.c:139
 msgid "Subject contains"
-msgstr ""
+msgstr "Тема содержит"
 
 #: mail/folder-browser.c:140
 msgid "Body does not contain"
-msgstr ""
+msgstr "Тело не содержит"
 
 #: mail/folder-browser.c:141
 msgid "Subject does not contain"
-msgstr ""
+msgstr "Тема не содержит"
 
 #: mail/folder-browser.c:142
 msgid "Custom search"
-msgstr ""
+msgstr "Другой поиск"
 
 #: mail/folder-browser.c:314
-#, fuzzy
 msgid "Custom"
-msgstr "Вырезать"
+msgstr "Другое"
 
 #: mail/folder-browser.c:492
 msgid "Full Search"
@@ -3752,15 +3735,15 @@ msgstr ""
 
 #: mail/mail-callbacks.c:163 mail/mail-callbacks.c:175
 msgid "You have no mail sources configured"
-msgstr ""
+msgstr "Вы не настроили источники почты"
 
 #: mail/mail-callbacks.c:212
 msgid "You have not set a mail transport method"
-msgstr ""
+msgstr "Вы не установили метод транспортировки почты"
 
 #: mail/mail-callbacks.c:221
 msgid "You have no Outbox configured"
-msgstr ""
+msgstr "Вы не настроили \"Исходящие\""
 
 #: mail/mail-callbacks.c:245
 msgid ""
@@ -3772,7 +3755,7 @@ msgstr ""
 
 #: mail/mail-callbacks.c:290
 msgid "You must specify recipients in order to send this message."
-msgstr ""
+msgstr "Вы должны указать получателей, чтобы отправить это сообщение."
 
 #: mail/mail-callbacks.c:532
 msgid "Move message(s) to"
@@ -3853,24 +3836,23 @@ msgstr "Путь:"
 msgid "Authentication:"
 msgstr "Идентификация:"
 
-#: mail/mail-config-gui.c:941
+#: mail/mail-config-gui.c:940
 msgid "Detect supported types..."
 msgstr "Определить поддерживаемые типы..."
 
-#: mail/mail-config-gui.c:968
+#: mail/mail-config-gui.c:967
 msgid "Don't delete messages from server"
 msgstr "Не удалять сообщения с сервера"
 
-#: mail/mail-config-gui.c:980
+#: mail/mail-config-gui.c:979
 msgid "Test Settings"
 msgstr "Установки теста"
 
-#: mail/mail-config-gui.c:1107
-#, fuzzy
+#: mail/mail-config-gui.c:1106
 msgid "Mail source type:"
-msgstr "Тип передачи почты:"
+msgstr "Тип источника почты:"
 
-#: mail/mail-config-gui.c:1112 mail/mail-config-gui.c:1160
+#: mail/mail-config-gui.c:1111 mail/mail-config-gui.c:1159
 msgid ""
 "Select the kind of mail server you have, and enter the relevant information "
 "about it.\n"
@@ -3884,12 +3866,11 @@ msgstr ""
 "Если сервер требует идентификации, то щелкните на кнопке \"Определить "
 "поддерживаемые типы...\" после ввода остальной информации."
 
-#: mail/mail-config-gui.c:1131
-#, fuzzy
+#: mail/mail-config-gui.c:1130
 msgid "News source type:"
-msgstr "Новый тип телефона"
+msgstr "Новый тип источника:"
 
-#: mail/mail-config-gui.c:1136
+#: mail/mail-config-gui.c:1135
 msgid ""
 "Select the kind of news server you have, and enter the relevant information "
 "about it.\n"
@@ -3903,54 +3884,54 @@ msgstr ""
 "Если сервер требует идентификации, вы можете щелкнуть на кнопке \"Определить "
 "поддерживаемые типы...\" после ввода остальной информации."
 
-#: mail/mail-config-gui.c:1155
+#: mail/mail-config-gui.c:1154
 msgid "Mail transport type:"
 msgstr "Тип передачи почты:"
 
-#: mail/mail-config-gui.c:1210
+#: mail/mail-config-gui.c:1209
 msgid "Add Identity"
 msgstr "Добавить именование"
 
-#: mail/mail-config-gui.c:1212
+#: mail/mail-config-gui.c:1211
 msgid "Edit Identity"
 msgstr "Правка именования"
 
-#: mail/mail-config-gui.c:1310
+#: mail/mail-config-gui.c:1309
 msgid "Add Source"
 msgstr "Добавить источник"
 
-#: mail/mail-config-gui.c:1312
+#: mail/mail-config-gui.c:1311
 msgid "Edit Source"
 msgstr "Правка источника"
 
-#: mail/mail-config-gui.c:1407
+#: mail/mail-config-gui.c:1406
 msgid "Add News Server"
 msgstr "Добавить сервер новостей"
 
-#: mail/mail-config-gui.c:1409
+#: mail/mail-config-gui.c:1408
 msgid "Edit News Server"
 msgstr "Правка сервера новостей"
 
-#: mail/mail-config-gui.c:2233
-#, fuzzy, c-format
+#: mail/mail-config-gui.c:2232
+#, c-format
 msgid "Testing \"%s\""
-msgstr "Создание \"%s\""
+msgstr "Проверка \"%s\""
 
-#: mail/mail-config-gui.c:2235
-#, fuzzy, c-format
+#: mail/mail-config-gui.c:2234
+#, c-format
 msgid "Test connection to \"%s\""
-msgstr "Соединение было успешным!"
+msgstr "Проверка соединения с \"%s\""
 
-#: mail/mail-config-gui.c:2277
+#: mail/mail-config-gui.c:2275
 msgid "The connection was successful!"
 msgstr "Соединение было успешным!"
 
-#: mail/mail-config-gui.c:2327
+#: mail/mail-config-gui.c:2325
 #, c-format
 msgid "Querying authorization capabilities of \"%s\""
 msgstr "Запрашивание возможностей авторизации от \"%s\""
 
-#: mail/mail-config-gui.c:2329
+#: mail/mail-config-gui.c:2327
 #, c-format
 msgid "Query authorization at \"%s\""
 msgstr "Запрос авторизации от \"%s\""
@@ -4039,19 +4020,19 @@ msgid "Mark message as seen [ms]: "
 msgstr "Отметить сообщение как просмотренное [мс]:"
 
 #: mail/mail-crypto.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't create pipe to %s: %s"
-msgstr "Не удалось создать канал к GPG/PGP: %s"
+msgstr "Не удалось создать канал к %s: %s"
 
 #: mail/mail-crypto.c:164
-#, fuzzy, c-format
+#, c-format
 msgid "Could not execute %s: %s\n"
-msgstr "Не удалось создать календарь в \"%s\""
+msgstr "Не удалось выполнить %s: %s\n"
 
 #: mail/mail-crypto.c:168
 #, c-format
 msgid "Cannot fork %s: %s"
-msgstr ""
+msgstr "Не удалось разветвить %s: %s"
 
 #: mail/mail-crypto.c:345 mail/mail-crypto.c:441 mail/mail-crypto.c:604
 msgid "Please enter your PGP/GPG passphrase."
@@ -4083,28 +4064,27 @@ msgstr ""
 "Переписать его?"
 
 #: mail/mail-display.c:86
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open file %s:\n"
 "%s"
 msgstr ""
-"Невозможно открыть положение \"%s\":\n"
+"Невозможно открыть файл %s:\n"
 "%s"
 
 #: mail/mail-display.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Could not write data: %s"
-msgstr "Невозможно создать окно диалога."
+msgstr "Невозможно записать данные: %s"
 
 #: mail/mail-display.c:194
-#, fuzzy
 msgid "Save Attachment"
-msgstr "Добавить вложение"
+msgstr "Сохранить вложение"
 
 #: mail/mail-display.c:234
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create temporary directory: %s"
-msgstr "Не удалось создать временный mbox \"%s\": %s"
+msgstr "Не удалось создать временный каталог: %s"
 
 #: mail/mail-display.c:276
 msgid "Save to Disk..."
@@ -4143,23 +4123,20 @@ msgid "Change folder \"%s\" to \"%s\" format"
 msgstr "Изменить папку \"%s\" в формат \"%s\""
 
 #: mail/mail-local.c:327
-#, fuzzy
 msgid "Closing current folder"
-msgstr "Настроить папку"
+msgstr "Закрытие текущей папки"
 
 #: mail/mail-local.c:359
 msgid "Renaming old folder and opening"
-msgstr ""
+msgstr "Переименование старой папки и открытие"
 
 #: mail/mail-local.c:380
-#, fuzzy
 msgid "Creating new folder"
-msgstr "Создать новую папку"
+msgstr "Создание новой папки"
 
 #: mail/mail-local.c:395
-#, fuzzy
 msgid "Copying messages"
-msgstr "Скопировать сообщение"
+msgstr "Копирование сообщений"
 
 #: mail/mail-local.c:407
 #, c-format
@@ -4195,249 +4172,249 @@ msgstr "Получить почту c %s"
 msgid "Retrieving messages : %s"
 msgstr "Перемещение сообщений: %s"
 
-#: mail/mail-ops.c:253
+#: mail/mail-ops.c:255
 #, c-format
 msgid "There is no new mail at %s."
 msgstr "Нет новой почты на %s."
 
-#: mail/mail-ops.c:308
+#: mail/mail-ops.c:310
 msgid "Filtering email on demand"
 msgstr "Фильтрация почты по запросу"
 
-#: mail/mail-ops.c:310
+#: mail/mail-ops.c:312
 msgid "Filter email on demand"
 msgstr "Фильтр почты по запросу"
 
-#: mail/mail-ops.c:441
+#: mail/mail-ops.c:443
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Отправка \"%s\""
 
-#: mail/mail-ops.c:446
+#: mail/mail-ops.c:448
 msgid "Sending a message without a subject"
 msgstr "Отправка сообщения без темы"
 
-#: mail/mail-ops.c:449
+#: mail/mail-ops.c:451
 #, c-format
 msgid "Send \"%s\""
 msgstr "Послать \"%s\""
 
-#: mail/mail-ops.c:452
+#: mail/mail-ops.c:454
 msgid "Send a message without a subject"
 msgstr "Послать сообщение без темы"
 
-#: mail/mail-ops.c:623
+#: mail/mail-ops.c:625
 msgid "Sending queue"
 msgstr "Отправка очереди"
 
-#: mail/mail-ops.c:625
+#: mail/mail-ops.c:627
 msgid "Send queue"
 msgstr "Отправить очередь"
 
-#: mail/mail-ops.c:761 mail/mail-ops.c:768
+#: mail/mail-ops.c:763 mail/mail-ops.c:770
 #, c-format
 msgid "Appending \"%s\""
 msgstr "Присоединение \"%s\""
 
-#: mail/mail-ops.c:765 mail/mail-ops.c:771
+#: mail/mail-ops.c:767 mail/mail-ops.c:773
 msgid "Appending a message without a subject"
 msgstr "Присоединение сообщения без темы"
 
-#: mail/mail-ops.c:843
+#: mail/mail-ops.c:845
 #, c-format
 msgid "Expunging \"%s\""
 msgstr "Вычеркивание \"%s\""
 
-#: mail/mail-ops.c:845
+#: mail/mail-ops.c:847
 #, c-format
 msgid "Expunge \"%s\""
 msgstr "Вычеркнуть \"%s\""
 
-#: mail/mail-ops.c:904
+#: mail/mail-ops.c:906
 #, c-format
 msgid "Moving messages from \"%s\" into \"%s\""
 msgstr "Перемещение сообщений из \"%s\" в \"%s\""
 
-#: mail/mail-ops.c:906
+#: mail/mail-ops.c:908
 #, c-format
 msgid "Copying messages from \"%s\" into \"%s\""
 msgstr "Копирование сообщений из \"%s\" в \"%s\""
 
-#: mail/mail-ops.c:909
+#: mail/mail-ops.c:911
 #, c-format
 msgid "Move messages from \"%s\" into \"%s\""
 msgstr "Переместить сообщения из \"%s\" в \"%s\""
 
-#: mail/mail-ops.c:911
+#: mail/mail-ops.c:913
 #, c-format
 msgid "Copy messages from \"%s\" into \"%s\""
 msgstr "Скопировать сообщения из \"%s\" в \"%s\""
 
-#: mail/mail-ops.c:942
+#: mail/mail-ops.c:944
 msgid "Moving"
 msgstr "Перемещение"
 
-#: mail/mail-ops.c:945
+#: mail/mail-ops.c:947
 msgid "Copying"
 msgstr "Копирование"
 
-#: mail/mail-ops.c:965
+#: mail/mail-ops.c:967
 #, c-format
 msgid "%s message %d of %d (uid \"%s\")"
 msgstr "%s сообщения %d из %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1044
+#: mail/mail-ops.c:1046
 #, c-format
 msgid "Marking messages in folder \"%s\""
 msgstr "Помечание сообщений в папке \"%s\""
 
-#: mail/mail-ops.c:1047
+#: mail/mail-ops.c:1049
 #, c-format
 msgid "Mark messages in folder \"%s\""
 msgstr "Пометить сообщения в папке \"%s\""
 
-#: mail/mail-ops.c:1078
+#: mail/mail-ops.c:1080
 #, c-format
 msgid "Marking message %d of %d"
 msgstr "Помечание сообщений в папке %d из %d"
 
-#: mail/mail-ops.c:1198
+#: mail/mail-ops.c:1200
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Считывание папок в \"%s\""
 
-#: mail/mail-ops.c:1201
+#: mail/mail-ops.c:1203
 #, c-format
 msgid "Scan folders in \"%s\""
 msgstr "Считать папки в \"%s\""
 
-#: mail/mail-ops.c:1272 mail/subscribe-dialog.c:194
+#: mail/mail-ops.c:1274 mail/subscribe-dialog.c:194
 msgid "(No description)"
 msgstr "(Нет описания)"
 
-#: mail/mail-ops.c:1332
+#: mail/mail-ops.c:1334
 #, c-format
 msgid "Attaching messages from folder \"%s\""
 msgstr "Присоединение сообщений из папки \"%s\""
 
-#: mail/mail-ops.c:1335
+#: mail/mail-ops.c:1337
 #, c-format
 msgid "Attach messages from \"%s\""
 msgstr "Присоединить сообщения из \"%s\""
 
-#: mail/mail-ops.c:1438
+#: mail/mail-ops.c:1440
 #, c-format
 msgid "Forwarding messages \"%s\""
 msgstr "Пересылка сообщений \"%s\""
 
-#: mail/mail-ops.c:1443
+#: mail/mail-ops.c:1445
 msgid "Forwarding a message without a subject"
 msgstr "Пересылка сообщения без темы"
 
-#: mail/mail-ops.c:1446
+#: mail/mail-ops.c:1448
 #, c-format
 msgid "Forward message \"%s\""
 msgstr "Переслать сообщение \"%s\""
 
-#: mail/mail-ops.c:1451
+#: mail/mail-ops.c:1453
 msgid "Forward a message without a subject"
 msgstr "Переслать сообщение без темы"
 
-#: mail/mail-ops.c:1488
+#: mail/mail-ops.c:1490
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr "Перемещение сообщения номер %d из %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1505
+#: mail/mail-ops.c:1507
 msgid ""
 "Failed to generate mime part from message while generating forwarded message."
 msgstr ""
 "Не удалось создать mime-часть из сообщения при создании пересылаемого "
 "сообщения."
 
-#: mail/mail-ops.c:1591
+#: mail/mail-ops.c:1593
 #, c-format
 msgid "Loading \"%s\""
 msgstr "Загрузка \"%s\""
 
-#: mail/mail-ops.c:1593
+#: mail/mail-ops.c:1595
 #, c-format
 msgid "Load \"%s\""
 msgstr "Загрузить \"%s\""
 
-#: mail/mail-ops.c:1695
+#: mail/mail-ops.c:1697
 #, c-format
 msgid "Creating \"%s\""
 msgstr "Создание \"%s\""
 
-#: mail/mail-ops.c:1697
+#: mail/mail-ops.c:1699
 #, c-format
 msgid "Create \"%s\""
 msgstr "Создать \"%s\""
 
-#: mail/mail-ops.c:1745
+#: mail/mail-ops.c:1747
 msgid "Exception while reporting result to shell component listener."
 msgstr ""
 
-#: mail/mail-ops.c:1791
+#: mail/mail-ops.c:1793
 #, c-format
 msgid "Synchronizing \"%s\""
 msgstr "Синхронизация \"%s\""
 
-#: mail/mail-ops.c:1793
+#: mail/mail-ops.c:1795
 #, c-format
 msgid "Synchronize \"%s\""
 msgstr "Синхронизовать \"%s\""
 
-#: mail/mail-ops.c:1856
+#: mail/mail-ops.c:1858
 #, c-format
 msgid "Displaying message UID \"%s\""
 msgstr "Показать UID сообщения \"%s\""
 
-#: mail/mail-ops.c:1859
+#: mail/mail-ops.c:1861
 msgid "Clearing message display"
 msgstr "Очистка отображения сообщения"
 
-#: mail/mail-ops.c:1862
+#: mail/mail-ops.c:1864
 #, c-format
 msgid "Display message UID \"%s\""
 msgstr "Показать UID сообщения \"%s\""
 
-#: mail/mail-ops.c:1865
+#: mail/mail-ops.c:1867
 msgid "Clear message display"
 msgstr "Очистить отображение сообщения"
 
-#: mail/mail-ops.c:1974
+#: mail/mail-ops.c:1976
 #, c-format
 msgid "Opening messages from folder \"%s\""
 msgstr "Открытие сообщений из папки \"%s\""
 
-#: mail/mail-ops.c:1977
+#: mail/mail-ops.c:1979
 #, c-format
 msgid "Open messages from \"%s\""
 msgstr "Открыть сообщения из \"%s\""
 
-#: mail/mail-ops.c:2081
+#: mail/mail-ops.c:2083
 #, c-format
 msgid "Loading %s Folder"
 msgstr "Загрузка папки %s"
 
-#: mail/mail-ops.c:2083
+#: mail/mail-ops.c:2085
 #, c-format
 msgid "Load %s Folder"
 msgstr "Загрузить папку %s"
 
-#: mail/mail-ops.c:2150
+#: mail/mail-ops.c:2152
 #, c-format
 msgid "Viewing messages from folder \"%s\""
 msgstr "Просмотр сообщений из папки \"%s\""
 
-#: mail/mail-ops.c:2153
+#: mail/mail-ops.c:2155
 #, c-format
 msgid "View messages from \"%s\""
 msgstr "Просмотреть сообщения из  \"%s\""
 
-#: mail/mail-ops.c:2179
+#: mail/mail-ops.c:2181
 #, c-format
 msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr "Перемещение сообщения %d из %d (uid  \"%s\")"
@@ -4487,9 +4464,9 @@ msgstr "Не удалось создать временный mbox \"%s\": %s"
 
 #. Get all uids of source
 #: mail/mail-tools.c:264
-#, fuzzy, c-format
+#, c-format
 msgid "Examining %s"
-msgstr "Вычеркивание \"%s\""
+msgstr "Проверка %s"
 
 #: mail/mail-tools.c:294
 #, c-format
@@ -4501,20 +4478,20 @@ msgstr ""
 
 #. Info
 #: mail/mail-tools.c:315
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving message %d of %d"
-msgstr "Перемещение сообщения %d из %d (uid  \"%s\")"
+msgstr "Получение сообщения %d из %d"
 
 #. Append it to dest
 #: mail/mail-tools.c:328
-#, fuzzy, c-format
+#, c-format
 msgid "Writing message %d of %d"
-msgstr "Помечание сообщений в папке %d из %d"
+msgstr "Запись сообщения %d из %d"
 
 #: mail/mail-tools.c:357
-#, fuzzy, c-format
+#, c-format
 msgid "Saving changes to %s"
-msgstr "Сохранить изменения в сообщении..."
+msgstr "Сохранение изменений в %s"
 
 #: mail/mail-tools.c:391
 #, c-format
@@ -4534,12 +4511,12 @@ msgstr "Пересланное сообщение - %s"
 msgid "Forwarded message (no subject)"
 msgstr "Пересланное сообщение (без темы)"
 
-#: mail/mail-tools.c:551
+#: mail/mail-tools.c:510
 #, c-format
 msgid "Don't know protocol to open URI `%s'"
 msgstr "Не известен протокол для открытия URI \"%s\""
 
-#: mail/mail-tools.c:580
+#: mail/mail-tools.c:539
 #, c-format
 msgid ""
 "Cannot open location `%s':\n"
@@ -4549,9 +4526,8 @@ msgstr ""
 "%s"
 
 #: mail/mail-vfolder.c:147
-#, fuzzy
 msgid "VFolders"
-msgstr "Папки"
+msgstr "Вирт.папки"
 
 #: mail/mail-vfolder.c:292
 msgid "New VFolder"
@@ -4597,17 +4573,16 @@ msgid "Delete this message"
 msgstr "Удалить это сообщение"
 
 #: mail/message-list.c:518
-#, fuzzy
 msgid "Unseen"
-msgstr "седьмой"
+msgstr "Непрочитанное"
 
 #: mail/message-list.c:521
 msgid "Seen"
-msgstr ""
+msgstr "Прочитанное"
 
 #: mail/message-list.c:524
 msgid "Answered"
-msgstr ""
+msgstr "Отвечено"
 
 #: mail/message-list.c:1572
 msgid "Open in New Window"
@@ -4671,13 +4646,12 @@ msgid "Filter on Mailing List (%s)"
 msgstr "Фильтр по списку рассылки (%s)"
 
 #: mail/message-list.c:1734
-#, fuzzy
 msgid "Rebuilding message view"
-msgstr "Перемещение сообщений: %s"
+msgstr "Перестроение окна сообщения"
 
 #: mail/message-list.c:1736
 msgid "Rebuild message view"
-msgstr ""
+msgstr "Перестроить окно сообщения"
 
 #: mail/subscribe-dialog.c:132
 msgid "Display folders containing:"
@@ -5387,9 +5361,8 @@ msgid "VFolder on _Recipients"
 msgstr "Вирт.папка по получателю"
 
 #: ui/evolution-mail.h:45
-#, fuzzy
 msgid "_Apply Filters"
-msgstr "Почтовые фильтры..."
+msgstr "Применить фильтры"
 
 #: ui/evolution-mail.h:46
 msgid "_Configure Folder"
@@ -5721,156 +5694,3 @@ msgstr "%I:%M %p"
 #, c-format
 msgid "Group %i"
 msgstr "Группа %i"
-
-#~ msgid "Gpilotd address conduit"
-#~ msgstr "Кондуит адресов Gpilotd"
-
-#~ msgid "(C) 1998 the Free Software Foundation"
-#~ msgstr "(C) 1998 the Free Software Foundation"
-
-#~ msgid "Configuration utility for the address conduit.\n"
-#~ msgstr "Средство настройки для кондуита адресов.\n"
-
-#~ msgid "Address holds %ld address entries"
-#~ msgstr "Адрес хранит %ld записей адресов"
-
-#~ msgid "Could not start addressbook server"
-#~ msgstr "Невозможно запустить сервер адресной книги"
-
-#~ msgid "Error while communicating with address server"
-#~ msgstr "Ошибка при подключении к серверу адресов"
-
-#~ msgid "_Summary:"
-#~ msgstr "Итог:"
-
-#~ msgid ""
-#~ "Minutes\n"
-#~ "Hours\n"
-#~ "Days\n"
-#~ msgstr ""
-#~ "Минуты\n"
-#~ "Часы\n"
-#~ "Дни\n"
-
-#~ msgid "Daily"
-#~ msgstr "Ежедневно"
-
-#~ msgid "Weekly"
-#~ msgstr "Еженедельно"
-
-#~ msgid "Monthly"
-#~ msgstr "Ежемесячно"
-
-#~ msgid "Yearly"
-#~ msgstr "Ежегодно"
-
-#~ msgid "label23"
-#~ msgstr "метка23"
-
-#~ msgid "Every "
-#~ msgstr "Каждый"
-
-#~ msgid "label24"
-#~ msgstr "метка24"
-
-#~ msgid "label25"
-#~ msgstr "метка25"
-
-#~ msgid ""
-#~ "1st\n"
-#~ "2nd\n"
-#~ "3rd\n"
-#~ "4th\n"
-#~ "5th\n"
-#~ msgstr ""
-#~ "1ый\n"
-#~ "2ой\n"
-#~ "3ий\n"
-#~ "4ый\n"
-#~ "5ый\n"
-
-#~ msgid ""
-#~ "Monday\n"
-#~ "Tuesday\n"
-#~ "Wednesday\n"
-#~ "Thursday\n"
-#~ "Friday\n"
-#~ "Saturday\n"
-#~ "Sunday\n"
-#~ msgstr ""
-#~ "Понедельник\n"
-#~ "Вторник\n"
-#~ "Среда\n"
-#~ "Четверг\n"
-#~ "Пятница\n"
-#~ "Суббота\n"
-#~ "Воскресенье\n"
-
-#~ msgid "label27"
-#~ msgstr "метка27"
-
-#~ msgid "Ending date"
-#~ msgstr "Дата завершения"
-
-#~ msgid "End on "
-#~ msgstr "Закончить в"
-
-#~ msgid "Change"
-#~ msgstr "Изменить"
-
-#~ msgid "Cut selected item into clipboard"
-#~ msgstr "Вырезает выделенный элемент в буфер обмена"
-
-#~ msgid "Copy selected item into clipboard"
-#~ msgstr "Копирует выделенный элемент в буфер обмена"
-
-#~ msgid "Paste"
-#~ msgstr "Вставить"
-
-#~ msgid "Paste item from clipboard"
-#~ msgstr "Вставить элемент из буфера обмена"
-
-#~ msgid "Select recipients' addresses"
-#~ msgstr "Выбрать адреса получателей"
-
-#~ msgid "Search..."
-#~ msgstr "Поиск..."
-
-#~ msgid "Name"
-#~ msgstr "Имя"
-
-#~ msgid "Properties..."
-#~ msgstr "Свойства..."
-
-#~ msgid "Add..."
-#~ msgstr "Добавить..."
-
-#~ msgid "To: >>"
-#~ msgstr "Кому: >>"
-
-#~ msgid "Cc: >>"
-#~ msgstr "Копия: >>"
-
-#~ msgid "Bcc: >>"
-#~ msgstr "Скр.копия: >>"
-
-#~ msgid "label9"
-#~ msgstr "метка9"
-
-#~ msgid "label7"
-#~ msgstr "метка7"
-
-#~ msgid "label8"
-#~ msgstr "метка8"
-
-#~ msgid "About to save changes to message..."
-#~ msgstr "О сохранении изменений в сообщении..."
-
-#~ msgid "More criterion"
-#~ msgstr "Дополнительный критерий"
-
-#~ msgid "[%s] %s"
-#~ msgstr "[%s] %s"
-
-#~ msgid "_Unselect All"
-#~ msgstr "Снять выделение"
