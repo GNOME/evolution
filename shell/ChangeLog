@@ -1,4 +1,4 @@
-2001-06-06  Jon Trowbridge  <trow@gnu.org>
+2001-06-06  Jon Trowbridge  <trow@ximian.com>
 
 	* evolution-storage.c (impl_Storage_async_create_folder): Changed
 	purely informational debug spew from a g_warning to a g_message.
@@ -52,7 +52,6 @@
 	(insert_storages): Minor change here too.
 	(new_folder_cb): Ditto.
 	
->>>>>>> 1.439
 2001-06-05  Jason Leach  <jleach@ximian.com>
 
 	* e-shell-view-menu.c: Plug in all the folder tree right click
