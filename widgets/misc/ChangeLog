@@ -1,3 +1,10 @@
+2002-03-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-charset-picker.c (add_charset): If the charset item doesn't
+	have a class (aka "Unknown"), don't write a class name, instead
+	just give the charset name as the menu item label. Fixes bug
+	#14753.
+
 2002-03-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-multi-config-dialog.c: Added alpha blending here.

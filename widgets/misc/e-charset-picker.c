@@ -123,18 +123,20 @@ add_charset (GtkWidget *menu, ECharset *charset, gboolean free_name)
 {
 	GtkWidget *item;
 	char *label;
-
+	
 	if (charset->subclass) {
 		label = g_strdup_printf ("%s, %s (%s)",
 					 _(classnames[charset->class]),
 					 _(charset->subclass),
 					 charset->name);
-	} else {
+	} else if (charset->class) {
 		label = g_strdup_printf ("%s (%s)",
 					 _(classnames[charset->class]),
 					 charset->name);
+	} else {
+		label = g_strdup (charset->name);
 	}
-
+	
 	item = gtk_menu_item_new_with_label (label);
 	gtk_object_set_data_full (GTK_OBJECT (item), "charset",
 				  charset->name, free_name ? g_free : NULL);
