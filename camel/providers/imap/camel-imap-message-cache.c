@@ -406,14 +406,15 @@ camel_imap_message_cache_get (CamelImapMessageCache *cache, const char *uid,
 	if (stream) {
 		camel_stream_reset (CAMEL_STREAM (stream));
 		camel_object_ref (CAMEL_OBJECT (stream));
+		g_free (path);
 		return stream;
 	}
-
+	
 	stream = camel_stream_fs_new_with_name (path, O_RDONLY, 0);
 	if (stream)
 		cache_put (cache, uid, key, stream);
 	g_free (path);
-
+	
 	return stream;
 }
 

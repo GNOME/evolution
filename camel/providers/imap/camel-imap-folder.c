@@ -1990,6 +1990,9 @@ imap_update_summary (CamelFolder *folder, int exists,
 	if (type == CAMEL_IMAP_RESPONSE_ERROR)
 		goto lose;
 	
+	/* Free the final tagged response */
+	g_free (resp);
+	
 	/* Figure out which headers we still need to fetch. */
 	needheaders = g_ptr_array_new ();
 	size = got = 0;
