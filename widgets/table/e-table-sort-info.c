@@ -4,8 +4,9 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
+ *   Chris Lahey (clahey@ximian.com)
  *
- * (C) 1999 Helix Code, Inc.
+ * (C) 1999, 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
 #include <gtk/gtksignal.h>
@@ -117,16 +118,41 @@ e_table_sort_info_group_info_changed (ETableSortInfo *info)
 	}
 }
 
+/**
+ * e_table_sort_info_freeze:
+ * @info: The ETableSortInfo object
+ *
+ * This functions allows the programmer to cluster various changes to the
+ * ETableSortInfo (grouping and sorting) without having the object emit
+ * "group_info_changed" or "sort_info_changed" signals on each change.
+ *
+ * To thaw, invoke the e_table_sort_info_thaw() function, which will
+ * trigger any signals that might have been queued.
+ */
 void 
 e_table_sort_info_freeze             (ETableSortInfo *info)
 {
-	info->frozen = 1;
+	info->frozen++;
 }
 
+/**
+ * e_table_sort_info_thaw:
+ * @info: The ETableSortInfo object
+ *
+ * This functions allows the programmer to cluster various changes to the
+ * ETableSortInfo (grouping and sorting) without having the object emit
+ * "group_info_changed" or "sort_info_changed" signals on each change.
+ *
+ * This function will flush any pending signals that might be emited by
+ * this object.
+ */
 void
 e_table_sort_info_thaw               (ETableSortInfo *info)
 {
-	info->frozen = 0;
+	info->frozen--;
+	if (info->frozen != 0)
+		return;
+	
 	if (info->sort_info_changed) {
 		info->sort_info_changed = 0;
 		e_table_sort_info_sort_info_changed(info);
@@ -137,7 +163,12 @@ e_table_sort_info_thaw               (ETableSortInfo *info)
 	}
 }
 
-
+/**
+ * e_table_sort_info_grouping_get_count:
+ * @info: The ETableSortInfo object
+ *
+ * Returns: the number of grouping criteria in the object.
+ */
 guint
 e_table_sort_info_grouping_get_count (ETableSortInfo *info)
 {
@@ -156,6 +187,14 @@ e_table_sort_info_grouping_real_truncate  (ETableSortInfo *info, int length)
 	}
 }
 
+/**
+ * e_table_sort_info_grouping_truncate:
+ * @info: The ETableSortInfo object
+ * @lenght: position where the truncation happens.
+ *
+ * This routine can be used to reduce or grow the number of grouping
+ * criteria in the object.  
+ */
 void
 e_table_sort_info_grouping_truncate  (ETableSortInfo *info, int length)
 {
@@ -163,6 +202,13 @@ e_table_sort_info_grouping_truncate  (ETableSortInfo *info, int length)
 	e_table_sort_info_group_info_changed(info);
 }
 
+/**
+ * e_table_sort_info_grouping_get_nth:
+ * @info: The ETableSortInfo object
+ * @n: Item information to fetch.
+ *
+ * Returns: the description of the @n-th grouping criteria in the @info object.
+ */
 ETableSortColumn
 e_table_sort_info_grouping_get_nth   (ETableSortInfo *info, int n)
 {
@@ -174,6 +220,15 @@ e_table_sort_info_grouping_get_nth   (ETableSortInfo *info, int n)
 	}
 }
 
+/**
+ * e_table_sort_info_grouping_set_nth:
+ * @info: The ETableSortInfo object
+ * @n: Item information to fetch.
+ * @column: new values for the grouping
+ *
+ * Sets the grouping criteria for index @n to be given by @column (a column number and
+ * whether it is ascending or descending).
+ */
 void
 e_table_sort_info_grouping_set_nth   (ETableSortInfo *info, int n, ETableSortColumn column)
 {
@@ -185,6 +240,12 @@ e_table_sort_info_grouping_set_nth   (ETableSortInfo *info, int n, ETableSortCol
 }
 
 
+/**
+ * e_table_sort_info_get_count:
+ * @info: The ETableSortInfo object
+ *
+ * Returns: the number of sorting criteria in the object.
+ */
 guint
 e_table_sort_info_sorting_get_count (ETableSortInfo *info)
 {
@@ -203,6 +264,14 @@ e_table_sort_info_sorting_real_truncate  (ETableSortInfo *info, int length)
 	}
 }
 
+/**
+ * e_table_sort_info_sorting_truncate:
+ * @info: The ETableSortInfo object
+ * @lenght: position where the truncation happens.
+ *
+ * This routine can be used to reduce or grow the number of sort
+ * criteria in the object.  
+ */
 void
 e_table_sort_info_sorting_truncate  (ETableSortInfo *info, int length)
 {
@@ -210,6 +279,13 @@ e_table_sort_info_sorting_truncate  (ETableSortInfo *info, int length)
 	e_table_sort_info_sort_info_changed(info);
 }
 
+/**
+ * e_table_sort_info_sorting_get_nth:
+ * @info: The ETableSortInfo object
+ * @n: Item information to fetch.
+ *
+ * Returns: the description of the @n-th grouping criteria in the @info object.
+ */
 ETableSortColumn
 e_table_sort_info_sorting_get_nth   (ETableSortInfo *info, int n)
 {
@@ -221,6 +297,15 @@ e_table_sort_info_sorting_get_nth   (ETableSortInfo *info, int n)
 	}
 }
 
+/**
+ * e_table_sort_info_sorting_get_nth:
+ * @info: The ETableSortInfo object
+ * @n: Item information to fetch.
+ * @column: new values for the sorting
+ *
+ * Sets the sorting criteria for index @n to be given by @column (a
+ * column number and whether it is ascending or descending).
+ */
 void
 e_table_sort_info_sorting_set_nth   (ETableSortInfo *info, int n, ETableSortColumn column)
 {
@@ -231,13 +316,31 @@ e_table_sort_info_sorting_set_nth   (ETableSortInfo *info, int n, ETableSortColu
 	e_table_sort_info_sort_info_changed(info);
 }
 
-
+/**
+ * e_table_sort_info_new:
+ *
+ * This creates a new e_table_sort_info object that contains no
+ * grouping and no sorting defined as of yet.  This object is used
+ * to keep track of multi-level sorting and multi-level grouping of
+ * the ETable.  
+ *
+ * Returns: A new %ETableSortInfo object
+ */
 ETableSortInfo *
 e_table_sort_info_new (void)
 {
 	return gtk_type_new (e_table_sort_info_get_type ());
 }
 
+/**
+ * e_table_sort_info_load_from_node:
+ * @info: The ETableSortInfo object
+ * @node: pointer to the xmlNode that describes the sorting and grouping information
+ * @state_version:
+ *
+ * This loads the state for the %ETableSortInfo object @info from the
+ * xml node @node.
+ */
 void
 e_table_sort_info_load_from_node (ETableSortInfo *info,
 				  xmlNode        *node,
@@ -279,6 +382,16 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 	}
 }
 
+/**
+ * e_table_sort_info_save_to_node:
+ * @info: The ETableSortInfo object
+ * @parent: xmlNode that will be hosting the saved state of the @info object.
+ *
+ * This function is used
+ *
+ * Returns: the node that has been appended to @parent as a child containing
+ * the sorting and grouping information for this ETableSortInfo object.
+ */
 xmlNode *
 e_table_sort_info_save_to_node (ETableSortInfo *info,
 				xmlNode        *parent)
