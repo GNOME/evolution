@@ -25,7 +25,6 @@
 #endif
 
 #include <gnome.h>
-#include <gal/util/e-util.h>
 #include "e-comp-editor-registry.h"
 
 struct _ECompEditorRegistryPrivate {
@@ -42,9 +41,9 @@ struct _ECompEditorRegistryData
 typedef struct _ECompEditorRegistryData ECompEditorRegistryData;
 typedef struct _ECompEditorRegistryForeachData ECompEditorRegistryForeachData;
 
-static GObjectClass *parent_class = NULL;
-
 static void editor_destroy_cb (gpointer data, GObject *where_object_was);
+
+G_DEFINE_TYPE (ECompEditorRegistry, e_comp_editor_registry, G_TYPE_OBJECT);
 
 static void
 registry_data_free (gpointer data)
@@ -58,7 +57,7 @@ registry_data_free (gpointer data)
 }
 
 static void
-dispose (GObject *obj)
+e_comp_editor_registry_dispose (GObject *obj)
 {
 	ECompEditorRegistry *reg;
 	ECompEditorRegistryPrivate *priv;
@@ -71,11 +70,11 @@ dispose (GObject *obj)
 		priv->editors = NULL;
 	}
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (obj);
+	(* G_OBJECT_CLASS (e_comp_editor_registry_parent_class)->dispose) (obj);
 }
 
 static void
-finalize (GObject *obj)
+e_comp_editor_registry_finalize (GObject *obj)
 {
 	ECompEditorRegistry *reg;
 	ECompEditorRegistryPrivate *priv;
@@ -85,24 +84,22 @@ finalize (GObject *obj)
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (obj);
+	(* G_OBJECT_CLASS (e_comp_editor_registry_parent_class)->finalize) (obj);
 }
 
 static void
-class_init (ECompEditorRegistryClass *klass)
+e_comp_editor_registry_class_init (ECompEditorRegistryClass *klass)
 {
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (klass);
 
-	parent_class = g_type_class_peek_parent (klass);
-
-	object_class->dispose = dispose;
-	object_class->finalize = finalize;
+	object_class->dispose = e_comp_editor_registry_dispose;
+	object_class->finalize = e_comp_editor_registry_finalize;
 }
 
 static void
-init (ECompEditorRegistry *reg)
+e_comp_editor_registry_init (ECompEditorRegistry *reg)
 {
 	ECompEditorRegistryPrivate *priv;
 
@@ -111,11 +108,6 @@ init (ECompEditorRegistry *reg)
 	reg->priv = priv;
 	priv->editors = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, registry_data_free);
 }
-
-
-
-E_MAKE_TYPE (e_comp_editor_registry, "ECompEditorRegistry", ECompEditorRegistry,
-	     class_init, init, G_TYPE_OBJECT);
 
 GObject *
 e_comp_editor_registry_new (void)

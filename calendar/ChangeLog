@@ -1,5 +1,17 @@
 2004-10-14  JP Rosevear  <jpr@novell.com>
 
+	* gui/e-cell-date-edit-config.c: convert to G_DEFINE_TYPE
+
+	* gui/e-cell-date-edit-text.c: ditto
+
+	* gui/e-comp-editor-registry.c: ditto
+
+	* gui/e-date-edit-config.c: ditto
+
+	* gui/e-mini-calendar-config.c: ditto
+
+2004-10-14  JP Rosevear  <jpr@novell.com>
+	
 	* gui/e-cal-list-view-config.c: convert to G_DEFINE_TYPE
 
 	* gui/e-cal-list-view.c: ditto

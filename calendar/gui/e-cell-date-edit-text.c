@@ -26,7 +26,9 @@
  * representation of the date, from a ECalComponentDateTime* model value.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <sys/time.h>
 #include <time.h>
@@ -41,11 +43,7 @@
 
 #include "e-cell-date-edit-text.h"
 
-
-#define PARENT_TYPE e_cell_text_get_type ()
-
-static ECellTextClass *parent_class;
-
+G_DEFINE_TYPE (ECellDateEditText, e_cell_date_edit_text, E_CELL_TEXT_TYPE);
 
 void
 e_cell_date_edit_text_set_timezone (ECellDateEditText *ecd,
@@ -186,11 +184,9 @@ ecd_set_value (ECellText *cell, ETableModel *model, int col, int row,
 
 
 static void
-e_cell_date_edit_text_class_init (GtkObjectClass *object_class)
+e_cell_date_edit_text_class_init (ECellDateEditTextClass *ecdet)
 {
-	ECellTextClass *ectc = (ECellTextClass *) object_class;
-
-	parent_class = gtk_type_class (PARENT_TYPE);
+	ECellTextClass *ectc = E_CELL_TEXT_CLASS (ecdet);
 
 	ectc->get_text  = ecd_get_text;
 	ectc->free_text = ecd_free_text;
@@ -199,10 +195,8 @@ e_cell_date_edit_text_class_init (GtkObjectClass *object_class)
 
 
 static void
-e_cell_date_edit_text_init (GtkObject *object)
+e_cell_date_edit_text_init (ECellDateEditText *ecd)
 {
-	ECellDateEditText *ecd = E_CELL_DATE_EDIT_TEXT (object);
-
 	ecd->zone = icaltimezone_get_utc_timezone ();
 	ecd->use_24_hour_format = TRUE;
 }
@@ -228,7 +222,3 @@ e_cell_date_edit_text_new (const char *fontname,
 	return (ECell *) ecd;
 }
 
-
-E_MAKE_TYPE (e_cell_date_edit_text, "ECellDateEditText", ECellDateEditText,
-	     e_cell_date_edit_text_class_init, e_cell_date_edit_text_init,
-	     PARENT_TYPE);
