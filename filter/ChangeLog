@@ -1,3 +1,15 @@
+2000-07-09  Dan Winship  <danw@helixcode.com>
+
+	* filter-xml.[ch]: add a "string" type
+
+	* filtertype.xml, vfoldertypes.xml: Use type="string" rather than
+	"folder" for subject/body matching.
+
+	* filter-arg-types.c: Update some strings for "text" input. Fix
+	some warnings (including one that pointed out a real bug).
+
+	* filter-arg.c, filter-druid.c, filter-format.c: fix warnings
+
 2000-07-07  Dan Winship  <danw@helixcode.com>
 
 	* filter-driver.c: Update for camel_folder_search_by_expression

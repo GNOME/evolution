@@ -33,7 +33,7 @@ static void filter_arg_init       (FilterArg      *gspaper);
 
 struct _FilterArgPrivate {
 	GtkWidget *dialogue;	/* editor widget */
-	xmlNodePtr *oldargs;
+	xmlNodePtr oldargs;
 };
 
 static GtkObjectClass *parent_class;
@@ -100,22 +100,16 @@ edit_values_nothing(FilterArg *arg)
 	/* empty */
 }
 
-static void *
-edit_value_nothing(FilterArg *arg, void *v)
+static int
+edit_value_nothing(FilterArg *arg, int index)
 {
-	return v;
+	return index;
 }
 
 static void
 free_value_nothing(FilterArg *arg, void *v)
 {
 	/* empty */
-}
-
-static gint
-compare_pointers(gpointer a, gpointer b)
-{
-	return a == b;
 }
 
 static void
@@ -434,9 +428,9 @@ filter_arg_edit_clicked(GnomeDialog *d, int button, struct filter_arg_edit *edat
 		while (edata->arg->values) {
 			filter_arg_remove(edata->arg, edata->arg->values->data);
 		}
-		filter_arg_values_add_xml(edata->arg, (xmlNodePtr) p->oldargs);
+		filter_arg_values_add_xml(edata->arg, p->oldargs);
 	}
-	xmlFreeNodeList((xmlNodePtr) p->oldargs);
+	xmlFreeNodeList(p->oldargs);
 	p->oldargs = NULL;
 	p->dialogue = NULL;
 	gnome_dialog_close(d);
@@ -451,8 +445,8 @@ filter_arg_edit_destroy(GnomeDialog *d, struct filter_arg_edit *edata)
 		while (edata->arg->values) {
 			filter_arg_remove(edata->arg, edata->arg->values->data);
 		}
-		filter_arg_values_add_xml(edata->arg, (xmlNodePtr) p->oldargs);
-		xmlFreeNodeList((xmlNodePtr) p->oldargs);
+		filter_arg_values_add_xml(edata->arg, p->oldargs);
+		xmlFreeNodeList(p->oldargs);
 		p->oldargs = NULL;
 	}
 

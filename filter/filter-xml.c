@@ -38,6 +38,7 @@ struct token_tab token_table[] = {
 	{ "ruleset", FILTER_XML_RULESET },
 	{ "send", FILTER_XML_SEND },
 	{ "source", FILTER_XML_SOURCE },
+	{ "string", FILTER_XML_STRING },
 	{ "text", FILTER_XML_TEXT },
 };
 
@@ -242,6 +243,9 @@ load_optionvalue(struct filter_desc *desc, xmlNodePtr node)
 		break;
 	case FILTER_XML_FOLDER:
 		arg = filter_arg_folder_new(desc->varname);
+		break;
+	case FILTER_XML_STRING:
+		arg = filter_arg_string_new(desc->varname);
 		break;
 	default:
 		d(printf("ok, maybe we're not\n"));
@@ -458,6 +462,9 @@ filter_optionrule_new_from_rule(struct filter_rule *rule)
 			case FILTER_XML_FOLDER:
 				arg = filter_arg_folder_new(desc->varname);
 				break;
+			case FILTER_XML_STRING:
+				arg = filter_arg_string_new(desc->varname);
+				break;
 			}
 			if (arg) {
 				or->args = g_list_append(or->args, arg);
@@ -568,7 +575,7 @@ GList *filter_load_optionset_file(const char *name, GList *rules)
 int filter_write_optionset_file(const char *name, GList *optionl)
 {
 	xmlDocPtr out;
-	xmlDocPtr optionset;
+	xmlNodePtr optionset;
 	xmlNodePtr filteroptions;
 	int ret;
 

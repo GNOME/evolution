@@ -73,7 +73,7 @@ arg_string_write_text(FilterArg *argin, GString *string)
 
 	l = argin->values;
 	if (l == NULL) {
-		g_string_append(string, "folder");
+		g_string_append(string, "text");
 	}
 	while (l) {
 		a = l->data;
@@ -105,7 +105,7 @@ arg_string_edit_value (FilterArg *arg, int index)
 	dialogue = (GnomeDialog *)gnome_dialog_new ("Edit value", "Ok", "Cancel", 0);
 
 	hbox = gtk_hbox_new (FALSE, 0);
-	label = gtk_label_new ("Option value");
+	label = gtk_label_new ("Text");
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	entry = gtk_entry_new();
 	gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, 0);
@@ -420,8 +420,10 @@ arg_address_get_value_as_string(FilterArg *argin, void *data)
 }
 
 static void
-arg_address_free_value(FilterArg *arg, struct filter_arg_address *a)
+arg_address_free_value(FilterArg *arg, void *v)
 {
+	struct filter_arg_address *a = v;
+
 	g_free(a->name);
 	g_free(a->email);
 	g_free(a);
@@ -573,7 +575,7 @@ arg_folder_edit_value (FilterArg *arg, int index)
 	if (physical_uri != NULL && physical_uri[0] != '\0') {
 		GList *node;
 
-		if (index >= 0 && (node = g_list_index (arg->values, index)))
+		if (index >= 0 && (node = g_list_nth (arg->values, index)))
 			node->data = physical_uri;
 		else
 			arg->values = g_list_append (arg->values, physical_uri);
@@ -748,6 +750,8 @@ filter_arg_folder_class_init (FilterArgFolderClass *class)
 
 	filter_class->values_get_xml = arg_folder_values_get_xml;
 	filter_class->values_add_xml = arg_folder_values_add_xml;
+
+	filter_class->get_value_as_string = arg_folder_get_value_as_string;
 }
 
 static void

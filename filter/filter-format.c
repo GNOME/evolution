@@ -13,46 +13,6 @@
 
 #define d(x)
 
-/* FIXME: remove static, this is defined in filter-xml */
-static int
-filter_find_rule(struct filter_rule *a, char *name)
-{
-	d(printf("finding, is %s = %s?\n", a->name, name));
-	return strcmp(a->name, name);
-}
-
-static int
-filter_find_arg(FilterArg *a, char *name)
-{
-	d(printf("finding, is %s = %s?\n", a->name, name));
-	return strcmp(a->name, name);
-}
-
-static int display_order[] = { FILTER_XML_MATCH, FILTER_XML_ACTION, FILTER_XML_EXCEPT };
-
-static struct filter_option *
-option_clone(struct filter_option *source)
-{
-	struct filter_option *dest = g_malloc0(sizeof(*dest));
-	GList *loptions;
-	struct filter_optionrule *old, *new;
-
-	dest->type = source->type;
-	dest->description = source->description;
-	loptions = dest->options;
-	while (loptions) {
-		old = loptions->data;
-		new = g_malloc0(sizeof(*new));
-		new->rule = old->rule;
-		/* FIXME: need to copy any args as well!!! */
-		dest->options = g_list_append(dest->options, new);
-		loptions = g_list_next(loptions);
-	}
-	return dest;
-}
-
-
-
 struct description_decode_lambda {
 	GString *str;
 	GList *args;
@@ -64,7 +24,7 @@ static char *
 arg_text(FilterArg *arg)
 {
 	char *out = NULL;
-	GList *value, *next;
+	GList *value;
 	GString *str;
 
 	value = arg->values;
@@ -189,7 +149,6 @@ description_decode_html(struct filter_desc *d, struct description_decode_lambda 
 void
 filter_description_html_write(GList *description, GList *args, GtkHTML *html, GtkHTMLStream *stream)
 {
-	char *txt;
 	struct description_decode_lambda l;
 
 	d(printf("\ndecoding ...\n"));

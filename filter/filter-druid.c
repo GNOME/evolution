@@ -97,7 +97,7 @@ filter_druid_get_type (void)
 }
 
 static void
-object_destroy(FilterDruid *obj)
+object_destroy(GtkObject *obj)
 {
 	struct _FilterDruidPrivate *p = _PRIVATE(obj);
 
@@ -107,7 +107,7 @@ object_destroy(FilterDruid *obj)
 
 	/* FIXME: free lists? */
 
-	GTK_OBJECT_CLASS(filter_druid_parent)->destroy(GTK_OBJECT (obj));
+	GTK_OBJECT_CLASS(filter_druid_parent)->destroy(obj);
 }
 
 static void

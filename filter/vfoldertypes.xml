@@ -20,14 +20,14 @@
   <code>
    (match-all (header-contains "Subject" ${words}))
   </code>
-  <description lang="en">The Subject contains <source type="folder" name="words">words</source>.</description>
+  <description lang="en">The Subject contains <source type="string" name="words">words</source>.</description>
 </rule>
 
 <rule name="body-contains">
   <code>
    (match-all (body-contains ${words}))
   </code>
-  <description lang="en">The body contains <source type="folder" name="words">words</source>.</description>
+  <description lang="en">The body contains <source type="string" name="words">words</source>.</description>
 </rule>
 
 <rule name="cc-address">
@@ -50,7 +50,7 @@
   <code>
    (match-all (not (body-contains ${words})))
   </code>
-  <description lang="en">The body does not contain <source type="folder" name="words">words</source>.</description>
+  <description lang="en">The body does not contain <source type="string" name="words">words</source>.</description>
 </rule>
 </ruleset>
 
