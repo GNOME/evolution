@@ -1,3 +1,12 @@
+2001-12-18  Dan Winship  <danw@ximian.com>
+
+	* configure.in (AC_OUTPUT): Remove src/libicalss/Makefile and
+	src/libicalvcal/Makefile since we don't build those any more. From
+	Jeremy Katz (katzj@redhat.com). #17606.
+
+	* src/libical/icalyacc.y: Remove an unused rule since bison 1.30
+	apparently considers this an error. #17531.
+
 2001-12-10  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icaltimezone.c (icaltimezone_get_display_name): if all
