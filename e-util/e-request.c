@@ -91,12 +91,9 @@ e_request_string (GtkWindow *parent,
 	case GTK_RESPONSE_OK:
 		text = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 		break;
-	case GTK_RESPONSE_CANCEL:
-	case GTK_RESPONSE_NONE:
+	default:
 		text = NULL;
 		break;
-	default:
-		g_assert_not_reached ();
 	}
 
 	gtk_widget_destroy (dialog);

@@ -1,3 +1,9 @@
+2003-05-02  Not Zed  <NotZed@Ximian.com>
+
+	* e-request.c (e_request_string): remove the assert, if we dont
+	understand the response, assume it's a cancel.
+	GTK_RESPONSE_DELETE_EVENT wasn't handled [#42038].
+
 2003-04-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-request.c (e_request_string): Handle GTK_RESPONSE_NONE.
