@@ -153,7 +153,13 @@ static int mbox_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *e
 		return -1;
 	}
 
-	return camel_lock_folder(lf->folder_path, mf->lockfd, type, ex);
+	if (camel_lock_folder(lf->folder_path, mf->lockfd, type, ex) == -1) {
+		close(mf->lockfd);
+		mf->lockfd = -1;
+		return -1;
+	}
+
+	return 0;
 }
 
 static void mbox_unlock(CamelLocalFolder *lf)

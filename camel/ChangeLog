@@ -1,5 +1,9 @@
 2001-08-01  Not Zed  <NotZed@Ximian.com>
 
+	* providers/local/camel-mbox-folder.c (mbox_lock): If we fail to
+	get the lock, make sure we close our locking fd, and reset it.
+	Fixes the crash part of 5095.
+
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
 	Slightly re-arranged filter/change notification logic.  If we;re
 	filtering, freeze the folder till we're finished to smooth the ui
