@@ -706,7 +706,7 @@ is_pointer_on_division (ETableHeaderItem *ethi, int pos, int *the_total, int *re
 	return FALSE;
 }
 
-#define convert (c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
+#define convert(c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
 
 static void
 set_cursor (ETableHeaderItem *ethi, int pos)
