@@ -615,7 +615,6 @@ cal_client_construct (CalClient *client)
 
 		info = servers->_buffer + i;
 
-		g_print ("Factory: %s\n", info->iid);
 		factory = (GNOME_Evolution_Calendar_CalFactory)
 			oaf_activate_from_id (info->iid, 0, NULL, &ev);
 		if (BONOBO_EX (&ev)) {

@@ -17,6 +17,13 @@
 
 2002-07-26  JP Rosevear  <jpr@ximian.com>
 
+	* cal-client/cal-client.c (cal_client_construct): remove useless
+	debug statement
+
+	Probably fixes #19333
+	
+2002-07-26  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/comp-editor-factory.c (impl_editExisting): focus the editor
 	if it does exist, create a new one if it doesn't (not vice-versa)
 
