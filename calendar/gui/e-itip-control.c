@@ -74,8 +74,12 @@ struct _EItipControlPrivate {
 	int current;
 	int total;
 
+	gchar *calendar_uri;
+
 	GList *addresses;
 	gchar *from_address;
+	gchar *delegator_address;
+	gchar *delegator_name;
 	gchar *my_address;
 };
 
@@ -169,7 +173,7 @@ start_calendar_server (char *uri)
 			    start_calendar_server_cb, &success);
 
 	cal_client_open_calendar (client, uri, TRUE);
-			
+	
 	/* run a sub event loop to turn cal-client's async load
 	   notification into a synchronous call */
 	gtk_main ();
@@ -315,6 +319,13 @@ init (EItipControl *itip)
 	priv->task_clients = NULL;
 	priv->task_client = NULL;
 	
+	/* Other fields to init */
+	priv->calendar_uri = NULL;
+	priv->from_address = NULL;
+	priv->delegator_address = NULL;
+	priv->delegator_name = NULL;
+	priv->my_address = NULL;
+	
 	/* Html Widget */
 	priv->html = gtk_html_new ();
 	gtk_html_set_default_content_type (GTK_HTML (priv->html), 
@@ -364,10 +375,17 @@ clean_up (EItipControl *itip)
 	priv->current = 0;
 	priv->total = 0;
 
-	g_free (priv->my_address);
-	priv->my_address = NULL;
+	g_free (priv->calendar_uri);
+	priv->calendar_uri = NULL;
+
 	g_free (priv->from_address);
 	priv->from_address = NULL;
+	g_free (priv->delegator_address);
+	priv->delegator_address = NULL;
+	g_free (priv->delegator_name);
+	priv->delegator_name = NULL;
+	g_free (priv->my_address);
+	priv->my_address = NULL;
 }
 
 static void
@@ -416,6 +434,13 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp)
 	
 	priv = itip->priv;
 
+	/* If the mailer told us the address to use, use that */
+	if (priv->delegator_address != NULL) {
+		priv->my_address = g_strdup (itip_strip_mailto (priv->delegator_address));
+		priv->my_address = g_strstrip (priv->my_address);
+		return;
+	}
+	
 	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
@@ -741,8 +766,36 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 			html = g_strdup_printf (itip_desc, U_("An unknown person"));
 		}
 		break;
-	case ICAL_METHOD_PUBLISH:
 	case ICAL_METHOD_REQUEST:
+		/* The organizer sent this */
+		cal_component_get_organizer (priv->comp, &organizer);
+		if (priv->delegator_address != NULL) {
+			if (organizer.value != NULL)
+				html = g_strdup_printf (itip_desc,
+							organizer.cn ?
+							organizer.cn :
+							itip_strip_mailto (organizer.value),
+							priv->delegator_name ?
+							priv->delegator_name :
+					                priv->delegator_address);
+			else
+				html = g_strdup_printf (itip_desc, U_("An unknown person"),
+							priv->delegator_name ?
+							priv->delegator_name :
+					                priv->delegator_address);
+		} else {
+			if (organizer.value != NULL)
+				html = g_strdup_printf (itip_desc,
+							organizer.cn ?
+							organizer.cn :
+							itip_strip_mailto (organizer.value));
+			else
+				html = g_strdup_printf (itip_desc, U_("An unknown person"));
+		}
+		
+		break;
+		
+	case ICAL_METHOD_PUBLISH:
 	case ICAL_METHOD_ADD:
 	case ICAL_METHOD_CANCEL:
 	default:
@@ -1038,7 +1091,10 @@ show_current_event (EItipControl *itip)
 
 	priv = itip->priv;
 
-	priv->event_client = find_server (priv->event_clients, priv->comp);
+	if (priv->calendar_uri)
+		priv->event_client = start_calendar_server (priv->calendar_uri);
+	else 
+		priv->event_client = find_server (priv->event_clients, priv->comp);
 	
 	switch (priv->method) {
 	case ICAL_METHOD_PUBLISH:
@@ -1047,7 +1103,10 @@ show_current_event (EItipControl *itip)
 		options = get_publish_options (priv->event_client ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_REQUEST:
-		itip_desc = U_("<b>%s</b> requests your presence at a meeting.");
+		if (priv->delegator_address != NULL)
+			itip_desc = U_("<b>%s</b> requests the presence of %s at a meeting.");
+		else
+			itip_desc = U_("<b>%s</b> requests your presence at a meeting.");
 		itip_title = U_("Meeting Proposal");
 		options = get_request_options (priv->event_client ? FALSE : TRUE);
 		break;
@@ -1099,7 +1158,10 @@ show_current_todo (EItipControl *itip)
 
 	priv = itip->priv;
 
-	priv->task_client = find_server (priv->task_clients, priv->comp);
+	if (priv->calendar_uri)
+		priv->task_client = start_calendar_server (priv->calendar_uri);
+	else 
+		priv->task_client = find_server (priv->task_clients, priv->comp);
 
 	switch (priv->method) {
 	case ICAL_METHOD_PUBLISH:
@@ -1108,7 +1170,10 @@ show_current_todo (EItipControl *itip)
 		options = get_publish_options (priv->task_client ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_REQUEST:
-		itip_desc = U_("<b>%s</b> requests you perform a task.");
+		if (priv->delegator_address != NULL)
+			itip_desc = U_("<b>%s</b> requests %s to perform a task.");
+		else
+			itip_desc = U_("<b>%s</b> requests you perform a task.");
 		itip_title = U_("Task Proposal");
 		options = get_request_options (priv->task_client ? FALSE : TRUE);
 		break;
@@ -1211,6 +1276,7 @@ show_current (EItipControl *itip)
 	CalComponentVType type;
 	icalcomponent *alarm_comp;
 	icalcompiter alarm_iter;
+	icalproperty *prop;
 
 	priv = itip->priv;
 
@@ -1223,6 +1289,24 @@ show_current (EItipControl *itip)
 		gtk_object_unref (GTK_OBJECT (priv->task_client));
 	priv->task_client = NULL;
 
+	/* Determine any delegate sections */
+	prop = icalcomponent_get_first_property (priv->ical_comp, ICAL_X_PROPERTY);
+	while (prop) {
+		const char *x_name, *x_val;
+
+		x_name = icalproperty_get_x_name (prop);
+		x_val = icalproperty_get_x (prop);
+
+		if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-CALENDAR-URI"))
+			e_itip_control_set_calendar_uri (itip, x_val);
+		else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-ADDRESS"))
+			e_itip_control_set_delegator_address (itip, x_val);
+		else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-NAME"))
+			e_itip_control_set_delegator_name (itip, x_val);
+
+		prop = icalcomponent_get_next_property (priv->ical_comp, ICAL_X_PROPERTY);
+	}
+	
 	/* Strip out alarms for security purposes */
 	alarm_iter = icalcomponent_begin_component (priv->ical_comp, ICAL_VALARM_COMPONENT);
 	while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
@@ -1414,6 +1498,76 @@ e_itip_control_get_from_address (EItipControl *itip)
 	priv = itip->priv;
 
 	return priv->from_address;
+}
+
+void
+e_itip_control_set_delegator_address (EItipControl *itip, const gchar *address)
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	if (priv->delegator_address)
+		g_free (priv->delegator_address);
+
+	priv->delegator_address = g_strdup (address);
+}
+
+const gchar *
+e_itip_control_get_delegator_address (EItipControl *itip)
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	return priv->delegator_address;
+}
+
+
+void
+e_itip_control_set_delegator_name (EItipControl *itip, const gchar *name)
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	if (priv->delegator_name)
+		g_free (priv->delegator_name);
+
+	priv->delegator_name = g_strdup (name);
+}
+
+const gchar *
+e_itip_control_get_delegator_name (EItipControl *itip)
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	return priv->delegator_name;
+}
+
+void
+e_itip_control_set_calendar_uri (EItipControl *itip, const gchar *uri)
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	if (priv->calendar_uri)
+		g_free (priv->calendar_uri);
+
+	priv->calendar_uri = g_strdup (uri);
+}
+
+const gchar *
+e_itip_control_get_calendar_uri (EItipControl *itip)
+{
+	EItipControlPrivate *priv;
+
+	priv = itip->priv;
+
+	return priv->calendar_uri;
 }
 
 

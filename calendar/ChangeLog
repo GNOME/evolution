@@ -1,3 +1,26 @@
+2002-10-24  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (init): initialize new values
+	(clean_up): free new values
+	(find_my_address): if we have a delegator address, use it instead
+	(write_html): display delegator info to user
+	(show_current_event): if we have a calendar uri, use that and
+	describe the event differently
+	(show_current_todo): ditto
+	(show_current): search for delegator X properties
+	(e_itip_control_set_delegator_address): accessor
+	(e_itip_control_get_delegator_address): ditto
+	(e_itip_control_set_delegator_name): ditto
+	(e_itip_control_get_delegator_name): ditto
+	(e_itip_control_set_calendar_uri): ditto
+	(e_itip_control_get_calendar_uri): ditto
+
+	* gui/e-itip-control.h: add protos
+
+	* gui/itip-utils.c (comp_from): use the first attendee as the from
+	address for things other than request, cancel and add (use
+	organizer) and publish (use default address)
+
 2002-10-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #32613

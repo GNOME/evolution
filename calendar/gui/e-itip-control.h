@@ -62,6 +62,15 @@ gint         e_itip_control_get_data_size    (EItipControl *itip);
 void         e_itip_control_set_from_address (EItipControl *itip,
 					      const gchar  *address);
 const gchar *e_itip_control_get_from_address (EItipControl *itip);
+void         e_itip_control_set_delegator_address   (EItipControl *itip,
+						    const gchar  *address);
+const gchar *e_itip_control_get_delegator_address   (EItipControl *itip);
+void         e_itip_control_set_delegator_name   (EItipControl *itip,
+						 const gchar  *name);
+const gchar *e_itip_control_get_delegator_name   (EItipControl *itip);
+void         e_itip_control_set_calendar_uri (EItipControl *itip,
+					      const gchar  *uri);
+const gchar *e_itip_control_get_calendar_uri (EItipControl *itip);
 
 #ifdef __cplusplus
 }

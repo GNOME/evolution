@@ -331,10 +331,17 @@ static CORBA_char *
 comp_from (CalComponentItipMethod method, CalComponent *comp)
 {
 	CalComponentOrganizer organizer;
-
+	CalComponentAttendee *attendee;
+	GSList *attendees;
+	CORBA_char *str;
+	
 	switch (method) {
+	case CAL_COMPONENT_METHOD_PUBLISH:
+		return CORBA_string_dup ("");
+		
 	case CAL_COMPONENT_METHOD_REQUEST:
 	case CAL_COMPONENT_METHOD_CANCEL:
+	case CAL_COMPONENT_METHOD_ADD:
 		cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
 			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
@@ -345,7 +352,15 @@ comp_from (CalComponentItipMethod method, CalComponent *comp)
 		return CORBA_string_dup (itip_strip_mailto (organizer.value));
 
 	default:
-		return CORBA_string_dup ("");
+		if (!cal_component_has_attendees (comp))
+			return CORBA_string_dup ("");
+
+		cal_component_get_attendee_list (comp, &attendees);
+		attendee = attendees->data;
+		str = CORBA_string_dup (attendee->value ? itip_strip_mailto (attendee->value) : "");
+		cal_component_free_attendee_list (attendees);
+
+		return str;
 	}
 }
 
