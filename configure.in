@@ -350,6 +350,7 @@ widgets/meeting-time-sel/Makefile
 widgets/shortcut-bar/Makefile
 widgets/e-table/Makefile
 addressbook/Makefile
+addressbook/ename/Makefile
 addressbook/contact-editor/Makefile
 addressbook/printing/Makefile
 addressbook/backend/Makefile

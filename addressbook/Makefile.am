@@ -1,2 +1,2 @@
 SUBDIRS =	\
-	backend contact-editor gui printing
+	backend ename contact-editor gui printing

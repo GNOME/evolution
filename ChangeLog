@@ -1,3 +1,7 @@
+2000-04-27  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Added addressbook/ename/Makefile.
+
 2000-04-27  Matt Loper  <matt@helixcode.com>
 
 	* configure.in: added tools/Makefile.

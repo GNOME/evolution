@@ -1,7 +1,7 @@
 #include <gnome.h>
 #include <ctype.h>
 
-#include <ename/e-name.h>
+#include <ename/e-name-western.h>
 
 static void
 do_name (char *n)

@@ -31,6 +31,7 @@ struct _ECard {
 	GtkObject object;
 	char *id;
 
+	char            *file_as;       /* The File As field.               */
 	char            *fname;         /* The full name.                   */
 	ECardName       *name;          /* The structured name.             */
 	ECardList       *address;  	/* Delivery addresses (ECardDeliveryAddress *) */
@@ -48,10 +49,17 @@ struct _ECard {
 
 	char            *org;           /* The person's organization.       */
 	char            *org_unit;      /* The person's organization unit.  */
+	char            *office;        /* The person's office.             */
 	char            *role;          /* The person's role w/in his org   */
 	char            *title;	        /* The person's title w/in his org  */
 
+	char            *manager;
+	char            *assistant;
+
 	char            *nickname;      /* The person's nickname            */
+	
+	char            *spouse;        /* The person's spouse.             */
+	ECardDate       *anniversary;   /* The person's anniversary.        */
 
 	char            *fburl;         /* Free Busy URL                    */
 

@@ -25,6 +25,7 @@
 /* Object argument IDs */
 enum {
 	ARG_0,
+	ARG_FILE_AS,
 	ARG_FULL_NAME,
 	ARG_NAME,
 	ARG_ADDRESS,
@@ -35,9 +36,14 @@ enum {
 	ARG_URL,
 	ARG_ORG,
 	ARG_ORG_UNIT,
+	ARG_OFFICE,
 	ARG_TITLE,
 	ARG_ROLE,
+	ARG_MANAGER,
+	ARG_ASSISTANT,
 	ARG_NICKNAME,
+	ARG_SPOUSE,
+	ARG_ANNIVERSARY,
 	ARG_FBURL,
 	ARG_NOTE,
 	ARG_ID
@@ -62,6 +68,7 @@ static ECardDate e_card_date_from_string (char *str);
 
 static void parse_bday(ECard *card, VObject *object);
 static void parse_full_name(ECard *card, VObject *object);
+static void parse_file_as(ECard *card, VObject *object);
 static void parse_name(ECard *card, VObject *object);
 static void parse_email(ECard *card, VObject *object);
 static void parse_phone(ECard *card, VObject *object);
@@ -69,9 +76,14 @@ static void parse_address(ECard *card, VObject *object);
 static void parse_address_label(ECard *card, VObject *object);
 static void parse_url(ECard *card, VObject *object);
 static void parse_org(ECard *card, VObject *object);
+static void parse_office(ECard *card, VObject *object);
 static void parse_title(ECard *card, VObject *object);
 static void parse_role(ECard *card, VObject *object);
+static void parse_manager(ECard *card, VObject *object);
+static void parse_assistant(ECard *card, VObject *object);
 static void parse_nickname(ECard *card, VObject *object);
+static void parse_spouse(ECard *card, VObject *object);
+static void parse_anniversary(ECard *card, VObject *object);
 static void parse_fburl(ECard *card, VObject *object);
 static void parse_note(ECard *card, VObject *object);
 static void parse_id(ECard *card, VObject *object);
@@ -88,21 +100,27 @@ struct {
 	ParsePropertyFunc function;
 } attribute_jump_array[] = 
 {
-	{ VCFullNameProp,      parse_full_name },
-	{ VCNameProp,          parse_name },
-	{ VCBirthDateProp,     parse_bday },
-	{ VCEmailAddressProp,  parse_email },
-	{ VCTelephoneProp,     parse_phone },
-	{ VCAdrProp,           parse_address },
-	{ VCDeliveryLabelProp, parse_address_label },
-	{ VCURLProp,           parse_url },
-	{ VCOrgProp,           parse_org },
-	{ VCTitleProp,         parse_title },
-	{ VCBusinessRoleProp,  parse_role },
-	{ "NICKNAME",          parse_nickname },
-	{ "FBURL",             parse_fburl },
-	{ VCNoteProp,          parse_note },
-	{ VCUniqueStringProp,  parse_id }
+	{ VCFullNameProp,            parse_full_name },
+	{ "X-EVOLUTION-FILE-AS",     parse_file_as },
+	{ VCNameProp,                parse_name },
+	{ VCBirthDateProp,           parse_bday },
+	{ VCEmailAddressProp,        parse_email },
+	{ VCTelephoneProp,           parse_phone },
+	{ VCAdrProp,                 parse_address },
+	{ VCDeliveryLabelProp,       parse_address_label },
+	{ VCURLProp,                 parse_url },
+	{ VCOrgProp,                 parse_org },
+	{ "X-EVOLUTION-OFFICE",      parse_office },
+	{ VCTitleProp,               parse_title },
+	{ VCBusinessRoleProp,        parse_role },
+	{ "X-EVOLUTION-MANAGER",     parse_manager },
+	{ "X-EVOLUTION-ASSISTANT",   parse_assistant },
+	{ "NICKNAME",                parse_nickname },
+	{ "X-EVOLUTION-SPOUSE",      parse_spouse },
+	{ "X-EVOLUTION-ANNIVERSARY", parse_anniversary },   
+	{ "FBURL",                   parse_fburl },
+	{ VCNoteProp,                parse_note },
+	{ VCUniqueStringProp,        parse_id }
 };
 
 /**
@@ -208,6 +226,9 @@ char
 	char *temp, *ret_val;
 	
 	vobj = newVObject (VCCardProp);
+
+	if ( card->file_as )
+		addPropValue(vobj, "X-EVOLUTION-FILE-AS", card->file_as);
 
 	if ( card->fname )
 		addPropValue(vobj, VCFullNameProp, card->fname);
@@ -316,6 +337,9 @@ char
 		if (card->org_unit)
 			addPropValue(orgprop, VCOrgUnitProp, card->org_unit);
 	}
+	
+	if (card->office)
+		addPropValue(vobj, "X-EVOLUTION-OFFICE", card->office);
 
 	if (card->title)
 		addPropValue(vobj, VCTitleProp, card->title);
@@ -323,8 +347,29 @@ char
 	if (card->role)
 		addPropValue(vobj, VCBusinessRoleProp, card->role);
 	
+	if (card->manager)
+		addPropValue(vobj, "X-EVOLUTION-MANAGER", card->manager);
+	
+	if (card->assistant)
+		addPropValue(vobj, "X-EVOLUTION-ASSISTANT", card->assistant);
+	
 	if (card->nickname)
 		addPropValue(vobj, "NICKNAME", card->nickname);
+
+	if (card->spouse)
+		addPropValue(vobj, "X-EVOLUTION-SPOUSE", card->spouse);
+
+	if ( card->anniversary ) {
+		ECardDate date;
+		char *value;
+		date = *card->anniversary;
+		date.year = MIN(date.year, 9999);
+		date.month = MIN(date.month, 12);
+		date.day = MIN(date.day, 31);
+		value = g_strdup_printf("%04d-%02d-%02d", date.year, date.month, date.day);
+		addPropValue(vobj, "X-EVOLUTION-ANNIVERSARY", value);
+		g_free(value);
+	}
 	
 	if (card->fburl)
 		addPropValue(vobj, "FBURL", card->fburl);
@@ -355,19 +400,6 @@ char
 		}
 	}
 	
-	if (crd->dellabel.l) {
-		GList *node;
-		
-		for (node = crd->dellabel.l; node; node = node->next) {
-			CardDelLabel *dellabel = (CardDelLabel *) node->data;
-			
-			vprop = add_strProp (vobj, VCDeliveryLabelProp, 
-					    dellabel->data);
-			add_AddrType (vprop, dellabel->type);
-			add_CardProperty (vprop, &dellabel->prop);
-		}
-	}
-	
 	add_CardStrProperty (vobj, VCMailerProp, &crd->mailer);
 	
 	if (crd->timezn.prop.used) {
@@ -388,8 +420,6 @@ char
 		add_CardProperty (vprop, &crd->geopos.prop);
 	}
 	
-        add_CardStrProperty (vobj, VCBusinessRoleProp, &crd->role);
-	
 	if (crd->logo.prop.used) {
 		vprop = addPropSizedValue (vobj, VCLogoProp, 
 					  crd->logo.data, crd->logo.size);
@@ -399,16 +429,6 @@ char
 	
 	if (crd->agent)
 	  addVObjectProp (vobj, card_convert_to_vobject (crd->agent));
-	
-	if (crd->org.prop.used) {
-		vprop = addProp (vobj, VCOrgProp);
-		add_strProp (vprop, VCOrgNameProp, crd->org.name);
-		add_strProp (vprop, VCOrgUnitProp, crd->org.unit1);
-		add_strProp (vprop, VCOrgUnit2Prop, crd->org.unit2);
-		add_strProp (vprop, VCOrgUnit3Prop, crd->org.unit3);
-		add_strProp (vprop, VCOrgUnit4Prop, crd->org.unit4);
-		add_CardProperty (vprop, &crd->org.prop);
-	}
 	
         add_CardStrProperty (vobj, VCCategoriesProp, &crd->categories);
         add_CardStrProperty (vobj, VCCommentProp, &crd->comment);
@@ -435,6 +455,14 @@ char
 	ret_val = g_strdup(temp);
 	free(temp);
 	return ret_val;
+}
+
+static void
+parse_file_as(ECard *card, VObject *vobj)
+{
+	if ( card->file_as )
+		g_free(card->file_as);
+	assign_string(vobj, &(card->file_as));
 }
 
 static void
@@ -569,6 +597,14 @@ parse_org(ECard *card, VObject *vobj)
 }
 
 static void
+parse_office(ECard *card, VObject *vobj)
+{
+	if ( card->office )
+		g_free(card->office);
+	assign_string(vobj, &(card->office));
+}
+
+static void
 parse_title(ECard *card, VObject *vobj)
 {
 	if ( card->title )
@@ -585,11 +621,48 @@ parse_role(ECard *card, VObject *vobj)
 }
 
 static void
+parse_manager(ECard *card, VObject *vobj)
+{
+	if ( card->manager )
+		g_free(card->manager);
+	assign_string(vobj, &(card->manager));
+}
+
+static void
+parse_assistant(ECard *card, VObject *vobj)
+{
+	if ( card->assistant )
+		g_free(card->assistant);
+	assign_string(vobj, &(card->assistant));
+}
+
+static void
 parse_nickname(ECard *card, VObject *vobj)
 {
 	if (card->nickname)
 		g_free(card->nickname);
 	assign_string(vobj, &(card->nickname));
+}
+
+static void
+parse_spouse(ECard *card, VObject *vobj)
+{
+	if ( card->spouse )
+		g_free(card->spouse);
+	assign_string(vobj, &(card->spouse));
+}
+
+static void
+parse_anniversary(ECard *card, VObject *vobj)
+{
+	if ( vObjectValueType (vobj) ) {
+		char *str = fakeCString (vObjectUStringZValue (vobj));
+		if (card->anniversary)
+			g_free(card->anniversary);
+		card->anniversary = g_new(ECardDate, 1);
+		*(card->anniversary) = e_card_date_from_string(str);
+		free(str);
+	}
 }
 
 static void
@@ -648,6 +721,8 @@ e_card_class_init (ECardClass *klass)
 		g_hash_table_insert(klass->attribute_jump_table, attribute_jump_array[i].key, attribute_jump_array[i].function);
 	}
 
+	gtk_object_add_arg_type ("ECard::file_as",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FILE_AS);
 	gtk_object_add_arg_type ("ECard::full_name",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FULL_NAME);  
 	gtk_object_add_arg_type ("ECard::name",
@@ -668,12 +743,22 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ORG);
 	gtk_object_add_arg_type ("ECard::org_unit",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ORG_UNIT);
+	gtk_object_add_arg_type ("ECard::office",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_OFFICE);
 	gtk_object_add_arg_type ("ECard::title",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_TITLE);  
 	gtk_object_add_arg_type ("ECard::role",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ROLE);
+	gtk_object_add_arg_type ("ECard::manager",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_MANAGER);
+	gtk_object_add_arg_type ("ECard::assistant",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ASSISTANT);
 	gtk_object_add_arg_type ("ECard::nickname",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_NICKNAME);
+	gtk_object_add_arg_type ("ECard::spouse",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_SPOUSE);
+	gtk_object_add_arg_type ("ECard::anniversary",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_ANNIVERSARY);
 	gtk_object_add_arg_type ("ECard::fburl",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FBURL);
 	gtk_object_add_arg_type ("ECard::note",
@@ -781,6 +866,8 @@ e_card_destroy (GtkObject *object)
 	ECard *card = E_CARD(object);
 	if ( card->id )
 		g_free(card->id);
+	if (card->file_as)
+		g_free(card->file_as);
 	if ( card->fname )
 		g_free(card->fname);
 	if ( card->name )
@@ -794,12 +881,22 @@ e_card_destroy (GtkObject *object)
 		g_free(card->org);
 	if (card->org_unit)
 		g_free(card->org_unit);
+	if (card->office)
+		g_free(card->office);
 	if (card->title)
 		g_free(card->title);
 	if (card->role)
 		g_free(card->role);
+	if (card->manager)
+		g_free(card->manager);
+	if (card->assistant)
+		g_free(card->assistant);
 	if (card->nickname)
 		g_free(card->nickname);
+	if (card->spouse)
+		g_free(card->spouse);
+	if (card->anniversary)
+		g_free(card->anniversary);
 	if (card->fburl)
 		g_free(card->fburl);
 	if (card->note)
@@ -825,6 +922,11 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	card = E_CARD (object);
 
 	switch (arg_id) {
+	case ARG_FILE_AS:
+		if (card->file_as)
+			g_free(card->file_as);
+		card->file_as = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
 	case ARG_FULL_NAME:
 		if ( card->fname )
 			g_free(card->fname);
@@ -855,6 +957,11 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			g_free(card->org_unit);
 		card->org_unit = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
+	case ARG_OFFICE:
+		if (card->office)
+			g_free(card->office);
+		card->office = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
 	case ARG_TITLE:
 		if ( card->title )
 			g_free(card->title);
@@ -865,10 +972,30 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			g_free(card->role);
 		card->role = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
+	case ARG_MANAGER:
+		if (card->manager)
+			g_free(card->manager);
+		card->manager = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_ASSISTANT:
+		if (card->assistant)
+			g_free(card->assistant);
+		card->assistant = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
 	case ARG_NICKNAME:
 		if (card->nickname)
 			g_free(card->nickname);
 		card->nickname = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_SPOUSE:
+		if (card->spouse)
+			g_free(card->spouse);
+		card->spouse = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_ANNIVERSARY:
+		if ( card->anniversary )
+			g_free(card->anniversary);
+		card->anniversary = GTK_VALUE_POINTER(*arg);
 		break;
 	case ARG_FBURL:
 		if (card->fburl)
@@ -899,6 +1026,9 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	card = E_CARD (object);
 
 	switch (arg_id) {
+	case ARG_FILE_AS:
+		GTK_VALUE_STRING (*arg) = card->file_as;
+		break;
 	case ARG_FULL_NAME:
 		GTK_VALUE_STRING (*arg) = card->fname;
 		break;
@@ -945,14 +1075,29 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_ORG_UNIT:
 		GTK_VALUE_STRING(*arg) = card->org_unit;
 		break;
+	case ARG_OFFICE:
+		GTK_VALUE_STRING(*arg) = card->office;
+		break;
 	case ARG_TITLE:
 		GTK_VALUE_STRING(*arg) = card->title;
 		break;
 	case ARG_ROLE:
 		GTK_VALUE_STRING(*arg) = card->role;
 		break;
+	case ARG_MANAGER:
+		GTK_VALUE_STRING(*arg) = card->manager;
+		break;
+	case ARG_ASSISTANT:
+		GTK_VALUE_STRING(*arg) = card->assistant;
+		break;
 	case ARG_NICKNAME:
 		GTK_VALUE_STRING(*arg) = card->nickname;
+		break;
+	case ARG_SPOUSE:
+		GTK_VALUE_STRING(*arg) = card->spouse;
+		break;
+	case ARG_ANNIVERSARY:
+		GTK_VALUE_POINTER(*arg) = card->anniversary;
 		break;
 	case ARG_FBURL:
 		GTK_VALUE_STRING(*arg) = card->fburl;
@@ -977,7 +1122,8 @@ static void
 e_card_init (ECard *card)
 {
 	card->id = g_strdup("");
-
+	
+	card->file_as = NULL;
 	card->fname = NULL;
 	card->name = NULL;
 	card->bday = NULL;
@@ -988,9 +1134,14 @@ e_card_init (ECard *card)
 	card->url = NULL;
 	card->org = NULL;
 	card->org_unit = NULL;
+	card->office = NULL;
 	card->title = NULL;
 	card->role = NULL;
+	card->manager = NULL;
+	card->assistant = NULL;
 	card->nickname = NULL;
+	card->spouse = NULL;
+	card->anniversary = NULL;
 	card->fburl = NULL;
 	card->note = NULL;
 #if 0

@@ -1,5 +1,5 @@
 #include <gnome.h>
-#include <ename/e-name.h>
+#include <ename/e-name-western.h>
 
 ENameWestern *name;
 GtkWidget    *full;

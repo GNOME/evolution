@@ -1,8 +1,6 @@
 #ifndef __E_NAME_WESTERN_H__
 #define __E_NAME_WESTERN_H__
 
-#include <ename/e-name.h>
-
 typedef struct {
 
 	/* Public */

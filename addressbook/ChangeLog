@@ -1,3 +1,26 @@
+2000-04-27  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added file as,
+	office, manager, assistant, spouse, and anniversary fields.  These
+	all use "X-EVOLUTION-" fields in the VCards.
+
+	* backend/pas/pas-backend-file.c: Added all the new fields (except
+	anniversary) to the list of fields.
+
+	* contact-editor/contact-editor.glade,
+	contact-editor/e-contact-editor-strings.h: Fixed some misnamed
+	fields and fixed the placement of the comments field.
+
+	* contact-editor/e-contact-editor.c: Made the newly added fields
+	display properly.
+
+	* Makefile.am: Added ename.
+
+	* ename/e-name-western.h, ename/test-ename-western-gtk.c,
+	ename/test-ename-western.c: Fixed up some #includes.
+
+	* ename/.cvsignore: Added .cvsignore.
+
 2000-04-26  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-card-types.h, backend/ebook/e-card.c,

@@ -231,14 +231,19 @@ static struct prop_info {
 
 } prop_info_table[] = {
 	/* query prop,  ecard prop,   type,              list compare function */
+	{ "file_as",    "file_as",    PROP_TYPE_NORMAL,  NULL },
 	{ "full_name",  "full_name",  PROP_TYPE_NORMAL,  NULL },
 	{ "url",        "url",        PROP_TYPE_NORMAL,  NULL },
 	{ "mailer",     "mailer",     PROP_TYPE_NORMAL,  NULL },
 	{ "org",        "org",        PROP_TYPE_NORMAL,  NULL },
 	{ "org_unit",   "org_unit",   PROP_TYPE_NORMAL,  NULL },
+	{ "office",     "office",     PROP_TYPE_NORMAL,  NULL },
 	{ "title",      "title",      PROP_TYPE_NORMAL,  NULL },
 	{ "role",       "role",       PROP_TYPE_NORMAL,  NULL },
+	{ "manager",    "manager",    PROP_TYPE_NORMAL,  NULL },
+	{ "assistant",  "assistant",  PROP_TYPE_NORMAL,  NULL },
 	{ "nickname",   "nickname",   PROP_TYPE_NORMAL,  NULL },
+	{ "spouse",     "spouse",     PROP_TYPE_NORMAL,  NULL },
 	{ "email",      "email",      PROP_TYPE_LIST,    compare_email },
 	{ "phone",      "phone",      PROP_TYPE_LIST,    compare_phone },
 	{ "address",    "address",    PROP_TYPE_LIST,    compare_address },
