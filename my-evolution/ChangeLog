@@ -1,3 +1,8 @@
+2001-11-06  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c (make_initial_weather_list): Don't free the
+	vector. Doh!
+
 2001-10-31  Iain Holmes  <iain@ximian.com>
 
 	* Locations: Removed Frobisher.

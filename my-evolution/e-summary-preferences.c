@@ -85,7 +85,7 @@ make_initial_weather_list (ESummaryPrefs *prefs)
 	for (p = stations_v; *p != NULL; p++) {
 		stations = g_list_prepend (stations, *p);
 	}
-	g_strfreev (stations_v);
+	g_free (stations_v);
 
 	prefs->stations = g_list_reverse (stations);
 }
@@ -461,7 +461,7 @@ static struct _RDFInfo rdfs[] = {
 	{"http://www.fool.com/about/headlines/rss_headlines.asp", "The Motley Fool"},
 	{"http://www.newsforge.com/newsforge.rss", "Newsforge"},
 	{"http://www.nanotechnews.com/nano/rdf", "Nanotech News"},
-	{"http://www.perl.com/pace/news.rss", "Perl.com"},
+  	{"http://www.perl.com/pace/news.rss", "Perl.com"},
 	{"http://www.pigdog.org/pigdog.rdf", "Pigdog"},
 	{"http://www.python.org/channews.rdf", "Python.org"},
 	{"http://www.quotationspage.com/data/mqotd.rss", N_("Quotes of the Day")},
