@@ -402,7 +402,7 @@ start_calendar_server (EToDoConduitContext *ctxt)
 	/* FIXME Need a mechanism for the user to select uri's */
 	/* FIXME Can we use the cal model? */
 	uri = g_strdup_printf ("file://%s/local/Tasks/", g_get_home_dir ());
-	ctxt->client = e_cal_new (uri, CALOBJ_TYPE_TODO);
+	ctxt->client = e_cal_new (uri, E_CAL_SOURCE_TYPE_TODO);
 	g_free (uri);
 	
 	if (!ctxt->client)

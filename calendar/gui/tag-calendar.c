@@ -149,9 +149,8 @@ tag_calendar_by_client (ECalendar *ecal, ECal *client)
 #if 0
 	g_print ("DateNavigator generating instances\n");
 #endif
-	e_cal_generate_instances (client, CALOBJ_TYPE_EVENT,
-				       c.start_time, c.end_time,
-				       tag_calendar_cb, &c);
+	e_cal_generate_instances (client, c.start_time, c.end_time,
+				  tag_calendar_cb, &c);
 }
 
 /* Resolves TZIDs for the recurrence generator, for when the comp is not on

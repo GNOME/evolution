@@ -324,7 +324,7 @@ copy_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 	if (!selected_source)
 		return;
 
-	copy_source_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)), selected_source, CALOBJ_TYPE_TODO);
+	copy_source_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)), selected_source, E_CAL_SOURCE_TYPE_TODO);
 }
 
 static void
@@ -643,14 +643,14 @@ setup_create_ecal (TasksComponent *component)
 		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
 		g_free (uid);
 
-		priv->create_ecal = e_cal_new (source, CALOBJ_TYPE_TODO);
+		priv->create_ecal = e_cal_new (source, E_CAL_SOURCE_TYPE_TODO);
 	} 
 
 	if (!priv->create_ecal) {
 		/* Try to create a default if there isn't one */
 		source = find_first_source (priv->source_list);
 		if (source)
-			priv->create_ecal = e_cal_new (source, CALOBJ_TYPE_TODO);
+			priv->create_ecal = e_cal_new (source, E_CAL_SOURCE_TYPE_TODO);
 	}
 		
 	if (priv->create_ecal) {

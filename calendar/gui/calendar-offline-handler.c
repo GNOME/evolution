@@ -182,8 +182,9 @@ backend_go_offline (gpointer data, gpointer user_data)
 	ECal *client;
 	gboolean success;
 	GError *error = NULL;
-	
-	client = e_cal_new_from_uri (uri, CALOBJ_TYPE_ANY);
+
+	/* FIXME This should not use LAST */
+	client = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_LAST);
 	g_signal_connect (client, "cal_opened", G_CALLBACK (backend_cal_opened_offline), offline_handler);
 	success = e_cal_open (client, TRUE, &error);
 	if (!success) {
@@ -203,8 +204,9 @@ backend_go_online (gpointer data, gpointer user_data)
 	ECal *client;
 	gboolean success;
 	GError *error = NULL;
-	
-	client = e_cal_new_from_uri (uri, CALOBJ_TYPE_ANY);
+
+	/* FIXME This should not use LAST */	
+	client = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_LAST);
 	g_signal_connect (G_OBJECT (client), "cal_opened", 
 			  G_CALLBACK (backend_cal_opened_online), offline_handler);
 	success = e_cal_open (client, TRUE, &error);
@@ -326,8 +328,9 @@ calendar_offline_handler_init (CalendarOfflineHandler *offline_handler)
 	priv = g_new (CalendarOfflineHandlerPrivate, 1);
 	offline_handler->priv = priv;
 
+	/* FIXME This should not use LAST */
 	/* FIXME: what URI to use? */
-	priv->client = e_cal_new_from_uri ("", CALOBJ_TYPE_ANY);
+	priv->client = e_cal_new_from_uri ("", E_CAL_SOURCE_TYPE_LAST);
 	priv->listener_interface = CORBA_OBJECT_NIL;
 	priv->is_offline = FALSE;
 }

@@ -639,9 +639,9 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 				sprintf (buf, "%d", day);
 
 				/* this is a slow messy way to do this ... but easy ... */
-				e_cal_generate_instances (client, now, CALOBJ_TYPE_EVENT, 
-							       time_day_end_with_zone (now, zone),
-							       instance_cb, &found);
+				e_cal_generate_instances (client, now, 
+							  time_day_end_with_zone (now, zone),
+							  instance_cb, &found);
 				
 				font = found ? font_bold : font_normal;
 
@@ -1151,8 +1151,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 
 	/* Get the events from the server. */
 	client = gnome_calendar_get_default_client (gcal);
-	e_cal_generate_instances (client, CALOBJ_TYPE_EVENT, start, end,
-				       print_day_details_cb, &pdi);
+	e_cal_generate_instances (client, start, end, print_day_details_cb, &pdi);
 	qsort (pdi.long_events->data, pdi.long_events->len,
 	       sizeof (EDayViewEvent), e_day_view_event_sort_func);
 	qsort (pdi.events[0]->data, pdi.events[0]->len,
@@ -1587,10 +1586,10 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 
 	/* Get the events from the server. */
 	client = gnome_calendar_get_default_client (gcal);
-	e_cal_generate_instances (client, CALOBJ_TYPE_EVENT,
-				       psi.day_starts[0],
-				       psi.day_starts[psi.days_shown],
-				       print_week_summary_cb, &psi);
+	e_cal_generate_instances (client,
+				  psi.day_starts[0],
+				  psi.day_starts[psi.days_shown],
+				  print_week_summary_cb, &psi);
 	qsort (psi.events->data, psi.events->len,
 	       sizeof (EWeekViewEvent), e_week_view_event_sort_func);
 

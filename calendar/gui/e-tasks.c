@@ -850,7 +850,7 @@ e_tasks_add_todo_uri (ETasks *tasks, const char *str_uri)
 	if (client)
 		return TRUE;
 	
-	client = e_cal_new_from_uri (str_uri, CALOBJ_TYPE_TODO);
+	client = e_cal_new_from_uri (str_uri, E_CAL_SOURCE_TYPE_TODO);
 	g_hash_table_insert (priv->clients, g_strdup (str_uri), client);
 	priv->clients_list = g_list_prepend (priv->clients_list, client);
 	

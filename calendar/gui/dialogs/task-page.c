@@ -794,7 +794,7 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 	if (!priv->updating) {
 		ECal *client;
 
-		client = e_cal_new (source, CALOBJ_TYPE_TODO);
+		client = e_cal_new (source, E_CAL_SOURCE_TYPE_TODO);
 		if (!client || !e_cal_open (client, FALSE, NULL)) {
 			GtkWidget *dialog;
 

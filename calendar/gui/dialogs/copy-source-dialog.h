@@ -26,6 +26,6 @@
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-util.h>
 
-gboolean copy_source_dialog (GtkWindow *parent, ESource *source, CalObjType obj_type);
+gboolean copy_source_dialog (GtkWindow *parent, ESource *source, ECalSourceType type);
 
 #endif

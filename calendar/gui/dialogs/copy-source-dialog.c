@@ -32,7 +32,7 @@ typedef struct {
 	ESourceList *source_list;
 	GConfClient *conf_client;
 	ESource *orig_source;
-	CalObjType obj_type;
+	ECalSourceType obj_type;
 	ESource *selected_source;
 } CopySourceDialogData;
 
@@ -111,7 +111,7 @@ copy_source (CopySourceDialogData *csdd)
  * source to copy to.
  */
 gboolean
-copy_source_dialog (GtkWindow *parent, ESource *source, CalObjType obj_type)
+copy_source_dialog (GtkWindow *parent, ESource *source, ECalSourceType obj_type)
 {
 	CopySourceDialogData csdd;
 	gboolean result = FALSE;
@@ -120,9 +120,9 @@ copy_source_dialog (GtkWindow *parent, ESource *source, CalObjType obj_type)
 
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
-	if (obj_type == CALOBJ_TYPE_EVENT)
+	if (obj_type == E_CAL_SOURCE_TYPE_EVENT)
 		gconf_key = "/apps/evolution/calendar/sources";
-	else if (obj_type == CALOBJ_TYPE_TODO)
+	else if (obj_type == E_CAL_SOURCE_TYPE_TODO)
 		gconf_key = "/apps/evolution/tasks/sources";
 	else
 		return FALSE;

@@ -41,6 +41,7 @@
 #include <bonobo/bonobo-exception.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
+#include <libedataserver/e-source-list.h>
 #include <libical/ical.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-time-util.h>
@@ -48,6 +49,7 @@
 #include <e-util/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
 #include <camel/camel-mime-filter-tohtml.h>
+#include <widgets/misc/e-source-option-menu.h>
 #include "dialogs/delete-error.h"
 #include "calendar-config.h"
 #include "itip-utils.h"
@@ -55,11 +57,12 @@
 
 struct _EItipControlPrivate {
 	GtkWidget *html;
-	
-	GPtrArray *event_clients;
-	ECal *event_client;
-	GPtrArray *task_clients;
-	ECal *task_client;
+
+	ESourceList *source_lists[E_CAL_SOURCE_TYPE_LAST];
+	GHashTable *ecals[E_CAL_SOURCE_TYPE_LAST];	
+
+	ECal *current_ecal;
+	ECalSourceType type;
 
 	char *vcalendar;
 	ECalComponent *comp;
@@ -72,7 +75,7 @@ struct _EItipControlPrivate {
 	int current;
 	int total;
 
-	gchar *calendar_uri;
+	gchar *calendar_uid;
 
 	EAccountList *accounts;
 
@@ -90,12 +93,6 @@ struct _EItipControlPrivate {
 #define HTML_SEP        "<hr color=#336699 align=\"left\" width=450>"
 #define HTML_BODY_END   "</body>"
 #define HTML_FOOTER     "</html>"
-
-/* We intentionally use "calendar" instead of "calendar / *" here. We
- * don't want public calendars.
- */
-static const char *calendar_types[] = { "calendar", NULL };
-static const char *tasks_types[] = { "tasks", NULL };
 
 static void class_init	(EItipControlClass	 *klass);
 static void init	(EItipControl		 *itip);
@@ -128,123 +125,78 @@ class_init (EItipControlClass *klass)
 }
 
 static ECal *
-start_calendar_server (EItipControl *itip, char *uri)
+start_calendar_server (EItipControl *itip, ESource *source, ECalSourceType type)
 {
-	ECal *client;
-	GError *error = NULL;
+	EItipControlPrivate *priv;
+	ECal *ecal;
 
-	client = e_cal_new_from_uri (uri, CALOBJ_TYPE_EVENT);
-
-	if (!e_cal_open (client, TRUE, &error)) {
-		g_warning (_("start_calendar_server(): %s"), error->message);
-		g_error_free (error);
- 		g_object_unref (client);
+	priv = itip->priv;
+	
+	ecal = g_hash_table_lookup (priv->ecals[type], e_source_peek_uid (source));
+	if (ecal)
+		return ecal;
+	
+	ecal = e_cal_new (source, type);
+	if (!e_cal_open (ecal, TRUE, NULL))
 		return NULL;
-	}
 	
-	return client;
+	g_hash_table_insert (priv->ecals[type], g_strdup (e_source_peek_uid (source)), ecal);
+	
+	return ecal;
 }
-
-static gboolean
-start_default_server (EItipControl *itip, ECal *client, gboolean tasks)
-{
-#if 0
-	if (tasks)
-		return e_cal_open_default_tasks (client, FALSE);
-	else
-		return e_cal_open_default_calendar (client, FALSE);
-#endif
-	return FALSE;
-}
-
-#if 0				/* EPFIXME, rewrite this */
-static GPtrArray *
-get_servers (EItipControl *itip, EvolutionShellClient *shell_client, const char *possible_types[], gboolean tasks)
-{
-	GNOME_Evolution_StorageRegistry registry;
-	GNOME_Evolution_StorageRegistry_StorageList *storage_list;
-	GPtrArray *servers;
-	int i, j, k;
-	CORBA_Environment ev;
-	
-	servers = g_ptr_array_new ();
-	
-	g_object_ref (shell_client);
-	registry = evolution_shell_client_get_storage_registry_interface (shell_client);
-	
-	CORBA_exception_init (&ev);
-	storage_list = GNOME_Evolution_StorageRegistry_getStorageList (registry, &ev);
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-		return servers;
-	}
-	
-	for (i = 0; i < storage_list->_length; i++) {
-		GNOME_Evolution_Storage storage;
-		GNOME_Evolution_FolderList *folder_list;
-
-		CORBA_exception_init (&ev);
-		
-		storage = storage_list->_buffer[i];
-		folder_list = GNOME_Evolution_Storage__get_folderList (storage, &ev);
-		if (BONOBO_EX (&ev)) {
-			CORBA_exception_free (&ev);
-			continue;
-		}
-
-		CORBA_exception_free (&ev);
-
-		for (j = 0; j < folder_list->_length; j++) {
-			GNOME_Evolution_Folder folder;
-			
-			folder = folder_list->_buffer[j];
-			for (k = 0; possible_types[k] != NULL; k++) {
-				ECal *client;
-				char *uri;
-				
-				if (itip->priv->destroyed)
-					continue;
-				
-				if (strcmp (possible_types[k], folder.type))
-					continue;
-
-				uri = e_cal_util_expand_uri (folder.physicalUri, tasks);
-				client = start_calendar_server (itip, uri);
-				if (client != NULL)
-					g_ptr_array_add (servers, client);			
-				g_free (uri);
-
-				break;
-			}
-		}
-
-		CORBA_free (folder_list);		
-	}
-	
-	g_object_unref (shell_client);
-
-	return servers;
-}
-#endif
 
 static ECal *
-find_server (GPtrArray *servers, ECalComponent *comp)
+start_calendar_server_by_uid (EItipControl *itip, const char *uid, ECalSourceType type)
 {
-	const char *uid;
+	EItipControlPrivate *priv;
 	int i;
+	
+	priv = itip->priv;
 
-	e_cal_component_get_uid (comp, &uid);	
-	for (i = 0; i < servers->len; i++) {
-		ECal *client;
-		icalcomponent *icalcomp;
+	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
+		ESource *source;
+
+		source = e_source_list_peek_source_by_uid (priv->source_lists[i], uid);
+		if (source)
+			return start_calendar_server (itip, source, type);
+	}
+	
+	return NULL;
+}
+
+static ECal *
+find_server (EItipControl *itip, ECalComponent *comp)
+{
+	EItipControlPrivate *priv;
+	GSList *groups, *l;
+	const char *uid;
+
+	priv = itip->priv;
+	
+	e_cal_component_get_uid (comp, &uid);
+
+	groups = e_source_list_peek_groups (priv->source_lists[priv->type]);
+	for (l = groups; l; l = l->next) {
+		ESourceGroup *group;
+		GSList *sources, *m;
 		
-		client = g_ptr_array_index (servers, i);
-		if (e_cal_get_object (client, uid, NULL, &icalcomp, NULL)) {
-			icalcomponent_free (icalcomp);
-			g_object_ref (client);
-
-			return client;
-		}
+		group = l->data;
+		
+		sources = e_source_group_peek_sources (group);
+		for (m = sources; m; m = m->next) {
+			ESource *source;
+			ECal *ecal;
+			icalcomponent *icalcomp;
+			
+			source = m->data;
+			ecal = start_calendar_server (itip, source, priv->type);
+			
+			if (ecal && e_cal_get_object (ecal, uid, NULL, &icalcomp, NULL)) {
+				icalcomponent_free (icalcomp);
+				
+				return ecal;
+			}
+		}		
 	}
 
 	return NULL;
@@ -266,22 +218,28 @@ init (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
 	GtkWidget *scrolled_window;
+	int i;
 
 	priv = g_new0 (EItipControlPrivate, 1);
-
 	itip->priv = priv;
 
 	/* Addresses */
 	priv->accounts = itip_addresses_get ();
 
-	/* Initialize the cal clients */
-	priv->event_clients = NULL;
-	priv->event_client = NULL;
-	priv->task_clients = NULL;
-	priv->task_client = NULL;
+	/* Source Lists */
+	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
+		priv->source_lists[i] = NULL;
+
+	priv->source_lists[E_CAL_SOURCE_TYPE_EVENT] = e_source_list_new_for_gconf_default ("/apps/evolution/calendar/sources");
+	priv->source_lists[E_CAL_SOURCE_TYPE_TODO] = e_source_list_new_for_gconf_default ("/apps/evolution/tasks/sources");
+	
+	/* Initialize the ecal hashes */
+	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
+		priv->ecals[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);;
+	priv->current_ecal = NULL;
 
 	/* Other fields to init */
-	priv->calendar_uri = NULL;
+	priv->calendar_uid = NULL;
 	priv->from_address = NULL;
 	priv->delegator_address = NULL;
 	priv->delegator_name = NULL;
@@ -344,8 +302,8 @@ clean_up (EItipControl *itip)
 	priv->current = 0;
 	priv->total = 0;
 
-	g_free (priv->calendar_uri);
-	priv->calendar_uri = NULL;
+	g_free (priv->calendar_uid);
+	priv->calendar_uid = NULL;
 
 	g_free (priv->from_address);
 	priv->from_address = NULL;
@@ -385,23 +343,14 @@ finalize (GObject *obj)
  		gtk_object_weakunref (GTK_OBJECT (priv->html), html_destroyed, itip);
 
 	priv->accounts = NULL;
-	
-	if (priv->event_clients) {
-		for (i = 0; i < priv->event_clients->len; i++) 
-			g_object_unref (g_ptr_array_index (priv->event_clients, i));
-		g_ptr_array_free (priv->event_clients, TRUE);
-		priv->event_client = NULL;
-		priv->event_clients = NULL;
+
+	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
+		if (priv->ecals[i]) {
+			g_hash_table_destroy (priv->ecals[i]);
+			priv->ecals[i] = NULL;
+		}
 	}
-	
-	if (priv->task_clients) {
-		for (i = 0; i < priv->task_clients->len; i++) 
-			g_object_unref (g_ptr_array_index (priv->task_clients, i));
-		g_ptr_array_free (priv->task_clients, TRUE);
-		priv->task_client = NULL;
-		priv->task_clients = NULL;
-	}
-	
+
 	g_free (priv);
 	itip->priv = NULL;
 
@@ -724,7 +673,7 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 
 		/* FIXME This should get the tzid id, not the whole zone */
 		dt.value = &r->until;
-		dt.tzid = r->until.zone;
+		dt.tzid = icaltimezone_get_tzid ((icaltimezone *)r->until.zone);
 
 		write_label_piece (itip, &dt, buffer, size,
 				   _(", ending on "), NULL, TRUE);
@@ -1180,28 +1129,14 @@ get_real_item (EItipControl *itip)
 	EItipControlPrivate *priv;
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
-	ECalComponentVType type;
 	gboolean found = FALSE;
 	const char *uid;
 	
 	priv = itip->priv;
 
-	type = e_cal_component_get_vtype (priv->comp);
 	e_cal_component_get_uid (priv->comp, &uid);
 
-	switch (type) {
-	case E_CAL_COMPONENT_EVENT:
-		if (priv->event_client != NULL)
-			found = e_cal_get_object (priv->event_client, uid, NULL, &icalcomp, NULL);
-		break;
-	case E_CAL_COMPONENT_TODO:
-		if (priv->task_client != NULL)
-			found = e_cal_get_object (priv->task_client, uid, NULL, &icalcomp, NULL);
-		break;
-	default:
-		found = FALSE;
-	}
-
+	found = e_cal_get_object (priv->current_ecal, uid, NULL, &icalcomp, NULL);
 	if (!found)
 		return NULL;
 
@@ -1251,16 +1186,17 @@ show_current_event (EItipControl *itip)
 
 	priv = itip->priv;
 
-	if (priv->calendar_uri)
-		priv->event_client = start_calendar_server (itip, priv->calendar_uri);
+	priv->type = E_CAL_SOURCE_TYPE_EVENT;
+	if (priv->calendar_uid)
+		priv->current_ecal = start_calendar_server_by_uid (itip, priv->calendar_uid, priv->type);
 	else 
-		priv->event_client = find_server (priv->event_clients, priv->comp);
+		priv->current_ecal = find_server (itip, priv->comp);
 	
 	switch (priv->method) {
 	case ICAL_METHOD_PUBLISH:
 		itip_desc = _("<b>%s</b> has published meeting information.");
 		itip_title = _("Meeting Information");
-		options = get_publish_options (priv->event_client ? FALSE : TRUE);
+		options = get_publish_options (priv->current_ecal ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_REQUEST:
 		if (priv->delegator_address != NULL)
@@ -1268,12 +1204,12 @@ show_current_event (EItipControl *itip)
 		else
 			itip_desc = _("<b>%s</b> requests your presence at a meeting.");
 		itip_title = _("Meeting Proposal");
-		options = get_request_options (priv->event_client ? FALSE : TRUE);
+		options = get_request_options (priv->current_ecal ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_ADD:
 		itip_desc = _("<b>%s</b> wishes to add to an existing meeting.");
 		itip_title = _("Meeting Update");
-		options = get_publish_options (priv->event_client ? FALSE : TRUE);
+		options = get_publish_options (priv->current_ecal ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_REFRESH:
 		itip_desc = _("<b>%s</b> wishes to receive the latest meeting information.");
@@ -1318,16 +1254,17 @@ show_current_todo (EItipControl *itip)
 
 	priv = itip->priv;
 
-	if (priv->calendar_uri)
-		priv->task_client = start_calendar_server (itip, priv->calendar_uri);
+	priv->type = E_CAL_SOURCE_TYPE_TODO;
+	if (priv->calendar_uid)
+		priv->current_ecal = start_calendar_server_by_uid (itip, priv->calendar_uid, priv->type);
 	else 
-		priv->task_client = find_server (priv->task_clients, priv->comp);
+		priv->current_ecal = find_server (itip, priv->comp);
 
 	switch (priv->method) {
 	case ICAL_METHOD_PUBLISH:
 		itip_desc = _("<b>%s</b> has published task information.");
 		itip_title = _("Task Information");
-		options = get_publish_options (priv->task_client ? FALSE : TRUE);
+		options = get_publish_options (priv->current_ecal ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_REQUEST:
 		if (priv->delegator_address != NULL)
@@ -1335,12 +1272,12 @@ show_current_todo (EItipControl *itip)
 		else
 			itip_desc = _("<b>%s</b> requests you perform a task.");
 		itip_title = _("Task Proposal");
-		options = get_request_options (priv->task_client ? FALSE : TRUE);
+		options = get_request_options (priv->current_ecal ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_ADD:
 		itip_desc = _("<b>%s</b> wishes to add to an existing task.");
 		itip_title = _("Task Update");
-		options = get_publish_options (priv->task_client ? FALSE : TRUE);
+		options = get_publish_options (priv->current_ecal ? FALSE : TRUE);
 		break;
 	case ICAL_METHOD_REFRESH:
 		itip_desc = _("<b>%s</b> wishes to receive the latest task information.");
@@ -1444,12 +1381,7 @@ show_current (EItipControl *itip)
 	
 	if (priv->comp)
 		g_object_unref (priv->comp);
-	if (priv->event_client != NULL)
-		g_object_unref (priv->event_client);
-	priv->event_client = NULL;
-	if (priv->task_client != NULL)
-		g_object_unref (priv->task_client);
-	priv->task_client = NULL;
+	priv->current_ecal = NULL;
 
 	/* Determine any delegate sections */
 	prop = icalcomponent_get_first_property (priv->ical_comp, ICAL_X_PROPERTY);
@@ -1459,8 +1391,10 @@ show_current (EItipControl *itip)
 		x_name = icalproperty_get_x_name (prop);
 		x_val = icalproperty_get_x (prop);
 
-		if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-CALENDAR-URI"))
-			e_itip_control_set_calendar_uri (itip, x_val);
+		if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-CALENDAR-UID"))
+			e_itip_control_set_calendar_uid (itip, x_val);
+		else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-CALENDAR-URI"))
+			g_warning (G_STRLOC ": X-EVOLUTION-DELEGATOR-CALENDAR-URI used");
 		else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-ADDRESS"))
 			e_itip_control_set_delegator_address (itip, x_val);
 		else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-NAME"))
@@ -1529,18 +1463,9 @@ show_current (EItipControl *itip)
 
 	switch (type) {
 	case E_CAL_COMPONENT_EVENT:
-		if (!priv->event_clients) {
-			priv->event_clients = g_ptr_array_new ();
-			/* EPFIXME */
-			/* priv->event_clients = get_servers (itip, global_shell_client, calendar_types, FALSE); */
-		}
 		show_current_event (itip);
 		break;
 	case E_CAL_COMPONENT_TODO:
-		if (!priv->task_clients) {
-			/* EPFIXME */
-			/* priv->task_clients = get_servers (itip, global_shell_client, tasks_types, TRUE); */
-		}
 		show_current_todo (itip);
 		break;
 	case E_CAL_COMPONENT_FREEBUSY:
@@ -1740,26 +1665,26 @@ e_itip_control_get_delegator_name (EItipControl *itip)
 }
 
 void
-e_itip_control_set_calendar_uri (EItipControl *itip, const gchar *uri)
+e_itip_control_set_calendar_uid (EItipControl *itip, const gchar *uri)
 {
 	EItipControlPrivate *priv;
 
 	priv = itip->priv;
 
-	if (priv->calendar_uri)
-		g_free (priv->calendar_uri);
+	if (priv->calendar_uid)
+		g_free (priv->calendar_uid);
 
-	priv->calendar_uri = g_strdup (uri);
+	priv->calendar_uid = g_strdup (uri);
 }
 
 const gchar *
-e_itip_control_get_calendar_uri (EItipControl *itip)
+e_itip_control_get_calendar_uid (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
 
 	priv = itip->priv;
 
-	return priv->calendar_uri;
+	return priv->calendar_uid;
 }
 
 
@@ -1816,8 +1741,6 @@ update_item (EItipControl *itip)
 	struct icaltimetype stamp;
 	icalproperty *prop;
 	icalcomponent *clone;
-	ECal *client;
-	ECalComponentVType type;
 	GtkWidget *dialog;
 
 	priv = itip->priv;
@@ -1835,19 +1758,13 @@ update_item (EItipControl *itip)
 	prop = icalproperty_new_x (icaltime_as_ical_string (stamp));
 	icalproperty_set_x_name (prop, "X-MICROSOFT-CDO-REPLYTIME");
 	icalcomponent_add_property (priv->ical_comp, prop);
- 
-	type = e_cal_component_get_vtype (priv->comp);
-	if (type == E_CAL_COMPONENT_TODO)
-		client = priv->task_client;
-	else
-		client = priv->event_client;
 
 	clone = icalcomponent_new_clone (priv->ical_comp);
 	icalcomponent_add_component (priv->top_level, clone);
 	icalcomponent_set_method (priv->top_level, priv->method);
 
 	/* FIXME Better error dialog */
-	if (!e_cal_receive_objects (client, priv->top_level, NULL)) {
+	if (!e_cal_receive_objects (priv->current_ecal, priv->top_level, NULL)) {
 		dialog = gnome_warning_dialog (_("Calendar file could not be updated!\n"));
 	} else {
 		dialog = gnome_ok_dialog (_("Update complete\n"));
@@ -1967,30 +1884,23 @@ static void
 remove_item (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	ECal *client;
-	ECalComponentVType type;
 	const char *uid;
 	GtkWidget *dialog;
 	GError *error = NULL;
 	
 	priv = itip->priv;
 
-	type = e_cal_component_get_vtype (priv->comp);
-	if (type == E_CAL_COMPONENT_TODO)
-		client = priv->task_client;
-	else
-		client = priv->event_client;
-
-	if (client == NULL)
+	/* FIXME Is this check necessary? */
+	if (!priv->current_ecal)
 		return;
 	
 	e_cal_component_get_uid (priv->comp, &uid);
-	e_cal_remove_object (client, uid, &error);
+	e_cal_remove_object (priv->current_ecal, uid, &error);
 	if (!error || error->code == E_CALENDAR_STATUS_OBJECT_NOT_FOUND) {
 		dialog = gnome_ok_dialog (_("Removal Complete"));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	} else {
-		delete_error_dialog (error, type);
+		delete_error_dialog (error, e_cal_component_get_vtype (priv->comp));
 	}
 	
 	g_clear_error (&error);
@@ -2001,25 +1911,14 @@ send_item (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
 	ECalComponent *comp;
-	ECalComponentVType vtype;
 	GtkWidget *dialog;
 
 	priv = itip->priv;
 
 	comp = get_real_item (itip);
-	vtype = e_cal_component_get_vtype (comp);
 	
 	if (comp != NULL) {
-		switch (vtype) {
-		case E_CAL_COMPONENT_EVENT:
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, priv->event_client, NULL);
-			break;
-		case E_CAL_COMPONENT_TODO:
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, priv->task_client, NULL);
-			break;
-		default:
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, NULL, NULL);
-		}
+		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, priv->current_ecal, NULL);
 		g_object_unref (comp);
 		dialog = gnome_ok_dialog (_("Item sent!\n"));
 	} else {
@@ -2060,12 +1959,12 @@ send_freebusy (EItipControl *itip)
 	end = icaltime_as_timet_with_zone (*datetime.value, zone);
 	e_cal_component_free_datetime (&datetime);
 
-	if (e_cal_get_free_busy (priv->event_client, NULL, start, end, &comp_list, NULL)) {
+	if (e_cal_get_free_busy (priv->current_ecal, NULL, start, end, &comp_list, NULL)) {
 		GList *l;
 
 		for (l = comp_list; l; l = l->next) {
 			ECalComponent *comp = E_CAL_COMPONENT (l->data);
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->event_client, NULL);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->current_ecal, NULL);
 
 			g_object_unref (comp);
 		}
@@ -2078,29 +1977,22 @@ send_freebusy (EItipControl *itip)
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
 
-#if 0				/* FIXME */
 static void
-button_selected_cb (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folder *folder, gpointer data)
+source_selected_cb (ESourceOptionMenu *esom, ESource *source, gpointer data)
 {
-	EItipControl *itip = E_ITIP_CONTROL (data);
+	EItipControl *itip = data;
 	EItipControlPrivate *priv;
-	ECalComponentVType type;
-	char *uri;
+	ECal *ecal = NULL;
 	
 	priv = itip->priv;
-	
-	type = e_cal_component_get_vtype (priv->comp);
-	if (type == E_CAL_COMPONENT_TODO)
-		uri = e_cal_util_expand_uri (folder->physicalUri, TRUE);
-	else
-		uri = e_cal_util_expand_uri (folder->physicalUri, FALSE);
 
-	g_object_unref (priv->event_client);
-	priv->event_client = start_calendar_server (itip, uri);
+	ecal = start_calendar_server (itip, source, priv->type);
+	if (!ecal) {
+		/* FIXME Show error dialog */
+	}
 
-	g_free (uri);
+	priv->current_ecal = ecal;
 }
-#endif
 
 static void
 url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data)
@@ -2133,104 +2025,50 @@ url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpoint
 	g_free (path);
 }
 
-typedef struct
-{
-	EItipControl    *itip;
-	GtkHTMLEmbedded *eb;
-	ECal       *client;
-}
-ObjectRequestContext;
-
-static void
-default_server_started_cb (ECal *client, ECalendarStatus status, gpointer data)
-{
-	ObjectRequestContext *context = data;
-	EItipControlPrivate *priv;
-	GtkWidget *button;
-	ECalComponentVType vtype;
-
-	priv = context->itip->priv;	
-
-	if (status != E_CALENDAR_STATUS_OK ||
-	    context->itip->priv->destroyed    ||
-	    context->itip->priv->html == NULL) {
-		g_object_unref (context->client);
-		g_object_unref (context->itip);
-		g_free (context);
-		return;
-	}
-
-	priv->event_client = client;
-	vtype = e_cal_component_get_vtype (priv->comp);
-
-	switch (vtype) {
-#if 0				/* EPFIXME */
-	case E_CAL_COMPONENT_EVENT:
-		button = evolution_folder_selector_button_new (
-			global_shell_client, _("Select Calendar Folder"),
-			calendar_config_default_calendar_folder (), 
-			calendar_types);
-		break;
-	case E_CAL_COMPONENT_TODO:
-		button = evolution_folder_selector_button_new (
-			global_shell_client, _("Select Tasks Folder"),
-			calendar_config_default_tasks_folder (), 
-			tasks_types);
-		break;
-#endif
-	default:
-		button = NULL;
-	}
-
-#if 0
-	g_signal_connect (button, "selected", G_CALLBACK (button_selected_cb), context->itip);
-#endif
-	
-	gtk_container_add (GTK_CONTAINER (context->eb), button);
-	gtk_widget_show (button);
-
-	g_object_unref (context->itip);
-	g_free (context);
-	return;
-}
-
 static gboolean
 object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data) 
 {
 	EItipControl *itip = E_ITIP_CONTROL (data);
-	ObjectRequestContext *context;
 	EItipControlPrivate *priv;
-	ECalComponentVType vtype;
-	gboolean success;
-
+	GtkWidget *esom;
+	ESource *source = NULL;
+	char *uid;
+	
 	priv = itip->priv;	
-	vtype = e_cal_component_get_vtype (priv->comp);
 
-	context = g_new0 (ObjectRequestContext, 1);
-	context->itip   = itip;
-	context->eb     = eb;
-
-	switch (vtype) {
-	case E_CAL_COMPONENT_EVENT:
-		context->client = e_cal_new_from_uri ("", CALOBJ_TYPE_EVENT);
-		success = start_default_server (itip, context->client, FALSE);
+	switch (priv->type) {
+	case E_CAL_SOURCE_TYPE_EVENT:
+		uid = calendar_config_get_primary_calendar ();
 		break;
-	case E_CAL_COMPONENT_TODO:
-		context->client = e_cal_new_from_uri ("", CALOBJ_TYPE_TODO);
-		success = start_default_server (itip, context->client, TRUE);
+	case E_CAL_SOURCE_TYPE_TODO:
+		uid = calendar_config_get_primary_tasks ();
 		break;
 	default:
-		g_free (context);
 		return FALSE;
+	}	
+	
+	if (uid) {
+		source = e_source_list_peek_source_by_uid (priv->source_lists[priv->type], uid);
+		g_free (uid);
+	}
+	if (!source) {
+		ESource *source;
+		
+		/* Try to create a default if there isn't one */
+		source = e_source_list_peek_source_any (priv->source_lists[priv->type]);
 	}
 
-	if (!success) {
-		g_object_unref (context->client);
-		g_free (context);
-		return FALSE;
-	}
+	esom = e_source_option_menu_new (priv->source_lists[priv->type]);
+	g_signal_connect_object (esom, "source_selected",
+				 G_CALLBACK (source_selected_cb), 
+				 itip, 0);
 
-	g_object_ref (itip);
+	gtk_container_add (GTK_CONTAINER (eb), esom);
+	gtk_widget_show (esom);
+
+	/* FIXME What if there is no source? */
+	if (source)
+		e_source_option_menu_select (E_SOURCE_OPTION_MENU (esom), source);
 
 	return TRUE;
 }
@@ -2356,18 +2194,8 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 		g_slist_free (list);
 		
 		e_cal_component_rescan (comp);
-		switch (vtype) {
-		case E_CAL_COMPONENT_EVENT:
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp,
-					priv->event_client, priv->top_level);
-			break;
-		case E_CAL_COMPONENT_TODO:
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp,
-					priv->task_client, priv->top_level);
-			break;
-		default:
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, NULL, NULL);
-		}
+		itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->current_ecal, priv->top_level);
+
 		g_object_unref (comp);
 	}
 }

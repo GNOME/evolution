@@ -25,10 +25,7 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TYPE_ITIP_CONTROL			(e_itip_control_get_type ())
 #define E_ITIP_CONTROL(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_ITIP_CONTROL, EItipControl))
@@ -71,12 +68,10 @@ const gchar *e_itip_control_get_delegator_address   (EItipControl *itip);
 void         e_itip_control_set_delegator_name   (EItipControl *itip,
 						 const gchar  *name);
 const gchar *e_itip_control_get_delegator_name   (EItipControl *itip);
-void         e_itip_control_set_calendar_uri (EItipControl *itip,
-					      const gchar  *uri);
-const gchar *e_itip_control_get_calendar_uri (EItipControl *itip);
+void         e_itip_control_set_calendar_uid (EItipControl *itip,
+					      const gchar  *uid);
+const gchar *e_itip_control_get_calendar_uid (EItipControl *itip);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_ITIP_CONTROL_H_ */

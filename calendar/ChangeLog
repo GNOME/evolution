@@ -1,3 +1,52 @@
+2003-12-21  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-itip-control.[hc]: rewrite for new ecal api, cache all
+	ecal's by type and minimize loading.  Switch to using the source
+	option menu
+
+	* conduits/todo/todo-conduit.c (start_calendar_server): ditto
+
+	* conduits/calendar/calendar-conduit.c (start_calendar_server):
+	use ECalSourceType
+	
+	* importers/icalendar-importer.c (load_file_fn): ditto
+	(vcal_load_file_fn): ditto
+	(gnome_calendar_import_data_fn): ditto
+
+	* gui/dialogs/task-page.c (source_changed_cb): ditto
+
+	* gui/dialogs/event-page.c (source_changed_cb): ditto
+
+	* gui/dialogs/copy-source-dialog.h: update proto
+
+	* gui/dialogs/copy-source-dialog.c (copy_source_dialog): ditto
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar): ditto
+
+	* gui/tasks-component.c (copy_task_list_cb): ditto
+	(setup_create_ecal): ditto
+
+	* gui/gnome-cal.c (gnome_calendar_construct): ditto
+	(gnome_calendar_add_event_uri): ditto
+
+	* gui/e-tasks.c (e_tasks_add_todo_uri): ditto
+
+	* gui/comp-editor-factory.c (open_client): ditto
+
+	* gui/calendar-offline-handler.c (backend_go_offline): ditto
+	(backend_go_online): ditto
+	(calendar_offline_handler_init): ditto
+
+	* gui/calendar-component.c (copy_calendar_cb): ditto
+	(setup_create_ecal): ditto
+
+	* gui/print.c (print_month_small): don't pass type to
+	e_cal_generate_instances	
+	(print_day_details): ditto
+	(print_week_summary): ditto
+
+	* gui/tag-calendar.c (tag_calendar_by_client): ditto
+	
 2003-12-19  JP Rosevear <jpr@ximian.com>
 
 	* gui/tasks-control.c (tasks_control_sensitize_commands): make
