@@ -1,3 +1,7 @@
+2001-08-01  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icaltimezone.c: removed some debugging messages.
+
 2001-07-30  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icaltimezone.c (icaltimezone_get_builtin_timezone): 

@@ -257,20 +257,14 @@ icaltimezone_get_vtimezone_properties	(icaltimezone	*zone,
     icalproperty *prop;
     const char *tzid, *location;
  
-    fprintf (stderr, "In icaltimezone_get_vtimezone_properties\n");
-
     prop = icalcomponent_get_first_property (component, ICAL_TZID_PROPERTY);
     if (!prop)
 	return 0;
-
-    fprintf (stderr, "  found TZID property, getting TZID\n");
 
     /* A VTIMEZONE MUST have a TZID, or a lot of our code won't work. */
     tzid = icalproperty_get_tzid (prop);
     if (!tzid)
 	return 0;
-
-    fprintf (stderr, "  found TZID: %s\n", tzid);
 
     zone->tzid = strdup (tzid);
     zone->component = component;
@@ -912,20 +906,9 @@ icaltimezone_get_utc_offset_of_utc_time	(icaltimezone	*zone,
 {
     icaltimezonechange *zone_change, tt_change, tmp_change;
     int change_num, step, change_num_to_use;
-    int debug = 0;
 
     if (is_daylight)
 	*is_daylight = 0;
-
-#if 0
-    if (tt->day == 30 && tt->month == 3 && tt->year == 2000
-	&& tt->hour == 22 && tt->minute == 0 &&  tt->second == 0) {
-	printf ("Getting UTC offset of %i/%i/%i %i:%02i:%02i\n",
-		tt->day, tt->month, tt->year,
-		tt->hour, tt->minute, tt->second);
-	debug = 1;
-    }
-#endif
 
     /* For local times and UTC return 0. */
     if (zone == NULL || zone == &utc_timezone)
@@ -969,13 +952,6 @@ icaltimezone_get_utc_offset_of_utc_time	(icaltimezone	*zone,
 	/* Copy the change and adjust it to UTC. */
 	tmp_change = *zone_change;
 
-	if (debug) {
-	    printf ("  Change: %i/%i/%i %i:%02i:%02i\n",
-		    zone_change->day, zone_change->month, zone_change->year,
-		    zone_change->hour, zone_change->minute, zone_change->second);
-	}
-
-
 	/* If the given time is on or after this change, then this change may
 	   apply, but we continue as a later change may be the right one.
 	   If the given time is before this change, then if we have already
@@ -1014,13 +990,6 @@ icaltimezone_get_utc_offset_of_utc_time	(icaltimezone	*zone,
     zone_change = icalarray_element_at (zone->changes, change_num_to_use);
     if (is_daylight)
 	*is_daylight = zone_change->is_daylight;
-
-    if (debug) {
-	printf ("  Change: %i/%i/%i %i:%02i:%02i\n",
-		zone_change->day, zone_change->month, zone_change->year,
-		zone_change->hour, zone_change->minute, zone_change->second);
-	printf ("  -> %i\n", zone_change->utc_offset);
-    }
 
     return zone_change->utc_offset;
 }
@@ -1286,9 +1255,6 @@ icaltimezone_get_builtin_timezone	(const char *location)
     int lower, upper, middle, cmp;
     char *zone_location;
 
-    fprintf (stderr, "Getting builtin timezone: %s\n",
-	     location ? location : "(null)");
-
     if (!location || !location[0])
 	return NULL;
 
@@ -1315,8 +1281,6 @@ icaltimezone_get_builtin_timezone	(const char *location)
 	    lower = middle + 1;
     }
 
-    fprintf (stderr, "  ***** not found\n");
-
     return NULL;
 }
 
@@ -1328,8 +1292,6 @@ icaltimezone_get_builtin_timezone_from_tzid (const char *tzid)
     int num_slashes = 0;
     const char *p, *zone_tzid;
     icaltimezone *zone;
-
-    fprintf (stderr, "Getting builtin timezone from TZID: %s\n", tzid);
 
     if (!tzid || !tzid[0])
 	return NULL;
