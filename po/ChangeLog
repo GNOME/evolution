@@ -1,3 +1,8 @@
+2001-01-18  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* no.po: Updated Norwegian (bokmål) translation.
+	* update.sh: Removed old script.
+	
 2001-01-17  Dave Camp <dave@ximian.com>
 
 	* POTFILES.in: Removed addressbook/gui/widgets/test-minicard-view.c,
