@@ -13,6 +13,13 @@ typedef struct _EPluginClass EPluginClass;
 
 #define E_PLUGIN_CLASSID "org.gnome.evolution.plugin"
 
+/* Structure to define the author(s) names and addresses */
+typedef struct _EPluginAuthor EPluginAuthor;
+struct _EPluginAuthor {
+	char *name;
+	char *email;
+};
+
 /**
  * struct _EPlugin - An EPlugin instance.
  * 
@@ -43,6 +50,7 @@ struct _EPlugin {
 	char *name;
 	char *domain;
 	GSList *hooks;
+	GSList *authors;	/* EPluginAuthor structures */
 
 	int enabled:1;
 };
@@ -59,6 +67,7 @@ struct _EPlugin {
  * @invoke: The invoke virtual method loads the plugin code, resolves
  * the function name, and marshals a simple pointer to execute the
  * plugin.
+ * @enable: Virtual method to enable/disable the plugin.
  *
  * The EPluginClass represents each plugin type.  The type of each class is
  * registered in a global table and is used to instantiate a
@@ -75,6 +84,7 @@ struct _EPluginClass {
 
 	int (*construct)(EPlugin *, xmlNodePtr root);
 	void *(*invoke)(EPlugin *, const char *name, void *data);
+	void (*enable)(EPlugin *, int state);
 };
 
 GType e_plugin_get_type(void);
@@ -82,6 +92,7 @@ GType e_plugin_get_type(void);
 int e_plugin_construct(EPlugin *ep, xmlNodePtr root);
 void e_plugin_add_load_path(const char *);
 int e_plugin_load_plugins(void);
+GSList * e_plugin_list_plugins(void);
 
 void e_plugin_register_type(GType type);
 
