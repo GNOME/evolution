@@ -387,6 +387,7 @@ mail_config_write (void)
 	
 	/* Accounts */
 	str = g_strdup_printf ("=%s/config/Mail=/Accounts/", evolution_dir);
+	gnome_config_clean_section (str);
 	gnome_config_push_prefix (str);
 	g_free (str);
 	
