@@ -1,3 +1,10 @@
+2001-10-05  Larry Ewing  <lewing@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): use
+	e_msg_composer_new_with_message rather than e_msg_composer_new.
+	This way we bring in all the attachment of the message we are
+	replying to.
+
 2001-10-05  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c (message_list_setup_etree): Turn on
