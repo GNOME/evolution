@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2000-10-06 00:21+0200\n"
-"PO-Revision-Date: 2000-10-06 00:23+0200\n"
+"POT-Creation-Date: 2000-10-08 14:49+0200\n"
+"PO-Revision-Date: 2000-10-08 14:56+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1668,7 +1668,7 @@ msgid "C_lassification:"
 msgstr "K_lassifikation:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:22
-#: calendar/gui/event-editor-dialog.glade.h:42 shell/e-shell-view.c:976
+#: calendar/gui/event-editor-dialog.glade.h:42 shell/e-shell-view.c:992
 #: widgets/misc/e-dateedit.c:332 widgets/misc/e-dateedit.c:704
 #: widgets/misc/e-dateedit.c:1027
 msgid "None"
@@ -3273,11 +3273,11 @@ msgstr "Poäng"
 msgid "Edit VFolder Rule"
 msgstr "Redigera VFolder-regel"
 
-#: mail/component-factory.c:219
+#: mail/component-factory.c:213
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Kan inte initiera Evolutions e-postkomponent."
 
-#: mail/component-factory.c:226
+#: mail/component-factory.c:219
 msgid "Cannot initialize Evolution's mail summary component."
 msgstr "Kan inte initiera Evolutions komponent för e-postsammanfattning."
 
@@ -3670,249 +3670,259 @@ msgstr "Hämtar e-post från %s"
 msgid "Fetch email from %s"
 msgstr "Hämta e-post från %s"
 
-#: mail/mail-ops.c:258
+#: mail/mail-ops.c:171
+#, c-format
+msgid "Retrieving message %d of %d"
+msgstr "Hämtar meddelande %d av %d"
+
+#: mail/mail-ops.c:288
 #, c-format
 msgid "There is no new mail at %s."
 msgstr "Det finns ingen ny e-post på %s."
 
-#: mail/mail-ops.c:312
+#: mail/mail-ops.c:342
 msgid "Filtering email on demand"
 msgstr "Filtrerar e-post vid behov"
 
-#: mail/mail-ops.c:314
+#: mail/mail-ops.c:344
 msgid "Filter email on demand"
 msgstr "Filtrera e-post vid behov"
 
-#: mail/mail-ops.c:481
+#: mail/mail-ops.c:511
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Skickar \"%s\""
 
-#: mail/mail-ops.c:486
+#: mail/mail-ops.c:516
 msgid "Sending a message without a subject"
 msgstr "Skickar ett meddelande utan en ämnesrad"
 
-#: mail/mail-ops.c:489
+#: mail/mail-ops.c:519
 #, c-format
 msgid "Send \"%s\""
 msgstr "Skicka \"%s\""
 
-#: mail/mail-ops.c:492
+#: mail/mail-ops.c:522
 msgid "Send a message without a subject"
 msgstr "Skicka ett meddelande utan en ämnesrad"
 
-#: mail/mail-ops.c:636
+#: mail/mail-ops.c:666
 msgid "Sending queue"
 msgstr "Skickar kö"
 
-#: mail/mail-ops.c:638
+#: mail/mail-ops.c:668
 msgid "Send queue"
 msgstr "Skicka kö"
 
-#: mail/mail-ops.c:774 mail/mail-ops.c:781
+#: mail/mail-ops.c:804 mail/mail-ops.c:811
 #, c-format
 msgid "Appending \"%s\""
 msgstr "Tillägger \"%s\""
 
-#: mail/mail-ops.c:778 mail/mail-ops.c:784
+#: mail/mail-ops.c:808 mail/mail-ops.c:814
 msgid "Appending a message without a subject"
 msgstr "Tillägger ett meddelande utan en ämnesrad"
 
-#: mail/mail-ops.c:856
+#: mail/mail-ops.c:886
 #, c-format
 msgid "Expunging \"%s\""
 msgstr "Tömmer \"%s\""
 
-#: mail/mail-ops.c:858
+#: mail/mail-ops.c:888
 #, c-format
 msgid "Expunge \"%s\""
 msgstr "Töm \"%s\""
 
-#: mail/mail-ops.c:917
+#: mail/mail-ops.c:947
 #, c-format
 msgid "Moving messages from \"%s\" into \"%s\""
 msgstr "Flyttar meddelanden från \"%s\" till \"%s\""
 
-#: mail/mail-ops.c:919
+#: mail/mail-ops.c:949
 #, c-format
 msgid "Copying messages from \"%s\" into \"%s\""
 msgstr "Kopierar meddelanden från \"%s\" till \"%s\""
 
-#: mail/mail-ops.c:922
+#: mail/mail-ops.c:952
 #, c-format
 msgid "Move messages from \"%s\" into \"%s\""
 msgstr "Flytta meddelanden från \"%s\" till \"%s\""
 
-#: mail/mail-ops.c:924
+#: mail/mail-ops.c:954
 #, c-format
 msgid "Copy messages from \"%s\" into \"%s\""
 msgstr "Kopiera meddelanden från \"%s\" till \"%s\""
 
-#: mail/mail-ops.c:954
+#: mail/mail-ops.c:985
 msgid "Moving"
 msgstr "Flyttar"
 
-#: mail/mail-ops.c:957
+#: mail/mail-ops.c:988
 msgid "Copying"
 msgstr "Kopierar"
 
-#: mail/mail-ops.c:969
+#: mail/mail-ops.c:1008
 #, c-format
 msgid "%s message %d of %d (uid \"%s\")"
 msgstr "%s meddelande %d av %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1046
+#: mail/mail-ops.c:1087
 #, c-format
 msgid "Marking messages in folder \"%s\""
 msgstr "Märker meddelanden i mappen \"%s\""
 
-#: mail/mail-ops.c:1049
+#: mail/mail-ops.c:1090
 #, c-format
 msgid "Mark messages in folder \"%s\""
 msgstr "Märk meddelanden i mappen \"%s\""
 
-#: mail/mail-ops.c:1192
+#: mail/mail-ops.c:1121
+#, c-format
+msgid "Marking message %d of %d"
+msgstr "Märker meddelande %d av %d"
+
+#: mail/mail-ops.c:1241
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Skannar mappar i \"%s\""
 
-#: mail/mail-ops.c:1195
+#: mail/mail-ops.c:1244
 #, c-format
 msgid "Scan folders in \"%s\""
 msgstr "Skanna mappar i \"%s\""
 
-#: mail/mail-ops.c:1264
+#: mail/mail-ops.c:1313
 msgid "(No description)"
 msgstr "(Ingen beskrivning)"
 
-#: mail/mail-ops.c:1324
+#: mail/mail-ops.c:1373
 #, c-format
 msgid "Attaching messages from folder \"%s\""
 msgstr "Bifogar meddelanden i mappen \"%s\""
 
-#: mail/mail-ops.c:1327
+#: mail/mail-ops.c:1376
 #, c-format
 msgid "Attach messages from \"%s\""
 msgstr "Bifoga meddelanden i \"%s\""
 
-#: mail/mail-ops.c:1430
+#: mail/mail-ops.c:1479
 #, c-format
 msgid "Forwarding messages \"%s\""
 msgstr "Vidarebefordra meddelanden \"%s\""
 
-#: mail/mail-ops.c:1435
+#: mail/mail-ops.c:1484
 msgid "Forwarding a message without a subject"
 msgstr "Vidarebefordrar meddelande utan en ämnesrad"
 
-#: mail/mail-ops.c:1438
+#: mail/mail-ops.c:1487
 #, c-format
 msgid "Forward message \"%s\""
 msgstr "Vidarebefordra meddelande \"%s\""
 
-#: mail/mail-ops.c:1443
+#: mail/mail-ops.c:1492
 msgid "Forward a message without a subject"
 msgstr "Vidarebefordra ett meddelande utan en ämnesrad"
 
-#: mail/mail-ops.c:1472
+#: mail/mail-ops.c:1529
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr "Hämtar meddelande nummer %d av %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1485
+#: mail/mail-ops.c:1546
 msgid ""
 "Failed to generate mime part from message while generating forwarded message."
 msgstr ""
 "Misslyckades med att generera mime-del från meddelande när ett "
 "vidarebefordrat meddelande skulle genereras."
 
-#: mail/mail-ops.c:1571
+#: mail/mail-ops.c:1632
 #, c-format
 msgid "Loading \"%s\""
 msgstr "Laddar \"%s\""
 
-#: mail/mail-ops.c:1573
+#: mail/mail-ops.c:1634
 #, c-format
 msgid "Load \"%s\""
 msgstr "Ladda \"%s\""
 
-#: mail/mail-ops.c:1675
+#: mail/mail-ops.c:1736
 #, c-format
 msgid "Creating \"%s\""
 msgstr "Skapar \"%s\""
 
-#: mail/mail-ops.c:1677
+#: mail/mail-ops.c:1738
 #, c-format
 msgid "Create \"%s\""
 msgstr "Skapa \"%s\""
 
-#: mail/mail-ops.c:1723
+#: mail/mail-ops.c:1784
 msgid "Exception while reporting result to shell component listener."
 msgstr "Undantag vid rapportering av resultat till skalkomponentslyssnaren."
 
-#: mail/mail-ops.c:1769
+#: mail/mail-ops.c:1830
 #, c-format
 msgid "Synchronizing \"%s\""
 msgstr "Synkroniserar \"%s\""
 
-#: mail/mail-ops.c:1771
+#: mail/mail-ops.c:1832
 #, c-format
 msgid "Synchronize \"%s\""
 msgstr "Synkronisera \"%s\""
 
-#: mail/mail-ops.c:1834
+#: mail/mail-ops.c:1895
 #, c-format
 msgid "Displaying message UID \"%s\""
 msgstr "Visar meddelande-UID \"%s\""
 
-#: mail/mail-ops.c:1837
+#: mail/mail-ops.c:1898
 msgid "Clearing message display"
 msgstr "Tömmer meddelandevisningen"
 
-#: mail/mail-ops.c:1840
+#: mail/mail-ops.c:1901
 #, c-format
 msgid "Display message UID \"%s\""
 msgstr "Visa meddelande-UID \"%s\""
 
-#: mail/mail-ops.c:1843
+#: mail/mail-ops.c:1904
 msgid "Clear message display"
 msgstr "Töm meddelandevisning"
 
-#: mail/mail-ops.c:1952
+#: mail/mail-ops.c:2013
 #, c-format
 msgid "Opening messages from folder \"%s\""
 msgstr "Öppnar meddelanden från mappen \"%s\""
 
-#: mail/mail-ops.c:1955
+#: mail/mail-ops.c:2016
 #, c-format
 msgid "Open messages from \"%s\""
 msgstr "Öppnar meddelanden från \"%s\""
 
-#: mail/mail-ops.c:2059
+#: mail/mail-ops.c:2120
 #, c-format
 msgid "Loading %s Folder"
 msgstr "Laddar mappen %s"
 
-#: mail/mail-ops.c:2061
+#: mail/mail-ops.c:2122
 #, c-format
 msgid "Load %s Folder"
 msgstr "Ladda mappen %s"
 
-#: mail/mail-ops.c:2126
+#: mail/mail-ops.c:2187
 #, c-format
 msgid "Viewing messages from folder \"%s\""
 msgstr "Visar meddelanden från mappen \"%s\""
 
-#: mail/mail-ops.c:2129
+#: mail/mail-ops.c:2190
 #, c-format
 msgid "View messages from \"%s\""
 msgstr "Visa meddelanden från \"%s\""
 
-#: mail/mail-ops.c:2155
+#: mail/mail-ops.c:2216
 #, c-format
 msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr "Hämtar meddelande %d av %d (uid \"%s\")"
 
-#: mail/mail-threads.c:274
+#: mail/mail-threads.c:298
 #, c-format
 msgid ""
 "Error while preparing to %s:\n"
@@ -3921,7 +3931,7 @@ msgstr ""
 "Fel vid förberedelse av %s:\n"
 "%s"
 
-#: mail/mail-threads.c:623
+#: mail/mail-threads.c:647
 #, c-format
 msgid ""
 "Error while `%s':\n"
@@ -3930,23 +3940,23 @@ msgstr ""
 "Fel vid \"%s\":\n"
 "%s"
 
-#: mail/mail-threads.c:676
+#: mail/mail-threads.c:700
 msgid "Incomplete message written on pipe!"
 msgstr "Inkomplett meddelande skrevs på rör!"
 
-#: mail/mail-threads.c:680
+#: mail/mail-threads.c:704
 msgid "Error reading commands from dispatching thread."
 msgstr "Fel vid läsning av kommandon från döende tråd."
 
-#: mail/mail-threads.c:745
+#: mail/mail-threads.c:769
 msgid "Corrupted message from dispatching thread?"
 msgstr "Trasigt meddelande från döende tråd?"
 
-#: mail/mail-threads.c:856
+#: mail/mail-threads.c:880
 msgid "Could not create dialog box."
 msgstr "Kunde inte skapa dialogfönster."
 
-#: mail/mail-threads.c:865
+#: mail/mail-threads.c:889
 msgid "User cancelled query."
 msgstr "Användaren avbröt frågan."
 
@@ -4203,7 +4213,7 @@ msgstr "Det angivna mappnamnet är inte giltigt."
 msgid "Evolution - Create new folder"
 msgstr "Evolution - Skapa ny mapp"
 
-#: shell/e-shell-folder-selection-dialog.c:97
+#: shell/e-shell-folder-selection-dialog.c:96
 msgid ""
 "The type of the selected folder is not valid for\n"
 "the requested operation."
@@ -4211,7 +4221,7 @@ msgstr ""
 "Den valda typen av mapp är inte giltig för\n"
 "den begärda åtgärden."
 
-#: shell/e-shell-folder-selection-dialog.c:275
+#: shell/e-shell-folder-selection-dialog.c:274
 msgid "New..."
 msgstr "Ny..."
 
@@ -4249,18 +4259,27 @@ msgstr ""
 msgid "Go to folder..."
 msgstr "Gå till mapp..."
 
-#: shell/e-shell-view.c:130
+#: shell/e-shell-view.c:134
 msgid "(No folder displayed)"
 msgstr "(Ingen mapp visas)"
 
-#: shell/e-shell-view.c:409
+#: shell/e-shell-view.c:413
 msgid "Folders"
 msgstr "Mappar"
 
-#: shell/e-shell-view.c:980
+#: shell/e-shell-view.c:996
 #, c-format
 msgid "Evolution - %s"
 msgstr "Evolution - %s"
+
+#: shell/e-shell-view.c:1136
+#, c-format
+msgid ""
+"Ooops!  The view for `%s' has died unexpectedly.  :-(\n"
+"This probably means that the %s component has crashed."
+msgstr ""
+"Hoppsan! Vyn för \"%s\" dog oväntat. :-(\n"
+"Det här betyder antagligen att komponenten %s har kraschat."
 
 #: shell/e-shell.c:331
 #, c-format
