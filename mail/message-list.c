@@ -127,6 +127,9 @@ mark_msg_seen (gpointer data)
 	MessageList *ml = data;
 	guint32 flags;
 
+	if (!ml->selected_uid)
+		return;
+
 	flags = camel_folder_get_message_flags (ml->folder, ml->selected_uid,
 						NULL);
 	camel_folder_set_message_flags (ml->folder, ml->selected_uid,

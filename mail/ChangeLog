@@ -1,5 +1,9 @@
 2000-06-20  Dan Winship  <danw@helixcode.com>
 
+	* message-list.c (mark_msg_seen): Quick hack to prevent a NULL
+	pointer dereference. Things need to be cleaned up a bit more here
+	though.
+
 	* mail-sources.c: Oops. This should have been removed a long time
 	ago.
 
