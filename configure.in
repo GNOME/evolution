@@ -1345,6 +1345,7 @@ addressbook/gui/search/Makefile
 addressbook/gui/widgets/Makefile
 addressbook/importers/Makefile
 addressbook/printing/Makefile
+addressbook/tools/Makefile
 addressbook/util/Makefile
 art/Makefile
 camel/Makefile

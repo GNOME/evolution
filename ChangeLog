@@ -1,3 +1,8 @@
+2004-05-24  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: add addressbook/tools/Makefile.am back to the
+	build.
+
 2004-05-19  Jeffrey Stedfast  <fejj@novell.com>
 
 	* configure.in: Setup the icon install paths (not that we actually
