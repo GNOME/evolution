@@ -1,3 +1,9 @@
+2004-02-15  Rodney Dawes  <dobey@ximian.com>
+
+	* evolution-nognome.in: Use @BASE_VERSION@ for the binary
+
+	Fixes #54796
+
 2004-02-18  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-offline-handler.c (prepare_for_offline): remove id, and
