@@ -65,6 +65,7 @@ struct _CamelSMIMEContextPrivate {
 	char *encrypt_key;
 	camel_smime_sign_t sign_mode;
 
+	int password_tries;
 	unsigned int send_encrypt_key_prefs:1;
 };
 
@@ -92,16 +93,23 @@ sm_get_passwd(PK11SlotInfo *info, PRBool retry, void *arg)
 	char *prompt;
 	CamelException *ex;
 
-	printf("get passwd called '%s'\n", PK11_GetTokenName(info));
-
 	ex = camel_exception_new();
+
+	/* we got a password, but its asking again, the password we had was wrong */
+	if (context->priv->password_tries > 0) {
+		camel_session_forget_password(((CamelCipherContext *)context)->session, NULL, PK11_GetTokenName(info), NULL);
+		context->priv->password_tries = 0;
+	}
+
 	prompt = g_strdup_printf(_("Enter security pass-phrase for `%s'"), PK11_GetTokenName(info));
 	pass = camel_session_get_password(((CamelCipherContext *)context)->session, prompt, FALSE, TRUE, NULL, PK11_GetTokenName(info), ex);
 	camel_exception_free(ex);
 	g_free(prompt);
 	if (pass) {
 		nsspass = PORT_Strdup(pass);
+		memset(pass, 0, strlen(pass));
 		g_free(pass);
+		context->priv->password_tries++;
 	}
 	
 	return nsspass;
@@ -1036,6 +1044,7 @@ camel_smime_context_init(CamelSMIMEContext *context)
 	context->priv = g_malloc0(sizeof(*context->priv));
 	context->priv->certdb = CERT_GetDefaultCertDB();
 	context->priv->sign_mode = CAMEL_SMIME_SIGN_CLEARSIGN;
+	context->priv->password_tries = 0;
 }
 
 static void

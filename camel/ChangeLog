@@ -1,3 +1,15 @@
+2004-01-14  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-local-folder.c (local_getv): remove debug
+	printf.
+
+	** See bug #52835.
+
+	* camel-smime-context.c (sm_get_passwd): removed debugging.  If we
+	get called multiple times in a row, then forget the old password
+	and re-prompt - it was a bad password.  Zero out password memory
+	too.
+
 2004-01-13  Rodrigo Moya <rodrigo@ximian.com>
 
 	* providers/groupwise/camel-groupwise-provider.c: missing renaming.

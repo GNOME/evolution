@@ -408,8 +408,6 @@ local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 			break; }
 
 		case CAMEL_LOCAL_FOLDER_ARG_INDEX_BODY:
-			printf("getv:'%s' flags %08x\n", ((CamelFolder *)object)->full_name, ((CamelLocalFolder *)object)->flags);
-
 			/* FIXME: remove this from sotre flags */
 			*arg->ca_int = (((CamelLocalFolder *)folder)->flags & CAMEL_STORE_FOLDER_BODY_INDEX) != 0;
 			break;
