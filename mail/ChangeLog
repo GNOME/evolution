@@ -1,5 +1,30 @@
 2001-07-30  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-format.c (decode_pgp): When writing out a CamelException to
+	the HTML stream, be sure to translate it first.
+	(handle_message_external_body): Convert to UTF8 here too - I know
+	this function is basically a dead end right now but eventually we
+	will want to do something. I mostly did this because param values
+	are UTF8 encoded so we should avoid mixing and matching UTF with
+	non UTF8.
+	(format_mime_part): Avoid writing non-UTF8 to the HTML stream.
+
+	* mail-tools.c (mail_tool_make_message_attachment): Convert
+	translated strings to UTF8 here too.
+	(mail_tool_forward_message): Here too.
+
+2001-07-23  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* mail-format.c (attachment_header, write_address, decode_pgp,
+	mail_write_authenticity):
+	Convert translated strings to UTF8 before calling mail_html_write.
+
+	I modified the patch slightly and cleaned up bits of code around
+	it as well. For example, we probably want to avoid having HTML
+	tags in the strings to be translated. -- fejj
+
+2001-07-30  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-account-gui.c (mail_account_gui_new): Restore old security
 	settings from the saved configuration. Fixes bug #5710.
 

@@ -1,6 +1,4 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* mail-ops.c: callbacks for the mail toolbar/menus */
-
 /* 
  * Authors: 
  *  Dan Winship <danw@ximian.com>
@@ -33,6 +31,7 @@
 #include <pthread.h>
 #include <ctype.h>
 #include <errno.h>
+#include <gal/widgets/e-unicode.h>
 #include "camel/camel.h"
 #include "camel/camel-vee-folder.h"
 #include "mail-vfolder.h"
@@ -160,48 +159,45 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 	int tmpfd;
 #endif
 	g_return_val_if_fail (strncmp (source_url, "mbox:", 5) == 0, NULL);
-
+	
 	/* Set up our destination. */
-
 	dest_path = mail_tool_get_local_movemail_path();
-
+	
 	/* Create a new movemail mailbox file of 0 size */
-
+	
 #ifndef MOVEMAIL_PATH
 	tmpfd = open (dest_path, O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
-
+	
 	if (tmpfd == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Couldn't create temporary "
-				      "mbox `%s': %s"), dest_path, g_strerror (errno));
+				      _("Couldn't create temporary mbox `%s': %s"),
+				      dest_path, g_strerror (errno));
 		g_free (dest_path);
 		return NULL;
 	}
-
+	
 	close (tmpfd);
 #endif
-
+	
 	/* Skip over "mbox:" plus host part (if any) of url. */
-
 	source = source_url + 5;
 	if (!strncmp (source, "//", 2))
 		source = strchr (source + 2, '/');
-
-
+	
 	/* Movemail from source (source_url) to dest_path */
 	camel_movemail (source, dest_path, ex);
-
+	
 	if (stat (dest_path, &sb) < 0 || sb.st_size == 0) {
 		unlink (dest_path); /* Clean up the movemail.foo file. */
 		g_free (dest_path);
 		return NULL;
 	}
-
+	
 	if (camel_exception_is_set (ex)) {
 		g_free (dest_path);
 		return NULL;
 	}
-
+	
 	return dest_path;
 }
 
@@ -225,7 +221,7 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 			fwd_subj = g_strdup_printf ("[Fwd: %s]", fromstr);
 			g_free (fromstr);
 		} else
-			fwd_subj = g_strdup (_("[Fwd: No Subject]"));
+			fwd_subj = g_strdup ("[Fwd: No Subject]");
 	}
 	
 	return fwd_subj;
@@ -236,15 +232,18 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 {
 	CamelMimePart *part;
 	const char *subject;
-	gchar *desc;
+	char *desc;
 	
 	subject = camel_mime_message_get_subject (message);
-	if (subject)
-		desc = g_strdup_printf (_("Forwarded message - %s"), subject);
-	else
-		desc = g_strdup (_("Forwarded message (no subject)"));
-	
-	/* FIXME: shouldn't we utf-8ify the description? */
+	if (subject) {
+		char *fmt;
+		
+		fmt = e_utf8_from_locale_string (_("Forwarded message - %s"));
+		desc = g_strdup_printf (fmt, subject);
+		g_free (fmt);
+	} else {
+		desc = e_utf8_from_locale_string (_("Forwarded message"));
+	}
 	
 	part = camel_mime_part_new ();
 	camel_mime_part_set_disposition (part, "inline");
@@ -413,7 +412,7 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 		}
 		
 		g_free (text);
-		printf ("ret: %s\n", ret_text);
+		
 		return ret_text;
 	}
 	
@@ -442,6 +441,7 @@ mail_tool_forward_message (CamelMimeMessage *message)
 		gchar *ret_text, *credits = NULL;
 		const CamelInternetAddress *cia;
 		char *buf, *from, *to, *subject;
+		char *title;
 		
 		/* create credits */
 		cia = camel_mime_message_get_from (message);
@@ -466,11 +466,14 @@ mail_tool_forward_message (CamelMimeMessage *message)
 		else
 			subject = "";
 		
-		credits = g_strdup_printf (_("-----Forwarded Message-----<br>"
-					     "<b>From:</b> %s<br>"
-					     "<b>To:</b> %s<br>"
-					     "<b>Subject:</b> %s<br>"),
-					   from ? from : "", to ? to : "", subject);
+		title = e_utf8_from_locale_string (_("Forwarded Message"));
+		credits = g_strdup_printf ("-----%s-----<br>"
+					   "<b>From:</b> %s<br>"
+					   "<b>To:</b> %s<br>"
+					   "<b>Subject:</b> %s<br>",
+					   title, from ? from : "",
+					   to ? to : "", subject);
+		g_free (title);
 		g_free (from);
 		g_free (to);
 		
