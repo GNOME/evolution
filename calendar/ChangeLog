@@ -1,5 +1,24 @@
 2000-12-06  JP Rosevear  <jpr@helixcode.com>
 
+	* pcs/cal.c (build_change_seq): kill
+	(Cal_get_changes): return the corba sequence directly
+
+	* pcs/cal-backend.h: update prototype
+
+	* pcs/cal-backend.c (cal_backend_compute_changes_foreach_key): Build 
+	the corba struct rather than the old calobjchange thing
+	(cal_backend_compute_changes): ditto.  build and return the actual
+	corba sequence rather than the list of calobjchanges
+	(cal_backend_get_changes): return the corba sequence
+
+	* cal-util/cal-util.h: Remove CalObjChange cruft
+
+	* cal-util/cal-util.c (cal_obj_change_list_free): Kill
+	
+2000-12-06  JP Rosevear  <jpr@helixcode.com>
+
+	* cal-util/cal-util.c: 
+
 	* conduits/calendar/calendar-conduit.c (map_name): Update so as not to conflict
 	with calendar
 	(next_changed_item): update to use CalClientChange instead of CalObjChange

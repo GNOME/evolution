@@ -96,7 +96,7 @@ char *cal_backend_get_object (CalBackend *backend, const char *uid);
 
 GList *cal_backend_get_uids (CalBackend *backend, CalObjType type);
 
-GList *cal_backend_get_changes (CalBackend *backend, CalObjType type, const char *change_id);
+GNOME_Evolution_Calendar_CalObjChangeSeq * cal_backend_get_changes (CalBackend *backend, CalObjType type, const char *change_id);
 
 GList *cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
 					 time_t start, time_t end);

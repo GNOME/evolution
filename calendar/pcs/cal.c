@@ -278,35 +278,6 @@ Cal_get_uids (PortableServer_Servant servant,
 	return seq;
 }
 
-static GNOME_Evolution_Calendar_CalObjChangeSeq *
-build_change_seq (GList *changes)
-{
-	GList *l;
-	int n, i;
-	GNOME_Evolution_Calendar_CalObjChangeSeq *seq;
-
-	n = g_list_length (changes);
-
-	seq = GNOME_Evolution_Calendar_CalObjChangeSeq__alloc ();
-	CORBA_sequence_set_release (seq, TRUE);
-	seq->_length = n;
-	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObjChange_allocbuf (n);
-
-	/* Fill the sequence */
-	for (i = 0, l = changes; l; i++, l = l->next) {
-		CalObjChange *c;
-		GNOME_Evolution_Calendar_CalObjChange *corba_c;
-
-		c = l->data;
-		corba_c = &seq->_buffer[i];
-
-		corba_c->calobj = CORBA_string_dup (c->calobj);
-		corba_c->type = c->type;
-	}
-
-	return seq;
-}
-
 /* Cal::get_changes method */
 static GNOME_Evolution_Calendar_CalObjChangeSeq *
 Cal_get_changes (PortableServer_Servant servant,
@@ -316,8 +287,6 @@ Cal_get_changes (PortableServer_Servant servant,
 {
 	Cal *cal;
 	CalPrivate *priv;
-	GList *changes;
-	GNOME_Evolution_Calendar_CalObjChangeSeq *seq;
 	int t;
 
 	cal = CAL (bonobo_object_from_servant (servant));
@@ -325,12 +294,7 @@ Cal_get_changes (PortableServer_Servant servant,
 
 	t = uncorba_obj_type (type);
 	
-	changes = cal_backend_get_changes (priv->backend, t, change_id);
-	seq = build_change_seq (changes);
-
-	cal_obj_change_list_free (changes);
-
-	return seq;
+	return cal_backend_get_changes (priv->backend, t, change_id);
 }
 
 /* Cal::get_objects_in_range method */

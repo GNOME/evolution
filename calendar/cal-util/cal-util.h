@@ -41,20 +41,6 @@ typedef struct {
 
 void cal_obj_instance_list_free (GList *list);
 
-typedef enum {
-	CALOBJ_ADDED = 1 << 0,
-	CALOBJ_MODIFIED = 1 << 1,
-	CALOBJ_DELETED = 1 << 2
-} CalObjChangeType;
-
-typedef struct 
-{
-	char *calobj;
-	CalObjChangeType type;
-} CalObjChange;
-
-void cal_obj_change_list_free (GList *list);
-
 /* Instance of an alarm trigger */
 typedef struct {
 	char *uid;			/* UID of object */
