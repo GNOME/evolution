@@ -1,3 +1,21 @@
+2000-06-02  Dan Winship  <danw@helixcode.com>
+
+	Fun with purify.
+
+	* providers/pop3/camel-pop3-store.c (pop3_connect): free msg on
+	success as well as failure.
+	(camel_pop3_command_get_additional_data): free buf after reading
+	the last line (".").
+
+	* providers/pop3/camel-pop3-folder.c (get_message_by_uid): free
+	body data after creating the memstream from it (which will copy
+	the data).
+
+	* providers/mbox/camel-mbox-folder.c (mbox_finalize): free summary
+	and index paths.
+
+	* camel-data-wrapper.c (finalize): unref the stream, if it exists.
+
 2000-06-01  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-part.c (construct_from_parser): For a message part,

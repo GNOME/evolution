@@ -131,7 +131,9 @@ mbox_finalize (GtkObject *object)
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (object);
 
 	g_free (mbox_folder->folder_file_path);
+	g_free (mbox_folder->summary_file_path);
 	g_free (mbox_folder->folder_dir_path);
+	g_free (mbox_folder->index_file_path);
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }

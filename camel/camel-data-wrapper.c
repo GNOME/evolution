@@ -108,6 +108,9 @@ finalize (GtkObject *object)
 	if (camel_data_wrapper->mime_type)
 		gmime_content_field_unref (camel_data_wrapper->mime_type);
 
+	if (camel_data_wrapper->stream)
+		gtk_object_unref (GTK_OBJECT (camel_data_wrapper->stream));
+
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
 

@@ -198,6 +198,7 @@ get_message_by_uid (CamelFolder *folder, const char *uid, CamelException *ex)
 	}
 
 	msgstream = camel_stream_mem_new_with_buffer (body, strlen (body));
+	g_free (body);
 	msg = camel_mime_message_new ();
 	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
 						  msgstream);

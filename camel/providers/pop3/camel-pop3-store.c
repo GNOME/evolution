@@ -418,6 +418,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 			g_free (msg);
 			pop3_disconnect (service, ex);
 		}
+		g_free (msg);
 
 		status = camel_pop3_command (store, &msg, "PASS %s",
 					     service->url->passwd);
@@ -453,6 +454,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 		pop3_disconnect (service, ex);
 		return FALSE;
 	}
+	g_free (msg);
 
 	service_class->connect (service, ex);
 	return TRUE;
@@ -613,6 +615,7 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store,
 			memmove (buf, buf + 1, strlen (buf));
 		g_ptr_array_add (data, buf);
 	}
+	g_free (buf);
 
 	if (status == CAMEL_POP3_OK) {
 		/* Append an empty string to the end of the array
