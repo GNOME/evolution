@@ -58,6 +58,8 @@ module Addressbook {
 		boolean isWriteable     ();
 		boolean isCardWriteable (in CardId Id);
 
+		void authenticateUser (in string user, in string passwd);
+
 		/*
 		 * Adding and deleting cards in the book.
 		 */
@@ -101,6 +103,8 @@ module Addressbook {
 			PermissionDenied,
 			CardNotFound,
 			ProtocolNotSupported,
+			AuthenticationFailed,
+			AuthenticationRequired,
 			OtherError
 		};
 
@@ -119,6 +123,8 @@ module Addressbook {
 		void notifyViewRequested    (in CallStatus status, in BookView view);
 
 		void notifyChangesRequested (in CallStatus status, in BookView view);
+
+		void notifyAuthenticationResult (in CallStatus status);
 
 		/**
 		 * notifyConnectionStatus:

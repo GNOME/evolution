@@ -46,6 +46,7 @@ typedef enum {
 	GetCursorResponse,
 	GetBookViewResponse,
 	GetChangesResponse,
+	AuthenticationResponse,
 
 	/* Async events */
 	LinkStatusEvent,

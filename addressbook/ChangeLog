@@ -1,3 +1,70 @@
+2001-01-04  Chris Toshok  <toshok@helixcode.com>
+
+	* backend/ebook/e-book-listener.c
+	(e_book_listener_queue_authentication_response): new function.
+	(impl_BookListener_respond_authentication_result): new function.
+	(e_book_listener_get_epv): fill in
+	epv->notifyAuthenticationResult.
+
+	* backend/ebook/e-book-listener.h: add AuthenticationResponse to
+	EBookListenerOperation.
+
+	* backend/ebook/e-book.c (e_book_authenticate_user): new function.
+
+	* backend/ebook/e-book.h: add prototype for
+	e_book_authenticate_user.
+
+	* backend/idl/addressbook.idl (GNOME:Evolution:Addressbook:Book):
+	add authenticateUser method.
+	(GNOME:Evolution:Addressbook:BookListener): add
+	AuthenticationFailed and AuthenticationRequired to CallStatus.
+	also add notifyAuthenticationResult method.
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_process_authenticate_user): dummy
+	authenticate_user function that always succeeds.
+	(pas_backend_file_process_client_requests): respond to the
+	AuthenticateUser request.
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_build_query):
+	gtk_object_unref(sexp) => s_exp_unref(sexp).
+	(pas_backend_ldap_process_authenticate_user): fill in to use
+	ldap_simple_bind_s.
+	(pas_backend_ldap_process_client_requests): respond to the
+	AuthenticateUser request.
+
+	* backend/pas/pas-book.c (pas_book_queue_authenticate_user): new
+	function.
+	(impl_GNOME_Evolution_Addressbook_Book_authenticateUser): new
+	function.
+	(pas_book_respond_authenticate_user): new function.
+	(pas_book_get_epv): fill in epv->authenticateUser.
+
+	* backend/pas/pas-book.h: add AuthenticateUser operation type, and
+	add user/passwd to the PASRequest struct.
+
+	* gui/component/addressbook-storage.c
+	(addressbook_storage_get_source_by_uri): new function.  should use
+	a hashtable, perhaps, but the lists will generally be small
+	anyway.
+
+	* gui/component/addressbook-storage.h: add prototype for
+	addressbook_storage_get_source_by_uri.
+
+	* gui/component/addressbook-config.c
+	(addressbook_source_dialog_set_source): fill in the binddn if the
+	auth page is shown.
+
+	* gui/component/addressbook.c (book_open_cb): shoe-horn
+	authentication in here.  if the source was configured to use
+	authentication, authenticate the user after opening the ebook.
+	also, be paranoid and clear out the password after authenticating.
+	(book_auth_cb): callback for auth.  set the "book" arg on the
+	view->view here.
+	(passwd_cb): set the view's passwd that'll be used in
+	book_open_cb.
+	(addressbook_view_free): g_free view->passwd.
+
 2001-01-04  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/addressbook-component.c,

@@ -210,18 +210,18 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 {
 	PASBackendLDAPPrivate *blpriv = bl->priv;
 
-#ifdef DEBUG
-	{
-		extern int ldap_debug;
-		ldap_debug = LDAP_DEBUG_ANY;
-	}
-#endif
-
 	/* close connection first if it's open first */
 	if (blpriv->ldap)
 		ldap_unbind (blpriv->ldap);
 
 	blpriv->ldap = ldap_open (blpriv->ldap_host, blpriv->ldap_port);
+#ifdef DEBUG
+	{
+		int debug_level = ~0;
+		ldap_set_option (blpriv->ldap, LDAP_OPT_DEBUG_LEVEL, &debug_level);
+	}
+#endif
+
 	if (NULL != blpriv->ldap) {
 		ldap_simple_bind_s(blpriv->ldap,
 				   NULL /*binddn*/, NULL /*passwd*/);
@@ -1249,7 +1249,7 @@ pas_backend_ldap_build_query (gchar *query)
 
 	r = e_sexp_eval(sexp);
 
-	gtk_object_unref(GTK_OBJECT(sexp));
+	e_sexp_unref (sexp);
 	e_sexp_result_free(r);
 
 	if (list->next) {
@@ -1550,6 +1550,20 @@ pas_backend_ldap_process_check_connection (PASBackend *backend,
 	pas_book_report_connection (book, bl->priv->connected);
 }
 
+static void
+pas_backend_ldap_process_authenticate_user (PASBackend *backend,
+					    PASBook    *book,
+					    PASRequest *req)
+{
+	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
+	int ldap_error = ldap_simple_bind_s(bl->priv->ldap,
+					    req->user,
+					    req->passwd);
+
+	pas_book_respond_authenticate_user (book,
+				    ldap_error_to_response (ldap_error));
+}
+
 static gboolean
 pas_backend_ldap_can_write (PASBook *book)
 {
@@ -1602,6 +1616,10 @@ pas_backend_ldap_process_client_requests (PASBook *book)
 
 	case GetChanges:
 		/* FIXME: Code this. */
+		break;
+
+	case AuthenticateUser:
+		pas_backend_ldap_process_authenticate_user (backend, book, req);
 		break;
 	}
 

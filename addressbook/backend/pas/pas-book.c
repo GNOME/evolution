@@ -106,6 +106,20 @@ pas_book_queue_get_cursor (PASBook *book, const char *search)
 }
 
 static void
+pas_book_queue_authenticate_user (PASBook *book,
+				  const char *user, const char *passwd)
+{
+	PASRequest *req;
+
+	req         = g_new0 (PASRequest, 1);
+	req->op     = AuthenticateUser;
+	req->user   = g_strdup(user);
+	req->passwd = g_strdup(passwd);
+
+	pas_book_queue_request (book, req);
+}
+
+static void
 pas_book_queue_get_book_view (PASBook *book, const GNOME_Evolution_Addressbook_BookViewListener listener, const char *search)
 {
 	PASRequest *req;
@@ -203,6 +217,17 @@ impl_GNOME_Evolution_Addressbook_Book_isCardWriteable (PortableServer_Servant se
 	retval = (book->priv->can_write_card) (book, (const char *) id);
 
 	return retval;
+}
+
+static void
+impl_GNOME_Evolution_Addressbook_Book_authenticateUser (PortableServer_Servant servant,
+							const char* user,
+							const char* passwd,
+							CORBA_Environment *ev)
+{
+	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
+
+	pas_book_queue_authenticate_user (book, user, passwd);
 }
 
 static void
@@ -451,6 +476,28 @@ pas_book_respond_modify (PASBook                           *book,
 }
 
 /**
+ * pas_book_respond_authenticate_user:
+ */
+void
+pas_book_respond_authenticate_user (PASBook                           *book,
+				    GNOME_Evolution_Addressbook_BookListener_CallStatus  status)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_Addressbook_BookListener_notifyAuthenticationResult (
+		book->priv->listener, status, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("pas_book_respond_authenticate_user: Exception "
+			   "responding to BookListener!\n");
+	}
+
+	CORBA_exception_free (&ev);
+}
+
+/**
  * pas_book_respond_get_cursor:
  */
 void
@@ -676,6 +723,7 @@ pas_book_get_epv (void)
 	epv->getVCard              = impl_GNOME_Evolution_Addressbook_Book_getVCard;
 	epv->isWriteable           = impl_GNOME_Evolution_Addressbook_Book_isWriteable;
 	epv->isCardWriteable       = impl_GNOME_Evolution_Addressbook_Book_isCardWriteable;
+	epv->authenticateUser      = impl_GNOME_Evolution_Addressbook_Book_authenticateUser;
 	epv->addCard               = impl_GNOME_Evolution_Addressbook_Book_addCard;
 	epv->removeCard            = impl_GNOME_Evolution_Addressbook_Book_removeCard;
 	epv->modifyCard            = impl_GNOME_Evolution_Addressbook_Book_modifyCard;

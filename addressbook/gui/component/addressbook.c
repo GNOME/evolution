@@ -44,6 +44,7 @@ typedef struct {
 	BonoboControl *control;
 	BonoboPropertyBag *properties;
 	char *uri;
+	char *passwd;
 } AddressbookView;
 
 static void
@@ -328,8 +329,32 @@ addressbook_view_free(AddressbookView *view)
 {
 	if (view->properties)
 		bonobo_object_unref(BONOBO_OBJECT(view->properties));
+	g_free(view->passwd);
 	g_free(view->uri);
 	g_free(view);
+}
+
+static void
+book_auth_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	AddressbookView *view = closure;
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		gtk_object_set(GTK_OBJECT(view->view),
+			       "book", book,
+			       NULL);
+	}
+	else {
+		/* pop up a nice dialog, or redo the authentication
+                   bit some number of times. */
+	}
+}
+
+static void
+passwd_cb (gchar *string, gpointer data)
+{
+	AddressbookView *view = (AddressbookView*)data;
+
+	view->passwd = g_strdup (string);
 }
 
 static void
@@ -337,10 +362,40 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	if (status == E_BOOK_STATUS_SUCCESS) {
 		AddressbookView *view = closure;
+		AddressbookSource *source;
 
+		/* check if the addressbook needs authentication */
+
+		source = addressbook_storage_get_source_by_uri (view->uri);
+		if (source &&
+		    source->type == ADDRESSBOOK_SOURCE_LDAP &&
+		    source->ldap.auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE) {
+			int button;
+			char *msg = g_strdup_printf (_("Enter password for %s"), source->ldap.binddn);
+			/* give a password prompt for the binddn */
+			GtkWidget *dialog = gnome_request_dialog (TRUE, msg, NULL,
+								  0, passwd_cb, view, NULL); 
+			
+			button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+
+			if (button == 0 && *(view->passwd)) {
+				e_book_authenticate_user (book, source->ldap.binddn, view->passwd,
+							  book_auth_cb, closure);
+				memset (view->passwd, 0, strlen (view->passwd)); /* clear out the passwd */
+				g_free (view->passwd);
+				view->passwd = NULL;
+				return;
+			}
+		}
+
+
+		/* if they either didn't configure the source to use
+                   authentication, or they canceled the dialog,
+                   proceed without authenticating */
 		gtk_object_set(GTK_OBJECT(view->view),
 			       "book", book,
 			       NULL);
+
 	} else {
 		GtkWidget *warning_dialog, *label, *href;
         	warning_dialog = gnome_dialog_new (

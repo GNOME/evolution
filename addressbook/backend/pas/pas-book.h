@@ -30,7 +30,8 @@ typedef enum {
 	GetCursor,
 	GetBookView,
 	GetChanges,
-	CheckConnection
+	CheckConnection,
+	AuthenticateUser
 } PASOperation;
 
 typedef struct {
@@ -39,6 +40,8 @@ typedef struct {
 	char                      *vcard;
 	char                      *search;
 	char                      *change_id;
+	char                      *user;
+        char                      *passwd;
 	GNOME_Evolution_Addressbook_BookViewListener listener;
 } PASRequest;
 
@@ -76,6 +79,8 @@ void                    pas_book_respond_remove         (PASBook                
 							 GNOME_Evolution_Addressbook_BookListener_CallStatus  status);
 void                    pas_book_respond_modify         (PASBook                           *book,
 							 GNOME_Evolution_Addressbook_BookListener_CallStatus  status);
+void                    pas_book_respond_authenticate_user (PASBook                           *book,
+							    GNOME_Evolution_Addressbook_BookListener_CallStatus  status);
 void                    pas_book_respond_get_cursor     (PASBook                           *book,
 							 GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 							 PASCardCursor                     *cursor);

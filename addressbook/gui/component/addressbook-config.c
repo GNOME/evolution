@@ -501,6 +501,10 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 		auth_page = g_list_nth_data (source_page->auths, source->ldap.auth);
 		ldap_auth_type_menuitem_activate (auth_page->item, auth_page);
 		gtk_option_menu_set_history (GTK_OPTION_MENU(source_page->auth_optionmenu), auth_page->auth_type);
+
+		if (auth_page->auth_type == ADDRESSBOOK_LDAP_AUTH_SIMPLE) {
+			e_utf8_gtk_entry_set_text (GTK_ENTRY (auth_page->binddn), source->ldap.binddn);
+		}
 	}
 	else {
 		e_utf8_gtk_entry_set_text (GTK_ENTRY (source_page->path), source->file.path);

@@ -456,6 +456,20 @@ addressbook_storage_get_sources ()
 	return sources;
 }
 
+AddressbookSource *
+addressbook_storage_get_source_by_uri (const char *uri)
+{
+	GList *l;
+
+	for (l = sources; l ; l = l->next) {
+		AddressbookSource *source = l->data;
+		if (!strcmp (uri, source->uri))
+			return source;
+	}
+
+	return NULL;
+}
+
 void
 addressbook_source_free (AddressbookSource *source)
 {

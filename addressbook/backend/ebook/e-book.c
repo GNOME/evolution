@@ -351,6 +351,7 @@ e_book_check_listener_queue (EBookListener *listener, EBook *book)
 		break;
 	case RemoveCardResponse:
 	case ModifyCardResponse:
+	case AuthenticationResponse:
 		e_book_do_response_generic (book, resp);
 		break;
 	case GetCursorResponse:
@@ -558,6 +559,43 @@ e_book_new (void)
 	}
 
 	return book;
+}
+
+/* User authentication. */
+
+void
+e_book_authenticate_user (EBook         *book,
+			  const char    *user,
+			  const char    *passwd,
+			  EBookCallback cb,
+			  gpointer      closure)
+{
+	CORBA_Environment  ev;
+
+	g_return_if_fail (book != NULL);
+	g_return_if_fail (E_IS_BOOK (book));
+
+	if (book->priv->load_state != URILoaded) {
+		g_warning ("e_book_authenticate_user: No URI loaded!\n");
+		return;
+	}
+
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_Addressbook_Book_authenticateUser (book->priv->corba_book,
+							   user,
+							   passwd,
+							   &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_authenticate_user: Exception authenticating user with the PAS!\n");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_exception_free (&ev);
+
+	e_book_queue_op (book, cb, closure, NULL);
 }
 
 /* Fetching cards */

@@ -1083,6 +1083,15 @@ pas_backend_file_extract_path_from_uri (const char *uri)
 	return g_strdup (uri + 5);
 }
 
+static void
+pas_backend_file_process_authenticate_user (PASBackend *backend,
+					    PASBook    *book,
+					    PASRequest *req)
+{
+	pas_book_respond_authenticate_user (book,
+					    GNOME_Evolution_Addressbook_BookListener_Success);
+}
+
 static gboolean
 can_write (PASBackend *backend)
 {
@@ -1153,6 +1162,10 @@ pas_backend_file_process_client_requests (PASBook *book)
 
 	case GetChanges:
 		pas_backend_file_process_get_changes (backend, book, req);
+		break;
+
+	case AuthenticateUser:
+		pas_backend_file_process_authenticate_user (backend, book, req);
 		break;
 	}
 

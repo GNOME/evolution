@@ -188,6 +188,20 @@ e_book_listener_queue_link_status (EBookListener *listener,
 }
 
 static void
+e_book_listener_queue_authentication_response (EBookListener *listener,
+					       EBookStatus    status)
+{
+	EBookListenerResponse *resp;
+
+	resp = g_new0 (EBookListenerResponse, 1);
+
+	resp->op     = AuthenticationResponse;
+	resp->status = status;
+
+	e_book_listener_queue_response (listener, resp);
+}
+
+static void
 impl_BookListener_respond_create_card (PortableServer_Servant                   servant,
 				       const GNOME_Evolution_Addressbook_BookListener_CallStatus  status,
 				       const GNOME_Evolution_Addressbook_CardId id,
@@ -323,6 +337,17 @@ impl_BookListener_report_open_book_progress (PortableServer_Servant servant,
 
 	e_book_listener_queue_open_progress (
 		listener, status_message, percent);
+}
+
+static void
+impl_BookListener_respond_authentication_result (PortableServer_Servant servant,
+						 const GNOME_Evolution_Addressbook_BookListener_CallStatus status,
+						 CORBA_Environment *ev)
+{
+	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
+
+	e_book_listener_queue_authentication_response (
+				       listener, status);
 }
 
 static void
@@ -560,6 +585,8 @@ e_book_listener_get_epv (void)
 	epv->notifyCardCreated  = impl_BookListener_respond_create_card;
 	epv->notifyCardRemoved  = impl_BookListener_respond_remove_card;
 	epv->notifyCardModified = impl_BookListener_respond_modify_card;
+
+	epv->notifyAuthenticationResult = impl_BookListener_respond_authentication_result;
 
 	epv->notifyCursorRequested  = impl_BookListener_respond_get_cursor;
 	epv->notifyViewRequested    = impl_BookListener_respond_get_view;
