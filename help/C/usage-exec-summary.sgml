@@ -2,10 +2,10 @@
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
 <chapter id="usage-summary">
-  <title>Using the Ximian Evolution Summary</title>
+  <title>Getting Oriented with the Ximian Evolution Summary</title>
   
   <sect1 id="summary-intro">
-    <title>Introducing the Summary</title>
+    <title>Using the Summary</title>
     <para>
       The Ximian Evolution Summary can show you what you need to know
       quickly.  It will show you your tasks for that day, how many

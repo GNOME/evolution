@@ -291,10 +291,13 @@
   <sect2 id="fourth-step">
       <title>Importing Mail (Optional)</title>
       <para>
-	If <application>Ximian Evolution</application> finds mail or address
-	files from another application, it will offer to import them.
-	If you're not sure which file format your mail program uses,
-	ask your system administrator.
+	If <application>Ximian Evolution</application> finds mail or
+	address files from another application, it will offer to
+	import them.  If you're not sure which file format your mail
+	program uses, ask your system administrator.  If you want, you
+	can skip this step and return to it at a later time by
+	selecting
+	<menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>.
       </para>
       <para>
 	<application>Ximian Evolution</application> can import the following types of
@@ -304,16 +307,21 @@
 	    <term>VCard (.vcf, gcrd)</term>
 	    <listitem>
 	      <para>
-	         The most common addressbook format.
+	         The addressbook format used by the GNOME, KDE, and
+	         many other contact management applications. You
+	         should be able to export to VCard format from any
+	         address book application.
 	      </para>
 	    </listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Outlook Express 4 (.mbx)</term>
+	    <term>Microsoft Outlook Express 4 (.mbx)</term>
 	    <listitem>
 	      <para>
-                 Email file format used by Outlook Express 4.
+                 Email file format used by Microsoft Outlook Express
+4. For other versions of Microsoft Outlook and Outlook Express, see
+the workaround described in the note below.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -331,11 +339,13 @@
 </para>
 <para>
     <note>
-      <title>Outlook 2000 Users</title>
+      <title>Microsoft Outlook and Outlook Express Users</title>
       <para>
-	Outlook 2000 uses a proprietary format that
-	<application>Ximian Evolution</application> cannot import directly.
-	To import files from Outlook 2000, do the following:
+	Microsoft Outlook, and versions of Outlook Express after
+	version 4, use proprietary formats that <application>Ximian
+	Evolution</application> cannot read or import.  For contacts,
+	you may have to email them to yourself and import them that
+	way.  For email, there is a simpler workaround:
 	<orderedlist numeration="arabic">
 
 	<listitem>
@@ -356,8 +366,8 @@
 	<listitem>
 	<para>
 	  Use the <application>Ximian Evolution</application> import
-          tool to import the files.  Read the FAQ at the Ximian
-          website for more information.
+          tool to import the files.  There's more information about
+          why this works, and how, at the Ximian support website.
       </para>
         </listitem>
      </orderedlist>
@@ -533,8 +543,8 @@
 	  <term><guibutton>Contacts</guibutton></term>
 	  <listitem>
 	    <para>
-	      The Contact Manager holds your addresses, phone numbers,
-	      and contact information.  Like calendar information,
+	      The Addressbook holds contacts, with address, phone, and
+	      other personal information. Like calendar information,
 	      contact data can be synchronized with hand-held devices
 	      and shared over a network.
 	   </para>
@@ -883,8 +893,8 @@
               It supports multiple mail sources, including <glossterm
               linkend="imap">IMAP</glossterm>, <glossterm
               linkend="pop">POP3</glossterm>, local
-              <filename>mbox</filename> and
-              <filename>mh</filename> files.
+              <filename>mbox</filename> and <filename>mh</filename>
+              spools and files created by other mail programs.
 
 <!-- NOT FOR 1.0, but maybe later 
               and even NNTP messages (newsgroups), which aren't
@@ -940,11 +950,11 @@
 
       <para>
         <inlinemediaobject><imageobject><imagedata  fileref="figures/full-2"
-        format="png"></imageobject></inlinemediaobject> <guilabel>Email List</guilabel>
+        format="png"></imageobject></inlinemediaobject> <guilabel>Message List</guilabel>
       </para>
     
       <para>
-        The <guilabel>Email List</guilabel> displays all the emails
+        The <guilabel>Message List</guilabel> displays all the emails
         that you have.  This includes all your read, unread, and email
         that is flagged to be deleted.
       </para>
@@ -955,9 +965,13 @@
         message in the <interface>message list</interface> to have it
         open in a new window.  To change the sizes of a pane, just click
         and hold on the divider between the two panes.  Then you can drag
-        up and down to select the size of the panes.  Just like with
-        folders, you can right-click on messages in the message list and
-        get a menu of possible actions.
+        up and down to select the size of the panes.
+
+</para>
+<para> Just like with folders, you can right-click on messages in the
+        message list and get a menu of possible actions: you can move,
+        delete, or undelete them, and create filters or vFolders based
+        on them.
       </para>
       <para>
         Most of the mail-related actions you'll want to perform are
@@ -1048,16 +1062,14 @@
     <sect2 id="basics-contacts">
       <title>Introducing the Address Book</title>
       <para>
-        The <application>Ximian Evolution</application> address book can
-        handle all of the functions of an address book, phone book, or
-        Rolodex.  Of course, it's a lot easier to update
-        <application>Ximian Evolution</application> than it is to change an
-        actual paper book. <application>Ximian Evolution</application> also
-        allows easy synchronization with hand-held devices.  Since
-        <application>Ximian Evolution</application> supports the <glossterm
-        linkend="ldap">LDAP</glossterm> directory protocol, you can
-        use it with almost any type of existing directory server on
-        your network.
+        The <application>Ximian Evolution</application> address book
+        can handle all of the functions of an address book, phone
+        book, or Rolodex.  Of course, it's a lot easier to update
+        <application>Ximian Evolution</application> than it is to
+        change an actual paper book. <application>Ximian
+        Evolution</application> also allows easy synchronization with
+        hand-held devices and functions with <glossterm
+        linkend="ldap">LDAP</glossterm> directories on a network.
       </para>
       <para>
         Another advantage of the <application>Ximian Evolution</application>
