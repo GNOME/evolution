@@ -303,7 +303,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 			  G_CALLBACK (app_delete_event_cb), editor);
 
 	/* set the icon */
-	icon_path = g_build_filename (EVOLUTION_IMAGESDIR, "contact-list-16.png");
+	icon_path = g_build_filename (EVOLUTION_IMAGESDIR, "contact-list-16.png", NULL);
 	gnome_window_icon_set_from_file (GTK_WINDOW (editor->app), icon_path);
 	g_free (icon_path);
 }
