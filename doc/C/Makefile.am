@@ -1,6 +1,6 @@
 evolution_helpdir = $(datadir)/gnome/help/evolution/C
 
-SGML_FILES =			\
+GUIDE_SGML_FILES =		\
 	evolution.sgml		\
 	apx-authors.sgml	\
 	apx-bugs.sgml		\
@@ -15,14 +15,20 @@ SGML_FILES =			\
 	usage-mainwindow.sgml	\
 	usage-sync.sgml
 
+FAQ_SGML_FILES = 		\
+	evolution-faq.sgml
 
-EXTRA_DIST = 		\
-	$(SGML_FILES)
+EXTRA_DIST = 			\
+	$(FAQ_SGML_FILES) 	\
+	$(GUIDE_SGML_FILES)
 
-all: evolution-guide
+all: evolution-guide evolution-faq
 
-evolution-guide: $(SGML_FILES)
+evolution-guide: $(GUIDE_SGML_FILES)
 	-db2html $(srcdir)/evolution.sgml
+
+evolution-faq: $(FAQ_SGML_FILES)
+	-db2html $(srcdir)/evolution-faq.sgml
 
 dist-hook:
 	mkdir $(distdir)/evolution
@@ -32,7 +38,7 @@ dist-hook:
 	mkdir $(distdir)/evolution/stylesheet-images
 	-cp evolution/stylesheet-images/* $(distdir)/evolution/stylesheet-images
 
-install-data-local: evolution-guide
+install-data-local: evolution-guide evolution-faq
 	$(top_srcdir)/mkinstalldirs $(DESTDIR)$(evolution_helpdir)
 	-for file in $(srcdir)/evolution/*.html $(srcdir)/evolution/*.css; do \
 		basefile=`basename $$file`; \
