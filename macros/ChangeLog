@@ -1,3 +1,8 @@
+1998-08-04  Sebastian Wilhelmi  <wilhelmi@ira.uka.de>
+
+	* gnome.m4: (GNOME_INIT_HOOK): Call $1 also, if `gnome-config' is
+	found and used
+
 1998-08-02  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome.m4 (GNOME_CONFIG): Use the `gnome-config' program if it

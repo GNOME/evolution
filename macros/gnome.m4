@@ -25,6 +25,7 @@ AC_DEFUN([GNOME_INIT_HOOK],
 	    GTKXMHTML_LIBS="`$GNOME_CONFIG --libs-only-l gtkxmhtml`"
 	    GNOME_LIBDIR="`$GNOME_CONFIG --libs-only-L gnomeui`"
 	    GNOME_INCLUDEDIR="`$GNOME_CONFIG --cflags gnomeui`"
+            $1
 	  else
 	    AC_MSG_RESULT(no)
 	    no_gnome_config="yes"
