@@ -1,3 +1,9 @@
+2004-09-03  Jeffrey Stedfast  <fejj@novell.com>
+
+	* mail-config.glade: Revert the use of gtkfilechooser for Path
+	selection because otherwise users won't be able to select
+	directory pathnames. Fixes bug #64974.
+
 2004-09-01  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fix for bug #63377 and prevention of similar cases.
