@@ -390,7 +390,6 @@ static void
 management_check (MailConfigWizard *wizard)
 {
 	gboolean next_sensitive;
-	GtkWidget *label;
 	char *text;
 	
 	text = gtk_entry_get_text (wizard->gui->account_name);
@@ -418,8 +417,8 @@ management_prepare (EvolutionWizard *wizard, gpointer data)
 			unsigned int i = 1, len;
 			
 			/* length of name + 1 char for ' ' + 1 char
-                           for '(' + 10 chars for %d + 1 char for ')'
-                           + 1 char for nul */
+			   for '(' + 10 chars for %d + 1 char for ')'
+			   + 1 char for nul */
 			len = strlen (name);
 			template = alloca (len + 14);
 			strcpy (template, name);

@@ -385,11 +385,11 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 {
 	EPopupMenu *menu;
 	EPopupMenu save_item = { N_("Save to Disk..."), NULL,
-				 GTK_SIGNAL_FUNC (save_cb), NULL, 0 };
+				 GTK_SIGNAL_FUNC (save_cb), NULL, NULL, 0 };
 	EPopupMenu view_item = { N_("View Inline"), NULL,
-				 GTK_SIGNAL_FUNC (inline_cb), NULL, 2 };
+				 GTK_SIGNAL_FUNC (inline_cb), NULL, NULL, 2 };
 	EPopupMenu open_item = { N_("Open in %s..."), NULL,
-				 GTK_SIGNAL_FUNC (launch_cb), NULL, 1 };
+				 GTK_SIGNAL_FUNC (launch_cb), NULL, NULL, 1 };
 	MailDisplay *md;
 	CamelMimePart *part;
 	MailMimeHandler *handler;

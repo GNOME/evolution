@@ -32,10 +32,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 typedef struct {
-	gint id;
-	gchar *name;
-	gchar *filename;
-	gchar *script;
+	int id;
+	char *name;
+	char *filename;
+	char *script;
 	gboolean random;
 	gboolean html;
 } MailConfigSignature;
@@ -109,6 +109,13 @@ typedef enum {
 	MAIL_CONFIG_NOTIFY_PLAY_SOUND,
 } MailConfigNewMailNotify;
 
+typedef struct {
+	char *name;
+	guint32 color;
+} MailConfigLabel;
+
+extern MailConfigLabel label_defaults[5];
+
 /* signatures */
 MailConfigSignature *signature_copy (const MailConfigSignature *sig);
 void                 signature_destroy (MailConfigSignature *sig);
@@ -171,6 +178,11 @@ void     mail_config_set_citation_highlight   (gboolean);
 
 guint32  mail_config_get_citation_color       (void);
 void     mail_config_set_citation_color       (guint32);
+
+const char *mail_config_get_label_name  (int label);
+void        mail_config_set_label_name  (int label, const char *name);
+guint32     mail_config_get_label_color (int label);
+void        mail_config_set_label_color (int label, guint32 color);
 
 gint     mail_config_get_do_seen_timeout      (void);
 void     mail_config_set_do_seen_timeout      (gboolean do_seen_timeout);

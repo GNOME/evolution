@@ -33,6 +33,7 @@
 #include <camel/camel-pgp-context.h>
 
 #include <gal/widgets/e-unicode.h>
+#include <gal/util/e-unicode-i18n.h>
 #include <gal/widgets/e-gui-utils.h>
 
 #include "widgets/misc/e-charset-picker.h"
@@ -56,6 +57,8 @@ static void mail_accounts_dialog_init       (MailAccountsDialog *dialog);
 static void mail_accounts_dialog_finalise   (GtkObject *obj);
 static void mail_unselect                   (GtkCList *clist, int row, int column, GdkEventButton *event, gpointer data);
 static void mail_able                       (GtkButton *button, gpointer data);
+
+
 
 static MailConfigDruid *druid = NULL;
 static MailAccountEditor *editor = NULL;
@@ -632,6 +635,66 @@ citation_color_set (GnomeColorPicker *cp, guint r, guint g, guint b, guint a)
 	mail_config_set_citation_color (rgb);
 }
 
+static void
+label_name_changed (GtkEntry *entry, gpointer user_data)
+{
+	MailAccountsDialog *dialog = user_data;
+	char *label_name;
+	int label;
+	
+	for (label = 0; label < 5; label++) {
+		if (entry == dialog->labels[label].name)
+			break;
+	}
+	
+	g_assert (label < 5);
+	
+	label_name = e_utf8_gtk_entry_get_text (entry);
+	mail_config_set_label_name (label, label_name);
+	g_free (label_name);
+}
+
+static void
+label_color_set (GnomeColorPicker *cp, guint r, guint g, guint b, guint a, gpointer user_data)
+{
+	MailAccountsDialog *dialog = user_data;
+	guint32 rgb;
+	int label;
+	
+	for (label = 0; label < 5; label++) {
+		if (cp == dialog->labels[label].color)
+			break;
+	}
+	
+	g_assert (label < 5);
+	
+	rgb   = r >> 8;
+	rgb <<= 8;
+	rgb  |= g >> 8;
+	rgb <<= 8;
+	rgb  |= b >> 8;
+	
+	mail_config_set_label_color (label, rgb);
+}
+
+static void
+set_color (GnomeColorPicker *cp, guint32 rgb)
+{
+	gnome_color_picker_set_i8 (cp, (rgb & 0xff0000) >> 16, (rgb & 0xff00) >> 8, rgb & 0xff, 0xff);
+}
+
+static void
+restore_labels_clicked (GtkButton *button, gpointer user_data)
+{
+	MailAccountsDialog *dialog = user_data;
+	int i;
+	
+	for (i = 0; i < 5; i++) {
+		e_utf8_gtk_entry_set_text (dialog->labels[i].name, U_(label_defaults[i].name));
+		set_color (dialog->labels[i].color, label_defaults[i].color);
+	}
+}
+
 /* FIXME: */
 
 static void
@@ -667,14 +730,6 @@ filter_log_path_changed (GtkEntry *entry, gpointer data)
 	path = gtk_entry_get_text (entry);
 	
 	mail_config_set_filter_log_path (path && *path ? path : NULL);
-}
-
-static void
-set_color (GnomeColorPicker *cp)
-{
-	guint32 rgb = mail_config_get_citation_color ();
-
-	gnome_color_picker_set_i8 (cp, (rgb & 0xff0000) >> 16, (rgb & 0xff00) >> 8, rgb & 0xff, 0xff);
 }
 
 static void
@@ -1231,8 +1286,9 @@ construct (MailAccountsDialog *dialog)
 {
 	GladeXML *gui;
 	GtkWidget *notebook, *menu;
+	char *widget_name;
 	const char *text;
-	int num;
+	int i, num;
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
 	dialog->gui = gui;
@@ -1301,7 +1357,7 @@ construct (MailAccountsDialog *dialog)
 	gtk_signal_connect (GTK_OBJECT (dialog->citation_highlight), "toggled",
 			    GTK_SIGNAL_FUNC (citation_highlight_toggled), dialog);
 	dialog->citation_color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerCitations"));
-	set_color (dialog->citation_color);
+	set_color (dialog->citation_color, mail_config_get_citation_color ());
 	gtk_signal_connect (GTK_OBJECT (dialog->citation_color), "color_set",
 			    GTK_SIGNAL_FUNC (citation_color_set), dialog);
 	
@@ -1432,6 +1488,27 @@ construct (MailAccountsDialog *dialog)
 			    text ? text : "");
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (dialog->notify_sound_file)),
 			    "changed", GTK_SIGNAL_FUNC (notify_sound_file_changed), dialog);
+	
+	for (i = 0; i < 5; i++) {
+		widget_name = g_strdup_printf ("txtLabel%d", i);
+		dialog->labels[i].name = GTK_ENTRY (glade_xml_get_widget (gui, widget_name));
+		g_free (widget_name);
+		text = mail_config_get_label_name (i);
+		e_utf8_gtk_entry_set_text (dialog->labels[i].name, text ? text : "");
+		gtk_signal_connect (GTK_OBJECT (dialog->labels[i].name), "changed",
+				    GTK_SIGNAL_FUNC (label_name_changed), dialog);
+		
+		widget_name = g_strdup_printf ("colorLabel%d", i);
+		dialog->labels[i].color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, widget_name));
+		g_free (widget_name);
+		set_color (dialog->labels[i].color, mail_config_get_label_color (i));
+		gtk_signal_connect (GTK_OBJECT (dialog->labels[i].color), "color_set",
+				    GTK_SIGNAL_FUNC (label_color_set), dialog);
+	}
+	dialog->restore_labels = GTK_BUTTON (glade_xml_get_widget (gui, "cmdRestoreLabels"));
+	gtk_signal_connect (GTK_OBJECT (dialog->restore_labels), "clicked",
+			    GTK_SIGNAL_FUNC (restore_labels_clicked), dialog);
+	
 	
 	/* now to fill in the clists */
 	dialog->accounts_row = -1;

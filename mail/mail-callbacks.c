@@ -68,10 +68,6 @@
 
 #include "evolution-shell-client.h"
 
-#ifndef HAVE_MKSTEMP
-#include <fcntl.h>
-#include <sys/stat.h>
-#endif
 
 #define FB_WINDOW(fb) GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW))
 
@@ -2303,6 +2299,12 @@ save_msg (GtkWidget *widget, gpointer user_data)
 				   GTK_OBJECT (filesel));
 	
 	gtk_widget_show (GTK_WIDGET (filesel));
+}
+
+void
+colour_msg (GtkWidget *widget, gpointer user_data)
+{
+	/* FIXME: implement me? */
 }
 
 void

@@ -38,6 +38,7 @@
 #include <gal/widgets/e-unicode.h>
 
 #include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-pixmap.h>
 
 #include <gtkhtml/htmlengine.h>
 #include <gtkhtml/htmlobject.h>
@@ -1460,67 +1461,119 @@ enum {
 #define MLIST_FILTER (8)
 
 static EPopupMenu filter_menu[] = {
-	{ N_("VFolder on _Subject"),        NULL, GTK_SIGNAL_FUNC (vfolder_subject),   NULL, SELECTION_SET },
-	{ N_("VFolder on Se_nder"),         NULL, GTK_SIGNAL_FUNC (vfolder_sender),    NULL, SELECTION_SET },
-	{ N_("VFolder on _Recipients"),     NULL, GTK_SIGNAL_FUNC (vfolder_recipient), NULL, SELECTION_SET },
-	{ N_("VFolder on Mailing _List"),   NULL, GTK_SIGNAL_FUNC (vfolder_mlist),     NULL, SELECTION_SET | IS_MAILING_LIST },
+	{ N_("VFolder on _Subject"),        NULL, GTK_SIGNAL_FUNC (vfolder_subject),   NULL, NULL, SELECTION_SET },
+	{ N_("VFolder on Se_nder"),         NULL, GTK_SIGNAL_FUNC (vfolder_sender),    NULL, NULL, SELECTION_SET },
+	{ N_("VFolder on _Recipients"),     NULL, GTK_SIGNAL_FUNC (vfolder_recipient), NULL, NULL, SELECTION_SET },
+	{ N_("VFolder on Mailing _List"),   NULL, GTK_SIGNAL_FUNC (vfolder_mlist),     NULL, NULL, SELECTION_SET | IS_MAILING_LIST },
 	
 	E_POPUP_SEPARATOR,
 	
-	{ N_("Filter on Sub_ject"),         NULL, GTK_SIGNAL_FUNC (filter_subject),    NULL, SELECTION_SET },
-	{ N_("Filter on Sen_der"),          NULL, GTK_SIGNAL_FUNC (filter_sender),     NULL, SELECTION_SET },
-	{ N_("Filter on Re_cipients"),      NULL, GTK_SIGNAL_FUNC (filter_recipient),  NULL, SELECTION_SET },
-	{ N_("Filter on _Mailing List"),    NULL, GTK_SIGNAL_FUNC (filter_mlist),      NULL, SELECTION_SET | IS_MAILING_LIST },
+	{ N_("Filter on Sub_ject"),         NULL, GTK_SIGNAL_FUNC (filter_subject),    NULL, NULL, SELECTION_SET },
+	{ N_("Filter on Sen_der"),          NULL, GTK_SIGNAL_FUNC (filter_sender),     NULL, NULL, SELECTION_SET },
+	{ N_("Filter on Re_cipients"),      NULL, GTK_SIGNAL_FUNC (filter_recipient),  NULL, NULL, SELECTION_SET },
+	{ N_("Filter on _Mailing List"),    NULL, GTK_SIGNAL_FUNC (filter_mlist),      NULL, NULL, SELECTION_SET | IS_MAILING_LIST },
 	
 	E_POPUP_TERMINATOR
 };
 
+static EPopupMenu label_menu[] = {
+	{ NULL, NULL, GTK_SIGNAL_FUNC (colour_msg), NULL, NULL, SELECTION_SET },
+	{ NULL, NULL, GTK_SIGNAL_FUNC (colour_msg), NULL, NULL, SELECTION_SET },
+	{ NULL, NULL, GTK_SIGNAL_FUNC (colour_msg), NULL, NULL, SELECTION_SET },
+	{ NULL, NULL, GTK_SIGNAL_FUNC (colour_msg), NULL, NULL, SELECTION_SET },
+	{ NULL, NULL, GTK_SIGNAL_FUNC (colour_msg), NULL, NULL, SELECTION_SET },
+	E_POPUP_TERMINATOR
+};
 
 static EPopupMenu context_menu[] = {
-	{ N_("_Open"),                      NULL, GTK_SIGNAL_FUNC (open_msg),         NULL,  0 },
-	{ N_("_Edit as New Message..."),    NULL, GTK_SIGNAL_FUNC (resend_msg),       NULL,  CAN_RESEND },
-	{ N_("_Save As..."),                NULL, GTK_SIGNAL_FUNC (save_msg),         NULL,  0 },
-	{ N_("_Print"),                     NULL, GTK_SIGNAL_FUNC (print_msg),        NULL,  0 },
+	{ N_("_Open"),                    NULL, GTK_SIGNAL_FUNC (open_msg),         NULL, NULL,  0 },
+	{ N_("_Edit as New Message..."),  NULL, GTK_SIGNAL_FUNC (resend_msg),       NULL, NULL,  CAN_RESEND },
+	{ N_("_Save As..."),              NULL, GTK_SIGNAL_FUNC (save_msg),         NULL, NULL,  0 },
+	{ N_("_Print"),                   NULL, GTK_SIGNAL_FUNC (print_msg),        NULL, NULL,  0 },
 	
 	E_POPUP_SEPARATOR,
 	
-	{ N_("_Reply to Sender"),           NULL, GTK_SIGNAL_FUNC (reply_to_sender),  NULL,  0 },
-	{ N_("Reply to _List"),        	    NULL, GTK_SIGNAL_FUNC (reply_to_list),    NULL,  0 },
-	{ N_("Reply to _All"),              NULL, GTK_SIGNAL_FUNC (reply_to_all),     NULL,  0 },
-	{ N_("_Forward"),                   NULL, GTK_SIGNAL_FUNC (forward),          NULL,  0 },
+	{ N_("_Reply to Sender"),         NULL, GTK_SIGNAL_FUNC (reply_to_sender),  NULL, NULL,  0 },
+	{ N_("Reply to _List"),        	  NULL, GTK_SIGNAL_FUNC (reply_to_list),    NULL, NULL,  0 },
+	{ N_("Reply to _All"),            NULL, GTK_SIGNAL_FUNC (reply_to_all),     NULL, NULL,  0 },
+	{ N_("_Forward"),                 NULL, GTK_SIGNAL_FUNC (forward),          NULL, NULL,  0 },
 	
 	E_POPUP_SEPARATOR,
 	
-	{ N_("Follo_w Up..."),              NULL, GTK_SIGNAL_FUNC (flag_for_followup),       NULL, CAN_FLAG_FOR_FOLLOWUP },
-	{ N_("Fla_g Completed"),            NULL, GTK_SIGNAL_FUNC (flag_followup_completed), NULL, CAN_FLAG_COMPLETED },
-	{ N_("Cl_ear Flag"),                NULL, GTK_SIGNAL_FUNC (flag_followup_clear),     NULL, CAN_CLEAR_FLAG },
+	{ N_("Follo_w Up..."),            NULL, GTK_SIGNAL_FUNC (flag_for_followup),       NULL, NULL, CAN_FLAG_FOR_FOLLOWUP },
+	{ N_("Fla_g Completed"),          NULL, GTK_SIGNAL_FUNC (flag_followup_completed), NULL, NULL, CAN_FLAG_COMPLETED },
+	{ N_("Cl_ear Flag"),              NULL, GTK_SIGNAL_FUNC (flag_followup_clear),     NULL, NULL, CAN_CLEAR_FLAG },
 	
 	/* separator here? */
 	
-	{ N_("Mar_k as Read"),              NULL, GTK_SIGNAL_FUNC (mark_as_seen),     NULL,  CAN_MARK_READ },
-	{ N_("Mark as _Unread"),            NULL, GTK_SIGNAL_FUNC (mark_as_unseen),   NULL,  CAN_MARK_UNREAD },
-	{ N_("Mark as _Important"),         NULL, GTK_SIGNAL_FUNC (mark_as_important), NULL, CAN_MARK_IMPORTANT },
-	{ N_("_Mark as Unimportant"),       NULL, GTK_SIGNAL_FUNC (mark_as_unimportant), NULL, CAN_MARK_UNIMPORTANT },
+	{ N_("Mar_k as Read"),            NULL, GTK_SIGNAL_FUNC (mark_as_seen),        NULL, NULL, CAN_MARK_READ },
+	{ N_("Mark as _Unread"),          NULL, GTK_SIGNAL_FUNC (mark_as_unseen),      NULL, NULL, CAN_MARK_UNREAD },
+	{ N_("Mark as _Important"),       NULL, GTK_SIGNAL_FUNC (mark_as_important),   NULL, NULL, CAN_MARK_IMPORTANT },
+	{ N_("_Mark as Unimportant"),     NULL, GTK_SIGNAL_FUNC (mark_as_unimportant), NULL, NULL, CAN_MARK_UNIMPORTANT },
 	
 	E_POPUP_SEPARATOR,
 	
-	{ N_("Mo_ve to Folder..."),         NULL, GTK_SIGNAL_FUNC (move_msg_cb),      NULL,  0 },
-	{ N_("_Copy to Folder..."),         NULL, GTK_SIGNAL_FUNC (copy_msg_cb),      NULL,  0 },
-	{ N_("_Delete"),                    NULL, GTK_SIGNAL_FUNC (delete_msg),       NULL, CAN_DELETE },
-	{ N_("U_ndelete"),                  NULL, GTK_SIGNAL_FUNC (undelete_msg),     NULL, CAN_UNDELETE },
+	{ N_("_Delete"),                  NULL, GTK_SIGNAL_FUNC (delete_msg),          NULL, NULL, CAN_DELETE },
+	{ N_("U_ndelete"),                NULL, GTK_SIGNAL_FUNC (undelete_msg),        NULL, NULL, CAN_UNDELETE },
 	
 	E_POPUP_SEPARATOR,
 	
-	{ N_("Add Sender to Address_book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),  NULL,  SELECTION_SET },
-	  { "",                             NULL, GTK_SIGNAL_FUNC (NULL),             NULL,  0 },
+	{ N_("Mo_ve to Folder..."),       NULL, GTK_SIGNAL_FUNC (move_msg_cb),         NULL, NULL,  0 },
+	{ N_("_Copy to Folder..."),       NULL, GTK_SIGNAL_FUNC (copy_msg_cb),         NULL, NULL,  0 },
 	
-	{ N_("Appl_y Filters"),              NULL, GTK_SIGNAL_FUNC (apply_filters),    NULL,  0 },
-	{ "",                               NULL, GTK_SIGNAL_FUNC (NULL),             NULL,  0 },
-	{ N_("Crea_te Rule From Message"),  NULL, GTK_SIGNAL_FUNC (NULL), filter_menu,  SELECTION_SET },
+	E_POPUP_SEPARATOR,
+	
+	{ N_("Label"),                    NULL, GTK_SIGNAL_FUNC (NULL), NULL, label_menu, SELECTION_SET },
+	
+	E_POPUP_SEPARATOR,
+	
+	{ N_("Add Sender to Address_book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),   NULL, NULL,  SELECTION_SET },
+	
+	E_POPUP_SEPARATOR,	
+	
+	{ N_("Appl_y Filters"),             NULL, GTK_SIGNAL_FUNC (apply_filters),     NULL, NULL,  0 },
+	
+	E_POPUP_SEPARATOR,
+	
+	{ N_("Crea_te Rule From Message"),  NULL, GTK_SIGNAL_FUNC (NULL), NULL, filter_menu,  SELECTION_SET },
 	
 	E_POPUP_TERMINATOR
 };
 
+/* Note: this must be kept in sync with the context_menu!!! */
+static char *context_pixmaps[] = {
+	NULL, /* Open */
+	NULL, /* Edit */
+	"save-as-16.png",
+	"print.xpm",
+	NULL,
+	"reply.xpm",
+	NULL, /* Reply to List */
+	"reply_to_all.xpm",
+	"forward.xpm",
+	NULL,
+	"flag-for-followup-16.png",
+	NULL, /* Flag */
+	NULL, /* Clear */
+	"mail-read.xpm",
+	"mail-new.xpm",
+	"priority-high.xpm",
+	NULL, /* Mark as Unimportant */
+	NULL,
+	"evolution-trash-mini.png",
+	"undelete_message-16.png",
+	NULL,
+	"move_message.xpm",
+	"copy_16_message.xpm",
+	NULL,
+	NULL, /* Label */
+	NULL,
+	NULL, /* Add Sender to Addressbook */
+	NULL,
+	NULL, /* Apply Filters */
+	NULL,
+	NULL, /* Create Rule from Message */
+};
 
 struct cmpf_data {
 	ETree *tree;
@@ -1533,7 +1586,7 @@ context_menu_position_func (GtkMenu *menu, gint *x, gint *y,
 {
 	int tx, ty, tw, th;
 	struct cmpf_data *closure = user_data;
-
+	
 	gdk_window_get_origin (GTK_WIDGET (closure->tree)->window, x, y);
 	e_tree_get_cell_geometry (closure->tree, closure->row, closure->col,
 				  &tx, &ty, &tw, &th);
@@ -1552,6 +1605,22 @@ followup_tag_complete (const char *tag_value)
 	g_free (tag);
 	
 	return ret;
+}
+
+static void
+setup_popup_icons (void)
+{
+	int i;
+	
+	for (i = 0; context_menu[i].name; i++) {
+		if (context_pixmaps[i]) {
+			char *filename;
+			
+			filename = g_strdup_printf ("%s/%s", EVOLUTION_IMAGES, context_pixmaps[i]);
+			context_menu[i].pixmap = gnome_pixmap_new_from_file (filename);
+			g_free (filename);
+		}
+	}
 }
 
 /* handle context menu over message-list */
@@ -1714,6 +1783,13 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		filter_menu[MLIST_VFOLDER].name = g_strdup_printf (_("VFolder on M_ailing List (%s)"), mlist);
 	}
 	
+	/* create the label/colour menu */
+	for (i = 0; i < 5; i++) {
+		label_menu[i].name = e_utf8_to_locale_string (mail_config_get_label_name (i));
+	}
+	
+	setup_popup_icons ();
+	
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
 	e_auto_kill_popup_menu_on_hide (menu);
 	
@@ -1732,6 +1808,11 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	
 	g_free (filter_menu[MLIST_FILTER].name);
 	g_free (filter_menu[MLIST_VFOLDER].name);
+	
+	/* free the label/colour menu */
+	for (i = 0; i < 5; i++) {
+		g_free (label_menu[i].name);
+	}
 	
 	return TRUE;
 }

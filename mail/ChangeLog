@@ -1,3 +1,29 @@
+2002-03-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (colour_msg): New callback to set a colour on a
+	message.
+
+	* folder-browser.c (on_right_click): Setup our popup icons and
+	stuff. Also add a submenu for Labels.
+
+	* mail-display.c (pixmap_press): Sync up with the new EPopupMenu
+	API. Note: This code can probably now be fixed to use per-item
+	closures - yay!
+
+	* mail-accounts.c (construct): Connect to the label GtkEntry's and
+	GnomeColorPickers and also to the Restore Defaults button.
+
+	* mail-config.c (mail_config_get_label_name): New function to get
+	a label's name.
+	(mail_config_set_label_name): New function to set the label name.
+	(mail_config_get_label_color): New function to get the label
+	color.
+	(mail_config_set_label_color): New function to set the label
+	color.
+	(config_read): Read in the config options for the labels and their
+	colors.
+	(mail_config_write_on_exit): Save the label options.
+
 2002-03-15  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c: expand the relative urls of the object at the

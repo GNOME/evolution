@@ -61,6 +61,7 @@ void reply_to_sender       (GtkWidget *widget, gpointer user_data);
 void reply_to_list         (GtkWidget *widget, gpointer user_data);
 void reply_to_all          (GtkWidget *widget, gpointer user_data);
 
+void colour_msg            (GtkWidget *widget, gpointer user_data);
 void delete_msg            (GtkWidget *widget, gpointer user_data);
 void undelete_msg          (GtkWidget *widget, gpointer user_data);
 void move_msg_cb           (GtkWidget *widget, gpointer user_data);

@@ -52,7 +52,7 @@ struct _MailAccountsDialog {
 	GladeXML *gui;
 	
 	const GSList *accounts;
-	gint accounts_row;
+	int accounts_row;
 	
 	/* Accounts page */
 	GtkCList *mail_accounts;
@@ -63,7 +63,7 @@ struct _MailAccountsDialog {
 	GtkButton *mail_able;
 	
 	const GSList *news;
-	gint news_row;
+	int news_row;
 	
 	/* News page */
 	GtkCList *news_accounts;
@@ -90,7 +90,7 @@ struct _MailAccountsDialog {
 	
 	/* Signatures page */
 	GtkWidget *sig_clist;
-
+	
 	GtkWidget *sig_name;
 	GtkWidget *sig_random;
 	GtkWidget *sig_filename;
@@ -99,18 +99,18 @@ struct _MailAccountsDialog {
 	GtkWidget *sig_scrolled;
 	GtkWidget *sig_gtk_html;
 	GtkWidget *sig_preview;
-
+	
 	GtkWidget *sig_add;
 	GtkWidget *sig_delete;
 	GtkWidget *sig_edit;
-
+	
 	GtkWidget *sig_simple_button;
 	GtkWidget *sig_advanced_button;
 	GtkWidget *sig_level_bbox;
 	GtkWidget *sig_advanced_table;
 	gboolean   sig_switch;
-	gint       sig_row;
-
+	int        sig_row;
+	
 	/* Other page */
 	GtkToggleButton *empty_trash;
 	GtkToggleButton *filter_log;
@@ -120,6 +120,13 @@ struct _MailAccountsDialog {
 	GtkToggleButton *notify_beep;
 	GtkToggleButton *notify_play_sound;
 	GnomeFileEntry *notify_sound_file;
+	
+	/* Colors/Labels */
+	struct {
+		GtkEntry *name;
+		GnomeColorPicker *color;
+	} labels[5];
+	GtkButton *restore_labels;
 	
 	/* PGP page */
 	GnomeFileEntry *pgp_path;

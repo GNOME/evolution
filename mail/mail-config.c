@@ -69,6 +69,15 @@
 
 #include "Mail.h"
 
+
+MailConfigLabel label_defaults[5] = {
+	{ N_("Important"), 0xff0000 },  /* red */
+	{ N_("Work"),      0xff8c00 },  /* orange */
+	{ N_("Personal"),  0x008b00 },  /* forest green */
+	{ N_("To Do"),     0x0000ff },  /* blue */
+	{ N_("Later"),     0x8b008b }   /* magenta */
+};
+
 typedef struct {
 	Bonobo_ConfigDatabase db;
 	
@@ -114,10 +123,12 @@ typedef struct {
 	char *notify_filename;
 	
 	char *last_filesel_dir;
-
+	
 	GList *signature_list;
-	gint signatures;
-	gint signatures_random;
+	int signatures;
+	int signatures_random;
+	
+	MailConfigLabel labels[5];
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -329,6 +340,8 @@ mail_config_init (void)
 void
 mail_config_clear (void)
 {
+	int i;
+	
 	if (!config)
 		return;
 	
@@ -358,6 +371,11 @@ mail_config_clear (void)
 	
 	g_free (config->last_filesel_dir);
 	config->last_filesel_dir = NULL;
+	
+	for (i = 0; i < 5; i++) {
+		g_free (config->labels[i].name);
+		config->labels[i].name = NULL;
+	}
 }
 
 static MailConfigSignature *
@@ -585,6 +603,7 @@ static void
 config_read (void)
 {
 	int len, i, default_num;
+	char *path, *val, *p;
 	
 	mail_config_clear ();
 
@@ -599,7 +618,6 @@ config_read (void)
 		MailConfigIdentity *id;
 		MailConfigService *source;
 		MailConfigService *transport;
-		char *path, *val;
 		
 		account = g_new0 (MailConfigAccount, 1);
 		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
@@ -945,6 +963,29 @@ config_read (void)
 	/* last filesel dir */
 	config->last_filesel_dir = bonobo_config_get_string (
 		config->db, "/Mail/Filesel/last_filesel_dir", NULL);
+	
+	/* Color labels */
+	/* Note: we avoid having to malloc/free 10 times this way... */
+	path = g_malloc (sizeof ("/Mail/Labels/") + sizeof ("label_#") + 1);
+	strcpy (path, "/Mail/Labels/label_#");
+	p = path + strlen (path) - 1;
+	for (i = 0; i < 5; i++) {
+		*p = '0' + i;
+		val = bonobo_config_get_string (config->db, path, NULL);
+		if (!(val && *val)) {
+			g_free (val);
+			val = NULL;
+		}
+		config->labels[i].name = val;
+	}
+	strcpy (path, "/Mail/Labels/color_#");
+	p = path + strlen (path) - 1;
+	for (i = 0; i < 5; i++) {
+		*p = '0' + i;
+		config->labels[i].color = bonobo_config_get_long_with_default (config->db, path,
+									       label_defaults[i].color, NULL);
+	}
+	g_free (path);
 }
 
 #define bonobo_config_set_string_wrapper(db, path, val, ev) bonobo_config_set_string (db, path, val ? val : "", ev)
@@ -1183,6 +1224,8 @@ mail_config_write_on_exit (void)
 	CORBA_Environment ev;
 	MailConfigAccount *account;
 	const GSList *accounts;
+	char *path, *p;
+	int i;
 	
 	/* Show Messages Threaded */
 	bonobo_config_set_boolean (config->db, "/Mail/Display/thread_list", 
@@ -1290,9 +1333,28 @@ mail_config_write_on_exit (void)
 	bonobo_config_set_string_wrapper (config->db, "/Mail/Filesel/last_filesel_dir",
 					  config->last_filesel_dir, NULL);
 	
+	/* Color labels */
+	/* Note: we avoid having to malloc/free 10 times this way... */
+	path = g_malloc (sizeof ("/Mail/Labels/") + sizeof ("label_#") + 1);
+	strcpy (path, "/Mail/Labels/label_#");
+	p = path + strlen (path) - 1;
+	for (i = 0; i < 5; i++) {
+		*p = '0' + i;
+		bonobo_config_set_string_wrapper (config->db, path, config->labels[i].name, NULL);
+	}
+	strcpy (path, "/Mail/Labels/color_#");
+	p = path + strlen (path) - 1;
+	for (i = 0; i < 5; i++) {
+		*p = '0' + i;
+		bonobo_config_set_long (config->db, path, config->labels[i].color, NULL);
+	}
+	g_free (path);
+	
+	/* Message Threading */
 	if (config->threaded_hash)
 		g_hash_table_foreach_remove (config->threaded_hash, hash_save_state, "Threads");
 	
+	/* Message Preview */
 	if (config->preview_hash)
 		g_hash_table_foreach_remove (config->preview_hash, hash_save_state, "Preview");
 	
@@ -2076,6 +2138,46 @@ mail_config_set_new_mail_notify_sound_file (const char *filename)
 	g_free (config->notify_filename);
 	config->notify_filename = g_strdup (filename);
 }
+
+const char *
+mail_config_get_label_name (int label)
+{
+	g_return_val_if_fail (label >= 0 && label < 5, NULL);
+	
+	if (!config->labels[label].name)
+		config->labels[label].name = g_strdup (U_(label_defaults[label].name));
+	
+	return config->labels[label].name;
+}
+
+void
+mail_config_set_label_name (int label, const char *name)
+{
+	g_return_if_fail (label >= 0 && label < 5);
+	
+	if (!name)
+		name = U_(label_defaults[label].name);
+	
+	g_free (config->labels[label].name);
+	config->labels[label].name = g_strdup (name);
+}
+
+guint32
+mail_config_get_label_color (int label)
+{
+	g_return_val_if_fail (label >= 0 && label < 5, 0);
+	
+	return config->labels[label].color;
+}
+
+void
+mail_config_set_label_color (int label, guint32 color)
+{
+	g_return_if_fail (label >= 0 && label < 5);
+	
+	config->labels[label].color = color;
+}
+
 
 gboolean
 mail_config_find_account (const MailConfigAccount *account)
