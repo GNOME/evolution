@@ -28,6 +28,7 @@
 #include <unicode.h>
 #ifdef HAVE_NSS
 #include <mozilla/nspr.h>
+#include <mozilla/prthread.h>
 #include <nss.h>
 #include <ssl.h>
 #endif /* HAVE_NSS */
@@ -35,13 +36,13 @@
 gboolean camel_verbose_debug = FALSE;
 
 gint
-camel_init (void)
+camel_init (const char *certdb)
 {
 #ifdef ENABLE_THREADS
 #ifdef G_THREADS_ENABLED	
 	/*g_thread_init (NULL);*/
 #else /* G_THREADS_ENABLED */
-	g_warning ("Threads are not supported by your version of glib\n");
+	g_warning ("Threads are not supported by your version of glib");
 #endif /* G_THREADS_ENABLED */
 #endif /* ENABLE_THREADS */
 	
@@ -51,6 +52,15 @@ camel_init (void)
 	unicode_init ();
 	
 #ifdef HAVE_NSS
+	PR_Init (PR_SYSTEM_THREAD, PR_PRIORITY_NORMAL, 10);
+	
+	if (NSS_Init (certdb) == SECFailure) {
+		g_warning ("Failed to initialize NSS");
+		return -1;
+	}
+	
+	NSS_SetDomesticPolicy ();
+	
 	SSL_OptionSetDefault (SSL_ENABLE_SSL2, PR_TRUE);
 	SSL_OptionSetDefault (SSL_ENABLE_SSL3, PR_TRUE);
 	SSL_OptionSetDefault (SSL_ENABLE_TLS, PR_TRUE);
@@ -58,4 +68,14 @@ camel_init (void)
 #endif /* HAVE_NSS */
 	
 	return 0;
+}
+
+void
+camel_shutdown (void)
+{
+#ifdef HAVE_NSS
+	NSS_Shutdown ();
+	
+	PR_Cleanup ();
+#endif /* HAVE_NSS */
 }

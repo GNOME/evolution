@@ -1,5 +1,13 @@
 2001-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel.c (camel_init): Since all of the Mozilla libs (including
+	NSPR and NSS) correctly handle reinitializations, we might as well
+	init both NSPR and NSS in camel_init so we can be sure of that
+	these libs have been initialized.
+	(camel_shutdown): New function to call the NSS cleanup stuff.
+
+2001-03-13  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-folder.c (camel_folder_copy_message_to): Don't allow the
 	user to copy a message to or from the vtrash folder. Set an
 	exception if they try.

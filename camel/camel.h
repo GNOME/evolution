@@ -68,7 +68,9 @@ extern "C" {
 #include <camel/hash-table-utils.h>
 #include <camel/string-utils.h>
 
-gint camel_init (void);
+gint camel_init (const char *certdb);
+
+void camel_shutdown (void);
 
 #ifdef __cplusplus
 }
