@@ -1,5 +1,10 @@
 2002-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_new): Rearranged the #if
+	checks so that we don't ever try to access any smime widgets
+	(since they are now being destroyed) if smime isn't enabled.
+	(mail_account_gui_save): Same here.
+
 	* message-list.c: Removed references to NEEDS_REPLY.
 
 	* mail-callbacks.c (mark_as_needing_reply): Removed.

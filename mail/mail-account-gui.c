@@ -1366,6 +1366,8 @@ mail_account_gui_new (MailConfigAccount *account)
 	gtk_toggle_button_set_active (gui->pgp_encrypt_to_self, account->pgp_encrypt_to_self);
 	gui->pgp_always_sign = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "pgp_always_sign"));
 	gtk_toggle_button_set_active (gui->pgp_always_sign, account->pgp_always_sign);
+	
+#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
 	gui->smime_key = GTK_ENTRY (glade_xml_get_widget (gui->xml, "smime_key"));
 	if (account->smime_key)
 		e_utf8_gtk_entry_set_text (gui->smime_key, account->smime_key);
@@ -1373,8 +1375,7 @@ mail_account_gui_new (MailConfigAccount *account)
 	gtk_toggle_button_set_active (gui->smime_encrypt_to_self, account->smime_encrypt_to_self);
 	gui->smime_always_sign = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "smime_always_sign"));
 	gtk_toggle_button_set_active (gui->smime_always_sign, account->smime_always_sign);
-	
-#if !defined(HAVE_NSS) || !defined(SMIME_SUPPORTED)
+#else
 	{
 		/* Since we don't have NSS, hide the S/MIME config options */
 		GtkWidget *frame;
@@ -1382,7 +1383,7 @@ mail_account_gui_new (MailConfigAccount *account)
 		frame = glade_xml_get_widget (gui->xml, "smime_frame");
 		gtk_widget_destroy (frame);
 	}
-#endif
+#endif /* HAVE_NSS && SMIME_SUPPORTED */
 	
 	return gui;
 }
@@ -1748,10 +1749,13 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->pgp_key = e_utf8_gtk_entry_get_text (gui->pgp_key);
 	account->pgp_encrypt_to_self = gtk_toggle_button_get_active (gui->pgp_encrypt_to_self);
 	account->pgp_always_sign = gtk_toggle_button_get_active (gui->pgp_always_sign);
+	
+#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
 	g_free (account->smime_key);
 	account->smime_key = e_utf8_gtk_entry_get_text (gui->smime_key);
 	account->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);
 	account->smime_always_sign = gtk_toggle_button_get_active (gui->smime_always_sign);
+#endif /* HAVE_NSS && SMIME_SUPPORTED */
 	
 	if (!mail_config_find_account (account))
 		mail_config_add_account (account);
