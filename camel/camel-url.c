@@ -43,8 +43,7 @@
  *
  *   protocol://user;AUTH=mech:password@host:port/path
  *
- * The protocol, followed by a ":" is required. If it is followed by
- * "//", there must be an "authority" containing at least a host,
+ * The protocol, followed by a ":" is required. If it is followed by * "//", there must be an "authority" containing at least a host,
  * which ends at the end of the string or at the next "/". If there
  * is an "@" in the authority, there must be a username before it,
  * and the host comes after it. The authmech, password, and port are
@@ -291,4 +290,57 @@ camel_url_decode (char *part)
 			*d++ = *s++;
 	}
 	*d = '\0';
+}
+
+static void
+add_hash(guint *hash, char *s)
+{
+	if (s)
+		*hash ^= g_str_hash(s);
+}
+
+guint camel_url_hash (const void *v)
+{
+	const CamelURL *u = v;
+	guint hash = 0;
+
+	add_hash(&hash, u->protocol);
+	add_hash(&hash, u->user);
+	add_hash(&hash, u->authmech);
+	add_hash(&hash, u->passwd);
+	add_hash(&hash, u->host);
+	add_hash(&hash, u->path);
+	hash ^= u->port;
+	return hash;
+}
+
+static int
+check_equal(char *s1, char *s2)
+{
+	if (s1 == NULL) {
+		if (s2 == NULL)
+			return TRUE;
+		else
+			return FALSE;
+	}
+	if (s2 == NULL) {
+		if (s1 == NULL)
+			return TRUE;
+		else
+			return FALSE;
+	}
+	return strcmp(s1, s2) == 0;
+}
+
+int camel_url_equal(const void *v, const void *v2)
+{
+	const CamelURL *u1 = v, *u2 = v2;
+
+	return check_equal(u1->protocol, u2->protocol)
+		&& check_equal(u1->user, u2->user)
+		&& check_equal(u1->authmech, u2->authmech)
+		&& check_equal(u1->passwd, u2->passwd)
+		&& check_equal(u1->host, u2->host)
+		&& check_equal(u1->path, u2->path)
+		&& u1->port == u2->port;
 }

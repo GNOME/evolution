@@ -67,6 +67,13 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	gtk_object_class->finalize = _finalize;
 }
 
+static void
+camel_service_init (void *o, void *k)
+{
+/*	CamelService *service = o;*/
+	return;
+}
+
 GtkType
 camel_service_get_type (void)
 {
@@ -79,7 +86,7 @@ camel_service_get_type (void)
 			sizeof (CamelService),
 			sizeof (CamelServiceClass),
 			(GtkClassInitFunc) camel_service_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) camel_service_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
@@ -91,7 +98,6 @@ camel_service_get_type (void)
 	
 	return camel_service_type;
 }
-
 
 static void           
 _finalize (GtkObject *object)

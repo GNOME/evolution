@@ -90,7 +90,7 @@ camel_store_get_type (void)
 			sizeof (CamelStore),
 			sizeof (CamelStoreClass),
 			(GtkClassInitFunc) camel_store_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) camel_store_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
@@ -166,7 +166,7 @@ cache_folder (CamelStore *store, const char *folder_name, CamelFolder *folder)
 		g_warning ("Caching folder %s that already exists.",
 			   folder_name);
 	}
-	g_hash_table_insert (store->folders, (gpointer)folder_name, folder);
+	g_hash_table_insert (store->folders, (gpointer)g_strdup(folder_name), folder);
 	gtk_signal_connect_object (GTK_OBJECT (folder), "destroy",
 				   GTK_SIGNAL_FUNC (CS_CLASS (store)->uncache_folder),
 				   GTK_OBJECT (store));
@@ -175,6 +175,7 @@ cache_folder (CamelStore *store, const char *folder_name, CamelFolder *folder)
 static void
 uncache_folder (CamelStore *store, CamelFolder *folder)
 {
+	/* FIXME: free name index */
 	g_hash_table_remove (store->folders,
 			     camel_folder_get_full_name (folder));
 }
@@ -186,18 +187,25 @@ get_folder_internal (CamelStore *store, const char *folder_name,
 {
 	CamelFolder *folder = NULL;
 
+	printf("Getting folder %p '%s'\n", store, folder_name);
 	/* Try cache first. */
 	folder = CS_CLASS (store)->lookup_folder (store, folder_name);
+
+	if (folder) {
+		printf("Folder cached!\n");
+	} else {
+		printf("Folder not cached!\n");
+	}
 
 	if (!folder) {
 		folder = CS_CLASS (store)->get_folder (store, folder_name, ex);
 		if (!folder)
 			return NULL;
 
+		printf("storing folder in cache: %p '%s'\n", store, folder_name);
 		CS_CLASS (store)->cache_folder (store, folder_name, folder);
 	}
 
-	gtk_object_ref (GTK_OBJECT (folder));
 	return folder;
 }
 

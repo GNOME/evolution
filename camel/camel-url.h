@@ -57,6 +57,10 @@ char *camel_url_encode (char *part, gboolean escape_unsafe,
 			char *escape_extra);
 void camel_url_decode (char *part);
 
+/* for putting url's into hash tables */
+guint camel_url_hash (const void *v);
+int camel_url_equal(const void *v, const void *v2);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

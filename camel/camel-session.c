@@ -34,12 +34,43 @@
 #include "camel-url.h"
 #include "hash-table-utils.h"
 
+static CamelObjectClass *parent_class;
+
 static void
 camel_session_init (CamelSession *session)
 {
 	session->modules = camel_provider_init ();
-	session->providers = g_hash_table_new (g_strcase_hash,
-					       g_strcase_equal);
+	session->providers =
+		g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	session->service_cache =
+		g_hash_table_new (camel_url_hash, camel_url_equal);
+}
+
+static void
+hash_unref_service(void *key, void *value, void *data)
+{
+	gtk_object_unref((GtkObject *)value);
+}
+
+static void
+camel_session_finalise(GtkObject *o)
+{
+	CamelSession *session = (CamelSession *)o;
+
+	g_hash_table_foreach(session->service_cache, hash_unref_service, 0);
+	g_hash_table_destroy(session->service_cache);
+	g_hash_table_destroy(session->providers);
+
+	GTK_OBJECT_CLASS (parent_class)->finalize (o);
+}
+
+static void
+camel_session_class_init (CamelServiceClass *camel_service_class)
+{
+	GtkObjectClass *object_class = (GtkObjectClass *)camel_service_class;
+
+	parent_class = gtk_type_class (camel_object_get_type ());
+	object_class->finalize = camel_session_finalise;
 }
 
 GtkType
@@ -53,7 +84,7 @@ camel_session_get_type (void)
 			"CamelSession",
 			sizeof (CamelSession),
 			sizeof (CamelSessionClass),
-			(GtkClassInitFunc) NULL,
+			(GtkClassInitFunc) camel_session_class_init,
 			(GtkObjectInitFunc) camel_session_init,
 				/* reserved_1 */ NULL,
 				/* reserved_2 */ NULL,
@@ -157,6 +188,11 @@ camel_session_list_providers (CamelSession *session, gboolean load)
 	return list;
 }
 
+static void
+service_cache_remove(CamelService *service, CamelSession *session)
+{
+	g_hash_table_remove(session->service_cache, service->url);
+}
 
 CamelService *
 camel_session_get_service (CamelSession *session, const char *url_string,
@@ -164,10 +200,22 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 {
 	CamelURL *url;
 	const CamelProvider *provider;
+	CamelService *service;
 
 	url = camel_url_new (url_string, ex);
 	if (!url)
 		return NULL;
+
+	/* lookup in cache first */
+	printf("looking up service in cache: %s\n", url_string);
+	service = g_hash_table_lookup(session->service_cache, url);
+	if (service != NULL) {
+		printf("found!!\n");
+		camel_url_free(url);
+		gtk_object_ref((GtkObject *)service);
+		return service;
+	}
+	printf("not found, creating service\n");
 
 	provider = g_hash_table_lookup (session->providers, url->protocol);
 	if (!provider) {
@@ -196,8 +244,12 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 		return NULL;
 	}
 
-	return camel_service_new (provider->object_types[type], session,
-				  url, ex);
+	service = camel_service_new (provider->object_types[type], session, url, ex);
+	if (service) {
+		g_hash_table_insert(session->service_cache, url, service);
+		gtk_signal_connect((GtkObject *)service, "destroy", service_cache_remove, session);
+	}
+	return service;
 }
 
 

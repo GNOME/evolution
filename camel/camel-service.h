@@ -51,7 +51,6 @@ struct _CamelService {
 	gboolean connected;
 	CamelURL *url;
 	int url_flags;
-
 };
 
 

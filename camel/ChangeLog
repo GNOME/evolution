@@ -1,3 +1,25 @@
+2000-05-30  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-folder.c (mbox_append_message): Init
+	filter_from to NULL, for exception case.
+	(mbox_get_message_by_uid): Cast off_t to long int for diagnostics.
+
+	* camel-url.c (camel_url_hash): Hash funciton for using camel
+	url's as hash keys.
+	(camel_url_equal): equal function for same.
+
+	* camel-session.c (camel_session_finalise): Free cached services.
+	(camel_session_init): Init service cache.
+	(service_cache_remove): destroy callback to remove a service from
+	the cache.
+
+	* camel-store.c (get_folder_internal): Remove the extra ref of the
+	folder.  That seems the right behaviour ...?
+	(camel_store_get_type): Doh, actually call store init, so the
+	cache works.
+	(cache_folder): strdup the folder name!  no wonder it never found
+	it again.
+
 2000-05-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c: Implemented a few more

@@ -683,7 +683,7 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 					goto error;
 				}
 				/* update from pos here? */
-				/*info->frompos += offset;*/
+				info->frompos += offset;
 			} else {
 				d(printf("Nothing to do for this message\n"));
 			}

@@ -593,7 +593,7 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelExcept
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 	CamelStream *output_stream = NULL, *filter_stream = NULL;
-	CamelMimeFilter *filter_from;
+	CamelMimeFilter *filter_from = NULL;
 	struct stat st;
 	off_t seek = -1;
 	char *xev;
@@ -779,8 +779,8 @@ mbox_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *
 
 	if (camel_mime_parser_tell_start_from(parser) != info->frompos) {
 		g_warning("Summary doesn't match the folder contents!  eek!\n"
-			  "  expecting offset %d got %d", info->frompos,
-			  camel_mime_parser_tell_start_from(parser));
+			  "  expecting offset %ld got %ld", (long int)info->frompos,
+			  (long int)camel_mime_parser_tell_start_from(parser));
 		errno = EINVAL;
 		goto fail;
 	}
