@@ -107,6 +107,7 @@ AC_DEFUN([GNOME_CHECK_GUILE],
 		  AC_MSG_WARN(Can not find Guile on this system)
 		fi
 		ac_cv_guile_found=no
+		GUILE_LIBS= GUILE_INCS=
 	fi
 
 	LIBS="$saved_LIBS"

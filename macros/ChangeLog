@@ -1,3 +1,8 @@
+Sat Dec  5 23:30:01 PST 1998 Manish Singh <yosh@gimp.org>
+
+	* gnome-guile-checks.m4: clear GUILE_LIBS and GUILE_INCS if
+	guile isn't there (quick fix)
+
 1998-12-05  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-sysdeps.m4: Recognice NetBSD as a valid
