@@ -100,5 +100,7 @@ EXTRA_DIST = $(server_in_files) $(server_DATA)
 BUILT_SOURCES = $(MAIL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
 
 @INTLTOOL_SERVER_RULE@
