@@ -1,5 +1,7 @@
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* pcs/cal-backend-imc.c: Set the format when creating a new calendar.
+
 	* pcs/cal-factory.c: Removed double free of method_string in
 	uri->method_string.
 

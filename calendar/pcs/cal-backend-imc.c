@@ -443,6 +443,8 @@ remove_object (CalBackendIMC *cbimc, iCalObject *ico)
 		break;
 
 	default:
+                /* Make the compiler shut up. */
+	        list = NULL;
 		g_assert_not_reached ();
 	}
 
@@ -777,6 +779,7 @@ cal_backend_imc_create (CalBackend *backend, GnomeVFSURI *uri)
 {
 	CalBackendIMC *cbimc;
 	IMCPrivate *priv;
+	char *str_uri;
 
 	cbimc = CAL_BACKEND_IMC (backend);
 	priv = cbimc->priv;
@@ -792,6 +795,24 @@ cal_backend_imc_create (CalBackend *backend, GnomeVFSURI *uri)
 	priv->dirty = TRUE;
 
 	/* Done */
+
+	/* FIXME: this looks rather bad; maybe we should check for local files
+	 * and fail if they are remote.
+	 */
+
+	str_uri = gnome_vfs_uri_to_string (uri,
+					   (GNOME_VFS_URI_HIDE_USER_NAME
+					    | GNOME_VFS_URI_HIDE_PASSWORD
+					    | GNOME_VFS_URI_HIDE_HOST_NAME
+					    | GNOME_VFS_URI_HIDE_HOST_PORT
+					    | GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD));
+
+	/* look at the extension on the filename and decide if this is a
+	 * iCalendar or vCalendar file.
+	 */
+	priv->format = cal_get_type_from_filename (str_uri);
+
+	g_free (str_uri);
 
 	gnome_vfs_uri_ref (uri);
 
