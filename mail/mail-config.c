@@ -1299,7 +1299,7 @@ mail_config_write_on_exit (void)
 	}
 	
 	/* then we clear out our component passwords */
-	e_passwords_clear_component_passwords ();
+	e_passwords_clear_component_passwords ("Mail");
 	
 	/* then we remember them */
 	accounts = mail_config_get_accounts ();

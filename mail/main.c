@@ -130,8 +130,6 @@ main (int argc, char *argv [])
 	
 	e_proxy_init ();
 	
-	e_passwords_init ("Mail");
-	
 	mail_config_init ();
 	mail_msg_init ();
 	

@@ -205,7 +205,7 @@ pass_response(GtkDialog *dialogue, int button, void *data)
 			
 			/* should we remember it between sessions? */
 			if (remember)
-				e_passwords_remember_password (m->key);
+				e_passwords_remember_password ("Mail", m->key);
 		}
 		break; }
 	default:
@@ -284,7 +284,7 @@ do_get_pass(struct _mail_msg *mm)
 		if (account)
 			m->result = g_strdup(account->source->url);
 	} else if (m->key) {
-		m->result = e_passwords_get_password(m->key);
+		m->result = e_passwords_get_password ("Mail", m->key);
 		if (m->result == NULL) {
 			if (mail_session->interactive) {
 				request_password(m);
@@ -359,7 +359,7 @@ main_forget_password (CamelSession *session, CamelService *service, const char *
 {
 	char *key = make_key (service, item);
 
-	e_passwords_forget_password (key);
+	e_passwords_forget_password ("Mail", key);
 	
 	g_free (key);
 }
@@ -845,7 +845,7 @@ mail_session_get_password (const char *url_string)
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	camel_url_free (url);
 
-	passwd = e_passwords_get_password (simple_url);
+	passwd = e_passwords_get_password ("Mail", simple_url);
 
 	g_free (simple_url);
 
@@ -878,7 +878,7 @@ mail_session_remember_password (const char *url_string)
 	simple_url = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	camel_url_free (url);
 
-	e_passwords_remember_password (simple_url);
+	e_passwords_remember_password ("Mail", simple_url);
 
 	g_free (simple_url);
 }
@@ -886,7 +886,7 @@ mail_session_remember_password (const char *url_string)
 void
 mail_session_forget_password (const char *key)
 {
-	e_passwords_forget_password (key);
+	e_passwords_forget_password ("Mail", key);
 }
 
 void

@@ -1,3 +1,17 @@
+2002-12-09  Chris Toshok  <toshok@ximian.com>
+
+	* mail-session.c (pass_response): pass "Mail" to e_passwords_*.
+	(do_get_pass): same.
+	(main_forget_password): same.
+	(mail_session_get_password): same.
+	(mail_session_remember_password): same.
+	(mail_session_forget_password): same.
+
+	* mail-config.c (mail_config_write_on_exit): pass "Mail" to
+	e_passwords_*.
+
+	* main.c (main): e_passwords_init is gone.
+
 2002-12-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (guess_me_from_accounts): Use the same logic as
