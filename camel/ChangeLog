@@ -1,3 +1,18 @@
+2004-11-23  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69615.
+
+	* camel-smime-context.c (sm_get_passwd): removed.  All callers
+	that passed it now pass NULL.  This is so we don't override the
+	password function set by e-cert-db.  Seems to work ok, I think.
+
+2004-11-22  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69109.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): if we have
+	ipv6 address and it is numeric, prefix it with "IPv6:"
+
 2004-11-30  Not Zed  <NotZed@Ximian.com>
 
 	* providers/nntp/camel-nntp-stream.c (CAMEL_NNTP_STREAM_LINE):

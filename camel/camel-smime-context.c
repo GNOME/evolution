@@ -86,37 +86,6 @@ sm_decrypt_key(void *arg, SECAlgorithmID *algid)
 	return (PK11SymKey *)arg;
 }
 
-static char *
-sm_get_passwd(PK11SlotInfo *info, PRBool retry, void *arg)
-{
-	CamelSMIMEContext *context = arg;
-	char *pass, *nsspass = NULL;
-	char *prompt;
-	CamelException *ex;
-
-	ex = camel_exception_new();
-
-	/* we got a password, but its asking again, the password we had was wrong */
-	if (context->priv->password_tries > 0) {
-		camel_session_forget_password(((CamelCipherContext *)context)->session, NULL, NULL, PK11_GetTokenName(info), NULL);
-		context->priv->password_tries = 0;
-	}
-
-	prompt = g_strdup_printf(_("Enter security pass-phrase for `%s'"), PK11_GetTokenName(info));
-	pass = camel_session_get_password(((CamelCipherContext *)context)->session, NULL, NULL, prompt,
-					  PK11_GetTokenName(info), CAMEL_SESSION_PASSWORD_SECRET|CAMEL_SESSION_PASSWORD_STATIC, ex);
-	camel_exception_free(ex);
-	g_free(prompt);
-	if (pass) {
-		nsspass = PORT_Strdup(pass);
-		memset(pass, 0, strlen(pass));
-		g_free(pass);
-		context->priv->password_tries++;
-	}
-	
-	return nsspass;
-}
-
 /**
  * camel_smime_context_new:
  * @session: session
@@ -185,7 +154,7 @@ camel_smime_context_describe_part(CamelSMIMEContext *context, CamelMimePart *par
 
 		dec = NSS_CMSDecoder_Start(NULL, 
 					   NULL, NULL,
-					   sm_get_passwd, context,	/* password callback    */
+					   NULL, NULL,	/* password callback    */
 					   NULL, NULL); /* decrypt key callback */
 		
 		NSS_CMSDecoder_Update(dec, istream->buffer->data, istream->buffer->len);
@@ -423,8 +392,8 @@ sm_sign(CamelCipherContext *context, const char *userid, CamelCipherHash hash, C
 
 	enc = NSS_CMSEncoder_Start(cmsg, 
 				   sm_write_stream, ostream, /* DER output callback  */
-				   NULL, NULL, /* destination storage  */
-				   sm_get_passwd, context, /* password callback    */
+				   NULL, NULL,     /* destination storage  */
+				   NULL, NULL,	   /* password callback    */
 				   NULL, NULL,     /* decrypt key callback */
 				   NULL, NULL );   /* detached digests    */
 	if (!enc) {
@@ -744,7 +713,7 @@ sm_verify(CamelCipherContext *context, CamelMimePart *ipart, CamelException *ex)
 
 	dec = NSS_CMSDecoder_Start(NULL, 
 				   NULL, NULL, /* content callback     */
-				   sm_get_passwd, context,	/* password callback    */
+				   NULL, NULL, 	/* password callback    */
 				   NULL, NULL); /* decrypt key callback */
 
 	camel_data_wrapper_decode_to_stream(camel_medium_get_content_object((CamelMedium *)sigpart), (CamelStream *)mem);
@@ -872,7 +841,7 @@ sm_encrypt(CamelCipherContext *context, const char *userid, GPtrArray *recipient
 	enc = NSS_CMSEncoder_Start(cmsg,
 				   sm_write_stream, ostream,
 				   NULL, NULL,
-				   sm_get_passwd, context,
+				   NULL, NULL,
 				   sm_decrypt_key, bulkkey,
 				   NULL, NULL);
 	if (enc == NULL) {
@@ -964,7 +933,7 @@ sm_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelMimePart *opa
 
 	dec = NSS_CMSDecoder_Start(NULL, 
 				   sm_write_stream, ostream, /* content callback     */
-				   sm_get_passwd, context,	/* password callback    */
+				   NULL, NULL,
 				   NULL, NULL); /* decrypt key callback */
 
 	if (NSS_CMSDecoder_Update(dec, istream->buffer->data, istream->buffer->len) != SECSuccess) {

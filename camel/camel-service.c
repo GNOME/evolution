@@ -969,15 +969,13 @@ cs_getnameinfo(void *data)
 
 	if (msg->host) {
 		g_free(msg->host);
-		msg->host = NULL;
 		if (msg->result == 0 && h.h_name && h.h_name[0]) {
 			msg->host = g_strdup(h.h_name);
-		} else if ((msg->flags & NI_NAMEREQD) == 0) {
+		} else {
 			unsigned char *in = (unsigned char *)&sin->sin_addr;
 			
 			/* sin_addr is always network order which is big-endian */
 			msg->host = g_strdup_printf("%u.%u.%u.%u", in[0], in[1], in[2], in[3]);
-			msg->result = 0;
 		}
 	}
 
