@@ -1825,7 +1825,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 		}
 	}
 	
-	e_msg_composer_set_headers (new, To, Cc, Bcc, subject);
+	e_msg_composer_set_headers (new, NULL, To, Cc, Bcc, subject);
 	
 	free_recipients (To);
 	free_recipients (Cc);
@@ -2046,6 +2046,7 @@ e_msg_composer_show_attachments (EMsgComposer *composer,
 /**
  * e_msg_composer_set_headers:
  * @composer: a composer object
+ * @from: the name of the account the user will send from
  * @to: the values for the "To" header
  * @cc: the values for the "Cc" header
  * @bcc: the values for the "Bcc" header
@@ -2054,8 +2055,11 @@ e_msg_composer_show_attachments (EMsgComposer *composer,
  * Sets the headers in the composer to the given values.
  **/
 void 
-e_msg_composer_set_headers (EMsgComposer *composer, const GList *to,
-			    const GList *cc, const GList *bcc,
+e_msg_composer_set_headers (EMsgComposer *composer,
+			    const char *from,
+			    const GList *to,
+			    const GList *cc,
+			    const GList *bcc,
 			    const char *subject)
 {
 	EMsgComposerHdrs *hdrs;
@@ -2063,6 +2067,7 @@ e_msg_composer_set_headers (EMsgComposer *composer, const GList *to,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	hdrs = E_MSG_COMPOSER_HDRS (composer->hdrs);
 	
+	e_msg_composer_hdrs_set_from_account (hdrs, from);
 	e_msg_composer_hdrs_set_to (hdrs, to);
 	e_msg_composer_hdrs_set_cc (hdrs, cc);
 	e_msg_composer_hdrs_set_bcc (hdrs, bcc);

@@ -641,6 +641,7 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
+	g_return_if_fail (account_name != NULL);
 	
 	omenu = GTK_OPTION_MENU (hdrs->priv->from_entry);
 	

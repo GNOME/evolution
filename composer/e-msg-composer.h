@@ -99,6 +99,7 @@ EMsgComposer     *e_msg_composer_new_from_url         (const char       *url);
 void              e_msg_composer_show_attachments     (EMsgComposer     *composer,
 						       gboolean          show);
 void              e_msg_composer_set_headers          (EMsgComposer     *composer,
+						       const char       *from,
 						       const GList      *to,
 						       const GList      *cc,
 						       const GList      *bcc,

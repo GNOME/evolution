@@ -95,8 +95,8 @@ impl_Composer_set_headers (PortableServer_Servant servant,
 	gto = corba_recipientlist_to_glist (to);
 	gcc = corba_recipientlist_to_glist (cc);
 	gbcc = corba_recipientlist_to_glist (bcc);
-
-	e_msg_composer_set_headers (composer->composer, gto, gcc, gbcc,
+	
+	e_msg_composer_set_headers (composer->composer, NULL, gto, gcc, gbcc,
 				    subject);
 
 	free_recipient_glist (gto);

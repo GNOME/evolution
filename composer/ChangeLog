@@ -1,3 +1,14 @@
+2001-02-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-composer.c (impl_Composer_set_headers): Updated. We
+	might want to change the corba interface for this to allow setting
+	the from-address as well.
+
+	* e-msg-composer.c (e_msg_composer_new_with_message): Updated.
+	(e_msg_composer_set_headers): Now takes a 'From' argument so that
+	we can try to pre-determine the account the user will want to send
+	from.
+
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* e-msg-composer-attachment.glade.h: removed.
