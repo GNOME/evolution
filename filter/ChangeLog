@@ -1,3 +1,25 @@
+2003-02-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-editor.c (filter_editor_new): Use g_object_new()
+	instead of gtk_type_new().
+
+	* vfolder-editor.c (vfolder_editor_new): Use g_object_new()
+	instead of gtk_type_new().
+
+	* score-editor.c (score_editor_new): Use g_object_new() instead of
+	gtk_type_new().
+
+	* rule-editor.c (rule_editor_new): Use g_object_new() instead of
+	gtk_type_new().
+	(rule_add): Use gtk_window_set_resizable() instead of the
+	deprecated gtk_window_set_policy().
+	(rule_edit): Same here.
+	(rule_editor_construct): Here too.
+
+	* rule-context.c (rule_context_add_rule_gui): Use
+	gtk_window_set_resizable() instead of the deprecated
+	gtk_window_set_policy().
+
 2003-02-05  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (gladedir): Defined in configure.in now

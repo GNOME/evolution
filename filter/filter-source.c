@@ -26,6 +26,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include "filter-source.h"
 
 #include <gtk/gtk.h>

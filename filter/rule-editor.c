@@ -159,7 +159,7 @@ rule_editor_destroy (GtkObject *obj)
 RuleEditor *
 rule_editor_new (RuleContext *rc, const char *source)
 {
-	RuleEditor *re = (RuleEditor *) gtk_type_new (rule_editor_get_type ());
+	RuleEditor *re = (RuleEditor *) g_object_new (RULE_TYPE_EDITOR, NULL);
 	GladeXML *gui;
 	GtkWidget *w;
 	
@@ -290,7 +290,7 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 	
 	gtk_window_set_title ((GtkWindow *) re->dialog, _("Add Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
-	gtk_window_set_policy (GTK_WINDOW (re->dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (re->dialog), TRUE);
 	gtk_window_set_transient_for ((GtkWindow *) re->dialog, (GtkWindow *) re);
 	
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
@@ -371,7 +371,7 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	
 	gtk_window_set_title ((GtkWindow *) re->dialog, _("Edit Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
-	gtk_window_set_policy (GTK_WINDOW (re->dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (re->dialog), TRUE);
 	gtk_widget_set_parent_window (GTK_WIDGET (re->dialog), GTK_WIDGET (re)->window);
 	
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
@@ -706,14 +706,13 @@ rule_editor_treeview_new (char *widget_name, char *string1, char *string2, int i
 void
 rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, const char *source)
 {
-	GtkTreeSelection *selection;
 	GtkWidget *w;
 	int i;
 	
 	re->context = context;
 	g_object_ref (context);
 	
-	gtk_window_set_policy ((GtkWindow *) re, FALSE, TRUE, FALSE);
+	gtk_window_set_resizable ((GtkWindow *) re, TRUE);
 	
         w = glade_xml_get_widget (gui, "rule_editor");
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re)->vbox), w, TRUE, TRUE, 0);

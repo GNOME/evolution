@@ -686,7 +686,7 @@ rule_context_add_rule_gui (RuleContext *rc, FilterRule *rule, const char *title,
 	
 	gtk_window_set_title ((GtkWindow *) dialog, title);
 	gtk_window_set_default_size ((GtkWindow *) dialog, 600, 400);
-	gtk_window_set_policy ((GtkWindow *) dialog, FALSE, TRUE, FALSE);
+	gtk_window_set_resizable ((GtkWindow *) dialog, TRUE);
 	
 	gtk_box_pack_start ((GtkBox *) dialog->vbox, widget, TRUE, TRUE, 0);
 	

@@ -25,6 +25,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <libgnome/gnome-i18n.h>
@@ -397,7 +399,6 @@ source_add (GtkWidget *widget, struct _source_data *data)
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 	char *def, *uri;
-	GList *l;
 	
 	gtk_widget_set_sensitive (widget, FALSE);
 	def = "";
@@ -438,7 +439,6 @@ source_remove (GtkWidget *widget, struct _source_data *data)
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	int index = 0;
-	GList *l;
 	int len;
 	
 	source = NULL;
@@ -526,9 +526,8 @@ static GtkWidget *
 get_widget (FilterRule *fr, RuleContext *rc)
 {
 	VfolderRule *vr = (VfolderRule *) fr;
-	GtkTreeSelection *selection;
-	struct _source_data *data;
 	GtkWidget *widget, *frame, *list;
+	struct _source_data *data;
 	GtkOptionMenu *omenu;
 	const char *source;
 	GtkTreeIter iter;

@@ -71,10 +71,9 @@ static void
 filter_editor_class_init (FilterEditorClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	RuleEditorClass *re_class = (RuleEditorClass *) klass;
 	
-	parent_class = g_type_class_ref(rule_editor_get_type ());
+	parent_class = g_type_class_ref (rule_editor_get_type ());
 	
 	gobject_class->finalize = filter_editor_finalise;
 	
@@ -104,7 +103,7 @@ filter_editor_finalise (GObject *obj)
 FilterEditor *
 filter_editor_new (FilterContext *fc, const char **source_names)
 {
-	FilterEditor *fe = (FilterEditor *) gtk_type_new (filter_editor_get_type ());
+	FilterEditor *fe = (FilterEditor *) g_object_new (FILTER_TYPE_EDITOR, NULL);
 	GladeXML *gui;
 	GtkWidget *w;
 	

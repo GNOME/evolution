@@ -103,7 +103,7 @@ score_editor_finalise (GObject *obj)
 ScoreEditor *
 score_editor_new (ScoreContext *sc)
 {
-	ScoreEditor *se = (ScoreEditor *) gtk_type_new (score_editor_get_type ());
+	ScoreEditor *se = (ScoreEditor *) g_object_new (SCORE_TYPE_EDITOR, NULL);
 	GladeXML *gui;
 	GtkWidget *w;
 	

@@ -71,7 +71,6 @@ static void
 vfolder_editor_class_init (VfolderEditorClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	RuleEditorClass *re_class = (RuleEditorClass *) klass;
 	
 	parent_class = g_type_class_ref (rule_editor_get_type ());
@@ -104,7 +103,7 @@ vfolder_editor_finalise (GObject *obj)
 VfolderEditor *
 vfolder_editor_new (VfolderContext *vc)
 {
-	VfolderEditor *ve = (VfolderEditor *) gtk_type_new (vfolder_editor_get_type ());
+	VfolderEditor *ve = (VfolderEditor *) g_object_new (VFOLDER_TYPE_EDITOR, NULL);
 	GladeXML *gui;
 	GtkWidget *w;
 	
