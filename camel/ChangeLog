@@ -1,3 +1,8 @@
+2000-05-24  Dan Winship  <danw@helixcode.com>
+
+	* camel.h: Re-add camel-simple-data-wrapper.h, which was removed
+	for some reason.
+
 2000-05-24  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/smtp/camel-smtp-transport.[c,h]: Moved global
