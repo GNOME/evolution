@@ -37,6 +37,7 @@
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"
 #include "calendar-config.h"
+#include "itip-utils.h"
 #include "calendar-model.h"
 
 
@@ -69,6 +70,9 @@ struct _CalendarModelPrivate {
 	   creating a new task. */
 	gchar *default_category;
 
+	/* Addresses for determining icons */
+	GList *addresses;
+	
 	/* The current timezone. */
 	icaltimezone *zone;
 };
@@ -175,6 +179,8 @@ calendar_model_init (CalendarModel *model)
 	priv->new_comp_vtype = CAL_COMPONENT_EVENT;
 	priv->use_24_hour_format = TRUE;
 
+	priv->addresses = itip_addresses_get ();
+	
 	priv->zone = NULL;
 }
 
@@ -257,6 +263,8 @@ calendar_model_destroy (GtkObject *object)
 	priv->objects = NULL;
 
 	g_free (priv->default_category);
+
+	itip_addresses_free (priv->addresses);
 
 	/* Free the private structure */
 
@@ -756,23 +764,55 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		return GINT_TO_POINTER (cal_component_has_alarms (comp));
 
 	case CAL_COMPONENT_FIELD_ICON:
-		/* FIXME: Also support 'Assigned to me' & 'Assigned to someone
-		   else'. */
+	{
+		ItipAddress *ia;		
+		CalComponentOrganizer organizer;		
+		GSList *attendees = NULL, *sl;		
+		gint retval = 0;
+
 		if (cal_component_has_recurrences (comp))
 			return GINT_TO_POINTER (1);
-		else {
-			icalcomponent *ical_comp;
-
-			ical_comp = cal_component_get_icalcomponent (comp);
-			if (icalcomponent_get_first_property (ical_comp,
-							      ICAL_ATTENDEE_PROPERTY) != NULL)
-			{
-				return GINT_TO_POINTER (2); /* Task-assigned */
+		
+		cal_component_get_organizer (comp, &organizer);
+		if (organizer.value != NULL) {
+			GList *l;
+			const char *text = itip_strip_mailto (organizer.value);
+			
+			for (l = priv->addresses; l != NULL; l = l->next) {
+				ia = l->data;
+				
+				if (!strcmp (text, ia->address)) {
+					retval = 3;
+					goto cleanup;
+				}
 			}
-			else {
-				return GINT_TO_POINTER (0);
+		}		
+		
+		cal_component_get_attendee_list (comp, &attendees);
+		for (sl = attendees; sl != NULL; sl = sl->next) {
+			CalComponentAttendee *ca = sl->data;
+			const char *text;
+			GList *l;
+
+			text = itip_strip_mailto (ca->value);
+			for (l = priv->addresses; l != NULL; l = l->next) {
+				ia = l->data;
+				
+				if (!strcmp (text, ia->address)) {
+					if (ca->delto != NULL)
+						retval = 3;
+					else
+						retval = 2;
+					goto cleanup;
+				}
 			}
 		}
+
+		cleanup:
+		cal_component_free_attendee_list (attendees);
+		return GINT_TO_POINTER (retval);		
+		break;
+	}
 	case CAL_COMPONENT_FIELD_COMPLETE:
 		return GINT_TO_POINTER (is_complete (comp));
 

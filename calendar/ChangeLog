@@ -1,5 +1,12 @@
 2001-09-17  JP Rosevear  <jpr@ximian.com>
 
+	* gui/calendar-model.c (calendar_model_init): get itip addresses
+	(calendar_model_destroy): destroy same
+	(calendar_model_value_at): do more thorough checking on whether to
+	use recurring, assigned, assigned to or regular task icons
+
+2001-09-17  JP Rosevear  <jpr@ximian.com>
+	
 	* cal-util/cal-component.c (for_each_remove_all_alarms): for each
 	call back, removes the alarms
 	(cal_component_remove_all_alarms): remove all alarms from the
