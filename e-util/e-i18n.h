@@ -34,6 +34,8 @@
 #    define N_(String) (String)
 #endif
 
+#ifndef __GNOME_I18N_H__
 #define __GNOME_I18N_H__ 1
+#endif
 
 #endif /* __E_I18N_H__ */

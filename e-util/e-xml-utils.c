@@ -21,21 +21,23 @@
  */
 
 #include <locale.h>
+#include <libgnome/libgnome.h>
 #include "gal/util/e-i18n.h"
 #include <math.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 #include "e-xml-utils.h"
 
-xmlNode *e_xml_get_child_by_name(const xmlNode *parent, const xmlChar *child_name)
+xmlNode *
+e_xml_get_child_by_name (const xmlNode *parent, const xmlChar *child_name)
 {
 	xmlNode *child;
 
-	g_return_val_if_fail(parent != NULL, NULL);
-	g_return_val_if_fail(child_name != NULL, NULL);
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (child_name != NULL, NULL);
 	
-	for (child = parent->childs; child; child = child->next) {
-		if ( !xmlStrcmp( child->name, child_name ) ) {
+	for (child = parent->childs; child != NULL; child = child->next) {
+		if (xmlStrcmp (child->name, child_name) == 0) {
 			return child;
 		}
 	}
@@ -47,52 +49,143 @@ xmlNode *e_xml_get_child_by_name(const xmlNode *parent, const xmlChar *child_nam
  * child with the name child_name and no "lang" attribute.
  */
 xmlNode *
-e_xml_get_child_by_name_by_lang(const xmlNode *parent, const xmlChar *child_name, const char *lang)
+e_xml_get_child_by_name_by_lang (const xmlNode *parent, const xmlChar *child_name, const gchar *lang)
 {
 	xmlNode *child;
 	/* This is the default version of the string. */
 	xmlNode *C = NULL;
 
-	g_return_val_if_fail(parent != NULL, NULL);
-	g_return_val_if_fail(child_name != NULL, NULL);
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (child_name != NULL, NULL);
 
-	if (lang == NULL)
-		lang = setlocale(LC_MESSAGES, NULL);
-
-	for (child = parent->childs; child; child = child->next) {
-		if ( !xmlStrcmp( child->name, child_name ) ) {
-			char *this_lang = xmlGetProp(child, "lang");
-			if ( this_lang == NULL ) {
+	if (lang == NULL) {
+		lang = setlocale (LC_MESSAGES, NULL);
+	}
+	for (child = parent->childs; child != NULL; child = child->next) {
+		if (xmlStrcmp (child->name, child_name) == 0) {
+			xmlChar *this_lang = xmlGetProp (child, "lang");
+			if (this_lang == NULL) {
 				C = child;
-			}
-			else if (!strcmp(this_lang, "lang"))
+			} else if (xmlStrcmp(this_lang, "lang") == 0) {
 				return child;
+			}
 		}
 	}
 	return C;
 }
 
-int
-e_xml_get_integer_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
+static xmlNode *
+e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent, const gchar *name, GList *lang_list, gint *best_lang_score)
+{
+	xmlNodePtr best_node = NULL, node;
+
+	for (node = parent->childs; node != NULL; node = node->next) {
+		xmlChar *lang;
+
+		if (node->name == NULL || strcmp (node->name, name) != 0) {
+			continue;
+		}
+		lang = xmlGetProp (node, "xml:lang");
+		if (lang != NULL) {
+			GList *l;
+			gint i;
+
+			for (l = lang_list, i = 0; l != NULL && i < *best_lang_score; l = l->next, i++) {
+				if (strcmp ((gchar *) l->data, lang) == 0) {
+					best_node = node;
+					*best_lang_score = i;
+				}
+			}
+		} else {
+			if (best_node == NULL) {
+				best_node = node;
+			}
+		}
+		xmlFree (lang);
+		if (*best_lang_score == 0) {
+			return best_node;
+		} 
+	}
+
+	return best_node;
+}
+
+/*
+ * e_xml_get_child_by_name_by_lang_list:
+ *
+ */
+xmlNode *
+e_xml_get_child_by_name_by_lang_list (const xmlNode *parent, const gchar *name, GList *lang_list)
+{
+	gint best_lang_score = INT_MAX;
+
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	if (lang_list == NULL) {
+		lang_list = gnome_i18n_get_language_list ("LC_MESSAGES");
+	}
+	return e_xml_get_child_by_name_by_lang_list_with_score (parent, name, lang_list, &best_lang_score);
+}
+
+/*
+ * e_xml_get_child_by_name_no_lang
+ *
+ */
+xmlNode *
+e_xml_get_child_by_name_no_lang (const xmlNode *parent, const gchar *name)
+{
+	xmlNodePtr node;
+
+	g_return_val_if_fail (parent != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	for (node = parent->childs; node != NULL; node = node->next) {
+		xmlChar *lang;
+
+		if (node->name == NULL || strcmp (node->name, name) != 0) {
+			continue;
+		}
+		lang = xmlGetProp (node, "xml:lang");
+		if (lang == NULL) {
+			return node;
+		}
+		xmlFree (lang);
+	}
+
+	return NULL;
+}
+
+gint
+e_xml_get_integer_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+{
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	return e_xml_get_integer_prop_by_name_with_default (parent, prop_name, 0);
+}
+
+gint
+e_xml_get_integer_prop_by_name_with_default (const xmlNode *parent, const xmlChar *prop_name, gint def)
 {
 	xmlChar *prop;
-	int ret_val = 0;
+	gint ret_val = def;
 
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
-	prop = xmlGetProp ((xmlNode *)parent, prop_name);
-	if (prop) {
-		ret_val = atoi (prop);
+	prop = xmlGetProp ((xmlNode *) parent, prop_name);
+	if (prop != NULL) {
+		(void) sscanf (prop, "%d", &ret_val);
 		xmlFree (prop);
 	}
 	return ret_val;
 }
 
 void
-e_xml_set_integer_prop_by_name(xmlNode *parent, const xmlChar *prop_name, int value)
+e_xml_set_integer_prop_by_name (xmlNode *parent, const xmlChar *prop_name, gint value)
 {
-	xmlChar *valuestr;
+	gchar *valuestr;
 
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);
@@ -102,22 +195,52 @@ e_xml_set_integer_prop_by_name(xmlNode *parent, const xmlChar *prop_name, int va
 	g_free (valuestr);
 }
 
-gboolean
-e_xml_get_bool_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
+guint
+e_xml_get_uint_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+{
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	return e_xml_get_uint_prop_by_name_with_default (parent, prop_name, 0);
+}
+
+guint
+e_xml_get_uint_prop_by_name_with_default (const xmlNode *parent, const xmlChar *prop_name, guint def)
 {
 	xmlChar *prop;
-	gboolean ret_val = FALSE;
+	guint ret_val = def;
 
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
-	prop = xmlGetProp ((xmlNode *)parent, prop_name);
-	if (prop) {
-		if(!strcasecmp(prop, "true"))
-			ret_val = TRUE;
-		xmlFree(prop);
+	prop = xmlGetProp ((xmlNode *) parent, prop_name);
+	if (prop != NULL) {
+		(void) sscanf (prop, "%u", &ret_val);
+		xmlFree (prop);
 	}
 	return ret_val;
+}
+
+void
+e_xml_set_uint_prop_by_name (xmlNode *parent, const xmlChar *prop_name, guint value)
+{
+	gchar *valuestr;
+
+	g_return_if_fail (parent != NULL);
+	g_return_if_fail (prop_name != NULL);
+
+	valuestr = g_strdup_printf ("%u", value);
+	xmlSetProp (parent, prop_name, valuestr);
+	g_free (valuestr);
+}
+
+gboolean
+e_xml_get_bool_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+{
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	return e_xml_get_bool_prop_by_name_with_default (parent, prop_name, FALSE);
 }
 
 gboolean
@@ -129,121 +252,124 @@ e_xml_get_bool_prop_by_name_with_default(const xmlNode *parent, const xmlChar *p
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
-	prop = xmlGetProp ((xmlNode *)parent, prop_name);
-	if (prop) {
-		if(!strcasecmp(prop, "true"))
+	prop = xmlGetProp ((xmlNode *) parent, prop_name);
+	if (prop != NULL) {
+		if (strcasecmp (prop, "true") == 0) {
 			ret_val = TRUE;
-		else
+		} else if (strcasecmp (prop, "false") == 0) {
 			ret_val = FALSE;
+		}
 		xmlFree(prop);
 	}
 	return ret_val;
 }
 
 void
-e_xml_set_bool_prop_by_name(xmlNode *parent, const xmlChar *prop_name, gboolean value)
+e_xml_set_bool_prop_by_name (xmlNode *parent, const xmlChar *prop_name, gboolean value)
 {
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);
 
-	if (value)
+	if (value) {
 		xmlSetProp (parent, prop_name, "true");
-	else
-		xmlSetProp (parent, prop_name, "false");
-}
-
-double
-e_xml_get_double_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
-{
-	xmlChar *prop;
-	double ret_val = 0;
-
-	g_return_val_if_fail (parent != NULL, 0);
-	g_return_val_if_fail (prop_name != NULL, 0);
-
-	prop = xmlGetProp ((xmlNode *)parent, prop_name);
-	if (prop) {
-		sscanf (prop, "%lf", &ret_val);
-		xmlFree (prop);
-	}
-	return ret_val;
-}
-
-double
-e_xml_get_double_prop_by_name_with_default(const xmlNode *parent, const xmlChar *prop_name,
-					   gdouble def)
-{
-	xmlChar *prop;
-	double ret_val = 0;
-
-	g_return_val_if_fail (parent != NULL, 0);
-	g_return_val_if_fail (prop_name != NULL, 0);
-
-	prop = xmlGetProp ((xmlNode *)parent, prop_name);
-	if (prop) {
-		sscanf (prop, "%lf", &ret_val);
-		xmlFree (prop);
 	} else {
-		ret_val = def;
+		xmlSetProp (parent, prop_name, "false");
+	}
+}
+
+gdouble
+e_xml_get_double_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+{
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	return e_xml_get_double_prop_by_name_with_default (parent, prop_name, 0.0);
+}
+
+gdouble
+e_xml_get_double_prop_by_name_with_default (const xmlNode *parent, const xmlChar *prop_name, gdouble def)
+{
+	xmlChar *prop;
+	gdouble ret_val = def;
+
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	prop = xmlGetProp ((xmlNode *) parent, prop_name);
+	if (prop != NULL) {
+		(void) sscanf (prop, "%lf", &ret_val);
+		xmlFree (prop);
 	}
 	return ret_val;
 }
 
 void
-e_xml_set_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name, double value)
+e_xml_set_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name, gdouble value)
 {
-	xmlChar *valuestr;
+	gchar *valuestr;
 
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);
 
-	if (fabs (value) < 1e9 && fabs (value) > 1e-5)
+	if (fabs (value) < 1e9 && fabs (value) > 1e-5) {
 		valuestr = g_strdup_printf ("%f", value);
-	else
+	} else {
 		valuestr = g_strdup_printf ("%.*g", DBL_DIG, value);
+	}
 	xmlSetProp (parent, prop_name, valuestr);
 	g_free (valuestr);
 }
 
-char *
-e_xml_get_string_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
+gchar *
+e_xml_get_string_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
+{
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	return e_xml_get_string_prop_by_name_with_default (parent, prop_name, NULL);
+}
+
+gchar *
+e_xml_get_string_prop_by_name_with_default (const xmlNode *parent, const xmlChar *prop_name, const gchar *def)
 {
 	xmlChar *prop;
-	char *ret_val = NULL;
+	gchar *ret_val;
 
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
-	prop = xmlGetProp ((xmlNode *)parent, prop_name);
-	if (prop) {
+	prop = xmlGetProp ((xmlNode *) parent, prop_name);
+	if (prop != NULL) {
 		ret_val = g_strdup (prop);
 		xmlFree (prop);
+	} else {
+		ret_val = g_strdup (def);
 	}
 	return ret_val;
 }
 
 void
-e_xml_set_string_prop_by_name(xmlNode *parent, const xmlChar *prop_name, const char *value)
+e_xml_set_string_prop_by_name (xmlNode *parent, const xmlChar *prop_name, const gchar *value)
 {
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);
 
-	if (value)
+	if (value != NULL) {
 		xmlSetProp (parent, prop_name, value);
+	}
 }
 
-
-char *
-e_xml_get_translated_string_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
+gchar *
+e_xml_get_translated_string_prop_by_name (const xmlNode *parent, const xmlChar *prop_name)
 {
 	xmlChar *prop;
-	char *ret_val = NULL;
+	gchar *ret_val = NULL;
 
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
-	prop = xmlGetProp ((xmlNode *)parent, prop_name);
-	if (prop) {
+	prop = xmlGetProp ((xmlNode *) parent, prop_name);
+	if (prop != NULL) {
 		ret_val = g_strdup (_(prop));
 		xmlFree (prop);
 	}
