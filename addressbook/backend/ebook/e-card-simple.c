@@ -821,7 +821,7 @@ char     *e_card_simple_get            (ECardSimple          *simple,
 					field_data[field].ecard_field, &boole,
 					NULL);
 			if (boole)
-				return "true";
+				return g_strdup("true");
 			else
 				return NULL;
 		} else {
