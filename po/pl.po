@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "POT-Creation-Date: 2001-07-09 12:59+0200\n"
-"PO-Revision-Date: 2001-07-09 13:05+0200\n"
+"PO-Revision-Date: 2001-07-09 20:08+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2314,9 +2314,8 @@ msgid "Compress weekends in month view"
 msgstr "Kompresowanie weekendów na widoku miesiêcznym"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
-#, fuzzy
 msgid "Date Navigator"
-msgstr "Opcje wyboru daty"
+msgstr "Nawigator daty"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 msgid "Defaults"
@@ -2496,15 +2495,15 @@ msgstr ""
 
 #: calendar/gui/dialogs/changed-comp.c:1
 msgid "This event has been changed."
-msgstr ""
+msgstr "Zdarzenie zosta³o zmienione."
 
 #: calendar/gui/dialogs/changed-comp.c:1
 msgid "This task has been changed."
-msgstr ""
+msgstr "Zadanie zosta³o zmienione."
 
 #: calendar/gui/dialogs/changed-comp.c:1
 msgid "This journal entry has been changed."
-msgstr ""
+msgstr "Wpis dziennika zosta³ zmieniony."
 
 #: calendar/gui/dialogs/changed-comp.c:1
 #, c-format
@@ -2543,9 +2542,8 @@ msgid "Due "
 msgstr "Data wykonania"
 
 #: calendar/gui/dialogs/comp-editor.c:1
-#, fuzzy
 msgid "Edit Appointment"
-msgstr "Modyfikuj termin"
+msgstr "Zmodyfikuj termin"
 
 #: calendar/gui/dialogs/comp-editor.c:1
 #, c-format
@@ -2560,7 +2558,7 @@ msgstr "Zadanie - %s"
 #: calendar/gui/dialogs/comp-editor.c:1
 #, c-format
 msgid "Journal entry - %s"
-msgstr ""
+msgstr "Wpis dziennika - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:1
 msgid "No summary"
@@ -2587,7 +2585,7 @@ msgstr "Zapisz jako..."
 
 #: calendar/gui/dialogs/comp-editor.c:1
 msgid "Unable to obtain current version!"
-msgstr ""
+msgstr "Nie mo¿na uzyskaæ bie¿±cej wersji!"
 
 #: calendar/gui/dialogs/delete-comp.c:1
 #, c-format
@@ -2723,13 +2721,12 @@ msgid "Sent By:"
 msgstr "Wys³ane przez:"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:1
-#, fuzzy
 msgid "Change Organizer"
-msgstr "Organizator:"
+msgstr "Zmieñ organizatora"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:1
 msgid "Invite Others"
-msgstr ""
+msgstr "Zapro¶ innych"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:1
 #: calendar/gui/dialogs/task-details-page.glade.h:1
@@ -2738,9 +2735,8 @@ msgid "Organizer:"
 msgstr "Organizator:"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:1
-#, fuzzy
 msgid "Other Organizer"
-msgstr "Organizator:"
+msgstr "Inny organizator"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
 msgid "Custom recurrence"
@@ -2834,15 +2830,15 @@ msgstr "Czy chcesz zapisaæ zmiany?"
 
 #: calendar/gui/dialogs/send-comp.c:1
 msgid "The meeting information has changed. Send an updated version?"
-msgstr ""
+msgstr "Informacje o spotkaniu zosta³y zmienione. Czy wys³aæ aktualn± wersjê?"
 
 #: calendar/gui/dialogs/send-comp.c:1
 msgid "The task information has changed. Send an updated version?"
-msgstr ""
+msgstr "Informacje o zadaniu zosta³y zmienione. Czy wys³aæ aktualn± wersjê?"
 
 #: calendar/gui/dialogs/send-comp.c:1
 msgid "The journal entry has changed. Send an updated version?"
-msgstr ""
+msgstr "Wpis dziennika zosta³ zmieniony. Czy wys³aæ aktualn± wersjê?"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:1
 msgid "Date Completed:"
@@ -3121,16 +3117,15 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1
 msgid "This is an event that can be added to your calendar."
-msgstr ""
+msgstr "To jest zdarzenie, które mo¿na dodaæ do kalendarza."
 
 #: calendar/gui/e-itip-control.c:1
-#, fuzzy
 msgid "This is a meeting request."
-msgstr "_To jest adres pocztowy"
+msgstr ""
 
 #: calendar/gui/e-itip-control.c:1
 msgid "This is one or more additions to a current meeting."
-msgstr ""
+msgstr "To jest jeden lub wiêcej dodatków do bie¿±cego spotkania."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "This is a request for the latest event information."
@@ -3142,7 +3137,7 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1
 msgid "This is an event cancellation."
-msgstr ""
+msgstr "To jest anulowanie zdarzenia."
 
 #: calendar/gui/e-itip-control.c:1 calendar/gui/e-itip-control.c:1
 #: calendar/gui/e-itip-control.c:1
@@ -3151,7 +3146,7 @@ msgstr "List jest niezrozumia³y."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "This is an task that can be added to your calendar."
-msgstr ""
+msgstr "To jest zadanie, które mo¿na dodaæ do kalendarza."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "This is a task request."
@@ -3167,7 +3162,7 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1
 msgid "This is an task cancellation."
-msgstr ""
+msgstr "To jest anulowanie zadania."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "This is freebusy information."
@@ -3232,11 +3227,11 @@ msgstr "Komunikat serwera:"
 
 #: calendar/gui/e-itip-control.glade.h:1
 msgid "date-end"
-msgstr ""
+msgstr "data-pocz±tkowa"
 
 #: calendar/gui/e-itip-control.glade.h:1
 msgid "date-start"
-msgstr ""
+msgstr "data-koñcowa"
 
 #: calendar/gui/e-tasks.c:1 calendar/gui/e-tasks.c:1
 #: calendar/gui/e-tasks.c:1
@@ -3274,7 +3269,7 @@ msgstr "%d %B"
 
 #: calendar/gui/itip-utils.c:1
 msgid "An organizer must be set."
-msgstr ""
+msgstr "Nale¿y podaæ organizatora."
 
 #: calendar/gui/gnome-cal.c:1
 msgid "Summary contains"
@@ -3289,9 +3284,8 @@ msgid "Comment contains"
 msgstr "Komentarz zawiera"
 
 #: calendar/gui/gnome-cal.c:1
-#, fuzzy
 msgid "Has category"
-msgstr "jest po"
+msgstr "Ma kategoriê"
 
 #: calendar/gui/gnome-cal.c:1
 #, c-format
@@ -6386,7 +6380,7 @@ msgstr "Odpowiedz na _listê"
 
 #: mail/folder-browser.c:1 ui/evolution-mail-message.xml.h:1
 msgid "Reply to _All"
-msgstr "Odpowiedz _wszystkim"
+msgstr "Odpowiedz wszystki_m"
 
 #: mail/folder-browser.c:1
 msgid "_Forward"
@@ -6493,6 +6487,14 @@ msgstr ""
 msgid "Mail configuration interface"
 msgstr "Interfejs konfiguracji poczty"
 
+#: mail/component-factory.c:1
+msgid "Properties..."
+msgstr "W³a¶ciwo¶ci..."
+
+#: mail/component-factory.c:1
+msgid "Change this folder's properties"
+msgstr "Zmienia w³a¶ciwo¶ci folderu"
+
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:1
 msgid "Factory to import mbox into Evolution"
 msgstr "Generator importu plików mbox do Evolution."
@@ -6527,23 +6529,26 @@ msgid ""
 "(such as lack of disk space) may not be automatically\n"
 "recoverable.  Please use this feature with care."
 msgstr ""
+"Uwaga: Przerwanie operacji zmiany formatu skrzynki\n"
+"(np. spowodowane brakiem miejsca na dysku) mo¿e doprowadziæ\n"
+"do stanu, w którym automatyczne odtworzenie danych nie bêdzie\n"
+"mo¿liwe. Korzystaj wiêc z tej opcji bardzo ostro¿nie."
 
 #: mail/local-config.glade.h:1
 msgid "maildir"
-msgstr ""
+msgstr "maildir"
 
 #: mail/local-config.glade.h:1
 msgid "mbox"
-msgstr ""
+msgstr "mbox"
 
 #: mail/local-config.glade.h:1
-#, fuzzy
 msgid "mh"
-msgstr "h"
+msgstr "mh"
 
 #: mail/mail-account-editor-news.c:1 mail/mail-account-editor.c:1
 msgid "You have not filled in all of the required information."
-msgstr ""
+msgstr "Nie zosta³y podane wszystkie wymagane informacje."
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:1
@@ -6557,20 +6562,18 @@ msgid "Evolution News Editor"
 msgstr "Modyfikacja konta Evolution"
 
 #: mail/mail-account-gui.c:1
-#, fuzzy
 msgid "Save signature"
-msgstr "Plik z podpisem:"
+msgstr "Zapisz podpis"
 
 #: mail/mail-account-gui.c:1
-#, fuzzy
 msgid ""
 "This signature has been changed, but hasn't been saved.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
-"List nie zosta³ wys³any.\n"
+"Podpis zosta³ zmieniony, lecz zmiany nie s± zapisane.\n"
 "\n"
-"Czy chcesz zapisaæ zmiany?"
+"Czy chcesz je zapisaæ?"
 
 #: mail/mail-accounts.c:1
 msgid " (default)"
@@ -8901,15 +8904,15 @@ msgstr ""
 #. TORNADO
 #: my-evolution/metar.c:1
 msgid "Tornado"
-msgstr ""
+msgstr "Tornado"
 
 #: my-evolution/metar.c:1
 msgid "Tornado in the vicinity"
-msgstr ""
+msgstr "Nadchodz±ce tornado"
 
 #: my-evolution/metar.c:1
 msgid "Moderate tornado"
-msgstr ""
+msgstr "Umiarkowane tornado"
 
 #: my-evolution/metar.c:1
 msgid "Raging tornado"
@@ -8917,7 +8920,7 @@ msgstr ""
 
 #: my-evolution/metar.c:1
 msgid "Partial tornado"
-msgstr ""
+msgstr "Czê¶ciowe tornado"
 
 #: my-evolution/metar.c:1
 msgid "Thunderous tornado"
@@ -9617,7 +9620,7 @@ msgstr ""
 #: shell/e-task-widget.c:1
 #, c-format
 msgid "%s (...)"
-msgstr ""
+msgstr "%s (...)"
 
 #: shell/e-task-widget.c:1
 #, c-format
@@ -9640,7 +9643,7 @@ msgstr "Komputer:"
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
 msgid "The following connections are currently active:"
-msgstr ""
+msgstr "Obecnie aktywne s± nastêpuj±ce po³±czenia:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
@@ -9729,7 +9732,7 @@ msgstr "Nie mo¿na uruchomiæ pow³oki Evolution."
 
 #: shell/main.c:1
 msgid "Disable splash screen"
-msgstr ""
+msgstr "Ukrywa okno powitalne"
 
 #: shell/main.c:1
 msgid "Send the debugging output of all components to a file."
@@ -10169,12 +10172,11 @@ msgstr "Zaplanuj spotkanie zwi±zane z tym elementem"
 #: ui/evolution-event-editor.xml.h:1 ui/evolution-mail-messagedisplay.xml.h:1
 #: ui/evolution-task-editor.xml.h:1 ui/evolution.xml.h:1
 msgid "_Actions"
-msgstr "_Czynno¶ci"
+msgstr "C_zynno¶ci"
 
 #: ui/evolution-executive-summary.xml.h:1
-#, fuzzy
 msgid "Customise My Evolution"
-msgstr "Evolution - %s"
+msgstr "Dopasuj Moje Evolution"
 
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -10203,7 +10205,7 @@ msgstr "Pozwala na stworzenie lub modyfikacjê definicji wirtualnych folderów"
 
 #: ui/evolution-mail-global.xml.h:1
 msgid "Empty _Trash"
-msgstr "Opró¿nij ¶_mietnik"
+msgstr "Opró¿nij ¶mie_tnik"
 
 #: ui/evolution-mail-global.xml.h:1
 msgid "Forget _Passwords"
@@ -10298,7 +10300,7 @@ msgstr ""
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Mark All as R_ead"
-msgstr "Oznacz wszystkie jako pr_zeczytane"
+msgstr "Oznacz wszystkie jako przeczy_tane"
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Mark all visible messages as read"
@@ -10314,7 +10316,7 @@ msgstr "Trwale usuwa listy oznaczone do usuniêcia z bie¿±cego folderu"
 
 #: ui/evolution-mail-list.xml.h:1 ui/evolution-subscribe.xml.h:1
 msgid "Select _All"
-msgstr "Zaznacz _wszystkie"
+msgstr "Zaznacz w_szystkie"
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Select _Thread"
@@ -10354,7 +10356,7 @@ msgstr "Prze³±cza grupowanie listów w w±tki"
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "_Expunge"
-msgstr "_Wyczy¶æ"
+msgstr "Wy_czy¶æ"
 
 #: ui/evolution-mail-list.xml.h:1 ui/evolution.xml.h:1
 msgid "_Folder"
@@ -10370,7 +10372,7 @@ msgstr "_W³a¶ciwo¶ci..."
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "_Threaded Message List"
-msgstr "Grupowanie listów w _w±tki"
+msgstr "Grupowanie listów w w±t_ki"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "Apply filter rules to the selected messages"
@@ -10522,7 +10524,7 @@ msgstr "Oznacz jako p_rzeczytane"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "Mark As I_mportant"
-msgstr "Oznacz jako _wa¿ne"
+msgstr "Oznacz jako wa¿n_e"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "Mark As U_nread"
@@ -10664,11 +10666,11 @@ msgstr "_Prze¶lij list"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "_Message Display"
-msgstr "_Wy¶wietlanie listu"
+msgstr "Wy¶wietlanie lis_tu"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "_Move to Folder"
-msgstr "_Przenie¶ do folderu"
+msgstr "P_rzenie¶ do folderu"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "_Normal Display"
@@ -10680,7 +10682,7 @@ msgstr "_Otwórz list"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "_Re-send Message"
-msgstr "Wy¶lij list p_onownie"
+msgstr "Wy¶lij list pono_wnie"
 
 #: ui/evolution-mail-messagedisplay.xml.h:1 ui/evolution.xml.h:1
 msgid "Close this window"
@@ -10702,7 +10704,7 @@ msgstr "Pozwala na dopasowanie pasków narzêdziowych"
 #: ui/evolution-message-composer.xml.h:1 ui/evolution-subscribe.xml.h:1
 #: ui/evolution.xml.h:1
 msgid "_Close"
-msgstr "_Zamknij"
+msgstr "Zam_knij"
 
 #: ui/evolution-mail-messagedisplay.xml.h:1
 #: ui/evolution-message-composer.xml.h:1 ui/evolution.xml.h:1
@@ -11012,7 +11014,7 @@ msgstr "Wy¶wietla inny folder"
 
 #: ui/evolution.xml.h:1
 msgid "E_xit"
-msgstr "Za_koñcz"
+msgstr "_Zakoñcz"
 
 #: ui/evolution.xml.h:1
 msgid "Evolution _FAQ"
@@ -11028,7 +11030,7 @@ msgstr "Koñczy pracê programu"
 
 #: ui/evolution.xml.h:1
 msgid "Getting _Started"
-msgstr "Pierwsze _kroki"
+msgstr "Pi_erwsze kroki"
 
 #: ui/evolution.xml.h:1
 msgid "Import an external file format"
@@ -11129,7 +11131,7 @@ msgstr "Za_importuj plik..."
 
 #: ui/evolution.xml.h:1
 msgid "_Index"
-msgstr "_Indeks"
+msgstr "I_ndeks"
 
 #: ui/evolution.xml.h:1
 msgid "_Mail message"
@@ -11148,9 +11150,8 @@ msgid "_Rename..."
 msgstr "_Zmieñ nazwê..."
 
 #: ui/evolution.xml.h:1
-#, fuzzy
 msgid "_Shortcut"
-msgstr "Pasek _skrótów"
+msgstr "_Skrót"
 
 #: ui/evolution.xml.h:1
 msgid "_Shortcut Bar"
@@ -11224,7 +11225,7 @@ msgstr "Brak informacji"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:1
 msgid "_Invite Others..."
-msgstr ""
+msgstr "_Zapro¶ innych..."
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:1
 msgid "_Options"
