@@ -1,3 +1,9 @@
+2000-08-03  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/calendar-model.c (calendar_model_append_row): updated to match
+	the new ETableModel append_row. This meant we could also get rid of
+	the row_being_added and idle_id hack.
+
 2000-08-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/calendar-model.c: Emit "model_pre_change" signals as

@@ -51,12 +51,6 @@ typedef struct {
 
 	/* UID -> array index hash */
 	GHashTable *uid_index_hash;
-
-	/* The row currently being added via the 'click-to-add' row. */
-	gint row_being_added;
-
-	/* Source ID of our idle function to add the new row. */
-	guint idle_id;
 } CalendarModelPrivate;
 
 
@@ -70,8 +64,7 @@ static int calendar_model_row_count (ETableModel *etm);
 static void *calendar_model_value_at (ETableModel *etm, int col, int row);
 static void calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *value);
 static gboolean calendar_model_is_cell_editable (ETableModel *etm, int col, int row);
-static gint calendar_model_append_row (ETableModel *etm);
-static gboolean calendar_model_commit_new_row (gpointer data);
+static void calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row);
 static void *calendar_model_duplicate_value (ETableModel *etm, int col, const void *value);
 static void calendar_model_free_value (ETableModel *etm, int col, void *value);
 static void *calendar_model_initialize_value (ETableModel *etm, int col);
@@ -158,9 +151,6 @@ calendar_model_init (CalendarModel *model)
 
 	priv->objects = g_array_new (FALSE, TRUE, sizeof (iCalObject *));
 	priv->uid_index_hash = g_hash_table_new (g_str_hash, g_str_equal);
-
-	priv->row_being_added = -1;
-	priv->idle_id = 0;
 }
 
 /* Called from g_hash_table_foreach_remove(), frees a stored UID->index
@@ -211,10 +201,6 @@ calendar_model_destroy (GtkObject *object)
 
 	model = CALENDAR_MODEL (object);
 	priv = model->priv;
-
-	/* Remove any idle function. */
-	if (priv->idle_id)
-		g_source_remove (priv->idle_id);
 
 	/* Free the calendar client interface object */
 
@@ -781,26 +767,25 @@ calendar_model_is_cell_editable (ETableModel *etm, int col, int row)
 	}
 }
 
-static gint
-calendar_model_append_row (ETableModel *etm)
+static void
+calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
 	iCalObject *ico;
-	gint *new_idx;
+	gint *new_idx, col;
 
 	g_print ("In calendar_model_append_row\n");
 
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
 
-	if (priv->row_being_added != -1 || priv->idle_id != 0) {
-		g_warning ("Already adding row");
-		return -1;
-	}
-
 	ico = ical_new ("", user_name, "");
 	ico->type = ICAL_TODO;
+
+	/* Flag the iCalObject as new so all the calls to set_value_at to set
+	   each field don't call cal_client_update_object(). We only want to
+	   do that once after all the fields are set. */
 	ico->new = TRUE;
 
 	g_array_append_val (priv->objects, ico);
@@ -808,53 +793,22 @@ calendar_model_append_row (ETableModel *etm)
 	*new_idx = priv->objects->len - 1;
 	g_hash_table_insert (priv->uid_index_hash, ico->uid, new_idx);
 
-	/* Notify the views about the new row. */
+	/* Notify the views about the new row. I think we have to do that here,
+	   or the views may become confused when they start getting
+	   "row_changed" or "cell_changed" signals for this new row. */
 	e_table_model_row_inserted (etm, *new_idx);
 
-	/* We add an idle function to pass the new iCalObject to the server.
-	   We can't do it here since the values haven't been set yet.
-	   Maybe we could connect to the "row_inserted" signal, though I'm
-	   not sure when that is emitted. */
-	priv->row_being_added = *new_idx;
-	priv->idle_id = g_idle_add_full (G_PRIORITY_HIGH,
-					 calendar_model_commit_new_row,
-					 model, NULL);
-
-	return *new_idx;
-}
-
-static gboolean
-calendar_model_commit_new_row (gpointer data)
-{
-	CalendarModel *model;
-	CalendarModelPrivate *priv;
-	iCalObject *ico;
-
-	g_print ("Committing new row\n");
-
-	model = CALENDAR_MODEL (data);
-	priv = model->priv;
-
-	if (priv->row_being_added == -1) {
-		g_warning ("No row to commit");
-		priv->idle_id = 0;
-		return FALSE;
+	for (col = 0; col < ICAL_OBJECT_FIELD_NUM_FIELDS; col++) {
+		const void *val = e_table_model_value_at(source, col, row);
+		e_table_model_set_value_at(etm, col, *new_idx, val);
 	}
-
-	ico = g_array_index (priv->objects, iCalObject *,
-			     priv->row_being_added);
 
 	if (!cal_client_update_object (priv->client, ico)) {
 		/* FIXME: Show error dialog. */
-		g_message ("calendar_model_commit_new_row(): Could not add new object!");
+		g_message ("calendar_model_append_row(): Could not add new object!");
 		remove_object (model, ico->uid);
-		e_table_model_row_deleted (E_TABLE_MODEL (model),
-					   priv->row_being_added);
+		e_table_model_row_deleted (etm, *new_idx);
 	}
-
-	priv->row_being_added = -1;
-	priv->idle_id = 0;
-	return FALSE;
 }
 
 /* Duplicates a string value */
