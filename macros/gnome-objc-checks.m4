@@ -7,6 +7,7 @@ dnl FIXME: extend list of possible names of ObjC compilers.
 
 	oLIBS=$LIBS
 	LIBS="$LIBS $PTHREAD_LIB"
+	AC_SUBST(PTHREAD_LIB)
 	AC_CHECK_FUNC(sched_yield,,[
 	  AC_CHECK_LIB(posix4,sched_yield,PTHREAD_LIB="$PTHREAD_LIB -lposix4")])
 	LIBS=$oLIBS
