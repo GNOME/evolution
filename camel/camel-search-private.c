@@ -247,8 +247,11 @@ camel_ustrstrcase (const char *haystack, const char *needle)
 	
 	g_return_val_if_fail (haystack != NULL, NULL);
 	g_return_val_if_fail (needle != NULL, NULL);
-	g_return_val_if_fail (strlen (needle) != 0, haystack);
-	g_return_val_if_fail (strlen (haystack) != 0, NULL);
+
+	if (strlen(needle) == 0)
+		return haystack;
+	if (strlen(haystack) == 0)
+		return NULL;
 	
 	puni = nuni = alloca (sizeof (unicode_char_t) * strlen (needle));
 	

@@ -1,3 +1,11 @@
+2001-03-02  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-utils.c (rfc2047_encode_word, rfc2047_decode_word):
+	Reconstify variables to match iconv.
+
+	* camel-search-private.c (camel_ustrstrcase): Change some
+	assertions back into valid returns.
+
 2001-03-01  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (libcamel_la_LIBADD, INCLUDES): camel depends on
