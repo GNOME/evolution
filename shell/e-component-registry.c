@@ -66,7 +66,8 @@ component_info_new (const char *id,
 	info->sort_order = sort_order;
 
 	info->button_icon = button_icon;
-	g_object_ref (button_icon);
+	if (info->button_icon)
+		g_object_ref (info->button_icon);
 
 	return info;
 }
@@ -77,6 +78,9 @@ component_info_free (EComponentInfo *info)
 	g_free (info->id);
 	g_free (info->alias);
 	g_free (info->button_label);
+
+	if (info->button_icon)
+		g_object_unref (info->button_icon);
 
 	if (info->iface != NULL)
 		bonobo_object_release_unref (info->iface, NULL);
