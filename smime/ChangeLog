@@ -1,3 +1,10 @@
+2004-11-23  Not Zed  <NotZed@Ximian.com>
+
+	* gui/certificate-manager.c (delete_ca): don't remove the tree
+	node if deleting the cert failed.
+	(delete_your): same.
+	(delete_contact): same.  Hoorah for code-reuse.
+
 2004-10-11  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-cert-selector.c (e_cert_selector_new): dont try to
