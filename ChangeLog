@@ -1,3 +1,7 @@
+2003-12-15  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (ACLOCAL_AMFLAGS): remove.
+
 2003-12-07  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: update version reliance

@@ -69,5 +69,3 @@ cde-install: install dtappintegrate
 cde-uninstall: dtappunintegrate uninstall
 
 endif
-
-ACLOCAL_AMFLAGS = -I m4
