@@ -1,4 +1,31 @@
-2001-03-14  Jeffrey Stedfast  <fejj@ximian.com>
+2001-03-14  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-filter-charset.c (filter, complete): re-constify
+	inbuf, to remove a warning.
+
+	* camel-mime-parser.c (folder_scan_step): When we're out of data,
+	run the filter_complete.  For some reason the logic that was there
+	was never being run, always try it now, i think it was to work
+	around a buggy filter, rather than fix it the right way.
+
+	* camel-folder-summary.c (summary_build_content_info): If indexing
+	html parts, use the html filter to convert it to some indexable
+	format.
+	(summary_build_content_info): Reset the filters before adding them
+	back to the stream, if they get re-used in a given instance
+	(likely).
+
+	* Makefile.am (libcamelinclude_HEADERS): Added
+	camel-mime-filter-html.[ch].
+	(INCLUDES): Added xml clags
+
+2001-03-05  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-search.c (camel_folder_search_class_init): Setup a
+	new function, "uid" which matches uids.
+	(search_uid): Implement the "match uid" command.
+
+2001-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c: Check for a new type of mailing list header.
 

@@ -120,10 +120,11 @@ struct _CamelRemoteStorePrivate {
 struct _CamelFolderSummaryPrivate {
 	GHashTable *filter_charset;	/* CamelMimeFilterCharset's indexed by source charset */
 
-	CamelMimeFilterIndex *filter_index;
-	CamelMimeFilterBasic *filter_64;
-	CamelMimeFilterBasic *filter_qp;
-	CamelMimeFilterSave *filter_save;
+	struct _CamelMimeFilterIndex *filter_index;
+	struct _CamelMimeFilterBasic *filter_64;
+	struct _CamelMimeFilterBasic *filter_qp;
+	struct _CamelMimeFilterSave *filter_save;
+	struct _CamelMimeFilterHTML *filter_html;
 
 	struct ibex *index;
 

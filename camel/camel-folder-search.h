@@ -103,8 +103,8 @@ struct _CamelFolderSearchClass {
 	/* (get-current-date) Retrieve 'now' as a time_t */
 	ESExpResult * (*get_current_date)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 
-	/* (mlist-matches "mlist" ...) True if one of the mailing list matches */
-	ESExpResult * (*mlist_matches)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+	/* (uid "uid" ...) True if the uid is in the list */
+	ESExpResult * (*uid)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 };
 
 guint		camel_folder_search_get_type	(void);

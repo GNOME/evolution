@@ -11,6 +11,7 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	 \
 	-I$(top_srcdir)/intl			 \
 	-I$(top_srcdir)/e-util			 \
 	$(GLIB_CFLAGS)				 \
+	$(GNOME_XML_CFLAGS)			 \
 	$(UNICODE_CFLAGS)			 \
 	$(KRB4_CFLAGS)				 \
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\" \
@@ -35,6 +36,7 @@ libcamel_la_SOURCES = 				\
 	camel-mime-filter-charset.c		\
 	camel-mime-filter-crlf.c		\
 	camel-mime-filter-from.c		\
+	camel-mime-filter-html.c		\
 	camel-mime-filter-index.c		\
 	camel-mime-filter-linewrap.c		\
 	camel-mime-filter-save.c		\
@@ -103,6 +105,7 @@ libcamelinclude_HEADERS =			\
 	camel-mime-filter-charset.h		\
 	camel-mime-filter-crlf.h		\
 	camel-mime-filter-from.h		\
+	camel-mime-filter-html.h		\
 	camel-mime-filter-index.h		\
 	camel-mime-filter-linewrap.h		\
 	camel-mime-filter-save.h		\

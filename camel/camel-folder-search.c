@@ -64,6 +64,7 @@ static ESExpResult *search_system_flag(struct _ESExp *f, int argc, struct _ESExp
 static ESExpResult *search_get_sent_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 static ESExpResult *search_get_received_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 static ESExpResult *search_get_current_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+static ESExpResult *search_uid(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 
 static ESExpResult *search_dummy(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
 
@@ -91,6 +92,7 @@ camel_folder_search_class_init (CamelFolderSearchClass *klass)
 	klass->get_sent_date = search_get_sent_date;
 	klass->get_received_date = search_get_received_date;
 	klass->get_current_date = search_get_current_date;
+	klass->uid = search_uid;
 }
 
 static void
@@ -188,6 +190,7 @@ struct {
 	{ "get-sent-date", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, get_sent_date), 1 },
 	{ "get-received-date", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, get_received_date), 1 },
 	{ "get-current-date", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, get_current_date), 1 },
+	{ "uid", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, uid), 1 },
 };
 
 void
@@ -849,5 +852,40 @@ search_get_current_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, 
 
 	r = e_sexp_result_new(f, ESEXP_RES_INT);
 	r->value.number = time (NULL);
+	return r;
+}
+
+static ESExpResult *
+search_uid(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
+{
+	ESExpResult *r;
+	int i;
+
+	r(printf("executing uid\n"));
+
+	/* are we inside a match-all? */
+	if (search->current) {
+		int truth = FALSE;
+		const char *uid = camel_message_info_uid(search->current);
+
+		/* performs an OR of all words */
+		for (i=0;i<argc && !truth;i++) {
+			if (argv[i]->type == ESEXP_RES_STRING
+			    && !strcmp(uid, argv[i]->value.string)) {
+				truth = TRUE;
+				break;
+			}
+		}
+		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
+		r->value.bool = truth;
+	} else {
+		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
+		r->value.ptrarray = g_ptr_array_new();
+		for (i=0;i<argc;i++) {
+			if (argv[i]->type == ESEXP_RES_STRING)
+				g_ptr_array_add(r->value.ptrarray, argv[i]->value.string);
+		}
+	}
+
 	return r;
 }

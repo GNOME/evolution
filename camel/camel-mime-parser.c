@@ -1719,13 +1719,12 @@ tail_recurse:
 		} while (hb == h && *datalength > 0);
 		
 		/* check for any filter completion data */
-		if (*datalength > 0) {
-			while (f) {
-				camel_mime_filter_complete(f->filter, *databuffer, *datalength, presize,
-							   databuffer, datalength, &presize);
-				f = f->next;
-			}
+		while (f) {
+			camel_mime_filter_complete(f->filter, *databuffer, *datalength, presize,
+						   databuffer, datalength, &presize);
+			f = f->next;
 		}
+
 		if (*datalength > 0)
 			return;
 		

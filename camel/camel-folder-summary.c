@@ -36,6 +36,7 @@
 #include <camel/camel-mime-filter-charset.h>
 #include <camel/camel-mime-filter-save.h>
 #include <camel/camel-mime-filter-basic.h>
+#include <camel/camel-mime-filter-html.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-mem.h>
 
@@ -2053,7 +2054,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 	CamelMessageContentInfo *info = NULL;
 	struct _header_content_type *ct;
 	int body;
-	int enc_id = -1, chr_id = -1, idx_id = -1;
+	int enc_id = -1, chr_id = -1, html_id = -1, idx_id = -1;
 	struct _CamelFolderSummaryPrivate *p = _PRIVATE(s);
 	CamelMimeFilterCharset *mfc;
 	CamelMessageContentInfo *part;
@@ -2087,11 +2088,15 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 					d(printf(" decoding base64\n"));
 					if (p->filter_64 == NULL)
 						p->filter_64 = camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
+					else
+						camel_mime_filter_reset((CamelMimeFilter *)p->filter_64);
 					enc_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_64);
 				} else if (!strcasecmp(encoding, "quoted-printable")) {
 					d(printf(" decoding quoted-printable\n"));
 					if (p->filter_qp == NULL)
 						p->filter_qp = camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_QP_DEC);
+					else
+						camel_mime_filter_reset((CamelMimeFilter *)p->filter_qp);
 					enc_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_qp);
 				} else {
 					d(printf(" ignoring encoding %s\n", encoding));
@@ -2109,6 +2114,8 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 					mfc = camel_mime_filter_charset_new_convert(charset, "UTF-8");
 					if (mfc)
 						g_hash_table_insert(p->filter_charset, g_strdup(charset), mfc);
+				} else {
+					camel_mime_filter_reset((CamelMimeFilter *)mfc);
 				}
 				if (mfc) {
 					chr_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)mfc);
@@ -2117,6 +2124,14 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 				}
 			}
 
+			if (header_content_type_is(ct, "text", "html")) {
+				if (p->filter_html == NULL)
+					p->filter_html = camel_mime_filter_html_new();
+				else
+					camel_mime_filter_reset((CamelMimeFilter *)p->filter_html);
+				html_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_html);
+			}
+			
 			/* and this filter actually does the indexing */
 			idx_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_index);
 		}
@@ -2126,6 +2141,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 		/* and remove the filters */
 		camel_mime_parser_filter_remove(mp, enc_id);
 		camel_mime_parser_filter_remove(mp, chr_id);
+		camel_mime_parser_filter_remove(mp, html_id);
 		camel_mime_parser_filter_remove(mp, idx_id);
 		break;
 	case HSCAN_MULTIPART:
