@@ -163,8 +163,7 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md)
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (mime_message));
 	
 	text = get_data_wrapper_text (CAMEL_DATA_WRAPPER (mime_message));
-	fprintf (stderr, "****** %s\n", text ? "yes! we have text" : "nope...no text");
-	mail_text_write (md->html, md->stream, text ? text : "");
+	mail_text_write (md->html, md->stream, "%s", text ? text : "");
 	g_free (text);
 }
 

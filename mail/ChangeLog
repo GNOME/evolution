@@ -1,3 +1,9 @@
+2000-12-05  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-format.c (mail_format_raw_message): Don't use the raw
+	message body as the format argument, use "%s" instead. If the raw
+	message contains %'s then it will segfault otherwise.
+
 2000-12-04  Dan Winship  <danw@helixcode.com>
 
 	* mail-config-gui.c (service_page_item_new): Fix a typo so that
