@@ -255,4 +255,7 @@ libibex/Makefile
 calendar/Makefile
 calendar/doc/Makefile
 calendar/doc/C/Makefile
+calendar/idl/Makefile
+calendar/cal-client/Makefile
+calendar/pcs/Makefile
 ])
