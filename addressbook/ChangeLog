@@ -1,3 +1,11 @@
+2003-04-07  Gilbert Fang <gilbert.fang@sun.com>
+
+	[ fixes bug #23036 ]
+	* tools/evolution-addressbook-export.c,
+	tools/evolution-addressbook-export-list-cards.c,
+	tools/evolution-addressbook-export-list-folders.c: : new and
+	improved export utility.
+
 2003-04-07  Dan Winship  <danw@ximian.com>
 
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in: Clean up
