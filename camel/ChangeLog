@@ -1,3 +1,9 @@
+2000-07-20  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_summary): 
+	(imap_get_message_info): Oops. Fix UID parser to allow 0 and 9 to be in
+	the range of valid UID chars.
+
 2000-07-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c: General cleanup working towards

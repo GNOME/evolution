@@ -1096,7 +1096,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 		}
 		
 		for (uid += 5; *uid && (*uid < '0' || *uid > '9'); uid++); /* advance to <uid> */
-		for (q = uid; *q && *q > '0' && *q < '9'; q++);   /* find the end of the <uid> */
+		for (q = uid; *q && *q >= '0' && *q <= '9'; q++); /* find the end of the <uid> */
 		info->uid = g_strndup (uid, (gint)(q - uid));
 		d(fprintf (stderr, "*** info->uid = %s\n", info->uid));
 
@@ -1263,7 +1263,7 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	}
 		
 	for (muid += 5; *muid && (*muid < '0' || *muid > '9'); muid++); /* advance to <uid> */
-	for (q = muid; *q && *q > '0' && *q < '9'; q++);                /* find the end of the <uid> */
+	for (q = muid; *q && *q >= '0' && *q <= '9'; q++);              /* find the end of the <uid> */
 	muid = g_strndup (muid, (gint)(q - muid));
 
 	/* make sure the UIDs are identical */
