@@ -131,18 +131,12 @@ static void
 e_calendar_init (ECalendar *cal)
 {
 	GnomeCanvasGroup *canvas_group;
-	GdkFont *small_font;
 	PangoFontDescription *small_font_desc;
 	GtkWidget *button, *pixmap;
 
 	GTK_WIDGET_UNSET_FLAGS (cal, GTK_CAN_FOCUS);
 
 	/* Create the small font. */
-	small_font = gdk_font_load (E_CALENDAR_SMALL_FONT);
-	if (!small_font)
-		small_font = gdk_font_load (E_CALENDAR_SMALL_FONT_FALLBACK);
-	if (!small_font)
-		g_warning ("Couldn't load font");
 
 	small_font_desc =
 		pango_font_description_copy (gtk_widget_get_style (GTK_WIDGET (cal))->font_desc);
@@ -153,12 +147,8 @@ e_calendar_init (ECalendar *cal)
 
 	cal->calitem = E_CALENDAR_ITEM (gnome_canvas_item_new (canvas_group,
 							       e_calendar_item_get_type (),
-							       "week_number_font", small_font,
 							       "week_number_font_desc", small_font_desc,
 							       NULL));
-
-	if (small_font)
-		gdk_font_unref (small_font);
 
 	pango_font_description_free (small_font_desc);
 
@@ -306,16 +296,23 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 				 GtkAllocation	*allocation)
 {
 	ECalendar *cal;
-	GdkFont *font;
+	PangoFontDescription *font_desc;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
 	gdouble old_x2, old_y2, new_x2, new_y2;
 	gdouble xthickness, ythickness, arrow_button_size;
 
 	cal = E_CALENDAR (widget);
-	font = gtk_style_get_font (widget->style);
 	xthickness = widget->style->xthickness;
 	ythickness = widget->style->ythickness;
 
 	(*GTK_WIDGET_CLASS (parent_class)->size_allocate) (widget, allocation);
+
+	/* Set up Pango prerequisites */
+	font_desc = gtk_widget_get_style (widget)->font_desc;
+	pango_context = gtk_widget_get_pango_context (widget);
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
 
 	/* Set the scroll region to its allocated size, if changed. */
 	gnome_canvas_get_scroll_region (GNOME_CANVAS (cal),
@@ -336,7 +333,9 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 
 
 	/* Position the arrow buttons. */
-	arrow_button_size = font->ascent + font->descent
+	arrow_button_size =
+		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics))
+		+ PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics))
 		+ E_CALENDAR_ITEM_YPAD_ABOVE_MONTH_NAME
 		+ E_CALENDAR_ITEM_YPAD_BELOW_MONTH_NAME
 		- E_CALENDAR_ARROW_BUTTON_Y_PAD * 2;

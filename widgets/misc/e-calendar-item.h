@@ -198,9 +198,7 @@ struct _ECalendarItem
 
 	/* Fonts for drawing text. If font isn't set it uses the font from the
 	   canvas widget. If week_number_font isn't set it uses font. */
-	GdkFont *font, *old_font;
 	PangoFontDescription *font_desc;
-	GdkFont *week_number_font, *old_week_number_font;
 	PangoFontDescription *week_number_font_desc;
 
 	ECalendarItemStyleCallback style_callback;

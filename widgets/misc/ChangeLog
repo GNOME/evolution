@@ -1,3 +1,22 @@
+2003-04-01  Hans Petter Jansson  <hpj@ximian.com>
+
+	* e-calendar-item.c (e_calendar_item_class_init)
+	(e_calendar_item_destroy)
+	(e_calendar_item_get_arg)
+	(e_calendar_item_set_arg)
+	(e_calendar_item_update)
+	(e_calendar_item_draw)
+	(e_calendar_item_draw_month)
+	(e_calendar_item_draw_day_numbers)
+	(e_calendar_item_recalc_sizes)
+	(e_calendar_item_convert_position_to_day): Nuke GdkFont and use
+	Pango's font measuring for everything.
+
+	* e-calendar-item.h: Ditto.
+
+	* e-calendar.c (e_calendar_init)
+	(e_calendar_size_allocate): Ditto.
+
 2003-03-30  Hans Petter Jansson  <hpj@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_destroy): Handle multiple
