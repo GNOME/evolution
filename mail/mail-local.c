@@ -651,14 +651,13 @@ local_folder_changed (CamelObject *object, gpointer event_data,
 }
 
 static void
-local_folder_changed_proxy (CamelObject *object, gpointer event_data,
+local_folder_changed_proxy (CamelObject *folder, gpointer event_data,
 			    gpointer user_data)
 {
-	CamelFolder *folder = CAMEL_FOLDER (object);
 	int unread;
 
-	unread = camel_folder_get_unread_message_count (folder);
-	mail_op_forward_event (local_folder_changed, object,
+	unread = camel_folder_get_unread_message_count (CAMEL_FOLDER (folder));
+	mail_op_forward_event (local_folder_changed, folder,
 			       GINT_TO_POINTER (unread), user_data);
 }
 
@@ -720,6 +719,9 @@ cleanup_register_folder (gpointer in_data, gpointer op_data,
 
 	camel_object_hook_event (CAMEL_OBJECT (local_folder->folder),
 				 "folder_changed", local_folder_changed_proxy,
+				 local_folder);
+	camel_object_hook_event (CAMEL_OBJECT (local_folder->folder),
+				 "message_changed", local_folder_changed_proxy,
 				 local_folder);
 	unread = local_folder->last_unread;
 	local_folder->last_unread = 0;

@@ -1,5 +1,9 @@
 2000-12-06  Dan Winship  <danw@helixcode.com>
 
+	* mail-local.c (cleanup_register_folder): Run the folder_changed
+	code on message_changed as well, so the unread message counts
+	update as messages are read.
+
 	* folder-browser.c: Remove bits of filter-on-demand and toolbar
 	bug workaround cruft that don't do anything useful any more.
 
