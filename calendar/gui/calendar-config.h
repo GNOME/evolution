@@ -134,5 +134,13 @@ void	  calendar_config_configure_e_cell_date_edit	(ECellDateEdit	*ecde);
 /* Shows the timezone dialog if the user hasn't set a default timezone. */
 void	  calendar_config_check_timezone_set	(void);
 
+/* Colors for the task list */
+
+const char *calendar_config_get_tasks_due_today_color (void);
+void calendar_config_set_tasks_due_today_color (const char *color);
+
+const char *calendar_config_get_tasks_overdue_color (void);
+void calendar_config_set_tasks_overdue_color (const char *color);
+
 
 #endif /* _CALENDAR_CONFIG_H_ */

@@ -43,8 +43,9 @@
 #include <gal/widgets/e-unicode.h>
 #include <e-util/e-time-utils.h>
 #include <cal-util/timeutil.h>
-#include "calendar-model.h"
 #include "calendar-commands.h"
+#include "calendar-config.h"
+#include "calendar-model.h"
 
 
 /* Private part of the ECalendarModel structure */
@@ -561,7 +562,7 @@ get_url (CalComponent *comp)
 
 /* Returns whether the completion date has been set on a component */
 static gboolean
-get_is_complete (CalComponent *comp)
+is_complete (CalComponent *comp)
 {
 	struct icaltimetype *t;
 	gboolean retval;
@@ -575,14 +576,11 @@ get_is_complete (CalComponent *comp)
 	return retval;
 }
 
-/* Returns whether a calendar component is overdue.
- *
- * FIXME: This will only get called when the component is scrolled into the
- * ETable.  There should be some sort of dynamic update thingy for if a component
- * becomes overdue while it is being viewed.
+/* Returns whether a component is overdue.  Sigh, this is very similar to
+ * get_color() below.
  */
 static gboolean
-get_is_overdue (CalComponent *comp)
+is_overdue (CalComponent *comp)
 {
 	CalComponentDateTime dt;
 	gboolean retval;
@@ -598,15 +596,12 @@ get_is_overdue (CalComponent *comp)
 
 		/* Second, is it already completed? */
 
-		if (get_is_complete (comp)) {
+		if (is_complete (comp)) {
 			retval = FALSE;
 			goto out;
 		}
 
-		/* Third, are we overdue as of right now?  We use <= in the
-		 * comparison below so that the table entries change color
-		 * immediately.
-		 */
+		/* Third, are we overdue as of right now? */
 
 		t = icaltime_as_timet (*dt.value);
 
@@ -614,6 +609,63 @@ get_is_overdue (CalComponent *comp)
 			retval = TRUE;
 		else
 			retval = FALSE;
+	}
+
+ out:
+
+	cal_component_free_datetime (&dt);
+
+	return retval;
+}
+
+/* Computes the color to be used to display a component */
+static const char *
+get_color (CalComponent *comp)
+{
+	CalComponentDateTime dt;
+	const char *retval;
+
+	cal_component_get_due (comp, &dt);
+
+	/* First, do we have a due date? */
+
+	if (!dt.value)
+		retval = NULL;
+	else {
+		time_t t, t_now;
+		struct tm tm, tm_now;
+
+		/* Second, is it already completed? */
+
+		if (is_complete (comp)) {
+			retval = NULL;
+			goto out;
+		}
+
+		/* Third, is it due today? */
+
+		t = icaltime_as_timet (*dt.value);
+		tm = *localtime (&t);
+
+		t_now = time (NULL);
+		tm_now = *localtime (&t_now);
+
+		if (tm.tm_year == tm_now.tm_year
+		    && tm.tm_mon == tm_now.tm_mon
+		    && tm.tm_mday == tm_now.tm_mday) {
+			retval = calendar_config_get_tasks_due_today_color ();
+			goto out;
+		}
+
+		/* Fourth, are we overdue as of right now?  We use <= in the
+		 * comparison below so that the table entries change color
+		 * immediately.
+		 */
+
+		if (t <= t_now)
+			retval = calendar_config_get_tasks_overdue_color ();
+		else
+			retval = NULL;
 	}
 
  out:
@@ -732,19 +784,16 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 			}
 		}
 	case CAL_COMPONENT_FIELD_COMPLETE:
-		return GINT_TO_POINTER (get_is_complete (comp));
+		return GINT_TO_POINTER (is_complete (comp));
 
 	case CAL_COMPONENT_FIELD_RECURRING:
 		return GINT_TO_POINTER (cal_component_has_recurrences (comp));
 
 	case CAL_COMPONENT_FIELD_OVERDUE:
-		return GINT_TO_POINTER (get_is_overdue (comp));
+		return GINT_TO_POINTER (is_overdue (comp));
 
 	case CAL_COMPONENT_FIELD_COLOR:
-		if (get_is_overdue (comp))
-			return "red";
-		else
-			return NULL;
+		return (void *) get_color (comp);
 
 	case CAL_COMPONENT_FIELD_STATUS:
 		return get_status (comp);

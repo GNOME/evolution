@@ -357,7 +357,7 @@ save_as_calendar_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
 }
 
 static void
-properties_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
+preferences_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	if (!preferences_dialog)
 		preferences_dialog = cal_prefs_dialog_new ();
@@ -409,7 +409,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CalendarPrintPreview", file_print_preview_cb),
 	BONOBO_UI_VERB ("EditNewAppointment", new_appointment_cb),
 	BONOBO_UI_VERB ("EditNewEvent", new_event_cb),
-	BONOBO_UI_VERB ("CalendarPreferences", properties_cmd),
+	BONOBO_UI_VERB ("CalendarPreferences", preferences_cmd),
 
 	BONOBO_UI_VERB ("CutEvent", cut_event_cmd),
 	BONOBO_UI_VERB ("CopyEvent", copy_event_cmd),

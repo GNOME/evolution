@@ -29,6 +29,7 @@
  */
 
 #include <config.h>
+#include <libgnomeui/gnome-color-picker.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
 #include <e-util/e-dialog-widgets.h>
@@ -57,6 +58,10 @@ struct _CalPrefsDialogPrivate {
 	GtkWidget *show_end_times;
 	GtkWidget *compress_weekend;
 	GtkWidget *dnav_show_week_no;
+
+	/* Widgets for the task list options */
+	GtkWidget *tasks_due_today_color;
+	GtkWidget *tasks_overdue_color;
 };
 
 static const int week_start_day_map[] = {
@@ -209,6 +214,9 @@ get_widgets (CalPrefsDialog *prefs)
 	priv->compress_weekend = GW ("compress_weekend");
 	priv->dnav_show_week_no = GW ("dnav_show_week_no");
 
+	priv->tasks_due_today_color = GW ("tasks_due_today_color");
+	priv->tasks_overdue_color = GW ("tasks_overdue_color");
+
 #undef GW
 
 	return (priv->dialog
@@ -343,6 +351,37 @@ cal_prefs_dialog_use_24_hour_toggled	(GtkWidget	*button,
 					    use_24_hour);
 }
 
+/* Sets the color in a color picker from an X color spec */
+static void
+set_color_picker (GtkWidget *picker, const char *spec)
+{
+	GdkColor color;
+
+	g_assert (spec != NULL);
+
+	if (!gdk_color_parse (spec, &color)) {
+		color.red = color.green = color.blue = 0;
+		return;
+	}
+
+	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (picker),
+				    color.red,
+				    color.green,
+				    color.blue,
+				    65535);
+}
+
+/* Shows the current task list settings in the dialog */
+static void
+show_task_list_config (CalPrefsDialog *prefs)
+{
+	CalPrefsDialogPrivate *priv;
+
+	priv = prefs->priv;
+
+	set_color_picker (priv->tasks_due_today_color, calendar_config_get_tasks_due_today_color ());
+	set_color_picker (priv->tasks_overdue_color, calendar_config_get_tasks_overdue_color ());
+}
 
 /* Shows the current config settings in the dialog. */
 static void
@@ -403,8 +442,38 @@ cal_prefs_dialog_show_config	(CalPrefsDialog	*prefs)
 
 	/* Date Navigator - Show Week Numbers. */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->dnav_show_week_no), calendar_config_get_dnav_show_week_no ());
+
+	/* Task list */
+
+	show_task_list_config (prefs);
 }
 
+/* Returns a pointer to a static string with an X color spec for the current
+ * value of a color picker.
+ */
+static const char *
+spec_from_picker (GtkWidget *picker)
+{
+	static char spec[8];
+	guint8 r, g, b;
+
+	gnome_color_picker_get_i8 (GNOME_COLOR_PICKER (picker), &r, &g, &b, NULL);
+	g_snprintf (spec, sizeof (spec), "#%02x%02x%02x", r, g, b);
+
+	return spec;
+}
+
+/* Updates the task list config values from the settings in the dialog */
+static void
+update_task_list_config (CalPrefsDialog *prefs)
+{
+	CalPrefsDialogPrivate *priv;
+
+	priv = prefs->priv;
+
+	calendar_config_set_tasks_due_today_color (spec_from_picker (priv->tasks_due_today_color));
+	calendar_config_set_tasks_overdue_color (spec_from_picker (priv->tasks_overdue_color));
+}
 
 /* Updates the config values based on the settings in the dialog. */
 static void
@@ -464,6 +533,9 @@ cal_prefs_dialog_update_config	(CalPrefsDialog	*prefs)
 
 	/* Date Navigator - Show Week Numbers. */
 	calendar_config_set_dnav_show_week_no (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->dnav_show_week_no)));
+
+	/* Task list */
+	update_task_list_config (prefs);
 
 	calendar_config_write ();
 	update_all_config_settings ();

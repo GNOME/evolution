@@ -1,3 +1,31 @@
+2001-06-30  Federico Mena Quintero  <federico@ximian.com>
+
+	Fixes bug #1406.
+
+	* gui/calendar-config.c (config_read): Handle the options for the
+	task list colors.
+	(calendar_config_write): Ditto.
+	(calendar_config_get_tasks_due_today_color): New function.
+	(calendar_config_set_tasks_due_today_color): New function.
+	(calendar_config_get_tasks_overdue_color): New function.
+	(calendar_config_set_tasks_overdue_color): New function.
+	(calendar_config_configure_e_calendar_table): Use
+	e_table_model_changed() for the colors.
+
+	* gui/dialogs/cal-prefs-dialog.glade: Updated the options for the
+	task list and alarms.
+
+	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_show_config):
+	Update the task list settings.
+	(cal_prefs_dialog_update_config): Ditto.
+
+	* gui/calendar-model.c (get_color): Deal with tasks for today as
+	well as overdue tasks.  Make it cleaner, even though we have to
+	duplicate a chunk of is_overdue().
+
+	* gui/calendar-commands.c (preferences_cmd): Renamed from
+	properties_cmd().
+
 2001-07-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view-main-item.c

@@ -57,6 +57,8 @@ typedef struct
 	gfloat		month_vpane_pos;
 	gboolean	compress_weekend;
 	gboolean	show_event_end;
+	char           *tasks_due_today_color;
+	char           *tasks_overdue_color;
 } CalendarConfig;
 
 
@@ -76,7 +78,7 @@ calendar_config_init			(void)
 {
 	if (config)
 		return;
-	
+
 	config = g_new0 (CalendarConfig, 1);
 
 	config_read ();
@@ -118,7 +120,6 @@ config_read				(void)
 
 	gnome_config_pop_prefix ();
 
-
 	/* 'DateNavigator' settings. */
 	prefix = g_strdup_printf ("=%s/config/Calendar=/DateNavigator/",
 				  evolution_dir);
@@ -129,7 +130,18 @@ config_read				(void)
 
 	gnome_config_pop_prefix ();
 
+	/* Task list settings */
 
+	prefix = g_strdup_printf ("=%s/config/Tasks=/Colors/", evolution_dir);
+	gnome_config_push_prefix (prefix);
+	g_free (prefix);
+
+	config->tasks_due_today_color = gnome_config_get_string ("TasksDueToday=blue");
+	config->tasks_overdue_color = gnome_config_get_string ("TasksOverdue=red");
+
+	gnome_config_pop_prefix ();
+
+	/* Done */
 	gnome_config_sync ();
 }
 
@@ -138,7 +150,7 @@ void
 calendar_config_write			(void)
 {
 	gchar *prefix;
-	
+
 	/* 'Display' settings. */
 	prefix = g_strdup_printf ("=%s/config/Calendar=/Display/",
 				  evolution_dir);
@@ -159,7 +171,6 @@ calendar_config_write			(void)
 
 	gnome_config_pop_prefix ();
 
-
 	/* 'DateNavigator' settings. */
 	prefix = g_strdup_printf ("=%s/config/Calendar=/DateNavigator/",
 				  evolution_dir);
@@ -170,7 +181,18 @@ calendar_config_write			(void)
 
 	gnome_config_pop_prefix ();
 
+	/* Task list settings */
 
+	prefix = g_strdup_printf ("=%s/config/Tasks=/Colors/", evolution_dir);
+	gnome_config_push_prefix (prefix);
+	g_free (prefix);
+
+	gnome_config_set_string ("TasksDueToday", config->tasks_due_today_color);
+	gnome_config_set_string ("TasksOverdue", config->tasks_overdue_color);
+
+	gnome_config_pop_prefix ();
+
+	/* Done */
 	gnome_config_sync ();
 }
 
@@ -179,7 +201,7 @@ void
 calendar_config_write_on_exit		(void)
 {
 	gchar *prefix;
-	
+
 	/* 'Display' settings. */
 	prefix = g_strdup_printf ("=%s/config/Calendar=/Display/",
 				  evolution_dir);
@@ -569,6 +591,11 @@ calendar_config_configure_e_calendar_table	(ECalendarTable	*cal_table)
 	calendar_model_set_use_24_hour_format (model, use_24_hour);
 
 	calendar_config_configure_e_cell_date_edit (cal_table->dates_cell);
+
+	/* This is for changing the colors of the text; they will be re-fetched
+	 * by ECellText when the table is redrawn.
+	 */
+	e_table_model_changed (E_TABLE_MODEL (model));
 }
 
 
@@ -635,3 +662,64 @@ on_timezone_dialog_delete_event	(GnomeDialog	*dialog,
 }
 
 
+/**
+ * calendar_config_get_tasks_due_today_color:
+ * 
+ * Queries the color to be used to display tasks that are due today.
+ * 
+ * Return value: An X color specification.
+ **/
+const char *
+calendar_config_get_tasks_due_today_color (void)
+{
+	g_assert (config->tasks_due_today_color != NULL);
+	return config->tasks_due_today_color;
+}
+
+/**
+ * calendar_config_set_tasks_due_today_color:
+ * @color: X color specification
+ * 
+ * Sets the color to be used to display tasks that are due today.
+ **/
+void
+calendar_config_set_tasks_due_today_color (const char *color)
+{
+	g_return_if_fail (color != NULL);
+
+	g_assert (config->tasks_due_today_color != NULL);
+
+	g_free (config->tasks_due_today_color);
+	config->tasks_due_today_color = g_strdup (color);
+}
+
+/**
+ * calendar_config_get_tasks_overdue_color:
+ * 
+ * Queries the color to be used to display overdue tasks.
+ * 
+ * Return value: An X color specification.
+ **/
+const char *
+calendar_config_get_tasks_overdue_color (void)
+{
+	g_assert (config->tasks_overdue_color != NULL);
+	return config->tasks_overdue_color;
+}
+
+/**
+ * calendar_config_set_tasks_overdue_color:
+ * @color: X color specification
+ * 
+ * Sets the color to be used to display overdue tasks.
+ **/
+void
+calendar_config_set_tasks_overdue_color (const char *color)
+{
+	g_return_if_fail (color != NULL);
+
+	g_assert (config->tasks_overdue_color != NULL);
+
+	g_free (config->tasks_overdue_color);
+	config->tasks_overdue_color = g_strdup (color);
+}
