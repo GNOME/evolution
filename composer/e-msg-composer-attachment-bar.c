@@ -754,12 +754,17 @@ attach_to_multipart (CamelMultipart *multipart,
 			CamelStreamFilter *filtered_stream;
 			CamelMimeFilterBestenc *bestenc;
 			CamelStream *stream;
+			const char *charset;
 			char *type;
 			
-			/* Let camel know that this text part was read in raw and thus is not in
-			 * UTF-8 format so that when it writes this part out, it doesn't try to
-			 * convert it from UTF-8 into the @default_charset charset. */
-			content->rawtext = TRUE;
+			/* assume that if a charset is set, that the content is in UTF-8
+			 * or else already has rawtext set to TRUE */
+			if (!(charset = header_content_type_param (content_type, "charset"))) {
+				/* Let camel know that this text part was read in raw and thus is not in
+				 * UTF-8 format so that when it writes this part out, it doesn't try to
+				 * convert it from UTF-8 into the @default_charset charset. */
+				content->rawtext = TRUE;
+			}
 			
 			stream = camel_stream_null_new ();
 			filtered_stream = camel_stream_filter_new_with_stream (stream);
@@ -777,7 +782,7 @@ attach_to_multipart (CamelMultipart *multipart,
 				/* the text fits within us-ascii so this is safe */
 				/* FIXME: check that this isn't iso-2022-jp? */
 				default_charset = "us-ascii";
-			} else {
+			} else if (!charset) {
 				if (!default_charset)
 					default_charset = mail_config_get_default_charset ();
 				
@@ -786,11 +791,13 @@ attach_to_multipart (CamelMultipart *multipart,
 				   allow the user to specify? */
 			}
 			
-			/* looks kinda nasty, but this is how ya have to do it */
-			header_content_type_set_param (content_type, "charset", default_charset);
-			type = header_content_type_format (content_type);
-			camel_mime_part_set_content_type (attachment->body, type);
-			g_free (type);
+			if (!charset) {
+				/* looks kinda nasty, but this is how ya have to do it */
+				header_content_type_set_param (content_type, "charset", default_charset);
+				type = header_content_type_format (content_type);
+				camel_mime_part_set_content_type (attachment->body, type);
+				g_free (type);
+			}
 			
 			camel_object_unref (CAMEL_OBJECT (bestenc));
 		} else if (!CAMEL_IS_MIME_MESSAGE (content)) {

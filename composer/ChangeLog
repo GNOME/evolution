@@ -1,3 +1,9 @@
+2002-10-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c (attach_to_multipart): Don't set
+	the charset param on text parts nor tha rawtext bit on the content
+	if a charset for the part is already specified.
+
 2002-10-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (size_to_string): Return NULL
