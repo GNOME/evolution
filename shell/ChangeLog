@@ -1,3 +1,7 @@
+2001-02-27  Dan Winship  <danw@ximian.com>
+
+	* main.c (development_warning): Update this again.
+
 2001-02-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Evolution-Shell.idl: Rename `FolderTypeList' to
