@@ -38,7 +38,6 @@ typedef struct _FilterEditorClass FilterEditorClass;
 
 struct _FilterEditor {
 	RuleEditor parent_object;
-	struct _FilterEditorPrivate *priv;
 	
 };
 

@@ -1,5 +1,7 @@
 2002-11-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* filter-part.c: Ported.
+
 	* filter-editor.c: Also ported.
 
 	* rule-editor.c: Ported to gtk2 and removed unnecessary e_utf8 snot.

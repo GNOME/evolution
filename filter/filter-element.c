@@ -51,7 +51,7 @@ static void filter_element_init	(FilterElement *fe);
 static void filter_element_finalise (GObject *obj);
 
 
-static GObjectClass *parent_class;
+static GObjectClass *parent_class = NULL;
 
 
 GType

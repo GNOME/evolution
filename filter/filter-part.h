@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -21,20 +23,25 @@
 #ifndef _FILTER_PART_H
 #define _FILTER_PART_H
 
-#include <gtk/gtkobject.h>
+#include <glib.h>
+#include <glib-object.h>
+
 #include "filter-input.h"
 
-#define FILTER_PART(obj)	GTK_CHECK_CAST (obj, filter_part_get_type (), FilterPart)
-#define FILTER_PART_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_part_get_type (), FilterPartClass)
-#define IS_FILTER_PART(obj)      GTK_CHECK_TYPE (obj, filter_part_get_type ())
+#define FILTER_TYPE_PART            (filter_part_get_type ())
+#define FILTER_PART(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FILTER_TYPE_PART, FilterPart))
+#define FILTER_PART_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FILTER_TYPE_PART, FilterPartClass))
+#define IS_FILTER_PART(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FILTER_TYPE_PART))
+#define IS_FILTER_PART_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FILTER_TYPE_PART))
+#define FILTER_PART_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FILTER_TYPE_PART, FilterElementClass))
 
-typedef struct _FilterPart	FilterPart;
-typedef struct _FilterPartClass	FilterPartClass;
+typedef struct _FilterPart FilterPart;
+typedef struct _FilterPartClass FilterPartClass;
 
 struct _FilterPart {
-	GtkObject parent;
+	GObject parent_object;
 	struct _FilterPartPrivate *priv;
-
+	
 	char *name;
 	char *title;
 	char *code;
@@ -42,38 +49,37 @@ struct _FilterPart {
 };
 
 struct _FilterPartClass {
-	GtkObjectClass parent_class;
-
+	GObjectClass parent_class;
+	
 	/* virtual methods */
-
+	
 	/* signals */
 };
 
-guint		filter_part_get_type	(void);
-FilterPart	*filter_part_new	(void);
+GType           filter_part_get_type     (void);
+FilterPart     *filter_part_new          (void);
 
 /* methods */
-gboolean        filter_part_validate    (FilterPart *fp);
-int		filter_part_eq		(FilterPart *fp, FilterPart *fc);
+gboolean        filter_part_validate     (FilterPart *fp);
+int             filter_part_eq           (FilterPart *fp, FilterPart *fc);
 
-int		filter_part_xml_create	(FilterPart *ff, xmlNodePtr node);
+int             filter_part_xml_create   (FilterPart *ff, xmlNodePtr node);
 
-xmlNodePtr	filter_part_xml_encode	(FilterPart *fe);
-int		filter_part_xml_decode	(FilterPart *fe, xmlNodePtr node);
+xmlNodePtr      filter_part_xml_encode   (FilterPart *fe);
+int             filter_part_xml_decode   (FilterPart *fe, xmlNodePtr node);
 
-FilterPart	*filter_part_clone	(FilterPart *fp);
-void		filter_part_copy_values (FilterPart *dfp, FilterPart *sfp);
+FilterPart     *filter_part_clone        (FilterPart *fp);
+void            filter_part_copy_values  (FilterPart *dfp, FilterPart *sfp);
 
-FilterElement	*filter_part_find_element(FilterPart *ff, const char *name);
+FilterElement  *filter_part_find_element (FilterPart *ff, const char *name);
 
-GtkWidget	*filter_part_get_widget		(FilterPart *ff);
-void		filter_part_build_code		(FilterPart *ff, GString *out);
-void		filter_part_expand_code		(FilterPart *ff, const char *str, GString *out);
+GtkWidget      *filter_part_get_widget   (FilterPart *ff);
+void		filter_part_build_code   (FilterPart *ff, GString *out);
+void		filter_part_expand_code  (FilterPart *ff, const char *str, GString *out);
 
 /* static functions */
-void		filter_part_build_code_list	(GList *l, GString *out);
-FilterPart	*filter_part_find_list		(GList *l, const char *name);
-FilterPart	*filter_part_next_list		(GList *l, FilterPart *last);
+void            filter_part_build_code_list (GList *l, GString *out);
+FilterPart     *filter_part_find_list    (GList *l, const char *name);
+FilterPart     *filter_part_next_list    (GList *l, FilterPart *last);
 
 #endif /* ! _FILTER_PART_H */
-

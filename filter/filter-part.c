@@ -1,7 +1,9 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,106 +20,90 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include <stdlib.h>
 #include <string.h>
 
-#include <glib.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkhbox.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "filter-part.h"
-#include "filter-element.h"
 
 
 #define d(x)
 
-static void filter_part_class_init	(FilterPartClass *class);
-static void filter_part_init	(FilterPart *gspaper);
-static void filter_part_finalise	(GtkObject *obj);
+static void filter_part_class_init (FilterPartClass *klass);
+static void filter_part_init (FilterPart *fp);
+static void filter_part_finalise (GObject *obj);
 
-#define _PRIVATE(x) (((FilterPart *)(x))->priv)
 
-struct _FilterPartPrivate {
-};
+static GObjectClass *parent_class = NULL;
 
-static GtkObjectClass *parent_class;
 
-enum {
-	LAST_SIGNAL
-};
-
-static guint signals[LAST_SIGNAL] = { 0 };
-
-guint
+GType
 filter_part_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"FilterPart",
-			sizeof(FilterPart),
-			sizeof(FilterPartClass),
-			(GtkClassInitFunc)filter_part_class_init,
-			(GtkObjectInitFunc)filter_part_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+		static const GTypeInfo info = {
+			sizeof (FilterPartClass),
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) filter_part_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (FilterPart),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) filter_part_init,
 		};
 		
-		type = gtk_type_unique(gtk_object_get_type (), &type_info);
+		type = g_type_register_static (G_TYPE_OBJECT, "FilterPart", &info, 0);
 	}
 	
 	return type;
 }
 
 static void
-filter_part_class_init (FilterPartClass *class)
+filter_part_class_init (FilterPartClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref (G_OBJECT_CLASS);
 	
 	object_class->finalize = filter_part_finalise;
-	/* override methods */
-	
-	/* signals */
-	
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
-filter_part_init (FilterPart *o)
+filter_part_init (FilterPart *fp)
 {
-	o->priv = g_malloc0 (sizeof (*o->priv));
+	fp->priv = g_malloc0 (sizeof (*fp->priv));
 }
 
 static void
-filter_part_finalise(GtkObject *obj)
+filter_part_finalise (GObject *obj)
 {
-	FilterPart *o = (FilterPart *)obj;
+	FilterPart *fp = (FilterPart *) obj;
 	GList *l;
-
-	o = o;
-
-	l = o->elements;
-	while (l) {
-		gtk_object_unref((GtkObject *)l->data);
-		l = g_list_next(l);
-	}
-
-	g_list_free(o->elements);
-	g_free(o->name);
-	g_free(o->title);
-	g_free(o->code);
-
 	
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+	l = fp->elements;
+	while (l) {
+		g_object_unref (l->data);
+		l = l->next;
+	}
+	
+	g_list_free (fp->elements);
+	g_free (fp->name);
+	g_free (fp->title);
+	g_free (fp->code);
+	
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -130,8 +116,7 @@ filter_part_finalise(GtkObject *obj)
 FilterPart *
 filter_part_new (void)
 {
-	FilterPart *o = (FilterPart *)gtk_type_new(filter_part_get_type ());
-	return o;
+	return (FilterPart *) g_object_new (FILTER_TYPE_PART, NULL, NULL);
 }
 
 gboolean
@@ -153,29 +138,29 @@ filter_part_validate (FilterPart *fp)
 }
 
 int
-filter_part_eq(FilterPart *fp, FilterPart *fc)
+filter_part_eq (FilterPart *fp, FilterPart *fc)
 {
 	int truth;
 	GList *al, *bl;
-
+	
 	truth = ((fp->name && fc->name && strcmp(fp->name, fc->name) == 0)
 		 || (fp->name == NULL && fc->name == NULL))
 		&& ((fp->title && fc->title && strcmp(fp->title, fc->title) == 0)
 		    || (fp->title == NULL && fc->title == NULL))
 		&& ((fp->code && fc->code && strcmp(fp->code, fc->code) == 0)
 		    || (fp->code == NULL && fc->code == NULL));
-
+	
 	al = fp->elements;
 	bl = fc->elements;
 	while (truth && al && bl) {
 		FilterElement *a = al->data, *b = bl->data;
-
+		
 		truth = filter_element_eq(a, b);
-
+		
 		al = al->next;
 		bl = bl->next;
 	}
-
+	
 	return truth && al == NULL && bl == NULL;
 }
 
@@ -186,10 +171,11 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
 	char *type, *str;
 	FilterElement *el;
 	
-	str = xmlGetProp(node, "name");
-	ff->name = g_strdup(str);
+	str = xmlGetProp (node, "name");
+	ff->name = g_strdup (str);
 	if (str)
-		xmlFree(str);
+		xmlFree (str);
+	
 	n = node->childs;
 	while (n) {
 		if (!strcmp (n->name, "input")) {
@@ -198,28 +184,28 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
 			if (type != NULL
 			    && (el = filter_element_new_type_name (type)) != NULL) {
 				filter_element_xml_create (el, n);
-				xmlFree(type);
+				xmlFree (type);
 				d(printf ("adding element part %p %s\n", ff, el, el->name));
 				ff->elements = g_list_append (ff->elements, el);
 			} else {
 				g_warning ("Invalid xml format, missing/unknown input type");
 			}
-		} else if (!strcmp(n->name, "title")) {
+		} else if (!strcmp (n->name, "title")) {
 			if (!ff->title) {
 				str = xmlNodeGetContent (n);
-				ff->title = e_utf8_xml1_decode (str);
+				ff->title = g_strdup (str);
 				if (str)
 					xmlFree (str);
 			}
 		} else if (!strcmp (n->name, "code")) {
 			if (!ff->code) {
 				str = xmlNodeGetContent (n);
-				ff->code = e_utf8_xml1_decode (str);
+				ff->code = g_strdup (str);
 				if (str)
 					xmlFree (str);
 			}
 		} else {
-			g_warning ("Unknwon part element in xml: %s\n", n->name);
+			g_warning ("Unknown part element in xml: %s\n", n->name);
 		}
 		n = n->next;
 	}
@@ -268,9 +254,8 @@ filter_part_xml_decode (FilterPart *fp, xmlNodePtr node)
 			fe = filter_part_find_element (fp, name);
 			d(printf ("finding element part %p %s = %p\n", name, name, fe));
 			xmlFree (name);
-			if (fe) {
+			if (fe)
 				filter_element_xml_decode (fe, n);
-			}
 		}
 		n = n->next;
 	}
@@ -285,10 +270,10 @@ filter_part_clone (FilterPart *fp)
 	GList *l;
 	FilterElement *fe, *ne;
 	
-	new = (FilterPart *)gtk_type_new ((GTK_OBJECT (fp))->klass->type);
-	new->name = g_strdup(fp->name);
-	new->title = g_strdup(fp->title);
-	new->code = g_strdup(fp->code);
+	new = (FilterPart *) g_object_new (G_OBJECT_TYPE (fp), NULL, NULL);
+	new->name = g_strdup (fp->name);
+	new->title = g_strdup (fp->title);
+	new->code = g_strdup (fp->code);
 	l = fp->elements;
 	while (l) {
 		fe = l->data;
@@ -306,26 +291,26 @@ filter_part_copy_values (FilterPart *dst, FilterPart *src)
 {
 	GList *dstl, *srcl, *dstt;
 	FilterElement *de, *se;
-
+	
 	/* NOTE: we go backwards, it just works better that way */
-
+	
 	/* for each source type, search the dest type for
 	   a matching type in the same order */
-	srcl = g_list_last(src->elements);
-	dstl = g_list_last(dst->elements);
+	srcl = g_list_last (src->elements);
+	dstl = g_list_last (dst->elements);
 	while (srcl && dstl) {
 		se = srcl->data;
 		dstt = dstl;
 		while (dstt) {
 			de = dstt->data;
-			if (((GtkObject *)de)->klass == ((GtkObject *)se)->klass) {
-				filter_element_copy_value(de, se);
+			if (FILTER_PART_GET_CLASS (de) == FILTER_PART_GET_CLASS (se)) {
+				filter_element_copy_value (de, se);
 				dstl = dstt->prev;
 				break;
 			}
 			dstt = dstt->prev;
 		}
-
+		
 		srcl = srcl->prev;
 	}
 }
@@ -363,9 +348,9 @@ filter_part_get_widget (FilterPart *ff)
 	while (l) {
 		fe = l->data;
 		w = filter_element_get_widget (fe);
-		if (w) {
+		if (w)
 			gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 3);
-		}
+		
 		l = g_list_next (l);
 	}
 	
@@ -387,13 +372,13 @@ filter_part_build_code (FilterPart *ff, GString *out)
 	GList *l = ff->elements;
 	FilterElement *fe;
 	
-	if (ff->code) {
+	if (ff->code)
 		filter_part_expand_code (ff, ff->code, out);
-	}
+	
 	while (l) {
 		fe = l->data;
 		filter_element_build_code (fe, out, ff);
-		l = g_list_next (l);
+		l = l->next;
 	}
 }
 
@@ -414,7 +399,7 @@ filter_part_build_code_list (GList *l, GString *out)
 		fp = l->data;
 		filter_part_build_code (fp, out);
 		g_string_append (out, "\n  ");
-		l = g_list_next (l);
+		l = l->next;
 	}
 }
 
@@ -440,7 +425,7 @@ filter_part_find_list (GList *l, const char *name)
 			d(printf ("Found!\n"));
 			return part;
 		}
-		l = g_list_next (l);
+		l = l->next;
 	}
 	
 	return NULL;
@@ -467,8 +452,9 @@ filter_part_next_list (GList *l, FilterPart *last)
 		if (node == NULL)
 			node = l;
 		else
-			node = g_list_next (node);
+			node = node->next
 	}
+	
 	if (node)
 		return node->data;
 	
@@ -497,7 +483,7 @@ filter_part_expand_code (FilterPart *ff, const char *source, GString *out)
 		len = end - newstart - 2;
 		if (len + 1 > namelen) {
 			namelen = (len + 1) * 2;
-			name = alloca (namelen);
+			name = g_alloca (namelen);
 		}
 		memcpy (name, newstart+2, len);
 		name[len] = 0;
@@ -507,7 +493,7 @@ filter_part_expand_code (FilterPart *ff, const char *source, GString *out)
 			g_string_sprintfa (out, "%.*s", newstart-start, start);
 			filter_element_format_sexp (fe, out);
 #if 0
-		} else if ( (val = g_hash_table_lookup (ff->globals, name)) ) {
+		} else if ((val = g_hash_table_lookup (ff->globals, name))) {
 			g_string_sprintfa (out, "%.*s", newstart-start, start);
 			e_sexp_encode_string (out, val);
 #endif
