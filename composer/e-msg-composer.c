@@ -937,9 +937,7 @@ encode_signature_name (const gchar *name)
 		s ++;
 	}
 	*e = 0;
-
-	printf ("name: '%s'\nencoded name: '%s'\n", name, ename);
-
+	
 	return ename;
 }
 
@@ -1503,22 +1501,31 @@ menu_file_save_draft_cb (BonoboUIComponent *uic, void *data, const char *path)
 static void
 do_exit (EMsgComposer *composer)
 {
+	char *subject, *subject_utf8, *label;
 	GtkWidget *dialog;
-	gint button;
+	int button;
 	
-	if (! e_msg_composer_is_dirty (composer)) {
+	if (!e_msg_composer_is_dirty (composer)) {
 		gtk_widget_destroy (GTK_WIDGET (composer));
 		return;
 	}
-
+	
 	gdk_window_raise (GTK_WIDGET (composer)->window);
-
-	dialog = gnome_message_box_new (_("This message has not been sent.\n\nDo you wish to save your changes?"),
-					GNOME_MESSAGE_BOX_QUESTION,
+	
+	subject_utf8 = e_msg_composer_hdrs_get_subject (E_MSG_COMPOSER_HDRS (composer->hdrs));
+	subject = e_utf8_to_locale_string (subject_utf8);
+	g_free (subject_utf8);
+	
+	label = g_strdup_printf (("The message \"%s\" has not been sent.\n\nDo you wish to save your changes?"), subject);
+	g_free (subject);
+	
+	dialog = gnome_message_box_new (label, GNOME_MESSAGE_BOX_QUESTION,
 					GNOME_STOCK_BUTTON_YES,      /* Save */
 					GNOME_STOCK_BUTTON_NO,       /* Don't save */
 					GNOME_STOCK_BUTTON_CANCEL,   /* Cancel */
 					NULL);
+	
+	g_free (label);
 	
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Warning: Modified Message"));
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (composer));
@@ -1526,14 +1533,17 @@ do_exit (EMsgComposer *composer)
 	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	
 	switch (button) {
-	case 0:			/* Save */
+	case 0:
+		/* Save */
 		gtk_signal_emit (GTK_OBJECT (composer), signals[SAVE_DRAFT], TRUE);
 		e_msg_composer_unset_changed (composer);
 		break;
-	case 1:			/* Don't save */
+	case 1:
+		/* Don't save */
 		gtk_widget_destroy (GTK_WIDGET (composer));
 		break;
-	default:			/* Cancel */
+	default:
+		/* Cancel */
 		break;
 	}
 }
