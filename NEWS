@@ -1,3 +1,21 @@
+Evolution x.x.x, ????-??-??
+---------------------------
+
+Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+    #16870 -- fix CRLF check for empty lines in ldif importre (Sean Gao)
+    #34254 -- fix case sensitive nature of vcard importer (Sean Gao)
+    #33097 -- Fix crash when changing autocomplete folder list.  Also
+              fixes #30323, #33930, and #33332. (Toshok)
+
+Other fixes:
+
+  * Addressbook
+
+    - Fix scope problem where scopes would be saved as "base" and
+      "one" instead of "one" and "sub" repectively.
+
 Evolution 1.2.0, 2002-11-06
 ---------------------------
 
