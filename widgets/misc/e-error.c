@@ -44,7 +44,7 @@
 
 #include "e-error.h"
 
-#define d(x) x
+#define d(x) 
 
 struct _e_error_button {
 	struct _e_error_button *next;
