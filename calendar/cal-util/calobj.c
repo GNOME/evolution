@@ -15,13 +15,7 @@
 #include "timeutil.h"
 #include "libversit/vcc.h"
 
-/* Default values for alarms */
-CalendarAlarm alarm_defaults[4] = {
-	{ ALARM_MAIL, 0, 15, ALARM_MINUTES },
-	{ ALARM_PROGRAM, 0, 15, ALARM_MINUTES },
-	{ ALARM_DISPLAY, 0, 15, ALARM_MINUTES },
-	{ ALARM_AUDIO, 0, 15, ALARM_MINUTES }
-};
+
 
 static char *
 ical_gen_uid (void)
@@ -67,19 +61,6 @@ ical_object_new (void)
 	return ico;
 }
 
-static void
-default_alarm (iCalObject *ical, CalendarAlarm *alarm, char *def_mail, enum AlarmType type)
-{
-	alarm->type = type;
-	alarm->enabled = alarm_defaults[type].enabled;
-	alarm->count = alarm_defaults[type].count;
-	alarm->units = alarm_defaults[type].units;
-	if (alarm_defaults[type].data)
-		alarm->data = g_strdup (alarm_defaults[type].data);
-	else
-		alarm->data = g_strdup ("");
-}
-
 iCalObject *
 ical_new (char *comment, char *organizer, char *summary)
 {
@@ -94,10 +75,10 @@ ical_new (char *comment, char *organizer, char *summary)
 	ico->class     = g_strdup ("PUBLIC");
 	ico->status    = g_strdup ("NEEDS ACTION");
 
-	default_alarm  (ico, &ico->dalarm, organizer, ALARM_DISPLAY);
-	default_alarm  (ico, &ico->palarm, organizer, ALARM_PROGRAM);
-	default_alarm  (ico, &ico->malarm, organizer, ALARM_MAIL);
-	default_alarm  (ico, &ico->aalarm, organizer, ALARM_AUDIO);
+	ico->dalarm.type = ALARM_DISPLAY;
+	ico->palarm.type = ALARM_PROGRAM;
+	ico->malarm.type = ALARM_MAIL;
+	ico->aalarm.type = ALARM_AUDIO;
 
 	return ico;
 }

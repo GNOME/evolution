@@ -28,27 +28,6 @@
 
 
 
-/* Stuff that the un-converted alarm code needs to build */
-
-int debug_alarms = FALSE;
-
-void calendar_notify (time_t time, CalendarAlarm *which, void *data);
-
-CalendarAlarm alarm_defaults[4] = {
-	{ ALARM_MAIL, 0, 15, ALARM_MINUTES },
-	{ ALARM_PROGRAM, 0, 15, ALARM_MINUTES },
-	{ ALARM_DISPLAY, 0, 15, ALARM_MINUTES },
-	{ ALARM_AUDIO, 0, 15, ALARM_MINUTES }
-};
-
-void
-calendar_notify (time_t time, CalendarAlarm *which, void *data)
-{
-	g_error ("calendar_notify() called!");
-}
-
-
-
 /* Callback used when the calendar factory is destroyed */
 static void
 factory_destroy_cb (GtkObject *object, gpointer data)

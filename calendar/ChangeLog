@@ -1,3 +1,13 @@
+2000-03-10  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/calobj.c (ical_new): Initialize the alarm types here.
+	Do not call default_alarm() anymore, since that is a GUI issue.
+	(default_alarm): Removed function.
+	(alarm_defaults): Removed defaults data.
+
+	* pcs/tlacuache.c (calendar_notify): Removed stubs for
+	alarm_defaults, calendar_notify(), debug_alarms.
+
 2000-03-09  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/Makefile.am: Removed the corba-cal stuff.  Commented out the
