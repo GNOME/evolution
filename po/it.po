@@ -12973,9 +12973,7 @@ msgstr "un mittente sconosciuto"
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
-msgstr ""
-"${AbbrevWeekdayName}, ${Day}-${Month}-${Year} alle ${24Hour}:${Minute} "
-"${TimeZone}, ${Sender} ha scritto:"
+msgstr "Il giorno ${AbbrevWeekdayName}, ${Day}-${Month}-${Year} alle ${24Hour}:${Minute} ${TimeZone}, ${Sender} ha scritto:"
 
 #: mail/em-filter-editor.c:147
 msgid "_Filter Rules"
