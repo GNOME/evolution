@@ -126,7 +126,8 @@ static CalBackendResult cal_backend_file_remove_object (CalBackend *backend, con
 
 static CalBackendSendResult cal_backend_file_send_object (CalBackend *backend, 
 							  const char *calobj, gchar **new_calobj,
-							  GNOME_Evolution_Calendar_UserList **user_list);
+							  GNOME_Evolution_Calendar_UserList **user_list,
+							  char error_msg[256]);
 
 static icaltimezone* cal_backend_file_get_timezone (CalBackend *backend, const char *tzid);
 static icaltimezone* cal_backend_file_get_default_timezone (CalBackend *backend);
@@ -1904,7 +1905,7 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 
 static CalBackendSendResult
 cal_backend_file_send_object (CalBackend *backend, const char *calobj, char **new_calobj,
-			      GNOME_Evolution_Calendar_UserList **user_list)
+			      GNOME_Evolution_Calendar_UserList **user_list, char error_msg[256])
 {
 	*new_calobj = g_strdup (calobj);
 	

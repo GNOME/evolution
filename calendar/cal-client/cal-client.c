@@ -2446,7 +2446,8 @@ cal_client_remove_object (CalClient *client, const char *uid)
 
 CalClientResult
 cal_client_send_object (CalClient *client, icalcomponent *icalcomp, 
-			icalcomponent **new_icalcomp, GList **users)
+			icalcomponent **new_icalcomp, GList **users,
+			char error_msg[256])
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
@@ -2470,13 +2471,15 @@ cal_client_send_object (CalClient *client, icalcomponent *icalcomp,
 	CORBA_exception_init (&ev);
 	obj_string = GNOME_Evolution_Calendar_Cal_sendObject (priv->cal, obj_string, &user_list, &ev);
 
-	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject)) {
 		retval = CAL_CLIENT_SEND_INVALID_OBJECT;
-	else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_Busy))
+	} else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_Busy)) {
 		retval = CAL_CLIENT_SEND_BUSY;
-	else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied))
+		strcpy (error_msg, 
+			((GNOME_Evolution_Calendar_Cal_Busy *)(CORBA_exception_value (&ev)))->errorMsg);
+	} else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied)) {
 		retval = CAL_CLIENT_SEND_PERMISSION_DENIED;
-	else if (BONOBO_EX (&ev)) {
+	} else if (BONOBO_EX (&ev)) {
 		g_message ("cal_client_update_objects(): could not send the objects");
 		retval = CAL_CLIENT_SEND_CORBA_ERROR;
 	} else {

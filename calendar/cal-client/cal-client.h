@@ -186,7 +186,8 @@ CalClientResult cal_client_update_objects (CalClient *client, icalcomponent *ica
 CalClientResult cal_client_remove_object (CalClient *client, const char *uid);
 
 CalClientSendResult cal_client_send_object (CalClient *client, icalcomponent *icalcomp, 
-					    icalcomponent **new_icalcomp, GList **users);
+					    icalcomponent **new_icalcomp, GList **users,
+					    char error_msg[256]);
 
 CalQuery *cal_client_get_query (CalClient *client, const char *sexp);
 

@@ -132,7 +132,7 @@ module Calendar {
 		exception InvalidObject {};
 		exception CouldNotCreate {};
 		exception PermissionDenied {};
-		exception Busy {};
+		exception Busy {string errorMsg;};
 		
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;

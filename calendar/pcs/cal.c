@@ -452,12 +452,14 @@ impl_Cal_send_object (PortableServer_Servant servant,
 	CalPrivate *priv;
 	CORBA_char *calobj_copy;
 	char *new_calobj;
+	GNOME_Evolution_Calendar_Cal_Busy *err;
 	CalBackendSendResult result;
+	char error_msg[256];
 	
 	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
-	result = cal_backend_send_object (priv->backend, calobj, &new_calobj, user_list);
+	result = cal_backend_send_object (priv->backend, calobj, &new_calobj, user_list, error_msg);
 	switch (result) {
 	case CAL_BACKEND_SEND_SUCCESS:
 		calobj_copy = CORBA_string_dup (new_calobj);
@@ -470,7 +472,9 @@ impl_Cal_send_object (PortableServer_Servant servant,
 		break;
 
 	case CAL_BACKEND_SEND_BUSY:
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_Busy);
+		err = GNOME_Evolution_Calendar_Cal_Busy__alloc ();
+		err->errorMsg = CORBA_string_dup (error_msg);
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Calendar_Cal_Busy, err);
 		break;
 
 	case CAL_BACKEND_SEND_PERMISSION_DENIED:

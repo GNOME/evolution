@@ -521,15 +521,17 @@ comp_content_type (CalComponent *comp, CalComponentItipMethod method)
 
 }
 
-static GList *
-comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *client, icalcomponent *zones)
+static gboolean
+comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *client, 
+		  icalcomponent *zones, GList **users)
 {
-	CalClientResult result;
+	CalClientSendResult result;
 	icalcomponent *top_level, *new_top_level = NULL;
-	GList *users = NULL;
+	char error_msg[256];
+	gboolean retval = FALSE;
 	
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	result = cal_client_send_object (client, top_level, &new_top_level, &users);
+	result = cal_client_send_object (client, top_level, &new_top_level, users, error_msg);
 
 	if (result == CAL_CLIENT_SEND_SUCCESS) {
 		icalcomponent *ical_comp;
@@ -538,11 +540,17 @@ comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *
 		icalcomponent_remove_component (new_top_level, ical_comp);
 		cal_component_set_icalcomponent (comp, ical_comp);
 		icalcomponent_free (new_top_level);
+		
+		retval = TRUE;
+	} else if (result == CAL_CLIENT_SEND_BUSY) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, error_msg);
+
+		retval = FALSE;
 	}
 
 	icalcomponent_free (top_level);
 
-	return users;
+	return retval;
 }
 
 static gboolean
@@ -800,7 +808,8 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	composer_server = BONOBO_OBJREF (bonobo_server);
 	
 	/* Give the server a chance to manipulate the comp */
-	users = comp_server_send (method, send_comp, client, zones);
+	if (!comp_server_send (method, send_comp, client, zones, &users))
+		goto cleanup;
 
 	/* Tidy up the comp */
 	comp = comp_compliant (method, send_comp);

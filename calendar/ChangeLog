@@ -1,3 +1,28 @@
+2002-09-04  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (comp_server_send): provide error message
+	param, give a dialog with the message if we get a busy result;
+	return TRUE if we succeed
+	(itip_send_comp): bail out if we had a problem sending via the
+	server
+
+	* cal-client/cal-client.c (cal_client_send_object): pass back
+	error message if we get the busy exception in the new param
+
+	* cal-client/cal-client.h: update proto
+
+	* pcs/cal.c (impl_Cal_send_object): dump backend error message
+	into Busy exception
+
+	* pcs/cal-backend.h: update proto
+
+	* pcs/cal-backend.c (cal_backend_send_object): take/pass new error
+	message parameter
+
+	* pcs/cal-backend-file.c (cal_backend_file_send_object): take new param
+
+	* idl/evolution-calendar.idl: add errorMsg to Busy exception
+
 2002-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component-factory.c (create_object): Pass NULL as

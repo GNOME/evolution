@@ -712,14 +712,14 @@ cal_backend_remove_object (CalBackend *backend, const char *uid)
 
 CalBackendSendResult
 cal_backend_send_object (CalBackend *backend, const char *calobj, char **new_calobj,
-			 GNOME_Evolution_Calendar_UserList **user_list)
+			 GNOME_Evolution_Calendar_UserList **user_list, char error_msg[256])
 {
 	g_return_val_if_fail (backend != NULL, CAL_BACKEND_SEND_INVALID_OBJECT);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_SEND_INVALID_OBJECT);
 	g_return_val_if_fail (calobj != NULL, CAL_BACKEND_SEND_INVALID_OBJECT);
 
 	g_assert (CLASS (backend)->send_object != NULL);
-	return (* CLASS (backend)->send_object) (backend, calobj, new_calobj, user_list);
+	return (* CLASS (backend)->send_object) (backend, calobj, new_calobj, user_list, error_msg);
 }
 
 /**
