@@ -1,3 +1,10 @@
+2004-11-01  Li Yuan  <li.yuan@sun.com>
+
+	* calendar/ea-day-view.c: (ea_day_view_get_name):
+	use ngettext for n_events.
+	* calendar/ea-week-view.c: (ea_week_view_get_name):
+	ditto.
+
 2004-10-26  Li Yuan  <li.yuan@sun.com>
 
 	* calendar/ea-day-view.c: (ea_day_view_get_name):

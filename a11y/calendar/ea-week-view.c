@@ -144,12 +144,8 @@ ea_week_view_get_name (AtkObject *accessible)
 	n_events = atk_object_get_n_accessible_children (accessible);
 	/* the child main item is always there */
 	--n_events;
-	if (n_events == 1)
-		g_snprintf (buffer, sizeof (buffer),
-			    _(", %d event"), n_events);
-        if (n_events > 1)
-                g_snprintf (buffer, sizeof (buffer),
-                            _(", %d events"), n_events);
+	if (n_events >= 1)
+		g_snprintf (buffer, sizeof (buffer), ngettext ( _(", %d event"), _(", %d events"), n_events), n_events);
 
 	view_type = gnome_calendar_get_view (gcal);
 
