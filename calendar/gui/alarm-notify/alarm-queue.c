@@ -29,20 +29,25 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkbox.h>
 #include <gtk/gtkdialog.h>
+#include <gtk/gtkeventbox.h>
+#include <gtk/gtkimage.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtktooltips.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-uidefs.h>
+#include <e-util/eggtrayicon.h>
 #include <cal-util/timeutil.h>
 #include "alarm.h"
 #include "alarm-notify-dialog.h"
 #include "alarm-queue.h"
 #include "config-data.h"
 #include "save.h"
+#include "util.h"
 
 
 
@@ -649,13 +654,53 @@ edit_component (CalClient *client, CalComponent *comp)
 	CORBA_exception_free (&ev);
 }
 
-struct notify_dialog_closure {
+
+/* /\* Callback used from the alarm notify dialog *\/ */
+/* static void */
+/* notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data) */
+/* { */
+
+/* 	switch (result) { */
+/* 	case ALARM_NOTIFY_SNOOZE: */
+/* 		create_snooze (c->cqa, c->alarm_id, snooze_mins); */
+
+/* 		g_object_unref (c->comp); */
+/* 		g_object_unref (c->client); */
+/* 		g_free (c); */
+/* 		return; */
+
+/* 	case ALARM_NOTIFY_EDIT: */
+/* 		edit_component (c->client, c->comp); */
+/* 		break; */
+
+/* 	case ALARM_NOTIFY_CLOSE: */
+/* 		/\* Do nothing *\/ */
+/* 		break; */
+
+/* 	default: */
+/* 		g_assert_not_reached (); */
+/* 	} */
+
+/* 	if (c->cqa != NULL) */
+/* 		remove_queued_alarm (c->cqa, c->alarm_id, TRUE, TRUE); */
+/* 	g_object_unref (c->comp); */
+/* 	g_object_unref (c->client); */
+/* 	g_free (c); */
+/* } */
+
+typedef struct {
+	char *message;
+	gboolean blink_state;
+	gint blink_id;
+	time_t trigger;
 	CompQueuedAlarms *cqa;
 	gpointer alarm_id;
-	CalClient *client;
 	CalComponent *comp;
-	gpointer dialog;
-};
+	CalClient *client;
+	GtkWidget *tray_icon;
+	GtkWidget *image;
+	GtkWidget *alarm_dialog;
+} TrayIconData;
 
 static void
 on_dialog_obj_updated_cb (CalClient *client, const char *uid, gpointer data)
@@ -669,15 +714,15 @@ static void
 on_dialog_obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 {
 	const char *our_uid;
-	struct notify_dialog_closure *c = data;
+	TrayIconData *tray_data = data;
 
-	cal_component_get_uid (c->comp, &our_uid);
+	cal_component_get_uid (tray_data->comp, &our_uid);
 	g_return_if_fail (our_uid && *our_uid);
 
 	if (!strcmp (uid, our_uid)) {
-		alarm_notify_dialog_disable_buttons (c->dialog);
-		c->cqa = NULL;
-		c->alarm_id = NULL;
+		alarm_notify_dialog_disable_buttons (tray_data->alarm_dialog);
+		tray_data->cqa = NULL;
+		tray_data->alarm_id = NULL;
 	}
 }
 
@@ -685,26 +730,19 @@ on_dialog_obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 static void
 notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 {
-	struct notify_dialog_closure *c;
+	TrayIconData *tray_data = data;
 
-	c = data;
-
-	g_signal_handlers_disconnect_matched (c->client, G_SIGNAL_MATCH_FUNC,
-					      0, 0, NULL, on_dialog_obj_updated_cb, NULL);
-	g_signal_handlers_disconnect_matched (c->client, G_SIGNAL_MATCH_FUNC,
+	g_signal_handlers_disconnect_matched (tray_data->client, G_SIGNAL_MATCH_FUNC,
 					      0, 0, NULL, on_dialog_obj_removed_cb, NULL);
 
 	switch (result) {
 	case ALARM_NOTIFY_SNOOZE:
-		create_snooze (c->cqa, c->alarm_id, snooze_mins);
-
-		g_object_unref (c->comp);
-		g_object_unref (c->client);
-		g_free (c);
+		create_snooze (tray_data->cqa, tray_data->alarm_id, snooze_mins);
+		tray_data->cqa = NULL;
 		return;
 
 	case ALARM_NOTIFY_EDIT:
-		edit_component (c->client, c->comp);
+		edit_component (tray_data->client, tray_data->comp);
 		break;
 
 	case ALARM_NOTIFY_CLOSE:
@@ -715,11 +753,81 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 		g_assert_not_reached ();
 	}
 
-	if (c->cqa != NULL)
-		remove_queued_alarm (c->cqa, c->alarm_id, TRUE, TRUE);
-	g_object_unref (c->comp);
-	g_object_unref (c->client);
-	g_free (c);
+	tray_data->alarm_dialog = NULL;
+	gtk_widget_destroy (tray_data->tray_icon);
+}
+
+static gint
+tray_icon_destroyed_cb (GtkWidget *tray, gpointer user_data)
+{
+	TrayIconData *tray_data = user_data;
+
+	if (tray_data->cqa != NULL)
+		remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, TRUE, TRUE);
+
+	if (tray_data->message != NULL) {
+		g_free (tray_data->message);
+		tray_data->message = NULL;
+	}
+
+	g_source_remove (tray_data->blink_id);
+
+	g_object_unref (tray_data->comp);
+	g_object_unref (tray_data->client);
+	g_free (tray_data);
+
+	return TRUE;
+}
+
+static gint
+tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
+{
+	TrayIconData *tray_data = user_data;
+
+	if (event->type == GDK_BUTTON_PRESS) {
+		if (event->button == 1) {
+			QueuedAlarm *qa;
+
+			if (tray_data->alarm_dialog != NULL)
+				return FALSE;
+
+			qa = lookup_queued_alarm (tray_data->cqa, tray_data->alarm_id);
+			if (qa) {
+				gtk_widget_hide (tray_data->tray_icon);
+				tray_data->alarm_dialog = alarm_notify_dialog (
+					tray_data->trigger,
+					qa->instance->occur_start,
+					qa->instance->occur_end,
+					cal_component_get_vtype (tray_data->comp),
+					tray_data->message,
+					notify_dialog_cb, tray_data);
+				if (tray_data->alarm_dialog) {
+					g_signal_connect (G_OBJECT (tray_data->client), "obj_removed",
+							  G_CALLBACK (on_dialog_obj_removed_cb), tray_data);
+				}
+			}
+
+			return TRUE;
+		} else if (event->button == 2) {
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+static gboolean
+tray_icon_blink_cb (gpointer data)
+{
+	TrayIconData *tray_data = data;
+
+	tray_data->blink_state = tray_data->blink_state == TRUE ? FALSE : TRUE;
+	gtk_image_set_from_stock (GTK_IMAGE (tray_data->image),
+				  tray_data->blink_state == TRUE ?
+				  "appointment-reminder-excl" : "appointment-reminder",
+				  GTK_ICON_SIZE_LARGE_TOOLBAR);
+
+	return TRUE;
 }
 
 /* Performs notification of a display alarm */
@@ -727,13 +835,18 @@ static void
 display_notification (time_t trigger, CompQueuedAlarms *cqa,
 		      gpointer alarm_id, gboolean use_description)
 {
-	CalComponent *comp;
-	CalComponentVType vtype;
-	CalComponentText text;
 	QueuedAlarm *qa;
+	CalComponent *comp;
+	CalClient *client;
+	CalComponentVType vtype;
 	const char *message;
-	struct notify_dialog_closure *c;
-	gboolean use_summary;
+	CalComponentAlarm *alarm;
+	GtkWidget *tray_icon, *image, *ebox;
+	GtkTooltips *tooltips;
+	TrayIconData *tray_data;
+	CalComponentText text;
+	char *str, *start_str, *end_str, *alarm_str;
+	icaltimezone *current_zone;
 
 	comp = cqa->alarms->comp;
 	qa = lookup_queued_alarm (cqa, alarm_id);
@@ -742,54 +855,72 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 	vtype = cal_component_get_vtype (comp);
 
-	/* Pick a sensible notification message.  First we try the DESCRIPTION
-	 * from the alarm, then the SUMMARY of the component.
-	 */
+	/* get a sensible description for the event */
+	alarm = cal_component_get_alarm (comp, qa->instance->auid);
+	g_assert (alarm != NULL);
 
-	use_summary = TRUE;
-	message = NULL;
+	cal_component_alarm_get_description (alarm, &text);
+	cal_component_alarm_free (alarm);
 
-	if (use_description) {
-		CalComponentAlarm *alarm;
-
-		alarm = cal_component_get_alarm (comp, qa->instance->auid);
-		g_assert (alarm != NULL);
-
-		cal_component_alarm_get_description (alarm, &text);
-		cal_component_alarm_free (alarm);
-
-		if (text.value) {
-			message = text.value;
-			use_summary = FALSE;
-		}
-	}
-
-	if (use_summary) {
-		cal_component_get_summary (comp, &text);
-		if (text.value)
-			message = text.value;
-		else
-			message = _("No description available.");
-	}
-
-	c = g_new (struct notify_dialog_closure, 1);
-	c->cqa = cqa;
-	c->alarm_id = alarm_id;
-	c->comp = cal_component_clone (comp);
-	c->client = c->cqa->parent_client->client;
-	g_object_ref (c->client);
-
-	if (!(c->dialog = alarm_notify_dialog (trigger,
-					       qa->instance->occur_start, qa->instance->occur_end,
-					       vtype, message,
-					       notify_dialog_cb, c)))
-		g_message ("display_notification(): Could not create the alarm notify dialog");
+	if (text.value)
+		message = text.value;
 	else {
-		g_signal_connect (c->client, "obj_updated",
-				  G_CALLBACK (on_dialog_obj_updated_cb), c);
-		g_signal_connect (c->client, "obj_removed",
-				  G_CALLBACK (on_dialog_obj_removed_cb), c);
+		cal_component_get_summary (comp, &text); 
+ 		if (text.value)
+ 			message = text.value;
+ 		else
+ 			message = _("No description available.");
 	}
+
+	/* create the tray icon */
+	tooltips = gtk_tooltips_new ();
+
+	tray_icon = egg_tray_icon_new (qa->instance->auid);
+	image = gtk_image_new_from_stock ("appointment-reminder", GTK_ICON_SIZE_LARGE_TOOLBAR);
+	ebox = gtk_event_box_new ();
+
+	gtk_widget_show (image);
+	gtk_widget_show (ebox);
+
+	current_zone = config_data_get_timezone ();
+	alarm_str = timet_to_str_with_zone (trigger, current_zone);
+	start_str = timet_to_str_with_zone (qa->instance->occur_start, current_zone);
+	end_str = timet_to_str_with_zone (qa->instance->occur_end, current_zone);
+	str = g_strdup_printf (_("Alarm on %s\n%s\nStarting at %s\nEnding at %s"),
+			       alarm_str, message, start_str, end_str);
+	gtk_tooltips_set_tip (GTK_TOOLTIPS (tooltips), ebox, str, str);
+	g_free (start_str);
+	g_free (end_str);
+	g_free (alarm_str);
+	g_free (str);
+	
+	g_object_set_data (G_OBJECT (tray_icon), "image", image);
+	g_object_set_data (G_OBJECT (tray_icon), "available", GINT_TO_POINTER (1));
+
+	gtk_container_add (GTK_CONTAINER (ebox), image);
+	gtk_container_add (GTK_CONTAINER (tray_icon), ebox);
+
+	/* create the private structure */
+	tray_data = g_new0 (TrayIconData, 1);
+	tray_data->message = g_strdup (message);
+	tray_data->trigger = trigger;
+	tray_data->cqa = cqa;
+	tray_data->alarm_id = alarm_id;
+	tray_data->comp = cal_component_clone (comp);
+	tray_data->client = cqa->parent_client->client;
+	tray_data->image = image;
+	tray_data->blink_state = FALSE;
+	g_object_ref (tray_data->client);
+	tray_data->tray_icon = tray_icon;
+
+	g_signal_connect (G_OBJECT (tray_icon), "destroy",
+			  G_CALLBACK (tray_icon_destroyed_cb), tray_data);
+	g_signal_connect (G_OBJECT (ebox), "button_press_event",
+			  G_CALLBACK (tray_icon_clicked_cb), tray_data);
+
+	tray_data->blink_id = g_timeout_add (500, tray_icon_blink_cb, tray_data);
+
+	gtk_widget_show (tray_icon);
 }
 
 /* Performs notification of an audio alarm */

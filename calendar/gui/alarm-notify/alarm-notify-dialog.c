@@ -40,6 +40,7 @@
 #include "cal-util/timeutil.h"
 #include "alarm-notify-dialog.h"
 #include "config-data.h"
+#include "util.h"
 
 
 GtkWidget *make_html_display (gchar *widget_name, char *s1, char *s2, int scroll, int shadow);
@@ -213,25 +214,6 @@ write_times (GtkHTMLStream *stream, char *start, char *end)
 	if (end)
 		gtk_html_stream_printf (stream, "<b>%s</b> %s<br>", _("Ending:"), end);
 
-}
-
-/* Converts a time_t to a string, relative to the specified timezone */
-static char *
-timet_to_str_with_zone (time_t t, icaltimezone *zone)
-{
-	struct icaltimetype itt;
-	struct tm tm;
-	char buf[256];
-
-	if (t == -1)
-		return g_strdup (_("invalid time"));
-
-	itt = icaltime_from_timet_with_zone (t, FALSE, zone);
-	tm = icaltimetype_to_tm (&itt);
-
-	e_time_format_date_and_time (&tm, config_data_get_24_hour_format (),
-				     FALSE, FALSE, buf, sizeof (buf));
-	return g_strdup (buf);
 }
 
 /* Creates a heading for the alarm notification dialog */

@@ -47,7 +47,9 @@ evolution_alarm_notify_SOURCES =	\
 	config-data.h			\
 	notify-main.c			\
 	save.c				\
-	save.h
+	save.h				\
+	util.c				\
+	util.h
 
 evolution_alarm_notify_LDADD =						\
 	$(top_builddir)/calendar/cal-client/libcal-client.la		\

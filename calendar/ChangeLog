@@ -1,3 +1,22 @@
+2003-08-28  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/alarm-notify/util.[ch]: Added alarm-notify utils.
+
+	* gui/alarm-notify/Makefile.am: Added alarm-notify utils.
+
+	* gui/alarm-notify/alarm-notify-dialog.c (timet_to_str_with_zone):
+	Move to util.c.
+
+	* gui/alarm-notify/alarm-queue.c (notify_dialog_cb)
+	(on_dialog_removed_cb)
+	(notify_dialog_cb)
+	(tray_icon_destroyed_cb)
+	(tray_icon_clicked_cb)
+	(tray_icon_blink_cb)
+	(display_notification): Add Rodrigo Moya's code for tray icon
+	notification of appointments, with some fixes and blink code by me.
+	Requires HEAD gnome-icon-theme for now.
+
 2003-08-27  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes #29032.
