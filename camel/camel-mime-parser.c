@@ -951,7 +951,6 @@ folder_push_part(struct _header_scan_state *s, struct _header_scan_stack *h)
 	if (s->parts && s->parts->atleast > h->boundarylenfinal)
 		h->atleast = s->parts->atleast;
 	else
-		/* boundarylen should never be zero, but just incase */
 		h->atleast = MAX(h->boundarylenfinal, 1);
 
 	h->parent = s->parts;
@@ -1097,33 +1096,37 @@ header_append_mempool(struct _header_scan_state *s, struct _header_scan_stack *h
 
 /* Copy the string start->inptr into the header buffer (s->outbuf),
    grow if necessary
+   remove trailing \r chars (\n's assumed already removed)
    and track the start offset of the header */
 /* Basically an optimised version of g_byte_array_append() */
-#define header_append(s, start, inptr)						\
-{										\
-	register int headerlen = inptr-start;					\
-										\
-	if (headerlen >= (s->outend - s->outptr)) {				\
-		register char *outnew;						\
-		register int len = ((s->outend - s->outbuf)+headerlen)*2+1;	\
-		outnew = g_realloc(s->outbuf, len);				\
-		s->outptr = s->outptr - s->outbuf + outnew;			\
-		s->outbuf = outnew;						\
-		s->outend = outnew + len;					\
-	}									\
-	memcpy(s->outptr, start, headerlen);					\
-	s->outptr += headerlen;							\
-	if (s->header_start == -1)						\
-		s->header_start = (start-s->inbuf) + s->seek;			\
+#define header_append(s, start, inptr)								\
+{												\
+	register int headerlen = inptr-start;							\
+												\
+	if (headerlen > 0) {									\
+		if (headerlen >= (s->outend - s->outptr)) {					\
+			register char *outnew;							\
+			register int len = ((s->outend - s->outbuf)+headerlen)*2+1;		\
+			outnew = g_realloc(s->outbuf, len);					\
+			s->outptr = s->outptr - s->outbuf + outnew;				\
+			s->outbuf = outnew;							\
+			s->outend = outnew + len;						\
+		}										\
+		if (start[headerlen-1] == '\r')							\
+			headerlen--;								\
+		memcpy(s->outptr, start, headerlen);						\
+		s->outptr += headerlen;								\
+	}											\
+	if (s->header_start == -1)								\
+		s->header_start = (start-s->inbuf) + s->seek;					\
 }
 
 static struct _header_scan_stack *
 folder_scan_header(struct _header_scan_state *s, int *lastone)
 {
-	int atleast = s->atleast;
-	char *start;
+	int atleast = s->atleast, newatleast;
+	char *start = NULL;
 	int len;
-	struct _header_scan_stack *part, *overpart = s->parts;
 	struct _header_scan_stack *h;
 	char *inend;
 	register char *inptr;
@@ -1135,130 +1138,91 @@ folder_scan_header(struct _header_scan_state *s, int *lastone)
 	h->pool = mempool_new(8192, 4096);
 #endif
 
-	part = s->parts;
-	if (part)
-		s->atleast = part->atleast;
+	if (s->parts)
+		newatleast = s->parts->atleast;
 	else
-		s->atleast = 1;
+		newatleast = 1;
 	*lastone = FALSE;
-retry:
-	
-	while ((len = folder_read(s))>0 && len >= s->atleast) { /* ensure we have at least enough room here */
-		inptr = s->inptr;
-		inend = s->inend-s->atleast;
-		
-		while (inptr<=inend) {
-			/*printf("  '%.20s'\n", inptr);*/
-			
-			start = inptr;
-			
-			if (!s->midline) {
-				if ((part = folder_boundary_check(s, inptr, lastone))) {
-					if ((s->outptr>s->outbuf) || (inptr-start))
-						goto header_truncated; /* may not actually be truncated */
-					
-					goto normal_exit;
-				}
 
-				/* Replace any number of spaces and tabs at the start of the line with
-				 * a single space.
-				 */
-				if (*start == ' ' || *start == '\t') {
-					do
-						start++;
-					while (*start == ' ' || *start == '\t');
-					start--;
-					*start = ' ';
-				}
-			}
-			
-			/* goto next line */
-			while ((*inptr++)!='\n')
-				;
-			
-			g_assert(inptr<=s->inend+1);
-			
-			header_append(s, start, inptr-1);
-			
-			/* check against the real buffer end, not our 'atleast limited' end */
-			/* also make sure we have at least 1 char lookahead, so even if we found a \n at
-			   the end, well, make out we didn't, and re-scan it next pass */
-			if (inptr>=s->inend) {
-				inptr--;
-				s->midline = TRUE;
-			} else {
-				s->midline = FALSE;
-			}
-			
-			h(printf("midline = %s\n", s->midline?"TRUE":"FALSE"));
-			h(printf("outbuf[0] = %02x '%c' oubuf[1] = %02x '%c'\n",
-				 s->outbuf[0], isprint(s->outbuf[0])?s->outbuf[0]:'.',
-				 s->outbuf[1], isprint(s->outbuf[1])?s->outbuf[1]:'.'));
-			h(printf("inptr[0] = %02x '%c' inptr[1] = %02x '%c'\n",
-				 inptr[0], isprint(inptr[0])?inptr[0]:'.',
-				 inptr[1], isprint(inptr[1])?inptr[1]:'.'));
-			
-			/* this is wont handle no headers \n\n foobr - treats it as continuation */
-/*
-			if (!s->midline
-			    && !(inptr[0] == ' ' || inptr[0] == '\t')) {
-				h(printf("ok, checking\n"));
-				if (s->outbuf == s->outptr
-				    || s->outbuf[0] == '\n'
-				    || (s->outbuf[0] == '\r' && s->outbuf[1]=='\n')) {
-					h(printf("header done?\n"));
-					goto header_done;
-				}
-*/
-			if (!s->midline) {
-				h(printf("ok, checking\n"));
-				if (s->outbuf == s->outptr
-				    || s->outbuf[0] == '\n'
-				    || (s->outbuf[0] == '\r' && s->outbuf[1]=='\n')) {
-					h(printf("header done?\n"));
-					goto header_done;
-				}
+	do {
+		s->atleast = newatleast;
 
-				if (!(inptr[0] == ' ' || inptr[0] == '\t')) {
-					/* we always have at least _1_ char here ... */
-					if (s->outptr > s->outbuf && s->outptr[-1] == '\n')
-						s->outptr--;
-					s->outptr[0] = 0;
-				
-					d(printf("header '%.10s' at %d\n", s->outbuf, s->header_start));
+		h(printf("atleast = %d\n", s->atleast));
 
-					header_raw_append_parse(&h->headers, s->outbuf, s->header_start);
-				
-					if (inptr[0]=='\n'
-					    || (inptr[0] == '\r' && inptr[1]=='\n')) {
-						inptr++;
+		while ((len = folder_read(s))>0 && len >= s->atleast) { /* ensure we have at least enough room here */
+			inptr = s->inptr;
+			inend = s->inend-s->atleast+1;
+			
+			while (inptr<inend) {
+				if (!s->midline) {
+					if (folder_boundary_check(s, inptr, lastone)) {
+						if ((s->outptr>s->outbuf))
+							goto header_truncated; /* may not actually be truncated */
+						
 						goto header_done;
 					}
-					s->outptr = s->outbuf;
-					s->header_start = -1;
+				}
+				
+				start = inptr;
+
+				/* goto next line/sentinal */
+				while ((*inptr++)!='\n')
+					;
+			
+				g_assert(inptr<=s->inend+1);
+				
+				/* check for sentinal or real end of line */
+				if (inptr > inend) {
+					h(printf("not at end of line yet, going further\n"));
+					/* didn't find end of line within our allowed area */
+					inptr = inend;
+					s->midline = TRUE;
+					header_append(s, start, inptr);
+				} else {
+					h(printf("got line part: '%.*s'\n", inptr-1-start, start));
+					/* got a line, strip and add it, process it */
+					s->midline = FALSE;
+					header_append(s, start, inptr-1);
+
+					/* check for end of headers */
+					if (s->outbuf == s->outptr)
+						goto header_done;
+
+					/* check for continuation/compress headers, we have atleast 1 char here to work with */
+					if (inptr[0] ==  ' ' || inptr[0] == '\t') {
+						h(printf("continuation\n"));
+						/* TODO: this wont catch multiple space continuation across a read boundary, but
+						   that is assumed rare, and not fatal anyway */
+						do
+							inptr++;
+						while (*inptr == ' ' || *inptr == '\t');
+						inptr--;
+						*inptr = ' ';
+					} else {
+						/* otherwise, complete header, add it */
+						s->outptr[0] = 0;
+				
+						h(printf("header '%.20s' at %d\n", s->outbuf, s->header_start));
+						
+						header_raw_append_parse(&h->headers, s->outbuf, s->header_start);
+						s->outptr = s->outbuf;
+						s->header_start = -1;
+					}
 				}
 			}
+			s->inptr = inptr;
 		}
-		s->inptr = inptr;
-	}
+		h(printf("end of file?  read %d bytes\n", len));
+		newatleast = 1;
+	} while (s->atleast > 1);
 
-	/* ok, we're at the end of the data, just make sure we're not missing out some small
-	   truncated header markers */
-	if (overpart) {
-		overpart = overpart->parent;
-		while (overpart) {
-			if (overpart->boundary && (overpart->boundarylenfinal) < s->atleast) {
-				s->atleast = overpart->boundarylenfinal;
-				h(printf("Retrying next smaller part ...\n"));
-				goto retry;
-			}
-			overpart = overpart->parent;
-		}
-	}
-	
 	if ((s->outptr > s->outbuf) || s->inend > s->inptr) {
 		start = s->inptr;
 		inptr = s->inend;
+		if (inptr > start) {
+			if (inptr[-1] == '\n')
+				inptr--;
+		}
 		goto header_truncated;
 	}
 	
@@ -1267,25 +1231,16 @@ retry:
 	return h;
 	
 header_truncated:
-	
 	header_append(s, start, inptr);
 	
-	if (s->outptr>s->outbuf && s->outptr[-1] == '\n')
-		s->outptr--;
 	s->outptr[0] = 0;
-	
-	if (s->outbuf[0] == '\n'
-	    || (s->outbuf[0] == '\r' && s->outbuf[1]=='\n')) {
+	if (s->outbuf == s->outptr)
 		goto header_done;
-	}
 	
 	header_raw_append_parse(&h->headers, s->outbuf, s->header_start);
 	
-header_done:
-	part = s->parts;
-	
 	s->outptr = s->outbuf;
-normal_exit:
+header_done:
 	s->inptr = inptr;
 	s->atleast = atleast;
 	s->header_start = -1;
@@ -1295,78 +1250,70 @@ normal_exit:
 static struct _header_scan_stack *
 folder_scan_content(struct _header_scan_state *s, int *lastone, char **data, int *length)
 {
-	int atleast = s->atleast;
+	int atleast = s->atleast, newatleast;
 	register char *inptr;
 	char *inend;
 	char *start;
 	int len;
-	struct _header_scan_stack *part, *overpart = s->parts;
+	struct _header_scan_stack *part;
 	int onboundary = FALSE;
 
 	c(printf("scanning content\n"));
 
 	part = s->parts;
 	if (part)
-		s->atleast = part->atleast;
+		newatleast = part->atleast;
 	else
-		s->atleast = 1;
+		newatleast = 1;
 	*lastone = FALSE;
-retry:
+
 	c(printf("atleast = %d\n", s->atleast));
-	
-	while ((len = folder_read(s))>0 && len >= s->atleast) { /* ensure we have at least enough room here */
-		inptr = s->inptr;
-		inend = s->inend-s->atleast;
-		start = inptr;
 
-		c(printf("inptr = %p, inend = %p\n", inptr, inend));
+	do {
+		s->atleast = newatleast;
 
-		while (inptr<=inend) {
-			if (!s->midline
-			    && (part = folder_boundary_check(s, inptr, lastone))) {
-				onboundary = TRUE;
+		while ((len = folder_read(s))>0 && len >= s->atleast) { /* ensure we have at least enough room here */
+			inptr = s->inptr;
+			inend = s->inend-s->atleast+1;
+			start = inptr;
 
-				/* since we truncate the boundary data, we need at least 1 char here spare,
-				   to remain in the same state */
-				if ( (inptr-start) > 1)
-					goto content;
+			c(printf("inptr = %p, inend = %p\n", inptr, inend));
 
-				/* otherwise, jump to the state of the boundary we actually found */
-				goto normal_exit;			}
+			while (inptr<inend) {
+				if (!s->midline
+				    && (part = folder_boundary_check(s, inptr, lastone))) {
+					onboundary = TRUE;
 
-			/* goto the next line */
-			while ((*inptr++)!='\n')
-				;
+					/* since we truncate the boundary data, we need at least 1 char here spare,
+					   to remain in the same state */
+					if ( (inptr-start) > 1)
+						goto content;
 
-			/* check the sentinal, if we went past the atleast limit, and reset it to there */
-			if (inptr > inend+1) {
-				s->midline = TRUE;
-				inptr = inend+1;
-			} else {
-				s->midline = FALSE;
+					/* otherwise, jump to the state of the boundary we actually found */
+					goto normal_exit;
+				}
+				
+				/* goto the next line */
+				while ((*inptr++)!='\n')
+					;
+
+				/* check the sentinal, if we went past the atleast limit, and reset it to there */
+				if (inptr > inend) {
+					s->midline = TRUE;
+					inptr = inend;
+				} else {
+					s->midline = FALSE;
+				}
 			}
-		}
 
-		c(printf("ran out of input, dumping what i have (%d) bytes midline = %s\n",
-			 inptr-start, s->midline?"TRUE":"FALSE"));
-		goto content;
-	}
+			c(printf("ran out of input, dumping what i have (%d) bytes midline = %s\n",
+				 inptr-start, s->midline?"TRUE":"FALSE"));
+			goto content;
+		}
+		newatleast = 1;
+	} while (s->atleast > 1);
 
 	c(printf("length read = %d\n", len));
-
-	/* ok, we're at the end of the data, just make sure we're not missing out some small
-	   truncated header markers */
-	if (overpart) {
-		overpart = overpart->parent;
-		while (overpart) {
-			if (overpart->boundary && (overpart->boundarylenfinal) < s->atleast) {
-				s->atleast = overpart->boundarylenfinal;
-				c(printf("Retrying next smaller part ...\n"));
-				goto retry;
-			}
-			overpart = overpart->parent;
-		}
-	}
 
 	if (s->inend > s->inptr) {
 		start = s->inptr;
