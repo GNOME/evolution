@@ -45,7 +45,7 @@ struct ibex {
 	
 };
 
-#define IBEX_OPEN_THRESHOLD (5)
+#define IBEX_OPEN_THRESHOLD (15)
 
 #ifdef ENABLE_THREADS
 /*#define IBEX_LOCK(ib) (printf(__FILE__ "%d: %s: locking ibex\n", __LINE__, __FUNCTION__), g_mutex_lock(ib->lock))

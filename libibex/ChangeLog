@@ -1,5 +1,10 @@
 2001-10-30    <NotZed@Ximian.com>
 
+	* ibex_internal.h (IBEX_OPEN_THRESHOLD): Bump this to 15, 5 seems
+	a little small.  Its still settable using an environmental
+	variable though, hopefully with other fd optimisations this will
+	not be an excessive number.
+
 	* ibex_block.c (ibex_reset): If we can't open blocks, dont try to
 	deref it.
 	(ibex_move): Dont try to rename if we have no file to rename.
