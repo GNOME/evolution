@@ -84,7 +84,7 @@ itip_addresses_get (void)
 	static Bonobo_ConfigDatabase db = NULL;
 	CORBA_Environment ev;
 	GList *addresses = NULL;
-	gint len, def, i;
+	glong len, def, i;
 
 	if (db == NULL) {
 		CORBA_exception_init (&ev);

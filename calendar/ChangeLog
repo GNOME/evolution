@@ -1,3 +1,25 @@
+2001-09-20  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal-backend-file.c (load_db): gets a config db
+	(cal_backend_file_destroy): release config db
+	(cal_backend_file_init): use load_db
+	(mail_account_get): gets a mail account by number
+	(mail_account_get_default): gets the default mail account
+	(mail_account_is_valid): looks to see if any accounts have the
+	given address
+	(create_user_free_busy): modularize so we can call multiple times
+	if necessary, set organizer
+	(cal_backend_file_get_free_busy): if the list of users is null,
+	use the default account otherwise get the same info for each
+	address that is an identity in the mailer
+
+	* gui/itip-utils.c (itip_addresses_get): s/gint/glong/ for bonobo
+	conf returns
+
+	* gui/calendar-commands.c (publish_freebusy_cmd): fix problems
+	from a merge so that we publish 6 weeks of free/busy information
+	again
+
 2001-09-20  Larry Ewing  <lewing@ximian.com>
 
 	* gui/dialogs/recurrence-page.c (recurrence_page_destroy): make
