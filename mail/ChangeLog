@@ -1,6 +1,13 @@
+2001-08-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (mail_write_authenticity): We want wax-seal.png
+	instead, since I added the png files to cvs and renamed it to
+	wax-seal.png.
+
 2001-08-17  Iain Holmes  <iain@ximian.com>
 
-	* importers/evolution-mbox-importer.c (load_file_fn): Fix warnings.
+	* importers/evolution-mbox-importer.c (load_file_fn): Fix
+	warnings.
 
 2001-08-17  JP Rosevear  <jpr@ximian.com>
 
