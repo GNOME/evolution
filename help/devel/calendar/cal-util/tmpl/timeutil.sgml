@@ -136,6 +136,7 @@ timeutil
 </para>
 
 @t: 
+@week_start_day: 
 @Returns: 
 
 
@@ -145,6 +146,7 @@ timeutil
 </para>
 
 @t: 
+@week_start_day: 
 @Returns: 
 
 

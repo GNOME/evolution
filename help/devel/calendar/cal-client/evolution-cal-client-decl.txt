@@ -74,6 +74,14 @@ struct CalClient {
 	CalClientPrivate *priv;
 };
 </STRUCT>
+<USER_FUNCTION>
+<NAME>CalClientAuthFunc</NAME>
+<RETURNS>gchar *</RETURNS>
+CalClient *client,
+                                      const gchar *prompt,
+                                      const gchar *key,
+                                      gpointer user_data
+</USER_FUNCTION>
 <FUNCTION>
 <NAME>cal_client_get_type</NAME>
 <RETURNS>GtkType  </RETURNS>
@@ -88,6 +96,11 @@ CalClient *client
 <NAME>cal_client_new</NAME>
 <RETURNS>CalClient  *</RETURNS>
 void
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_set_auth_func</NAME>
+<RETURNS>void  </RETURNS>
+CalClient *client, CalClientAuthFunc func, gpointer data
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_open_calendar</NAME>
@@ -128,6 +141,11 @@ CalClient *client, CalObjType type, const char *change_id
 <NAME>cal_client_get_objects_in_range</NAME>
 <RETURNS>GList  *</RETURNS>
 CalClient *client, CalObjType type,time_t start, time_t end
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_get_free_busy</NAME>
+<RETURNS>CalClientGetStatus  </RETURNS>
+CalClient *client, time_t start, time_t end,CalComponent **comp
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_client_generate_instances</NAME>

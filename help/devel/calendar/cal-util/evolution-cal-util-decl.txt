@@ -52,6 +52,7 @@ typedef enum {
 	CAL_COMPONENT_FIELD_OVERDUE,		/* not a real field */
 	CAL_COMPONENT_FIELD_COLOR,		/* not a real field */
 	CAL_COMPONENT_FIELD_STATUS,
+	CAL_COMPONENT_FIELD_COMPONENT,		/* not a real field */
 	CAL_COMPONENT_FIELD_NUM_FIELDS
 } CalComponentField;
 </ENUM>
@@ -95,6 +96,22 @@ typedef struct {
 	} u;
 } CalComponentPeriod;
 </TYPEDEF>
+<ENUM>
+<NAME>CalComponentRangeType</NAME>
+typedef enum {
+	CAL_COMPONENT_RANGE_SINGLE,
+	CAL_COMPONENT_RANGE_THISPRIOR,
+	CAL_COMPONENT_RANGE_THISFUTURE,
+} CalComponentRangeType;
+</ENUM>
+<TYPEDEF>
+<NAME>CalComponentRange</NAME>
+typedef struct {
+	CalComponentRangeType type;
+	
+	CalComponentDateTime *datetime;
+} CalComponentRange;
+</TYPEDEF>
 <TYPEDEF>
 <NAME>CalComponentText</NAME>
 typedef struct {
@@ -114,6 +131,66 @@ typedef enum {
 	CAL_COMPONENT_TRANSP_UNKNOWN
 } CalComponentTransparency;
 </ENUM>
+<ENUM>
+<NAME>CalComponentCUType</NAME>
+typedef enum {
+	CAL_COMPONENT_CUTYPE_INDIVIDUAL,
+	CAL_COMPONENT_CUTYPE_GROUP,
+	CAL_COMPONENT_CUTYPE_RESOURCE,
+	CAL_COMPONENT_CUTYPE_ROOM,
+	CAL_COMPONENT_CUTYPE_UNKNOWN
+} CalComponentCUType;
+</ENUM>
+<ENUM>
+<NAME>CalComponentRole</NAME>
+typedef enum {
+	CAL_COMPONENT_ROLE_CHAIR,
+	CAL_COMPONENT_ROLE_REQUIRED,
+	CAL_COMPONENT_ROLE_OPTIONAL,
+	CAL_COMPONENT_ROLE_NON,
+	CAL_COMPONENT_ROLE_UNKNOWN
+} CalComponentRole;
+</ENUM>
+<ENUM>
+<NAME>CalComponentPartStat</NAME>
+typedef enum {
+	CAL_COMPONENT_PARTSTAT_NEEDSACTION,
+	CAL_COMPONENT_PARTSTAT_ACCEPTED,
+	CAL_COMPONENT_PARTSTAT_DECLINED,
+	CAL_COMPONENT_PARTSTAT_TENTATIVE,
+	CAL_COMPONENT_PARTSTAT_DELEGATED,
+	CAL_COMPONENT_PARTSTAT_COMPLETED,
+	CAL_COMPONENT_PARTSTAT_INPROCESS,
+	CAL_COMPONENT_PARTSTAT_UNKNOWN
+} CalComponentPartStat;
+</ENUM>
+<TYPEDEF>
+<NAME>CalComponentAttendee</NAME>
+typedef struct {
+	const char *value;
+	
+	const char *member;
+	CalComponentCUType cutype;
+	CalComponentRole role;
+	CalComponentPartStat status;
+	gboolean rsvp;
+	
+	const char *delto;
+	const char *delfrom;
+	const char *sentby;
+	const char *cn;
+	const char *language;
+} CalComponentAttendee;
+</TYPEDEF>
+<TYPEDEF>
+<NAME>CalComponentOrganizer</NAME>
+typedef struct {
+	const char *value;
+	const char *sentby;
+	const char *cn;
+	const char *language;
+} CalComponentOrganizer;
+</TYPEDEF>
 <STRUCT>
 <NAME>CalComponent</NAME>
 </STRUCT>
@@ -363,6 +440,16 @@ CalComponent *comp, struct icaltimetype **t
 CalComponent *comp, struct icaltimetype *t
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_component_get_organizer</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp, CalComponentOrganizer *organizer
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_set_organizer</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp, CalComponentOrganizer *organizer
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_component_get_percent</NAME>
 <RETURNS>void  </RETURNS>
 CalComponent *comp, int **percent
@@ -381,6 +468,16 @@ CalComponent *comp, int **priority
 <NAME>cal_component_set_priority</NAME>
 <RETURNS>void  </RETURNS>
 CalComponent *comp, int *priority
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_get_recurid</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp, CalComponentRange **recur_id
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_set_recurid</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp, CalComponentRange *recur_id
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_component_get_rdate_list</NAME>
@@ -473,6 +570,16 @@ CalComponent *comp, const char **url
 CalComponent *comp, const char *url
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_component_get_attendee_list</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp, GSList **attendee_list
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_set_attendee_list</NAME>
+<RETURNS>void  </RETURNS>
+CalComponent *comp, GSList *attendee_list
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_component_event_dates_match</NAME>
 <RETURNS>gboolean  </RETURNS>
 CalComponent *comp1, CalComponent *comp2
@@ -531,6 +638,11 @@ int *sequence
 <NAME>cal_component_free_text_list</NAME>
 <RETURNS>void  </RETURNS>
 GSList *text_list
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_free_attendee_list</NAME>
+<RETURNS>void  </RETURNS>
+GSList *attendee_list
 </FUNCTION>
 <STRUCT>
 <NAME>CalComponentAlarm</NAME>
@@ -615,11 +727,6 @@ CalComponent *comp
 CalComponent *comp, const char *auid
 </FUNCTION>
 <FUNCTION>
-<NAME>cal_component_free_alarm_uids</NAME>
-<RETURNS>void  </RETURNS>
-GList *alarm_uids
-</FUNCTION>
-<FUNCTION>
 <NAME>cal_component_alarms_free</NAME>
 <RETURNS>void  </RETURNS>
 CalComponentAlarms *alarms
@@ -628,6 +735,11 @@ CalComponentAlarms *alarms
 <NAME>cal_component_alarm_new</NAME>
 <RETURNS>CalComponentAlarm  *</RETURNS>
 void
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_alarm_clone</NAME>
+<RETURNS>CalComponentAlarm  *</RETURNS>
+CalComponentAlarm *alarm
 </FUNCTION>
 <FUNCTION>
 <NAME>cal_component_alarm_get_uid</NAME>
@@ -767,12 +879,12 @@ time_t t
 <FUNCTION>
 <NAME>time_week_begin</NAME>
 <RETURNS>time_t  </RETURNS>
-time_t t
+time_t t, int week_start_day
 </FUNCTION>
 <FUNCTION>
 <NAME>time_week_end</NAME>
 <RETURNS>time_t  </RETURNS>
-time_t t
+time_t t, int week_start_day
 </FUNCTION>
 <FUNCTION>
 <NAME>time_day_begin</NAME>

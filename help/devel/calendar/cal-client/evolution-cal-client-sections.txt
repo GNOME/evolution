@@ -27,6 +27,7 @@ cal_client_free_alarms
 cal_client_get_alarms_for_object
 cal_client_update_object
 cal_client_remove_object
+cal_client_get_query
 
 <SUBSECTION Standard>
 
@@ -40,5 +41,29 @@ cal_client_construct
 <SUBSECTION Private>
 CalClient
 CalClientPrivate
+
+</SECTION>
+
+
+<SECTION>
+<FILE>cal-query</FILE>
+CAL_QUERY
+<TITLE>CalQuery</TITLE>
+
+CalQueryDoneStatus
+cal_query_new
+
+<SUBSECTION Standard>
+
+CAL_QUERY_TYPE
+IS_CAL_QUERY
+CAL_QUERY_CLASS
+IS_CAL_QUERY_CLASS
+cal_query_get_type
+cal_query_construct
+
+<SUBSECTION Private>
+CalQuery
+CalQueryPrivate
 
 </SECTION>
