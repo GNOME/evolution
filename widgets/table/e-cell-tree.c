@@ -386,8 +386,11 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 	int number_of_rows;
 	int max_width = 0;
 	int width = 0;
+	int subcell_max_width;
 
 	number_of_rows = e_table_model_row_count (ecell_view->e_table_model);
+
+	subcell_max_width = e_cell_max_width (tree_view->subcell_view, model_col, view_col);
 	
 	for (row = 0; row < number_of_rows; row++) {
 		ETreeModel *tree_model = e_cell_tree_get_tree_model(ecell_view->e_table_model, row);
@@ -412,7 +415,7 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 			node_image_height = gdk_pixbuf_get_height (node_image);
 		}
 
-		width = subcell_offset + node_image_width;
+		width = subcell_max_width + subcell_offset + node_image_width;
 
 		if (expandable) {
 			GdkPixbuf *image;
@@ -423,9 +426,6 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 
 			width += gdk_pixbuf_get_width(image);
 		}
-
-		width += e_cell_max_width (tree_view->subcell_view, model_col, 
-					   view_col);
 
 		max_width = MAX (max_width, width);
 	}
