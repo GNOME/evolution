@@ -2543,10 +2543,10 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	if (event->button != 3 && !(event->button == 1 && event->type == GDK_2BUTTON_PRESS))
 		return FALSE;
 	
-	/* select/focus the row that was right-clicked */
 	if (!gtk_tree_view_get_path_at_pos (treeview, (int) event->x, (int) event->y, &tree_path, NULL, NULL, NULL))
 		return FALSE;
 	
+	/* select/focus the row that was right-clicked or double-clicked */
 	gtk_tree_view_set_cursor (treeview, tree_path, NULL, FALSE);
 	
 	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
