@@ -198,7 +198,11 @@ camel_nntp_newsrc_get_highest_article_read (CamelNNTPNewsrc *newsrc, const char 
 	NEWSRC_LOCK(newsrc, lock);
 
 	group = g_hash_table_lookup (newsrc->groups, group_name);
-	ret = camel_nntp_newsrc_group_get_highest_article_read (newsrc, group);
+
+	if (group)
+		ret = camel_nntp_newsrc_group_get_highest_article_read (newsrc, group);
+	else
+		ret = 0;
 
 	NEWSRC_UNLOCK(newsrc, lock);
 
@@ -214,7 +218,11 @@ camel_nntp_newsrc_get_num_articles_read (CamelNNTPNewsrc *newsrc, const char *gr
 	NEWSRC_LOCK(newsrc, lock);
 
 	group = g_hash_table_lookup (newsrc->groups, group_name);
-	ret = camel_nntp_newsrc_group_get_num_articles_read (newsrc, group);
+
+	if (group)
+		ret = camel_nntp_newsrc_group_get_num_articles_read (newsrc, group);
+	else
+		ret = 0;
 
 	NEWSRC_UNLOCK(newsrc, lock);
 
@@ -244,7 +252,8 @@ camel_nntp_newsrc_mark_range_read(CamelNNTPNewsrc *newsrc, const char *group_nam
 	NEWSRC_LOCK(newsrc, lock);
 	group = g_hash_table_lookup (newsrc->groups, group_name);
 
-	camel_nntp_newsrc_group_mark_range_read (newsrc, group, low, high);
+	if (group)
+		camel_nntp_newsrc_group_mark_range_read (newsrc, group, low, high);
 	NEWSRC_UNLOCK(newsrc, lock);
 }
 
@@ -257,12 +266,14 @@ camel_nntp_newsrc_article_is_read (CamelNNTPNewsrc *newsrc, const char *group_na
 
 	NEWSRC_LOCK(newsrc, lock);
 	group = g_hash_table_lookup (newsrc->groups, group_name);
-	
-	for (i = 0; i < group->ranges->len; i++) {
-		if (num >= g_array_index (group->ranges, ArticleRange, i).low && 
-		    num <= g_array_index (group->ranges, ArticleRange, i).high) {
-			ret = TRUE;
-			break;
+
+	if (group) {
+		for (i = 0; i < group->ranges->len; i++) {
+			if (num >= g_array_index (group->ranges, ArticleRange, i).low && 
+			    num <= g_array_index (group->ranges, ArticleRange, i).high) {
+				ret = TRUE;
+				break;
+			}
 		}
 	}
 

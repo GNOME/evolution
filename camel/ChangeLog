@@ -1,3 +1,19 @@
+2001-11-25  Not Zed  <NotZed@Ximian.com>
+
+	* providers/nntp/camel-nntp-folder.c (nntp_folder_get_message): If
+	the uid doesn't have a ',' in it, fail to crash.
+
+	* providers/nntp/camel-nntp-newsrc.c
+	(camel_nntp_newsrc_article_is_read): check group != NULL before scanning.
+	(camel_nntp_newsrc_get_highest_article_read): "
+	(camel_nntp_newsrc_get_num_articles_read): " 
+	(camel_nntp_newsrc_mark_range_read): "
+
+	* providers/nntp/camel-nntp-store.c
+	(camel_nntp_store_get_overview_fmt): IF we dont have
+	nntp_list_follows, dont try and get a list response.
+	(nntp_store_get_folder_info): Set path part of folderinfo.
+
 2001-11-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (get_smtp_error_string):

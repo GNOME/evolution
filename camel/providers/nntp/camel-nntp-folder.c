@@ -105,15 +105,18 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 	/* get the parent store */
 	parent_store = camel_folder_get_parent_store (folder);
 
-	message_id = strchr (uid, ',') + 1;
-	status = camel_nntp_command (CAMEL_NNTP_STORE( parent_store ), ex, NULL, "ARTICLE %s", message_id);
+	message_id = strchr (uid, ',');
+	if (message_id) {
+		message_id++;
+		status = camel_nntp_command (CAMEL_NNTP_STORE( parent_store ), ex, NULL, "ARTICLE %s", message_id);
+	}
 
 	/* if the message_id was not found, raise an exception and return */
-	if (status == NNTP_NO_SUCH_ARTICLE) {
+	if (message_id == NULL || status == NNTP_NO_SUCH_ARTICLE) {
 		camel_exception_setv (ex, 
 				     CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 				     _("Message %s not found."),
-				      message_id);
+				      uid);
 		return NULL;
 	}
 	else if (status != NNTP_ARTICLE_FOLLOWS) {

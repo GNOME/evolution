@@ -59,6 +59,18 @@ static CamelServiceClass *service_class = NULL;
 
 static gboolean ensure_news_dir_exists (CamelNNTPStore *store);
 
+static int
+camel_nntp_store_set_mode (CamelNNTPStore *store, CamelException *ex)
+{
+	int rc;
+
+	CAMEL_NNTP_STORE_LOCK(store);
+	rc = camel_nntp_command(store, ex, NULL, "MODE READER");
+	CAMEL_NNTP_STORE_UNLOCK(store);
+
+	return rc;
+}
+
 static void
 camel_nntp_store_get_extensions (CamelNNTPStore *store, CamelException *ex)
 {
@@ -137,8 +149,9 @@ camel_nntp_store_get_overview_fmt (CamelNNTPStore *store, CamelException *ex)
 			g_warning ("server reported support of OVER but LIST OVERVIEW.FMT failed."
 				   "  disabling OVER.\n");
 			store->extensions &= ~CAMEL_NNTP_EXT_OVER;
-			return;
 		}
+		CAMEL_NNTP_STORE_UNLOCK(store);
+		return;
 	}
 	else {
 		if (!(store->extensions & CAMEL_NNTP_EXT_OVER)) {
@@ -260,6 +273,9 @@ nntp_store_connect (CamelService *service, CamelException *ex)
 	}
 
 	g_free (buf);
+
+	/* set 'reader' mode */
+	camel_nntp_store_set_mode(store, ex);
 
 	/* get a list of extensions that the server supports */
 	camel_nntp_store_get_extensions (store, ex);
@@ -461,6 +477,7 @@ build_folder_info_from_grouplist (CamelNNTPStore *nntp_store, const char *top)
 			fi->unread_message_count = (entry->high - entry->low - 
 						    camel_nntp_newsrc_get_num_articles_read (
 							     nntp_store->newsrc, entry->group_name));
+			camel_folder_info_build_path(fi, '/');
 
 			if (last)
 				last->sibling = fi;
@@ -523,6 +540,7 @@ nntp_store_get_folder_info (CamelStore *store, const char *top,
 						   url->host, (char *)names->pdata[i]);
 			/* FIXME */
 			fi->unread_message_count = -1;
+			camel_folder_info_build_path(fi, '/');
 
 			if (last)
 				last->sibling = fi;
@@ -543,6 +561,7 @@ nntp_store_get_folder_info (CamelStore *store, const char *top,
 		fi->url = g_strdup_printf ("nntp://%s/%s", url->host, top);
 		/* FIXME */
 		fi->unread_message_count = -1;
+		camel_folder_info_build_path(fi, '/');
 
 		return fi;
 	}
