@@ -3,10 +3,12 @@
 #
 
 CORBA_GENERATED =				\
-	evolution-calendar.h			\
 	evolution-calendar-common.c		\
 	evolution-calendar-skels.c		\
 	evolution-calendar-stubs.c
+
+CORBA_HEADERS_GENERATED =			\
+	evolution-calendar.h
 
 idls =						\
 	$(srcdir)/../idl/evolution-calendar.idl
@@ -37,12 +39,16 @@ libcal_client_la_SOURCES =	\
 	cal-client-types.c	\
 	cal-client.c		\
 	cal-listener.c		\
-	cal-listener.h
+	cal-listener.h		\
+	cal-query.c		\
+	query-listener.c	\
+	query-listener.h
 
-libcal_clientinclude_HEADERS =	\
-	cal-client-types.h 	\
-	cal-client.h
-
+libcal_clientinclude_HEADERS =		\
+	$(CORBA_HEADERS_GENERATED)	\
+	cal-client-types.h 		\
+	cal-client.h			\
+	cal-query.h
 
 #
 # make a static library for use by calendar conduit's shared library

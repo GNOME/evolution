@@ -1,8 +1,6 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Evolution calendar client
  *
- * Copyright (C) 2000 Helix Code, Inc.
- * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
  * Author: Federico Mena-Quintero <federico@ximian.com>
  *
@@ -21,7 +19,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <gtk/gtksignal.h>
 #include <liboaf/liboaf.h>
 
@@ -44,7 +45,7 @@ struct _CalClientPrivate {
 	/* The calendar factory we are contacting */
 	GNOME_Evolution_Calendar_CalFactory factory;
 
-	/* Our calendar listener */
+	/* Our calendar listener implementation */
 	CalListener *listener;
 
 	/* The calendar client interface object we are contacting */
@@ -73,7 +74,6 @@ static GtkObjectClass *parent_class;
 
 /**
  * cal_client_get_type:
- * @void:
  *
  * Registers the #CalClient class if necessary, and returns the type ID assigned
  * to it.
@@ -1504,4 +1504,30 @@ cal_client_remove_object (CalClient *client, const char *uid)
  out:
 	CORBA_exception_free (&ev);
 	return retval;
+}
+
+/**
+ * cal_client_get_query:
+ * @client: A calendar client.
+ * @sexp: S-expression representing the query.
+ * 
+ * Creates a live query object from a loaded calendar.
+ * 
+ * Return value: A query object that will emit notification signals as calendar
+ * components are added and removed from the query in the server.
+ **/
+CalQuery *
+cal_client_get_query (CalClient *client, const char *sexp)
+{
+	CalClientPrivate *priv;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, FALSE);
+
+	g_return_val_if_fail (sexp != NULL, NULL);
+
+	return cal_query_new (priv->cal, sexp);
 }

@@ -551,12 +551,15 @@ e_tasks_setup_menus (ETasks            *tasks,
 	GalViewMenus *views;
 	GalViewFactory *factory;
 	ETableSpecification *spec;
+	char *dir;
 
 	collection = gal_view_collection_new();
-	/* FIXME: Memory leak. */
+
+	dir = gnome_util_prepend_user_home ("/evolution/views/tasks/");
 	gal_view_collection_set_storage_directories (collection,
 						     EVOLUTION_DATADIR "/evolution/views/tasks/",
-						     gnome_util_prepend_user_home ("/evolution/views/tasks/"));
+						     dir);
+	g_free (dir);
 
 	spec = e_table_specification_new ();
 	e_table_specification_load_from_string (spec, e_calendar_table_get_spec());

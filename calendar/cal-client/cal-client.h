@@ -1,7 +1,6 @@
 /* Evolution calendar client
  *
- * Copyright (C) 2000 Helix Code, Inc.
- * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
  * Author: Federico Mena-Quintero <federico@ximian.com>
  *
@@ -27,6 +26,7 @@
 #include <gtk/gtkobject.h>
 #include <cal-util/cal-recur.h>
 #include <cal-util/cal-util.h>
+#include <cal-client/cal-query.h>
 
 BEGIN_GNOME_DECLS
 
@@ -123,6 +123,8 @@ gboolean cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 gboolean cal_client_update_object (CalClient *client, CalComponent *comp);
 
 gboolean cal_client_remove_object (CalClient *client, const char *uid);
+
+CalQuery *cal_client_get_query (CalClient *client, const char *sexp);
 
 
 

@@ -52,14 +52,6 @@ struct _CalListener {
 
 struct _CalListenerClass {
 	BonoboObjectClass parent_class;
-
-	/* Notification signals */
-
-	void (* cal_opened) (CalListener *listener,
-			     GNOME_Evolution_Calendar_Listener_OpenStatus status,
-			     GNOME_Evolution_Calendar_Cal cal);
-	void (* obj_updated) (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID uid);
-	void (* obj_removed) (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID uid);
 };
 
 /* Notification functions */

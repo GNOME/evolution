@@ -21,7 +21,6 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
 #include "cal-listener.h"
 
 

@@ -1,5 +1,14 @@
 2001-04-02  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/e-tasks.c (e_tasks_setup_menus): Plug leak.
+
+	* gui/event-editor.c (obj_updated_cb): Do nothing for now until we
+	think of something sensible to do.
+	(obj_removed_cb): Likewise.
+
+	* gui/dialogs/task-editor.c (obj_updated_cb): Likewise.
+	(obj_removed_cb): Likewise.
+
 	* gui/event-editor.c (dialog_to_comp_object): Plug leak.
 
 2001-04-01  Federico Mena Quintero  <federico@ximian.com>

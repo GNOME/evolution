@@ -2600,6 +2600,8 @@ raise_and_focus (GtkWidget *widget)
 static void
 obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 {
+	/* FIXME: Do something sensible if the component changes under our feet */
+#if 0
 	EventEditor *ee;
 	EventEditorPrivate *priv;
 	CalComponent *comp;
@@ -2642,12 +2644,17 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	}
 
 	raise_and_focus (priv->app);
+#endif
 }
 
 /* Callback used when the calendar client tells us that an object was removed */
 static void
 obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 {
+	/* FIXME: Do something sensible if the component is removed under our
+         * feet.
+	 */
+#if 0
 	EventEditor *ee;
 	EventEditorPrivate *priv;
 	const gchar *editing_uid;
@@ -2668,6 +2675,7 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 
 
 	raise_and_focus (priv->app);
+#endif
 }
 
 /**
