@@ -8,6 +8,7 @@ providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 sbin_PROGRAMS =	camel-lock-helper
 
 lib_LTLIBRARIES = libcamel.la
+noinst_LTLIBRARIES = libcamel-static.la
 
 INCLUDES = -I.. -I$(srcdir)/.. 			 \
 	-I$(top_srcdir)/intl			 \
@@ -200,6 +201,9 @@ libcamel_la_LIBADD = $(top_builddir)/e-util/libeutil.la \
 	$(NSS_LDFLAGS)				\
 	$(OPENSSL_LDFLAGS)
 
+libcamel_static_la_SOURCES = $(libcamel_la_SOURCES)
+libcamel_static_la_LIBADD  = $(libcamel_la_LIBADD)
+libcamel_static_la_LDFLAGS = --all-static
 
 camel-lock-helper: camel-lock-helper.o camel-lock.o
 	$(CC) -o $@ $^ -I$(srcdir)/.. -I$(srcdir)
