@@ -1,3 +1,9 @@
+2000-12-18  Chris Toshok  <toshok@helixcode.com>
+
+	* mail-format.c (handle_multipart_encrypted): for now #ifdef
+	PGP_PROGRAM falling back to handle_multipart_mixed.
+	(handle_multipart_signed): same.
+
 2000-12-18  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (hide_save_state): Unlock camel when done to
