@@ -57,6 +57,16 @@ typedef enum {
 	GNOME_CAL_MONTH_VIEW
 } GnomeCalendarViewType;
 
+typedef enum
+{
+  GNOME_CAL_GOTO_TODAY,
+  GNOME_CAL_GOTO_DATE,
+  GNOME_CAL_GOTO_FIRST_DAY_OF_MONTH,
+  GNOME_CAL_GOTO_LAST_DAY_OF_MONTH,
+  GNOME_CAL_GOTO_FIRST_DAY_OF_WEEK,
+  GNOME_CAL_GOTO_LAST_DAY_OF_WEEK,
+} GnomeCalendarGotoDateType;
+
 struct _GnomeCalendar {
 	GtkVBox vbox;
 
@@ -75,6 +85,9 @@ struct _GnomeCalendarClass {
 
 	void (* calendar_focus_change)  (GnomeCalendar *gcal, gboolean in);
 	void (* taskpad_focus_change)   (GnomeCalendar *gcal, gboolean in);
+        void (* goto_date)         (GnomeCalendar *day_view,
+				    GnomeCalendarGotoDateType date);
+
 };
 
 
