@@ -160,6 +160,18 @@ Calendar & Tasks:
 
   - General bug fixes.  (Federico, JP, Damon, Rodrigo)
 
+My Evolution:
+
+  - Removed the wipe trackers option. (Iain)
+
+  - Fix broken links in the Calendar. (Iain)
+
+  - Added some more German cities. 
+
+  - Fix the New Feed button.
+
+  - Fix the KDE and Newsforge urls. (Iain and Jason)
+
 
 Version 0.11 (Beta 1), 2001-07-12
 ---------------------------------
