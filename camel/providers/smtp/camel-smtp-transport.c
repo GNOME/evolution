@@ -536,15 +536,6 @@ smtp_connect (CamelService *service, CamelException *ex)
 				camel_exception_clear (ex);
 			}
 		}
-		
-		/* The spec says we have to re-EHLO, but some servers
-		 * we won't bother to name don't want you to... so ignore
-		 * errors.
-		 */
-		if (!smtp_helo (transport, ex) && !transport->connected)
-			return FALSE;
-		
-		camel_exception_clear (ex);
 	}
 	
 	return TRUE;
@@ -1287,7 +1278,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 	header = (struct _camel_header_raw *) &CAMEL_MIME_PART (message)->headers;
 	n = header->next;
 	while (n != NULL) {
-		if (!strcasecmp (n->name, "Bcc")) {
+		if (!g_ascii_strcasecmp (n->name, "Bcc")) {
 			header->next = n->next;
 			tail->next = n;
 			n->next = NULL;

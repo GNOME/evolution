@@ -1,3 +1,11 @@
+2004-06-14  Not Zed  <NotZed@Ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_data): use
+	g_ascii_strcasecmp.
+	(smtp_connect): do not re-helo after we've authenticated.  This
+	was a misreading of the spec.  We must only re-helo after a
+	transport layer negotiation.
+
 2004-06-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-store.c (imap4_noop): Flush summary
