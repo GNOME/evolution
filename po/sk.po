@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2002-06-04 11:59+0200\n"
+"POT-Creation-Date: 2002-06-07 14:00-0400\n"
 "PO-Revision-Date: 2002-06-04 12:00+0200\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -835,7 +835,8 @@ msgid ""
 msgstr "Evolution použije toto známe meno (DN) pre prihlásenie na váš server"
 
 #: addressbook/gui/component/addressbook-config.glade.h:14
-msgid "Evolution will use this email address to authenticate you with the server"
+msgid ""
+"Evolution will use this email address to authenticate you with the server"
 msgstr "Evolution použije túto e-mailovú adresu pre prihlásenie na váš server"
 
 #: addressbook/gui/component/addressbook-config.glade.h:15
@@ -2659,7 +2660,7 @@ msgid "Delete"
 msgstr "Odstrániť"
 
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:140
-#: addressbook/gui/widgets/e-addressbook-util.c:85
+#: addressbook/gui/widgets/e-addressbook-util.c:87
 #: addressbook/gui/widgets/e-minicard.c:475
 msgid "Error modifying card"
 msgstr "Chyba pri zmene karty"
@@ -2705,31 +2706,41 @@ msgid "Cancelled"
 msgstr "Zrušený"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:41
+#, fuzzy
+msgid "Authentication Failed"
+msgstr "Overenie zlyhalo."
+
+#: addressbook/gui/widgets/e-addressbook-util.c:42
+#, fuzzy
+msgid "Authentication Required"
+msgstr "Autentifikácia vyžadovaná"
+
+#: addressbook/gui/widgets/e-addressbook-util.c:43
 msgid "Other error"
 msgstr "Iná chyba"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:57
+#: addressbook/gui/widgets/e-addressbook-util.c:59
 #: calendar/gui/dialogs/save-comp.c:50
 msgid "Do you want to save changes?"
 msgstr "Chcete uložiť zmeny?"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:76
+#: addressbook/gui/widgets/e-addressbook-util.c:78
 msgid "Error adding list"
 msgstr "Chyba pri pridávaní zoznamu"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:76
+#: addressbook/gui/widgets/e-addressbook-util.c:78
 msgid "Error adding card"
 msgstr "Chyba pri pridávaní karty"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:85
+#: addressbook/gui/widgets/e-addressbook-util.c:87
 msgid "Error modifying list"
 msgstr "Chyba pri zmene zoznamu"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:95
+#: addressbook/gui/widgets/e-addressbook-util.c:97
 msgid "Error removing list"
 msgstr "Chyba pri odstraňovaní zoznamu"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:95
+#: addressbook/gui/widgets/e-addressbook-util.c:97
 #: addressbook/gui/widgets/e-addressbook-view.c:1270
 msgid "Error removing card"
 msgstr "Chyba pri odstraňovaní karty"
@@ -4745,7 +4756,8 @@ msgid "%d %B"
 msgstr "%d %B"
 
 #: calendar/gui/calendar-commands.c:820
-msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid ""
+"Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Nie je možné vytvoriť kalendárový pohľad. Prosím, overte nastavenie ORBit a "
 "OAF."
@@ -5874,46 +5886,57 @@ msgid "_Due Date:"
 msgstr "_Termín:"
 
 #: calendar/gui/e-calendar-table.c:427
+#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:428
+#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:429
+#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:430
+#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:431
+#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:432
+#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:433
+#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:434
+#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:435
+#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:436
+#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:437
+#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -6161,7 +6184,8 @@ msgstr "Neznáma osoba"
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
-msgstr "<br> Prosím, skontrolujte tieto informácie a potom vyberte z menu akciu."
+msgstr ""
+"<br> Prosím, skontrolujte tieto informácie a potom vyberte z menu akciu."
 
 #: calendar/gui/e-itip-control.c:769
 msgid "<i>None</i>"
@@ -6426,7 +6450,8 @@ msgstr "Táto odpoveď nie je od aktuálneho účastníka. Chcete ho pridať?"
 
 #: calendar/gui/e-itip-control.c:1459
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Stav účastníka nie je možné aktualizovať, pretože jeho stav nie je platný!\n"
+msgstr ""
+"Stav účastníka nie je možné aktualizovať, pretože jeho stav nie je platný!\n"
 
 #: calendar/gui/e-itip-control.c:1472
 msgid "Attendee status could not be updated!\n"
@@ -6438,7 +6463,8 @@ msgstr "Stav účastníka bol aktualizovaný\n"
 
 #: calendar/gui/e-itip-control.c:1476
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "Stav účastníka nie je možné aktualizovať, pretože položka už neexistuje"
+msgstr ""
+"Stav účastníka nie je možné aktualizovať, pretože položka už neexistuje"
 
 #: calendar/gui/e-itip-control.c:1504
 msgid "Removal Complete"
@@ -7025,8 +7051,10 @@ msgid "The URI of the tasks folder to display"
 msgstr "URI, ktoré bude zobrazovať priečinok úloh"
 
 #: calendar/gui/tasks-control-factory.c:75
-msgid "Could not create the tasks view.  Please check your ORBit and OAF setup."
-msgstr "Nie je možné vytvoriť pohľad úloh. Prosím, overte nastavenie ORBit a OAF."
+msgid ""
+"Could not create the tasks view.  Please check your ORBit and OAF setup."
+msgstr ""
+"Nie je možné vytvoriť pohľad úloh. Prosím, overte nastavenie ORBit a OAF."
 
 #: calendar/gui/tasks-migrate.c:105
 msgid ""
@@ -7448,7 +7476,8 @@ msgstr "Nie je možné podpísať správu: nezadané heslo"
 #: camel/camel-pgp-context.c:588 camel/camel-pgp-context.c:768
 #, c-format
 msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "Nie je možné podpísať správu: nie je možné vytvoriť rúru do GPG/PGP: %s"
+msgstr ""
+"Nie je možné podpísať správu: nie je možné vytvoriť rúru do GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:755
 msgid "Cannot sign this message: no plaintext to clearsign"
@@ -7479,7 +7508,8 @@ msgstr "Nie je možné zašifrovať správu: nezadané heslo"
 #: camel/camel-pgp-context.c:1160
 #, c-format
 msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "Nie je možné zašifrovať správu: nie je možné vytvoriť rúru do GPG/PGP: %s"
+msgstr ""
+"Nie je možné zašifrovať správu: nie je možné vytvoriť rúru do GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:1169
 msgid "Cannot encrypt this message: no recipients specified"
@@ -7496,7 +7526,8 @@ msgstr "Nie je možné dešifrovať správu: nezadané heslo"
 #: camel/camel-pgp-context.c:1352
 #, c-format
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "Nie je možné dešifrovať správu: nie je možné vytvoriť rúru do GPG/PGP: %s"
+msgstr ""
+"Nie je možné dešifrovať správu: nie je možné vytvoriť rúru do GPG/PGP: %s"
 
 #: camel/camel-pgp-mime.c:310
 msgid "This is a digitally signed message part"
@@ -7632,7 +7663,8 @@ msgstr "Správa challenge pre server neplatná\n"
 
 #: camel/camel-sasl-digest-md5.c:825
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr "Správa challenge pre server obsahovala neplatný prvok \"Kvalita ochrany\"\n"
+msgstr ""
+"Správa challenge pre server obsahovala neplatný prvok \"Kvalita ochrany\"\n"
 
 #: camel/camel-sasl-digest-md5.c:847
 msgid "Server response did not contain authorization data\n"
@@ -7674,7 +7706,8 @@ msgstr "Prihlásenie NT"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr "Táto voľba pripojí na server pomocou hesiel prenášaných ako čistý text."
+msgstr ""
+"Táto voľba pripojí na server pomocou hesiel prenášaných ako čistý text."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
@@ -7911,40 +7944,40 @@ msgstr "Odpoveď IMAP serveru neobsahovala informáciu %s"
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Neočakávaná odpoveď OK od IMAP serveru: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:198
+#: camel/providers/imap/camel-imap-folder.c:194
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Nie je možné vytvoriť priečinok %s: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:217
+#: camel/providers/imap/camel-imap-folder.c:213
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Nie je možné načítať súhrn pre %s"
 
-#: camel/providers/imap/camel-imap-folder.c:281
+#: camel/providers/imap/camel-imap-folder.c:277
 msgid "Folder was destroyed and recreated on server."
 msgstr "Priečinok bol zničený a znovu vytvorený na serveri."
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:465
+#: camel/providers/imap/camel-imap-folder.c:461
 msgid "Scanning for changed messages"
 msgstr "Hľadám zmenené správy"
 
-#: camel/providers/imap/camel-imap-folder.c:1626
-#: camel/providers/imap/camel-imap-folder.c:2081
+#: camel/providers/imap/camel-imap-folder.c:1585
+#: camel/providers/imap/camel-imap-folder.c:2028
 msgid "This message is not currently available"
 msgstr "Táto správa momentálne nie je k dipozícii"
 
-#: camel/providers/imap/camel-imap-folder.c:1781
-#: camel/providers/imap/camel-imap-folder.c:1855
+#: camel/providers/imap/camel-imap-folder.c:1740
+#: camel/providers/imap/camel-imap-folder.c:1821
 msgid "Fetching summary information for new messages"
 msgstr "Sťahujem súhrnné informácie pre nové správy"
 
-#: camel/providers/imap/camel-imap-folder.c:1787
+#: camel/providers/imap/camel-imap-folder.c:1746
 msgid "Scanning for new messages"
 msgstr "Hľadám nové správy"
 
-#: camel/providers/imap/camel-imap-folder.c:2118
+#: camel/providers/imap/camel-imap-folder.c:2065
 msgid "Could not find message body in FETCH response."
 msgstr "Nie je možné nájsť telo správy v odpovedi FETCH."
 
@@ -7987,7 +8020,8 @@ msgstr "Priestor mien"
 
 #: camel/providers/imap/camel-imap-provider.c:57
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr "Aplikovať filtre na nové správy v priečinku novej pošty na tomto serveri"
+msgstr ""
+"Aplikovať filtre na nové správy v priečinku novej pošty na tomto serveri"
 
 #: camel/providers/imap/camel-imap-provider.c:63
 msgid "IMAP"
@@ -7999,7 +8033,8 @@ msgstr "Pre čítanie a ukladanie pošty na IMAP serveroch."
 
 #: camel/providers/imap/camel-imap-provider.c:82
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr "Táto voľba pripojí na IMAP server pomocou hesiel prenášaných ako čistý text."
+msgstr ""
+"Táto voľba pripojí na IMAP server pomocou hesiel prenášaných ako čistý text."
 
 #: camel/providers/imap/camel-imap-store.c:518
 #, c-format
@@ -8618,7 +8653,8 @@ msgstr ""
 "tento protokol podporuje."
 
 #: camel/providers/pop3/camel-pop3-provider.c:91
-msgid "This will connect to the POP server and use Kerberos 4 to authenticate to it."
+msgid ""
+"This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr "Táto voľba vás spojí s POP serverom pomocou overenia Kerberos 4."
 
 #: camel/providers/pop3/camel-pop3-store.c:198
@@ -8789,7 +8825,8 @@ msgstr "Používateľ nie je lokálny, bude predaná podľa <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:194
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr "Požadovaná poštová akcia nevykonaná, poštová schránka nie je k dispozícii"
+msgstr ""
+"Požadovaná poštová akcia nevykonaná, poštová schránka nie je k dispozícii"
 
 #: camel/providers/smtp/camel-smtp-transport.c:196
 msgid "Requested action not taken: mailbox unavailable"
@@ -10058,7 +10095,8 @@ msgstr "Nie je možné inicializovať konfiguračný komponent pre poštu Evolut
 
 #: mail/component-factory.c:990
 msgid "Cannot initialize Evolution's folder info component."
-msgstr "Nie je možné inicializovať komponent pre infomácie o priečinkoch Evolution."
+msgstr ""
+"Nie je možné inicializovať komponent pre infomácie o priečinkoch Evolution."
 
 #: mail/component-factory.c:1206
 msgid "Cannot register storage with shell"
@@ -11228,7 +11266,8 @@ msgid "Bcc"
 msgstr "Bcc"
 
 #: mail/mail-format.c:1818
-msgid "This message is digitally signed. Click the lock icon for more information."
+msgid ""
+"This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Táto správa je digitálne podpísaná. Kliknutím na ikonu zámku získate "
 "podrobnosti."
@@ -12347,7 +12386,7 @@ msgid "Freezing ice pellets"
 msgstr "Mrznúce ľadové guličky"
 
 #. HAIL
-#: my-evolution/metar.c:217 my-evolution/Locations.h:883
+#: my-evolution/Locations.h:883 my-evolution/metar.c:217
 msgid "Hail"
 msgstr "Krúpy"
 
@@ -22990,7 +23029,8 @@ msgstr ""
 
 #: shell/e-setup.c:129
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-msgstr "Prosím, stlačte \"OK\" pre inštaláciu súborov, alebo \"Zrušiť\" pre koniec."
+msgstr ""
+"Prosím, stlačte \"OK\" pre inštaláciu súborov, alebo \"Zrušiť\" pre koniec."
 
 #: shell/e-setup.c:169
 msgid "Could not update files correctly"
@@ -23457,7 +23497,8 @@ msgid "(None)"
 msgstr "(Žiadna)"
 
 #: shell/e-shell-view.c:1765
-msgid "Ximian Evolution is currently online.  Click on this button to work offline."
+msgid ""
+"Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution je momentálne on-line. Stlačením tohto tlačidla prejdete do "
 "módu off-line."
@@ -23467,7 +23508,8 @@ msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution prechádza do módu off-line."
 
 #: shell/e-shell-view.c:1778
-msgid "Ximian Evolution is currently offline.  Click on this button to work online."
+msgid ""
+"Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Ximian Evolution je momentálne off-line. Stlačením tohto tlačidla prejdete "
 "do módu on-line."
@@ -24466,7 +24508,8 @@ msgid "Hide _Read Messages"
 msgstr "Skryť _prečítané správy"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr "Skryje zmazané správy namiesto zobrazenia škrtnutím"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -25266,7 +25309,8 @@ msgstr "_Poslať správu o chybe"
 
 #: ui/evolution.xml.h:24
 msgid "Submit a bug report using Bug Buddy"
-msgstr "Pošle správu o chybe pomocou nástroja pre oznamovanie chýb Priateľ v núdzi."
+msgstr ""
+"Pošle správu o chybe pomocou nástroja pre oznamovanie chýb Priateľ v núdzi."
 
 #: ui/evolution.xml.h:25
 msgid "Toggle"
@@ -25618,4 +25662,3 @@ msgstr "init_bonobo(): Nie je možné inicializovať Bonobo"
 
 #~ msgid "iCalendar information"
 #~ msgstr "Informácie iCalendar"
-

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2002-06-03 18:52-0400\n"
+"POT-Creation-Date: 2002-06-07 14:00-0400\n"
 "PO-Revision-Date: 2000-04-04 15:25+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -2651,7 +2651,7 @@ msgid "Delete"
 msgstr "Стерти"
 
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:140
-#: addressbook/gui/widgets/e-addressbook-util.c:85
+#: addressbook/gui/widgets/e-addressbook-util.c:87
 #: addressbook/gui/widgets/e-minicard.c:475
 msgid "Error modifying card"
 msgstr "Помилка модиф╕кац╕╖ картки"
@@ -2698,31 +2698,41 @@ msgid "Cancelled"
 msgstr "Скасовано"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:41
+#, fuzzy
+msgid "Authentication Failed"
+msgstr "Зб╕й автенф╕кац╕╖."
+
+#: addressbook/gui/widgets/e-addressbook-util.c:42
+#, fuzzy
+msgid "Authentication Required"
+msgstr "Вимага╓ться автенф╕кац╕я"
+
+#: addressbook/gui/widgets/e-addressbook-util.c:43
 msgid "Other error"
 msgstr "╤нша помилка"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:57
+#: addressbook/gui/widgets/e-addressbook-util.c:59
 #: calendar/gui/dialogs/save-comp.c:50
 msgid "Do you want to save changes?"
 msgstr "Ви хочете зм╕нити зм╕ни?"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:76
+#: addressbook/gui/widgets/e-addressbook-util.c:78
 msgid "Error adding list"
 msgstr "Помилка додавання списку"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:76
+#: addressbook/gui/widgets/e-addressbook-util.c:78
 msgid "Error adding card"
 msgstr "Помилка додавання картки"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:85
+#: addressbook/gui/widgets/e-addressbook-util.c:87
 msgid "Error modifying list"
 msgstr "Помилка модиф╕кування списку"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:95
+#: addressbook/gui/widgets/e-addressbook-util.c:97
 msgid "Error removing list"
 msgstr "Помилка видалення списку"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:95
+#: addressbook/gui/widgets/e-addressbook-util.c:97
 #: addressbook/gui/widgets/e-addressbook-view.c:1270
 msgid "Error removing card"
 msgstr "Помилка видалення картки"
@@ -8076,40 +8086,40 @@ msgstr "В╕дпов╕дь серера IMAP не м╕стить ╕нформац╕╖ про %s"
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Неоч╕кувана в╕дпов╕дь OK в╕д сервера IMAP: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:198
+#: camel/providers/imap/camel-imap-folder.c:194
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Не вдалося створити каталог %s: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:217
+#: camel/providers/imap/camel-imap-folder.c:213
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Не вдалося завантажити зведення для %s"
 
-#: camel/providers/imap/camel-imap-folder.c:281
+#: camel/providers/imap/camel-imap-folder.c:277
 msgid "Folder was destroyed and recreated on server."
 msgstr "Теку було знищено ╕ повторно створено на сервер╕."
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:465
+#: camel/providers/imap/camel-imap-folder.c:461
 msgid "Scanning for changed messages"
 msgstr "Пошук зм╕нених пов╕домлень."
 
-#: camel/providers/imap/camel-imap-folder.c:1626
-#: camel/providers/imap/camel-imap-folder.c:2081
+#: camel/providers/imap/camel-imap-folder.c:1585
+#: camel/providers/imap/camel-imap-folder.c:2028
 msgid "This message is not currently available"
 msgstr "Цього пов╕домлення зараз не ╕сну╓"
 
-#: camel/providers/imap/camel-imap-folder.c:1781
-#: camel/providers/imap/camel-imap-folder.c:1855
+#: camel/providers/imap/camel-imap-folder.c:1740
+#: camel/providers/imap/camel-imap-folder.c:1821
 msgid "Fetching summary information for new messages"
 msgstr "Отримання ╕нформац╕╖ про нов╕ пов╕домлення"
 
-#: camel/providers/imap/camel-imap-folder.c:1787
+#: camel/providers/imap/camel-imap-folder.c:1746
 msgid "Scanning for new messages"
 msgstr "Пошук нових пов╕домлень"
 
-#: camel/providers/imap/camel-imap-folder.c:2118
+#: camel/providers/imap/camel-imap-folder.c:2065
 msgid "Could not find message body in FETCH response."
 msgstr "Не вдалося знайти т╕ла пов╕домлення у в╕дпов╕д╕ на FETCH."
 

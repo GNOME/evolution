@@ -1,6 +1,13 @@
+== Version 1.0.7. ==
+
+2002-06-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: 1.0.7.
+
 2002-06-04  Pablo Saratxaga  <pablo@mandrakesoft.com>
 
-	* configure.in: Added Vietnamese (vi) and Basque (eu) to ALL_LINGUAS
+	* configure.in: Added Vietnamese (vi) and Basque (eu) to
+	ALL_LINGUAS
 
 2002-06-04  Ettore Perazzoli  <ettore@ximian.com>
 

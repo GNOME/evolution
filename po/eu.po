@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.1.0\n"
-"POT-Creation-Date: 2002-06-04 20:42+0200\n"
+"POT-Creation-Date: 2002-06-07 14:00-0400\n"
 "PO-Revision-Date: 2001-05-25 13:35+0200\n"
 "Last-Translator: Josu Waliño <josu@elhuyar.com>\n"
 "Language-Team: Euskara\n"
@@ -2689,7 +2689,7 @@ msgid "Delete"
 msgstr "Ezabatu"
 
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:140
-#: addressbook/gui/widgets/e-addressbook-util.c:85
+#: addressbook/gui/widgets/e-addressbook-util.c:87
 #: addressbook/gui/widgets/e-minicard.c:475
 msgid "Error modifying card"
 msgstr "Errorea txartela aldatzean"
@@ -2735,31 +2735,41 @@ msgid "Cancelled"
 msgstr "Bertan behera utzita"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:41
+#, fuzzy
+msgid "Authentication Failed"
+msgstr "Autentifikazioak huts egin du."
+
+#: addressbook/gui/widgets/e-addressbook-util.c:42
+#, fuzzy
+msgid "Authentication Required"
+msgstr "Autentifikazioa behar da"
+
+#: addressbook/gui/widgets/e-addressbook-util.c:43
 msgid "Other error"
 msgstr "Beste errore bat"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:57
+#: addressbook/gui/widgets/e-addressbook-util.c:59
 #: calendar/gui/dialogs/save-comp.c:50
 msgid "Do you want to save changes?"
 msgstr "Aldaketak gorde nahi dituzu?"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:76
+#: addressbook/gui/widgets/e-addressbook-util.c:78
 msgid "Error adding list"
 msgstr "Errorea zerrenda gehitzean"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:76
+#: addressbook/gui/widgets/e-addressbook-util.c:78
 msgid "Error adding card"
 msgstr "Errorea txartela gehitzean"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:85
+#: addressbook/gui/widgets/e-addressbook-util.c:87
 msgid "Error modifying list"
 msgstr "Errorea zerrenda aldatzean"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:95
+#: addressbook/gui/widgets/e-addressbook-util.c:97
 msgid "Error removing list"
 msgstr "Errorea zerrenda kentzean"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:95
+#: addressbook/gui/widgets/e-addressbook-util.c:97
 #: addressbook/gui/widgets/e-addressbook-view.c:1270
 msgid "Error removing card"
 msgstr "Errorea txartela kentzean"
@@ -7989,40 +7999,40 @@ msgstr "IMAP zerbitzariaren erantzunak ez zeukan %s informaziorik"
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Ustekabeko baiezko erantzuna IMAP zerbitzaritik: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:198
+#: camel/providers/imap/camel-imap-folder.c:194
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Ezin izan da %s direktorioa sortu: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:217
+#: camel/providers/imap/camel-imap-folder.c:213
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Ezin izan da %s(r)en laburpena kargatu"
 
-#: camel/providers/imap/camel-imap-folder.c:281
+#: camel/providers/imap/camel-imap-folder.c:277
 msgid "Folder was destroyed and recreated on server."
 msgstr "Karpeta deuseztatu egin da eta berriro sortu zerbitzarian."
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:465
+#: camel/providers/imap/camel-imap-folder.c:461
 msgid "Scanning for changed messages"
 msgstr "Aldatutako mezuen bila eskaneatzen"
 
-#: camel/providers/imap/camel-imap-folder.c:1626
-#: camel/providers/imap/camel-imap-folder.c:2081
+#: camel/providers/imap/camel-imap-folder.c:1585
+#: camel/providers/imap/camel-imap-folder.c:2028
 msgid "This message is not currently available"
 msgstr "Mezu hau orain ez dago erabilgarri "
 
-#: camel/providers/imap/camel-imap-folder.c:1781
-#: camel/providers/imap/camel-imap-folder.c:1855
+#: camel/providers/imap/camel-imap-folder.c:1740
+#: camel/providers/imap/camel-imap-folder.c:1821
 msgid "Fetching summary information for new messages"
 msgstr "Mezu berrien laburpen-informazioa bilatzen"
 
-#: camel/providers/imap/camel-imap-folder.c:1787
+#: camel/providers/imap/camel-imap-folder.c:1746
 msgid "Scanning for new messages"
 msgstr "Mezu berrien bila eskaneatzen"
 
-#: camel/providers/imap/camel-imap-folder.c:2118
+#: camel/providers/imap/camel-imap-folder.c:2065
 msgid "Could not find message body in FETCH response."
 msgstr "Ezin izan da mezuaren gorputza aurkitu FETCH erantzunean."
 

@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2002-06-03 18:52-0400\n"
+"POT-Creation-Date: 2002-06-07 14:00-0400\n"
 "PO-Revision-Date: 2001-12-04 20:48+0100\n"
 "Last-Translator: Christian Meyer <chrisime@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -2687,7 +2687,7 @@ msgid "Delete"
 msgstr "Löschen"
 
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:140
-#: addressbook/gui/widgets/e-addressbook-util.c:85
+#: addressbook/gui/widgets/e-addressbook-util.c:87
 #: addressbook/gui/widgets/e-minicard.c:475
 msgid "Error modifying card"
 msgstr "Fehler beim Ändern einer Karte"
@@ -2733,31 +2733,41 @@ msgid "Cancelled"
 msgstr "Storniert"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:41
+#, fuzzy
+msgid "Authentication Failed"
+msgstr "Legitimation fehlgeschlagen."
+
+#: addressbook/gui/widgets/e-addressbook-util.c:42
+#, fuzzy
+msgid "Authentication Required"
+msgstr "Legitimation benötigt"
+
+#: addressbook/gui/widgets/e-addressbook-util.c:43
 msgid "Other error"
 msgstr "Anderer Fehler"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:57
+#: addressbook/gui/widgets/e-addressbook-util.c:59
 #: calendar/gui/dialogs/save-comp.c:50
 msgid "Do you want to save changes?"
 msgstr "Wollen Sie die Änderungen speichern?"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:76
+#: addressbook/gui/widgets/e-addressbook-util.c:78
 msgid "Error adding list"
 msgstr "Fehler beim Hinzufügen der Liste"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:76
+#: addressbook/gui/widgets/e-addressbook-util.c:78
 msgid "Error adding card"
 msgstr "Fehler beim Hinzufügen einer Karte"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:85
+#: addressbook/gui/widgets/e-addressbook-util.c:87
 msgid "Error modifying list"
 msgstr "Fehler beim Ändern einer Liste"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:95
+#: addressbook/gui/widgets/e-addressbook-util.c:97
 msgid "Error removing list"
 msgstr "Fehler beim Entfernen einer Liste"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:95
+#: addressbook/gui/widgets/e-addressbook-util.c:97
 #: addressbook/gui/widgets/e-addressbook-view.c:1270
 msgid "Error removing card"
 msgstr "Fehler beim Entfernen einer Karte"
@@ -8114,40 +8124,40 @@ msgstr "Antwort des IMAP-Servers enthielt keine %s-Information"
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Unerwartete OK-Antwort von IMAP-Server: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:198
+#: camel/providers/imap/camel-imap-folder.c:194
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Verzeichnis %s konnte nicht angelegt werden: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:217
+#: camel/providers/imap/camel-imap-folder.c:213
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Zusammenfassung für %s konnte nicht geladen werden"
 
-#: camel/providers/imap/camel-imap-folder.c:281
+#: camel/providers/imap/camel-imap-folder.c:277
 msgid "Folder was destroyed and recreated on server."
 msgstr "Der Ordner wurde zerstört und auf dem Server neu erstellt."
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:465
+#: camel/providers/imap/camel-imap-folder.c:461
 msgid "Scanning for changed messages"
 msgstr "Suchen nach geänderten Nachrichten"
 
-#: camel/providers/imap/camel-imap-folder.c:1626
-#: camel/providers/imap/camel-imap-folder.c:2081
+#: camel/providers/imap/camel-imap-folder.c:1585
+#: camel/providers/imap/camel-imap-folder.c:2028
 msgid "This message is not currently available"
 msgstr "Diese Nachricht ist derzei nicht verfügbar"
 
-#: camel/providers/imap/camel-imap-folder.c:1781
-#: camel/providers/imap/camel-imap-folder.c:1855
+#: camel/providers/imap/camel-imap-folder.c:1740
+#: camel/providers/imap/camel-imap-folder.c:1821
 msgid "Fetching summary information for new messages"
 msgstr "Überblickinformation für neue Nachrichten wird abgerufen"
 
-#: camel/providers/imap/camel-imap-folder.c:1787
+#: camel/providers/imap/camel-imap-folder.c:1746
 msgid "Scanning for new messages"
 msgstr "Suchen nach neuen Nachrichten"
 
-#: camel/providers/imap/camel-imap-folder.c:2118
+#: camel/providers/imap/camel-imap-folder.c:2065
 msgid "Could not find message body in FETCH response."
 msgstr "Nachrichtenrumpf in Antwort auf FETCH konnte nicht gefunden werden."
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.3.1\n"
-"POT-Creation-Date: 2002-06-03 18:52-0400\n"
+"POT-Creation-Date: 2002-06-07 14:00-0400\n"
 "PO-Revision-Date: 2001-05-23 00:10GMT +0200\n"
 "Last-Translator: Vasif İsmayıloğlu MD <azerb_linux@hotmail.com>\n"
 "Language-Team: Azerbaijani Turkish <linuxaz@azerimal.net>\n"
@@ -2814,7 +2814,7 @@ msgid "Delete"
 msgstr "Sil"
 
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:140
-#: addressbook/gui/widgets/e-addressbook-util.c:85
+#: addressbook/gui/widgets/e-addressbook-util.c:87
 #: addressbook/gui/widgets/e-minicard.c:475
 #, fuzzy
 msgid "Error modifying card"
@@ -2866,35 +2866,45 @@ msgstr "Ləğv Edildi"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:41
 #, fuzzy
+msgid "Authentication Failed"
+msgstr "Tanıtma bacarılmadı."
+
+#: addressbook/gui/widgets/e-addressbook-util.c:42
+#, fuzzy
+msgid "Authentication Required"
+msgstr "Tanıtma lazımdır"
+
+#: addressbook/gui/widgets/e-addressbook-util.c:43
+#, fuzzy
 msgid "Other error"
 msgstr "G/Ç xətası"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:57
+#: addressbook/gui/widgets/e-addressbook-util.c:59
 #: calendar/gui/dialogs/save-comp.c:50
 msgid "Do you want to save changes?"
 msgstr "Dəyişiklikləri qeyd etmək istəyirsinizimi?"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:76
+#: addressbook/gui/widgets/e-addressbook-util.c:78
 #, fuzzy
 msgid "Error adding list"
 msgstr "%s yüklənərkən xəta oldu"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:76
+#: addressbook/gui/widgets/e-addressbook-util.c:78
 #, fuzzy
 msgid "Error adding card"
 msgstr "%s yüklənərkən xəta oldu"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:85
+#: addressbook/gui/widgets/e-addressbook-util.c:87
 #, fuzzy
 msgid "Error modifying list"
 msgstr "%s yüklənərkən xəta oldu"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:95
+#: addressbook/gui/widgets/e-addressbook-util.c:97
 #, fuzzy
 msgid "Error removing list"
 msgstr "%s yüklənərkən xəta oldu"
 
-#: addressbook/gui/widgets/e-addressbook-util.c:95
+#: addressbook/gui/widgets/e-addressbook-util.c:97
 #: addressbook/gui/widgets/e-addressbook-view.c:1270
 #, fuzzy
 msgid "Error removing card"
@@ -8319,42 +8329,42 @@ msgstr "IMAP vericisi cavabı %s mə'lumatını daxil etmir"
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "IMAP vericisindən gözlənilməz qəbul cavabı alındı: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:198
+#: camel/providers/imap/camel-imap-folder.c:194
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "%s qovluğunu yarada bilmədim: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:217
+#: camel/providers/imap/camel-imap-folder.c:213
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "%s üçün mündəricat yüklənə bilmədi"
 
-#: camel/providers/imap/camel-imap-folder.c:281
+#: camel/providers/imap/camel-imap-folder.c:277
 msgid "Folder was destroyed and recreated on server."
 msgstr ""
 
 #. Check UIDs and flags of all messages we already know of.
-#: camel/providers/imap/camel-imap-folder.c:465
+#: camel/providers/imap/camel-imap-folder.c:461
 #, fuzzy
 msgid "Scanning for changed messages"
 msgstr "İsmarıclar qeyd edilir"
 
-#: camel/providers/imap/camel-imap-folder.c:1626
-#: camel/providers/imap/camel-imap-folder.c:2081
+#: camel/providers/imap/camel-imap-folder.c:1585
+#: camel/providers/imap/camel-imap-folder.c:2028
 msgid "This message is not currently available"
 msgstr "Bu ismarıc hazırda mövcuddur"
 
-#: camel/providers/imap/camel-imap-folder.c:1781
-#: camel/providers/imap/camel-imap-folder.c:1855
+#: camel/providers/imap/camel-imap-folder.c:1740
+#: camel/providers/imap/camel-imap-folder.c:1821
 msgid "Fetching summary information for new messages"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-folder.c:1787
+#: camel/providers/imap/camel-imap-folder.c:1746
 #, fuzzy
 msgid "Scanning for new messages"
 msgstr "İsmarıclar qeyd edilir"
 
-#: camel/providers/imap/camel-imap-folder.c:2118
+#: camel/providers/imap/camel-imap-folder.c:2065
 msgid "Could not find message body in FETCH response."
 msgstr "FETCH cavabında ismarıc gövdəsi tapıla bilmədi"
 
