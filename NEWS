@@ -1,7 +1,14 @@
-Version 0.10 "Tasmanian Devil", 2001-04-23   --FIXME
+Version 0.10 "Tasmanian Devil", 2001-04-26
+------------------------------------------
 
-Shell: 
+Shell:
 
+  - Fixed some usability bugs in the folder selection and creation
+    dialogs.  (Ettore)
+
+  - Added a --debug option.  (Dan)
+
+  - Added support for drag and drop operations.  (Ettore)
 
 Mail: 
 
@@ -108,6 +115,7 @@ General:
     and the Evolution gang)
 
   - Fixed the shell interface so it could correctly create folders. (Iain)
+
 
 Version 0.9 "Platypus", 2001-03-12
 ----------------------------------
