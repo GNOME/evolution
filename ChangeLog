@@ -1,3 +1,10 @@
+2002-06-14  Chris Toshok  <toshok@ximian.com>
+
+	* libversit/vobject.c (unUseStr): fix a braindead typo that caused
+	us to leak strings in certain circumstances (when the string being
+	freed was second in the list, the head of the list would get
+	lost.)
+
 2002-06-10  gettextize  <bug-gnu-gettext@gnu.org>
 
 	* Makefile.am (SUBDIRS): Remove intl.

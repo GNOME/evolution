@@ -655,7 +655,7 @@ DLLEXPORT(void) unUseStr(const char *s)
 	    if (stricmp(t->s,s) == 0) {
 		t->refCnt--;
 		if (t->refCnt == 0) {
-		    if (p == strTbl[h]) {
+		    if (t == strTbl[h]) {
 			strTbl[h] = t->next;
 			}
 		    else {
