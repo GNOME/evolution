@@ -280,6 +280,8 @@ gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)
 	const char *title;
 	int n;
 	const char *id = NULL;
+
+	view = gal_view_clone (view);
 	switch (dialog->toggle) {
 	case GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TOGGLE_REPLACE:
 		widget = glade_xml_get_widget(dialog->gui, "custom-replace");
