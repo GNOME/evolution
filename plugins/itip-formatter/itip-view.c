@@ -33,6 +33,8 @@
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-message.h>
+#include <libedataserver/e-time-utils.h>
+#include <libedataserverui/e-source-option-menu.h>
 #include <libecal/e-cal.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <mail/em-format-hook.h>
@@ -50,8 +52,9 @@ G_DEFINE_TYPE (ItipView, itip_view, GTK_TYPE_HBOX);
 
 typedef struct  {
 	ItipViewInfoItemType type;
-
 	char *message;
+
+	guint id;
 } ItipViewInfoItem;
 
 struct _ItipViewPrivate {
@@ -78,21 +81,33 @@ struct _ItipViewPrivate {
 	GtkWidget *end_label;
 	struct tm *end_tm;
 
-	GtkWidget *info_box;
-	GSList *info_items;
-	
+	GtkWidget *upper_info_box;
+	GSList *upper_info_items;
+
+	GtkWidget *lower_info_box;
+	GSList *lower_info_items;
+
+	guint next_info_item_id;
+
 	GtkWidget *description_label;
 	char *description;
 
-	GtkWidget *progress_box;
-	GtkWidget *progress_label;
-	char *progress;
+	GtkWidget *details_box;
+
+	GtkWidget *esom;
+	GtkWidget *esom_header;
+	ESourceList *source_list;
 	
+	GtkWidget *rsvp_check;
+	gboolean rsvp_show;
+
 	GtkWidget *button_box;
+	gboolean buttons_sensitive;
 };
 
 /* Signal IDs */
 enum {
+	SOURCE_SELECTED,
 	RESPONSE,
 	LAST_SIGNAL
 };
@@ -402,16 +417,13 @@ set_end_text (ItipView *view)
 }
 
 static void
-set_info_items (ItipView *view) 
+set_info_items (GtkWidget *info_box, GSList *info_items) 
 {
-	ItipViewPrivate *priv;
 	GSList *l;
 	
-	priv = view->priv;
-
-	gtk_container_foreach (GTK_CONTAINER (priv->info_box), (GtkCallback) gtk_widget_destroy, NULL);
+	gtk_container_foreach (GTK_CONTAINER (info_box), (GtkCallback) gtk_widget_destroy, NULL);
 	
-	for (l = priv->info_items; l; l = l->next) {
+	for (l = info_items; l; l = l->next) {
 		ItipViewInfoItem *item = l->data;	
 		GtkWidget *hbox, *image, *label;
 		
@@ -426,6 +438,9 @@ set_info_items (ItipView *view)
 			break;			
 		case ITIP_VIEW_INFO_ITEM_TYPE_ERROR:
 			image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_SMALL_TOOLBAR);
+			break;
+		case ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS:
+			image = e_icon_factory_get_image ("stock_animation", E_ICON_SIZE_BUTTON);
 			break;
 		case ITIP_VIEW_INFO_ITEM_TYPE_NONE:
 		default:
@@ -442,21 +457,28 @@ set_info_items (ItipView *view)
 		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 
 		gtk_widget_show (hbox);
-		gtk_box_pack_start (GTK_BOX (priv->info_box), hbox, FALSE, FALSE, 6);
+		gtk_box_pack_start (GTK_BOX (info_box), hbox, FALSE, FALSE, 6);
 	}	
 }
 
 static void
-set_progress_text (ItipView *view)
+set_upper_info_items (ItipView *view)
 {
 	ItipViewPrivate *priv;
-
+	
 	priv = view->priv;
 
-	g_message ("Setting progress to: %s", priv->progress);
-	gtk_label_set_text (GTK_LABEL (priv->progress_label), priv->progress);
+	set_info_items (priv->upper_info_box, priv->upper_info_items);
+}
 
-	priv->progress ? gtk_widget_show (priv->progress_box) : gtk_widget_hide (priv->progress_box);
+static void
+set_lower_info_items (ItipView *view)
+{
+	ItipViewPrivate *priv;
+	
+	priv = view->priv;
+
+	set_info_items (priv->lower_info_box, priv->lower_info_items);
 }
 
 #define DATA_RESPONSE_KEY "ItipView::button_response"
@@ -483,7 +505,7 @@ set_one_button (ItipView *view, char *label, char *stock_id, ItipViewResponse re
 	button = e_gtk_button_new_with_icon (label, stock_id);
 	g_object_set_data (G_OBJECT (button), DATA_RESPONSE_KEY, GINT_TO_POINTER (response));
 	gtk_widget_show (button);
-	gtk_container_add (GTK_CONTAINER (priv->button_box), button);	
+	gtk_container_add (GTK_CONTAINER (priv->button_box), button);
 
 	g_signal_connect (button, "clicked", G_CALLBACK (button_clicked_cb), view);
 }
@@ -549,7 +571,8 @@ itip_view_destroy (GtkObject *object)
 		g_free (priv->start_tm);
 		g_free (priv->end_tm);
 
-		itip_view_clear_info_items (view);
+		itip_view_clear_upper_info_items (view);
+		itip_view_clear_lower_info_items (view);
 		
 		g_free (priv);
 		view->priv = NULL;
@@ -569,6 +592,15 @@ itip_view_class_init (ItipViewClass *klass)
 	
 	gtkobject_class->destroy = itip_view_destroy;
 
+	signals[SOURCE_SELECTED] =
+		g_signal_new ("source_selected",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ItipViewClass, source_selected),
+			      NULL, NULL,
+			      gtk_marshal_NONE__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+
 	signals[RESPONSE] =
 		g_signal_new ("response",
 			      G_TYPE_FROM_CLASS (klass),
@@ -583,7 +615,7 @@ static void
 itip_view_init (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	GtkWidget *icon, *vbox, *separator, *table, *image;
+	GtkWidget *icon, *vbox, *separator, *table;
 
 	priv = g_new0 (ItipViewPrivate, 1);	
 	view->priv = priv;
@@ -651,10 +683,10 @@ itip_view_init (ItipView *view)
 	gtk_table_attach (GTK_TABLE (table), priv->end_header, 0, 1, 3, 4, GTK_FILL, 0, 0, 0);
 	gtk_table_attach (GTK_TABLE (table), priv->end_label, 1, 2, 3, 4, GTK_FILL, 0, 0, 0);
 
-	/* Info items */
-	priv->info_box = gtk_vbox_new (FALSE, 0);
-	gtk_widget_show (priv->info_box);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->info_box, FALSE, FALSE, 6);
+	/* Upper Info items */
+	priv->upper_info_box = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (priv->upper_info_box);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->upper_info_box, FALSE, FALSE, 6);
 
 	/* Description */
 	priv->description_label = gtk_label_new (NULL);
@@ -666,25 +698,27 @@ itip_view_init (ItipView *view)
 	gtk_widget_show (separator);
 	gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, FALSE, 6);
 
-	/* Progress */
-	priv->progress_box = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->progress_box, FALSE, FALSE, 6);
+	/* Lower Info items */
+	priv->lower_info_box = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (priv->lower_info_box);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->lower_info_box, FALSE, FALSE, 6);
 
-	image = e_icon_factory_get_image ("stock_animation", E_ICON_SIZE_BUTTON);
-	gtk_widget_show (image);
-	gtk_box_pack_start (GTK_BOX (priv->progress_box), image, FALSE, FALSE, 6);
-
-	priv->progress_label = gtk_label_new (NULL);
-	gtk_widget_show (priv->progress_label);
-	gtk_misc_set_alignment (GTK_MISC (priv->progress_label), 0, 0.5);
-	gtk_box_pack_start (GTK_BOX (priv->progress_box), priv->progress_label, FALSE, FALSE, 6);
+	/* Detail area */
+	priv->details_box = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show (priv->details_box);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->details_box, FALSE, FALSE, 6);
 	
+	priv->rsvp_check = gtk_check_button_new_with_mnemonic ("Send _reply to sender");
+	gtk_box_pack_end (GTK_BOX (priv->details_box), priv->rsvp_check, FALSE, FALSE, 6);
+
 	/* The buttons for actions */
 	priv->button_box = gtk_hbutton_box_new ();
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (priv->button_box), GTK_BUTTONBOX_END);
 	gtk_box_set_spacing (GTK_BOX (priv->button_box), 12);
 	gtk_widget_show (priv->button_box);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->button_box, FALSE, FALSE, 6);
+
+	priv->buttons_sensitive = TRUE;
 }
 
 GtkWidget *
@@ -984,14 +1018,14 @@ itip_view_get_end (ItipView *view)
 	return priv->end_tm;
 }
 
-void
-itip_view_add_info_item (ItipView *view, ItipViewInfoItemType type, const char *message)
+guint
+itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType type, const char *message)
 {
 	ItipViewPrivate *priv;
 	ItipViewInfoItem *item;
 
-	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
+	g_return_val_if_fail (view != NULL, 0);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);
 	
 	priv = view->priv;
 
@@ -999,14 +1033,17 @@ itip_view_add_info_item (ItipView *view, ItipViewInfoItemType type, const char *
 
 	item->type = type;
 	item->message = g_strdup (message);
+	item->id = priv->next_info_item_id++;
 	
-	priv->info_items = g_slist_append (priv->info_items, item);
+	priv->upper_info_items = g_slist_append (priv->upper_info_items, item);
 
-	set_info_items (view);
+	set_upper_info_items (view);
+
+	return item->id;
 }
 
 void
-itip_view_clear_info_items (ItipView *view)
+itip_view_remove_upper_info_item (ItipView *view, guint id)
 {
 	ItipViewPrivate *priv;
 	GSList *l;
@@ -1016,18 +1053,131 @@ itip_view_clear_info_items (ItipView *view)
 	
 	priv = view->priv;
 
-	gtk_container_foreach (GTK_CONTAINER (priv->info_box), (GtkCallback) gtk_widget_destroy, NULL);
+	for (l = priv->upper_info_items; l; l = l->next) {
+		ItipViewInfoItem *item = l->data;
 
-	for (l = priv->info_items; l; l = l->next) {
+		if (item->id == id) {
+			priv->upper_info_items = g_slist_remove (priv->upper_info_items, item);
+
+			g_free (item->message);
+			g_free (item);
+
+			set_upper_info_items (view);
+
+			return;
+		}
+	}
+}
+
+void
+itip_view_clear_upper_info_items (ItipView *view)
+{
+	ItipViewPrivate *priv;
+	GSList *l;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+
+	gtk_container_foreach (GTK_CONTAINER (priv->upper_info_box), (GtkCallback) gtk_widget_destroy, NULL);
+
+	for (l = priv->upper_info_items; l; l = l->next) {
 		ItipViewInfoItem *item = l->data;
 
 		g_free (item->message);
 		g_free (item);
 	}
+
+	g_slist_free (priv->upper_info_items);
+	priv->upper_info_items = NULL;
+}
+
+guint
+itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType type, const char *message)
+{
+	ItipViewPrivate *priv;
+	ItipViewInfoItem *item;
+
+	g_return_val_if_fail (view != NULL, 0);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), 0);	
+	
+	priv = view->priv;
+
+	item = g_new0 (ItipViewInfoItem, 1);
+
+	item->type = type;
+	item->message = g_strdup (message);
+	item->id = priv->next_info_item_id++;
+	
+	priv->lower_info_items = g_slist_append (priv->lower_info_items, item);
+
+	set_lower_info_items (view);
+
+	return item->id;
 }
 
 void
-itip_view_set_progress (ItipView *view, const char *message)
+itip_view_remove_lower_info_item (ItipView *view, guint id)
+{
+	ItipViewPrivate *priv;
+	GSList *l;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+
+	for (l = priv->lower_info_items; l; l = l->next) {
+		ItipViewInfoItem *item = l->data;
+
+		if (item->id == id) {
+			priv->lower_info_items = g_slist_remove (priv->lower_info_items, item);
+
+			g_free (item->message);
+			g_free (item);
+
+			set_lower_info_items (view);
+
+			return;
+		}
+	}
+}
+
+void
+itip_view_clear_lower_info_items (ItipView *view)
+{
+	ItipViewPrivate *priv;
+	GSList *l;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+
+	gtk_container_foreach (GTK_CONTAINER (priv->lower_info_box), (GtkCallback) gtk_widget_destroy, NULL);
+
+	for (l = priv->lower_info_items; l; l = l->next) {
+		ItipViewInfoItem *item = l->data;
+
+		g_free (item->message);
+		g_free (item);
+	}
+
+	g_slist_free (priv->lower_info_items);
+	priv->lower_info_items = NULL;
+}
+
+static void
+source_selected_cb (ESourceOptionMenu *esom, ESource *source, gpointer data)
+{
+	ItipView *view = data;
+	
+	g_signal_emit (view, signals[SOURCE_SELECTED], 0, source);
+}
+
+void
+itip_view_set_source_list (ItipView *view, ESourceList *source_list)
 {
 	ItipViewPrivate *priv;
 	
@@ -1036,11 +1186,164 @@ itip_view_set_progress (ItipView *view, const char *message)
 	
 	priv = view->priv;
 
-	if (priv->progress)
-		g_free (priv->progress);
+	if (priv->source_list)
+		g_object_unref (priv->source_list);
 
-	priv->progress = message ? g_strstrip (g_strdup (message)) : NULL;
+	if (priv->esom)
+		gtk_widget_destroy (priv->esom);
+		
+	if (!source_list) {
+		if (priv->esom_header)
+			gtk_widget_destroy (priv->esom_header);
+
+		priv->source_list = NULL;
+		priv->esom = NULL;
+		priv->esom_header = NULL;
+		
+		return;
+	}
+
+	priv->source_list = g_object_ref (source_list);
 	
-	set_progress_text (view);	
+	priv->esom = e_source_option_menu_new (source_list);
+	gtk_widget_show (priv->esom);
+	g_signal_connect (priv->esom, "source_selected", G_CALLBACK (source_selected_cb), view);
+
+	if (!priv->esom_header) {
+		priv->esom_header = gtk_label_new_with_mnemonic (_("_Calendar:"));
+		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->esom_header), priv->esom);
+		gtk_widget_show (priv->esom_header);
+	}
+	
+	gtk_box_pack_start (GTK_BOX (priv->details_box), priv->esom_header, FALSE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (priv->details_box), priv->esom, FALSE, TRUE, 0);
 }
 
+ESourceList *
+itip_view_get_source_list (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, FALSE);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
+	
+	priv = view->priv;
+	
+	return priv->source_list;
+}
+
+void
+itip_view_set_source (ItipView *view, ESource *source)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+
+	if (!priv->esom)
+		return;
+
+	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->esom), source);
+}
+
+ESource *
+itip_view_get_source (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, FALSE);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
+	
+	priv = view->priv;
+	
+	if (!priv->esom)
+		return NULL;
+
+	return e_source_option_menu_peek_selected (E_SOURCE_OPTION_MENU (priv->esom));
+}
+
+void
+itip_view_set_rsvp (ItipView *view, gboolean rsvp)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->rsvp_check), rsvp);
+}
+
+gboolean
+itip_view_get_rsvp (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, FALSE);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
+	
+	priv = view->priv;
+	
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->rsvp_check));
+}
+
+void
+itip_view_set_show_rsvp (ItipView *view, gboolean rsvp)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	priv->rsvp_show = rsvp;
+
+	priv->rsvp_show ? gtk_widget_show (priv->rsvp_check) : gtk_widget_hide (priv->rsvp_check);
+}
+
+gboolean
+itip_view_get_show_rsvp (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, FALSE);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
+	
+	priv = view->priv;
+	
+	return priv->rsvp_show;
+}
+
+void
+itip_view_set_buttons_sensitive (ItipView *view, gboolean sensitive)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	priv->buttons_sensitive = sensitive;
+
+	gtk_widget_set_sensitive (priv->button_box, priv->buttons_sensitive);
+}
+
+gboolean
+itip_view_get_buttons_sensitive (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, FALSE);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
+	
+	priv = view->priv;
+	
+	return priv->buttons_sensitive;
+}
+
+	

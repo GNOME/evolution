@@ -43,6 +43,7 @@
 #include <mail/em-format-html.h>
 #include <e-util/e-account-list.h>
 #include <e-util/e-icon-factory.h>
+#include <calendar/gui/calendar-config.h>
 #include <calendar/gui/itip-utils.h>
 #include <calendar/common/authentication.h>
 #include "itip-view.h"
@@ -51,12 +52,6 @@
 
 void format_itip (EPlugin *ep, EMFormatHookTarget *target);
 GtkWidget *itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
-
-/* FIXME We should include these properly */
-icaltimezone *calendar_config_get_icaltimezone (void);
-void	  calendar_config_init			(void);
-char     *calendar_config_get_primary_calendar (void);
-char     *calendar_config_get_primary_tasks (void);
 
 typedef struct {
 	EMFormatHTMLPObject pobject;
@@ -69,8 +64,6 @@ typedef struct {
 	ECal *current_ecal;
 	ECalSourceType type;
 
-	gboolean rsvp;
-	
 	char *vcalendar;
 	ECalComponent *comp;
 	icalcomponent *main_comp;
@@ -78,7 +71,9 @@ typedef struct {
 	icalcomponent *top_level;
 	icalcompiter iter;
 	icalproperty_method method;
-
+	time_t start_time;
+	time_t end_time;
+	
 	int current;
 	int total;
 
@@ -91,17 +86,128 @@ typedef struct {
 	gchar *delegator_name;
 	gchar *my_address;
 	gint   view_only;
+
+	guint progress_info_id;
 } FormatItipPObject;
 
 typedef struct {
 	FormatItipPObject *pitip;
 	char *uid;
-	int count;
+
+	char *sexp;
+	
 	gboolean show_selector;
+
+	int count;
 } EItipControlFindData;
 
 
 typedef void (* FormatItipOpenFunc) (ECal *ecal, ECalendarStatus status, gpointer data);
+
+static void
+find_my_address (FormatItipPObject *pitip, icalcomponent *ical_comp, icalparameter_partstat *status)
+{
+	icalproperty *prop;
+	char *my_alt_address = NULL;
+	
+	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
+	     prop != NULL;
+	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
+		icalvalue *value;
+		icalparameter *param;
+		const char *attendee, *name;
+		char *attendee_clean, *name_clean;
+		EIterator *it;
+
+		value = icalproperty_get_value (prop);
+		if (value != NULL) {
+			attendee = icalvalue_get_string (value);
+			attendee_clean = g_strdup (itip_strip_mailto (attendee));
+			attendee_clean = g_strstrip (attendee_clean);
+		} else {
+			attendee = NULL;
+			attendee_clean = NULL;
+		}
+		
+		param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+		if (param != NULL) {
+			name = icalparameter_get_cn (param);
+			name_clean = g_strdup (name);
+			name_clean = g_strstrip (name_clean);
+		} else {
+			name = NULL;
+			name_clean = NULL;
+		}
+
+		if (pitip->delegator_address) {
+			char *delegator_clean;
+			
+			delegator_clean = g_strdup (itip_strip_mailto (attendee));
+			delegator_clean = g_strstrip (delegator_clean);
+			
+			/* If the mailer told us the address to use, use that */
+			if (delegator_clean != NULL
+			    && !g_ascii_strcasecmp (attendee_clean, delegator_clean)) {
+				pitip->my_address = g_strdup (itip_strip_mailto (pitip->delegator_address));
+				pitip->my_address = g_strstrip (pitip->my_address);
+
+				if (status) {
+					param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+					*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
+				}
+			}
+
+			g_free (delegator_clean);
+		} else {
+			it = e_list_get_iterator((EList *)pitip->accounts);
+			while (e_iterator_is_valid(it)) {
+				const EAccount *account = e_iterator_get(it);
+				
+				/* Check for a matching address */
+				if (attendee_clean != NULL
+				    && !g_ascii_strcasecmp (account->id->address, attendee_clean)) {
+					pitip->my_address = g_strdup (account->id->address);
+					if (status) {
+						param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+						*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
+					}
+					g_free (attendee_clean);
+					g_free (name_clean);
+					g_free (my_alt_address);
+					g_object_unref(it);
+					return;
+				}
+				
+				/* Check for a matching cname to fall back on */
+				if (name_clean != NULL 
+				    && !g_ascii_strcasecmp (account->id->name, name_clean))
+					my_alt_address = g_strdup (attendee_clean);
+				
+				e_iterator_next(it);
+			}
+			g_object_unref(it);
+		}
+		
+		g_free (attendee_clean);
+		g_free (name_clean);
+	}
+
+	pitip->my_address = my_alt_address;
+	if (status)
+		*status = ICAL_PARTSTAT_NEEDSACTION;
+}
+
+static void
+set_buttons_sensitive (FormatItipPObject *pitip)
+{
+	gboolean read_only = TRUE;	
+	
+	if (pitip->current_ecal)
+		e_cal_is_read_only (pitip->current_ecal, &read_only, NULL);
+	
+	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), pitip->current_ecal != NULL && !read_only);
+}
+
 
 static void
 cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
@@ -117,7 +223,11 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, cal_opened_cb, NULL);
 
 	if (status != E_CALENDAR_STATUS_OK) {	
-		itip_view_set_progress (ITIP_VIEW (pitip->view), "Failed to load at least one calendar");
+		char *warn;
+		
+		warn = g_strdup_printf ("Failed to load the calendar '%s'", e_source_peek_name (source));
+		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, warn);
+		g_free (warn);
 
 		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
 
@@ -129,7 +239,7 @@ cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 	pitip->current_ecal = ecal;
 
-//	set_ok_sens (itip);
+	set_buttons_sensitive (pitip);
 }
 
 static ECal *
@@ -141,8 +251,11 @@ start_calendar_server (FormatItipPObject *pitip, ESource *source, ECalSourceType
 	if (ecal) {
 		pitip->current_ecal = ecal;
 
-		itip_view_set_progress (ITIP_VIEW (pitip->view), NULL);
-//		set_ok_sens (itip);
+		itip_view_remove_lower_info_item (ITIP_VIEW (pitip->view), pitip->progress_info_id);
+		pitip->progress_info_id = 0;
+
+		set_buttons_sensitive (pitip);
+
 		return ecal;		
 	}
 	
@@ -161,6 +274,8 @@ start_calendar_server_by_uid (FormatItipPObject *pitip, const char *uid, ECalSou
 {
 	int i;
 
+	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
+
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
 		ESource *source;
 
@@ -173,13 +288,11 @@ start_calendar_server_by_uid (FormatItipPObject *pitip, const char *uid, ECalSou
 }
 
 static void
-source_selected_cb (ESourceOptionMenu *esom, ESource *source, gpointer data)
+source_selected_cb (ItipView *view, ESource *source, gpointer data)
 {
 	FormatItipPObject *pitip = data;
 	
-	g_message ("Source selected");
-
-	/* FIXME turn off buttons while we check the calendar for being open? */
+	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 
 	start_calendar_server (pitip, source, pitip->type, cal_opened_cb, pitip);
 }
@@ -193,7 +306,8 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	ECalSourceType source_type;
 	icalcomponent *icalcomp;
 	icaltimezone *zone;
-
+	GList *objects = NULL;
+	
 	source_type = e_cal_get_source_type (ecal);
 	source = e_cal_get_source (ecal);
 	
@@ -202,18 +316,54 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, find_cal_opened_cb, NULL);
 
 	if (status != E_CALENDAR_STATUS_OK) {
+		char *warn;
+		
+		/* FIXME Do we really want to warn here?  If we fail
+		 * to find the item, this won't be cleared but the
+		 * selector might be shown */
+		warn = g_strdup_printf ("Failed to load the calendar '%s'", e_source_peek_name (source));
+		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, warn);
+		g_free (warn);
+
 		g_hash_table_remove (pitip->ecals[source_type], e_source_peek_uid (source));
 
 		goto cleanup;
 	}
 
+	/* Check for conflicts */
+	/* FIXME Limit the calendars checked for conflicts? */
+	/* FIXME What happens for recurring conflicts? */
+	if (e_cal_get_object_list (ecal, fd->sexp, &objects, NULL) && g_list_length (objects) > 0) {
+		char *info;
+
+		g_message ("Conflicting item found");
+		info = g_strdup_printf ("An appointment in the calendar '%s' conflicts with this meeting", e_source_peek_name (source));
+		itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, info);
+		g_free (info);
+
+		e_cal_free_object_list (objects);
+	} else {
+		g_message ("Query failed");
+	}
+
 	if (e_cal_get_object (ecal, fd->uid, NULL, &icalcomp, NULL)) {
+		char *info;
+		
 		icalcomponent_free (icalcomp);
 		
 		pitip->current_ecal = ecal;
 
-		itip_view_set_progress (ITIP_VIEW (pitip->view), NULL);
-//		set_ok_sens (fd->itip);
+		/* We clear everything because we don't really care
+		 * about any other info/warnings now we found an
+		 * existing versions */
+		itip_view_clear_lower_info_items (ITIP_VIEW (pitip->view));
+		pitip->progress_info_id = 0;
+
+		info = g_strdup_printf ("Found the appointment in the calendar '%s'", e_source_peek_name (source));
+		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, info);
+		g_free (info);
+
+		set_buttons_sensitive (pitip);
 	}
 
 	zone = calendar_config_get_icaltimezone ();
@@ -221,12 +371,11 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
  cleanup:
 	if (fd->count == 0) {
-		/* FIXME the box check is to see if the buttons are displayed i think */
-		if (fd->show_selector && !pitip->current_ecal /*&& pitip->vbox*/) {
-			GtkWidget *esom;
+		if (fd->show_selector && !pitip->current_ecal) {
 			ESource *source = NULL;
 			char *uid;
 
+			/* FIXME Should we take into account any sources we failed to open? */
 			switch (pitip->type) {
 			case E_CAL_SOURCE_TYPE_EVENT:
 				uid = calendar_config_get_primary_calendar ();
@@ -248,18 +397,23 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 			if (!source)
 				source = e_source_list_peek_source_any (pitip->source_lists[pitip->type]);
 
-			g_message ("Picking any source");
-			esom = e_source_option_menu_new (pitip->source_lists[pitip->type]);
-			/* FIXME used to force the data to be kept alive, still do this? */
-			g_signal_connect (esom, "source_selected", G_CALLBACK (source_selected_cb), fd->pitip);
+			itip_view_set_source_list (ITIP_VIEW (pitip->view), pitip->source_lists[pitip->type]);
+			g_signal_connect (pitip->view, "source_selected", G_CALLBACK (source_selected_cb), pitip);
 
-			//gtk_box_pack_start (GTK_BOX (pitip->vbox), esom, FALSE, TRUE, 0);
-			gtk_widget_show (esom);
+			/* The only method that RSVP makes sense for is REQUEST */
+			/* FIXME Default to the suggestion for RSVP for my attendee */
+			itip_view_set_show_rsvp (ITIP_VIEW (pitip->view), pitip->method == ICAL_METHOD_REQUEST ? TRUE : FALSE );
+			
+			itip_view_remove_lower_info_item (ITIP_VIEW (pitip->view), pitip->progress_info_id);
+			pitip->progress_info_id = 0;
 
-			/* FIXME What if there is no source? */
 			if (source) {
-				e_source_option_menu_select (E_SOURCE_OPTION_MENU (esom), source);
-				itip_view_set_progress (ITIP_VIEW (pitip->view), NULL);
+				itip_view_set_source (ITIP_VIEW (pitip->view), source);
+
+				/* FIXME Shouldn't the buttons be sensitized here? */
+			} else {
+				itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, "Unable to find any calendars");
+				itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 			}
 		} else {
 			/* FIXME Display error message to user */
@@ -279,7 +433,10 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp, gboolean show_select
 
 	e_cal_component_get_uid (comp, &uid);
 
-	itip_view_set_progress (ITIP_VIEW (pitip->view), "Searching for an existing version of this appointment");
+	pitip->progress_info_id = itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS, 
+								 "Searching for an existing version of this appointment");
+
+	itip_view_set_buttons_sensitive (ITIP_VIEW (pitip->view), FALSE);
 
 	groups = e_source_list_peek_groups (pitip->source_lists[pitip->type]);
 	for (l = groups; l; l = l->next) {
@@ -296,10 +453,23 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp, gboolean show_select
 			source = m->data;
 			
 			if (!fd) {
+				char *start, *end;
+				
 				fd = g_new0 (EItipControlFindData, 1);
 				fd->pitip = pitip;
 				fd->uid = g_strdup (uid);
 				fd->show_selector = show_selector;
+				
+				if (pitip->start_time && pitip->end_time) {
+					start = isodate_from_time_t (pitip->start_time);
+					end = isodate_from_time_t (pitip->end_time);
+					
+					fd->sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\") (make-time \"%s\"))", start, end);				
+					g_message ("Sexp is %s", fd->sexp);
+				}
+				
+				g_free (start);
+				g_free (end);
 			}
 			fd->count++;
 
@@ -309,8 +479,10 @@ find_server (FormatItipPObject *pitip, ECalComponent *comp, gboolean show_select
 }
 
 static void
-cleanup_ecal (ECal *ecal) 
+cleanup_ecal (gpointer data)
 {
+	ECal *ecal = data;
+	
 	/* Clean up any signals */
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, cal_opened_cb, NULL);
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, find_cal_opened_cb, NULL);
@@ -398,12 +570,11 @@ change_status (icalcomponent *ical_comp, const char *address, icalparameter_part
 }
 
 static void
-update_item (FormatItipPObject *pitip)
+update_item (FormatItipPObject *pitip, ItipViewResponse response)
 {
 	struct icaltimetype stamp;
 	icalproperty *prop;
 	icalcomponent *clone;
-//	GtkWidget *dialog;
 	GError *error = NULL;
 
 	/* Set X-MICROSOFT-CDO-REPLYTIME to record the time at which
@@ -425,14 +596,40 @@ update_item (FormatItipPObject *pitip)
 	icalcomponent_set_method (pitip->top_level, pitip->method);
 
 	if (!e_cal_receive_objects (pitip->current_ecal, pitip->top_level, &error)) {
-		/* FIXME e-error */
-//		dialog = gnome_warning_dialog (error->message);
+		/* FIXME Really use e_error? or should it just be an info item */
+//		e_error_run (NULL, "org.gnome.itip-formatter:meeting-update-failed", error->message, NULL);		
 		g_error_free (error);
 	} else {
-		/* FIXME I think we should do nothing */
-//		dialog = gnome_ok_dialog (_("Update complete\n"));
+		ESource *source;
+		char *info;
+		
+		/* FIXME This makes the UI look ugly */
+		itip_view_set_source_list (ITIP_VIEW (pitip->view), NULL);
+
+		itip_view_clear_lower_info_items (ITIP_VIEW (pitip->view));
+		source = e_cal_get_source (pitip->current_ecal);
+
+		switch (response) {
+		case ITIP_VIEW_RESPONSE_ACCEPT:
+			info = g_strdup_printf ("Sent to calendar '%s' as accepted", e_source_peek_name (source));
+			break;
+		case ITIP_VIEW_RESPONSE_TENTATIVE:
+			info = g_strdup_printf ("Sent to calendar '%s' as tentative", e_source_peek_name (source));
+			break;
+		case ITIP_VIEW_RESPONSE_DECLINE:
+			/* FIXME some calendars just might not save it at all, is this accurate? */
+			info = g_strdup_printf ("Sent to calendar '%s' as declined", e_source_peek_name (source));
+			break;
+		default:
+			g_assert_not_reached ();
+			break;
+		}
+
+		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, info);		
+		g_free (info);
+
+		/* FIXME Should we hide or desensitize the buttons now? */
 	}
-//	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 
 	icalcomponent_remove_component (pitip->top_level, clone);
 }
@@ -467,18 +664,12 @@ extract_itip_data (FormatItipPObject *pitip)
 	icalcomponent *tz_comp;
 	icalcompiter tz_iter;
 
-/* FIXME try and match sender with organizer/attendee/sentby?
-	pd->from_address = camel_address_encode ((CamelAddress *)from);		
-	g_message ("Detected from address %s", pd->from_address);
-*/
-
 	content = camel_medium_get_content_object ((CamelMedium *) pitip->pobject.part);
 	mem = camel_stream_mem_new ();
 	camel_data_wrapper_write_to_stream (content, mem);
 	
 	pitip->vcalendar = g_strndup (((CamelStreamMem *) mem)->buffer->data, ((CamelStreamMem *) mem)->buffer->len);
 
-	/* FIXME unref the content object as well? */
 	camel_object_unref (mem);	
 
 	pitip->top_level = e_cal_util_new_top_level ();
@@ -553,7 +744,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 					ICAL_PARTSTAT_ACCEPTED);
 		if (status) {
 			e_cal_component_rescan (pitip->comp);
-			update_item (pitip);
+			update_item (pitip, response);
 		}
 		break;
 	case ITIP_VIEW_RESPONSE_TENTATIVE:
@@ -561,7 +752,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 					ICAL_PARTSTAT_TENTATIVE);
 		if (status) {
 			e_cal_component_rescan (pitip->comp);
-			update_item (pitip);
+			update_item (pitip, response);
 		}
 		break;
 	case ITIP_VIEW_RESPONSE_DECLINE:
@@ -569,12 +760,69 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 					ICAL_PARTSTAT_DECLINED);
 		if (status) {
 			e_cal_component_rescan (pitip->comp);
-			update_item (pitip);
+			update_item (pitip, response);
 		}
 		break;
 	default:
 		break;
 	}
+
+        if (e_cal_get_save_schedules (pitip->current_ecal))
+                return;
+
+        if (itip_view_get_rsvp (ITIP_VIEW (pitip->view)) && status) {
+                ECalComponent *comp = NULL;
+                ECalComponentVType vtype;
+                icalcomponent *ical_comp;
+                icalproperty *prop;
+                icalvalue *value;
+                const char *attendee;
+                GSList *l, *list = NULL;
+
+                comp = e_cal_component_clone (pitip->comp);		
+                if (comp == NULL)
+                        return;
+		
+                vtype = e_cal_component_get_vtype (comp);
+
+                if (pitip->my_address == NULL)
+                        find_my_address (pitip, pitip->ical_comp, NULL);
+                g_assert (pitip->my_address != NULL);
+
+                ical_comp = e_cal_component_get_icalcomponent (comp);
+		
+                for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
+                     prop != NULL;
+                     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
+                {
+                        char *text;
+			
+                        value = icalproperty_get_value (prop);
+                        if (!value)
+                                continue;
+			
+                        attendee = icalvalue_get_string (value);
+			
+                        text = g_strdup (itip_strip_mailto (attendee));
+                        text = g_strstrip (text);
+                        if (g_strcasecmp (pitip->my_address, text))
+                                list = g_slist_prepend (list, prop);
+                        g_free (text);			
+                }
+
+                for (l = list; l; l = l->next) {
+                        prop = l->data;
+                        icalcomponent_remove_property (ical_comp, prop);
+                        icalproperty_free (prop);
+                }
+                g_slist_free (list);
+
+                e_cal_component_rescan (comp);
+                itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level);
+
+                g_object_unref (comp);
+		
+        }
 }
 
 static gboolean
@@ -592,7 +840,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	
 	/* Source Lists and open ecal clients */
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
-		if (!e_cal_get_sources (&pitip->source_lists[E_CAL_SOURCE_TYPE_EVENT], E_CAL_SOURCE_TYPE_EVENT, NULL))
+		if (!e_cal_get_sources (&pitip->source_lists[i], i, NULL))
 			/* FIXME More error handling? */
 			pitip->source_lists[i] = NULL;
 
@@ -642,6 +890,11 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	/* FIXME, do i need to strip the sentby somehow? Maybe with camel? */
 	itip_view_set_sentby (ITIP_VIEW (pitip->view), organizer.sentby);
 
+/* FIXME try and match sender with organizer/attendee/sentby?
+	pd->from_address = camel_address_encode ((CamelAddress *)from);		
+	g_message ("Detected from address %s", pd->from_address);
+*/
+
 	e_cal_component_get_summary (pitip->comp, &text);
 	itip_view_set_summary (ITIP_VIEW (pitip->view), text.value ? text.value : _("None"));
 
@@ -668,10 +921,12 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	to_zone = calendar_config_get_icaltimezone ();
 	
 	e_cal_component_get_dtstart (pitip->comp, &datetime);
+	pitip->start_time = 0;
 	if (datetime.value) {
 		struct tm start_tm;
 		
-		/* FIXME Handle tzid that is not in the component - treat as "local" time */
+		/* If the timezone is not in the component, guess the local time */
+		/* Should we guess if the timezone is an olsen name somehow? */
 		if (!datetime.value->is_utc && datetime.tzid) 
 			from_zone = icalcomponent_get_timezone (pitip->top_level, datetime.tzid);
 		else
@@ -680,28 +935,34 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		start_tm = icaltimetype_to_tm_with_zone (datetime.value, from_zone, to_zone);
 
 		itip_view_set_start (ITIP_VIEW (pitip->view), &start_tm);
+		pitip->start_time = icaltime_as_timet_with_zone (*datetime.value, from_zone);
 	}
 	e_cal_component_free_datetime (&datetime);
 
 	e_cal_component_get_dtend (pitip->comp, &datetime);
+	pitip->end_time = 0;
 	if (datetime.value) {
 		struct tm end_tm;
-		
-		/* FIXME Handle tzid that is not in the component - treat as "local" time */
+
+		/* If the timezone is not in the component, guess the local time */
+		/* Should we guess if the timezone is an olsen name somehow? */
 		if (!datetime.value->is_utc && datetime.tzid) 
 			from_zone = icalcomponent_get_timezone (pitip->top_level, datetime.tzid);
 		else
 			from_zone = NULL;
 		
 		end_tm = icaltimetype_to_tm_with_zone (datetime.value, from_zone, to_zone);
-
+		
 		itip_view_set_end (ITIP_VIEW (pitip->view), &end_tm);
+		pitip->end_time = icaltime_as_timet_with_zone (*datetime.value, from_zone);
 	}
 	e_cal_component_free_datetime (&datetime);
 
-	/* Info area items */
-	itip_view_add_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "This meeting occurs weekly indefinitely");
-	itip_view_add_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_WARNING, "An appointment in the calendar conflicts with this meeting");
+	/* Recurrence info */
+	/* FIXME Better recurring description */
+	if (e_cal_component_has_recurrences (pitip->comp)) {
+		itip_view_add_upper_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, "This meeting recurs");
+	}
 	
 	gtk_container_add (GTK_CONTAINER (eb), pitip->view);
 	gtk_widget_set_usize (pitip->view, 640, -1);
@@ -719,11 +980,10 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 {
 	FormatItipPObject *pitip;
 
-	calendar_config_init ();
-	
 	pitip = (FormatItipPObject *) em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (FormatItipPObject), CLASSID, target->part, format_itip_object);
 	// FIXME set the free function
 //	pitip->object.free = pitip_free;
+
 	camel_stream_printf (target->stream, "<table border=0 width=\"100%%\" cellpadding=3><tr>");
 	camel_stream_printf (target->stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", CLASSID);
 	camel_stream_printf (target->stream, "</td></tr></table>");

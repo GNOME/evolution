@@ -25,6 +25,7 @@
 
 #include <glib-object.h>
 #include <gtk/gtkhbox.h>
+#include <libedataserver/e-source-list.h>
 
 G_BEGIN_DECLS
 
@@ -73,13 +74,16 @@ typedef enum {
 
 struct _ItipView {
 	GtkHBox parent_instance;
-
+	
 	ItipViewPrivate *priv;
+
+	GtkWidget *action_vbox;
 };
 
 struct _ItipViewClass {
 	GtkHBoxClass parent_class;
 
+	void (* source_selected) (ItipView *view, ESource *selected_source);
 	void (* response) (ItipView *view, int response);
 };
 
@@ -113,10 +117,28 @@ const struct tm *itip_view_get_start (ItipView *view);
 void itip_view_set_end (ItipView *view, struct tm *end);
 const struct tm *itip_view_get_end (ItipView *view);
 
-void itip_view_add_info_item (ItipView *view, ItipViewInfoItemType, const char *message); 
-void itip_view_clear_info_items (ItipView *view);
+guint itip_view_add_upper_info_item (ItipView *view, ItipViewInfoItemType, const char *message); 
+void itip_view_remove_upper_info_item (ItipView *view, guint id);
+void itip_view_clear_upper_info_items (ItipView *view);
 
-void itip_view_set_progress (ItipView *view, const char *message);
+guint itip_view_add_lower_info_item (ItipView *view, ItipViewInfoItemType, const char *message); 
+void itip_view_remove_lower_info_item (ItipView *view, guint id);
+void itip_view_clear_lower_info_items (ItipView *view);
+
+void itip_view_set_source_list (ItipView *view, ESourceList *source_list);
+ESourceList *itip_view_get_source_list (ItipView *view);
+
+void itip_view_set_source (ItipView *view, ESource *source);
+ESource *itip_view_get_source (ItipView *view);
+
+void itip_view_set_rsvp (ItipView *view, gboolean rsvp);
+gboolean itip_view_get_rsvp (ItipView *view);
+
+void itip_view_set_show_rsvp (ItipView *view, gboolean rsvp);
+gboolean itip_view_get_show_rsvp (ItipView *view);
+
+void itip_view_set_buttons_sensitive (ItipView *view, gboolean sensitive);
+gboolean itip_view_get_buttons_sensitive (ItipView *view);
 
 G_END_DECLS
 

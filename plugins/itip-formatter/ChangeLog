@@ -1,3 +1,53 @@
+2005-01-03  JP Rosevear  <jpr@novell.com>
+
+	* itip-view.h: new protos, signal
+
+	* itip-view.c (set_info_items): be more generic so both upper and
+	lower setting can use it
+	(set_upper_info_items): set the upper info items
+	(set_lower_info_items): ditto for lower items
+	(itip_view_destroy): clear both sets of info items
+	(itip_view_class_init): add source selected signalo
+	(itip_view_init): add separate upper and lower info item areas and
+	a detail area
+	(itip_view_add_upper_info_item): add upper info item
+	(itip_view_remove_upper_info_item): remove a singal upper area
+	info item
+	(itip_view_clear_upper_info_items): clear them all
+	(itip_view_add_lower_info_item): as above
+	(itip_view_remove_lower_info_item): ditto
+	(itip_view_clear_lower_info_items): ditto
+	(source_selected_cb): emit the source selected signal when the
+	source in the option menu changes
+	(itip_view_set_source_list): take a source list and create an
+	e-source-option-menu if its non-null
+	(itip_view_get_source_list): get source list
+	(itip_view_set_source): set a specific source in the source option
+	menu
+	(itip_view_get_source): obtain that source
+	(itip_view_set_rsvp): get the rsvp status
+	(itip_view_get_rsvp): set it
+	(itip_view_set_show_rsvp): set visibility of rsvp check box
+	(itip_view_get_show_rsvp): get the visibility of rsvp check box
+	(itip_view_set_buttons_sensitive): set button sensitivity
+	(itip_view_get_buttons_sensitive): get button sensitivity
+
+	* itip-formatter.c (find_my_address): find the user's address in
+	the list of attendees
+	(set_buttons_sensitive): set the action buttons sensitivity
+	appropriately
+	(cal_opened_cb): use above
+	(start_calendar_server): ditto
+	(start_calendar_server_by_uid): de-sensitize buttons to start
+	(source_selected_cb): ditto
+	(find_cal_opened_cb): check for conflicting appointments; set
+	informative info area items
+	(find_server): create the sexp for determining conflicts
+	(update_item): oset informative info area items
+	(view_response_cb): implement some of the responses, start on
+	implementing rsvp
+	(format_itip_object): load the source lists properly
+
 2004-12-29  JP Rosevear  <jpr@novell.com>
 
 	* itip-view.h: new protos
