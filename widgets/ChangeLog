@@ -1,3 +1,8 @@
+2001-01-22  Jon Trowbridge  <trow@gnu.org>
+
+	* menus/gal-view-menus.c (define_views): Fixed
+	gal_define_views_dialog_new to be called with its proper argument.
+
 2000-12-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* menus/gal-view-menus.c, menus/gal-view-menus.h: Added a

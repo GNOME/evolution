@@ -86,7 +86,7 @@ define_views(BonoboUIComponent *component,
 	     GalViewMenus      *menus,
 	     char              *cname)
 {
-	GtkWidget *dialog = gal_define_views_dialog_new();
+	GtkWidget *dialog = gal_define_views_dialog_new(menus->priv->collection);
 	gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
 			   GTK_SIGNAL_FUNC(dialog_clicked), menus);
 	gtk_widget_show(dialog);
