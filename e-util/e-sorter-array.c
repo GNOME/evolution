@@ -202,7 +202,7 @@ e_sorter_array_append  (ESorterArray *esa, int count)
 			esa->rows ++;
 		}
 	} else {
-		esa->rows = count;
+		esa->rows += count;
 	}
 }
 
