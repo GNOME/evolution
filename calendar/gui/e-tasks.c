@@ -71,6 +71,9 @@ struct _ETasksPrivate {
 	/* Calendar search bar for tasks */
 	GtkWidget *search_bar;
 
+	/* Paned widget */
+	GtkWidget *paned;
+
 	/* The preview */
 	GtkWidget *preview;
 	
@@ -436,12 +439,17 @@ table_drag_data_delete (ETable         *table,
 	"</ETableState>"
 
 static void
+pane_realized (GtkWidget *widget, ETasks *tasks)
+{
+	gtk_paned_set_position ((GtkPaned *)widget, calendar_config_get_task_vpane_pos ());
+}
+
+static void
 setup_widgets (ETasks *tasks)
 {
 	ETasksPrivate *priv;
 	ETable *etable;
 	ECalModel *model;
-	GtkWidget *paned;
 
 	priv = tasks->priv;
 
@@ -456,13 +464,14 @@ setup_widgets (ETasks *tasks)
 	gtk_widget_show (priv->search_bar);
 
 	/* add the paned widget for the task list and task detail areas */
-	paned = gtk_vpaned_new ();
-	gtk_paned_set_position (GTK_PANED (paned), calendar_config_get_task_vpane_pos ());
-	g_signal_connect (G_OBJECT (paned), "button_release_event",
+	priv->paned = gtk_vpaned_new ();
+	g_signal_connect (priv->paned, "realize", G_CALLBACK (pane_realized), tasks);
+
+	g_signal_connect (G_OBJECT (priv->paned), "button_release_event",
 			  G_CALLBACK (vpaned_resized_cb), tasks);
-	gtk_table_attach (GTK_TABLE (tasks), paned, 0, 1, 1, 2,
+	gtk_table_attach (GTK_TABLE (tasks), priv->paned, 0, 1, 1, 2,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-	gtk_widget_show (paned);
+	gtk_widget_show (priv->paned);
 
 	/* create the task list */
 	priv->tasks_view = e_calendar_table_new ();
@@ -471,7 +480,7 @@ setup_widgets (ETasks *tasks)
 	etable = e_table_scrolled_get_table (
 		E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
 	e_table_set_state (etable, E_TASKS_TABLE_DEFAULT_STATE);
-	gtk_paned_add1 (GTK_PANED (paned), priv->tasks_view);
+	gtk_paned_add1 (GTK_PANED (priv->paned), priv->tasks_view);
 	gtk_widget_show (priv->tasks_view);
 
 
@@ -504,7 +513,7 @@ setup_widgets (ETasks *tasks)
 	/* create the task detail */
 	priv->preview = e_cal_component_preview_new ();
 	e_cal_component_preview_set_default_timezone (E_CAL_COMPONENT_PREVIEW (priv->preview), calendar_config_get_icaltimezone ());	
-	gtk_paned_add2 (GTK_PANED (paned), priv->preview);
+	gtk_paned_add2 (GTK_PANED (priv->paned), priv->preview);
 	gtk_widget_show (priv->preview);
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
@@ -1048,6 +1057,8 @@ display_view_cb (GalViewInstance *instance, GalView *view, gpointer data)
 	if (GAL_IS_VIEW_ETABLE (view)) {
 		gal_view_etable_attach_table (GAL_VIEW_ETABLE (view), e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (tasks->priv->tasks_view)->etable)));
 	}
+
+	gtk_paned_set_position ((GtkPaned *)tasks->priv->paned, calendar_config_get_task_vpane_pos ());
 }
 
 /**
