@@ -36,10 +36,6 @@ static CamelObjectClass *parent_class = NULL;
 #define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT (so)->klass)
 
 
-static void set_output_stream (CamelDataWrapper *data_wrapper,
-			       CamelStream *stream);
-static CamelStream *get_output_stream (CamelDataWrapper *data_wrapper);
-
 static int construct_from_stream(CamelDataWrapper *, CamelStream *);
 static int write_to_stream (CamelDataWrapper *data_wrapper,
 			    CamelStream *stream, CamelException *ex);
@@ -65,9 +61,6 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 	camel_data_wrapper_class->get_mime_type = get_mime_type;
 	camel_data_wrapper_class->get_mime_type_field = get_mime_type_field;
 	camel_data_wrapper_class->set_mime_type_field = set_mime_type_field;
-
-	camel_data_wrapper_class->set_output_stream = set_output_stream;
-	camel_data_wrapper_class->get_output_stream = get_output_stream;
 
 	camel_data_wrapper_class->construct_from_stream = construct_from_stream;
 
@@ -118,107 +111,16 @@ finalize (GtkObject *object)
 	if (camel_data_wrapper->mime_type)
 		gmime_content_field_unref (camel_data_wrapper->mime_type);
 
-	if (camel_data_wrapper->input_stream)
-		gtk_object_unref (GTK_OBJECT (camel_data_wrapper->input_stream));
-
-	if (camel_data_wrapper->output_stream)
-		gtk_object_unref (GTK_OBJECT (camel_data_wrapper->output_stream));
-
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 }
-
-/**
- * camel_data_wrapper_new:
- * 
- * Create a new camel data wrapper object.
- * 
- * Return value: 
- **/
-CamelDataWrapper *
-camel_data_wrapper_new(void)
-{
-	return gtk_type_new(camel_data_wrapper_get_type());
-}
-
-
-static void
-set_output_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
-{
-	if (data_wrapper->output_stream)
-		gtk_object_unref (GTK_OBJECT (data_wrapper->output_stream));
-
-	data_wrapper->output_stream = stream;
-	if (stream)
-		gtk_object_ref (GTK_OBJECT (stream));
-	d(printf("data_wrapper:: set_output_stream(%p)\n", stream));
-}
-
-/**
- * camel_data_wrapper_set_output_stream:
- * @data_wrapper: a data wrapper
- * @stream: a stream that can be read from
- *
- * This is an internal function to be used by implementors of
- * the camel-data-wrapper to set their contents as a stream.
- *
- * The output stream should theoretically be a stream that, if read
- * from, produces the data wrapper's contents. However, while certain
- * pieces of code assume this, nothing enforces it.
- *
- **/
-void
-camel_data_wrapper_set_output_stream (CamelDataWrapper *data_wrapper,
-				      CamelStream *stream)
-{
-	g_return_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper));
-	g_return_if_fail (CAMEL_IS_STREAM (stream));
-
-	CDW_CLASS (data_wrapper)->set_output_stream (data_wrapper, stream);
-}
-
-
-static CamelStream *
-get_output_stream (CamelDataWrapper *data_wrapper)
-{
-	d(printf("data_wrapper:: get_output_stream(%p) = %p\n", data_wrapper, data_wrapper->output_stream));
-	return data_wrapper->output_stream;
-}
-
-/**
- * camel_data_wrapper_get_output_stream:
- * @data_wrapper: a data wrapper
- *
- * If the data wrapper has contents, this will return a stream representing
- * the data wrappers contents.  Currently only the body of a simple
- * mime part may be read in this way, although conceivably a whole
- * mime message or partial mime message could be processed this way.
- *
- * Return value: @data_wrapper's output stream
- **/
-CamelStream *
-camel_data_wrapper_get_output_stream (CamelDataWrapper *data_wrapper)
-{
-	g_return_val_if_fail (CAMEL_IS_DATA_WRAPPER (data_wrapper), NULL);
-
-	return CDW_CLASS (data_wrapper)->get_output_stream (data_wrapper);
-}
-
 
 static int
 write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream,
 		 CamelException *ex)
 {
-	CamelStream *output_stream;
-
-	d(printf("data_wrapper::write_to_stream\n"));
-
-	output_stream = camel_data_wrapper_get_output_stream (data_wrapper);
-	g_return_val_if_fail (CAMEL_IS_STREAM (output_stream), -1);
-
-	camel_stream_reset (output_stream, ex);
-	if (camel_exception_is_set (ex))
-		return -1;
-	return camel_stream_write_to_stream (output_stream, stream, ex);
+	g_warning ("CamelDataWrapper::write_to_stream not implemented for "
+		   "`%s'", gtk_type_name (GTK_OBJECT_TYPE (data_wrapper)));
+	return -1;
 }
 
 /**
@@ -246,11 +148,11 @@ camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper,
 }
 
 static int
-construct_from_stream(CamelDataWrapper *data_wrapper,
-		      CamelStream *stream)
+construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
-	camel_data_wrapper_set_output_stream (data_wrapper, stream);
-	return 0;
+	g_warning ("CamelDataWrapper::construct_from_stream not implemented "
+		   "for `%s'", gtk_type_name (GTK_OBJECT_TYPE (data_wrapper)));
+	return -1;
 }
 
 /**
@@ -262,6 +164,8 @@ construct_from_stream(CamelDataWrapper *data_wrapper,
  * supplied @stream.
  *
  * This could fail, but you can't know if it did.
+ *
+ * Return value: Who knows. FIXME
  **/
 int
 camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper,

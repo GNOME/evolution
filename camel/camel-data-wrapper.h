@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camelDataWrapper.h : Abstract class for a data wrapper */
+/* camel-data-wrapper.h : Abstract class for a data wrapper */
 
 /*
  *
@@ -47,9 +47,6 @@ struct _CamelDataWrapper
 {
 	CamelObject parent_object;
 
-	CamelStream *input_stream;
-	CamelStream *output_stream;
-
 	GMimeContentField *mime_type;
 };
 
@@ -85,8 +82,6 @@ GtkType camel_data_wrapper_get_type (void);
 
 
 /* public methods */
-CamelDataWrapper    *camel_data_wrapper_new			(void);
-
 int                 camel_data_wrapper_write_to_stream          (CamelDataWrapper *data_wrapper,
 								 CamelStream *stream,
 								 CamelException *ex);
@@ -96,10 +91,6 @@ gchar *             camel_data_wrapper_get_mime_type            (CamelDataWrappe
 GMimeContentField * camel_data_wrapper_get_mime_type_field      (CamelDataWrapper *data_wrapper);
 void                camel_data_wrapper_set_mime_type_field      (CamelDataWrapper *data_wrapper,
 								 GMimeContentField *mime_type);
-
-void                camel_data_wrapper_set_output_stream        (CamelDataWrapper *data_wrapper,
-								 CamelStream *stream);
-CamelStream *       camel_data_wrapper_get_output_stream        (CamelDataWrapper *data_wrapper);
 
 int                 camel_data_wrapper_construct_from_stream    (CamelDataWrapper *data_wrapper,
 								 CamelStream *stream);

@@ -51,7 +51,6 @@ typedef struct _CamelSeekableSubstream CamelSeekableSubstream;
 typedef struct _CamelService CamelService;
 typedef struct _CamelSession CamelSession;
 typedef struct _CamelSimpleDataWrapper CamelSimpleDataWrapper;
-typedef struct _CamelSimpleDataWrapperStream CamelSimpleDataWrapperStream;
 typedef struct _CamelStore CamelStore;
 typedef struct _CamelStream CamelStream;
 typedef struct _CamelStreamBuffer CamelStreamBuffer;

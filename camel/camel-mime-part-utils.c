@@ -125,7 +125,7 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 		CamelStream *mem;
 		d(printf("Small message part, kept in memory!\n"));
 		mem = camel_stream_mem_new_with_byte_array(buffer);
-		camel_data_wrapper_set_output_stream (dw, mem);
+		camel_data_wrapper_construct_from_stream (dw, mem);
 		gtk_object_unref ((GtkObject *)mem);
 	} else {
 		CamelStream *sub;
@@ -145,10 +145,10 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 				camel_mime_filter_reset(fch);
 				camel_stream_filter_add(filter, fch);
 			}
-			camel_data_wrapper_set_output_stream (dw, (CamelStream *)filter);
+			camel_data_wrapper_construct_from_stream (dw, (CamelStream *)filter);
 			gtk_object_unref ((GtkObject *)filter);
 		} else {
-			camel_data_wrapper_set_output_stream (dw, sub);
+			camel_data_wrapper_construct_from_stream (dw, sub);
 		}
 		gtk_object_unref ((GtkObject *)sub);
 	}
@@ -176,7 +176,7 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 	switch (camel_mime_parser_state(mp)) {
 	case HSCAN_HEADER:
 		d(printf("Creating body part\n"));
-		content = camel_data_wrapper_new();
+		content = camel_simple_data_wrapper_new();
 		simple_data_wrapper_construct_from_parser(content, mp);
 		break;
 	case HSCAN_MESSAGE:

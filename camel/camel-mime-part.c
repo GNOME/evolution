@@ -692,7 +692,7 @@ camel_mime_part_set_content (CamelMimePart *camel_mime_part,
 		CamelDataWrapper *dw;
 		CamelStream *stream;
 
-		dw = camel_data_wrapper_new ();
+		dw = camel_simple_data_wrapper_new ();
 		camel_data_wrapper_set_mime_type (dw, type);
 		stream = camel_stream_mem_new_with_buffer (data, length);
 		camel_data_wrapper_construct_from_stream (dw, stream);
