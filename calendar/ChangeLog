@@ -1,3 +1,10 @@
+2004-09-28  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #66736.
+
+	* gui/e-itip-control.c (e_itip_control_set_data): noop if we were
+	destroyed (priv == null).
+
 2004-09-28  JP Rosevear  <jpr@novell.com>
  
  	Fixes #61766
