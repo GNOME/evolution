@@ -130,14 +130,14 @@ identity_changed (GtkWidget *widget, gpointer data)
 static void
 identity_prepare (MailConfigWizard *mcw)
 {
-	const char *name;
-	
 	mcw->page = MAIL_CONFIG_WIZARD_PAGE_IDENTITY;
 	
-	name = gtk_entry_get_text (mcw->gui->full_name);
-	if (!name) {
-		name = g_get_real_name ();
-		gtk_entry_set_text (mcw->gui->full_name, name ? name : "");
+	if (!gtk_entry_get_text (mcw->gui->full_name)) {
+		char *uname;
+		
+		uname = g_locale_to_utf8 (g_get_real_name (), -1, NULL, NULL, NULL);
+		gtk_entry_set_text (mcw->gui->full_name, uname ? uname : "");
+		g_free (uname);
 	}
 	identity_changed (NULL, mcw);
 }
@@ -465,7 +465,7 @@ static MailConfigWizard *
 config_wizard_new (void)
 {
 	MailConfigWizard *mcw;
-	const char *name, *user;
+	const char *user;
 	EAccountService *xport;
 	struct utsname uts;
 	EAccount *account;
@@ -474,8 +474,7 @@ config_wizard_new (void)
 	account = e_account_new ();
 	account->enabled = TRUE;
 	
-	name = g_get_real_name ();
-	account->id->name = g_strdup (name);
+	account->id->name = g_locale_to_utf8 (g_get_real_name (), -1, NULL, NULL, NULL);
 	user = g_get_user_name ();
 	if (user && !uname (&uts) && strchr (uts.nodename, '.'))
 		account->id->address = g_strdup_printf ("%s@%s", user, uts.nodename);
