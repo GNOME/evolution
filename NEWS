@@ -64,6 +64,13 @@ Other fixes:
     - Let backends return general error status from load_uri instead
       of just TRUE/FALSE (Toshok)
     - EBook(View) handling fixes in select-names and EAddressbookModel (Clahey)
+    - Rethink (and change) some of the default queries to ones that
+      are at the same time useful and more easily implemented
+      efficiently by the backends, in both the component's view and in
+      the select-names dialog. (Toshok)
+    - Change the "beginswith" query implementation on the name field
+      to search both first and last name, so it's a little more useful
+      in the general case. (Toshok)
 
 Evolution 1.0.2, 01-24-2002
 ---------------------------
