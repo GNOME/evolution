@@ -31,7 +31,9 @@
 
 		<submenu name="File" _label="_File">
 
-		        <menuitem name="ContactEditorSave" verb="" _label="_Save"/>                    <menuitem name="ContactEditorSaveClose" verb="" _label="Save and Close"/>
+		        <menuitem name="ContactEditorSave" verb="" _label="_Save"/>
+
+			<menuitem name="ContactEditorSaveClose" verb="" _label="Save and Close" accel="*Control*Return"/>
 
 		        <menuitem name="ContactEditorSaveAs" verb="" _label="Save _As..."/>
 

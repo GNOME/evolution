@@ -1,3 +1,14 @@
+2002-07-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-signature-editor.xml: Add a Control-Return accel for
+	"FileSaveClose".
+
+	* evolution-contact-list-editor.xml: Add a Control-Return accel for
+	"ContactListEditorSaveClose".
+
+	* evolution-contact-editor.xml: Add a Control-Return accel for
+	"ContactEditorSaveClose".
+
 2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Add an accelerator for "FileClose".
