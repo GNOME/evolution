@@ -511,11 +511,11 @@ struct LexBuf {
     unsigned long curPos;
     unsigned long inputLen;
 	/* lookahead buffer */
-	/*   -- lookahead buffer is short instead of char so that EOF
+	/*   -- lookahead buffer is int instead of char so that EOF
 	 /      can be represented correctly.
 	*/
     unsigned long len;
-    short buf[MAX_LEX_LOOKAHEAD];
+    int buf[MAX_LEX_LOOKAHEAD];
     unsigned long getPtr;
 	/* context stack */
     unsigned long lexModeStackTop;
@@ -988,7 +988,7 @@ static int match_begin_end_name(int end) {
 
 static char* lexGetQuotedPrintable()
     {
-    char cur;
+    int cur;
 
     lexClearToken();
     do {
@@ -1032,13 +1032,13 @@ static char* lexGetQuotedPrintable()
 		lexPushLookaheadc(cur);
 		goto EndString;
 		}
-	    case (char)EOF:
+	    case EOF:
 		break;
 	    default:
 		lexAppendc(cur);
 		break;
 	    } /* switch */
-	} while (cur != (char)EOF);
+	} while (cur != EOF);
 
 EndString:
     lexAppendc(0);

@@ -1,3 +1,8 @@
+2001-06-19  Christopher James Lahey  <clahey@ximian.com>
+
+	* libversit/vcc.y (LexBuf): Changed buf to an int here.
+	(lexGetQuotedPrintable): Changed cur to an int here.
+
 2001-06-18  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Add "--with-db3" to fill in both
