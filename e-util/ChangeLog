@@ -1,3 +1,8 @@
+2005-01-07  Rodrigo Moya <rodrigo@novell.com>
+
+	* e-categories-config.c (e_categories_config_open_dialog_for_entry):
+	use the new ECategoriesDialog in libedataserverui.
+
 2005-01-06  Rodney Dawes  <dobey@novell.com>
 
 	* e-config.c (e_config_create_window): Add the GTK_DIALOG_NOSEPARATOR

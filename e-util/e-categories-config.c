@@ -12,10 +12,9 @@
 #include <gtk/gtkdialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gal/widgets/e-categories.h>
 #include <libedataserver/e-categories.h>
+#include <libedataserverui/e-categories-dialog.h>
 #include "e-categories-config.h"
-#include "e-categories-master-list-wombat.h"
 
 static GHashTable *icons_table = NULL;
 
@@ -81,24 +80,19 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 	const char *text;
 	char *categories;
 	int result;
-	ECategoriesMasterListWombat *ecmlw;
 	
 	g_return_if_fail (entry != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (entry));
 	
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
-	dialog = GTK_DIALOG (e_categories_new (text));
-	
-	ecmlw = e_categories_master_list_wombat_new ();
-	g_object_set (dialog, "ecml", ecmlw, NULL);
-	
+	dialog = GTK_DIALOG (e_categories_dialog_new (text));
+		
 	/* run the dialog */
 	result = gtk_dialog_run (dialog);
 	
 	if (result == GTK_RESPONSE_OK) {
-		g_object_get (dialog, "categories", &categories, NULL);
+		categories = e_categories_dialog_get_categories (E_CATEGORIES_DIALOG (dialog));
 		gtk_entry_set_text (GTK_ENTRY (entry), categories);
-		g_free (categories);
 	}
 	
 	gtk_object_destroy (GTK_OBJECT (dialog));
