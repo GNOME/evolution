@@ -31,6 +31,7 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkdialog.h>
+#include <gtk/gtkstock.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app.h>
 #include <gal/widgets/e-unicode.h>

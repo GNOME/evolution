@@ -1,5 +1,35 @@
 2002-11-26  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-editor/e-contact-quick-add.c: add include for
+	gtkstock.h.
+
+	* gui/contact-list-editor/e-contact-list-model.c
+	(e_contact_list_model_add_destination): add pre_change call.
+	(e_contact_list_model_remove_row): same.
+	(e_contact_list_model_remove_all): same.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(e_contact_list_editor_new): ref/sink the contact list editor so
+	we don't get the floating unref warning from gtk.
+
+	* gui/contact-editor/e-contact-editor.c (e_contact_editor_new):
+	ref/sink the contact editor so we don't get the floating unref
+	warning from gtk.
+	(e_contact_editor_init): use g_build_filename instead of
+	g_concat_dir_and_file.
+
+	* gui/widgets/e-minicard-label.c
+	(e_minicard_label_resize_children): use MAX (value, 0) to make
+	sure we aren't passing negative values for clip-widths.
+
+	* gui/widgets/e-minicard.c (e_minicard_realize): use MAX (value,
+	0) to make sure we aren't passing negative values for widths.
+
+	* gui/contact-editor/e-contact-editor.c (e_contact_editor_init):
+	use g_build_filename.
+
+2002-11-26  Chris Toshok  <toshok@ximian.com>
+
 	[ roll forward from 1.2 branch ]
 	* backend/pas/pas-backend-file.c
 	(pas_backend_file_process_get_vcard): never pass NULL as the vcard

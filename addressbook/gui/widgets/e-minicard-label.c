@@ -451,10 +451,10 @@ e_minicard_label_resize_children(EMinicardLabel *e_minicard_label)
 		left_width = e_minicard_label->width / 2 - 4;
 
 	gnome_canvas_item_set( e_minicard_label->fieldname,
-			       "clip_width", (double) ( left_width ),
+			       "clip_width", (double) MAX ( left_width, 0 ),
 			       NULL );
 	gnome_canvas_item_set( e_minicard_label->field,
-			       "clip_width", (double) ( e_minicard_label->width - 8 - left_width ),
+			       "clip_width", (double) MAX ( e_minicard_label->width - 8 - left_width, 0 ),
 			       NULL );
 }
 

@@ -171,6 +171,8 @@ e_contact_list_model_add_destination (EContactListModel *model, EDestination *de
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
 	g_return_if_fail (E_IS_DESTINATION (dest));
 
+	e_table_model_pre_change (E_TABLE_MODEL (model));
+
 	if (model->data_count + 1 >= model->data_alloc) {
 		model->data_alloc *= 2;
 		model->data = g_renew (EDestination*, model->data, model->data_alloc);
@@ -218,6 +220,8 @@ e_contact_list_model_remove_row (EContactListModel *model, int row)
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
 	g_return_if_fail (0 <= row && row < model->data_count);
 
+	e_table_model_pre_change (E_TABLE_MODEL (model));
+
 	g_object_unref (model->data[row]);
 	memmove (model->data + row, model->data + row + 1, sizeof (EDestination*) * (model->data_count - row - 1));
 	model->data_count --;
@@ -231,6 +235,8 @@ e_contact_list_model_remove_all (EContactListModel *model)
 	int i;
 
 	g_return_if_fail (E_IS_CONTACT_LIST_MODEL (model));
+
+	e_table_model_pre_change (E_TABLE_MODEL (model));
 
 	for (i = 0; i < model->data_count; i ++) {
 		g_object_unref (model->data[i]);

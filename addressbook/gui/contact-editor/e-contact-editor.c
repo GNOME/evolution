@@ -230,7 +230,6 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 			NULL, NULL,
 			ece_marshal_NONE__NONE,
 			G_TYPE_NONE, 0);
-
 }
 
 static void
@@ -1465,7 +1464,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 			    GTK_SIGNAL_FUNC (app_delete_event_cb), e_contact_editor);
 
 	/* set the icon */
-	icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, "evolution-contacts-mini.png");
+	icon_path = g_build_filename (EVOLUTION_ICONSDIR, "evolution-contacts-mini.png", NULL);
 	gnome_window_icon_set_from_file (GTK_WINDOW (e_contact_editor->app), icon_path);
 	g_free (icon_path);
 }
@@ -1611,12 +1610,15 @@ e_contact_editor_new (EBook *book,
 	all_contact_editors = g_slist_prepend (all_contact_editors, ce);
 	g_object_weak_ref (G_OBJECT (ce), contact_editor_destroy_notify, ce);
 
+	gtk_object_ref (GTK_OBJECT (ce));
+	gtk_object_sink (GTK_OBJECT (ce));
+
 	g_object_set (ce,
-			"book", book,
-			"card", card,
-			"is_new_card", is_new_card,
-			"editable", editable,
-			NULL);
+		      "book", book,
+		      "card", card,
+		      "is_new_card", is_new_card,
+		      "editable", editable,
+		      NULL);
 
 	if (book)
 		e_book_get_supported_fields (book, (EBookFieldsCallback)supported_fields_cb, ce);

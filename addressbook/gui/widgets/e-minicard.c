@@ -446,8 +446,8 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 gnome_canvas_rect_get_type(),
 				 "x1", (double) 0,
 				 "y1", (double) 0,
-				 "x2", (double) e_minicard->width - 1,
-				 "y2", (double) e_minicard->height - 1,
+				 "x2", (double) MAX (e_minicard->width - 1, 0),
+				 "y2", (double) MAX (e_minicard->height - 1, 0),
 				 "outline_color", NULL,
 				 NULL );
 
@@ -456,8 +456,8 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 gnome_canvas_rect_get_type(),
 				 "x1", (double) 2,
 				 "y1", (double) 2,
-				 "x2", (double) e_minicard->width - 3,
-				 "y2", (double) e_minicard->height - 3,
+				 "x2", (double) MAX (e_minicard->width - 3, 0),
+				 "y2", (double) MAX (e_minicard->height - 3, 0),
 				 "fill_color_gdk", &canvas->style->bg[GTK_STATE_NORMAL],
 				 NULL );
 
@@ -465,7 +465,7 @@ e_minicard_realize (GnomeCanvasItem *item)
 	  gnome_canvas_item_new( group,
 				 e_text_get_type(),
 				 "anchor", GTK_ANCHOR_NW,
-				 "width", (double) ( e_minicard->width - 12 ),
+				 "width", (double) MAX( e_minicard->width - 12, 0 ),
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
 #if 0
