@@ -5,6 +5,7 @@
  *
  * Author:
  *     Miguel de Icaza (miguel@helixcode.com)
+ *     Bertrand Guiheneuf (bg@aful.org)
  *
  * (C) 2000 Helix Code, Inc.
  */
@@ -52,6 +53,43 @@ on_row_selection_cmd (ETable *table,
 		      gpointer user_data);
 
 
+
+/* select a message and display it */
+static void
+select_msg (MessageList *message_list, gint row)
+{
+	CamelException ex;
+	CamelMimeMessage *message = NULL;
+
+	camel_exception_init (&ex);
+
+	if (camel_folder_has_uid_capability  (message_list->folder)) {
+		const GArray *msg_info_array;
+		CamelMessageInfo msg_info;
+		
+		msg_info_array = camel_folder_summary_get_message_info_list 
+			(message_list->folder_summary);
+		
+		if (msg_info_array->len > 0 ) {
+			msg_info = g_array_index (msg_info_array, CamelMessageInfo, row);
+			
+			message = camel_folder_get_message_by_uid (message_list->folder, 
+								   msg_info.uid,
+								   &ex);
+			if (camel_exception_get_id (&ex)) {
+				printf ("Unable to get message: %s\n",
+					ex.desc?ex.desc:"unknown_reason");
+				return;
+			}
+		}
+		
+		printf ("Message = %p\n", message);
+		if (message)
+			mail_display_set_message (message_list->parent_folder_browser->mail_display,
+						  CAMEL_MEDIUM (message));
+	}
+	
+}
 
 /*
  * SimpleTableModel::col_count
@@ -597,7 +635,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 {
 	CamelException ex;
 	gboolean folder_exists;
-	CamelMimeMessage *message;
 
 	g_return_if_fail (message_list != NULL);
 	g_return_if_fail (camel_folder != NULL);
@@ -661,38 +698,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	printf ("Modelo cambio!\n");
 	e_table_model_changed (message_list->table_model);
 
-	/* FIXME : put that in a separate function */
-	/* display the (first) message (in this case) */
-	if (camel_folder_has_uid_capability  (camel_folder)) {
-		const GArray *msg_info_array;
-		CamelMessageInfo msg_info;
-		
-		msg_info_array = camel_folder_summary_get_message_info_list 
-			(message_list->folder_summary);
-
-		if (msg_info_array->len > 0 ) {
-			msg_info = g_array_index (msg_info_array, CamelMessageInfo, 0);
-			
-			message = camel_folder_get_message_by_uid (message_list->folder, 
-								   msg_info.uid,
-								   &ex);
-			if (camel_exception_get_id (&ex)) {
-				printf ("Unable to get message: %s\n",
-					ex.desc?ex.desc:"unknown_reason");
-				return;
-			}
-		}
-
-		printf ("Message = %p\n", message);
-		/*if (message)
-			mail_display_set_message (message_list->parent_folder_browser->mail_display,
-			CAMEL_MEDIUM (message));*/
-			
-		
-		
-	} else
-		g_warning ("FIXME : folder does not support UIDS\n");
-	
+	select_msg (message_list, 1);
 }
 
 GtkWidget *
@@ -705,6 +711,7 @@ E_MAKE_TYPE (message_list, "MessageList", MessageList, message_list_class_init, 
 
 
 
+
 static void
 on_row_selection_cmd (ETable *table, 
 		      int row, 
@@ -712,42 +719,12 @@ on_row_selection_cmd (ETable *table,
 		      gpointer user_data)
 {
 	MessageList *message_list;
-	CamelException ex;
-	gboolean folder_exists;
-	CamelMimeMessage *message;
 
 	message_list = MESSAGE_LIST (user_data);
-	camel_exception_init (&ex);
 
 	if ( selected ) {
 		g_print ("Row %d selected\n", row);
-		/* FIXME : put that in a separate function */
-		/* display the (first) message (in this case) */
-		if (camel_folder_has_uid_capability  (message_list->folder)) {
-			const GArray *msg_info_array;
-			CamelMessageInfo msg_info;
-			
-			msg_info_array = camel_folder_summary_get_message_info_list 
-				(message_list->folder_summary);
-			
-			if (msg_info_array->len > 0 ) {
-				msg_info = g_array_index (msg_info_array, CamelMessageInfo, row);
-				
-				message = camel_folder_get_message_by_uid (message_list->folder, 
-									   msg_info.uid,
-									   &ex);
-				if (camel_exception_get_id (&ex)) {
-					printf ("Unable to get message: %s\n",
-						ex.desc?ex.desc:"unknown_reason");
-					return;
-				}
-			}
-			
-			printf ("Message = %p\n", message);
-			if (message)
-				mail_display_set_message (message_list->parent_folder_browser->mail_display,
-							  CAMEL_MEDIUM (message));
-		}
+		select_msg (message_list, row);
 	} else {
 		g_print ("Row %d unselected\n", row);
 	}

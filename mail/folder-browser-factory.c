@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * folder-browser-factory.c: A Bonobo Control factory for Folder Browsers
  *
@@ -17,6 +18,43 @@
 #include "folder-browser.h"
 #include "main.h"
 
+
+static const gchar *warning_dialog_buttons[] = {
+	"Cancel",
+	"OK",
+	NULL
+};
+				       
+static int
+development_warning ()
+{
+	gint result;
+	GtkWidget *label, *warning_dialog;
+
+	warning_dialog = gnome_dialog_new ("Don't do that",
+				   "I know what I'm doing",
+				   "I'll try it later",
+				   NULL);
+
+	label = gtk_label_new ("This is a developement version of Evolution.\n "
+			       "Using the mail component on your mail files\n "
+			       "is extremely hazardous. It could destroy all your\n"
+			       "mails. Please backup all your mails before trying\n "
+			       "this program. You have been warned\n");
+	gtk_widget_show (label);
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
+			    label, TRUE, TRUE, 0);
+
+	result = gnome_dialog_run (GNOME_DIALOG (warning_dialog));
+	
+	gtk_object_unref (GTK_OBJECT (label));
+	gtk_object_unref (GTK_OBJECT (warning_dialog));
+
+	return result;
+	
+} 
+
 /*
  * Creates the Folder Browser, wraps it in a Bonobo Control, and
  * sets the Bonobo Control properties to point to the Folder Browser
@@ -27,12 +65,19 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 {
 	BonoboControl *control;
 	GtkWidget *folder_browser;
+	gint warning_result;
 
-	folder_browser = folder_browser_new ();
+	warning_result = development_warning ();
+	
+	if (warning_result) 
+		folder_browser = gtk_label_new ("This should be the mail component");
+	else {
+		folder_browser = folder_browser_new ();
+		folder_browser_set_uri (FOLDER_BROWSER (folder_browser), "inbox");
+	}
+	
 	if (folder_browser == NULL)
 		return NULL;
-
-	folder_browser_set_uri (FOLDER_BROWSER (folder_browser), "inbox");
 
 	gtk_widget_show(folder_browser);
 	
@@ -43,11 +88,11 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 		return NULL;
 	}
 	
+	if (!warning_result)
+		bonobo_control_set_property_bag (
+			 control,
+			 FOLDER_BROWSER (folder_browser)->properties);
 	
-	bonobo_control_set_property_bag (
-		control,
-		FOLDER_BROWSER (folder_browser)->properties);
-
 	return BONOBO_OBJECT (control);
 
 }

@@ -2,8 +2,9 @@
 /*
  * html-stream.c: A CamelStream class that feeds data into a GtkHTML widget
  *
- * Author:
+ * Authors:
  *   Miguel de Icaza (miguel@helixcode.com)
+ *   Bertrand Guiheneuf (bg@aful.org)
  *
  * (C) 2000 Helix Code, Inc.
  */

@@ -4,6 +4,7 @@
  *
  * Author:
  *   Miguel de Icaza
+ *   Bertrand Guiheneuf (bg@aful.org)
  *
  * (C) 2000 Helix Code, Inc.
  */
