@@ -1,0 +1,16 @@
+2005-01-11  Not Zed  <NotZed@Ximian.com>
+
+	* new-mail-notify.c (org_gnome_new_mail_config)
+	(org_gnome_new_mail_notify): renamed slightly for
+	namespace/consistency.
+	(org_gnome_new_mail_notify): fixed signature.
+
+2004-12-30  Miguel Angel Lopez Hernandez  <miguel@gulev.org.mx>
+
+	* new-mail-notify.[ch]: Plugin implementation 
+
+	* org-gnome-new-mail-notify.eplug.in: define the
+	new mail notify plugin
+
+	* Makefile.am: build the new mail notify plugin
+
