@@ -473,12 +473,14 @@ impl_Storage_asyncDiscoverSharedFolder (PortableServer_Servant servant,
 {
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
+	CORBA_Object obj_dup;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage = EVOLUTION_STORAGE (bonobo_object);
 
+	obj_dup = CORBA_Object_duplicate (listener, ev);
 	gtk_signal_emit (GTK_OBJECT (storage), signals[DISCOVER_SHARED_FOLDER],
-			 user, folder_name, listener);
+			 user, folder_name, obj_dup);
 }
 
 static void
