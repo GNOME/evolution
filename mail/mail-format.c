@@ -616,8 +616,10 @@ static void
 write_headers (CamelMimeMessage *message, MailDisplay *md)
 {
 	mail_html_write (md->html, md->stream,
-			 "<table bgcolor=\"#EEEEEE\" width=\"100%%\" "
-			 "cellspacing=0 border=1>"
+			 "<font color=\"#000000\">"
+			 "<table bgcolor=\"#000000\" width=\"100%%\" "
+			 "cellspacing=0 cellpadding=1><tr><td>"
+			 "<table bgcolor=\"#EEEEEE\" width=\"100%%\" cellpadding=0 cellspacing=0>"
 			 "<tr><td><table>\n");
 
 	write_address(md, camel_mime_message_get_from(message),
@@ -634,7 +636,7 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			       TRUE, md->html, md->stream);
 	
 	mail_html_write (md->html, md->stream,
-			 "</table></td></tr></table></center><p>");
+			 "</table></td></tr></table></td></tr></table></font></center><p>");
 }
 
 

@@ -1,3 +1,10 @@
+2001-01-03  Radek Doulik  <rodo@helixcode.com>
+
+	* mail-format.c (write_headers): add font color setting for table,
+	changed border behavior
+
+	* mail-display.c (redisplay): don't set body bg and text color
+
 2001-01-02  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-callbacks.c (view_msg): Fix for mail_get_message change,

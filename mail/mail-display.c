@@ -831,8 +831,7 @@ redisplay (MailDisplay *md, gboolean unscroll)
 		oldv = adj->value;
 	}
   	md->stream = gtk_html_begin (GTK_HTML (md->html));
-	mail_html_write (md->html, md->stream, "%s%s", HTML_HEADER,
-			 "<BODY TEXT=\"#000000\" BGCOLOR=\"#FFFFFF\">\n");
+	mail_html_write (md->html, md->stream, "%s%s", HTML_HEADER, "<BODY>\n");
 
 	if (md->current_message) {
 		camel_object_ref (CAMEL_OBJECT (md->current_message));
