@@ -5,10 +5,7 @@ INCLUDES = -O								\
 	-I$(top_srcdir)/widgets/misc					\
 	-I$(top_srcdir)/libical/src/libical				\
 	-I$(top_srcdir)							\
-	$(BONOBO_GNOME_CFLAGS)						\
-	$(BONOBO_CONF_CFLAGS)						\
-	$(EXTRA_GNOME_CFLAGS)						\
-	$(GTKHTML_CFLAGS)						\
+	$(BONOBO_HTML_GNOME_CFLAGS)					\
 	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            		\
@@ -175,18 +172,14 @@ evolution_SOURCES =				\
 	evolution-storage-set-view-factory.h	\
 	main.c
 
-evolution_LDADD =						\
-	libeshell.la						\
-	importer/libevolution-importer.la			\
+evolution_LDADD =							\
+	libeshell.la							\
+	importer/libevolution-importer.la				\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.a	\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
-	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.a			\
+	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-	$(EXTRA_GNOME_LIBS)					\
-	$(GNOME_PRINT_LIBS)					\
-	$(GTKHTML_LIBS)						\
-	$(BONOBO_CONF_LIBS)					\
-	$(BONOBO_GNOME_LIBS)
+	$(BONOBO_HTML_GNOME_LIBS)
 
 # Test component
 
@@ -198,10 +191,7 @@ evolution_test_component_SOURCES =	\
 
 evolution_test_component_LDADD = 	\
 	libeshell.la			\
-	$(EXTRA_GNOME_LIBS)		\
-	$(GNOME_PRINT_LIBS)		\
-	$(GTKHTML_LIBS)			\
-	$(BONOBO_GNOME_LIBS)
+	$(BONOBO_HTML_GNOME_LIBS)
 
 install-test-component: evolution-test-component
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
