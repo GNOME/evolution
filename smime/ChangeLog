@@ -1,3 +1,11 @@
+2003-11-12  Not Zed  <NotZed@Ximian.com>
+
+	* gui/smime-ui.glade: added cert_selector widget to be placed
+	inside a dialog.
+
+	* gui/e-cert-selector.[ch]: new class to allow user to select a
+	certificate for signing or encrypting.
+
 2003-11-12  Chris Toshok  <toshok@ximian.com>
 
 	* lib/e-cert.c (e_cert_get_cert_type): implement using the

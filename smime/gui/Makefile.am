@@ -22,7 +22,9 @@ noinst_LTLIBRARIES = libevolution-smime.la
 
 libevolution_smime_la_SOURCES = 	\
 	certificate-manager.c		\
-	certificate-manager.h
+	certificate-manager.h		\
+	e-cert-selector.c		\
+	e-cert-selector.h
 
 libevolution_smime_la_LIBADD =			\
 	$(top_builddir)/smime/lib/libessmime.la	\
