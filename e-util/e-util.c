@@ -198,7 +198,7 @@ e_write_file(const char *filename, const char *data, int flags)
 	int fd;
 	int length = strlen(data);
 	int bytes;
-	fd = open(filename, flags, 0666);
+	fd = open(filename, flags | O_WRONLY, 0666);
 	if (fd == -1)
 		return errno;
 	while (length > 0) {
