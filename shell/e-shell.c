@@ -535,8 +535,8 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 
 
 	listener_duplicate = CORBA_Object_duplicate (listener, ev);
-	gtk_object_set_data_full (GTK_OBJECT (folder_selection_dialog), "corba_listener",
-				  listener_duplicate, corba_listener_destroy_notify);
+	g_object_set_data_full (G_OBJECT (folder_selection_dialog), "corba_listener",
+				listener_duplicate, corba_listener_destroy_notify);
 
 	g_signal_connect (folder_selection_dialog, "folder_selected",
 			  G_CALLBACK (folder_selection_dialog_folder_selected_cb), shell);
@@ -980,7 +980,7 @@ view_destroy_cb (GtkObject *object,
 		set_interactive (shell, FALSE);
 
 		bonobo_object_ref (BONOBO_OBJECT (shell));
-		gtk_signal_emit (GTK_OBJECT (shell), signals [NO_VIEWS_LEFT]);
+		g_signal_emit (shell, signals [NO_VIEWS_LEFT], 0);
 		bonobo_object_unref (BONOBO_OBJECT (shell));
 	}
 }
@@ -1016,7 +1016,7 @@ create_view (EShell *shell,
 		e_shell_view_show_shortcut_bar (view, e_shell_view_shortcut_bar_shown (template_view));
 	}
 
-	gtk_signal_emit (GTK_OBJECT (shell), signals[NEW_VIEW_CREATED], view);
+	g_signal_emit (shell, signals[NEW_VIEW_CREATED], 0, view);
 
 	return view;
 }
@@ -1881,7 +1881,7 @@ offline_procedure_started_cb (EShellOfflineHandler *offline_handler,
 	priv = shell->priv;
 
 	priv->line_status = E_SHELL_LINE_STATUS_GOING_OFFLINE;
-	gtk_signal_emit (GTK_OBJECT (shell), signals[LINE_STATUS_CHANGED], priv->line_status);
+	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
 }
 
 static void
@@ -1903,7 +1903,7 @@ offline_procedure_finished_cb (EShellOfflineHandler *offline_handler,
 	g_object_unref (priv->offline_handler);
 	priv->offline_handler = NULL;
 
-	gtk_signal_emit (GTK_OBJECT (shell), signals[LINE_STATUS_CHANGED], priv->line_status);
+	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
 }
 
 /**
@@ -2009,7 +2009,7 @@ e_shell_go_online (EShell *shell,
 	e_free_string_list (component_ids);
 
 	priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
-	gtk_signal_emit (GTK_OBJECT (shell), signals[LINE_STATUS_CHANGED], priv->line_status);
+	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
 }
 
 

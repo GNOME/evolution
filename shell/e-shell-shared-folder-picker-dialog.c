@@ -193,8 +193,7 @@ setup_server_option_menu (EShell *shell,
 		g_signal_connect (menu_item, "activate",
 				  G_CALLBACK (server_option_menu_item_activate_callback),
 				  storage_name_return);
-		gtk_object_set_data_full (GTK_OBJECT (menu_item), "storage_name",
-					  g_strdup (storage_name), g_free);
+		g_object_set_data_full (G_OBJECT (menu_item), "storage_name", g_strdup (storage_name), g_free);
 
 		gtk_widget_show (menu_item);
 		gtk_menu_append (GTK_MENU (menu), menu_item);

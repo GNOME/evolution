@@ -115,8 +115,7 @@ folder_changed_cb (EFolder *folder,
 	highlight = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (folder), "last_highlight"));
 	if (highlight != e_folder_get_highlighted (folder)) {
 		highlight = !highlight;
-		gtk_object_set_data (GTK_OBJECT (folder), "last_highlight",
-				     GINT_TO_POINTER (highlight));
+		g_object_set_data (G_OBJECT (folder), "last_highlight", GINT_TO_POINTER (highlight));
 		p = strrchr (path, '/');
 		if (p && p != path) {
 			char *name;

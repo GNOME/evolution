@@ -292,8 +292,8 @@ shared_folder_discovery_timeout_callback (void *data)
 
 	CORBA_exception_free (&ev);
 
-	gtk_object_set_data (GTK_OBJECT (storage), "listener", NULL);
-	gtk_object_set_data (GTK_OBJECT (storage), "timeout_id", NULL);
+	g_object_set_data (storage, "listener", NULL);
+	g_object_set_data (storage, "timeout_id", NULL);
 
 	return FALSE;
 }
@@ -317,8 +317,8 @@ storage_discover_shared_folder_callback (EvolutionStorage *storage,
 
 	timeout_id = g_timeout_add (1000, shared_folder_discovery_timeout_callback, storage);
 
-	gtk_object_set_data (GTK_OBJECT (storage), "listener", listener_copy);
-	gtk_object_set_data (GTK_OBJECT (storage), "timeout_id", GINT_TO_POINTER (timeout_id));
+	g_object_set_data (storage, "listener", listener_copy);
+	g_object_set_data (storage, "timeout_id", GINT_TO_POINTER (timeout_id));
 }
 
 static void
@@ -336,7 +336,7 @@ storage_cancel_discover_shared_folder_callback (EvolutionStorage *storage,
 		return;
 
 	g_source_remove (timeout_id);
-	gtk_object_set_data (GTK_OBJECT (storage), "timeout_id", NULL);
+	g_object_set_data (storage, "timeout_id", NULL);
 
 	listener = (Bonobo_Listener) gtk_object_get_data (GTK_OBJECT (storage), "listener");
 
@@ -345,7 +345,7 @@ storage_cancel_discover_shared_folder_callback (EvolutionStorage *storage,
 	CORBA_Object_release (listener, &ev);
 	CORBA_exception_free (&ev);
 
-	gtk_object_set_data (GTK_OBJECT (storage), "listener", NULL);
+	g_object_set_data (storage, "listener", NULL);
 }
 
 static void
@@ -453,7 +453,7 @@ timeout_callback_2 (void *data)
 	}
 
 	progress ++;
-	gtk_object_set_data (GTK_OBJECT (activity_client), "my_progress", GINT_TO_POINTER (progress));
+	g_object_set_data (activity_client, "my_progress", GINT_TO_POINTER (progress));
 
 	if (progress > 100) {
 		gtk_timeout_add (200, timeout_callback_3, activity_client);
@@ -489,7 +489,7 @@ timeout_callback_1 (void *data)
 		return FALSE;
 	}
 
-	gtk_object_set_data (GTK_OBJECT (activity_client), "my_progress", GINT_TO_POINTER (-1));
+	g_object_set_data (activity_client, "my_progress", GINT_TO_POINTER (-1));
 
 	g_signal_connect (activity_client, "cancel",
 			  G_CALLBACK (activity_client_cancel_callback), NULL);

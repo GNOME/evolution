@@ -618,8 +618,7 @@ create_plugin_menu (ImportData *data)
 
 	menu = gtk_menu_new ();
 	item = gtk_menu_item_new_with_label (_("Automatic"));
-	gtk_object_set_data_full (GTK_OBJECT (item), "oafiid",
-				  g_strdup ("Automatic"), g_free);
+	g_object_set_data_full (item, "oafiid", g_strdup ("Automatic"), g_free);
 	gtk_menu_append (GTK_MENU (menu), item);
 
 	CORBA_exception_init (&ev);
@@ -641,8 +640,7 @@ create_plugin_menu (ImportData *data)
 		g_signal_connect (item, "activate",
 				  G_CALLBACK (item_selected), data);
 
-		gtk_object_set_data_full (GTK_OBJECT (item), "oafiid",
-					  g_strdup (info->iid), g_free);
+		g_object_set_data (item, "oafiid", g_strdup (info->iid), g_free);
 		gtk_menu_append (GTK_MENU (menu), item);
 	}
 	CORBA_free (info_list);

@@ -410,7 +410,8 @@ convert_gdk_drag_action_set_to_corba (GdkDragAction action)
 /* The weakref callback for priv->ui_component.  */
 
 static void
-ui_container_destroy_notify (void *data)
+ui_container_destroy_notify (void *data,
+			     GObject *where_the_object_was)
 {
 	EStorageSetViewPrivate *priv  = (EStorageSetViewPrivate *) data;
 
@@ -1434,9 +1435,7 @@ etree_value_at (ETreeModel *etree,
 
 			name_with_unread = g_strdup_printf ("%s (%d)", folder_name,
 							    unread_count);
-			gtk_object_set_data_full (GTK_OBJECT (folder),
-						  "name_with_unread",
-						  name_with_unread, g_free);
+			g_object_set_data_full (G_OBJECT (folder), "name_with_unread", name_with_unread, g_free);
 
 			return (void *) name_with_unread;
 		} else
@@ -2087,7 +2086,7 @@ e_storage_set_view_construct (EStorageSetView   *storage_set_view,
 
 	priv->ui_container = ui_container;
 	if (ui_container != NULL) {
-		gtk_object_weakref (GTK_OBJECT (ui_container), ui_container_destroy_notify, priv);
+		g_object_weak_ref (G_OBJECT (ui_container), ui_container_destroy_notify, priv);
 
 		priv->ui_component = bonobo_ui_component_new_default ();
 		bonobo_ui_component_set_container (priv->ui_component,

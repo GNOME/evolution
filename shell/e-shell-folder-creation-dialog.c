@@ -430,7 +430,7 @@ add_folder_types (GtkWidget *dialog,
 		gtk_widget_show (menu_item);
 		gtk_menu_append (GTK_MENU (menu), menu_item);
 
-		gtk_object_set_data_full (GTK_OBJECT (menu_item), "folder_type", g_strdup (type->type), g_free);
+		g_object_set_data_full (G_OBJECT (menu_item), "folder_type", g_strdup (type->type), g_free);
 
 		if (strcmp (type->type, default_type ? default_type : "mail") == 0)
 			default_item = i;

@@ -136,8 +136,8 @@ setup_folder_selector (EvolutionDefaultFolderConfig *dfc,
 		EVOLUTION_FOLDER_SELECTOR_BUTTON (button),
 		dfc->shell_client, _("Select Default Folder"),
 		*uri_ptr, types);
-	gtk_object_set_data (GTK_OBJECT (button), "uri_ptr", uri_ptr);
-	gtk_object_set_data (GTK_OBJECT (button), "path_ptr", path_ptr);
+	g_object_set_data (G_OBJECT (button), "uri_ptr", uri_ptr);
+	g_object_set_data (G_OBJECT (button), "path_ptr", path_ptr);
 	g_signal_connect (button, "selected",
 			  G_CALLBACK (folder_selected),
 			  dfc);

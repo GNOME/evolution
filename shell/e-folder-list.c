@@ -307,9 +307,10 @@ create_custom_folder_list (char *name, char *string1, char *string2, int int1, i
 {
 	ETableModel *model;
 	GtkWidget *scrolled;
+
 	model = e_table_memory_store_new (columns);
 	scrolled = e_table_scrolled_new (model, NULL, SPEC, NULL);
-	gtk_object_set_data (GTK_OBJECT (scrolled), "table-model", model);
+	g_object_set_data (G_OBJECT (scrolled), "table-model", model);
 	return scrolled;
 }
 

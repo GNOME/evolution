@@ -517,7 +517,7 @@ add_verbs (EShellUserCreatableItemsHandler *handler,
 	priv = handler->priv;
 
 	ui_component = e_shell_view_get_bonobo_ui_component (shell_view);
-	gtk_object_set_data (GTK_OBJECT (ui_component), SHELL_VIEW_KEY, shell_view);
+	g_object_set_data (G_OBJECT (ui_component), SHELL_VIEW_KEY, shell_view);
 
 	component_num = 0;
 	for (p = priv->components; p != NULL; p = p->next) {
@@ -593,10 +593,10 @@ setup_toolbar_button (EShellUserCreatableItemsHandler *handler,
 	bonobo_ui_component_object_set (ui_component, "/Toolbar/NewComboButton",
 					BONOBO_OBJREF (control), NULL);
 
-	gtk_object_set_data (GTK_OBJECT (shell_view), COMBO_BUTTON_WIDGET_KEY, combo_button);
+	g_object_set_data (G_OBJECT (shell_view), COMBO_BUTTON_WIDGET_KEY, combo_button);
 
 	tooltips = gtk_tooltips_new ();
-	gtk_object_set_data (GTK_OBJECT (combo_button), TOOLTIPS_KEY, tooltips);
+	g_object_set_data (G_OBJECT (combo_button), TOOLTIPS_KEY, tooltips);
 }
 
 

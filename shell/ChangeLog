@@ -1,3 +1,26 @@
+2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-folder-list.c: Use g_object_set_data() instead of
+	gtk_object_set_data().
+	* e-shell-config-default-folders.c: Likewise.
+	* e-shell-folder-creation-dialog.c: Likewise.
+	* e-shell-importer.c: Likewise.
+	* e-shell-shared-folder-picker-dialog.c: Likewise.
+	* e-shell-user-creatable-items-handler.c: Likewise.
+	* e-shell-view.c: Likewise.
+	* e-shell.c: Likewise.
+	* e-storage-set-view.c: Likewise.
+	* e-storage.c: Likewise.
+	* evolution-test-component.c: Likewise.
+	
+	* e-storage-set-view.c (e_storage_set_view_construct): Use
+	g_object_weakref() instead of gtk_object_weakref() for the
+	ui_container.
+	(ui_container_destroy_notify): Add param where_the_object_was to
+	match the GWeakNotify prototype.
+
+	* e-shell.c: Use g_signal_emit() instead of gtk_signal_emit().
+
 2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* glade/e-active-connection-dialog.glade: Converted to Glade2

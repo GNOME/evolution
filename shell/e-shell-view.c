@@ -2183,10 +2183,8 @@ get_view_for_uri (EShellView *shell_view,
 	destroy_connection_id = g_signal_connect (socket, "destroy",
 						  G_CALLBACK (socket_destroy_cb),
 						  shell_view);
-	gtk_object_set_data (GTK_OBJECT (socket),
-			     "e_shell_view_destroy_connection_id",
-			     GINT_TO_POINTER (destroy_connection_id));
-	gtk_object_set_data_full (GTK_OBJECT (socket), "e_shell_view_folder_uri", g_strdup (uri), g_free);
+	g_object_set_data (G_OBJECT (socket), "e_shell_view_destroy_connection_id", GINT_TO_POINTER (destroy_connection_id));
+	g_object_set_data_full (G_OBJECT (socket), "e_shell_view_folder_uri", g_strdup (uri), g_free);
 
 	priv->sockets = g_list_prepend (priv->sockets, socket);
 
