@@ -1,3 +1,13 @@
+2004-04-09  Dan Winship  <danw@ximian.com>
+
+	* em-folder-view.c (emfv_init): Create an
+	EUserCreatableItemsHandler for the view.
+	(emfv_finalise): Unref it.
+	(emfv_activate): Activate it
+
+	* mail-component.c (impl__get_userCreatableItems): add
+	object/folder flags to the items
+
 2004-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (cp_r): Now takes a pattern argument to limit files

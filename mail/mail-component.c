@@ -622,6 +622,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 	list->_buffer[0].tooltip = _("Compose a new mail message");
 	list->_buffer[0].menuShortcut = 'm';
 	list->_buffer[0].iconName = "new-message.xpm";
+	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[1].id = "folder";
 	list->_buffer[1].description = _("New Mail Folder");
@@ -629,6 +630,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 	list->_buffer[1].tooltip = _("Create a new mail folder");
 	list->_buffer[1].menuShortcut = 'f';
 	list->_buffer[1].iconName = "folder-mini.png";
+	list->_buffer[1].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;
 }
