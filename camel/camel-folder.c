@@ -649,7 +649,8 @@ get_message_flags(CamelFolder *folder, const char *uid)
 	g_return_val_if_fail(folder->summary != NULL, 0);
 
 	info = camel_folder_summary_uid(folder->summary, uid);
-	g_return_val_if_fail(info != NULL, 0);
+	if (info == NULL)
+		return 0;
 
 	flags = info->flags;
 	camel_folder_summary_info_free(folder->summary, info);
@@ -686,7 +687,8 @@ set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 s
 	g_return_if_fail(folder->summary != NULL);
 
 	info = camel_folder_summary_uid(folder->summary, uid);
-	g_return_if_fail(info != NULL);
+	if (info == NULL)
+		return;
 
 	new = (info->flags & ~flags) | (set & flags);
 	if (new == info->flags) {
@@ -731,7 +733,8 @@ get_message_user_flag(CamelFolder *folder, const char *uid, const char *name)
 	g_return_val_if_fail(folder->summary != NULL, FALSE);
 
 	info = camel_folder_summary_uid(folder->summary, uid);
-	g_return_val_if_fail(info != NULL, FALSE);
+	if (info == NULL)
+		return FALSE;
 
 	ret = camel_flag_get(&info->user_flags, name);
 	camel_folder_summary_info_free(folder->summary, info);
@@ -768,7 +771,8 @@ set_message_user_flag(CamelFolder *folder, const char *uid, const char *name, gb
 	g_return_if_fail(folder->summary != NULL);
 
 	info = camel_folder_summary_uid(folder->summary, uid);
-	g_return_if_fail(info != NULL);
+	if (info == NULL)
+		return;
 
 	if (camel_flag_set(&info->user_flags, name, value)) {
 		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
@@ -807,7 +811,8 @@ get_message_user_tag(CamelFolder *folder, const char *uid, const char *name)
 	g_return_val_if_fail(folder->summary != NULL, NULL);
 
 	info = camel_folder_summary_uid(folder->summary, uid);
-	g_return_val_if_fail(info != NULL, FALSE);
+	if (info == NULL)
+		return NULL;
 
 #warning "Need to duplicate tag string"
 
@@ -846,7 +851,8 @@ set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, con
 	g_return_if_fail(folder->summary != NULL);
 
 	info = camel_folder_summary_uid(folder->summary, uid);
-	g_return_if_fail(info != NULL);
+	if (info == NULL)
+		return;
 
 	if (camel_tag_set(&info->user_tags, name, value)) {
 		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;

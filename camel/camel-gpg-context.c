@@ -33,6 +33,7 @@
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <sys/time.h>
 #include <termios.h>
 #include <signal.h>
 #include <unistd.h>

@@ -92,35 +92,19 @@ static CamelProvider maildir_provider = {
 
 static CamelProviderConfEntry spool_conf_entries[] = {
 	CAMEL_PROVIDER_CONF_DEFAULT_PATH,
-	{ CAMEL_PROVIDER_CONF_CHECKBOX, "filter", NULL,
-	  N_("Apply filters to new messages in INBOX"), "0" },
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "filter", NULL, N_("Apply filters to new messages in INBOX"), "0" },
+	{ CAMEL_PROVIDER_CONF_CHECKBOX, "xstatus", NULL, N_("Store status headers in Elm/Pine/Mutt format"), "0" },
 	{ CAMEL_PROVIDER_CONF_END }
 };
 
 static CamelProvider spool_provider = {
 	"spool",
-	N_("Standard Unix mbox spools"),
-	N_("For reading and storing local mail in standard mbox spool files."),
+	N_("Standard Unix mbox spool or directory"),
+	N_("For reading and storing local mail in standard mbox spool files.\nMay also be used to read a tree of Elm, Pine, or Mutt style folders."),
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
 	spool_conf_entries,
-	/* ... */
-};
-
-static CamelProviderConfEntry spoold_conf_entries[] = {
-	CAMEL_PROVIDER_CONF_DEFAULT_PATH,
-	{ CAMEL_PROVIDER_CONF_END }
-};
-
-static CamelProvider spoold_provider = {
-	"spoold",
-	N_("Directory tree of mbox files"),
-	N_("For accessing mail storedin an external tree of mbox files.\nThis will allow you to directly access pine and elm folders.\nNOTE: This provider is still experimental so ensure you backup any mail folders first."),
-	"mail",
-	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_IS_LOCAL,
-	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
-	NULL,
 	/* ... */
 };
 
@@ -236,11 +220,4 @@ void camel_provider_module_init(CamelSession * session)
 	maildir_provider.url_hash = local_url_hash;
 	maildir_provider.url_equal = local_url_equal;
 	camel_session_register_provider(session, &maildir_provider);
-	
-	path = g_strdup_printf ("%s/mail", g_get_home_dir ());
-	spoold_conf_entries[0].value = path;  /* default path */
-	spoold_provider.object_types[CAMEL_PROVIDER_STORE] = camel_spoold_store_get_type ();
-	spoold_provider.url_hash = local_url_hash;
-	spoold_provider.url_equal = local_url_equal;
-	camel_session_register_provider(session, &spoold_provider);
 }

@@ -549,7 +549,8 @@ camel_folder_summary_load(CamelFolderSummary *s)
 	int i;
 	CamelMessageInfo *mi;
 
-	g_assert(s->summary_path);
+	if (s->summary_path == NULL)
+		return 0;
 
 	in = fopen(s->summary_path, "r");
 	if (in == NULL)
@@ -629,9 +630,8 @@ camel_folder_summary_save(CamelFolderSummary *s)
 	guint32 count;
 	CamelMessageInfo *mi;
 
-	g_assert(s->summary_path);
-
-	if ((s->flags & CAMEL_SUMMARY_DIRTY) == 0)
+	if (s->summary_path == NULL
+	    || (s->flags & CAMEL_SUMMARY_DIRTY) == 0)
 		return 0;
 
 	fd = open(s->summary_path, O_RDWR|O_CREAT, 0600);
@@ -690,7 +690,8 @@ int camel_folder_summary_header_load(CamelFolderSummary *s)
 	FILE *in;
 	int ret;
 
-	g_assert(s->summary_path);
+	if (s->summary_path == NULL)
+		return 0;
 
 	in = fopen(s->summary_path, "r");
 	if (in == NULL)
@@ -705,10 +706,11 @@ int camel_folder_summary_header_load(CamelFolderSummary *s)
 	return ret;
 }
 
-static void
+static int
 summary_assign_uid(CamelFolderSummary *s, CamelMessageInfo *info)
 {
 	const char *uid;
+	CamelMessageInfo *mi;
 
 	uid = camel_message_info_uid(info);
 	if (uid == NULL || uid[0] == 0) {
@@ -718,9 +720,11 @@ summary_assign_uid(CamelFolderSummary *s, CamelMessageInfo *info)
 
 	CAMEL_SUMMARY_LOCK(s, summary_lock);
 
-	while (g_hash_table_lookup(s->messages_uid, uid)) {
-		g_warning("Trying to insert message with clashing uid (%s).  new uid re-assigned", camel_message_info_uid(info));
+	while ((mi = g_hash_table_lookup(s->messages_uid, uid))) {
 		CAMEL_SUMMARY_UNLOCK(s, summary_lock);
+		if (mi == info)
+			return 0;
+		g_warning("Trying to insert message with clashing uid (%s).  new uid re-assigned", camel_message_info_uid(info));
 		camel_message_info_set_uid(info, camel_folder_summary_next_uid_string(s));
 		uid = camel_message_info_uid(info);
 		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
@@ -728,6 +732,7 @@ summary_assign_uid(CamelFolderSummary *s, CamelMessageInfo *info)
 	}
 
 	CAMEL_SUMMARY_UNLOCK(s, summary_lock);
+	return 1;
 }
 
 /**
@@ -747,7 +752,8 @@ void camel_folder_summary_add(CamelFolderSummary *s, CamelMessageInfo *info)
 	if (info == NULL)
 		return;
 
-	summary_assign_uid(s, info);
+	if (summary_assign_uid(s, info) == 0)
+		return;
 
 	CAMEL_SUMMARY_LOCK(s, summary_lock);
 

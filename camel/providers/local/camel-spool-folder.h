@@ -27,7 +27,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <camel/camel-folder.h>
+#include "camel-mbox-folder.h"
 #include <camel/camel-folder-search.h>
 #include <camel/camel-index.h>
 #include "camel-spool-summary.h"
@@ -41,59 +41,21 @@ extern "C" {
 #define CAMEL_IS_SPOOL_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SPOOL_FOLDER_TYPE))
 
 typedef struct {
-	CamelFolder parent_object;
+	CamelMboxFolder parent;
+
 	struct _CamelSpoolFolderPrivate *priv;
 
-	guint32 flags;		/* open mode flags */
-
-	int locked;		/* lock counter */
-	CamelLockType locktype;	/* what type of lock we have */
-	int lockfd;		/* lock fd used for fcntl/etc locking */
 	int lockid;		/* lock id for dot locking */
-
-	char *base_path;	/* base path of the spool folder */
-	char *folder_path;	/* the path to the folder itself */
-#if 0
-	char *summary_path;	/* where the summary lives */
-	char *index_path;	/* where the index file lives */
-
-	ibex *index;		   /* index for this folder */
-#endif
-	CamelFolderSearch *search; /* used to run searches, we just use the real thing (tm) */
-	CamelFolderChangeInfo *changes;	/* used to store changes to the folder during processing */
 } CamelSpoolFolder;
 
 typedef struct {
-	CamelFolderClass parent_class;
-
-	/* Virtual methods */	
-
-	/* summary factory, only used at init */
-	CamelSpoolSummary *(*create_summary)(const char *path, const char *folder, CamelIndex *index);
-
-	/* Lock the folder for my operations */
-	int (*lock)(CamelSpoolFolder *, CamelLockType type, CamelException *ex);
-
-	/* Unlock the folder for my operations */
-	void (*unlock)(CamelSpoolFolder *);
+	CamelMboxFolderClass parent_class;
 } CamelSpoolFolderClass;
-
-
-/* public methods */
-/* flags are taken from CAMEL_STORE_FOLDER_* flags */
-CamelSpoolFolder *camel_spool_folder_construct(CamelSpoolFolder *lf, CamelStore *parent_store,
-					       const char *full_name, const char *path, guint32 flags, CamelException *ex);
 
 /* Standard Camel function */
 CamelType camel_spool_folder_get_type(void);
 
-CamelFolder *camel_spool_folder_new(CamelStore *parent_store, const char *full_name, const char *path,
-				    guint32 flags, CamelException *ex);
-
-/* Lock the folder for internal use.  May be called repeatedly */
-/* UNIMPLEMENTED */
-int camel_spool_folder_lock(CamelSpoolFolder *lf, CamelLockType type, CamelException *ex);
-int camel_spool_folder_unlock(CamelSpoolFolder *lf);
+CamelFolder *camel_spool_folder_new(CamelStore *parent_store, const char *full_name, guint32 flags, CamelException *ex);
 
 #ifdef __cplusplus
 }

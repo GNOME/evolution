@@ -37,6 +37,7 @@ typedef struct _CamelLocalSummaryClass CamelLocalSummaryClass;
 enum {
 	CAMEL_MESSAGE_FOLDER_NOXEV = 1<<17,
 	CAMEL_MESSAGE_FOLDER_XEVCHANGE = 1<<18,
+	CAMEL_MESSAGE_FOLDER_NOTSEEN = 1<<19, /* have we seen this in processing this loop? */
 };
 
 struct _CamelLocalSummary {
@@ -47,7 +48,8 @@ struct _CamelLocalSummary {
 	char *folder_path;	/* name of matching folder */
 
 	CamelIndex *index;
-	int index_force;	/* do we force index during creation? */
+	unsigned int index_force:1; /* do we force index during creation? */
+	unsigned int check_force:1; /* does a check force a full check? */
 };
 
 struct _CamelLocalSummaryClass {
@@ -74,12 +76,15 @@ int camel_local_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFold
 /* add a new message to the summary */
 CamelMessageInfo *camel_local_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, const CamelMessageInfo *info, CamelFolderChangeInfo *, CamelException *ex);
 
+/* force the next check to be a full check/rebuild */
+void camel_local_summary_check_force(CamelLocalSummary *cls);
+
 /* generate an X-Evolution header line */
 char *camel_local_summary_encode_x_evolution(CamelLocalSummary *cls, const CamelMessageInfo *info);
 int camel_local_summary_decode_x_evolution(CamelLocalSummary *cls, const char *xev, CamelMessageInfo *info);
 
-/* utility functions - write headers to a file with optional X-Evolution header */
-int camel_local_summary_write_headers(int fd, struct _header_raw *header, char *xevline);
+/* utility functions - write headers to a file with optional X-Evolution header and/or status header */
+int camel_local_summary_write_headers(int fd, struct _header_raw *header, const char *xevline, const char *status, const char *xstatus);
 
 #endif /* ! _CAMEL_LOCAL_SUMMARY_H */
 

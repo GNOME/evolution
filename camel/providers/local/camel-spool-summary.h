@@ -25,6 +25,7 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-index.h>
+#include "camel-mbox-summary.h"
 
 #define CAMEL_SPOOL_SUMMARY(obj)         CAMEL_CHECK_CAST (obj, camel_spool_summary_get_type (), CamelSpoolSummary)
 #define CAMEL_SPOOL_SUMMARY_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_spool_summary_get_type (), CamelSpoolSummaryClass)
@@ -33,38 +34,14 @@
 typedef struct _CamelSpoolSummary      CamelSpoolSummary;
 typedef struct _CamelSpoolSummaryClass CamelSpoolSummaryClass;
 
-/* extra summary flags */
-enum {
-	CAMEL_MESSAGE_FOLDER_NOXEV = 1<<17,
-	CAMEL_MESSAGE_FOLDER_XEVCHANGE = 1<<18,
-};
-
-typedef struct _CamelSpoolMessageInfo {
-	CamelMessageInfo info;
-
-	off_t frompos;
-} CamelSpoolMessageInfo;
-
 struct _CamelSpoolSummary {
-	CamelFolderSummary parent;
+	CamelMboxSummary parent;
 
 	struct _CamelSpoolSummaryPrivate *priv;
-
-	char *folder_path;	/* name of matching folder */
-
-	size_t folder_size;
 };
 
 struct _CamelSpoolSummaryClass {
-	CamelFolderSummaryClass parent_class;
-
-	int (*load)(CamelSpoolSummary *cls, int forceindex, CamelException *ex);
-	int (*check)(CamelSpoolSummary *cls, CamelFolderChangeInfo *changeinfo, CamelException *ex);
-	int (*sync)(CamelSpoolSummary *cls, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex);
-	CamelMessageInfo *(*add)(CamelSpoolSummary *cls, CamelMimeMessage *msg, const CamelMessageInfo *info, CamelFolderChangeInfo *, CamelException *ex);
-
-	char *(*encode_x_evolution)(CamelSpoolSummary *cls, const CamelMessageInfo *info);
-	int (*decode_x_evolution)(CamelSpoolSummary *cls, const char *xev, CamelMessageInfo *info);
+	CamelMboxSummaryClass parent_class;
 };
 
 CamelType	camel_spool_summary_get_type	(void);

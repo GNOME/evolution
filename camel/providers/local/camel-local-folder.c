@@ -190,9 +190,10 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	CamelFolderInfo *fi;
 	CamelFolder *folder;
 	const char *root_dir_path, *name;
+	char *tmp;
 	char folder_path[PATH_MAX];
 	struct stat st;
-	int forceindex;
+	int forceindex, len;
 
 	folder = (CamelFolder *)lf;
 
@@ -205,11 +206,26 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	camel_folder_construct(folder, parent_store, full_name, name);
 
 	root_dir_path = camel_local_store_get_toplevel_dir(CAMEL_LOCAL_STORE(folder->parent_store));
+	/* strip the trailing '/' which is always present */
+	len = strlen(root_dir_path);
+	tmp = alloca(len+1);
+	strcpy(tmp, root_dir_path);
+	if (len>1 && tmp[len-1] == '/')
+		tmp[len-1] = 0;
 
 	lf->base_path = g_strdup(root_dir_path);
-	lf->folder_path = g_strdup_printf("%s/%s", root_dir_path, full_name);
-	lf->summary_path = g_strdup_printf("%s/%s.ev-summary", root_dir_path, full_name);
-	lf->index_path = g_strdup_printf("%s/%s.ibex", root_dir_path, full_name);
+
+	/* if the base store points to a file, then use that */
+	if (stat(tmp, &st) != -1 && S_ISREG(st.st_mode)) {
+		lf->folder_path = g_strdup(tmp);
+		/* not really sure to do with these for now? */
+		lf->summary_path = g_strdup_printf("%s.ev-summary", tmp);
+		lf->index_path = g_strdup_printf("%s.ibex", tmp);
+	} else {
+		lf->folder_path = g_strdup_printf("%s/%s", root_dir_path, full_name);
+		lf->summary_path = g_strdup_printf("%s/%s.ev-summary", root_dir_path, full_name);
+		lf->index_path = g_strdup_printf("%s/%s.ibex", root_dir_path, full_name);
+	}
 	
 	/* follow any symlinks to the mailbox */
 	if (lstat (lf->folder_path, &st) != -1 && S_ISLNK (st.st_mode) &&

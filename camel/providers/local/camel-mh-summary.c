@@ -329,7 +329,7 @@ mh_summary_sync_message(CamelLocalSummary *cls, CamelMessageInfo *info, CamelExc
 			outfd = open(tmpname, O_CREAT|O_WRONLY|O_TRUNC, 0600);
 			if (outfd != -1) {
 				outlen = 0;
-				len = camel_local_summary_write_headers(outfd, camel_mime_parser_headers_raw(mp), xevnew);
+				len = camel_local_summary_write_headers(outfd, camel_mime_parser_headers_raw(mp), xevnew, NULL, NULL);
 				if (len != -1) {
 					while (outlen != -1 && (len = camel_mime_parser_read(mp, &buffer, 10240)) > 0) {
 						d(printf("camel mime parser read, read %d bytes: %.*s\n", len, len, buffer));

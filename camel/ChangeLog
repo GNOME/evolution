@@ -1,3 +1,132 @@
+2002-06-26  Not Zed  <NotZed@Ximian.com>
+
+	* camel-gpg-context.c: Include <sys/time.h> for struct timeval.
+
+	* providers/local/camel-local-provider.c
+	(camel_provider_module_init): Removed spoold provider.  The spool
+	provider does it now.
+
+2002-06-25  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-folder.c (camel_spool_folder_new):
+	Support a new xstatus option - folders update/honour the
+	Status/X-Status headers in addition to X-Evolution.
+
+	* providers/local/camel-local-summary.c
+	(camel_local_summary_write_headers): If supplied with an
+	additional status or xstatus arg, write a Status header and/or
+	X-Status.  Also fix the case of properly terminating the headers
+	if an xev line isn't supplied.
+
+	* providers/local/Makefile.am (libcamellocalinclude_HEADERS,SOURCES):
+	Removed spoold-store.[ch].
+
+	* providers/local/camel-local-provider.c
+	(camel_provider_module_init): For the spoold type, just use the
+	spool store instead.
+
+	* providers/local/camel-spool-store.h: Added a type field, so the
+	1 store can implement different types without having to subclass.
+
+	* providers/local/camel-spool-store.c
+	(camel_spool_store_get_toplevel_dir): Removed, inherits from local
+	store now.
+	(construct): If we're pointing to a file, treat it as mbox mode,
+	otherwise treat it as 'elm' mode.
+	(get_folder): Only test for INBOX in mbox mode.
+	(get_folder_info_elm): 
+	(get_folder_info_mbox): Two alternatives for getting folder info,
+	depending on the type of folder we're looking at.
+	(get_folder_info_mbox): Make the url include the protocol.
+	(scan_dir): "
+
+	* providers/local/camel-spoold-store.c
+	(camel_spoold_store_get_toplevel_dir): Removed, inherits from
+	local store now.
+
+	* camel-folder.c (get_message_user_tag): Dont use a
+	g_return_if_fail for info==NULL.  This is not an error.
+	(set_message_user_tag): And same here.
+	(set_message_user_flag): Sigh, and here.
+	(get_message_user_flag): And here.
+	(set_message_flags): and here ...
+	(get_message_flags): Dum de dum, de done at last.
+
+	* providers/local/camel-mbox-folder.c (mbox_get_message): Check
+	for new messages whenever we retrieve one.  In the common
+	no-update case, this is a single stat.
+	(mbox_get_message): If we need to rescan, then force a full rescan
+	to make sure it does the right thing.
+	(mbox_get_message): Cleanup the exception handling a bit, if we do
+	get an error, propagate any folder changes anyway as well.
+	(mbox_set_message_user_flag): Argh more of these stupid g_returns
+	taht shouldn't be.
+	(mbox_set_message_user_tag): Here too.
+	(mbox_set_message_flags): If the read flag is being changed, mark
+	it as an xevchange (i.e. Status line change).
+
+	* providers/local/camel-mbox-summary.c (summary_rebuild): Merged
+	into summary_update.
+	(summary_update): Changed to allow it to update existing lists of
+	messages without clearing out the summary.
+	(mbox_summary_check): Dont clear the summary, just re-scan.
+	(message_info_new): Attempt to support the 'Status: RO' elm/pine
+	thing.
+	(camel_mbox_summary_encode_status): 
+	(camel_mbox_summary_decode_status): Util functions for
+	creating/parsing the Status line.
+	(camel_mbox_summary_sync_mbox): Write out the status line if we're
+	going to try support it.
+	(camel_mbox_summary_xstatus): Implement option to control
+	read/write of (x-)status.
+	(message_info_new): Do x-status stuff based on run-time option.
+	(camel_mbox_summary_sync_mbox): "
+	(mbox_summary_add): If x-status enabled, then always add
+	status/x-status headers to message.
+
+	* camel-folder-summary.c (summary_assign_uid): If the messageinfo
+	is already in the summary, AND is the same messageinfo, dont do
+	anything, return a value to indicate this.
+	(camel_folder_summary_add): Do nothing if this info already in the
+	summary, so we can perform updates.
+
+2002-06-24  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-local-summary.c
+	(camel_local_summary_check_force): New method to force the next
+	summary check to be a full check, set if a mismatch occurs.
+
+	* camel-folder-summary.c (camel_folder_summary_load): If we have
+	no summary path set, dont do any i/o, rather than abort.
+	(camel_folder_summary_save): "
+	(camel_folder_summary_header_load): "
+
+	* providers/local/camel-spool-store.h: Inherit from camel mbox
+	store, even if we override almost everything.
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): If the base path points to a file,
+	use that as the folder path as well.
+
+	* providers/local/camel-spool-folder.h: Inherit from
+	camel-mbox-folder.
+
+	* providers/local/camel-spool-summary.c (spool_summary_sync_full):
+	Use camel_mbox_summary_sync_mbox to do most of the work.
+
+	* providers/local/camel-spool-summary.[ch]: Make spool-summary
+	inherit from mbox summary rather than foldersummary.
+
+	* providers/local/camel-mbox-summary.c (mbox_summary_sync): Make
+	sync_full/quick virtual methods.
+	(camel_mbox_summary_sync_mbox): The full sync method put into a
+	simple function that sync's from fd to fd.
+	(mbox_summary_sync_full): Use summary_sync_mbox to do the real
+	work.
+	(mbox_summary_check): Create removed events if the folder gets
+	cleared.  Also, dont clear the summary before a rebuild, try to
+	merge.
+
 2002-06-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c: #include <sys/time.h>

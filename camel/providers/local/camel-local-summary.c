@@ -160,6 +160,11 @@ camel_local_summary_load(CamelLocalSummary *cls, int forceindex, CamelException 
 	return 0;
 }
 
+void camel_local_summary_check_force(CamelLocalSummary *cls)
+{
+	cls->check_force = 1;
+}
+
 char *
 camel_local_summary_encode_x_evolution(CamelLocalSummary *cls, const CamelMessageInfo *info)
 {
@@ -300,15 +305,18 @@ camel_local_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, const Cam
  * @fd: 
  * @header: 
  * @xevline: 
+ * @status:
+ * @xstatus:
  * 
  * Write a bunch of headers to the file @fd.  IF xevline is non NULL, then
  * an X-Evolution header line is created at the end of all of the headers.
+ * If @status is non NULL, then a Status header line is also written.
  * The headers written are termianted with a blank line.
  * 
  * Return value: -1 on error, otherwise the number of bytes written.
  **/
 int
-camel_local_summary_write_headers(int fd, struct _header_raw *header, char *xevline)
+camel_local_summary_write_headers(int fd, struct _header_raw *header, const char *xevline, const char *status, const char *xstatus)
 {
 	int outlen = 0, len;
 	int newfd;
@@ -327,7 +335,9 @@ camel_local_summary_write_headers(int fd, struct _header_raw *header, char *xevl
 	}
 
 	while (header) {
-		if (strcmp(header->name, "X-Evolution")) {
+		if (strcmp(header->name, "X-Evolution") != 0
+		    && (status == NULL || strcmp(header->name, "Status") != 0)
+		    && (xstatus == NULL || strcmp(header->name, "X-Status") != 0)) {
 			len = fprintf(out, "%s:%s\n", header->name, header->value);
 			if (len == -1) {
 				fclose(out);
@@ -338,14 +348,39 @@ camel_local_summary_write_headers(int fd, struct _header_raw *header, char *xevl
 		header = header->next;
 	}
 
-	if (xevline) {
-		len = fprintf(out, "X-Evolution: %s\n\n", xevline);
+	if (status) {
+		len = fprintf(out, "Status: %s\n", status);
 		if (len == -1) {
 			fclose(out);
 			return -1;
 		}
 		outlen += len;
 	}
+
+	if (xstatus) {
+		len = fprintf(out, "X-Status: %s\n", xstatus);
+		if (len == -1) {
+			fclose(out);
+			return -1;
+		}
+		outlen += len;
+	}
+
+	if (xevline) {
+		len = fprintf(out, "X-Evolution: %s\n", xevline);
+		if (len == -1) {
+			fclose(out);
+			return -1;
+		}
+		outlen += len;
+	}
+
+	len = fprintf(out, "\n");
+	if (len == -1) {
+		fclose(out);
+		return -1;
+	}
+	outlen += len;
 
 	if (fclose(out) == -1)
 		return -1;

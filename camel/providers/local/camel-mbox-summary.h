@@ -23,6 +23,9 @@
 
 #include "camel-local-summary.h"
 
+/* Enable the use of elm/pine style "Status" & "X-Status" headers */
+#define STATUS_PINE
+
 #define CAMEL_MBOX_SUMMARY(obj)         CAMEL_CHECK_CAST (obj, camel_mbox_summary_get_type (), CamelMboxSummary)
 #define CAMEL_MBOX_SUMMARY_CLASS(klass) CAMEL_CHECK_CLASS_CAST (klass, camel_mbox_summary_get_type (), CamelMboxSummaryClass)
 #define CAMEL_IS_MBOX_SUMMARY(obj)      CAMEL_CHECK_TYPE (obj, camel_mbox_summary_get_type ())
@@ -45,18 +48,33 @@ struct _CamelMboxSummary {
 
 	struct _CamelMboxSummaryPrivate *priv;
 
+	CamelFolderChangeInfo *changes;	/* used to build change sets */
+
 	size_t folder_size;	/* size of the mbox file, last sync */
+
+	unsigned int xstatus:1;	/* do we store/honour xstatus/status headers */
 };
 
 struct _CamelMboxSummaryClass {
 	CamelLocalSummaryClass parent_class;
+
+	/* sync in-place */
+	int (*sync_quick)(CamelMboxSummary *cls, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex);
+	/* sync requires copy */
+	int (*sync_full)(CamelMboxSummary *cls, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex);
 };
 
 CamelType		camel_mbox_summary_get_type	(void);
 CamelMboxSummary      *camel_mbox_summary_new	(const char *filename, const char *mbox_name, CamelIndex *index);
 
+/* do we honour/use xstatus headers, etc */
+void camel_mbox_summary_xstatus(CamelMboxSummary *mbs, int state);
+
 /* generate a From line from headers */
 char *camel_mbox_summary_build_from(struct _header_raw *header);
+
+/* build a new mbox from an existing mbox storing summary information */
+int camel_mbox_summary_sync_mbox(CamelMboxSummary *cls, guint32 flags, CamelFolderChangeInfo *changeinfo, int fd, int fdout, CamelException *ex);
 
 #endif /* ! _CAMEL_MBOX_SUMMARY_H */
 
