@@ -12,7 +12,6 @@ addressbook/gui/minicard/e-minicard.c
 addressbook/printing/e-contact-print.glade.h
 calendar/cal-util/timeutil.c
 calendar/gui/calendar-commands.c
-calendar/gui/calendar-pilot-sync.c
 calendar/gui/control-factory.c
 calendar/gui/dialogs/alarm-notify-dialog.c
 calendar/gui/dialogs/alarm-notify.glade.h
@@ -20,7 +19,6 @@ calendar/gui/e-day-view-time-item.c
 calendar/gui/e-day-view.c
 calendar/gui/e-week-view.c
 calendar/gui/event-editor.c
-calendar/gui/event-editor-dialog.glade.h
 calendar/gui/getdate.y
 calendar/gui/gncal-todo.c
 calendar/gui/gnome-cal.c
@@ -47,7 +45,6 @@ mail/mail-ops.c
 mail/mail-threads.c
 mail/main.c
 mail/message-list.c
-shell/e-init.c
 shell/e-setup.c
 shell/e-shell-folder-creation-dialog.c
 shell/e-shell-folder-selection-dialog.c
@@ -55,7 +52,6 @@ shell/e-shell-folder-title-bar.c
 shell/e-shell-view-menu.c
 shell/e-shell-view.c
 shell/e-shell.c
-shell/e-shortcut.c
 shell/e-shortcuts-view.c
 shell/e-shortcuts.c
 shell/e-storage.c
