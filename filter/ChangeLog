@@ -1,3 +1,10 @@
+2002-04-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-editor.c (double_click): This needs to return a gboolean
+	(TRUE).
+	(rule_edit): Using gnome_dialog_set_parent instead of
+	gtk_widget_set_parent_window seems to fix bug #23226.
+
 2002-04-10  Not Zed  <NotZed@Ximian.com>
 
 	* filtertypes.xml: Added closing ) for "not starts with" subject
