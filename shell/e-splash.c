@@ -266,8 +266,10 @@ init (ESplash *splash)
 static gboolean
 button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	ESplash *splash = (ESplash *) data;
-	
+	ESplash *splash;
+
+	splash = E_SPLASH (data);
+
 	gtk_widget_hide (GTK_WIDGET (splash));
 	
 	return TRUE;
@@ -377,9 +379,6 @@ e_splash_add_icon (ESplash *splash,
 	g_return_val_if_fail (E_IS_SPLASH (splash), 0);
 	g_return_val_if_fail (icon_pixbuf != NULL, 0);
 
-	if (GTK_OBJECT_DESTROYED (splash))
-		return 0;
-	
 	priv = splash->priv;
 
 	icon = icon_new (splash, icon_pixbuf);
@@ -411,9 +410,6 @@ e_splash_set_icon_highlight  (ESplash *splash,
 	g_return_if_fail (splash != NULL);
 	g_return_if_fail (E_IS_SPLASH (splash));
 
-	if (GTK_OBJECT_DESTROYED (splash))
-		return;
-	
 	priv = splash->priv;
 
 	icon = (Icon *) g_list_nth_data (priv->icons, num);

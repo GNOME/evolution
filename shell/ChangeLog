@@ -1,5 +1,17 @@
 2001-08-07  Ettore Perazzoli  <ettore@ximian.com>
 
+	[This should fix #5407, application crash on re-opening.]
+
+	* e-shell.c (e_shell_construct): Call
+	`gtk_widget_hide_on_delete()' on the splash.
+
+	* e-splash.c (e_splash_add_icon): Don't check for destruction
+	here.
+	(e_splash_set_icon_highlight): Not even here.
+	(button_press_event): Use a GTK+ cast.
+
+2001-08-07  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shortcuts-view-model.c (load_group_into_model): Get the icon
 	from the folder type registry.
 	(shortcuts_new_shortcut_cb): Likewise.

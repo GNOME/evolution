@@ -889,6 +889,7 @@ e_shell_construct (EShell *shell,
 		splash = NULL;
 	} else {
 		splash = e_splash_new ();
+		gtk_widget_hide_on_delete (splash);
 		gtk_widget_show (splash);
 	}
 
