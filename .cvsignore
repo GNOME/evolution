@@ -1,7 +1,7 @@
 ABOUT-NLS
 Makefile
 Makefile.in
-autom4te-*.cache
+autom4te*.cache
 aclocal.m4
 config.cache
 config.guess
@@ -27,3 +27,4 @@ xml-i18n-*
 xlibtool
 xltmain.sh
 intltool-*
+*.pc

@@ -10,6 +10,8 @@ evolution-calendar.h
 evolution-calendar-common.c
 evolution-calendar-skels.c
 evolution-calendar-stubs.c
+e-calendar-marshal.h
+e-calendar-marshal.c
 *.lo
 Evolution-Addressbook-SelectNames-common.c
 Evolution-Addressbook-SelectNames-skels.c
@@ -19,5 +21,5 @@ Evolution-Composer-common.c
 Evolution-Composer-skels.c
 Evolution-Composer-stubs.c
 Evolution-Composer.h
-GNOME_Evolution_Calendar.server
-GNOME_Evolution_Calendar.server.in
+GNOME_Evolution_Calendar*.server
+GNOME_Evolution_Calendar*.server.in
