@@ -2,11 +2,11 @@
 #AUTOMAKE_OPTIONS = no-dependencies
 
 #noinst_LTLIBRARIES = libical.la
-lib_LIBRARIES = libical.a
+lib_LTLIBRARIES = libical.la
 
 YFLAGS =-d -v -t
 
-libical_a_SOURCES = \
+libical_la_SOURCES = \
 	ical.h \
 	icalcomponent.c	\
 	icalcomponent.h	\
