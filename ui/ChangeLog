@@ -1,3 +1,8 @@
+2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-event-editor.xml: Add a toolbar item for
+	ActionScheduleMeeting.
+
 2002-05-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-mail-global.xml: Replaced q binding with ` for

@@ -28,7 +28,7 @@
 
 	         <menuitem name="ActionCancelMeeting" verb=""/>
 
-                 <separator f=""/>
+                 <separator f="" name="eventeditor1"/>
 
 	         <menuitem name="ActionForward" verb=""/>
 
@@ -37,5 +37,17 @@
 </submenu>
 
 </menu>
+
+<dockitem name="Toolbar"relief="none" behavior="exclusive"
+	  _tip="Main toolbar" hlook="text" vlook="icon">
+
+        <placeholder name="Actions">
+	    	<separator f="" name="eventeditor2"/>
+
+		<toolitem name="ActionScheduleMeeting" verb="ActionScheduleMeeting" _label="Meeting"
+			  priority="1" pixtype="pixbuf"/>
+	</placeholder>
+
+</dockitem>
 
 </Root>

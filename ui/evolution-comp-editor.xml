@@ -68,6 +68,8 @@
 
         <toolitem name="FileSaveAndClose" verb="" _label="Save and Close" priority="1" pixtype="pixbuf"/>
 
+        <placeholder name="Actions"/>
+
 	<separator f="" name="ecompedit1"/>
         
 	<toolitem name="FilePrint" verb="" _label="Print" priority="1" pixtype="pixbuf"/>
