@@ -243,13 +243,29 @@ real_fetch_mail (gpointer user_data)
 			uids = camel_folder_get_uids (sourcefolder, ex);
 			printf("got %d messages in source\n", uids->len);
 			for (i = 0; i < uids->len; i++) {
-				camel_folder_move_message_to (sourcefolder, uids->pdata[i], folder, ex);
+				CamelMimeMessage *msg;
+				
+ 				msg = camel_folder_get_message (sourcefolder, uids->pdata[i], ex);
+
 				if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-					async_mail_exception_dialog ("Unable to get new mail", ex, fb);
+					async_mail_exception_dialog ("Unable to get read message", ex, fb);
 					gtk_object_unref (GTK_OBJECT (sourcefolder));
+					gtk_object_unref (GTK_OBJECT (msg));
 
 					goto cleanup;
 				}
+
+				camel_folder_append_message (folder, msg, ex);
+ 				if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+ 					async_mail_exception_dialog ("Unable to write message", ex, fb);
+ 					gtk_object_unref (GTK_OBJECT (msg));
+ 					gtk_object_unref (GTK_OBJECT (sourcefolder));
+					
+					goto cleanup;
+ 				}
+
+				camel_folder_delete_message (sourcefolder, uids->pdata[i], ex);
+ 				gtk_object_unref (GTK_OBJECT (msg));
 			}
 			camel_folder_free_uids (sourcefolder, uids);
 			camel_folder_sync (sourcefolder, TRUE, ex);
