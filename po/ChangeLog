@@ -1,3 +1,7 @@
+2002-05-10  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* vi.po: Updated Vietnamese file
+
 2002-05-08  JP Rosevear  <jpr@ximian.com>
 
 	* Revert zh_CN and zh_TW changes because gettext sucks
