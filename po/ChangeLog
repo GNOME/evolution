@@ -1,6 +1,8 @@
 2003-05-11  Abel Cheung  <maddog@linux.org.hk>
 
 	* POTFILES.skip: Remove non-existant file(s).
+	* ca.po, en_AU.po, en_GB.po, et.po, eu.po, ro.po:
+	  Converted to UTF-8.
 
 2003-05-08  Duarte Loreto <happyguy_pt@hotmail.com>
 
