@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+    <e-plugin
+     type="shlib"
+     location="@PLUGINDIR@/liborg-gnome-calendar-http.so"
+     id="org.gnome.evolution.calendar.http"
+     name="HTTP Calendars">
+        <hook class="org.gnome.evolution.calendar.config:1.0">
+            <group
+	     target="source"
+	     id="org.gnome.evolution.calendar.calendarProperties"
+	     check="e_calendar_http_check">
+                <item
+		 type="item_table"
+		 path="00.general/00.source/30.url"
+		 factory="e_calendar_http_url"/>
+		<item
+		 type="item_table"
+		 path="00.general/00.source/40.refresh"
+		 factory="e_calendar_http_refresh"/>
+            </group>
+        </hook>
+    </e-plugin>
+</e-plugin-list>
