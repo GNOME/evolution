@@ -1,3 +1,8 @@
+Sun Jul 26 13:59:53 EDT 1998  Daniel Veillard <Daniel.Veillard@w3.org>
+
+	* Makefile.am (MACROS): Added gnome-xml-check.m4
+	* gnome-xml-check.m4: New file.
+
 1998-07-24  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4: No longer requiring
