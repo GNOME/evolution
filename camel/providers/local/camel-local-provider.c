@@ -25,6 +25,7 @@
 #endif
 
 #include <stdio.h>
+#include <string.h>
 
 #include "camel-provider.h"
 #include "camel-session.h"
@@ -34,6 +35,8 @@
 #include "camel-mbox-store.h"
 #include "camel-maildir-store.h"
 #include "camel-spool-store.h"
+
+#define d(x)
 
 static CamelProvider mh_provider = {
 	"mh",
@@ -84,29 +87,108 @@ static CamelProvider spool_provider = {
 	/* ... */
 };
 
+/* build a canonical 'path' */
+static char *
+make_can_path(char *p, char *o)
+{
+	char c, last, *start = o;
+
+	d(printf("canonical '%s' = ", p));
+
+	last = 0;
+	while ((c = *p++)) {
+		if (c!='/'
+		    || (c=='/' && last != '/'))
+			*o++ = c;
+		last = c;
+	}
+	if (o>start && o[-1] == '/')
+		o[-1] = 0;
+	else
+		*o = 0;
+
+	d(printf("'%s'\n", start));
+
+	return start;
+}
+
+/* 'helper' function for it */
+#define get_can_path(p) ((p==NULL)?NULL:(make_can_path((p), alloca(strlen(p)+1))))
+
+static guint
+local_url_hash (const void *v)
+{
+	const CamelURL *u = v;
+	guint hash = 0;
+
+#define ADD_HASH(s) if (s) hash ^= g_str_hash (s);
+
+	ADD_HASH (u->protocol);
+	ADD_HASH (u->user);
+	ADD_HASH (u->authmech);
+	ADD_HASH (u->host);
+	if (u->path)
+		hash ^= g_str_hash(get_can_path(u->path));
+	ADD_HASH (u->path);
+	ADD_HASH (u->query);
+	hash ^= u->port;
+	
+	return hash;
+}
+
+static int
+check_equal (char *s1, char *s2)
+{
+	if (s1 == NULL) {
+		if (s2 == NULL)
+			return TRUE;
+		else
+			return FALSE;
+	}
+	
+	if (s2 == NULL)
+		return FALSE;
+
+	return strcmp (s1, s2) == 0;
+}
+
+static int
+local_url_equal(const void *v, const void *v2)
+{
+	const CamelURL *u1 = v, *u2 = v2;
+
+	return check_equal(get_can_path(u1->path), get_can_path(u2->path))
+		&& check_equal(u1->protocol, u2->protocol)
+		&& check_equal(u1->user, u2->user)
+		&& check_equal(u1->authmech, u2->authmech)
+		&& check_equal(u1->host, u2->host)
+		&& check_equal(u1->query, u2->query)
+		&& u1->port == u2->port;
+}
+
 void camel_provider_module_init(CamelSession * session)
 {
 	mh_provider.object_types[CAMEL_PROVIDER_STORE] = camel_mh_store_get_type();
-	mh_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
-	mh_provider.url_hash = camel_url_hash;
-	mh_provider.url_equal = camel_url_equal;
+	mh_provider.service_cache = g_hash_table_new(local_url_hash, local_url_equal);
+	mh_provider.url_hash = local_url_hash;
+	mh_provider.url_equal = local_url_equal;
 	camel_session_register_provider(session, &mh_provider);
 
 	mbox_provider.object_types[CAMEL_PROVIDER_STORE] = camel_mbox_store_get_type();
-	mbox_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
-	mbox_provider.url_hash = camel_url_hash;
-	mbox_provider.url_equal = camel_url_equal;
+	mbox_provider.service_cache = g_hash_table_new(local_url_hash, local_url_equal);
+	mbox_provider.url_hash = local_url_hash;
+	mbox_provider.url_equal = local_url_equal;
 	camel_session_register_provider(session, &mbox_provider);
 
 	maildir_provider.object_types[CAMEL_PROVIDER_STORE] = camel_maildir_store_get_type();
-	maildir_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
-	maildir_provider.url_hash = camel_url_hash;
-	maildir_provider.url_equal = camel_url_equal;
+	maildir_provider.service_cache = g_hash_table_new(local_url_hash, local_url_equal);
+	maildir_provider.url_hash = local_url_hash;
+	maildir_provider.url_equal = local_url_equal;
 	camel_session_register_provider(session, &maildir_provider);
 
 	spool_provider.object_types[CAMEL_PROVIDER_STORE] = camel_spool_store_get_type();
-	spool_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
-	spool_provider.url_hash = camel_url_hash;
-	spool_provider.url_equal = camel_url_equal;
+	spool_provider.service_cache = g_hash_table_new(local_url_hash, local_url_equal);
+	spool_provider.url_hash = local_url_hash;
+	spool_provider.url_equal = local_url_equal;
 	camel_session_register_provider(session, &spool_provider);
 }
