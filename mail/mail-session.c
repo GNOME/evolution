@@ -796,7 +796,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	/* FIXME: we need a way to distinguish between filtering new
            mail and re-filtering a folder because both use the
            "incoming" filter type */
-	notify = gconf_client_get_bool (gconf, "/apps/evolution/mail/notify/type", NULL);
+	notify = gconf_client_get_int (gconf, "/apps/evolution/mail/notify/type", NULL);
 	if (notify != MAIL_CONFIG_NOTIFY_NOT && !strcmp (type, "incoming")) {
 		char *filename;
 		

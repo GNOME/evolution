@@ -1,5 +1,10 @@
 2003-01-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-session.c (main_get_filter_driver): notify-type is a int,
+	not a bool. Duh.
+
+2003-01-10  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* component-factory.c (factory): Updated for function rename.
 
 	* mail-config-factory.c (mail_config_control_factory_cb):
