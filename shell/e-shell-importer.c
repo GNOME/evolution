@@ -489,7 +489,6 @@ start_import (const char *folderpath,
 	ImporterComponentData *icd;
 	char *label;
 	char *real_iid;
-	char *localpath;
 	struct stat buf;
 	
 	if (stat (filename, &buf) == -1) {
@@ -500,15 +499,6 @@ start_import (const char *folderpath,
 		g_free (message);
 
 		return;
-	}
-
-	/* Only allow importing to /local */
-	localpath = "/" E_LOCAL_STORAGE_NAME "/";
-	if (folderpath != NULL) {
-		if (strncmp (folderpath, localpath, strlen (localpath))) {
-			show_error (_("You may only import to local folders"), _("Evolution Error"));
-			return;
-		}
 	}
 
 	if (iid == NULL || strcmp (iid, "Automatic") == 0) {

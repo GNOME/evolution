@@ -1,3 +1,8 @@
+2002-07-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-shell-importer.c (start_import): removed check for local folders,
+	so that we can import into non-local ones.
+
 2002-07-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-storage-set-view.c
