@@ -1,3 +1,7 @@
+2001-07-30  Iain Holmes  <iain@ximian.com>
+
+	* e-sumary-calendar.c (generate_html): Correct the URL for the links.
+
 2001-07-27  Iain Holmes  <iain@ximian.com>
 
 	* Locations: Add some more German cities from s.kost@webmacher.de.
