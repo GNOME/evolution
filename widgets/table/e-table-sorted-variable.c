@@ -78,6 +78,9 @@ etsv_add       (ETableSubsetVariable *etssv,
 		int comp_val = (*comp)(val, e_table_model_value_at(etss->source, col, etss->map_table[i]));
 		if ( (ascending && comp_val < 0) || ((!ascending) && comp_val > 0) )
 			break;
+		if ( comp_val == 0 )
+			if ( (ascending && row < etss->map_table[i]) || ((!ascending) && row > etss->map_table[i]) )
+				break;
 	}
 	if ( etss->n_map + 1 > etssv->n_vals_allocated ) {
 		etss->map_table = g_realloc(etss->map_table, (etssv->n_vals_allocated + INCREMENT_AMOUNT) * sizeof(int));
