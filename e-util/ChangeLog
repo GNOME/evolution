@@ -1,3 +1,10 @@
+2000-09-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-gtk-utils.c: New.
+	(e_gtk_signal_connect_full_while_alive): New.
+
+	* e-gtk-utils.h: New.
+
 2000-09-08  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-font.c: Use experimental 16-bit font stuff for EFonts
