@@ -1,5 +1,7 @@
 2002-05-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* filter-file.c (get_widget): Set the path in the entry widget.
+
 	* Makefile.am: Add filter-file.[c,h] to the build.
 
 	* filtertypes.xml: Add a "Command" filter rule.
