@@ -28,7 +28,11 @@
 #endif
 
 
-#include <gtk/gtk.h>
+#include <stdio.h>
+#include <gtk/gtkarrow.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkwidget.h>
+#include <libgnomeui/gnome-popup-menu.h>
 #include <gal/util/e-util.h>
 
 #include "e-dropdown-button.h"

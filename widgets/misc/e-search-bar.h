@@ -21,7 +21,7 @@
 #ifndef __E_SEARCH_BAR_H__
 #define __E_SEARCH_BAR_H__
 
-#include <gnome.h>
+#include <gtk/gtkhbox.h>
 
 #ifdef __cplusplus
 extern "C" {

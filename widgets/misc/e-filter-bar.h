@@ -21,7 +21,8 @@
 #ifndef __E_FILTER_BAR_H__
 #define __E_FILTER_BAR_H__
 
-#include <gtk/gtk.h>
+#include <gtk/gtkobject.h>
+#include <gtk/gtkwidget.h>
 #include "e-search-bar.h"
 
 #include "filter/rule-context.h"

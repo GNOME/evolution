@@ -24,6 +24,17 @@
 #include <stdarg.h>
 #include <string.h> /* for strcmp */
 
+#include <glib.h>
+#include <gtk/gtkalignment.h>
+#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtkhbox.h>
+#include <gtk/gtklabel.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-triggers.h>
+#include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-pixmap.h>
+#include <libgnomeui/gnome-uidefs.h>
 #include "e-messagebox.h"
 
 #define E_MESSAGE_BOX_WIDTH  425

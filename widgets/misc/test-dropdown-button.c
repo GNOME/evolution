@@ -27,8 +27,15 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
-
+#include <stdio.h>
+#include <glib.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkwindow.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-app-helper.h>
+#include <libgnomeui/gnome-init.h>
+#include <libgnomeui/gnome-stock.h>
 #include "e-dropdown-button.h"
 
 

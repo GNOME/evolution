@@ -30,8 +30,6 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
-
 #include "e-calendar.h"
 
 /* Drag and Drop stuff. */

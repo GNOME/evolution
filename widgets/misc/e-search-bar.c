@@ -25,8 +25,11 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 
+#include <stdio.h> /* printf */
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include "e-search-bar.h"
 #include "e-dropdown-button.h"
 

@@ -25,8 +25,12 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
-
+#include <gtk/gtkbox.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtktext.h>
+#include <gtk/gtkvbox.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-init.h>
 #include "e-title-bar.h"
 
 static void

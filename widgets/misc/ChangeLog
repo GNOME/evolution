@@ -1,3 +1,19 @@
+2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-dropdown-button.c: Replace #include <gtk/gtk.h>
+	* e-dropdown-button.h: Remove #include <gnome.h>
+	* e-filter-bar.c: Replace #include <gtk/gtk.h>
+	* e-filter-bar.h: Replace #include <gtk/gtk.h>
+	* e-messagebox.c: Add #includes to count for removed <gnome.h> in
+	e-messagebox.h:
+	* e-messagebox.h: Replace #include <gnome.h>
+	* e-search-bar.c: Replace #include <gnome.h>
+	* e-search-bar.h: Same here
+	* test-calendar.c: Remove #include <gnome.h>
+	* test-dateedit.c: Replace #include <gnome.h>
+	* test-dropdown-button.c: Same here.
+	* test-title-bar.c: Same here.
+
 2001-03-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-filter-bar.c (rule_editor_clicked): Validate the filter rule.

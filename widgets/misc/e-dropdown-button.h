@@ -31,8 +31,6 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkmenu.h>
 
-#include <gnome.h>
-
 #ifdef __cplusplus
 extern "C" {
 #pragma }

@@ -30,8 +30,13 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
-
+#include <glib.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkwindow.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-init.h>
 #include "e-dateedit.h"
 
 static void delete_event_cb		(GtkWidget	*widget,

@@ -23,7 +23,9 @@
 #ifndef __E_MESSAGE_BOX_H__
 #define __E_MESSAGE_BOX_H__
 
-#include <gnome.h>
+#include <glib.h>
+#include <gtk/gtkwidget.h>
+#include <libgnomeui/gnome-dialog.h>
 
 BEGIN_GNOME_DECLS
 

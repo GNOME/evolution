@@ -25,7 +25,10 @@
 
 #include <config.h>
 
-#include <gtk/gtk.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-stock.h>
 
 #include "e-dropdown-button.h"
 #include "e-filter-bar.h"
