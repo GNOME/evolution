@@ -1,5 +1,31 @@
 2003-03-17  Hans Petter Jansson  <hpj@ximian.com>
 
+	Fixes #34095
+
+	* gui/e-meeting-model.c (append_row): Don't leak meeting attendees;
+	unref the attendee after it's assigned to model.
+
+	* gui/dialogs/meeting-page.c (meeting_page_destroy): Free the actual
+	array of deleted attendees.
+
+	* gui/dialogs/event-editor.c (event_editor_destroy): Free the private
+	structure.
+
+	* gui/itip-utils.c (comp_description): Rework free/busy information
+	composer so we can free date/time information after use. Then free it.
+	(itip_send_comp): Free the allocated CORBA buffer for attachment data.
+
+	* gui/dialogs/comp-editor-util.c (comp_editor_contacts_to_component):
+	Free the destination contacts string once we're done with it.
+
+	* gui/e-calendar-table.c (invisible_destroyed): Unref the invisible.
+
+	* gui/e-day-view.c (invisible_destroyed): Ditto.
+
+	* gui/e-week-view.c (invisible_destroyed): Ditto.
+
+2003-03-17  Hans Petter Jansson  <hpj@ximian.com>
+
 	Fixes #39757
 
 	* gui/dialogs/alarm-page.c (sensitize_buttons): Somehow this code

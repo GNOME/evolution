@@ -230,7 +230,7 @@ meeting_page_finalize (GObject *object)
 		g_object_unref((priv->comp));
 	
 	cleanup_attendees (priv->deleted_attendees);
-	g_ptr_array_free (priv->deleted_attendees, FALSE);
+	g_ptr_array_free (priv->deleted_attendees, TRUE);
 	
 	g_object_unref((priv->model));
 	

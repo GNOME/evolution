@@ -480,6 +480,8 @@ comp_editor_contacts_to_component (GtkWidget *contacts_entry,
 #endif
 
 	contact_destv = e_destination_importv (contacts_string);
+	g_free (contacts_string);
+
 	if (contact_destv) {
 		for (i = 0; contact_destv[i] != NULL; i++) {
 			name = e_destination_get_name (contact_destv[i]);

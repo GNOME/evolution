@@ -397,6 +397,8 @@ event_editor_finalize (GObject *object)
 
 	g_object_unref((priv->model));
 
+	g_free (priv);
+
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
