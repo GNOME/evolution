@@ -791,7 +791,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		switch (gpg->mode) {
 		case GPG_CTX_MODE_SIGN:
 			if (!strncmp (status, "SIG_CREATED ", 12)) {
-				gpg->complete = TRUE;
+				/* FIXME: save this state? */
 			}
 			break;
 		case GPG_CTX_MODE_VERIFY:
@@ -805,9 +805,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 					gpg->trust = GPG_TRUST_FULLY;
 				} else if (!strncmp (status, "ULTIMATE", 8)) {
 					gpg->trust = GPG_TRUST_ULTIMATE;
-				} 
-				
-				gpg->complete = TRUE;
+				}
 				
 				/* Since verifying a signature will never produce output
 				   on gpg's stdout descriptor, we use this EOF bit for
@@ -826,7 +824,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 			if (!strncmp (status, "BEGIN_ENCRYPTION", 16)) {
 				/* nothing to do... but we know to expect data on stdout soon */
 			} else if (!strncmp (status, "END_ENCRYPTION", 14)) {
-				gpg->complete = TRUE;
+				/* nothing to do, but we know the end is near? */
 			} else if (!strncmp (status, "NO_RECP", 7)) {
 				camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 						     _("Failed to encrypt: No valid recipients specified."));
@@ -837,13 +835,10 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 			if (!strncmp (status, "BEGIN_DECRYPTION", 16)) {
 				/* nothing to do... but we know to expect data on stdout soon */
 			} else if (!strncmp (status, "END_DECRYPTION", 14)) {
-				gpg->complete = TRUE;
+				/* nothing to do, but we know the end is near? */
 			}
 			break;
 		}
-		
-		if (gpg->complete)
-			d(printf ("okay, that's all folks...\n"));
 	}
 	
  recycle:
