@@ -1,3 +1,8 @@
+2000-06-21  Dan Winship  <danw@helixcode.com>
+
+	* providers/pop3/camel-pop3-store.c (query_auth_types): Fix dumb
+	bug.
+
 2000-06-21  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_message_by_uid): 

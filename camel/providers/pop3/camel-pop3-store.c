@@ -328,7 +328,7 @@ query_auth_types (CamelService *service, CamelException *ex)
 	int saved_port;
 #endif
 
-	if (service->url) {
+	if (service->url && !service->url->empty) {
 		passwd = connect_to_server (service, FALSE, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
 			return NULL;
