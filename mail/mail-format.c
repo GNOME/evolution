@@ -50,10 +50,10 @@
 
 static char *get_data_wrapper_text (CamelDataWrapper *data);
 
-static char *try_inline_pgp (char *start, MailDisplay *md);
-static char *try_inline_pgp_sig (char *start, MailDisplay *md);
-static char *try_uudecoding (char *start, MailDisplay *md);
-static char *try_inline_binhex (char *start, MailDisplay *md);
+static char *try_inline_pgp (char *start, CamelMimePart *part, MailDisplay *md);
+static char *try_inline_pgp_sig (char *start, CamelMimePart *part, MailDisplay *md);
+static char *try_uudecoding (char *start, CamelMimePart *part, MailDisplay *md);
+static char *try_inline_binhex (char *start, CamelMimePart *part, MailDisplay *md);
 
 static void decode_pgp (CamelStream *ciphertext, CamelStream *plaintext, MailDisplay *md);
 
@@ -1043,7 +1043,7 @@ get_data_wrapper_text (CamelDataWrapper *wrapper)
 
 struct {
 	char *start;
-	char * (*handler) (char *start, MailDisplay *md);
+	char * (*handler) (char *start, CamelMimePart *part, MailDisplay *md);
 } text_specials[] = {
 	{ "-----BEGIN PGP MESSAGE-----\n", try_inline_pgp },
 	{ "-----BEGIN PGP SIGNED MESSAGE-----\n", try_inline_pgp_sig },
@@ -1101,7 +1101,8 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 			/* the %.*s thing just grabs upto start-p chars; go read ANSI C */
 			mail_text_write (md->html, md->stream, "%.*s", start-p, p);
 		}
-		p = text_specials[i].handler (start, md);
+		
+		p = text_specials[i].handler (start, part, md);
 		if (p == start) {
 			/* Oops. That failed. Output this line normally and
 			 * skip over it.
@@ -1342,7 +1343,7 @@ decode_pgp (CamelStream *ciphertext, CamelStream *plaintext, MailDisplay *md)
 }
 
 static char *
-try_inline_pgp (char *start, MailDisplay *md)
+try_inline_pgp (char *start, CamelMimePart *part, MailDisplay *md)
 {
 	CamelStream *ciphertext, *plaintext;
 	GByteArray *buffer;
@@ -1416,16 +1417,17 @@ mail_write_authenticity (MailDisplay *md, CamelCipherValidity *valid)
 }
 
 static char *
-try_inline_pgp_sig (char *start, MailDisplay *md)
+try_inline_pgp_sig (char *start, CamelMimePart *part, MailDisplay *md)
 {
 	CamelCipherValidity *valid = NULL;
 	CamelPgpContext *context;
-	char *end, *msg_start, *pgp_start;
+	char *msg_start, *pgp_start, *sig_start, *sig_end;
+	const char *charset;
 	
-	msg_start = strstr (start, "-----BEGIN PGP SIGNED MESSAGE-----");
-	if (msg_start) {
+	pgp_start = strstr (start, "-----BEGIN PGP SIGNED MESSAGE-----");
+	if (pgp_start) {
 		/* skip over -----BEGIN PGP SIGNED MESSAGE----- */
-		msg_start = strchr (msg_start, '\n');
+		msg_start = strchr (pgp_start, '\n');
 		if (!msg_start++)
 			return start;
 		
@@ -1440,16 +1442,16 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 	}
 	
 	/* find the beginning of the signature block */
-	pgp_start = strstr (msg_start, "-----BEGIN PGP SIGNATURE-----");
-	if (!pgp_start)
+	sig_start = strstr (msg_start, "-----BEGIN PGP SIGNATURE-----");
+	if (!sig_start)
 		return start;
 	
 	/* find the end of the pgp signature block */
-	end = strstr (pgp_start, "-----END PGP SIGNATURE-----");
-	if (!end)
+	sig_end = strstr (sig_start, "-----END PGP SIGNATURE-----");
+	if (!sig_end)
 		return start;
 	
-	end += strlen ("-----END PGP SIGNATURE-----");
+	sig_end += strlen ("-----END PGP SIGNATURE-----") + 1;
 	
 	mail_html_write (md->html, md->stream, "<hr>");
 	
@@ -1458,13 +1460,30 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 					 mail_config_get_remember_pgp_passphrase ());
 	
 	if (context) {
+		CamelMimeFilterCharset *charset_filter;
+		CamelStreamFilter *filtered_stream;
 		CamelStream *ciphertext;
+		CamelContentType *type;
+		const char *charset;
 		CamelException *ex;
 		
 		ex = camel_exception_new ();
 		
 		ciphertext = camel_stream_mem_new ();
-		camel_stream_write (ciphertext, start, end - start);
+		
+		type = camel_mime_part_get_content_type (part);
+		charset = header_content_type_param (type, "charset");
+		if (!charset)
+			charset = mail_config_get_default_charset ();
+		
+		charset_filter = camel_mime_filter_charset_new_convert ("utf-8", charset);
+		filtered_stream = camel_stream_filter_new_with_stream (ciphertext);
+		camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (charset_filter));
+		
+		camel_stream_write (filtered_stream, pgp_start, sig_end - pgp_start);
+		camel_stream_flush (CAMEL_STREAM (filtered_stream));
+		camel_object_unref (CAMEL_OBJECT (filtered_stream));
+		
 		camel_stream_reset (ciphertext);
 		
 		valid = camel_pgp_verify (context, ciphertext, NULL, ex);
@@ -1474,7 +1493,7 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 		camel_exception_free (ex);
 	}
 	
-	mail_text_write (md->html, md->stream, "%.*s", pgp_start - msg_start, msg_start);
+	mail_text_write (md->html, md->stream, "%.*s", sig_start - msg_start, msg_start);
 	
 	mail_write_authenticity (md, valid);
 	
@@ -1482,11 +1501,11 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 	
 	camel_cipher_validity_free (valid);
 	
-	return end;
+	return sig_end;
 }
 
 static char *
-try_uudecoding (char *start, MailDisplay *md)
+try_uudecoding (char *start, CamelMimePart *mime_part, MailDisplay *md)
 {
 	int mode, len, state = 0;
 	char *filename, *estart, *p, *out, uulen = 0;
@@ -1531,7 +1550,7 @@ try_uudecoding (char *start, MailDisplay *md)
 }
 
 static char *
-try_inline_binhex (char *start, MailDisplay *md)
+try_inline_binhex (char *start, CamelMimePart *mime_part, MailDisplay *md)
 {
 	char *p;
 	CamelMimePart *part;

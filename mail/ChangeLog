@@ -2,6 +2,13 @@
 
 	* mail-format.c (mail_write_authenticity): Give the full path of
 	the wax-seal icons.
+	(try_inline_pgp_sig): Convert the charset from UTF-8 to whatever
+	charset it should be. Now takes a CamelMimePart argument as well.
+	(try_uudecoding): Now takes a part argument as well.
+	(try_inline_pgp): Here too.
+	(try_binhex): And finally here.
+	(handle_text_plain): Pass along the mime part to the try_*
+	functions.
 
 2001-09-06  Chris Toshok  <toshok@ximian.com>
 
