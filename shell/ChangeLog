@@ -1,3 +1,7 @@
+2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-local-storage.c: Fixed some warnings.
+
 2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-folder-selection-dialog.c (set_default_folder): Work on

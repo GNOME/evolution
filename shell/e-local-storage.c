@@ -196,7 +196,7 @@ load_folders (ELocalStorage *local_storage,
 		if (folder == NULL)
 			return FALSE;
 
-		new_folder (E_STORAGE (local_storage), path, folder);
+		new_folder (local_storage, path, folder);
 
 		subfolder_directory_path = g_concat_dir_and_file (physical_path, SUBFOLDER_DIR_NAME);
 	}
@@ -356,7 +356,7 @@ component_async_create_folder_callback (EvolutionShellComponentClient *shell_com
 		e_folder_set_physical_uri (folder, callback_data->physical_uri);
 
 		if (e_local_folder_save (E_LOCAL_FOLDER (folder))) {
-			new_folder (callback_data->storage, callback_data->path, folder);
+			new_folder (E_LOCAL_STORAGE(callback_data->storage), callback_data->path, folder);
 		} else {
 			rmdir (callback_data->physical_path);
 			gtk_object_unref (GTK_OBJECT (folder));
