@@ -22,6 +22,7 @@
 #define COMP_EDITOR_H
 
 #include <gtk/gtk.h>
+#include <bonobo/bonobo-win.h>
 #include <bonobo/bonobo-ui-engine.h>
 #include <bonobo/bonobo-ui-component.h>
 #include "cal-client.h"
@@ -41,14 +42,14 @@ BEGIN_GNOME_DECLS
 typedef struct _CompEditorPrivate CompEditorPrivate;
 
 typedef struct {
-	GtkObject object;
+	BonoboWindow object;
 
 	/* Private data */
 	CompEditorPrivate *priv;
 } CompEditor;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	BonoboWindowClass parent_class;
 
 	/* Virtual functions */
 	void (* set_cal_client) (CompEditor *page, CalClient *client);

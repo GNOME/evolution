@@ -1,3 +1,11 @@
+2001-12-21    <jpr@ximian.com>
+
+	* gui/dialogs/comp-editor.h: inherit from bonobo window	
+
+	* gui/dialogs/comp-editor.c: inherit from bonobo window
+	(comp_editor_key_press_event): Look for an escape key press and
+	close the window if found
+
 2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fixes #17377, Evolution doesn't work on multi-depth displays.]

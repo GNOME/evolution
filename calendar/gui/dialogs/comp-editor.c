@@ -26,15 +26,18 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <gnome.h>
-#include <bonobo/bonobo-win.h>
-#include <bonobo/bonobo-ui-component.h>
+#include <glib.h>
+#include <gdk/gdkkeysyms.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-uidefs.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-window-icon.h>
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <gal/widgets/e-unicode.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-window-icon.h>
 #include <evolution-shell-component-utils.h>
 #include "../print.h"
 #include "save-comp.h"
@@ -56,8 +59,7 @@ struct _CompEditorPrivate {
 	/* The pages we have */
 	GList *pages;
 
-	/* Toplevel window for the dialog */
-	GtkWidget *window;
+	/* UI Component for the dialog */
 	BonoboUIComponent *uic;
 
 	/* Notebook to hold the pages */
@@ -74,11 +76,13 @@ struct _CompEditorPrivate {
 
 static void comp_editor_class_init (CompEditorClass *class);
 static void comp_editor_init (CompEditor *editor);
+static gint comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e);
 static void comp_editor_destroy (GtkObject *object);
 
 static void real_set_cal_client (CompEditor *editor, CalClient *client);
 static void real_edit_comp (CompEditor *editor, CalComponent *comp);
 static void real_send_comp (CompEditor *editor, CalComponentItipMethod method);
+static gboolean prompt_to_save_changes (CompEditor *editor, gboolean send);
 static void delete_comp (CompEditor *editor);
 static void close_dialog (CompEditor *editor);
 
@@ -132,8 +136,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-#define CLASS(page) (COMP_EDITOR_CLASS (GTK_OBJECT (page)->klass))
-
 static GtkObjectClass *parent_class;
 
 
@@ -155,7 +157,7 @@ comp_editor_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		comp_editor_type = gtk_type_unique (GTK_TYPE_OBJECT,
+		comp_editor_type = gtk_type_unique (BONOBO_TYPE_WINDOW,
 						    &comp_editor_info);
 	}
 
@@ -167,15 +169,18 @@ static void
 comp_editor_class_init (CompEditorClass *klass)
 {
 	GtkObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
-	object_class = (GtkObjectClass *) klass;
+	object_class = GTK_OBJECT_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (klass);
 
-	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
+	parent_class = gtk_type_class (BONOBO_TYPE_WINDOW);
 
 	klass->set_cal_client = real_set_cal_client;
 	klass->edit_comp = real_edit_comp;
 	klass->send_comp = real_send_comp;
 
+	widget_class->key_press_event = comp_editor_key_press_event;
 	object_class->destroy = comp_editor_destroy;
 }
 
@@ -190,15 +195,16 @@ setup_widgets (CompEditor *editor)
 	priv = editor->priv;
 
 	/* Window and basic vbox */
-	priv->window = bonobo_window_new ("event-editor", "iCalendar Editor");
-	gtk_signal_connect (GTK_OBJECT (priv->window), "delete_event",
+	bonobo_window_construct (BONOBO_WINDOW (editor),
+				 "event-editor", "iCalendar Editor");
+	gtk_signal_connect (GTK_OBJECT (editor), "delete_event",
 			    GTK_SIGNAL_FUNC (delete_event_cb), editor);
 
 	priv->uic = bonobo_ui_component_new_default ();
 	container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (container, BONOBO_WINDOW (priv->window));
+	bonobo_ui_container_set_win (container, BONOBO_WINDOW (editor));
 	bonobo_ui_component_set_container (priv->uic, BONOBO_OBJREF (container));
-	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (priv->window)),
+	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (editor)),
 					  "/evolution/UIConf/kvps");
 
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
@@ -210,7 +216,7 @@ setup_widgets (CompEditor *editor)
 	vbox = gtk_vbox_new (FALSE, GNOME_PAD_SMALL);
 	gtk_widget_show (vbox);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), GNOME_PAD_SMALL);
-	bonobo_window_set_contents (BONOBO_WINDOW (priv->window), vbox);
+	bonobo_window_set_contents (BONOBO_WINDOW (editor), vbox);
 
 	/* Notebook */
 	priv->notebook = GTK_NOTEBOOK (gtk_notebook_new ());
@@ -235,6 +241,22 @@ comp_editor_init (CompEditor *editor)
 	priv->needs_send = FALSE;
 }
 
+
+static gint
+comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e)
+{
+	if (e->keyval == GDK_Escape) {
+		if (prompt_to_save_changes (COMP_EDITOR (d), TRUE))
+			close_dialog (COMP_EDITOR (d));
+		return TRUE;
+	}
+
+	if (GTK_WIDGET_CLASS (parent_class)->key_press_event)
+		return (* GTK_WIDGET_CLASS (parent_class)->key_press_event) (d, e);
+
+	return FALSE;
+}
+
 /* Destroy handler for the calendar component editor */
 static void
 comp_editor_destroy (GtkObject *object)
@@ -247,11 +269,6 @@ comp_editor_destroy (GtkObject *object)
 	priv = editor->priv;
 
 	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), editor);
-
-	if (priv->window) {
-		gtk_widget_destroy (priv->window);
-		priv->window = NULL;
-	}
 
 	/* We want to destroy the pages after the widgets get destroyed,
 	   since they have lots of signal handlers connected to the widgets
@@ -357,7 +374,7 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 	if (!priv->changed)
 		return TRUE;
 
-	switch (save_component_dialog (GTK_WINDOW (priv->window))) {
+	switch (save_component_dialog (GTK_WINDOW (editor))) {
 	case 0: /* Save */
 		if (send && save_comp_with_send (editor))
 			return TRUE;
@@ -380,8 +397,6 @@ close_dialog (CompEditor *editor)
 	CompEditorPrivate *priv;
 
 	priv = editor->priv;
-
-	g_assert (priv->window != NULL);
 
 	gtk_object_destroy (GTK_OBJECT (editor));
 }
@@ -735,7 +750,7 @@ set_title_from_comp (CompEditor *editor)
 
 	priv = editor->priv;
 	title = make_title_from_comp (priv->comp);
-	gtk_window_set_title (GTK_WINDOW (priv->window), title);
+	gtk_window_set_title (GTK_WINDOW (editor), title);
 	g_free (title);
 }
 
@@ -747,7 +762,7 @@ set_icon_from_comp (CompEditor *editor)
 
 	priv = editor->priv;
 	file = make_icon_from_comp (priv->comp);
-	gnome_window_icon_set_from_file (GTK_WINDOW (priv->window), file);
+	gnome_window_icon_set_from_file (GTK_WINDOW (editor), file);
 }
 
 static void
@@ -1002,8 +1017,8 @@ comp_editor_focus (CompEditor *editor)
 
 	priv = editor->priv;
 
-	gtk_widget_show (priv->window);
-	raise_and_focus (priv->window);
+	gtk_widget_show (GTK_WIDGET (editor));
+	raise_and_focus (GTK_WIDGET (editor));
 }
 
 /* This sets the focus to the toplevel, so any field being edited is committed.
@@ -1016,7 +1031,7 @@ commit_all_fields (CompEditor *editor)
 
 	priv = editor->priv;
 
-	gtk_window_set_focus (GTK_WINDOW (priv->window), NULL);
+	gtk_window_set_focus (GTK_WINDOW (editor), NULL);
 }
 
 /* Menu Commands */
@@ -1138,7 +1153,7 @@ delete_cmd (GtkWidget *widget, gpointer data)
 
 	vtype = cal_component_get_vtype (priv->comp);
 
-	if (delete_component_dialog (priv->comp, FALSE, 1, vtype, priv->window))
+	if (delete_component_dialog (priv->comp, FALSE, 1, vtype, GTK_WIDGET (editor)))
 		delete_comp (editor);
 }
 
