@@ -123,6 +123,8 @@ static void e_icon_bar_on_editing_stopped (EIconBar *icon_bar,
 					   GnomeCanvasItem *item);
 static void e_icon_bar_ensure_edited_item_visible (EIconBar *icon_bar);
 static void e_icon_bar_update_highlight (EIconBar *icon_bar);
+static void e_icon_bar_vadjustment_value_changed (GtkAdjustment *adjustment,
+						  EIconBar      *icon_bar);
 
 enum
 {
@@ -232,6 +234,7 @@ e_icon_bar_init (EIconBar *icon_bar)
 	icon_bar->text_x = 0;
 	icon_bar->text_w = 5;
 	icon_bar->auto_scroll_timeout_id = 0;
+	icon_bar->vadjustment_value_changed_id = 0;
 
 	/* Create the background item in the canvas, which handles selections
 	   and drag-and-drop. */
@@ -338,6 +341,8 @@ e_icon_bar_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	e_icon_bar_ensure_edited_item_visible (icon_bar);
 
 	GTK_LAYOUT (widget)->vadjustment->step_increment = 16;
+	if (icon_bar->vadjustment_value_changed_id == 0)
+		icon_bar->vadjustment_value_changed_id = gtk_signal_connect (GTK_OBJECT (GTK_LAYOUT (widget)->vadjustment), "value_changed", GTK_SIGNAL_FUNC (e_icon_bar_vadjustment_value_changed), icon_bar);
 
 	e_icon_bar_update_highlight (icon_bar);
 }
@@ -957,6 +962,9 @@ e_icon_bar_on_item_event (GnomeCanvasItem *item,
 
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
+		if (event->button.button == 4 || event->button.button == 5)
+			return FALSE;
+
 		item_num = e_icon_bar_find_item_at_position (icon_bar,
 							     event->button.x,
 							     event->button.y,
@@ -1448,6 +1456,8 @@ e_icon_bar_update_highlight (EIconBar *icon_bar)
 	    || x > widget->allocation.width || y > widget->allocation.height)
 		return;
 
+	x += icon_bar->canvas.parent.layout.hadjustment->value;
+	y += icon_bar->canvas.parent.layout.vadjustment->value;
 	item_num = e_icon_bar_find_item_at_position (icon_bar, x, y, NULL);
 	e_icon_bar_item_motion (icon_bar, item_num, NULL);
 }
@@ -1577,3 +1587,12 @@ e_icon_bar_timeout_handler (gpointer data)
 	GDK_THREADS_LEAVE ();
 	return TRUE;
 }
+
+
+static void
+e_icon_bar_vadjustment_value_changed (GtkAdjustment *adjustment,
+				      EIconBar      *icon_bar)
+{
+	e_icon_bar_update_highlight (icon_bar);
+}
+

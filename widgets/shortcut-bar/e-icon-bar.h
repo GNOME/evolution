@@ -144,6 +144,9 @@ struct _EIconBar
 
 	/* Colors for drawing. */
 	GdkColor colors[E_ICON_BAR_COLOR_LAST];
+
+	/* Signal connection id for "value_changed" signal of vadjustment. */
+	guint vadjustment_value_changed_id;
 };
 
 struct _EIconBarClass

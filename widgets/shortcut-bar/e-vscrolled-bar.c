@@ -53,6 +53,10 @@ static void e_vscrolled_bar_size_allocate (GtkWidget *widget,
 					   GtkAllocation *allocation);
 static void e_vscrolled_bar_draw (GtkWidget    *widget,
 				  GdkRectangle *area);
+static gint e_vscrolled_bar_button_press   (GtkWidget        *widget,
+					    GdkEventButton   *event);
+static gint e_vscrolled_bar_button_release (GtkWidget        *widget,
+					    GdkEventButton   *event);
 static void e_vscrolled_bar_add (GtkContainer *container,
 				 GtkWidget    *child);
 static void e_vscrolled_bar_remove (GtkContainer *container,
@@ -121,6 +125,8 @@ e_vscrolled_bar_class_init (EVScrolledBarClass *class)
 	widget_class->size_request	= e_vscrolled_bar_size_request;
  	widget_class->size_allocate	= e_vscrolled_bar_size_allocate;
 	widget_class->draw		= e_vscrolled_bar_draw;
+	widget_class->button_press_event   = e_vscrolled_bar_button_press;
+	widget_class->button_release_event = e_vscrolled_bar_button_release;
 
 	container_class->add		= e_vscrolled_bar_add;
 	container_class->remove		= e_vscrolled_bar_remove;
@@ -397,6 +403,55 @@ e_vscrolled_bar_draw (GtkWidget    *widget,
 	    gtk_widget_intersect (vscrolled_bar->down_button, area, &child_area))
 		gtk_widget_draw (vscrolled_bar->down_button, &child_area);
 }
+
+
+static gint
+e_vscrolled_bar_button_press (GtkWidget      *widget,
+			      GdkEventButton *event)
+{
+	EVScrolledBar *vscrolled_bar;
+	GtkAdjustment *adjustment;
+	gfloat new_value, step;
+
+	g_print ("In e_vscrolled_bar_button_press\n");
+
+	vscrolled_bar = E_VSCROLLED_BAR (widget);
+	adjustment = vscrolled_bar->adjustment;
+
+	step = adjustment->page_size;
+
+	if (event->button == 4) {
+		new_value = adjustment->value - step;
+		if (new_value <= adjustment->lower) {
+			new_value = adjustment->lower;
+		}
+	} else if (event->button == 5) {
+		new_value = adjustment->value + step;
+		if (new_value >= adjustment->upper - adjustment->page_size) {
+			new_value = adjustment->upper - adjustment->page_size;
+		}
+	} else
+		return FALSE;
+
+	if (adjustment->value != new_value) {
+		adjustment->value = new_value;
+		gtk_signal_emit_by_name (GTK_OBJECT (adjustment),
+					 "value_changed");
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gint
+e_vscrolled_bar_button_release (GtkWidget      *widget,
+				GdkEventButton *event)
+{
+	g_print ("In e_vscrolled_bar_button_release\n");
+
+	return FALSE;
+}
+
 
 
 static void

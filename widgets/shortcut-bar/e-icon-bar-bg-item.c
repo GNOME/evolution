@@ -323,6 +323,9 @@ e_icon_bar_bg_item_button_press (EIconBarBgItem *ibitem,
 {
 	gint item_num;
 
+	if (event->button.button == 4 || event->button.button == 5)
+		return FALSE;
+
 	item_num = e_icon_bar_find_item_at_position (ibitem->icon_bar,
 						     event->button.x,
 						     event->button.y,
