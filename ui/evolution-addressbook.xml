@@ -84,12 +84,14 @@
 		</submenu>
 
 		<submenu name="Edit">
-		        <menuitem name="ContactDelete" verb="" _label="Delete"/>
 			<menuitem name="ContactsCut" verb="" _label="C_ut"/>
 	
 			<menuitem name="ContactsCopy" verb="" _label="_Copy"/>
 	
 			<menuitem name="ContactsPaste" verb="" _label="_Paste"/>
+		        <menuitem name="ContactDelete" verb=""
+		        _label="Delete"/>
+			<separator/>
 
 			<menuitem name="ContactsSelectAll" verb="" _label="_Select All"/>
 		</submenu>

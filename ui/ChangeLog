@@ -1,5 +1,10 @@
 2001-08-14  Christopher James Lahey  <clahey@ximian.com>
 
+	* evolution-addressbook.xml: Rearranged this Edit menu to fit the
+	standards.
+
+2001-08-14  Christopher James Lahey  <clahey@ximian.com>
+
 	* evolution-contact-editor.xml, evolution-contact-list-editor.xml:
 	Added accelerators here.
 
