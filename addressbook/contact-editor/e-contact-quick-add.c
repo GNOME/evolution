@@ -151,11 +151,14 @@ quick_add_merge_card (QuickAdd *qa)
  */
 
 static void
-add_card_cb (EContactEditor *ce, ECard *card, gpointer closure)
+card_added_cb (EContactEditor *ce, EBookStatus status, ECard *card, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
-	g_warning ("add_card_cb");
-	quick_add_merge_card (qa);
+
+	if (qa->cb)
+		qa->cb (qa->card, qa->closure);
+	
+	quick_add_unref (qa);
 }
 
 static void
@@ -168,32 +171,7 @@ editor_closed_cb (GtkWidget *w, gpointer closure)
 }
 
 static void
-ce_book_found_fields (EBook *book, EBookStatus status, EList *fields, gpointer closure)
-{
-	QuickAdd *qa = (QuickAdd *) closure;
-	EContactEditor *contact_editor;
-
-	if (status != E_BOOK_STATUS_SUCCESS) {
-		g_warning ("Couldn't find supported fields for local address book.");
-		return;
-	}
-
-	contact_editor = e_contact_editor_new (qa->card, TRUE, fields, FALSE /* XXX */);
-
-	gtk_signal_connect (GTK_OBJECT (contact_editor),
-			    "add_card",
-			    GTK_SIGNAL_FUNC (add_card_cb),
-			    qa);
-	gtk_signal_connect (GTK_OBJECT (contact_editor),
-			    "editor_closed",
-			    GTK_SIGNAL_FUNC (editor_closed_cb),
-			    qa);
-
-	e_contact_editor_show (contact_editor);
-}
-
-static void
-ce_get_fields (EBook *book, gpointer closure)
+ce_have_book (EBook *book, gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) closure;
 
@@ -201,14 +179,23 @@ ce_get_fields (EBook *book, gpointer closure)
 		g_warning ("Couldn't open local address book.");
 		quick_add_unref (qa);
 	} else {
-		e_book_get_supported_fields (book, ce_book_found_fields, qa);
+		EContactEditor *contact_editor = e_contact_editor_new (book, qa->card, TRUE, FALSE /* XXX */);
+
+		gtk_signal_connect (GTK_OBJECT (contact_editor),
+				    "card_added",
+				    GTK_SIGNAL_FUNC (card_added_cb),
+				    qa);
+		gtk_signal_connect (GTK_OBJECT (contact_editor),
+				    "editor_closed",
+				    GTK_SIGNAL_FUNC (editor_closed_cb),
+				    qa);
 	}
 }
 
 static void
 edit_card (QuickAdd *qa)
 {
-	e_book_use_local_address_book (ce_get_fields, qa);
+	e_book_use_local_address_book (ce_have_book, qa);
 }
 
 static void

@@ -58,7 +58,7 @@ struct _EContactEditorFullname
 	GladeXML *gui;
 
 	/* Whether the dialog will accept modifications */
-	guint is_read_only : 1;
+	guint editable : 1;
 };
 
 struct _EContactEditorFullnameClass

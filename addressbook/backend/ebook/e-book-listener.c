@@ -480,6 +480,8 @@ e_book_listener_convert_status (const GNOME_Evolution_Addressbook_BookListener_C
 		return E_BOOK_STATUS_PERMISSION_DENIED;
 	case GNOME_Evolution_Addressbook_BookListener_CardNotFound:
 		return E_BOOK_STATUS_CARD_NOT_FOUND;
+	case GNOME_Evolution_Addressbook_BookListener_CardIdAlreadyExists:
+		return E_BOOK_STATUS_CARD_ID_ALREADY_EXISTS;
 	case GNOME_Evolution_Addressbook_BookListener_ProtocolNotSupported:
 		return E_BOOK_STATUS_PROTOCOL_NOT_SUPPORTED;
 	case GNOME_Evolution_Addressbook_BookListener_OtherError:

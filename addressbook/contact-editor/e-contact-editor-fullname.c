@@ -82,7 +82,7 @@ e_contact_editor_fullname_class_init (EContactEditorFullnameClass *klass)
 	gtk_object_add_arg_type ("EContactEditorFullname::name", GTK_TYPE_POINTER, 
 				 GTK_ARG_READWRITE, ARG_NAME);
 
-	gtk_object_add_arg_type ("EContactEditorFullname::is_read_only", GTK_TYPE_BOOL, 
+	gtk_object_add_arg_type ("EContactEditorFullname::editable", GTK_TYPE_BOOL, 
 				 GTK_ARG_READWRITE, ARG_IS_READ_ONLY);
  
 	object_class->set_arg = e_contact_editor_fullname_set_arg;
@@ -159,11 +159,11 @@ e_contact_editor_fullname_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			"entry-last",
 			NULL
 		};
-		e_contact_editor_fullname->is_read_only = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+		e_contact_editor_fullname->editable = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
 		for (i = 0; entry_names[i] != NULL; i ++) {
 			gtk_widget_set_sensitive (glade_xml_get_widget(e_contact_editor_fullname->gui,
 								       entry_names[i]),
-						  !e_contact_editor_fullname->is_read_only);
+						  e_contact_editor_fullname->editable);
 		}
 		break;
 	}
@@ -183,7 +183,7 @@ e_contact_editor_fullname_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_POINTER (*arg) = e_card_name_copy(e_contact_editor_fullname->name);
 		break;
 	case ARG_IS_READ_ONLY:
-		GTK_VALUE_BOOL (*arg) = e_contact_editor_fullname->is_read_only ? TRUE : FALSE;
+		GTK_VALUE_BOOL (*arg) = e_contact_editor_fullname->editable ? TRUE : FALSE;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;

@@ -26,6 +26,7 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <glade/glade.h>
 
+#include "addressbook/backend/ebook/e-book.h"
 #include "addressbook/backend/ebook/e-card.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 
@@ -58,6 +59,7 @@ struct _EContactEditor
 	GtkObject object;
 	
 	/* item specific fields */
+	EBook *book;
 	ECard *card;
 	ECardSimple *simple;
 
@@ -88,8 +90,11 @@ struct _EContactEditor
 	/* Whether we are editing a new card or an existing one */
 	guint is_new_card : 1;
 
+	/* Whether the card has been changed since bringing up the contact editor */
+	guint changed : 1;
+
 	/* Whether the contact editor will accept modifications */
-	guint is_read_only : 1;
+	guint editable : 1;
 
 	EList *writable_fields;
 };
@@ -100,18 +105,19 @@ struct _EContactEditorClass
 
 	/* Notification signals */
 
-	void (* add_card) (EContactEditor *ce, ECard *card);
-	void (* commit_card) (EContactEditor *ce, ECard *card);
-	void (* delete_card) (EContactEditor *ce, ECard *card);
+	void (* card_added)    (EContactEditor *ce, EBookStatus status, ECard *card);
+	void (* card_modified) (EContactEditor *ce, EBookStatus status, ECard *card);
+	void (* card_deleted)  (EContactEditor *ce, EBookStatus status, ECard *card);
 	void (* editor_closed) (EContactEditor *ce);
 };
 
-EContactEditor *e_contact_editor_new             (ECard          *card,
-						  gboolean        is_new_card,
-						  EList          *writable_fields,
-						  gboolean        is_read_only);
+EContactEditor *e_contact_editor_new             (EBook *book,
+						  ECard *card,
+						  gboolean is_new_card,
+						  gboolean editable);
 GtkType         e_contact_editor_get_type        (void);
 void            e_contact_editor_show            (EContactEditor *editor);
+void            e_contact_editor_close           (EContactEditor *editor);
 void            e_contact_editor_raise           (EContactEditor *editor);
 
 

@@ -1,3 +1,95 @@
+2001-06-19  Chris Toshok  <toshok@ximian.com>
+
+	* contact-editor/e-contact-quick-add.c (ce_have_book): rename
+	ce_book_found_fields to this, remove the fetching of fields (the
+	contact editor code handles that now.), and change the add_card
+	signal to card_added.
+	(card_added_cb): copied somewhat from merge_cb above.  we don't
+	need to do the merge here, just call the callback.
+
+	* contact-editor/e-contact-editor.c (e_contact_editor_class_init):
+	track signal change.  add book arg, and is_read_only -> editable.
+	(wants_html_changed): if the card isn't already changed, flag it
+	as such (and update the commands.)
+	(phone_entry_changed): same.
+	(email_entry_changed): same.
+	(address_text_changed): same.
+	(name_entry_changed): same.
+	(company_entry_changed): same.
+	(full_name_clicked): is_read_only -> editable.
+	(full_addr_clicked): same.
+	(card_added_cb): new function, emit our card_added signal, and
+	close the dialog if we're supposed to.  properly deal with error
+	status here.
+	(card_modified_cb): same, modulo card_added -> card_modified.
+	(save_card): actually call e_card_merging_book_{add/commit}_card
+	instead of using a signal.  Also, add a gboolean arg to tell
+	whether or not to close the dialog after saving the card.
+	(card_deleted_cb): new function, just emit our "card_deleted"
+	signal.
+	(delete_cb): actually call e_book_remove_card here, instead of
+	using a signal.
+	(tb_save_and_close_cb): call save_card with TRUE for should_close.
+	(e_contact_editor_init): init changed = FALSE;
+	(e_contact_editor_destroy): unref our book if we have one.
+	(e_contact_editor_new): new signature, set the "book" arg, and
+	call e_book_get_supported_fields here.
+	(supported_fields_cb): new function, show the contact editor.
+	(e_contact_editor_set_arg): initialize changed to FALSE when
+	setting the card (but *after*, since the changed callbacks will
+	set it to TRUE.)  also, call command_state_changed if editable
+	changes.  also handle setting "book".  oh, and is_read_only ->
+	editable.
+	(command_state_changed): new function - set the state of the
+	commands we care about.
+	(e_contact_editor_get_arg): add "book" handling, and is_read_only
+	-> editable.
+	(_phone_arrow_pressed): is_read_only -> editable.
+	(_email_arrow_pressed): same.
+	(_address_arrow_pressed): same.
+	(enable_writable_fields): same.
+	(set_editable): rename set_read_only to this, and is_read_only ->
+	editable.
+
+	* contact-editor/e-contact-editor.h (struct _EContactEditor):
+	is_read_only -> editable, add a "changed" flag so we can sensitize
+	commands correctly, and add an EBook* arg to e_contact_editor_new
+	and to the EContactEditor struct.  Also, change all the signals to
+	past tense, and send the EBookStatus in them.
+
+	* contact-editor/e-contact-editor-address.c
+	(e_contact_editor_address_class_init): is_read_only -> editable.
+	(e_contact_editor_address_set_arg): same.
+	(e_contact_editor_address_get_arg): same.
+
+	* contact-editor/e-contact-editor-address.h (struct
+	_EContactEditorAddress): same.
+
+	* contact-editor/e-contact-editor-fullname.c
+	(e_contact_editor_fullname_class_init): same.
+	(e_contact_editor_fullname_set_arg): same.
+	(e_contact_editor_fullname_get_arg): same.
+
+	* contact-editor/e-contact-editor-fullname.h (struct
+	_EContactEditorFullname): same.
+
+	* contact-editor/Makefile.am: don't build contact-editor-test now,
+	until contact-editor gets moved to gui/ and we can more easily
+	depend on the e_card_merging_* calls.
+
+	* backend/pas/pas-backend-ldap.c (ldap_error_to_response): return
+	CardIdAlreadyExists for LDAP_ALREADY_EXISTS.
+
+	* backend/idl/addressbook.idl: Add CardIdAlreadyExists to the
+	BookListener status enum.
+
+	* backend/ebook/e-book-types.h: add
+	E_BOOK_STATUS_CARD_ID_ALREADY_EXISTS.
+
+	* backend/ebook/e-book-listener.c
+	(e_book_listener_convert_status): add support for
+	CardIdAlreadyExists.
+
 2001-06-19  Jon Trowbridge  <trow@ximian.com>
 
 	* contact-editor/e-contact-quick-add.c: Serious de-crufting,

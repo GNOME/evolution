@@ -105,6 +105,7 @@ module Addressbook {
 			RepositoryOffline,
 			PermissionDenied,
 			CardNotFound,
+			CardIdAlreadyExists,
 			ProtocolNotSupported,
 			AuthenticationFailed,
 			AuthenticationRequired,

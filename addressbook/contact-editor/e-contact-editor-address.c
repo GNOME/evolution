@@ -81,7 +81,7 @@ e_contact_editor_address_class_init (EContactEditorAddressClass *klass)
 
 	gtk_object_add_arg_type ("EContactEditorAddress::address", GTK_TYPE_POINTER, 
 				 GTK_ARG_READWRITE, ARG_ADDRESS);
-	gtk_object_add_arg_type ("EContactEditorAddress::is_read_only", GTK_TYPE_BOOL, 
+	gtk_object_add_arg_type ("EContactEditorAddress::editable", GTK_TYPE_BOOL, 
 				 GTK_ARG_READWRITE, ARG_IS_READ_ONLY);
  
 	object_class->set_arg = e_contact_editor_address_set_arg;
@@ -161,9 +161,9 @@ e_contact_editor_address_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			"entry-code",
 			NULL
 		};
-		e_contact_editor_address->is_read_only = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+		e_contact_editor_address->editable = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
 		for (i = 0; entry_names[i] != NULL; i ++) {
-			gtk_widget_set_sensitive (glade_xml_get_widget(e_contact_editor_address->gui, entry_names[i]), !e_contact_editor_address->is_read_only);
+			gtk_widget_set_sensitive (glade_xml_get_widget(e_contact_editor_address->gui, entry_names[i]), e_contact_editor_address->editable);
 		}
 		break;
 	}
@@ -183,7 +183,7 @@ e_contact_editor_address_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_POINTER (*arg) = e_card_delivery_address_copy(e_contact_editor_address->address);
 		break;
 	case ARG_IS_READ_ONLY:
-		GTK_VALUE_BOOL (*arg) = e_contact_editor_address->is_read_only ? TRUE : FALSE;
+		GTK_VALUE_BOOL (*arg) = e_contact_editor_address->editable ? TRUE : FALSE;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;

@@ -29,12 +29,6 @@
 #define OPENLDAP1
 #endif
 
-#if 0
-#ifdef OPENLDAP1
-#define LDAP_NAME_ERROR(x) NAME_ERROR(x)
-#endif
-#endif
-
 #ifdef OPENLDAP2
 #include "ldap_schema.h"
 #endif
@@ -530,6 +524,8 @@ ldap_error_to_response (int ldap_error)
 		return GNOME_Evolution_Addressbook_BookListener_PermissionDenied;
 	else if (ldap_error == LDAP_SERVER_DOWN)
 		return GNOME_Evolution_Addressbook_BookListener_RepositoryOffline;
+	else if (ldap_error == LDAP_ALREADY_EXISTS)
+		return GNOME_Evolution_Addressbook_BookListener_CardIdAlreadyExists;
 	else
 		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 }

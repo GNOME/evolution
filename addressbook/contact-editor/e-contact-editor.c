@@ -43,6 +43,8 @@
 #include "e-util/e-gui-utils.h"
 #include "widgets/misc/e-dateedit.h"
 
+#include "e-card-merging.h"
+
 #include "e-contact-editor.h"
 #include "e-contact-editor-address.h"
 #include "e-contact-editor-fullname.h"
@@ -50,9 +52,9 @@
 
 /* Signal IDs */
 enum {
-	ADD_CARD,
-	COMMIT_CARD,
-	DELETE_CARD,
+	CARD_ADDED,
+	CARD_MODIFIED,
+	CARD_DELETED,
 	EDITOR_CLOSED,
 	LAST_SIGNAL
 };
@@ -70,12 +72,13 @@ static void _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, ECo
 static void _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *editor);
 static void enable_writable_fields(EContactEditor *editor);
-static void set_read_only(EContactEditor *editor);
+static void set_editable(EContactEditor *editor);
 static void fill_in_info(EContactEditor *editor);
 static void extract_info(EContactEditor *editor);
 static void set_fields(EContactEditor *editor);
 static void set_address_field(EContactEditor *editor, int result);
 static void add_field_callback(GtkWidget *widget, EContactEditor *editor);
+static void command_state_changed (EContactEditor *ce);
 
 static GtkObjectClass *parent_class = NULL;
 
@@ -84,9 +87,10 @@ static guint contact_editor_signals[LAST_SIGNAL];
 /* The arguments we take */
 enum {
 	ARG_0,
+	ARG_BOOK,
 	ARG_CARD,
 	ARG_IS_NEW_CARD,
-	ARG_IS_READ_ONLY,
+	ARG_EDITABLE,
 	ARG_WRITABLE_FIELDS
 };
 
@@ -121,6 +125,24 @@ e_contact_editor_get_type (void)
   return contact_editor_type;
 }
 
+typedef void (*GtkSignal_NONE__INT_OBJECT) (GtkObject * object,
+					    gint arg1,
+					    GtkObject *arg2,
+					    gpointer user_data);
+
+static void
+e_marshal_NONE__INT_OBJECT (GtkObject * object,
+			    GtkSignalFunc func,
+			    gpointer func_data, GtkArg * args)
+{
+	GtkSignal_NONE__INT_OBJECT rfunc;
+	rfunc = (GtkSignal_NONE__INT_OBJECT) func;
+	(*rfunc) (object,
+		  GTK_VALUE_INT (args[0]),
+		  GTK_VALUE_OBJECT (args[1]),
+		  func_data);
+}
+
 static void
 e_contact_editor_class_init (EContactEditorClass *klass)
 {
@@ -130,41 +152,43 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 
   parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
+  gtk_object_add_arg_type ("EContactEditor::book", GTK_TYPE_OBJECT, 
+			   GTK_ARG_READWRITE, ARG_BOOK);
   gtk_object_add_arg_type ("EContactEditor::card", GTK_TYPE_OBJECT, 
 			   GTK_ARG_READWRITE, ARG_CARD);
   gtk_object_add_arg_type ("EContactEditor::is_new_card", GTK_TYPE_BOOL,
 			   GTK_ARG_READWRITE, ARG_IS_NEW_CARD);
   gtk_object_add_arg_type ("EContactEditor::writable_fields", GTK_TYPE_POINTER,
 			   GTK_ARG_READWRITE, ARG_WRITABLE_FIELDS);
-  gtk_object_add_arg_type ("EContactEditor::is_read_only", GTK_TYPE_BOOL,
-			   GTK_ARG_READWRITE, ARG_IS_READ_ONLY);
+  gtk_object_add_arg_type ("EContactEditor::editable", GTK_TYPE_BOOL,
+			   GTK_ARG_READWRITE, ARG_EDITABLE);
 
-  contact_editor_signals[ADD_CARD] =
-	  gtk_signal_new ("add_card",
+  contact_editor_signals[CARD_ADDED] =
+	  gtk_signal_new ("card_added",
 			  GTK_RUN_FIRST,
 			  object_class->type,
-			  GTK_SIGNAL_OFFSET (EContactEditorClass, add_card),
-			  gtk_marshal_NONE__OBJECT,
-			  GTK_TYPE_NONE, 1,
-			  GTK_TYPE_OBJECT);
+			  GTK_SIGNAL_OFFSET (EContactEditorClass, card_added),
+			  e_marshal_NONE__INT_OBJECT,
+			  GTK_TYPE_NONE, 2,
+			  GTK_TYPE_INT, GTK_TYPE_OBJECT);
 
-  contact_editor_signals[COMMIT_CARD] =
-	  gtk_signal_new ("commit_card",
+  contact_editor_signals[CARD_MODIFIED] =
+	  gtk_signal_new ("card_modified",
 			  GTK_RUN_FIRST,
 			  object_class->type,
-			  GTK_SIGNAL_OFFSET (EContactEditorClass, commit_card),
-			  gtk_marshal_NONE__OBJECT,
-			  GTK_TYPE_NONE, 1,
-			  GTK_TYPE_OBJECT);
+			  GTK_SIGNAL_OFFSET (EContactEditorClass, card_modified),
+			  e_marshal_NONE__INT_OBJECT,
+			  GTK_TYPE_NONE, 2,
+			  GTK_TYPE_INT, GTK_TYPE_OBJECT);
 
-  contact_editor_signals[DELETE_CARD] =
-	  gtk_signal_new ("delete_card",
+  contact_editor_signals[CARD_DELETED] =
+	  gtk_signal_new ("card_deleted",
 			  GTK_RUN_FIRST,
 			  object_class->type,
-			  GTK_SIGNAL_OFFSET (EContactEditorClass, delete_card),
-			  gtk_marshal_NONE__OBJECT,
-			  GTK_TYPE_NONE, 1,
-			  GTK_TYPE_OBJECT);
+			  GTK_SIGNAL_OFFSET (EContactEditorClass, card_deleted),
+			  e_marshal_NONE__INT_OBJECT,
+			  GTK_TYPE_NONE, 2,
+			  GTK_TYPE_INT, GTK_TYPE_OBJECT);
 
   contact_editor_signals[EDITOR_CLOSED] =
 	  gtk_signal_new ("editor_closed",
@@ -220,6 +244,11 @@ wants_html_changed (GtkWidget *widget, EContactEditor *editor)
 	gtk_object_set(GTK_OBJECT(editor->card),
 		       "wants_html", wants_html,
 		       NULL);
+
+	if (!editor->changed) {
+		editor->changed = TRUE;
+		command_state_changed (editor);
+	}
 }
 
 static void
@@ -249,6 +278,11 @@ phone_entry_changed (GtkWidget *widget, EContactEditor *editor)
 #endif
 	e_card_phone_free(phone);
 	set_fields(editor);
+
+	if (!editor->changed) {
+		editor->changed = TRUE;
+		command_state_changed (editor);
+	}
 }
 
 static void
@@ -262,6 +296,11 @@ email_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	e_card_simple_set_email(editor->simple, editor->email_choice, string);
 
 	g_free (string);
+
+	if (!editor->changed) {
+		editor->changed = TRUE;
+		command_state_changed (editor);
+	}
 }
 
 static void
@@ -279,6 +318,11 @@ address_text_changed (GtkWidget *widget, EContactEditor *editor)
 
 	e_card_simple_set_address(editor->simple, editor->address_choice, address);
 	e_card_address_label_free(address);
+
+	if (!editor->changed) {
+		editor->changed = TRUE;
+		command_state_changed (editor);
+	}
 }
 
 /* This function tells you whether name_to_style will make sense.  */
@@ -450,6 +494,11 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	g_free (string);
 	
 	file_as_set_style(editor, style);
+
+	if (!editor->changed) {
+		editor->changed = TRUE;
+		command_state_changed (editor);
+	}
 }
 
 static void
@@ -464,6 +513,11 @@ company_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	editor->company = e_utf8_gtk_entry_get_text(GTK_ENTRY(widget));
 	
 	file_as_set_style(editor, style);
+
+	if (!editor->changed) {
+		editor->changed = TRUE;
+		command_state_changed (editor);
+	}
 }
 
 static void
@@ -512,7 +566,7 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 	int result;
 
 	gtk_object_set (GTK_OBJECT (dialog),
-			"is_read_only", editor->is_read_only,
+			"editable", editor->editable,
 			NULL);
 	gtk_widget_show(GTK_WIDGET(dialog));
 	result = gnome_dialog_run (dialog);
@@ -554,7 +608,7 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 
 	dialog = GNOME_DIALOG(e_contact_editor_address_new(address));
 	gtk_object_set (GTK_OBJECT (dialog),
-			"is_read_only", editor->is_read_only,
+			"editable", editor->editable,
 			NULL);
 	gtk_widget_show(GTK_WIDGET(dialog));
 
@@ -624,25 +678,65 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 #endif
 }
 
+typedef struct {
+	EContactEditor *ce;
+	gboolean should_close;
+} EditorCloseStruct;
+
+static void
+card_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruct *ecs)
+{
+	EContactEditor *ce = ecs->ce;
+	gboolean should_close = ecs->should_close;
+
+	g_free (ecs);
+
+	gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[CARD_ADDED],
+			 status, ce->card);
+
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		ce->is_new_card = FALSE;
+
+		if (should_close)
+			close_dialog (ce);
+	}
+}
+
+static void
+card_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
+{
+	EContactEditor *ce = ecs->ce;
+	gboolean should_close = ecs->should_close;
+
+	g_free (ecs);
+
+	gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[CARD_MODIFIED],
+			 status, ce->card);
+
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		if (should_close)
+			close_dialog (ce);
+	}
+}
+
 /* Emits the signal to request saving a card */
 static void
-save_card (EContactEditor *ce)
+save_card (EContactEditor *ce, gboolean should_close)
 {
 	extract_info (ce);
 	e_card_simple_sync_card (ce->simple);
 
-	if (ce->is_new_card)
-		gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[ADD_CARD],
-				 ce->card);
-	else
-		gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[COMMIT_CARD],
-				 ce->card);
+	if (ce->book) {
+		EditorCloseStruct *ecs = g_new(EditorCloseStruct, 1);
+		
+		ecs->ce = ce;
+		ecs->should_close = should_close;
 
-	/* FIXME: should we set the ce->is_new_card here or have the client code
-	 * set the "is_new_card" argument on the contact editor object?
-	 */
-
-	ce->is_new_card = FALSE;
+		if (ce->is_new_card)
+			e_card_merging_book_add_card (ce->book, ce->card, GTK_SIGNAL_FUNC(card_added_cb), ecs);
+		else
+			e_card_merging_book_commit_card (ce->book, ce->card, GTK_SIGNAL_FUNC(card_modified_cb), ecs);
+	}
 }
 
 /* Closes the dialog box and emits the appropriate signals */
@@ -666,7 +760,7 @@ file_save_cb (GtkWidget *widget, gpointer data)
 	EContactEditor *ce;
 
 	ce = E_CONTACT_EDITOR (data);
-	save_card (ce);
+	save_card (ce, FALSE);
 }
 
 /* File/Close callback */
@@ -745,6 +839,13 @@ e_contact_editor_confirm_delete(GtkWindow *parent)
 }
 
 static void
+card_deleted_cb (EBook *book, EBookStatus status, EContactEditor *ce)
+{
+	gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[CARD_DELETED],
+			 status, ce->card);
+}
+
+static void
 delete_cb (GtkWidget *widget, gpointer data)
 {
 	EContactEditor *ce = E_CONTACT_EDITOR (data);
@@ -759,11 +860,8 @@ delete_cb (GtkWidget *widget, gpointer data)
 		extract_info (ce);
 		e_card_simple_sync_card (simple);
 		
-		if (!ce->is_new_card)
-			gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[DELETE_CARD],
-					 card);
-		
-		close_dialog (ce);
+		if (!ce->is_new_card && ce->book)
+			e_book_remove_card (ce->book, card, GTK_SIGNAL_FUNC(card_deleted_cb), ce);
 	}
 
 	gtk_object_unref(GTK_OBJECT(card));
@@ -805,8 +903,7 @@ tb_save_and_close_cb (BonoboUIComponent *uih, void *data, const char *path)
 	EContactEditor *ce;
 
 	ce = E_CONTACT_EDITOR (data);
-	save_card (ce);
-	close_dialog (ce);
+	save_card (ce, TRUE);
 }
 
 static
@@ -920,6 +1017,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->simple = e_card_simple_new(NULL);
 
 	e_contact_editor->card = NULL;
+	e_contact_editor->changed = FALSE;
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-editor.glade", NULL);
 	e_contact_editor->gui = gui;
@@ -1041,6 +1139,9 @@ e_contact_editor_destroy (GtkObject *object) {
 	if (e_contact_editor->simple)
 		gtk_object_unref(GTK_OBJECT(e_contact_editor->simple));
 
+	if (e_contact_editor->book)
+		gtk_object_unref(GTK_OBJECT(e_contact_editor->book));
+
 	if (e_contact_editor->name)
 		e_card_name_free(e_contact_editor->name);
 
@@ -1049,22 +1150,55 @@ e_contact_editor_destroy (GtkObject *object) {
 	gtk_object_unref(GTK_OBJECT(e_contact_editor->gui));
 }
 
+static void
+command_state_changed (EContactEditor *ce)
+{
+	bonobo_ui_component_set_prop (ce->uic,
+				      "/commands/ContactEditorSaveClose",
+				      "sensitive",
+				      ce->changed ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (ce->uic,
+				      "/commands/ContactEditorSave",
+				      "sensitive",
+				      ce->changed ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (ce->uic,
+				      "/commands/ContactEditorDelete",
+				      "sensitive",
+				      (ce->editable && !ce->is_new_card) ? "1" : "0", NULL);
+}
+
+static void
+supported_fields_cb (EBook *book, EBookStatus status,
+		     EList *fields, EContactEditor *ce)
+{
+	gtk_object_set (GTK_OBJECT (ce),
+			"writable_fields", fields,
+			NULL);
+
+	e_contact_editor_show (ce);
+
+	command_state_changed (ce);
+}
+
 EContactEditor *
-e_contact_editor_new (ECard *card,
+e_contact_editor_new (EBook *book,
+		      ECard *card,
 		      gboolean is_new_card,
-		      EList *fields,
-		      gboolean is_read_only)
+		      gboolean editable)
 {
 	EContactEditor *ce;
 
 	ce = E_CONTACT_EDITOR (gtk_type_new (E_CONTACT_EDITOR_TYPE));
 
 	gtk_object_set (GTK_OBJECT (ce),
+			"book", book,
 			"card", card,
 			"is_new_card", is_new_card,
-			"writable_fields", fields,
-			"is_read_only", is_read_only,
+			"editable", editable,
 			NULL);
+
+	if (book)
+		e_book_get_supported_fields (book, (EBookFieldsCallback)supported_fields_cb, ce);
 
 	return ce;
 }
@@ -1077,6 +1211,13 @@ e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	editor = E_CONTACT_EDITOR (o);
 	
 	switch (arg_id){
+	case ARG_BOOK:
+		if (editor->book)
+			gtk_object_unref(GTK_OBJECT(editor->book));
+		editor->book = E_BOOK(GTK_VALUE_OBJECT (*arg));
+		gtk_object_ref (GTK_OBJECT (editor->book));
+		/* XXX more here about editable/etc. */
+		break;
 	case ARG_CARD:
 		if (editor->card)
 			gtk_object_unref(GTK_OBJECT(editor->card));
@@ -1085,20 +1226,23 @@ e_contact_editor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			       "card", editor->card,
 			       NULL);
 		fill_in_info(editor);
+		editor->changed = FALSE;
 		break;
 
 	case ARG_IS_NEW_CARD:
 		editor->is_new_card = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
 		break;
 
-	case ARG_IS_READ_ONLY: {
+	case ARG_EDITABLE: {
 		gboolean new_value = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
-		gboolean changed = (editor->is_read_only != new_value);
+		gboolean changed = (editor->editable != new_value);
 
-		editor->is_read_only = new_value;
+		editor->editable = new_value;
 
-		if (changed)
-			set_read_only (editor);
+		if (changed) {
+			set_editable (editor);
+			command_state_changed (editor);
+		}
 		break;
 	}
 	case ARG_WRITABLE_FIELDS:
@@ -1122,6 +1266,10 @@ e_contact_editor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	e_contact_editor = E_CONTACT_EDITOR (object);
 
 	switch (arg_id) {
+	case ARG_BOOK:
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(e_contact_editor->book);
+		break;
+
 	case ARG_CARD:
 		e_card_simple_sync_card(e_contact_editor->simple);
 		extract_info(e_contact_editor);
@@ -1132,8 +1280,8 @@ e_contact_editor_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOOL (*arg) = e_contact_editor->is_new_card ? TRUE : FALSE;
 		break;
 
-	case ARG_IS_READ_ONLY:
-		GTK_VALUE_BOOL (*arg) = e_contact_editor->is_read_only ? TRUE : FALSE;
+	case ARG_EDITABLE:
+		GTK_VALUE_BOOL (*arg) = e_contact_editor->editable ? TRUE : FALSE;
 		break;
 
 	case ARG_WRITABLE_FIELDS:
@@ -1450,7 +1598,7 @@ _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 		editor->phone_choice[which - 1] = result;
 		set_fields(editor);
 		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, label), TRUE);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, entry), !editor->is_read_only);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, entry), editor->editable);
 	}
 
 	g_free(label);
@@ -1483,8 +1631,8 @@ _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 
 		/* make sure the buttons/entry is/are sensitive */
 		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), !editor->is_read_only);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), !editor->is_read_only);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), editor->editable);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), editor->editable);
 	}
 }
 
@@ -1513,8 +1661,8 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 
 		/* make sure the buttons/entry is/are sensitive */
 		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), !editor->is_read_only);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), !editor->is_read_only);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), editor->editable);
+		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), editor->editable);
 	}
 }
 
@@ -1846,13 +1994,13 @@ enable_writable_fields(EContactEditor *editor)
                    enabled. */
 		if (!strcmp (field, e_card_simple_get_ecard_field (simple, e_card_simple_map_email_to_field(editor->email_choice)))) {
 			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
-			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), !editor->is_read_only);
+			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), editor->editable);
 			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), TRUE);
 		}
 		else if (!strcmp (field, e_card_simple_get_ecard_field (simple, e_card_simple_map_address_to_field(editor->address_choice)))) {
 			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
-			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), !editor->is_read_only);
-			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), !editor->is_read_only);
+			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), editor->editable);
+			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), editor->editable);
 		}
 		else for (i = 0; i < 4; i ++) {
 			if (!strcmp (field, e_card_simple_get_ecard_field (simple, e_card_simple_map_phone_to_field(editor->phone_choice[i])))) {
@@ -1860,7 +2008,7 @@ enable_writable_fields(EContactEditor *editor)
 				gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), TRUE);
 				g_free (widget_name);
 				widget_name = g_strdup_printf ("entry-phone%d", i+1);
-				gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), !editor->is_read_only);
+				gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), editor->editable);
 				g_free (widget_name);
 			}
 		}
@@ -1883,7 +2031,7 @@ enable_writable_fields(EContactEditor *editor)
 }
 
 static void
-set_read_only (EContactEditor *editor)
+set_editable (EContactEditor *editor)
 {
 	int i;
 	char *label, *entry;
@@ -1891,7 +2039,7 @@ set_read_only (EContactEditor *editor)
 	for (i = 0; i < num_widget_field_mappings; i ++) {
 		if (widget_field_mappings[i].desensitize_for_read_only)
 			gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
-								       widget_field_mappings[i].widget_name), !editor->is_read_only);
+								       widget_field_mappings[i].widget_name), editor->editable);
 	}
 
 	/* handle the phone dropdown entries */
@@ -1901,7 +2049,7 @@ set_read_only (EContactEditor *editor)
 
 		if (GTK_WIDGET_IS_SENSITIVE (glade_xml_get_widget (editor->gui, label)))
 			gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
-								       entry), !editor->is_read_only);
+								       entry), editor->editable);
 
 		g_free (label);
 		g_free (entry);
@@ -1912,9 +2060,9 @@ set_read_only (EContactEditor *editor)
 	entry = "entry-email1";
 	if (GTK_WIDGET_IS_SENSITIVE (glade_xml_get_widget (editor->gui, label))) {
 		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
-							       entry), !editor->is_read_only);
+							       entry), editor->editable);
 		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
-							       "checkbutton-htmlmail"), !editor->is_read_only);
+							       "checkbutton-htmlmail"), editor->editable);
 	}
 
 	/* handle the address dropdown entry */
@@ -1922,7 +2070,7 @@ set_read_only (EContactEditor *editor)
 	entry = "text-address";
 	if (GTK_WIDGET_IS_SENSITIVE (glade_xml_get_widget (editor->gui, label)))
 		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
-							       entry), !editor->is_read_only);
+							       entry), editor->editable);
 }
 
 static void
@@ -2139,7 +2287,6 @@ e_contact_editor_show (EContactEditor *ce)
 {
 	gtk_widget_show (ce->app);
 }
-
 
 GtkWidget *
 e_contact_editor_create_date(gchar *name,

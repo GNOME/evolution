@@ -27,25 +27,25 @@ libecontacteditor_a_SOURCES = 			\
 	e-contact-quick-add.c			\
 	e-contact-quick-add.h
 
-noinst_PROGRAMS =		\
-	contact-editor-test
+# noinst_PROGRAMS =		\
+# 	contact-editor-test
 
-contact_editor_test_SOURCES = 	\
-	test-editor.c
+# contact_editor_test_SOURCES = 	\
+# 	test-editor.c
 
-contact_editor_test_LDADD =					\
-	libecontacteditor.a					\
-	$(top_builddir)/e-util/libeutil.la			\
-	$(top_builddir)/addressbook/printing/libecontactprint.a	\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
-	$(top_builddir)/e-util/ename/libename.la		\
-	$(top_builddir)/libversit/libversit.la			\
-	$(GNOMEGNORBA_LIBS)					\
-	$(BONOBO_GNOME_LIBS)				\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a \
-	$(top_builddir)/e-util/libeutil.la			\
-	$(GNOME_PRINT_LIBS)					\
-	$(EXTRA_GNOME_LIBS)
+# contact_editor_test_LDADD =					\
+# 	libecontacteditor.a					\
+# 	$(top_builddir)/e-util/libeutil.la			\
+# 	$(top_builddir)/addressbook/printing/libecontactprint.a	\
+# 	$(top_builddir)/addressbook/backend/ebook/libebook.la   \
+# 	$(top_builddir)/e-util/ename/libename.la		\
+# 	$(top_builddir)/libversit/libversit.la			\
+# 	$(GNOMEGNORBA_LIBS)					\
+# 	$(BONOBO_GNOME_LIBS)				\
+# 	$(top_builddir)/widgets/misc/libemiscwidgets.a \
+# 	$(top_builddir)/e-util/libeutil.la			\
+# 	$(GNOME_PRINT_LIBS)					\
+#	$(EXTRA_GNOME_LIBS)
 
 evolutiondir = $(datadir)/evolution
 
