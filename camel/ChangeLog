@@ -1,3 +1,9 @@
+2002-08-16  Dan Winship  <danw@ximian.com>
+
+	* camel-session.c (get_service): If the passed-in URL contains a
+	path, but the service doesn't allow paths, then the path part must
+	be a folder name, and we should ignore it here. #29010
+
 2002-08-16  Chris Toshok  <toshok@ximian.com>
 
 	* camel-arg.h: remove the outer parens from the expansion of

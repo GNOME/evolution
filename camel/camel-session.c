@@ -425,6 +425,12 @@ get_service (CamelSession *session, const char *url_string,
 		return NULL;
 	}
 	
+	/* If the provider doesn't use paths but the URL contains one,
+	 * ignore it.
+	 */
+	if (url->path && !CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_PATH))
+		camel_url_set_path (url, NULL);
+
 	/* Now look up the service in the provider's cache */
 	service = g_hash_table_lookup (provider->service_cache[type], url);
 	if (service != NULL) {
