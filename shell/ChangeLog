@@ -1,3 +1,10 @@
+2000-11-11  Matt Bissiri  <bissiri@eecs.umich.edu>
+
+	* e-shell.c: (setup_components), (save_settings_for_component):
+	* evolution-storage.c: (evolution_storage_register_on_shell):
+	Update the remaining "IDL:Evolution*" to "IDL:GNOME/Evolution*"
+	to sync up with yesterday's IDL re-scoping.
+
 2000-11-06  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-view.c (unrealize): remove.

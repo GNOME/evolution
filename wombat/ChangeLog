@@ -1,3 +1,9 @@
+2000-11-11  Matt Bissiri  <bissiri@eecs.umich.edu>
+
+	* wombat.oafinfo:
+	Update the remaining "IDL:Evolution*" to "IDL:GNOME/Evolution*"
+	to sync up with yesterday's IDL re-scoping.
+
 2000-10-23  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am (INCLUDES): Update EVOLUTION_LOCALEDIR

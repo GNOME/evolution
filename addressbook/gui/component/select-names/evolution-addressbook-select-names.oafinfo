@@ -18,7 +18,7 @@
             location="OAFIID:factory:addressbook:select-names:b39eb1a1-f341-4d5a-9a91-e2616e206b2e">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:Evolution/Addressbook/SelectNames"/>
+		<item value="IDL:GNOME/Evolution/Addressbook/SelectNames"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"

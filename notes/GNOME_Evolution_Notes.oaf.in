@@ -43,7 +43,7 @@
 	type="factory"
 	location="OAFIID:evolution-shell-component-factory:evolution-notes:f2f0f57f-27d9-4498-b54b-248f223ee772">
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:Evolution/ShellComponent:1.0"/>
+		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"

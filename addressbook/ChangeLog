@@ -1,3 +1,10 @@
+2000-11-11  Matt Bissiri  <bissiri@eecs.umich.edu>
+
+	* gui/component/addressbook.oafinfo:
+	* gui/component/select-names/evolution-addressbook-select-names.oafinfo:
+	Update the remaining "IDL:Evolution*" to "IDL:GNOME/Evolution*"
+	to sync up with yesterday's IDL re-scoping.
+
 2000-11-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/pas/pas-backend-ldap.c: Fixed a warning.

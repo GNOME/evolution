@@ -1039,7 +1039,7 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 
 	CORBA_exception_init (&ev);
 	shell_view_interface = Bonobo_Unknown_queryInterface (control_frame,
-							       "IDL:Evolution/ShellView:1.0",
+							       "IDL:GNOME/Evolution/ShellView:1.0",
 							       &ev);
 	CORBA_exception_free (&ev);
 

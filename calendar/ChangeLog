@@ -1,3 +1,9 @@
+2000-11-11  Matt Bissiri  <bissiri@eecs.umich.edu>
+
+	* gui/evolution-calendar.oafinfo:
+	Update the remaining "IDL:Evolution*" to "IDL:GNOME/Evolution*"
+	to sync up with yesterday's IDL re-scoping.
+
 2000-11-10  Michael Meeks  <michael@helixcode.com>
 
 	* gui/Makefile.am ($(IDL_GENERATED)): sort include order.

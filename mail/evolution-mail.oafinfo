@@ -43,7 +43,7 @@
             location="OAFIID:evolution-shell-component-factory:evolution-mail:0ea887d5-622b-4b8c-b525-18aa1cbe18a6">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:Evolution/ShellComponent:1.0"/>
+		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
@@ -70,7 +70,7 @@
 	    location="OAFIID:evolution-executive-summary-component-factory:evolution-mail:be210cba-0eee-4def-84fa-643d50321217">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:Evolution:SummaryComponent:1.0"/>
+		<item value="IDL:GNOME/Evolution:SummaryComponent:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
@@ -94,7 +94,7 @@
 	    location="OAFIID:evolution-composer-factory:evolution-mail:fcfda393-60ee-485f-b782-e9323434bff3">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:Evolution:Composer:1.0"/>
+		<item value="IDL:GNOME/Evolution:Composer:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"

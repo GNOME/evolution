@@ -460,7 +460,7 @@ evolution_storage_register_on_shell (EvolutionStorage *evolution_storage,
 	CORBA_exception_init (&ev);
 
 	corba_storage_registry = Bonobo_Unknown_queryInterface (corba_shell,
-								 "IDL:Evolution/StorageRegistry:1.0",
+								 "IDL:GNOME/Evolution/StorageRegistry:1.0",
 								 &ev);
 	if (corba_storage_registry == CORBA_OBJECT_NIL || ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);

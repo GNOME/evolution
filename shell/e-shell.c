@@ -387,7 +387,7 @@ setup_components (EShell *shell,
 	priv = shell->priv;
 	priv->component_registry = e_component_registry_new (shell);
 
-	info_list = oaf_query ("repo_ids.has ('IDL:Evolution/ShellComponent:1.0')", NULL, &ev);
+	info_list = oaf_query ("repo_ids.has ('IDL:GNOME/Evolution/ShellComponent:1.0')", NULL, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_error ("Eeek!  Cannot perform OAF query for Evolution components.");
@@ -913,7 +913,7 @@ save_settings_for_component (EShell *shell,
 
 	CORBA_exception_init (&ev);
 
-	session_interface = Bonobo_Unknown_queryInterface (unknown_interface, "IDL:Evolution/Session:1.0", &ev);
+	session_interface = Bonobo_Unknown_queryInterface (unknown_interface, "IDL:GNOME/Evolution/Session:1.0", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || CORBA_Object_is_nil (session_interface, &ev)) {
 		CORBA_exception_free (&ev);
 		return TRUE;

@@ -135,7 +135,7 @@ control_activate_cb (BonoboControl *control,
 
 		CORBA_exception_init (&ev);
 		shell_view_interface = Bonobo_Unknown_queryInterface (control_frame,
-								      "IDL:Evolution/ShellView:1.0",
+								      "IDL:GNOME/Evolution/ShellView:1.0",
 								      &ev);
 		CORBA_exception_free (&ev);
 
@@ -222,7 +222,7 @@ void
 embed_service (GtkWidget *widget,
 	       ESummary *esummary)
 {
-	char *required_interfaces[2] = {"IDL:Evolution:SummaryComponent:1.0",
+	char *required_interfaces[2] = {"IDL:GNOME/Evolution:SummaryComponent:1.0",
 					NULL};
 	char *obj_id;
 	
