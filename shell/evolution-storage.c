@@ -319,7 +319,6 @@ impl_Storage_async_xfer_folder (PortableServer_Servant servant,
 static void
 impl_Storage_updateFolder (PortableServer_Servant servant,
 			   const CORBA_char *path,
-			   const CORBA_char *display_name,
 			   CORBA_long unread_count,
 			   CORBA_Environment *ev)
 {
@@ -332,7 +331,7 @@ impl_Storage_updateFolder (PortableServer_Servant servant,
 	storage = EVOLUTION_STORAGE (bonobo_object);
 
 	gtk_signal_emit (GTK_OBJECT (storage), signals[UPDATE_FOLDER],
-			 path, display_name, unread_count);
+			 path, unread_count);
 
 	priv = storage->priv;
 
@@ -347,7 +346,6 @@ impl_Storage_updateFolder (PortableServer_Servant servant,
 		listener = p->data;
 		GNOME_Evolution_StorageListener_notifyFolderUpdated (listener,
 								     path,
-								     display_name,
 								     unread_count,
 								     ev);
 
@@ -544,9 +542,8 @@ class_init (EvolutionStorageClass *klass)
 						 object_class->type,
 						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
 								    update_folder),
-						 e_marshal_NONE__POINTER_POINTER_INT,
-						 GTK_TYPE_NONE, 3,
-						 GTK_TYPE_STRING,
+						 gtk_marshal_NONE__POINTER_INT,
+						 GTK_TYPE_NONE, 2,
 						 GTK_TYPE_STRING,
 						 GTK_TYPE_INT);
 
@@ -859,7 +856,6 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 EvolutionStorageResult
 evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 				 const char       *path,
-				 const char       *display_name,
 				 int               unread_count)
 {
 	EvolutionStorageResult result;
@@ -878,7 +874,7 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 	priv = evolution_storage->priv;
 
 	gtk_signal_emit (GTK_OBJECT (evolution_storage), signals[UPDATE_FOLDER],
-			 path, display_name, unread_count);
+			 path, unread_count);
 
 	if (priv->corba_storage_listeners == NULL)
 		return EVOLUTION_STORAGE_ERROR_NOTREGISTERED;
@@ -891,7 +887,7 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 		GNOME_Evolution_StorageListener listener;
 
 		listener = p->data;
-		GNOME_Evolution_StorageListener_notifyFolderUpdated (listener, path, display_name, unread_count, &ev);
+		GNOME_Evolution_StorageListener_notifyFolderUpdated (listener, path, unread_count, &ev);
 
 		if (ev._major != CORBA_NO_EXCEPTION)
 			continue;
@@ -910,11 +906,9 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 
 	if (result == EVOLUTION_STORAGE_OK) {
 		corba_folder = e_folder_tree_get_folder (priv->folder_tree, path);
-		if (corba_folder != NULL) {
-			CORBA_free (corba_folder->displayName);
-			corba_folder->displayName = CORBA_string_dup (display_name);
+		if (corba_folder != NULL)
 			corba_folder->unreadCount = unread_count;
-		} else
+		else
 			result = EVOLUTION_STORAGE_ERROR_NOTFOUND;
 	}
 
@@ -924,7 +918,6 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 EvolutionStorageResult
 evolution_storage_update_folder_by_uri (EvolutionStorage *evolution_storage,
 					const char       *physical_uri,
-					const char       *display_name,
 					int               unread_count)
 {
 	EvolutionStoragePrivate *priv;
@@ -939,7 +932,7 @@ evolution_storage_update_folder_by_uri (EvolutionStorage *evolution_storage,
 	priv = evolution_storage->priv;
 
 	path = g_hash_table_lookup (priv->uri_to_path, physical_uri);
-	return evolution_storage_update_folder (evolution_storage, path, display_name, unread_count);
+	return evolution_storage_update_folder (evolution_storage, path, unread_count);
 }
 
 EvolutionStorageResult

@@ -59,7 +59,7 @@ struct _EvolutionStorageListenerClass {
 				  const GNOME_Evolution_Folder *folder);
 	void (* update_folder)   (EvolutionStorageListener *storage_listener,
 				  const char *path,
-				  const char *display_name);
+				  int unread_count);
 	void (* removed_folder)  (EvolutionStorageListener *storage_listener,
 				  const char *path);
 };

@@ -96,7 +96,6 @@ struct _EvolutionStorageClass {
 
 	void (*update_folder) (EvolutionStorage *storage,
 			       const char *path,
-			       const char *display_name,
 			       int unread_count);
 };
 
@@ -131,11 +130,9 @@ EvolutionStorageResult  evolution_storage_new_folder           (EvolutionStorage
 								int                              unread_count);
 EvolutionStorageResult  evolution_storage_update_folder        (EvolutionStorage                *evolution_storage,
 								const char                      *path,
-								const char                      *display_name,
 								int                              unread_count);
 EvolutionStorageResult  evolution_storage_update_folder_by_uri (EvolutionStorage                *evolution_storage,
 								const char                      *physical_uri,
-								const char                      *display_name,
 								int                              unread_count);
 EvolutionStorageResult  evolution_storage_removed_folder       (EvolutionStorage                *evolution_storage,
 								const char                      *path);

@@ -55,7 +55,6 @@ module Evolution {
 				      in Bonobo::Listener listener);
 
 		void updateFolder (in string path,
-				   in string display_name,
 				   in long unread_count);
 
 		void addListener       (in StorageListener listener)
@@ -78,7 +77,6 @@ module Evolution {
 			raises (Exists);
 		
 		void notifyFolderUpdated (in string  path,
-					  in string  display_name,
 					  in long    unread_count)
 			raises (NotFound);
 

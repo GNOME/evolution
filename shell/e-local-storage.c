@@ -951,7 +951,6 @@ bonobo_interface_remove_folder_cb (EvolutionStorage *storage,
 static void
 bonobo_interface_update_folder_cb (EvolutionStorage *storage,
 				   const char *path,
-				   const char *display_name,
 				   int unread_count,
 				   void *data)
 {
@@ -964,9 +963,7 @@ bonobo_interface_update_folder_cb (EvolutionStorage *storage,
 	if (folder == NULL)
 		return;
 
-	/* e_folder_set_name (folder, display_name); */
 	e_folder_set_unread_count (folder, unread_count);
-
 	return;
 }
 

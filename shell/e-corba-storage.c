@@ -126,7 +126,6 @@ impl_StorageListener_notifyFolderCreated (PortableServer_Servant servant,
 static void
 impl_StorageListener_notifyFolderUpdated (PortableServer_Servant servant,
 					  const CORBA_char *path,
-					  const CORBA_char *display_name,
 					  CORBA_long unread_count,
 					  CORBA_Environment *ev)
 {
@@ -146,7 +145,6 @@ impl_StorageListener_notifyFolderUpdated (PortableServer_Servant servant,
 		return;
 	}
 
-	e_folder_set_name (e_folder, display_name);
 	e_folder_set_unread_count (e_folder, unread_count);
 }
 
