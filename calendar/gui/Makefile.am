@@ -127,8 +127,10 @@ libevolution_calendar_la_SOURCES =		\
 	e-itip-control.c			\
 	e-meeting-attendee.c			\
 	e-meeting-attendee.h			\
-	e-meeting-model.c			\
-	e-meeting-model.h			\
+	e-meeting-list-view.c			\
+	e-meeting-list-view.h			\
+	e-meeting-store.c			\
+	e-meeting-store.h			\
 	e-meeting-time-sel.c			\
 	e-meeting-time-sel.h			\
 	e-meeting-time-sel-item.c		\
@@ -136,6 +138,10 @@ libevolution_calendar_la_SOURCES =		\
 	e-meeting-types.h			\
 	e-meeting-utils.c			\
 	e-meeting-utils.h			\
+	e-select-names-editable.c		\
+	e-select-names-editable.h		\
+	e-select-names-renderer.c		\
+	e-select-names-renderer.h		\
 	e-week-view-event-item.c		\
 	e-week-view-event-item.h		\
 	e-week-view-layout.c			\

@@ -26,6 +26,7 @@
 #include <config.h>
 #include <string.h>
 #include <glade/glade.h>
+#include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <libgnome/gnome-i18n.h>
 #include <widgets/misc/e-dateedit.h>
@@ -45,7 +46,7 @@ struct _EventEditorPrivate {
 	MeetingPage *meet_page;
 	SchedulePage *sched_page;
 
-	EMeetingModel *model;
+	EMeetingStore *model;
 	
 	gboolean meeting_shown;
 	gboolean updating;	
@@ -65,8 +66,8 @@ static void refresh_meeting_cmd (GtkWidget *widget, gpointer data);
 static void cancel_meeting_cmd (GtkWidget *widget, gpointer data);
 static void forward_cmd (GtkWidget *widget, gpointer data);
 
-static void model_row_changed_cb (ETableModel *etm, int row, gpointer data);
-static void row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data);
+static void model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
+static void model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
 
 static EPixmap pixmaps [] = {
 	E_PIXMAP ("/Toolbar/Actions/ActionScheduleMeeting", "schedule-meeting-24.png"),
@@ -162,12 +163,12 @@ init_widgets (EventEditor *ee)
 
 	priv = ee->priv;
 
-	g_signal_connect((priv->model), "model_row_changed",
-			    G_CALLBACK (model_row_changed_cb), ee);
-	g_signal_connect((priv->model), "model_rows_inserted",
-			    G_CALLBACK (row_count_changed_cb), ee);
-	g_signal_connect((priv->model), "model_rows_deleted",
-			    G_CALLBACK (row_count_changed_cb), ee);
+	g_signal_connect((priv->model), "row_changed",
+			    G_CALLBACK (model_row_change_insert_cb), ee);
+	g_signal_connect((priv->model), "row_inserted",
+			    G_CALLBACK (model_row_change_insert_cb), ee);
+	g_signal_connect((priv->model), "row_deleted",
+			    G_CALLBACK (model_row_delete_cb), ee);
 }
 
 /* Object initialization function for the event editor */
@@ -179,7 +180,7 @@ event_editor_init (EventEditor *ee)
 	priv = g_new0 (EventEditorPrivate, 1);
 	ee->priv = priv;
 
-	priv->model = E_MEETING_MODEL (e_meeting_model_new ());
+	priv->model = E_MEETING_STORE (e_meeting_store_new ());
 	priv->meeting_shown = TRUE;
 	priv->updating = FALSE;	
 }
@@ -232,6 +233,7 @@ event_editor_construct (EventEditor *ee, CalClient *client)
 
 	init_widgets (ee);
 	set_menu_sens (ee);	
+	gtk_window_set_default_size (GTK_WINDOW (ee), 300, 225);
 
 	return ee;
 }
@@ -245,7 +247,7 @@ event_editor_set_cal_client (CompEditor *editor, CalClient *client)
 	ee = EVENT_EDITOR (editor);
 	priv = ee->priv;
 
-	e_meeting_model_set_cal_client (priv->model, client);
+	e_meeting_store_set_cal_client (priv->model, client);
 	
 	if (parent_class->set_cal_client)
 		parent_class->set_cal_client (editor, client);	
@@ -275,7 +277,7 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	cal_component_get_attendee_list (comp, &attendees);
 
 	/* Clear things up */
-	e_meeting_model_remove_all_attendees (priv->model);
+	e_meeting_store_remove_all_attendees (priv->model);
 
 	/* Set up the attendees */
 	if (attendees == NULL) {
@@ -304,7 +306,7 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 			/* If we aren't the organizer or the attendee is just delegating, don't allow editing */
 			if (!comp_editor_get_user_org (editor) || e_meeting_attendee_is_set_delto (ia))
 				e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
-			e_meeting_model_add_attendee (priv->model, ia);
+			e_meeting_store_add_attendee (priv->model, ia);
 
 			g_object_unref(ia);
 		}
@@ -321,7 +323,7 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 
 				account = (EAccount*)e_iterator_get(it);
 
-				ia = e_meeting_model_find_attendee (priv->model, account->id->address, &row);
+				ia = e_meeting_store_find_attendee (priv->model, account->id->address, &row);
 				if (ia != NULL)
 					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
 			}
@@ -329,7 +331,7 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 		} else if (cal_client_get_organizer_must_attend (client)) {
 			EMeetingAttendee *ia;
 
-			ia = e_meeting_model_find_attendee (priv->model, organizer.value, &row);
+			ia = e_meeting_store_find_attendee (priv->model, organizer.value, &row);
 			if (ia != NULL)
 				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
 		}
@@ -363,7 +365,7 @@ event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 		CalClient *client;
 		gboolean result;
 		
-		client = e_meeting_model_get_cal_client (priv->model);
+		client = e_meeting_store_get_cal_client (priv->model);
 		result = itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
 		g_object_unref((comp));
 
@@ -498,29 +500,23 @@ forward_cmd (GtkWidget *widget, gpointer data)
 }
 
 static void
-model_row_changed_cb (ETableModel *etm, int row, gpointer data)
+model_changed (EventEditor *ee)
 {
-	EventEditor *ee = EVENT_EDITOR (data);
-	EventEditorPrivate *priv;
-	
-	priv = ee->priv;
-	
-	if (!priv->updating) {
+	if (!ee->priv->updating) {
 		comp_editor_set_changed (COMP_EDITOR (ee), TRUE);
 		comp_editor_set_needs_send (COMP_EDITOR (ee), TRUE);
 	}
 }
 
 static void
-row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data)
+model_row_change_insert_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
-	EventEditor *ee = EVENT_EDITOR (data);
-	EventEditorPrivate *priv;
-	
-	priv = ee->priv;
-	
-	if (!priv->updating) {
-		comp_editor_set_changed (COMP_EDITOR (ee), TRUE);
-		comp_editor_set_needs_send (COMP_EDITOR (ee), TRUE);
-	}
+	model_changed (EVENT_EDITOR (data));
 }
+
+static void
+model_row_delete_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data)
+{
+	model_changed (EVENT_EDITOR (data));
+}
+

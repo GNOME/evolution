@@ -1,3 +1,20 @@
+2003-09-30  Mike Kestner <mkestner@ximian.com>
+
+	* cal-util/cal-util-marshal.list : new VOID:STRING,STRING,STRING
+	* gui/Makefile.am : build the new view/store/renderer/editable
+	* gui/e-select-names-renderer.* : new completion cell renderer
+	* gui/e-select-names-editable.* : new completion cell editable
+	* gui/e-meeting-model.* : killed. code reused in list-view/store
+	* gui/e-meeting-store.* : port of EMeetingModel to GtkTreeModel
+	* gui/e-meeting-list-view.* : GtkTreeView subclass for attendee lists
+	* gui/e-meeting-time-sel.c : Use the new store/view
+	* gui/e-meeting-time-sel-item.c : Use the new store/view
+	* gui/dialogs/Makefile.am : don't install the etspec anymore.
+	* gui/dialogs/event-editor.c : Use the new store/view.
+	* gui/dialogs/meeting-page.c : Use the new store/view.
+	* gui/dialogs/shedule-page.c : Use the new store/view.
+	* gui/dialogs/task-editor.c : Use the new store/view.
+
 2003-09-29  JP Rosevear <jpr@ximian.com>
 
 	* conduits/todo/Makefile.am: link to libical-evolution

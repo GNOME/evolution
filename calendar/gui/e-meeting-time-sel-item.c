@@ -256,7 +256,6 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 {
 	EMeetingTimeSelector *mts;
 	EMeetingTimeSelectorItem *mts_item;
-	ETable *real_table;
 	EMeetingAttendee *ia;
 	gint day_x, meeting_start_x, meeting_end_x, bar_y, bar_height;
 	gint row, row_y, start_x, end_x;
@@ -269,8 +268,6 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	g_return_if_fail (mts != NULL);
 	gc = mts_item->main_gc;
 	stipple_gc = mts_item->stipple_gc;
-
-	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (mts->etable));	
 
 	is_display_top = (GTK_WIDGET (item->canvas) == mts->display_top)
 		? TRUE : FALSE;
@@ -321,14 +318,11 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		gdk_gc_set_fill (stipple_gc, GDK_OPAQUE_STIPPLED);
 		row = y / mts->row_height;
 		row_y = row * mts->row_height - y;
-		while (row < e_meeting_model_count_actual_attendees (mts->model) && row_y < height) {
-			gint model_row = e_meeting_model_etable_view_to_model_row (real_table, 
-										   mts->model, row);
-
-			ia = e_meeting_model_find_attendee_at_row (mts->model, model_row);
+		while (row < e_meeting_store_count_actual_attendees (mts->model) && row_y < height) {
+			ia = e_meeting_store_find_attendee_at_row (mts->model, row);
 
 			if (e_meeting_attendee_get_has_calendar_info (ia)) {
-				if (e_meeting_time_selector_item_calculate_busy_range (mts, model_row, x, width, &start_x, &end_x)) {
+				if (e_meeting_time_selector_item_calculate_busy_range (mts, row, x, width, &start_x, &end_x)) {
 					if (start_x >= width || end_x <= 0) {
 						gdk_draw_rectangle (drawable, stipple_gc, TRUE, 0, row_y, width, mts->row_height);
 					} else {
@@ -522,9 +516,9 @@ e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelec
 	y = 2 * mts->row_height - scroll_y - 1;
 
 	/* Get the first visible busy periods for all the attendees. */
-	first_periods = g_new (gint, e_meeting_model_count_actual_attendees (mts->model));
-	for (row = 0; row < e_meeting_model_count_actual_attendees (mts->model); row++) {
-		ia = e_meeting_model_find_attendee_at_row (mts->model, row);
+	first_periods = g_new (gint, e_meeting_store_count_actual_attendees (mts->model));
+	for (row = 0; row < e_meeting_store_count_actual_attendees (mts->model); row++) {
+		ia = e_meeting_store_find_attendee_at_row (mts->model, row);
 		first_periods[row] = e_meeting_time_selector_item_find_first_busy_period (mts_item, date, row);
 	}
 
@@ -532,7 +526,7 @@ e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelec
 	     busy_type < E_MEETING_FREE_BUSY_LAST;
 	     busy_type++) {
 		gdk_gc_set_foreground (gc, &mts->busy_colors[busy_type]);
-		for (row = 0; row < e_meeting_model_count_actual_attendees (mts->model); row++) {
+		for (row = 0; row < e_meeting_store_count_actual_attendees (mts->model); row++) {
 			if (first_periods[row] == -1)
 				continue;
 			e_meeting_time_selector_item_paint_attendee_busy_periods (mts_item, drawable, x, y, width, row, first_periods[row], busy_type);
@@ -569,7 +563,7 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 	     grid_y < height;
 	     grid_y += mts->row_height)
 	  {
-		  if (attendee_index <= e_meeting_model_count_actual_attendees (mts->model)) {
+		  if (attendee_index <= e_meeting_store_count_actual_attendees (mts->model)) {
 			  gdk_gc_set_foreground (gc, &mts->grid_color);
 			  gdk_draw_line (drawable, gc, 0, grid_y,
 					 width, grid_y);
@@ -582,7 +576,7 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 	  }
 
 	/* Draw the vertical grid lines. */
-	unused_y = (e_meeting_model_count_actual_attendees (mts->model) * mts->row_height) - scroll_y;
+	unused_y = (e_meeting_store_count_actual_attendees (mts->model) * mts->row_height) - scroll_y;
 	if (unused_y >= 0) {
 		gdk_gc_set_foreground (gc, &mts->grid_color);
 		for (grid_x = mts->col_width - 1;
@@ -624,14 +618,11 @@ e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_i
 {
 	EMeetingTimeSelector *mts;
 	EMeetingFreeBusyType busy_type;
-	ETable *real_table;
-	gint row, model_row, y, first_period;
+	gint row, y, first_period;
 	GdkGC *gc;
 
 	mts = mts_item->mts;
 	gc = mts_item->main_gc;
-
-	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (mts->etable));
 
 	/* Calculate the first visible attendee row. */
 	row = scroll_y / mts->row_height;
@@ -640,11 +631,10 @@ e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_i
 	y = row * mts->row_height - scroll_y;
 
 	/* Step through the attendees painting the busy periods. */
-	while (y < height && row < e_meeting_model_count_actual_attendees (mts->model)) {
-		model_row = e_meeting_model_etable_view_to_model_row (real_table, mts->model, row);
+	while (y < height && row < e_meeting_store_count_actual_attendees (mts->model)) {
 
 		/* Find the first visible busy period. */
-		first_period = e_meeting_time_selector_item_find_first_busy_period (mts_item, date, model_row);
+		first_period = e_meeting_time_selector_item_find_first_busy_period (mts_item, date, row);
 		if (first_period != -1) {
 			/* Paint the different types of busy periods, in
 			   reverse order of precedence, so the highest
@@ -653,7 +643,7 @@ e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_i
 			     busy_type < E_MEETING_FREE_BUSY_LAST;
 			     busy_type++) {
 				gdk_gc_set_foreground (gc, &mts->busy_colors[busy_type]);
-				e_meeting_time_selector_item_paint_attendee_busy_periods (mts_item, drawable, x, y, width, model_row, first_period, busy_type);
+				e_meeting_time_selector_item_paint_attendee_busy_periods (mts_item, drawable, x, y, width, row, first_period, busy_type);
 			}
 		}
 		y += mts->row_height;
@@ -677,7 +667,7 @@ e_meeting_time_selector_item_find_first_busy_period (EMeetingTimeSelectorItem *m
 
 	mts = mts_item->mts;
 
-	ia = e_meeting_model_find_attendee_at_row (mts->model, row);
+	ia = e_meeting_store_find_attendee_at_row (mts->model, row);
 
 	period_num = e_meeting_attendee_find_first_busy_period (ia, date);
 	if (period_num == -1)
@@ -710,7 +700,7 @@ e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorIt
 	mts = mts_item->mts;
 	gc = mts_item->main_gc;
 
-	ia = e_meeting_model_find_attendee_at_row (mts->model, row);
+	ia = e_meeting_store_find_attendee_at_row (mts->model, row);
 
 	busy_periods = e_meeting_attendee_get_busy_periods (ia);
 	for (period_num = first_period;
@@ -990,7 +980,7 @@ e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeSelector *mts,
 	EMeetingTime busy_periods_start;
 	EMeetingTime busy_periods_end;
 	
-	ia = e_meeting_model_find_attendee_at_row (mts->model, row);
+	ia = e_meeting_store_find_attendee_at_row (mts->model, row);
 	busy_periods_start = e_meeting_attendee_get_start_busy_range (ia);
 	busy_periods_end = e_meeting_attendee_get_end_busy_range (ia);
 	

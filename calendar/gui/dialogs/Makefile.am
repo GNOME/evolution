@@ -26,7 +26,6 @@ INCLUDES = 								\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
 	-DPREFIX=\""$(prefix)"\"					\
 	$(EVOLUTION_CALENDAR_CFLAGS)
@@ -92,7 +91,6 @@ glade_DATA =				\
 	task-details-page.glade		\
 	task-page.glade
 
-etspec_DATA = meeting-page.etspec
 
 CLEANFILES = $(BUILT_SOURCES)
 
@@ -100,5 +98,4 @@ dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
 EXTRA_DIST =			\
-	$(glade_DATA)		\
-	$(etspec_DATA)
+	$(glade_DATA)

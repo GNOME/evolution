@@ -60,7 +60,7 @@ struct _SchedulePagePrivate {
 	GtkWidget *main;
 
 	/* Model */
-	EMeetingModel *model;
+	EMeetingStore *model;
 	
 	/* Selector */
 	EMeetingTimeSelector *sel;
@@ -164,7 +164,7 @@ schedule_page_finalize (GObject *object)
 		priv->xml = NULL;
 	}
 
-	g_object_unref((priv->model));
+	g_object_unref(priv->model);
 
 	g_free (priv);
 	spage->priv = NULL;
@@ -251,7 +251,7 @@ update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponent
 	if (start_zone != end_zone) {
 		icaltimezone_convert_time (&end_tt, end_zone, start_zone);
 	}
-	e_meeting_model_set_zone (priv->model, priv->zone);
+	e_meeting_store_set_zone (priv->model, priv->zone);
 	
 	all_day = (start_tt.is_date && end_tt.is_date) ? TRUE : FALSE;
 
@@ -405,7 +405,7 @@ init_widgets (SchedulePage *spage)
  * be created.
  **/
 SchedulePage *
-schedule_page_construct (SchedulePage *spage, EMeetingModel *emm)
+schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 {
 	SchedulePagePrivate *priv;
 	
@@ -426,11 +426,11 @@ schedule_page_construct (SchedulePage *spage, EMeetingModel *emm)
 	}
 
 	/* Model */
-	g_object_ref((emm));
-	priv->model = emm;
+	g_object_ref (ems);
+	priv->model = ems;
 	
 	/* Selector */
-	priv->sel = E_MEETING_TIME_SELECTOR (e_meeting_time_selector_new (emm));
+	priv->sel = E_MEETING_TIME_SELECTOR (e_meeting_time_selector_new (ems));
 	e_meeting_time_selector_set_working_hours (priv->sel,
 						   calendar_config_get_day_start_hour (),
 						   calendar_config_get_day_start_minute (),
@@ -457,12 +457,12 @@ schedule_page_construct (SchedulePage *spage, EMeetingModel *emm)
  * not be created.
  **/
 SchedulePage *
-schedule_page_new (EMeetingModel *emm)
+schedule_page_new (EMeetingStore *ems)
 {
 	SchedulePage *spage;
 
 	spage = g_object_new (TYPE_SCHEDULE_PAGE, NULL);
-	if (!schedule_page_construct (spage, emm)) {
+	if (!schedule_page_construct (spage, ems)) {
 		g_object_unref((spage));
 		return NULL;
 	}
