@@ -34,6 +34,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
+#include <signal.h>
 
 #include "camel-movemail.h"
 #include "camel-exception.h"
@@ -43,6 +44,13 @@
 #include "camel-mime-filter-from.h"
 
 #define d(x)
+
+#ifdef MOVEMAIL_PATH
+#include <sys/wait.h>
+
+static void movemail_external (const char *source, const char *dest,
+			       CamelException *ex);
+#endif
 
 /* these could probably be exposed as a utility? (but only mbox needs it) */
 static int camel_movemail_copy_filter(int fromfd, int tofd, off_t start, size_t bytes, CamelMimeFilter *filter);
@@ -59,14 +67,11 @@ static int camel_movemail_copy(int fromfd, int tofd, off_t start, size_t bytes);
  * readers and writers into a private (presumably Camel-controlled)
  * directory. Dot locking is used on the source file (but not the
  * destination).
- *
- * Return value: 1 if mail was copied, 0 if the source file contained
- * no mail, -1 if an error occurred.
  **/
-int
+void
 camel_movemail (const char *source, const char *dest, CamelException *ex)
 {
-	gboolean locked, error;
+	gboolean locked;
 	int sfd, dfd, tmpfd;
 	char *locktmpfile, *lockfile;
 	struct stat st;
@@ -84,33 +89,16 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 	 * called a fraction earlier.)
 	 */
 	if (stat (source, &st) == -1) {
-		if (errno == ENOENT)
-			return 0;
-
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not check mail file %s: %s",
-				      source, g_strerror (errno));
-		return -1;
+		if (errno != ENOENT) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      "Could not check mail file "
+					      "%s: %s", source,
+					      g_strerror (errno));
+		}
+		return;
 	}
 	if (st.st_size == 0)
-		return 0;
-
-	sfd = open (source, O_RDWR);
-	if (sfd == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not open mail file %s: %s",
-				      source, g_strerror (errno));
-		return -1;
-	}
-
-	dfd = open (dest, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
-	if (dfd == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      "Could not open temporary mail "
-				      "file %s: %s", dest, g_strerror (errno));
-		close (sfd);
-		return -1;
-	}
+		return;
 
 	/* Create the unique lock file. */
 	locktmpfile = g_strdup_printf ("%s.lock.XXXXXX", source);
@@ -124,15 +112,48 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 		tmpfd = -1;
 #endif
 	if (tmpfd == -1) {
+		g_free (locktmpfile);
+#ifdef MOVEMAIL_PATH
+		if (errno == EACCES) {
+			/* movemail_external will fail if the dest file
+			 * already exists, so if it does, return now,
+			 * let the fetch code process the mail that's
+			 * already there, and then the user can try again.
+			 */
+			if (stat (dest, &st) == 0)
+				return;
+
+			movemail_external (source, dest, ex);
+			return;
+		}
+#endif
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Could not create lock file "
 				      "for %s: %s", source, g_strerror (errno));
-		close (sfd);
-		close (dfd);
-		unlink (dest);
-		return -1;
+		return;
 	}
 	close (tmpfd);
+
+	sfd = open (source, O_RDWR);
+	if (sfd == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not open mail file %s: %s",
+				      source, g_strerror (errno));
+		unlink (locktmpfile);
+		g_free (locktmpfile);
+		return;
+	}
+
+	dfd = open (dest, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
+	if (dfd == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not open temporary mail "
+				      "file %s: %s", dest, g_strerror (errno));
+		close (sfd);
+		unlink (locktmpfile);
+		g_free (locktmpfile);
+		return;
+	}
 
 	lockfile = g_strdup_printf ("%s.lock", source);
 	locked = FALSE;
@@ -195,15 +216,13 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 		g_free (locktmpfile);
 		close (sfd);
 		close (dfd);
-		unlink (dest);
-		return -1;
+		return;
 	}
 
 	/* OK. We have the file locked now. */
 
 	/* FIXME: Set a timer to keep the file locked. */
 
-	error = FALSE;
 	while (1) {
 		int written = 0;
 
@@ -216,7 +235,6 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "Error reading mail file: %s",
 					      g_strerror (errno));
-			error = TRUE;
 			break;
 		}
 
@@ -229,7 +247,6 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 						      "Error writing "
 						      "mail temp file: %s",
 						      g_strerror (errno));
-				error = TRUE;
 				break;
 			}
 			written += nwrote;
@@ -239,9 +256,8 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 
 	/* If no errors occurred copying the data, and we successfully
 	 * close the destination file, then truncate the source file.
-	 * If there is some sort of error, delete the destination file.
 	 */
-	if (!error) {
+	if (!camel_exception_is_set (ex)) {
 		if (close (dfd) == 0)
 			ftruncate (sfd, 0);
 		else {
@@ -249,13 +265,9 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 					      "Failed to store mail in "
 					      "temp file %s: %s", dest,
 					      g_strerror (errno));
-			unlink (dest);
-			error = TRUE;
 		}
-	} else {
+	} else
 		close (dfd);
-		unlink (dest);
-	}
 	close (sfd);
 
 	/* Clean up lock files. */
@@ -263,9 +275,82 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 	g_free (lockfile);
 	unlink (locktmpfile);
 	g_free (locktmpfile);
-
-	return error ? -1 : 1;
 }
+
+#ifdef MOVEMAIL_PATH
+static void
+movemail_external (const char *source, const char *dest, CamelException *ex)
+{
+	sigset_t mask, omask;
+	pid_t pid;
+	int fd[2], len = 0, nread, status;
+	char buf[BUFSIZ], *output = NULL;
+
+	/* Block SIGCHLD so the app can't mess us up. */
+	sigemptyset (&mask);
+	sigaddset (&mask, SIGCHLD);
+	sigprocmask (SIG_BLOCK, &mask, &omask);
+
+	if (pipe (fd) == -1) {
+		sigprocmask (SIG_SETMASK, &omask, NULL);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not create pipe: %s",
+				      g_strerror (errno));
+		return;
+	}
+
+	pid = fork ();
+	switch (pid) {
+	case -1:
+		close (fd[0]);
+		close (fd[1]);
+		sigprocmask (SIG_SETMASK, &omask, NULL);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not fork: %s",
+				      g_strerror (errno));
+		return;
+
+	case 0:
+		/* Child */
+		close (fd[0]);
+		close (STDIN_FILENO);
+		dup2 (fd[1], STDOUT_FILENO);
+		dup2 (fd[1], STDERR_FILENO);
+
+		execl (MOVEMAIL_PATH, MOVEMAIL_PATH, source, dest, NULL);
+		_exit (255);
+		break;
+
+	default:
+		break;
+	}
+
+	/* Parent */
+	close (fd[1]);
+
+	/* Read movemail's output. */
+	while ((nread = read (fd[0], buf, sizeof (buf))) > 0) {
+		output = g_realloc (output, len + nread + 1);
+		memcpy (output + len, buf, nread);
+		len += nread;
+		output[len] = '\0';
+	}
+	close (fd[0]);
+
+	/* Now get the exit status. */
+	while (waitpid (pid, &status, 0) == -1 && errno == EINTR)
+		;
+	sigprocmask (SIG_SETMASK, &omask, NULL);
+
+	if (!WIFEXITED (status) || WEXITSTATUS (status) != 0) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Movemail program failed: %s",
+				      output ? output : "(Unknown error)");
+	}
+	g_free (output);
+}
+#endif
+
 
 static int
 camel_movemail_copy(int fromfd, int tofd, off_t start, size_t bytes)
