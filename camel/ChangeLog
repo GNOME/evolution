@@ -1,3 +1,8 @@
+2001-07-19  Peter Williams  <peterw@ximian.com>
+
+	* Revert 7/11/2001 patch for IMAP INBOX filtering at NotZed's 
+	request.
+
 2001-07-17  Peter Williams  <peterw@ximian.com>
 
 	Clean up some exception misusage.
