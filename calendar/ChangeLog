@@ -1,3 +1,22 @@
+2004-07-02  Rodney Dawes  <dobey@novell.com>
+
+	* gui/dialogs/url-editor-dialog.c (get_widgets):
+	Get the label for the calendar list header also
+	(init_widgets): Set the border widths for the dialog's vbox and
+	action area to be more compliant with the HIG
+	Set the mnemonic widget for the calendar label, to the Source Selector
+	Remove the unneeded settings for the scrolled window, these are in the
+	glade xml for the widget
+	Set the icon list on the correct dialog widget, not the settings dialog
+
+	* gui/dialogs/url-editor-dialog.h:
+	Add the calendar_list_label widget here so we can access it
+
+	* gui/dialogs/url-editor-dialog.glade:
+	Change the dialog's layout to be HIG compliant and fix some strings
+	to do the same
+	Add mnemonics to all the labels that are associated with widgets
+
 2004-06-29  Sivaiah Nallagatla <snallagatla@novell.com>
 
         * gui/e-tasks.c (e_tasks_add_todo_source)

@@ -48,6 +48,7 @@ struct _UrlDialogData {
 	GtkWidget *weekly;
 	GtkWidget *user_publish;
 	
+	GtkWidget *calendar_list_label;
 	GtkWidget *scrolled_window;
 	
 	GtkEntry *username_entry;

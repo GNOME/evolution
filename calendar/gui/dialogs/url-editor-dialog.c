@@ -161,6 +161,7 @@ get_widgets (UrlDialogData *data)
 #define GW(name) glade_xml_get_widget (data->xml, name)
 
 	data->url_editor = GW ("url_editor");
+	data->calendar_list_label = GW ("calendar_list_label");
 	data->url_dialog = GW ("fb_dialog");
 	data->url_entry = GTK_ENTRY (GW ("url_entry"));
 	data->daily = GW ("daily");
@@ -176,6 +177,7 @@ get_widgets (UrlDialogData *data)
 #undef GW
 
 	return (data ->url_editor
+		&& data->calendar_list_label
 		&& data->url_entry
 		&& data->daily
 		&& data->weekly
@@ -221,6 +223,10 @@ init_widgets (UrlDialogData *url_dlg_data)
 	GList *icon_list;
 	GSList *p;
 	
+	gtk_widget_ensure_style (url_dlg_data->url_editor);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (url_dlg_data->url_editor)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (url_dlg_data->url_editor)->action_area), 12);
+
 	g_signal_connect (url_dlg_data->url_entry, "changed", 
 			  G_CALLBACK (url_editor_dialog_fb_url_changed), 
 			  url_dlg_data);
@@ -280,17 +286,15 @@ init_widgets (UrlDialogData *url_dlg_data)
 			  G_CALLBACK (selection_changed_callback), 
 			  url_dlg_data);
 
+	gtk_label_set_mnemonic_widget (GTK_LABEL (url_dlg_data->calendar_list_label),
+				       selector);
 	gtk_widget_show (selector);
 	gtk_container_add (GTK_CONTAINER (url_dlg_data->scrolled_window), 
 			   selector);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (url_dlg_data->scrolled_window),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (url_dlg_data->scrolled_window),
-					     GTK_SHADOW_IN);
-	
+
 	icon_list = e_icon_factory_get_icon_list ("stock_calendar");
 	if (icon_list) {
-		gtk_window_set_icon_list (GTK_WINDOW (url_dlg_data->url_dialog), icon_list);
+		gtk_window_set_icon_list (GTK_WINDOW (url_dlg_data->url_editor), icon_list);
 		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
 		g_list_free (icon_list);
 	}
