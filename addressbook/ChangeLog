@@ -1,5 +1,28 @@
 2002-03-09  Chris Toshok  <toshok@ximian.com>
 
+	* backend/idl/addressbook.idl: add TLSNotAvailable to
+	BookLister_CallStatus.
+
+	* backend/ebook/e-book-types.h: add TLS_NOT_AVAILABLE to the EBookStatus enum.
+
+	* backend/ebook/e-book-listener.c
+	(e_book_listener_convert_status): add TLS_NOT_AVAILABLE to the
+	switch.
+
+	* backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_get_static_capabilities): fix name.
+	(pas_backend_ldap_class_init): fix name.
+	(pas_backend_ldap_connect): change return type to CallStatus so we
+	can return different errors from here.  Also, do STARTTLS if the
+	user has asked for it and the connection supports it, returning
+	TLSNotAvailable (and close the connection) if they chose to
+	require it.
+	(pas_backend_ldap_load_uri): return pas_backend_ldap_connect.
+	(func_beginswith): pull in change from evolution-1-0-branch to
+	make full_name beginswith search both cn and sn.
+
+2002-03-09  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-addressbook-view.c (jump_to_letter): since I've
 	gone ahead and made the file backend (by way of
 	pas-backend-card-sexp.c) use case insensitive searches for

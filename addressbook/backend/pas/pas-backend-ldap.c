@@ -46,6 +46,11 @@
 
 #include <stdlib.h>
 
+typedef enum {
+	PAS_BACKEND_LDAP_TLS_NO,
+	PAS_BACKEND_LDAP_TLS_ALWAYS,
+	PAS_BACKEND_LDAP_TLS_WHEN_POSSIBLE,
+} PASBackendLDAPUseTLS;
 
 /* interval for our poll_ldap timeout */
 #define LDAP_POLL_INTERVAL 20
@@ -77,6 +82,7 @@ typedef struct _PASBackendLDAPCursorPrivate PASBackendLDAPCursorPrivate;
 typedef struct _PASBackendLDAPBookView PASBackendLDAPBookView;
 typedef struct LDAPOp LDAPOp;
 
+
 struct _PASBackendLDAPPrivate {
 	char     *uri;
 	gboolean connected;
@@ -91,6 +97,11 @@ struct _PASBackendLDAPPrivate {
 
 	gboolean ldap_v3;      /* TRUE if the server supports protocol
                                   revision 3 (necessary for TLS) */
+	gboolean starttls;     /* TRUE if the *library* supports
+                                  starttls.  will be false if openssl
+                                  was not built into openldap. */
+	PASBackendLDAPUseTLS use_tls;
+
 	GList    *book_views;
 
 	LDAP     *ldap;
@@ -522,7 +533,7 @@ query_ldap_root_dse (PASBackendLDAP *bl)
 
 }
 
-static void
+static GNOME_Evolution_Addressbook_BookListener_CallStatus
 pas_backend_ldap_connect (PASBackendLDAP *bl)
 {
 	PASBackendLDAPPrivate *blpriv = bl->priv;
@@ -532,7 +543,7 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 		ldap_unbind (blpriv->ldap);
 
 	blpriv->ldap = ldap_init (blpriv->ldap_host, blpriv->ldap_port);
-#ifdef DEBUG
+#if defined (DEBUG) && defined (LDAP_OPT_DEBUG_LEVEL)
 	{
 		int debug_level = 4;
 		ldap_set_option (blpriv->ldap, LDAP_OPT_DEBUG_LEVEL, &debug_level);
@@ -552,23 +563,32 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 			}
 		}
 
-#if notyet
-		if (TRUE /* the user wants to use TLS */) {
+		if (bl->priv->use_tls) {
 			if (bl->priv->ldap_v3 /* the server supports v3 */) {
 				ldap_error = ldap_start_tls_s (blpriv->ldap, NULL, NULL);
 				if (LDAP_SUCCESS != ldap_error) {
-					g_warning ("ldap_start_tls_s failed with ldap_error 0x%2x (%s)",
-						   ldap_error,
-						   ldap_err2string (ldap_error));
+					if (bl->priv->use_tls == PAS_BACKEND_LDAP_TLS_ALWAYS) {
+						g_message ("TLS not available (fatal version), (ldap_error 0x%02x)", ldap_error);
+						ldap_unbind (blpriv->ldap);
+						blpriv->ldap = NULL;
+						return GNOME_Evolution_Addressbook_BookListener_TLSNotAvailable;
+					}
+					else {
+						g_message ("TLS not available (ldap_error 0x%02x)", ldap_error);
+					}
 				}
 				else
 					g_message ("TLS active");
 			}
 			else {
 				g_warning ("user wants to use TLS, but server doesn't support LDAPv3");
+				if (bl->priv->use_tls == PAS_BACKEND_LDAP_TLS_ALWAYS) {
+					ldap_unbind (blpriv->ldap);
+					blpriv->ldap = NULL;
+					return GNOME_Evolution_Addressbook_BookListener_TLSNotAvailable;
+				}
 			}
 		}
-#endif
 
 		blpriv->connected = TRUE;
 
@@ -576,6 +596,8 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 		   might not be able to if we can't authenticate.  if we
 		   can't, try again in auth_user.) */
 		check_schema_support (bl);
+
+		return GNOME_Evolution_Addressbook_BookListener_Success;
 	}
 	else {
 		g_warning ("pas_backend_ldap_connect failed for "
@@ -584,6 +606,7 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 			   blpriv->ldap_port,
 			   blpriv->ldap_rootdn ? blpriv->ldap_rootdn : "");
 		blpriv->connected = FALSE;
+		return GNOME_Evolution_Addressbook_BookListener_RepositoryOffline;
 	}
 }
 
@@ -2317,7 +2340,13 @@ func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *da
 		   the right thing if the server supports them or not,
 		   and for entries that have no fileAs attribute. */
 		if (ldap_attr) {
-			if (!strcmp (ldap_attr, "fileAs")) {
+			if (!strcmp (propname, "full_name")) {
+				ldap_data->list = g_list_prepend(ldap_data->list,
+							       g_strdup_printf(
+								       "(|(cn=%s*)(sn=%s*))",
+								       str, str));
+			}
+			else if (!strcmp (ldap_attr, "fileAs")) {
 				ldap_data->list = g_list_prepend(ldap_data->list,
 								 g_strdup_printf(
 								 "(|(fileAs=%s*)(&(!(fileAs=*))(sn=%s*)))",
@@ -2966,6 +2995,22 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 			if (value)
 				limit = atoi(value);
 		}
+		else if (key_length == strlen("use_tls") && !strncmp (attributes[i], "use_tls", key_length)) {
+			if (value) {
+				if (!strncmp (value, "always", 6)) {
+					bl->priv->use_tls = PAS_BACKEND_LDAP_TLS_ALWAYS;
+				}
+				else if (!strncmp (value, "when-possible", 3)) {
+					bl->priv->use_tls = PAS_BACKEND_LDAP_TLS_WHEN_POSSIBLE;
+				}
+				else {
+					g_warning ("unhandled value for use_tls, not using it");
+				}
+			}
+			else {
+				bl->priv->use_tls = PAS_BACKEND_LDAP_TLS_WHEN_POSSIBLE;
+			}
+		}
 	}
 
 	ldap_error = ldap_url_parse ((char*)attributes[0], &lud);
@@ -2985,11 +3030,7 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 
 		ldap_free_urldesc(lud);
 
-		pas_backend_ldap_connect (bl);
-		if (bl->priv->ldap == NULL)
-			return GNOME_Evolution_Addressbook_BookListener_RepositoryOffline;
-		else
-			return GNOME_Evolution_Addressbook_BookListener_Success;
+		return pas_backend_ldap_connect (bl);
 	} else
 		return GNOME_Evolution_Addressbook_BookListener_OtherError;
 }
@@ -3088,7 +3129,7 @@ pas_backend_ldap_remove_client (PASBackend             *backend,
 }
 
 static char *
-pas_backend_ldap_get_static_capabilites (PASBackend *backend)
+pas_backend_ldap_get_static_capabilities (PASBackend *backend)
 {
 	return g_strdup("net");
 }
@@ -3173,7 +3214,7 @@ pas_backend_ldap_class_init (PASBackendLDAPClass *klass)
 	parent_class->get_uri                 = pas_backend_ldap_get_uri;
 	parent_class->add_client              = pas_backend_ldap_add_client;
 	parent_class->remove_client           = pas_backend_ldap_remove_client;
-	parent_class->get_static_capabilities = pas_backend_ldap_get_static_capabilites;
+	parent_class->get_static_capabilities = pas_backend_ldap_get_static_capabilities;
 
 	object_class->destroy = pas_backend_ldap_destroy;
 }
