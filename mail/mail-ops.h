@@ -50,7 +50,7 @@ void mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMess
 
 void mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,
 				gboolean delete_from_source,
-				gchar *dest_uri);
+				const char *dest_uri);
 
 /* get a single message, asynchronously */
 void mail_get_message (CamelFolder *folder, const char *uid,

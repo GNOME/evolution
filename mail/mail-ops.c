@@ -501,7 +501,7 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	
 	/* Get information about the account this was composed by. */
 	acct_header = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account"));
-	if (header) {
+	if (acct_header) {
 		const MailConfigAccount *account;
 		
 		account = mail_config_get_account_by_name (acct_header);
@@ -900,7 +900,8 @@ struct _transfer_msg {
 	char *dest_uri;
 };
 
-static char *transfer_messages_desc(struct _mail_msg *mm, int done)
+static char *
+transfer_messages_desc (struct _mail_msg *mm, int done)
 {
 	struct _transfer_msg *m = (struct _transfer_msg *)mm;
 
@@ -909,7 +910,8 @@ static char *transfer_messages_desc(struct _mail_msg *mm, int done)
 			       
 }
 
-static void transfer_messages_transfer(struct _mail_msg *mm)
+static void
+transfer_messages_transfer (struct _mail_msg *mm)
 {
 	struct _transfer_msg *m = (struct _transfer_msg *)mm;
 	CamelFolder *dest;
@@ -941,7 +943,8 @@ static void transfer_messages_transfer(struct _mail_msg *mm)
 	camel_object_unref((CamelObject *)dest);
 }
 
-static void transfer_messages_free(struct _mail_msg *mm)
+static void
+transfer_messages_free (struct _mail_msg *mm)
 {
 	struct _transfer_msg *m = (struct _transfer_msg *)mm;
 	int i;
@@ -964,14 +967,14 @@ static struct _mail_msg_op transfer_messages_op = {
 void
 mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,
 			   gboolean delete_from_source,
-			   gchar *dest_uri)
+			   const char *dest_uri)
 {
 	struct _transfer_msg *m;
-
+	
 	g_return_if_fail (CAMEL_IS_FOLDER (source));
 	g_return_if_fail (uids != NULL);
 	g_return_if_fail (dest_uri != NULL);
-
+	
 	m = mail_msg_new(&transfer_messages_op, NULL, sizeof(*m));
 	m->source = source;
 	camel_object_ref((CamelObject *)source);
