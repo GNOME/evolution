@@ -75,6 +75,8 @@ struct _folder_update {
 	char *path;
 	char *name;
 	char *uri;
+	char *oldpath;
+
 	int unread;
 	CamelStore *store;
 };
@@ -95,6 +97,7 @@ struct _store_info {
 
 static void folder_changed(CamelObject *o, gpointer event_data, gpointer user_data);
 static void folder_deleted(CamelObject *o, gpointer event_data, gpointer user_data);
+static void folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data);
 static void folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data);
 
 /* Store to storeinfo table, active stores */
@@ -149,6 +152,12 @@ real_flush_updates(void *o, void *event_data, void *data)
 			else
 				mail_vfolder_add_uri(up->store, up->uri, TRUE);
 		} else {
+			if (up->oldpath) {
+				if (storage != NULL)
+					evolution_storage_removed_folder(storage, up->oldpath);
+				/* ELSE? Shell supposed to handle the local snot case */
+			}
+
 			if (up->name == NULL) {
 				if (storage != NULL) {
 					d(printf("Updating existing folder: %s (%d unread)\n", up->path, up->unread));
@@ -198,6 +207,7 @@ unset_folder_info(struct _folder_info *mfi, int delete)
 		camel_object_unhook_event((CamelObject *)folder, "folder_changed", folder_changed, mfi);
 		camel_object_unhook_event((CamelObject *)folder, "message_changed", folder_changed, mfi);
 		camel_object_unhook_event((CamelObject *)folder, "deleted", folder_deleted, mfi);
+		camel_object_unhook_event((CamelObject *)folder, "renamed", folder_renamed, mfi);
 		camel_object_unhook_event((CamelObject *)folder, "finalize", folder_finalised, mfi);
 	}
 
@@ -352,7 +362,9 @@ folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data)
 	struct _folder_info *mfi = user_data;
 
 	d(printf("Folder finalised '%s'!\n", ((CamelFolder *)o)->full_name));
+	LOCK(info_lock);
 	mfi->folder = NULL;
+	UNLOCK(info_lock);
 }
 
 static void
@@ -361,7 +373,21 @@ folder_deleted(CamelObject *o, gpointer event_data, gpointer user_data)
 	struct _folder_info *mfi = user_data;
 
 	d(printf("Folder deleted '%s'!\n", ((CamelFolder *)o)->full_name));
+	LOCK(info_lock);
 	mfi->folder = NULL;
+	UNLOCK(info_lock);
+}
+
+static void
+folder_renamed(CamelObject *o, gpointer event_data, gpointer user_data)
+{
+	struct _folder_info *mfi = user_data;
+	CamelFolder *folder = (CamelFolder *)o;
+	char *old = event_data;
+
+	printf("Folder renamed from '%s' to '%s'\n", old, folder->full_name);
+	mfi = mfi;
+	/* Dont do anything, do it from the store rename event? */
 }
 
 void mail_note_folder(CamelFolder *folder)
@@ -401,6 +427,7 @@ void mail_note_folder(CamelFolder *folder)
 	camel_object_hook_event((CamelObject *)folder, "folder_changed", folder_changed, mfi);
 	camel_object_hook_event((CamelObject *)folder, "message_changed", folder_changed, mfi);
 	camel_object_hook_event((CamelObject *)folder, "deleted", folder_deleted, mfi);
+	camel_object_hook_event((CamelObject *)folder, "renamed", folder_renamed, mfi);
 	camel_object_hook_event((CamelObject *)folder, "finalize", folder_finalised, mfi);
 
 	update_1folder(mfi, NULL);
@@ -461,6 +488,116 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 		store_folder_unsubscribed(o, event_data, data);
 }
 
+static void
+rename_folders(struct _store_info *si, const char *oldbase, const char *newbase, CamelFolderInfo *fi)
+{
+	char *old;
+	struct _folder_info *mfi;
+	struct _folder_update *up;
+
+	up = g_malloc0(sizeof(*up));
+
+	/* Form what was the old name, and try and look it up */
+	old = g_strdup_printf("%s%s", oldbase, fi->full_name + strlen(newbase));
+	mfi = g_hash_table_lookup(si->folders, old);
+	if (mfi) {
+		printf("Found old folder '%s' renaming to '%s'\n", mfi->full_name, fi->full_name);
+
+		up->oldpath = mfi->path;
+
+		/* Its a rename op */
+		g_hash_table_remove(si->folders, mfi->full_name);
+		g_hash_table_remove(si->folders, mfi->uri);
+		g_free(mfi->full_name);
+		g_free(mfi->uri);
+		mfi->path = g_strdup(fi->path);
+		mfi->full_name = g_strdup(fi->full_name);
+		mfi->uri = g_strdup(fi->url);
+		g_hash_table_insert(si->folders, mfi->full_name, mfi);
+		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
+	} else {
+		printf("Rename found a new folder? old '%s' new '%s'\n", old, fi->full_name);
+		/* Its a new op */
+		mfi = g_malloc0(sizeof(*mfi));
+		mfi->path = g_strdup(fi->path);
+		mfi->full_name = g_strdup(fi->full_name);
+		mfi->uri = g_strdup(fi->url);
+		mfi->store_info = si;
+		g_hash_table_insert(si->folders, mfi->full_name, mfi);
+		g_hash_table_insert(si->folders_uri, mfi->uri, mfi);
+	}
+
+	g_free(old);
+
+	up->path = g_strdup(mfi->path);
+	if (si->storage)
+		up->name = g_strdup(fi->name);
+	up->uri = g_strdup(mfi->uri);
+	up->unread = fi->unread_message_count==-1?0:fi->unread_message_count;
+	up->store = si->store;
+	camel_object_ref((CamelObject *)up->store);
+	if (strstr(fi->url, ";noselect") == NULL)
+		up->add = TRUE;
+
+	e_dlist_addtail(&updates, (EDListNode *)up);
+	flush_updates();
+
+	if (fi->sibling)
+		rename_folders(si, oldbase, newbase, fi->sibling);
+	if (fi->child)
+		rename_folders(si, oldbase, newbase, fi->child);
+}
+
+#if 0
+/* This is if we want to get the folders individually and sort them and change them on
+   the shell atomically (whcih of course, we can't) */
+static void
+get_folders(GPtrArray *folders, CamelFolderInfo *fi)
+{
+}
+
+static int
+folder_cmp(const void *ap, const void *bp)
+{
+	const struct _folder_update *a = ((struct _folder_update **)ap)[0];
+	const struct _folder_update *b = ((struct _folder_update **)bp)[0];
+
+	return strcmp(a->path, b->path);
+}
+#endif
+
+static void
+store_folder_renamed(CamelObject *o, void *event_data, void *data)
+{
+	CamelStore *store = (CamelStore *)o;
+	CamelRenameInfo *info = event_data;
+	struct _store_info *si;
+
+	d(printf("Folder renamed?\n"));
+
+	LOCK(info_lock);
+	si = g_hash_table_lookup(stores, store);
+	if (si) {
+		GPtrArray *folders = g_ptr_array_new();
+		struct _folder_update *up;
+
+#if 0
+		/* first, get an array of all folders */
+		get_folders(folders, info->new);
+#endif
+		rename_folders(si, info->old_base, info->new->full_name, info->new);
+#if 0
+		qsort(folders->pdata, folders->len, sizeof(folders->pdata[0]), folder_cmp);
+		up = g_malloc0(sizeof(*up));
+		up->renamed = folders;
+
+		e_dlist_addtail(&updates, (EDListNode *)up);
+		flush_updates();
+#endif
+	}
+	UNLOCK(info_lock);
+}
+
 struct _update_data {
 	struct _update_data *next;
 	struct _update_data *prev;
@@ -502,6 +639,7 @@ mail_note_store_remove(CamelStore *store)
 
 		camel_object_unhook_event((CamelObject *)store, "folder_created", store_folder_created, NULL);
 		camel_object_unhook_event((CamelObject *)store, "folder_deleted", store_folder_deleted, NULL);
+		camel_object_unhook_event((CamelObject *)store, "folder_renamed", store_folder_renamed, NULL);
 		camel_object_unhook_event((CamelObject *)store, "folder_subscribed", store_folder_subscribed, NULL);
 		camel_object_unhook_event((CamelObject *)store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
 		g_hash_table_foreach(si->folders, (GHFunc)unset_folder_info_hash, NULL);
@@ -593,6 +731,7 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 
 		camel_object_hook_event((CamelObject *)store, "folder_created", store_folder_created, NULL);
 		camel_object_hook_event((CamelObject *)store, "folder_deleted", store_folder_deleted, NULL);
+		camel_object_hook_event((CamelObject *)store, "folder_renamed", store_folder_renamed, NULL);
 		camel_object_hook_event((CamelObject *)store, "folder_subscribed", store_folder_subscribed, NULL);
 		camel_object_hook_event((CamelObject *)store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
 	}

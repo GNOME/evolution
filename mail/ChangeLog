@@ -22,6 +22,31 @@
 
 2001-10-26    <NotZed@Ximian.com>
 
+	* mail-local.c (mlf_set_folder): Changed to open the source store
+	from '/', so we can do renames across directories.  Of course,
+	this doesn't quite work with different filesystems, but we'll
+	assume this isn't a problem we're going to have.
+	(mail_local_folder_get_type): Setup parent_class.
+	(mlf_rename): Implement folder rename call, rename internal data.
+
+	Is this a security issue?  Well, not really, no more than anything
+	else.
+
+	* mail-folder-cache.c (mail_note_store): Listen to rename event.
+	(store_folder_renamed): Function to handle it, empty.
+	(mail_note_store_remove): Unhook from rename event.
+	(mail_note_folder): Hook onto renamed event.
+	(unset_folder_info): Unhook from renamed event.
+	(folder_finalised): Lock around update.
+	(folder_deleted): Lock around update.
+	(real_flush_updates): If we have a path to remove remove it.
+	(rename_folders): Scan folderinfo's, if we can find ones renamed,
+	rename them, otherwise add them.
+
+	* component-factory.c (owner_unset_cb): Use a timeout not an idle handler.
+	(storage_xfer_folder): Implementation of xfer_folder signal
+	handler, so we can rename imap/vfolders/etc.
+
 	* component-factory.c (owner_unset_cb): Use a timeout not an idle
 	handler.
 

@@ -221,6 +221,8 @@ save_metainfo(struct _local_meta *meta)
 	return ret;
 }
 
+static CamelFolderClass *mlf_parent_class = NULL;
+
 /* forward a bunch of functions to the real folder. This pretty
  * much sucks but I haven't found a better way of doing it.
  */
@@ -401,6 +403,27 @@ mlf_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name,
 	camel_object_unref((CamelObject *)f);
 }
 
+/* Internal store-rename call, update our strings */
+static void
+mlf_rename(CamelFolder *folder, const char *new)
+{
+	MailLocalFolder *mlf = (MailLocalFolder *)folder;
+
+	/* first, proxy it down */
+	if (mlf->real_folder)
+		camel_folder_rename(mlf->real_folder, new);
+
+	/* Then do our stuff */
+	g_free(mlf->real_path);
+	mlf->real_path = g_strdup(new);
+
+	g_free(mlf->meta->path);
+	mlf->meta->path = g_strdup_printf("%s/%s/local-metadata.xml", ((CamelService *)folder->parent_store)->url->path, new);
+
+	/* Then pass it up */
+	((CamelFolderClass *)mlf_parent_class)->rename(folder, new);
+}
+
 /* and, conversely, forward the real folder's signals. */
 
 static void
@@ -446,11 +469,13 @@ static gboolean
 mlf_set_folder(MailLocalFolder *mlf, guint32 flags, CamelException *ex)
 {
 	CamelFolder *folder = (CamelFolder *)mlf;
-	char *uri;
+	char *uri, *mbox;
 
 	g_assert(mlf->real_folder == NULL);
 
-	uri = g_strdup_printf("%s:%s%s", mlf->meta->format, ((CamelService *)folder->parent_store)->url->path, mlf->real_path);
+	/*uri = g_strdup_printf("%s:%s%s", mlf->meta->format, ((CamelService *)folder->parent_store)->url->path, mlf->real_path);*/
+	uri = g_strdup_printf("%s:%s", mlf->meta->format, ((CamelService *)folder->parent_store)->url->path);
+
 	d(printf("opening real store: %s\n", uri));
 	mlf->real_store = camel_session_get_store(session, uri, ex);
 	g_free(uri);
@@ -460,7 +485,11 @@ mlf_set_folder(MailLocalFolder *mlf, guint32 flags, CamelException *ex)
 	if (mlf->meta->indexed)
 		flags |= CAMEL_STORE_FOLDER_BODY_INDEX;
 
-	mlf->real_folder = camel_store_get_folder(mlf->real_store, mlf->meta->name, flags, ex);
+	/* mlf->real_folder = camel_store_get_folder(mlf->real_store, mlf->meta->name, flags, ex); */
+	mbox = g_strdup_printf("%s/%s", mlf->real_path, mlf->meta->name);
+	printf("Opening mbox on real path: %s\n", mbox);
+	mlf->real_folder = camel_store_get_folder(mlf->real_store, mbox, flags, ex);
+	g_free(mbox);
 	if (mlf->real_folder == NULL)
 		return FALSE;
 
@@ -497,6 +526,8 @@ mlf_class_init (CamelObjectClass *camel_object_class)
 	camel_folder_class->set_message_flags = mlf_set_message_flags;
 	camel_folder_class->set_message_user_flag = mlf_set_message_user_flag;
 	camel_folder_class->set_message_user_tag = mlf_set_message_user_tag;
+
+	camel_folder_class->rename = mlf_rename;
 }
 
 static void
@@ -538,6 +569,7 @@ mail_local_folder_get_type (void)
 							     NULL,
 							     mlf_init,
 							     mlf_finalize);
+		mlf_parent_class = (CamelFolderClass *)camel_type_get_global_classfuncs (CAMEL_FOLDER_TYPE);
 	}
 
 	return mail_local_folder_type;
@@ -772,6 +804,51 @@ mls_delete_folder(CamelStore *store, const char *folder_name, CamelException *ex
 	g_free(metapath);
 }
 
+static void
+mls_rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex)
+{
+	char *oldname, *newname;
+
+	/* folder:rename() updates all our in-memory data to match */
+
+	/* FIXME: Need to lock the subfolder that matches this if its open
+	   Then rename it and unlock it when done */
+
+	printf("Renaming folder from '%s' to '%s'\n", old_name, new_name);
+
+	oldname = g_strdup_printf("%s%s", ((CamelService *)store)->url->path, old_name);
+	newname = g_strdup_printf("%s%s", ((CamelService *)store)->url->path, new_name);
+
+	if (rename(oldname, newname) == -1) {
+		printf("Rename failed!\n");
+		camel_exception_setv(ex, 1, "Rename failed: %s", strerror(errno));
+	}
+
+	g_free(oldname);
+	g_free(newname);
+#if 0	
+	/* find the real store for this folder, and proxy the call */
+	metapath = g_strdup_printf("%s%s/local-metadata.xml", ((CamelService *)store)->url->path, old_name);
+	meta = load_metainfo(metapath);
+	uri = g_strdup_printf("%s:%s%s", meta->format, ((CamelService *)store)->url->path);
+	real_store = (CamelStore *)camel_session_get_service(session, uri, CAMEL_PROVIDER_STORE, ex);
+	g_free(uri);
+	if (real_store == NULL) {
+		g_free(metapath);
+		free_metainfo(meta);
+		return;
+	}
+	oldname = g_strdup_printf("%s/%s", old_name, mlf->meta->name);
+	newname = g_strdup_printf("%s/%s", new_name, mlf->meta->name);
+
+	camel_store_rename_folder(real_store, old_name, new_name, &local_ex);
+
+	
+
+	camel_exception_setv(ex, 1, "Not supported");
+#endif
+}
+
 static char *
 mls_get_name (CamelService *service, gboolean brief)
 {
@@ -814,6 +891,7 @@ mls_class_init (CamelObjectClass *camel_object_class)
 	camel_service_class->get_name    = mls_get_name;
 	camel_store_class->get_folder    = mls_get_folder;
 	camel_store_class->delete_folder = mls_delete_folder;
+	camel_store_class->rename_folder = mls_rename_folder;
 
 	local_store_parent_class = camel_type_get_global_classfuncs (CAMEL_STORE_TYPE);
 }

@@ -322,6 +322,8 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	CamelException ex;
 	GPtrArray *uids;
 	CamelURL *url;
+
+	printf("Renaming folder '%s' to dest '%s' type '%s'\n", source_physical_uri, destination_physical_uri, type);
 	
 	url = camel_url_new (destination_physical_uri, NULL);
 	noselect = url ? camel_url_get_param (url, "noselect") : NULL;
@@ -1092,6 +1094,43 @@ storage_remove_folder (EvolutionStorage *storage,
 }
 
 static void
+storage_xfer_folder (EvolutionStorage *storage,
+		     const Bonobo_Listener listener,
+		     const char *source_path,
+		     const char *destination_path,
+		     gboolean remove_source,
+		     CamelStore *store)
+{
+	CamelException ex;
+
+	printf("Transfer folder on store source = '%s' dest = '%s'\n", source_path, destination_path);
+
+	/* FIXME: Need to remap path to real name */
+
+	if (source_path[0] == '/')
+		source_path++;
+	if (destination_path[0] == '/')
+		destination_path++;
+
+	camel_exception_init (&ex);
+	if (remove_source) {
+		printf("trying to rename\n");
+		camel_store_rename_folder(store, source_path, destination_path, &ex);
+	} else {
+		printf("No remove, can't rename\n");
+		camel_exception_setv(&ex, 1, "Can copy folders");
+	}
+
+	if (camel_exception_is_set(&ex)) {
+		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+	} else {
+		notify_listener (listener, GNOME_Evolution_Storage_OK);
+	}
+
+	camel_exception_clear (&ex);
+}
+
+static void
 add_storage (const char *name, const char *uri, CamelService *store,
 	     GNOME_Evolution_Shell corba_shell, CamelException *ex)
 {
@@ -1099,12 +1138,9 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	EvolutionStorageResult res;
 	
 	storage = evolution_storage_new (name, uri, "mailstorage");
-	gtk_signal_connect (GTK_OBJECT (storage), "create_folder",
-			    GTK_SIGNAL_FUNC (storage_create_folder),
-			    store);
-	gtk_signal_connect (GTK_OBJECT (storage), "remove_folder",
-			    GTK_SIGNAL_FUNC (storage_remove_folder),
-			    store);
+	gtk_signal_connect (GTK_OBJECT (storage), "create_folder", storage_create_folder, store);
+	gtk_signal_connect (GTK_OBJECT (storage), "remove_folder", storage_remove_folder, store);
+	gtk_signal_connect ((GtkObject *)storage, "xfer_folder", storage_xfer_folder, store);
 	
 	res = evolution_storage_register_on_shell (storage, corba_shell);
 	
