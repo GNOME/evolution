@@ -1328,6 +1328,12 @@ camel_folder_free_deep (CamelFolder *folder, GPtrArray *array)
 	g_ptr_array_free (array, TRUE);
 }
 
+struct _CamelFolderChangeInfoPrivate {
+	GHashTable *uid_stored;	/* what we have stored, which array they're in */
+	GHashTable *uid_source;	/* used to create unique lists */
+	struct _EMemPool *uid_pool;	/* pool used to store copies of uid strings */
+};
+
 /**
  * camel_folder_change_info_new:
  * @void: 
@@ -1348,36 +1354,12 @@ camel_folder_change_info_new(void)
 	info->uid_added = g_ptr_array_new();
 	info->uid_removed = g_ptr_array_new();
 	info->uid_changed = g_ptr_array_new();
-	info->uid_source = NULL;
-	info->uid_pool = e_mempool_new(512, 256, E_MEMPOOL_ALIGN_BYTE);
+	info->priv = g_malloc0(sizeof(*info->priv));
+	info->priv->uid_stored = g_hash_table_new(g_str_hash, g_str_equal);
+	info->priv->uid_source = NULL;
+	info->priv->uid_pool = e_mempool_new(512, 256, E_MEMPOOL_ALIGN_BYTE);
 
 	return info;
-}
-
-static void
-change_info_add_uid(CamelFolderChangeInfo *info, GPtrArray *uids, const char *uid, int copy)
-{
-	int i;
-
-	/* TODO: Check that it is in the other arrays and remove it from them/etc? */
-	for (i=0;i<uids->len;i++) {
-		if (!strcmp(uids->pdata[i], uid))
-			return;
-	}
-	if (copy)
-		g_ptr_array_add(uids, e_mempool_strdup(info->uid_pool, uid));
-	else
-		g_ptr_array_add(uids, (char *)uid);
-}
-
-static void
-change_info_cat(CamelFolderChangeInfo *info, GPtrArray *uids, GPtrArray *source)
-{
-	int i;
-
-	for (i=0;i<source->len;i++) {
-		change_info_add_uid(info, uids, source->pdata[i], TRUE);
-	}
 }
 
 /**
@@ -1390,11 +1372,13 @@ change_info_cat(CamelFolderChangeInfo *info, GPtrArray *uids, GPtrArray *source)
 void
 camel_folder_change_info_add_source(CamelFolderChangeInfo *info, const char *uid)
 {
-	if (info->uid_source == NULL)
-		info->uid_source = g_hash_table_new(g_str_hash, g_str_equal);
+	struct _CamelFolderChangeInfoPrivate *p = info->priv;
 
-	if (g_hash_table_lookup(info->uid_source, uid) == NULL)
-		g_hash_table_insert(info->uid_source, e_mempool_strdup(info->uid_pool, uid), (void *)1);
+	if (p->uid_source == NULL)
+		p->uid_source = g_hash_table_new(g_str_hash, g_str_equal);
+
+	if (g_hash_table_lookup(p->uid_source, uid) == NULL)
+		g_hash_table_insert(p->uid_source, e_mempool_strdup(p->uid_pool, uid), (void *)1);
 }
 
 /**
@@ -1408,15 +1392,16 @@ void
 camel_folder_change_info_add_source_list(CamelFolderChangeInfo *info, const GPtrArray *list)
 {
 	int i;
+	struct _CamelFolderChangeInfoPrivate *p = info->priv;
 
-	if (info->uid_source == NULL)
-		info->uid_source = g_hash_table_new(g_str_hash, g_str_equal);
+	if (p->uid_source == NULL)
+		p->uid_source = g_hash_table_new(g_str_hash, g_str_equal);
 
 	for (i=0;i<list->len;i++) {
 		char *uid = list->pdata[i];
 
-		if (g_hash_table_lookup(info->uid_source, uid) == NULL)
-			g_hash_table_insert(info->uid_source, e_mempool_strdup(info->uid_pool, uid), (void *)1);
+		if (g_hash_table_lookup(p->uid_source, uid) == NULL)
+			g_hash_table_insert(p->uid_source, e_mempool_strdup(p->uid_pool, uid), (void *)1);
 	}
 }
 
@@ -1432,16 +1417,17 @@ camel_folder_change_info_add_update(CamelFolderChangeInfo *info, const char *uid
 {
 	char *key;
 	int value;
+	struct _CamelFolderChangeInfoPrivate *p = info->priv;
 
-	if (info->uid_source == NULL) {
-		change_info_add_uid(info, info->uid_added, uid, TRUE);
+	if (p->uid_source == NULL) {
+		camel_folder_change_info_add_uid(info, uid);
 		return;
 	}
 
-	if (g_hash_table_lookup_extended(info->uid_source, uid, (void **)&key, (void **)&value)) {
-		g_hash_table_remove(info->uid_source, key);
+	if (g_hash_table_lookup_extended(p->uid_source, uid, (void **)&key, (void **)&value)) {
+		g_hash_table_remove(p->uid_source, key);
 	} else {
-		change_info_add_uid(info, info->uid_added, uid, TRUE);
+		camel_folder_change_info_add_uid(info, uid);
 	}
 }
 
@@ -1457,16 +1443,31 @@ camel_folder_change_info_add_update_list(CamelFolderChangeInfo *info, const GPtr
 {
 	int i;
 
-	for (i=0;i<list->len;i++) {
+	for (i=0;i<list->len;i++)
 		camel_folder_change_info_add_update(info, list->pdata[i]);
-	}
 }
 
 static void
 change_info_remove(char *key, void *value, CamelFolderChangeInfo *info)
 {
+	struct _CamelFolderChangeInfoPrivate *p = info->priv;
+	GPtrArray *olduids;
+	char *olduid;
+
+	if (g_hash_table_lookup_extended(p->uid_stored, key, (void **)&olduid, (void **)&olduids)) {
+		/* if it was added/changed them removed, then remove it */
+		if (olduids != info->uid_removed) {
+			g_ptr_array_remove_fast(olduids, olduid);
+			g_ptr_array_add(info->uid_removed, olduid);
+			g_hash_table_insert(p->uid_stored, olduid, info->uid_removed);
+		}
+		return;
+	}
+
+
 	/* we dont need to copy this, as they've already been copied into our pool */
-	change_info_add_uid(info, info->uid_removed, key, FALSE);
+	g_ptr_array_add(info->uid_removed, key);
+	g_hash_table_insert(p->uid_stored, key, info->uid_removed);
 }
 
 /**
@@ -1479,11 +1480,22 @@ change_info_remove(char *key, void *value, CamelFolderChangeInfo *info)
 void
 camel_folder_change_info_build_diff(CamelFolderChangeInfo *info)
 {
-	if (info->uid_source) {
-		g_hash_table_foreach(info->uid_source, (GHFunc)change_info_remove, info);
-		g_hash_table_destroy(info->uid_source);
-		info->uid_source = NULL;
+	struct _CamelFolderChangeInfoPrivate *p = info->priv;
+
+	if (p->uid_source) {
+		g_hash_table_foreach(p->uid_source, (GHFunc)change_info_remove, info);
+		g_hash_table_destroy(p->uid_source);
+		p->uid_source = NULL;
 	}
+}
+
+static void
+change_info_cat(CamelFolderChangeInfo *info, GPtrArray *source, void (*add)(CamelFolderChangeInfo *info, const char *uid))
+{
+	int i;
+
+	for (i=0;i<source->len;i++)
+		add(info, source->pdata[i]);
 }
 
 /**
@@ -1497,9 +1509,9 @@ camel_folder_change_info_build_diff(CamelFolderChangeInfo *info)
 void
 camel_folder_change_info_cat(CamelFolderChangeInfo *info, CamelFolderChangeInfo *source)
 {
-	change_info_cat(info, info->uid_added, source->uid_added);
-	change_info_cat(info, info->uid_removed, source->uid_removed);
-	change_info_cat(info, info->uid_changed, source->uid_changed);
+	change_info_cat(info, source->uid_added, camel_folder_change_info_add_uid);
+	change_info_cat(info, source->uid_removed, camel_folder_change_info_remove_uid);
+	change_info_cat(info, source->uid_changed, camel_folder_change_info_change_uid);
 }
 
 /**
@@ -1512,7 +1524,24 @@ camel_folder_change_info_cat(CamelFolderChangeInfo *info, CamelFolderChangeInfo 
 void
 camel_folder_change_info_add_uid(CamelFolderChangeInfo *info, const char *uid)
 {
-	change_info_add_uid(info, info->uid_added, uid, TRUE);
+	struct _CamelFolderChangeInfoPrivate *p = info->priv;
+	GPtrArray *olduids;
+	char *olduid;
+
+	if (g_hash_table_lookup_extended(p->uid_stored, uid, (void **)&olduid, (void **)&olduids)) {
+		/* if it was removed then added, promote it to a changed */
+		/* if it was changed then added, leave as changed */
+		if (olduids == info->uid_removed) {
+			g_ptr_array_remove_fast(olduids, olduid);
+			g_ptr_array_add(info->uid_changed, olduid);
+			g_hash_table_insert(p->uid_stored, olduid, info->uid_changed);
+		}
+		return;
+	}
+
+	olduid = e_mempool_strdup(p->uid_pool, uid);
+	g_ptr_array_add(info->uid_added, olduid);
+	g_hash_table_insert(p->uid_stored, olduid, info->uid_added);
 }
 
 /**
@@ -1525,7 +1554,23 @@ camel_folder_change_info_add_uid(CamelFolderChangeInfo *info, const char *uid)
 void
 camel_folder_change_info_remove_uid(CamelFolderChangeInfo *info, const char *uid)
 {
-	change_info_add_uid(info, info->uid_removed, uid, TRUE);
+	struct _CamelFolderChangeInfoPrivate *p = info->priv;
+	GPtrArray *olduids;
+	char *olduid;
+
+	if (g_hash_table_lookup_extended(p->uid_stored, uid, (void **)&olduid, (void **)&olduids)) {
+		/* if it was added/changed them removed, then remove it */
+		if (olduids != info->uid_removed) {
+			g_ptr_array_remove_fast(olduids, olduid);
+			g_ptr_array_add(info->uid_removed, olduid);
+			g_hash_table_insert(p->uid_stored, olduid, info->uid_removed);
+		}
+		return;
+	}
+
+	olduid = e_mempool_strdup(p->uid_pool, uid);
+	g_ptr_array_add(info->uid_removed, olduid);
+	g_hash_table_insert(p->uid_stored, olduid, info->uid_removed);
 }
 
 /**
@@ -1538,7 +1583,18 @@ camel_folder_change_info_remove_uid(CamelFolderChangeInfo *info, const char *uid
 void
 camel_folder_change_info_change_uid(CamelFolderChangeInfo *info, const char *uid)
 {
-	change_info_add_uid(info, info->uid_changed, uid, TRUE);
+	struct _CamelFolderChangeInfoPrivate *p = info->priv;
+	GPtrArray *olduids;
+	char *olduid;
+
+	if (g_hash_table_lookup_extended(p->uid_stored, uid, (void **)&olduid, (void **)&olduids)) {
+		/* if we have it already, leave it as that */
+		return;
+	}
+
+	olduid = e_mempool_strdup(p->uid_pool, uid);
+	g_ptr_array_add(info->uid_changed, olduid);
+	g_hash_table_insert(p->uid_stored, olduid, info->uid_changed);
 }
 
 /**
@@ -1564,14 +1620,18 @@ camel_folder_change_info_changed(CamelFolderChangeInfo *info)
 void
 camel_folder_change_info_clear(CamelFolderChangeInfo *info)
 {
+	struct _CamelFolderChangeInfoPrivate *p = info->priv;
+
 	g_ptr_array_set_size(info->uid_added, 0);
 	g_ptr_array_set_size(info->uid_removed, 0);
 	g_ptr_array_set_size(info->uid_changed, 0);
-	if (info->uid_source) {
-		g_hash_table_destroy(info->uid_source);
-		info->uid_source = NULL;
+	if (p->uid_source) {
+		g_hash_table_destroy(p->uid_source);
+		p->uid_source = NULL;
 	}
-	e_mempool_flush(info->uid_pool, TRUE);
+	g_hash_table_destroy(p->uid_stored);
+	p->uid_stored = g_hash_table_new(g_str_hash, g_str_equal);
+	e_mempool_flush(p->uid_pool, TRUE);
 }
 
 /**
@@ -1583,10 +1643,14 @@ camel_folder_change_info_clear(CamelFolderChangeInfo *info)
 void
 camel_folder_change_info_free(CamelFolderChangeInfo *info)
 {
-	if (info->uid_source)
-		g_hash_table_destroy(info->uid_source);
+	struct _CamelFolderChangeInfoPrivate *p = info->priv;
 
-	e_mempool_destroy(info->uid_pool);
+	if (p->uid_source)
+		g_hash_table_destroy(p->uid_source);
+
+	g_hash_table_destroy(p->uid_stored);
+	e_mempool_destroy(p->uid_pool);
+	g_free(p);
 
 	g_ptr_array_free(info->uid_added, TRUE);
 	g_ptr_array_free(info->uid_removed, TRUE);

@@ -1,3 +1,21 @@
+2001-02-22  Not Zed  <NotZed@Ximian.com>
+
+	* providers/vee/camel-vee-folder.c (vee_folder_build): Removed,
+	not used.
+	(camel_vee_folder_new): Removed call to build_folder.
+	(vee_get_message): Dont try and free the mi if we didn't get it.
+
+	* camel-folder.c (camel_folder_change_info_new): Added a hash
+	table of what we have in the lists, plus moved private things into
+	private pointer.
+	(camel_folder_change_info_add_source): Fixed up private accesses.
+	(camel_folder_change_info_add_uid): Changed to use a hashtable to
+	see if we already have the uid, etc.
+	(camel_folder_change_info_remove_uid): Similar.
+	(change_info_remove): Likewise.
+	(camel_folder_change_info_clear): Fixes for privatisations.
+	(camel_folder_change_info_free): "
+
 2001-02-21  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (fetch_medium): Fixes for

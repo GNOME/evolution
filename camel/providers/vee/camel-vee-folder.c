@@ -66,7 +66,6 @@ static void unmatched_finalise(CamelFolder *sub, gpointer type, CamelVeeFolder *
 static void folder_changed(CamelFolder *sub, gpointer type, CamelVeeFolder *vf);
 static void message_changed(CamelFolder *f, const char *uid, CamelVeeFolder *vf);
 
-static void vee_folder_build(CamelVeeFolder *vf, CamelException *ex);
 static void vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException *ex);
 
 static CamelFolderClass *camel_vee_folder_parent;
@@ -249,13 +248,6 @@ camel_vee_folder_new(CamelStore *parent_store, const char *name, guint32 flags, 
 	vf->expression = g_strdup(searchpart);
 	vf->vname = namepart;
 
-	vee_folder_build(vf, ex);
-	if (camel_exception_is_set(ex)) {
-		printf("opening folder failed\n");
-		camel_object_unref((CamelObject *)folder);
-		return NULL;
-	}
-	
 	printf("opened normal folder folder %p %s with %d messages\n", folder, name, camel_folder_get_message_count(folder));
 
 	/* FIXME: should be moved to store */
@@ -796,13 +788,14 @@ static CamelMimeMessage *vee_get_message(CamelFolder *folder, const gchar *uid, 
 	CamelMimeMessage *msg = NULL;
 
 	mi = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, uid);
-	if (mi == NULL)
+	if (mi) {
+		msg =  camel_folder_get_message(mi->folder, strchr(camel_message_info_uid(mi), ':') + 1, ex);
+		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
+	} else {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 				     "No such message %s in %s", uid,
 				     folder->name);
-	else
-		msg =  camel_folder_get_message(mi->folder, strchr(camel_message_info_uid(mi), ':') + 1, ex);
-	camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
+	}
 
 	return msg;
 }
@@ -879,41 +872,6 @@ vee_move_message_to(CamelFolder *folder, const char *uid, CamelFolder *dest, Cam
 	} else {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID, _("No such message: %s"), uid);
 	}
-}
-
-/*
-  need incremental update, based on folder.
-  Need to watch folders for changes and update accordingly.
-*/
-
-/* this does most of the vfolder magic */
-/* must have summary_lock held when calling */
-static void
-vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
-{
-	CamelFolder *folder = (CamelFolder *)vf;
-	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
-	GList *node;
-
-	camel_folder_summary_clear(folder->summary);
-
-	CAMEL_VEE_FOLDER_LOCK(vf, subfolder_lock);
-
-	node = p->folders;
-	while (node) {
-		GPtrArray *matches;
-		CamelFolder *f = node->data;
-		int i;
-
-		matches = camel_folder_search_by_expression(f, vf->expression, ex);
-		for (i = 0; i < matches->len; i++)
-			vee_folder_add_uid(vf, f, matches->pdata[i]);
-
-		camel_folder_search_free(f, matches);
-		node = g_list_next(node);
-	}
-
-	CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
 }
 
 static void
