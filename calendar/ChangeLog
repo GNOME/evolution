@@ -1,3 +1,8 @@
+2001-10-31  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): send as mixed rather than
+	alternative
+
 2001-10-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/alarm-notify/save.c (KEY_CALENDARS_TO_LOAD):
