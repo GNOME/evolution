@@ -1,3 +1,9 @@
+2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (SUBDIRS): Add `doc'.
+
+	* configure.in: Check for Editor.idl using `$GNOME_PATH' as well.
+
 2001-04-12  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Updated the required version of gal to 0.6.99.0.
