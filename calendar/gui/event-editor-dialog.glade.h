@@ -54,5 +54,5 @@ gchar *s = N_("Add");
 gchar *s = N_("Modify");
 gchar *s = N_("Delete");
 gchar *s = N_("label21");
-gchar *s = N_("Rule view");
+gchar *s = N_("Preview");
 gchar *s = N_("Recurrence");

@@ -1,5 +1,13 @@
 2000-11-12  Federico Mena Quintero  <federico@helixcode.com>
 
+	OK, bugzilla bug #829 is fixed and that does not redeem me from
+	extreme procrastination.  Wheeeeeeeeeeeeeeee!
+
+	* gui/event-editor-dialog.c: Changed the "Rule view" label to
+	"Preview"
+
+2000-11-12  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/event-editor.c (make_recur_ending_count_special): Misspelled
 	"occurrences".
 	(fill_recurrence_widgets): Sensitize the "Custom recurrence" radio

@@ -1373,7 +1373,7 @@ forever
 	      <widget>
 		<class>GtkLabel</class>
 		<name>label50</name>
-		<label>Rule view</label>
+		<label>Preview</label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
 		<xalign>0</xalign>
