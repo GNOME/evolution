@@ -3586,7 +3586,7 @@ selection_received (GtkWidget *invisible,
 {
 	char *comp_str;
 	icalcomponent *icalcomp;
-	time_t dtstart, dtend;
+	time_t dtstart;
 	struct icaltimetype itime;
 	icalcomponent_kind kind;
 	CalComponent *comp;
@@ -3614,7 +3614,6 @@ selection_received (GtkWidget *invisible,
 	}
 
 	dtstart = week_view->day_starts[week_view->selection_start_day];
-	dtend = week_view->day_starts[week_view->selection_end_day + 1];
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
 		int num_found = 0;
@@ -3633,10 +3632,6 @@ selection_received (GtkWidget *invisible,
 				itime = icaltime_from_timet_with_zone (dtstart, FALSE, week_view->zone);
 				/* FIXME: Need to set TZID. */
 				icalcomponent_set_dtstart (icalcomp, itime);
-
-				itime = icaltime_from_timet_with_zone (dtend, FALSE, week_view->zone);
-				/* FIXME: Need to set TZID. */
-				icalcomponent_set_dtend (icalcomp, itime);
 
 				uid = cal_component_gen_uid ();
 				tmp_comp = cal_component_new ();
@@ -3666,10 +3661,6 @@ selection_received (GtkWidget *invisible,
 		itime = icaltime_from_timet_with_zone (dtstart, FALSE, week_view->zone);
 		/* FIXME: need to set TZID */
 		icalcomponent_set_dtstart (icalcomp, itime);
-
-		itime = icaltime_from_timet_with_zone (dtend, FALSE, week_view->zone);
-		/* FIXME: need to set TZID */
-		icalcomponent_set_dtend (icalcomp, itime);
 
 		comp = cal_component_new ();
 		cal_component_set_icalcomponent (comp, icalcomp);

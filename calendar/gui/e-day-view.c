@@ -6722,10 +6722,6 @@ selection_received (GtkWidget *invisible,
 				/* FIXME: Need to set TZID. */
 				icalcomponent_set_dtstart (icalcomp, itime);
 
-				itime = icaltime_from_timet_with_zone (dtend, FALSE, day_view->zone);
-				/* FIXME: Need to set TZID. */
-				icalcomponent_set_dtend (icalcomp, itime);
-
 				uid = cal_component_gen_uid ();
 				tmp_comp = cal_component_new ();
 				cal_component_set_icalcomponent (
@@ -6754,10 +6750,6 @@ selection_received (GtkWidget *invisible,
 		itime = icaltime_from_timet_with_zone (dtstart, FALSE, day_view->zone);
 		/* FIXME: Need to set TZID. */
 		icalcomponent_set_dtstart (icalcomp, itime);
-
-		itime = icaltime_from_timet_with_zone (dtend, FALSE, day_view->zone);
-		/* FIXME: Need to set TZID. */
-		icalcomponent_set_dtend (icalcomp, itime);
 
 		comp = cal_component_new ();
 		cal_component_set_icalcomponent (comp, icalcomp);

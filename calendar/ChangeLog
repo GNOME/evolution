@@ -1,3 +1,11 @@
+2001-07-31  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.c (selection_received):
+	* gui/e-week-view.c (selection_received): don't set the end date
+	for the pasted components, since it will be recalculated when the start
+	date is set, thus keeping the same duration than the original
+	cut/copied component. Fixes #5836
+
 2001-07-30  Damon Chaplin  <damon@ximian.com>
 
 	* gui/gnome-cal.c: 
