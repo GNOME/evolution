@@ -1,3 +1,11 @@
+1998-02-18  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* Makefile.am (gncal_LDADD): Include `libsupport.a'.
+
+	* calcs.c (month_atoi): Replace buggy explicit loop string compare
+	with strcasecmp.
+	(day_atoi): Likewise.
+
 Sun Jan 25 23:38:30 1998  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* menus.c: Replace "Quit" with "Exit".

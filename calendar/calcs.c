@@ -11,6 +11,12 @@
 #include <ctype.h>
 #include "calcs.h"
 
+#include <config.h>
+
+#ifndef HAVE_STRCASECMP
+int strcasecmp(const char * /*s1*/, const char * /*s2*/);
+#endif
+
 /* Number of days in a month */
 static const int dvec[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 /* Number of past days of a month */
@@ -117,47 +123,21 @@ void get_system_date(int *day, int *month, int *year)
  */
 int month_atoi(const char *string)
 {
-	int i, j;
-	int len;
-	char *ptr;
-
-	len = strlen(string);
-
-	for(i= MONTH_MIN; i <= MONTH_MAX; i++) {
-		ptr = (char*)month_name(i);
-		j = 0;
-		while ( *(ptr + j) && string[j])
-			if (tolower((ptr+j)) == tolower(string[j]))
-				j++;
-			else
-				break;
-		if (j == len || !*(ptr + j))
-			return(i);
-	}
+	int i;
+	for (i = MONTH_MIN; i <= MONTH_MAX; i++)
+		if (strcasecmp(string, (char *)month_name(i)) == 0)
+			return i;
 	return 0;
-} /* month_atoi */
+}
 
 int day_atoi(const char *string)
 {
-	int i, j;
-	int len;
-	char *ptr;
-
-	len = strlen(string);
-
-	for(i= DAY_MIN; i <= DAY_MAX; i++) {
-		ptr = (char*)day_name(i);
-		j = 0;
-		while ( *(ptr + j) && string[j])
-			if (tolower((ptr+j)) == tolower(string[j]))
-				j++;
-			else
-				break;
-		if (j == len || !*(ptr + j))
-			return(i);
-	}
+	int i;
+	for (i = DAY_MIN; i <= DAY_MAX; i++)
+		if (strcasecmp(string, (char *)day_name(i)) == 0)
+			return i;
 	return 0;
-} /* day_atoi */
+}
 
 /*
  * Returns ordinal suffix (st, nd, rd, th) for a day

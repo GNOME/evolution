@@ -11,7 +11,8 @@ gncal_SOURCES = \
 	calcs.h
 
 gncal_LDADD = \
-	$(GNOMEUI_LIBS)
+	$(GNOMEUI_LIBS) \
+	$(top_builddir)/support/libsupport.a
 
 EXTRA_DIST = \
 	gncal.desktop
