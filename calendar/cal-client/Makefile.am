@@ -47,11 +47,11 @@ libcal_clientinclude_HEADERS =	\
 noinst_PROGRAMS = client-test
 
 client_test_SOURCES =	\
-	tl-test.c
+	client-test.c
 
 client_test_INCLUDES =			\
 	$(INCLUDES)			\
-	-DG_LOG_DOMAIN=\"tl-test\"
+	-DG_LOG_DOMAIN=\"client-test\"
 
 client_test_LDADD =			\
 	$(BONOBO_VFS_GNOME_LIBS)	\

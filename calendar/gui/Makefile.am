@@ -1,4 +1,4 @@
-SUBDIRS = doc idl cal-client
+SUBDIRS = doc idl pcs cal-client
 
 idldir = $(datadir)/idl
 idl_DATA = 			\
@@ -8,8 +8,7 @@ idl_flags = `$(GNOME_CONFIG) --cflags idl`
 
 gnorbadir = $(sysconfdir)/CORBA/servers
 gnorba_DATA =			\
-	gnomecal.gnorba		\
-	tlacuache.gnorba
+	gnomecal.gnorba
 
 help_base = $(datadir)/gnome/help/cal
 
@@ -19,7 +18,7 @@ extra_pilot_bins = 				\
 		calendar-pilot-sync
 endif
 
-bin_PROGRAMS = gnomecal tlacuache $(extra_pilot_bins)
+bin_PROGRAMS = gnomecal $(extra_pilot_bins)
 
 ICAL_LINK_FLAGS = ../libical/src/libical/libical.la
 
@@ -46,28 +45,12 @@ corba-cal.h		\
 corba-cal-factory.c	\
 corba-cal-factory.h: GnomeCal.h
 
-EVOLUTION_CALENDAR_CORBA_GENERATED =		\
-	evolution-calendar.h			\
-	evolution-calendar-common.c		\
-	evolution-calendar-skels.c		\
-	evolution-calendar-stubs.c
-
-$(EVOLUTION_CALENDAR_CORBA_GENERATED): evolution-calendar.idl
-	$(ORBIT_IDL) $(idl_flags) $(srcdir)/evolution-calendar.idl
-
 gnomecal_SOURCES =				\
-	$(EVOLUTION_CALENDAR_CORBA_GENERATED)	\
 	GnomeCal-common.c			\
 	GnomeCal-skels.c			\
 	GnomeCal.h				\
 	alarm.c					\
 	alarm.h					\
-	cal-client.c				\
-	cal-client.h				\
-	cal-listener.c				\
-	cal-listener.h				\
-	cal-util.c				\
-	cal-util.h				\
 	calendar.c				\
 	calendar.h				\
 	calendar-conduit.h			\
@@ -130,46 +113,10 @@ calendar_pilot_sync_SOURCES =	\
 	timeutil.c		\
 	timeutil.h
 
-#
-# tlacuache personal calendar server
-#
-
-tlacuache_SOURCES =				\
-	$(EVOLUTION_CALENDAR_CORBA_GENERATED)	\
-	alarm.c					\
-	alarm.h					\
-	cal.c					\
-	cal.h					\
-	cal-backend.c				\
-	cal-backend.h				\
-	cal-common.h				\
-	cal-factory.c				\
-	cal-factory.h				\
-	cal-util.c				\
-	cal-util.h				\
-	calobj.c				\
-	calobj.h				\
-	icalendar.c				\
-	icalendar.h				\
-	job.c					\
-	job.h					\
-	timeutil.c				\
-	timeutil.h				\
-	tlacuache.c
-
 LINK_FLAGS = \
 	$(BONOBO_VFS_GNOME_LIBS) \
 	$(INTLLIBS) \
 	../libversit/libversit.la \
-	$(ICAL_LINK_FLAGS)
-
-tlacuache_INCLUDES =			\
-	$(INCLUDES)			\
-	-DG_LOG_DOMAIN=\"tlacuache\"
-
-tlacuache_LDADD =			\
-	$(BONOBO_VFS_GNOME_LIBS)	\
-	../libversit/libversit.la	\
 	$(ICAL_LINK_FLAGS)
 
 calendar_pilot_sync_LDADD =	\

@@ -8,6 +8,9 @@
 	* cal-client/Makefile.am: New file.  Moved the libcal-client stuff
 	from calendar/Makefile.am to here.
 
+	* pcs/Makefile.am: New file.  Moved the tlacuache stuff from
+	calendar/Makefile.am to here.
+
 	* Makefile.am (SUBDIRS): Added the idl and cal-client directories.
 
 2000-03-01  Federico Mena Quintero  <federico@helixcode.com>
