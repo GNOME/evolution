@@ -1,3 +1,22 @@
+2004-06-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap4-summary.c: Added a 'first' member to
+	the imap_fetch_all_t struct so we can use that as a base offset in
+	our GPtrArray, allowing us to limit resource consumption which
+	could otherwise get quite large. Also added a ChangeInfo member
+	that was needed for changes to untagged_fetch_all().
+	(imap4_fetch_all_add): Use fetch->first as a base offset and change
+	int i to guint32 i. Also updated to sue the fetch->changes.
+	(imap4_fetch_all_update): Same.
+	(untagged_fetch_all): Same - this is where it is really valuable,
+	since we can avoid adding elements to the GPtrArray that we won't
+	even use. Also needed to change code a big in case index <
+	fetch->first (which could happen if a server notified us of a
+	FLAGS change for a message we didn't request info about).
+	(imap4_fetch_all_free): Free the ChangeInfo.
+	(imap4_summary_fetch_all): Init fetch->changes and fetch->first.
+	(imap4_summary_fetch_flags): Same.
+
 2004-06-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_verify): Use
