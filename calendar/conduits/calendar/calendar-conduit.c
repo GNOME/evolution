@@ -197,7 +197,8 @@ start_calendar_server (ECalConduitContext *ctxt)
 			    start_calendar_server_cb, ctxt);
 
 	LOG ("    calling cal_client_open_calendar\n");
-	cal_client_open_calendar (ctxt->client, ctxt->calendar_file, FALSE);
+	if (!cal_client_open_calendar (ctxt->client, ctxt->calendar_file, FALSE))
+		return -1;
 
 	/* run a sub event loop to turn cal-client's async load
 	   notification into a synchronous call */

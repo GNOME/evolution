@@ -1,5 +1,15 @@
 2001-01-17  JP Rosevear  <jpr@ximian.com>
 
+	* conduits/calendar/calendar-conduit.c (start_calendar_server): Check
+	for open error and handled
+
+	* conduits/todo/todo-conduit.c (start_calendar_server): ditto
+	
+2001-01-17  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c (start_calendar_server): Check
+	for open error and handled
+
 	* pcs/cal-backend.c (cal_backend_compute_changes): Fix transposition
 	of sync db location
 	
