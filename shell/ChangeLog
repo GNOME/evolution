@@ -1,5 +1,14 @@
 2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component.c
+	(impl_ShellComponent__get_supported_types): Set the release flag
+	on the returned folder type list too.
+
+	* evolution-activity-client.c (create_icon_from_pixbuf): Set the
+	release flag on the sequence, not the struct that contains it.
+
+2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-corba-shortcuts.c (shortcut_list_to_corba): Set the release
 	flag for the newly allocated sequence.
 

@@ -164,6 +164,8 @@ impl_ShellComponent__get_supported_types (PortableServer_Servant servant,
 								       folder_type->exported_dnd_types);
 	}
 
+	CORBA_sequence_set_release (folder_type_list, TRUE);
+
 	return folder_type_list;
 }
 
