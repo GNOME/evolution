@@ -9,3 +9,4 @@ Makefile.in
 *.hierarchy
 *.stamp
 *-scan.c
+.libs

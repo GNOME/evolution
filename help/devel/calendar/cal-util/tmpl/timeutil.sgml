@@ -23,16 +23,6 @@ timeutil
 @Returns: 
 
 
-<!-- ##### FUNCTION time_add_minutes ##### -->
-<para>
-
-</para>
-
-@time: 
-@minutes: 
-@Returns: 
-
-
 <!-- ##### FUNCTION time_add_day ##### -->
 <para>
 
@@ -63,16 +53,6 @@ timeutil
 @Returns: 
 
 
-<!-- ##### FUNCTION time_add_year ##### -->
-<para>
-
-</para>
-
-@time: 
-@years: 
-@Returns: 
-
-
 <!-- ##### FUNCTION time_days_in_month ##### -->
 <para>
 
@@ -83,27 +63,7 @@ timeutil
 @Returns: 
 
 
-<!-- ##### FUNCTION time_from_day ##### -->
-<para>
-
-</para>
-
-@year: 
-@month: 
-@day: 
-@Returns: 
-
-
 <!-- ##### FUNCTION time_year_begin ##### -->
-<para>
-
-</para>
-
-@t: 
-@Returns: 
-
-
-<!-- ##### FUNCTION time_year_end ##### -->
 <para>
 
 </para>
@@ -121,26 +81,7 @@ timeutil
 @Returns: 
 
 
-<!-- ##### FUNCTION time_month_end ##### -->
-<para>
-
-</para>
-
-@t: 
-@Returns: 
-
-
 <!-- ##### FUNCTION time_week_begin ##### -->
-<para>
-
-</para>
-
-@t: 
-@week_start_day: 
-@Returns: 
-
-
-<!-- ##### FUNCTION time_week_end ##### -->
 <para>
 
 </para>
@@ -166,13 +107,5 @@ timeutil
 
 @t: 
 @Returns: 
-
-
-<!-- ##### FUNCTION print_time_t ##### -->
-<para>
-
-</para>
-
-@t: 
 
 

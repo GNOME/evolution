@@ -585,6 +585,11 @@ CalComponent *comp, GSList *attendee_list
 CalComponent *comp1, CalComponent *comp2
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_component_compare_event_timezone</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalComponent *comp, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_component_free_categories_list</NAME>
 <RETURNS>void  </RETURNS>
 GSList *categ_list
@@ -702,6 +707,16 @@ typedef struct {
 	} u;
 } CalAlarmTrigger;
 </TYPEDEF>
+<TYPEDEF>
+<NAME>CalAlarmRepeat</NAME>
+typedef struct {
+	/* Number of extra repetitions, zero for none */
+	int repetitions;
+
+	/* Interval between repetitions */
+	struct icaldurationtype duration;
+} CalAlarmRepeat;
+</TYPEDEF>
 <FUNCTION>
 <NAME>cal_component_has_alarms</NAME>
 <RETURNS>gboolean  </RETURNS>
@@ -743,6 +758,11 @@ void
 CalComponentAlarm *alarm
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_component_alarm_free</NAME>
+<RETURNS>void  </RETURNS>
+CalComponentAlarm *alarm
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_component_alarm_get_uid</NAME>
 <RETURNS>const char  *</RETURNS>
 CalComponentAlarm *alarm
@@ -758,6 +778,36 @@ CalComponentAlarm *alarm, CalAlarmAction *action
 CalComponentAlarm *alarm, CalAlarmAction action
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_component_alarm_get_attach</NAME>
+<RETURNS>void  </RETURNS>
+CalComponentAlarm *alarm, struct icalattachtype **attach
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_alarm_set_attach</NAME>
+<RETURNS>void  </RETURNS>
+CalComponentAlarm *alarm, struct icalattachtype *attach
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_alarm_get_description</NAME>
+<RETURNS>void  </RETURNS>
+CalComponentAlarm *alarm, CalComponentText *description
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_alarm_set_description</NAME>
+<RETURNS>void  </RETURNS>
+CalComponentAlarm *alarm, CalComponentText *description
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_alarm_get_repeat</NAME>
+<RETURNS>void  </RETURNS>
+CalComponentAlarm *alarm, CalAlarmRepeat *repeat
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_component_alarm_set_repeat</NAME>
+<RETURNS>void  </RETURNS>
+CalComponentAlarm *alarm, CalAlarmRepeat repeat
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_component_alarm_get_trigger</NAME>
 <RETURNS>void  </RETURNS>
 CalComponentAlarm *alarm, CalAlarmTrigger *trigger
@@ -767,11 +817,6 @@ CalComponentAlarm *alarm, CalAlarmTrigger *trigger
 <RETURNS>void  </RETURNS>
 CalComponentAlarm *alarm, CalAlarmTrigger trigger
 </FUNCTION>
-<FUNCTION>
-<NAME>cal_component_alarm_free</NAME>
-<RETURNS>void  </RETURNS>
-CalComponentAlarm *alarm
-</FUNCTION>
 <USER_FUNCTION>
 <NAME>CalRecurInstanceFn</NAME>
 <RETURNS>gboolean </RETURNS>
@@ -780,10 +825,16 @@ CalComponent *comp,
 					 time_t        instance_end,
 					 gpointer      data
 </USER_FUNCTION>
+<USER_FUNCTION>
+<NAME>CalRecurResolveTimezoneFn</NAME>
+<RETURNS>icaltimezone *</RETURNS>
+const char   *tzid,
+							 gpointer      data
+</USER_FUNCTION>
 <FUNCTION>
 <NAME>cal_recur_generate_instances</NAME>
 <RETURNS>void 	</RETURNS>
-CalComponent		*comp,time_t			 start,time_t			 end,CalRecurInstanceFn	 cb,gpointer                cb_data
+CalComponent		*comp,time_t			 start,time_t			 end,CalRecurInstanceFn	 cb,gpointer                cb_data,CalRecurResolveTimezoneFn tz_cb,gpointer		   tz_cb_data
 </FUNCTION>
 <TYPEDEF>
 <NAME>CalObjInstance</NAME>
@@ -813,92 +864,117 @@ typedef enum {
 GList *list
 </FUNCTION>
 <FUNCTION>
+<NAME>time_days_in_month</NAME>
+<RETURNS>int 	</RETURNS>
+int year, int month
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_of_year</NAME>
+<RETURNS>int 	</RETURNS>
+int day, int month, int year
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_of_week</NAME>
+<RETURNS>int 	</RETURNS>
+int day, int month, int year
+</FUNCTION>
+<FUNCTION>
+<NAME>time_is_leap_year</NAME>
+<RETURNS>gboolean  </RETURNS>
+int year
+</FUNCTION>
+<FUNCTION>
+<NAME>time_leap_years_up_to</NAME>
+<RETURNS>int 	</RETURNS>
+int year
+</FUNCTION>
+<FUNCTION>
 <NAME>isodate_from_time_t</NAME>
 <RETURNS>char    *</RETURNS>
 time_t t
 </FUNCTION>
 <FUNCTION>
 <NAME>time_from_isodate</NAME>
-<RETURNS>time_t  </RETURNS>
+<RETURNS>time_t 	</RETURNS>
 const char *str
 </FUNCTION>
 <FUNCTION>
-<NAME>time_add_minutes</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t time, int minutes
-</FUNCTION>
-<FUNCTION>
 <NAME>time_add_day</NAME>
-<RETURNS>time_t  </RETURNS>
+<RETURNS>time_t 	</RETURNS>
 time_t time, int days
 </FUNCTION>
 <FUNCTION>
 <NAME>time_add_week</NAME>
-<RETURNS>time_t  </RETURNS>
+<RETURNS>time_t 	</RETURNS>
 time_t time, int weeks
 </FUNCTION>
 <FUNCTION>
 <NAME>time_add_month</NAME>
-<RETURNS>time_t  </RETURNS>
+<RETURNS>time_t 	</RETURNS>
 time_t time, int months
 </FUNCTION>
 <FUNCTION>
-<NAME>time_add_year</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t time, int years
-</FUNCTION>
-<FUNCTION>
-<NAME>time_days_in_month</NAME>
-<RETURNS>int  </RETURNS>
-int year, int month
-</FUNCTION>
-<FUNCTION>
-<NAME>time_from_day</NAME>
-<RETURNS>time_t  </RETURNS>
-int year, int month, int day
-</FUNCTION>
-<FUNCTION>
 <NAME>time_year_begin</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_year_end</NAME>
-<RETURNS>time_t  </RETURNS>
+<RETURNS>time_t 	</RETURNS>
 time_t t
 </FUNCTION>
 <FUNCTION>
 <NAME>time_month_begin</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_month_end</NAME>
-<RETURNS>time_t  </RETURNS>
+<RETURNS>time_t 	</RETURNS>
 time_t t
 </FUNCTION>
 <FUNCTION>
 <NAME>time_week_begin</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t, int week_start_day
-</FUNCTION>
-<FUNCTION>
-<NAME>time_week_end</NAME>
-<RETURNS>time_t  </RETURNS>
+<RETURNS>time_t 	</RETURNS>
 time_t t, int week_start_day
 </FUNCTION>
 <FUNCTION>
 <NAME>time_day_begin</NAME>
-<RETURNS>time_t  </RETURNS>
+<RETURNS>time_t 	</RETURNS>
 time_t t
 </FUNCTION>
 <FUNCTION>
 <NAME>time_day_end</NAME>
-<RETURNS>time_t  </RETURNS>
+<RETURNS>time_t 	</RETURNS>
 time_t t
 </FUNCTION>
 <FUNCTION>
-<NAME>print_time_t</NAME>
-<RETURNS>void  </RETURNS>
-time_t t
+<NAME>time_add_day_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, int days, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_week_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, int weeks, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_month_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, int months, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_year_begin_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_month_begin_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_week_begin_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, int week_start_day,icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_begin_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, icaltimezone *zone
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_end_with_zone</NAME>
+<RETURNS>time_t 	</RETURNS>
+time_t time, icaltimezone *zone
 </FUNCTION>

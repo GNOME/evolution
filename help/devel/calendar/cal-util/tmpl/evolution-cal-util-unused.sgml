@@ -192,6 +192,31 @@ End:
 @str: 
 @Returns: 
 
+<!-- ##### FUNCTION print_time_t ##### -->
+<para>
+
+</para>
+
+@t: 
+
+<!-- ##### FUNCTION time_add_minutes ##### -->
+<para>
+
+</para>
+
+@time: 
+@minutes: 
+@Returns: 
+
+<!-- ##### FUNCTION time_add_year ##### -->
+<para>
+
+</para>
+
+@time: 
+@years: 
+@Returns: 
+
 <!-- ##### FUNCTION time_day_hour ##### -->
 <para>
 
@@ -199,6 +224,16 @@ End:
 
 @t: 
 @hour: 
+@Returns: 
+
+<!-- ##### FUNCTION time_from_day ##### -->
+<para>
+
+</para>
+
+@year: 
+@month: 
+@day: 
 @Returns: 
 
 <!-- ##### FUNCTION time_from_icaltimetype ##### -->
@@ -224,5 +259,30 @@ End:
 
 @start: 
 @duration: 
+@Returns: 
+
+<!-- ##### FUNCTION time_month_end ##### -->
+<para>
+
+</para>
+
+@t: 
+@Returns: 
+
+<!-- ##### FUNCTION time_week_end ##### -->
+<para>
+
+</para>
+
+@t: 
+@week_start_day: 
+@Returns: 
+
+<!-- ##### FUNCTION time_year_end ##### -->
+<para>
+
+</para>
+
+@t: 
 @Returns: 
 
