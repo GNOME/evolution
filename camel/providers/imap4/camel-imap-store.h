@@ -52,7 +52,7 @@ struct _CamelIMAPStoreClass {
 };
 
 
-CamelType spruce_imap_store_get_type (void);
+CamelType camel_imap_store_get_type (void);
 
 #ifdef __cplusplus
 }
