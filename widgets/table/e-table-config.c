@@ -285,6 +285,9 @@ config_group_info_update (ETableConfig *config)
 	GString *res;
 	int count, i;
 
+	if (!e_table_sort_info_get_can_group (info))
+		return;
+
 	count = e_table_sort_info_grouping_get_count (info);
 	res = g_string_new ("");
 
@@ -310,7 +313,7 @@ config_group_info_update (ETableConfig *config)
 	}
 	if (res->str [0] == 0)
 		g_string_append (res, _("No grouping"));
-	
+
 	gtk_label_set_text (GTK_LABEL (config->group_label), res->str);
 	g_string_free (res, TRUE);
 }
@@ -321,6 +324,8 @@ config_fields_info_update (ETableConfig *config)
 	ETableColumnSpecification **column;
 	GString *res = g_string_new ("");
 	int i;
+
+	return;
 
 	for (i = 0; i < config->state->col_count; i++){
 		for (column = config->source_spec->columns; *column; column++){
@@ -403,13 +408,13 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		config_group_info_update (config);
 }
 
-#if 0
-static GtkWidget *
+GtkWidget *e_table_proxy_etable_new (void);
+
+GtkWidget *
 e_table_proxy_etable_new (void)
 {
-	return gtk_label_new ("Waiting for the ETable/ETree\nmerger to be commited");
+	return gtk_label_new ("Field selection dialog not\nimplemented here yet.");
 }
-#endif
 
 static void
 config_button_fields (GtkWidget *widget, ETableConfig *config)

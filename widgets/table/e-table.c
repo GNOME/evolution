@@ -896,6 +896,7 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 	}
 	if (state->sort_info) {
 		e_table->sort_info = e_table_sort_info_duplicate(state->sort_info);
+		e_table_sort_info_set_can_group (e_table->sort_info, e_table->allow_grouping);
 		e_table->group_info_change_id =
 			gtk_signal_connect (GTK_OBJECT (e_table->sort_info),
 					    "group_info_changed",
@@ -1087,9 +1088,11 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	e_table->header = e_table_state_to_header (GTK_WIDGET(e_table), e_table->full_header, state);
 	e_table->horizontal_scrolling = specification->horizontal_scrolling;
+	e_table->allow_grouping = specification->allow_grouping;
 
 	e_table->sort_info = state->sort_info;
 	gtk_object_ref (GTK_OBJECT (state->sort_info));
+	e_table_sort_info_set_can_group (e_table->sort_info, e_table->allow_grouping);
 
 	e_table->group_info_change_id =
 		gtk_signal_connect (GTK_OBJECT (e_table->sort_info), "group_info_changed",

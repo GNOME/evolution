@@ -59,8 +59,8 @@ etsp_class_init (GtkObjectClass *klass)
 static void
 etsp_init (ETableSpecification *etsp)
 {
-	etsp->columns               = NULL;
-	etsp->state                 = NULL;
+	etsp->columns                = NULL;
+	etsp->state                  = NULL;
 
 	etsp->alternating_row_colors = TRUE;
 	etsp->no_headers             = FALSE;
@@ -70,11 +70,12 @@ etsp_init (ETableSpecification *etsp)
 	etsp->vertical_draw_grid     = FALSE;
 	etsp->draw_focus             = TRUE;
 	etsp->horizontal_scrolling   = FALSE;
+	etsp->allow_grouping         = TRUE;
 
-	etsp->cursor_mode           = E_CURSOR_SIMPLE;
-	etsp->selection_mode        = GTK_SELECTION_MULTIPLE;
+	etsp->cursor_mode            = E_CURSOR_SIMPLE;
+	etsp->selection_mode         = GTK_SELECTION_MULTIPLE;
 
-	etsp->click_to_add_message  = NULL;
+	etsp->click_to_add_message   = NULL;
 }
 
 E_MAKE_TYPE (e_table_specification, "ETableSpecification", ETableSpecification, etsp_class_init, etsp_init, PARENT_TYPE);
@@ -177,6 +178,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	}
 	specification->draw_focus = e_xml_get_bool_prop_by_name_with_default (node, "draw-focus", TRUE);
 	specification->horizontal_scrolling = e_xml_get_bool_prop_by_name_with_default (node, "horizontal-scrolling", FALSE);
+	specification->allow_grouping = e_xml_get_bool_prop_by_name_with_default (node, "allow-grouping", TRUE);
 
 	specification->selection_mode = GTK_SELECTION_MULTIPLE;
 	temp = e_xml_get_string_prop_by_name (node, "selection-mode");
@@ -223,6 +225,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 		} else if (specification->state == NULL && !strcmp (children->name, "ETableState")) {
 			specification->state = e_table_state_new ();
 			e_table_state_load_from_node (specification->state, children);
+			e_table_sort_info_set_can_group (specification->state->sort_info, specification->allow_grouping);
 		}
 	}
 
@@ -319,6 +322,7 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	e_xml_set_bool_prop_by_name (node, "vertical-draw-grid", specification->vertical_draw_grid);
 	e_xml_set_bool_prop_by_name (node, "draw-focus", specification->draw_focus);
 	e_xml_set_bool_prop_by_name (node, "horizontal-scrolling", specification->horizontal_scrolling);
+	e_xml_set_bool_prop_by_name (node, "allow-grouping", specification->allow_grouping);
 
 	switch (specification->selection_mode){
 	case GTK_SELECTION_SINGLE:
