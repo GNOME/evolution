@@ -1,5 +1,10 @@
 2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* gui/e-itip-control.c (write_html): Use camel_text_to_html()
+	instead.
+
+2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* gui/e-itip-control.c (write_html): Correctly convert text.value
 	into HTML here (ie, don't pass "<i>None</i>" into e_text_to_html()
 	if text.value is NULL).

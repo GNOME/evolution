@@ -46,10 +46,10 @@
 #include <cal-util/timeutil.h>
 #include <cal-client/cal-client.h>
 #include <e-util/e-time-utils.h>
-#include <e-util/e-html-utils.h>
 #include <e-util/e-dialog-widgets.h>
 #include <evolution-shell-client.h>
 #include <evolution-folder-selector-button.h>
+#include <camel/camel-mime-filter-tohtml.h>
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include "e-itip-control.h"
@@ -799,7 +799,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 
 	/* Summary */
 	cal_component_get_summary (priv->comp, &text);
-	html = text.value ? e_text_to_html (text.value, E_TEXT_TO_HTML_CONVERT_NL) : _("<i>None</i>");
+	html = text.value ? camel_text_to_html (text.value, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0) : _("<i>None</i>");
 	gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>",
 				_("Summary:"), html);
 	g_free (html);
@@ -807,7 +807,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	/* Location */
 	cal_component_get_location (priv->comp, &string);
 	if (string != NULL) {
-		html = e_text_to_html (string, E_TEXT_TO_HTML_CONVERT_NL);
+		html = camel_text_to_html (string, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
 		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>", 
 					_("Location:"), html);
 		g_free (html);
@@ -853,7 +853,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 		text = *((CalComponentText *)l->data);
 
 	if (l && text.value) {
-		html = e_text_to_html (text.value, E_TEXT_TO_HTML_CONVERT_NL);
+		html = camel_text_to_html (text.value, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
 		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s",
 					_("Description:"), html);
 		g_free (html);
