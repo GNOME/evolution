@@ -8,20 +8,23 @@
  * Copyright 1999, 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
+
+#include "e-table-header-item.h"
+
+#include <string.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkdnd.h>
-#include "gal/util/e-i18n.h"
 #include <libgnomeui/gnome-canvas.h>
 #include <libgnomeui/gnome-canvas-util.h>
 #include <libgnomeui/gnome-canvas-polygon.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "gal/widgets/e-cursors.h"
+#include "gal/util/e-i18n.h"
 #include "gal/util/e-xml-utils.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-popup-menu.h"
 #include "e-table-header.h"
-#include "e-table-header-item.h"
 #include "e-table-header-utils.h"
 #include "e-table-col-dnd.h"
 #include "e-table-defines.h"

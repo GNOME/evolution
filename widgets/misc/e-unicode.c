@@ -25,6 +25,8 @@
 #include <gnome-xml/xmlmemory.h>
 #include <stdlib.h>
 
+#define d(x) x
+
 #define FONT_TESTING
 #define MAX_DECOMP 8
 
@@ -326,6 +328,7 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 			new[len++] = uc & 0xff;
 		}
 		new[len] = '\0';
+		d(printf("utf8_to_gtk: %s => %s\n", string, new));
 		return new;
 	}
 
@@ -356,6 +359,7 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 
 	*ob = '\0';
 
+	d(printf("utf8_to_gtk: %s => %s\n", string, new));
 	return new;
 }
 
@@ -514,7 +518,6 @@ e_utf8_gtk_editable_get_chars (GtkEditable *editable, gint start, gint end)
 	gchar *s, *u;
 
 	s = gtk_editable_get_chars (editable, start, end);
-	if (!s) return NULL;
 	u = e_utf8_from_gtk_string ((GtkWidget *) editable, s);
 	g_free (s);
 	return u;
@@ -567,7 +570,7 @@ e_utf8_gtk_menu_item_new_with_label (GtkMenu *menu, const gchar *label)
 	s = e_utf8_to_gtk_string ((GtkWidget *) menu, label);
 	w = gtk_menu_item_new_with_label (s);
 
-	if (s) g_free (s);
+	g_free (s);
 
 	return w;
 }
@@ -2985,7 +2988,7 @@ e_xml_get_translated_utf8_string_prop_by_name (const xmlNode *parent, const xmlC
 
 	prop = xmlGetProp ((xmlNode *) parent, prop_name);
 	if (prop != NULL) {
-		ret_val = e_utf8_from_locale_string (prop);
+		ret_val = g_strdup (prop);
 		xmlFree (prop);
 		return ret_val;
 	}
