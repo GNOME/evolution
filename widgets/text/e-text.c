@@ -1474,6 +1474,10 @@ e_text_realize (GnomeCanvasItem *item)
 	
 	text->i_cursor = gdk_cursor_new (GDK_XTERM);
 	text->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	if (text->font == NULL) {
+		text->font = GTK_WIDGET(item->canvas)->style->font;
+		gdk_font_ref(text->font);
+	}
 }
 
 /* Unrealize handler for the text item */
