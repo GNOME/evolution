@@ -106,6 +106,7 @@ e_table_simple_new (ETableSimpleColumnCountFn col_count,
 	et->value_at = value_at;
 	et->set_value_at = set_value_at;
 	et->is_cell_editable = is_cell_editable;
+	et->data = data;
 	
 	return (ETableModel *) et;
 }
