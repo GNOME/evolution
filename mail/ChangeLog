@@ -1,3 +1,13 @@
+2001-10-05    <NotZed@Ximian.com>
+
+	* folder-browser.c: reformatted the menu tables so they're a bit
+	more bloody readable.
+
+	* mail-folder-cache.c (mail_note_store): Hook into
+	subscribed/unsubscribed events.  Only 'add/remove' folders from
+	the add/removed events if we aren't subscribed, otherwise use the
+	subscribed events.  Rest of fix for #11831
+
 2001-10-05  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-config.glade: Add toggle button to config menu to turn the

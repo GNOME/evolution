@@ -1048,6 +1048,8 @@ reply_to_sender (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
+	/* FIXME: make this always load the message based on cursor */
+
 	if (!check_send_configuration (fb))
 		return;
 	
@@ -1062,6 +1064,8 @@ reply_to_list (GtkWidget *widget, gpointer user_data)
 	
 	if (!check_send_configuration (fb))
 		return;
+
+	/* FIXME: make this always load the message based on cursor */
 	
 	mail_reply (fb->folder, fb->mail_display->current_message, 
 		    fb->message_list->cursor_uid, REPLY_LIST);
@@ -1074,6 +1078,8 @@ reply_to_all (GtkWidget *widget, gpointer user_data)
 	
 	if (!check_send_configuration (fb))
 		return;
+
+	/* FIXME: make this always load the message based on cursor */
 	
 	mail_reply (fb->folder, fb->mail_display->current_message, 
 		    fb->message_list->cursor_uid, REPLY_ALL);
@@ -1300,6 +1306,8 @@ addrbook_sender (GtkWidget *widget, gpointer user_data)
 	GtkWidget *win;
 	GtkWidget *control;
 	GtkWidget *socket;
+
+	/* FIXME: make this use the cursor message id */
 
 	if (fb && fb->mail_display)
 		msg = fb->mail_display->current_message;

@@ -281,13 +281,15 @@ real_folder_created(CamelStore *store, void *event_data, CamelFolderInfo *fi)
 static void
 store_folder_created(CamelObject *o, void *event_data, void *data)
 {
-	CamelFolderInfo *info = event_data;
+	/* we only want created events to do more work if we dont support subscriptions */
+	if (!camel_store_supports_subscriptions(CAMEL_STORE(o)))
+		mail_msg_wait(mail_proxy_event((CamelObjectEventHookFunc)real_folder_created, o, NULL, event_data));
+}
 
-	d(printf("folder added: %s\n", info->full_name));
-	d(printf("uri = '%s'\n", info->url));
-
-	/* dont need to copy info since we're waiting for it to complete */
-	mail_msg_wait(mail_proxy_event((CamelObjectEventHookFunc)real_folder_created, o, NULL, info));
+static void
+store_folder_subscribed(CamelObject *o, void *event_data, void *data)
+{
+	mail_msg_wait(mail_proxy_event((CamelObjectEventHookFunc)real_folder_created, o, NULL, event_data));
 }
 
 static void
@@ -302,16 +304,15 @@ real_folder_deleted(CamelStore *store, void *event_data, CamelFolderInfo *fi)
 static void
 store_folder_deleted(CamelObject *o, void *event_data, void *data)
 {
-	CamelStore *store = (CamelStore *)o;
-	CamelFolderInfo *info = event_data;
+	/* we only want deleted events to do more work if we dont support subscriptions */
+	if (!camel_store_supports_subscriptions(CAMEL_STORE(o)))
+		mail_msg_wait(mail_proxy_event((CamelObjectEventHookFunc)real_folder_deleted, o, NULL, event_data));
+}
 
-	store = store;
-	info = info;
-
-	/* should really remove it? */
-	d(printf("folder deleted: %s\n", info->full_name));
-
-	mail_msg_wait(mail_proxy_event((CamelObjectEventHookFunc)real_folder_deleted, o, NULL, info));
+static void
+store_folder_unsubscribed(CamelObject *o, void *event_data, void *data)
+{
+	mail_msg_wait(mail_proxy_event((CamelObjectEventHookFunc)real_folder_deleted, o, NULL, event_data));
 }
 
 static void
@@ -409,6 +410,8 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 
 		camel_object_hook_event((CamelObject *)store, "folder_created", store_folder_created, NULL);
 		camel_object_hook_event((CamelObject *)store, "folder_deleted", store_folder_deleted, NULL);
+		camel_object_hook_event((CamelObject *)store, "folder_subscribed", store_folder_subscribed, NULL);
+		camel_object_hook_event((CamelObject *)store, "folder_unsubscribed", store_folder_unsubscribed, NULL);
 		camel_object_hook_event((CamelObject *)store, "finalize", store_finalised, NULL);
 	}
 
