@@ -570,6 +570,27 @@ e_table_header_total_width (ETableHeader *eth)
 }
 
 /**
+ * e_table_header_min_width:
+ * @eth: The ETableHeader to query
+ *
+ * Returns: the minimum number of pixels required by the @eth object.
+ **/
+int
+e_table_header_min_width (ETableHeader *eth)
+{
+	int total, i;
+	
+	g_return_val_if_fail (eth != NULL, 0);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (eth), 0);
+
+	total = 0;
+	for (i = 0; i < eth->col_count; i++)
+		total += eth->columns [i]->min_width;
+
+	return total;
+}
+
+/**
  * e_table_header_move:
  * @eth: The ETableHeader to operate on.
  * @source_index: the source column to move.

@@ -195,13 +195,21 @@ e_table_state_change (ETable *et)
 #define CHECK_HORIZONTAL(et) if ((et)->horizontal_scrolling || (et)->horizontal_resize) e_table_header_update_horizontal (et->header);
 
 static void
+et_size_request (GtkWidget *widget, GtkRequisition *request)
+{
+	ETable *et = E_TABLE (widget);
+	if (GTK_WIDGET_CLASS (parent_class)->size_request)
+		GTK_WIDGET_CLASS (parent_class)->size_request (widget, request);
+	if (et->horizontal_resize)
+		request->width = MAX (request->width, et->header_width);
+}
+
+static void
 set_header_width (ETable *et)
 {
 	if (et->horizontal_resize) {
-		int width = e_table_header_total_width (et->header);
-		gtk_widget_set_usize (GTK_WIDGET (et->table_canvas), width,
-				      -2);
-		gtk_widget_queue_resize (GTK_WIDGET (et->table_canvas));
+		et->header_width = e_table_header_min_width (et->header);
+		gtk_widget_queue_resize (GTK_WIDGET (et));
 	}
 }
 
@@ -463,6 +471,8 @@ e_table_init (GtkObject *object)
 
 	e_table->current_search         = NULL;
 	e_table->current_search_col     = -1;
+
+	e_table->header_width           = 0;
 }
 
 /* Grab_focus handler for the ETable */
@@ -2898,6 +2908,7 @@ e_table_class_init (ETableClass *class)
 
 	widget_class->grab_focus        = et_grab_focus;
 	widget_class->unrealize         = et_unrealize;
+	widget_class->size_request      = et_size_request;
 
 	container_class->focus          = et_focus;
 

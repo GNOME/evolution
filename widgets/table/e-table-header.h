@@ -90,6 +90,7 @@ ETableCol   **e_table_header_get_columns            (ETableHeader *eth);
 int           e_table_header_get_selected           (ETableHeader *eth);
 
 int           e_table_header_total_width            (ETableHeader *eth);
+int           e_table_header_min_width              (ETableHeader *eth);
 void          e_table_header_move                   (ETableHeader *eth,
 						     int           source_index,
 						     int           target_index);

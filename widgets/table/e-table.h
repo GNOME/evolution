@@ -152,6 +152,8 @@ typedef struct {
 	int drag_row;
 	int drag_col;
 	ETableDragSourceSite *site;
+
+	int header_width;
 } ETable;
 
 typedef struct {
