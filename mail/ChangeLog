@@ -1,3 +1,8 @@
+2001-10-03    <NotZed@Ximian.com>
+
+	* mail-local.c (local_storage_new_folder_cb): Handle vtrash case,
+	emit 'folder_created' event for the folder-cache to work, etc.
+
 2001-10-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (mail_write_authenticity): Don't use the wax-seal

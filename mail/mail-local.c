@@ -40,6 +40,7 @@
 
 #include "gal/widgets/e-gui-utils.h"
 #include "e-util/e-path.h"
+#include "e-util/e-unicode-i18n.h"
 
 #include "Evolution.h"
 #include "evolution-storage.h"
@@ -47,6 +48,7 @@
 #include "evolution-storage-listener.h"
 
 #include "camel/camel.h"
+#include "camel/camel-vtrash-folder.h"
 
 #include "mail.h"
 #include "mail-local.h"
@@ -938,16 +940,41 @@ local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 			     const GNOME_Evolution_Folder *folder,
 			     void *data)
 {
-	if (strcmp (folder->type, "mail") != 0)
-		return;
-
 	d(printf("Local folder new:\n"));
 	d(printf(" path = '%s'\n uri = '%s'\n display = '%s'\n",
 		 path, folder->physicalUri, folder->displayName));
 
-	mail_local_store_add_folder(global_local_store, folder->physicalUri, path, folder->displayName);
+	/* We dont actually add the trash to our local folders list, get_trash is handled
+	   outside our internal folder list */
 
-	/* are we supposed to say anything about it? */
+	if (strcmp(folder->type, "mail") == 0) {
+		mail_local_store_add_folder(global_local_store, folder->physicalUri, path, folder->displayName);
+	} else if (strcmp(folder->type, "vtrash") == 0) {
+		CamelFolderInfo info;
+		CamelURL *url;
+
+		url = camel_url_new(folder->physicalUri, NULL);
+		if (url == NULL) {
+			g_warning("Shell trying to add invalid folder url: %s", folder->physicalUri);
+			return;
+		}
+		if (url->path == NULL || url->path[0] == 0) {
+			g_warning("Shell trying to add invalid folder url: %s", folder->physicalUri);
+			camel_url_free(url);
+			return;
+		}
+
+		memset(&info, 0, sizeof(info));
+		info.full_name = CAMEL_VTRASH_NAME;
+		info.name = folder->displayName;
+		info.url = g_strdup_printf("vtrash:%s", folder->physicalUri);
+		info.unread_message_count = 0;
+		info.path = (char *)path;
+
+		camel_object_trigger_event((CamelObject *)global_local_store, "folder_created", &info);
+		g_free(info.url);
+		camel_url_free(url);
+	}
 }
 
 

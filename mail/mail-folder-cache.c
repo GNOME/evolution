@@ -205,7 +205,7 @@ folder_finalised(CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	struct _folder_info *mfi = user_data;
 
-	d(printf("Folder finalised!\n"));
+	(printf("Folder finalised '%s'!\n", ((CamelFolder *)o)->full_name));
 	mfi->folder = NULL;
 }
 
@@ -265,7 +265,7 @@ real_folder_created(CamelStore *store, void *event_data, CamelFolderInfo *fi)
 {
 	struct _store_info *si;
 
-	(printf("real_folder_created: %s (%s)\n", fi->full_name, fi->url));
+	d(printf("real_folder_created: %s (%s)\n", fi->full_name, fi->url));
 
 	LOCK(info_lock);
 	si = g_hash_table_lookup(stores, store);
@@ -293,7 +293,7 @@ store_folder_created(CamelObject *o, void *event_data, void *data)
 static void
 real_folder_deleted(CamelStore *store, void *event_data, CamelFolderInfo *fi)
 {
-	(printf("real_folder_deleted: %s (%s)\n", fi->full_name, fi->url));
+	d(printf("real_folder_deleted: %s (%s)\n", fi->full_name, fi->url));
 	
 	if (strstr(fi->url, ";noselect") == NULL)
 		mail_vfolder_remove_uri(store, fi->url);
