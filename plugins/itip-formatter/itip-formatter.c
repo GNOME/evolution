@@ -704,6 +704,9 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 		GSList *attachments = NULL, *new_attachments = NULL, *l;
 		CamelMimeMessage *msg = ((EMFormat *) pitip->pobject.format)->message;
 		
+		e_cal_component_get_attachment_list (clone_comp, &attachments);
+		g_message ("Number of attachments is %d", g_list_length (attachments));
+		
 		for (l = attachments; l; l = l->next) {
 			GSList *parts = NULL, *m;
 			char *uri, *new_uri;
@@ -711,7 +714,7 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 
 			uri = l->data;
 
-			if (!g_ascii_strncasecmp (uri, "cid:...", 4)) {
+			if (!g_ascii_strncasecmp (uri, "cid:...", 7)) {
 				message_foreach_part ((CamelMimePart *) msg, &parts);
 				
 				for (m = parts; m; m = m->next) {
