@@ -21,6 +21,7 @@
  * Author: Ettore Perazzoli
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -57,7 +58,9 @@
 #define LINE_TO      2
 #define LINE_CC      3
 #define LINE_BCC     4
-#define LINE_SUBJECT 5
+#define LINE_POSTTO  5
+#define LINE_SUBJECT 6
+
 
 typedef struct {
 	GtkWidget *label;
@@ -67,13 +70,16 @@ typedef struct {
 struct _EMsgComposerHdrsPrivate {
 	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 	
+	/* ui component */
+	BonoboUIComponent *uic;
+	
 	/* The tooltips.  */
 	GtkTooltips *tooltips;
 	
 	GSList *from_options;
 	
 	/* Standard headers.  */
-	EMsgComposerHdrPair from, reply_to, to, cc, bcc, subject;
+	EMsgComposerHdrPair from, reply_to, to, cc, bcc, post_to, subject;
 };
 
 
@@ -95,24 +101,24 @@ setup_corba (EMsgComposerHdrs *hdrs)
 {
 	EMsgComposerHdrsPrivate *priv;
 	CORBA_Environment ev;
-
+	
 	priv = hdrs->priv;
-
+	
 	g_assert (priv->corba_select_names == CORBA_OBJECT_NIL);
-
+	
 	CORBA_exception_init (&ev);
-
+	
 	priv->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFIID, 0, NULL, &ev);
-
+	
 	/* OAF seems to be broken -- it can return a CORBA_OBJECT_NIL without
            raising an exception in `ev'.  */
 	if (ev._major != CORBA_NO_EXCEPTION || priv->corba_select_names == CORBA_OBJECT_NIL) {
 		CORBA_exception_free (&ev);
 		return FALSE;
 	}
-
+	
 	CORBA_exception_free (&ev);
-
+	
 	return TRUE;
 }
 
@@ -144,8 +150,7 @@ e_msg_composer_hdrs_and_string_create (EMsgComposerHdrs *hdrs, const char *strin
 }
 
 static void
-address_button_clicked_cb (GtkButton *button,
-			   gpointer data)
+address_button_clicked_cb (GtkButton *button, gpointer data)
 {
 	EMsgComposerHdrsAndString *emchas;
 	EMsgComposerHdrs *hdrs;
@@ -270,8 +275,7 @@ addressbook_entry_changed (BonoboListener    *listener,
 }
 
 static GtkWidget *
-create_addressbook_entry (EMsgComposerHdrs *hdrs,
-			  const char *name)
+create_addressbook_entry (EMsgComposerHdrs *hdrs, const char *name)
 {
 	EMsgComposerHdrsPrivate *priv;
 	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
@@ -319,7 +323,7 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs,
 }
 
 static EMsgComposerHdrPair 
-header_new_recipient (EMsgComposerHdrs *hdrs, const gchar *name, const gchar *tip)
+header_new_recipient (EMsgComposerHdrs *hdrs, const char *name, const char *tip)
 {
 	EMsgComposerHdrsPrivate *priv;
 	EMsgComposerHdrPair ret;
@@ -380,13 +384,13 @@ create_headers (EMsgComposerHdrs *hdrs)
 			NULL);
 	
 	/*
-	 * From:
+	 * From
 	 */
 	priv->from.label = gtk_label_new (_("From:"));
 	priv->from.entry = create_from_optionmenu (hdrs);
 	
 	/*
-	 * Subject:
+	 * Subject
 	 */
 	priv->subject.label = gtk_label_new (_("Subject:"));
 	priv->subject.entry = e_entry_new ();
@@ -399,7 +403,7 @@ create_headers (EMsgComposerHdrs *hdrs)
 			    GTK_SIGNAL_FUNC (entry_changed), hdrs);
 	
 	/*
-	 * To: CC: and Bcc:
+	 * To, CC, and Bcc
 	 */
 	priv->to = header_new_recipient (
 		hdrs, _("To:"),
@@ -414,13 +418,12 @@ create_headers (EMsgComposerHdrs *hdrs)
 		 _("Enter the addresses that will receive a carbon copy of "
 		   "the message without appearing in the recipient list of "
 		   "the message."));
-}
-
-static GtkDirectionType
-focus_cb (GtkContainer *contain, GtkDirectionType dir, gpointer closure)
-{
-	g_message ("FOCUS: %d", dir);
-	return dir;
+	
+	/*
+	 * Post-To
+	 */
+	priv->post_to.label = gtk_label_new (_("Post To:"));
+	priv->post_to.entry = gtk_label_new ("");
 }
 
 static void
@@ -454,13 +457,14 @@ attach_headers (EMsgComposerHdrs *hdrs)
 	attach_couple (hdrs, &p->to, LINE_TO);
 	attach_couple (hdrs, &p->cc, LINE_CC);
 	attach_couple (hdrs, &p->bcc, LINE_BCC);
+	attach_couple (hdrs, &p->post_to, LINE_POSTTO);
 	attach_couple (hdrs, &p->subject, LINE_SUBJECT);
 }
 
 static void
-set_pair_visibility (EMsgComposerHdrs *h, EMsgComposerHdrPair *pair, gboolean visible)
+set_pair_visibility (EMsgComposerHdrs *h, EMsgComposerHdrPair *pair, int visible)
 {
-	if (visible){
+	if (visible & h->visible_mask) {
 		gtk_widget_show (pair->label);
 		gtk_widget_show (pair->entry);
 	} else {
@@ -474,17 +478,53 @@ headers_set_visibility (EMsgComposerHdrs *h, int visible_flags)
 {
 	EMsgComposerHdrsPrivate *p = h->priv;
 	
+	/* To is always visible if we're not doing Post-To */
+	if (!(h->visible_mask & E_MSG_COMPOSER_VISIBLE_POSTTO))
+		visible_flags |= E_MSG_COMPOSER_VISIBLE_TO;
+	else
+		visible_flags |= E_MSG_COMPOSER_VISIBLE_POSTTO;
+	
 	set_pair_visibility (h, &p->from, visible_flags & E_MSG_COMPOSER_VISIBLE_FROM);
 	set_pair_visibility (h, &p->reply_to, visible_flags & E_MSG_COMPOSER_VISIBLE_REPLYTO);
+	set_pair_visibility (h, &p->to, visible_flags & E_MSG_COMPOSER_VISIBLE_TO);
 	set_pair_visibility (h, &p->cc, visible_flags & E_MSG_COMPOSER_VISIBLE_CC);
 	set_pair_visibility (h, &p->bcc, visible_flags & E_MSG_COMPOSER_VISIBLE_BCC);
+	set_pair_visibility (h, &p->post_to, visible_flags & E_MSG_COMPOSER_VISIBLE_POSTTO);
 	set_pair_visibility (h, &p->subject, visible_flags & E_MSG_COMPOSER_VISIBLE_SUBJECT);
 }
 
-void
-e_msg_composer_set_hdrs_visible (EMsgComposerHdrs *hdrs, int visible_flags)
+static void
+headers_set_sensitivity (EMsgComposerHdrs *h)
 {
-	g_return_if_fail (hdrs != NULL);
+	bonobo_ui_component_set_prop (
+		h->priv->uic, "/commands/ViewFrom", "sensitive",
+		h->visible_mask & E_MSG_COMPOSER_VISIBLE_FROM ? "1" : "0", NULL);
+	
+	bonobo_ui_component_set_prop (
+		h->priv->uic, "/commands/ViewReplyTo", "sensitive",
+		h->visible_mask & E_MSG_COMPOSER_VISIBLE_REPLYTO ? "1" : "0", NULL);
+	
+	bonobo_ui_component_set_prop (
+		h->priv->uic, "/commands/ViewCC", "sensitive",
+		h->visible_mask & E_MSG_COMPOSER_VISIBLE_CC ? "1" : "0", NULL);
+	
+	bonobo_ui_component_set_prop (
+		h->priv->uic, "/commands/ViewBCC", "sensitive",
+		h->visible_mask & E_MSG_COMPOSER_VISIBLE_BCC ? "1" : "0", NULL);
+}
+
+void
+e_msg_composer_hdrs_set_visible_mask (EMsgComposerHdrs *hdrs, int visible_mask)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
+	
+	hdrs->visible_mask = visible_mask;
+	headers_set_sensitivity (hdrs);
+}
+
+void
+e_msg_composer_hdrs_set_visible (EMsgComposerHdrs *hdrs, int visible_flags)
+{
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	headers_set_visibility (hdrs, visible_flags);
@@ -497,15 +537,10 @@ setup_headers (EMsgComposerHdrs *hdrs, int visible_flags)
 	create_headers (hdrs);
 	attach_headers (hdrs);
 	
-	/*
-	 * To: is always visible
-	 */
-	gtk_widget_show (hdrs->priv->to.label);
-	gtk_widget_show (hdrs->priv->to.entry);
-	
+	headers_set_sensitivity (hdrs);
 	headers_set_visibility (hdrs, visible_flags);
 }
-		
+
 
 /* GtkObject methods.  */
 
@@ -635,18 +670,21 @@ e_msg_composer_hdrs_get_type (void)
 }
 
 GtkWidget *
-e_msg_composer_hdrs_new (int visible_flags)
+e_msg_composer_hdrs_new (BonoboUIComponent *uic, int visible_mask, int visible_flags)
 {
 	EMsgComposerHdrs *new;
 	EMsgComposerHdrsPrivate *priv;
 	
 	new = gtk_type_new (e_msg_composer_hdrs_get_type ());
 	priv = new->priv;
+	priv->uic = uic;
 	
 	if (!setup_corba (new)) {
 		gtk_widget_destroy (GTK_WIDGET (new));
 		return NULL;
 	}
+	
+	new->visible_mask = visible_mask;
 	
 	setup_headers (new, visible_flags);
 	
@@ -745,9 +783,7 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 	char *subject, *header;
 	EDestination **to_destv, **cc_destv, **bcc_destv;
 	
-	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-	g_return_if_fail (msg != NULL);
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
 	
 	subject = e_msg_composer_hdrs_get_subject (hdrs);
@@ -770,17 +806,19 @@ e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
 		camel_object_unref (CAMEL_OBJECT (addr));
 	}
 	
-	to_destv  = e_msg_composer_hdrs_get_to (hdrs);
-	cc_destv  = e_msg_composer_hdrs_get_cc (hdrs);
-	bcc_destv = e_msg_composer_hdrs_get_bcc (hdrs);
-	
-	/* Attach destinations to the message. */
-	
-	set_recipients_from_destv (msg, to_destv, cc_destv, bcc_destv, redirect);
-	
-	e_destination_freev (to_destv);
-	e_destination_freev (cc_destv);
-	e_destination_freev (bcc_destv);
+	if (hdrs->visible_mask & E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS) {
+		to_destv  = e_msg_composer_hdrs_get_to (hdrs);
+		cc_destv  = e_msg_composer_hdrs_get_cc (hdrs);
+		bcc_destv = e_msg_composer_hdrs_get_bcc (hdrs);
+		
+		/* Attach destinations to the message. */
+		
+		set_recipients_from_destv (msg, to_destv, cc_destv, bcc_destv, redirect);
+		
+		e_destination_freev (to_destv);
+		e_destination_freev (cc_destv);
+		e_destination_freev (bcc_destv);
+	}
 }
 
 
@@ -811,7 +849,6 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	int i = 0;
 	int default_account = 0;
 	
-	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	omenu = GTK_OPTION_MENU (e_msg_composer_hdrs_get_from_omenu (hdrs));
@@ -905,10 +942,19 @@ e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 }
 
 void
+e_msg_composer_hdrs_set_post_to (EMsgComposerHdrs *hdrs,
+				 const char *post_to)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
+	g_return_if_fail (post_to != NULL);
+	
+	gtk_label_set_text (GTK_LABEL (hdrs->priv->post_to.entry), post_to);
+}
+
+void
 e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 				 const char *subject)
 {
-	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (subject != NULL);
 	
@@ -924,7 +970,6 @@ e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs)
 	const MailConfigAccount *account;
 	CamelInternetAddress *addr;
 	
-	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	account = hdrs->account;
@@ -1061,11 +1106,22 @@ e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
 }
 
 char *
+e_msg_composer_hdrs_get_post_to (EMsgComposerHdrs *hdrs)
+{
+	char *post_to = NULL;
+	
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+	
+	gtk_label_get (GTK_LABEL (hdrs->priv->post_to.entry), &post_to);
+	
+	return g_strdup (post_to);
+}
+
+char *
 e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
 {
 	char *subject;
 	
-	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	gtk_object_get (GTK_OBJECT (hdrs->priv->subject.entry),
@@ -1078,7 +1134,6 @@ e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
 GtkWidget *
 e_msg_composer_hdrs_get_reply_to_entry (EMsgComposerHdrs *hdrs)
 {
-	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	return hdrs->priv->reply_to.entry;
@@ -1087,7 +1142,6 @@ e_msg_composer_hdrs_get_reply_to_entry (EMsgComposerHdrs *hdrs)
 GtkWidget *
 e_msg_composer_hdrs_get_to_entry (EMsgComposerHdrs *hdrs)
 {
-	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	return hdrs->priv->to.entry;
@@ -1096,7 +1150,6 @@ e_msg_composer_hdrs_get_to_entry (EMsgComposerHdrs *hdrs)
 GtkWidget *
 e_msg_composer_hdrs_get_cc_entry (EMsgComposerHdrs *hdrs)
 {
-	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	return hdrs->priv->cc.entry;
@@ -1105,16 +1158,22 @@ e_msg_composer_hdrs_get_cc_entry (EMsgComposerHdrs *hdrs)
 GtkWidget *
 e_msg_composer_hdrs_get_bcc_entry (EMsgComposerHdrs *hdrs)
 {
-	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	return hdrs->priv->bcc.entry;
 }
 
 GtkWidget *
+e_msg_composer_hdrs_get_post_to_label (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+	
+	return hdrs->priv->post_to.entry;
+}
+
+GtkWidget *
 e_msg_composer_hdrs_get_subject_entry (EMsgComposerHdrs *hdrs)
 {
-	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	return hdrs->priv->subject.entry;
@@ -1123,7 +1182,6 @@ e_msg_composer_hdrs_get_subject_entry (EMsgComposerHdrs *hdrs)
 GtkWidget *
 e_msg_composer_hdrs_get_from_hbox (EMsgComposerHdrs *hdrs)
 {
-	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	return hdrs->priv->from.entry;
@@ -1132,7 +1190,6 @@ e_msg_composer_hdrs_get_from_hbox (EMsgComposerHdrs *hdrs)
 GtkWidget *
 e_msg_composer_hdrs_get_from_omenu (EMsgComposerHdrs *hdrs)
 {
-	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	return GTK_WIDGET (gtk_object_get_data (GTK_OBJECT (hdrs->priv->from.entry), "from_menu"));

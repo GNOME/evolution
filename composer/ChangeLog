@@ -1,3 +1,25 @@
+2002-07-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-hdrs.c (create_headers): Create the Post-To
+	header.
+	(headers_set_visibility): Possibly show the Post-To header.
+	(attach_headers): Attach the Post-To header.
+	(e_msg_composer_hdrs_set_post_to): Set the text for the Post-To
+	header.
+	(e_msg_composer_hdrs_get_post_to_label): Return the label widget
+	for this header pair.
+	(e_msg_composer_hdrs_set_visible_mask): New function to set the
+	visible mask (so we can disallow certain headers to be shown).
+	(e_msg_composer_hdrs_new): Save the visible mask argument.
+	(setup_headers): To: does not always have to be visible anymore.
+	(e_msg_composer_hdrs_get_post_to): New function to get the url for
+	the Post-To folder.
+
+	* e-msg-composer.c (e_msg_composer_get_visible_flags): Set the
+	Post-To bit when it is supposed to be visible.
+	(e_msg_composer_new_post): Set the visible_mask to only allow the
+	headers needed for Posting.
+
 2002-07-25  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_set_body): Fix spelling.

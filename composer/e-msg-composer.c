@@ -765,7 +765,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 static char *
 get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_html, guint flags, gboolean warn)
 {
-		CamelStreamFilter *filtered_stream;
+	CamelStreamFilter *filtered_stream;
 	CamelStreamMem *memstream;
 	CamelMimeFilter *html, *charenc;
 	CamelStream *stream;
@@ -1676,19 +1676,6 @@ menu_view_replyto_cb (BonoboUIComponent           *component,
 }
 
 static void
-menu_view_bcc_cb (BonoboUIComponent           *component,
-		  const char                  *path,
-		  Bonobo_UIComponent_EventType type,
-		  const char                  *state,
-		  gpointer                     user_data)
-{
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-	
-	e_msg_composer_set_view_bcc (E_MSG_COMPOSER (user_data), atoi (state));
-}
-
-static void
 menu_view_cc_cb (BonoboUIComponent           *component,
 		 const char                  *path,
 		 Bonobo_UIComponent_EventType type,
@@ -1699,6 +1686,19 @@ menu_view_cc_cb (BonoboUIComponent           *component,
 		return;
 	
 	e_msg_composer_set_view_cc (E_MSG_COMPOSER (user_data), atoi (state));
+}
+
+static void
+menu_view_bcc_cb (BonoboUIComponent           *component,
+		  const char                  *path,
+		  Bonobo_UIComponent_EventType type,
+		  const char                  *state,
+		  gpointer                     user_data)
+{
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	e_msg_composer_set_view_bcc (E_MSG_COMPOSER (user_data), atoi (state));
 }
 
 static void
@@ -1908,7 +1908,7 @@ setup_signatures_menu (EMsgComposer *composer)
 	if (list)
 		for (l = list; l; len ++, l = l->next) {
 			gchar *gtk_str;
-			
+
 			gtk_str = e_utf8_to_gtk_string (menu, ((MailConfigSignature *)l->data)->name);
 			ADD (gtk_str);
 			g_free (gtk_str);
@@ -1916,11 +1916,11 @@ setup_signatures_menu (EMsgComposer *composer)
 	ADD (NULL);
 	ADD (_("Set as default"));
 #undef ADD
-	
+
 	gtk_widget_show (menu);
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (composer->sig_omenu), menu);
 	sig_select_item (composer);
-	
+
 	gtk_signal_connect (GTK_OBJECT (menu), "selection-done", signature_cb, composer);
 }
 
@@ -1982,14 +1982,6 @@ setup_ui (EMsgComposer *composer)
 		composer->uic, "ViewReplyTo",
 		menu_view_replyto_cb, composer);
 	
-	/* View/BCC */
-	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/ViewBCC",
-		"state", composer->view_bcc ? "1" : "0", NULL);
-	bonobo_ui_component_add_listener (
-		composer->uic, "ViewBCC",
-		menu_view_bcc_cb, composer);
-	
 	/* View/CC */
 	bonobo_ui_component_set_prop (
 		composer->uic, "/commands/ViewCC",
@@ -1997,6 +1989,14 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "ViewCC",
 		menu_view_cc_cb, composer);
+	
+	/* View/BCC */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewBCC",
+		"state", composer->view_bcc ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		composer->uic, "ViewBCC",
+		menu_view_bcc_cb, composer);
 	
 	/* Security -> PGP Sign */
 	bonobo_ui_component_set_prop (
@@ -2050,7 +2050,7 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "ViewAttach",
 		menu_view_attachments_activate_cb, composer);
-
+	
 	mail_config_signature_register_client ((MailConfigSignatureClient) sig_event_client, composer);
 	
 	bonobo_ui_component_thaw (composer->uic, NULL);
@@ -2455,7 +2455,7 @@ static void marshal_NONE__NONE_INT (GtkObject *object, GtkSignalFunc func,
 	(*rfunc)(object, GTK_VALUE_INT (args[0]), func_data);
 }
 
-
+
 static void
 class_init (EMsgComposerClass *klass)
 {
@@ -2566,10 +2566,10 @@ load_from_config_db (EMsgComposer *composer)
 		db, "Mail/Composer/ViewFrom", 1, NULL);
 	composer->view_replyto = bonobo_config_get_long_with_default ( 
 		db, "Mail/Composer/ViewReplyTo", 0, NULL);
+	composer->view_cc = bonobo_config_get_long_with_default ( 
+                db, "Mail/Composer/ViewCC", 1, NULL);
 	composer->view_bcc = bonobo_config_get_long_with_default (
 		db, "Mail/Composer/ViewBCC", 0, NULL);
-	composer->view_cc = bonobo_config_get_long_with_default (
-		db, "Mail/Composer/ViewCC", 1, NULL);
 	composer->view_subject = bonobo_config_get_long_with_default (
 		db, "Mail/Composer/ViewSubject", 1, NULL);
 }
@@ -2674,7 +2674,7 @@ msg_composer_destroy_notify (void *data)
 }
 
 static EMsgComposer *
-create_composer (void)
+create_composer (int visible_mask)
 {
 	EMsgComposer *composer;
 	GtkWidget *vbox;
@@ -2710,7 +2710,7 @@ create_composer (void)
 	vbox = gtk_vbox_new (FALSE, 0);
 	
 	vis = e_msg_composer_get_visible_flags (composer);
-	composer->hdrs = e_msg_composer_hdrs_new (vis);
+	composer->hdrs = e_msg_composer_hdrs_new (composer->uic, visible_mask, vis);
 	if (!composer->hdrs) {
 		e_activation_failure_dialog (GTK_WINDOW (composer),
 					     _("Could not create composer window:\n"
@@ -2831,6 +2831,7 @@ set_editor_signature (EMsgComposer *composer)
 	/* printf ("set_editor_signature end\n"); */
 }
 
+
 /**
  * e_msg_composer_new:
  *
@@ -2843,7 +2844,7 @@ e_msg_composer_new (void)
 {
 	EMsgComposer *new;
 	
-	new = create_composer ();
+	new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_MAIL);
 	if (new) {
 		e_msg_composer_set_send_html (new, mail_config_get_send_html ());
 		set_editor_text (new, "");
@@ -2852,6 +2853,30 @@ e_msg_composer_new (void)
 	
 	return new;
 }
+
+
+/**
+ * e_msg_composer_new_post:
+ *
+ * Create a new message composer widget.
+ * 
+ * Return value: A pointer to the newly created widget
+ **/
+EMsgComposer *
+e_msg_composer_new_post (void)
+{
+	EMsgComposer *new;
+	
+	new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_POST);
+	if (new) {
+		e_msg_composer_set_send_html (new, mail_config_get_send_html ());
+		set_editor_text (new, "");
+		set_editor_signature (new);
+	}
+	
+	return new;
+}
+
 
 static gboolean
 is_special_header (const char *hdr_name)
@@ -3211,7 +3236,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	
 	g_return_val_if_fail (gtk_main_level () > 0, NULL);
 	
-	new = create_composer ();
+	new = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_MAIL);
 	if (!new)
 		return NULL;
 	
@@ -3830,7 +3855,6 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 	return msg;
 }
 
-
 
 static void
 delete_old_signature (EMsgComposer *composer)
@@ -4179,7 +4203,7 @@ e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
 		composer->uic, "/commands/ViewFrom",
 		"state", composer->view_from ? "1" : "0", NULL);
 	set_config (composer, "ViewFrom", composer->view_from);
-	e_msg_composer_set_hdrs_visible
+	e_msg_composer_hdrs_set_visible
 		(E_MSG_COMPOSER_HDRS (composer->hdrs),
 		 e_msg_composer_get_visible_flags (composer));
 }
@@ -4223,7 +4247,7 @@ e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
 		composer->uic, "/commands/ViewReplyTo",
 		"state", composer->view_replyto ? "1" : "0", NULL);
 	set_config (composer, "ViewReplyTo", composer->view_replyto);
-	e_msg_composer_set_hdrs_visible
+	e_msg_composer_hdrs_set_visible
 		(E_MSG_COMPOSER_HDRS (composer->hdrs),
 		 e_msg_composer_get_visible_flags (composer));
 }
@@ -4267,7 +4291,7 @@ e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
 		composer->uic, "/commands/ViewCC",
 		"state", composer->view_cc ? "1" : "0", NULL);
 	set_config (composer, "ViewCC", composer->view_cc);
-	e_msg_composer_set_hdrs_visible
+	e_msg_composer_hdrs_set_visible
 		(E_MSG_COMPOSER_HDRS (composer->hdrs),
 		 e_msg_composer_get_visible_flags (composer));
 }
@@ -4311,7 +4335,7 @@ e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
 		composer->uic, "/commands/ViewBCC",
 		"state", composer->view_bcc ? "1" : "0", NULL);
 	set_config (composer, "ViewBCC", composer->view_bcc);
-	e_msg_composer_set_hdrs_visible
+	e_msg_composer_hdrs_set_visible
 		(E_MSG_COMPOSER_HDRS (composer->hdrs),
 		 e_msg_composer_get_visible_flags (composer));		 
 }
@@ -4321,7 +4345,7 @@ EDestination **
 e_msg_composer_get_recipients (EMsgComposer *composer)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-	
+
 	return composer->hdrs ? e_msg_composer_hdrs_get_recipients (E_MSG_COMPOSER_HDRS (composer->hdrs)) : NULL;
 }
 
@@ -4430,7 +4454,7 @@ e_msg_composer_is_dirty (EMsgComposer *composer)
 		|| (GNOME_GtkHTML_Editor_Engine_hasUndo (composer->editor_engine, &ev) &&
 		    !GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "is-saved", &ev));
 	CORBA_exception_free (&ev);
-	
+
 	return rv;
 }
 
@@ -4519,12 +4543,12 @@ gboolean
 e_msg_composer_request_close_all (void)
 {
 	GSList *p, *pnext;
-	
+
 	for (p = all_composers; p != NULL; p = pnext) {
 		pnext = p->next;
 		do_exit (E_MSG_COMPOSER (p->data));
 	}
-	
+
 	if (all_composers == NULL)
 		return TRUE;
 	else

@@ -21,10 +21,14 @@
  * Author: Ettore Perazzoli
  */
 
+
 #ifndef ___E_MSG_COMPOSER_HDRS_H__
 #define ___E_MSG_COMPOSER_HDRS_H__
 
 #include <gtk/gtktable.h>
+
+#include <bonobo/bonobo-ui-component.h>
+
 #include <camel/camel-mime-message.h>
 #include <addressbook/backend/ebook/e-destination.h>
 #include <mail/mail-config.h>
@@ -54,6 +58,8 @@ struct _EMsgComposerHdrs {
 	
 	const MailConfigAccount *account;
 	
+	guint32 visible_mask;
+	
 	gboolean has_changed;
 };
 
@@ -70,22 +76,34 @@ struct _EMsgComposerHdrsClass {
 };
 
 typedef enum {
-	E_MSG_COMPOSER_VISIBLE_FROM    = 1,
-	E_MSG_COMPOSER_VISIBLE_REPLYTO = 2,
-	E_MSG_COMPOSER_VISIBLE_CC      = 4,
-	E_MSG_COMPOSER_VISIBLE_BCC     = 8,
-	E_MSG_COMPOSER_VISIBLE_SUBJECT = 16
+	E_MSG_COMPOSER_VISIBLE_FROM       = (1 << 0),
+	E_MSG_COMPOSER_VISIBLE_REPLYTO    = (1 << 1),
+	E_MSG_COMPOSER_VISIBLE_TO         = (1 << 2),
+	E_MSG_COMPOSER_VISIBLE_CC         = (1 << 3),
+	E_MSG_COMPOSER_VISIBLE_BCC        = (1 << 4),
+	E_MSG_COMPOSER_VISIBLE_POSTTO     = (1 << 5),  /* for posting to folders */
+	E_MSG_COMPOSER_VISIBLE_NEWSGROUP  = (1 << 6),  /* for posting to newsgroups */
+	E_MSG_COMPOSER_VISIBLE_SUBJECT    = (1 << 7)
 } EMsgComposerHeaderVisibleFlags;
 
-
+#define E_MSG_COMPOSER_VISIBLE_MASK_SENDER     (E_MSG_COMPOSER_VISIBLE_FROM | E_MSG_COMPOSER_VISIBLE_REPLYTO)
+#define E_MSG_COMPOSER_VISIBLE_MASK_BASIC      (E_MSG_COMPOSER_VISIBLE_MASK_SENDER | E_MSG_COMPOSER_VISIBLE_SUBJECT)
+#define E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS (E_MSG_COMPOSER_VISIBLE_TO | E_MSG_COMPOSER_VISIBLE_CC | E_MSG_COMPOSER_VISIBLE_BCC)
+
+#define E_MSG_COMPOSER_VISIBLE_MASK_MAIL (E_MSG_COMPOSER_VISIBLE_MASK_BASIC | E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS)
+#define E_MSG_COMPOSER_VISIBLE_MASK_NEWS (E_MSG_COMPOSER_VISIBLE_MASK_BASIC | E_MSG_COMPOSER_VISIBLE_NEWSGROUP)
+#define E_MSG_COMPOSER_VISIBLE_MASK_POST (E_MSG_COMPOSER_VISIBLE_MASK_BASIC | E_MSG_COMPOSER_VISIBLE_POSTTO)
+
+
 GtkType     e_msg_composer_hdrs_get_type           (void);
-GtkWidget  *e_msg_composer_hdrs_new                (gint visible_flags);
+GtkWidget  *e_msg_composer_hdrs_new                (BonoboUIComponent *uic, int visible_mask, int visible_flags);
 
 void        e_msg_composer_hdrs_to_message         (EMsgComposerHdrs *hdrs,
 						    CamelMimeMessage *msg);
 
 void        e_msg_composer_hdrs_to_redirect        (EMsgComposerHdrs *hdrs,
 						    CamelMimeMessage *msg);
+
 
 void        e_msg_composer_hdrs_set_from_account   (EMsgComposerHdrs *hdrs,
 						    const char *account_name);
@@ -97,6 +115,8 @@ void        e_msg_composer_hdrs_set_cc             (EMsgComposerHdrs *hdrs,
 						    EDestination    **cc_destv);
 void        e_msg_composer_hdrs_set_bcc            (EMsgComposerHdrs *hdrs,
 						    EDestination    **bcc_destv);
+void        e_msg_composer_hdrs_set_post_to        (EMsgComposerHdrs *hdrs,
+						    const char       *post_to);
 void        e_msg_composer_hdrs_set_subject        (EMsgComposerHdrs *hdrs,
 						    const char       *subject);
 
@@ -107,18 +127,22 @@ EDestination **e_msg_composer_hdrs_get_to          (EMsgComposerHdrs *hdrs);
 EDestination **e_msg_composer_hdrs_get_cc          (EMsgComposerHdrs *hdrs);
 EDestination **e_msg_composer_hdrs_get_bcc         (EMsgComposerHdrs *hdrs);
 EDestination **e_msg_composer_hdrs_get_recipients  (EMsgComposerHdrs *hdrs);
+char          *e_msg_composer_hdrs_get_post_to     (EMsgComposerHdrs *hdrs);
 char          *e_msg_composer_hdrs_get_subject     (EMsgComposerHdrs *hdrs);
 
+GtkWidget  *e_msg_composer_hdrs_get_from_hbox      (EMsgComposerHdrs *hdrs);
+GtkWidget  *e_msg_composer_hdrs_get_from_omenu     (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_reply_to_entry (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_to_entry       (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_cc_entry       (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_bcc_entry      (EMsgComposerHdrs *hdrs);
+GtkWidget  *e_msg_composer_hdrs_get_post_to_label  (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_subject_entry  (EMsgComposerHdrs *hdrs);
-GtkWidget  *e_msg_composer_hdrs_get_from_hbox      (EMsgComposerHdrs *hdrs);
-GtkWidget  *e_msg_composer_hdrs_get_from_omenu     (EMsgComposerHdrs *hdrs);
 
-void        e_msg_composer_set_hdrs_visible        (EMsgComposerHdrs *hdrs,
-						    gint flags);
+void        e_msg_composer_hdrs_set_visible_mask   (EMsgComposerHdrs *hdrs,
+						    int visible_mask);
+void        e_msg_composer_hdrs_set_visible        (EMsgComposerHdrs *hdrs,
+						    int visible_flags);
 
 #ifdef _cplusplus
 }

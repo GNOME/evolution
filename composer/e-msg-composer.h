@@ -21,6 +21,7 @@
  * Author: Ettore Perazzoli
  */
 
+
 #ifndef ___E_MSG_COMPOSER_H__
 #define ___E_MSG_COMPOSER_H__
 
@@ -76,33 +77,34 @@ struct _EMsgComposer {
 	Bonobo_ConfigDatabase    config_db;
 	
 	char *mime_type, *mime_body, *charset;
-
+	
 	char *autosave_file;
         int   autosave_fd;
-
-	gboolean attachment_bar_visible : 1;
-	gboolean send_html     : 1;
-	gboolean is_alternative: 1;
-	gboolean pgp_sign      : 1;
-	gboolean pgp_encrypt   : 1;
-	gboolean smime_sign    : 1;
-	gboolean smime_encrypt : 1;
-	gboolean view_from     : 1;
-	gboolean view_replyto  : 1;
-	gboolean view_bcc      : 1;
-	gboolean view_cc       : 1;
-	gboolean view_subject  : 1;
-	gboolean has_changed   : 1;
-
-	gboolean in_signature_insert : 1;
-
-	gboolean enable_autosave : 1;
+	guint32 enable_autosave        : 1;
+	
+	guint32 attachment_bar_visible : 1;
+	guint32 send_html              : 1;
+	guint32 is_alternative         : 1;
+	guint32 pgp_sign               : 1;
+	guint32 pgp_encrypt            : 1;
+	guint32 smime_sign             : 1;
+	guint32 smime_encrypt          : 1;
+	guint32 view_from              : 1;
+	guint32 view_replyto           : 1;
+	guint32 view_bcc               : 1;
+	guint32 view_cc                : 1;
+	guint32 view_subject           : 1;
+	guint32 has_changed            : 1;
+	
+	guint32 mode_post              : 1;
+	
+	guint32 in_signature_insert    : 1;
+	guint32 auto_signature         : 1;
+	
+	MailConfigSignature *signature;
+	GtkWidget *sig_omenu;
 	
 	CamelMimeMessage *redirect;
-
-	MailConfigSignature *signature;
-	gboolean auto_signature;
-	GtkWidget *sig_omenu;
 };
 
 struct _EMsgComposerClass {
@@ -112,13 +114,17 @@ struct _EMsgComposerClass {
 	void (* save_draft) (EMsgComposer *composer, int quit);
 };
 
-
+
 GtkType                  e_msg_composer_get_type                         (void);
+
 EMsgComposer            *e_msg_composer_new                              (void);
+EMsgComposer            *e_msg_composer_new_post                         (void);
+
 EMsgComposer            *e_msg_composer_new_with_message                 (CamelMimeMessage  *msg);
 EMsgComposer            *e_msg_composer_new_from_url                     (const char        *url);
 EMsgComposer            *e_msg_composer_new_redirect                     (CamelMimeMessage  *message,
 									  const char        *resent_from);
+
 void                     e_msg_composer_show_attachments                 (EMsgComposer      *composer,
 									  gboolean           show);
 void                     e_msg_composer_set_headers                      (EMsgComposer      *composer,
@@ -148,6 +154,7 @@ void                     e_msg_composer_show_sig_file                    (EMsgCo
 gboolean                 e_msg_composer_get_send_html                    (EMsgComposer      *composer);
 void                     e_msg_composer_set_send_html                    (EMsgComposer      *composer,
 									  gboolean           send_html);
+
 gboolean                 e_msg_composer_get_view_from                    (EMsgComposer      *composer);
 void                     e_msg_composer_set_view_from                    (EMsgComposer      *composer,
 									  gboolean           view_from);
@@ -169,7 +176,7 @@ char                    *e_msg_composer_get_subject                      (EMsgCo
 
 const MailConfigAccount *e_msg_composer_get_preferred_account            (EMsgComposer      *composer);
 void                     e_msg_composer_clear_inlined_table              (EMsgComposer      *composer);
-char                    *e_msg_composer_guess_mime_type                  (const gchar       *file_name);
+char                    *e_msg_composer_guess_mime_type                  (const char        *file_name);
 void                     e_msg_composer_set_changed                      (EMsgComposer      *composer);
 void                     e_msg_composer_unset_changed                    (EMsgComposer      *composer);
 gboolean                 e_msg_composer_is_dirty                         (EMsgComposer      *composer);
