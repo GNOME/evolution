@@ -340,6 +340,7 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	gint avail_height, avail_width, min_height, work_height, screen_width;
 	gint column_width, row_height, scrollbar_width;
 	double x1, y1;
+	double wx, wy;
   
 	/* This code is practically copied from GtkCombo. */
 	popup  = GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window);
@@ -355,6 +356,14 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 					    eti->editing_row + 1);
 	gnome_canvas_item_i2w (GNOME_CANVAS_ITEM (eti), &x1, &y1);
 
+	gnome_canvas_world_to_window (GNOME_CANVAS (canvas),
+				      x1,
+				      y1,
+				      &wx,
+				      &wy);
+	x1 = wx;
+	y1 = wy;
+	
 	*x += x1;
 	/* The ETable positions don't include the grid lines, I think, so we
 	   add 1. */
