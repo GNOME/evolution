@@ -26,7 +26,7 @@ module ShellComponentDnd {
 
 	struct Data {
 		short format;
-		short target;
+		string target;
 		sequence <octet> bytes;
 	};
 

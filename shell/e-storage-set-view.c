@@ -1097,16 +1097,15 @@ impl_tree_drag_data_get (ETree *etree,
 								& priv->drag_corba_data,
 								&ev);
 
-#if 0
 	if (ev._major != CORBA_NO_EXCEPTION)
-		gtk_selection_data_set (selection_data, selection_data->target, 8, "", -1);
+		gtk_selection_data_set (selection_data,
+					selection_data->target, 8, "", -1);
 	else
 		gtk_selection_data_set (selection_data,
-					priv->drag_corba_data->target,
+					gdk_atom_intern (priv->drag_corba_data->target, FALSE),
 					priv->drag_corba_data->format,
 					priv->drag_corba_data->bytes._buffer,
 					priv->drag_corba_data->bytes._length);
-#endif
 
 	g_free (target_type);
 

@@ -1,3 +1,16 @@
+2003-03-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-folder-dnd-bridge.c (find_matching_target_for_drag_context):
+	Handle p->data as a GdkAtom instead of a GdkAtom *.
+	(handle_data_received_non_path): Set the target member of the
+	corba_data struct to be the name of the atom.
+
+	* e-storage-set-view.c (impl_tree_drag_data_get): Pass the name of
+	the atom instead of the atom itself.
+
+	* Evolution-ShellComponentDnd.idl: Changed the type of Data.target
+	to string.
+
 2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* glade/e-shell-shared-folder-picker-dialog.glade: Swap Cancel/OK
