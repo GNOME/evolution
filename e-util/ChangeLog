@@ -1,3 +1,7 @@
+2002-11-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-config-listener.[ch]: ported to GConf and GObject.
+
 2002-11-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-config-listener.[ch]:

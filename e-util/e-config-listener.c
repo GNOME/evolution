@@ -8,21 +8,16 @@
  * Copyright 2002, Ximian, Inc.
  */
 
-#include <gtk/gtksignal.h>
-#include <gtk/gtktypeutils.h>
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-event-source.h>
-#include <bonobo/bonobo-moniker-util.h>
-#include <bonobo/bonobo-object.h>
+#include <gconf/gconf-client.h>
 #include "e-config-listener.h"
 
-#define PARENT_TYPE GTK_TYPE_OBJECT
+#define PARENT_TYPE G_TYPE_OBJECT
 
 typedef struct {
 	EConfigListener *cl;
-	Bonobo_EventSource_ListenerId lid;
+	guint lid;
 	char *key;
-	GtkFundamentalType type;
+	GConfValueType type;
 	union {
 		gboolean v_bool;
 		float v_float;
@@ -33,15 +28,15 @@ typedef struct {
 } KeyData;
 
 struct _EConfigListenerPrivate {
-	Bonobo_ConfigDatabase db;
+	GConfClient *db;
 	GHashTable *keys;
 };
 
 static void e_config_listener_class_init (EConfigListenerClass *klass);
-static void e_config_listener_init       (EConfigListener *cl);
-static void e_config_listener_destroy    (GtkObject *object);
+static void e_config_listener_init       (EConfigListener *cl, EConfigListenerClass *klass);
+static void e_config_listener_finalize   (GObject *object);
 
-static GtkObjectClass *parent_class = NULL;
+static GObjectClass *parent_class = NULL;
 
 enum {
 	KEY_CHANGED,
@@ -53,41 +48,35 @@ static guint config_listener_signals[LAST_SIGNAL];
 static void
 e_config_listener_class_init (EConfigListenerClass *klass)
 {
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_peek_parent (klass);
 
-	object_class->destroy = e_config_listener_destroy;
+	object_class->finalize = e_config_listener_finalize;
 	klass->key_changed = NULL;
 
 	config_listener_signals[KEY_CHANGED] =
-		gtk_signal_new ("key_changed",
-				GTK_RUN_FIRST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EConfigListenerClass, key_changed),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1, GTK_TYPE_STRING);
-	gtk_object_class_add_signals (object_class, config_listener_signals, LAST_SIGNAL);
+		g_signal_new ("key_changed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EConfigListenerClass, key_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE, 1, G_TYPE_STRING);
+
+	/* make sure GConf is initialized */
+	if (!gconf_is_initialized ())
+		gconf_init (0, NULL, NULL);
 }
 
 static void
-e_config_listener_init (EConfigListener *cl)
+e_config_listener_init (EConfigListener *cl, EConfigListenerClass *klass)
 {
-	CORBA_Environment ev;
-
 	/* allocate internal structure */
 	cl->priv = g_new0 (EConfigListenerPrivate, 1);
 
 	cl->priv->keys = g_hash_table_new (g_str_hash, g_str_equal);
-
-	/* activate the configuration database */
-	CORBA_exception_init (&ev);
-	cl->priv->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-
-	if (BONOBO_EX (&ev) || cl->priv->db == CORBA_OBJECT_NIL) {
-		CORBA_exception_free (&ev);
-		cl->priv->db = CORBA_OBJECT_NIL;
-	}
+	cl->priv->db = gconf_client_get_default ();
 }
 
 static void
@@ -97,11 +86,11 @@ free_key_hash (gpointer key, gpointer value, gpointer user_data)
 
 	g_return_if_fail (kd != NULL);
 
-	bonobo_event_source_client_remove_listener (kd->cl->priv->db, kd->lid, NULL);
+	gconf_client_notify_remove (kd->cl->priv->db, kd->lid);
 
 	g_free (kd->key);
 	switch (kd->type) {
-	case GTK_TYPE_STRING :
+	case GCONF_VALUE_STRING :
 		g_free (kd->value.v_str);
 		break;
 	default :
@@ -112,7 +101,7 @@ free_key_hash (gpointer key, gpointer value, gpointer user_data)
 }
 
 static void
-e_config_listener_destroy (GtkObject *object)
+e_config_listener_finalize (GObject *object)
 {
 	EConfigListener *cl = (EConfigListener *) object;
 
@@ -122,36 +111,36 @@ e_config_listener_destroy (GtkObject *object)
 	g_hash_table_destroy (cl->priv->keys);
 	cl->priv->keys = NULL;
 
-	if (cl->priv->db != CORBA_OBJECT_NIL) {
-		bonobo_object_release_unref (cl->priv->db, NULL);
-		cl->priv->db = CORBA_OBJECT_NIL;
+	if (cl->priv->db != NULL) {
+		g_object_unref (G_OBJECT (cl->priv->db));
+		cl->priv->db = NULL;
 	}
 
 	g_free (cl->priv);
 	cl->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
-GtkType
+GType
 e_config_listener_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (!type) {
-		static const GtkTypeInfo info = {
-			"EConfigListener",
-			sizeof (EConfigListener),
-			sizeof (EConfigListenerClass),
-			(GtkClassInitFunc) e_config_listener_class_init,
-			(GtkObjectInitFunc) e_config_listener_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (PARENT_TYPE, &info);
+		static const GTypeInfo info = {
+                        sizeof (EConfigListenerClass),
+                        (GBaseInitFunc) NULL,
+                        (GBaseFinalizeFunc) NULL,
+                        (GClassInitFunc) e_config_listener_class_init,
+                        NULL,
+                        NULL,
+                        sizeof (EConfigListener),
+                        0,
+                        (GInstanceInitFunc) e_config_listener_init
+                };
+                type = g_type_register_static (PARENT_TYPE, "EConfigListener", &info, 0);
 	}
 
 	return type;
@@ -172,53 +161,49 @@ e_config_listener_new (void)
 {
 	EConfigListener *cl;
 
-	cl = gtk_type_new (E_CONFIG_LISTENER_TYPE);
+	cl = g_object_new (E_CONFIG_LISTENER_TYPE, NULL);
 	return cl;
 }
 
 static void
-property_change_cb (BonoboListener *listener,
-		    char *event_name,
-		    CORBA_any *any,
-		    CORBA_Environment *ev,
+property_change_cb (GConfEngine *engine,
+		    guint cnxn_id,
+		    GConfEntry *entry,
 		    gpointer user_data)
 {
 	KeyData *kd = (KeyData *) user_data;
 
-	g_return_if_fail (any != NULL);
+	g_return_if_fail (entry != NULL);
 	g_return_if_fail (kd != NULL);
 
 	/* free previous value */
-	if (kd->type == GTK_TYPE_STRING)
+	if (kd->type == GCONF_VALUE_STRING)
 		g_free (kd->value.v_str);
 
 	/* set new value */
-	if (bonobo_arg_type_is_equal (any->_type, BONOBO_ARG_BOOLEAN, NULL)) {
-		kd->type = GTK_TYPE_BOOL;
-		kd->value.v_bool = BONOBO_ARG_GET_BOOLEAN (any);
-	} else if (bonobo_arg_type_is_equal (any->_type, BONOBO_ARG_FLOAT, NULL)) {
-		kd->type = GTK_TYPE_FLOAT;
-		kd->value.v_float = BONOBO_ARG_GET_FLOAT (any);
-	} else if (bonobo_arg_type_is_equal (any->_type, BONOBO_ARG_LONG, NULL)) {
-		kd->type = GTK_TYPE_LONG;
-		kd->value.v_long = BONOBO_ARG_GET_LONG (any);
-	} else if (bonobo_arg_type_is_equal (any->_type, BONOBO_ARG_STRING, NULL)) {
-		kd->type = GTK_TYPE_STRING;
-		kd->value.v_str = g_strdup (BONOBO_ARG_GET_STRING (any));
+	if (entry->value->type == GCONF_VALUE_BOOL) {
+		kd->type = GCONF_VALUE_BOOL;
+		kd->value.v_bool = gconf_value_get_bool (entry->value);
+	} else if (entry->value->type == GCONF_VALUE_FLOAT) {
+		kd->type = GCONF_VALUE_FLOAT;
+		kd->value.v_float = gconf_value_get_float (entry->value);
+	} else if (entry->value->type == GCONF_VALUE_INT) {
+		kd->type = GCONF_VALUE_INT;
+		kd->value.v_long = gconf_value_get_int (entry->value);
+	} else if (entry->value->type == GCONF_VALUE_STRING) {
+		kd->type = GCONF_VALUE_STRING;
+		kd->value.v_str = g_strdup (gconf_value_get_string (entry->value));
 	} else
 		return;
 
-	gtk_signal_emit (GTK_OBJECT (kd->cl), config_listener_signals[KEY_CHANGED], kd->key);
+	g_signal_emit (G_OBJECT (kd->cl), config_listener_signals[KEY_CHANGED], 0, kd->key);
 }
 
 static KeyData *
-add_key (EConfigListener *cl, const char *key, GtkFundamentalType type,
+add_key (EConfigListener *cl, const char *key, GConfValueType type,
 	 gpointer value, gboolean used_default)
 {
 	KeyData *kd;
-	char *event_name;
-	char *ch;
-	CORBA_Environment ev;
 
 	/* add the key to our hash table */
 	kd = g_new0 (KeyData, 1);
@@ -226,16 +211,16 @@ add_key (EConfigListener *cl, const char *key, GtkFundamentalType type,
 	kd->key = g_strdup (key);
 	kd->type = type;
 	switch (type) {
-	case GTK_TYPE_BOOL :
+	case GCONF_VALUE_BOOL :
 		memcpy (&kd->value.v_bool, value, sizeof (gboolean));
 		break;
-	case GTK_TYPE_FLOAT :
+	case GCONF_VALUE_FLOAT :
 		memcpy (&kd->value.v_float, value, sizeof (float));
 		break;
-	case GTK_TYPE_LONG :
+	case GCONF_VALUE_INT :
 		memcpy (&kd->value.v_long, value, sizeof (long));
 		break;
-	case GTK_TYPE_STRING :
+	case GCONF_VALUE_STRING :
 		kd->value.v_str = (char *) value;
 		break;
 	default :
@@ -245,29 +230,12 @@ add_key (EConfigListener *cl, const char *key, GtkFundamentalType type,
 	kd->used_default = used_default;
 
 	/* add the listener for changes */
-	event_name = g_strdup_printf ("=Bonobo/ConfigDatabase:change%s",
-				      kd->key);
-	ch = strrchr (event_name, '/');
-	if (ch)
-		*ch = ':';
-
-	CORBA_exception_init (&ev);
-	kd->lid = bonobo_event_source_client_add_listener (
-		cl->priv->db,
-		property_change_cb,
-		event_name,
-		&ev, kd);
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-		g_free (event_name);
-		free_key_hash (kd->key, kd, NULL);
-		return NULL;
-	}
+	gconf_client_add_dir (cl->priv->db, key, GCONF_CLIENT_PRELOAD_NONE, NULL);
+	kd->lid = gconf_client_notify_add (cl->priv->db, key,
+					   (GConfClientNotifyFunc) property_change_cb,
+					   kd, NULL, NULL);
 
 	g_hash_table_insert (cl->priv->keys, kd->key, kd);
-
-	CORBA_exception_free (&ev);
-	g_free (event_name);
 
 	return kd;
 }
@@ -278,9 +246,9 @@ e_config_listener_get_boolean_with_default (EConfigListener *cl,
 					    gboolean def,
 					    gboolean *used_default)
 {
+	GConfValue *conf_value;
 	gboolean value;
 	KeyData *kd;
-	gboolean d;
 	gpointer orig_key, orig_value;
 
 	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), FALSE);
@@ -289,16 +257,26 @@ e_config_listener_get_boolean_with_default (EConfigListener *cl,
 	/* search for the key in our hash table */
 	if (!g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
 		/* not found, so retrieve it from the configuration database */
-		value = bonobo_config_get_boolean_with_default (cl->priv->db, key, def, &d);
-		kd = add_key (cl, key, GTK_TYPE_BOOL, &value, d);
+		conf_value = gconf_client_get (cl->priv->db, key, NULL);
+		if (conf_value) {
+			value = gconf_value_get_bool (conf_value);
+			kd = add_key (cl, key, GCONF_VALUE_BOOL, &value, FALSE);
+			gconf_value_free (conf_value);
 
-		if (used_default != NULL)
-			*used_default = d;
+			if (used_default != NULL)
+				*used_default = FALSE;
+		} else {
+			value = def;
+			kd = add_key (cl, key, GCONF_VALUE_BOOL, &def, TRUE);
+
+			if (used_default != NULL)
+				*used_default = TRUE;
+		}
 	} else {
 		kd = (KeyData *) orig_value;
 		g_assert (kd != NULL);
 
-		if (kd->type == GTK_TYPE_BOOL) {
+		if (kd->type == GCONF_VALUE_BOOL) {
 			value = kd->value.v_bool;
 			if (used_default != NULL)
 				*used_default = kd->used_default;
@@ -315,6 +293,7 @@ e_config_listener_get_float_with_default (EConfigListener *cl,
 					  float def,
 					  gboolean *used_default)
 {
+	GConfValue *conf_value;
 	float value;
 	KeyData *kd;
 	gboolean d;
@@ -326,16 +305,26 @@ e_config_listener_get_float_with_default (EConfigListener *cl,
 	/* search for the key in our hash table */
 	if (!g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
 		/* not found, so retrieve it from the configuration database */
-		value = bonobo_config_get_float_with_default (cl->priv->db, key, def, &d);
-		kd = add_key (cl, key, GTK_TYPE_FLOAT, &value, d);
+		conf_value = gconf_client_get (cl->priv->db, key, NULL);
+		if (conf_value) {
+			value = gconf_value_get_float (conf_value);
+			kd = add_key (cl, key, GCONF_VALUE_FLOAT, &value, FALSE);
+			gconf_value_free (conf_value);
 
-		if (used_default != NULL)
-			*used_default = d;
+			if (used_default != NULL)
+				*used_default = FALSE;
+		} else {
+			value = def;
+			kd = add_key (cl, key, GCONF_VALUE_FLOAT, &def, TRUE);
+
+			if (used_default != NULL)
+				*used_default = TRUE;
+		}
 	} else {
 		kd = (KeyData *) orig_value;
 		g_assert (kd != NULL);
 
-		if (kd->type == GTK_TYPE_FLOAT) {
+		if (kd->type == GCONF_VALUE_FLOAT) {
 			value = kd->value.v_float;
 			if (used_default != NULL)
 				*used_default = kd->used_default;
@@ -352,6 +341,7 @@ e_config_listener_get_long_with_default (EConfigListener *cl,
 					 long def,
 					 gboolean *used_default)
 {
+	GConfValue *conf_value;
 	long value;
 	KeyData *kd;
 	gboolean d;
@@ -363,16 +353,26 @@ e_config_listener_get_long_with_default (EConfigListener *cl,
 	/* search for the key in our hash table */
 	if (!g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
 		/* not found, so retrieve it from the configuration database */
-		value = bonobo_config_get_long_with_default (cl->priv->db, key, def, &d);
-		kd = add_key (cl, key, GTK_TYPE_LONG, &value, d);
+		conf_value = gconf_client_get (cl->priv->db, key, NULL);
+		if (conf_value) {
+			value = gconf_value_get_int (conf_value);
+			kd = add_key (cl, key, GCONF_VALUE_INT, &value, FALSE);
+			gconf_value_free (conf_value);
 
-		if (used_default != NULL)
-			*used_default = d;
+			if (used_default != NULL)
+				*used_default = FALSE;
+		} else {
+			value = def;
+			kd = add_key (cl, key, GCONF_VALUE_INT, &def, TRUE);
+
+			if (used_default != NULL)
+				*used_default = TRUE;
+		}
 	} else {
 		kd = (KeyData *) orig_value;
 		g_assert (kd != NULL);
 
-		if (kd->type == GTK_TYPE_LONG) {
+		if (kd->type == GCONF_VALUE_INT) {
 			value = kd->value.v_long;
 			if (used_default != NULL)
 				*used_default = kd->used_default;
@@ -389,7 +389,8 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 					   const char *def,
 					   gboolean *used_default)
 {
-	char *str;
+	GConfValue *conf_value;
+	const char *str;
 	KeyData *kd;
 	gboolean d;
 	gpointer orig_key, orig_value;
@@ -400,19 +401,26 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 	/* search for the key in our hash table */
 	if (!g_hash_table_lookup_extended (cl->priv->keys, key, &orig_key, &orig_value)) {
 		/* not found, so retrieve it from the configuration database */
-		str = bonobo_config_get_string_with_default (cl->priv->db, key, (char *) def, &d);
-		if (str) {
-			kd = add_key (cl, key, GTK_TYPE_STRING, (gpointer) str, d);
+		conf_value = gconf_client_get (cl->priv->db, key, NULL);
+		if (conf_value) {
+			str = gconf_value_get_string (conf_value);
+			kd = add_key (cl, key, GCONF_VALUE_STRING, (gpointer) str, FALSE);
+			gconf_value_free (conf_value);
 
 			if (used_default != NULL)
-				*used_default = d;
-		} else
-			return NULL;
+				*used_default = FALSE;
+		} else {
+			str = def;
+			kd = add_key (cl, key, GCONF_VALUE_STRING, (gpointer) str, TRUE);
+
+			if (used_default != NULL)
+				*used_default = TRUE;
+		}
 	} else {
 		kd = (KeyData *) orig_value;
 		g_assert (kd != NULL);
 
-		if (kd->type == GTK_TYPE_STRING) {
+		if (kd->type == GCONF_VALUE_STRING) {
 			str = kd->value.v_str;
 			if (used_default != NULL)
 				*used_default = kd->used_default;
@@ -426,8 +434,8 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 void
 e_config_listener_set_boolean (EConfigListener *cl, const char *key, gboolean value)
 {
-	CORBA_Environment ev;
 	KeyData *kd;
+	GError *err;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
@@ -436,26 +444,23 @@ e_config_listener_set_boolean (EConfigListener *cl, const char *key, gboolean va
 	if (value == e_config_listener_get_boolean_with_default (cl, key, 0, NULL))
 		return;
 
-	CORBA_exception_init (&ev);
-
-	bonobo_config_set_boolean (cl->priv->db, key, value, &ev);
-	if (BONOBO_EX (&ev))
-		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
-	else {
+	gconf_client_set_bool (cl->priv->db, key, value, &err);
+	if (err) {
+		g_warning ("e_config_listener_set_bool: %s", err->message);
+		g_error_free (err);
+	} else {
 		/* update the internal copy */
 		kd = g_hash_table_lookup (cl->priv->keys, key);
 		if (kd)
 			kd->value.v_bool = value;
 	}
-
-	CORBA_exception_free (&ev);
 }
 
 void
 e_config_listener_set_float (EConfigListener *cl, const char *key, float value)
 {
-	CORBA_Environment ev;
 	KeyData *kd;
+	GError *err;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
@@ -464,26 +469,23 @@ e_config_listener_set_float (EConfigListener *cl, const char *key, float value)
 	if (value == e_config_listener_get_float_with_default (cl, key, 0, NULL))
 		return;
 
-	CORBA_exception_init (&ev);
-
-	bonobo_config_set_float (cl->priv->db, key, value, &ev);
-	if (BONOBO_EX (&ev))
-		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
-	else {
+	gconf_client_set_float (cl->priv->db, key, value, &err);
+	if (err) {
+		g_warning ("e_config_listener_set_float: %s", err->message);
+		g_error_free (err);
+	} else {
 		/* update the internal copy */
 		kd = g_hash_table_lookup (cl->priv->keys, key);
 		if (kd)
 			kd->value.v_float = value;
 	}
-
-	CORBA_exception_free (&ev);
 }
 
 void
 e_config_listener_set_long (EConfigListener *cl, const char *key, long value)
 {
-	CORBA_Environment ev;
 	KeyData *kd;
+	GError *err;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
@@ -492,27 +494,24 @@ e_config_listener_set_long (EConfigListener *cl, const char *key, long value)
 	if (value == e_config_listener_get_long_with_default (cl, key, 0, NULL))
 		return;
 
-	CORBA_exception_init (&ev);
-
-	bonobo_config_set_long (cl->priv->db, key, value, &ev);
-	if (BONOBO_EX (&ev))
-		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
-	else {
+	gconf_client_set_int (cl->priv->db, key, value, &err);
+	if (err) {
+		g_warning ("e_config_listener_set_long: %s", err->message);
+		g_error_free (err);
+	} else {
 		/* update the internal copy */
 		kd = g_hash_table_lookup (cl->priv->keys, key);
 		if (kd)
 			kd->value.v_long = value;
 	}
-
-	CORBA_exception_free (&ev);
 }
 
 void
 e_config_listener_set_string (EConfigListener *cl, const char *key, const char *value)
 {
-	CORBA_Environment ev;
 	char *s1, *s2;
 	KeyData *kd;
+	GError *err;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
@@ -527,12 +526,11 @@ e_config_listener_set_string (EConfigListener *cl, const char *key, const char *
 
 	g_free (s2);
 
-	CORBA_exception_init (&ev);
-
-	bonobo_config_set_string (cl->priv->db, key, value, &ev);
-	if (BONOBO_EX (&ev))
-		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
-	else {
+	gconf_client_set_string (cl->priv->db, key, value, &err);
+	if (err) {
+		g_warning ("e_config_listener_set_bool: %s", err->message);
+		g_error_free (err);
+	} else {
 		/* update the internal copy */
 		kd = g_hash_table_lookup (cl->priv->keys, key);
 		if (kd) {
@@ -540,13 +538,4 @@ e_config_listener_set_string (EConfigListener *cl, const char *key, const char *
 			kd->value.v_str = g_strdup (value);
 		}
 	}
-
-	CORBA_exception_free (&ev);
-}
-
-Bonobo_ConfigDatabase
-e_config_listener_get_db (EConfigListener *cl)
-{
-	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), CORBA_OBJECT_NIL);
-	return cl->priv->db;
 }

@@ -11,31 +11,30 @@
 #ifndef __E_CONFIG_LISTENER_H__
 #define __E_CONFIG_LISTENER_H__
 
-#include <gtk/gtkobject.h>
-#include <bonobo-config/bonobo-config-database.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
 #define E_CONFIG_LISTENER_TYPE        (e_config_listener_get_type ())
-#define E_CONFIG_LISTENER(o)          (GTK_CHECK_CAST ((o), E_CONFIG_LISTENER_TYPE, EConfigListener))
-#define E_CONFIG_LISTENER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CONFIG_LISTENER_TYPE, EConfigListenerClass))
-#define E_IS_CONFIG_LISTENER(o)       (GTK_CHECK_TYPE ((o), E_CONFIG_LISTENER_TYPE))
-#define E_IS_CONFIG_LISTENER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_CONFIG_LISTENER_TYPE))
+#define E_CONFIG_LISTENER(o)          (G_TYPE_CHECK_INSTANCECAST ((o), E_CONFIG_LISTENER_TYPE, EConfigListener))
+#define E_CONFIG_LISTENER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CONFIG_LISTENER_TYPE, EConfigListenerClass))
+#define E_IS_CONFIG_LISTENER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CONFIG_LISTENER_TYPE))
+#define E_IS_CONFIG_LISTENER_CLASS(k) (GT_TYPE_CHECK_CLASS_TYPE ((k), E_CONFIG_LISTENER_TYPE))
 
 typedef struct _EConfigListenerPrivate EConfigListenerPrivate;
 
 typedef struct {
-	GtkObject object;
+	GObject object;
 	EConfigListenerPrivate *priv;
 } EConfigListener;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	void (* key_changed) (EConfigListener *cl, const char *key);
 } EConfigListenerClass;
 
-GtkType               e_config_listener_get_type (void);
+GType                 e_config_listener_get_type (void);
 EConfigListener      *e_config_listener_new (void);
 
 gboolean              e_config_listener_get_boolean_with_default (EConfigListener *cl,
@@ -66,8 +65,6 @@ void                  e_config_listener_set_long (EConfigListener *cl,
 void                  e_config_listener_set_string (EConfigListener *cl,
 						    const char *key,
 						    const char *value);
-
-Bonobo_ConfigDatabase e_config_listener_get_db (EConfigListener *cl);
 
 G_END_DECLS
 

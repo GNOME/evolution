@@ -11,6 +11,7 @@
 #ifndef __E_COMPONENT_LISTENER_H__
 #define __E_COMPONENT_LISTENER_H__
 
+#include <glib/gmacros.h>
 #include <bonobo/Bonobo.h>
 #include <gtk/gtkobject.h>
 
