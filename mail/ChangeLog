@@ -1,3 +1,19 @@
+2001-03-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-editor.c (apply_changes): We don't care about SSL,
+	yea baby...
+	(apply_changes): Don't care about SSL, no baby...
+	(construct): Yea, I said we don't care 'bout SSL, baby
+	(construct): That's exactly what I said, uh huh...
+	(transport_auth_type_changed): Set the sensitivity of the
+	user/passwd entries.
+	(transport_type_changed): If the hostname hasn't been set yet,
+	just use "localhost" as it doesn't really matter, since all we
+	need is a valid URL object.
+
+	* mail-config.c: We no longer need `use_ssl' for sources and
+	transports.
+
 2001-03-15  Dan Winship  <danw@ximian.com>
 
 	* mail-display.c (mail_display_redisplay): Remove a stray

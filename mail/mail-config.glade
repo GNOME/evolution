@@ -2588,7 +2588,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	<class>GtkTable</class>
 	<name>tableSource</name>
 	<border_width>4</border_width>
-	<rows>8</rows>
+	<rows>7</rows>
 	<columns>2</columns>
 	<homogeneous>False</homogeneous>
 	<row_spacing>4</row_spacing>
@@ -2794,29 +2794,6 @@ Click &quot;Finish&quot; to save your settings.</text>
 	</widget>
 
 	<widget>
-	  <class>GtkCheckButton</class>
-	  <name>chkSourceSSL</name>
-	  <can_focus>True</can_focus>
-	  <label>This server requires a secure connection (SSL)</label>
-	  <active>False</active>
-	  <draw_indicator>True</draw_indicator>
-	  <child>
-	    <left_attach>0</left_attach>
-	    <right_attach>2</right_attach>
-	    <top_attach>7</top_attach>
-	    <bottom_attach>8</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>False</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>False</yfill>
-	  </child>
-	</widget>
-
-	<widget>
 	  <class>GtkLabel</class>
 	  <name>lblSourcePath</name>
 	  <label>Path:</label>
@@ -2962,7 +2939,7 @@ DIGEST-MD5
 	<class>GtkTable</class>
 	<name>tableTransport</name>
 	<border_width>4</border_width>
-	<rows>7</rows>
+	<rows>6</rows>
 	<columns>2</columns>
 	<homogeneous>False</homogeneous>
 	<row_spacing>4</row_spacing>
@@ -3207,29 +3184,6 @@ CRAM-MD5
 	    <right_attach>2</right_attach>
 	    <top_attach>2</top_attach>
 	    <bottom_attach>3</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>False</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>False</yfill>
-	  </child>
-	</widget>
-
-	<widget>
-	  <class>GtkCheckButton</class>
-	  <name>chkTransportSSL</name>
-	  <can_focus>True</can_focus>
-	  <label>This server requires a secure connection (SSL)</label>
-	  <active>False</active>
-	  <draw_indicator>True</draw_indicator>
-	  <child>
-	    <left_attach>0</left_attach>
-	    <right_attach>2</right_attach>
-	    <top_attach>6</top_attach>
-	    <bottom_attach>7</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
 	    <xexpand>False</xexpand>

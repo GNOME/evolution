@@ -47,7 +47,6 @@ typedef struct {
 	gboolean enabled;
 	
 	gboolean save_passwd;
-	gboolean use_ssl;
 } MailConfigService;
 
 typedef struct {

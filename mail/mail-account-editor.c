@@ -201,9 +201,6 @@ apply_changes (MailAccountEditor *editor)
 		account->source->auto_check = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->source_auto_check));
 		account->source->auto_check_time = gtk_spin_button_get_value_as_int (editor->source_auto_timeout);
 		
-		if (editor->source_ssl)
-			account->source->use_ssl = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->source_ssl));
-		
 		/* set the new source url */
 		g_free (account->source->url);
 		account->source->url = camel_url_to_string (source_url, FALSE);
@@ -243,9 +240,6 @@ apply_changes (MailAccountEditor *editor)
 	}
 	transport_url->host = host;
 	transport_url->port = port;
-	
-	if (editor->transport_ssl)
-		account->transport->use_ssl = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (editor->transport_ssl));
 	
 	/* set the new transport url */
 	g_free (account->transport->url);
@@ -408,10 +402,25 @@ transport_auth_type_changed (GtkWidget *widget, gpointer user_data)
 {
 	MailAccountEditor *editor = user_data;
 	CamelServiceAuthType *authtype;
+	GtkWidget *user, *passwd;
+	gboolean sensitive;
 	
 	authtype = gtk_object_get_data (GTK_OBJECT (widget), "authtype");
 	
 	gtk_object_set_data (GTK_OBJECT (editor), "transport_authmech", authtype->authproto);
+	
+	if (authtype->need_password)
+		sensitive = TRUE;
+	else
+		sensitive = FALSE;
+	
+	user = glade_xml_get_widget (editor->gui, "lblTransportUser");
+	passwd = glade_xml_get_widget (editor->gui, "lblTransportPasswd");
+	gtk_widget_set_sensitive (user, sensitive);
+	gtk_widget_set_sensitive (passwd, sensitive);
+	gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_user), sensitive);
+	gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_passwd), sensitive);
+	gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_save_passwd), sensitive);
 }
 
 static void
@@ -525,6 +534,7 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	label = glade_xml_get_widget (editor->gui, "lblTransportAuth");
 	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
 		CamelURL *url;
+		char *host;
 		
 		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_auth), TRUE);
 		gtk_widget_set_sensitive (label, TRUE);
@@ -532,7 +542,11 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		/* regen the auth list */
 		url = g_new0 (CamelURL, 1);
 		url->protocol = g_strdup (provider->protocol);
-		url->host = g_strdup (gtk_entry_get_text (editor->transport_host));
+		host = gtk_entry_get_text (editor->transport_host);
+		if (host && *host)
+			url->host = g_strdup (host);
+		else
+			url->host = g_strdup ("localhost");
 		transport_auth_init (editor, url);
 		camel_url_free (url);
 	} else {
@@ -804,8 +818,6 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	editor->source_save_passwd = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSourceSavePasswd"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_save_passwd), account->source->save_passwd);
 	editor->source_auth = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuSourceAuth"));
-	editor->source_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSourceSSL"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_ssl), account->source->use_ssl);
 	editor->keep_on_server = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkKeepMailOnServer"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->keep_on_server), account->source->keep_on_server);
 	editor->source_auto_timeout = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinAutoCheckTimeout"));
@@ -844,8 +856,6 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	gtk_entry_set_text (editor->transport_passwd, url && url->passwd ? url->passwd : "");
 	editor->transport_save_passwd = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportSavePasswd"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->transport_save_passwd), account->transport->save_passwd);
-	editor->transport_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportSSL"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->transport_ssl), account->transport->use_ssl);
 	if (GTK_IS_OPTION_MENU (editor->transport_type))
 		transport_type_init (editor, url);
 	else

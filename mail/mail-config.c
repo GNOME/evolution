@@ -104,7 +104,6 @@ service_copy (const MailConfigService *source)
 	new->auto_check_time = source->auto_check_time;
 	new->enabled = source->enabled;
 	new->save_passwd = source->save_passwd;
-	new->use_ssl = source->use_ssl;
 	
 	return new;
 }
@@ -283,9 +282,6 @@ config_read (void)
 		path = g_strdup_printf ("source_save_passwd_%d", i);
 		source->save_passwd = gnome_config_get_bool (path);
 		g_free (path);
-		path = g_strdup_printf ("source_use_ssl_%d", i);
-		source->use_ssl = gnome_config_get_bool (path);
-		g_free (path);
 		
 		/* get the transport */
 		transport = g_new0 (MailConfigService, 1);
@@ -302,10 +298,6 @@ config_read (void)
 			g_free (transport->url);
 			transport->url = NULL;
 		}
-		
-		path = g_strdup_printf ("transport_use_ssl_%d", i);
-		transport->use_ssl = gnome_config_get_bool (path);
-		g_free (path);
 		
 		account->id = id;
 		account->source = source;
@@ -452,9 +444,6 @@ mail_config_write (void)
 		path = g_strdup_printf ("source_save_passwd_%d", i);
 		gnome_config_set_bool (path, account->source->save_passwd);
 		g_free (path);
-		path = g_strdup_printf ("source_use_ssl_%d", i);
-		gnome_config_set_bool (path, account->source->use_ssl);
-		g_free (path);
 		
 		/* transport info */
 		path = g_strdup_printf ("transport_url_%d", i);
@@ -463,10 +452,6 @@ mail_config_write (void)
 		
 		path = g_strdup_printf ("transport_save_passwd_%d", i);
 		gnome_config_set_bool (path, account->transport->save_passwd);
-		g_free (path);
-		
-		path = g_strdup_printf ("transport_use_ssl_%d", i);
-		gnome_config_set_bool (path, account->transport->use_ssl);
 		g_free (path);
 	}
 	gnome_config_pop_prefix ();
