@@ -1,3 +1,12 @@
+2002-06-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (setup_ui): Remove the customize toolbar thingy
+	since Michael said that this would fix bug #17952.
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_from_account):
+	Clean up the logic in this. For one, we don't need to do strstr
+	using the account address (wtf??).
+
 2002-06-05  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer-hdrs.c (create_from_optionmenu): put option menu

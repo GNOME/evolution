@@ -246,12 +246,12 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), history);
 		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", hdrs);
 	}
-
+	
 	hbox = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), omenu);
 	gtk_widget_show (omenu);
 	gtk_widget_show (hbox);
-
+	
 	return hbox;
 }
 
@@ -822,10 +822,16 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 		item = l->data;
 		
 		account = gtk_object_get_data (GTK_OBJECT (item), "account");
-		if (i == default_account ||
-		    (account_name && ((account->name && !strcmp (account_name, account->name))
-				      || (account->id->address && strstr (account_name, account->id->address))))) {
-			/* set the correct optionlist item */
+		if (account_name) {
+			if (account->name && !strcmp (account_name, account->name)) {
+				/* set the correct optionlist item */
+				gtk_option_menu_set_history (omenu, i);
+				gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", hdrs);
+				
+				return;
+			}
+		} else if (i == default_account) {
+			/* set the default optionlist item */
 			gtk_option_menu_set_history (omenu, i);
 			gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", hdrs);
 			
