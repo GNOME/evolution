@@ -1,3 +1,8 @@
+2004-06-22  Hans Petter Jansson  <hpj@ximian.com>
+
+	* misc/e-source-selector.c (e_source_selector_peek_primary_selection):
+	Add preconditions. Make sure garbage or NULL data doesn't get used.
+
 2004-06-11  Larry Ewing  <lewing@ximian.com>
 
 	* misc/e-source-selector.c: make the source selector use a colock
