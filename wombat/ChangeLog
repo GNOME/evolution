@@ -1,0 +1,11 @@
+2000-04-14  Federico Mena Quintero  <federico@helixcode.com>
+
+	* wombat.c (setup_pcs): Must pass "object" for the kind to
+	goad_server_register(); "server" is meaningless.
+	(setup_pcs): Do not free the CORBA environment more than once.
+	Also, fix error messages.
+
+	* wombat.gnorba: The GOAD ID is "evolution:calendar-factory", not
+	"evolution:calendar-server".
+
+	* ChangeLog: Started the ChangeLog for Wombat.

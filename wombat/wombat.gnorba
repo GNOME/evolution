@@ -4,8 +4,8 @@ repo_id=IDL:Evolution/BookFactory:1.0 IDL:Bonobo/Unknown:1.0
 description=The Personal Addressbook Server
 location_info=wombat
 
-[evolution:calendar-server]
+[evolution:calendar-factory]
 type=exe
 repo_id=IDL:Evolution/Calendar/CalFactory:1.0 IDL:Bonobo/Unknown:1.0
-description=The Personal Calendar Server
+description=The Personal Calendar Server; calendar factory
 location_info=wombat

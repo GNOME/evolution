@@ -38,17 +38,19 @@ setup_pas (int argc, char **argv)
 	pas_book_factory_activate (factory);
 }
 
-
+/* Creates the calendar factory object and registers it with GOAD */
 static void
 setup_pcs (int argc, char **argv)
 {
+	CalFactory *factory;
 	int result;
 	CORBA_Object object;
-	CalFactory *factory = cal_factory_new ();
-	
+
+	factory = cal_factory_new ();
+
 	if (!factory) {
-		g_message ("%s: %d: couldn't create a Calendar factory\n",
-			   __FILE__, __LINE__);
+		g_message ("setup_pcs(): Could not create the calendar factory");
+		return;
 	}
 
 	object = bonobo_object_corba_objref (BONOBO_OBJECT (factory));
@@ -57,26 +59,30 @@ setup_pcs (int argc, char **argv)
 	result = goad_server_register (CORBA_OBJECT_NIL,
 				       object,
 				       "evolution:calendar-factory",
-				       "server",
+				       "object",
 				       &ev);
 
+	/* FIXME: should Wombat die if it gets errors here? */
+
 	if (ev._major != CORBA_NO_EXCEPTION || result == -1) {
-
-		g_message ("create_cal_factory(): "
-			   "could not register the calendar factory");
+		g_message ("setup_pcs(): could not register the calendar factory");
 		bonobo_object_unref (BONOBO_OBJECT (factory));
 		CORBA_exception_free (&ev);
-
+		return;
 	} else if (result == -2) {
-
-		g_message ("create_cal_factory(): "
-			   "a calendar factory is already registered");
+		g_message ("setup_pcs(): a calendar factory is already registered");
 		bonobo_object_unref (BONOBO_OBJECT (factory));
 		CORBA_exception_free (&ev);
-
+		return;
 	}
 
-	CORBA_exception_free (&ev);	
+	/* FIXME: we never connect to the destroy signal of the factory.  We
+	 * need to add a signal to it to indicate that the last client died.
+	 * The PAS factory needs to have the same thing.  When Wombat sees that
+	 * both factories have lost all their clients, it should destroy the
+	 * factories and terminate.  */
+
+	CORBA_exception_free (&ev);
 }
 
 static void
