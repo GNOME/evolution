@@ -150,7 +150,7 @@ format_text (char *text)
 	GString *out;
 	char *s, *space, *outstr;
 	int len, tabbing, i;
-	gboolean linestart = TRUE;
+	gboolean linestart = TRUE, cited = FALSE;
 
 	len = strlen (text);
 	out = g_string_sized_new (len + len / LINE_LEN);
@@ -163,10 +163,11 @@ format_text (char *text)
 				s++;
 				tabbing++;
 			}
+			cited = (tabbing == 0 && *s == '>');
 		}
 
 		len = strcspn (s, "\n");
-		if (len > LINE_LEN - tabbing * 8) {
+		if (!cited && len > LINE_LEN - tabbing * 8) {
 			/* If we can break anywhere between s and
 			 * s + LINE_LEN, do that. We can break between
 			 * space and anything but &nbsp;

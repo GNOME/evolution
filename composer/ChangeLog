@@ -1,3 +1,8 @@
+2000-06-14  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (format_text): Don't line-wrap lines that start
+	with ">".
+
 2000-06-12  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c (format_text): If a paragraph starts with TABs,
