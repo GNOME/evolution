@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
 "POT-Creation-Date: 2002-09-17 00:18+0200\n"
-"PO-Revision-Date: 2002-09-17 21:40+0200\n"
+"PO-Revision-Date: 2002-09-21 09:05+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1523,7 +1523,7 @@ msgstr "Anguilla"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:138
 msgid "Antarctica"
-msgstr "Antarktis"
+msgstr "Antarktika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:139
 msgid "Antigua And Barbuda"
@@ -1554,7 +1554,7 @@ msgstr "Østerrike"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:145
 msgid "Azerbaijan"
-msgstr "Asserbadsjan"
+msgstr "Aserbajdsjan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:146
 #: my-evolution/Locations.h:161
@@ -1607,7 +1607,7 @@ msgstr "Bolivia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:157
 msgid "Bosnia And Herzegowina"
-msgstr "Bosnia og Herzegovina"
+msgstr "Bosnia-Hercegovina"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:158
 msgid "Botswana"
@@ -1628,7 +1628,7 @@ msgstr "Britisk-Indisk havområde"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:162
 msgid "Brunei Darussalam"
-msgstr "Brunei Dar-es-salam"
+msgstr "Brunei Darussalam"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:163
 #: my-evolution/Locations.h:320
@@ -1654,7 +1654,7 @@ msgstr "Kamerun"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:168
 #: my-evolution/Locations.h:354
 msgid "Canada"
-msgstr "Kanada"
+msgstr "Canada"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:169
 msgid "Cape Verde"
@@ -1663,11 +1663,11 @@ msgstr "Kapp Verde"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:170
 #: my-evolution/Locations.h:389
 msgid "Cayman Islands"
-msgstr "Kaymanøyene"
+msgstr "Caymanøyene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:171
 msgid "Central African Republic"
-msgstr "Sentralafrikanske republikk"
+msgstr "Den sentralafrikanske republikk"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:172
 msgid "Chad"
@@ -1685,11 +1685,11 @@ msgstr "Kina"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:175
 #: my-evolution/Locations.h:451
 msgid "Christmas Island"
-msgstr "Christmas Island"
+msgstr "Christmasøya"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "Cocos (Keeling) Islands"
-msgstr "Cocos (Keeling)-øyene"
+msgstr "Kokosøyene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:177
 #: my-evolution/Locations.h:483
@@ -1703,11 +1703,11 @@ msgstr "Komorene"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:179
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:180
 msgid "Congo"
-msgstr "Kongo"
+msgstr "Kongo-Brazaville"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:181
 msgid "Cook Islands"
-msgstr "Cook-øyene"
+msgstr "Cookøyene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:182
 #: my-evolution/Locations.h:517
@@ -1716,7 +1716,7 @@ msgstr "Costa Rica"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:183
 msgid "Cote d'Ivoire"
-msgstr "Cote d'Ivoire"
+msgstr "Elfenbenskysten"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:184
 #: my-evolution/Locations.h:528
@@ -1736,7 +1736,7 @@ msgstr "Kypros"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:187
 #: my-evolution/Locations.h:546
 msgid "Czech Republic"
-msgstr "Tjekkiske republikk"
+msgstr "Tsjekkia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:188
 #: my-evolution/Locations.h:580
@@ -1749,12 +1749,12 @@ msgstr "Djibouti"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:190
 msgid "Dominica"
-msgstr "Dominika"
+msgstr "Dominica"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:191
 #: my-evolution/Locations.h:608
 msgid "Dominican Republic"
-msgstr "Dominikanske republikk"
+msgstr "Den dominikanske republikk"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:192
 msgid "East Timor"
@@ -1763,7 +1763,7 @@ msgstr "Øst-Timor"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:193
 #: my-evolution/Locations.h:641
 msgid "Ecuador"
-msgstr "Ekvador"
+msgstr "Ecuador"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:194
 #: my-evolution/Locations.h:650
@@ -1777,7 +1777,7 @@ msgstr "El Salvador"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:196
 msgid "Equatorial Guinea"
-msgstr "Ekvatorial Guinea"
+msgstr "Ekvatorial-Guinea"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:197
 msgid "Eritrea"
@@ -1816,11 +1816,11 @@ msgstr "Frankrike"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:205
 msgid "French Guiana"
-msgstr "Fransk Guinea"
+msgstr "Fransk Guyana"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "French Polynesia"
-msgstr "Fransk polynesia"
+msgstr "Fransk Polynesia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "French Southern Territories"
@@ -1860,7 +1860,7 @@ msgstr "Hellas"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:215
 msgid "Greenland"
-msgstr "Grønnland"
+msgstr "Grønland"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:216
 msgid "Grenada"
@@ -1902,7 +1902,7 @@ msgstr "Heard og McDonald-øyene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:225
 msgid "Holy See"
-msgstr "Dødehavet"
+msgstr "Vatikanstaten"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:226
 #: my-evolution/Locations.h:945
@@ -1976,7 +1976,7 @@ msgstr "Kiribati"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:241
 msgid "Korea, Republic Of"
-msgstr "Den koreanske republikk"
+msgstr "Sør-Korea"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:242
 #: my-evolution/Locations.h:1146
@@ -1985,7 +1985,7 @@ msgstr "Kuwait"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Kyrgyzstan"
-msgstr "Kurgistan"
+msgstr "Kirgisistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Laos"
@@ -2025,7 +2025,7 @@ msgstr "Luxembourg"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Macau"
-msgstr "Macau"
+msgstr "Macao"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:253
 msgid "Macedonia"
@@ -2066,7 +2066,7 @@ msgstr "Martinique"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Mauritania"
-msgstr "Mauretania"
+msgstr "Mauritania"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:263
 msgid "Mauritius"
@@ -2083,11 +2083,11 @@ msgstr "Mexico"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Micronesia"
-msgstr "Mikronesia"
+msgstr "Mikronesiaføderasjonen"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:267
 msgid "Moldova, Republic Of"
-msgstr "Republikken Moldova"
+msgstr "Moldova"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Monaco"
@@ -2133,11 +2133,11 @@ msgstr "Nederland"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Netherlands Antilles"
-msgstr "Nederlandske antiller"
+msgstr "De nederlandske antillene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "New Caledonia"
-msgstr "Ny-kaledonia"
+msgstr "Ny-Caledonia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:280
 #: my-evolution/Locations.h:1559
@@ -2164,11 +2164,11 @@ msgstr "Niue"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:285
 #: my-evolution/Locations.h:1573
 msgid "Norfolk Island"
-msgstr "Norfolk-øya"
+msgstr "Norfolkøya"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "Northern Mariana Islands"
-msgstr "Nordre Mariana-øyer"
+msgstr "Nord-Marianene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:287
 #: my-evolution/Locations.h:1586
@@ -2200,7 +2200,7 @@ msgstr "Panama"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:293
 msgid "Papua New Guinea"
-msgstr "Papua Ny Guinea"
+msgstr "Papua Ny-Guinea"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:294
 #: my-evolution/Locations.h:1687
@@ -2214,7 +2214,7 @@ msgstr "Peru"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:296
 msgid "Philippines"
-msgstr "Fillipinene"
+msgstr "Filippinene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:297
 msgid "Pitcairn"
@@ -2242,7 +2242,7 @@ msgstr "Qatar"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:302
 msgid "Reunion"
-msgstr "Gjenforening"
+msgstr "Réunion"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:303
 #: my-evolution/Locations.h:1910
@@ -2251,7 +2251,7 @@ msgstr "Romania"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Russian Federation"
-msgstr "Den russiske federasjon"
+msgstr "Russland"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Rwanda"
@@ -2267,7 +2267,7 @@ msgstr "Saint Lucia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:308
 msgid "Saint Vincent And The Grena-dines"
-msgstr "Saint Vincent og grenadinene"
+msgstr "Saint Vincent og Grenadinene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:309
 msgid "Samoa"
@@ -2279,12 +2279,12 @@ msgstr "San Marino"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Sao Tome And Principe"
-msgstr "Sao Tome og Principe"
+msgstr "São Tomé og Príncipe"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:312
 #: my-evolution/Locations.h:2033
 msgid "Saudi Arabia"
-msgstr "Saudi arabia"
+msgstr "Saudi-Arabia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Senegal"
@@ -2292,7 +2292,7 @@ msgstr "Senegal"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Seychelles"
-msgstr "Seyschellene"
+msgstr "Seychellene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "Sierra Leone"
@@ -2315,7 +2315,7 @@ msgstr "Slovenia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Solomon Islands"
-msgstr "Solomonøyene"
+msgstr "Salomonøyene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Somalia"
@@ -2324,11 +2324,11 @@ msgstr "Somalia"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:321
 #: my-evolution/Locations.h:2117
 msgid "South Africa"
-msgstr "Sør Afrika"
+msgstr "Sør-Afrika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "South Georgia And The South Sandwich Islands"
-msgstr "Syd Georgia og de sydlige sandwich-øyene"
+msgstr "Sør-Georgia og de sørlige Sandwichøyene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:323
 #: my-evolution/Locations.h:2125
@@ -2345,7 +2345,7 @@ msgstr "St. Helena"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:326
 msgid "St. Pierre And Miquelon"
-msgstr "St. Pierre og Miquelon"
+msgstr "Saint-Pierre-et-Miquelon"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "Sudan"
@@ -2381,11 +2381,11 @@ msgstr "Taiwan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:334
 msgid "Tajikistan"
-msgstr "Tajikistan"
+msgstr "Tadsjikistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:335
 msgid "Tanzania, United Republic Of"
-msgstr "Republikken Tanzania"
+msgstr "Tanzania"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:336
 msgid "Thailand"
@@ -2422,7 +2422,7 @@ msgstr "Turkmenistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Turks And Caicos Islands"
-msgstr "Turks og Caicos-øyene"
+msgstr "Turks- og Caicosøyene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:345
 msgid "Tuvalu"
@@ -2444,7 +2444,7 @@ msgstr "De forente arabiske emirater"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:349
 #: my-evolution/Locations.h:2340
 msgid "United Kingdom"
-msgstr "England"
+msgstr "Storbritannia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "United States Minor Outlying Islands"
@@ -2457,7 +2457,7 @@ msgstr "Uruguay"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Uzbekistan"
-msgstr "Uzbekistan"
+msgstr "Usbekistan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "Vanuatu"
@@ -2475,11 +2475,11 @@ msgstr "Vietnam"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:356
 msgid "Virgin Islands, British"
-msgstr "Britiske jomfruøyer"
+msgstr "Jomfruøyene (Storbritannia)"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Virgin Islands, U.S."
-msgstr "U.S. Jomfruøyene"
+msgstr "Jomfruøyene (USA)"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:358
 msgid "Wallis And Futuna Islands"
@@ -2487,12 +2487,12 @@ msgstr "Wallis- og Futuna-øyene"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:359
 msgid "Western Sahara"
-msgstr "Vestre Sahara"
+msgstr "Vest-Sahara"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:360
 #: my-evolution/Locations.h:2510
 msgid "Yemen"
-msgstr "Yemen"
+msgstr "Jemen"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:361
 #: my-evolution/Locations.h:2522
