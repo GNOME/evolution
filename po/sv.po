@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.174 2003/05/14 17:11:19 menthos Exp $
+# $Id: sv.po,v 1.175 2003/05/14 17:44:25 andersca Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "POT-Creation-Date: 2003-05-14 19:08+0200\n"
-"PO-Revision-Date: 2003-05-14 19:09+0200\n"
+"PO-Revision-Date: 2003-05-14 19:40+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3860,7 +3860,7 @@ msgstr "Nytt sammanträde"
 
 #: calendar/gui/calendar-component.c:737
 msgid "M_eeting"
-msgstr "M_öte"
+msgstr "_Sammanträde"
 
 #: calendar/gui/calendar-component.c:738
 msgid "Create a new meeting request"
