@@ -1,4 +1,15 @@
-2003-05-12  Chris Toshok  <toshok@ximian.com>
+2003-05-14  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (full_addr_clicked):
+	replace the text_buffer_delete/text_buffer_insert with
+	set_buffer_set_text.  call widget_changed if they clicked OK, so
+	we actually mark the dialog changed.
+	(fill_in_field): make this handle GtkTextViews, because for some
+	reason that escapes rational thought GtkTextView's don't implement
+	GtkEditable.  fixes #42606.
+	(extract_field): same.
+
+2003-05-14  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-minicard-label.c (e_minicard_label_reflow): set
 	the clip_height on reflow so the name of the field is as high as

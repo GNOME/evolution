@@ -784,17 +784,11 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 		address_widget = glade_xml_get_widget(editor->gui, "text-address");
 		if (address_widget && GTK_IS_TEXT_VIEW(address_widget)) {
 			GtkTextBuffer *buffer;
-			GtkTextIter start_iter, end_iter;
 			char *string = e_card_delivery_address_to_string(new_address);
 
 			buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (address_widget));
 
-			gtk_text_buffer_get_start_iter (buffer, &start_iter);
-			gtk_text_buffer_get_end_iter (buffer, &end_iter);
-
-			gtk_text_buffer_delete (buffer, &start_iter, &end_iter);
-
-			gtk_text_buffer_insert (buffer, &start_iter, string, strlen (string));
+			gtk_text_buffer_set_text (buffer, string, strlen (string));
 
 			g_free(string);
 		}
@@ -804,6 +798,8 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 		e_card_simple_set_delivery_address(editor->simple, editor->address_choice, new_address);
 
 		e_card_delivery_address_unref(new_address);
+
+		widget_changed (NULL, editor);
 	}
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
@@ -2137,10 +2133,17 @@ fill_in_field(EContactEditor *editor, char *id, char *value)
 {
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, id);
 
-	if (widget && E_IS_URL_ENTRY (widget))
-		widget = e_url_entry_get_entry (E_URL_ENTRY (widget));
+	if (!widget)
+		return;
 
-	if (widget && GTK_IS_EDITABLE(widget)) {
+	if (E_IS_URL_ENTRY (widget))
+		widget = e_url_entry_get_entry (E_URL_ENTRY (widget));
+	else if (GTK_IS_TEXT_VIEW (widget)) {
+		if (value)
+			gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget)),
+						  value, strlen (value));
+	}
+	else if (GTK_IS_EDITABLE(widget)) {
 		int position = 0;
 		GtkEditable *editable = GTK_EDITABLE(widget);
 		gtk_editable_delete_text(editable, 0, -1);
@@ -2164,6 +2167,7 @@ fill_in_single_field(EContactEditor *editor, char *name)
 {
 	ECardSimple *simple = editor->simple;
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, name);
+
 	if (widget && GTK_IS_EDITABLE(widget)) {
 		int position = 0;
 		GtkEditable *editable = GTK_EDITABLE(widget);
@@ -2506,25 +2510,37 @@ static void
 extract_field(EContactEditor *editor, ECard *card, char *editable_id, char *key)
 {
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, editable_id);
+	char *string = NULL;
 
-	if (widget && E_IS_URL_ENTRY (widget))
+	if (!widget)
+		return;
+
+	if (E_IS_URL_ENTRY (widget))
 		widget = e_url_entry_get_entry (E_URL_ENTRY (widget));
 
-	if (widget && GTK_IS_EDITABLE (widget)) {
-		GtkEditable *editable = GTK_EDITABLE(widget);
-		char *string = gtk_editable_get_chars(editable, 0, -1);
+	if (GTK_IS_EDITABLE (widget))
+		string = gtk_editable_get_chars(GTK_EDITABLE (widget), 0, -1);
+	else if (GTK_IS_TEXT_VIEW (widget)) {
+		GtkTextIter start, end;
+		GtkTextBuffer *buffer;
 
-		if (string && *string)
-			g_object_set (card,
-				      key, string,
-				      NULL);
-		else
-			g_object_set (card,
-				      key, NULL,
-				      NULL);
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
+		gtk_text_buffer_get_start_iter (buffer, &start);
+		gtk_text_buffer_get_end_iter (buffer, &end);
 
-		if (string) g_free(string);
+		string = gtk_text_buffer_get_text (buffer, &start, &end, TRUE);
 	}
+
+	if (string && *string)
+		g_object_set (card,
+			      key, string,
+			      NULL);
+	else
+		g_object_set (card,
+			      key, NULL,
+			      NULL);
+
+	if (string) g_free(string);
 }
 
 static void
