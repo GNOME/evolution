@@ -352,10 +352,12 @@ mail_able (GtkButton *button, gpointer data)
 		account = gtk_clist_get_row_data (dialog->mail_accounts, row);
 		account->source->enabled = !account->source->enabled;
 
-		if (account->source->enabled)
-			mail_load_storage_by_uri (dialog->shell, account->source->url, account->name);
-		else
-			mail_remove_storage_by_uri (account->source->url);
+		if (account->source && account->source->url) {
+			if (account->source->enabled)
+				mail_load_storage_by_uri (dialog->shell, account->source->url, account->name);
+			else
+				mail_remove_storage_by_uri (account->source->url);
+		}
 
 		mail_autoreceive_setup ();
 		mail_config_write ();

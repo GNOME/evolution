@@ -1,5 +1,8 @@
 2001-08-20  Peter Williams  <peterw@ximian.com>
 
+	* mail-accounts.c (mail_able): Whoops, make sure that the account
+	has a source before removing it or what-have-you.
+
 	* subscribe-dialog.c: Add a few comments.
 
 2001-08-20  Damon Chaplin  <damon@ximian.com>
