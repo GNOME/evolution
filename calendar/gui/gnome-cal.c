@@ -1039,6 +1039,7 @@ load_alarms (GnomeCalendar *gcal)
 	}
 }
 
+#ifndef NO_WARNINGS
 /* FIXME: rename this function */
 static void
 gnome_calendar_update_all (GnomeCalendar *gcal)
@@ -1050,6 +1051,7 @@ gnome_calendar_update_all (GnomeCalendar *gcal)
 	load_alarms (gcal);
 	gnome_calendar_tag_calendar (gcal, priv->date_navigator);
 }
+#endif
 
 /* Removes any queued alarms for the specified UID */
 static void
@@ -1119,6 +1121,7 @@ cal_loaded_cb (CalClient *client, CalClientLoadStatus status, gpointer data)
 	priv = gcal->priv;
 
 	switch (priv->load_state) {
+	default:
 		/* FIXME */
 	}
 }
@@ -1618,6 +1621,7 @@ gnome_calendar_get_selected_time_range (GnomeCalendar *gcal,
 }
 
 
+#ifndef NO_WARNINGS
 /* Callback used when an event editor finishes editing an object */
 static void
 released_event_object_cb (EventEditor *ee, const char *uid, gpointer data)
@@ -1639,6 +1643,7 @@ released_event_object_cb (EventEditor *ee, const char *uid, gpointer data)
 	g_hash_table_remove (priv->object_editor_hash, orig_uid);
 	g_free (orig_uid);
 }
+#endif
 
 /* Callback used when an event editor dialog is closed */
 struct editor_closure

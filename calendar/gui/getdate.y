@@ -111,8 +111,8 @@ extern struct tm	*localtime();
 #define yylex getdate_yylex
 #define yyerror getdate_yyerror
 
-static int yylex ();
-static int yyerror ();
+static int yylex (void);
+static int yyerror (char *s);
 
 #define EPOCH		1970
 #define HOUR(x)		((time_t)(x) * 60)
@@ -892,6 +892,9 @@ difftm (a, b)
 	      + (a->tm_min - b->tm_min))
 	  + (a->tm_sec - b->tm_sec));
 }
+
+time_t
+get_date(char *p, struct timeb *now);
 
 time_t
 get_date(p, now)

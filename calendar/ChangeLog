@@ -1,3 +1,9 @@
+2000-09-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* cal-util/cal-recur.c, gui/e-day-view.c, gui/e-week-view.c,
+	gui/event-editor.c, gui/getdate.y, gui/gncal-todo.c,
+	gui/gnome-cal.c, gui/dialogs/task-editor.c: Fixed some warnings.
+
 2000-09-08  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/calendar/Makefile.am: Tidy

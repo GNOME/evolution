@@ -1240,7 +1240,9 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 		else
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
-#warning "FIX ME"
+#ifndef NO_WARNINGS
+#warning "FIXME"
+#endif
 
 		/* If we are editing an event which we have just created, we
 		   will get an update_event callback from the server. But we
@@ -1347,6 +1349,7 @@ e_day_view_set_cal_client	(EDayView	*day_view,
 }
 
 
+#ifndef NO_WARNINGS
 static gboolean
 e_day_view_update_event_cb (EDayView *day_view,
 			    gint day,
@@ -1391,6 +1394,7 @@ e_day_view_update_event_cb (EDayView *day_view,
 	}
 	return TRUE;
 }
+#endif
 
 
 /* This calls a given function for each event instance that matches the given

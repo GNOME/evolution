@@ -1253,6 +1253,7 @@ priority_index_to_value (TaskEditorPriority priority)
 		retval = 7;
 		break;
 	default:
+		retval = -1;
 		g_assert_not_reached ();
 		break;
 	}

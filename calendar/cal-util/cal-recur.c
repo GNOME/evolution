@@ -349,6 +349,8 @@ static void cal_obj_time_find_first_week	(CalObjTime *cotime,
 						 RecurData  *recur_data);
 static void cal_object_time_from_time		(CalObjTime *cotime,
 						 time_t      t);
+static gint cal_obj_date_only_compare_func (const void *arg1,
+					    const void *arg2);
 
 
 CalRecurVTable cal_obj_yearly_vtable = {
