@@ -36,6 +36,12 @@ CamelFolder *mail_uri_to_folder (const char *uri);
 char *mail_crypto_openpgp_decrypt (const char *ciphertext,
 				   const char *passphrase,
 				   CamelException *ex);
+
+char *mail_crypto_openpgp_encrypt (const char *plaintext,
+				   const GPtrArray *recipients,
+				   const char *passphrase,
+				   gboolean sign,
+				   CamelException *ex);
 /* FIXME: add encryption & signing functions */
 
 /* mail-format */

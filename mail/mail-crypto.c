@@ -10,6 +10,7 @@
  * Authors:
  *  Nathan Thompson-Amato <ndt@jps.net>
  *  Dan Winship <danw@helixcode.com>
+ *  Jeffrey Stedfast <fejj@helixcode.com>
  *
  *  Copyright 2000, Helix Code, Inc. (http://www.helixcode.com)
  *  Copyright 2000, Nathan Thompson-Amato
@@ -339,7 +340,7 @@ mail_crypto_openpgp_decrypt (const char *ciphertext, const char *passphrase,
 
 #ifndef PGP_PROGRAM
 	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-			      "No GPG/PGP program available.");
+			      _("No GPG/PGP program available."));
 	return NULL;
 #endif
 
@@ -400,6 +401,112 @@ mail_crypto_openpgp_decrypt (const char *ciphertext, const char *passphrase,
 
 	g_free (diagnostics);
 	return plaintext;
+}
+
+char *
+mail_crypto_openpgp_encrypt (const char *plaintext, const GPtrArray *recipients, const char *passphrase,
+			     gboolean sign, CamelException *ex)
+{
+	GPtrArray *recipient_list = NULL;
+	int retval;
+	char *path, *argv[12];
+	int i, r;
+	char *cyphertext = NULL;
+	char *diagnostics = NULL;
+	int passwd_fds[2];
+	char passwd_fd[32];
+	
+#ifndef PGP_PROGRAM
+	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+			      _("No GPG/PGP program available."));
+	return NULL;
+#endif
+	
+	if (pipe (passwd_fds) < 0) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Couldn't create pipe to GPG/PGP: %s"),
+				      g_strerror (errno));
+		return NULL;
+	}
+	
+	i = 0;
+#if defined(GPG_PATH)
+	path = GPG_PATH;
+	
+	recipient_list = g_ptr_array_new ();
+	for (r = 0; r < recipients->len; r++) {
+		char *buf, *recipient;
+		
+		recipient = recipients->pdata[i];
+		buf = g_strdup_printf ("-r %s", recipient);
+		g_ptr_array_add (recipient_list, buf);
+	}
+	
+	argv[i++] = "gpg";
+	argv[i++] = "--verbose";
+	argv[i++] = "--yes";
+	argv[i++] = "--batch";
+	
+	argv[i++] = "--armor";
+	
+	for (r = 0; r < recipient_list->len; r++)
+		argv[i++] = recipient_list->pdata[r];
+	
+	argv[i++] = "--output";
+	argv[i++] = "-";            /* output to stdout */
+	
+	argv[i++] = "--encrypt";
+	
+	if (sign) {
+		argv[i++] = "--sign";
+		
+		argv[i++] = "--passphrase-fd";
+		sprintf (passwd_fd, "%d", passwd_fds[0]);
+		argv[i++] = passwd_fd;
+	}
+#elif defined(PGP5_PATH) /* FIXME: from here down needs to be modified to work correctly */
+	path = PGP5_PATH;
+	
+	argv[i++] = "pgpe";
+	argv[i++] = "-f";
+	argv[i++] = "-z";
+	argv[i++] = "-a";
+	
+	if (sign)
+		argv[i++] = "-s";
+	
+	sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
+	putenv (passwd_fd);
+#else
+	path = PGP_PATH;
+	
+	argv[i++] = "pgp";
+	argv[i++] = "-f";
+	
+	sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
+	putenv (passwd_fd);
+#endif
+	argv[i++] = NULL;
+
+	retval = crypto_exec_with_passwd (path, argv, plaintext, passwd_fds,
+					  passphrase, &cyphertext,
+					  &diagnostics);
+	
+	if (retval != 0 || !*cyphertext) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "%s", diagnostics);
+		g_free (cyphertext);
+		cyphertext = NULL;
+	}
+	
+	if (recipient_list) {
+		for (r = 0; r < recipient_list->len; r++)
+			g_free (recipient_list->pdata[r]);
+		g_ptr_array_free (recipient_list, TRUE);
+	}
+	
+	g_free (diagnostics);
+	return cyphertext;
 }
 
 #endif /* PGP_PROGRAM */
