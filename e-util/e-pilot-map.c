@@ -165,7 +165,7 @@ e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archi
 guint32 
 e_pilot_map_lookup_pid (EPilotMap *map, const char *uid) 
 {
-	EPilotMapUidNode *unode;
+	EPilotMapUidNode *unode = NULL;
 	
 	unode = g_hash_table_lookup (map->uid_map, uid);
 
@@ -178,10 +178,13 @@ e_pilot_map_lookup_pid (EPilotMap *map, const char *uid)
 const char *
 e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid)
 {
-	EPilotMapPidNode *pnode;
+	EPilotMapPidNode *pnode = NULL;
 	
 	pnode = g_hash_table_lookup (map->pid_map, &pid);
 
+	if (pnode == NULL)
+		return NULL;
+	
 	return pnode->uid;
 }
 

@@ -1,3 +1,8 @@
+2000-10-27    <jpr@helixcode.com>
+
+	* e-pilot-map.c (e_pilot_map_lookup_uid): Return null if no
+	pnode was found.
+
 2000-10-27  JP Rosevear  <jpr@helixcode.com>
 
 	* e-pilot-map.c (map_sax_start_element): Get archive field while
