@@ -307,7 +307,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	      <editable>True</editable>
 	      <text_visible>True</text_visible>
 	      <text_max_length>0</text_max_length>
-	      <text></text>
+	      <text> </text>
 	      <child>
 		<padding>0</padding>
 		<expand>True</expand>
@@ -320,7 +320,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	    <class>GtkCheckButton</class>
 	    <name>management_default</name>
 	    <can_focus>True</can_focus>
-	    <label>Make this my _default account</label>
+	    <label>_Make this my default account</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -357,33 +357,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>identity_full_name</name>
-	    <width>80</width>
-	    <height>20</height>
-	    <can_focus>True</can_focus>
-	    <has_focus>True</has_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>50</text_max_length>
-	    <text></text>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>2</right_attach>
-	      <top_attach>0</top_attach>
-	      <bottom_attach>1</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>True</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkEntry</class>
 	    <name>identity_address</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
@@ -409,7 +382,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>identity_address_label</name>
-	    <label>E_mail address:</label>
+	    <label>Email _address:</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -459,6 +432,30 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
+
+	  <widget>
+	    <class>GtkEntry</class>
+	    <name>identity_full_name</name>
+	    <can_focus>True</can_focus>
+	    <editable>True</editable>
+	    <text_visible>True</text_visible>
+	    <text_max_length>0</text_max_length>
+	    <text></text>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
 	</widget>
       </widget>
 
@@ -488,7 +485,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>identity_organization_label</name>
-	    <label>_Organization:</label>
+	    <label>Or_ganization:</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -515,7 +512,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label-sig-text</name>
-	    <label>Text _Signature:</label>
+	    <label>_Text Signature:</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -594,7 +591,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	    <class>GtkButton</class>
 	    <name>button-sig-edit-text</name>
 	    <can_focus>True</can_focus>
-	    <label>Ed_it...</label>
+	    <label> Edit </label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <left_attach>3</left_attach>
@@ -616,7 +613,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	    <class>GtkButton</class>
 	    <name>button-sig-edit-html</name>
 	    <can_focus>True</can_focus>
-	    <label>Edi_t...</label>
+	    <label> Edit </label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <left_attach>3</left_attach>
@@ -638,7 +635,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	    <class>GtkButton</class>
 	    <name>button-sig-new-text</name>
 	    <can_focus>True</can_focus>
-	    <label>N_ew...</label>
+	    <label> New </label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <left_attach>2</left_attach>
@@ -660,7 +657,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</label>
 	    <class>GtkButton</class>
 	    <name>button-sig-new-html</name>
 	    <can_focus>True</can_focus>
-	    <label>Ne_w...</label>
+	    <label> New </label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <left_attach>2</left_attach>
@@ -730,7 +727,7 @@ Random
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>reply_to_label</name>
-	    <label>_Reply-To:</label>
+	    <label>Re_ply-To:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -785,7 +782,7 @@ Random
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>label31</name>
-      <label>Identity</label>
+      <label>_Identity</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -819,7 +816,7 @@ Random
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>source_type_label</name>
-	  <label>_Server type: </label>
+	  <label>Server _Type: </label>
 	  <justify>GTK_JUSTIFY_RIGHT</justify>
 	  <wrap>False</wrap>
 	  <xalign>1</xalign>
@@ -853,7 +850,7 @@ Standard Unix mbox
 Qmail maildir 
 None
 </items>
-	  <initial_choice>1</initial_choice>
+	  <initial_choice>4</initial_choice>
 	  <child>
 	    <left_attach>1</left_attach>
 	    <right_attach>2</right_attach>
@@ -872,49 +869,57 @@ None
       </widget>
 
       <widget>
-	<class>GtkHBox</class>
-	<name>hbox58</name>
-	<border_width>3</border_width>
-	<homogeneous>False</homogeneous>
-	<spacing>2</spacing>
+	<class>GtkAlignment</class>
+	<name>alignment26</name>
+	<xalign>0.5</xalign>
+	<yalign>0.5</yalign>
+	<xscale>0.97</xscale>
+	<yscale>3.91155e-07</yscale>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>
-	  <fill>False</fill>
+	  <fill>True</fill>
 	</child>
 
 	<widget>
-	  <class>GtkLabel</class>
-	  <name>label46</name>
-	  <label>Description:</label>
-	  <justify>GTK_JUSTIFY_RIGHT</justify>
-	  <wrap>False</wrap>
-	  <xalign>1</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>2</xpad>
-	  <ypad>0</ypad>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
-	</widget>
+	  <class>GtkHBox</class>
+	  <name>hbox163</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>3</spacing>
 
-	<widget>
-	  <class>GtkLabel</class>
-	  <name>source_description</name>
-	  <label>description</label>
-	  <justify>GTK_JUSTIFY_CENTER</justify>
-	  <wrap>False</wrap>
-	  <xalign>0.5</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label442</name>
+	    <label>Description:</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>source_description</name>
+	    <label>description</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 	</widget>
       </widget>
 
@@ -971,7 +976,7 @@ None
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>source_user_label</name>
-	    <label>_Username:</label>
+	    <label>User_name:</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -1154,7 +1159,7 @@ None
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>lblSourceUseSSL</name>
-	      <label>Use s_ecure connection (SSL):</label>
+	      <label>_Use secure connection (SSL):</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
@@ -1297,7 +1302,7 @@ Kerberos
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>label32</name>
-      <label>Receiving Mail</label>
+      <label>_Receiving Mail</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -1424,7 +1429,7 @@ Kerberos
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>label33</name>
-      <label>Receiving Options</label>
+      <label>Receiving _Options</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -1654,7 +1659,7 @@ Sendmail
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>lblTransportUseSSL</name>
-	      <label>Use s_ecure connection (SSL):</label>
+	      <label>_Use secure connection (SSL):</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
@@ -1822,7 +1827,7 @@ Kerberos
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>transport_user_label</name>
-	      <label>_Username:</label>
+	      <label>User_name:</label>
 	      <justify>GTK_JUSTIFY_RIGHT</justify>
 	      <wrap>False</wrap>
 	      <xalign>1</xalign>
@@ -1857,7 +1862,7 @@ Kerberos
 	    <class>GtkCheckButton</class>
 	    <name>transport_remember_password</name>
 	    <can_focus>True</can_focus>
-	    <label>_Remember this password</label>
+	    <label>Remember this _password</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -1874,7 +1879,7 @@ Kerberos
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>label34</name>
-      <label>Sending Mail</label>
+      <label>_Sending Mail</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -1916,7 +1921,7 @@ Kerberos
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>drafts_label</name>
-	    <label>_Drafts folder:</label>
+	    <label>Drafts _folder:</label>
 	    <justify>GTK_JUSTIFY_LEFT</justify>
 	    <wrap>False</wrap>
 	    <xalign>0</xalign>
@@ -2162,7 +2167,7 @@ Kerberos
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>label35</name>
-      <label>Defaults</label>
+      <label>_Defaults</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -2247,7 +2252,7 @@ Kerberos
 	    <class>GtkCheckButton</class>
 	    <name>pgp_always_sign</name>
 	    <can_focus>True</can_focus>
-	    <label>Always _sign outgoing messages when using this account</label>
+	    <label>_Always sign outgoing messages when using this account</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -2261,7 +2266,7 @@ Kerberos
 	    <class>GtkCheckButton</class>
 	    <name>pgp_encrypt_to_self</name>
 	    <can_focus>True</can_focus>
-	    <label>Always _encrypt to myself when sending encrypted mail</label>
+	    <label>Al_ways encrypt to myself when sending encrypted mail</label>
 	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -2301,7 +2306,7 @@ Kerberos
 	    <name>smime_encrypt_to_self</name>
 	    <can_focus>True</can_focus>
 	    <label>A_lways encrypt to myself when sending encrypted mail</label>
-	    <active>True</active>
+	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
 	      <left_attach>0</left_attach>
@@ -2323,7 +2328,7 @@ Kerberos
 	    <class>GtkCheckButton</class>
 	    <name>smime_always_sign</name>
 	    <can_focus>True</can_focus>
-	    <label>_Always sign outgoing messages when using this account</label>
+	    <label>Alwa_ys sign outgoing messages when using this account</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -2448,7 +2453,7 @@ Kerberos
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>lblSecurity</name>
-      <label>Security</label>
+      <label>S_ecurity</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -2672,6 +2677,7 @@ Kerberos
 	  <widget>
 	    <class>GtkButton</class>
 	    <name>cmdAccountEdit</name>
+	    <sensitive>False</sensitive>
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
 	    <label>_Edit</label>
@@ -2681,6 +2687,7 @@ Kerberos
 	  <widget>
 	    <class>GtkButton</class>
 	    <name>cmdAccountDelete</name>
+	    <sensitive>False</sensitive>
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
 	    <label>_Delete</label>
@@ -2724,6 +2731,7 @@ Kerberos
 	  <widget>
 	    <class>GtkButton</class>
 	    <name>cmdAccountDefault</name>
+	    <sensitive>False</sensitive>
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
 	    <label>De_fault</label>
@@ -2733,6 +2741,7 @@ Kerberos
 	  <widget>
 	    <class>GtkButton</class>
 	    <name>cmdAccountAble</name>
+	    <sensitive>False</sensitive>
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
 	    <label>E_nable</label>
@@ -2953,7 +2962,7 @@ Kerberos
 	      <class>GtkCheckButton</class>
 	      <name>chkMarkTimeout</name>
 	      <can_focus>True</can_focus>
-	      <label>Mark messages as read after</label>
+	      <label>_Mark messages as read after</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
@@ -3018,13 +3027,14 @@ Kerberos
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>lblDefaultCharset</name>
-	      <label>Default character encoding:</label>
+	      <label>Default character _encoding:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <default_focus_target>omenuCharset</default_focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -3063,7 +3073,7 @@ Baltic (ISO-8859-4)
 	      <class>GtkCheckButton</class>
 	      <name>chkHighlightCitations</name>
 	      <can_focus>True</can_focus>
-	      <label>_Highlight quotations with</label>
+	      <label>Highlight _quotations with</label>
 	      <active>True</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
@@ -3141,7 +3151,7 @@ Baltic (ISO-8859-4)
 	      <class>GtkCheckButton</class>
 	      <name>chkEmptyTrashOnExit</name>
 	      <can_focus>True</can_focus>
-	      <label>_Empty trash folders on exit</label>
+	      <label>Empty _trash folders on exit</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
@@ -3190,7 +3200,7 @@ Baltic (ISO-8859-4)
 	    <class>GtkRadioButton</class>
 	    <name>radNotifyNot</name>
 	    <can_focus>True</can_focus>
-	    <label>Do not notify me when new mail arrives</label>
+	    <label>_Do not notify me when new mail arrives</label>
 	    <active>True</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>new_mail_notify</group>
@@ -3205,7 +3215,7 @@ Baltic (ISO-8859-4)
 	    <class>GtkRadioButton</class>
 	    <name>radNotifyBeep</name>
 	    <can_focus>True</can_focus>
-	    <label>Beep when new mail arrives</label>
+	    <label>_Beep when new mail arrives</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>new_mail_notify</group>
@@ -3220,7 +3230,7 @@ Baltic (ISO-8859-4)
 	    <class>GtkRadioButton</class>
 	    <name>radNotifyPlaySound</name>
 	    <can_focus>True</can_focus>
-	    <label>Play sound file when new mail arrives</label>
+	    <label>_Play sound file when new mail arrives</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>new_mail_notify</group>
@@ -3246,13 +3256,14 @@ Baltic (ISO-8859-4)
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>lblNotifyFilename</name>
-	      <label>Specify filename:</label>
+	      <label>Specify _filename:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
 	      <yalign>0.5</yalign>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
+	      <default_focus_target>txtNotifyPlaySound</default_focus_target>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -3293,7 +3304,7 @@ Baltic (ISO-8859-4)
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>lblGeneral</name>
-      <label>General</label>
+      <label>_General</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -3378,7 +3389,7 @@ Baltic (ISO-8859-4)
 	<class>GtkCheckButton</class>
 	<name>chkShowAnimatedImages</name>
 	<can_focus>True</can_focus>
-	<label>Show animated images</label>
+	<label>_Show animated images</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -3392,7 +3403,7 @@ Baltic (ISO-8859-4)
 	<class>GtkCheckButton</class>
 	<name>chkAutoDetectLinks</name>
 	<can_focus>True</can_focus>
-	<label>Automatically detect links</label>
+	<label>Automatically _detect links</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -3406,7 +3417,7 @@ Baltic (ISO-8859-4)
 	<class>GtkCheckButton</class>
 	<name>chkPromptWantHTML</name>
 	<can_focus>True</can_focus>
-	<label>Prompt when sending HTML messages to contacts that don't want them</label>
+	<label>_Prompt when sending HTML messages to contacts that don't want them</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -3421,7 +3432,7 @@ Baltic (ISO-8859-4)
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>lblHtmlMail</name>
-      <label>HTML Mail</label>
+      <label>_HTML Mail</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -3497,7 +3508,7 @@ Baltic (ISO-8859-4)
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>lblSecurity</name>
-      <label>Security</label>
+      <label>_Security</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
@@ -3521,8 +3532,8 @@ Baltic (ISO-8859-4)
 	<rows>6</rows>
 	<columns>3</columns>
 	<homogeneous>False</homogeneous>
-	<row_spacing>4</row_spacing>
-	<column_spacing>4</column_spacing>
+	<row_spacing>3</row_spacing>
+	<column_spacing>3</column_spacing>
 
 	<widget>
 	  <class>GnomeColorPicker</class>
@@ -3763,7 +3774,7 @@ Baltic (ISO-8859-4)
 	  <class>GtkButton</class>
 	  <name>cmdRestoreLabels</name>
 	  <can_focus>True</can_focus>
-	  <label>Restore defaults</label>
+	  <label>_Restore defaults</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <left_attach>2</left_attach>
@@ -3787,7 +3798,7 @@ Baltic (ISO-8859-4)
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
       <name>lblColours</name>
-      <label>Colors</label>
+      <label>C_olors</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>
