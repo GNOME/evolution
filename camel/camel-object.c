@@ -123,6 +123,7 @@ G_LOCK_DEFINE_STATIC (refcount);
 
 static gboolean type_system_initialized = FALSE;
 static GHashTable *ctype_to_typeinfo = NULL;
+static GHashTable *name_to_typeinfo = NULL;
 static const CamelType camel_object_type = 1;
 static CamelType cur_max_type = CAMEL_INVALID_TYPE;
 
@@ -179,15 +180,15 @@ camel_type_init (void)
 	camel_type_lock_up ();
 
 	if (type_system_initialized) {
-		g_warning
-			("camel_type_init: type system already initialized.");
+		g_warning ("camel_type_init: type system already initialized.");
 		camel_type_lock_down ();
 		return;
 	}
 
 	type_system_initialized = TRUE;
 	ctype_to_typeinfo = g_hash_table_new (g_direct_hash, g_direct_equal);
-
+	name_to_typeinfo = g_hash_table_new (g_str_hash, g_str_equal);
+	
 	obj_info = g_new (CamelTypeInfo, 1);
 	obj_info->self = camel_object_type;
 	obj_info->parent = CAMEL_INVALID_TYPE;
@@ -209,7 +210,8 @@ camel_type_init (void)
 			     GINT_TO_POINTER (CAMEL_INVALID_TYPE), NULL);
 	g_hash_table_insert (ctype_to_typeinfo,
 			     GINT_TO_POINTER (camel_object_type), obj_info);
-
+	g_hash_table_insert (name_to_typeinfo, obj_info->name, obj_info);
+	
 	/* Sigh. Ugly */
 	make_global_classfuncs (obj_info);
 
@@ -243,7 +245,14 @@ camel_type_register (CamelType parent, const gchar * name,
 		camel_type_init ();
 		G_LOCK (type_system);
 	}
-
+	
+	obj_info = g_hash_table_lookup (name_to_typeinfo, name);
+	if (obj_info != NULL) {
+		/* looks like we've already registered this type... */
+		camel_type_lock_down ();
+		return obj_info->self;
+	}
+	
 	parent_info =
 		g_hash_table_lookup (ctype_to_typeinfo,
 				     GINT_TO_POINTER (parent));
@@ -298,6 +307,7 @@ camel_type_register (CamelType parent, const gchar * name,
 
 	g_hash_table_insert (ctype_to_typeinfo,
 			     GINT_TO_POINTER (obj_info->self), obj_info);
+	g_hash_table_insert (name_to_typeinfo, obj_info->name, obj_info);
 
 	/* Sigh. Ugly. */
 	make_global_classfuncs (obj_info);

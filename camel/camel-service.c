@@ -260,10 +260,13 @@ camel_service_connect (CamelService *service, CamelException *ex)
 	service->status = ret ? CAMEL_SERVICE_CONNECTED : CAMEL_SERVICE_DISCONNECTED;
 
 	CAMEL_SERVICE_LOCK (service, connect_op_lock);
-	if (unreg)
-		camel_operation_unregister (service->connect_op);
-	camel_operation_unref (service->connect_op);
-	service->connect_op = NULL;
+	if (service->connect_op) {
+		if (unreg)
+			camel_operation_unregister (service->connect_op);
+		
+		camel_operation_unref (service->connect_op);
+		service->connect_op = NULL;
+	}
 	CAMEL_SERVICE_UNLOCK (service, connect_op_lock);
 
 	CAMEL_SERVICE_UNLOCK (service, connect_lock);
