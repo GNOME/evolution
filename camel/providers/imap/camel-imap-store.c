@@ -86,6 +86,7 @@ static gboolean imap_connect_online (CamelService *service, CamelException *ex);
 static gboolean imap_connect_offline (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect_online (CamelService *service, gboolean clean, CamelException *ex);
 static gboolean imap_disconnect_offline (CamelService *service, gboolean clean, CamelException *ex);
+static void imap_noop (CamelStore *store, CamelException *ex);
 static GList *query_auth_types (CamelService *service, CamelException *ex);
 static guint hash_folder_name (gconstpointer key);
 static gint compare_folder_name (gconstpointer a, gconstpointer b);
@@ -107,7 +108,6 @@ static void subscribe_folder (CamelStore *store, const char *folder_name,
 			      CamelException *ex);
 static void unsubscribe_folder (CamelStore *store, const char *folder_name,
 				CamelException *ex);
-
 
 static void get_folders_online (CamelImapStore *imap_store, const char *pattern,
 				GPtrArray *folders, gboolean lsub, CamelException *ex);
@@ -153,6 +153,7 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	camel_store_class->folder_subscribed = folder_subscribed;
 	camel_store_class->subscribe_folder = subscribe_folder;
 	camel_store_class->unsubscribe_folder = unsubscribe_folder;
+	camel_store_class->noop = imap_noop;
 	
 	camel_disco_store_class->can_work_offline = can_work_offline;
 	camel_disco_store_class->connect_online = imap_connect_online;
@@ -1402,6 +1403,25 @@ imap_disconnect_online (CamelService *service, gboolean clean, CamelException *e
 	imap_disconnect_offline (service, clean, ex);
 	
 	return TRUE;
+}
+
+static void
+imap_noop (CamelStore *store, CamelException *ex)
+{
+	CamelImapStore *imap_store = (CamelImapStore *) store;
+	CamelDiscoStore *disco = (CamelDiscoStore *) store;
+	CamelImapResponse *response;
+	
+	switch (camel_disco_store_status (disco)) {
+	case CAMEL_DISCO_STORE_ONLINE:
+	case CAMEL_DISCO_STORE_RESYNCING:
+		response = camel_imap_command (imap_store, NULL, NULL, "NOOP");
+		if (response)
+			camel_imap_response_free (imap_store, response);
+		break;
+	case CAMEL_DISCO_STORE_OFFLINE:
+		break;
+	}
 }
 
 static guint

@@ -398,6 +398,29 @@ service_cache_remove (CamelService *service, gpointer event_data, gpointer user_
 	CAMEL_SESSION_UNLOCK(session, lock);
 }
 
+static gboolean
+noop_cb (gpointer user_data)
+{
+	CamelStore *store = (CamelStore *) user_data;
+	CamelException ex;
+	
+	camel_exception_init (&ex);
+	camel_store_noop (store, &ex);
+	camel_exception_clear (&ex);
+	
+	return TRUE;
+}
+
+static void
+unregister_noop (CamelObject *object, gpointer event_data, gpointer user_data)
+{
+	CamelService *service = (CamelService *) object;
+	guint id;
+	
+	id = GPOINTER_TO_INT (user_data);
+	
+	camel_session_remove_timeout (service->session, id);
+}
 
 static CamelService *
 get_service (CamelSession *session, const char *url_string,
@@ -407,6 +430,7 @@ get_service (CamelSession *session, const char *url_string,
 	CamelProvider *provider;
 	CamelService *service;
 	CamelException internal_ex;
+	
 	url = camel_url_new (url_string, ex);
 	if (!url)
 		return NULL;
@@ -420,6 +444,7 @@ get_service (CamelSession *session, const char *url_string,
 				      url->protocol);
 		provider = NULL;
 	}
+	
 	if (!provider) {
 		camel_url_free (url);
 		return NULL;
@@ -430,7 +455,7 @@ get_service (CamelSession *session, const char *url_string,
 	 */
 	if (url->path && !CAMEL_PROVIDER_ALLOWS (provider, CAMEL_URL_PART_PATH))
 		camel_url_set_path (url, NULL);
-
+	
 	/* Now look up the service in the provider's cache */
 	service = g_hash_table_lookup (provider->service_cache[type], url);
 	if (service != NULL) {
@@ -447,8 +472,19 @@ get_service (CamelSession *session, const char *url_string,
 		camel_object_unref (CAMEL_OBJECT (service));
 		service = NULL;
 	} else {
+		if (type == CAMEL_PROVIDER_STORE) {
+			guint id;
+			
+			id = camel_session_register_timeout (session, 36000, noop_cb, service);
+			camel_object_hook_event (CAMEL_OBJECT (service), "finalize",
+						 (CamelObjectEventHookFunc) unregister_noop,
+						 GINT_TO_POINTER (id));
+		}
+		
 		g_hash_table_insert (provider->service_cache[type], url, service);
-		camel_object_hook_event (CAMEL_OBJECT (service), "finalize", (CamelObjectEventHookFunc) service_cache_remove, GINT_TO_POINTER (type));
+		camel_object_hook_event (CAMEL_OBJECT (service), "finalize",
+					 (CamelObjectEventHookFunc) service_cache_remove,
+					 GINT_TO_POINTER (type));
 	}
 
 	return service;

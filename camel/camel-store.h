@@ -155,6 +155,8 @@ typedef struct {
 	void            (*unsubscribe_folder)       (CamelStore *store,
 						     const char *folder_name,
 						     CamelException *ex);
+	void            (*noop)                     (CamelStore *store,
+						     CamelException *ex);
 } CamelStoreClass;
 
 
@@ -216,6 +218,9 @@ void             camel_store_subscribe_folder         (CamelStore *store,
 						       CamelException *ex);
 void             camel_store_unsubscribe_folder       (CamelStore *store,
 						       const char *folder_name,
+						       CamelException *ex);
+
+void             camel_store_noop                     (CamelStore *store,
 						       CamelException *ex);
 
 gboolean	 camel_store_uri_cmp		      (CamelStore *store, const char *uria, const char *urib);

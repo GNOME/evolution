@@ -71,6 +71,8 @@ static gboolean folder_subscribed (CamelStore *store, const char *folder_name);
 static void subscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex);
 static void unsubscribe_folder (CamelStore *store, const char *folder_name, CamelException *ex);
 
+static void noop (CamelStore *store, CamelException *ex);
+
 static void construct (CamelService *service, CamelSession *session,
 		       CamelProvider *provider, CamelURL *url,
 		       CamelException *ex);
@@ -102,6 +104,7 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	camel_store_class->folder_subscribed = folder_subscribed;
 	camel_store_class->subscribe_folder = subscribe_folder;
 	camel_store_class->unsubscribe_folder = unsubscribe_folder;
+	camel_store_class->noop = noop;
 	
 	/* virtual method overload */
 	camel_service_class->construct = construct;
@@ -1112,6 +1115,28 @@ camel_store_unsubscribe_folder (CamelStore *store,
 	}
 
 	CAMEL_STORE_UNLOCK(store, folder_lock);
+}
+
+
+static void
+noop (CamelStore *store, CamelException *ex)
+{
+	/* no-op */
+	;
+}
+
+
+/**
+ * camel_store_noop:
+ * @store: CamelStore
+ * @ex: exception
+ *
+ * Pings @store so that its connection doesn't timeout.
+ **/
+void
+camel_store_noop (CamelStore *store, CamelException *ex)
+{
+	CS_CLASS (store)->noop (store, ex);
 }
 
 

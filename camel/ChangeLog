@@ -1,3 +1,14 @@
+2002-08-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (imap_noop): Override the
+	default noop implementation.
+
+	* camel-store.c (camel_store_noop): New virtual method to ping a
+	store.
+
+	* camel-session.c (get_service): Register a timeout that calls
+	camel_store_noop() every 10 minutes.
+
 2002-08-19  Peter Williams  <peterw@ximian.com>
 
 	Plug some large leaks in the indexing code.
