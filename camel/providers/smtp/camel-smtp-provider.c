@@ -42,7 +42,7 @@ static CamelProvider smtp_provider = {
 void
 camel_provider_module_init (CamelSession *session)
 {
-	smtp_provider.object_types[CAMEL_TRANSPORT_TYPE] =
+	smtp_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
 		camel_smtp_transport_get_type();
 
 	camel_session_register_provider (session, &smtp_provider);
