@@ -819,7 +819,8 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 	
 	/* retrieve the message information array */
 	msg_info = e_tree_memory_node_get_data (E_TREE_MEMORY(etm), path);
-	g_assert(msg_info);
+	if (!msg_info)
+		return NULL;
 	
 	switch (col){
 	case COL_MESSAGE_STATUS: {
