@@ -1,3 +1,15 @@
+2002-12-03  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_finalise/destroy): frobbed
+	around with these till it exits without crashing.
+
+	* message-list.c (message_list_destroy): made a destroy
+	handler again (was dispose).  Frobbed around with this and
+	finalise till it can destroy without crashing.
+
+	* message-browser.c (message_browser_new): ref/sink the
+	folderbrowser.
+
 2002-11-25  Radek Doulik  <rodo@ximian.com>
 
 	* mail-preferences.c (mail_preferences_construct): magic_check -->

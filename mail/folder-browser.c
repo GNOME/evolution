@@ -130,54 +130,17 @@ static void
 folder_browser_finalise (GObject *object)
 {
 	FolderBrowser *folder_browser;
-	CORBA_Environment ev;
 	
 	folder_browser = FOLDER_BROWSER (object);
-	
-	CORBA_exception_init (&ev);
-	
+		
 	g_free (folder_browser->loading_uid);
 	g_free (folder_browser->pending_uid);
 	g_free (folder_browser->new_uid);
 	g_free (folder_browser->loaded_uid);
 	
-	if (folder_browser->search_full)
-		g_object_unref (folder_browser->search_full);
-	
-	if (folder_browser->sensitize_timeout_id)
-		g_source_remove (folder_browser->sensitize_timeout_id);
-	
-	if (folder_browser->shell != CORBA_OBJECT_NIL) {
-		CORBA_Object_release (folder_browser->shell, &ev);
-		folder_browser->shell = CORBA_OBJECT_NIL;
-	}
-	
-	if (folder_browser->shell_view != CORBA_OBJECT_NIL) {
-		CORBA_Object_release (folder_browser->shell_view, &ev);
-		folder_browser->shell_view = CORBA_OBJECT_NIL;
-	}
-	
-	if (folder_browser->uicomp)
-		bonobo_object_unref (BONOBO_OBJECT (folder_browser->uicomp));
-	
 	g_free (folder_browser->uri);
 	folder_browser->uri = NULL;
-	
-	CORBA_exception_free (&ev);
-	
-	if (folder_browser->view_instance) {
-		g_object_unref (folder_browser->view_instance);
-		folder_browser->view_instance = NULL;
-	}
-	
-	if (folder_browser->view_menus) {
-		g_object_unref (folder_browser->view_menus);
-		folder_browser->view_menus = NULL;
-	}
-	
-	g_object_unref (folder_browser->invisible);
-	folder_browser->invisible = NULL;
-	
+		
 	if (folder_browser->clipboard_selection)
 		g_byte_array_free (folder_browser->clipboard_selection, TRUE);
 	
@@ -193,9 +156,12 @@ static void
 folder_browser_destroy (GtkObject *object)
 {
 	FolderBrowser *folder_browser;
+	CORBA_Environment ev;
 	
 	folder_browser = FOLDER_BROWSER (object);
-	
+
+	CORBA_exception_init (&ev);
+
 	if (folder_browser->seen_id != 0) {
 		gtk_timeout_remove (folder_browser->seen_id);
 		folder_browser->seen_id = 0;
@@ -215,10 +181,50 @@ folder_browser_destroy (GtkObject *object)
 		gtk_widget_destroy (GTK_WIDGET (folder_browser->mail_display));
 		folder_browser->mail_display = NULL;
 	}
+
+	if (folder_browser->view_instance) {
+		g_object_unref (folder_browser->view_instance);
+		folder_browser->view_instance = NULL;
+	}
+	
+	if (folder_browser->view_menus) {
+		g_object_unref (folder_browser->view_menus);
+		folder_browser->view_menus = NULL;
+	}
 	
 	/* wait for all outstanding async events against us */
 	mail_async_event_destroy (folder_browser->async_event);
+
+	if (folder_browser->search_full) {
+		g_object_unref (folder_browser->search_full);
+		folder_browser->search_full = NULL;
+	}
 	
+	if (folder_browser->sensitize_timeout_id) {
+		g_source_remove (folder_browser->sensitize_timeout_id);
+		folder_browser->sensitize_timeout_id = 0;
+	}
+	
+	if (folder_browser->shell != CORBA_OBJECT_NIL) {
+		CORBA_Object_release (folder_browser->shell, &ev);
+		folder_browser->shell = CORBA_OBJECT_NIL;
+	}
+	
+	if (folder_browser->shell_view != CORBA_OBJECT_NIL) {
+		CORBA_Object_release (folder_browser->shell_view, &ev);
+		folder_browser->shell_view = CORBA_OBJECT_NIL;
+	}
+	
+	if (folder_browser->uicomp) {
+		bonobo_object_unref (BONOBO_OBJECT (folder_browser->uicomp));
+		folder_browser->uicomp = NULL;
+	}
+	
+	if (folder_browser->invisible) {
+		g_object_unref (folder_browser->invisible);
+		folder_browser->invisible = NULL;
+	}
+		
 	if (folder_browser->get_id != -1) {
 		mail_msg_cancel (folder_browser->get_id);
 		folder_browser->get_id = -1;
@@ -233,6 +239,8 @@ folder_browser_destroy (GtkObject *object)
 		camel_object_unref (folder_browser->folder);
 		folder_browser->folder = NULL;
 	}
+
+	CORBA_exception_free (&ev);
 	
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
@@ -2545,7 +2553,9 @@ my_folder_browser_init (FolderBrowser *fb)
 	
 	/* cut, copy & paste */
 	fb->invisible = gtk_invisible_new ();
-	
+	g_object_ref(fb->invisible);
+	gtk_object_sink(fb->invisible);
+
 	for (i = 0; i < num_paste_types; i++)
 		gtk_selection_add_target (fb->invisible, clipboard_atom,
 					  paste_types[i].target,
