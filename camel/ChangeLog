@@ -1,5 +1,18 @@
 2000-04-17  Dan Winship  <danw@helixcode.com>
 
+	* camel-mime-message.[ch]: Remove the "session" field from
+	CamelMimeMessage. Nothing uses it, about half of the existing
+	calls to camel_mime_message_new_with_session pass NULL, and
+	there's no obvious reason for it to be there.
+
+	* providers/MH/camel-mh-folder.c:
+	* providers/maildir/camel-maildir-folder.c:
+	* providers/mbox/camel-mbox-folder.c:
+	* providers/mbox/camel-mbox-utils.c:
+	* providers/nntp/camel-nntp-folder.c:
+	* providers/pop3/camel-pop3-folder.c: Use camel_mime_message_new
+	instead of camel_mime_message_new_with_session.
+
 	* camel-session.c (get_store_for_protocol_with_url): Set the
 	exception if no provider is found.
 

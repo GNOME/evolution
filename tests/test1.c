@@ -44,7 +44,7 @@ main (int argc, char**argv)
 		}
 	}
 
-	message = camel_mime_message_new_with_session ((CamelSession *)NULL);
+	message = camel_mime_message_new ();
 
 	camel_mime_part_set_description (CAMEL_MIME_PART (message), "a test");
 

@@ -105,7 +105,7 @@ build_message (EMsgComposer *composer)
 	CamelMimeBodyPart *body_part;
 	CamelMultipart *multipart;
 
-	new = camel_mime_message_new_with_session (NULL);
+	new = camel_mime_message_new ();
 
 	e_msg_composer_hdrs_to_message (E_MSG_COMPOSER_HDRS (composer->hdrs),
 					new);

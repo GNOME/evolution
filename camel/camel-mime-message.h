@@ -74,7 +74,6 @@ struct _CamelMimeMessage
 	gchar *message_uid;
 
 	CamelFolder *folder;
-	CamelSession *session;
 
 };
 
@@ -124,7 +123,7 @@ GtkType camel_mime_message_get_type (void);
 
 
 /* public methods */
-CamelMimeMessage * camel_mime_message_new_with_session     (CamelSession *session);
+CamelMimeMessage * camel_mime_message_new                  (void);
 
 
 void               camel_mime_message_set_received_date    (CamelMimeMessage *mime_message, 

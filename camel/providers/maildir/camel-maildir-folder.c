@@ -462,8 +462,7 @@ _get_message (CamelFolder *folder, gint number, CamelException *ex)
 	if (!file) return NULL;
 
 	/* Create the message object */
-#warning use session field here
-	message = camel_mime_message_new_with_session ((CamelSession *) NULL);
+	message = camel_mime_message_new ();
 	stream = camel_stream_fs_new_with_name (file, CAMEL_STREAM_FS_READ);
 
 	if (!message || !stream) {

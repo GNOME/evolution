@@ -210,8 +210,7 @@ filename_to_camel_msg (gchar* filename)
 	if (!input_stream) 
 		return NULL;
 
-	message = camel_mime_message_new_with_session (
-		(CamelSession *)NULL);
+	message = camel_mime_message_new ();
 	
 	camel_data_wrapper_set_input_stream (
 		CAMEL_DATA_WRAPPER (message), input_stream);

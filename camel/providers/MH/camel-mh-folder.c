@@ -508,7 +508,7 @@ _get_message (CamelFolder *folder, gint number, CamelException *ex)
 		
 		if (input_stream != NULL) {
 #warning use session field here
-			message = camel_mime_message_new_with_session ( (CamelSession *)NULL);
+			message = camel_mime_message_new ();
 			camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
 			gtk_object_unref (GTK_OBJECT (input_stream));
 			message->message_number = number;
@@ -785,7 +785,7 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		
 		if (input_stream != NULL) {
 #warning use session field here
-			message = camel_mime_message_new_with_session ( (CamelSession *)NULL);
+			message = camel_mime_message_new ();
 			camel_data_wrapper_construct_from_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
 			gtk_object_unref (GTK_OBJECT (input_stream));
 

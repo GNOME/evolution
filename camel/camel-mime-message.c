@@ -157,7 +157,6 @@ camel_mime_message_init (gpointer object, gpointer klass)
 	camel_mime_message->reply_to = NULL;
 	camel_mime_message->from = NULL;
 	camel_mime_message->folder = NULL;
-	camel_mime_message->session = NULL;
 }
 
 GtkType
@@ -199,7 +198,6 @@ _finalize (GtkObject *object)
 	
 	if (message->recipients) camel_recipient_table_unref (message->recipients);
 	if (message->folder) gtk_object_unref (GTK_OBJECT (message->folder));
-	if (message->session) gtk_object_unref (GTK_OBJECT (message->session));
 	
 	if (message->flags)
 		g_hash_table_foreach (message->flags, g_hash_table_generic_free, NULL);
@@ -212,12 +210,10 @@ _finalize (GtkObject *object)
 
 
 CamelMimeMessage *
-camel_mime_message_new_with_session (CamelSession *session) 
+camel_mime_message_new (void) 
 {
 	CamelMimeMessage *mime_message;
 	mime_message = gtk_type_new (CAMEL_MIME_MESSAGE_TYPE);
-	mime_message->session = session;
-	if (session) gtk_object_ref (GTK_OBJECT (session));
 	
 	return mime_message;
 }

@@ -20,7 +20,7 @@ main (int argc, char**argv)
 	camel_init ();
 	camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
 		
-	message = camel_mime_message_new_with_session( (CamelSession *)NULL);
+	message = camel_mime_message_new ();
 
 	
 	input_stream = camel_stream_fs_new_with_name ("mail.test", CAMEL_STREAM_FS_READ);

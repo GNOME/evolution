@@ -207,7 +207,7 @@ get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 
 	msgstream = camel_stream_mem_new_with_buffer (body, strlen (body),
 						      CAMEL_STREAM_MEM_READ);
-	msg = camel_mime_message_new_with_session (camel_service_get_session (CAMEL_SERVICE (folder->parent_store)));
+	msg = camel_mime_message_new ();
 	camel_data_wrapper_set_input_stream (CAMEL_DATA_WRAPPER (msg),
 					     msgstream);
 

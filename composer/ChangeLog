@@ -1,3 +1,8 @@
+2000-04-17  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (build_message): Change
+	camel_mime_message_new_with_session to camel_mime_message_new
+
 2000-03-17  bertrand  <bertrand@helixcode.com>
 
 	* e-msg-composer.c (create_menubar): Pass the composer as the data

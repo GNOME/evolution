@@ -365,7 +365,7 @@ index_message(ibex *index, int fd, CamelMboxParserMessageInfo *mi)
 		/* the stream will close the fd we have */
 		newfd = dup(fd);
 		stream = camel_stream_fs_new_with_fd_and_bounds(newfd, mi->message_position, mi->message_position + mi->size);
-		message = camel_mime_message_new_with_session( (CamelSession *)NULL);
+		message = camel_mime_message_new();
 		
 		camel_data_wrapper_set_input_stream (
 			CAMEL_DATA_WRAPPER (message), stream);
