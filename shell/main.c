@@ -374,6 +374,8 @@ idle_cb (void *data)
 	}
 
 	have_evolution_uri = FALSE;
+	displayed_any = FALSE;
+
 	for (p = uri_list; p != NULL; p = p->next) {
 		const char *uri;
 
@@ -397,12 +399,12 @@ idle_cb (void *data)
 		if (! have_evolution_uri) {
 			e_shell_create_view (shell, NULL, NULL);
 			display_default = TRUE;
+			displayed_any = TRUE;
 		} else {
 			display_default = FALSE;
 		}
 	}
 
-	displayed_any = FALSE;
 	for (p = uri_list; p != NULL; p = p->next) {
 		const char *uri;
 

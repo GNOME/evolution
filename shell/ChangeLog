@@ -1,5 +1,12 @@
 2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (idle_cb): Set displayed_any in the case when we are
+	calling e_shell_create_view().  Also initialize displayed_any to
+	FALSE earlier so we dont' end up opening two views at startup by
+	default.
+
+2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-selection-dialog.c (impl_dispose): Save the
 	expansion state for the EStorageSetView here.
 	(impl_finalize): Instead of here.
