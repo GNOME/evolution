@@ -1,5 +1,27 @@
+2003-01-29  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #37102
+	
+	* gui/dialogs/task-editor.c (set_menu_sens): don't allow task
+	assignment if the backend says not to
+
 2003-01-28  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/recurrence-page.c (fill_component): kill warning
+	(preview_recur): display the recurrences in the dtstart timezone
+	if possible
+
+	* gui/gnome-cal.c (dn_query_obj_updated_cb): pass NULL to use
+	default tag zone
+
+	* gui/tag-calendar.c (tag_calendar_by_comp): allow display zone
+	for the tagged calendar to be passed in
+	(prepare_tag): use the passed in timezone for display if non-null
+
+	* gui/tag-calendar.h (tag_calendar_by_comp): update proto
+
+2003-01-28  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/dialogs/recurrence-page.c (recurrence_page_set_dates): make
 	sure we always update the preview
 
