@@ -1,3 +1,9 @@
+1999-02-10  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-objc-checks.m4: Applied a patch from Kenneth Stailey;
+	use $CFLAGS when invoking $OBJC so the user can add additional
+	include paths.
+
 1999-02-05  Martin Baulig  <martin@home-of-linux.org>
 
 	* compiler-flags.m4: Don't add warning and compiler flags to
