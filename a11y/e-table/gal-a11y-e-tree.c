@@ -34,6 +34,7 @@ init_child_item (GalA11yETree *a11y)
 	eti = e_tree_get_item (tree);
 	if (priv->child_item == NULL) {
 		priv->child_item = gal_a11y_e_table_item_new (ATK_OBJECT (a11y),eti, 0);
+		g_return_if_fail (priv->child_item);
 		priv->child_item->role = ATK_ROLE_TREE_TABLE;
 	}
 }

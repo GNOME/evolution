@@ -10,6 +10,7 @@
 #include <config.h>
 #include "gal-a11y-e-table-item.h"
 #include "gal-a11y-e-cell-registry.h"
+#include "gal-a11y-e-cell.h"
 #include "gal-a11y-util.h"
 #include <gal/e-table/e-table-subset.h>
 
@@ -32,6 +33,9 @@ static GQuark		quark_accessible_object = 0;
 struct _GalA11yETableItemPrivate {
 	AtkObject *parent;
 	gint index_in_parent;
+	gint cols;
+	gint rows;
+	gpointer *cell_data;
 	int selection_change_id;
 	int cursor_change_id;
 };
@@ -76,17 +80,16 @@ eti_a11y_get_gobject (AtkObject *accessible)
 static void
 eti_dispose (GObject *object)
 {
+	gint i,j;
 	GalA11yETableItem *a11y = GAL_A11Y_E_TABLE_ITEM (object);
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (a11y);
 
-#if 0
-	if (priv->item)
-		g_object_weak_unref (G_OBJECT (priv->item), unref_accessible, a11y);
-
-	if (priv->parent)
-		g_object_unref (priv->parent);
-#endif
 	priv->parent = NULL;
+
+	if ( priv->cell_data != NULL ) {
+		g_free(priv->cell_data);
+		priv->cell_data = NULL;
+	}
 
 	if (parent_class->dispose)
 		parent_class->dispose (object);
@@ -224,12 +227,35 @@ eti_ref_accessible_at_point (AtkComponent *component,
 }
 
 
-/* atk table */
+static void
+cell_destroyed (gpointer data)
+{
+	AtkObject *parent;
+	gint index, n_cols;
+	GalA11yETableItem * item;
+	GalA11yECell * cell;
 
+	g_return_if_fail (GAL_A11Y_IS_E_CELL (data));
+	cell = GAL_A11Y_E_CELL (data);
+		
+	item =	atk_gobject_accessible_for_object (GAL_A11Y_E_CELL(data)->item);
+
+	g_return_if_fail (item && GAL_A11Y_IS_E_TABLE_ITEM (item));
+
+	g_return_if_fail (cell->row < GET_PRIVATE(item)->rows && cell->view_col < GET_PRIVATE(item)->cols);
+
+	index = cell->row * cell->item->cols + cell->view_col;
+                                                                   
+	if (GET_PRIVATE (item)->cell_data && GET_PRIVATE (item)->cell_data [index] == data)
+		GET_PRIVATE (item)->cell_data [index] = NULL;
+}
+
+/* atk table */
 static AtkObject*
 eti_ref_at (AtkTable *table, gint row, gint column)
 {
 	ETableItem *item;
+	AtkObject* ret;
 
 	item = E_TABLE_ITEM (eti_a11y_get_gobject (ATK_OBJECT (table)));
 	if (!item)
@@ -242,13 +268,37 @@ eti_ref_at (AtkTable *table, gint row, gint column)
 	    item->cell_views_realized) {
 		ECellView *cell_view = item->cell_views[column];
 		ETableCol *ecol = e_table_header_get_column (item->header, column);
-		return gal_a11y_e_cell_registry_get_object (NULL,
+		gpointer * cell_data;
+
+		cell_data = GET_PRIVATE (table)->cell_data;
+
+		if (cell_data[row*item->cols + column] == NULL) {
+			ret = gal_a11y_e_cell_registry_get_object (NULL,
 							    item,
 							    cell_view,
 							    ATK_OBJECT (table),
 							    ecol->col_idx,
 							    column,
 							    row);
+			cell_data[row*item->cols + column] = ret;
+			if (ATK_IS_OBJECT (ret))
+				g_object_weak_ref (G_OBJECT (ret),
+						   (GWeakNotify) cell_destroyed,
+						   ret);
+
+			else
+				ret = NULL;
+		} else {
+			ret = (AtkObject *) cell_data[row*item->cols + column];
+			if (ATK_IS_OBJECT (ret)) {
+				g_object_ref (ret);
+			} else { 
+				ret = NULL;
+			}
+		}
+
+
+		return ret;
 	}
 
 	return NULL;
@@ -526,6 +576,157 @@ eti_atk_component_iface_init (AtkComponentIface *iface)
 }
 
 static void
+eti_rows_inserted (ETableModel * model, int row, int count, 
+		   AtkObject * table_item)
+{
+	gint n_cols,n_rows,i,j;
+	gint size;
+	gpointer *cell_data;
+	ETableItem *item = E_TABLE_ITEM (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (table_item)));
+	GalA11yETableItem * item_a11y;
+	gint old_nrows;
+
+	g_return_if_fail (table_item);
+ 	item_a11y = GAL_A11Y_E_TABLE_ITEM (table_item);
+
+        n_cols = atk_table_get_n_columns (ATK_TABLE(table_item));
+	n_rows = atk_table_get_n_rows (ATK_TABLE(table_item));
+
+	old_nrows = GET_PRIVATE(item_a11y)->rows;
+	
+	g_return_if_fail (n_cols > 0 && n_rows > 0);
+	g_return_if_fail (old_nrows == n_rows - count);
+
+	cell_data = GET_PRIVATE(table_item)->cell_data;
+	GET_PRIVATE(table_item)->cell_data = g_realloc (cell_data, (n_rows*n_cols) * sizeof(gpointer));
+	cell_data = GET_PRIVATE(table_item)->cell_data;
+
+	GET_PRIVATE(table_item)->rows = n_rows; 
+
+	/* If rows are insert in the middle of a table. */
+	if (row + count < n_rows ) {
+		memmove(&cell_data[(row+count)*n_cols], &cell_data[row*n_cols],
+			(old_nrows-row)*n_cols*sizeof(gpointer));
+
+		/* Update cell's index. */
+		for (i = row + count; i < n_rows; i ++) {
+			for (j = 0; j < n_cols; j ++)
+				if (cell_data[i*n_cols + j] != NULL) {
+					AtkObject * a11y;
+
+					a11y = ATK_OBJECT(cell_data[i*n_cols + j]);
+                                        GAL_A11Y_E_CELL(a11y)->row = i;
+				}
+		}
+	}
+
+	/* Clear cache for the new added rows. */
+	for (i = row ; i < row+count; i ++)
+		for (j = 0 ;  j < n_cols; j ++)
+			cell_data [i*n_cols + j] = NULL;
+
+	g_signal_emit_by_name (table_item, "row-inserted", row,
+			       count, NULL);
+
+        for (i = row; i < (row + count); i ++) {
+                for (j = 0; j < n_cols; j ++) {
+			g_signal_emit_by_name (table_item,
+					       "children_changed::add",
+                                               ( (i*n_cols) + j), NULL, NULL);
+		}
+        }
+
+	g_signal_emit_by_name (table_item, "visible-data-changed");
+}
+
+static void
+eti_rows_deleted (ETableModel * model, int row, int count, 
+		  AtkObject * table_item)
+{
+	gint i,j, n_rows, n_cols, old_nrows;
+	gpointer *cell_data;
+	ETableItem *item = E_TABLE_ITEM (atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (table_item)));
+	
+	n_rows = atk_table_get_n_rows (ATK_TABLE(table_item));
+        n_cols = atk_table_get_n_columns (ATK_TABLE(table_item));
+
+	cell_data = GET_PRIVATE(table_item)->cell_data;
+	old_nrows = GET_PRIVATE(table_item)->rows;
+
+	g_return_if_fail ( row+count <= old_nrows);
+	g_return_if_fail (old_nrows == n_rows + count);
+	GET_PRIVATE(table_item)->rows = n_rows;
+
+	/* DEFUNCT the deleted cells. */
+	for (i = row; i < row+count; i ++) {
+		for (j = 0; j < n_cols; j ++) {
+			if (cell_data[i*n_cols + j] != NULL) {
+				AtkObject * a11y;
+
+				a11y = ATK_OBJECT(cell_data[i*n_cols + j]);
+				gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL(a11y), ATK_STATE_DEFUNCT, TRUE);
+				cell_data[i*n_cols + j] = NULL;
+			}
+		}
+	}
+
+	/* If more rows left, update the a11y object. */
+	if (old_nrows > row + count) {
+
+		/* Remove the defunct cells in cache. */
+		memmove (&cell_data[row*n_cols], &cell_data[(row+count)*n_cols],
+			( old_nrows-row-count)*n_cols*sizeof(gpointer));
+
+		GET_PRIVATE(table_item)->cell_data = g_realloc (cell_data, n_rows*n_cols*sizeof(gpointer));
+		cell_data = GET_PRIVATE(table_item)->cell_data;
+
+		/* Update index of cells below the deleted rows. */
+		for (i = row; i < n_rows; i ++) {
+			for (j = 0; j < n_cols; j ++) {
+				if (cell_data[i*n_cols + j] != NULL) {
+					AtkObject * a11y;
+
+					a11y = ATK_OBJECT(cell_data[i*n_cols + j]);
+					GAL_A11Y_E_CELL(a11y)->row = i;
+				}
+			}
+		}
+	}
+
+	g_signal_emit_by_name (table_item, "row-deleted", row,
+			       count, NULL);
+
+        for (i = row; i < (row + count); i ++) {
+                for (j = 0; j < n_cols; j ++) {
+			g_signal_emit_by_name (table_item,
+					       "children_changed::remove",
+                                               ( (i*n_cols) + j), NULL, NULL);
+		}
+        }
+	g_signal_emit_by_name (table_item, "visible-data-changed");
+}
+
+static void
+eti_real_initialize (AtkObject *obj, 
+		     gpointer data)
+{
+	ETableItem * eti;
+	ETableModel * model;
+
+	ATK_OBJECT_CLASS (parent_class)->initialize (obj, data);
+	eti = E_TABLE_ITEM (data);
+
+	model = eti->table_model;
+
+	g_signal_connect (model, "model-rows-inserted",
+			  G_CALLBACK (eti_rows_inserted),
+			  obj);
+	g_signal_connect (model, "model-rows-deleted",
+			  G_CALLBACK (eti_rows_deleted),
+			  obj);
+}
+
+static void
 eti_class_init (GalA11yETableItemClass *klass)
 {
 	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (klass);
@@ -541,6 +742,7 @@ eti_class_init (GalA11yETableItemClass *klass)
 	atk_object_class->get_n_children      = eti_get_n_children;
 	atk_object_class->ref_child           = eti_ref_child;
 	atk_object_class->get_index_in_parent = eti_get_index_in_parent;
+	atk_object_class->initialize	      = eti_real_initialize;
 }
 
 static void
@@ -647,6 +849,7 @@ gal_a11y_e_table_item_new (AtkObject *parent,
 			   int index_in_parent)
 {
 	GalA11yETableItem *a11y;
+	int n;
 
 	a11y = g_object_new (gal_a11y_e_table_item_get_type (), NULL);
 
@@ -654,6 +857,17 @@ gal_a11y_e_table_item_new (AtkObject *parent,
 
 	GET_PRIVATE (a11y)->parent = parent;
 	GET_PRIVATE (a11y)->index_in_parent = index_in_parent;
+
+	g_return_val_if_fail (item->cols > 0 && item->rows > 0, NULL);
+	/* Initialize cell data. */
+	n = item->cols * item->rows;
+	GET_PRIVATE (a11y)->cols = item->cols;
+	GET_PRIVATE (a11y)->rows = item->rows;
+	GET_PRIVATE (a11y)->cell_data = g_malloc0(n*sizeof(gpointer));
+
+	/* memory error. */
+	if ( GET_PRIVATE (a11y) == NULL)
+		return NULL;
 
 	if (item) {
 		g_signal_connect (G_OBJECT(item), "selection_model_removed",

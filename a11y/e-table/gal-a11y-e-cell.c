@@ -50,12 +50,6 @@ eti_dispose (GObject *object)
 	if (a11y->parent)
 		g_object_unref (a11y->parent);
 #endif
-	a11y->item = NULL;
-	a11y->cell_view = NULL;
-	a11y->parent = NULL;
-	a11y->model_col = -1;
-	a11y->view_col = -1;
-	a11y->row = -1;
 
 	if (a11y->state_set)
 		g_object_unref (a11y->state_set);
