@@ -2565,28 +2565,24 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 	}
 	
 	if (folder) {
+		int strikeout_col = -1;
+		ECell *cell;
+		
 		camel_object_ref (folder);
 		message_list->folder = folder;
 		
 		/* Setup the strikeout effect for non-trash folders */
-		if (!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH)) {
-			ECell *cell;
-			
-			cell = e_table_extras_get_cell (message_list->extras, "render_date");
-			g_object_set (cell,
-				      "strikeout_column", COL_DELETED,
-				      NULL);
-			
-			cell = e_table_extras_get_cell (message_list->extras, "render_text");
-			g_object_set (cell,
-				      "strikeout_column", COL_DELETED,
-				      NULL);
-			
-			cell = e_table_extras_get_cell (message_list->extras, "render_size");
-			g_object_set (cell,
-				      "strikeout_column", COL_DELETED,
-				      NULL);
-		}
+		if (!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH))
+			strikeout_col = COL_DELETED;
+		
+		cell = e_table_extras_get_cell (message_list->extras, "render_date");
+		g_object_set (cell, "strikeout_column", strikeout_col, NULL);
+		
+		cell = e_table_extras_get_cell (message_list->extras, "render_text");
+		g_object_set (cell, "strikeout_column", strikeout_col, NULL);
+		
+		cell = e_table_extras_get_cell (message_list->extras, "render_size");
+		g_object_set (cell, "strikeout_column", strikeout_col, NULL);
 		
 		/* Build the etree suitable for this folder */
 		message_list_setup_etree (message_list, outgoing);

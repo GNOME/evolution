@@ -1,3 +1,9 @@
+2004-04-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (message_list_set_folder): Properly initialise
+	the strikeout column for both types of folders (trash and not
+	trash). Completes the fix for bug #57304.
+
 2004-04-30  Not Zed  <NotZed@Ximian.com>
 
 	* em-utils.c (emu_can_save): fix the overwrite? question.  #57822.
