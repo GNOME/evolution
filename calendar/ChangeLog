@@ -1,5 +1,12 @@
 2003-11-18  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/calendar-commands.c
+	(calendar_control_sensitize_calendar_commands,
+	sensitize_taskpad_commands): removed the 'New...' menu items
+	from the UI, it's now implemented in the shell.
+
+2003-11-18  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/calendar-component.c (add_popup_menu_item): added 'sensitive'
 	argument.
 	(fill_popup_menu_cb): disable/enable menu items depending on whether

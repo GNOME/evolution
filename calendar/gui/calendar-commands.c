@@ -675,12 +675,6 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 			read_only = TRUE;
 	}
 
-	bonobo_ui_component_set_prop (uic, "/commands/NewAppointment", "sensitive",
-				      read_only ? "0" : "1", NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/NewAllDayEvent", "sensitive",
-				      read_only ? "0" : "1", NULL);
-	bonobo_ui_component_set_prop (uic, "/commands/NewMeeting", "sensitive",
-				      read_only ? "0" : "1", NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
@@ -738,8 +732,6 @@ sensitize_taskpad_commands (GnomeCalendar *gcal, BonoboControl *control, gboolea
 	else
 		read_only = TRUE;
 
-	bonobo_ui_component_set_prop (uic, "/commands/NewTask", "sensitive",
-				      read_only ? "0" : "1", NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
@@ -849,10 +841,6 @@ gcal_taskpad_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("NewCalendar", file_new_calendar_cb),
-	BONOBO_UI_VERB ("NewAppointment", file_new_appointment_cb),
-	BONOBO_UI_VERB ("NewAllDayEvent", file_new_event_cb),
-	BONOBO_UI_VERB ("NewMeeting", file_new_meeting_cb),
-	BONOBO_UI_VERB ("NewTask", file_new_task_cb),
 	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
 	BONOBO_UI_VERB ("CalendarPrintPreview", file_print_preview_cb),
 
@@ -882,10 +870,6 @@ static BonoboUIVerb verbs [] = {
 
 static EPixmap pixmaps [] =
 {
-	E_PIXMAP ("/commands/NewAppointment", "new_appointment.xpm"),
-	E_PIXMAP ("/commands/NewAllDayEvent", "new_all_day_event.png"),
-	E_PIXMAP ("/commands/NewMeeting",     "meeting-request-16.png"),
-	E_PIXMAP ("/commands/NewTask",        "new_task-16.png"),
 	E_PIXMAP ("/Toolbar/DayView",	      "buttons/dayview.xpm"),
 	E_PIXMAP ("/Toolbar/WorkWeekView",    "buttons/workweekview.xpm"),
 	E_PIXMAP ("/Toolbar/WeekView",	      "buttons/weekview.xpm"),

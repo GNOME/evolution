@@ -338,7 +338,7 @@ fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, CalendarComponent 
 	sensitive = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (comp->priv->source_selector)) ?
 		TRUE : FALSE;
 
-	add_popup_menu_item (menu, _("New Calendar"), NULL, G_CALLBACK (new_calendar_cb), comp, TRUE);
+	add_popup_menu_item (menu, _("New Calendar"), GTK_STOCK_NEW, G_CALLBACK (new_calendar_cb), comp, TRUE);
 	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_calendar_cb), comp, sensitive);
 	add_popup_menu_item (menu, _("Rename"), NULL, G_CALLBACK (rename_calendar_cb), comp, sensitive);
 }
