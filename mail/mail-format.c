@@ -169,8 +169,10 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md)
 					  free_data_urls);
 	}
 
+	mail_html_write (md->html, md->stream, "<html>\n<body marginwidth=0 marginheight=0>\n");
 	write_headers (mime_message, md);
 	format_mime_part (CAMEL_MIME_PART (mime_message), md);
+	mail_html_write (md->html, md->stream, "</body>\n</html>\n");
 }
 
 
@@ -516,9 +518,12 @@ attachment_header (CamelMimePart *part, const char *mime_type,
 		return;
 
 	/* Start the table, create the pop-up object. */
-	mail_html_write (md->html, md->stream, "<table><tr><td>"
-			 "<object classid=\"popup:%s\" type=\"%s\">"
-			 "</object></td><td><font size=-1>",
+	mail_html_write (md->html, md->stream,
+			 "<table cellspacing=0 cellpadding=0>"
+			 "<tr><td><table width=10 cellspacing=0 cellpadding=0><tr><td></td></tr></table></td>"
+			 "<td><object classid=\"popup:%s\" type=\"%s\"></object></td>"
+			 "<td><table width=3 cellspacing=0 cellpadding=0><tr><td></td></tr></table></td>"
+			 "<td><font size=-1>",
 			 get_cid (part, md), mime_type);
 
 	/* Write the MIME type */
@@ -551,7 +556,9 @@ attachment_header (CamelMimePart *part, const char *mime_type,
 	}
 #endif
 
-	mail_html_write (md->html, md->stream, "</font></td></tr></table>");
+	mail_html_write (md->html, md->stream,
+			 "</font></td></tr><tr><td height=10><table height=10 cellspacing=0 cellpadding=0>"
+			 "<tr><td></td></tr></table></td></tr></table>\n");
 }
 
 static gboolean
@@ -784,7 +791,11 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 	gboolean full = GPOINTER_TO_INT (g_datalist_get_data (md->data, "full_headers"));
 
 	mail_html_write (md->html, md->stream,
-			 "<font color=\"#000000\">"
+			 "<table width=\"100%%\" cellpadding=0 cellspacing=0>"
+			 "<tr><td colspan=3 height=10><table height=10 cellpadding=0 cellspacing=0>"
+			 "<tr><td></td></tr></table></td></tr>"
+			 "<tr><td><table width=10 cellpadding=0 cellspacing=0><tr><td></td></tr></table></td>"
+			 "<td width=\"100%%\"><font color=\"#000000\">"
 			 "<table bgcolor=\"#000000\" width=\"100%%\" "
 			 "cellspacing=0 cellpadding=1><tr><td>"
 			 "<table bgcolor=\"#EEEEEE\" width=\"100%%\" cellpadding=0 cellspacing=0>"
@@ -809,7 +820,9 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 		camel_medium_free_headers (CAMEL_MEDIUM (message), gheaders);
 
 	mail_html_write (md->html, md->stream,
-			 "</table></td></tr></table></td></tr></table></font>");
+			 "</table></td></tr></table></td></tr></table></font></td>"
+			 "<td><table width=10 cellpadding=0 cellspacing=0><tr><td></td></tr></table></td></tr>"
+			 "</table>\n");
 }
 
 static void
@@ -904,7 +917,9 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	if (format && !g_strcasecmp (format, "flowed"))
 		return handle_text_plain_flowed (text, md);
 
-	mail_html_write (md->html, md->stream, "\n<!-- text/plain -->\n<font size=\"-3\">&nbsp</font><br>\n");
+	mail_html_write (md->html, md->stream,
+			 "\n<!-- text/plain -->\n"
+			 "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td>\n");
 
 	/* Only look for binhex and stuff if this is real text/plain.
 	 * (and not, say, application/mac-binhex40 that mail-identify
@@ -946,6 +961,8 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 		mail_text_write (md->html, md->stream, "%s", p);
 
 	g_free (text);
+	mail_html_write (md->html, md->stream, "</td></tr></table>\n");
+
 	return TRUE;
 }
 
@@ -957,7 +974,8 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 	guint32 citation_color = mail_config_get_citation_color ();
 
 	mail_html_write (md->html, md->stream,
-			 "\n<!-- text/plain, flowed -->\n<font size=\"-3\">&nbsp</font><br>\n<tt>\n");
+			 "\n<!-- text/plain, flowed -->\n"
+			 "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td>\n<tt>\n");
 
 	for (line = buf; *line; line = eol + 1) {
 		/* Process next line */
@@ -1022,7 +1040,8 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 	}
 	g_free (buf);
 
-	mail_html_write (md->html, md->stream, "</tt>\n");
+	mail_html_write (md->html, md->stream, "</tt>\n</td></tr></table>\n");
+
 	return TRUE;
 }
 
@@ -1493,7 +1512,7 @@ handle_text_html (CamelMimePart *part, const char *mime_type,
 static gboolean
 handle_image (CamelMimePart *part, const char *mime_type, MailDisplay *md)
 {
-	mail_html_write (md->html, md->stream, "<img src=\"%s\">",
+	mail_html_write (md->html, md->stream, "<img hspace=10 vspace=10 src=\"%s\">",
 			 get_cid (part, md));
 	return TRUE;
 }
@@ -1514,13 +1533,15 @@ handle_multipart_mixed (CamelMimePart *part, const char *mime_type,
 	nparts = camel_multipart_get_number (mp);	
 	for (i = 0; i < nparts; i++) {
 		if (i != 0 && output)
-			mail_html_write (md->html, md->stream, "<hr>\n");
+			mail_html_write (md->html, md->stream,
+					 "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td width=\"100%%\">"
+					 "<hr noshadow size=1></td></tr></table>\n");
 
 		part = camel_multipart_get_part (mp, i);
 		
 		output = format_mime_part (part, md);
 	}
-	
+
 	return TRUE;
 }
 
@@ -1594,7 +1615,9 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	nparts = camel_multipart_get_number (mp);	
 	for (i = 0; i < nparts - 1; i++) {
 		if (i != 0 && output)
-			mail_html_write (md->html, md->stream, "<hr>\n");
+			mail_html_write (md->html, md->stream,
+					 "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td width=\"100%%\">"
+					 "<hr noshadow size=1></td></tr></table>\n");
 		
 		part = camel_multipart_get_part (mp, i);
 		

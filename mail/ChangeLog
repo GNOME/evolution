@@ -1,3 +1,8 @@
+2001-06-05  Radek Doulik  <rodo@ximian.com>
+
+	* mail-format.c: make HTML and plain mails to have the same
+	boundary
+
 2001-06-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (evolution_mail_LDADD): Move `$(DB3_LDADD)' before
