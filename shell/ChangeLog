@@ -1,3 +1,11 @@
+2000-07-06  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-storage.c: Removed `corba_storage_registry' member
+	from `EvolutionStoragePrivate'.
+	(destroy): Don't unref/release it.  Call
+	`StorageListener::destroy' to notify that we are dead.
+	(evolution_storage_register): Don't ref and store the registry.
+
 2000-07-05  Dan Winship  <danw@helixcode.com>
 
 	* e-shell.c (e_shell_save_settings): Use the correct gconf path

@@ -40,7 +40,6 @@ static BonoboObjectClass *parent_class = NULL;
 struct _EvolutionStoragePrivate {
 	char *name;
 
-	Evolution_StorageRegistry corba_storage_registry;
 	Evolution_StorageListener corba_storage_listener;
 };
 
@@ -104,12 +103,9 @@ destroy (GtkObject *object)
 
 	CORBA_exception_init (&ev);
 
-	if (priv->corba_storage_registry != CORBA_OBJECT_NIL) {
-		Bonobo_Unknown_unref (priv->corba_storage_registry, &ev);
-		CORBA_Object_release (priv->corba_storage_registry, &ev);
-	}
-
 	if (priv->corba_storage_listener != CORBA_OBJECT_NIL) {
+		Evolution_StorageListener_destroyed (priv->corba_storage_listener, &ev);
+
 		/* (This is not a Bonobo object, so no unref.)  */
 		CORBA_Object_release (priv->corba_storage_listener, &ev);
 	}
@@ -237,11 +233,7 @@ evolution_storage_register (EvolutionStorage *evolution_storage,
 									     priv->name, &ev);
 
 	if (ev._major == CORBA_NO_EXCEPTION) {
-		Bonobo_Unknown_ref (corba_storage_registry, &ev);
-		priv->corba_storage_registry = CORBA_Object_duplicate (corba_storage_registry, &ev);
-
 		priv->corba_storage_listener = corba_storage_listener;
-
 		result = EVOLUTION_STORAGE_OK;
 	} else {
 		if (ev._major != CORBA_USER_EXCEPTION)
