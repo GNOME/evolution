@@ -1,3 +1,8 @@
+2000-11-29  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* tests/lib/Makefile.am (INCLUDES): `$(top_srcdir)' for builddir
+	!= srcdir compilation.
+
 2000-11-29  Not Zed  <NotZed@HelixCode.com>
 
 	* tests/message/test2.c (main): Add a missed unref.

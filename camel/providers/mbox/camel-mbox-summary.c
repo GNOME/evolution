@@ -31,7 +31,7 @@
 #include <stdlib.h>
 
 #define io(x)
-#define d(x)
+#define d(x) x
 
 #define CAMEL_MBOX_SUMMARY_VERSION (0x1000)
 

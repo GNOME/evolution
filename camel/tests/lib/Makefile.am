@@ -1,4 +1,6 @@
 
+INCLUDES = -I$(top_srcdir)
+
 check_LIBRARIES = libcameltest.a
 
 libcameltest_a_SOURCES = \
