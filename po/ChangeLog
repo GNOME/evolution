@@ -1,3 +1,8 @@
+2001-01-27  Julian Missig <julian@jabber.org>
+
+	* POTFILES.in: Someone forgot to update this when removing a file it
+	uses. This was preventing evolution from compiling...
+	
 2001-01-26  Gustavo Maciel Dias Vieira  <gdvieira@zaz.com.br>
 
 	* pt_BR.po: Updated brazilian portuguese translation

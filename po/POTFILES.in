@@ -177,4 +177,3 @@ widgets/misc/e-calendar.c
 widgets/misc/e-clipped-label.c
 widgets/misc/e-dateedit.c
 widgets/misc/e-search-bar.c
-widgets/shortcut-bar/e-group-bar.c
