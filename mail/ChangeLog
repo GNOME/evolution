@@ -1,3 +1,8 @@
+2001-09-20  Iain Holmes  <iain@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_new): Set the sensitivity of the
+	edit buttons correctly.
+
 2001-09-20    <NotZed@Ximian.com>
 
 	* mail-vfolder.c (vfolder_register_source): Lock around

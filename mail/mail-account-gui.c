@@ -1209,8 +1209,10 @@ mail_account_gui_new (MailConfigAccount *account)
 	gnome_file_entry_set_default_path (gui->signature, g_get_home_dir ());
 	gnome_file_entry_set_default_path (gui->html_signature, g_get_home_dir ());
 	gui->edit_signature = GTK_BUTTON (glade_xml_get_widget (gui->xml, "button_edit_signature"));
+	gtk_widget_set_sensitive (GTK_WIDGET (gui->edit_signature), FALSE);
 	gui->edit_html_signature = GTK_BUTTON (glade_xml_get_widget (gui->xml, "button_edit_html_signature"));
-	
+	gtk_widget_set_sensitive (GTK_WIDGET (gui->edit_html_signature), FALSE);
+
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (gui->signature)), "changed", signature_changed, gui);
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (gui->html_signature)), "changed",
 			    html_signature_changed, gui);
