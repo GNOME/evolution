@@ -74,7 +74,6 @@ camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
 	object_class->finalize = finalize;
 }
 
-
 static void
 camel_pop3_folder_init (gpointer object, gpointer klass)
 {
@@ -88,7 +87,6 @@ camel_pop3_folder_init (gpointer object, gpointer klass)
 
 	pop3_folder->uids = NULL;
 }
-
 
 GtkType
 camel_pop3_folder_get_type (void)
@@ -113,7 +111,6 @@ camel_pop3_folder_get_type (void)
 
 	return camel_pop3_folder_type;
 }
-
 
 void
 finalize (GtkObject *object)
@@ -140,7 +137,6 @@ pop3_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	if (expunge)
 		camel_pop3_store_expunge (CAMEL_POP3_STORE (folder->parent_store), ex);
 }
-				
 
 static GPtrArray *
 parse_listing (int count, char *data)

@@ -207,37 +207,27 @@ free_auth_types (CamelService *service, GList *authtypes)
 static gboolean
 imap_connect (CamelService *service, CamelException *ex)
 {
+	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	struct hostent *h;
 	struct sockaddr_in sin;
 	gint fd, status;
-	gchar *buf, *msg, *result;
-	CamelImapStore *store = CAMEL_IMAP_STORE (service);
+	gchar *buf, *msg, *result, *errbuf = NULL;
+	gboolean authenticated = FALSE;
 
 
 	h = camel_service_gethost (service, ex);
 	if (!h)
 		return FALSE;
 
-	if (!service->url->authmech && !service->url->passwd) {
-		gchar *prompt = g_strdup_printf ("Please enter the IMAP password for %s@%s",
-						service->url->user, h->h_name);
-		service->url->passwd =
-			camel_session_query_authenticator (camel_service_get_session (service),
-							   CAMEL_AUTHENTICATOR_ASK, prompt,
-							   TRUE, service, "password", ex);
-		g_free (prompt);
-		if (!service->url->passwd)
-			return FALSE;
-	}
-
+	/* connect to the IMAP server */
 	sin.sin_family = h->h_addrtype;
 	if (service->url->port)
 		sin.sin_port = htons(service->url->port);
 	else
 		sin.sin_port = htons(IMAP_PORT);
-
+	
 	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
-
+	
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
 	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -246,16 +236,15 @@ imap_connect (CamelService *service, CamelException *ex)
 				      strerror(errno));
 		if (fd > -1)
 			close (fd);
-
+		
 		return FALSE;
 	}
-
 
 	store->ostream = camel_stream_fs_new_with_fd (fd);
 	store->istream = camel_stream_buffer_new (store->ostream,
 						  CAMEL_STREAM_BUFFER_READ);
 	store->command = 0;
-
+	
 	/* Read the greeting, if any. */
 	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
 	if (!buf) {
@@ -263,29 +252,56 @@ imap_connect (CamelService *service, CamelException *ex)
 				      "Could not read greeting from IMAP "
 				      "server: %s",
 				      camel_exception_get_description (ex));
-		gtk_object_unref (GTK_OBJECT (store->ostream));
-		gtk_object_unref (GTK_OBJECT (store->istream));
+		
+		imap_disconnect (service, ex);
 		return FALSE;
 	}
 	g_free (buf);
 
-	status = camel_imap_command (store, NULL, &msg, "LOGIN \"%s\" \"%s\"",
-				     service->url->user,
-				     service->url->passwd);
+	/* authenticate the user */
+	while (!authenticated) {
+		if (errbuf) {
+			/* We need to un-cache the password before prompting again */
+			camel_session_query_authenticator (camel_service_get_session (service),
+							   CAMEL_AUTHENTICATOR_TELL, NULL,
+							   TRUE, service, "password", ex);
+			g_free (service->url->passwd);
+			service->url->passwd = NULL;
+		}
 
-	if (status != CAMEL_IMAP_OK) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-				      "Unable to authenticate to IMAP "
-				      "server. Error sending password:"
-				      " %s", msg ? msg : "(Unknown)");
-		g_free (msg);
-		gtk_object_unref (GTK_OBJECT (store->ostream));
-		gtk_object_unref (GTK_OBJECT (store->istream));
-		return FALSE;
-	} else {
-		g_message ("IMAP Service sucessfully authenticated user %s", service->url->user);
+		if (!service->url->authmech && !service->url->passwd) {
+			gchar *prompt;
+			
+			prompt = g_strdup_printf ("%sPlease enter the IMAP password for %s@%s",
+						  errbuf ? errbuf : "", service->url->user, h->h_name);
+			service->url->passwd =
+				camel_session_query_authenticator (camel_service_get_session (service),
+								   CAMEL_AUTHENTICATOR_ASK, prompt,
+								   TRUE, service, "password", ex);
+			g_free (prompt);
+			g_free (errbuf);
+			errbuf = NULL;
+			
+			if (!service->url->passwd) {
+				imap_disconnect (service, ex);
+				return FALSE;
+			}
+		}
+
+		status = camel_imap_command (store, NULL, &msg, "LOGIN \"%s\" \"%s\"",
+					     service->url->user,
+					     service->url->passwd);
+
+		if (status != CAMEL_IMAP_OK) {
+			errbuf = g_strdup_printf ("Unable to authenticate to IMAP server.\n"
+						  "Error sending password: %s\n\n",
+						  msg ? msg : "(Unknown)");
+		} else {
+			g_message ("IMAP Service sucessfully authenticated user %s", service->url->user);
+			authenticated = TRUE;
+		}
 	}
-
+	
 	/* Now lets find out the IMAP capabilities */
 	status = camel_imap_command_extended (store, NULL, &result, "CAPABILITY");
 	
@@ -309,6 +325,7 @@ imap_connect (CamelService *service, CamelException *ex)
 	fprintf (stderr, "IMAP provider does%shave SEARCH support\n", store->has_search_capability ? " " : "n't ");
 
 	service_class->connect (service, ex);
+	
 	return TRUE;
 }
 
@@ -611,7 +628,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	GPtrArray *data;
 	gchar *cmdid, *cmdbuf, *respbuf;
 	va_list app;
-	gint status = CAMEL_IMAP_OK;
+	gint len = 0, status = CAMEL_IMAP_OK;
 
 	if (folder && store->current_folder != folder && strncmp (fmt, "SELECT", 6) &&
 	    strncmp (fmt, "EXAMINE", 7) && strncmp (fmt, "STATUS", 6) &&
@@ -644,10 +661,10 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	fprintf (stderr, "sending : %s %s\r\n", cmdid, cmdbuf);
 
 	if (camel_stream_printf (store->ostream, "%s %s\r\n", cmdid, cmdbuf) == -1) {
-		g_free(cmdbuf);
-		g_free(cmdid);
+		g_free (cmdbuf);
+		g_free (cmdid);
 
-		*ret = g_strdup (strerror(errno));
+		*ret = g_strdup (strerror (errno));
 
 		return CAMEL_IMAP_FAIL;
 	}
@@ -666,10 +683,13 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		fprintf (stderr, "received: %s\n", respbuf);
 
 		g_ptr_array_add (data, respbuf);
+		len += strlen (respbuf) + 1;
 	}
 
 	if (respbuf) {
 		g_ptr_array_add (data, respbuf);
+		len += strlen (respbuf) + 1;
+		
 		status = camel_imap_status (cmdid, respbuf);
 	} else {
 		status = CAMEL_IMAP_FAIL;
@@ -677,13 +697,22 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	g_free (cmdid);
 
 	if (status == CAMEL_IMAP_OK) {
-		/* Append an empty string to the end of the array
-		 * so when we g_strjoinv it, we get a "\n" after
-		 * the last real line.
-		 */
-		g_ptr_array_add (data, "");
-		g_ptr_array_add (data, NULL);
-		*ret = g_strjoinv ("\n", (gchar **)data->pdata);
+		char *p;
+		int i;
+		
+		*ret = g_malloc0 (len + 1);
+
+		for (i = 0, p = *ret; i < data->len; i++) {
+			char *ptr, *datap;
+
+			datap = (char *) data->pdata[i];
+			ptr = (*datap == '.') ? datap + 1 : datap;
+			len = strlen (ptr);
+			memcpy (p, ptr, len);
+			p += len;
+			*p++ = '\n';
+		}
+		*p = '\0';
 	} else {
 		if (status != CAMEL_IMAP_FAIL && respbuf)
 		        *ret = g_strdup (strchr (respbuf, ' ' + 1));
