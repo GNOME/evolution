@@ -597,10 +597,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 				gdk_draw_rectangle (drawable,
 						    text_view->gc,
 						    TRUE,
-						    xpos + x1, ypos + y1 - (font->ascent / 2),
-						    gdk_text_width (font, 
-								    lines->text,
-								    lines->length),
+						    x1, ypos + y1 - (font->ascent / 2),
+						    x2 - x1,
 						    1);
 			}
 			ypos += height;
@@ -680,10 +678,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 				gdk_draw_rectangle (drawable,
 						    text_view->gc,
 						    TRUE,
-						    xpos + x1, ypos + y1 - (font->ascent / 2),
-						    gdk_text_width (font, 
-								    lines->text,
-								    lines->length),
+						    x1, ypos + y1 - (font->ascent / 2),
+						    x2 - x1,
 						    1);
 			}
 			ypos += height;
