@@ -1,3 +1,7 @@
+2003-06-11  Larry Ewing  <lewing@ximian.com>
+
+	* camel-text-index.c (text_index_normalise): use g_utf8_strdown properly.
+
 2003-06-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-message.c (find_best_encoding): Add the
