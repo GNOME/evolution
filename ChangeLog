@@ -1,4 +1,4 @@
-1999-07-31  root  <guiheneu@felix.joudboeuf.fr>
+1999-07-31  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/gmime-utils.c (gmime_read_line_from_stream): 
 	Don't return crlf at end of line.
