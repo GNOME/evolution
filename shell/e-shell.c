@@ -1063,6 +1063,7 @@ offline_procedure_finished_cb (EShellOfflineHandler *offline_handler,
 		priv->line_status = E_SHELL_LINE_STATUS_OFFLINE;
 	else
 		priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
+	e_passwords_set_online (!now_offline);
 
 	g_object_unref (priv->offline_handler);
 	priv->offline_handler = NULL;
@@ -1148,6 +1149,7 @@ e_shell_go_online (EShell *shell,
 	}
 
 	priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
+	e_passwords_set_online (TRUE);
 	g_signal_emit (shell, signals[LINE_STATUS_CHANGED], 0, priv->line_status);
 }
 
