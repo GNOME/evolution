@@ -826,9 +826,10 @@ e_shell_construct (EShell *shell,
 	priv->shortcuts = e_shortcuts_new (priv->storage_set,
 					   priv->folder_type_registry,
 					   shortcut_path);
+	g_assert (priv->shortcuts != NULL);
 
-	if (priv->shortcuts == NULL)
-		g_warning ("Cannot load shortcuts -- %s", shortcut_path);
+	if (e_shortcuts_get_num_groups (priv->shortcuts) == 0)
+		e_shortcuts_add_default_group (priv->shortcuts);
 
 	g_free (shortcut_path);
 

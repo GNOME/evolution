@@ -82,6 +82,8 @@ EShortcuts  *e_shortcuts_new                     (EStorageSet         *storage_s
 						  EFolderTypeRegistry *folder_type_registry,
 						  const char          *file_name);
 
+int           e_shortcuts_get_num_groups          (EShortcuts *shortcuts);
+
 GSList       *e_shortcuts_get_group_titles        (EShortcuts *shortcuts);
 const char   *e_shortcuts_get_group_title         (EShortcuts *shortcuts,
 						   int         group_num);
@@ -100,21 +102,23 @@ gboolean     e_shortcuts_load                    (EShortcuts          *shortcuts
 gboolean     e_shortcuts_save                    (EShortcuts          *shortcuts,
 						  const char          *path);
 
-void  e_shortcuts_remove_shortcut  (EShortcuts *shortcuts,
-				    int         group_num,
-				    int         num);
-void  e_shortcuts_add_shortcut     (EShortcuts *shortcuts,
-				    int         group_num,
-				    int         num,
-				    const char *uri,
-				    const char *name,
-				    const char *type);
-void  e_shortcuts_update_shortcut  (EShortcuts *shortcuts,
-				    int         group_num,
-				    int         num,
-				    const char *uri,
-				    const char *name,
-				    const char *type);
+void  e_shortcuts_add_default_group  (EShortcuts *shortcuts);
+
+void  e_shortcuts_remove_shortcut    (EShortcuts *shortcuts,
+				      int         group_num,
+				      int         num);
+void  e_shortcuts_add_shortcut       (EShortcuts *shortcuts,
+				      int         group_num,
+				      int         num,
+				      const char *uri,
+				      const char *name,
+				      const char *type);
+void  e_shortcuts_update_shortcut    (EShortcuts *shortcuts,
+				      int         group_num,
+				      int         num,
+				      const char *uri,
+				      const char *name,
+				      const char *type);
 
 void  e_shortcuts_remove_group  (EShortcuts *shortcuts,
 				 int         group_num);

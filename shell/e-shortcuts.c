@@ -97,6 +97,9 @@ struct _EShortcutsPrivate {
 	/* The folder type registry.  */
 	EFolderTypeRegistry *folder_type_registry;
 
+	/* Total number of groups.  */
+	int num_groups;
+
 	/* A list of ShortcutGroups.  */
 	GSList *groups;
 
@@ -681,6 +684,7 @@ init (EShortcuts *shortcuts)
 
 	priv->file_name      = NULL;
 	priv->storage_set    = NULL;
+	priv->num_groups     = 0;
 	priv->groups         = NULL;
 	priv->views          = NULL;
 	priv->dirty          = 0;
@@ -731,15 +735,21 @@ e_shortcuts_new (EStorageSet *storage_set,
 	new = gtk_type_new (e_shortcuts_get_type ());
 	e_shortcuts_construct (new, storage_set, folder_type_registry);
 
-	if (! e_shortcuts_load (new, file_name)) {
-		gtk_object_unref (GTK_OBJECT (new));
-		return NULL;
-	}
+	e_shortcuts_load (new, file_name);
 
 	return new;
 }
 
 
+int
+e_shortcuts_get_num_groups (EShortcuts *shortcuts)
+{
+	g_return_val_if_fail (shortcuts != NULL, 0);
+	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), 0);
+
+	return shortcuts->priv->num_groups;
+}
+
 GSList *
 e_shortcuts_get_group_titles (EShortcuts *shortcuts)
 {
@@ -977,6 +987,20 @@ e_shortcuts_update_shortcut (EShortcuts *shortcuts,
 
 
 void
+e_shortcuts_add_default_group (EShortcuts *shortcuts)
+{
+	g_return_if_fail (shortcuts != NULL);
+	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
+
+	e_shortcuts_add_group (shortcuts, -1, _("Shortcuts"));
+
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Inbox", _("Inbox"), "mail");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Calendar", _("Calendar"), "calendar");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Tasks", _("Tasks"), "tasks");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Contacts", _("Contacts"), "contacts");
+}
+
+void
 e_shortcuts_remove_group (EShortcuts *shortcuts,
 			  int group_num)
 {
@@ -996,6 +1020,7 @@ e_shortcuts_remove_group (EShortcuts *shortcuts,
 	shortcut_group_free ((ShortcutGroup *) p->data);
 
 	priv->groups = g_slist_remove_link (priv->groups, p);
+	priv->num_groups --;
 
 	make_dirty (shortcuts);
 }
@@ -1047,6 +1072,7 @@ e_shortcuts_add_group (EShortcuts *shortcuts,
 		group_num = g_slist_length (priv->groups);
 
 	priv->groups = g_slist_insert (priv->groups, group, group_num);
+	priv->num_groups ++;
 
 	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[NEW_GROUP], group_num);
 

@@ -1,5 +1,25 @@
 2001-07-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	[The following makes the shell able to create the `shortcuts.xml'
+	file by itself when the file is not present or corrupted.  Fixes
+	#3668, failure to handle malformed shortcuts.xml file.]
+
+	* e-shell.c (e_shell_construct): If the `e_shortcuts_new()'
+	returns an object with no shortcuts in it, fill it in with
+	`e_shortcuts_add_default_group()'.
+
+	* e-shortcuts.c: New member `num_groups' in EShortcutsPrivate.
+	(init): Init to zero.
+	(e_shortcuts_add_group): Increment.
+	(e_shortcuts_remove_group): Decrement.
+	(e_shortcuts_get_num_groups): New.
+	(e_shortcuts_add_default_group): New function to set up the
+	default shortcuts.
+	(e_shortcuts_new): Return an empty EShortcuts object if loading
+	the file files, instead of returning NULL.
+
+2001-07-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-offline-handler.c
 	(e_shell_offline_handler_put_components_offline): Ref/unref the
 	handler so the signal handlers can unref it safely.  Also, if
