@@ -130,9 +130,6 @@ static void set_phone_flags (VObject *vobj, ECardPhoneFlags flags);
 static ECardAddressFlags get_address_flags (VObject *vobj);
 static void set_address_flags (VObject *vobj, ECardAddressFlags flags);
 
-static gchar *e_card_uri_extract_book_uri (const gchar *uri);
-static gchar *e_card_uri_extract_card_id  (const gchar *uri);
-
 typedef void (* ParsePropertyFunc) (ECard *card, VObject *object);
 
 struct {
@@ -347,17 +344,16 @@ e_card_get_book (ECard *card)
 	return card->book;
 }
 
-const gchar *
-e_card_get_uri (ECard *card)
+void
+e_card_set_book (ECard *card, EBook *book)
 {
-	g_return_val_if_fail (card && E_IS_CARD (card), NULL);
-
-	if (card->uri == NULL && card->id && *card->id && card->book) {
-		const char *book_uri = e_book_get_uri (card->book);
-		if (book_uri)
-			card->uri = g_strdup_printf ("%s/%s", book_uri, card->id);
-	}
-	return card->uri;
+	g_return_if_fail (card && E_IS_CARD (card));
+	
+	if (card->book)
+		gtk_object_unref (GTK_OBJECT (card->book));
+	card->book = book;
+	if (card->book)
+		gtk_object_ref (GTK_OBJECT (card->book));
 }
 
 static gchar *
@@ -376,7 +372,6 @@ static VObject *
 e_card_get_vobject (ECard *card)
 {
 	VObject *vobj;
-	const char *tmp;
 	
 	vobj = newVObject (VCCardProp);
 
@@ -607,16 +602,9 @@ e_card_get_vobject (ECard *card)
 		}
 	}
 
-	tmp = e_card_get_uri (card);
-	if (tmp == NULL)
-		tmp = card->id;
-	if (tmp) {
-		addPropValue (vobj, VCUniqueStringProp, tmp);
-	}
+	addPropValue (vobj, VCUniqueStringProp, card->id);
 
-#if 0
-	
-	
+#if 0	
 	if (crd->photo.prop.used) {
 		vprop = addPropSizedValue (vobj, VCPhotoProp, 
 					  crd->photo.data, crd->photo.size);
@@ -1124,24 +1112,8 @@ parse_arbitrary(ECard *card, VObject *vobj)
 static void
 parse_id(ECard *card, VObject *vobj)
 {
-	if ( vObjectValueType (vobj) ) {
-		gchar *str = fakeCString (vObjectUStringZValue (vobj));
-		gchar *id;
-		if ( card->id )
-			g_free(card->id);
-		if ( card->uri )
-			g_free(card->uri);
-		
-		id = e_card_uri_extract_card_id (str);
-		if (id) {
-			card->id = id;
-			card->uri = g_strdup (str);
-		} else {
-			card->id = g_strdup (str);
-			card->uri = NULL;
-		}
-		free (str);
-	}
+	g_free(card->id);
+	assign_string(vobj, &(card->id));
 }
 
 static void
@@ -1847,7 +1819,6 @@ e_card_destroy (GtkObject *object)
 	g_free(card->id);
 	if (card->book)
 		gtk_object_unref (GTK_OBJECT (card->book));
-	g_free(card->uri);
 	g_free(card->file_as);
 	g_free(card->fname);
 	if ( card->name )
@@ -4136,33 +4107,6 @@ e_card_evolution_list_show_addresses (ECard *card)
 	return card->list_show_addresses;
 }
 
-static gchar *
-e_card_uri_extract_book_uri (const gchar *uri)
-{
-	gchar *lastslash;
-
-	if (uri == NULL)
-		return NULL;
-
-	lastslash = strrchr (uri, '/');
-	if (lastslash == NULL)
-		return NULL;
-
-	return g_strndup (uri, lastslash - uri);
-}
-
-static gchar *
-e_card_uri_extract_card_id (const gchar *uri)
-{
-	gchar *lastslash;
-
-	if (uri == NULL)
-		return NULL;
-
-	lastslash = strrchr (uri, '/');
-	return lastslash ? g_strdup (lastslash+1) : NULL;
-}
-
 typedef struct _CardLoadData CardLoadData;
 struct _CardLoadData {
 	gchar *card_id;
@@ -4171,12 +4115,16 @@ struct _CardLoadData {
 };
 
 static void
-card_get_cb (EBook *book, EBookStatus status, ECard *card, gpointer closure)
+get_card_cb (EBook *book, EBookStatus status, ECard *card, gpointer closure)
 {
 	CardLoadData *data = (CardLoadData *) closure;
 
-	if (data->cb != NULL)
-		data->cb (card, data->closure);
+	if (data->cb != NULL) {
+		if (status == E_BOOK_STATUS_SUCCESS)
+			data->cb (card, data->closure);
+		else
+			data->cb (NULL, data->closure);
+	}
 
 	g_free (data->card_id);
 	g_free (data);
@@ -4188,29 +4136,25 @@ card_load_cb (EBook *book, EBookStatus status, gpointer closure)
 	CardLoadData *data = (CardLoadData *) closure;
 
 	if (status == E_BOOK_STATUS_SUCCESS)
-		e_book_get_card (book, data->card_id, card_get_cb, closure);
+		e_book_get_card (book, data->card_id, get_card_cb, closure);
+	else {
+		data->cb (NULL, data->closure);
+		g_free (data->card_id);
+		g_free (data);
+	}
 }
 
 void
-e_card_load_uri (const gchar *uri, ECardCallback cb, gpointer closure)
+e_card_load_uri (const gchar *book_uri, const gchar *uid, ECardCallback cb, gpointer closure)
 {
 	CardLoadData *data;
-	gchar *book_uri;
-	gchar *card_id;
 	EBook *book;
 	
-	g_return_if_fail (uri != NULL);
-
-	book_uri = e_card_uri_extract_book_uri (uri);
-	card_id  = e_card_uri_extract_card_id  (uri);
-
 	data          = g_new (CardLoadData, 1);
-	data->card_id = g_strdup (card_id);
+	data->card_id = g_strdup (uid);
 	data->cb      = cb;
 	data->closure = closure;
 
 	book = e_book_new ();
 	e_book_load_uri (book, book_uri, card_load_cb, data);
-	
-	g_free (book_uri);
 }

@@ -1,3 +1,18 @@
+2001-08-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-book-view.c (add_book_iterator): Call
+	e_card_set_book here.
+
+	* backend/ebook/e-book.c (e_book_do_response_get_vcard): Call
+	e_card_set_book here.
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Pulled out the
+	part where the uri is made part of the uid.  Made uri a separate
+	field.
+
+	* backend/ebook/e-destination.c, backend/ebook/e-destination.h:
+	Change this to use ECard's split uids and uris.
+
 2001-08-13  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (add_to_supported_fields): don't

@@ -54,7 +54,8 @@ struct _EDestinationPrivate {
 
 	gchar *raw;
 
-	gchar *card_uri;
+	gchar *book_uri;
+	gchar *card_uid;
 	ECard *card;
 	gint card_email_num;
 
@@ -206,7 +207,8 @@ e_destination_copy (const EDestination *dest)
 
 	new_dest = e_destination_new ();
 
-	new_dest->priv->card_uri       = g_strdup (dest->priv->card_uri);
+	new_dest->priv->book_uri       = g_strdup (dest->priv->book_uri);
+	new_dest->priv->card_uid       = g_strdup (dest->priv->card_uid);
 	new_dest->priv->name           = g_strdup (dest->priv->name);
 	new_dest->priv->email          = g_strdup (dest->priv->email);
 	new_dest->priv->addr           = g_strdup (dest->priv->addr);
@@ -230,8 +232,10 @@ e_destination_copy (const EDestination *dest)
 static void
 e_destination_clear_card (EDestination *dest)
 {
-	g_free (dest->priv->card_uri);
-	dest->priv->card_uri = NULL;
+	g_free (dest->priv->book_uri);
+	dest->priv->book_uri = NULL;
+	g_free (dest->priv->card_uid);
+	dest->priv->card_uid = NULL;
 
 	if (dest->priv->card)
 		gtk_object_unref (GTK_OBJECT (dest->priv->card));
@@ -290,7 +294,8 @@ e_destination_is_empty (const EDestination *dest)
 	p = dest->priv;
 
 	return !(p->card != NULL
-		 || (p->card_uri && *p->card_uri)
+		 || (p->book_uri && *p->book_uri)
+		 || (p->card_uid && *p->card_uid)
 		 || (p->raw && *p->raw)
 		 || (p->name && *p->name)
 		 || (p->email && *p->email)
@@ -318,22 +323,48 @@ e_destination_set_card (EDestination *dest, ECard *card, gint email_num)
 }
 
 void
-e_destination_set_card_uri (EDestination *dest, const gchar *uri, gint email_num)
+e_destination_set_book_uri (EDestination *dest, const gchar *uri)
 {
 	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 	g_return_if_fail (uri != NULL);
 
-	if (dest->priv->card_uri == NULL
-	    || strcmp (dest->priv->card_uri, uri)
-	    || dest->priv->card_email_num != email_num) {
+	if (dest->priv->book_uri == NULL
+	    || strcmp (dest->priv->book_uri, uri)) {
 	
-		g_free (dest->priv->card_uri);
-		dest->priv->card_uri = g_strdup (uri);
+		g_free (dest->priv->book_uri);
+		dest->priv->book_uri = g_strdup (uri);
+
+		/* If we already have a card, remove it unless it's uri matches the one
+		   we just set. */
+		if (dest->priv->card) {
+			EBook *book = e_card_get_book (dest->priv->card);
+			if ((!book) || strcmp (uri, e_book_get_uri (book))) {
+				gtk_object_unref (GTK_OBJECT (dest->priv->card));
+				dest->priv->card = NULL;
+			}
+		}
+
+		e_destination_changed (dest);
+	}
+}
+
+void
+e_destination_set_card_uid (EDestination *dest, const gchar *uid, gint email_num)
+{
+	g_return_if_fail (dest && E_IS_DESTINATION (dest));
+	g_return_if_fail (uid != NULL);
+
+	if (dest->priv->card_uid == NULL
+	    || strcmp (dest->priv->card_uid, uid)
+	    || dest->priv->card_email_num != email_num) {
+
+		g_free (dest->priv->card_uid);
+		dest->priv->card_uid = g_strdup (uid);
 		dest->priv->card_email_num = email_num;
 
 		/* If we already have a card, remove it unless it's uri matches the one
 		   we just set. */
-		if (dest->priv->card && strcmp (uri, e_card_get_uri (dest->priv->card))) {
+		if (dest->priv->card && strcmp (uid, e_card_get_id (dest->priv->card))) {
 			gtk_object_unref (GTK_OBJECT (dest->priv->card));
 			dest->priv->card = NULL;
 		}
@@ -405,7 +436,7 @@ gboolean
 e_destination_from_card (const EDestination *dest)
 {
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), FALSE);
-	return dest->priv->card != NULL || dest->priv->card_uri != NULL;
+	return dest->priv->card != NULL || dest->priv->book_uri != NULL || dest->priv->card_uid != NULL;
 }
 
 
@@ -449,7 +480,7 @@ e_destination_use_card (EDestination *dest, EDestinationCardCallback cb, gpointe
 			cb (dest, dest->priv->card, closure);
 		}
 
-	} else if (dest->priv->card_uri != NULL) {
+	} else if (dest->priv->book_uri != NULL && dest->priv->card_uid != NULL) {
 
 		UseCard *uc = g_new (UseCard, 1);
 		uc->dest = dest;
@@ -457,7 +488,7 @@ e_destination_use_card (EDestination *dest, EDestinationCardCallback cb, gpointe
 		gtk_object_ref (GTK_OBJECT (uc->dest));
 		uc->cb = cb;
 		uc->closure = closure;
-		e_card_load_uri (dest->priv->card_uri, use_card_cb, uc);
+		e_card_load_uri (dest->priv->book_uri, dest->priv->card_uid, use_card_cb, uc);
 	}
 }
 
@@ -470,15 +501,33 @@ e_destination_get_card (const EDestination *dest)
 }
 
 const gchar *
-e_destination_get_card_uri (const EDestination *dest)
+e_destination_get_card_uid (const EDestination *dest)
 {
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
 	
-	if (dest->priv->card_uri)
-		return dest->priv->card_uri;
+	if (dest->priv->card_uid)
+		return dest->priv->card_uid;
 	
 	if (dest->priv->card)
-		return e_card_get_uri (dest->priv->card);
+		return e_card_get_id (dest->priv->card);
+
+	return NULL;
+}
+
+const gchar *
+e_destination_get_book_uri (const EDestination *dest)
+{
+	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
+	
+	if (dest->priv->book_uri)
+		return dest->priv->book_uri;
+	
+	if (dest->priv->card) {
+		EBook *book = e_card_get_book (dest->priv->card);
+		if (book) {
+			return e_book_get_uri (book);
+		}
+	}
 
 	return NULL;
 }
@@ -488,7 +537,7 @@ e_destination_get_email_num (const EDestination *dest)
 {
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), -1);
 
-	if (dest->priv->card == NULL && dest->priv->card_uri == NULL)
+	if (dest->priv->card == NULL && (dest->priv->book_uri == NULL || dest->priv->card_uid == NULL))
 		return -1;
 
 	return dest->priv->card_email_num;
@@ -976,10 +1025,15 @@ e_destination_xml_encode (const EDestination *dest)
 		xmlNewProp (dest_node, "is_list", "yes");
 	}
 
-	str = e_destination_get_card_uri (dest);
+	str = e_destination_get_book_uri (dest);
+	if (str) {
+		xmlNewTextChild (dest_node, NULL, "book_uri", str);
+	}
+
+	str = e_destination_get_card_uid (dest);
 	if (str) {
 		gchar buf[16];
-		xmlNodePtr uri_node = xmlNewTextChild (dest_node, NULL, "card_uri", str);
+		xmlNodePtr uri_node = xmlNewTextChild (dest_node, NULL, "card_uid", str);
 		g_snprintf (buf, 16, "%d", e_destination_get_email_num (dest));
 		xmlNewProp (uri_node, "email_num", buf);
 	}
@@ -992,7 +1046,7 @@ e_destination_xml_encode (const EDestination *dest)
 gboolean
 e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 {
-	gchar *name = NULL, *email = NULL, *card_uri = NULL;
+	gchar *name = NULL, *email = NULL, *book_uri = NULL, *card_uid = NULL;
 	gint email_num = -1;
 	gboolean html_mail = FALSE;
 	gboolean is_list = FALSE;
@@ -1058,10 +1112,15 @@ e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 				
 				list_dests = g_list_append (list_dests, list_dest);
 			}
-		} else if (!strcmp (node->name, "card_uri")) {
+		} else if (!strcmp (node->name, "book_uri")) {
 			tmp = xmlNodeGetContent (node);
-			g_free (card_uri);
-			card_uri = g_strdup (tmp);
+			g_free (book_uri);
+			book_uri = g_strdup (tmp);
+			xmlFree (tmp);
+		} else if (!strcmp (node->name, "card_uid")) {
+			tmp = xmlNodeGetContent (node);
+			g_free (card_uid);
+			card_uid = g_strdup (tmp);
 			xmlFree (tmp);
 			
 			tmp = xmlGetProp (node, "email_num");
@@ -1080,8 +1139,10 @@ e_destination_xml_decode (EDestination *dest, xmlNodePtr node)
 		e_destination_set_name (dest, name);
 	if (email)
 		e_destination_set_email (dest, email);
-	if (card_uri)
-		e_destination_set_card_uri (dest, card_uri, email_num);
+	if (book_uri)
+		e_destination_set_book_uri (dest, book_uri);
+	if (card_uid)
+		e_destination_set_card_uid (dest, card_uid, email_num);
 	if (list_dests)
 		dest->priv->list_dests = list_dests;
 

@@ -221,6 +221,7 @@ e_book_do_response_get_vcard (EBook                 *book,
 		card = e_card_new(resp->vcard);
 
 		if (card != NULL) {
+			e_card_set_book (card, book);
 			if (op->cb) {
 				if (op->active)
 					((EBookCardCallback) op->cb) (book, resp->status, card, op->closure);

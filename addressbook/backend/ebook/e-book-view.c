@@ -47,10 +47,7 @@ add_book_iterator (gpointer data, gpointer closure)
 	ECard *card = E_CARD (data);
 	EBook *book = E_BOOK (closure);
 
-	if (card->book == NULL) {
-		card->book = book;
-		gtk_object_ref (GTK_OBJECT (book));
-	}
+	e_card_set_book (card, book);
 }
 
 static void

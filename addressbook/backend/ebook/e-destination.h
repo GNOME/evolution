@@ -70,7 +70,8 @@ void           e_destination_clear              (EDestination *);
 gboolean       e_destination_is_empty           (const EDestination *);
 
 void           e_destination_set_card           (EDestination *, ECard *card, gint email_num);
-void           e_destination_set_card_uri       (EDestination *, const gchar *uri, gint email_num);
+void           e_destination_set_book_uri       (EDestination *, const gchar *uri); 
+void           e_destination_set_card_uid       (EDestination *, const gchar *uid, gint email_num); 
 
 void           e_destination_set_name           (EDestination *, const gchar *name);
 void           e_destination_set_email          (EDestination *, const gchar *email);
@@ -83,7 +84,8 @@ gboolean       e_destination_from_card          (const EDestination *);
 void           e_destination_use_card           (EDestination *, EDestinationCardCallback cb, gpointer closure);
 
 ECard         *e_destination_get_card           (const EDestination *);
-const gchar   *e_destination_get_card_uri       (const EDestination *);
+const gchar   *e_destination_get_book_uri       (const EDestination *);
+const gchar   *e_destination_get_card_uid       (const EDestination *);
 gint           e_destination_get_email_num      (const EDestination *);
 
 const gchar   *e_destination_get_name           (const EDestination *);  /* "Jane Smith" */
