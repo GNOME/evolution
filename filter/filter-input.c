@@ -34,7 +34,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "filter-input.h"
 #include "e-util/e-sexp.h"
@@ -255,15 +254,12 @@ xml_encode (FilterElement *fe)
 	xmlSetProp (value, "type", type);
 	l = fi->values;
 	while (l) {
-                xmlNodePtr cur;
+		xmlNodePtr cur;
 		char *str = l->data;
-		char *encstr;
 		
                 cur = xmlNewChild (value, NULL, type, NULL);
-		encstr = e_utf8_xml1_encode (str);
-		xmlNodeSetContent (cur, encstr);
-		g_free (encstr);
-                l = g_list_next (l);
+		xmlNodeSetContent (cur, str);
+		l = l->next;
 	}
 	
 	return value;
@@ -288,16 +284,12 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	n = node->childs;
 	while (n) {
 		if (!strcmp (n->name, type)) {
-			gchar *decstr;
-			str = xmlNodeGetContent (n);
-			if (str) {
-				decstr = e_utf8_xml1_decode (str);
-				xmlFree (str);
-			} else
-				decstr = g_strdup("");
+			if (!(str = xmlNodeGetContent (n)))
+				str = xmlStrdup ("");
 			
-			d(printf ("  '%s'\n", decstr));
-			fi->values = g_list_append (fi->values, decstr);
+			d(printf ("  '%s'\n", str));
+			fi->values = g_list_append (fi->values, g_strdup (str));
+			xmlFree (str);
 		} else {
 			g_warning ("Unknown node type '%s' encountered decoding a %s\n", n->name, type);
 		}
@@ -310,22 +302,22 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 static void
 entry_changed (GtkEntry *entry, FilterElement *fe)
 {
-	char *new;
-	FilterInput *fi = (FilterInput *)fe;
+	FilterInput *fi = (FilterInput *) fe;
+	const char *new;
 	GList *l;
 	
-	new = e_utf8_gtk_entry_get_text (entry);
+	new = gtk_entry_get_text (entry);
 	
 	/* NOTE: entry only supports a single value ... */
 	l = fi->values;
 	while (l) {
 		g_free (l->data);
-		l = g_list_next (l);
+		l = l->next;
 	}
 	
 	g_list_free (fi->values);
 	
-	fi->values = g_list_append (NULL, new);
+	fi->values = g_list_append (NULL, g_strdup (new));
 }
 
 static GtkWidget *
@@ -335,9 +327,8 @@ get_widget (FilterElement *fe)
 	FilterInput *fi = (FilterInput *)fe;
 	
 	entry = gtk_entry_new ();
-	if (fi->values && fi->values->data) {
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), fi->values->data);
-	}
+	if (fi->values && fi->values->data)
+		gtk_entry_set_text (GTK_ENTRY (entry), (const char *) fi->values->data);
 	
 	g_signal_connect (entry, "changed", entry_changed, fe);
 	
@@ -353,12 +344,12 @@ build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 static void
 format_sexp (FilterElement *fe, GString *out)
 {
+	FilterInput *fi = (FilterInput *) fe;
 	GList *l;
-	FilterInput *fi = (FilterInput *)fe;
 	
 	l = fi->values;
 	while (l) {
 		e_sexp_encode_string (out, l->data);
-		l = g_list_next (l);
+		l = l->next;
 	}
 }

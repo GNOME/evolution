@@ -1,5 +1,23 @@
 2002-11-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* filter-filter.c: Ported.
+
+	* filter-source.c (get_widget): Don't use e_utf8_to_gtk_string.
+
+	* filter-option.c (xml_create): Don't use e_utf8_xml1_decode.
+
+	* filter-input.c (xml_encode): Don't use e_utf8_xml1_encode.
+	(xml_decode): Don't use e_utf8_xml1_decode.
+	(entry_changed): Don't use e_utf8_gtk_entry_get_text.
+	(get_widget): Don't use e_utf8_gtk_entry_set_text.
+
+	* filter-file.c (xml_encode): Don't use e_utf8_xml1_encode shit.
+	(xml_decode): Don't use e_utf8_xml1_decode.
+	(entry_changed): Don't use e_utf8_gtk_entry_get_text.
+	(get_widget): Don't use e_utf8_gtk_entry_set_text.
+
+2002-11-05  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* vfolder-rule.c: Ported.
 
 	* vfolder-editor.c: Ported.

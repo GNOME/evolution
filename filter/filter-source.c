@@ -30,7 +30,6 @@
 
 #include <gtk/gtk.h>
 #include <gnome.h>
-#include <gal/widgets/e-unicode.h>
 #include <e-util/e-url.h>
 #include <e-util/e-sexp.h>
 #include <bonobo/bonobo-object.h>
@@ -262,7 +261,7 @@ get_widget (FilterElement *fe)
 	
 	for (i = fs->priv->sources; i != NULL; i = g_list_next (i)) {
 		SourceInfo *info = (SourceInfo *) i->data;
-		char *label, *native_label;
+		char *label;
 		
 		if (info->url != NULL) {
 			if (first == NULL)
@@ -274,10 +273,8 @@ get_widget (FilterElement *fe)
 			else
 				label = g_strdup_printf ("%s <%s>", info->name, info->address);
 			
-			native_label = e_utf8_to_gtk_string (GTK_WIDGET (menu), label);
-			item = gtk_menu_item_new_with_label (native_label);
+			item = gtk_menu_item_new_with_label (label);
 			g_free (label);
-			g_free (native_label);
 			
 			g_object_set_data (item, "source", info);
 			g_signal_connect (item, "activate", source_changed, fs);

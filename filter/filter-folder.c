@@ -29,7 +29,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "filter-folder.h"
 #include "shell/evolution-folder-selector-button.h"
@@ -51,7 +50,7 @@ static void filter_folder_init (FilterFolder *ff);
 static void filter_folder_finalise (GObject *obj);
 
 
-static FilterElementClass *parent_class;
+static FilterElementClass *parent_class = NULL;
 
 
 extern EvolutionShellClient *global_shell_client;

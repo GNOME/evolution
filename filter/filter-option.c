@@ -31,7 +31,6 @@
 #include <gtk/gtkoptionmenu.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "filter-option.h"
 #include "filter-part.h"
@@ -199,7 +198,7 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 {
 	FilterOption *fo = (FilterOption *)fe;
 	xmlNodePtr n, work;
-
+	
 	/* parent implementation */
         FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
 	
@@ -207,31 +206,34 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 	while (n) {
 		if (!strcmp (n->name, "option")) {
 			char *tmp, *value, *title = NULL, *code = NULL;
-
+			
 			value = xmlGetProp (n, "value");
 			work = n->childs;
 			while (work) {
 				if (!strcmp (work->name, "title")) {
 					if (!title) {
-						tmp = xmlNodeGetContent(work);
-						title = e_utf8_xml1_decode(tmp);
-						if (tmp)
-							xmlFree(tmp);
+						if (!(tmp = xmlNodeGetContent (work)))
+							tmp = xmlStrdup ("");
+						
+						title = g_strdup (tmp);
+						xmlFree (tmp);
 					}
 				} else if (!strcmp (work->name, "code")) {
 					if (!code) {
-						tmp = xmlNodeGetContent(work);
-						code = e_utf8_xml1_decode(tmp);
-						if (tmp)
-							xmlFree(tmp);
+						if (!(tmp = xmlNodeGetContent (work)))
+							tmp = xmlStrdup ("");
+						
+						code = g_strdup (tmp);
+						xmlFree (tmp);
 					}
 				}
 				work = work->next;
 			}
-			filter_option_add(fo, value, title, code);
-			xmlFree(value);
-			g_free(title);
-			g_free(code);
+			
+			filter_option_add (fo, value, title, code);
+			xmlFree (value);
+			g_free (title);
+			g_free (code);
 		} else {
 			g_warning ("Unknown xml node within optionlist: %s\n", n->name);
 		}
@@ -357,8 +359,8 @@ clone (FilterElement *fe)
 	l = fo->options;
 	while (l) {
 		op = l->data;
-		filter_option_add(new, op->value, op->title, op->code);
-		l = g_list_next (l);
+		filter_option_add (new, op->value, op->title, op->code);
+		l = l->next;
 	}
 	
 	d(printf ("cloning option code %p, current = %p\n", new, new->current));

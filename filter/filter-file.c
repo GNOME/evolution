@@ -35,7 +35,6 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-file-entry.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "filter-file.h"
 #include "e-util/e-sexp.h"
@@ -214,7 +213,7 @@ xml_encode (FilterElement *fe)
 {
 	FilterFile *file = (FilterFile *) fe;
 	xmlNodePtr cur, value;
-	char *encstr, *type;
+	char *type;
 	
 	type = file->type ? file->type : "file";
 	
@@ -225,9 +224,7 @@ xml_encode (FilterElement *fe)
 	xmlSetProp (value, "type", type);
 	
 	cur = xmlNewChild (value, NULL, type, NULL);
-	encstr = e_utf8_xml1_encode (file->path);
-	xmlNodeSetContent (cur, encstr);
-	g_free (encstr);
+	xmlNodeSetContent (cur, file->path);
 	
 	return value;
 }
@@ -252,19 +249,13 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	
 	n = node->childs;
 	if (!strcmp (n->name, type)) {
-		char *decstr;
-		
 		str = xmlNodeGetContent (n);
-		if (str) {
-			
-			decstr = e_utf8_xml1_decode (str);
-			xmlFree (str);
-		} else
-			decstr = g_strdup ("");
+		if (str)
+			file->path = g_strdup (str);
+		else
+			file->path = g_strdup ("");
 		
-		d(printf ("  '%s'\n", decstr));
-		
-		file->path = decstr;
+		d(printf ("  '%s'\n", file->path));
 	} else {
 		g_warning ("Unknown node type '%s' encountered decoding a %s\n", n->name, type);
 	}
@@ -276,12 +267,12 @@ static void
 entry_changed (GtkEntry *entry, FilterElement *fe)
 {
 	FilterFile *file = (FilterFile *) fe;
-	char *new;
+	const char *new;
 	
-	new = e_utf8_gtk_entry_get_text (entry);
+	new = gtk_entry_get_text (entry);
 	
 	g_free (file->path);
-	file->path = new;
+	file->path = g_strdup (new);
 }
 
 static GtkWidget *
@@ -295,7 +286,7 @@ get_widget (FilterElement *fe)
 	gnome_file_entry_set_modal (GNOME_FILE_ENTRY (fileentry), TRUE);
 	
 	entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (fileentry));
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), file->path);
+	gtk_entry_set_text (GTK_ENTRY (entry), file->path);
 	
 	g_signal_connect (entry, "changed", entry_changed, fe);
 	
