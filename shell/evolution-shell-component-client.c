@@ -387,8 +387,7 @@ evolution_shell_component_client_new (const char *id)
 	corba_object = oaf_activate_from_id ((char *) id, 0, NULL, &ev); /* Yuck.  */
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
-		g_warning ("Could not start up component for %s. "
-			   "(See previous error messages?)", id);
+		g_warning ("Could not start up component for %s.", id);
 		return NULL;
 	}
 	CORBA_exception_free (&ev);
