@@ -14,7 +14,7 @@
 static gboolean e_color_inited;
 static GdkColorContext *e_color_context;
 
-GdkColor gs_white, gs_dark_gray, gs_black;
+GdkColor e_white, e_dark_gray, e_black;
 
 int 
 e_color_alloc (gushort red, gushort green, gushort blue)
@@ -66,10 +66,10 @@ e_color_init (void)
 	e_color_context = gdk_color_context_new (
 		gtk_widget_get_default_visual (), colormap);
 
-	/* Allocate the default colors */
-	gdk_color_white (colormap, &gs_white);
-	gdk_color_black (colormap, &gs_black);
-	e_color_alloc_name ("gray20",  &gs_dark_gray);
-
 	e_color_inited = TRUE;
+
+	/* Allocate the default colors */
+	gdk_color_white (colormap, &e_white);
+	gdk_color_black (colormap, &e_black);
+	e_color_alloc_name ("gray20",  &e_dark_gray);
 }
