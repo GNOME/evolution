@@ -1,3 +1,10 @@
+1999-04-24  bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/url-util.c (new_g_url): URL 
+	rewritten completely. Error handling not
+	implemented in public functions.
+	But URL scan works pretty well :)))
+
 1999-04-24 bertrand <Bertrand.Guiheneuf@inria.fr>
 	
 	* camel/url-util.[ch]: I needed the url 
@@ -21,7 +28,7 @@
 
 	* camel/camel-store.h: 
 	* camel/camel-folder.h:
-	correct declarations of structss 
+	correct declarations of structs
 
 1999-04-22  bertrand <Bertrand.Guiheneuf@inria.fr>
 
