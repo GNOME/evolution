@@ -330,7 +330,10 @@ e_select_names_model_export_destinationv (ESelectNamesModel *model)
 	destv = g_new0 (EDestination *, len+1);
 	
 	for (i=0, j = model->priv->data; j != NULL; j = g_list_next (j)) {
-		destv[i++] = E_DESTINATION (j->data);
+		EDestination *dest = E_DESTINATION (j->data);
+
+		if (dest)
+			destv[i++] = dest;
 	}
 
 	str = e_destination_exportv (destv);

@@ -30,6 +30,7 @@
 
 #include <gtk/gtkobject.h>
 #include <addressbook/backend/ebook/e-card.h>
+#include <addressbook/backend/ebook/e-book.h>
 
 #define E_TYPE_DESTINATION        (e_destination_get_type ())
 #define E_DESTINATION(o)          (GTK_CHECK_CAST ((o), E_TYPE_DESTINATION, EDestination))
@@ -39,6 +40,8 @@
 
 typedef struct _EDestination EDestination;
 typedef struct _EDestinationClass EDestinationClass;
+
+typedef void (*EDestinationCardCallback) (EDestination *dest, ECard *card, gpointer closure);
 
 struct _EDestinationPrivate;
 
@@ -64,6 +67,11 @@ void           e_destination_set_card           (EDestination *, ECard *card, gi
 void           e_destination_set_string         (EDestination *, const gchar *string);
 void           e_destination_set_html_mail_pref (EDestination *, gboolean);
 
+gboolean       e_destination_has_card           (const EDestination *);
+gboolean       e_destination_has_pending_card   (const EDestination *);
+
+void           e_destination_use_card           (EDestination *, EDestinationCardCallback cb, gpointer closure);
+
 ECard         *e_destination_get_card           (const EDestination *);
 gint           e_destination_get_email_num      (const EDestination *);
 const gchar   *e_destination_get_string         (const EDestination *);
@@ -79,16 +87,13 @@ gboolean       e_destination_get_html_mail_pref (const EDestination *);
 
 gchar         *e_destination_get_address_textv  (EDestination **);
 
-
 gchar         *e_destination_export             (const EDestination *);
 EDestination  *e_destination_import             (const gchar *str);
 
 gchar         *e_destination_exportv            (EDestination **);
 EDestination **e_destination_importv            (const gchar *str);
- 
 
-
-
+void           e_destination_touch              (EDestination *);
 
 
 #endif /* __E_DESTINATION_H__ */

@@ -18,6 +18,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <math.h>
 
 #include <gtk/gtkobject.h>
 #include <bonobo/bonobo-object-client.h>
@@ -69,6 +71,8 @@ enum {
 	ARG_EVOLUTION_LIST_SHOW_ADDRESSES,
 	ARG_ARBITRARY,
 	ARG_ID,
+	ARG_LAST_USE,
+	ARG_USE_SCORE,
 };
 
 #if 0
@@ -114,6 +118,8 @@ static void parse_list(ECard *card, VObject *object);
 static void parse_list_show_addresses(ECard *card, VObject *object);
 static void parse_arbitrary(ECard *card, VObject *object);
 static void parse_id(ECard *card, VObject *object);
+static void parse_last_use(ECard *card, VObject *object);
+static void parse_use_score(ECard *card, VObject *object);
 
 static ECardPhoneFlags get_phone_flags (VObject *vobj);
 static void set_phone_flags (VObject *vobj, ECardPhoneFlags flags);
@@ -151,6 +157,9 @@ struct {
 	{ "CATEGORIES",              parse_categories },
 	{ XEV_WANTS_HTML,            parse_wants_html },
 	{ XEV_ARBITRARY,             parse_arbitrary },
+	{ VCUniqueStringProp,        parse_id },
+	{ "X-EVOLUTION-LAST-USE",    parse_last_use },
+	{ "X-EVOLUTION-USE-SCORE",   parse_use_score },
 	{ XEV_LIST,                  parse_list },
 	{ XEV_LIST_SHOW_ADDRESSES,   parse_list_show_addresses },
 	{ VCUniqueStringProp,        parse_id }
@@ -215,12 +224,72 @@ e_card_new (char *vcard)
 	return card;
 }
 
-ECard *e_card_duplicate(ECard *card)
+ECard *
+e_card_duplicate(ECard *card)
 {
 	char *vcard = e_card_get_vcard(card);
 	ECard *new_card = e_card_new(vcard);
 	g_free (vcard);
 	return new_card;
+}
+
+static void
+e_card_get_today (GDate *dt)
+{
+	time_t now;
+	struct tm *now_tm;
+	if (dt == NULL)
+		return;
+	
+	time (&now);
+	now_tm = localtime (&now);
+
+	g_date_set_dmy (dt, now_tm->tm_mday, now_tm->tm_mon + 1, now_tm->tm_year + 1900);
+}
+
+float
+e_card_get_use_score(ECard *card)
+{
+	GDate today, last_use;
+	gint days_since_last_use;
+
+	g_return_val_if_fail (card != NULL && E_IS_CARD (card), 0);
+
+	if (card->last_use == NULL)
+		return 0.0;
+
+	e_card_get_today (&today);
+	g_date_set_dmy (&last_use, card->last_use->day, card->last_use->month, card->last_use->year);
+
+	days_since_last_use = g_date_julian (&today) - g_date_julian (&last_use);
+	
+	/* Apply a seven-day "grace period" to the use score decay. */
+	days_since_last_use -= 7;
+	if (days_since_last_use < 0)
+		days_since_last_use = 0;
+
+	return MAX (card->raw_use_score, 0) * exp (- days_since_last_use / 30.0);
+}
+
+void
+e_card_touch(ECard *card)
+{
+	GDate today;
+	double use_score;
+
+	g_return_if_fail (card != NULL && E_IS_CARD (card));
+
+	e_card_get_today (&today);
+	use_score = e_card_get_use_score (card);
+
+	if (card->last_use == NULL)
+		card->last_use = g_new (ECardDate, 1);
+
+	card->last_use->day   = g_date_day (&today);
+	card->last_use->month = g_date_month (&today);
+	card->last_use->year  = g_date_year (&today);
+
+	card->raw_use_score   = use_score + 1.0;
 }
 
 /**
@@ -250,6 +319,18 @@ e_card_set_id (ECard *card, const char *id)
 	if ( card->id )
 		g_free(card->id);
 	card->id = g_strdup(id);
+}
+
+static gchar *
+e_card_date_to_string (ECardDate *dt)
+{
+	if (dt) 
+		return g_strdup_printf ("%04d-%02d-%02d",
+					CLAMP(dt->year, 1000, 9999),
+					CLAMP(dt->month, 1, 12),
+					CLAMP(dt->day, 1, 31));
+	else
+		return NULL;
 }
 
 static VObject *
@@ -353,13 +434,8 @@ e_card_get_vobject (ECard *card)
 	}
 
 	if ( card->bday ) {
-		ECardDate date;
 		char *value;
-		date = *card->bday;
-		date.year = MIN(date.year, 9999);
-		date.month = MIN(date.month, 12);
-		date.day = MIN(date.day, 31);
-		value = g_strdup_printf("%04d-%02d-%02d", date.year, date.month, date.day);
+		value = e_card_date_to_string (card->bday);
 		addPropValue(vobj, VCBirthDateProp, value);
 		g_free(value);
 	}
@@ -399,13 +475,8 @@ e_card_get_vobject (ECard *card)
 		addPropValue(vobj, "X-EVOLUTION-SPOUSE", card->spouse);
 
 	if ( card->anniversary ) {
-		ECardDate date;
 		char *value;
-		date = *card->anniversary;
-		date.year = MIN(date.year, 9999);
-		date.month = MIN(date.month, 12);
-		date.day = MIN(date.day, 31);
-		value = g_strdup_printf("%04d-%02d-%02d", date.year, date.month, date.day);
+		value = e_card_date_to_string (card->anniversary);
 		addPropValue(vobj, "X-EVOLUTION-ANNIVERSARY", value);
 		g_free(value);
 	}
@@ -422,6 +493,20 @@ e_card_get_vobject (ECard *card)
 
 		noteprop = addPropValue(vobj, VCNoteProp, card->note);
 		addProp(noteprop, VCQuotedPrintableProp);
+	}
+
+	if (card->last_use) {
+		char *value;
+		value = e_card_date_to_string (card->last_use);
+		addPropValue (vobj, "X-EVOLUTION-LAST-USE", value);
+		g_free (value);
+	}
+
+	if (card->raw_use_score > 0) {
+		char *value;
+		value = g_strdup_printf ("%f", card->raw_use_score);
+		addPropValue (vobj, "X-EVOLUTION-USE-SCORE", value);
+		g_free (value);
 	}
 
 	if (card->categories) {
@@ -989,6 +1074,31 @@ parse_id(ECard *card, VObject *vobj)
 }
 
 static void
+parse_last_use(ECard *card, VObject *vobj)
+{
+	if ( vObjectValueType (vobj) ) {
+		char *str = fakeCString (vObjectUStringZValue (vobj));
+		if ( card->last_use )
+			g_free(card->last_use);
+		card->last_use = g_new(ECardDate, 1);
+		*(card->last_use) = e_card_date_from_string(str);
+		free(str);
+	}
+}
+
+static void
+parse_use_score(ECard *card, VObject *vobj)
+{
+	card->raw_use_score = 0;
+	
+	if ( vObjectValueType (vobj) ) {
+		char *str = fakeCString (vObjectUStringZValue (vobj));
+		card->raw_use_score = MAX(0, atof (str));
+		free (str);
+	}
+}
+
+static void
 parse_attribute(ECard *card, VObject *vobj)
 {
 	ParsePropertyFunc function = g_hash_table_lookup(E_CARD_CLASS(GTK_OBJECT(card)->klass)->attribute_jump_table, vObjectName(vobj));
@@ -1099,6 +1209,10 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_ARBITRARY);
 	gtk_object_add_arg_type ("ECard::id",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ID);
+	gtk_object_add_arg_type ("ECard::last_use",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_LAST_USE);
+	gtk_object_add_arg_type ("ECard::use_score",
+				 GTK_TYPE_FLOAT, GTK_ARG_READWRITE, ARG_USE_SCORE);
 
 
 	object_class->destroy = e_card_destroy;
@@ -1818,6 +1932,18 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		g_free(card->id);
 		card->id = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
+	case ARG_LAST_USE:
+		g_free(card->last_use);
+		if (GTK_VALUE_POINTER (*arg)) {
+			card->last_use = g_new (ECardDate, 1);
+			memcpy (card->last_use, GTK_VALUE_POINTER (*arg), sizeof (ECardDate));
+		} else {
+			card->last_use = NULL;
+		}
+		break;
+	case ARG_USE_SCORE:
+		card->raw_use_score = GTK_VALUE_FLOAT(*arg);
+		break;
 	case ARG_EVOLUTION_LIST:
 		card->list = GTK_VALUE_BOOL(*arg);
 		break;
@@ -1964,6 +2090,13 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_ID:
 		GTK_VALUE_STRING(*arg) = card->id;
 		break;
+	case ARG_LAST_USE:
+		GTK_VALUE_POINTER(*arg) = card->last_use;
+		break;
+
+	case ARG_USE_SCORE:
+		GTK_VALUE_FLOAT(*arg) = e_card_get_use_score (card);
+		break;
 	case ARG_EVOLUTION_LIST:
 		GTK_VALUE_BOOL(*arg) = card->list;
 		break;
@@ -2013,6 +2146,8 @@ e_card_init (ECard *card)
 	card->list = FALSE;
 	card->list_show_addresses = FALSE;
 	card->arbitrary = NULL;
+	card->last_use = NULL;
+	card->raw_use_score = 0;
 #if 0
 
 	c = g_new0 (ECard, 1);

@@ -34,12 +34,12 @@ struct _ECard {
 	char            *file_as;       /* The File As field.               */
 	char            *fname;         /* The full name.                   */
 	ECardName       *name;          /* The structured name.             */
-	EList       *address;  	/* Delivery addresses (ECardDeliveryAddress *) */
-	EList       *address_label; /* Delivery address labels
+	EList           *address;  	/* Delivery addresses (ECardDeliveryAddress *) */
+	EList           *address_label; /* Delivery address labels
 					 * (ECardAddrLabel *)               */
 
-	EList       *phone;         /* Phone numbers (ECardPhone *)     */
-	EList       *email;         /* Email addresses (char *)         */
+	EList           *phone;         /* Phone numbers (ECardPhone *)     */
+	EList           *email;         /* Email addresses (char *)         */
 	char            *url;	        /* The person's web page.           */
 
 	ECardDate       *bday;	        /* The person's birthday.           */
@@ -67,13 +67,17 @@ struct _ECard {
 
 	gint             timezone;      /* number of minutes from UTC as an int */
 
-	EList       *categories;    /* Categories.                      */
+	ECardDate       *last_use;
+	float            raw_use_score;
 
-	EList       *arbitrary;     /* Arbitrary fields.                */
+	EList           *categories;    /* Categories.                      */
 
-	guint32         wants_html : 1; /* Wants html mail. */
+	EList           *arbitrary;     /* Arbitrary fields.                */
+
+	
+
+	guint32         wants_html : 1;     /* Wants html mail. */
 	guint32         wants_html_set : 1; /* Wants html mail. */
-
 	guint32		list : 1; /* If the card corresponds to a contact list */
 	guint32		list_show_addresses : 1; /* Whether to show the addresses
 						    in the To: or Bcc: field */
@@ -118,6 +122,9 @@ void                  e_card_set_id                       (ECard                
 char                 *e_card_get_vcard                    (ECard                      *card);
 char                 *e_card_list_get_vcard               (GList                      *list);
 ECard                *e_card_duplicate                    (ECard                      *card);
+
+float                 e_card_get_use_score                (ECard                      *card);
+void                  e_card_touch                        (ECard                      *card);
 
 /* Evolution List convenience functions */
 gboolean              e_card_evolution_list               (ECard                      *card);

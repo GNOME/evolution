@@ -1,3 +1,58 @@
+2001-06-30  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/merging/e-card-merging.c (match_query_callback): Make the
+	standard for considering two cards to be match stricter.
+
+	* gui/component/select-names/e-select-names-completion.c
+	(make_match): Use the card's use-score to set the match's
+	sort_major value.
+	(match_name): Removed obsolete code.
+	(e_select_names_completion_begin): Added (double) cast to make
+	match->score calculation come out properly.
+
+	* backend/ebook/e-card.c: Added X-EVOLUTION-LAST-USE and
+	X-EVOLUTION-USE-SCORE to attribute_jump_array.
+	(e_card_get_today): Added.  A convenience routine for getting
+	today's date and putting it in a GDate.
+	(e_card_get_use_score): Added.  Compute the current, time-decayed,
+	use-score for the card.
+	(e_card_touch): Increment the use-score by one; update the last
+	used date.
+	(e_card_date_to_string): Added as a convenience routine, getting
+	rid of some code duplication.
+	(e_card_get_vobject): Add handlers for X-EVOLUTION-USE-SCORE and
+	X-EVOLUTION-LAST-USE.
+	(parse_last_use): Added.
+	(parse_use_score): Added.
+	(e_card_class_init): Added args for last-use and use-score.
+	(e_card_get_arg): Added handlers for last-use and use-score.
+	o
+	(e_card_set_arg): Added handlers for last-use and use-score.
+
+	* backend/ebook/e-destination.c: Added pending_card_id to
+	EDestinationPrivate struct.
+	(e_destination_copy): Copy the pending_card_id.
+	(e_destination_is_empty): Check for a pending_card_id.  We are
+	non-empty if we have one.
+	(e_destination_clear_card): Clear pending_card_id.
+	(e_destination_set_card): Clear pending_card_id.
+	(e_destination_has_pending_card): Added.
+	(e_destination_use_card): Added.  An asynchronous way to load a
+	pending card and then apply a callback to it.
+	(build_field): Be paranoid, map our special characters to '_'.
+	(e_destination_export): Use EXPORT_MAX_FIELDS symbol rather than a
+	hard-wired array size.  Added the "card" entry.
+	(e_destination_import): Fix bug in handling of the "name" field.
+	Process the "card" field.
+	(e_destination_touch): "Touch" and commit the ECard corresponding
+	to the e-mail address in the destination.  (A query against the
+	local addressbook is actually performed, in case the destination
+	isn't cardified.
+
+	* backend/ebook/e-card-compare.c (e_card_compare_name): Revamp the
+	way E_CARD_MATCH_FOO results are mapped to comparison results.
+	Report better matches when the family name is matched.
+
 2001-06-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names.c (update_query):

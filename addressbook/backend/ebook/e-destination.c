@@ -26,13 +26,20 @@
  */
 
 #include <config.h>
+#include "e-destination.h"
+
 #include <string.h>
 #include <gtk/gtkobject.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include "e-destination.h"
+#include "e-book.h"
+#include "e-book-util.h"
+
 
 struct _EDestinationPrivate {
+
+	gchar *pending_card_id;
+
 	ECard *card;
 	gint card_email_num;
 
@@ -117,6 +124,8 @@ e_destination_copy (EDestination *dest)
 
 	new_dest = e_destination_new ();
 
+	new_dest->priv->pending_card_id = g_strdup (new_dest->priv->pending_card_id);
+
 	new_dest->priv->card = dest->priv->card;
 	if (new_dest->priv->card)
 		gtk_object_ref (GTK_OBJECT (new_dest->priv->card));
@@ -135,12 +144,15 @@ e_destination_is_empty (EDestination *dest)
 {
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), TRUE);
 
-	return !(dest->priv->card || (dest->priv->string && *dest->priv->string));
+	return !(dest->priv->card || dest->priv->pending_card_id || (dest->priv->string && *dest->priv->string));
 }
 
 static void
 e_destination_clear_card (EDestination *dest)
 {
+	g_free (dest->priv->pending_card_id);
+	dest->priv->pending_card_id = NULL;
+
 	if (dest->priv->card)
 		gtk_object_unref (GTK_OBJECT (dest->priv->card));
 	dest->priv->card = NULL;
@@ -167,6 +179,11 @@ e_destination_set_card (EDestination *dest, ECard *card, gint email_num)
 {
 	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 	g_return_if_fail (card && E_IS_CARD (card));
+
+	if (dest->priv->pending_card_id) {
+		g_free (dest->priv->pending_card_id);
+		dest->priv->pending_card_id = NULL;
+	}
 
 	if (dest->priv->card != card) {
 		if (dest->priv->card)
@@ -197,6 +214,83 @@ e_destination_set_html_mail_pref (EDestination *dest, gboolean x)
 
 	dest->priv->html_mail_override = TRUE;
 	dest->priv->wants_html_mail = x;
+}
+
+gboolean
+e_destination_has_card (const EDestination *dest)
+{
+	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), FALSE);
+	return dest->priv->card != NULL;
+}
+
+gboolean
+e_destination_has_pending_card (const EDestination *dest)
+{
+	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), FALSE);
+	return dest->priv->pending_card_id != NULL;
+}
+
+
+typedef struct _UseCard UseCard;
+struct _UseCard {
+	EDestination *dest;
+	EDestinationCardCallback cb;
+	gpointer closure;
+};
+
+static void
+use_card_cb (EBook *book, gpointer closure)
+{
+	UseCard *uc = (UseCard *) closure;
+	ECard *card;
+
+	if (book != NULL && uc->dest->priv->card == NULL) {
+
+		if (uc->dest->priv->pending_card_id) {
+
+			card = e_book_get_card (book, uc->dest->priv->pending_card_id);
+
+			if (card) {
+				ECard *old = uc->dest->priv->card;
+				uc->dest->priv->card = card;
+				gtk_object_ref (GTK_OBJECT (card));
+				if (old)
+					gtk_object_unref (GTK_OBJECT (old));
+			}
+				
+			g_free (uc->dest->priv->pending_card_id);
+			uc->dest->priv->pending_card_id = NULL;
+		
+		}
+
+	}
+
+	if (uc->cb)
+		uc->cb (uc->dest, uc->dest->priv->card, uc->closure);
+
+	gtk_object_unref (GTK_OBJECT (uc->dest));
+	g_free (uc);
+}
+
+void
+e_destination_use_card (EDestination *dest, EDestinationCardCallback cb, gpointer closure)
+{
+	g_return_if_fail (dest && E_IS_DESTINATION (dest));
+
+	if (dest->priv->card) {
+
+		if (cb) {
+			cb (dest, dest->priv->card, closure);
+		}
+
+	} else {
+		UseCard *uc = g_new (UseCard, 1);
+		uc->dest = dest;
+		gtk_object_ref (GTK_OBJECT (uc->dest));
+		uc->cb = cb;
+		uc->closure = closure;
+		e_book_use_local_address_book (use_card_cb, uc);
+	}
 }
 
 ECard *
@@ -393,11 +487,13 @@ e_destination_get_address_textv (EDestination **destv)
 
 #define DESTINATION_TAG       "DEST"
 #define DESTINATION_SEPARATOR "|"
+#define VEC_SEPARATOR         "\1"
 
 static gchar *
 join_strings (gchar **strv)
 {
 	/* FIXME: Should also quote any |'s that occur in any of the strings. */
+	/* (We fake it by mapping | to _ when building our fields below) */
 	return g_strjoinv (DESTINATION_SEPARATOR, strv);
 }
 
@@ -405,13 +501,37 @@ static gchar **
 unjoin_string (const gchar *str)
 {
 	/* FIXME: Should properly handle quoteded |'s in the string. */
+	/* (We fake it by mapping | to _ when building our fields below) */
 	return g_strsplit (str, DESTINATION_SEPARATOR, 0);
 }
 
 static gchar *
 build_field (const gchar *key, const gchar *value)
 {
-	return g_strdup_printf ("%s=%s", key, value);
+	gchar *field;
+	gchar *c;
+
+	g_return_val_if_fail (key != NULL, NULL);
+	g_return_val_if_fail (value != NULL, NULL);
+
+	field = g_strdup_printf ("%s=%s", key, value);
+
+	/* Paranoia: Convert any '=' in the key to '_' */
+	c = field;
+	while (*key) {
+		if (*c == '=')
+			*c = '_';
+		++key;
+		++c;
+	}
+	
+	/* Paranoia: Convert any '\1' or '|' in the key or value to '_' */
+	for (c=field; *c; ++c) {
+		if (*c == VEC_SEPARATOR || *c == DESTINATION_SEPARATOR)
+			*c = '_';
+	}
+
+	return field;
 }
 
 /* Modifies string in place, \0-terminates after the key, returns pointer to "value",
@@ -426,17 +546,18 @@ extract_field (gchar *field)
 	return s+1;
 }
 
-
+#define EXPORT_MAX_FIELDS 10
 gchar *
 e_destination_export (const EDestination *dest)
 {
+	ECard *card;
 	gchar **fields;
 	gchar *str;
 	gint i;
 
 	g_return_val_if_fail (dest && E_IS_DESTINATION (dest), NULL);
 
-	fields = g_new (gchar *, 5);
+	fields = g_new (gchar *, EXPORT_MAX_FIELDS);
 	fields[0] = g_strdup (DESTINATION_TAG);
 	fields[1] = build_field ("addr", e_destination_get_email (dest));
 
@@ -447,6 +568,10 @@ e_destination_export (const EDestination *dest)
 
 	fields[i++] = build_field ("html",
 				   e_destination_get_html_mail_pref (dest) ? "Y" : "N");
+
+	card = e_destination_get_card (dest);
+	if (card)
+		fields[i++] = build_field ("card", e_card_get_id (card));
 
 	fields[i] = NULL;
 	
@@ -464,7 +589,7 @@ e_destination_import (const gchar *str)
 	gchar **fields;
 	gint i;
 
-	gchar *addr = NULL, *name = NULL;
+	gchar *addr = NULL, *name = NULL, *card = NULL;
 	gboolean want_html = FALSE;
 	
 	g_return_val_if_fail (str, NULL);
@@ -493,11 +618,19 @@ e_destination_import (const gchar *str)
 					g_warning ("name redefined: \"%s\" => \"%s\"", name, value);
 				}
 
-				name = g_strdup (name);
+				name = g_strdup (value);
 
 			} else if (!strcmp ("html", key)) {
 
 				want_html = (*value == 'Y');
+
+			} else if (!strcmp ("card", key)) {
+
+				if (card) {
+					g_warning ("card redefined: \"%s\" => \"%s\"", card, value);
+				}
+
+				card = g_strdup (value);
 
 			}
 
@@ -510,6 +643,9 @@ e_destination_import (const gchar *str)
 	/* We construct this part of the object in a rather abusive way. */
 	dest->priv->string_email = addr;
 	dest->priv->name = name;
+	dest->priv->pending_card_id = card;
+
+	g_message ("name:[%s] addr:[%s]", name, addr);
 
 	e_destination_set_html_mail_pref (dest, want_html);
 
@@ -517,8 +653,6 @@ e_destination_import (const gchar *str)
 
 	return dest;
 }
-
-#define VEC_SEPARATOR "\1"
 
 gchar *
 e_destination_exportv (EDestination **destv)
@@ -573,4 +707,28 @@ e_destination_importv (const gchar *str)
 
 	g_strfreev (strv);
 	return destv;
+}
+
+static void
+touch_cb (EBook *book, const gchar *addr, ECard *card, gpointer closure)
+{
+	if (book != NULL && card != NULL) {
+		e_card_touch (card);
+		g_message ("Use score for \"%s\" is now %f", addr, e_card_get_use_score (card));
+		e_book_commit_card (book, card, NULL, NULL);
+	}
+}
+
+void
+e_destination_touch (EDestination *dest)
+{
+	const gchar *email;
+
+	g_return_if_fail (dest && E_IS_DESTINATION (dest));
+
+	email = e_destination_get_email (dest);
+
+	if (email) {
+		e_book_query_address_locally (email, touch_cb, NULL);
+	}
 }

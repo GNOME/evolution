@@ -26,9 +26,12 @@
  */
 
 #include <config.h>
+#include "e-select-names-completion.h"
+
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-defs.h>
@@ -39,7 +42,7 @@
 #include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/backend/ebook/e-destination.h>
 #include <addressbook/backend/ebook/e-card-simple.h>
-#include "e-select-names-completion.h"
+
 
 struct _ESelectNamesCompletionPrivate {
 
@@ -99,9 +102,12 @@ static ECompletionMatch *
 make_match (EDestination *dest, const gchar *menu_form, double score)
 {
 	ECompletionMatch *match = g_new0 (ECompletionMatch, 1);
+	ECard *card = e_destination_get_card (dest);
+
 	e_completion_match_construct (match);
 
 	e_completion_match_set_text (match, e_destination_get_name (dest), menu_form);
+	match->sort_major = card ? floor (e_card_get_use_score (card)) : 0;
 	match->score = score;
 	match->sort_minor = e_destination_get_email_num (dest);
 
@@ -356,20 +362,6 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 		    || (card->name->additional && !g_utf8_strncasecmp (card->name->additional, card->nickname, MIN (strlen (card->name->additional), len))))
 			score *= 100;
 	}
-
-#if 0
-	/* This leads to some pretty counter-intuitive results, so I'm disabling it. */
-	email = e_destination_get_email (dest);
-	if (email) {
-		/* Do the same for the email address. */
-		gchar *at = strchr (email, '@');
-		len = at ? at-email : strlen (email);
-		if ((card->name->given && !g_utf8_strncasecmp (card->name->given, email, MIN (strlen (card->name->given), len)))
-		    || (card->name->family && !g_utf8_strncasecmp (card->name->family, email, MIN (strlen (card->name->family), len)))
-		    || (card->name->additional && !g_utf8_strncasecmp (card->name->additional, email, MIN (strlen (card->name->additional), len))))
-			score *= 100;
-	}
-#endif
 
 	have_given       = card->name->given && *card->name->given;
 	have_additional  = card->name->additional && *card->name->additional;
@@ -1048,7 +1040,7 @@ e_select_names_completion_begin (ECompletion *comp, const gchar *text, gint pos,
 				ECompletionMatch *match = g_new (ECompletionMatch, 1);
 				e_completion_match_construct (match);
 				e_completion_match_set_text (match, text, override[j].text[k]);
-				match->score = 1 / (k + 1);
+				match->score = 1 / (double) (k + 1);
 				e_completion_found_match (comp, match);
 			}
 

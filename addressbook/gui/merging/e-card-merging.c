@@ -71,7 +71,7 @@ static void
 match_query_callback (ECard *card, ECard *match, ECardMatchType type, gpointer closure)
 {
 	ECardMergingLookup *lookup = closure;
-	if (type == E_CARD_MATCH_NONE) {
+	if ((gint) type <= (gint) E_CARD_MATCH_VAGUE) {
 		doit (lookup);
 		g_free (lookup);
 	} else {

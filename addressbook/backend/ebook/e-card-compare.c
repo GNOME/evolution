@@ -105,6 +105,7 @@ e_card_compare_name (ECard *card1, ECard *card2)
 {
 	ECardName *a, *b;
 	gint matches=0, possible=0;
+	gboolean given_match = FALSE, additional_match = FALSE, family_match = FALSE;
 
 	g_return_val_if_fail (card1 && E_IS_CARD (card1), E_CARD_MATCH_NOT_APPLICABLE);
 	g_return_val_if_fail (card2 && E_IS_CARD (card2), E_CARD_MATCH_NOT_APPLICABLE);
@@ -117,36 +118,45 @@ e_card_compare_name (ECard *card1, ECard *card2)
 
 	if (a->given && b->given) {
 		++possible;
-		if (name_fragment_match (a->given, b->given))
+		if (name_fragment_match (a->given, b->given)) {
 			++matches;
+			given_match = TRUE;
+		}
 	}
 
 	if (a->additional && b->additional) {
 		++possible;
-		if (name_fragment_match (a->additional, b->additional))
+		if (name_fragment_match (a->additional, b->additional)) {
 			++matches;
+			additional_match = TRUE;
+		}
 	}
 
 	if (a->family && b->family) {
 		++possible;
-		if (name_fragment_match (a->family, b->family))
+		if (name_fragment_match (a->family, b->family)) {
 			++matches;
+			family_match = TRUE;
+		}
 	}
 
 	/* Now look at the # of matches and try to intelligently map
-	   an E_CARD_MATCH_* type to it. */
+	   an E_CARD_MATCH_* type to it.  Special consideration is given
+	   to family-name matches. */
 
 	if (possible == 0)
 		return E_CARD_MATCH_NOT_APPLICABLE;
-	if (matches == 0)
-		return E_CARD_MATCH_NONE;
 
-	if (matches == possible) {
-		return possible > 1 ? E_CARD_MATCH_EXACT : E_CARD_MATCH_PARTIAL;
-	} else if (matches == possible-1)
-		return E_CARD_MATCH_PARTIAL;
-	else
-		return E_CARD_MATCH_VAGUE;
+	if (possible == 1)
+		return family_match ? E_CARD_MATCH_VAGUE : E_CARD_MATCH_NONE;
+
+	if (possible == matches)
+		return family_match ? E_CARD_MATCH_EXACT : E_CARD_MATCH_PARTIAL;
+
+	if (possible == matches+1)
+		return family_match ? E_CARD_MATCH_PARTIAL : E_CARD_MATCH_VAGUE;
+
+	return E_CARD_MATCH_NONE;
 }
 
 
