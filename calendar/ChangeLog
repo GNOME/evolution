@@ -1,3 +1,12 @@
+2004-04-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* gui/migration.c (migrate_tasks): Fixed the version checks for
+	migrating pilot data.
+	(migrate_calendars): Same.
+	(migrate_pilot_data): Doh. Take a third argument to specify what
+	component we are migrating ("todo" vs "calendar") so that we can
+	compare against the correct filename. Might help :-)
+
 2004-04-27  Kidd Wang  <kidd.wang@sun.com>
 
 	* gui/e-cal-model-tasks.c: (ecmt_set_value_at): compare the start

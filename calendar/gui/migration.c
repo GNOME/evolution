@@ -560,8 +560,9 @@ migrate_pilot_db_key (const char *key, const char *data, gpointer user_data)
 }
 
 static void
-migrate_pilot_data (const char *old_path, const char *new_path)
+migrate_pilot_data (const char *component, const char *conduit, const char *old_path, const char *new_path)
 {
+	char *changelog, *map;
 	struct dirent *dent;
 	const char *ext;
 	char *filename;
@@ -570,8 +571,14 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 	if (!(dir = opendir (old_path)))
 		return;
 	
+	map = g_alloca (12 + strlen (conduit));
+	sprintf (map, "pilot-map-%s-", conduit);
+	
+	changelog = g_alloca (strlen (component) + 28 + strlen (conduit));
+	sprintf (changelog, "%s.ics-pilot-sync-evolution-%s-", component, conduit);
+	
 	while ((dent = readdir (dir))) {
-		if (!strncmp (dent->d_name, "pilot-map-todo-", 15) &&
+		if (!strncmp (dent->d_name, map, strlen (map)) &&
 		    ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".xml"))) {
 			/* pilot map file - src and dest file formats are identical */
 			unsigned char inbuf[4096];
@@ -627,7 +634,7 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 			close (fd0);
 			close (fd1);
 			g_free (filename);
-		} else if (strstr (dent->d_name, ".ics-pilot-sync-evolution-todo-") &&
+		} else if (!strncmp (dent->d_name, changelog, strlen (changelog)) &&
 			   ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".db"))) {
 			/* src and dest formats differ, src format is db3 while dest format is xml */
 			EXmlHash *xmlhash;
@@ -761,13 +768,13 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 			g_object_unref (gconf);
 		}
 		
-		if (minor <= 5 && revision <= 9) {
+		if (minor < 5 || (minor == 5 && revision <= 9)) {
 			char *old_path, *new_path;
 			
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Calendar", NULL);
 			new_path = g_build_filename (calendar_component_peek_base_directory (component),
 						     "calendar", "local", "system", NULL);
-			migrate_pilot_data (old_path, new_path);
+			migrate_pilot_data ("calendar", "calendar", old_path, new_path);
 			g_free (new_path);
 			g_free (old_path);
 		}
@@ -862,13 +869,13 @@ migrate_tasks (TasksComponent *component, int major, int minor, int revision)
 			dialog_close ();
 		}
 		
-		if (minor <= 5 && revision <= 9) {
+		if (minor < 5 || (minor == 5 && revision <= 9)) {
 			char *old_path, *new_path;
 			
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Tasks", NULL);
 			new_path = g_build_filename (tasks_component_peek_base_directory (component),
 						     "tasks", "local", "system", NULL);
-			migrate_pilot_data (old_path, new_path);
+			migrate_pilot_data ("tasks", "todo", old_path, new_path);
 			g_free (new_path);
 			g_free (old_path);
 		}
