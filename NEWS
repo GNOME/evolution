@@ -5,7 +5,7 @@ Bugs fixed:
 
   * Importers
 
-    #17441 - 
+    #17441 - Crash trying to import VCards file into an LDAP folder
 
 Evolution 1.0.1, 12-18-2001
 ---------------------------
