@@ -1,3 +1,18 @@
+2002-10-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-importer.c (choose_importer_from_list): Change the
+	selection mode to GTK_SELECTION_BROWSE so there is always a
+	selection.  The code here doesn't handle a NULL selection.
+	[#31690]
+
+	* e-shell-importer.c (import_cb): Only delay half a second
+	(instead of 5 seconds) when getting EVOLUTION_IMPORTER_NOT_READY
+	or EVOLUTION_IMPORTER_BUSY.
+
+	* importer/evolution-importer-listener.c
+	(impl_GNOME_Evolution_ImporterListener_notifyResult): Removed
+	debugging message.
+
 2002-10-04  Chris Toshok  <toshok@ximian.com>
 
 	* e-shell-folder-selection-dialog.c (delete_event_cb): new

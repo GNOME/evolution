@@ -237,24 +237,13 @@ import_cb (EvolutionImporterListener *listener,
 	IN;
 	if (icd->stop != TRUE) {
 		if (result == EVOLUTION_IMPORTER_NOT_READY) {
-			/* Importer isn't ready yet. 
-			   Wait 5 seconds and try again. */
-			
-			label = g_strdup_printf (_("Importing %s\nImporter not ready."
-						   "\nWaiting 5 seconds to retry."),
-						 icd->filename);
-			gtk_label_set_text (GTK_LABEL (icd->contents), label);
-			g_free (label);
-			while (gtk_events_pending ())
-				gtk_main_iteration ();
-			
-			gtk_timeout_add (5000, importer_timeout_fn, data);
+			gtk_timeout_add (500, importer_timeout_fn, data);
 			OUT;
 			return;
 		}
 		
 		if (result == EVOLUTION_IMPORTER_BUSY) {
-			gtk_timeout_add (5000, importer_timeout_fn, data);
+			gtk_timeout_add (500, importer_timeout_fn, data);
 			OUT;
 			return;
 		}
@@ -381,6 +370,7 @@ choose_importer_from_list (GList *importer_list)
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), clist,
 			    TRUE, TRUE, 0);
+	gtk_clist_set_selection_mode (GTK_CLIST (clist), GTK_SELECTION_BROWSE);
 	gtk_widget_show (clist);
 	
 	switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
