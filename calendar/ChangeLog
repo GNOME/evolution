@@ -1,3 +1,13 @@
+1999-01-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* view-utils.c (view_utils_draw_events): Improve this draw
+	routine.  Now it can split the text in lines and fit as many
+	events as possible.
+	(nicetime): Return strings without spaces at the beginning.
+	
+	* gncal-day-view.c (gncal_day_view_expose): Move clip-clear
+	operation here.
+
 1999-01-29 Jason Tackaberry <tack@dok.org>
 
 	* gncal-full-day.c (child_popup_menu): if the user clicks on an

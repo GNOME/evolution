@@ -750,7 +750,6 @@ child_new (GncalFullDay *fullday, time_t start, time_t end, iCalObject *ico)
 static void
 squick (GtkWidget *widget, gpointer data)
 {
-	printf ("destroyed!\n");
 }
 
 static void

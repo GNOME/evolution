@@ -8,6 +8,7 @@
 
 #include <string.h>
 #include "view-utils.h"
+#include <libgnomeui/gnome-icon-text.h>
 
 int am_pm_flag = 0;
 
@@ -15,7 +16,8 @@ static char *
 nicetime (struct tm *tm)
 {
 	static char buf [20];
-		
+	char *p = buf;
+	
 	if (am_pm_flag){
 		if (tm->tm_min)
 			strftime (buf, sizeof (buf), "%l:%M%p", tm);
@@ -27,34 +29,48 @@ nicetime (struct tm *tm)
 		else
 			strftime (buf, sizeof (buf), "%k", tm);
 	}
-	return buf;
+	while (*p == ' ')
+		p++;
+	return p;
 }
+
+typedef struct {
+	GnomeIconTextInfo *layout;
+	int lines;
+	int assigned_lines;
+} line_info_t;
 
 void
 view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRectangle *area,
 			int flags, GList *events, time_t start, time_t end)
 {
+	GdkFont *font = widget->style->font;
 	int font_height;
-	int x, y, max_y;
-	char buf [40];
-	struct tm tm_start, tm_end;
-	char *str;
-	iCalObject *ico;
+	int y, max_y, items, i, need_more, nlines, base, extra;
 	GList *list;
+	line_info_t *lines;
 
-	gdk_gc_set_clip_rectangle (gc, area);
-
-	font_height = widget->style->font->ascent + widget->style->font->descent;
-
+	if (events == NULL)
+		return;
+	
+	items = g_list_length (events);
+	lines = g_new0 (line_info_t, items);
+	
+	font_height = font->ascent + font->descent;
 	max_y = area->y + area->height - font_height * ((flags & VIEW_UTILS_DRAW_SPLIT) ? 2 : 1);
 
-	for (y = area->y, list = events; (y < max_y) && list; y += font_height, list = list->next) {
+	/*
+	 * Layout all the lines, measure the space needs
+	 */
+	for (i = 0, list = events; list; list = list->next, i++){
 		CalendarObject *co = list->data;
-		ico = co->ico;
+		struct tm tm_start, tm_end;
+		iCalObject *ico = co->ico;
+		char buf [60];
+		char *full_text;
 
 		tm_start = *localtime (&co->ev_start);
 		tm_end = *localtime   (&co->ev_end);
-		str = ico->summary;
 
 		strcpy (buf, nicetime (&tm_start));
 			
@@ -62,27 +78,84 @@ view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRect
 			strcat (buf, "-");
 			strcat (buf, nicetime (&tm_end));
 		}
-		gdk_draw_string (window,
-				 widget->style->font,
-				 gc,
-				 area->x,
-				 y + widget->style->font->ascent,
-				 buf);
 
-		if (flags & VIEW_UTILS_DRAW_SPLIT) {
-			y += font_height;
-			x = widget->style->font->ascent; /* some indentation */
-		} else
-			x = gdk_string_width (widget->style->font, buf);
+		full_text = g_strconcat (buf, ": ", ico->summary, NULL);
+		lines [i].layout = gnome_icon_layout_text (
+			font, full_text, "\n -,.;:=#", area->width, TRUE);
+		lines [i].lines = g_list_length (lines [i].layout->rows);
 
-		gdk_draw_string (window,
-				 widget->style->font,
-				 gc,
-				 x,
-				 y + widget->style->font->ascent,
-				 str);
+		g_free (full_text);
 	}
-	gdk_gc_set_clip_rectangle (gc, NULL);
+
+	/*
+	 * Compute how many lines we will give to each row
+	 */
+	nlines = 1 + max_y / font_height;
+	base = nlines / items;
+	extra = nlines % items;
+	need_more = 0;
+	
+	for (i = 0; i < items; i++){
+		if (lines [i].lines <= base){
+			extra += base - lines [i].lines;
+			lines [i].assigned_lines = lines [i].lines;
+		} else {
+			need_more++;
+			lines [i].assigned_lines = base;
+		}
+	}
+
+	/*
+	 * use any extra space
+	 */
+	while (need_more && extra > 0){
+		need_more = 0;
+		
+		for (i = 0; i < items; i++){
+			if (lines [i].lines > lines [i].assigned_lines){
+				lines [i].assigned_lines++;
+				extra--;
+			}
+
+			if (extra == 0)
+				break;
+			
+			if (lines [i].lines > lines [i].assigned_lines)
+				need_more = 1;
+		}
+	}
+
+	/*
+	 * Draw the information
+	 */
+	gdk_gc_set_clip_rectangle (gc, area);
+	y = area->y;
+	for (i = 0; i < items; i++){
+		int line;
+
+		list = lines [i].layout->rows;
+		
+		for (line = 0; line < lines [i].assigned_lines; line++){
+			GnomeIconTextInfoRow *row = list->data;
+
+			list = list->next;
+
+			if (row)
+				gdk_draw_string (
+					window, font, gc,
+					area->x, y + font->ascent,
+					row->text);
+			y += font_height;
+		}
+	}
+
+	/*
+	 * Free resources.
+	 */
+
+	for (i = 0; i < items; i++)
+		gnome_icon_text_info_free (lines [i].layout);
+	g_free (lines);	
 }
 
 void

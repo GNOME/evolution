@@ -250,6 +250,7 @@ gncal_day_view_expose (GtkWidget *widget, GdkEventExpose *event)
 	GdkRectangle rect, dest;
 	GdkFont *font;
 	int str_width;
+	GdkGC *gc;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GNCAL_IS_DAY_VIEW (widget), FALSE);
@@ -258,6 +259,7 @@ gncal_day_view_expose (GtkWidget *widget, GdkEventExpose *event)
 	if (!GTK_WIDGET_DRAWABLE (widget))
 		return FALSE;
 
+	gc = widget->style->fg_gc [GTK_STATE_NORMAL];
 	dview = GNCAL_DAY_VIEW (widget);
 
 	x1 = widget->style->klass->xthickness;
@@ -300,18 +302,16 @@ gncal_day_view_expose (GtkWidget *widget, GdkEventExpose *event)
 		dest.width -= 2 * TEXT_BORDER;
 		dest.height -= 2 * TEXT_BORDER;
 
-		gdk_gc_set_clip_rectangle (widget->style->fg_gc[GTK_STATE_NORMAL], &dest);
+		gdk_gc_set_clip_rectangle (gc, &dest);
 
 		str_width = gdk_string_width (font, dview->day_str);
 		
-		gdk_draw_string (widget->window,
-				 font,
-				 widget->style->fg_gc[GTK_STATE_NORMAL],
+		gdk_draw_string (widget->window, font, gc,
 				 dest.x + (dest.width - str_width) / 2,
 				 dest.y + font->ascent,
 				 dview->day_str);
 
-		gdk_gc_set_clip_rectangle (widget->style->fg_gc[GTK_STATE_NORMAL], NULL);
+		gdk_gc_set_clip_rectangle (gc, NULL);
 	}
 
 	/* Division line */
@@ -325,21 +325,25 @@ gncal_day_view_expose (GtkWidget *widget, GdkEventExpose *event)
 
 	/* Text */
 
-	rect.x = x1 + TEXT_BORDER;
-	rect.y = y1 + 3 * TEXT_BORDER + font->ascent + font->descent + widget->style->klass->ythickness;
-	rect.width = width - 2 * TEXT_BORDER;
-	rect.height = height - (rect.y - y1) - TEXT_BORDER;
+	if (dview->events != NULL){
+		rect.x = x1 + TEXT_BORDER;
+		rect.y = y1 + 3 * TEXT_BORDER +
+			font->ascent + font->descent +
+			widget->style->klass->ythickness;
+		rect.width = width - 2 * TEXT_BORDER;
+		rect.height = height - (rect.y - y1) - TEXT_BORDER;
+		
+		if (gdk_rectangle_intersect (&rect, &event->area, &dest))
+			view_utils_draw_events (
+				widget, widget->window, gc,
+				&rect,
+				VIEW_UTILS_DRAW_END | VIEW_UTILS_DRAW_SPLIT,
+				dview->events,
+				dview->lower,
+				dview->upper);
+	}
 
-	if (gdk_rectangle_intersect (&rect, &event->area, &dest))
-		view_utils_draw_events (widget,
-					widget->window,
-					widget->style->fg_gc[GTK_STATE_NORMAL],
-					&rect,
- 					VIEW_UTILS_DRAW_END | VIEW_UTILS_DRAW_SPLIT,
-					dview->events,
-					dview->lower,
-					dview->upper);
-
+	gdk_gc_set_clip_rectangle (gc, NULL);
 	return FALSE;
 }
 
