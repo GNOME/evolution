@@ -1,3 +1,37 @@
+2003-02-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (build_tree): Use g_signal_emit() rather than
+	gtk_signal_emit().
+	(build_flat): Same here.
+
+	* mail-signature-editor.c: #include <string.h>
+
+	* mail-vfolder.c: #include <string.h>
+
+	* mail-session.c: #include <string.h>
+
+	* mail-search.c: #include <string.h>
+
+	* mail-mt.c: #include <string.h>
+
+	* mail-ops.c (save_part_save): Use strcasecmp() instead of
+	g_strcasecmp().
+
+	* mail-local.c: #include <string.h>
+	(reconfigure_folder_reconfigured): Use a GtkDialog instead of
+	gnome_error_dialog().
+
+	* mail-format.c (find_preferred_alternative): Use g_ascii_strdown
+	since g_strdown is deprecated.
+	(fake_mime_part_from_data): Removed, no longer used it seems.
+	(destroy_part): Also removed.
+
+	* mail-display.c (make_popup_window): Replace call to
+	gtk_window_set_polociy() with gtk_window_set_resizable() instead.
+	(popup_size_allocate_cb): Use gtk_window_set_position() with
+	GTK_WIN_POS_MOUSE instead of calculating the position to put it
+	in.
+
 2003-02-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* importers/Makefile.am: Split the ORBit IDL compilation rules to

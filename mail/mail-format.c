@@ -1243,39 +1243,6 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	return TRUE;
 }
 
-static CamelMimePart *
-fake_mime_part_from_data (const char *data, int len, const char *type,
-			  guint offset, MailDisplay *md)
-{
-	GHashTable *fake_parts = g_datalist_get_data (md->data, "fake_parts");
-	CamelStream *memstream;
-	CamelDataWrapper *wrapper;
-	CamelMimePart *part;
-	
-	part = g_hash_table_lookup (fake_parts, GUINT_TO_POINTER (offset));
-	if (part)
-		return part;
-	
-	memstream = camel_stream_mem_new_with_buffer (data, len);
-	wrapper = camel_data_wrapper_new ();
-	camel_data_wrapper_construct_from_stream (wrapper, memstream);
-	camel_data_wrapper_set_mime_type (wrapper, type);
-	camel_object_unref (memstream);
-	part = camel_mime_part_new ();
-	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
-	camel_object_unref (wrapper);
-	camel_mime_part_set_disposition (part, "inline");
-	
-	g_hash_table_insert (fake_parts, GUINT_TO_POINTER (offset), part);
-	return part;
-}
-
-static void
-destroy_part (CamelObject *root, gpointer event_data, gpointer user_data)
-{
-	camel_object_unref (user_data);
-}
-
 /* text/enriched (RFC 1896) or text/richtext (included in RFC 1341) */
 static gboolean
 handle_text_enriched (CamelMimePart *part, const char *mime_type,
@@ -1655,7 +1622,7 @@ find_preferred_alternative (CamelMultipart *multipart, gboolean want_plain)
 		CamelContentType *type = camel_mime_part_get_content_type (part);
 		char *mime_type = header_content_type_simple (type);
 		
-		g_strdown (mime_type);
+		g_ascii_strdown (mime_type, -1);
 		if (want_plain && !strcmp (mime_type, "text/plain"))
 			return part;
 		handler = mail_lookup_handler (mime_type);

@@ -29,6 +29,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <unistd.h>
 #include <errno.h>
 
@@ -1344,11 +1345,15 @@ static void
 reconfigure_folder_reconfigured (struct _mail_msg *mm)
 {
 	struct _reconfigure_msg *m = (struct _reconfigure_msg *)mm;
+	GtkWidget *dialog;
 	/*char *uri;*/
 	
 	if (camel_exception_is_set (&mm->ex)) {
-		gnome_error_dialog (_("If you can no longer open this mailbox, then\n"
-				      "you may need to repair it manually."));
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR,
+						 GTK_BUTTONS_OK, "%s",
+						 _("If you can no longer open this mailbox, then\n"
+						   "you may need to repair it manually."));
+		gtk_dialog_run (GTK_DIALOG (dialog));
 	}
 
 	if (m->done)

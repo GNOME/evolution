@@ -25,6 +25,7 @@
 #endif
 
 #include <stdlib.h>
+#include <string.h>
 
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>

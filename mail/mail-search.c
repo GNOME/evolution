@@ -28,6 +28,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include "mail-search.h"
 #include "e-searching-tokenizer.h"
 #include <gtkhtml/gtkhtml-search.h>

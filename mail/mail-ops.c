@@ -2047,7 +2047,7 @@ save_part_save (struct _mail_msg *mm)
 	content_type = camel_mime_part_get_content_type (m->part);
 	if (header_content_type_is (content_type, "text", "*")
 	    && (charset = header_content_type_param (content_type, "charset"))
-	    && g_strcasecmp (charset, "utf-8") != 0) {
+	    && strcasecmp (charset, "utf-8") != 0) {
 		charsetfilter = camel_mime_filter_charset_new_convert ("utf-8", charset);
 		filtered_stream = (CamelStream *) camel_stream_filter_new_with_stream (stream_fs);
 		camel_object_unref (CAMEL_OBJECT (stream_fs));

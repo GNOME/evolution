@@ -1588,19 +1588,19 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 #endif
 
 	if (saveuid) {
-		ETreePath *node = g_hash_table_lookup(ml->uid_nodemap, saveuid);
+		ETreePath *node = g_hash_table_lookup (ml->uid_nodemap, saveuid);
 		if (node == NULL) {
-			g_free(ml->cursor_uid);
+			g_free (ml->cursor_uid);
 			ml->cursor_uid = NULL;
-			gtk_signal_emit((GtkObject *)ml, message_list_signals[MESSAGE_SELECTED], NULL);
+			g_signal_emit (ml, message_list_signals[MESSAGE_SELECTED], 0, NULL);
 		} else {
-			e_tree_set_cursor(ml->tree, node);
+			e_tree_set_cursor (ml->tree, node);
 		}
-		g_free(saveuid);
-	} else if (ml->cursor_uid && !g_hash_table_lookup(ml->uid_nodemap, ml->cursor_uid)) {
-		g_free(ml->cursor_uid);
+		g_free (saveuid);
+	} else if (ml->cursor_uid && !g_hash_table_lookup (ml->uid_nodemap, ml->cursor_uid)) {
+		g_free (ml->cursor_uid);
 		ml->cursor_uid = NULL;
-		gtk_signal_emit((GtkObject *)ml, message_list_signals[MESSAGE_SELECTED], NULL);
+		g_signal_emit (ml, message_list_signals[MESSAGE_SELECTED], 0, NULL);
 	}
 	
 #ifdef TIMEIT
@@ -1905,13 +1905,13 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 	if (saveuid) {
 		ETreePath *node = g_hash_table_lookup(ml->uid_nodemap, saveuid);
 		if (node == NULL) {
-			g_free(ml->cursor_uid);
+			g_free (ml->cursor_uid);
 			ml->cursor_uid = NULL;
-			gtk_signal_emit((GtkObject *)ml, message_list_signals[MESSAGE_SELECTED], NULL);
+			g_signal_emit (ml, message_list_signals[MESSAGE_SELECTED], 0, NULL);
 		} else {
-			e_tree_set_cursor(ml->tree, node);
+			e_tree_set_cursor (ml->tree, node);
 		}
-		g_free(saveuid);
+		g_free (saveuid);
 	}
 
 #ifdef TIMEIT

@@ -2325,18 +2325,7 @@ popup_realize_cb (GtkWidget *widget, gpointer user_data)
 static void
 popup_size_allocate_cb (GtkWidget *widget, GtkAllocation *alloc, gpointer user_data)
 {
-	int x, y, w, h, xmax, ymax;
-	
-	xmax = gdk_screen_width ();
-	ymax = gdk_screen_height ();
-	
-	gdk_window_get_pointer (NULL, &x, &y, NULL);
-	w = alloc->width;
-	h = alloc->height;
-	x = CLAMP (x - w/2, 0, xmax - w);
-	y = CLAMP (y - h/2, 0, ymax - h);
-	gtk_widget_set_uposition (widget, x, y);
-
+	gtk_window_set_position (GTK_WINDOW (widget), GTK_WIN_POS_MOUSE);
 }
 
 static PopupInfo *
@@ -2356,7 +2345,7 @@ make_popup_window (GtkWidget *w)
 	gtk_container_add (GTK_CONTAINER (pop->win), fr);
 	gtk_container_add (GTK_CONTAINER (fr), w);
 	
-	gtk_window_set_policy (GTK_WINDOW (pop->win), FALSE, FALSE, FALSE);
+	gtk_window_set_resizable (GTK_WINDOW (pop->win), FALSE);
 	
 	g_signal_connect (pop->win, "enter_notify_event", G_CALLBACK (popup_enter_cb), pop);
 	g_signal_connect (pop->win, "leave_notify_event", G_CALLBACK (popup_leave_cb), pop);

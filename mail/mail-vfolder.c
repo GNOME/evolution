@@ -25,6 +25,7 @@
 #endif
 
 #include <glib.h>
+#include <string.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "Evolution.h"

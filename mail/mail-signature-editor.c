@@ -25,6 +25,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <errno.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-stream-memory.h>
