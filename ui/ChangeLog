@@ -1,3 +1,10 @@
+2001-01-15  Jason Leach  <jasonleach@usa.net>
+
+	(Bug #1143: Add elipses to more menu items that lead to dialogs)
+	
+	* evolution-mail.xml: "Folder/Configure Folder..."
+	* evolution.xml: "File/Import file..."
+	
 2001-01-10  Miguel de Icaza  <miguel@helixcode.com>
 
 	* evolution.xml: Remove fixme from NewMailMessage.

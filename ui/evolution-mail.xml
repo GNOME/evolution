@@ -190,7 +190,7 @@
          accel="*Control*x"/>
 
         <menuitem name="FolderConfig" verb=""
-        _label="_Configure Folder"/>
+        _label="_Configure Folder..."/>
 
       </submenu>
 
