@@ -1,3 +1,21 @@
+2002-09-30  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c
+	(calconduit_load_configuration): load multi_day_split
+	(calconduit_save_configuration): save it
+	(calconduit_dupe_configuration): copy it
+	(e_cal_gui_new): create gui for it
+	(e_cal_gui_fill_widgets): fill gui with value
+	(e_cal_gui_fill_config): get value from gui and store in config
+	(e_calendar_context_destroy): destroy new_cfg and gui properly
+	(process_multi_day): skip item if its multi-day and we don't want
+	to split
+	(fill_widgets): fill local config widgets
+	(create_settings_window): create local config widgets
+	(save_settings): fill config from local widgets
+
+	Fixes #23763
+	
 2002-09-30  Aaron Weber  <aaron@ximian.com>
 
 	* gui/e-itip-control.c (update_item): adjust string on line 1609
@@ -125,6 +143,8 @@
 	make sure the start/end for no time palm events are DATE values,
 	tidy code slightly
 
+	Fixes #21631
+	
 2002-09-24  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (process_multi_day):

@@ -65,6 +65,7 @@ void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
 typedef struct _ECalLocalRecord ECalLocalRecord;
 typedef struct _ECalConduitCfg ECalConduitCfg;
+typedef struct _ECalConduitGui ECalConduitGui;
 typedef struct _ECalConduitContext ECalConduitContext;
 
 /* Local Record */
@@ -97,6 +98,8 @@ struct _ECalConduitCfg {
 	GnomePilotConduitSyncType  sync_type;
 
 	gboolean secret;
+	gboolean multi_day_split;
+	
 	gchar *last_uri;
 };
 
@@ -127,9 +130,10 @@ calconduit_load_configuration (guint32 pilot_id)
 	gnome_config_push_prefix (prefix);
 
 	c->secret = gnome_config_get_bool ("secret=FALSE");
+	c->multi_day_split = gnome_config_get_bool ("multi_day_split=TRUE");
 	c->last_uri = gnome_config_get_string ("last_uri");
 
-	gnome_config_pop_prefix ();
+	gnome_config_pop_prefix (); 
 
 	return c;
 }
@@ -143,6 +147,7 @@ calconduit_save_configuration (ECalConduitCfg *c)
 	gnome_config_push_prefix (prefix);
 
 	gnome_config_set_bool ("secret", c->secret);
+	gnome_config_set_bool ("multi_day_split", c->multi_day_split);
 	gnome_config_set_string ("last_uri", c->last_uri);
 
 	gnome_config_pop_prefix ();
@@ -162,6 +167,7 @@ calconduit_dupe_configuration (ECalConduitCfg *c)
 	retval->pilot_id = c->pilot_id;
 	retval->sync_type = c->sync_type;
 	retval->secret = c->secret;
+	retval->multi_day_split = c->multi_day_split;
 	retval->last_uri = g_strdup (c->last_uri);
 	
 	return retval;
@@ -176,12 +182,68 @@ calconduit_destroy_configuration (ECalConduitCfg *c)
 	g_free (c);
 }
 
+/* Gui */
+struct _ECalConduitGui {
+	GtkWidget *multi_day_split;
+};
+
+static ECalConduitGui *
+e_cal_gui_new (EPilotSettings *ps) 
+{
+	ECalConduitGui *gui;
+	GtkWidget *lbl;
+	gint rows;
+	
+	g_return_val_if_fail (ps != NULL, NULL);
+	g_return_val_if_fail (E_IS_PILOT_SETTINGS (ps), NULL);
+
+	gtk_table_resize (GTK_TABLE (ps), E_PILOT_SETTINGS_TABLE_ROWS + 1, E_PILOT_SETTINGS_TABLE_COLS);
+
+	gui = g_new0 (ECalConduitGui, 1);
+
+	rows = E_PILOT_SETTINGS_TABLE_ROWS;
+	lbl = gtk_label_new (_("Split Multi-Day Events:"));
+	gui->multi_day_split = gtk_check_button_new ();
+	gtk_table_attach_defaults (GTK_TABLE (ps), lbl, 0, 1, rows, rows + 1);
+	gtk_table_attach_defaults (GTK_TABLE (ps), gui->multi_day_split, 1, 2, rows, rows + 1);
+	gtk_widget_show (lbl);
+	gtk_widget_show (gui->multi_day_split);
+	
+	return gui;
+}
+
+static void
+e_cal_gui_fill_widgets (ECalConduitGui *gui, ECalConduitCfg *cfg) 
+{
+	g_return_if_fail (gui != NULL);
+	g_return_if_fail (cfg != NULL);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gui->multi_day_split),
+				      cfg->multi_day_split);
+}
+
+static void
+e_cal_gui_fill_config (ECalConduitGui *gui, ECalConduitCfg *cfg) 
+{
+	g_return_if_fail (gui != NULL);
+	g_return_if_fail (cfg != NULL);
+
+	cfg->multi_day_split = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (gui->multi_day_split));
+}
+
+static void
+e_cal_gui_destroy (ECalConduitGui *gui) 
+{
+	g_free (gui);
+}
+
 /* Context */
 struct _ECalConduitContext {
-	ECalConduitCfg *cfg;
 	GnomePilotDBInfo *dbi;
 
+	ECalConduitCfg *cfg;
 	ECalConduitCfg *new_cfg;
+	ECalConduitGui *gui;
 	GtkWidget *ps;
 	
 	struct AppointmentAppInfo ai;
@@ -237,6 +299,10 @@ e_calendar_context_destroy (ECalConduitContext *ctxt)
 
 	if (ctxt->cfg != NULL)
 		calconduit_destroy_configuration (ctxt->cfg);
+	if (ctxt->new_cfg != NULL)
+		calconduit_destroy_configuration (ctxt->new_cfg);
+	if (ctxt->gui != NULL)
+		e_cal_gui_destroy (ctxt->gui);
 
 	if (ctxt->client != NULL)
 		gtk_object_unref (GTK_OBJECT (ctxt->client));
@@ -526,7 +592,7 @@ process_multi_day (ECalConduitContext *ctxt, CalClientChange *ccc, GList **multi
 	if (day_end >= event_end) {
 		ret = FALSE;
 		goto cleanup;
-	} else if (cal_component_has_recurrences (ccc->comp)) {
+	} else if (cal_component_has_recurrences (ccc->comp) || !ctxt->cfg->multi_day_split) {
 		ret = TRUE;
 		goto cleanup;
 	}
@@ -1659,6 +1725,8 @@ fill_widgets (ECalConduitContext *ctxt)
 {
 	e_pilot_settings_set_secret (E_PILOT_SETTINGS (ctxt->ps),
 				     ctxt->cfg->secret);
+
+	e_cal_gui_fill_widgets (ctxt->gui, ctxt->cfg);
 }
 
 static gint
@@ -1669,6 +1737,8 @@ create_settings_window (GnomePilotConduit *conduit,
 	LOG ("create_settings_window");
 
 	ctxt->ps = e_pilot_settings_new ();
+	ctxt->gui = e_cal_gui_new (E_PILOT_SETTINGS (ctxt->ps));
+
 	gtk_container_add (GTK_CONTAINER (parent), ctxt->ps);
 	gtk_widget_show (ctxt->ps);
 
@@ -1691,7 +1761,8 @@ save_settings    (GnomePilotConduit *conduit, ECalConduitContext *ctxt)
 
 	ctxt->new_cfg->secret =
 		e_pilot_settings_get_secret (E_PILOT_SETTINGS (ctxt->ps));
-	
+	e_cal_gui_fill_config (ctxt->gui, ctxt->new_cfg);
+
 	calconduit_save_configuration (ctxt->new_cfg);
 }
 
