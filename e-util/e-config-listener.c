@@ -20,6 +20,7 @@
 
 typedef struct {
 	EConfigListener *cl;
+	Bonobo_EventSource_ListenerId lid;
 	char *key;
 	GtkFundamentalType type;
 	union {
@@ -96,6 +97,8 @@ free_key_hash (gpointer key, gpointer value, gpointer user_data)
 
 	g_return_if_fail (kd != NULL);
 
+	bonobo_event_source_client_remove_listener (kd->cl->priv->db, kd->lid, NULL);
+
 	g_free (kd->key);
 	switch (kd->type) {
 	case GTK_TYPE_STRING :
@@ -115,14 +118,14 @@ e_config_listener_destroy (GtkObject *object)
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 
+	g_hash_table_foreach (cl->priv->keys, (GHFunc) free_key_hash, NULL);
+	g_hash_table_destroy (cl->priv->keys);
+	cl->priv->keys = NULL;
+
 	if (cl->priv->db != CORBA_OBJECT_NIL) {
 		bonobo_object_release_unref (cl->priv->db, NULL);
 		cl->priv->db = CORBA_OBJECT_NIL;
 	}
-
-	g_hash_table_foreach (cl->priv->keys, (GHFunc) free_key_hash, NULL);
-	g_hash_table_destroy (cl->priv->keys);
-	cl->priv->keys = NULL;
 
 	g_free (cl->priv);
 	cl->priv = NULL;
@@ -249,7 +252,7 @@ add_key (EConfigListener *cl, const char *key, GtkFundamentalType type,
 		*ch = ':';
 
 	CORBA_exception_init (&ev);
-	bonobo_event_source_client_add_listener (
+	kd->lid = bonobo_event_source_client_add_listener (
 		cl->priv->db,
 		property_change_cb,
 		event_name,
@@ -438,13 +441,14 @@ e_config_listener_set_boolean (EConfigListener *cl, const char *key, gboolean va
 	bonobo_config_set_boolean (cl->priv->db, key, value, &ev);
 	if (BONOBO_EX (&ev))
 		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
+	else {
+		/* update the internal copy */
+		kd = g_hash_table_lookup (cl->priv->keys, key);
+		if (kd)
+			kd->value.v_bool = value;
+	}
 
 	CORBA_exception_free (&ev);
-
-	/* update the internal copy */
-	kd = g_hash_table_lookup (cl->priv->keys, key);
-	if (kd)
-		kd->value.v_bool = value;
 }
 
 void
@@ -465,13 +469,14 @@ e_config_listener_set_float (EConfigListener *cl, const char *key, float value)
 	bonobo_config_set_float (cl->priv->db, key, value, &ev);
 	if (BONOBO_EX (&ev))
 		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
+	else {
+		/* update the internal copy */
+		kd = g_hash_table_lookup (cl->priv->keys, key);
+		if (kd)
+			kd->value.v_float = value;
+	}
 
 	CORBA_exception_free (&ev);
-
-	/* update the internal copy */
-	kd = g_hash_table_lookup (cl->priv->keys, key);
-	if (kd)
-		kd->value.v_float = value;
 }
 
 void
@@ -492,13 +497,14 @@ e_config_listener_set_long (EConfigListener *cl, const char *key, long value)
 	bonobo_config_set_long (cl->priv->db, key, value, &ev);
 	if (BONOBO_EX (&ev))
 		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
+	else {
+		/* update the internal copy */
+		kd = g_hash_table_lookup (cl->priv->keys, key);
+		if (kd)
+			kd->value.v_long = value;
+	}
 
 	CORBA_exception_free (&ev);
-
-	/* update the internal copy */
-	kd = g_hash_table_lookup (cl->priv->keys, key);
-	if (kd)
-		kd->value.v_long = value;
 }
 
 void
@@ -526,15 +532,16 @@ e_config_listener_set_string (EConfigListener *cl, const char *key, const char *
 	bonobo_config_set_string (cl->priv->db, key, value, &ev);
 	if (BONOBO_EX (&ev))
 		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
+	else {
+		/* update the internal copy */
+		kd = g_hash_table_lookup (cl->priv->keys, key);
+		if (kd) {
+			g_free (kd->value.v_str);
+			kd->value.v_str = g_strdup (value);
+		}
+	}
 
 	CORBA_exception_free (&ev);
-
-	/* update the internal copy */
-	kd = g_hash_table_lookup (cl->priv->keys, key);
-	if (kd) {
-		g_free (kd->value.v_str);
-		kd->value.v_str = g_strdup (value);
-	}
 }
 
 Bonobo_ConfigDatabase

@@ -1,3 +1,19 @@
+2002-10-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #32764
+
+	* e-config-listener.c (add_key): store the value returned by
+	bonobo_event_source_client_add_listener, so that we can remove it
+	later, when freeing the key structure.
+	(free_key_hash): remove listener.
+	(e_config_listener_set_boolean):
+	(e_config_listener_set_float): 
+	(e_config_listener_set_long):
+	(e_config_listener_set_string): only set the cache values if there's
+	no exception.
+	(e_config_listener_destroy): remove all keys before unrefing the db
+	component.
+
 2002-10-23  Dan Winship  <danw@ximian.com>
 
 	* ename/e-name-western.c: Cast chars to unsigned char before
