@@ -1,3 +1,10 @@
+2000-08-09  Dan Winship  <danw@helixcode.com>
+
+	* data/evolution.keys: New file containing MIME keys for
+	Evolution. Currently just the addressbook minicard display.
+
+	* data/Makefile.am (mime_DATA): add evolution.keys
+
 2000-08-05  Dan Winship  <danw@helixcode.com>
 
 	* tools/verify-evolution-install.sh: Look for oafinfo files in

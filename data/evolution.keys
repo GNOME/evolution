@@ -1,0 +1,7 @@
+text/x-vcard
+	description=address card
+	default_action_type=component
+	default_component_iid=OAFIID:control:e_minicard:f9542709-fb31-4c6a-bc00-d462ba41e4b9
+	short_list_component_iids_for_novice_user_level=OAFIID:control:e_minicard:f9542709-fb31-4c6a-bc00-d462ba41e4b9
+	short_list_component_iids_for_intermediate_user_level=OAFIID:control:e_minicard:f9542709-fb31-4c6a-bc00-d462ba41e4b9
+	short_list_component_iids_for_hacker_user_level=OAFIID:control:e_minicard:f9542709-fb31-4c6a-bc00-d462ba41e4b9
