@@ -1,8 +1,10 @@
 2004-03-11  Not Zed  <NotZed@Ximian.com>
 
-	* providers/imap/camel-imap-store.c (get_one_folder_offline): 
-	(parse_list_response_as_folder_info): turn
-	off NOINFERIORS always, translate to nochildren.
+	* providers/imap/camel-imap-store.c (get_one_folder_offline):
+	(parse_list_response_as_folder_info): turn off NOINFERIORS always,
+	translate to nochildren.
+	(imap_store_refresh_folders): check we're updating an imap folder,
+	we could also have trash folders in the store too.
 
 2004-03-08  Not Zed  <NotZed@Ximian.com>
 

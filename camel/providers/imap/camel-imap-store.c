@@ -1162,6 +1162,12 @@ imap_store_refresh_folders (CamelImapStore *store, CamelException *ex)
 	for (i = 0; i <folders->len; i++) {
 		CamelFolder *folder = folders->pdata[i];
 
+		/* NB: we can have vtrash folders also in our store ... bit hacky */
+		if (!CAMEL_IS_IMAP_FOLDER(folder)) {
+			camel_object_unref(folder);
+			continue;
+		}
+
 		CAMEL_IMAP_FOLDER (folder)->need_rescan = TRUE;
 		if (!camel_exception_is_set(ex))
 			CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(folder))->refresh_info(folder, ex);
