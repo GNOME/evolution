@@ -458,6 +458,7 @@ add_activate_button (ESearchBar *esb)
 	GtkWidget *holder;
 
 	label = gtk_label_new (_("Find Now"));
+	gtk_misc_set_padding(GTK_MISC(label), 2, 0);
 	gtk_widget_show (label);
 	
 	/* See the comment in `put_in_spacer_widget()' to understand
