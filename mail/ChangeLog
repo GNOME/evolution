@@ -1,3 +1,11 @@
+2004-05-10  JP Rosevear  <jpr@ximian.com>
+
+	* mail-ops.c (mail_send_message): set header to just Evolution
+	(mail_append_mail): ditto
+
+	* em-message-browser.c (em_message_browser_window_new): set title
+	to just Evolution
+
 2004-05-10  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-view.c (emfv_activate): cleanup the view menus if they

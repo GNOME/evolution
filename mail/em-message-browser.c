@@ -187,7 +187,7 @@ GtkWidget *em_message_browser_window_new(void)
 	emmb = (EMMessageBrowser *)em_message_browser_new();
 	gtk_widget_show((GtkWidget *)emmb);
 	/* FIXME: title set elsewhere? */
-	emmb->window = g_object_new(bonobo_window_get_type(), "title", "Ximian Evolution", NULL);
+	emmb->window = g_object_new(bonobo_window_get_type(), "title", "Evolution", NULL);
 	bonobo_window_set_contents((BonoboWindow *)emmb->window, (GtkWidget *)emmb);
 
 	uicont = bonobo_window_get_ui_container((BonoboWindow *)emmb->window);

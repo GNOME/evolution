@@ -447,7 +447,7 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	int i;
 	
 	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer",
-				 "Ximian Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
+				 "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
 	
 	xev = mail_tool_remove_xevolution_headers (message);
 	
@@ -852,7 +852,7 @@ mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageIn
 	
 	if (!camel_medium_get_header (CAMEL_MEDIUM (message), "X-Mailer"))
 		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer",
-					 "Ximian Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
+					 "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
 
 	m = mail_msg_new (&append_mail_op, NULL, sizeof (*m));
 	m->folder = folder;
