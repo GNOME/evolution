@@ -118,6 +118,7 @@ struct _EMFormat {
 
 	em_format_mode_t mode;	/* source/headers/etc */
 	char *charset;		/* charset override */
+	char *default_charset;	/* charset fallback */
 };
 
 struct _EMFormatClass {
@@ -150,6 +151,7 @@ void em_format_set_session(EMFormat *emf, struct _CamelSession *s);
 
 void em_format_set_mode(EMFormat *emf, em_format_mode_t type);
 void em_format_set_charset(EMFormat *emf, const char *charset);
+void em_format_set_default_charset(EMFormat *emf, const char *charset);
 
 void em_format_clear_headers(EMFormat *emf); /* also indicates to show all headers */
 void em_format_default_headers(EMFormat *emf);

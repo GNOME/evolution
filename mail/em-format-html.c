@@ -40,8 +40,6 @@
 #include <gtkhtml/gtkhtml-stream.h>
 #include <gtkhtml/htmlengine.h>
 
-#include <gconf/gconf-client.h>
-
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
@@ -111,7 +109,6 @@ static void
 efh_init(GObject *o)
 {
 	EMFormatHTML *efh = (EMFormatHTML *)o;
-	GConfClient *gconf;
 
 	efh->priv = g_malloc0(sizeof(*efh->priv));
 
@@ -137,11 +134,6 @@ efh_init(GObject *o)
 	efh->text_colour = 0;
 	efh->text_html_flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
 		| CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
-
-	/* TODO: should this be here?   wont track changes ... */
-	gconf = gconf_client_get_default();
-	efh->xmailer_mask = gconf_client_get_int(gconf, "/apps/evolution/mail/display/xmailer_mask", NULL);
-	g_object_unref(gconf);
 }
 
 static void
@@ -275,6 +267,15 @@ em_format_html_set_mark_citations(EMFormatHTML *emfh, int state, guint32 citatio
 	if (emfh->mark_citations ^ state || emfh->citation_colour != citation_colour) {
 		emfh->mark_citations = state;
 		emfh->citation_colour = citation_colour;
+		em_format_format_clone((EMFormat *)emfh, emfh->format.message, (EMFormat *)emfh);
+	}
+}
+
+void
+em_format_html_set_xmailer_mask(EMFormatHTML *emfh, unsigned int xmailer_mask)
+{
+	if (emfh->xmailer_mask ^ xmailer_mask) {
+		emfh->xmailer_mask = xmailer_mask;
 		em_format_format_clone((EMFormat *)emfh, emfh->format.message, (EMFormat *)emfh);
 	}
 }

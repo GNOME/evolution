@@ -1844,6 +1844,7 @@ emfv_folder_changed(CamelFolder *folder, CamelFolderChangeInfo *changes, EMFolde
 /* keep these two tables in sync */
 enum {
 	EMFV_ANIMATE_IMAGES = 1,
+	EMFV_CHARSET,
 	EMFV_CITATION_COLOUR,
 	EMFV_CITATION_MARK,
 	EMFV_CARET_MODE,
@@ -1851,19 +1852,22 @@ enum {
 	EMFV_MARK_SEEN,
 	EMFV_MARK_SEEN_TIMEOUT,
 	EMFV_LOAD_HTTP,
+	EMFV_XMAILER_MASK,
 	EMFV_SETTINGS		/* last, for loop count */
 };
 
 /* IF these get too long, update key field */
 static const char * const emfv_display_keys[] = {
 	"animate_images",
+	"charset",
 	"citation_colour",
 	"mark_citations",
 	"caret_mode",
 	"message_style",
 	"mark_seen",
 	"mark_seen_timeout",
-	"load_http_images"
+	"load_http_images",
+	"xmailer_mask",
 };
 
 static GHashTable *emfv_setting_key;
@@ -1878,10 +1882,13 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 	
 	tkey = strrchr(entry->key, '/');
 	g_return_if_fail (tkey != NULL);
-
+	
 	switch(GPOINTER_TO_INT(g_hash_table_lookup(emfv_setting_key, tkey+1))) {
 	case EMFV_ANIMATE_IMAGES:
 		em_format_html_display_set_animate(emfv->preview, gconf_value_get_bool(gconf_entry_get_value(entry)));
+		break;
+	case EMFV_CHARSET:
+		em_format_set_default_charset((EMFormat *)emfv->preview, gconf_value_get_string(gconf_entry_get_value(entry)));
 		break;
 	case EMFV_CITATION_COLOUR: {
 		const char *s;
@@ -1921,6 +1928,9 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		/* FIXME: this doesn't handle the 'sometimes' case, only the always case */
 		em_format_html_set_load_http((EMFormatHTML *)emfv->preview, style == 2);
 		break; }
+	case EMFV_XMAILER_MASK:
+		em_format_html_set_xmailer_mask((EMFormatHTML *)emfv->preview, gconf_value_get_int(gconf_entry_get_value(entry)));
+		break;
 	}
 }
 

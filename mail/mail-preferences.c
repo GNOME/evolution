@@ -239,7 +239,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	g_signal_connect (prefs->timeout, "value-changed", G_CALLBACK (settings_changed), prefs);
 	
 	prefs->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
-	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/format/charset", NULL);
+	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/charset", NULL);
 	menu = e_charset_picker_new (buf && *buf ? buf : e_iconv_locale_charset ());
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
 	option_menu_connect (prefs->charset, prefs);
@@ -398,7 +398,7 @@ mail_preferences_apply (MailPreferences *prefs)
 	if (!(string = e_charset_picker_get_charset (menu)))
 		string = g_strdup (e_iconv_locale_charset ());
 	
-	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/format/charset", string, NULL);
+	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/display/charset", string, NULL);
 	g_free (string);
 	
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/display/mark_citations",

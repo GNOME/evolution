@@ -33,8 +33,6 @@
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 
-#include <gconf/gconf-client.h>
-
 #include <e-util/e-msgport.h>
 #include <camel/camel-url.h>
 #include <camel/camel-stream.h>
@@ -55,12 +53,6 @@
 
 #define d(x)
 
-struct _EMFormatPrivate {
-	GConfClient *gconf;
-	guint charset_id;
-	char *gconf_charset;
-};
-
 static void emf_builtin_init(EMFormatClass *);
 static const char *emf_snoop_part(CamelMimePart *part);
 
@@ -76,28 +68,9 @@ static guint emf_signals[EMF_LAST_SIGNAL];
 static GObjectClass *emf_parent;
 
 static void
-gconf_charset_changed (GConfClient *client, guint cnxn_id,
-		       GConfEntry *entry, gpointer user_data)
-{
-	struct _EMFormatPrivate *priv = ((EMFormat *) user_data)->priv;
-	
-	g_free (priv->gconf_charset);
-	priv->gconf_charset = gconf_client_get_string (priv->gconf, "/apps/evolution/mail/format/charset", NULL);
-}
-
-static void
 emf_init(GObject *o)
 {
-	struct _EMFormatPrivate *priv;
 	EMFormat *emf = (EMFormat *)o;
-	
-	priv = emf->priv = g_new (struct _EMFormatPrivate, 1);
-	priv->gconf = gconf_client_get_default ();
-	gconf_client_add_dir (priv->gconf, "/apps/evolution/mail/format/charset", 			      
-			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	priv->charset_id = gconf_client_notify_add (priv->gconf, "/apps/evolution/mail/format/charset",
-						    gconf_charset_changed, emf, NULL, NULL);
-	priv->gconf_charset = gconf_client_get_string (priv->gconf, "/apps/evolution/mail/format/charset", NULL);
 	
 	emf->inline_table = g_hash_table_new(NULL, NULL);
 	e_dlist_init(&emf->header_list);
@@ -107,14 +80,7 @@ emf_init(GObject *o)
 static void
 emf_finalise(GObject *o)
 {
-	struct _EMFormatPrivate *priv = ((EMFormat *) o)->priv;
 	EMFormat *emf = (EMFormat *)o;
-	
-	gconf_client_notify_remove (priv->gconf, priv->charset_id);
-	priv->charset_id = 0;
-	g_object_unref (priv->gconf);
-	g_free (priv->gconf_charset);
-	g_free (priv);
 	
 	if (emf->session)
 		camel_object_unref(emf->session);
@@ -658,6 +624,31 @@ em_format_set_charset(EMFormat *emf, const char *charset)
 		em_format_format_clone(emf, emf->message, emf);
 }
 
+
+/**
+ * em_format_set_default_charset:
+ * @emf: 
+ * @charset: 
+ * 
+ * Set the fallback, default system charset to use when no other charsets
+ * are present.  Message will be redisplayed if required (and sometimes redisplayed
+ * when it isn't).
+ **/
+void
+em_format_set_default_charset(EMFormat *emf, const char *charset)
+{
+	if ((emf->default_charset && charset && g_ascii_strcasecmp(emf->default_charset, charset) == 0)
+	    || (emf->default_charset == NULL && charset == NULL)
+	    || (emf->default_charset == charset))
+		return;
+
+	g_free(emf->default_charset);
+	emf->default_charset = g_strdup(charset);
+
+	if (emf->message && emf->charset == NULL)
+		em_format_format_clone(emf, emf->message, emf);
+}
+
 /**
  * em_format_clear_headers:
  * @emf: 
@@ -858,7 +849,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 		charset = camel_mime_filter_windows_real_charset (windows);
 		camel_object_unref(windows);
 	} else if (charset == NULL) {
-		charset = emf->priv->gconf_charset;
+		charset = emf->default_charset;
 	}
 	
 	filter_stream = camel_stream_filter_new_with_stream(stream);

@@ -188,6 +188,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/charset</key>
+      <applyto>/apps/evolution/mail/display/charset</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <default></default>
+      <locale name="C">
+         <short>Default charset in which to display messages</short>
+         <long>
+          Default charset in which to display messages.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/load_http_images</key>
       <applyto>/apps/evolution/mail/display/load_http_images</applyto>
       <owner>evolution-mail</owner>
@@ -421,20 +435,6 @@
     </schema>
 
     <!-- Format settings -->
-
-    <schema>
-      <key>/schemas/apps/evolution/mail/format/charset</key>
-      <applyto>/apps/evolution/mail/format/charset</applyto>
-      <owner>evolution-mail</owner>
-      <type>string</type>
-      <default></default>
-      <locale name="C">
-         <short>Default charset in which to display messages</short>
-         <long>
-          Default charset in which to display messages.
-         </long>
-      </locale>
-    </schema>
 
     <schema>
       <key>/schemas/apps/evolution/mail/format/forward_style</key>

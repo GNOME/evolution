@@ -1,3 +1,28 @@
+2003-09-30  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (efh_init): remove gconf stuff.
+	(em_format_html_set_xmailer_mask): new method to set the xmailer mask.
+
+	* em-folder-view.c (emfv_display_keys[]): Added charset key to
+	monitor/retrieve, and xmailer_mask.
+	(emfv_setting_notify): Monitor charset setting, pass onto the
+	formatter, as well as xmailer_mask.
+
+	* mail-preferences.c (mail_preferences_construct): use the new
+	charset key.
+	(mail_preferences_apply): use the new charset key.
+
+	* evolution-mail.schemas: Moved the mail/format/charset to
+	mail/display/charset.  1. it makes more sense, and 2. it makes
+	notification update easier in em-folder-view.c
+
+	* em-format.c (emf_init): remove the gconf charset stuff, for bug
+	#48791, and also actually fixes the fixme that jeff thought he
+	fixed.
+	(em_format_format_text): use default charset as fallback.
+	(em_format_set_default_charset): New method to set the default charset.
+	(gconf_charset_changed): removed.
+
 2003-09-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-format.c (emf_init): Oops, put the arguments in the right order.
