@@ -157,7 +157,6 @@
 	(addressbook_model_set_uri): Use addressbook_load_source (). However,
 	this needs a bit more work to get source UIDs instead of URIs.
 
->>>>>>> 1.1484
 2003-11-26  JP Rosevear  <jpr@ximian.com>
 
 	* gui/widgets/Makefile.am: turn on deprecated gtk and libgnomeui
