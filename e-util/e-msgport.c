@@ -334,7 +334,7 @@ void e_thread_destroy(EThread *e)
 	case E_THREAD_QUEUE:
 	case E_THREAD_DROP:
 		/* if we have a thread, 'kill' it */
-		while (e->id != E_THREAD_NONE && tries < 5) {
+		while (e->id != E_THREAD_NONE && tries < 500) {
 			if (e->waiting > 0) {
 				pthread_t id = e->id;
 				e->id = E_THREAD_NONE;
@@ -353,7 +353,7 @@ void e_thread_destroy(EThread *e)
 		busy = e->id != E_THREAD_NONE;
 		break;
 	case E_THREAD_NEW:
-		while (e->id_list && tries < 5) {
+		while (e->id_list && tries < 500) {
 			info = e->id_list->data;
 			if (!info->busy) {
 				e->id_list = g_list_remove(e->id_list, info);
