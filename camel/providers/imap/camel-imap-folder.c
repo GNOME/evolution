@@ -947,6 +947,7 @@ static CamelMimeMessage *
 imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
+	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 	CamelMessageInfo *mi;
 	CamelMimeMessage *msg;
 	CamelStream *stream;
@@ -954,8 +955,11 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	mi = camel_folder_summary_uid (folder->summary, uid);
 	g_return_val_if_fail (mi != NULL, NULL);
 
-	/* Fetch small messages directly. */
-	if (mi->size < IMAP_SMALL_BODY_SIZE) {
+	/* If the message is small, or the server doesn't support
+	 * IMAP4rev1, fetch it in one piece.
+	 */
+	if (mi->size < IMAP_SMALL_BODY_SIZE ||
+	    store->server_level < IMAP_LEVEL_IMAP4REV1) {
 		camel_folder_summary_info_free (folder->summary, mi);
 		stream = camel_imap_folder_fetch_data (imap_folder, uid, "", FALSE, ex);
 		if (!stream)
@@ -972,7 +976,6 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	 * an empty content struct.)
 	 */
 	if (!mi->content->type) {
-		CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
 		CamelImapResponse *response;
 		GData *fetch_data;
 		char *body, *found_uid;
