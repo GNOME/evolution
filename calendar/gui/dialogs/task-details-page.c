@@ -52,8 +52,10 @@ struct _TaskDetailsPagePrivate {
 	GtkWidget *priority;
 	GtkWidget *percent_complete;
 
+	GtkWidget *date_completed_label;
 	GtkWidget *completed_date;
 
+	GtkWidget *url_label;
 	GtkWidget *url_entry;
 	GtkWidget *url;
 
@@ -148,8 +150,10 @@ task_details_page_init (TaskDetailsPage *tdpage)
 	priv->priority = NULL;
 	priv->percent_complete = NULL;
 	
+	priv->date_completed_label = NULL;
 	priv->completed_date = NULL;
 
+	priv->url_label = NULL;
 	priv->url_entry = NULL;
 	priv->url = NULL;
 
@@ -469,8 +473,12 @@ get_widgets (TaskDetailsPage *tdpage)
 	priv->priority = GW ("priority");
 	priv->percent_complete = GW ("percent-complete");
 
+	priv->date_completed_label = GW ("date_completed_label");
+
 	priv->completed_date = GW ("completed-date");
 	gtk_widget_show (priv->completed_date);
+
+	priv->url_label = GW ("url_label");
 
 	priv->url_entry = GW ("url_entry");
 	gtk_widget_show (priv->url_entry);
@@ -481,7 +489,9 @@ get_widgets (TaskDetailsPage *tdpage)
 	return (priv->status
 		&& priv->priority
 		&& priv->percent_complete
+		&& priv->date_completed_label
 		&& priv->completed_date
+		&& priv->url_label
 		&& priv->url);
 }
 
@@ -665,6 +675,10 @@ init_widgets (TaskDetailsPage *tdpage)
 	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->completed_date),
 					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
 					   tdpage, NULL);
+
+	/* These are created by hand, so hook the mnemonics manually */
+	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->date_completed_label), priv->completed_date);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->url_label), priv->url_entry);
 
 	/* Connect signals. The Status, Percent Complete & Date Completed
 	   properties are closely related so whenever one changes we may need

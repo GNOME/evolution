@@ -318,7 +318,7 @@ write_html (GtkHTMLStream *stream, CalComponent *comp)
 		gtk_html_stream_printf (stream, "<TD></TD></TR>");
 
 	/* URL */
-	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("URL:"));
+	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Web Page:"));
 	cal_component_get_url (comp, (const char **) &str);
 	if (str)
 		gtk_html_stream_printf (stream, "<TD><A HREF=\"%s\">%s</A></TD></TR>", str, str);

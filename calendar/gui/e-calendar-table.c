@@ -935,6 +935,27 @@ mark_as_complete_cb (GtkWidget *menuitem, gpointer data)
 	e_table_selected_row_foreach (etable, mark_row_complete_cb, cal_table);
 }
 
+/* Opens the URL of the task */
+static void
+open_url_cb (GtkWidget *menuitem, gpointer data)
+{
+	ECalendarTable *cal_table;
+	CalComponent *comp;
+	const char *url;
+
+	cal_table = E_CALENDAR_TABLE (data);
+
+	comp = get_selected_comp (cal_table);
+	if (!comp)
+		return;
+
+	cal_component_get_url (comp, &url);
+	if (!url)
+		return;
+
+	gnome_url_show (url, NULL);
+}
+
 /* Callback for the "delete tasks" menu item */
 static void
 delete_cb (GtkWidget *menuitem, gpointer data)
@@ -950,12 +971,14 @@ enum {
 	MASK_SINGLE	= 1 << 0,	/* For commands that work on 1 task. */
 	MASK_MULTIPLE	= 1 << 1,	/* For commands for multiple tasks. */
 	MASK_EDITABLE   = 1 << 2,       /* For commands disabled in read-only folders */
-	MASK_ASSIGNABLE = 1 << 3        /* For non-task assignable backends */
+	MASK_ASSIGNABLE = 1 << 3,       /* For non-task assignable backends */
+	MASK_LACKS_URL  = 1 << 4        /* For tasks that don't have the URL property set */
 };
 
 
 static EPopupMenu tasks_popup_menu [] = {
 	E_POPUP_ITEM (N_("_Open"), GTK_SIGNAL_FUNC (e_calendar_table_on_open_task), MASK_SINGLE),
+	E_POPUP_ITEM (N_("Open _Web Page"), GTK_SIGNAL_FUNC (open_url_cb), MASK_SINGLE | MASK_LACKS_URL),
 	E_POPUP_ITEM (N_("_Save as..."), GTK_SIGNAL_FUNC (e_calendar_table_on_save_as), MASK_SINGLE),
 	E_POPUP_ITEM (N_("_Print..."), GTK_SIGNAL_FUNC (e_calendar_table_on_print_task), MASK_SINGLE),
 
@@ -994,9 +1017,21 @@ e_calendar_table_show_popup_menu (ETable *table,
 	if (n_selected <= 0)
 		return TRUE;
 
-	if (n_selected == 1)
+	if (n_selected == 1) {
+		CalComponent *comp;
+		const char *url;
+
 		hide_mask = MASK_MULTIPLE;
-	else
+
+		/* See if the task has the URL property set */
+
+		comp = get_selected_comp (cal_table);
+		g_assert (comp != NULL);
+
+		cal_component_get_url (comp, &url);
+		if (!url)
+			disable_mask |= MASK_LACKS_URL;
+	} else
 		hide_mask = MASK_SINGLE;
 
 	if (cal_client_is_read_only (calendar_model_get_cal_client (e_calendar_table_get_model (cal_table))))

@@ -1,3 +1,26 @@
+2003-07-11  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/dialogs/task-details-page.glade: Changed the "URL:" label to
+	"_Web Page:".  Added a widget name to the URL label so that we can
+	hook up its mnemonic by hand.  Added underlines to the "%
+	Complete:" and "Date Completed:" labels.  Added a widget name to
+	the date completed label, also so that we can hook up its mnemonic.
+
+	* gui/dialogs/task-details-page.c (get_widgets): Get the url_label
+	and date_completed_label as well.
+	(init_widgets): Set the mnemonic widgets of the url_label and the
+	date_completed_label by hand, as their respective widgets are
+	not created by libglade.
+
+	* gui/e-calendar-table.c (tasks_popup_menu): Added an item for
+	"Open Web Page".
+	(e_calendar_table_show_popup_menu): Disable the aforementioned
+	menu item if the selected task doesn't have the URL property set.
+	(open_url_cb): New callback.
+
+	* gui/e-tasks.c (write_html): Make the HTML say "Web Page:"
+	instead of "URL:".
+
 2003-07-10  Harry Lu <harry.lu@sun.com>
 
 	Fixes #46075.
