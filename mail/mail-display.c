@@ -65,7 +65,7 @@
 
 #include "e-searching-tokenizer.h"
 #include "folder-browser-factory.h"
-#include "mail-stream-gtkhtml.h"
+#include "mail-display-stream.h"
 #include "folder-browser.h"
 #include "mail-display.h"
 #include "mail-config.h"
@@ -1228,7 +1228,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		} else {
 			CamelStream *html_stream;
 			
-			html_stream = mail_stream_gtkhtml_new (html, handle);
+			html_stream = mail_display_stream_new (html, handle);
 			camel_data_wrapper_write_to_stream (data, html_stream);
 			camel_object_unref (html_stream);
 		}
@@ -1525,7 +1525,7 @@ try_part_urls (struct _load_content_msg *m)
 			return TRUE;
 		}
 		
-		html_stream = mail_stream_gtkhtml_new (m->html, m->handle);
+		html_stream = mail_display_stream_new (m->html, m->handle);
 		camel_data_wrapper_write_to_stream (data, html_stream);
 		camel_object_unref (html_stream);
 		
@@ -1664,15 +1664,15 @@ mail_display_redisplay_when_loaded (MailDisplay *md,
 }
 
 void
-mail_text_write (GtkHTML *html, GtkHTMLStream *stream, MailDisplay *md, CamelMimePart *part, gint idx, gboolean printing, const char *text)
+mail_text_write (MailDisplayStream *stream, MailDisplay *md, CamelMimePart *part,
+		 int idx, gboolean printing, const char *text)
 {
 	GByteArray *ba;
-	gchar *xed, *iframe;
-	gchar *btt = "<tt>\n";
-	gchar *ett = "</tt>\n";
-
-	guint flags;
+	char *xed, *iframe;
+	char *btt = "<tt>\n";
+	char *ett = "</tt>\n";
 	char *htmltext;
+	guint32 flags;
 	
 	flags = E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_SPACES;
 	
@@ -1693,13 +1693,12 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream, MailDisplay *md, CamelMim
 	xed = g_strdup_printf ("x-evolution-data:%p-%d", part, idx);
 	iframe = g_strdup_printf ("<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>", xed, xed);
 	mail_display_add_url (md, "data_urls", xed, ba);
-	gtk_html_write (html, stream, iframe, strlen (iframe));
+	camel_stream_write ((CamelStream *) stream, iframe, strlen (iframe));
 	g_free (iframe);
 }
 
 void
-mail_error_printf (GtkHTML *html, GtkHTMLStream *stream,
-		   const char *format, ...)
+mail_error_printf (MailDisplayStream *stream, const char *format, ...)
 {
 	char *buf, *htmltext;
 	va_list ap;
@@ -1711,9 +1710,9 @@ mail_error_printf (GtkHTML *html, GtkHTMLStream *stream,
 	htmltext = e_text_to_html (buf, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
 	g_free (buf);
 	
-	gtk_html_stream_printf (stream, "<em><font color=red>");
-	gtk_html_stream_write (stream, htmltext, strlen (htmltext));
-	gtk_html_stream_printf (stream, "</font></em>");
+	camel_stream_printf ((CamelStream *) stream, "<em><font color=red>");
+	camel_stream_write ((CamelStream *) stream, htmltext, strlen (htmltext));
+	camel_stream_printf ((CamelStream *) stream, "</font></em>");
 	
 	g_free (htmltext);
 }
@@ -1721,29 +1720,31 @@ mail_error_printf (GtkHTML *html, GtkHTMLStream *stream,
 
 #define COLOR_IS_LIGHT(r, g, b)  ((r + g + b) > (128 * 3))
 
+#define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"  \
+                    "<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n"
+
 void
 mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 {
 	const char *flag, *completed;
-	GtkHTMLStream *stream;
+	GtkHTMLStream *html_stream;
+	MailDisplayStream *stream;
 	
 	g_return_if_fail (IS_MAIL_DISPLAY (md));
 	g_return_if_fail (GTK_IS_HTML (html));
 	
-	stream = gtk_html_begin (html);
+	html_stream = gtk_html_begin (html);
 	if (!reset_scroll) {
 		/* This is a hack until there's a clean way to do this. */
 		GTK_HTML (md->html)->engine->newPage = FALSE;
 	}
 	
-	mail_html_write (html, stream,
-			 "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n"
-			 "<html>\n"
-			 "<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n");
+	gtk_html_stream_write (html_stream, HTML_HEADER, sizeof (HTML_HEADER) - 1);
+	
 	if (md->current_message && md->display_style == MAIL_CONFIG_DISPLAY_SOURCE)
-		mail_html_write (html, stream, "<body>\n");
+		gtk_html_stream_write (html_stream, "<body>\n", 7);
 	else
-		mail_html_write (html, stream, "<body marginwidth=0 marginheight=0>\n");
+		gtk_html_stream_write (html_stream, "<body marginwidth=0 marginheight=0>\n", 36);
 	
 	flag = md->info ? camel_tag_get (&md->info->user_tags, "follow-up") : NULL;
 	completed = md->info ? camel_tag_get (&md->info->user_tags, "completed-on") : NULL;
@@ -1803,7 +1804,7 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 			due_date[0] = '\0';
 		}
 		
-		gtk_html_stream_printf (stream, "<font color=\"#%s\">"
+		gtk_html_stream_printf (html_stream, "<font color=\"#%s\">"
 					"<table width=\"100%%\" cellpadding=0 cellspacing=0><tr><td colspan=3 height=10></td></tr>"
 					"<tr><td width=10></td><td>"
 					"<table cellspacing=1 cellpadding=1 bgcolor=\"#000000\" width=\"100%%\"><tr><td>"
@@ -1817,14 +1818,18 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 	}
 	
 	if (md->current_message) {
+		stream = (MailDisplayStream *) mail_display_stream_new (html, html_stream);
+		
 		if (md->display_style == MAIL_CONFIG_DISPLAY_SOURCE)
-			mail_format_raw_message (md->current_message, md, html, stream);
+			mail_format_raw_message (md->current_message, md, stream);
 		else
-			mail_format_mime_message (md->current_message, md, html, stream);
+			mail_format_mime_message (md->current_message, md, stream);
+		
+		camel_object_unref (stream);
 	}
 	
-	mail_html_write (html, stream, "</body></html>\n");
-	gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
+	gtk_html_stream_write (html_stream, "</body></html>\n", 15);
+	gtk_html_end (html, html_stream, GTK_HTML_STREAM_OK);
 }
 
 /**

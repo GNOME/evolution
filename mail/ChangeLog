@@ -1,3 +1,39 @@
+2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_text_plain): Re-implemented to use
+	streams. Also no need to check for html since
+	camel-mime-part-utils.c now does this for us and will re-tag the
+	mime-type as text/html thus the UI can be completely ignorant of
+	this process.
+	(handle_text_plain_flowed): Removed.
+	(write_one_text_plain_chunk): Removed.
+	(try_uudecoding): Removed.
+	(try_inline_binhex): Removed.
+	(handle_text_enriched): Re-implemented to use streams too.
+
+2002-12-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (write_text_header): Change the order of the args
+	to be consistant with other write functions.
+	(write_date): Same.
+	(write_field_row_begin): Here too.
+	(write_headers): Here too.
+	(write_one_text_plain_chunk): Don't strdup just to pass it to
+	mail_text_write() so that it can dup it yet again into html text
+	and dup it yet a 3rd time into a GByteArray. Instead just write it
+	to gtkhtml.
+	(handle_*): Fixed arguments to take a MailDisplayStream instead of
+	a GtkHTML widget and a GtkHMLStream.
+
+	* mail-display.c (mail_display_render): Create a MailDisplayStream
+	to pass to mail_format_mime_message() and
+	mail_format_raw_message().
+
+	* mail-display-stream.[c,h]: New stream to replace
+	mail-stream-gtkhtml.c
+
+	* mail-stream-gtkhtml.[c,h]: Removed.
+
 2002-12-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (check_send_configuration): Make sure the

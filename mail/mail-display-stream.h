@@ -21,8 +21,8 @@
  */
 
 
-#ifndef MAIL_STREAM_GTKHTML_H
-#define MAIL_STREAM_GTKHTML_H
+#ifndef MAIL_DISPLAY_STREAM_H
+#define MAIL_DISPLAY_STREAM_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,31 +32,31 @@ extern "C" {
 #include <camel/camel-stream.h>
 #include <gtkhtml/gtkhtml.h>
 
-#define MAIL_STREAM_GTKHTML_TYPE     (mail_stream_gtkhtml_get_type ())
-#define MAIL_STREAM_GTKHTML(obj)     (CAMEL_CHECK_CAST((obj), MAIL_STREAM_GTKHTML_TYPE, MailStreamGtkHTML))
-#define MAIL_STREAM_GTKHTML_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), MAIL_STREAM_GTKHTML_TYPE, MailStreamGtkhTMLClass))
-#define MAIL_IS_STREAM_GTKHTML(o)    (CAMEL_CHECK_TYPE((o), MAIL_STREAM_GTKHTML_TYPE))
+#define MAIL_DISPLAY_STREAM_TYPE     (mail_display_stream_get_type ())
+#define MAIL_DISPLAY_STREAM(obj)     (CAMEL_CHECK_CAST((obj), MAIL_DISPLAY_STREAM_TYPE, MailDisplayStream))
+#define MAIL_DISPLAY_STREAM_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), MAIL_DISPLAY_STREAM_TYPE, MailDisplayStreamClass))
+#define MAIL_IS_DISPLAY_STREAM(o)    (CAMEL_CHECK_TYPE((o), MAIL_DISPLAY_STREAM_TYPE))
 
-typedef struct _MailStreamGtkHTML {
+typedef struct _MailDisplayStream {
 	CamelStream parent_stream;
 	
 	GtkHTML *html;
 	GtkHTMLStream *html_stream;
-} MailStreamGtkHTML;
+} MailDisplayStream;
 
 typedef struct {
 	CamelStreamClass parent_class;
 	
-} MailStreamGtkHTMLClass;
+} MailDisplayStreamClass;
 
 
-CamelType    mail_stream_gtkhtml_get_type (void);
+CamelType    mail_display_stream_get_type (void);
 
 /* Note: stream does not ref these objects! */
-CamelStream *mail_stream_gtkhtml_new (GtkHTML *html, GtkHTMLStream *html_stream);
+CamelStream *mail_display_stream_new (GtkHTML *html, GtkHTMLStream *html_stream);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* MAIL_STREAM_GTKHTML_H */
+#endif /* MAIL_DISPLAY_STREAM_H */

@@ -29,7 +29,7 @@
 #include "mail-callbacks.h"
 #include "mail-config.h"
 #include "mail-config-druid.h"
-/*#include "folder-browser.h"*/
+#include "mail-display-stream.h"
 #include "mail-session.h"
 #include "mail-types.h"
 
@@ -40,9 +40,10 @@ GByteArray *mail_format_get_data_wrapper_text (CamelDataWrapper *data,
 					       MailDisplay *mail_display);
 
 void mail_format_mime_message (CamelMimeMessage *mime_message,
-			       MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
+			       MailDisplay *md, MailDisplayStream *stream);
 void mail_format_raw_message (CamelMimeMessage *mime_message,
-			      MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
+			      MailDisplay *md, MailDisplayStream *stream);
+
 gboolean mail_content_loaded (CamelDataWrapper *wrapper,
 			      MailDisplay *display,
 			      gboolean redisplay,
@@ -50,15 +51,15 @@ gboolean mail_content_loaded (CamelDataWrapper *wrapper,
 			      GtkHTML *html,
 			      GtkHTMLStream *handle);
 
-typedef gboolean (*MailMimeHandlerFn) (CamelMimePart *part,
-				       const char *mime_type,
-				       MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream);
+typedef gboolean (*MailMimeHandlerFn) (CamelMimePart *part, const char *mime_type,
+				       MailDisplay *md, MailDisplayStream *stream);
 typedef struct {
 	gboolean generic;
 	Bonobo_ServerInfo *component;
 	GList *applications;
 	MailMimeHandlerFn builtin;
 } MailMimeHandler;
+
 MailMimeHandler *mail_lookup_handler (const char *mime_type);
 
 gboolean mail_part_is_inline (CamelMimePart *part);

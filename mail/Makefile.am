@@ -90,6 +90,8 @@ evolution_mail_SOURCES =		\
 	mail-preferences.h		\
 	mail-display.c			\
 	mail-display.h			\
+	mail-display-stream.c		\
+	mail-display-stream.h		\
 	mail-folder-cache.c		\
 	mail-folder-cache.h		\
 	mail-format.c			\
@@ -114,8 +116,6 @@ evolution_mail_SOURCES =		\
 	mail-session.h			\
 	mail-signature-editor.c		\
 	mail-signature-editor.h		\
-	mail-stream-gtkhtml.c		\
-	mail-stream-gtkhtml.h		\
 	mail-tools.c			\
 	mail-tools.h			\
 	mail-types.h			\
