@@ -29,6 +29,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+#include <stdio.h>
 #include <camel/camel-object.h>
 
 #define CAMEL_CERTDB_TYPE         (camel_certdb_get_type ())

@@ -42,6 +42,7 @@
 #include "camel-session.h"
 #include "camel-service.h"
 #include "camel-operation.h"
+#include "camel-certdb.h"
 #ifdef ENABLE_THREADS
 #include <pthread.h>
 #endif
@@ -621,10 +622,10 @@ ssl_verify (int ok, X509_STORE_CTX *ctx)
 	CamelCertDB *certdb = NULL;
 	CamelCert *ccert = NULL;
 	char *prompt, *cert_str;
+	int err, md5len, i;
 	char buf[257];
 	X509 *cert;
 	SSL *ssl;
-	int i, err;
 	
 	if (ok)
 		return TRUE;
@@ -641,7 +642,8 @@ ssl_verify (int ok, X509_STORE_CTX *ctx)
 	err = X509_STORE_CTX_get_error (ctx);
 	
 	/* calculate the MD5 hash of the raw certificate */
-	X509_digest (cert, EVP_md5 (), md5sum, sizeof (md5sum));
+	md5len = sizeof (md5sum);
+	X509_digest (cert, EVP_md5 (), md5sum, &md5len);
 	for (i = 0, f = fingerprint; i < 16; i++, f += 3)
 		sprintf (f, "%.2x%c", md5sum[i], i != 15 ? ':' : '\0');
 	
@@ -652,11 +654,11 @@ ssl_verify (int ok, X509_STORE_CTX *ctx)
 		ccert = camel_certdb_get_cert (certdb, fingerprint);
 		if (ccert) {
 			if (ccert->trust != CAMEL_CERT_TRUST_UNKNOWN) {
-				accept = ccert->trust != CAMEL_CERT_TRUST_NEVER;
+				ok = ccert->trust != CAMEL_CERT_TRUST_NEVER;
 				camel_certdb_cert_unref (certdb, ccert);
 				camel_object_unref (certdb);
 				
-				return accept;
+				return ok;
 			}
 		} else {
 			/* create a new camel-cert */

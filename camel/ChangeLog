@@ -1,5 +1,12 @@
 2002-07-30  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-openssl.c (ssl_verify): X509_digest() needs a
+	pointer to an int len. Also fixed some other compiler errors.
+
+	* camel-certdb.h: #include <stdio.h>
+
+2002-07-30  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-certdb.c: New source file implementing a very basic
 	certificate database. This is mostly just here because the Mozilla
 	NSS certdb seems to not be working for everyone's Evolution
