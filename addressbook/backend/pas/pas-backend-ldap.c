@@ -2833,6 +2833,7 @@ send_pending_adds (LDAPSearchOp *search_op)
 	search_op->num_sent_this_time += search_op->num_pending_adds;
 	pas_book_view_notify_add (search_op->op.view, search_op->pending_adds);
 	g_list_foreach (search_op->pending_adds, (GFunc)g_free, NULL);
+	g_list_free (search_op->pending_adds);
 	search_op->pending_adds = NULL;
 	search_op->num_pending_adds = 0;
 }

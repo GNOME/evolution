@@ -1,3 +1,8 @@
+2002-11-05  Dan Winship  <danw@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (send_pending_adds): copy a
+	memleak fix from pas-backend-ad.
+
 2002-11-05  Chris Toshok  <toshok@ximian.com>
 
 	* backend/ebook/e-card.c: g_date_* => g_date_get_*, fixes
