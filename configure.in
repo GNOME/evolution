@@ -595,8 +595,8 @@ BONOBO_CONF_LIBS="`gnome-config --libs bonobo_conf`"
 AC_SUBST(BONOBO_CONF_CFLAGS)
 AC_SUBST(BONOBO_CONF_LIBS)
 
-EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_LIBS"
-EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_CFLAGS"
+EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf libart gnomecanvaspixbuf gnomeui gal` $THREADS_LIBS"
+EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf libart gnomecanvaspixbuf gnomeui gal` $THREADS_CFLAGS"
 
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)

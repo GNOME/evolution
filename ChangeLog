@@ -1,3 +1,8 @@
+2001-10-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* configure.in: add libart to list of libraries to use in
+	EXTRA_GNOME_CFLAGS/LIBS, which is needed for latest libart versions
+
 2001-10-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: AC_OUTPUT(default_user/local/Makefile) before
