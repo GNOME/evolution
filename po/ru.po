@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-05-13 02:48+0000\n"
-"PO-Revision-Date: 2000-05-13 03:25+00:00\n"
+"POT-Creation-Date: 2000-05-14 23:00+0000\n"
+"PO-Revision-Date: 2000-05-14 23:03+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -22,123 +22,133 @@ msgid "Contact Editor"
 msgstr "Редактор контактов"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:8
-msgid "Business Fax"
-msgstr "Рабочий факс"
+msgid "_Full Name..."
+msgstr "Полное имя..."
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:9
-msgid "Home"
-msgstr "Домашний"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:10
-#: addressbook/contact-editor/e-contact-editor-strings.h:20
-msgid "Business"
-msgstr "Рабочий"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:11
-msgid "Mobile"
-msgstr "Мобильный"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:12
-msgid "Primary Email"
-msgstr "Первый эл.адрес"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:13
-msgid "\tFull Name..."
-msgstr "        Полное имя..."
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:14
-msgid "Job Title:"
-msgstr "Должность:"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:15
 msgid "Company:"
 msgstr "Компания:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:16
+#: addressbook/contact-editor/e-contact-editor-strings.h:10
 msgid "File As:"
 msgstr "Сохранить как:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:17
+#: addressbook/contact-editor/e-contact-editor-strings.h:11
 msgid "Web page address:"
 msgstr "Адрес Web-страницы:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:18
-msgid "This is the mailing address"
-msgstr "Это адрес электронной почты"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:19
-msgid "Wants HTML mail"
+#: addressbook/contact-editor/e-contact-editor-strings.h:12
+msgid "Wants _HTML mail"
 msgstr "Принимает HTML-почту"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:21
-#: addressbook/contact-editor/e-contact-editor-strings.h:28
+#: addressbook/contact-editor/e-contact-editor-strings.h:13
 msgid "Address:"
 msgstr "Адрес:"
 
+#: addressbook/contact-editor/e-contact-editor-strings.h:14
+msgid "_Business"
+msgstr "Рабочий"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:15
+msgid "_Home"
+msgstr "Домашний"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:16
+msgid "Business _Fax"
+msgstr "Рабочий факс"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:17
+msgid "_Mobile"
+msgstr "Мобильный"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:18
+msgid "Primary Email"
+msgstr "Первый эл.адрес"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:19
+msgid "Business"
+msgstr "Рабочий"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:20
+msgid "This is the _mailing address"
+msgstr "Это адрес электронной почты"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:21
+msgid "_Contacts..."
+msgstr "Контакты..."
+
 #: addressbook/contact-editor/e-contact-editor-strings.h:22
+msgid "Ca_tegories..."
+msgstr "Категории..."
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:23
+msgid "Job Title"
+msgstr "Должность"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:24
 msgid "General"
 msgstr "Общее"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:23
+#: addressbook/contact-editor/e-contact-editor-strings.h:25
 msgid "Department:"
 msgstr "Отдел:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:24
+#: addressbook/contact-editor/e-contact-editor-strings.h:26
 msgid "Office:"
 msgstr "Офис:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:25
+#: addressbook/contact-editor/e-contact-editor-strings.h:27
 msgid "Profession:"
 msgstr "Профессия:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:26
+#: addressbook/contact-editor/e-contact-editor-strings.h:28
 msgid "Nickname:"
 msgstr "Псевдоним:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:27
-msgid "Spouse's name:"
-msgstr "Имя супруга(и):"
-
 #: addressbook/contact-editor/e-contact-editor-strings.h:29
+msgid "Spouse:"
+msgstr "Супруг(а):"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:30
 msgid "Birthday:"
 msgstr "День рожденья:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:30
+#: addressbook/contact-editor/e-contact-editor-strings.h:31
 msgid "Assistant's name:"
 msgstr "Имя помощника:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:31
-msgid "Manager's name:"
+#: addressbook/contact-editor/e-contact-editor-strings.h:32
+msgid "Manager's Name:"
 msgstr "Имя менеджера:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:32
+#: addressbook/contact-editor/e-contact-editor-strings.h:33
 msgid "Anniversary:"
 msgstr "Годовщина:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:33
-msgid "Internet Free-Busy"
-msgstr "Интернет Свободен-Занят"
-
 #: addressbook/contact-editor/e-contact-editor-strings.h:34
+msgid "Notes:"
+msgstr "Заметки:"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:35
 msgid "Details"
 msgstr "Детали"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:35
-#: addressbook/contact-editor/e-contact-editor-strings.h:40
+#: addressbook/contact-editor/e-contact-editor-strings.h:36
+#: addressbook/contact-editor/e-contact-editor-strings.h:41
 msgid "Add"
 msgstr "Добавить"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:36
+#: addressbook/contact-editor/e-contact-editor-strings.h:37
 #: mail/folder-browser-factory.c:153
 msgid "Delete"
 msgstr "Удалить"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:37
+#: addressbook/contact-editor/e-contact-editor-strings.h:38
 msgid "Phone Types"
 msgstr "Тип телефона"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:38
 #: addressbook/contact-editor/e-contact-editor-strings.h:39
+#: addressbook/contact-editor/e-contact-editor-strings.h:40
 msgid "New phone type"
 msgstr "Новый тип телефона"
 
@@ -152,23 +162,23 @@ msgid "Check Full Name"
 msgstr "Проверять полное имя"
 
 #: addressbook/contact-editor/fullname-strings.h:8
-msgid "Title:"
+msgid "_Title:"
 msgstr "Заголовок:"
 
 #: addressbook/contact-editor/fullname-strings.h:9
-msgid "First:"
+msgid "_First:"
 msgstr "Имя:"
 
 #: addressbook/contact-editor/fullname-strings.h:10
-msgid "Middle:"
+msgid "_Middle:"
 msgstr "Отчество:"
 
 #: addressbook/contact-editor/fullname-strings.h:11
-msgid "Last:"
+msgid "_Last:"
 msgstr "Фамилия:"
 
 #: addressbook/contact-editor/fullname-strings.h:12
-msgid "Suffix:"
+msgid "_Suffix:"
 msgstr "Суффикс:"
 
 #: addressbook/contact-editor/fullname-strings.h:13
@@ -658,7 +668,6 @@ msgid "Attach a file"
 msgstr "Присоединить файл"
 
 #: mail/folder-browser-factory.c:85
-#, fuzzy
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release of\n"
 "the Evolution groupware suite.\n"
@@ -683,7 +692,6 @@ msgid ""
 msgstr ""
 "Привет! Спасибо, что нашли время скачать эту предварительную версию\n"
 "набора групповых приложений \"Эволюция\"\n"
-"\n"
 "Команда \"Эволюции\" упорно работает, чтобы сделать программу настолько\n"
 "устойчивой, расширяемой, красивой, быстрой и функциональной для\n"
 "изощренного пользователя Интернет, насколько возможно. И мы устали.\n"
@@ -691,7 +699,17 @@ msgstr ""
 "\n"
 "Когда вы исследуюте \"Эволюцию\", пожалуйста учитывайте, что большая часть\n"
 "нашей работы была направлена на создание мощного движка, который будет\n"
-"управлять всей системой, а не пользовательским интерфейсом."
+"управлять всей системой, а не пользовательского интерфейса. We are just\n"
+"cresting the hill now, though, and will be pouring most of our love and\n"
+"attention into the UI from here out. Но вы узнаете что это не демонстрашка.\n"
+"\n"
+"Время для занудного \"Опровержения\". \"Эволюция будет: падать, уничтожать\n"
+"вашу почту, оставлять запущенными заблудившиеся процессы, поглащать 100%\n"
+"ЦПУ, зависать, отправлять HTML-почту в случайные списки рассылки и ставить\n"
+"вас в неловкое положение перед друзьями и коллегами. Используйте на свой\n"
+"страх и риск.\n"
+"Мы надеемся, что вам понравятся результаты нашей упорной работы и мы\n"
+"рассчитываем на ваше участие!\n"
 
 #: mail/folder-browser-factory.c:114
 msgid ""
@@ -779,31 +797,31 @@ msgstr "Будет ли показываться окно просмотра сообщения"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Почтовый компонент: не удалось инициализировать Bonobo"
 
-#: mail/message-list.c:421
+#: mail/message-list.c:420
 msgid "Priority"
 msgstr "Приоритет"
 
-#: mail/message-list.c:435
+#: mail/message-list.c:434
 msgid "From"
 msgstr "От"
 
-#: mail/message-list.c:442
+#: mail/message-list.c:441
 msgid "Subject"
 msgstr "Тема"
 
-#: mail/message-list.c:449
+#: mail/message-list.c:448
 msgid "Sent"
 msgstr "Отправлено"
 
-#: mail/message-list.c:456
+#: mail/message-list.c:455
 msgid "Receive"
 msgstr "Получено"
 
-#: mail/message-list.c:463
+#: mail/message-list.c:462
 msgid "To"
 msgstr "Кому"
 
-#: mail/message-list.c:470
+#: mail/message-list.c:469
 msgid "Size"
 msgstr "Размер"
 
@@ -938,7 +956,7 @@ msgstr "Инструменты"
 msgid "_Actions"
 msgstr "Действия"
 
-#: shell/e-shell.c:82
+#: shell/e-shell.c:81
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Невозможно установить локальное хранилище -- %s"
