@@ -1,3 +1,8 @@
+2004-04-21  JP Rosevear <jpr@ximian.com>
+
+	* gui/calendar-component.c (create_new_event): make sure we don't
+	deref a NULL pointer
+
 2004-04-21  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #56504

@@ -839,7 +839,7 @@ create_new_event (CalendarComponent *calendar_component, CalendarComponentView *
 		return TRUE;
 	}
 
-	if (component_view->calendar && (view = E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (component_view->calendar)))) {
+	if (component_view && (view = E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (component_view->calendar)))) {
 		GnomeCalendarViewType view_type;
 
 		/* Force all for these view types because thats what's selected and it mimics a double click */
