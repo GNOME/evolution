@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-04-06 10:59+0200\n"
-"PO-Revision-Date: 2000-04-05 00:01+02:00\n"
+"POT-Creation-Date: 2000-04-10 23:21+0200\n"
+"PO-Revision-Date: 2000-04-10 00:00+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -187,20 +187,7 @@ msgstr "Legg ved"
 msgid "Attach a file"
 msgstr "Legg ved en fil"
 
-#: e-util/e-setup.c:38
-#, c-format
-msgid ""
-"Evolution detected that the file `%s' is a not a directory.\n"
-"\n"
-"Evolution can rename the file, delete the file or shutdown and\n"
-"let you fix the problem."
-msgstr ""
-"Evolution ble oppmerksom på at '%s' ikke er en katalog.\n"
-"\n"
-"Evolution kan gi nytt navn til filen, slette filen eller kjøre\n"
-"ned for å la deg ta deg av problemet."
-
-#: mail/folder-browser-factory.c:82
+#: mail/folder-browser-factory.c:83
 msgid ""
 "This is a development version of Evolution.\n"
 " Using the mail component on your mail files\n"
@@ -216,19 +203,19 @@ msgstr ""
 " du prøver dette programmet.\n"
 "     Du er herved advart\n"
 
-#: mail/folder-browser-factory.c:151
+#: mail/folder-browser-factory.c:152
 msgid "_Mail"
 msgstr "_E-post"
 
-#: mail/folder-browser-factory.c:295
+#: mail/folder-browser-factory.c:306
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Vi beklager, Evolution's mappeutforsker kan ikke initialiseres."
 
-#: mail/folder-browser.c:181
+#: mail/folder-browser.c:189
 msgid "The URI that the Folder Browser will display"
 msgstr "URIen som mappeutforskeren vil vise"
 
-#: mail/folder-browser.c:184
+#: mail/folder-browser.c:192
 msgid "Whether a message preview should be shown"
 msgstr "Om forhåndsvisning av meldinger skal brukes"
 
@@ -249,43 +236,31 @@ msgstr ""
 msgid "The %s component doesn't support PersistStream!\n"
 msgstr "%s komponenten støtter ikke PersistStream!\n"
 
-#: mail/message-list.c:388
-msgid "Online status"
-msgstr "Pålogget status"
-
-#: mail/message-list.c:394
-msgid "Message status"
-msgstr "Meldingsstatus"
-
-#: mail/message-list.c:400
+#: mail/message-list.c:404
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:406
-msgid "Attachment"
-msgstr "Vedlegg"
-
-#: mail/message-list.c:412
+#: mail/message-list.c:418
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:418
+#: mail/message-list.c:425
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:424
+#: mail/message-list.c:432
 msgid "Sent"
 msgstr "Sendt"
 
-#: mail/message-list.c:430
+#: mail/message-list.c:439
 msgid "Receive"
 msgstr "Motta"
 
-#: mail/message-list.c:435
+#: mail/message-list.c:446
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:441
+#: mail/message-list.c:453
 msgid "Size"
 msgstr "Størrelse"
 
@@ -518,14 +493,22 @@ msgstr "Andre snarveier"
 msgid "New group"
 msgstr "Ny gruppe"
 
-#: shell/main.c:27
+#: shell/main.c:28
 msgid "Enables some debugging functions"
 msgstr "Slår på noen feilsøkingsfunksjoner"
 
-#: shell/main.c:27
+#: shell/main.c:28
 msgid "LEVEL"
 msgstr "NIVÅ"
 
-#: shell/main.c:44
+#: shell/main.c:45
 msgid "Failed to initialize the Bonobo component system"
 msgstr "Kunne ikke initialisere Bonobo komponentsystemet"
+
+#: shell/main.c:75
+msgid ""
+"It was not possible to setup the Evolution startup files.  Please\n"
+"fix the problem, and restart Evolution"
+msgstr ""
+"Det var ikke mulig å klargjøre oppstartfilene for Evolution. Vennligst\n"
+"rett opp problemet og start Evolution på nytt"
