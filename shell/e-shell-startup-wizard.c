@@ -399,6 +399,14 @@ make_identity_page (SWData *data)
 
 	CORBA_exception_init (&ev);
 	page->control = GNOME_Evolution_Wizard_getControl (data->mailer, 0, &ev);
+	if (BONOBO_EX (&ev) || page->control == CORBA_OBJECT_NIL) {
+		g_warning ("Error creating page: %s", CORBA_exception_id (&ev));
+		g_free (page);
+		CORBA_exception_free (&ev);
+
+		return NULL;
+	}
+
 	CORBA_exception_free (&ev);
 
 	page->widget = bonobo_widget_new_control_from_objref (page->control, CORBA_OBJECT_NIL);
@@ -428,6 +436,14 @@ make_receive_page (SWData *data)
 
 	CORBA_exception_init (&ev);
 	page->control = GNOME_Evolution_Wizard_getControl (data->mailer, 1, &ev);
+	if (BONOBO_EX (&ev) || page->control == CORBA_OBJECT_NIL) {
+		g_warning ("Error creating page: %s", CORBA_exception_id (&ev));
+		g_free (page);
+		CORBA_exception_free (&ev);
+
+		return NULL;
+	}
+
 	CORBA_exception_free (&ev);
 
 	page->widget = bonobo_widget_new_control_from_objref (page->control, CORBA_OBJECT_NIL);
@@ -457,6 +473,14 @@ make_extra_page (SWData *data)
 
 	CORBA_exception_init (&ev);
 	page->control = GNOME_Evolution_Wizard_getControl (data->mailer, 2, &ev);
+	if (BONOBO_EX (&ev) || page->control == CORBA_OBJECT_NIL) {
+		g_warning ("Error creating page: %s", CORBA_exception_id (&ev));
+		g_free (page);
+		CORBA_exception_free (&ev);
+
+		return NULL;
+	}
+
 	CORBA_exception_free (&ev);
 
 	page->widget = bonobo_widget_new_control_from_objref (page->control, CORBA_OBJECT_NIL);
@@ -486,6 +510,14 @@ make_transport_page (SWData *data)
 
 	CORBA_exception_init (&ev);
 	page->control = GNOME_Evolution_Wizard_getControl (data->mailer, 3, &ev);
+	if (BONOBO_EX (&ev) || page->control == CORBA_OBJECT_NIL) {
+		g_warning ("Error creating page: %s", CORBA_exception_id (&ev));
+		g_free (page);
+		CORBA_exception_free (&ev);
+
+		return NULL;
+	}
+
 	CORBA_exception_free (&ev);
 
 	page->widget = bonobo_widget_new_control_from_objref (page->control, CORBA_OBJECT_NIL);
@@ -515,6 +547,14 @@ make_management_page (SWData *data)
 
 	CORBA_exception_init (&ev);
 	page->control = GNOME_Evolution_Wizard_getControl (data->mailer, 4, &ev);
+	if (BONOBO_EX (&ev) || page->control == CORBA_OBJECT_NIL) {
+		g_warning ("Error creating page: %s", CORBA_exception_id (&ev));
+		g_free (page);
+		CORBA_exception_free (&ev);
+
+		return NULL;
+	}
+
 	CORBA_exception_free (&ev);
 
 	page->widget = bonobo_widget_new_control_from_objref (page->control, CORBA_OBJECT_NIL);
@@ -528,6 +568,7 @@ static TimezoneDialogPage *
 make_timezone_page (SWData *data)
 {
 	TimezoneDialogPage *page;
+	ETimezoneDialog *etd;
 	
 	g_return_val_if_fail (data != NULL, NULL);
 
@@ -537,7 +578,8 @@ make_timezone_page (SWData *data)
 
 	page->vbox = GTK_WIDGET (GNOME_DRUID_PAGE_STANDARD (page->page)->vbox);
 
-	page->etd = GTK_OBJECT (e_timezone_dialog_new ());
+	etd = e_timezone_dialog_new ();
+	page->etd = GTK_OBJECT (etd);
 	e_timezone_dialog_reparent (E_TIMEZONE_DIALOG (page->etd), page->vbox);
 
 	return page;

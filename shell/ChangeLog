@@ -1,3 +1,17 @@
+2001-11-12  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-startup-wizard.c (make_identity_page): Check for exception.
+	(make_receive_page): Check for exception.
+	(make_extra_page): Check for exception.
+	(make_transport_page): Check for exception.
+	(make_management_page): Check for exception.
+
+2001-11-06  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-startup-wizard.c (make_timezone_page): Move the call to
+	e_timezone_dialog_new out of the the GTK_OBJECT macro to stop it
+	being called 4 times, and leaking 3.
+
 2001-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (set_e_shortcut_selection): Get the storage
