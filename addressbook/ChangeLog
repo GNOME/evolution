@@ -1,3 +1,8 @@
+2001-01-09  Chris Toshok  <toshok@helixcode.com>
+
+	* backend/ebook/e-card.c (e_card_set_arg): if we're setting the
+	full name regenerate ecard->name.
+
 2001-01-04  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/ebook/e-book-listener.c

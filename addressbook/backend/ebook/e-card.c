@@ -1436,6 +1436,9 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_FULL_NAME:
 		g_free(card->fname);
 		card->fname = g_strdup(GTK_VALUE_STRING(*arg));
+		if (card->name)
+			e_card_name_free (card->name);
+		card->name = e_card_name_from_string (card->fname);
 		break;
 	case ARG_NAME:
 		if ( card->name )
