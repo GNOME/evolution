@@ -1,0 +1,36 @@
+
+.PS 5
+space=0.7
+[
+	Editor: ellipse "Editor"
+	Pages: box "Pages" at last ellipse + (0,-space)
+	Sections: box "Sections" at last box + (space/4, -space/2) fill 0
+	Items: box "Items" at last box + (space/4, -space/2) fill 0
+	line <-> from Editor.s to Pages.n
+]
+Manager: box dashed ht last [].ht+0.2 wid last[].wid+.2 at last []
+right; move; move
+[
+	EConfig: ellipse "EConfig"
+	EMConfig: ellipse "EMConfig" at last ellipse + (0,-space)
+]
+Config: box dashed ht last [].ht+0.2 wid last[].wid+.2 at last []
+
+EMTargetAccount: ellipse "Account" "Target" at Config.e + (1.5*space, 0)
+Druid: ellipse "Druid" at Config.s + (0,-1.5*space)
+EAccount: ellipse "EAccount" at Config.se + (1.5*space,-1.5*space)
+
+line <-> from Config.s to Druid.n " next, prepare" ljust "create, enable " rjust
+line -> from EAccount.n to EMTargetAccount.s " initialise" ljust " change" ljust
+
+line <-> from EAccount.w to Druid.e "initialise" "changes"
+line <-> from Config.e to EMTargetAccount.w "create" "changed"
+
+line <-> from Manager.e to Config.w "create" "check" "commit" "abort"
+spline <-> from Manager.s \
+	to (Manager.s.x,Druid.s.y) \
+	to (Manager.s.x+space/2,Druid.s.y-space/2) \
+	then to EAccount.s + (-space/2,-space/2) \
+	then to EAccount.s
+.PE
+
