@@ -195,7 +195,17 @@ e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 	gint unilen;
 
 	if (keyval == GDK_VoidSymbol) {
-		utf = e_utf8_from_gtk_string (widget, string);
+		char *use_locale = getenv ("E_UTF8_IM_USE_LOCALE");
+
+		/* FIXME This condition is meant for debugging xim input and should 
+		 * be removed once testing is done
+		 */
+		if (use_locale) {
+			utf = e_utf8_from_locale_string (string);
+		} else {
+			utf = e_utf8_from_gtk_string (widget, string);
+		}
+
 	} else {
 		unival = gdk_keyval_to_unicode (keyval);
 
