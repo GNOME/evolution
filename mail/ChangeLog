@@ -6,6 +6,7 @@
 	(config_write_style): Reuse config->gtkrc string instead of
 	constructing the path again.
 	(mail_config_write_on_exit): Free the gtkrc path.
+	(config_write_style): fflush the gtkrc file.
 
 	* em-popup.c (emp_popup_resend): Updated the #if 0'd code for the
 	API chanegs made to em_utils_edit_messages().

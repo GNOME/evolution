@@ -278,16 +278,17 @@ config_write_style (void)
 			 "        font_name = \"%s\"\n",
 			 fix_font, var_font); 
 	}
-	fprintf (rc, "}\n\n"); 
+	fprintf (rc, "}\n\n");
 	
 	fprintf (rc, "widget \"*.EMFolderView.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
 	fprintf (rc, "widget \"*.EMFolderBrowser.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
 	fprintf (rc, "widget \"*.EMMessageBrowser.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
 	fprintf (rc, "widget \"*.BonoboPlug.*.GtkHTML\" style \"evolution-mail-custom-fonts\"\n");
 	fprintf (rc, "widget \"*.EvolutionMailPrintHTMLWidget\" style \"evolution-mail-custom-fonts\"\n");
-
-	if (fclose (rc) == 0)
-		gtk_rc_reparse_all ();
+	fflush (rc);
+	fclose (rc);
+	
+	gtk_rc_reparse_all ();
 }
 
 static void
