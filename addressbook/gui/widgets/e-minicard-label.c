@@ -295,6 +295,7 @@ e_minicard_label_construct (GnomeCanvasItem *item)
 				 "use_ellipsis", TRUE,
 				 "fill_color", "black",
 				 "draw_background", FALSE,
+				 "im_context", E_CANVAS (item->canvas)->im_context,
 				 NULL );
 	e_canvas_item_move_absolute(e_minicard_label->fieldname, 2, 1);
 
@@ -369,6 +370,10 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 				   NULL );
 	    e_minicard_label->has_focus = FALSE;
 	  }
+
+	g_object_set (e_minicard_label->field,
+		      "handle_popup", e_minicard_label->has_focus,
+		      NULL);
       }
       break;
     case GDK_BUTTON_PRESS:

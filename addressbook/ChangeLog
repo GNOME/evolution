@@ -1,5 +1,17 @@
 2003-04-03  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-minicard-label.c (e_minicard_label_event): set
+	"handle_popup" on the field to be TRUE if it's got focus, FALSE if
+	not.
+
+2003-04-03  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-minicard-label.c (e_minicard_label_construct):
+	doh, set the im_context on the field name too so we get the Input
+	Method submenu in the contxt menu.
+
+2003-04-03  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-minicard-label.c (e_minicard_label_construct): set
 	the im_context on the field's EText.
 	(e_minicard_label_event): remove a huge swath of #if 0'd code.
