@@ -1,3 +1,11 @@
+2001-12-18  Dan Winship  <danw@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): Unfortunate hack to make this
+	work with Outlook 2000 in an Exchange environment (at the expense
+	of making it break with O2k in a POP/IMAP environment, unless you
+	set EVOLUTION_SEND_IMIP_AS_ATTACHMENT.) Fails to adequately fix
+	#14705, but it's the best we can do for 1.0.1.
+
 2001-12-17  JP Rosevear  <jpr@ximian.com>
  
  	* gui/e-meeting-model.c (process_free_busy): indicate the meeting

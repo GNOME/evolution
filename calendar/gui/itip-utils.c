@@ -701,7 +701,8 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp)
 	g_return_if_fail (bonobo_server != NULL);
 	composer_server = BONOBO_OBJREF (bonobo_server);
 
-	GNOME_Evolution_Composer_setMultipartType (composer_server, GNOME_Evolution_Composer_MIXED, &ev);
+	if (!getenv ("EVOLUTION_SEND_IMIP_AS_ATTACHMENT"))
+		GNOME_Evolution_Composer_setMultipartType (composer_server, GNOME_Evolution_Composer_ALTERNATIVE, &ev);
 	if (BONOBO_EX (&ev)) {		
 		g_warning ("Unable to set multipart type while sending iTip message");
 		goto cleanup;
