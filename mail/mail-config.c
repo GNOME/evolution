@@ -1612,7 +1612,7 @@ on_cmdSourcesEdit_clicked (GtkWidget *widget, gpointer user_data)
 	/* now create the editing dialog */
 	dialog = create_source_config_dialog (TRUE, &sourcep, GTK_WIDGET (user_data));
 
-        /* Set the data in the transports page */
+        /* Set the data in the source editor */
 	vbox = gtk_object_get_data (GTK_OBJECT (dialog), "vbox");
 	interior_notebook = gtk_object_get_data (GTK_OBJECT (vbox), "notebook");
 	page = gtk_notebook_get_current_page (GTK_NOTEBOOK (interior_notebook));
