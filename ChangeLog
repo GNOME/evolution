@@ -1,3 +1,9 @@
+2003-03-19  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in (CAMEL_*, E_UTIL_*, ): Add gthread-2.0, to get any
+	thread-specific flags (like -D_REENTRANT).  Duh.  For #39886.
+	(LIBIBEX*): Removed old libibex stuff.
+
 2003-03-14  Chris Toshok  <toshok@ximian.com>
 
 	* tools/evolution-addressbook-export.c (save_cards): use
