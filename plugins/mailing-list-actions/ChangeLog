@@ -1,2 +1,6 @@
+2004-11-05  JP Rosevear  <jpr@novell.com>
+
+	* mailing-list-actions.c: include <config.h> for GETTEXT_PACKAGE
+
 	Added mailing list actions plugin from Meilof Veeningen <meilof@wanadoo.nl>
 

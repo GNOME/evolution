@@ -4,6 +4,9 @@
  * This file is licensed under the GNU GPL v2 or later
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 #include <glib/gi18n-lib.h>
 #include <stdio.h>
 #include <string.h>
