@@ -1,9 +1,14 @@
 2001-07-19  Jason Leach  <jleach@ximian.com>
 
+	* mail-display.c: Fix #4605: "Save Image as" should be "Save Image
+	as...".
+
+2001-07-19  Jason Leach  <jleach@ximian.com>
+
 	* mail-display.c (mail_display_new): Set the vertical scrolling
 	policy for the mail display to AUTOMATIC, only get a scrollbar if
 	the e-mail is longer than one frame.
-	
+
 	* folder-browser.c (my_folder_browser_init): We were setting the
 	policy twice (and to two different things).  Removed this one.
 

@@ -1406,7 +1406,7 @@ static EPopupMenu link_menu [] = {
 	  GTK_SIGNAL_FUNC (link_copy_location), NULL,  MASK_URL },
 	{ N_("Save Link as (FIXME)"), NULL,
 	  GTK_SIGNAL_FUNC (link_save_as), NULL,  MASK_URL },
-	{ N_("Save Image as"), NULL,
+	{ N_("Save Image as..."), NULL,
 	  GTK_SIGNAL_FUNC (image_save_as), NULL, MASK_SRC }, 
      
 	TERMINATOR
