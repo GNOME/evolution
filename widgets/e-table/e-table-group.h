@@ -15,7 +15,7 @@ typedef struct {
 	guint is_leaf  :1;
 } ETableGroup;
 
-ETableGroup *e_table_group_new          (const char *title);
+ETableGroup *e_table_group_new          (ETableCol *ecol, ETableItem *item
 ETableGroup *e_table_group_new_leaf     (const char *title, ETableModel *table);
 void         e_table_group_destroy      (ETableGroup *etg);
 

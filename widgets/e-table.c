@@ -35,6 +35,7 @@ typedef struct {
 } Leaf;
 
 typedef struct {
+	
 } Node;
 
 
@@ -132,7 +133,7 @@ e_table_create_leaf (ETable *e_table, int x_off, int y_off, ETableModel *etm)
 		NULL);
 
 	height = E_TABLE_ITEM (leaf->table_item)->height;
-		
+
 	leaf->rect = gnome_canvas_item_new (
 		gnome_canvas_root (e_table->table_canvas),
 		gnome_canvas_rect_get_type (),

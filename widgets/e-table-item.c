@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
+#include <math.h>
 #include "e-table-item.h"
 #include "e-cell.h"
 
@@ -103,15 +104,27 @@ static void
 eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
+	double i2c [6];
+	ArtPoint c1, c2, i1, i2;
 	
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)
 		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)(item, affine, clip_path, flags);
 
-	item->x1 = eti->x1;
-	item->y1 = eti->y1;
-	item->x2 = eti->x1 + eti->width;
-	item->y2 = eti->y1 + eti->height;
+	gnome_canvas_item_i2c_affine (item, i2c);
+	i1.x = eti->x1;
+	i1.y = eti->y1;
+	i2.x = eti->x1 + eti->width;
+	i2.y = eti->y1 + eti->height;
+	art_affine_point (&c1, &i1, i2c);
+	art_affine_point (&c2, &i2, i2c);
 
+	item->x1 = c1.x;
+	item->y1 = c1.y;
+	item->x2 = c2.x;
+	item->y2 = c2.y;
+
+	printf ("BBOX: %g %g %g %g\n", item->x1, item->y1, item->x2, item->y2);
+	
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
@@ -239,6 +252,23 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
 }
 
+static void
+eti_item_region_redraw (ETableItem *eti, int x0, int y0, int x1, int y1)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
+	ArtDRect rect;
+	double i2c [6];
+	
+	rect.x0 = x0;
+	rect.y0 = y0;
+	rect.x1 = x1;
+	rect.y1 = y1;
+
+	gnome_canvas_item_i2c_affine (item, i2c);
+	art_drect_affine_transform (&rect, &rect, i2c);
+	
+	gnome_canvas_request_redraw (item->canvas, rect.x0, rect.y0, rect.x1, rect.y1);
+}
 
 /*
  * eti_request_redraw:
@@ -248,11 +278,7 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 static void
 eti_request_redraw (ETableItem *eti)
 {
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
-
-	gnome_canvas_request_redraw (canvas, eti->x1, eti->y1,
-				     eti->x1 + eti->width + 1,
-				     eti->y1 + eti->height + 1);
+	eti_item_region_redraw (eti, eti->x1, eti->y1, eti->x1 + eti->width + 1, eti->y1 + eti->height + 1);
 }
 
 /*
@@ -286,7 +312,6 @@ eti_request_region_redraw (ETableItem *eti,
 			   int start_col, int start_row,
 			   int end_col, int end_row, int border)
 {
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (eti)->canvas;
 	int x1, y1, width, height;
 	
 	x1 = e_table_header_col_diff (eti->header, 0, start_col);
@@ -294,8 +319,7 @@ eti_request_region_redraw (ETableItem *eti,
 	width = e_table_header_col_diff (eti->header, start_col, end_col + 1);
 	height = eti_row_diff (eti, start_row, end_row + 1);
 
-	gnome_canvas_request_redraw (canvas,
-				     eti->x1 + x1 - border,
+	eti_item_region_redraw (eti, eti->x1 + x1 - border,
 				     eti->y1 + y1 - border,
 				     eti->x1 + x1 + width + 1 + border,
 				     eti->y1 + y1 + height + 1 + border);
@@ -561,8 +585,9 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	int x1, x2;
 	int f_x1, f_x2, f_y1, f_y2;
 	gboolean f_found;
-
-/*	printf ("Rect: %d %d %d %d\n", x, y, width, height); */
+	double i2c [6];
+	ArtPoint eti_base, eti_base_item;
+	
 	/*
 	 * Clear the background
 	 */
@@ -571,13 +596,21 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		drawable, eti->fill_gc, TRUE,
 		eti->x1 - x, eti->y1 - y, eti->width, eti->height);
 #endif
-	
+
+	/*
+	 * Find out our real position after grouping
+	 */
+	gnome_canvas_item_i2c_affine (item, i2c);
+	eti_base_item.x = eti->x1;
+	eti_base_item.y = eti->y1;
+	art_affine_point (&eti_base, &eti_base_item, i2c);
+
 	/*
 	 * First column to draw, last column to draw
 	 */
 	first_col = -1;
 	last_col = x_offset = 0;
-	x1 = x2 = eti->x1;
+	x1 = x2 = floor (eti_base.x);
 	for (col = 0; col < cols; col++, x1 = x2){
 		ETableCol *ecol = e_table_header_get_column (eti->header, col);
 
@@ -605,7 +638,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	 */
 	first_row = -1;
 	y_offset = 0;
-	y1 = y2 = eti->y1 + 1;
+	y1 = y2 = floor (eti_base.y) + 1;
 	for (row = 0; row < rows; row++, y1 = y2){
 
 		y2 += eti_row_height (eti, row) + 1;
@@ -636,7 +669,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	if (eti->draw_grid && first_row == 0){
 		gdk_draw_line (
 			drawable, eti->grid_gc,
-				eti->x1 - x, yd, eti->x1 + eti->width - x, yd);
+				eti_base.x - x, yd, eti_base.x + eti->width - x, yd);
 	}
 	yd++;
 	
@@ -673,7 +706,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		if (eti->draw_grid)
 			gdk_draw_line (
 				drawable, eti->grid_gc,
-				eti->x1 - x, yd, eti->x1 + eti->width - x, yd);
+				eti_base.x - x, yd, eti_base.x + eti->width - x, yd);
 		yd++;
 	}
 
@@ -717,7 +750,7 @@ eti_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 }
 
 static gboolean
-find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, gdouble *x1_res, gdouble *y1_res)
+find_cell (ETableItem *eti, double x, double y, int *col_res, int *row_res, double *x1_res, double *y1_res)
 {
 	const int cols = eti->cols;
 	const int rows = eti->rows;
@@ -777,9 +810,11 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
 	case GDK_2BUTTON_PRESS: {
+		double x1, y1;
 		int col, row;
-		gdouble x1, y1;
-
+		
+		gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
+		
 		if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 			return TRUE;
 
@@ -809,6 +844,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_MOTION_NOTIFY: {
 		int col, row;
 		double x1, y1;
+
+		gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
 
 		if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 			return TRUE;

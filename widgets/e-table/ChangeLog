@@ -1,5 +1,10 @@
 1999-12-12  Miguel de Icaza  <miguel@helixcode.com>
 
+	* e-table-item.c (eti_update): Make this play nicely with groups.
+	(eti_draw): ditto.
+	(eti_request_region_redraw): ditto.
+	(eti_item_region_redraw): New function.
+
 	* e-table-subset.c (etss_proxy_model_row_changed): Added model
 	proxying.
 

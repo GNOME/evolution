@@ -186,6 +186,7 @@ table_browser_test (void)
 	ETableModel *e_table_model;
 	ETableHeader *e_table_header;
 	ECell *cell_left_just;
+	GnomeCanvasItem *group;
 	int i;	
 
 	load_data ();
@@ -231,13 +232,20 @@ table_browser_test (void)
 		"y",  0,
 		NULL);
 
-	gnome_canvas_item_new (
+	group = gnome_canvas_item_new (
 		gnome_canvas_root (GNOME_CANVAS (canvas)),
+		gnome_canvas_group_get_type (),
+		"x", 30.0,
+		"y", 30.0,
+		NULL);
+	
+	gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (group),
 		e_table_item_get_type (),
 		"ETableHeader", e_table_header,
 		"ETableModel", e_table_model,
-		"x",  10,
-		"y",  30,
+		"x",  0,
+		"y",  0,
 		"drawgrid", TRUE,
 		"drawfocus", TRUE,
 		"spreadsheet", TRUE,
