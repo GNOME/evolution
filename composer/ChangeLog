@@ -1,3 +1,8 @@
+2000-05-17  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (build_message): Use
+	camel_simple_data_wrapper_new rather than camel_data_wrapper_new.
+
 2000-05-13  Valek Filippov  <frob@df.ru>
 
 	* e-msg-composer-attachment.glade: save translatable strings

@@ -182,7 +182,7 @@ build_message (EMsgComposer *composer)
 
 		stream = camel_stream_mem_new_with_buffer (text,
 							   strlen (text));
-		cdw = camel_data_wrapper_new ();
+		cdw = camel_simple_data_wrapper_new ();
 		camel_data_wrapper_construct_from_stream (cdw, stream);
 		gtk_object_unref (GTK_OBJECT (stream));
 		camel_data_wrapper_set_mime_type (cdw, "text/html");
