@@ -336,19 +336,8 @@ install-exec-local: install-evolution
 endif
 
 
-# GLib marshalling cruft
-
-e-shell-marshal.h: e-shell-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_shell_marshal e-shell-marshal.list --header > e-shell-marshal.h.tmp \
-	&& mv e-shell-marshal.h.tmp e-shell-marshal.h ) \
-	|| ( rm -f e-shell-marshal.h.tmp && exit 1 )
-
-e-shell-marshal.c: e-shell-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_shell_marshal e-shell-marshal.list --body > e-shell-marshal.c.tmp \
-	&& mv e-shell-marshal.c.tmp e-shell-marshal.c ) \
-	|| ( rm -f e-shell-marshal.c.tmp && exit 1 )
-
 MARSHAL_GENERATED = e-shell-marshal.c e-shell-marshal.h
+@EVO_MARSHAL_RULE@
 
 # Extra dist stuff
 

@@ -86,24 +86,8 @@ libeutil_la_SOURCES =				\
 	e-xml-hash-utils.c			\
 	md5-utils.c
 
-# GLib marshalling cruft
-
-e-util-marshal.h: e-util-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --header > e-util-marshal.h.tmp \
-	&& mv e-util-marshal.h.tmp e-util-marshal.h ) \
-	|| ( rm -f e-util-marshal.h.tmp && exit 1 )
-
-e-util-marshal.c: e-util-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --body > e-util-marshal.c.tmp \
-	&& mv e-util-marshal.c.tmp e-util-marshal.c ) \
-	|| ( rm -f e-util-marshal.c.tmp && exit 1 )
-
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
-
-
-# FIXME TODO
-#	e-passwords.c
-#       bonobo-factory-util.[ch]
+@EVO_MARSHAL_RULE@
 
 libeutil_la_LIBADD = $(E_UTIL_LIBS)
 
