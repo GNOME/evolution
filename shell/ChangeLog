@@ -1,3 +1,8 @@
+2003-04-14  Not Zed  <NotZed@Ximian.com>
+
+	* glade/e-active-connection-dialog.glade: fix the title of the
+	dialogue box.  #41304.
+
 2003-04-09  Dan Winship  <danw@ximian.com>
 
 	* e-folder-list.c: Update for e_option_menu prototype
