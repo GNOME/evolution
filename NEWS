@@ -1,3 +1,76 @@
+Evolution 2.1.2, 2004-12-20
+----------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Mail
+
+   #68759 - Evolution Shell can't load modules (JP)
+   #69579 - Moving a message from an IMAP INBOX to an IMAP folder caused crash (Michael)
+   #69339 - postscript and some other attachments not visable (Michael)
+   #69579 - vFolders#UNMATCHED generates errors (Michael)
+   #68958 - current message forgotten in vfolders (Michael)
+   #69446 - Mail shown as attachment if some headers are upper case (Michael)
+   #46229 - Filters dialog - label suggestions (Diego Sevilla Ruiz)
+
+ * Calendar
+
+   #47535 - Snooze Time "minutes" string Improperly marked for translation
+    (Rodney)
+   #67403 - wrong alarm time displayed (Rodrigo)
+
+ * Shell
+
+   #61065 - Evolution should be spelled with uppercase E in evolution message (Joan Sanfeliu) 
+
+Other bugs
+
+ * Address Book
+
+    - Turkish locale fixes (S. Caglar Onur)
+    - Set proper window title for editing addressbook properties (Vivek)
+    - Prevent null UID from causing weird saving problems (Siva)
+    - a11y fixes (Harry Lu, Hao Sheng)
+
+ * Mail
+
+    - Add mnemonics everywhere (Mengjie Yu)
+    - Moving a message from an IMAP INBOX to an IMAP folder caused crash (Radek)
+		
+ * Calendar
+
+    - let users set a template for fetching free/busy information (James
+      Bowes)
+    - Set proper window title for editing calendar/task properties (Vivek)
+    - Leak fixes (Harish)
+    - Fix 64 bit problem (David Mosberger)
+    - UI Fixes for meetings and assigned tasks (Chen)
+
+ * Shell
+
+    - fix 64 bit problem (David Mosberger)
+    - use new window icon (Rodney)
+
+  * Plugins
+
+    - make plugin hooks available for mail even when the mailer is not
+    activated (Michael)
+    - move groupwise config code to a plugin (Siva)
+    - support csv and rdf calendar saving (Philip Van Hoof)   
+
+Updated translations:
+
+  - nl (Vincent van Adrighem)
+  - sv (Christian Rose)
+  - ca (Jordi Mallach)
+  - zh_CN (Funda Wang)
+  - bg (Alexander Shopov)
+  - fi (Ilkka Tuohela)
+  - da (Martin Willemoes Hansen)
+  - tr (Baris Cicek)
+  - lt (Zygimantas Berucka)
+  - cy (Dafydd Harries)
+
 Evolution 2.1.1, 2004-11-28
 ----------------------------
 
