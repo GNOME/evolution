@@ -1248,7 +1248,7 @@ e_summary_preferences_create_control (void)
 	gtk_widget_ref (widget);
 	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
 
-	gtk_widget_show (widget);
+	gtk_widget_show_all (widget);
 	pd->config_control = evolution_config_control_new (widget);
 
 	gtk_widget_unref (widget);

@@ -1,3 +1,9 @@
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
+	* e-summary-preferences.c (e_summary_preferences_create_control):
+	change gtk_widget_show to gtk_widget_show_all so all the various
+	custom widgets are displayed.
+
 2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary.c (e_pixmap_file): Update to use
