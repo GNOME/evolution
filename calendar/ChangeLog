@@ -1,3 +1,9 @@
+2002-04-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_open): use the default uri for
+	tasks (as stored in the configuration) when the calendar URI is not
+	a local one (connector, etc).
+
 2002-03-28  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (clean_up): free the my_address member
