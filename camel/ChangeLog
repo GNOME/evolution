@@ -1,3 +1,9 @@
+2003-03-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-service.c (camel_gethostbyaddr): Don't use setv when we
+	don't need the stdarg interface.
+	(camel_gethostbyname): Same.
+
 2003-03-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-search.c (search_user_tag): This expression can

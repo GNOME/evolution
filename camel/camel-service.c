@@ -734,7 +734,7 @@ camel_gethostbyname (const char *name, CamelException *ex)
 	g_return_val_if_fail(name != NULL, NULL);
 
 	if (camel_operation_cancel_check(NULL)) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
 		return NULL;
 	}
 
@@ -796,9 +796,11 @@ camel_gethostbyname (const char *name, CamelException *ex)
 	if (msg->herr) {
  		if (!camel_exception_is_set(ex)) {
 			if (msg->herr == HOST_NOT_FOUND || msg->herr == NO_DATA)
-				camel_exception_setv(ex, 1, _("Host lookup failed: %s: host not found"), name);
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Host lookup failed: %s: host not found"), name);
 			else
-				camel_exception_setv(ex, 1, _("Host lookup failed: %s: unknown reason"), name);
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Host lookup failed: %s: unknown reason"), name);
 		}
 		g_free(msg->hostbufmem);
 		g_free(msg);
@@ -844,7 +846,7 @@ camel_gethostbyaddr (const char *addr, int len, int type, CamelException *ex)
 	g_return_val_if_fail (addr != NULL, NULL);
 	
 	if (camel_operation_cancel_check (NULL)) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
 		return NULL;
 	}
 	
@@ -887,7 +889,7 @@ camel_gethostbyaddr (const char *addr, int len, int type, CamelException *ex)
 				pthread_cancel (id);
 			} else if (FD_ISSET(cancel_fd, &rdset)) {
 				d(printf ("Cancelling lookup thread\n"));
-				camel_exception_setv (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+				camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
 				pthread_cancel (id);
 			} else {
 				struct _lookup_msg *reply = (struct _lookup_msg *) e_msgport_get (reply_port);
