@@ -1,3 +1,13 @@
+2001-06-21  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am:
+	calendar/cal-client/Makefile.am:
+	calendar/cal-util/Makefile.am:
+	importer/Makefile.am:
+	executive-summary/Makefile.am: Changed to used gtk-doc's
+	canonical Makefile.am (plus some tweaks because not every
+	dir builds html).
+
 2001-06-14  Damon Chaplin  <damon@ximian.com>
 
 	* executive-summary/.cvsignore: 

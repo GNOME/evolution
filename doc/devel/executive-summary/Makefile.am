@@ -1,125 +1,191 @@
-# The name of the module.
+## Process this file with automake to produce Makefile.in
+
+# The name of the module, e.g. 'glib'.
 DOC_MODULE=evolution-services
 
-# The directory containing the source code
+# The top-level SGML file. Change it if you want.
+DOC_MAIN_SGML_FILE=$(DOC_MODULE)-docs.sgml
+
+# The directory containing the source code. Relative to $(srcdir).
+# gtk-doc will search all .c & .h files beneath here for inline comments
+# documenting functions and macros.
 DOC_SOURCE_DIR=$(EVOLUTION_DIR)/executive-summary/evolution-services
 
-CFLAGS ="						\
-	-I$(top_srcdir)/executive-summary/evolution-services	\
-	-I$(top_srcdir)/executive-summary			\
-	-I$(top_srcdir)					\
-	-I$(top_builddir)				\
-	$(BONOBO_VFS_GNOME_CFLAGS)			\
-	"
+# Extra options to supply to gtkdoc-scan.
+SCAN_OPTIONS=
 
-LDFLAGS="								\
-	$(BONOBO_VFS_GNOME_LIBS)					\
-	$(top_builddir)/executive-summary/evolution-services/.libs/libevolution-services.a	\
-	"
+# Extra options to supply to gtkdoc-mkdb.
+MKDB_OPTIONS=
 
-DOC_DIR=$(datadir)/gnome/html
+# Extra options to supply to gtkdoc-fixref.
+FIXXREF_OPTIONS=
 
-DOC_DIR_INSTALL_FILES =					\
-	evolution-services.args			\
-	evolution-services.hierarchy		\
-	evolution-services.signals		\
-	evolution-services.types			\
-	evolution-services-decl.txt		\
-	evolution-services-sections.txt
-
-SOURCE_FILES =							\
-	$(top_srcdir)/executive-summary/evolution-services/executive-summary-component.c	\
-	$(top_srcdir)/executive-summary/evolution-services/executive-summary-component-factory-client.c		\
+# Used for dependencies.
+HFILE_GLOB=
+CFILE_GLOB=												\
+	$(top_srcdir)/executive-summary/evolution-services/executive-summary-component.c		\
+	$(top_srcdir)/executive-summary/evolution-services/executive-summary-component-factory-client.c	\
 	$(top_srcdir)/executive-summary/evolution-services/executive-summary-html-view.c
 
-IGNORED_HEADER_FILES =		\
-	Executive-Summary.h
 
-scan_generated =						\
-	evolution-services-decl.txt			\
-	evolution-services.args				\
-	evolution-services.hierarchy			\
-	evolution-services.signals			\
-	evolution-services.types
+# Header files to ignore when scanning.
+IGNORE_HFILES=Executive-Summary.h
 
-tmpl_dependencies =						\
-	evolution-services-decl.txt			\
-	evolution-services-sections.txt			\
-	evolution-services.args				\
-	evolution-services.hierarchy			\
-	evolution-services.signals
+# Images to copy into HTML directory.
+HTML_IMAGES =
 
-tmpl_sources = 						\
-	tmpl/evolution-services.sgml		\
-	tmpl/evolution-services-unused.sgml
+# Extra SGML files that are included by $(DOC_MAIN_SGML_FILE).
+content_files =
 
-tmpl_generated =					\
-	evolution-services-unused.txt
+# Other files to distribute.
+extra_files =
 
-sgml_dependencies =					\
-	evolution-services-decl.txt		\
-	evolution-services-sections.txt		\
-	evolution-services.args			\
-	evolution-services.hierarchy		\
-	evolution-services.signals		\
-	tmpl/evolution-services.sgml
+# CFLAGS and LDFLAGS for compiling scan program. Only needed if your app/lib
+# contains GtkObjects/GObjects and you want to document signals and properties.
+GTKDOC_CFLAGS =							\
+	-I$(top_srcdir)/executive-summary/evolution-services	\
+	-I$(top_srcdir)/executive-summary			\
+	-I$(top_srcdir)						\
+	-I$(top_builddir)					\
+	$(BONOBO_VFS_GNOME_CFLAGS)
 
-sgml_generated =						\
-	sgml/evolution-services.sgml					\
-	sgml/evolution-services-doc.bottom		\
-	sgml/evolution-services-doc.top			\
-	sgml/object_index.sgml					\
-	sgml/tree_index.sgml
+GTKDOC_LIBS = 								\
+	$(BONOBO_VFS_GNOME_LIBS)					\
+	$(top_builddir)/executive-summary/evolution-services/.libs/libevolution-services.so
 
-EXTRA_DIST =							\
-	evolution-services.args				\
-	evolution-services.hierarchy			\
-	evolution-services.signals			\
-	evolution-services.types				\
-	evolution-services-decl.txt			\
-	evolution-services-sections.txt
+GTKDOC_CC=$(LIBTOOL) --mode=compile $(CC)
+GTKDOC_LD=$(LIBTOOL) --mode=link $(CC)
 
-all: $(sgml_generated)
+# If you need to override some of the declarations, place them in this file
+# and uncomment this line.
+#DOC_OVERRIDES = $(DOC_MODULE)-overrides.txt
+DOC_OVERRIDES = 
+
+
+###########################################################################
+# Everything below here is generic and you shouldn't need to change it.
+###########################################################################
+
+TARGET_DIR=$(HTML_DIR)/$(DOC_MODULE)
+
+EXTRA_DIST =			    \
+	$(content_files)		\
+	$(extra_files)		  \
+	$(HTML_IMAGES)		  \
+	$(DOC_MAIN_SGML_FILE)	   \
+	$(DOC_MODULE).types	     \
+	$(DOC_MODULE)-sections.txt      \
+	$(DOC_OVERRIDES)
+
+DOC_STAMPS=scan-build.stamp tmpl-build.stamp sgml-build.stamp html-build.stamp \
+	   $(srcdir)/tmpl.stamp $(srcdir)/sgml.stamp $(srcdir)/html.stamp
+
+SCANOBJ_FILES =		 \
+	$(DOC_MODULE).args      \
+	$(DOC_MODULE).hierarchy \
+	$(DOC_MODULE).signals
 
 if ENABLE_GTK_DOC
-scan $(scan_generated): $(SOURCE_FILES)
-	-(ln -sf $(srcdir)/$(DOC_MODULE).types .				\
-	  && env CFLAGS=$(CFLAGS) LDFLAGS=$(LDFLAGS)				\
-		 gtkdoc-scanobj --module=$(DOC_MODULE)				\
-	  && gtkdoc-scan --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)	\
-			 --ignore-headers="$(IGNORED_HEADER_FILES)" )
+#all-local: html-build.stamp
+all-local: sgml-build.stamp
 
-templates $(tmpl_sources) $(tmpl_generated): $(tmpl_dependencies)
+#### scan ####
+
+scan-build.stamp: $(HFILE_GLOB)
+	@echo '*** Scanning header files ***'
+	if grep -l '^..*$$' $(srcdir)/$(DOC_MODULE).types > /dev/null ; then \
+	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" CFLAGS="$(GTKDOC_CFLAGS)" LDFLAGS="$(GTKDOC_LIBS)" gtkdoc-scanobj --module=$(DOC_MODULE) --output-dir=$(srcdir) ; \
+	else \
+	    cd $(srcdir) ; \
+	    for i in $(SCANOBJ_FILES) ; do \
+	       test -f $$i || touch $$i ; \
+	    done \
+	fi
+	cd $(srcdir) && \
+	  gtkdoc-scan --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR) --ignore-headers="$(IGNORE_HFILES)" $(SCAN_OPTIONS) $(EXTRA_HFILES)
+	touch scan-build.stamp
+
+$(DOC_MODULE)-decl.txt $(SCANOBJ_FILES): scan-build.stamp
+	@true
+
+#### templates ####
+
+tmpl-build.stamp: $(DOC_MODULE)-decl.txt $(SCANOBJ_FILES) $(DOC_MODULE)-sections.txt $(DOC_OVERRIDES)
+	@echo '*** Rebuilding template files ***'
 	cd $(srcdir) && gtkdoc-mktmpl --module=$(DOC_MODULE)
+	touch tmpl-build.stamp
 
-sgml $(sgml_generated): $(sgml_dependencies)
-	cd $(srcdir) \
-	&& gtkdoc-mkdb --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR)
-else
-scan $(scan_generated): $(SOURCE_FILE)
+tmpl.stamp: tmpl-build.stamp
+	@true
 
-templates $(tmpl_sources) $(tmpl_generated): $(tmpl_dependencies)
+#### sgml ####
 
-sgml $(sgml_generated): $(sgml_dependencies)
+sgml-build.stamp: tmpl.stamp $(CFILE_GLOB) $(srcdir)/tmpl/*.sgml
+	@echo '*** Building SGML ***'
+	cd $(srcdir) && \
+	gtkdoc-mkdb --module=$(DOC_MODULE) --source-dir=$(DOC_SOURCE_DIR) --main-sgml-file=$(DOC_MAIN_SGML_FILE) $(MKDB_OPTIONS)
+	touch sgml-build.stamp
+
+sgml.stamp: sgml-build.stamp
+	@true
+
+#### html ####
+
+html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
+	@echo '*** Building HTML ***'
+	test -d $(srcdir)/html || mkdir $(srcdir)/html
+	cd $(srcdir)/html && gtkdoc-mkhtml $(DOC_MODULE) ../$(DOC_MAIN_SGML_FILE)
+	test "x$(HTML_IMAGES)" = "x" || ( cd $(srcdir) && cp $(HTML_IMAGES) html )
+	@echo '-- Fixing Crossreferences' 
+	cd $(srcdir) && gtkdoc-fixxref --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
+	touch html-build.stamp
 endif
 
+##############
+
 clean-local:
-	rm -f *~ *.bak *.signals *-unused.txt
+	rm -f *~ *.bak $(SCANOBJ_FILES) *-unused.txt $(DOC_STAMPS)
 
 maintainer-clean-local: clean
-	cd $(srcdir) && rm -rf sgml $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
+	cd $(srcdir) && rm -rf sgml html $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
 
 install-data-local:
-	$(mkinstalldirs) $(DOC_DIR)
-	for i in $(DOC_DIR_INSTALL_FILES); do			\
-		$(INSTALL_DATA) $(srcdir)/$$i $(DOC_DIR);	\
-	done
+	$(mkinstalldirs) $(DESTDIR)$(TARGET_DIR)
+	(installfiles=`echo $(srcdir)/html/*.html`; \
+	if test "$$installfiles" = '$(srcdir)/html/*.html'; \
+	then echo '-- Nothing to install' ; \
+	else \
+	  for i in $$installfiles; do \
+	    echo '-- Installing '$$i ; \
+	    $(INSTALL_DATA) $$i $(DESTDIR)$(TARGET_DIR); \
+	  done; \
+	  echo '-- Installing $(srcdir)/html/index.sgml' ; \
+	  $(INSTALL_DATA) $(srcdir)/html/index.sgml $(DESTDIR)$(TARGET_DIR); \
+	fi)
 
-dist-hook:
-	mkdir $(distdir)/sgml
+#
+# Require gtk-doc when making dist
+#
+if ENABLE_GTK_DOC
+dist-check-gtkdoc:
+else
+dist-check-gtkdoc:
+	@echo "*** gtk-doc must be installed and enabled in order to make dist"
+	@false
+endif
+
+dist-hook: dist-check-gtkdoc dist-hook-local
 	mkdir $(distdir)/tmpl
+	mkdir $(distdir)/sgml
+	mkdir $(distdir)/html
 	-cp $(srcdir)/tmpl/*.sgml $(distdir)/tmpl
 	-cp $(srcdir)/sgml/*.sgml $(distdir)/sgml
-	-cp $(srcdir)/sgml/*.bottom $(srcdir)/sgml/*.top $(distdir)/sgml
+	-cp $(srcdir)/html/index.sgml $(distdir)/html
+	-cp $(srcdir)/html/*.html $(srcdir)/html/*.css $(distdir)/html
 
-.PHONY: scan templates sgml
+	images=$(HTML_IMAGES) ;	       \
+	for i in $$images ; do		\
+	  cp $(srcdir)/$$i $(distdir)/html ;  \
+	done
+
+.PHONY : dist-hook-local
