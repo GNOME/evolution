@@ -1,5 +1,7 @@
 2005-01-18  Rodrigo Moya <rodrigo@novell.com>
 
+	Fixes #71407
+
 	* gui/e-week-view.c (process_component): killed warnings.
 	(e_week_view_start_editing_event): do nothing if the calendar is
 	read only.
