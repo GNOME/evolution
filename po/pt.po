@@ -1,5 +1,6 @@
 # Evolution's Portuguese translation.
-# Copyright (C) 2002 Free Software Foundation, Inc.
+# Copyright (C) 2003 evolution
+# Distributed under the same licence as the evolution package.
 # Duarte Loreto <happyguy_pt@hotmail.com>, 2002.
 # Tiago Antão <tiagoantao@bigfoot.com>, 2000.
 #
@@ -7,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.2\n"
 "POT-Creation-Date: 2003-04-11 14:30-0400\n"
-"PO-Revision-Date: 2003-03-29 05:20+0000\n"
+"PO-Revision-Date: 2003-04-13 18:15+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -15,27 +16,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution LDIF importer"
-msgstr "Compositor de correio Evolution."
+msgstr "Importador LDIF Evolution"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:2
 msgid "LDAP Data Interchange Format (.ldif)"
-msgstr ""
+msgstr "Formato Intercâmbio Dados LDAP (.ldif)"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution VCard Importer"
-msgstr "Compositor de correio Evolution."
+msgstr "Importador VCard Evolution"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:2
-#, fuzzy
 msgid "Evolution VCard importer"
-msgstr "Compositor de correio Evolution."
+msgstr "Importador VCard Evolution"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:3
 msgid "VCard (.vcf, .gcrd)"
-msgstr ""
+msgstr "VCard (.vcf, .gcrd)"
 
 #: addressbook/backend/ebook/e-card-simple.c:60
 #: addressbook/backend/ebook/e-card.c:1301
@@ -536,39 +534,32 @@ msgid "Directory Servers"
 msgstr "Servidores Directório"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
-#, fuzzy
 msgid "Evolution Addressbook"
-msgstr "Visualizador de minicartões da Agenda Evolution"
+msgstr "Livro de Endereços Evolution"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
-#, fuzzy
 msgid "Evolution Addressbook LDAP Configuration Control"
-msgstr "Interface de selecção de nome do livro de endereços Evolution."
+msgstr "Controlo Configuração Livro Endereços LDAP do Evolution"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#, fuzzy
 msgid "Evolution Addressbook address pop-up"
-msgstr "Visualizador de minicartões da Agenda Evolution"
+msgstr "Popup de endereços do Livro de Endereços Evolution"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
-#, fuzzy
 msgid "Evolution Addressbook address viewer"
-msgstr "Visualizador de minicartões da Agenda Evolution"
+msgstr "Visualizador de endereços do Livro de Endereços Evolution"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
-#, fuzzy
 msgid "Evolution Addressbook card viewer"
-msgstr "Visualizador de minicartões da Agenda Evolution"
+msgstr "Visualizador de cartões do Livro de Endereços Evolution"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
-#, fuzzy
 msgid "Evolution Addressbook component"
-msgstr "Componente Teste Evolution"
+msgstr "Componente de Livro de Endereços Evolution"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
-#, fuzzy
 msgid "Evolution Addressbook folder viewer"
-msgstr "Visualizador de minicartões da Agenda Evolution"
+msgstr "Visualizador de pasta de Livro de Endereços Evolution"
 
 #: addressbook/gui/component/addressbook-component.c:76
 #: addressbook/gui/component/addressbook-component.c:605
@@ -1296,9 +1287,8 @@ msgid "searching-tab"
 msgstr "aba-procura"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Addressbook name selection interface"
-msgstr "Interface de selecção de nome do livro de endereços Evolution."
+msgstr "Interface de selecção de nome de Livro de Endereços Evolution"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:204
 msgid "Remove All"
@@ -3652,43 +3642,36 @@ msgid "Configure your timezone, Calendar and Task List here "
 msgstr "Configure o seu fuso-horário. Calendário e Lista de Tarefas aqui "
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
-#, fuzzy
 msgid "Evolution Calendar and Tasks"
-msgstr "Calendário e Tarefas"
+msgstr "Calendário e Tarefas Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
-#, fuzzy
 msgid "Evolution Calendar and Tasks component"
-msgstr "Componente de apresentação de pasta de correio Evolution."
+msgstr "Componente de Calendário e Tarefas Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Evolution Calendar configuration control"
-msgstr ""
+msgstr "Controlo de configuração de Calendário Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
-#, fuzzy
 msgid "Evolution Calendar scheduling message viewer"
-msgstr "Visualizador Evolution de calendário iTip/iMip"
+msgstr "Visualizador mensagem de agendamento do Calendário Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
-#, fuzzy
 msgid "Evolution Calendar viewer"
-msgstr "Visualizador Evolution de calendário iTip/iMip"
+msgstr "Visualizador Calendário Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
-#, fuzzy
 msgid "Evolution Calendar/Task editor"
-msgstr "Visualizador Evolution de calendário iTip/iMip"
+msgstr "Editor Calendário/Tarefas Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
-#, fuzzy
 msgid "Evolution Tasks viewer"
-msgstr "Alarme Evolution"
+msgstr "Visualizador Tarefas Evolution"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Calendar alarm notification service"
-msgstr "Fábrica para o serviço de alarme de notificação"
+msgstr "Serviço de alarme de notificação de Calendário Evolution"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:214
 msgid "Starting:"
@@ -6385,28 +6368,24 @@ msgid "SMTWTFS"
 msgstr "DSTQQSS"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Calendar intelligent importer"
-msgstr "Visualizador Evolution de calendário iTip/iMip"
+msgstr "Importador inteligente de Calendário Evolution"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:2
-#, fuzzy
 msgid "Evolution iCalendar importer"
-msgstr "Visualizador Evolution de calendário iTip/iMip"
+msgstr "Importador iCalendário Evolution"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:3
-#, fuzzy
 msgid "Evolution vCalendar importer"
-msgstr "Visualizador Evolution de calendário iTip/iMip"
+msgstr "Importador vCalendário Evolution"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:4
-#, fuzzy
 msgid "iCalendar files (.ics)"
-msgstr "Mensagem Calendário"
+msgstr "Ficheiros iCalendário (.ics)"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:5
 msgid "vCalendar files (.vcf)"
-msgstr ""
+msgstr "Ficheiros vCalendário (.vcf)"
 
 #: calendar/importers/icalendar-importer.c:404
 msgid "Reminder!!"
@@ -8328,15 +8307,15 @@ msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Falha ao encriptar: Nenhum recipiente válido especificado."
 
 #: camel/camel-gpg-context.c:1167
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
 "\n"
 "%s"
 msgstr ""
-"Falha no GPG %s: %s\n"
+"Falha no GPG em %s: %s\n"
 "\n"
-"%.*s"
+"%s"
 
 #: camel/camel-gpg-context.c:1172
 #, c-format
@@ -11677,49 +11656,40 @@ msgid "Configure your email accounts here"
 msgstr "Configure aqui as suas contas de correio"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:6
-#, fuzzy
 msgid "Evolution Mail"
-msgstr "Evolution"
+msgstr "Correio Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:7
-#, fuzzy
 msgid "Evolution Mail accounts configuration control"
-msgstr "Editor Conta Evolution"
+msgstr "Controlo configuração contas Correio Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:8
-#, fuzzy
 msgid "Evolution Mail component"
-msgstr "Compositor de correio Evolution."
+msgstr "Componente Correio Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:9
-#, fuzzy
 msgid "Evolution Mail composer"
-msgstr "Compositor de correio Evolution."
+msgstr "Compositor de Correio Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:10
-#, fuzzy
 msgid "Evolution Mail composer configuration control"
-msgstr "Compositor de correio Evolution."
+msgstr "Controlo configuração compositor de Correio Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11
-#, fuzzy
 msgid "Evolution Mail configuration interface"
-msgstr "Interface configuração correio"
+msgstr "Interface configuração Correio Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:12
-#, fuzzy
 msgid "Evolution Mail folder viewer"
-msgstr "Componente de apresentação de pasta de correio Evolution."
+msgstr "Visualizador de pasta de Correio Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:13
-#, fuzzy
 msgid "Evolution Mail font configuration control"
-msgstr "Interface configuração correio"
+msgstr "Controlo configuração fonte Correio Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:14
-#, fuzzy
 msgid "Evolution Mail preferences control"
-msgstr "Componente de resumo de correio Evolution."
+msgstr "Controlo preferências de Correio Evolution"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:15
 msgid "Font Preferences"
@@ -12003,36 +11973,32 @@ msgid "Getting Folder Information"
 msgstr "A Obter Informação Pasta"
 
 #: mail/importers/GNOME_Evolution_Mail_Elm_Intelligent_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Elm importer"
-msgstr "Compositor de correio Evolution."
+msgstr "Importador Elm do Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution mbox importer"
-msgstr "Compositor de correio Evolution."
+msgstr "Importador mbox do Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.server.in.in.h:2
 msgid "MBox (mbox)"
-msgstr ""
+msgstr "MBox (mbox)"
 
 #: mail/importers/GNOME_Evolution_Mail_Netscape_Intelligent_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Netscape Mail importer"
-msgstr "Compositor de correio Evolution."
+msgstr "Importador Correio Netscape do Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in.h:1
 msgid "Evolution Outlook Express 4 importer"
-msgstr ""
+msgstr "Importador Outlook Express 4 do Evolution"
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.server.in.in.h:2
 msgid "Outlook Express 4 (.mbx)"
-msgstr ""
+msgstr "Outlook Express 4 (.mbx)"
 
 #: mail/importers/GNOME_Evolution_Mail_Pine_Intelligent_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Pine importer"
-msgstr "Compositor de correio Evolution."
+msgstr "Importador Pine do Evolution"
 
 #: mail/local-config.glade.h:1
 msgid "Current store format:"
@@ -12717,9 +12683,8 @@ msgid "Message Display"
 msgstr "Visualização Mensagens"
 
 #: mail/mail-config.glade.h:75
-#, fuzzy
 msgid "Message Fonts"
-msgstr "Mensagem contém"
+msgstr "Fontes Mensagem"
 
 #: mail/mail-config.glade.h:76
 msgid "Microsoft"
@@ -13047,14 +13012,12 @@ msgid "_Signatures"
 msgstr "A_ssinaturas"
 
 #: mail/mail-config.glade.h:174
-#, fuzzy
 msgid "_Standard Font:"
-msgstr "Sand Point"
+msgstr "Fonte _Padrão:"
 
 #: mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Terminal Font:"
-msgstr "Contacto Original:"
+msgstr "Fonte _Consola:"
 
 #: mail/mail-config.glade.h:176
 msgid "_Use secure connection (SSL):"
@@ -13062,7 +13025,7 @@ msgstr "_Utilizar ligação segura (SSL):"
 
 #: mail/mail-config.glade.h:177
 msgid "_Use the same fonts as other applications"
-msgstr ""
+msgstr "_Utilizar a mesma fonte que as outras aplicações"
 
 #: mail/mail-config.glade.h:178
 msgid "_every"
@@ -13900,19 +13863,16 @@ msgid "Configure the appearance of the Evolution Summary here"
 msgstr "Configure aqui a aparência do Resumo Evolution"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Summary"
-msgstr "Componente de Resumo Evolution."
+msgstr "Resumo Evolution"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:3
-#, fuzzy
 msgid "Evolution Summary component"
-msgstr "Componente de Resumo Evolution."
+msgstr "Componente de Resumo Evolution"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:4
-#, fuzzy
 msgid "Evolution Summary configuration control"
-msgstr "Componente de Resumo Evolution."
+msgstr "Componente configuração de Resumo Evolution"
 
 #: my-evolution/GNOME_Evolution_Summary.server.in.in.h:5
 msgid "Summary Preferences"
@@ -25088,13 +25048,12 @@ msgstr ""
 "Configure aqui pastas especiais e comportamento de pastas quando desligado"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Shell"
-msgstr "A consola Evolution."
+msgstr "Consola Evolution"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:3
 msgid "Evolution folder settings configuration control"
-msgstr ""
+msgstr "Controlo de definições de configuração de pasta Evolution"
 
 #: shell/GNOME_Evolution_Shell.server.in.in.h:4
 msgid "Folder Settings"
@@ -26198,7 +26157,7 @@ msgstr "Iniciar em modo ligado"
 
 #: shell/main.c:535
 msgid "Forcibly shut down all evolution components"
-msgstr ""
+msgstr "Forçar todos os componentes Evolution a terminar"
 
 #: shell/main.c:538
 msgid "Send the debugging output of all components to a file."
@@ -26260,14 +26219,14 @@ msgstr "Assunto por omissão da mensagem."
 #. * found, so just bail completely.
 #.
 #: tools/killev.c:63
-#, fuzzy, c-format
+#, c-format
 msgid "Could not execute '%s': %s\n"
-msgstr "Incapaz de renomear '%s': %s"
+msgstr "Incapaz de executar '%s': %s\n"
 
 #: tools/killev.c:78
 #, c-format
 msgid "Shutting down %s (%s)\n"
-msgstr ""
+msgstr "A desligar %s (%s)\n"
 
 #: ui/evolution-addressbook.xml.h:3
 msgid "Copy Contact(s) to Another Folder..."
@@ -27752,14 +27711,12 @@ msgid "Custom View"
 msgstr "Vista Customizada"
 
 #: widgets/menus/gal-view-menus.c:359
-#, fuzzy
 msgid "Save Custom View..."
-msgstr "Gravar Vista Customizada"
+msgstr "Gravar Vista Customizada..."
 
 #: widgets/menus/gal-view-menus.c:372
-#, fuzzy
 msgid "Define Views..."
-msgstr "Definir Vistas"
+msgstr "Definir Vistas..."
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -27940,20 +27897,17 @@ msgid "Find Now"
 msgstr "Procurar Agora"
 
 #: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Addressbook local/LDAP backend"
-msgstr "Visualizador de minicartões da Agenda Evolution"
+msgstr "Backend local/LDAP de Livro de Endereços Evolution"
 
 #: wombat/GNOME_Evolution_WombatLDAP.server.in.in.h:2
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Calendar local file backend"
-msgstr "Visualizador Evolution de calendário iTip/iMip"
+msgstr "Backend de ficheiro local de Calendário Evolution"
 
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Addressbook local file backend"
-msgstr "Visualizador de minicartões da Agenda Evolution"
+msgstr "Backend de ficheiro local de Livro de Endereços Evolution"
 
 #~ msgid "_Contacts..."
 #~ msgstr "_Contactos..."
