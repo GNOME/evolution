@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-06 19:35+0200\n"
-"PO-Revision-Date: 2005-04-06 19:45+0200\n"
+"PO-Revision-Date: 2005-04-06 19:59+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3568,7 +3568,7 @@ msgstr "Izquierda:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr "Las solapas del índice a la derecha"
+msgstr "Las solapas de las letras al lado"
 
 #: ../addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
@@ -3671,7 +3671,7 @@ msgstr "Copyright © 2000, Ximian, Inc."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
-msgstr "Esto debería probar el  widget de estilo de impresión de contactos"
+msgstr "Esto debería probar el widget de estilo de impresión de contactos"
 
 #: ../addressbook/printing/test-print.c:52
 msgid "Contact Print Test"
@@ -5189,9 +5189,7 @@ msgstr "<b>Semana laboral</b>"
 #, no-c-format
 msgid ""
 "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr ""
-"<i>%u y %d serán reemplazadas por un usuario y dominio desde la dirección de "
-"correo-e.</i>"
+msgstr "<i>%u y %d se reemplazarán por el usuario y el dominio de la dirección de correo-e.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Calendar and Tasks Settings"
@@ -12437,11 +12435,11 @@ msgstr "<span weight=\"bold\">Etiquetas y colores</span>"
 
 #: ../mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr "<span weight=\"bold\">Cargando imágenes</span>"
+msgstr "<span weight=\"bold\">Carga de imágenes</span>"
 
 #: ../mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr "<span weight=\"bold\">Mensaje a mostrar</span>"
+msgstr "<span weight=\"bold\">Vista de mensajes</span>"
 
 #: ../mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Message Fonts</span>"
