@@ -33,6 +33,9 @@
 
 #include "widgets/misc/e-source-selector.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
+#include "addressbook/gui/merging/eab-contact-merging.h"
+#include "addressbook/util/eab-book-util.h"
+
 
 #include "e-task-bar.h"
 
@@ -65,6 +68,14 @@ struct _AddressbookComponentPrivate {
 	EActivityHandler *activity_handler;
 };
 
+enum DndTargetType {
+	DND_TARGET_TYPE_VCARD_LIST,
+};
+#define VCARD_TYPE "text/x-vcard"
+static GtkTargetEntry drag_types[] = {
+	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD_LIST }
+};
+static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 
 /* Utility functions.  */
 
@@ -259,6 +270,7 @@ primary_source_selection_changed_callback (ESourceSelector *selector,
 	save_primary_selection (addressbook_component_peek ());
 }
 
+
 static void
 fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, AddressbookComponent *comp)
 {
@@ -269,6 +281,165 @@ fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, AddressbookC
 	add_popup_menu_item (menu, _("New Address Book"), NULL, G_CALLBACK (new_addressbook_cb), comp, TRUE);
 	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_addressbook_cb), comp, sensitive);
 	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_addressbook_cb), comp, sensitive);
+}
+
+static gboolean
+selector_tree_drag_drop (GtkWidget *widget, 
+			 GdkDragContext *context, 
+			 int x, 
+			 int y, 
+			 guint time, 
+			 AddressbookComponent *component)
+{
+	GtkTreeViewColumn *column;
+	int cell_x;
+	int cell_y;
+	GtkTreePath *path;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gpointer data;
+	
+	if (!gtk_tree_view_get_path_at_pos  (GTK_TREE_VIEW (widget), x, y, &path, &column, &cell_x, &cell_y))
+		return FALSE;
+	
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+
+	if (!gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+
+	gtk_tree_model_get (model, &iter, 0, &data, -1);
+	
+	if (E_IS_SOURCE_GROUP (data)) {
+		g_object_unref (data);
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+	
+	gtk_drag_get_data (widget, context, gdk_atom_intern (VCARD_TYPE, FALSE), time);
+	gtk_tree_path_free (path);
+	return TRUE;
+}
+	
+static gboolean
+selector_tree_drag_motion (GtkWidget *widget,
+			   GdkDragContext *context,
+			   int x,
+			   int y)
+{
+	GtkTreePath *path;
+	GtkTreeViewDropPosition pos;
+	gpointer data;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	
+	
+	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
+						x, y, &path, &pos))
+		return FALSE;
+	
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	
+	if (!gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+	
+	gtk_tree_model_get (model, &iter, 0, &data, -1);
+
+	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data)) {
+		g_object_unref (data);
+		gtk_tree_path_free (path);
+		return FALSE;
+	}	
+	
+	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
+	
+	gtk_tree_path_free (path);
+	return TRUE;
+}
+
+static gboolean 
+selector_tree_drag_data_received (GtkWidget *widget, 
+				  GdkDragContext *context, 
+				  gint x, 
+				  gint y, 
+				  GtkSelectionData *data,
+				  guint info,
+				  guint time,
+				  gpointer user_data)
+{
+	GtkTreePath *path;
+	GtkTreeViewDropPosition pos;
+	gpointer source;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
+						x, y, &path, &pos))
+		return FALSE;
+	
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	
+	if (!gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+	
+	gtk_tree_model_get (model, &iter, 0, &source, -1);
+
+	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source)) {
+		g_object_unref (source);
+		gtk_tree_path_free (path);
+		return FALSE;
+	}	
+	
+	
+	if ((data->length >= 0) && (data->format == 8)) {
+		gtk_drag_finish (context, FALSE, TRUE, time);
+	}
+
+	gtk_tree_path_free (path);
+	gtk_drag_finish (context, FALSE, FALSE, time);
+
+	printf ("got card\n%s", data->data);
+	
+	//e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (widget), source);
+	{
+		EBook *book;
+		GList *contactlist;
+		GList *l;
+
+		book = e_book_new ();
+		if (!book) {
+			g_message (G_STRLOC ":Couldn't create EBook.");
+			return FALSE;
+		}
+		e_book_load_source (book, source, TRUE, NULL);
+		contactlist = eab_contact_list_from_string (data->data);
+		
+		for (l = contactlist; l; l = l->next) {
+			EContact *contact = l->data;
+			
+			/* XXX NULL for a callback /sigh */
+			if (contact)
+				eab_merging_book_add_contact (book, contact, NULL /* XXX */, NULL);
+		}
+
+		g_list_foreach (contactlist, (GFunc)g_object_unref, NULL);
+		g_list_free (contactlist);
+		
+		g_object_unref (book);
+	}
+
+	return TRUE;
+}	
+
+static void
+selector_tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, gpointer data)
+{
+	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), NULL, GTK_TREE_VIEW_DROP_BEFORE);
 }
 
 /* Evolution::Component CORBA methods.  */
@@ -289,6 +460,20 @@ impl_createControls (PortableServer_Servant servant,
 	BonoboControl *statusbar_control;
 
 	selector = e_source_selector_new (addressbook_component->priv->source_list);
+
+	g_signal_connect (selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion), addressbook_component);
+	g_signal_connect (selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave), addressbook_component);
+	g_signal_connect (selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop), addressbook_component);
+	g_signal_connect (selector, "drag-data-received", G_CALLBACK (selector_tree_drag_data_received), addressbook_component);
+	/*
+	g_signal_connect (selector, "drag-begin", G_CALLBACK (drag_begin_callback), addressbook_component);
+	g_signal_connect (selector, "drag-data-get", G_CALLBACK (drag_data_get_callback), addressbook_component);
+	g_signal_connect (selector, "drag-end", G_CALLBACK (drag_end_callback), addressbook_component);
+	//gtk_drag_source_set(selector, GDK_BUTTON1_MASK, drag_types, num_drop_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	*/
+
+	gtk_drag_dest_set(selector, GTK_DEST_DEFAULT_ALL, drag_types, num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
+
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
 	gtk_widget_show (selector);
 
