@@ -3014,7 +3014,7 @@ msgstr "私的"
 #: calendar/gui/calendar-model.c:358 calendar/gui/calendar-model.c:927
 #: calendar/gui/e-calendar-table.c:308
 msgid "Confidential"
-msgstr "極秘"
+msgstr "秘密"
 
 #: calendar/gui/calendar-model.c:361 calendar/gui/e-calendar-table.c:306
 msgid "Public"
@@ -3917,9 +3917,8 @@ msgid "Classification"
 msgstr "分類"
 
 #: calendar/gui/dialogs/event-page.glade.h:5
-#, fuzzy
 msgid "Con_fidential"
-msgstr "極秘"
+msgstr "秘密(_F)"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
 #: calendar/gui/dialogs/task-page.glade.h:3
@@ -4192,7 +4191,6 @@ msgid "occurrences"
 msgstr "出来事"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
-#, fuzzy
 msgid "A_dd"
 msgstr "追加"
 
@@ -4218,9 +4216,8 @@ msgid "_Custom recurrence"
 msgstr "再発のカスタマイズ"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:10
-#, fuzzy
 msgid "_Modify"
-msgstr "修正"
+msgstr "変更(_M)"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:11
 #, fuzzy
@@ -4321,7 +4318,7 @@ msgstr "開始日(_R):"
 
 #: calendar/gui/dialogs/task-page.glade.h:9
 msgid "_Confidential"
-msgstr "機密(_C)"
+msgstr "秘密(_C)"
 
 #: calendar/gui/dialogs/task-page.glade.h:11
 msgid "_Due Date:"
@@ -12040,9 +12037,8 @@ msgid "Delete selected contacts"
 msgstr "選択したコンタクトを削除します"
 
 #: ui/evolution-addressbook.xml.h:12
-#, fuzzy
 msgid "New List"
-msgstr "ニュース"
+msgstr "新規リスト"
 
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:11
 msgid "Paste"
@@ -12320,7 +12316,7 @@ msgstr "保存"
 
 #: ui/evolution-comp-editor.xml.h:14 ui/evolution-contact-editor.xml.h:8
 msgid "Save and Close"
-msgstr "保存と閉じる"
+msgstr "保存して閉じる"
 
 #: ui/evolution-comp-editor.xml.h:15
 #, fuzzy
