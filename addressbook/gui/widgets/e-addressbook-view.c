@@ -1200,7 +1200,6 @@ get_selection_model (EAddressbookView *view)
 		return E_SELECTION_MODEL(E_TABLE_SCROLLED(view->widget)->table->selection);
 }
 
-
 void
 e_addressbook_view_print(EAddressbookView *view)
 {
@@ -1238,6 +1237,56 @@ e_addressbook_view_print(EAddressbookView *view)
 		gtk_signal_connect(GTK_OBJECT(dialog),
 				   "destroy", GTK_SIGNAL_FUNC(e_contact_print_destroy), NULL);
 		gtk_widget_show(dialog);
+	}
+}
+
+void
+e_addressbook_view_print_preview(EAddressbookView *view)
+{
+	if (view->view_type == E_ADDRESSBOOK_VIEW_MINICARD) {
+		char *query;
+		EBook *book;
+
+		gtk_object_get (GTK_OBJECT(view->model),
+				"query", &query,
+				"book", &book,
+				NULL);
+		e_contact_print_preview(book, query);
+		g_free(query);
+	} else if (view->view_type == E_ADDRESSBOOK_VIEW_TABLE) {
+		EPrintable *printable;
+		ETable *etable;
+		GnomePrintMaster *master;
+		GnomePrintContext *pc;
+		GtkWidget *preview;
+
+		gtk_object_get(GTK_OBJECT(view->widget), "table", &etable, NULL);
+		printable = e_table_get_printable(etable);
+
+		master = gnome_print_master_new();
+		gnome_print_master_set_copies (master, 1, FALSE);
+		pc = gnome_print_master_get_context( master );
+		e_printable_reset(printable);
+		while (e_printable_data_left(printable)) {
+			if (gnome_print_gsave(pc) == -1)
+				/* FIXME */;
+			if (gnome_print_translate(pc, 72, 72) == -1)
+				/* FIXME */;
+			e_printable_print_page(printable,
+					       pc,
+					       6.5 * 72,
+					       9 * 72,
+					       TRUE);
+			if (gnome_print_grestore(pc) == -1)
+				/* FIXME */;
+			if (gnome_print_showpage(pc) == -1)
+				/* FIXME */;
+		}
+		gnome_print_master_close(master);
+		preview = GTK_WIDGET(gnome_print_master_preview_new(master, "Print Preview"));
+		gtk_widget_show_all(preview);
+		gtk_object_unref(GTK_OBJECT(master));
+		gtk_object_unref(GTK_OBJECT(printable));
 	}
 }
 

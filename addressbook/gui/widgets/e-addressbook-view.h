@@ -106,6 +106,7 @@ void       e_addressbook_view_save_as           (EAddressbookView  *view);
 void       e_addressbook_view_send              (EAddressbookView  *view);
 void       e_addressbook_view_send_to           (EAddressbookView  *view);
 void       e_addressbook_view_print             (EAddressbookView  *view);
+void       e_addressbook_view_print_preview     (EAddressbookView  *view);
 void       e_addressbook_view_delete_selection  (EAddressbookView  *view);
 void       e_addressbook_view_cut               (EAddressbookView  *view);
 void       e_addressbook_view_copy              (EAddressbookView  *view);

@@ -130,6 +130,13 @@ print_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
+print_preview_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = (AddressbookView *) user_data;
+	e_addressbook_view_print_preview(view->view);
+}
+
+static void
 stop_loading_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
@@ -204,6 +211,12 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 				      "sensitive",
 				      e_addressbook_view_can_print (view->view) ? "1" : "0", NULL);
 
+	/* Print Contact */
+	bonobo_ui_component_set_prop (uic,
+				      "/commands/ContactsPrintPreview",
+				      "sensitive",
+				      e_addressbook_view_can_print (view->view) ? "1" : "0", NULL);
+
 	/* Delete Contact */
 	bonobo_ui_component_set_prop (uic,
 				      "/commands/ContactDelete",
@@ -253,6 +266,7 @@ change_view_type (AddressbookView *view, EAddressbookViewType view_type)
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactsPrint", print_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactsPrintPreview", print_preview_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsSaveAsVCard", save_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ToolSearch", search_cb),
 

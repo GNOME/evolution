@@ -30,6 +30,7 @@
 #include "e-contact-print-types.h"
 
 GtkWidget *e_contact_print_dialog_new(EBook *book, char *query);
+void e_contact_print_preview(EBook *book, char *query);
 GtkWidget *e_contact_print_card_dialog_new(ECard *card);
 GtkWidget *e_contact_print_card_list_dialog_new(GList *list);
 

@@ -1,3 +1,15 @@
+2001-09-21  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/addressbook.c (print_preview_cb): Hooked up print
+	preview button.
+
+	* gui/widgets/e-addressbook-view.c,
+	gui/widgets/e-addressbook-view.h
+	(e_addressbook_view_print_preview): Added this function.
+
+	* printing/e-contact-print.c, printing/e-contact-print.h
+	(e_contact_print_preview): Added this function.
+
 2001-09-19  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-destination.c (name_and_email_simple_query_cb):
