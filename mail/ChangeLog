@@ -1,3 +1,8 @@
+2004-10-11  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (mc_startup): register the formatter types
+	before registering the formatter hook.
+
 2004-10-08  JP Rosevear  <jpr@novell.com>
  
 	* mail-account-gui.c (browse_clicked): use "Select a file"

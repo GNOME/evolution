@@ -327,10 +327,10 @@ mc_startup(MailComponent *mc)
 	e_plugin_hook_register_type(em_menu_hook_get_type());
 	e_plugin_hook_register_type(em_config_hook_get_type());
 
-	e_plugin_hook_register_type(em_format_hook_get_type());
 	em_format_hook_register_type(em_format_get_type());
 	em_format_hook_register_type(em_format_html_get_type());
 	em_format_hook_register_type(em_format_html_display_get_type());
+	e_plugin_hook_register_type(em_format_hook_get_type());
 
 	e_plugin_hook_register_type(em_event_hook_get_type());
 }
