@@ -67,6 +67,7 @@ message_browser_destroy (GtkObject *object)
 	
 	message_browser = MESSAGE_BROWSER (object);
 	
+	gtk_signal_disconnect_by_data((GtkObject *)message_browser->fb, message_browser);
 	gtk_object_unref (GTK_OBJECT (message_browser->fb));
 	
 	if (GTK_OBJECT_CLASS (message_browser_parent_class)->destroy)

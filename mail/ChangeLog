@@ -1,3 +1,9 @@
+2002-07-23  Not Zed  <NotZed@Ximian.com>
+
+	* message-browser.c (message_browser_destroy): Disconnect from
+	folderbroser signals when we unref it, so we dont get signals
+	later on if someone else has a ref on it (causing crash).
+
 2002-07-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_signature_run_script): Check to make
