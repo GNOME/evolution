@@ -26,7 +26,7 @@
 #include "cal.h"
 #include "cal-backend.h"
 #include "query.h"
-#include "wombat.h"
+#include "Evolution-Wombat.h"
 
 #define PARENT_TYPE         BONOBO_X_OBJECT_TYPE
 

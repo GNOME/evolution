@@ -1,3 +1,9 @@
+2002-07-12  Peter Williams  <peterw@ximian.com>
+
+	* pcs/cal.c: Sigh, fix for the wombat.idl -> Evolution-Wombat.idl
+	rename here too. At least grep indicates that's all that needs to
+	be fixed.
+
 2002-07-08  Peter Williams  <peterw@ximian.com>
 
 	* gui/Makefile.am (INCLUDES): Change the -I flags to get
