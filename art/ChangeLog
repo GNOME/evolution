@@ -3,6 +3,13 @@
 	* im-aim.png
 	* im-icq.png
 	* im-msn.png
+	* im-yahoo.png: it indeed appears you need 16x16
+
+2004-01-29  Jakub Steiner <jimmac@ximian.com>
+
+	* im-aim.png
+	* im-icq.png
+	* im-msn.png
 	* im-yahoo.png: although I'm adding these to gnome-icon-theme
 	  instead, these are so ugly I replaced them here too. The rest
 	  of the im-* stuff I'm not quite sure what those represent. Will
