@@ -1,5 +1,8 @@
 2001-01-22  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config-druid.c (set_defaults): Automagically fill in the
+	user's default transport if he/she has setup previous accounts.
+
 	* mail-format.c (handle_multipart_signed): Just wrote a temp way
 	of reporting success/fail of PGP/MIME signature verification
 	status.

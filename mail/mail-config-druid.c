@@ -768,12 +768,14 @@ provider_compare (const CamelProvider *p1, const CamelProvider *p2)
 static void
 set_defaults (MailConfigDruid *druid)
 {
+	const MailConfigService *default_xport;
 	GtkWidget *stores, *transports, *item;
 	GtkWidget *fstore = NULL, *ftransport = NULL;
 	int si = 0, hstore = 0, ti = 0, htransport = 0;
 	char *user, *realname;
 	char hostname[1024];
 	char domain[1024];
+	CamelURL *url;
 	GList *l;
 	
 	/* set the default Name field */
@@ -800,6 +802,13 @@ set_defaults (MailConfigDruid *druid)
 	stores = gtk_menu_new ();
 	transports = gtk_menu_new ();
 	druid->providers = camel_session_list_providers (session, TRUE);
+	
+	/* get the default transport */
+	default_xport = mail_config_get_default_transport ();
+	if (default_xport && default_xport->url)
+		url = camel_url_new (default_xport->url, NULL);
+	else
+		url = NULL;
 	
 	/* sort the providers, remote first */
 	druid->providers = g_list_sort (druid->providers, (GCompareFunc) provider_compare);
@@ -848,6 +857,11 @@ set_defaults (MailConfigDruid *druid)
 				htransport = ti;
 			}
 			
+			if (url && !g_strcasecmp (provider->protocol, url->protocol)) {
+				ftransport = item;
+				htransport = ti;
+			}
+			
 			ti++;
 		}
 		
@@ -884,6 +898,21 @@ set_defaults (MailConfigDruid *druid)
 	
 	if (ftransport)
 		gtk_signal_emit_by_name (GTK_OBJECT (ftransport), "activate", druid);
+	
+	if (url) {
+		if (url->host) {
+			char *hostname;
+			
+			if (url->port)
+				hostname = g_strdup_printf ("%s:%d", url->host, url->port);
+			else
+				hostname = g_strdup (url->host);
+			
+			gtk_entry_set_text (druid->outgoing_hostname, hostname);
+			g_free (hostname);
+		}
+		camel_url_free (url);
+	}
 }
 
 static gboolean
