@@ -1,3 +1,8 @@
+2004-04-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (set_editor_text): Revert Radek's last change
+	to fix bug #56381.
+
 2004-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (get_signature_html): Fixed some breakage I

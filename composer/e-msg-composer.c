@@ -1106,8 +1106,9 @@ set_editor_text(EMsgComposer *composer, const char *text, int setsig)
 		char *p;
 		
 		len += strlen (sig);
-		content = p = mem = g_malloc (len + 1);
+		content = mem = g_malloc (len + 5);
 		p = g_stpcpy (mem, text);
+		p = g_stpcpy (p, "<br>");
 		strcpy (p, sig);
 		g_free (sig);
 	} else {
