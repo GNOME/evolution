@@ -785,8 +785,7 @@ create_new_event (CalendarComponent *calendar_component, gboolean is_allday, gbo
 	if (!e_cal_is_read_only (priv->create_ecal, &read_only, NULL) || read_only)
 		return;
 
-	view = E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (priv->calendar));
-	if (view)
+	if (priv->calendar && (view = E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (priv->calendar))))
 		e_calendar_view_new_appointment_full (view, is_allday, is_meeting);
 	else {
 		ECalComponent *comp;

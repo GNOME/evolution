@@ -1,5 +1,8 @@
 2004-01-15  Radek Doulik  <rodo@ximian.com>
 
+	* gui/calendar-component.c (create_new_event): test priv->calendar
+	is not NULL before getting current view
+
 	* gui/tasks-component.c (primary_source_selection_changed_cb):
 	reset create_ecal
 
