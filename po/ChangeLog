@@ -1,3 +1,7 @@
+2001-06-01  JP Rosevear  <jpr@ximian.com>
+
+	* POTFILES.in: Update list of files
+
 2001-05-31  Jeffrey Stedfast <fejj@ximian.com>
 
 	* POTFILES.in: Added camel-cms-context.c
