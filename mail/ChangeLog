@@ -1,5 +1,10 @@
 2005-01-12  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #70990.
+
+	* em-account-editor.c (emae_service_url_changed): if the value is
+	"" then don't set it
+
 	** See bug #70018.
 
 	* mail-signature-editor.c (mail_signature_editor): use the right

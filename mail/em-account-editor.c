@@ -1037,8 +1037,9 @@ static void
 emae_service_url_changed(EMAccountEditorService *service, void (*setval)(CamelURL *, const char *), GtkEntry *entry)
 {
 	CamelURL *url = emae_account_url(service->emae, emae_service_info[service->type].account_uri_key);
+	const char *text = gtk_entry_get_text(entry);
 
-	setval(url, gtk_entry_get_text(entry));
+	setval(url, (text && text[0])?text:NULL);
 	emae_uri_changed(service, url);
 	camel_url_free(url);
 }
