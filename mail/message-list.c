@@ -2689,6 +2689,10 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	CamelFolderChangeInfo *changes = (CamelFolderChangeInfo *)event_data;
 	CamelFolder *folder = (CamelFolder *)o;
 	int i;
+
+	/* may be NULL if we're in the process of being destroyed */
+	if (ml->async_event == NULL)
+		return;
 	
 	d(printf("folder changed event, changes = %p\n", changes));
 	if (changes) {

@@ -1,3 +1,10 @@
+2004-08-27  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #63456.
+
+	* message-list.c (main_folder_changed): noop if the async_event
+	pointer is NULL which can happen during destroy.
+
 2004-08-27  JP Rosevear  <jpr@novell.com>
 
 	* importers/mail-importer.c (import_folders_rec): utf8_filename
