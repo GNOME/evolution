@@ -1,5 +1,5 @@
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/shell	\
-	-I$(includedir) $(GNOME_INCLUDEDIR) 		\
+	-I$(includedir) $(EXTRA_GNOME_CFLAGS) 		\
 	-DG_LOG_DOMAIN=\"Evolution-Importer\" 		\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"
 
