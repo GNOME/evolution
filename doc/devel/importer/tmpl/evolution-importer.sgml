@@ -2,13 +2,11 @@
 EvolutionImporter
 
 <!-- ##### SECTION Short_Description ##### -->
-GTK+ object used to create Evolution Importers .
+
 
 <!-- ##### SECTION Long_Description ##### -->
 <para>
-  The #EvolutionImporter object provides a GTK+ wrapper for the CORBA
-  interface that is used to communicate between the importer and the
-  Evolution shell.
+
 </para>
 
 <!-- ##### SECTION See_Also ##### -->
@@ -18,70 +16,69 @@ GTK+ object used to create Evolution Importers .
 
 <!-- ##### MACRO EVOLUTION_IMPORTER ##### -->
 <para>
-  Casts a #GtkObject to an #EvolutionImporter
+
 </para>
 
-@obj: A GTK+ object.
+@obj: 
 
 
 <!-- ##### USER_FUNCTION EvolutionImporterSupportFormatFn ##### -->
 <para>
-  The function that is called when the Evolution shell wants to know
-  whether this #EvolutionImporter is able to support the file specified
-  by @filename. 
+
 </para>
 
-@importer: An #EvolutionImporter object.
-@filename: The name of file to check.
-@closure: The data that was passed into evolution_importer_new ().
-@Returns: #TRUE if the importer can handle the file, #FALSE otherwise
+@importer: 
+@filename: 
+@closure: 
+@Returns: 
 
 
 <!-- ##### USER_FUNCTION EvolutionImporterLoadFileFn ##### -->
 <para>
-  The function that is called when the Evolution shell wants the 
-  #EvolutionImporter to load a file.
+
 </para>
 
-@importer: An #EvolutionImporter object.
-@filename: The name of the file to load.
-@closure: The data that was passed into evolution_importer_new ().
-@Returns: #TRUE on success, #FALSE otherwise.
+@importer: 
+@filename: 
+@closure: 
+@Returns: 
 
 
 <!-- ##### USER_FUNCTION EvolutionImporterProcessItemFn ##### -->
 <para>
-  The function that is called when the Evolution shell wants the
-  #EvolutionImporter to process the next item in the file.
+
 </para>
 
-<para>
-  This function may process one item, or it may process as many as it
-  wants/is able to.
-</para>
-
-@importer: An #EvolutionImporter object.
-@listener: A #CORBA_Object that will be informed of the results.
-@closure: The data that was passed into evolution_importer_new ().
-@ev: A #CORBA_Environment for returning any CORBA exceptions that may occur.
+@importer: 
+@listener: 
+@closure: 
+@ev: 
 
 
 <!-- ##### USER_FUNCTION EvolutionImporterGetErrorFn ##### -->
 <para>
-  The function that is called when the Evolution shell wants to find out
-  about any errors that may have occurred.
+
 </para>
 
-@importer: An #EvolutionImporter object.
-@closure: The data that was passed into evolution_importer_new ().
-@Returns: A string with the error message, or #NULL if there was none.
+@importer: 
+@closure: 
+@Returns: 
 
 
 <!-- ##### ENUM EvolutionImporterResult ##### -->
 <para>
-  These values describe the result of the processItem CORBA method.
+
 </para>
 
+@EVOLUTION_IMPORTER_OK: 
+@EVOLUTION_IMPORTER_UNSUPPORTED_OPERATION: 
+@EVOLUTION_IMPORTER_INTERRUPTED: 
+@EVOLUTION_IMPORTER_BUSY: 
+@EVOLUTION_IMPORTER_NOT_READY: 
+@EVOLUTION_IMPORTER_UNKNOWN_DATA: 
+@EVOLUTION_IMPORTER_BAD_DATA: 
+@EVOLUTION_IMPORTER_BAD_FILE: 
+@EVOLUTION_IMPORTER_UNKNOWN_ERROR: 
 
 <!-- ##### FUNCTION evolution_importer_new ##### -->
 <para>

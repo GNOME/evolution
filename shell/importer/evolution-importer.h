@@ -40,7 +40,6 @@ extern "C" {
 typedef struct _EvolutionImporter        EvolutionImporter;
 typedef struct _EvolutionImporterPrivate EvolutionImporterPrivate;
 typedef struct _EvolutionImporterClass   EvolutionImporterClass;
-typedef enum _EvolutionImporterResult EvolutionImporterResult;
 
 typedef gboolean (* EvolutionImporterSupportFormatFn) (EvolutionImporter *importer,
 						       const char *filename,
@@ -55,7 +54,7 @@ typedef void (* EvolutionImporterProcessItemFn) (EvolutionImporter *importer,
 typedef char *(* EvolutionImporterGetErrorFn) (EvolutionImporter *importer,
 					       void *closure);
 
-enum _EvolutionImporterResult {
+typedef enum {
 	EVOLUTION_IMPORTER_OK,
 	EVOLUTION_IMPORTER_UNSUPPORTED_OPERATION,
 	EVOLUTION_IMPORTER_INTERRUPTED,
@@ -65,7 +64,7 @@ enum _EvolutionImporterResult {
 	EVOLUTION_IMPORTER_BAD_DATA,
 	EVOLUTION_IMPORTER_BAD_FILE,
 	EVOLUTION_IMPORTER_UNKNOWN_ERROR
-};
+} EvolutionImporterResult;
 
 struct _EvolutionImporter {
   BonoboObject parent;

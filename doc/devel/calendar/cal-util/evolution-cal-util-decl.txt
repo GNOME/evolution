@@ -472,6 +472,11 @@ CalComponent *comp, const char **url
 CalComponent *comp, const char *url
 </FUNCTION>
 <FUNCTION>
+<NAME>cal_component_event_dates_match</NAME>
+<RETURNS>gboolean  </RETURNS>
+CalComponent *comp1, CalComponent *comp2
+</FUNCTION>
+<FUNCTION>
 <NAME>cal_component_free_categories_list</NAME>
 <RETURNS>void  </RETURNS>
 GSList *categ_list
