@@ -1,5 +1,8 @@
 2004-06-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap4/camel-imap4-store.c (imap4_noop): Flush summary
+	updates for the currently selected folder.
+
 	* providers/imap4/camel-imap4-summary.c
 	(camel_imap4_summary_set_exists): Don't bother with
 	exists_changed. We don't need it afterall.

@@ -1151,7 +1151,7 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 		
 		camel_imap4_command_unref (ic);
 	} else {
-		first = scount;
+		first = scount + 1;
 	}
 	
 	if (first != 0 && imap4_summary->exists > 0) {

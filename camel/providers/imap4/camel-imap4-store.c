@@ -1315,5 +1315,8 @@ imap4_noop (CamelStore *store, CamelException *ex)
 	
 	camel_imap4_command_unref (ic);
 	
+	if (engine->folder && !camel_exception_is_set (ex))
+		camel_imap4_summary_flush_updates (((CamelFolder *) engine->folder)->summary, ex);
+	
 	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 }
