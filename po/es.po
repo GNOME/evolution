@@ -5,12 +5,11 @@
 # This file is distributed under the same license as the evolution package.
 # Carlos Perelló Marín <carlos@gnome-db.org>, 2000-2001.
 # Héctor García Álvarez <hector@scouts-es.org>, 2000-2002.
-# Ismael Olea <Ismael@olea.org>, 2001.
+# Ismael Olea <Ismael@olea.org>, 2001, (revisiones) 2003.
 # Eneko Lacunza <enlar@iname.com>, 2001-2002.
 # Héctor García Álvarez <hector@scouts-es.org>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
 # Francisco Javier F. Serrador <serrador@arrakis.es>, 2003.
-# Francisco Javier F. Serrador <franciscojavier.fernandez.serrador@hispalinux.es>, 2003.
 #
 msgid ""
 msgstr ""
@@ -24,7 +23,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.2\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -1041,7 +1039,7 @@ msgid ""
 msgstr ""
 "El seleccionar esta opción significa que su servidor no soporta ni SSL ni "
 "TLS. Esto\n"
-"significa que su conexión será insegura, y que usted será vulnerable a "
+"significa que su conexión será insegura y que usted será vulnerable a "
 "fallos de seguridad."
 
 #: addressbook/gui/component/ldap-config.glade.h:45
@@ -1093,7 +1091,7 @@ msgid ""
 "information. Please ask your system administrator if you are unsure of this "
 "information."
 msgstr ""
-"El primer paso en configurar un servidor LDAP es proporcionar su nombre, y "
+"El primer paso en configurar un servidor LDAP es proporcionar su nombre y "
 "su información\n"
 "de inicio de sesión. Por favor pregunte a su administrador de sistemas si no "
 "está seguro de esta información."
@@ -1106,10 +1104,10 @@ msgid ""
 "if you\n"
 "need to change these options."
 msgstr ""
-"Las opciones de esta página controlan cómo muchas entradas deberían ser\n"
-"incluidas en sus búsquedas, y cuánto tiempo debería tomar una búsqueda. "
+"Las opciones de esta página controlan cuántas entradas deben\n"
+"incluirse en las búsquedas y cuánto tiempo deben tomar éstas. "
 "Pregunte a su administrador de sistemas si\n"
-"necesita cambias estas opciones."
+"necesita cambiar estas opciones."
 
 #: addressbook/gui/component/ldap-config.glade.h:59
 msgid ""
@@ -4827,7 +4825,7 @@ msgstr "Miembro"
 #: calendar/gui/e-itip-control.c:1149
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
-msgstr "RSVP"
+msgstr "Confirmar"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/e-calendar-table.etspec.h:15
@@ -5347,13 +5345,13 @@ msgstr "Ordenar tareas"
 #: calendar/gui/e-cell-date-edit-text.c:118 e-util/e-time-utils.c:180
 #: e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr "%a %m/%d/%Y %H:%M:%S"
+msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: calendar/gui/e-cell-date-edit-text.c:121 e-util/e-time-utils.c:175
 #: e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%a %m/%d/%Y %I:%M:%S %p"
+msgstr "%a %d/%m/%Y %I:%M:%S %p"
 
 #: calendar/gui/e-cell-date-edit-text.c:126
 #, c-format
@@ -5535,11 +5533,11 @@ msgstr ", terminando en "
 
 #: calendar/gui/e-itip-control.c:793
 msgid "<b>Starts:</b> "
-msgstr "<b>Empieza con:</b>"
+msgstr "<b>Empieza:</b>"
 
 #: calendar/gui/e-itip-control.c:803
 msgid "<b>Ends:</b> "
-msgstr "<b>Termina: </b>"
+msgstr "<b>Termina:</b>"
 
 #: calendar/gui/e-itip-control.c:823
 msgid "<b>Completed:</b> "
@@ -5569,7 +5567,7 @@ msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
-"<br> Revise la siguiente información, y seleccione una acción del menú de "
+"<br> Revise la siguiente información y seleccione una acción del menú de "
 "abajo."
 
 #: calendar/gui/e-itip-control.c:1020
@@ -6009,7 +6007,7 @@ msgstr "Necesita acción"
 #: calendar/gui/e-meeting-model.c:290 calendar/gui/e-meeting-model.c:313
 #: calendar/gui/e-meeting-model.c:803 calendar/gui/e-meeting-time-sel.c:405
 msgid "Tentative"
-msgstr "Tentativa"
+msgstr "Provisional"
 
 #: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
 #: calendar/gui/e-meeting-model.c:804
@@ -8189,7 +8187,7 @@ msgstr "Preparando carpeta «%s» para desconexión"
 
 #: camel/camel-disco-store.c:367
 msgid "You must be working online to complete this operation"
-msgstr "Debe estar trabajando conectado para completar esta operación"
+msgstr "Para completar esta operación debe estar trabajando conectado a la red"
 
 #: camel/camel-filter-driver.c:667 camel/camel-filter-search.c:511
 #: camel/camel-process.c:48
@@ -10807,10 +10805,10 @@ msgid ""
 "sent is read, and to specify what Evolution should do when someone requests "
 "a receipt from you.</small>"
 msgstr ""
-"<small>Esta página le permite elegir si quiere que se le notifique por medio "
-"de un recibo que el mensaje que envió se ha leído, y para especificar qué "
-"debería hacer Evolution cuando alguien le solicite una confirmación de "
-"lectura a usted.</small>"
+"<small>Esta página permite elegir si quiere que se le notifique por medio "
+"de un recibo que el mensaje que envió se ha leído y para especificar qué "
+"debe hacer Evolution cuando a usted le solicite alguien un acuse de "
+"recibo.</small>"
 
 #: designs/read_receipts/read.glade.h:6
 msgid "Always send back a read reciept"
@@ -10835,7 +10833,7 @@ msgstr "Pedir una confirmación de lectura para todos los mensajes que envíe"
 #: designs/read_receipts/read.glade.h:11
 msgid "Unless the message is sent to a mailing list, and not to me personally"
 msgstr ""
-"A no ser que el mensaje sea enviado a una lista de correo, y no a mí "
+"A no ser que el mensaje sea enviado a una lista de correo y no a mí "
 "personalmente"
 
 #: designs/read_receipts/read.glade.h:12
@@ -11605,11 +11603,11 @@ msgstr ""
 "-3 a 3 que pueden ser asignadas a los mensajes y ser filtrados \n"
 "se acuerdo con ellas.\n"
 "\n"
-"Como una solución, un conjunto de filtros llamados «Filtro de Prioridad»\n"
-"fue añadido para convertir las prioridades de correo de Netscape en\n"
+"Como una solución, se añadió un conjunto de filtros llamados «Filtro de \n"
+"Prioridad» para convertir las prioridades de correo de Netscape en\n"
 "puntuaciones de Evolution, y los filtros afectados usan puntuaciones en\n"
 "lugar de prioridades. Verifique los filtros importados para asegurarse de\n"
-"que todo funciona como se pretendía."
+"que todo funciona como se espera."
 
 #: importers/netscape-importer.c:677 mail/importers/netscape-importer.c:687
 msgid ""
@@ -12545,7 +12543,7 @@ msgstr "Siempre mandar _copia de carbón (Cc) a:"
 
 #: mail/mail-config.glade.h:19
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr "Siempre confiar en las claves de mi anillo cuando encrip_te"
+msgstr "Siempre confiar en las claves de mi llavero cuando encrip_te"
 
 #: mail/mail-config.glade.h:20
 msgid "Attach original message"
@@ -12917,7 +12915,7 @@ msgstr "_Añadir firma"
 
 #: mail/mail-config.glade.h:131
 msgid "_Always load images off the net"
-msgstr "Siempre c_argar imágenes fuera de la red"
+msgstr "C_argar siempre las imágenes desde la red"
 
 #: mail/mail-config.glade.h:132
 msgid "_Always sign outgoing messages when using this account"
@@ -13025,7 +13023,7 @@ msgstr "Estilo de _respuesta:"
 
 #: mail/mail-config.glade.h:162
 msgid "_Restore defaults"
-msgstr "_Restaurar predeterminados"
+msgstr "_Restablecer predeterminados"
 
 #: mail/mail-config.glade.h:163
 msgid "_Script:"
@@ -13141,11 +13139,11 @@ msgstr "Cargando el contenido del mensaje"
 
 #: mail/mail-display.c:1887
 msgid "Overdue:"
-msgstr "Retrasadas:"
+msgstr "Atrasado:"
 
 #: mail/mail-display.c:1891
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr "por %B %d, %Y, %l:%M %p"
+msgstr "antes del %d de %B de %Y, %l:%M %P"
 
 #: mail/mail-display.c:2248
 msgid "Open Link in Browser"
@@ -13779,7 +13777,7 @@ msgstr "Tamaño"
 
 #: mail/message-tag-followup.c:62
 msgid "Call"
-msgstr "Llamada"
+msgstr "Llamar"
 
 #: mail/message-tag-followup.c:63
 msgid "Do Not Forward"
@@ -13787,7 +13785,7 @@ msgstr "No reenviar"
 
 #: mail/message-tag-followup.c:64
 msgid "Follow-Up"
-msgstr "Seguimiento"
+msgstr "Seguir el mensaje"
 
 #: mail/message-tag-followup.c:65
 msgid "For Your Information"
@@ -13811,7 +13809,7 @@ msgstr "Responder a todos"
 
 #: mail/message-tag-followup.c:71
 msgid "Review"
-msgstr "Revisión"
+msgstr "Revisar"
 
 #: mail/message-tag-followup.c:281 mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
@@ -25326,7 +25324,7 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Elija el archivo que quiere importar a Evolution, y seleccione de la lista "
+"Elija el archivo que quiere importar a Evolution y seleccione de la lista "
 "el tipo de archivo que es.\n"
 "\n"
 "Si no lo sabe, puede elegir «Automático» y Evolution tratará de encargarse."
@@ -26176,9 +26174,9 @@ msgstr ""
 "Si encuentra fallos, por favor infórmenos de ellos en bugzilla.ximian.com.\n"
 "Este producto viene sin garantía alguna y no está dirigido a personas "
 "proclives a\n"
-"abscesos violentos de ira.\n"
+"violentos accesos de ira.\n"
 "\n"
-"esperamos que disfrute de nuestro duro trabajo, y esperamos su "
+"esperamos que disfrute de nuestro duro trabajo y esperamos su "
 "contribución.\n"
 
 #: shell/main.c:298
