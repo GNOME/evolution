@@ -1,3 +1,9 @@
+2001-11-08  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-time-sel.c
+	(e_meeting_time_selector_timeout_handler): don't let an empty
+	event occur for all days when auto scrolling
+
 2001-11-08  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-backend-file.c 

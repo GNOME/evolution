@@ -2534,6 +2534,16 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 		goto scroll;
 	}
 
+	/* Don't let an empty occur for all day events */
+	if (mts->all_day
+	    && mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_START
+	    && e_meeting_time_selector_compare_times (&mts->meeting_end_time, &drag_time) == 0)
+		goto scroll;
+	else if (mts->all_day
+		&& mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_END
+		&& e_meeting_time_selector_compare_times (&mts->meeting_start_time, &drag_time) == 0)
+		goto scroll;
+
 	*time_to_set = drag_time;
 
 	/* Check if the start time and end time need to be switched. */
