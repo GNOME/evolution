@@ -23,19 +23,24 @@
 
 #include "camel-mh-folder.h"
 
-static CamelMhFolderClass *camel_mh_folder_parent_class=NULL;
+static CamelFolderClass *parent_class=NULL;
 
 /* Returns the class for a CamelMhFolder */
 #define CMHF_CLASS(so) CAMEL_MH_FOLDER_CLASS (GTK_OBJECT(so)->klass)
+#define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
+#define CMHS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
+
+static void camel_mh_folder_set_name(CamelFolder *folder, GString *name);
 
 
 static void
 camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 {
-	camel_mh_folder_parent_class = gtk_type_class (camel_folder_get_type ());
+	parent_class = gtk_type_class (camel_folder_get_type ());
 	
 	/* virtual method definition */
 	/* virtual method overload */
+	CAMEL_FOLDER_CLASS(camel_mh_folder_class)->set_name = camel_mh_folder_set_name;
 }
 
 
@@ -53,8 +58,8 @@ camel_mh_folder_get_type (void)
 		GtkTypeInfo camel_mh_folder_info =	
 		{
 			"CamelMhFolder",
-			sizeof (CamelFolder),
-			sizeof (CamelFolderClass),
+			sizeof (CamelMhFolder),
+			sizeof (CamelMhFolderClass),
 			(GtkClassInitFunc) camel_mh_folder_class_init,
 			(GtkObjectInitFunc) NULL,
 				/* reserved_1 */ NULL,
@@ -62,10 +67,46 @@ camel_mh_folder_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 		
-		camel_mh_folder_type = gtk_type_unique (gtk_object_get_type (), &camel_mh_folder_info);
+		camel_mh_folder_type = gtk_type_unique (CAMEL_FOLDER_TYPE, &camel_mh_folder_info);
 	}
 	
 	return camel_mh_folder_type;
 }
 
 
+/**
+ * camel_mh_folder_set_name: set the name of an MH folder
+ * @folder: the folder to set the name
+ * @name: a string representing the (short) name
+ * 
+ * 
+ * 
+ **/
+static void
+camel_mh_folder_set_name(CamelFolder *folder, GString *name)
+{
+	GString *root_dir_path;
+	GString *full_dir_path;
+	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
+	gchar separator;
+
+	g_assert(folder);
+	g_assert(name);
+	g_assert(folder->parent_store);
+
+	/* call default implementation */
+	parent_class->set_name (folder, name);
+	
+	if (mh_folder->directory_path) g_string_free (mh_folder->directory_path, 0);
+	
+	separator = camel_store_get_separator (folder->parent_store);
+	
+	 
+	root_dir_path = camel_mh_store_get_toplevel_dir (CAMEL_MH_STORE(folder->parent_store));
+	full_dir_path = g_string_clone(root_dir_path);
+	g_string_append_c(full_dir_path, separator);
+	g_string_append_g_string(full_dir_path, name);
+	mh_folder->directory_path = full_dir_path;
+	
+
+}

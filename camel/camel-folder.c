@@ -24,29 +24,31 @@
 #include "camel-folder.h"
 #include "gstring-util.h"
 
-static GtkObjectClass *camel_folder_parent_class=NULL;
+static GtkObjectClass *parent_class=NULL;
 
 /* Returns the class for a CamelFolder */
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
+static void camel_folder_init_with_store(CamelFolder *folder, CamelStore *parent_store);
 static void camel_folder_open(CamelFolder *folder);
 static void camel_folder_close(CamelFolder *folder, gboolean expunge);
-static void camel_folder_set_name(CamelFolder *folder, GString *name_string);
-static void camel_folder_set_full_name(CamelFolder *folder, GString *name_string);
+static void camel_folder_set_name(CamelFolder *folder, GString *name_);
+static void camel_folder_set_full_name(CamelFolder *folder, GString *name);
 static GString *camel_folder_get_name(CamelFolder *folder);
 static GString *camel_folder_get_full_name(CamelFolder *folder);
 static gboolean camel_folder_can_hold_folders(CamelFolder *folder);
 static gboolean camel_folder_can_hold_messages(CamelFolder *folder);
 static gboolean camel_folder_exists(CamelFolder *folder);
 static gboolean camel_folder_is_open(CamelFolder *folder);
-static CamelFolder *camel_folder_get_folder(CamelFolder *folder, GString *folderName);
+static CamelFolder *camel_folder_get_folder(CamelFolder *folder, GString *folder_name);
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
 {
-	camel_folder_parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
+	camel_folder_class->init_with_store = camel_folder_init_with_store;
 	camel_folder_class->open = camel_folder_open;
 	camel_folder_class->close = camel_folder_close;
 	camel_folder_class->set_name = camel_folder_set_name;
@@ -90,6 +92,27 @@ camel_folder_get_type (void)
 }
 
 
+
+
+/**
+ * camel_folder_init_with_store: init the folder by setting its parent store. 
+ *
+ * @folder: folder object to initialize
+ * @parent_store: parent store object of the folder
+ * 
+ * 
+ **/
+static void 
+camel_folder_init_with_store(CamelFolder *folder, CamelStore *parent_store)
+{
+	g_assert(folder);
+	g_assert(parent_store);
+
+	folder->parent_store = parent_store;
+}
+
+
+
 /** 
  * camel_folder_open: Open a folder
  *
@@ -130,10 +153,10 @@ camel_folder_close(CamelFolder *folder, gboolean expunge)
  *
  **/
 static void
-camel_folder_set_name(CamelFolder *folder, GString *name_string)
+camel_folder_set_name(CamelFolder *folder, GString *name)
 {
     if (folder->name) g_string_free(folder->name, 0);;
-    folder->name = name_string;
+    folder->name = name;
 }
 
 
@@ -147,10 +170,10 @@ camel_folder_set_name(CamelFolder *folder, GString *name_string)
  *
  **/
 static void
-camel_folder_set_full_name(CamelFolder *folder, GString *name_string)
+camel_folder_set_full_name(CamelFolder *folder, GString *name)
 {
     if (folder->full_name) g_string_free(folder->full_name, 0);;
-    folder->full_name = name_string;
+    folder->full_name = name;
 }
 
 
@@ -250,7 +273,7 @@ camel_folder_is_open(CamelFolder *folder)
  *        could not be created
  **/
 static CamelFolder *
-camel_folder_get_folder(CamelFolder *folder, GString *folderName)
+camel_folder_get_folder(CamelFolder *folder, GString *folder_name)
 {
     g_warning("getFolder called on the abstract CamelFolder class\n");
     return NULL;

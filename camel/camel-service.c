@@ -23,7 +23,7 @@
 
 #include "camel-service.h"
 
-static GtkObjectClass *camel_service_parent_class=NULL;
+static GtkObjectClass *parent_class=NULL;
 
 /* Returns the class for a CamelService */
 #define CSERV_CLASS(so) CAMEL_SERVICE_CLASS (GTK_OBJECT(so)->klass)
@@ -36,7 +36,7 @@ static void camel_service_set_connected(CamelService *service, gboolean state);
 static void
 camel_service_class_init (CamelServiceClass *camel_service_class)
 {
-	camel_service_parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = gtk_type_class (gtk_object_get_type ());
 	
 	/* virtual method definition */
 	camel_service_class->connect = camel_service_connect;
@@ -92,7 +92,7 @@ camel_service_get_type (void)
  *
  * @service: object to connect
  **/
-static void
+void
 camel_service_connect(CamelService *service)
 {
 

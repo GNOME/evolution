@@ -1,3 +1,11 @@
+1999-04-22  bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/providers/MH/camel-mh-store.c:
+	more test implementation.
+
+	* camel/camel-store.c (camel_store_get_type): typo fix
+	
+
 1999-04-21  bertrand <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/providers/MH/camel-mh-folder.c (camel_mh_folder_get_type): 

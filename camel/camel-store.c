@@ -23,7 +23,7 @@
 
 #include "camel-store.h"
 
-static GtkObjectClass *camel_store_parent_class=NULL;
+static GtkObjectClass *parent_class=NULL;
 
 /* Returns the class for a CamelStore */
 #define CS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
@@ -37,7 +37,7 @@ static CamelFolder *camel_store_get_default_folder(CamelStore *store);
 static void
 camel_store_class_init (CamelStoreClass *camel_store_class)
 {
-	camel_store_parent_class = gtk_type_class (camel_service_get_type ());
+	parent_class = gtk_type_class (camel_service_get_type ());
 	
 	/* virtual method definition */
 	camel_store_class->set_separator = camel_store_set_separator;
@@ -72,7 +72,7 @@ camel_store_get_type (void)
 			(GtkClassInitFunc) NULL,
 		};
 		
-		camel_store_type = gtk_type_unique (gtk_object_get_type (), &camel_store_info);
+		camel_store_type = gtk_type_unique (CAMEL_SERVICE_TYPE, &camel_store_info);
 	}
 	
 	return camel_store_type;

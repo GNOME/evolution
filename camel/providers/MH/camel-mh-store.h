@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-mh-folder.h : Abstract class for an email folder */
+/* camel-mhstore.h : class for an mh store */
 
 /* 
  *
@@ -22,8 +22,8 @@
  */
 
 
-#ifndef CAMEL_MH_FOLDER_H
-#define CAMEL_MH_FOLDER_H 1
+#ifndef CAMEL_MH_STORE_H
+#define CAMEL_MH_STORE_H 1
 
 
 #ifdef __cplusplus
@@ -32,39 +32,40 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <gtk/gtk.h>
-#include "camel-folder.h"
-/*  #include "camel-store.h" */
+#include "camel-store.h"
 
-#define CAMEL_MH_FOLDER_TYPE     (camel_mh_folder_get_type ())
-#define CAMEL_MH_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_MH_FOLDER_TYPE, CamelMhFolder))
-#define CAMEL_MH_FOLDER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MH_FOLDER_TYPE, CamelMhFolderClass))
-#define IS_CAMEL_MH_FOLDER(o)    (GTK_CHECK_TYPE((o), CAMEL_MH_FOLDER_TYPE))
-
-
-typedef struct {
-	CamelFolder parent_object;
-	
-	GString *directory_path;
-
-} CamelMhFolder;
-
+#define CAMEL_MH_STORE_TYPE     (camel_mh_store_get_type ())
+#define CAMEL_MH_STORE(obj)     (GTK_CHECK_CAST((obj), CAMEL_MH_STORE_TYPE, CamelMhStore))
+#define CAMEL_MH_STORE_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_MH_STORE_TYPE, CamelMhStoreClass))
+#define IS_CAMEL_MH_STORE(o)    (GTK_CHECK_TYPE((o), CAMEL_MH_STORE_TYPE))
 
 
 typedef struct {
-	CamelFolderClass parent_class;
-
-	/* Virtual methods */	
+	CamelStore parent_object;	
 	
-} CamelMhFolderClass;
+	GString *toplevel_dir;
+	
+} CamelMhStore;
+
+
+
+typedef struct {
+	CamelStoreClass parent_class;
+
+
+} CamelMhStoreClass;
 
 
 /* public methods */
 
 /* Standard Gtk function */
-GtkType camel_mh_folder_get_type (void);
+GtkType camel_mh_store_get_type (void);
+
+void camel_mh_store_set_toplevel_dir(CamelMhStore *store, GString *toplevel);
+GString *camel_mh_store_get_toplevel_dir(CamelMhStore *store);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* CAMEL_MH_FOLDER_H */
+#endif /* CAMEL_MH_STORE_H */

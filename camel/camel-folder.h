@@ -87,17 +87,18 @@ typedef struct {
 	GtkObjectClass parent_class;
 
 	/* Virtual methods */	
+	void   (*init_with_store) (CamelFolder *folder, CamelStore *parent_store);
 	void   (*open) (CamelFolder *object);
 	void   (*close) (CamelFolder *folder, gboolean expunge);
-	void   (*set_name) (CamelFolder *folder, GString *name_string);
-	void   (*set_full_name) (CamelFolder *folder, GString *name_string);
-	GString * (*get_name) (CamelFolder *folder);
-	GString * (*get__full_name) (CamelFolder *folder);
-	gboolean (*can_hold_folders) (CamelFolder *folder);
-	gboolean (*can_hold_messages) (CamelFolder *folder);
-	gboolean (*exists) (CamelFolder *folder);
-	gboolean (*is_open) (CamelFolder *folder);
-	CamelFolder * (*get_folder) (CamelFolder *folder, GString *folderName);
+	void   (*set_name) (CamelFolder *folder, GString *name);
+	void   (*set_full_name) (CamelFolder *folder, GString *name);
+	GString *  (*get_name) (CamelFolder *folder);
+	GString *  (*get__full_name) (CamelFolder *folder);
+	gboolean   (*can_hold_folders) (CamelFolder *folder);
+	gboolean   (*can_hold_messages) (CamelFolder *folder);
+	gboolean   (*exists) (CamelFolder *folder);
+	gboolean   (*is_open) (CamelFolder *folder);
+	CamelFolder *  (*get_folder) (CamelFolder *folder, GString *folder_name);
 
 } CamelFolderClass;
 
