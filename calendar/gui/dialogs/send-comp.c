@@ -73,3 +73,34 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 	else
 		return FALSE;
 }
+
+gboolean
+send_component_prompt_subject (GtkWindow *parent, ECal *client, ECalComponent *comp)
+{
+	ECalComponentVType vtype;
+	const char *id;
+	
+	vtype = e_cal_component_get_vtype (comp);
+
+	switch (vtype) {
+	case E_CAL_COMPONENT_EVENT:
+			id = "calendar:prompt-send-no-subject-calendar";
+		break;
+
+	case E_CAL_COMPONENT_TODO:
+			id = "calendar:prompt-send-no-subject-task";
+		break;
+
+	default:
+		g_message ("send_component_prompt_subject(): "
+			   "Cannot handle object of type %d", vtype);
+		return FALSE;
+	}
+	
+	if (e_error_run (parent, id, NULL) == GTK_RESPONSE_YES)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+

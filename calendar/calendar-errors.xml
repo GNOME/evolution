@@ -176,5 +176,19 @@
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
  </error>
+ 
+ <error id="prompt-send-no-subject-calendar" type="question" default="GTK_RESPONSE_YES">
+  <primary>Are you sure you want to send the appointment without a summary?</primary>
+  <secondary>Adding a meaningful Summary to your appointment will give your recipients an idea of what your appointment is about.</secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button label="_Send" response="GTK_RESPONSE_YES"/>
+ </error>
+
+ <error id="prompt-send-no-subject-task" type="question" default="GTK_RESPONSE_YES">
+  <primary>Are you sure you want to send the task without a summary?</primary>
+  <secondary>Adding a meaningful Summary to your task will give your recipients an idea of what your appointment is about.</secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button label="_Send" response="GTK_RESPONSE_YES"/>
+ </error>
 
 </error-list>

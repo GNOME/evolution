@@ -327,7 +327,7 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 		if (e_cal_component_is_instance (priv->comp))
 			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
 				return FALSE;
-
+		
 		if (send && save_comp_with_send (editor))
 			return TRUE;
 		else if (!send && save_comp (editor))
@@ -347,6 +347,7 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
+	ECalComponentText text;
 	
 	priv = editor->priv;
 	
@@ -358,6 +359,13 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
 				return;
 		
+		e_cal_component_get_summary (priv->comp, &text);
+		
+		if (!text.value) {
+			if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
+				return;
+		}
+
 		if (save_comp_with_send (editor))
 			close_dialog (editor);
 		break;

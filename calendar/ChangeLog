@@ -1,3 +1,13 @@
+2004-11-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* calendar-errors.xml: Added two error ids to display use
+	it when the meeting is created without a summary.
+	* gui/dialogs/send-comp.[ch] (send_component_prompt_subject): Added a 
+	function to prompt for a dialog when a meeting/assigned task is sent 
+	without a summary.
+	* gui/dialogs/comp-editor.c (response_cb): Called the above mentioned
+	function when the summary is not present.
+	
 2004-11-23  Rodney Dawes  <dobey@novell.com>
 
 	* gui/alarm-notify/alarm-notify-dialog.[ch]:
