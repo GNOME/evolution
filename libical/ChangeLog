@@ -1,5 +1,10 @@
 2001-07-03  Damon Chaplin  <damon@ximian.com>
 
+	* src/libical/icalcomponent.c (icalcomponent_add_component): add the
+	icaltimezone to the timezone array of the toplevel VCALENDAR component.
+	
+2001-07-03  Damon Chaplin  <damon@ximian.com>
+
 	* src/libical/icalcomponent.c (icalcomponent_merge_component): fixed
 	bad assertion, '!=' -> '=='.
 	(icalcomponent_merge_vtimezone): get the TZID from vtimezone, not comp.

@@ -128,6 +128,7 @@ icalcomponent_new_impl (icalcomponent_kind kind)
     comp->component_iterator = 0;
     comp->x_name = 0;
     comp->parent = 0;
+    /* FIXME: Probably only want to create this for VCALENDAR components. */
     comp->timezones = icaltimezone_array_new ();
 
     return comp;
@@ -553,13 +554,20 @@ icalcomponent_add_component (icalcomponent* parent, icalcomponent* child)
 
     icalerror_assert( (cimpl->parent ==0),"The child component has already been added to a parent component. Remove the component with icalcomponent_remove_component before calling icalcomponent_add_component");
 
+    fprintf (stderr, "In icalcomponent_add_component\n");
+
     cimpl->parent = parent;
 
     pvl_push(impl->components,child);
 
     /* If the new component is a VTIMEZONE, add it to our array. */
-    if (cimpl->kind == ICAL_VTIMEZONE_COMPONENT)
-      icaltimezone_array_append_from_vtimezone (cimpl->timezones, child);
+    if (cimpl->kind == ICAL_VTIMEZONE_COMPONENT) {
+      fprintf (stderr, "  it is a VTIMEZONE component.\n");
+      icaltimezone_array_append_from_vtimezone (impl->timezones, child);
+
+      fprintf (stderr, "  num timezones in array: %i\n",
+	       impl->timezones->num_elements);
+    }
 }
 
 
@@ -1767,6 +1775,7 @@ icaltimezone* icalcomponent_get_timezone(icalcomponent* comp, const char *tzid)
     struct icalcomponent_impl *impl;
     icaltimezone *zone;
     int lower, upper, middle, cmp;
+    char *zone_tzid;
 
     impl = (struct icalcomponent_impl*)comp;
 
@@ -1774,10 +1783,14 @@ icaltimezone* icalcomponent_get_timezone(icalcomponent* comp, const char *tzid)
     lower = middle = 0;
     upper = impl->timezones->num_elements;
 
+    fprintf (stderr, "In icalcomponent_get_timezone (%i): %s\n", upper, tzid);
+
     while (lower < upper) {
 	middle = (lower + upper) >> 1;
 	zone = icalarray_element_at (impl->timezones, middle);
-	cmp = strcmp (tzid, icaltimezone_get_tzid (zone));
+	zone_tzid = icaltimezone_get_tzid (zone);
+	fprintf (stderr, "   comparing with: %s\n", zone_tzid);
+	cmp = strcmp (tzid, zone_tzid);
 	if (cmp == 0)
 	    return zone;
 	else if (cmp < 0)
