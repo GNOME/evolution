@@ -1,3 +1,11 @@
+2000-07-04  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/gncal-todo.c (gncal_todo_update): Use &obj instead of &ico in
+	the call to cal_client_get_object(). The ToDo list should work now.
+
+	* gui/event-editor-dialog.glade: set the toplevel GnomeApp to invisible
+	so it doesn't appear and then resize.
+
 2000-07-03  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/cal-component.c (cal_component_get_summary): Use

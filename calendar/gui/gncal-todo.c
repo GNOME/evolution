@@ -869,7 +869,8 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 		char *uid = l->data;
 		iCalObject *obj;
 
-		status = cal_client_get_object (todo->calendar->client, uid, &ico);
+		status = cal_client_get_object (todo->calendar->client, uid,
+						&obj);
 
 		if (status == CAL_CLIENT_GET_SUCCESS) {
 			insert_in_clist (todo, obj);

@@ -20,6 +20,7 @@
 <widget>
   <class>GnomeApp</class>
   <name>event-editor-dialog</name>
+  <visible>False</visible>
   <title>event-editor-dialog</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
