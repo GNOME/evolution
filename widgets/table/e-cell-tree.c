@@ -31,9 +31,6 @@
 #include <ctype.h>
 #include <math.h>
 
-#include "tree-expanded.xpm"
-#include "tree-unexpanded.xpm"
-
 #define PARENT_TYPE e_cell_get_type ()
 
 typedef struct {
@@ -46,8 +43,6 @@ typedef struct {
 } ECellTreeView;
 
 static ECellClass *parent_class;
-
-static GdkPixbuf   *tree_expanded_pixbuf, *tree_unexpanded_pixbuf;
 
 #define INDENT_AMOUNT 16
 
@@ -249,7 +244,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 		/* now draw our icon if we're expandable */
 		if (expandable) {
-			GdkPixbuf *image = expanded ? tree_expanded_pixbuf : tree_unexpanded_pixbuf;
+			GdkPixbuf *image = (expanded 
+					    ? E_CELL_TREE(tree_view->cell_view.ecell)->open_pixbuf
+					    : E_CELL_TREE(tree_view->cell_view.ecell)->closed_pixbuf);
 			int width, height;
 
 			width = gdk_pixbuf_get_width(image);
@@ -390,34 +387,34 @@ e_cell_tree_class_init (GtkObjectClass *object_class)
 	ecc->leave_edit = ect_leave_edit;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
-
-	/*
-	 * Create our pixbuf for expanding/unexpanding
-	 */
-	tree_expanded_pixbuf = gdk_pixbuf_new_from_xpm_data(tree_expanded_xpm);
-	tree_unexpanded_pixbuf = gdk_pixbuf_new_from_xpm_data(tree_unexpanded_xpm);
 }
 
 E_MAKE_TYPE(e_cell_tree, "ECellTree", ECellTree, e_cell_tree_class_init, NULL, PARENT_TYPE);
 
 void
 e_cell_tree_construct (ECellTree *ect,
+		       GdkPixbuf *open_pixbuf,
+		       GdkPixbuf *closed_pixbuf,
 		       gboolean draw_lines,
 		       ECell *subcell)
 {		       
 	ect->subcell = subcell;
+	ect->open_pixbuf = open_pixbuf;
+	ect->closed_pixbuf = closed_pixbuf;
 	ect->draw_lines = draw_lines;
 }
 
 
 ECell *
 e_cell_tree_new (ETableModel *etm,
+		 GdkPixbuf *open_pixbuf,
+		 GdkPixbuf *closed_pixbuf,
 		 gboolean draw_lines,
 		 ECell *subcell)
 {
 	ECellTree *ect = gtk_type_new (e_cell_tree_get_type ());
 
-	e_cell_tree_construct (ect, draw_lines, subcell);
+	e_cell_tree_construct (ect, open_pixbuf, closed_pixbuf, draw_lines, subcell);
 
 	return (ECell *) ect;
 }

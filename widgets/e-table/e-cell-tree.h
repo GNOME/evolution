@@ -21,8 +21,8 @@ typedef struct {
 
 	gboolean draw_lines;
 
-	GdkPixbuf   *expanded_image;
-	GdkPixbuf   *unexpanded_image;
+	GdkPixbuf   *open_pixbuf;
+	GdkPixbuf   *closed_pixbuf;
 
 	ECell *subcell;
 } ECellTree;
@@ -32,9 +32,15 @@ typedef struct {
 } ECellTreeClass;
 
 GtkType    e_cell_tree_get_type (void);
-ECell     *e_cell_tree_new      (ETableModel *model, gboolean draw_lines,
+ECell     *e_cell_tree_new      (ETableModel *model,
+				 GdkPixbuf *open_pixbuf,
+				 GdkPixbuf *closed_pixbuf,
+				 gboolean draw_lines,
 				 ECell *subcell);
-void       e_cell_tree_construct (ECellTree *ect, gboolean draw_lines,
+void       e_cell_tree_construct (ECellTree *ect,
+				  GdkPixbuf *open_pixbuf,
+				  GdkPixbuf *closed_pixbuf,
+				  gboolean draw_lines,
 				  ECell *subcell);
 
 #endif /* _E_CELL_TREE_H_ */

@@ -1,5 +1,16 @@
 2000-06-10  Chris Toshok  <toshok@helixcode.com>
 
+	* e-tree-example-1.c (create_tree): supply the pixbufs here.
+
+	* e-cell-tree.h: change pixbuf names to open_pixbuf/closed_pixbuf.
+
+	* e-cell-tree.c (e_cell_tree_construct): take open/closed pixbuf
+	parameters, and don't #include the .xpm files directly here.
+	(e_cell_tree_new): same.
+	(ect_draw): use the pixbufs from the ECellTree.
+
+2000-06-10  Chris Toshok  <toshok@helixcode.com>
+
 	* e-cell-tree.c (ect_event): offset events before passing them to
 	our subcell view.
 

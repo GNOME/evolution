@@ -15,7 +15,10 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#define ROWS 10
+#include "tree-expanded.xpm"
+#include "tree-unexpanded.xpm"
+
+
 #define COLS 4
 
 #define IMPORTANCE_COLUMN 4
@@ -218,6 +221,7 @@ static void
 create_tree (void)
 {
 	GtkWidget *window, *frame, *button, *vbox;
+	GdkPixbuf *tree_expanded_pixbuf, *tree_unexpanded_pixbuf;
 	ECell *cell_left_just;
 	ECell *cell_tree;
 	ETableHeader *e_table_header;
@@ -265,13 +269,21 @@ create_tree (void)
 	 * each column.
 	 */
 	cell_left_just = e_cell_text_new (E_TABLE_MODEL(e_tree_model), NULL, GTK_JUSTIFY_LEFT);
+
+	/*
+	 * Create our pixbuf for expanding/unexpanding
+	 */
+	tree_expanded_pixbuf = gdk_pixbuf_new_from_xpm_data(tree_expanded_xpm);
+	tree_unexpanded_pixbuf = gdk_pixbuf_new_from_xpm_data(tree_unexpanded_xpm);
 	
 	/* 
 	 * This renderer is used for the tree column (the leftmost one), and
 	 * has as its subcell renderer the text renderer.  this means that
 	 * text is displayed to the right of the tree pipes.
 	 */
-	cell_tree = e_cell_tree_new (E_TABLE_MODEL(e_tree_model), TRUE, cell_left_just);
+	cell_tree = e_cell_tree_new (E_TABLE_MODEL(e_tree_model),
+				     tree_expanded_pixbuf, tree_unexpanded_pixbuf,
+				     TRUE, cell_left_just);
 
 	/*
 	 * Next we create a column object for each view column and add
