@@ -45,7 +45,6 @@ void enumerate_msg (MessageList *ml, const char *uid, gpointer data);
 
 void fetch_mail            (GtkWidget *widget, gpointer user_data);
 void send_queued_mail      (GtkWidget *widget, gpointer user_data);
-void send_receive_mail     (GtkWidget *widget, gpointer user_data);
 
 void compose_msg           (GtkWidget *widget, gpointer user_data);
 void send_to_url           (const char *url);
@@ -112,7 +111,6 @@ void open_message          (BonoboUIComponent *uih, void *user_data, const char 
 void expunge_folder        (BonoboUIComponent *uih, void *user_data, const char *path);
 void filter_edit           (BonoboUIComponent *uih, void *user_data, const char *path);
 void vfolder_edit_vfolders (BonoboUIComponent *uih, void *user_data, const char *path);
-void providers_config      (BonoboUIComponent *uih, void *user_data, const char *path);
 void manage_subscriptions  (BonoboUIComponent *uih, void *user_data, const char *path);
 
 void configure_folder      (BonoboUIComponent *uih, void *user_data, const char *path);

@@ -67,10 +67,14 @@ evolution_mail_SOURCES =		\
 	mail-autofilter.h		\
 	mail-callbacks.c		\
 	mail-callbacks.h		\
+	mail-composer-prefs.c		\
+	mail-composer-prefs.h		\
 	mail-config.c			\
 	mail-config.h			\
 	mail-config-druid.c		\
 	mail-config-druid.h		\
+	mail-config-factory.c		\
+	mail-config-factory.h		\
 	mail-crypto.c			\
 	mail-crypto.h			\
 	mail-display.c			\
@@ -89,6 +93,8 @@ evolution_mail_SOURCES =		\
 	mail-offline-handler.h		\
 	mail-ops.c			\
 	mail-ops.h			\
+	mail-preferences.c		\
+	mail-preferences.h		\
 	mail-search.c			\
 	mail-search.h			\
 	mail-search-dialogue.c		\
@@ -147,7 +153,7 @@ gladedir   = $(datadir)/evolution/glade
 glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message-tags.glade
 
 etspecdir = $(datadir)/evolution/etspec/
-etspec_DATA = message-list.etspec subscribe-dialog.etspec
+etspec_DATA = mail-accounts.etspec message-list.etspec subscribe-dialog.etspec
 
 iconsdir = $(datadir)/images/evolution
 buttonsdir = $(datadir)/images/evolution/buttons

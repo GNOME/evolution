@@ -882,7 +882,7 @@ folder_browser_set_folder (FolderBrowser *fb, CamelFolder *folder, const char *u
 	fb->uri = g_strdup (uri);
 	
 	gtk_object_ref (GTK_OBJECT (fb));
-	got_folder (uri, folder, fb);
+	got_folder (NULL, folder, fb);
 }
 
 void
@@ -1964,14 +1964,16 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	}
 	
 	setup_popup_icons ();
-
+	
 	for (i=0;i<sizeof(filter_menu)/sizeof(filter_menu[0]);i++)
 		filter_menu[i].closure = fdata;
 	
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
 	e_auto_kill_popup_menu_on_hide (menu);
 	
-	gtk_object_set_data_full (GTK_OBJECT (menu), "colour_closures", closures, (GtkDestroyNotify)colour_closures_free);
+	gtk_object_set_data_full (GTK_OBJECT (menu), "colour_closures",
+				  closures, (GtkDestroyNotify) colour_closures_free);
+	
 	if (fdata)
 		gtk_object_set_data_full(GTK_OBJECT(menu), "filter_data", fdata, (GtkDestroyNotify)filter_data_free);
 	

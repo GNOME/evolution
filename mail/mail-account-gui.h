@@ -64,7 +64,7 @@ typedef struct {
 typedef struct {
 	GtkWidget *top;
 	MailConfigAccount *account;
-	MailAccountsDialog *dialog;
+	MailAccountsTab *dialog;
 	GladeXML *xml;
 	
 	/* identity */
@@ -122,7 +122,7 @@ typedef struct {
 } MailAccountGui;
 
 
-MailAccountGui *mail_account_gui_new (MailConfigAccount *account, MailAccountsDialog *dialog);
+MailAccountGui *mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog);
 void mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top);
 gboolean mail_account_gui_save (MailAccountGui *gui);
 void mail_account_gui_destroy (MailAccountGui *gui);

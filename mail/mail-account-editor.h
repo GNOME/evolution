@@ -43,8 +43,8 @@ extern "C" {
 struct _MailAccountEditor {
 	GnomeDialog parent;
 	
-  	MailAccountGui *gui;
-  	GtkNotebook *notebook;
+	MailAccountGui *gui;
+	GtkNotebook *notebook;
 };
 
 typedef struct _MailAccountEditor MailAccountEditor;
@@ -58,7 +58,7 @@ typedef struct {
 
 GtkType mail_account_editor_get_type (void);
 
-MailAccountEditor *mail_account_editor_new (MailConfigAccount *account, GtkWindow *parent, MailAccountsDialog *dialog);
+MailAccountEditor *mail_account_editor_new (MailConfigAccount *account, GtkWindow *parent, MailAccountsTab *dialog);
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,17 @@
+2002-03-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Sync with yet-another-mail-config branch.
+
+	* mail-composer-prefs.c: Updated to get the right widgets and
+	whatnot. Also updated to tell the evolution-config-control that
+	stuff has changed.
+
+	* mail-preferences.c: Updated to get the right widgets and
+	whatnot. Also updated to tell the evolution-config-control that
+	stuff has changed.
+
+	* mail-accounts.etspec: New file needed by mail-accounts.c
+
 2002-03-26  Not Zed  <NotZed@Ximian.com>
 
 	* mail-callbacks.c (addrbook_sender): Changed to get the address
@@ -46,25 +60,76 @@
 
 2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
 
-	* component-factory.c (send_receive_cb): New, callback for the
-	"send_receive" signal on the EvolutionShellComponent.
-	(create_component): Connect.
-
-	* folder-browser-ui.c: Remove verb "MailGetSend".
-
-	* mail-callbacks.c (send_receive_mail): Removed.
-
-	* mail-send-recv.c: Remove member current_folder from struct
-	_send_data.
-	(free_send_data): No need to unref here.
-	(build_dialogue): Removed arg @current_folder.
-	(mail_send_receive): Likewise.
-
-2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
-
 	* folder-browser.c: Reorder folder_browser_search_menu_items
 	according to #16246.
 
+2002-03-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-send-recv.c: Remove member current_folder from struct
+	_send_data.
+	(build_dialogue): Remove arg @current_folder.
+	(mail_send_receive): Likewise.
+	(free_send_data): No need to refresh the current folder here.
+	[Well, hopefully, at least.]
+
+	* component-factory.c (send_receive_callback): New.
+	(create_component): Connect.
+
+	* mail-callbacks.c (send_receive_mail): Removed.
+
+	* folder-browser-ui.c: Remove "MailGetSend" verb.
+
+2002-03-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* GNOME_Evolution_Mail.oaf.in: Add info about the new config
+	controls.
+
+	* mail-config-factory.c: New file to handle the creation/etc of
+	the config controls.
+
+	* mail-accounts.c:
+
+	* mail-preferences.c:
+
+	* mail-composer-prefs.c: No longer handle their own bonobo control
+	creation.
+
+2002-03-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (sig_new_text): Temporarily #if 0 this
+	function out.
+	(sig_new_html): Same.
+
+	* mail-config.c (config_read): Read in the default reply style
+	setting.
+	(mail_config_write_on_exit): Same the default reply style.
+	(mail_config_get_default_reply_style): New function to get the
+	default reply style.
+	(mail_config_set_default_reply_style): New function to set the
+	default reply style.
+
+	* folder-browser-ui.c: There is no longer a Tools/Mail Settings
+	menu item.
+
+	* mail-account-gui.c: Updated the widget types for the
+	MailAccountsDialog->MailAccountsTab change.
+
+	* mail_account_editor.c: Same.
+
+	* mail-callbacks.c (providers_config): Removed.
+
+	* mail-composer-prefs.c: New file that implements the composer
+	preferences tab of anna's new config design.
+
+2002-03-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c: Reimplemented. This time we only have to worry
+	about accounts. Also this now implements Annas config gui changes.
+
+	* mail-preferences.c: Implements the mailer's Preferences tab in
+	Anna's new config GUI.
+
+>>>>>>> 1.2089.2.5
 2002-03-19  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c: add missing NULL closure data to popup menu
@@ -171,7 +236,8 @@
 
 	* mail-display.c (on_link_clicked): Handle digest: urls.
 
-	* mail-format.c (setup_mime_tables): Add a handler for multipart/digest.
+	* mail-format.c (setup_mime_tables): Add a handler for
+	multipart/digest.
 	(handle_multipart_digest): Handle multipart/digest parts.
 
 2002-03-12  Jeffrey Stedfast  <fejj@ximian.com>

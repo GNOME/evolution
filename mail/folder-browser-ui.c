@@ -110,7 +110,6 @@ static BonoboUIVerb global_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilters", filter_edit),
-	BONOBO_UI_UNSAFE_VERB ("ToolsSettings", providers_config),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSubscriptions", manage_subscriptions),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolders", vfolder_edit_vfolders),
 	/* ViewPreview is a toggle */

@@ -756,6 +756,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		rule_context_load (search_context, system, user);
 	}
 	
+	mail_config_register_factory (corba_shell);
+	
 	if (mail_config_is_corrupt ()) {
 		GtkWidget *dialog;
 		

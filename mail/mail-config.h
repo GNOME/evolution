@@ -97,6 +97,12 @@ typedef enum {
 } MailConfigForwardStyle;
 
 typedef enum {
+	MAIL_CONFIG_REPLY_QUOTED,
+	MAIL_CONFIG_REPLY_DO_NOT_QUOTE,
+	MAIL_CONFIG_REPLY_ATTACH
+} MailConfigReplyStyle;
+
+typedef enum {
 	MAIL_CONFIG_DISPLAY_NORMAL,
 	MAIL_CONFIG_DISPLAY_FULL_HEADERS,
 	MAIL_CONFIG_DISPLAY_SOURCE,
@@ -217,6 +223,9 @@ void               mail_config_set_http_mode (MailConfigHTTPMode);
 
 MailConfigForwardStyle mail_config_get_default_forward_style (void);
 void                   mail_config_set_default_forward_style (MailConfigForwardStyle style);
+
+MailConfigReplyStyle mail_config_get_default_reply_style (void);
+void                   mail_config_set_default_reply_style (MailConfigReplyStyle style);
 
 MailConfigDisplayStyle mail_config_get_message_display_style (void);
 void                   mail_config_set_message_display_style (MailConfigDisplayStyle style);

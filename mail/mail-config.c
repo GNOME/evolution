@@ -110,6 +110,7 @@ typedef struct {
 	
 	MailConfigHTTPMode http_mode;
 	MailConfigForwardStyle default_forward_style;
+	MailConfigReplyStyle default_reply_style;
 	MailConfigDisplayStyle message_display_style;
 	char *default_charset;
 	
@@ -923,6 +924,11 @@ config_read (void)
 		config->db, "/Mail/Format/default_forward_style", 
 		MAIL_CONFIG_FORWARD_ATTACHED, NULL);
 	
+	/* Replying */
+	config->default_reply_style = bonobo_config_get_long_with_default (
+		config->db, "/Mail/Format/default_reply_style", 
+		MAIL_CONFIG_REPLY_QUOTED, NULL);
+	
 	/* Message Display */
 	config->message_display_style = bonobo_config_get_long_with_default (
 		config->db, "/Mail/Format/message_display_style", 
@@ -1301,6 +1307,11 @@ mail_config_write_on_exit (void)
 	bonobo_config_set_long (config->db, 
 				"/Mail/Format/default_forward_style", 
 				config->default_forward_style, NULL);
+	
+	/* Replying */
+	bonobo_config_set_long (config->db, 
+				"/Mail/Format/default_reply_style", 
+				config->default_reply_style, NULL);
 	
 	/* Message Display */
 	bonobo_config_set_long (config->db, 
@@ -2087,6 +2098,18 @@ void
 mail_config_set_default_forward_style (MailConfigForwardStyle style)
 {
 	config->default_forward_style = style;
+}
+
+MailConfigReplyStyle
+mail_config_get_default_reply_style (void)
+{
+	return config->default_reply_style;
+}
+
+void
+mail_config_set_default_reply_style (MailConfigReplyStyle style)
+{
+	config->default_reply_style = style;
 }
 
 MailConfigDisplayStyle

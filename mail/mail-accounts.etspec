@@ -1,0 +1,12 @@
+<ETableSpecification cursor-mode="line" draw-grid="false" draw-focus="true" selection-mode="single">
+  <ETableColumn model_col= "0" _title="Enabled" pixbuf="enabled" expansion="0.0" minimum_width="18" resizable="false" cell="render_message_status" compare="integer" sortable="false"/>
+
+  <ETableColumn model_col= "1" _title="Account name" expansion="1.6" minimum_width="32" resizable="true" cell="render_text" compare="string"/>
+
+  <ETableColumn model_col= "2" _title="Protocol" expansion="0.8" minimum_width="32" resizable="true" cell="render_text" compare="string"/>
+
+  <ETableState>
+    <column source="0"/> <column source="1"/> <column source="2"/>
+    <grouping> </grouping>
+  </ETableState>
+</ETableSpecification>

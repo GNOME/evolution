@@ -1146,6 +1146,7 @@ sig_set_and_write (MailAccountGui *gui)
 static void
 sig_new_text (GtkWidget *w, MailAccountGui *gui)
 {
+#if 0
 	if (!gui->dialog)
 		return;
 
@@ -1158,11 +1159,13 @@ sig_new_text (GtkWidget *w, MailAccountGui *gui)
 
 	sig_set_and_write (gui);
 	gtk_widget_set_sensitive (gui->sig_edit_text, TRUE);
+#endif
 }
 
 static void
 sig_new_html (GtkWidget *w, MailAccountGui *gui)
 {
+#if 0
 	if (!gui->dialog)
 		return;
 
@@ -1175,6 +1178,7 @@ sig_new_html (GtkWidget *w, MailAccountGui *gui)
 
 	sig_set_and_write (gui);
 	gtk_widget_set_sensitive (gui->sig_edit_html, TRUE);
+#endif
 }
 
 static void
@@ -1357,7 +1361,7 @@ prepare_signatures (MailAccountGui *gui)
 }
 
 MailAccountGui *
-mail_account_gui_new (MailConfigAccount *account, MailAccountsDialog *dialog)
+mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 {
 	MailAccountGui *gui;
 	

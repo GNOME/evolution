@@ -146,7 +146,7 @@ cancel_clicked (GtkWidget *widget, gpointer data)
 }
 
 static void
-construct (MailAccountEditor *editor, MailConfigAccount *account, MailAccountsDialog *dialog)
+construct (MailAccountEditor *editor, MailConfigAccount *account, MailAccountsTab *dialog)
 {
 	MailConfigService *source = account->source;
 	
@@ -182,7 +182,7 @@ construct (MailAccountEditor *editor, MailConfigAccount *account, MailAccountsDi
 }
 
 MailAccountEditor *
-mail_account_editor_new (MailConfigAccount *account, GtkWindow *parent, MailAccountsDialog *dialog)
+mail_account_editor_new (MailConfigAccount *account, GtkWindow *parent, MailAccountsTab *dialog)
 {
 	MailAccountEditor *new;
 	
