@@ -27,6 +27,7 @@
  * will be used instead.
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -55,7 +56,7 @@
 
 #include "camel-tcp-stream-ssl.h"
 #include "camel-session.h"
-
+#include "camel-certdb.h"
 
 /* from md5-utils.h */
 void md5_get_digest (const char *buffer, int buffer_size, unsigned char digest[16]);
@@ -468,6 +469,8 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 {
 	unsigned char md5sum[16], fingerprint[40], *f;
 	gboolean accept, valid_cert;
+	CamelCertDB *certdb = NULL;
+	CamelCert *ccert = NULL;
 	char *prompt, *cert_str;
 	CamelTcpStreamSSL *ssl;
 	CERTCertificate *cert;
@@ -491,6 +494,32 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 	valid_cert = CERT_VerifyCertNow (CERT_GetDefaultCertDB (), cert, TRUE, certUsageSSLClient, NULL);
 	/*issuer = CERT_FindCertByName (CERT_GetDefaultCertDB (), &cert->derIssuer);
 	  valid_cert = issuer && CERT_VerifySignedData (&cert->signatureWrap, issuer, PR_Now (), NULL);*/
+	
+	/* first check our own certificate database to see if we accepted the cert (nss's certdb seems to not work) */
+	certdb = camel_certdb_get_default ();
+	if (certdb) {
+		ccert = camel_certdb_get_cert (certdb, fingerprint);
+		if (ccert) {
+			if (ccert->trust != CAMEL_CERT_TRUST_UNKNOWN) {
+				accept = ccert->trust != CAMEL_CERT_TRUST_NEVER;
+				camel_certdb_cert_unref (certdb, ccert);
+				camel_object_unref (certdb);
+				
+				return accept ? SECSuccess : SECFailure;
+			}
+		} else {
+			/* create a new camel-cert */
+			ccert = camel_certdb_cert_new (certdb);
+			camel_cert_set_issuer (certdb, ccert, CERT_NameToAscii (&cert->issuer));
+			camel_cert_set_subject (certdb, ccert, CERT_NameToAscii (&cert->subject));
+			camel_cert_set_hostname (certdb, ccert, ssl->priv->expected_host);
+			camel_cert_set_fingerprint (certdb, ccert, fingerprint);
+			camel_cert_set_trust (certdb, ccert, CAMEL_CERT_TRUST_UNKNOWN);
+			
+			/* Add the certificate to our db */
+			camel_certdb_add (certdb, ccert);
+		}
+	}
 	
 	cert_str = g_strdup_printf (_("Issuer:            %s\n"
 				      "Subject:           %s\n"
@@ -533,10 +562,19 @@ ssl_bad_cert (void *data, PRFileDesc *sockfd)
 		CERT_ImportCerts (CERT_GetDefaultCertDB (), certUsageSSLServer, 1, certs,
 				  NULL, TRUE, FALSE, cert->nickname);
 #endif
-		return SECSuccess;
+		
+		if (ccert) {
+			camel_cert_set_trust (certdb, ccert, CAMEL_CERT_TRUST_FULLY);
+			camel_certdb_touch (certdb);
+		}
 	}
 	
-	return SECFailure;
+	if (certdb) {
+		camel_certdb_cert_unref (certdb, ccert);
+		camel_object_unref (certdb);
+	}
+	
+	return accept ? SECSuccess : SECFailure;
 }
 
 static PRFileDesc *

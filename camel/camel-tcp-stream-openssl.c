@@ -20,6 +20,7 @@
  *
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -539,92 +540,161 @@ socket_connect (struct hostent *h, int port)
 	return fd;
 }
 
-static void
-save_ssl_cert (const char *certid)
+static const char *
+x509_strerror (int err)
 {
-	char *path, *filename;
-	struct stat st;
-	int fd;
-	
-	path = g_strdup_printf ("%s/.camel_certs", getenv ("HOME"));
-	if (mkdir (path, 0700) == -1) {
-		if (errno != EEXIST)
-			return;
-		
-		if (stat (path, &st) == -1)
-			return;
-		
-		if (!S_ISDIR (st.st_mode))
-			return;
+	switch (err) {
+	case X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT:
+		return _("Unable to get issuer's certificate");
+	case X509_V_ERR_UNABLE_TO_GET_CRL:
+		return _("Unable to get Certificate Revocation List");
+	case X509_V_ERR_UNABLE_TO_DECRYPT_CERT_SIGNATURE:
+		return _("Unable to decrypt certificate signature");
+	case X509_V_ERR_UNABLE_TO_DECRYPT_CRL_SIGNATURE:
+		return _("Unable to decrypt Certificate Revocation List signature");
+	case X509_V_ERR_UNABLE_TO_DECODE_ISSUER_PUBLIC_KEY:
+		return _("Unable to decode issuer's public key");
+	case X509_V_ERR_CERT_SIGNATURE_FAILURE:
+		return _("Certificate signature failure");
+	case X509_V_ERR_CRL_SIGNATURE_FAILURE:
+		return _("Certificate Revocation List signature failure");
+	case X509_V_ERR_CERT_NOT_YET_VALID:
+		return _("Certificate not yet valid");
+	case X509_V_ERR_CERT_HAS_EXPIRED:
+		return _("Certificate has expired");
+	case X509_V_ERR_CRL_NOT_YET_VALID:
+		return _("CRL not yet valid");
+	case X509_V_ERR_CRL_HAS_EXPIRED:
+		return _("CRL has expired");
+	case X509_V_ERR_ERROR_IN_CERT_NOT_BEFORE_FIELD:
+	case X509_V_ERR_ERROR_IN_CERT_NOT_AFTER_FIELD:
+	case X509_V_ERR_ERROR_IN_CRL_LAST_UPDATE_FIELD:
+	case X509_V_ERR_ERROR_IN_CRL_NEXT_UPDATE_FIELD:
+		return _("Error in CRL");
+	case X509_V_ERR_OUT_OF_MEM:
+		return _("Out of memory");
+	case X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT:
+		return _("Zero-depth self-signed certificate");
+	case X509_V_ERR_SELF_SIGNED_CERT_IN_CHAIN:
+		return _("Self-signed certificate in chain");
+	case X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT_LOCALLY:
+		return _("Unable to get issuer's certificate locally");
+	case X509_V_ERR_UNABLE_TO_VERIFY_LEAF_SIGNATURE:
+		return _("Unable to verify leaf signature");
+	case X509_V_ERR_CERT_CHAIN_TOO_LONG:
+		return _("Certificate chain too long");
+	case X509_V_ERR_CERT_REVOKED:
+		return _("Certificate Revoked");
+	case X509_V_ERR_INVALID_CA:
+		return _("Invalid Certificate Authority (CA)");
+	case X509_V_ERR_PATH_LENGTH_EXCEEDED:
+		return _("Path length exceeded");
+	case X509_V_ERR_INVALID_PURPOSE:
+		return _("Invalid purpose");
+	case X509_V_ERR_CERT_UNTRUSTED:
+		return _("Certificate untrusted");
+	case X509_V_ERR_CERT_REJECTED:
+		return _("Certificate rejected");
+		/* These are 'informational' when looking for issuer cert */
+	case X509_V_ERR_SUBJECT_ISSUER_MISMATCH:
+		return _("Subject/Issuer mismatch");
+	case X509_V_ERR_AKID_SKID_MISMATCH:
+		return _("AKID/SKID mismatch");
+	case X509_V_ERR_AKID_ISSUER_SERIAL_MISMATCH:
+		return _("AKID/Issuer serial mismatch");
+	case X509_V_ERR_KEYUSAGE_NO_CERTSIGN:
+		return _("Key usage does not support certificate signing");
+		/* The application is not happy */
+	case X509_V_ERR_APPLICATION_VERIFICATION:
+		return _("Error in application verification");
+	default:
+		return _("Unknown");
 	}
-	
-	filename = g_strdup_printf ("%s/%s", path, certid);
-	g_free (path);
-	
-	fd = open (filename, O_WRONLY | O_CREAT, 0600);
-	if (fd != -1)
-		close (fd);
-	
-	g_free (filename);
-}
-
-static gboolean
-ssl_cert_is_saved (const char *certid)
-{
-	char *filename;
-	struct stat st;
-	
-	filename = g_strdup_printf ("%s/.camel_certs/%s", getenv ("HOME"), certid);
-	
-	if (stat (filename, &st) == -1) {
-		g_free (filename);
-		return FALSE;
-	}
-	
-	g_free (filename);
-	
-	return st.st_uid == getuid ();
 }
 
 static int
 ssl_verify (int ok, X509_STORE_CTX *ctx)
 {
+	unsigned char md5sum[16], fingerprint[40], *f;
 	CamelTcpStreamSSL *stream;
+	CamelService *service;
+	CamelCertDB *certdb = NULL;
+	CamelCert *ccert = NULL;
+	char *prompt, *cert_str;
+	char buf[257];
 	X509 *cert;
 	SSL *ssl;
-	int err;
+	int i, err;
+	
+	if (ok)
+		return TRUE;
 	
 	ssl = X509_STORE_CTX_get_ex_data (ctx, SSL_get_ex_data_X509_STORE_CTX_idx ());
 	
 	stream = SSL_CTX_get_app_data (ssl->ctx);
+	if (!stream)
+		return FALSE;
+	
+	service = stream->priv->service;
 	
 	cert = X509_STORE_CTX_get_current_cert (ctx);
 	err = X509_STORE_CTX_get_error (ctx);
 	
-	if (stream)
-		ok = ssl_cert_is_saved (stream->priv->expected_host);
+	/* calculate the MD5 hash of the raw certificate */
+	X509_digest (cert, EVP_md5 (), md5sum, sizeof (md5sum));
+	for (i = 0, f = fingerprint; i < 16; i++, f += 3)
+		sprintf (f, "%.2x%c", md5sum[i], i != 15 ? ':' : '\0');
 	
-	if (!ok && stream) {
-		CamelService *service = stream->priv->service;
-		char *prompt, *cert_str;
-		char buf[257];
-		
 #define GET_STRING(name) X509_NAME_oneline (name, buf, 256)
-		
-		cert_str = g_strdup_printf (_("Issuer: %s\n"
-					      "Subject: %s"),
-					    GET_STRING (X509_get_issuer_name (cert)),
-					    GET_STRING (X509_get_subject_name (cert)));
-		
-		prompt = g_strdup_printf (_("Bad certificate from %s:\n\n%s\n\n"
-					    "Do you wish to accept anyway?"),
-					  service->url->host, cert_str);
-		
-		ok = camel_session_alert_user (service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE);
-		g_free (prompt);
-		
-		if (ok)
-			save_ssl_cert (stream->priv->expected_host);
+	
+	certdb = camel_certdb_get_default ();
+	if (certdb) {
+		ccert = camel_certdb_get_cert (certdb, fingerprint);
+		if (ccert) {
+			if (ccert->trust != CAMEL_CERT_TRUST_UNKNOWN) {
+				accept = ccert->trust != CAMEL_CERT_TRUST_NEVER;
+				camel_certdb_cert_unref (certdb, ccert);
+				camel_object_unref (certdb);
+				
+				return accept;
+			}
+		} else {
+			/* create a new camel-cert */
+			ccert = camel_certdb_cert_new (certdb);
+			camel_cert_set_issuer (certdb, ccert, GET_STRING (X509_get_issuer_name (cert)));
+			camel_cert_set_subject (certdb, ccert, GET_STRING (X509_get_subject_name (cert)));
+			camel_cert_set_hostname (certdb, ccert, stream->priv->expected_host);
+			camel_cert_set_fingerprint (certdb, ccert, fingerprint);
+			camel_cert_set_trust (certdb, ccert, CAMEL_CERT_TRUST_UNKNOWN);
+			
+			/* Add the certificate to our db */
+			camel_certdb_add (certdb, ccert);
+		}
+	}
+	
+	cert_str = g_strdup_printf (_("Issuer:            %s\n"
+				      "Subject:           %s\n"
+				      "Fingerprint:       %s\n"
+				      "Signature:         %s"),
+				    GET_STRING (X509_get_issuer_name (cert)),
+				    GET_STRING (X509_get_subject_name (cert)),
+				    fingerprint, cert->valid ? _("GOOD") : _("BAD"));
+	
+	prompt = g_strdup_printf (_("Bad certificate from %s:\n\n%s\n\n%s\n\n"
+				    "Do you wish to accept anyway?"),
+				  service->url->host, cert_str, x509_strerror (err));
+	
+	ok = camel_session_alert_user (service->session, CAMEL_SESSION_ALERT_WARNING, prompt, TRUE);
+	g_free (prompt);
+	
+	if (ok && ccert) {
+		camel_cert_set_trust (certdb, ccert, CAMEL_CERT_TRUST_FULLY);
+		camel_certdb_touch (certdb);
+	}
+	
+	if (certdb) {
+		camel_certdb_cert_unref (certdb, ccert);
+		camel_object_unref (certdb);
 	}
 	
 	return ok;

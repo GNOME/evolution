@@ -29,7 +29,7 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 #include <glib.h>
 #include <camel/camel-object.h>

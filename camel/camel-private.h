@@ -215,6 +215,26 @@ struct _CamelDataWrapperPrivate {
 #define CAMEL_DATA_WRAPPER_UNLOCK(dw, l)
 #endif
 
+/* most of this stuff really is private, but the lock can be used by subordinate classes */
+struct _CamelCertDBPrivate {
+#ifdef ENABLE_THREADS
+	GMutex *db_lock;	/* for the db hashtable/array */
+	GMutex *io_lock;	/* load/save lock, for access to saved_count, etc */
+	GMutex *alloc_lock;	/* for setting up and using allocators */
+	GMutex *ref_lock;	/* for reffing/unreffing certs */
+#else
+	gpointer dummy;
+#endif
+};
+
+#ifdef ENABLE_THREADS
+#define CAMEL_CERTDB_LOCK(db, l) (g_mutex_lock (((CamelCertDB *) db)->priv->l))
+#define CAMEL_CERTDB_UNLOCK(db, l) (g_mutex_unlock (((CamelCertDB *) db)->priv->l))
+#else
+#define CAMEL_CERTDB_LOCK(db, l)
+#define CAMEL_CERTDB_UNLOCK(db, l)
+#endif
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

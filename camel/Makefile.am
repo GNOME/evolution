@@ -22,6 +22,8 @@ libcamel_la_SOURCES = 				\
 	camel-address.c				\
 	camel-arg.c				\
 	camel-block-file.c			\
+	camel-certdb.c				\
+	camel-charset-map.c			\
 	camel-cipher-context.c			\
 	camel-cms-context.c			\
 	camel-data-cache.c			\
@@ -110,7 +112,6 @@ libcamel_la_SOURCES = 				\
 	camel-vee-folder.c			\
 	camel-vee-store.c			\
 	camel-vtrash-folder.c			\
-	camel-charset-map.c			\
 	camel.c					\
 	gstring-util.c				\
 	hash-table-utils.c			\
@@ -121,6 +122,7 @@ libcamelinclude_HEADERS =			\
 	camel-address.h				\
 	camel-arg.h				\
 	camel-block-file.h			\
+	camel-certdb.h				\
 	camel-charset-map.h			\
 	camel-cipher-context.h			\
 	camel-cms-context.h			\

@@ -1,3 +1,18 @@
+2002-07-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-certdb.c: New source file implementing a very basic
+	certificate database. This is mostly just here because the Mozilla
+	NSS certdb seems to not be working for everyone's Evolution
+	install (works fine for me and Ettore but not many other people).
+
+	* camel-tcp-stream-ssl.c (ssl_bad_cert): If we have this
+	certificate in our own CamelCertDB, then get the trust value from
+	that and only prompt the user if the trust is unknown.
+
+	* camel-tcp-stream-openssl.c (ssl_verify): Same.
+
+	* camel.c (camel_init): Create our default certdb.
+
 2002-07-30  Peter Williams  <peterw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_transfer_offline): Use
