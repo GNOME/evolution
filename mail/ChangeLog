@@ -1,5 +1,16 @@
 2004-03-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fix for bug #55298.
+
+	* em-format-html.c (efh_format_header): Now takes a default txt
+	argument (header value). For address/date headers, if this isn't
+	set, default back to the old behaviour of looking it up.
+	(efh_format_headers): If we are iterating thru the camel raw
+	headers, always pas the header value as the txt argument,
+	otherwise always pass NULL.
+
+2004-03-10  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-format-html-display.c (efhd_xpkcs7mime_validity_clicked):
 	Removed an unused variable left over from an old attempted fix.
 
