@@ -1,3 +1,7 @@
+2001-12-13  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: check for alloca.h.
+
 2001-12-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #16358, No man page for Evolution.]
