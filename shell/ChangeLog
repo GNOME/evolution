@@ -1,3 +1,9 @@
+2004-04-22  Trent Lloyd  <lathiat@bur.st>
+
+	* e-sidebar.c (do_layout_text_buttons): take into account the position
+	of the sidebar which isnt on the very left in right to left languages,
+	otherwise the buttons are drawn in the wrong place.
+
 2004-04-21  Not Zed  <NotZed@Ximian.com>
 
 	* e-user-creatable-items-handler.c (execute_verb): if we're

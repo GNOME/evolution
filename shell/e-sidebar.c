@@ -213,7 +213,7 @@ do_layout_text_buttons (ESidebar *sidebar)
 		int len, extra_width;
 		
 		y -= max_btn_height;
-		x = H_PADDING;
+		x = H_PADDING + allocation->x;
 		len = g_slist_length (rows[i]);
 		extra_width = (allocation->width - (len * max_btn_width ) - (len * H_PADDING)) / len;
 		for (p = rows [i]; p != NULL; p = p->next) {
