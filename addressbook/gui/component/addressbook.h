@@ -15,7 +15,6 @@ void       addressbook_load_uri             (EBook *book, const char *uri, EBook
 guint      addressbook_load_source          (EBook *book, ESource *source, EBookCallback cb, gpointer closure);
 void       addressbook_load_source_cancel   (guint id);
 void       addressbook_load_default_book    (EBookCallback open_response, gpointer closure);
-void       addressbook_show_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status);
 
 BonoboControl *addressbook_new_control  (void);
 

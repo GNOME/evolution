@@ -268,44 +268,7 @@ set_status_message (EABView *eav, const char *message, AddressbookView *view)
 static void
 search_result (EABView *eav, EBookViewStatus status, AddressbookView *view)
 {
-	char *str = NULL;
-
-	switch (status) {
-	case E_BOOK_VIEW_STATUS_OK:
-		return;
-	case E_BOOK_VIEW_STATUS_SIZE_LIMIT_EXCEEDED:
-		str = _("More cards matched this query than either the server is \n"
-			"configured to return or Evolution is configured to display.\n"
-			"Please make your search more specific or raise the result limit in\n"
-			"the directory server preferences for this addressbook.");
-		break;
-	case E_BOOK_VIEW_STATUS_TIME_LIMIT_EXCEEDED:
-		str = _("The time to execute this query exceeded the server limit or the limit\n"
-			"you have configured for this addressbook.  Please make your search\n"
-			"more specific or raise the time limit in the directory server\n"
-			"preferences for this addressbook.");
-		break;
-	case E_BOOK_VIEW_ERROR_INVALID_QUERY:
-		str = _("The backend for this addressbook was unable to parse this query.");
-		break;
-	case E_BOOK_VIEW_ERROR_QUERY_REFUSED:
-		str = _("The backend for this addressbook refused to perform this query.");
-		break;
-	case E_BOOK_VIEW_ERROR_OTHER_ERROR:
-		str = _("This query did not complete successfully.");
-		break;
-	}
-
-	if (str) {
-		GtkWidget *dialog;
-		dialog = gtk_message_dialog_new (NULL,
-						 0,
-						 GTK_MESSAGE_WARNING,
-						 GTK_BUTTONS_OK,
-						 str);
-		g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-		gtk_widget_show (dialog);
-	}
+	eab_search_result_dialog (NULL /* XXX */, status);
 }
 
 static void
@@ -583,69 +546,6 @@ addressbook_view_unref (AddressbookView *view)
 	}
 }
 
-void
-addressbook_show_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
-{
-	char *label_string;
-	GtkWidget *warning_dialog;
-	GtkWidget *href = NULL;
-	gchar *uri;
-
-	g_return_if_fail (source != NULL);
-
-	uri = e_source_get_uri (source);
-
-	if (!strncmp (uri, "file:", 5)) {
-		label_string = 
-			_("We were unable to open this addressbook.  Please check that the "
-			  "path exists and that you have permission to access it.");
-	}
-	else if (!strncmp (uri, "ldap:", 5)) {
-		/* special case for ldap: contact folders so we can tell the user about openldap */
-#if HAVE_LDAP
-		label_string = 
-			_("We were unable to open this addressbook.  This either "
-			  "means you have entered an incorrect URI, or the LDAP server "
-			  "is unreachable.");
-#else
-		label_string =
-			_("This version of Evolution does not have LDAP support "
-			  "compiled in to it.  If you want to use LDAP in Evolution "
-			  "you must compile the program from the CVS sources after "
-			  "retrieving OpenLDAP from the link below.");
-		href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
-#endif
-	} else {
-		/* other network folders */
-		label_string =
-			_("We were unable to open this addressbook.  This either "
-			  "means you have entered an incorrect URI, or the server "
-			  "is unreachable.");
-	}
-
-	warning_dialog = gtk_message_dialog_new (parent ? GTK_WINDOW (parent) : NULL,
-						 0,
-						 GTK_MESSAGE_WARNING,
-						 GTK_BUTTONS_CLOSE, 
-						 label_string,
-						 NULL);
-
-	g_signal_connect (warning_dialog, 
-			  "response", 
-			  G_CALLBACK (gtk_widget_destroy),
-			  warning_dialog);
-
-	gtk_window_set_title (GTK_WINDOW (warning_dialog), _("Unable to open addressbook"));
-
-	if (href)
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), 
-				    href, FALSE, FALSE, 0);
-
-	gtk_widget_show_all (warning_dialog);
-
-	g_free (uri);
-}
-
 typedef struct {
 	EABView *view;
 	ESource *source;
@@ -672,7 +572,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 			     NULL);
 	}
 	else {
-		addressbook_show_load_error_dialog (NULL /* XXX */, source, status);
+		eab_load_error_dialog (NULL /* XXX */, source, status);
 	}
 
 

@@ -1,5 +1,25 @@
 2004-04-10  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/eab-gui-util.h: add prototypes for
+	eab_load_error_dialog and eab_search_result_dialog.
+
+	* gui/widgets/eab-gui-util.c (eab_load_error_dialog): the new
+	addressbook_show_load_error_dialog.
+	(eab_search_result_dialog): new function, the old contents of
+	addressbook.c:search_result.
+
+	* gui/component/addressbook.c
+	(addressbook_show_load_error_dialog): move this function to
+	eab-gui-utils.[ch]
+	(search_result): split out the body of this into
+	eab_search_result_dialog in eab-gui-utils.[ch].
+	(book_open_cb): call eab_load_error_dialog.
+
+	* gui/component/addressbook.h: remove prototype for
+	addressbook_show_load_error_dialog.
+
+2004-04-10  Chris Toshok  <toshok@ximian.com>
+
 	* util/e-destination.h: remove the e_destination_get_book api,
 	since the function doesn't exist.
 
