@@ -100,6 +100,17 @@ emit_menu_activated (ESearchBar *esb, int item)
 /* Callbacks -- Standard verbs.  */
 
 static void
+search_now_verb_cb (BonoboUIComponent *ui_component,
+		    void *data,
+		    const char *verb_name)
+{
+	ESearchBar *esb;
+
+	esb = E_SEARCH_BAR (data);
+	emit_search_activated (esb);
+}
+
+static void
 clear_verb_cb (BonoboUIComponent *ui_component,
 	       void *data,
 	       const char *verb_name)
@@ -117,6 +128,8 @@ setup_standard_verbs (ESearchBar *search_bar)
 {
 	bonobo_ui_component_add_verb (search_bar->ui_component, "ESearchBar:Clear",
 				      clear_verb_cb, search_bar);
+	bonobo_ui_component_add_verb (search_bar->ui_component, "ESearchBar:SearchNow",
+				      search_now_verb_cb, search_bar);
 }
 
 /* Callbacks -- The verbs for all the definable items.  */
@@ -360,6 +373,7 @@ update_bonobo_menus (ESearchBar *esb)
 
 	xml = g_string_new ("<placeholder name=\"SearchBar\">");
 
+	append_xml_menu_item (xml, "SearchNow", _("Search Now"), "ESearchBar:SearchNow", "*Control*b");
 	append_xml_menu_item (xml, "Clear", _("Clear"), "ESearchBar:Clear", "*Control**Shift*b");
 
 	for (p = esb->menu_items; p != NULL; p = p->next) {

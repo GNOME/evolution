@@ -1,5 +1,12 @@
 2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-search-bar.c (search_now_verb_cb): New, implementation for a
+	new "SearchNow" verb.
+	(setup_standard_verbs): Create verb here.
+	(update_bonobo_menus): Add SearchNow menu item.
+
+2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-search-bar.c (clear_verb_cb): New.
 	(setup_standard_verbs): New.
 	(e_search_bar_set_ui_component): Call it if a new
