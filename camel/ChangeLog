@@ -1,5 +1,16 @@
 2001-09-10    <NotZed@Ximian.com>
 
+	* providers/local/camel-maildir-store.c (get_folder_info): Pass in
+	a hashtalbe used for finding visited nodes.
+	(inode_hash): 
+	(inode_equal): 
+	(inode_free): Helper functions for visited node checks, hashes on
+	inode + device number.
+	(scan_dir): Dont re-visited directories we've already visited, use
+	inodes + device number.
+	Also, if the folder doesn't contain cur/tmp/new, mark it as
+	noselect, but continue to recurse folders, if asked.
+
 	* camel-folder.c (move_messages_to): Progress reporting while
 	moving messages.
 

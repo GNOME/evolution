@@ -226,7 +226,14 @@ static CamelFolderInfo *camel_folder_info_new(const char *url, const char *full,
 	return fi;
 }
 
-static int scan_dir(char *root, const char *path, guint32 flags, CamelFolderInfo *parent, CamelFolderInfo **fip, CamelException *ex)
+/* used to find out where we've visited already */
+struct _inode {
+	dev_t dnode;
+	ino_t inode;
+};
+
+/* returns number of records found at or below this level */
+static int scan_dir(GHashTable *visited, char *root, const char *path, guint32 flags, CamelFolderInfo *parent, CamelFolderInfo **fip, CamelException *ex)
 {
 	DIR *dir;
 	struct dirent *d;
@@ -246,30 +253,32 @@ static int scan_dir(char *root, const char *path, guint32 flags, CamelFolderInfo
 
 	if (stat(tmp, &st) == 0 && S_ISDIR(st.st_mode)
 	    && stat(cur, &st) == 0 && S_ISDIR(st.st_mode)
-	    && stat(new, &st) == 0 && S_ISDIR(st.st_mode)) {
+	    && stat(new, &st) == 0 && S_ISDIR(st.st_mode))
 		uri = g_strdup_printf("maildir://%s#%s", root, path);
-		base = strrchr(path, '/');
-		if (base)
-			base++;
-		else
-			base = path;
-		fi = camel_folder_info_new(uri, path, base, -1);
+	else
+		uri = g_strdup_printf("maildir://%s;noselect=yes#%s", root, path);
 
-		printf("found! uri = %s\n", fi->url);
-		printf("  full_name = %s\n  name = '%s'\n", fi->full_name, fi->name);
-
-		fi->parent = parent;
-		fi->sibling = *fip;
-		*fip = fi;
-		g_free(uri);
-	}
+	base = strrchr(path, '/');
+	if (base)
+		base++;
+	else
+		base = path;
+	fi = camel_folder_info_new(uri, path, base, -1);
+	
+	printf("found! uri = %s\n", fi->url);
+	printf("  full_name = %s\n  name = '%s'\n", fi->full_name, fi->name);
+	
+	fi->parent = parent;
+	fi->sibling = *fip;
+	*fip = fi;
+	g_free(uri);
 
 	g_free(tmp);
 	g_free(cur);
 	g_free(new);
 
-	/* we only look further if we found one at this level */
-	if (fi && ((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) || parent == NULL)) {
+	/* always look further if asked */
+	if (((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) || parent == NULL)) {
 		dir = opendir(name);
 		if (dir == NULL) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
@@ -289,12 +298,21 @@ static int scan_dir(char *root, const char *path, guint32 flags, CamelFolderInfo
 
 			tmp = g_strdup_printf("%s/%s", name, d->d_name);
 			if (stat(tmp, &st) == 0 && S_ISDIR(st.st_mode)) {
-				new = g_strdup_printf("%s/%s", path, d->d_name);
-				if (scan_dir(root, new, flags, fi, &fi->child, ex) == -1) {
-					g_free(tmp);
-					g_free(new);
-					closedir(dir);
-					return -1;
+				struct _inode in = { st.st_dev, st.st_ino };
+
+				/* see if we've visited already */
+				if (g_hash_table_lookup(visited, &in) == NULL) {
+					struct _inode *inew = g_malloc(sizeof(*inew));
+
+					*inew = in;
+					g_hash_table_insert(visited, inew, inew);
+					new = g_strdup_printf("%s/%s", path, d->d_name);
+					if (scan_dir(visited, root, new, flags, fi, &fi->child, ex) == -1) {
+						g_free(tmp);
+						g_free(new);
+						closedir(dir);
+						return -1;
+					}
 				}
 				g_free(new);
 			}
@@ -308,16 +326,41 @@ static int scan_dir(char *root, const char *path, guint32 flags, CamelFolderInfo
 	return 0;
 }
 
+static guint inode_hash(const void *d)
+{
+	const struct _inode *v = d;
+
+	return v->inode ^ v->dnode;
+}
+
+static gboolean inode_equal(const void *a, const void *b)
+{
+	const struct _inode *v1 = a, *v2 = b;
+	
+	return v1->inode == v2->inode && v1->dnode == v2->dnode;
+}
+
+static void inode_free(void *k, void *v, void *d)
+{
+	g_free(k);
+}
+
 static CamelFolderInfo *
 get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	CamelFolderInfo *fi = NULL;
 	CamelService *service = (CamelService *)store;
+	GHashTable *visited;
 
-	if (scan_dir(service->url->path, top?top:".", flags, NULL, &fi, ex) == -1 && fi != NULL) {
+	visited = g_hash_table_new(inode_hash, inode_equal);
+
+	if (scan_dir(visited, service->url->path, top?top:".", flags, NULL, &fi, ex) == -1 && fi != NULL) {
 		camel_store_free_folder_info_full(store, fi);
 		fi = NULL;
 	}
+
+	g_hash_table_foreach(visited, inode_free, NULL);
+	g_hash_table_destroy(visited);
 
 	return fi;
 }
