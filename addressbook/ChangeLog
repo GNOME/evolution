@@ -1,5 +1,11 @@
 2002-05-03  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/addressbook-config.c
+	(addressbook_folder_list_changed_callback): Call
+	evolution_config_control_changed when the EFolderList changes.
+
+2002-05-03  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Updated this
 	to have the ConfigControlFactory have an addressbookwide generic
 	name and added OAFIID:GNOME_Evolution_Addressbook_ConfigControl.

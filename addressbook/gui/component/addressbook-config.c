@@ -1631,10 +1631,18 @@ ldap_config_control_new (GNOME_Evolution_Shell shell)
 }
 
 static void
+addressbook_folder_list_changed_callback (EFolderList *efl,
+					  EvolutionConfigControl *control)
+{
+	evolution_config_control_changed (control);
+}
+
+static void
 addressbook_config_control_destroy_callback (EvolutionConfigControl *config_control,
 					     void *data)
 {
 }
+
 
 static void
 addressbook_config_control_apply_callback (EvolutionConfigControl *config_control,
@@ -1686,6 +1694,8 @@ addressbook_config_control_new (GNOME_Evolution_Shell shell)
 
 	control = evolution_config_control_new (control_widget);
 
+	gtk_signal_connect (GTK_OBJECT (control_widget), "changed",
+			    GTK_SIGNAL_FUNC (addressbook_folder_list_changed_callback), control);
 	gtk_signal_connect (GTK_OBJECT (control), "apply",
 			    GTK_SIGNAL_FUNC (addressbook_config_control_apply_callback), control_widget);
 	gtk_signal_connect (GTK_OBJECT (control), "destroy",
