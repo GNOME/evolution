@@ -1,3 +1,12 @@
+2003-08-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (mail_send_message): Don't abort at the first failure
+	after sending (filtering, appending to Sent, syncing). Instead,
+	keep a running tab of exceptions and then set a culmulative
+	exception at the end to report to our caller. Also, if we fail to
+	append to the account Sent folder, try again with the local Sent
+	folder. Fixes bug #46512.
+
 2003-08-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-session.c (main_get_filter_driver): Removed the
