@@ -409,6 +409,7 @@ e_sidebar_add_button (ESidebar *sidebar,
 	g_signal_connect (button_widget, "toggled", G_CALLBACK (button_toggled_callback), sidebar);
 
 	hbox = gtk_hbox_new (FALSE, 3);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
 	icon_widget = gtk_image_new_from_pixbuf (icon);
 	label_widget = gtk_label_new (label);
 	gtk_box_pack_start (GTK_BOX (hbox), icon_widget, FALSE, TRUE, 0);

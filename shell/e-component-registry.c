@@ -26,6 +26,8 @@
 
 #include "e-component-registry.h"
 
+#include "e-shell-utils.h"
+
 #include "e-util/e-lang-utils.h"
 
 #include <gal/util/e-util.h>
@@ -113,22 +115,38 @@ query_components (EComponentRegistry *registry)
 	language_list = e_get_language_list ();
 
 	for (i = 0; i < info_list->_length; i++) {
-		const char *id = info_list->_buffer[i].iid;
-		const char *label = bonobo_server_info_prop_lookup (& info_list->_buffer[i],
-								    "evolution:button_label",
-								    language_list);
-		const char *sort_order_string = bonobo_server_info_prop_lookup (& info_list->_buffer[i],
-										"evolution:button_sort_order",
-										NULL);
+		const char *id;
+		const char *label;
+		const char *icon_name;
+		const char *sort_order_string;
+		GdkPixbuf *icon;
 		int sort_order;
 
+		id = info_list->_buffer[i].iid;
+		label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_label", language_list);
+
+		icon_name = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_icon", NULL);
+		if (icon_name == NULL) {
+			icon = NULL;
+			g_print ("no icon for %s\n", id);
+		} else {
+			char *full_path = e_shell_get_icon_path (icon_name, TRUE);
+			g_print ("icon %s\n", full_path);
+			icon = gdk_pixbuf_new_from_file (full_path, NULL);
+		}
+
+		sort_order_string = bonobo_server_info_prop_lookup (& info_list->_buffer[i],
+								    "evolution:button_sort_order", NULL);
 		if (sort_order_string == NULL)
 			sort_order = 0;
 		else
 			sort_order = atoi (sort_order_string);
 
 		registry->priv->infos = g_slist_prepend (registry->priv->infos,
-							 component_info_new (id, label, sort_order, NULL));
+							 component_info_new (id, label, sort_order, icon));
+
+		if (icon != NULL)
+			g_object_unref (icon);
 	}
 
 	CORBA_free (info_list);

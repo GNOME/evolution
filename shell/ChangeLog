@@ -1,5 +1,13 @@
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-sidebar.c (e_sidebar_add_button): Add a little border to the
+	buttons so it looks nicer.
+
+	* e-component-registry.c (query_components): Set an icon from the
+	"evolution:button_icon" attribute.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (struct _EShellPrivate): New member
 	"component_registry".
 	(e_shell_construct): Don't call e_shell_unregister_all().
