@@ -1,5 +1,9 @@
 2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-cell-text.c: Made bold text calculate widths properly.
+
+2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table.c: Made page up and page down active in the ETable.
 
 2000-09-09  Christopher James Lahey  <clahey@helixcode.com>

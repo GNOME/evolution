@@ -125,7 +125,7 @@ typedef struct {
 
 	int xofs, yofs;                 /* This gets added to the x
                                            and y for the cell text. */
-	double ellipsis_width;          /* The width of the ellipsis. */
+	double ellipsis_width[2];      /* The width of the ellipsis. */
 
 } ECellTextView;
 
@@ -135,6 +135,7 @@ typedef struct _CurrentCell{
 	char          *text;
 	int            model_col, view_col, row;
 	ECellTextLineBreaks *breaks;
+	EFontStyle     style;
 } CurrentCell;
 
 #define CURRENT_CELL(x) ((CurrentCell *)(x))
@@ -417,6 +418,18 @@ ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap)
 	}
 }
 
+static void
+set_style(ECellView *ecell_view, CurrentCell *cell, int row)
+{
+	EFontStyle style = E_FONT_PLAIN;
+	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
+
+	if (ect->bold_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row))
+		style = E_FONT_BOLD;
+
+	cell->style = style;
+}
+
 /*
  * ECell::draw method
  */
@@ -445,13 +458,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GdkColor *foreground, *cell_foreground, *cursor_color;
 	gchar *color_spec;
 	gboolean selected;
-
-	EFontStyle style = E_FONT_PLAIN;
+	EFontStyle style;
 
 	selected = flags & E_CELL_SELECTED;
-
-	if (ect->bold_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row))
-		style = E_FONT_BOLD;
 
 	if (edit){
 		if ((edit->cell.view_col == view_col) && (edit->cell.row == row)) {
@@ -511,6 +520,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	if (edit_display){
 		CellEdit *edit = text_view->edit;
 		CurrentCell *cell = CURRENT_CELL(edit);
+
+		set_style(ecell_view, cell, row);
+
+		style = cell->style;
 
 		cell->width = x2 - x1;
 		
@@ -644,6 +657,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		CurrentCell cell;
 		build_current_cell (&cell, text_view, model_col, view_col, row);
 		
+		set_style(ecell_view, &cell, row);
+
+		style = cell.style;
+
 		cell.width = x2 - x1;
 		
 		split_into_lines (&cell);
@@ -662,7 +679,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					       lines->text,
 					       lines->ellipsis_length);
 				e_font_draw_utf8_text (drawable, font, style, text_view->gc,
-					       xpos + x1 + lines->width - text_view->ellipsis_width,
+					       xpos + x1 + lines->width - text_view->ellipsis_width[style],
 					       ypos + y1,
 					       ect->ellipsis ? ect->ellipsis : "...",
 					       ect->ellipsis ? strlen (ect->ellipsis) : 3);
@@ -679,7 +696,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 						       font,
 						       text_view->gc,
 						       xpos + x1 + 1 +
-						       lines->width - text_view->ellipsis_width,
+						       lines->width - text_view->ellipsis_width[style],
 						       ypos + y1,
 						       ect->ellipsis ? ect->ellipsis : "...",
 						       ect->ellipsis ? strlen (ect->ellipsis) : 3);
@@ -888,6 +905,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 	} else {
 		cellptr = &cell;
 	}
+
+	set_style(ecell_view, cellptr, row);
 
 	e_tep_event.type = event->type;
 	switch (event->type) {
@@ -1127,6 +1146,8 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 
 	build_current_cell (CURRENT_CELL(edit), text_view, model_col, view_col, row);
 	
+	set_style(ecell_view, CURRENT_CELL(edit), row);
+
 	edit->xofs_edit = 0.0;
 	edit->yofs_edit = 0.0;
 	
@@ -1462,7 +1483,7 @@ _get_xy_from_position (CurrentCell *cell, gint position, gint *xp, gint *yp)
 		lines --;
 		y -= e_font_descent (font);
 		
-		x += e_font_utf8_text_width (font, E_FONT_PLAIN,
+		x += e_font_utf8_text_width (font, cell->style,
 					     lines->text,
 					     position - (lines->text - cell->text));
 		if ((CellEdit *) cell == cell->text_view->edit){
@@ -1522,7 +1543,7 @@ _get_position_from_xy (CurrentCell *cell, gint x, gint y)
 	for (p = lines->text; p < lines->text + lines->length; p = unicode_next_utf8 (p)) {
 		gint charwidth;
 
-		charwidth = e_font_utf8_char_width (font, E_FONT_PLAIN, p);
+		charwidth = e_font_utf8_char_width (font, cell->style, p);
 
 		xpos += charwidth / 2;
 		if (xpos > x) {
@@ -1916,7 +1937,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 			}
 		}
 		lines --;
-		x = e_font_utf8_text_width (font, E_FONT_PLAIN,
+		x = e_font_utf8_text_width (font, cell->style,
 					    lines->text,
 					    edit->selection_end - (lines->text - cell->text));
 		
@@ -2190,8 +2211,12 @@ calc_ellipsis (ECellTextView *text_view)
 	
 	font = text_view->font;
 	if (font)
-		text_view->ellipsis_width = 
+		text_view->ellipsis_width[E_FONT_PLAIN] =
 			e_font_utf8_text_width (font, E_FONT_PLAIN,
+					ect->ellipsis ? ect->ellipsis : "...",
+					ect->ellipsis ? strlen (ect->ellipsis) : 3);
+		text_view->ellipsis_width[E_FONT_BOLD] =
+			e_font_utf8_text_width (font, E_FONT_BOLD,
 					ect->ellipsis ? ect->ellipsis : "...",
 					ect->ellipsis ? strlen (ect->ellipsis) : 3);
 }
@@ -2218,7 +2243,7 @@ calc_line_widths (CurrentCell *cell)
 	for (i = 0; i < linebreaks->num_lines; i++) {
 		if (lines->length != 0) {
 			if (font) {
-				lines->width = e_font_utf8_text_width (font, E_FONT_PLAIN,
+				lines->width = e_font_utf8_text_width (font, cell->style,
 								       lines->text, lines->length);
 				lines->ellipsis_length = 0;
 			} else {
@@ -2233,8 +2258,8 @@ calc_line_widths (CurrentCell *cell)
 				if (font) {
 					lines->ellipsis_length = 0;
 					for (j = 0; j < lines->length; j++){
-						if (e_font_utf8_text_width (font, E_FONT_PLAIN, lines->text, j) +
-						    text_view->ellipsis_width <= cell->width)
+						if (e_font_utf8_text_width (font, cell->style, lines->text, j) +
+						    text_view->ellipsis_width[cell->style] <= cell->width)
 							lines->ellipsis_length = j;
 						else
 							break;
@@ -2242,8 +2267,8 @@ calc_line_widths (CurrentCell *cell)
 				}
 				else
 					lines->ellipsis_length = 0;
-				lines->width = e_font_utf8_text_width (font, E_FONT_PLAIN, lines->text, lines->ellipsis_length) +
-					text_view->ellipsis_width;
+				lines->width = e_font_utf8_text_width (font, cell->style, lines->text, lines->ellipsis_length) +
+					text_view->ellipsis_width[cell->style];
 			}
 			else
 				lines->ellipsis_length = lines->length;
