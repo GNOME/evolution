@@ -725,21 +725,6 @@ static BonoboUIVerb verbs [] = {
 
 static EPixmap pixmaps [] =
 {
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/Cut",			      "16_cut.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/Copy",			      "16_copy.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/Paste",			      "16_paste.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/Delete",			      "evolution-trash-mini.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/DeleteOccurrence",	      "evolution-trash-mini.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/DeleteAllOccurrences",	      "evolution-trash-mini.png"),
-	E_PIXMAP ("/menu/File/Print/Print",				      "print.xpm"),
-	E_PIXMAP ("/menu/File/Print/PrintPreview",			      "print-preview.xpm"),
-	E_PIXMAP ("/menu/View/ViewBegin/Goto",				      "goto-16.png"),
-
-	E_PIXMAP ("/Toolbar/Print",					      "buttons/print.png"),
-	E_PIXMAP ("/Toolbar/Delete",					      "buttons/delete-message.png"),
-	E_PIXMAP ("/Toolbar/Prev",					      "buttons/arrow-left-24.png"),
-	E_PIXMAP ("/Toolbar/Next",					      "buttons/arrow-right-24.png"),
-	E_PIXMAP ("/Toolbar/Goto",					      "buttons/goto-24.png"),
 	E_PIXMAP ("/Toolbar/DayView",					      "buttons/dayview.xpm"),
 	E_PIXMAP ("/Toolbar/WorkWeekView",				      "buttons/workweekview.xpm"),
 	E_PIXMAP ("/Toolbar/WeekView",					      "buttons/weekview.xpm"),

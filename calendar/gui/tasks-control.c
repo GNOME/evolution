@@ -287,21 +287,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-static EPixmap pixmaps [] = {
-	E_PIXMAP ("/menu/File/Print/Print",			    "print.xpm"),
-	E_PIXMAP ("/menu/File/Print/PrintPreview",		    "print-preview.xpm"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/TasksCut",            "16_cut.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/TasksCopy",           "16_copy.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/TasksPaste",          "16_paste.png"),
-	E_PIXMAP ("/menu/EditPlaceholder/Edit/TasksDelete",         "evolution-trash-mini.png"),
-	E_PIXMAP ("/Toolbar/Cut",                                   "buttons/cut.png"),
-	E_PIXMAP ("/Toolbar/Copy",                                  "buttons/copy.png"),
-	E_PIXMAP ("/Toolbar/Paste",                                 "buttons/paste.png"),
-	E_PIXMAP ("/Toolbar/Delete",                                "buttons/delete-message.png"),
-	E_PIXMAP ("/Toolbar/Print",				    "buttons/print.png"),
-	E_PIXMAP_END
-};
-
 static void
 tasks_control_activate (BonoboControl *control, ETasks *tasks)
 {
@@ -328,8 +313,6 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 			       EVOLUTION_UIDIR "/evolution-tasks.xml",
 			       "evolution-tasks",
 			       NULL);
-
-	e_pixmaps_update (uic, pixmaps);
 
 	e_tasks_setup_view_menus (tasks, uic);
 
