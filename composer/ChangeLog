@@ -1,5 +1,11 @@
 2001-10-04  Larry Ewing  <lewing@ximian.com>
 
+	* e-msg-composer-attachment-bar.c 
+	(e_msg_composer_attachment_bar_find_content_id): change to return
+	a CamelMimePart.
+
+	* e-msg-composer-attachment-bar.h: update prototype.
+	
 	* e-msg-composer-attachment-bar.c
 	(e_msg_composer_attachment_bar_find_content_id): look up an
 	attachment by it's content id.
