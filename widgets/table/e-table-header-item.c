@@ -1041,6 +1041,7 @@ ethi_popup_group_box(GtkWidget *widget, EthiHeaderInfo *info)
 static void
 ethi_popup_remove_column(GtkWidget *widget, EthiHeaderInfo *info)
 {
+	e_table_header_remove(info->ethi->eth, info->col);
 }
 
 static void
@@ -1075,7 +1076,7 @@ static EPopupMenu ethi_context_menu [] = {
 	{ "Group By This Field",       NULL, GTK_SIGNAL_FUNC(ethi_popup_group_field),     0},
 	{ "Group By Box",              NULL, GTK_SIGNAL_FUNC(ethi_popup_group_box),       1},
 	{ "",                          NULL, GTK_SIGNAL_FUNC(NULL),                       1},
-	{ "Remove This Column",        NULL, GTK_SIGNAL_FUNC(ethi_popup_remove_column),   1},
+	{ "Remove This Column",        NULL, GTK_SIGNAL_FUNC(ethi_popup_remove_column),   0},
 	{ "Field Chooser",             NULL, GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   1},
 	{ "",                          NULL, GTK_SIGNAL_FUNC(NULL),                       1},
 	{ "Alignment",                 NULL, GTK_SIGNAL_FUNC(ethi_popup_alignment),       1},
