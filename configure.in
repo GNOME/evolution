@@ -108,7 +108,7 @@ else
 	fi
 fi
 
-AC_CHECK_FUNCS(mkstemp)
+AC_CHECK_FUNCS(mkstemp mkdtemp)
 
 dnl **************************************************
 dnl ctime_r prototype
@@ -360,6 +360,14 @@ else
 	AC_MSG_ERROR(GNOME-VFS is required to compile Evolution)
 fi
 
+saved_CFLAGS="$CFLAGS"
+saved_LDFLAGS="$LDFLAGS"
+CFLAGS="$CFLAGS `gnome-config --cflags vfs`"
+LDFLAGS="$LDFLAGS `gnome-config --libs vfs`"
+AC_CHECK_FUNCS(gnome_vfs_mime_get_default_action_without_fallback)
+CFLAGS="$saved_CFLAGS"
+LDFLAGS="$saved_LDFLAGS"
+
 BONOBO_VFS_GNOME_LIBS="`gnome-config --libs bonobo libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
 BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags bonobo libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
 AC_SUBST(BONOBO_VFS_GNOME_LIBS)
@@ -484,6 +492,37 @@ dnl NOTE: We need to use a separate automake conditional for this
 dnl       to make this work with the tarballs.
 AM_CONDITIONAL(ENABLE_GTK_DOC, test x$enable_gtk_doc = xyes)
 
+dnl ********
+dnl movemail
+dnl ********
+AC_ARG_WITH(movemail, [  --with-movemail=PATH    Path to a movemail binary])
+AC_MSG_CHECKING(for movemail)
+if test x$with_movemail = xyes -o x$with_movemail = x; then
+    with_movemail=no
+fi
+if test x$with_movemail != xno; then
+    AC_DEFINE(MOVEMAIL_PATH, $with_movemail)
+    AC_MSG_RESULT($with_movemail)
+else
+    emacs_exec_dir=`emacs --batch --eval '(message exec-directory)' 2>&1`
+    case $emacs_exec_dir in
+    /*) if test -x $emacs_exec_dir/movemail; then
+	    if test -u $emacs_exec_dir/movemail -o -g $emacs_exec_dir/movemail; then
+		AC_MSG_RESULT($emacs_exec_dir/movemail)
+		AC_DEFINE(MOVEMAIL_PATH, $emacs_exec_dir/movemail)
+	    else
+		AC_MSG_RESULT($emacs_exec_dir/movemail... not set-id: ignored)
+	    fi
+	else
+	    AC_MSG_RESULT(no)
+	fi
+	;;
+    *)
+	AC_MSG_RESULT(no)
+	;;
+    esac
+fi
+    
 
 dnl ******************************
 dnl Makefiles

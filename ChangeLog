@@ -1,3 +1,11 @@
+2000-07-25  Dan Winship  <danw@helixcode.com>
+
+	* configure.in: some unrelated changes: check for mkdtemp,
+	gnome_vfs_mime_get_default_action_without_fallback, and a
+	setuid/setgid movemail binary.
+
+	* acconfig.h: add MOVEMAIL_PATH
+
 2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Added addressbook/conduit/Makefile.
