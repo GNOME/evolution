@@ -1,7 +1,7 @@
 2002-11-15  Harry Lu  <harry.lu@sun.com>
 
 	* mail-display.c (write_data_to_file): Show file name when prompt
-	to user for overwrite.
+	to user for overwrite. Fixes bug #34180.
 
 2002-11-21  Harry Lu  <harry.lu@sun.com>
 
@@ -216,7 +216,6 @@
 	(mail_add_storage): "
 	(mail_remove_storage): "
 
->>>>>>> 1.2462
 2002-11-13  Joe Shaw  <joe@ximian.com>
 
 	* Makefile.am: Remove a couple backslashes that were causing
