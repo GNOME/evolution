@@ -1,3 +1,10 @@
+2001-01-27  Jason Leach  <jasonleach@usa.net>
+
+	* cvs remove all files in shortcut-bar/, this widget is now in
+	gal, will be maintained there.
+	
+	* Makefile.am (SUBDIRS): Remove shortcut-bar from here.
+
 2001-01-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* menus/gal-view-menus.c: Make this actually deploy the titles
