@@ -1,3 +1,8 @@
+2000-06-27  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_construct):
+	Enable the title bar button.
+
 2000-06-27  Michael Zucchi  <zucchi@zedzone.mmc.com.au>
 
 	* e-shell.c (folder_selection_dialog_clicked_cb): Close the dialog

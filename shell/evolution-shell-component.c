@@ -137,7 +137,6 @@ impl_ShellComponent_set_owner (PortableServer_Servant servant,
 		return;
 	}
 
-	Bonobo_Unknown_ref (shell, ev);
 	priv->corba_owner = CORBA_Object_duplicate (shell, ev);
 
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_SET], priv->corba_owner);
