@@ -1,3 +1,7 @@
+2003-11-14  JP Rosevear <jpr@ximian.com>
+
+	* gui/component/new-addressbook.c: include e-source from e-d-s
+
 2003-11-13  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-list-editor/e-contact-list-model.c
