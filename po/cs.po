@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-17 14:20+0100\n"
-"PO-Revision-Date: 2004-02-17 16:46+0100\n"
+"POT-Creation-Date: 2004-02-18 03:14+0100\n"
+"PO-Revision-Date: 2004-02-18 15:33+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -990,7 +990,7 @@ msgstr "Ka_tegorie..."
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 #: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1255
 #: calendar/gui/e-cal-view.c:1286 calendar/gui/e-calendar-table.c:1057
-#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2109
+#: calendar/gui/e-calendar-table.c:1075 mail/em-folder-tree.c:2195
 #: mail/em-folder-view.c:773 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
@@ -5541,7 +5541,7 @@ msgstr "Ne"
 #: calendar/gui/e-meeting-list-view.c:144
 #: calendar/gui/e-meeting-list-view.c:158 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
-#: camel/camel-gpg-context.c:1664 camel/camel-gpg-context.c:1715
+#: camel/camel-gpg-context.c:1668 camel/camel-gpg-context.c:1719
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2097
@@ -5633,7 +5633,7 @@ msgstr "_Vyjmout"
 
 #: calendar/gui/e-cal-view.c:1245 calendar/gui/e-cal-view.c:1282
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1071
-#: mail/em-folder-tree.c:2102 ui/evolution-addressbook.xml.h:31
+#: mail/em-folder-tree.c:2188 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
@@ -8792,7 +8792,7 @@ msgstr "Kopíruji zprávy"
 msgid "Filtering new message(s)"
 msgstr "Filtruji nové zprávy"
 
-#: camel/camel-gpg-context.c:709
+#: camel/camel-gpg-context.c:710
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8803,15 +8803,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:723
+#: camel/camel-gpg-context.c:724
 msgid "Failed to parse gpg userid hint."
 msgstr "Nemohu zpracovat nápovědy gpg userid."
 
-#: camel/camel-gpg-context.c:747
+#: camel/camel-gpg-context.c:748
 msgid "Failed to parse gpg passphrase request."
 msgstr "Nemohu zpracovat požadavek hesla gpg."
 
-#: camel/camel-gpg-context.c:761
+#: camel/camel-gpg-context.c:762
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -8820,30 +8820,30 @@ msgstr ""
 "Potřebujete heslo pro odemčení klíče pro\n"
 "uživatele: \"%s\""
 
-#: camel/camel-gpg-context.c:778 camel/camel-gpg-context.c:1268
-#: camel/camel-gpg-context.c:1427 camel/camel-gpg-context.c:1507
-#: camel/camel-gpg-context.c:1614 mail/mail-send-recv.c:579
+#: camel/camel-gpg-context.c:779 camel/camel-gpg-context.c:1271
+#: camel/camel-gpg-context.c:1430 camel/camel-gpg-context.c:1511
+#: camel/camel-gpg-context.c:1618 mail/mail-send-recv.c:579
 msgid "Cancelled."
 msgstr "Zrušeno"
 
-#: camel/camel-gpg-context.c:796
+#: camel/camel-gpg-context.c:797
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr "Nemohu odemknout tajný klíč. Byla zadána tři chybná hesla."
 
-#: camel/camel-gpg-context.c:802
+#: camel/camel-gpg-context.c:803
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Neočekávaná odpověď od GnuPG: %s"
 
-#: camel/camel-gpg-context.c:814
+#: camel/camel-gpg-context.c:815
 msgid "No data provided"
 msgstr "Nebyla poskytnuta žádná data."
 
-#: camel/camel-gpg-context.c:852
+#: camel/camel-gpg-context.c:855
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Nemohu zašifrovat zprávu: Nejsou určeni platní příjemci."
 
-#: camel/camel-gpg-context.c:1129
+#: camel/camel-gpg-context.c:1132
 #, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
@@ -8854,58 +8854,58 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:1134
+#: camel/camel-gpg-context.c:1137
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "Nemohu GPG %s: %s\n"
 
-#: camel/camel-gpg-context.c:1247 camel/camel-smime-context.c:419
+#: camel/camel-gpg-context.c:1250 camel/camel-smime-context.c:419
 #, c-format
 msgid "Could not generate signing data: %s"
 msgstr "Nemohu vygenerovat data podpisu: %s"
 
-#: camel/camel-gpg-context.c:1261 camel/camel-gpg-context.c:1663
-#: camel/camel-gpg-context.c:1714
+#: camel/camel-gpg-context.c:1264 camel/camel-gpg-context.c:1667
+#: camel/camel-gpg-context.c:1718
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Nemohu spustit gpg: %s"
 
-#: camel/camel-gpg-context.c:1285 camel/camel-gpg-context.c:1419
-#: camel/camel-gpg-context.c:1500 camel/camel-gpg-context.c:1523
-#: camel/camel-gpg-context.c:1607 camel/camel-gpg-context.c:1631
-#: camel/camel-gpg-context.c:1685 camel/camel-gpg-context.c:1736
+#: camel/camel-gpg-context.c:1288 camel/camel-gpg-context.c:1422
+#: camel/camel-gpg-context.c:1504 camel/camel-gpg-context.c:1527
+#: camel/camel-gpg-context.c:1611 camel/camel-gpg-context.c:1635
+#: camel/camel-gpg-context.c:1689 camel/camel-gpg-context.c:1740
 msgid "Failed to execute gpg."
 msgstr "Nemohu spustit gpg."
 
-#: camel/camel-gpg-context.c:1304
+#: camel/camel-gpg-context.c:1307
 msgid "This is a digitally signed message part"
 msgstr "Toto je digitálně podepsaná část zprávy"
 
-#: camel/camel-gpg-context.c:1386 camel/camel-gpg-context.c:1395
+#: camel/camel-gpg-context.c:1389 camel/camel-gpg-context.c:1398
 #: camel/camel-smime-context.c:717 camel/camel-smime-context.c:728
 #: camel/camel-smime-context.c:735
 msgid "Cannot verify message signature: Incorrect message format"
 msgstr "Nemohu ověřit podpis zprávy: Nesprávný formát zprávy"
 
-#: camel/camel-gpg-context.c:1402
+#: camel/camel-gpg-context.c:1405
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr "Nemohu ověřit podpis zprávy: nemohu vytvořit dočasný soubor: %s"
 
-#: camel/camel-gpg-context.c:1483
+#: camel/camel-gpg-context.c:1487
 #, c-format
 msgid "Could not generate encrypting data: %s"
 msgstr "Nemohu vygenerovat data šifrování: %s"
 
-#: camel/camel-gpg-context.c:1541
+#: camel/camel-gpg-context.c:1545
 msgid "This is a digitally encrypted message part"
 msgstr "Toto je digitálně šifrovaná část zprávy"
 
-#: camel/camel-gpg-context.c:1638 camel/camel-smime-context.c:990
+#: camel/camel-gpg-context.c:1642 camel/camel-smime-context.c:990
 msgid "Encrypted content"
 msgstr "Šifrovaný obsah"
 
-#: camel/camel-gpg-context.c:1642
+#: camel/camel-gpg-context.c:1646
 msgid "Unable to parse message content"
 msgstr "Nemohu zpracovat obsah zprávy"
 
@@ -10391,7 +10391,7 @@ msgstr "Nemohu zavřít zdrojovou složku: %s: %s"
 msgid "Could not close temp folder: %s"
 msgstr "Nemohu zavřít dočasnou složku: %s"
 
-#: camel/providers/local/camel-mbox-summary.c:571 mail/em-folder-tree.c:2064
+#: camel/providers/local/camel-mbox-summary.c:571 mail/em-folder-tree.c:2150
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr "Nemohu přejmenovat složku: %s"
@@ -12425,7 +12425,7 @@ msgstr "Prohlížeč složek pošty Evolution"
 msgid "Evolution Mail preferences control"
 msgstr "Ovládací prvek nastavení pošty Evolution."
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-browser.c:824
+#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-browser.c:826
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1872
 #: mail/importers/pine-importer.c:473
 msgid "Mail"
@@ -12572,7 +12572,7 @@ msgstr "<kliknutím zde vyberete složku>"
 msgid "Create New Folder"
 msgstr "Vytvořit novou složku"
 
-#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1841
+#: mail/em-folder-selector.c:137 mail/em-folder-tree.c:1908
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
 msgstr "Upřesněte, kde chcete vytvořit složku:"
@@ -12604,73 +12604,88 @@ msgstr "Načítám..."
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Nelze upustit zprávy do úložiště nejvyšší úrovně"
 
-#: mail/em-folder-tree.c:1719 mail/em-folder-tree.c:1806
+#: mail/em-folder-tree.c:1755
+#, c-format
+msgid "Cannot move folder `%s': illegal operation"
+msgstr "Nemohu přejmenovat složku `%s': Neplatná operace"
+
+#: mail/em-folder-tree.c:1784 mail/em-folder-tree.c:1873
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: mail/em-folder-tree.c:1735 mail/em-folder-tree.c:1748
+#: mail/em-folder-tree.c:1800 mail/em-folder-tree.c:1813
 #: mail/em-folder-view.c:658 mail/em-folder-view.c:672
 msgid "Select folder"
 msgstr "Vyberte složku"
 
-#: mail/em-folder-tree.c:1841
+#: mail/em-folder-tree.c:1908
 msgid "Create folder"
 msgstr "Vytvořit složku"
 
-#: mail/em-folder-tree.c:1960
+#: mail/em-folder-tree.c:2027
 #, c-format
 msgid "Could not delete folder: %s"
 msgstr "Nemohu odstranit složku: %s"
 
-#: mail/em-folder-tree.c:1981
+#: mail/em-folder-tree.c:2052
+#, c-format
+msgid "Cannot delete local %s folder."
+msgstr "Nemohu odstranit místní složku %s."
+
+#: mail/em-folder-tree.c:2058
 #, c-format
 msgid "Really delete folder \"%s\" and all of its subfolders?"
 msgstr "Opravdu odstranit složku \"%s\" a všechny její podsložky?"
 
-#: mail/em-folder-tree.c:1991
+#: mail/em-folder-tree.c:2068
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Odstranit \"%s\""
 
-#: mail/em-folder-tree.c:2025
+#: mail/em-folder-tree.c:2102
+#, c-format
+msgid "Cannot rename local %s folder."
+msgstr "Nemohu přejmenovat místní složku %s."
+
+#: mail/em-folder-tree.c:2111
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Přejmenovat složku \"%s\" na:"
 
-#: mail/em-folder-tree.c:2027
+#: mail/em-folder-tree.c:2113
 msgid "Rename Folder"
 msgstr "Přejmenovat složku"
 
-#: mail/em-folder-tree.c:2051
+#: mail/em-folder-tree.c:2137
 #, c-format
 msgid "A folder named \"%s\" already exists. Please use a different name."
 msgstr "Již existuje složka nazvaná \"%s\". Použijte prosím jiný název."
 
-#: mail/em-folder-tree.c:2097 ui/evolution-addressbook.xml.h:45
+#: mail/em-folder-tree.c:2183 ui/evolution-addressbook.xml.h:45
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:35
 msgid "_View"
 msgstr "_Zobrazení"
 
-#: mail/em-folder-tree.c:2098
+#: mail/em-folder-tree.c:2184
 msgid "Open in _New Window"
 msgstr "Otevřít v _novém okně"
 
-#: mail/em-folder-tree.c:2103
+#: mail/em-folder-tree.c:2189
 msgid "_Move"
 msgstr "_Přesunout"
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2107
+#: mail/em-folder-tree.c:2193
 msgid "_New Folder..."
 msgstr "_Nová složka..."
 
-#: mail/em-folder-tree.c:2110
+#: mail/em-folder-tree.c:2196
 msgid "_Rename"
 msgstr "_Přejmenovat"
 
-#: mail/em-folder-tree.c:2113 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2199 ui/evolution-mail-list.xml.h:27
 msgid "_Properties..."
 msgstr "Vla_stnosti..."
 
@@ -12827,9 +12842,9 @@ msgstr "Nepodepsána"
 
 #: mail/em-format-html-display.c:639
 msgid ""
-"This message is not signed.  There is no guarantee the sender of the message "
-"is authentic."
-msgstr "Zpráva není podpesána. Není zaručeno, že odesílatel zprávy je pravý."
+"This message is not signed. There is no guarantee that this message is "
+"authentic."
+msgstr "Zpráva není podpesána. Není zaručeno, že je tato zpráva pravá."
 
 #: mail/em-format-html-display.c:640 mail/em-format-html.c:563
 msgid "Valid signature"
@@ -12837,11 +12852,9 @@ msgstr "Platný podpis"
 
 #: mail/em-format-html-display.c:640
 msgid ""
-"This message is signed and is valid, the sender of this message is very "
-"likely who they claim to be."
-msgstr ""
-"Tato zpráva je podepsána a je platná, odesílatel zprávy je velmi "
-"pravděpodobně ten, kdo je uveden."
+"This message is signed and is valid meaning that it is very likely that this "
+"message is authentic."
+msgstr "Tato zpráva je podepsána a je platná, takže je velmi pravděpodobně pravá."
 
 #: mail/em-format-html-display.c:641 mail/em-format-html.c:564
 msgid "Invalid signature"
@@ -12865,11 +12878,21 @@ msgstr ""
 "Tato zpráva je podepsána platným podpisem, ale odesílatel zprávy nemůže být "
 "ověřen."
 
-#: mail/em-format-html-display.c:648 mail/em-format-html.c:571
+#: mail/em-format-html-display.c:648
+msgid "This message is signed and valid but the sender is never to be trusted."
+msgstr "Tato zpráva je podepsána a platná, ale odesílateli se nikdy nemá věřit."
+
+#: mail/em-format-html-display.c:649
+msgid ""
+"This message is signed and valid but there is no indication that the "
+"signature belongs to the sender."
+msgstr "Tato zpráva je podepsána a platná, ale neexistuje důkaz, že podpis patří odesílateli."
+
+#: mail/em-format-html-display.c:658 mail/em-format-html.c:571
 msgid "Unencrypted"
 msgstr "Nešifrována"
 
-#: mail/em-format-html-display.c:648
+#: mail/em-format-html-display.c:658
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
@@ -12877,11 +12900,11 @@ msgstr ""
 "Tato zpráva není šifrována. Její obsah může být čten při přenosu přes "
 "Internet."
 
-#: mail/em-format-html-display.c:649 mail/em-format-html.c:572
+#: mail/em-format-html-display.c:659 mail/em-format-html.c:572
 msgid "Encrypted, weak"
 msgstr "Šifrována slabě"
 
-#: mail/em-format-html-display.c:649
+#: mail/em-format-html-display.c:659
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -12891,11 +12914,11 @@ msgstr ""
 "zvenku by bylo těžké, ale ne nemožné zobrazit obsah této zprávy v rozumném "
 "čase."
 
-#: mail/em-format-html-display.c:650 mail/em-format-html.c:573
+#: mail/em-format-html-display.c:660 mail/em-format-html.c:573
 msgid "Encrypted"
 msgstr "Šifrována"
 
-#: mail/em-format-html-display.c:650
+#: mail/em-format-html-display.c:660
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -12903,11 +12926,11 @@ msgstr ""
 "Tato zpráva je šifrována. Pro člověka zvenku by bylo těžké zobrazit obsah "
 "této zprávy."
 
-#: mail/em-format-html-display.c:651 mail/em-format-html.c:574
+#: mail/em-format-html-display.c:661 mail/em-format-html.c:574
 msgid "Encrypted, strong"
 msgstr "Šifrována, silně"
 
-#: mail/em-format-html-display.c:651
+#: mail/em-format-html-display.c:661
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -12916,31 +12939,31 @@ msgstr ""
 "Tato zpráva je šifrována. Pro člověka zvenku by bylo velmi těžké zobrazit "
 "obsah této zprávy v rozumném čase."
 
-#: mail/em-format-html-display.c:735
+#: mail/em-format-html-display.c:745
 msgid "_View Certificate"
 msgstr "_Zobrazit certifikát"
 
-#: mail/em-format-html-display.c:740
+#: mail/em-format-html-display.c:750
 msgid "This certificate is not viewable"
 msgstr "Tento certifikát nelze zobrazit"
 
-#: mail/em-format-html-display.c:976
+#: mail/em-format-html-display.c:994
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Dokončeno dne %d. %B %Y, %H:%M"
 
-#: mail/em-format-html-display.c:984
+#: mail/em-format-html-display.c:1002
 msgid "Overdue:"
 msgstr "Již mělo být splněno:"
 
-#: mail/em-format-html-display.c:987
+#: mail/em-format-html-display.c:1005
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "do %d. %B %Y, %H:%M"
 
-#: mail/em-format-html-display.c:1057
+#: mail/em-format-html-display.c:1075
 msgid "_View Inline"
 msgstr "_Zobrazit v textu"
 
-#: mail/em-format-html-display.c:1058
+#: mail/em-format-html-display.c:1076
 msgid "_Hide"
 msgstr "_Skrýt"
 
