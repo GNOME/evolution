@@ -69,6 +69,7 @@ enum {
 	CLICK,
 	KEY_PRESS,
 	START_DRAG,
+	STYLE_SET,
 	LAST_SIGNAL
 };
 
@@ -2756,6 +2757,19 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 }
 
 static void
+eti_style_set (ETableItem *eti, GtkStyle *previous_style)
+{
+	if (eti->cell_views_realized) {
+		int i;
+		int n_cells = eti->n_cells;
+
+		for (i = 0; i < n_cells; i++) {
+			e_cell_style_set (eti->cell_views[i], previous_style);
+		}
+	}
+}
+
+static void
 eti_class_init (GtkObjectClass *object_class)
 {
 	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
@@ -2781,6 +2795,7 @@ eti_class_init (GtkObjectClass *object_class)
 	eti_class->click            = NULL;
 	eti_class->key_press        = NULL;
 	eti_class->start_drag       = NULL;
+	eti_class->style_set        = eti_style_set;
 
 	gtk_object_add_arg_type ("ETableItem::ETableHeader", E_TABLE_HEADER_TYPE,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
@@ -2867,6 +2882,14 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableItemClass, key_press),
 				e_marshal_INT__INT_INT_POINTER,
 				GTK_TYPE_INT, 3, GTK_TYPE_INT, GTK_TYPE_INT, GTK_TYPE_GDK_EVENT);
+
+	eti_signals [STYLE_SET] =
+		gtk_signal_new ("style_set",
+				GTK_RUN_LAST,
+				E_OBJECT_CLASS_TYPE (object_class),
+				GTK_SIGNAL_OFFSET (ETableItemClass, style_set),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1, GTK_TYPE_STYLE);
 
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, eti_signals, LAST_SIGNAL);
 

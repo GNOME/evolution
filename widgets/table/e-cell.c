@@ -489,4 +489,11 @@ e_cell_get_bg_color(ECellView *ecell_view, int row)
 	else
 		return NULL;
 }
+
+void
+e_cell_style_set(ECellView *ecell_view, GtkStyle *previous_style)
+{
+	if (ECVIEW_EC_CLASS(ecell_view)->style_set)
+		ECVIEW_EC_CLASS(ecell_view)->style_set (ecell_view, previous_style);
+}
 		 		

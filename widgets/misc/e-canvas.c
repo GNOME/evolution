@@ -44,6 +44,9 @@ static gint e_canvas_focus_in       (GtkWidget        *widget,
 static gint e_canvas_focus_out      (GtkWidget        *widget,
 				     GdkEventFocus    *event);
 
+static void e_canvas_style_set      (GtkWidget        *widget,
+				     GtkStyle         *previous_style);
+
 static int emit_event (GnomeCanvas *canvas, GdkEvent *event);
 
 static GnomeCanvasClass *parent_class = NULL;
@@ -101,6 +104,7 @@ e_canvas_class_init (ECanvasClass *klass)
 	widget_class->button_release_event = e_canvas_button;
 	widget_class->focus_in_event = e_canvas_focus_in;
 	widget_class->focus_out_event = e_canvas_focus_out;
+	widget_class->style_set = e_canvas_style_set;
 	widget_class->realize = e_canvas_realize;
 	widget_class->unrealize = e_canvas_unrealize;
 
@@ -665,6 +669,32 @@ e_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 		return FALSE;
 	}
 }
+
+static void
+ec_style_set_recursive (GnomeCanvasItem *item, GtkStyle *previous_style)
+{
+	guint signal_id = gtk_signal_lookup ("style_set", GTK_OBJECT_TYPE (item));
+	if (signal_id >= 1) {
+		GtkSignalQuery *query = gtk_signal_query (signal_id);
+		if (query->return_val == GTK_TYPE_NONE && query->nparams == 1 && query->params[0] == GTK_TYPE_STYLE) {
+			gtk_signal_emit (GTK_OBJECT (item), signal_id, previous_style);
+		}
+		g_free (query);
+	}
+
+	if (GNOME_IS_CANVAS_GROUP (item) ) {
+		GList *items = GNOME_CANVAS_GROUP (item)->item_list;
+		for (; items; items = items->next)
+			ec_style_set_recursive (items->data, previous_style);
+	}
+}
+
+static void
+e_canvas_style_set (GtkWidget *widget, GtkStyle *previous_style)
+{
+	ec_style_set_recursive (GNOME_CANVAS_ITEM (gnome_canvas_root (GNOME_CANVAS (widget))), previous_style);
+}
+
 
 static void
 e_canvas_realize (GtkWidget *widget)

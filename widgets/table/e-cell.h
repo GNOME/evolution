@@ -113,6 +113,8 @@ typedef struct {
 	int        (*max_width_by_row) (ECellView *ecell_view, int model_col, int view_col, int row);
 	void       (*show_tooltip)     (ECellView *ecell_view, int model_col, int view_col, int row, int col_width, ETableTooltip *tooltip);
 	gchar     *(*get_bg_color)     (ECellView *ecell_view, int row);
+
+	void       (*style_set)        (ECellView *ecell_view, GtkStyle *previous_style);
 } ECellClass;
 
 GtkType    e_cell_get_type                      (void);
@@ -172,6 +174,9 @@ void       e_cell_show_tooltip                  (ECellView         *ecell_view,
 						 ETableTooltip     *tooltip);
 gchar     *e_cell_get_bg_color                  (ECellView         *ecell_view,
 						 int                row);
+void       e_cell_style_set                     (ECellView         *ecell_view,
+						 GtkStyle          *previous_style);
+
 void       e_cell_focus                         (ECellView         *ecell_view,
 						 int                model_col,
 						 int                view_col,

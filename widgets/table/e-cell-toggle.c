@@ -322,6 +322,21 @@ etog_max_width (ECellView *ecell_view, int model_col, int view_col)
 }
 
 static void
+etog_style_set (ECellView *ecell_view, GtkStyle *previous_style)
+{
+	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
+	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
+	int i;
+
+	for (i = 0; i < toggle->n_states * CACHE_SEQ_COUNT; i++) {
+		if (toggle_view->pixmap_cache[i]) {
+			gdk_pixmap_unref (toggle_view->pixmap_cache[i]);
+			toggle_view->pixmap_cache[i] = NULL;
+		}
+	}
+}
+
+static void
 etog_destroy (GtkObject *object)
 {
 	ECellToggle *etog = E_CELL_TOGGLE (object);
@@ -353,6 +368,7 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 	ecc->event      = etog_event;
 	ecc->height     = etog_height;
 	ecc->max_width  = etog_max_width;
+	ecc->style_set  = etog_style_set;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
