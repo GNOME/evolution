@@ -32,6 +32,7 @@
 #include <gdk/gdkkeysyms.h>
 #include "gal/util/e-util.h"
 #include <gal/e-table/e-table-item.h>
+#include <e-util/e-time-utils.h>
 #include "e-cell-date-edit.h"
 
 /* This depends on ECalendar which is why I didn't put it in gal. */
@@ -40,9 +41,18 @@
 static void e_cell_date_edit_class_init		(GtkObjectClass	*object_class);
 static void e_cell_date_edit_init		(ECellDateEdit	*ecde);
 static void e_cell_date_edit_destroy		(GtkObject	*object);
+static void e_cell_date_edit_get_arg		(GtkObject	*o,
+						 GtkArg		*arg,
+						 guint		 arg_id);
+static void e_cell_date_edit_set_arg		(GtkObject	*o,
+						 GtkArg		*arg,
+						 guint		 arg_id);
 
 static gint e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 						 GdkEvent	*event);
+static void e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde);
+static void e_cell_date_edit_select_matching_time(ECellDateEdit	*ecde,
+						  char		*time);
 static void e_cell_date_edit_show_popup		(ECellDateEdit	*ecde);
 static void e_cell_date_edit_get_popup_pos	(ECellDateEdit	*ecde,
 						 gint		*x,
@@ -55,6 +65,32 @@ static void e_cell_date_edit_rebuild_time_list	(ECellDateEdit	*ecde);
 static int e_cell_date_edit_key_press		(GtkWidget	*popup_window,
 						 GdkEventKey	*event,
 						 ECellDateEdit	*ecde);
+static void e_cell_date_edit_on_ok_clicked	(GtkWidget	*button,
+						 ECellDateEdit	*ecde);
+static void e_cell_date_edit_show_time_invalid_warning	(ECellDateEdit	*ecde);
+static void e_cell_date_edit_on_now_clicked	(GtkWidget	*button,
+						 ECellDateEdit	*ecde);
+static void e_cell_date_edit_on_none_clicked	(GtkWidget	*button,
+						 ECellDateEdit	*ecde);
+static void e_cell_date_edit_on_today_clicked	(GtkWidget	*button,
+						 ECellDateEdit	*ecde);
+static void e_cell_date_edit_update_cell	(ECellDateEdit	*ecde,
+						 char		*text);
+static void e_cell_date_edit_on_time_selected	(GtkList	*list,
+						 ECellDateEdit	*ecde);
+static void e_cell_date_edit_hide_popup		(ECellDateEdit	*ecde);
+
+/* Our arguments. */
+enum {
+	ARG_0,
+	ARG_SHOW_TIME,
+	ARG_SHOW_NOW_BUTTON,
+	ARG_SHOW_TODAY_BUTTON,
+	ARG_ALLOW_NO_DATE_SET,
+	ARG_USE_24_HOUR_FORMAT,
+	ARG_LOWER_HOUR,
+	ARG_UPPER_HOUR
+};
 
 static ECellPopupClass *parent_class;
 
@@ -69,7 +105,31 @@ e_cell_date_edit_class_init		(GtkObjectClass	*object_class)
 {
 	ECellPopupClass *ecpc = (ECellPopupClass *) object_class;
 
+	gtk_object_add_arg_type ("ECellDateEdit::show_time",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_SHOW_TIME);
+	gtk_object_add_arg_type ("ECellDateEdit::show_now_button",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_SHOW_NOW_BUTTON);
+	gtk_object_add_arg_type ("ECellDateEdit::show_today_button",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_SHOW_TODAY_BUTTON);
+	gtk_object_add_arg_type ("ECellDateEdit::allow_no_date_set",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_ALLOW_NO_DATE_SET);
+	gtk_object_add_arg_type ("ECellDateEdit::use_24_hour_format",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_USE_24_HOUR_FORMAT);
+	gtk_object_add_arg_type ("ECellDateEdit::lower_hour",
+				 GTK_TYPE_INT, GTK_ARG_READWRITE,
+				 ARG_LOWER_HOUR);
+	gtk_object_add_arg_type ("ECellDateEdit::upper_hour",
+				 GTK_TYPE_INT, GTK_ARG_READWRITE,
+				 ARG_UPPER_HOUR);
+
 	object_class->destroy = e_cell_date_edit_destroy;
+	object_class->get_arg = e_cell_date_edit_get_arg;
+	object_class->set_arg = e_cell_date_edit_set_arg;
 
 	ecpc->popup = e_cell_date_edit_do_popup;
 
@@ -80,14 +140,15 @@ e_cell_date_edit_class_init		(GtkObjectClass	*object_class)
 static void
 e_cell_date_edit_init			(ECellDateEdit	*ecde)
 {
-	GtkWidget *frame, *vbox, *table, *label, *entry;
-	GtkWidget *calendar, *scrolled_window, *list, *bbox;
-	GtkWidget *now_button, *today_button, *none_button;
-
-	ecde->use_24_hour_format = TRUE;
+	GtkWidget *frame, *vbox, *hbox, *vbox2;
+	GtkWidget *scrolled_window, *list, *bbox;
+	GtkWidget *now_button, *today_button, *none_button, *ok_button;
 
 	ecde->lower_hour = 0;
 	ecde->upper_hour = 24;
+	ecde->use_24_hour_format = TRUE;
+	ecde->need_time_list_rebuild = TRUE;
+	ecde->freeze_count = 0;
 
 	/* We create one popup window for the ECell, since there will only
 	   ever be one popup in use at a time. */
@@ -105,49 +166,29 @@ e_cell_date_edit_init			(ECellDateEdit	*ecde)
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
         gtk_widget_show (vbox);
 
-	table = gtk_table_new (3, 2, FALSE);
-	gtk_box_pack_start (GTK_BOX (vbox), table, TRUE, TRUE, 0);
-	gtk_table_set_col_spacings (GTK_TABLE (table), 4);
-        gtk_widget_show (table);
+	hbox = gtk_hbox_new (FALSE, 4);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+        gtk_widget_show (hbox);
 
-#if 0
-	label = gtk_label_new (_("Date:"));
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1,
-			  GTK_FILL, 0, 0, 0);
-	gtk_widget_show (label);
-
-	entry = gtk_entry_new ();
-	gtk_table_attach (GTK_TABLE (table), entry, 0, 1, 1, 2,
-			  GTK_FILL, 0, 0, 0);
-	gtk_widget_show (entry);
-#endif
-
-	calendar = e_calendar_new ();
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (calendar)->calitem),
+	ecde->calendar = e_calendar_new ();
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (ecde->calendar)->calitem),
 			       "move_selection_when_moving", FALSE,
 			       NULL);
-	gtk_table_attach (GTK_TABLE (table), calendar, 0, 1, 0, 3,
-			  GTK_FILL, GTK_FILL, 0, 0);
-	gtk_widget_show (calendar);
+	gtk_box_pack_start (GTK_BOX (hbox), ecde->calendar, TRUE, TRUE, 0);
+	gtk_widget_show (ecde->calendar);
 
+	vbox2 = gtk_vbox_new (FALSE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), vbox2, TRUE, TRUE, 0);
+        gtk_widget_show (vbox2);
 
-#if 0
-	label = gtk_label_new (_("Time:"));
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-	gtk_table_attach (GTK_TABLE (table), label, 1, 2, 0, 1,
-			  GTK_FILL, 0, 0, 0);
-	gtk_widget_show (label);
-
-	entry = gtk_entry_new ();
-	gtk_table_attach (GTK_TABLE (table), entry, 1, 2, 0, 1,
-			  GTK_FILL, 0, 0, 0);
-	gtk_widget_show (entry);
-#endif
+	ecde->time_entry = gtk_entry_new ();
+	gtk_widget_set_usize (ecde->time_entry, 50, -1);
+	gtk_box_pack_start (GTK_BOX (vbox2), ecde->time_entry,
+			    FALSE, FALSE, 0);
+	gtk_widget_show (ecde->time_entry);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_table_attach (GTK_TABLE (table), scrolled_window, 1, 2, 0, 3,
-			  GTK_FILL, GTK_FILL, 0, 0);
+	gtk_box_pack_start (GTK_BOX (vbox2), scrolled_window, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
 					GTK_POLICY_NEVER,
 					GTK_POLICY_ALWAYS);
@@ -159,7 +200,9 @@ e_cell_date_edit_init			(ECellDateEdit	*ecde)
 					     gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window)));
 	gtk_widget_show (list);
 	ecde->time_list = list;
-	e_cell_date_edit_rebuild_time_list (ecde);
+	gtk_signal_connect (GTK_OBJECT (list), "selection-changed",
+			    GTK_SIGNAL_FUNC (e_cell_date_edit_on_time_selected),
+			    ecde);
 
 	bbox = gtk_hbutton_box_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (bbox), 4);
@@ -172,28 +215,33 @@ e_cell_date_edit_init			(ECellDateEdit	*ecde)
 	now_button = gtk_button_new_with_label (_("Now"));
 	gtk_container_add (GTK_CONTAINER (bbox), now_button);
         gtk_widget_show (now_button);
-#if 0
 	gtk_signal_connect (GTK_OBJECT (now_button), "clicked",
-			    GTK_SIGNAL_FUNC (on_date_popup_now_button_clicked), dedit);
-#endif
+			    GTK_SIGNAL_FUNC (e_cell_date_edit_on_now_clicked),
+			    ecde);
+	ecde->now_button = now_button;
 
 	today_button = gtk_button_new_with_label (_("Today"));
 	gtk_container_add (GTK_CONTAINER (bbox), today_button);
         gtk_widget_show (today_button);
-#if 0
 	gtk_signal_connect (GTK_OBJECT (today_button), "clicked",
-			    GTK_SIGNAL_FUNC (on_date_popup_today_button_clicked), dedit);
-#endif
+			    GTK_SIGNAL_FUNC (e_cell_date_edit_on_today_clicked),
+			    ecde);
+	ecde->today_button = today_button;
 
-	/* Note that we don't show this here, since by default a 'None' date
-	   is not permitted. */
 	none_button = gtk_button_new_with_label (_("None"));
 	gtk_container_add (GTK_CONTAINER (bbox), none_button);
-#if 0
+        gtk_widget_show (none_button);
 	gtk_signal_connect (GTK_OBJECT (none_button), "clicked",
-			    GTK_SIGNAL_FUNC (on_date_popup_none_button_clicked), dedit);
-#endif
+			    GTK_SIGNAL_FUNC (e_cell_date_edit_on_none_clicked),
+			    ecde);
+	ecde->none_button = none_button;
 
+	ok_button = gtk_button_new_with_label (_("OK"));
+	gtk_container_add (GTK_CONTAINER (bbox), ok_button);
+        gtk_widget_show (ok_button);
+	gtk_signal_connect (GTK_OBJECT (ok_button), "clicked",
+			    GTK_SIGNAL_FUNC (e_cell_date_edit_on_ok_clicked),
+			    ecde);
 
 
 	gtk_signal_connect (GTK_OBJECT (ecde->popup_window),
@@ -233,31 +281,139 @@ e_cell_date_edit_destroy		(GtkObject *object)
 }
 
 
+static void
+e_cell_date_edit_get_arg		(GtkObject	*o,
+					 GtkArg		*arg,
+					 guint		 arg_id)
+{
+	ECellDateEdit *ecde;
+
+	ecde = E_CELL_DATE_EDIT (o);
+
+	switch (arg_id) {
+	case ARG_SHOW_TIME:
+		GTK_VALUE_BOOL (*arg) = GTK_WIDGET_VISIBLE (ecde->time_entry) ? TRUE : FALSE;
+		break;
+	case ARG_SHOW_NOW_BUTTON:
+		GTK_VALUE_BOOL (*arg) = GTK_WIDGET_VISIBLE (ecde->now_button) ? TRUE : FALSE;
+		break;
+	case ARG_SHOW_TODAY_BUTTON:
+		GTK_VALUE_BOOL (*arg) = GTK_WIDGET_VISIBLE (ecde->today_button) ? TRUE : FALSE;
+		break;
+	case ARG_ALLOW_NO_DATE_SET:
+		GTK_VALUE_BOOL (*arg) = GTK_WIDGET_VISIBLE (ecde->none_button) ? TRUE : FALSE;
+		break;
+	case ARG_USE_24_HOUR_FORMAT:
+		GTK_VALUE_BOOL (*arg) = ecde->use_24_hour_format;
+		break;
+	case ARG_LOWER_HOUR:
+		GTK_VALUE_INT (*arg) = ecde->lower_hour;
+		break;
+	case ARG_UPPER_HOUR:
+		GTK_VALUE_INT (*arg) = ecde->upper_hour;
+		break;
+	default:
+		g_warning ("Invalid arg");
+	}
+}
+
+
+static void
+e_cell_date_edit_set_arg		(GtkObject	*o,
+					 GtkArg		*arg,
+					 guint		 arg_id)
+{
+	ECellDateEdit *ecde;
+	gint ivalue;
+	gboolean bvalue;
+
+	ecde = E_CELL_DATE_EDIT (o);
+	
+	switch (arg_id){
+	case ARG_SHOW_TIME:
+		bvalue = GTK_VALUE_BOOL (*arg);
+		if (bvalue) {
+			gtk_widget_show (ecde->time_entry);
+			gtk_widget_show (ecde->time_list);
+		} else {
+			gtk_widget_hide (ecde->time_entry);
+			gtk_widget_hide (ecde->time_list);
+		}
+		break;
+	case ARG_SHOW_NOW_BUTTON:
+		bvalue = GTK_VALUE_BOOL (*arg);
+		if (bvalue) {
+			gtk_widget_show (ecde->now_button);
+		} else {
+			gtk_widget_hide (ecde->now_button);
+		}
+		break;
+	case ARG_SHOW_TODAY_BUTTON:
+		bvalue = GTK_VALUE_BOOL (*arg);
+		if (bvalue) {
+			gtk_widget_show (ecde->today_button);
+		} else {
+			gtk_widget_hide (ecde->today_button);
+		}
+		break;
+	case ARG_ALLOW_NO_DATE_SET:
+		bvalue = GTK_VALUE_BOOL (*arg);
+		if (bvalue) {
+			gtk_widget_show (ecde->none_button);
+		} else {
+			/* FIXME: What if we have no date set now. */
+			gtk_widget_hide (ecde->none_button);
+		}
+		break;
+	case ARG_USE_24_HOUR_FORMAT:
+		bvalue = GTK_VALUE_BOOL (*arg);
+		if (ecde->use_24_hour_format != bvalue) {
+			ecde->use_24_hour_format = bvalue;
+			ecde->need_time_list_rebuild = TRUE;
+		}
+		break;
+	case ARG_LOWER_HOUR:
+		ivalue = GTK_VALUE_INT (*arg);
+		ivalue = CLAMP (ivalue, 0, 24);
+		if (ecde->lower_hour != ivalue) {
+			ecde->lower_hour = ivalue;
+			ecde->need_time_list_rebuild = TRUE;
+		}
+		break;
+	case ARG_UPPER_HOUR:
+		ivalue = GTK_VALUE_INT (*arg);
+		ivalue = CLAMP (ivalue, 0, 24);
+		if (ecde->upper_hour != ivalue) {
+			ecde->upper_hour = ivalue;
+			ecde->need_time_list_rebuild = TRUE;
+		}
+		break;
+	default:
+		g_warning ("Invalid arg");
+	}
+
+#if 0
+	if (ecde->need_time_list_rebuild && ecde->freeze_count == 0)
+		e_cell_date_edit_rebuild_time_list (ecde);
+#endif
+}
+
+
 static gint
 e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 					 GdkEvent	*event)
 {
 	ECellDateEdit *ecde = E_CELL_DATE_EDIT (ecp);
 	guint32 time;
-	gint error_code;
 
 	e_cell_date_edit_show_popup (ecde);
+	e_cell_date_edit_set_popup_values (ecde);
 
 	if (event->type == GDK_BUTTON_PRESS) {
 		time = event->button.time;
 	} else {
 		time = event->key.time;
 	}
-
-	error_code = gdk_pointer_grab (ecde->popup_window->window, TRUE,
-				       GDK_ENTER_NOTIFY_MASK |
-				       GDK_BUTTON_PRESS_MASK | 
-				       GDK_BUTTON_RELEASE_MASK |
-				       GDK_POINTER_MOTION_HINT_MASK |
-				       GDK_BUTTON1_MOTION_MASK,
-				       NULL, NULL, time);
-	if (error_code != 0)
-		g_warning ("Failed to get pointer grab");
 
 	gtk_grab_add (ecde->popup_window);
 
@@ -266,11 +422,105 @@ e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 
 
 static void
+e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
+{
+	ECellPopup *ecp = E_CELL_POPUP (ecde);
+	ECellView *ecv = (ECellView*) ecp->popup_cell_view;
+	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
+	ETableCol *ecol;
+	char *cell_text;
+	ETimeParseStatus status;
+	struct tm date_tm;
+	GDate date;
+	ECalendarItem *calitem;
+	static char buffer[64], *format;
+
+	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
+	cell_text = e_table_model_value_at (ecv->e_table_model,
+					    ecol->col_idx, ecp->popup_row);
+
+	status = e_time_parse_date_and_time (cell_text, &date_tm);
+
+	/* If there is no date and time set, or the date is invalid, we clear
+	   the selections, else we select the appropriate date & time. */
+	calitem = E_CALENDAR_ITEM (E_CALENDAR (ecde->calendar)->calitem);
+	if (status == E_TIME_PARSE_NONE || status == E_TIME_PARSE_INVALID) {
+		gtk_entry_set_text (GTK_ENTRY (ecde->time_entry), "");
+		e_calendar_item_set_selection (calitem, NULL, NULL);
+		gtk_list_unselect_all (GTK_LIST (ecde->time_list));
+	} else {
+		if (ecde->use_24_hour_format) {
+			if (date_tm.tm_sec == 0)
+				/* strftime format of a time in 24-hour format,
+				   without seconds. */
+				format = _("%H:%M");
+			else
+				/* strftime format of a time in 24-hour format.
+				 */
+				format = _("%H:%M:%S");
+		} else {
+			if (date_tm.tm_sec == 0)
+				/* strftime format of a time in 12-hour format,
+				   without seconds. */
+				format = _("%I:%M %p");
+			else
+				/* strftime format of a time in 12-hour format.
+				 */
+				format = _("%I:%M:%S %p");
+		}
+			
+		strftime (buffer, sizeof (buffer), format, &date_tm);
+
+		gtk_entry_set_text (GTK_ENTRY (ecde->time_entry), buffer);
+
+		g_date_clear (&date, 1);
+		g_date_set_dmy (&date, date_tm.tm_mday, date_tm.tm_mon + 1,
+				date_tm.tm_year + 1900);
+		e_calendar_item_set_selection (calitem, &date, &date);
+
+		e_cell_date_edit_select_matching_time (ecde, buffer);
+	}
+}
+
+
+static void
+e_cell_date_edit_select_matching_time	(ECellDateEdit	*ecde,
+					 char		*time)
+{
+	GtkList *list;
+	GtkWidget *listitem, *label;
+	GList *elem;
+	gboolean found = FALSE;
+	char *list_item_text;
+
+	list = GTK_LIST (ecde->time_list);
+	elem = list->children;
+	while (elem) {
+		listitem = GTK_WIDGET (elem->data);
+		label = GTK_BIN (listitem)->child;
+		gtk_label_get (GTK_LABEL (label), &list_item_text);
+
+		if (!strcmp (list_item_text, time)) {
+			found = TRUE;
+			gtk_list_select_child (list, listitem);
+			break;
+		}
+
+		elem = elem->next;
+	}
+
+	if (!found)
+		gtk_list_unselect_all (list);
+}
+
+
+static void
 e_cell_date_edit_show_popup		(ECellDateEdit	*ecde)
 {
 	gint x, y, width, height, old_width, old_height;
 
-	g_print ("In e_cell_popup_popup_list\n");
+	if (ecde->need_time_list_rebuild)
+		e_cell_date_edit_rebuild_time_list (ecde);
 
 	/* This code is practically copied from GtkCombo. */
 	old_width = ecde->popup_window->allocation.width;
@@ -284,8 +534,8 @@ e_cell_date_edit_show_popup		(ECellDateEdit	*ecde)
 	gdk_window_resize (ecde->popup_window->window, width, height);
 	gtk_widget_show (ecde->popup_window);
 
-	/* FIXME: Set the focus to the first widget. */
-	gtk_widget_grab_focus (ecde->popup_window);
+	/* Set the focus to the first widget. */
+	gtk_widget_grab_focus (ecde->time_entry);
 
 	E_CELL_POPUP (ecde)->popup_shown = TRUE;
 }
@@ -309,11 +559,11 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 	gdk_window_get_origin (canvas->window, x, y);
 
 	x1 = e_table_header_col_diff (eti->header, 0, eti->editing_col + 1);
-	y1 = eti_row_diff (eti, 0, eti->editing_row + 1);
+	y1 = e_table_item_row_diff (eti, 0, eti->editing_row + 1);
 	column_width = e_table_header_col_diff (eti->header, eti->editing_col,
 						eti->editing_col + 1);
-	row_height = eti_row_diff (eti, eti->editing_row,
-				   eti->editing_row + 1);
+	row_height = e_table_item_row_diff (eti, eti->editing_row,
+					    eti->editing_row + 1);
 	gnome_canvas_item_i2w (GNOME_CANVAS_ITEM (eti), &x1, &y1);
 
 	*x += x1;
@@ -375,11 +625,7 @@ e_cell_date_edit_key_press		(GtkWidget	*popup_window,
 	if (event->keyval != GDK_Escape)
 		return FALSE;
 
-	gtk_grab_remove (ecde->popup_window);
-	gdk_pointer_ungrab (event->time);
-	gtk_widget_hide (ecde->popup_window);
-
-	E_CELL_POPUP (ecde)->popup_shown = FALSE;
+	e_cell_date_edit_hide_popup (ecde);
 
 	return TRUE;
 }
@@ -435,6 +681,197 @@ e_cell_date_edit_rebuild_time_list		(ECellDateEdit	*ecde)
 			gtk_container_add (GTK_CONTAINER (list), listitem);
 		}
 	}
+
+	ecde->need_time_list_rebuild = FALSE;
 }
 
+
+static void
+e_cell_date_edit_on_ok_clicked		(GtkWidget	*button,
+					 ECellDateEdit	*ecde)
+{
+	ECalendarItem *calitem;
+	GDate start_date, end_date;
+	gboolean day_selected;
+	struct tm date_tm;
+	char buffer[64], *text;
+	ETimeParseStatus status;
+
+	calitem = E_CALENDAR_ITEM (E_CALENDAR (ecde->calendar)->calitem);
+	day_selected = e_calendar_item_get_selection (calitem, &start_date,
+						      &end_date);
+
+	text = gtk_entry_get_text (GTK_ENTRY (ecde->time_entry));
+	status = e_time_parse_time (text, &date_tm);
+	if (status == E_TIME_PARSE_INVALID) {
+		e_cell_date_edit_show_time_invalid_warning (ecde);
+		return;
+	}
+
+	if (day_selected) {
+		date_tm.tm_year = g_date_year (&start_date) - 1900;
+		date_tm.tm_mon = g_date_month (&start_date) - 1;
+		date_tm.tm_mday = g_date_day (&start_date);
+		/* We need to call this to set the weekday. */
+		mktime (&date_tm);
+		e_time_format_date_and_time (&date_tm,
+					     ecde->use_24_hour_format,
+					     TRUE, FALSE,
+					     buffer, sizeof (buffer));
+	} else {
+		buffer[0] = '\0';
+	}
+
+	e_cell_date_edit_update_cell (ecde, buffer);
+	e_cell_date_edit_hide_popup (ecde);
+}
+
+
+static void
+e_cell_date_edit_show_time_invalid_warning	(ECellDateEdit	*ecde)
+{
+	GtkWidget *dialog;
+
+	/* FIXME: Better message needed. */
+	dialog = gnome_message_box_new (_("The time is invalid"),
+					GNOME_MESSAGE_BOX_ERROR,
+					GNOME_STOCK_BUTTON_OK, NULL);
+	gtk_widget_show (dialog);
+}
+
+
+static void
+e_cell_date_edit_on_now_clicked		(GtkWidget	*button,
+					 ECellDateEdit	*ecde)
+{
+	struct tm *tmp_tm;
+	time_t t;
+	char buffer[64];
+
+	g_print ("In e_cell_date_edit_on_now_clicked\n");
+
+	t = time (NULL);
+	tmp_tm = localtime (&t);
+	e_time_format_date_and_time (tmp_tm,
+				     ecde->use_24_hour_format,
+				     TRUE, FALSE,
+				     buffer, sizeof (buffer));
+
+	e_cell_date_edit_update_cell (ecde, buffer);
+	e_cell_date_edit_hide_popup (ecde);
+}
+
+
+static void
+e_cell_date_edit_on_none_clicked	(GtkWidget	*button,
+					 ECellDateEdit	*ecde)
+{
+	g_print ("In e_cell_date_edit_on_none_clicked\n");
+
+	e_cell_date_edit_update_cell (ecde, "");
+	e_cell_date_edit_hide_popup (ecde);
+}
+
+
+static void
+e_cell_date_edit_on_today_clicked	(GtkWidget	*button,
+					 ECellDateEdit	*ecde)
+{
+	struct tm *tmp_tm;
+	time_t t;
+	char buffer[64];
+
+	g_print ("In e_cell_date_edit_on_today_clicked\n");
+
+	t = time (NULL);
+	tmp_tm = localtime (&t);
+	tmp_tm->tm_hour = 0;
+	tmp_tm->tm_min = 0;
+	tmp_tm->tm_sec = 0;
+	e_time_format_date_and_time (tmp_tm,
+				     ecde->use_24_hour_format,
+				     FALSE, FALSE,
+				     buffer, sizeof (buffer));
+
+	e_cell_date_edit_update_cell (ecde, buffer);
+	e_cell_date_edit_hide_popup (ecde);
+}
+
+
+static void
+e_cell_date_edit_update_cell		(ECellDateEdit	*ecde,
+					 char		*text)
+{
+	ECellPopup *ecp = E_CELL_POPUP (ecde);
+	ECellView *ecv = (ECellView*) ecp->popup_cell_view;
+	ETableItem *eti = E_TABLE_ITEM (ecv->e_table_item_view);
+	ETableCol *ecol;
+	gchar *old_text;
+
+	/* Compare the new text with the existing cell contents. */
+	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
+	old_text = e_table_model_value_at (ecv->e_table_model,
+					   ecol->col_idx, ecp->popup_row);
+
+	/* If they are different, update the cell contents. */
+	if (strcmp (old_text, text)) {
+		e_table_model_set_value_at (ecv->e_table_model,
+					    ecol->col_idx, ecp->popup_row,
+					    text);
+	}
+}
+
+
+static void
+e_cell_date_edit_on_time_selected	(GtkList	*list,
+					 ECellDateEdit	*ecde)
+{
+	GtkWidget *listitem, *label;
+	char *list_item_text;
+
+	g_print ("In e_cell_date_edit_on_time_selected\n");
+
+	if (!list->selection)
+		return;
+
+	listitem = list->selection->data;
+	label = GTK_BIN (listitem)->child;
+	gtk_label_get (GTK_LABEL (label), &list_item_text);
+	gtk_entry_set_text (GTK_ENTRY (ecde->time_entry), list_item_text);
+}
+
+
+static void
+e_cell_date_edit_hide_popup		(ECellDateEdit	*ecde)
+{
+	gtk_grab_remove (ecde->popup_window);
+	gtk_widget_hide (ecde->popup_window);
+	E_CELL_POPUP (ecde)->popup_shown = FALSE;
+}
+
+
+/* These freeze and thaw the rebuilding of the time list. They are useful when
+   setting several properties which result in rebuilds of the list, e.g. the
+   lower_hour, upper_hour and use_24_hour_format properties. */
+void
+e_cell_date_edit_freeze			(ECellDateEdit	*ecde)
+{
+	g_return_if_fail (E_IS_CELL_DATE_EDIT (ecde));
+
+	ecde->freeze_count++;
+}
+
+
+void
+e_cell_date_edit_thaw			(ECellDateEdit	*ecde)
+{
+	g_return_if_fail (E_IS_CELL_DATE_EDIT (ecde));
+
+	if (ecde->freeze_count > 0) {
+		ecde->freeze_count--;
+
+		if (ecde->freeze_count == 0)
+			e_cell_date_edit_rebuild_time_list (ecde);
+	}
+}
 
