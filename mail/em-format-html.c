@@ -122,6 +122,7 @@ efh_init(GObject *o)
 	efh->priv->text_inline_parts = g_hash_table_new(NULL, NULL);
 
 	efh->html = (GtkHTML *)gtk_html_new();
+	gtk_html_set_blocking (efh->html, TRUE);
 	g_object_ref(efh->html);
 	gtk_object_sink((GtkObject *)efh->html);
 

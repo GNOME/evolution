@@ -1,3 +1,7 @@
+2003-09-18  Radek Doulik  <rodo@ximian.com>
+
+	* em-format-html.c (efh_init): use gtkhtml's blocking
+
 2003-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-inline-filter.c: updated for CamelTransferEncoding namespace
