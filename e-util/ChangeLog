@@ -1,3 +1,8 @@
+2000-08-21  Peter Williams  <peterw@helixcode.com>
+
+	* e-html-utils.c (e_text_to_html): Fix a booboo in the tab
+	expansion code (didn't use the new value of 'out').
+
 2000-08-19  Lauris Kaplinski  lauris@helixcode.com
 
 	* e-font.h: #define e_font_height(f) to save some space
