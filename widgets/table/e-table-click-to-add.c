@@ -309,7 +309,7 @@ finish_editing (ETableClickToAdd *etcta)
 		e_table_item_leave_edit (E_TABLE_ITEM (etcta->row));
 		e_table_one_commit(E_TABLE_ONE(etcta->one));
 		etcta_drop_one (etcta);
-		g_object_unref(etcta->row);
+		gtk_object_destroy(etcta->row);
 		etcta->row = NULL;
 
 		one = e_table_one_new(etcta->model);
@@ -347,11 +347,11 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 	switch (e->type){
 	case GDK_BUTTON_PRESS:
 		if (etcta->text) {
-			g_object_unref(etcta->text);
+			gtk_object_destroy(etcta->text);
 			etcta->text = NULL;
 		}
 		if (etcta->rect) {
-			g_object_unref(etcta->rect);
+			gtk_object_destroy(etcta->rect);
 			etcta->rect = NULL;
 		}
 		if (!etcta->row) {
@@ -532,7 +532,7 @@ e_table_click_to_add_commit (ETableClickToAdd *etcta)
 	if (etcta->row) {
 		e_table_one_commit(E_TABLE_ONE(etcta->one));
 		etcta_drop_one (etcta);
-		g_object_unref(etcta->row);
+		gtk_object_destroy(etcta->row);
 		etcta->row = NULL;
 	}
 	if (!etcta->rect) {
