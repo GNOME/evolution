@@ -1,4 +1,0 @@
-/* -*- Mode: IDL; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
-#include <Evolution-Addressbook-SelectNames.idl>
-#include <Evolution-Composer.idl>
