@@ -83,6 +83,12 @@ Addressbook:
 
 Calendar:
 
+Importers: 
+
+  - Created Intelligent Importers that look for certain files on your disk
+    and works out what type of data it is. Currently Intelligent Importers
+    exist for Pine, Elm and Netscape. (Iain)
+
 General:
 
   - Rewrote ETree in gal.  Changed evolution to support the changes in
@@ -93,6 +99,7 @@ General:
   - Lots of i18n/l10n fixes.  (Kjartan Maraas, Gedeminas Paulauskas,
     and the Evolution gang)
 
+  - Fixed the shell interface so it could correctly create folders. (Iain)
 
 Version 0.9 "Platypus", 2001-03-12
 ----------------------------------
