@@ -30,6 +30,7 @@ if ($opt_i) {
   close IN;
 }
 
+# First build the property restriction table 
 print "icalrestriction_property_record icalrestriction_property_records[] = {\n";
 
 while(<F>)
@@ -54,6 +55,7 @@ while(<F>)
 }
 
 
+# Print the terminating line 
 print "    {ICAL_METHOD_NONE,ICAL_NO_COMPONENT,ICAL_NO_PROPERTY,ICAL_RESTRICTION_NONE}\n";
 
 print "};\n";
@@ -61,6 +63,7 @@ print "};\n";
 print "icalrestriction_component_record icalrestriction_component_records[] = {\n";
 
 
+# Go back through the entire file and build the component restriction table
 close(F);  
 open(F,"$ARGV[0]") || die "Can't open restriction data file $ARGV[0]:$!";
 
@@ -71,16 +74,21 @@ while(<F>)
 
   s/\#.*$//;
 
-  my($method,$targetcomp,$prop,$subcomp,$restr) = split(/,/,$_);
+  my($method,$targetcomp,$prop,$subcomp,$restr,$sub) = split(/,/,$_);
 
   next if !$method;
   
+  if(!$sub) {
+    $sub = "0";
+  }
+
 
     if($subcomp ne "NONE"){
-      print("    \{ICAL_METHOD_${method},ICAL_${targetcomp}_COMPONENT,ICAL_${subcomp}_COMPONENT,ICAL_RESTRICTION_${restr}\},\n");
+      print("    \{ICAL_METHOD_${method},ICAL_${targetcomp}_COMPONENT,ICAL_${subcomp}_COMPONENT,ICAL_RESTRICTION_${restr},$sub\},\n");
     }
 
 }
 
+# print the terminating line 
 print "    {ICAL_METHOD_NONE,ICAL_NO_COMPONENT,ICAL_NO_COMPONENT,ICAL_RESTRICTION_NONE}\n";
 print "};\n";
