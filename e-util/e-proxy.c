@@ -42,18 +42,18 @@ set_proxy (GConfClient *client)
 	gboolean use_auth, use_proxy;
 	int proxy_port;
 	
-	use_proxy = gconf_client_get_bool (client, "/system/gnome-vfs/use-http-proxy", NULL);
+	use_proxy = gconf_client_get_bool (client, "/system/http_proxy/use_http_proxy", NULL);
 	if (use_proxy == FALSE) {
 		return;
 	}
 	
-	proxy_server = gconf_client_get_string (client, "/system/gnome-vfs/http-proxy-host", NULL);
-	proxy_port = gconf_client_get_int (client, "/system/gnome-vfs/http-proxy-port", NULL);
+	proxy_server = gconf_client_get_string (client, "/system/http_proxy/host", NULL);
+	proxy_port = gconf_client_get_int (client, "/system/http_proxy/port", NULL);
 	
-	use_auth = gconf_client_get_bool (client, "/system/gnome-vfs/use-http-proxy-authorization", NULL);
+	use_auth = gconf_client_get_bool (client, "/system/http_proxy/use_authentication", NULL);
 	if (use_auth == TRUE) {
-		proxy_user = gconf_client_get_string (client, "/system/gnome-vfs/http-proxy-authorization-user", NULL);
-		proxy_pw = gconf_client_get_string (client, "/system/gnome-vfs/http-proxy-authorization-password", NULL);
+		proxy_user = gconf_client_get_string (client, "/system/http_proxy/authentication_user", NULL);
+		proxy_pw = gconf_client_get_string (client, "/system/http_proxy/authentication_password", NULL);
 		
 		uri = g_strdup_printf ("http://%s:%s@%s:%d", proxy_user, proxy_pw, proxy_server, proxy_port);
 	} else {
@@ -86,10 +86,10 @@ e_proxy_init ()
 		return;
 	
 	/* Listen to the changes in the gnome-vfs path */
-	gconf_client_add_dir (client, "/system/gnome-vfs",
+	gconf_client_add_dir (client, "/system/http_proxy",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	
-	gconf_client_notify_add (client, "/system/gnome-vfs/",
+	gconf_client_notify_add (client, "/system/http_proxy/",
 				 proxy_setting_changed, NULL, NULL, NULL);
 	
 	set_proxy (client);

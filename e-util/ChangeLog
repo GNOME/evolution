@@ -1,3 +1,7 @@
+2003-03-03  Rodney Dawes  <dobey@ximian.com>
+
+	* e-proxy.c: Use gnome2 proxy settings
+	
 2003-03-02  Rodney Dawes  <dobey@ximian.com>
 
 	* e-pilot-util.c: s/gnome-xml/libxml/
