@@ -1,5 +1,15 @@
 2002-09-11  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes part of #17336 ]
+	* gui/contact-editor/e-contact-editor-fullname.c
+	(e_contact_editor_fullname_init): get the window title from the
+	.glade file, and supply a suitable wm icon.
+
+	* gui/contact-editor/e-contact-editor-address.c
+	(e_contact_editor_address_init): same.
+
+2002-09-11  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes #30208 ]
 	* gui/component/addressbook.c (load_uri_auth_cb): if the user
 	clicked cancel in the password dialog, let them off the hook and

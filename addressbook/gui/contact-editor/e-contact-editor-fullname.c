@@ -23,6 +23,8 @@
 #include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-unicode.h>
 #include "e-contact-editor-fullname.h"
+#include <libgnomeui/gnome-window-icon.h>
+#include <libgnome/gnome-util.h>
 #include <gtk/gtkcombo.h>
 
 static void e_contact_editor_fullname_init		(EContactEditorFullname		 *card);
@@ -95,6 +97,7 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 {
 	GladeXML *gui;
 	GtkWidget *widget;
+	char *icon_path;
 
 	gnome_dialog_append_button ( GNOME_DIALOG(e_contact_editor_fullname),
 				     GNOME_STOCK_BUTTON_OK);
@@ -108,11 +111,19 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/fullname.glade", NULL);
 	e_contact_editor_fullname->gui = gui;
 
+	widget = glade_xml_get_widget(gui, "dialog-checkfullname");
+	gtk_window_set_title (GTK_WINDOW (e_contact_editor_fullname),
+			      GTK_WINDOW (widget)->title);
+
 	widget = glade_xml_get_widget(gui, "table-checkfullname");
 	gtk_widget_ref(widget);
 	gtk_container_remove(GTK_CONTAINER(widget->parent), widget);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (e_contact_editor_fullname)->vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_unref(widget);
+
+	icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, "evolution-contacts-mini.png");
+	gnome_window_icon_set_from_file (GTK_WINDOW (e_contact_editor_fullname), icon_path);
+	g_free (icon_path);
 }
 
 void
