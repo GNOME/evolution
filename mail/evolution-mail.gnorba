@@ -1,0 +1,13 @@
+[GOADID:Evolution:FolderBrowserFactory:1.0]
+type=exe
+repo_id=IDL:GNOME/GenericFactory:1.0 IDL:Bonobo/GenericFactory:1.0
+description=Evolution mail folder factory component.
+location_info=evolution-mail
+
+[GOADID:Evolution:FolderBrowser:1.0]
+type=factory
+repo_id=IDL:Evolution/Mail:1.0
+description=Evolution mail folder display component.
+location_info=GOADID:Evolution:FolderBrowserFactory:1.0
+
+
