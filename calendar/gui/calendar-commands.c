@@ -571,6 +571,18 @@ sensitize_taskpad_commands (GnomeCalendar *gcal, BonoboControl *control, gboolea
 				      NULL);
 }
 
+/* Callback used when the dates shown by the GnomeCalendar are changed.
+   We want to update the dates in the folder bar. */
+static void
+gcal_calendar_dates_change_cb (GnomeCalendar *gcal, gpointer data)
+{
+	BonoboControl *control;
+
+	control = BONOBO_CONTROL (data);
+
+	calendar_set_folder_bar_label (gcal, control);
+}
+
 /* Callback used when the selection in the calendar views changes */
 static void
 gcal_calendar_selection_changed_cb (GnomeCalendar *gcal, gpointer data)
@@ -740,6 +752,9 @@ calendar_control_activate (BonoboControl *control,
 
 	gnome_calendar_setup_view_menus (gcal, uic);
 
+	gtk_signal_connect (GTK_OBJECT (gcal), "dates_shown_changed",
+			    GTK_SIGNAL_FUNC (gcal_calendar_dates_change_cb),
+			    control);
 	gtk_signal_connect (GTK_OBJECT (gcal), "calendar_focus_change",
 			    GTK_SIGNAL_FUNC (gcal_calendar_focus_change_cb), control);
 	gtk_signal_connect (GTK_OBJECT (gcal), "taskpad_focus_change",
