@@ -1,11 +1,25 @@
+2004-07-27  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-engine.c
+	(camel_imap4_engine_prequeue): Changed to be the same prototype as
+	engine_queue().
+	(engine_prequeue_folder_select): Updated.
+
+	* providers/imap4/camel-imap4-store.c (connect_to_server): Use
+	engine_prequeue() for STARTTLS in case we are reconnecting and
+	already have a command queue.
+	(imap4_try_authenticate): Use prequeue() here too.
+	(imap4_reconnect): Moved all the connect logic in here.
+	(imap4_connect): just lock and call reconnect().
+
 2004-07-27  Sivaiah Nallagatla <snallagatla@novell.com>
 
-       * providers/groupwise/camel-groupwise-provider.c
-       (camel_provider_module_init) : do not set
-       transport object for groupwise provider. We want user to
-       use SMTP itself instead of "Novell Groupwise"
+	Fixes #61454
 
-       Fixes #61454
+	* providers/groupwise/camel-groupwise-provider.c
+	(camel_provider_module_init): do not set
+	transport object for groupwise provider. We want user to
+	use SMTP itself instead of "Novell Groupwise"
 
 2004-07-26  Jeffrey Stedfast  <fejj@novell.com>
 

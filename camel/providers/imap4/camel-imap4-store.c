@@ -271,7 +271,7 @@ connect_to_server (CamelIMAP4Engine *engine, struct hostent *host, int ssl_mode,
 		CamelIMAP4Command *ic;
 		int id;
 		
-		ic = camel_imap4_engine_queue (engine, NULL, "STARTTLS\r\n");
+		ic = camel_imap4_engine_prequeue (engine, NULL, "STARTTLS\r\n");
 		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 			;
 		
@@ -423,12 +423,12 @@ imap4_try_authenticate (CamelIMAP4Engine *engine, gboolean reprompt, const char 
 		mech = g_hash_table_lookup (engine->authtypes, service->url->authmech);
 		sasl = camel_sasl_new ("imap4", mech->authproto, service);
 		
-		ic = camel_imap4_engine_queue (engine, NULL, "AUTHENTICATE %s\r\n", service->url->authmech);
+		ic = camel_imap4_engine_prequeue (engine, NULL, "AUTHENTICATE %s\r\n", service->url->authmech);
 		ic->plus = sasl_auth;
 		ic->user_data = sasl;
 	} else {
-		ic = camel_imap4_engine_queue (engine, NULL, "LOGIN %S %S\r\n",
-					       service->url->user, service->url->passwd);
+		ic = camel_imap4_engine_prequeue (engine, NULL, "LOGIN %S %S\r\n",
+						  service->url->user, service->url->passwd);
 	}
 	
 	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
@@ -459,35 +459,29 @@ imap4_try_authenticate (CamelIMAP4Engine *engine, gboolean reprompt, const char 
 }
 
 static gboolean
-imap4_connect (CamelService *service, CamelException *ex)
+imap4_reconnect (CamelIMAP4Engine *engine, CamelException *ex)
 {
-	CamelIMAP4Store *store = (CamelIMAP4Store *) service;
+	CamelService *service = engine->service;
 	CamelServiceAuthType *mech;
 	gboolean reprompt = FALSE;
 	char *errmsg = NULL;
 	CamelException lex;
 	
-	CAMEL_SERVICE_LOCK (store, connect_lock);
-	
-	if (!connect_to_server_wrapper (store->engine, ex)) {
-		CAMEL_SERVICE_UNLOCK (store, connect_lock);
+	if (!connect_to_server_wrapper (engine, ex))
 		return FALSE;
-	}
 	
-#define CANT_USE_AUTHMECH (!(mech = g_hash_table_lookup (store->engine->authtypes, service->url->authmech)))
+#define CANT_USE_AUTHMECH (!(mech = g_hash_table_lookup (engine->authtypes, service->url->authmech)))
 	if (service->url->authmech && CANT_USE_AUTHMECH) {
 		/* Oops. We can't AUTH using the requested mechanism */
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				      _("Cannot authenticate to IMAP server %s using %s"),
 				      service->url->host, service->url->authmech);
 		
-		CAMEL_SERVICE_UNLOCK (store, connect_lock);
-		
 		return FALSE;
 	}
 	
 	camel_exception_init (&lex);
-	while (imap4_try_authenticate (store->engine, reprompt, errmsg, &lex)) {
+	while (imap4_try_authenticate (engine, reprompt, errmsg, &lex)) {
 		g_free (errmsg);
 		errmsg = g_strdup (lex.desc);
 		camel_exception_clear (&lex);
@@ -497,21 +491,25 @@ imap4_connect (CamelService *service, CamelException *ex)
 	
 	if (camel_exception_is_set (&lex)) {
 		camel_exception_xfer (ex, &lex);
-		
-		CAMEL_SERVICE_UNLOCK (store, connect_lock);
-		
 		return FALSE;
 	}
 	
-	if (camel_imap4_engine_namespace (store->engine, ex) == -1) {
-		CAMEL_SERVICE_UNLOCK (store, connect_lock);
-		
+	if (camel_imap4_engine_namespace (engine, ex) == -1)
 		return FALSE;
-	}
-	
-	CAMEL_SERVICE_UNLOCK (store, connect_lock);
 	
 	return TRUE;
+}
+
+static gboolean
+imap4_connect (CamelService *service, CamelException *ex)
+{
+	gboolean retval;
+	
+	CAMEL_SERVICE_LOCK (service, connect_lock);
+	retval = imap4_reconnect (((CamelIMAP4Store *) service)->engine, ex);
+	CAMEL_SERVICE_UNLOCK (service, connect_lock);
+	
+	return retval;
 }
 
 static gboolean

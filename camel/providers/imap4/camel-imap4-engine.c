@@ -1173,8 +1173,7 @@ engine_prequeue_folder_select (CamelIMAP4Engine *engine)
 	}
 	
 	/* we need to pre-queue a SELECT */
-	ic = camel_imap4_command_new (engine, ic->folder, "SELECT %F\r\n", ic->folder);
-	camel_imap4_engine_prequeue (engine, ic);
+	ic = camel_imap4_engine_prequeue (engine, (CamelFolder *) ic->folder, "SELECT %F\r\n", ic->folder);
 	ic->user_data = engine;
 	
 	camel_imap4_command_unref (ic);
@@ -1280,7 +1279,7 @@ camel_imap4_engine_iterate (CamelIMAP4Engine *engine)
  * @format: command format
  * @Varargs: arguments
  *
- * Basically the same as #camel_imap4_command_new() except that this
+ * Basically the same as camel_imap4_command_new() except that this
  * function also places the command in the engine queue.
  *
  * Returns the CamelIMAP4Command.
@@ -1290,6 +1289,8 @@ camel_imap4_engine_queue (CamelIMAP4Engine *engine, CamelFolder *folder, const c
 {
 	CamelIMAP4Command *ic;
 	va_list args;
+	
+	g_return_val_if_fail (CAMEL_IS_IMAP4_ENGINE (engine), NULL);
 	
 	va_start (args, format);
 	ic = camel_imap4_command_newv (engine, (CamelIMAP4Folder *) folder, format, args);
@@ -1306,17 +1307,26 @@ camel_imap4_engine_queue (CamelIMAP4Engine *engine, CamelFolder *folder, const c
 /**
  * camel_imap4_engine_prequeue:
  * @engine: IMAP4 engine
- * @ic: IMAP4 command to pre-queue
+ * @folder: IMAP4 folder that the command will affect (or %NULL if it doesn't matter)
+ * @format: command format
+ * @Varargs: arguments
  *
- * Places @ic at the head of the queue of pending IMAP4 commands.
+ * Same as camel_imap4_engine_queue() except this places the new
+ * command at the head of the queue.
+ *
+ * Returns the CamelIMAP4Command.
  **/
-void
-camel_imap4_engine_prequeue (CamelIMAP4Engine *engine, CamelIMAP4Command *ic)
+CamelIMAP4Command *
+camel_imap4_engine_prequeue (CamelIMAP4Engine *engine, CamelFolder *folder, const char *format, ...)
 {
-	g_return_if_fail (CAMEL_IS_IMAP4_ENGINE (engine));
-	g_return_if_fail (ic != NULL);
+	CamelIMAP4Command *ic;
+	va_list args;
 	
-	camel_imap4_command_ref (ic);
+	g_return_val_if_fail (CAMEL_IS_IMAP4_ENGINE (engine), NULL);
+	
+	va_start (args, format);
+	ic = camel_imap4_command_newv (engine, (CamelIMAP4Folder *) folder, format, args);
+	va_end (args);
 	
 	if (e_dlist_empty (&engine->queue)) {
 		e_dlist_addtail (&engine->queue, (EDListNode *) ic);
@@ -1340,6 +1350,10 @@ camel_imap4_engine_prequeue (CamelIMAP4Engine *engine, CamelIMAP4Command *ic)
 			}
 		}
 	}
+	
+	camel_imap4_command_ref (ic);
+	
+	return ic;
 }
 
 

@@ -194,7 +194,8 @@ int camel_imap4_engine_select_folder (CamelIMAP4Engine *engine, CamelFolder *fol
 
 struct _CamelIMAP4Command *camel_imap4_engine_queue (CamelIMAP4Engine *engine, CamelFolder *folder,
 						     const char *format, ...);
-void camel_imap4_engine_prequeue (CamelIMAP4Engine *engine, struct _CamelIMAP4Command *ic);
+struct _CamelIMAP4Command *camel_imap4_engine_prequeue (CamelIMAP4Engine *engine, CamelFolder *folder,
+							const char *format, ...);
 
 void camel_imap4_engine_dequeue (CamelIMAP4Engine *engine, struct _CamelIMAP4Command *ic);
 
