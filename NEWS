@@ -61,6 +61,9 @@ Tasks:
   - You get asked for confirmation when trying to delete a task entry
     (Federico).
 
+Conduits:
+
+  - Many bug fixes and cleanups (JP)
 
 Version 0.8 "Archaeopteryx", 2000-12-14
 ---------------------------------------

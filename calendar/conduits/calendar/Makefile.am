@@ -46,7 +46,9 @@ libecalendar_conduit_la_LIBADD = 					\
 	$(GNOME_LIBS)
 
 e-calendar.conduit: e-calendar.conduit.in Makefile
-	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/e-calendar.conduit.in > e-calendar.conduit.tmp \
+	sed -e 's^\@prefix\@^$(prefix)^g' 				\
+	    -e 's^\@datadir\@^$(datadir)^g' 				\
+	    < $(srcdir)/e-calendar.conduit.in > e-calendar.conduit.tmp 	\
 	&& mv e-calendar.conduit.tmp e-calendar.conduit
 
 ccenterdir = $(datadir)/control-center

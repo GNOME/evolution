@@ -1,3 +1,9 @@
+2001-03-02  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/Makefile.am: update sed script
+
+	* conduit/e-address.conduit.in: update for new pilot foo
+
 2001-03-02  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names-text-model.c

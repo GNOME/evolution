@@ -47,7 +47,9 @@ libetodo_conduit_la_LIBADD = 						\
 	$(GNOME_LIBS)
 
 e-todo.conduit: e-todo.conduit.in Makefile
-	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/e-todo.conduit.in > e-todo.conduit.tmp \
+	sed -e 's^\@prefix\@^$(prefix)^g' 				\
+	    -e 's^\@datadir\@^$(datadir)^g' 				\
+	    < $(srcdir)/e-todo.conduit.in > e-todo.conduit.tmp 		\
 	&& mv e-todo.conduit.tmp e-todo.conduit
 
 

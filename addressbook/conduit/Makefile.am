@@ -48,7 +48,9 @@ libeaddress_conduit_la_LIBADD = 					\
 	$(GNOME_LIBS)
 
 e-address.conduit: e-address.conduit.in Makefile
-	sed -e 's^\@prefix\@^$(prefix)^g' < $(srcdir)/e-address.conduit.in > e-address.conduit.tmp \
+	sed -e 's^\@prefix\@^$(prefix)^g' 				\
+	    -e 's^\@datadir\@^$(datadir)^g' 				\
+	    < $(srcdir)/e-address.conduit.in > e-address.conduit.tmp 	\
 	&& mv e-address.conduit.tmp e-address.conduit
 
 

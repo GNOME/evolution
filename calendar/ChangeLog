@@ -1,3 +1,13 @@
+2001-03-02  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/e-todo.conduit.in: update for new pilot foo
+
+	* conduits/calendar/e-calendar.conduit.in: ditto
+
+	* conduits/todo/Makefile.am: update sed script
+
+	* conduits/calendar/Makefile.am: ditto
+
 2001-02-28  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/event-editor.c (recurrence_exception_select_row_cb): New

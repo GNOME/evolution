@@ -1,3 +1,7 @@
+2001-03-02  JP Rosevear  <jpr@ximian.com>
+
+	* art/Makefile.am: install conduit icons
+
 2001-03-02  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: add logic to make sure we're building against OpenLDAP >= 2
