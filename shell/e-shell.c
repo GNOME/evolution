@@ -1160,6 +1160,11 @@ e_shell_component_maybe_crashed   (EShell *shell,
 		  _("Ooops!  The view for `%s' have died unexpectedly.  :-(\n"
 		    "This probably means that the %s component has crashed."),
 		  uri, type_name);
+
+	if (shell_view)
+		bonobo_window_deregister_dead_components (BONOBO_WINDOW (shell_view));
+
+	/* FIXME: we should probably re-start the component here */
 }
 
 
