@@ -1,5 +1,11 @@
 2002-05-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shortcuts-view.c (rename_group_cb): Set the view type from the
+	original group, thus preserving the small-icon/large-icon state.
+	Fixes #6732.
+
+2002-05-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (show_development_warning): Add a toggle to avoid
 	displaying the dialog again.  Don't display the dialog at all if
 	the /Shell/skip_warning_dialog_1_1 bonobo-conf key is set to

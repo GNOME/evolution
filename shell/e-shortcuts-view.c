@@ -195,6 +195,7 @@ rename_group_cb (GtkWidget *widget,
 	RightClickMenuData *menu_data;
 	EShortcuts *shortcuts;
 	EShortcutsView *shortcuts_view;
+	EIconBarViewType original_view_type;
 	const char *old_name;
 	char *new_name;
 	int group;
@@ -213,11 +214,18 @@ rename_group_cb (GtkWidget *widget,
 	if (new_name == NULL)
 		return;
 
-	/* Remember the group and flip back to it */
+	/* Remember the group and flip back to it.  FIXME: This is a workaround
+	   to an actual ShortcutBar bug.  */
+
 	group = e_group_bar_get_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)));
+	original_view_type = e_shortcut_bar_get_view_type (E_SHORTCUT_BAR (menu_data->shortcuts_view),
+							   group);
 	e_shortcuts_rename_group (shortcuts, menu_data->group_num, new_name);
+
 	g_free (new_name);
 	e_group_bar_set_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)), group, FALSE);
+	e_shortcut_bar_set_view_type (E_SHORTCUT_BAR (menu_data->shortcuts_view),
+				      group, original_view_type);
 }
 
 static GnomeUIInfo icon_size_radio_group_uiinfo[] = {
