@@ -441,6 +441,49 @@ impl_Cal_remove_object (PortableServer_Servant servant,
 	}
 }
 
+/* Cal::send_object method */
+static GNOME_Evolution_Calendar_CalObj
+impl_Cal_send_object (PortableServer_Servant servant,
+		      const GNOME_Evolution_Calendar_CalObj calobj,
+		      GNOME_Evolution_Calendar_UserList **user_list,
+		      CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	CORBA_char *calobj_copy;
+	char *new_calobj;
+	CalBackendSendResult result;
+	
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	result = cal_backend_send_object (priv->backend, calobj, &new_calobj, user_list);
+	switch (result) {
+	case CAL_BACKEND_SEND_SUCCESS:
+		calobj_copy = CORBA_string_dup (calobj);
+		g_free (new_calobj);
+
+		return calobj_copy;
+
+	case CAL_BACKEND_SEND_INVALID_OBJECT:
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject);
+		break;
+
+	case CAL_BACKEND_SEND_BUSY:
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_Busy);
+		break;
+
+	case CAL_BACKEND_SEND_PERMISSION_DENIED:
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied);
+		break;
+
+	default :
+		g_assert_not_reached ();
+	}
+
+	return NULL;
+}
+
 /* Cal::getQuery implementation */
 static GNOME_Evolution_Calendar_Query
 impl_Cal_get_query (PortableServer_Servant servant,
@@ -671,6 +714,7 @@ cal_class_init (CalClass *klass)
 	epv->getAlarmsForObject = impl_Cal_get_alarms_for_object;
 	epv->updateObjects = impl_Cal_update_objects;
 	epv->removeObject = impl_Cal_remove_object;
+	epv->sendObject = impl_Cal_send_object; 
 	epv->getQuery = impl_Cal_get_query;
 }
 

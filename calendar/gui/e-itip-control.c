@@ -1199,7 +1199,6 @@ static void
 show_current_todo (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	CalComponent *comp;
 	const gchar *itip_title, *itip_desc;
 	char *options;
 

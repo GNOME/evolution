@@ -158,6 +158,7 @@ cal_backend_class_init (CalBackendClass *class)
 	class->get_alarms_for_object = NULL;
 	class->update_objects = NULL;
 	class->remove_object = NULL;
+	class->send_object = NULL;
 }
 
 
@@ -707,6 +708,18 @@ cal_backend_remove_object (CalBackend *backend, const char *uid)
 
 	g_assert (CLASS (backend)->remove_object != NULL);
 	return (* CLASS (backend)->remove_object) (backend, uid);
+}
+
+CalBackendSendResult
+cal_backend_send_object (CalBackend *backend, const char *calobj, char **new_calobj,
+			 GNOME_Evolution_Calendar_UserList **user_list)
+{
+	g_return_val_if_fail (backend != NULL, CAL_BACKEND_SEND_INVALID_OBJECT);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), CAL_BACKEND_SEND_INVALID_OBJECT);
+	g_return_val_if_fail (calobj != NULL, CAL_BACKEND_SEND_INVALID_OBJECT);
+
+	g_assert (CLASS (backend)->send_object != NULL);
+	return (* CLASS (backend)->send_object) (backend, calobj, new_calobj, user_list);
 }
 
 /**

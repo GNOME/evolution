@@ -74,6 +74,14 @@ typedef enum {
 	CAL_CLIENT_RESULT_PERMISSION_DENIED
 } CalClientResult;
 
+typedef enum {
+	CAL_CLIENT_SEND_SUCCESS,
+	CAL_CLIENT_SEND_CORBA_ERROR,
+	CAL_CLIENT_SEND_INVALID_OBJECT,
+	CAL_CLIENT_SEND_BUSY,
+	CAL_CLIENT_SEND_PERMISSION_DENIED
+} CalClientSendResult;
+
 /* Whether the client is not loaded, is being loaded, or is already loaded */
 typedef enum {
 	CAL_CLIENT_LOAD_NOT_LOADED,
@@ -174,6 +182,9 @@ CalClientResult cal_client_update_object (CalClient *client, CalComponent *comp)
 CalClientResult cal_client_update_objects (CalClient *client, icalcomponent *icalcomp);
 
 CalClientResult cal_client_remove_object (CalClient *client, const char *uid);
+
+CalClientSendResult cal_client_send_object (CalClient *client, icalcomponent *icalcomp, 
+					    icalcomponent **new_icalcomp, GList **users);
 
 CalQuery *cal_client_get_query (CalClient *client, const char *sexp);
 

@@ -261,6 +261,121 @@ typedef struct {
 	icalcomponent *zones;
 } ItipUtilTZData;
 
+
+static void
+foreach_tzid_callback (icalparameter *param, gpointer data)
+{
+	ItipUtilTZData *tz_data = data;	
+	const char *tzid;
+	icaltimezone *zone = NULL;
+	icalcomponent *vtimezone_comp;
+
+	/* Get the TZID string from the parameter. */
+	tzid = icalparameter_get_tzid (param);
+	if (!tzid || g_hash_table_lookup (tz_data->tzids, tzid))
+		return;
+
+	/* Look for the timezone */
+	if (tz_data->zones != NULL)
+		zone = icalcomponent_get_timezone (tz_data->zones, tzid);
+	if (zone == NULL)
+		zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (zone == NULL && tz_data->client != NULL)
+		cal_client_get_timezone (tz_data->client, tzid, &zone);
+	if (zone == NULL)
+		return;
+
+	/* Convert it to a string and add it to the hash. */
+	vtimezone_comp = icaltimezone_get_component (zone);
+	if (!vtimezone_comp)
+		return;
+
+	icalcomponent_add_component (tz_data->icomp, icalcomponent_new_clone (vtimezone_comp));
+	g_hash_table_insert (tz_data->tzids, (char *)tzid, (char *)tzid);	
+}
+
+static icalcomponent *
+comp_toplevel_with_zones (CalComponentItipMethod method, CalComponent *comp, CalClient *client, icalcomponent *zones)
+{
+	icalcomponent *top_level, *icomp;
+	icalproperty *prop;
+	icalvalue *value;
+	ItipUtilTZData tz_data;
+
+	top_level = cal_util_new_top_level ();
+
+	prop = icalproperty_new (ICAL_METHOD_PROPERTY);
+	value = icalvalue_new_method (itip_methods_enum[method]);
+	icalproperty_set_value (prop, value);
+	icalcomponent_add_property (top_level, prop);
+
+	icomp = cal_component_get_icalcomponent (comp);
+
+	if (method == CAL_COMPONENT_METHOD_REPLY) {
+		struct icaltimetype dtstamp;
+		gboolean add_it = FALSE;
+
+		/* workaround for Outlook expecting a X-MICROSOFT-CDO-REPLYTIME
+		   on every METHOD=REPLY message. If the component has any of
+		   the X-MICROSOFT-* properties, we add the REPLYTIME one */
+		prop = icalcomponent_get_first_property (icomp, ICAL_X_PROPERTY);
+		while (prop) {
+			const char *x_name;
+
+			x_name = icalproperty_get_x_name (prop);
+			if (!strncmp (x_name, "X-MICROSOFT-", strlen ("X-MICROSOFT-"))) {
+				add_it = TRUE;
+				break;
+			}
+			prop = icalcomponent_get_next_property (icomp, ICAL_X_PROPERTY);
+		}
+
+		if (add_it) {
+			dtstamp = icaltime_from_timet_with_zone (
+				time (NULL), 0, icaltimezone_get_utc_timezone ());
+			prop = icalproperty_new_x (icaltime_as_ical_string (dtstamp));
+			icalproperty_set_x_name (prop, "X-MICROSOFT-CDO-REPLYTIME");
+			icalcomponent_add_property (icomp, prop);
+		}
+	}	
+ 
+	tz_data.tzids = g_hash_table_new (g_str_hash, g_str_equal);
+	tz_data.icomp = top_level;
+	tz_data.client = client;
+	tz_data.zones = zones;
+	icalcomponent_foreach_tzid (icomp, foreach_tzid_callback, &tz_data);
+	g_hash_table_destroy (tz_data.tzids);
+
+	icalcomponent_add_component (top_level, icomp);
+
+	return top_level;
+}
+
+static icalproperty *
+comp_has_attendee (icalcomponent *ical_comp, const char *address)
+{
+	icalproperty *prop;
+
+	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
+	     prop != NULL;
+	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
+	{
+		icalvalue *value;
+		const char *attendee;
+
+		value = icalproperty_get_value (prop);
+		if (!value)
+			continue;
+
+		attendee = icalvalue_get_string (value);
+
+		if (!g_strcasecmp (address, attendee))
+			break;
+	}
+	
+	return prop;
+}
+
 static GNOME_Evolution_Composer_RecipientList *
 comp_to_list (CalComponentItipMethod method, CalComponent *comp)
 {
@@ -440,99 +555,46 @@ comp_content_type (CalComponent *comp, CalComponentItipMethod method)
 
 }
 
-static void
-foreach_tzid_callback (icalparameter *param, gpointer data)
+static icalcomponent *
+comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *client, icalcomponent *zones)
 {
-	ItipUtilTZData *tz_data = data;	
-	const char *tzid;
-	icaltimezone *zone = NULL;
-	icalcomponent *vtimezone_comp;
+	CalClientResult result;
+	icalcomponent *top_level, *new_top_level = NULL;
+	GList *users;
+	
+	top_level = comp_toplevel_with_zones (method, comp, client, zones);
+	result = cal_client_send_object (client, top_level, &new_top_level, &users);
 
-	/* Get the TZID string from the parameter. */
-	tzid = icalparameter_get_tzid (param);
-	if (!tzid || g_hash_table_lookup (tz_data->tzids, tzid))
-		return;
-
-	/* Look for the timezone */
-	if (tz_data->zones != NULL)
-		zone = icalcomponent_get_timezone (tz_data->zones, tzid);
-	if (zone == NULL)
-		zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
-	if (zone == NULL && tz_data->client != NULL)
-		cal_client_get_timezone (tz_data->client, tzid, &zone);
-	if (zone == NULL)
-		return;
-
-	/* Convert it to a string and add it to the hash. */
-	vtimezone_comp = icaltimezone_get_component (zone);
-	if (!vtimezone_comp)
-		return;
-
-	icalcomponent_add_component (tz_data->icomp, icalcomponent_new_clone (vtimezone_comp));
-	g_hash_table_insert (tz_data->tzids, (char *)tzid, (char *)tzid);	
-}
-
-static char *
-comp_string (CalComponentItipMethod method, CalComponent *comp, CalClient *client, icalcomponent *zones)
-{
-	icalcomponent *top_level, *icomp;
-	icalproperty *prop;
-	icalvalue *value;
-	gchar *ical_string;
-	ItipUtilTZData tz_data;
+	if (result == CAL_CLIENT_SEND_SUCCESS) {
+		icalcomponent *ical_comp, *clone;
+		icalproperty *prop;
+		GList *l;
 		
-	top_level = cal_util_new_top_level ();
-
-	prop = icalproperty_new (ICAL_METHOD_PROPERTY);
-	value = icalvalue_new_method (itip_methods_enum[method]);
-	icalproperty_set_value (prop, value);
-	icalcomponent_add_property (top_level, prop);
-
-	icomp = cal_component_get_icalcomponent (comp);
-
-	if (method == CAL_COMPONENT_METHOD_REPLY) {
-		struct icaltimetype dtstamp;
-		gboolean add_it = FALSE;
-
-		/* workaround for Outlook expecting a X-MICROSOFT-CDO-REPLYTIME
-		   on every METHOD=REPLY message. If the component has any of
-		   the X-MICROSOFT-* properties, we add the REPLYTIME one */
-		prop = icalcomponent_get_first_property (icomp, ICAL_X_PROPERTY);
-		while (prop) {
-			const char *x_name;
-
-			x_name = icalproperty_get_x_name (prop);
-			if (!strncmp (x_name, "X-MICROSOFT-", strlen ("X-MICROSOFT-"))) {
-				add_it = TRUE;
-				break;
-			}
-			prop = icalcomponent_get_next_property (icomp, ICAL_X_PROPERTY);
+		ical_comp = icalcomponent_get_inner (new_top_level);
+		clone = icalcomponent_new_clone (ical_comp);
+		
+		for (l = users; l != NULL; l = l->next) {
+			prop = comp_has_attendee (ical_comp, l->data);
+			if (prop != NULL)
+				icalcomponent_remove_property (ical_comp, prop);
 		}
 
-		if (add_it) {
-			dtstamp = icaltime_from_timet_with_zone (
-				time (NULL), 0, icaltimezone_get_utc_timezone ());
-			prop = icalproperty_new_x (icaltime_as_ical_string (dtstamp));
-			icalproperty_set_x_name (prop, "X-MICROSOFT-CDO-REPLYTIME");
-			icalcomponent_add_property (icomp, prop);
+		cal_component_set_icalcomponent (comp, clone);
+
+		if (icalcomponent_count_properties (ical_comp, ICAL_ATTENDEE_PROPERTY) == 0) {
+			icalcomponent_free (new_top_level);
+			icalcomponent_free (top_level);
+			return NULL;
 		}
 	}
-		
-	/* Add the timezones */
-	tz_data.tzids = g_hash_table_new (g_str_hash, g_str_equal);
-	tz_data.icomp = top_level;
-	tz_data.client = client;
-	tz_data.zones = zones;
-	icalcomponent_foreach_tzid (icomp, foreach_tzid_callback, &tz_data);
-	g_hash_table_destroy (tz_data.tzids);
 
-	icalcomponent_add_component (top_level, icomp);
-	ical_string = icalcomponent_as_ical_string (top_level);
-	icalcomponent_remove_component (top_level, icomp);
-	
+	/* Just return what was sent if something broke */
+	if (new_top_level == NULL)
+		return top_level;
+
 	icalcomponent_free (top_level);
-	
-	return ical_string;	
+
+	return new_top_level;
 }
 
 static gboolean
@@ -776,6 +838,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	BonoboObjectClient *bonobo_server;
 	GNOME_Evolution_Composer composer_server;
 	CalComponent *comp = NULL;
+	icalcomponent *top_level = NULL;
 	GNOME_Evolution_Composer_RecipientList *to_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;
@@ -796,6 +859,12 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	if (comp == NULL)
 		goto cleanup;
 	
+	/* Give the server a chance to manipulate the comp */
+	top_level = comp_server_send (method, comp, client, zones);
+	if (top_level == NULL)
+		goto cleanup;
+	
+	/* Recipients */
 	to_list = comp_to_list (method, comp);
 	if (to_list == NULL)
 		goto cleanup;
@@ -818,7 +887,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	/* Content type */
 	content_type = comp_content_type (comp, method);
 
-	ical_string = comp_string (method, comp, client, zones);
+	ical_string = icalcomponent_as_ical_string (top_level);
 	attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
 	attach_data->_length = strlen (ical_string) + 1;
 	attach_data->_maximum = attach_data->_length;	
@@ -847,7 +916,9 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 
 	if (comp != NULL)
 		gtk_object_unref (GTK_OBJECT (comp));
-		
+	if (top_level != NULL)
+		icalcomponent_free (top_level);
+
 	if (to_list != NULL)
 		CORBA_free (to_list);
 	if (cc_list != NULL)

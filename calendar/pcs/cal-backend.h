@@ -59,6 +59,14 @@ typedef enum {
 	CAL_BACKEND_RESULT_PERMISSION_DENIED
 } CalBackendResult;
 
+/* Send result values */
+typedef enum {
+	CAL_BACKEND_SEND_SUCCESS,
+	CAL_BACKEND_SEND_INVALID_OBJECT,
+	CAL_BACKEND_SEND_BUSY,
+	CAL_BACKEND_SEND_PERMISSION_DENIED,
+} CalBackendSendResult;
+
 /* Result codes for ::get_alarms_in_range() */
 typedef enum {
 	CAL_BACKEND_GET_ALARMS_SUCCESS,
@@ -124,6 +132,9 @@ struct _CalBackendClass {
 	CalBackendResult (* update_objects) (CalBackend *backend, const char *calobj);
 	CalBackendResult (* remove_object) (CalBackend *backend, const char *uid);
 
+	CalBackendSendResult (* send_object) (CalBackend *backend, const char *calobj, char **new_calobj,
+					      GNOME_Evolution_Calendar_UserList **user_list);
+
 	/* Timezone related virtual methods */
 	icaltimezone *(* get_timezone) (CalBackend *backend, const char *tzid);
 	icaltimezone *(* get_default_timezone) (CalBackend *backend);
@@ -182,6 +193,9 @@ GNOME_Evolution_Calendar_CalComponentAlarms *cal_backend_get_alarms_for_object (
 CalBackendResult cal_backend_update_objects (CalBackend *backend, const char *calobj);
 
 CalBackendResult cal_backend_remove_object (CalBackend *backend, const char *uid);
+
+CalBackendSendResult cal_backend_send_object (CalBackend *backend, const char *calobj, char **new_calobj,
+					      GNOME_Evolution_Calendar_UserList **user_list);
 
 icaltimezone* cal_backend_get_timezone (CalBackend *backend, const char *tzid);
 icaltimezone* cal_backend_get_default_timezone (CalBackend *backend);

@@ -132,6 +132,7 @@ module Calendar {
 		exception InvalidObject {};
 		exception CouldNotCreate {};
 		exception PermissionDenied {};
+		exception Busy {};
 		
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
@@ -205,6 +206,10 @@ module Calendar {
 		/* Removes a component */
 		void removeObject (in CalObjUID uid)
 			raises (NotFound, PermissionDenied);
+
+		/* Sends a component */
+		CalObj sendObject (in CalObj calobj, out UserList users)
+			raises (InvalidObject, PermissionDenied, Busy);
 
 		/* Initiates a live query of the calendar.  Returns a handle
 		 * to the live query itself; changes to components that are

@@ -1,3 +1,30 @@
+2002-08-07  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal-backend-file.c (cal_backend_file_send_object): just
+	return the object untouched since we don't send anything
+
+	* pcs/cal-backend.c (cal_backend_remove_object): call virtual method
+
+	* pcs/cal-backend.h: add send result codes, new proto
+
+	* pcs/cal.c (impl_Cal_send_object): implement sendObject corba call
+	(cal_class_init): add to epv
+
+	* gui/itip-utils.c (comp_toplevel_with_zones): utility function to
+	create icalcomponent with necessary timezone info
+	(comp_has_attendee): see if attendee is in the attendee list
+	(comp_server_send): use above and remove attendees if the server
+	sends them
+
+	* gui/e-itip-control.c (show_current_todo): remove unused var
+
+	* idl/evolution-calendar.idl: add Busy exception and
+
+	* cal-client/cal-client.c (cal_client_send_object): send object
+	via the server (if the server can)
+
+	* cal-client/cal-client.h: add send results and new proto
+
 2002-08-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/query-backend.[ch] (query_backend_get_object_component): new

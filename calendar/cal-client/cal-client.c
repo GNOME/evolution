@@ -2406,6 +2406,62 @@ cal_client_remove_object (CalClient *client, const char *uid)
 	return retval;
 }
 
+CalClientResult
+cal_client_send_object (CalClient *client, icalcomponent *icalcomp, 
+			icalcomponent **new_icalcomp, GList **users)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	CalClientResult retval;
+	GNOME_Evolution_Calendar_UserList *user_list;
+	char *obj_string;
+	int i;
+	
+	g_return_val_if_fail (client != NULL, CAL_CLIENT_RESULT_INVALID_OBJECT);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_RESULT_INVALID_OBJECT);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED,
+			      CAL_CLIENT_RESULT_INVALID_OBJECT);
+
+	g_return_val_if_fail (icalcomp != NULL, CAL_CLIENT_RESULT_INVALID_OBJECT);
+
+	/* Libical owns this memory, using one of its temporary buffers. */
+	obj_string = icalcomponent_as_ical_string (icalcomp);
+
+	CORBA_exception_init (&ev);
+	obj_string = GNOME_Evolution_Calendar_Cal_sendObject (priv->cal, obj_string, &user_list, &ev);
+
+	if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_InvalidObject))
+		retval = CAL_CLIENT_SEND_INVALID_OBJECT;
+	else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_Busy))
+		retval = CAL_CLIENT_SEND_BUSY;
+	else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied))
+		retval = CAL_CLIENT_SEND_PERMISSION_DENIED;
+	else if (BONOBO_EX (&ev)) {
+		g_message ("cal_client_update_objects(): could not send the objects");
+		retval = CAL_CLIENT_SEND_CORBA_ERROR;
+	} else {
+		retval = CAL_CLIENT_RESULT_SUCCESS;
+		
+		*new_icalcomp = icalparser_parse_string (obj_string);
+		CORBA_free (obj_string);
+
+		if (*new_icalcomp == NULL) {
+			retval = CAL_CLIENT_RESULT_INVALID_OBJECT;
+		} else {
+			*users = NULL;
+			for (i = 0; i < user_list->_length; i++)
+				*users = g_list_append (*users, g_strdup (user_list->_buffer[i]));
+			CORBA_free (user_list);
+		}
+	}
+	
+	CORBA_exception_free (&ev);
+
+	return retval;
+}
+
 /**
  * cal_client_get_query:
  * @client: A calendar client.
