@@ -40,7 +40,7 @@ dump_message_content(CamelDataWrapper *object)
 			left = 0;
 
 			if (stream) {
-				while ( (len = camel_stream_read(stream, buffer+left, sizeof(buffer)-left)) > 0) {
+				while ( (len = camel_stream_read(stream, buffer+left, sizeof(buffer)-left, NULL)) > 0) {
 					fwrite(buffer, len, 1, stdout);
 				}
 				printf("\n");
@@ -95,7 +95,7 @@ main (int argc, char**argv)
 	message = camel_mime_message_new ();
 
 	
-	input_stream = camel_stream_fs_new_with_name ("mail.test", O_RDONLY, 0);
+	input_stream = camel_stream_fs_new_with_name ("mail.test", O_RDONLY, 0, NULL);
 	if (!input_stream) {
 		perror ("could not open input file\n");
 		printf ("You must create the file mail.test before running this test\n");
@@ -110,12 +110,11 @@ main (int argc, char**argv)
 
 	dump_message_content(CAMEL_DATA_WRAPPER (message));
 
-	camel_stream_close (input_stream);
 	gtk_object_unref (GTK_OBJECT (input_stream));
 
-	output_stream = camel_stream_fs_new_with_name ("mail2.test", O_WRONLY|O_CREAT|O_TRUNC, 0600);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
-	camel_stream_close (output_stream);
+	output_stream = camel_stream_fs_new_with_name ("mail2.test", O_WRONLY|O_CREAT|O_TRUNC, 0600, NULL);
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream, NULL);
+	camel_stream_flush (output_stream, NULL);
 	gtk_object_unref (GTK_OBJECT (output_stream));
 	
 	//gtk_object_unref (GTK_OBJECT (message));

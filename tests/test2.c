@@ -12,6 +12,7 @@ main (int argc, char**argv)
 {
 	CamelMimeMessage *message;
 	CamelStream *input_stream;
+	CamelException *ex = camel_exception_new ();
 	
 	gtk_init (&argc, &argv);
 	camel_init ();
@@ -19,7 +20,7 @@ main (int argc, char**argv)
 	message = camel_mime_message_new ();
 
 	
-	input_stream = camel_stream_fs_new_with_name ("mail.test", O_RDONLY, 0);
+	input_stream = camel_stream_fs_new_with_name ("mail.test", O_RDONLY, 0, ex);
 	if (!input_stream) {
 		perror ("could not open input file\n");
 		printf ("You must create the file mail.test before running this test\n");

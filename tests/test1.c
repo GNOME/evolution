@@ -17,9 +17,8 @@ main (int argc, char**argv)
 	CamelMimePart *body_part;
 	CamelMimePart *attachment_part;
 	CamelStream *attachment_stream;
-	
-	/*  FILE *output_file; */
 	CamelStream *stream;
+	CamelException *ex = camel_exception_new ();
 
 	gtk_init (&argc, &argv);
 	camel_init ();
@@ -28,10 +27,11 @@ main (int argc, char**argv)
 		attachment_stream = NULL;
 	} else {
 		if (argc == 2) {
-			attachment_stream = camel_stream_fs_new_with_name (argv[1], O_RDONLY, 0);
+			attachment_stream = camel_stream_fs_new_with_name (argv[1], O_RDONLY, 0, ex);
 			if (attachment_stream == NULL) {
-				fprintf (stderr, "Cannot open `%s'\n",
-					 argv[1]);
+				fprintf (stderr, "Cannot open `%s': %s\n",
+					 argv[1],
+					 camel_exception_get_description (ex));
 				return 1;
 			}
 		} else {
@@ -106,16 +106,22 @@ main (int argc, char**argv)
 	
 	camel_medium_set_content_object (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER (multipart));
 
-	stream = camel_stream_fs_new_with_name ("mail1.test", O_WRONLY|O_TRUNC|O_CREAT, 0600);
+	stream = camel_stream_fs_new_with_name ("mail1.test", O_WRONLY|O_TRUNC|O_CREAT, 0600, ex);
 	if (!stream)  {
-		printf ("could not open output file");
+		printf ("Could not open output file: %s\n",
+			camel_exception_get_description (ex));
 		exit(2);
 	}
 		       
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
-					    stream);
-	camel_stream_close (stream);
+					    stream, ex);
+	camel_stream_flush (stream, ex);
 	gtk_object_unref (GTK_OBJECT (stream));
+	if (camel_exception_is_set (ex)) {
+		printf ("Oops. Failed. %s\n",
+			camel_exception_get_description (ex));
+		exit (1);
+	}
 
 	gtk_object_unref (GTK_OBJECT (message));
 	gtk_object_unref (GTK_OBJECT (multipart));
