@@ -3400,7 +3400,7 @@ e_day_view_on_long_event_click (EDayView *day_view,
 	    && E_TEXT (event->canvas_item)->editing)
 		return;
 
-	if (!(cal_component_has_recurrences (event->comp))
+	if ((cal_component_is_instance (event->comp) || !cal_component_has_recurrences (event->comp))
 	    && (pos == E_DAY_VIEW_POS_LEFT_EDGE
 		|| pos == E_DAY_VIEW_POS_RIGHT_EDGE)) {
 		gboolean destroyed;
@@ -3486,7 +3486,7 @@ e_day_view_on_event_click (EDayView *day_view,
 	    && E_TEXT (event->canvas_item)->editing)
 		return;
 
-	if (!(cal_component_has_recurrences (event->comp))
+	if ((cal_component_is_instance (event->comp) || !cal_component_has_recurrences (event->comp))
 	    && (pos == E_DAY_VIEW_POS_TOP_EDGE
 		|| pos == E_DAY_VIEW_POS_BOTTOM_EDGE)) {
 		gboolean destroyed;
@@ -4493,7 +4493,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					day_view->pressed_event_num);
 
-		if (!(cal_component_has_recurrences (event->comp))
+		if ((cal_component_is_instance (event->comp) || !cal_component_has_recurrences (event->comp))
 		    && (abs (canvas_x - day_view->drag_event_x)
 			> E_DAY_VIEW_DRAG_START_OFFSET
 			|| abs (canvas_y - day_view->drag_event_y)
@@ -4521,7 +4521,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Recurring events can't be resized. */
-		if (event && !cal_component_has_recurrences (event->comp)) {
+		if (event && (cal_component_is_instance (event->comp) || !cal_component_has_recurrences (event->comp))) {
 			switch (pos) {
 			case E_DAY_VIEW_POS_LEFT_EDGE:
 			case E_DAY_VIEW_POS_RIGHT_EDGE:
@@ -4599,7 +4599,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 
 		event = &g_array_index (day_view->events[day_view->pressed_event_day], EDayViewEvent, day_view->pressed_event_num);
 
-		if (!cal_component_has_recurrences (event->comp)
+		if ((cal_component_is_instance (event->comp) || !cal_component_has_recurrences (event->comp))
 		    && (abs (canvas_x - day_view->drag_event_x)
 			> E_DAY_VIEW_DRAG_START_OFFSET
 			|| abs (canvas_y - day_view->drag_event_y)
@@ -4627,7 +4627,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Recurring events can't be resized. */
-		if (event && !cal_component_has_recurrences (event->comp)) {
+		if (event && (cal_component_is_instance (event->comp) || !cal_component_has_recurrences (event->comp))) {
 			switch (pos) {
 			case E_DAY_VIEW_POS_LEFT_EDGE:
 				cursor = day_view->move_cursor;

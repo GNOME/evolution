@@ -1,5 +1,13 @@
 2002-12-06  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-day-view.c (e_day_view_on_long_event_click): allow
+	dragging if its an instance
+	(e_day_view_on_event_click): ditto
+	(e_day_view_on_top_canvas_motion): ditto
+	(e_day_view_on_main_canvas_motion): ditto
+
+2002-12-06  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/dialogs/comp-editor.c (save_comp): if its an instance,
 	update with the mod type
 	(real_edit_comp): ask the user what instances they want to change
