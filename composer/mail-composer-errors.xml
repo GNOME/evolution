@@ -37,9 +37,9 @@
   <title>Warning: Modified Message</title>
   <primary>Are you sure you want to discard the message, titled '{0}', you are composing?</primary>
   <secondary>Closing this composer window will discard the message permanently, unless you choose to save the message in your Drafts folder. This will allow you to continue the message at a later date.</secondary>
-  <button label="Discard Changes" response="GTK_RESPONSE_NO"/>
+  <button label="_Discard Changes" response="GTK_RESPONSE_NO"/>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-  <button label="Save Message" response="GTK_RESPONSE_YES"/>
+  <button label="_Save Message" response="GTK_RESPONSE_YES"/>
  </error>
 
  <error id="no-build-message" type="error" modal="true">
