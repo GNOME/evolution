@@ -1190,7 +1190,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		}
 		
 		date = camel_mime_message_get_date (message, NULL);
-		strftime (format, sizeof (format), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"), localtime (&date));
+		e_utf8_strftime (format, sizeof (format), _("On %a, %Y-%m-%d at %H:%M, %%s wrote:"), localtime (&date));
 		text = mail_tool_quote_message (message, format, name && *name ? name : address);
 		mail_ignore (composer, name, address);
 		if (text) {

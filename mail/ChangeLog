@@ -1,3 +1,15 @@
+2003-06-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (filter_date): Use the newer utf8 versions of the
+	e_strftime*() functions since our format strings are all now in
+	UTF-8.
+
+	* mail-display.c (mail_display_render): Use the newer
+	e_utf8_strftime_fix_am_pm().
+
+	* mail-callbacks.c (mail_generate_reply): Use e_utf8_strftime(),
+	otherwise we can end up with invalid utf-8.
+
 2003-06-25  Radek Doulik  <rodo@ximian.com>
 
 	* mail-config.c (config_write_style): provide hardcoded default
