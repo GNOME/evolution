@@ -1,5 +1,10 @@
 2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* mail-mt.c (do_op_status): Use data->activity_id, not local
+	activity_id.
+
+2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* mail-mt.c (struct _mail_msg_priv): Remove member "activity".
 	(mail_operation_status): Un-#if 0 the code.
 

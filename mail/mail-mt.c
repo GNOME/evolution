@@ -856,7 +856,6 @@ static void do_op_status(struct _mail_msg *mm)
 	struct _mail_msg_priv *data;
 	char *out, *p, *o, c;
 	int pc;
-	guint activity_id;
 	
 	g_assert (mail_gui_thread == pthread_self ());
 	
@@ -903,7 +902,7 @@ static void do_op_status(struct _mail_msg *mm)
 			else
 				what = _("Working");
 
-			activity_id = e_activity_handler_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE);
+			data->activity_id = e_activity_handler_operation_started (activity_handler, "evolution-mail", progress_icon, what, TRUE);
 			
 			if (msg->ops->describe_msg)
 				g_free (what);
@@ -918,14 +917,13 @@ static void do_op_status(struct _mail_msg *mm)
 				g_free (msg);
 			} else {
 				data->activity_state = 2;
-				data->activity_id = activity_id;
 				MAIL_MT_UNLOCK (mail_msg_lock);
 			}
 			return;
 		}
 	} else if (data->activity_id != 0) {
 		MAIL_MT_UNLOCK (mail_msg_lock);
-		e_activity_handler_operation_progressing (activity_handler, activity_id, out, (double)(pc/100.0));
+		e_activity_handler_operation_progressing (activity_handler, data->activity_id, out, (double)(pc/100.0));
 	} else {
 		MAIL_MT_UNLOCK (mail_msg_lock);
 	}
