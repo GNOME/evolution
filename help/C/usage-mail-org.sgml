@@ -433,7 +433,56 @@
 	  </listitem>
 	</orderedlist>
       </para>
+      <example id="filter-example">
+         <title>Using a Filter to Avoid Spam</title>
+         <para>
+           The majority of bulk mail is tagged with the
+           <computeroutput>Precedence: Bulk</computeroutput> header at
+           one point or another.  Some of these messages, of course,
+           could be in mailing lists you've subscribed to, but many of
+           them are unsolicited commercial email.  
+         </para>
+         <para>
+           To catch them and put them all in one place, create a
+           new filter for incoming mail. Then:
+            <orderedlist>
+             <listitem><para>
+               Set the first part of your search critera to look in a <guilabel>Specific header</guilabel>.
+             </para></listitem>
+
+             <listitem><para>
+               Enter <userinput>Precedence</userinput> as the name of the header.
+             </para></listitem>
+
+             <listitem><para>
+               Choose <guilabel>contains</guilabel> at the second drop-down box.
+             </para></listitem>
+
+             <listitem><para>
+               Enter <userinput>Bulk</userinput> as the content to search for. 
+               You're now working with all email that has the word "Bulk" in the 
+               "Precedence" header.
+             </para></listitem>
+
+             <listitem><para>
+               For actions, select "Move to Folder" and choose the
+               folder where you'd like to place bulk mail.
+             </para></listitem>
+
+             <listitem><para>
+               If you like, add an action and choose <guilabel>Stop
+               Processing</guilabel> if you'd like this message to be
+               ignored by all other filters.
+             </para></listitem>
+
+             <listitem><para>
+                Click OK. You're done.
+             </para></listitem>
+         </para>
+      </example>
     </sect2>
+
+
     
     <sect2 id="filters-edit">
       <title>Editing Filters</title>

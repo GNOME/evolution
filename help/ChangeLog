@@ -1,3 +1,7 @@
+2001-10-05  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail-org.sgml: added example to filter bulk mail.
+
 2001-10-01  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: missing directory for figure file ref.
