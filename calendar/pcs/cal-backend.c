@@ -265,8 +265,10 @@ cal_backend_destroy (GtkObject *object)
 	backend = CAL_BACKEND (object);
 	priv = backend->priv;
 
+	/*
 	if (priv->loaded)
 		save (backend);
+	*/
 
 	destroy (backend);
 
@@ -372,8 +374,6 @@ add_object (CalBackend *backend, iCalObject *ico)
 	/* FIXME: gnomecal old code */
 	ico->last_mod = time (NULL);
 #endif
-
-	/*save (backend);*/
 }
 
 /* Removes an object from the backend's hash and lists.  Does not perform
@@ -420,7 +420,6 @@ remove_object (CalBackend *backend, iCalObject *ico)
 	g_list_free_1 (l);
 
 	ical_object_destroy (ico);
-	/*save (backend);*/
 }
 
 /* Load a calendar from a VObject */

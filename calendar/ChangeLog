@@ -1,3 +1,7 @@
+2000-04-25  Seth Alves  <alves@hungry.com>
+
+	* pcs/cal-backend.c (cal_backend_destroy): don't save on destroy.
+
 2000-04-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* cal-client/Makefile.am: Add `$(datadir)/idl'.
