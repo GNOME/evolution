@@ -1,3 +1,7 @@
+2004-10-21  JP Rosevear  <jpr@novell.com>
+
+	* gui/component/addressbook-view.c: add appropriate popup icons
+
 2004-10-21  Not Zed  <NotZed@Ximian.com>
 
 	* gui/component/addressbook-config.c
