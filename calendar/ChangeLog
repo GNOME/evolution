@@ -23,6 +23,13 @@
 
 2004-01-17  JP Rosevear <jpr@ximian.com>
 
+	* gui/e-calendar-table.c (e_calendar_table_delete_selected): don't
+	create the component if there is a multiple selection
+
+	Fixes #52266
+	
+2004-01-17  JP Rosevear <jpr@ximian.com>
+
 	* gui/e-cal-view.c (on_print): we are required to pass in the end
 	in-out arg
 

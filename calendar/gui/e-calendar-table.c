@@ -724,7 +724,7 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 	ETable *etable;
 	int n_selected;
 	ECalModelComponent *comp_data;
-	ECalComponent *comp;
+	ECalComponent *comp = NULL;
 
 	g_return_if_fail (cal_table != NULL);
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
@@ -742,16 +742,18 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 
 	/* FIXME: this may be something other than a TODO component */
 
-	comp = e_cal_component_new ();
-	if (comp_data)
+	if (comp_data) {
+		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-
+	}
+	
 	if (delete_component_dialog (comp, FALSE, n_selected, E_CAL_COMPONENT_TODO,
 				     GTK_WIDGET (cal_table)))
 		delete_selected_components (cal_table);
 
 	/* free memory */
-	g_object_unref (comp);
+	if (comp)
+		g_object_unref (comp);
 }
 
 /**
