@@ -1,3 +1,6 @@
+*.la
+*.lo
+.libs
 Makefile
 usecases
 copycluster

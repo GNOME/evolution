@@ -1,0 +1,10 @@
+*.la
+*.lo
+.libs
+Makefile
+Makefile.in
+libtool
+ltconfig
+ltmain.sh
+stamp-h
+stamp-h.in
