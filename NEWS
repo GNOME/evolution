@@ -47,6 +47,9 @@ Mail:
 
   - Replies are now preceded by "On DATE, PERSON wrote:" (Jeff)
 
+  - Better reply editing, automagically sets indentation and paragraph
+    style to Normal. (Radek)
+
   - HTML signature support.  (Radek)
 
   - Inline image support.  (Radek)
