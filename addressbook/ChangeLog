@@ -1,5 +1,14 @@
 2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/e-cardlist-model.c,
+	gui/component/e-cardlist-model.h: New files for card list.
+
+2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/addressbook.c: Fixed a memory leak.
+
+2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/alphabet.glade: Made the alphabet buttons not
 	focusable.
 
