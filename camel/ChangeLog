@@ -1,3 +1,9 @@
+2003-04-08  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-summary.c (camel_folder_summary_load): use
+	g_strerror, and use errno directly rather than ferrno().
+	(summary_header_load): set errno when we get a version mismatch.
+
 2003-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c: Disable debug printf's

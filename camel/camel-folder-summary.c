@@ -589,7 +589,7 @@ camel_folder_summary_load(CamelFolderSummary *s)
 	return 0;
 
 error:
-	g_warning ("Cannot load summary file: %s", strerror (ferror (in)));
+	g_warning ("Cannot load summary file: `%s': %s", s->summary_path, g_strerror (errno));
 	CAMEL_SUMMARY_UNLOCK(s, io_lock);
 	fclose (in);
 	s->flags |= ~CAMEL_SUMMARY_DIRTY;
@@ -1388,6 +1388,7 @@ summary_header_load(CamelFolderSummary *s, FILE *in)
 	s->saved_count = count;
 	if (s->version != version) {
 		g_warning("Summary header version mismatch");
+		errno = EINVAL;
 		return -1;
 	}
 	return 0;
