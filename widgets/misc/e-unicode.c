@@ -24,6 +24,7 @@
 #include "e-font.h"
 #include <gnome-xml/xmlmemory.h>
 #include <stdlib.h>
+#include "gal/util/e-iconv.h"
 
 #define d(x) x
 
@@ -336,12 +337,15 @@ gchar *
 e_utf8_from_charset_string_sized (const gchar *charset, const gchar *string, gint bytes)
 {
 	iconv_t ic;
+	char *ret;
 
 	if (!string) return NULL;
 
-	ic = e_iconv_from_charset (charset);
+	ic = e_iconv_open("utf-8", charset);
+	ret = e_utf8_from_iconv_string_sized (ic, string, bytes);
+	e_iconv_close(ic);
 
-	return e_utf8_from_iconv_string_sized (ic, string, bytes);
+	return ret;
 }
 
 gchar *
@@ -355,12 +359,15 @@ gchar *
 e_utf8_to_charset_string_sized (const gchar *charset, const gchar *string, gint bytes)
 {
 	iconv_t ic;
+	char *ret;
 
 	if (!string) return NULL;
 
-	ic = e_iconv_to_charset (charset);
+	ic = e_iconv_open(charset, "utf-8");
+	ret = e_utf8_to_iconv_string_sized (ic, string, bytes);
+	e_iconv_close(ic);
 
-	return e_utf8_to_iconv_string_sized (ic, string, bytes);
+	return ret;
 }
 
 gchar *
@@ -442,6 +449,8 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 
 	*ob = '\0';
 
+	e_iconv_close(ic);
+
 	return new;
 }
 
@@ -518,6 +527,8 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 
 	*ob = '\0';
 
+	e_iconv_close(ic);
+
 	return new;
 }
 
@@ -532,12 +543,15 @@ gchar *
 e_utf8_from_locale_string_sized (const gchar *string, gint bytes)
 {
 	iconv_t ic;
+	char *ret;
 
 	if (!string) return NULL;
 
-	ic = e_iconv_from_locale ();
+	ic = e_iconv_open("utf-8", e_iconv_locale_charset());
+	ret = e_utf8_from_iconv_string_sized (ic, string, bytes);
+	e_iconv_close(ic);
 
-	return e_utf8_from_iconv_string_sized (ic, string, bytes);
+	return ret;
 }
 
 gchar *
@@ -551,12 +565,15 @@ gchar *
 e_utf8_to_locale_string_sized (const gchar *string, gint bytes)
 {
 	iconv_t ic;
+	char *ret;
 
 	if (!string) return NULL;
 
-	ic = e_iconv_to_locale ();
+	ic = e_iconv_open(e_iconv_locale_charset(), "utf-8");
+	ret = e_utf8_to_iconv_string_sized (ic, string, bytes);
+	e_iconv_close(ic);
 
-	return e_utf8_to_iconv_string_sized (ic, string, bytes);
+	return ret;
 }
 
 gchar *
