@@ -34,6 +34,31 @@ Calendar & Tasks:
 
 Summary:
 
+  - Fixed bugs (Iain)
+
+  - Leaks fixed (Larry)
+
+  - /. bug fixed (Iain)
+
+  - i18n fixes (Zbigniew and probably others)
+
+  - Made the Addressbook and Tasks links open the editor for them. (Iain)
+
+  - Mail summary doesn't force all folders to be opened. (Iain)
+
+  - Calendar summary shows if an alarm is set for an appointment. (Iain)
+
+  - Timezone stuff fixed (Iain with help from Damon)
+
+Importers:
+
+  - Fixed more bugs (Iain)
+
+  - Netscape importer shouldn't crash on Movemail users
+
+  - Pine importer should import addressbooks better.
+
+  - VCard importer will actually import things now.
 
 Version 0.13 (Beta 3)  "Radioactive Waste", 2001-08-21
 ------------------------------------------------------
