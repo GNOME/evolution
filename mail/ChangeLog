@@ -1,3 +1,9 @@
+2001-04-20  Dan Winship  <danw@ximian.com>
+
+	* mail-config-druid.c (make_default_account): Convert the result
+	of g_get_real_name() from the locale charset to UTF8. Noted by
+	Petter Sundlöf (NOT "Petter Sundl_" :)
+
 2001-04-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_set_pgp_type): Use a CamelPgpType.

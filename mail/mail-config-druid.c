@@ -370,7 +370,7 @@ make_default_account (void)
 
 	account->id = g_new0 (MailConfigIdentity, 1);
 	name = g_get_real_name ();
-	account->id->name = g_strdup (name);
+	account->id->name = e_utf8_from_locale_string (name);
 	user = getenv ("USER");
 	if (user && !uname (&uts) && strchr (uts.nodename, '.'))
 		account->id->address = g_strdup_printf ("%s@%s", user, uts.nodename);
