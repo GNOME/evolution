@@ -3,7 +3,7 @@
   FILE: icalvalue.c
   CREATOR: eric 02 May 1999
   
-  $Id: icalderivedvalue.c.in,v 1.2 2001/09/10 21:54:44 federico Exp $
+  $Id: icalderivedvalue.c.in,v 1.3 2002/10/16 21:41:39 rodrigo Exp $
 
 
  (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -113,7 +113,7 @@ void icalvalue_set_x(icalvalue* value, const char* v) {
  }
 const char* icalvalue_get_x(icalvalue* value) {
 
-    icalerror_check_arg( (value!=0),"value");
+    icalerror_check_arg_rz( (value!=0),"value");
     icalerror_check_value_type(value, ICAL_X_VALUE);
     return ((struct icalvalue_impl*)value)->x_value;
 }

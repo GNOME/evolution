@@ -1,3 +1,13 @@
+2002-10-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #25153
+	
+	* scripts/mkderivedvalues.pl: changed the _get functions for
+	string values to return a NULL if arguments are wrong
+
+	* src/libical/icalderivedvalue.c.in (icalvalue_get_x): return from
+	function if pointer checking fails.
+
 2002-10-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* src/libicalvcal/vcc.y: Allocate the right number of bytes when

@@ -157,8 +157,10 @@ foreach $value  (keys %h) {
   
   if ($type =~ /char/){
     $assign = "icalmemory_strdup(v);\n\n    if (impl->data.v_string == 0){\n      errno = ENOMEM;\n    }\n";
+    $check_arg = "icalerror_check_arg_rz( (value!=0),\"value\");";
   } else {
     $assign = "v;";
+    $check_arg = "icalerror_check_arg( (value!=0),\"value\");";
   }
   
   my $union_data;
@@ -197,7 +199,7 @@ void icalvalue_set_${lc}(icalvalue* value, $type v) {\
     print "\n    impl->data.v_$union_data = $assign \n }\n";
 
     print "$type\ icalvalue_get_${lc}(icalvalue* value)\ {\n\
-    icalerror_check_arg( (value!=0),\"value\");\
+    $check_arg\
     icalerror_check_value_type(value, ICAL_${uc}_VALUE);\
     return ((struct icalvalue_impl*)value)->data.v_${union_data};\n}\n";
 
