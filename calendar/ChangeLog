@@ -1,3 +1,15 @@
+2001-07-25  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-day-view.c (selection_received_cb): check type of component
+	before actually pasting.
+	Deal with VCALENDAR components also (fixes bug #5140)
+
+	* gui/e-week-view.c (selection_received_cb): ditto
+
+	* cal-client/cal-client.c (cal_client_update_object): check the return
+	value from cal_component_get_as_string and don't call
+	GNOME_Evolution_Calendar_Cal_updateObjects if NULL
+
 2001-07-25  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/comp-editor.c (pixmaps): used the new print preview icon.

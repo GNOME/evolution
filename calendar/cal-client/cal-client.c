@@ -1867,6 +1867,8 @@ cal_client_update_object (CalClient *client, CalComponent *comp)
 	cal_component_commit_sequence (comp);
 
 	obj_string = cal_client_get_component_as_string (client, comp);
+	if (obj_string == NULL)
+		return FALSE;
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Calendar_Cal_updateObjects (priv->cal, obj_string, &ev);

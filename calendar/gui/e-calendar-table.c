@@ -1191,6 +1191,8 @@ selection_received (GtkWidget *invisible,
 	CalComponent *comp;
 	icalcomponent_kind kind;
 
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+
 	if (selection_data->length < 0 ||
 	    selection_data->type != GDK_SELECTION_TYPE_STRING) {
 		return;
