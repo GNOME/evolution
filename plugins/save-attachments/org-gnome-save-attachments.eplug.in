@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+  <!-- the path to the shared library -->
+  <e-plugin
+    id="org.gnome.plugin.attachments.save"
+    type="shlib"
+    location="@PLUGINDIR@/liborg-gnome-save-attachments.so"
+    name="Save attachments plugin"
+    description="A plugin for saving all attachments or parts of a message at once.">
+    <hook class="org.gnome.evolution.mail.bonobomenu:1.0">
+      <menu id="org.gnome.evolution.mail.browser" target="select">
+	<!-- the path to the bonobo menu description -->
+	<ui file="@PLUGINDIR@/org-gnome-save-attachments.xml"/>
+	<item
+	  type="item"
+	  verb="EPSASaveAttachments"
+	  path="/commands/EPSASaveAttachments"
+	  enable="one"
+	  activate="org_gnome_save_attachments_save"/>
+      </menu>
+    </hook>
+  </e-plugin>
+</e-plugin-list>

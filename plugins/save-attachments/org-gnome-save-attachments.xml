@@ -1,0 +1,19 @@
+<Root>
+  <commands>
+    <cmd name="EPSASaveAttachments" _label="Save Attachments ..."
+      _tip="Save all attachments"
+      pixtype="stock" pixname="Save"/>
+  </commands>
+
+  <menu>
+    <submenu name="Actions">
+      <placeholder name="ComponentActionsPlaceholder">
+        <placeholder name="MailMessageActions">
+	  <separator f="" name="emaillist5"/>
+	  <menuitem name="EPSASaveAttachments" verb=""/>
+        </placeholder>
+      </placeholder>
+   </submenu>
+
+  </menu>
+</Root>
