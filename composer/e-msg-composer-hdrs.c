@@ -452,7 +452,7 @@ set_pair_visibility (EMsgComposerHdrs *h, EMsgComposerHdrPair *pair, gboolean vi
 }
 
 static void
-headers_set_visibility (EMsgComposerHdrs *h, gint visible_flags)
+headers_set_visibility (EMsgComposerHdrs *h, int visible_flags)
 {
 	EMsgComposerHdrsPrivate *p = h->priv;
 	
@@ -464,7 +464,7 @@ headers_set_visibility (EMsgComposerHdrs *h, gint visible_flags)
 }
 
 void
-e_msg_composer_set_hdrs_visible (EMsgComposerHdrs *hdrs, gint visible_flags)
+e_msg_composer_set_hdrs_visible (EMsgComposerHdrs *hdrs, int visible_flags)
 {
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
@@ -474,7 +474,7 @@ e_msg_composer_set_hdrs_visible (EMsgComposerHdrs *hdrs, gint visible_flags)
 }
 
 static void
-setup_headers (EMsgComposerHdrs *hdrs, gint visible_flags)
+setup_headers (EMsgComposerHdrs *hdrs, int visible_flags)
 {
 	create_headers (hdrs);
 	attach_headers (hdrs);
@@ -616,7 +616,7 @@ e_msg_composer_hdrs_get_type (void)
 }
 
 GtkWidget *
-e_msg_composer_hdrs_new (gint visible_flags)
+e_msg_composer_hdrs_new (int visible_flags)
 {
 	EMsgComposerHdrs *new;
 	EMsgComposerHdrsPrivate *priv;
@@ -833,6 +833,8 @@ e_msg_composer_hdrs_set_reply_to (EMsgComposerHdrs *hdrs,
 	
 	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->reply_to.entry),
 				    "text", reply_to, NULL);
+	if (reply_to && *reply_to)
+		set_pair_visibility (hdrs, &hdrs->priv->cc, TRUE);
 }
 
 void
@@ -857,7 +859,9 @@ e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	str = e_destination_exportv (cc_destv);
-	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", str, NULL); 
+	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", str, NULL);
+	if (str && *str)
+		set_pair_visibility (hdrs, &hdrs->priv->cc, TRUE);
 	g_free (str);
 }
 
@@ -871,6 +875,8 @@ e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 	
 	str = e_destination_exportv (bcc_destv);
 	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", str, NULL); 
+	if (str && *str)
+		set_pair_visibility (hdrs, &hdrs->priv->bcc, TRUE);
 	g_free (str);
 }
 

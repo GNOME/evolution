@@ -711,7 +711,7 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 	fd = open (file_name, O_RDONLY | O_CREAT, 0644);
 	if (fd == -1) {
 		char *msg;
-
+		
 		if (warn) {
 			msg = g_strdup_printf (_("Error while reading file %s:\n%s"),
 					       file_name, g_strerror (errno));
