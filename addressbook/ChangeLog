@@ -1,3 +1,15 @@
+2004-04-20  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-view.etspec: use cursor-mode="line" to
+	get rid of the annoying cell cursor.
+
+	* gui/widgets/eab-gui-util.c (eab_create_image_chooser_widget):
+	create the image chooser even if we aren't given an initial
+	filename.
+
+	* gui/contact-editor/e-contact-editor.c (new_target_cb):
+	addressbook_show_load_error_dialog -> eab_load_error_dialog.
+
 2004-04-19  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Set the default image for

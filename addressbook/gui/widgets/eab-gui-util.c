@@ -970,13 +970,15 @@ eab_create_image_chooser_widget(gchar *name,
 {
 	char *filename;
 	GtkWidget *w = NULL;
+
+	w = e_image_chooser_new ();
+	gtk_widget_show_all (w);
+
 	if (string1) {
 		filename = e_icon_factory_get_icon_filename (string1, 48);
 
-		w = e_image_chooser_new ();
 		e_image_chooser_set_from_file (E_IMAGE_CHOOSER (w), filename);
 
-		gtk_widget_show_all (w);
 		g_free (filename);
 	}
 

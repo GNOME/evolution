@@ -848,7 +848,7 @@ new_target_cb (EBook *new_book, EBookStatus status, EContactEditor *editor)
 	if (status != E_BOOK_ERROR_OK || new_book == NULL) {
 		GtkWidget *source_option_menu;
 
-		addressbook_show_load_error_dialog (NULL, e_book_get_source (new_book), status);
+		eab_load_error_dialog (NULL, e_book_get_source (new_book), status);
 
 		source_option_menu = glade_xml_get_widget (editor->gui, "source-option-menu-source");
 		e_source_option_menu_select (E_SOURCE_OPTION_MENU (source_option_menu),
