@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-applets 1.4.1\n"
-"POT-Creation-Date: 2001-08-14 14:05+0200\n"
-"PO-Revision-Date: 2001-08-14 14:48+0200\n"
+"POT-Creation-Date: 2001-08-14 21:58+0200\n"
+"PO-Revision-Date: 2001-08-14 21:59+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -578,7 +578,7 @@ msgstr ""
 "eksisterer og at du har rettigheter til å aksessere den."
 
 #: addressbook/gui/component/addressbook.c:638
-#: calendar/gui/cal-search-bar.c:54
+#: calendar/gui/cal-search-bar.c:55
 msgid "Any field contains"
 msgstr "Et felt inneholder"
 
@@ -591,6 +591,7 @@ msgid "Email contains"
 msgstr "E-post inneholder"
 
 #: addressbook/gui/component/addressbook.c:641
+#: calendar/gui/cal-search-bar.c:59
 msgid "Category is"
 msgstr "Kategorien er"
 
@@ -600,7 +601,13 @@ msgstr "Kategorien er"
 msgid "Advanced..."
 msgstr "Avansert..."
 
-#: addressbook/gui/component/addressbook.c:835
+#. All, unmatched, separator
+#: addressbook/gui/component/addressbook.c:810
+#: calendar/gui/cal-search-bar.c:412
+msgid "Any Category"
+msgstr "Enhver kategori"
+
+#: addressbook/gui/component/addressbook.c:848
 msgid "The URI that the Folder Browser will display"
 msgstr "URIen som mappeutforskeren vil vise"
 
@@ -821,7 +828,7 @@ msgstr "_Kontakter..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
 #: calendar/gui/dialogs/alarm-page.glade.h:10
-#: calendar/gui/dialogs/meeting-page.c:1472 mail/folder-browser.c:1313
+#: calendar/gui/dialogs/meeting-page.c:1472 mail/folder-browser.c:1319
 #: mail/mail-config.glade.h:93 ui/evolution-mail-message.xml.h:88
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:39
 msgid "_Delete"
@@ -1351,7 +1358,7 @@ msgstr "Skriv ut konvolutt"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:273
 #: addressbook/gui/widgets/e-addressbook-view.c:679 filter/filter.glade.h:2
-#: filter/libfilter-i18n.h:8 mail/mail-accounts.c:267
+#: filter/libfilter-i18n.h:8 mail/mail-accounts.c:280
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:16
@@ -1949,7 +1956,7 @@ msgstr "%d %B %Y"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/calendar-commands.c:579
+#: calendar/gui/calendar-commands.c:581
 msgid ""
 "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
@@ -2086,7 +2093,7 @@ msgstr "Udefinert"
 #: calendar/gui/dialogs/e-timezone-dialog.c:202
 #: calendar/gui/dialogs/meeting-page.c:368
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1416
-#: mail/mail-accounts.c:134 mail/mail-accounts.c:374
+#: mail/mail-accounts.c:142 mail/mail-accounts.c:387
 #: mail/mail-config.glade.h:48 shell/e-shell-view.c:1386
 #: widgets/misc/e-cell-date-edit.c:240 widgets/misc/e-dateedit.c:437
 #: widgets/misc/e-dateedit.c:1356 widgets/misc/e-dateedit.c:1471
@@ -2129,30 +2136,21 @@ msgstr "Ukevisning"
 msgid "Month View"
 msgstr "Månedsvisning"
 
-#: calendar/gui/cal-search-bar.c:55
+#: calendar/gui/cal-search-bar.c:56
 msgid "Summary contains"
 msgstr "Sammendrag inneholder"
 
-#: calendar/gui/cal-search-bar.c:56
+#: calendar/gui/cal-search-bar.c:57
 msgid "Description contains"
 msgstr "Beskrivelse inneholder"
 
-#: calendar/gui/cal-search-bar.c:57
+#: calendar/gui/cal-search-bar.c:58
 msgid "Comment contains"
 msgstr "Kommentar inneholder"
 
-#: calendar/gui/cal-search-bar.c:378
-msgid "Category:"
-msgstr "Kategori:"
-
-#. All, Unmatched, separator items
-#: calendar/gui/cal-search-bar.c:498
-msgid "All"
-msgstr "Alle"
-
-#: calendar/gui/cal-search-bar.c:503
-msgid "Unfiled"
-msgstr "Ikke lagret"
+#: calendar/gui/cal-search-bar.c:416
+msgid "Unmatched"
+msgstr "Ingen treff"
 
 #: calendar/gui/control-factory.c:128
 msgid "The URI that the calendar will display"
@@ -3205,7 +3203,7 @@ msgid "100%"
 msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:849 calendar/gui/e-day-view.c:3378
-#: calendar/gui/e-week-view.c:3230 mail/folder-browser.c:1278
+#: calendar/gui/e-week-view.c:3230 mail/folder-browser.c:1284
 msgid "_Open"
 msgstr "_Åpne"
 
@@ -3246,8 +3244,8 @@ msgstr "Sle_tt valgte oppgaver"
 
 #: calendar/gui/e-calendar-table.c:1129
 #: calendar/gui/e-calendar-table.etspec.h:6
-msgid "Click here to add a task"
-msgstr "Klikk her for å legge til en oppgave"
+msgid "Click to add a task"
+msgstr "Klikk for å legge til en oppgave"
 
 #: calendar/gui/e-calendar-table.etspec.h:3
 msgid "Alarms"
@@ -6013,6 +6011,34 @@ msgstr "adressekort"
 msgid "calendar information"
 msgstr "kalenderinformasjon"
 
+#: default_user/searches.xml.h:1
+msgid "Body contains"
+msgstr "Kropp inneholder"
+
+#: default_user/searches.xml.h:2
+msgid "Body does not contain"
+msgstr "Kropp inneholder ikke"
+
+#: default_user/searches.xml.h:3
+msgid "Body or subject contains"
+msgstr "Kropp eller emne inneholder"
+
+#: default_user/searches.xml.h:4
+msgid "Recipients contain"
+msgstr "Mottakere inneholder"
+
+#: default_user/searches.xml.h:5
+msgid "Sender contains"
+msgstr "Sender inneholder"
+
+#: default_user/searches.xml.h:6
+msgid "Subject contains"
+msgstr "Emne inneholder"
+
+#: default_user/searches.xml.h:7
+msgid "Subject does not contain"
+msgstr "Emne inneholder ikke"
+
 #. strptime format for a date.
 #: e-util/e-time-utils.c:86 e-util/e-time-utils.c:128
 #: e-util/e-time-utils.c:239
@@ -6671,130 +6697,130 @@ msgstr "Egenskaper for \"%s\""
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: mail/folder-browser.c:232 mail/mail-display.c:278
+#: mail/folder-browser.c:233 mail/mail-display.c:278
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Kunne ikke opprette midlertidig katalog: %s"
 
-#: mail/folder-browser.c:900
+#: mail/folder-browser.c:906
 msgid "Create vFolder from Search"
 msgstr "La_g vFolder fra søk"
 
-#: mail/folder-browser.c:1245
+#: mail/folder-browser.c:1251
 msgid "VFolder on _Subject"
 msgstr "VFolder på e_mne"
 
-#: mail/folder-browser.c:1248
+#: mail/folder-browser.c:1254
 msgid "VFolder on Se_nder"
 msgstr "VFolder for se_nder"
 
-#: mail/folder-browser.c:1251
+#: mail/folder-browser.c:1257
 msgid "VFolder on _Recipients"
 msgstr "VFolder for mottake_re"
 
-#: mail/folder-browser.c:1254
+#: mail/folder-browser.c:1260
 msgid "VFolder on Mailing _List"
 msgstr "VFolder på e-post_liste"
 
-#: mail/folder-browser.c:1260
+#: mail/folder-browser.c:1266
 msgid "Filter on Sub_ject"
 msgstr "Filtrer på em_ne"
 
-#: mail/folder-browser.c:1263
+#: mail/folder-browser.c:1269
 msgid "Filter on Sen_der"
 msgstr "Filtrer på sen_der"
 
-#: mail/folder-browser.c:1266
+#: mail/folder-browser.c:1272
 msgid "Filter on Re_cipients"
 msgstr "Filtrer på motta_ker"
 
-#: mail/folder-browser.c:1269
+#: mail/folder-browser.c:1275
 msgid "Filter on _Mailing List"
 msgstr "Filtrer på e-_postliste"
 
-#: mail/folder-browser.c:1280 ui/evolution-mail-message.xml.h:89
+#: mail/folder-browser.c:1286 ui/evolution-mail-message.xml.h:89
 msgid "_Edit as New Message..."
 msgstr "R_ediger som ny melding..."
 
-#: mail/folder-browser.c:1282 ui/evolution-mail-message.xml.h:96
+#: mail/folder-browser.c:1288 ui/evolution-mail-message.xml.h:96
 #: ui/evolution-tasks.xml.h:18
 msgid "_Save As..."
 msgstr "Lagre _som..."
 
-#: mail/folder-browser.c:1284
+#: mail/folder-browser.c:1290
 msgid "_Print"
 msgstr "S_kriv ut"
 
-#: mail/folder-browser.c:1289 ui/evolution-mail-message.xml.h:95
+#: mail/folder-browser.c:1295 ui/evolution-mail-message.xml.h:95
 msgid "_Reply to Sender"
 msgstr "Sva_r til sender"
 
-#: mail/folder-browser.c:1291 ui/evolution-mail-message.xml.h:70
+#: mail/folder-browser.c:1297 ui/evolution-mail-message.xml.h:70
 msgid "Reply to _List"
 msgstr "Svar til _listen"
 
-#: mail/folder-browser.c:1293 ui/evolution-mail-message.xml.h:69
+#: mail/folder-browser.c:1299 ui/evolution-mail-message.xml.h:69
 msgid "Reply to _All"
 msgstr "Svar til _alle"
 
-#: mail/folder-browser.c:1295
+#: mail/folder-browser.c:1301
 msgid "_Forward"
 msgstr "_Videresend"
 
-#: mail/folder-browser.c:1298 ui/evolution-mail-message.xml.h:40
+#: mail/folder-browser.c:1304 ui/evolution-mail-message.xml.h:40
 msgid "Mar_k as Read"
 msgstr "Mer_k som lest"
 
-#: mail/folder-browser.c:1300 ui/evolution-mail-message.xml.h:42
+#: mail/folder-browser.c:1306 ui/evolution-mail-message.xml.h:42
 msgid "Mark as U_nread"
 msgstr "Merk som _ulest"
 
-#: mail/folder-browser.c:1302
+#: mail/folder-browser.c:1308
 msgid "Mark as _Important"
 msgstr "Merk som v_iktig"
 
-#: mail/folder-browser.c:1304
+#: mail/folder-browser.c:1310
 msgid "Mark as Unim_portant"
 msgstr "Merk som uv_iktig"
 
-#: mail/folder-browser.c:1309
+#: mail/folder-browser.c:1315
 msgid "_Move to Folder..."
 msgstr "Fl_ytt til mappe..."
 
-#: mail/folder-browser.c:1311
+#: mail/folder-browser.c:1317
 msgid "_Copy to Folder..."
 msgstr "K_opier til mappe..."
 
-#: mail/folder-browser.c:1315 ui/evolution-mail-message.xml.h:98
+#: mail/folder-browser.c:1321 ui/evolution-mail-message.xml.h:98
 msgid "_Undelete"
 msgstr "A_ngre slett"
 
-#: mail/folder-browser.c:1320
+#: mail/folder-browser.c:1326
 msgid "Add Sender to Address Book"
 msgstr "Legg til sender i adressebok"
 
-#: mail/folder-browser.c:1325
+#: mail/folder-browser.c:1331
 msgid "Apply Filters"
 msgstr "Påfør filtre"
 
-#: mail/folder-browser.c:1329
+#: mail/folder-browser.c:1335
 msgid "Create Ru_le From Message"
 msgstr "Lage rege_l fra melding"
 
-#: mail/folder-browser.c:1487
+#: mail/folder-browser.c:1493
 msgid "Filter on Mailing List"
 msgstr "Filtrer etter e-postliste"
 
-#: mail/folder-browser.c:1488
+#: mail/folder-browser.c:1494
 msgid "VFolder on Mailing List"
 msgstr "VFolder på e-postliste"
 
-#: mail/folder-browser.c:1490
+#: mail/folder-browser.c:1496
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Filtrer etter e-postliste (%s)"
 
-#: mail/folder-browser.c:1491
+#: mail/folder-browser.c:1497
 #, c-format
 msgid "VFolder on Mailing List (%s)"
 msgstr "VFolder på e-postliste (%s)"
@@ -6881,36 +6907,36 @@ msgstr ""
 "\n"
 "Vil du lagre endringene?"
 
-#: mail/mail-accounts.c:135
+#: mail/mail-accounts.c:143
 msgid " (default)"
 msgstr " (forvalgt)"
 
-#: mail/mail-accounts.c:174
+#: mail/mail-accounts.c:187
 msgid "Disable"
 msgstr "Deaktiver"
 
-#: mail/mail-accounts.c:176
+#: mail/mail-accounts.c:189
 msgid "Enable"
 msgstr "Aktiver"
 
-#: mail/mail-accounts.c:264
+#: mail/mail-accounts.c:277
 msgid "Are you sure you want to delete this account?"
 msgstr "Er du sikker på at du vil slette denne kontoen?"
 
-#: mail/mail-accounts.c:268
+#: mail/mail-accounts.c:281
 msgid "Don't delete"
 msgstr "Ikke slett"
 
-#: mail/mail-accounts.c:271
+#: mail/mail-accounts.c:284
 msgid "Really delete account?"
 msgstr "Vil du virkelig slette kontoen?"
 
-#: mail/mail-accounts.c:495 mail/mail-accounts.c:499
+#: mail/mail-accounts.c:508 mail/mail-accounts.c:512
 msgid "Are you sure you want to delete this news account?"
 msgstr "Er du sikker på at du vil slette denne diskusjonsgruppekontoen?"
 
 #. give our dialog an Close button and title
-#: mail/mail-accounts.c:741 mail/mail-config.glade.h:41
+#: mail/mail-accounts.c:754 mail/mail-config.glade.h:41
 msgid "Mail Settings"
 msgstr "Innstillinger for e-post"
 
@@ -7654,26 +7680,32 @@ msgstr "Lagre lenke som"
 msgid "Save Image as..."
 msgstr "Lagre bilde som..."
 
-#: mail/mail-folder-cache.c:146
+#: mail/mail-folder-cache.c:147
 #, c-format
 msgid "%d new"
 msgstr "%d nye"
 
-#: mail/mail-folder-cache.c:152 mail/mail-folder-cache.c:159
+#: mail/mail-folder-cache.c:153 mail/mail-folder-cache.c:160
+#: mail/mail-folder-cache.c:167
 msgid ", "
 msgstr ", "
 
-#: mail/mail-folder-cache.c:153
+#: mail/mail-folder-cache.c:154
 #, c-format
 msgid "%d hidden"
 msgstr "%d skjulte"
 
-#: mail/mail-folder-cache.c:162
+#: mail/mail-folder-cache.c:161
+#, c-format
+msgid "%d selected"
+msgstr "%d valgt"
+
+#: mail/mail-folder-cache.c:170
 #, c-format
 msgid "%d unsent"
 msgstr "%d usendte"
 
-#: mail/mail-folder-cache.c:164
+#: mail/mail-folder-cache.c:172
 #, c-format
 msgid "%d total"
 msgstr "%d totalt"
@@ -7959,12 +7991,12 @@ msgstr ""
 "Kunne ikke opprette utdatafil: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2062
+#: mail/mail-ops.c:2064
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Kan ikke skrive data: %s"
 
-#: mail/mail-ops.c:2131
+#: mail/mail-ops.c:2133
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Kobler fra %s"
@@ -8173,10 +8205,6 @@ msgstr "Ingen tjener er valgt"
 msgid "Please select a server."
 msgstr "Vennligst velg en tjener."
 
-#: mail/subscribe-dialog.c:1508 mail/subscribe-dialog.glade.h:5
-msgid "Manage Subscriptions"
-msgstr "Håndter abonnement"
-
 #: mail/subscribe-dialog.glade.h:1
 msgid " _Refresh List "
 msgstr "Oppdate_r listen "
@@ -8192,6 +8220,10 @@ msgstr "Alternativer for visning"
 #: mail/subscribe-dialog.glade.h:4
 msgid "Folders whose names begin with:"
 msgstr "Vis mapper med navn som begynner på:"
+
+#: mail/subscribe-dialog.glade.h:5
+msgid "Manage Subscriptions"
+msgstr "Håndter abonnement"
 
 #: mail/subscribe-dialog.glade.h:6
 msgid "Show _folders from server: "
@@ -11883,7 +11915,7 @@ msgstr "nå"
 msgid "Today"
 msgstr "Idag"
 
-#: widgets/misc/e-cell-date-edit.c:731
+#: widgets/misc/e-cell-date-edit.c:732
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "Datoen må skrives inn på formatet: %s"
@@ -12010,11 +12042,11 @@ msgstr "Melding"
 msgid "Don't show this message again."
 msgstr "Ikke vis denne meldingen igjen."
 
-#: widgets/misc/e-search-bar.c:312
+#: widgets/misc/e-search-bar.c:333
 msgid "Sear_ch"
 msgstr "Sø_k"
 
-#: widgets/misc/e-search-bar.c:407
+#: widgets/misc/e-search-bar.c:459
 msgid "Find Now"
 msgstr "Finn nå "
 
@@ -12037,6 +12069,12 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 #: wombat/wombat.c:198
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
+
+#~ msgid "All"
+#~ msgstr "Alle"
+
+#~ msgid "Unfiled"
+#~ msgstr "Ikke lagret"
 
 #~ msgid "Canceled"
 #~ msgstr "Avbrutt"
@@ -12109,27 +12147,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "_Re-send Message"
 #~ msgstr "_Send melding på nytt"
-
-#~ msgid "Body contains"
-#~ msgstr "Kropp inneholder"
-
-#~ msgid "Body does not contain"
-#~ msgstr "Kropp inneholder ikke"
-
-#~ msgid "Body or subject contains"
-#~ msgstr "Kropp eller emne inneholder"
-
-#~ msgid "Recipients contain"
-#~ msgstr "Mottakere inneholder"
-
-#~ msgid "Sender contains"
-#~ msgstr "Sender inneholder"
-
-#~ msgid "Subject contains"
-#~ msgstr "Emne inneholder"
-
-#~ msgid "Subject does not contain"
-#~ msgstr "Emne inneholder ikke"
 
 #~ msgid "Category contains"
 #~ msgstr "Kategori inneholder"
@@ -15655,9 +15672,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Could not create a S/MIME verification context."
 #~ msgstr "Kunne ikke opprette S/MIME verifiseringskontekst."
-
-#~ msgid "Hide S_elected"
-#~ msgstr "_Skjul valgte"
 
 #~ msgid "Hide _Deleted"
 #~ msgstr "Skjul slette_de"
