@@ -1,3 +1,12 @@
+2004-08-10  Jeffrey Stedfast  <fejj@novell.com>
+
+	Partial fix for bug #62771
+
+	* em-format-quote.c (emfq_format_header): Same.
+
+	* em-format-html.c (efh_format_header): Decode the
+	X-Mailer/User-Agent headers.
+
 2004-08-10  Not Zed  <NotZed@Ximian.com>
 
 	* mail-session.c (get_password): just call

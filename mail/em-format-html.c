@@ -1552,7 +1552,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 	} else if (!strcmp(name, "x-evolution-mailer")) {
 		/* pseudo-header */
 		label = _("Mailer");
-		txt = header->value;
+		txt = value = camel_header_format_ctext (header->value, charset);
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else if (!strcmp(name, "date") || !strcmp(name, "resent-date")) {
 		int msg_offset, local_tz;

@@ -309,6 +309,8 @@ emfq_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, const
 			if (!(txt = camel_medium_get_header (part, "user-agent")))
 				return;
 		
+		txt = value = camel_header_format_ctext (txt, charset);
+		
 		label = _("Mailer");
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else if (!strcmp (name, "date") || !strcmp (name, "resent-date")) {
