@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/*
+/* 
  * e-table-extras.c - Set of hash table sort of thingies.
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -35,7 +35,9 @@
 #include "e-table-extras.h"
 #include <string.h>
 
-static GObjectClass *ete_parent_class;
+#define PARENT_TYPE (gtk_object_get_type())
+
+static GtkObjectClass *ete_parent_class;
 
 static void
 cell_hash_free(gchar	*key,
@@ -44,7 +46,7 @@ cell_hash_free(gchar	*key,
 {
 	g_free(key);
 	if (cell)
-		g_object_unref(cell);
+		gtk_object_unref( GTK_OBJECT (cell));
 }
 
 static void
@@ -58,44 +60,34 @@ pixbuf_hash_free(gchar	*key,
 }
 
 static void
-ete_finalize (GObject *object)
+ete_destroy (GtkObject *object)
 {
 	ETableExtras *ete = E_TABLE_EXTRAS (object);
 
-	if (ete->cells) {
-		g_hash_table_foreach (ete->cells, (GHFunc) cell_hash_free, NULL);
-		g_hash_table_destroy (ete->cells);
-	}
+	g_hash_table_foreach (ete->cells, (GHFunc) cell_hash_free, NULL);
+	g_hash_table_foreach (ete->compares, (GHFunc) g_free, NULL);
+	g_hash_table_foreach (ete->searches, (GHFunc) g_free, NULL);
+	g_hash_table_foreach (ete->pixbufs, (GHFunc) pixbuf_hash_free, NULL);
 
-	if (ete->compares) {
-		g_hash_table_foreach (ete->compares, (GHFunc) g_free, NULL);
-		g_hash_table_destroy (ete->compares);
-	}
-
-	if (ete->searches) {
-		g_hash_table_foreach (ete->searches, (GHFunc) g_free, NULL);
-		g_hash_table_destroy (ete->searches);
-	}
-
-	if (ete->pixbufs) {
-		g_hash_table_foreach (ete->pixbufs, (GHFunc) pixbuf_hash_free, NULL);
-		g_hash_table_destroy (ete->pixbufs);
-	}
+	g_hash_table_destroy (ete->cells);
+	g_hash_table_destroy (ete->compares);
+	g_hash_table_destroy (ete->searches);
+	g_hash_table_destroy (ete->pixbufs);
 
 	ete->cells = NULL;
 	ete->compares = NULL;
 	ete->searches = NULL;
 	ete->pixbufs = NULL;
 
-	ete_parent_class->finalize (object);
+	GTK_OBJECT_CLASS (ete_parent_class)->destroy (object);
 }
 
 static void
-ete_class_init (GObjectClass *klass)
+ete_class_init (GtkObjectClass *klass)
 {
-	ete_parent_class = g_type_class_peek_parent (klass);
+	ete_parent_class = gtk_type_class (PARENT_TYPE);
 	
-	klass->finalize = ete_finalize;
+	klass->destroy = ete_destroy;
 }
 
 static gint
@@ -105,40 +97,6 @@ e_strint_compare(gconstpointer data1, gconstpointer data2)
 	int int2 = atoi(data2);
 
 	return g_int_compare(GINT_TO_POINTER(int1), GINT_TO_POINTER(int2));
-}
-
-/* UTF-8 strncasecmp - not optimized */
-
-static gint
-g_utf8_strncasecmp (const gchar *s1,
-		    const gchar *s2,
-		    guint n)
-{
-	gunichar c1, c2;
-
-	g_return_val_if_fail (s1 != NULL && g_utf8_validate (s1, -1, NULL), 0);
-	g_return_val_if_fail (s2 != NULL && g_utf8_validate (s2, -1, NULL), 0);
-
-	while (n && *s1 && *s2)
-		{
-
-			n -= 1;
-
-			c1 = g_unichar_tolower (g_utf8_get_char (s1));
-			c2 = g_unichar_tolower (g_utf8_get_char (s2));
-
-			/* Collation is locale-dependent, so this totally fails to do the right thing. */
-			if (c1 != c2)
-				return c1 < c2 ? -1 : 1;
-
-			s1 = g_utf8_next_char (s1);
-			s2 = g_utf8_next_char (s2);
-		}
-
-	if (n == 0 || (*s1 == '\0' && *s2 == '\0'))
-		return 0;
-
-	return *s1 ? 1 : -1;
 }
 
 static gboolean
@@ -164,6 +122,7 @@ ete_init (ETableExtras *extras)
 	extras->pixbufs = g_hash_table_new(g_str_hash, g_str_equal);
 
 	e_table_extras_add_compare(extras, "string", g_str_compare);
+	e_table_extras_add_compare(extras, "collate", g_collate_compare);
 	e_table_extras_add_compare(extras, "integer", g_int_compare);
 	e_table_extras_add_compare(extras, "string-integer", e_strint_compare);
 
@@ -178,12 +137,12 @@ ete_init (ETableExtras *extras)
 	e_table_extras_add_cell(extras, "tree-string", e_cell_tree_new (NULL, NULL, TRUE, e_cell_text_new (NULL, GTK_JUSTIFY_LEFT)));
 }
 
-E_MAKE_TYPE(e_table_extras, "ETableExtras", ETableExtras, ete_class_init, ete_init, G_TYPE_OBJECT)
+E_MAKE_TYPE(e_table_extras, "ETableExtras", ETableExtras, ete_class_init, ete_init, PARENT_TYPE)
 
 ETableExtras *
 e_table_extras_new (void)
 {
-	ETableExtras *ete = g_object_new (E_TABLE_EXTRAS_TYPE, NULL);
+	ETableExtras *ete = gtk_type_new (E_TABLE_EXTRAS_TYPE);
 
 	return (ETableExtras *) ete;
 }
@@ -200,11 +159,11 @@ e_table_extras_add_cell     (ETableExtras *extras,
 		g_hash_table_remove (extras->cells, old_key);
 		g_free (old_key);
 		if (old_cell)
-			g_object_unref (old_cell);
+			gtk_object_unref (GTK_OBJECT(old_cell));
 	}
 
 	if (cell) {
-		g_object_ref (cell);
+		gtk_object_ref (GTK_OBJECT (cell));
 		gtk_object_sink (GTK_OBJECT (cell));
 	}
 	g_hash_table_insert (extras->cells, g_strdup(id), cell);
