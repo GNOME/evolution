@@ -1,3 +1,9 @@
+2000-05-02  Damon Chaplin  <damon@helixcode.com>
+
+	* e-canvas.c (e_canvas_focus_in): 
+	(e_canvas_focus_out): set and reset the GTK_HAS_FOCUS flag. We now get
+	focus_out events correctly.
+
 2000-05-02  NotZed  <NotZed@HelixCode.com>
 
 	* e-sexp.c (e_sexp_finalise): Free the parse tree if we have one.
