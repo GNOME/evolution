@@ -1,3 +1,9 @@
+2004-02-27  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade: Change the button relief
+	back to normal for the drop-down buttons and move the text labels
+	inside the buttons as well
+
 2004-02-27  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (eab_view_set_property): add
