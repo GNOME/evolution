@@ -620,7 +620,7 @@ save_settings_for_views (EShell *shell)
 	}
 
 	prefix = g_strdup_printf ("=%s/config/Shell=/Views/NumberOfViews",
-				  priv->local_directory, i);
+				  priv->local_directory);
 	gnome_config_set_int (prefix, g_list_length (priv->views));
 	g_free (prefix);
 	

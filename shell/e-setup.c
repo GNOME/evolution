@@ -100,7 +100,6 @@ e_setup (const char *evolution_directory)
 {
 	struct stat statinfo;
 	char *file;
-	int i;
 
 	if (stat (evolution_directory, &statinfo) != 0)
 		return copy_default_stuff (evolution_directory);
