@@ -317,52 +317,96 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	     void *closure)
 {
 	CORBA_Environment ev;
-	const char *noselect;
 	CamelFolder *source;
 	CamelException ex;
 	GPtrArray *uids;
-	CamelURL *url;
+	CamelURL *src, *dst;
 
 	printf("Renaming folder '%s' to dest '%s' type '%s'\n", source_physical_uri, destination_physical_uri, type);
-	
-	url = camel_url_new (destination_physical_uri, NULL);
-	noselect = url ? camel_url_get_param (url, "noselect") : NULL;
-	
-	if (noselect && !g_strcasecmp (noselect, "yes")) {
-		camel_url_free (url);
-		GNOME_Evolution_ShellComponentListener_notifyResult (listener, 
-								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION, &ev);
-		return;
-	}
-	
-	camel_url_free (url);
-	
+
+	CORBA_exception_init (&ev);
+
 	if (strcmp (type, "mail") != 0) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
 								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
 		return;
 	}
+
+	src = camel_url_new(source_physical_uri, NULL);
+	if (src == NULL) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
+		return;
+	}
+
+	dst = camel_url_new(destination_physical_uri, NULL);
+	if (dst == NULL) {
+		camel_url_free(src);
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
+		return;
+	}
+
+	if (camel_url_get_param(dst, "noselect") != NULL) {
+		camel_url_free(src);
+		camel_url_free(dst);
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener, 
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION, &ev);
+		return;
+	}
 	
 	camel_exception_init (&ex);
-	source = mail_tool_uri_to_folder (source_physical_uri, 0, &ex);
-	camel_exception_clear (&ex);
+
+	/* If we are really doing a rename, implement it as a rename */
+	if (remove && strcmp(src->protocol, dst->protocol) == 0) {
+		char *sname, *dname;
+		CamelStore *store;
+
+		if (src->fragment)
+			sname = src->fragment;
+		else {
+			if (src->path && *src->path)
+				sname = src->path+1;
+			else
+				sname = "";
+		}
+
+		if (dst->fragment)
+			dname = dst->fragment;
+		else {
+			if (dst->path && *dst->path)
+				dname = dst->path+1;
+			else
+				dname = "";
+		}
+
+		store = camel_session_get_store(session, source_physical_uri, &ex);
+		if (store != NULL)
+			camel_store_rename_folder(store, sname, dname, &ex);
+
+		if (camel_exception_is_set(&ex))
+			GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
+	} else {
+		source = mail_tool_uri_to_folder (source_physical_uri, 0, &ex);
 	
-	CORBA_exception_init (&ev);
-	if (source) {
-		xfer_folder_data *xfd;
+		if (source) {
+			xfer_folder_data *xfd;
+			
+			xfd = g_new0 (xfer_folder_data, 1);
+			xfd->remove_source = remove_source;
+			xfd->source_uri = g_strdup (source_physical_uri);
+			xfd->listener = CORBA_Object_duplicate (listener, &ev);
 		
-		xfd = g_new0 (xfer_folder_data, 1);
-		xfd->remove_source = remove_source;
-		xfd->source_uri = g_strdup (source_physical_uri);
-		xfd->listener = CORBA_Object_duplicate (listener, &ev);
-		
-		uids = camel_folder_get_uids (source);
-		mail_transfer_messages (source, uids, remove_source, destination_physical_uri,
-					CAMEL_STORE_FOLDER_CREATE, xfer_folder_done, xfd);
-		camel_object_unref (CAMEL_OBJECT (source));
-	} else
-		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
+			uids = camel_folder_get_uids (source);
+			mail_transfer_messages (source, uids, remove_source, destination_physical_uri, CAMEL_STORE_FOLDER_CREATE, xfer_folder_done, xfd);
+			camel_object_unref (CAMEL_OBJECT (source));
+		} else
+			GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
+	}
+
 	CORBA_exception_free (&ev);
+	camel_exception_clear (&ex);
+
+	camel_url_free(src);
+	camel_url_free(dst);
 }
 
 #if 0
@@ -472,7 +516,6 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 				gpointer user_data)
 {
 	char *tmp, *url, **urls, *in, *inptr, *inend;
-	char *vfolder_uri = NULL;
 	gboolean retval = FALSE;
 	const char *noselect;
 	CamelFolder *folder;
@@ -822,9 +865,6 @@ idle_quit (gpointer user_data)
 	static int shutdown_shutdown = FALSE;
 
 	if (!shutdown_shutdown) {
-		if (e_list_length (folder_browser_factory_get_control_list ()))
-			return TRUE;
-
 		if (mail_msg_active(-1)) {
 			/* short sleep? */
 			return TRUE;
@@ -845,6 +885,9 @@ idle_quit (gpointer user_data)
 		storages_hash = NULL;
 	}
 	
+	if (e_list_length (folder_browser_factory_get_control_list ()))
+		return TRUE;
+
 	gtk_main_quit ();
 
 	return FALSE;
@@ -991,17 +1034,20 @@ storage_create_folder (EvolutionStorage *storage,
 	char *name;
 	CamelURL *url;
 	CamelException ex;
-	
+
+	/* We could just use 'path' always here? */
+
 	if (strcmp (type, "mail") != 0) {
 		notify_listener (listener, GNOME_Evolution_Storage_UNSUPPORTED_TYPE);
 		return;
 	}
 	
 	name = strrchr (path, '/');
-	if (!name++) {
+	if (!name) {
 		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
 		return;
 	}
+	name++;
 	
 	camel_exception_init (&ex);
 	if (*parent_physical_uri) {
@@ -1011,7 +1057,7 @@ storage_create_folder (EvolutionStorage *storage,
 			return;
 		}
 		
-		root = camel_store_create_folder (store, url->path + 1, name, &ex);
+		root = camel_store_create_folder (store, url->fragment?url->fragment:url->path + 1, name, &ex);
 		camel_url_free (url);
 	} else
 		root = camel_store_create_folder (store, NULL, name, &ex);
@@ -1102,24 +1148,38 @@ storage_xfer_folder (EvolutionStorage *storage,
 		     CamelStore *store)
 {
 	CamelException ex;
+	char *src, *dst;
+	char *p, c, sep;
 
 	printf("Transfer folder on store source = '%s' dest = '%s'\n", source_path, destination_path);
 
-	/* FIXME: Need to remap path to real name */
-
-	if (source_path[0] == '/')
-		source_path++;
-	if (destination_path[0] == '/')
-		destination_path++;
+	/* Remap the 'path' to the camel friendly name based on the store dir separator */
+	sep = store->dir_sep;
+	src = g_strdup(source_path[0]=='/'?source_path+1:source_path);
+	dst = g_strdup(destination_path[0]=='/'?destination_path+1:destination_path);
+	if (sep != '/') {
+		p = src;
+		while ((c = *p++))
+			if (c == '/')
+				p[-1] = sep;
+		
+		p = dst;
+		while ((c = *p++))
+			if (c == '/')
+				p[-1] = sep;
+	}
 
 	camel_exception_init (&ex);
 	if (remove_source) {
 		printf("trying to rename\n");
-		camel_store_rename_folder(store, source_path, destination_path, &ex);
+		camel_store_rename_folder(store, src, dst, &ex);
 	} else {
 		printf("No remove, can't rename\n");
 		camel_exception_setv(&ex, 1, "Can copy folders");
 	}
+
+	g_free(src);
+	g_free(dst);
 
 	if (camel_exception_is_set(&ex)) {
 		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);

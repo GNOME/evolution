@@ -76,6 +76,7 @@ struct _folder_update {
 	char *name;
 	char *uri;
 	char *oldpath;
+	char *olduri;
 
 	int unread;
 	CamelStore *store;
@@ -118,6 +119,8 @@ free_update(struct _folder_update *up)
 	g_free(up->uri);
 	if (up->store)
 		camel_object_unref((CamelObject *)up->store);
+	g_free(up->oldpath);
+	g_free(up->olduri);
 	g_free(up);
 }
 
@@ -152,12 +155,17 @@ real_flush_updates(void *o, void *event_data, void *data)
 			else
 				mail_vfolder_add_uri(up->store, up->uri, TRUE);
 		} else {
+			/* Its really a rename, but we have no way of telling the shell that, so remove it */
 			if (up->oldpath) {
 				if (storage != NULL)
 					evolution_storage_removed_folder(storage, up->oldpath);
 				/* ELSE? Shell supposed to handle the local snot case */
 			}
 
+			/* We can tell the vfolder code though */
+			if (up->olduri && up->add)
+				mail_vfolder_rename_uri(up->store, up->olduri, up->uri);
+				
 			if (up->name == NULL) {
 				if (storage != NULL) {
 					d(printf("Updating existing folder: %s (%d unread)\n", up->path, up->unread));
@@ -174,7 +182,8 @@ real_flush_updates(void *o, void *event_data, void *data)
 				d(printf("Adding new folder: %s\n", up->path));
 				evolution_storage_new_folder(storage, up->path, up->name, type, up->uri, up->name, up->unread);
 			}
-			if (up->add)
+
+			if (!up->olduri && up->add)
 				mail_vfolder_add_uri(up->store, up->uri, FALSE);
 		}
 
@@ -441,6 +450,8 @@ store_folder_subscribed(CamelObject *o, void *event_data, void *data)
 	struct _store_info *si;
 	CamelFolderInfo *fi = event_data;
 
+	printf("Store folder subscribed '%s' store '%s' \n", fi->full_name, camel_url_to_string(((CamelService *)o)->url, 0));
+
 	LOCK(info_lock);
 	si = g_hash_table_lookup(stores, o);
 	if (si)
@@ -451,6 +462,8 @@ store_folder_subscribed(CamelObject *o, void *event_data, void *data)
 static void
 store_folder_created(CamelObject *o, void *event_data, void *data)
 {
+	printf("Store folder created\n");
+
 	/* we only want created events to do more work if we dont support subscriptions */
 	if (!camel_store_supports_subscriptions(CAMEL_STORE(o)))
 		store_folder_subscribed(o, event_data, data);
@@ -504,12 +517,12 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 		printf("Found old folder '%s' renaming to '%s'\n", mfi->full_name, fi->full_name);
 
 		up->oldpath = mfi->path;
+		up->olduri = mfi->uri;
 
 		/* Its a rename op */
 		g_hash_table_remove(si->folders, mfi->full_name);
 		g_hash_table_remove(si->folders, mfi->uri);
 		g_free(mfi->full_name);
-		g_free(mfi->uri);
 		mfi->path = g_strdup(fi->path);
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->uri = g_strdup(fi->url);
@@ -578,10 +591,10 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 	LOCK(info_lock);
 	si = g_hash_table_lookup(stores, store);
 	if (si) {
+#if 0
 		GPtrArray *folders = g_ptr_array_new();
 		struct _folder_update *up;
 
-#if 0
 		/* first, get an array of all folders */
 		get_folders(folders, info->new);
 #endif

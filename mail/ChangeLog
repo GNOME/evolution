@@ -1,3 +1,27 @@
+2001-10-28    <NotZed@Ximian.com>
+
+	* mail-vfolder.c (mail_vfolder_rename_uri): Implemented.
+	(mail_vfolder_rename_uri): We do want to check renamed uri's from
+	vstores.
+	(mail_vfolder_delete_uri): Same.
+	(store_folder_renamed): Fix the folder hash at the same time.
+
+	* mail-folder-cache.c (real_flush_updates): Pass the rename event
+	to vfolder rename uri.
+
+	* mail-local.c (mail_local_folder_reconfigure): Change the store
+	path to be same as parent + mbox to be full path.
+	(mls_delete_folder): Change store path to be parent path, and mbox
+	to be full path.
+	(mail_local_folder_reconfigure): Fix a leak of tmpname.
+
+	* component-factory.c (xfer_folder): Only do a rename if we have
+	remove set, cleaned up logic a bit.
+	(idle_quit): Put the components still active check last last of
+	all.
+	(storage_create_folder): IF we have a fragment, use that as part
+	part for parent.
+
 2001-10-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (mail_format_get_data_wrapper_text): Allow the

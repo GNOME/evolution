@@ -44,7 +44,7 @@
 
 #include "e-util/e-unicode-i18n.h"
 
-#define d(x) x
+#define d(x) 
 
 static VfolderContext *context;	/* context remains open all time */
 static CamelStore *vfolder_store; /* the 1 static vfolder store */
@@ -376,7 +376,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *uri)
 	CamelVeeFolder *vf;
 	GString *changed;
 
-	if (context == NULL || CAMEL_IS_VEE_STORE(store) || !strncmp(uri, "vtrash:", 7))
+	if (context == NULL || !strncmp(uri, "vtrash:", 7))
 		return;
 
 	d(printf("Deleting uri to check: %s\n", uri));
@@ -431,13 +431,56 @@ mail_vfolder_delete_uri(CamelStore *store, const char *uri)
 }
 
 /* called when a uri is renamed in a store */
-#if 0
 void
 mail_vfolder_rename_uri(CamelStore *store, const char *from, const char *to)
 {
+	GCompareFunc uri_cmp = CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name;
+	FilterRule *rule;
+	const char *source;
+	CamelVeeFolder *vf;
+	int changed = 0;
+
 	printf("vfolder rename uri: %s to %s\n", from, to);
+
+	if (context == NULL || !strncmp(from, "vtrash:", 7) || !strncmp(to, "vtrash:", 7))
+		return;
+
+	g_assert(pthread_self() == mail_gui_thread);
+
+	LOCK();
+
+	/* see if any rules directly reference this removed uri */
+ 	rule = NULL;
+	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
+		source = NULL;
+		while ( (source = vfolder_rule_next_source((VfolderRule *)rule, source)) ) {
+			/* Remove all sources that match, ignore changed events though
+			   because the adduri call above does the work async */
+			if (uri_cmp(from, source)) {
+				printf("Vfolder '%s' used '%s' ('%s') now uses '%s'\n", rule->name, source, from, to);
+				vf = g_hash_table_lookup(vfolder_hash, rule->name);
+				g_assert(vf);
+				gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, vf);
+				vfolder_rule_remove_source((VfolderRule *)rule, source);
+				vfolder_rule_add_source((VfolderRule *)rule, to);
+				gtk_signal_connect((GtkObject *)rule, "changed", rule_changed, vf);
+				changed++;
+				source = NULL;
+			}
+		}
+	}
+
+	UNLOCK();
+
+	if (changed) {
+		char *user;
+
+		printf("Vfolders updated from renamed folder\n");
+		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
+		rule_context_save((RuleContext *)context, user);
+		g_free(user);
+	}
 }
-#endif
 
 /* ********************************************************************** */
 
@@ -455,10 +498,11 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 
 	/* if the folder has changed name, then add it, then remove the old manually */
 	if (strcmp(folder->full_name, rule->name) != 0) {
-		char *path, *key;
+		char *key;
 		CamelFolder *old;
 
 		LOCK();
+		printf("Changing folder name in hash table to '%s'\n", rule->name);
 		if (g_hash_table_lookup_extended(vfolder_hash, folder->full_name, (void **)&key, (void **)&old)) {
 			g_hash_table_remove(vfolder_hash, key);
 			g_free(key);
@@ -470,31 +514,6 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 		}
 
 		camel_store_rename_folder(vfolder_store, folder->full_name, rule->name, NULL);
-
-#if 0
-		path = g_strdup_printf("/%s", folder->full_name);
-		evolution_storage_removed_folder(mail_lookup_storage(vfolder_store), path);
-		g_free(path);
-
-		gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, folder);
-
-		context_rule_added((RuleContext *)context, rule);
-
-		/* TODO: remove folder from folder info cache? */
-
-		LOCK();
-		if (g_hash_table_lookup_extended(vfolder_hash, folder->full_name, (void **)&key, (void **)&old)) {
-			g_hash_table_remove(vfolder_hash, key);
-			g_free(key);
-			UNLOCK();
-			camel_object_unref((CamelObject *)folder);
-		} else {
-			UNLOCK();
-			g_warning("couldn't find a vfolder rule in our table? %s", folder->full_name);
-		}
-
-		return;
-#endif
 	}
 
 	d(printf("Filter rule changed? for folder '%s'!!\n", folder->name));
@@ -610,7 +629,7 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 	d(printf("Folder deleted: %s\n", info->name));
 	store = store;
 
-	/* WARNING: Not thread safe, joy! */
+	/* Warning not thread safe, but might be enough */
 
 	LOCK();
 
@@ -640,22 +659,38 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 	CamelRenameInfo *info = event_data;
 	FilterRule *rule;
 	char *user;
+	char *key;
+	CamelFolder *folder;
 
-	/* TODO: Scan all sub-folders? */
+	store = store;
+
+	/* This should be more-or-less thread-safe */
 
 	printf("Folder renamed to '%s' from '%s'\n", info->new->full_name, info->old_base);
 
-	rule = rule_context_find_rule((RuleContext *)context, info->old_base, NULL);
-	if (rule) {
-		/* TODO: We need to stop listening to removed events, otherwise we'll try and rename it again? */
+	/* Folder is already renamed? */
+	LOCK();
+	printf("Changing folder name in hash table to '%s'\n", info->new->full_name);
+	if (g_hash_table_lookup_extended(vfolder_hash, info->old_base, (void **)&key, (void **)&folder)) {
+		g_hash_table_remove(vfolder_hash, key);
+		g_free(key);
+		g_hash_table_insert(vfolder_hash, g_strdup(info->new->full_name), folder);
 
-		filter_rule_set_name(rule, info->new->name);
+		rule = rule_context_find_rule((RuleContext *)context, info->old_base, NULL);
+		g_assert(rule);
+
+		gtk_signal_disconnect_by_func((GtkObject *)rule, rule_changed, folder);
+		filter_rule_set_name(rule, info->new->name);		
+		gtk_signal_connect((GtkObject *)rule, "changed", rule_changed, folder);
 
 		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
+
+		UNLOCK();
 	} else {
-		/* We just got it inside renaming it ourself, ignore */
+		UNLOCK();
+		g_warning("couldn't find a vfolder rule in our table? %s", info->new->full_name);
 	}
 }
 
