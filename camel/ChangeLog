@@ -1,3 +1,9 @@
+2004-03-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-object.c (cobject_state_read): Sanity check that count is
+	<1024 and also use g_try_malloc so that we can recover if malloc
+	fails.
+
 2004-03-11  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (no_such_folder): removed
@@ -62,6 +68,7 @@
 	* camel-store.h: time to fix up the camelfolderinfo mess.  fix
 	some member names, and add some type fields.  Fixed all uses.
 
+>>>>>>> 1.2033
 2004-03-04  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #53355.

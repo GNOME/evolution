@@ -434,13 +434,15 @@ cobject_state_read(CamelObject *obj, FILE *fp)
 		CamelArgV *argv;
 
 		if (camel_file_util_decode_uint32(fp, &count) == -1
-			|| count == 0) {
+			|| count == 0 || count > 1024) {
 			/* maybe it was just version 0 afterall */
 			return 0;
 		}
-
+		
 		/* we batch up the properties and set them in one go */
-		argv = g_malloc(sizeof(*argv) + (count - CAMEL_ARGV_MAX) * sizeof(argv->argv[0]));
+		if (!(argv = g_try_malloc (sizeof (*argv) + (count - CAMEL_ARGV_MAX) * sizeof (argv->argv[0]))))
+			return -1;
+		
 		argv->argc = 0;
 		for (i=0;i<count;i++) {
 			if (camel_file_util_decode_uint32(fp, &argv->argv[argv->argc].tag) == -1)
