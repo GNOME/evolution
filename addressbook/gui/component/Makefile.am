@@ -53,14 +53,10 @@ libevolution_addressbook_la_LIBADD =							\
 	$(top_builddir)/addressbook/gui/search/libeaddressbooksearch.a			\
 	$(top_builddir)/filter/libfilter.la						\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la				\
-	$(top_builddir)/camel/libcamel.la						\
-	$(top_builddir)/e-util/ename/libename.la					\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a		\
-	$(top_builddir)/libversit/libversit.a						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
 	$(top_builddir)/addressbook/gui/merging/libecardmerging.a			\
-	$(top_builddir)/e-util/libeutil.la						\
 	$(top_builddir)/widgets/menus/libmenus.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
 

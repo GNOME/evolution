@@ -71,9 +71,6 @@ summary_libs =				 				\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/calendar/cal-client/libcal-client.la		\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
-	$(top_builddir)/libversit/libversit.a				\
-	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-	$(top_builddir)/libwombat/libwombat.la				\
 	$(EVOLUTION_EXECUTIVE_SUMMARY_LIBS)
 
 component_LTLIBRARIES = libevolution-executive-summary.la

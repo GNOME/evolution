@@ -56,9 +56,6 @@ evolution_alarm_notify_LDADD =						\
 	libalarm.a							\
 	$(top_builddir)/calendar/cal-client/libcal-client.la		\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
-	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-	$(top_builddir)/libwombat/libwombat.la				\
-	$(top_builddir)/e-util/libeutil.la				\
 	$(EVOLUTION_CALENDAR_LIBS)
 
 server_in_files = \

@@ -91,16 +91,12 @@ MARSHAL_GENERATED = e-addressbook-marshal.c e-addressbook-marshal.h
 #minicard_test_LDADD =							\
 #	 libeminicard.a							\
 #	 $(top_builddir)/addressbook/backend/ebook/libebook.la		\
-#	 $(top_builddir)/e-util/libeutil.la				\
-#	 $(top_builddir)/libversit/libversit.la				\
-#	 $(top_builddir)/e-util/ename/libename.la			\
 #	 $(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a \
 #	 $(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a \
 #	 $(top_builddir)/addressbook/printing/libecontactprint.a		\
 #	 $(top_builddir)/addressbook/gui/merging/libecardmerging.a	\
 #	 $(top_builddir)/widgets/misc/libemiscwidgets.la 			\
 #	 $(top_builddir)/addressbook/gui/component/select-names/libeselectnames.la	\
-#	 $(top_builddir)/e-util/libeutil.la				\
 #	$(EVOLUTION_ADDRESSBOOK_LIBS)					\
 #	 libeminicard.a
 #
@@ -110,13 +106,9 @@ MARSHAL_GENERATED = e-addressbook-marshal.c e-addressbook-marshal.h
 #reflow_test_LDADD =							\
 #	 libeminicard.a							\
 #	 $(top_builddir)/addressbook/backend/ebook/libebook.la		\
-#	 $(top_builddir)/e-util/libeutil.la				\
-#	 $(top_builddir)/libversit/libversit.la				\
-#	 $(top_builddir)/e-util/ename/libename.la			\
 #	 $(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 #	 $(top_builddir)/addressbook/printing/libecontactprint.a		\
 #	 $(top_builddir)/widgets/misc/libemiscwidgets.la 			\
-#	 $(top_builddir)/e-util/libeutil.la				\
 #	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 #minicard_view_test_SOURCES = 	\
@@ -126,13 +118,9 @@ MARSHAL_GENERATED = e-addressbook-marshal.c e-addressbook-marshal.h
 #	$(EVOLUTION_ADDRESSBOOK_LIBS)
 #	libeminicard.a							\
 #	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
-#	$(top_builddir)/e-util/libeutil.la				\
-#	$(top_builddir)/libversit/libversit.la				\
-#	$(top_builddir)/addressbook/ename/libename.la			\
 #	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 #	$(top_builddir)/addressbook/printing/libecontactprint.a		\
-#	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
-#	$(top_builddir)/e-util/libeutil.la
+#	$(top_builddir)/widgets/misc/libemiscwidgets.la
 #
 #minicard_widget_test_SOURCES = 	\
 #	 e-minicard-widget-test.c
@@ -140,15 +128,11 @@ MARSHAL_GENERATED = e-addressbook-marshal.c e-addressbook-marshal.h
 #minicard_widget_test_LDADD =						\
 #	 libeminicard.a							\
 #	 $(top_builddir)/addressbook/backend/ebook/libebook.la		\
-#	 $(top_builddir)/e-util/libeutil.la				\
-#	 $(top_builddir)/libversit/libversit.la				\
-#	 $(top_builddir)/e-util/ename/libename.la			\
 #	 $(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a \
 #	 $(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a \
 #	 $(top_builddir)/addressbook/gui/component/select-names/libeselectnames.la	\
 #	 $(top_builddir)/addressbook/printing/libecontactprint.a		\
 #	 $(top_builddir)/widgets/misc/libemiscwidgets.la 			\
-#	 $(top_builddir)/e-util/libeutil.la				\
 #	 $(top_builddir)/addressbook/gui/merging/libecardmerging.a	\
 #	$(EVOLUTION_ADDRESSBOOK_LIBS)
 

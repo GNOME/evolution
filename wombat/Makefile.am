@@ -34,13 +34,9 @@ evolution_wombat_LDADD =						\
 	$(LDAP_STUFF)							\
 	$(top_builddir)/addressbook/backend/pas/libpas.a		\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
-	$(top_builddir)/camel/libcamel.la				\
-	$(top_builddir)/e-util/ename/libename.la			\
 	$(top_builddir)/calendar/pcs/libpcsfile.a			\
 	$(top_builddir)/calendar/pcs/libpcs.a				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la		\
-	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-	$(top_builddir)/libversit/libversit.a				\
 	$(top_builddir)/e-util/libedb3util.la				\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libwombat/libwombat.la				\

@@ -186,14 +186,7 @@ libevolution_calendar_la_LIBADD =							\
 	$(top_builddir)/widgets/menus/libmenus.la					\
 	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/calendar/cal-client/libcal-client.la				\
-	$(top_builddir)/calendar/cal-util/libcal-util.la				\
-	$(top_builddir)/e-util/libeutil.la						\
-	$(top_builddir)/libical/src/libical/libical-evolution.la			\
-	$(top_builddir)/libwombat/libwombat.la						\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la				\
-	$(top_builddir)/camel/libcamel.la						\
-	$(top_builddir)/libversit/libversit.a						\
-	$(top_builddir)/e-util/ename/libename.la					\
 	dialogs/libcal-dialogs.a							\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la					\

@@ -83,6 +83,11 @@ libebook_la_SOURCES =					\
 	e-card-compare.c				\
 	e-destination.c
 
+libebook_la_LIBADD =					\
+	$(top_builddir)/libversit/libversit.la		\
+	$(top_builddir)/camel/libcamel.la		\
+	$(top_builddir)/e-util/ename/libename.la	\
+	$(top_builddir)/e-util/libeutil.la
 
 libebookincludedir = $(privincludedir)/ebook
 
@@ -127,33 +132,21 @@ test_client_SOURCES =					\
 
 test_client_LDADD =					\
 	libebook.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/libversit/libversit.a		\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/e-util/libeutil.la
+	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 test_client_list_SOURCES =				\
 	test-client-list.c
 
 test_client_list_LDADD =				\
 	libebook.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.a		\
-	$(top_builddir)/e-util/libeutil.la
+	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 test_card_SOURCES =					\
 	test-card.c
 
 test_card_LDADD =					\
 	libebook.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.a		\
-	$(top_builddir)/e-util/libeutil.la
+	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 evolution_vcard_importer_SOURCES = \
 	evolution-vcard-importer.c
@@ -161,12 +154,8 @@ evolution_vcard_importer_SOURCES = \
 evolution_vcard_importer_LDADD =				\
 	libebook.la						\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
-	$(top_builddir)/camel/libcamel.la			\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
-	$(DB3_LDADD)						\
-	$(top_builddir)/e-util/ename/libename.la		\
-	$(top_builddir)/libversit/libversit.a			\
-	$(top_builddir)/e-util/libeutil.la
+	$(DB3_LDADD)
 
 evolution_ldif_importer_SOURCES = \
 	evolution-ldif-importer.c
@@ -174,34 +163,22 @@ evolution_ldif_importer_SOURCES = \
 evolution_ldif_importer_LDADD =					\
 	libebook.la						\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)				\
-	$(top_builddir)/camel/libcamel.la			\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
-	$(DB3_LDADD)						\
-	$(top_builddir)/e-util/ename/libename.la		\
-	$(top_builddir)/libversit/libversit.a			\
-	$(top_builddir)/e-util/libeutil.la
+	$(DB3_LDADD)
 
 load_pine_addressbook_SOURCES =				\
 	load-pine-addressbook.c
 
 load_pine_addressbook_LDADD =				\
 	libebook.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.a		\
-	$(top_builddir)/e-util/libeutil.la
+	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 load_gnomecard_addressbook_SOURCES =			\
 	load-gnomecard-addressbook.c
 
 load_gnomecard_addressbook_LDADD =			\
 	libebook.la					\
-	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
-	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/e-util/ename/libename.la	\
-	$(top_builddir)/libversit/libversit.a		\
-	$(top_builddir)/e-util/libeutil.la
+	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 
 BUILT_SOURCES = $(CORBA_SOURCE) $(MARSHAL_GENERATED)

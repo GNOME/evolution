@@ -1,3 +1,24 @@
+2003-02-21  Dan Winship  <danw@ximian.com>
+
+	* backend/ebook/Makefile.am (libebook_la_LIBADD): depend on
+	libversit.la, libcamel.la, libename.la, and libeutil.la.
+	(test_client_LDADD, test_client_list_LDADD, test_card_LDADD,
+	evolution_vcard_importer_LDADD, evolution_ldif_importer_LDADD,
+	load_pine_addressbook_LDADD, load_gnomecard_addressbook_LDADD):
+	Remove those dependencies from here, since they're pulled in by
+	libebook.
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
+	Remove libebook's dependencies
+
+	* gui/component/select-names/Makefile.am
+	(libeselectnames_la_LIBADD): add this
+
+	* gui/widgets/Makefile.am (various disabled *_test_LDADD): cleanup
+
+	* printing/Makefile.am (contact_print_test_LDADD,
+	contact_print_style_editor_test_LDADD): cleanup
+
 2003-02-20  Dan Winship  <danw@ximian.com>
 
 	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):

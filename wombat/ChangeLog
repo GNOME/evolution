@@ -1,3 +1,7 @@
+2003-02-21  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (evolution_wombat_LDADD): cleanup
+
 2003-02-19  Chris Toshok  <toshok@ximian.com>
 
 	* wombat.c (termination_handler): gtk_main_quit =>

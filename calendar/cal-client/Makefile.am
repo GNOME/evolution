@@ -49,6 +49,11 @@ libcal_client_la_SOURCES =	\
 	query-listener.c	\
 	query-listener.h
 
+libcal_client_la_LIBADD =					\
+	$(top_builddir)/calendar/cal-util/libcal-util.la	\
+	$(top_builddir)/libwombat/libwombat.la			\
+	$(top_builddir)/e-util/libeutil.la
+
 libcal_clientinclude_HEADERS =		\
 	$(CORBA_GENERATED_H)		\
 	cal-client-multi.h		\
@@ -77,14 +82,9 @@ client_test_INCLUDES =			\
 	$(INCLUDES)			\
 	-DG_LOG_DOMAIN=\"client-test\"
 
-client_test_LDADD =							\
-	$(EVOLUTION_CALENDAR_LIBS)					\
-	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/calendar/cal-util/libcal-util.la		\
-	$(top_builddir)/libversit/libversit.a				\
-	$(top_builddir)/libical/src/libical/libical-evolution.la	\
-	$(top_builddir)/libwombat/libwombat.la				\
-	libcal-client.la
+client_test_LDADD =			\
+	libcal-client.la		\
+	$(EVOLUTION_CALENDAR_LIBS)
 
 BUILT_SOURCES = $(CORBA_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)

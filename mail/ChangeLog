@@ -1,5 +1,13 @@
 2003-02-21  Dan Winship  <danw@ximian.com>
 
+	* Makefile.am (libevolution_mail_la_LIBADD): Remove libebook's
+	dependencies.
+
+	* importers/Makefile.am (libevolution_pine_importer_la_LIBADD):
+	Likewise.
+
+2003-02-21  Dan Winship  <danw@ximian.com>
+
 	* mail-account-gui.c (mail_account_gui_build_extra_conf): Use
 	tables instead of vboxes, so that groups of label/entry pairs (as
 	in Connector's config page) can line up nicely.

@@ -160,8 +160,6 @@ libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/widgets/misc/libefilterbar.la		\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
-	$(top_builddir)/libversit/libversit.a			\
-	$(top_builddir)/e-util/ename/libename.la		\
 	$(top_builddir)/filter/libfilter.la			\
 	$(top_builddir)/widgets/menus/libmenus.la		\
 	$(EVOLUTION_MAIL_LIBS)

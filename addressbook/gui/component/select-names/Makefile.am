@@ -69,6 +69,10 @@ libeselectnames_la_SOURCES = 			\
 	e-simple-card-bonobo.c			\
 	e-simple-card-bonobo.h
 
+libeselectnames_la_LIBADD =					\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
+	$(EVOLUTION_ADDRESSBOOK_LIBS)
+
 # We'll need these again when we split out the select names control
 # into its own shlib factory, but for now they're redundant.
 #

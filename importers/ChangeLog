@@ -1,3 +1,9 @@
+2003-02-21  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (evolution_pine_importer_LDADD): Remove libebook's
+	dependencies. It will pull them in.
+	(evolution_gnomecard_importer_LDADD): Likewise.
+
 2003-02-06  Dan Winship  <danw@ximian.com>
 
 	* elm-importer.c (main): s/PACKAGE/GETTEXT_PACKAGE/ in gettext init

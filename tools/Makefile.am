@@ -33,10 +33,6 @@ EXTRA_DIST = $(tools_SCRIPTS) verify-evolution-install.sh \
 evolution_addressbook_import_LDADD =				\
 	$(GNOME_FULL_LIBS)					\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
-	$(top_builddir)/camel/libcamel.la			\
-	$(top_builddir)/e-util/ename/libename.la		\
-	$(top_builddir)/libversit/libversit.a			\
-	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/menus/libmenus.la
 
 evolution_addressbook_export_LDADD =				\

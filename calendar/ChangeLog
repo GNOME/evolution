@@ -1,3 +1,19 @@
+2003-02-21  Dan Winship  <danw@ximian.com>
+
+	* cal-client/Makefile.am (libcal_client_la_LIBADD): depend on
+	libcal-util, libwombat, and libeutil
+	(client_test_LDADD): Remove those deps from here
+
+	* cal-util/Makefile.am (libcal_util_la_LIBADD): depend on
+	libical-evolution.la
+	(test_recur_LDADD): Remove that dependency here (and an ancient
+	libversit dependency).
+
+	* gui/alarm-notify/Makefile.am (evolution_alarm_notify_LDADD):
+	remove some deps
+
+	* gui/Makefile.am (libevolution_calendar_la_LIBADD): Likewise.
+
 2003-02-20  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/apps_evolution_calendar.schemas: Add GConf schemas.

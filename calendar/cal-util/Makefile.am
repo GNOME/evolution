@@ -25,6 +25,9 @@ libcal_util_la_SOURCES = 	\
 	cal-util.c		\
 	timeutil.c
 
+libcal_util_la_LIBADD =		\
+	 $(top_builddir)/libical/src/libical/libical-evolution.la
+
 libcal_utilincludedir = $(privincludedir)/cal-util
 
 libcal_utilinclude_HEADERS =	\
@@ -61,8 +64,6 @@ test_recur_SOURCES = 	\
 
 test_recur_LDADD = 							\
 	 libcal-util.la							\
-	 $(top_builddir)/libversit/libversit.a				\
-	 $(top_builddir)/libical/src/libical/libical-evolution.la	\
 	 $(EVOLUTION_CALENDAR_LIBS)
 
 EXTRA_DIST = \
