@@ -55,7 +55,7 @@ static CamelProvider imap_provider = {
 
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
 static CamelProvider imaps_provider = {
-	"imaps",
+	"simap",
 	N_("Secure IMAPv4"),
 
 	N_("For reading and storing mail on IMAP servers over an SSL connection."),

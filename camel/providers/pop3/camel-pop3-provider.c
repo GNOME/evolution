@@ -50,7 +50,7 @@ static CamelProvider pop3_provider = {
 
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
 static CamelProvider pops_provider = {
-	"pops",
+	"spop",
 	N_("Secure POP"),
 
 	N_("For connecting to POP servers over an SSL connection. The POP "
