@@ -1,3 +1,9 @@
+2002-07-24    <jpr@ximian.com>
+
+	* cal-util/timeutil.c (time_day_of_year): add a day for the leap
+	year only if we are currently counting Feb., not if the month
+	passed in is Feb.  Fixes #23446.
+
 2002-07-23    <jpr@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_realize): use proper meeting icon

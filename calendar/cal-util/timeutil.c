@@ -365,7 +365,7 @@ time_day_of_year (int day, int month, int year)
 	for (i = 0; i < month; i++) {
 		day += days_in_month[i];
 
-		if (month == 1 && time_is_leap_year (year))
+		if (i == 1 && time_is_leap_year (year))
 			day++;
 	}
 
