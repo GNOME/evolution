@@ -33,6 +33,16 @@ Mailer:
 
   - Many backend fixes that users won't notice.  (Michael, Jeff, Dan)
 
+Pilot:
+
+  - Now syncs exception dates in calendar and addressbook notes (JP)
+
+  - Does not overwrite custom data on pilot (JP)
+
+  - Address completion no longer marks records as changed (JP)
+
+  - Miscellaneous other bug fixes (JP)
+
 Version 0.14 (Beta 4), 2001-09-21
 ---------------------------------
 
