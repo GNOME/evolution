@@ -19,12 +19,33 @@ module Evolution {
 		exception NotFound {};
 		exception Busy {};
 
+		/**
+		 * get_component_for_type:
+		 * @type: name of a valid folder type
+		 *
+		 * Get the shell component associated with a specific folder type.
+		 *
+		 * Return value: the Evolution::ShellComponent interface for the component that
+		 * handles @type.
+		 */
 		ShellComponent get_component_for_type (in string type)
 			raises (NotFound);
 
 		typedef sequence<string> FolderTypeList;
 
-		/* FIXME: Parent "transient_for" window. */
+		/**
+		 * user_select_folder:
+		 * @listener: a listener interface to report the answer of the user.
+		 * @title: title for the folder selector dialog
+		 * @default_folder: physical or `evolution:' URI for the folder that must be
+		 * selected by default, when the dialog is popped up
+		 * @possible_types: list of the names of the types of folders that are allowed
+		 *
+		 * Pop up a folder selection dialog from which the user can select a folder.
+		 * Initially, the @default_folder is selected.  The user can also create a new
+		 * folder by using the "New..." button.  The dialog only lets the user choose
+		 * a folder whose type is listed in @possible_types.
+		 */
 		void user_select_folder (in FolderSelectionListener listener,
 					 in string title,
 					 in string default_folder,
