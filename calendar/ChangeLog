@@ -1,3 +1,7 @@
+Tue Mar 31 23:46:50 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* timeutil.c (format_simple_hour): `buf' now static.
+
 1998-03-31  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal.c: Removed #include "gtkcalendar.h", because it now comes

@@ -39,7 +39,7 @@ time_from_start_duration (time_t start, char *duration)
 char *
 format_simple_hour (int hour, int use_am_pm)
 {
-	char buf[256];
+	static char buf[256];
 
 	/* I don't know whether this is the best way to internationalize it.
 	 * Does any language use different conventions? - Federico
