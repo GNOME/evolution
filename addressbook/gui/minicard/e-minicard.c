@@ -249,9 +249,11 @@ e_minicard_realize (GnomeCanvasItem *item)
 {
 	EMinicard *e_minicard;
 	GnomeCanvasGroup *group;
+	GtkWidget *canvas;
 
 	e_minicard = E_MINICARD (item);
 	group = GNOME_CANVAS_GROUP( item );
+	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 
 	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->realize)
 		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->realize) (item);
@@ -273,7 +275,7 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 "y1", (double) 2,
 				 "x2", (double) e_minicard->width - 3,
 				 "y2", (double) e_minicard->height - 3,
-				 "fill_color", "grey70",
+				 "fill_color_gdk", &canvas->style->bg[GTK_STATE_NORMAL],
 				 NULL );
 
 	e_minicard->header_text =
@@ -284,7 +286,7 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
 				 "font", "lucidasans-bold-10",
-				 "fill_color", "black",
+				 "fill_color_gdk", &canvas->style->fg[GTK_STATE_NORMAL],
 				 "text", "",
 				 NULL );
 	e_canvas_item_move_absolute(e_minicard->header_text, 6, 6);
@@ -399,8 +401,10 @@ static gboolean
 e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	EMinicard *e_minicard;
+	GtkWidget *canvas;
 	
 	e_minicard = E_MINICARD (item);
+	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 	
 	switch( event->type ) {
 	case GDK_FOCUS_CHANGE:
@@ -408,13 +412,13 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 			GdkEventFocus *focus_event = (GdkEventFocus *) event;
 			if ( focus_event->in ) {
 				gnome_canvas_item_set( e_minicard->rect, 
-						       "outline_color", "grey50", 
+						       "outline_color_gdk", &canvas->style->bg[GTK_STATE_NORMAL], 
 						       NULL );
 				gnome_canvas_item_set( e_minicard->header_rect, 
-						       "fill_color", "darkblue",
+						       "fill_color_gdk", &canvas->style->bg[GTK_STATE_SELECTED],
 						       NULL );
 				gnome_canvas_item_set( e_minicard->header_text, 
-						       "fill_color", "white",
+						       "fill_color_gdk", &canvas->style->text[GTK_STATE_SELECTED],
 						       NULL );
 				e_minicard->has_focus = TRUE;
 			} else {
@@ -446,10 +450,12 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 						       "outline_color", NULL, 
 						       NULL );
 				gnome_canvas_item_set( e_minicard->header_rect, 
-						       "fill_color", "grey70",
+						       "fill_color_gdk", 
+						       &canvas->style->bg[GTK_STATE_NORMAL],
 						       NULL );
 				gnome_canvas_item_set( e_minicard->header_text, 
-						       "fill_color", "black",
+						       "fill_color_gdk", 
+						       &canvas->style->fg[GTK_STATE_NORMAL],
 						       NULL );
 				e_minicard->has_focus = FALSE;
 			}

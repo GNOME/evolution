@@ -1,3 +1,10 @@
+2000-08-15  Larry Ewing  <lewing@helixcode.com>
+
+	* gui/minicard/e-minicard.c (e_minicard_event): use style colors
+	for the selected state.  This doesn't properly redraw the minicard
+	when there is a style_change event, that is next.
+	(e_minicard_realize): use style colors.
+
 2000-08-14  Peter Williams  <peterw@helixcode.com>
 
 	* backend/pas/pas-backend-file.c: Include the proper db1/db.h
