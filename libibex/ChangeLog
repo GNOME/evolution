@@ -1,3 +1,10 @@
+2000-10-10  Not Zed  <NotZed@HelixCode.com>
+
+	* hash.c (hash_find):
+	(hash_remove): 
+	(hash_insert):  Truncate key if it is too big to fit in a
+	single block to MAX_KEYLEN bytes.
+
 2000-09-28  Not Zed  <NotZed@HelixCode.com>
 
 	* block.c (ibex_block_free): Make sure we map the 'free' block to

@@ -86,6 +86,9 @@ struct _hashblock {
 #define hb_keys hashblock_u.keys
 #define hb_keydata hashblock_u.keydata
 
+/* size of block overhead + 2 key block overhead */
+#define MAX_KEYLEN (BLOCK_SIZE - 4 - 12 - 12)
+
 /* root block for a hash index */
 struct _hashroot {
 	hashid_t free;		/* free list */
@@ -241,6 +244,10 @@ hash_find(struct _IBEXIndex *index, const char *key, int keylen)
 
 	d(printf("finding hash %.*s\n", keylen, key));
 
+	/* truncate the key to the maximum size */
+	if (keylen > MAX_KEYLEN)
+		keylen = MAX_KEYLEN;
+
 	hashroot = (struct _hashroot *)ibex_block_read(index->blocks, index->root);
 
 	/* find the table containing this entry */
@@ -352,6 +359,10 @@ hash_remove(struct _IBEXIndex *index, const char *key, int keylen)
 	g_assert(index->root != 0);
 
 	d(printf("removing hash %.*s\n", keylen, key));
+
+	/* truncate the key to the maximum size */
+	if (keylen > MAX_KEYLEN)
+		keylen = MAX_KEYLEN;
 
 	hashroot = (struct _hashroot *)ibex_block_read(index->blocks, index->root);
 
@@ -474,6 +485,10 @@ hash_insert(struct _IBEXIndex *index, const char *key, int keylen)
 
 	g_assert(index != 0);
 	g_assert(index->root != 0);
+
+	/* truncate the key to the maximum size */
+	if (keylen > MAX_KEYLEN)
+		keylen = MAX_KEYLEN;
 
 	d(printf("inserting hash %.*s\n", keylen, key));
 
