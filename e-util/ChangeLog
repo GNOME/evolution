@@ -1,3 +1,8 @@
+2002-12-07  Not Zed  <NotZed@Ximian.com>
+
+	* e-msgport.c (e_mutex_cond_wait): Allow an e-mutex to be used
+	with standard condition variables.
+
 2002-12-06  Chris Toshok  <toshok@ximian.com>
 
 	* e-categories-master-list-wombat.c (ecmlw_load): change to a more
