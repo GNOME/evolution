@@ -166,7 +166,10 @@ spool_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex)
 		}
 		retry++;
 	}
-
+	
+	close (mf->lockfd);
+	mf->lockfd = -1;
+	
 	return -1;
 }
 
