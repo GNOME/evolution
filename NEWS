@@ -1,3 +1,49 @@
+Version 0.10 "Tasmanian Devil", 2001-04-23   --FIXME
+
+Shell: 
+
+
+Mail: 
+
+  - vTrash folder per store / Empty Trash menu item to expunge all
+    vTrash folders.  (Jeff)
+
+  - Hide deleted messages.  (Michael)
+
+  - UNMATCHED vFolder.  (Michael)
+
+  - Cancellable operations.  (Michael)
+
+  - Filter/vFolder on Mailing List.  (Michael)
+
+  - SSL (S/IMAP, S/POP, and S/SMTP).  (Jeff)
+
+  - SASL Authentication (Kerberos4, DIGEST-MD5, CRAM-MD5, PLAIN,
+    LOGIN, ANONYMOUS) for IMAP and SMTP (haven't done POP yet)
+    (Jeff)
+
+  - Resend sent items.  (Jeff)
+
+  - Allow users to turn on/off headers in the composer and added
+    Reply-To header entry in the composer.  (Miguel, Jeff)
+
+  - Numerous OpenPGP (PGP/MIME) fixes.  (Jeff)
+
+  - Replying to a message chooses account based on message
+    addressee's.  (Jeff)
+
+  - Allow configuration of Draft and Sent folders.  (Dan)
+
+  - Continuation of where the user left-off after configuring account
+    info.  (Jeff)
+
+  - Redid Forward Inline and Forward Quoted.  (Jeff)
+
+Addressbook:
+
+Calendar:
+
+
 Version 0.9 "Platypus", 2001-03-12
 ----------------------------------
 

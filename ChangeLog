@@ -1,3 +1,8 @@
+2001-04-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* NEWS: Updated with 0.10 mailer improvements. Dan/Iain/Michael
+	should add anything I left off.
+
 2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Don't generate the Makefiles under `camel/tests'
