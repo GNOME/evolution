@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2002-10-28 16:49-0500\n"
-"PO-Revision-Date: 2003-01-07 08:44+0100\n"
+"PO-Revision-Date: 2003-01-07 17:58+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3118,9 +3118,8 @@ msgstr "Elimina"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:833
 #: calendar/gui/e-day-view.c:3726 calendar/gui/e-week-view.c:3528
-#, fuzzy
 msgid "Current View"
-msgstr "Vista _Corrente"
+msgstr "Vista Corrente"
 
 #. Minicard view stuff
 #. Translators: put here a list of labels you want to see on buttons in
@@ -3145,6 +3144,9 @@ msgid ""
 "%s\n"
 "has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
+"Il backend della rubrica per\n"
+"%s\n"
+"è crashato. E' necessario riavviare Evolution se si vuole continuare ad utilizzarlo"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "* Click here to add a contact *"
@@ -3466,7 +3468,7 @@ msgstr "Non definito"
 
 #: calendar/conduits/calendar/calendar-conduit.c:205
 msgid "Split Multi-Day Events:"
-msgstr ""
+msgstr "Dividi Eventi-Multigiorno:"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1225
 #: calendar/conduits/todo/todo-conduit.c:835
@@ -3496,18 +3498,16 @@ msgid "A sample Bonobo control which displays an calendar."
 msgstr "Un semplice controllo di Bonobo che visualizza un calendario."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
-#, fuzzy
 msgid "Calendar and Tasks"
-msgstr "Impostazioni Calendario e Attività"
+msgstr "Calendario e Attività"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:4
-#, fuzzy
 msgid "Configuration control for the Evolution Calendar."
-msgstr "Fabbrica per il compositore di Evolution."
+msgstr "Configurazione per il Calendario di Evolution."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:5
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr ""
+msgstr "Configura quì il tuo Fuso orario, il Calendario e l'elenco Attività"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:6
 msgid "Evolution calendar iTip/iMip viewer"
@@ -3560,9 +3560,8 @@ msgid "invalid time"
 msgstr "ora non valida"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:276
-#, fuzzy
 msgid "Evolution Alarm"
-msgstr "Evolution "
+msgstr "Allarme di Evolution"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:371
 #, c-format
@@ -3816,14 +3815,12 @@ msgid "Folder containing appointments and events"
 msgstr "Cartella contenente appuntamenti ed eventi"
 
 #: calendar/gui/component-factory.c:76
-#, fuzzy
 msgid "Public Calendar"
-msgstr "URL Calendario _Pubblico:"
+msgstr "Calendario Pubblico"
 
 #: calendar/gui/component-factory.c:77
-#, fuzzy
 msgid "Public folder containing appointments and events"
-msgstr "Cartella contenente appuntamenti ed eventi"
+msgstr "Cartella pubblica contenente appuntamenti ed eventi"
 
 #: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:722
 #: calendar/gui/print.c:1777 calendar/gui/tasks-control.c:508
@@ -3839,14 +3836,12 @@ msgid "Folder containing to-do items"
 msgstr "Cartella contente le cose da fare"
 
 #: calendar/gui/component-factory.c:86
-#, fuzzy
 msgid "Public Tasks"
-msgstr "Stampa card"
+msgstr "Attività Pubbliche"
 
 #: calendar/gui/component-factory.c:87
-#, fuzzy
 msgid "Public folder containing to-do items"
-msgstr "Cartella contente le cose da fare"
+msgstr "Cartella pubblica contente le cose da fare"
 
 #: calendar/gui/component-factory.c:750
 msgid "New appointment"
@@ -3866,11 +3861,11 @@ msgstr "Nuova riunione"
 
 #: calendar/gui/component-factory.c:755
 msgid "_Meeting"
-msgstr "_Riunione"
+msgstr "Riunione"
 
 #: calendar/gui/component-factory.c:756
 msgid "Create a new meeting request"
-msgstr "Crea una nuova richiesta di apppuntamento"
+msgstr "Crea una nuova richiesta di riunione"
 
 #: calendar/gui/component-factory.c:760
 msgid "New task"
@@ -3885,22 +3880,19 @@ msgid "Create a new task"
 msgstr "Crea una nuova attività"
 
 #: calendar/gui/component-factory.c:765
-#, fuzzy
 msgid "New All Day Appointment"
-msgstr "Nuovo appuntamento"
+msgstr "Nuovo appuntamento giornaliero"
 
 #: calendar/gui/component-factory.c:765
-#, fuzzy
 msgid "All _Day Appointment"
-msgstr "_Appuntamento"
+msgstr "Appuntamento Giornaliero"
 
 #: calendar/gui/component-factory.c:766
-#, fuzzy
 msgid "Create a new all-day appointment"
-msgstr "Crea un nuovo appuntamento"
+msgstr "Crea un nuovo appuntamento giornaliero"
 
 #: calendar/gui/control-factory.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open the folder in '%s'"
 msgstr "Impossibile aprire la cartella in `%s'"
 
@@ -3909,9 +3901,8 @@ msgid "The URI that the calendar will display"
 msgstr "La URI che il calendario visualizzerà"
 
 #: calendar/gui/control-factory.c:174
-#, fuzzy
 msgid "The type of view to show"
-msgstr "Cambia la vista a %s"
+msgstr "Il tipo di vista da mostrare"
 
 #: calendar/gui/dialogs/alarm-options.c:359
 msgid "Audio Alarm Options"
@@ -3938,7 +3929,6 @@ msgid "Alarm Repeat"
 msgstr "Ripeti avviso"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
-#, fuzzy
 msgid ""
 "Evolution does not yet support email notification for reminders.  You will "
 "not be able to edit the options for this reminder."
@@ -4168,9 +4158,8 @@ msgid "60 minutes"
 msgstr "60 minuti"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:12
-#, fuzzy
 msgid "Alerts"
-msgstr "Alberta"
+msgstr "Allarmi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "Calendar and Tasks Settings"
@@ -4186,7 +4175,7 @@ msgstr "Colore attività di oggi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 msgid "Day _ends:"
-msgstr ""
+msgstr "Fine giornate:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "Days"
@@ -4211,9 +4200,8 @@ msgid "Monday"
 msgstr "Lunedi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
-#, fuzzy
 msgid "S_un"
-msgstr "D_om"
+msgstr "Dom"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:1136
@@ -4222,7 +4210,7 @@ msgstr "Sabato"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Sh_ow a reminder"
-msgstr ""
+msgstr "Mostra un promemoria"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Show week _numbers in date navigator"
@@ -4234,7 +4222,6 @@ msgid "Sunday"
 msgstr "Domenica"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
-#, fuzzy
 msgid "T_asks due today:"
 msgstr "Scadenze per oggi:"
 
@@ -4243,9 +4230,8 @@ msgid "T_hu"
 msgstr "G_io"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#, fuzzy
 msgid "Task List"
-msgstr "_Lista Attività"
+msgstr "Lista Attività"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1134
@@ -4271,7 +4257,7 @@ msgstr "Martedi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "W_eek starts:"
-msgstr ""
+msgstr "Inizio settimana:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1133
@@ -4285,7 +4271,7 @@ msgstr "Settimana lavorativa"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Work days:"
-msgstr ""
+msgstr "Giorni lavorativi:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 msgid "_12 hour (AM/PM)"
@@ -4304,9 +4290,8 @@ msgid "_Compress weekends in month view"
 msgstr "_Comprimi fine settimana nella vista mensile"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-#, fuzzy
 msgid "_Day begins:"
-msgstr "Inizio attività: <b>"
+msgstr "Inizio giornata:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "_Display"
@@ -4330,53 +4315,48 @@ msgid "_Mon"
 msgstr "_Lun"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#, fuzzy
 msgid "_Overdue tasks:"
-msgstr "_Attività scadute:"
+msgstr "Attività scadute:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "_Sat"
 msgstr "_Sab"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-#, fuzzy
 msgid "_Show appointment end times in week and month views"
-msgstr "Mostra i termini degli appuntamenti nelle viste mensili e settimanali"
+msgstr "Mostra la scadenza degli appuntamenti nelle viste mensili e settimanali"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
-#, fuzzy
 msgid "_Time divisions:"
-msgstr "Suddivisioni del tempo:"
+msgstr "Suddivisioni di _Tempo:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#, fuzzy
 msgid "_Tue"
-msgstr "M_ar"
+msgstr "Mar"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Wed"
 msgstr "_Mer"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
-#, fuzzy
 msgid "before every appointment"
-msgstr "prima dell'inizio di un appuntamento"
+msgstr "prima di ogni appuntamento"
 
 #: calendar/gui/dialogs/cancel-comp.c:56
 msgid ""
 "The event being deleted is a meeting, would you like to send a cancellation "
 "notice?"
-msgstr ""
+msgstr "L'evento cancellato è una riunione, vuoi spedire un'avvertimento di cancellazione?"
 
 #: calendar/gui/dialogs/cancel-comp.c:59
 msgid "Are you sure you want to cancel and delete this meeting?"
-msgstr "Sicuro di voler annullare e cancellare questo appuntamento?"
+msgstr "Sicuro di voler annullare e cancellare questa riunione?"
 
 #: calendar/gui/dialogs/cancel-comp.c:65
 msgid ""
 "The task being deleted is assigned, would you like to send a cancellation "
 "notice?"
-msgstr ""
+msgstr "L'evento cancellato è assegnato, vuoi spedire una nota di cancellazione?"
 
 #: calendar/gui/dialogs/cancel-comp.c:68
 msgid "Are you sure you want to cancel and delete this task?"
@@ -4387,6 +4367,8 @@ msgid ""
 "The journal entry being deleted is published, would you like to send a "
 "cancellation notice?"
 msgstr ""
+"La voce di giornale cancellata è stata pubblicata, vuoi spedire"
+"un'avviso di cancellazione?"
 
 #: calendar/gui/dialogs/cancel-comp.c:77
 msgid "Are you sure you want to cancel and delete this journal entry?"
@@ -4461,22 +4443,20 @@ msgid "Due "
 msgstr "Scadenza "
 
 #: calendar/gui/dialogs/comp-editor.c:343
-#, fuzzy
 msgid "Could not update invalid object"
-msgstr "Impossibile aggiornare l'elemento!"
+msgstr "Impossibile aggiornare l'oggetto errato"
 
 #: calendar/gui/dialogs/comp-editor.c:346
 msgid "Object not found, not updated"
-msgstr ""
+msgstr "Oggetto non trovato, non aggiornato"
 
 #: calendar/gui/dialogs/comp-editor.c:349
 msgid "You don't have permissions to update this object"
-msgstr ""
+msgstr "Non hai i permessi per aggiornare quest'oggetto"
 
 #: calendar/gui/dialogs/comp-editor.c:352
-#, fuzzy
 msgid "Could not update object"
-msgstr "Impossibile aggiornare l'elemento!"
+msgstr "Impossibile aggiornare l'oggetto"
 
 #: calendar/gui/dialogs/comp-editor.c:798
 msgid "Edit Appointment"
@@ -4512,6 +4492,8 @@ msgstr "Salva come..."
 #: calendar/gui/dialogs/comp-editor.c:1370
 msgid "Changes made to this item may be discarded if an update arrives via email"
 msgstr ""
+"I cambiamenti fatti a questo elemento possono essere annullati se arriva un "
+"aggiornamento via email"
 
 #: calendar/gui/dialogs/comp-editor.c:1397
 msgid "Unable to obtain current version!"
@@ -4753,21 +4735,18 @@ msgstr "_Invita altri..."
 #: calendar/gui/dialogs/recurrence-page.c:126
 #: calendar/gui/dialogs/recurrence-page.c:146
 #: calendar/gui/dialogs/recurrence-page.c:156
-#, fuzzy
 msgid "st"
-msgstr "1"
+msgstr "-imo"
 
 #: calendar/gui/dialogs/recurrence-page.c:127
 #: calendar/gui/dialogs/recurrence-page.c:147
-#, fuzzy
 msgid "nd"
-msgstr "2"
+msgstr "-ndo"
 
 #: calendar/gui/dialogs/recurrence-page.c:128
 #: calendar/gui/dialogs/recurrence-page.c:148
-#, fuzzy
 msgid "rd"
-msgstr "3"
+msgstr "-rzo"
 
 #: calendar/gui/dialogs/recurrence-page.c:129
 #: calendar/gui/dialogs/recurrence-page.c:130
@@ -4802,40 +4781,35 @@ msgstr "Questo appuntamento contiene ricorrenze che Evolution non può modificare
 
 #: calendar/gui/dialogs/recurrence-page.c:898
 msgid "Recurrent date is wrong"
-msgstr ""
+msgstr "La data ricorrente è errata"
 
 #: calendar/gui/dialogs/recurrence-page.c:1007
 msgid "on"
 msgstr "il"
 
 #: calendar/gui/dialogs/recurrence-page.c:1072
-#, fuzzy
 msgid "first"
-msgstr "lista"
+msgstr "primo"
 
 #: calendar/gui/dialogs/recurrence-page.c:1073 filter/filter-datespec.c:70
 msgid "second"
 msgstr "secondo"
 
 #: calendar/gui/dialogs/recurrence-page.c:1074
-#, fuzzy
 msgid "third"
-msgstr "Altro"
+msgstr "terzo"
 
 #: calendar/gui/dialogs/recurrence-page.c:1075
-#, fuzzy
 msgid "fourth"
-msgstr "Nord"
+msgstr "quarto"
 
 #: calendar/gui/dialogs/recurrence-page.c:1076
-#, fuzzy
 msgid "last"
-msgstr "lista"
+msgstr "ultimo"
 
 #: calendar/gui/dialogs/recurrence-page.c:1102
-#, fuzzy
 msgid "Other Date"
-msgstr "Altro fax"
+msgstr "Altra Data"
 
 #: calendar/gui/dialogs/recurrence-page.c:1130 filter/filter-datespec.c:73
 msgid "day"
@@ -5053,9 +5027,8 @@ msgid "_Open"
 msgstr "_Apri"
 
 #: calendar/gui/e-calendar-table.c:988
-#, fuzzy
 msgid "_Save as..."
-msgstr "Salva come..."
+msgstr "_Salva come..."
 
 #: calendar/gui/e-calendar-table.c:989 calendar/gui/e-day-view.c:3750
 #: calendar/gui/e-week-view.c:3520 calendar/gui/e-week-view.c:3547
@@ -5087,23 +5060,20 @@ msgid "_Paste"
 msgstr "_Incolla"
 
 #: calendar/gui/e-calendar-table.c:999
-#, fuzzy
 msgid "_Assign Task"
-msgstr "Assegna Attività"
+msgstr "_Assegna Attività"
 
 #: calendar/gui/e-calendar-table.c:1000
-#, fuzzy
 msgid "_Forward as iCalendar"
-msgstr "Inoltra come i_Calendar"
+msgstr "Inoltra come iCalendar"
 
 #: calendar/gui/e-calendar-table.c:1001
 msgid "_Mark as Complete"
 msgstr "_Segna come Completato"
 
 #: calendar/gui/e-calendar-table.c:1002
-#, fuzzy
 msgid "_Mark Selected Tasks as Complete"
-msgstr "_Marka Attività Come Complete"
+msgstr "_Marca Attività Come Completata"
 
 #: calendar/gui/e-calendar-table.c:1007
 msgid "_Delete Selected Tasks"
@@ -5229,7 +5199,6 @@ msgid "New All Day _Event"
 msgstr "Nuovo _Evento del Giorno"
 
 #: calendar/gui/e-day-view.c:3709 calendar/gui/e-week-view.c:3515
-#, fuzzy
 msgid "New Meeting"
 msgstr "Nuova riunione"
 
@@ -5257,9 +5226,8 @@ msgstr "_Rende note le Informazioni sulla Disponibilità"
 
 #: calendar/gui/e-day-view.c:3740 calendar/gui/e-week-view.c:3539
 #: ui/evolution.xml.h:62
-#, fuzzy
 msgid "_Settings..."
-msgstr "Impostazioni _Posta..."
+msgstr "Impostazioni..."
 
 #: calendar/gui/e-day-view.c:3749 calendar/gui/e-week-view.c:3546
 #: mail/folder-browser.c:1731 ui/evolution-mail-message.xml.h:112
@@ -5267,14 +5235,12 @@ msgid "_Save As..."
 msgstr "_Salva con Nome..."
 
 #: calendar/gui/e-day-view.c:3761 calendar/gui/e-week-view.c:3558
-#, fuzzy
 msgid "_Schedule Meeting..."
-msgstr "Pianifica una _Riunione"
+msgstr "Pianifica una Riunione..."
 
 #: calendar/gui/e-day-view.c:3762 calendar/gui/e-week-view.c:3559
-#, fuzzy
 msgid "_Forward as iCalendar..."
-msgstr "Inoltra come i_Calendar"
+msgstr "Inoltra come iCalendar..."
 
 #: calendar/gui/e-day-view.c:3767 calendar/gui/e-week-view.c:3564
 msgid "Make this Occurrence _Movable"
@@ -5290,21 +5256,19 @@ msgstr "Elimina _Tutte le Ricorrenze"
 
 #: calendar/gui/e-itip-control.c:615
 msgid "<b>Starts:</b> "
-msgstr ""
+msgstr "<b>Comincia:</b>"
 
 #: calendar/gui/e-itip-control.c:625
-#, fuzzy
 msgid "<b>Ends:</b> "
-msgstr "Fine: <b>"
+msgstr "<b>Finisce:</b>"
 
 #: calendar/gui/e-itip-control.c:638
-#, fuzzy
 msgid "<b>Completed:</b> "
-msgstr "Completato "
+msgstr "<b>Completata:</b>"
 
 #: calendar/gui/e-itip-control.c:648
 msgid "<b>Due:</b> "
-msgstr ""
+msgstr "<b>Dovuto a:</b>"
 
 #: calendar/gui/e-itip-control.c:685 calendar/gui/e-itip-control.c:735
 msgid "iCalendar Information"
@@ -5332,9 +5296,8 @@ msgid "<i>None</i>"
 msgstr "<i>Nessuno</i>"
 
 #: calendar/gui/e-itip-control.c:842
-#, fuzzy
 msgid "Location:"
-msgstr "Posizione _Geografica:"
+msgstr "Posizione Geografica:"
 
 #: calendar/gui/e-itip-control.c:856
 msgid "Status:"
@@ -5423,9 +5386,9 @@ msgid "Meeting Information"
 msgstr "Dettagli della Riunione"
 
 #: calendar/gui/e-itip-control.c:1107
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr "<b>%s</b> richiede la tua presenza ad una riunione."
+msgstr "<b>%s</b> richiede la presenza di %s ad una riunione."
 
 #: calendar/gui/e-itip-control.c:1109
 #, c-format
