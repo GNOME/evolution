@@ -92,7 +92,8 @@ folder_changed_cb (EFolder *folder,
 {
 	EStorage *storage;
 	EStoragePrivate *priv;
-	const char *path;
+	const char *path, *p;
+	gboolean highlight;
 
 	g_assert (E_IS_STORAGE (data));
 
@@ -103,6 +104,21 @@ folder_changed_cb (EFolder *folder,
 	g_assert (path != NULL);
 
 	gtk_signal_emit (GTK_OBJECT (storage), signals[UPDATED_FOLDER], path);
+
+	highlight = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (folder), "last_highlight"));
+	if (highlight != e_folder_get_highlighted (folder)) {
+		highlight = !highlight;
+		gtk_object_set_data (GTK_OBJECT (folder), "last_highlight",
+				     GINT_TO_POINTER (highlight));
+		p = strrchr (path, '/');
+		if (p && p != path) {
+			path = g_strndup (path, p - path);
+			folder = e_folder_tree_get_folder (priv->folder_tree, path);
+			if (folder)
+				e_folder_set_child_highlight (folder, highlight);
+			g_free (path);
+		}
+	}
 }
 
 
