@@ -757,7 +757,7 @@ get_icon_path_for_component_info (const OAF_ServerInfo *info)
 
 	/* FIXME: liboaf is not const-safe.  */
 	property = oaf_server_info_prop_find ((OAF_ServerInfo *) info,
-					      "evolution:shell-component-icon");
+					      "evolution:shell_component_icon");
 
 	if (property == NULL || property->v._d != OAF_P_STRING)
 		return gnome_pixmap_file ("gnome-question.png");
@@ -776,6 +776,7 @@ setup_components (EShell *shell,
 		  ESplash *splash)
 {
 	EShellPrivate *priv;
+	char *const selection_order[] = { "0-evolution:shell_component_launch_order", NULL };
 	OAF_ServerInfoList *info_list;
 	CORBA_Environment ev;
 	int i;
@@ -785,7 +786,7 @@ setup_components (EShell *shell,
 	priv = shell->priv;
 	priv->component_registry = e_component_registry_new (shell);
 
-	info_list = oaf_query ("repo_ids.has ('IDL:GNOME/Evolution/ShellComponent:1.0')", NULL, &ev);
+	info_list = oaf_query ("repo_ids.has ('IDL:GNOME/Evolution/ShellComponent:1.0')", selection_order, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_error ("Eeek!  Cannot perform OAF query for Evolution components.");
