@@ -128,7 +128,7 @@ event_editor_class_init (EventEditorClass *klass)
 	object_class = (GtkObjectClass *) klass;
 	editor_class = (CompEditorClass *) klass;
 
-	parent_class = gtk_type_class (TYPE_COMP_EDITOR);
+	parent_class = g_type_class_ref(TYPE_COMP_EDITOR);
 
 	editor_class->set_cal_client = event_editor_set_cal_client;
 	editor_class->edit_comp = event_editor_edit_comp;
@@ -182,12 +182,12 @@ init_widgets (EventEditor *ee)
 
 	priv = ee->priv;
 
-	gtk_signal_connect (GTK_OBJECT (priv->model), "model_row_changed",
-			    GTK_SIGNAL_FUNC (model_row_changed_cb), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->model), "model_rows_inserted",
-			    GTK_SIGNAL_FUNC (row_count_changed_cb), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->model), "model_rows_deleted",
-			    GTK_SIGNAL_FUNC (row_count_changed_cb), ee);
+	g_signal_connect((priv->model), "model_row_changed",
+			    G_CALLBACK (model_row_changed_cb), ee);
+	g_signal_connect((priv->model), "model_rows_inserted",
+			    G_CALLBACK (row_count_changed_cb), ee);
+	g_signal_connect((priv->model), "model_rows_deleted",
+			    G_CALLBACK (row_count_changed_cb), ee);
 }
 
 /* Object initialization function for the event editor */
@@ -309,7 +309,7 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 			ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
 			e_meeting_model_add_attendee (priv->model, ia);
 			
-			gtk_object_unref (GTK_OBJECT (ia));
+			g_object_unref((ia));
 		}
 
 		if (organizer.value != NULL) {
@@ -363,7 +363,7 @@ event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 		
 		client = e_meeting_model_get_cal_client (priv->model);
 		result = itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref((comp));
 
 		if (!result)
 			return FALSE;
@@ -389,14 +389,14 @@ event_editor_destroy (GtkObject *object)
 	ee = EVENT_EDITOR (object);
 	priv = ee->priv;
 
-	gtk_object_unref (GTK_OBJECT (priv->event_page));
-	gtk_object_unref (GTK_OBJECT (priv->alarm_page));
-	gtk_object_unref (GTK_OBJECT (priv->recur_page));
-	gtk_object_unref (GTK_OBJECT (priv->meet_page));
-	gtk_object_unref (GTK_OBJECT (priv->sched_page));
+	g_object_unref((priv->event_page));
+	g_object_unref((priv->alarm_page));
+	g_object_unref((priv->recur_page));
+	g_object_unref((priv->meet_page));
+	g_object_unref((priv->sched_page));
 
 	gtk_object_destroy (GTK_OBJECT (priv->model));
-	gtk_object_unref (GTK_OBJECT (priv->model));
+	g_object_unref((priv->model));
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);

@@ -29,10 +29,10 @@ G_BEGIN_DECLS
 
 
 #define TYPE_SCHEDULE_PAGE            (schedule_page_get_type ())
-#define SCHEDULE_PAGE(obj)            (GTK_CHECK_CAST ((obj), TYPE_SCHEDULE_PAGE, SchedulePage))
-#define SCHEDULE_PAGE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_SCHEDULE_PAGE, SchedulePageClass))
-#define IS_SCHEDULE_PAGE(obj)         (GTK_CHECK_TYPE ((obj), TYPE_SCHEDULE_PAGE))
-#define IS_SCHEDULE_PAGE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), TYPE_SCHEDULE_PAGE))
+#define SCHEDULE_PAGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_SCHEDULE_PAGE, SchedulePage))
+#define SCHEDULE_PAGE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_SCHEDULE_PAGE, SchedulePageClass))
+#define IS_SCHEDULE_PAGE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_SCHEDULE_PAGE))
+#define IS_SCHEDULE_PAGE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), TYPE_SCHEDULE_PAGE))
 
 typedef struct _SchedulePagePrivate SchedulePagePrivate;
 

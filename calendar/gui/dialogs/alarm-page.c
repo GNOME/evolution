@@ -170,7 +170,7 @@ alarm_page_class_init (AlarmPageClass *class)
 	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
+	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = alarm_page_get_widget;
 	editor_page_class->focus_main_widget = alarm_page_focus_main_widget;
@@ -235,7 +235,7 @@ alarm_page_destroy (GtkObject *object)
 	priv = apage->priv;
 
 	if (priv->xml) {
-		gtk_object_unref (GTK_OBJECT (priv->xml));
+		g_object_unref((priv->xml));
 		priv->xml = NULL;
 	}
 
@@ -823,22 +823,22 @@ init_widgets (AlarmPage *apage)
 	priv = apage->priv;
 
 	/* Reminder buttons */
-	gtk_signal_connect (GTK_OBJECT (priv->add), "clicked",
-			    GTK_SIGNAL_FUNC (add_clicked_cb), apage);
-	gtk_signal_connect (GTK_OBJECT (priv->delete), "clicked",
-			    GTK_SIGNAL_FUNC (delete_clicked_cb), apage);
+	g_signal_connect((priv->add), "clicked",
+			    G_CALLBACK (add_clicked_cb), apage);
+	g_signal_connect((priv->delete), "clicked",
+			    G_CALLBACK (delete_clicked_cb), apage);
 
 	/* Connect the default signal handler to use to make sure we notify
 	 * upstream of changes to the widget values.
 	 */
-	gtk_signal_connect (GTK_OBJECT (priv->add), "clicked",
-			    GTK_SIGNAL_FUNC (field_changed_cb), apage);
-	gtk_signal_connect (GTK_OBJECT (priv->delete), "clicked",
-			    GTK_SIGNAL_FUNC (field_changed_cb), apage);
+	g_signal_connect((priv->add), "clicked",
+			    G_CALLBACK (field_changed_cb), apage);
+	g_signal_connect((priv->delete), "clicked",
+			    G_CALLBACK (field_changed_cb), apage);
 
 	/* Options button */
-	gtk_signal_connect (GTK_OBJECT (priv->button_options), "clicked",
-			    GTK_SIGNAL_FUNC (button_options_clicked_cb), apage);
+	g_signal_connect((priv->button_options), "clicked",
+			    G_CALLBACK (button_options_clicked_cb), apage);
 }
 
 
@@ -893,7 +893,7 @@ alarm_page_new (void)
 
 	apage = gtk_type_new (TYPE_ALARM_PAGE);
 	if (!alarm_page_construct (apage)) {
-		gtk_object_unref (GTK_OBJECT (apage));
+		g_object_unref((apage));
 		return NULL;
 	}
 

@@ -30,10 +30,10 @@
 
 
 #define TYPE_EVENT_EDITOR            (event_editor_get_type ())
-#define EVENT_EDITOR(obj)            (GTK_CHECK_CAST ((obj), TYPE_EVENT_EDITOR, EventEditor))
-#define EVENT_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_EVENT_EDITOR,	EventEditorClass))
-#define IS_EVENT_EDITOR(obj)         (GTK_CHECK_TYPE ((obj), TYPE_EVENT_EDITOR))
-#define IS_EVENT_EDITOR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_EVENT_EDITOR))
+#define EVENT_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT_EDITOR, EventEditor))
+#define EVENT_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_EVENT_EDITOR,	EventEditorClass))
+#define IS_EVENT_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_EVENT_EDITOR))
+#define IS_EVENT_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_EVENT_EDITOR))
 
 typedef struct _EventEditor EventEditor;
 typedef struct _EventEditorClass EventEditorClass;

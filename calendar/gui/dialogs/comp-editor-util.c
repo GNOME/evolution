@@ -453,7 +453,7 @@ comp_editor_contacts_to_widget (GtkWidget *contacts_entry,
 	/* We free all dest_array except the last NULL we added. */
 	for (i = 0; i < dest_array->len - 1; i++) {
 		dest = g_ptr_array_index (dest_array, i);
-		gtk_object_unref (GTK_OBJECT (dest));
+		g_object_unref((dest));
 	}
 	g_ptr_array_free (dest_array, TRUE);
 }
@@ -501,7 +501,7 @@ comp_editor_contacts_to_component (GtkWidget *contacts_entry,
 
 			contact_list = g_slist_prepend (contact_list, t);
 
-			gtk_object_unref (GTK_OBJECT (contact_destv[i]));
+			g_object_unref((contact_destv[i]));
 		}
 	}
 	g_free (contact_destv);

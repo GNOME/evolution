@@ -31,10 +31,10 @@ G_BEGIN_DECLS
 
 
 #define TYPE_EVENT_PAGE            (event_page_get_type ())
-#define EVENT_PAGE(obj)            (GTK_CHECK_CAST ((obj), TYPE_EVENT_PAGE, EventPage))
-#define EVENT_PAGE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_EVENT_PAGE, EventPageClass))
-#define IS_EVENT_PAGE(obj)         (GTK_CHECK_TYPE ((obj), TYPE_EVENT_PAGE))
-#define IS_EVENT_PAGE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), TYPE_EVENT_PAGE))
+#define EVENT_PAGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT_PAGE, EventPage))
+#define EVENT_PAGE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_EVENT_PAGE, EventPageClass))
+#define IS_EVENT_PAGE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_EVENT_PAGE))
+#define IS_EVENT_PAGE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), TYPE_EVENT_PAGE))
 
 typedef struct _EventPagePrivate EventPagePrivate;
 

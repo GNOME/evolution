@@ -93,7 +93,7 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
+	parent_class = g_type_class_ref(GTK_TYPE_OBJECT);
 
 	comp_editor_page_signals[CHANGED] =
 		g_signal_new ("changed",
@@ -166,7 +166,7 @@ comp_editor_page_destroy (GtkObject *object)
 	page = COMP_EDITOR_PAGE (object);
 
 	if (page->client) {
-		gtk_object_ref (GTK_OBJECT (page->client));
+		g_object_ref((page->client));
 		page->client = NULL;
 	}
 
@@ -273,11 +273,11 @@ comp_editor_page_set_cal_client (CompEditorPage *page, CalClient *client)
         g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
 
 	if (page->client)
-		gtk_object_unref (GTK_OBJECT (client));
+		g_object_unref((client));
 
 	page->client = client;
 	if (page->client)
-		gtk_object_ref (GTK_OBJECT (client));
+		g_object_ref((client));
 }
 
 /**

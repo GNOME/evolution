@@ -340,7 +340,7 @@ comp_from (CalComponentItipMethod method, CalComponent *comp)
 	case CAL_COMPONENT_METHOD_ADD:
 		cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
-			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			e_notice (NULL, GTK_MESSAGE_ERROR,
 				  _("An organizer must be set."));
 			return NULL;
 		}
@@ -375,7 +375,7 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 		cal_component_get_attendee_list (comp, &attendees);
 		len = g_slist_length (attendees);
 		if (len <= 0) {
-			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			e_notice (NULL, GTK_MESSAGE_ERROR,
 				  _("At least one attendee is necessary"));
 			cal_component_free_attendee_list (attendees);
 			return NULL;
@@ -411,7 +411,7 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
 		cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
-			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			e_notice (NULL, GTK_MESSAGE_ERROR,
 				  _("An organizer must be set."));
 			return NULL;
 		}
@@ -617,7 +617,7 @@ comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *
 		
 		retval = TRUE;
 	} else if (result == CAL_CLIENT_SEND_BUSY) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, error_msg);
+		e_notice (NULL, GTK_MESSAGE_ERROR, error_msg);
 
 		retval = FALSE;
 	}
@@ -748,7 +748,7 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 		cal_component_set_attendee_list (clone, attendees);
 
 		if (!comp_limit_attendees (clone)) {
-			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			e_notice (NULL, GTK_MESSAGE_ERROR,
 				  _("You must be an attendee of the event."));
 			goto error;
 		}

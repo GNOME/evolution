@@ -31,10 +31,10 @@ G_BEGIN_DECLS
 
 
 #define TYPE_TASK_DETAILS_PAGE            (task_details_page_get_type ())
-#define TASK_DETAILS_PAGE(obj)            (GTK_CHECK_CAST ((obj), TYPE_TASK_DETAILS_PAGE, TaskDetailsPage))
-#define TASK_DETAILS_PAGE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_TASK_DETAILS_PAGE, TaskDetailsPageClass))
-#define IS_TASK_DETAILS_PAGE(obj)         (GTK_CHECK_TYPE ((obj), TYPE_TASK_DETAILS_PAGE))
-#define IS_TASK_DETAILS_PAGE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), TYPE_TASK_DETAILS_PAGE))
+#define TASK_DETAILS_PAGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_TASK_DETAILS_PAGE, TaskDetailsPage))
+#define TASK_DETAILS_PAGE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_TASK_DETAILS_PAGE, TaskDetailsPageClass))
+#define IS_TASK_DETAILS_PAGE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_TASK_DETAILS_PAGE))
+#define IS_TASK_DETAILS_PAGE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), TYPE_TASK_DETAILS_PAGE))
 
 typedef struct _TaskDetailsPagePrivate TaskDetailsPagePrivate;
 

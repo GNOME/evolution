@@ -31,10 +31,10 @@ G_BEGIN_DECLS
 
 
 #define TYPE_RECURRENCE_PAGE            (recurrence_page_get_type ())
-#define RECURRENCE_PAGE(obj)            (GTK_CHECK_CAST ((obj), TYPE_RECURRENCE_PAGE, RecurrencePage))
-#define RECURRENCE_PAGE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_RECURRENCE_PAGE, RecurrencePageClass))
-#define IS_RECURRENCE_PAGE(obj)         (GTK_CHECK_TYPE ((obj), TYPE_RECURRENCE_PAGE))
-#define IS_RECURRENCE_PAGE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), TYPE_RECURRENCE_PAGE))
+#define RECURRENCE_PAGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_RECURRENCE_PAGE, RecurrencePage))
+#define RECURRENCE_PAGE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_RECURRENCE_PAGE, RecurrencePageClass))
+#define IS_RECURRENCE_PAGE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_RECURRENCE_PAGE))
+#define IS_RECURRENCE_PAGE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), TYPE_RECURRENCE_PAGE))
 
 typedef struct _RecurrencePagePrivate RecurrencePagePrivate;
 

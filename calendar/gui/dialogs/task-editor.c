@@ -117,7 +117,7 @@ task_editor_class_init (TaskEditorClass *klass)
 	object_class = (GtkObjectClass *) klass;
 	editor_class = (CompEditorClass *) klass;
 
-	parent_class = gtk_type_class (TYPE_COMP_EDITOR);
+	parent_class = g_type_class_ref(TYPE_COMP_EDITOR);
 
 	editor_class->edit_comp = task_editor_edit_comp;
 	editor_class->send_comp = task_editor_send_comp;
@@ -170,12 +170,12 @@ init_widgets (TaskEditor *te)
 
 	priv = te->priv;
 
-	gtk_signal_connect (GTK_OBJECT (priv->model), "model_row_changed",
-			    GTK_SIGNAL_FUNC (model_row_changed_cb), te);
-	gtk_signal_connect (GTK_OBJECT (priv->model), "model_rows_inserted",
-			    GTK_SIGNAL_FUNC (row_count_changed_cb), te);
-	gtk_signal_connect (GTK_OBJECT (priv->model), "model_rows_deleted",
-			    GTK_SIGNAL_FUNC (row_count_changed_cb), te);
+	g_signal_connect((priv->model), "model_row_changed",
+			    G_CALLBACK (model_row_changed_cb), te);
+	g_signal_connect((priv->model), "model_rows_inserted",
+			    G_CALLBACK (row_count_changed_cb), te);
+	g_signal_connect((priv->model), "model_rows_deleted",
+			    G_CALLBACK (row_count_changed_cb), te);
 }
 
 /* Object initialization function for the task editor */
@@ -265,7 +265,7 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 			EMeetingAttendee *ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
 			
 			e_meeting_model_add_attendee (priv->model, ia);
-			gtk_object_unref (GTK_OBJECT (ia));
+			g_object_unref((ia));
 		}
 
  		if (organizer.value != NULL) {
@@ -319,7 +319,7 @@ task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 		
 		client = e_meeting_model_get_cal_client (priv->model);
 		result = itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
-		gtk_object_unref (GTK_OBJECT (comp));
+		g_object_unref((comp));
 
 		if (!result)
 			return FALSE;
@@ -345,11 +345,11 @@ task_editor_destroy (GtkObject *object)
 	te = TASK_EDITOR (object);
 	priv = te->priv;
 
-	gtk_object_unref (GTK_OBJECT (priv->task_page));
-	gtk_object_unref (GTK_OBJECT (priv->task_details_page));
-	gtk_object_unref (GTK_OBJECT (priv->meet_page));
+	g_object_unref((priv->task_page));
+	g_object_unref((priv->task_details_page));
+	g_object_unref((priv->meet_page));
 	
-	gtk_object_unref (GTK_OBJECT (priv->model));
+	g_object_unref((priv->model));
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);

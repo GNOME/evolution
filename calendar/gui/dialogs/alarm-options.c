@@ -185,19 +185,19 @@ init_widgets (Dialog *dialog)
 
 	dialog->canceled = TRUE;
 
-	gtk_signal_connect (GTK_OBJECT (dialog->toplevel), "delete_event",
-			    GTK_SIGNAL_FUNC (toplevel_delete_event_cb), dialog);
+	g_signal_connect((dialog->toplevel), "delete_event",
+			    G_CALLBACK (toplevel_delete_event_cb), dialog);
 
-	gtk_signal_connect (GTK_OBJECT (dialog->button_ok), "clicked",
-			    GTK_SIGNAL_FUNC (button_ok_clicked_cb), dialog);
+	g_signal_connect((dialog->button_ok), "clicked",
+			    G_CALLBACK (button_ok_clicked_cb), dialog);
 
-	gtk_signal_connect (GTK_OBJECT (dialog->button_cancel), "clicked",
-			    GTK_SIGNAL_FUNC (button_cancel_clicked_cb), dialog);
+	g_signal_connect((dialog->button_cancel), "clicked",
+			    G_CALLBACK (button_cancel_clicked_cb), dialog);
 
 	/* Alarm repeat */
 
-	gtk_signal_connect (GTK_OBJECT (dialog->repeat_toggle), "toggled",
-			    GTK_SIGNAL_FUNC (repeat_toggle_toggled_cb), dialog);
+	g_signal_connect((dialog->repeat_toggle), "toggled",
+			    G_CALLBACK (repeat_toggle_toggled_cb), dialog);
 }
 
 /* Fills the audio alarm widgets with the values from the alarm component */
@@ -599,7 +599,7 @@ alarm_options_dialog_run (CalComponentAlarm *alarm)
 	}
 
 	if (!get_widgets (&dialog)) {
-		gtk_object_unref (GTK_OBJECT (dialog.xml));
+		g_object_unref((dialog.xml));
 		return FALSE;
 	}
 
@@ -614,7 +614,7 @@ alarm_options_dialog_run (CalComponentAlarm *alarm)
 		dialog_to_alarm (&dialog, alarm);
 
 	gtk_widget_destroy (dialog.toplevel);
-	gtk_object_unref (GTK_OBJECT (dialog.xml));
+	g_object_unref((dialog.xml));
 
 	return TRUE;
 }

@@ -31,10 +31,10 @@ G_BEGIN_DECLS
 
 
 #define TYPE_COMP_EDITOR_PAGE            (comp_editor_page_get_type ())
-#define COMP_EDITOR_PAGE(obj)            (GTK_CHECK_CAST ((obj), TYPE_COMP_EDITOR_PAGE, CompEditorPage))
-#define COMP_EDITOR_PAGE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_COMP_EDITOR_PAGE,	CompEditorPageClass))
-#define IS_COMP_EDITOR_PAGE(obj)         (GTK_CHECK_TYPE ((obj), TYPE_COMP_EDITOR_PAGE))
-#define IS_COMP_EDITOR_PAGE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), TYPE_COMP_EDITOR_PAGE))
+#define COMP_EDITOR_PAGE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_COMP_EDITOR_PAGE, CompEditorPage))
+#define COMP_EDITOR_PAGE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_COMP_EDITOR_PAGE,	CompEditorPageClass))
+#define IS_COMP_EDITOR_PAGE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_COMP_EDITOR_PAGE))
+#define IS_COMP_EDITOR_PAGE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), TYPE_COMP_EDITOR_PAGE))
 
 typedef struct {
 	CalComponentDateTime *start;

@@ -97,7 +97,7 @@ e_delegate_dialog_class_init (EDelegateDialogClass *class)
 
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
+	parent_class = g_type_class_ref(GTK_TYPE_OBJECT);
 
 	object_class->destroy = e_delegate_dialog_destroy;
 }
@@ -208,16 +208,16 @@ e_delegate_dialog_construct (EDelegateDialog *edd, const char *name, const char 
 	str = e_destination_exportv(destv);
 	bonobo_widget_set_property (BONOBO_WIDGET (priv->entry), "destinations", TC_CORBA_string, str, NULL);
 	g_free(str);
-	gtk_object_unref (GTK_OBJECT (dest));
+	g_object_unref((dest));
 		
-	gtk_signal_connect (GTK_OBJECT (priv->addressbook), "clicked",
-			    GTK_SIGNAL_FUNC (addressbook_clicked_cb), edd);
+	g_signal_connect((priv->addressbook), "clicked",
+			    G_CALLBACK (addressbook_clicked_cb), edd);
 
 	return edd;
 
  error:
 
-	gtk_object_unref (GTK_OBJECT (edd));
+	g_object_unref((edd));
 	return NULL;
 }
 

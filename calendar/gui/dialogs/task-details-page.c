@@ -143,7 +143,7 @@ task_details_page_class_init (TaskDetailsPageClass *class)
 	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
+	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = task_details_page_get_widget;
 	editor_page_class->focus_main_widget = task_details_page_focus_main_widget;
@@ -192,7 +192,7 @@ task_details_page_destroy (GtkObject *object)
 	priv = tdpage->priv;
 
 	if (priv->xml) {
-		gtk_object_unref (GTK_OBJECT (priv->xml));
+		g_object_unref((priv->xml));
 		priv->xml = NULL;
 	}
 
@@ -688,26 +688,26 @@ init_widgets (TaskDetailsPage *tdpage)
 	/* Connect signals. The Status, Percent Complete & Date Completed
 	   properties are closely related so whenever one changes we may need
 	   to update the other 2. */
-	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->status)->menu),
+	g_signal_connect((GTK_OPTION_MENU (priv->status)->menu),
 			    "deactivate",
-			    GTK_SIGNAL_FUNC (status_changed), tdpage);
+			    G_CALLBACK (status_changed), tdpage);
 
-	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (priv->percent_complete)->adjustment),
+	g_signal_connect((GTK_SPIN_BUTTON (priv->percent_complete)->adjustment),
 			    "value_changed",
-			    GTK_SIGNAL_FUNC (percent_complete_changed), tdpage);
+			    G_CALLBACK (percent_complete_changed), tdpage);
 
 	/* Priority */
-	gtk_signal_connect (GTK_OBJECT (GTK_OPTION_MENU (priv->priority)->menu),
+	g_signal_connect((GTK_OPTION_MENU (priv->priority)->menu),
 			    "deactivate",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tdpage);
+			    G_CALLBACK (field_changed_cb), tdpage);
 
 	/* Completed Date */
-	gtk_signal_connect (GTK_OBJECT (priv->completed_date), "changed",
-			    GTK_SIGNAL_FUNC (date_changed_cb), tdpage);
+	g_signal_connect((priv->completed_date), "changed",
+			    G_CALLBACK (date_changed_cb), tdpage);
 
 	/* URL */
-	gtk_signal_connect (GTK_OBJECT (priv->url), "changed",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tdpage);
+	g_signal_connect((priv->url), "changed",
+			    G_CALLBACK (field_changed_cb), tdpage);
 }
 
 
@@ -762,7 +762,7 @@ task_details_page_new (void)
 
 	tdpage = gtk_type_new (TYPE_TASK_DETAILS_PAGE);
 	if (!task_details_page_construct (tdpage)) {
-		gtk_object_unref (GTK_OBJECT (tdpage));
+		g_object_unref((tdpage));
 		return NULL;
 	}
 

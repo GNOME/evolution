@@ -134,7 +134,7 @@ schedule_page_class_init (SchedulePageClass *class)
 	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
+	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = schedule_page_get_widget;
 	editor_page_class->focus_main_widget = schedule_page_focus_main_widget;
@@ -178,11 +178,11 @@ schedule_page_destroy (GtkObject *object)
 	priv = spage->priv;
 
 	if (priv->xml) {
-		gtk_object_unref (GTK_OBJECT (priv->xml));
+		g_object_unref((priv->xml));
 		priv->xml = NULL;
 	}
 
-	gtk_object_unref (GTK_OBJECT (priv->model));
+	g_object_unref((priv->model));
 
 	g_free (priv);
 	spage->priv = NULL;
@@ -399,7 +399,7 @@ init_widgets (SchedulePage *spage)
 
 	priv = spage->priv;
 
-	gtk_signal_connect (GTK_OBJECT (priv->sel), 
+	g_signal_connect((priv->sel), 
 			    "changed", times_changed_cb, spage);
 
 	return TRUE;
@@ -439,7 +439,7 @@ schedule_page_construct (SchedulePage *spage, EMeetingModel *emm)
 	}
 
 	/* Model */
-	gtk_object_ref (GTK_OBJECT (emm));
+	g_object_ref((emm));
 	priv->model = emm;
 	
 	/* Selector */
@@ -476,7 +476,7 @@ schedule_page_new (EMeetingModel *emm)
 
 	spage = gtk_type_new (TYPE_SCHEDULE_PAGE);
 	if (!schedule_page_construct (spage, emm)) {
-		gtk_object_unref (GTK_OBJECT (spage));
+		g_object_unref((spage));
 		return NULL;
 	}
 

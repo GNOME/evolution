@@ -30,11 +30,11 @@
 
 
 #define TYPE_TASK_EDITOR            (task_editor_get_type ())
-#define TASK_EDITOR(obj)            (GTK_CHECK_CAST ((obj), TYPE_TASK_EDITOR, TaskEditor))
-#define TASK_EDITOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_TASK_EDITOR,	\
+#define TASK_EDITOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_TASK_EDITOR, TaskEditor))
+#define TASK_EDITOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_TASK_EDITOR,	\
 				      TaskEditorClass))
-#define IS_TASK_EDITOR(obj)         (GTK_CHECK_TYPE ((obj), TYPE_TASK_EDITOR))
-#define IS_TASK_EDITOR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_TASK_EDITOR))
+#define IS_TASK_EDITOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_TASK_EDITOR))
+#define IS_TASK_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_TASK_EDITOR))
 
 typedef struct _TaskEditor TaskEditor;
 typedef struct _TaskEditorClass TaskEditorClass;

@@ -1,3 +1,9 @@
+2002-11-27  Not Zed  <NotZed@Ximian.com>
+
+	* gui/itip-utils.[ch]: run fix.sh over this.
+
+	* gui/dialogs/*.[ch]: run fix.sh over all of this.
+
 2002-11-26  Richard Li <Richard.Li@Sun.COM>
 
 	* cal-client/cal-client.c (cal_client_construct): removed extra call

@@ -146,7 +146,7 @@ task_page_class_init (TaskPageClass *class)
 	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (TYPE_COMP_EDITOR_PAGE);
+	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = task_page_get_widget;
 	editor_page_class->focus_main_widget = task_page_focus_main_widget;
@@ -212,7 +212,7 @@ task_page_destroy (GtkObject *object)
 	}
 
 	if (priv->xml) {
-		gtk_object_unref (GTK_OBJECT (priv->xml));
+		g_object_unref((priv->xml));
 		priv->xml = NULL;
 	}
 
@@ -863,8 +863,8 @@ init_widgets (TaskPage *tpage)
 					   tpage, NULL);
 	
 	/* Summary */
-	gtk_signal_connect (GTK_OBJECT (priv->summary), "changed",
-			    GTK_SIGNAL_FUNC (summary_changed_cb), tpage);
+	g_signal_connect((priv->summary), "changed",
+			    G_CALLBACK (summary_changed_cb), tpage);
 
 	/* Description - turn on word wrap. */
 #if 0
@@ -872,41 +872,41 @@ init_widgets (TaskPage *tpage)
 #endif
 
 	/* Dates */
-	gtk_signal_connect (GTK_OBJECT (priv->start_date), "changed",
-			    GTK_SIGNAL_FUNC (date_changed_cb), tpage);
-	gtk_signal_connect (GTK_OBJECT (priv->due_date), "changed",
-			    GTK_SIGNAL_FUNC (date_changed_cb), tpage);
+	g_signal_connect((priv->start_date), "changed",
+			    G_CALLBACK (date_changed_cb), tpage);
+	g_signal_connect((priv->due_date), "changed",
+			    G_CALLBACK (date_changed_cb), tpage);
 
-	gtk_signal_connect (GTK_OBJECT (priv->due_timezone), "changed",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
-	gtk_signal_connect (GTK_OBJECT (priv->start_timezone), "changed",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
+	g_signal_connect((priv->due_timezone), "changed",
+			    G_CALLBACK (field_changed_cb), tpage);
+	g_signal_connect((priv->start_timezone), "changed",
+			    G_CALLBACK (field_changed_cb), tpage);
 
 	/* Classification */
-	gtk_signal_connect (GTK_OBJECT (priv->classification_public),
+	g_signal_connect((priv->classification_public),
 			    "toggled",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_private),
+			    G_CALLBACK (field_changed_cb), tpage);
+	g_signal_connect((priv->classification_private),
 			    "toggled",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_confidential),
+			    G_CALLBACK (field_changed_cb), tpage);
+	g_signal_connect((priv->classification_confidential),
 			    "toggled",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
+			    G_CALLBACK (field_changed_cb), tpage);
 
 	/* Connect the default signal handler to use to make sure the "changed"
 	   field gets set whenever a field is changed. */
-	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
-	gtk_signal_connect (GTK_OBJECT (priv->categories), "changed",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
+	g_signal_connect((priv->description), "changed",
+			    G_CALLBACK (field_changed_cb), tpage);
+	g_signal_connect((priv->categories), "changed",
+			    G_CALLBACK (field_changed_cb), tpage);
 
 	/* Contacts button */
-	gtk_signal_connect (GTK_OBJECT (priv->contacts_btn), "clicked",
-			    GTK_SIGNAL_FUNC (contacts_clicked_cb), tpage);
+	g_signal_connect((priv->contacts_btn), "clicked",
+			    G_CALLBACK (contacts_clicked_cb), tpage);
 
 	/* Categories button */
-	gtk_signal_connect (GTK_OBJECT (priv->categories_btn), "clicked",
-			    GTK_SIGNAL_FUNC (categories_clicked_cb), tpage);
+	g_signal_connect((priv->categories_btn), "clicked",
+			    G_CALLBACK (categories_clicked_cb), tpage);
 
 
 	/* Create the contacts entry, a corba control from the address book. */
@@ -986,7 +986,7 @@ task_page_new (void)
 
 	tpage = gtk_type_new (TYPE_TASK_PAGE);
 	if (!task_page_construct (tpage)) {
-		gtk_object_unref (GTK_OBJECT (tpage));
+		g_object_unref((tpage));
 		return NULL;
 	}
 
