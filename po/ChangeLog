@@ -1,3 +1,7 @@
+2001-10-13  Hector Garcia Alvarez <hector@scouts-es.org>
+
+        * es.po: Updated Spanish translation.
+
 2001-10-13  Dan Winship  <danw@ximian.com>
 
 	* POTFILES.in: Add shell/evolution-shell-component-utils.c
