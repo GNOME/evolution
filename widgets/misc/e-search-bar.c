@@ -329,7 +329,10 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 			g_assert (!esb->suboption || esb->suboption->parent == NULL);
 		} else {
 			gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->entry);
+			gtk_widget_grab_focus (esb->entry);
+			
 			esb->subitem_id = -1;
+
 		}
 	} else {
 		/* This item uses a submenu */

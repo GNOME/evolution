@@ -1,3 +1,11 @@
+2002-10-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#26128, thanks to Federico Mena Quintero <federico@ximian.com>
+	for providing this fix.]
+
+	* e-search-bar.c (activate_by_subitems): gtk_widget_grab_focus()
+	on the entry when adding it in.
+
 2002-10-11  JP Rosevear  <jpr@ximian.com>
 
 	* e-calendar-item.c (e_calendar_item_ensure_days_visible): check
