@@ -92,25 +92,46 @@ event_editor_setup_time_frame (EventEditor *ee)
 	return frame;
 }
 
-static GtkWidget *
-ee_single_alarm (char *text, CalendarAlarm **alarm, void *x)
-{
-	GtkWidget *hbox;
-	GtkWidget *check;
-	GtkWidget *entry;
-
-	hbox = gtk_hbox_new (0, 0);
-	
-	check = gtk_check_button_new_with_label (text);
-	entry = gtk_entry_new ();
-	gtk_widget_set_usize (entry, 40, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), check, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), entry, 0, 0, 0);
-
-	return hbox;
-}
+enum {
+	ALARM_MAIL,
+	ALARM_PROGRAM,
+	ALARM_DISPLAY,
+	ALARM_AUDIO
+};
 
 #define FX GTK_FILL | GTK_EXPAND
+#define XCOL 6
+static GtkWidget *
+ee_create_ae (GtkTable *table, char *str, CalendarAlarm **alarm, int type, int y)
+{
+	GtkWidget *label, *entry;
+
+	label = gtk_check_button_new_with_label (str);
+	gtk_table_attach (table, label, 2, 3, y, y+1, FX, 0, 0, 0);
+	
+	entry = gtk_entry_new ();
+	gtk_widget_set_usize (entry, 40, 0);
+	gtk_table_attach (table, entry, 3, 4, y, y+1, FX, 0, 5, 0);
+
+	switch (type){
+	case ALARM_MAIL:
+		label = gtk_label_new (_("Mail to:"));
+		gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+		gtk_table_attach (table, label, XCOL, XCOL+1, y, y+1, FX, 0, 5, 0);
+		entry = gtk_entry_new ();
+		gtk_table_attach (table, entry, XCOL+1, XCOL+2, y, y+1, FX, 0, 6, 0);
+		break;
+
+	case ALARM_PROGRAM:
+		label = gtk_label_new (_("Run program:"));
+		gtk_table_attach (table, label, XCOL, XCOL+1, y, y+1, FX, 0, 5, 0);
+		entry = gnome_file_entry_new ("alarm-program", _("Select program to run at alarm time"));
+		gtk_table_attach (table, entry, XCOL+1, XCOL+2, y, y+1, 0, 0, 6, 0);
+		break;
+	}
+	
+}
+
 static GtkWidget *
 ee_alarm_widgets (EventEditor *ee)
 {
@@ -124,20 +145,34 @@ ee_alarm_widgets (EventEditor *ee)
 	
 	mailto  = gtk_label_new (_("Mail to:"));
 	mailte  = gtk_entry_new ();
-	dalarm  = gtk_check_button_new_with_label (_("Display"));
-	aalarm  = gtk_check_button_new_with_label (_("Audio"));
-	palarm  = gtk_check_button_new_with_label (_("Program"));
-	malarm  = gtk_check_button_new_with_label (_("Mail"));
 
-	gtk_table_attach (GTK_TABLE (table), dalarm, 2, 3, 1, 2, FX, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), aalarm, 2, 3, 2, 3, FX, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), palarm, 2, 3, 3, 4, FX, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), malarm, 2, 3, 4, 5, FX, 0, 0, 0);
-#if 0
-	gtk_table_attach (GTK_TABLE (table), mailto, 1, 2, 5, 6, 0, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), mailte, 1, 2, 5, 6, 0, 0, 0, 0);
-#endif
+	ee_create_ae (GTK_TABLE (table), _("Display"), &ee->ical->dalarm, ALARM_DISPLAY, 1);
+	ee_create_ae (GTK_TABLE (table), _("Audio"),   &ee->ical->dalarm, ALARM_AUDIO, 2);
+	ee_create_ae (GTK_TABLE (table), _("Program"), &ee->ical->dalarm, ALARM_PROGRAM, 3);
+	ee_create_ae (GTK_TABLE (table), _("Mail"),    &ee->ical->dalarm, ALARM_MAIL, 4);
+	
 	return l;
+}
+
+static GtkWidget *
+ee_classification_widgets (EventEditor *ee)
+{
+	GtkWidget *rpub, *rpriv, *conf;
+	GtkWidget *frame, *hbox;
+
+	frame = gtk_frame_new (_("Classification"));
+	hbox  = gtk_hbox_new (0, 0);
+	gtk_container_add (GTK_CONTAINER (frame), hbox);
+	
+	rpub  = gtk_radio_button_new_with_label (NULL, _("Public"));
+	rpriv = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rpub), _("Private"));
+	conf  = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rpub), _("Confidential"));
+	
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), rpub);
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), rpriv);
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), conf);
+	
+	return frame;
 }
 
 static void
@@ -187,7 +222,8 @@ enum {
 	DESC_LINE,
 	SUMMARY_LINE,
 	TIME_LINE = 4,
-	ALARM_LINE
+	ALARM_LINE,
+	CLASS_LINE = 8
 };
 
 #define LABEL_SPAN 2
@@ -237,7 +273,11 @@ event_editor_init_widgets (EventEditor *ee)
 	gtk_table_attach (ee->general_table, l,
 			  1, 40, ALARM_LINE, ALARM_LINE + 1,
 			  0, 0, 0, 0);
-	
+
+	l = ee_classification_widgets (ee);
+	gtk_table_attach (ee->general_table, l,
+			  1, 40, CLASS_LINE, CLASS_LINE + 1,
+			  0, 0, 0, 0);
 	/* Separator */
 	gtk_box_pack_start (GTK_BOX (ee->hbox), gtk_hseparator_new (), 1, 1, 0);
 
