@@ -1,3 +1,11 @@
+2005-03-11  David Malcolm  <dmalcolm@redhat.com>
+
+	* new-mail-notify.c: preprocessor hackery using the value of
+	DBUS_VERSION to cope with changes to the semantics of
+	dbus_message_append_args
+	
+	* Makefile.am: define the DBUS_VERSION in the preprocessor
+
 2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
 
 	* org-gnome-new-mail-notify.eplug.in: Added id for mail preferences.

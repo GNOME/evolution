@@ -1,6 +1,7 @@
 INCLUDES =						\
 	-I$(top_srcdir)					\
 	-DDBUS_API_SUBJECT_TO_CHANGE=1		\
+	-DDBUS_VERSION=$(DBUS_VERSION)          \
 	$(EVOLUTION_MAIL_CFLAGS)				\
 	$(NMN_CFLAGS)						
 
