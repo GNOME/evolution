@@ -1,5 +1,5 @@
 calendarviewsdir = $(viewsdir)/calendar
 
-calendarviews_DATA = galview.xml
+calendarviews_DATA = List_View.galview galview.xml
 
 EXTRA_DIST = $(calendarviews_DATA)

@@ -1,3 +1,21 @@
+2004-04-01  JP Rosevear <jpr@ximian.com>
+
+	* tasks/galview.xml: add/remove views
+
+	* tasks/With_Status.galview: add a status view
+
+	* tasks/With_DueDate.galview: add a due date view
+
+	* tasks/Makefile.am (tasksviewsdir): dist/install new views and
+	don't to an obsolete one
+
+	* calendar/galview.xml: list the new list view
+
+	* calendar/List_View.galview: default view for Lists
+
+	* calendar/Makefile.am (calendarviewsdir): dist and install the
+	list view
+
 2003-12-05  Hans Petter Jansson  <hpj@ximian.com>
 
 	* addressbook/By_Company.galview: Match new column values, change
