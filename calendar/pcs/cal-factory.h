@@ -62,8 +62,7 @@ Evolution_Calendar_CalFactory cal_factory_corba_object_create (BonoboObject *obj
 
 CalFactory *cal_factory_new (void);
 
-void cal_factory_load (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener);
-void cal_factory_create (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener);
+void cal_factory_register_method (CalFactory *factory, const char *method, GtkType backend_type);
 
 int cal_factory_get_n_backends (CalFactory *factory);
 

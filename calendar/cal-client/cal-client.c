@@ -281,7 +281,7 @@ cal_client_destroy (GtkObject *object)
 /* Handle the cal_loaded signal from the listener */
 static void
 cal_loaded_cb (CalListener *listener,
-	       CalListenerLoadStatus status,
+	       Evolution_Calendar_Listener_LoadStatus status,
 	       Evolution_Calendar_Cal cal,
 	       gpointer data)
 {
@@ -299,7 +299,7 @@ cal_loaded_cb (CalListener *listener,
 	client_status = CAL_CLIENT_LOAD_ERROR;
 
 	switch (status) {
-	case CAL_LISTENER_LOAD_SUCCESS:
+	case Evolution_Calendar_Listener_SUCCESS:
 		CORBA_exception_init (&ev);
 		cal_copy = CORBA_Object_duplicate (cal, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
@@ -315,12 +315,16 @@ cal_loaded_cb (CalListener *listener,
 		client_status = CAL_CLIENT_LOAD_SUCCESS;
 		goto out;
 
-	case CAL_LISTENER_LOAD_ERROR:
+	case Evolution_Calendar_Listener_ERROR:
 		client_status = CAL_CLIENT_LOAD_ERROR;
 		goto error;
 
-	case CAL_LISTENER_LOAD_IN_USE:
+	case Evolution_Calendar_Listener_IN_USE:
 		client_status = CAL_CLIENT_LOAD_IN_USE;
+		goto error;
+
+	case Evolution_Calendar_Listener_METHOD_NOT_SUPPORTED:
+		client_status = CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED;
 		goto error;
 
 	default:

@@ -1,4 +1,4 @@
-/* Evolution calendar backend
+/* Evolution calendar - generic backend class
  *
  * Copyright (C) 2000 Helix Code, Inc.
  *
@@ -58,21 +58,24 @@ struct _CalBackendClass {
 
 	/* Notification signals */
 	void (* last_client_gone) (CalBackend *backend);
+
+	/* Virtual methods */
+	GnomeVFSURI *(* get_uri) (CalBackend *backend);
+	void (* add_cal) (CalBackend *backend, Cal *cal);
+	CalBackendLoadStatus (* load) (CalBackend *backend, GnomeVFSURI *uri);
+	void (* create) (CalBackend *backend, GnomeVFSURI *uri);
+	char *(* get_object) (CalBackend *backend, const char *uid);
+	GList *(* get_uids) (CalBackend *backend, CalObjType type);
+	GList *(* get_events_in_range) (CalBackend *backend, time_t start, time_t end);
+	gboolean (* update_object) (CalBackend *backend, const char *uid, const char *calobj);
+	gboolean (* remove_object) (CalBackend *backend, const char *uid);
 };
 
-typedef enum {
-	CAL_VCAL,
-	CAL_ICAL
-} CalendarFormat;
-
 GtkType cal_backend_get_type (void);
-
-CalBackend *cal_backend_new (void);
 
 GnomeVFSURI *cal_backend_get_uri (CalBackend *backend);
 
 void cal_backend_add_cal (CalBackend *backend, Cal *cal);
-void cal_backend_remove_cal (CalBackend *backend, Cal *cal);
 
 CalBackendLoadStatus cal_backend_load (CalBackend *backend, GnomeVFSURI *uri);
 
@@ -87,6 +90,8 @@ GList *cal_backend_get_events_in_range (CalBackend *backend, time_t start, time_
 gboolean cal_backend_update_object (CalBackend *backend, const char *uid, const char *calobj);
 
 gboolean cal_backend_remove_object (CalBackend *backend, const char *uid);
+
+void cal_backend_last_client_gone (CalBackend *backend);
 
 
 

@@ -16,6 +16,7 @@
 #endif
 
 #include "calendar/pcs/cal-factory.h"
+#include "calendar/pcs/cal-backend-imc.h"
 
 /* The and addressbook calendar factories */
 
@@ -178,6 +179,8 @@ setup_pcs (int argc, char **argv)
 		g_message ("setup_pcs(): Could not create the calendar factory");
 		return;
 	}
+
+	cal_factory_register_method (cal_factory, "file", CAL_BACKEND_IMC_TYPE);
 
 	object = bonobo_object_corba_objref (BONOBO_OBJECT (cal_factory));
 

@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include <ctype.h>
 #include <gtk/gtksignal.h>
 #include "cal.h"
 #include "cal-backend.h"
@@ -30,6 +31,9 @@
 
 /* Private part of the CalFactory structure */
 typedef struct {
+	/* Hash table from URI method strings to GtkType * for backend class types */
+	GHashTable *methods;
+
 	/* Hash table from GnomeVFSURI structures to CalBackend objects */
 	GHashTable *backends;
 } CalFactoryPrivate;
@@ -128,7 +132,22 @@ cal_factory_init (CalFactory *factory)
 	priv = g_new0 (CalFactoryPrivate, 1);
 	factory->priv = priv;
 
+	priv->methods = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->backends = g_hash_table_new (gnome_vfs_uri_hash, gnome_vfs_uri_hequal);
+}
+
+/* Frees a method/GtkType * pair from the methods hash table */
+static void
+free_method (gpointer key, gpointer value, gpointer data)
+{
+	char *method;
+	GtkType *type;
+
+	method = key;
+	type = value;
+
+	g_free (method);
+	g_free (type);
 }
 
 /* Frees a uri/backend pair from the backends hash table */
@@ -158,6 +177,10 @@ cal_factory_destroy (GtkObject *object)
 	factory = CAL_FACTORY (object);
 	priv = factory->priv;
 
+	g_hash_table_foreach (priv->methods, free_method, NULL);
+	g_hash_table_destroy (priv->methods);
+	priv->methods = NULL;
+
 	/* Should we assert that there are no more backends? */
 
 	g_hash_table_foreach (priv->backends, free_backend, NULL);
@@ -165,80 +188,10 @@ cal_factory_destroy (GtkObject *object)
 	priv->backends = NULL;
 
 	g_free (priv);
+	factory->priv = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
-}
-
-
-
-/* CORBA servant implementation */
-
-/* CalFactory::load method */
-static void
-CalFactory_load (PortableServer_Servant servant,
-		 const CORBA_char *uri,
-		 Evolution_Calendar_Listener listener,
-		 CORBA_Environment *ev)
-{
-	CalFactory *factory;
-	CalFactoryPrivate *priv;
-	CORBA_Environment ev2;
-	gboolean result;
-
-	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
-	priv = factory->priv;
-
-	CORBA_exception_init (&ev2);
-	result = CORBA_Object_is_nil (listener, &ev2);
-
-	if (ev2._major != CORBA_NO_EXCEPTION || result) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_Evolution_Calendar_CalFactory_NilListener,
-				     NULL);
-
-		CORBA_exception_free (&ev2);
-		return;
-	}
-	CORBA_exception_free (&ev2);
-
-	cal_factory_load (factory, uri, listener);
-}
-
-/* CalFactory::create method */
-static void
-CalFactory_create (PortableServer_Servant servant,
-		   const CORBA_char *uri,
-		   Evolution_Calendar_Listener listener,
-		   CORBA_Environment *ev)
-{
-	CalFactory *factory;
-	CalFactoryPrivate *priv;
-
-	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
-	priv = factory->priv;
-
-	cal_factory_create (factory, uri, listener);
-}
-
-/**
- * cal_factory_get_epv:
- * @void:
- *
- * Creates an EPV for the CalFactory CORBA class.
- *
- * Return value: A newly-allocated EPV.
- **/
-POA_Evolution_Calendar_CalFactory__epv *
-cal_factory_get_epv (void)
-{
-	POA_Evolution_Calendar_CalFactory__epv *epv;
-
-	epv = g_new0 (POA_Evolution_Calendar_CalFactory__epv, 1);
-	epv->load = CalFactory_load;
-	epv->create = CalFactory_create;
-
-	return epv;
 }
 
 
@@ -251,6 +204,48 @@ typedef struct {
 	char *uri;
 	Evolution_Calendar_Listener listener;
 } LoadCreateJobData;
+
+/* Queues a load or create request */
+static void
+queue_load_create_job (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener,
+		       JobFunc func)
+{
+	LoadCreateJobData *jd;
+	CORBA_Environment ev;
+	Evolution_Calendar_Listener listener_copy;
+	gboolean result;
+
+	CORBA_exception_init (&ev);
+	result = CORBA_Object_is_nil (listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("queue_load_create_job(): could not see if the listener was NIL");
+		CORBA_exception_free (&ev);
+		return;
+	}
+	CORBA_exception_free (&ev);
+
+	if (result) {
+		g_message ("queue_load_create_job(): cannot operate on a NIL listener!");
+		return;
+	}
+
+	listener_copy = CORBA_Object_duplicate (listener, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("queue_load_create_job(): could not duplicate the listener");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_exception_free (&ev);
+
+	jd = g_new (LoadCreateJobData, 1);
+	jd->factory = factory;
+	jd->uri = g_strdup (uri);
+	jd->listener = listener_copy;
+
+	job_add (func, jd);
+}
 
 /* Looks up a calendar backend in a factory's hash table of uri->cal */
 static CalBackend *
@@ -316,21 +311,64 @@ add_backend (CalFactory *factory, GnomeVFSURI *uri, CalBackend *backend)
 			    factory);
 }
 
+/* Tries to launch a backend for the method of the specified URI.  If there is
+ * no such method registered in the factory, it sends the listener the
+ * MethodNotSupported error code.
+ */
+static CalBackend *
+launch_backend_for_uri (CalFactory *factory, GnomeVFSURI *uri, Evolution_Calendar_Listener listener)
+{
+	CalFactoryPrivate *priv;
+	char *method;
+	GtkType *type;
+	CalBackend *backend;
+
+	priv = factory->priv;
+
+	/* FIXME: add an accessor function to gnome-vfs */
+	method = uri->method_string;
+
+	type = g_hash_table_lookup (priv->methods, method);
+	g_free (method);
+
+	if (!type) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		Evolution_Calendar_Listener_cal_loaded (
+			listener,
+			Evolution_Calendar_Listener_METHOD_NOT_SUPPORTED,
+			CORBA_OBJECT_NIL,
+			&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("launch_backend_for_uri(): could not notify the listener");
+
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	backend = gtk_type_new (*type);
+	if (!backend)
+		g_message ("launch_backend_for_uri(): could not launch the backend");
+
+	return backend;
+}
+
 /* Loads a calendar backend and puts it in the factory's backend hash table */
 static CalBackend *
-load_backend (CalFactory *factory, GnomeVFSURI *uri)
+load_backend (CalFactory *factory, GnomeVFSURI *uri, Evolution_Calendar_Listener listener)
 {
 	CalFactoryPrivate *priv;
 	CalBackend *backend;
 	CalBackendLoadStatus status;
+	CORBA_Environment ev;
 
 	priv = factory->priv;
 
-	backend = cal_backend_new ();
-	if (!backend) {
-		g_message ("load_backend(): could not create the backend");
+	backend = launch_backend_for_uri (factory, uri, listener);
+	if (!backend)
 		return NULL;
-	}
 
 	status = cal_backend_load (backend, uri);
 
@@ -341,6 +379,17 @@ load_backend (CalFactory *factory, GnomeVFSURI *uri)
 
 	case CAL_BACKEND_LOAD_ERROR:
 		gtk_object_unref (GTK_OBJECT (backend));
+
+		CORBA_exception_init (&ev);
+		Evolution_Calendar_Listener_cal_loaded (listener,
+							Evolution_Calendar_Listener_ERROR,
+							CORBA_OBJECT_NIL,
+							&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("load_backend(): could not notify the listener");
+
+		CORBA_exception_free (&ev);
 		return NULL;
 
 	default:
@@ -351,20 +400,37 @@ load_backend (CalFactory *factory, GnomeVFSURI *uri)
 
 /* Creates a calendar backend and puts it in the factory's backend hash table */
 static CalBackend *
-create_backend (CalFactory *factory, GnomeVFSURI *uri)
+create_backend (CalFactory *factory, GnomeVFSURI *uri, Evolution_Calendar_Listener listener)
 {
 	CalFactoryPrivate *priv;
 	CalBackend *backend;
 
 	priv = factory->priv;
 
-	backend = cal_backend_new ();
-	if (!backend) {
-		g_message ("create_backend(): could not create the backend");
+	backend = launch_backend_for_uri (factory, uri, listener);
+	if (!backend)
 		return NULL;
-	}
 
 	cal_backend_create (backend, uri);
+
+	/* FIXME: add error reporting to cal_backend_create() */
+#if 0
+	{
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		Evolution_Calendar_Listener_cal_loaded (listener,
+							Evolution_Calendar_Listener_ERROR,
+							CORBA_OBJECT_NIL,
+							&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("create_fn(): could not notify the listener");
+
+		CORBA_exception_free (&ev);
+	}
+#endif
+
 	add_backend (factory, uri, backend);
 
 	return backend;
@@ -438,21 +504,10 @@ load_fn (gpointer data)
 	backend = lookup_backend (factory, uri);
 
 	if (!backend)
-		backend = load_backend (factory, uri);
+		backend = load_backend (factory, uri, listener);
 
-	if (!backend) {
-		CORBA_exception_init (&ev);
-		Evolution_Calendar_Listener_cal_loaded (listener,
-							Evolution_Calendar_Listener_ERROR,
-							CORBA_OBJECT_NIL,
-							&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("load_fn(): could not notify the listener");
-
-		CORBA_exception_free (&ev);
+	if (!backend)
 		goto out;
-	}
 
 	add_calendar_client (factory, backend, listener);
 
@@ -510,21 +565,10 @@ create_fn (gpointer data)
 
 	/* Create the backend */
 
-	backend = create_backend (factory, uri);
+	backend = create_backend (factory, uri, listener);
 
-	if (!backend) {
-		CORBA_exception_init (&ev);
-		Evolution_Calendar_Listener_cal_loaded (listener,
-							Evolution_Calendar_Listener_ERROR,
-							CORBA_OBJECT_NIL,
-							&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("create_fn(): could not notify the listener");
-
-		CORBA_exception_free (&ev);
+	if (!backend)
 		goto out;
-	}
 
 	add_calendar_client (factory, backend, listener);
 
@@ -539,6 +583,77 @@ create_fn (gpointer data)
 		g_message ("create_fn(): could not release the listener");
 
 	CORBA_exception_free (&ev);
+}
+
+
+
+/* CORBA servant implementation */
+
+/* CalFactory::load method */
+static void
+CalFactory_load (PortableServer_Servant servant,
+		 const CORBA_char *uri,
+		 Evolution_Calendar_Listener listener,
+		 CORBA_Environment *ev)
+{
+	CalFactory *factory;
+	CalFactoryPrivate *priv;
+	CORBA_Environment ev2;
+	gboolean result;
+
+	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
+	priv = factory->priv;
+
+	CORBA_exception_init (&ev2);
+	result = CORBA_Object_is_nil (listener, &ev2);
+
+	if (ev2._major != CORBA_NO_EXCEPTION || result) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Evolution_Calendar_CalFactory_NilListener,
+				     NULL);
+
+		CORBA_exception_free (&ev2);
+		return;
+	}
+	CORBA_exception_free (&ev2);
+
+	queue_load_create_job (factory, uri, listener, load_fn);
+}
+
+/* CalFactory::create method */
+static void
+CalFactory_create (PortableServer_Servant servant,
+		   const CORBA_char *uri,
+		   Evolution_Calendar_Listener listener,
+		   CORBA_Environment *ev)
+{
+	CalFactory *factory;
+	CalFactoryPrivate *priv;
+
+	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
+	priv = factory->priv;
+
+	queue_load_create_job (factory, uri, listener, create_fn);
+}
+
+/**
+ * cal_factory_get_epv:
+ * @void:
+ *
+ * Creates an EPV for the CalFactory CORBA class.
+ *
+ * Return value: A newly-allocated EPV.
+ **/
+POA_Evolution_Calendar_CalFactory__epv *
+cal_factory_get_epv (void)
+{
+	POA_Evolution_Calendar_CalFactory__epv *epv;
+
+	epv = g_new0 (POA_Evolution_Calendar_CalFactory__epv, 1);
+	epv->load = CalFactory_load;
+	epv->create = CalFactory_create;
+
+	return epv;
 }
 
 
@@ -634,78 +749,61 @@ cal_factory_new (void)
 	return cal_factory_construct (factory, corba_factory);
 }
 
-/* Queues a load or create request */
-static void
-queue_load_create_job (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener,
-		       JobFunc func)
+/* Returns the lowercase version of a string */
+static char *
+str_tolower (const char *s)
 {
-	LoadCreateJobData *jd;
-	CORBA_Environment ev;
-	Evolution_Calendar_Listener listener_copy;
-	gboolean result;
+	char *str;
+	char *p;
 
-	CORBA_exception_init (&ev);
-	result = CORBA_Object_is_nil (listener, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("queue_load_create_job(): could not see if the listener was NIL");
-		CORBA_exception_free (&ev);
-		return;
-	}
-	CORBA_exception_free (&ev);
+	str = g_strdup (s);
+	for (p = str; *p; p++)
+		if (isalpha (*p))
+			*p = tolower (*p);
 
-	if (result) {
-		g_message ("queue_load_create_job(): cannot operate on a NIL listener!");
-		return;
-	}
-
-	listener_copy = CORBA_Object_duplicate (listener, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("queue_load_create_job(): could not duplicate the listener");
-		CORBA_exception_free (&ev);
-		return;
-	}
-
-	CORBA_exception_free (&ev);
-
-	jd = g_new (LoadCreateJobData, 1);
-	jd->factory = factory;
-	jd->uri = g_strdup (uri);
-	jd->listener = listener_copy;
-
-	job_add (func, jd);
+	return str;
 }
 
 /**
- * cal_factory_load:
+ * cal_factory_register_method:
  * @factory: A calendar factory.
- * @uri: URI of calendar to load.
- * @listener: Listener for notification of the load result.
- *
- * Initiates a load request in a calendar factory.  A calendar will be loaded
- * asynchronously and the result code will be reported to the specified
- * listener.
- **/
-void
-cal_factory_load (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener)
-{
-	queue_load_create_job (factory, uri, listener, load_fn);
-}
-
-/**
- * cal_factory_create:
- * @factory: A calendar factory.
- * @uri: URI of calendar to create.
- * @listener: Listener for notification of the create result.
+ * @method: Method for the URI, i.e. "http", "file", etc.
+ * @backend_type: Class type of the backend to create for this @method.
  * 
- * Initiates a create request in a calendar factory.  A calendar will be created
- * asynchronously and the result code will be reported to the specified
- * listener.
+ * Registers the type of a #CalBackend subclass that will be used to handle URIs
+ * with a particular method.  When the factory is asked to load a particular
+ * URI, it will look in its list of registered methods and create a backend of
+ * the appropriate type.
  **/
 void
-cal_factory_create (CalFactory *factory, const char *uri, Evolution_Calendar_Listener listener)
+cal_factory_register_method (CalFactory *factory, const char *method, GtkType backend_type)
 {
-	queue_load_create_job (factory, uri, listener, create_fn);
+	CalFactoryPrivate *priv;
+	GtkType *type;
+	char *method_str;
+
+	g_return_if_fail (factory != NULL);
+	g_return_if_fail (IS_CAL_FACTORY (factory));
+	g_return_if_fail (method != NULL);
+	g_return_if_fail (backend_type != 0);
+	g_return_if_fail (gtk_type_is_a (backend_type, CAL_BACKEND_TYPE));
+
+	priv = factory->priv;
+
+	method_str = str_tolower (method);
+
+	type = g_hash_table_lookup (priv->methods, method_str);
+	if (type) {
+		g_message ("cal_factory_register_method(): Method `%s' already registered!",
+			   method_str);
+		g_free (method_str);
+		return;
+	}
+
+	type = g_new (GtkType, 1);
+	*type = backend_type;
+
+	g_hash_table_insert (priv->methods, method_str, type);
 }
 
 /**

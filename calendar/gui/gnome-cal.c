@@ -412,8 +412,8 @@ gnome_calendar_object_updated_cb (GtkWidget *cal_client,
 				  const char *uid,
 				  GnomeCalendar  *gcal)
 {
-	printf ("gnome-cal: got object changed_cb, uid='%s'\n",
-		uid?uid:"<NULL>");
+	g_message ("gnome-cal: got object changed_cb, uid='%s'",
+		   uid?uid:"<NULL>");
 
 	/* FIXME: do we really want each view to reload the event itself?
 	   Maybe we should keep track of events globally, maybe with ref
@@ -438,8 +438,8 @@ gnome_calendar_object_removed_cb (GtkWidget *cal_client,
 				  const char *uid,
 				  GnomeCalendar  *gcal)
 {
-	printf ("gnome-cal: got object removed _cb, uid='%s'\n",
-		uid?uid:"<NULL>");
+	g_message ("gnome-cal: got object removed _cb, uid='%s'",
+		   uid?uid:"<NULL>");
 
 	e_day_view_remove_event (E_DAY_VIEW (gcal->day_view), uid);
 	e_day_view_remove_event (E_DAY_VIEW (gcal->work_week_view), uid);
@@ -493,21 +493,22 @@ typedef struct
 
 static void
 gnome_calendar_load_cb (GtkWidget *cal_client,
-			CalClientLoadStatus success,
+			CalClientLoadStatus status,
 			load_or_create_data *locd)
 {
 	g_return_if_fail (locd);
 	g_return_if_fail (GNOME_IS_CALENDAR (locd->gcal));
 
-	switch (success) {
+	switch (status) {
 	case CAL_CLIENT_LOAD_SUCCESS:
 		gnome_calendar_update_all (locd->gcal, NULL, 0);
-		printf ("gnome_calendar_load_cb: success\n");
+		g_message ("gnome_calendar_load_cb: success");
 		break;
+
 	case CAL_CLIENT_LOAD_ERROR:
-		printf ("gnome_calendar_load_cb: load error.\n");
+		g_message ("gnome_calendar_load_cb: load error");
 		if (locd->gcom == CALENDAR_OPEN_OR_CREATE) {
-			printf ("gnome_calendar_load_cb: trying create...\n");
+			g_message ("gnome_calendar_load_cb: trying create...");
 			/* FIXME: connect to the cal_loaded signal of the
 			 * CalClient and get theasynchronous notification
 			 * properly! */
@@ -523,9 +524,20 @@ gnome_calendar_load_cb (GtkWidget *cal_client,
 			gnome_calendar_update_all (locd->gcal, NULL, 0);
 		}
 		break;
+
 	case CAL_CLIENT_LOAD_IN_USE:
-		printf ("gnome_calendar_load_cb: in use\n");
+		/* FIXME: what to do? */
+		g_message ("gnome_calendar_load_cb: in use");
 		break;
+
+	case CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED:
+		/* FIXME: what to do? */
+		g_message ("gnome_calendar_load_cb(): method not supported");
+		break;
+
+	default:
+		g_message ("gnome_calendar_load_cb(): unhandled result code %d!", (int) status);
+		g_assert_not_reached ();
 	}
 
 	g_free (locd->uri);
@@ -555,7 +567,7 @@ gnome_calendar_open (GnomeCalendar *gcal,
 						  locd);
 
 	if (cal_client_load_calendar (gcal->client, file) == FALSE){
-		printf ("Error loading calendar: %s\n", file);
+		g_message ("Error loading calendar: %s", file);
 		return 0;
 	}
 

@@ -43,7 +43,8 @@ typedef struct _CalClientClass CalClientClass;
 typedef enum {
 	CAL_CLIENT_LOAD_SUCCESS,
 	CAL_CLIENT_LOAD_ERROR,
-	CAL_CLIENT_LOAD_IN_USE
+	CAL_CLIENT_LOAD_IN_USE,
+	CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED
 } CalClientLoadStatus;
 
 struct _CalClient {

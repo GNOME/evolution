@@ -219,7 +219,6 @@ Listener_cal_loaded (PortableServer_Servant servant,
 	CalListenerPrivate *priv;
 	CORBA_Environment aev;
 	Evolution_Calendar_Cal cal_copy;
-	CalListenerLoadStatus load_status;
 
 	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	priv = listener->priv;
@@ -241,26 +240,8 @@ Listener_cal_loaded (PortableServer_Servant servant,
 
 	priv->cal = cal_copy;
 
-	switch (status) {
-	case Evolution_Calendar_Listener_SUCCESS:
-		load_status = CAL_LISTENER_LOAD_SUCCESS;
-		break;
-
-	case Evolution_Calendar_Listener_ERROR:
-		load_status = CAL_LISTENER_LOAD_ERROR;
-		break;
-
-	case Evolution_Calendar_Listener_IN_USE:
-		load_status = CAL_LISTENER_LOAD_IN_USE;
-		break;
-
-	default:
-		load_status = CAL_LISTENER_LOAD_ERROR; /* keep gcc happy */
-		g_assert_not_reached ();
-	}
-
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[CAL_LOADED],
-			 load_status, cal);
+			 status, cal);
 }
 
 /* Listener::obj_updated method */

@@ -28,6 +28,8 @@ libpcs_a_SOURCES =		\
 	cal.h			\
 	cal-backend.c		\
 	cal-backend.h		\
+	cal-backend-imc.c	\
+	cal-backend-imc.h	\
 	cal-common.h		\
 	cal-factory.c		\
 	cal-factory.h		\

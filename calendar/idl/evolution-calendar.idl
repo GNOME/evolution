@@ -88,11 +88,12 @@ module Calendar {
 	interface Listener : Bonobo::Unknown {
 		/* Return status when loading a calendar; we need better error reporting */
 		enum LoadStatus {
-			SUCCESS,	/* All OK */
-			ERROR,		/* Generic error */
-			IN_USE		/* Requested create while a calendar
-					 * with the same URI was in use.
-					 */
+			SUCCESS,		/* All OK */
+			ERROR,			/* Generic error */
+			IN_USE,			/* Requested create while a calendar
+						 * with the same URI was in use.
+						 */
+			METHOD_NOT_SUPPORTED	/* A method handler is not registered */
 		};
 
 		/* Called from a CalFactory when a calendar is initially loaded

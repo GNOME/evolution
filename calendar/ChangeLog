@@ -1,3 +1,81 @@
+2000-05-08  Federico Mena Quintero  <federico@helixcode.com>
+
+	* pcs/cal-backend.h (CalBackendClass): CalBackendClass now is just
+	an interface for calendar backends; this is an abstract class.
+	Put in the vtable for the backend methods.
+
+	* pcs/cal-backend.c (cal_backend_new): Removed function, since
+	CalBackend is not just an abstract class.
+	Removed implementation-specific functions and made public
+	functions call the virtual methods instead.
+
+	* pcs/cal-backend-imc.[ch]: New files with the CalBackendIMC
+	implementation; this implements a backend for iCalendar and
+	vCalendar files.  Moved the implementation-specific stuff from
+	cal-backend.[ch] to here.
+
+	* pcs/cal-backend-imc.c (CalendarFormat): Moved enumeration to
+	here.  Added a CAL_UNKNOWN value for when the backend is not
+	loaded yet.
+	(cal_backend_imc_init): Initialize priv->format as CAL_UNKNOWN.
+	(save_to_vcal): Use the same VCProdIdProp value as in
+	cal-util/calobj.c.  Use "1.0" as the VCVersionProp as per the
+	vCalendar spec.
+	(ensure_uid): Return nothing, since the result value need not be
+	used anymore.
+	(add_object): Since we mark the calendar as dirty anyways, we do
+	not need to check the result value of ensure_uid() anymore.
+	(remove_object): Asssert that we know how to handle the object's
+	type.  We do this in add_object() anyways.
+
+	* pcs/Makefile.am (libpcs_a_SOURCES): Added cal-backend-imc.[ch].
+
+	* gui/gnome-cal.c: Replaced debugging printf()s with g_message()
+	so that we can see the line number where they occur.
+
+	* gui/gnome-cal.c (gnome_calendar_load_cb): Sort of handle the
+	LOAD_METHOD_NOT_SUPPORTED result code, and added a default for the
+	switch.
+
+	* cal-client/cal-listener.h (CalListenerLoadStatus): Removed
+	enumeration; it is stupid to translate all values for the
+	CalClient when it is going to translate them again.
+	(CalListenerClass::cal_loaded): This signal now passes the
+	LoadStatus directly from the CORBA side.
+
+	* cal-client/cal-listener.c (Listener_cal_loaded): Do not
+	translate the status value.
+
+	* cal-client/cal-client.h (CalClientLoadStatus): Added the
+	CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED error code.
+
+	* cal-client/cal-client.c (cal_loaded_cb): Translate the CORBA
+	version of the LoadStatus result code.
+
+	* pcs/cal-factory.c (CalFactoryPrivate): New methods field for the
+	hash table from method strings to the GtkTypes for backend class
+	types.
+	(cal_factory_init): Create the priv->methods hash table.
+	(cal_factory_destroy): Free the priv->methods hash table.
+	(cal_factory_register_method): New function to register a backend
+	class for a particular URI method.
+	(launch_backend_for_uri): New function to launch a backend for a
+	particular URI's method.
+	(load_backend): Use launch_backend_for_uri().  Move the error
+	notification code from load_fn() to here.
+	(create_backend): Use launch_backend_for_uri().  Move the error
+	notification code form create_fn() to here; it is #ifdefed out
+	since currently cal_backend_create() does not have any error
+	reporting capabilities.
+
+	* idl/evolution-calendar.idl (Listener::LoadStatus): Added a
+	PROTOCOL_NOT_SUPPORTED error code.
+
+	* pcs/cal-factory.c (cal_factory_load cal_factory_create): Removed
+	functions, since they were supposed to be internal only.
+	(CalFactory_load): Call queue_load_create_job() directly.
+	(CalFactory_create): Likewise.
+
 2000-05-08  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-week-view.c (e_week_view_remove_event_cb): 
