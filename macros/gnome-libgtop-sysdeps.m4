@@ -19,44 +19,28 @@ AC_DEFUN([GNOME_LIBGTOP_SYSDEPS],[
 
 	AC_MSG_CHECKING(for libgtop sysdeps directory)
 
-	AC_ARG_WITH(sysdeps,
-	[  --with-sysdeps=dir      which sysdeps directory should be used [default=auto]],
-	[if test "x$withval" = "xyes" ; then
-	   ac_cv_sysdeps_dir=yes
-	 elif test "x$withval" = "xauto" ; then
-	   ac_cv_sysdeps_dir=yes
-	 else
-	   ac_cv_sysdeps_dir=$withval
-	 fi],[ac_cv_sysdeps_dir=yes])
-
-	if test "x$ac_cv_sysdeps_dir" = "xyes" ; then
-	  case "$host_os" in
-	  linux*)
-	    libgtop_sysdeps_dir=linux
-	    libgtop_use_machine_h=no
-	    libgtop_need_server=no
-	    ;;
-	  sunos4*)
-	    libgtop_sysdeps_dir=sun4
-	    libgtop_use_machine_h=no
-	    libgtop_need_server=yes
-	    ;;
-	  osf*)
-	    libgtop_sysdeps_dir=osf1
-	    libgtop_use_machine_h=yes
-	    libgtop_need_server=yes
-	    ;;
-	  *)
-	    libgtop_sysdeps_dir=stub
-	    libgtop_use_machine_h=no
-	    libgtop_need_server=no
-	    ;;
-	  esac
-	else
+	case "$host_os" in
+	linux*)
+	  libgtop_sysdeps_dir=linux
+	  libgtop_use_machine_h=no
+	  libgtop_need_server=no
+	  ;;
+	sunos4*)
+	  libgtop_sysdeps_dir=sun4
+	  libgtop_use_machine_h=no
+	  libgtop_need_server=yes
+	  ;;
+	osf*)
+	  libgtop_sysdeps_dir=osf1
+	  libgtop_use_machine_h=yes
+	  libgtop_need_server=yes
+	  ;;
+	*)
 	  libgtop_sysdeps_dir=stub
 	  libgtop_use_machine_h=no
 	  libgtop_need_server=no
-	fi
+	  ;;
+	esac
 
 	AC_MSG_RESULT($libgtop_sysdeps_dir)
 
