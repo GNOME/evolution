@@ -37,6 +37,11 @@ libevolution_importerinclude_HEADERS = 	\
 	evolution-importer-client.h	\
 	evolution-importer.h
 
+libevolution_importer_la_LIBADD =	\
+	$(top_builddir)/e-util/libeutil.la	\
+	$(EXTRA_GNOME_LIBS)		\
+	$(GTKHTML_LIBS)
+
 gladedir = $(datadir)/evolution/glade
 glade_DATA = import.glade
 
