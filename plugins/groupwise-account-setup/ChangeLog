@@ -1,3 +1,11 @@
+2005-01-23  Sivaiah Nallagatla <snalagatla@novell.com>
+
+	* camel-gw-listener.c (add_esource) 
+	(modify_esource) (add_addressbook_sources) : 
+	Don't set offline_sync value taken from camel url 
+	instead set "1" or "0" depending upon offline is enabled 
+	or not 
+
 2005-01-21  Sivaiah Nallagatla <snallagtla@novell.com>
 
 	* org-gnome-gw-account-setup.eplug.in : changed
