@@ -1,3 +1,15 @@
+2004-04-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #37416
+
+	* mail-folder-cache.c (update_1folder): Same as below. Also add
+	vJunk fodlers to the list of folders that we display the total
+	count for (as discussed on the mailing lists).
+
+	* em-folder-tree-model.c (em_folder_tree_model_set_folder_info):
+	Use 'total - deleted' as the count for Outbox rather than just the
+	total count.
+
 2004-04-02  Not Zed  <NotZed@Ximian.com>
 
 	* em-inline-filter.c: do a per-line validation of the uuencoded

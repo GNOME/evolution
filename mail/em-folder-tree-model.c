@@ -460,8 +460,18 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	/* This is duplicated in mail-folder-cache too, should perhaps be functionised */
 	unread = fi->unread == -1 ? 0 : fi->unread;
 	if (mail_note_get_folder_from_uri(fi->uri, &folder) && folder) {
-		if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX))
-			unread = camel_folder_get_message_count(folder);
+		if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)) {
+			int total;
+			
+			if ((total = camel_folder_get_message_count (folder)) > 0) {
+				int deleted = camel_folder_get_deleted_message_count (folder);
+				
+				if (deleted != -1)
+					total -= deleted;
+			}
+			
+			unread = total > 0 ? total : 0;
+		}
 		camel_object_unref(folder);
 	}
 		
