@@ -2,7 +2,6 @@
  *  Copyright (C) 2000 Helix Code Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
- *           Jeffrey Stedfast <fejj@helixcode.com>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Library General Public License
@@ -19,7 +18,7 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
+#include <gtk/gtk.h>
 #include <gnome.h>
 #include <glade/glade.h>
 
@@ -64,7 +63,7 @@ filter_editor_get_type (void)
 			(GtkArgGetFunc)NULL
 		};
 		
-		type = gtk_type_unique (gnome_dialog_get_type (), &type_info);
+		type = gtk_type_unique(gnome_dialog_get_type (), &type_info);
 	}
 	
 	return type;
@@ -76,20 +75,20 @@ filter_editor_class_init (FilterEditorClass *class)
 	GtkObjectClass *object_class;
 	
 	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class (gnome_dialog_get_type ());
-	
+	parent_class = gtk_type_class(gnome_dialog_get_type ());
+
 	object_class->finalize = filter_editor_finalise;
 	/* override methods */
-	
+
 	/* signals */
-	
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+
+	gtk_object_class_add_signals(object_class, signals, LAST_SIGNAL);
 }
 
 static void
 filter_editor_init (FilterEditor *o)
 {
-	o->priv = g_malloc0 (sizeof (*o->priv));
+	o->priv = g_malloc0(sizeof(*o->priv));
 }
 
 static void
@@ -110,7 +109,7 @@ filter_editor_finalise (GtkObject *obj)
 FilterEditor *
 filter_editor_new (void)
 {
-	FilterEditor *o = (FilterEditor *)gtk_type_new (filter_editor_get_type ());
+	FilterEditor *o = (FilterEditor *)gtk_type_new(filter_editor_get_type ());
 	return o;
 }
 
@@ -156,13 +155,9 @@ rule_add (GtkWidget *widget, struct _editor_data *data)
 	filter_filter_add_action (rule, filter_part_clone (part));
 	
 	w = filter_rule_get_widget ((FilterRule *)rule, data->f);
-	gd = gnome_dialog_new (_("Add Filter Rule"),
-			       GNOME_STOCK_BUTTON_OK,
-			       GNOME_STOCK_BUTTON_CANCEL,
-			       NULL);
-	gtk_window_set_policy (GTK_WINDOW (gd), FALSE, TRUE, FALSE);
+	gd = gnome_dialog_new (_("Add Rule"), GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
+	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (gd)->vbox), w, TRUE, TRUE, 0);
-	
 	gtk_widget_show (gd);
 	
 	result = gnome_dialog_run_and_close (GNOME_DIALOG (gd));
@@ -179,13 +174,11 @@ rule_add (GtkWidget *widget, struct _editor_data *data)
 		gtk_widget_show (GTK_WIDGET (item));
 		
 		l = g_list_append (l, item);
-		
 		gtk_list_append_items (data->list, l);
 		gtk_list_select_child (data->list, GTK_WIDGET (item));
 		
 		data->current = (FilterRule *)rule;
 		rule_context_add_rule (data->f, (FilterRule *)rule);
-		
 		set_sensitive (data);
 	} else {
 		gtk_object_unref (GTK_OBJECT (rule));
@@ -204,23 +197,18 @@ rule_edit (GtkWidget *widget, struct _editor_data *data)
 	d(printf ("edit rule\n"));
 	rule = data->current;
 	w = filter_rule_get_widget (rule, data->f);
-	gd = gnome_dialog_new (_("Edit Filter Rule"),
-			       GNOME_STOCK_BUTTON_OK,
-			       GNOME_STOCK_BUTTON_CANCEL,
-			       NULL);
-	gtk_window_set_policy (GTK_WINDOW (gd), FALSE, TRUE, FALSE);
+	gd = gnome_dialog_new(_("Edit Rule"), GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
+	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (gd)->vbox), w, TRUE, TRUE, 0);
-	
 	gtk_widget_show (gd);
-	
 	result = gnome_dialog_run_and_close (GNOME_DIALOG (gd));
 	
 	if (result == 0) {
-		pos = rule_context_get_rank_rule (data->f, data->current, data->current_source);
+		pos = rule_context_get_rank_rule(data->f, data->current, data->current_source);
 		if (pos != -1) {
 			GtkListItem *item = g_list_nth_data (data->list->children, pos);
-			gchar *s = e_utf8_to_gtk_string (GTK_WIDGET (item), data->current->name);
-			gtk_label_set_text (GTK_LABEL (GTK_BIN (item)->child), s);
+			gchar *s = e_utf8_to_gtk_string ((GtkWidget *) item, data->current->name);
+			gtk_label_set_text((GtkLabel *)(((GtkBin *)item)->child), s);
 			g_free (s);
 		}
 	 }
@@ -232,7 +220,7 @@ rule_delete (GtkWidget *widget, struct _editor_data *data)
 	int pos;
 	GList *l;
 	GtkListItem *item;
-	
+
 	d(printf("ddelete rule\n"));
 	pos = rule_context_get_rank_rule(data->f, data->current, data->current_source);
 	if (pos != -1) {
@@ -246,7 +234,6 @@ rule_delete (GtkWidget *widget, struct _editor_data *data)
 		gtk_object_unref (GTK_OBJECT (data->current));
 		data->current = NULL;
 	}
-	
 	set_sensitive (data);
 }
 
@@ -273,9 +260,9 @@ rule_up (GtkWidget *widget, struct _editor_data *data)
 	int pos;
 	
 	d(printf("up rule\n"));
-	pos = rule_context_get_rank_rule (data->f, data->current, data->current_source);
+	pos = rule_context_get_rank_rule(data->f, data->current, data->current_source);
 	if (pos > 0) {
-		rule_move (data, pos, pos - 1);
+		rule_move (data, pos, pos-1);
 	}
 }
 
@@ -285,8 +272,8 @@ rule_down (GtkWidget *widget, struct _editor_data *data)
 	int pos;
 	
 	d(printf ("down rule\n"));
-	pos = rule_context_get_rank_rule (data->f, data->current, data->current_source);
-	rule_move (data, pos, pos + 1);
+	pos = rule_context_get_rank_rule(data->f, data->current, data->current_source);
+	rule_move (data, pos, pos+1);
 }
 
 static struct {
@@ -308,14 +295,11 @@ set_sensitive (struct _editor_data *data)
 	
 	while ((rule = rule_context_next_rule (data->f, rule, data->current_source))) {
 		if (rule == data->current)
-			index = count;
+			index=count;
 		count++;
 	}
-	
 	d(printf ("index = %d count=%d\n", index, count));
-	
 	count--;
-	
 	gtk_widget_set_sensitive (GTK_WIDGET (data->buttons[BUTTON_EDIT]), index != -1);
 	gtk_widget_set_sensitive (GTK_WIDGET (data->buttons[BUTTON_DELETE]), index != -1);
 	gtk_widget_set_sensitive (GTK_WIDGET (data->buttons[BUTTON_UP]), index > 0);
@@ -328,7 +312,7 @@ select_rule (GtkWidget *w, GtkWidget *child, struct _editor_data *data)
 	data->current = gtk_object_get_data (GTK_OBJECT (child), "rule");
 	
 	if (data->current)
-		d(printf ("selected rule: %s\n", data->current->name));
+		d(printf ("seledct rule: %s\n", data->current->name));
 	else
 		d(printf ("bad data?\n"));
 	
@@ -401,7 +385,7 @@ filter_editor_construct (struct _FilterContext *f)
         d = glade_xml_get_widget (gui, "edit_filter");
 	gtk_object_set_data_full (GTK_OBJECT (d), "data", data, g_free);
 	
-	gtk_window_set_title (GTK_WINDOW (d), _("Edit Filters"));
+	gtk_window_set_title (GTK_WINDOW (d), "Edit Filters");
 	for (i = 0; i < BUTTON_LAST; i++) {
 		data->buttons[i] = (GtkButton *)w = glade_xml_get_widget (gui, edit_buttons[i].name);
 		gtk_signal_connect (GTK_OBJECT (w), "clicked", edit_buttons[i].func, data);
@@ -433,8 +417,6 @@ filter_editor_construct (struct _FilterContext *f)
 	gtk_signal_connect (GTK_OBJECT (w), "select_child", select_rule, data);
 	gtk_signal_connect (GTK_OBJECT (w), "button_press_event", double_click, data);
 	select_source (GTK_MENU_ITEM (firstitem), data);
-	
-	set_sensitive (data);
 	
 	gtk_object_unref (GTK_OBJECT (gui));
 	

@@ -33,7 +33,7 @@
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-sync-abs.h>
 #include <cal-client/cal-client.h>
-#include <e-pilot-map.h>
+
 
 /* This is the local record structure for the Evolution Calendar conduit. */
 typedef struct _ECalLocalRecord ECalLocalRecord;
@@ -67,11 +67,12 @@ struct _ECalConduitContext {
 	GList *uids;
 	GList *changed;
 
-	EPilotMap *map;
-
 	GHashTable *added;
 	GHashTable *modified;
 	GHashTable *deleted;
+	
+	GHashTable *uid_map;
+	GHashTable *pid_map;
 };
 
 #endif __CALENDAR_CONDUIT_H__ 

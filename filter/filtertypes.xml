@@ -197,26 +197,6 @@
   </input>
  </part>
 
- <part name="source">
-  <title>Source</title>
-  <input type="optionlist" name="url-type">
-   <option value="is">
-    <title>is</title>
-    <code>
-       (match-all (= (get-source) ${source}))
-    </code>
-   </option>
-   <option value="is-not">
-    <title>is not</title>
-    <code>
-       (match-all (not (= (get-source) ${source})))
-    </code>
-   </option>
-  </input>
-  <input type="url" name="source">
-  </input>
- </part>
-
 </partset>
 
 
@@ -226,13 +206,8 @@
   <code>(copy-to ${folder})</code>
   <input type="folder" name="folder"/>
  </part>
- <part name="move-to-folder">
-  <title>Move to Folder</title>
-  <code>(move-to ${folder})</code>
-  <input type="folder" name="folder"/>
- </part>
  <part name="forward-to">
-  <title>Forward to Address</title>
+  <title>Forward to address</title>
   <code>(forward-to ${address})</code>
   <input type="address" name="address"/>
  </part>
@@ -241,7 +216,7 @@
   <code>(delete)</code>
  </part>
  <part name="stop">
-  <title>Stop Processing</title>
+  <title>Stop processing</title>
   <code>(stop)</code>
  </part>
  <part name="colour">

@@ -18,7 +18,7 @@ INCLUDES = 						\
 	$(EXTRA_GNOME_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-        -DGNOMELOCALEDIR=\""$(localedir)"\"
+        -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 LINK_FLAGS =							\
 	$(BONOBO_VFS_GNOME_LIBS)				\
@@ -30,8 +30,7 @@ LINK_FLAGS =							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/libversit/libversit.la			\
-	$(top_builddir)/libical/src/libical/libical.a		\
-	$(top_builddir)/widgets/meeting-time-sel/libevolutionmtsel.a
+	$(top_builddir)/libical/src/libical/libical.a
 
 gladedir   = $(datadir)/evolution/glade
 

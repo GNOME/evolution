@@ -19,7 +19,7 @@ INCLUDES =						\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
+	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
 	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"
 
 bin_PROGRAMS =	\

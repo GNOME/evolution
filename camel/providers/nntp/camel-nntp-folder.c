@@ -137,7 +137,7 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 	if (status == NNTP_NO_SUCH_ARTICLE) {
 		camel_exception_setv (ex, 
 				     CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				     _("Message %s not found."),
+				     "message %s not found.",
 				      message_id);
 		return NULL;
 	}
@@ -161,7 +161,7 @@ nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *
 		char *line;
 
 		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (parent_store), &line, ex) < 0) {
-			g_warning ("recv_line failed while building message\n");
+			g_error ("recv_line failed while building message\n");
 			break;
 		}
 

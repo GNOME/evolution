@@ -34,7 +34,7 @@ extern "C" {
 #include <camel-folder-summary.h>
 
 gboolean filter_message_search (CamelMimeMessage *message, CamelMessageInfo *info,
-				const char *source, const char *expression, CamelException *ex); 
+				const char *expression, CamelException *ex); 
 
 #ifdef __cplusplus
 }

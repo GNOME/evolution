@@ -1,69 +1,16 @@
-2000-10-23  Dan Winship  <danw@helixcode.com>
-
-	* e-msg-composer.c, e-msg-composer-attachment-bar.c: add some
-	missing _()s.
-
-	* e-msg-composer-address-dialog.*, e-msg-composer-address-entry.*:
-	Old cruft. Remove.
-
-	* Makefile.am: Update for removed files.
-
-	* e-msg-composer-hdrs.c: Remove e-msg-composer-address-entry.h
-	include.
-
-	* e-msg-composer.c: Remove e-msg-composer-address-dialog.h include
-	
-2000-10-23  Ariel Rios   <ariel@arcavia.com>
-
-	* e-msg-composer-hdrs.c: Include Composer.h
-	instead of volution-Addressbook-SelectNames.h
-
-2000-10-22  Dan Winship  <danw@helixcode.com>
-
-	* .cvsignore: No, don't ignore Evolution-Addressbook-SelectNames*.
-	They're not supposed to be there any more. 
-
 2000-10-22  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-msg-composer-attachment-bar.c (attach_cb): Removed.
 	(add_from_user): Use `e_msg_composer_select_file()' instead of
 	doing the file selector widget magic by yourself.
 
-2000-10-20  Jeffrey Stedfast  <fejj@helixcode.com>
-
-	* .cvsignore: Ignore Evolution-Addressbook-SelectNames*
-
-2000-10-20  Dan Winship  <danw@helixcode.com>
-
-	* Evolution-Composer.idl: Evolution::Composer interface
-
-	* evolution-composer.[ch]: Implementation and factory. So
-	entirely not tested.
-
-	* Makefile.am (libcomposer_la_SOURCES): Add
-	evolution-composer.[ch]
-	(IDLS): Update this for Evolution-Composer.idl / Composer.idl
-
-	* main.c: Removed. (Old, dead code)
-
 2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
 
-	* Makefile.am (glade_data): Add `e-msg-composer-attachment.glade'.
-	(glade_messages): New.
-	(EXTRA_DIST): Add `$(glade_messages)'.
-
-2000-10-19  Michael Meeks  <michael@helixcode.com>
-
-	* e-msg-composer.c (create_menubar_file, create_menubar_edit),
-	(create_menubar_format, create_menubar_view, create_menubar): kill.
-	(create_toolbar): die.
-	(setup_ui): impl.
-	(e_msg_composer_construct): hook in.
-	(menu_format_html_cb): update.
-	(menu_view_attachments_activate_cb): ditto.
-	(destroy): upd.
-	(e_msg_composer_construct): upd.
-	(e_msg_composer_set_send_html): upd.
+	* Makefile.am (glade_DATA): Add `e-msg-composer-attachment.glade'.
+	(glade_messages): New.  Move
+	`e-msg-composer-address-dialog.glade.h' and
+	`e-msg-composer-attachment.glade.h' here.
+	(EXTRA_DIST): Add `bad-icon.xpm' and `$(glade_messages)'.
 
 2000-10-16  Iain Holmes  <iain@helixcode.com>
 

@@ -52,8 +52,6 @@ libfilter_la_SOURCES =				\
 	filter-rule.h				\
 	filter-score.c				\
 	filter-score.h				\
-	filter-url.c				\
-	filter-url.h				\
 	rule-context.c				\
 	rule-context.h				\
 	score-context.c				\
@@ -69,17 +67,10 @@ libfilter_la_SOURCES =				\
 	vfolder-rule.c				\
 	vfolder-rule.h
 
-libfilter_la_DEPENDENCIES = libfilter-i18n.h
-
 EXTRA_DIST = filtertypes.xml vfoldertypes.xml \
-	filter.glade filter.glade.h libfilter-i18n.h
+	filter.glade
 
 # basic rules.
 filterdir = $(datadir)/evolution
 filter_DATA = filtertypes.xml vfoldertypes.xml
 
-libfilter-i18n.h: filtertypes.xml vfoldertypes.xml
-	echo "/* Automatically generated. Do not edit. */" > $@;	      \
-	cat $(srcdir)/filtertypes.xml $(srcdir)/vfoldertypes.xml |	      \
-		sed -n -e 's:.*<title>\(.*\)</title>:char *s = N_("\1");:p' | \
-		sort -u >> $@

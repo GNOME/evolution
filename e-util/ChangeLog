@@ -1,43 +1,7 @@
-2000-10-23  JP Rosevear  <jpr@helixcode.com>
-
-	* e-pilot-map.c (e_pilot_map_lookup_pid): Lookup a pid by uid.
-	(e_pilot_map_lookup_uid): Lookup a uid by pid.
-	Now this is wrapped, we can store archive info internally
-
-	* e-pilot-map.h: New accessor prototypes
-	
-2000-10-23  Dan Winship  <danw@helixcode.com>
-
-	* ename/Makefile.am (INCLUDES): Remove unused GNOMELOCALEDIR
-	setting.
-
-2000-10-23  JP Rosevear  <jpr@helixcode.com>
-
-	* e-pilot-map.c: Operate with EPilotMap structure so things are
-	abstract to the caller
-	(e_pilot_map_pid_is_archived): Infrastructure for marking records
-	as archived
-	(e_pilot_map_uid_is_archived): ditto
-
-	* e-pilot-map.h: Add more to public interface, including EPilotMap
-	structure
-	
-2000-10-23  JP Rosevear  <jpr@helixcode.com>
-
-	* e-pilot-map.c: Pilot map functions grabbed from existing conduits
-
-	* e-pilot-map.h (e_pilot_map_write): Header
-
 2000-10-18  Dan Winship  <danw@helixcode.com>
 
 	* e-html-utils.c (e_text_to_html): If unicode_get_utf8 returns -1,
 	assume it was actually undeclared iso-8859-1 text.
-
-2000-10-17  Jesse Pavel  <jpavel@helixcode.com>
-
-	* ename/e-address-western.c: made the routines use the stardard
-	e_strstrcase instead of the included function that existed
-	earlier.
 
 2000-10-11  Iain Holmes  <iain@helixcode.com>
 

@@ -1,32 +1,8 @@
-2000-10-23  Dan Winship  <danw@helixcode.com>
+2000-10-19  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/component/select-names/Makefile.am (INCLUDES): 
-	* gui/component/Makefile.am (INCLUDES): Update EVOLUTION_LOCALEDIR
+	* conduit/*: Merge properly from HEAD
 
-	* backend/pas/Makefile.am (INCLUDES): 
-	* backend/ebook/Makefile.am (INCLUDES): Update GNOMELOCALEDIR.
-
-2000-10-23  JP Rosevear  <jpr@helixcode.com>
-
-	* conduit/address-conduit.h: Use new libeconduit calls and
-	abstraction
-
-	* conduit/address-conduit.c: ditto
-	
-2000-10-23  JP Rosevear  <jpr@helixcode.com>
-
-	* conduit/address-conduit.c (pre_sync): Use e_pilot_map_read
-	(post_sync): Use e_pilot_map_write
-
-	* conduit/Makefile.am: Link libeconduit and not libical
-
-2000-10-20  Michael Meeks  <michael@helixcode.com>
-
-	* contact-editor/e-contact-editor.c (tb_save_and_close_cb): 
-
-	* gui/component/addressbook.c (toggle_view_as_cb): 
-
-2000-10-20  JP Rosevear  <jpr@helixcode.com>
+2000-10-19  JP Rosevear  <jpr@helixcode.com>
 
 	* conduit/address-conduit.h: New structure of file - similar
 	to calendar/todo conduits
@@ -43,6 +19,12 @@
 	to e-address-conduit-control-applet.desktop
 
 	* conduit/address.conduit.in: Renamed to e-address.conduit.in
+	
+2000-10-19  JP Rosevear  <jpr@helixcode.com>
+
+	* conduit/Makefile.am: Build fix
+
+	* Makefile.am (DIST_SUBDIRS): Build fix
 
 2000-10-19  Christopher James Lahey  <clahey@helixcode.com>
 

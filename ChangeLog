@@ -1,22 +1,16 @@
-2000-10-23  Dan Winship  <danw@helixcode.com>
+2000-10-24  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* notes/Makefile.am (INCLUDES): Update EVOLUTION_LOCALEDIR
-
-	* configure.in: set localedir here to use in Makefiles.
-	(AM_GNOME_GETTEXT doesn't actually always set it to
-	$(datadir)/locale).
-
+	* addressbook/conduit/address-conduit-control-applet.c:
+	moved #include <config.h> to the top.
+	
 2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Updated the gal check to check for gal 0.2.1.
 
-2000-10-22  Robert Brady  <rwb197@zepler.org>
+2000-10-23  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* configure.in: Added "en_GB" to ALL_LINGUAS.
-
-2000-10-20  Michael Meeks  <michael@helixcode.com>
-
-	* notes/component-factory.c (control_activate_cb): 
+	* camel/camel-exception-list.def: Added newline at the
+	end of the file to stop gcc from spewing warnings.
 
 2000-10-19  Christopher James Lahey  <clahey@helixcode.com>
 
@@ -33,11 +27,6 @@
 
 	* Makefile.am (EXTRA_DIST): Remove `evolution.spec.in'.
 	(dist-hook:): Removed.
-
-2000-10-18  Michael Meeks  <michael@helixcode.com>
-
-	* notes/component-factory.c (control_activate, control_deactivate),
-	(create_view): cripple, not worth updating to new UI code.
 
 2000-10-17  Tuomas Kuosmanen  <tigert@helixcode.com>
 

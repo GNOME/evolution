@@ -1,10 +1,13 @@
-Version 0.6
------------
+Version 0.6, "Procompsognathus", 2000-10-19
+-------------------------------------------
 
 General:
 
   - Split out lots of functionality to gal.  Evolution now depends on
     gal. (Chris Lahey, Gal Team)
+
+  - Updated to use the new toolbar and UI merging code from Bonobo.
+    (Michael Meeks, Ettore)
 
 Shell:
 
@@ -15,9 +18,6 @@ Shell:
 
   - Fixed the problem with the folder bar disappearing too son when
     clicking on the scrollbar.  (Ettore)
-
-  - Updated to use the new toolbar and UI merging code from Bonobo.
-    (Michael Meeks, Ettore)
 
 Mail:
 

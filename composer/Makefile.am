@@ -1,29 +1,30 @@
 ## CORBA stuff
 
-IDLS =				\
-	Evolution-Composer.idl	\
-	Composer.idl
+IDLS = \
+	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
-IDL_GENERATED =			\
-	Composer.h		\
-	Composer-common.c	\
-	Composer-skels.c	\
-	Composer-stubs.c
+IDL_GENERATED = \
+	Evolution-Addressbook-SelectNames.h		\
+	Evolution-Addressbook-SelectNames-common.c	\
+	Evolution-Addressbook-SelectNames-skels.c	\
+	Evolution-Addressbook-SelectNames-stubs.c
 
-selectnamesdir = $(top_srcdir)/addressbook/gui/component/select-names
+Evolution-Addressbook-SelectNames-impl.o: Evolution-Addressbook-SelectNames.h
 
-$(IDL_GENERATED): $(IDLS) $(selectnamesdir)/Evolution-Addressbook-SelectNames.idl
+$(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
-		-I $(selectnamesdir) -I . Composer.idl
+		$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
 ##
 
 gladedir = $(datadir)/evolution/glade
 
 glade_DATA =					\
+	e-msg-composer-address-dialog.glade	\
 	e-msg-composer-attachment.glade
 
 glade_messages = \
+	e-msg-composer-address-dialog.glade.h	\
 	e-msg-composer-attachment.glade.h
 
 libcomposerincludedir = $(includedir)/composer
@@ -45,12 +46,15 @@ INCLUDES =								\
 	$(BONOBO_GNOME_CFLAGS)						\
 	$(GTKHTML_CFLAGS)						\
 	$(UNICODE_CFLAGS)						\
-	-DEVOLUTION_DATADIR=\"$(datadir)\"				\
 	-DE_GLADEDIR=\"$(gladedir)\"					\
 	-DG_LOG_DOMAIN=\"composer\"
 
 libcomposer_la_SOURCES = 			\
 	$(IDL_GENERATED)			\
+	e-msg-composer-address-dialog.c		\
+	e-msg-composer-address-dialog.h		\
+	e-msg-composer-address-entry.c		\
+	e-msg-composer-address-entry.h		\
 	e-msg-composer-attachment-bar.c		\
 	e-msg-composer-attachment-bar.h		\
 	e-msg-composer-attachment.c		\
@@ -62,9 +66,7 @@ libcomposer_la_SOURCES = 			\
 	e-msg-composer.c			\
 	e-msg-composer.h			\
 	e-icon-list.c				\
-	e-icon-list.h				\
-	evolution-composer.c			\
-	evolution-composer.h
+	e-icon-list.h
 
 EXTRA_DIST =					\
 	$(glade_DATA)				\

@@ -33,7 +33,7 @@
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-sync-abs.h>
 #include <cal-client/cal-client.h>
-#include <e-pilot-map.h>
+
 
 /* This is the local record structure for the Evolution ToDo conduit. */
 typedef struct _EToDoLocalRecord EToDoLocalRecord;
@@ -63,14 +63,16 @@ struct _EToDoConduitContext {
 	gboolean calendar_load_tried;
 	gboolean calendar_load_success;
 
+	time_t since;
 	GList *uids;
 	GList *changed;
 
-	EPilotMap *map;
-	
 	GHashTable *added;
 	GHashTable *modified;
 	GHashTable *deleted;
+	
+	GHashTable *uid_map;
+	GHashTable *pid_map;
 };
 
 #endif __TODO_CONDUIT_H__ 

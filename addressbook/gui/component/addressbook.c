@@ -98,7 +98,7 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 }
 
 static void
-new_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	ECard *card;
 	EBook *book;
@@ -134,7 +134,7 @@ null_cb (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-new_server_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+new_server_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	ELDAPServer *server = g_new (ELDAPServer, 1);
 	EBook *book;
@@ -167,7 +167,7 @@ new_server_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 #endif
 
 static void
-search_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+search_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	EBook *book;
 	AddressbookView *view = (AddressbookView *) user_data;
@@ -182,7 +182,7 @@ search_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 
 #if 0
 static void
-find_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	gint result;
 	GtkWidget* search_entry = gtk_entry_new();
@@ -218,14 +218,14 @@ find_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 #endif
 
 static void
-delete_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+delete_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	e_addressbook_view_delete_selection(view->view);
 }
 
 static void
-print_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+print_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	e_addressbook_view_print(view->view);
@@ -279,14 +279,14 @@ make_quick_search_widget (GtkSignalFunc start_search_func,
 }
 
 static void
-show_all_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+show_all_contacts_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	e_addressbook_view_show_all(view->view);
 }
 
 static void
-stop_loading_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+stop_loading_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
 	e_addressbook_view_stop(view->view);
@@ -330,7 +330,7 @@ change_view_type (AddressbookView *view, EAddressbookViewType view_type)
 }
 
 static void
-toggle_view_as_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+toggle_view_as_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = user_data;
 	EAddressbookViewType view_type;

@@ -32,8 +32,9 @@
 
 #include <liboaf/liboaf.h>
 
-#include "Composer.h"
+#include "Evolution-Addressbook-SelectNames.h"
 
+#include "e-msg-composer-address-entry.h"
 #include "e-msg-composer-hdrs.h"
 #include <gal/e-text/e-entry.h>
 #include <gal/widgets/e-unicode.h>
