@@ -31,7 +31,7 @@
 #include "mail.h"
 #include "mail-mt.h"
 
-#if 1
+#if 0
 static int blowup(int status)
 {
 	printf("memory blew up, status %d\n", status);
@@ -62,7 +62,7 @@ main (int argc, char *argv [])
 	CORBA_ORB orb;
 	struct sigaction sa, osa;
 
-#if 1
+#if 0
 	/* used to make elfence work */
 #if 0
 	free (malloc (10));
