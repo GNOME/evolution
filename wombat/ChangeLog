@@ -1,3 +1,7 @@
+2001-06-21  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* wombat.idl: added new interface (WombatClient)
+
 2001-06-18  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (wombat_LDADD): Add libedb3util
