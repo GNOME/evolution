@@ -1,3 +1,7 @@
+2000-12-06  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* filter-editor.c: Mark some strings for translation.
+	
 2000-12-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-element.c (filter_element_new_type_name): Added support

@@ -430,9 +430,9 @@ select_source (GtkMenuItem *mi, struct _editor_data *data)
 }
 
 static char *source_names[] = {
-	"incoming",
+	N_("incoming"),
 	/*"demand",*/
-	"outgoing"
+	N_("outgoing")
 };
 
 GtkWidget *
