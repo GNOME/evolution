@@ -1,3 +1,11 @@
+2001-06-15  Dan Winship  <danw@ximian.com>
+
+	* providers/imap/camel-imap-message-cache.c
+	(camel_imap_message_cache_max_uid): Return the largest real UID in
+	the cache (as an integer). Eventually to be used for an
+	optimization in the new-message fetch code.
+	(cache_put): Keep track of max_uid.
+
 2001-06-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c: Added Mailing-List header regex so that we

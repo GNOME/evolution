@@ -94,6 +94,11 @@ cache_put (CamelImapMessageCache *cache, const char *uid, const char *key,
 	char *hash_key;
 	GPtrArray *subparts;
 	gpointer okey, ostream;
+	guint32 uidval;
+
+	uidval = strtoul (uid, NULL, 10);
+	if (uidval > cache->max_uid)
+		cache->max_uid = uidval;
 
 	subparts = g_hash_table_lookup (cache->parts, uid);
 	if (!subparts) {
@@ -193,6 +198,17 @@ camel_imap_message_cache_new (const char *path, CamelFolderSummary *summary,
 	return cache;
 }
 
+/**
+ * camel_imap_message_cache_max_uid:
+ * @cache: the cache
+ *
+ * Return value: the largest (real) UID in the cache.
+ **/
+guint32
+camel_imap_message_cache_max_uid (CamelImapMessageCache *cache)
+{
+	return cache->max_uid;
+}
 
 static void
 stream_finalize (CamelObject *stream, gpointer event_data, gpointer user_data)

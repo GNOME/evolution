@@ -47,6 +47,7 @@ struct _CamelImapMessageCache {
 
 	char *path;
 	GHashTable *parts, *cached;
+	guint32 max_uid;
 };
 
 
@@ -62,6 +63,8 @@ typedef struct {
 CamelImapMessageCache *camel_imap_message_cache_new (const char *path,
 						     CamelFolderSummary *summ,
 						     CamelException *ex);
+
+guint32     camel_imap_message_cache_max_uid (CamelImapMessageCache *cache);
 
 CamelStream *camel_imap_message_cache_insert (CamelImapMessageCache *cache,
 					      const char *uid,
