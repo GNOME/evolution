@@ -1,3 +1,8 @@
+2004-02-20  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (phone_entry_changed):
+	remove some spew.
+
 2004-02-19  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/component-factory.c: s/HAVE_NSS/ENABLE_SMIME.

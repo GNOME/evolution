@@ -778,7 +778,6 @@ phone_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	else
 		return;
 
-	printf ("gtk_entry_get_text(entry) == %s\n", (char*)gtk_entry_get_text(entry));
 	e_contact_set(editor->contact, editor->phone_choice[which - 1], (char*)gtk_entry_get_text(entry));
 
 	widget_changed (widget, editor);
