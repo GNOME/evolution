@@ -1606,7 +1606,7 @@ _get_position_from_xy (CurrentCell *cell, gint x, gint y)
 	lines += j;
 	xpos = get_line_xpos (cell, lines);
 
-	for (p = lines->text; p < lines->text + lines->length; p = g_utf8_next_char (p)) {
+	for (p = lines->text; p < lines->text + lines->length && g_unichar_validate (g_utf8_get_char (p)); p = g_utf8_next_char (p)) {
 		gint charwidth;
 
 		charwidth = e_font_utf8_char_width (font, cell->style, p);
@@ -1752,7 +1752,7 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 
 		p = g_utf8_next_char (cell->text + edit->selection_end);
 
-		while (*p) {
+		while (*p && g_unichar_validate (g_utf8_get_char (p))) {
 			if (*p == '\n') return p - cell->text;
 			p = g_utf8_next_char (p);
 		}
@@ -1785,7 +1785,7 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 
 		p = g_utf8_next_char (cell->text + edit->selection_end);
 
-		while (*p) {
+		while (*p && g_unichar_validate (g_utf8_get_char (p))) {
 			unival = g_utf8_get_char (p);
 			if (g_unichar_isspace (unival)) return p - cell->text;
 			p = g_utf8_next_char (p);
@@ -1803,7 +1803,7 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 
 		p = g_utf8_find_prev_char (cell->text, p);
 
-		while (p && p > cell->text) {
+		while (p && p > cell->text && g_unichar_validate (g_utf8_get_char (p))) {
 			unival = g_utf8_get_char (p);
 			if (g_unichar_isspace (unival)) {
 				return (g_utf8_next_char (p) - cell->text);
@@ -2201,7 +2201,7 @@ number_of_lines (char *text)
 
 	if (!text) return 0;
 
-	for (p = text; *p; p = g_utf8_next_char (p)) {
+	for (p = text; *p && g_unichar_validate (g_utf8_get_char (p)); p = g_utf8_next_char (p)) {
 		if (*p == '\n') num_lines++;
 	}
 	
@@ -2245,7 +2245,7 @@ split_into_lines (CurrentCell *cell)
 	linebreaks->lines = lines = g_new0 (struct line, linebreaks->num_lines);
 
 	len = 0;
-	for (p = text; *p; p = g_utf8_next_char (p)) {
+	for (p = text; *p && g_unichar_validate (g_utf8_get_char (p)); p = g_utf8_next_char (p)) {
 		if (len == 0) lines->text = p;
 		if (*p == '\n') {
 			lines->length = p - lines->text;
