@@ -1,3 +1,9 @@
+2000-10-11  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/camel-nntp-store.c (nntp_store_unsubscribe_folder): remove the leading '/'.
+	(nntp_store_subscribe_folder): same.
+	(nntp_store_folder_subscribed): same.
+
 2000-10-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_move_message_to): Quote
