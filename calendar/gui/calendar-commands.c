@@ -81,58 +81,6 @@ file_new_calendar_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 	new_calendar_dialog (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 }
 
-static void
-file_new_appointment_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	GnomeCalendar *gcal;
-	time_t dtstart, dtend;
-	ECalendarView *cal_view;
-
-	gcal = GNOME_CALENDAR (data);
-
-	cal_view = (ECalendarView *) gnome_calendar_get_current_view_widget (gcal);
-	e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
-	e_calendar_view_new_appointment_for (cal_view, dtstart, dtend, FALSE, FALSE);
-}
-
-static void
-file_new_event_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	GnomeCalendar *gcal;
-	time_t dtstart, dtend;
-	ECalendarView *cal_view;
-
-	gcal = GNOME_CALENDAR (data);
-
-	cal_view = (ECalendarView *) gnome_calendar_get_current_view_widget (gcal);
-	e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
-	e_calendar_view_new_appointment_for (cal_view, dtstart, dtend, TRUE, FALSE);
-}
-
-static void
-file_new_meeting_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	GnomeCalendar *gcal;
-	time_t dtstart, dtend;
-	ECalendarView *cal_view;
-
-	gcal = GNOME_CALENDAR (data);
-
-	cal_view = (ECalendarView *) gnome_calendar_get_current_view_widget (gcal);
-	e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
-	e_calendar_view_new_appointment_for (cal_view, dtstart, dtend, FALSE, TRUE);
-}
-
-static void
-file_new_task_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	gnome_calendar_new_task (gcal);
-}
-
 /* Prints the calendar at its current view and time range */
 static void
 print (GnomeCalendar *gcal, gboolean preview)

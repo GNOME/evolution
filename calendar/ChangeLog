@@ -4,6 +4,8 @@
 	(calendar_control_sensitize_calendar_commands,
 	sensitize_taskpad_commands): removed the 'New...' menu items
 	from the UI, it's now implemented in the shell.
+	(file_new_appointment_cb, file_new_event_cb, file_new_meeting_cb,
+	file_new_task_cb): removed.
 
 2003-11-18  Rodrigo Moya <rodrigo@ximian.com>
 
