@@ -1,3 +1,9 @@
+2002-01-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_edit):
+	Only connect to the parent's destroy/hide signals while the
+	attachment editor dialog is "alive".
+
 2001-12-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-select-file.c (composer_hide_cb): Only cancel the
