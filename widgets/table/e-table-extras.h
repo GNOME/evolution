@@ -24,20 +24,21 @@
 #ifndef _E_TABLE_EXTRAS_H_
 #define _E_TABLE_EXTRAS_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <gal/e-table/e-cell.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 G_BEGIN_DECLS
 
 #define E_TABLE_EXTRAS_TYPE        (e_table_extras_get_type ())
-#define E_TABLE_EXTRAS(o)          (GTK_CHECK_CAST ((o), E_TABLE_EXTRAS_TYPE, ETableExtras))
-#define E_TABLE_EXTRAS_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_EXTRAS_TYPE, ETableExtrasClass))
-#define E_IS_TABLE_EXTRAS(o)       (GTK_CHECK_TYPE ((o), E_TABLE_EXTRAS_TYPE))
-#define E_IS_TABLE_EXTRAS_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_EXTRAS_TYPE))
+#define E_TABLE_EXTRAS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_EXTRAS_TYPE, ETableExtras))
+#define E_TABLE_EXTRAS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_EXTRAS_TYPE, ETableExtrasClass))
+#define E_IS_TABLE_EXTRAS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_EXTRAS_TYPE))
+#define E_IS_TABLE_EXTRAS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_EXTRAS_TYPE))
+#define E_TABLE_EXTRAS_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), E_TABLE_EXTRAS_TYPE, ETableExtrasClass))
 
 typedef struct {
-	GtkObject base;
+	GObject base;
 
 	GHashTable *cells;
 	GHashTable *compares;
@@ -46,10 +47,10 @@ typedef struct {
 } ETableExtras;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 } ETableExtrasClass;
 
-GtkType           e_table_extras_get_type     (void);
+GType             e_table_extras_get_type     (void);
 ETableExtras     *e_table_extras_new          (void);
 
 void              e_table_extras_add_cell     (ETableExtras     *extras,

@@ -1442,7 +1442,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 
 	gtk_widget_pop_colormap ();
 
-	gtk_object_unref(GTK_OBJECT(ete));
+	g_object_unref(G_OBJECT(ete));
 
 	return e_tree;
 }
@@ -3133,22 +3133,6 @@ e_tree_class_init (ETreeClass *class)
 				e_marshal_NONE__INT_POINTER_INT_BOXED,
 				GTK_TYPE_NONE, 4, GTK_TYPE_INT, GTK_TYPE_POINTER,
 				GTK_TYPE_INT, GDK_TYPE_EVENT);
-
-	et_signals [STATE_CHANGE] =
-		gtk_signal_new ("state_change",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETreeClass, state_change),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-	et_signals [WHITE_SPACE_EVENT] =
-		gtk_signal_new ("white_space_event",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETreeClass, white_space_event),
-				gtk_marshal_INT__POINTER,
-				GTK_TYPE_INT, 1, GDK_TYPE_EVENT);
 
 	et_signals [STATE_CHANGE] =
 		gtk_signal_new ("state_change",

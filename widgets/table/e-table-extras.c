@@ -35,9 +35,7 @@
 #include "e-table-extras.h"
 #include <string.h>
 
-#define PARENT_TYPE (gtk_object_get_type())
-
-static GtkObjectClass *ete_parent_class;
+static GObjectClass *ete_parent_class;
 
 static void
 cell_hash_free(gchar	*key,
@@ -60,7 +58,7 @@ pixbuf_hash_free(gchar	*key,
 }
 
 static void
-ete_destroy (GtkObject *object)
+ete_finalize (GObject *object)
 {
 	ETableExtras *ete = E_TABLE_EXTRAS (object);
 
@@ -89,15 +87,15 @@ ete_destroy (GtkObject *object)
 	ete->searches = NULL;
 	ete->pixbufs = NULL;
 
-	GTK_OBJECT_CLASS (ete_parent_class)->destroy (object);
+	ete_parent_class->finalize (object);
 }
 
 static void
-ete_class_init (GtkObjectClass *klass)
+ete_class_init (GObjectClass *klass)
 {
-	ete_parent_class = gtk_type_class (PARENT_TYPE);
+	ete_parent_class = g_type_class_peek_parent (klass);
 	
-	klass->destroy = ete_destroy;
+	klass->finalize = ete_finalize;
 }
 
 static gint
@@ -180,12 +178,12 @@ ete_init (ETableExtras *extras)
 	e_table_extras_add_cell(extras, "tree-string", e_cell_tree_new (NULL, NULL, TRUE, e_cell_text_new (NULL, GTK_JUSTIFY_LEFT)));
 }
 
-E_MAKE_TYPE(e_table_extras, "ETableExtras", ETableExtras, ete_class_init, ete_init, PARENT_TYPE)
+E_MAKE_TYPE(e_table_extras, "ETableExtras", ETableExtras, ete_class_init, ete_init, G_TYPE_OBJECT)
 
 ETableExtras *
 e_table_extras_new (void)
 {
-	ETableExtras *ete = gtk_type_new (E_TABLE_EXTRAS_TYPE);
+	ETableExtras *ete = g_object_new (E_TABLE_EXTRAS_TYPE, NULL);
 
 	return (ETableExtras *) ete;
 }
