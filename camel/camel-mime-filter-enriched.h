@@ -58,6 +58,7 @@ struct _CamelMimeFilterEnrichedClass {
 CamelType        camel_mime_filter_enriched_get_type (void);
 
 CamelMimeFilter *camel_mime_filter_enriched_new (guint32 flags);
+char *camel_enriched_to_html(const char *in, guint32 flags);
 
 #ifdef __cplusplus
 }

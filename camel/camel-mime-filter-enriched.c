@@ -570,3 +570,22 @@ camel_mime_filter_enriched_new (guint32 flags)
 	
 	return CAMEL_MIME_FILTER (new);
 }
+
+char *
+camel_enriched_to_html(const char *in, guint32 flags)
+{
+	CamelMimeFilter *filter;
+	size_t outlen, outpre;
+	char *outbuf;
+
+	if (in == NULL)
+		return NULL;
+	
+	filter = camel_mime_filter_enriched_new(flags);
+	
+	camel_mime_filter_complete(filter, (char *)in, strlen(in), 0, &outbuf, &outlen, &outpre);
+	outbuf = g_strndup (outbuf, outlen);
+	camel_object_unref (filter);
+	
+	return outbuf;
+}

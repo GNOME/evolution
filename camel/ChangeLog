@@ -1,3 +1,10 @@
+2003-06-20  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #43887
+
+	* camel-mime-filter-enriched.c (camel_enriched_to_html): simple
+	wrapper to convert enriched to html in one go.
+
 2003-06-18  Not Zed  <NotZed@Ximian.com>
 
 	* camel-service.c (get_hostbyaddr, get_hostbyname): if we got
