@@ -1362,7 +1362,6 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		   ETableSpecification *specification, ETableState *state)
 {
 	int row = 0;
-	int i, col_count;
 
 	if (ete)
 		g_object_ref(ete);
@@ -2048,6 +2047,21 @@ find_next_in_range (ETree *et, gint start, gint end, ETreePathFunc func, gpointe
 	return NULL;
 }
 
+static ETreePath
+find_prev_in_range (ETree *et, gint start, gint end, ETreePathFunc func, gpointer data)
+{
+	ETreePath path;
+	gint row;
+
+	for (row = start; row >= end; row--) {
+		path = e_tree_table_adapter_node_at_row (et->priv->etta, row);
+		if (func (et->priv->model, path, data))
+			return path;
+	}
+
+	return NULL;
+}
+
 gboolean
 e_tree_find_next (ETree *et, ETreeFindNextParams params, ETreePathFunc func, gpointer data)
 {
@@ -2060,7 +2074,10 @@ e_tree_find_next (ETree *et, ETreeFindNextParams params, ETreePathFunc func, gpo
 	if (row == -1)
 		row = 0;
 
-	found = find_next_in_range (et, row + 1, row_count - 1, func, data);
+	if (params & E_TREE_FIND_NEXT_FORWARD)
+		found = find_next_in_range (et, row + 1, row_count - 1, func, data);
+	else
+		found = find_prev_in_range (et, row - 1, 0, func, data);
 
 	if (found) {
 		e_tree_table_adapter_show_node (et->priv->etta, found);
@@ -2068,8 +2085,11 @@ e_tree_find_next (ETree *et, ETreeFindNextParams params, ETreePathFunc func, gpo
 		return TRUE;
 	}
 
-	if ((params & E_TREE_FIND_NEXT_WRAP) && (row > 0)) {
-		found = find_next_in_range (et, 0, row, func, data);
+	if (params & E_TREE_FIND_NEXT_WRAP) {
+		if (params & E_TREE_FIND_NEXT_FORWARD)
+			found = find_next_in_range (et, 0, row, func, data);
+		else
+			found = find_prev_in_range (et, row_count - 1, row, func, data);
 
 		if (found && found != cursor) {
 			e_tree_table_adapter_show_node (et->priv->etta, found);
