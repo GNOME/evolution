@@ -1,3 +1,26 @@
+2003-08-11  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imapp/camel-imapp-store.c (imap_get_folder_info):
+	force connect manually so basics work.
+
+	** See bug #45505.
+
+	* camel-service.c (camel_gethostbyname): duh, pthread_create
+	returns the error code directly, not via errno.
+	(camel_gethostbyaddr): Same, also properly handle the failure
+	case.
+
+2003-08-01  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #47208.
+
+	* camel-filter-search.c (match_all): match-all with no arguments	
+	should always return TRUE.
+
+	* camel-folder-search.c (camel_folder_search_execute_expression):
+	print a warning when we get an invalid result type & fixed a leak
+	for that case.
+
 2003-08-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* tests/message/test4.c: New test suite for the mime parser (which
@@ -38,7 +61,7 @@
 	class's default mime_type.
 	(camel_mime_part_finalize): Don't need to unref the content_type
 	anymore.
-	(process_header): Updated to use CamelDataWrapper's mime_type
+M	(process_header): Updated to use CamelDataWrapper's mime_type
 	field.
 	(camel_mime_part_set_filename): Same.
 	(camel_mime_part_get_filename): Same.

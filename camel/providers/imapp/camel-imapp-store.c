@@ -861,10 +861,10 @@ imap_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExc
 	CamelFolderInfo * fi= NULL;
 	char *name;
 
-	if (istore->driver == NULL) {
-		camel_exception_setv(ex, 1, "Not connected");
+	/* FIXME: temporary, since this is not a disco store */
+	if (istore->driver == NULL
+	    && !camel_service_connect((CamelService *)store, ex))
 		return NULL;
-	}
 
 	name = (char *)top;
 	if (name == NULL || name[0] == 0) {

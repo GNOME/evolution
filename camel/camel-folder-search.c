@@ -361,8 +361,7 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 	matches = g_ptr_array_new();
 
 	/* now create a folder summary to return?? */
-	if (r
-	    && r->type == ESEXP_RES_ARRAY_PTR) {
+	if (r->type == ESEXP_RES_ARRAY_PTR) {
 		d(printf("got result ...\n"));
 		/* we use a mempool to store the strings, packed in tight as possible, and freed together */
 		/* because the strings are often short (like <8 bytes long), we would be wasting appx 50%
@@ -390,14 +389,15 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 				g_ptr_array_add(matches, e_mempool_strdup(pool, g_ptr_array_index(r->value.ptrarray, i)));
 			}
 		}
-		e_sexp_result_free(search->sexp, r);
 		/* instead of putting the mempool_hash in the structure, we keep the api clean by
 		   putting a reference to it in a hashtable.  Lets us do some debugging and catch
 		   unfree'd results as well. */
 		g_hash_table_insert(p->mempool_hash, matches, pool);
 	} else {
-		d(printf("no result!\n"));
+		g_warning("Search returned an invalid result type");
 	}
+
+	e_sexp_result_free(search->sexp, r);
 
 	search->folder = NULL;
 	search->summary = NULL;

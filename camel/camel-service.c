@@ -750,10 +750,11 @@ camel_gethostbyname (const char *name, CamelException *exout)
 		EMsgPort *reply_port;
 		pthread_t id;
 		fd_set rdset;
+		int err;
 
 		reply_port = msg->msg.reply_port = e_msgport_new();
 		fd = e_msgport_fd(msg->msg.reply_port);
-		if (pthread_create(&id, NULL, get_hostbyname, msg) == 0) {
+		if ((err = pthread_create(&id, NULL, get_hostbyname, msg)) == 0) {
 			d(printf("waiting for name return/cancellation in main process\n"));
 			do {
 				FD_ZERO(&rdset);
@@ -786,7 +787,7 @@ camel_gethostbyname (const char *name, CamelException *exout)
 				d(printf("child done\n"));
 			}
 		} else {
-			camel_exception_setv(&ex, CAMEL_EXCEPTION_SYSTEM, _("Host lookup failed: cannot create thread: %s"), g_strerror(errno));
+			camel_exception_setv(&ex, CAMEL_EXCEPTION_SYSTEM, _("Host lookup failed: cannot create thread: %s"), g_strerror(err));
 		}
 		e_msgport_destroy(reply_port);
 	}
@@ -873,10 +874,11 @@ camel_gethostbyaddr (const char *addr, int len, int type, CamelException *exout)
 		EMsgPort *reply_port;
 		pthread_t id;
 		fd_set rdset;
-		
+		int err;
+
 		reply_port = msg->msg.reply_port = e_msgport_new ();
 		fd = e_msgport_fd (msg->msg.reply_port);
-		if (pthread_create (&id, NULL, get_hostbyaddr, msg) == 0) {
+		if ((err = pthread_create (&id, NULL, get_hostbyaddr, msg)) == 0) {
 			d(printf("waiting for name return/cancellation in main process\n"));
 			do {
 				FD_ZERO(&rdset);
@@ -908,7 +910,10 @@ camel_gethostbyaddr (const char *addr, int len, int type, CamelException *exout)
 				pthread_join(id, NULL);
 				d(printf("child done\n"));
 			}
+		} else {
+			camel_exception_setv(&ex, CAMEL_EXCEPTION_SYSTEM, _("Host lookup failed: cannot create thread: %s"), g_strerror(err));
 		}
+
 		
 		e_msgport_destroy (reply_port);
 	}
