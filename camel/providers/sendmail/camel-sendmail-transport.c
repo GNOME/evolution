@@ -97,7 +97,7 @@ _send_internal (CamelMedium *message, char **argv, CamelException *ex)
 	CamelStream *out;
 	pid_t pid;
 
-	g_asssert (CAMEL_IS_MIME_MESSAGE (message));
+	g_assert (CAMEL_IS_MIME_MESSAGE (message));
 
 	if (pipe (fd) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
