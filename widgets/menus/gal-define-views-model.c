@@ -14,7 +14,7 @@
 #include "gal-define-views-model.h"
 
 #define PARENT_TYPE e_table_model_get_type()
-ETableModelClass *parent_class;
+static ETableModelClass *parent_class;
 
 /*
  * GalDefineViewsModel callbacks
