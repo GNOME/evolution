@@ -30,6 +30,7 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <gal/widgets/e-unicode.h>
+#include "../calendar-config.h"
 #include "delete-comp.h"
 
 

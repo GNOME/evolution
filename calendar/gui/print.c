@@ -715,7 +715,8 @@ print_day_background (GnomePrintContext *pc, GnomeCalendar *gcal,
 	double yinc, y;
 	double width = DAY_VIEW_TIME_COLUMN_WIDTH;
 	double font_size, max_font_size, hour_font_size, minute_font_size;
-	char buf[20], *minute;
+	char buf[20];
+	const char *minute;
 	gboolean use_24_hour;
 	int i, hour, row;
 
@@ -763,8 +764,8 @@ print_day_background (GnomePrintContext *pc, GnomeCalendar *gcal,
 		} else {
 			if (i < 12)
 				minute = U_("am");
-		  else
-			  minute = U_("pm");
+			else
+				minute = U_("pm");
 
 			hour = i % 12;
 			if (hour == 0)
@@ -806,7 +807,7 @@ print_day_add_event (CalComponent *comp,
 		     time_t	    start,
 		     time_t	    end,
 		     gint	    days_shown,
-		     time_t	   *day_starts,		
+		     time_t	   *day_starts,
 		     GArray	   *long_events,
 		     GArray	  **events)
 
@@ -2074,7 +2075,7 @@ write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
 	icaltimezone *zone = get_timezone ();
 	struct tm *tmp_tm;
 	int len;
-	
+
 	tmp_tm = convert_timet_to_struct_tm (t, zone);
 
 	if (stext != NULL)
@@ -2082,7 +2083,7 @@ write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
 
 	len = strlen (buffer);
 	e_time_format_date_and_time (tmp_tm,
-				     calendar_config_get_24_hour_format (), 
+				     calendar_config_get_24_hour_format (),
 				     FALSE, FALSE,
 				     &buffer[len], size - len);
 	if (etext != NULL)
@@ -2133,7 +2134,7 @@ print_date_label (GnomePrintContext *pc, CalComponent *comp,
 		else
 			write_label_piece (complete, buffer, 1024, _("Completed "), NULL);
 	}
-	
+
 	if (due > 0 && complete == 0) {
 		if (start > 0)
 			write_label_piece (due, buffer, 1024, _(" (Due "), ")");
@@ -2155,9 +2156,9 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp,
 	CalComponentVType vtype;
 	CalComponentText text;
 	GSList *desc, *l;
-	
+
 	vtype = cal_component_get_vtype (comp);
-	
+
 	switch (vtype) {
 	case CAL_COMPONENT_EVENT:
 	case CAL_COMPONENT_TODO:
@@ -2166,7 +2167,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp,
 		print_text_size (pc, 18, text.value, ALIGN_LEFT,
 				 left+3, right, top-3, top - 21);
 		top -= 21;
-	
+
 		/* Date information */
 		print_date_label (pc, comp, left+3, right, top-3, top - 15);
 		top -= 30;
@@ -2176,7 +2177,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp,
 		cal_component_get_description_list (comp, &desc);
 		for (l = desc; l != NULL; l = l->next) {
 			CalComponentText *text = l->data;
-		
+
 			if (text->value != NULL)
 				top = bound_text (pc, font, text->value, left, right, top-3, bottom, 3);
 		}
@@ -2328,7 +2329,7 @@ print_comp (CalComponent *comp, gboolean preview)
 	if (!preview) {
 		GtkWidget *gpd;
 
-		gpd = gnome_print_dialog_new (_("Print Item"), 
+		gpd = gnome_print_dialog_new (_("Print Item"),
 					      GNOME_PRINT_DIALOG_COPIES);
 
 		gnome_dialog_set_default (GNOME_DIALOG (gpd),
@@ -2405,23 +2406,23 @@ print_setup (void)
 {
 	GtkWidget *dlg, *ps;
 	gint btn;
-	
+
 	ps = gnome_paper_selector_new ();
 	gtk_widget_show (ps);
-	
-	dlg = gnome_dialog_new (_("Print Setup"), 
-				GNOME_STOCK_BUTTON_OK, 
-				GNOME_STOCK_BUTTON_CANCEL, 
+
+	dlg = gnome_dialog_new (_("Print Setup"),
+				GNOME_STOCK_BUTTON_OK,
+				GNOME_STOCK_BUTTON_CANCEL,
 				NULL);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox), ps, TRUE, TRUE, 2);
 
 	btn = gnome_dialog_run (GNOME_DIALOG (dlg));
 	if (btn == 0) {
 		gchar *name;
-		
+
 		name  = gnome_paper_selector_get_name (GNOME_PAPER_SELECTOR (ps));
 		paper_info = gnome_paper_with_name (name);
 	}
-	
+
 	gnome_dialog_close (GNOME_DIALOG (dlg));
 }

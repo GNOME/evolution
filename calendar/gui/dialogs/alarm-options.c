@@ -206,7 +206,7 @@ static void
 alarm_to_aalarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	icalattach *attach;
-	char *url;
+	const char *url;
 
 	cal_component_alarm_get_attach (alarm, &attach);
 
@@ -258,7 +258,7 @@ alarm_to_palarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 	cal_component_alarm_get_description (alarm, &description);
 
 	if (attach) {
-		char *url;
+		const char *url;
 
 		if (icalattach_get_is_url (attach)) {
 			url = icalattach_get_url (attach);

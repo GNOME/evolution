@@ -111,11 +111,11 @@ itip_addresses_get (void)
 		a = g_new0 (ItipAddress, 1);
 
 		/* get the identity info */
-		path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", i);
+		path = g_strdup_printf ("/Mail/Accounts/identity_name_%ld", i);
 		a->name = bonobo_config_get_string (db, path, NULL);
 		g_free (path);
 
-		path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", i);
+		path = g_strdup_printf ("/Mail/Accounts/identity_address_%ld", i);
 		a->address = bonobo_config_get_string (db, path, NULL);
 		g_free (path);
 

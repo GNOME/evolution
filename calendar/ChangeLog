@@ -1,5 +1,25 @@
 2001-09-25  Federico Mena Quintero  <federico@ximian.com>
 
+	Warning fixes courtesy of Chris Lahey <clahey@ximian.com>.
+
+	* gui/e-itip-control.c (write_html): Warning fixes.  Also, don't
+	strdup() more than necessary.
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_refresh_cb):
+	Warning fixes.
+
+	* gui/itip-utils.c (itip_addresses_get): Warning fixes.
+
+	* gui/print.c (print_day_background): Warning fixes.
+
+	* gui/dialogs/alarm-options.c (alarm_to_aalarm_widgets): Warning
+	fixes.
+	(alarm_to_palarm_widgets): Likewise.
+
+	* gui/dialogs/delete-comp.c: #include "../calendar-config.h"
+
+2001-09-25  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/alarm-notify/alarm.c (alarm_ready_cb): Check that the
 	timeout is not set up before we create a new one; the alarm_fn
 	callback may cause the alarm system to re-enter and add a new

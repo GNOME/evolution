@@ -1299,8 +1299,9 @@ e_meeting_time_selector_options_menu_position_callback (GtkMenu *menu,
 }
 
 static void
-e_meeting_time_selector_refresh_cb (EMeetingTimeSelector *mts) 
+e_meeting_time_selector_refresh_cb (gpointer data) 
 {
+	EMeetingTimeSelector *mts = data;
 	gtk_widget_queue_draw (mts->display_top);
 	gtk_widget_queue_draw (mts->display_main);
 }
