@@ -1,5 +1,10 @@
 2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-folder-tree.c (e_folder_tree_get_folder): Return NULL if there
+	is no folder with that @path, instead of segfaulting.
+
+2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* evolution-storage.c: New member `folder_tree' in
 	`EvolutionStoragePrivate'.
 	(init): Initialize it.

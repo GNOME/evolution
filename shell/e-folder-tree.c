@@ -306,6 +306,9 @@ e_folder_tree_get_folder (EFolderTree *folder_tree,
 	g_return_val_if_fail (g_path_is_absolute (path), NULL);
 
 	folder = g_hash_table_lookup (folder_tree->path_to_folder, path);
+	if (folder == NULL)
+		return NULL;
+
 	return folder->data;
 }
 
