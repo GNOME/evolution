@@ -1,3 +1,7 @@
+2001-06-21  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: Add some includes
+
 2001-06-21  Rodrigo Moya <rodrigo@ximian.com>
 
 	* created new directory for the libwombat library

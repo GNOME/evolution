@@ -1,3 +1,7 @@
+INCLUDES =						\
+	$(BONOBO_VFS_GNOME_CFLAGS)			\
+	$(GNOME_INCLUDEDIR)
+
 # CORBA stuff
 
 IDLS = $(top_builddir)/wombat/wombat.idl
