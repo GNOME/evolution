@@ -92,6 +92,32 @@ remove_row (ETableWithout *etw, int view_row)
 }
 
 static void
+delete_hash_element (gpointer key,
+		     gpointer value,
+		     gpointer closure)
+{
+	ETableWithout *etw = closure;
+	etw->priv->free_duplicated_key_func (key, etw->priv->closure);
+}
+
+static void
+etw_destroy (GtkObject *object)
+{
+	ETableWithout *etw = E_TABLE_WITHOUT (object);
+
+	if (etw->priv) {
+		if (etw->priv->hash) {
+			g_hash_table_foreach (etw->priv->hash, delete_hash_element, etw);
+			g_hash_table_destroy (etw->priv->hash);
+			etw->priv->hash = NULL;
+		}
+		g_free (etw->priv);
+		etw->priv = NULL;
+	}
+
+}
+
+static void
 etw_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *etm, int model_row, int count)
 {
 	int i;
@@ -152,8 +178,12 @@ etw_proxy_model_changed (ETableSubset *etss, ETableModel *etm)
 static void
 etw_class_init (ETableWithoutClass *klass)
 {
-	ETableSubsetClass *etss_class = E_TABLE_SUBSET_CLASS (klass);
-	parent_class = gtk_type_class (PARENT_TYPE);
+	ETableSubsetClass *etss_class         = E_TABLE_SUBSET_CLASS (klass);
+	GtkObjectClass *object_class          = GTK_OBJECT_CLASS (klass);
+
+	parent_class                          = gtk_type_class (PARENT_TYPE);
+
+	object_class->destroy                 = etw_destroy;
 
 	etss_class->proxy_model_rows_inserted = etw_proxy_model_rows_inserted;
 	etss_class->proxy_model_rows_deleted  = etw_proxy_model_rows_deleted;
