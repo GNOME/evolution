@@ -63,7 +63,9 @@ enum {
 
 	ARG_STRIKEOUT_COLUMN,
 	ARG_BOLD_COLUMN,
-	ARG_COLOR_COLUMN
+	ARG_TEXT_FILTER_FUNC,
+	ARG_TEXT_FILTER_CLOSURE,
+	ARG_COLOR_COLUMN,
 };
 
 
@@ -900,13 +902,11 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
 	
 	font = text_view->font;
-	if (ect->filter) {
+	if (ect->filter_func) {
 		gchar *string;
 		gint value;
 
-		string = (*ect->filter)(
-			ecell_view->e_table_model,
-			model_col, row, ect->filter_closure);
+		string = (*ect->filter_func)(NULL, e_table_model_value_at (ecell_view->e_table_model, model_col, row), ect->filter_closure);
 		value = e_font_height (font) * number_of_lines(string) + TEXT_PAD;
 
 		g_free(string);
@@ -974,9 +974,8 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->pointer_in = FALSE;
 	edit->default_cursor_shown = TRUE;
 	
-	if (ect->filter) {
-		edit->old_text = (*ect->filter)(
-			ecell_view->e_table_model, model_col, row, ect->filter_closure);
+	if (ect->filter_func) {
+		edit->old_text = (*ect->filter_func)(NULL, e_table_model_value_at (ecell_view->e_table_model, model_col, row), ect->filter_closure);
 	} else {
 		edit->old_text = g_strdup (e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 	}
@@ -1026,9 +1025,8 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	GnomeFont *font = gnome_font_new ("Helvetica", 12);
 	char *string;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
-	if (ect->filter) {
-		string = (*ect->filter)(
-			ecell_view->e_table_model, model_col, row, ect->filter_closure);
+	if (ect->filter_func) {
+		string = (*ect->filter_func)(NULL, e_table_model_value_at (ecell_view->e_table_model, model_col, row), ect->filter_closure);
 	} else {
 		string = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
 	}
@@ -1049,8 +1047,8 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	gnome_print_setfont(context, font);
 	gnome_print_show(context, string);
 	gnome_print_grestore(context);
-	if (ect->filter) {
-		g_free (string);
+	if (ect->filter_func) {
+		g_free(string);
 	}
 }
 
@@ -1316,6 +1314,13 @@ ect_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		text->color_column = GTK_VALUE_INT (*arg);
 		break;
 
+	case ARG_TEXT_FILTER_FUNC:
+		text->filter_func = GTK_VALUE_POINTER (*arg);
+		break;
+
+	case ARG_TEXT_FILTER_CLOSURE:
+		text->filter_closure = GTK_VALUE_POINTER (*arg);
+		break;
 	default:
 		return;
 	}
@@ -1340,6 +1345,14 @@ ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_COLOR_COLUMN:
 		GTK_VALUE_INT (*arg) = text->color_column;
+		break;
+
+	case ARG_TEXT_FILTER_FUNC:
+		GTK_VALUE_POINTER (*arg) = text->filter_func;
+		break;
+
+	case ARG_TEXT_FILTER_CLOSURE:
+		GTK_VALUE_POINTER (*arg) = text->filter_closure;
 		break;
 
 	default:
@@ -1380,22 +1393,13 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_BOLD_COLUMN);
 	gtk_object_add_arg_type ("ECellText::color_column",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_COLOR_COLUMN);
+	gtk_object_add_arg_type ("ECellText::text_filter_func",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_TEXT_FILTER_FUNC);
+	gtk_object_add_arg_type ("ECellText::text_filter_closure",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_TEXT_FILTER_CLOSURE);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
-}
-
-void
-e_cell_text_set_filter (ECell *ecell, ECellTextFilter filter, void *closure)
-{
-	ECellText *ect;
-	
-	g_return_if_fail (ecell != NULL);
-	g_return_if_fail (E_IS_CELL_TEXT (ecell));
-
-	ect = E_CELL_TEXT (ecell);
-	ect->filter = filter;
-	ect->filter_closure = closure;
 }
 
 static void
@@ -1404,6 +1408,8 @@ e_cell_text_init (ECellText *ect)
 	ect->strikeout_column = -1;
 	ect->bold_column = -1;
 	ect->color_column = -1;
+	ect->filter_func = NULL;
+	ect->filter_closure = NULL;
 }
 
 E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_text_init, PARENT_TYPE);
@@ -2006,15 +2012,13 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 #endif
 }
 
-static void
-_invisible_destroy (GtkInvisible *invisible,
-		    CellEdit *edit)
+static void _invisible_destroy (GtkInvisible *invisible,
+				CellEdit *edit)
 {
 	edit->invisible = NULL;
 }
 
-static GtkWidget *
-e_cell_text_view_get_invisible (CellEdit *edit)
+static GtkWidget *e_cell_text_view_get_invisible (CellEdit *edit)
 {	
 	GtkWidget *invisible;
 	if (edit->invisible) {
@@ -2345,9 +2349,8 @@ build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, 
 	cell->row = row;
 	cell->breaks = NULL;
 
-	if (ect->filter) {
-		cell->text = (*ect->filter)(
-			ecell_view->e_table_model, model_col, row, ect->filter_closure);
+	if (ect->filter_func) {
+		cell->text = (*ect->filter_func)(NULL, e_table_model_value_at (ecell_view->e_table_model, model_col, row), ect->filter_closure);
 	} else {
 		cell->text = g_strdup (e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 	}

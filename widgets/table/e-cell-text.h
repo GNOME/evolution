@@ -28,7 +28,7 @@
 #include <gal/e-table/e-cell.h>
 
 /* Should return a malloced object. */
-typedef char *(*ECellTextFilter) (ETableModel *table_model, int model_col, int row, void *closure);
+typedef char *(*ECellTextFilter) (void *reserved, const void *data, gpointer closure);
 
 #define E_CELL_TEXT_TYPE        (e_cell_text_get_type ())
 #define E_CELL_TEXT(o)          (GTK_CHECK_CAST ((o), E_CELL_TEXT_TYPE, ECellText))
@@ -59,9 +59,9 @@ typedef struct {
 	   See the XParseColor man page for the formats available. */
 	int color_column;
 
-	ECellTextFilter  filter;
-	void            *filter_closure;
-	
+	ECellTextFilter filter_func;
+	gpointer filter_closure;
+
 	/* This stores the colors we have allocated. */
 	GHashTable *colors;
 } ECellText;
@@ -70,10 +70,9 @@ typedef struct {
 	ECellClass parent_class;
 } ECellTextClass;
 
-GtkType    e_cell_text_get_type   (void);
-ECell     *e_cell_text_new        (const char *fontname, GtkJustification justify);
-void       e_cell_text_set_filter (ECell *ecell_text, ECellTextFilter filter, void *closure);
-	
+GtkType    e_cell_text_get_type (void);
+ECell     *e_cell_text_new      (const char *fontname, GtkJustification justify);
+
 #endif /* _E_CELL_TEXT_H_ */
 
 
