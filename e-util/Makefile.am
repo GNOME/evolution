@@ -14,6 +14,7 @@ privlib_LTLIBRARIES = libeutil.la libeconduit.la
 eutilinclude_HEADERS = 				\
 	e-account-list.h			\
 	e-account.h				\
+	e-bconf-map.h				\
 	e-categories-config.h			\
 	e-categories-master-list-wombat.h	\
 	e-component-listener.h			\
@@ -49,6 +50,7 @@ libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
 	e-account-list.c			\
 	e-account.c				\
+	e-bconf-map.c				\
 	e-categories-config.c			\
 	e-categories-master-list-wombat.c	\
 	e-component-listener.c			\

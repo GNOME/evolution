@@ -304,7 +304,7 @@ e_account_set_from_xml (EAccount *account, const char *xml)
 
 	if (!account->uid)
 		xml_set_prop (node, "uid", &account->uid);
-
+	
 	changed |= xml_set_prop (node, "name", &account->name);
 	changed |= xml_set_bool (node, "enabled", &account->enabled);
 

@@ -1,3 +1,8 @@
+2004-01-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-bconf-map.[c,h]: New source files for mapping bonobo-conf keys
+	to gconf keys. Moved out of shell/e-config-upgrade.c
+
 2004-01-13  Not Zed  <NotZed@Ximian.com>
 
 	* e-msgport.c (em_cache*): A time-based thread-safe in-memory
