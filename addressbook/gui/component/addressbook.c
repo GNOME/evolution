@@ -208,9 +208,7 @@ move_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 static void
 forget_passwords_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-#ifdef PENDING_PORT_WORK
 	e_passwords_forget_passwords();
-#endif
 }
 
 static void
@@ -593,9 +591,7 @@ load_uri_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 			return;
 		}
 		else {
-#ifdef PENDING_PORT_WORK
 			e_passwords_forget_password (data->clean_uri);
-#endif
 			addressbook_authenticate (book, TRUE, data->source, load_uri_auth_cb, closure);
 			return;
 		}
@@ -623,9 +619,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, AddressbookSou
 	if (semicolon)
 		*semicolon = '\0';
 
-#ifdef PENDING_PORT_WORK
 	password = e_passwords_get_password (load_uri_data->clean_uri);
-#endif
 
 	if (!password) {
 		char *prompt;
@@ -647,11 +641,9 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, AddressbookSou
 			prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
 						  failed_auth, source->name, source->email_addr);
 		remember = source->remember_passwd;
-#ifdef PENDING_PORT_WORK
 		pass_dup = e_passwords_ask_password (prompt, load_uri_data->clean_uri, prompt, TRUE,
 						     E_PASSWORDS_REMEMBER_FOREVER, &remember,
 						     NULL);
-#endif
 		if (remember != source->remember_passwd) {
 			source->remember_passwd = remember;
 			addressbook_storage_write_sources ();

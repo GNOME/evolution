@@ -511,7 +511,7 @@ e_select_names_init (ESelectNames *e_select_names)
 	if (e_select_names->status_message) {
 		g_signal_connect (e_select_names->model, "status_message",
 				    G_CALLBACK (status_message), e_select_names);
-		g_object_weak_ref (e_select_names->status_message, clear_widget, &e_select_names->status_message);
+		g_object_weak_ref (G_OBJECT (e_select_names->status_message), clear_widget, &e_select_names->status_message);
 	}
 
 	e_select_names->categories = glade_xml_get_widget (gui, "custom-categories");
@@ -520,7 +520,7 @@ e_select_names_init (ESelectNames *e_select_names)
 	if (e_select_names->categories) {
 		g_signal_connect(e_select_names->categories, "changed",
 				   G_CALLBACK(categories_changed), e_select_names);
-		g_object_weak_ref (e_select_names->categories, clear_widget, &e_select_names->categories);
+		g_object_weak_ref (G_OBJECT (e_select_names->categories), clear_widget, &e_select_names->categories);
 	}
 
 	e_select_names->select_entry = glade_xml_get_widget (gui, "entry-select");
@@ -531,7 +531,7 @@ e_select_names_init (ESelectNames *e_select_names)
 				   G_CALLBACK(select_entry_changed), e_select_names);
 		g_signal_connect(e_select_names->select_entry, "activate",
 				   G_CALLBACK(update_query), e_select_names);
-		g_object_weak_ref (e_select_names->select_entry, clear_widget, &e_select_names->select_entry);
+		g_object_weak_ref (G_OBJECT (e_select_names->select_entry), clear_widget, &e_select_names->select_entry);
 	}
 
 	button  = glade_xml_get_widget (gui, "button-find");

@@ -1762,8 +1762,7 @@ _popup_position(GtkMenu *menu,
 	if ((*y + mh) > gdk_screen_height ())
 		*y = gdk_screen_height () - mh;
 
-	/* XXX? */
-	*push_in = TRUE;
+	*push_in = FALSE;
 }
 
 static gint
@@ -1771,11 +1770,8 @@ _arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *edito
 {
 	gint menu_item;
 
-#if PENDING_PORT_WORK
-	g_signal_handlers_block_matched (widget, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
-	g_signal_emit_by_name (widget, "button_press_event", NULL, NULL, NULL);
-	g_signal_handlers_unblock_matched (widget, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
-#endif
+	g_signal_stop_emission_by_name (widget, "button_press_event");
+
 	gtk_widget_realize(popup);
 	menu_item = gnome_popup_menu_do_popup_modal(popup, _popup_position, widget, button, editor, widget);
 	if ( menu_item != -1 ) {

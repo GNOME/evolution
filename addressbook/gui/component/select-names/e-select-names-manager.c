@@ -612,7 +612,7 @@ e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
 				   G_CALLBACK(e_select_names_clicked),
 				   manager);
 
-		g_object_weak_ref (manager->names, clear_widget, &manager->names);
+		g_object_weak_ref (G_OBJECT (manager->names), clear_widget, &manager->names);
 
 		gtk_widget_show(GTK_WIDGET(manager->names));
 	}

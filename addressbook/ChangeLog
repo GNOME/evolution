@@ -1,3 +1,26 @@
+2002-11-12  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (_popup_position): push_in
+	= FALSE, no clue why... :)
+	(_arrow_pressed): call g_signal_stop_emission here, seems to fix
+	things.
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_init): fix warnings.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_activate_dialog): fix warning.
+
+	* gui/component/addressbook.c (forget_passwords_cb): remove the
+	PENDING_PORT ifdef.
+	(load_uri_auth_cb): same.
+	(addressbook_authenticate): same.
+
+	* gui/component/addressbook-factory.c (main): same.
+
+	* gui/component/addressbook-storage.c (load_source_data): be
+	silent about text nodes if they contain nothing but whitespace.
+
 2002-11-11  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-card-cursor.c (pas_card_cursor_dispose): guard

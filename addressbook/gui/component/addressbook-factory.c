@@ -56,18 +56,14 @@ main (int argc, char **argv)
 	glade_gnome_init ();
 	e_cursors_init();
 
-#ifdef PENDING_PORT_WORK
 	e_passwords_init("Addressbook");
-#endif
 
 #if 0
 	g_log_set_always_fatal (G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
 #endif
 
 	/*g_thread_init (NULL);*/
-#ifdef PENDING_PORT_WORK
 	camel_type_init ();
-#endif
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());

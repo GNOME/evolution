@@ -444,6 +444,19 @@ load_source_data (const char *file_path)
 			source->binddn = get_string_value (child, "binddn");
 			source->limit  = get_integer_value (child, "limit", 100);
 		}
+		else if (!strcmp (child->name, "text")) {
+			if (child->content) {
+				int i;
+				for (i = 0; i < strlen (child->content); i++) {
+					if (!isspace (child->content[i])) {
+						g_warning ("illegal text in contactserver list.");
+						break;
+					}
+				}
+			}
+			g_free (source);
+			continue;
+		}
 		else {
 			g_warning ("unknown node '%s' in %s", child->name, file_path);
 			g_free (source);
