@@ -2887,6 +2887,20 @@ Quoted
 	  <fill>False</fill>
 	</child>
       </widget>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>chkPromptWantHTML</name>
+	<can_focus>True</can_focus>
+	<label>Prompt when sending HTML messages to contacts that don't want them</label>
+	<active>False</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
     </widget>
 
     <widget>

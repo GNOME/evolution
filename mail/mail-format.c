@@ -859,6 +859,7 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 						 "<a href=\"mailto:%s\">%s</a>",
 						 addr_url, email_disp);
 			}			
+
 		} else {
 			char *str;
 			

@@ -1,3 +1,11 @@
+2001-10-05  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-config.glade: Add toggle button to config menu to turn the
+	"confirm sending unwanted HTML" dialog on/off. (Bug 10794)
+	
+	* mail-accounts.c (construct): Make said toggle button actually
+	work.
+
 2001-10-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (e_gnome_dialog_set_parent): New convenience

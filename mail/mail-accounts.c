@@ -686,6 +686,12 @@ prompt_bcc_only_toggled (GtkWidget *toggle, gpointer data)
 	mail_config_set_prompt_only_bcc (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
 }
 
+static void
+prompt_unwanted_html_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_confirm_unwanted_html (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
 #if 0
 /* Note: Please see construct() for a reason as to why these 2 options are disabled */
 static void
@@ -876,6 +882,11 @@ construct (MailAccountsDialog *dialog)
 	gtk_toggle_button_set_active (dialog->prompt_bcc_only, mail_config_get_prompt_only_bcc ());
 	gtk_signal_connect (GTK_OBJECT (dialog->prompt_bcc_only), "toggled",
 			    GTK_SIGNAL_FUNC (prompt_bcc_only_toggled), dialog);
+
+	dialog->prompt_unwanted_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptWantHTML"));
+	gtk_toggle_button_set_active (dialog->prompt_unwanted_html, mail_config_get_confirm_unwanted_html ());
+	gtk_signal_connect (GTK_OBJECT (dialog->prompt_unwanted_html), "toggled",
+			    GTK_SIGNAL_FUNC (prompt_unwanted_html_toggled), dialog);
 	
 	/* Other page */
 	dialog->pgp_path = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "filePgpPath"));

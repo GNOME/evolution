@@ -86,6 +86,7 @@ struct _MailAccountsDialog {
 	GtkOptionMenu *charset;
 	GtkToggleButton *prompt_empty_subject;
 	GtkToggleButton *prompt_bcc_only;
+	GtkToggleButton *prompt_unwanted_html;
 	
 	/* Other page */
 	GtkToggleButton *empty_trash;
