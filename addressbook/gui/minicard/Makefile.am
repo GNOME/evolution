@@ -5,7 +5,7 @@ INCLUDES =						\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/addressbook/contact-editor	\
 	-I$(top_srcdir)/widgets/e-text			\
-	$(GNOME_INCLUDEDIR)
+	$(BONOBO_GNOME_CFLAGS)
 
 noinst_LIBRARIES =				\
 	libeminicard.a

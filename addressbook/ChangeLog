@@ -1,5 +1,12 @@
 2000-04-25  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* gui/minicard/Makefile.am (INCLUDES): Use
+	`$(BONOBO_GNOME_CFLAGS)'.
+
+	* backend/pas/Makefile.am (idl_flags): Add `-I $(datadir)/idl' to
+	pick up IDL files in the installation prefix as well.
+	(INCLUDES): Use `$(BONOBO_GNOME_CFLAGS)'.
+
 	* backend/ebook/Makefile.am (ORBIT_IDL): Use `-I $(datadir)/idl'
 	to get the IDLs from the installation prefix as well.
 	(INCLUDES): Add `$(BONOBO_GNOME_CFLAGS)'.

@@ -7,7 +7,7 @@ CORBA_SOURCE =						\
 idls =							\
 	$(srcdir)/../idl/addressbook.idl
 
-idl_flags = `$(GNOME_CONFIG) --cflags idl`
+idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
 
 $(CORBA_SOURCE): $(idls)
 	$(ORBIT_IDL) $(srcdir)/../idl/addressbook.idl $(idl_flags)
@@ -18,7 +18,7 @@ INCLUDES =						\
 	-I$(top_srcdir) 				\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
-        $(GNOME_INCLUDEDIR)
+        $(BONOBO_GNOME_CFLAGS)
 
 if ENABLE_LDAP
 LDAP_BACKEND = pas-backend-ldap.c
