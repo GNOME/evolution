@@ -155,7 +155,7 @@ etsv_add       (ETableSubsetVariable *etssv,
 		i = 0;
 		while (etsv_compare(etsv, etss->map_table[i], row) < 0)
 			i++;
-		memmove(etss->map_table + i + 1, etss->map_table + i, etss->n_map - i);
+		memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(int));
 	}
 	etss->map_table[i] = row;
 	etss->n_map++;

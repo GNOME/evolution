@@ -1,3 +1,8 @@
+2000-06-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-sorted-variable.c: Fixed the multiple copies of rows in
+	ETable bug.
+
 2000-06-01  Dan Winship  <danw@helixcode.com>
 
 	* e-table-group.c (e_table_group_key_press): 
