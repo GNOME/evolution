@@ -1,3 +1,13 @@
+2004-07-20  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-cal-model.c: 
+	* importers/icalendar-importer.c: 
+	* gui/dialogs/select-source-dialog.c: 
+	* gui/dialogs/copy-source-dialog.c: 
+	* gui/alarm-notify/util.c: 
+	* common/authentication.c: 
+	* gui/migration.c: include config.h.  See #61395.
+
 2004-07-16  JP Rosevear  <jpr@novell.com>
 
 	Fixes #61451

@@ -21,6 +21,10 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include <bonobo/bonobo-i18n.h>
 #include "e-util/e-passwords.h"

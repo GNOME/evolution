@@ -20,6 +20,10 @@
  * Author: Rodrigo Moya <rodrigo@ximian.com>
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
