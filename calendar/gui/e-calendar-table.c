@@ -1064,7 +1064,7 @@ e_calendar_table_show_popup_menu (ETable *table,
 	g_assert (comp_data != NULL);
 
 	if (n_selected == 1) {
-		hide_mask = MASK_SINGLE;
+		hide_mask = MASK_MULTIPLE;
 
 		/* See if the task has the URL property set */
 
@@ -1072,7 +1072,7 @@ e_calendar_table_show_popup_menu (ETable *table,
 		if (!prop)
 			disable_mask |= MASK_LACKS_URL;
 	} else
-		hide_mask = MASK_MULTIPLE;
+		hide_mask = MASK_SINGLE;
 
 	cal_client_is_read_only (comp_data->client, &read_only, NULL);
 	if (!read_only)
