@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.5\n"
-"POT-Creation-Date: 2004-04-02 11:14-0500\n"
+"POT-Creation-Date: 2004-04-06 14:39-0400\n"
 "PO-Revision-Date: 2004-03-25 16:06-0500\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
@@ -1035,7 +1035,7 @@ msgstr "Ca_tegorias..."
 #: calendar/gui/dialogs/meeting-page.c:651
 #: calendar/gui/e-calendar-table.c:1060 calendar/gui/e-calendar-table.c:1078
 #: calendar/gui/e-calendar-view.c:1281 calendar/gui/e-calendar-view.c:1312
-#: mail/em-folder-tree.c:2515 mail/em-folder-view.c:765
+#: mail/em-folder-tree.c:2515 mail/em-folder-view.c:769
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -4951,7 +4951,7 @@ msgstr "Hora de _início:"
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2131
-#: mail/em-account-prefs.c:453 mail/em-folder-view.c:774
+#: mail/em-account-prefs.c:453 mail/em-folder-view.c:778
 #: mail/mail-account-gui.c:1366 mail/mail-account-gui.c:1860
 #: mail/mail-config.glade.h:100
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:193
@@ -5679,7 +5679,7 @@ msgstr "Atualizando objetos"
 
 #: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1261 calendar/gui/e-calendar-view.c:1328
-#: mail/em-folder-view.c:740 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:744 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "A_brir"
 
@@ -5689,7 +5689,7 @@ msgstr "Abrir página _web"
 
 #: calendar/gui/e-calendar-table.c:1042 calendar/gui/e-calendar-table.c:1087
 #: calendar/gui/e-calendar-view.c:1262 calendar/gui/e-calendar-view.c:1334
-#: mail/em-folder-view.c:742 mail/em-popup.c:689 mail/em-popup.c:804
+#: mail/em-folder-view.c:746 mail/em-popup.c:689 mail/em-popup.c:804
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "_Salvar como..."
@@ -6531,7 +6531,7 @@ msgstr "Prioridade:"
 msgid "Web Page:"
 msgstr "Página web:"
 
-#: calendar/gui/e-tasks.c:310 mail/em-folder-view.c:2173
+#: calendar/gui/e-tasks.c:310 mail/em-folder-view.c:2177
 #, c-format
 msgid "Click to open %s"
 msgstr "Clique para abrir %s"
@@ -12283,7 +12283,7 @@ msgstr "não está Marcada"
 msgid "Junk Test"
 msgstr "Teste lixo"
 
-#: filter/libfilter-i18n.h:37 mail/em-folder-view.c:773
+#: filter/libfilter-i18n.h:37 mail/em-folder-view.c:777
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Rótulo"
@@ -12694,7 +12694,7 @@ msgstr "NÃO CASADO"
 msgid "Inbox"
 msgstr "Caixa de entrada"
 
-#: mail/em-folder-tree-model.c:483 mail/em-folder-tree-model.c:792
+#: mail/em-folder-tree-model.c:493 mail/em-folder-tree-model.c:802
 msgid "Loading..."
 msgstr "Carregando..."
 
@@ -12733,7 +12733,7 @@ msgid "%s"
 msgstr "%s"
 
 #: mail/em-folder-tree.c:1995 mail/em-folder-tree.c:2008
-#: mail/em-folder-view.c:642 mail/em-folder-view.c:656
+#: mail/em-folder-view.c:646 mail/em-folder-view.c:660
 #: mail/importers/evolution-mbox-importer.c:119
 msgid "Select folder"
 msgstr "Selecionar pasta"
@@ -12814,152 +12814,152 @@ msgid "_Properties..."
 msgstr "_Propriedades..."
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:741 mail/em-popup.c:688
+#: mail/em-folder-view.c:745 mail/em-popup.c:688
 msgid "_Edit as New Message..."
 msgstr "_Editar como nova mensagem..."
 
-#: mail/em-folder-view.c:743
+#: mail/em-folder-view.c:747
 msgid "_Print"
 msgstr "_Imprimir"
 
-#: mail/em-folder-view.c:746 ui/evolution-mail-message.xml.h:126
+#: mail/em-folder-view.c:750 ui/evolution-mail-message.xml.h:126
 msgid "_Reply to Sender"
 msgstr "_Responder ao remetente"
 
-#: mail/em-folder-view.c:747 mail/em-popup.c:808
+#: mail/em-folder-view.c:751 mail/em-popup.c:808
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "Responder a _lista"
 
-#: mail/em-folder-view.c:748 mail/em-popup.c:809
+#: mail/em-folder-view.c:752 mail/em-popup.c:809
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Responder a _todos"
 
-#: mail/em-folder-view.c:749 mail/em-popup.c:811
+#: mail/em-folder-view.c:753 mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:113
 msgid "_Forward"
 msgstr "Encamin_har"
 
-#: mail/em-folder-view.c:752
+#: mail/em-folder-view.c:756
 msgid "Follo_w Up..."
 msgstr "_Continuar..."
 
-#: mail/em-folder-view.c:753
+#: mail/em-folder-view.c:757
 msgid "Fla_g Completed"
 msgstr "Marcar como concl_uída"
 
-#: mail/em-folder-view.c:754
+#: mail/em-folder-view.c:758
 msgid "Cl_ear Flag"
 msgstr "Lim_par marca"
 
-#: mail/em-folder-view.c:757 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:761 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "Marcar como li_da"
 
-#: mail/em-folder-view.c:758
+#: mail/em-folder-view.c:762
 msgid "Mark as _Unread"
 msgstr "Marcar como _não lida"
 
-#: mail/em-folder-view.c:759
+#: mail/em-folder-view.c:763
 msgid "Mark as _Important"
 msgstr "Marcar como i_mportante"
 
-#: mail/em-folder-view.c:760
+#: mail/em-folder-view.c:764
 msgid "_Mark as Unimportant"
 msgstr "Marcar como sem imp_ortância"
 
-#: mail/em-folder-view.c:761 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:765 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Marcar como _lixo"
 
-#: mail/em-folder-view.c:762 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:766 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Marcar como _não lixo"
 
-#: mail/em-folder-view.c:766
+#: mail/em-folder-view.c:770
 msgid "U_ndelete"
 msgstr "Des_fazer exclusão"
 
-#: mail/em-folder-view.c:769
+#: mail/em-folder-view.c:773
 msgid "Mo_ve to Folder..."
 msgstr "Mo_ver para pasta..."
 
-#: mail/em-folder-view.c:770 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:774 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "Copiar para p_asta..."
 
-#: mail/em-folder-view.c:778
+#: mail/em-folder-view.c:782
 msgid "Add Sender to Address_book"
 msgstr "Adicionar remetente ao catálo_go de endereços"
 
-#: mail/em-folder-view.c:781
+#: mail/em-folder-view.c:785
 msgid "Appl_y Filters"
 msgstr "Aplicar _filtros"
 
-#: mail/em-folder-view.c:782
+#: mail/em-folder-view.c:786
 msgid "F_ilter Junk"
 msgstr "Filtrar _lixo"
 
-#: mail/em-folder-view.c:785
+#: mail/em-folder-view.c:789
 msgid "Crea_te Rule From Message"
 msgstr "Criar _regra a partir da mensagem"
 
-#: mail/em-folder-view.c:786
+#: mail/em-folder-view.c:790
 msgid "VFolder on _Subject"
 msgstr "Pasta virtual por _assunto"
 
-#: mail/em-folder-view.c:787
+#: mail/em-folder-view.c:791
 msgid "VFolder on Se_nder"
 msgstr "Pasta virtual por _remetente"
 
-#: mail/em-folder-view.c:788
+#: mail/em-folder-view.c:792
 msgid "VFolder on _Recipients"
 msgstr "Pasta virtual por _destinatários"
 
-#: mail/em-folder-view.c:789
+#: mail/em-folder-view.c:793
 msgid "VFolder on Mailing _List"
 msgstr "Pasta virtual por _lista de discussão"
 
-#: mail/em-folder-view.c:791
+#: mail/em-folder-view.c:795
 msgid "VFolder on Thread"
 msgstr "Pasta virtual por en_cadeamento"
 
-#: mail/em-folder-view.c:795
+#: mail/em-folder-view.c:799
 msgid "Filter on Sub_ject"
 msgstr "Filtro por a_ssunto"
 
-#: mail/em-folder-view.c:796
+#: mail/em-folder-view.c:800
 msgid "Filter on Sen_der"
 msgstr "Filtro por r_emetente"
 
-#: mail/em-folder-view.c:797
+#: mail/em-folder-view.c:801
 msgid "Filter on Re_cipients"
 msgstr "Filtro por des_tinatários"
 
-#: mail/em-folder-view.c:798
+#: mail/em-folder-view.c:802
 msgid "Filter on _Mailing List"
 msgstr "Filtro por l_ista de discussão"
 
-#: mail/em-folder-view.c:800
+#: mail/em-folder-view.c:804
 msgid "Filter on Thread"
 msgstr "Filtro por encadeamento"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1583 mail/em-folder-view.c:1621
+#: mail/em-folder-view.c:1587 mail/em-folder-view.c:1625
 #: mail/mail-config.glade.h:66
 msgid "Default"
 msgstr "Padrão"
 
-#: mail/em-folder-view.c:1657
+#: mail/em-folder-view.c:1661
 msgid "Print Message"
 msgstr "Imprimir mensagem"
 
-#: mail/em-folder-view.c:1904
+#: mail/em-folder-view.c:1908
 msgid "_Copy Link Location"
 msgstr "Copiar local do _vínculo"
 
-#: mail/em-folder-view.c:2168
+#: mail/em-folder-view.c:2172
 #, c-format
 msgid "Click to mail %s"
 msgstr "Clique para enviar correio para %s"
@@ -13264,22 +13264,22 @@ msgstr ""
 "\n"
 "Por favor, aguarde enquanto o Evolution migra as sua pastas..."
 
-#: mail/em-migrate.c:1845 mail/em-migrate.c:1860
+#: mail/em-migrate.c:1844 mail/em-migrate.c:1859
 #, c-format
 msgid "Failed to migrate pop3 uid caches: %s"
 msgstr "Falhou a migração dos caches de pop3 uid: %s"
 
-#: mail/em-migrate.c:1948 mail/em-migrate.c:2049
+#: mail/em-migrate.c:1947 mail/em-migrate.c:2048
 #, c-format
 msgid "Failed to migrate folder expand state: %s"
 msgstr "Falhou a migração do estado de expansão das pastas: %s"
 
-#: mail/em-migrate.c:2173 mail/em-migrate.c:2345
+#: mail/em-migrate.c:2172 mail/em-migrate.c:2344
 #, c-format
 msgid "Failed to create directory `%s': %s"
 msgstr "Falhou a criação do diretório `%s': %s"
 
-#: mail/em-migrate.c:2185
+#: mail/em-migrate.c:2184
 #, c-format
 msgid "Failed to open store for `%s': %s"
 msgstr "Falhou a abertura do repositório para `%s': %s"
@@ -14897,7 +14897,7 @@ msgstr "cor"
 msgid "description"
 msgstr "descrição"
 
-#: mail/mail-folder-cache.c:796
+#: mail/mail-folder-cache.c:801
 #, c-format
 msgid "Pinging %s"
 msgstr "Pinging %s"

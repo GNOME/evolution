@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.3.1.99\n"
-"POT-Creation-Date: 2004-04-02 11:14-0500\n"
+"POT-Creation-Date: 2004-04-06 14:39-0400\n"
 "PO-Revision-Date: 2003-03-23 11:33+0800\n"
 "Last-Translator: Chao-Hsiung Liao <pesder.liao@msa.hinet.net>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -1217,7 +1217,7 @@ msgstr "類別(_T)..."
 #: calendar/gui/dialogs/meeting-page.c:651
 #: calendar/gui/e-calendar-table.c:1060 calendar/gui/e-calendar-table.c:1078
 #: calendar/gui/e-calendar-view.c:1281 calendar/gui/e-calendar-view.c:1312
-#: mail/em-folder-tree.c:2515 mail/em-folder-view.c:765
+#: mail/em-folder-tree.c:2515 mail/em-folder-view.c:769
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -6031,7 +6031,7 @@ msgstr "開始時間(_S):"
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2131
-#: mail/em-account-prefs.c:453 mail/em-folder-view.c:774
+#: mail/em-account-prefs.c:453 mail/em-folder-view.c:778
 #: mail/mail-account-gui.c:1366 mail/mail-account-gui.c:1860
 #: mail/mail-config.glade.h:100
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:193
@@ -6989,7 +6989,7 @@ msgstr "更新物件"
 # mail/folder-browser.c:686
 #: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1261 calendar/gui/e-calendar-view.c:1328
-#: mail/em-folder-view.c:740 ui/evolution-addressbook.xml.h:37
+#: mail/em-folder-view.c:744 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "開啟(_O)"
 
@@ -7005,7 +7005,7 @@ msgstr "開啟郵件(_O)"
 # ui/evolution-tasks.xml.h:8
 #: calendar/gui/e-calendar-table.c:1042 calendar/gui/e-calendar-table.c:1087
 #: calendar/gui/e-calendar-view.c:1262 calendar/gui/e-calendar-view.c:1334
-#: mail/em-folder-view.c:742 mail/em-popup.c:689 mail/em-popup.c:804
+#: mail/em-folder-view.c:746 mail/em-popup.c:689 mail/em-popup.c:804
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "另存新檔(_S)..."
@@ -8019,7 +8019,7 @@ msgid "Web Page:"
 msgstr "頁"
 
 # calendar/gui/e-calendar-table.c:163
-#: calendar/gui/e-tasks.c:310 mail/em-folder-view.c:2173
+#: calendar/gui/e-tasks.c:310 mail/em-folder-view.c:2177
 #, fuzzy, c-format
 msgid "Click to open %s"
 msgstr "請按這裡增加新的工作"
@@ -14562,7 +14562,7 @@ msgstr "6月"
 
 # addressbook/contact-editor/e-contact-editor.c:1256
 # addressbook/gui/widgets/e-addressbook-view.c:720
-#: filter/libfilter-i18n.h:37 mail/em-folder-view.c:773
+#: filter/libfilter-i18n.h:37 mail/em-folder-view.c:777
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "標籤"
@@ -15039,7 +15039,7 @@ msgstr "收件匣"
 
 # mail/mail-send-recv.c:287
 # mail/mail-send-recv.c:333
-#: mail/em-folder-tree-model.c:483 mail/em-folder-tree-model.c:792
+#: mail/em-folder-tree-model.c:493 mail/em-folder-tree-model.c:802
 msgid "Loading..."
 msgstr "載入中..."
 
@@ -15088,7 +15088,7 @@ msgstr ""
 
 # shell/e-shell-importer.c:601
 #: mail/em-folder-tree.c:1995 mail/em-folder-tree.c:2008
-#: mail/em-folder-view.c:642 mail/em-folder-view.c:656
+#: mail/em-folder-view.c:646 mail/em-folder-view.c:660
 #: mail/importers/evolution-mbox-importer.c:119
 msgid "Select folder"
 msgstr "選擇資料夾"
@@ -15213,7 +15213,7 @@ msgstr "屬性(_P)..."
 
 # ui/evolution-mail.xml.h:66
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:741 mail/em-popup.c:688
+#: mail/em-folder-view.c:745 mail/em-popup.c:688
 msgid "_Edit as New Message..."
 msgstr "編輯為新郵件(_E)..."
 
@@ -15221,37 +15221,37 @@ msgstr "編輯為新郵件(_E)..."
 # ui/evolution-event-editor.xml.h:69
 # ui/evolution-task-editor-dialog.xml.h:82
 # ui/evolution-tasks.xml.h:7
-#: mail/em-folder-view.c:743
+#: mail/em-folder-view.c:747
 msgid "_Print"
 msgstr "列印(_P)"
 
 # mail/folder-browser.c:697
 # ui/evolution-mail.xml.h:117
-#: mail/em-folder-view.c:746 ui/evolution-mail-message.xml.h:126
+#: mail/em-folder-view.c:750 ui/evolution-mail-message.xml.h:126
 msgid "_Reply to Sender"
 msgstr "回覆寄件者(_R)"
 
 # mail/folder-browser.c:699
 # ui/evolution-mail.xml.h:72
-#: mail/em-folder-view.c:747 mail/em-popup.c:808
+#: mail/em-folder-view.c:751 mail/em-popup.c:808
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "回覆至清單(_L)"
 
 # mail/folder-browser.c:699
 # ui/evolution-mail.xml.h:72
-#: mail/em-folder-view.c:748 mail/em-popup.c:809
+#: mail/em-folder-view.c:752 mail/em-popup.c:809
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "回覆所有人(_A)"
 
 # mail/folder-browser.c:701
-#: mail/em-folder-view.c:749 mail/em-popup.c:811
+#: mail/em-folder-view.c:753 mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:113
 msgid "_Forward"
 msgstr "轉寄(_F)"
 
-#: mail/em-folder-view.c:752
+#: mail/em-folder-view.c:756
 msgid "Follo_w Up..."
 msgstr "跟隨(_W)..."
 
@@ -15259,157 +15259,157 @@ msgstr "跟隨(_W)..."
 # calendar/gui/calendar-model.c:1180
 # calendar/gui/dialogs/task-editor-dialog.glade.h:6
 # calendar/gui/e-calendar-table.c:421
-#: mail/em-folder-view.c:753
+#: mail/em-folder-view.c:757
 msgid "Fla_g Completed"
 msgstr "標幟已完成(_G)"
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 # ui/evolution-calendar.xml.h:3
-#: mail/em-folder-view.c:754
+#: mail/em-folder-view.c:758
 msgid "Cl_ear Flag"
 msgstr "清除標幟(_E)"
 
 # mail/folder-browser.c:704
-#: mail/em-folder-view.c:757 ui/evolution-mail-message.xml.h:50
+#: mail/em-folder-view.c:761 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "標示成已閱讀(_K)"
 
 # mail/folder-browser.c:706
-#: mail/em-folder-view.c:758
+#: mail/em-folder-view.c:762
 msgid "Mark as _Unread"
 msgstr "標示成未閱讀(_U)"
 
 # mail/folder-browser.c:706
-#: mail/em-folder-view.c:759
+#: mail/em-folder-view.c:763
 msgid "Mark as _Important"
 msgstr "標示成重要(_I)"
 
 # mail/folder-browser.c:706
-#: mail/em-folder-view.c:760
+#: mail/em-folder-view.c:764
 msgid "_Mark as Unimportant"
 msgstr "標示成不重要(_M)"
 
 # mail/folder-browser.c:706
-#: mail/em-folder-view.c:761 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:765 ui/evolution-mail-message.xml.h:54
 #, fuzzy
 msgid "Mark as _Junk"
 msgstr "標示成未閱讀(_U)"
 
 # mail/folder-browser.c:706
-#: mail/em-folder-view.c:762 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:766 ui/evolution-mail-message.xml.h:55
 #, fuzzy
 msgid "Mark as _Not Junk"
 msgstr "標示成重要(_I)"
 
 # mail/folder-browser.c:717
 # ui/evolution-mail.xml.h:121
-#: mail/em-folder-view.c:766
+#: mail/em-folder-view.c:770
 msgid "U_ndelete"
 msgstr "復原(_N)"
 
 # mail/folder-browser.c:711
-#: mail/em-folder-view.c:769
+#: mail/em-folder-view.c:773
 msgid "Mo_ve to Folder..."
 msgstr "移至資料夾(_V)..."
 
 # mail/folder-browser.c:713
-#: mail/em-folder-view.c:770 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:774 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "複製至資料夾(_C)..."
 
 # addressbook/gui/component/addressbook-config.c:662
-#: mail/em-folder-view.c:778
+#: mail/em-folder-view.c:782
 msgid "Add Sender to Address_book"
 msgstr "新增寄件者到目錄服務(_B)"
 
 # mail/folder-browser.c:727
-#: mail/em-folder-view.c:781
+#: mail/em-folder-view.c:785
 msgid "Appl_y Filters"
 msgstr "套用過濾器(_Y)"
 
-#: mail/em-folder-view.c:782
+#: mail/em-folder-view.c:786
 #, fuzzy
 msgid "F_ilter Junk"
 msgstr "過濾器規則"
 
 # mail/folder-browser.c:731
-#: mail/em-folder-view.c:785
+#: mail/em-folder-view.c:789
 msgid "Crea_te Rule From Message"
 msgstr "從郵件建立規則(_T)"
 
 # mail/folder-browser.c:653
-#: mail/em-folder-view.c:786
+#: mail/em-folder-view.c:790
 msgid "VFolder on _Subject"
 msgstr "從主旨建立虛擬資料夾(_S)"
 
 # mail/folder-browser.c:656
-#: mail/em-folder-view.c:787
+#: mail/em-folder-view.c:791
 msgid "VFolder on Se_nder"
 msgstr "從寄件者建立虛擬資料夾(_N)"
 
 # mail/folder-browser.c:659
-#: mail/em-folder-view.c:788
+#: mail/em-folder-view.c:792
 msgid "VFolder on _Recipients"
 msgstr "從收件者建立虛擬資料夾(_R)"
 
 # mail/folder-browser.c:662
-#: mail/em-folder-view.c:789
+#: mail/em-folder-view.c:793
 msgid "VFolder on Mailing _List"
 msgstr "從郵件清單建立虛擬資料夾(_L)"
 
 # mail/folder-browser.c:656
-#: mail/em-folder-view.c:791
+#: mail/em-folder-view.c:795
 #, fuzzy
 msgid "VFolder on Thread"
 msgstr "從寄件者建立虛擬資料夾(_N)"
 
 # mail/folder-browser.c:668
-#: mail/em-folder-view.c:795
+#: mail/em-folder-view.c:799
 msgid "Filter on Sub_ject"
 msgstr "從主旨建立過濾器(_J)"
 
 # mail/folder-browser.c:671
-#: mail/em-folder-view.c:796
+#: mail/em-folder-view.c:800
 msgid "Filter on Sen_der"
 msgstr "從寄件者建立過濾器(_D)"
 
 # mail/folder-browser.c:674
-#: mail/em-folder-view.c:797
+#: mail/em-folder-view.c:801
 msgid "Filter on Re_cipients"
 msgstr "收件者過濾器(_C)"
 
 # mail/folder-browser.c:677
-#: mail/em-folder-view.c:798
+#: mail/em-folder-view.c:802
 msgid "Filter on _Mailing List"
 msgstr "從郵件清單建立過濾器(_M)"
 
 # mail/folder-browser.c:671
-#: mail/em-folder-view.c:800
+#: mail/em-folder-view.c:804
 #, fuzzy
 msgid "Filter on Thread"
 msgstr "從寄件者建立過濾器(_D)"
 
 # mail/mail-config.glade.h:21
 #. default charset used in mail view
-#: mail/em-folder-view.c:1583 mail/em-folder-view.c:1621
+#: mail/em-folder-view.c:1587 mail/em-folder-view.c:1625
 #: mail/mail-config.glade.h:66
 msgid "Default"
 msgstr "預設值"
 
 # mail/mail-callbacks.c:1407
-#: mail/em-folder-view.c:1657
+#: mail/em-folder-view.c:1661
 msgid "Print Message"
 msgstr "列印郵件"
 
 # ui/evolution-event-editor.xml.h:14
 # ui/evolution-task-editor-dialog.xml.h:15
-#: mail/em-folder-view.c:1904
+#: mail/em-folder-view.c:1908
 #, fuzzy
 msgid "_Copy Link Location"
 msgstr "複製連結位址"
 
 # calendar/gui/e-calendar-table.c:163
-#: mail/em-folder-view.c:2168
+#: mail/em-folder-view.c:2172
 #, fuzzy, c-format
 msgid "Click to mail %s"
 msgstr "請按這裡增加新的工作"
@@ -15752,28 +15752,28 @@ msgstr ""
 
 # camel/camel-filter-driver.c:670
 # camel/camel-filter-driver.c:679
-#: mail/em-migrate.c:1845 mail/em-migrate.c:1860
+#: mail/em-migrate.c:1844 mail/em-migrate.c:1859
 #, fuzzy, c-format
 msgid "Failed to migrate pop3 uid caches: %s"
 msgstr "快取 %s 失敗： %s"
 
 # camel/camel-filter-driver.c:670
 # camel/camel-filter-driver.c:679
-#: mail/em-migrate.c:1948 mail/em-migrate.c:2049
+#: mail/em-migrate.c:1947 mail/em-migrate.c:2048
 #, fuzzy, c-format
 msgid "Failed to migrate folder expand state: %s"
 msgstr "快取 %s 失敗： %s"
 
 # camel/camel-filter-driver.c:670
 # camel/camel-filter-driver.c:679
-#: mail/em-migrate.c:2173 mail/em-migrate.c:2345
+#: mail/em-migrate.c:2172 mail/em-migrate.c:2344
 #, fuzzy, c-format
 msgid "Failed to create directory `%s': %s"
 msgstr "建立到“%s”的導管失敗： %s"
 
 # camel/camel-filter-driver.c:670
 # camel/camel-filter-driver.c:679
-#: mail/em-migrate.c:2185
+#: mail/em-migrate.c:2184
 #, fuzzy, c-format
 msgid "Failed to open store for `%s': %s"
 msgstr "建立到“%s”的導管失敗： %s"
@@ -17691,7 +17691,7 @@ msgid "description"
 msgstr "描述"
 
 # mail/mail-ops.c:599
-#: mail/mail-folder-cache.c:796
+#: mail/mail-folder-cache.c:801
 #, c-format
 msgid "Pinging %s"
 msgstr "Pinging %s"
