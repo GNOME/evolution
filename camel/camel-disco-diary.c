@@ -39,6 +39,7 @@
 #include "camel-session.h"
 #include "camel-store.h"
 
+#define d(x) 
 
 static void
 camel_disco_diary_class_init (CamelDiscoDiaryClass *camel_disco_diary_class)
@@ -119,6 +120,8 @@ camel_disco_diary_log (CamelDiscoDiary *diary, CamelDiscoDiaryAction action,
 	va_list ap;
 	int status;
 
+	d(printf("diary log: %s\n", diary->file?"ok":"no file!"));
+
 	/* You may already be a loser. */
 	if (!diary->file)
 		return;
@@ -134,6 +137,8 @@ camel_disco_diary_log (CamelDiscoDiary *diary, CamelDiscoDiaryAction action,
 		CamelFolder *folder = va_arg (ap, CamelFolder *);
 		GPtrArray *uids = va_arg (ap, GPtrArray *);
 
+		d(printf(" folder expunge '%s'\n", folder->full_name));
+
 		status = camel_file_util_encode_string (diary->file, folder->full_name);
 		if (status != -1)
 			status = diary_encode_uids (diary, uids);
@@ -144,6 +149,8 @@ camel_disco_diary_log (CamelDiscoDiary *diary, CamelDiscoDiaryAction action,
 	{
 		CamelFolder *folder = va_arg (ap, CamelFolder *);
 		char *uid = va_arg (ap, char *);
+
+		d(printf(" folder append '%s'\n", folder->full_name));
 
 		status = camel_file_util_encode_string (diary->file, folder->full_name);
 		if (status != -1)
@@ -157,6 +164,8 @@ camel_disco_diary_log (CamelDiscoDiary *diary, CamelDiscoDiaryAction action,
 		CamelFolder *destination = va_arg (ap, CamelFolder *);
 		GPtrArray *uids = va_arg (ap, GPtrArray *);
 		gboolean delete_originals = va_arg (ap, gboolean);
+
+		d(printf(" folder transfer '%s' to '%s'\n", source->full_name, destination->full_name));
 
 		status = camel_file_util_encode_string (diary->file, source->full_name);
 		if (status == -1)
@@ -273,6 +282,8 @@ camel_disco_diary_replay (CamelDiscoDiary *diary, CamelException *ex)
 	guint32 action;
 	off_t size;
 	double pc;
+
+	d(printf("disco diary replay\n"));
 
 	fseek (diary->file, 0, SEEK_END);
 	size = ftell (diary->file);
@@ -403,6 +414,20 @@ camel_disco_diary_new (CamelDiscoStore *store, const char *filename, CamelExcept
 	diary = CAMEL_DISCO_DIARY (camel_object_new (CAMEL_DISCO_DIARY_TYPE));
 	diary->store = store;
 
+	d(printf("diary log file '%s'\n", filename));
+
+	/* Note that the linux man page says:
+
+	   a+     Open for reading and appending (writing at end  of  file).   The
+	          file  is created if it does not exist.  The stream is positioned
+		  at the end of the file.
+	   However, c99 (which glibc uses?) says:
+	   a+     append; open or create text file for update, writing at
+	           end-of-file
+
+	   So we must seek ourselves.
+	*/
+
 	diary->file = fopen (filename, "a+");
 	if (!diary->file) {
 		camel_object_unref (diary);
@@ -411,6 +436,10 @@ camel_disco_diary_new (CamelDiscoStore *store, const char *filename, CamelExcept
 				      g_strerror (errno));
 		return NULL;
 	}
+
+	fseek(diary->file, 0, SEEK_END);
+
+	d(printf(" is at %ld\n", ftell(diary->file)));
 
 	return diary;
 }

@@ -238,6 +238,8 @@ camel_imap_summary_add_offline (CamelFolderSummary *summary, const char *uid,
 		tag = tag->next;
 	}
 
+	mi->size = info->size;
+
 	/* Set uid and add to summary */
 	camel_message_info_set_uid (mi, g_strdup (uid));
 	camel_folder_summary_add (summary, mi);

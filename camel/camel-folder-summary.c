@@ -1914,7 +1914,8 @@ content_info_new (CamelFolderSummary *s, struct _camel_header_raw *h)
 	ci->id = camel_header_msgid_decode (camel_header_raw_find (&h, "content-id", NULL));
 	ci->description = camel_header_decode_string (camel_header_raw_find (&h, "content-description", NULL), NULL);
 	ci->encoding = camel_content_transfer_encoding_decode (camel_header_raw_find (&h, "content-transfer-encoding", NULL));
-	
+	ci->type = camel_content_type_decode(camel_header_raw_find(&h, "content-type", NULL));
+
 	return ci;
 }
 

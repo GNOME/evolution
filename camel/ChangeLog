@@ -1,3 +1,19 @@
+2004-03-17  Not Zed  <NotZed@Ximian.com>
+
+	* See bug #55618.
+	
+	* camel-disco-diary.c (camel_disco_diary_new): seek to the end of
+	the file after we open it.  c99 apparently says the file merely
+	adds to the end of the file when you write, not that it is opened
+	and positioned at the end of the file (linux's man pages are out
+	of date).
+
+	* camel-folder-summary.c (content_info_new): setup the content
+	type as well, from the headers.
+
+	* providers/imap/camel-imap-summary.c
+	(camel_imap_summary_add_offline): copy size from the source info.
+
 2004-03-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder.c (folder_rename): Always use '/' to derive the

@@ -32,6 +32,8 @@
 #include "camel-exception.h"
 #include "camel-session.h"
 
+#define d(x) 
+
 #define CDS_CLASS(o) (CAMEL_DISCO_STORE_CLASS (CAMEL_OBJECT_GET_CLASS (o)))
 
 static CamelStoreClass *parent_class = NULL;
@@ -154,6 +156,7 @@ disco_connect (CamelService *service, CamelException *ex)
 	case CAMEL_DISCO_STORE_RESYNCING:
 		if (!CDS_CLASS (service)->connect_online (service, ex))
 			return FALSE;
+		d(printf(" diary is %s\n", camel_disco_diary_empty(store->diary)?"empty":"not empty"));
 		if (camel_disco_diary_empty (store->diary))
 			return TRUE;
 
@@ -322,6 +325,8 @@ camel_disco_store_set_status (CamelDiscoStore *store,
 			      CamelDiscoStoreStatus status,
 			      CamelException *ex)
 {
+	d(printf("disco store set status: %s\n", status == CAMEL_DISCO_STORE_ONLINE?"online":"offline"));
+
 	CDS_CLASS (store)->set_status (store, status, ex);
 }
 
