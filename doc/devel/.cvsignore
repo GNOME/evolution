@@ -2,3 +2,4 @@ Makefile
 Makefile.in
 html
 evolution-devel-guide.html
+*.stamp
