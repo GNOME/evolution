@@ -5,6 +5,7 @@
  * Authors: 
  *  Dan Winship <danw@helixcode.com>
  *  Jeffrey Stedfast <fejj@helixcode.com>
+ *  JP Rosevear <jpr@helixcode.com>
  *
  * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -30,77 +31,161 @@
 #include <gnome.h>
 #include <gtkhtml/gtkhtml.h>
 #include <glade/glade.h>
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
 
-#include "mail.h"
 #include "e-util/e-html-utils.h"
 #include "e-util/e-setup.h"
+#include "mail.h"
 
-struct service_type {
+typedef struct _MailDialogIdentityPage MailDialogIdentityPage;
+typedef struct _MailDialogServicePage MailDialogServicePage;
+
+typedef void (*IdentityPageCallback) (MailDialogIdentityPage *, gpointer);
+typedef void (*ServicePageCallback) (MailDialogServicePage *, gpointer);
+
+typedef struct 
+{
 	CamelProvider *provider;
 	CamelService *service;
+	CamelProviderType type;
 	GList *authtypes;
+} MailService;
+
+struct _MailDialogIdentityPage
+{
+	GtkWidget *vbox;
+	GtkWidget *name;
+	GtkWidget *address;
+	GtkWidget *org;
+	GtkWidget *sig;
+	IdentityPageCallback cb;
+	gpointer data;
 };
 
-struct identity_record {
-	char *name, *address, *organization, *sigfile;
+typedef struct
+{
+	GtkWidget *item;
+	GtkWidget *vbox;
+	CamelProviderType type;
+	gchar *protocol;
+	GtkWidget *user;
+	gboolean userneed;
+	GtkWidget *host;
+	gboolean hostneed;
+	GtkWidget *path;
+	gboolean pathneed;
+	GtkWidget *auth_optionmenu;
+	GList *auth_items;
+	GtkWidget *auth_html;
+	GtkWidget *auth_detect;
+	gint pnum;
+} MailDialogServicePageItem;
+
+struct _MailDialogServicePage
+{
+	GtkWidget *vbox;
+	GtkWidget *optionmenu;
+	GList *items;
+	GtkWidget *notebook;
+	MailDialogServicePageItem *spitem;
+	ServicePageCallback changedcb;
+	gpointer changeddata;
+	ServicePageCallback donecb;
+	gpointer donedata;
 };
 
-static char *username = NULL;
+typedef struct
+{
+	GtkWidget *vbox;
+	MailDialogServicePage *page;
+} MailDialogSourcePage;
+
+typedef struct
+{
+	GtkWidget *vbox;
+	MailDialogServicePage *page;
+} MailDialogNewsPage;
+
+typedef struct
+{
+	GtkWidget *vbox;
+	MailDialogServicePage *page;
+} MailDialogTransportPage;
+
+typedef struct 
+{
+	GtkWidget *dialog;
+	MailDialogIdentityPage *page;
+	MailConfigIdentity *id;
+} MailDialogIdentity;
+
+typedef struct
+{
+	GtkWidget *dialog;
+	MailDialogSourcePage *page;
+	MailConfigService *source;
+} MailDialogSource;
+
+typedef struct
+{
+	GtkWidget *dialog;
+	MailDialogNewsPage *page;
+	MailConfigService *source;
+} MailDialogNews;
+
+typedef struct
+{
+	GladeXML *gui;
+	GtkWidget *dialog;
+	GtkWidget *druid;
+	MailDialogIdentityPage *idpage;
+	MailDialogSourcePage *spage;
+	MailDialogTransportPage *tpage;
+} MailDruidDialog;
+
+typedef struct
+{
+	GladeXML *gui;
+	GtkWidget *dialog;
+	GtkWidget *notebook;
+	GtkWidget *clistIdentities;
+	gint idrow;
+	gint maxidrow;
+	GtkWidget *clistSources;
+	gint srow;
+	gint maxsrow;
+	GtkWidget *clistNewsServers;
+	gint nrow;
+	gint maxnrow;
+	MailDialogTransportPage *page;
+	gboolean tpagedone;
+	GtkWidget *chkFormat;
+} MailDialog;
+
+static const char GCONFPATH[] = "/apps/Evolution/Mail";
+static GConfClient *client = NULL;
+static MailConfig *config;
 
 /* private prototypes - these are ugly, rename some of them? */
 static void html_size_req (GtkWidget *widget, GtkRequisition *requisition);
 static GtkWidget *html_new (gboolean white);
 static void put_html (GtkHTML *html, char *text);
 static void error_dialog (GtkWidget *parent_finder, const char *fmt, ...);
-static void identity_note_doneness (GtkObject *page, gpointer user_data);
-static void prepare_identity (GnomeDruidPage *page, gpointer arg1, gpointer user_data);
-static gboolean identity_next (GnomeDruidPage *page, gpointer arg1, gpointer user_data);
-static void destroy_identity (GtkObject *table, gpointer idrecp);
-static void create_identity_page (GtkWidget *vbox, struct identity_record *idrec);
-static void service_note_doneness (GtkObject *page, gpointer user_data);
-static void prepare_service (GnomeDruidPage *page, gpointer arg1, gpointer user_data);
-static void auth_menuitem_activate (GtkObject *menuitem, GtkHTML *html);
-static void fill_auth_menu (GtkOptionMenu *optionmenu, GtkHTML *html, GList *authtypes);
-static char *get_service_url (GtkObject *table);
-static void set_service_url (GtkObject *table, char *url_str);
-static void autodetect_cb (GtkWidget *button, GtkObject *table);
-static gboolean service_acceptable (GtkNotebook *notebook);
-static gboolean service_next (GnomeDruidPage *page, gpointer arg1, gpointer user_data);
-static void destroy_service (GtkObject *notebook, gpointer urlp);
-static void add_row (GtkWidget *table, int row, const char *label_text, const char *tag, int flag);
-static GtkWidget *create_source (struct service_type *st);
-static GtkWidget *create_transport (struct service_type *st);
-static void stype_menuitem_activate (GtkObject *menuitem, GtkObject *table);
-static void create_service_page (GtkWidget *vbox, const char *label_text, GList *services,
-				 GtkWidget *(*create_service)(struct service_type *),
-				 char **urlp);
-static void create_source_page (GtkWidget *vbox, GList *sources, char **urlp);
-static void create_transport_page (GtkWidget *vbox, GList *transports, char **urlp);
-static GList *add_service (GList *services, CamelProviderType type, CamelProvider *prov);
 static GdkImlibImage *load_image (const char *name);
-static void prepare_first (GnomeDruidPage *page, GnomeDruid *druid, gpointer user_data);
-static void cancel (GnomeDruid *druid, gpointer window);
-static void finish (GnomeDruidPage *page, gpointer arg1, gpointer window);
-static void on_cmdIdentityAdd_clicked (GtkWidget *widget, gpointer user_data);
-static void on_cmdIdentityEdit_clicked (GtkWidget *widget, gpointer user_data);
-static void on_cmdIdentityDelete_clicked (GtkWidget *widget, gpointer user_data);
-static void on_cmdSourcesAdd_clicked (GtkWidget *widget, gpointer user_data);
-static void on_cmdSourcesEdit_clicked (GtkWidget *widget, gpointer user_data);
-static void on_cmdSourcesDelete_clicked (GtkWidget *widget, gpointer user_data);
-static void on_cmdNewsServersAdd_clicked (GtkWidget *widget, gpointer user_data);
-static void on_cmdNewsServersEdit_clicked (GtkWidget *widget, gpointer user_data);
-static void on_cmdNewsServersDelete_clicked (GtkWidget *widget, gpointer user_data);
-static void on_cmdCamelServicesOK_clicked (GtkButton *button, gpointer user_data);
-static void on_cmdCamelServicesCancel_clicked (GtkButton *button, gpointer user_data);
-
+static void service_page_menuitem_activate (GtkWidget *item, 
+					    MailDialogServicePage *page);
+static void service_page_item_changed (GtkWidget *item, 
+				       MailDialogServicePage *page);
+static void service_page_item_auth_activate (GtkWidget *menuitem, 
+					     MailDialogServicePageItem *spitem);
 
 
 /* HTML Helpers */
-
 static void
 html_size_req (GtkWidget *widget, GtkRequisition *requisition)
 {
-	requisition->height = GTK_LAYOUT (widget)->height;
+	 requisition->height = GTK_LAYOUT (widget)->height;
 }
 
 /* Returns a GtkHTML which is already inside a GtkScrolledWindow. If
@@ -111,7 +196,7 @@ html_new (gboolean white)
 {
 	GtkWidget *html, *scrolled, *frame;
 	GtkStyle *style;
-
+	
 	html = gtk_html_new ();
 	GTK_LAYOUT (html)->height = 0;
 	gtk_signal_connect (GTK_OBJECT (html), "size_request",
@@ -129,7 +214,7 @@ html_new (gboolean white)
 					GTK_POLICY_NEVER,
 					GTK_POLICY_NEVER);
 	gtk_container_add (GTK_CONTAINER (scrolled), html);
-
+	
 	if (white) {
 		frame = gtk_frame_new (NULL);
 		gtk_frame_set_shadow_type (GTK_FRAME (frame),
@@ -138,7 +223,7 @@ html_new (gboolean white)
 		gtk_widget_show_all (frame);
 	} else
 		gtk_widget_show_all (scrolled);
-
+	
 	return html;
 }
 
@@ -146,7 +231,7 @@ static void
 put_html (GtkHTML *html, char *text)
 {
 	GtkHTMLStream *handle;
-
+	
 	text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL);
 	handle = gtk_html_begin (html);
 	gtk_html_write (html, handle, "<HTML><BODY>", 12);
@@ -157,365 +242,620 @@ put_html (GtkHTML *html, char *text)
 }
 
 
-/* Error helper */
+/* Standard Dialog Helpers */
 static void
 error_dialog (GtkWidget *parent_finder, const char *fmt, ...)
 {
 	GtkWidget *parent, *dialog;
 	char *msg;
 	va_list ap;
-
+	
 	parent = gtk_widget_get_ancestor (parent_finder, GTK_TYPE_WINDOW);
-
+	
 	va_start (ap, fmt);
 	msg = g_strdup_vprintf (fmt, ap);
 	va_end (ap);
-
+	
 	dialog = gnome_error_dialog_parented (msg, GTK_WINDOW (parent));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	g_free (msg);
 }
 
-
-/* Identity page */
-
 static void
-identity_note_doneness (GtkObject *page, gpointer user_data)
+info_dialog (GtkWidget *parent_finder, const char *fmt, ...)
 {
-	GtkWidget *exit_button;
-	GtkEntry *entry;
-	char *data;
+	GtkWidget *parent, *dialog;
+	char *msg;
+	va_list ap;
+	
+	parent = gtk_widget_get_ancestor (parent_finder, GTK_TYPE_WINDOW);
+	
+	va_start (ap, fmt);
+	msg = g_strdup_vprintf (fmt, ap);
+	va_end (ap);
+	
+	dialog = gnome_ok_dialog_parented (msg, GTK_WINDOW (parent));
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	g_free (msg);
+}
 
-	if (!(exit_button = gtk_object_get_data (page, "exit_button")))
-		exit_button = gtk_object_get_data (page, "ok_button");
+/* Provider List */
+static GSList *
+provider_list_add (GSList *services, CamelProviderType type, 
+		   CamelProvider *prov)
+{
+	MailService *mcs;
+	CamelService *service;
+	CamelException *ex;
+	char *url;
 
-	entry = gtk_object_get_data (page, "name");
-	data = gtk_entry_get_text (entry);
-	if (data && *data) {
-		entry = gtk_object_get_data (page, "addr");
-		data = gtk_entry_get_text (entry);
+	ex = camel_exception_new ();
+
+	url = g_strdup_printf ("%s:", prov->protocol);
+	service = camel_session_get_service (session, url, type, ex);
+	g_free (url);
+	if (!service) {
+		camel_exception_free (ex);
+		return services;
 	}
 
-	gtk_widget_set_sensitive (exit_button, data && *data);
+	mcs = g_new (MailService, 1);
+	mcs->provider = prov;
+	mcs->service = service;
+	mcs->type = type;
+	mcs->authtypes = camel_service_query_auth_types (mcs->service, ex);
+	camel_exception_free (ex);
+
+	return g_slist_append (services, mcs);
+}
+
+static void 
+provider_list (GSList **sources, GSList **news, GSList **transports)
+{
+	GList *providers, *p;
+	
+	/* Fetch list of all providers. */
+	providers = camel_session_list_providers (session, TRUE);
+	*sources = *transports = NULL;
+	for (p = providers; p; p = p->next) {
+		CamelProvider *prov = p->data;
+		
+		if (!strcmp (prov->domain, "news")) {
+			if (prov->object_types[CAMEL_PROVIDER_STORE]) {
+				*news = provider_list_add (*news,
+							   CAMEL_PROVIDER_STORE,
+							   prov);
+			}
+		}
+    
+		if (strcmp (prov->domain, "mail"))
+			continue;
+		
+		if (prov->object_types[CAMEL_PROVIDER_STORE]) {
+			*sources = provider_list_add (*sources,
+						      CAMEL_PROVIDER_STORE,
+						      prov);
+		} else if (prov->object_types[CAMEL_PROVIDER_TRANSPORT]) {
+			*transports = provider_list_add (*transports,
+							 CAMEL_PROVIDER_TRANSPORT,
+							 prov);
+		}
+	}	
+}
+
+/* Utility routines */
+static GdkImlibImage *
+load_image (const char *name)
+{
+	char *path;
+	GdkImlibImage *image;
+
+	path = g_strdup_printf (EVOLUTION_ICONSDIR "/%s", name);
+	image = gdk_imlib_load_image (path);
+	g_free (path);
+
+	return image;
+}
+
+/* Identity struct */
+static MailConfigIdentity *
+identity_copy (MailConfigIdentity *id) 
+{
+	MailConfigIdentity *newid;
+	
+	g_return_val_if_fail (id, NULL);
+	
+	newid = g_new0 (MailConfigIdentity, 1);
+	newid->name = g_strdup (id->name);
+	newid->address = g_strdup (id->address);
+	newid->org = g_strdup (id->org);
+	newid->sig = g_strdup (id->sig);
+	
+	return newid;
 }
 
 static void
-prepare_identity (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
+identity_destroy (MailConfigIdentity *id)
 {
-	identity_note_doneness (user_data, NULL);
+	if (!id)
+		return;
+	
+	g_free (id->name);
+	g_free (id->address);
+	g_free (id->org);
+	g_free (id->sig);
+	
+	g_free (id);
 }
 
-static gboolean
-identity_next (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
+static void
+identity_destroy_each (gpointer item, gpointer data)
 {
-	GtkObject *box = user_data;
-	GtkEntry *addr = gtk_object_get_data (box, "addr");
-	char *data, *at;
+	identity_destroy ((MailConfigIdentity *)item);
+}
 
-	/* FIXME: we need more sanity checking than this. */
+/* Source struct */
+static MailConfigService *
+service_copy (MailConfigService *source) 
+{
+	MailConfigService *newsource;
+	
+	g_return_val_if_fail (source, NULL);
+	
+	newsource = g_new0 (MailConfigService, 1);
+	newsource->url = g_strdup (source->url);
+	
+	return newsource;
+}
 
-	data = gtk_entry_get_text (addr);
-	at = strchr (data, '@');
-	if (!at || !strchr (at + 1, '.')) {
-		error_dialog (GTK_WIDGET (page), "Email address must be "
-			      "of the form \"user@domain\".");
-		return TRUE;
+static void
+service_destroy (MailConfigService *source)
+{
+	if (!source)
+		return;
+
+	g_free (source->url);
+	
+	g_free (source);
+}
+
+static void
+service_destroy_each (gpointer item, gpointer data)
+{
+	service_destroy ((MailConfigService *)item);
+}
+
+/* Config struct routines */
+static void
+init_config (const gchar *path)
+{
+	if (config)
+		return;
+	
+	config = g_new0 (MailConfig, 1);
+	
+	if (client)
+		return;
+	
+#ifdef HAVE_GCONF_CLIENT_GET_DEFAULT
+	client = gconf_client_get_default ();
+#else
+	client = gconf_client_new ();
+#endif
+	
+	gconf_client_add_dir (client, path, 
+			      GCONF_CLIENT_PRELOAD_RECURSIVE, NULL);
+}
+
+static void
+clear_config
+ ()
+{
+	if (!config)
+		return;
+
+	g_slist_foreach (config->ids, identity_destroy_each, NULL);
+	g_slist_free (config->ids);
+	config->ids = NULL;
+
+	g_slist_foreach (config->sources, service_destroy_each, NULL);
+	g_slist_free (config->sources);
+	config->sources = NULL;
+
+	service_destroy (config->transport);
+	config->transport = NULL;
+}
+
+static void
+read_config (const gchar *path)
+{
+	GConfError *err = NULL;
+	GSList *names, *addr, *orgs, *sigs, *sources, *news;
+	gchar *str;
+	gint len, i;
+	
+	init_config (path);
+	clear_config ();
+	
+	/* Configured */
+	str = g_strdup_printf ("%s/configured", path);
+	config->configured = gconf_client_get_bool (client, str, &err);
+	g_free (str);
+
+	/* Identities */
+	str = g_strdup_printf ("%s/Identities/names", path);
+	names = gconf_client_get_list (client, str, GCONF_VALUE_STRING, &err);
+	g_free (str);
+	str = g_strdup_printf ("%s/Identities/addresses", path);
+	addr = gconf_client_get_list (client, str, GCONF_VALUE_STRING, &err);
+	g_free (str);
+	str = g_strdup_printf ("%s/Identities/orgs", path);
+	orgs = gconf_client_get_list (client, str, GCONF_VALUE_STRING, &err);
+	g_free (str);
+	str = g_strdup_printf ("%s/Identities/sigs", path);
+	sigs = gconf_client_get_list (client, str, GCONF_VALUE_STRING, &err);
+	g_free (str);
+
+	len = g_slist_length (names);
+	for (i=0; i<len; i++) {
+		MailConfigIdentity *id;
+		
+		id = g_new0 (MailConfigIdentity, 1);
+		id->name = g_strdup ((gchar *)g_slist_nth_data (names, i));
+		id->address = g_strdup ((gchar *)g_slist_nth_data (addr, i));
+		id->org = g_strdup ((gchar *)g_slist_nth_data (orgs, i));
+		id->sig = g_strdup ((gchar *)g_slist_nth_data (sigs, i));
+
+		config->ids = g_slist_append (config->ids, id);
+	}
+	
+	/* Sources */
+	str = g_strdup_printf ("%s/Sources/urls", path);
+	sources = gconf_client_get_list (client, str, 
+					 GCONF_VALUE_STRING, &err);
+	g_free (str);
+	len = g_slist_length (sources);
+	for (i=0; i<len; i++) {
+		MailConfigService *s;
+		
+		s = g_new0 (MailConfigService, 1);
+		s->url = g_strdup ((gchar *)g_slist_nth_data (sources, i));
+
+		config->sources = g_slist_append (config->sources, s);
 	}
 
-	g_free (username);
-	username = g_strndup (data, at - data);
+	/* News */
+	str = g_strdup_printf ("%s/News/urls", path);
+	news = gconf_client_get_list (client, str, 
+				      GCONF_VALUE_STRING, &err);
+	g_free (str);
+	len = g_slist_length (news);
+	for (i=0; i<len; i++) {
+		MailConfigService *n;
+		
+		n = g_new0 (MailConfigService, 1);
+		n->url = g_strdup ((gchar *)g_slist_nth_data (news, i));
 
-	return FALSE;
+		config->news = g_slist_append (config->news, n);
+	}
+
+	/* Transport */
+	str = g_strdup_printf ("%s/transport", path);
+	config->transport = g_new0 (MailConfigService, 1);
+	config->transport->url = gconf_client_get_string (client, str, &err);
+	g_free (str);
+
+	/* Format */
+	str = g_strdup_printf ("%s/send_html", path);
+	config->send_html = gconf_client_get_bool (client, str, &err);
+	g_free (str);
 }
 
 static void
-destroy_identity (GtkObject *table, gpointer idrecp)
+write_config (const gchar *path)
 {
-	struct identity_record *idrec = idrecp;
-	GtkWidget *entry;
+	GConfError *err = NULL;
+	GSList *names = NULL, *addr = NULL, *orgs = NULL, *sigs = NULL;
+	GSList *sources = NULL, *news = NULL;
+	gchar *str;
+	gint len, i;
+	
+	init_config (path);
 
-	entry = gtk_object_get_data (table, "name");
-	idrec->name = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+	/* Format */
+	str = g_strdup_printf ("%s/configured", path);
+	gconf_client_set_bool (client, str, TRUE, &err);
+	g_free (str);
 
-	entry = gtk_object_get_data (table, "addr");
-	idrec->address = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+	/* Identities */
+	len = g_slist_length (config->ids);
+	for (i=0; i<len; i++) {
+		MailConfigIdentity *id;
+		
+		id = (MailConfigIdentity *)g_slist_nth_data (config->ids, i);
+		
+		names = g_slist_append (names, g_strdup (id->name));
+		addr = g_slist_append (addr, g_strdup (id->address));
+		orgs = g_slist_append (orgs, g_strdup (id->org));
+		sigs = g_slist_append (sigs, g_strdup (id->sig));
+	}
+	
+	str = g_strdup_printf ("%s/Identities/names", path);
+	gconf_client_set_list (client, str, GCONF_VALUE_STRING, names, &err);
+	g_free (str);
+	str = g_strdup_printf ("%s/Identities/addresses", path);
+	gconf_client_set_list (client, str, GCONF_VALUE_STRING, addr, &err);
+	g_free (str);
+	str = g_strdup_printf ("%s/Identities/orgs", path);
+	gconf_client_set_list (client, str, GCONF_VALUE_STRING, orgs, &err);
+	g_free (str);
+	str = g_strdup_printf ("%s/Identities/sigs", path);
+	gconf_client_set_list (client, str, GCONF_VALUE_STRING, sigs, &err);
+	g_free (str);
+	
+	/* Sources */
+	len = g_slist_length (config->sources);
+	for (i=0; i<len; i++) {
+		MailConfigService *s;
+		
+		s = (MailConfigService *)g_slist_nth_data (config->sources, i);
+		
+		sources = g_slist_append (sources, g_strdup (s->url));
+	}
+	
+	str = g_strdup_printf ("%s/Sources/urls", path);
+	gconf_client_set_list (client, str, GCONF_VALUE_STRING, sources, &err);
+	g_free (str);
 
-	entry = gtk_object_get_data (table, "org");
-	idrec->organization = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+	/* News */
+	len = g_slist_length (config->news);
+	for (i=0; i<len; i++) {
+		MailConfigService *n;
+		
+		n = (MailConfigService *)g_slist_nth_data (config->news, i);
+		
+		news = g_slist_append (news, g_strdup (n->url));
+	}
+	
+	str = g_strdup_printf ("%s/News/urls", path);
+	gconf_client_set_list (client, str, GCONF_VALUE_STRING, news, &err);
+	g_free (str);
 
-	entry = gtk_object_get_data (table, "sig");
-	idrec->sigfile = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+	/* Transport */
+	str = g_strdup_printf ("%s/transport", path);
+	gconf_client_set_string (client, str, config->transport->url, &err);
+	g_free (str);
+	 
+	/* Format */
+	str = g_strdup_printf ("%s/send_html", path);
+	gconf_client_set_bool (client, str, config->send_html, &err);
+	g_free (str);
+	
+	gconf_client_suggest_sync (client, &err);
+}
+
+/* Identity Page */
+static void
+identity_page_changed (GtkWidget *widget, MailDialogIdentityPage *page)
+{
+	gchar *name, *addr;
+	
+	name = gtk_editable_get_chars (GTK_EDITABLE (page->name), 0, -1);
+	addr = gtk_editable_get_chars (GTK_EDITABLE (page->address), 0, -1);
+	
+	if (addr && name && page->cb)
+		page->cb (page, page->data);
+	
+	g_free (name);
+	g_free (addr);
+}
+
+static MailConfigIdentity *
+identity_page_extract (MailDialogIdentityPage *page)
+{
+	MailConfigIdentity *id = g_new0 (MailConfigIdentity, 1);
+
+	id->name = gtk_editable_get_chars (GTK_EDITABLE (page->name), 0, -1);
+	id->address = 
+		gtk_editable_get_chars (GTK_EDITABLE (page->address), 0, -1);
+	id->org = gtk_editable_get_chars (GTK_EDITABLE (page->org), 0, -1);
+	id->sig = gtk_editable_get_chars (GTK_EDITABLE (page->sig), 0, -1);
+
+	return id;
 }
 
 static void
-create_identity_page (GtkWidget *vbox, struct identity_record *idrec)
+identity_page_set_done_cb (MailDialogIdentityPage *page, 
+			   IdentityPageCallback cb, gpointer data)
 {
+	page->cb = cb;
+	page->data = data;
+}
+
+static MailDialogIdentityPage *
+identity_page_new (const MailConfigIdentity *id)
+{
+	MailDialogIdentityPage *page = g_new0 (MailDialogIdentityPage, 1);
 	GtkWidget *html, *table;
-	GtkWidget *name, *addr, *org, *sig;
-	GtkWidget *name_entry, *addr_entry, *org_entry, *sig_entry;
-	GtkWidget *hsep;
-	char *user, *default_sig;
-	struct passwd *pw = NULL;
-
+	GtkWidget *label, *fentry, *hsep;
+	gchar *user = NULL;
+	gboolean new = !id;
+	
+	page->vbox = gtk_vbox_new (0, FALSE);
+	
 	html = html_new (FALSE);
 	put_html (GTK_HTML (html),
 		  _("Enter your name and email address to be used in "
 		    "outgoing mail. You may also, optionally, enter the "
 		    "name of your organization, and the name of a file "
 		    "to read your signature from."));
-	gtk_box_pack_start (GTK_BOX (vbox), html->parent, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (page->vbox), html->parent, 
+			    FALSE, TRUE, 0);
 
 	table = gtk_table_new (5, 2, FALSE);
-	gtk_widget_set_name (table, "table");
 	gtk_table_set_row_spacings (GTK_TABLE (table), 10);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (table), 8);
-	gtk_box_pack_start (GTK_BOX (vbox), table, TRUE, TRUE, 0);
-	gtk_signal_connect (GTK_OBJECT (vbox), "destroy",
-			    GTK_SIGNAL_FUNC (destroy_identity), idrec);
+	gtk_box_pack_start (GTK_BOX (page->vbox), table, FALSE, FALSE, 0);
 
-	name = gtk_label_new (_("Full name:"));
-	gtk_table_attach (GTK_TABLE (table), name, 0, 1, 0, 1,
+	label = gtk_label_new (_("Full name:"));
+	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1,
 			  GTK_FILL, 0, 0, 0);
-	gtk_misc_set_alignment (GTK_MISC (name), 1, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
-	name_entry = gtk_entry_new ();
-	gtk_table_attach (GTK_TABLE (table), name_entry, 1, 2, 0, 1,
+	page->name = gtk_entry_new ();
+	gtk_table_attach (GTK_TABLE (table), page->name, 1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
-	gtk_object_set_data (GTK_OBJECT (vbox), "name", name_entry);
 
-	if (!idrec || !idrec->name) {
-		user = getenv ("USER");
-		if (user)
-			pw = getpwnam (user);
-		else
-			pw = getpwuid (getuid ());
-	}
-	if ((idrec && idrec->name) || (pw && pw->pw_gecos && *pw->pw_gecos)) {
+	if (!id || !id->name)
+		user = g_get_real_name ();
+
+	if ((id && id->name) || user) {
 		char *name;
 
-		if (idrec && idrec->name)
-			name = g_strdup (idrec->name);
+		if (id && id->name)
+			name = g_strdup (id->name);
 		else
-			name = g_strndup (pw->pw_gecos, strcspn (pw->pw_gecos, ","));
-		gtk_entry_set_text (GTK_ENTRY (name_entry), name);
+			name = g_strdup (user);
+
+		gtk_entry_set_text (GTK_ENTRY (page->name), name);
 		g_free (name);
 	}
 
-	addr = gtk_label_new (_("Email address:"));
-	gtk_table_attach (GTK_TABLE (table), addr, 0, 1, 1, 2,
+	label = gtk_label_new (_("Email address:"));
+	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 1, 2,
 			  GTK_FILL, 0, 0, 0);
-	gtk_misc_set_alignment (GTK_MISC (addr), 1, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
-	addr_entry = gtk_entry_new ();
-	if (idrec && idrec->address)
-		gtk_entry_set_text (GTK_ENTRY (addr_entry), idrec->address);
-	gtk_table_attach (GTK_TABLE (table), addr_entry, 1, 2, 1, 2,
+	page->address = gtk_entry_new ();
+	if (id && id->address)
+		gtk_entry_set_text (GTK_ENTRY (page->address), id->address);
+	gtk_table_attach (GTK_TABLE (table), page->address, 1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
-	gtk_object_set_data (GTK_OBJECT (vbox), "addr", addr_entry);
-
-	gtk_signal_connect_object (GTK_OBJECT (name_entry), "changed",
-				   GTK_SIGNAL_FUNC (identity_note_doneness),
-				   GTK_OBJECT (vbox));
-	gtk_signal_connect_object (GTK_OBJECT (addr_entry), "changed",
-				   GTK_SIGNAL_FUNC (identity_note_doneness),
-				   GTK_OBJECT (vbox));
 
 	hsep = gtk_hseparator_new ();
 	gtk_table_attach (GTK_TABLE (table), hsep, 0, 2, 2, 3,
 			  GTK_FILL, 0, 0, 8);
 
-	org = gtk_label_new (_("Organization:"));
-	gtk_table_attach (GTK_TABLE (table), org, 0, 1, 3, 4,
+	label = gtk_label_new (_("Organization:"));
+	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 3, 4,
 			  GTK_FILL, 0, 0, 0);
-	gtk_misc_set_alignment (GTK_MISC (org), 1, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
-	org_entry = gtk_entry_new ();
-	if (idrec && idrec->organization)
-		gtk_entry_set_text (GTK_ENTRY (org_entry), idrec->organization);
-	gtk_table_attach (GTK_TABLE (table), org_entry, 1, 2, 3, 4,
+	page->org = gtk_entry_new ();
+	if (id && id->org)
+		gtk_entry_set_text (GTK_ENTRY (page->org), id->org);
+	gtk_table_attach (GTK_TABLE (table), page->org, 1, 2, 3, 4,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
-	gtk_object_set_data (GTK_OBJECT (vbox), "org", org_entry);
 
-	sig = gtk_label_new (_("Signature file:"));
-	gtk_table_attach (GTK_TABLE (table), sig, 0, 1, 4, 5,
+	label = gtk_label_new (_("Signature file:"));
+	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 4, 5,
 			  GTK_FILL, GTK_FILL, 0, 0);
-	gtk_misc_set_alignment (GTK_MISC (sig), 1, 0);
+	gtk_misc_set_alignment (GTK_MISC (label), 1, 0);
 
-	sig_entry = gnome_file_entry_new (NULL, _("Signature File"));
-	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (sig_entry), g_get_home_dir ());
-	if (idrec && idrec->sigfile) {
-		gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (
-			GNOME_FILE_ENTRY (sig_entry))), idrec->sigfile);
+	fentry = gnome_file_entry_new (NULL, _("Signature File"));
+	page->sig = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (fentry));
+	if (id && id->sig) {
+		gtk_entry_set_text (GTK_ENTRY (page->sig), id->sig);
 	} else {
-		default_sig = g_strconcat (g_get_home_dir (), G_DIR_SEPARATOR_S,
+		gchar *default_sig;
+		
+		default_sig = g_strconcat (g_get_home_dir (), 
+					   G_DIR_SEPARATOR_S,
 					   ".signature", NULL);
-		gtk_entry_set_text (GTK_ENTRY (
-			gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (sig_entry))),
-				    default_sig);
+		gtk_entry_set_text (GTK_ENTRY (page->sig), default_sig);
 		g_free (default_sig);
 	}
-	gtk_table_attach (GTK_TABLE (table), sig_entry, 1, 2, 4, 5,
+	
+	gtk_table_attach (GTK_TABLE (table), fentry, 1, 2, 4, 5,
 			  GTK_FILL, 0, 0, 0);
-
-	gtk_object_set_data (GTK_OBJECT (vbox), "sig",
-			     gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (sig_entry)));
+	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (fentry),
+					   g_get_home_dir ());
+	
+	gtk_signal_connect (GTK_OBJECT (page->name), "changed",
+			    GTK_SIGNAL_FUNC (identity_page_changed), page);
+	gtk_signal_connect (GTK_OBJECT (page->address), "changed",
+			    GTK_SIGNAL_FUNC (identity_page_changed), page);
+	if (!new) {
+		gtk_signal_connect (GTK_OBJECT (page->org), "changed",
+				    GTK_SIGNAL_FUNC (identity_page_changed), 
+				    page);
+		gtk_signal_connect (GTK_OBJECT (page->sig), "changed",
+				    GTK_SIGNAL_FUNC (identity_page_changed), 
+				    page);
+	}
 
 	gtk_widget_show_all (table);
+
+	return page;
 }
 
-
-/* Source/Transport pages */
-
-static void
-service_note_doneness (GtkObject *page, gpointer user_data)
+/* Service page */
+static MailDialogServicePageItem *
+service_page_item_by_protocol (MailDialogServicePage *page, gchar *protocol)
 {
-	GtkObject *box;
-	GtkWidget *button;
-	GtkEntry *entry;
-	char *data;
-	gboolean required, sensitive = TRUE;
-
-	entry = gtk_object_get_data (page, "server_entry");
-	if (entry) {
-		required = GPOINTER_TO_INT (
-			gtk_object_get_data (GTK_OBJECT (entry), "required"));
-		if (required) {
-			data = gtk_entry_get_text (entry);
-			if (!data || !*data)
-				sensitive = FALSE;
-		}
-	}
-
-	if (sensitive) {
-		entry = gtk_object_get_data (page, "user_entry");
-		if (entry) {
-			required = GPOINTER_TO_INT (
-				gtk_object_get_data (GTK_OBJECT (entry),
-						     "required"));
-			if (required) {
-				data = gtk_entry_get_text (entry);
-				if (!data || !*data)
-					sensitive = FALSE;
-			}
-		}
-	}
-
-	if (sensitive) {
-		entry = gtk_object_get_data (page, "path_entry");
-		if (entry) {
-			required = GPOINTER_TO_INT (
-				gtk_object_get_data (GTK_OBJECT (entry),
-						     "required"));
-			if (required) {
-				data = gtk_entry_get_text (entry);
-				if (!data || !*data)
-					sensitive = FALSE;
-			}
-		}
-	}
-
-	button = gtk_object_get_data (page, "autodetect");
-	if (button)
-		gtk_widget_set_sensitive (button, sensitive);
-
-	box = gtk_object_get_data (page, "box");
+	MailDialogServicePageItem *spitem;
+	gint len, i;
 	
-	if (!(button = gtk_object_get_data (box, "exit_button")))
-		button = gtk_object_get_data (box, "ok_button");
-
-	if (button)
-		gtk_widget_set_sensitive (button, sensitive);
+	len = g_list_length (page->items);
+	for (i = 0; i < len; i++) {
+		spitem = (MailDialogServicePageItem *)
+			g_list_nth_data (page->items, i);
+		if (!g_strcasecmp (spitem->protocol, protocol)) 
+			return spitem;
+	}
+	
+	return NULL;
 }
 
-static void
-prepare_service (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
+static MailDialogServicePageItem *
+service_page_item_by_menuitem (MailDialogServicePage *page, 
+			       GtkWidget *menuitem)
 {
-	GtkObject *box = user_data;
-	GtkNotebook *notebook = gtk_object_get_data (box, "notebook");
-	GtkWidget *table;
-	GtkEntry *entry;
-
-	table = gtk_notebook_get_nth_page (notebook,
-					   gtk_notebook_get_current_page (notebook));
-
-	if (username) {
-		char *data = NULL;
-
-		entry = gtk_object_get_data (GTK_OBJECT (table), "user_entry");
-		if (entry) {
-			data = gtk_entry_get_text (entry);
-			if (!data || !*data)
-				gtk_entry_set_text (entry, username);
-		}
+	MailDialogServicePageItem *spitem;
+	gint len, i;
+	
+	len = g_list_length (page->items);
+	for (i = 0; i < len; i++) {
+		spitem = (MailDialogServicePageItem *)
+			g_list_nth_data (page->items, i);
+		if (spitem->item == menuitem) 
+			return spitem;
 	}
 
-	service_note_doneness (GTK_OBJECT (table), NULL);
-}
-
-static void
-auth_menuitem_activate (GtkObject *menuitem, GtkHTML *html)
-{
-	CamelServiceAuthType *authtype;
-
-	authtype = gtk_object_get_data (menuitem, "authtype");
-	put_html (html, authtype->description);
-}
-
-static void
-fill_auth_menu (GtkOptionMenu *optionmenu, GtkHTML *html, GList *authtypes)
-{
-	CamelServiceAuthType *authtype;
-	GtkWidget *menu, *item, *firstitem = NULL;
-
-	menu = gtk_menu_new ();
-	gtk_option_menu_set_menu (optionmenu, menu);
-	for (; authtypes; authtypes = authtypes->next) {
-		authtype = authtypes->data;
-		item = gtk_menu_item_new_with_label (_(authtype->name));
-		if (!firstitem)
-			firstitem = item;
-		gtk_menu_append (GTK_MENU (menu), item);
-		gtk_object_set_data (GTK_OBJECT (item), "authtype", authtype);
-		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    GTK_SIGNAL_FUNC (auth_menuitem_activate),
-				    html);
-	}
-	gtk_widget_show_all (menu);
-	gtk_option_menu_set_history (optionmenu, 0);
-	if (firstitem)
-		auth_menuitem_activate (GTK_OBJECT (firstitem), html);
+	return NULL;
 }
 
 static char *
-get_service_url (GtkObject *table)
+service_page_get_url (MailDialogServicePage *page)
 {
+	MailDialogServicePageItem *spitem;
 	CamelURL *url;
-	GtkEditable *editable;
-	GtkOptionMenu *auth_optionmenu;
 	char *url_str;
 
+	spitem = page->spitem;
+	
 	url = g_new0 (CamelURL, 1);
-	url->protocol = g_strdup (gtk_object_get_data (table, "protocol"));
-	editable = gtk_object_get_data (table, "user_entry");
-	if (editable)
-		url->user = gtk_editable_get_chars (editable, 0, -1);
-	editable = gtk_object_get_data (table, "server_entry");
-	if (editable)
-		url->host = gtk_editable_get_chars (editable, 0, -1);
-	editable = gtk_object_get_data (table, "path_entry");
-	if (editable) {
-		char *path = gtk_editable_get_chars (editable, 0, -1);
-		url->path = g_strdup_printf ("%s%s", url->host ? "/" : "", path);
+	url->protocol = g_strdup (spitem->protocol);
+
+	if (spitem->user)
+		url->user = gtk_editable_get_chars (GTK_EDITABLE (spitem->user), 0, -1);
+	if (spitem->host)
+		url->host = gtk_editable_get_chars (GTK_EDITABLE (spitem->host), 0, -1);
+	if (spitem->path) {
+		gchar *path;
+		path = gtk_editable_get_chars (GTK_EDITABLE (spitem->path),
+					       0, -1);
+		url->path = g_strdup_printf ("%s%s", url->host ? "/" : "", 
+					     path);
 		g_free (path);
 	}
-
-	auth_optionmenu = gtk_object_get_data (table, "auth_optionmenu");
-	if (auth_optionmenu) {
+	
+	if (spitem->auth_optionmenu) {
 		GtkWidget *menu, *item;
 		CamelServiceAuthType *authtype;
 
-		menu = gtk_option_menu_get_menu (auth_optionmenu);
+		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (spitem->auth_optionmenu));
 		if (menu) {
 			item = gtk_menu_get_active (GTK_MENU (menu));
 			authtype = gtk_object_get_data (GTK_OBJECT (item),
@@ -531,56 +871,61 @@ get_service_url (GtkObject *table)
 }
 
 static void
-set_service_url (GtkObject *table, char *url_str)
+service_page_set_url (MailDialogServicePage *page, MailConfigService *service)
 {
 	CamelURL *url;
-	GtkEditable *editable;
-	GtkOptionMenu *auth_optionmenu;
 	CamelException *ex;
-
-	g_return_if_fail (table != NULL);
-	g_return_if_fail (url_str != NULL);
-
+	MailDialogServicePageItem *spitem = NULL;
+	
+	if (!service || !service->url)
+		return;
+	
 	ex = camel_exception_new ();
 	
-	url = camel_url_new (url_str, ex);
+	url = camel_url_new (service->url, ex);
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 		camel_exception_free (ex);
 		return;
 	}
 
-	editable = gtk_object_get_data (table, "user_entry");
-	if (editable && url && url->user)
-		gtk_entry_set_text (GTK_ENTRY (editable), url->user);
+	/* Find the right protocol */
+	spitem = service_page_item_by_protocol (page, url->protocol);
+	service_page_menuitem_activate (spitem->item, page);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (page->optionmenu), 
+				     spitem->pnum);
+	
+	if (spitem->user && url && url->user)
+		gtk_entry_set_text (GTK_ENTRY (spitem->user), url->user);
 
-	editable = gtk_object_get_data (table, "server_entry");
-	if (editable && url && url->host)
-		gtk_entry_set_text (GTK_ENTRY (editable), url->host);
-
-	editable = gtk_object_get_data (table, "path_entry");
-	if (editable && url && url->path) {
+	if (spitem->host && url && url->host)
+		gtk_entry_set_text (GTK_ENTRY (spitem->host), url->host);
+	
+	if (spitem->path && url && url->path) {
 		if (url->host && *url->path)
-			gtk_entry_set_text (GTK_ENTRY (editable), url->path + 1);
+			gtk_entry_set_text (GTK_ENTRY (spitem->path),
+					    url->path + 1);
 		else
-			gtk_entry_set_text (GTK_ENTRY (editable), url->path);
+			gtk_entry_set_text (GTK_ENTRY (spitem->path), 
+					    url->path);
 	}
 
-        /* How are we gonna do this? */
-	auth_optionmenu = gtk_object_get_data (table, "auth_optionmenu");
-	if (auth_optionmenu) {
-#if 0
+	/* Set the auth menu */
+	if (spitem->auth_optionmenu) {
 		GtkWidget *menu, *item;
 		CamelServiceAuthType *authtype;
-
-		menu = gtk_option_menu_get_menu (auth_optionmenu);
-		if (menu) {
-			item = gtk_menu_get_active (GTK_MENU (menu));
+		gint len, i;
+		
+		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (spitem->auth_optionmenu));
+		len = g_list_length (spitem->auth_items);
+		for (i = 0; i < len; i++) {
+			item = g_list_nth_data (spitem->auth_items, i);
 			authtype = gtk_object_get_data (GTK_OBJECT (item),
 							"authtype");
-			if (*authtype->authproto)
-				url->authmech = g_strdup (authtype->authproto);
+			
+			if (!strcmp (authtype->authproto, url->authmech))
+				service_page_item_auth_activate (item, spitem);
+				gtk_option_menu_set_history (GTK_OPTION_MENU (spitem->auth_optionmenu), i);
 		}
-#endif
 	}
 
 	camel_exception_free (ex);
@@ -588,21 +933,158 @@ set_service_url (GtkObject *table, char *url_str)
 }
 
 static void
-autodetect_cb (GtkWidget *button, GtkObject *table)
+service_page_item_auth_activate (GtkWidget *menuitem, 
+				 MailDialogServicePageItem *spitem)
 {
-	char *url;
+	CamelServiceAuthType *authtype;
+
+	authtype = gtk_object_get_data (GTK_OBJECT (menuitem), "authtype");
+	put_html (GTK_HTML (spitem->auth_html), 
+		  authtype->description);
+}
+
+static void
+service_page_item_auth_fill (MailDialogServicePage *page,
+			     MailDialogServicePageItem *spitem, 
+			     GList *authtypes)
+{
+	CamelServiceAuthType *authtype;
+	GtkWidget *menu, *item, *firstitem = NULL;
+
+	menu = gtk_menu_new ();
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (spitem->auth_optionmenu), 
+				  menu);
+	for (; authtypes; authtypes = authtypes->next) {
+		authtype = authtypes->data;
+
+		item = gtk_menu_item_new_with_label (_(authtype->name));
+		if (!firstitem)
+			firstitem = item;
+		spitem->auth_items = g_list_append (spitem->auth_items, item);
+
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_object_set_data (GTK_OBJECT (item), "authtype", authtype);
+
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    GTK_SIGNAL_FUNC (service_page_item_auth_activate),
+				    spitem);
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    GTK_SIGNAL_FUNC (service_page_item_changed),
+				    page);
+	}
+	gtk_widget_show_all (menu);
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU (spitem->auth_optionmenu), 0);
+	if (firstitem)
+		service_page_item_auth_activate (firstitem, spitem);
+}
+
+static gboolean
+service_acceptable (MailDialogServicePage *page)
+{
+	char *url=NULL;
+	CamelService *service;
+	CamelException *ex;
+
+	url = service_page_get_url (page);
+
+	ex = camel_exception_new ();
+	camel_exception_clear (ex);
+	service = camel_session_get_service (session, url, 
+					     page->spitem->type, ex);
+	g_free (url);
+
+	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
+		goto error;
+
+	if (camel_service_connect (service, ex)) {
+		camel_service_disconnect (service, ex);
+		gtk_object_unref (GTK_OBJECT (service));
+		camel_exception_free (ex);
+		
+		info_dialog (page->vbox, "Connection successful!");
+
+		return TRUE;
+	}
+
+	gtk_object_unref (GTK_OBJECT (service));
+
+ error:
+	error_dialog (page->vbox, camel_exception_get_description (ex));
+	camel_exception_free (ex);
+
+	return FALSE;
+}
+
+static MailConfigService *
+service_page_extract (MailDialogServicePage *page)
+{
+	MailConfigService *source = g_new0 (MailConfigService, 1);
+
+	source->url = service_page_get_url (page);
+
+	return source;
+}
+
+static void
+service_page_item_changed (GtkWidget *item, MailDialogServicePage *page) 
+{
+	MailDialogServicePageItem *spitem;
+	char *data;
+	gboolean complete = TRUE;
+
+	spitem = page->spitem;
+
+	if (complete && page->changedcb) {
+		page->changedcb (page, page->changeddata);
+	}
+	
+	if (spitem->host && spitem->hostneed) {
+		data = gtk_editable_get_chars (GTK_EDITABLE (spitem->host), 0, -1);
+		if (!data || !*data)
+			complete = FALSE;
+		g_free (data);
+	}
+
+	if (complete) {
+		if (spitem->user && spitem->userneed) {
+			data = gtk_editable_get_chars (GTK_EDITABLE (spitem->user), 0, -1);
+			if (!data || !*data)
+				complete = FALSE;
+			g_free (data);
+		}
+	}
+
+	if (complete) {
+		if (spitem->path && spitem->pathneed) {
+			data = gtk_editable_get_chars (GTK_EDITABLE (spitem->path), 0, -1);
+			if (!data || !*data)
+				complete = FALSE;
+		}
+	}
+
+	if (spitem->auth_detect)
+		gtk_widget_set_sensitive (spitem->auth_detect, complete);
+
+	if (complete && page->donecb) {
+		page->donecb (page, page->donedata);
+	}
+}
+
+static void
+service_page_detect (GtkWidget *button, MailDialogServicePage *page)
+{
+	MailDialogServicePageItem *spitem;
+	char *url = NULL;
 	CamelException *ex;
 	CamelService *service;
 	GList *authtypes;
-	GtkHTML *html;
-	GtkOptionMenu *optionmenu;
-	int type;
 
-	type = GPOINTER_TO_UINT (gtk_object_get_data (table, "service_type"));
-	url = get_service_url (table);
+	spitem = page->spitem;
+	url = service_page_get_url (page);
 
 	ex = camel_exception_new ();
-	service = camel_session_get_service (session, url, type, ex);
+	service = camel_session_get_service (session, url, spitem->type, ex);
 	g_free (url);
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
 		goto error;
@@ -611,10 +1093,10 @@ autodetect_cb (GtkWidget *button, GtkObject *table)
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
 		goto error;
 
-	html = gtk_object_get_data (table, "auth_html");
-	optionmenu = gtk_object_get_data (table, "auth_optionmenu");
-	fill_auth_menu (optionmenu, html, authtypes);
+	service_page_item_auth_fill (page, spitem, authtypes);
+
 	camel_exception_free (ex);
+
 	return;
 
  error:
@@ -623,358 +1105,239 @@ autodetect_cb (GtkWidget *button, GtkObject *table)
 	camel_exception_free (ex);
 }
 
-static gboolean
-service_acceptable (GtkNotebook *notebook)
-{
-	char *url;
-	GtkWidget *table;
-	GtkToggleButton *check;
-	int page, type;
-	CamelService *service;
-	CamelException *ex;
-	gboolean ok;
-
-	page = gtk_notebook_get_current_page (notebook);
-	table = gtk_notebook_get_nth_page (notebook, page);
-	check = gtk_object_get_data (GTK_OBJECT (table), "check");
-
-	if (!check || !gtk_toggle_button_get_active (check))
-		return TRUE;
-
-	type = GPOINTER_TO_UINT (gtk_object_get_data (GTK_OBJECT (table),
-						      "service_type"));
-	url = get_service_url (GTK_OBJECT (table));
-
-	ex = camel_exception_new ();
-	camel_exception_clear (ex);
-	service = camel_session_get_service (session, url, type, ex);
-	g_free (url);
-
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
-		goto error;
-
-	ok = camel_service_connect (service, ex);
-
-	if (ok) {
-		camel_service_disconnect (service, ex);
-		gtk_object_unref (GTK_OBJECT (service));
-		camel_exception_free (ex);
-		return TRUE;
-	}
-
-	gtk_object_unref (GTK_OBJECT (service));
-
- error:
-	error_dialog (GTK_WIDGET (notebook), camel_exception_get_description (ex));
-	camel_exception_free (ex);
-	return FALSE;
-}
-
-static gboolean
-service_next (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
-{
-	return !service_acceptable (user_data);
-}
-
 static void
-destroy_service (GtkObject *notebook, gpointer urlp)
+service_page_item_test (GtkWidget *button, MailDialogServicePage *page) 
 {
-	char **url = urlp;
-	GtkWidget *table;
-	int page;
-
-	page = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));
-	table = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), page);
-	*url = get_service_url (GTK_OBJECT (table));
+	service_acceptable (page);
 }
 
-static void
-add_row (GtkWidget *table, int row, const char *label_text,
-	 const char *tag, gboolean required)
+static GtkWidget *
+service_page_add_elem (MailDialogServicePage *page, GtkWidget *table, 
+		       int row, const char *label_text)
 {
 	GtkWidget *label, *entry;
 
 	label = gtk_label_new (label_text);
-	gtk_table_attach (GTK_TABLE (table), label, 0, 1, row, row + 1,
-			  GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), label, 0, 1, 
+			  row, row + 1, GTK_FILL, 0, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
 	entry = gtk_entry_new ();
 	gtk_table_attach (GTK_TABLE (table), entry, 1, 3, row, row + 1,
 			  GTK_EXPAND | GTK_FILL, 0, 0, 0);
-	gtk_signal_connect_object (GTK_OBJECT (entry), "changed",
-				   GTK_SIGNAL_FUNC (service_note_doneness),
-				   GTK_OBJECT (table));
-	gtk_object_set_data (GTK_OBJECT (entry), "required",
-			     GINT_TO_POINTER (required));
-	gtk_object_set_data (GTK_OBJECT (table), tag, entry);
+
+	gtk_signal_connect (GTK_OBJECT (entry), "changed",
+			    GTK_SIGNAL_FUNC (service_page_item_changed), page);
+
+	return entry;
 }
 
-static GtkWidget *
-create_source (struct service_type *st)
+static MailDialogServicePageItem *
+service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 {
-	GtkWidget *table;
-	GtkWidget *auth, *auth_optionmenu, *auth_html;
-	GtkWidget *autodetect;
+	MailDialogServicePageItem *item;
+	GtkWidget *table, *description;
 	int row, service_flags;
 
+	item = g_new0 (MailDialogServicePageItem, 1);
+	
+	item->vbox = gtk_vbox_new (FALSE, 0);
+
+	/* Description */
+	description = html_new (TRUE);
+	put_html (GTK_HTML (description), mcs->provider->description);
+	gtk_box_pack_start (GTK_BOX (item->vbox),
+			    description->parent->parent,
+			    TRUE, TRUE, 0);
+	
 	table = gtk_table_new (5, 3, FALSE);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 2);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 10);
 	gtk_container_set_border_width (GTK_CONTAINER (table), 8);
-	gtk_object_set_data (GTK_OBJECT (table), "protocol",
-			     st->provider->protocol);
-	gtk_object_set_data (GTK_OBJECT (table), "service_type",
-			     GUINT_TO_POINTER (CAMEL_PROVIDER_STORE));
+	gtk_box_pack_start (GTK_BOX (item->vbox), table, TRUE, TRUE, 0);
 
+	item->protocol = g_strdup (mcs->provider->protocol);
+	item->type = mcs->type;
+	
 	row = 0;
-	service_flags = st->service->url_flags & ~CAMEL_SERVICE_URL_NEED_AUTH;
+	service_flags = mcs->service->url_flags & ~CAMEL_SERVICE_URL_NEED_AUTH;
 
 	if (service_flags & CAMEL_SERVICE_URL_ALLOW_HOST) {
-		add_row (table, row, _("Server:"), "server_entry",
-			 (service_flags & CAMEL_SERVICE_URL_NEED_HOST) ==
-			 CAMEL_SERVICE_URL_NEED_HOST);
-		row++;
+		item->host = service_page_add_elem (page, table, row++, _("Server:"));
+		item->hostneed = ((service_flags & CAMEL_SERVICE_URL_NEED_HOST)
+				  == CAMEL_SERVICE_URL_NEED_HOST);
 	}
 
 	if (service_flags & CAMEL_SERVICE_URL_ALLOW_USER) {
-		add_row (table, row, _("Username:"), "user_entry",
-			 (service_flags & CAMEL_SERVICE_URL_NEED_USER) ==
-			 CAMEL_SERVICE_URL_NEED_USER);
-		row++;
+		item->user = service_page_add_elem (page, table, row++, _("Username:"));
+		item->userneed = ((service_flags & CAMEL_SERVICE_URL_NEED_USER)
+				  == CAMEL_SERVICE_URL_NEED_USER);
 	}
 
 	if (service_flags & CAMEL_SERVICE_URL_ALLOW_PATH) {
-		add_row (table, row, _("Path:"), "path_entry",
-			 (service_flags & CAMEL_SERVICE_URL_NEED_PATH) ==
-			 CAMEL_SERVICE_URL_NEED_PATH);
-		row++;
+		item->path = service_page_add_elem (page, table, row++, _("Path:"));
+		item->pathneed = ((service_flags & CAMEL_SERVICE_URL_NEED_PATH)
+				  == CAMEL_SERVICE_URL_NEED_PATH);
 	}
 
-	if (st->authtypes) {
-		auth = gtk_label_new (_("Authentication:"));
-		gtk_table_attach (GTK_TABLE (table), auth, 0, 1,
+	if (mcs->authtypes) {
+		GtkWidget *label;
+
+		label = gtk_label_new (_("Authentication:"));
+		gtk_table_attach (GTK_TABLE (table), label, 0, 1,
 				  row, row + 1, GTK_FILL, 0, 0, 0);
-		gtk_misc_set_alignment (GTK_MISC (auth), 1, 0.5);
+		gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
-		auth_optionmenu = gtk_option_menu_new ();
-		gtk_table_attach (GTK_TABLE (table), auth_optionmenu, 1, 2,
-				  row, row + 1, GTK_FILL | GTK_EXPAND,
+		item->auth_optionmenu = gtk_option_menu_new ();
+		gtk_table_attach (GTK_TABLE (table), 
+				  item->auth_optionmenu, 
+				  1, 2, row, row + 1, 
+				  GTK_FILL | GTK_EXPAND,
 				  0, 0, 0);
-		gtk_object_set_data (GTK_OBJECT (table), "auth_optionmenu",
-				     auth_optionmenu);
 
-		autodetect = gtk_button_new_with_label (_("Detect supported types..."));
-		gtk_table_attach (GTK_TABLE (table), autodetect, 2, 3,
-				  row, row + 1, 0, 0, 0, 0);
-		gtk_widget_set_sensitive (autodetect, FALSE);
-		gtk_signal_connect (GTK_OBJECT (autodetect), "clicked",
-				    GTK_SIGNAL_FUNC (autodetect_cb), table);
-		gtk_object_set_data (GTK_OBJECT (table), "autodetect",
-				     autodetect);
+		item->auth_detect = gtk_button_new_with_label (_("Detect supported types..."));
+		gtk_table_attach (GTK_TABLE (table), item->auth_detect, 
+				  2, 3, row, row + 1, 0, 0, 0, 0);
+		gtk_widget_set_sensitive (item->auth_detect, FALSE);
+		gtk_signal_connect (GTK_OBJECT (item->auth_detect), 
+				    "clicked",
+				    GTK_SIGNAL_FUNC (service_page_detect), 
+				    page);
 
-		auth_html = html_new (TRUE);
-		gtk_table_attach (GTK_TABLE (table), auth_html->parent->parent,
+		item->auth_html = html_new (TRUE);
+		gtk_table_attach (GTK_TABLE (table), 
+				  item->auth_html->parent->parent,
 				  0, 3, row + 1, row + 2,
 				  GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-		gtk_object_set_data (GTK_OBJECT (table), "auth_html",
-				     auth_html);
 
-		fill_auth_menu (GTK_OPTION_MENU (auth_optionmenu),
-				GTK_HTML (auth_html), st->authtypes);
+		service_page_item_auth_fill (page, item, mcs->authtypes);
 
 		row += 2;
 	}
 
 	if (row != 0) {
-		GtkWidget *check;
+		GtkWidget *btn;
 
-		check = gtk_check_button_new_with_label (
-			_("Test these values before continuing"));
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), TRUE);
-		gtk_table_attach (GTK_TABLE (table), check, 0, 3,
-				  row, row + 1, GTK_FILL, GTK_FILL, 0, 0);
-		gtk_object_set_data (GTK_OBJECT (table), "check", check);
+		btn = gtk_button_new_with_label (_("Test Settings"));
+
+		gtk_table_attach (GTK_TABLE (table), btn, 2, 3,
+				  row, row + 1, GTK_SHRINK, GTK_SHRINK, 0, 0);
+
+		gtk_signal_connect (GTK_OBJECT (btn), "clicked",
+				    GTK_SIGNAL_FUNC (service_page_item_test), 
+				    page);
 		row += 1;
 	}
 
 	gtk_table_resize (GTK_TABLE (table), row, 3);
 	gtk_widget_show_all (table);
 
-	return table;
-}
-
-static GtkWidget *
-create_transport (struct service_type *st)
-{
-	GtkWidget *table;
-	GtkWidget *auth, *auth_optionmenu, *auth_html;
-	GtkWidget *autodetect;
-	int row, service_flags;
-
-	table = gtk_table_new (5, 3, FALSE);
-	gtk_table_set_row_spacings (GTK_TABLE (table), 2);
-	gtk_table_set_col_spacings (GTK_TABLE (table), 10);
-	gtk_container_set_border_width (GTK_CONTAINER (table), 8);
-	gtk_object_set_data (GTK_OBJECT (table), "protocol",
-			     st->provider->protocol);
-	gtk_object_set_data (GTK_OBJECT (table), "service_type",
-			     GUINT_TO_POINTER (CAMEL_PROVIDER_TRANSPORT));
-
-	row = 0;
-	service_flags = st->service->url_flags & ~CAMEL_SERVICE_URL_NEED_AUTH;
-
-	if (service_flags & CAMEL_SERVICE_URL_ALLOW_HOST) {
-		add_row (table, row, _("Server:"), "server_entry",
-			 (service_flags & CAMEL_SERVICE_URL_NEED_HOST) ==
-			 CAMEL_SERVICE_URL_NEED_HOST);
-		row++;
-	}
-
-	if (st->authtypes) {
-		auth = gtk_label_new (_("Authentication:"));
-		gtk_table_attach (GTK_TABLE (table), auth, 0, 1,
-				  row, row + 1, GTK_FILL, 0, 0, 0);
-		gtk_misc_set_alignment (GTK_MISC (auth), 1, 0.5);
-
-		auth_optionmenu = gtk_option_menu_new ();
-		gtk_table_attach (GTK_TABLE (table), auth_optionmenu, 1, 2,
-				  row, row + 1, GTK_FILL | GTK_EXPAND,
-				  0, 0, 0);
-		gtk_object_set_data (GTK_OBJECT (table), "auth_optionmenu",
-				     auth_optionmenu);
-
-		autodetect = gtk_button_new_with_label (_("Detect supported types..."));
-		gtk_table_attach (GTK_TABLE (table), autodetect, 2, 3,
-				  row, row + 1, 0, 0, 0, 0);
-		gtk_widget_set_sensitive (autodetect, FALSE);
-		gtk_object_set_data (GTK_OBJECT (table), "autodetect",
-				     autodetect);
-
-		auth_html = html_new (TRUE);
-		gtk_table_attach (GTK_TABLE (table), auth_html->parent->parent,
-				  0, 3, row + 1, row + 2,
-				  GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
-
-		fill_auth_menu (GTK_OPTION_MENU (auth_optionmenu),
-				GTK_HTML (auth_html), st->authtypes);
-
-		row += 2;
-	}
-
-	if (row != 0) {
-		GtkWidget *check;
-
-		check = gtk_check_button_new_with_label (
-			_("Test these values before continuing"));
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), TRUE);
-		gtk_table_attach (GTK_TABLE (table), check, 0, 3,
-				  row, row + 1, GTK_FILL | GTK_EXPAND,
-				  GTK_FILL, 0, 0);
-		gtk_object_set_data (GTK_OBJECT (table), "check", check);
-		row += 1;
-	}
-
-	gtk_table_resize (GTK_TABLE (table), row, 3);
-	gtk_widget_show_all (table);
-
-	return table;
+	return item;
 }
 
 static void
-stype_menuitem_activate (GtkObject *menuitem, GtkObject *table)
+service_page_menuitem_activate (GtkWidget *item, MailDialogServicePage *page)
 {
-	GtkHTML *html;
-	char *text;
-	int page;
-	GtkNotebook *notebook;
+	MailDialogServicePageItem *spitem;
 
-	text = gtk_object_get_data (menuitem, "description");
-	html = gtk_object_get_data (table, "html");
-	put_html (html, text);
+	spitem = service_page_item_by_menuitem (page, item);
 
-	page = GPOINTER_TO_UINT (gtk_object_get_data (menuitem, "page"));
-	notebook = gtk_object_get_data (table, "notebook");
-	gtk_notebook_set_page (notebook, page);
-	service_note_doneness (GTK_OBJECT (gtk_notebook_get_nth_page (notebook,
-								      page)),
-			       NULL);			       
+	g_return_if_fail (spitem);
+	
+	gtk_notebook_set_page (GTK_NOTEBOOK (page->notebook), spitem->pnum);
+	page->spitem = spitem;
+
+	service_page_item_changed (item, page);
 }
 
-/* Create the mail source/transport page. */
 static void
-create_service_page (GtkWidget *vbox, const char *label_text, GList *services,
-		     GtkWidget *(*create_service)(struct service_type *),
-		     char **urlp)
+service_page_set_changed_cb (MailDialogServicePage *page, 
+			     ServicePageCallback cb, gpointer data)
 {
-	GtkWidget *hbox, *stype, *stype_optionmenu, *stype_menu;
-	GtkWidget *menuitem, *first_menuitem = NULL;
-	GtkWidget *stype_html, *notebook, *service;
-	int page;
-	GList *s;
+	page->changedcb = cb;
+	page->changeddata = data;
+}
 
+static void
+service_page_set_done_cb (MailDialogServicePage *page, 
+			  ServicePageCallback cb, gpointer data)
+{
+	page->donecb = cb;
+	page->donedata = data;
+}
+
+static MailDialogServicePage *
+service_page_new (const char *label_text, GSList *services)
+{
+	MailDialogServicePage *page;
+	GtkWidget *hbox, *label, *menu;
+	GtkWidget *first_item = NULL;
+	int pnum;
+	GSList *s;
+
+	page = g_new0 (MailDialogServicePage, 1);
+	
+	page->vbox = gtk_vbox_new (FALSE, 0);
+	
 	hbox = gtk_hbox_new (FALSE, 8);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (page->vbox), hbox, FALSE, TRUE, 0);
 
-	stype = gtk_label_new (label_text);
-	gtk_box_pack_start (GTK_BOX (hbox), stype, FALSE, FALSE, 0);
-	gtk_misc_set_alignment (GTK_MISC (stype), 1, 0.5);
+	label = gtk_label_new (label_text);
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
-	stype_optionmenu = gtk_option_menu_new ();
-	gtk_object_set_data (GTK_OBJECT (vbox), "stype_optionmenu", stype_optionmenu);
-	gtk_box_pack_start (GTK_BOX (hbox), stype_optionmenu, TRUE, TRUE, 0);
-	stype_menu = gtk_menu_new ();
-
-	stype_html = html_new (TRUE);
-	gtk_object_set_data (GTK_OBJECT (vbox), "html", stype_html);
-	gtk_box_pack_start (GTK_BOX (vbox), stype_html->parent->parent,
+	page->optionmenu = gtk_option_menu_new ();
+	menu = gtk_menu_new ();
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (page->optionmenu), menu);
+	gtk_box_pack_start (GTK_BOX (hbox), page->optionmenu, TRUE, TRUE, 0);
+	
+	/* Notebook */
+	page->notebook = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (page->notebook), FALSE);
+	gtk_box_pack_start (GTK_BOX (page->vbox), page->notebook, 
 			    TRUE, TRUE, 0);
 
-	notebook = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
-	gtk_box_pack_start (GTK_BOX (vbox), notebook, TRUE, TRUE, 0);
-	gtk_object_set_data (GTK_OBJECT (vbox), "notebook", notebook);
-	gtk_signal_connect (GTK_OBJECT (notebook), "destroy",
-			    GTK_SIGNAL_FUNC (destroy_service), urlp);
+	/* Build the list of services and the service item pages */
+	for (s = services, pnum = 0; s; s = s->next, pnum++) {
+		MailService *mcs = s->data;
+		MailDialogServicePageItem *spitem;
+		
+		spitem = service_page_item_new (page, mcs);
+		spitem->pnum = pnum;
+		
+		gtk_notebook_append_page (GTK_NOTEBOOK (page->notebook), 
+					  spitem->vbox, NULL);
 
-	for (s = services, page = 0; s; s = s->next, page++) {
-		struct service_type *st = s->data;
+		spitem->item = gtk_menu_item_new_with_label (_(mcs->provider->name));
+		if (!first_item)
+			first_item = spitem->item;
 
-		menuitem = gtk_menu_item_new_with_label (_(st->provider->name));
-		if (!first_menuitem)
-			first_menuitem = menuitem;
-		gtk_object_set_data (GTK_OBJECT (vbox), st->provider->name, menuitem);
-		gtk_signal_connect (GTK_OBJECT (menuitem), "activate",
-				    GTK_SIGNAL_FUNC (stype_menuitem_activate),
-				    vbox);
-		gtk_menu_append (GTK_MENU (stype_menu), menuitem);
+		gtk_signal_connect (GTK_OBJECT (spitem->item), "activate",
+				    GTK_SIGNAL_FUNC (service_page_menuitem_activate),
+				    page);
 
-		service = (*create_service) (st);
-		gtk_notebook_append_page (GTK_NOTEBOOK (notebook), service, NULL);
-		gtk_object_set_data (GTK_OBJECT (service), "box", vbox);
-
-		gtk_object_set_data (GTK_OBJECT (menuitem), "page",
-				     GUINT_TO_POINTER (page));
-		gtk_object_set_data (GTK_OBJECT (menuitem), "description",
-				     st->provider->description);
-
-		gtk_widget_show (menuitem);
+		gtk_menu_append (GTK_MENU (menu), spitem->item);
+		page->items = g_list_append (page->items, spitem);
 	}
+	
+	service_page_menuitem_activate (first_item, page);
+	gtk_option_menu_set_history (GTK_OPTION_MENU (page->optionmenu), 0);
 
-	stype_menuitem_activate (GTK_OBJECT (first_menuitem), GTK_OBJECT (vbox));
-	gtk_option_menu_set_history (GTK_OPTION_MENU (stype_optionmenu), 0);
+	gtk_widget_show_all (page->vbox);
 
-	gtk_widget_show (stype_menu);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (stype_optionmenu), stype_menu);
-
-	gtk_widget_show_all (vbox);
+	return page;
 }
 
-static void
-create_source_page (GtkWidget *vbox, GList *sources, char **urlp)
+/* Source Page */
+static MailDialogSourcePage *
+source_page_new (GSList *sources)
 {
+	MailDialogSourcePage *page = g_new0 (MailDialogSourcePage, 1);
 	GtkWidget *html;
 
+	page->page = service_page_new ("Mail source type:", sources);
+	page->vbox = page->page->vbox;
+	
 	html = html_new (FALSE);
 	put_html (GTK_HTML (html),
 		  _("Select the kind of mail server you have, and enter "
@@ -982,1283 +1345,938 @@ create_source_page (GtkWidget *vbox, GList *sources, char **urlp)
 		    "requires authentication, you can click the "
 		    "\"Detect supported types...\" button after entering "
 		    "the other information."));
-	gtk_box_pack_start (GTK_BOX (vbox), html->parent, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (page->vbox), html->parent, 
+			    FALSE, TRUE, 0);
+	gtk_box_reorder_child (GTK_BOX (page->vbox), html->parent, 0);
 
-	create_service_page (vbox, "Mail source type:", sources,
-			     create_source, urlp);
+	return page;
 }
 
-static void
-create_transport_page (GtkWidget *vbox, GList *transports, char **urlp)
+/* News Page */
+static MailDialogNewsPage *
+news_page_new (GSList *sources)
 {
-	GtkWidget *html, *optionmenu, *menuitem;
+	MailDialogNewsPage *page = g_new0 (MailDialogNewsPage, 1);
+	GtkWidget *html;
 
+	page->page = service_page_new ("Mail source type:", sources);
+	page->vbox = page->page->vbox;
+	
 	html = html_new (FALSE);
 	put_html (GTK_HTML (html),
-		  _("Select the method you would like to use to deliver your mail."));
-	gtk_box_pack_start (GTK_BOX (vbox), html->parent, FALSE, TRUE, 0);
+		  _("Select the kind of news server you have, and enter "
+		    "the relevant information about it.\n\nIf the server "
+		    "requires authentication, you can click the "
+		    "\"Detect supported types...\" button after entering "
+		    "the other information."));
+	gtk_box_pack_start (GTK_BOX (page->vbox), html->parent, 
+			    FALSE, TRUE, 0);
+	gtk_box_reorder_child (GTK_BOX (page->vbox), html->parent, 0);
 
-	create_service_page (vbox, "Mail transport type:", transports,
-			     create_transport, urlp);
-
-	optionmenu = gtk_object_get_data (GTK_OBJECT (vbox), "stype_optionmenu");
-
-	if (*urlp && !strncasecmp(*urlp, "sendmail", 8)) {
-		menuitem = gtk_object_get_data (GTK_OBJECT (vbox), "Sendmail");
-		gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), 1);
-	} else {
-		menuitem = gtk_object_get_data (GTK_OBJECT (vbox), "SMTP");
-		gtk_option_menu_set_history (GTK_OPTION_MENU (optionmenu), 0);
-	}
-
-	stype_menuitem_activate (GTK_OBJECT (menuitem), GTK_OBJECT (vbox));
+	return page;
 }
 
-
-/* Generic stuff */
-
-static GList *
-add_service (GList *services, CamelProviderType type, CamelProvider *prov)
+/* Transport page */
+static MailDialogTransportPage *
+transport_page_new (GSList *transports)
 {
-	CamelService *service;
-	CamelException *ex;
-	char *url;
-	struct service_type *st;
+	MailDialogTransportPage *page = g_new0 (MailDialogTransportPage, 1);
+	GtkWidget *html;
 
-	ex = camel_exception_new ();
+	page->page = service_page_new ("Mail source type:", transports);
+	page->vbox = page->page->vbox;
+	
+	html = html_new (FALSE);
+	put_html (GTK_HTML (html),
+		  _("Select the kind of mail server you have, and enter "
+		    "the relevant information about it.\n\nIf the server "
+		    "requires authentication, you can click the "
+		    "\"Detect supported types...\" button after entering "
+		    "the other information."));
+	gtk_box_pack_start (GTK_BOX (page->vbox), html->parent, 
+			    FALSE, TRUE, 0);
+	gtk_box_reorder_child (GTK_BOX (page->vbox), html->parent, 0);
 
-	url = g_strdup_printf ("%s:", prov->protocol);
-	service = camel_session_get_service (session, url, type, ex);
-	g_free (url);
-	if (!service) {
-		camel_exception_free (ex);
-		return services;
-	}
-
-	st = g_new (struct service_type, 1);
-	st->provider = prov;
-	st->service = service;
-	st->authtypes = camel_service_query_auth_types (st->service, ex);
-	camel_exception_free (ex);
-
-	return g_list_append (services, st);
+	return page;
 }
 
-static GdkImlibImage *
-load_image (const char *name)
+/* Identity dialog */
+static void
+iddialog_page_done (MailDialogIdentityPage *page, gpointer data)
 {
-	char *path;
-	GdkImlibImage *image;
+	MailDialogIdentity *iddialog = (MailDialogIdentity *)data;
 
-	path = g_strdup_printf ("/usr/local/share/images/evolution/%s", name);
-	image = gdk_imlib_load_image (path);
-	g_free (path);
-
-	return image;
+	gnome_dialog_set_sensitive (GNOME_DIALOG (iddialog->dialog), 0, TRUE);
 }
 
 static void
-prepare_first (GnomeDruidPage *page, GnomeDruid *druid, gpointer user_data)
+iddialog_ok_clicked (GtkWidget *dialog, MailDialogIdentity *iddialog)
 {
-	gnome_druid_set_buttons_sensitive (druid, TRUE, TRUE, TRUE);
+	g_return_if_fail (iddialog);
+	
+	iddialog->id = identity_page_extract (iddialog->page);
 }
 
-static struct identity_record idrec;
-static char *source = NULL, *news_server = NULL, *transport = NULL;
-static gboolean format = FALSE;
+static MailConfigIdentity *
+identity_dialog (const MailConfigIdentity *id, GtkWidget *parent)
+
+{
+	MailDialogIdentity *iddialog;
+	MailConfigIdentity *returnid;
+	GtkWidget *dialog_vbox;
+	GtkWidget *area;
+	gboolean new = !id;
+	
+	iddialog = g_new0 (MailDialogIdentity, 1);
+
+	if (new)
+		iddialog->dialog = gnome_dialog_new (_("Edit Identity"), NULL);
+	else
+		iddialog->dialog = gnome_dialog_new (_("Add Identity"), NULL);
+
+	gtk_window_set_modal (GTK_WINDOW (iddialog->dialog), TRUE);
+	gtk_window_set_policy (GTK_WINDOW (iddialog->dialog), 
+			       TRUE, TRUE, FALSE);
+	gnome_dialog_set_parent (GNOME_DIALOG (iddialog->dialog),
+				 GTK_WINDOW (parent));
+
+	/* Create the vbox that we will pack the identity widget into */
+	dialog_vbox = GNOME_DIALOG (iddialog->dialog)->vbox;
+	gtk_widget_show (dialog_vbox);
+
+        /* Get the identity widget */
+	iddialog->page = identity_page_new (id);
+	identity_page_set_done_cb (iddialog->page, iddialog_page_done, 
+				   iddialog);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox), 
+			    iddialog->page->vbox, TRUE, TRUE, 0);
+	gtk_widget_show (iddialog->page->vbox);
+
+	/* Buttons */
+	area = GNOME_DIALOG (iddialog->dialog)->action_area;
+	gtk_widget_show (area);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (area), GTK_BUTTONBOX_END);
+	gtk_button_box_set_spacing (GTK_BUTTON_BOX (area), 8);
+
+	gnome_dialog_append_button (GNOME_DIALOG (iddialog->dialog), 
+				    GNOME_STOCK_BUTTON_OK);
+	gnome_dialog_append_button (GNOME_DIALOG (iddialog->dialog), 
+				    GNOME_STOCK_BUTTON_CANCEL);	
+
+	gnome_dialog_set_default (GNOME_DIALOG (iddialog->dialog), 0);
+	gnome_dialog_set_default (GNOME_DIALOG (iddialog->dialog), 1);
+	
+	gnome_dialog_set_sensitive (GNOME_DIALOG (iddialog->dialog), 0, FALSE);
+	
+	gnome_dialog_button_connect( GNOME_DIALOG (iddialog->dialog), 0,
+				     GTK_SIGNAL_FUNC (iddialog_ok_clicked),
+				     iddialog);
+
+	gnome_dialog_run_and_close (GNOME_DIALOG (iddialog->dialog));
+
+	returnid = iddialog->id;
+	g_free (iddialog);
+
+	return returnid;
+}
+
+/* Source Dialog */
+static void
+sdialog_page_done (MailDialogServicePage *page, gpointer data)
+{
+	MailDialogSource *sdialog = (MailDialogSource *)data;
+
+	gnome_dialog_set_sensitive (GNOME_DIALOG (sdialog->dialog), 0, TRUE);
+}
 
 static void
-cancel (GnomeDruid *druid, gpointer window)
+sdialog_ok_clicked (GtkWidget *widget, MailDialogSource *sdialog) 
+{
+	g_return_if_fail (sdialog);
+	
+	sdialog->source = service_page_extract (sdialog->page->page);
+}
+
+static MailConfigService *
+source_dialog (MailConfigService *source, GtkWidget *parent)
+{
+	MailDialogSource *sdialog;
+	MailConfigService *returnsource;
+	GtkWidget *dialog_vbox, *area;
+	GSList *sources, *news, *transports;
+	gboolean new = !source;
+	
+	sdialog = g_new0 (MailDialogSource, 1);
+	
+	provider_list (&sources, &news, &transports);
+	
+	if (new)
+		sdialog->dialog = gnome_dialog_new (_("Edit Source"), NULL);
+	else
+		sdialog->dialog = gnome_dialog_new (_("Add Source"), NULL);
+
+	gtk_window_set_modal (GTK_WINDOW (sdialog->dialog), TRUE);
+	gtk_window_set_policy (GTK_WINDOW (sdialog->dialog), 
+			       TRUE, TRUE, FALSE);
+	gtk_window_set_default_size (GTK_WINDOW (sdialog->dialog), 380, 450);
+	gnome_dialog_set_parent (GNOME_DIALOG (sdialog->dialog),
+				 GTK_WINDOW (parent));
+
+	/* Create the vbox that we will pack the identity widget into */
+	dialog_vbox = GNOME_DIALOG (sdialog->dialog)->vbox;
+	gtk_widget_show (dialog_vbox);
+
+        /* Get the identity widget */
+	sdialog->page = source_page_new (sources);
+	service_page_set_url (sdialog->page->page, source);
+	service_page_set_done_cb (sdialog->page->page, 
+				  sdialog_page_done, sdialog);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox), sdialog->page->vbox, 
+			    TRUE, TRUE, 0);
+	gtk_widget_show (sdialog->page->vbox);
+	
+	/* Buttons */
+	area = GNOME_DIALOG (sdialog->dialog)->action_area;
+	gtk_widget_show (area);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (area), GTK_BUTTONBOX_END);
+	gtk_button_box_set_spacing (GTK_BUTTON_BOX (area), 8);
+
+	gnome_dialog_append_button (GNOME_DIALOG (sdialog->dialog), 
+				    GNOME_STOCK_BUTTON_OK);
+	gnome_dialog_append_button (GNOME_DIALOG (sdialog->dialog), 
+				    GNOME_STOCK_BUTTON_CANCEL);	
+
+	gnome_dialog_set_default (GNOME_DIALOG (sdialog->dialog), 0);
+	gnome_dialog_set_default (GNOME_DIALOG (sdialog->dialog), 1);
+	
+	gnome_dialog_set_sensitive (GNOME_DIALOG (sdialog->dialog), 0, FALSE);
+	
+	gnome_dialog_button_connect(GNOME_DIALOG (sdialog->dialog), 0,
+				    GTK_SIGNAL_FUNC (sdialog_ok_clicked),
+				    sdialog);
+
+	gnome_dialog_run_and_close (GNOME_DIALOG (sdialog->dialog));
+
+	returnsource = sdialog->source;
+	g_free (sdialog);
+
+	return returnsource;
+}
+
+/* News Dialog */
+static void
+ndialog_page_done (MailDialogServicePage *page, gpointer data)
+{
+	MailDialogNews *ndialog = (MailDialogNews *)data;
+
+	gnome_dialog_set_sensitive (GNOME_DIALOG (ndialog->dialog), 0, TRUE);
+}
+
+static void
+ndialog_ok_clicked (GtkWidget *widget, MailDialogNews *ndialog) 
+{
+	g_return_if_fail (ndialog);
+	
+	ndialog->source = service_page_extract (ndialog->page->page);
+}
+
+static MailConfigService *
+news_dialog (MailConfigService *source, GtkWidget *parent)
+{
+	MailDialogNews *ndialog;
+	MailConfigService *returnsource;
+	GtkWidget *dialog_vbox, *area;
+	GSList *sources, *news, *transports;
+	gboolean new = !source;
+	
+	ndialog = g_new0 (MailDialogNews, 1);
+	
+	provider_list (&sources, &news, &transports);
+	
+	if (new)
+		ndialog->dialog = gnome_dialog_new (_("Edit News Server"), NULL);
+	else
+		ndialog->dialog = gnome_dialog_new (_("Add News Server"), NULL);
+
+	gtk_window_set_modal (GTK_WINDOW (ndialog->dialog), TRUE);
+	gtk_window_set_policy (GTK_WINDOW (ndialog->dialog), 
+			       TRUE, TRUE, FALSE);
+	gtk_window_set_default_size (GTK_WINDOW (ndialog->dialog), 380, 450);
+	gnome_dialog_set_parent (GNOME_DIALOG (ndialog->dialog),
+				 GTK_WINDOW (parent));
+
+	/* Create the vbox that we will pack the identity widget into */
+	dialog_vbox = GNOME_DIALOG (ndialog->dialog)->vbox;
+	gtk_widget_show (dialog_vbox);
+
+        /* Get the identity widget */
+	ndialog->page = news_page_new (news);
+	service_page_set_url (ndialog->page->page, source);
+	service_page_set_done_cb (ndialog->page->page, 
+				  ndialog_page_done, ndialog);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox), ndialog->page->vbox, 
+			    TRUE, TRUE, 0);
+	gtk_widget_show (ndialog->page->vbox);
+	
+	/* Buttons */
+	area = GNOME_DIALOG (ndialog->dialog)->action_area;
+	gtk_widget_show (area);
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (area), GTK_BUTTONBOX_END);
+	gtk_button_box_set_spacing (GTK_BUTTON_BOX (area), 8);
+
+	gnome_dialog_append_button (GNOME_DIALOG (ndialog->dialog), 
+				    GNOME_STOCK_BUTTON_OK);
+	gnome_dialog_append_button (GNOME_DIALOG (ndialog->dialog), 
+				    GNOME_STOCK_BUTTON_CANCEL);	
+
+	gnome_dialog_set_default (GNOME_DIALOG (ndialog->dialog), 0);
+	gnome_dialog_set_default (GNOME_DIALOG (ndialog->dialog), 1);
+	
+	gnome_dialog_set_sensitive (GNOME_DIALOG (ndialog->dialog), 0, FALSE);
+	
+	gnome_dialog_button_connect(GNOME_DIALOG (ndialog->dialog), 0,
+				    GTK_SIGNAL_FUNC (ndialog_ok_clicked),
+				    ndialog);
+
+	gnome_dialog_run_and_close (GNOME_DIALOG (ndialog->dialog));
+
+	returnsource = ndialog->source;
+	g_free (ndialog);
+
+	return returnsource;
+}
+
+/* Mail configuration druid */
+
+/*  static gboolean */
+/*  mail_druid_identity_next (GnomeDruidPage *page, gpointer arg1,  */
+/*  			  MailDruidDialog *dialog) */
+/*  { */
+/*  	char *addr, *at; */
+	
+/*  	FIXME: we need more sanity checking than this.  */
+	
+/*  	addr = gtk_editable_get_chars (GTK_EDITABLE (dialog->idpage->address), */
+/*  				       0, -1); */
+/*  	at = strchr (addr, '@'); */
+/*  	if (!at || !strchr (at + 1, '.')) { */
+/*  		error_dialog (GTK_WIDGET (page), "Email address must be " */
+/*  			      "of the form \"user@domain\"."); */
+/*  		return TRUE; */
+/*  	} */
+/*  	g_free (addr); */
+	
+/*  	dialog->id = identity_page_extract (dialog->idpage); */
+
+/*  	return FALSE; */
+/*  } */
+
+static gboolean
+mail_druid_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
+{
+	gnome_druid_set_buttons_sensitive (druid, TRUE, FALSE, TRUE);
+
+	return FALSE;
+}
+
+static void
+mail_druid_identity_done (MailDialogIdentityPage *page, gpointer data)
+{
+	MailDruidDialog *dialog = (MailDruidDialog *) data;
+	
+	gnome_druid_set_buttons_sensitive (GNOME_DRUID (dialog->druid), 
+					   TRUE, TRUE, TRUE);
+}
+
+static void
+mail_druid_service_done (MailDialogServicePage *page, gpointer data)
+{
+	MailDruidDialog *dialog = (MailDruidDialog *) data;
+
+	gnome_druid_set_buttons_sensitive (GNOME_DRUID (dialog->druid), 
+					   TRUE, TRUE, TRUE);
+}
+
+static void
+mail_druid_cancel (GnomeDruid *druid, GtkWindow *window)
 {
 	gtk_window_set_modal (window, FALSE);
-	gtk_widget_destroy (window);
+	gtk_widget_destroy (GTK_WIDGET (window));
 	gtk_main_quit ();
 }
 
 static void
-write_config (void)
+mail_druid_finish (GnomeDruidPage *page, GnomeDruid *druid, 
+		   MailDruidDialog *dialog)
 {
-	char *path;
+	MailConfigIdentity *id;
+	MailConfigService *source;
+	
+	clear_config ();
 
-	/* According to the API docs, there's an easier way to do this,
-	 * except that it doesn't work. Anyway, this will be replaced
-	 * by GConf eventually. FIXME.
-	 */
+	/* Identity */
+	id = identity_page_extract (dialog->idpage);
+	config->ids = g_slist_append (config->ids, id);
 
-	path = g_strdup_printf ("=%s/config=/mail/configured", evolution_dir);
-	gnome_config_set_bool (path, TRUE);
-	g_free (path);
+	/* Source */
+	source = service_page_extract (dialog->spage->page);
+	config->sources = g_slist_append (config->sources, source);
+	
+	/* Transport */
+	config->transport = service_page_extract (dialog->tpage->page);
 
-	path = g_strdup_printf ("=%s/config=/mail/id_name", evolution_dir);
-	gnome_config_set_string (path, idrec.name);
-	g_free (path);
-
-	path = g_strdup_printf ("=%s/config=/mail/id_addr", evolution_dir);
-	gnome_config_set_string (path, idrec.address);
-	g_free (path);
-
-	path = g_strdup_printf ("=%s/config=/mail/id_org", evolution_dir);
-	gnome_config_set_string (path, idrec.organization);
-	g_free (path);
-
-	path = g_strdup_printf ("=%s/config=/mail/id_sig", evolution_dir);
-	gnome_config_set_string (path, idrec.sigfile);
-	g_free (path);
-
-	path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
-	gnome_config_set_string (path, source);
-	g_free (path);
-
-	path = g_strdup_printf ("=%s/config=/mail/transport", evolution_dir);
-	gnome_config_set_string (path, transport);
-	g_free (path);
-
-	path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
-	gnome_config_set_string (path, format ? "alternative" : "plain");
-	g_free (path);
-
-	if (news_server) {
-		path = g_strdup_printf ("=%s/config=/news/configured", evolution_dir);
-		gnome_config_set_bool (path, TRUE);
-		g_free (path);
-
-		path = g_strdup_printf ("=%s/config=/news/source", evolution_dir);
-		gnome_config_set_string (path, news_server);
-		g_free (path);
-	}
-
-
-	gnome_config_sync ();
-}
-
-static void
-finish (GnomeDruidPage *page, gpointer arg1, gpointer window)
-{
-	cancel (arg1, window);
-	write_config();
+	write_config (GCONFPATH);
+	
+	mail_druid_cancel (druid, GTK_WINDOW (dialog->dialog));
 }
 
 void
 mail_config_druid (void)
 {
-	GnomeDruid *druid;
-	GtkWidget *page, *window;
+	MailDruidDialog *dialog;
+	GnomeDruidPageStart *spage;
+	GnomeDruidPageFinish *fpage;
 	GnomeDruidPageStandard *dpage;
-	GList *providers, *p, *sources, *transports;
+	GSList *sources, *news, *transports;
 	GdkImlibImage *mail_logo, *identity_logo;
 	GdkImlibImage *source_logo, *transport_logo;
 
-	/* Fetch list of all providers. */
-	providers = camel_session_list_providers (session, TRUE);
-	sources = transports = NULL;
-	for (p = providers; p; p = p->next) {
-		CamelProvider *prov = p->data;
-
-		if (strcmp (prov->domain, "mail") != 0)
-			continue;
-
-		if (prov->object_types[CAMEL_PROVIDER_STORE]) {
-			sources = add_service (sources,
-					       CAMEL_PROVIDER_STORE,
-					       prov);
-		} else if (prov->object_types[CAMEL_PROVIDER_TRANSPORT]) {
-			transports = add_service (transports,
-						  CAMEL_PROVIDER_TRANSPORT,
-						  prov);
-		}
-	}
+	read_config (GCONFPATH);
+	provider_list (&sources, &news, &transports);
 
 	mail_logo = load_image ("evolution-inbox.png");
 	identity_logo = load_image ("malehead.png");
 	source_logo = mail_logo;
 	transport_logo = load_image ("envelope.png");
 
-	window = gtk_window_new (GTK_WINDOW_DIALOG);
-	druid = GNOME_DRUID (gnome_druid_new ());
-	gtk_signal_connect (GTK_OBJECT (druid), "cancel",
-			    GTK_SIGNAL_FUNC (cancel), window);
+	dialog = g_new0 (MailDruidDialog, 1);
+	dialog->gui = glade_xml_new (EVOLUTION_GLADEDIR 
+				     "/mail-config-druid.glade", NULL);
+	dialog->dialog = glade_xml_get_widget (dialog->gui, "dialog");
+	dialog->druid = glade_xml_get_widget (dialog->gui, "druid");
+
+	/* Cancel button */
+	gtk_signal_connect (GTK_OBJECT (dialog->druid), "cancel", 
+			    GTK_SIGNAL_FUNC (mail_druid_cancel), 
+			    dialog->dialog);
 
 	/* Start page */
-	page = gnome_druid_page_start_new_with_vals (
-		_("Mail Configuration"),
-		"Welcome to the Evolution Mail configuration wizard!\n"
-		"By filling in some information about your email\n"
-		"settings,you can start sending and receiving email\n"
-		"right away. Click \"Next\" to continue.",
-		mail_logo, NULL);
-
-	gnome_druid_page_start_set_logo_bg_color (
-		GNOME_DRUID_PAGE_START (page),
-		&GNOME_DRUID_PAGE_START (page)->background_color);
-	gnome_druid_append_page (druid, GNOME_DRUID_PAGE (page));
-	gtk_signal_connect (GTK_OBJECT (page), "prepare",
-			    GTK_SIGNAL_FUNC (prepare_first), NULL);
-	gtk_widget_show_all (page);
-
-
+	spage = GNOME_DRUID_PAGE_START (glade_xml_get_widget (dialog->gui, "startpage"));
+	gnome_druid_page_start_set_logo (spage, mail_logo);
+	
 	/* Identity page */
-	page = gnome_druid_page_standard_new_with_vals (_("Identity"),
-							identity_logo);
-	dpage = GNOME_DRUID_PAGE_STANDARD (page);
-	gnome_druid_page_standard_set_logo_bg_color (dpage,
-						     &dpage->background_color);
-	gtk_container_set_border_width (GTK_CONTAINER (dpage->vbox), 8);
-	gtk_box_set_spacing (GTK_BOX (dpage->vbox), 5);
-	create_identity_page (dpage->vbox, &idrec);
-	gtk_object_set_data (GTK_OBJECT (dpage->vbox), "exit_button",
-			     druid->next);
-	gnome_druid_append_page (druid, GNOME_DRUID_PAGE (page));
-	gtk_signal_connect (GTK_OBJECT (page), "prepare",
-			    GTK_SIGNAL_FUNC (prepare_identity), dpage->vbox);
-	gtk_signal_connect (GTK_OBJECT (page), "next",
-			    GTK_SIGNAL_FUNC (identity_next), dpage->vbox);
-	gtk_widget_show (page);
+	dpage = GNOME_DRUID_PAGE_STANDARD (glade_xml_get_widget (dialog->gui, "standardpage1"));
+	gnome_druid_page_standard_set_logo (dpage, identity_logo);
 
+	dialog->idpage = identity_page_new (NULL);
+	identity_page_set_done_cb (dialog->idpage, 
+				   mail_druid_identity_done, 
+				   dialog);
+	gtk_box_pack_start (GTK_BOX (dpage->vbox), 
+			    dialog->idpage->vbox, 
+			    TRUE, TRUE, 0);
+
+	gtk_signal_connect (GTK_OBJECT (dpage), "prepare", 
+			    GTK_SIGNAL_FUNC (mail_druid_prepare), dialog);
+	gtk_widget_show (dialog->idpage->vbox);
 
 	/* Source page */
-	page = gnome_druid_page_standard_new_with_vals (_("Mail Source"),
-							source_logo);
-	dpage = GNOME_DRUID_PAGE_STANDARD (page);
-	gnome_druid_page_standard_set_logo_bg_color (dpage,
-						     &dpage->background_color);
-	gtk_container_set_border_width (GTK_CONTAINER (dpage->vbox), 8);
-	gtk_box_set_spacing (GTK_BOX (dpage->vbox), 5);
-	create_source_page (dpage->vbox, sources, &source);
-	gtk_object_set_data (GTK_OBJECT (dpage->vbox), "exit_button",
-			     druid->next);
-	gnome_druid_append_page (druid, GNOME_DRUID_PAGE (page));
-	gtk_signal_connect (GTK_OBJECT (page), "prepare", 
-			    GTK_SIGNAL_FUNC (prepare_service), dpage->vbox);
-	gtk_signal_connect (GTK_OBJECT (page), "next", 
-			    GTK_SIGNAL_FUNC (service_next),
-			    gtk_object_get_data (GTK_OBJECT (dpage->vbox),
-						 "notebook"));
-	gtk_widget_show (page);
+	dpage = GNOME_DRUID_PAGE_STANDARD (glade_xml_get_widget (dialog->gui, "standardpage2"));
+	gnome_druid_page_standard_set_logo (dpage, source_logo);
 
+	dialog->spage = source_page_new (sources);
+	service_page_set_done_cb (dialog->spage->page, 
+				  mail_druid_service_done, dialog);
+	gtk_box_pack_start (GTK_BOX (dpage->vbox), 
+			    dialog->spage->vbox, 
+			    TRUE, TRUE, 0);
+
+	gtk_signal_connect (GTK_OBJECT (dpage), "prepare", 
+			    GTK_SIGNAL_FUNC (mail_druid_prepare), dialog);
+	gtk_widget_show (dialog->spage->vbox);
 
 	/* Transport page */
-	page = gnome_druid_page_standard_new_with_vals (_("Mail Transport"),
-							transport_logo);
-	dpage = GNOME_DRUID_PAGE_STANDARD (page);
-	gnome_druid_page_standard_set_logo_bg_color (dpage,
-						     &dpage->background_color);
-	gtk_container_set_border_width (GTK_CONTAINER (dpage->vbox), 8);
-	gtk_box_set_spacing (GTK_BOX (dpage->vbox), 5);
-	create_transport_page (dpage->vbox, transports, &transport);
-	gtk_object_set_data (GTK_OBJECT (dpage->vbox), "exit_button",
-			     druid->next);
-	gnome_druid_append_page (druid, GNOME_DRUID_PAGE (page));
-	gtk_signal_connect (GTK_OBJECT (page), "prepare", 
-			    GTK_SIGNAL_FUNC (prepare_service), dpage->vbox);
-	gtk_signal_connect (GTK_OBJECT (page), "next", 
-			    GTK_SIGNAL_FUNC (service_next),
-			    gtk_object_get_data (GTK_OBJECT (dpage->vbox),
-						 "notebook"));
-	gtk_widget_show (page);
+	dpage = GNOME_DRUID_PAGE_STANDARD (glade_xml_get_widget (dialog->gui, "standardpage3"));
+	gnome_druid_page_standard_set_logo (dpage, transport_logo);
+
+	dialog->tpage = transport_page_new (transports);
+	service_page_set_done_cb (dialog->tpage->page, 
+				  mail_druid_service_done, dialog);
+	gtk_box_pack_start (GTK_BOX (dpage->vbox), 
+			    dialog->tpage->vbox, 
+			    TRUE, TRUE, 0);
+
+	gtk_signal_connect (GTK_OBJECT (dpage), "prepare", 
+			    GTK_SIGNAL_FUNC (mail_druid_prepare), 
+			    dialog);
+	gtk_widget_show (dialog->tpage->vbox);
 
 
 	/* Finish page */
-	page = gnome_druid_page_finish_new_with_vals (
-		_("Mail Configuration"),
-		"Your email configuration is now complete.\n"
-		"Click \"finish\" to save your new settings",
-		mail_logo, NULL);
-	gnome_druid_page_finish_set_logo_bg_color (
-		GNOME_DRUID_PAGE_FINISH (page),
-		&GNOME_DRUID_PAGE_FINISH (page)->background_color);
-	gnome_druid_append_page (druid, GNOME_DRUID_PAGE (page));
-	gtk_signal_connect (GTK_OBJECT (page), "finish",
-			    GTK_SIGNAL_FUNC (finish), window);
-	gtk_widget_show_all (page);
+	fpage = GNOME_DRUID_PAGE_FINISH (glade_xml_get_widget (dialog->gui, "finishpage"));
+	gnome_druid_page_finish_set_logo (fpage, mail_logo);
 
-	gtk_container_add (GTK_CONTAINER (window), GTK_WIDGET (druid));
+	gtk_signal_connect (GTK_OBJECT (fpage), "finish",
+			    GTK_SIGNAL_FUNC (mail_druid_finish),
+			    dialog);
 
-	gtk_widget_show (GTK_WIDGET (druid));
-	gtk_widget_show (window);
-	gtk_widget_queue_resize (window);
-	gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE);
-
-	gtk_window_set_modal (GTK_WINDOW (window), TRUE);
 	gtk_main ();
 }
 
-static gint identity_row = -1;
-static gint source_row = -1;
-static gint news_server_row = -1;
-
-struct identity_dialog_data {
-	GtkWidget *clist;
-	struct identity_record *idrec;
-	gboolean new_entry;
-};
-
-struct source_dialog_data {
-	GtkWidget *clist;
-	char *source;
-	gboolean new_entry;
-};
-
-
+/* Main configuration dialog */
 static void
-on_cmdIdentityConfigDialogOK_clicked (GtkWidget *dialog, gpointer user_data)
+identities_select_row (GtkWidget *widget, gint row, gint column,
+		       GdkEventButton *event, MailDialog *dialog)
 {
-	struct identity_dialog_data *data = user_data;
-	GtkWidget *vbox = gtk_object_get_data (GTK_OBJECT (dialog), "vbox");
-
-	destroy_identity (GTK_OBJECT (vbox), data->idrec);
-
-	gtk_clist_set_text (GTK_CLIST (data->clist), identity_row, 0, data->idrec->name);
-	gtk_clist_set_text (GTK_CLIST (data->clist), identity_row, 1, data->idrec->address);
-	gtk_clist_set_text (GTK_CLIST (data->clist), identity_row, 2, data->idrec->organization);
-	gtk_clist_set_text (GTK_CLIST (data->clist), identity_row, 3, data->idrec->sigfile);
-
-	gtk_clist_set_row_data (GTK_CLIST (data->clist), identity_row,
-				g_memdup (data->idrec, sizeof (struct identity_record)));
+	dialog->idrow = row;
 }
 
 static void
-on_cmdIdentityConfigDialogCancel_clicked (GtkWidget *dialog, gpointer user_data)
+identities_add_clicked (GtkWidget *widget, MailDialog *dialog)
 {
-	struct identity_dialog_data *data = user_data;
-	int max_row;
-	
-	if (data && data->new_entry) {
-		gtk_clist_remove (GTK_CLIST (data->clist), identity_row);
-                max_row = GTK_CLIST (data->clist)->rows - 1;
-		identity_row = identity_row > max_row ? max_row : identity_row;
-		gtk_clist_select_row (GTK_CLIST (data->clist), identity_row, 0);
-	}
-}
+	MailConfigIdentity *id;
 
-static void
-on_IdentityConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer user_data)
-{
-	switch (button) {
-	case 0: /* OK clicked */
-		g_print ("OK clicked\n");
-		on_cmdIdentityConfigDialogOK_clicked (GTK_WIDGET (dialog), user_data);
-		break;
-	case 1: /* Cancel clicked */
-		g_print ("Cancel clicked\n");
-		on_cmdIdentityConfigDialogCancel_clicked (GTK_WIDGET (dialog), user_data);
-		break;
-	}
-
-	if (button != -1)
-		gnome_dialog_close (dialog);
-}
-
-static GtkWidget*
-create_identity_config_dialog (gboolean edit_mode, struct identity_record *idrecp, GtkWidget *clist)
-{
-	GtkWidget *config_dialog;
-	GtkWidget *dialog_vbox1;
-	GtkWidget *dialog_action_area1;
-	GtkWidget *cmdConfigDialogOK;
-	GtkWidget *cmdConfigDialogCancel;
-	GtkWidget *vbox;
-	struct identity_dialog_data *data = NULL;
-
-	if (edit_mode)
-		config_dialog = gnome_dialog_new (_("Edit Identity"), NULL);
-	else
-		config_dialog = gnome_dialog_new (_("Add Identity"), NULL);
-	gtk_window_set_modal (GTK_WINDOW (config_dialog), TRUE);
-	gtk_widget_set_name (config_dialog, "config_dialog");
-	gtk_object_set_data (GTK_OBJECT (config_dialog), "config_dialog", config_dialog);
-	gtk_window_set_policy (GTK_WINDOW (config_dialog), TRUE, TRUE, FALSE);
-	
-	dialog_vbox1 = GNOME_DIALOG (config_dialog)->vbox;
-	gtk_widget_set_name (dialog_vbox1, "dialog_vbox1");
-	gtk_object_set_data (GTK_OBJECT (config_dialog), "dialog_vbox1", dialog_vbox1);
-	gtk_widget_show (dialog_vbox1);
-	
-	dialog_action_area1 = GNOME_DIALOG (config_dialog)->action_area;
-	gtk_widget_set_name (dialog_action_area1, "dialog_action_area1");
-	gtk_object_set_data (GTK_OBJECT (config_dialog), "dialog_action_area1", dialog_action_area1);
-	gtk_widget_show (dialog_action_area1);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
-	gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area1), 8);
-
-	/* Create the vbox that we will pack the identity widget into */
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_widget_set_name (vbox, "vbox");
-	gtk_object_set_data (GTK_OBJECT (config_dialog), "vbox", vbox);
-	gtk_widget_ref (vbox);
-	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "vbox", vbox,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (vbox);
-	gtk_box_pack_start (GTK_BOX (dialog_vbox1), vbox, TRUE, TRUE, 0);
-	
-	gnome_dialog_append_button (GNOME_DIALOG (config_dialog), GNOME_STOCK_BUTTON_OK);
-	cmdConfigDialogOK = g_list_last (GNOME_DIALOG (config_dialog)->buttons)->data;
-	gtk_widget_set_name (cmdConfigDialogOK, "cmdConfigDialogOK");
-	gtk_object_set_data (GTK_OBJECT (vbox), "ok_button", cmdConfigDialogOK);
-	gtk_widget_ref (cmdConfigDialogOK);
-	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "cmdConfigDialogOK", cmdConfigDialogOK,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdConfigDialogOK);
-	GTK_WIDGET_SET_FLAGS (cmdConfigDialogOK, GTK_CAN_DEFAULT);
-	gtk_widget_set_sensitive (cmdConfigDialogOK, FALSE);
-	
-	gnome_dialog_append_button (GNOME_DIALOG (config_dialog), GNOME_STOCK_BUTTON_CANCEL);
-	cmdConfigDialogCancel = g_list_last (GNOME_DIALOG (config_dialog)->buttons)->data;
-	gtk_widget_set_name (cmdConfigDialogCancel, "cmdConfigDialogCancel");
-	gtk_widget_ref (cmdConfigDialogCancel);
-	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "cmdConfigDialogCancel", cmdConfigDialogCancel,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdConfigDialogCancel);
-	GTK_WIDGET_SET_FLAGS (cmdConfigDialogCancel, GTK_CAN_DEFAULT);
-	
-        /* create/pack our Identity widget */
-	create_identity_page (vbox, &idrec);
-	
-	/*gtk_signal_disconnect_by_func (GTK_OBJECT (vbox), GTK_SIGNAL_FUNC (destroy_identity), NULL);*/
-
-	data = g_malloc0 (sizeof (struct identity_dialog_data));
-	data->clist  = clist;
-	data->idrec  = idrecp;
-	data->new_entry = !edit_mode;
-
-	gtk_signal_connect(GTK_OBJECT (config_dialog), "clicked",
-			   GTK_SIGNAL_FUNC (on_IdentityConfigDialogButton_clicked),
-			   data);
-	/*
-	gtk_signal_connect (GTK_OBJECT (cmdConfigDialogOK), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdIdentityConfigDialogOK_clicked),
-			    data);
-	
-	gtk_signal_connect (GTK_OBJECT (cmdConfigDialogCancel), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdIdentityConfigDialogCancel_clicked),
-			    data);
-	*/
-	
-	return config_dialog;
-}
-
-static void
-on_SourceConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer user_data)
-{
-	struct source_dialog_data *data = user_data;
-	GtkWidget *vbox;
-	GtkWidget *notebook;
-	int max_row;
-
-	switch (button) {
-	case 0: /* OK clicked */
-		vbox = gtk_object_get_data (GTK_OBJECT (dialog), "vbox");
-		notebook = gtk_object_get_data (GTK_OBJECT (vbox), "notebook");
+	id = identity_dialog (NULL, dialog->dialog);
+	if (id) {
+		GtkWidget *clist = dialog->clistIdentities;
+		gchar *text[4];
+		gint row = 0;
 		
-		destroy_service (GTK_OBJECT (notebook), &data->source);
-		
-		gtk_clist_set_text (GTK_CLIST (data->clist), source_row, 0, data->source);
-		gtk_clist_set_row_data (GTK_CLIST (data->clist), source_row,
-					g_strdup (data->source));
-		source = data->source;
-		break;
-	case 1: /* Cancel clicked */
-		g_print ("Cancel clicked\n");
-		if (data && data->new_entry) {
-			gtk_clist_remove (GTK_CLIST (data->clist), source_row);
-			max_row = GTK_CLIST (data->clist)->rows - 1;
-			source_row = source_row > max_row ? max_row : source_row;
-			gtk_clist_select_row (GTK_CLIST (data->clist), source_row, 0);
-		}
-		break;
-	}
+		text[0] = id->name;
+		text[1] = id->address;
+		text[2] = id->org;
+		text[3] = id->sig;
 
-	if (button != -1) {
-		gnome_dialog_close (dialog);
+		row = gtk_clist_append (GTK_CLIST (clist), text);
+		gtk_clist_set_row_data (GTK_CLIST (clist), row, id);
+		gtk_clist_select_row (GTK_CLIST (clist), row, 0);
+		dialog->maxidrow++;
+
+		gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
 	}
 }
 
-static GtkWidget*
-create_source_config_dialog (gboolean edit_mode, char **sourcep, GtkWidget *clist)
+static void
+identities_edit_clicked (GtkWidget *widget, MailDialog *dialog)
 {
-	GtkWidget *config_dialog;
-	GtkWidget *dialog_vbox1;
-	GtkWidget *dialog_action_area1;
-	GtkWidget *cmdConfigDialogOK;
-	GtkWidget *cmdConfigDialogCancel;
-	GtkWidget *vbox;
-	GList *providers, *p, *sources, *transports;
-	struct source_dialog_data *data = NULL;
+	MailConfigIdentity *id, *id2;
 
-        /* Fetch list of all providers. */
-	providers = camel_session_list_providers (session, TRUE);
-	sources = transports = NULL;
-	for (p = providers; p; p = p->next) {
-		CamelProvider *prov = p->data;
-
-		if (strcmp (prov->domain, "mail") != 0)
-			continue;
-
-		if (prov->object_types[CAMEL_PROVIDER_STORE]) {
-			sources = add_service (sources,
-					       CAMEL_PROVIDER_STORE,
-					       prov);
-		} else if (prov->object_types[CAMEL_PROVIDER_TRANSPORT]) {
-			transports = add_service (transports,
-						  CAMEL_PROVIDER_TRANSPORT,
-						  prov);
-		}
-	}
+	if (dialog->idrow < 0)
+		return;
 	
-	if (edit_mode)
-		config_dialog = gnome_dialog_new (_("Edit Source"), NULL);
+	id = gtk_clist_get_row_data (GTK_CLIST (dialog->clistIdentities), 
+				     dialog->idrow);
+	
+	id2 = identity_dialog (id, dialog->dialog);
+	if (id2) {
+		GtkCList *clist = GTK_CLIST (dialog->clistIdentities);
+	
+		gtk_clist_set_text (clist, dialog->idrow, 0, id2->name);
+		gtk_clist_set_text (clist, dialog->idrow, 1, id2->address);
+		gtk_clist_set_text (clist, dialog->idrow, 2, id2->org);
+		gtk_clist_set_text (clist, dialog->idrow, 3, id2->sig);
+	
+		gtk_clist_set_row_data (clist, dialog->idrow, id2);
+		identity_destroy (id);
+
+		gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
+	}
+}
+
+static void
+identities_delete_clicked (GtkWidget *widget, MailDialog *dialog)
+{
+	GtkCList *clist;
+	
+	if (dialog->idrow == -1)
+		return;
+
+	clist = GTK_CLIST (dialog->clistIdentities);
+	
+	gtk_clist_remove (clist, dialog->idrow);
+	dialog->maxidrow--;
+
+	if (dialog->idrow > dialog->maxidrow)
+		gtk_clist_select_row (clist, dialog->maxidrow, 0);
 	else
-		config_dialog = gnome_dialog_new (_("Add Source"), NULL);
-	gtk_window_set_modal (GTK_WINDOW (config_dialog), TRUE);
-	gtk_widget_set_name (config_dialog, "config_dialog");
-	gtk_object_set_data (GTK_OBJECT (config_dialog), "config_dialog", config_dialog);
-	gtk_window_set_policy (GTK_WINDOW (config_dialog), TRUE, TRUE, FALSE);
-	gtk_window_set_default_size (GTK_WINDOW (config_dialog), 380, 450);
-	
-	dialog_vbox1 = GNOME_DIALOG (config_dialog)->vbox;
-	gtk_widget_set_name (dialog_vbox1, "dialog_vbox1");
-	gtk_object_set_data (GTK_OBJECT (config_dialog), "dialog_vbox1", dialog_vbox1);
-	gtk_widget_show (dialog_vbox1);
-	
-	dialog_action_area1 = GNOME_DIALOG (config_dialog)->action_area;
-	gtk_widget_set_name (dialog_action_area1, "dialog_action_area1");
-	gtk_object_set_data (GTK_OBJECT (config_dialog), "dialog_action_area1", dialog_action_area1);
-	gtk_widget_show (dialog_action_area1);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
-	gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area1), 8);
+		gtk_clist_select_row (clist, dialog->idrow, 0);
 
-	/* Create the vbox that we will pack the source widget into */
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_widget_set_name (vbox, "vbox");
-	gtk_object_set_data (GTK_OBJECT (config_dialog), "vbox", vbox);
-	gtk_widget_ref (vbox);
-	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "vbox", vbox,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (vbox);
-	gtk_box_pack_start (GTK_BOX (dialog_vbox1), vbox, TRUE, TRUE, 0);
-	
-	gnome_dialog_append_button (GNOME_DIALOG (config_dialog), GNOME_STOCK_BUTTON_OK);
-	cmdConfigDialogOK = g_list_last (GNOME_DIALOG (config_dialog)->buttons)->data;
-	gtk_widget_set_name (cmdConfigDialogOK, "cmdConfigDialogOK");
-	gtk_object_set_data (GTK_OBJECT (vbox), "ok_button", cmdConfigDialogOK);
-	gtk_widget_ref (cmdConfigDialogOK);
-	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "cmdConfigDialogOK", cmdConfigDialogOK,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdConfigDialogOK);
-	GTK_WIDGET_SET_FLAGS (cmdConfigDialogOK, GTK_CAN_DEFAULT);
-	gtk_widget_set_sensitive (cmdConfigDialogOK, FALSE);
-	
-	gnome_dialog_append_button (GNOME_DIALOG (config_dialog), GNOME_STOCK_BUTTON_CANCEL);
-	cmdConfigDialogCancel = g_list_last (GNOME_DIALOG (config_dialog)->buttons)->data;
-	gtk_widget_set_name (cmdConfigDialogCancel, "cmdConfigDialogCancel");
-	gtk_widget_ref (cmdConfigDialogCancel);
-	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "cmdConfigDialogCancel", cmdConfigDialogCancel,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdConfigDialogCancel);
-	GTK_WIDGET_SET_FLAGS (cmdConfigDialogCancel, GTK_CAN_DEFAULT);
-	
-        /* create/pack our source widget */
-	create_source_page (vbox, sources, sourcep);
-	
-	data = g_malloc0 (sizeof (struct source_dialog_data));
-	data->clist = clist;
-	data->source = *sourcep;
-	data->new_entry = !edit_mode;
-
-	gtk_signal_connect(GTK_OBJECT (config_dialog), "clicked",
-			   GTK_SIGNAL_FUNC (on_SourceConfigDialogButton_clicked),
-			   data);
-	
-	return config_dialog;
+	gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
 }
 
 static void
-on_NewsServerConfigDialogButton_clicked (GnomeDialog *dialog, int button, gpointer user_data)
+sources_select_row (GtkWidget *widget, gint row, gint column,
+		    GdkEventButton *event, MailDialog *dialog)
 {
-	struct source_dialog_data *data = user_data;
-	GtkWidget *vbox;
-	GtkWidget *table;
-	int max_row;
-
-	switch (button) {
-	case 0: /* OK clicked */
-		vbox = gtk_object_get_data (GTK_OBJECT (dialog), "vbox");
-		table = gtk_object_get_data (GTK_OBJECT (vbox), "table");
-		data->source = get_service_url (GTK_OBJECT (table));
-		
-		gtk_clist_set_text (GTK_CLIST (data->clist), news_server_row, 0,
-				    data->source);
-		gtk_clist_set_row_data (GTK_CLIST (data->clist), news_server_row,
-					g_strdup (data->source));
-		news_server = data->source;
-		break;
-	case 1: /* Cancel clicked */
-		if (data && data->new_entry) {
-			gtk_clist_remove (GTK_CLIST (data->clist), news_server_row);
-			max_row = GTK_CLIST (data->clist)->rows - 1;
-			news_server_row = (news_server_row > max_row 
-					   ? max_row : news_server_row);
-			gtk_clist_select_row (GTK_CLIST (data->clist),
-					      news_server_row, 0);
-		}
-		break;
-	}
-
-	if (button != -1) {
-		gnome_dialog_close (dialog);
-	}
+	dialog->srow = row;
 }
 
 static void
-create_news_server_page (GtkWidget *vbox, GList *sources, char **urlp)
+sources_add_clicked (GtkWidget *widget, MailDialog *dialog)
 {
-	GtkWidget *html;
-	GtkWidget *table;
-	int row;
+	MailConfigService *source;
 
-	html = html_new (FALSE);
-	put_html (GTK_HTML (html),
-		  _("Enter the hostname of the News Server you have."
-		    /*"\n\n"
-		    "If the server requires authentication, you can click the "
-		    "\"Detect supported types...\" button after entering "
-		    "the other information."*/));
-	gtk_box_pack_start (GTK_BOX (vbox), html->parent, FALSE, TRUE, 0);
-
-	table = gtk_table_new (5, 2, FALSE);
-
-	gtk_widget_set_name (table, "table");
-	gtk_table_set_row_spacings (GTK_TABLE (table), 10);
-	gtk_table_set_col_spacings (GTK_TABLE (table), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (table), 8);
-	gtk_box_pack_start (GTK_BOX (vbox), table, TRUE, TRUE, 0);
-
-	row = 0;
-
-	gtk_object_set_data (GTK_OBJECT (table), "protocol", "news");
-	gtk_object_set_data (GTK_OBJECT (table), "box", vbox);
-	gtk_object_set_data (GTK_OBJECT (vbox), "table", table);
-
-	add_row (table, row++, _("Server:"), "server_entry", 0);
-
-	gtk_widget_show_all (table);
-}
-
-static GtkWidget*
-create_news_server_config_dialog (gboolean edit_mode, char **news_server_p,
-				  GtkWidget *clist)
-{
-	GtkWidget *dialog_vbox1;
-	GtkWidget *dialog_action_area1;
-	GtkWidget *cmdConfigDialogOK;
-	GtkWidget *cmdConfigDialogCancel;
-	GtkWidget *vbox;
-	GtkWidget *config_dialog;
-	GList *providers, *p, *news_servers;
-	struct source_dialog_data *data = NULL;
-
-        /* Fetch list of all providers. */
-	providers = camel_session_list_providers (session, TRUE);
-	news_servers = NULL;
-	for (p = providers; p; p = p->next) {
-		CamelProvider *prov = p->data;
-
-		if (strcmp (prov->domain, "news") != 0)
-			continue;
-
-		if (prov->object_types[CAMEL_PROVIDER_STORE]) {
-			news_servers = add_service (news_servers,
-						    CAMEL_PROVIDER_STORE,
-						    prov);
-		}
-	}
-
-	if (edit_mode)
-		config_dialog = gnome_dialog_new (_("Edit News Server"), NULL);
-	else
-		config_dialog = gnome_dialog_new (_("Add News Server"), NULL);
-
-	gtk_window_set_modal (GTK_WINDOW (config_dialog), TRUE);
-	gtk_widget_set_name (config_dialog, "config_dialog");
-	gtk_object_set_data (GTK_OBJECT (config_dialog), "config_dialog", config_dialog);
-	gtk_window_set_policy (GTK_WINDOW (config_dialog), TRUE, TRUE, FALSE);
-	/*	gtk_window_set_default_size (GTK_WINDOW (config_dialog), 380, 380);*/
-	
-	dialog_vbox1 = GNOME_DIALOG (config_dialog)->vbox;
-	gtk_widget_set_name (dialog_vbox1, "dialog_vbox1");
-	gtk_object_set_data (GTK_OBJECT (config_dialog), "dialog_vbox1", dialog_vbox1);
-	gtk_widget_show (dialog_vbox1);
-	
-	dialog_action_area1 = GNOME_DIALOG (config_dialog)->action_area;
-	gtk_widget_set_name (dialog_action_area1, "dialog_action_area1");
-	gtk_object_set_data (GTK_OBJECT (config_dialog), "dialog_action_area1", dialog_action_area1);
-	gtk_widget_show (dialog_action_area1);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area1), GTK_BUTTONBOX_END);
-	gtk_button_box_set_spacing (GTK_BUTTON_BOX (dialog_action_area1), 8);
-
-	/* Create the vbox that we will pack the news server widget into */
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_widget_set_name (vbox, "vbox");
-	gtk_object_set_data (GTK_OBJECT (config_dialog), "vbox", vbox);
-	gtk_widget_ref (vbox);
-	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "vbox", vbox,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (vbox);
-	gtk_box_pack_start (GTK_BOX (dialog_vbox1), vbox, TRUE, TRUE, 0);
-
-	gnome_dialog_append_button (GNOME_DIALOG (config_dialog), GNOME_STOCK_BUTTON_OK);
-	cmdConfigDialogOK = g_list_last (GNOME_DIALOG (config_dialog)->buttons)->data;
-	gtk_widget_set_name (cmdConfigDialogOK, "cmdConfigDialogOK");
-	gtk_object_set_data (GTK_OBJECT (vbox), "ok_button", cmdConfigDialogOK);
-	gtk_widget_ref (cmdConfigDialogOK);
-	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "cmdConfigDialogOK", cmdConfigDialogOK,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdConfigDialogOK);
-	GTK_WIDGET_SET_FLAGS (cmdConfigDialogOK, GTK_CAN_DEFAULT);
-	gtk_widget_set_sensitive (cmdConfigDialogOK, FALSE);
-	
-	gnome_dialog_append_button (GNOME_DIALOG (config_dialog), GNOME_STOCK_BUTTON_CANCEL);
-	cmdConfigDialogCancel = g_list_last (GNOME_DIALOG (config_dialog)->buttons)->data;
-	gtk_widget_set_name (cmdConfigDialogCancel, "cmdConfigDialogCancel");
-	gtk_widget_ref (cmdConfigDialogCancel);
-	gtk_object_set_data_full (GTK_OBJECT (config_dialog), "cmdConfigDialogCancel", cmdConfigDialogCancel,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdConfigDialogCancel);
-	GTK_WIDGET_SET_FLAGS (cmdConfigDialogCancel, GTK_CAN_DEFAULT);
-
-        /* create/pack our news server widget */
-	create_news_server_page (vbox, news_servers, news_server_p);
-
-	data = g_malloc0 (sizeof (struct source_dialog_data));
-	data->clist = clist;
-	data->source = *news_server_p;
-	data->new_entry = !edit_mode;
-
-	gtk_signal_connect(GTK_OBJECT (config_dialog), "clicked",
-			   GTK_SIGNAL_FUNC (on_NewsServerConfigDialogButton_clicked),
-			   data);
-
-	return config_dialog;
-}
-
-static void
-on_clistIdentities_select_row (GtkWidget *widget, gint row, gint column,
-			       GdkEventButton *event, gpointer data)
-{
-	identity_row = row;
-}
-
-static void
-on_clistSources_select_row (GtkWidget *widget, gint row, gint column,
-			       GdkEventButton *event, gpointer data)
-{
-	source_row = row;
-}
-
-static void
-on_clistNewsServers_select_row (GtkWidget *widget, gint row, gint column,
-				GdkEventButton *event, gpointer data)
-{
-	news_server_row = row;
-}
-
-static void
-on_cmdIdentityAdd_clicked (GtkWidget *widget, gpointer user_data)
-{
-	GtkWidget *dialog;
-	char *text[] = { "", "", "", "" };
-
-	gtk_clist_append (GTK_CLIST (user_data), text);
-
-	if (identity_row > -1)
-		gtk_clist_unselect_row (GTK_CLIST (user_data), identity_row, 0);
-
-	gtk_clist_select_row (GTK_CLIST (user_data), GTK_CLIST (user_data)->rows - 1, 0);
-
-	/* now create the editing dialog */
-	dialog = create_identity_config_dialog (FALSE, &idrec, GTK_WIDGET (user_data));
-	gtk_widget_show (dialog);
-}
-
-static void
-on_cmdIdentityEdit_clicked (GtkWidget *widget, gpointer user_data)
-{
-	GtkWidget *dialog;
-	struct identity_record *idrecp;
-	
-	if (identity_row == -1)
-		return;
-
-	idrecp = gtk_clist_get_row_data (GTK_CLIST (user_data), identity_row);
-	if (!idrecp) {
-		idrecp = &idrec;
-#if 0
-		g_free (idrecp->name);
-		idrecp->name = NULL;
-		g_free (idrecp->address);
-		idrecp->address = NULL;
-		g_free (idrecp->organization);
-		idrecp->organization = NULL;
-		g_free (idrecp->sigfile);
-		idrecp->sigfile = NULL;
-#endif
-	}
-
-	/* now create the editing dialog */
-	dialog = create_identity_config_dialog (TRUE, idrecp, GTK_WIDGET (user_data));
-	gtk_widget_show (dialog);
-}
-
-static void
-on_cmdIdentityDelete_clicked (GtkWidget *widget, gpointer user_data)
-{
-	if (identity_row == -1)
-		return;
-	
-	gtk_clist_remove (GTK_CLIST (user_data), identity_row);
-	identity_row = -1;
-}
-
-static void
-on_cmdSourcesAdd_clicked (GtkWidget *widget, gpointer user_data)
-{
-	GtkWidget *dialog;
-	char *text[] = { "" };
-
-	gtk_clist_append (GTK_CLIST (user_data), text);
-
-	if (source_row > -1)
-		gtk_clist_unselect_row (GTK_CLIST (user_data), source_row, 0);
-
-	gtk_clist_select_row (GTK_CLIST (user_data), GTK_CLIST (user_data)->rows - 1, 0);
-	
-	/* now create the editing dialog */
-	dialog = create_source_config_dialog (FALSE, &source, GTK_WIDGET (user_data));
-	gtk_widget_show (dialog);
-}
-
-static void
-on_cmdSourcesEdit_clicked (GtkWidget *widget, gpointer user_data)
-{
-	GtkWidget *dialog;
-	GtkWidget *vbox;
-	GtkWidget *interior_notebook;
-	GtkWidget *table;
-	int page;
-	char *sourcep;
-	
-	if (source_row == -1)
-		return;
-
-	sourcep = gtk_clist_get_row_data (GTK_CLIST (user_data), source_row);
-	if (sourcep) {
-		source = sourcep;
-	}
-
-	/* now create the editing dialog */
-	dialog = create_source_config_dialog (TRUE, &sourcep, GTK_WIDGET (user_data));
-
-        /* Set the data in the source editor */
-	vbox = gtk_object_get_data (GTK_OBJECT (dialog), "vbox");
-	interior_notebook = gtk_object_get_data (GTK_OBJECT (vbox), "notebook");
-	page = gtk_notebook_get_current_page (GTK_NOTEBOOK (interior_notebook));
-	table = gtk_notebook_get_nth_page (GTK_NOTEBOOK (interior_notebook), page);
-	set_service_url (GTK_OBJECT (table), source);
-
-	gtk_widget_show (dialog);
-}
-
-static void
-on_cmdSourcesDelete_clicked (GtkWidget *widget, gpointer user_data)
-{
-	if (source_row == -1)
-		return;
-	
-	gtk_clist_remove (GTK_CLIST (user_data), source_row);
-	source_row = -1;
-}
-
-static void
-on_cmdNewsServersAdd_clicked (GtkWidget *widget, gpointer user_data)
-{
-	GtkWidget *dialog;
-	char *text[] = { "" };
-
-	gtk_clist_append (GTK_CLIST (user_data), text);
-
-	if (news_server_row > -1)
-		gtk_clist_unselect_row (GTK_CLIST (user_data), news_server_row, 0);
-
-	gtk_clist_select_row (GTK_CLIST (user_data), GTK_CLIST (user_data)->rows - 1, 0);
-	
-	/* now create the editing dialog */
-	dialog = create_news_server_config_dialog (FALSE, &news_server,
-						   GTK_WIDGET (user_data));
-	gtk_widget_show (dialog);
-}
-
-static void
-on_cmdNewsServersEdit_clicked (GtkWidget *widget, gpointer user_data)
-{
-	GtkWidget *dialog;
-	GtkWidget *vbox;
-	GtkWidget *table;
-	char *server;
-	
-	if (news_server_row == -1)
-		return;
-
-	server = gtk_clist_get_row_data (GTK_CLIST (user_data), news_server_row);
-	if (server) {
-		news_server = server;
-	}
-
-	/* now create the editing dialog */
-	dialog = create_news_server_config_dialog (TRUE, &news_server,
-						   GTK_WIDGET (user_data));
-
-        /* Set the data in the source editor */
-	vbox = gtk_object_get_data (GTK_OBJECT (dialog), "vbox");
-	table = gtk_object_get_data (GTK_OBJECT (vbox), "table");
-	set_service_url (GTK_OBJECT (table), news_server);
-
-	gtk_widget_show (dialog);
-}
-
-static void
-on_cmdNewsServersDelete_clicked (GtkWidget *widget, gpointer user_data)
-{
-	if (news_server_row == -1)
-		return;
-	
-	gtk_clist_remove (GTK_CLIST (user_data), news_server_row);
-	news_server_row = -1;
-}
-
-static void
-on_cmdCamelServicesOK_clicked (GtkButton *button, gpointer user_data)
-{
-	GtkWidget *notebook, *interior_notebook;
-        GtkWidget *vbox;
-
-	notebook = gtk_object_get_data (GTK_OBJECT (user_data), "notebook");
-
-	/* switch to the third page which is the transport page */
-	gtk_notebook_set_page (GTK_NOTEBOOK (notebook), 2);
-
-	vbox = gtk_object_get_data (GTK_OBJECT (notebook), "transport_page_vbox");
-	interior_notebook = gtk_object_get_data (GTK_OBJECT (vbox), "notebook");
-
-       	if (service_acceptable (GTK_NOTEBOOK (interior_notebook))) {
-		destroy_service (GTK_OBJECT (interior_notebook), (gpointer) &transport);
-		gtk_widget_destroy (GTK_WIDGET (user_data));
-	}
-
-	write_config();
-}
-
-static void
-on_cmdCamelServicesCancel_clicked (GtkButton *button, gpointer user_data)
-{
-	gtk_widget_destroy(GTK_WIDGET (user_data));
-}
-
-static void
-on_chkFormat_toggled (GtkWidget *widget, gpointer user_data)
-{
-	format = GTK_TOGGLE_BUTTON (widget)->active;
-}
-
-GtkWidget*
-providers_config_new (void)
-{
-	GladeXML *gui;
-	GtkWidget *providers_config;
-	GtkWidget *dialog_vbox1;
-	GtkWidget *notebook;
-	GtkWidget *clistIdentities;
-	GtkWidget *cmdIdentityAdd;
-	GtkWidget *cmdIdentityEdit;
-	GtkWidget *cmdIdentityDelete;
-	GtkWidget *clistSources;
-	GtkWidget *cmdSourcesAdd;
-	GtkWidget *cmdSourcesEdit;
-	GtkWidget *cmdSourcesDelete;
-	GtkWidget *clistNewsServers;
-	GtkWidget *cmdNewsServersAdd;
-	GtkWidget *cmdNewsServersEdit;
-	GtkWidget *cmdNewsServersDelete;
-	GtkWidget *cmdCamelServicesOK;
-	GtkWidget *cmdCamelServicesCancel;
-	GtkWidget *transport_page_vbox;
-	GtkWidget *chkFormat;
-	GList *providers, *p, *sources, *news_sources, *transports;
-	GtkWidget *table, *interior_notebook;
-	char *path;
-	gboolean mail_configured, news_configured;
-	int page;
-
-
-	/* Fetch list of all providers. */
-	providers = camel_session_list_providers (session, TRUE);
-	sources = news_sources = transports = NULL;
-	for (p = providers; p; p = p->next) {
-		CamelProvider *prov = p->data;
-
-		if (strcmp (prov->domain, "news") == 0)
-			news_sources = add_service (news_sources,
-						    CAMEL_PROVIDER_STORE,
-						    prov);
-		else if (strcmp (prov->domain, "mail") != 0)
-			continue;
-
-		if (prov->object_types[CAMEL_PROVIDER_STORE]) {
-			sources = add_service (sources,
-					       CAMEL_PROVIDER_STORE,
-					       prov);
-		} else if (prov->object_types[CAMEL_PROVIDER_TRANSPORT]) {
-			transports = add_service (transports,
-						  CAMEL_PROVIDER_TRANSPORT,
-						  prov);
-		}
-	}
-
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
-	providers_config = glade_xml_get_widget (gui, "dialog");
-
-	gtk_widget_set_name (providers_config, "providers_config");
-	gtk_object_set_data (GTK_OBJECT (providers_config), 
-			     "providers_config", providers_config);
-
-	dialog_vbox1 = glade_xml_get_widget (gui, "dialog_vbox1");
-	gtk_object_set_data (GTK_OBJECT (providers_config), 
-			     "dialog_vbox1", dialog_vbox1);
-
-	notebook = glade_xml_get_widget (gui, "notebook");
-	gtk_widget_ref (notebook);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), 
-				  "notebook", notebook,
-				  (GtkDestroyNotify) gtk_widget_unref);
-
-	clistIdentities = glade_xml_get_widget (gui, "clistIdentities");
-	gtk_widget_ref (clistIdentities);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), 
-				  "clistIdentities", clistIdentities,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_clist_set_column_width (GTK_CLIST (clistIdentities), 0, 80);
-
-	/* Find out if stuff has been configured */
-	path = g_strdup_printf ("=%s/config=/mail/configured", evolution_dir);
-	mail_configured = gnome_config_get_bool (path);
-	g_free (path);
-
-	/* Find out if stuff has been configured */
-	path = g_strdup_printf ("=%s/config=/news/configured", evolution_dir);
-	news_configured = gnome_config_get_bool (path);
-	g_free (path);
-
-	identity_row = -1;
-	if (mail_configured) {
-		char *text[] = { "", "", "", "" };
-		struct identity_record *data;
-
-		/* add an entry to the identity clist */
-		gtk_clist_append (GTK_CLIST (clistIdentities), text);
-
-		path = g_strdup_printf ("=%s/config=/mail/id_name", evolution_dir);
-		idrec.name = gnome_config_get_string (path);
-		gtk_clist_set_text (GTK_CLIST (clistIdentities), 0, 0, idrec.name);
-		g_free (path);
-
-		path = g_strdup_printf ("=%s/config=/mail/id_addr", evolution_dir);
-		idrec.address = gnome_config_get_string (path);
-		gtk_clist_set_text (GTK_CLIST (clistIdentities), 0, 1, idrec.address);
-		g_free (path);
-
-		path = g_strdup_printf ("=%s/config=/mail/id_org", evolution_dir);
-		idrec.organization = gnome_config_get_string (path);
-		gtk_clist_set_text (GTK_CLIST (clistIdentities), 0, 2, idrec.organization);
-		g_free (path);
-
-		path = g_strdup_printf ("=%s/config=/mail/id_sig", evolution_dir);
-		idrec.sigfile = gnome_config_get_string (path);
-		gtk_clist_set_text (GTK_CLIST (clistIdentities), 0, 3, idrec.sigfile);
-		g_free (path);
-
-		data = g_malloc0 (sizeof (struct identity_record));
-		data->name = g_strdup (idrec.name);
-		data->address = g_strdup (idrec.address);
-		data->organization = g_strdup (idrec.organization);
-		data->sigfile = g_strdup (idrec.sigfile);
-		gtk_clist_set_row_data (GTK_CLIST (clistIdentities), 0, data);
-	}
-
-	cmdIdentityAdd = glade_xml_get_widget (gui, "cmdIdentityAdd");
-	cmdIdentityEdit = glade_xml_get_widget (gui, "cmdIdentityEdit");
-	cmdIdentityDelete = glade_xml_get_widget (gui, "cmdIdentityDelete");
-
-	clistSources = glade_xml_get_widget (gui, "clistSources");
-	gtk_widget_ref (clistSources);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), 
-				  "clistSources", clistSources,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_clist_set_column_width (GTK_CLIST (clistSources), 0, 80);
-
-	if (mail_configured && !source) {
-		path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
-		source = gnome_config_get_string (path);
-		g_free (path);
-	}
-
-	source_row = -1;
+	source = source_dialog (NULL, dialog->dialog);
 	if (source) {
-		char *text[] = { "" };
+		GtkCList *clist = GTK_CLIST (dialog->clistSources);
+		gchar *text[1];
+		gint row = 0;
+		
+		text[0] = source->url;
 
-		gtk_clist_append (GTK_CLIST (clistSources), text);
-
-		gtk_clist_set_text (GTK_CLIST (clistSources), 0, 0, source);
-		gtk_clist_set_row_data (GTK_CLIST (clistSources), 0, g_strdup(source));
+		row = gtk_clist_append (clist, text);
+		gtk_clist_set_row_data (clist, row, source);
+		gtk_clist_select_row (clist, row, 0);
+		dialog->maxsrow++;
+		
+		gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
 	}
-
-	cmdSourcesAdd = glade_xml_get_widget (gui, "cmdSourcesAdd");
-	cmdSourcesEdit = glade_xml_get_widget (gui, "cmdSourcesEdit");
-	cmdSourcesDelete = glade_xml_get_widget (gui, "cmdSourcesDelete");
-
-	/* Setup the transport page */
-	transport_page_vbox = glade_xml_get_widget (gui, "transport_page_vbox");
-	gtk_object_set_data (GTK_OBJECT (notebook), "transport_page_vbox", transport_page_vbox);
-	gtk_widget_ref (transport_page_vbox);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "transport_page_vbox", transport_page_vbox,
-				  (GtkDestroyNotify) gtk_widget_unref);
-
-	if (mail_configured && !transport) {
-		path = g_strdup_printf ("=%s/config=/mail/transport", evolution_dir);
-		transport = gnome_config_get_string (path);
-		g_free (path);
-	}
-	create_transport_page (transport_page_vbox, transports, &transport);
-
-	/* Set the data in the transports page */
-	interior_notebook = gtk_object_get_data (GTK_OBJECT (transport_page_vbox), "notebook");
-	page = gtk_notebook_get_current_page (GTK_NOTEBOOK (interior_notebook));
-	if (transport != NULL && !strncasecmp(transport, "Sendmail", 8))
-		page = 1;
-	else
-		page = 0;
-	table = gtk_notebook_get_nth_page (GTK_NOTEBOOK (interior_notebook), page);
-	set_service_url (GTK_OBJECT (table), transport);
-
-	/* Setup the News Servers page */
-
-	clistNewsServers = glade_xml_get_widget (gui, "clistNewsServers");
-	gtk_widget_ref (clistNewsServers);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), 
-				  "clistNewsServers", clistNewsServers,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_clist_set_column_width (GTK_CLIST (clistNewsServers), 0, 80);
-
-	if (news_configured && !news_server) {
-		path = g_strdup_printf ("=%s/config=/news/source", evolution_dir);
-		news_server = gnome_config_get_string (path);
-		g_free (path);
-	}
-
-	news_server_row = -1;
-	if (news_server) {
-		char *text[] = { "" };
-
-		gtk_clist_append (GTK_CLIST (clistNewsServers), text);
-
-		gtk_clist_set_text (GTK_CLIST (clistNewsServers), 0, 0, news_server);
-		gtk_clist_set_row_data (GTK_CLIST (clistNewsServers), 0,
-					g_strdup(news_server));
-	}
-
-	cmdNewsServersAdd = glade_xml_get_widget (gui, "cmdNewsServersAdd");
-	cmdNewsServersEdit = glade_xml_get_widget (gui, "cmdNewsServersEdit");
-	cmdNewsServersDelete = glade_xml_get_widget (gui, "cmdNewsServersDelete");
-
-
-	/* Lets make a page to mark Send HTML or text/plan...yay */
-	chkFormat = glade_xml_get_widget (gui, "chkFormat");
-	gtk_object_set_data (GTK_OBJECT (notebook), "chkFormat", chkFormat);
-	gtk_widget_ref (chkFormat);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "chkFormat", chkFormat,
-				  (GtkDestroyNotify) gtk_widget_unref);
-
-	if (mail_configured) {
-		char *buf;
-
-		path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
-		buf = gnome_config_get_string (path);
-		g_free (path);
-
-		if (!buf || !strcmp(buf, "alternative"))
-			format = TRUE;
-		else
-			format = FALSE;
-
-		g_free (buf);
-	}
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (chkFormat), format);
-
-	cmdCamelServicesOK = glade_xml_get_widget (gui, "cmdCamelServicesOK");
-	cmdCamelServicesCancel = glade_xml_get_widget (gui, "cmdCamelServicesCancel");
-
-	gtk_signal_connect (GTK_OBJECT (cmdIdentityAdd), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdIdentityAdd_clicked),
-			    clistIdentities);
-	gtk_signal_connect (GTK_OBJECT (cmdIdentityEdit), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdIdentityEdit_clicked),
-			    clistIdentities);
-	gtk_signal_connect (GTK_OBJECT (cmdIdentityDelete), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdIdentityDelete_clicked),
-			    clistIdentities);
-	
-	gtk_signal_connect (GTK_OBJECT (cmdSourcesAdd), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdSourcesAdd_clicked),
-			    clistSources);
-	gtk_signal_connect (GTK_OBJECT (cmdSourcesEdit), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdSourcesEdit_clicked),
-			    clistSources);
-	gtk_signal_connect (GTK_OBJECT (cmdSourcesDelete), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdSourcesDelete_clicked),
-			    clistSources);
-
-	gtk_signal_connect (GTK_OBJECT (cmdNewsServersAdd), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdNewsServersAdd_clicked),
-			    clistNewsServers);
-	gtk_signal_connect (GTK_OBJECT (cmdNewsServersEdit), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdNewsServersEdit_clicked),
-			    clistNewsServers);
-	gtk_signal_connect (GTK_OBJECT (cmdNewsServersDelete), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdNewsServersDelete_clicked),
-			    clistNewsServers);
-	
-	gtk_signal_connect (GTK_OBJECT (cmdCamelServicesOK), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdCamelServicesOK_clicked),
-			    providers_config);
-	gtk_signal_connect (GTK_OBJECT (cmdCamelServicesCancel), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdCamelServicesCancel_clicked),
-			    providers_config);
-	
-	gtk_signal_connect (GTK_OBJECT (clistIdentities), "select_row",
-			    GTK_SIGNAL_FUNC (on_clistIdentities_select_row),
-			    NULL);
-	gtk_signal_connect (GTK_OBJECT (clistSources), "select_row",
-			    GTK_SIGNAL_FUNC (on_clistSources_select_row),
-			    NULL);
-	gtk_signal_connect (GTK_OBJECT (clistNewsServers), "select_row",
-			    GTK_SIGNAL_FUNC (on_clistNewsServers_select_row),
-			    NULL);
-
-	gtk_signal_connect (GTK_OBJECT (chkFormat), "toggled",
-			    GTK_SIGNAL_FUNC (on_chkFormat_toggled),
-			    NULL);
-
-	return providers_config;
 }
 
+static void
+sources_edit_clicked (GtkWidget *widget, MailDialog *dialog)
+{
+	MailConfigService *source, *source2;
 
+	if (dialog->srow < 0)
+		return;
 
+	source = gtk_clist_get_row_data (GTK_CLIST (dialog->clistSources),
+					 dialog->srow);
+	
+	source2 = source_dialog (source, dialog->dialog);
+	if (source2) {
+		GtkCList *clist = GTK_CLIST (dialog->clistSources);
+		
+		gtk_clist_set_text (clist, dialog->srow, 0, source2->url);
+		gtk_clist_set_row_data (clist, dialog->srow, source2);
+		service_destroy (source);
 
+		gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
+	}
+}
 
+static void
+sources_delete_clicked (GtkWidget *widget, MailDialog *dialog)
+{
+	GtkCList *clist;
+	
+	if (dialog->srow == -1)
+		return;
+	
+	clist = GTK_CLIST (dialog->clistSources);
+
+	gtk_clist_remove (clist, dialog->srow);
+	dialog->maxsrow--;
+
+	if (dialog->srow > dialog->maxsrow)
+		gtk_clist_select_row (clist, dialog->maxsrow, 0);
+	else
+		gtk_clist_select_row (clist, dialog->srow, 0);
+
+	gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
+}
+
+static void
+news_select_row (GtkWidget *widget, gint row, gint column,
+		 GdkEventButton *event, MailDialog *dialog)
+{
+	dialog->nrow = row;
+}
+
+static void
+news_add_clicked (GtkWidget *widget, MailDialog *dialog)
+{
+	MailConfigService *news;
+
+	news = news_dialog (NULL, dialog->dialog);
+	if (news) {
+		GtkCList *clist = GTK_CLIST (dialog->clistNewsServers);
+		gchar *text[1];
+		gint row = 0;
+		
+		text[0] = news->url;
+
+		row = gtk_clist_append (clist, text);
+		gtk_clist_set_row_data (clist, row, news);
+		gtk_clist_select_row (clist, row, 0);
+		dialog->maxsrow++;
+		
+		gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
+	}
+}
+
+static void
+news_edit_clicked (GtkWidget *widget, MailDialog *dialog)
+{
+	MailConfigService *news, *news2;
+
+	if (dialog->srow < 0)
+		return;
+
+	news = gtk_clist_get_row_data (GTK_CLIST (dialog->clistNewsServers),
+				       dialog->srow);
+	
+	news2 = source_dialog (news, dialog->dialog);
+	if (news2) {
+		GtkCList *clist = GTK_CLIST (dialog->clistNewsServers);
+		
+		gtk_clist_set_text (clist, dialog->nrow, 0, news2->url);
+		gtk_clist_set_row_data (clist, dialog->nrow, news2);
+		service_destroy (news);
+
+		gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
+	}
+}
+
+static void
+news_delete_clicked (GtkWidget *widget, MailDialog *dialog)
+{
+	GtkCList *clist;
+	
+	if (dialog->nrow == -1)
+		return;
+	
+	clist = GTK_CLIST (dialog->clistNewsServers);
+
+	gtk_clist_remove (clist, dialog->nrow);
+	dialog->maxnrow--;
+
+	if (dialog->nrow > dialog->maxnrow)
+		gtk_clist_select_row (clist, dialog->maxnrow, 0);
+	else
+		gtk_clist_select_row (clist, dialog->nrow, 0);
+
+	gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
+}
+
+static void
+mail_config_tpage_changed (MailDialogServicePage *page, gpointer data)
+{
+	MailDialog *dialog = (MailDialog *)data;
+
+	gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
+}
+
+static void
+mail_config_tpage_done (MailDialogServicePage *page, gpointer data)
+{
+	MailDialog *dialog = (MailDialog *)data;
+	
+	dialog->tpagedone = TRUE;
+}
+
+static void
+format_toggled (GtkWidget *widget, MailDialog *dialog)
+{
+	gnome_property_box_changed (GNOME_PROPERTY_BOX (dialog->dialog));
+}
+
+static void
+mail_config_apply_clicked (GnomePropertyBox *property_box, gint page_num,
+			   MailDialog *dialog)
+{
+	gpointer data;
+	int i;
+	
+	if (page_num != -1)
+		return;
+
+	clear_config ();
+
+	/* Identities */
+	for (i = 0; i <= dialog->maxidrow; i++) {	
+		data = gtk_clist_get_row_data (GTK_CLIST (dialog->clistIdentities), i);
+		config->ids = g_slist_append (config->ids, data);
+	}
+
+	/* Sources */
+	for (i = 0; i <= dialog->maxsrow; i++) {	
+		data = gtk_clist_get_row_data (GTK_CLIST (dialog->clistSources), i);
+		config->sources = g_slist_append (config->sources, data);
+	}
+
+	/* Transport */
+	config->transport = service_page_extract (dialog->page->page);
+	
+	/* Format */
+	config->send_html = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->chkFormat));
+
+	write_config (GCONFPATH);
+}
+
+void
+mail_config (void)
+{
+	MailDialog *dialog;
+	GladeXML *gui;
+	GtkCList *clist;
+	GtkWidget *button, *tvbox;
+	GSList *sources, *news, *transports;
+	gint len, row;
+
+	read_config (GCONFPATH);
+	provider_list (&sources, &news, &transports);
+
+	dialog = g_new0 (MailDialog, 1);	
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
+
+	dialog->dialog = glade_xml_get_widget (gui, "dialog");
+	dialog->notebook = glade_xml_get_widget (gui, "notebook");
+	
+	/* Identities Page */
+	dialog->clistIdentities = 
+		glade_xml_get_widget (gui, "clistIdentities");
+	clist = GTK_CLIST (dialog->clistIdentities);
+	gtk_clist_set_column_width (clist, 0, 80);
+
+	len = g_slist_length (config->ids);	
+	for (row=0; row<len; row++) {
+		MailConfigIdentity *id;
+		gchar *text[4];
+		
+		id = identity_copy ((MailConfigIdentity *)
+				    g_slist_nth_data (config->ids, row));
+		
+		text[0] = id->name;
+		text[1] = id->address;
+		text[2] = id->org;
+		text[3] = id->sig;
+		
+	 	gtk_clist_append (clist, text);
+		gtk_clist_set_row_data (clist, row, id);
+	}
+
+	dialog->maxidrow = len - 1;
+	dialog->idrow = -1;
+	gtk_signal_connect (GTK_OBJECT (clist), "select_row",
+			    GTK_SIGNAL_FUNC (identities_select_row),
+			    dialog);
+
+	button = glade_xml_get_widget (gui, "cmdIdentitiesAdd");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (identities_add_clicked),
+			    dialog);
+	button = glade_xml_get_widget (gui, "cmdIdentitiesEdit");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (identities_edit_clicked),
+			    dialog);
+	button = glade_xml_get_widget (gui, "cmdIdentitiesDelete");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (identities_delete_clicked),
+			    dialog);
+
+	/* Sources Page */
+	dialog->clistSources = glade_xml_get_widget (gui, "clistSources");
+	clist = GTK_CLIST (dialog->clistSources);
+	gtk_clist_set_column_width (clist, 0, 80);
+
+	len = g_slist_length (config->sources);	
+	for (row=0; row<len; row++) {
+		MailConfigService *source;
+		gchar *text[1];
+		
+		source = service_copy ((MailConfigService *)g_slist_nth_data (config->sources, row));
+		
+		text[0] = source->url;
+
+	 	gtk_clist_append (clist, text);
+		gtk_clist_set_row_data (clist, row, source);
+	}
+
+	dialog->maxsrow = len - 1;
+	dialog->srow = -1;
+	gtk_signal_connect (GTK_OBJECT (clist), "select_row",
+			    GTK_SIGNAL_FUNC (sources_select_row),
+			    dialog);
+
+	button = glade_xml_get_widget (gui, "cmdSourcesAdd");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (sources_add_clicked),
+			    dialog);
+	button = glade_xml_get_widget (gui, "cmdSourcesEdit");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (sources_edit_clicked),
+			    dialog);
+	button = glade_xml_get_widget (gui, "cmdSourcesDelete");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (sources_delete_clicked),
+			    dialog);
+
+	/* News Page */
+	dialog->clistNewsServers = glade_xml_get_widget (gui, "clistNewsServers");
+	clist = GTK_CLIST (dialog->clistNewsServers);
+	gtk_clist_set_column_width (clist, 0, 80);
+
+	len = g_slist_length (config->news);	
+	for (row=0; row<len; row++) {
+		MailConfigService *news;
+		gchar *text[1];
+		
+		news = service_copy ((MailConfigService *)
+				     g_slist_nth_data (config->news, row));
+		
+		text[0] = news->url;
+
+	 	gtk_clist_append (clist, text);
+		gtk_clist_set_row_data (clist, row, news);
+	}
+
+	dialog->maxnrow = len - 1;
+	dialog->nrow = -1;
+	gtk_signal_connect (GTK_OBJECT (clist), "select_row",
+			    GTK_SIGNAL_FUNC (news_select_row),
+			    dialog);
+
+	button = glade_xml_get_widget (gui, "cmdNewsServersAdd");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (news_add_clicked),
+			    dialog);
+	button = glade_xml_get_widget (gui, "cmdNewsServersEdit");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (news_edit_clicked),
+			    dialog);
+	button = glade_xml_get_widget (gui, "cmdNewsServersDelete");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (news_delete_clicked),
+			    dialog);
+
+	/* Transport Page */
+	tvbox = glade_xml_get_widget (gui, "transport_vbox");
+	dialog->page = transport_page_new (transports);
+	service_page_set_url (dialog->page->page, config->transport);
+	service_page_set_changed_cb (dialog->page->page,
+				     mail_config_tpage_changed, dialog);
+	service_page_set_done_cb (dialog->page->page, 
+				  mail_config_tpage_done, dialog);
+	gtk_box_pack_start (GTK_BOX (tvbox), 
+			    dialog->page->vbox, TRUE, TRUE, 0);
+	gtk_widget_show (dialog->page->vbox);
+	
+	/* Other Page */
+	dialog->chkFormat = glade_xml_get_widget (gui, "chkFormat");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->chkFormat), 
+				      config->send_html);
+	gtk_signal_connect (GTK_OBJECT (dialog->chkFormat), "toggled",
+			    GTK_SIGNAL_FUNC (format_toggled),
+			    dialog);
+
+	/* Listen for apply signal */
+	gtk_signal_connect (GTK_OBJECT (dialog->dialog), "apply",
+			    GTK_SIGNAL_FUNC (mail_config_apply_clicked),
+			    dialog);
+
+	gnome_dialog_run (GNOME_DIALOG (dialog->dialog));
+
+	/* Clean up */
+	gtk_object_unref (GTK_OBJECT (gui));
+	g_free (dialog);
+}
+
+const MailConfig *
+mail_config_fetch (void)
+{
+	read_config (GCONFPATH);
+	
+	return config;
+}

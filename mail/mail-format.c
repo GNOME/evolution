@@ -1355,17 +1355,16 @@ reply_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is_html)
 EMsgComposer *
 mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 {
+	const MailConfig *config;
 	CamelDataWrapper *contents;
-	char *text, *subject, *path, *string;
+	char *text, *subject;
 	EMsgComposer *composer;
 	gboolean want_plain, is_html;
 	const char *repl_to, *message_id, *references;
 	GList *to, *cc;
 
-	path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
-	string = gnome_config_get_string (path);
-	g_free (path);
-	want_plain = string && !strcasecmp (string, "plain");
+	config = mail_config_fetch ();
+	want_plain = !config->send_html;
 
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	text = reply_body (contents, want_plain, &is_html);

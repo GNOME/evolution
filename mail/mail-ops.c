@@ -103,20 +103,17 @@ async_mail_exception_dialog (char *head, CamelException *ex, gpointer unused )
 static gboolean
 check_configured (void)
 {
-	char *path;
-	gboolean configured;
+	const MailConfig *config;
 
-	path = g_strdup_printf ("=%s/config=/mail/configured", evolution_dir);
-	if (gnome_config_get_bool (path)) {
-		g_free (path);
+	config = mail_config_fetch ();
+	if (config->configured)
 		return TRUE;
-	}
-
+	
 	mail_config_druid ();
 
-	configured = gnome_config_get_bool (path);
-	g_free (path);
-	return configured;
+	config = mail_config_fetch ();
+
+	return config->configured;
 }
 
 static void
@@ -336,16 +333,20 @@ real_fetch_mail (gpointer user_data)
 void
 fetch_mail (GtkWidget *button, gpointer user_data)
 {
-	char *path, *url = NULL;
+	const MailConfig *config;
+	const MailConfigService *source;
+	char *url = NULL;
 	rfm_t *info;
 
 	if (!check_configured ())
 		return;
 
-	path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
-	url = gnome_config_get_string (path);
-	g_free (path);
-
+	config = mail_config_fetch ();
+	if (config->sources) {
+		source = (MailConfigService *)config->sources->data;
+		url = source->url;
+	}
+	
 	if (!url) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
 							  GTK_TYPE_WINDOW);
@@ -478,6 +479,8 @@ cleanup_send_mail (gpointer userdata)
 static void
 composer_send_cb (EMsgComposer *composer, gpointer data)
 {
+	const MailConfig *config;
+	const MailConfigIdentity *id = NULL; 
 	static CamelTransport *transport = NULL;
 	struct post_send_data *psd = data;
 	rsm_t *info;
@@ -485,21 +488,25 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	const char *subject;
 	CamelException *ex;
 	CamelMimeMessage *message;
-	char *name, *addr, *path;
+	char *name, *addr;
 
 	ex = camel_exception_new ();
 
+	config = mail_config_fetch ();
+	
 	if (!from) {
 		CamelInternetAddress *ciaddr;
 
-		path = g_strdup_printf ("=%s/config=/mail/id_name", evolution_dir);
-		name = gnome_config_get_string (path);
+		if (config->ids->data) {
+			id = (MailConfigIdentity *)config->ids->data;
+		}
+		g_assert (id);
+		
+		name = id->name;
 		g_assert (name);
-		g_free (path);
-		path = g_strdup_printf ("=%s/config=/mail/id_addr", evolution_dir);
-		addr = gnome_config_get_string (path);
+
+		addr = id->address;
 		g_assert (addr);
-		g_free (path);
 
 		ciaddr = camel_internet_address_new ();
 		camel_internet_address_add (ciaddr, name, addr);
@@ -510,11 +517,8 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	if (!transport) {
 		char *url;
 
-		path = g_strdup_printf ("=%s/config=/mail/transport",
-					evolution_dir);
-		url = gnome_config_get_string (path);
+		url = config->transport->url;
 		g_assert (url);
-		g_free (path);
 
 		transport = camel_session_get_transport (session, url, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
@@ -563,30 +567,25 @@ free_psd (GtkWidget *composer, gpointer user_data)
 static GtkWidget *
 create_msg_composer (const char *url)
 {
+	const MailConfig *config;
+	gchar *sig_file = NULL;
 	GtkWidget *composer_widget;
-	gboolean send_html;
-	char *path;
-	char *string;
 
-	path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
-	string = gnome_config_get_string (path);
-	g_free (path);
-
-	if (string == NULL) {
-		send_html = FALSE;
-	} else {
-		if (!strcasecmp(string, "plain"))
-			send_html = FALSE;
-		else
-			send_html = TRUE;
+	config = mail_config_fetch ();
+	if (config->ids) {
+		const MailConfigIdentity *id;
+		
+		id = (MailConfigIdentity *)config->ids->data;
+		sig_file = id->sig;
 	}
-
+	
 	if (url != NULL)
 		composer_widget = e_msg_composer_new_from_url (url);
 	else
-		composer_widget = e_msg_composer_new ();
+		composer_widget = e_msg_composer_new_with_sig_file (sig_file);
 
-	e_msg_composer_set_send_html (E_MSG_COMPOSER (composer_widget), send_html);
+	e_msg_composer_set_send_html (E_MSG_COMPOSER (composer_widget), 
+				      config->send_html);
 
 	return composer_widget;
 }
@@ -997,11 +996,7 @@ vfolder_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 void
 providers_config (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-	GtkWidget *pc;
-
-	pc = providers_config_new ();
-
-	gtk_widget_show (pc);
+	mail_config ();
 }
 
 void

@@ -274,15 +274,19 @@ struct create_info_s {
 static void
 create_imap_storage (EvolutionShellComponent *shell_component)
 {
+	const MailConfig *config;
 	EvolutionShellClient *shell_client;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
-	char *cpath, *source, *server, *p;
+	char *source=NULL, *server, *p;
 	struct create_info_s *ii;
 
-	cpath = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
-	source = gnome_config_get_string (cpath);
-	g_free (cpath);
+	config = mail_config_fetch ();
+	if (config->sources) {
+		const MailConfigService *s;
+		s = (MailConfigService *)config->sources->data;
+		source = s->url;
+	}
 
 	if (!source || strncasecmp (source, "imap://", 7))
 		return;
@@ -413,15 +417,19 @@ real_create_imap_storage (gpointer user_data)
 static void
 create_news_storage (EvolutionShellComponent *shell_component)
 {
+	const MailConfig *config;
 	EvolutionShellClient *shell_client;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
-	char *cpath, *source, *server, *p;
+	char *source=NULL, *server, *p;
 	struct create_info_s *ni;
 
-	cpath = g_strdup_printf ("=%s/config=/news/source", evolution_dir);
-	source = gnome_config_get_string (cpath);
-	g_free (cpath);
+	config = mail_config_fetch ();
+	if (config->news) {
+		const MailConfigService *s;
+		s = (MailConfigService *)config->news->data;
+		source = s->url;
+	}
 
 	if (!source || strncasecmp (source, "news://", 7))
 		return;

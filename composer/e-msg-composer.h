@@ -64,6 +64,8 @@ struct _EMsgComposer {
 	Bonobo_PersistFile   persist_file_interface;
 	Bonobo_PersistStream persist_stream_interface;
 
+	char *sig_file;
+
 	gboolean attachment_bar_visible : 1;
 	gboolean send_html : 1;
 };
@@ -80,6 +82,7 @@ GtkType           e_msg_composer_get_type          (void);
 
 void              e_msg_composer_construct         (EMsgComposer *composer);
 GtkWidget        *e_msg_composer_new               (void);
+GtkWidget        *e_msg_composer_new_with_sig_file (char *sig_file);
 GtkWidget        *e_msg_composer_new_from_url      (const char *url);
 void              e_msg_composer_show_attachments  (EMsgComposer *composer,
 						    gboolean      show);
@@ -98,6 +101,10 @@ void              e_msg_composer_attach            (EMsgComposer *composer,
 						    CamelMimePart *attachment);
 
 CamelMimeMessage *e_msg_composer_get_message       (EMsgComposer *composer);
+
+void              e_msg_composer_set_sig_file      (EMsgComposer *composer,
+						    const char *sig_file);
+char              *e_msg_composer_get_sig_file     (EMsgComposer *composer);
 
 void              e_msg_composer_set_send_html     (EMsgComposer *composer,
 						    gboolean send_html);

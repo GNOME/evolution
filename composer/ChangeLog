@@ -1,3 +1,10 @@
+2000-07-28  JP Rosevear  <jpr@arcavia.com>
+
+	* e-msg-composer.c (e_msg_composer_new_with_sig_file): New
+	function to create composer with sig file set.
+	(e_msg_composer_get_sig_file): New function to get sig file
+	(e_msg_composer_set_sig_file): New function to set sig file
+
 2000-07-25  Michael Meeks  <michael@helixcode.com>
 
 	* e-msg-composer.c (get_text): add textual exception printout.

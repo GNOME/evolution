@@ -21,6 +21,7 @@
 #include <gtkhtml/gtkhtml.h>
 #include "camel/camel.h"
 #include "composer/e-msg-composer.h"
+#include "mail-config.h"
 
 /* FIXME FIXME FIXME this sucks sucks sucks sucks */
 
@@ -31,8 +32,6 @@ BonoboControl *folder_browser_factory_new_control  (const char *uri);
 /* folder-browser */
 CamelFolder *mail_uri_to_folder (const char *uri);
 
-/* mail-config */
-void mail_config_druid (void);
 
 /* mail-format */
 void mail_format_mime_message (CamelMimeMessage *mime_message,
@@ -61,8 +60,6 @@ void expunge_folder (BonoboUIHandler *uih, void *user_data, const char *path);
 void filter_edit (BonoboUIHandler *uih, void *user_data, const char *path);
 void vfolder_edit (BonoboUIHandler *uih, void *user_data, const char *path);
 void providers_config (BonoboUIHandler *uih, void *user_data, const char *path);
-
-GtkWidget *providers_config_new (void);
 
 /* session */
 void session_init (void);

@@ -1,3 +1,31 @@
+2000-07-29  JP Rosevear  <jpr@arcavia.com>
+
+	* mail-format.c (mail_generate_reply): Use new mail config stuff
+
+	* component-factory.c (create_imap_storage): Use new mail config
+	stuff
+	(create_news_storage): ditto
+
+	* evolution-mail.schemas: Gconf schema for evolution mail
+
+	* mail-config-druid.glade: Gladification of config druid
+
+	* mail-config.h: New header with config structs.
+
+	* mail-config.c: Rewrite of GUI configuration tools to use 
+	new config structs.  Stores multiple identities and sources now.
+	Still only uses the first one found.
+	(mail_config_fetch): Returns MailConfig struct to caller
+	for configuration queries.
+	(mail_config): Renamed function to show mail config dialog.
+	(mail_config_druid): Renamed function to show mail config druid.
+
+	* mail-ops.c (create_msg_composer): Use 
+	e_msg_composer_new_with_sig_file and new config stuff
+	(check_configured): Use new config stuff
+	(fetch_mail): ditto
+	(composer_send_cb): ditto
+
 2000-07-28  Cody Russell  <bratsche@gnome.org>
         * mail-ops.c, mail.h: Added mark_all_seen(), to mark every
         message in the list with CAMEL_MESSAGE_SEEN.

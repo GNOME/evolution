@@ -1,0 +1,66 @@
+<gconfschemafile>
+    <schemalist>
+        <schema>
+            <key>/schemas/apps/Evolution/Mail/sources</key>
+            <applyto>/apps/Evolution/Mail/sources</applyto>
+            <owner>Evolution Mail</owner>
+            <type>list</type>
+            <locale name="C">
+                <short>A list of mail sources</short>
+                <long>A list of mail sources, in the form of Camel
+                URLs. When the user clicks "Get Mail", Evolution will
+                move all of the mail from these sources through any
+                configured filters or into the Inbox, deleting the
+                original copies.</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/apps/Evolution/Mail/transport</key>
+            <applyto>/apps/Evolution/Mail/transport</applyto>
+            <owner>Evolution Mail</owner>
+            <type>string</type>
+            <locale name="C">
+                <short>Default mail transport</short>
+                <long>A Camel URL representing the default mail
+                transport.</long>
+            </locale>
+        </schema>
+
+
+        <schema>
+            <key>/schemas/apps/Evolution/Mail/identities</key>
+            <applyto>/apps/Evolution/Mail/identities</applyto>
+            <owner>Evolution Mail</owner>
+            <type>list</type>
+            <locale name="C">
+                <short>A list of identities</short>
+                <long>A list of the user's identities. Each identity
+                consists of four newline-separated fields: an address,
+                a name, an organization, and the path to a file
+                containing a signature. (All fields but the first can
+                be empty.)</long>
+            </locale>
+        </schema>
+
+
+        <schema>
+            <key>/schemas/apps/Evolution/Mail/send_html</key>
+            <applyto>/apps/Evolution/Mail/send_html</applyto>
+            <owner>Evolution Mail</owner>
+            <type>bool</type>
+            <locale name="C">
+                <short>Whether or not to send HTML mail</short>
+                <long>Whether or not to send HTML mail. If TRUE,
+                Evolution will send multipart/alternative mail
+                containing text/plain and text/html parts. If FALSE,
+                it will send only the text/plain part. (There is no
+                way to send only HTML.)</long>
+            </locale>
+        </schema>
+
+
+    </schemalist>
+</gconfschemafile>
+
+

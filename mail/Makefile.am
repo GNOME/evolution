@@ -105,8 +105,12 @@ gnorba_DATA = $(GOAD_FILES)
 endif
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = 				\
-	mail-config.glade
+glade_DATA = mail-config.glade mail-config-druid.glade
+
+schemadir = $(sysconfdir)/gconf/schemas
+schema_DATA = evolution-mail.schemas
+
+iconsdir = $(datadir)/images/evolution
 
 $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl 
 	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Mail.idl

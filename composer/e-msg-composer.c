@@ -304,17 +304,14 @@ build_message (EMsgComposer *composer)
 }
 
 static char *
-get_signature (void)
+get_signature (char *sigfile)
 {
-	char *path, *sigfile, *rawsig;
+	char *rawsig;
 	static char *htmlsig = NULL;
 	static time_t sigmodtime = -1;
 	struct stat st;
 	int fd;
 
-	path = g_strdup_printf ("=%s/config=/mail/id_sig", evolution_dir);
-	sigfile = gnome_config_get_string (path);
-	g_free (path);
 	if (!sigfile || !*sigfile) {
 		return NULL;
 	}
@@ -357,14 +354,14 @@ get_signature (void)
 }
 
 static void
-set_editor_text (BonoboWidget *editor, const char *text)
+set_editor_text (BonoboWidget *editor, char *sig_file, const char *text)
 {
 	Bonobo_PersistStream persist;
 	BonoboStream *stream;
 	CORBA_Environment ev;
 	char *sig, *fulltext;
 
-	sig = get_signature ();
+	sig = get_signature (sig_file);
 	if (sig) {
 		if (!strncmp ("--\n", sig, sizeof ("--\n")))
 			fulltext = g_strdup_printf ("%s<BR>\n<PRE>\n%s</PRE>",
@@ -1216,11 +1213,37 @@ e_msg_composer_new (void)
 	e_msg_composer_construct (E_MSG_COMPOSER (new));
 
 	/* Load the signature, if any. */
-	set_editor_text (BONOBO_WIDGET (E_MSG_COMPOSER (new)->editor), "");
+	set_editor_text (BONOBO_WIDGET (E_MSG_COMPOSER (new)->editor), 
+			 NULL, "");
 
 	return new;
 }
 
+/**
+ * e_msg_composer_new_with_sig_file:
+ *
+ * Create a new message composer widget.  This function must be called
+ * within the GTK+ main loop, or it will fail.  Sets the signature
+ * file.
+ * 
+ * Return value: A pointer to the newly created widget
+ **/
+GtkWidget *
+e_msg_composer_new_with_sig_file (char *sig_file)
+{
+	GtkWidget *new;
+
+	g_return_val_if_fail (gtk_main_level () > 0, NULL);
+ 
+	new = gtk_type_new (e_msg_composer_get_type ());
+	e_msg_composer_construct (E_MSG_COMPOSER (new));
+
+	/* Load the signature, if any. */
+	set_editor_text (BONOBO_WIDGET (E_MSG_COMPOSER (new)->editor), 
+			 sig_file, "");
+
+	return new;
+}
 
 static GList *
 add_recipients (GList *list, const char *recips, gboolean decode)
@@ -1337,7 +1360,8 @@ e_msg_composer_new_from_url (const char *url)
 
 	if (body) {
 		char *htmlbody = e_text_to_html (body, E_TEXT_TO_HTML_PRE);
-		set_editor_text (BONOBO_WIDGET (composer->editor), htmlbody);
+		set_editor_text (BONOBO_WIDGET (composer->editor), 
+				 NULL, htmlbody);
 		g_free (htmlbody);
 	}
 
@@ -1401,7 +1425,8 @@ e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	set_editor_text (BONOBO_WIDGET (composer->editor), text);
+	set_editor_text (BONOBO_WIDGET (composer->editor), 
+			 composer->sig_file, text);
 }
 
 
@@ -1468,6 +1493,41 @@ e_msg_composer_get_message (EMsgComposer *composer)
 }
 
 
+
+/**
+ * e_msg_composer_set_sig:
+ * @composer: A message composer widget
+ * @path: Signature file
+ * 
+ * Set a signature
+ **/
+void
+e_msg_composer_set_sig_file (EMsgComposer *composer, const char *sig_file)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	composer->sig_file = g_strdup (sig_file);
+}
+
+/**
+ * e_msg_composer_get_sig_file:
+ * @composer: A message composer widget
+ * 
+ * Get the signature file
+ * 
+ * Return value: The signature file.
+ **/
+char *
+e_msg_composer_get_sig_file (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+
+	return composer->sig_file;
+}
+
+
 /**
  * e_msg_composer_set_send_html:
  * @composer: A message composer widget

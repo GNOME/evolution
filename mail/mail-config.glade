@@ -18,476 +18,425 @@
 </project>
 
 <widget>
-  <class>GnomeDialog</class>
+  <class>GnomePropertyBox</class>
   <name>dialog</name>
   <width>460</width>
   <height>340</height>
-  <visible>False</visible>
-  <title>Camel Providers Configuration</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
-  <modal>True</modal>
-  <allow_shrink>True</allow_shrink>
-  <allow_grow>True</allow_grow>
+  <modal>False</modal>
+  <allow_shrink>False</allow_shrink>
+  <allow_grow>False</allow_grow>
   <auto_shrink>False</auto_shrink>
-  <auto_close>False</auto_close>
-  <hide_on_close>False</hide_on_close>
 
   <widget>
-    <class>GtkVBox</class>
-    <child_name>GnomeDialog:vbox</child_name>
-    <name>dialog_vbox1</name>
-    <homogeneous>False</homogeneous>
-    <spacing>8</spacing>
+    <class>GtkNotebook</class>
+    <child_name>GnomePropertyBox:notebook</child_name>
+    <name>notebook</name>
+    <can_focus>True</can_focus>
+    <show_tabs>True</show_tabs>
+    <show_border>True</show_border>
+    <tab_pos>GTK_POS_TOP</tab_pos>
+    <scrollable>False</scrollable>
+    <tab_hborder>2</tab_hborder>
+    <tab_vborder>2</tab_vborder>
+    <popup_enable>False</popup_enable>
     <child>
-      <padding>4</padding>
+      <padding>0</padding>
       <expand>True</expand>
       <fill>True</fill>
     </child>
 
     <widget>
-      <class>GtkHButtonBox</class>
-      <child_name>GnomeDialog:action_area</child_name>
-      <name>dialog-action_area1</name>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
-      <spacing>8</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-	<pack>GTK_PACK_END</pack>
-      </child>
+      <class>GtkHBox</class>
+      <name>hbox4</name>
+      <homogeneous>False</homogeneous>
+      <spacing>0</spacing>
 
       <widget>
-	<class>GtkButton</class>
-	<name>cmdCamelServicesOK</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
+	<class>GtkScrolledWindow</class>
+	<name>scrolledwindow4</name>
+	<hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	<vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkCList</class>
+	  <name>clistIdentities</name>
+	  <can_focus>True</can_focus>
+	  <columns>4</columns>
+	  <column_widths>80,80,80,80</column_widths>
+	  <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	  <show_titles>True</show_titles>
+	  <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <child_name>CList:title</child_name>
+	    <name>label27</name>
+	    <label>Identities</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <child_name>CList:title</child_name>
+	    <name>label28</name>
+	    <label>Address</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <child_name>CList:title</child_name>
+	    <name>label29</name>
+	    <label>Organization</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <child_name>CList:title</child_name>
+	    <name>label30</name>
+	    <label>Signature File</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+	</widget>
       </widget>
 
       <widget>
-	<class>GtkButton</class>
-	<name>cmdCamelServicesCancel</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+	<class>GtkVButtonBox</class>
+	<name>vbuttonbox4</name>
+	<layout_style>GTK_BUTTONBOX_START</layout_style>
+	<spacing>5</spacing>
+	<child_min_width>85</child_min_width>
+	<child_min_height>27</child_min_height>
+	<child_ipad_x>7</child_ipad_x>
+	<child_ipad_y>0</child_ipad_y>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>cmdIdentitiesAdd</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <label>Add</label>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>cmdIdentitiesEdit</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <label>Edit</label>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>cmdIdentitiesDelete</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <label>Delete</label>
+	</widget>
       </widget>
     </widget>
 
     <widget>
-      <class>GtkNotebook</class>
-      <name>notebook</name>
-      <can_focus>True</can_focus>
-      <show_tabs>True</show_tabs>
-      <show_border>True</show_border>
-      <tab_pos>GTK_POS_TOP</tab_pos>
-      <scrollable>False</scrollable>
-      <tab_hborder>2</tab_hborder>
-      <tab_vborder>2</tab_vborder>
-      <popup_enable>False</popup_enable>
-      <child>
-	<padding>0</padding>
-	<expand>True</expand>
-	<fill>True</fill>
-      </child>
+      <class>GtkLabel</class>
+      <child_name>Notebook:tab</child_name>
+      <name>label1</name>
+      <label>Identities</label>
+      <justify>GTK_JUSTIFY_CENTER</justify>
+      <wrap>False</wrap>
+      <xalign>0.5</xalign>
+      <yalign>0.5</yalign>
+      <xpad>0</xpad>
+      <ypad>0</ypad>
+    </widget>
+
+    <widget>
+      <class>GtkHBox</class>
+      <name>hbox5</name>
+      <homogeneous>False</homogeneous>
+      <spacing>0</spacing>
 
       <widget>
-	<class>GtkHBox</class>
-	<name>hbox1</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<class>GtkScrolledWindow</class>
+	<name>scrolledwindow5</name>
+	<hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	<vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
+	</child>
 
 	<widget>
-	  <class>GtkScrolledWindow</class>
-	  <name>scrolledwindow1</name>
-	  <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
-	  <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
-	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
-	  </child>
-
-	  <widget>
-	    <class>GtkCList</class>
-	    <name>clistIdentities</name>
-	    <can_focus>True</can_focus>
-	    <columns>4</columns>
-	    <column_widths>80,80,80,80</column_widths>
-	    <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
-	    <show_titles>True</show_titles>
-	    <shadow_type>GTK_SHADOW_IN</shadow_type>
-
-	    <widget>
-	      <class>GtkLabel</class>
-	      <child_name>CList:title</child_name>
-	      <name>lblIdentities</name>
-	      <label>Identities</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0.5</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	    </widget>
-
-	    <widget>
-	      <class>GtkLabel</class>
-	      <child_name>CList:title</child_name>
-	      <name>label6</name>
-	      <label>Address</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0.5</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	    </widget>
-
-	    <widget>
-	      <class>GtkLabel</class>
-	      <child_name>CList:title</child_name>
-	      <name>label7</name>
-	      <label>Organization</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0.5</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	    </widget>
-
-	    <widget>
-	      <class>GtkLabel</class>
-	      <child_name>CList:title</child_name>
-	      <name>label8</name>
-	      <label>Signature File</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0.5</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	    </widget>
-	  </widget>
-	</widget>
-
-	<widget>
-	  <class>GtkVButtonBox</class>
-	  <name>vbuttonbox1</name>
-	  <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
-	  <spacing>10</spacing>
-	  <child_min_width>85</child_min_width>
-	  <child_min_height>27</child_min_height>
-	  <child_ipad_x>7</child_ipad_x>
-	  <child_ipad_y>0</child_ipad_y>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
-
-	  <widget>
-	    <class>GtkButton</class>
-	    <name>cmdIdentityAdd</name>
-	    <can_default>True</can_default>
-	    <can_focus>True</can_focus>
-	    <label>Add</label>
-	  </widget>
-
-	  <widget>
-	    <class>GtkButton</class>
-	    <name>cmdIdentityEdit</name>
-	    <can_default>True</can_default>
-	    <can_focus>True</can_focus>
-	    <label>Edit</label>
-	  </widget>
-
-	  <widget>
-	    <class>GtkButton</class>
-	    <name>cmdIdentityDelete</name>
-	    <can_default>True</can_default>
-	    <can_focus>True</can_focus>
-	    <label>Delete</label>
-	  </widget>
-	</widget>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>lblIdentities</name>
-	<label>Identity</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-
-      <widget>
-	<class>GtkHBox</class>
-	<name>hbox2</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-
-	<widget>
-	  <class>GtkScrolledWindow</class>
-	  <name>scrolledwindow2</name>
-	  <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
-	  <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
-	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
-	  </child>
-
-	  <widget>
-	    <class>GtkCList</class>
-	    <name>clistSources</name>
-	    <can_focus>True</can_focus>
-	    <columns>1</columns>
-	    <column_widths>80</column_widths>
-	    <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
-	    <show_titles>True</show_titles>
-	    <shadow_type>GTK_SHADOW_IN</shadow_type>
-
-	    <widget>
-	      <class>GtkLabel</class>
-	      <child_name>CList:title</child_name>
-	      <name>label12</name>
-	      <label>Sources</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0.5</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	    </widget>
-	  </widget>
-	</widget>
-
-	<widget>
-	  <class>GtkVButtonBox</class>
-	  <name>vbuttonbox2</name>
-	  <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
-	  <spacing>10</spacing>
-	  <child_min_width>85</child_min_width>
-	  <child_min_height>27</child_min_height>
-	  <child_ipad_x>7</child_ipad_x>
-	  <child_ipad_y>0</child_ipad_y>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
-
-	  <widget>
-	    <class>GtkButton</class>
-	    <name>cmdSourcesAdd</name>
-	    <can_default>True</can_default>
-	    <can_focus>True</can_focus>
-	    <label>Add</label>
-	  </widget>
-
-	  <widget>
-	    <class>GtkButton</class>
-	    <name>cmdSourcesEdit</name>
-	    <can_default>True</can_default>
-	    <can_focus>True</can_focus>
-	    <label>Edit</label>
-	  </widget>
-
-	  <widget>
-	    <class>GtkButton</class>
-	    <name>cmdSourcesDelete</name>
-	    <can_default>True</can_default>
-	    <can_focus>True</can_focus>
-	    <label>Delete</label>
-	  </widget>
-	</widget>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>label2</name>
-	<label>Sources</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-
-      <widget>
-	<class>GtkVBox</class>
-	<name>transport_page_vbox</name>
-	<border_width>8</border_width>
-	<homogeneous>False</homogeneous>
-	<spacing>5</spacing>
-
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>label3</name>
-	<label>Transports</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-
-      <widget>
-	<class>GtkHBox</class>
-	<name>hbox3</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-
-	<widget>
-	  <class>GtkScrolledWindow</class>
-	  <name>scrolledwindow3</name>
-	  <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
-	  <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
-	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
-	  <child>
-	    <padding>0</padding>
-	    <expand>True</expand>
-	    <fill>True</fill>
-	  </child>
-
-	  <widget>
-	    <class>GtkCList</class>
-	    <name>clistNewsServers</name>
-	    <can_focus>True</can_focus>
-	    <columns>1</columns>
-	    <column_widths>80</column_widths>
-	    <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
-	    <show_titles>True</show_titles>
-	    <shadow_type>GTK_SHADOW_IN</shadow_type>
-
-	    <widget>
-	      <class>GtkLabel</class>
-	      <child_name>CList:title</child_name>
-	      <name>label14</name>
-	      <label>News Servers</label>
-	      <justify>GTK_JUSTIFY_CENTER</justify>
-	      <wrap>False</wrap>
-	      <xalign>0.5</xalign>
-	      <yalign>0.5</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	    </widget>
-	  </widget>
-	</widget>
-
-	<widget>
-	  <class>GtkVButtonBox</class>
-	  <name>vbuttonbox3</name>
-	  <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
-	  <spacing>10</spacing>
-	  <child_min_width>85</child_min_width>
-	  <child_min_height>27</child_min_height>
-	  <child_ipad_x>7</child_ipad_x>
-	  <child_ipad_y>0</child_ipad_y>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
-
-	  <widget>
-	    <class>GtkButton</class>
-	    <name>cmdNewsServersAdd</name>
-	    <can_default>True</can_default>
-	    <can_focus>True</can_focus>
-	    <label>Add</label>
-	  </widget>
-
-	  <widget>
-	    <class>GtkButton</class>
-	    <name>cmdNewsServersEdit</name>
-	    <can_default>True</can_default>
-	    <can_focus>True</can_focus>
-	    <label>Edit</label>
-	  </widget>
-
-	  <widget>
-	    <class>GtkButton</class>
-	    <name>cmdNewsServersDelete</name>
-	    <can_default>True</can_default>
-	    <can_focus>True</can_focus>
-	    <label>Delete</label>
-	  </widget>
-	</widget>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>label13</name>
-	<label>News Servers</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-      </widget>
-
-      <widget>
-	<class>GtkVBox</class>
-	<name>format_vbox</name>
-	<border_width>8</border_width>
-	<homogeneous>False</homogeneous>
-	<spacing>5</spacing>
-
-	<widget>
-	  <class>GtkCheckButton</class>
-	  <name>chkFormat</name>
+	  <class>GtkCList</class>
+	  <name>clistSources</name>
 	  <can_focus>True</can_focus>
-	  <label>Send messages in HTML format</label>
-	  <active>False</active>
-	  <draw_indicator>True</draw_indicator>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
+	  <columns>1</columns>
+	  <column_widths>80</column_widths>
+	  <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	  <show_titles>True</show_titles>
+	  <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <child_name>CList:title</child_name>
+	    <name>label31</name>
+	    <label>Sources</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
 	</widget>
       </widget>
 
       <widget>
-	<class>GtkLabel</class>
-	<child_name>Notebook:tab</child_name>
-	<name>label4</name>
-	<label>Other</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0.5</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
+	<class>GtkVButtonBox</class>
+	<name>vbuttonbox5</name>
+	<layout_style>GTK_BUTTONBOX_START</layout_style>
+	<spacing>5</spacing>
+	<child_min_width>85</child_min_width>
+	<child_min_height>27</child_min_height>
+	<child_ipad_x>7</child_ipad_x>
+	<child_ipad_y>0</child_ipad_y>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>cmdSourcesAdd</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <label>Add</label>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>cmdSourcesEdit</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <label>Edit</label>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>cmdSourcesDelete</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <label>Delete</label>
+	</widget>
       </widget>
+    </widget>
+
+    <widget>
+      <class>GtkLabel</class>
+      <child_name>Notebook:tab</child_name>
+      <name>label2</name>
+      <label>Mail Sources</label>
+      <justify>GTK_JUSTIFY_CENTER</justify>
+      <wrap>False</wrap>
+      <xalign>0.5</xalign>
+      <yalign>0.5</yalign>
+      <xpad>0</xpad>
+      <ypad>0</ypad>
+    </widget>
+
+    <widget>
+      <class>GtkVBox</class>
+      <name>transport_vbox</name>
+      <border_width>8</border_width>
+      <homogeneous>False</homogeneous>
+      <spacing>5</spacing>
+
+      <widget>
+	<class>Placeholder</class>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkLabel</class>
+      <child_name>Notebook:tab</child_name>
+      <name>label25</name>
+      <label>Transport</label>
+      <justify>GTK_JUSTIFY_CENTER</justify>
+      <wrap>False</wrap>
+      <xalign>0.5</xalign>
+      <yalign>0.5</yalign>
+      <xpad>0</xpad>
+      <ypad>0</ypad>
+    </widget>
+
+    <widget>
+      <class>GtkHBox</class>
+      <name>hbox6</name>
+      <homogeneous>False</homogeneous>
+      <spacing>0</spacing>
+
+      <widget>
+	<class>GtkScrolledWindow</class>
+	<name>scrolledwindow6</name>
+	<hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	<vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkCList</class>
+	  <name>clistNewsServers</name>
+	  <can_focus>True</can_focus>
+	  <columns>1</columns>
+	  <column_widths>80</column_widths>
+	  <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	  <show_titles>True</show_titles>
+	  <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <child_name>CList:title</child_name>
+	    <name>label33</name>
+	    <label>News Servers</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0.5</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	  </widget>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkVButtonBox</class>
+	<name>vbuttonbox6</name>
+	<layout_style>GTK_BUTTONBOX_START</layout_style>
+	<spacing>5</spacing>
+	<child_min_width>85</child_min_width>
+	<child_min_height>27</child_min_height>
+	<child_ipad_x>7</child_ipad_x>
+	<child_ipad_y>0</child_ipad_y>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>cmdNewsServersAdd</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <label>Add</label>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>cmdNewsServersEdit</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <label>Edit</label>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>cmdNewsServersDelete</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <label>Delete</label>
+	</widget>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkLabel</class>
+      <child_name>Notebook:tab</child_name>
+      <name>label26</name>
+      <label>News Sources</label>
+      <justify>GTK_JUSTIFY_CENTER</justify>
+      <wrap>False</wrap>
+      <xalign>0.5</xalign>
+      <yalign>0.5</yalign>
+      <xpad>0</xpad>
+      <ypad>0</ypad>
+    </widget>
+
+    <widget>
+      <class>GtkVBox</class>
+      <name>vbox3</name>
+      <border_width>8</border_width>
+      <homogeneous>False</homogeneous>
+      <spacing>5</spacing>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>chkFormat</name>
+	<can_focus>True</can_focus>
+	<label>Send messages in HTML format</label>
+	<active>False</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkLabel</class>
+      <child_name>Notebook:tab</child_name>
+      <name>label32</name>
+      <label>Other</label>
+      <justify>GTK_JUSTIFY_CENTER</justify>
+      <wrap>False</wrap>
+      <xalign>0.5</xalign>
+      <yalign>0.5</yalign>
+      <xpad>0</xpad>
+      <ypad>0</ypad>
     </widget>
   </widget>
 </widget>
