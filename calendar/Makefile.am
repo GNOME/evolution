@@ -9,7 +9,9 @@ gncal_SOURCES = \
 	gncal.c		\
 	gncal.h		\
 	calcs.c		\
-	calcs.h
+	calcs.h		\
+	clist.c		\
+	clist.h
 
 gncal_LDADD = \
 	$(GNOME_LIBDIR) \
