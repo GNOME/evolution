@@ -1619,7 +1619,7 @@ ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **i
 	printf ("CAL_OBJ_FIND_NOT_FOUND\n");
 	return CAL_OBJ_FIND_NOT_FOUND;
 
-#else /* 0 */
+#else /* 1 */
 	VObject *vcal;
 	VObjectIterator i;
 	CalObjFindStatus status;
@@ -1674,7 +1674,7 @@ ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **i
 	cleanStrTbl ();
 
 	return status;
-#endif /* 0 */
+#endif /* 1 */
 }
 
 
@@ -1737,7 +1737,7 @@ ical_object_to_string (iCalObject *ico)
 	out_cal_string = icalcomponent_as_ical_string (top);
 	return g_strdup (out_cal_string);
 
-#else /* 0 */
+#else /* 1 */
 	VObject *vcalobj, *vobj;
 	char *buf, *gbuf;
 
@@ -1757,7 +1757,7 @@ ical_object_to_string (iCalObject *ico)
 	free (buf);
 
 	return gbuf;
-#endif /* 0 */
+#endif /* 1 */
 }
 
 

@@ -603,37 +603,57 @@ cal_client_get_object (CalClient *client, const char *uid, iCalObject **ico)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
-	Evolution_Calendar_CalObj calobj;
-	char *obj_str = NULL;
+	Evolution_Calendar_CalObj calobj_str;
+	CalClientGetStatus retval;
+	CalObjFindStatus status;
 
-
-	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_SYNTAX_ERROR);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_SYNTAX_ERROR);
+	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_NOT_FOUND);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, CAL_CLIENT_GET_SYNTAX_ERROR);
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, CAL_CLIENT_GET_NOT_FOUND);
 
-	g_return_val_if_fail (uid != NULL, CAL_CLIENT_GET_SYNTAX_ERROR);
+	g_return_val_if_fail (uid != NULL, CAL_CLIENT_GET_NOT_FOUND);
+	g_return_val_if_fail (ico != NULL, CAL_CLIENT_GET_NOT_FOUND);
 
-	obj_str = NULL;
+	retval = CAL_CLIENT_GET_NOT_FOUND;
+	*ico = NULL;
 
 	CORBA_exception_init (&ev);
-	calobj = Evolution_Calendar_Cal_get_object (priv->cal, uid, &ev);
+	calobj_str = Evolution_Calendar_Cal_get_object (priv->cal, uid, &ev);
 
 	if (ev._major == CORBA_USER_EXCEPTION
 	    && strcmp (CORBA_exception_id (&ev), ex_Evolution_Calendar_Cal_NotFound) == 0)
-		goto decode;
+		goto out;
 	else if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("cal_client_get_object(): could not get the object");
-		goto decode;
+		goto out;
 	}
 
-	obj_str = g_strdup (calobj);
-	CORBA_free (calobj);
+	status = ical_object_find_in_string (uid, calobj_str, ico);
+	CORBA_free (calobj_str);
 
- decode:
+	switch (status) {
+	case CAL_OBJ_FIND_SUCCESS:
+		retval = CAL_CLIENT_GET_SUCCESS;
+		break;
+
+	case CAL_OBJ_FIND_SYNTAX_ERROR:
+		retval = CAL_CLIENT_GET_SYNTAX_ERROR;
+		break;
+
+	case CAL_OBJ_FIND_NOT_FOUND:
+		retval = CAL_CLIENT_GET_NOT_FOUND;
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+ out:
+
 	CORBA_exception_free (&ev);
-
+	return retval;
 #if 0
 	icalcomponent* comp = NULL;
 	icalcomponent *subcomp;
@@ -650,7 +670,7 @@ cal_client_get_object (CalClient *client, const char *uid, iCalObject **ico)
 
 	while (subcomp) {
 		ical = ical_object_create_from_icalcomponent (subcomp);
-		if (ical->type != ICAL_EVENT && 
+		if (ical->type != ICAL_EVENT &&
 		    ical->type != ICAL_TODO  &&
 		    ical->type != ICAL_JOURNAL) {
 			g_warning ("Skipping unsupported iCalendar component");
@@ -664,12 +684,7 @@ cal_client_get_object (CalClient *client, const char *uid, iCalObject **ico)
 		subcomp = icalcomponent_get_next_component (comp,
 							   ICAL_ANY_COMPONENT);
 	}
-# else /* 0 */
-	ical_object_find_in_string (uid, obj_str, ico);
-
-# endif /* 0 */
-
-	return CAL_CLIENT_GET_NOT_FOUND;
+#endif
 }
 
 /**
@@ -740,7 +755,7 @@ build_object_instance_list (Evolution_Calendar_CalObjInstanceSeq *seq)
 	int i;
 
 	/* Create the list in reverse order */
-	
+
 	list = NULL;
 	for (i = 0; i < seq->_length; i++) {
 		Evolution_Calendar_CalObjInstance *corba_icoi;
@@ -862,10 +877,10 @@ build_alarm_instance_list (Evolution_Calendar_CalAlarmInstanceSeq *seq)
  * @client: A calendar client.
  * @start: Start time for query.
  * @end: End time for query.
- * 
+ *
  * Queries a calendar for the alarms that trigger in the specified range of
  * time.
- * 
+ *
  * Return value: A list of #CalAlarmInstance structures.
  **/
 GList *
@@ -909,10 +924,10 @@ cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end)
  * @start: Start time for query.
  * @end: End time for query.
  * @alarms: Return value for the list of alarm instances.
- * 
+ *
  * Queries a calendar for the alarms of a particular object that trigger in the
  * specified range of time.
- * 
+ *
  * Return value: TRUE on success, FALSE if the object was not found.
  **/
 gboolean

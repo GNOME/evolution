@@ -20,6 +20,34 @@
 	(INCLUDES): include libical src dir so we don't depend on having
 	ical.h already installed
 
+2000-06-14  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/calendar-model.c: GPtrArray cannot insert stuff in the
+	middle of the array (!), so use plain GArray everywhere.  Sigh.
+
+2000-06-13  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-client/cal-client.c (cal_client_get_object): Use vCalendar
+	again.
+
+	* cal-util/calobj.c (ical_object_find_in_string): From Seth, make
+	it use vCalendar again.
+
+2000-06-13  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/calendar-model.c (obj_updated_cb): Juggle some eggs in
+	asynchronous fashion.  Finished implementing.
+	(obj_removed_cb): Implemented.  This one needs no juggling.
+	(calendar_model_set_cal_client): Only load the objects if we have
+	a client.
+	(calendar_model_destroy): Disconnect from the client's signals.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Added
+	calendar-model.[ch] to the list of sources.
+
+	* pcs/cal-backend-imc.c (cal_backend_imc_get_n_objects): Doh,
+	return the computed value.
+
 2000-06-13  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/calendar-model.c (CalendarModelPrivate): Added the array of

@@ -24,7 +24,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <e-table/e-table-model.h>
-#include <cal-util/cal-util.h>
+#include <cal-client/cal-client.h>
 
 BEGIN_GNOME_DECLS
 
@@ -53,7 +53,7 @@ struct _CalendarModelClass {
 
 GtkType calendar_model_get_type (void);
 
-CalendarModel *calendar_model_new ();
+CalendarModel *calendar_model_new (void);
 
 void calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjType type);
 

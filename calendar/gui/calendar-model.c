@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include <gtk/gtksignal.h>
 #include "calendar-model.h"
 
 
@@ -32,8 +33,8 @@ typedef struct {
 	/* Types of objects we are dealing with */
 	CalObjType type;
 
-	/* Array of calendar objects */
-	GPtrArray *objects;
+	/* Array of pointers to calendar objects */
+	GArray *objects;
 
 	/* UID -> array index hash */
 	GHashTable *uid_index_hash;
@@ -107,6 +108,16 @@ calendar_model_class_init (CalendarModelClass *class)
 	parent_class = gtk_type_class (E_TABLE_MODEL_TYPE);
 
 	object_class->destroy = calendar_model_destroy;
+
+	etm_class->column_count = calendar_model_column_count;
+	etm_class->row_count = calendar_model_row_count;
+	etm_class->value_at = calendar_model_value_at;
+	etm_class->set_value_at = calendar_model_set_value_at;
+	etm_class->is_cell_editable = calendar_model_is_cell_editable;
+	etm_class->duplicate_value = calendar_model_duplicate_value;
+	etm_class->free_value = calendar_model_free_value;
+	etm_class->initialize_value = calendar_model_initialize_value;
+	etm_class->value_is_empty = calendar_model_value_is_empty;
 }
 
 /* Object initialization function for the calendar table model */
@@ -118,7 +129,7 @@ calendar_model_init (CalendarModel *model)
 	priv = g_new0 (CalendarModelPrivate, 1);
 	model->priv = priv;
 
-	priv->objects = g_ptr_array_new ();
+	priv->objects = g_array_new (FALSE, TRUE, sizeof (iCalObject *));
 	priv->uid_index_hash = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
@@ -143,19 +154,19 @@ free_objects (CalendarModel *model)
 	CalendarModelPrivate *priv;
 	int i;
 
-	priv = model->data;
+	priv = model->priv;
 
-	g_hash_table_foreach_remove (priv->objects, free_uid_index, NULL);
+	g_hash_table_foreach_remove (priv->uid_index_hash, free_uid_index, NULL);
 
 	for (i = 0; i < priv->objects->len; i++) {
 		iCalObject *ico;
 
-		ico = g_ptr_array_index (priv->objects, i);
+		ico = g_array_index (priv->objects, iCalObject *, i);
 		g_assert (ico != NULL);
 		ical_object_unref (ico);
 	}
 
-	g_ptr_array_set_size (priv->objects, 0);
+	g_array_set_size (priv->objects, 0);
 }
 
 /* Destroy handler for the calendar table model */
@@ -164,7 +175,6 @@ calendar_model_destroy (GtkObject *object)
 {
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
-	int i;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_CALENDAR_MODEL (object));
@@ -175,6 +185,7 @@ calendar_model_destroy (GtkObject *object)
 	/* Free the calendar client interface object */
 
 	if (priv->client) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), model);
 		gtk_object_unref (GTK_OBJECT (priv->client));
 		priv->client = NULL;
 	}
@@ -186,7 +197,7 @@ calendar_model_destroy (GtkObject *object)
 	g_hash_table_destroy (priv->uid_index_hash);
 	priv->uid_index_hash = NULL;
 
-	g_ptr_array_free (priv->objects, TRUE);
+	g_array_free (priv->objects, TRUE);
 	priv->objects = NULL;
 
 	/* Free the private structure */
@@ -229,7 +240,6 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
 	iCalObject *ico;
-	void *retval;
 
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
@@ -239,12 +249,12 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		return NULL;
 	}
 
-	ico = g_ptr_array_index (priv->objects, row);
+	ico = g_array_index (priv->objects, iCalObject *, row);
 	g_assert (ico != NULL);
 
 	switch (col) {
 	case ICAL_OBJECT_FIELD_COMMENT:
-		return ico->comment ? ico->commment : "";
+		return ico->comment ? ico->comment : "";
 
 	case ICAL_OBJECT_FIELD_COMPLETED:
 		return &ico->completed;
@@ -289,8 +299,8 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		return ico->url ? ico->url : "";
 
 	case ICAL_OBJECT_FIELD_HAS_ALARMS:
-		return (ico->dalarm.enabled || ico->aalarm.enabled
-			|| ico->palarm.enabled || ico->malarm.enabled);
+		return (gpointer) (ico->dalarm.enabled || ico->aalarm.enabled
+				   || ico->palarm.enabled || ico->malarm.enabled);
 
 	default:
 		g_message ("calendar_model_value_at(): Requested invalid column %d", col);
@@ -335,7 +345,7 @@ remove_object (CalendarModel *model, const char *uid)
 	if (!idx)
 		return -1;
 
-	orig_ico = g_ptr_array_index (priv->objects, *idx);
+	orig_ico = g_array_index (priv->objects, iCalObject *, *idx);
 	g_assert (orig_ico != NULL);
 
 	/* Decrease the indices of all the objects that follow in the array */
@@ -344,20 +354,20 @@ remove_object (CalendarModel *model, const char *uid)
 		iCalObject *ico;
 		int *ico_idx;
 
-		ico = g_ptr_array_index (priv->objects, i);
+		ico = g_array_index (priv->objects, iCalObject *, i);
 		g_assert (ico != NULL);
 
 		ico_idx = g_hash_table_lookup (priv->uid_index_hash, ico->uid);
 		g_assert (ico_idx != NULL);
 
-		*ico_idx--;
+		(*ico_idx)--;
 		g_assert (*ico_idx >= 0);
 	}
 
 	/* Remove this object from the array and hash */
 
 	g_hash_table_remove (priv->uid_index_hash, uid);
-	g_array_remove (priv->objects, *idx);
+	g_array_remove_index (priv->objects, *idx);
 
 	ical_object_unref (orig_ico);
 
@@ -374,14 +384,96 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	CalendarModel *model;
 	CalendarModelPrivate *priv;
 	int orig_idx;
+	iCalObject *new_ico;
+	int *new_idx;
+	CalClientGetStatus status;
+	gboolean added;
 
 	model = CALENDAR_MODEL (data);
 	priv = model->priv;
 
 	orig_idx = remove_object (model, uid);
 
-	
-	
+	status = cal_client_get_object (priv->client, uid, &new_ico);
+
+	added = FALSE;
+
+	switch (status) {
+	case CAL_CLIENT_GET_SUCCESS:
+		if (orig_idx == -1) {
+			/* The object not in the model originally, so we just append it */
+
+			g_array_append_val (priv->objects, new_ico);
+
+			new_idx = g_new (int, 1);
+			*new_idx = priv->objects->len - 1;
+			g_hash_table_insert (priv->uid_index_hash, new_ico->uid, new_idx);
+		} else {
+			int i;
+
+			/* Insert the new version of the object in its old position */
+
+			g_array_insert_val (priv->objects, orig_idx, new_ico);
+
+			new_idx = g_new (int, 1);
+			*new_idx = orig_idx;
+			g_hash_table_insert (priv->uid_index_hash, new_ico->uid, new_idx);
+
+			/* Increase the indices of all subsequent objects */
+
+			for (i = orig_idx + 1; i < priv->objects->len; i++) {
+				iCalObject *ico;
+				int *ico_idx;
+
+				ico = g_array_index (priv->objects, iCalObject *, i);
+				g_assert (ico != NULL);
+
+				ico_idx = g_hash_table_lookup (priv->uid_index_hash, ico->uid);
+				g_assert (ico_idx != NULL);
+
+				(*ico_idx)++;
+			}
+		}
+
+		e_table_model_row_changed (E_TABLE_MODEL (model), *new_idx);
+		break;
+
+	case CAL_CLIENT_GET_NOT_FOUND:
+		/* Nothing; the object may have been removed from the server.  We just
+		 * notify that the old object was deleted.
+		 */
+		if (orig_idx != -1)
+			e_table_model_row_deleted (E_TABLE_MODEL (model), orig_idx);
+
+		break;
+
+	case CAL_CLIENT_GET_SYNTAX_ERROR:
+		g_message ("obj_updated_cb(): Syntax error when getting object `%s'", uid);
+
+		/* Same notification as above */
+		if (orig_idx != -1)
+			e_table_model_row_deleted (E_TABLE_MODEL (model), orig_idx);
+
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+/* Callback used when an object is removed in the server */
+static void
+obj_removed_cb (CalClient *client, const char *uid, gpointer data)
+{
+	CalendarModel *model;
+	int idx;
+
+	model = CALENDAR_MODEL (data);
+
+	idx = remove_object (model, uid);
+
+	if (idx != -1)
+		e_table_model_row_deleted (E_TABLE_MODEL (model), idx);
 }
 
 /* Loads the required objects from the calendar client */
@@ -414,15 +506,18 @@ load_objects (CalendarModel *model)
 			continue;
 
 		case CAL_CLIENT_GET_SYNTAX_ERROR:
-			g_message ("load_objects(): Syntax error when getting object %s", uid);
+			g_message ("load_objects(): Syntax error when getting object `%s'", uid);
 			continue;
+
+		default:
+			g_assert_not_reached ();
 		}
 
 		g_assert (ico->uid != NULL);
 
 		idx = g_new (int, 1);
 
-		g_ptr_array_add (priv->objects, ico);
+		g_array_append_val (priv->objects, ico);
 		*idx = priv->objects->len - 1;
 
 		g_hash_table_insert (priv->uid_index_hash, ico->uid, idx);
@@ -472,11 +567,11 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
 	if (priv->client) {
 		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_updated",
 				    GTK_SIGNAL_FUNC (obj_updated_cb), model);
-		gtk_signal_connect (GTK_OBJECT (priv->clinet), "obj_removed",
+		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
 				    GTK_SIGNAL_FUNC (obj_removed_cb), model);
-	}
 
-	load_objects (model);
+		load_objects (model);
+	}
 
 	e_table_model_changed (E_TABLE_MODEL (model));
 }

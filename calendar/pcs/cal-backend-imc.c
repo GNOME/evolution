@@ -882,6 +882,8 @@ cal_backend_imc_get_n_objects (CalBackend *backend, CalObjType type)
 	c.n = 0;
 
 	g_hash_table_foreach (priv->object_hash, count_objects, &c);
+
+	return c.n;
 }
 
 /* Get_object handler for the IMC backend */
