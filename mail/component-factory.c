@@ -44,7 +44,7 @@
 
 CamelFolder *drafts_folder = NULL;
 CamelFolder *outbox_folder = NULL;
-CamelFolder *sentbox_folder = NULL;     /* this one should be configurable? */
+CamelFolder *sent_folder = NULL;     /* this one should be configurable? */
 char *evolution_dir;
 
 static void create_vfolder_storage (EvolutionShellComponent *shell_component);
@@ -117,9 +117,12 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	evolution_dir = g_strdup (evolution_homedir);
 	
 	mail_config_init ();
-	mail_do_setup_draftbox ();
-	mail_do_setup_outbox ();
-	mail_do_setup_sentbox ();
+	mail_do_setup_folder ("Drafts", &drafts_folder);
+	mail_do_setup_folder ("Outbox", &outbox_folder);
+	mail_do_setup_folder ("Sent Messages", &sent_folder);
+	/* Don't proceed until those _folder variables are valid. */
+	mail_operation_wait_for_finish ();
+
 	create_vfolder_storage (shell_component);
 
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));

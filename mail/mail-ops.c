@@ -303,7 +303,7 @@ static void
 do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	send_mail_input_t *input = (send_mail_input_t *) in_data;
-	extern CamelFolder *sentbox_folder;
+	extern CamelFolder *sent_folder;
 	CamelTransport *xport;
 	char *x_mailer;
 	
@@ -340,15 +340,15 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		mail_tool_camel_lock_down ();
 	}
 	
-	/* now to save the message in Sentbox */
-	if (sentbox_folder) {
+	/* now to save the message in Sent */
+	if (sent_folder) {
 		CamelMessageInfo *info;
 		
 		mail_tool_camel_lock_up ();
 		
 		info = g_new0 (CamelMessageInfo, 1);
 		info->flags = 0;
-		camel_folder_append_message (sentbox_folder, input->message, info, ex);
+		camel_folder_append_message (sent_folder, input->message, info, ex);
 		g_free (info);
 		
 		mail_tool_camel_lock_down ();
@@ -457,7 +457,7 @@ static void
 do_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	send_queue_input_t *input = (send_queue_input_t *) in_data;
-	extern CamelFolder *sentbox_folder;
+	extern CamelFolder *sent_folder;
 	CamelTransport *xport;
 	GPtrArray *uids;
 	char *x_mailer;
@@ -503,15 +503,15 @@ do_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
 						CAMEL_MESSAGE_DELETED, ~set);
 		mail_tool_camel_lock_down ();
 		
-		/* now to save the message in Sentbox */
-		if (sentbox_folder) {
+		/* now to save the message in Sent */
+		if (sent_folder) {
 			CamelMessageInfo *info;
 			
 			mail_tool_camel_lock_up ();
 			
 			info = g_new0 (CamelMessageInfo, 1);
 			info->flags = 0;
-			camel_folder_append_message (sentbox_folder, message, info, ex);
+			camel_folder_append_message (sent_folder, message, info, ex);
 			g_free (info);
 			
 			mail_tool_camel_lock_down ();
@@ -2101,171 +2101,76 @@ mail_do_edit_messages (CamelFolder *folder, GPtrArray *uids,
 	mail_operation_queue (&op_edit_messages, input, TRUE);
 }
 
-/* ** SETUP DRAFTBOX ****************************************************** */
+/* ** SETUP FOLDER ****************************************************** */
 
-static gchar *describe_setup_draftbox (gpointer in_data, gboolean gerund);
-static void noop_setup_draftbox (gpointer in_data, gpointer op_data,
-				 CamelException *ex);
-static void do_setup_draftbox (gpointer in_data, gpointer op_data,
-			       CamelException *ex);
+typedef struct setup_folder_input_s {
+	const char *name;
+	CamelFolder **folder;
+} setup_folder_input_t;
 
-static gchar *
-describe_setup_draftbox (gpointer in_data, gboolean gerund)
-{
-	if (gerund)
-		return g_strdup_printf (_("Loading Draftbox"));
-	else
-		return g_strdup_printf (_("Load Draftbox"));
-}
-
-static void
-noop_setup_draftbox (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-}
-
-static void
-do_setup_draftbox (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	extern CamelFolder *drafts_folder;
-	gchar *url;
-
-	url = g_strdup_printf ("mbox://%s/local/Drafts", evolution_dir);
-	drafts_folder = mail_tool_get_folder_from_urlname (url, "mbox", TRUE, ex);
-	g_free (url);
-}
-
-/*
- *static void
- *cleanup_setup_draftbox (gpointer in_data, gpointer op_data,
- *			CamelException *ex)
- *{
- *}
- */
-
-static const mail_operation_spec op_setup_draftbox = {
-	describe_setup_draftbox,
-	0,
-	noop_setup_draftbox,
-	do_setup_draftbox,
-	noop_setup_draftbox
-};
-
-void
-mail_do_setup_draftbox (void)
-{
-	mail_operation_queue (&op_setup_draftbox, NULL, FALSE);
-}
-
-/* ** SETUP OUTBOX ****************************************************** */
-
-static gchar *describe_setup_outbox (gpointer in_data, gboolean gerund);
-static void noop_setup_outbox (gpointer in_data, gpointer op_data,
-			       CamelException *ex);
-static void do_setup_outbox (gpointer in_data, gpointer op_data,
-			     CamelException *ex);
-
-static gchar *
-describe_setup_outbox (gpointer in_data, gboolean gerund)
-{
-	if (gerund)
-		return g_strdup_printf (_("Loading Outbox"));
-	else
-		return g_strdup_printf (_("Load Outbox"));
-}
-
-static void
-noop_setup_outbox (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-}
-
-static void
-do_setup_outbox (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	extern CamelFolder *outbox_folder;
-	gchar *url;
-
-	url = g_strdup_printf ("mbox://%s/local/Outbox", evolution_dir);
-	outbox_folder = mail_tool_get_folder_from_urlname (url, "mbox", TRUE, ex);
-	g_free (url);
-}
-
-/*
- *static void
- *cleanup_setup_outbox (gpointer in_data, gpointer op_data,
- *			CamelException *ex)
- *{
- *}
- */
-
-static const mail_operation_spec op_setup_outbox = {
-	describe_setup_outbox,
-	0,
-	noop_setup_outbox,
-	do_setup_outbox,
-	noop_setup_outbox
-};
-
-void
-mail_do_setup_outbox (void)
-{
-	mail_operation_queue (&op_setup_outbox, NULL, FALSE);
-}
-
-/* ** SETUP SENTBOX ****************************************************** */
-
-static gchar *describe_setup_sentbox (gpointer in_data, gboolean gerund);
-static void noop_setup_sentbox (gpointer in_data, gpointer op_data,
+static gchar *describe_setup_folder (gpointer in_data, gboolean gerund);
+static void setup_setup_folder (gpointer in_data, gpointer op_data,
 				CamelException *ex);
-static void do_setup_sentbox (gpointer in_data, gpointer op_data,
-			      CamelException *ex);
+static void do_setup_folder (gpointer in_data, gpointer op_data,
+			     CamelException *ex);
+static void cleanup_setup_folder (gpointer in_data, gpointer op_data,
+				  CamelException *ex);
 
 static gchar *
-describe_setup_sentbox (gpointer in_data, gboolean gerund)
+describe_setup_folder (gpointer in_data, gboolean gerund)
 {
+	setup_folder_input_t *input = (setup_folder_input_t *) in_data;
+
 	if (gerund)
-		return g_strdup_printf (_("Loading Sentbox"));
+		return g_strdup_printf (_("Loading %s Folder"), input->name);
 	else
-		return g_strdup_printf (_("Load Sentbox"));
+		return g_strdup_printf (_("Load %s Folder"), input->name);
 }
 
 static void
-noop_setup_sentbox (gpointer in_data, gpointer op_data, CamelException *ex)
+setup_setup_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 }
 
 static void
-do_setup_sentbox (gpointer in_data, gpointer op_data, CamelException *ex)
+do_setup_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
-	extern CamelFolder *sentbox_folder;
+	setup_folder_input_t *input = (setup_folder_input_t *) in_data;
 	gchar *url;
 
-	url = g_strdup_printf ("mbox://%s/local/Sentbox", evolution_dir);
-	sentbox_folder = mail_tool_get_folder_from_urlname (url, "mbox", TRUE, ex);
+	url = g_strdup_printf ("mbox://%s/local/%s", evolution_dir,
+			       input->name);
+	*(input->folder) = mail_tool_get_folder_from_urlname (url, "mbox",
+							      TRUE, ex);
 	g_free (url);
 }
 
-/*
- *static void
- *cleanup_setup_sentbox (gpointer in_data, gpointer op_data,
- *			CamelException *ex)
- *{
- *}
- */
+static void
+cleanup_setup_folder (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	setup_folder_input_t *input = (setup_folder_input_t *) in_data;
 
-static const mail_operation_spec op_setup_sentbox = {
-	describe_setup_sentbox,
+	g_free (input->name);
+}
+
+static const mail_operation_spec op_setup_folder = {
+	describe_setup_folder,
 	0,
-	noop_setup_sentbox,
-	do_setup_sentbox,
-	noop_setup_sentbox
+	setup_setup_folder,
+	do_setup_folder,
+	cleanup_setup_folder
 };
 
 void
-mail_do_setup_sentbox (void)
+mail_do_setup_folder (const char *name, CamelFolder **folder)
 {
-	mail_operation_queue (&op_setup_sentbox, NULL, FALSE);
-}
+	setup_folder_input_t *input;
 
+	input = g_new (setup_folder_input_t, 1);
+	input->name = name;
+	input->folder = folder;
+	mail_operation_queue (&op_setup_folder, input, TRUE);
+}
 
 /* ** VIEW MESSAGES ******************************************************* */
 

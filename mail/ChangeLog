@@ -1,3 +1,15 @@
+2000-09-05  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c: Replace mail_do_setup_draftbox,
+	mail_do_setup_outbox, and mail_do_setup_sentbox with
+	mail_do_setup_folder.
+	(do_send_mail, do_send_queue): s/sentbox_folder/sent_folder/
+
+	* component-factory.c (owner_set_cb): Use mail_do_setup_folder,
+	rename sentbox_folder to sent_folder, and call
+	mail_operation_wait_for_finish after the setup_folder calls in
+	case anything needs to use the _folder variables.
+	
 2000-09-04  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-format.c (mail_generate_reply): Applied Jesse's patch that
