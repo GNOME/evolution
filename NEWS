@@ -63,6 +63,7 @@ Mailer:
 Shell:
   #7827  -- Switching desktops leaves the folder bar popped up
   #16507 -- Right Click -> View does nothing
+  #17258 -- Shell displays splash even if Evolution is already running
 
 Misc:
   #16358 -- Evolution doesn't have a man page
