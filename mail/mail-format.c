@@ -988,7 +988,7 @@ try_inline_pgp (char *start, MailDisplay *md)
 static char *
 try_inline_pgp_sig (char *start, MailDisplay *md)
 {
-	char *end, *ciphertext;
+	char *end, *ciphertext, *plaintext;
 	CamelException *ex;
 	gboolean valid;
 	
@@ -996,7 +996,7 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 	if (!end)
 		return start;
 	
-	end += strlen ("-----END PGP SIGNATURE-----") - 1;
+	end += strlen ("-----END PGP SIGNATURE-----");
 	
 	mail_html_write (md->html, md->stream, "<hr>");
 	
@@ -1005,7 +1005,9 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 	valid = openpgp_verify (ciphertext, end - start, NULL, 0, ex);
 	g_free (ciphertext);
 	
-	mail_text_write (md->html, md->stream, "%s", start);
+	plaintext = g_strndup (start, end - start);
+	mail_text_write (md->html, md->stream, "%s", plaintext);
+	g_free (plaintext);
 	
 	/* Now display the "seal-of-authenticity" or something... */
 	if (valid) {
