@@ -1,5 +1,9 @@
 2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (mail_config_signature_unregister_client): Make
+	sure we can find the registered handler before trying to remove it
+	from the list.
+
 	* mail-session.c (do_user_message): Make the 5th argument to
 	gtk_message_dialog_new() "%s" and move the m->prompt to arg 6 so
 	that we are safe if the prompt string contains any %'s. Also

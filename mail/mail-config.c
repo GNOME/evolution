@@ -1341,6 +1341,8 @@ mail_config_signature_set_name (MailConfigSignature *sig, const char *name)
 
 static GList *clients = NULL;
 
+/* uh...the following code is snot. this needs to be fixed. I just don't feel like doing it right now. */
+
 void
 mail_config_signature_register_client (MailConfigSignatureClient client, gpointer data)
 {
@@ -1352,10 +1354,11 @@ void
 mail_config_signature_unregister_client (MailConfigSignatureClient client, gpointer data)
 {
 	GList *link;
-
-	link = g_list_find (clients, data);
-	clients = g_list_remove_link (clients, link->prev);
-	clients = g_list_remove_link (clients, link);
+	
+	if ((link = g_list_find (clients, data)) != NULL) {
+		clients = g_list_remove_link (clients, link->prev);
+		clients = g_list_remove_link (clients, link);
+	}
 }
 
 void
