@@ -116,6 +116,8 @@ void           e_cal_view_delete_selected_occurrence (ECalView *cal_view);
 
 GtkMenu       *e_cal_view_create_popup_menu (ECalView *cal_view);
 
+void           e_cal_view_add_event (ECalView *cal_view, CalClient *client, time_t dtstart, 
+		      icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas);
 void           e_cal_view_new_appointment_for (ECalView *cal_view,
 					       time_t dtstart,
 					       time_t dtend,

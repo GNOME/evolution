@@ -6736,15 +6736,8 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 		event = &g_array_index (day_view->events[day],
 					EDayViewEvent, event_num);
 
-	if (info == TARGET_CALENDAR_EVENT) {
-		const char *event_uid;
-
-		event_uid = icalcomponent_get_uid (event->comp_data->icalcomp);
-		g_return_if_fail (event_uid != NULL);
-
-		gtk_selection_data_set (selection_data,	selection_data->target,
- 					8, event_uid, strlen (event_uid));
-	} else if (info == TARGET_VCALENDAR) {
+	if (info == TARGET_CALENDAR_EVENT || info == TARGET_VCALENDAR) {
+		/* we will pass an icalcalendar component for both types */
 		char *comp_str;
 		icalcomponent *vcal;
 
@@ -6779,26 +6772,32 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 	ECalViewPosition pos;
 	gint day, start_day, end_day, num_days;
 	gint start_offset, end_offset;
-	gchar *event_uid;
 	CalComponent *comp;
 	CalComponentDateTime date;
 	struct icaltimetype itt;
 	time_t dt;
 	gboolean all_day_event;
 	CalClient *client;
+	gboolean drag_from_same_window;
+
+	if (day_view->drag_event_day != -1)
+		drag_from_same_window = TRUE;
+	else
+		drag_from_same_window = FALSE;
 
 	client = e_cal_model_get_default_client (e_cal_view_get_model (E_CAL_VIEW (day_view)));
 
 	/* Note that we only support DnD within the EDayView at present. */
 	if ((data->length >= 0) && (data->format == 8)
 	    && (day_view->drag_event_day != -1)) {
+		/* We are dragging in the same window */
+
 		pos = e_day_view_convert_position_in_top_canvas (day_view,
 								 x, y, &day,
 								 NULL);
 		if (pos != E_CAL_VIEW_POS_OUTSIDE) {
 			CalObjModType mod = CALOBJ_MOD_ALL;
 			GtkWindow *toplevel;
-			const char *uid;
 
 			num_days = 1;
 			start_offset = 0;
@@ -6828,13 +6827,6 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			}
 
 			client = event->comp_data->client;
-
-			event_uid = data->data;
-
-			uid = icalcomponent_get_uid (event->comp_data->icalcomp);
-
-			if (!event_uid || !uid || strcmp (event_uid, uid))
-				g_warning ("Unexpected event UID");
 
 			/* We clone the event since we don't want to change
 			   the original comp here.
@@ -6896,6 +6888,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			}
 
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
+			cal_component_commit_sequence (comp);
 	
 			if (cal_client_modify_object (client, cal_component_get_icalcomponent (comp), mod, NULL)) {
 				if (itip_organizer_is_user (comp, client) 
@@ -6910,6 +6903,72 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 		}
 	}
 
+	if ((data->length >= 0) && (data->format == 8) 
+		&& !drag_from_same_window) {
+		/* We are dragging between different window */
+
+		char *comp_str, *default_tzid;
+		icalcomponent *icalcomp;
+		icalcomponent_kind kind;
+		time_t dtstart;
+		icaltimezone *default_zone;
+
+		pos = e_day_view_convert_position_in_top_canvas (day_view,
+								 x, y, &day,
+								 NULL);
+		if (pos == E_CAL_VIEW_POS_OUTSIDE) 
+			goto error;
+
+		comp_str = (char *) data->data;
+		icalcomp = icalparser_parse_string ((const char *) comp_str);
+		if (!icalcomp)
+			goto error;
+
+		default_tzid = calendar_config_get_timezone ();
+		cal_client_get_timezone (client, default_tzid, &default_zone, NULL);
+
+		/* check the type of the component */
+		kind = icalcomponent_isa (icalcomp);
+		if (kind != ICAL_VCALENDAR_COMPONENT && kind != ICAL_VEVENT_COMPONENT)
+			goto error;
+
+		dtstart = day_view->day_starts[day];
+
+		if (kind == ICAL_VCALENDAR_COMPONENT) {
+			icalcomponent_kind child_kind;
+			icalcomponent *subcomp;
+
+			subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
+			while (subcomp) {
+				child_kind = icalcomponent_isa (subcomp);
+				if (child_kind == ICAL_VEVENT_COMPONENT)
+					e_cal_view_add_event (E_CAL_VIEW (day_view), client, dtstart, 
+								      default_zone, subcomp, TRUE);
+				else if (child_kind == ICAL_VTIMEZONE_COMPONENT) {
+					icaltimezone *zone;
+
+					zone = icaltimezone_new ();
+					icaltimezone_set_component (zone, subcomp);
+					cal_client_add_timezone (client, zone, NULL);
+				
+					icaltimezone_free (zone, 1);
+				}
+			
+				subcomp = icalcomponent_get_next_component (
+					icalcomp, ICAL_ANY_COMPONENT);
+			}
+
+			icalcomponent_free (icalcomp);
+
+		} else {
+			e_cal_add_event (E_CAL_VIEW (day_view), client, dtstart, default_zone, icalcomp, TRUE);
+		}
+	
+		gtk_drag_finish (context, TRUE, TRUE, time);
+		return;
+	}
+
+error:
 	gtk_drag_finish (context, FALSE, FALSE, time);
 }
 
@@ -6928,12 +6987,17 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 	ECalViewPosition pos;
 	gint day, row, start_row, end_row, num_rows, scroll_x, scroll_y;
 	gint start_offset, end_offset;
-	gchar *event_uid;
 	CalComponent *comp;
 	CalComponentDateTime date;
 	struct icaltimetype itt;
 	time_t dt;
 	CalClient *client;
+	gboolean drag_from_same_window;
+
+	if (day_view->drag_event_day != -1)
+		drag_from_same_window = TRUE;
+	else 
+		drag_from_same_window = FALSE;
 
 	client = e_cal_model_get_default_client (e_cal_view_get_model (E_CAL_VIEW (day_view)));
 
@@ -6945,13 +7009,14 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 	/* Note that we only support DnD within the EDayView at present. */
 	if ((data->length >= 0) && (data->format == 8)
 	    && (day_view->drag_event_day != -1)) {
+		/* We are dragging in the same window */
+
 		pos = e_day_view_convert_position_in_main_canvas (day_view,
 								  x, y, &day,
 								  &row, NULL);
 		if (pos != E_CAL_VIEW_POS_OUTSIDE) {
 			CalObjModType mod = CALOBJ_MOD_ALL;
 			GtkWindow *toplevel;
-			const char *uid;
 
 			num_rows = 1;
 			start_offset = 0;
@@ -6981,12 +7046,6 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			}
 
 			client = event->comp_data->client;
-
-			event_uid = data->data;
-
-			uid = icalcomponent_get_uid (event->comp_data->icalcomp);
-			if (!event_uid || !uid || strcmp (event_uid, uid))
-				g_warning ("Unexpected event UID");
 
 			/* We use a temporary shallow copy of comp since we
 			   don't want to change the original comp here.
@@ -7025,6 +7084,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			}
 
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
+			cal_component_commit_sequence (comp);
 	
 			if (cal_client_modify_object (client, cal_component_get_icalcomponent (comp), mod, NULL)) {
 				if (itip_organizer_is_user (comp, client) 
@@ -7039,6 +7099,72 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 		}
 	}
 
+	if ((data->length >= 0) && (data->format == 8) 
+		&& !drag_from_same_window) {
+		/* We are dragging between different window */
+
+		char *comp_str, *default_tzid;;
+		icalcomponent *icalcomp;
+		icalcomponent_kind kind;
+		time_t dtstart;
+		icaltimezone *default_zone;
+
+		pos = e_day_view_convert_position_in_main_canvas (day_view,
+								  x, y, &day,
+								  &row, NULL);
+		if (pos == E_CAL_VIEW_POS_OUTSIDE) 
+			goto error;
+
+		comp_str = (char *) data->data;
+		icalcomp = icalparser_parse_string ((const char *) comp_str);
+		if (!icalcomp)
+			goto error;
+
+		default_tzid = calendar_config_get_timezone ();
+		cal_client_get_timezone (client, default_tzid, &default_zone, NULL);
+
+		/* check the type of the component */
+		kind = icalcomponent_isa (icalcomp);
+		if (kind != ICAL_VCALENDAR_COMPONENT && kind != ICAL_VEVENT_COMPONENT)
+			goto error;
+
+		dtstart = e_day_view_convert_grid_position_to_time (day_view, day, row);
+
+		if (kind == ICAL_VCALENDAR_COMPONENT) {
+			icalcomponent_kind child_kind;
+			icalcomponent *subcomp;
+
+			subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
+			while (subcomp) {
+				child_kind = icalcomponent_isa (subcomp);
+				if (child_kind == ICAL_VEVENT_COMPONENT)
+					e_cal_view_add_event (E_CAL_VIEW (day_view), client, dtstart, 
+								      default_zone, subcomp, FALSE);
+				else if (child_kind == ICAL_VTIMEZONE_COMPONENT) {
+					icaltimezone *zone;
+
+					zone = icaltimezone_new ();
+					icaltimezone_set_component (zone, subcomp);
+					cal_client_add_timezone (client, zone, NULL);
+				
+					icaltimezone_free (zone, 1);
+				}
+			
+				subcomp = icalcomponent_get_next_component (
+					icalcomp, ICAL_ANY_COMPONENT);
+			}
+
+			icalcomponent_free (icalcomp);
+
+		} else {
+			e_cal_add_event (E_CAL_VIEW (day_view), client, dtstart, default_zone, icalcomp, FALSE);
+		}
+
+		gtk_drag_finish (context, TRUE, TRUE, time);
+		return;
+	}
+
+error:
 	gtk_drag_finish (context, FALSE, FALSE, time);
 }
 

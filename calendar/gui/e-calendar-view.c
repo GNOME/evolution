@@ -276,23 +276,51 @@ selection_clear_event (GtkWidget *invisible,
 	}
 }
 
-static void
-selection_received_add_event (ECalView *cal_view, CalClient *client, time_t selected_time_start, 
-			      icaltimezone *default_zone, icalcomponent *icalcomp) 
+void
+e_cal_view_add_event (ECalView *cal_view, CalClient *client, time_t dtstart, 
+			      icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas) 
 {
 	CalComponent *comp;
-	struct icaltimetype itime;
-	time_t tt_start, tt_end;
+	struct icaltimetype itime, old_dtstart, old_dtend;
+	time_t tt_start, tt_end, new_dtstart;
 	struct icaldurationtype ic_dur;
 	char *uid;
+	gint start_offset, end_offset;
+	gboolean all_day_event;
 
-	tt_start = icaltime_as_timet (icalcomponent_get_dtstart (icalcomp));
-	tt_end = icaltime_as_timet (icalcomponent_get_dtend (icalcomp));
+	start_offset = 0;
+	end_offset = 0;
+
+	old_dtstart = icalcomponent_get_dtstart (icalcomp);
+	tt_start = icaltime_as_timet (old_dtstart);
+	old_dtend = icalcomponent_get_dtend (icalcomp);
+	tt_end = icaltime_as_timet (old_dtend);
 	ic_dur = icaldurationtype_from_int (tt_end - tt_start);
-	itime = icaltime_from_timet_with_zone (selected_time_start, FALSE, default_zone);
 
+	if (icaldurationtype_as_int (ic_dur) > 60*60*24) {
+		/* This is a long event */
+		start_offset = old_dtstart.hour * 60 + old_dtstart.minute;
+		end_offset = old_dtstart.hour * 60 + old_dtend.minute;
+	}
+
+	if (start_offset == 0 && end_offset == 0 && in_top_canvas)
+		all_day_event = TRUE;
+	else
+		all_day_event = FALSE;
+
+	if (in_top_canvas)
+		new_dtstart = dtstart + start_offset * 60;
+	else
+		new_dtstart = dtstart;
+
+	itime = icaltime_from_timet_with_zone (new_dtstart, FALSE, default_zone);
+	if (all_day_event)
+		itime.is_date = TRUE;
 	icalcomponent_set_dtstart (icalcomp, itime);
+
 	itime = icaltime_add (itime, ic_dur);
+	if (all_day_event)
+		itime.is_date = TRUE;
 	icalcomponent_set_dtend (icalcomp, itime);
 
 	/* FIXME The new uid stuff can go away once we actually set it in the backend */
@@ -303,12 +331,15 @@ selection_received_add_event (ECalView *cal_view, CalClient *client, time_t sele
 	cal_component_set_uid (comp, uid);
 
 	/* FIXME Error handling */
-	cal_client_create_object (client, cal_component_get_icalcomponent (comp), NULL, NULL);
-	if (itip_organizer_is_user (comp, client) &&
-	    send_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
+	if (cal_client_create_object (client, cal_component_get_icalcomponent (comp), NULL, NULL)) {
+		if (itip_organizer_is_user (comp, client) &&
+		    send_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 				   client, comp, TRUE)) {
-		itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp,
+			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp,
 				client, NULL);
+		}
+	} else {
+		g_message (G_STRLOC ": Could not create the object!");
 	}
 
 	free (uid);
@@ -364,8 +395,8 @@ selection_received (GtkWidget *invisible,
 		while (subcomp) {
 			child_kind = icalcomponent_isa (subcomp);
 			if (child_kind == ICAL_VEVENT_COMPONENT)
-				selection_received_add_event (cal_view, client, selected_time_start, 
-							      default_zone, subcomp);
+				e_cal_view_add_event (cal_view, client, selected_time_start, 
+							      default_zone, subcomp, FALSE);
 			else if (child_kind == ICAL_VTIMEZONE_COMPONENT) {
 				icaltimezone *zone;
 
@@ -383,7 +414,7 @@ selection_received (GtkWidget *invisible,
 		icalcomponent_free (icalcomp);
 
 	} else {
-		selection_received_add_event (cal_view, client, selected_time_start, default_zone, icalcomp);
+		e_cal_view_add_event (cal_view, client, selected_time_start, default_zone, icalcomp, FALSE);
 	}
 
 	e_cal_view_set_status_message (cal_view, NULL);

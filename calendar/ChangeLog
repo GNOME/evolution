@@ -1,3 +1,21 @@
+2003-10-23  Harry Lu  <harry.lu@sun.com>
+
+	* cal-client/cal-client.c: (cal_client_get_timezone): remove and free
+	op before return.
+
+	* gui/e-cal-view.c (e_cal_view_add_event): modified from
+	selection_received_add_event() so that it call be called out of
+	e-cal-view.c.
+	(selection_received): modified to call e_cal_view_add_event().
+
+	* gui/e-cal-view.h: add declaration for e_cal_view_add_event().
+
+	* gui/e-day-view.c (e_day_view_on_drag_data_get): Provide a
+	icalcomponent for both TARGET_CALENDAR_EVENT and TARGET_VCALENDAR.
+	(e_day_view_on_top_canvas_drag_data_received): If dragging between
+	different windows, make it works like a copy and paste.
+	(e_day_view_on_main_canvas_drag_data_received): ditto.
+
 2003-10-23  JP Rosevear <jpr@ximian.com>
 
 	* cal-util/cal-recur.c: update g_date calls to non-deprecated

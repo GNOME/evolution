@@ -3482,12 +3482,21 @@ cal_client_get_timezone (CalClient *client, const char *tzid, icaltimezone **zon
 	g_free (our_op->string);
 	
 	/* FIXME Invalid object status? */
-	if (!icalcomp)
+	if (!icalcomp) {
+		e_calendar_remove_op (client, our_op);
+		e_mutex_unlock (our_op->mutex);
+		e_calendar_free_op (our_op);
+
 		E_CALENDAR_CHECK_STATUS (E_CALENDAR_STATUS_OBJECT_NOT_FOUND, error);
+	}
 	
 	*zone = icaltimezone_new ();	
 	if (!icaltimezone_set_component (*zone, icalcomp)) {
 		icaltimezone_free (*zone, 1);
+
+		e_calendar_remove_op (client, our_op);
+		e_mutex_unlock (our_op->mutex);
+		e_calendar_free_op (our_op);
 
 		E_CALENDAR_CHECK_STATUS (E_CALENDAR_STATUS_OBJECT_NOT_FOUND, error);
 	}
