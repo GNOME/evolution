@@ -3,7 +3,7 @@
 
 /* 
  *
- * Copyright (C) 2000 HelixCode <bertrand@helixcode.com> .
+ * Copyright (C) 2000 Helix Code, Inc. <bertrand@helixcode.com>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

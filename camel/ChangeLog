@@ -1,3 +1,7 @@
+2000-03-09  Dan Winship  <danw@helixcode.com>
+
+	* s/HelixCode/Helix Code, Inc./ in the copyrights
+
 2000-03-07  bertrand  <bertrand@helixcode.com>
 
 	* camel-formatter.c (handle_mime_part): 
