@@ -21,14 +21,20 @@
 static GtkObjectClass *etcs_parent_class;
 
 static void
-etcs_destroy (GtkObject *object)
+free_strings (ETableColumnSpecification *etcs)
 {
-	ETableColumnSpecification *etcs = E_TABLE_COLUMN_SPECIFICATION (object);
-
 	g_free(etcs->title_);
 	g_free(etcs->pixbuf);
 	g_free(etcs->cell);
 	g_free(etcs->compare);
+}
+
+static void
+etcs_destroy (GtkObject *object)
+{
+	ETableColumnSpecification *etcs = E_TABLE_COLUMN_SPECIFICATION (object);
+
+	free_strings(etcs);
 
 	GTK_OBJECT_CLASS (etcs_parent_class)->destroy (object);
 }
@@ -45,7 +51,7 @@ static void
 etcs_init (ETableColumnSpecification *specification)
 {
 	specification->model_col     = 0;
-	specification->title_        = NULL;
+	specification->title_        = g_strdup("");
 	specification->pixbuf        = NULL;
 	
 	specification->expansion     = 0;
@@ -67,19 +73,24 @@ e_table_column_specification_new (void)
 }
 
 void
-e_table_column_specification_load_from_node    (ETableColumnSpecification *specification,
+e_table_column_specification_load_from_node    (ETableColumnSpecification *etcs,
 						const xmlNode       *node)
 {
-	specification->model_col     = e_xml_get_integer_prop_by_name(node, "model_col");
-	specification->title_        = e_xml_get_translated_string_prop_by_name(node, "_title");
-	specification->pixbuf        = e_xml_get_translated_string_prop_by_name(node, "pixbuf");
+	free_strings(etcs);
 
-	specification->expansion     = e_xml_get_double_prop_by_name(node, "expansion");
-	specification->minimum_width = e_xml_get_integer_prop_by_name(node, "minimum_width");
-	specification->resizable     = e_xml_get_bool_prop_by_name(node, "resizable");
+	etcs->model_col     = e_xml_get_integer_prop_by_name(node, "model_col");
+	etcs->title_        = e_xml_get_translated_string_prop_by_name(node, "_title");
+	etcs->pixbuf        = e_xml_get_translated_string_prop_by_name(node, "pixbuf");
 
-	specification->cell          = e_xml_get_string_prop_by_name(node, "cell");
-	specification->compare       = e_xml_get_string_prop_by_name(node, "compare");
+	etcs->expansion     = e_xml_get_double_prop_by_name(node, "expansion");
+	etcs->minimum_width = e_xml_get_integer_prop_by_name(node, "minimum_width");
+	etcs->resizable     = e_xml_get_bool_prop_by_name(node, "resizable");
+
+	etcs->cell          = e_xml_get_string_prop_by_name(node, "cell");
+	etcs->compare       = e_xml_get_string_prop_by_name(node, "compare");
+
+	if (etcs->title_ == NULL)
+		etcs->title_ = g_strdup("");
 }
 
 xmlNode *

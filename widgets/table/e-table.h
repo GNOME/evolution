@@ -12,7 +12,9 @@
 #include <gal/e-table/e-table-item.h>
 #include <gal/e-table/e-table-selection-model.h>
 #include <gal/e-table/e-table-extras.h>
+#include <gal/e-table/e-table-specification.h>
 #include <gal/widgets/e-printable.h>
+#include <gal/e-table/e-table-state.h>
 
 BEGIN_GNOME_DECLS
 
@@ -45,6 +47,7 @@ typedef struct {
 
 	ETableSelectionModel *selection;
 	ETableCursorLoc cursor_loc;
+	ETableSpecification *spec;
 
 	int table_model_change_id;
 	int table_row_change_id;
@@ -184,6 +187,7 @@ GtkWidget      *e_table_new_from_spec_file        (ETableModel          *etm,
 gchar          *e_table_get_state                 (ETable               *e_table);
 void            e_table_save_state                (ETable               *e_table,
 						   const gchar          *filename);
+ETableState    *e_table_get_state_object          (ETable               *e_table);
 
 /* note that it is more efficient to provide the state at creation time */
 void            e_table_set_state                 (ETable               *e_table,

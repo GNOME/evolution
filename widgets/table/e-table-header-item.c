@@ -23,6 +23,8 @@
 #include "e-table-col-dnd.h"
 #include "e-table-defines.h"
 #include "e-table-field-chooser-dialog.h"
+#include "e-table-config.h"
+#include "e-table.h"
 
 #include "add-col.xpm"
 #include "remove-col.xpm"
@@ -71,7 +73,8 @@ enum {
 	ARG_FULL_HEADER,
 	ARG_DND_CODE,
 	ARG_TABLE_FONTSET,
-	ARG_SORT_INFO
+	ARG_SORT_INFO,
+	ARG_TABLE,
 };
 
 static void
@@ -266,7 +269,12 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 				GTK_OBJECT(ethi->sort_info), "group_info_changed",
 				GTK_SIGNAL_FUNC(ethi_sort_info_changed), ethi);
 		break;
-		
+	case ARG_TABLE:
+		if (GTK_VALUE_OBJECT(*arg))
+			ethi->table = E_TABLE(GTK_VALUE_OBJECT(*arg));
+		else
+			ethi->table = NULL;
+		break;
 	}
 	gnome_canvas_item_request_update(item);
 }
@@ -1263,10 +1271,25 @@ ethi_popup_format_columns(GtkWidget *widget, EthiHeaderInfo *info)
 static void
 ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 {
+	ETableHeaderItem *ethi = info->ethi;
+	ETableState *state;
+
+	if (ethi->config)
+		gdk_window_raise(GTK_WIDGET(ethi->config)->window);
+	else {
+		state = e_table_get_state_object(ethi->table);
+
+		ethi->config = e_table_config_new(ethi->table->spec,
+						  state);
+		gtk_signal_connect(GTK_OBJECT(ethi->config), "clicked",
+				   GTK_SIGNAL_FUNC(gnome_dialog_close), ethi);
+		gtk_widget_show(ethi->config);
+	}
 }
 
 /* Bit 1 is always disabled. */
 /* Bit 2 is disabled if not "sortable". */
+/* Bit 4 is disabled if we don't have a pointer to our table object. */
 static EPopupMenu ethi_context_menu [] = {
 	{ N_("Sort Ascending"),            NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_ascending),  2},
 	{ N_("Sort Descending"),           NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_descending), 2},
@@ -1282,7 +1305,7 @@ static EPopupMenu ethi_context_menu [] = {
 	{ N_("Best Fit"),                  NULL, GTK_SIGNAL_FUNC(ethi_popup_best_fit),        2},
 	{ N_("Format Columns..."),         NULL, GTK_SIGNAL_FUNC(ethi_popup_format_columns),  1},
 	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       1},
-	{ N_("Customize Current View..."), NULL, GTK_SIGNAL_FUNC(ethi_popup_customize_view),  1},
+	{ N_("Customize Current View..."), NULL, GTK_SIGNAL_FUNC(ethi_popup_customize_view),  4},
 	{ NULL, NULL, NULL, 0 }
 };
 
@@ -1294,7 +1317,10 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event->x);
 	col = e_table_header_get_column (ethi->eth, info->col);
-	e_popup_menu_run (ethi_context_menu, event, 1 + (col->sortable ? 0 : 2), 0, info);
+	e_popup_menu_run (ethi_context_menu, event,
+			  1 +
+			  (col->sortable ? 0 : 2) +
+			  (ethi->table ? 0 : 4), 0, info);
 }
 
 static void
@@ -1505,6 +1531,8 @@ ethi_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_FONTSET);
 	gtk_object_add_arg_type ("ETableHeaderItem::sort_info", GTK_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_SORT_INFO);
+	gtk_object_add_arg_type ("ETableHeaderItem::table", GTK_TYPE_OBJECT,
+				 GTK_ARG_WRITABLE, ARG_TABLE);
 
 	/*
 	 * Create our pixmaps for DnD
@@ -1550,6 +1578,7 @@ ethi_init (GnomeCanvasItem *item)
 	ethi->group_info_changed_id = 0;
 
 	ethi->group_indent_width = 0;
+	ethi->table = NULL;
 }
 
 GtkType

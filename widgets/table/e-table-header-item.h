@@ -2,6 +2,7 @@
 #ifndef _E_TABLE_HEADER_ITEM_H_
 #define _E_TABLE_HEADER_ITEM_H_
 
+#include <gal/e-table/e-table.h>
 #include <libgnomeui/gnome-canvas.h>
 #include <gnome-xml/tree.h>
 #include <gal/e-table/e-table-header.h>
@@ -60,6 +61,8 @@ typedef struct {
 	
 	/* For adding fields. */
 	ETableHeader    *full_header;
+	ETable          *table;
+	GtkWidget       *config;
 } ETableHeaderItem;
 
 typedef struct {

@@ -144,6 +144,8 @@ et_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (et->sort_info));
 	gtk_object_unref (GTK_OBJECT (et->sorter));
 	gtk_object_unref (GTK_OBJECT (et->selection));
+	if (et->spec)
+		gtk_object_unref (GTK_OBJECT (et->spec));
 
 	if (et->header_canvas != NULL)
 		gtk_widget_destroy (GTK_WIDGET (et->header_canvas));
@@ -193,6 +195,7 @@ e_table_init (GtkObject *object)
 	e_table->sorter = NULL;
 	e_table->selection = e_table_selection_model_new();
 	e_table->cursor_loc = E_TABLE_CURSOR_LOC_NONE;
+	e_table->spec = NULL;
 }
 
 static void
@@ -235,6 +238,7 @@ e_table_setup_header (ETable *e_table)
 		"full_header", e_table->full_header,
 		"sort_info", e_table->sort_info,
 		"dnd_code", "(unset)",
+		"table", e_table,
 		NULL);
 
 	gtk_signal_connect (
@@ -602,19 +606,20 @@ et_col_spec_to_col (ETable *e_table, ETableColumnSpecification *col_spec, ETable
 	compare = e_table_extras_get_compare(ete, col_spec->compare);
 
 	if (cell && compare) {
-		if (col_spec->title_ && *col_spec->title_) {
-			col = e_table_col_new (col_spec->model_col, col_spec->title_,
-					       col_spec->expansion, col_spec->minimum_width,
-					       cell, compare, col_spec->resizable);
-		} else if (col_spec->pixbuf && *col_spec->pixbuf) {
+		if (col_spec->pixbuf && *col_spec->pixbuf) {
 			GdkPixbuf *pixbuf;
-
+			
 			pixbuf = e_table_extras_get_pixbuf(ete, col_spec->pixbuf);
 			if (pixbuf) {
 				col = e_table_col_new_with_pixbuf (col_spec->model_col, pixbuf,
 								   col_spec->expansion, col_spec->minimum_width,
 								   cell, compare, col_spec->resizable);
 			}
+		} 
+		if (col == NULL && col_spec->title_ && *col_spec->title_) {
+			col = e_table_col_new (col_spec->model_col, col_spec->title_,
+					       col_spec->expansion, col_spec->minimum_width,
+					       cell, compare, col_spec->resizable);
 		}
 	}
 	return col;
@@ -733,8 +738,8 @@ void            e_table_load_state                (ETable               *e_table
 	gtk_object_sink(GTK_OBJECT(state));
 }
 
-static ETableState *
-et_get_state (ETable *e_table)
+ETableState *
+e_table_get_state_object (ETable *e_table)
 {
 	ETableState *state;
 	int full_col_count;
@@ -767,9 +772,9 @@ gchar          *e_table_get_state                 (ETable               *e_table
 	ETableState *state;
 	gchar *string;
 
-	state = et_get_state(e_table);
+	state = e_table_get_state_object(e_table);
 	string = e_table_state_save_to_string(state);
-	gtk_object_sink(state);
+	gtk_object_sink(GTK_OBJECT(state));
 	return string;
 }
 
@@ -778,9 +783,9 @@ void            e_table_save_state                (ETable               *e_table
 {
 	ETableState *state;
 
-	state = et_get_state(e_table);
+	state = e_table_get_state_object(e_table);
 	e_table_state_save_to_file(state, filename);
-	gtk_object_sink(state);
+	gtk_object_sink(GTK_OBJECT(state));
 }
 
 
@@ -885,7 +890,7 @@ e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	e_table = et_real_construct (e_table, etm, ete, specification, state);
 
-	gtk_object_unref(GTK_OBJECT(specification));
+	e_table->spec = specification;
 	gtk_object_unref(GTK_OBJECT(state));
 
 	return e_table;
@@ -925,7 +930,7 @@ e_table_construct_from_spec_file (ETable *e_table, ETableModel *etm, ETableExtra
 
 	e_table = et_real_construct (e_table, etm, ete, specification, state);
 
-	gtk_object_unref(GTK_OBJECT(specification));
+	e_table->spec = specification;
 	gtk_object_unref(GTK_OBJECT(state));
 
 	return e_table;
