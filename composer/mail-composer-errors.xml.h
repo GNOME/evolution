@@ -40,3 +40,13 @@ char *s = N_("Because \"{1}\".");
 char *s = N_("All accounts have been removed.");
 /* mail-composer:all-accounts-deleted secondary */
 char *s = N_("You need to configure an account before you can compose mail.");
+/* mail-composer:no-address-control primary */
+char *s = N_("Could not create composer window.");
+/* mail-composer:no-address-control secondary */
+char *s = N_("Unable to activate the address selector control.");
+/* mail-composer:no-editor-control primary */
+char *s = N_("Could not create composer window.");
+/* mail-composer:no-editor-control secondary */
+char *s = N_("Unable to activate the HTML editor control.\n"
+	"\n"
+	"Please make sure that you have the correct version of gtkhtml and libgtkhtml installed.");

@@ -1,3 +1,8 @@
+2004-06-04  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-msg-composer.c (create_composer): Use e_error_run() instead of
+	the e_activation_error_dialog() stuff that no longer exists.
+
 2004-06-03  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_show_sig_file): always insert

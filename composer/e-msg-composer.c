@@ -158,7 +158,7 @@ static GtkTargetEntry drop_types[] = {
 
 static int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
 
-static const char * emc_draft_format_names[] = { "pgp-sign", "pgp-encrypt", "smime-sign", "smime-encrypt" };
+static const char *emc_draft_format_names[] = { "pgp-sign", "pgp-encrypt", "smime-sign", "smime-encrypt" };
 
 
 /* The parent class.  */
@@ -3143,11 +3143,7 @@ create_composer (int visible_mask)
 	vis = e_msg_composer_get_visible_flags (composer);
 	composer->hdrs = e_msg_composer_hdrs_new (composer->uic, visible_mask, vis);
 	if (!composer->hdrs) {
-		e_activation_failure_dialog (GTK_WINDOW (composer),
-					     _("Could not create composer window:\n"
-					       "Unable to activate address selector control."),
-					     SELECT_NAMES_OAFIID,
-					     "IDL:Bonobo/Control:1.0");
+		e_error_run (GTK_WINDOW (composer), "mail-composer:no-address-control", NULL);
 		gtk_object_destroy (GTK_OBJECT (composer));
 		return NULL;
 	}
@@ -3171,13 +3167,7 @@ create_composer (int visible_mask)
 		GNOME_GTKHTML_EDITOR_CONTROL_ID,
 		bonobo_ui_component_get_container (composer->uic));
 	if (!composer->editor) {
-		e_activation_failure_dialog (GTK_WINDOW (composer),
-					     _("Could not create composer window:\n"
-					       "Unable to activate HTML editor component.\n"
-					       "Please make sure you have the correct version\n"
-					       "of gtkhtml and libgtkhtml installed.\n"),
-					     GNOME_GTKHTML_EDITOR_CONTROL_ID,
-					     "IDL:Bonobo/Control:1.0");
+		e_error_run (GTK_WINDOW (composer), "mail-composer:no-editor-control", NULL);
 		gtk_object_destroy (GTK_OBJECT (composer));
 		return NULL;
 	}
@@ -3275,11 +3265,7 @@ create_composer (int visible_mask)
 	e_msg_composer_show_attachments (composer, FALSE);
 	prepare_engine (composer);
 	if (composer->editor_engine == CORBA_OBJECT_NIL) {
-		e_activation_failure_dialog (GTK_WINDOW (composer),
-					     _("Could not create composer window:\n"
-					       "Unable to activate HTML editor component."),
-					     GNOME_GTKHTML_EDITOR_CONTROL_ID,
-					     "IDL:GNOME/GtkHTML/Editor/Engine:1.0");
+		e_error_run (GTK_WINDOW (composer), "mail-composer:no-editor-control", NULL);
 		gtk_object_destroy (GTK_OBJECT (composer));
 		return NULL;
 	}

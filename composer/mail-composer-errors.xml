@@ -52,4 +52,16 @@
   <secondary>You need to configure an account before you can compose mail.</secondary>
  </error>
 
+ <error id="no-address-control" type="error" modal="true">
+  <primary>Could not create composer window.</primary>
+  <secondary>Unable to activate the address selector control.</secondary>
+ </error>
+
+ <error id="no-editor-control" type="error" modal="true">
+  <primary>Could not create composer window.</primary>
+  <secondary>Unable to activate the HTML editor control.
+
+Please make sure that you have the correct version of gtkhtml and libgtkhtml installed.</secondary>
+ </error>
+
 </error-list>
