@@ -43,6 +43,7 @@
 #include "mail-mt.h"
 #include "mail-importer.h"
 #include "mail-vfolder.h"             /* vfolder_create_storage */
+#include "mail-vtrash.h"
 #include "openpgp-utils.h"
 #include <gal/widgets/e-gui-utils.h>
 
@@ -214,6 +215,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		mail_msg_wait (mail_get_folder (uri, got_folder, standard_folders[i].folder));
 		g_free (uri);
 	}
+	
+	mail_vtrash_create ("file:/", "vTrash");
 	
 	mail_session_enable_interaction (TRUE);
 	

@@ -42,6 +42,16 @@
 extern char *evolution_dir;
 extern CamelSession *session;
 
+
+/**
+ * mail_vtrash_add: add a "vTrash" folder on the EvolutionStorage
+ * @store: the CamelStore that the vTrash exists on
+ * @store_uri: the URL of the store
+ * @name: the name to give the vTrash folder
+ *
+ * Creates the vTrash folder for the provided store in the folder view
+ * (EvolutionStorage) and creates the URL for that vTrash folder.
+ **/
 void
 mail_vtrash_add (CamelStore *store, const char *store_uri, const char *name)
 {
@@ -73,7 +83,7 @@ mail_vtrash_add (CamelStore *store, const char *store_uri, const char *name)
 
 struct _get_trash_msg {
 	struct _mail_msg msg;
-
+	
 	CamelStore *store;
 	char *store_uri;
 	char *name;
@@ -136,6 +146,16 @@ static struct _mail_msg_op get_trash_op = {
 	get_trash_free,
 };
 
+
+/**
+ * mail_vtrash_create: Create a vTrash folder
+ * @store_uri: URL of the CamelStore
+ * @name: name to give the vTrash folder
+ *
+ * Async function to lookup the CamelStore corresponding to @store_uri
+ * and then calls mail_vtrash_add() to create the vTrash folder/URL on
+ * the EvolutionStorage.
+ **/
 int
 mail_vtrash_create (const char *store_uri, const char *name)
 {

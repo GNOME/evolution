@@ -49,6 +49,7 @@
 #include "evolution-storage-listener.h"
 
 #include "camel/camel.h"
+#include "camel/camel-vee-folder.h"
 
 #include "filter/vfolder-context.h"
 #include "filter/vfolder-rule.h"
@@ -119,7 +120,7 @@ load_metainfo(const char *path)
 	xmlFreeDoc(doc);
 	return meta;
 
-dodefault:
+ dodefault:
 	meta->format = g_strdup("mbox"); /* defaults */
 	meta->name = g_strdup("mbox");
 	meta->indexed = TRUE;
@@ -324,7 +325,8 @@ get_folder (CamelStore *store, const char *folder_name,
 		camel_object_ref (CAMEL_OBJECT (folder));
 	} else {
 		folder = NULL;
-		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER, "No such folder %s", folder_name);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+				      "No such folder %s", folder_name);
 	}
 	return folder;
 }
@@ -507,11 +509,20 @@ register_folder_registered(struct _mail_msg *mm)
 	int unread;
 
 	if (local_folder->folder) {
-		g_hash_table_insert (local_folder->local_store->folders, local_folder->uri + 8, local_folder);
-
+		CamelStore *store = CAMEL_STORE (local_folder->local_store);
+		
+		g_hash_table_insert (local_folder->local_store->folders, local_folder->uri + 8,
+				     local_folder);
+		
+		/* Add the folder to the vTrash folder */
+		if (store->vtrash)
+			camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (store->vtrash),
+						     local_folder->folder);
+		
 		unread = local_folder->last_unread;
 		local_folder->last_unread = 0;
-		local_folder_changed (CAMEL_OBJECT (local_folder->folder), GINT_TO_POINTER (unread), local_folder);
+		local_folder_changed (CAMEL_OBJECT (local_folder->folder), GINT_TO_POINTER (unread),
+				      local_folder);
 		m->local_folder = NULL;
 	}
 }

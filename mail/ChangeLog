@@ -1,5 +1,15 @@
 2001-02-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* component-factory.c (owner_set_cb): Re-add the
+	mail_vtrash_create() hack back in for LocalStores since there's no
+	better way to register a vTrash folder on the Local Storage yet.
+
+	* mail-local.c (register_folder_registered): Add folders to the
+	vTrash folder here since the LocalStore does not let the parent
+	CamelStore class keep it's own hash of the folders.
+
+2001-02-25  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* session.c (mail_session_forget_password): New function to force
 	the removal of a given password.
 
