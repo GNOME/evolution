@@ -1,3 +1,9 @@
+2000-09-28  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-ops.c (do_send_queue): Messages should be appended to Sent
+	as Seen.
+	(do_send_mail): Same.
+
 2000-09-28  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am: Don't compile `subscribe-control' for now.  It

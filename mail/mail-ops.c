@@ -556,7 +556,7 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		mail_tool_camel_lock_up ();
 		
 		info = g_new0 (CamelMessageInfo, 1);
-		info->flags = 0;
+		info->flags = CAMEL_MESSAGE_SEEN;
 		camel_folder_append_message (sent_folder, input->message, info, ex);
 		g_free (info);
 		
@@ -704,7 +704,7 @@ do_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
 			mail_tool_camel_lock_up ();
 			
 			info = g_new0 (CamelMessageInfo, 1);
-			info->flags = 0;
+			info->flags = CAMEL_MESSAGE_SEEN;
 			camel_folder_append_message (sent_folder, message, info, ex);
 			g_free (info);
 			
