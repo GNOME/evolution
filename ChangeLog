@@ -1,4 +1,8 @@
-== Version 1.1.91 (Release Candidate 1) ==
+2002-10-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: 1.1.90.99.
+
+== Version 1.1.90 (Release Candidate 1) ==
 
 2002-10-28  Ettore Perazzoli  <ettore@ximian.com>
 
