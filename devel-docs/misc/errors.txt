@@ -133,7 +133,7 @@ The XML file is in the following format.
   <_title>Window Title</_title>?
   <_primary>Primary error text.</_primary>?
   <_secondary>Secondary error text.</_secondary>?
-  <button ( stock="stock-button-id" | _label="button label" ) response="response_id"? /> *
+  <button stock="stock-button-id"? _label="button label"? response="response_id"? /> *
  </error>
 </error-list>
 
@@ -145,11 +145,15 @@ stock-button-id is a standard GtkStock button name.
 _label is a translatable string for the button name otherwise,
 including an underlined mnemonic.
 
-_title, _primary, and _secondary are all optional, if missing,
-standard text (for title) or blank text will be used.
+One of stock and _label must be supplied for all buttons defined.
+Both may be defined, in which case you get a stock-looking button with
+a different label text.
 
 <button /> is optional, if missing, a single stock Ok button will be
 used.
+
+_title, _primary, and _secondary are all optional, if missing,
+standard text (for title) or blank text will be used.
 
 For the title, primary and secondary texts, substitution of the passed
 e_error parameters can be performed using "{n}" syntax, where n is a
