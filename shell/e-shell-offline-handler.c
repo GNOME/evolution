@@ -372,7 +372,6 @@ cancel_offline (EShellOfflineHandler *offline_handler)
 		EComponentInfo *info = p->data;
 		GNOME_Evolution_Offline offline_interface;
 		CORBA_Environment ev;
-		const char *id;
 
 		offline_interface = get_offline_interface (info->iface);
 		if (offline_interface == CORBA_OBJECT_NIL)
@@ -382,7 +381,7 @@ cancel_offline (EShellOfflineHandler *offline_handler)
 
 		GNOME_Evolution_Offline_goOnline (offline_interface, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("Error putting component `%s' on-line.", id);
+ 			g_warning ("Error putting component `%s' on-line.", info->id);
 
 		CORBA_exception_free (&ev);
 	}

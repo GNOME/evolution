@@ -1,3 +1,7 @@
+2004-05-10  David Malcolm  <dmalcolm@redhat.com>
+
+	* e-shell-offline-handler.c (cancel_offline): Fix warning
+
 2004-05-10  JP Rosevear  <jpr@ximian.com>
 
 	* main.c (show_development_warning): set title to just Evolution
