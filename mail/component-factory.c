@@ -1318,24 +1318,20 @@ storage_xfer_folder (EvolutionStorage *storage,
 }
 
 static void
-storage_connected (CamelStore *store, CamelFolderInfo *info, void *storage)
+storage_connected (CamelStore *store, CamelFolderInfo *info, void *listener)
 {
-	if (!info) {
-		/* Let it know the connection failed by calling
-		 * has_subfolders again.
-		 */
-		evolution_storage_has_subfolders (storage, "/",
-						  _("Connecting..."));
-	}
+	notify_listener (listener, (info ? GNOME_Evolution_Storage_OK :
+				    GNOME_Evolution_Storage_GENERIC_ERROR));
 }
 
 static void
 storage_connect (EvolutionStorage *storage,
+		 const Bonobo_Listener listener,
 		 const char *path,
 		 CamelStore *store)
 {
 	mail_note_store (CAMEL_STORE (store), storage, CORBA_OBJECT_NIL,
-			 storage_connected, storage);
+			 storage_connected, listener);
 }
 
 static void

@@ -1,3 +1,8 @@
+2003-03-14  Dan Winship  <danw@ximian.com>
+
+	* component-factory.c (storage_connect, storage_connected): Update
+	for EvolutionStorage change
+
 2003-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-signature-editor.c (menu_file_save_cb): Rewritten to do the
