@@ -1,3 +1,7 @@
+2001-09-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-charset-map.c: Added korean charset conversion.
+
 2001-09-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (delete_folder): Don't process

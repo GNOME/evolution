@@ -239,6 +239,7 @@ struct {
 	   to their cp#### equivalents if/when they show up in
 	   camel_charset_map_to_iconv() so I'm not going to bother
 	   putting them all in here... */
+	{ "ks_c_5601-1987", "euc-kr"     },
 	{ NULL,             NULL         }
 };
 
