@@ -78,12 +78,12 @@ void          comp_editor_remove_page      (CompEditor             *editor,
 					    CompEditorPage         *page);
 void          comp_editor_show_page        (CompEditor             *editor,
 					    CompEditorPage         *page);
-void          comp_editor_set_e_cal   (CompEditor             *editor,
+void          comp_editor_set_e_cal        (CompEditor             *editor,
 					    ECal              *client);
-ECal    *comp_editor_get_e_cal   (CompEditor             *editor);
+ECal         *comp_editor_get_e_cal        (CompEditor             *editor);
 void          comp_editor_edit_comp        (CompEditor             *ee,
 					    ECalComponent           *comp);
-ECalComponent *comp_editor_get_comp         (CompEditor             *editor);
+ECalComponent *comp_editor_get_comp        (CompEditor             *editor);
 ECalComponent *comp_editor_get_current_comp (CompEditor             *editor);
 gboolean      comp_editor_save_comp        (CompEditor             *editor,
 					    gboolean                send);
