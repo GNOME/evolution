@@ -62,7 +62,7 @@ delete_component_dialog (CalComponent *comp, GtkWidget *widget)
 	vtype = cal_component_get_vtype (comp);
 	cal_component_get_summary (comp, &summary);
 
-	tmp = e_utf8_to_gtk_string (widget, summary.value);
+	tmp = e_utf8_to_locale_string (summary.value);
 
 	switch (vtype) {
 	case CAL_COMPONENT_EVENT:

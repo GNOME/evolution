@@ -41,16 +41,8 @@ int main(int argc, char* argv[])
 {
     VObject *vcal = 0;
     icalcomponent *comp;
-    char* file;
 
-    if (argc != 2){
-        file = "../../test-data/user-cal.vcf";
-    } else {
-        file = argv[1];
-    }
-
-
-    vcal = Parse_MIME_FromFileName(file);
+    vcal = Parse_MIME_FromFileName(argv[1]);
     
     assert(vcal != 0);
 

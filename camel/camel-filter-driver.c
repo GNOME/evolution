@@ -849,8 +849,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	p->uid = uid;
 	p->source = source;
 	
-	if (camel_mime_message_get_source (message) == NULL)
-		camel_mime_message_set_source (message, source_url);
+	/* camel_mime_message_set_identity (message, source_url); */
 	
 	node = (struct _filter_rule *)p->rules.head;
 	while (node->next) {

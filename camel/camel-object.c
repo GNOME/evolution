@@ -23,11 +23,7 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
-#include <string.h>
 #include "camel-object.h"
 
 /* I just mashed the keyboard for these... */
@@ -336,10 +332,8 @@ obj_finalize (CamelObject * obj)
 	obj->s.magic = CAMEL_OBJECT_FINALIZED_VALUE;
 
 	if (obj->event_to_hooklist) {
-#if 0
 		g_hash_table_foreach (obj->event_to_hooklist, (GHFunc) g_free,
 				      NULL);
-#endif
 		g_hash_table_destroy (obj->event_to_hooklist);
 		obj->event_to_hooklist = NULL;
 	}

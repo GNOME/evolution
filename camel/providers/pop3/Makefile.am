@@ -15,7 +15,7 @@ INCLUDES =					\
 	-I$(top_srcdir)/intl			\
 	-I$(top_srcdir)/camel			\
 	-I$(top_srcdir)/e-util			\
-	$(GNOME_INCLUDEDIR)			\
+	$(EXTRA_GNOME_CFLAGS)			\
 	$(KRB4_CFLAGS)				\
 	$(GTK_INCLUDEDIR)			\
 	-DG_LOG_DOMAIN=\"camel-pop3-provider\"
@@ -32,6 +32,6 @@ libcamelpop3include_HEADERS =			\
 
 libcamelpop3_la_LDFLAGS = $(KRB4_LDFLAGS) -version-info 0:0:0
 
-libcamelpop3_la_LIBADD = $(top_builddir)/e-util/libeutil.la
+libcamelpop3_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(UNICODE_LIBS)
 
 EXTRA_DIST = libcamelpop3.urls

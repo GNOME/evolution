@@ -19,20 +19,12 @@
  */
 
 #include <config.h>
+#include <gnome.h>
 
-#include <stdlib.h>
-#include <string.h>
-
-#include <glib.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkhbox.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-unicode.h>
 
 #include "filter-part.h"
 #include "filter-element.h"
-
 
 #define d(x)
 
@@ -101,21 +93,8 @@ static void
 filter_part_finalise(GtkObject *obj)
 {
 	FilterPart *o = (FilterPart *)obj;
-	GList *l;
-
+	
 	o = o;
-
-	l = o->elements;
-	while (l) {
-		gtk_object_unref((GtkObject *)l->data);
-		l = g_list_next(l);
-	}
-
-	g_list_free(o->elements);
-	g_free(o->name);
-	g_free(o->title);
-	g_free(o->code);
-
 	
         ((GtkObjectClass *)(parent_class))->finalize(obj);
 }
@@ -156,13 +135,10 @@ int
 filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
 {
 	xmlNodePtr n;
-	char *type, *str, *decstr;
+	char *type;
 	FilterElement *el;
 	
-	str = xmlGetProp(node, "name");
-	ff->name = g_strdup(str);
-	if (str)
-		xmlFree(str);
+	ff->name = xmlGetProp(node, "name");
 	n = node->childs;
 	while (n) {
 		if (!strcmp (n->name, "input")) {
@@ -171,25 +147,27 @@ filter_part_xml_create (FilterPart *ff, xmlNodePtr node)
 			if (type != NULL
 			    && (el = filter_element_new_type_name (type)) != NULL) {
 				filter_element_xml_create (el, n);
-				xmlFree(type);
-				d(printf ("adding element part %p %s\n", ff, el, el->name));
+				xmlFree (type);
+				d(printf ("adding element part %p %s\n", el, el->name));
 				ff->elements = g_list_append (ff->elements, el);
 			} else {
 				g_warning ("Invalid xml format, missing/unknown input type");
 			}
-		} else if (!strcmp(n->name, "title")) {
+		} else if (!strcmp (n->name, "title")) {
 			if (!ff->title) {
+				gchar *str, *decstr;
 				str = xmlNodeGetContent (n);
-				ff->title = e_utf8_xml1_decode (str);
-				if (str)
-					xmlFree (str);
+				decstr = e_utf8_xml1_decode (str);
+				if (str) xmlFree (str);
+				ff->title = decstr;
 			}
 		} else if (!strcmp (n->name, "code")) {
 			if (!ff->code) {
+				gchar *str, *decstr;
 				str = xmlNodeGetContent (n);
-				ff->code = e_utf8_xml1_decode (str);
-				if (str)
-					xmlFree (str);
+				decstr = e_utf8_xml1_decode (str);
+				if (str) xmlFree (str);
+				ff->code = decstr;
 			}
 		} else {
 			g_warning ("Unknwon part element in xml: %s\n", n->name);
@@ -259,9 +237,9 @@ filter_part_clone (FilterPart *fp)
 	FilterElement *fe, *ne;
 	
 	new = (FilterPart *)gtk_type_new ((GTK_OBJECT (fp))->klass->type);
-	new->name = g_strdup(fp->name);
-	new->title = g_strdup(fp->title);
-	new->code = g_strdup(fp->code);
+	new->name = g_strdup (fp->name);
+	new->title = g_strdup (fp->title);
+	new->code = g_strdup (fp->code);
 	l = fp->elements;
 	while (l) {
 		fe = l->data;
@@ -445,7 +423,7 @@ filter_part_expand_code (FilterPart *ff, const char *source, GString *out)
 		memcpy (name, newstart+2, len);
 		name[len] = 0;
 		fe = filter_part_find_element (ff, name);
-		d(printf("expand code: looking up variab le '%s' = %p\n", ff, name, fe));
+		d(printf("expand code: looking up variab le '%s' = %p\n", name, fe));
 		if (fe) {
 			g_string_sprintfa (out, "%.*s", newstart-start, start);
 			filter_element_format_sexp (fe, out);

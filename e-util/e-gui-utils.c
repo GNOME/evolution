@@ -12,7 +12,6 @@
 
 #include "e-gui-utils.h"
 
-#include <glib.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkalignment.h>
 #include <libgnome/gnome-defs.h>

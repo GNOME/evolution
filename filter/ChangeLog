@@ -1,18 +1,3 @@
-2001-04-26  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am (INCLUDES): Remove UNICODE_CFLAGS
-
-2001-04-26  Not Zed  <NotZed@Ximian.com>
-
-	* filter-part.c (filter_part_xml_create): Blah blah fix for xml1
-	broken utf8 encoding, and use "g" memory for all allocations.
-	(filter_part_finalise): Free our data properly.
-
-2001-04-20  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* filter-rule.c: Pull up fix for translation of filter
-	direction drop down menu from the branch.
-	
 2001-04-18  Dan Winship  <danw@ximian.com>
 
 	* filter-colour.c, filter-datespec.c, filter-folder.c,
@@ -25,48 +10,11 @@
 
 	* filter-filter.c, filter-part.c: Remove xmlmemory.h #include
 
-2001-04-15  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* filtertypes.xml: s/Is/is/ and s/Is Not/is not/ to be more
-	consistant with the rest.
-
-2001-04-13  Jon Trowbridge  <trow@gnu.org>
-
-	* filtertypes.xml: Add XML specs for source account filtering.
-
-	* filter-element.c (filter_element_new_type_name): Recognize
-	type "source", construct a FilterSource.
-
-	* filter-source.c: Added.  A FilterElement for the account e-mail
-	comes from.
-
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* filter-editor.c: Fix headers.
-	* filter-filter.c: Same here.
-	* filter-option.c: Same here.
-	* filter-part.c: Same here.
-	* filter-rule.c: Same here.
-	* rule-editor.c: Same here.
-	* score-editor.c: Same here.
-	* vfolder-editor.c: Same here.
-	* vfolder-rule.c: Same here.
-	
-2001-04-02  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* filter-filter.c (option_activate): Set the newpart on the
-	container object.
-	(less_parts): Remove the rule tht the user wants to remove.
-	(attach_rule): Attach a new rule and it's remove button to the end
-	of the table.
-	(more_parts): Fix to resize the table and such.
-	(get_widget): Don't have a remove action button, we are putting
-	this next to the rule part now.
-	
-2001-03-30  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* *.*: Fix headers. Remove unneccesary ones and replace
-	with more finegrained ones where needed.
+	* filter-rule.c: Added #ifdef FOR_TRANSLATIONS_ONLY section
+	containing strings to make gettext pick them up. Solves
+	#1971 in bugzilla. (rule directions not translated.)
 	
 2001-03-22  Jeffrey Stedfast  <fejj@ximian.com>
 

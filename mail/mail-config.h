@@ -54,7 +54,7 @@ typedef struct {
 	MailConfigIdentity *id;
 	MailConfigService *source;
 	MailConfigService *transport;
-	
+
 	gchar *drafts_folder_name, *drafts_folder_uri;
 	gchar *sent_folder_name, *sent_folder_uri;
 } MailConfigAccount;
@@ -109,19 +109,18 @@ void     mail_config_set_mark_as_seen_timeout (gint timeout);
 gboolean mail_config_get_prompt_empty_subject (void);
 void     mail_config_set_prompt_empty_subject (gboolean value);
 
-CamelPgpType mail_config_get_pgp_type (void);
-void         mail_config_set_pgp_type (CamelPgpType pgp_type);
+gint     mail_config_get_pgp_type (void);
+void     mail_config_set_pgp_type (gint pgp_type);
 
 const char *mail_config_get_pgp_path (void);
 void        mail_config_set_pgp_path (const char *pgp_path);
 
-const MailConfigAccount  *mail_config_get_default_account       (void);
-const MailConfigAccount  *mail_config_get_account_by_name       (const char *account_name);
-const MailConfigAccount  *mail_config_get_account_by_source_url (const char *url);
-const GSList             *mail_config_get_accounts              (void);
-void                      mail_config_add_account               (MailConfigAccount *account);
-const GSList             *mail_config_remove_account            (MailConfigAccount *account);
-void                      mail_config_set_default_account       (const MailConfigAccount *account);
+const MailConfigAccount  *mail_config_get_default_account (void);
+const MailConfigAccount  *mail_config_get_account_by_name (const char *account_name);
+const GSList             *mail_config_get_accounts        (void);
+void                      mail_config_add_account         (MailConfigAccount *account);
+const GSList             *mail_config_remove_account      (MailConfigAccount *account);
+void                      mail_config_set_default_account (const MailConfigAccount *account);
 
 const MailConfigIdentity *mail_config_get_default_identity (void);
 const MailConfigService  *mail_config_get_default_transport (void);

@@ -24,10 +24,6 @@
 #include <config.h>
 #endif
 
-#include "camel-mbox-summary.h"
-#include "camel/camel-mime-message.h"
-#include "camel/camel-operation.h"
-
 #include <sys/stat.h>
 #include <sys/uio.h>
 #include <unistd.h>
@@ -36,7 +32,6 @@
 #include <stdlib.h>
 
 #include "camel-mbox-summary.h"
-#include "camel/camel-file-utils.h"
 #include "camel/camel-mime-message.h"
 #include "camel/camel-operation.h"
 
@@ -153,7 +148,7 @@ summary_header_load(CamelFolderSummary *s, FILE *in)
 	if (((CamelFolderSummaryClass *)camel_mbox_summary_parent)->summary_header_load(s, in) == -1)
 		return -1;
 
-	return camel_file_util_decode_uint32(in, &mbs->folder_size);
+	return camel_folder_summary_decode_uint32(in, &mbs->folder_size);
 }
 
 static int
@@ -164,7 +159,7 @@ summary_header_save(CamelFolderSummary *s, FILE *out)
 	if (((CamelFolderSummaryClass *)camel_mbox_summary_parent)->summary_header_save(s, out) == -1)
 		return -1;
 
-	return camel_file_util_encode_uint32(out, mbs->folder_size);
+	return camel_folder_summary_encode_uint32(out, mbs->folder_size);
 }
 
 static CamelMessageInfo *
@@ -208,7 +203,7 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 	if (mi) {
 		CamelMboxMessageInfo *mbi = (CamelMboxMessageInfo *)mi;
 		
-		if (camel_file_util_decode_off_t(in, &mbi->frompos) == -1)
+		if (camel_folder_summary_decode_off_t(in, &mbi->frompos) == -1)
 			goto error;
 	}
 	
@@ -226,7 +221,7 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 	io(printf("saving mbox message info\n"));
 
 	if (((CamelFolderSummaryClass *)camel_mbox_summary_parent)->message_info_save(s, out, mi) == -1
-	    || camel_file_util_encode_off_t(out, mbi->frompos) == -1)
+	    || camel_folder_summary_encode_off_t(out, mbi->frompos) == -1)
 		return -1;
 
 	return 0;
@@ -287,9 +282,10 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset, CamelException *ex)
 
 	while (camel_mime_parser_step(mp, NULL, NULL) == HSCAN_FROM) {
 		CamelMessageInfo *info;
-		off_t pc = camel_mime_parser_tell_start_from (mp) + 1;
-		
-		camel_operation_progress (NULL, (int) (((float) pc / size) * 100));
+		unsigned int pc;
+
+		pc = ((unsigned int)camel_mime_parser_tell(mp) + 1) * 100 / size;		
+		camel_operation_progress(NULL, pc);
 		
 		info = camel_folder_summary_add_from_parser(s, mp);
 		if (info == NULL) {
@@ -527,7 +523,7 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 
 	count = camel_folder_summary_count(s);
 	for (i = 0; i < count; i++) {
-		int pc = (i + 1) * 100 / count;
+		int pc = (i+1)*100/count;
 
 		camel_operation_progress(NULL, pc);
 

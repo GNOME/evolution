@@ -24,6 +24,7 @@
 #endif
 
 #include <unistd.h>
+#include <netinet/in.h>
 #include <ctype.h>
 #include <string.h>
 #include <errno.h>
@@ -31,7 +32,9 @@
 
 #include "camel-folder-summary.h"
 
-#include <camel/camel-file-utils.h>
+#include <camel/camel-mime-message.h>
+#include <camel/camel-multipart.h>
+
 #include <camel/camel-mime-filter.h>
 #include <camel/camel-mime-filter-index.h>
 #include <camel/camel-mime-filter-charset.h>
@@ -39,7 +42,6 @@
 #include <camel/camel-mime-filter-basic.h>
 #include <camel/camel-mime-filter-html.h>
 #include <camel/camel-mime-message.h>
-#include <camel/camel-multipart.h>
 #include <camel/camel-stream-mem.h>
 
 #include "hash-table-utils.h"
@@ -151,7 +153,7 @@ camel_folder_summary_init (CamelFolderSummary *s)
 	s->message_info_chunks = NULL;
 	s->content_info_chunks = NULL;
 
-#if defined (DOESTRV) || defined (DOEPOOLV)
+#ifdef DOESTRV
 	s->message_info_strings = CAMEL_MESSAGE_INFO_LAST;
 #endif
 
@@ -506,7 +508,7 @@ perform_content_info_load(CamelFolderSummary *s, FILE *in)
 	if (ci == NULL)
 		return NULL;
 
-	if (camel_file_util_decode_uint32(in, &count) == -1 || count > 500) {
+	if (camel_folder_summary_decode_uint32(in, &count) == -1 || count > 500) {
 		camel_folder_summary_content_info_free(s, ci);
 		return NULL;
 	}
@@ -585,7 +587,7 @@ perform_content_info_save(CamelFolderSummary *s, FILE *out, CamelMessageContentI
 	CamelMessageContentInfo *part;
 
 	((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_save(s, out, ci);
-	camel_file_util_encode_uint32(out, my_list_size((struct _node **)&ci->childs));
+	camel_folder_summary_encode_uint32(out, my_list_size((struct _node **)&ci->childs));
 	part = ci->childs;
 	while (part) {
 		perform_content_info_save(s, out, part);
@@ -704,7 +706,6 @@ void camel_folder_summary_add(CamelFolderSummary *s, CamelMessageInfo *info)
 
 	CAMEL_SUMMARY_LOCK(s, summary_lock);
 
-/* unnecessary for pooled vectors */
 #ifdef DOESTRV
 	/* this is vitally important, and also if this is ever modified, then
 	   the hash table needs to be resynced */
@@ -1065,6 +1066,200 @@ void camel_folder_summary_remove_index(CamelFolderSummary *s, int index)
 	}
 }
 
+/**
+ * camel_folder_summary_encode_uint32:
+ * @out: 
+ * @value: 
+ * 
+ * Utility function to save an uint32 to a file.
+ * 
+ * Return value: -1 on error.
+ **/
+int
+camel_folder_summary_encode_uint32(FILE *out, guint32 value)
+{
+	int i;
+
+	io(printf("Encoding int %u\n", value));
+
+	for (i=28;i>0;i-=7) {
+		if (value >= (1<<i)) {
+			unsigned int c = (value>>i) & 0x7f;
+			if (fputc(c, out) == -1)
+				return -1;
+		}
+	}
+	return fputc(value | 0x80, out);
+}
+
+/**
+ * camel_folder_summary_decode_uint32:
+ * @in: 
+ * @dest: 
+ * 
+ * Retrieve an encoded uint32 from a file.
+ * 
+ * Return value: -1 on error.  @*dest will contain the
+ * decoded value.
+ **/
+int
+camel_folder_summary_decode_uint32(FILE *in, guint32 *dest)
+{
+        guint32 value=0, v;
+
+        /* until we get the last byte, keep decoding 7 bits at a time */
+        while ( ((v = fgetc(in)) & 0x80) == 0 && v!=EOF) {
+                value |= v;
+                value <<= 7;
+        }
+	if (v == EOF) {
+		*dest = value>>7;
+		return -1;
+	}
+	*dest = value | (v&0x7f);
+
+	io(printf("Decoding int %u\n", *dest));
+
+        return 0;
+}
+
+/**
+ * camel_folder_summary_encode_fixed_int32:
+ * @out: 
+ * @value: 
+ * 
+ * Encode a gint32, performing no compression, but converting
+ * to network order.
+ * 
+ * Return value: -1 on error.
+ **/
+int
+camel_folder_summary_encode_fixed_int32(FILE *out, gint32 value)
+{
+	guint32 save;
+
+	save = htonl(value);
+	if (fwrite(&save, sizeof(save), 1, out) != 1)
+		return -1;
+	return 0;
+}
+
+/**
+ * camel_folder_summary_decode_fixed_int32:
+ * @in: 
+ * @dest: 
+ * 
+ * Retrieve a gint32.
+ * 
+ * Return value: -1 on error.
+ **/
+int
+camel_folder_summary_decode_fixed_int32(FILE *in, gint32 *dest)
+{
+	guint32 save;
+
+	if (fread(&save, sizeof(save), 1, in) == 1) {
+		*dest = ntohl(save);
+		return 0;
+	} else {
+		return -1;
+	}
+}
+
+/**
+ * camel_folder_summary_encode_time_t:
+ * @out: 
+ * @value: 
+ * 
+ * Encode a time_t value to the file.
+ * 
+ * Return value: -1 on error.
+ **/
+int
+camel_folder_summary_encode_time_t(FILE *out, time_t value)
+{
+	int i;
+
+	for (i=sizeof(time_t)-1;i>=0;i--) {
+		if (fputc((value >> (i*8)) & 0xff, out) == -1)
+			return -1;
+	}
+	return 0;
+}
+
+/**
+ * camel_folder_summary_decode_time_t:
+ * @in: 
+ * @dest: 
+ * 
+ * Decode a time_t value.
+ * 
+ * Return value: -1 on error.
+ **/
+int
+camel_folder_summary_decode_time_t(FILE *in, time_t *dest)
+{
+	time_t save = 0;
+	unsigned int v;
+	int i = sizeof(time_t) - 1;
+
+        while ( i>=0 && (v = fgetc(in)) != EOF) {
+		save |= v << (i*8);
+		i--;
+	}
+	*dest = save;
+	if (v == EOF)
+		return -1;
+	return 0;
+}
+
+/**
+ * camel_folder_summary_encode_off_t:
+ * @out: 
+ * @value: 
+ * 
+ * Encode an off_t type.
+ * 
+ * Return value: 
+ **/
+int
+camel_folder_summary_encode_off_t(FILE *out, off_t value)
+{
+	int i;
+
+	for (i=sizeof(off_t)-1;i>=0;i--) {
+		if (fputc((value >> (i*8)) & 0xff, out) == -1)
+			return -1;
+	}
+	return 0;
+}
+
+/**
+ * camel_folder_summary_decode_off_t:
+ * @in: 
+ * @dest: 
+ * 
+ * Decode an off_t type.
+ * 
+ * Return value: 
+ **/
+int
+camel_folder_summary_decode_off_t(FILE *in, off_t *dest)
+{
+	off_t save = 0;
+	unsigned int v;
+	int i = sizeof(off_t) - 1;
+
+        while ( i>=0 && (v = fgetc(in)) != EOF) {
+		save |= v << (i*8);
+		i--;
+	}
+	*dest = save;
+	if (v == EOF)
+		return -1;
+	return 0;
+}
+
 /* should be sorted, for binary search */
 /* This is a tokenisation mechanism for strings written to the
    summary - to save space.
@@ -1131,7 +1326,7 @@ camel_folder_summary_encode_token(FILE *out, const char *str)
 	io(printf("Encoding token: '%s'\n", str));
 
 	if (str == NULL) {
-		return camel_file_util_encode_uint32(out, 0);
+		return camel_folder_summary_encode_uint32(out, 0);
 	} else {
 		int len = strlen(str);
 		int i, token=-1;
@@ -1157,9 +1352,9 @@ camel_folder_summary_encode_token(FILE *out, const char *str)
 #endif
 		}
 		if (token != -1) {
-			return camel_file_util_encode_uint32(out, token+1);
+			return camel_folder_summary_encode_uint32(out, token+1);
 		} else {
-			if (camel_file_util_encode_uint32(out, len+32) == -1)
+			if (camel_folder_summary_encode_uint32(out, len+32) == -1)
 				return -1;
 			if (fwrite(str, len, 1, out) != 1)
 				return -1;
@@ -1185,7 +1380,7 @@ camel_folder_summary_decode_token(FILE *in, char **str)
 
 	io(printf("Decode token ...\n"));
 	
-	if (camel_file_util_decode_uint32(in, &len) == -1) {
+	if (camel_folder_summary_decode_uint32(in, &len) == -1) {
 		g_warning("Could not decode token from file");
 		*str = NULL;
 		return -1;
@@ -1218,6 +1413,77 @@ camel_folder_summary_decode_token(FILE *in, char **str)
 
 	io(printf("Token = '%s'\n", ret));
 
+	*str = ret;
+	return 0;
+}
+
+/**
+ * camel_folder_summary_encode_string:
+ * @out: 
+ * @str: 
+ * 
+ * Encode a normal string and save it in the output file.
+ * 
+ * Return value: -1 on error.
+ **/
+int
+camel_folder_summary_encode_string(FILE *out, const char *str)
+{
+	register int len;
+
+	io(printf("Encoding string: '%s'\n", str));
+
+	if (str == NULL)
+		return camel_folder_summary_encode_uint32(out, 0);
+
+	len = strlen(str);
+	if (camel_folder_summary_encode_uint32(out, len+1) == -1)
+		return -1;
+	if (fwrite(str, len, 1, out) == 1)
+		return 0;
+	return -1;
+}
+
+
+/**
+ * camel_folder_summary_decode_string:
+ * @in: 
+ * @str: 
+ * 
+ * Decode a normal string from the input file.
+ * 
+ * Return value: -1 on error.
+ **/
+int
+camel_folder_summary_decode_string(FILE *in, char **str)
+{
+	guint32 len;
+	register char *ret;
+
+	io(printf("Decode string ...\n", str));
+
+	if (camel_folder_summary_decode_uint32(in, &len) == -1) {
+		*str = NULL;
+		return -1;
+	}
+
+	len--;
+	if (len > 65536) {
+		*str = NULL;
+		io(printf("String = '%s'\n", *str));
+		return -1;
+	}
+
+	ret = g_malloc(len+1);
+	if (fread(ret, len, 1, in) != 1) {
+		g_free(ret);
+		*str = NULL;
+		return -1;
+	}
+
+	io(printf("String = '%s'\n", ret));
+
+	ret[len] = 0;
 	*str = ret;
 	return 0;
 }
@@ -1255,11 +1521,11 @@ summary_header_load(CamelFolderSummary *s, FILE *in)
 
 	io(printf("Loading header\n"));
 
-	if (camel_file_util_decode_fixed_int32(in, &version) == -1
-	    || camel_file_util_decode_fixed_int32(in, &flags) == -1
-	    || camel_file_util_decode_fixed_int32(in, &nextuid) == -1
-	    || camel_file_util_decode_time_t(in, &time) == -1
-	    || camel_file_util_decode_fixed_int32(in, &count) == -1) {
+	if (camel_folder_summary_decode_fixed_int32(in, &version) == -1
+	    || camel_folder_summary_decode_fixed_int32(in, &flags) == -1
+	    || camel_folder_summary_decode_fixed_int32(in, &nextuid) == -1
+	    || camel_folder_summary_decode_time_t(in, &time) == -1
+	    || camel_folder_summary_decode_fixed_int32(in, &count) == -1) {
 		return -1;
 	}
 
@@ -1281,11 +1547,11 @@ summary_header_save(CamelFolderSummary *s, FILE *out)
 
 	io(printf("Savining header\n"));
 
-	camel_file_util_encode_fixed_int32(out, s->version);
-	camel_file_util_encode_fixed_int32(out, s->flags);
-	camel_file_util_encode_fixed_int32(out, s->nextuid);
-	camel_file_util_encode_time_t(out, s->time);
-	return camel_file_util_encode_fixed_int32(out, camel_folder_summary_count(s));
+	camel_folder_summary_encode_fixed_int32(out, s->version);
+	camel_folder_summary_encode_fixed_int32(out, s->flags);
+	camel_folder_summary_encode_fixed_int32(out, s->nextuid);
+	camel_folder_summary_encode_time_t(out, s->time);
+	return camel_folder_summary_encode_fixed_int32(out, camel_folder_summary_count(s));
 }
 
 /* are these even useful for anything??? */
@@ -1405,9 +1671,6 @@ camel_folder_summary_info_new(CamelFolderSummary *s)
 	CAMEL_SUMMARY_UNLOCK(s, alloc_lock);
 
 	memset(mi, 0, s->message_info_size);
-#ifdef DOEPOOLV
-	mi->strings = e_poolv_new (s->message_info_strings);
-#endif
 #ifdef DOESTRV
 	mi->strings = e_strv_new(s->message_info_strings);
 #endif
@@ -1448,36 +1711,27 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	struct _header_references *refs, *scan;
 	char *msgid;
 	int count;
-	char *subject, *from, *to, *cc, *mlist;
 
 	mi = camel_folder_summary_info_new(s);
 
-	subject = camel_folder_summary_format_string(h, "subject");
-	from = camel_folder_summary_format_address(h, "from");
-	to = camel_folder_summary_format_address(h, "to");
-	cc = camel_folder_summary_format_address(h, "cc");
-	mlist = header_raw_check_mailing_list(&h);
-
-#ifdef DOEPOOLV
-	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, subject, TRUE);
-	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_FROM, from, TRUE);
-	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_TO, to, TRUE);
-	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_CC, cc, TRUE);
-	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_MLIST, mlist, TRUE);
-#elif defined (DOESTRV)
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, subject);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_FROM, from);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_TO, to);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_CC, cc);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_MLIST, mlist);
+#ifdef DOESTRV
+	msgid = camel_folder_summary_format_string(h, "subject");
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, msgid);
+	msgid = camel_folder_summary_format_address(h, "from");
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_FROM, msgid);
+	msgid = camel_folder_summary_format_address(h, "to");
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_TO, msgid);
+	msgid = camel_folder_summary_format_address(h, "cc");
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_CC, msgid);
+	msgid = header_raw_check_mailing_list(&h);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_MLIST, msgid);
 #else
-	mi->subject = subject;
-	mi->from = from;
-	mi->to = to;
-	mi->cc = cc;
-	mi->mlist = mlist;
+	mi->subject = camel_folder_summary_format_string(h, "subject");
+	mi->from = camel_folder_summary_format_address(h, "from");
+	mi->to = camel_folder_summary_format_address(h, "to");
+	mi->cc = camel_folder_summary_format_address(h, "cc");
+	mi->mlist = header_raw_check_mailing_list(&h);
 #endif
-
 	mi->user_flags = NULL;
 	mi->user_tags = NULL;
 	mi->date_sent = header_decode_date(header_raw_find(&h, "date", NULL), NULL);
@@ -1526,80 +1780,76 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 	CamelMessageInfo *mi;
 	guint count;
 	int i;
-	char *subject, *from, *to, *cc, *mlist, *uid;;
+#ifdef DOESTRV
+	char *tmp;
+#endif
 
 	mi = camel_folder_summary_info_new(s);
 
 	io(printf("Loading message info\n"));
-
-	camel_file_util_decode_string(in, &uid);
-	camel_file_util_decode_uint32(in, &mi->flags);
-	camel_file_util_decode_uint32(in, &mi->size);
-	camel_file_util_decode_time_t(in, &mi->date_sent);
-	camel_file_util_decode_time_t(in, &mi->date_received);
-	camel_file_util_decode_string(in, &subject);
-	camel_file_util_decode_string(in, &from);
-	camel_file_util_decode_string(in, &to);
-	camel_file_util_decode_string(in, &cc);
-	camel_file_util_decode_string(in, &mlist);
-
-#ifdef DOEPOOLV
-	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_UID, uid, TRUE);
-	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, subject, TRUE);
-	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_FROM, from, TRUE);
-	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_TO, to, TRUE);
-	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_CC, cc, TRUE);
-	e_poolv_set(mi->strings, CAMEL_MESSAGE_INFO_MLIST, mlist, TRUE);
-#elif defined (DOESTRV)
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_UID, uid);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, subject);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_FROM, from);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_TO, to);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_CC, cc);
-	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_MLIST, mlist);
+#ifdef DOESTRV
+	camel_folder_summary_decode_string(in, &tmp);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_UID, tmp);
+	camel_folder_summary_decode_uint32(in, &mi->flags);
+	camel_folder_summary_decode_uint32(in, &mi->size);
+	camel_folder_summary_decode_time_t(in, &mi->date_sent);
+	camel_folder_summary_decode_time_t(in, &mi->date_received);
+	camel_folder_summary_decode_string(in, &tmp);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_SUBJECT, tmp);
+	camel_folder_summary_decode_string(in, &tmp);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_FROM, tmp);
+	camel_folder_summary_decode_string(in, &tmp);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_TO, tmp);
+	camel_folder_summary_decode_string(in, &tmp);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_CC, tmp);
+	camel_folder_summary_decode_string(in, &tmp);
+	e_strv_set_ref_free(mi->strings, CAMEL_MESSAGE_INFO_MLIST, tmp);
 #else
-	mi->uid = uid;
-	mi->subject = subject;
-	mi->from = from;
-	mi->to = to;
-	mi->cc = cc;
-	mi->mlist = mlist;
+	camel_folder_summary_decode_string(in, &mi->uid);
+	camel_folder_summary_decode_uint32(in, &mi->flags);
+	camel_folder_summary_decode_uint32(in, &mi->size);
+	camel_folder_summary_decode_time_t(in, &mi->date_sent);
+	camel_folder_summary_decode_time_t(in, &mi->date_received);
+	camel_folder_summary_decode_string(in, &mi->subject);
+	camel_folder_summary_decode_string(in, &mi->from);
+	camel_folder_summary_decode_string(in, &mi->to);
+	camel_folder_summary_decode_string(in, &mi->cc);
+	camel_folder_summary_decode_string(in, &mi->mlist);
 #endif
-
 	mi->content = NULL;
 
-	camel_file_util_decode_fixed_int32(in, &mi->message_id.id.part.hi);
-	camel_file_util_decode_fixed_int32(in, &mi->message_id.id.part.lo);
+	camel_folder_summary_decode_fixed_int32(in, &mi->message_id.id.part.hi);
+	camel_folder_summary_decode_fixed_int32(in, &mi->message_id.id.part.lo);
 
-	if (camel_file_util_decode_uint32(in, &count) == -1 || count > 500)
+	if (camel_folder_summary_decode_uint32(in, &count) == -1 || count > 500)
 		goto error;
 
 	if (count > 0) {
 		mi->references = g_malloc(sizeof(*mi->references) + ((count-1) * sizeof(mi->references->references[0])));
 		mi->references->size = count;
 		for (i=0;i<count;i++) {
-			camel_file_util_decode_fixed_int32(in, &mi->references->references[i].id.part.hi);
-			camel_file_util_decode_fixed_int32(in, &mi->references->references[i].id.part.lo);
+			camel_folder_summary_decode_fixed_int32(in, &mi->references->references[i].id.part.hi);
+			camel_folder_summary_decode_fixed_int32(in, &mi->references->references[i].id.part.lo);
 		}
 	}
 
-	if (camel_file_util_decode_uint32(in, &count) == -1 || count > 500)
+	if (camel_folder_summary_decode_uint32(in, &count) == -1 || count > 500)
 		goto error;
 
 	for (i=0;i<count;i++) {
 		char *name;
-		camel_file_util_decode_string(in, &name);
+		camel_folder_summary_decode_string(in, &name);
 		camel_flag_set(&mi->user_flags, name, TRUE);
 		g_free(name);
 	}
 
-	if (camel_file_util_decode_uint32(in, &count) == -1 || count > 500)
+	if (camel_folder_summary_decode_uint32(in, &count) == -1 || count > 500)
 		goto error;
 
 	for (i=0;i<count;i++) {
 		char *name, *value;
-		camel_file_util_decode_string(in, &name);
-		camel_file_util_decode_string(in, &value);
+		camel_folder_summary_decode_string(in, &name);
+		camel_folder_summary_decode_string(in, &value);
 		camel_tag_set(&mi->user_tags, name, value);
 		g_free(name);
 		g_free(value);
@@ -1624,44 +1874,44 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 
 	io(printf("Saving message info\n"));
 
-	camel_file_util_encode_string(out, camel_message_info_uid(mi));
-	camel_file_util_encode_uint32(out, mi->flags);
-	camel_file_util_encode_uint32(out, mi->size);
-	camel_file_util_encode_time_t(out, mi->date_sent);
-	camel_file_util_encode_time_t(out, mi->date_received);
-	camel_file_util_encode_string(out, camel_message_info_subject(mi));
-	camel_file_util_encode_string(out, camel_message_info_from(mi));
-	camel_file_util_encode_string(out, camel_message_info_to(mi));
-	camel_file_util_encode_string(out, camel_message_info_cc(mi));
-	camel_file_util_encode_string(out, camel_message_info_mlist(mi));
+	camel_folder_summary_encode_string(out, camel_message_info_uid(mi));
+	camel_folder_summary_encode_uint32(out, mi->flags);
+	camel_folder_summary_encode_uint32(out, mi->size);
+	camel_folder_summary_encode_time_t(out, mi->date_sent);
+	camel_folder_summary_encode_time_t(out, mi->date_received);
+	camel_folder_summary_encode_string(out, camel_message_info_subject(mi));
+	camel_folder_summary_encode_string(out, camel_message_info_from(mi));
+	camel_folder_summary_encode_string(out, camel_message_info_to(mi));
+	camel_folder_summary_encode_string(out, camel_message_info_cc(mi));
+	camel_folder_summary_encode_string(out, camel_message_info_mlist(mi));
 
-	camel_file_util_encode_fixed_int32(out, mi->message_id.id.part.hi);
-	camel_file_util_encode_fixed_int32(out, mi->message_id.id.part.lo);
+	camel_folder_summary_encode_fixed_int32(out, mi->message_id.id.part.hi);
+	camel_folder_summary_encode_fixed_int32(out, mi->message_id.id.part.lo);
 
 	if (mi->references) {
-		camel_file_util_encode_uint32(out, mi->references->size);
+		camel_folder_summary_encode_uint32(out, mi->references->size);
 		for (i=0;i<mi->references->size;i++) {
-			camel_file_util_encode_fixed_int32(out, mi->references->references[i].id.part.hi);
-			camel_file_util_encode_fixed_int32(out, mi->references->references[i].id.part.lo);
+			camel_folder_summary_encode_fixed_int32(out, mi->references->references[i].id.part.hi);
+			camel_folder_summary_encode_fixed_int32(out, mi->references->references[i].id.part.lo);
 		}
 	} else {
-		camel_file_util_encode_uint32(out, 0);
+		camel_folder_summary_encode_uint32(out, 0);
 	}
 
 	count = camel_flag_list_size(&mi->user_flags);
-	camel_file_util_encode_uint32(out, count);
+	camel_folder_summary_encode_uint32(out, count);
 	flag = mi->user_flags;
 	while (flag) {
-		camel_file_util_encode_string(out, flag->name);
+		camel_folder_summary_encode_string(out, flag->name);
 		flag = flag->next;
 	}
 
 	count = camel_tag_list_size(&mi->user_tags);
-	camel_file_util_encode_uint32(out, count);
+	camel_folder_summary_encode_uint32(out, count);
 	tag = mi->user_tags;
 	while (tag) {
-		camel_file_util_encode_string(out, tag->name);
-		camel_file_util_encode_string(out, tag->value);
+		camel_folder_summary_encode_string(out, tag->name);
+		camel_folder_summary_encode_string(out, tag->value);
 		tag = tag->next;
 	}
 
@@ -1671,9 +1921,7 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 static void
 message_info_free(CamelFolderSummary *s, CamelMessageInfo *mi)
 {
-#ifdef DOEPOOLV
-	e_poolv_destroy(mi->strings);
-#elif defined (DOESTRV)
+#ifdef DOESTRV
 	e_strv_destroy(mi->strings);
 #else
 	g_free(mi->uid);
@@ -1720,7 +1968,7 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 	ct = header_content_type_new(type, subtype);
 	g_free(type);		/* can this be removed? */
 	g_free(subtype);
-	if (camel_file_util_decode_uint32(in, &count) == -1 || count > 500)
+	if (camel_folder_summary_decode_uint32(in, &count) == -1 || count > 500)
 		goto error;
 	    
 	for (i=0;i<count;i++) {
@@ -1738,7 +1986,7 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 	camel_folder_summary_decode_token(in, &ci->description);
 	camel_folder_summary_decode_token(in, &ci->encoding);
 
-	camel_file_util_decode_uint32(in, &ci->size);
+	camel_folder_summary_decode_uint32(in, &ci->size);
 
 	ci->childs = NULL;
 
@@ -1762,7 +2010,7 @@ content_info_save(CamelFolderSummary *s, FILE *out, CamelMessageContentInfo *ci)
 	if (ct) {
 		camel_folder_summary_encode_token(out, ct->type);
 		camel_folder_summary_encode_token(out, ct->subtype);
-		camel_file_util_encode_uint32(out, my_list_size((struct _node **)&ct->params));
+		camel_folder_summary_encode_uint32(out, my_list_size((struct _node **)&ct->params));
 		hp = ct->params;
 		while (hp) {
 			camel_folder_summary_encode_token(out, hp->name);
@@ -1772,12 +2020,12 @@ content_info_save(CamelFolderSummary *s, FILE *out, CamelMessageContentInfo *ci)
 	} else {
 		camel_folder_summary_encode_token(out, NULL);
 		camel_folder_summary_encode_token(out, NULL);
-		camel_file_util_encode_uint32(out, 0);
+		camel_folder_summary_encode_uint32(out, 0);
 	}
 	camel_folder_summary_encode_token(out, ci->id);
 	camel_folder_summary_encode_token(out, ci->description);
 	camel_folder_summary_encode_token(out, ci->encoding);
-	return camel_file_util_encode_uint32(out, ci->size);
+	return camel_folder_summary_encode_uint32(out, ci->size);
 }
 
 static void
@@ -2267,9 +2515,6 @@ camel_message_info_new (void)
 	CamelMessageInfo *info;
 	
 	info = g_malloc0(sizeof(*info));
-#ifdef DOEPOOLV
-	info->strings = e_poolv_new(CAMEL_MESSAGE_INFO_LAST);
-#endif
 #ifdef DOESTRV
 	info->strings = e_strv_new (CAMEL_MESSAGE_INFO_LAST);
 #endif
@@ -2346,10 +2591,8 @@ camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to)
 	to->refcount = 1;
 
 	/* Copy strings */
-#ifdef DOEPOOLV
-	e_poolv_cpy (to->strings, from->strings);
-#elif defined (DOESTRV)
-	/* to->strings = e_strv_new(CAMEL_MESSAGE_INFO_LAST); */
+#ifdef DOESTRV
+	to->strings = e_strv_new(CAMEL_MESSAGE_INFO_LAST);
 	e_strv_set(to->strings, CAMEL_MESSAGE_INFO_SUBJECT, camel_message_info_subject(from));
 	e_strv_set(to->strings, CAMEL_MESSAGE_INFO_FROM, camel_message_info_from(from));
 	e_strv_set(to->strings, CAMEL_MESSAGE_INFO_TO, camel_message_info_to(from));
@@ -2418,9 +2661,7 @@ camel_message_info_free(CamelMessageInfo *mi)
 	}
 	GLOBAL_INFO_UNLOCK(info);
 
-#ifdef DOEPOOLV
-	e_poolv_destroy(mi->strings);
-#elif defined (DOESTRV)
+#ifdef DOESTRV
 	e_strv_destroy(mi->strings);
 #else
 	g_free(mi->uid);
@@ -2437,26 +2678,19 @@ camel_message_info_free(CamelMessageInfo *mi)
 	g_free(mi);
 }
 
-#if defined (DOEPOOLV) || defined (DOESTRV)
+#ifdef DOESTRV
 const char *camel_message_info_string(const CamelMessageInfo *mi, int type)
 {
 	if (mi->strings == NULL)
 		return "";
-#ifdef DOEPOOLV
-	return e_poolv_get(mi->strings, type);
-#else
 	return e_strv_get(mi->strings, type);
-#endif
 }
 
 void camel_message_info_set_string(CamelMessageInfo *mi, int type, char *str)
 {
 	g_assert(mi->strings != NULL);
-#ifdef DOEPOOLV
-	e_poolv_set(mi->strings, type, str, TRUE);
-#else
+		
 	mi->strings = e_strv_set_ref_free(mi->strings, type, str);
-#endif
 }
 #endif
 

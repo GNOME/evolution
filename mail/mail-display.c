@@ -8,34 +8,15 @@
  *
  * (C) 2000 Helix Code, Inc.
  */
-
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <sys/stat.h>
 #include <ctype.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <libgnorba/gnorba.h>
-#include <libgnomevfs/gnome-vfs-mime-info.h>
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <bonobo/bonobo-control-frame.h>
-#include <bonobo/bonobo-stream-memory.h>
-#include <bonobo/bonobo-ui-toolbar-icon.h>
-#include <bonobo/bonobo-widget.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gdk-pixbuf/gdk-pixbuf-loader.h>
+#include <gnome.h>
+#include "e-util/e-html-utils.h"
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-popup-menu.h>
-#include <gtkhtml/gtkhtml-embedded.h>
-#include <gtkhtml/htmlengine.h>	/* XXX */
-#include <gtkhtml/htmlobject.h> /* XXX */
-#include <gtkhtml/htmltext.h> /* XXX */
-#include <gtkhtml/htmlinterval.h> /* XXX */
-
-#include <e-util/e-html-utils.h>
-
 #include "mail-display.h"
 #include "mail-config.h"
 #include "mail.h"
@@ -43,6 +24,21 @@
 
 #include "mail-ops.h"
 #include "mail-mt.h"
+
+#include <bonobo.h>
+#include <libgnorba/gnorba.h>
+#include <bonobo/bonobo-stream-memory.h>
+#include <libgnomevfs/gnome-vfs-mime-info.h>
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
+
+#include <bonobo/bonobo-ui-toolbar-icon.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gdk-pixbuf/gdk-pixbuf-loader.h>
+#include <gtkhtml/gtkhtml-embedded.h>
+#include <gtkhtml/htmlengine.h>	/* XXX */
+#include <gtkhtml/htmlobject.h>	/* XXX */
+#include <gtkhtml/htmlinterval.h> /* XXX */
+#include <gtkhtml/htmltext.h> /* XXX */
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
@@ -167,8 +163,10 @@ mail_display_queue_redisplay (MailDisplay *md)
 }
 
 static void
-on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
+on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
 {
+	MailDisplay *md = user_data;
+
 	if (!g_strncasecmp (url, "news:", 5) ||
 	    !g_strncasecmp (url, "nntp:", 5))
 		g_warning ("Can't handle news URLs yet.");
@@ -188,7 +186,7 @@ save_cb (GtkWidget *widget, gpointer user_data)
 	CamelMimePart *part = gtk_object_get_data (user_data, "CamelMimePart");
 	GtkFileSelection *file_select;
 	char *filename;
-	
+
 	filename = make_safe_filename (g_get_home_dir (), part);
 	file_select = GTK_FILE_SELECTION (
 		gtk_file_selection_new (_("Save Attachment")));
@@ -920,7 +918,6 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream,
 
 	htmltext = e_text_to_html_full (buf,
 					E_TEXT_TO_HTML_CONVERT_URLS |
-					E_TEXT_TO_HTML_CONVERT_ADDRESSES |
 					E_TEXT_TO_HTML_CONVERT_NL |
 					E_TEXT_TO_HTML_CONVERT_SPACES |
 					(mail_config_get_citation_highlight () ? E_TEXT_TO_HTML_MARK_CITATION : 0),
@@ -1058,26 +1055,10 @@ mail_display_class_init (GtkObjectClass *object_class)
 	thumbnail_cache = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
-#if 0
-static void
-on_selection_get (GtkWidget *widget, GtkSelectionData *selection_data,
-		  guint info, guint time_stamp, gpointer data)
-{
-	gchar *text;
-
-	text = gtk_object_get_data (GTK_OBJECT(widget), "selection");
-	if (text != NULL)
-		gtk_selection_data_set (selection_data,
-					GDK_SELECTION_TYPE_STRING,
-					8, text, strlen (text));
-}
-#endif
-
 static void
 link_open_in_browser (GtkWidget *w, MailDisplay *mail_display)
 {
-	on_link_clicked (mail_display->html, mail_display->html->pointer_url,
-			 mail_display);
+	g_print ("FIXME\n");
 }
 
 static void
@@ -1090,21 +1071,13 @@ static void
 link_copy_location (GtkWidget *w, MailDisplay *mail_display)
 {
 	g_print ("FIXME\n");
-#if 0
-	gtk_object_set_data (GTK_OBJECT (mail_display->html),
-		"selection", g_strdup (mail_display->html->pointer_url));
-
-	gtk_selection_owner_set (GTK_WIDGET (mail_display->html),
-				 GDK_SELECTION_PRIMARY,
-				 GDK_CURRENT_TIME);
-#endif
 }
 
 #define SEPARATOR  { "", NULL, (NULL), NULL,  0 }
 #define TERMINATOR { NULL, NULL, (NULL), NULL,  0 }
 
 static EPopupMenu link_menu [] = {
-	{ N_("Open link in browser"),    NULL,
+	{ N_("Open link in browser (FIXME)"),    NULL,
 	  GTK_SIGNAL_FUNC (link_open_in_browser),  NULL,  0 },
 	{ N_("Save as (FIXME)"),                 NULL,
 	  GTK_SIGNAL_FUNC (link_save_as), NULL,  0 },
@@ -1113,170 +1086,6 @@ static EPopupMenu link_menu [] = {
 	
 	TERMINATOR
 };
-
-
-/*
- *  Create a window and popup our widget, with reasonable semantics for the popup
- *  disappearing, etc.
- */
-
-typedef struct _PopupInfo PopupInfo;
-struct _PopupInfo {
-	GtkWidget *w;
-	GtkWidget *win;
-	guint destroy_timeout;
-	guint widget_destroy_handle;
-};
-
-/* Aiieee!  Global Data! */
-static GtkWidget *the_popup = NULL;
-
-static void
-popup_info_free (PopupInfo *pop)
-{
-	if (pop) {
-		if (pop->destroy_timeout)
-			gtk_timeout_remove (pop->destroy_timeout);
-
-		g_free (pop);
-	}
-}
-
-static void
-popup_widget_destroy_cb (GtkWidget *w, gpointer user_data)
-{
-	PopupInfo *pop = (PopupInfo *) user_data;
-
-	gtk_widget_destroy (pop->win);
-}
-
-static void
-popup_window_destroy_cb (GtkWidget *w, gpointer user_data)
-{
-	PopupInfo *pop = (PopupInfo *) user_data;
-
-	if (pop->widget_destroy_handle) {
-		gtk_signal_disconnect (GTK_OBJECT (pop->w), pop->widget_destroy_handle);
-		pop->widget_destroy_handle = 0;
-	}
-
-	the_popup = NULL;
-
-	popup_info_free (pop);
-}
-
-static gint
-popup_timeout_cb (gpointer user_data)
-{
-	PopupInfo *pop = (PopupInfo *) user_data;
-
-	pop->destroy_timeout = 0;
-	gtk_widget_destroy (pop->win);
-
-	return 0;
-}
-
-static gint
-popup_enter_cb (GtkWidget *w, GdkEventCrossing *ev, gpointer user_data)
-{
-	PopupInfo *pop = (PopupInfo *) user_data;
-
-	if (pop->destroy_timeout)
-		gtk_timeout_remove (pop->destroy_timeout);
-
-	return 0;
-}
-
-static gint
-popup_leave_cb (GtkWidget *w, GdkEventCrossing *ev, gpointer user_data)
-{
-	PopupInfo *pop = (PopupInfo *) user_data;
-
-	if (pop->destroy_timeout)
-		gtk_timeout_remove (pop->destroy_timeout);
-	pop->destroy_timeout = gtk_timeout_add (500, popup_timeout_cb, pop);
-
-	return 0;
-}
-
-static void
-popup_realize_cb (GtkWidget *widget, gpointer user_data)
-{
-	PopupInfo *pop = (PopupInfo *) user_data;
-
-	gtk_widget_add_events (pop->win, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
-	gtk_widget_add_events (pop->w, GDK_BUTTON_PRESS_MASK);
-
-	if (pop->destroy_timeout == 0)
-		pop->destroy_timeout = gtk_timeout_add (5000, popup_timeout_cb, pop);
-}
-
-static void
-popup_size_allocate_cb (GtkWidget *widget, GtkAllocation *alloc, gpointer user_data)
-{
-	gint x, y, w, h, xmax, ymax;
-
-	xmax = gdk_screen_width ();
-	ymax = gdk_screen_height ();
-
-	gdk_window_get_pointer (NULL, &x, &y, NULL);
-	w = alloc->width;
-	h = alloc->height;
-	x = CLAMP (x - w/2, 0, xmax - w);
-	y = CLAMP (y - h/2, 0, ymax - h);
-	gtk_widget_set_uposition (widget, x, y);
-
-}
-
-static void
-make_popup_window (GtkWidget *w)
-{
-	PopupInfo *pop = g_new0 (PopupInfo, 1);
-	GtkWidget *fr;
-
-	/* Only allow for one popup at a time.  Ugly. */
-	if (the_popup)
-		gtk_widget_destroy (the_popup);
-
-	pop->w = w;
-	the_popup = pop->win = gtk_window_new (GTK_WINDOW_POPUP);
-	fr = gtk_frame_new (NULL);
-
-	gtk_container_add (GTK_CONTAINER (pop->win), fr);
-	gtk_container_add (GTK_CONTAINER (fr), w);
-
-	gtk_window_set_policy (GTK_WINDOW (pop->win), FALSE, FALSE, FALSE);
-
-
-	pop->widget_destroy_handle = gtk_signal_connect (GTK_OBJECT (w),
-							 "destroy",
-							 GTK_SIGNAL_FUNC (popup_widget_destroy_cb),
-							 pop);
-	gtk_signal_connect (GTK_OBJECT (pop->win),
-			    "destroy",
-			    GTK_SIGNAL_FUNC (popup_window_destroy_cb),
-			    pop);
-	gtk_signal_connect (GTK_OBJECT (pop->win),
-			    "enter_notify_event",
-			    GTK_SIGNAL_FUNC (popup_enter_cb),
-			    pop);
-	gtk_signal_connect (GTK_OBJECT (pop->win),
-			    "leave_notify_event",
-			    GTK_SIGNAL_FUNC (popup_leave_cb),
-			    pop);
-	gtk_signal_connect_after (GTK_OBJECT (pop->win),
-				  "realize",
-				  GTK_SIGNAL_FUNC (popup_realize_cb),
-				  pop);
-	gtk_signal_connect (GTK_OBJECT (pop->win),
-			    "size_allocate",
-			    GTK_SIGNAL_FUNC (popup_size_allocate_cb),
-			    pop);
-
-	gtk_widget_show (w);
-	gtk_widget_show (fr);
-	gtk_widget_show (pop->win);
-}
 
 static int
 html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *mail_display)
@@ -1289,36 +1098,31 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 			HTMLEngine *e;
 			HTMLPoint *point;
 			GtkWidget *popup_thing;
+			const gchar *email;
+			const gchar *name;
 			const gchar *link;
 
 			e     = GTK_HTML (widget)->engine;
 			point = html_engine_get_point_at (e, event->x + e->x_offset, event->y + e->y_offset, FALSE);
-			
 			if (point) {
-				const gchar *url;
-				
-				url = html_object_get_url (point->object);
-
-				if (url && !g_strncasecmp (url, "mailto:", 7)) {
+				email = (const gchar *) html_object_get_data (point->object, "email");
+				if (email) {
+					name = (const gchar *) html_object_get_data (point->object, "name");
 
 					popup_thing = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressPopup",
 										 CORBA_OBJECT_NIL);
 
 					bonobo_widget_set_property (BONOBO_WIDGET (popup_thing),
-								    "name", "",
-								    "email", url+7,
+								    "name", name,
+								    "email", email,
 								    NULL);
-					make_popup_window (popup_thing);
+					gtk_widget_show (popup_thing);
 
 				} else if ((link = html_object_get_url (point->object))) {
-
 					e_popup_menu_run (link_menu, (GdkEvent *) event, 0, 0, mail_display);
-
 				}
-
 				html_point_destroy (point);
 			}
-
 			return TRUE;
 		}
 	}
@@ -1439,13 +1243,6 @@ mail_display_new (void)
 			    GTK_SIGNAL_FUNC (html_enter_notify_event), mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "iframe_created",
 			    GTK_SIGNAL_FUNC (html_iframe_created), mail_display);
-#if 0
-	gtk_selection_add_target (GTK_WIDGET(html),
-				  GDK_SELECTION_PRIMARY, 
-				  GDK_SELECTION_TYPE_STRING, 1);
-	gtk_signal_connect (GTK_OBJECT (html), "selection_get",
-			    GTK_SIGNAL_FUNC (on_selection_get), NULL);
-#endif
 
 	gtk_container_add (GTK_CONTAINER (scroll), html);
 	gtk_widget_show (GTK_WIDGET (html));

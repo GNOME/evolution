@@ -21,36 +21,40 @@
  */
 
 #include <config.h>
+#include <gnome.h>
 
-#include <libgnome/gnome-paper.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-util.h>
+#include "e-addressbook-view.h"
+
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/widgets/e-popup-menu.h>
+#include "widgets/menus/gal-view-menus.h"
+
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
+
+#include "gal-view-factory-minicard.h"
+#include "gal-view-minicard.h"
+
+#include "e-addressbook-model.h"
+
+#include "e-minicard-view-widget.h"
+
+#include "e-contact-editor.h"
+#include "e-contact-save-as.h"
+#include "addressbook/printing/e-contact-print.h"
+#include "addressbook/printing/e-contact-print-envelope.h"
+#include "e-card-simple.h"
+#include "e-card.h"
+#include "e-book.h"
+
+#include "glade/glade-xml.h"
 
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-dialog.h>
 #include <libgnomeprint/gnome-print-master.h>
 #include <libgnomeprint/gnome-print-master-preview.h>
-
-#include "widgets/menus/gal-view-menus.h"
-
-#include "addressbook/printing/e-contact-print.h"
-#include "addressbook/printing/e-contact-print-envelope.h"
-
-#include "gal-view-factory-minicard.h"
-#include "gal-view-minicard.h"
-
-#include "e-addressbook-view.h"
-#include "e-addressbook-model.h"
-#include "e-minicard-view-widget.h"
-#include "e-contact-save-as.h"
-
-#include "e-contact-editor.h"
 
 static void e_addressbook_view_init		(EAddressbookView		 *card);
 static void e_addressbook_view_class_init	(EAddressbookViewClass	 *klass);
@@ -73,15 +77,6 @@ enum {
 	STATUS_MESSAGE,
 	LAST_SIGNAL
 };
-
-enum DndTargetType {
-	DND_TARGET_TYPE_VCARD,
-};
-#define VCARD_TYPE "text/x-vcard"
-static GtkTargetEntry drag_types[] = {
-	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD },
-};
-static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
 static guint e_addressbook_view_signals [LAST_SIGNAL] = {0, };
 
@@ -570,12 +565,12 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		CardAndBook *card_and_book;
 
 		EPopupMenu menu[] = {
-			{N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
-			{N_("Send contact to other"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
-			{N_("Send message to contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
-			{N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
-			{N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
-			{N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
+			{"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
+			{"Send contact to other", NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
+			{"Send message to contact", NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
+			{"Print", NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
+			{"Print Envelope", NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
+			{"Delete", NULL, GTK_SIGNAL_FUNC(delete), NULL, 0},
 			{NULL, NULL, NULL, NULL, 0}
 		};
 
@@ -597,38 +592,6 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 }
 
 static void
-table_drag_data_get (ETable             *table,
-		     int                 row,
-		     int                 col,
-		     GdkDragContext     *context,
-		     GtkSelectionData   *selection_data,
-		     guint               info,
-		     guint               time,
-		     gpointer            user_data)
-{
-	EAddressbookView *view = user_data;
-
-	printf ("table_drag_data_get (row %d, col %d)\n", row, col);
-
-	if (!E_IS_ADDRESSBOOK_MODEL(view->object))
-		return;
-
-	switch (info) {
-	case DND_TARGET_TYPE_VCARD: {
-		char *value;
-
-		value = e_card_simple_get_vcard(E_ADDRESSBOOK_MODEL(view->object)->data[row]);
-
-		gtk_selection_data_set (selection_data,
-					selection_data->target,
-					8,
-					value, strlen (value));
-		break;
-	}
-	}
-}
-
-static void
 status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
 {
 	gtk_signal_emit (GTK_OBJECT (eav),
@@ -639,32 +602,21 @@ status_message (GtkObject *object, const gchar *status, EAddressbookView *eav)
 #ifdef JUST_FOR_TRANSLATORS
 static char *list [] = {
 	N_("* Click here to add a contact *"),
-	N_("File As"),
-	N_("Full Name"),
+	N_("Name"),
 	N_("Email"),
-	N_("Primary Phone"),
-	N_("Assistant Phone"),
-	N_("Business Phone"),
-	N_("Callback Phone"),
-	N_("Company Phone"),
-	N_("Home Phone"),
+	N_("Primary"),
+	N_("Business"),
+	N_("Home"),
 	N_("Organization"),
-	N_("Business Address"),
-	N_("Home Address"),
-	N_("Mobile Phone"),
-	N_("Car Phone"),
+	N_("Mobile"),
+	N_("Car"),
 	N_("Business Fax"),
 	N_("Home Fax"),
-	N_("Business Phone 2"),
-	N_("Home Phone 2"),
+	N_("Business 2"),
+	N_("Home 2"),
 	N_("ISDN"),
-	N_("Other Phone"),
-	N_("Other Fax"),
+	N_("Other"),
 	N_("Pager"),
-	N_("Radio"),
-	N_("Telex"),
-	N_("TTY"),
-	N_("Other Address"),
 	N_("Email 2"),
 	N_("Email 3"),
 	N_("Web Site"),
@@ -678,6 +630,7 @@ static char *list [] = {
 	N_("Spouse"),
 	N_("Note"),
 	N_("Free-busy URL"),
+	N_("Click here to add a contact")
 };
 #endif
 
@@ -757,15 +710,6 @@ create_table_view (EAddressbookView *view)
 			   GTK_SIGNAL_FUNC(table_double_click), view);
 	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "right_click",
 			   GTK_SIGNAL_FUNC(table_right_click), view);
-
-	/* drag & drop signals */
-	e_table_drag_source_set (E_TABLE(E_TABLE_SCROLLED(table)->table), GDK_BUTTON1_MASK,
-				 drag_types, num_drag_types, GDK_ACTION_MOVE);
-	
-	gtk_signal_connect (GTK_OBJECT (E_TABLE_SCROLLED(table)->table),
-			    "table_drag_data_get",
-			    GTK_SIGNAL_FUNC (table_drag_data_get),
-			    view);
 
 	gtk_table_attach(GTK_TABLE(view), table,
 			 0, 1,

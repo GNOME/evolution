@@ -15,6 +15,7 @@ INCLUDES =					\
 	-I$(srcdir)/../../..			\
         -I$(includedir)				\
 	-I$(top_srcdir)/intl			\
+	$(EXTRA_GNOME_CFLAGS)			\
 	$(GTK_INCLUDEDIR)			\
 	-I$(top_srcdir)/camel			\
 	-DG_LOG_DOMAIN=\"camel-cache-provider\"

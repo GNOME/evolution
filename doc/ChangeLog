@@ -1,7 +1,7 @@
-2001-04-23  Jon Trowbridge  <trow@ximian.com>
+2001-04-24  Ettore Perazzoli  <ettore@ximian.com>
 
-	* C/Makefile.am (install-data-local): Changed dependency for
-	install-data-local from "evolution" to "evolution-guide".
+	* C/Makefile.am (install-data-local): Depend on `evolution-guide',
+	not `evolution'.
 
 2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
 
@@ -14,11 +14,6 @@
 	`evolution-guide.sgml'.
 	(dist-hook): s/evolution-guide/evolution/
 	(install-data-local): Likewise.
-
-2001-02-23  Aaron Weber  <aaron@helixcode.com>
-
-	* C/apx-authors.sgml: s/helixcode/ximian (How I missed this page
-	on the first go-round I don't know).
 
 2001-03-14  Gediminas Paulauskas <menesis@delfi.lt>
 
@@ -292,10 +287,12 @@
 
 	* C/preface.sgml: Spelling fixes, etc.
 
+=======
 2000-09-19  Federico Mena Quintero  <federico@helixcode.com>
 
 	* C/Makefile.am: Fixed to install the stylesheet-images as well.
 
+>>>>>>> 1.26
 2000-09-07  Aaron Weber  <aaron@helixcode.com>
 
 	* C/fig/ New files: contact-editor.png, mail-composer.png,

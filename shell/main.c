@@ -23,19 +23,12 @@
 
 #include <config.h>
 #include <fcntl.h>
-#include <glib.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-init.h>
-#include <libgnomeui/gnome-stock.h>
+#include <gnome.h>
+#include <bonobo.h>
 #include <libgnomeui/gnome-window-icon.h>
-#include <bonobo/bonobo-main.h>
 #include <glade/glade.h>
 #include <liboaf/liboaf.h>
+#include <unicode.h>
 
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-cursors.h>
@@ -208,6 +201,7 @@ main (int argc, char **argv)
 	oaf_init (argc, argv);
 
 	glade_gnome_init ();
+	unicode_init ();
 	e_cursors_init ();
 
 	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");

@@ -8,9 +8,7 @@
  * (C) 2000 Helix Code, Inc.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
@@ -68,7 +66,7 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageResend", resend_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageSaveAs", save_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessagePrint", print_msg),
-	BONOBO_UI_UNSAFE_VERB ("MessageReplySender", reply_to_sender),
+	BONOBO_UI_UNSAFE_VERB ("MessageReplySndr", reply_to_sender),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardAttached", forward_attached),
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardInlined", forward_inlined),
@@ -87,15 +85,13 @@ BonoboUIVerb verbs [] = {
 	
 	BONOBO_UI_UNSAFE_VERB ("MessageApplyFilters", apply_filters),
 	
-	BONOBO_UI_UNSAFE_VERB ("MessageVFolderSubject", vfolder_subject),
-	BONOBO_UI_UNSAFE_VERB ("MessageVFolderSender", vfolder_sender),
-	BONOBO_UI_UNSAFE_VERB ("MessageVFolderRecipient", vfolder_recipient),
-	BONOBO_UI_UNSAFE_VERB ("MessageVFolderMailingList", vfolder_mlist),
+	BONOBO_UI_UNSAFE_VERB ("MessageVFolderSubj", vfolder_subject),
+	BONOBO_UI_UNSAFE_VERB ("MessageVFolderSndr", vfolder_sender),
+	BONOBO_UI_UNSAFE_VERB ("MessageVFolderRecip", vfolder_recipient),
 	
-	BONOBO_UI_UNSAFE_VERB ("MessageFilterSubject", filter_subject),
-	BONOBO_UI_UNSAFE_VERB ("MessageFilterSender", filter_sender),
-	BONOBO_UI_UNSAFE_VERB ("MessageFilterRecipient", filter_recipient),
-	BONOBO_UI_UNSAFE_VERB ("MessageFilterMailingList", filter_mlist),
+	BONOBO_UI_UNSAFE_VERB ("MessageFilterSubj", filter_subject),
+	BONOBO_UI_UNSAFE_VERB ("MessageFilterSndr", filter_sender),
+	BONOBO_UI_UNSAFE_VERB ("MessageFilterRecip", filter_recipient),
 	
 	BONOBO_UI_UNSAFE_VERB ("MessageHideClear", hide_none),
 	BONOBO_UI_UNSAFE_VERB ("MessageHideRead", hide_read),
@@ -105,17 +101,16 @@ BonoboUIVerb verbs [] = {
 	/* Folder Menu */
 	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", expunge_folder),
 	BONOBO_UI_UNSAFE_VERB ("FolderConfig", configure_folder),
-	BONOBO_UI_UNSAFE_VERB ("EmptyTrash", empty_trash),
+	BONOBO_UI_UNSAFE_VERB ("ActionsEmptyTrash", empty_trash),
 	
 	/* Toolbar specific */
 	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
 	BONOBO_UI_UNSAFE_VERB ("MailPrevious", previous_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailNext", next_msg),
-
-	BONOBO_UI_UNSAFE_VERB ("MessageSearch", search_msg),
 	
 	BONOBO_UI_VERB_END
 };
+
 
 static EPixmap pixcache [] = {
 	E_PIXMAP ("/menu/File/New/NewFirstItem/MessageNew", "new-message.xpm"),

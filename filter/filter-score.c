@@ -24,9 +24,8 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkspinbutton.h>
+#include <gtk/gtk.h>
+#include <gnome.h>
 
 #include "e-util/e-sexp.h"
 #include "filter-score.h"

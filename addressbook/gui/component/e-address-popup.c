@@ -42,6 +42,11 @@ static GtkObjectClass *parent_class;
 static EBook *common_book = NULL; /* still sort of lame */
 
 static void e_address_popup_destroy             (GtkObject *);
+static void e_address_popup_realize             (GtkWidget *);
+static gint e_address_popup_button_press_event  (GtkWidget *, GdkEventButton   *ev);
+static gint e_address_popup_enter_notify_event  (GtkWidget *, GdkEventCrossing *ev);
+static gint e_address_popup_leave_notify_event  (GtkWidget *, GdkEventCrossing *ev);
+
 static void e_address_popup_query              (EAddressPopup *);
 
 
@@ -49,10 +54,16 @@ static void
 e_address_popup_class_init (EAddressPopupClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
 	parent_class = GTK_OBJECT_CLASS (gtk_type_class (gtk_event_box_get_type ()));
 
 	object_class->destroy = e_address_popup_destroy;
+	
+	widget_class->realize            = e_address_popup_realize;
+	widget_class->button_press_event = e_address_popup_button_press_event;
+	widget_class->enter_notify_event = e_address_popup_enter_notify_event;
+	widget_class->leave_notify_event = e_address_popup_leave_notify_event;
 }
 
 static void
@@ -77,6 +88,57 @@ e_address_popup_destroy (GtkObject *obj)
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		GTK_OBJECT_CLASS (parent_class)->destroy (obj);
+}
+
+static void
+e_address_popup_realize (GtkWidget *w)
+{
+	EAddressPopup *pop = E_ADDRESS_POPUP (w);
+
+	if (GTK_WIDGET_CLASS (parent_class)->realize)
+		GTK_WIDGET_CLASS (parent_class)->realize (w);
+
+	/* Start the death count. */
+	pop->leave_timeout_tag = gtk_timeout_add (10000, (GtkFunction) gtk_widget_destroy, pop);
+}
+
+static gint
+e_address_popup_button_press_event (GtkWidget *w, GdkEventButton *ev)
+{
+	gtk_widget_destroy (w);
+	return FALSE;
+}
+
+static gint
+e_address_popup_enter_notify_event (GtkWidget *w, GdkEventCrossing *ev)
+{
+	EAddressPopup *pop = E_ADDRESS_POPUP (w);
+
+	if (pop->leave_timeout_tag) {
+		gtk_timeout_remove (pop->leave_timeout_tag);
+		pop->leave_timeout_tag = 0;
+	}
+
+	return FALSE;
+}
+
+static gint
+e_address_popup_leave_notify_event (GtkWidget *w, GdkEventCrossing *ev)
+{
+	EAddressPopup *pop = E_ADDRESS_POPUP (w);
+	const gint slack=5;
+	gint x, y;
+
+	/* Manually check our "leave" events to avoid weird erroneous leaves
+	   that seem related to bonobo... */
+	gdk_window_get_pointer (w->window, &x, &y, NULL);
+	if (slack <= x && x < w->allocation.width-slack && slack <= y && y < w->allocation.height-slack)
+		return FALSE;
+
+	if (pop->leave_timeout_tag == 0)
+		pop->leave_timeout_tag = gtk_timeout_add (1000, (GtkFunction) gtk_widget_destroy, pop);
+
+	return FALSE;
 }
 
 GtkType
@@ -138,7 +200,9 @@ e_address_popup_set_name (EAddressPopup *pop, const gchar *name)
 	pop->name = g_strdup (name);
 	g_strstrip (pop->name);
 
-	if (pop->name && pop->email)
+	++pop->set_count;
+
+	if (pop->set_count >= 2)
 		e_address_popup_refresh_names (pop);
 }
 
@@ -151,7 +215,9 @@ e_address_popup_set_email (EAddressPopup *pop, const gchar *email)
 	pop->email = g_strdup (email);
 	g_strstrip (pop->email);
 
-	if (pop->name && pop->email)
+	++pop->set_count;
+
+	if (pop->set_count >= 2)
 		e_address_popup_refresh_names (pop);
 }
 
@@ -213,6 +279,36 @@ e_address_popup_new (void)
 	return GTK_WIDGET (pop);
 }
 
+static GtkWidget *
+e_address_popup_popup (EAddressPopup *pop)
+{
+	GtkWidget *win, *fr;
+	gint x, y;
+
+	win = gtk_window_new (GTK_WINDOW_POPUP);
+	fr = gtk_frame_new (NULL);
+	gtk_container_add (GTK_CONTAINER (win), fr);
+	gtk_container_add (GTK_CONTAINER (fr), GTK_WIDGET (pop));
+
+	gtk_window_set_policy (GTK_WINDOW (win), FALSE, FALSE, FALSE);
+
+	gdk_window_get_pointer (NULL, &x, &y, NULL);
+	x = MAX (x-10, 0);
+	y = MAX (y-10, 0);
+	gtk_widget_set_uposition (win, x, y);
+
+	gtk_signal_connect_object (GTK_OBJECT (pop),
+				   "destroy",
+				   GTK_SIGNAL_FUNC(gtk_widget_destroy),
+				   GTK_OBJECT (win));
+	
+	gtk_widget_show (GTK_WIDGET (pop));
+	gtk_widget_show (fr);
+	gtk_widget_show (win);
+
+	return win;
+}
+
 static void
 found_fields_cb (EBook *book, EBookStatus status, EList *writable_fields, gpointer closure)
 {
@@ -256,15 +352,7 @@ e_address_popup_cardify (EAddressPopup *pop, ECard *card)
 static void
 add_contacts_cb (EAddressPopup *pop)
 {
-	if (pop->email && *pop->email) {
-
-		if (pop->name && *pop->name)
-			e_contact_quick_add (pop->name, pop->email, NULL, NULL);
-		else
-			e_contact_quick_add_free_form (pop->email, NULL, NULL);
-
-	}
-
+	e_contact_quick_add (pop->name, pop->email, NULL, NULL);
 	gtk_widget_destroy (GTK_WIDGET (pop));
 }
 
@@ -399,13 +487,7 @@ e_address_popup_factory_new_control (void)
 	GtkWidget *w;
 
 	w = e_address_popup_new ();
-	control = bonobo_control_new (w);
-	gtk_widget_show (w);
-
-	gtk_signal_connect_object (GTK_OBJECT (w),
-				   "destroy",
-				   GTK_SIGNAL_FUNC (bonobo_object_unref),
-				   GTK_OBJECT (control));
+        control = bonobo_control_new (e_address_popup_popup (E_ADDRESS_POPUP (w)));
 
         bag = bonobo_property_bag_new (NULL, set_prop, w);
         bonobo_property_bag_add (bag, "name", PROPERTY_NAME,

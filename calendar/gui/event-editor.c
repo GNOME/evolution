@@ -26,24 +26,26 @@
 
 #include <config.h>
 #include <string.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
+#include <e-util/e-dialog-widgets.h>
+#include <widgets/misc/e-dateedit.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-categories.h>
-#include <libgnomeui/gnome-propertybox.h>
-#include <libgnome/gnome-i18n.h>
-
-#include "calendar-config.h"
-#include "cal-util/timeutil.h"
+#include <cal-util/timeutil.h>
 #include "dialogs/delete-comp.h"
 #include "dialogs/save-comp.h"
-#include "e-meeting-edit.h"
-#include "e-util/e-dialog-widgets.h"
+#include "calendar-config.h"
 #include "event-editor.h"
+#include "e-meeting-edit.h"
+#include "calendar-config.h"
 #include "tag-calendar.h"
 #include "weekday-picker.h"
-#include "widgets/misc/e-dateedit.h"
 #include "widget-util.h"
 
+
 enum {BEFORE, AFTER};
 enum {MINUTES, HOURS, DAYS};
 
@@ -140,9 +142,6 @@ struct _EventEditorPrivate {
 	GtkWidget *classification_public;
 	GtkWidget *classification_private;
 	GtkWidget *classification_confidential;
-
-	GtkWidget *contacts;
-	GtkWidget *contacts_btn;
 
 	GtkWidget *categories;
 	GtkWidget *categories_btn;
@@ -968,11 +967,8 @@ get_widgets (EventEditor *ee)
 	priv->classification_private = GW ("classification-private");
 	priv->classification_confidential = GW ("classification-confidential");
 
-	priv->contacts_btn = GW ("contacts-button");
-	priv->contacts = GW ("contacts");
-
-	priv->categories_btn = GW ("categories-button");
 	priv->categories = GW ("categories");
+	priv->categories_btn = GW ("categories-button");
 
 	priv->reminder_summary = GW ("reminder-summary");
 	priv->reminder_starting_date = GW ("reminder-starting-date");
@@ -1021,10 +1017,6 @@ get_widgets (EventEditor *ee)
 		&& priv->classification_public
 		&& priv->classification_private
 		&& priv->classification_confidential
-		&& priv->contacts_btn
-		&& priv->contacts
-		&& priv->categories_btn
-		&& priv->categories
 		&& priv->reminder_summary
 		&& priv->reminder_starting_date
 		&& priv->reminder_list
@@ -1252,19 +1244,15 @@ init_widgets (EventEditor *ee)
 			    GTK_SIGNAL_FUNC (field_changed), ee);
 	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
 			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_public), "toggled",
+	gtk_signal_connect (GTK_OBJECT (priv->classification_public),
+			    "toggled",
 			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_private), "toggled",
+	gtk_signal_connect (GTK_OBJECT (priv->classification_private),
+			    "toggled",
 			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->classification_confidential), "toggled",
+	gtk_signal_connect (GTK_OBJECT (priv->classification_confidential),
+			    "toggled",
 			    GTK_SIGNAL_FUNC (field_changed), ee);
-	gtk_signal_connect (GTK_OBJECT (priv->categories), "changed",
-			    GTK_SIGNAL_FUNC (field_changed), ee);
-
-	/* FIXME: we do not support these fields yet, so we disable them */
-
-	gtk_widget_set_sensitive (priv->contacts_btn, FALSE);
-	gtk_widget_set_sensitive (priv->contacts, FALSE);
 }
 
 static const int classification_map[] = {
@@ -2398,7 +2386,7 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 		cal_component_set_description_list (comp, &l);
 	}
 
-	if (str)
+	if (!str)
 		g_free (str);
 
 	/* Dates */
@@ -2616,8 +2604,6 @@ raise_and_focus (GtkWidget *widget)
 static void
 obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 {
-	/* FIXME: Do something sensible if the component changes under our feet */
-#if 0
 	EventEditor *ee;
 	EventEditorPrivate *priv;
 	CalComponent *comp;
@@ -2660,17 +2646,12 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	}
 
 	raise_and_focus (priv->app);
-#endif
 }
 
 /* Callback used when the calendar client tells us that an object was removed */
 static void
 obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 {
-	/* FIXME: Do something sensible if the component is removed under our
-         * feet.
-	 */
-#if 0
 	EventEditor *ee;
 	EventEditorPrivate *priv;
 	const gchar *editing_uid;
@@ -2691,7 +2672,6 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 
 
 	raise_and_focus (priv->app);
-#endif
 }
 
 /**

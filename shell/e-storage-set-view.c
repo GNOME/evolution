@@ -26,22 +26,21 @@
 #include <config.h>
 #endif
 
+#include <gnome.h>
+
+#include <gal/util/e-util.h>
+#include "e-util/e-gtk-utils.h"
+
+#include "e-shell-constants.h"
+
 #include "e-storage-set-view.h"
 
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-util.h>
-#include <gal/util/e-util.h>
+#include "e-local-storage.h"
+
 #include <gal/e-table/e-tree-memory-callbacks.h>
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-text.h>
 
-#include <libgnome/gnome-util.h>
-
-#include "e-util/e-gtk-utils.h"
-
-#include "e-shell-constants.h"
-#include "e-local-storage.h"
 #ifdef JUST_FOR_TRANSLATORS
 static char *list [] = {
 	N_("Folder"),
@@ -1101,7 +1100,7 @@ tree_drag_motion (ETree *tree,
 	if (strcmp (dnd_type, EVOLUTION_PATH_TARGET_TYPE) == 0)
 		return handle_evolution_path_drag_motion (storage_set_view, path, context, time);
 
-	destination_folder_interface = evolution_shell_component_client_get_dnd_destination_interface (component_client);
+	destination_folder_interface = evolution_shell_component_client_get_dnd_source_interface (component_client);
 	if (destination_folder_interface == NULL)
 		return FALSE;
 

@@ -6,6 +6,7 @@ INCLUDES =					\
 	-I$(top_srcdir)				\
 	$(GNOME_INCLUDEDIR)			\
 	$(EXTRA_GNOME_CFLAGS)			\
+	$(UNICODE_CFLAGS)			\
 	$(PISOCK_CFLAGS)			\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"
@@ -22,8 +23,6 @@ libeutil_la_SOURCES =			\
 	e-gtk-utils.h			\
 	e-gui-utils.c			\
 	e-gui-utils.h			\
-	e-host-utils.c			\
-	e-host-utils.h			\
 	e-html-utils.c			\
 	e-html-utils.h			\
 	e-iterator.c			\
@@ -42,14 +41,12 @@ libeutil_la_SOURCES =			\
 	e-sexp.h			\
 	e-time-utils.c			\
 	e-time-utils.h			\
-	e-url.c				\
-	e-url.h				\
 	e-dbhash.c			\
 	e-dbhash.h			\
 	md5-utils.c			\
 	md5-utils.h
 
-libeutil_la_LIBADD = $(GAL_LIBS)
+libeutil_la_LIBADD = $(UNICODE_LIBS)
 
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
 libeutil_static_la_LDFLAGS = --all-static
@@ -72,4 +69,3 @@ libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
 libeconduit_static_la_LDFLAGS = --all-static
 
 EXTRA_DIST = $(pilot_sources)
-

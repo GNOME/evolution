@@ -22,8 +22,8 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtksignal.h>
-#include <libgnomeui/gnome-color-picker.h>
+#include <gtk/gtk.h>
+#include <gnome.h>
 
 #include "e-util/e-sexp.h"
 #include "filter-colour.h"

@@ -7,26 +7,9 @@
  *
  * (C) 2000, 2001 Ximian, Inc.
  */
-
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <ctype.h>
-
-#include <gdk/gdkkeysyms.h>
-#include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
-#include <gal/e-paned/e-vpaned.h>
-#include <gal/widgets/e-popup-menu.h>
-#include <gal/widgets/e-gui-utils.h>
-
-#include "filter/vfolder-rule.h"
-#include "filter/vfolder-context.h"
-#include "filter/filter-option.h"
-#include "filter/filter-input.h"
-
-#include "mail-search-dialogue.h"
+#include <gnome.h>
 #include "e-util/e-sexp.h"
 #include "folder-browser.h"
 #include "mail.h"
@@ -39,26 +22,31 @@
 #include "mail-mlist-magic.h"
 #include "mail-mt.h"
 
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
+#include <gal/e-paned/e-vpaned.h>
+
+#include "filter/vfolder-rule.h"
+#include "filter/vfolder-context.h"
+#include "filter/filter-option.h"
+#include "filter/filter-input.h"
+
+#include "mail-search-dialogue.h"
+
 #include "mail-local.h"
 #include "mail-config.h"
 
+#include <gal/widgets/e-popup-menu.h>
+
 #include <camel/camel-vtrash-folder.h>
 
-#define d(x) x
+#define d(x)
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
 static void fb_resize_cb (GtkWidget *w, GtkAllocation *a);
 
 static GtkObjectClass *folder_browser_parent_class;
-
-enum {
-	FOLDER_LOADED,
-	MESSAGE_LOADED,
-	LAST_SIGNAL
-};
-
-static guint folder_browser_signals [LAST_SIGNAL] = {0, };
 
 static void
 folder_browser_destroy (GtkObject *object)
@@ -100,24 +88,6 @@ folder_browser_class_init (GtkObjectClass *object_class)
 	object_class->destroy = folder_browser_destroy;
 	
 	folder_browser_parent_class = gtk_type_class (PARENT_TYPE);
-	
-	folder_browser_signals[FOLDER_LOADED] =
-		gtk_signal_new ("folder_loaded",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (FolderBrowserClass, folder_loaded),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1, GTK_TYPE_STRING);
-	
-	folder_browser_signals[MESSAGE_LOADED] =
-		gtk_signal_new ("message_loaded",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (FolderBrowserClass, message_loaded),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1, GTK_TYPE_STRING);
-	
-	gtk_object_class_add_signals (object_class, folder_browser_signals, LAST_SIGNAL);
 }
 
 /*
@@ -179,7 +149,7 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 	FolderBrowser *fb = data;
 	EvolutionStorage *storage;
 
-	printf("got folder '%s' = %p\n", uri, folder);
+	d(printf("got folder '%s' = %p\n", uri?uri:"<unknown>", folder));
 
 	if (fb->folder == folder)
 		goto done;
@@ -215,8 +185,6 @@ done:
 	/* Sigh, i dont like this (it can be set in reconfigure folder),
 	   but its just easier right now to do it this way */
 	fb->reconfigure = FALSE;
-	
-	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [FOLDER_LOADED], fb->uri);
 }
 
 gboolean
@@ -260,11 +228,11 @@ folder_browser_search_menu_activated (ESearchBar *esb, int id, FolderBrowser *fb
 {
 	EFilterBar *efb = (EFilterBar *)esb;
 
-	printf("menyu activated\n");
+	d(printf("menyu activated\n"));
 
 	switch (id) {
 	case ESB_SAVE:
-		printf("Save vfolder\n");
+		d(printf("Save vfolder\n"));
 		if (efb->current_query) {
 			FilterRule *rule = vfolder_clone_rule(efb->current_query);			
 
@@ -301,7 +269,7 @@ static void folder_browser_config_search(EFilterBar *efb, FilterRule *rule, int 
 		
 		partl = partl->next;
 	}
-	printf("configuring search for search string '%s', rule is '%s'\n", query, rule->name);
+	d(printf("configuring search for search string '%s', rule is '%s'\n", query, rule->name));
 }
 
 static void
@@ -309,7 +277,7 @@ folder_browser_search_query_changed (ESearchBar *esb, FolderBrowser *fb)
 {
 	char *search_word;
 
-	printf("query changed\n");
+	d(printf("query changed\n"));
 
 	gtk_object_get (GTK_OBJECT (esb),
 			"query", &search_word,
@@ -317,7 +285,7 @@ folder_browser_search_query_changed (ESearchBar *esb, FolderBrowser *fb)
 
 	message_list_set_search (fb->message_list, search_word);
 
-	printf("query is %s\n", search_word);
+	d(printf("query is %s\n", search_word?search_word:"<null>"));
 	g_free(search_word);
 	return;
 }
@@ -558,31 +526,31 @@ enum {
 #define MLIST_FILTER (8)
 
 static EPopupMenu filter_menu[] = {
-	{ N_("VFolder on _Subject"),           NULL,
+	{ N_("VFolder on Subject"),            NULL,
 	  GTK_SIGNAL_FUNC (vfolder_subject),   NULL,
 	  SELECTION_SET },
-	{ N_("VFolder on Se_nder"),            NULL,
+	{ N_("VFolder on Sender"),             NULL,
 	  GTK_SIGNAL_FUNC (vfolder_sender),    NULL,
 	  SELECTION_SET },
-	{ N_("VFolder on _Recipients"),        NULL,
+	{ N_("VFolder on Recipients"),         NULL,
 	  GTK_SIGNAL_FUNC (vfolder_recipient), NULL,
 	  SELECTION_SET },
-	{ N_("VFolder on Mailing _List"),      NULL,
+	{ N_("VFolder on Mailing List"),       NULL,
 	  GTK_SIGNAL_FUNC (vfolder_mlist),     NULL,
 	  SELECTION_SET | IS_MAILING_LIST },
 	
 	SEPARATOR,
 	
-	{ N_("Filter on Sub_ject"),            NULL,
+	{ N_("Filter on Subject"),             NULL,
 	  GTK_SIGNAL_FUNC (filter_subject),    NULL,
 	  SELECTION_SET },
-	{ N_("Filter on Sen_der"),             NULL,
+	{ N_("Filter on Sender"),              NULL,
 	  GTK_SIGNAL_FUNC (filter_sender),     NULL,
 	  SELECTION_SET },
-	{ N_("Filter on Re_cipients"),         NULL,
+	{ N_("Filter on Recipients"),          NULL,
 	  GTK_SIGNAL_FUNC (filter_recipient),  NULL,
 	  SELECTION_SET },
-	{ N_("Filter on _Mailing List"),       NULL,
+	{ N_("Filter on Mailing List"),        NULL,
 	  GTK_SIGNAL_FUNC (filter_mlist),      NULL,
 	  SELECTION_SET | IS_MAILING_LIST },
 	
@@ -590,41 +558,41 @@ static EPopupMenu filter_menu[] = {
 };
 
 
-static EPopupMenu context_menu[] = {
-	{ N_("_Open"),                        NULL,
+static EPopupMenu menu[] = {
+	{ N_("Open"),                         NULL,
 	  GTK_SIGNAL_FUNC (open_msg),         NULL,  0 },
 	{ N_("Resend"),                       NULL,
 	  GTK_SIGNAL_FUNC (resend_msg),       NULL,  CAN_RESEND },
-	{ N_("_Save As..."),                  NULL,
+	{ N_("Save As..."),                   NULL,
 	  GTK_SIGNAL_FUNC (save_msg),         NULL,  0 },
-	{ N_("_Print"),                       NULL,
+	{ N_("Print"),                        NULL,
 	  GTK_SIGNAL_FUNC (print_msg),        NULL,  0 },
 	
 	SEPARATOR,
 	
-	{ N_("_Reply to Sender"),             NULL,
+	{ N_("Reply to Sender"),              NULL,
 	  GTK_SIGNAL_FUNC (reply_to_sender),  NULL,  0 },
-	{ N_("Reply to _All"),                NULL,
+	{ N_("Reply to All"),                 NULL,
 	  GTK_SIGNAL_FUNC (reply_to_all),     NULL,  0 },
-	{ N_("_Forward"),                     NULL,
+	{ N_("Forward"),                      NULL,
 	  GTK_SIGNAL_FUNC (forward_attached), NULL,  0 },
-	{ N_("Forward _inline"),              NULL,
+	{ N_("Forward inline"),               NULL,
 	  GTK_SIGNAL_FUNC (forward_inlined),  NULL,  0 },
 	{ "", NULL, (NULL), NULL,  0 },
-	{ N_("Mar_k as Read"),                NULL,
+	{ N_("Mark as Read"),                 NULL,
 	  GTK_SIGNAL_FUNC (mark_as_seen),     NULL,  CAN_MARK_READ },
-	{ N_("Mark as U_nread"),              NULL,
+	{ N_("Mark as Unread"),               NULL,
 	  GTK_SIGNAL_FUNC (mark_as_unseen),   NULL,  CAN_MARK_UNREAD },
 	
 	SEPARATOR,
 	
-	{ N_("_Move to Folder..."),           NULL,
+	{ N_("Move to Folder..."),            NULL,
 	  GTK_SIGNAL_FUNC (move_msg),         NULL,  0 },
-	{ N_("_Copy to Folder..."),           NULL,
+	{ N_("Copy to Folder..."),            NULL,
 	  GTK_SIGNAL_FUNC (copy_msg),         NULL,  0 },
-	{ N_("_Delete"),                      NULL,
+	{ N_("Delete"),                       NULL,
 	  GTK_SIGNAL_FUNC (delete_msg),       NULL, CAN_DELETE },
-	{ N_("_Undelete"),                    NULL,
+	{ N_("Undelete"),                     NULL,
 	  GTK_SIGNAL_FUNC (undelete_msg),     NULL, CAN_UNDELETE },
 	
 	SEPARATOR,
@@ -634,35 +602,16 @@ static EPopupMenu context_menu[] = {
 	  { "",                               NULL,
 	  GTK_SIGNAL_FUNC (NULL),             NULL,  0 },*/
 	
-	{ N_("Apply Filters"),                NULL,
+	{ N_("Apply Filters"),                 NULL,
 	  GTK_SIGNAL_FUNC (apply_filters),    NULL,  0 },
 	{ "",                                 NULL,
 	  GTK_SIGNAL_FUNC (NULL),             NULL,  0 },
-	{ N_("Create Ru_le From Message"),    NULL,
+	{ N_("Create Rule From Message"),      NULL,
 	  GTK_SIGNAL_FUNC (NULL), filter_menu,  SELECTION_SET },
 	
 	TERMINATOR
 };
 
-
-struct cmpf_data {
-	ETree *tree;
-	int row, col;
-};
-
-static void
-context_menu_position_func (GtkMenu *menu, gint *x, gint *y,
-			    gpointer user_data)
-{
-	int tx, ty, tw, th;
-	struct cmpf_data *closure = user_data;
-
-	gdk_window_get_origin (GTK_WIDGET (closure->tree)->window, x, y);
-	e_tree_get_cell_geometry (closure->tree, closure->row, closure->col,
-				  &tx, &ty, &tw, &th);
-	*x += tx + tw / 2;
-	*y += ty + th / 2;
-}
 
 /* handle context menu over message-list */
 static gint
@@ -676,8 +625,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	int i;
 	char *mailing_list_name = NULL;
 	char *subject_match = NULL, *from_match = NULL;
-	GtkMenu *menu;
-	
+
 	if (fb->reconfigure) {
 		enable_mask = 0;
 		goto display_menu;
@@ -785,22 +733,8 @@ display_menu:
 		g_free(mailing_list_name);
 	}
 
-	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
-	e_auto_kill_popup_menu_on_hide (menu);
-
-	if (event->type == GDK_KEY_PRESS) {
-		struct cmpf_data closure;
-
-		closure.tree = tree;
-		closure.row = row;
-		closure.col = col;
-		gtk_menu_popup (menu, NULL, NULL, context_menu_position_func,
-				&closure, 0, event->key.time);
-	} else {
-		gtk_menu_popup (menu, NULL, NULL, NULL, NULL,
-				event->button.button, event->button.time);
-	}
-
+	e_popup_menu_run (menu, event, enable_mask, hide_mask, fb);
+	
 	g_free(filter_menu[MLIST_FILTER].name);
 	g_free(filter_menu[MLIST_VFOLDER].name);
 
@@ -901,9 +835,9 @@ folder_browser_gui_init (FolderBrowser *fb)
 	/* quick-search bar */
 	{
 		RuleContext *rc = (RuleContext *)rule_context_new ();
-		char *user = g_strdup_printf("%s/searches.xml", evolution_dir);
+		char *userrules = g_strdup_printf("%s/searches.xml", evolution_dir);
 		/* we reuse the vfolder types here, they should match */
-		char *system = EVOLUTION_DATADIR "/evolution/vfoldertypes.xml";
+		char *systemrules = g_strdup_printf("%s/evolution/vfoldertypes.xml", EVOLUTION_DATADIR);
 
 		rule_context_add_part_set((RuleContext *)rc, "partset", filter_part_get_type(),
 					  rule_context_add_part, rule_context_next_part);
@@ -911,10 +845,11 @@ folder_browser_gui_init (FolderBrowser *fb)
 		rule_context_add_rule_set((RuleContext *)rc, "ruleset", filter_rule_get_type(),
 					  rule_context_add_rule, rule_context_next_rule);
 	
-		fb->search = e_filter_bar_new(rc, system, user, folder_browser_config_search, fb);
+		fb->search = e_filter_bar_new(rc, systemrules, userrules, folder_browser_config_search, fb);
 		e_search_bar_set_menu((ESearchBar *)fb->search, folder_browser_search_menu_items);
 		/*e_search_bar_set_option((ESearchBar *)fb->search, folder_browser_search_option_items);*/
-		g_free(user);
+		g_free(userrules);
+		g_free(systemrules);
 		gtk_object_unref((GtkObject *)rc);
 	}
 
@@ -967,11 +902,9 @@ static void done_message_selected(CamelFolder *folder, char *uid, CamelMimeMessa
 
 	if (folder != fb->folder)
 		return;
-	
-	mail_display_set_message (fb->mail_display, (CamelMedium *)msg);
-	/* FIXME: should this signal be emitted here?? */
-	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [MESSAGE_LOADED], uid);
-	
+
+	mail_display_set_message(fb->mail_display, (CamelMedium *)msg);
+
 	/* pain, if we have pending stuff, re-run */
 	if (fb->pending_uid) {	
 		g_free(fb->loading_uid);
@@ -1002,7 +935,7 @@ static void done_message_selected(CamelFolder *folder, char *uid, CamelMimeMessa
 static gboolean
 do_message_selected(FolderBrowser *fb)
 {
-	d(printf ("selecting uid %s (delayed)\n", fb->new_uid ? fb->new_uid : "NONE"));
+	d(printf ("selecting uid %s (delayed)\n", fb->new_uid?fb->new_uid:"<none>"));
 
 	/* keep polling if we are busy */
 	if (fb->reconfigure) {
@@ -1035,7 +968,7 @@ do_message_selected(FolderBrowser *fb)
 static void
 on_message_selected (MessageList *ml, const char *uid, FolderBrowser *fb)
 {
-	d(printf ("selecting uid %s (direct)\n", uid ? uid : "NONE"));
+	d(printf ("selecting uid %s (direct)\n", uid?uid:"<null>"));
 
 	if (fb->loading_id != 0)
 		gtk_timeout_remove(fb->loading_id);

@@ -7,10 +7,16 @@
 
 	* menus/gal-view-menus.c: convert label to utf8.
 
-2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+2001-04-03  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* menus/gal-view-menus.c: Fix headers.
-	
+	* meeting-time-sel/e-meeting-time-sel-item.c: Add includes
+	to prepare for changes in gal.
+	* meeting-time/sel/e-meeting-time-sel.c: Same here.
+	* menus/gal-view-menus.c: Same here
+	* misc/e-calendar.c: Same here.
+	* misc/e-cell-date-edit.c: And here.
+	* misc/e-dateedit.c: And here.
+			 
 2001-03-28  Christopher James Lahey  <clahey@ximian.com>
 
 	* menus/gal-view-menus.c (build_menus): Don't print the xml tree

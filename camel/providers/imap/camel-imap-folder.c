@@ -22,9 +22,8 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
+
 #include <config.h> 
-#endif
 
 #include <stdlib.h>
 #include <sys/types.h>
@@ -35,6 +34,8 @@
 #include <string.h>
 #include <fcntl.h>
 #include <ctype.h>
+
+#include <gal/util/e-util.h>
 
 #include "camel-imap-folder.h"
 #include "camel-imap-command.h"
@@ -1101,15 +1102,8 @@ imap_update_summary (CamelFolder *folder,
 
 		if (g_datalist_get_data (&fetch_data, "UID"))
 			camel_message_info_set_uid (mi, g_strdup (g_datalist_get_data (&fetch_data, "UID")));
-		if (g_datalist_get_data (&fetch_data, "FLAGS")) {
-			guint32 flags = GPOINTER_TO_INT (g_datalist_get_data (&fetch_data, "FLAGS"));
-
-			((CamelImapMessageInfo *)mi)->server_flags = flags;
-			/* "or" them in with the existing flags that may
-			 * have been set by summary_info_new_from_message.
-			 */
-			mi->flags |= flags;
-		}
+		if (g_datalist_get_data (&fetch_data, "FLAGS"))
+			mi->flags = GPOINTER_TO_INT (g_datalist_get_data (&fetch_data, "FLAGS"));
 		if (g_datalist_get_data (&fetch_data, "RFC822.SIZE"))
 			mi->size = GPOINTER_TO_INT (g_datalist_get_data (&fetch_data, "RFC822.SIZE"));
 

@@ -38,6 +38,7 @@
 #define MAXHOSTNAMELEN 1024
 #endif
 
+#include <unicode.h>
 #include <iconv.h>
 
 #include <time.h>
@@ -47,7 +48,6 @@
 #include <regex.h>
 
 #include <glib.h>
-#include <gal/unicode/gunicode.h>
 
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
@@ -128,7 +128,7 @@ static unsigned char camel_mime_base64_rank[256] = {
   if any of these change, then the tables above should be regenerated
   by compiling this with -DBUILD_TABLE, and running.
 
-  gcc -DCLEAN_DATE -o buildtable -I.. `gnome-config --cflags --libs gal` -DBUILD_TABLE camel-mime-utils.c camel-charset-map.c
+  gcc -DCLEAN_DATE -o buildtable -I.. `glib-config --cflags --libs` -lunicode -DBUILD_TABLE camel-mime-utils.c camel-charset-map.c
   ./buildtable
 
 */
@@ -1277,19 +1277,18 @@ header_encode_string (const unsigned char *in)
 	word = NULL;
 	start = inptr;
 	while (inptr && *inptr) {
-		gunichar c;
+		unicode_char_t c;
 		const char *newinptr;
 		
-		newinptr = g_utf8_next_char (inptr);
+		newinptr = unicode_get_utf8 (inptr, &c);
 		if (newinptr == NULL) {
 			w(g_warning ("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s",
 				     (inptr-in), inptr[0], in));
 			inptr++;
 			continue;
 		}
-		c = g_utf8_get_char (inptr);
 		
-		if (g_unichar_isspace (c) && !last_was_space) {
+		if (unicode_isspace (c) && !last_was_space) {
 			/* we've reached the end of a 'word' */
 			if (word && !(last_was_encoded && encoding)) {
 				g_string_append_len (out, start, word - start);
@@ -1328,11 +1327,11 @@ header_encode_string (const unsigned char *in)
 		} else if (c >= 256) {
 			encoding = MAX (encoding, 2);
 			last_was_space = FALSE;
-		} else if (!g_unichar_isspace (c)) {
+		} else if (!unicode_isspace (c)) {
 			last_was_space = FALSE;
 		}
 		
-		if (!g_unichar_isspace (c) && !word)
+		if (!unicode_isspace (c) && !word)
 			word = inptr;
 		
 		inptr = newinptr;
@@ -1423,20 +1422,19 @@ header_encode_phrase_get_words (const unsigned char *in)
 	start = inptr;
 	encoding = 0;
 	while (inptr && *inptr) {
-		gunichar c;
+		unicode_char_t c;
 		const char *newinptr;
 		
-		newinptr = g_utf8_next_char (inptr);
+		newinptr = unicode_get_utf8 (inptr, &c);
 		if (newinptr == NULL) {
 			w(g_warning ("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s",
 				     (inptr - in), inptr[0], in));
 			inptr++;
 			continue;
 		}
-		c = g_utf8_get_char (inptr);
 		
 		inptr = newinptr;
-		if (g_unichar_isspace (c)) {
+		if (unicode_isspace (c)) {
 			if (count > 0) {
 				word = g_new0 (struct _phrase_word, 1);
 				word->start = start;
@@ -3058,21 +3056,11 @@ header_raw_check_mailing_list(struct _header_raw **list)
 	const char *v;
 	regex_t pattern;
 	regmatch_t match[2];
-	int i, errcode;
-	
-	for (i = 0; i < sizeof (mail_list_magic) / sizeof (mail_list_magic[0]); i++) {
-		if ((errcode = regcomp (&pattern, mail_list_magic[i].pattern, REG_EXTENDED|REG_ICASE)) != 0) {
-			char *errstr;
-			size_t len;
-			
-			len = regerror (errcode, &pattern, NULL, 0);
-			errstr = g_malloc0 (len + 1);
-			regerror (errcode, &pattern, errstr, len);
-			
-			g_warning ("Internal error, compiling regex failed: %s: %s",
-				   mail_list_magic[i].pattern, errstr);
-			g_free (errstr);
-			
+	int i;
+
+	for (i=0;i<sizeof(mail_list_magic)/sizeof(mail_list_magic[0]);i++) {
+		if (regcomp(&pattern, mail_list_magic[i].pattern, REG_EXTENDED|REG_ICASE) == -1) {
+			g_warning("Internal error, compiling regex failed: %s: %s", mail_list_magic[i].pattern, strerror(errno));
 			continue;
 		}
 

@@ -37,7 +37,6 @@
 #include <gal/e-paned/e-hpaned.h>
 #include <gal/e-paned/e-vpaned.h>
 #include <cal-util/timeutil.h>
-#include "widgets/misc/e-search-bar.h"
 #include "dialogs/alarm-notify-dialog.h"
 #include "e-calendar-table.h"
 #include "e-day-view.h"
@@ -91,8 +90,6 @@ struct _GnomeCalendarPrivate {
 	time_t      selection_end_time;
 
 	/* Widgets */
-
-	GtkWidget   *search_bar;
 
 	GtkWidget   *hpane;
 	GtkWidget   *notebook;
@@ -205,147 +202,6 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	object_class->destroy = gnome_calendar_destroy;
 }
 
-static GtkWidget *
-get_current_page (GnomeCalendar *gcal)
-{
-	GnomeCalendarPrivate *priv;
-
-	priv = gcal->priv;
-
-	return GTK_NOTEBOOK (priv->notebook)->cur_page->child;
-}
-
-enum {
-	SEARCH_SHOW_ALL
-};
-
-static ESearchBarItem search_menu_items[] = {
-	{ N_("Show all "), SEARCH_SHOW_ALL },
-	{ NULL, -1 }
-};
-
-enum {
-	SEARCH_ANY_FIELD_CONTAINS,
-	SEARCH_SUMMARY_CONTAINS,
-	SEARCH_DESCRIPTION_CONTAINS,
-	SEARCH_COMMENT_CONTAINS,
-	SEARCH_HAS_CATEGORY
-};
-
-static ESearchBarItem search_option_items[] = {
-	{ N_("Any field contains"), SEARCH_ANY_FIELD_CONTAINS },
-	{ N_("Summary contains"), SEARCH_SUMMARY_CONTAINS },
-	{ N_("Description contains"), SEARCH_DESCRIPTION_CONTAINS },
-	{ N_("Comment contains"), SEARCH_COMMENT_CONTAINS },
-	{ N_("Has category"), SEARCH_HAS_CATEGORY },
-	{ NULL, -1 }
-};
-
-/* Sets the query sexp for the current view in the calendar */
-static void
-set_query (GnomeCalendar *gcal, char *sexp)
-{
-	GnomeCalendarPrivate *priv;
-	GtkWidget *page;
-
-	g_assert (sexp != NULL);
-
-	priv = gcal->priv;
-
-	page = get_current_page (gcal);
-
-	if (page == priv->day_view || page == priv->work_week_view)
-		e_day_view_set_query (E_DAY_VIEW (page), sexp);
-	else if (page == priv->week_view || page == priv->month_view)
-		e_week_view_set_query (E_WEEK_VIEW (page), sexp);
-	else {
-		g_warning ("A penguin bit my hand!");
-		g_assert_not_reached ();
-	}
-}
-
-/* Sets the query string to be (contains? "field" "text") */
-static void
-set_query_contains (GnomeCalendar *gcal, const char *field, const char *text)
-{
-	char *sexp;
-
-	sexp = g_strdup_printf ("(contains? \"%s\" \"%s\")", field, text);
-	set_query (gcal, sexp);
-	g_free (sexp);
-}
-
-/* Callback used when the query string is changed in the search bar */
-static void
-search_bar_query_changed_cb (ESearchBar *search_bar, gpointer data)
-{
-	GnomeCalendar *gcal;
-	int item;
-	char *text;
-
-	gcal = GNOME_CALENDAR (data);
-
-	item = e_search_bar_get_option_choice (search_bar);
-	text = e_search_bar_get_text (search_bar);
-
-	if (!text)
-		return; /* This is an error in the UTF8 conversion, not an empty string! */
-
-	switch (item) {
-	case SEARCH_ANY_FIELD_CONTAINS:
-		set_query_contains (gcal, "any", text);
-		break;
-
-	case SEARCH_SUMMARY_CONTAINS:
-		set_query_contains (gcal, "summary", text);
-		break;
-
-	case SEARCH_DESCRIPTION_CONTAINS:
-		set_query_contains (gcal, "description", text);
-		break;
-
-	case SEARCH_COMMENT_CONTAINS:
-		set_query_contains (gcal, "comment", text);
-		break;
-
-	case SEARCH_HAS_CATEGORY: {
-		char *sexp;
-
-		sexp = g_strdup_printf ("(has-categories? \"%s\")", text);
-		set_query (gcal, sexp);
-		g_free (sexp);
-		break;
-	}
-
-	default:
-		g_assert_not_reached ();
-	}
-
-	g_free (text);
-}
-
-/* Callback used when a menu item is activated in the search bar */
-static void
-search_bar_menu_activated_cb (ESearchBar *search_bar, int item, gpointer data)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	switch (item) {
-	case SEARCH_SHOW_ALL:
-		set_query (gcal, "#t"); /* match all */
-		/* FIXME: should we change the rest of the search bar so that
-		 * the user sees that he selected "show all" instead of some
-		 * type/text search combination?
-		 */
-		break;
-
-	default:
-		g_assert_not_reached ();
-	}
-}
-
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
@@ -355,15 +211,6 @@ setup_widgets (GnomeCalendar *gcal)
 	CalendarModel *model;
 
 	priv = gcal->priv;
-
-	priv->search_bar = e_search_bar_new (search_menu_items, search_option_items);
-	gtk_signal_connect (GTK_OBJECT (priv->search_bar), "query_changed",
-			    GTK_SIGNAL_FUNC (search_bar_query_changed_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->search_bar), "menu_activated",
-			    GTK_SIGNAL_FUNC (search_bar_menu_activated_cb), gcal);
-
-	gtk_widget_show (priv->search_bar);
-	gtk_box_pack_start (GTK_BOX (gcal), priv->search_bar, FALSE, FALSE, 0);
 
 	/* The main HPaned, with the notebook of calendar views on the left
 	   and the ECalendar and ToDo list on the right. */
@@ -529,6 +376,16 @@ gnome_calendar_destroy (GtkObject *object)
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+static GtkWidget *
+get_current_page (GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+
+	priv = gcal->priv;
+
+	return GTK_NOTEBOOK (priv->notebook)->cur_page->child;
 }
 
 char *

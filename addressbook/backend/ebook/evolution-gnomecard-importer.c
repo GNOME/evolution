@@ -1,11 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #include <config.h>
-#include <stdio.h>
-
+#include <bonobo.h>
+#include <gnome.h>
 #include <liboaf/liboaf.h>
-#include <bonobo/bonobo-context.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-main.h>
+#include <stdio.h>
 
 #include <e-book.h>
 

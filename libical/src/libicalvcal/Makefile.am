@@ -4,7 +4,8 @@ INCLUDES =			\
 	-I$(top_builddir)	\
 	-I$(top_srcdir)/src/libical	\
 	-I$(top_builddir)/src/libical	\
-	-I$(top_srcdir)/src/libicalss
+	-I$(top_srcdir)/src/libicalss	\
+	-I$(srcdir)
 
 libicalvcal_la_LDFLAGS = -version-info 0:0:0
 

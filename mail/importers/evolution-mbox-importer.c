@@ -25,20 +25,20 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 
-#include <camel/camel-exception.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-mime-parser.h>
-#include <camel/camel-mime-part.h>
+#include <stdio.h>
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
-#include "mail/mail-importer.h"
+#include "mail-importer.h"
+
+#include <camel/camel-exception.h>
+#include <camel/camel-mime-parser.h>
+#include <camel/camel-mime-part.h>
+#include <camel/camel-mime-message.h>
 #include "mail-tools.h"
 
 #define IMPORTER_DEBUG

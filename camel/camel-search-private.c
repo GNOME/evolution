@@ -22,13 +22,12 @@
  *
  */
 
-/* (from glibc headers:
-   POSIX says that <sys/types.h> must be included (by the caller) before <regex.h>.  */
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
+/* (from glibc headers:
+   POSIX says that <sys/types.h> must be included (by the caller) before <regex.h>.  */
 #include <sys/types.h>
 #include <regex.h>
 #include <string.h>
@@ -40,10 +39,9 @@
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
 #include "e-util/e-sexp.h"
+#include <unicode.h>
 
 #include "camel-search-private.h"
-
-#include <gal/unicode/gunicode.h>
 
 #define d(x)
 
@@ -191,16 +189,55 @@ header_soundex(const char *header, const char *match)
 	return truth;
 }
 
-static gunichar
+#if 0
+/* Why do it this way when the unicode lib already has a function to do this? */
+static unicode_char_t
+utf8_get (const char **inp)
+{
+	guint32 c, v = 0, s, shift;
+	const unsigned char *p = *inp;
+
+	if (p == NULL)
+		return 0;
+
+	s = *p++;
+	if ((s & 0x80) == 0) {	/* 7 bit char */
+		v = s;
+	} else if (s>0xf7) {	/* invalid char, we can only have upto 4 bits encoded */
+		p = NULL;
+	} else if (s>=0xc0) {	/* valid start char */
+		shift = 0;
+		do {
+			c = *p++;
+			if ((c & 0xc0) == 0x80) {
+				v = (v<<6) | (c&0x3f);
+				shift += 5;
+			} else {
+				*inp = NULL;
+				return 0;
+			}
+			s <<= 1;
+		} while ((s & 0x80) != 0);
+		v |= s << shift;
+	} else {		/* invalid start char, internal char */
+		p = NULL;
+	}
+
+	*inp = p;
+	return v;
+}
+#endif
+
+static unicode_char_t
 utf8_get (const char **inp)
 {
 	const unsigned char *p = *inp;
-	gunichar c;
+	unicode_char_t c;
 	
 	g_return_val_if_fail (p != NULL, 0);
 	
-	c = g_utf8_get_char (p);
-	*inp = g_utf8_next_char (p);
+	p = unicode_get_utf8 (p, &c);
+	*inp = p;
 	
 	return c;
 }
@@ -208,8 +245,8 @@ utf8_get (const char **inp)
 static const char *
 camel_ustrstrcase (const char *haystack, const char *needle)
 {
-	gunichar *nuni, *puni;
-	gunichar u;
+	unicode_char_t *nuni, *puni;
+	unicode_char_t u;
 	const char *p;
 	
 	g_return_val_if_fail (haystack != NULL, NULL);
@@ -220,11 +257,11 @@ camel_ustrstrcase (const char *haystack, const char *needle)
 	if (strlen(haystack) == 0)
 		return NULL;
 	
-	puni = nuni = alloca (sizeof (gunichar) * strlen (needle));
+	puni = nuni = alloca (sizeof (unicode_char_t) * strlen (needle));
 	
 	p = needle;
 	while ((u = utf8_get (&p)))
-		*puni++ = g_unichar_tolower (u);
+		*puni++ = unicode_tolower (u);
 	
 	/* NULL means there was illegal utf-8 sequence */
 	if (!p)
@@ -232,9 +269,9 @@ camel_ustrstrcase (const char *haystack, const char *needle)
 	
 	p = haystack;
 	while ((u = utf8_get (&p))) {
-		gunichar c;
+		unicode_char_t c;
 		
-		c = g_unichar_tolower (u);
+		c = unicode_tolower (u);
 		/* We have valid stripped char */
 		if (c == nuni[0]) {
 			const gchar *q = p;
@@ -245,7 +282,7 @@ camel_ustrstrcase (const char *haystack, const char *needle)
 				if (!q || !u)
 					return NULL;
 				
-				c = g_unichar_tolower (u);				
+				c = unicode_tolower (u);				
 				if (c != nuni[npos])
 					break;
 				
@@ -273,15 +310,15 @@ camel_ustrstrcase (const char *haystack, const char *needle)
 static int
 camel_ustrcasecmp (const char *s1, const char *s2)
 {
-	gunichar u1, u2 = 0;
+	unicode_char_t u1, u2 = 0;
 	
 	CAMEL_SEARCH_COMPARE (s1, s2, NULL);
 	
 	u1 = utf8_get (&s1);
 	u2 = utf8_get (&s2);
 	while (u1 && u2) {
-		u1 = g_unichar_tolower (u1);
-		u2 = g_unichar_tolower (u2);
+		u1 = unicode_tolower (u1);
+		u2 = unicode_tolower (u2);
 		if (u1 < u2)
 			return -1;
 		else if (u1 > u2)
@@ -303,15 +340,15 @@ camel_ustrcasecmp (const char *s1, const char *s2)
 static int
 camel_ustrncasecmp (const char *s1, const char *s2, size_t len)
 {
-	gunichar u1, u2 = 0;
+	unicode_char_t u1, u2 = 0;
 	
 	CAMEL_SEARCH_COMPARE (s1, s2, NULL);
 	
 	u1 = utf8_get (&s1);
 	u2 = utf8_get (&s2);
 	while (len > 0 && u1 && u2) {
-		u1 = g_unichar_tolower (u1);
-		u2 = g_unichar_tolower (u2);
+		u1 = unicode_tolower (u1);
+		u2 = unicode_tolower (u2);
 		if (u1 < u2)
 			return -1;
 		else if (u1 > u2)

@@ -1,51 +1,20 @@
-2001-04-25  Dan Winship  <danw@ximian.com>
+2001-04-21  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* gui/component/addressbook-factory.c (main): Remove call to
-	unicode_init.
+	* contact-editor/e-contact-quick-add.c (build_quick_add_dialog):
+	Pull up utf8 conversion fixes from trow on HEAD. Fixes bug #2256.
+	
+2001-04-20  Kjartan Maraas  <kmaraas@gnome.org>
 
-2001-04-23  Jon Trowbridge  <trow@ximian.com>
+	* gui/component/e-address-popup.c: Pull up fix to
+	convert from utf8. Works only partially. See bugzilla
+	# 2256.
+	
+2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
 
-	* gui/component/e-address-popup.c: Lots of code has been
-	simplified here.
-	(e_address_popup_factory_new_control): Rather than directly pop
-	our control up in a window (via the e_address_popup_popup
-	function, which is now gone), just return the widget and let the
-	caller do the popping.  This works better, since it means we don't
-	have to work around the vagaries of bonobo focus & event handling.
-	(e_address_popup_set_name): Refresh when both name & email have
-	been set, rather than checking a stupid counter.
-	(e_address_popup_set_email): Ditto.
-
-2001-04-22  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/component/addressbook-storage.c
-	(addressbook_storage_clear_sources): Added save_source_data here.
-
-2001-04-21  Jon Trowbridge  <trow@ximian.com>
-
-	* contact-editor/e-contact-quick-add.c (clicked_cb): Properly
-	convert to utf8. (Bug #2256)
-	(build_quick_add_dialog): Properly convert from utf8. (Bug #2256)
-
-2001-04-16  Jon Trowbridge  <trow@ximian.com>
-
-	* backend/ebook/e-destination.c (e_destination_get_name): Added.
-
-	* gui/component/select-names/e-select-names.c
-	(real_add_address_cb): Use e_select_names_model_append.  It's
-	nicer.
-
-	* gui/component/select-names/e-select-names-model.c
-	(e_select_names_model_append): Added.
-
-	* gui/component/select-names/e-select-names-completion.c
-	(book_query_process_card_list): Filter out completion matches that
-	don't have an associated e-mail address.
-	(book_query_score): Give a bonus to the primary address, so that
-	it always comes up first in the completion results.
-
-	* gui/component/e-address-popup.c (e_address_popup_refresh_names):
-	Convert utf8 strings into gtk strings before displaying.
+	* contact-editor/contact-editor.glade: changed icon to
+	evolution-contacts-plain.png.
+	* gui/component/addressbook.c: use new pixmap cache. Added icon for new
+	contact, print, print preview, changed filenames of renamed icons.
 
 2001-04-14  Christopher James Lahey  <clahey@ximian.com>
 
@@ -119,113 +88,25 @@
 	* backend/pas/pas-backend-file.c (INITIAL_VCARD): Update the built
 	in VCard.
 
-2001-04-12  JP Rosevear  <jpr@ximian.com>
+2001-04-11  Chris Toshok <toshok@ximian.com>
 
-	* conduit/address-conduit.c (local_record_from_ecard): put the
-	business address into the pilot record as that is what we put into
-	the desktop record
-	(ecard_from_remote_record): set both the address label and
-	delivery address to avoid bad parser guessing, fixes #2143
+        * backend/pas/pas-backend-ldap.c (pas_backend_ldap_add_client):
+        make sure to notify new clients to the writable status of an
+        already open (and authenticated) book.
 
-	* backend/ebook/e-card-types.h: remove deprecated pilot code
+2001-04-11  Christopher James Lahey  <clahey@ximian.com>
 
-	* backend/ebook/e-card.c: ditto
-
-	* backend/ebook/e-card.h: ditto
-	
-2001-04-11  JP Rosevear  <jpr@ximian.com>
-
-	* conduit/address-conduit.c (local_record_from_ecard): Don't add
-	more than five phone numbers and set the remaining blank entries
-	to some reasonable defaults
+	* backend/pas/pas-backend-file.c: Send report_writable signal to
+	newly connected books.
 
 2001-04-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card-simple.h: Added
 	E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING.
 
-	* gui/component/addressbook-component.c (accepted_dnd_types):
-	Fixed a warning here.
-
 	* gui/widgets/e-addressbook-model.c: Modified this to have more
 	columns, but not let them be edited if they're not a simple
 	string.
-
-	* gui/widgets/e-minicard-view.c (e_minicard_view_init): Fixed a
-	warning and a memory leak here.
-
-2001-04-10  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* backend/ebook/evolution-gnomecard-importer.c: added missing #include.
-	* contact-editor/e-contact-editor.c (_arrow_pressed): popup menu items were
-	not translated after selecting one of them.
-	* gui/widgets/e-addressbook-view.c: mark popup menu items with N_().
-	Updated list[] for translators.
-	* gui/widgets/e-minicard.c: same.
-	* gui/widgets/e-minicard-view-widget.c (e_minicard_view_widget_set_arg): fix warning
-	for "editable" arg.
-	* gui/widgets/e-minicard-view.c: convert "empty_message" to utf8.
-
-2001-04-09  Chris Toshok  <toshok@ximian.com>
-
-	* gui/component/addressbook-component.c (remove_folder): stubbed,
-	#if 0'ed
-	(xfer_folder): same.
-	(populate_context_menu): same.
-	(get_dnd_selection): same.
-	(factory_fn): add the accepted drag types ("text/x-vard") to
-	folder_types.
-
-2001-04-09  Chris Toshok  <toshok@ximian.com>
-
-	* gui/widgets/e-minicard.c (e_minicard_event): on BUTTON_PRESS: if
-	it's button 1, store the button x, y, and set drag_button_down to
-	TRUE.  on BUTTON_RELEASE: always set drag_button_down to FALSE.
-	for MOTION_NOTIFY: initiate drag if the pointer has moved 3
-	pixels.
-
-	* gui/widgets/e-minicard.h (struct _EMinicard): add fields for
-	button x, y, and a bit for if the button has been pressed so we
-	can tell whether a motion should be a drag.
-	(struct _EMinicardClass): add drag_begin signal.
-
-	* gui/widgets/e-minicard-view.c (e_minicard_view_drag_begin): new
-	function, starts the drag.
-	(book_view_loaded): connect the "drag_data_get" signal.
-	(e_minicard_view_drag_data_get): new function.
-
-	* gui/widgets/e-minicard-view.h (struct _EMinicardView): add
-	drag_card and id for canvas_drag_data_get_id.
-
-	* gui/widgets/e-addressbook-view.c (table_drag_data_get): new
-	function.
-	(create_table_view): add d&d stuff.
-
-2001-04-08  Chris Toshok  <toshok@ximian.com>
-
-	* printing/e-contact-print.c: add #include <sys/types.h> since
-	gnome-print.h uses time_t without including it.  this really
-	should be fixed in gnome-print.
-
-2001-04-08  Chris Toshok  <toshok@ximian.com>
-
-	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_add_client):
-	make sure to notify new clients to the writable status of an
-	already open (and authenticated) book.
-
-2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* contact-editor/e-contact-editor.[ch]: Fix headers.
-	* component/addressbook-storage.c: Same here.
-	* gui/search/e-addressbook-search-dialog.c: Same here.
-	* gui/widgets/e-addressbook-view.c: Same here.
-	* gui/widgets/e-minicard-label.c: Same here.
-	* gui/widgets/e-minicard-view-widget.c: Same here.
-	* gui/widgets/e-minicard-view.c: Same here.
-	* gui/widgets/e-minicard-widget-test.c: Same here.
-	* gui/widgets/e-minicard-widget.c: Same here.
-	* gui/widgets/e-minicard.c: Same here.
-	* gui/widgets/test-minicard-label.c: Same here.
 
 2001-04-03  Christopher James Lahey  <clahey@ximian.com>
 
@@ -236,58 +117,16 @@
 
 	* gui/widgets/e-addressbook-model.c (COLS): Made this table model
 	more consistent in the number of columns it has.
-	(addressbook_append_row): Fixed this function.  We removed the col
-	offset.
+
+2001-04-03  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-addressbook-model.c (addressbook_append_row):
+	Fixed this function.  We removed the col offset.
 
 2001-04-02  Iain Holmes  <iain@ximian.com>
 
 	* backend/ebook/evolution-gnomecard-importer.c (importer_init): Shut
-	down and unregister the factory on exit. 
-
-2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* contact-editor/contact-editor.glade: changed icon to
-	evolution-contacts-plain.png.
-	* gui/component/addressbook.c: use new pixmap cache. Added icon for new
-	contact, print, print preview, changed filenames of renamed icons.
-
-2001-03-31  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/component/select-names/e-select-names.c
-	(real_add_address_cb): Call e_select_names_model_clean after
-	adding address.  This should deal with the bug reports related
-	to stray commas.
-
-	* gui/component/select-names/e-select-names-model.c
-	(e_select_names_model_clean): Added.  Remove all empty destinations.
-
-	* backend/ebook/e-destination.c (e_destination_is_empty): Added.  Check
-	if an EDestination is in essentially a null state.
-
-2001-03-30  Christopher James Lahey  <clahey@ximian.com>
-
-	* backend/pas/pas-backend-file.c (pas_backend_file_add_client):
-	Tell new clients that are added whether they're writable.
-
-2001-03-29  Jon Trowbridge  <trow@ximian.com>
-
-	* printing/e-contact-print.c: Added #include <libgnome/gnome-paper.h>
-	
-	* printing/e-contact-print-envelope.c: Added #include <time.h>
-	and #include <libgnome/gnome-paper.h>
-
-2001-04-03  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/component/select-names/e-select-names-completion.c
-	(match_email): Better handle matching of "nameless" contacts.
-
-	* backend/ebook/e-destination.c (e_destination_get_string): Better
-	handle the case of a "nameless" contact.
-
-2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* *.*: Clean up #includes. Replace <gnome.h>, <bonobo.h> and
-	<gtk/gtk.h> with more finegrained headers where needed.
+	down and unregister the factory on exit.
 
 2001-03-28  Christopher James Lahey  <clahey@ximian.com>
 

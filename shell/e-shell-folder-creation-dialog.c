@@ -25,10 +25,7 @@
 #include <config.h>
 #endif
 
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-util.h>
+#include <gnome.h>
 #include <glade/glade-xml.h>
 
 #include <gal/util/e-util.h>

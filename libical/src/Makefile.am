@@ -1,7 +1,4 @@
-if WITH_PYTHON
-PYTHON_DIR = python
-else
-PYTHON_DIR = 
-endif
+SUBDIRS = libical libicalvcal
 
-SUBDIRS = libical libicalss libicalvcal # $(PYTHON_DIR) test
+# disabled libicalss and test until they build
+#SUBDIRS = libical libicalss libicalvcal test

@@ -25,17 +25,14 @@
 #include <config.h>
 #endif
 
-#include "evolution-shell-component.h"
-
 #include <fcntl.h>
+#include <bonobo.h>
 
-#include <glib.h>
-#include <gtk/gtksignal.h>
-#include <bonobo/bonobo-object.h>
+#include "Evolution.h"
 
 #include <gal/util/e-util.h>
 
-#include "Evolution.h"
+#include "evolution-shell-component.h"
 
 
 #define PARENT_TYPE BONOBO_X_OBJECT_TYPE

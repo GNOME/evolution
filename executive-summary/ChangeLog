@@ -1,38 +1,8 @@
-2001-04-25  Dan Winship  <danw@ximian.com>
+2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
 
-	* idl/Makefile.am (INCLUDES): Remove this section, which doesn't
-	apply to anything since there are no targets in this directory.
-
-	* test-service/Makefile.am: 
-	* evolution-services/Makefile.am: 
-	* component/Makefile.am: Remove UNICODE_LIBS/UNICODE_CFLAGS
-
-2001-04-14  Michael Meeks  <michael@ximian.com>
-
-	* idl/Makefile.am: Remove stale build cruftiness.
-
-2001-04-10  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* widgets/e-summary-subwindow.c: added some missing includes.
-	* widgets/e-summary-title-button.h: same.
-
-2001-04-04  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* component/component-factory.c: last time I've broken shortcut view.
-	renamed icons properly.
-
-2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* component/component-factory.c: Changed folder type icon to tiny
-	executive summary icon.
 	* component/e-summary-factory.c: replaced set_pixmap with new EPixmap
 	cache.
 
-2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* *.*: Clean up includes. Remove/replace <gnome.h>, <bonobo.h>
-	and <gtk/gtk.h>.
-	
 2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component/component-factory.c (factory_fn): Specify a NULL

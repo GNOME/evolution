@@ -20,19 +20,11 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "config.h"
+#include "mail-send-recv.h"
 
 #include <stdio.h>
 #include <string.h>
-
-/* for the dialogue stuff */
-#include <glib.h>
-#include <gtk/gtkmain.h>
-#include <libgnomeui/gnome-stock.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-window-icon.h>
 
 #include "filter/filter-context.h"
 #include "filter/filter-filter.h"
@@ -48,7 +40,13 @@
 #include "mail-session.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
-#include "mail-send-recv.h"
+
+/* for the dialogue stuff */
+#include <glib.h>
+#include <gtk/gtk.h>
+#include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-window-icon.h>
 
 #define d(x)
 
@@ -231,7 +229,7 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 	data = setup_send_data();
 
 	gd = (GnomeDialog *)gnome_dialog_new(_("Send & Receive mail"), GNOME_STOCK_BUTTON_CANCEL, NULL);
-	gnome_window_icon_set_from_file((GtkWindow *)gd, EVOLUTION_ICONSDIR "/send-receive.xpm");
+	gnome_window_icon_set_from_file((GtkWindow *)gd, EVOLUTION_DATADIR "images/evolution/evolution-inbox.png");
 
 	frame= (GtkFrame *)gtk_frame_new(_("Receiving"));
 	gtk_box_pack_start((GtkBox *)gd->vbox, (GtkWidget *)frame, TRUE, TRUE, 0);

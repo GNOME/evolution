@@ -1,43 +1,7 @@
-2001-04-25  Dan Winship  <danw@ximian.com>
+2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
 
-	* Makefile.am (evolution_LDADD): Remove $(UNICODE_LIBS).
-
-	* main.c (main): Remove call to unicode_init.
-
-2001-04-25  JP Rosevear  <jpr@ximian.com>
-
-	* evolution-shell-client.c (destroy): free the private member
-
-2001-04-25  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* e-component-register.c, e-corba-storage.c, e-folder-tree.c,
-	e-folder-tree.h, e-folder.c, e-local-folder.c, e-shell.c,
-	e-shortcuts-view-model.c, e-shortcuts.c, e-splash.c, 
-	e-storage-set-view.c, e-storage-set.c, evolution-local-storage.c,
-	evolution-shell-component-client.c, evolution-shell-component.c,
-	evolution-storage.[ch], importer/evolution-importer-client.[ch],
-	importer/evolution-importer-listener.[ch],
-	importer/evolution-importer.[ch],
-	importer/evolution-intelligent-importer.[ch], importer/intelligent.c:
-	#include <glib.h> and move corresponding local includes to the top.
-	
-2001-04-23  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-splash.c: #include gnome-window-icon.h
-
-2001-04-21  Duncan Mak  <duncan@ximian.com>
-
-	* e-splash.c (e_splash_construct): Set window_icon to
-	"evolution.png" in the splash screen.
-
-2001-04-18  Ettore Perazzoli  <ettore@ximian.com>
-
-	* e-local-folder.c: #include <unistd.h>.
-
-2001-04-17  Christopher James Lahey  <clahey@ximian.com>
-
-	* e-shell-view.c (storage_set_view_box_event_cb): Proxy events to
-	the tooltip object properly.
+	* e-shell-view-menu.c: set up menu icons for new folder, import and work
+	offline.
 
 2001-04-15  Ettore Perazzoli  <ettore@ximian.com>
 
@@ -57,10 +21,6 @@
 	button sensitive if the entry is non-empty.
 	(e_shell_show_folder_creation_dialog): Connect it.
 
-2001-04-14  Michael Meeks  <michael@ximian.com>
-
-	* Makefile.am (dist-hook): remove built sources from dist.
-
 2001-04-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-splash.c (impl_destroy): Call the parent class' ::destroy
@@ -77,28 +37,14 @@
 	infinite loop when clicking on an IMAP storage. Might not be the
 	best fix?
 
-2001-04-08  Chris Toshok  <toshok@ximian.com>
+2001-04-03  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* e-storage-set-view.c (tree_drag_motion): fix type.  we want the
-	destination interface, not source.
-
-2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* e-local-folder.c: Fix headers.
-	* e-shell-view.c: Same here.
-	* e-shortcuts-view.c: Same here.
-	* e-shortcuts.c: Same here.
-	* e-storage-set-view.c: Same here.
-	
-2001-04-04  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* importer/importer.c (create_html): copied newer and fixed function
-	from mail/mail-config-druid.c.
-	(html_new, put_html): removed.
-	(show_import_wizard): use create_html instead of html_new/put_html pair.
-	* importer/importer.glade: a try to set logo. removed source generation
-	options.
-
+	* e-local-folder.c: Include <libgnome/gnome-defs> and
+	<libgnome/gnome-i18n.h>
+	* e-shortcuts.c: Same here and add some gtk headers to
+	compensate for changes in gal.
+	* importer/intelligent.c: Mark a string for translation.
+	 
 2001-04-03  Dan Winship  <danw@ximian.com>
 
 	* main.c:
@@ -138,35 +84,19 @@
 	type "mail", rename it to "Trash.old" so that the new
 	vfolder-based trash type gets installed.
 
-2001-04-03  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* importer/evolution-importer-client.c (evolution_importer_client_load_file):
-	fix Iain's fix which did nothing. closes #1914.
-
 2001-03-31  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-storage-set-view.c: Include <gal/util/e-util.h> here.
-
-2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* e-shell-view-menu.c: set up menu icons for new folder, import and work
-	offline.
 
 2001-03-30  Iain Holmes  <iain@ximian.com>
 
 	* importer/importer.c (start_import): If the importer can't be started, then
 	don't continue.
 
-2001-03-29  Iain Holmes  <iain@ximian.com>
+2001-03-30  Iain Holmes  <iain@ximian.com>
 
 	* importer/evolution-importer-client.c (evolution_importer_client_load_file):
-	Duplicate the folderpath, or set it to \0
-
-2001-03-30  Christopher James Lahey  <clahey@ximian.com>
-
-	* e-shell-folder-selection-dialog.c (dbl_click_cb): Since this is
-	an ETree now, the signature of the double click callback has
-	changed.
+	Duplicate the string setting it to be nonNULL.
 
 2001-03-30  Dan Winship  <danw@ximian.com>
 
@@ -185,49 +115,6 @@
 	redirect stdout/stderr to the named file and emit a "debug"
 	signal.
 
-2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* e-component-registry.c: Remove/replace  unneeded includes and
-	move around stuff so that system headers are included first.
-	* e-corba-storage.c: Replace #include <bonobo.h>
-	* e-folder-tree.c: Shuffle.
-	* e-folder.c: Remove #include <gtk/gtkobject.h>
-	* e-local-storage.c: Replace #include <gnome.h> and <bonobo.h>
-	* e-setup.c: Replace #include <glib.h> and <gnome.h>
-	* e-shell-folder-creation-dialog.c: Replace #include <gnome.h>
-	* e-shell-folder-title-bar.c: Replace <gnome.h>
-	* e-shell-utils.c: Same here.
-	* e-shell-view-menu.c: Same here (and <bonobo.h>)
-	* e-shell-view.c: Replace <gnome.h> and <bonobo.h>
-	* e-shell.c: Replace <gnome.h>
-	* e-shell.h: Shuffle.
-	* e-shortcuts-view-model.c: Replace <gnome.h>
-	* e-shortcuts-view.c: Remove #include <gnome.h>
-	* e-shortcuts.c: Move <string.h> up.
-	* e-splash.c: Replace <gnome.h>
-	* e-storage-set-view.c: Replace <gnome.h>
-	* e-storage-set.c: Shuffle
-	* e-storage.c: Replace <gnome.h>
-	* evolution-local-storage.c: Same here
-	* evolution-local-storage.h: And here.
-	* evolution-session.c: Same here too.
-	* evolution-session.h: Replace <bonobo.h>
-	* evolution-shell-client.c: Here too.
-	* evolution-shell-component-client.c: Shuffle.
-	* evolution-shell-component.c: Replace <bonobo.h>
-	* evolution-shell-view.c: Remove #include <bonobo.h>
-	* evolution-shell-view.h: Replace <gnome.h>
-	* evolution-storage-listener.c: Replace <gnome.h> and <bonobo.h>
-	* evolution-storage-listener.h: Replace <gnome.h>
-	* evolution-storage-set-view-listener.c: Replace <gnome.h> and <bonobo.h>
-	* evolution-storage-set-view.c: Remove <gnome.h>
-	* evolution-storage.c: Replace <bonobo.h>
-	* main.c: Replace <gnome.h> and <bonobo.h>
-	* importer/importer.c: Replace <gnome.h>
-	* importer/intelligent.c: Replace <gnome.h>. Add prototype for
-	intelligent_importer_init().
-	* importer/intelligent.h: Added this file.
-	
 2001-03-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (folder_sort_callback): Use

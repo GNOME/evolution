@@ -38,18 +38,13 @@
 #include <config.h>
 #endif
 
-#include <string.h>
-#include <unistd.h>
-
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
-
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
+
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
-
-#include <libgnome/gnome-util.h>
 
 #include "e-local-folder.h"
 

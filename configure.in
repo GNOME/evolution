@@ -27,10 +27,10 @@ AC_DEFUN(EVO_CHECK_LIB, [
 
 	pkgvers=`echo $pkgvers | awk -F. '{ print $[]1 * 1000000 + $[]2 * 10000 + $[]3 * 100 + $[]4;}'`
 	if test "$pkgvers" -lt $cmpvers; then
-	AC_MSG_ERROR([
-""
-"You need $dispname $dispvers or later to build Evolution"
-"If you think you already have this installed, consult the README."])
+		echo ""
+		echo "You need $dispname $dispvers or later to build Evolution" 1>&2
+		echo "(If you think you already have this installed, consult the README.)" 1>&2
+		exit 1
 	fi
 ])
 
@@ -148,39 +148,6 @@ AC_CACHE_CHECK([if ctime_r wants three arguments], ac_cv_ctime_r_three_args,
 	
 if test x"$ac_cv_ctime_r_three_args" = xyes ; then
 	AC_DEFINE(CTIME_R_THREE_ARGS)
-fi
-
-dnl **************************************************
-dnl gethostbyname_r prototype
-dnl **************************************************
-
-AC_CHECK_FUNCS(gethostbyname_r,[
-AC_CACHE_CHECK([if gethostbyname_r wants five arguments], ac_cv_gethostbyname_r_five_args,
-[
-	AC_TRY_COMPILE([
-		#include "confdefs.h"
-		#include <sys/types.h>
-		#include <sys/socket.h>
-		#include <netinet/in.h>
-		#include <netdb.h>
-
-		#define BUFSIZE (sizeof(struct hostent)+10)
-	],[
-		struct hostent hent;
-		char buffer[BUFSIZE];
-		int bufsize=BUFSIZE;
-		int h_errno;
-
-		(void)gethostbyname_r( "www.ximian.com", &hent, buffer, bufsize, &h_errno);
-	],[
-		ac_cv_gethostbyname_r_five_args=yes
-	],[
-		ac_cv_gethostbyname_r_five_args=no
-	])
-])])
-	
-if test x"$ac_cv_gethostbyname_r_five_args" = xyes ; then
-	AC_DEFINE(GETHOSTBYNAME_R_FIVE_ARGS)
 fi
 
 dnl **************************************************
@@ -308,11 +275,24 @@ EVO_CHECK_LIB(Bonobo, 0.36, bonobox)
 EVO_CHECK_LIB(OAF, 0.6, oaf)
 EVO_CHECK_LIB(libglade, 0.14, libglade)
 EVO_CHECK_LIB(gdk-pixbuf with GNOME canvas support, 0.9.0, gnomecanvaspixbuf)
-EVO_CHECK_LIB(GAL, 0.7.99.2, gal)
+EVO_CHECK_LIB(GAL, 0.7, gal)
 EVO_CHECK_LIB(GtkHTML, 0.8, gtkhtml)
 EVO_CHECK_LIB(GNOME-VFS, 0.4.2, vfs)
 EVO_CHECK_LIB(libxml, 1.8.10, xml)
 
+dnl **********
+dnl libunicode
+dnl **********
+AC_MSG_CHECKING(for libunicode)
+if unicode-config --libs > /dev/null 2>&1; then 
+    UNICODE_LIBS=`unicode-config --libs`
+    UNICODE_CFLAGS=`unicode-config --cflags`
+    AC_SUBST(UNICODE_LIBS)
+    AC_SUBST(UNICODE_CFLAGS)
+    AC_MSG_RESULT(found)
+else
+    AC_MSG_ERROR(libunicode not found)
+fi
 
 
 dnl *************************
@@ -323,24 +303,19 @@ GLIB_LIBS="`glib-config --libs`"
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
-GAL_CFLAGS="`gnome-config --cflags gal`"
-GAL_LIBS="`gnome-config --libs gal`"
-AC_SUBST(GAL_CFLAGS)
-AC_SUBST(GAL_LIBS)
-
-EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_LIBS"
-EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_CFLAGS"
+EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_LIBS $UNICODE_LIBS"
+EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_CFLAGS $UNICODE_CFLAGS"
 
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
-BONOBO_GNOME_LIBS="`gnome-config --libs bonobox_print libglade gdk_pixbuf gnomecanvaspixbuf gnomeui` $OAF_LIBS"
-BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobox_print libglade gdk_pixbuf gnomecanvaspixbuf gnomeui` $OAF_CFLAGS"
+BONOBO_GNOME_LIBS="`gnome-config --libs bonobox_print libglade gdk_pixbuf gnomecanvaspixbuf gnomeui` $UNICODE_LIBS $OAF_LIBS"
+BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobox_print libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $UNICODE_CFLAGS $OAF_CFLAGS"
 AC_SUBST(BONOBO_GNOME_LIBS)
 AC_SUBST(BONOBO_GNOME_CFLAGS)
 
-BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobox_print libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_LIBS"
-BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobox_print libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_CFLAGS"
+BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobox_print libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_LIBS $UNICODE_LIBS"
+BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobox_print libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_CFLAGS $UNICODE_CFLAGS"
 AC_SUBST(BONOBO_HTML_GNOME_LIBS)
 AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
 
@@ -544,7 +519,7 @@ if test "x${with_nspr_libs}" != "xno" -a "x${have_nspr_includes}" != "xno"; then
 	CFLAGS_save="$CFLAGS"
 	LDFLAGS_save="$LDFLAGS"
 	
-	nsprlibs="-lnspr4 -lplc4 -lplds4 -lpthread"
+	nsprlibs="-lnspr4"
 	AC_CACHE_CHECK([for Mozilla nspr libraries], moz_nspr_libs,
 	[
 		CFLAGS="$CFLAGS $NSPR_CFLAGS"
@@ -601,11 +576,11 @@ msg_nss="no"
 if test "x${with_nss_libs}" != "xno" -a "x${have_nss_includes}" != "xno"; then
 	LDFLAGS_save="$LDFLAGS"
 	
-	nsprlibs="-lnspr4 -lplc4 -lplds4 -lpthread"
+	nsprlibs="-lnspr4"
 	nsslibs="-lnss3 -lnssckbi -lssl3 -lsmime3"
 	AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
 	[
-		LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
+		LDFLAGS="$LDFLAGS -L$with_nss_libs $nsslibs"
 		AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")
 		LDFLAGS="$LDFLAGS_save"
 	])
@@ -732,13 +707,6 @@ camel/providers/smtp/Makefile
 camel/providers/imap/Makefile
 camel/providers/nntp/Makefile
 camel/providers/local/Makefile
-camel/tests/Makefile
-camel/tests/lib/Makefile
-camel/tests/message/Makefile
-camel/tests/misc/Makefile
-camel/tests/folder/Makefile
-camel/tests/smime/Makefile
-camel/tests/stream/Makefile
 composer/Makefile
 widgets/Makefile
 widgets/meeting-time-sel/Makefile

@@ -4,6 +4,7 @@
 #ifndef _FOLDER_BROWSER_H_
 #define _FOLDER_BROWSER_H_
 
+#include "mail-types.h"
 #include <gtk/gtktable.h>
 #include "camel/camel-stream.h"
 #include <bonobo/bonobo-property-bag.h>
@@ -13,7 +14,6 @@
 #include "filter/filter-context.h" /*eek*/
 #include "message-list.h"
 #include "mail-display.h"
-#include "mail-types.h"
 #include "shell/Evolution.h"
 
 
@@ -63,10 +63,6 @@ struct  _FolderBrowser {
 
 typedef struct {
 	GtkTableClass parent_class;
-	
-	/* signals */
-	void (*folder_loaded)  (FolderBrowser *fb, const char *uri);
-	void (*message_loaded) (FolderBrowser *fb, const char *uid);
 } FolderBrowserClass;
 
 struct fb_ondemand_closure {

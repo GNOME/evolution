@@ -34,15 +34,14 @@
   the maintainer of this information.
 
 */
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include <gnome-xml/xmlmemory.h>
+#include <bonobo.h>
 #include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
+#include <gnome-xml/xmlmemory.h>
 
 #include "Evolution.h"
 #include "evolution-storage.h"
@@ -504,7 +503,7 @@ static char *register_folder_desc(struct _mail_msg *mm, int done)
 {
 	struct _register_msg *m = (struct _register_msg *)mm;
 
-	printf("returning description for %s\n", m->local_folder->uri);
+	d(printf("returning description for %s\n", m->local_folder->uri));
 
 	return g_strdup_printf(_("Opening '%s'"), m->local_folder->uri);
 }
@@ -803,6 +802,7 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 	char *fromurl = NULL, *tourl = NULL;
 	CamelFolder *fromfolder = NULL, *tofolder = NULL;
 	GPtrArray *uids;
+	int i;
 	char *metapath;
 	char *tmpname;
 	CamelURL *url = NULL;

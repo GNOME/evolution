@@ -9,14 +9,15 @@
  */
 
 #include <config.h>
+#include <glib.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkwindow.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
+#include <libgnomeui/gnome-dialog.h>
 #include "calendar-commands.h"
 #include "tag-calendar.h"
 #include "goto.h"

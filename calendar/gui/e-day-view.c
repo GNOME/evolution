@@ -27,33 +27,33 @@
  */
 
 #include <config.h>
-
-#include "e-day-view.h"
-
 #include <math.h>
 #include <time.h>
-#include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtkdnd.h>
 #include <gtk/gtkmain.h>
+#include <gtk/gtkselection.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkvscrollbar.h>
-#include <gtk/gtkwindow.h>
-#include <gal/e-text/e-text.h>
-#include <gal/widgets/e-popup-menu.h>
-#include <gal/widgets/e-canvas-utils.h>
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-
-#include "cal-util/timeutil.h"
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
+#include <cal-util/timeutil.h>
 #include "dialogs/delete-comp.h"
 #include "comp-util.h"
-#include "calendar-commands.h"
-#include "goto.h"
-#include "e-meeting-edit.h"
+#include "e-day-view.h"
 #include "e-day-view-time-item.h"
 #include "e-day-view-top-item.h"
 #include "e-day-view-main-item.h"
+#include "calendar-commands.h"
+#include <gal/widgets/e-canvas.h>
+#include <gal/e-text/e-text.h>
+#include <gal/widgets/e-canvas-utils.h>
+#include <gal/widgets/e-gui-utils.h>
+#include <gal/widgets/e-popup-menu.h>
+#include "e-meeting-edit.h"
+#include "goto.h"
 
 /* Images */
 #include "art/bell.xpm"
@@ -253,6 +253,9 @@ static void e_day_view_foreach_event_with_uid (EDayView *day_view,
 					       EDayViewForeachEventCallback callback,
 					       gpointer data);
 
+static void e_day_view_queue_reload_events (EDayView *day_view);
+static gboolean e_day_view_reload_events_idle_cb	(gpointer data);
+static void e_day_view_reload_events (EDayView *day_view);
 static void e_day_view_free_events (EDayView *day_view);
 static void e_day_view_free_event_array (EDayView *day_view,
 					 GArray *array);
@@ -485,14 +488,13 @@ e_day_view_init (EDayView *day_view)
 
 	day_view->calendar = NULL;
 	day_view->client = NULL;
-	day_view->sexp = g_strdup ("#t"); /* match all by default */
-	day_view->query = NULL;
 
 	day_view->long_events = g_array_new (FALSE, FALSE,
 					     sizeof (EDayViewEvent));
 	day_view->long_events_sorted = TRUE;
 	day_view->long_events_need_layout = FALSE;
 	day_view->long_events_need_reshape = FALSE;
+	day_view->reload_events_idle_id = 0;
 
 	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++) {
 		day_view->events[day] = g_array_new (FALSE, FALSE,
@@ -792,7 +794,7 @@ e_day_view_init (EDayView *day_view)
 
 
 	/* Create the cursors. */
-	day_view->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	day_view->normal_cursor = gdk_cursor_new (GDK_TOP_LEFT_ARROW);
 	day_view->move_cursor = gdk_cursor_new (GDK_FLEUR);
 	day_view->resize_width_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	day_view->resize_height_cursor = gdk_cursor_new (GDK_SB_V_DOUBLE_ARROW);
@@ -849,21 +851,15 @@ e_day_view_destroy (GtkObject *object)
 
 	e_day_view_stop_auto_scroll (day_view);
 
+	if (day_view->reload_events_idle_id != 0) {
+		g_source_remove (day_view->reload_events_idle_id);
+		day_view->reload_events_idle_id = 0;
+	}
+
 	if (day_view->client) {
 		gtk_signal_disconnect_by_data (GTK_OBJECT (day_view->client), day_view);
 		gtk_object_unref (GTK_OBJECT (day_view->client));
 		day_view->client = NULL;
-	}
-
-	if (day_view->sexp) {
-		g_free (day_view->sexp);
-		day_view->sexp = NULL;
-	}
-
-	if (day_view->query) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (day_view->query), day_view);
-		gtk_object_unref (GTK_OBJECT (day_view->query));
-		day_view->query = NULL;
 	}
 
 	if (day_view->large_font)
@@ -1376,11 +1372,23 @@ e_day_view_set_calendar		(EDayView	*day_view,
 }
 
 
-/* Callback used when a component is updated in the live query */
+/* Callback used when the calendar client finishes opening */
 static void
-query_obj_updated_cb (CalQuery *query, const char *uid,
-		      gboolean query_in_progress, int n_scanned, int total,
-		      gpointer data)
+cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
+{
+	EDayView *day_view;
+
+	day_view = E_DAY_VIEW (data);
+
+	if (status != CAL_CLIENT_OPEN_SUCCESS)
+		return;
+
+	e_day_view_queue_reload_events (day_view);
+}
+
+/* Callback used when the calendar client tells us that an object changed */
+static void
+obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
@@ -1388,7 +1396,12 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 	CalClientGetStatus status;
 	gint day, event_num;
 
+	g_return_if_fail (E_IS_DAY_VIEW (data));
+
 	day_view = E_DAY_VIEW (data);
+
+	/* Sanity check. */
+	g_return_if_fail (client == day_view->client);
 
 	/* If our time hasn't been set yet, just return. */
 	if (day_view->lower == 0 && day_view->upper == 0)
@@ -1403,7 +1416,7 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 		break;
 
 	case CAL_CLIENT_GET_SYNTAX_ERROR:
-		g_message ("query_obj_updated_cb(): Syntax error when getting object `%s'", uid);
+		g_message ("obj_updated_cb(): Syntax error when getting object `%s'", uid);
 		return;
 
 	case CAL_CLIENT_GET_NOT_FOUND:
@@ -1412,6 +1425,12 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 
 	default:
 		g_assert_not_reached ();
+		return;
+	}
+
+	/* We only care about events. */
+	if (cal_component_get_vtype (comp) != CAL_COMPONENT_EVENT) {
+		gtk_object_unref (GTK_OBJECT (comp));
 		return;
 	}
 
@@ -1462,9 +1481,10 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 	gtk_widget_queue_draw (day_view->main_canvas);
 }
 
-/* Callback used when a component is removed from the live query */
+
+/* Callback used when the calendar client tells us that an object was removed */
 static void
-query_obj_removed_cb (CalQuery *query, const char *uid, gpointer data)
+obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 {
 	EDayView *day_view;
 
@@ -1478,117 +1498,6 @@ query_obj_removed_cb (CalQuery *query, const char *uid, gpointer data)
 	gtk_widget_queue_draw (day_view->main_canvas);
 }
 
-/* Callback used when a query ends */
-static void
-query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *error_str, gpointer data)
-{
-	EDayView *day_view;
-
-	day_view = E_DAY_VIEW (data);
-
-	/* FIXME */
-
-	if (status != CAL_QUERY_DONE_SUCCESS)
-		fprintf (stderr, "query done: %s\n", error_str);
-}
-
-/* Callback used when an evaluation error occurs when running a query */
-static void
-query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
-{
-	EDayView *day_view;
-
-	day_view = E_DAY_VIEW (data);
-
-	/* FIXME */
-
-	fprintf (stderr, "eval error: %s\n", error_str);
-}
-
-
-/* Builds a complete query sexp for the day view by adding the predicates to
- * filter only for VEVENTS that fit in the day view's time range.
- */
-static char *
-adjust_query_sexp (EDayView *day_view, const char *sexp)
-{
-	char *start, *end;
-	char *new_sexp;
-
-	/* If the dates have not been set yet, we just want an empty query. */
-	if (day_view->lower == 0 || day_view->upper == 0)
-		return g_strdup ("#f");
-
-	start = isodate_from_time_t (day_view->lower);
-	end = isodate_from_time_t (day_view->upper);
-
-	new_sexp = g_strdup_printf ("(and (= (get-vtype) \"VEVENT\")"
-				    "     (occur-in-time-range? (make-time \"%s\")"
-				    "                           (make-time \"%s\"))"
-				    "     %s)",
-				    start, end,
-				    sexp);
-
-	g_free (start);
-	g_free (end);
-
-	return new_sexp;
-}
-
-
-/* Restarts a query for the day view */
-static void
-update_query (EDayView *day_view)
-{
-	char *real_sexp;
-
-	e_day_view_free_events (day_view);
-	gtk_widget_queue_draw (day_view->top_canvas);
-	gtk_widget_queue_draw (day_view->main_canvas);
-
-	if (!(day_view->client
-	      && cal_client_get_load_state (day_view->client) == CAL_CLIENT_LOAD_LOADED))
-		return;
-
-	if (day_view->query) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (day_view->query), day_view);
-		gtk_object_unref (GTK_OBJECT (day_view->query));
-	}
-
-	g_assert (day_view->sexp != NULL);
-	real_sexp = adjust_query_sexp (day_view, day_view->sexp);
-
-	day_view->query = cal_client_get_query (day_view->client, real_sexp);
-	g_free (real_sexp);
-
-	if (!day_view->query) {
-		g_message ("update_query(): Could not create the query");
-		return;
-	}
-
-	gtk_signal_connect (GTK_OBJECT (day_view->query), "obj_updated",
-			    GTK_SIGNAL_FUNC (query_obj_updated_cb), day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->query), "obj_removed",
-			    GTK_SIGNAL_FUNC (query_obj_removed_cb), day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->query), "query_done",
-			    GTK_SIGNAL_FUNC (query_query_done_cb), day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->query), "eval_error",
-			    GTK_SIGNAL_FUNC (query_eval_error_cb), day_view);
-}
-
-/* Callback used when the calendar client finishes opening */
-static void
-cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
-{
-	EDayView *day_view;
-
-	day_view = E_DAY_VIEW (data);
-
-	if (status != CAL_CLIENT_OPEN_SUCCESS)
-		return;
-
-	update_query (day_view);
-}
 
 /**
  * e_day_view_set_cal_client:
@@ -1621,35 +1530,17 @@ e_day_view_set_cal_client	(EDayView	*day_view,
 	day_view->client = client;
 
 	if (day_view->client) {
-		if (cal_client_get_load_state (day_view->client) == CAL_CLIENT_LOAD_LOADED)
-			update_query (day_view);
-		else
+		if (cal_client_get_load_state (day_view->client) != CAL_CLIENT_LOAD_LOADED)
 			gtk_signal_connect (GTK_OBJECT (day_view->client), "cal_opened",
 					    GTK_SIGNAL_FUNC (cal_opened_cb), day_view);
+
+		gtk_signal_connect (GTK_OBJECT (day_view->client), "obj_updated",
+				    GTK_SIGNAL_FUNC (obj_updated_cb), day_view);
+		gtk_signal_connect (GTK_OBJECT (day_view->client), "obj_removed",
+				    GTK_SIGNAL_FUNC (obj_removed_cb), day_view);
 	}
-}
 
-/**
- * e_day_view_set_query:
- * @day_view: A day view.
- * @sexp: S-expression that defines the query.
- * 
- * Sets the query sexp that the day view will use for filtering the displayed
- * events.
- **/
-void
-e_day_view_set_query (EDayView *day_view, const char *sexp)
-{
-	g_return_if_fail (day_view != NULL);
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-	g_return_if_fail (sexp != NULL);
-
-	if (day_view->sexp)
-		g_free (day_view->sexp);
-
-	day_view->sexp = g_strdup (sexp);
-
-	update_query (day_view);
+	e_day_view_queue_reload_events (day_view);
 }
 
 
@@ -2052,7 +1943,7 @@ e_day_view_set_selected_time_range	(EDayView	*day_view,
 	/* See if we need to change the days shown. */
 	if (lower != day_view->lower) {
 		e_day_view_recalc_day_starts (day_view, lower);
-		update_query (day_view);
+		e_day_view_queue_reload_events (day_view);
 	}
 
 	/* Set the selection. */
@@ -2249,8 +2140,7 @@ e_day_view_set_days_shown	(EDayView	*day_view,
 
 	e_day_view_recalc_day_starts (day_view, day_view->lower);
 	e_day_view_recalc_cell_sizes (day_view);
-
-	update_query (day_view);
+	e_day_view_queue_reload_events (day_view);
 }
 
 
@@ -2529,7 +2419,7 @@ e_day_view_recalc_work_week	(EDayView	*day_view)
 		day_view->selection_start_day = -1;
 
 		e_day_view_recalc_day_starts (day_view, lower);
-		update_query (day_view);
+		e_day_view_queue_reload_events (day_view);
 
 		/* This updates the date navigator. */
 		e_day_view_update_calendar_selection_time (day_view);
@@ -4034,6 +3924,77 @@ e_day_view_abort_resize (EDayView *day_view,
 		gnome_canvas_item_hide (day_view->resize_rect_item);
 		gnome_canvas_item_hide (day_view->resize_bar_item);
 	}
+}
+
+
+/* This frees any events currently loaded, and queues a reload. */
+static void
+e_day_view_queue_reload_events (EDayView *day_view)
+{
+	e_day_view_free_events (day_view);
+
+	if (day_view->reload_events_idle_id == 0) {
+		/* We'll use a high idle priority here, so the events are
+		   reloaded before the canvas is updated. */
+		day_view->reload_events_idle_id = g_idle_add_full
+			(G_PRIORITY_HIGH_IDLE,
+			 e_day_view_reload_events_idle_cb, day_view, NULL);
+	}
+}
+
+
+static gboolean
+e_day_view_reload_events_idle_cb	(gpointer data)
+{
+	EDayView *day_view;
+
+	g_return_val_if_fail (E_IS_DAY_VIEW (data), FALSE);
+
+	GDK_THREADS_ENTER ();
+
+	day_view = E_DAY_VIEW (data);
+
+	day_view->reload_events_idle_id = 0;
+
+	e_day_view_reload_events (day_view);
+
+	GDK_THREADS_LEAVE ();
+	return FALSE;
+}
+
+
+static void
+e_day_view_reload_events (EDayView *day_view)
+{
+	e_day_view_free_events (day_view);
+
+	if (!(day_view->client
+	      && cal_client_get_load_state (day_view->client) == CAL_CLIENT_LOAD_LOADED))
+		return;
+
+	/* If both lower & upper are 0, then the time range hasn't been set,
+	   so we don't try to load any events. */
+	if (day_view->lower != 0 || day_view->upper != 0) {
+#if 0
+		g_print ("EDayView (%s) generating instances\n",
+			 day_view->work_week_view ? "Work Week" : "1 Day View");
+#endif
+		cal_client_generate_instances (day_view->client,
+					       CALOBJ_TYPE_EVENT,
+					       day_view->lower,
+					       day_view->upper,
+					       e_day_view_add_event,
+					       day_view);
+	}
+
+	/* We need to do this to make sure the top canvas is resized. */
+	day_view->long_events_need_layout = TRUE;
+
+	e_day_view_check_layout (day_view);
+	e_day_view_reshape_main_canvas_resize_bars (day_view);
+
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
 }
 
 

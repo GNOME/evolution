@@ -15,7 +15,7 @@ INCLUDES = -I.. \
 	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)				\
 	-I$(includedir)				\
-	$(GNOME_INCLUDEDIR)			\
+	$(EXTRA_GNOME_CFLAGS)			\
 	$(GTK_INCLUDEDIR)			\
 	-DG_LOG_DOMAIN=\"camel-local-provider\"	
 
@@ -53,6 +53,6 @@ noinst_HEADERS =				\
 
 libcamellocal_la_LDFLAGS = -version-info 0:0:0
 
-libcamellocal_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(top_builddir)/libibex/libibex.la
+libcamellocal_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
 
 EXTRA_DIST = libcamellocal.urls

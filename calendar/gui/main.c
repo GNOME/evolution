@@ -57,6 +57,7 @@ init_bonobo (int argc, char **argv)
 		g_error (_("Could not initialize Bonobo"));
 }
 
+
 int
 main (int argc, char **argv)
 {

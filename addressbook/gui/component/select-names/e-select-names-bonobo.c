@@ -25,21 +25,20 @@
 #include <config.h>
 #endif
 
-#include "e-select-names-bonobo.h"
+#include <gnome.h>
 
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-control.h>
 
-#include <gal/util/e-util.h>
-#include <gal/e-text/e-entry.h>
-
 #include "Evolution-Addressbook-SelectNames.h"
 
+#include <gal/util/e-util.h>
+#include <gal/e-text/e-entry.h>
 #include "e-select-names-manager.h"
-
 #include "e-select-names-model.h"
 #include "e-select-names-text-model.h"
 
+#include "e-select-names-bonobo.h"
 
 
 #define PARENT_TYPE bonobo_object_get_type ()

@@ -29,10 +29,7 @@
  * code.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <time.h>
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
@@ -169,7 +166,7 @@ e_meeting_time_selector_item_init (EMeetingTimeSelectorItem *mts_item)
 	mts_item->stipple_gc = NULL;
 
 	/* Create the cursors. */
-	mts_item->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	mts_item->normal_cursor = gdk_cursor_new (GDK_TOP_LEFT_ARROW);
 	mts_item->resize_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	mts_item->last_cursor_set = NULL;
 

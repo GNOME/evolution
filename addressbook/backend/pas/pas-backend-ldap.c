@@ -9,10 +9,10 @@
 #define DEBUG
 
 #include "config.h"  
+#include <gtk/gtksignal.h>
 #include <fcntl.h>
 #include <time.h>
 #include <lber.h>
-#include <gtk/gtksignal.h>
 
 #ifdef DEBUG
 #define LDAP_DEBUG
@@ -39,13 +39,12 @@
 #include "ldap_schema.h"
 #endif
 
-#include <e-util/e-sexp.h>
-#include <ebook/e-card-simple.h>
-
 #include "pas-backend-ldap.h"
 #include "pas-book.h"
 #include "pas-card-cursor.h"
 
+#include <e-util/e-sexp.h>
+#include <ebook/e-card-simple.h>
 
 #define LDAP_MAX_SEARCH_RESPONSES 100
 

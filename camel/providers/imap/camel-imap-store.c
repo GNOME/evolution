@@ -22,9 +22,8 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
+
 #include <config.h>
-#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,13 +31,13 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include <gal/util/e-util.h>
 #include "e-util/e-path.h"
 
 #include "camel-imap-store.h"
 #include "camel-imap-folder.h"
 #include "camel-imap-utils.h"
 #include "camel-imap-command.h"
-#include "camel-file-utils.h"
 #include "camel-folder.h"
 #include "camel-exception.h"
 #include "camel-session.h"
@@ -569,8 +568,8 @@ imap_store_setup_online (CamelImapStore *store, CamelException *ex)
 	g_free (path);
 
 	/* Write header and capabilities */
-	camel_file_util_encode_uint32 (storeinfo, IMAP_STOREINFO_VERSION);
-	camel_file_util_encode_uint32 (storeinfo, store->capabilities);
+	camel_folder_summary_encode_uint32 (storeinfo, IMAP_STOREINFO_VERSION);
+	camel_folder_summary_encode_uint32 (storeinfo, store->capabilities);
 
 	/* Get namespace and hierarchy separator */
 	if ((store->capabilities & IMAP_CAPABILITY_NAMESPACE) &&
@@ -584,11 +583,11 @@ imap_store_setup_online (CamelImapStore *store, CamelException *ex)
 		result = camel_imap_response_extract (response, "NAMESPACE", ex);
 		if (!result)
 			return FALSE;
-		
-		name = strstrcase (result, "NAMESPACE ((");
+
+		name = e_strstrcase (result, "NAMESPACE ((");
 		if (name) {
 			char *sep;
-			
+
 			name += 12;
 			store->namespace = imap_parse_string (&name, &len);
 			if (name && *name++ == ' ') {
@@ -637,8 +636,8 @@ imap_store_setup_online (CamelImapStore *store, CamelException *ex)
 	}
 
 	/* Write namespace/separator out */
-	camel_file_util_encode_string (storeinfo, store->namespace);
-	camel_file_util_encode_uint32 (storeinfo, store->dir_sep);
+	camel_folder_summary_encode_string (storeinfo, store->namespace);
+	camel_folder_summary_encode_uint32 (storeinfo, store->dir_sep);
 
 	if (CAMEL_STORE (store)->flags & CAMEL_STORE_SUBSCRIPTIONS) {
 		/* Get subscribed folders */
@@ -660,7 +659,7 @@ imap_store_setup_online (CamelImapStore *store, CamelException *ex)
 			}
 			g_hash_table_insert (store->subscribed_folders, name,
 					     GINT_TO_POINTER (1));
-			camel_file_util_encode_string (storeinfo, result);
+			camel_folder_summary_encode_string (storeinfo, result);
 		}
 		camel_imap_response_free (response);
 	}
@@ -681,20 +680,20 @@ imap_store_setup_offline (CamelImapStore *store, CamelException *ex)
 	g_free (path);
 	tmp = 0;
 	if (storeinfo)
-		camel_file_util_decode_uint32 (storeinfo, &tmp);
+		camel_folder_summary_decode_uint32 (storeinfo, &tmp);
 	if (tmp != IMAP_STOREINFO_VERSION) {
 		/* This must set ex and return FALSE if we're here... */
 		return camel_imap_store_check_online (store, ex);
 	}
 
-	camel_file_util_decode_uint32 (storeinfo, &store->capabilities);
-	camel_file_util_decode_string (storeinfo, &store->namespace);
-	camel_file_util_decode_uint32 (storeinfo, &tmp);
+	camel_folder_summary_decode_uint32 (storeinfo, &store->capabilities);
+	camel_folder_summary_decode_string (storeinfo, &store->namespace);
+	camel_folder_summary_decode_uint32 (storeinfo, &tmp);
 	store->dir_sep = tmp;
 
 	/* Get subscribed folders */
 	store->subscribed_folders = g_hash_table_new (g_str_hash, g_str_equal);
-	while (camel_file_util_decode_string (storeinfo, &buf) == 0) {
+	while (camel_folder_summary_decode_string (storeinfo, &buf) == 0) {
 		if (!imap_parse_list_response (buf, NULL, NULL, &name)) {
 			g_free (buf);
 			continue;
@@ -866,7 +865,7 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags,
 
 	if (!selectable) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-				      _("%s is not a selectable folder"),
+				      "%s is not a selectable folder",
 				      folder_name);
 		g_free (short_name);
 		return NULL;
@@ -874,7 +873,7 @@ get_folder (CamelStore *store, const char *folder_name, guint32 flags,
 
 	folder_dir = e_path_to_physical (imap_store->storage_path,
 					 folder_name);
-	if (camel_mkdir_hier (folder_dir, S_IRWXU) == 0) {
+	if (e_mkdir_hier (folder_dir, S_IRWXU) == 0) {
 		new_folder = camel_imap_folder_new (store, folder_name,
 						    short_name, folder_dir,
 						    ex);
@@ -896,7 +895,7 @@ static char *
 imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix)
 {
 	int len;
-	
+
 	len = strlen (prefix);
 	if (len == 0 || prefix[len - 1] == imap_store->dir_sep)
 		return g_strdup_printf ("%s%s", prefix, suffix);
@@ -1068,8 +1067,8 @@ get_unread_online (CamelImapStore *imap_store, CamelFolderInfo *fi)
 	status = camel_imap_response_extract (response, "STATUS", NULL);
 	if (!status)
 		return;
-	
-	p = strstrcase (status, "UNSEEN");
+
+	p = e_strstrcase (status, "UNSEEN");
 	if (p)
 		fi->unread_message_count = strtoul (p + 6, NULL, 10);
 	g_free (status);

@@ -21,8 +21,7 @@
 #ifndef _FILTER_ELEMENT_H
 #define _FILTER_ELEMENT_H
 
-#include <gtk/gtkobject.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 

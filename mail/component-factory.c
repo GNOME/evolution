@@ -26,7 +26,6 @@
 #endif
 
 #include <bonobo/bonobo-generic-factory.h>
-#include <gal/widgets/e-gui-utils.h>
 
 #include "camel.h"
 
@@ -45,6 +44,8 @@
 #include "mail-mt.h"
 #include "mail-importer.h"
 #include "mail-vfolder.h"             /* vfolder_create_storage */
+#include "openpgp-utils.h"
+#include <gal/widgets/e-gui-utils.h>
 
 #include "component-factory.h"
 
@@ -209,6 +210,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	mail_config_init ();
 	
+	openpgp_init (mail_config_get_pgp_path (), mail_config_get_pgp_type ());
+	
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
 	vfolder_create_storage (shell_component);
@@ -331,10 +334,34 @@ component_factory_init (void)
 	}
 }
 
-static int
-storage_create_folder (EvolutionStorage *storage, const char *path,
-		       const char *type, const char *description,
-		       const char *parent_physical_uri, gpointer user_data)
+static void
+notify_bonobo_listener (const Bonobo_Listener listener,
+			EvolutionStorageResult result,
+			const char *physical_path)
+{
+	CORBA_any any;
+	GNOME_Evolution_Storage_FolderResult folder_result;
+	CORBA_Environment ev;
+
+	folder_result.result = result;
+	folder_result.path = CORBA_string_dup (physical_path ? physical_path : "");
+	any._type = TC_GNOME_Evolution_Storage_FolderResult;
+	any._value = &folder_result;
+
+	CORBA_exception_init (&ev);
+	Bonobo_Listener_event (listener, "evolution-shell:folder_created", 
+			       &any, &ev);
+	CORBA_exception_free (&ev);
+}
+
+static void
+storage_create_folder (EvolutionStorage *storage, 
+		       const Bonobo_Listener bonobo_listener,
+		       const char *path,
+		       const char *type, 
+		       const char *description,
+		       const char *parent_physical_uri, 
+		       gpointer user_data)
 {
 	CamelStore *store = user_data;
 	char *name;
@@ -342,18 +369,30 @@ storage_create_folder (EvolutionStorage *storage, const char *path,
 	CamelException ex;
 	CamelFolderInfo *fi;
 
-	if (strcmp (type, "mail") != 0)
-		return EVOLUTION_STORAGE_ERROR_UNSUPPORTED_TYPE;
+	if (strcmp (type, "mail") != 0) {
+		notify_bonobo_listener (bonobo_listener, 
+					EVOLUTION_STORAGE_ERROR_UNSUPPORTED_TYPE,
+					NULL);
+		return; /* EVOLUTION_STORAGE_ERROR_UNSUPPORTED_TYPE;*/
+	}
+
 	name = strrchr (path, '/');
-	if (!name++)
-		return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+	if (!name++) {
+		notify_bonobo_listener (bonobo_listener,
+					EVOLUTION_STORAGE_ERROR_INVALID_URI,
+					NULL);
+		return; /* EVOLUTION_STORAGE_ERROR_INVALID_URI; */
+	}
 
 	camel_exception_init (&ex);
 	if (*parent_physical_uri) {
 		url = camel_url_new (parent_physical_uri, NULL);
-		if (!url)
-			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
-
+		if (!url) {
+			notify_bonobo_listener (bonobo_listener,
+						EVOLUTION_STORAGE_ERROR_INVALID_URI,
+						NULL);
+			return; /* EVOLUTION_STORAGE_ERROR_INVALID_URI; */
+		}
 		fi = camel_store_create_folder (store, url->path + 1, name, &ex);
 		camel_url_free (url);
 	} else
@@ -362,9 +401,12 @@ storage_create_folder (EvolutionStorage *storage, const char *path,
 	if (camel_exception_is_set (&ex)) {
 		/* FIXME: do better than this */
 		camel_exception_clear (&ex);
-		return EVOLUTION_STORAGE_ERROR_INVALID_URI;
+		notify_bonobo_listener (bonobo_listener,
+					EVOLUTION_STORAGE_ERROR_INVALID_URI,
+					NULL);
+		return; /* EVOLUTION_STORAGE_ERROR_INVALID_URI; */
 	}
-
+	
 	if (camel_store_supports_subscriptions (store))
 		camel_store_subscribe_folder (store, fi->full_name, NULL);
 	
@@ -372,7 +414,8 @@ storage_create_folder (EvolutionStorage *storage, const char *path,
 	
 	camel_store_free_folder_info (store, fi);
 	
-	return EVOLUTION_STORAGE_OK;
+	notify_bonobo_listener (bonobo_listener, EVOLUTION_STORAGE_OK, NULL);
+	return; /* EVOLUTION_STORAGE_OK; */
 }
 
 static void

@@ -1,47 +1,3 @@
-2001-04-26  Dan Winship  <danw@ximian.com>
-
-	* Makefile.am (INCLUDES): Remove UNICODE_CFLAGS
-
-2001-04-25  Radek Doulik  <rodo@ximian.com>
-
-	* e-msg-composer.c (e_msg_composer_set_send_html): block/unblock
-	redraw
-
-	* listener.c (impl_event): reflect object data type change
-
-	* e-msg-composer.c (get_sig_file_content): renamed from
-	get_signature
-	(get_signature_html): new helper function, uses
-	get_sig_file_content
-	(set_editor_text): removed signature parameters
-	(from_changed_cb): new signal handler, sets signature by identity
-	change
-	(delete_old_signature): new function, deletes old signature from
-	the document
-	(e_msg_composer_set_sig_file): new method, set's signature
-	filename
-	(e_msg_composer_mark_text_orig): removed (obsolete)
-
-	* e-msg-composer-hdrs.c: added signal FROM_CHANGED
-
-2001-04-21  Duncan Mak  <duncan@ximian.com>
-
-	* e-msg-composer.c (e_msg_composer_construct): Set window_icon to
-	"compose-message.png" for the composer window.
-
-	Did #include <libgnomeui/gnome-window-icon.h> so we could use
-	gnome_window_icon_set_from_file() here.
-
-2001-04-17  Radek Doulik  <rodo@ximian.com>
-
-	* listener.c (reply_indent): more auto-indentation magic
-
-2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (build_message): Use the mail-crypto pgp-mime
-	wrappers.
-	(build_message): s/CAMEL_PGP_HASH_TYPE_SHA1/CAMEL_CIPHER_HASH_SHA1
-
 2001-04-11  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer-select-file.c (create_file_selection): Fix
@@ -52,26 +8,6 @@
 	* e-msg-composer-select-file.c (create_file_selection): Set the
 	default filename to the user's homedir.
 
-2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* e-msg-composer-attachment.c: Fix headers.
-	* e-msg-composer-hdrs.c: Same here.
-	
-2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* e-icon-list.c: Replace #include <gtk/gtk.h>
-	* e-msg-composer-attachment-bar.c: Replace #include <gnome.h>
-	* e-msg-composer-attachment-bar.h: Remove #include <gnome.h>
-	* e-msg-composer-attachment.c: Remove #include <gnome.h>
-	* e-msg-composer-attachment.h: Same here.
-	* e-msg-composer-hdrs.c: Replace #include <gnome.h> and <bonobo.h>
-	* e-msg-composer-hdrs.h: Replace #include <gnome.h>
-	* e-msg-composer-file.c: #include <gtk/gtkmain.h>, <gtk/gtksignal.h>
-	* e-msg-composer.c: Replace #include <bonobo.h>, <gnome.h>
-	* e-msg-composer.h: Replace #include <gnome.h> and <bonobo.h>
-	* evolution-composer.c: Replace #include <bonobo.h>
-	* listener.c: Same here.
-	
 2001-03-28  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c (save_draft): Use the drafts folder specified

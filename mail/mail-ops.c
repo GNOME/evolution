@@ -25,11 +25,8 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
-/* #include <ctype.h> */
 #include <errno.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
@@ -52,15 +49,16 @@
 FilterContext *
 mail_load_filter_context(void)
 {
-	char *user;
-	char *system;
+	char *userrules;
+	char *systemrules;
 	FilterContext *fc;
 	
-	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
+	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
 	fc = filter_context_new ();
-	rule_context_load ((RuleContext *)fc, system, user);
-	g_free (user);
+	rule_context_load ((RuleContext *)fc, systemrules, userrules);
+	g_free (userrules);
+	g_free (systemrules);
 	
 	return fc;
 }
@@ -334,8 +332,9 @@ fetch_mail_fetch(struct _mail_msg *mm)
 					/* if we are not to delete the messages, save the UID cache */
 					if (!fm->delete && !camel_exception_is_set (&mm->ex))
 						camel_uid_cache_save (cache);
+					
+					camel_uid_cache_destroy (cache);
 				}
-				camel_uid_cache_destroy (cache);
 				camel_folder_free_uids (folder, folder_uids);
 			} else {
 				filter_folder_filter (mm);
@@ -494,15 +493,15 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", version);
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	
-	/* Remove the X-Evolution and X-Evolution-Source headers so we don't send our flags & other info too ;-) */
+	/* Remove the X-Evolution header so we don't send our flags too ;-) */
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
-	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Source");
 	
 	/* Get information about the account this was composed by. */
 	header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
 	if (header) {
 		const MailConfigAccount *account;
-		
+
+		/* FIXME: this is broken, since we need to be threadsafe */
 		account = mail_config_get_account_by_name (header);
 		camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
 		if (account) {
@@ -551,21 +550,16 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 		camel_filter_driver_filter_message (driver, message, info,
 						    NULL, NULL, "", ex);
 	
-	if (sent_folder_uri) {
-		folder = mail_tool_uri_to_folder (sent_folder_uri, NULL);
-		if (!folder) {
-			/* FIXME */
-			camel_object_ref (CAMEL_OBJECT (sent_folder));
-			folder = sent_folder;
-		}
-	} else {
-		camel_object_ref (CAMEL_OBJECT (sent_folder));
+	if (sent_folder_uri)
+		folder = mail_tool_uri_to_folder (sent_folder_uri, ex);
+	else
 		folder = sent_folder;
-	}
 	
 	if (folder) {
 		camel_folder_append_message (folder, message, info, ex);
-		camel_object_unref (CAMEL_OBJECT (folder));
+		camel_folder_sync (folder, FALSE, ex);
+		if (folder != sent_folder)
+			camel_object_unref (CAMEL_OBJECT (folder));
 	}
 	
 	camel_message_info_free (info);
@@ -715,7 +709,7 @@ send_queue_send(struct _mail_msg *mm)
 		CamelMessageInfo *info;
 		int pc = (100 * i) / uids->len;
 		
-		report_status (m, CAMEL_FILTER_STATUS_START, pc, _("Sending message %d of %d"), i+1, uids->len);
+		report_status (m, CAMEL_FILTER_STATUS_START, pc, "Sending message %d of %d", i+1, uids->len);
 		
 		info = camel_folder_get_message_info (m->queue, uids->pdata[i]);
 		if (info && info->flags & CAMEL_MESSAGE_DELETED)
@@ -734,9 +728,9 @@ send_queue_send(struct _mail_msg *mm)
 	}
 	
 	if (camel_exception_is_set (&mm->ex))
-		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Failed on message %d of %d"), i+1, uids->len);
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, "Failed on message %d of %d", i+1, uids->len);
 	else
-		report_status (m, CAMEL_FILTER_STATUS_END, 100, _("Complete."));
+		report_status (m, CAMEL_FILTER_STATUS_END, 100, "Complete.");
 	
 	camel_folder_free_uids (m->queue, uids);
 	
@@ -1041,9 +1035,7 @@ static void get_folderinfo_get(struct _mail_msg *mm)
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 	
 	camel_operation_register(mm->cancel);
-	m->info = camel_store_get_folder_info (m->store, NULL, FALSE, TRUE,
-					       camel_store_supports_subscriptions (m->store),
-					       &mm->ex);
+	m->info = camel_store_get_folder_info(m->store, NULL, FALSE, TRUE, camel_store_supports_subscriptions(m->store), &mm->ex);
 	if (m->info && m->info->url)
 		add_vtrash_info (m->info);
 	camel_operation_unregister(mm->cancel);

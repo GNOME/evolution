@@ -1,6 +1,5 @@
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+
+#include "config.h"
 
 #include <stdio.h>
 #ifdef ENABLE_THREADS
@@ -61,8 +60,6 @@ static pthread_mutex_t operation_active_lock = PTHREAD_MUTEX_INITIALIZER;
 #define CAMEL_ACTIVE_LOCK()
 #define CAMEL_ACTIVE_UNLOCK()
 #endif
-
-static unsigned int stamp (void);
 
 static GHashTable *operation_active;
 

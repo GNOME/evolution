@@ -25,14 +25,11 @@
 #include <config.h>
 #endif
 
-#include "e-splash.h"
-#include <gtk/gtkframe.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
+#include <gnome.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
-#include <libgnomeui/gnome-window-icon.h>
 #include <gal/util/e-util.h>
 
+#include "e-splash.h"
 
 
 #define PARENT_TYPE gtk_window_get_type ()
@@ -326,7 +323,6 @@ e_splash_construct (ESplash *splash,
 	gtk_window_set_position (GTK_WINDOW (splash), GTK_WIN_POS_CENTER);
 	gtk_window_set_policy (GTK_WINDOW (splash), FALSE, FALSE, FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (splash), image_width, image_height);
-	gnome_window_icon_set_from_file (GTK_WINDOW (splash), EVOLUTION_DATADIR "/pixmaps/evolution.png");
 	gtk_window_set_title (GTK_WINDOW (splash), "Evolution");
 
 }

@@ -22,8 +22,7 @@
  */
 
 #include <gtk/gtkfilesel.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
+
 #include "e-msg-composer-select-file.h"
 
 

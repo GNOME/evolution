@@ -42,7 +42,6 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <filter/filter-editor.h>
 #include "mail.h"
-#include "message-browser.h"
 #include "mail-callbacks.h"
 #include "mail-config.h"
 #include "mail-accounts.h"
@@ -51,7 +50,6 @@
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-local.h"
-#include "mail-search.h"
 #include "mail-send-recv.h"
 #include "mail-vfolder.h"
 #include "folder-browser.h"
@@ -70,7 +68,6 @@
 #endif
 
 extern CamelFolder *drafts_folder;
-extern CamelFolder *sent_folder;
 
 struct post_send_data {
 	CamelFolder *folder;
@@ -401,19 +398,20 @@ create_msg_composer (const char *url)
 	gchar *sig_file = NULL;
 	EMsgComposer *composer;
 	
-	account   = mail_config_get_default_account ();
+	account = mail_config_get_default_account ();
 	send_html = mail_config_get_send_html ();
 	
 	if (account->id)
 		sig_file = account->id->signature;
 	
-	composer = url ? e_msg_composer_new_from_url (url) : e_msg_composer_new ();
-	if (composer) {
-		e_msg_composer_set_send_html (composer, send_html);
-		e_msg_composer_set_sig_file  (composer, sig_file);
-	}
+	if (url != NULL) {
+		composer = e_msg_composer_new_from_url (url);
+		if (composer)
+			e_msg_composer_set_send_html (composer, send_html);
+	} else
+		composer = e_msg_composer_new_with_sig_file (sig_file, send_html);
 	
-	return GTK_WIDGET (composer);
+	return (GtkWidget *)composer;
 }
 
 void
@@ -562,7 +560,7 @@ static EMsgComposer *
 mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 {
 	const CamelInternetAddress *reply_to, *sender, *to_addrs, *cc_addrs;
-	const char *name = NULL, *address = NULL, *source = NULL;
+	const char *name = NULL, *address = NULL;
 	const char *message_id, *references;
 	char *text, *subject, *date_str;
 	const MailConfigAccount *me = NULL;
@@ -573,11 +571,8 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	gchar *sig_file = NULL;
 	time_t date;
 	int offset;
-
-	source = camel_mime_message_get_source (message);
-	me = mail_config_get_account_by_source_url (source);
 	
-	id = me ? me->id : mail_config_get_default_identity ();
+	id = mail_config_get_default_identity ();
 	if (id)
 	      sig_file = id->signature;
 	
@@ -590,12 +585,13 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	camel_internet_address_get (sender, 0, &name, &address);
 	date = camel_mime_message_get_date (message, &offset);
 	date_str = header_format_date (date, offset);
-	text = mail_tool_quote_message (message, _("On %s, %s wrote:"), date_str, name && *name ? name : address);
+	text = mail_tool_quote_message (message, _("On %s, %s wrote:\n"), date_str, name && *name ? name : address);
 	g_free (date_str);
 	
 	if (text) {
 		e_msg_composer_set_body_text (composer, text);
 		g_free (text);
+		e_msg_composer_mark_text_orig (composer);
 	}
 	
 	/* Set the recipients */
@@ -613,7 +609,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	if (to_all) {
 		cc = list_add_addresses (cc, to_addrs, accounts, &me);
 		cc = list_add_addresses (cc, cc_addrs, accounts, me ? NULL : &me);
-	} else if (me == NULL) {
+	} else {
 		me = guess_me (to_addrs, cc_addrs, accounts);
 	}
 	
@@ -1009,63 +1005,6 @@ do_edit_messages(CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void
 }
 
 static gboolean
-is_sent_folder (CamelFolder *folder)
-{
-	/* FIXME: hide other attributes of the URL? */
-	CamelService *service = CAMEL_SERVICE (folder->parent_store);
-	guint32 flags = CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS;
-	const GSList *accounts;
-	CamelURL *url;
-	char *str;
-	
-	if (folder == sent_folder)
-		return TRUE;
-	
-	str = camel_url_to_string (service->url, flags);
-	url = camel_url_new (str, NULL);
-	g_free (str);
-	
-	g_free (url->path);
-	url->path = g_strdup_printf ("/%s", folder->full_name);
-	
-	accounts = mail_config_get_accounts ();
-	while (accounts) {
-		const MailConfigAccount *account = accounts->data;
-		
-		if (account && account->sent_folder_uri) {
-			CamelURL *sent_url;
-			
-			sent_url = camel_url_new (account->sent_folder_uri, NULL);
-			
-			if (sent_url) {
-				g_free (sent_url->passwd);
-				sent_url->passwd = NULL;
-				
-				if (sent_url->params) {
-					g_datalist_clear (&url->params);
-					url->params = NULL;
-				}
-				
-				if (camel_url_equal (url, sent_url)) {
-					camel_url_free (sent_url);
-					camel_url_free (url);
-					
-					return TRUE;
-				}
-				
-				camel_url_free (sent_url);
-			}
-		}
-		
-		accounts = accounts->next;
-	}
-	
-	camel_url_free (url);
-	
-	return FALSE;
-}
-
-static gboolean
 is_drafts_folder (CamelFolder *folder)
 {
 	/* FIXME: hide other attributes of the URL? */
@@ -1122,26 +1061,6 @@ is_drafts_folder (CamelFolder *folder)
 	return FALSE;
 }
 
-static gboolean
-are_you_sure (const char *msg, GPtrArray *uids, FolderBrowser *fb)
-{
-	GtkWidget *window = gtk_widget_get_ancestor (GTK_WIDGET (fb), GTK_TYPE_WINDOW);
-	GtkWidget *dialog;
-	char *buf;
-	int button, i;
-
-	buf = g_strdup_printf (msg, uids->len);
-	dialog = gnome_ok_cancel_dialog_parented (buf, NULL, NULL, (GtkWindow *)window);
-	button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-	if (button != 0) {
-		for (i = 0; i < uids->len; i++)
-			g_free (uids->pdata[i]);
-		g_ptr_array_free (uids, TRUE);
-	}
-
-	return button == 0;
-}
-
 static void
 edit_msg_internal (FolderBrowser *fb)
 {
@@ -1153,9 +1072,6 @@ edit_msg_internal (FolderBrowser *fb)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
-	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to edit all %d messages?"), uids, fb))
-		return;
-
 	mail_get_messages (fb->folder, uids, do_edit_messages, fb);
 }
 
@@ -1188,15 +1104,14 @@ do_resend_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, v
 		mail_send_mail (account->transport->url, messages->pdata[i], NULL, NULL);
 }
 
-
-
 void
 resend_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	extern CamelFolder *sent_folder;
 	GPtrArray *uids;
 	
-	if (!is_sent_folder (fb->folder)) {
+	if (fb->folder != sent_folder) {
 		GtkWidget *message;
 		
 		message = gnome_warning_dialog (_("You may only resend messages\n"
@@ -1212,21 +1127,6 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
 	mail_get_messages (fb->folder, uids, do_resend_messages, fb);
-}
-
-void
-search_msg (GtkWidget *widget, gpointer user_data)
-{
-	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	GtkWidget *w;
-
-	if (fb->mail_display->current_message == NULL) {
-		gtk_widget_show_all (gnome_warning_dialog (_("No Message Selected")));
-		return;
-	}
-
-	w = mail_search_new (fb->mail_display);
-	gtk_widget_show_all (w);
 }
 
 static void
@@ -1289,7 +1189,7 @@ save_msg (GtkWidget *widget, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GtkFileSelection *filesel;
 	GPtrArray *uids;
-	char *title, *path;
+	char *title;
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
@@ -1300,9 +1200,7 @@ save_msg (GtkWidget *widget, gpointer user_data)
 		title = _("Save Messages As...");
 	
 	filesel = GTK_FILE_SELECTION (gtk_file_selection_new (title));
-	path = g_strdup_printf ("%s/", g_get_home_dir ());
-	gtk_file_selection_set_filename (filesel, path);
-	g_free (path);
+	gtk_file_selection_set_filename (filesel, g_get_home_dir ());
 	gtk_object_set_data_full (GTK_OBJECT (filesel), "uids", uids, save_msg_destroy);
 	gtk_object_set_data (GTK_OBJECT (filesel), "folder", fb->folder);
 	gtk_signal_connect (GTK_OBJECT (filesel->ok_button),
@@ -1405,9 +1303,10 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
-	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
+	system = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
 	rule_context_load ((RuleContext *)fc, system, user);
 	g_free (user);
+	g_free (system);
 	
 	if (((RuleContext *)fc)->error) {
 		gchar *err;
@@ -1560,16 +1459,15 @@ configure_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
-do_view_message (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
+do_view_message(CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
 {
-	FolderBrowser *fb = FOLDER_BROWSER (data);
+	/*FolderBrowser *fb = data;*/
+	GtkWidget *view;
 	
-	if (message && fb) {
-		GtkWidget *mb;
-		
+	if (message) {
 		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-		mb = message_browser_new (fb->shell, fb->uri, uid);
-		gtk_widget_show (mb);
+		view = mail_view_create(folder, uid, message);
+		gtk_widget_show(view);
 	}
 }
 
@@ -1585,10 +1483,6 @@ view_msg (GtkWidget *widget, gpointer user_data)
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
-
-	if (uids->len > 10 && !are_you_sure (_("Are you sure you want to open all %d messages in separate windows?"), uids, fb))
-		return;
-
 	for (i = 0; i < uids->len; i++) {
 		mail_get_message (fb->folder, uids->pdata [i], do_view_message, fb, mail_thread_queued);
 		g_free (uids->pdata [i]);

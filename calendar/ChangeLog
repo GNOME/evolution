@@ -2,279 +2,53 @@
 
 	* gui/dialogs/Makefile.am (INCLUDES): Add `$(EXTRA_GNOME_CFLAGS)'.
 
-2001-04-26  Dan Winship  <danw@ximian.com>
+2001-04-23  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* conduits/todo/Makefile.am (libetodo_conduit_la_LIBADD): Remove
-	UNICODE_LIBS
+	* gui/event-editor.c: Pull up a fix for i18n from HEAD. 
+	Don't use e_utf8-variants of functions on non-UTF8 strings.
+	* gui/dialogs/delete-comp.c: Pull up another fix for i18n from
+	HEAD here.
+	
+2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
 
-	* cal-client/Makefile.am (client_test_LDADD): Remove -lunicode
-
-2001-04-24  Duncan Mak  <duncan@ximian.com>
-
-	* gui/alarm-notify/notify-main.c (funny_trigger_cb): Fixed
-	Strftime so it uses the locale prefered way to display date/time. 
-	("%x %X" instead of "%Y/%m/%d %H:%M:%S")
-
-2001-04-21  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* gui/calendar-summary.c: translate "Things to do" etc. and convert them
-	to utf8. Changed some link from helixcode to ximian.
-
-2001-04-18  Ettore Perazzoli  <ettore@ximian.com>
-
-	* gui/dialogs/Makefile.am (INCLUDES): Add
-	`-I$(top_srcdir)/calendar/cal-client',
-	`-I$(top_builddir)/calendar/cal-client'.
-	* gui/Makefile.am (INCLUDES): Likewise.
-
-	* cal-client/cal-query.h: #include "evolution-calendar.h".
-
-2001-04-17  Federico Mena Quintero  <federico@ximian.com>
-
-	* gui/event-editor.c (init_widgets): Connect to the "changed"
-	signal of the categories entry so that they will be applied
-	correctly.
-	(EventEditorPrivate): Added fields for the contacts button and
-	entry.
-	(init_widgets): Disable the contacts widgets as we do not support
-	them yet.
-	(get_widgets): Get the contacts widgets.
-
-	* gui/dialogs/task-editor.c (get_widgets): Get the contacts
-	button, which was missing.
-	(init_widgets): Disable the contacts widgets as we do not support
-	them yet.
-
-	* pcs/query.c (matches_text_list): Use e_utf8_strstrcasedecomp()
-	instead of plain e_utf8_strstrcase().
-	(matches_summary): Likewise.
-
-2001-04-17  JP Rosevear  <jpr@ximian.com>
-
-	* cal-util/cal-component.c (cal_component_alarm_set_action): the
-	libical action stuff uses enums rather than strings to enumerate
-	the various actions now
-	(cal_component_alarm_get_action): ditto
+	* gui/calendar-commands.c: use new pixmap cache. Added some menu icons
+	and changed filenames of renamed icons.
+	* gui/tasks-control.c: added icons for new task and print in menu.
 
 2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/alarm-notify/Makefile.am (evolution_alarm_notify_SOURCES):
 	Add `$(CORBA_GENERATED)'.
 
-2001-04-16  Dan Winship  <danw@ximian.com>
-
-	* pcs/Makefile.am (INCLUDES): Add EXTRA_GNOME_CFLAGS, for gal.
-
-2001-04-15  Federico Mena Quintero  <federico@ximian.com>
-
-	* gui/gnome-cal.c (setup_widgets): Create the ESearchBar thingy.
-	(search_bar_query_changed_cb): Build the different queries based
-	on the type and string.
-
-	* pcs/query.c (backend_obj_updated_cb): Ref the query while we are
-	notifying the listener so that it will not disappear from under us.
-	(backend_obj_removed_cb): Likewise.
-	(process_component_cb): Likewise.
-	(func_contains): New function to match text fields.
-	(matches_comment): New function to match comment lists.
-	(matches_description): New function to match description lists.
-	(matches_summary): New function to match summaries.
-	(matches_any): New function to match any text field.
-	(func_has_categories): New function to match categories.
-
-2001-04-14  Federico Mena Quintero  <federico@ximian.com>
-
-	* gui/alarm-notify/notify-main.c (main): Initialize the trigger
-	and queue systems.
-
-2001-04-13  Dan Winship  <danw@ximian.com>
-
-	* cal-util/timeutil.c (time_from_isodate): Fix the syntactic bogon
-	here, and attempt to fix the logical bogon too. (tm_gmtoff and
-	timezone have opposite signs... I'm assuming Federico tested the
-	Linux case, so I'm flipping the sign of the BSD case. But maybe he
-	didn't and it's supposed to be the other way...)
-
-2001-04-12  Federico Mena Quintero  <federico@ximian.com>
-
-	* gui/e-day-view.c (update_query): New function to restart a query
-	for the day view.
-	(query_obj_updated_cb): Renamed from obj_updated_cb(); updated for
-	queries instead of calendar clients.
-	(query_obj_removed_cb): Likewise.
-	(cal_opened_cb): Just update_query() instead of queueing reloading
-	all the events.
-	(e_day_view_set_cal_client): Likewise.
-	(e_day_view_set_query): Likewise.
-	(e_day_view_set_selected_time_range): Likewise.
-	(e_day_view_set_days_shown): Likewise.
-	(e_day_view_recalc_work_week): Likewise.
-	(e_day_view_queue_reload_events): Removed function now that events
-	are updated entirely by the query.
-	(e_day_view_reload_events_idle_cb): Likewise.
-	(e_day_view_reload_events): Likewise.
-	(e_day_view_init): Use a pretty arrow instead of GDK_TOP_LEFT_ARROW.
-
-	* gui/e-week-view.c: Analogous changes to the ones in e-day-view.c.
-	(e_week_view_init): Use a pretty arrow instead of GDK_TOP_LEFT_ARROW.
-
-	* cal-util/timeutil.c (isodate_from_time_t): Return a g_strdup()ed
-	version of the string instead of a pointer to a static buffer.
-	(time_from_isodate): Resurrected function.  Polished up to our
-	current standards of paranoia.
-
-	* pcs/query.c (func_time_now): New function (time-now).
-	(func_make_time): New function (make-time ISODATE).
-	(func_time_add_day): New function (time-add-day TIME N).
-	(func_time_day_begin): New function (time-day-begin TIME).
-	(func_time_day_end): New function (time-day-end TIME).
-	(func_occur_in_time_range): Use time_t values instead of ints.
-	(match_component): Free the stringized component.  Free the ESexp
-	result value.
-
-	* gui/e-day-view.h: Removed a couple of unused prototypes.
-
-	* pcs/query.c (query_destroy): Oops, disconnect from the backend.
-
-	* pcs/cal.c (Cal_get_query): Duplicate the query reference before
-	we return it.
-
-	* gui/calendar-commands.c (pixmaps): Fixed paths to image files.
-
-2001-04-11  JP Rosevear  <jpr@ximian.com>
-
-	* pcs/cal-backend-file.c (cal_backend_file_compute_changes):
-	prepend to both changes and change_ids when different and mark as
-	modified, not added
-
 2001-04-11  Christopher James Lahey  <clahey@ximian.com>
 
-	* gui/calendar-model.c (calendar_model_append_row): Fix this to
-	just send the data to the wombat instead of inserting it
-	ourselves.
-
-2001-04-11  Gediminas Paulauskas <menesis@delfi.lt>
-
-	Display fixes, thanks to Kjartan for finding these.
-
-	* gui/event-editor.c: use simple (not e_utf8_) gtk_clist_append for
-	strings which are never in utf-8.
-	* dialogs/delete-comp.c (delete_component_dialog): convert only
-	summary from utf-8 to gtk charset. Translated values are in correct
-	craset already.
+	* gui/calendar-model.c (calendar_model_append_row): Changed
+	append_row to just send the information to the model.
 
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* gui/calendar-commands.c: Fix headers.
+	* gui/calendar-commands.c: Header preparations for changes
+	in gal
 	* gui/calendar-config.c: Same here.
-	* gui/calendar-model.c: Same here.
-	* gui/e-day-view-time-item.c: Same here.
-	* gui/e-day-view-top-item.c: Same here.
-	* gui/e-day-view.c: Same here.
-	* gui/e-meeting-edit.c: Same here.
-	* gui/e-week-view-main-item.c: Same here.
-	* gui/e-week-view.c: Same here.
-	* gui/event-editor.c: Same here.
-	* gui/gnome-cal.c: Same here.
-	* gui/goto.c: Same here.
-	* gui/main.c: Same her.
-	* gui/print.c: Same here.
-
-2001-04-02  Federico Mena Quintero  <federico@ximian.com>
-
-	* gui/e-tasks.c (e_tasks_setup_menus): Plug leak.
-
-	* gui/event-editor.c (obj_updated_cb): Do nothing for now until we
-	think of something sensible to do.
-	(obj_removed_cb): Likewise.
-
-	* gui/dialogs/task-editor.c (obj_updated_cb): Likewise.
-	(obj_removed_cb): Likewise.
-
-	* gui/event-editor.c (dialog_to_comp_object): Plug leak.
-
-2001-04-01  Federico Mena Quintero  <federico@ximian.com>
-
-	Client-side glue for the live query engine.
-
-	* cal-client/query-listener.[ch]: New files with the
-	implementation fo the QueryListener interface.
-
-	* cal-client/cal-query.[ch]: New files with the client-side
-	convenience object for live queries.
-
-	* cal-client/cal-listener.h (CalListenerClass): Removed unused
-	slots for signal handlers.
-
-	* cal-client/Makefile.am (libcal_clientinclude_HEADERS): Now we
-	install the evolution-calendar.h header.  This sucks a bit.
-
-2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* gui/calendar-commands.c: use new pixmap cache. Added some menu icons
-	and changed filenames of renamed icons.
-	* gui/tasks-control.c: added icons for new task and print in menu.
-
-2001-03-29  Federico Mena Quintero  <federico@ximian.com>
-
-	Engine for live queries to calendars.  A query object watches a
-	CalBackend in the PCS and is otherwise completely separate from
-	it; backends need to do nothing to support live queries.  Right
-	now we have the following functions:
-
-		(get-vtype)
-
-			Returns a string indicating the type of component
-			(VEVENT, VTODO, VJOURNAL, VFREEBUSY, VTIMEZONE,
-			UNKNOWN).
-
-		(occur-in-time-range? START END)
-
-			START - int, time_t start of the time range
-			END - int, time_t end of the time range
-
-			Returns a boolean indicating whether the component
-			has any occurrences in the specified time range.
-
-	* idl/evolution-calendar.idl (Cal::getQuery): New method that
-	initiates a live query.
-	(Query): New interface for a handle to a live query.
-	(QueryListener): New interface for a listener to changes in a live
-	query.
-
-	* pcs/query.[ch]: New files with the live query engine.
-
-	* pcs/cal-backend.h (CalBackendClass): Added notification signals
-	so that the query system can catch them.
-	(CalBackendClass): New virtual method ::get_load_state().
-
-	* pcs/cal-backend.c (cal_backend_opened):
-	(cal_backend_obj_updated):
-	(cal_backend_obj_updated): New functions to emit the notification
-	signals; to be used only by backend implementations.
-	(cal_backend_get_load_state): New function.
-
-	* pcs/cal-backend-file.c (notify_update): Call
-	cal_backend_obj_updated().
-	(notify_remove): Call call_backend_obj_removed().
-	(open_cal): Free the icalcomp if it is not of the correct type.
-	(cal_backend_file_get_load_state): Implemented new method.
-
-	* pcs/cal-backend-db.c (cal_backend_db_update_object): Call
-	cal_backend_obj_updated().
-	(cal_backend_db_remove_object): Call cal_backend_obj_removed().
-	(cal_backend_db_get_load_state): Implemented new method.
-
-	* pcs/cal.c (Cal_get_query): Implementation of the ::getQuery()
-	method.
-
-2001-03-27 Anna Marie Dirks <anna@ximian.com>
-
+	* gui/calendar-model.c: And here.
+	* gui/e-day-view-time-item.c: And here.
+	* gui/e-day-view-top-item.c: Here too.
+	* gui/e-day-view.c: Ditto.
+	* gui/e-meeting-edit.c: Ditto.
+	* gui/e-week-view-main-item.c: Ditto.
+	* gui/e-week-view.c: Ditto.
+	* gui/event-editor.c: Ditto.
+	* gui/gnome-cal.c: Ditto.
+	* gui/goto.c: Ditto.
+	* gui/main.c: Ditto.
+	* gui/print.c: Ditto.
+	
+2001-03-27 Anna Marie Dirks <anna@ximian.com> 
 	* gui/e-itip-control.c: fixed button placement to comply
-	with gnome standards.
+	with gnome standards. 
 
-2001-03-27 Anna Marie Dirks <anna@ximian.com>
 
+2001-03-27 Anna Marie Dirks <anna@ximian.com> 
 	* gui/e-itip-control.glade: fixed spacing and label alignment to
 	comply with gnome standards. Also removed shadows from extraneous
 	scrolled windows to avoid bevelitous. There are many more changes
@@ -307,7 +81,7 @@
 	* gui/alarm-notify/notify-main.c: Replace <gnome.h> and <bonobo.h>
 	* gui/dialogs/alarm-notify-dialog.c: Replace <gnome.h>
 	* pcs/cal-backend.c: Replace <gtk/gtk.h>
-
+	 
 2001-03-25  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/e-calendar-table.c (e_calendar_table_init): The
@@ -349,7 +123,7 @@
 	here from e_day_view_on_new_appointment.  Allows setting for "full
 	day" event.
 	(e_week_view_on_new_full_day): New function for making a full day
-	event.
+	event. 
 	(e_week_view_on_goto_date): Go To support.
 	(e_week_view_on_goto_today): Goto today support.
 
@@ -357,7 +131,7 @@
 	here from e_day_view_on_new_appointment.  Allows setting for "full
 	day" event.
 	(e_day_view_on_new_full_day): New function for making a full day
-	event.
+	event. 
 	(e_day_view_on_goto_date): Go To support.
 	(e_day_view_on_goto_today): Goto today support.
 
@@ -366,7 +140,7 @@
 2001-03-07  Miguel de Icaza  <miguel@ximian.com>
 
 	* gui/control-factory.c (calendar_persist_init): New function:
-	inits the BonoboPersistFile server.
+	inits the BonoboPersistFile server.   
 
 	* gui/GNOME_Evolution_Calendar.oaf.in: Added BonoboPropertyBag to
 	the list of supported interfaces that were supported but not
@@ -376,7 +150,7 @@
 
 2001-03-15  Dan Winship  <danw@ximian.com>
 
-	* gui/e-week-view.c (e_week_view_start_editing_event):
+	* gui/e-week-view.c (e_week_view_start_editing_event): 
 	* gui/e-day-view.c (e_day_view_start_editing_event): Update
 	arguments to e_canvas_item_grab_focus.
 
@@ -403,13 +177,13 @@
 
 	* gui/e-day-view.c (e_day_view_on_event_right_click): Reorganize
 	the menus to have entries always in a consistent fashion, as
-	reported to the genepool mailing list.
+	reported to the genepool mailing list.  
 	(e_day_view_on_event_right_click): Added a FIXME comment to the
 	FIXME comment without a FIXME.
 
 	Now we use e_popup_menu.  This allows us to hide/show items on
 	demand, and to sensitize/de-sensitize items depending on their
-	state.
+	state. 
 
 	This will also let us add icon support (when we get nice icons for
 	this)
@@ -436,7 +210,7 @@
 	* gui/calendar-commands.c: connected to "destroy" signal of calendars
 	so we can remove them from all_calendars list.
 
-	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_update_config):
+	* gui/dialogs/cal-prefs-dialog.c (cal_prefs_dialog_update_config): 
 	call e_tasks_update_all_config_settings() to update all the settings
 	in the Tasks folders as well.
 
@@ -451,13 +225,13 @@
 
 	* gui/e-day-view.c (e_day_view_on_event_right_click): Reorganize
 	the menus to have entries always in a consistent fashion, as
-	reported to the genepool mailing list.
+	reported to the genepool mailing list.  
 	(e_day_view_on_event_right_click): Added a FIXME comment to the
 	FIXME comment without a FIXME.
 
 	Now we use e_popup_menu.  This allows us to hide/show items on
 	demand, and to sensitize/de-sensitize items depending on their
-	state.
+	state. 
 
 	This will also let us add icon support (when we get nice icons for
 	this)
@@ -572,7 +346,7 @@
 2001-02-13  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-tasks.c (e_tasks_new_task): call task_editor_focus
-
+	
 2001-02-13  JP Rosevear  <jpr@ximian.com>
 
 	* gui/calendar-commands.c (update_pixmaps): Set toolbar new
@@ -610,7 +384,7 @@
 
 	* gui/Makefile.am: Hook up the xml-i18n-tools + .oaf.in stuff.
 	* gui/GNOME_Evolution_Calendar*.oaf.in: Marked strings for translation.
-
+	
 2001-02-11  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-backend-db.c: added DB3 transactions support
@@ -620,16 +394,16 @@
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
 	Really use xml-i18n-tools.
-
+	
 	* conduits/calendar/e-calendar-conduit-control-applet.desktop,
 	conduits/todo/e-todo-conduit-control-applet.desktop: removed.
-
+	
 	* conduits/calendar/e-calendar-conduit-control-applet.desktop.in,
 	conduits/todo/e-todo-conduit-control-applet.desktop.in: added empty.
 
 	* conduits/calendar/Makefile.am, conduits/todo/Makefile.am:
 	reflect above changes, merge translations.
-
+	
 	* gui/*.glade.h, gui/dialogs/*.glade.h: removed, xml-i18n-extract
 	takes care of strings itself.
 
@@ -641,7 +415,7 @@
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/task-editor-dialog.glade: Oops, remove old widget
-
+	
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/task-editor.c (fill_widgets): fill in new
@@ -654,7 +428,7 @@
 	* gui/dialogs/task-editor-dialog.glade: Make more consistent,
 	fixing bugs 1247 and 1249
 
-	* gui/dialogs/task-editor.c (fill_widgets):
+	* gui/dialogs/task-editor.c (fill_widgets): 
 
 	* gui/event-editor-dialog.glade: Gui tidying
 
@@ -663,7 +437,7 @@
 	* cal-util/cal-component.c (cal_component_set_url): Don't try and
 	write an empty string as a property
 
-
+	
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
 	* pcs/cal-backend-file.c: Move the get_change code here
@@ -676,7 +450,7 @@
 	* pcs/cal-backend-file.c (compute_alarm_range): Use
 	icaldurationtype_as_int (replace _as_timet)
 	(add_alarm_occurrences_cb): ditto
-
+	
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
 	* pcs/cal-backend-file.c (compute_alarm_range): Use
@@ -768,7 +542,7 @@
 	* gui/e-calendar-table.c: ditto
 
 2001-02-06  JP Rosevear  <jpr@ximian.com>
-
+	
 	* cal-util/cal-component.c (cal_component_set_categories): If the
 	categories string is empty, remove the property
 	(get_period_list): Fixes from clahey to handle the new rdate
@@ -827,7 +601,7 @@
 
 	* gui/e-calendar-table.c: Mark a string for translation.
 	* gui/e-itip-control.c: Mark a bunch of strings for translation.
-
+	
 2001-01-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/print.c: #include <sys/time.h>.
@@ -895,7 +669,7 @@
 2001-01-23  JP Rosevear  <jpr@ximian.com>
 
 	*  libical import cleanup
-
+	
 2001-01-23  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/todo-conduit.c (local_record_from_comp): properly ref
@@ -914,9 +688,9 @@
 
 	* gui/dialogs/save-comp.h: new header
 
-	* gui/dialogs/save-comp.c (save_component_dialog): shows the save
+	* gui/dialogs/save-comp.c (save_component_dialog): shows the save 
 	dialog
-
+	
 2001-01-22  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/todo-conduit.c (for_each_modified): remove duplicate
@@ -935,7 +709,7 @@
 	deleted records from the pilot map so we don't have dupes in the future
 
 	* conduits/todo/todo-conduit.c (delete_record): ditto
-
+	
 2001-01-21  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/task-editor.c (file_delete_cb): Fix bug #1250; now
@@ -958,7 +732,7 @@
 
 2001-01-19  JP Rosevear  <jpr@ximian.com>
 
-	* cal-util/cal-component.c (cal_component_alarm_new): create a new
+	* cal-util/cal-component.c (cal_component_alarm_new): create a new 
 	cal component alarm
 	(cal_component_add_alarm): add alarm to the cal component
 	(cal_component_remove_alarm): remove alarm from the cal component
@@ -966,7 +740,7 @@
 
 	* cal-util/cal-component.h: new protos
 
-	* conduits/calendar/calendar-conduit.c (comp_from_remote_record):
+	* conduits/calendar/calendar-conduit.c (comp_from_remote_record): 
 	add alarm information, still needs to be hacked to replace an already
 	existing alarm.  questions abound about the heuristic for doing this.
 
@@ -974,7 +748,7 @@
 
 	* gui/event-editor.c (dialog_to_comp_object): Properly set categories
 	to NULL if there are none
-
+	
 2001-01-18  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/tasks-migrate.[ch]: New files with a simple sequence to
@@ -1016,18 +790,18 @@
 	them to go with their theme. At least the calendars are usable in any
 	theme now, even though the colors may not go well with the theme.
 	Also set the font of all the EText items in style_set.
-
+	
 	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): don't
 	draw the icons if we are editing the event.
 
-	* gui/e-day-view.c:
+	* gui/e-day-view.c: 
 	* gui/e-week-view.c: reinstated the optimizations so we don't do a
 	complete relayout if the event's dates haven't been changed.
 	(Though we still do a re-layout when recurring events change, since
 	comparing all the RDATES/RRULES/EXDATES/EXRULES is too much hassle.)
 	A side-effect of this change is that the EWeekView won't crash so
 	often - only recurring events will be a problem.
-
+	
 	* cal-util/cal-component.[hc]: added function to check if the start
 	and end dates of a component match. Used for optimizing the updating
 	of the EDayView & EWeekView.
@@ -1038,7 +812,7 @@
 	for open error and handled
 
 	* conduits/todo/todo-conduit.c (start_calendar_server): ditto
-
+	
 2001-01-17  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (start_calendar_server): Check
@@ -1046,7 +820,7 @@
 
 	* pcs/cal-backend.c (cal_backend_compute_changes): Fix transposition
 	of sync db location
-
+	
 2001-01-17  Federico Mena Quintero  <federico@ximian.com>
 
 	* */*: Ximianified email addresses and copyrights.
@@ -1214,7 +988,7 @@
 
 2001-01-14  JP Rosevear  <jpr@ximian.com>
 
-	* conduits/calendar/Makefile.am: pass -module and -avoid-version to
+	* conduits/calendar/Makefile.am: pass -module and -avoid-version to 
 	conduit linker
 
 	* conduits/todo/Makefile.am: ditto
@@ -1244,7 +1018,7 @@
 	Also made sure the initialize_value()/get_value() functions don't
 	return NULL since that can cause a SEGV.
 
-	* gui/e-week-view.c:
+	* gui/e-week-view.c: 
 	* gui/e-day-view.c: set the "fill_color_rgba" arg of the EText items
 	to black since it doesn't seem to set up a default color properly.
 	Hopefully this fixes the bug on Solaris where the items appear with
@@ -1273,7 +1047,7 @@
 
 2001-01-09  Dave Camp  <dave@helixcode.com>
 
-	* gui/Makefile.am: Replaced e-meet-dialog.glade.h with
+	* gui/Makefile.am: Replaced e-meet-dialog.glade.h with 
 	e-meeting-dialog.glade in glade_messages.
 
 	* gui/e-meeting-dialog.glade: Enabled the translatable string option.
@@ -1307,7 +1081,7 @@
 	* gui/calendar-summary.c (generate_html_summary): Get the tasks
 	correctly.
 	(generate_html_summary): Mark the tasks as completed if so.
-
+	
 2001-01-08  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/Makefile.am: added new source files for the Tasks folders.
@@ -1315,7 +1089,7 @@
 	* gui/e-tasks.[hc]: new widget to encapsulate the Tasks view.
 
 	* gui/tasks-control.[hc]: new files to implement the Tasks control.
-
+	
 	* gui/tasks-control-factory.[hc]: new files to implement the factory
 	for the Tasks controls. (I think the way I've split the code up is a
 	lot cleaner than the GnomeCal implementation - the factory file just
@@ -1332,12 +1106,12 @@
 	* gui/calendar-config.[hc]: added convenience functions to configure
 	the common settings of ECalendar and EDateEdit widgets.
 
-	* gui/dialogs/task-editor.c (task_editor_create_date_edit):
-	* gui/gnome-cal.c (gnome_calendar_update_config_settings):
+	* gui/dialogs/task-editor.c (task_editor_create_date_edit): 
+	* gui/gnome-cal.c (gnome_calendar_update_config_settings): 
 	* gui/event-editor.c: used function to configure the ECalendars
 	and EDateEdits.
 
-	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event): 
 	fixed minor bug in format strings.
 
 2001-01-06  Iain Holmes  <iain@helixcode.com>
@@ -1358,9 +1132,9 @@
 
 	* gui/event-editor-dialog.glade: Add categories and contacts buttons
 	and fields
-
+	
 	* gui/dialogs/task-editor-dialog.glade: Rename button
-
+	
 2001-01-05  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/dialogs/task-editor.c (get_widgets): get categories button
@@ -1370,7 +1144,7 @@
 	(categories_clicked): throw up the categories dialog and update
 	when ok is clicked
 
-	* gui/dialogs/task-editor-dialog.glade: Tweak to name the categories
+	* gui/dialogs/task-editor-dialog.glade: Tweak to name the categories 
 	button and make it active
 
 	* gui/calendar-model.c (get_categories): We can get the string list of
@@ -1467,9 +1241,9 @@
 
 2000-12-22  JP Rosevear  <jpr@helixcode.com>
 
-	* gui/dialogs/delete-comp.c (delete_component_dialog): Clean up
+	* gui/dialogs/delete-comp.c (delete_component_dialog): Clean up 
 	translatable strings for translators, fixes bug 993
-
+	
 2000-12-22  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/goto.c (create_ecal): Make sure the current month is shown
@@ -1479,9 +1253,9 @@
 
 2000-12-22  JP Rosevear  <jpr@helixcode.com>
 
-	* pcs/cal-backend-file.c (cal_backend_file_get_alarms_for_object):
+	* pcs/cal-backend-file.c (cal_backend_file_get_alarms_for_object): 
 	account for the case where there are no alarms, fixes crash
-
+	
 2000-12-22  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/goto.c (ecal_date_range_changed): New function to keep the
@@ -1495,13 +1269,13 @@
 
 	* gui/mark.[hc], gui/prop.c: Remove ancient gnomecal code that is
 	no longer needed, last bit of bug 904
-
+	
 2000-12-22  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/goto-dialog.glade.h: translations
-
+	
 	* gui/goto-dialog.glade: new glade file for goto dialog
-
+	
 	* gui/gnome-cal.c (setup_widgets): Set date navigator attributes
 
 	* gui/calendar-commands.h: remove prototype
@@ -1579,7 +1353,7 @@
 
 	* conduits/todo/todo-conduit.h: Fix erroneous documentation
 
-	* conduits/todo/todo-conduit.c (comp_from_remote_record): if
+	* conduits/todo/todo-conduit.c (comp_from_remote_record): if 
 	!is_empty_time rather than is_empty_time
 	(e_todo_context_new): Return a pointer rather than fill in
 	a parameter
@@ -1591,8 +1365,8 @@
 	(post_sync): Destroy the map later
 	(conduit_get_gpilot_conduit): Fix e_todo_context_new params
 
-	* conduits/calendar/calendar-conduit.[hc]: Similar to above
-
+	* conduits/calendar/calendar-conduit.[hc]: Similar to above 
+	
 2000-12-19  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/calendar/calendar-conduit.c: Remove pointless comment
@@ -1602,12 +1376,12 @@
 
 2000-12-19  JP Rosevear  <jpr@helixcode.com>
 
-	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+	* conduits/calendar/calendar-conduit.c (local_record_from_comp): 
 	Convert cal component strings to pilot character set
 	(comp_from_remote_record): vice versa
 
 	* conduits/todo/todo-conduit.c: Same as above
-
+	
 2000-12-19  Federico Mena Quintero  <federico@helixcode.com>
 
 	* pcs/cal-backend-file.c (compute_alarm_range): Fix confusion in

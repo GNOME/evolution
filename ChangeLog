@@ -4,20 +4,22 @@
 	`executive-summary/widgets/Makefile', as that subdir doesn't get
 	distributed anymore.
 
-2001-04-26  Dan Winship  <danw@ximian.com>
+2001-04-24  Ettore Perazzoli  <ettore@ximian.com>
 
-	* README: We no longer depend on libunicode.
+	* NEWS (Shell): Updated with the changes in the shell.
 
-	* configure.in: Remove check for libunicode. Remove unicode cflags
-	and libs from all CFLAGS and LIBS variables. Add GAL_LIBS for
-	things that need to depend on just gal (for gunicode).
+2001-04-23  Damon Chaplin  <damon@ximian.com>
 
-	* configure.in: Check for gethostbyname_r so e_gethostbyname_r
-	will DTRT.
-	
-2001-04-24  Dan Winship  <danw@ximian.com>
+	* NEWS (Tasks): added stuff about new popup items.
 
-	* configure.in: Bump up the gal requirement
+2001-04-23  Dan Winship  <danw@ximian.com>
+
+	* NEWS (Mail): Updated. I think it's mostly covered except for
+	importer stuff now
+
+2001-04-23  Christopher James Lahey  <clahey@ximian.com>
+
+	* NEWS (Addressbook, General): Added Addressbook and ETable NEWS.
 
 2001-04-23  Ettore Perazzoli  <ettore@ximian.com>
 
@@ -26,15 +28,23 @@
 
 	* Makefile.am (SUBDIRS): Build the docs last.
 
-2001-04-21  Jeffrey Stedfast  <fejj@ximian.com>
+2001-04-23  Not Zed  <NotZed@Ximian.com>
 
-	* configure.in (have_nspr_libs): We need to link in more than just
-	libnspr4, we also need libpthread.
-	(have_nss_libs): Don't forget to add nsprlibs to the LDFLAGS.
+	* NEWS (Mail): Updated slightly, Trow's turn?
 
-2001-04-21  Duncan Mak  <duncan@ximian.com>
+2001-04-22  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* art/Makefile.am (images_DATA): Added in composer-message.png.
+	* NEWS: Updated with 0.10 mailer improvements. Dan/Iain/Michael
+	should add anything I left off.
+
+2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Don't generate the Makefiles under `camel/tests'
+	for now.
+	
+2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Bump required GAL version to 0.7.
 
 2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
 
@@ -51,48 +61,15 @@
 
 	* configure.in: Updated the required version of gal to 0.6.99.0.
 
-2001-04-11  JP Rosevear  <jpr@ximian.com>
+2001-04-06  Not Zed  <NotZed@Ximian.com>
 
-	* configure.in: Check if gethostbyname_r take five params
-
-	* acconfig.h: add GETHOSTBYNAME_R_FIVE_ARGS 
-
-2001-04-10  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* AUTHORS: /me is a translator.
-	* configure.in (EVO_CHECK_LIB): fail with AC_MSG_ERROR, not echo &&
-	exit 1.
-
-2001-04-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in (EVOLUTION_DIR): create the makefile in
-	camel/tests/smime
-
-2001-04-08  Chris Toshok  <toshok@ximian.com>
-
-	* tools/killev (sysname): add some more 16 character versions for
-	freebsd.
-
-2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* AUTHORS: Brag.
+	* README (gnome-xml): Fixed the branch name to LIB_XML_1_BRANCH
+	rather than LIB_XML_1_X.
 	
-2001-04-04  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* art/evolution-today-mini.png: converted from exec-16-summary.xpm,
-	removed the latter.
-	* art/evolution-trash.png, art/evolution-trash-mini.png: images for
-	trash folder, one converted from deleted_message.xpm, another from mc.
-	* art/Makefile.am: install.
-
 2001-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* README (SSL): Remind users that they will currently have to copy
 	their cert database from their mozilla directory into ~/evolution.
-
-2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
-
-	* art/Makefile.am: added missing (new) files.
 
 2001-03-30  Dan Winship  <danw@ximian.com>
 

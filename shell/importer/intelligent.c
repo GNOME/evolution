@@ -26,33 +26,12 @@
 #include <config.h>
 #endif
 
-#include "intelligent.h"
-#include <glib.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkobject.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
-
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-config.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
+#include <gnome.h>
 
 #include <liboaf/liboaf.h>
 
+#include "intelligent.h"
 #include "GNOME_Evolution_Importer.h"
-
-/* Prototypes */
-
-void intelligent_importer_init (void);
-
-/* End prototypes */
 
 static void
 start_importer (const char *iid)
@@ -65,7 +44,7 @@ start_importer (const char *iid)
 
 	GtkWidget *dialog, *label, *ask;
 	gboolean dontaskagain;
-	char *prefix;
+	char *str, *prefix;
 
 	if (iid == NULL || *iid == '\0')
 		return;
@@ -127,7 +106,7 @@ start_importer (const char *iid)
 
 	CORBA_exception_free (&ev);
 
-	dialog = gnome_dialog_new ("Import files",
+	dialog = gnome_dialog_new (_("Import files"),
 				   GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO,
 				   NULL);
 	gtk_window_set_title (GTK_WINDOW (dialog), name);

@@ -21,16 +21,9 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
+#include <gnome.h>
 #include <stdlib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-config.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-stock.h>
 #include "mail.h"
 #include "mail-session.h"
 #include "mail-mt.h"
@@ -126,12 +119,9 @@ auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
 	gboolean accept;
 	gpointer old_key, old_data;
 	
-	if (service) {
-		url = camel_url_to_string (service->url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
-		key = g_strdup_printf ("%s:%s", url, item);
-		g_free (url);
-	} else
-		key = g_strdup (item);
+	url = camel_url_to_string (service->url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+	key = g_strdup_printf ("%s:%s", url, item);
+	g_free (url);
 	
 	switch (mode) {
 	case CAMEL_AUTHENTICATOR_TELL:
