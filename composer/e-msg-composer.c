@@ -1778,6 +1778,14 @@ setup_ui (EMsgComposer *composer)
 		bonobo_ui_component_set_prop (
 			composer->uic, "/commands/FileSendLater",
 			"accel", "*Ctrl*Return", NULL);
+	} else {
+		/* Switch the accelerator back to the Send item */
+		bonobo_ui_component_set_prop (
+			composer->uic, "/commands/FileSend",
+			"accel", "*Ctrl*Return", NULL);
+		bonobo_ui_component_set_prop (
+			composer->uic, "/commands/FileSendLater",
+			"accel", NULL, NULL);
 	}
 	
 	/* Format -> HTML */
