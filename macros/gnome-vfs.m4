@@ -5,9 +5,12 @@ dnl     Sets GNOME_VFS_LIBS to libraries required
 dnl     Sets termnet  to true or false depending on whether it is required.
 dnl        If yes, defines USE_TERMNET.
 dnl     Sets vfs_flags to "pretty" list of vfs implementations we include.
+dnl     Sets shell variable use_vfs to yes (default, --with-vfs) or
+dnl        "no" (--without-vfs).
 dnl     Calls AC_SUBST(mcserv), which is either empty or "mcserv".
 
-AC_DEFUN([GNOME_VFS_CHECKS],[
+dnl Private define
+AC_DEFUN([GNOME_WITH_VFS],[
   dnl FIXME: network checks should probably be in their own macro.
   AC_CHECK_LIB(nsl, t_accept)
   AC_CHECK_LIB(socket, socket)
@@ -33,7 +36,6 @@ AC_DEFUN([GNOME_VFS_CHECKS],[
       AC_CHECK_LIB($lib, gethostbyname, [LIBS="$LIBS -l$lib"; have_gethostbyname=yes; break])
     done
   fi
-
 
   vfs_flags="tarfs"
   use_net_code=false
@@ -75,6 +77,27 @@ AC_DEFUN([GNOME_VFS_CHECKS],[
 	TERMNET="-ltermnet"
      fi
   fi
+
   AC_SUBST(TERMNET)
   AC_SUBST(mcserv)
+
+dnl FIXME:
+dnl GNOME_VFS_LIBS=
+
 ])
+
+AC_DEFUN([GNOME_VFS_CHECKS],[
+	use_vfs=yes
+	AC_ARG_WITH(vfs,
+		[--with-vfs		   Compile with the VFS code],
+		use_vfs=$withval
+	)
+	case $use_vfs in
+		yes) 	GNOME_WITH_VFS;;
+		no) 	use_vfs=no;;
+		*)   	use_vfs=no;;
+			dnl Should we issue a warning?
+	esac
+])
+
+

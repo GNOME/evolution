@@ -1,3 +1,8 @@
+Sun Mar 28 23:39:48 1999  Norbert Warmuth  <nwarmuth@privat.circular.de>
+
+	* gnome-vfs.m4: Add --with-vfs option. GNOME_VFS_LIBS still needs
+	to be fixed but that's not a problem because there's no libvfs, yet.
+
 1999-03-10  Tomislav Vujec  <tvujec@carnet.hr>
 
 	* aclocal-include.m4 (AM_ACLOCAL_INCLUDE): Add ACLOCAL_FLAGS in
