@@ -1362,16 +1362,6 @@ Shows your pending tasks
 </para>
       <para>
         <inlinemediaobject><imageobject><imagedata  fileref="figures/full-1"
-        format="PNG"/></imageobject></inlinemediaobject> <guilabel>Email
-        Viewer</guilabel>
-      </para>
-    
-      <para>
-        This is where your email is displayed.
-      </para>
-
-      <para>
-        <inlinemediaobject><imageobject><imagedata  fileref="figures/full-2"
         format="PNG"/></imageobject></inlinemediaobject> <guilabel>Message List</guilabel>
       </para>
     
@@ -1379,6 +1369,16 @@ Shows your pending tasks
         The <guilabel>Message List</guilabel> displays all the emails
         that you have.  This includes all your read, unread, and email
         that is flagged to be deleted.
+      </para>
+
+      <para>
+        <inlinemediaobject><imageobject><imagedata  fileref="figures/full-2"
+        format="PNG"/></imageobject></inlinemediaobject> <guilabel>Email
+        Viewer</guilabel>
+      </para>
+    
+      <para>
+        This is where your email is displayed.
       </para>
 
       <para>
