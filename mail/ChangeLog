@@ -1,3 +1,10 @@
+2003-11-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c (tree_row_expanded): Queue the
+	camel_store_get_folder_info() call in another thread.
+	(em_folder_tree_get_folder_info__got): Moved all the logic of
+	tree_row_expanded here.
+
 2003-11-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree.c (tree_row_expanded): Fixed to check fi->child

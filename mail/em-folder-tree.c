@@ -355,6 +355,9 @@ em_folder_tree_destroy (GtkObject *obj)
 		priv->ddd = 0;
 	}
 	
+	priv->treeview = NULL;
+	priv->model = NULL;
+	
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
@@ -379,8 +382,6 @@ folder_tree_new (EMFolderTreeModel *model)
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_set_cell_data_func (column, renderer, render_display_name, NULL, NULL);
-	/*gtk_tree_view_insert_column_with_attributes ((GtkTreeView *) tree, -1, "",
-	  renderer, "text", 0, NULL);*/
 	
 	selection = gtk_tree_view_get_selection ((GtkTreeView *) tree);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
@@ -869,7 +870,7 @@ tree_store_set_folder_info (GtkTreeStore *model, GtkTreeIter *iter,
 	GtkTreeIter sub;
 	gboolean load;
 	
-	load = (fi->flags & CAMEL_FOLDER_CHILDREN) && !(fi->flags & CAMEL_FOLDER_NOINFERIORS);
+	load = !fi->child && (fi->flags & CAMEL_FOLDER_CHILDREN) && !(fi->flags & CAMEL_FOLDER_NOINFERIORS);
 	
 	path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);
 	uri_row = gtk_tree_row_reference_new ((GtkTreeModel *) model, path);
@@ -934,24 +935,125 @@ dump_fi (CamelFolderInfo *fi, int depth)
 }
 #endif
 
+struct _EMFolderTreeGetFolderInfo {
+	struct _mail_msg msg;
+	
+	/* input data */
+	GtkTreeRowReference *root;
+	EMFolderTree *emft;
+	CamelStore *store;
+	char *top;
+	
+	/* output data */
+	CamelFolderInfo *fi;
+};
+
+static void
+em_folder_tree_get_folder_info__get (struct _mail_msg *mm)
+{
+	struct _EMFolderTreeGetFolderInfo *m = (struct _EMFolderTreeGetFolderInfo *) mm;
+	guint32 flags = 0;
+	
+	if (camel_store_supports_subscriptions (m->store))
+		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
+	
+	m->fi = camel_store_get_folder_info (m->store, m->top, flags, &mm->ex);
+}
+
+static void
+em_folder_tree_get_folder_info__got (struct _mail_msg *mm)
+{
+	struct _EMFolderTreeGetFolderInfo *m = (struct _EMFolderTreeGetFolderInfo *) mm;
+	struct _EMFolderTreePrivate *priv = m->emft->priv;
+	struct _EMFolderTreeModelStoreInfo *si;
+	GtkTreeIter root, iter;
+	CamelFolderInfo *fi;
+	GtkTreeStore *model;
+	GtkTreePath *path;
+	gboolean load;
+	
+	/* check that we haven't been destroyed */
+	if (priv->treeview == NULL)
+		return;
+	
+	if (!(si = g_hash_table_lookup (priv->model->store_hash, m->store))) {
+		/* store has been removed in the interim - do nothing */
+		return;
+	}
+	
+	model = (GtkTreeStore *) gtk_tree_view_get_model (priv->treeview);
+	
+	path = gtk_tree_row_reference_get_path (m->root);
+	gtk_tree_model_get_iter ((GtkTreeModel *) model, &root, path);
+	gtk_tree_path_free (path);
+	
+	/* make sure we still need to load the tree subfolders... */
+	gtk_tree_model_get ((GtkTreeModel *) model, &root,
+			    COL_BOOL_LOAD_SUBDIRS, &load,
+			    -1);
+	if (!load)
+		return;
+	
+	/* get the first child (which will be a dummy node) */
+	gtk_tree_model_iter_children ((GtkTreeModel *) model, &iter, &root);
+	
+	/* FIXME: camel is totally on crack here, @top's folder info
+	 * should be @fi and fi->child should be what we want to fill
+	 * our tree with... *sigh* */
+	if (m->top && !strcmp (m->fi->full_name, m->top)) {
+		if (!(fi = m->fi->child))
+			fi = m->fi->sibling;
+	} else
+		fi = m->fi;
+	
+	if (fi == NULL) {
+		/* no children afterall... remove the "Loading..." placeholder node */
+		gtk_tree_store_remove (model, &iter);
+	} else {
+		do {
+			tree_store_set_folder_info (model, &iter, priv, si, fi);
+			
+			if ((fi = fi->sibling) != NULL)
+				gtk_tree_store_append (model, &iter, &root);
+		} while (fi != NULL);
+	}
+	
+	gtk_tree_store_set (model, &root, COL_BOOL_LOAD_SUBDIRS, FALSE, -1);
+}
+
+static void
+em_folder_tree_get_folder_info__free (struct _mail_msg *mm)
+{
+	struct _EMFolderTreeGetFolderInfo *m = (struct _EMFolderTreeGetFolderInfo *) mm;
+	
+	camel_store_free_folder_info (m->store, m->fi);
+	
+	gtk_tree_row_reference_free (m->root);
+	/*g_object_unref (m->emft);*/
+	camel_object_unref (m->store);
+	g_free (m->top);
+}
+
+static struct _mail_msg_op get_folder_info_op = {
+	NULL,
+	em_folder_tree_get_folder_info__get,
+	em_folder_tree_get_folder_info__got,
+	em_folder_tree_get_folder_info__free,
+};
+
 static void
 tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_path, EMFolderTree *emft)
 {
-	/* FIXME: might be best to call get_folder_info in another thread and add the nodes to the treeview in the callback? */
-	struct _EMFolderTreePrivate *priv = emft->priv;
-	struct _EMFolderTreeModelStoreInfo *si;
-	CamelFolderInfo *fi, *child;
+	struct _EMFolderTreeGetFolderInfo *m;
+	GtkTreeModel *model;
 	CamelStore *store;
-	CamelException ex;
-	GtkTreeStore *model;
-	GtkTreeIter iter;
+	const char *top;
 	gboolean load;
 	char *path;
-	char *top;
 	
-	model = (GtkTreeStore *) gtk_tree_view_get_model (treeview);
+	model = gtk_tree_view_get_model (treeview);
 	
-	gtk_tree_model_get ((GtkTreeModel *) model, root,
+	gtk_tree_model_get (model, root,
 			    COL_STRING_FOLDER_PATH, &path,
 			    COL_POINTER_CAMEL_STORE, &store,
 			    COL_BOOL_LOAD_SUBDIRS, &load,
@@ -959,55 +1061,19 @@ tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *tree_p
 	if (!load)
 		return;
 	
-	if (!(si = g_hash_table_lookup (priv->model->store_hash, store))) {
-		g_assert_not_reached ();
-		return;
-	}
-	
-	/* get the first child (which will be a dummy if we haven't loaded the child folders yet) */
-	gtk_tree_model_iter_children ((GtkTreeModel *) model, &iter, root);
-	
-	/* FIXME: this sucks ass, need to fix camel so that using path as @top will Just Work (tm) */
-	/* NOTE: CamelImapStore will handle "" as toplevel, but CamelMboxStore wants NULL */
 	if (!path || !strcmp (path, "/"))
 		top = NULL;
 	else
 		top = path + 1;
 	
-	/* FIXME: are there any flags we want to pass when getting folder-info's? */
-	camel_exception_init (&ex);
-	if (!(fi = camel_store_get_folder_info (store, top, 0, &ex))) {
-		/* FIXME: report error to user? or simply re-collapse node? or both? */
-		g_warning ("can't get folder-info's for store '%s' at path='%s'", si->display_name, path);
-		gtk_tree_store_remove (model, &iter);
-		camel_exception_clear (&ex);
-		return;
-	}
+	m = mail_msg_new (&get_folder_info_op, NULL, sizeof (struct _EMFolderTreeGetFolderInfo));
+	m->root = gtk_tree_row_reference_new (model, tree_path);
+	camel_object_ref (store);
+	m->store = store;
+	m->emft = emft;
+	m->top = g_strdup (top);
 	
-	/* FIXME: camel is totally on crack here, @top's folder info
-	 * should be @fi and fi->child should be what we want to fill
-	 * our tree with... *sigh* */
-	if (top && !strcmp (fi->full_name, top)) {
-		if (!(child = fi->child))
-			child = fi->sibling;
-	} else
-		child = fi;
-	
-	if (child == NULL) {
-		/* no children afterall... remove the "Loading..." placeholder node */
-		gtk_tree_store_remove (model, &iter);
-	} else {
-		do {
-			tree_store_set_folder_info (model, &iter, priv, si, child);
-			
-			if ((child = child->sibling) != NULL)
-				gtk_tree_store_append (model, &iter, root);
-		} while (child != NULL);
-	}
-	
-	gtk_tree_store_set (model, root, COL_BOOL_LOAD_SUBDIRS, FALSE, -1);
-	
-	camel_store_free_folder_info (store, fi);
+	e_thread_put (mail_thread_new, (EMsg *) m);
 }
 
 
