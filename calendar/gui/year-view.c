@@ -479,6 +479,7 @@ year_view_init (YearView *yv)
 
 	/* We will need to resize the items when we paint for the first time */
 
+	yv->old_marked_day = -1;
 	yv->idle_id = -1;
 	need_resize (yv);
 }
@@ -568,6 +569,52 @@ year_view_update (YearView *yv, iCalObject *object, int flags)
 	year_view_set (yv, time_year_begin (time_from_day (yv->year, 0, 1)));
 }
 
+/* Unmarks the old day that was marked as current and marks the current day */
+static void
+mark_current_day (YearView *yv)
+{
+	time_t t;
+	struct tm *tm;
+	int month_index, day_index;
+	GnomeCanvasItem *item;
+
+	/* Unmark the old day */
+
+	if (yv->old_marked_day != -1) {
+		month_index = yv->old_marked_day / 42;
+		day_index = yv->old_marked_day % 42;
+
+		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (yv->mitems[month_index]),
+						   GNOME_MONTH_ITEM_DAY_LABEL + day_index);
+		gnome_canvas_item_set (item,
+				       "fill_color", color_spec_from_prop (COLOR_PROP_DAY_FG),
+				       "font", NORMAL_DAY_FONT,
+				       NULL);
+
+		yv->old_marked_day = -1;
+	}
+
+	/* Mark the new day */
+
+	t = time (NULL);
+	tm = localtime (&t);
+
+	if ((tm->tm_year + 1900) == yv->year) {
+		month_index = tm->tm_mon;
+		day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (yv->mitems[month_index]), tm->tm_mday);
+		g_assert (day_index != -1);
+
+		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (yv->mitems[month_index]),
+						   GNOME_MONTH_ITEM_DAY_LABEL + day_index);
+		gnome_canvas_item_set (item,
+				       "fill_color", color_spec_from_prop (COLOR_PROP_CURRENT_DAY_FG),
+				       "font", CURRENT_DAY_FONT,
+				       NULL);
+
+		yv->old_marked_day = month_index * 42 + day_index;
+	}
+}
+
 void
 year_view_set (YearView *yv, time_t year)
 {
@@ -602,6 +649,8 @@ year_view_set (YearView *yv, time_t year)
 		unmark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]));
 		mark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), yv->calendar->cal);
 	}
+
+	mark_current_day (yv);
 }
 
 void
@@ -628,9 +677,10 @@ year_view_colors_changed (YearView *yv)
 	g_return_if_fail (yv != NULL);
 	g_return_if_fail (IS_YEAR_VIEW (yv));
 
-
 	for (i = 0; i < 12; i++) {
 		colorify_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), default_color_func, NULL);
 		mark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), yv->calendar->cal);
 	}
+
+	mark_current_day (yv);
 }

@@ -38,6 +38,8 @@ struct _YearView {
 	GnomeCanvasItem *titles[12];	/* Titles for months */
 	GnomeCanvasItem *mitems[12];	/* Month items */
 
+	int old_marked_day;		/* The day that is marked as the current day */
+
 	guint idle_id;			/* ID of idle handler for resize */
 
 	int need_resize : 1;		/* Specifies whether we need to resize the canvas items or not */

@@ -1,3 +1,10 @@
+1998-09-30  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* year-view.c (mark_current_day): New function to mark the current
+	day in the year view.
+
+	* mark.c: Removed mark_current_day from here.
+
 1998-09-29  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* prop.c (fetch_color_spec): Changed name from fetch_prelight_spec

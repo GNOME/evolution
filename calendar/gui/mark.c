@@ -100,27 +100,6 @@ mark_event_in_month (GnomeMonthItem *mitem, time_t start, time_t end)
 	}
 }
 
-static void
-mark_current_day (GnomeMonthItem *mitem)
-{
-	struct tm *tm;
-	time_t t;
-	int day_index;
-	GnomeCanvasItem *item;
-
-	t = time (NULL);
-	tm = localtime (&t);
-
-	if (((tm->tm_year + 1900) == mitem->year) && (tm->tm_mon == mitem->month)) {
-		day_index = gnome_month_item_day2index (mitem, tm->tm_mday);
-		item = gnome_month_item_num2child (mitem, GNOME_MONTH_ITEM_DAY_LABEL + day_index);
-		gnome_canvas_item_set (item,
-				       "fill_color", color_spec_from_prop (COLOR_PROP_CURRENT_DAY_FG),
-				       "font", CURRENT_DAY_FONT,
-				       NULL);
-	}
-}
-
 void
 mark_month_item (GnomeMonthItem *mitem, Calendar *cal)
 {
