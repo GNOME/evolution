@@ -34,7 +34,7 @@ INCLUDES = 						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-iconsdir = $(datadir)/images/evolution
+iconsdir = $(datadir)/evolution/images
 
 gladedir   = $(datadir)/evolution/glade
 

@@ -54,10 +54,10 @@ INCLUDES = 							\
         -DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"        	\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
-	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\" \
+	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/evolution/images\" \
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-iconsdir = $(datadir)/images/evolution
+iconsdir = $(datadir)/evolution/images
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = 					\

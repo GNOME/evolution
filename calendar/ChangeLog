@@ -1,3 +1,11 @@
+2003-01-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/alarm-notify/Makefile.am: Icons are now in
+	$(datadir)/evolution/images instead of
+	$(datadir)/images/evolution.
+	* gui/Makefile.am: Likewise.
+	* gui/dialogs/Makefile.am: Likewise.
+
 2003-01-06  Dan Winship  <danw@ximian.com>
 
 	* idl/Makefile.am: remove idldir definition. (It's defined in

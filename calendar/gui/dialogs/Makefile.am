@@ -77,7 +77,7 @@ libcal_dialogs_a_SOURCES =	\
 	task-page.c		\
 	task-page.h
 
-iconsdir = $(datadir)/images/evolution
+iconsdir = $(datadir)/evolution/images
 
 gladedir = $(datadir)/evolution/glade
 glade_DATA =				\
