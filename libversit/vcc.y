@@ -169,6 +169,7 @@ static void enterProps(const char *s);
 static void enterAttr(const char *s1, const char *s2);
 static void enterValues(const char *value);
 static void mime_error_(char *s);
+ static void appendValue(const char *value);
 
 %}
 
@@ -290,9 +291,9 @@ attr: name
 name: ID
 	;
 
-values: value SEMICOLON { enterValues($1); } values
+values: value SEMICOLON { appendValue($1); } values
 	| value
-	{ enterValues($1); }
+	{ appendValue($1); }
 	;
 
 value: STRING
@@ -405,6 +406,41 @@ static VObject* popVObject()
     return oldObj;
     }
 
+static void appendValue(const char *value)
+{
+  char *p1, *p2;
+  wchar_t *p3;
+  int i;
+
+  if (fieldedProp && *fieldedProp) {
+    if (value) {
+      addPropValue(curProp, *fieldedProp, value);
+    }
+    /* else this field is empty, advance to next field */
+    fieldedProp++;
+  } else {
+    if (value) {
+      if (vObjectUStringZValue(curProp)) {
+	p1 = fakeCString(vObjectUStringZValue(curProp));
+	p2 = malloc(sizeof(char *) * (strlen(p1)+strlen(value)+1));
+	strcpy(p2, p1);
+	deleteStr(p1);
+
+	i = strlen(p2);
+	p2[i] = ';';
+	p2[i+1] = '\0';
+	p2 = strcat(p2, value);
+	p3 = (wchar_t *) vObjectUStringZValue(curProp);
+	free(p3);
+	setVObjectUStringZValue_(curProp,fakeUnicode(p2,0));
+	deleteStr(p2);
+      } else {
+	setVObjectUStringZValue_(curProp,fakeUnicode(value,0));
+      }
+    }
+  }
+  deleteStr(value);
+}
 
 static void enterValues(const char *value)
     {
@@ -1215,4 +1251,5 @@ static void mime_error_(char *s)
 	mimeErrorHandler(s);
 	}
     }
+
 
