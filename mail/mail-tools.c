@@ -362,7 +362,15 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 	
 	/* Set the quoted reply text. */
 	if (text) {
-		gchar *ret_text, *credits = NULL;
+		char *sig, *p, *ret_text, *credits = NULL;
+		
+		/* look for the signature and strip it off */
+		sig = text;
+	        while ((p = strstr (sig, "\n-- \n")))
+			sig = p + 4;
+		
+		if (sig != text)
+			*sig = '\0';
 		
 		/* create credits */
 		if (fmt) {

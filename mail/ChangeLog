@@ -1,3 +1,8 @@
+2002-10-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_quote_message): Strip the signature from
+	the body-text. Fixes bug #5529.
+
 2002-10-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_multipart_signed): Don't need to pass a
