@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-12 13:24+0200\n"
+"POT-Creation-Date: 2004-06-15 21:19+0200\n"
 "PO-Revision-Date: 2004-01-28 14:18+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -755,8 +755,7 @@ msgstr "<b>Praca</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: addressbook/gui/contact-editor/e-contact-editor.c:178
-#: addressbook/gui/widgets/eab-contact-display.c:334
-#: addressbook/gui/widgets/eab-contact-display.c:353
+#: addressbook/gui/widgets/eab-contact-display.c:331
 msgid "AIM"
 msgstr "AIM"
 
@@ -816,7 +815,7 @@ msgstr "Sygnalizacja zajętości:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "Full _Name..."
-msgstr "Pełna _nazwa..."
+msgstr "Imię i _nazwisko..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "Home Page:"
@@ -933,8 +932,8 @@ msgstr ""
 "usunąć ten kontakt?"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:96
-#: addressbook/gui/widgets/eab-contact-display.c:343
-#: addressbook/gui/widgets/eab-contact-display.c:364
+#: addressbook/gui/widgets/eab-contact-display.c:350
+#: addressbook/gui/widgets/eab-contact-display.c:365
 msgid "Address"
 msgstr "Adres"
 
@@ -1922,31 +1921,28 @@ msgstr "Zimbabwe"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:179
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
-#: addressbook/gui/widgets/eab-contact-display.c:337
-#: addressbook/gui/widgets/eab-contact-display.c:356
+#: addressbook/gui/widgets/eab-contact-display.c:334
 msgid "Jabber"
 msgstr "Jabber"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:180
-#: addressbook/gui/widgets/eab-contact-display.c:339
-#: addressbook/gui/widgets/eab-contact-display.c:358
+#: addressbook/gui/widgets/eab-contact-display.c:336
 msgid "Yahoo"
 msgstr "Yahoo"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:181
-#: addressbook/gui/widgets/eab-contact-display.c:338
-#: addressbook/gui/widgets/eab-contact-display.c:357
+#: addressbook/gui/widgets/eab-contact-display.c:335
 msgid "MSN"
 msgstr "MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:182
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:67
-#: addressbook/gui/widgets/eab-contact-display.c:336
-#: addressbook/gui/widgets/eab-contact-display.c:355
+#: addressbook/gui/widgets/eab-contact-display.c:333
 msgid "ICQ"
 msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:183
+#: addressbook/gui/widgets/eab-contact-display.c:332
 msgid "GroupWise"
 msgstr "GroupWise"
 
@@ -2060,7 +2056,7 @@ msgstr "_Pełna edycja"
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
 #: mail/mail-config.glade.h:166
 msgid "_Full Name:"
-msgstr "Peł_na nazwa:"
+msgstr "Imię i _nazwisko:"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:307
 msgid "E-_mail:"
@@ -2305,80 +2301,75 @@ msgid "map"
 msgstr "mapa"
 
 #: addressbook/gui/widgets/eab-contact-display.c:259
-#: addressbook/gui/widgets/eab-contact-display.c:525
+#: addressbook/gui/widgets/eab-contact-display.c:526
 msgid "List Members"
 msgstr "Członkowie listy"
 
-#: addressbook/gui/widgets/eab-contact-display.c:321
-#: addressbook/gui/widgets/eab-contact-display.c:323
+#: addressbook/gui/widgets/eab-contact-display.c:322
+#: addressbook/gui/widgets/eab-contact-display.c:324
 msgid "E-mail"
 msgstr "E-mail"
 
-#: addressbook/gui/widgets/eab-contact-display.c:332
+#: addressbook/gui/widgets/eab-contact-display.c:345
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:27
 msgid "Organization"
 msgstr "Organizacja"
 
-#: addressbook/gui/widgets/eab-contact-display.c:333
+#: addressbook/gui/widgets/eab-contact-display.c:346
 msgid "Position"
 msgstr "Pozycja"
 
-#: addressbook/gui/widgets/eab-contact-display.c:335
-#: addressbook/gui/widgets/eab-contact-display.c:354
-msgid "Groupwise"
-msgstr "Groupwise"
-
-#: addressbook/gui/widgets/eab-contact-display.c:340
+#: addressbook/gui/widgets/eab-contact-display.c:347
 msgid "Video Conferencing"
 msgstr "Konferencje wideo"
 
-#: addressbook/gui/widgets/eab-contact-display.c:341
-#: addressbook/gui/widgets/eab-contact-display.c:362
+#: addressbook/gui/widgets/eab-contact-display.c:348
+#: addressbook/gui/widgets/eab-contact-display.c:363
 msgid "Phone"
 msgstr "Telefon"
 
-#: addressbook/gui/widgets/eab-contact-display.c:342
+#: addressbook/gui/widgets/eab-contact-display.c:349
 msgid "Fax"
 msgstr "Faks"
 
-#: addressbook/gui/widgets/eab-contact-display.c:346
+#: addressbook/gui/widgets/eab-contact-display.c:353
 msgid "work"
 msgstr "praca"
 
-#: addressbook/gui/widgets/eab-contact-display.c:359
+#: addressbook/gui/widgets/eab-contact-display.c:360
 msgid "WWW"
 msgstr "WWW"
 
-#: addressbook/gui/widgets/eab-contact-display.c:360
-#: addressbook/gui/widgets/eab-contact-display.c:579
+#: addressbook/gui/widgets/eab-contact-display.c:361
+#: addressbook/gui/widgets/eab-contact-display.c:580
 msgid "Blog"
 msgstr "Blog"
 
-#: addressbook/gui/widgets/eab-contact-display.c:363
+#: addressbook/gui/widgets/eab-contact-display.c:364
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
 msgid "Mobile Phone"
 msgstr "Telefon komórkowy"
 
-#: addressbook/gui/widgets/eab-contact-display.c:367
+#: addressbook/gui/widgets/eab-contact-display.c:368
 msgid "personal"
 msgstr "osobiste"
 
-#: addressbook/gui/widgets/eab-contact-display.c:374
+#: addressbook/gui/widgets/eab-contact-display.c:375
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
 msgid "Note"
 msgstr "Notatka"
 
-#: addressbook/gui/widgets/eab-contact-display.c:540
+#: addressbook/gui/widgets/eab-contact-display.c:541
 msgid "Job Title"
 msgstr "Tytuł służbowy"
 
-#: addressbook/gui/widgets/eab-contact-display.c:544
+#: addressbook/gui/widgets/eab-contact-display.c:545
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 #: smime/lib/e-cert.c:826
 msgid "Email"
 msgstr "E-mail"
 
-#: addressbook/gui/widgets/eab-contact-display.c:571
+#: addressbook/gui/widgets/eab-contact-display.c:572
 msgid "Home page"
 msgstr "Witryna domowa"
 
@@ -4684,27 +4675,27 @@ msgstr "Cza_s rozpoczęcia:"
 msgid "None"
 msgstr "Brak"
 
-#: calendar/gui/dialogs/meeting-page.c:420
+#: calendar/gui/dialogs/meeting-page.c:422
 msgid "The organizer selected no longer has an account."
 msgstr "Wybrany organizator nie posiada już konta."
 
-#: calendar/gui/dialogs/meeting-page.c:426
+#: calendar/gui/dialogs/meeting-page.c:428
 msgid "An organizer is required."
 msgstr "Wymagany jest organizator."
 
-#: calendar/gui/dialogs/meeting-page.c:441
+#: calendar/gui/dialogs/meeting-page.c:443
 msgid "At least one attendee is required."
 msgstr "Wymagany jest co najmniej jeden uczestnik."
 
-#: calendar/gui/dialogs/meeting-page.c:651
+#: calendar/gui/dialogs/meeting-page.c:677
 msgid "_Delegate To..."
 msgstr "_Oddeleguj do..."
 
 #. FIXME: need to disable for undeletable folders
-#: calendar/gui/dialogs/meeting-page.c:655
+#: calendar/gui/dialogs/meeting-page.c:681
 #: calendar/gui/e-calendar-table.c:1039 calendar/gui/e-calendar-table.c:1057
 #: calendar/gui/e-calendar-view.c:1360 calendar/gui/e-calendar-view.c:1392
-#: mail/em-folder-tree.c:2583 mail/em-folder-view.c:919
+#: mail/em-folder-tree.c:2584 mail/em-folder-view.c:919
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -5316,7 +5307,7 @@ msgid "Free"
 msgstr "Wolny"
 
 #: calendar/gui/e-calendar-table.c:427 calendar/gui/e-cal-model-calendar.c:166
-#: calendar/gui/e-meeting-time-sel.c:399
+#: calendar/gui/e-meeting-time-sel.c:401
 msgid "Busy"
 msgstr "Zajęty"
 
@@ -5524,7 +5515,7 @@ msgstr "Data rozpoczęcia"
 #: calendar/gui/e-meeting-list-view.c:122
 #: calendar/gui/e-meeting-list-view.c:136 calendar/gui/e-meeting-store.c:115
 #: calendar/gui/e-meeting-store.c:150 calendar/gui/e-meeting-store.c:215
-#: camel/camel-gpg-context.c:1704 camel/camel-gpg-context.c:1755
+#: camel/camel-gpg-context.c:1705 camel/camel-gpg-context.c:1756
 #: camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/imap4/camel-imap4-engine.c:1379
 #: camel/providers/imap4/camel-imap4-engine.c:1406
@@ -6155,7 +6146,7 @@ msgid "Needs Action"
 msgstr "Wymaga działania"
 
 #: calendar/gui/e-meeting-list-view.c:160 calendar/gui/e-meeting-store.c:183
-#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:398
+#: calendar/gui/e-meeting-store.c:206 calendar/gui/e-meeting-time-sel.c:400
 msgid "Tentative"
 msgstr "Próbne"
 
@@ -6168,73 +6159,73 @@ msgstr "Oddelegowane"
 msgid "In Process"
 msgstr "W toku"
 
-#: calendar/gui/e-meeting-time-sel.c:400 designs/OOA/ooa.glade.h:11
+#: calendar/gui/e-meeting-time-sel.c:402 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
 msgstr "Poza biurem"
 
-#: calendar/gui/e-meeting-time-sel.c:401
+#: calendar/gui/e-meeting-time-sel.c:403
 msgid "No Information"
 msgstr "Brak informacji"
 
-#: calendar/gui/e-meeting-time-sel.c:417
+#: calendar/gui/e-meeting-time-sel.c:419
 msgid "Add attendees from addressbook"
 msgstr "Dodaj uczestników z książki adresowej"
 
-#: calendar/gui/e-meeting-time-sel.c:440
+#: calendar/gui/e-meeting-time-sel.c:442
 msgid "_Options"
 msgstr "Opcj_e"
 
-#: calendar/gui/e-meeting-time-sel.c:457
+#: calendar/gui/e-meeting-time-sel.c:459
 msgid "Show _only working hours"
 msgstr "Wyświetlanie _tylko godzin roboczych"
 
-#: calendar/gui/e-meeting-time-sel.c:467
+#: calendar/gui/e-meeting-time-sel.c:469
 msgid "Show _zoomed out"
 msgstr "Wyświetlanie w pomniejs_zeniu"
 
-#: calendar/gui/e-meeting-time-sel.c:482
+#: calendar/gui/e-meeting-time-sel.c:484
 msgid "_Update free/busy"
 msgstr "_Uaktualnij informację o zajętości"
 
-#: calendar/gui/e-meeting-time-sel.c:497
+#: calendar/gui/e-meeting-time-sel.c:499
 msgid "_<<"
 msgstr "_<<"
 
-#: calendar/gui/e-meeting-time-sel.c:515
+#: calendar/gui/e-meeting-time-sel.c:517
 msgid "_Autopick"
 msgstr "_Automatyczny wybór"
 
-#: calendar/gui/e-meeting-time-sel.c:530
+#: calendar/gui/e-meeting-time-sel.c:532
 msgid ">_>"
 msgstr ">_>"
 
-#: calendar/gui/e-meeting-time-sel.c:547
+#: calendar/gui/e-meeting-time-sel.c:549
 msgid "_All people and resources"
 msgstr "_Wszyscy ludzie i zasoby"
 
-#: calendar/gui/e-meeting-time-sel.c:556
+#: calendar/gui/e-meeting-time-sel.c:558
 msgid "All _people and one resource"
 msgstr "Wszyscy _ludzie i jeden zasób"
 
-#: calendar/gui/e-meeting-time-sel.c:565
+#: calendar/gui/e-meeting-time-sel.c:567
 msgid "_Required people"
 msgstr "Wy_magani ludzie"
 
-#: calendar/gui/e-meeting-time-sel.c:574
+#: calendar/gui/e-meeting-time-sel.c:576
 msgid "Required people and _one resource"
 msgstr "Wymagani ludzie i j_eden zasób"
 
-#: calendar/gui/e-meeting-time-sel.c:593
+#: calendar/gui/e-meeting-time-sel.c:595
 msgid "Meeting _start time:"
 msgstr "Czas p_oczątku spotkania:"
 
-#: calendar/gui/e-meeting-time-sel.c:613
+#: calendar/gui/e-meeting-time-sel.c:615
 msgid "Meeting _end time:"
 msgstr "Czas _końca spotkania:"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel.c:2060
+#: calendar/gui/e-meeting-time-sel.c:2077
 #: calendar/gui/e-meeting-time-sel-item.c:452
 msgid "%A, %B %d, %Y"
 msgstr "%A, %d %B, %Y"
@@ -6245,7 +6236,7 @@ msgstr "%A, %d %B, %Y"
 #. name, %m = month number, %d = month day, %Y = full year.
 #. strptime format of a weekday and a date.
 #. strftime format of a weekday and a date.
-#: calendar/gui/e-meeting-time-sel.c:2093
+#: calendar/gui/e-meeting-time-sel.c:2110
 #: calendar/gui/e-meeting-time-sel-item.c:456 e-util/e-time-utils.c:203
 #: e-util/e-time-utils.c:296 e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
@@ -8712,8 +8703,8 @@ msgstr ""
 "użytkownika: \"%s\""
 
 #: camel/camel-gpg-context.c:791 camel/camel-gpg-context.c:1283
-#: camel/camel-gpg-context.c:1440 camel/camel-gpg-context.c:1531
-#: camel/camel-gpg-context.c:1638 camel/providers/nntp/camel-nntp-store.c:1231
+#: camel/camel-gpg-context.c:1441 camel/camel-gpg-context.c:1532
+#: camel/camel-gpg-context.c:1639 camel/providers/nntp/camel-nntp-store.c:1231
 #: camel/providers/nntp/camel-nntp-store.c:1329 mail/mail-ops.c:705
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
@@ -8755,16 +8746,16 @@ msgstr "Nie można zaszyfrować wiadomości z użyciem GPG %s: %s\n"
 msgid "Could not generate signing data: %s"
 msgstr "Nie można wygenerować danych podpisujących: %s"
 
-#: camel/camel-gpg-context.c:1276 camel/camel-gpg-context.c:1703
-#: camel/camel-gpg-context.c:1754
+#: camel/camel-gpg-context.c:1276 camel/camel-gpg-context.c:1704
+#: camel/camel-gpg-context.c:1755
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Nie można uruchomić gpg: %s"
 
-#: camel/camel-gpg-context.c:1300 camel/camel-gpg-context.c:1433
-#: camel/camel-gpg-context.c:1524 camel/camel-gpg-context.c:1547
-#: camel/camel-gpg-context.c:1631 camel/camel-gpg-context.c:1655
-#: camel/camel-gpg-context.c:1725 camel/camel-gpg-context.c:1776
+#: camel/camel-gpg-context.c:1300 camel/camel-gpg-context.c:1434
+#: camel/camel-gpg-context.c:1525 camel/camel-gpg-context.c:1548
+#: camel/camel-gpg-context.c:1632 camel/camel-gpg-context.c:1656
+#: camel/camel-gpg-context.c:1726 camel/camel-gpg-context.c:1777
 msgid "Failed to execute gpg."
 msgstr "Nie można uruchomić gpg."
 
@@ -8772,33 +8763,33 @@ msgstr "Nie można uruchomić gpg."
 msgid "This is a digitally signed message part"
 msgstr "To jest część listu podpisana cyfrowo"
 
-#: camel/camel-gpg-context.c:1400 camel/camel-gpg-context.c:1409
-#: camel/camel-smime-context.c:721 camel/camel-smime-context.c:732
-#: camel/camel-smime-context.c:739
+#: camel/camel-gpg-context.c:1400 camel/camel-gpg-context.c:1406
+#: camel/camel-gpg-context.c:1412 camel/camel-smime-context.c:721
+#: camel/camel-smime-context.c:732 camel/camel-smime-context.c:739
 msgid "Cannot verify message signature: Incorrect message format"
 msgstr "Nie można zweryfikować podpisu listu: Niepoprawny format wiadomości"
 
-#: camel/camel-gpg-context.c:1416
+#: camel/camel-gpg-context.c:1420
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
 "Nie można zweryfikować podpisu listu: nie można utworzyć pliku tymczasowego: "
 "%s"
 
-#: camel/camel-gpg-context.c:1507
+#: camel/camel-gpg-context.c:1508
 #, c-format
 msgid "Could not generate encrypting data: %s"
 msgstr "Nie można wygenerować danych szyfrujących: %s"
 
-#: camel/camel-gpg-context.c:1565
+#: camel/camel-gpg-context.c:1566
 msgid "This is a digitally encrypted message part"
 msgstr "To jest część listu zaszyfrowana cyfrowo"
 
-#: camel/camel-gpg-context.c:1662 camel/camel-smime-context.c:994
+#: camel/camel-gpg-context.c:1663 camel/camel-smime-context.c:994
 msgid "Encrypted content"
 msgstr "Zaszyfrowana zawartość"
 
-#: camel/camel-gpg-context.c:1681
+#: camel/camel-gpg-context.c:1682
 msgid "Unable to parse message content"
 msgstr "Nie można przeanalizować zawartości listu"
 
@@ -11498,94 +11489,94 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:666
+#: camel/providers/smtp/camel-smtp-transport.c:657
 #, c-format
 msgid "SMTP server %s"
 msgstr "Serwer SMTP %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:668
+#: camel/providers/smtp/camel-smtp-transport.c:659
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "Wysyłanie listów za pomocą SMTP poprzez %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:686
+#: camel/providers/smtp/camel-smtp-transport.c:677
 msgid "Cannot send message: service not connected."
 msgstr "Nie można wysłać listu: brak połączenia z usługą."
 
-#: camel/providers/smtp/camel-smtp-transport.c:692
+#: camel/providers/smtp/camel-smtp-transport.c:683
 msgid "Cannot send message: sender address not valid."
 msgstr "Nie można wysłać listu: niepoprawny adres nadawcy."
 
-#: camel/providers/smtp/camel-smtp-transport.c:696
+#: camel/providers/smtp/camel-smtp-transport.c:687
 msgid "Sending message"
 msgstr "Wysyłanie listu"
 
-#: camel/providers/smtp/camel-smtp-transport.c:711
+#: camel/providers/smtp/camel-smtp-transport.c:702
 msgid "Cannot send message: no recipients defined."
 msgstr "Nie można wysłać listu: nie podano odbiorców"
 
-#: camel/providers/smtp/camel-smtp-transport.c:722
+#: camel/providers/smtp/camel-smtp-transport.c:713
 msgid "Cannot send message: one or more invalid recipients"
 msgstr ""
 "Nie można wysłać listu: przynajmniej jeden z odbiorców jest niepoprawny"
 
-#: camel/providers/smtp/camel-smtp-transport.c:894
+#: camel/providers/smtp/camel-smtp-transport.c:885
 msgid "SMTP Greeting"
 msgstr "Powitanie SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:943
+#: camel/providers/smtp/camel-smtp-transport.c:934
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "Nie powiodło się polecenie HELO: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:960
+#: camel/providers/smtp/camel-smtp-transport.c:951
 msgid "HELO command failed"
 msgstr "Nie powiodło się polecenie HELO"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1026
+#: camel/providers/smtp/camel-smtp-transport.c:1017
 msgid "SMTP Authentication"
 msgstr "Uwierzytelnianie SMTP"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1032
+#: camel/providers/smtp/camel-smtp-transport.c:1023
 msgid "Error creating SASL authentication object."
 msgstr "Błąd przy tworzeniu obiektu uwierzytelniającego SASL."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1049
-#: camel/providers/smtp/camel-smtp-transport.c:1060
+#: camel/providers/smtp/camel-smtp-transport.c:1040
+#: camel/providers/smtp/camel-smtp-transport.c:1051
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "Nie powiodło się polecenie AUTH: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1066
+#: camel/providers/smtp/camel-smtp-transport.c:1057
 msgid "AUTH command failed"
 msgstr "Nie powiodło się polecenie AUTH"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1128
+#: camel/providers/smtp/camel-smtp-transport.c:1119
 msgid "Bad authentication response from server.\n"
 msgstr "Niepoprawna odpowiedź serwera na uwierzytelnienie.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1153
+#: camel/providers/smtp/camel-smtp-transport.c:1144
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "Nie powiodło się polecenie: %s: nie wysłano poczty"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1170
+#: camel/providers/smtp/camel-smtp-transport.c:1161
 msgid "MAIL FROM command failed"
 msgstr "Nie powiodło się polecenie MAIL FROM"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1194
+#: camel/providers/smtp/camel-smtp-transport.c:1185
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "Nie powiodło się polecenie RCPT TO: %s: nie wysłano poczty"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1213
+#: camel/providers/smtp/camel-smtp-transport.c:1204
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "Nie powiodło się wykonanie RCPT TO <%s>"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1252
-#: camel/providers/smtp/camel-smtp-transport.c:1310
-#: camel/providers/smtp/camel-smtp-transport.c:1329
+#: camel/providers/smtp/camel-smtp-transport.c:1243
+#: camel/providers/smtp/camel-smtp-transport.c:1301
+#: camel/providers/smtp/camel-smtp-transport.c:1320
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "Nie powiodło się polecenie DATA: %s: nie wysłano poczty"
@@ -11593,26 +11584,26 @@ msgstr "Nie powiodło się polecenie DATA: %s: nie wysłano poczty"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1269
-#: camel/providers/smtp/camel-smtp-transport.c:1345
+#: camel/providers/smtp/camel-smtp-transport.c:1260
+#: camel/providers/smtp/camel-smtp-transport.c:1336
 msgid "DATA command failed"
 msgstr "Nie powiodło się polecenie DATA"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1368
+#: camel/providers/smtp/camel-smtp-transport.c:1359
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "Nie powiodło się polecenie RSET: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1384
+#: camel/providers/smtp/camel-smtp-transport.c:1375
 msgid "RSET command failed"
 msgstr "Nie powiodło się polecenie RSET"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1407
+#: camel/providers/smtp/camel-smtp-transport.c:1398
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "Nie powiodło się polecenie QUIT: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1421
+#: camel/providers/smtp/camel-smtp-transport.c:1412
 msgid "QUIT command failed"
 msgstr "Nie powiodło się polecenie QUIT"
 
@@ -11726,16 +11717,16 @@ msgstr[2] "<b>%d</b> załączonych plików"
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "Ukrycie p_aska załączników (upuść tutaj załączniki)"
 
-#: composer/e-msg-composer.c:2330 composer/e-msg-composer.c:3224
+#: composer/e-msg-composer.c:2330 composer/e-msg-composer.c:3208
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "Wyświetlenie p_aska załączników (upuść tutaj załączniki)"
 
-#: composer/e-msg-composer.c:2347 composer/e-msg-composer.c:3113
-#: composer/e-msg-composer.c:3114
+#: composer/e-msg-composer.c:2347 composer/e-msg-composer.c:3100
+#: composer/e-msg-composer.c:3101
 msgid "Compose a message"
 msgstr "Tworzenie listu"
 
-#: composer/e-msg-composer.c:4270
+#: composer/e-msg-composer.c:4254
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -12661,17 +12652,17 @@ msgstr "Dodawanie treści podpisu"
 msgid "Signature(s)"
 msgstr "Podpis(y)"
 
-#: mail/em-composer-utils.c:888
+#: mail/em-composer-utils.c:887
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Przesyłany list ----------"
 
-#: mail/em-composer-utils.c:1495
+#: mail/em-composer-utils.c:1501
 msgid "an unknown sender"
 msgstr "nieznany nadawca"
 
 #. translators: attribution string used when quoting messages,
 #. it must contain a single single %%+05d followed by a single '%%s'
-#: mail/em-composer-utils.c:1505
+#: mail/em-composer-utils.c:1511
 msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
 msgstr "W liście z %a, %d-%m-%Y, godz. %H:%M %%+05d, %%s napisał(a):"
 
@@ -12709,7 +12700,7 @@ msgstr "<kliknij, aby wybrać folder> "
 msgid "Create New Folder"
 msgstr "Tworzenie nowego folderu"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2309
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2310
 #: mail/mail-component.c:719
 msgid "Specify where to create the folder:"
 msgstr "Określ miejsce utworzenia folderu:"
@@ -12780,52 +12771,52 @@ msgstr "Sk_opiuj"
 msgid "Creating folder `%s'"
 msgstr "Tworzenie folderu \"%s\""
 
-#: mail/em-folder-tree.c:2309 mail/mail-component.c:719
+#: mail/em-folder-tree.c:2310 mail/mail-component.c:719
 msgid "Create folder"
 msgstr "Tworzenie folderu"
 
-#: mail/em-folder-tree.c:2498
+#: mail/em-folder-tree.c:2499
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Zmiana nazwy folderu \"%s\" na:"
 
-#: mail/em-folder-tree.c:2500
+#: mail/em-folder-tree.c:2501
 msgid "Rename Folder"
 msgstr "Zmień nazwę folderu"
 
-#: mail/em-folder-tree.c:2571 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2572 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "_Widok"
 
-#: mail/em-folder-tree.c:2572
+#: mail/em-folder-tree.c:2573
 msgid "Open in _New Window"
 msgstr "Otwórz w nowym _oknie"
 
-#: mail/em-folder-tree.c:2576
+#: mail/em-folder-tree.c:2577
 msgid "_Copy..."
 msgstr "S_kopiuj..."
 
-#: mail/em-folder-tree.c:2577
+#: mail/em-folder-tree.c:2578
 msgid "_Move..."
 msgstr "_Przenieś..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2581
+#: mail/em-folder-tree.c:2582
 msgid "_New Folder..."
 msgstr "_Nowy folder..."
 
-#: mail/em-folder-tree.c:2584
+#: mail/em-folder-tree.c:2585
 msgid "_Rename..."
 msgstr "_Zmień nazwę..."
 
-#: mail/em-folder-tree.c:2587 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2588 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Właściwości"
 
 #: mail/em-folder-tree-model.c:199 mail/em-folder-tree-model.c:201
-#: mail/mail-vfolder.c:888
+#: mail/mail-vfolder.c:869
 msgid "VFolders"
 msgstr "VFoldery"
 
@@ -13145,7 +13136,7 @@ msgstr "Formatowanie listu"
 
 #. pseudo-header
 #: mail/em-format-html.c:1523 mail/em-format-quote.c:309
-#: mail/em-mailer-prefs.c:930
+#: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "Program pocztowy"
 
@@ -14188,7 +14179,7 @@ msgstr "Umowa licencyjna %s"
 
 #: mail/mail-account-gui.c:957 mail/mail-config.glade.h:167
 msgid "_Host:"
-msgstr "_Komputer:"
+msgstr "Naz_wa serwera:"
 
 #: mail/mail-account-gui.c:961 mail/mail-config.glade.h:151
 msgid "User_name:"
@@ -15835,15 +15826,15 @@ msgstr "Aktualizowanie vFolderów dla \"%s:%s\""
 msgid "Updating vFolders for '%s'"
 msgstr "Aktualizowanie vFolderów dla \"%s\""
 
-#: mail/mail-vfolder.c:958
+#: mail/mail-vfolder.c:939
 msgid "vFolders"
 msgstr "vFoldery"
 
-#: mail/mail-vfolder.c:997
+#: mail/mail-vfolder.c:978
 msgid "Edit VFolder"
 msgstr "Modyfikacja VFolderu"
 
-#: mail/mail-vfolder.c:1081
+#: mail/mail-vfolder.c:1062
 msgid "New VFolder"
 msgstr "Nowy VFolder"
 
@@ -16469,7 +16460,7 @@ msgstr ""
 "Cześć. Dzięki za poświęcenie czasu na pobranie wydania przeglądowego\n"
 "zbioru aplikacji do pracy grupowej Evolution.\n"
 "\n"
-"Ta wersja Evolution nie jest jeszcze pełna. Niedługo będzie,\n"
+"Ta wersja Evolution nie jest jeszcze skończona. Niedługo będzie,\n"
 "lecz niektóre funkcje są albo nieukończone albo nie działają poprawnie.\n"
 "\n"
 "Jeśli potrzebujesz stabilnej wersji Evolution, lepiej jest odinstalować\n"
@@ -18813,6 +18804,9 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (zakończono %d%%)"
+
+#~ msgid "Groupwise"
+#~ msgstr "Groupwise"
 
 #~ msgid "contact-list-editor"
 #~ msgstr "Edytor listy kontaktów"
