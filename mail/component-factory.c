@@ -505,10 +505,11 @@ destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *f
 	return TRUE;
 }
 
-static void
+static gboolean
 message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 {
 	CamelMimeParser *mp;
+	gboolean handled = FALSE;
 	
 	mp = camel_mime_parser_new ();
 	camel_mime_parser_scan_from (mp, TRUE);
@@ -518,9 +519,12 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 		CamelMessageInfo *info;
 		CamelMimeMessage *msg;
 		
+		handled = TRUE;
+		
 		msg = camel_mime_message_new ();
 		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
 			camel_object_unref (CAMEL_OBJECT (msg));
+			handled = FALSE;
 			break;
 		}
 		
@@ -529,14 +533,18 @@ message_rfc822_dnd (CamelFolder *dest, CamelStream *stream, CamelException *ex)
 		camel_folder_append_message (dest, msg, info, NULL, ex);
 		camel_object_unref (CAMEL_OBJECT (msg));
 		
-		if (camel_exception_is_set (ex))
+		if (camel_exception_is_set (ex)) {
+			handled = FALSE;
 			break;
+		}
 		
 		/* skip over the FROM_END state */
 		camel_mime_parser_step (mp, 0, 0);
 	}
 	
 	camel_object_unref (CAMEL_OBJECT (mp));
+	
+	return handled;
 }
 
 static CORBA_boolean
@@ -618,11 +626,9 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 			}
 			
 			stream = camel_stream_fs_new_with_fd (fd);
-			message_rfc822_dnd (folder, stream, &ex);
+			retval = message_rfc822_dnd (folder, stream, &ex);
 			camel_object_unref (CAMEL_OBJECT (stream));
 			camel_object_unref (CAMEL_OBJECT (folder));
-			
-			retval = !camel_exception_is_set (&ex);
 			
 			if (action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE && retval)
 				unlink (url);
@@ -644,7 +650,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 		camel_stream_write (stream, data->bytes._buffer, data->bytes._length);
 		camel_stream_reset (stream);
 		
-		message_rfc822_dnd (folder, stream, &ex);
+		retval = message_rfc822_dnd (folder, stream, &ex);
 		camel_object_unref (CAMEL_OBJECT (stream));
 		camel_object_unref (CAMEL_OBJECT (folder));
 		break;

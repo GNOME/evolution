@@ -961,15 +961,41 @@ guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, GHashT
 static const MailConfigAccount *
 guess_me_from_accounts (const CamelInternetAddress *to, const CamelInternetAddress *cc, const GSList *accounts)
 {
-	const MailConfigAccount *account;
+	const MailConfigAccount *account, *def;
 	GHashTable *account_hash;
 	const GSList *l;
 	
 	account_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	
+	/* add the default account to the hash first */
+	if ((def = mail_config_get_default_account ())) {
+		if (def->id->address)
+			g_hash_table_insert (account_hash, (char *) def->id->address, (void *) def);
+	}
+	
 	l = accounts;
 	while (l) {
 		account = l->data;
-		g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
+		
+		if (account->id->address) {
+			const MailConfigAccount *acnt;
+			
+			/* Accounts with identical email addresses that are enabled
+			 * take precedence over the accounts that aren't. If all
+			 * accounts with matching email addresses are disabled, then
+			 * the first one in the list takes precedence. The default
+			 * account always takes precedence no matter what.
+			 */
+			acnt = g_hash_table_lookup (account_hash, account->id->address);
+			if (acnt && acnt != def && !acnt->source->enabled && account->source->enabled) {
+				g_hash_table_remove (account_hash, acnt->id->address);
+				acnt = NULL;
+			}
+			
+			if (!acnt)
+				g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
+		}
+		
 		l = l->next;
 	}
 	
