@@ -132,6 +132,7 @@ static const EMFolderViewEnable emfv_enable_map[];
 struct _EMFolderViewPrivate {
 	guint seen_id;
 	guint setting_notify_id;
+	guint selected_id;
 	int nomarkseen:1;
 	int destroyed:1;
 
@@ -140,6 +141,8 @@ struct _EMFolderViewPrivate {
 
 	GalViewInstance *view_instance;
 	GalViewMenus *view_menus;
+
+	char *selected_uid;
 };
 
 static GtkVBoxClass *emfv_parent;
@@ -254,6 +257,14 @@ emfv_destroy (GtkObject *o)
 		gtk_object_destroy((GtkObject *)p->invisible);
 		p->invisible = NULL;
 	}
+
+	if (p->selected_id != 0) {
+		g_source_remove(p->selected_id);
+		p->selected_id = 0;
+	}
+
+	g_free(p->selected_uid);
+	p->selected_uid = NULL;
 
 	emfv->preview = NULL;
 	emfv->list = NULL;
@@ -556,6 +567,9 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	
 	if (folder == emfv->folder)
 		return;
+
+	if (emfv->priv->selected_id)
+		g_source_remove(emfv->priv->selected_id);
 	
 	if (emfv->preview)
 		em_format_format ((EMFormat *) emfv->preview, NULL, NULL, NULL);
@@ -2137,24 +2151,46 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	g_object_unref (emfv);
 }
 
+static gboolean
+emfv_message_selected_timeout(void *data)
+{
+	EMFolderView *emfv = data;
+
+	if (emfv->priv->selected_uid) {
+		if (emfv->displayed_uid == NULL || strcmp(emfv->displayed_uid, emfv->priv->selected_uid) != 0) {
+			g_free(emfv->displayed_uid);
+			emfv->displayed_uid = emfv->priv->selected_uid;
+			emfv->priv->selected_uid = NULL;
+			g_object_ref (emfv);
+			/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
+			mail_get_message(emfv->folder, emfv->displayed_uid, emfv_list_done_message_selected, emfv, mail_thread_queued);
+		} else {
+			g_free(emfv->priv->selected_uid);
+			emfv->priv->selected_uid = NULL;
+		}
+	} else {
+		g_free(emfv->displayed_uid);
+		emfv->displayed_uid = NULL;
+		em_format_format((EMFormat *)emfv->preview, NULL, NULL, NULL);
+		emfv->priv->nomarkseen = FALSE;
+	}
+
+	emfv->priv->selected_id = 0;
+
+	return FALSE;
+}
+
 static void
 emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv)
 {
 	if (emfv->preview_active) {
-		if (uid) {
-			if (emfv->displayed_uid == NULL || strcmp(emfv->displayed_uid, uid) != 0) {
-				g_free(emfv->displayed_uid);
-				emfv->displayed_uid = g_strdup(uid);
-				g_object_ref (emfv);
-				/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
-				mail_get_message(emfv->folder, uid, emfv_list_done_message_selected, emfv, mail_thread_queued);
-			}
-		} else {
-			g_free(emfv->displayed_uid);
-			emfv->displayed_uid = NULL;
-			em_format_format((EMFormat *)emfv->preview, NULL, NULL, NULL);
-			emfv->priv->nomarkseen = FALSE;
-		}
+		if (emfv->priv->selected_id != 0)
+			g_source_remove(emfv->priv->selected_id);
+
+		emfv->priv->selected_id = g_timeout_add(100, emfv_message_selected_timeout, emfv);
+
+		g_free(emfv->priv->selected_uid);
+		emfv->priv->selected_uid = g_strdup(uid);
 	}
 
 	emfv_enable_menus(emfv);
