@@ -126,14 +126,16 @@ set_prop (BonoboPropertyBag *bag,
 
 	case PROPERTY_CALENDAR_VIEW_IDX:
 		string = BONOBO_ARG_GET_STRING (arg);
-		if (!g_strcasecmp (string, "week"))
+		if (!strcmp (string, "week"))
 			view = GNOME_CAL_WEEK_VIEW;
-		else if (!g_strcasecmp (string, "workweek"))
+		else if (!strcmp (string, "workweek"))
 			view = GNOME_CAL_WORK_WEEK_VIEW;
-		else if (!g_strcasecmp (string, "month"))
+		else if (!strcmp (string, "month"))
 			view = GNOME_CAL_MONTH_VIEW;
-		else
+		else if (!strcmp (string, "day"))
 			view = GNOME_CAL_DAY_VIEW;
+		else
+			view = calendar_config_get_default_view ();
 
 		/* This doesn't actually work, because the GalView
 		 * comes along and resets the view. FIXME.

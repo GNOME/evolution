@@ -61,8 +61,6 @@ typedef enum
 
 
 void	  calendar_config_init			(void);
-void	  calendar_config_write			(void);
-void	  calendar_config_write_on_exit		(void);
 
 
 /*
