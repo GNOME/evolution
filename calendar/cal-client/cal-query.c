@@ -90,6 +90,25 @@ cal_query_get_type (void)
 	return cal_query_type;
 }
 
+GType
+cal_query_done_status_enum_get_type (void)
+{
+	static GType cal_query_done_status_enum_type = 0;
+
+	if (!cal_query_done_status_enum_type) {
+		static GEnumValue values [] = {
+		  { CAL_QUERY_DONE_SUCCESS,     "CalQueryDoneSuccess",    "success"     },
+		  { CAL_QUERY_DONE_PARSE_ERROR, "CalQueryDoneParseError", "parse-error" },
+		  { -1,                         NULL,                     NULL          }
+		};
+
+		cal_query_done_status_enum_type =
+		  g_enum_register_static ("CalQueryDoneStatusEnum", values);
+	}
+
+	return cal_query_done_status_enum_type;
+}
+
 /* Class initialization function for the calendar query */
 static void
 cal_query_class_init (CalQueryClass *klass)
@@ -129,7 +148,7 @@ cal_query_class_init (CalQueryClass *klass)
 			      NULL, NULL,
 			      cal_util_marshal_VOID__ENUM_STRING,
 			      G_TYPE_NONE, 2,
-			      G_TYPE_ENUM,
+			      CAL_QUERY_DONE_STATUS_ENUM_TYPE,
 			      G_TYPE_STRING);
 	query_signals[EVAL_ERROR] =
 		g_signal_new ("eval_error",

@@ -1,5 +1,14 @@
 2002-12-06  Hans Petter Jansson  <hpj@ximian.com>
 
+	* cal-client/cal-query.c (cal_query_done_status_enum_get_type):
+	Implement GType for this enumeration.
+	(cal_query_class_init): Use the enumeration instead of the
+	abstract one.
+
+	* cal-client/cal-query.h: Add type macro and proto for enum.
+
+2002-12-06  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/component-factory.c (create_view): Pass the env argument to
 	bonobo_control_set_property ().
 

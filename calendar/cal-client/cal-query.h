@@ -35,6 +35,8 @@ G_BEGIN_DECLS
 #define IS_CAL_QUERY(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), CAL_QUERY_TYPE))
 #define IS_CAL_QUERY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), CAL_QUERY_TYPE))
 
+#define CAL_QUERY_DONE_STATUS_ENUM_TYPE (cal_query_done_status_enum_get_type ())
+
 /* Status values when a query terminates */
 typedef enum {
 	CAL_QUERY_DONE_SUCCESS,
@@ -65,6 +67,8 @@ typedef struct {
 } CalQueryClass;
 
 GType     cal_query_get_type (void);
+
+GType     cal_query_done_status_enum_get_type (void);
 
 CalQuery *cal_query_construct (CalQuery *query,
 			       GNOME_Evolution_Calendar_Cal cal,
