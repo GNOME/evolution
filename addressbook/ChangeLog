@@ -1,5 +1,17 @@
 2001-11-12  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/contact-list-editor/e-contact-list-editor.c (list_added_cb):
+	Release callback's reference to EContactListEditor.
+	(list_modified_cb): Release callback's reference to
+	EContactListEditor.
+	(save_card): Ref the EContactListEditor on behalf of the
+	e_book_foo callback. (Fixes bug #14743)
+	(save_card): Set changed to false once we've saved.
+	(list_deleted_cb): Release callback's reference.
+	(delete_cb): Hold reference for the callback.
+
+2001-11-12  Jon Trowbridge  <trow@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (categories_clicked): If
 	our call to e_categories_new returns NULL, put up an error dialog
 	and return.  (Fixed #14780)

@@ -309,9 +309,8 @@ list_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruc
 	EContactListEditor *cle = ecs->cle;
 	gboolean should_close = ecs->should_close;
 
-	g_free (ecs);
-
-	gtk_widget_set_sensitive (cle->app, TRUE);
+	if (cle->app)
+		gtk_widget_set_sensitive (cle->app, TRUE);
 	cle->in_async_call = FALSE;
 
 	e_card_set_id (cle->card, id);
@@ -327,6 +326,9 @@ list_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseStruc
 		else
 			command_state_changed (cle);
 	}
+
+	gtk_object_unref (GTK_OBJECT (cle));
+	g_free (ecs);
 }
 
 static void
@@ -335,9 +337,8 @@ list_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 	EContactListEditor *cle = ecs->cle;
 	gboolean should_close = ecs->should_close;
 
-	g_free (ecs);
-
-	gtk_widget_set_sensitive (cle->app, TRUE);
+	if (cle->app)
+		gtk_widget_set_sensitive (cle->app, TRUE);
 	cle->in_async_call = FALSE;
 
 	gtk_signal_emit (GTK_OBJECT (cle), contact_list_editor_signals[LIST_MODIFIED],
@@ -347,6 +348,9 @@ list_modified_cb (EBook *book, EBookStatus status, EditorCloseStruct *ecs)
 		if (should_close)
 			close_dialog (cle);
 	}
+
+	gtk_object_unref (GTK_OBJECT (cle)); /* release ref held for ebook callback */
+	g_free (ecs);
 }
 
 static void
@@ -358,15 +362,19 @@ save_card (EContactListEditor *cle, gboolean should_close)
 		EditorCloseStruct *ecs = g_new(EditorCloseStruct, 1);
 		
 		ecs->cle = cle;
+		gtk_object_ref (GTK_OBJECT (cle));
 		ecs->should_close = should_close;
 
-		gtk_widget_set_sensitive (cle->app, FALSE);
+		if (cle->app)
+			gtk_widget_set_sensitive (cle->app, FALSE);
 		cle->in_async_call = TRUE;
 
 		if (cle->is_new_list)
 			e_book_add_card (cle->book, cle->card, GTK_SIGNAL_FUNC(list_added_cb), ecs);
 		else
 			e_book_commit_card (cle->book, cle->card, GTK_SIGNAL_FUNC(list_modified_cb), ecs);
+
+		cle->changed = FALSE;
 	}
 }
 
@@ -417,7 +425,8 @@ tb_save_and_close_cb (GtkWidget *widget, gpointer data)
 static void
 list_deleted_cb (EBook *book, EBookStatus status, EContactListEditor *cle)
 {
-	gtk_widget_set_sensitive (cle->app, TRUE);
+	if (cle->app)
+		gtk_widget_set_sensitive (cle->app, TRUE);
 	cle->in_async_call = FALSE;
 
 	gtk_signal_emit (GTK_OBJECT (cle), contact_list_editor_signals[LIST_DELETED],
@@ -426,6 +435,8 @@ list_deleted_cb (EBook *book, EBookStatus status, EContactListEditor *cle)
 	/* always close the dialog after we successfully delete a list */
 	if (status == E_BOOK_STATUS_SUCCESS)
 		close_dialog (cle);
+
+	gtk_object_unref (GTK_OBJECT (cle)); /* release reference held for callback */
 }
 
 static void
@@ -443,7 +454,8 @@ delete_cb (GtkWidget *widget, gpointer data)
 		if (!cle->is_new_list) {
 			gtk_widget_set_sensitive (cle->app, FALSE);
 			cle->in_async_call = TRUE;
-
+			
+			gtk_object_ref (GTK_OBJECT (cle)); /* hold reference for callback */
 			e_book_remove_card (cle->book, card, GTK_SIGNAL_FUNC(list_deleted_cb), cle);
 		}
 	}
