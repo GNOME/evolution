@@ -28,7 +28,8 @@
 
   <dockitem name="Toolbar">
 
-    <toolitem name="PrintMyEvolution" verb="PrintMyEvolution"/>
+    <toolitem name="PrintMyEvolution" verb="PrintMyEvolution"
+	_label="Print" pixtype="pixbuf"/>
 
   </dockitem>
 </Root>
