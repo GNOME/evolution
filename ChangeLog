@@ -1,3 +1,7 @@
+2000-08-03 Alastair McKinstry <mckinstry@computer.org>
+
+	* configure.in (ALL_LINGUAS): Add Irish translation
+
 2000-08-02  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: update for BonoboX
