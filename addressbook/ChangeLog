@@ -1,3 +1,10 @@
+2000-05-31  Miguel de Icaza  <miguel@helixcode.com>
+
+	* contact-editor/contact-editor.glade: Added accelerators for
+	the remaining items.
+
+	Add spacing, beautify the dialogs.
+
 2000-06-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/addressbook.c (control_activate): Put the toolbar
