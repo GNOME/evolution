@@ -1,35 +1,65 @@
 CamelException
+CamelLock
+CamelLockClient
+CamelLockHelper
+CamelMovemail
+CamelOperation
 CamelProvider
-CamelThreadProxy
+CamelUIDCache
 CamelURL
-GtkObject
- + CamelObject
-   + CamelAddress
-   |  + CamelInternetAddress
-   |  ` CamelNewsAddress
-   + CamelDataWrapper
-   | + CamelMedium
-   | |  ` CamelMimePart
-   | |     ` CamelMimeMessage
-   | ` CamelMultipart
-   + CamelFolder
-   |  ` CamelFolderPtProxy
-   + CamelFolderSearch
-   + CamelFolderSummary
-   + CamelMimeFilter
-   |  + CamelMimeFilterBasic
-   |  + CamelMimeFilterCharset
-   |  + CamelMimeFilterIndex
-   |  ` CamelMimeFilterSave
-   + CamelService
-   |  + CamelStore
-   |  ` CamelTransport
-   + CamelSession
-   + CamelStream
-   |  + CamelSeekableStream
-   |  |  + CamelSeekableSubstream
-   |  |  + CamelStreamFs
-   |  |  ` CamelStreamMem
-   |  + CamelStreamBuffer
-   |  ` CamelStreamFilter
-   ` CamelThreadProxy
+CamelObject
+ + CamelAddress
+ |  + CamelInternetAddress
+ |  ` CamelNewsAddress
+ + CamelDataWrapper
+ |  + CamelMedium
+ |  |  ` CamelMimePart
+ |  |     ` CamelMimeMessage
+ |  ` CamelMultipart
+ + CamelCipherContext
+ |  ` CamelPgpContext
+ + CamelCMSContext
+ |  ` CamelSMimeContext
+ + CamelDiscoDiary
+ + CamelFolder
+ |  + CamelDiscoFolder
+ |  ` CamelVeeFolder
+ |     ` CamelVTrashFolder
+ + CamelFolderSearch
+ + CamelFolderSummary
+ + CamelMimeFilter
+ |  + CamelMimeFilterBasic
+ |  + CamelMimeFilterBestenc
+ |  + CamelMimeFilterCharset
+ |  + CamelMimeFilterCRLF
+ |  + CamelMimeFilterFrom
+ |  + CamelMimeFilterIndex
+ |  + CamelMimeFilterLinewrap
+ |  + CamelMimeFilterSave
+ |  ` CamelMimeFilterStripHeader
+ + CamelSasl
+ |  + CamelSaslAnonymous
+ |  + CamelSaslCramMD5
+ |  + CamelSaslDigestMD5
+ |  + CamelSaslKerberos
+ |  + CamelSaslLogin
+ |  ` CamelSaslPlain
+ + CamelService
+ |  + CamelStore
+ |  |  + CamelRemoteStore
+ |  |  |  ` CamelDiscoStore
+ |  |  ` CamelVeeStore
+ |  ` CamelTransport
+ + CamelSession
+ ` CamelStream
+    + CamelSeekableStream
+    |  + CamelSeekableSubstream
+    |  + CamelStreamFs
+    |  ` CamelStreamMem
+    + CamelStreamBuffer
+    + CamelStreamFilter
+    + CamelStreamNull
+    ` CamelTcpStream
+       + CamelTcpStreamOpenSSL
+       + CamelTcpStreamRaw
+       ` CamelTcpStreamSSL

@@ -10,6 +10,26 @@
 
     <authorgroup>
       <author>
+	<firstname>Jeffrey</firstname>
+	<surname>Stedfast</surname>
+	<affiliation>
+	  <address>
+	    <email>fejj@helixcode.com</email>
+	  </address>
+	</affiliation>
+      </author>
+
+      <author>
+	<firstname>Michael</firstname>
+	<surname>Zucchi</surname>
+	<affiliation>
+	  <address>
+	    <email>notzed@helixcode.com</email>
+	  </address>
+	</affiliation>
+      </author>
+
+      <author>
 	<firstname>Dan</firstname>
 	<surname>Winship</surname>
 	<affiliation>
@@ -31,8 +51,8 @@
     </authorgroup>
 
     <copyright>
-      <year>2000</year>
-      <holder>Helix Code, Inc.</holder>
+      <year>2000, 2001</year>
+      <holder>Ximian, Inc.</holder>
     </copyright>
 
   </artheader>
@@ -103,7 +123,7 @@
     <graphic format="gif" fileref="camel"></graphic>
 
     <para>
-      To begin using &Camel;, an application first creates a
+      To begin using &Camel;, an application first creates subclassed
       <classname>CamelSession</classname> object. This object is used
       to store application defaults, and to coordinate communication
       between providers and the application.
@@ -112,7 +132,7 @@
     <para>
       A <classname>CamelProvider</classname> is a dynamically-loadable
       module that provides functionality associated with a specific
-      service. Examples of providers are IMAP and SMTP. Providers
+      service. Examples of providers are POP, IMAP and SMTP. Providers
       include subclasses of the various other &Camel; classes for
       accessing and manipulating messages.
     </para>
@@ -123,7 +143,7 @@
       currently has two subclasses: <classname>CamelStore</classname>,
       for services that store messages (such as IMAP servers and mbox
       files), and <classname>CamelTransport</classname>, for services
-      that deliver messages (such as SMTP, or a local MTA). A provider
+      that deliver messages (such as SMTP or a local MTA). A provider
       could also be both a store and a transport, as in the case of
       NNTP.
     </para>
@@ -209,10 +229,7 @@
         <classname>CamelFolder</classname> must assign a permanently
         unique identifier to each message it contains. Messages can
         then be retrieved via
-        <function>CamelFolder::get_message_by_uid</function>. Alternately,
-        within a single mail-reading session, messages can be referred
-        to by their linear position within the store using
-        <function>CamelFolder::get_message_by_number</function>.
+        <function>CamelFolder::get_message</function>.
       </para>
 
       <para>
@@ -328,9 +345,9 @@
 	</para>
 
 	<para>
-	  Streams can also be chained together. So a CamelMimePart
+	  Streams can also be filtered. So a CamelMimePart
 	  containing base64-encoded data can filter its output through
-	  a CamelStreamB64. Other parts of the application that want
+	  CamelMimeFilterBasic. Other parts of the application that want
 	  to read its data will never need to even realize that the
 	  original data was encoded.
 	</para>

@@ -1,3 +1,9 @@
+2001-06-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* white-papers/mail/camel.sgml: Updated slightly.
+
+	* Camel-Classes: Updated.
+
 2001-07-02  Kevin Breit  <battery841@mediaone.net>
 
 	* C/apx-common-tasks.sgml: Created its own file.
@@ -24,18 +30,20 @@
 
 2001-06-25  Kevin Breit  <battery841@mediaone.net>
 
-	* C/usage-mail.sgml: Put config-encryption in usage-mail.sgml.  config-encryption.sgml should be depreciated.
+	* C/usage-mail.sgml: Put config-encryption in usage-mail.sgml.
+	config-encryption.sgml should be depreciated.
 
 	* C/usage-contact.sgml: Fixed typo
 
-	* C/usage-mail.sgml: Added info about mailing lists
-	Elaborated on mailing lists        
+	* C/usage-mail.sgml: Added info about mailing lists Elaborated on
+	mailing lists
 
 	* C/usage-exec-summary.sgml: Fixed a few typos
 
 	* C/preface.sgml: Added section for importing files
 
-	* C/usage-calendar.sgml: Removed some *'s that are causing problems.
+	* C/usage-calendar.sgml: Removed some *'s that are causing
+	problems.
 
 2001-06-22  Kevin Breit  <battery841@mediaone.net>
 
@@ -45,7 +53,9 @@
 
 2001-06-21  battery841  <battery841@mediaone.net>
 	
-	* C/preface.sgml, C/fig/mail-inbox.png, C/fig/mainwindow-pic.png, C/usage-mail.sgml: Updated screenshots and redid layout for graphics on pages.
+	* C/preface.sgml, C/fig/mail-inbox.png, C/fig/mainwindow-pic.png,
+	C/usage-mail.sgml: Updated screenshots and redid layout for
+	graphics on pages.
 	
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
 	
@@ -76,17 +86,24 @@
 
 	* C/evolution.sgml: Added config-encryption.sgml for building
 
-	* C/fig/calendar.png, C/fig/config-cal.png, C/fig/config-mail.png, C/fig/filter-assist-fig.png, C/fig/filter-new-fig.png, C/fig/mail-composer.png, C/fig/mail-druid-pic.png, C/fig/mail-inbox.png, C/fig/print-dest.png, C/fig/print-preview.png, C/fig/vfolder-createrule-fig.png:
+	* C/fig/calendar.png, C/fig/config-cal.png, C/fig/config-mail.png,
+	C/fig/filter-assist-fig.png, C/fig/filter-new-fig.png,
+	C/fig/mail-composer.png, C/fig/mail-druid-pic.png,
+	C/fig/mail-inbox.png, C/fig/print-dest.png,
+	C/fig/print-preview.png, C/fig/vfolder-createrule-fig.png:
 
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
 
 	* C/fig/*png: Updated graphics for newer UI.
 
-	* C/fig/full-1.png, C/fig/full-2.png, C/fig/full-3.png, C/fig/full-4.png, C/fig/full-5.png, C/fig/full-6.png, C/fig/full-7.png, C/fig/mainwindow-pic.png, C/usage-mail.sgml:
+	* C/fig/full-1.png, C/fig/full-2.png, C/fig/full-3.png,
+	C/fig/full-4.png, C/fig/full-5.png, C/fig/full-6.png,
+	C/fig/full-7.png, C/fig/mainwindow-pic.png, C/usage-mail.sgml:
 
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
 
-	* C/usage-mail.sgml: Redid graphics to add labels to them and described 	in labels in text.  Looks good!
+	* C/usage-mail.sgml: Redid graphics to add labels to them and
+	described in labels in text.  Looks good!
 
 	* C/usage-encryption.sgml:
 
@@ -98,7 +115,8 @@
 
 2001-06-20  Kevin Breit  <battery841@mediaone.net>
 
-	* doc/ChangeLog: Moved my entires to doc/ChangeLog per request of danw
+	* doc/ChangeLog: Moved my entires to doc/ChangeLog per request of
+	danw
 
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
 
@@ -119,12 +137,12 @@
 
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
 
-	* C/usage-mail.sgml: Redid graphics to add labels to them and described 
-	in labels in text.  Looks good!
+	* C/usage-mail.sgml: Redid graphics to add labels to them and
+	described in labels in text.  Looks good!
 
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
 
-	* C/usage-mail.sgml: 
+	* C/usage-mail.sgml:
 
 2001-06-21  Kevin Breit  <battery841@mediaone.net>
 
@@ -170,7 +188,8 @@
 	
 2001-06-07  Duncan Mak  <duncan@lumox.simplemente.net>
 
-	* C/evolution-faq.sgml: Fixed a typo. Thanks to Greg Leblanc for pointing this out.
+	* C/evolution-faq.sgml: Fixed a typo. Thanks to Greg Leblanc for
+	pointing this out.
 
 2001-05-23  Ettore Perazzoli  <ettore@ximian.com>
 
@@ -178,8 +197,9 @@
 
 2001-05-18  Duncan Mak  <duncan@ximian.com>
 
-	* C/evolution-faq.sgml: Added two questions about importing Outlook (text from Iain).
-	Fixed some tags and cleaned up a bit here and there.
+	* C/evolution-faq.sgml: Added two questions about importing
+	Outlook (text from Iain).  Fixed some tags and cleaned up a bit
+	here and there.
 
 2001-05-18  Ettore Perazzoli  <ettore@ximian.com>
 
@@ -227,19 +247,21 @@
 
 2001-02-23  Aaron Weber  <aaron@helixcode.com>
 
-	* C/usage-mail.sgml: IMAP subscriptions stuff. 
+	* C/usage-mail.sgml: IMAP subscriptions stuff.
 
 2001-02-21  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-mail.sgml: Advanced search/show all/save search stuff.
 
-	* C/evolution.sgml: This file replaces evolution-guide.sgml, for Nautilus Readiness.
+	* C/evolution.sgml: This file replaces evolution-guide.sgml, for
+	Nautilus Readiness.
 
 	* C/apx-gloss.sgml: glossterm conduit.
 
 	* C/config-sync.sgml: Glossterm conduit.
 
-	* C/preface.sgml: Checked over for Keyboard-Shortcut and other truthfulness.
+	* C/preface.sgml: Checked over for Keyboard-Shortcut and other
+	truthfulness.
 
 2001-02-15  Aaron Weber  <aaron@helixcode.com>
 
@@ -252,7 +274,8 @@
 
 2001-02-09  Aaron Weber  <aaron@helixcode.com>
 
-	* C/config-sync.sgml: Overhaul. Now accurate and truthful and clear.
+	* C/config-sync.sgml: Overhaul. Now accurate and truthful and
+	clear.
 
 	* C/usage-calendar.sgml: Minor Changes.
 
@@ -277,7 +300,8 @@
 	* C/usage-contact.sgml: s/contact manager/address book/ and
 	revised text.
 
-	* C/usage-exec-summary.sgml: New file. Describes Executive Summary.
+	* C/usage-exec-summary.sgml: New file. Describes Executive
+	Summary.
 	
 2001-01-19  Aaron Weber  <aaron@helixcode.com>
 
@@ -304,11 +328,12 @@
 	Dan. Especially to the Folder Limits thing, which still upsets me
 	somehow.
 
-	* C/preface.sgml: Revisions as suggested by Dan. 
+	* C/preface.sgml: Revisions as suggested by Dan.
 
 2000-11-29  Aaron Weber  <aaron@helixcode.com>
 
-	* C/config-setupassist.sgml: added some <glossterms>, added linkends to existing glossterms.
+	* C/config-setupassist.sgml: added some <glossterms>, added
+	linkends to existing glossterms.
 
 2000-11-28  Aaron Weber  <aaron@helixcode.com>
 
@@ -327,7 +352,8 @@
 
 2000-11-03  Aaron Weber  <aaron@helixcode.com>
 
-	* C/apx-gloss.sgml: The regexp example was quite wrong. Props to Sasha.
+	* C/apx-gloss.sgml: The regexp example was quite wrong. Props to
+	Sasha.
 
 2000-11-02  Aaron Weber  <aaron@helixcode.com>
 
@@ -342,7 +368,7 @@
 	* C/usage-mail.sgml: Stylistic overhaul.
 
 	* C/usage-mainwindow.sgml: Fixed groups in shortcut bar, fixed
-	folder navigation tips.	
+	folder navigation tips.
 
 2000-10-31  Aaron Weber  <aaron@helixcode.com>
 
@@ -360,9 +386,9 @@
 
 2000-10-25  Aaron Weber  <aaron@helixcode.com>
 
-	* C/menuref.sgml:  Actions -> New Directory Server added.
+	* C/menuref.sgml: Actions -> New Directory Server added.
 
-	* C/config-prefs.sgml:  Actions -> New Directory Server added.
+	* C/config-prefs.sgml: Actions -> New Directory Server added.
 
 	* C/usage-contact.sgml: Actions -> New Directory Server added.
 
@@ -374,8 +400,8 @@
 2000-10-11  Aaron Weber  <aaron@helixcode.com>
 
 	* C/evolution-guide.sgml: Re-checked validity of all files. Made
-	minor changes to menuref.sgml, usage-mail.sgml, usage-print.sgml to
-	bring up to spec.
+	minor changes to menuref.sgml, usage-mail.sgml, usage-print.sgml
+	to bring up to spec.
 
 	* C/usage-mail.sgml: Redid Filter & Vfolder to match the new &
 	improved functionality.
@@ -384,7 +410,8 @@
 
 2000-10-10  Aaron Weber  <aaron@helixcode.com>
 	
-	* C/usage-print.sgml: New file, describing printing and print-preview.
+	* C/usage-print.sgml: New file, describing printing and
+	print-preview.
 
 	* C/fig/print-preview.png: New file.
 
@@ -415,11 +442,12 @@
 
 	* C/apx-gloss.sgml: Added "Inline," "VCard".
 
-	* C/usage-mainwindow.sgml: Fixed glossterms, filenames. Spellchecked.
+	* C/usage-mainwindow.sgml: Fixed glossterms,
+	filenames. Spellchecked.
 
 	* C/usage-mail.sgml: Fixed glossterms, filenames. Spellchecked.
 
-	* C/evolution-guide.sgml: New Legalnotice. Removed FDL and GPL, 
+	* C/evolution-guide.sgml: New Legalnotice. Removed FDL and GPL,
 	  which are now included as part of the gnome-help package.
 
 	* C/usage-contact.sgml: Spellcheck. Fixed some wording, and
@@ -427,7 +455,7 @@
 	"add to master list" category feature.
 
 	* C/usage-calendar.sgml: Spellcheck. Fixed wording, event overlap
-        description.
+	description.
 	
 	* C/evolution-guide.sgml: Spellcheck. Commented out Notes
 	entities.
@@ -455,13 +483,14 @@
 
 2000-09-26  Aaron Weber  <aaron@helixcode.com>
 
-	* C/apx-gloss.sgml:  Added sendmail and SMTP.
+	* C/apx-gloss.sgml: Added sendmail and SMTP.
 
 2000-09-22  Aaron Weber  <aaron@helixcode.com>
 
 	* C/menuref.sgml: Changed to reflect new menu layout.
 
-	* C/usage-mainwindow.sgml: Changed to reflect new menu layout. Again.
+	* C/usage-mainwindow.sgml: Changed to reflect new menu
+	layout. Again.
 
 	* C/usage-contact.sgml: Stop and Display All features.
 
@@ -474,13 +503,15 @@
 
 	* C/apx-authors.sgml: Changed Matt Loper's email address to
 	loper.org; added Jeff Stedfast and Peter Williams to authors list,
-	realphebetized.	
+	realphebetized.
 
-	* C/config-prefs.sgml: Revision to reflect current options labelling.
+	* C/config-prefs.sgml: Revision to reflect current options
+	labelling.
 
 	* C/evolution-guide.sgml: Changes to part intros.
 
-	* C/preface.sgml: Spelling and menu fixes.  Will need more work tomorrow.
+	* C/preface.sgml: Spelling and menu fixes.  Will need more work
+	tomorrow.
 	
 2000-09-20  Aaron Weber  <aaron@helixcode.com>
 
@@ -590,7 +621,7 @@
 
 2000-08-21  Aaron Weber  <aaron@helixcode.com>
 
-	* C/usage-mail.sgml: Kevin's diff applied, with minor changes.	
+	* C/usage-mail.sgml: Kevin's diff applied, with minor changes.
 
 2000-08-09  Aaron Weber  <aaron@helixcode.com>
 
@@ -617,8 +648,8 @@
 
 2000-08-05  Aaron Weber  <aaron@helixcode.com>
 
-	* C/apx-gpl.sgml: New file.  Contains contents of "COPYING",
-	but marked up (probably not very well, but valid) as docbook
+	* C/apx-gpl.sgml: New file.  Contains contents of "COPYING", but
+	marked up (probably not very well, but valid) as docbook
 	(SGML).
 
 	* C/evolution-guide.sgml: Subtle change to the legal notice:
@@ -629,7 +660,8 @@
 
 2000-07-21  Aaron Weber  <aaron@helixcode.com>
 
-	* C/usage-mail.sgml: Added password remembering/forgetting feature.
+	* C/usage-mail.sgml: Added password remembering/forgetting
+	feature.
 
 	* C/config-prefs.sgml: Mostly moved to variablelists, a few
 	language changes.
@@ -641,7 +673,7 @@
 
 	* C/usage-calendar.sgml: Minor fixes, added additional calendar
 	section, removed references to unimplemented features. Spellcheck,
-	prep for 0.3 release. 
+	prep for 0.3 release.
 	
 2000-07-19  Aaron Weber  <aaron@helixcode.com>
 
