@@ -158,7 +158,11 @@ find_next_node_maybe_deleted(ETreeTableAdapter *adapter, int row)
 	ETreePath path = adapter->priv->map_table[row];
 	if (path) {
 		ETreeTableAdapterNode *current = find_node (adapter, path);
-		return row + (current ? current->num_visible_children : 0) + 1;
+
+		row += (current ? current->num_visible_children : 0) + 1;
+		if (row >= adapter->priv->n_map)
+			return -1;
+		return row;
 	} else
 		return -1;
 }
@@ -169,9 +173,12 @@ find_first_child_node_maybe_deleted(ETreeTableAdapter *adapter, int row)
 	if (row != -1) {
 		ETreePath path = adapter->priv->map_table[row];
 		ETreeTableAdapterNode *current = find_node (adapter, path);
-		if (current && current->expanded)
-			return row + 1;
-		else
+		if (current && current->expanded) {
+			row ++;
+			if (row >= adapter->priv->n_map)
+				return -1;
+			return row;
+		} else
 			return -1;
 	} else
 		return 0;
@@ -184,9 +191,12 @@ find_next_node(ETreeTableAdapter *adapter, int row)
 	if (path) {
 		ETreePath next_sibling = e_tree_model_node_get_next(adapter->priv->source, path);
 		ETreeTableAdapterNode *current = find_node (adapter, path);
-		if (next_sibling)
-			return row + (current ? current->num_visible_children : 0) + 1;
-		else
+		if (next_sibling) {
+			row += (current ? current->num_visible_children : 0) + 1;
+			if (row >= adapter->priv->n_map)
+				return -1;
+			return row;
+		} else
 			return -1;
 	} else
 		return -1;
@@ -199,9 +209,12 @@ find_first_child_node(ETreeTableAdapter *adapter, int row)
 		ETreePath path = adapter->priv->map_table[row];
 		ETreePath first_child = e_tree_model_node_get_first_child(adapter->priv->source, path);
 		ETreeTableAdapterNode *current = find_node (adapter, path);
-		if (first_child && current && current->expanded)
-			return row + 1;
-		else
+		if (first_child && current && current->expanded) {
+			row ++;
+			if (row >= adapter->priv->n_map)
+				return -1;
+			return row;
+		} else
 			return -1;
 	} else
 		return 0;
@@ -228,6 +241,8 @@ find_row_num(ETreeTableAdapter *etta, ETreePath path)
 	int row;
 
 	if (etta->priv->map_table == NULL)
+		return -1;
+	if (etta->priv->n_map == 0)
 		return -1;
 
 	if (path == NULL)
@@ -574,16 +589,25 @@ etta_class_init (ETreeTableAdapterClass *klass)
 static void
 etta_init (ETreeTableAdapter *etta)
 {
-	etta->priv = g_new(ETreeTableAdapterPriv, 1);
+	etta->priv                                  = g_new(ETreeTableAdapterPriv, 1);
 
-	etta->priv->last_access = 0;
-	etta->priv->map_table = NULL;
-	etta->priv->n_map = 0;
-	etta->priv->n_vals_allocated = 0;
+	etta->priv->source                          = NULL;
 
-	etta->priv->root_visible = TRUE;
+	etta->priv->n_map                           = 0;
+	etta->priv->n_vals_allocated                = 0;
+	etta->priv->map_table                       = NULL;
+	etta->priv->attributes                      = NULL;
 
-	etta->priv->attributes = NULL;
+	etta->priv->root_visible                    = TRUE;
+
+	etta->priv->last_access                     = 0;
+
+	etta->priv->tree_model_pre_change_id        = 0;
+	etta->priv->tree_model_node_changed_id      = 0;
+	etta->priv->tree_model_node_data_changed_id = 0;
+	etta->priv->tree_model_node_col_changed_id  = 0;
+	etta->priv->tree_model_node_inserted_id     = 0;
+	etta->priv->tree_model_node_removed_id      = 0;
 }
 
 E_MAKE_TYPE(e_tree_table_adapter, "ETreeTableAdapter", ETreeTableAdapter, etta_class_init, etta_init, PARENT_TYPE);
