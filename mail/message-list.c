@@ -2881,7 +2881,7 @@ on_cursor_activated_idle (gpointer data)
 	MessageList *message_list = data;
 	ESelectionModel *esm = e_tree_get_selection_model (message_list->tree);
 	int selected = e_selection_model_selected_count (esm);
-	
+
 	if (selected == 1 && message_list->cursor_uid) {
 		d(printf ("emitting cursor changed signal, for uid %s\n", message_list->cursor_uid));
 		g_signal_emit (message_list, message_list_signals[MESSAGE_SELECTED], 0, message_list->cursor_uid);
@@ -2940,7 +2940,7 @@ on_selection_changed_cmd(ETree *tree, MessageList *ml)
 	   is also used for other updating.  If it is empty, it might just be a setup event
 	   from etree which we do need to ignore */
 	if ((newuid == NULL && ml->cursor_uid == NULL && uids->len == 0)
-	    || (newuid != NULL && ml->cursor_uid != NULL && !strcmp(ml->cursor_uid, newuid))) {
+	    || (uids->len == 1 && newuid != NULL && ml->cursor_uid != NULL && !strcmp(ml->cursor_uid, newuid))) {
 		/* noop */
 	} else {
 		g_free(ml->cursor_uid);
