@@ -1,5 +1,7 @@
 2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-format.c (write_headers): Write the date header.
+
 	* component-factory.c (owner_unset_cb): Call
 	unref_standard_folders() here instead.
 

@@ -589,6 +589,23 @@ write_field_row_begin (const char *description, gint flags, GtkHTML *html, GtkHT
 }
 
 static void
+write_date (CamelMimeMessage *message, int flags, GtkHTML *html, GtkHTMLStream *stream)
+{
+	char *datestr;
+	time_t date;
+	int offset;
+	
+	write_field_row_begin (_("Date:"), flags, html, stream);
+	
+	date = camel_mime_message_get_date (message, &offset);
+	datestr = header_format_date (date, offset);
+	
+	mail_html_write (html, stream, "<td> %s </td> </tr>", datestr);
+	
+	g_free (datestr);
+}
+
+static void
 write_subject (const char *subject, int flags, GtkHTML *html, GtkHTMLStream *stream)
 {
 	char *encoded_subj;
@@ -674,7 +691,7 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			 "cellspacing=0 cellpadding=1><tr><td>"
 			 "<table bgcolor=\"#EEEEEE\" width=\"100%%\" cellpadding=0 cellspacing=0>"
 			 "<tr><td><table>\n");
-
+	
 	write_address(md, camel_mime_message_get_from(message),
 		      _("From:"), WRITE_BOLD);
 	write_address(md, camel_mime_message_get_reply_to(message),
@@ -683,8 +700,10 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 		      _("To:"), WRITE_BOLD);
 	write_address(md, camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_CC),
 		      _("Cc:"), WRITE_BOLD);
-
+	
 	write_subject (camel_mime_message_get_subject (message), WRITE_BOLD, md->html, md->stream);
+	
+	write_date (message,WRITE_BOLD, md->html, md->stream);
 	
 	mail_html_write (md->html, md->stream,
 			 "</table></td></tr></table></td></tr></table></font>");
