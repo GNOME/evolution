@@ -1,3 +1,8 @@
+2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shortcuts-view.c: Added accelerators for the right-click
+	shortcut menu.
+
 2001-08-23  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* e-shortcuts.c (e_shortcuts_add_default_group): Convert names of the

@@ -378,14 +378,14 @@ rename_shortcut_cb (GtkWidget *widget,
 }
 
 static GnomeUIInfo shortcut_right_click_menu_uiinfo[] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("Open"), N_("Open the folder linked to this shortcut"),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Open"), N_("Open the folder linked to this shortcut"),
 				open_shortcut_cb, GNOME_STOCK_MENU_OPEN), 
-	GNOMEUIINFO_ITEM_NONE  (N_("Open in New Window"), N_("Open the folder linked to this shortcut in a new window"),
+	GNOMEUIINFO_ITEM_NONE  (N_("Open in New _Window"), N_("Open the folder linked to this shortcut in a new window"),
 				open_shortcut_in_new_window_cb),
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("Rename"), N_("Rename this shortcut"),
+	GNOMEUIINFO_ITEM_NONE (N_("_Rename"), N_("Rename this shortcut"),
 				rename_shortcut_cb),
-	GNOMEUIINFO_ITEM_STOCK (N_("Remove"), N_("Remove this shortcut from the shortcut bar"),
+	GNOMEUIINFO_ITEM_STOCK (N_("Re_move"), N_("Remove this shortcut from the shortcut bar"),
 				remove_shortcut_cb, GNOME_STOCK_MENU_TRASH),
 	GNOMEUIINFO_END
 };
