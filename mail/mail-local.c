@@ -58,7 +58,7 @@
 #include "mail-vfolder.h"
 #include "mail-ops.h"
 
-#define d(x)
+#define d(x) 
 
 /* sigh, required for passing around to some functions */
 static GNOME_Evolution_Storage local_corba_storage = CORBA_OBJECT_NIL;
@@ -410,8 +410,12 @@ mlf_rename(CamelFolder *folder, const char *new)
 	MailLocalFolder *mlf = (MailLocalFolder *)folder;
 
 	/* first, proxy it down */
-	if (mlf->real_folder)
-		camel_folder_rename(mlf->real_folder, new);
+	if (mlf->real_folder) {
+		char *mbox = g_strdup_printf("%s/%s", new, mlf->meta->name);
+
+		camel_folder_rename(mlf->real_folder, mbox);
+		g_free(mbox);
+	}
 
 	/* Then do our stuff */
 	g_free(mlf->real_path);

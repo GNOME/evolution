@@ -1,5 +1,8 @@
 2001-10-28    <NotZed@Ximian.com>
 
+	* mail-local.c (mlf_rename): add the folder name to the path when
+	passing down to the subordinate folder.
+
 	* folder-browser-ui.c (fbui_sensitize_timeout): Remove uic, kill
 	dumb warning.
 
