@@ -542,7 +542,8 @@ ets_destroy (GtkObject *object)
 
 	/* FIXME lots of stuff to free here */
 
-	free_path(priv->root);
+	if (priv->root)
+		free_path(priv->root);
 
 	if (priv->source) {
 		gtk_signal_disconnect (GTK_OBJECT (priv->source),
