@@ -406,14 +406,6 @@ impl_upgradeFromVersion (PortableServer_Servant servant, short major, short mino
 		case 4:
 			addressbook_migrate (addressbook_component_peek ());
 			break;
-		case 5:
-			switch (revision) {
-			case 0:
-			case 1:
-				addressbook_migrate (addressbook_component_peek ());
-				break;
-			}
-			break;
 		}
 		break;
 	}
