@@ -1,3 +1,25 @@
+2004-04-09  Dan Winship  <danw@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_set_ui_component): Create an
+	EUserCreatableItemsHandler for the view if there isn't one yet,
+	and then activate it.
+	(gnome_calendar_destroy): destroy it.
+
+	* gui/calendar-component.c (impl__get_userCreatableItems): add
+	object/folder flags to items.
+
+	* gui/e-tasks.c (e_tasks_set_ui_component): Create an
+	EUserCreatableItemsHandler for the view if there isn't one yet,
+	and then activate it.
+	(e_tasks_destroy): destroy it.
+
+	* gui/tasks-component.c (impl__get_userCreatableItems): add
+	object/folder flags. Change "Task List" to "Tasks Group" per new
+	specs.
+
+	* gui/calendar-commands.c (calendar_control_deactivate): clear the
+	GnomeCal's ui_component rather than setting it again
+
 2004-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/dialogs/cal-prefs-dialog.c: Fixed to be instant-apply.

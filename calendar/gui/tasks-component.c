@@ -562,13 +562,15 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[0].tooltip = _("Create a new task");
 	list->_buffer[0].menuShortcut = 't';
 	list->_buffer[0].iconName = "new_task-16.png";
+	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[1].id = CREATE_TASK_LIST_ID;
-	list->_buffer[1].description = _("New task list");
-	list->_buffer[1].menuDescription = _("_Task List");
-	list->_buffer[1].tooltip = _("Create a new task list");
+	list->_buffer[1].description = _("New tasks group");
+	list->_buffer[1].menuDescription = _("_Tasks Group");
+	list->_buffer[1].tooltip = _("Create a new tasks group");
 	list->_buffer[1].menuShortcut = 'n';
 	list->_buffer[1].iconName = "evolution-tasks-mini.png";
+	list->_buffer[1].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;
 }

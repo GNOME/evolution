@@ -787,7 +787,7 @@ calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal)
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
-	gnome_calendar_set_ui_component (gcal, uic);
+	gnome_calendar_set_ui_component (gcal, NULL);
 
 	focus = g_object_get_data (G_OBJECT (control), "focus_data");
 	g_assert (focus != NULL);

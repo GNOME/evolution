@@ -925,6 +925,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[0].tooltip = _("Create a new appointment");
 	list->_buffer[0].menuShortcut = 'a';
 	list->_buffer[0].iconName = "new_appointment.xpm";
+	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[1].id = CREATE_MEETING_ID;
 	list->_buffer[1].description = _("New meeting");
@@ -932,6 +933,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[1].tooltip = _("Create a new meeting request");
 	list->_buffer[1].menuShortcut = 'e';
 	list->_buffer[1].iconName = "meeting-request-16.png";
+	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[2].id = CREATE_ALLDAY_EVENT_ID;
 	list->_buffer[2].description = _("New all day appointment");
@@ -939,6 +941,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[2].tooltip = _("Create a new all-day appointment");
 	list->_buffer[2].menuShortcut = 'd';
 	list->_buffer[2].iconName = "new_all_day_event.png";
+	list->_buffer[2].type = GNOME_Evolution_CREATABLE_OBJECT;
 
 	list->_buffer[3].id = CREATE_CALENDAR_ID;
 	list->_buffer[3].description = _("New calendar");
@@ -946,6 +949,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[3].tooltip = _("Create a new calendar");
 	list->_buffer[3].menuShortcut = 'a';
 	list->_buffer[3].iconName = "evolution-calendar-mini.png";
+	list->_buffer[3].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;
 }

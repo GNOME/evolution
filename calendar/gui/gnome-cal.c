@@ -42,6 +42,7 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <bonobo/bonobo-exception.h>
 #include "e-util/e-url.h"
+#include "shell/e-user-creatable-items-handler.h"
 #include <libecal/e-cal-time-util.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
@@ -154,6 +155,9 @@ struct _GnomeCalendarPrivate {
 	   'dates-shown-changed' signal.*/
 	time_t visible_start;
 	time_t visible_end;
+
+	/* Our associated creatable items handler */
+	EUserCreatableItemsHandler *creatable_items_handler;
 };
 
 /* Signal IDs */
@@ -1193,6 +1197,11 @@ gnome_calendar_destroy (GtkObject *object)
 			priv->view_menus = NULL;
 		}
 
+		if (priv->creatable_items_handler) {
+			g_object_unref (priv->creatable_items_handler);
+			priv->creatable_items_handler = NULL;
+		}
+
 		g_free (priv);
 		gcal->priv = NULL;
 	}
@@ -1992,6 +2001,14 @@ gnome_calendar_set_ui_component (GnomeCalendar *gcal,
 	g_return_if_fail (ui_component == NULL || BONOBO_IS_UI_COMPONENT (ui_component));
 
 	e_search_bar_set_ui_component (E_SEARCH_BAR (gcal->priv->search_bar), ui_component);
+
+	if (ui_component) {
+		if (!gcal->priv->creatable_items_handler) {
+			gcal->priv->creatable_items_handler =
+				e_user_creatable_items_handler_new ("calendar");
+		}
+		e_user_creatable_items_handler_activate (gcal->priv->creatable_items_handler, ui_component);
+	}
 }
 
 /**
