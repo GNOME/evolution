@@ -253,4 +253,23 @@ string_trim (gchar *string, const gchar *trim_chars, StringTrimOption options)
 
 
 
+gchar *
+string_prefix (const gchar *s, const gchar *suffix)
+{
+	guint s_len, suf_len;
+	guint suffix_pos;
 
+	g_assert (s);
+	g_assert (suffix);
+
+	s_len = strlen (s);
+	suf_len = strlen (suffix);
+
+	if (s_len < suf_len)
+		return null;
+
+	suffix_pos = s_len - suf_len;
+
+	if (!strncmp (s+suffix_pos, suffix, suf_len))
+		
+}

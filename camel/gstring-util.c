@@ -42,9 +42,9 @@
 gboolean
 g_string_equals (GString *string1, GString *string2)
 {
-	g_assert(string1);
-	g_assert(string2);
-	return !strcmp(string1->str, string2->str);
+	g_assert (string1);
+	g_assert (string2);
+	return !strcmp (string1->str, string2->str);
 }
 
 
@@ -58,9 +58,9 @@ g_string_equals (GString *string1, GString *string2)
  * @Return Value : the clone ...
  **/
 GString *
-g_string_clone(GString *string)
+g_string_clone (GString *string)
 {
-	return g_string_new( g_strdup(string->str) );
+	return g_string_new (g_strdup (string->str) );
 }
 
 
@@ -98,8 +98,8 @@ g_string_dichotomy (GString *string, gchar sep, GString **prefix, GString **suff
 	CAMEL_LOG_FULL_DEBUG (\
 		  "Entering string_dichotomy: \n\tseparator=%c \n\tprefix=%p \n\tsuffix=%p \n\toptions=%ld\n",\
 		  sep, prefix, suffix, options);
-	g_assert( tmp=string->str );
-	len = strlen(tmp);
+	g_assert (tmp=string->str);
+	len = strlen (tmp);
 	if (!len) {
 		if (prefix)
 			*prefix=NULL;
@@ -110,7 +110,7 @@ g_string_dichotomy (GString *string, gchar sep, GString **prefix, GString **suff
 	}
 	first = 0;
 	
-	if ( (options & GSTRING_DICHOTOMY_STRIP_LEADING ) && (tmp[first] == sep) )
+	if ((options & GSTRING_DICHOTOMY_STRIP_LEADING ) && (tmp[first] == sep) )
 	    do {first++;} while ( (first<len) && (tmp[first] == sep) );
 	
 	if (options & GSTRING_DICHOTOMY_STRIP_TRAILING )

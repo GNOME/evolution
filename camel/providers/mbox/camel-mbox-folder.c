@@ -669,12 +669,12 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 	}
 
 
-	/* get the mbox subfolders directory */
+	/* get the mbox subfolders directories */
 	folder_dir_path = mbox_folder->folder_file_path;
 	if (!folder_dir_path) {
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "invalid folder path. Use set_name ?");
+				     "Invalid folder path. Use set_name ?");
 		return FALSE;
 	}
 
@@ -695,8 +695,10 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 		if ((stat_error != -1) && S_ISDIR (stat_buf.st_mode)) {
 			/* yes, add it to the list */
 			if (entry_name[0] != '.') {
-				CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::list_subfolders adding  %s\n", entry_name);
-				subfolder_name_list = g_list_append (subfolder_name_list, g_strdup (entry_name));
+				CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::list_subfolders adding "
+						      "%s\n", entry_name);
+				subfolder_name_list = g_list_append (subfolder_name_list, 
+								     g_strdup (entry_name));
 			}
 		}
 		/* read next entry */
@@ -741,4 +743,9 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 	g_list_free (subfolder_name_list);
 	return NULL;
 }
+
+
+
+
+
 
