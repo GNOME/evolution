@@ -75,6 +75,8 @@ enum {
 	KEY_PRESS,
 	START_DRAG,
 	STYLE_SET,
+	SELECTION_MODEL_REMOVED,
+	SELECTION_MODEL_ADDED,
 	LAST_SIGNAL
 };
 
@@ -551,6 +553,8 @@ eti_remove_selection_model (ETableItem *eti)
 				     eti->cursor_change_id);
 	g_signal_handler_disconnect (eti->selection,
 				     eti->cursor_activated_id);
+        g_signal_emit_by_name (G_OBJECT(eti),
+                               "selection_model_removed", eti->selection);
 	g_object_unref (eti->selection);
 
 	eti->selection_change_id = 0;
@@ -1315,6 +1319,8 @@ eti_add_selection_model (ETableItem *eti, ESelectionModel *selection)
 		G_CALLBACK (eti_cursor_activated), eti);
 
 	eti_selection_change(selection, eti);
+        g_signal_emit_by_name (G_OBJECT(eti),
+                               "selection_model_added", eti->selection);
 }
 
 static void
@@ -2897,6 +2903,8 @@ eti_class_init (GObjectClass *object_class)
 	eti_class->key_press        = NULL;
 	eti_class->start_drag       = NULL;
 	eti_class->style_set        = eti_style_set;
+	eti_class->selection_model_removed = NULL;
+	eti_class->selection_model_added = NULL;
 
 	g_object_class_install_property (object_class, PROP_TABLE_HEADER,
 					 g_param_spec_object ("ETableHeader",
@@ -3071,6 +3079,26 @@ eti_class_init (GObjectClass *object_class)
 			      NULL, NULL,
 			      e_marshal_NONE__OBJECT,
 			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
+
+	eti_signals[SELECTION_MODEL_REMOVED] =
+		g_signal_new ("selection_model_removed",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (ETableItemClass, selection_model_removed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
+
+	eti_signals[SELECTION_MODEL_ADDED] =
+		g_signal_new ("selection_model_added",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (ETableItemClass, selection_model_added),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
 
         atk_registry_set_factory_type (atk_get_default_registry (),
 				       E_TABLE_ITEM_TYPE,
