@@ -1,3 +1,10 @@
+2002-08-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (delete_msg): Don't check permanent_flags for
+	the CAMEL_MESSAGE_DELETED bit here, if we are gonna check to see
+	if the folder supports the permanent flag then there are better
+	places to check this. Besides, it was the cause for bug #28038.
+
 2002-08-08  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.c (folder_browser_toggle_threads): Force a
