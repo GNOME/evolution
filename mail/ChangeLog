@@ -1,3 +1,8 @@
+2003-03-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-composer-prefs.c (spell_load_values): "en_us" should not be
+	translated. Fixes bug #40088.
+
 2003-03-21  Larry Ewing  <lewing@ximian.com>
 
 	* mail-display.c (pixbuf_gen_idle): remember to disconnect the
