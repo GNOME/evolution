@@ -1,3 +1,15 @@
+2000-11-01  Dan Winship  <danw@helixcode.com>
+
+	* evolution-storage.c (evolution_storage_new_folder): Make this
+	take "highlighted" as well.
+
+	* e-local-storage.c (new_folder): 
+	* e-corba-storage.c (impl_StorageListener_new_folder): set
+	highlighted on the new folder.
+
+	* e-storage-set-view.c (updated_folder_cb): Remove an unused
+	variable.
+
 2000-10-26  Iain Holmes  <iain@helixcode.com>
 
 	* Evolution-ShellView.idl: Added a change_current_view method and 

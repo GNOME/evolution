@@ -680,7 +680,6 @@ updated_folder_cb (EStorageSet *storage_set,
 	EStorageSetViewPrivate *priv;
 	ETreeModel *etree;
 	ETreePath *node;
-	char *node_data;
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
 	priv = storage_set_view->priv;

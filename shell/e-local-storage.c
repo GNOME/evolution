@@ -170,7 +170,8 @@ new_folder (ELocalStorage *local_storage,
 				      e_folder_get_name (folder),
 				      e_folder_get_type_string (folder),
 				      e_folder_get_physical_uri (folder),
-				      e_folder_get_description (folder));
+				      e_folder_get_description (folder),
+				      e_folder_get_highlighted (folder));
 }
 
 static gboolean

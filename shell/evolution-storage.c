@@ -483,7 +483,8 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 			      const char *display_name,
 			      const char *type,
 			      const char *physical_uri,
-			      const char *description)
+			      const char *description,
+			      gboolean highlighted)
 {
 	EvolutionStorageResult result;
 	EvolutionStoragePrivate *priv;
@@ -512,6 +513,7 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	corba_folder->description  = CORBA_string_dup (description);
 	corba_folder->type         = CORBA_string_dup (type);
 	corba_folder->physical_uri = CORBA_string_dup (physical_uri);
+	corba_folder->highlighted  = highlighted;
 
 	result = EVOLUTION_STORAGE_OK;
 

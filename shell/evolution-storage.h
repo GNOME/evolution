@@ -89,7 +89,8 @@ EvolutionStorageResult      evolution_storage_new_folder         (EvolutionStora
 								  const char                *display_name,
 								  const char                *type,
 								  const char                *physical_uri,
-								  const char                *description);
+								  const char                *description,
+								  gboolean                   highlighted);
 EvolutionStorageResult      evolution_storage_update_folder      (EvolutionStorage          *evolution_storage,
 								  const char                *path,
 								  const char                *display_name,
