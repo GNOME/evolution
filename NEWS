@@ -1,4 +1,116 @@
-Evolution 2.1.4, 2004-01-24
+Evolution 2.1.5, 2005-02-07
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Addressbook
+   #36137 - Leading %s in addressbook message totally non-obvious (Siva)
+   #57819 - Evolution allows to create several contact lists with same name
+            (Partha)
+   #61060 - Don't split sentences in Evolution (Siva)
+   #61067 - Use translator comment for evolution addressbook message (Siva)
+   #67411 - Crash: create new address book (Hans Petter)
+   #68799 - Evolution doesn't store IM info on the LDAP server (Siva)
+   #70339 - vcard preview doesn't appear to work (Siva)
+
+ * Calendar
+   #33078 - No category list for Category searches in Calendar & Tasks (Rodrigo)
+   #56901 - Only one line gets printed when printing Tasks and Appointments (Yong)
+   #61078 - Please avoid using different styles of markup in translateable
+            evolution messages (Priit)
+   #64682 - Moving a appts from one calendar to another sends update (Chenthill)
+   #71265 - Deletion Of Weather Calendar Crashes Evo (Rodrigo)
+   #71452 - Pressing 2 times escape - edited meeting window disappear (JP)
+   #71485 - String issues (JP)
+   #71729 - Gnopernicus should report the full name of week day (Li)
+   #71929 - Whitespace before colons in Evolution calendar a11y messages
+            (Rodrigo)
+   #71924, 71926, 71932 - Don't split sentences (Harry)
+   #71944 - Failed to compile (JP)
+   #72088 - Some calendar a11y functions don't work (Harry)
+   #72090 - Evolution crashed when clicking on 'open calender' in sent items (Rodrigo)
+
+ * Mail
+   #65329 - Regression in default folder name localisation (Michael)
+   #67083 - CJK-translated mail header names are line-wrapped with long lined headers
+            (Michael)
+   #68137 - Inconsistent VFolder vs vFolder (Rodney)
+   #68696 - RFE: Simplifications to the "Account Management" page of the Account
+            setup druid (Rodney)
+   #68743 - Button jumps when you click it (Rodney)
+   #69815 - Cannot quit while updating vfolders (Michael)
+   #69850 - Crash: attempting to create a Vfolder based on a message without a Sender
+            (Michael)
+   #70454 - Folder shows unsubscribed, but is subscribed (Jeff)
+   #71310 - Always loses my signature script settings (Michael)
+   #71312 - Double-clicking vFolder of Draft folder doesn't allow editing (Michael)
+   #71520 - Changing server type not displayed immediately in 'Account settings'
+            (Michael)
+   #71521 - 'Account Editor' does not allow to change hostname (Michael)
+   #71774 - Evolution crashes when cancel 'Rename Folder' dialog (Mengjie)
+   #71937 - Spamasssassin typo in Evolution mail schemas (JP)
+
+ * Plugins
+   #41235 - Spacing/padding of itip control (Rodney)
+   #71460 - Clicking accept button in appointment - Unable to send item to calender
+            'Calender'. Invalid object (Chenthill)
+   #71512 - Crash: AMD64 Unable to add or import contacts (Siva)
+   #71644 - Empty string marked for translation (Sushma)
+
+Other bugs
+
+ * Addressbook
+   - Use new categories dialog in contact editor (Rodrigo)
+   - HIG spacing fixes (Rodney)
+   - Display warning dialog when GW server is old (Vivek)
+
+ * Calendar
+   - Fixed sensitation of widgets in recurrence page (Rodrigo)
+   - Fixed IDL duplications (Hans Petter)
+   - Don't build private libraries as modules (Hans Petter)
+   - Fixed popup menu for detached recurrences (Rodrigo)
+   - HIG spacing/padding fixes (Rodney)
+   - Display warning dialog when GW server is old (Vivek)
+   - Clear component preview when updating (Rodrigo)
+   - Added help button to editors (Rodney)
+   - Fix DND issues with calendar attachments (Harish)
+
+ * Mail
+   - HIG fixes (Rodney)
+
+ * Plugins
+   - Use icon factory in audio-inline plugin (JP)
+   - Fix order of menus in calendar-http plugin (David)
+   - Added missing ID's (JP)
+   - Set weather categories as not searchable (Rodrigo)
+   - Added auth type section in exchange-account-setup plugin (Sushma)
+   - Fixed crash in groupwise-send-options dialog (Chenthill)
+
+ * All
+   - Added 'pt' default setup to build (Rodney)
+   - Fixed druid lock on startup (Jeff)
+   - a11y improvements (Mengjie, Li, Harry)
+   - HIG fixes to e-passwords dialogs (Rodney)
+
+Updated translations:
+   - bg (Alexander Shopov)
+   - cs (Miloslav Trmac)
+   - de (Hendrik Richter, Frank Arnold)
+   - el (Kostas Papadimas)
+   - en_CA (Adam Weinberger)
+   - es (Francisco Javier F. Serrador)
+   - et (Priit Laes)
+   - it (Marco Ciampa)
+   - ja (Takeshi AIHANA)
+   - lt (Zygimantas Beruska)
+   - nb (Kjartan Maraas)
+   - no (Kjartan Maraas)
+   - ru (Leonid Kanter)
+   - sk (Marcel Telka)
+   - sv (Christian Rose)
+   - zh_CN (Funda Wang)
+
+Evolution 2.1.4, 2005-01-24
 ----------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
