@@ -35,10 +35,10 @@ typedef struct {
 
 	icalproperty *uid_prop;
 
-	struct {
+	struct categories {
 		icalproperty *prop;
-		icalparameter *altrep_param;
-	} summary;
+	};
+	GSList *categories_list;
 
 	struct description {
 		icalproperty *prop;
@@ -54,6 +54,11 @@ typedef struct {
 	struct datetime dtstart;
 	struct datetime dtend;
 	struct datetime due;
+
+	struct {
+		icalproperty *prop;
+		icalparameter *altrep_param;
+	} summary;
 } CalComponentPrivate;
 
 
@@ -123,6 +128,21 @@ cal_component_init (CalComponent *comp)
 	priv->uid_prop = cal_component_gen_uid ();
 }
 
+/* Does a simple g_free() of the elements of a GSList and then frees the list
+ * itself.  Returns NULL.
+ */
+static GSList *
+free_slist (GSList *slist)
+{
+	GSList *l;
+
+	for (l = slist; l; l = l->next)
+		g_free (l->data);
+
+	g_slist_free (slist);
+	return NULL;
+}
+
 /* Frees the internal icalcomponent only if it does not have a parent.  If it
  * does, it means we don't own it and we shouldn't free it.
  */
@@ -136,12 +156,32 @@ free_icalcomponent (CalComponent *comp)
 	if (!priv->icalcomp)
 		return;
 
-	/* FIXME: remove the mappings! */
+	/* Free the icalcomponent */
 
 	if (icalcomponent_get_parent (priv->icalcomp) != NULL)
 		icalcomponent_free (priv->icalcomp);
 
 	priv->icalcomp = NULL;
+
+	/* Free the mappings */
+
+	priv->uid_prop = NULL;
+
+	priv->categories_list = free_slist (priv->categories_list);
+
+	priv->description_list = free_slist (priv->description_list);
+
+	priv->dtstart.prop = NULL;
+	priv->dtstart.tzid_param = NULL;
+
+	priv->dtend.prop = NULL;
+	priv->dtend.tzid_param = NULL;
+
+	priv->due.prop = NULL;
+	priv->due.tzid_param = NULL;
+
+	priv->summary.prop = NULL;
+	priv->summary.altrep_param = NULL;
 }
 
 /* Destroy handler for the calendar component object */
@@ -220,33 +260,19 @@ cal_component_new (void)
 	return CAL_COMPONENT (gtk_type_new (CAL_COMPONENT_TYPE));
 }
 
-/* Scans the summary property */
+/* Scans the categories property */
 static void
-scan_summary (CalComponent *comp, icalproperty *prop)
+scan_categories (CalComponent *comp, icalproperty *prop)
 {
 	CalComponentPrivate *priv;
-	icalparameter *param;
+	struct categories *categ;
 
 	priv = comp->priv;
 
-	priv->summary.prop = prop;
+	categ = g_new (struct categories, 1);
+	categ->prop = prop;
 
-	for (param = icalproperty_get_first_parameter (prop, ICAL_ANY_PARAMETER);
-	     param;
-	     param = icalproperty_get_next_parameter (prop, ICAL_ANY_PARAMETER)) {
-		icalparameter_kind kind;
-		
-		kind = icalparameter_isa (param);
-		
-		switch (kind) {
-		case ICAL_ALTREP_PARAMETER:
-			priv->summary.altrep_param = param;
-			break;
-
-		default:
-			break;
-		}
-	}
+	priv->categories_list = g_slist_append (priv->categories_list, categ);
 }
 
 /* Scans the description property */
@@ -311,6 +337,35 @@ scan_datetime (CalComponent *comp, struct datetime *datetime, icalproperty *prop
 	}
 }
 
+/* Scans the summary property */
+static void
+scan_summary (CalComponent *comp, icalproperty *prop)
+{
+	CalComponentPrivate *priv;
+	icalparameter *param;
+
+	priv = comp->priv;
+
+	priv->summary.prop = prop;
+
+	for (param = icalproperty_get_first_parameter (prop, ICAL_ANY_PARAMETER);
+	     param;
+	     param = icalproperty_get_next_parameter (prop, ICAL_ANY_PARAMETER)) {
+		icalparameter_kind kind;
+		
+		kind = icalparameter_isa (param);
+		
+		switch (kind) {
+		case ICAL_ALTREP_PARAMETER:
+			priv->summary.altrep_param = param;
+			break;
+
+		default:
+			break;
+		}
+	}
+}
+
 /* Scans an icalproperty and adds its mapping to the component */
 static void
 scan_property (CalComponent *comp, icalproperty *prop)
@@ -323,6 +378,10 @@ scan_property (CalComponent *comp, icalproperty *prop)
 	kind = icalproperty_isa (prop);
 
 	switch (kind) {
+	case ICAL_CATEGORIES_PROPERTY:
+		scan_categories (comp, prop);
+		break;
+
 	case ICAL_DESCRIPTION_PROPERTY:
 		scan_description (comp, prop);
 		break;
@@ -1045,4 +1104,151 @@ cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt)
 		      icalproperty_new_due,
 		      icalproperty_set_due,
 		      dt);
+}
+
+/**
+ * cal_component_get_categories_list:
+ * @comp: A calendar component object.
+ * @categ_list: Return value for the list of strings, where each string is a
+ * category.  This should be freed using cal_component_free_categories_list().
+ * 
+ * Queries the list of categories of a calendar component object.  Each element
+ * in the returned categ_list is a string with the corresponding category.
+ **/
+void
+cal_component_get_categories_list (CalComponent *comp, GSList **categ_list)
+{
+	CalComponentPrivate *priv;
+	const char *categories;
+	const char *p;
+	const char *cat_start;
+	char *str;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+	g_return_if_fail (categ_list != NULL);
+
+	if (!priv->categories_list) {
+		*categ_list = NULL;
+		return;
+	}
+
+	categories = icalproperty_get_categories (priv->categories_list);
+	g_assert (categories != NULL);
+
+	cat_start = categories;
+
+	*categ_list = NULL;
+
+	for (p = categories; *p; p++)
+		if (*p == ',') {
+			str = g_strndup (cat_start, p - cat_start);
+			*categ_list = g_slist_prepend (*categ_list, str);
+
+			cat_start = p + 1;
+		}
+
+	str = g_strndup (cat_start, p - cat_start);
+	*categ_list = g_slist_prepend (*categ_list, str);
+
+	*categ_list = g_slist_reverse (*categ_list);
+}
+
+/* Creates a comma-delimited string of categories */
+static char *
+stringify_categories (GSList *categ_list)
+{
+	GString *s;
+	GSList *l;
+	char *str;
+
+	s = g_string_new (NULL);
+
+	for (l = categ_list; l; l = l->next) {
+		g_string_append (s, l->data);
+
+		if (l->next != NULL)
+			g_string_append (s, ",");
+	}
+
+	str = s->str;
+	g_string_free (s, FALSE);
+
+	return str;
+}
+
+/**
+ * cal_component_set_categories_list:
+ * @comp: A calendar component object.
+ * @categ_list: List of strings, one for each category.
+ * 
+ * Sets the list of categories of a calendar component object.
+ **/
+void
+cal_component_set_categories_list (CalComponent *comp, GSList *categ_list)
+{
+	CalComponentPrivate *priv;
+	struct categories *cat;
+	char *categories_str;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	/* Free the old list */
+
+	if (!categ_list) {
+		if (priv->categories_list) {
+			GSList *l;
+
+			for (l = priv->categories_list; l; l = l->next) {
+				struct categories *c;
+
+				c = l->data;
+				icalcomponent_remove_property (priv->icalcomp, c->prop);
+				icalproperty_free (c->prop);
+
+				g_free (c);
+			}
+
+			g_slist_free (priv->categories_list);
+			priv->categories_list = NULL;
+		}
+
+		return;
+	}
+
+	/* Create a single string of categories */
+
+	categories_str = stringify_categories (categ_list);
+
+	/* Set the categories */
+
+	cat = g_new (struct categories, 1);
+	cat->prop = icalproperty_new_categories (categories_str);
+	g_free (categories_str);
+
+	icalcomponent_add_property (priv->icalcomp, cat->prop);
+}
+
+/**
+ * cal_component_free_categories_list:
+ * @categ_list: List of category strings.
+ * 
+ * Frees a list of category strings.
+ **/
+void
+cal_component_free_categories_list (GSList *categ_list)
+{
+	GSList *l;
+
+	for (l = categ_list; l; l = l->next)
+		g_free (l->data);
+
+	g_slist_free (categ_list);
 }

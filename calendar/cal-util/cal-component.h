@@ -125,6 +125,10 @@ void cal_component_set_dtend (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_get_due (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt);
 
+void cal_component_get_categories_list (CalComponent *comp, GSList **categ_list);
+void cal_component_set_categories_list (CalComponent *comp, GSList *categ_list);
+void cal_component_free_categories_list (GSList *categ_list);
+
 
 
 END_GNOME_DECLS

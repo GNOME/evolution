@@ -1,5 +1,15 @@
 2000-07-02  Federico Mena Quintero  <federico@helixcode.com>
 
+	* cal-util/cal-component.c (scan_categories): Handle CATEGORIES.
+	This can appear multiple times, so we maintain a list.  We
+	compress them later to a single property with multiple values.
+	(cal_component_get_categories_list): Ditto.
+	(cal_component_set_categories_list): Ditto.
+	(cal_component_free_categories_list): Ditto.
+	(free_icalcomponent): Properly free the mappings.
+
+2000-07-02  Federico Mena Quintero  <federico@helixcode.com>
+
 	* cal-util/cal-component.c (scan_datetime): Handle date/time and
 	timezone pairs.
 	(scan_property): Handle DTSTART and DTEND.
