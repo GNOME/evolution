@@ -1,5 +1,18 @@
 2001-07-05  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (add_dialog_clicked_cb): Fix warning
+	(fill_rdf_shown_clist): Fix warning.
+	(calendar_one_toggled_cb): Set preferences to the right toggle button.
+	(calendar_five_toggled_cb): Ditto
+	(calendar_week_toggled_cb): Ditto ditto
+	(calendar_month_toggled_cb): Ditto dotto
+	(calendar_all_toggled_cb): Set the amount of Tasks to be shown
+	(calendar_today_toggled_cb): Ditto
+	(make_property_dialog): Hook up the calendar radio buttons.
+	(e_summary_preferences_restore): Pass NULL as opt_default, not &ev.
+
+2001-07-05  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c (e_summary_preferences_restore): Add
 	My-Evolution to the namespace.
 	(e_summary_preferences_save): Ditto.

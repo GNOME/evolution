@@ -158,29 +158,10 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 	prefs->rdf_urls = str_list_from_vector (vector);
   	g_free (vector);
 
-	prefs->rdf_refresh_time = bonobo_config_get_long_with_default (db, "My-Evolution/RDF/rdf_refresh_time", 600, &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		g_warning ("Error getting RDF/rdf_refresh_time. Using defaults");
-		bonobo_object_release_unref (db, NULL);
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
+	prefs->rdf_refresh_time = bonobo_config_get_long_with_default (db, "My-Evolution/RDF/rdf_refresh_time", 600, NULL);
 
-	prefs->limit = bonobo_config_get_long_with_default (db, "My-Evolution/RDF/limit", 10, &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		g_warning ("Error getting RDF/limit. Using defaults");
-		bonobo_object_release_unref (db, NULL);
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
-
-	prefs->wipe_trackers = bonobo_config_get_boolean_with_default (db, "My-Evolution/RDF/wipe_trackers", FALSE, &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		g_warning ("Error getting RDF/wipe_trackers. Using defaults");
-		bonobo_object_release_unref (db, NULL);
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
+	prefs->limit = bonobo_config_get_long_with_default (db, "My-Evolution/RDF/limit", 10, NULL);
+	prefs->wipe_trackers = bonobo_config_get_boolean_with_default (db, "My-Evolution/RDF/wipe_trackers", FALSE, NULL);
 
 	vector = bonobo_config_get_string (db, "My-Evolution/Weather/stations", &ev);
 	if (BONOBO_EX (&ev) || vector == NULL) {
@@ -588,7 +569,7 @@ fill_rdf_shown_clist (GtkCList *clist,
 	for (p = pd->summary->preferences->rdf_urls; p; p = p->next) {
 		char *text[1];
 
-		text[0] = find_name_for_url (pd, p->data);
+		text[0] = (char *) find_name_for_url (pd, p->data);
 		gtk_clist_append (clist, text);
 	}
 }
@@ -810,7 +791,7 @@ add_dialog_clicked_cb (GnomeDialog *dialog,
 	text[0] = info->name;
 	row = gtk_clist_append (GTK_CLIST (pd->rdf->all), text);
 	gtk_clist_set_row_data_full (GTK_CLIST (pd->rdf->all), row, info,
-				     free_rdf_info);
+				     (GdkDestroyNotify) free_rdf_info);
 	pd->rdf->known = g_list_append (pd->rdf->known, info);
 
 	save_known_rdfs (pd->rdf->known);
@@ -992,6 +973,79 @@ weather_imperial_toggled_cb (GtkToggleButton *tb,
 	gnome_property_box_changed (pd->box);
 }
 
+
+static void
+calendar_one_toggled_cb (GtkToggleButton *tb,
+			 PropertyData *pd)
+{
+	if (gtk_toggle_button_get_active (tb) == FALSE) {
+		return;
+	}
+
+	pd->summary->preferences->days = E_SUMMARY_CALENDAR_ONE_DAY;
+	gnome_property_box_changed (pd->box);
+}
+
+static void
+calendar_five_toggled_cb (GtkToggleButton *tb,
+			  PropertyData *pd)
+{
+	if (gtk_toggle_button_get_active (tb) == FALSE) {
+		return;
+	}
+
+	pd->summary->preferences->days = E_SUMMARY_CALENDAR_FIVE_DAYS;
+	gnome_property_box_changed (pd->box);
+}
+
+static void
+calendar_week_toggled_cb (GtkToggleButton *tb,
+			  PropertyData *pd)
+{
+	if (gtk_toggle_button_get_active (tb) == FALSE) {
+		return;
+	}
+
+	pd->summary->preferences->days = E_SUMMARY_CALENDAR_ONE_WEEK;
+	gnome_property_box_changed (pd->box);
+}
+
+static void
+calendar_month_toggled_cb (GtkToggleButton *tb,
+			   PropertyData *pd)
+{
+	if (gtk_toggle_button_get_active (tb) == FALSE) {
+		return;
+	}
+
+	pd->summary->preferences->days = E_SUMMARY_CALENDAR_ONE_MONTH;
+	gnome_property_box_changed (pd->box);
+}
+
+static void
+calendar_all_toggled_cb (GtkToggleButton *tb,
+			 PropertyData *pd)
+{
+	if (gtk_toggle_button_get_active (tb) == FALSE) {
+		return;
+	}
+
+	pd->summary->preferences->show_tasks = E_SUMMARY_CALENDAR_ALL_TASKS;
+	gnome_property_box_changed (pd->box);
+}
+
+static void
+calendar_today_toggled_cb (GtkToggleButton *tb,
+			   PropertyData *pd)
+{
+	if (gtk_toggle_button_get_active (tb) == FALSE) {
+		return;
+	}
+
+	pd->summary->preferences->show_tasks = E_SUMMARY_CALENDAR_TODAYS_TASKS;
+	gnome_property_box_changed (pd->box);
+}
+
 static gboolean
 make_property_dialog (PropertyData *pd)
 {
@@ -1141,16 +1195,45 @@ make_property_dialog (PropertyData *pd)
 	calendar = pd->calendar = g_new (struct _CalendarPage, 1);
 	calendar->one = glade_xml_get_widget (pd->xml, "radiobutton3");
 	g_return_val_if_fail (calendar->one != NULL, FALSE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->one),
+				      (pd->summary->preferences->days == E_SUMMARY_CALENDAR_ONE_DAY));
+	gtk_signal_connect (GTK_OBJECT (calendar->one), "toggled",
+			    GTK_SIGNAL_FUNC (calendar_one_toggled_cb), pd);
+
 	calendar->five = glade_xml_get_widget (pd->xml, "radiobutton4");
 	g_return_val_if_fail (calendar->five != NULL, FALSE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->five),
+				      (pd->summary->preferences->days == E_SUMMARY_CALENDAR_FIVE_DAYS));
+	gtk_signal_connect (GTK_OBJECT (calendar->five), "toggled",
+			    GTK_SIGNAL_FUNC (calendar_five_toggled_cb), pd);
+
 	calendar->week = glade_xml_get_widget (pd->xml, "radiobutton5");
 	g_return_val_if_fail (calendar->week != NULL, FALSE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->week),
+				      (pd->summary->preferences->days == E_SUMMARY_CALENDAR_ONE_WEEK));
+	gtk_signal_connect (GTK_OBJECT (calendar->week), "toggled",
+			    GTK_SIGNAL_FUNC (calendar_week_toggled_cb), pd);
+
 	calendar->month = glade_xml_get_widget (pd->xml, "radiobutton6");
 	g_return_val_if_fail (calendar->month != NULL, FALSE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->month),
+				      (pd->summary->preferences->days == E_SUMMARY_CALENDAR_ONE_MONTH));
+	gtk_signal_connect (GTK_OBJECT (calendar->month), "toggled",
+			    GTK_SIGNAL_FUNC (calendar_month_toggled_cb), pd);
+
 	calendar->all = glade_xml_get_widget (pd->xml, "radiobutton1");
 	g_return_val_if_fail (calendar->all != NULL, FALSE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->all),
+				      (pd->summary->preferences->show_tasks == E_SUMMARY_CALENDAR_ALL_TASKS));
+	gtk_signal_connect (GTK_OBJECT (calendar->all), "toggled",
+			    GTK_SIGNAL_FUNC (calendar_all_toggled_cb), pd);
+
 	calendar->today = glade_xml_get_widget (pd->xml, "radiobutton2");
 	g_return_val_if_fail (calendar->today != NULL, FALSE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->today),
+				      (pd->summary->preferences->show_tasks == E_SUMMARY_CALENDAR_TODAYS_TASKS));
+	gtk_signal_connect (GTK_OBJECT(calendar->today), "toggled",
+			    GTK_SIGNAL_FUNC (calendar_today_toggled_cb), pd);
 
 	return TRUE;
 }
