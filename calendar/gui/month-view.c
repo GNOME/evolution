@@ -14,7 +14,14 @@
 #include "timeutil.h"
 
 
-#define SPACING 4		/* Spacing between title and calendar */
+/* Spacing between title and calendar */
+#define SPACING 4
+
+/* Padding between day borders and event text */
+#define EVENT_PADDING 3
+
+/* Font for the month view events */
+#define EVENT_FONT "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*"
 
 
 static void month_view_class_init    (MonthViewClass *class);
@@ -64,13 +71,162 @@ month_view_class_init (MonthViewClass *class)
 	widget_class->size_allocate = month_view_size_allocate;
 }
 
+/* Returns the index of the specified arrow in the array of arrows */
+static int
+get_arrow_index (MonthView *mv, GnomeCanvasItem *arrow)
+{
+	int i;
+
+	for (i = 0; i < 42; i++)
+		if (mv->up[i] == arrow)
+			return i;
+		else if (mv->down[i] == arrow)
+			return i + 42;
+
+	g_warning ("Eeeek, arrow %p not found in month view %p", arrow, mv);
+	return -1;
+}
+
+/* Checks whether arrows need to be displayed at the specified day index or not */
+static void
+check_arrow_visibility (MonthView *mv, int day_index)
+{
+	GtkArg args[3];
+	double text_height;
+	double clip_height;
+	double y_offset;
+
+	args[0].name = "text_height";
+	args[1].name = "clip_height";
+	args[2].name = "y_offset";
+	gtk_object_getv (GTK_OBJECT (mv->text[day_index]), 3, args);
+
+	text_height = GTK_VALUE_DOUBLE (args[0]);
+	clip_height = GTK_VALUE_DOUBLE (args[1]);
+	y_offset = GTK_VALUE_DOUBLE (args[2]);
+
+	/* Check up arrow */
+
+	if (y_offset < 0.0)
+		gnome_canvas_item_show (mv->up[day_index]);
+	else
+		gnome_canvas_item_hide (mv->up[day_index]);
+
+	if (y_offset > (clip_height - text_height))
+		gnome_canvas_item_show (mv->down[day_index]);
+	else
+		gnome_canvas_item_hide (mv->down[day_index]);
+}
+
+/* Finds which arrow was clicked and scrolls the corresponding text item in the month view */
+static void
+do_arrow_click (MonthView *mv, GnomeCanvasItem *arrow)
+{
+	int arrow_index;
+	int day_index;
+	int up;
+	GtkArg args[4];
+	double text_height, clip_height;
+	double y_offset;
+	GdkFont *font;
+
+	arrow_index = get_arrow_index (mv, arrow);
+	up = (arrow_index < 42);
+	day_index = up ? arrow_index : (arrow_index - 42);
+
+	/* See how much we can scroll */
+
+	args[0].name = "text_height";
+	args[1].name = "clip_height";
+	args[2].name = "y_offset";
+	args[3].name = "font_gdk";
+	gtk_object_getv (GTK_OBJECT (mv->text[day_index]), 4, args);
+
+	text_height = GTK_VALUE_DOUBLE (args[0]);
+	clip_height = GTK_VALUE_DOUBLE (args[1]);
+	y_offset = GTK_VALUE_DOUBLE (args[2]);
+	font = GTK_VALUE_BOXED (args[3]);
+
+	if (up)
+		y_offset += font->ascent + font->descent;
+	else
+		y_offset -= font->ascent + font->descent;
+
+	if (y_offset > 0.0)
+		y_offset = 0.0;
+	else if (y_offset < (clip_height - text_height))
+		y_offset = clip_height - text_height;
+
+	/* Scroll */
+
+	gnome_canvas_item_set (mv->text[day_index],
+			       "y_offset", y_offset,
+			       NULL);
+
+	check_arrow_visibility (mv, day_index);
+}
+
+/* Event handler for the scroll arrows in the month view */
+static gint
+arrow_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
+{
+	MonthView *mv;
+
+	mv = MONTH_VIEW (data);
+
+	switch (event->type) {
+	case GDK_ENTER_NOTIFY:
+		gnome_canvas_item_set (item,
+				       "fill_color", color_spec_from_prop (COLOR_PROP_PRELIGHT_DAY_BG),
+				       NULL);
+		return TRUE;
+
+	case GDK_LEAVE_NOTIFY:
+		gnome_canvas_item_set (item,
+				       "fill_color", color_spec_from_prop (COLOR_PROP_DAY_FG),
+				       NULL);
+		return TRUE;
+
+	case GDK_BUTTON_PRESS:
+		do_arrow_click (mv, item);
+		return TRUE;
+
+	default:
+		break;
+	}
+
+	return FALSE;
+}
+
+/* Creates a new arrow out of the specified points and connects the proper signals to it */
+static GnomeCanvasItem *
+new_arrow (MonthView *mv, GnomeCanvasGroup *group, GnomeCanvasPoints *points)
+{
+	GnomeCanvasItem *item;
+	char *color_spec;
+
+	color_spec = color_spec_from_prop (COLOR_PROP_DAY_FG);
+
+	item = gnome_canvas_item_new (GNOME_CANVAS_GROUP (group),
+				      gnome_canvas_polygon_get_type (),
+				      "points", points,
+				      "fill_color", color_spec,
+				      "outline_color", color_spec,
+				      NULL);
+
+	gtk_signal_connect (GTK_OBJECT (item), "event",
+			    (GtkSignalFunc) arrow_event,
+			    mv);
+
+	return item;
+}
+
 static void
 month_view_init (MonthView *mv)
 {
 	int i;
 	GnomeCanvasItem *day_group;
 	GnomeCanvasPoints *points;
-	char *color_spec;
 
 	/* Title */
 
@@ -94,9 +250,9 @@ month_view_init (MonthView *mv)
 			       "day_font", BIG_NORMAL_DAY_FONT,
 			       NULL);
 
-	/* Arrows and text items */
-
-	color_spec = color_spec_from_prop (COLOR_PROP_DAY_FG);
+	/* Arrows and text items.  The arrows start hidden by default; they will be shown as
+	 * appropriate by the item adjustment code.
+	 */
 
 	points = gnome_canvas_points_new (3);
 
@@ -113,13 +269,7 @@ month_view_init (MonthView *mv)
 		points->coords[4] = 7;
 		points->coords[5] = 3;
 
-		mv->up[i] = gnome_canvas_item_new (GNOME_CANVAS_GROUP (day_group),
-						   gnome_canvas_polygon_get_type (),
-						   "points", points,
-						   "fill_color", color_spec,
-						   "outline_color", color_spec,
-						   NULL);
-		gnome_canvas_item_hide (mv->up[i]);
+		mv->up[i] = new_arrow (mv, GNOME_CANVAS_GROUP (day_group), points);
 
 		/* Down arrow */
 
@@ -130,13 +280,17 @@ month_view_init (MonthView *mv)
 		points->coords[4] = 21;
 		points->coords[5] = 3;
 
-		mv->down[i] = gnome_canvas_item_new (GNOME_CANVAS_GROUP (day_group),
-						     gnome_canvas_polygon_get_type (),
-						     "points", points,
-						     "fill_color", color_spec,
-						     "outline_color", color_spec,
+		mv->down[i] = new_arrow (mv, GNOME_CANVAS_GROUP (day_group), points);
+
+		/* Text item */
+
+		mv->text[i] = gnome_canvas_item_new (GNOME_CANVAS_GROUP (day_group),
+						     gnome_canvas_text_get_type (),
+						     "font", EVENT_FONT,
+						     "anchor", GTK_ANCHOR_NW,
+						     "fill_color", color_spec_from_prop (COLOR_PROP_DAY_FG),
+						     "clip", TRUE,
 						     NULL);
-		gnome_canvas_item_hide (mv->down[i]);
 	}
 
 	mv->old_current_index = -1;
@@ -170,6 +324,55 @@ month_view_size_request (GtkWidget *widget, GtkRequisition *requisition)
 
 	requisition->width = 200;
 	requisition->height = 150;
+}
+
+/* Adjusts the text items for events in the month view to the appropriate size.  It also makes the
+ * corresponding arrows visible or invisible, as appropriate.
+ */
+static void
+adjust_children (MonthView *mv)
+{
+	int i;
+	GnomeCanvasItem *item;
+	double x1, y1, x2, y2;
+	GtkArg arg;
+
+	for (i = 0; i < 42; i++) {
+		/* Get dimensions of the day group */
+
+		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mv->mitem), i + GNOME_MONTH_ITEM_DAY_GROUP);
+		gnome_canvas_item_get_bounds (item, &x1, &y1, &x2, &y2);
+
+		/* Normalize and add paddings */
+
+		x2 -= x1 + EVENT_PADDING;
+		x1 = EVENT_PADDING;
+		y2 -= y1 + EVENT_PADDING;
+		y1 = EVENT_PADDING;
+
+		/* Add height of day label to y1 */
+
+		item = gnome_month_item_num2child (GNOME_MONTH_ITEM (mv->mitem), i + GNOME_MONTH_ITEM_DAY_LABEL);
+
+		arg.name = "text_height";
+		gtk_object_getv (GTK_OBJECT (item), 1, &arg);
+		y1 += GTK_VALUE_DOUBLE (arg);
+
+		/* Set the position and clip size */
+
+		gnome_canvas_item_set (mv->text[i],
+				       "x", x1,
+				       "y", y1,
+				       "clip_width", x2 - x1,
+				       "clip_height", y2 - y1,
+				       "x_offset", 0.0,
+				       "y_offset", 0.0,
+				       NULL);
+
+		/* See what visibility state the arrows should be set to */
+
+		check_arrow_visibility (mv, i);
+	}
 }
 
 static void
@@ -208,15 +411,105 @@ month_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 			       "width", (double) (allocation->width - 1),
 			       "height", (double) (allocation->height - y - 1),
 			       NULL);
+
+	/* Adjust children */
+
+	adjust_children (mv);
+}
+
+/* This defines the environment for the calendar iterator function that is used to populate the
+ * month view with events.
+ */
+struct iter_info {
+	MonthView *mv;			/* The month view we are creating children for */
+	int first_day_index;		/* Index of the first day of the month within the month item */
+	time_t month_begin, month_end;	/* Beginning and end of month */
+	GString **strings;		/* Array of strings to populate */
+};
+
+/* This is the calendar iterator function used to populate the string array with event information.
+ * For each event, it iterates through all the days that the event touches and appends the proper
+ * information to the string array in the iter_info structure.
+ */
+static int
+add_event (iCalObject *ico, time_t start, time_t end, void *data)
+{
+	struct iter_info *ii;
+	struct tm *tm;
+	time_t t;
+	time_t day_begin_time, day_end_time;
+
+	ii = data;
+
+	/* Get the first day of the event */
+
+	t = MAX (start, ii->month_begin);
+	day_begin_time = time_day_begin (t);
+	day_end_time = time_day_end (day_begin_time);
+
+	/* Loop until the event ends or the month ends.  For each day touched, append the proper
+	 * information to the corresponding string.
+	 */
+
+	do {
+		tm = localtime (&day_begin_time);
+		g_string_sprintfa (ii->strings[ii->first_day_index + tm->tm_mday - 1], "%s\n", ico->summary);
+
+		/* Next day */
+
+		day_begin_time = time_add_day (day_begin_time, 1);
+		day_end_time = time_day_end (day_begin_time);
+	} while ((end > day_begin_time) && (day_begin_time < ii->month_end));
+
+	return TRUE; /* this means we are not finished yet with event generation */
 }
 
 void
 month_view_update (MonthView *mv, iCalObject *object, int flags)
 {
+	struct iter_info ii;
+	GString *strings[42];
+	int i;
+	time_t t;
+
 	g_return_if_fail (mv != NULL);
 	g_return_if_fail (IS_MONTH_VIEW (mv));
 
-	/* FIXME */
+	ii.mv = mv;
+
+	/* Create an array of empty GStrings */
+
+	ii.strings = strings;
+
+	for (i = 0; i < 42; i++)
+		strings[i] = g_string_new (NULL);
+
+	ii.first_day_index = gnome_month_item_day2index (GNOME_MONTH_ITEM (mv->mitem), 1);
+	g_assert (ii.first_day_index != -1);
+
+	/* Populate the array of strings with events */
+
+	t = time_from_day (mv->year, mv->month, 1);
+	ii.month_begin = time_month_begin (t);
+	ii.month_end = time_month_end (t);
+
+	calendar_iterate (mv->calendar->cal, ii.month_begin, ii.month_end, add_event, &ii);
+
+	for (i = 0; i < 42; i++) {
+		/* Delete the last character if it is a newline */
+
+		if (strings[i]->str && strings[i]->len && (strings[i]->str[strings[i]->len - 1] == '\n'))
+			g_string_truncate (strings[i], strings[i]->len - 1);
+		
+		gnome_canvas_item_set (mv->text[i],
+				       "text", strings[i]->str,
+				       NULL);
+		g_string_free (strings[i], TRUE);
+	}
+
+	/* Adjust children for scrolling */
+
+	adjust_children (mv);
 }
 
 /* Unmarks the old day that was marked as current and marks the current day if appropriate */
