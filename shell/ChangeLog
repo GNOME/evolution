@@ -1,4 +1,8 @@
-2001-09-17  Ettore Perazzoli  <ettore@ximian.com>
+2001-09-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-splash.c: #include "e-gtk-utils.h".
+
+2001-09-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-splash.c (e_splash_construct): Make the canvas backing stored.
 

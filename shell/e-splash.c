@@ -26,6 +26,9 @@
 #endif
 
 #include "e-splash.h"
+
+#include "e-util/e-gtk-utils.h"
+
 #include <gtk/gtkframe.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
