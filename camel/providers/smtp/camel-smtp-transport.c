@@ -78,7 +78,7 @@ static void smtp_construct (CamelService *service, CamelSession *session,
 			    CamelException *ex);
 static gboolean smtp_connect (CamelService *service, CamelException *ex);
 static gboolean smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex);
-static GHashTable *esmtp_get_authtypes (gchar *buffer);
+static GHashTable *esmtp_get_authtypes (const unsigned char *buffer);
 static GList *query_auth_types (CamelService *service, CamelException *ex);
 static char *get_name (CamelService *service, gboolean brief);
 
@@ -159,7 +159,7 @@ smtp_construct (CamelService *service, CamelSession *session,
 }
 
 static const char *
-get_smtp_error_string (int error)
+smtp_error_string (int error)
 {
 	/* SMTP error codes grabbed from rfc821 */
 	switch (error) {
@@ -318,7 +318,7 @@ connect_to_server (CamelService *service, CamelException *ex)
 			g_free (respbuf);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Welcome response error: %s: possibly non-fatal"),
-					      get_smtp_error_string (error));
+					      smtp_error_string (error));
 			return FALSE;
 		}
 		if (strstr (respbuf, "ESMTP"))
@@ -459,7 +459,6 @@ smtp_connect (CamelService *service, CamelException *ex)
 static gboolean
 authtypes_free (gpointer key, gpointer value, gpointer data)
 {
-	g_free (key);
 	g_free (value);
 	
 	return TRUE;
@@ -498,15 +497,18 @@ smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex)
 }
 
 static GHashTable *
-esmtp_get_authtypes (char *buffer)
+esmtp_get_authtypes (const unsigned char *buffer)
 {
+	const unsigned char *start, *end;
 	GHashTable *table = NULL;
-	gchar *start, *end;
 	
 	/* advance to the first token */
-	for (start = buffer; isspace (*start) || *start == '='; start++);
+	start = buffer;
+	while (isspace ((int) *start) || *start == '=')
+		start++;
 	
-	if (!*start) return NULL;
+	if (!*start)
+		return NULL;
 	
 	table = g_hash_table_new (g_str_hash, g_str_equal);
 	
@@ -514,13 +516,17 @@ esmtp_get_authtypes (char *buffer)
 		char *type;
 		
 		/* advance to the end of the token */
-		for (end = start; *end && !isspace (*end); end++);
+		end = start;
+		while (*end && !isspace ((int) *end))
+			end++;
 		
 		type = g_strndup (start, end - start);
-		g_hash_table_insert (table, g_strdup (type), type);
+		g_hash_table_insert (table, type, type);
 		
 		/* advance to the next token */
-		for (start = end; isspace (*start); start++);
+		start = end;
+		while (isspace ((int) *start))
+			start++;
 	}
 	
 	return table;
@@ -682,6 +688,105 @@ smtp_next_token (const char *buf)
 	return (const char *) token;
 }
 
+#define HEXVAL(c) (isdigit (c) ? (c) - '0' : (c) - 'A' + 10)
+
+/**
+ * example (rfc2034):
+ * 5.1.1 Mailbox "nosuchuser" does not exist
+ *
+ * The human-readable status code is what we want. Since this text
+ * could possibly be encoded, we must decode it.
+ *
+ * "xtext" is formally defined as follows:
+ *
+ *   xtext = *( xchar / hexchar / linear-white-space / comment )
+ *
+ *   xchar = any ASCII CHAR between "!" (33) and "~" (126) inclusive,
+ *        except for "+", "\" and "(".
+ *
+ * "hexchar"s are intended to encode octets that cannot be represented
+ * as plain text, either because they are reserved, or because they are
+ * non-printable.  However, any octet value may be represented by a
+ * "hexchar".
+ *
+ *   hexchar = ASCII "+" immediately followed by two upper case
+ *        hexadecimal digits
+ **/
+static char *
+smtp_decode_status_code (const char *in, size_t len)
+{
+	unsigned char *inptr, *outptr;
+	const unsigned char *inend;
+	char *outbuf;
+	
+	outptr = outbuf = g_malloc (len + 1);
+	
+	inptr = (unsigned char *) in;
+	inend = inptr + len;
+	while (inptr < inend) {
+		if (*inptr == '+') {
+			if (isxdigit (inptr[1]) && isxdigit (inptr[2])) {
+				*outptr++ = HEXVAL (inptr[1]) * 16 + HEXVAL (inptr[2]);
+				inptr += 3;
+			} else
+				*outptr++ = *inptr++;
+		} else
+			*outptr++ = *inptr++;
+	}
+	
+	*outptr = '\0';
+	
+	return outbuf;
+}
+
+static void
+smtp_set_exception (CamelSmtpTransport *transport, const char *respbuf, const char *message, CamelException *ex)
+{
+	const char *token, *rbuf = respbuf;
+	char *buffer = NULL;
+	GString *string;
+	int error;
+	
+	if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
+	fake_status_code:
+		error = respbuf ? atoi (respbuf) : 0;
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "%s: %s", message,
+				      smtp_error_string (error));
+	} else {
+		string = g_string_new ("");
+		do {
+			token = smtp_next_token (rbuf + 4);
+			if (*token == '\0') {
+				g_free (buffer);
+				g_string_free (string, TRUE);
+				goto fake_status_code;
+			}
+			
+			g_string_append (string, token);
+			if (*(rbuf + 3) == '-') {
+				g_free (buffer);
+				buffer = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+			} else {
+				g_free (buffer);
+				buffer = NULL;
+			}
+			
+			rbuf = buffer;
+		} while (rbuf);
+		
+		buffer = smtp_decode_status_code (string->str, string->len);
+		g_string_free (string, TRUE);
+		if (!buffer)
+			goto fake_status_code;
+		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "%s: %s", message, buffer);
+		
+		g_free (buffer);
+	}
+}
+
 static gboolean
 smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 {
@@ -733,7 +838,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 			g_free (respbuf);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("HELO response error: %s: non-fatal"),
-					      get_smtp_error_string (error));
+					      smtp_error_string (error));
 			camel_operation_end (NULL);
 			return FALSE;
 		}
@@ -905,21 +1010,8 @@ smtp_mail (CamelSmtpTransport *transport, const char *sender, gboolean has_8bit_
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
-			const char *token;
-			int error;
-			
-			if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
-				error = respbuf ? atoi (respbuf) : 0;
-				token = get_smtp_error_string (error);
-			} else
-				token = respbuf + 4;
-			
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("MAIL FROM response error: %s"),
-					      token);
-			
+			smtp_set_exception (transport, respbuf, _("MAIL FROM response error"), ex);
 			g_free (respbuf);
-			
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
@@ -957,21 +1049,12 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
-			const char *token;
-			int error;
+			char *message;
 			
-			if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
-				error = respbuf ? atoi (respbuf) : 0;
-				token = get_smtp_error_string (error);
-			} else
-				token = respbuf + 4;
-			
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("RCPT TO response error: %s"),
-					      token);
-			
+			message = g_strdup_printf (_("RCPT TO <%s> failed"), recipient);
+			smtp_set_exception (transport, respbuf, message, ex);
+			g_free (message);
 			g_free (respbuf);
-			
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
@@ -1018,21 +1101,8 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 		/* we should have gotten instructions on how to use the DATA command:
 		 * 354 Enter mail, end with "." on a line by itself
 		 */
-		const char *token;
-		int error;
-		
-		if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
-			error = respbuf ? atoi (respbuf) : 0;
-			token = get_smtp_error_string (error);
-		} else
-			token = respbuf + 4;
-		
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("DATA response error: %s"),
-				      token);
-		
+		smtp_set_exception (transport, respbuf, _("DATA response error"), ex);
 		g_free (respbuf);
-		
 		return FALSE;
 	}
 	
@@ -1103,21 +1173,8 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
-			const char *token;
-			int error;
-			
-			if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
-				error = respbuf ? atoi (respbuf) : 0;
-				token = get_smtp_error_string (error);
-			} else
-				token = respbuf + 4;
-			
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("DATA termination response error: %s"),
-					      token);
-			
+			smtp_set_exception (transport, respbuf, _("DATA termination response error"), ex);
 			g_free (respbuf);
-			
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
@@ -1153,21 +1210,8 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
-			const char *token;
-			int error;
-			
-			if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
-				error = respbuf ? atoi (respbuf) : 0;
-				token = get_smtp_error_string (error);
-			} else
-				token = respbuf + 4;
-			
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("RSET response error: %s"),
-					      token);
-			
+			smtp_set_exception (transport, respbuf, _("RSET response error"), ex);
 			g_free (respbuf);
-			
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
@@ -1203,21 +1247,8 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 		d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 		
 		if (!respbuf || strncmp (respbuf, "221", 3)) {
-			const char *token;
-			int error;
-			
-			if (!respbuf || !(transport->flags & CAMEL_SMTP_TRANSPORT_ENHANCEDSTATUSCODES)) {
-				error = respbuf ? atoi (respbuf) : 0;
-				token = get_smtp_error_string (error);
-			} else
-				token = respbuf + 4;
-			
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("QUIT response error: %s"),
-					      token);
-			
+			smtp_set_exception (transport, respbuf, _("QUIT response error"), ex);
 			g_free (respbuf);
-			
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "221-" then loop again */

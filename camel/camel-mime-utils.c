@@ -1840,9 +1840,9 @@ hex_decode (const char *in, size_t len)
 	unsigned char *inptr, *outptr;
 	char *outbuf;
 	
-	outptr = outbuf = g_malloc (len);
+	outptr = outbuf = g_malloc (len + 1);
 	
-	inptr = (guchar *) in;
+	inptr = (unsigned char *) in;
 	while (inptr < inend) {
 		if (*inptr == '%') {
 			if (isxdigit (inptr[1]) && isxdigit (inptr[2])) {

@@ -1,5 +1,19 @@
 2002-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_decode_status_code):
+	New function to decode an enhanced status code.
+	(smtp_set_exception): Sets an exception based on the
+	Enhanced-Status-Code.
+	(esmtp_get_authtypes): Don't diplicate the key in the hash since
+	the key and value are the same.
+	(smtp_rcpt): Include the failed recipient in the error message to
+	be more helpful to the user.
+
+	* camel-mime-utils.c (hex_decode): Make sure to allocate enough
+	for the NUL byte.
+
+2002-01-28  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/smtp/camel-smtp-transport.c (smtp_construct):
 	(connect_to_server): Use flags rather than a bunch of gboolean
 	variables.
