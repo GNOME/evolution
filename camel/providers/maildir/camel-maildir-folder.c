@@ -50,17 +50,6 @@ static CamelFolderClass *parent_class=NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 #define CMAILDIRS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
-#define INIWTST "CamelMaildirFolder::init_with_store"
-#define SETNAME "CamelMaildirFolder::set_name"
-#define EXISTS  "CamelMaildirFolder::exists"
-#define CREATE  "CamelMaildirFolder::create"
-#define DELETE  "CamelMaildirFolder::delete"
-#define DELMESG "CamelMaildirFolder::delete_messages"
-#define EXPUNGE "CamelMaildirFolder::expunge"
-#define GETMSG  "CamelMaildirFolder::get_message"
-#define NUMMSGS "CamelMaildirFolder::get_message_count"
-
-
 static void _init_with_store (CamelFolder *folder, CamelStore *parent_store);
 static void _set_name (CamelFolder *folder, const gchar *name);
 static gboolean _exists (CamelFolder *folder);
@@ -70,12 +59,13 @@ static gboolean _delete_messages (CamelFolder *folder);
 static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
 static gint _get_message_count (CamelFolder *folder);
 static void _expunge (CamelFolder *folder);
+static GList *_list_subfolders (CamelFolder *folder);
 
 /* fs utility functions */
 static DIR * _xopendir (const gchar *path);
 static gboolean _xstat (const gchar *path, struct stat *buf);
 static gboolean _xmkdir (const gchar *path);
-static gboolean _xlink (const gchar *from, const gchar *to);
+static gboolean _xrename (const gchar *from, const gchar *to);
 static gboolean _xunlink (const gchar *path);
 static gboolean _xrmdir (const gchar *path);
 /* ** */
@@ -87,7 +77,7 @@ camel_maildir_folder_class_init (CamelMaildirFolderClass *camel_maildir_folder_c
 		CAMEL_FOLDER_CLASS (camel_maildir_folder_class);
 
 	parent_class = gtk_type_class (camel_folder_get_type ());
-		
+
 	/* virtual method definition */
 	/* virtual method overload */
 	camel_folder_class->init_with_store   = _init_with_store;
@@ -99,6 +89,7 @@ camel_maildir_folder_class_init (CamelMaildirFolderClass *camel_maildir_folder_c
 	camel_folder_class->expunge           = _expunge;
 	camel_folder_class->get_message       = _get_message;
 	camel_folder_class->get_message_count = _get_message_count;
+	camel_folder_class->list_subfolders   = _list_subfolders;
 }
 
 GtkType
@@ -140,18 +131,17 @@ camel_maildir_folder_get_type (void)
  * Perhaps we'll later implement subfolders too...
  */
 static void 
-_init_with_store (CamelFolder *folder,
-			 CamelStore *parent_store)
+_init_with_store (CamelFolder *folder, CamelStore *parent_store)
 {
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMaildirFolder::init_with_store\n");
-	g_assert(folder);
-	g_assert(parent_store);
+	g_assert (folder);
+	g_assert (parent_store);
 	
 	/* call parent method */
 	parent_class->init_with_store (folder, parent_store);
 	
 	folder->can_hold_messages = TRUE;
-	folder->can_hold_folders = FALSE;
+	folder->can_hold_folders = TRUE;
 	folder->has_summary_capability = FALSE;
 
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMaildirFolder::init_with_store\n");
@@ -168,23 +158,35 @@ _init_with_store (CamelFolder *folder,
 static void
 _set_name (CamelFolder *folder, const gchar *name)
 {
-	CamelMaildirFolder *maildir_folder = CAMEL_MAILDIR_FOLDER (folder);
+	CamelMaildirFolder *maildir_folder;
+	CamelMaildirStore *maildir_store;
 	
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMaildirFolder::set_name\n");
 	g_assert (folder);
 	g_assert (name);
 	g_assert (folder->parent_store);
 
+	maildir_folder = CAMEL_MAILDIR_FOLDER (folder);
+	maildir_store = CAMEL_MAILDIR_STORE (folder->parent_store);
+
 	/* call default implementation */
 	parent_class->set_name (folder, name);
 	
 	if (maildir_folder->directory_path)
 		g_free (maildir_folder->directory_path);
-	
-	maildir_folder->directory_path = g_strdup (name);
 
-	CAMEL_LOG_FULL_DEBUG ("CamelMaildirFolder::set_name: "
-			      "name set to %s\n", name);
+	CAMEL_LOG_FULL_DEBUG ("CamelMaildirFolder::set_name full_name is %s\n", folder->full_name);
+	CAMEL_LOG_FULL_DEBUG ("CamelMaildirFolder::set_name toplevel_dir is %s\n", maildir_store->toplevel_dir);
+	CAMEL_LOG_FULL_DEBUG ("CamelMaildirFolder::set_name separator is %c\n", camel_store_get_separator (folder->parent_store));
+
+	if (folder->full_name && folder->full_name[0])
+		maildir_folder->directory_path =
+			g_strconcat (maildir_store->toplevel_dir, G_DIR_SEPARATOR_S,
+				     folder->full_name, NULL);
+	else
+		maildir_folder->directory_path = g_strdup (maildir_store->toplevel_dir);
+
+	CAMEL_LOG_FULL_DEBUG ("CamelMaildirFolder::set_name: name set to %s\n", name);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMaildirFolder::set_name\n");
 }
 
@@ -525,7 +527,7 @@ _get_message_count (CamelFolder *folder)
 			curfile = g_strconcat (curdir, G_DIR_SEPARATOR_S,
 					       dir_entry->d_name, ":2,", NULL);
 			
-			if (_xlink (newfile, curfile)) _xunlink (newfile);
+			_xrename (newfile, curfile);
 			
 			g_free (curfile);
 			g_free (newfile);
@@ -607,6 +609,62 @@ _expunge (CamelFolder *folder)
 
 
 
+/**
+ * CamelMaildirFolder::list_subfolders: return a list of subfolders
+ * @folder:  the folder object
+ *
+ * Returns the names of the maildir subfolders in a list.
+ *
+ * Return value: list of subfolder names
+ */
+static GList *
+_list_subfolders (CamelFolder *folder)
+{
+	CamelMaildirFolder *maildir_folder = CAMEL_MAILDIR_FOLDER (folder);
+	const gchar *maildir;
+	gchar *subdir;
+	struct stat statbuf;
+	struct dirent *dir_entry;
+	DIR *dir_handle;
+	GList *subfolders = NULL;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMaildirFolder::list_subfolders\n");
+	g_assert (folder);
+
+	/* check if the maildir exists */
+	if (!camel_folder_exists (folder)) return NULL;
+
+	/* scan through the maildir toplevel directory */
+	maildir = maildir_folder->directory_path;
+	if ((dir_handle = _xopendir (maildir))) {
+		while ((dir_entry = readdir (dir_handle))) {
+			if (dir_entry->d_name[0] == '.') continue;
+			if (strcmp (dir_entry->d_name, "new") == 0) continue;
+			if (strcmp (dir_entry->d_name, "cur") == 0) continue;
+			if (strcmp (dir_entry->d_name, "tmp") == 0) continue;
+
+			subdir = g_strconcat (maildir, G_DIR_SEPARATOR_S,
+					      dir_entry->d_name, NULL);
+			
+			if (_xstat (subdir, &statbuf)
+			    && S_ISDIR (statbuf.st_mode))
+				subfolders =
+					g_list_append (
+						subfolders,
+						g_strdup (dir_entry->d_name));
+			
+			g_free (subdir);
+		}
+		closedir (dir_handle);
+	}
+
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMaildirFolder::list_subfolders\n");
+	return subfolders;
+}
+
+
+
+
 
 
 
@@ -668,15 +726,15 @@ _xmkdir (const gchar *path)
 }
 
 static gboolean
-_xlink (const gchar *from, const gchar *to)
+_xrename (const gchar *from, const gchar *to)
 {
 	g_assert (from);
 	g_assert (to);
 
-	if (link (from, to) == 0) {
+	if (rename (from, to) == 0) {
 		return TRUE;
 	} else {
-		CAMEL_LOG_WARNING ("ERROR: link (%s, %s);\n", from, to);
+		CAMEL_LOG_WARNING ("ERROR: rename (%s, %s);\n", from, to);
 		CAMEL_LOG_FULL_DEBUG ("  Full error text is: (%d) %s\n",
 				      errno, strerror(errno));
 		return FALSE;

@@ -91,7 +91,6 @@ _init (CamelStore *store, CamelSession *session, const gchar *url_name)
 {
 	CamelMaildirStore *maildir_store = CAMEL_MAILDIR_STORE (store);
 	Gurl *store_url;
-	
 	g_assert (url_name);
 
 	/* call parent implementation */
@@ -114,13 +113,12 @@ _get_folder (CamelStore *store, const gchar *folder_name)
 	CamelMaildirStore *maildir_store = CAMEL_MAILDIR_STORE (store);
 	CamelMaildirFolder *new_maildir_folder;
 	CamelFolder *new_folder;
-	gchar *maildir = g_strconcat (maildir_store->toplevel_dir, G_DIR_SEPARATOR_S, folder_name, NULL);
 
 	new_maildir_folder = gtk_type_new (CAMEL_MAILDIR_FOLDER_TYPE);
 	new_folder = CAMEL_FOLDER (new_maildir_folder);
 
 	CF_CLASS (new_folder)->init_with_store (new_folder, store);
-	CF_CLASS (new_folder)->set_name (new_folder, maildir);
+	CF_CLASS (new_folder)->set_name (new_folder, folder_name);
 	
 	return new_folder;
 }

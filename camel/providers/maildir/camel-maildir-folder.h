@@ -50,7 +50,7 @@ typedef struct {
 	CamelFolderClass parent_class;
 
 	/* Virtual methods */	
-	
+
 } CamelMaildirFolderClass;
 
 
