@@ -1,3 +1,8 @@
+2001-09-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Only check for OpenSSL if we were not able to find
+	Mozilla's NSS libraries.
+
 2001-09-04  Peter Williams  <peterw@ximian.com>
 
 	* omf-install/Makefile.am (install-data-local): Don't put

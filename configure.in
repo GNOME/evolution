@@ -755,14 +755,14 @@ AC_SUBST(KRB4_CFLAGS)
 AC_SUBST(KRB4_LDFLAGS)
 
 
-dnl ===============================================================================
-dnl = security extension support (SSL and S/MIME)
-dnl =
-dnl = The following voodoo does detection of mozilla libraries (nspr and nss) 
-dnl = needed by Camel (SSL) and Evolution (S/MIME).
-dnl =
-dnl = The Evolution security extensions are only built if these libraries are found
-dnl ===============================================================================
+dnl ********************************************************************************
+dnl security extension support (SSL and S/MIME)
+dnl
+dnl The following voodoo does detection of mozilla libraries (nspr and nss) 
+dnl needed by Camel (SSL and S/MIME).
+dnl
+dnl The Evolution security extensions are only built if these libraries are found
+dnl ********************************************************************************
 AC_ARG_WITH(nspr-includes, [  --with-nspr-includes=PREFIX     Location of Mozilla nspr4 includes.],
 	with_nspr_includes="$withval", with_nspr_includes="/usr/include/mozilla")
 have_nspr_includes="no"
@@ -883,69 +883,71 @@ AC_SUBST(NSPR_LDFLAGS)
 AC_SUBST(NSS_CFLAGS)
 AC_SUBST(NSS_LDFLAGS)
 
-dnl ====================================
-dnl = End mozilla hacks
-dnl ====================================
-
 dnl ******************************
 dnl OpenSSL
 dnl ******************************
 
-AC_ARG_WITH(openssl-includes, [  --with-openssl-includes=PREFIX     Location of OpenSSL includes.],
-	with_openssl_includes="$withval", with_openssl_includes="/usr/include")
-have_openssl_includes="no"
-if test "x${with_openssl_includes}" != "xno"; then
-	CPPFLAGS_save="$CPPFLAGS"
-	
-	AC_MSG_CHECKING(for OpenSSL includes)
-	AC_MSG_RESULT("")
-	
-	CPPFLAGS="$CPPFLAGS -I$with_openssl_includes"
-	AC_CHECK_HEADERS(openssl/ssl.h openssl/x509.h, [ openssl_includes="yes" ])
-	CPPFLAGS="$CPPFLAGS_save"
-	
-	if test "x{$openssl_includes}" != "xno" -a "x{$openssl_includes}" != "x"; then
-		have_openssl_includes="yes"
-		OPENSSL_CFLAGS="-I$with_openssl_includes"
+if test "x${msg_nss}" != "xyes"; then
+	AC_ARG_WITH(openssl-includes, [  --with-openssl-includes=PREFIX     Location of OpenSSL includes.],
+		with_openssl_includes="$withval", with_openssl_includes="/usr/include")
+	have_openssl_includes="no"
+	if test "x${with_openssl_includes}" != "xno"; then
+		CPPFLAGS_save="$CPPFLAGS"
+		
+		AC_MSG_CHECKING(for OpenSSL includes)
+		AC_MSG_RESULT("")
+		
+		CPPFLAGS="$CPPFLAGS -I$with_openssl_includes"
+		AC_CHECK_HEADERS(openssl/ssl.h openssl/x509.h, [ openssl_includes="yes" ])
+		CPPFLAGS="$CPPFLAGS_save"
+		
+		if test "x{$openssl_includes}" != "xno" -a "x{$openssl_includes}" != "x"; then
+			have_openssl_includes="yes"
+			OPENSSL_CFLAGS="-I$with_openssl_includes"
+		else
+			OPENSSL_CFLAGS=""
+		fi
 	else
-		OPENSSL_CFLAGS=""
+		AC_MSG_CHECKING(for OpenSSL includes)
+		AC_MSG_RESULT(no)
+	fi
+	
+	AC_ARG_WITH(openssl-libs, [  --with-openssl-libs=PREFIX     	Location of OpenSSL libs.],
+		with_openssl_libs="$withval")
+	msg_openssl="no"
+	if test "x${with_openssl_libs}" != "xno" -a "x${have_openssl_includes}" != "xno"; then
+		LDFLAGS_save="$LDFLAGS"
+	
+		case $with_openssl_libs in
+		""|-L*) ;;
+		*) $with_openssl_libs="-L$with_openssl_libs" ;;
+		esac
+	
+		AC_CHECK_LIB(dl, dlopen, DL_LDFLAGS="-ldl", DL_LDFLAGS="")
+		AC_CACHE_CHECK([for OpenSSL libraries], openssl_libs,
+		[
+			LDFLAGS="$LDFLAGS $with_openssl_libs -lssl -lcrypto $DL_LDFLAGS"
+			AC_TRY_LINK_FUNC(SSL_read, openssl_libs="yes", openssl_libs="no")
+			LDFLAGS="$LDFLAGS_save"
+		])
+		if test "x${openssl_libs}" != "xno"; then
+			AC_DEFINE(HAVE_OPENSSL)
+			msg_openssl="yes"
+			OPENSSL_LDFLAGS="$with_openssl_libs -lssl -lcrypto $DL_LDFLAGS"
+		else
+			OPENSSL_CFLAGS=""
+			OPENSSL_LDFLAGS=""
+		fi
+	else
+		AC_MSG_CHECKING(for OpenSSL libraries)
+		AC_MSG_RESULT(no)
 	fi
 else
-	AC_MSG_CHECKING(for OpenSSL includes)
-	AC_MSG_RESULT(no)
+	OPENSSL_CFLAGS=""
+	OPENSSL_LDFLAGS=""
+	msg_openssl="no"
 fi
-
-AC_ARG_WITH(openssl-libs, [  --with-openssl-libs=PREFIX     	Location of OpenSSL libs.],
-	with_openssl_libs="$withval")
-msg_openssl="no"
-if test "x${with_openssl_libs}" != "xno" -a "x${have_openssl_includes}" != "xno"; then
-	LDFLAGS_save="$LDFLAGS"
-
-	case $with_openssl_libs in
-	""|-L*) ;;
-	*) $with_openssl_libs="-L$with_openssl_libs" ;;
-	esac
-
-	AC_CHECK_LIB(dl, dlopen, DL_LDFLAGS="-ldl", DL_LDFLAGS="")
-	AC_CACHE_CHECK([for OpenSSL libraries], openssl_libs,
-	[
-		LDFLAGS="$LDFLAGS $with_openssl_libs -lssl -lcrypto $DL_LDFLAGS"
-		AC_TRY_LINK_FUNC(SSL_read, openssl_libs="yes", openssl_libs="no")
-		LDFLAGS="$LDFLAGS_save"
-	])
-	if test "x${openssl_libs}" != "xno"; then
-		AC_DEFINE(HAVE_OPENSSL)
-		msg_openssl="yes"
-		OPENSSL_LDFLAGS="$with_openssl_libs -lssl -lcrypto $DL_LDFLAGS"
-	else
-		OPENSSL_CFLAGS=""
-		OPENSSL_LDFLAGS=""
-	fi
-else
-	AC_MSG_CHECKING(for OpenSSL libraries)
-	AC_MSG_RESULT(no)
-fi
-
+	
 AC_SUBST(OPENSSL_CFLAGS)
 AC_SUBST(OPENSSL_LDFLAGS)
 
