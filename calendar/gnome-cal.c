@@ -14,8 +14,8 @@
 #include "gnome-cal.h"
 #include "gncal-day-panel.h"
 #include "gncal-week-view.h"
-#include "gncal-year-view.h"
 #include "month-view.h"
+#include "year-view.h"
 #include "timeutil.h"
 #include "main.h"
 
@@ -52,7 +52,7 @@ setup_widgets (GnomeCalendar *gcal)
 	gcal->day_view   = gncal_day_panel_new (gcal, now);
 	gcal->week_view  = gncal_week_view_new (gcal, now);
 	gcal->month_view = month_view_new (gcal, now);
-	gcal->year_view  = gncal_year_view_new (gcal, now);
+	gcal->year_view  = year_view_new (gcal, now);
 
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view,   gtk_label_new (_("Day View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->week_view,  gtk_label_new (_("Week View")));
@@ -104,7 +104,7 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 	else if (current == gcal->month_view)
 		month_view_set (MONTH_VIEW (gcal->month_view), new_time);
 	else if (current == gcal->year_view)
-		gncal_year_view_set (GNCAL_YEAR_VIEW (gcal->year_view), new_time);
+		year_view_set (YEAR_VIEW (gcal->year_view), new_time);
 	else {
 		g_warning ("My penguin is gone!");
 		g_assert_not_reached ();
@@ -205,7 +205,7 @@ gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
 	gncal_day_panel_update (GNCAL_DAY_PANEL (cal->day_view), object, flags);
 	gncal_week_view_update (GNCAL_WEEK_VIEW (cal->week_view), object, flags);
 	month_view_update (MONTH_VIEW (cal->month_view), object, flags);
-	gncal_year_view_update (GNCAL_YEAR_VIEW (cal->year_view), object, flags);
+	year_view_update (YEAR_VIEW (cal->year_view), object, flags);
 }
 
 int
@@ -438,5 +438,5 @@ gnome_calendar_time_format_changed (GnomeCalendar *gcal)
 	gtk_widget_queue_resize (gcal->day_view);
 	gtk_widget_queue_resize (gcal->week_view);
 	month_view_time_format_changed (MONTH_VIEW (gcal->month_view));
-	gtk_widget_queue_resize (gcal->year_view);
+	year_view_time_format_changed (YEAR_VIEW (gcal->year_view));
 }

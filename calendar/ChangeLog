@@ -1,3 +1,17 @@
+1998-08-26  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* year-view.c: Beginning of the new year view.  Sizing and event
+	marking needs to be finished.
+
+	* gnome-cal.c: Updated for year-view.
+	(gnome_calendar_time_format_changed): Use year_view_time_format_changed().
+
+	* year-view.[ch]: Renamed the gncal-year-view.[ch] files to
+	year-view.[ch].
+
+	* Makefile.am (gnomecal_SOURCES): Updated year-view.[ch] in the
+	list of source files.
+
 1998-08-25  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* goto.c (create_days): Set the heading color of the month item.

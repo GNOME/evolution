@@ -31,8 +31,6 @@ gnomecal_SOURCES = \
 	gncal-week-view.h	\
 	gncal-todo.c		\
 	gncal-todo.h		\
-	gncal-year-view.c	\
-	gncal-year-view.h	\
 	gnome-month-item.c	\
 	gnome-month-item.h	\
 	gnome-cal.c		\
@@ -48,7 +46,9 @@ gnomecal_SOURCES = \
 	timeutil.c		\
 	timeutil.h		\
 	view-utils.h		\
-	view-utils.c
+	view-utils.c		\
+	year-view.c		\
+	year-view.h
 
 LINK_FLAGS = \
 	$(GNOME_LIBDIR) \

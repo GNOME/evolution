@@ -93,12 +93,12 @@ month_view_new (GnomeCalendar *calendar, time_t month)
 	MonthView *mv;
 
 	g_return_val_if_fail (calendar != NULL, NULL);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (calendar), NULL);
 
 	mv = gtk_type_new (month_view_get_type ());
 	mv->calendar = calendar;
 
 	month_view_set (mv, month);
-
 	return GTK_WIDGET (mv);
 }
 
@@ -106,7 +106,7 @@ static void
 month_view_size_request (GtkWidget *widget, GtkRequisition *requisition)
 {
 	g_return_if_fail (widget != NULL);
-	g_return_if_fail (GTK_IS_WIDGET (widget));
+	g_return_if_fail (IS_MONTH_VIEW (widget));
 	g_return_if_fail (requisition != NULL);
 
 	if (GTK_WIDGET_CLASS (parent_class)->size_request)
@@ -125,7 +125,7 @@ month_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	int y;
 
 	g_return_if_fail (widget != NULL);
-	g_return_if_fail (GTK_IS_WIDGET (widget));
+	g_return_if_fail (IS_MONTH_VIEW (widget));
 	g_return_if_fail (allocation != NULL);
 
 	mv = MONTH_VIEW (widget);
