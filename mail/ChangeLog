@@ -1,3 +1,10 @@
+2000-10-23  Christopher James Lahey  <clahey@helixcode.com>
+
+	* folder-browser.c: Made the top of the folder browser a little
+	prettier.
+
+	* mail-display.c, mail-vfolder.c: Made more dialogs resizable.
+
 2000-10-23  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-autofilter.c (filter_gui_add_from_message): Don't forget to

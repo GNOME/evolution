@@ -462,6 +462,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 {
 	GtkWidget *hbox, *label;
 	GtkButton *button, *searchbutton;
+	GtkWidget *search_alignment, *save_alignment;
 
 	/*
 	 * The panned container
@@ -482,6 +483,8 @@ folder_browser_gui_init (FolderBrowser *fb)
 	fb->search_entry = gtk_entry_new();
 	gtk_widget_show(fb->search_entry);
 	gtk_signal_connect(GTK_OBJECT (fb->search_entry), "activate", search_activate, fb);
+	search_alignment = gtk_alignment_new(.5, .5, 0, 0);
+	gtk_widget_show(search_alignment);
 	searchbutton = (GtkButton *)gtk_button_new_with_label(_("Full Search"));
 	gtk_widget_show((GtkWidget *)searchbutton);
 	label = gtk_label_new(_("Search"));
@@ -489,13 +492,17 @@ folder_browser_gui_init (FolderBrowser *fb)
 	fb->search_menu = create_option_menu(search_options, 0, fb);
 	button = (GtkButton *)gtk_button_new_with_label(_("Save"));
 	gtk_widget_show((GtkWidget *)button);
+	save_alignment = gtk_alignment_new(.5, .5, 0, 0);
+	gtk_widget_show(save_alignment);
 	gtk_signal_connect((GtkObject *)button, "clicked", search_save, fb);
 	gtk_signal_connect((GtkObject *)searchbutton, "clicked", search_full, fb);
-	gtk_box_pack_end((GtkBox *)hbox, (GtkWidget *)button, FALSE, FALSE, 3);
+	gtk_container_add(GTK_CONTAINER(save_alignment), GTK_WIDGET(button));
+	gtk_box_pack_end((GtkBox *)hbox, save_alignment, FALSE, FALSE, 3);
 	gtk_box_pack_end((GtkBox *)hbox, fb->search_entry, FALSE, FALSE, 3);
 	gtk_box_pack_end((GtkBox *)hbox, fb->search_menu, FALSE, FALSE, 3);
 	gtk_box_pack_end((GtkBox *)hbox, label, FALSE, FALSE, 3);
-	gtk_box_pack_end((GtkBox *)hbox, (GtkWidget *)searchbutton, FALSE, FALSE, 3);
+	gtk_container_add(GTK_CONTAINER(search_alignment), GTK_WIDGET(searchbutton));
+	gtk_box_pack_end((GtkBox *)hbox, search_alignment, FALSE, FALSE, 3);
 	gtk_table_attach (
 		GTK_TABLE (fb), hbox,
 		0, 1, 0, 1,
