@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-05 15:44+0100\n"
-"PO-Revision-Date: 2005-02-05 15:56+0100\n"
+"POT-Creation-Date: 2005-02-07 22:33+0100\n"
+"PO-Revision-Date: 2005-02-07 22:36+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -483,7 +483,9 @@ msgstr "Su servidor necesita actualizarse"
 #. addressbook:server-version secondary
 #: ../addressbook/addressbook-errors.xml.h:68
 msgid "Some features may not work correctly with your current server version"
-msgstr "Algunas características puede que no funcionen correctamente con la versión actual de su servidor"
+msgstr ""
+"Algunas características puede que no funcionen correctamente con la versión "
+"actual de su servidor"
 
 #: ../addressbook/conduit/address-conduit.c:298
 msgid "Default Sync Address:"
@@ -4113,7 +4115,9 @@ msgstr "La lista de tareas no está marcada para usarse sin conexión"
 #. calendar:server-version secondary
 #: ../calendar/calendar-errors.xml.h:146
 msgid " Some features may not work correctly with your current server version"
-msgstr "Algunas características quizá no funcionen correctamente con su versión actual del servidor"
+msgstr ""
+"Algunas características quizá no funcionen correctamente con su versión "
+"actual del servidor"
 
 #: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:301
 #: ../smime/gui/component.c:48
@@ -6152,7 +6156,7 @@ msgstr "Fecha de vencimiento:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:102
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:129
 #: ../plugins/itip-formatter/itip-view.c:884
 msgid "Status:"
 msgstr "Estado:"
@@ -14012,8 +14016,30 @@ msgstr "Marcar como carpeta predeterminada"
 msgid "Mark as default folder"
 msgstr "Marcar como carpeta predeterminada"
 
+#. i18n: "Secure Password Authentication" is an Outlookism
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:53
+msgid "Secure Password"
+msgstr "Contraseña segura"
+
+#. i18n: "NTLM" probably doesn't translate
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:56
+msgid ""
+"This option will connect to the Exchange server using secure password (NTLM) "
+"authentication."
+msgstr "Esta opción conectará con el servidor Exchange usando autenticación con contraseña segura (NTLM)."
+
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:64
+msgid "Plaintext Password"
+msgstr "Contraseña en texto simple"
+
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:66
+msgid ""
+"This option will connect to the Exchange server using standard plaintext "
+"password authentication."
+msgstr "Esta opción conectará con el servidor Exchange usando autenticación con  contraseña estándar de texto simple."
+
 #. Description section
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:86
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:113
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14021,31 +14047,39 @@ msgstr ""
 "El mensaje especificado abajo se enviará automáticamente a cada\n"
 " persona que le envíe correo mientras está fuera de la oficina."
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:113
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:140
 msgid "I am in the office"
 msgstr "Ahora estoy en la oficina"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:127
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:154
 msgid "I am out of the office"
 msgstr "Ahora estoy fuera de la oficina"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:141
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:168
 msgid "Out of office Message:"
 msgstr "Mensaje de ausencia de la oficina:"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:167
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:194
 msgid "Exchange Settings"
 msgstr "Configuración de Exchange"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:305
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:332
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:200
 msgid "_OWA Url:"
 msgstr "Url _OWA:"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:313
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:340
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:193
 msgid "A_uthenticate"
 msgstr "A_utenticación"
+
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:457
+msgid "Authentication Type"
+msgstr "Tipo de autenticación"
+
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:471
+msgid "Ch_eck for Supported Types"
+msgstr "_Comprobar tipos soportados "
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
@@ -18727,11 +18761,6 @@ msgstr "%s (%d%% completado)"
 #~ msgstr "Kerberos 4"
 
 #~ msgid ""
-#~ "This option will connect to the server using Kerberos 4 authentication."
-#~ msgstr ""
-#~ "Esta opción conectará con el servidor usando autenticación Kerberos 4."
-
-#~ msgid ""
 #~ "Could not get Kerberos ticket:\n"
 #~ "%s"
 #~ msgstr ""
@@ -19218,12 +19247,6 @@ msgstr "%s (%d%% completado)"
 
 #~ msgid "Password"
 #~ msgstr "Contraseña"
-
-#~ msgid ""
-#~ "This option will connect to the IMAP server using a plaintext password."
-#~ msgstr ""
-#~ "Esta opción conectará con el servidor IMAP usando una contraseña de texto "
-#~ "plano."
 
 #~ msgid "Operation cancelled"
 #~ msgstr "Operación cancelada"
@@ -21986,9 +22009,6 @@ msgstr "%s (%d%% completado)"
 
 #~ msgid "Server Configuration"
 #~ msgstr "Configuración del servidor"
-
-#~ msgid "_Authentication Type: "
-#~ msgstr "Tipo de _autenticación: "
 
 #~ msgid "_Authentication type: "
 #~ msgstr "Tipo de _autenticación: "
