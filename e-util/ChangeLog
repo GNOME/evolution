@@ -1,3 +1,8 @@
+2001-08-28  Not Zed  <NotZed@Ximian.com>
+
+	* e-categories-master-list-wombat.c (ecmlw_load): Dont call
+	g_print with a NULL string.  See bug #7396.
+
 2001-08-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-mktemp.c (get_path): Make more robust.

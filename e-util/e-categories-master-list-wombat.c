@@ -51,7 +51,7 @@ ecmlw_load (ECategoriesMasterListWombat *ecmlw)
 							    string);
 	}
 
-	g_print ("load: %s\n", string);
+	g_print ("load: %s\n", string?string:"(nil)");
 
 	g_free (string);
 }
