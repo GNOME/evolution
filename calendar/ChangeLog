@@ -1,3 +1,8 @@
+2005-01-09  JP Rosevear  <jpr@novell.com>
+
+	* gui/calendar-component.c (impl_handleURI): handle calendar://
+	uris
+
 2005-01-07  JP Rosevear  <jpr@novell.com>
 
 	* gui/dialogs/event-editor.c (event_editor_edit_comp): clear the

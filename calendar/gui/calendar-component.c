@@ -34,6 +34,7 @@
 #include <libecal/e-cal-time-util.h>
 #include <libedataserverui/e-source-selector.h>
 #include <shell/e-user-creatable-items-handler.h>
+#include <e-util/e-url.h>
 #include "e-pub-utils.h"
 #include "e-calendar-view.h"
 #include "calendar-config-keys.h"
@@ -617,9 +618,71 @@ conf_changed_callback (GConfClient *client,
 	e_pub_publish (TRUE);
 }
 
-
-
 /* Evolution::Component CORBA methods.  */
+static void
+impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environment *ev)
+{
+	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
+	CalendarComponentPrivate *priv;
+
+	priv = calendar_component->priv;
+
+	if (!strncmp (uri, "calendar:", 9)) {
+		EUri *euri = e_uri_new (uri);
+		const char *p;
+		char *header, *content;
+		size_t len, clen;
+		time_t start = -1, end = -1;
+
+		p = euri->query;
+		while (*p) {
+			len = strcspn (p, "=&");
+			
+			/* If it's malformed, give up. */
+			if (p[len] != '=')
+				break;
+			
+			header = (char *) p;
+			header[len] = '\0';
+			p += len + 1;
+			
+			clen = strcspn (p, "&");
+			
+			content = g_strndup (p, clen);
+
+			if (!g_ascii_strcasecmp (header, "startdate")) {
+				start = time_from_isodate (content);
+			} else if (!g_ascii_strcasecmp (header, "enddate")) {
+				end = time_from_isodate (content);
+			}
+			
+			g_free (content);
+			
+			p += clen;
+			if (*p == '&') {
+				p++;
+				if (!strcmp (p, "amp;"))
+					p += 4;
+			}
+		}		
+
+		if (start != -1) {
+			GList *l;
+			
+			if (end == -1)
+				end = start;				
+			
+			l = g_list_last (priv->views);
+			if (l) {
+				CalendarComponentView *view = l->data;
+				
+				gnome_calendar_set_selected_time_range (view->calendar, start, end);
+			}
+		}
+
+		e_uri_free (euri);
+	}
+}
 
 static void
 impl_upgradeFromVersion (PortableServer_Servant servant,
@@ -1378,6 +1441,7 @@ calendar_component_class_init (CalendarComponentClass *class)
 	epv->createControls          = impl_createControls;
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
+	epv->handleURI               = impl_handleURI;
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
