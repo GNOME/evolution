@@ -1,3 +1,10 @@
+2001-10-14  Jon Trowbridge  <trow@ximian.com>
+
+	* e-searching-tokenizer.c (e_searching_tokenizer_clone): Share
+	more state between the parent and its clones, so that our multiple
+	tokenizers don't get out of sync when we are rendering frames and
+	iframes. (Bug #11638)
+
 2001-10-13  Jon Trowbridge  <trow@ximian.com>
 
 	* e-searching-tokenizer.c (search_info_compare): Bad hacker!

@@ -76,17 +76,54 @@ struct _SearchInfo {
 	gboolean match_bold;
 };
 
-struct _ESearchingTokenizerPrivate {
-	gint match_count;
-	SearchInfo *search;
-	GList *pending;
-	GList *trash;
-
+typedef struct _SharedState SharedState;
+struct _SharedState {
+	gint refs;
 	gchar *str_primary;
 	gchar *str_secondary;
 	gboolean case_sensitive_primary;
 	gboolean case_sensitive_secondary;
 };
+
+struct _ESearchingTokenizerPrivate {
+	gint match_count;
+	SearchInfo *search;
+	GList *pending;
+	GList *trash;
+	SharedState *shared;
+};
+
+/** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
+
+static SharedState *
+shared_state_new (void)
+{
+	SharedState *shared = g_new0 (SharedState, 1);
+	shared->refs = 1;
+	return shared;
+}
+
+static void
+shared_state_ref (SharedState *shared)
+{
+	g_return_if_fail (shared != NULL);
+	g_return_if_fail (shared->refs > 0);
+	++shared->refs;
+}
+
+static void
+shared_state_unref (SharedState *shared)
+{
+	if (shared) {
+		g_return_if_fail (shared->refs > 0);
+		--shared->refs;
+		if (shared->refs == 0) {
+			g_free (shared->str_primary);
+			g_free (shared->str_secondary);
+			g_free (shared);
+		}
+	}
+}
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
@@ -428,9 +465,7 @@ e_searching_tokenizer_destroy (GtkObject *obj)
 	e_searching_tokenizer_cleanup (st);
 
 	search_info_free (st->priv->search);
-
-	g_free (st->priv->str_primary);
-	g_free (st->priv->str_secondary);
+	shared_state_unref (st->priv->shared);
 
 	g_free (st->priv);
 	st->priv = NULL;
@@ -472,6 +507,7 @@ static void
 e_searching_tokenizer_init (ESearchingTokenizer *st)
 {
 	st->priv = g_new0 (struct _ESearchingTokenizerPrivate, 1);
+	st->priv->shared = shared_state_new ();
 }
 
 GtkType
@@ -811,27 +847,29 @@ e_searching_tokenizer_begin (HTMLTokenizer *t, gchar *content_type)
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (t);
 	SearchInfo *si;
 
-	if (st->priv->search == NULL && (st->priv->str_primary || st->priv->str_secondary)) {
+	if (st->priv->search == NULL && st->priv->shared && (st->priv->shared->str_primary || st->priv->shared->str_secondary)) {
 		st->priv->search = search_info_new ();
 	}
 	si = st->priv->search;
 	
 
-	if (st->priv->str_primary) {
+	if (st->priv->shared) {
+		if (st->priv->shared->str_primary) {
 
-		search_info_set_string (si, st->priv->str_primary);
-		search_info_set_case_sensitivity (si, st->priv->case_sensitive_primary);
+			search_info_set_string (si, st->priv->shared->str_primary);
+			search_info_set_case_sensitivity (si, st->priv->shared->case_sensitive_primary);
 
-		search_info_set_match_color (si, "red");
-		search_info_set_match_bold (si, TRUE);
+			search_info_set_match_color (si, "red");
+			search_info_set_match_bold (si, TRUE);
 
-	} else if (st->priv->str_secondary) {
-
-		search_info_set_string (si, st->priv->str_secondary);
-		search_info_set_case_sensitivity (si, st->priv->case_sensitive_secondary);
-
-		search_info_set_match_color (si, "purple");
-		search_info_set_match_bold (si, TRUE);
+		} else if (st->priv->shared->str_secondary) {
+			
+			search_info_set_string (si, st->priv->shared->str_secondary);
+			search_info_set_case_sensitivity (si, st->priv->shared->case_sensitive_secondary);
+			
+			search_info_set_match_color (si, "purple");
+			search_info_set_match_bold (si, TRUE);
+		}
 
 	} else {
 		
@@ -907,6 +945,10 @@ e_searching_tokenizer_clone (HTMLTokenizer *tok)
 
 	new_st->priv->search = search_info_clone (orig_st->priv->search);
 
+	shared_state_ref (orig_st->priv->shared);
+	shared_state_unref (new_st->priv->shared);
+	new_st->priv->shared = orig_st->priv->shared;
+
 	gtk_signal_connect_object (GTK_OBJECT (new_st),
 				   "match",
 				   GTK_SIGNAL_FUNC (matched),
@@ -935,14 +977,14 @@ e_searching_tokenizer_set_primary_search_string (ESearchingTokenizer *st, const 
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
 
-	g_free (st->priv->str_primary);
-	st->priv->str_primary = NULL;
+	g_free (st->priv->shared->str_primary);
+	st->priv->shared->str_primary = NULL;
 
 	if (search_str != NULL
 	    && g_utf8_validate (search_str, -1, NULL)
 	    && !only_whitespace (search_str)) {
 
-		st->priv->str_primary = g_strdup (search_str);
+		st->priv->shared->str_primary = g_strdup (search_str);
 	}
 }
 
@@ -951,7 +993,7 @@ e_searching_tokenizer_set_primary_case_sensitivity (ESearchingTokenizer *st, gbo
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
 
-	st->priv->case_sensitive_primary = is_case_sensitive;
+	st->priv->shared->case_sensitive_primary = is_case_sensitive;
 }
 
 void
@@ -959,14 +1001,14 @@ e_searching_tokenizer_set_secondary_search_string (ESearchingTokenizer *st, cons
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
 
-	g_free (st->priv->str_secondary);
-	st->priv->str_secondary = NULL;
+	g_free (st->priv->shared->str_secondary);
+	st->priv->shared->str_secondary = NULL;
 
 	if (search_str != NULL
 	    && g_utf8_validate (search_str, -1, NULL)
 	    && !only_whitespace (search_str)) {
 		
-		st->priv->str_secondary = g_strdup (search_str);
+		st->priv->shared->str_secondary = g_strdup (search_str);
 	}
 }
 
@@ -975,7 +1017,7 @@ e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *st, g
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
 
-	st->priv->case_sensitive_secondary = is_case_sensitive;
+	st->priv->shared->case_sensitive_secondary = is_case_sensitive;
 }
 
 gint
