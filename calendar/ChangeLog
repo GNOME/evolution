@@ -1,3 +1,10 @@
+2003-02-20  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/apps_evolution_calendar.schemas: Add GConf schemas.
+
+	* gui/Makefile.am (EXTRA_DIST): Dist GConf schemas.
+	(install-data-local): Install GConf schemas.
+
 2003-02-20  Dan Winship  <danw@ximian.com>
 
 	* gui/Makefile.am (libevolution_calendar_la_LIBADD):

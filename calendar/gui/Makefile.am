@@ -207,19 +207,29 @@ server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 
+# GConf schemas
+
+schemadir   = $(GCONF_SCHEMA_FILE_DIR)
+schema_DATA = apps_evolution_calendar.schemas
+
 @INTLTOOL_SERVER_RULE@
 
 EXTRA_DIST =	 			\
 	$(glade_DATA)			\
+	$(schema_DATA)                  \
 	$(etspec_DATA)			\
 	$(server_in_files)
 
 BUILT_SOURCES = $(IDL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
-
 install-data-local:
-	$(mkinstalldirs) $(Conduitsdir)
+	$(mkinstalldirs) $(Conduitsdir); \
+	if test -z "$(DESTDIR)"; then \
+		for p in $(schema_DATA); do \
+			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$$p; \
+		done; \
+	fi
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
