@@ -141,6 +141,7 @@ eshellinclude_HEADERS = 			\
 
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
+	$(MARSHAL_GENERATED)			\
 	e-corba-storage.c			\
 	e-folder-dnd-bridge.c			\
 	e-folder-list.c				\
@@ -150,7 +151,6 @@ libeshell_la_SOURCES = 				\
 	e-folder.c				\
 	e-icon-factory.c			\
 	e-shell-corba-icon-utils.c		\
-	e-shell-marshal.c			\
 	e-shell-utils.c				\
 	e-storage-browser.c			\
 	e-storage-set-view.c			\

@@ -1,5 +1,9 @@
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
+	* Makefile.am: make sure the marshal header is in the sources too
+
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
 	* main.c: use e-d-s idl to check interface version
 
 	* Makefile.am: build e-d-s idl
