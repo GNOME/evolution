@@ -1,3 +1,8 @@
+2001-05-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-part.c (camel_mime_part_set_content_id): Wrap the
+	content-id with <>'s.
+
 2001-05-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/smtp/camel-smtp-transport.c (connect_to_server): Add

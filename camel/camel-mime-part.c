@@ -371,8 +371,17 @@ camel_mime_part_get_filename (CamelMimePart *mime_part)
 void
 camel_mime_part_set_content_id (CamelMimePart *mime_part, const char *contentid)
 {
-	camel_medium_set_header (CAMEL_MEDIUM (mime_part), "Content-ID",
-				 contentid);
+	char *cid, *id;
+	
+	if (contentid)
+		id = g_strstrip (g_strdup (contentid));
+	else
+		id = header_msgid_generate ();
+	
+	cid = g_strdup_printf ("<%s>", id);
+	g_free (id);
+	camel_medium_set_header (CAMEL_MEDIUM (mime_part), "Content-ID", cid);
+	g_free (cid);
 }
 
 const gchar *
