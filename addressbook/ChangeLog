@@ -1,5 +1,10 @@
 2000-04-26  Christopher James Lahey  <clahey@helixcode.com>
 
+	* contact-editor/e-contact-editor.c: Added proper handling of the
+	email field.
+
+2000-04-26  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-card-types.h, backend/ebook/e-card.c,
 	gui/minicard/e-minicard.c: Prefixed the ADDR_ flags.
 
