@@ -7,7 +7,7 @@
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-ui-handler.h>
 #include "camel/camel-folder.h"
-#include "e-table/e-table.h"
+#include "e-table/e-table-scrolled.h"
 #include "e-table/e-table-simple.h"
 #include "e-table/e-tree-simple.h"
 #include "e-table/e-cell-text.h"

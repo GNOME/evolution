@@ -56,10 +56,10 @@
 static BonoboObjectClass *message_list_parent_class;
 static POA_Evolution_MessageList__vepv evolution_message_list_vepv;
 
-static void on_cursor_change_cmd (ETable *table, int row, gpointer user_data);
-static void on_row_selection (ETable *table, int row, gboolean selected,
+static void on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data);
+static void on_row_selection (ETableScrolled *table, int row, gboolean selected,
 			      gpointer user_data);
-static void select_row (ETable *table, gpointer user_data);
+static void select_row (ETableScrolled *table, gpointer user_data);
 static void select_msg (MessageList *message_list, gint row);
 static char *filter_date (const void *data);
 
@@ -120,8 +120,8 @@ message_list_select_next (MessageList *message_list, int row,
 	while (row < e_table_model_row_count (message_list->table_model)) {
 		info = get_message_info (message_list, row);
 		if (info && (info->flags & mask) == flags) {
-			e_table_set_cursor_row (E_TABLE (message_list->etable),
-						row);
+			e_table_scrolled_set_cursor_row (E_TABLE_SCROLLED (message_list->etable),
+							 row);
 			return;
 		}
 		row++;
@@ -553,7 +553,7 @@ message_list_init (GtkObject *object)
 	 */
 
 	spec = message_list_get_layout (message_list);
-	message_list->etable = e_table_new (
+	message_list->etable = e_table_scrolled_new (
 		message_list->header_model, message_list->table_model, spec);
 	g_free (spec);
 
@@ -911,7 +911,7 @@ on_cursor_change_idle (gpointer data)
 }
 
 static void
-on_cursor_change_cmd (ETable *table, int row, gpointer user_data)
+on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data)
 {
 	MessageList *message_list;
 	const CamelMessageInfo *info;
@@ -927,7 +927,7 @@ on_cursor_change_cmd (ETable *table, int row, gpointer user_data)
 }
 
 static void
-on_row_selection (ETable *table, int row, gboolean selected,
+on_row_selection (ETableScrolled *table, int row, gboolean selected,
 		  gpointer user_data)
 {
 	MessageList *message_list = user_data;
@@ -943,12 +943,12 @@ on_row_selection (ETable *table, int row, gboolean selected,
 static gint
 idle_select_row (gpointer user_data)
 {
-	e_table_set_cursor_row (user_data, 0);
+	e_table_scrolled_set_cursor_row (user_data, 0);
 	return FALSE;
 }
 
 static void
-select_row (ETable *table, gpointer user_data)
+select_row (ETableScrolled *table, gpointer user_data)
 {
 	MessageList *message_list = user_data;
 
@@ -986,8 +986,8 @@ message_list_foreach (MessageList *message_list,
 	mlfe_data.message_list = message_list;
 	mlfe_data.callback = callback;
 	mlfe_data.user_data = user_data;
-	e_table_selected_row_foreach (E_TABLE (message_list->etable),
-				      mlfe_callback, &mlfe_data);
+	e_table_scrolled_selected_row_foreach (E_TABLE_SCROLLED (message_list->etable),
+					       mlfe_callback, &mlfe_data);
 }
 
 gboolean threaded_view = TRUE;
