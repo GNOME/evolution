@@ -2162,7 +2162,7 @@ simple_recur_to_comp_object (EventEditor *ee, CalComponent *comp)
 
 		r.until = icaltime_from_timet (
 			e_date_edit_get_time (E_DATE_EDIT (priv->recurrence_ending_date_edit)),
-			TRUE, TRUE);
+			TRUE);
 		break;
 
 	case ENDING_FOREVER:
@@ -2231,7 +2231,7 @@ recur_to_comp_object (EventEditor *ee, CalComponent *comp)
 		cdt->tzid = NULL;
 
 		tim = gtk_clist_get_row_data (exception_list, i);
-		*cdt->value = icaltime_from_timet (*tim, FALSE, TRUE);
+		*cdt->value = icaltime_from_timet (*tim, FALSE);
 
 		list = g_slist_prepend (list, cdt);
 	}
@@ -2296,7 +2296,7 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 
 	t = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
 	if (t != -1) {
-		*date.value = icaltime_from_timet (t, FALSE, TRUE);
+		*date.value = icaltime_from_timet (t, FALSE);
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		/* FIXME: What do we do here? */
@@ -2310,7 +2310,7 @@ dialog_to_comp_object (EventEditor *ee, CalComponent *comp)
 		if (all_day_event)
 			t = time_day_end (t);
 
-		*date.value = icaltime_from_timet (t, FALSE, TRUE);
+		*date.value = icaltime_from_timet (t, FALSE);
 		cal_component_set_dtend (comp, &date);
 	} else {
 		/* FIXME: What do we do here? */

@@ -3088,10 +3088,10 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	date.value = &itt;
 	date.tzid = NULL;
 
-	*date.value = icaltime_from_timet (dtstart, FALSE, TRUE);
+	*date.value = icaltime_from_timet (dtstart, FALSE);
 	cal_component_set_dtstart (comp, &date);
 
-	*date.value = icaltime_from_timet (dtend, FALSE, TRUE);
+	*date.value = icaltime_from_timet (dtend, FALSE);
 	cal_component_set_dtend (comp, &date);
 
 	cal_component_commit_sequence (comp);
@@ -3140,7 +3140,7 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	/* We must duplicate the CalComponent, or we won't know it has changed
 	   when we get the "update_event" callback. */
 	comp = cal_component_clone (event->comp);
-	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, FALSE, TRUE));
+	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, FALSE));
 
 	if (!cal_client_update_object (day_view->client, comp))
 		g_message ("e_day_view_on_delete_occurrence(): Could not update the object!");
@@ -3199,7 +3199,7 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	   instance. */
 
 	comp = cal_component_clone (event->comp);
-	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, FALSE, TRUE));
+	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, FALSE));
 
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
@@ -3214,9 +3214,9 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	date.value = &itt;
 	date.tzid = NULL;
 
-	*date.value = icaltime_from_timet (event->start, FALSE, TRUE);
+	*date.value = icaltime_from_timet (event->start, FALSE);
 	cal_component_set_dtstart (new_comp, &date);
-	*date.value = icaltime_from_timet (event->end, FALSE, TRUE);
+	*date.value = icaltime_from_timet (event->end, FALSE);
 	cal_component_set_dtend (new_comp, &date);
 
 	/* Now update both CalComponents. Note that we do this last since at
@@ -3742,11 +3742,11 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 
 	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_LEFT_EDGE) {
 		dt = day_view->day_starts[day_view->resize_start_row];
-		*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+		*date.value = icaltime_from_timet (dt, FALSE);
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		dt = day_view->day_starts[day_view->resize_end_row + 1];
-		*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+		*date.value = icaltime_from_timet (dt, FALSE);
 		cal_component_set_dtend (comp, &date);
 	}
 
@@ -3788,11 +3788,11 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_TOP_EDGE) {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_start_row);
-		*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+		*date.value = icaltime_from_timet (dt, FALSE);
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_end_row + 1);
-		*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+		*date.value = icaltime_from_timet (dt, FALSE);
 		cal_component_set_dtend (comp, &date);
 	}
 
@@ -4852,10 +4852,10 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	dt.value = &itt;
 	dt.tzid = NULL;
 
-	*dt.value = icaltime_from_timet (dtstart, FALSE, TRUE);
+	*dt.value = icaltime_from_timet (dtstart, FALSE);
 	cal_component_set_dtstart (comp, &dt);
 
-	*dt.value = icaltime_from_timet (dtend, FALSE, TRUE);
+	*dt.value = icaltime_from_timet (dtend, FALSE);
 	cal_component_set_dtend (comp, &dt);
 
 	/* We add the event locally and start editing it. When we get the
@@ -6366,13 +6366,13 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			date.tzid = NULL;
 
 			dt = day_view->day_starts[day] + start_offset * 60;
-			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+			*date.value = icaltime_from_timet (dt, FALSE);
 			cal_component_set_dtstart (comp, &date);
 			if (end_offset == -1 || end_offset == 0)
 				dt = day_view->day_starts[day + num_days];
 			else
 				dt = day_view->day_starts[day + num_days - 1] + end_offset * 60;
-			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+			*date.value = icaltime_from_timet (dt, FALSE);
 			cal_component_set_dtend (comp, &date);
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
@@ -6470,10 +6470,10 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			date.tzid = NULL;
 
 			dt = e_day_view_convert_grid_position_to_time (day_view, day, row) + start_offset * 60;
-			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+			*date.value = icaltime_from_timet (dt, FALSE);
 			cal_component_set_dtstart (comp, &date);
 			dt = e_day_view_convert_grid_position_to_time (day_view, day, row + num_rows) - end_offset * 60;
-			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+			*date.value = icaltime_from_timet (dt, FALSE);
 			cal_component_set_dtend (comp, &date);
 
 			gtk_drag_finish (context, TRUE, TRUE, time);

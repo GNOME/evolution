@@ -957,7 +957,7 @@ dialog_to_comp_object (TaskEditor *tedit)
 	/* Due Date. */
 	t = e_date_edit_get_time (E_DATE_EDIT (priv->due_date));
 	if (t != -1) {
-		*date.value = icaltime_from_timet (t, FALSE, TRUE);
+		*date.value = icaltime_from_timet (t, FALSE);
 		cal_component_set_due (comp, &date);
 	} else {
 		cal_component_set_due (comp, NULL);
@@ -966,7 +966,7 @@ dialog_to_comp_object (TaskEditor *tedit)
 	/* Start Date. */
 	t = e_date_edit_get_time (E_DATE_EDIT (priv->start_date));
 	if (t != -1) {
-		*date.value = icaltime_from_timet (t, FALSE, TRUE);
+		*date.value = icaltime_from_timet (t, FALSE);
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		cal_component_set_dtstart (comp, NULL);
@@ -975,7 +975,7 @@ dialog_to_comp_object (TaskEditor *tedit)
 	/* Completed Date. */
 	t = e_date_edit_get_time (E_DATE_EDIT (priv->completed_date));
 	if (t != -1) {
-		*date.value = icaltime_from_timet (t, FALSE, TRUE);
+		*date.value = icaltime_from_timet (t, FALSE);
 		cal_component_set_completed (comp, date.value);
 	} else {
 		cal_component_set_completed (comp, NULL);

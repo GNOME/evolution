@@ -3733,7 +3733,7 @@ cal_recur_set_rule_end_date	(icalproperty	*prop,
 	struct icaltimetype icaltime;
 	const char *end_date_string, *xname;
 
-	icaltime = icaltime_from_timet (end_date, FALSE, TRUE);
+	icaltime = icaltime_from_timet (end_date, FALSE);
 	value = icalvalue_new_datetime (icaltime);
 	end_date_string = icalvalue_as_ical_string (value);
 	icalvalue_free (value);

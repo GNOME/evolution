@@ -1004,7 +1004,7 @@ set_datetime (CalendarModel *model, CalComponent *comp, const char *value,
 		CalComponentDateTime dt;
 		struct icaltimetype itt;
 
-		itt = icaltime_from_timet (t, FALSE, TRUE);
+		itt = icaltime_from_timet (t, FALSE);
 		dt.value = &itt;
 		dt.tzid = NULL;
 
@@ -2001,7 +2001,7 @@ ensure_task_complete (CalComponent *comp,
 	}
 
 	if (set_completed) {
-		new_completed = icaltime_from_timet (completed_date, FALSE, TRUE);
+		new_completed = icaltime_from_timet (completed_date, FALSE);
 		cal_component_set_completed (comp, &new_completed);
 	}
 

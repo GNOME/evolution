@@ -418,7 +418,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 {
 	CalComponent *comp;
 	struct ToDo todo;
-	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, TRUE);
+	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE);
 	CalComponentText summary = {NULL, NULL};
 	CalComponentDateTime dt = {NULL, NULL};
 	struct icaltimetype due;
@@ -466,7 +466,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	}
 
 	if (!is_empty_time (todo.due)) {
-		due = icaltime_from_timet (mktime (&todo.due), FALSE, TRUE);
+		due = icaltime_from_timet (mktime (&todo.due), FALSE);
 		dt.value = &due;
 		cal_component_set_due (comp, &dt);
 	}

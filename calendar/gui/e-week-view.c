@@ -3170,9 +3170,9 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	date.value = &itt;
 	date.tzid = NULL;
 
-	*date.value = icaltime_from_timet (dtstart, FALSE, TRUE);
+	*date.value = icaltime_from_timet (dtstart, FALSE);
 	cal_component_set_dtstart (comp, &date);
-	*date.value = icaltime_from_timet (dtend, FALSE, TRUE);
+	*date.value = icaltime_from_timet (dtend, FALSE);
 	cal_component_set_dtend (comp, &date);
 
 	/* We add the event locally and start editing it. We don't send the
@@ -3286,11 +3286,11 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	date.tzid = NULL;
 
 	dt = week_view->day_starts[week_view->selection_start_day];
-	*date.value = icaltime_from_timet (dt, TRUE, TRUE);
+	*date.value = icaltime_from_timet (dt, TRUE);
 	cal_component_set_dtstart (comp, &date);
 
 	dt = week_view->day_starts[week_view->selection_end_day + 1];
-	*date.value = icaltime_from_timet (dt, TRUE, TRUE);
+	*date.value = icaltime_from_timet (dt, TRUE);
 	cal_component_set_dtend (comp, &date);
 
 	cal_component_commit_sequence (comp);
@@ -3344,7 +3344,7 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	   when we get the "update_event" callback. */
 
 	comp = cal_component_clone (event->comp);
-	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, TRUE, TRUE));
+	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, TRUE));
 
 	if (!cal_client_update_object (week_view->client, comp))
 		g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
@@ -3400,7 +3400,7 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	/* For the recurring object, we add a exception to get rid of the
 	   instance. */
 	comp = cal_component_clone (event->comp);
-	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, TRUE, TRUE));
+	cal_comp_util_add_exdate (comp, icaltime_from_timet (event->start, TRUE));
 
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
@@ -3415,9 +3415,9 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	date.value = &itt;
 	date.tzid = NULL;
 
-	*date.value = icaltime_from_timet (event->start, TRUE, TRUE);
+	*date.value = icaltime_from_timet (event->start, TRUE);
 	cal_component_set_dtstart (new_comp, &date);
-	*date.value = icaltime_from_timet (event->end, TRUE, TRUE);
+	*date.value = icaltime_from_timet (event->end, TRUE);
 	cal_component_set_dtend (new_comp, &date);
 
 	/* Now update both CalComponents. Note that we do this last since at

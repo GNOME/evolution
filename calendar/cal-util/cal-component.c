@@ -795,7 +795,7 @@ ensure_mandatory_properties (CalComponent *comp)
 		struct icaltimetype t;
 
 		tim = time (NULL);
-		t = icaltime_from_timet (tim, FALSE, TRUE);
+		t = icaltime_from_timet (tim, FALSE);
 
 		priv->dtstamp = icalproperty_new_dtstamp (t);
 		icalcomponent_add_property (priv->icalcomp, priv->dtstamp);
@@ -3807,7 +3807,7 @@ void
 cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalAlarmTrigger *trigger)
 {
 	icalparameter *param;
-	union icaltriggertype t;
+	struct icaltriggertype t;
 	gboolean relative;
 
 	g_return_if_fail (alarm != NULL);
@@ -3890,7 +3890,7 @@ cal_component_alarm_get_trigger (CalComponentAlarm *alarm, CalAlarmTrigger *trig
 void
 cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigger)
 {
-	union icaltriggertype t;
+	struct icaltriggertype t;
 	icalparameter *param;
 	icalparameter_value value_type;
 	icalparameter_related related;

@@ -981,7 +981,7 @@ compute_alarm_range (CalComponent *comp, GList *alarm_uids, time_t start, time_t
 		case CAL_ALARM_TRIGGER_RELATIVE_START:
 		case CAL_ALARM_TRIGGER_RELATIVE_END:
 			dur = &trigger.u.rel_duration;
-			dur_time = icaldurationtype_as_timet (*dur);
+/*  			dur_time = icaldurationtype_as_timet (*dur); */
 
 			if (dur->is_neg)
 				*alarm_end = MAX (*alarm_end, end + dur_time);
@@ -1042,7 +1042,7 @@ add_alarm_occurrences_cb (CalComponent *comp, time_t start, time_t end, gpointer
 			continue;
 
 		dur = &trigger.u.rel_duration;
-		dur_time = icaldurationtype_as_timet (*dur);
+/*  		dur_time = icaldurationtype_as_timet (*dur); */
 
 		if (trigger.type == CAL_ALARM_TRIGGER_RELATIVE_START)
 			occur_time = start;
