@@ -150,24 +150,26 @@
 	  </para>
 	</listitem>
       </varlistentry>
--->
+
 	<varlistentry>
 	  <term> <guibutton>Notes:</guibutton></term>
 	<listitem>
 	  <para> The note pad is your catch-all tool: use it to take
 	    messages from phone conversations, keep small things
-	    organized, write <glossterm>haiku</glossterm>, or whatever
+	    organized, write <glossterm linkend="haiku">haiku</glossterm>, or whatever
 	    you like. This feature is not yet implemented, but will be
 	    soon. See <xref linkend="usage-notes"> for more
 	    information.
 	  </para>
 	</listitem>
 	</varlistentry>
+-->
+
       </variablelist>
     </para>
     <para>
       If you don't like the shortcut bar, you can use the menu bar, or
-      keyboard shortcuts, also called <glossterm>hot keys</glossterm>.
+      keyboard shortcuts, also called <glossterm linkend="hot-key">hot keys</glossterm>.
       They're shown next to their equivalent menu items in the menu
       bar. You can also set your own hot keys for functions that don't
       have any; this is covered in <xref linkend="config">.  If you're
@@ -187,14 +189,14 @@
          Shortcut</guimenuitem> </menuchoice>. </para>
        <para>
          To change the way the shortcut bar looks, right-click in an
-         empoy space on the shortcut bar.  From the menu that appears,
+         empty space on the shortcut bar.  From the menu that appears,
          you can select icon sizes.
        </para>
        <para>
          You don't need the folder bar to move between folders. You
          can use <menuchoice> <guimenu>File</guimenu> <guimenuitem>Go
          to Folder...</guimenuitem> </menuchoice> to move to a
-         particular foder.  It's faster, however, to click on the
+         particular folder.  It's faster, however, to click on the
          <guilabel>Inbox</guilabel> label just below the toolbar, to
          the right of the shortcut bar, and select a folder from
          there.  The <guilabel>Inbox</guilabel> label will change to
@@ -210,16 +212,17 @@
       way to view the information you've stored with
       <application>Evolution</application>. It displays all your
       appointments, address cards, and email in a tree that's a lot
-      like a <glossterm>file tree</glossterm>&mdash; it starts small
-      at the top, and branches downwards. On most computers, there
-      will be three folders at the base.  The first one is
-      <guilabel>VFolders</guilabel>, for virtual folders (discussed in
-      <xref linkend="usage-mail-organize-vfolders">.  After that come
-      any <glossterm>IMAP</glossterm> mail folders you might have
-      available to you over your network.  The next folder is called
-      <guilabel>External Directories</guilabel>, and holds
-      <glossterm>LDAP</glossterm> contact directories stored on a
-      network.  The most important one is probably
+      like a <glossterm linkend="filetree">file
+      tree</glossterm>&mdash; it starts small at the top, and branches
+      downwards. On most computers, there will be three folders at the
+      base.  At the top are your <guilabel>vFolders</guilabel>, or
+      virtual folders, discussed in <xref
+      linkend="usage-mail-organize-vfolders">.  After that come any
+      <glossterm linkend="imap">IMAP</glossterm> mail folders you
+      might have available to you over your network.  The next folder
+      is called <guilabel>External Directories</guilabel>, and holds
+      <glossterm linkend="ldap">LDAP</glossterm> contact directories
+      stored on a network.  The most important one is probably
       <guilabel>Local</guilabel>, which you can use to access all the
       data that's stored on your computer.  If you click on the plus
       sign plus sign next to the <guilabel>Local</guilabel> folder,
@@ -266,7 +269,7 @@
        <guilabel>Contacts</guilabel> for storing contacts.
     </para>
 
-    <note>
+       <note>
 	  <title>Folders Have Limits</title>
 	  <para>
 	      You can always place a folder inside other folders,
@@ -308,7 +311,7 @@
       To delete a folder, right-click it and select
       <guimenuitem>Delete</guimenuitem> from the menu that pops up.
       To change the order of folders, or put one inside another, use
-      <glossterm>drag-and-drop</glossterm>.  To move individual
+      drag-and-drop.  To move individual
       messages, appointments, and address cards between folders, you
       can do the same thing: drag them where you want them, and
       they'll go.

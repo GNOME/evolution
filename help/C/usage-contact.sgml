@@ -13,7 +13,7 @@
       actual paper book. <application>Evolution</application> also
       allows easy synchronization with hand-held and remote devices.
       Since <application>Evolution</application> supports most major
-      network protocols, including <glossterm>LDAP</glossterm>, it can
+      network protocols, including <glossterm linkend="ldap">LDAP</glossterm>, it can
       fit into almost any existing network.
     </para>
     <para>
@@ -41,14 +41,15 @@
     
     <para>
        To open up your address book, click on
-       <guibutton>Contacts</guibutton> in the shortcut bar.  The
-       contact manager is illustrated in <xref
-       linkend="usage-contact-fig">.  By default, the contact manager
-       shows all your cards in alphabetical order, in a
-       <glossterm>minicard</glossterm> format.  You can select other
-       views from the <guimenu>View</guimenu> menu, and adjust the
-       width of the columns by clicking and dragging the grey column
-       dividers.
+       <guibutton>Contacts</guibutton> in the shortcut bar, or select
+       one of your contacts folders from the folder bar.  <xref
+       linkend="usage-contact-fig"> shows the Contact Manager in all
+       its organizational glory.  By default, the contact manager
+       shows all your cards in alphabetical order, in a <glossterm
+       linkend="minicard">minicard</glossterm> format.  You can select
+       other views from the <guimenu>View</guimenu> menu, and adjust
+       the width of the columns by clicking and dragging the grey
+       column dividers.
     </para>
 
 
@@ -79,39 +80,94 @@
            <guibutton>Delete</guibutton> deletes a selected card.
         </para></listitem>
 
-        <listitem><para>
-           <guibutton>Show All</guibutton> Shows all cards.
-        </para></listitem>
+        <listitem><para> <guibutton>View All</guibutton> Displays all
+           the address information in the folder.  Use this button to
+           refresh the display for a network folder, or to switch from
+           viewing the results of a search and see the whole contents.
+           </para></listitem>
 
-        <listitem><para>
-           <guibutton>Stop</guibutton> Stop loading card data from the network.
-        </para></listitem>
-
+        <listitem><para> <guibutton>Stop</guibutton> Stop loading
+           contact data from the network.  This button is only
+           relevant if you are looking at contact information on a
+           network.  </para></listitem>
       </itemizedlist>
     </para>
-    <para>
-       The last feature is <guilabel>Quick Search</guilabel>; to use
-       it, just type in the name of the person you're looking for and
-       hit <keycap>Enter</keycap>.
-       <application>Evolution</application> will search through all
-       the cards to find one that matches.
-    </para>
-    <para>
-       If there are no matches, the card display will be blank. When
-       you'd like to see all the cards again, press <guilabel>Show
-       All</guilabel>.
-    </para>
+
     <para>
        The rest of the contact manager is taken up by the display of
-       your cards.  You can view that display as a table or as a list
-       of cards&mdash; switch views in the <guimenu>View</guimenu>
-       menu &mdash; and move through them alphabetically with the
-       buttons and the scrollbar at the right of the window.
+       your contact information.  You can view that display as a table
+       or as a list of cards&mdash; switch views in the
+       <guimenu>View</guimenu> menu &mdash; and move through them
+       alphabetically with the buttons and the scrollbar at the right
+       of the window. Of course, if you have more than a few people
+       listed, you'll want some way of finding them more quickly,
+       which is why there's a search feature.
     </para>
+
+    <sect2 id="contact-search">
+      <title>Searching for Contacts</title>
+      <para>
+	   Between <guilabel>Delete</guilabel> and <guilabel>View
+    	   All</guilabel> is <guilabel>Quick Search</guilabel>. To use
+    	   it, just type in one or more words you're looking for and
+    	   hit <keycap>Enter</keycap>.
+    	   <application>Evolution</application> will search through
+    	   the contents of every displayed card to find one that
+    	   matches. That means that you can refine searches by doing several in
+    	   succession.
+	</para>
+      <para>
+	   If there are no matches, the card display will be blank. When
+	   you'd like to see all the cards again, press <guilabel>Show
+	   All</guilabel>.
+      </para>
+      <example id="contact-quicksearch-ex">
+	<title>Refining a Quick Search</title>
+	<para>
+	    Tom comes back from lunch and finds a note on his keyboard:
+	    "Curtis in sales called for you, but he didn't leave a number,
+	    and I forgot to write down the name of the company he works
+	    for. He said it was important, though." Tom is not at all
+	    annoyed.
+         </para>
+	 <para>
+	    He opens his contacts folder, and runs a quick search for
+	    "Curtis;" there are eighteen different people with that name
+	    in the file. He then enters "Sales," and
+	    <application>Evolution</application> narrows it down to the
+	    right Curtis. He only becomes annoyed when he discovers that
+	    the call was not actually important.
+          </para>
+      </example>
+    
+      <para>
+        If you prefer to perform a more complex search, press
+        <guibutton>Find</guibutton> or choose
+        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Search for
+        Contact</guimenuitem></menuchoice>. This will open the in-depth search window, which
+        lets you use multiple search criteria in the same way that
+        email filters and <glossterm linkend="vfolder">vFolders</glossterm> do..
+      </para>    
+      <para>
+        Click <guibutton>Add Criterion</guibutton> to increase the
+        number of criteria you'd like to use in the search, and
+        <guibutton>Remove Criterion</guibutton> to remove one from the
+        bottom of the list.  Your criteria may be a searchs within the
+        <guilabel>Name</guilabel> or <guilabel>Email</guilabel>
+        fields; alternately you can choose to search through all the
+        fields with a regular expression.  Then, you can select all
+        the familiar requirements like <guilabel>Begins
+        With</guilabel> and <guilabel>Does Not Contain</guilabel>,
+        decide whether to match <guilabel>All</guilabel> or
+        <guilabel>Any</guilabel> of your criteria, and press
+        <guibutton>Search</guibutton> to set it all off.
+      </para>
+    
+    </sect2>
+
   </sect1>
   <sect1 id="usage-contact-cards">
-    <title>Destroy, Create, or Change Cards</title>
-
+    <title>Destroy, Create, and Change: The Contact Editor</title>
     <para>
        To delete a card, click on it once to select it, then press the
        <guibutton>Delete Card</guibutton> button.  If you have
@@ -136,8 +192,13 @@
 	The contact editor window has two tabs,
     	<guilabel>General</guilabel>, for basic contact information,
     	and <guilabel>Details</guilabel>, for a more specific
-    	description of the person.  In addition, it contains a full
-    	menu bar, covered in <xref linkend="menuref">.
+    	description of the person.  In addition, it contains a
+    	<guimenu>File</guimenu> menu, covered in <xref
+    	linkend="menuref-contact-editor">, and a toolbar with three
+    	items: <guilabel>Save and Close</guilabel>,
+    	<guilabel>Print</guilabel>, and <guilabel>Delete</guilabel>.
+    	After that, however, it gets slightly more complicated, as you
+    	can see in <xref linkend="usage-contact-editor-fig">.
       </para>
       
       <figure id="usage-contact-editor-fig">
@@ -152,19 +213,14 @@
       <para> The <guilabel>General</guilabel> tab contains no less
         than seven sections, each with an icon: a face, for name and
         company; a telephone for phone numbers; an envelope for email
-        address; a house for postal address; a file folder for
-        contacts, and a briefcase for categories.  You can guess what
-        sort of information belongs in fields like <guilabel>Job
-        Title</guilabel> and <guilabel>Web page address</guilabel>,
-        but there are several parts of the window that are a little
-        more interesting.
+        address; a globe for web page address; a house for postal
+        address; a file folder for contacts, and a briefcase for
+        categories.  You can guess what sort of information belongs in
+        fields like <guilabel>Job Title</guilabel> and <guilabel>Web
+        page address</guilabel>, but there are several parts of the
+        window that are a little more interesting.
     </para>
     <para>
-      For more information about the <guilabel>Categories</guilabel>
-      organization tool, have a look at <xref
-      linkend="usage-contact-organize">.  The rest of the features in
-      the window are here:
- 
      <variablelist>
 	<varlistentry>
 	  <term>Full Name</term>
@@ -264,6 +320,27 @@
 	</varlistentry>
       </variablelist>
      </para>
+     <para>
+      The last item in the <guilabel>General</guilabel> tab is the
+       <guilabel>Categories</guilabel> organization tool.  That's
+       really its own topic; for information on that, read <xref
+       linkend="usage-contact-organize">.
+     </para>
+     <para>
+       The <guilabel>Details</guilabel> tab is, fortunately, much more
+       simple: three sections, all of which are more or less obvious:
+       the briefcase next to the details about the contact's
+       professional life; the face next to the details about their
+       personal life; the globe next to a big blank space you can use
+       for anything and everything else you'd like to note about them.
+       If you ever wanted to have that uncanny knack for remembering
+       obscure details like the date of someone's anniversary (perhaps
+       your own) this is the answer.
+     </para>
+
+
+
+
 <!--- ############# This section isn't implemented yet either:
     <sect2>
       <title></title>
@@ -399,7 +476,7 @@
     <title>Sharing your Cards</title>
     <para>
        If you keep your cards on a network using an
-       <glossterm>LDAP</glossterm> server, you can share access to
+       <glossterm linkend="ldap">LDAP</glossterm> server, you can share access to
        them.  Actually, the server software takes care of that, and
        also determines who is allowed to see and change them.  This is
        the sort of feature you'll want to use if your company has a

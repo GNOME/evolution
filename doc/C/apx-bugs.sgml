@@ -12,8 +12,12 @@
     </abstract>
 
     <para>
-      The bugs are many, but the application is young, and this is to
-      be expected.
+      Evolution is still beta software, so the bug tracking is best
+      left to the bugzilla system and to the programmers.  However,
+      there are a number of limitations that will not be addressed
+      before version 1.0. The most notable are: Import of Microsoft
+      Outlook .pst files, and compatibility with the Microsoft
+      Exchange protocol.
     </para>
   </appendix>
 

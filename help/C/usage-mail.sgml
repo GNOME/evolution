@@ -26,9 +26,12 @@ implemented with a stable UI yet, and are described wrong -->
        </listitem>
        <listitem>
 	 <para>
-	   It supports multiple mail sources, including IMAP, POP3,
-	   local <filename>mbox</filename> files, and even NNTP data
-	   (newsgroups), which isn't technically email.
+	   It supports multiple mail sources, including <glossterm
+	   linkend="imap">IMAP</glossterm>, <glossterm
+	   linkend="pop">POP3</glossterm>, local
+	   <systemitem><filename>mbox</filename></systemitem> and
+	   <systemitem><filename>mh</filename></systemitem> files, and
+	   even NNTP data (newsgroups), which isn't technically email.
 	 </para>
        </listitem>
      </itemizedlist>
@@ -123,7 +126,7 @@ implemented with a stable UI yet, and are described wrong -->
 	    <term><guimenuitem>Expunge</guimenuitem></term>
 	    <listitem><para>
                Clicking the <guibutton>Delete</guibutton> button marks 
-               messages for deleteion. <guimenuitem>Expunge</guimenuitem> 
+               messages for deletion. <guimenuitem>Expunge</guimenuitem> 
                wipes them off the face of the earth.               
              </para></listitem>
 	    </varlistentry>
@@ -183,13 +186,14 @@ implemented with a stable UI yet, and are described wrong -->
 	Before you get it, though, you should decide where you want to
 	keep it.  Your options will vary a little depending on your
 	network setup, but they come down to storing the mail on your
-	hard disk (using <glossterm>POP</glossterm>), or storing it on
-	the network (using <glossterm>IMAP</glossterm>).  If you store
-	your mail on your local hard disk, you can read it whether
-	you're online or not, but you can only read it from one
-	computer.  If you store it on the network, you can only read
-	it when you're online, but you can access it from almost any
-	computer with a network connection, even if it doesn't have
+	hard disk (using <glossterm linkend="pop">POP</glossterm>), or
+	storing it on the network (using <glossterm
+	linkend="imap">IMAP</glossterm>).  If you store your mail on
+	your local hard disk, you can read it whether you're online or
+	not, but you can only read it from one computer.  If you store
+	it on the network, you can only read it when you're online,
+	but you can access it from almost any computer with a network
+	connection, even if it doesn't have
 	<application>Evolution</application>.
       </para>
       <para>
@@ -210,11 +214,11 @@ implemented with a stable UI yet, and are described wrong -->
 	needs to check your mail (see <xref
 	linkend="config-setupassist"> for more information).  If
 	you're checking mail over a network (instead of from local
-	<filename>mbox</filename> files), you'll need to enter your
-	email password.  Type it in, click <guibutton>OK</guibutton>
-	and <application>Evolution</application> will download your
-	mail.  New mail will appear in your
-	<interface>Inbox</interface>.
+	<systemitem><filename>mbox</filename></systemitem> files),
+	you'll need to enter your email password.  Type it in, click
+	<guibutton>OK</guibutton> and
+	<application>Evolution</application> will download your mail.
+	New mail will appear in your <interface>Inbox</interface>.
       </para>
       <para>
         Once you've entered your password,
@@ -277,16 +281,6 @@ implemented with a stable UI yet, and are described wrong -->
 	   formatting will display automatically, although you can
 	   turn it off if you prefer.
 	</para>
-
-<!--  ######## Feature will probably not be implemented ******
-	<para>
-	   It can also display <glossterm>live
-	   documents</glossterm>, which have scripted or
-	   executable contents&mdash; for example, a working
-	   spreadsheet page or a chess game.  
-	</para> 
-
--->
 
       </sect3>
     </sect2>
@@ -567,7 +561,8 @@ with quoted materials and the relevant replies interspersed-->
 	      <term><guimenuitem>Find Regex</guimenuitem></term>
 	      <listitem>
 		<para>
-                  Perform a search for a <glossterm>regular
+                  Perform a search for a <glossterm
+                  linkend="regular-expression">regular
                   expression</glossterm>, or "regex."
                </para>
              </listitem>
@@ -607,7 +602,7 @@ with quoted materials and the relevant replies interspersed-->
             You can't normally use text treatments or pictures in
             emails, which is why you've probably seen people use far
             too many exclamation points for emphasis or use
-            <glossterm>emoticons</glossterm> to convey their feelings.
+            <glossterm linkend="emoticon">emoticons</glossterm> to convey their feelings.
             However, most of the newer email programs can include and
             display images and text treatments as well as basic
             alignment and paragraph formatting.
@@ -704,7 +699,7 @@ with quoted materials and the relevant replies interspersed-->
 	      <listitem>
 		<para>
                   At the far right is the color section tool.  You can
-                  choose from several colors by clickin on the arrow,
+                  choose from several colors by clicking on the arrow,
                   or create your own custom color by clicking on the
                   color box itself.  If you have text selected, the
                   color will apply to the selected text.  If you do
@@ -798,7 +793,7 @@ possibly never will be due to security evil. -->
 	  have received a message and you think someone else would
 	  like to see it.  You can forward a message as an attachment
 	  to a new message (this is the default) or
-	  you can send it <glossterm>inline</glossterm> as a quoted
+	  you can send it <glossterm linkend="inline">inline</glossterm> as a quoted
 	  portion of the message you are sending.  Attachment
 	  forwarding is best if you want to send the full, unaltered
 	  message on to someone else.  Inline forwarding is best if
@@ -813,7 +808,7 @@ possibly never will be due to security evil. -->
 	  <guibutton>Forward</guibutton> on the toolbar, or select
 	  <menuchoice> <guimenu>Message</guimenu>
 	  <guimenuitem>Forward</guimenuitem> </menuchoice>.  If you
-	  prefer to forward the message <glossterm>inline</glossterm>
+	  prefer to forward the message <glossterm linkend="inline">inline</glossterm>
 	  instead of attached, select <menuchoice>
 	  <guimenu>Message</guimenu> <guimenuitem>Forward
 	  Inline</guimenuitem> </menuchoice> from the menu.  Choose an
@@ -828,7 +823,7 @@ possibly never will be due to security evil. -->
 	<title>Seven Tips for Email Usage</title>
 	<para>
 	  I started with ten, but four were "Don't send
-	  <glossterm>spam</glossterm>."
+	  <glossterm linkend="spam">spam</glossterm>."
 	  <itemizedlist>
 
 	    <listitem>
@@ -1140,7 +1135,7 @@ possibly never will be due to security evil. -->
 	  <varlistentry>
 	    <term><guilabel>Expression</guilabel></term>
 	    <listitem><para>
-               Enter a <glossterm>regular expression</glossterm>, and
+               Enter a <glossterm linkend="regular-expression">regular expression</glossterm>, and
 	       <application>Evolution</application> will match it for
 	       you.
            </para></listitem>
@@ -1339,7 +1334,7 @@ possibly never will be due to security evil. -->
 	<!--  (INSERT SCREENSHOT HERE: vFolders in action) -->
 
       <para>
-	 To create a vFolder, select <guimenuitem>VFolder
+	 To create a vFolder, select <guimenuitem>vFolder
 	 Editor</guimenuitem> from the <guimenu>Tools</guimenu>
 	 menu in the <interface>main window</interface>.  This
 	 will bring up a dialog box that looks suspiciously like

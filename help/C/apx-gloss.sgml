@@ -46,19 +46,17 @@
   </glossdef>
  </glossentry>
 
-<!--  Removed pending decision on names
  <glossentry id="druid">
   <glossterm>Druid</glossterm>
   <glossdef>
    <para>
-    A small program or script used to help configure or set up some
-    larger program.  The <application>mail setup druid</application>
-    helps you ready your email system for use.  Druids are the Linux
-    equivalent of "Assistants" and "Wizards." 
+    A tool which guides a user through a series of steps, usually to
+    configure or set up a program.  Equivalent to "Assistant" and
+    "Wizard."
    </para>
   </glossdef>
  </glossentry>
--->
+
 <glossentry id="emoticon">
   <glossterm>Emoticon</glossterm>
   <glossdef>
@@ -91,6 +89,23 @@
     security precaution prevents the automatic or accidental execution
     of malicious programs. For more information on executables and file
     permissions, see the documentation for your file manager or shell.
+   </para>
+  </glossdef>
+ </glossentry>
+
+
+ <glossentry id="filetree">
+  <glossterm>File Tree</glossterm>
+  <glossdef>
+   <para>
+     A way of describing a group of files on a computer.  With the
+     perversity typical of computer (and especially Unix and Linux)
+     nomenclature, the top of the tree is called the root directory,
+     and denoted by <systemitem><filename>/</filename></systemitem>.
+     The rest of the "branches" spread downwards from the root.  Don't
+     confuse the root directory with the <systemitem>root</systemitem>
+     account, or root's home directory,
+     <systemitem><filename>/home/root</filename></systemitem>.
    </para>
   </glossdef>
  </glossentry>
@@ -183,6 +198,18 @@
     not always) stored remotely on a server rather than on a local
     hard disk.  Often contrasted with <glossterm>POP</glossterm>.
     This will not be on the test.
+   </para>
+  </glossdef>
+ </glossentry>
+
+
+ <glossentry id="inline">
+  <glossterm>Inline</glossterm>
+  <glossdef>
+   <para>
+     Displayed as part of a message or other document, rather than
+     attached as a separate file. Contrast with <glossterm
+     linkend="attachment">Attachment</glossterm>.
    </para>
   </glossdef>
  </glossentry>
@@ -285,12 +312,9 @@
   <glossterm>Script</glossterm>
   <glossdef>
    <para>
-    A program, which is written in an interpreted (rather than
-    compiled) language.  Scripts are more likely to work on multiple
-    platforms, but they require an additional layer of software (the
-    interpreter) which mediates between them and the operating system.
-    Because of this, they typically suffer from relatively sluggish
-    performance, and are limited to smaller tasks.
+    A program written in an interpreted (rather than compiled)
+    language.  Often used as a synonym for "macro," to denote a series
+    of pre-recorded commands or actions within an application.
    </para>
   </glossdef>
  </glossentry>
@@ -354,8 +378,7 @@
     newsletters."
    </para>
   </glossdef>
- <
-/glossentry>
+ </glossentry>
 
  <glossentry id="virus">
   <glossterm>Virus</glossterm>
@@ -365,6 +388,18 @@
     executed, allowing it to spread to still more programs and other computers.
     A virus can cause substantial damage by clogging networks or disk drives, 
     deleting files, or opening security holes.
+   </para>
+  </glossdef>
+ </glossentry>
+
+ <glossentry id="vcard">
+  <glossterm>vCard</glossterm>
+  <glossdef>
+   <para>
+    A file format for the exchange of contact information. When you
+    get an address card attached to an email, it's probably in vCard
+    format.  Not to be confused with <glossterm
+    linkend="vfolder">vFolder</glossterm>.
    </para>
   </glossdef>
  </glossentry>

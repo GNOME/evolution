@@ -1,3 +1,67 @@
+2000-10-05  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-contact.sgml: Described Search features.
+
+	* C/menuref.sgml: Contact Manager menus fixed.
+
+2000-10-04  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-contact.sgml: Fixed glossterms.
+
+	* C/usage-mail.sgml: Fixed glossterms, filenames, spellchecked.
+
+	* C/apx-gloss.sgml: Added "Inline," "VCard".
+
+	* C/usage-mainwindow.sgml: Fixed glossterms, filenames. Spellchecked.
+
+	* C/usage-mail.sgml: Fixed glossterms, filenames. Spellchecked.
+
+	* C/evolution-guide.sgml: New Legalnotice. Removed FDL and GPL, 
+	  which are now included as part of the gnome-help package.
+
+	* C/usage-contact.sgml: Spellcheck. Fixed some wording, and
+	responded to clahey's suggestions-- notably, commented out the
+	"add to master list" category feature.
+
+	* C/usage-calendar.sgml: Spellcheck. Fixed wording, event overlap
+        description.
+	
+	* C/evolution-guide.sgml: Spellcheck. Commented out Notes
+	entities.
+
+	* C/usage-notes.sgml: Spellchecked, then decided to comment out
+	this file/chapter and all references to it, since it's unlikely to
+	be implemented any time soon.
+
+	* C/config-setupassist.sgml: Spellcheck. Other minor updates. May
+	  need more work in the near future.
+
+	* C/usage-sync.sgml: Now it's really short. And spelled correctly.
+
+2000-10-03  Aaron Weber  <aaron@helixcode.com>
+
+	* C/config-prefs.sgml: Mostly spelling. Still needs major
+	alteration.
+
+	* C/menuref.sgml: s/Appintment/Appointment, fixed small errors,
+	ran spellcheck. Still needs lots of work, since many menus have
+	changed.
+
+	* C/apx-gloss.sgml: Added Virus, Protocol, fixed vFolder,
+	spellchecked.
+
+2000-09-26  Aaron Weber  <aaron@helixcode.com>
+
+	* C/apx-gloss.sgml:  Added sendmail and SMTP.
+
+2000-09-22  Aaron Weber  <aaron@helixcode.com>
+
+	* C/menuref.sgml: Changed to reflect new menu layout.
+
+	* C/usage-mainwindow.sgml: Changed to reflect new menu layout. Again.
+
+	* C/usage-contact.sgml: Stop and Display All features.
+
 2000-09-21  Aaron Weber  <aaron@helixcode.com>
 
 	* C/evolution-guide.sgml: Switched to the "official" FSF markup.

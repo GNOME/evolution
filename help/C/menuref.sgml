@@ -1122,7 +1122,10 @@
   <sect1>
     <title>Contact Manager Menus</title>
     <para>
-      Insert Content Here (FIXME).
+     The contact manager has six menus: <guimenu>File</guimenu>,
+     <guimenu>Edit</guimenu>, <guimenu>View</guimenu>,
+     <guimenu>Setting</guimenu>s, <guimenu>Tools</guimenu>, and
+     <guimenu>Help</guimenu>.
     </para>
 
     <sect2 id="menuref-contact-edit">
@@ -1171,7 +1174,17 @@
    <sect2 id="menuref-contact-tools">
       <title>Contact Manager Tools Menu</title>
       <para>
-         This menu is empty.
+         This menu contains one item:
+
+        <variablelist>
+	  <varlistentry>
+	    <term><guimenuitem>Search for
+	    Contacts</guimenuitem></term> <listitem><para> Brings up
+	    the in-depth search window. <xref
+	    linkend="contact-search"> describes how to use this
+	    feature.  </para></listitem>
+            </varlistentry>
+        </variablelist>
       </para>
     </sect2>
 
@@ -1188,11 +1201,56 @@
   <sect1 id="menuref-contact-editor">
     <title>The Contact Editor Menus</title>
     <para>
-      Most, if not all, of the menu items for this section are still
-      inoperable, but there are vast numbers of them, especially in
-      the <guimenu>Actions</guimenu> menu.  When available, I will 
-      describe them.
+       This window has only one menu: the file menu.
     </para>
+   
+   <sect2 id="menuref-contact-editor-file">
+      <title>Contact Editor File Menu</title>
+      <para>
+         This menu contains five items:
+         <variablelist>
+
+	  <varlistentry>
+	  <term><guimenuitem>Save</guimenuitem></term>
+	  <listitem><para>
+             
+           </para></listitem>
+	  </varlistentry>	
+
+	  <varlistentry>
+	  <term><guimenuitem>Save As</guimenuitem></term>
+	  <listitem><para>
+              Allows you to save the contact as an external 
+              file in the <glossterm linkend="vcard">VCard</glossterm> format. 
+           </para></listitem>
+	  </varlistentry>	
+
+	  <varlistentry>
+	  <term><guimenuitem>Print</guimenuitem></term>
+	  <listitem><para>
+             Prints the current contact.
+           </para></listitem>
+	  </varlistentry>	
+
+
+	  <varlistentry>
+	  <term><guimenuitem>Delete</guimenuitem></term>
+	  <listitem><para>
+             Deletes the current contact.
+           </para></listitem>
+	  </varlistentry>	
+
+  
+	  <varlistentry>
+	  <term><guimenuitem>Close</guimenuitem></term>
+	  <listitem><para>
+              Closes the Contact Editor without saving.
+           </para></listitem>
+	  </varlistentry>	
+
+	</variablelist>  
+      </para>
+    </sect2>
   </sect1>
   
 

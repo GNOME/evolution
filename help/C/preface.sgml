@@ -15,7 +15,7 @@
         <application>Evolution</application>'s goal is to make the
         tasks of storing, organizing, and retrieving information
         easier, so you can work and communicate with others.  That is,
-        it's a more evolved <glossterm>groupware</glossterm> program,
+        it's a more evolved <glossterm linkend="groupware">groupware</glossterm> program,
         an integral part of the Internet-connected desktop. On the
         inside, it's a powerful database; on the outside, it's a tool
         to help you get your work done.
@@ -24,10 +24,13 @@
         Because it's part of the GNOME project,
         <application>Evolution</application> is free software.  The
         program and its source code are released under the terms of
-        the GNU Public License (GPL), and the documentation falls
-        under the Free Documentation License (FDL).  For more
-        information about the GPL and the FDL, visit the Free Software
-        Foundation's website at <ulink
+        the <ulink type="help" url="gnome-help:gpl"><citetitle>GNU
+        Public License (GPL)</citetitle></ulink>, and the
+        documentation falls under the <ulink type="help"
+        url="gnome-help:fdl"><citetitle>Free Documentation
+        License</citetitle></ulink> (FDL). For more information about
+        the GPL and the FDL, visit the Free Software Foundation's
+        website at <ulink
         url="http://www.fsf.org">http://www.fsf.org</ulink>.
       </para>
       <para>
@@ -71,20 +74,21 @@
 	    <para>
               <application>Evolution</application> must meet and
               exceed the standards set by other groupware products.
-              It must include support for most major network protocols
-              so that it can integrate seamlessly with existing
-              hardware and network environments.
+              It must include support for most major network
+              <glossterm linkend="protocol">protocols</glossterm> so
+              that it can integrate seamlessly with existing hardware
+              and network environments.
             </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-               The project must support open standards and protocols
-               to turn <application>Evolution</application> into an
-               advanced development platform.  From the simplest
-               scripting to the most complex network and component
-               programming, <application>Evolution</application> must
-               to offer developers an environment for cutting-edge
-               application development.
+               The project must support open standards and be open to
+               expansion, so that it can become a development platform
+               as well as an application.  From the simplest scripting
+               to the most complex network and component programming,
+               <application>Evolution</application> must offer
+               developers an environment for cutting-edge application
+               development.
             </para>
 	  </listitem>
 	  <listitem>
@@ -163,11 +167,12 @@
                           <guimenuitem>Menu Item</guimenuitem>
                      </menuchoice>
             </member>
-	    <member><guibutton>Buttons</guibutton> you can click</member>
-            <member><userinput>Anything you type in</userinput></member>
-	    <member><computeroutput>Text output from a computer</computeroutput></member>
-            <member><glossterm>Words</glossterm> that are defined 
-                    in <xref linkend="apx-gloss">.</member>
+	    <member><guibutton>Buttons</guibutton> you can
+            click</member> <member><userinput>Anything you type
+            in</userinput></member> <member><computeroutput>Text
+            output from a computer</computeroutput></member>
+            <member><glossterm linkend="apx-gloss">Words</glossterm>
+            that are defined in <xref linkend="apx-gloss">.</member>
 	  </simplelist>
         </para>
       </formalpara>

@@ -1,4 +1,4 @@
-<!DOCTYPE Book PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"[
+<!DOCTYPE book PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"[
 
 <!ENTITY PREFACE SYSTEM "preface.sgml">
 <!ENTITY USAGE-MAINWINDOW SYSTEM "usage-mainwindow.sgml">
@@ -13,8 +13,6 @@
 <!ENTITY APX-GLOSS SYSTEM "apx-gloss.sgml">
 <!ENTITY APX-BUGS SYSTEM "apx-bugs.sgml">
 <!ENTITY APX-AUTHORS SYSTEM "apx-authors.sgml">
-<!ENTITY APX-FDL SYSTEM "apx-fdl.sgml">
-<!ENTITY APX-GPL SYSTEM "apx-gpl.sgml">
 
 ]>
 
@@ -34,44 +32,38 @@ implemented. -->
     </authorgroup>
     <copyright>
       <year>2000</year>
-      <holder>Helix Code, Inc., </holder>
-      <holder>Kevin Breit</holder>
+      <holder> Helix Code, Inc., </holder>
+      <holder> Kevin Breit </holder>
     </copyright>
     
-    <legalnotice>
-      <para>
-        Permission is granted to copy, distribute and/or modify this
-        document under the terms of the <citetitle>GNU Free
-        Documentation License</citetitle>, (FDL) Version 1.1 or any later
-        version published by the Free Software Foundation with no
-        Invariant Sections, no Front-Cover Texts, and no Back-Cover
-        Texts.
-      </para>
-      <para>
-        The software described by this document falls under the
-        <citetitle>GNU General Public License</citetitle>, or GPL.
-      </para>
-      <para>
-        These licenses are included with this document in <xref
-        linkend="fdl">, and <xref linkend="gpl">; you may also obtain
-        a copy from the Free Software Foundation by visiting <ulink
-        type="http" url="http://www.fsf.org">their Web site</ulink> or
-        by writing to: Free Software Foundation, Inc., 59 Temple Place
-        - Suite 330, Boston, MA 02111-1307, USA.
-      </para>
-      <para>
-        Many of the names used by companies to distinguish their
-        products and services are claimed as trademarks. Where those
-        names appear in any GNOME documentation, and those trademarks
-        are made aware to the members of the GNOME Documentation
-        Project, the names have been printed in caps or initial caps.
-      </para>
-
+    <legalnotice id="legalnotice">
+ 
+     <para>
+         Permission is granted to copy, distribute and/or modify this
+         document under the terms of the <ulink type="help"
+         url="gnome-help:fdl"><citetitle>GNU Free Documentation
+         License</citetitle></ulink>, Version 1.1 or any later version
+         published by the Free Software Foundation with no Invariant
+         Sections, no Front-Cover Texts, and no Back-Cover Texts. You
+         may obtain a copy of the <citetitle>GNU Free Documentation
+         License</citetitle> from the Free Software Foundation by
+         visiting <ulink type="http" url="http://www.fsf.org">their
+         Web site</ulink> or by writing to: Free Software Foundation,
+         Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+         USA.
+       </para>
+       <para>
+         Many of the names used by companies to distinguish their
+         products and services are claimed as trademarks. Where those
+         names appear in any GNOME documentation, and those trademarks
+         are made aware to the members of the GNOME Documentation
+         Project, the names have been printed in caps or initial caps.
+       </para>
     </legalnotice>
 
     <releaseinfo>
-       This is version 0.4 of the Evolution manual, describing version 
-       0.3.1 of Evolution.  
+       This is version 0.6 of the Evolution manual, describing version 
+       0.6 of Evolution.  
    </releaseinfo>
 
   </bookinfo>
@@ -136,9 +128,6 @@ implemented. -->
   &APX-GLOSS;
   &APX-BUGS;
   &APX-AUTHORS; 
-  &APX-FDL;
-  &APX-GPL;
-
 </book>
 
 
