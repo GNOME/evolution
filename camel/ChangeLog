@@ -1,3 +1,18 @@
+2005-02-01  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #38791 and bug #36142.
+
+	* camel-gpg-context.c (gpg_ctx_op_step): use poll rather than
+	select, and listen to the cancellation fd as well.  perform all
+	cancellation here.
+	(gpg_sign): remove cancellation check/processing.
+	(gpg_verify): same.
+	(gpg_encrypt): same.
+	(gpg_decrypt): same.
+	(gpg_ctx_op_step): remove the messy execption handling stuff, it
+	wasn't useful.
+	(gpg_import_keys, gpg_export_keys): clean up exception case.
+
 2005-01-31  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #70303.

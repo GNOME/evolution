@@ -39,6 +39,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <sys/time.h>
+#include <sys/poll.h>
 #include <termios.h>
 #include <signal.h>
 #include <unistd.h>
@@ -934,72 +935,82 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 	gpg->statusleft -= len;                                           \
 } G_STMT_END
 
+static void
+gpg_ctx_op_cancel (struct _GpgCtx *gpg)
+{
+	pid_t retval;
+	int status;
+	
+	if (gpg->exited)
+		return;
+	
+	kill (gpg->pid, SIGTERM);
+	sleep (1);
+	retval = waitpid (gpg->pid, &status, WNOHANG);
+	if (retval == (pid_t) 0) {
+		/* no more mr nice guy... */
+		kill (gpg->pid, SIGKILL);
+		sleep (1);
+		waitpid (gpg->pid, &status, WNOHANG);
+	}
+}
+
 static int
 gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 {
-	fd_set rdset, wrset, *wrsetp = NULL;
-	const char *diagnostics;
-	struct timeval timeout;
-	const char *mode;
-	int maxfd = 0;
-	int ready;
-	
- retry:
-	FD_ZERO (&rdset);
-	
+	struct pollfd polls[6];
+	int status, i, cancel_fd;
+
+	for (i=0;i<6;i++)
+		polls[i].fd = -1;
+
 	if (!gpg->seen_eof1) {
-		FD_SET (gpg->stdout_fd, &rdset);
-		maxfd = MAX (maxfd, gpg->stdout_fd);
+		polls[0].fd = gpg->stdout_fd;
+		polls[0].events = POLLIN;
 	}
-	
+
 	if (!gpg->seen_eof2) {
-		FD_SET (gpg->stderr_fd, &rdset);
-		maxfd = MAX (maxfd, gpg->stderr_fd);
+		polls[1].fd = gpg->stderr_fd;
+		polls[1].events = POLLIN;
 	}
-	
+
 	if (!gpg->complete) {
-		FD_SET (gpg->status_fd, &rdset);
-		maxfd = MAX (maxfd, gpg->status_fd);
+		polls[2].fd = gpg->status_fd;
+		polls[2].events = POLLIN;
 	}
-	
-	if (gpg->stdin_fd != -1 || gpg->passwd_fd != -1) {
-		FD_ZERO (&wrset);
-		if (gpg->stdin_fd != -1) {
-			FD_SET (gpg->stdin_fd, &wrset);
-			maxfd = MAX (maxfd, gpg->stdin_fd);
-		}
-		if (gpg->passwd_fd != -1) {
-			FD_SET (gpg->passwd_fd, &wrset);
-			maxfd = MAX (maxfd, gpg->passwd_fd);
-		}
-		
-		wrsetp = &wrset;
-	}
-	
-	g_assert (maxfd > 0);
-	
-	timeout.tv_sec = 10; /* timeout in seconds */
-	timeout.tv_usec = 0;
-	
-	if ((ready = select (maxfd + 1, &rdset, wrsetp, NULL, &timeout)) == 0)
-		return 0;
-	
-	if (ready < 0) {
-		if (errno == EINTR)
-			goto retry;
-		
-		d(printf ("select() failed: %s\n", strerror (errno)));
-		
+
+	polls[3].fd = gpg->stdin_fd;
+	polls[3].events = POLLOUT;
+	polls[4].fd = gpg->passwd_fd;
+	polls[4].events = POLLOUT;
+	cancel_fd = camel_operation_cancel_fd(NULL);
+	polls[5].fd = cancel_fd;
+	polls[5].events = POLLIN;
+
+	do {
+		for (i=0;i<6;i++)
+			polls[i].revents = 0;
+		status = poll(polls, 6, 30*1000);
+	} while (status == -1 && errno == EINTR);
+
+	if (status == 0)
+		return 0;	/* timed out */
+	else if (status == -1)
+		goto exception;
+
+	if ((polls[5].revents & POLLIN) && camel_operation_cancel_check(NULL)) {
+		camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled."));
+		gpg_ctx_op_cancel(gpg);
 		return -1;
 	}
-	
+
 	/* Test each and every file descriptor to see if it's 'ready',
 	   and if so - do what we can with it and then drop through to
 	   the next file descriptor and so on until we've done what we
 	   can to all of them. If one fails along the way, return
 	   -1. */
 	
-	if (FD_ISSET (gpg->status_fd, &rdset)) {
+	if (polls[2].revents & (POLLIN|POLLHUP)) {
 		/* read the status message and decide what to do... */
 		char buffer[4096];
 		ssize_t nread;
@@ -1022,7 +1033,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		}
 	}
 	
-	if (FD_ISSET (gpg->stdout_fd, &rdset) && gpg->ostream) {
+	if ((polls[0].revents & (POLLIN|POLLHUP)) && gpg->ostream) {
 		char buffer[4096];
 		ssize_t nread;
 		
@@ -1042,7 +1053,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		}
 	}
 	
-	if (FD_ISSET (gpg->stderr_fd, &rdset)) {
+	if (polls[1].revents & (POLLIN|POLLHUP)) {
 		char buffer[4096];
 		ssize_t nread;
 		
@@ -1061,7 +1072,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		}
 	}
 	
-	if (wrsetp && gpg->passwd_fd != -1 && FD_ISSET (gpg->passwd_fd, &wrset) && gpg->need_passwd && gpg->send_passwd) {
+	if ((polls[4].revents & (POLLOUT|POLLHUP)) && gpg->need_passwd && gpg->send_passwd) {
 		ssize_t w, nwritten = 0;
 		size_t n;
 		
@@ -1089,7 +1100,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		gpg->send_passwd = FALSE;
 	}
 	
-	if (gpg->istream && wrsetp && gpg->stdin_fd != -1 && FD_ISSET (gpg->stdin_fd, &wrset)) {
+	if ((polls[3].revents & (POLLOUT|POLLHUP)) && gpg->istream) {
 		char buffer[4096];
 		ssize_t nread;
 		
@@ -1108,11 +1119,11 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 				if (w > 0)
 					nwritten += w;
 			} while (nwritten < nread && w != -1);
-			
-			d(printf ("wrote %d (out of %d) bytes to gpg's stdin\n", nwritten, nread));
-			
+						
 			if (w == -1)
 				goto exception;
+
+			d(printf ("wrote %d (out of %d) bytes to gpg's stdin\n", nwritten, nread));
 		}
 		
 		if (camel_stream_eos (gpg->istream)) {
@@ -1123,54 +1134,20 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 	}
 	
 	return 0;
-	
- exception:
-	
-	switch (gpg->mode) {
-	case GPG_CTX_MODE_SIGN:
-		mode = "sign";
-		break;
-	case GPG_CTX_MODE_VERIFY:
-		mode = "verify";
-		break;
-	case GPG_CTX_MODE_ENCRYPT:
-		mode = "encrypt";
-		break;
-	case GPG_CTX_MODE_DECRYPT:
-		mode = "decrypt";
-		break;
-	case GPG_CTX_MODE_IMPORT:
-		mode = "import keys";
-		break;
-	case GPG_CTX_MODE_EXPORT:
-		mode = "export keys";
-		break;
-	default:
-		g_assert_not_reached ();
-		mode = NULL;
-		break;
-	}
-	
-	diagnostics = gpg_ctx_get_diagnostics (gpg);
-	if (diagnostics && *diagnostics) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Failed to GPG %s: %s\n\n%s"),
-				      mode, g_strerror (errno),
-				      diagnostics);
-	} else {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Failed to GPG %s: %s\n"),
-				      mode, g_strerror (errno));
-	}
-	
+
+exception:
+	/* always called on an i/o error */
+	camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Failed to execute gpg: %s"), g_strerror(errno));
+	gpg_ctx_op_cancel(gpg);
+
 	return -1;
 }
 
 static gboolean
 gpg_ctx_op_complete (struct _GpgCtx *gpg)
 {
-	return gpg->complete && gpg->seen_eof1 && gpg->seen_eof2;
-}
+	return gpg->complete && gpg->seen_eof1 && gpg->seen_eof2;}
+
 
 #if 0
 static gboolean
@@ -1192,26 +1169,6 @@ gpg_ctx_op_exited (struct _GpgCtx *gpg)
 	return FALSE;
 }
 #endif
-
-static void
-gpg_ctx_op_cancel (struct _GpgCtx *gpg)
-{
-	pid_t retval;
-	int status;
-	
-	if (gpg->exited)
-		return;
-	
-	kill (gpg->pid, SIGTERM);
-	sleep (1);
-	retval = waitpid (gpg->pid, &status, WNOHANG);
-	if (retval == (pid_t) 0) {
-		/* no more mr nice guy... */
-		kill (gpg->pid, SIGKILL);
-		sleep (1);
-		waitpid (gpg->pid, &status, WNOHANG);
-	}
-}
 
 static int
 gpg_ctx_op_wait (struct _GpgCtx *gpg)
@@ -1309,17 +1266,8 @@ gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 	}
 	
 	while (!gpg_ctx_op_complete (gpg)) {
-		if (camel_operation_cancel_check (NULL)) {
-			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
-					     _("Cancelled."));
-			gpg_ctx_op_cancel (gpg);
+		if (gpg_ctx_op_step (gpg, ex) == -1)
 			goto fail;
-		}
-		
-		if (gpg_ctx_op_step (gpg, ex) == -1) {
-			gpg_ctx_op_cancel (gpg);
-			goto fail;
-		}
 	}
 	
 	if (gpg_ctx_op_wait (gpg) != 0) {
@@ -1493,17 +1441,8 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 	}
 	
 	while (!gpg_ctx_op_complete (gpg)) {
-		if (camel_operation_cancel_check (NULL)) {
-			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
-					     _("Cancelled."));
-			gpg_ctx_op_cancel (gpg);
+		if (gpg_ctx_op_step (gpg, ex) == -1)
 			goto exception;
-		}
-		
-		if (gpg_ctx_op_step (gpg, ex) == -1) {
-			gpg_ctx_op_cancel (gpg);
-			goto exception;
-		}
 	}
 	
 	gpg_ctx_op_wait (gpg);
@@ -1585,16 +1524,8 @@ gpg_encrypt (CamelCipherContext *context, const char *userid, GPtrArray *recipie
 
 	/* FIXME: move tihs to a common routine */
 	while (!gpg_ctx_op_complete(gpg)) {
-		if (camel_operation_cancel_check(NULL)) {
-			camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled."));
-			gpg_ctx_op_cancel(gpg);
+		if (gpg_ctx_op_step (gpg, ex) == -1)
 			goto fail;
-		}
-		
-		if (gpg_ctx_op_step (gpg, ex) == -1) {
-			gpg_ctx_op_cancel (gpg);
-			goto fail;
-		}
 	}
 	
 	if (gpg_ctx_op_wait (gpg) != 0) {
@@ -1696,17 +1627,8 @@ gpg_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelMimePart *op
 	}
 	
 	while (!gpg_ctx_op_complete (gpg)) {
-		if (camel_operation_cancel_check (NULL)) {
-			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
-					     _("Cancelled."));
-			gpg_ctx_op_cancel (gpg);
+		if (gpg_ctx_op_step (gpg, ex) == -1)
 			goto fail;
-		}
-		
-		if (gpg_ctx_op_step (gpg, ex) == -1) {
-			gpg_ctx_op_cancel (gpg);
-			goto fail;
-		}
 	}
 	
 	if (gpg_ctx_op_wait (gpg) != 0) {
@@ -1756,7 +1678,8 @@ static int
 gpg_import_keys (CamelCipherContext *context, CamelStream *istream, CamelException *ex)
 {
 	struct _GpgCtx *gpg;
-	
+	int res = -1;
+
 	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_IMPORT);
 	gpg_ctx_set_istream (gpg, istream);
@@ -1765,18 +1688,12 @@ gpg_import_keys (CamelCipherContext *context, CamelStream *istream, CamelExcepti
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to execute gpg: %s"),
 				      errno ? g_strerror (errno) : _("Unknown"));
-		gpg_ctx_free (gpg);
-		
-		return -1;
+		goto fail;
 	}
 	
 	while (!gpg_ctx_op_complete (gpg)) {
-		if (gpg_ctx_op_step (gpg, ex) == -1) {
-			gpg_ctx_op_cancel (gpg);
-			gpg_ctx_free (gpg);
-			
-			return -1;
-		}
+		if (gpg_ctx_op_step (gpg, ex) == -1)
+			goto fail;
 	}
 	
 	if (gpg_ctx_op_wait (gpg) != 0) {
@@ -1786,15 +1703,14 @@ gpg_import_keys (CamelCipherContext *context, CamelStream *istream, CamelExcepti
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     diagnostics && *diagnostics ? diagnostics :
 				     _("Failed to execute gpg."));
-		
-		gpg_ctx_free (gpg);
-		
-		return -1;
+		goto fail;
 	}
-	
+
+	res = 0;
+fail:
 	gpg_ctx_free (gpg);
 	
-	return 0;
+	return res;
 }
 
 static int
@@ -1802,7 +1718,8 @@ gpg_export_keys (CamelCipherContext *context, GPtrArray *keys, CamelStream *ostr
 {
 	struct _GpgCtx *gpg;
 	int i;
-	
+	int res = -1;
+
 	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_EXPORT);
 	gpg_ctx_set_armor (gpg, TRUE);
@@ -1816,18 +1733,12 @@ gpg_export_keys (CamelCipherContext *context, GPtrArray *keys, CamelStream *ostr
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to execute gpg: %s"),
 				      errno ? g_strerror (errno) : _("Unknown"));
-		gpg_ctx_free (gpg);
-		
-		return -1;
+		goto fail;
 	}
 	
 	while (!gpg_ctx_op_complete (gpg)) {
-		if (gpg_ctx_op_step (gpg, ex) == -1) {
-			gpg_ctx_op_cancel (gpg);
-			gpg_ctx_free (gpg);
-			
-			return -1;
-		}
+		if (gpg_ctx_op_step (gpg, ex) == -1)
+			goto fail;
 	}
 	
 	if (gpg_ctx_op_wait (gpg) != 0) {
@@ -1837,15 +1748,14 @@ gpg_export_keys (CamelCipherContext *context, GPtrArray *keys, CamelStream *ostr
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     diagnostics && *diagnostics ? diagnostics :
 				     _("Failed to execute gpg."));
-		
-		gpg_ctx_free (gpg);
-		
-		return -1;
+		goto fail;
 	}
-	
+
+	res = 0;
+fail:
 	gpg_ctx_free (gpg);
 	
-	return 0;
+	return res;
 }
 
 /* ********************************************************************** */
