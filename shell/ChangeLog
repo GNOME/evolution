@@ -1,3 +1,12 @@
+2004-01-28  Rodney Dawes  <dobey@ximian.com>
+
+	* e-task-bar.c (init): First argument to gtk_hbox_new () is a boolean,
+	not an int, don't show the hbox for activities by default
+	(e_task_bar_prepend_task): Show the hbox for activities when we add
+	tasks to the taskbar
+	(e_task_bar_remove_task): If we have no tasks left to display, don't
+	show the empty hbox
+
 2004-01-27  Rodney Dawes  <dobey@ximian.com>
 
 	* e-task-bar.c (init): Expand the label, this fixes the problem

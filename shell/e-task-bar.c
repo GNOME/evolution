@@ -109,9 +109,8 @@ init (ETaskBar *task_bar)
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5); 
 	task_bar->priv->message_label = E_CLIPPED_LABEL (label);
 
-	hbox = gtk_hbox_new (0, FALSE);
-	gtk_widget_show (hbox);
-	gtk_container_add (GTK_CONTAINER (task_bar), hbox);	
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (task_bar), hbox);
 	task_bar->priv->hbox = GTK_HBOX (hbox);
 }
 
@@ -192,6 +191,8 @@ e_task_bar_prepend_task (ETaskBar *task_bar,
 	}
 
 	reduce_displayed_activities_per_component (task_bar);
+
+	gtk_widget_show (GTK_WIDGET (task_bar->priv->hbox));
 }
 
 void
@@ -208,6 +209,9 @@ e_task_bar_remove_task (ETaskBar *task_bar,
 	gtk_widget_destroy (GTK_WIDGET (task_widget));
 
 	reduce_displayed_activities_per_component (task_bar);
+
+	if (g_list_length (GTK_BOX (task_bar->priv->hbox)->children) == 0)
+		gtk_widget_hide (GTK_WIDGET (task_bar->priv->hbox));
 }
 	
 ETaskWidget *
