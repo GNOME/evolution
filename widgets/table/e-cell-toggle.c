@@ -32,6 +32,7 @@
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-hsv-utils.h"
 #include "e-table-item.h"
+#include "gal/a11y/e-table/gal-a11y-e-cell-toggle.h"
 
 #define PARENT_TYPE e_cell_get_type ()
 
@@ -414,6 +415,9 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 	ecc->style_set  = etog_style_set;
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
+	gal_a11y_e_cell_registry_add_cell_type (NULL,
+                                                E_CELL_TOGGLE_TYPE,
+                                                gal_a11y_e_cell_toggle_new);
 }
 
 static void

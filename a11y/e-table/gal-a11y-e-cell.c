@@ -11,6 +11,7 @@
 #include "gal-a11y-util.h"
 #include <atk/atkobject.h>
 #include <atk/atkcomponent.h>
+#include <atk/atkaction.h>
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yECellClass))
 static GObjectClass *parent_class;
@@ -143,6 +144,250 @@ eti_init (GalA11yECell *a11y)
 	a11y->view_col = -1;
 	a11y->row = -1;
 }
+
+
+static ActionInfo *
+_gal_a11y_e_cell_get_action_info (GalA11yECell *cell,
+                            gint     index)
+{
+	GList *list_node;
+                                                                                
+	g_return_val_if_fail (GAL_A11Y_IS_E_CELL (cell), NULL);
+	if (cell->action_list == NULL)
+		return NULL;
+	list_node = g_list_nth (cell->action_list, index);
+	if (!list_node)
+		return NULL;
+	return (ActionInfo *) (list_node->data);
+}
+
+static void
+_gal_a11y_e_cell_destroy_action_info (gpointer action_info,
+				      gpointer user_data)
+{
+	ActionInfo *info = (ActionInfo *)action_info;
+
+	g_return_if_fail (info != NULL);
+	g_free (info->name);
+	g_free (info->description);
+	g_free (info->keybinding);
+	g_free (info);
+}
+
+
+gboolean
+gal_a11y_e_cell_add_action ( GalA11yECell * cell,
+			     const gchar *action_name,
+			     const gchar *action_description,
+			     const gchar *action_keybinding,
+			     ACTION_FUNC action_func)
+{
+	ActionInfo *info;
+	g_return_val_if_fail (GAL_A11Y_IS_E_CELL (cell), FALSE);
+	info = g_new (ActionInfo, 1);
+                                                                              
+	if (action_name != NULL)
+		info->name = g_strdup (action_name);
+	else
+		info->name = NULL;
+
+	if (action_description != NULL)
+		info->description = g_strdup (action_description);
+	else
+		info->description = NULL;
+	if (action_keybinding != NULL)
+		info->keybinding = g_strdup (action_keybinding);
+	else
+		info->keybinding = NULL;
+	info->do_action_func = action_func;
+
+	cell->action_list = g_list_append (cell->action_list, (gpointer) info);
+	return TRUE;
+}
+
+gboolean
+gal_a11y_e_cell_remove_action (GalA11yECell *cell,
+			       gint     action_index)
+{
+	GList *list_node;
+
+	g_return_val_if_fail (GAL_A11Y_IS_E_CELL (cell), FALSE);
+	list_node = g_list_nth (cell->action_list, action_index);
+	if (!list_node)
+		return FALSE;
+	g_return_val_if_fail (list_node->data != NULL, FALSE);
+	_gal_a11y_e_cell_destroy_action_info (list_node->data, NULL);
+	cell->action_list = g_list_remove_link (cell->action_list, list_node);
+
+	return TRUE;
+}
+
+gboolean
+gal_a11y_e_cell_remove_action_by_name (GalA11yECell *cell,
+				       const gchar *action_name)
+{
+	GList *list_node;
+	gboolean action_found= FALSE;
+                                                                               
+	g_return_val_if_fail (GAL_A11Y_IS_E_CELL (cell), FALSE);
+	for (list_node = cell->action_list; list_node && !action_found;
+          	          list_node = list_node->next) {
+		if (!g_strcasecmp (((ActionInfo *)(list_node->data))->name, action_name)) {
+			action_found = TRUE;
+			break;
+		}
+	}
+
+	g_return_val_if_fail (action_found, FALSE);
+	_gal_a11y_e_cell_destroy_action_info (list_node->data, NULL);
+	cell->action_list = g_list_remove_link (cell->action_list, list_node);
+
+	return TRUE;
+}
+
+static gint
+gal_a11y_e_cell_action_get_n_actions (AtkAction *action)
+{
+	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
+	if (cell->action_list != NULL)
+		return g_list_length (cell->action_list);
+	else
+		return 0;
+}
+
+static G_CONST_RETURN gchar *
+gal_a11y_e_cell_action_get_name (AtkAction *action,
+                           gint      index)
+{
+	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
+	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
+                                                                                
+	if (info == NULL)
+		return NULL;
+	return info->name;
+}
+
+static G_CONST_RETURN gchar *
+gal_a11y_e_cell_action_get_description (AtkAction *action,
+					gint      index)
+{
+	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
+	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
+
+	if (info == NULL)
+		return NULL;
+	return info->description;
+}
+
+static gboolean
+gal_a11y_e_cell_action_set_description (AtkAction   *action,
+					gint        index,
+					const gchar *desc)
+{
+	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
+	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
+                                                                                
+	if (info == NULL)
+		return FALSE;
+	g_free (info->description);
+	info->description = g_strdup (desc);
+	return TRUE;
+}
+
+static G_CONST_RETURN gchar *
+gal_a11y_e_cell_action_get_keybinding (AtkAction *action,
+				       gint      index)
+{
+	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
+	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
+	if (info == NULL)
+		return NULL;
+
+	return info->keybinding;
+}
+                                                                                
+static gboolean
+idle_do_action (gpointer data)
+{
+	GalA11yECell *cell;
+
+	cell = GAL_A11Y_E_CELL (data);
+	cell->action_idle_handler = 0;
+	cell->action_func (cell);
+                                                                                
+	return FALSE;
+}
+
+static gboolean
+gal_a11y_e_cell_action_do_action (AtkAction *action,
+				  gint      index)
+{
+	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
+	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
+
+	if (info == NULL)
+		return FALSE;
+	g_return_val_if_fail (info->do_action_func, FALSE);
+	if (cell->action_idle_handler)
+		return FALSE;
+	cell->action_func = info->do_action_func;
+	cell->action_idle_handler = g_idle_add (idle_do_action, cell);
+
+	return TRUE;
+}
+
+static void
+gal_a11y_e_cell_atk_action_interface_init (AtkActionIface *iface)
+{
+  g_return_if_fail (iface != NULL);
+                                                                                
+  iface->get_n_actions = gal_a11y_e_cell_action_get_n_actions;
+  iface->do_action = gal_a11y_e_cell_action_do_action;
+  iface->get_name = gal_a11y_e_cell_action_get_name;
+  iface->get_description = gal_a11y_e_cell_action_get_description;
+  iface->set_description = gal_a11y_e_cell_action_set_description;
+  iface->get_keybinding = gal_a11y_e_cell_action_get_keybinding;
+}
+
+void
+gal_a11y_e_cell_type_add_action_interface (GType type)
+{
+	static const GInterfaceInfo atk_action_info =
+	{
+	(GInterfaceInitFunc) gal_a11y_e_cell_atk_action_interface_init,
+	(GInterfaceFinalizeFunc) NULL,
+	NULL
+	};
+
+	g_type_add_interface_static (type, ATK_TYPE_ACTION,
+				     &atk_action_info);
+}
+
+gboolean
+gal_a11y_e_cell_add_state (GalA11yECell     *cell,
+			   AtkStateType state_type,
+			   gboolean     emit_signal)
+{
+	if (!atk_state_set_contains_state (cell->state_set, state_type)) {
+		gboolean rc;
+                                                                                
+		rc = atk_state_set_add_state (cell->state_set, state_type);
+		/*
+		 * The signal should only be generated if the value changed,
+		 * not when the cell is set up.  So states that are set
+		 * initially should pass FALSE as the emit_signal argument.
+		 */
+                                                                                
+		if (emit_signal) {
+			atk_object_notify_state_change (ATK_OBJECT (cell), state_type, TRUE);
+			/* If state_type is ATK_STATE_VISIBLE, additional 
+			   notification */
+			if (state_type == ATK_STATE_VISIBLE)
+				g_signal_emit_by_name (cell, "visible_data_changed");
+		}
+	}
+}
+
 
 /**
  * gal_a11y_e_cell_get_type:

@@ -22,6 +22,9 @@
 typedef struct _GalA11yECell GalA11yECell;
 typedef struct _GalA11yECellClass GalA11yECellClass;
 typedef struct _GalA11yECellPrivate GalA11yECellPrivate;
+typedef struct _ActionInfo ActionInfo;
+typedef void (*ACTION_FUNC) (GalA11yECell *cell);
+
 
 /* This struct should actually be larger as this isn't what we derive from.
  * The GalA11yECellPrivate comes right after the parent class structure.
@@ -35,11 +38,23 @@ struct _GalA11yECell {
 	int         model_col;
 	int         view_col;
 	int         row;
+	AtkStateSet *state_set;
+	GList       *action_list;
+	gint         action_idle_handler;
+	ACTION_FUNC  action_func;
 };
 
 struct _GalA11yECellClass {
 	AtkObjectClass parent_class;
 };
+
+struct _ActionInfo {
+	gchar *name;
+	gchar *description;
+	gchar *keybinding;
+	ACTION_FUNC do_action_func;
+};
+
 
 
 /* Standard Glib function */
@@ -57,5 +72,20 @@ void       gal_a11y_e_cell_construct  (AtkObject  *object,
 				       int         model_col,
 				       int         view_col,
 				       int         row);
+
+void	gal_a11y_e_cell_type_add_action_interface (GType type);
+                                                                                
+gboolean gal_a11y_e_cell_add_action	(GalA11yECell	*cell,
+				         const gchar     *action_name,
+					 const gchar     *action_description,
+					 const gchar     *action_keybinding,
+					 ACTION_FUNC     action_func);
+                                                                                
+gboolean gal_a11y_e_cell_remove_action	(GalA11yECell	*cell,
+                                         gint           action_id);
+                                                                                
+gboolean gal_a11y_e_cell_remove_action_by_name (GalA11yECell        *cell,
+                                          	const gchar     *action_name);
+
 
 #endif /* ! __GAL_A11Y_E_CELL_H__ */
