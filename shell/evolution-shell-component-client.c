@@ -127,6 +127,16 @@ dispatch_callback (EvolutionShellComponentClient *shell_component_client,
 	(* callback) (shell_component_client, result, callback_data);
 }
 
+static EvolutionShellComponentResult
+shell_component_result_from_corba_exception (const CORBA_Environment *ev)
+{
+	if (ev->_major == CORBA_NO_EXCEPTION)
+		return EVOLUTION_SHELL_COMPONENT_OK;
+	if (ev->_major == CORBA_SYSTEM_EXCEPTION)
+		return EVOLUTION_SHELL_COMPONENT_CORBAERROR;
+	return EVOLUTION_SHELL_COMPONENT_CORBAERROR; /* FIXME? */
+}
+
 
 /* CORBA listener interface implementation.  */
 
@@ -576,7 +586,7 @@ evolution_shell_component_client_async_create_folder (EvolutionShellComponentCli
 
 	if (ev._major != CORBA_NO_EXCEPTION && priv->callback != NULL) {
 		(* callback) (shell_component_client,
-			      shell_component_result_from_corba_exception (ev),
+			      shell_component_result_from_corba_exception (&ev),
 			      data);
 		priv->callback = NULL;
 		priv->callback_data = NULL;
@@ -637,7 +647,7 @@ evolution_shell_component_client_async_xfer_folder (EvolutionShellComponentClien
 
 	if (ev._major != CORBA_NO_EXCEPTION && priv->callback != NULL) {
 		(* callback) (shell_component_client,
-			      shell_component_result_from_corba_exception (ev),
+			      shell_component_result_from_corba_exception (&ev),
 			      data);
 		priv->callback = NULL;
 		priv->callback_data = NULL;

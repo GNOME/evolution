@@ -1,6 +1,11 @@
 2001-03-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-component-client.c
+	(shell_component_result_from_corba_exception): Implement.
+
+2001-03-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-component-client.c
 	(evolution_shell_component_client_async_xfer_folder): Handle CORBA
 	exception.
 	(evolution_shell_component_client_async_create_folder): Likewise.
