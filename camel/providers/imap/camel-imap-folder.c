@@ -1961,7 +1961,7 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	/* If the server doesn't support IMAP4rev1, or we already have
 	 * the whole thing cached, fetch it in one piece.
 	 */
-	if (store->server_level < IMAP_LEVEL_IMAP4REV1 ||
+	if (store->server_level < IMAP_LEVEL_IMAP4REV1 || store->braindamaged ||
 	    (stream = camel_imap_folder_fetch_data (imap_folder, uid, "", TRUE, NULL)))
 		return get_message_simple (imap_folder, uid, stream, ex);
 
@@ -2237,9 +2237,12 @@ imap_update_summary (CamelFolder *folder, int exists,
 	GData *data;
 	
 	CAMEL_SERVICE_ASSERT_LOCKED (store, connect_lock);
-	if (store->server_level >= IMAP_LEVEL_IMAP4REV1)
-		header_spec = "HEADER.FIELDS.NOT (RECEIVED)";
-	else
+	if (store->server_level >= IMAP_LEVEL_IMAP4REV1) {
+		if (g_ascii_strcasecmp (((CamelService *) store)->url->host, "imap.web.de") != 0)
+			header_spec = "HEADER.FIELDS.NOT (RECEIVED)";
+		else
+			header_spec = "HEADER";
+	} else
 		header_spec = "0";
 	
 	/* Figure out if any of the new messages are already cached (which

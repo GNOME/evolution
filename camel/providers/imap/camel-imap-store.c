@@ -595,8 +595,13 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 		
 		return FALSE;
 	}
+	
 	if (!strncmp(buf, "* PREAUTH", 9))
 		store->preauthed = TRUE;
+	
+	if (strstr (buf, "Courier-IMAP"))
+		store->braindamaged = TRUE;
+	
 	g_free (buf);
 	
 	/* get the imap server capabilities */

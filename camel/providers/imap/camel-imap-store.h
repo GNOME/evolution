@@ -110,8 +110,8 @@ struct _CamelImapStore {
 	struct _CamelImapStoreSummary *summary;
 	
 	/* Information about the command channel / connection status */
-	gboolean connected;
-	gboolean preauthed;
+	guint connected:1;
+	guint preauthed:1;
 	char tag_prefix;
 	guint32 command;
 	CamelFolder *current_folder;
@@ -119,11 +119,12 @@ struct _CamelImapStore {
 	/* Information about the server */
 	CamelImapServerLevel server_level;
 	guint32 capabilities, parameters;
+	guint braindamaged:1;
 	/* NB: namespace should be handled by summary->namespace */
 	char *namespace, dir_sep, *base_url, *storage_path;
 	GHashTable *authtypes;
 	
-	gboolean renaming;
+	guint renaming:1;
 };
 
 

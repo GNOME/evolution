@@ -1,9 +1,24 @@
 2004-03-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (imap_update_summary): If the
+	server is imap.web.de, just ask for all the headers rather than
+	"HEADER.FIELDS.NOT (RECEIVED)". Actually, maybe we should always
+	just query for the entire header block?
+	(imap_get_message): If the server is brain-damaged (that's a
+	technical term), always fetch the message in whole, never bother
+	to try and fetch partial messages (Courier-IMAP gives us the wrong
+	BODY responses fairly often).
+
+	* providers/imap/camel-imap-store.c (connect_to_server): Set
+	store->braindamaged to TRUE if we find the string "Courier-IMAP"
+	in the greeting.
+
+2004-03-25  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Fix for bug #55018.
 
 	* providers/imap/camel-imap-store.c (create_folder): Don't allow
-	the suer to create folders with #, %, * or the directory separator
+	the user to create folders with #, %, * or the directory separator
 	in the folder name (added the checks for %, * and #).
 	(get_folder_online): Add a check to make sure the folder name is
 	sane before sending a CREATE (ie. we want to allow getting of
