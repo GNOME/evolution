@@ -94,6 +94,7 @@ scripts/Makefile
 src/Makefile
 src/libical/Makefile
 src/libical/icalversion.h
+src/libicalvcal/Makefile
 test-data/Makefile
 zoneinfo/Makefile
 ])

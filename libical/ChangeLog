@@ -1,3 +1,9 @@
+2002-02-08  Damon Chaplin  <damon@ximian.com>
+
+	* src/Makefile.am (SUBDIRS): added libicalvcal.
+
+	* configure.in (AC_OUTPUT): added src/libicalvcal/Makefile.
+
 2002-02-06  Damon Chaplin  <damon@ximian.com>
 
 	* src/libicalvcal/icalvcal.c: major changes to support RRULE/EXRULE,

@@ -5,5 +5,5 @@ PYTHON_DIR =
 endif
 
 # For evolution we only build libical at present.
-SUBDIRS = libical
+SUBDIRS = libical libicalvcal
 #SUBDIRS = libical libicalss libicalvcal # $(PYTHON_DIR) test
