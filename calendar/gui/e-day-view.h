@@ -128,7 +128,6 @@ typedef enum
 /* These specify which part of the selection we are dragging, if any. */
 typedef enum
 {
-	E_DAY_VIEW_DRAG_NONE,
 	E_DAY_VIEW_DRAG_START,
 	E_DAY_VIEW_DRAG_END
 } EDayViewDragPosition;
@@ -338,8 +337,11 @@ struct _EDayView
 	gint selection_start_row;
 	gint selection_end_row;
 
-	/* This specifies which end of the selection is being dragged, or is
-	   E_DAY_VIEW_DRAG_NONE if the selection isn't being dragged. */
+	/* This is TRUE if the selection is currently being dragged using the
+	   mouse. */
+	gboolean selection_is_being_dragged;
+
+	/* This specifies which end of the selection is being dragged. */
 	EDayViewDragPosition selection_drag_pos;
 
 	/* This is TRUE if the selection is in the top canvas only (i.e. if the

@@ -319,25 +319,35 @@ static void
 gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 {
 	GtkWidget *cp = get_current_page (gcal);
-	time_t current_time, new_time;
+	time_t start_time, end_time;
 
-	current_time = gcal->selection_start_time;
+	start_time = gcal->selection_start_time;
+	end_time = gcal->selection_end_time;
 
-	if (cp == gcal->day_view)
-		new_time = time_add_day (current_time, direction);
-	else if (cp == gcal->work_week_view)
-		new_time = time_add_week (current_time, direction);
-	else if (cp == gcal->week_view)
-		new_time = time_add_week (current_time, direction);
-	else if (cp == gcal->month_view)
-		new_time = time_add_month (current_time, direction);
-	else {
+	if (cp == gcal->day_view) {
+		start_time = time_add_day (start_time, direction);
+		end_time = time_add_day (end_time, direction);
+	} else if (cp == gcal->work_week_view) {
+		start_time = time_add_week (start_time, direction);
+		end_time = time_add_week (end_time, direction);
+	} else if (cp == gcal->week_view) {
+		start_time = time_add_week (start_time, direction);
+		end_time = time_add_week (end_time, direction);
+	} else if (cp == gcal->month_view) {
+		start_time = time_add_month (start_time, direction);
+		end_time = time_add_month (end_time, direction);
+	} else {
 		g_warning ("Weee!  Where did the penguin go?");
 		g_assert_not_reached ();
-		new_time = 0;
+		start_time = 0;
+		end_time = 0;
 	}
 
-	gnome_calendar_goto (gcal, new_time);
+	gcal->selection_start_time = start_time;
+	gcal->selection_end_time = end_time;
+
+	gnome_calendar_update_view_times (gcal, NULL);
+	gnome_calendar_update_gtk_calendar (gcal);
 }
 
 void

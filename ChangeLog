@@ -1,3 +1,8 @@
+2000-06-20  Damon Chaplin  <damon@helixcode.com>
+
+	* widgets/meeting-time-sel/e-meeting-time-sel-item.c: 
+	* widgets/meeting-time-sel/e-meeting-time-sel.c: fixed a few warnings.
+
 2000-06-17  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/e-text.c: Made EText use the font from the

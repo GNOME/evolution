@@ -91,6 +91,26 @@ static gint e_day_view_focus_out (GtkWidget *widget,
 				  GdkEventFocus *event);
 static gint e_day_view_key_press (GtkWidget *widget,
 				  GdkEventKey *event);
+static void e_day_view_cursor_key_up_shifted (EDayView *day_view,
+					      GdkEventKey *event);
+static void e_day_view_cursor_key_down_shifted (EDayView *day_view,
+						GdkEventKey *event);
+static void e_day_view_cursor_key_left_shifted (EDayView *day_view,
+						GdkEventKey *event);
+static void e_day_view_cursor_key_right_shifted (EDayView *day_view,
+						 GdkEventKey *event);
+static void e_day_view_cursor_key_up (EDayView *day_view,
+				      GdkEventKey *event);
+static void e_day_view_cursor_key_down (EDayView *day_view,
+					GdkEventKey *event);
+static void e_day_view_cursor_key_left (EDayView *day_view,
+					GdkEventKey *event);
+static void e_day_view_cursor_key_right (EDayView *day_view,
+					 GdkEventKey *event);
+static void e_day_view_ensure_rows_visible (EDayView *day_view,
+					    gint start_row,
+					    gint end_row);
+
 static gboolean e_day_view_check_if_new_event_fits (EDayView *day_view);
 
 static void e_day_view_on_canvas_realized (GtkWidget *widget,
@@ -347,6 +367,7 @@ static gboolean e_day_view_remove_event_cb (EDayView *day_view,
 					    gint day,
 					    gint event_num,
 					    gpointer data);
+static void e_day_view_normalize_selection (EDayView *day_view);
 
 
 static GtkTableClass *parent_class;
@@ -467,7 +488,8 @@ e_day_view_init (EDayView *day_view)
 	day_view->selection_start_day = -1;
 	day_view->selection_end_row = -1;
 	day_view->selection_end_day = -1;
-	day_view->selection_drag_pos = E_DAY_VIEW_DRAG_NONE;
+	day_view->selection_is_being_dragged = FALSE;
+	day_view->selection_drag_pos = E_DAY_VIEW_DRAG_END;
 	day_view->selection_in_top_canvas = FALSE;
 
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
@@ -2447,7 +2469,7 @@ e_day_view_on_top_canvas_button_release (GtkWidget *widget,
 					 GdkEventButton *event,
 					 EDayView *day_view)
 {
-	if (day_view->selection_drag_pos != E_DAY_VIEW_DRAG_NONE) {
+	if (day_view->selection_is_being_dragged) {
 		gdk_pointer_ungrab (event->time);
 		e_day_view_finish_selection (day_view);
 	} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
@@ -2471,7 +2493,7 @@ e_day_view_on_main_canvas_button_release (GtkWidget *widget,
 					  GdkEventButton *event,
 					  EDayView *day_view)
 {
-	if (day_view->selection_drag_pos != E_DAY_VIEW_DRAG_NONE) {
+	if (day_view->selection_is_being_dragged) {
 		gdk_pointer_ungrab (event->time);
 		e_day_view_finish_selection (day_view);
 		e_day_view_stop_auto_scroll (day_view);
@@ -2538,7 +2560,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
 
-	if (day_view->selection_drag_pos != E_DAY_VIEW_DRAG_NONE) {
+	if (day_view->selection_is_being_dragged) {
 		e_day_view_update_selection (day_view, day, -1);
 		return TRUE;
 	} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
@@ -2636,7 +2658,7 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 		event = &g_array_index (day_view->events[day], EDayViewEvent,
 					event_num);
 
-	if (day_view->selection_drag_pos != E_DAY_VIEW_DRAG_NONE) {
+	if (day_view->selection_is_being_dragged) {
 		if (pos != E_DAY_VIEW_POS_OUTSIDE) {
 			e_day_view_update_selection (day_view, day, row);
 			e_day_view_check_auto_scroll (day_view,
@@ -2727,6 +2749,7 @@ e_day_view_start_selection (EDayView *day_view,
 	day_view->selection_start_row = row;
 	day_view->selection_end_row = row;
 
+	day_view->selection_is_being_dragged = TRUE;
 	day_view->selection_drag_pos = E_DAY_VIEW_DRAG_END;
 	day_view->selection_in_top_canvas = (row == -1) ? TRUE : FALSE;
 
@@ -2743,7 +2766,6 @@ e_day_view_update_selection (EDayView *day_view,
 			     gint day,
 			     gint row)
 {
-	gint tmp_row, tmp_day;
 	gboolean need_redraw = FALSE;
 
 #if 0
@@ -2773,6 +2795,21 @@ e_day_view_update_selection (EDayView *day_view,
 		}
 	}
 
+	e_day_view_normalize_selection (day_view);
+
+	/* FIXME: Optimise? */
+	if (need_redraw) {
+		gtk_widget_queue_draw (day_view->top_canvas);
+		gtk_widget_queue_draw (day_view->main_canvas);
+	}
+}
+
+
+static void
+e_day_view_normalize_selection (EDayView *day_view)
+{
+	gint tmp_row, tmp_day;
+
 	/* Switch the drag position if necessary. */
 	if (day_view->selection_start_day > day_view->selection_end_day
 	    || (day_view->selection_start_day == day_view->selection_end_day
@@ -2788,19 +2825,13 @@ e_day_view_update_selection (EDayView *day_view,
 		else
 			day_view->selection_drag_pos = E_DAY_VIEW_DRAG_START;
 	}
-
-	/* FIXME: Optimise? */
-	if (need_redraw) {
-		gtk_widget_queue_draw (day_view->top_canvas);
-		gtk_widget_queue_draw (day_view->main_canvas);
-	}
 }
 
 
 void
 e_day_view_finish_selection (EDayView *day_view)
 {
-	day_view->selection_drag_pos = E_DAY_VIEW_DRAG_NONE;
+	day_view->selection_is_being_dragged = FALSE;
 	e_day_view_update_calendar_selection_time (day_view);
 }
 
@@ -3839,20 +3870,65 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	iCalObject *ico;
 	gint day, event_num;
 	gchar *initial_text;
+	guint keyval;
+	gboolean stop_emission;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_DAY_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	day_view = E_DAY_VIEW (widget);
+	keyval = event->keyval;
 
 	/* The Escape key aborts a resize operation. */
 	if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
-		if (event->keyval == GDK_Escape) {
+		if (keyval == GDK_Escape) {
 			e_day_view_abort_resize (day_view, event->time);
 		}
 		return FALSE;
 	}
+
+	/* Handle the cursor keys for moving & extending the selection. */
+	stop_emission = TRUE;
+	if (event->state & GDK_SHIFT_MASK) {
+		switch (keyval) {
+		case GDK_Up:
+			e_day_view_cursor_key_up_shifted (day_view, event);
+			break;
+		case GDK_Down:
+			e_day_view_cursor_key_down_shifted (day_view, event);
+			break;
+		case GDK_Left:
+			e_day_view_cursor_key_left_shifted (day_view, event);
+			break;
+		case GDK_Right:
+			e_day_view_cursor_key_right_shifted (day_view, event);
+			break;
+		default:
+			stop_emission = FALSE;
+			break;
+		}
+	} else {
+		switch (keyval) {
+		case GDK_Up:
+			e_day_view_cursor_key_up (day_view, event);
+			break;
+		case GDK_Down:
+			e_day_view_cursor_key_down (day_view, event);
+			break;
+		case GDK_Left:
+			e_day_view_cursor_key_left (day_view, event);
+			break;
+		case GDK_Right:
+			e_day_view_cursor_key_right (day_view, event);
+			break;
+		default:
+			stop_emission = FALSE;
+			break;
+		}
+	}
+	if (stop_emission)
+		return TRUE;
 
 	if (day_view->selection_start_day == -1)
 		return FALSE;
@@ -3861,16 +3937,15 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	   isn't we don't want to add an event as we will then add a new
 	   event for every key press. */
 	if (!e_day_view_check_if_new_event_fits (day_view)) {
-		g_print ("Skipping new event. No more room\n");
 		return FALSE;
 	}
 
 	/* We only want to start an edit with a return key or a simple
 	   character. */
-	if (event->keyval == GDK_Return) {
+	if (keyval == GDK_Return) {
 		initial_text = NULL;
-	} else if ((event->keyval < 0x20)
-		   || (event->keyval > 0xFF)
+	} else if ((keyval < 0x20)
+		   || (keyval > 0xFF)
 		   || (event->length == 0)
 		   || (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK))) {
 		return FALSE;
@@ -3913,6 +3988,232 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 }
 
 
+static void
+e_day_view_cursor_key_up_shifted (EDayView *day_view, GdkEventKey *event)
+{
+	gint *row;
+
+	g_print ("In e_day_view_cursor_key_up_shifted\n");
+
+	if (day_view->selection_in_top_canvas)
+		return;
+
+	if (day_view->selection_drag_pos == E_DAY_VIEW_DRAG_START)
+		row = &day_view->selection_start_row;
+	else
+		row = &day_view->selection_end_row;
+
+	if (*row == 0)
+		return;
+
+	*row = *row - 1;
+
+	e_day_view_ensure_rows_visible (day_view, *row, *row);
+
+	e_day_view_normalize_selection (day_view);
+
+	e_day_view_update_calendar_selection_time (day_view);
+
+	/* FIXME: Optimise? */
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+static void
+e_day_view_cursor_key_down_shifted (EDayView *day_view, GdkEventKey *event)
+{
+	gint *row;
+
+	g_print ("In e_day_view_cursor_key_down_shifted\n");
+
+	if (day_view->selection_in_top_canvas)
+		return;
+
+	if (day_view->selection_drag_pos == E_DAY_VIEW_DRAG_START)
+		row = &day_view->selection_start_row;
+	else
+		row = &day_view->selection_end_row;
+
+	if (*row >= day_view->rows - 1)
+		return;
+
+	*row = *row + 1;
+
+	e_day_view_ensure_rows_visible (day_view, *row, *row);
+
+	e_day_view_normalize_selection (day_view);
+
+	e_day_view_update_calendar_selection_time (day_view);
+
+	/* FIXME: Optimise? */
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+static void
+e_day_view_cursor_key_left_shifted (EDayView *day_view, GdkEventKey *event)
+{
+	gint *day;
+
+	g_print ("In e_day_view_cursor_key_left_shifted\n");
+
+	if (day_view->selection_drag_pos == E_DAY_VIEW_DRAG_START)
+		day = &day_view->selection_start_day;
+	else
+		day = &day_view->selection_end_day;
+
+	if (*day == 0)
+		return;
+
+	*day = *day - 1;
+
+	e_day_view_normalize_selection (day_view);
+
+	e_day_view_update_calendar_selection_time (day_view);
+
+	/* FIXME: Optimise? */
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+static void
+e_day_view_cursor_key_right_shifted (EDayView *day_view, GdkEventKey *event)
+{
+	gint *day;
+
+	g_print ("In e_day_view_cursor_key_right_shifted\n");
+
+	if (day_view->selection_drag_pos == E_DAY_VIEW_DRAG_START)
+		day = &day_view->selection_start_day;
+	else
+		day = &day_view->selection_end_day;
+
+	if (*day >= day_view->days_shown - 1)
+		return;
+
+	*day = *day + 1;
+
+	e_day_view_normalize_selection (day_view);
+
+	e_day_view_update_calendar_selection_time (day_view);
+
+	/* FIXME: Optimise? */
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+static void
+e_day_view_cursor_key_up (EDayView *day_view, GdkEventKey *event)
+{
+	g_print ("In e_day_view_cursor_key_up\n");
+
+	if (day_view->selection_start_day == -1) {
+		day_view->selection_start_day = 0;
+		day_view->selection_start_row = 0;
+	}
+	day_view->selection_end_day = day_view->selection_start_day;
+
+	if (day_view->selection_in_top_canvas) {
+		return;
+	} else if (day_view->selection_start_row == 0) {
+		day_view->selection_in_top_canvas = TRUE;
+		day_view->selection_start_row = -1;
+	} else {
+		day_view->selection_start_row--;
+	}
+	day_view->selection_end_row = day_view->selection_start_row;
+
+	if (!day_view->selection_in_top_canvas)
+		e_day_view_ensure_rows_visible (day_view,
+						day_view->selection_start_row,
+						day_view->selection_end_row);
+
+	e_day_view_update_calendar_selection_time (day_view);
+
+	/* FIXME: Optimise? */
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+static void
+e_day_view_cursor_key_down (EDayView *day_view, GdkEventKey *event)
+{
+	g_print ("In e_day_view_cursor_key_down\n");
+
+	if (day_view->selection_start_day == -1) {
+		day_view->selection_start_day = 0;
+		day_view->selection_start_row = 0;
+	}
+	day_view->selection_end_day = day_view->selection_start_day;
+
+	if (day_view->selection_in_top_canvas) {
+		day_view->selection_in_top_canvas = FALSE;
+		day_view->selection_start_row = 0;
+	} else if (day_view->selection_start_row >= day_view->rows - 1) {
+		return;
+	} else {
+		day_view->selection_start_row++;
+	}
+	day_view->selection_end_row = day_view->selection_start_row;
+
+	if (!day_view->selection_in_top_canvas)
+		e_day_view_ensure_rows_visible (day_view,
+						day_view->selection_start_row,
+						day_view->selection_end_row);
+
+	e_day_view_update_calendar_selection_time (day_view);
+
+	/* FIXME: Optimise? */
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+
+static void
+e_day_view_cursor_key_left (EDayView *day_view, GdkEventKey *event)
+{
+	g_print ("In e_day_view_cursor_key_left\n");
+
+	if (day_view->selection_start_day == 0) {
+		gnome_calendar_previous (day_view->calendar);
+	} else {
+		day_view->selection_start_day--;
+		day_view->selection_end_day--;
+
+		e_day_view_update_calendar_selection_time (day_view);
+
+		/* FIXME: Optimise? */
+		gtk_widget_queue_draw (day_view->top_canvas);
+		gtk_widget_queue_draw (day_view->main_canvas);
+	}
+}
+
+
+static void
+e_day_view_cursor_key_right (EDayView *day_view, GdkEventKey *event)
+{
+	g_print ("In e_day_view_cursor_key_right\n");
+
+	if (day_view->selection_end_day == day_view->days_shown - 1) {
+		gnome_calendar_next (day_view->calendar);
+	} else {
+		day_view->selection_start_day++;
+		day_view->selection_end_day++;
+
+		e_day_view_update_calendar_selection_time (day_view);
+
+		/* FIXME: Optimise? */
+		gtk_widget_queue_draw (day_view->top_canvas);
+		gtk_widget_queue_draw (day_view->main_canvas);
+	}
+}
+
+
 static gboolean
 e_day_view_check_if_new_event_fits (EDayView *day_view)
 {
@@ -3937,6 +4238,33 @@ e_day_view_check_if_new_event_fits (EDayView *day_view)
 	}
 
 	return TRUE;
+}
+
+
+static void
+e_day_view_ensure_rows_visible (EDayView *day_view,
+				gint start_row,
+				gint end_row)
+{
+	GtkAdjustment *adj;
+	gfloat value, min_value, max_value;
+
+	adj = GTK_LAYOUT (day_view->main_canvas)->vadjustment;
+
+	value = adj->value;
+
+	min_value = (end_row + 1) * day_view->row_height - adj->page_size;
+	if (value < min_value)
+		value = min_value;
+
+	max_value = start_row * day_view->row_height;
+	if (value > max_value)
+		value = max_value;
+
+	if (value != adj->value) {
+		adj->value = value;
+		gtk_adjustment_value_changed (adj);
+	}
 }
 
 
@@ -4336,7 +4664,7 @@ e_day_view_auto_scroll_handler (gpointer data)
 		day = -1;
 
 	if (pos != E_DAY_VIEW_POS_OUTSIDE) {
-		if (day_view->selection_drag_pos != E_DAY_VIEW_DRAG_NONE) {
+		if (day_view->selection_is_being_dragged) {
 			e_day_view_update_selection (day_view, day, row);
 		} else if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE) {
 			e_day_view_update_resize (day_view, row);

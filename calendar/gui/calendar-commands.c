@@ -637,7 +637,7 @@ calendar_control_activate (BonoboControl *control,
 		button = 0;
 	}
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cal->view_toolbar_buttons[i]), TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cal->view_toolbar_buttons[button]), TRUE);
 
 	gtk_widget_show_all (toolbar);
 

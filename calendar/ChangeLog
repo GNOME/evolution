@@ -1,3 +1,22 @@
+2000-06-21  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/gnome-cal.c (gnome_calendar_direction): changed so it keeps the
+	selection range. It just moves it on one day/week etc. This makes
+	it very handy for the keyboard shortcut code.
+
+	* gui/calendar-commands.c (calendar_control_activate): fixed bug
+	setting the radio button active.
+
+	* gui/e-day-view.[hc]: added support for keyboard navigation and
+	selection of the time range.
+
+2000-06-19  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/event-editor-dialog.glade: tidied up dialog a bit, adding
+	space etc.
+
+	* gui/e-week-view.c (e_week_view_reshape_events): removed debug msg.
+
 2000-06-18  Ettore Perazzoli <ettore@helixcode.com>
 
 	* cal-util/Makefile.am (INCLUDES): Include from
