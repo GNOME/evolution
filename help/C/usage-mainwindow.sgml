@@ -3,7 +3,7 @@
 -->
 <chapter id="usage-mainwindow">
 
-  <title>The Evolution Workspace</title>
+  <title>Getting Started with Evolution</title>
   <sect1 id="usage-mainwindow-starting">
     <title>The First Time you Start Evolution</title>
     <para>
@@ -128,7 +128,7 @@
 	    </para>
 	    <para>
 	      Remember Password &mdash; If you prefer to not enter your
-	      password everytime you check email, press this button.
+	      password every time you check email, press this button.
 	    </para>
 	  </listitem>
 	</itemizedlist>
@@ -665,9 +665,9 @@
     </tip>
 -->
 	<para>
-	  Any time new information arrives in a mail folder, that folder label
-	  is displayed in bold text, along with the number of new messages in
-	  that folder inside of paranthesis.
+	  Any time new mail arrives in a mail folder, that folder
+	  label is displayed in bold text, along with the number of
+	  new messages in that folder.
 	</para>
       </sect3>
     </sect2>
