@@ -235,7 +235,7 @@ gmime_read_line_from_stream (CamelStream *stream)
 		} else end_of_stream = TRUE;
 	} while (!end_of_line && !end_of_stream);
 
-	if ( (new_line->str[0]) != '\0')
+	if (!end_of_stream)
 		result = g_strdup (new_line->str);
 	else result=NULL;
 	g_string_free (new_line, TRUE);

@@ -1,3 +1,11 @@
+1999-08-01  root  <guiheneu@jean.joudboeuf.fr>
+
+	* camel/gmime-utils.c (gmime_read_line_from_stream): 
+	do not return NULL when line is empty. 
+
+	* camel/camel-multipart.c (_read_part): return true when end
+	of multipart is found, not the contrary
+
 1999-07-31  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/gmime-utils.c (gmime_read_line_from_stream): 

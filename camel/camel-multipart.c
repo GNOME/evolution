@@ -367,18 +367,16 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
  * Thus, if there is no blank line before the boundary, the last crlf
  * of the last line of the part is removed. 
  * 
- * Return value: false if the last boundary element has been met true otherwise. 
+ * Return value: true if the last boundary element has been found or if no more data was available from the stream, flase otherwise 
  **/
 
 static gboolean
 _read_part (GString *new_part, CamelStream *stream, gchar *normal_boundary, gchar *end_boundary)
 {
 	gchar *new_line;
-	gboolean end_of_part;
-	gboolean last_part;
-	gboolean pending_crlf = FALSE;
-	guint line_length;
-	
+	gboolean end_of_part = FALSE;
+	gboolean last_part = FALSE;
+
 	/* RFC 2046 precises that when parsing the content of a multipart 
 	 * element, the program should not think it will find the last bounndary,
 	 * and in particular, the message could have been damaged during
@@ -408,6 +406,7 @@ _read_part (GString *new_part, CamelStream *stream, gchar *normal_boundary, gcha
 	} ;
 #endif
 	new_line = gmime_read_line_from_stream (stream);
+	printf ("== new line = \"%s\"\n", new_line);
 	while (new_line && !end_of_part && !last_part) {
 		printf ("++ new line = \"%s\"\n", new_line);
 		end_of_part = (strcmp (new_line, normal_boundary) == 0);
@@ -417,7 +416,7 @@ _read_part (GString *new_part, CamelStream *stream, gchar *normal_boundary, gcha
 		new_line = gmime_read_line_from_stream (stream);
 	}
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart:: Leaving _read_part\n");
-	return (!last_part && new_line);
+	return (last_part && !new_line);
 }
 
 static void
