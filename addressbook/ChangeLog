@@ -1,5 +1,12 @@
 2001-02-06  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/evolveperson.schema: new file.  this will eventually
+	form the suggested additions to an existing openldap server that,
+	along with support for inetorgperson, will allow people to store
+	all evolution attributes in ldap.
+	
+2001-02-06  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_init): don't
 	need the = NULL's since we g_new0.
 	(check_for_evolve_person): new function.
