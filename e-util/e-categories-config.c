@@ -13,101 +13,23 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-categories.h>
-#include <bonobo-conf/Bonobo_Config.h>
-#include <bonobo-conf/bonobo-config-database.h>
-#include <bonobo/bonobo-context.h>
-#include <bonobo/bonobo-exception.h>
-#include <bonobo/bonobo-moniker-util.h>
 #include "e-categories-config.h"
 #include "e-categories-master-list-wombat.h"
 
-typedef struct {
-	char *filename;
-	GdkPixbuf *pixbuf;
-	GdkPixmap *pixmap;
-	GdkBitmap *mask;
-} icon_data_t;
-
-static GHashTable *cat_colors = NULL;
-static GHashTable *cat_icons = NULL;
 static gboolean initialized = FALSE;
-static Bonobo_ConfigDatabase db = CORBA_OBJECT_NIL;
+static ECategoriesMasterListWombat *ecmlw = NULL;
+static GHashTable *icons_table = NULL;
 
 static void
 initialize_categories_config (void)
 {
-	CORBA_Environment ev;
-	static gboolean init_in_progress = FALSE;
-
 	g_return_if_fail (initialized == FALSE);
 
-	if (init_in_progress)
-		return;
-	init_in_progress = TRUE;
-
-	cat_colors = g_hash_table_new (g_str_hash, g_str_equal);
-	cat_icons = g_hash_table_new (g_str_hash, g_str_equal);
-
-	/* get configuration component */
-	CORBA_exception_init (&ev);
-
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	if (BONOBO_EX (&ev))
-		g_error ("Could not get wombat: moniker");
-	else
-		bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (db));
-
-	/* generate default icon configuration if not present */
-	if (!Bonobo_ConfigDatabase_dirExists (db, "General/Categories", &ev)
-	    && !BONOBO_EX (&ev)) {
-		e_categories_config_set_icon_for (
-			_("Birthday"), EVOLUTION_CATEGORY_ICONS "/16_category_birthday.png");
-		e_categories_config_set_icon_for (
-			_("Business"), EVOLUTION_CATEGORY_ICONS "/16_category_business.png");
-		e_categories_config_set_icon_for (
-			_("Competition"), NULL);
-		e_categories_config_set_icon_for (
-			_("Favorites"), EVOLUTION_CATEGORY_ICONS "/16_category_favorites.png");
-		e_categories_config_set_icon_for (
-			_("Gifts"), EVOLUTION_CATEGORY_ICONS "/16_category_gifts.png");
-		e_categories_config_set_icon_for (
-			_("Goals/Objectives"), EVOLUTION_CATEGORY_ICONS "/16_category_goals.png");
-		e_categories_config_set_icon_for (
-			_("Holiday"), EVOLUTION_CATEGORY_ICONS "/16_category_holiday.png");
-		e_categories_config_set_icon_for (
-			_("Holiday Cards"), EVOLUTION_CATEGORY_ICONS "/16_category_holiday-cards.png");
-		e_categories_config_set_icon_for (
-			_("Hot Contacts"), EVOLUTION_CATEGORY_ICONS "/16_category_hot-contacts.png");
-		e_categories_config_set_icon_for (
-			_("Ideas"), EVOLUTION_CATEGORY_ICONS "/16_category_ideas.png");
-		e_categories_config_set_icon_for (
-			_("International"), EVOLUTION_CATEGORY_ICONS "/16_category_international.png");
-		e_categories_config_set_icon_for (
-			_("Key Customer"), EVOLUTION_CATEGORY_ICONS "/16_category_key-customer.png");
-		e_categories_config_set_icon_for (
-			_("Miscellaneous"), EVOLUTION_CATEGORY_ICONS "/16_category_miscellaneous.png");
-		e_categories_config_set_icon_for (
-			_("Personal"), EVOLUTION_CATEGORY_ICONS "/16_category_personal.png");
-		e_categories_config_set_icon_for (
-			_("Phone Calls"), EVOLUTION_CATEGORY_ICONS "/16_category_phonecalls.png");
-		e_categories_config_set_icon_for (
-			_("Status"), EVOLUTION_CATEGORY_ICONS "/16_category_status.png");
-		e_categories_config_set_icon_for (
-			_("Strategies"), EVOLUTION_CATEGORY_ICONS "/16_category_strategies.png");
-		e_categories_config_set_icon_for (
-			_("Suppliers"), EVOLUTION_CATEGORY_ICONS "/16_category_suppliers.png");
-		e_categories_config_set_icon_for (
-			_("Time & Expenses"), EVOLUTION_CATEGORY_ICONS "/16_category_time-and-expenses.png");
-		e_categories_config_set_icon_for (
-			_("VIP"), NULL);
-		e_categories_config_set_icon_for (
-			_("Waiting"), NULL);
-	}
-	
-	CORBA_exception_free (&ev);
+	ecmlw = E_CATEGORIES_MASTER_LIST_WOMBAT (e_categories_master_list_wombat_new ());
+	icons_table = g_hash_table_new (g_str_hash, g_str_equal);
+	/* FIXME: must free the two objects above when exiting */
 
 	initialized = TRUE;
-	init_in_progress = FALSE;
 }
 
 /**
@@ -122,26 +44,24 @@ initialize_categories_config (void)
 const char *
 e_categories_config_get_color_for (const char *category)
 {
-	char *color;
-	char *tmp;
+	int n;
 
 	g_return_val_if_fail (category != NULL, NULL);
 
 	if (!initialized)
 		initialize_categories_config ();
 
-	color = g_hash_table_lookup (cat_colors, category);
-	if (color)
-		return (const char *) color;
+	for (n = 0;
+	     n < e_categories_master_list_count (E_CATEGORIES_MASTER_LIST (ecmlw));
+	     n++) {
+		char *tmp_cat;
 
-	/* not found, so get it from configuration */
-	tmp = g_strdup_printf ("General/Categories/%s/Color", category);
-        color = bonobo_config_get_string (db, tmp, NULL);
-	g_free (tmp);
-	if (color)
-		e_categories_config_set_color_for (category, (const char *) color);
+		tmp_cat = (char *) e_categories_master_list_nth (E_CATEGORIES_MASTER_LIST (ecmlw), n);
+		if (tmp_cat && !strcmp (tmp_cat, category))
+			return e_categories_master_list_nth_color (E_CATEGORIES_MASTER_LIST (ecmlw), n);
+	}
 
-	return color;
+	return NULL; /* not found */
 }
 
 /**
@@ -150,29 +70,7 @@ e_categories_config_get_color_for (const char *category)
 void
 e_categories_config_set_color_for (const char *category, const char *color)
 {
-	char *tmp_color;
-	char *tmp;
-
-	g_return_if_fail (category != NULL);
-	g_return_if_fail (color != NULL);
-
-	if (!initialized)
-		initialize_categories_config ();
-
-	tmp_color = g_hash_table_lookup (cat_colors, category);
-	if (tmp_color != NULL) {
-		g_hash_table_remove (cat_colors, category);
-		g_free (tmp_color);
-	}
-
-	/* add new color to the hash table */
-	tmp_color = g_strdup (color);
-	g_hash_table_insert (cat_colors, (gpointer) category, (gpointer) tmp_color);
-
-	/* ...and to the configuration */
-	tmp = g_strdup_printf ("General/Categories/%s/Color", category);
-	bonobo_config_set_string (db, tmp, color, NULL);
-	g_free (tmp);
+	/* FIXME: implement */
 }
 
 /**
@@ -187,51 +85,37 @@ e_categories_config_set_color_for (const char *category, const char *color)
 void
 e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkBitmap **mask)
 {
-	icon_data_t *icon_data;
 	char *icon_file;
-	char *tmp;
+	GdkPixbuf *pixbuf;
+	GdkBitmap *tmp_mask;
 
-	g_return_if_fail (category != NULL);
 	g_return_if_fail (pixmap != NULL);
 
-	if (!initialized)
-		initialize_categories_config ();
-
-	icon_data = g_hash_table_lookup (cat_icons, category);
-	if (icon_data != NULL) {
-		*pixmap = icon_data->pixmap;
-		if (mask != NULL)
-			*mask = icon_data->mask;
-		return;
-	}
-
-	/* not found, so look in the configuration */
-	tmp = g_strdup_printf ("General/Categories/%s/Icon", category);
-	icon_file = bonobo_config_get_string (db, tmp, NULL);
-	g_free (tmp);
-
-	if (icon_file) {
-		/* add new pixmap from file to the list */
-		icon_data = g_new (icon_data_t, 1);
-		icon_data->filename = icon_file;
-		icon_data->pixmap = NULL;
-		icon_data->mask = NULL;
-		icon_data->pixbuf = gdk_pixbuf_new_from_file (icon_file);
-		gdk_pixbuf_render_pixmap_and_mask (icon_data->pixbuf,
-						   &icon_data->pixmap,
-						   &icon_data->mask,
-						   1);
-		g_hash_table_insert (cat_icons, (gpointer) category, (gpointer) icon_data);
-
-		*pixmap = icon_data->pixmap;
-		if (*mask)
-			*mask = icon_data->mask;
-	}
-	else {
+	icon_file = (char *) e_categories_config_get_icon_file_for (category);
+	if (!icon_file) {
 		*pixmap = NULL;
 		if (mask != NULL)
 			*mask = NULL;
 	}
+
+	/* load the icon in our list */
+	pixbuf = g_hash_table_lookup (icons_table, icon_file);
+	if (!pixbuf) {
+		pixbuf = gdk_pixbuf_new_from_file (icon_file);
+		if (!pixbuf) {
+			*pixmap = NULL;
+			if (mask != NULL)
+				*mask = NULL;
+			return;
+		}
+
+		g_hash_table_insert (icons_table, g_strdup (icon_file), pixbuf);
+	}
+
+	/* render the pixbuf to the pixmap and mask passed */
+	gdk_pixbuf_render_pixmap_and_mask (pixbuf, pixmap, &tmp_mask, 1);
+	if (mask != NULL)
+		*mask = tmp_mask;
 }
 
 /**
@@ -241,37 +125,24 @@ e_categories_config_get_icon_for (const char *category, GdkPixmap **pixmap, GdkB
 const char *
 e_categories_config_get_icon_file_for (const char *category)
 {
-	icon_data_t *icon_data;
-	char *icon_file;
-	char *tmp;
+	int n;
 
 	g_return_val_if_fail (category != NULL, NULL);
 
 	if (!initialized)
 		initialize_categories_config ();
 
-	icon_data = g_hash_table_lookup (cat_icons, category);
-	if (icon_data != NULL)
-		return (const char *) icon_data->filename;
+	for (n = 0;
+	     n < e_categories_master_list_count (E_CATEGORIES_MASTER_LIST (ecmlw));
+	     n++) {
+		char *tmp_cat;
 
-	/* not found, so look in the configuration */
-	tmp = g_strdup_printf ("General/Categories/%s/Icon", category);
-	icon_file = bonobo_config_get_string (db, tmp, NULL);
-	g_free (tmp);
-
-	if (icon_file) {
-		/* add new pixmap from file to the list */
-		icon_data = g_new (icon_data_t, 1);
-		icon_data->filename = icon_file;
-		gdk_pixbuf_new_from_file (icon_file);
-		gdk_pixbuf_render_pixmap_and_mask (icon_data->pixbuf,
-						   &icon_data->pixmap,
-						   &icon_data->mask,
-						   0);
-		g_hash_table_insert (cat_icons, (gpointer) category, (gpointer) icon_data);
+		tmp_cat = (char *) e_categories_master_list_nth (E_CATEGORIES_MASTER_LIST (ecmlw), n);
+		if (tmp_cat && !strcmp (tmp_cat, category))
+			return e_categories_master_list_nth_icon (E_CATEGORIES_MASTER_LIST (ecmlw), n);
 	}
 
-	return (const char *) icon_file;
+	return NULL; /* not found */
 }
 
 /**
@@ -282,39 +153,6 @@ e_categories_config_get_icon_file_for (const char *category)
 void
 e_categories_config_set_icon_for (const char *category, const char *icon_file)
 {
-	icon_data_t *icon_data;
-	char *tmp;
-
-	g_return_if_fail (category != NULL);
-	g_return_if_fail (icon_file != NULL);
-
-	if (!initialized)
-		initialize_categories_config ();
-
-	icon_data = g_hash_table_lookup (cat_icons, category);
-	if (icon_data != NULL) {
-		g_hash_table_remove (cat_icons, category);
-
-		gdk_pixbuf_unref (icon_data->pixbuf);
-		gdk_pixmap_unref (icon_data->pixmap);
-		gdk_bitmap_unref (icon_data->mask);
-		g_free (icon_data->filename);
-		g_free (icon_data);
-	}
-
-	/* add new pixmap from file to the list */
-	icon_data = g_new (icon_data_t, 1);
-	icon_data->filename = g_strdup (icon_file);
-	icon_data->pixbuf = gdk_pixbuf_new_from_file (icon_file);
-	gdk_pixbuf_render_pixmap_and_mask (icon_data->pixbuf,
-					   &icon_data->pixmap,
-					   &icon_data->mask,
-					   0);
-	g_hash_table_insert (cat_icons, (gpointer) category, (gpointer) icon_data);
-
-	/* ...and to the configuration */
-	tmp = g_strdup_printf ("General/Categories/%s/Icon", category);
-	bonobo_config_set_string (db, tmp, icon_file, NULL);
 }
 
 /**
@@ -335,19 +173,19 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 	char *categories;
 	GnomeDialog *dialog;
 	int result;
-	ECategoriesMasterList *ecml;
 
 	g_return_if_fail (entry != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (entry));
 
+	if (!initialized)
+		initialize_categories_config ();
+
 	categories = e_utf8_gtk_entry_get_text (GTK_ENTRY (entry));
 	dialog = GNOME_DIALOG (e_categories_new (categories));
 
-	ecml = e_categories_master_list_wombat_new ();
 	gtk_object_set (GTK_OBJECT (dialog),
-			"ecml", ecml,
+			"ecml", ecmlw,
 			NULL);
-	gtk_object_unref (GTK_OBJECT (ecml));
 
 	/* run the dialog */
 	result = gnome_dialog_run (dialog);

@@ -1,3 +1,8 @@
+2001-08-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-categories-config.c: reworked to use the ECategoriesMasterListWombat
+	class. Also, load correctly images (fixes #6794)
+
 2001-08-09  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-categories-master-list-wombat.c (ecmlw_destroy): Chain to the
