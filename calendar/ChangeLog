@@ -1,3 +1,8 @@
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* pcs/cal-factory.c: Removed double free of method_string in
+	uri->method_string.
+
 2000-05-08  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* pcs/cal.h: Include "calendar/pcs/evolution-calendar.h" instead

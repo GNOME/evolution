@@ -215,6 +215,9 @@ queue_load_create_job (CalFactory *factory, const char *uri, Evolution_Calendar_
 	Evolution_Calendar_Listener listener_copy;
 	gboolean result;
 
+	if ((!uri) || (!*uri))
+	  return;
+
 	CORBA_exception_init (&ev);
 	result = CORBA_Object_is_nil (listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -329,7 +332,6 @@ launch_backend_for_uri (CalFactory *factory, GnomeVFSURI *uri, Evolution_Calenda
 	method = uri->method_string;
 
 	type = g_hash_table_lookup (priv->methods, method);
-	g_free (method);
 
 	if (!type) {
 		CORBA_Environment ev;
