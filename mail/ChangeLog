@@ -1,3 +1,7 @@
+2000-09-01  Christopher James Lahey  <clahey@helixcode.com>
+
+	* folder-browser.c: Removed a warning.
+
 2000-09-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (compose_msg): Attach a callback to the

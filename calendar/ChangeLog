@@ -1,3 +1,9 @@
+2000-09-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* conduits/calendar/calendar-conduit.c,
+	conduits/todo/todo-conduit.c, gui/e-week-view.c, gui/gnome-cal.c:
+	Fixed some warnings.
+
 2000-09-01  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/gnome-cal.c (gnome_calendar_new): Use

@@ -982,7 +982,7 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 	    GCalConduitContext *ctxt)
 {
 	gboolean success;
-	iCalPilotState new_state;
+	iCalPilotState new_state = ICAL_PILOT_SYNC_NONE;
 
 	LOG ("set_status: %s status is now '%s'\n",
 		print_local (local),

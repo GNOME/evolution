@@ -1,3 +1,10 @@
+2000-09-02  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in: Added calendar/conduits/Makefile,
+	calendar/conduits/calendar/Makefile and
+	calendar/conduits/todo/Makefile to the list of makefiles to
+	output.
+
 2000-09-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* configure.in: Add default_user/local/Sentbox/Makefile to the

@@ -504,7 +504,9 @@ ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 	}
 	*/
 
+#ifndef NO_WARNINGS
 #warning "finish alarms here"
+#endif
 #if 0
 	/*
 	 * Alarm
@@ -531,7 +533,9 @@ ical_from_remote_record(GnomePilotConduitStandardAbs *conduit,
 	}
 #endif /* 0 */
 
+#ifndef NO_WARNINGS
 #warning "finish recurrence here"
+#endif
 #if 0
 	/*
 	 * Recurrence
@@ -1064,7 +1068,7 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 	    GCalConduitContext *ctxt)
 {
 	gboolean success;
-	iCalPilotState new_state;
+	iCalPilotState new_state = ICAL_PILOT_SYNC_NONE;
 
 	printf ("set_status: %s status is now '%s'\n",
 		print_local (local),
@@ -1210,7 +1214,9 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 		local->a->end = *localtime (&dtend_time_t);
 	}
 
+#ifndef NO_WARNINGS
 #warning "finish alarm and recurrence here"
+#endif
 #if 0
 	/* set the Audio Alarm  parameters */
 	if(local->ical->aalarm.enabled) {

@@ -448,7 +448,9 @@ folder_browser_new (Evolution_Shell shell)
 	folder_browser->serial = serial++;
 	folder_browser->shell = shell;
 
+#ifndef NO_WARNINGS
 #warning "is this a circular reference???"
+#endif
 
 	CORBA_exception_init (&ev);
 	Bonobo_Unknown_ref (shell, &ev);

@@ -1387,6 +1387,7 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 	gnome_calendar_update_date_navigator (gcal);
 }
 
+#ifndef NO_WARNINGS
 /* Callback used when an event editor finishes editing an object */
 static void
 released_event_object_cb (EventEditor *ee, const char *uid, gpointer data)
@@ -1406,6 +1407,7 @@ released_event_object_cb (EventEditor *ee, const char *uid, gpointer data)
 	g_hash_table_remove (gcal->object_editor_hash, orig_uid);
 	g_free (orig_uid);
 }
+#endif
 
 /* Callback used when an event editor dialog is closed */
 struct editor_closure 

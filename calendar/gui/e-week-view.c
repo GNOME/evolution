@@ -1103,7 +1103,7 @@ e_week_view_set_first_day_shown		(EWeekView	*week_view,
 	GDate base_date;
 	gint day_offset, num_days;
 	gboolean update_adjustment_value = FALSE;
-	guint32 old_selection_start_julian, old_selection_end_julian;
+	guint32 old_selection_start_julian = 0, old_selection_end_julian = 0;
 	struct tm start_tm;
 	time_t start_time;
 
