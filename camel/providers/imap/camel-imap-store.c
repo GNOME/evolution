@@ -318,6 +318,33 @@ camel_imap_store_get_toplevel_dir (CamelImapStore *store)
 }
 
 static gboolean
+imap_folder_exists (CamelFolder *folder)
+{
+	CamelStore *store = CAMEL_STORE (folder->parent_store);
+	CamelURL *url = CAMEL_SERVICE (store)->url;
+	gchar *result, *folder_path;
+	gint status;
+
+	if (url && url->path && strcmp (folder->full_name, "INBOX"))
+		folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
+	else
+		folder_path = g_strdup (folder->full_name);
+
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), NULL,
+					      &result, "EXAMINE %s", folder_path);
+
+	if (status != CAMEL_IMAP_OK) {
+		g_free (result);
+		g_free (folder_path);
+		return FALSE;
+	}
+	g_free (folder_path);
+	g_free (result);
+
+	return TRUE;
+}
+
+static gboolean
 imap_create (CamelFolder *folder, CamelException *ex)
 {
 	CamelStore *store = CAMEL_STORE (folder->parent_store);
@@ -335,8 +362,8 @@ imap_create (CamelFolder *folder, CamelException *ex)
 
 	if (!strcmp (folder->full_name, "INBOX"))
 		return TRUE;
-	
-	if (camel_folder_get_subfolder (folder->parent_folder, folder->name, FALSE, ex))
+
+	if (imap_folder_exists (folder))
 		return TRUE;
 	
         /* create the directory for the subfolder */
@@ -374,11 +401,14 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 	g_return_val_if_fail (store != NULL, NULL);
 	g_return_val_if_fail (folder_name != NULL, NULL);
 
-	folder_path = g_strdup (folder_name);
+	if (!strcmp (folder_name, "/"))
+		folder_path = g_strdup ("INBOX");
+	else
+		folder_path = g_strdup (folder_name);
+	
 	new_folder = camel_imap_folder_new (store, folder_path, ex);
 
-	if (!imap_create (new_folder, ex)) {
-		/* we should set an exception */
+	if (create && !imap_create (new_folder, ex)) {
 		return NULL;
 	}
 	

@@ -186,7 +186,7 @@ camel_imap_folder_new (CamelStore *parent, char *folder_name, CamelException *ex
 {
 	CamelFolder *folder = CAMEL_FOLDER (gtk_object_new (camel_imap_folder_get_type (), NULL));
 	
-	CF_CLASS (folder)->init (folder, parent, NULL, "INBOX", "/", FALSE, ex);
+	CF_CLASS (folder)->init (folder, parent, NULL, folder_name, "/", FALSE, ex);
 
 	return folder;
 }
@@ -383,49 +383,6 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 
 #if 0
 static gboolean
-imap_exists (CamelFolder *folder, CamelException *ex)
-{
-	/* make sure the folder exists */
-	GPtrArray *lsub;
-	gboolean exists = FALSE;
-	int i, max;
-
-	g_return_val_if_fail (folder != NULL, FALSE);
-
-	/* check if the imap file path is determined */
-	if (!folder->full_name) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "undetermined folder file path. Maybe use set_name ?");
-		return FALSE;
-	}
-
-	/* check if the imap dir path is determined */
-	if (!folder->full_name) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "undetermined folder directory path. Maybe use set_name ?");
-		return FALSE;
-	}
-
-	/* Get a listing of the folders that exist */
-	lsub = imap_get_subfolder_names (folder, ex);
-
-	/* look to see if any of those subfolders match... */
-	max = lsub->len;
-	for (i = 0; i < max; i++) {
-		if (!strcmp (g_ptr_array_index (lsub, i), folder->full_name)) {
-			exists = TRUE;
-			break;
-		}
-	}
-
-	g_ptr_array_free (lsub, TRUE);
-
-	return exists;
-}
-#endif
-
-#if 0
-static gboolean
 imap_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 {
 	/* TODO: code this & what should this do? delete messages or the folder? */
@@ -488,13 +445,13 @@ imap_get_message_count (CamelFolder *folder, CamelException *ex)
 		folder_path = g_strdup (folder->full_name);
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "STATUS %s (MESSAGES)", folder->full_name);
+					      &result, "STATUS %s (MESSAGES)", folder_path);
 
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not get message count from IMAP "
-				      "server %s: %s.", service->url->host,
+				      "Could not get message count for %s from IMAP "
+				      "server %s: %s.", folder_path, service->url->host,
 				      status == CAMEL_IMAP_ERR ? result :
 				      "Unknown error");
 		g_free (result);

@@ -1,5 +1,14 @@
 2000-06-22  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c (imap_get_message_count): 
+	Oops. Now appends the namespace to the folder before querying
+	for the number of messages.
+
+	* providers/imap/camel-imap-store.c (imap_folder_exists): New
+	convenience function for use by imap_create().
+	(get_folder): If folder is specified as "/", we really want
+	"INBOX".
+
 	* providers/sendmail/camel-sendmail-provider.c:
 	* providers/vee/camel-vee-provider.c:
 	* providers/smtp/camel-smtp-provider.c:
