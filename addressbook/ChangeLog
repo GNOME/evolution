@@ -1,3 +1,20 @@
+2004-04-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* conduit/address-conduit.c (get_next_mail): The firt EMAIL item
+	is EMAIL_1, not EMAIL (assuming we want simple strings).
+	(local_record_from_ecard): Use e_contact_get() for getting the
+	EContactAddress. Loop from FIRST_ADDRESS_ID up to and *including*
+	LAST_ADDRESS_ID.
+	(ecard_from_remote_record): When searching for an address field,
+	loop from FIRST_ADDRESS_ID up to and *including* LAST_ADDRESS_ID.
+	(pre_sync): Use e_book_query_any_field_contains() rather than
+	e_book_query_from_string ("#t") which doesn't work anyway.
+
+2004-04-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* conduit/address-conduit.c (map_name): Updated to use
+	~/.evolution as the evolution directory rather than ~/evolution.
+
 2004-04-23  Dan Winship  <danw@ximian.com>
 
 	* gui/component/component-factory.c (factory): Fix the addressbook
@@ -159,6 +176,7 @@
 	* gui/contact-editor/e-contact-editor.c (new_target_cb):
 	addressbook_show_load_error_dialog -> eab_load_error_dialog.
 
+>>>>>>> 1.1665
 2004-04-19  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Set the default image for

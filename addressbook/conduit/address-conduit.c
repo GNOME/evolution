@@ -73,7 +73,7 @@ static EContactField priority [] = {
 	E_CONTACT_PHONE_BUSINESS,
 	E_CONTACT_PHONE_HOME,
 	E_CONTACT_PHONE_BUSINESS_FAX,
-	E_CONTACT_EMAIL,
+	E_CONTACT_EMAIL_1,
 	E_CONTACT_PHONE_PAGER,
 	E_CONTACT_PHONE_MOBILE,
 	E_CONTACT_PHONE_BUSINESS_2,
@@ -462,8 +462,8 @@ map_name (EAddrConduitContext *ctxt)
 {
 	char *filename = NULL;
 	
-	filename = g_strdup_printf ("%s/evolution/local/Contacts/pilot-map-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
-
+	filename = g_strdup_printf ("%s/.evolution/addressbook/local/system/pilot-map-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
+	
 	return filename;
 }
 
@@ -487,14 +487,15 @@ static EContactField
 get_next_mail (EContactField *field)
 {
 	if (field == NULL)
-		return E_CONTACT_EMAIL;
+		return E_CONTACT_EMAIL_1;
 	
 	switch (*field) {
-	case E_CONTACT_EMAIL:
+	case E_CONTACT_EMAIL_1:
 		return E_CONTACT_EMAIL_2;
 	case E_CONTACT_EMAIL_2:
 		return E_CONTACT_EMAIL_3;
 	default:
+		break;
 	}
 
 	return E_CONTACT_FIELD_LAST;
@@ -510,6 +511,7 @@ get_next_home (EContactField *field)
 	case E_CONTACT_PHONE_HOME:
 		return E_CONTACT_PHONE_HOME_2;
 	default:
+		break;
 	}
 
 	return E_CONTACT_FIELD_LAST;
@@ -525,6 +527,7 @@ get_next_work (EContactField *field)
 	case E_CONTACT_PHONE_BUSINESS:
 		return E_CONTACT_PHONE_BUSINESS_2;
 	default:
+		break;
 	}
 
 	return E_CONTACT_FIELD_LAST;
@@ -542,6 +545,7 @@ get_next_fax (EContactField *field)
 	case E_CONTACT_PHONE_HOME_FAX:
 		return E_CONTACT_PHONE_OTHER_FAX;
 	default:
+		break;
 	}
 
 	return E_CONTACT_FIELD_LAST;
@@ -781,10 +785,9 @@ local_record_to_pilot_record (EAddrLocalRecord *local,
 static void
 local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrConduitContext *ctxt)
 {
-	const EContactAddress *address;
-	EContactField mailing_address;
+	EContactAddress *address = NULL;
 	int phone = entryPhone1;
-
+	EContactField field;
 	gboolean syncable;
 	int i;
 	
@@ -835,25 +838,16 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 	local->addr->entry[entryTitle] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_TITLE));
 	
 	/* See if the default has something in it */
-	mailing_address = -1;
-	if (e_contact_get_const (contact, ctxt->cfg->default_address))
-		mailing_address = ctxt->cfg->default_address;
-	
-	/* If it doesn't, look for any address */
-	if (mailing_address == -1) {
-		for (i = E_CONTACT_FIRST_LABEL_ID; i < E_CONTACT_LAST_LABEL_ID; i++) {
-			if (e_contact_get_const (contact, i)) {
-				mailing_address = i;				
+	if ((address = e_contact_get (contact, ctxt->cfg->default_address))) {
+		field = ctxt->cfg->default_address;
+	} else {
+		/* Try to find a non-empty address field */
+		for (field = E_CONTACT_FIRST_ADDRESS_ID; field <= E_CONTACT_LAST_ADDRESS_ID; field++) {
+			if ((address = e_contact_get (contact, field)))
 				break;
-			}
 		}
 	}
 	
-	/* If all else fails, use the default */
-	if (mailing_address == -1)
-		mailing_address = ctxt->cfg->default_address;
-
-	address = e_contact_get_const (contact, mailing_address);
 	if (address) {
 		char *add;
 		
@@ -869,8 +863,10 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 		local->addr->entry[entryState] = e_pilot_utf8_to_pchar (address->region);
 		local->addr->entry[entryZip] = e_pilot_utf8_to_pchar (address->code);
 		local->addr->entry[entryCountry] = e_pilot_utf8_to_pchar (address->country);
+		
+		e_contact_address_free (address);
 	}
-
+	
 	/* Phone numbers */
 
 	/* See if everything is syncable */
@@ -893,7 +889,7 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 			}
 		}
 		for ( ; phone <= entryPhone5; phone++)
-			      local->addr->phoneLabel[phone - entryPhone1] = phone - entryPhone1;
+			local->addr->phoneLabel[phone - entryPhone1] = phone - entryPhone1;
 		local->addr->showPhone = 0;
 	} else {
 		EContactField next_mail, next_home, next_work, next_fax;
@@ -1017,13 +1013,14 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 
 	/* Address */
 	mailing_address = -1;
-	if (e_contact_get_const (contact, ctxt->cfg->default_address))
+	if ((eaddress = e_contact_get (contact, ctxt->cfg->default_address))) {
 		mailing_address = ctxt->cfg->default_address;
-
-	if (mailing_address == -1) {
-		for (i = E_CONTACT_FIRST_LABEL_ID; i < E_CONTACT_LAST_LABEL_ID; i++) {
-			if (e_contact_get_const (contact, i)) {
-				mailing_address = i;				
+		e_contact_address_free (eaddress);
+	} else {
+		for (i = E_CONTACT_FIRST_ADDRESS_ID; i <= E_CONTACT_LAST_ADDRESS_ID; i++) {
+			if ((eaddress = e_contact_get (contact, i))) {
+				e_contact_address_free (eaddress);
+				mailing_address = i;
 				break;
 			}
 		}
@@ -1031,14 +1028,17 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	
 	if (mailing_address == -1)
 		mailing_address = ctxt->cfg->default_address;
-
+	
 	eaddress = g_new0 (EContactAddress, 1);
 
 	txt = get_entry_text (address, entryAddress);
-	if ((find = strchr (txt, '\n')) != NULL) {
+	if (txt && (find = strchr (txt, '\n')) != NULL) {
 		*find = '\0';
 		find++;
-	}	
+	} else {
+		find = NULL;
+	}
+	
 	eaddress->street = txt;
 	eaddress->ext = find != NULL ? g_strdup (find) : g_strdup ("");
 	eaddress->locality = get_entry_text (address, entryCity);
@@ -1159,13 +1159,18 @@ pre_sync (GnomePilotConduit *conduit,
 	g_free (filename);
 
 	/* Get a list of all contacts */
-	query = e_book_query_from_string ("#t");
-	if (!e_book_get_contacts (ctxt->ebook, query, &ctxt->cards, NULL)) {
-		g_object_unref (query);
-
+	if (!(query = e_book_query_any_field_contains (""))) {
+		LOG (g_warning ("Failed to get EBookQuery"));
 		return -1;
 	}
-	g_object_unref (query);
+	
+	if (!e_book_get_contacts (ctxt->ebook, query, &ctxt->cards, NULL)) {
+		LOG (g_warning ("Failed to get Contacts"));
+		e_book_query_unref (query);
+		return -1;
+	}
+	
+	e_book_query_unref (query);
 	
 	/* Count and hash the changes */
 	change_id = g_strdup_printf ("pilot-sync-evolution-addressbook-%d", ctxt->cfg->pilot_id);
