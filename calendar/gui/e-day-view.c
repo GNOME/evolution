@@ -1261,6 +1261,7 @@ e_day_view_style_set (GtkWidget *widget,
 	gtk_widget_set_usize (day_view->time_canvas, times_width, -1);
 
 	g_object_unref (layout);
+	pango_font_metrics_unref (font_metrics);
 }
 
 
@@ -1327,7 +1328,6 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	char buffer[128];
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
-	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 	gint pango_width;
 
@@ -1336,8 +1336,6 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	/* Set up Pango prerequisites */
 	font_desc = gtk_widget_get_style (GTK_WIDGET (day_view))->font_desc;
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
-	font_metrics = pango_context_get_metrics (pango_context, font_desc,
-						  pango_context_get_language (pango_context));
 	layout = pango_layout_new (pango_context);
 
 	/* Calculate the column sizes, using floating point so that pixels
@@ -5192,7 +5190,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	gboolean show_icons = TRUE, use_max_width = FALSE;
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
-	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
@@ -5223,8 +5220,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	/* Set up Pango prerequisites */
 	font_desc = gtk_widget_get_style (GTK_WIDGET (day_view))->font_desc;
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
-	font_metrics = pango_context_get_metrics (pango_context, font_desc,
-						  pango_context_get_language (pango_context));
 	layout = pango_layout_new (pango_context);
 
 	if (day_view->resize_drag_pos != E_DAY_VIEW_POS_NONE

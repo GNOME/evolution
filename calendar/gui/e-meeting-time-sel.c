@@ -958,6 +958,7 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 	GTK_LAYOUT (mts->display_main)->vadjustment->step_increment = mts->row_height;
 
 	g_object_unref (layout);
+	pango_font_metrics_unref (font_metrics);
 }
 
 /* This draws a shadow around the top display and main display. */
@@ -2059,14 +2060,11 @@ e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts)
 	gchar buffer[128];
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
-	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 
 	/* Set up Pango prerequisites */
 	font_desc = gtk_widget_get_style (GTK_WIDGET (mts))->font_desc;
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (mts));
-	font_metrics = pango_context_get_metrics (pango_context, font_desc,
-						  pango_context_get_language (pango_context));
 	layout = pango_layout_new (pango_context);
 
 	/* Calculate the maximum date width we can fit into the display. */

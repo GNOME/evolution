@@ -657,7 +657,7 @@ init (EMeetingModel *im)
 							      free_gotten_key,
 							      free_duplicated_key,
 							      NULL));
-	e_table_without_hide (priv->without, g_strdup ("delegator"));
+	e_table_without_hide (priv->without, "delegator");
 
 	/* FIXME We basically sink a ref otherwise the without table
 	 * will own a ref to us and we will never get finalized */

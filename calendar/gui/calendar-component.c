@@ -60,7 +60,7 @@
 #define CREATE_MEETING_ID "meeting"
 #define CREATE_TASK_ID "task"
 
-char *evolution_dir;
+char *evolution_dir = NULL;
 EvolutionShellClient *global_shell_client = NULL;
 extern ECompEditorRegistry *comp_editor_registry;
 
@@ -506,6 +506,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      const char *evolution_homedir,
 	      gpointer user_data)
 {
+	if (evolution_dir)
+		g_free (evolution_dir);
 	evolution_dir = g_strdup (evolution_homedir);
 	global_shell_client = shell_client;
 }

@@ -1,3 +1,35 @@
+2003-04-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/calendar-component.c (owner_set_cb): If we already have an
+	evolution_dir, free the old one before setting it anew.
+
+	* gui/e-day-view-time-item.c (e_day_view_time_item_draw): Unref the
+	metrics.
+
+	* gui/e-day-view.c (e_day_view_style_set): Unref the metrics.
+	(e_day_view_recalc_cell_sizes): We don't need font metrics here.
+	(e_day_view_reshape_long_event): Ditto.
+
+	* gui/e-meeting-model.c (init): Don't dup the string passed to
+	e_table_without_hide().
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_style_set):
+	Unref the metrics.
+	(e_meeting_time_selector_recalc_date_form): Doesn't need metrics.
+
+	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day):
+	Unref the metrics.
+
+	* gui/e-week-view.c (e_week_view_style_set): Unref metrics.
+	(e_week_view_recalc_cell_sizes): Ditto.
+	(e_week_view_reshape_event_span): Move Pango stuff to where it
+	can't be leaked due to an early return. Unref metrics.
+
+	* gui/weekday-picker.c (weekday_picker_style_set): Unref metrics.
+
+	* gui/dialogs/meeting-page.c (meeting_page_finalize): Free default
+	address.
+
 2003-04-11  Dan Winship  <danw@ximian.com>
 
 	* gui/dialogs/Makefile.am (IDL_GENERATED, etc): Oops. Add this

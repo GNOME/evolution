@@ -757,6 +757,7 @@ e_week_view_style_set (GtkWidget *widget,
 						       week_view->pm_string);
 
 	g_object_unref (layout);
+	pango_font_metrics_unref (font_metrics);
 }
 
 
@@ -917,6 +918,8 @@ e_week_view_recalc_cell_sizes (EWeekView *week_view)
 		else if (width / 2 > time_width)
 			week_view->time_format = E_WEEK_VIEW_TIME_START;
 	}
+
+	pango_font_metrics_unref (font_metrics);
 }
 
 
@@ -2665,13 +2668,6 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 
 	one_day_event = e_week_view_is_one_day_event (week_view, event_num);
 
-	/* Set up Pango prerequisites */
-	font_desc = gtk_widget_get_style (GTK_WIDGET (week_view))->font_desc;
-	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (week_view));
-	font_metrics = pango_context_get_metrics (pango_context, font_desc,
-						  pango_context_get_language (pango_context));
-	layout = pango_layout_new (pango_context);
-
 	/* If the span will not be visible destroy the canvas items and
 	   return. */
 	if (!e_week_view_get_span_position (week_view, event_num, span_num,
@@ -2684,6 +2680,13 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		span->text_item = NULL;
 		return;
 	}
+
+	/* Set up Pango prerequisites */
+	font_desc = gtk_widget_get_style (GTK_WIDGET (week_view))->font_desc;
+	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (week_view));
+	font_metrics = pango_context_get_metrics (pango_context, font_desc,
+						  pango_context_get_language (pango_context));
+	layout = pango_layout_new (pango_context);
 
 	/* If we are editing a long event we don't show the icons and the EText
 	   item uses the maximum width available. */
@@ -2889,6 +2892,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	e_canvas_item_move_absolute (span->text_item, text_x, text_y);
 
 	g_object_unref (layout);
+	pango_font_metrics_unref (font_metrics);
 }
 
 

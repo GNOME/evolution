@@ -377,6 +377,8 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 			       x + E_WEEK_VIEW_DATE_LINE_L_PAD, line_y,
 			       right_edge, line_y);
 	}
+
+	pango_font_metrics_unref (font_metrics);
 }
 
 

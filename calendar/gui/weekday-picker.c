@@ -402,6 +402,7 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 
 	configure_items (wp);
 	g_object_unref (layout);
+	pango_font_metrics_unref (font_metrics);
 
 	if (GTK_WIDGET_CLASS (parent_class)->style_set)
 		(* GTK_WIDGET_CLASS (parent_class)->style_set) (widget, previous_style);

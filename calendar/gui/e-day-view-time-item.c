@@ -436,6 +436,9 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 		e_day_view_time_item_increment_time (&hour, &minute,
 						     day_view->mins_per_row);
 	}
+
+	pango_font_metrics_unref (large_font_metrics);
+	pango_font_metrics_unref (small_font_metrics);
 }
 
 

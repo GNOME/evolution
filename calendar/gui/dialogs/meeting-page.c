@@ -278,6 +278,11 @@ meeting_page_finalize (GObject *object)
 		priv->xml = NULL;
 	}
 
+	if (priv->default_address) {
+		g_free (priv->default_address);
+		priv->default_address = NULL;
+	}
+
 	g_free (priv);
 	mpage->priv = NULL;
 
