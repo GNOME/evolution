@@ -1,5 +1,7 @@
 bin_SCRIPTS = killev evolution-move-tasks evolution-addressbook-clean
+
 bin_PROGRAMS = evolution-addressbook-import evolution-addressbook-export
+noinst_PROGRAMS = evolution-addressbook-abuse
 
 INCLUDES =							\
 	-DG_LOG_DOMAIN=\"evolution-tools\"			\
@@ -28,6 +30,9 @@ evolution_addressbook_import_LDADD =					\
 	$(top_builddir)/widgets/menus/libmenus.la
 
 evolution_addressbook_export_LDADD =					\
+	$(evolution_addressbook_import_LDADD)
+
+evolution_addressbook_abuse_LDADD =					\
 	$(evolution_addressbook_import_LDADD)
 
 CLEANFILES = evolution-addressbook-clean
