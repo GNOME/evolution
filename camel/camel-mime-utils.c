@@ -2391,7 +2391,7 @@ header_param_list_format_append(GString *out, struct _header_param *p)
 		g_string_sprintfa(out, "%s=", p->name);
 
 		for (ch = p->value; *ch; ch++) {
-			if (is_tspecial(*ch))
+			if (is_tspecial (*ch) || is_lwsp (*ch))
 				break;
 		}
 		if (!*ch)

@@ -1,3 +1,8 @@
+2001-03-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (header_param_list_format_append): Quote the
+	param value if it contains whitespace as well.
+
 2001-03-17  Jeffrey Stedfast <fejj@ximian.com>
 
 	* Makefile.am: Don't include system include dir.
