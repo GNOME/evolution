@@ -250,7 +250,7 @@ data_cache_expire(CamelDataCache *cdc, const char *path, const char *keep, time_
 			dd(printf("Has expired!  Removing!\n"));
 			unlink(s->str);
 			if (g_hash_table_lookup_extended(cdc->priv->busy_path, s->str, (void **)&oldpath, (void **)&stream)) {
-				g_hash_table_remove(cdc->priv->busy_path, path);
+				g_hash_table_remove(cdc->priv->busy_path, oldpath);
 				g_hash_table_remove(cdc->priv->busy_stream, stream);
 				g_free(oldpath);
 			}
@@ -432,7 +432,7 @@ camel_data_cache_remove(CamelDataCache *cdc, const char *path, const char *key, 
 
 	real = data_cache_path(cdc, FALSE, path, key);
 	if (g_hash_table_lookup_extended(cdc->priv->busy_path, real, (void **)&oldpath, (void **)&stream)) {
-		g_hash_table_remove(cdc->priv->busy_path, path);
+		g_hash_table_remove(cdc->priv->busy_path, oldpath);
 		g_hash_table_remove(cdc->priv->busy_stream, stream);
 		g_free(oldpath);
 	}
