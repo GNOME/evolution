@@ -1,3 +1,8 @@
+2003-08-12  Rodrigo Moya <rodrigo@ximian.com>
+
+	* backend/ebook/e-book.c (e_book_dispose): unref the
+	EComponentListener before unloading the CORBA object.
+
 2003-08-12  Hans Petter Jansson  <hpj@ximian.com>
 
 	* backend/ebook/e-destination.c (e_destination_dispose): Chain.
