@@ -506,6 +506,7 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Dates */
 	comp_editor_dates (&dates, comp);
 	alarm_page_set_dates (page, &dates);
+	comp_editor_free_dates (&dates);
 
 	/* List */
 	if (!cal_component_has_alarms (comp))

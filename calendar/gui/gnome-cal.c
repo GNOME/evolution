@@ -287,7 +287,8 @@ dn_query_obj_updated_cb (CalQuery *query, const char *uid,
 		return;
 	}
 
-	tag_calendar_by_comp (priv->date_navigator, comp, priv->client, FALSE);
+	tag_calendar_by_comp (priv->date_navigator, comp, priv->client, FALSE,
+			      TRUE);
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
@@ -1961,7 +1962,7 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
 }
 
 /**
- * gnome_calendar_new_appointment:
+ * gnome_calendar_new_appointment_for:
  * @gcal: An Evolution calendar.
  * @dtstart: a Unix time_t that marks the beginning of the appointment.
  * @dtend: a Unix time_t that marks the end of the appointment.
@@ -2233,6 +2234,7 @@ gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 	end_date = start_date;
 	g_date_add_days (&end_date, days_shown - 1);
 
+	g_print ("Updating date navigator selection\n");
 	e_calendar_item_set_selection (priv->date_navigator->calitem,
 				       &start_date, &end_date);
 }
@@ -2325,6 +2327,7 @@ static void
 gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem,
 						     GnomeCalendar *gcal)
 {
+	g_print ("In gnome_calendar_on_date_navigator_date_range_changed\n");
 	update_query (gcal);
 }
 

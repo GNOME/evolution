@@ -22,6 +22,9 @@
 
 #include <config.h>
 #include <stdlib.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include "cal-util.h"
 
 
@@ -399,4 +402,49 @@ cal_util_generate_alarms_for_list (GList *comps,
 	}
 
 	return n;
+}
+
+
+/* Converts an iCalendar PRIORITY value to a translated string. Any unknown
+   priority value (i.e. not 0-9) will be returned as "" (undefined). */
+char *
+cal_util_priority_to_string (int priority)
+{
+	char *retval;
+
+	if (priority <= 0)
+		retval = "";
+	else if (priority <= 4)
+		retval = _("High");
+	else if (priority == 5)
+		retval = _("Normal");
+	else if (priority <= 9)
+		retval = _("Low");
+	else
+		retval = "";
+
+	return retval;
+}
+
+
+/* Converts a translated priority string to an iCalendar priority value.
+   Returns -1 if the priority string is not valid. */
+int
+cal_util_priority_from_string (const char *string)
+{
+	int priority;
+
+	/* An empty string is the same as 'None'. */
+	if (!string || !string[0] || !g_strcasecmp (string, _("Undefined")))
+		priority = 0;
+	else if (!g_strcasecmp (string, _("High")))
+		priority = 3;
+	else if (!g_strcasecmp (string, _("Normal")))
+		priority = 5;
+	else if (!g_strcasecmp (string, _("Low")))
+		priority = 7;
+	else
+		priority = -1;
+
+	return priority;
 }

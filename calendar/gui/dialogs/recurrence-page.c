@@ -886,7 +886,7 @@ preview_recur (RecurrencePage *rpage)
 	fill_component (rpage, comp);
 
 	tag_calendar_by_comp (E_CALENDAR (priv->preview_calendar), comp,
-			      COMP_EDITOR_PAGE (rpage)->client, TRUE);
+			      COMP_EDITOR_PAGE (rpage)->client, TRUE, FALSE);
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
@@ -1405,6 +1405,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Dates */
 	comp_editor_dates (&dates, comp);
 	recurrence_page_set_dates (page, &dates);
+	comp_editor_free_dates (&dates);
 
 	/* Exceptions */
 	fill_exception_widgets (rpage, comp);
@@ -1741,7 +1742,7 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 {
 	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
-	CalComponentDateTime dt, old_dt;
+	CalComponentDateTime dt;
 	struct icaltimetype icaltime;
 	guint8 mask;
 
@@ -1758,27 +1759,15 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	dt.value = &icaltime;
 
 	if (dates->start) {
-		icaltime = *dates->start;
-
-		/* Copy the TZID from the old property.
-		   FIXME: Should get notified when the TZID changes.*/
-		cal_component_get_dtstart (priv->comp, &old_dt);
-		dt.tzid = old_dt.tzid;
-
+		icaltime = *dates->start->value;
+		dt.tzid = dates->start->tzid;
 		cal_component_set_dtstart (priv->comp, &dt);
-		cal_component_free_datetime (&old_dt);
 	}
 
 	if (dates->end) {
-		icaltime = *dates->end;
-
-		/* Copy the TZID from the old property.
-		   FIXME: Should get notified when the TZID changes.*/
-		cal_component_get_dtend (priv->comp, &old_dt);
-		dt.tzid = old_dt.tzid;
-
+		icaltime = *dates->end->value;
+		dt.tzid = dates->end->tzid;
 		cal_component_set_dtend (priv->comp, &dt);
-		cal_component_free_datetime (&old_dt);
 	}
 
 	/* Update the weekday picker if necessary */
@@ -1795,6 +1784,9 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 		weekday_picker_set_blocked_days (WEEKDAY_PICKER (priv->weekday_picker),
 						 priv->weekday_blocked_day_mask);
 	}
+
+	/* Make sure the preview gets updated. */
+	preview_recur (rpage);
 }
 
 

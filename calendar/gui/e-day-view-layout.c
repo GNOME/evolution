@@ -201,6 +201,8 @@ e_day_view_layout_day_event (EDayViewEvent *event,
 
 	start_row = event->start_minute / mins_per_row;
 	end_row = (event->end_minute - 1) / mins_per_row;
+	if (end_row < start_row)
+		end_row = start_row;
 
 	event->num_columns = 0;
 
@@ -292,6 +294,8 @@ e_day_view_expand_day_event (EDayViewEvent *event,
 
 	start_row = event->start_minute / mins_per_row;
 	end_row = (event->end_minute - 1) / mins_per_row;
+	if (end_row < start_row)
+		end_row = start_row;
 
 	/* Try each column until we find a free one. */
 	clashed = FALSE;

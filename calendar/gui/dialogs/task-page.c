@@ -676,6 +676,7 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	TaskPagePrivate *priv;
 	CompEditorPageDates dates;
 	gboolean date_set;
+	CalComponentDateTime start_dt, due_dt;
 	struct icaltimetype start_tt = icaltime_null_time();
 	struct icaltimetype due_tt = icaltime_null_time();
 
@@ -692,8 +693,13 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_date),
 				     &start_tt.hour,
 				     &start_tt.minute);
-	if (!date_set)
+	if (date_set) {
+		icaltimezone *zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
+		start_dt.tzid = icaltimezone_get_tzid (zone);
+	} else {
 		start_tt = icaltime_null_time ();
+		start_dt.tzid = NULL;
+	}
 
 	date_set = e_date_edit_get_date (E_DATE_EDIT (priv->due_date),
 					 &due_tt.year,
@@ -702,12 +708,19 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->due_date),
 				     &due_tt.hour,
 				     &due_tt.minute);
-	if (!date_set)
+	if (date_set) {
+		icaltimezone *zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->due_timezone));
+		due_dt.tzid = icaltimezone_get_tzid (zone);
+	} else {
 		due_tt = icaltime_null_time ();
+		due_dt.tzid = NULL;
+	}
 
-	dates.start = &start_tt;
+	start_dt.value = &start_tt;
+	dates.start = &start_dt;
 	dates.end = NULL;
-	dates.due = &due_tt;
+	due_dt.value = &due_tt;
+	dates.due = &due_dt;
 	dates.complete = NULL;
 	
 	/* Notify upstream */

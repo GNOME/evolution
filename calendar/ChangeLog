@@ -1,3 +1,80 @@
+2001-09-26  Damon Chaplin  <damon@ximian.com>
+
+	* gui/e-calendar-table.c (date_compare_cb): 
+	(percent_compare_cb): 
+	(priority_compare_cb): added comparison functions for these special
+	cell types. But the date and percent ones don't work yet due to the
+	use of static text buffers for return cell values.
+	(e_calendar_table_init): added the comparison functions to the
+	ETableExtras. NOTE: task_compare_cb() never seems to be called.
+	I'm not sure why it is there.
+
+	* gui/e-calendar-table.etspec: set the comparison function names for
+	the date/percent/priority fields.
+
+	* cal-util/cal-util.c (cal_util_priority_to_string): 
+	(cal_util_priority_from_string): new utility functions.
+
+	* gui/calendar-model.c (get_priority): 
+	(set_priority): used above utility functions, and removed the warning
+	dialog which isn't useful now that the field isn't editable.
+
+	* gui/dialogs/event-page.c (times_updated): handle timezones and for
+	all-day events make sure it stays an all-day event after adjusting.
+	Fixes bugs #5945 and #10222.
+
+	* gui/calendar-commands.c (pixmaps): fixed the E_PIXMAP paths - the
+	edit items were moved beneath 'EditPlaceholder'. This gets rid of
+	those long Bonobo warnings! (and we get the icons back)
+
+	* gui/dialogs/comp-editor.c (pixmaps): removed the PrintPreview toolbar
+	icon, since it doesn't appear in the xml file. Gets rid of warning.
+
+	* gui/dialogs/event-page.c (notify_dates_changed): new function to
+	emit the notification signal when the dates are changed. It also
+	handles timezones now.
+
+	* gui/dialogs/comp-editor-page.h (CompEditorPageDates): used
+	CalComponentDateTime for start/end/due so we have the timezone as well
+	as the time.
+
+	* gui/dialogs/comp-editor-util.c (comp_editor_dates): updated to get
+	the timezones as well as the times.
+	(comp_editor_free_dates): new function needed to free all the structs.
+
+	* gui/dialogs/recurrence-page.c (recurrence_page_set_dates): added call
+	to preview_recur() to make sure the preview gets updated.
+
+	* gui/dialogs/alarm-page.c (alarm_page_fill_widgets): free the
+	CompEditorPageDates struct after use.
+
+	* gui/tag-calendar.c (tag_calendar_by_comp): added 'comp_is_on_server'
+	argument. If FALSE, we try to use builtin timezones first. This is
+	needed for the recurrence page of the event editor, because the
+	timezones may not have been added to the server yet. This and the
+	changes to the notification stuff should fix bug #5034.
+
+	* gui/gnome-cal.c (dn_query_obj_updated_cb): call above
+	tag_calendar_by_comp() with TRUE since the events will be on the
+	server in this case.
+
+	* gui/e-day-view-layout.c:
+	* gui/e-day-view.c: made sure an event always takes up at least one
+	row, even when the start & end times are the same. Fixes bug #5944.
+	I don't know if we should try to also handle events with the end time
+	before the start time.
+
+	* gui/e-week-view.c (e_week_view_style_set): check that the small font
+	is actually smaller than the normal font. If it isn't, don't use it.
+	Hopefully fixes bug #6876.
+	(e_week_view_on_new_appointment): if only one day is selected, then
+	we set the initial time of the event to 1/2-hour from the start of the
+	working day, to differentiate 'New Appointment' from 'New All Day
+	Event'. Fixes bug #8892.
+
+	* gui/e-day-view.c (e_day_view_on_new_appointment): do the same as the
+	above.
+
 2001-09-26  Federico Mena Quintero  <federico@ximian.com>
 
 	Fixes the GUI part of bug #7892.
@@ -322,7 +399,6 @@
 	(event_editor_destroy): unref model
 	
 	* gui/dialogs/comp-editor.h: add virtual function
-
 	* gui/dialogs/comp-editor.c (comp_editor_set_cal_client): make
 	set_cal_client a virutal function
 

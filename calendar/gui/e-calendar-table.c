@@ -186,6 +186,12 @@ compare_priorities (int *a, int *b)
 
 /* Comparison function for the task-sort column.  Sorts by due date and then by
  * priority.
+ *
+ * FIXME: Does this ever get called?? It doesn't seem to.
+ * I specified that the table should be sorted by this column, but it still
+ * never calls this function.
+ * Also, this assumes it is passed pointers to CalComponents, but I think it
+ * may just be passed pointers to the 2 cell values.
  */
 static gint
 task_compare_cb (gconstpointer a, gconstpointer b)
@@ -194,6 +200,8 @@ task_compare_cb (gconstpointer a, gconstpointer b)
 	CalComponentDateTime due_a, due_b;
 	int *prio_a, *prio_b;
 	int retval;
+
+	g_print ("In task_compare_cb\n");
 
 	ca = CAL_COMPONENT (a);
 	cb = CAL_COMPONENT (b);
@@ -206,7 +214,8 @@ task_compare_cb (gconstpointer a, gconstpointer b)
 	if (due_a.value && due_b.value) {
 		int v;
 
-		/* FIXME: TIMEZONES. */
+		/* FIXME: TIMEZONES. But currently we have no way to get the
+		   CalClient, so we can't get the timezone. */
 		v = icaltime_compare (*due_a.value, *due_b.value);
 
 		if (v == 0)
@@ -230,6 +239,54 @@ task_compare_cb (gconstpointer a, gconstpointer b)
 		cal_component_free_priority (prio_b);
 
 	return retval;
+}
+
+static gint
+date_compare_cb (gconstpointer a, gconstpointer b)
+{
+	const char *value1 = a, *value2 = b;
+
+	g_print ("In date_compare_cb '%s' '%s'\n", value1, value2);
+
+	return 0;
+}
+
+static gint
+percent_compare_cb (gconstpointer a, gconstpointer b)
+{
+	const char *value1 = a, *value2 = b;
+
+	/* FIXME: Currently this isn't working as the ETableSorter caches
+	   all the values in the table before sorting, but our get_value()
+	   function returns a pointer to a static buffer. So all the cached
+	   pointers point to the same buffer. */
+
+	g_print ("In percent_compare_cb '%s' '%s'\n", value1, value2);
+
+	return 0;
+}
+
+static gint
+priority_compare_cb (gconstpointer a, gconstpointer b)
+{
+	int priority1, priority2;
+
+	priority1 = cal_util_priority_from_string ((const char*) a);
+	priority2 = cal_util_priority_from_string ((const char*) b);
+
+	/* We change undefined priorities so they appear after 'Low'. */
+	if (priority1 <= 0)
+		priority1 = 10;
+	if (priority2 <= 0)
+		priority2 = 10;
+
+	/* We'll just use the ordering of the priority values. */
+	if (priority1 < priority2)
+		return -1;
+	else if (priority1 > priority2)
+		return 1;
+	else
+		return 0;
 }
 
 static void
@@ -412,6 +469,13 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	 * its shit to be visible columns listed in the XML spec.
 	 */
 	e_table_extras_add_compare (extras, "task-sort", task_compare_cb);
+
+	e_table_extras_add_compare (extras, "date-compare",
+				    date_compare_cb);
+	e_table_extras_add_compare (extras, "percent-compare",
+				    percent_compare_cb);
+	e_table_extras_add_compare (extras, "priority-compare",
+				    priority_compare_cb);
 
 	/* Create pixmaps */
 

@@ -39,9 +39,9 @@ BEGIN_GNOME_DECLS
 #define IS_COMP_EDITOR_PAGE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), TYPE_COMP_EDITOR_PAGE))
 
 typedef struct {
-	struct icaltimetype *start;
-	struct icaltimetype *end;
-	struct icaltimetype *due;
+	CalComponentDateTime *start;
+	CalComponentDateTime *end;
+	CalComponentDateTime *due;
 	struct icaltimetype *complete;
 } CompEditorPageDates;
 

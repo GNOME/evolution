@@ -528,21 +528,14 @@ static char *
 get_priority (CalComponent *comp)
 {
 	int *priority;
-	char *retval;
+	char *retval = "";
 
 	cal_component_get_priority (comp, &priority);
 
-	if (!priority || *priority == 0)
-		retval = "";
-	else if (*priority <= 4)
-		retval = _("High");
-	else if (*priority == 5)
-		retval = _("Normal");
-	else
-		retval = _("Low");
-
-	if (priority)
+	if (priority) {
+		retval = cal_util_priority_to_string (*priority);
 		cal_component_free_priority (priority);
+	}
 
 	return retval;
 }
@@ -1157,38 +1150,18 @@ set_percent (CalComponent *comp, const char *value)
 		ensure_task_not_complete (comp);
 }
 
-/* FIXME: We won't need this eventually, since the user won't be allowed to
- * edit the field.
- */
-static void
-show_priority_warning (void)
-{
-	GtkWidget *dialog;
-
-	dialog = gnome_message_box_new (_("The priority must be 'High', 'Normal', 'Low' or 'Undefined'."),
-					GNOME_MESSAGE_BOX_ERROR,
-					GNOME_STOCK_BUTTON_OK, NULL);
-	gtk_widget_show (dialog);
-}
-
 /* Sets the priority of a calendar component */
 static void
 set_priority (CalComponent *comp, const char *value)
 {
 	int priority;
 
-	/* An empty string is the same as 'None'. */
-	if (!value[0] || !g_strcasecmp (value, _("Undefined")))
+	priority = cal_util_priority_from_string (value);
+	/* If the priority is invalid (which should never happen) output a
+	   warning and set it to undefined. */
+	if (priority == -1) {
+		g_warning ("Invalid priority");
 		priority = 0;
-	else if (!g_strcasecmp (value, _("High")))
-		priority = 3;
-	else if (!g_strcasecmp (value, _("Normal")))
-		priority = 5;
-	else if (!g_strcasecmp (value, _("Low")))
-		priority = 7;
-	else {
-		show_priority_warning ();
-		return;
 	}
 
 	cal_component_set_priority (comp, &priority);
@@ -1956,7 +1929,9 @@ adjust_query_sexp (CalendarModel *model, const char *sexp)
 	if (free_completed_sexp)
 		g_free (completed_sexp);
 
-	g_print ("Calendar mode sexp:\n%s\n", new_sexp);
+#if 0
+	g_print ("Calendar model sexp:\n%s\n", new_sexp);
+#endif
 
 	return new_sexp;
 }

@@ -116,7 +116,6 @@ static EPixmap pixmaps [] =
 
 	E_PIXMAP ("/Toolbar/FileSaveAndClose",		        "buttons/save-24.png"),
 	E_PIXMAP ("/Toolbar/FilePrint",			        "buttons/print.png"),
-	E_PIXMAP ("/Toolbar/FilePrintPreview",		        "buttons/print-preview-24.png"),
 	E_PIXMAP ("/Toolbar/FileDelete",			"buttons/delete-message.png"),
 
 	E_PIXMAP_END

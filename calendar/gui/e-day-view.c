@@ -3255,6 +3255,8 @@ e_day_view_on_event_click (EDayView *day_view,
 			day_view->resize_drag_pos = pos;
 			day_view->resize_start_row = event->start_minute / day_view->mins_per_row;
 			day_view->resize_end_row = (event->end_minute - 1) / day_view->mins_per_row;
+			if (day_view->resize_end_row < day_view->resize_start_row)
+				day_view->resize_end_row = day_view->resize_start_row;
 
 			day_view->resize_bars_event_day = day;
 			day_view->resize_bars_event_num = event_num;
@@ -3526,8 +3528,27 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 {
 	EDayView *day_view = E_DAY_VIEW (data);
 	time_t dtstart, dtend;
+	struct icaltimetype itt;
 	
-	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
+	/* Edit a new event. If only one day is selected in the top canvas,
+	   we set the time to the first 1/2-hour of the working day. */
+	if (day_view->selection_in_top_canvas
+	    && day_view->selection_start_day != -1
+	    && day_view->selection_start_day == day_view->selection_end_day) {
+		dtstart = day_view->day_starts[day_view->selection_start_day];
+		itt = icaltime_from_timet_with_zone (dtstart, FALSE,
+						     day_view->zone);
+		itt.hour = calendar_config_get_day_start_hour ();
+		itt.minute = calendar_config_get_day_start_minute ();
+		dtstart = icaltime_as_timet_with_zone (itt, day_view->zone);
+
+		icaltime_adjust (&itt, 0, 0, 30, 0);
+		dtend = icaltime_as_timet_with_zone (itt, day_view->zone);
+	} else {
+		e_day_view_get_selected_time_range (day_view, &dtstart,
+						    &dtend);
+	}
+
 	gnome_calendar_new_appointment_for (
 		day_view->calendar, dtstart, dtend, FALSE);
 }
@@ -5834,6 +5855,9 @@ e_day_view_get_event_position (EDayView *day_view,
 
 	start_row = event->start_minute / day_view->mins_per_row;
 	end_row = (event->end_minute - 1) / day_view->mins_per_row;
+	if (end_row < start_row)
+		end_row = start_row;
+
 	cols_in_row = day_view->cols_per_row[day][start_row];
 	start_col = event->start_row_or_col;
 	num_columns = event->num_columns;
@@ -6320,6 +6344,9 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 					day_view->drag_event_num);
 		start_row = event->start_minute / day_view->mins_per_row;
 		end_row = (event->end_minute - 1) / day_view->mins_per_row;
+		if (end_row < start_row)
+			end_row = start_row;
+
 		num_rows = end_row - start_row + 1;
 	}
 
@@ -6690,6 +6717,9 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 				/* Calculate time offset from start row. */
 				start_row = event->start_minute / day_view->mins_per_row;
 				end_row = (event->end_minute - 1) / day_view->mins_per_row;
+				if (end_row < start_row)
+					end_row = start_row;
+
 				num_rows = end_row - start_row + 1;
 
 				start_offset = event->start_minute % day_view->mins_per_row;

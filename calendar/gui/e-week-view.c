@@ -52,6 +52,7 @@
 #include "comp-util.h"
 #include "cal-util/timeutil.h"
 #include "calendar-commands.h"
+#include "calendar-config.h"
 #include "goto.h"
 #include "e-week-view-event-item.h"
 #include "e-week-view-layout.h"
@@ -640,6 +641,13 @@ e_week_view_style_set (GtkWidget *widget,
 	/* Recalculate the height of each row based on the font size. */
 	week_view->row_height = font->ascent + font->descent + E_WEEK_VIEW_EVENT_BORDER_HEIGHT * 2 + E_WEEK_VIEW_EVENT_TEXT_Y_PAD * 2;
 	week_view->row_height = MAX (week_view->row_height, E_WEEK_VIEW_ICON_HEIGHT + E_WEEK_VIEW_ICON_Y_PAD + E_WEEK_VIEW_EVENT_BORDER_HEIGHT * 2);
+
+	/* Check that the small font is smaller than the default font.
+	   If it isn't, we won't use it. */
+	if (week_view->small_font) {
+		if (font->ascent + font->descent <= week_view->small_font->ascent + week_view->small_font->descent)
+			week_view->use_small_font = FALSE;
+	}
 
 	/* Set the height of the top canvas. */
 	gtk_widget_set_usize (week_view->titles_canvas, -1,
@@ -3367,9 +3375,25 @@ e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (data);
 	time_t dtstart, dtend;
+	struct icaltimetype itt;
 	
-	dtstart = week_view->day_starts[week_view->selection_start_day];
-	dtend = week_view->day_starts[week_view->selection_end_day + 1];
+	/* Edit a new event. If only one day is selected we set the time to
+	   the first 1/2-hour of the working day. */
+	if (week_view->selection_start_day == week_view->selection_end_day) {
+		dtstart = week_view->day_starts[week_view->selection_start_day];
+		itt = icaltime_from_timet_with_zone (dtstart, FALSE,
+						     week_view->zone);
+		itt.hour = calendar_config_get_day_start_hour ();
+		itt.minute = calendar_config_get_day_start_minute ();
+		dtstart = icaltime_as_timet_with_zone (itt, week_view->zone);
+
+		icaltime_adjust (&itt, 0, 0, 30, 0);
+		dtend = icaltime_as_timet_with_zone (itt, week_view->zone);
+	} else {
+		dtstart = week_view->day_starts[week_view->selection_start_day];
+		dtend = week_view->day_starts[week_view->selection_end_day + 1];
+	}
+
 	gnome_calendar_new_appointment_for (
 		week_view->calendar, dtstart, dtend, FALSE);
 }

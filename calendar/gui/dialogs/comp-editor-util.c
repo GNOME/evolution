@@ -46,20 +46,13 @@
  * @comp: The component to extract the dates from
  * 
  * Extracts the dates from the calendar component into the
- * CompEditorPageDates structure. Note that it returns pointers to static
- * structs, so these will be overwritten in the next call.
+ * CompEditorPageDates structure. Call comp_editor_free_dates() to free the
+ * results.
  **/
 void
 comp_editor_dates (CompEditorPageDates *dates, CalComponent *comp)
 {
-	static struct icaltimetype start;
-	static struct icaltimetype end;
-	static struct icaltimetype due;
-	static struct icaltimetype complete;
-
 	CalComponentDateTime dt;
-	struct icaltimetype *comp_complete;
-
 
 	dates->start = NULL;
 	dates->end = NULL;
@@ -68,32 +61,45 @@ comp_editor_dates (CompEditorPageDates *dates, CalComponent *comp)
 	
 	cal_component_get_dtstart (comp, &dt);
 	if (dt.value) {
-		start = *dt.value;
-		dates->start = &start;
+		dates->start = g_new (CalComponentDateTime, 1);
+		*dates->start = dt;
 	}
-	cal_component_free_datetime (&dt);
 
 	cal_component_get_dtend (comp, &dt);
 	if (dt.value) {
-		end = *dt.value;
-		dates->end = &end;
+		dates->end = g_new (CalComponentDateTime, 1);
+		*dates->end = dt;
 	}
-	cal_component_free_datetime (&dt);
 
 	cal_component_get_due (comp, &dt);
 	if (dt.value) {
-		due = *dt.value;
-		dates->due = &due;
+		dates->due = g_new (CalComponentDateTime, 1);
+		*dates->due = dt;
 	}
-	cal_component_free_datetime (&dt);
 
-	cal_component_get_completed (comp, &comp_complete);
-	if (comp_complete) {
-		complete = *comp_complete;
-		dates->complete = &complete;
-		cal_component_free_icaltimetype (comp_complete);
-	}
+	cal_component_get_completed (comp, &dates->complete);
 }
+
+
+/* This frees the dates in the CompEditorPageDates struct. But it doesn't free
+ * the struct (as that is usually static).
+ */
+void
+comp_editor_free_dates (CompEditorPageDates *dates)
+{
+	if (dates->start)
+		cal_component_free_datetime (dates->start);
+
+	if (dates->end)
+		cal_component_free_datetime (dates->end);
+
+	if (dates->due)
+		cal_component_free_datetime (dates->due);
+
+	if (dates->complete)
+		cal_component_free_icaltimetype (dates->complete);
+}
+
 
 static void
 write_label_piece (struct icaltimetype *tt, char *buffer, int size,
@@ -143,20 +149,22 @@ comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label)
 
 	buffer[0] = '\0';
 
-	if (dates->start && !icaltime_is_null_time (*dates->start))
+	if (dates->start && !icaltime_is_null_time (*dates->start->value))
 		start_set = TRUE;
-	if (dates->end && !icaltime_is_null_time (*dates->end))
+	if (dates->end && !icaltime_is_null_time (*dates->end->value))
 		end_set = TRUE;
 	if (dates->complete && !icaltime_is_null_time (*dates->complete))
 		complete_set = TRUE;
-	if (dates->due && !icaltime_is_null_time (*dates->due))
+	if (dates->due && !icaltime_is_null_time (*dates->due->value))
 		due_set = TRUE;
 
 	if (start_set)
-		write_label_piece (dates->start, buffer, 1024, NULL, NULL);
+		write_label_piece (dates->start->value, buffer, 1024,
+				   NULL, NULL);
 
 	if (start_set && end_set)
-		write_label_piece (dates->end, buffer, 1024, _(" to "), NULL);
+		write_label_piece (dates->end->value, buffer, 1024,
+				   _(" to "), NULL);
 
 	if (complete_set) {
 		if (start_set)
@@ -167,9 +175,9 @@ comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label)
 	
 	if (due_set && dates->complete == NULL) {
 		if (start_set)
-			write_label_piece (dates->due, buffer, 1024, _(" (Due "), ")");
+			write_label_piece (dates->due->value, buffer, 1024, _(" (Due "), ")");
 		else
-			write_label_piece (dates->due, buffer, 1024, _("Due "), NULL);
+			write_label_piece (dates->due->value, buffer, 1024, _("Due "), NULL);
 	}
 
 	gtk_label_set_text (GTK_LABEL (label), buffer);

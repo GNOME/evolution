@@ -152,6 +152,32 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
 				       tag_calendar_cb, &c);
 }
 
+/* Resolves TZIDs for the recurrence generator, for when the comp is not on
+   the server. We need to try to use builtin timezones first, as they may not
+   be added to the server yet. */
+icaltimezone*
+resolve_tzid_cb (const char *tzid, gpointer data)
+{
+	CalClient *client;
+	icaltimezone *zone = NULL;
+	CalClientGetStatus status;
+
+	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (data), NULL);
+	
+	client = CAL_CLIENT (data);
+
+	/* Try to find the builtin timezone first. */
+	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+
+	if (!zone) {
+		/* FIXME: Handle errors. */
+		status = cal_client_get_timezone (client, tzid, &zone);
+	}
+
+	return zone;
+}
+
 /**
  * tag_calendar_by_comp:
  * @ecal: Calendar widget to tag.
@@ -161,9 +187,13 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
  * Tags an #ECalendar widget with any occurrences of a specific calendar
  * component that occur within the calendar's current time range.
  * Note that TRANSPARENT events are also tagged here.
+ *
+ * If comp_is_on_server is FALSE, it will try to resolve TZIDs using builtin
+ * timezones first, before querying the server, since the timezones may not
+ * have been added to the calendar on the server yet.
  **/
 void
-tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, gboolean clear_first)
+tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, gboolean clear_first, gboolean comp_is_on_server)
 {
 	struct calendar_tag_closure c;
 
@@ -184,7 +214,15 @@ tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, gb
 #if 0
 	g_print ("DateNavigator generating instances\n");
 #endif
-	cal_recur_generate_instances (comp, c.start_time, c.end_time,
-				      tag_calendar_cb, &c,
-				      cal_client_resolve_tzid_cb, client);
+	if (comp_is_on_server) {
+		cal_recur_generate_instances (comp, c.start_time, c.end_time,
+					      tag_calendar_cb, &c,
+					      cal_client_resolve_tzid_cb,
+					      client);
+	} else {
+		cal_recur_generate_instances (comp, c.start_time, c.end_time,
+					      tag_calendar_cb, &c,
+					      resolve_tzid_cb,
+					      client);
+	}
 }
