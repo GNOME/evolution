@@ -24,6 +24,8 @@
 
 #include "e-source-option-menu.h"
 
+#include "e-util-marshal.h"
+
 #include <gal/util/e-util.h>
 
 #include <gtk/gtkmenu.h>
@@ -43,6 +45,14 @@ struct _ESourceOptionMenuPrivate {
 
 	ESource *selected_source;
 };
+
+
+enum {
+	SOURCE_SELECTED,
+	NUM_SIGNALS
+};
+
+static uint signals[NUM_SIGNALS] = { 0 };
 
 
 /* Selecting a source.  */
@@ -68,21 +78,22 @@ static void
 select_source (ESourceOptionMenu *menu,
 	       ESource *source)
 {
+	ForeachMenuItemData *foreach_data;
+
 	if (menu->priv->selected_source != NULL)
 		g_object_unref (menu->priv->selected_source);
 	menu->priv->selected_source = source;
 
-	if (source != NULL) {
-		ForeachMenuItemData *foreach_data = g_new0 (ForeachMenuItemData, 1);
+	foreach_data = g_new0 (ForeachMenuItemData, 1);
+	foreach_data->option_menu = menu;
 
-		foreach_data->option_menu = menu;
+	gtk_container_foreach (GTK_CONTAINER (GTK_OPTION_MENU (menu)->menu),
+			       (GtkCallback) select_source_foreach_menu_item, foreach_data);
 
-		gtk_container_foreach (GTK_CONTAINER (GTK_OPTION_MENU (menu)->menu),
-				       (GtkCallback) select_source_foreach_menu_item, foreach_data);
+	g_free (foreach_data);
+	g_object_ref (source);
 
-		g_free (foreach_data);
-		g_object_ref (source);
-	}
+	g_signal_emit (menu, signals[SOURCE_SELECTED], 0, source);
 }
 
 
@@ -223,6 +234,16 @@ class_init (ESourceOptionMenuClass *class)
 	object_class->finalize = impl_finalize;
 
 	parent_class = g_type_class_peek_parent (class);
+
+	signals[SOURCE_SELECTED] = 
+		g_signal_new ("source_selected",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ESourceOptionMenuClass, source_selected),
+			      NULL, NULL,
+			      e_util_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_POINTER);
 }
 
 static void

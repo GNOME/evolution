@@ -1,5 +1,16 @@
 2003-11-30  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-util-marshal.list: Add NONE:POINTER.
+
+	* test-source-option-menu.c (source_selected_callback): New
+	callback to test the "source_selected" signal.
+	(on_idle_create_widget): Connect.
+
+	* e-source-option-menu.c: Add "source_selected" signal.
+	(select_source): Assume source != NULL and emit "source_selected".
+
+2003-11-30  Ettore Perazzoli  <ettore@ximian.com>
+
 	* test-source-option-menu.c: New test.
 
 	* e-source-option-menu.h: New.

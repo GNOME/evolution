@@ -33,6 +33,15 @@
 #include <libgnomeui/gnome-ui-init.h>
 
 
+static void
+source_selected_callback (ESourceOptionMenu *menu,
+			  ESource *source,
+			  void *unused_data)
+{
+	g_print ("source selected: \"%s\"\n", e_source_peek_name (source));
+}
+
+
 static int
 on_idle_create_widget (const char *gconf_path)
 {
@@ -46,6 +55,7 @@ on_idle_create_widget (const char *gconf_path)
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	option_menu = e_source_option_menu_new (source_list);
+	g_signal_connect (option_menu, "source_selected", G_CALLBACK (source_selected_callback), NULL);
 
 	gtk_container_add (GTK_CONTAINER (window), option_menu);
 	gtk_widget_show_all (window);
