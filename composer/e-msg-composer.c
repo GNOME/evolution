@@ -2004,8 +2004,8 @@ setup_ui (EMsgComposer *composer)
 	gboolean hide_smime;
 	GConfClient *gconf;
 	
-	container = bonobo_window_get_ui_container(BONOBO_WINDOW (composer));
-
+	container = bonobo_window_get_ui_container (BONOBO_WINDOW (composer));
+	
 	composer->uic = bonobo_ui_component_new_default ();
 	/* FIXME: handle bonobo exceptions */
 	bonobo_ui_component_set_container (composer->uic, bonobo_object_corba_objref (BONOBO_OBJECT (container)), NULL);
@@ -2685,8 +2685,8 @@ static void
 map_default_cb (EMsgComposer *composer, gpointer user_data)
 {
 	GtkWidget *to;
-        BonoboControlFrame *cf;
-        Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
+	BonoboControlFrame *cf;
+	Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
 	CORBA_Environment ev;
 	const char *subject;
 	char *text;
@@ -2694,14 +2694,13 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	/* If the 'To:' field is empty, focus it (This is ridiculously complicated) */
 	
 	to = e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs));
-        cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (to));
-        pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
+	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (to));
+	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
 	text = bonobo_pbclient_get_string (pb, "text", NULL);
 	bonobo_object_release_unref (pb, NULL);
 	
 	if (!text || text[0] == '\0') {
-#warning "bonobo control frame focus child?"
-		/*bonobo_control_frame_focus_child (cf, GTK_DIR_TAB_FORWARD);*/
+		gtk_widget_grab_focus (to);
 		g_free (text);
 		return;
 	}
@@ -2882,11 +2881,11 @@ create_composer (int visible_mask)
 		return NULL;
 	}
 		
-	g_signal_connect (composer, "map", (GCallback)map_default_cb, NULL);
+	g_signal_connect (composer, "map", (GCallback) map_default_cb, NULL);
 	
-	if (am == NULL) {
+	if (am == NULL)
 		am = autosave_manager_new ();
-	}
+	
 	autosave_manager_register (am, composer);
 	
 	return composer;

@@ -2,6 +2,8 @@
 
 	* e-msg-composer.c (add_attachments_handle_mime_part): Change the
 	logic to attach text parts when appropriate.
+	(map_default_cb): Grab the focus of the To entry widget. Fixes bug
+	#39800. Fixes another #warning too.
 
 2003-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
