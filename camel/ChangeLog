@@ -1,5 +1,20 @@
 2001-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-sasl-login.[c,h]: New files to handle the LOGIN SASL
+	mechanism.
+	
+	* camel-sasl-plain.c: Removed the definition of
+	camel_sasl_login_authtype.
+
+	* camel-sasl.c (camel_sasl_new): Oops. I thought LOGIN was an
+	alias to PLAIN. I was wrong. These two SASL objects have to be
+	separate.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_auth): Updated to
+	check for and use authmech->quick_login when available.
+
+2001-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/pop3/camel-pop3-provider.c: Updated the authtypes here
 	too.
 

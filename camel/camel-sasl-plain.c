@@ -39,17 +39,6 @@ CamelServiceAuthType camel_sasl_plain_authtype = {
 	FALSE
 };
 
-CamelServiceAuthType camel_sasl_login_authtype = {
-	N_("NT Login"),
-	
-	N_("This option will connect to the server using a "
-	   "simple password."),
-	
-	"LOGIN",
-	TRUE,
-	TRUE
-};
-
 static CamelSaslClass *parent_class = NULL;
 
 /* Returns the class for a CamelSaslPlain */

@@ -32,6 +32,7 @@
 #include "camel-sasl-cram-md5.h"
 #include "camel-sasl-digest-md5.h"
 #include "camel-sasl-kerberos4.h"
+#include "camel-sasl-login.h"
 #include "camel-sasl-plain.h"
 
 static CamelObjectClass *parent_class = NULL;
@@ -191,8 +192,10 @@ camel_sasl_new (const char *service_name, const char *mechanism, CamelService *s
 	else if (!strcmp (mechanism, "KERBEROS_V4"))
 		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_KERBEROS4_TYPE);
 #endif
-	else if (!strcmp (mechanism, "PLAIN") || !strcmp (mechanism, "LOGIN"))
+	else if (!strcmp (mechanism, "PLAIN"))
 		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_PLAIN_TYPE);
+	else if (!strcmp (mechanism, "LOGIN"))
+		sasl = (CamelSasl *)camel_object_new (CAMEL_SASL_LOGIN_TYPE);
 	else
 		return NULL;
 

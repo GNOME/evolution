@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef CAMEL_SASL_PLAIN_H
-#define CAMEL_SASL_PLAIN_H
+#ifndef CAMEL_SASL_LOGIN_H
+#define CAMEL_SASL_LOGIN_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,30 +30,32 @@ extern "C" {
 
 #include <camel/camel-sasl.h>
 
-#define CAMEL_SASL_PLAIN_TYPE     (camel_sasl_plain_get_type ())
-#define CAMEL_SASL_PLAIN(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SASL_PLAIN_TYPE, CamelSaslPlain))
-#define CAMEL_SASL_PLAIN_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_SASL_PLAIN_TYPE, CamelSaslPlainClass))
-#define CAMEL_IS_SASL_PLAIN(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SASL_PLAIN_TYPE))
+#define CAMEL_SASL_LOGIN_TYPE     (camel_sasl_login_get_type ())
+#define CAMEL_SASL_LOGIN(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SASL_LOGIN_TYPE, CamelSaslLogin))
+#define CAMEL_SASL_LOGIN_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_SASL_LOGIN_TYPE, CamelSaslLoginClass))
+#define CAMEL_IS_SASL_LOGIN(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SASL_LOGIN_TYPE))
 
-typedef struct _CamelSaslPlain {
+typedef struct _CamelSaslLogin {
 	CamelSasl parent_object;
+	
+	struct _CamelSaslLoginPrivate *priv;
+	
+} CamelSaslLogin;
 
-} CamelSaslPlain;
 
-
-typedef struct _CamelSaslPlainClass {
+typedef struct _CamelSaslLoginClass {
 	CamelSaslClass parent_class;
 	
-} CamelSaslPlainClass;
+} CamelSaslLoginClass;
 
 
 /* Standard Camel function */
-CamelType camel_sasl_plain_get_type (void);
+CamelType camel_sasl_login_get_type (void);
 
-extern CamelServiceAuthType camel_sasl_plain_authtype;
+extern CamelServiceAuthType camel_sasl_login_authtype;
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* CAMEL_SASL_PLAIN_H */
+#endif /* CAMEL_SASL_LOGIN_H */

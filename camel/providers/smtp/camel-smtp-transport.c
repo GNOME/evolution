@@ -696,18 +696,39 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 static gboolean
 smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 {
+	CamelServiceAuthType *authtype;
 	gchar *cmdbuf, *respbuf = NULL;
 	CamelSasl *sasl;
 	
+	sasl = camel_sasl_new ("smtp", mech, CAMEL_SERVICE (transport));
+	if (!sasl) {
+		g_free (respbuf);
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Error creating SASL authentication object."));
+		return FALSE;
+	}
+	
+	/* get the authtype object so we know if we can challenge the server */
+	authtype = camel_sasl_authtype (mech);
+	
 	/* tell the server we want to authenticate... */
-	cmdbuf = g_strdup_printf ("AUTH %s\r\n", mech);
+	if (authtype && authtype->quick_login) {
+		/* cool, we can challenge the server in our initial request */
+		char *challenge;
+		
+		challenge = camel_sasl_challenge_base64 (sasl, NULL, ex);
+		cmdbuf = g_strdup_printf ("AUTH %s %s\r\n", mech, challenge);
+		g_free (challenge);
+	} else
+		cmdbuf = g_strdup_printf ("AUTH %s\r\n", mech);
+	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
 	if (camel_stream_write (transport->ostream, cmdbuf, strlen (cmdbuf)) == -1) {
 		g_free (cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("AUTH request timed out: %s"),
 				      g_strerror (errno));
-		return FALSE;
+		goto lose;
 	}
 	g_free (cmdbuf);
 	
@@ -719,13 +740,7 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("AUTH request timed out: %s"),
 				      g_strerror (errno));
-		return FALSE;
-	}
-	
-	sasl = camel_sasl_new ("smtp", mech, CAMEL_SERVICE (transport));
-	if (!sasl) {
-		g_free (respbuf);
-		goto break_and_lose;
+		goto lose;
 	}
 	
 	while (!camel_sasl_authenticated (sasl)) {
