@@ -166,6 +166,9 @@ camel_exception_set (CamelException *ex,
 		     ExceptionId id,
 		     const char *desc)
 {
+	if (camel_debug("exception"))
+		printf("CamelException.set(%p, %d, '%s')\n", ex, id, desc);
+
 	if (!ex)
 		return;
 
@@ -209,24 +212,24 @@ camel_exception_setv (CamelException *ex,
 		      ...)
 {
 	va_list args;
-	char *old;
+	char *desc;
 
-	if (camel_debug("exception"))
-		printf("CamelException.setv(%p, %d, '%s')\n", ex, id, format);
-	
-	if (!ex)
-		return;
-
-	CAMEL_EXCEPTION_LOCK(exception);
-	
-	old = ex->desc;
-	
 	va_start(args, format);
-	ex->desc = g_strdup_vprintf (format, args);
+	desc = g_strdup_vprintf (format, args);
 	va_end (args);
 
-	g_free (old);
+	if (camel_debug("exception"))
+		printf("CamelException.setv(%p, %d, '%s')\n", ex, id, desc);
 	
+	if (!ex) {
+		g_free(desc);
+		return;
+	}
+
+	CAMEL_EXCEPTION_LOCK(exception);
+
+	g_free(ex->desc);
+	ex->desc = desc;
 	ex->id = id;
 
 	CAMEL_EXCEPTION_UNLOCK(exception);

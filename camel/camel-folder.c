@@ -1777,8 +1777,8 @@ folder_changed (CamelObject *obj, gpointer event_data)
 	GPtrArray *recents = NULL;
 	gboolean ret = TRUE;
 
-	d(printf ("folder_changed(%p, %p), frozen=%d\n", obj, event_data, folder->priv->frozen));
-	d(printf(" added %d remoded %d changed %d recent %d\n",
+	(printf ("folder_changed(%p, %p), frozen=%d\n", obj, event_data, folder->priv->frozen));
+	(printf(" added %d remoded %d changed %d recent %d\n",
 		 changed->uid_added->len, changed->uid_removed->len,
 		 changed->uid_changed->len, changed->uid_recent->len));
 
@@ -1808,8 +1808,9 @@ folder_changed (CamelObject *obj, gpointer event_data)
 				camel_folder_set_message_flags (folder, changed->uid_changed->pdata [i], CAMEL_MESSAGE_JUNK_LEARN, 0);
 			}
 		}
-		d(if (junk || notjunk) printf("** Have '%d' messages for junk filter to learn, launching thread to process them\n",
-					      (junk ? junk->len : 0) + (notjunk ? notjunk->len : 0)));
+		((junk || notjunk)
+		 && printf("** Have '%d' messages for junk filter to learn, launching thread to process them\n",
+			   (junk ? junk->len : 0) + (notjunk ? notjunk->len : 0)));
 	}
 
 	if ((folder->folder_flags & (CAMEL_FOLDER_FILTER_RECENT|CAMEL_FOLDER_FILTER_JUNK))
@@ -1827,7 +1828,7 @@ folder_changed (CamelObject *obj, gpointer event_data)
 		for (i=0;i<changed->uid_recent->len;i++)
 			g_ptr_array_add(recents, g_strdup(changed->uid_recent->pdata[i]));
 
-		d(printf("** Have '%d' recent messages, launching thread to process them\n", changed->uid_recent->len));
+		(printf("** Have '%d' recent messages, launching thread to process them\n", changed->uid_recent->len));
 	}
 
 	if (driver || junk || notjunk) {

@@ -414,7 +414,8 @@ retry:
 
 	if (info == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
-				     _("Cannot get message: %s\n  %s"), uid, _("No such message"));
+				     _("Cannot get message: %s from folder %s\n  %s"),
+				     uid, lf->folder_path, _("No such message"));
 		goto fail;
 	}
 
@@ -431,7 +432,7 @@ retry:
 
 	fd = open(lf->folder_path, O_RDONLY);
 	if (fd == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot get message: %s from folder %s\n  %s"),
 				      uid, lf->folder_path, g_strerror (errno));
 		goto fail;
@@ -462,7 +463,7 @@ retry:
 				goto retry;
 		}
 
-		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID,
 				     _("Cannot get message: %s from folder %s\n  %s"), uid, lf->folder_path,
 				     _("The folder appears to be irrecoverably corrupted."));
 		goto fail;
@@ -470,9 +471,9 @@ retry:
 	
 	message = camel_mime_message_new();
 	if (camel_mime_part_construct_from_parser((CamelMimePart *)message, parser) == -1) {
-		camel_exception_setv(ex, errno==EINTR?CAMEL_EXCEPTION_USER_CANCEL:CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+		camel_exception_setv(ex, errno==EINTR?CAMEL_EXCEPTION_USER_CANCEL:CAMEL_EXCEPTION_SYSTEM,
 				     _("Cannot get message: %s from folder %s\n  %s"), uid, lf->folder_path,
-				     _("Message construction failed: Corrupt mailbox?"));
+				     _("Message construction failed."));
 		camel_object_unref((CamelObject *)message);
 		message = NULL;
 		goto fail;

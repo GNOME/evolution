@@ -28,6 +28,18 @@
 
 2004-05-20  Not Zed  <NotZed@Ximian.com>
 
+	* camel-exception.c (camel_exception_setv): re-arrange the code so
+	exception debug will print the expanded description.
+	(camel_exception_set): print exception debug.
+
+	* providers/pop3/camel-pop3-folder.c (pop3_get_message): same.
+
+	* providers/local/camel-mh-folder.c (mh_get_message) *
+	providers/local/camel-mbox-folder.c (mbox_get_message): *
+	providers/local/camel-maildir-folder.c (maildir_get_message):
+	Don't use INVALID_UID for errors which are more system related.
+	And sync up all the error messages.
+
 	* providers/nntp/camel-nntp-folder.c (nntp_folder_get_message):
 	oops, poke the right uid to get the article number.
 	(nntp_folder_cache_message): & here too.  Somehow fixes #58700,
