@@ -85,6 +85,8 @@ xlc )
   am_opt=--include-deps;;
 esac
 
+DELETEME="gnome-gettext.m4"
+DELETEFILES="`find $srcdir -name $DELETEME`"
 for coin in `find $srcdir -name configure.in -print`
 do 
   dr=`dirname $coin`
@@ -98,6 +100,9 @@ do
       for k in $macrodirs; do
   	if test -d $k; then
           aclocalinclude="$aclocalinclude -I $k"
+	  if [ -f $k/gnome.m4 -a "$GNOME_INTERFACE_VERSION" = "1.0" ]; then
+	    rm -f $DELETEFILES
+	  fi
   	##else 
 	##  echo "**Warning**: No such directory \`$k'.  Ignored."
         fi
