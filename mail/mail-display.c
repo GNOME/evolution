@@ -220,14 +220,14 @@ on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
 
 	message = gtk_object_get_data (GTK_OBJECT (html), "message");
 
-	if (!strncasecmp (url, "news:", 5) ||
-	    !strncasecmp (url, "nntp:", 5))
+	if (!g_strncasecmp (url, "news:", 5) ||
+	    !g_strncasecmp (url, "nntp:", 5))
 		g_warning ("Can't handle news URLs yet.");
-	else if (!strncasecmp (url, "mailto:", 7))
+	else if (!g_strncasecmp (url, "mailto:", 7))
 		send_to_url (url);
-	else if (!strncasecmp (url, "cid:", 4))
+	else if (!g_strncasecmp (url, "cid:", 4))
 		save_data (url, message);
-	else if (!strncasecmp (url, "x-evolution-external:", 21))
+	else if (!g_strncasecmp (url, "x-evolution-external:", 21))
 		launch_external (url, message);
 	else
 		gnome_url_show (url);

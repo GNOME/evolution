@@ -1,5 +1,8 @@
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-display.c:
+	* component-factory.c: s/strncasecmp/g_strncasecmp
+
 	* mail-format.c (write_headers): Get rid of kludge around subject
 	beginning with spaces.
 	(mail_generate_reply): Get rid of kludge around subject beginning

@@ -259,7 +259,7 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 		source = s->url;
 	}
 
-	if (!source || strncasecmp (source, "imap://", 7))
+	if (!source || g_strncasecmp (source, "imap://", 7))
 		return;
 	
 	shell_client = evolution_shell_component_get_owner (shell_component);
@@ -402,7 +402,7 @@ create_news_storage (EvolutionShellComponent *shell_component)
 		source = s->url;
 	}
 
-	if (!source || strncasecmp (source, "news://", 7))
+	if (!source || g_strncasecmp (source, "news://", 7))
 		return;
 	
 	shell_client = evolution_shell_component_get_owner (shell_component);
