@@ -113,6 +113,22 @@ void         e_table_memory_store_insert_adopt_array  (ETableMemoryStore        
 						       int                           row,
 						       void                        **store,
 						       gpointer                      data);
+void         e_table_memory_store_change_array        (ETableMemoryStore            *etms,
+						       int                           row,
+						       void                        **store,
+						       gpointer                      data);
+void         e_table_memory_store_change              (ETableMemoryStore            *etms,
+						       int                           row,
+						       gpointer                      data,
+						       ...);
+void         e_table_memory_store_change_adopt        (ETableMemoryStore            *etms,
+						       int                           row,
+						       gpointer                      data,
+						       ...);
+void         e_table_memory_store_change_adopt_array  (ETableMemoryStore            *etms,
+						       int                           row,
+						       void                        **store,
+						       gpointer                      data);
 void         e_table_memory_store_remove              (ETableMemoryStore            *etms,
 						       int                           row);
 void         e_table_memory_store_clear               (ETableMemoryStore            *etms);

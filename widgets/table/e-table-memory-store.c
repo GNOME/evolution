@@ -59,6 +59,30 @@ duplicate_value (ETableMemoryStore *etms, int col, const void *val)
 	return (void *) val;
 }
 
+static void
+free_value (ETableMemoryStore *etms, int col, void *value)
+{
+	switch (etms->priv->columns[col].type) {
+	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
+		g_free (value);
+		break;
+	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
+		if (value)
+			gdk_pixbuf_unref (value);
+		break;
+	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_OBJECT:
+		if (value)
+			gtk_object_unref (value);
+		break;
+	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM:
+		if (etms->priv->columns[col].custom.free_value)
+			etms->priv->columns[col].custom.free_value (E_TABLE_MODEL (etms), col, value, NULL);
+		break;
+	default:
+		break;
+	}
+}
+
 static int
 etms_column_count (ETableModel *etm)
 {
@@ -109,25 +133,7 @@ etms_free_value (ETableModel *etm, int col, void *value)
 {
 	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
 
-	switch (etms->priv->columns[col].type) {
-	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
-		g_free (value);
-		break;
-	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF:
-		if (value)
-			gdk_pixbuf_unref (value);
-		break;
-	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_OBJECT:
-		if (value)
-			gtk_object_unref (value);
-		break;
-	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM:
-		if (etms->priv->columns[col].custom.free_value)
-			etms->priv->columns[col].custom.free_value (E_TABLE_MODEL (etms), col, value, NULL);
-		break;
-	default:
-		break;
-	}
+	free_value (etms, col, value);
 }
 
 static void *
@@ -408,6 +414,125 @@ e_table_memory_store_insert_adopt (ETableMemoryStore *etms, int row, gpointer da
 	va_end (args);
 
 	e_table_memory_store_insert_adopt_array (etms, row, store, data);
+
+	g_free (store);
+}
+
+/**
+ * e_table_memory_store_change_array:
+ * @etms: the ETabelMemoryStore.
+ * @row:  the row we're changing.
+ * @store: an array of new values to fill the row
+ * @data: the new closure to associate with this row.
+ *
+ * frees existing values associated with a row and replaces them with
+ * duplicates of the values in store.
+ *
+ */
+void
+e_table_memory_store_change_array (ETableMemoryStore *etms, int row, void **store, gpointer data)
+{
+	int i;
+
+	g_return_if_fail (row >= 0 && row < e_table_model_row_count (E_TABLE_MODEL (etms)));
+
+	e_table_model_pre_change (E_TABLE_MODEL (etms));
+
+	for (i = 0; i < etms->priv->col_count; i++) {
+		free_value (etms, i, STORE_LOCATOR(etms, i, row));
+		STORE_LOCATOR(etms, i, row) = duplicate_value(etms, i, store[i]);
+	}
+
+	e_table_memory_set_data (E_TABLE_MEMORY (etms), row, data);
+	e_table_model_row_changed (E_TABLE_MODEL (etms), row);
+}
+
+/**
+ * e_table_memory_store_change:
+ * @etms: the ETabelMemoryStore.
+ * @row:  the row we're changing.
+ * @data: the new closure to associate with this row.
+ *
+ * a varargs version of e_table_memory_store_change_array.  you must
+ * pass in etms->col_count args.
+ */
+void
+e_table_memory_store_change (ETableMemoryStore *etms, int row, gpointer data, ...)
+{
+	void **store;
+	va_list args;
+	int i;
+
+	g_return_if_fail (row >= 0 && row < e_table_model_row_count (E_TABLE_MODEL (etms)));
+
+	store = g_new0 (void *, etms->priv->col_count + 1);
+
+	va_start (args, data);
+	for (i = 0; i < etms->priv->col_count; i++) {
+		store[i] = va_arg (args, void *);
+	}
+	va_end (args);
+
+	e_table_memory_store_change_array (etms, row, store, data);
+
+	g_free (store);
+}
+
+/**
+ * e_table_memory_store_change_adopt_array:
+ * @etms: the ETableMemoryStore
+ * @row: the row we're changing.
+ * @store: an array of new values to fill the row
+ * @data: the new closure to associate with this row.
+ *
+ * frees existing values for the row and stores the values from store
+ * into it.  This function differs from
+ * e_table_memory_storage_change_adopt_array in that it does not
+ * duplicate the data.
+ */
+void
+e_table_memory_store_change_adopt_array (ETableMemoryStore *etms, int row, void **store, gpointer data)
+{
+	int i;
+
+	g_return_if_fail (row >= 0 && row < e_table_model_row_count (E_TABLE_MODEL (etms)));
+
+	for (i = 0; i < etms->priv->col_count; i++) {
+		free_value (etms, i, STORE_LOCATOR(etms, i, row));
+		STORE_LOCATOR(etms, i, row) = store[i];
+	}
+
+	e_table_memory_set_data (E_TABLE_MEMORY (etms), row, data);
+	e_table_model_row_changed (E_TABLE_MODEL (etms), row);
+}
+
+/**
+ * e_table_memory_store_change_adopt
+ * @etms: the ETabelMemoryStore.
+ * @row:  the row we're changing.
+ * @data: the new closure to associate with this row.
+ *
+ * a varargs version of e_table_memory_store_change_adopt_array.  you
+ * must pass in etms->col_count args.
+ */
+void
+e_table_memory_store_change_adopt (ETableMemoryStore *etms, int row, gpointer data, ...)
+{
+	void **store;
+	va_list args;
+	int i;
+
+	g_return_if_fail (row >= 0 && row < e_table_model_row_count (E_TABLE_MODEL (etms)));
+
+	store = g_new0 (void *, etms->priv->col_count + 1);
+
+	va_start (args, data);
+	for (i = 0; i < etms->priv->col_count; i++) {
+		store[i] = va_arg (args, void *);
+	}
+	va_end (args);
+
+	e_table_memory_store_change_adopt_array (etms, row, store, data);
 
 	g_free (store);
 }
