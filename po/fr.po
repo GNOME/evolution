@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.5.1\n"
-"POT-Creation-Date: 2000-09-25 10:26+0200\n"
+"POT-Creation-Date: 2000-09-25 17:13+0200\n"
 "PO-Revision-Date: 2000-09-25 10:25+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <christophe@merlet.net>\n"
 "Language-Team: GNOME French Team <gnomefr@gnomefr.traduc.org>\n"
@@ -21,7 +21,6 @@ msgstr ""
 #: addressbook/backend/ebook/test-client.c:29
 #: addressbook/conduit/address-conduit.c:1215
 #: addressbook/gui/component/addressbook-factory.c:38
-#: addressbook/gui/widgets/test-minicard-view.c:45
 #: calendar/conduits/calendar/calendar-conduit.c:1673
 #: calendar/conduits/todo/todo-conduit.c:1173 calendar/gui/main.c:55
 msgid "Could not initialize Bonobo"
@@ -766,18 +765,6 @@ msgstr ""
 "Il n'y a aucun éléments à afficher dans cette vue.\n"
 "\n"
 "Double-cliquez ici pour créer un nouveau contact."
-
-#: addressbook/gui/widgets/test-minicard-view.c:100
-msgid "Reflow Test"
-msgstr ""
-
-#: addressbook/gui/widgets/test-minicard-view.c:101
-msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr "Copyright (C) 2000, Helix Code, Inc."
-
-#: addressbook/gui/widgets/test-minicard-view.c:103
-msgid "This should test the reflow canvas item"
-msgstr ""
 
 #. gtk_signal_connect(fb->search_entry, "changed", search_activate, fb);
 #: addressbook/gui/search/e-addressbook-search-dialog.c:151
@@ -1574,7 +1561,7 @@ msgstr "Entrée de journal - %s"
 #.
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:7
 msgid "task-editor-dialog"
-msgstr ""
+msgstr "task-editor-dialog"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:8
 msgid "S_ummary"
@@ -1832,7 +1819,7 @@ msgstr "%a %b %d %Y"
 #.
 #: calendar/gui/event-editor-dialog.glade.h:7
 msgid "event-editor-dialog"
-msgstr ""
+msgstr "event-editor-dialog"
 
 #: calendar/gui/event-editor-dialog.glade.h:8
 msgid "_Summary:"
@@ -1992,7 +1979,7 @@ msgstr "label25"
 #: calendar/gui/event-editor-dialog.glade.h:61
 #: calendar/gui/event-editor-dialog.glade.h:62
 msgid "Recur on the"
-msgstr ""
+msgstr "Récurrence le"
 
 #: calendar/gui/event-editor-dialog.glade.h:63
 msgid "th day of the month"
@@ -3273,6 +3260,10 @@ msgid ""
 "receive or compose mail.\n"
 "Would you like to configure it now?"
 msgstr ""
+"Vous n'avez pas configuré le client de messagerie.\n"
+"Vous avez besoin de le faire avant d'envoyer,\n"
+"recevoir ou composer des courriers.\n"
+"Voulez-vous le configurer maintenant ?"
 
 #: mail/mail-callbacks.c:110
 msgid ""
@@ -3614,7 +3605,7 @@ msgstr "Change de dossier \"%s\" vers le format \"%s\""
 #. folder.
 #: mail/mail-local-storage.c:97
 msgid " (XXX unread)"
-msgstr ""
+msgstr " (XXX non lu)"
 
 #: mail/mail-ops.c:76
 #, c-format
@@ -4114,22 +4105,6 @@ msgstr "Filtre sur la liste de diffusion"
 msgid "Filter on Mailing List (%s)"
 msgstr "Filtre sur la liste de diffusion (%s)"
 
-#: notes/component-factory.c:27
-msgid "New"
-msgstr "Nouveau"
-
-#: notes/component-factory.c:27
-msgid "Create a new note"
-msgstr "Crée une nouvelle note"
-
-#: notes/component-factory.c:148
-msgid "Cannot initialize Evolution's notes component."
-msgstr "Ne peut initialiser le composant de notes d'Evolution."
-
-#: notes/main.c:30
-msgid "Notes Component: Could not initialize bonobo"
-msgstr "Composant Notes : Ne peut initialiser Bonobo"
-
 #: shell/e-setup.c:47
 msgid "Evolution installation"
 msgstr "Installation d'Evolution"
@@ -4503,7 +4478,7 @@ msgstr "LMMJVSD"
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: widgets/misc/e-calendar-item.c:1039 widgets/misc/e-calendar-item.c:2671
 msgid "%B %Y"
-msgstr ""
+msgstr "%B %Y"
 
 #: widgets/misc/e-clipped-label.c:106
 msgid "..."
@@ -4522,12 +4497,27 @@ msgstr "Aujourd'hui"
 #: widgets/misc/e-dateedit.c:475 widgets/misc/e-dateedit.c:507
 #: widgets/misc/e-dateedit.c:662 widgets/misc/e-dateedit.c:718
 msgid "%m/%d/%Y"
-msgstr ""
+msgstr "%d/%m/%Y"
 
 #: widgets/shortcut-bar/e-group-bar.c:632
 #, c-format
 msgid "Group %i"
 msgstr "Groupe %i"
+
+#~ msgid "Copyright (C) 2000, Helix Code, Inc."
+#~ msgstr "Copyright (C) 2000, Helix Code, Inc."
+
+#~ msgid "New"
+#~ msgstr "Nouveau"
+
+#~ msgid "Create a new note"
+#~ msgstr "Crée une nouvelle note"
+
+#~ msgid "Cannot initialize Evolution's notes component."
+#~ msgstr "Ne peut initialiser le composant de notes d'Evolution."
+
+#~ msgid "Notes Component: Could not initialize bonobo"
+#~ msgstr "Composant Notes : Ne peut initialiser Bonobo"
 
 #~ msgid "FIXME: _New Contact"
 #~ msgstr "FIXME: _Nouveau contact"
