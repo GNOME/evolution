@@ -33,6 +33,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomevfs/gnome-vfs.h>
+#include <gal/e-table/e-table-without.h>
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-cell-popup.h>
 #include <gal/e-table/e-cell-combo.h>
@@ -71,7 +72,8 @@ enum columns {
 struct _EMeetingModelPrivate 
 {
 	GPtrArray *attendees;
-
+	ETableWithout *without;
+	
 	CalClient *client;
 	
 	EBook *ebook;
@@ -573,6 +575,40 @@ value_to_string (ETableModel *etm, int col, const void *val)
 	return g_strdup (val);
 }
 
+static void *
+get_key (ETableModel *source, int row, gpointer data) 
+{
+	EMeetingModel *im;
+	EMeetingModelPrivate *priv;
+	char *str;
+	
+	im = E_MEETING_MODEL (source);
+	priv = im->priv;
+
+	str = value_at (source, ITIP_DELTO_COL, row);
+	if (str && *str)
+		return g_strdup ("delegator");
+
+	return g_strdup ("none");
+}
+
+static void *
+duplicate_key (const void *key, gpointer data) 
+{
+	return g_strdup (key);
+}
+
+static void
+free_gotten_key (void *key, gpointer data)
+{
+	g_free (key);
+}
+
+static void
+free_duplicated_key (void *key, gpointer data)
+{
+	g_free (key);
+}
 
 static void
 class_init (EMeetingModelClass *klass)
@@ -611,6 +647,16 @@ init (EMeetingModel *im)
 	im->priv = priv;
 
 	priv->attendees = g_ptr_array_new ();
+
+	priv->without = E_TABLE_WITHOUT (e_table_without_new (E_TABLE_MODEL (im),
+							      g_str_hash,
+							      g_str_equal,
+							      get_key,
+							      duplicate_key,
+							      free_gotten_key,
+							      free_duplicated_key,
+							      NULL));
+	e_table_without_hide (priv->without, g_strdup ("delegator"));
 	
 	priv->client = NULL;
 	
@@ -892,20 +938,25 @@ EMeetingAttendee *
 e_meeting_model_find_attendee_at_row (EMeetingModel *im, gint row)
 {
 	EMeetingModelPrivate *priv;
-	
+
+	g_return_val_if_fail (im != NULL, NULL);
+	g_return_val_if_fail (E_IS_MEETING_MODEL (im), NULL);
+	g_return_val_if_fail (row >= 0, NULL);
+
 	priv = im->priv;
-	
+	g_return_val_if_fail (row < priv->attendees->len, NULL);
+
 	return g_ptr_array_index (priv->attendees, row);
 }
 
 gint 
-e_meeting_model_count_attendees (EMeetingModel *im)
+e_meeting_model_count_actual_attendees (EMeetingModel *im)
 {
 	EMeetingModelPrivate *priv;
 	
 	priv = im->priv;
 
-	return priv->attendees->len;
+	return e_table_model_row_count (E_TABLE_MODEL (priv->without));	
 }
 
 const GPtrArray *
@@ -1330,11 +1381,42 @@ e_meeting_model_refresh_busy_periods (EMeetingModel *im, EMeetingModelRefreshCal
 ETableScrolled *
 e_meeting_model_etable_from_model (EMeetingModel *im, const gchar *spec_file, const gchar *state_file)
 {
+	EMeetingModelPrivate *priv;
+	
 	g_return_val_if_fail (im != NULL, NULL);
 	g_return_val_if_fail (E_IS_MEETING_MODEL (im), NULL);
 
-	return build_etable (E_TABLE_MODEL (im), spec_file, state_file);
+	priv = im->priv;
+	
+	return build_etable (E_TABLE_MODEL (priv->without), spec_file, state_file);
 }
+
+int
+e_meeting_model_etable_model_to_view_row (EMeetingModel *im, int model_row)
+{
+	EMeetingModelPrivate *priv;
+	
+	g_return_val_if_fail (im != NULL, -1);
+	g_return_val_if_fail (E_IS_MEETING_MODEL (im), -1);
+	
+	priv = im->priv;
+	
+	return e_table_subset_model_to_view_row (priv->without, model_row);
+}
+
+int
+e_meeting_model_etable_view_to_model_row (EMeetingModel *im, int view_row)
+{
+	EMeetingModelPrivate *priv;
+	
+	g_return_val_if_fail (im != NULL, -1);
+	g_return_val_if_fail (E_IS_MEETING_MODEL (im), -1);
+	
+	priv = im->priv;
+	
+	return e_table_subset_view_to_model_row (priv->without, view_row);
+}
+
 
 static void
 add_section (GNOME_Evolution_Addressbook_SelectNames corba_select_names, const char *name)

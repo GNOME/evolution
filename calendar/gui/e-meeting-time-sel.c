@@ -1511,7 +1511,7 @@ e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
 
 		/* Step through each attendee, checking if the meeting time
 		   intersects one of the attendees busy periods. */
-		for (row = 0; row <  e_meeting_model_count_attendees (mts->model); row++) {
+		for (row = 0; row <  e_meeting_model_count_actual_attendees (mts->model); row++) {
 			attendee = e_meeting_model_find_attendee_at_row (mts->model, row);
 
 			/* Skip optional people if they don't matter. */
@@ -2200,7 +2200,7 @@ e_meeting_time_selector_update_main_canvas_scroll_region (EMeetingTimeSelector *
 {
 	gint height, canvas_height;
 
-	height = mts->row_height * (e_meeting_model_count_attendees (mts->model) + 2);
+	height = mts->row_height * (e_meeting_model_count_actual_attendees (mts->model) + 2);
 	canvas_height = GTK_WIDGET (mts->display_main)->allocation.height;
 
 	height = MAX (height,  canvas_height);

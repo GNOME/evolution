@@ -77,12 +77,14 @@ void e_meeting_model_remove_all_attendees (EMeetingModel *im);
 EMeetingAttendee *e_meeting_model_find_attendee (EMeetingModel *im, const gchar *address, gint *row);
 EMeetingAttendee *e_meeting_model_find_attendee_at_row (EMeetingModel *im, gint row);
 
-gint e_meeting_model_count_attendees (EMeetingModel *im);
+gint e_meeting_model_count_actual_attendees (EMeetingModel *im);
 const GPtrArray *e_meeting_model_get_attendees (EMeetingModel *im);
 void e_meeting_model_refresh_busy_periods (EMeetingModel *im, EMeetingModelRefreshCallback call_back, gpointer data);
 
 /* Helpful functions */
 ETableScrolled    *e_meeting_model_etable_from_model (EMeetingModel *im, const gchar *spec_file, const gchar *state_file);
+int e_meeting_model_etable_model_to_view_row (EMeetingModel *im, int model_row);
+int e_meeting_model_etable_view_to_model_row (EMeetingModel *im, int view_row);
 
 void e_meeting_model_invite_others_dialog (EMeetingModel *im);
 

@@ -438,7 +438,7 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		g_free (cn);
 	}
 
-	if (e_meeting_model_count_attendees (priv->model) < 1) {
+	if (e_meeting_model_count_actual_attendees (priv->model) < 1) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  "Atleast one attendee is required.");
 		return FALSE;
@@ -592,6 +592,7 @@ init_widgets (MeetingPage *mpage)
 			    GTK_SIGNAL_FUNC (invite_cb), mpage);
 }
 
+#if 0
 static void
 popup_delegate_cb (GtkWidget *widget, gpointer data) 
 {
@@ -650,6 +651,7 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 	g_free (address);
 	gtk_object_unref (GTK_OBJECT (edd));
 }
+#endif
 
 static void
 popup_delete_cb (GtkWidget *widget, gpointer data) 
@@ -692,10 +694,12 @@ enum {
 };
 
 static EPopupMenu context_menu[] = {
+#if 0
 	{ N_("_Delegate To..."),              NULL,
 	  GTK_SIGNAL_FUNC (popup_delegate_cb),NULL,  CAN_DELEGATE },
 
 	E_POPUP_SEPARATOR,
+#endif
 
 	{ N_("_Delete"),                      GNOME_STOCK_MENU_TRASH,
 	  GTK_SIGNAL_FUNC (popup_delete_cb),  NULL,  CAN_DELETE },
@@ -714,7 +718,7 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
 
 	priv = mpage->priv;
 
-	priv->row = row;
+	priv->row = e_meeting_model_etable_view_to_model_row (priv->model, row);
 
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, data);
 	e_auto_kill_popup_menu_on_hide (menu);
