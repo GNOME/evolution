@@ -27,7 +27,7 @@
 
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
-#include "e-source-option-menu.h"
+#include <libedataserverui/e-source-option-menu.h>
 #include "e-pilot-settings.h"
 
 struct _EPilotSettingsPrivate 

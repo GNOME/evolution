@@ -1,3 +1,7 @@
+2004-10-14  JP Rosevear  <jpr@novell.com>
+
+	* e-pilot-settings.c: fix e-source-option-menu include
+
 2004-10-13  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: don't build source selector or source option menu
