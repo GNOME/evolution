@@ -31,7 +31,6 @@ char *s = N_("Mailing list");
 char *s = N_("Message Body");
 char *s = N_("Message Header");
 char *s = N_("Move to Folder");
-char *s = N_("Needs Reply");
 char *s = N_("Read");
 char *s = N_("Recipients");
 char *s = N_("Regex Match");

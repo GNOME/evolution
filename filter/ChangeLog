@@ -1,3 +1,7 @@
+2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filtertypes.xml: Re-added contains and not-contains.
+
 2002-02-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* vfoldertypes.xml: Same here.

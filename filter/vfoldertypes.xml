@@ -318,6 +318,14 @@
         <title>is not</title>
         <code>(match-all (not (header-matches "x-camel-mlist" ${mlist})))</code>
     </option>
+    <option value="contains">
+        <title>contains</title>
+        <code>(match-all (header-contains "x-camel-mlist" ${mlist}))</code>
+    </option>
+    <option value="not contains">
+        <title>does not contain</title>
+        <code>(match-all (not (header-contains "x-camel-mlist" ${mlist})))</code>
+    </option>
    </input>
    <input type="string" name="mlist"/>
  </part>
