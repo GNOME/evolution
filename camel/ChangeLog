@@ -1,3 +1,15 @@
+2003-10-08  Not Zed  <NotZed@Ximian.com>
+
+	** See Bug #45504
+
+	* camel-service.c (run_gethostbyx): new thread dispatcher which
+	just consumes tasks on the lookup port.
+	(get_hostbyx): generic lookup handler that handles cancellation.
+	(camel_gethostbyname, camel_gethostbyaddr): Changed to use stuff
+	above, sets up a request message and lets gethostbyx run it.
+	(init_gethostbyx): setup threads for dns lookups,
+	CAMEL_DNS_THREADS allows the number to be altered.
+
 2003-10-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_decode_date): Allow timezone offsets
