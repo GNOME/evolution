@@ -670,7 +670,7 @@ imap_parse_subfolder_line (gchar *buf, gchar **flags, gchar **sep, gchar **folde
 	*sep = NULL;
 	*folder = NULL;
 
-	if (strncasecmp (buf, "* LIST", 6))
+	if (g_strncasecmp (buf, "* LIST", 6))
 		return FALSE;
 
 	ptr = strstr (buf + 6, "(");
@@ -820,7 +820,7 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	CamelMimeMessage *msg;
 	/*CamelMimePart *part;*/
 	gchar *result, *header, *body, *mesg, *p, *q;
-	int id, status, part_len;
+	int status, part_len;
 
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
 					      &result, "UID FETCH %s BODY.PEEK[HEADER]", uid);
@@ -1111,7 +1111,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 
 		/* lets grab the UID... */
 		if (!(uid = strstr (headers->pdata[i], "(UID "))) {
-			d(fprintf (stderr, "We didn't seem to get a uid for %d...\n\n%s\n\n", i, headers->pdata[i]));
+			d(fprintf (stderr, "Cannot get a uid for %d\n\n%s\n\n", i, (char *) headers->pdata[i]));
 			g_free (info);
 			break;
 		}
@@ -1331,7 +1331,7 @@ imap_get_message_info (CamelFolder *folder, const char *uid)
 	}
 	
 	p = strchr (result, '(') + 1;
-	if (strncasecmp (p, "FLAGS", 5)) {
+	if (g_strncasecmp (p, "FLAGS", 5)) {
 		g_free (result);
 		d(fprintf (stderr, "Warning: FLAGS for message %s not found\n", uid));
 
