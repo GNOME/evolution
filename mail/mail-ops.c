@@ -161,7 +161,8 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 		camel_service_connect_with_url (CAMEL_SERVICE (store),
 						url, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-			mail_exception_dialog ("Unable to get new mail", ex, fb);
+			if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_USER_CANCEL)
+				mail_exception_dialog ("Unable to get new mail", ex, fb);
 			goto cleanup;
 		}
 

@@ -1,3 +1,8 @@
+2000-05-28  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (fetch_mail): don't put up an error message if the
+	user cancels the password dialog.
+
 2000-05-27  Not Zed  <NotZed@HelixCode.com>
 
 	* Makefile.am (SHELL_OBJS): Include mail storage so we can
