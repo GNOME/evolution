@@ -1,3 +1,8 @@
+2002-07-15  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (build_message): added save_html_object_data
+	parameter, use gtkhtml command to save object data when wanted
+
 2002-07-08  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am (INCLUDES): Fix cflags for ebook header namespacing.

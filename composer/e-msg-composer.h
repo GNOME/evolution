@@ -141,7 +141,8 @@ CamelMimePart           *e_msg_composer_add_inline_image_from_file       (EMsgCo
 									  const char        *filename);
 void                     e_msg_composer_add_inline_image_from_mime_part  (EMsgComposer      *composer,
 									  CamelMimePart     *part);
-CamelMimeMessage        *e_msg_composer_get_message                      (EMsgComposer      *composer);
+CamelMimeMessage        *e_msg_composer_get_message                      (EMsgComposer      *composer,
+									  gboolean           save_html_object_data);
 CamelMimeMessage        *e_msg_composer_get_message_draft                (EMsgComposer      *composer);
 void                     e_msg_composer_show_sig_file                    (EMsgComposer      *composer);
 gboolean                 e_msg_composer_get_send_html                    (EMsgComposer      *composer);

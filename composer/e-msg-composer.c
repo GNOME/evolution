@@ -320,7 +320,7 @@ add_inlined_images (EMsgComposer *composer, CamelMultipart *multipart)
  * composed in `composer'.
  */
 static CamelMimeMessage *
-build_message (EMsgComposer *composer)
+build_message (EMsgComposer *composer, gboolean save_html_object_data)
 {
 	EMsgComposerAttachmentBar *attachment_bar =
 		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
@@ -389,9 +389,19 @@ build_message (EMsgComposer *composer)
 	header_content_type_unref (type);
 	
 	if (composer->send_html) {
+		CORBA_Environment ev;
 		clear_current_images (composer);
-		
+
+		if (save_html_object_data) {
+			CORBA_exception_init (&ev);
+			GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "save-data-on", &ev);
+		}
 		data = get_text (composer->persist_stream_interface, "text/html");		
+		if (save_html_object_data) {
+			GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "save-data-off", &ev);
+			CORBA_exception_free (&ev);
+		}
+
 		if (!data) {
 			/* The component has probably died */
 			camel_object_unref (CAMEL_OBJECT (new));
@@ -3772,11 +3782,11 @@ e_msg_composer_add_inline_image_from_mime_part (EMsgComposer  *composer,
  * Return value: A pointer to the new CamelMimeMessage object
  **/
 CamelMimeMessage *
-e_msg_composer_get_message (EMsgComposer *composer)
+e_msg_composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 	
-	return build_message (composer);
+	return build_message (composer, save_html_object_data);
 }
 
 CamelMimeMessage *
@@ -3802,7 +3812,7 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 	old_smime_encrypt = composer->smime_encrypt;
 	composer->smime_encrypt = FALSE;
 	
-	msg = e_msg_composer_get_message (composer);
+	msg = e_msg_composer_get_message (composer, TRUE);
 	
 	composer->send_html = old_send_html;
 	composer->pgp_sign = old_pgp_sign;
