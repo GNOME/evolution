@@ -1,3 +1,8 @@
+2004-07-01  Rodney Dawes  <dobey@novell.com>
+
+	* Makefile.am (BUILT_SOURCES): Remove $(error_i18n)
+	(CLEANFILES): Put $(error_i18n) in here
+
 2004-06-29  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-tree-model.c (folder_created_cb): call
