@@ -328,6 +328,7 @@ local_record_from_comp (EToDoLocalRecord *local, CalComponent *comp, EToDoCondui
 	g_return_if_fail (comp != NULL);
 
 	local->comp = comp;
+	gtk_object_ref (GTK_OBJECT (comp));
 
 	cal_component_get_uid (local->comp, &uid);
 	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, uid);

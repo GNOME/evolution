@@ -1,3 +1,10 @@
+2001-01-23  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/todo/todo-conduit.c (local_record_from_comp): properly ref
+	the cal component when we use it, prevents double free
+
+	* conduits/calendar/calendar-conduit.c (local_record_from_comp): ditto
+
 2001-01-22  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/Makefile.am: compile new stuff
