@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-02-16 15:04+0100\n"
+"POT-Creation-Date: 2001-03-01 21:16+0100\n"
 "PO-Revision-Date: 2000-07-28 03:15+0200\n"
 "Last-Translator: Andraz Tori <andraz.tori1@guest.arnes.si>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -690,7 +690,7 @@ msgstr "Prenosni telefon"
 #: addressbook/contact-editor/e-contact-editor.c:1289
 #: addressbook/contact-editor/e-contact-editor.c:1384
 #: addressbook/gui/widgets/e-addressbook-view.c:584
-#: calendar/gui/e-meeting-dialog.glade.h:14 mail/mail-config.glade.h:47
+#: calendar/gui/e-meeting-dialog.glade.h:14 mail/mail-config.glade.h:48
 msgid "Other"
 msgstr "Drugo"
 
@@ -879,11 +879,11 @@ msgstr ""
 "stre¾nika. Èe ¾elite uporabljalti LDAP morate nalo¾iti in \n"
 "namestiti OpenLDAP in ponovno prevesti in namestiti Evolucijo. \n"
 
-#: addressbook/gui/component/addressbook.c:561 mail/folder-browser.c:221
+#: addressbook/gui/component/addressbook.c:561
 msgid "Show All"
 msgstr "Ka¾i vse"
 
-#: addressbook/gui/component/addressbook.c:563 mail/folder-browser.c:223
+#: addressbook/gui/component/addressbook.c:563
 msgid "Advanced..."
 msgstr "Napredno..."
 
@@ -1001,7 +1001,7 @@ msgid "Authentication:"
 msgstr "Avtentifikacija:"
 
 #: addressbook/gui/component/addressbook-config.c:502
-#: mail/mail-config-druid.c:491 mail/mail-config.glade.h:50
+#: mail/mail-config-druid.c:497 mail/mail-config.glade.h:52
 msgid "Path:"
 msgstr "Pot:"
 
@@ -1029,7 +1029,7 @@ msgstr ""
 "Izberite tip adresarja, ki ga imate in vnestite potrebne podatke o njem."
 
 #: addressbook/gui/component/addressbook-config.c:666
-#: mail/mail-config.glade.h:42
+#: mail/mail-config.glade.h:43
 msgid "Name:"
 msgstr "Ime:"
 
@@ -1054,7 +1054,7 @@ msgstr "Viri adresarja"
 #: addressbook/gui/component/addressbook-config.glade.h:3
 #: calendar/gui/e-meeting-dialog.glade.h:8
 #: calendar/gui/event-editor-dialog.glade.h:9 filter/filter.glade.h:2
-#: filter/libfilter-i18n.h:7 mail/folder-browser.c:684
+#: filter/libfilter-i18n.h:19 mail/folder-browser.c:535
 #: mail/mail-config.glade.h:21 mail/mail-view.c:150
 #: ui/evolution-addressbook.xml.h:3 ui/evolution-event-editor.xml.h:17
 #: ui/evolution-mail.xml.h:6 ui/evolution-task-editor-dialog.xml.h:18
@@ -1063,7 +1063,7 @@ msgstr "Zbri¹i"
 
 #: addressbook/gui/component/addressbook-config.glade.h:4
 #: calendar/gui/e-meeting-dialog.glade.h:9 filter/filter.glade.h:3
-#: mail/folder-browser.c:670 mail/mail-config.glade.h:24
+#: mail/folder-browser.c:521 mail/mail-config.glade.h:24
 msgid "Edit"
 msgstr "Uredi"
 
@@ -1241,7 +1241,7 @@ msgid "z"
 msgstr "z"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:474
-#: addressbook/gui/widgets/e-minicard.c:376
+#: addressbook/gui/widgets/e-minicard.c:435
 msgid "Save as VCard"
 msgstr "Shrani kot vVizitko"
 
@@ -1305,7 +1305,7 @@ msgstr "Kliknite tu za dodajo stika"
 msgid "Save in addressbook"
 msgstr "Shranite v adresarju"
 
-#: addressbook/gui/widgets/e-minicard-view.c:129
+#: addressbook/gui/widgets/e-minicard-view.c:141
 msgid ""
 "\n"
 "\n"
@@ -1476,7 +1476,7 @@ msgstr "Ime stila:"
 msgid "Top:"
 msgstr "Zgoraj:"
 
-#: addressbook/printing/e-contact-print.glade.h:40 mail/mail-config.glade.h:72
+#: addressbook/printing/e-contact-print.glade.h:40 mail/mail-config.glade.h:77
 msgid "Type:"
 msgstr "Tip:"
 
@@ -1600,7 +1600,7 @@ msgid "Confidential"
 msgstr "Zaupno"
 
 #: calendar/gui/calendar-model.c:385 calendar/gui/calendar-model.c:553
-#: calendar/gui/event-editor.c:1579 calendar/gui/event-editor.c:1606
+#: calendar/gui/event-editor.c:1590 calendar/gui/event-editor.c:1617
 #: camel/providers/smtp/camel-smtp-transport.c:181
 msgid "Unknown"
 msgstr "Neznano"
@@ -1708,35 +1708,35 @@ msgstr "Da"
 msgid "No"
 msgstr "Ne"
 
-#: calendar/gui/calendar-summary.c:197
+#: calendar/gui/calendar-summary.c:196
 msgid "%A, %e %B %Y"
 msgstr "%A, %e %B %Y"
 
-#: calendar/gui/calendar-summary.c:240 calendar/gui/calendar-summary.c:246
+#: calendar/gui/calendar-summary.c:239 calendar/gui/calendar-summary.c:245
 msgid "%I:%M%p"
 msgstr "%I:%M%p"
 
-#: calendar/gui/calendar-summary.c:438
+#: calendar/gui/calendar-summary.c:437
 msgid "<b>Error loading calendar</b>"
 msgstr "<b>Napaka ob nalaganju koledarja</b>"
 
-#: calendar/gui/calendar-summary.c:450
+#: calendar/gui/calendar-summary.c:449
 msgid "<b>Error loading calendar:<br>Method not supported"
 msgstr "<b>Napaka ob nalaganju koledarja: <br>Postopek ni podprt"
 
-#: calendar/gui/calendar-summary.c:620
+#: calendar/gui/calendar-summary.c:616
 msgid "Display"
 msgstr "Prikaz"
 
-#: calendar/gui/calendar-summary.c:625
+#: calendar/gui/calendar-summary.c:621
 msgid "Show appointments"
 msgstr "Ka¾i zmenke"
 
-#: calendar/gui/calendar-summary.c:633
+#: calendar/gui/calendar-summary.c:629
 msgid "Show tasks"
 msgstr "Ka¾i posle"
 
-#: calendar/gui/calendar-summary.c:719 calendar/gui/e-itip-control.glade.h:7
+#: calendar/gui/calendar-summary.c:715 calendar/gui/e-itip-control.glade.h:7
 msgid "Loading Calendar"
 msgstr "Nalagam koledar"
 
@@ -1862,7 +1862,7 @@ msgid "Fri"
 msgstr "pet"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#: calendar/gui/event-editor.c:477
+#: calendar/gui/event-editor.c:479
 msgid "Friday"
 msgstr "petek"
 
@@ -1891,7 +1891,7 @@ msgid "Mon"
 msgstr "pon"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
-#: calendar/gui/event-editor.c:473
+#: calendar/gui/event-editor.c:475
 msgid "Monday"
 msgstr "ponedeljek"
 
@@ -1908,7 +1908,8 @@ msgid "Pick a color"
 msgstr "Izberi barvo"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-#: calendar/gui/e-calendar-table.c:162
+#: calendar/gui/e-calendar-table.c:162 filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:113
 msgid "Priority"
 msgstr "Prioriteta"
 
@@ -1926,7 +1927,7 @@ msgid "Sat"
 msgstr "sob"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
-#: calendar/gui/event-editor.c:478
+#: calendar/gui/event-editor.c:480
 msgid "Saturday"
 msgstr "sobota"
 
@@ -1951,7 +1952,7 @@ msgid "Sun"
 msgstr "ned"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
-#: calendar/gui/event-editor.c:479
+#: calendar/gui/event-editor.c:481
 msgid "Sunday"
 msgstr "nedeljo"
 
@@ -1964,7 +1965,7 @@ msgid "Thu"
 msgstr "èet"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-#: calendar/gui/event-editor.c:476
+#: calendar/gui/event-editor.c:478
 msgid "Thursday"
 msgstr "èetrtek"
 
@@ -1985,7 +1986,7 @@ msgid "Tue"
 msgstr "tor"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
-#: calendar/gui/event-editor.c:474
+#: calendar/gui/event-editor.c:476
 msgid "Tuesday"
 msgstr "torek"
 
@@ -1998,7 +1999,7 @@ msgid "Wed"
 msgstr "sre"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
-#: calendar/gui/event-editor.c:475
+#: calendar/gui/event-editor.c:477
 msgid "Wednesday"
 msgstr "sreda"
 
@@ -2011,7 +2012,7 @@ msgid "minutes before they occur."
 msgstr "minut preden se zgodijo."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:84
 msgid "seconds."
 msgstr "sekund."
 
@@ -2151,21 +2152,21 @@ msgstr "_Stanje:"
 msgid "Edit Task"
 msgstr "Uredi nalogo"
 
-#: calendar/gui/dialogs/task-editor.c:695 calendar/gui/event-editor.c:375
+#: calendar/gui/dialogs/task-editor.c:695 calendar/gui/event-editor.c:377
 msgid "No summary"
 msgstr "Ni povzetka"
 
-#: calendar/gui/dialogs/task-editor.c:701 calendar/gui/event-editor.c:381
+#: calendar/gui/dialogs/task-editor.c:701 calendar/gui/event-editor.c:383
 #, c-format
 msgid "Appointment - %s"
 msgstr "Zmenek - %s"
 
-#: calendar/gui/dialogs/task-editor.c:704 calendar/gui/event-editor.c:384
+#: calendar/gui/dialogs/task-editor.c:704 calendar/gui/event-editor.c:386
 #, c-format
 msgid "Task - %s"
 msgstr "Naloga - %s"
 
-#: calendar/gui/dialogs/task-editor.c:707 calendar/gui/event-editor.c:387
+#: calendar/gui/dialogs/task-editor.c:707 calendar/gui/event-editor.c:389
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Vpis v dnevniku - %s"
@@ -2404,7 +2405,8 @@ msgstr "Nalagam koledar..."
 msgid "Organizer:"
 msgstr "Organizator:"
 
-#: calendar/gui/e-itip-control.glade.h:10 filter/libfilter-i18n.h:18
+#: calendar/gui/e-itip-control.glade.h:10 filter/libfilter-i18n.h:48
+#: filter/libfilter-i18n.h:119
 msgid "Sender"
 msgstr "Po¹iljatelj"
 
@@ -2496,8 +2498,8 @@ msgstr ""
 "Naèrtuj\n"
 "èas"
 
-#: calendar/gui/e-meeting-dialog.glade.h:24 filter/libfilter-i18n.h:22
-#: mail/message-list.c:1167
+#: calendar/gui/e-meeting-dialog.glade.h:24 filter/libfilter-i18n.h:58
+#: filter/libfilter-i18n.h:134 mail/message-list.c:1171
 msgid "Status"
 msgstr "Stanje"
 
@@ -2560,7 +2562,7 @@ msgid "No recurrence"
 msgstr "Ni ponovitev"
 
 #: calendar/gui/event-editor-dialog.glade.h:14
-#: calendar/gui/event-editor.c:1566
+#: calendar/gui/event-editor.c:1577
 msgid "Play a sound"
 msgstr "Predvajaj zvok"
 
@@ -2581,12 +2583,12 @@ msgid "Reminder"
 msgstr "Opozorilo"
 
 #: calendar/gui/event-editor-dialog.glade.h:22
-#: calendar/gui/event-editor.c:1575
+#: calendar/gui/event-editor.c:1586
 msgid "Run a program"
 msgstr "Po¾eni program"
 
 #: calendar/gui/event-editor-dialog.glade.h:23
-#: calendar/gui/event-editor.c:1572
+#: calendar/gui/event-editor.c:1583
 msgid "Send an email"
 msgstr "Po¹lji e-po¹to"
 
@@ -2595,7 +2597,7 @@ msgid "Settings..."
 msgstr "Nastavitve..."
 
 #: calendar/gui/event-editor-dialog.glade.h:25
-#: calendar/gui/event-editor.c:1569
+#: calendar/gui/event-editor.c:1580
 msgid "Show a dialog"
 msgstr "Ka¾i dialog"
 
@@ -2615,11 +2617,14 @@ msgstr "_Èas prièetka:"
 msgid "_Starting date:"
 msgstr "Datum _prièetka:"
 
-#: calendar/gui/event-editor-dialog.glade.h:33 filter/libfilter-i18n.h:25
+#: calendar/gui/event-editor-dialog.glade.h:33 filter/libfilter-i18n.h:5
+#: filter/libfilter-i18n.h:10 filter/libfilter-i18n.h:63
+#: filter/libfilter-i18n.h:139
 msgid "after"
 msgstr "po"
 
-#: calendar/gui/event-editor-dialog.glade.h:34 filter/libfilter-i18n.h:26
+#: calendar/gui/event-editor-dialog.glade.h:34 filter/libfilter-i18n.h:64
+#: filter/libfilter-i18n.h:140
 msgid "before"
 msgstr "pred"
 
@@ -2675,129 +2680,129 @@ msgstr "tednov"
 msgid "year(s)"
 msgstr "let"
 
-#: calendar/gui/event-editor.c:369
+#: calendar/gui/event-editor.c:371
 msgid "Edit Appointment"
 msgstr "Uredi zmenek"
 
-#: calendar/gui/event-editor.c:447
+#: calendar/gui/event-editor.c:449
 msgid "on"
 msgstr "na"
 
-#: calendar/gui/event-editor.c:472 filter/filter-datespec.c:65
+#: calendar/gui/event-editor.c:474 filter/filter-datespec.c:65
 msgid "day"
 msgstr "dan"
 
-#: calendar/gui/event-editor.c:599
+#: calendar/gui/event-editor.c:601
 msgid "on the"
 msgstr "na"
 
-#: calendar/gui/event-editor.c:606
+#: calendar/gui/event-editor.c:608
 msgid "th"
 msgstr "4."
 
-#: calendar/gui/event-editor.c:752
+#: calendar/gui/event-editor.c:754
 msgid "occurrences"
 msgstr "pojavitve"
 
-#: calendar/gui/event-editor.c:869
+#: calendar/gui/event-editor.c:871
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Ta zmenek vsebuje pojavitve, ki jih Evolucija ne zna urejati."
 
-#: calendar/gui/event-editor.c:1521
+#: calendar/gui/event-editor.c:1532
 #, c-format
 msgid " %d days"
 msgstr " %d dni"
 
-#: calendar/gui/event-editor.c:1523
+#: calendar/gui/event-editor.c:1534
 msgid " 1 day"
 msgstr " 1 dan"
 
-#: calendar/gui/event-editor.c:1526
+#: calendar/gui/event-editor.c:1537
 #, c-format
 msgid " %d weeks"
 msgstr " %d tedenov"
 
-#: calendar/gui/event-editor.c:1528
+#: calendar/gui/event-editor.c:1539
 msgid " 1 week"
 msgstr " 1 teden"
 
-#: calendar/gui/event-editor.c:1531
+#: calendar/gui/event-editor.c:1542
 #, c-format
 msgid " %d hours"
 msgstr " %d ur"
 
-#: calendar/gui/event-editor.c:1533
+#: calendar/gui/event-editor.c:1544
 msgid " 1 hour"
 msgstr " 1 ura"
 
-#: calendar/gui/event-editor.c:1536
+#: calendar/gui/event-editor.c:1547
 #, c-format
 msgid " %d minutes"
 msgstr " %d minut"
 
-#: calendar/gui/event-editor.c:1538
+#: calendar/gui/event-editor.c:1549
 msgid " 1 minute"
 msgstr " 1 minuta"
 
-#: calendar/gui/event-editor.c:1541
+#: calendar/gui/event-editor.c:1552
 #, c-format
 msgid " %d seconds"
 msgstr " %d sekund"
 
-#: calendar/gui/event-editor.c:1543
+#: calendar/gui/event-editor.c:1554
 msgid " 1 second"
 msgstr " 1 sekunda"
 
-#: calendar/gui/event-editor.c:1590
+#: calendar/gui/event-editor.c:1601
 msgid " before start of appointment"
 msgstr " pred prièetkom zmenka"
 
-#: calendar/gui/event-editor.c:1592
+#: calendar/gui/event-editor.c:1603
 msgid " after start of appointment"
 msgstr " po prièetku zmenka"
 
-#: calendar/gui/event-editor.c:1600
+#: calendar/gui/event-editor.c:1611
 msgid " before end of appointment"
 msgstr " pred koncem zmenka"
 
-#: calendar/gui/event-editor.c:1602
+#: calendar/gui/event-editor.c:1613
 msgid " after end of appointment"
 msgstr " po koncu zmenka"
 
-#: calendar/gui/event-editor.c:3101 calendar/gui/print.c:1092
+#: calendar/gui/event-editor.c:3113 calendar/gui/print.c:1092
 #: calendar/gui/print.c:1094 calendar/gui/print.c:1095
 msgid "%a %b %d %Y"
 msgstr "%a %d %b %Y"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
-msgid "Evolution calendar executive summary component."
-msgstr "Evolucijina komponenta za povzetke."
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:2
-msgid "Evolution calendar iTip/iMip viewer"
-msgstr "Evolucijin pregledovalnik iTip/iMip"
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
-msgid "Evolution component for handling the calendar."
-msgstr "Komponenta Evolucije za urejanje koledarja."
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:4
-msgid "Factory for the Calendar Summary component."
-msgstr "Tovarna komponent za povzetke koledarja."
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:5
-msgid "Factory for the Evolution calendar component."
-msgstr "Tovarna komponent Evolucije za urejanje koledarja."
-
-#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:6
-msgid "Factory for the calendar iTip view control"
-msgstr "Tvoarna za orodje koledarja iTip"
-
-#: calendar/gui/GNOME_Evolution_Calendar_Control.oaf.in.h:1
 msgid "A sample Bonobo control which displays an calendar."
 msgstr "Kontrola Bonobo, ki prika¾e koledar."
 
-#: calendar/gui/GNOME_Evolution_Calendar_Control.oaf.in.h:2
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:2
+msgid "Evolution calendar executive summary component."
+msgstr "Evolucijina komponenta za povzetke."
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
+msgid "Evolution calendar iTip/iMip viewer"
+msgstr "Evolucijin pregledovalnik iTip/iMip"
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:4
+msgid "Evolution component for handling the calendar."
+msgstr "Komponenta Evolucije za urejanje koledarja."
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:5
+msgid "Factory for the Calendar Summary component."
+msgstr "Tovarna komponent za povzetke koledarja."
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:6
+msgid "Factory for the Evolution calendar component."
+msgstr "Tovarna komponent Evolucije za urejanje koledarja."
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:7
+msgid "Factory for the calendar iTip view control"
+msgstr "Tvoarna za orodje koledarja iTip"
+
+#: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:8
 msgid "Factory for the sample Calendar control"
 msgstr "Vzorèna tovarna za kontrolo koledarja"
 
@@ -3059,7 +3064,7 @@ msgstr "Trenutno leto (%Y)"
 msgid "Print Calendar"
 msgstr "Natisni _koledar"
 
-#: calendar/gui/print.c:1316 mail/mail-callbacks.c:1229
+#: calendar/gui/print.c:1316 mail/mail-callbacks.c:1237
 msgid "Print Preview"
 msgstr "Predogled tiskanja"
 
@@ -3071,17 +3076,17 @@ msgstr "URI mape poslov, ki naj se ka¾e"
 msgid "SMTWTFS"
 msgstr "PTSÈPSN"
 
-#: camel/camel-filter-driver.c:767
+#: camel/camel-filter-driver.c:790
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "Napaka ob razèlenjanju filtra: %s: %s"
 
-#: camel/camel-filter-driver.c:772
+#: camel/camel-filter-driver.c:795
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Napaka ob izvajanju filtra: %s: %s"
 
-#: camel/camel-filter-search.c:420 camel/camel-filter-search.c:426
+#: camel/camel-filter-search.c:426 camel/camel-filter-search.c:432
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Napaka ob izvajanju iskanja s filtrom: %s: %s"
@@ -3104,16 +3109,16 @@ msgstr ""
 "Napaka ob izvajanju iskalnega izraza %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:475 camel/camel-folder-search.c:503
+#: camel/camel-folder-search.c:477 camel/camel-folder-search.c:505
 msgid "(match-all) requires a single bool result"
 msgstr "(match-all) zahteva enojen booleanov rezultat"
 
-#: camel/camel-folder-search.c:547
+#: camel/camel-folder-search.c:551
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr "Opravljam poizvedbo na neznani glavi: %s"
 
-#: camel/camel-folder-search.c:656 camel/camel-folder-search.c:693
+#: camel/camel-folder-search.c:660 camel/camel-folder-search.c:697
 msgid "Invalid type in body-contains, expecting string"
 msgstr "Neveljaven tip v body-contains, prièakovan niz"
 
@@ -3235,6 +3240,10 @@ msgstr "(neznan gostitelj)"
 msgid "Operation cancelled"
 msgstr "Operacija razveljavljena"
 
+#: camel/camel-remote-store.c:543
+msgid "Server unexpectedly disconnected"
+msgstr "Povezava s stre¾nikom je bila neprièakovano prekinjena"
+
 #: camel/camel-search-private.c:105
 #, c-format
 msgid "Regular expression compilation failed: %s: %s"
@@ -3265,12 +3274,20 @@ msgstr "Ni tak¹nega gostitelja %s."
 msgid "Temporarily unable to look up hostname %s."
 msgstr "Trenutno ne morem poizvedeti po gostitelju %s."
 
-#: camel/camel-session.c:299
+#: camel/camel-session.c:54
+msgid "Virtual folder email provider"
+msgstr "Nuditelj virutalne mape e-po¹te"
+
+#: camel/camel-session.c:56
+msgid "For reading mail as a query of another set of folders"
+msgstr "Za branje po¹te kot poizvedbe po drugem sklopu map"
+
+#: camel/camel-session.c:323
 #, c-format
 msgid "No provider available for protocol `%s'"
 msgstr "Noben nuditelj za protokol '%s' ni dostopen"
 
-#: camel/camel-session.c:394
+#: camel/camel-session.c:418
 #, c-format
 msgid ""
 "Could not create directory %s:\n"
@@ -3279,22 +3296,22 @@ msgstr ""
 "Nisem mogel ustvariti imenika %s:\n"
 "%s"
 
-#: camel/camel-url.c:75
+#: camel/camel-url.c:77
 #, c-format
 msgid "URL string `%s' contains no protocol"
 msgstr "URL niz '%s' ne vsebuje protokola"
 
-#: camel/camel-url.c:90
+#: camel/camel-url.c:92
 #, c-format
 msgid "URL string `%s' contains an invalid protocol"
 msgstr "URL niz '%s' vsebuje neveljaven protokol"
 
-#: camel/camel-url.c:150
+#: camel/camel-url.c:152
 #, c-format
 msgid "Port number in URL `%s' is non-numeric"
 msgstr "©tevilka vrat v URL '%s' ni numerièna"
 
-#: camel/providers/imap/camel-imap-auth.c:133
+#: camel/providers/imap/camel-imap-auth.c:109
 #, c-format
 msgid ""
 "Could not get Kerberos ticket:\n"
@@ -3303,7 +3320,7 @@ msgstr ""
 "Nisem mogel dobiti Kerberos vstopniice:\n"
 "%s"
 
-#: camel/providers/imap/camel-imap-auth.c:205
+#: camel/providers/imap/camel-imap-auth.c:181
 msgid "Bad authentication response from server."
 msgstr "Stre¾nik je sporoèil slab odgovor avtentifikaciji."
 
@@ -3317,7 +3334,7 @@ msgstr "Neprièakovan odgovor stre¾nika IMAP: %s"
 msgid "IMAP command failed: %s"
 msgstr "IMAP ukaz ni uspel: %s"
 
-#: camel/providers/imap/camel-imap-command.c:243 shell/e-storage.c:433
+#: camel/providers/imap/camel-imap-command.c:243 shell/e-storage.c:451
 msgid "Unknown error"
 msgstr "Neznana napaka"
 
@@ -3335,13 +3352,17 @@ msgstr "odgovor IMAP stre¾nika ni vseboval podatkov %s"
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "Neprièakovan OK odgovor stre¾nika IMAP: %s"
 
-#: camel/providers/imap/camel-imap-folder.c:198
+#: camel/providers/imap/camel-imap-folder.c:199
 #, c-format
 msgid "Could not load summary for %s"
 msgstr "Nisem mogel nalo¾iti povzetka za %s"
 
-#: camel/providers/imap/camel-imap-folder.c:702
-#: camel/providers/imap/camel-imap-folder.c:864
+#: camel/providers/imap/camel-imap-folder.c:329
+msgid "Scanning IMAP folder"
+msgstr "Pregledujem mapo IMAP"
+
+#: camel/providers/imap/camel-imap-folder.c:837
+#: camel/providers/imap/camel-imap-folder.c:999
 msgid "Could not find message body in FETCH response."
 msgstr "Nisem mogel najti telesa sporoèila v FETCH odgovoru."
 
@@ -3618,7 +3639,7 @@ msgid "Cannot summarise folder: %s: %s"
 msgstr "Ne morem narediti povzetka mape %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:493
-#: camel/providers/local/camel-mbox-summary.c:694 mail/mail-ops.c:1345
+#: camel/providers/local/camel-mbox-summary.c:694 mail/mail-ops.c:1311
 msgid "Synchronising folder"
 msgstr "Uskljajujem mapo %s"
 
@@ -3863,7 +3884,7 @@ msgid "No such folder `%s'."
 msgstr "Ni tak¹ne mape `%s'."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:34
-#: mail/mail-config.glade.h:61
+#: mail/mail-config.glade.h:64
 msgid "Sendmail"
 msgstr "Program sendmail"
 
@@ -3913,7 +3934,7 @@ msgstr "program sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "Dostava po¹te preko programa sendmail"
 
-#: camel/providers/smtp/camel-smtp-provider.c:34 mail/mail-config.glade.h:56
+#: camel/providers/smtp/camel-smtp-provider.c:34 mail/mail-config.glade.h:58
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -4129,19 +4150,6 @@ msgstr "Zahtevek QUIT je prekoraèil èasovno omejitev: %s: ni usodno"
 msgid "QUIT response error: %s: non-fatal"
 msgstr "Napaka v odgovoru na QUIT: %s: ni usodno"
 
-#: camel/providers/vee/camel-vee-folder.c:617
-#, c-format
-msgid "No such message: %s"
-msgstr "Ni tak¹nega sporoèila: %s"
-
-#: camel/providers/vee/camel-vee-provider.c:30
-msgid "Virtual folder email provider"
-msgstr "Nuditelj virutalne mape e-po¹te"
-
-#: camel/providers/vee/camel-vee-provider.c:32
-msgid "For reading mail as a query of another set of folders"
-msgstr "Za branje po¹te kot poizvedbe po drugem sklopu map"
-
 #: composer/e-msg-composer-attachment-bar.c:87
 msgid "1 byte"
 msgstr "1 bajt"
@@ -4193,7 +4201,7 @@ msgstr "Dodaj prilogo..."
 msgid "Attach a file to the message"
 msgstr "Prilo¾i datoteko k sporoèilu"
 
-#: composer/e-msg-composer-attachment.glade.h:1 mail/message-list.c:1167
+#: composer/e-msg-composer-attachment.glade.h:1 mail/message-list.c:1171
 msgid "Attachment"
 msgstr "Priloga"
 
@@ -4266,7 +4274,7 @@ msgstr "Zadeva:"
 msgid "Enter the subject of the mail"
 msgstr "Vnesite zadevo sproèila"
 
-#: composer/e-msg-composer.c:497
+#: composer/e-msg-composer.c:512
 #, c-format
 msgid ""
 "Could not open signature file %s:\n"
@@ -4275,39 +4283,26 @@ msgstr ""
 "Nisem mogel odpreti datoteke s podpisom %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:665
+#: composer/e-msg-composer.c:680
 msgid "Save as..."
 msgstr "Shrani kot..."
 
-#: composer/e-msg-composer.c:676
+#: composer/e-msg-composer.c:691
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Napaka ob shranjevanju datoteke: %s"
 
-#: composer/e-msg-composer.c:696
+#: composer/e-msg-composer.c:711
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Napaka ob nalaganju datoteke %s"
 
-#: composer/e-msg-composer.c:718
-msgid "Saving changes to message..."
-msgstr "Shranjujem spremembe sporoèila..."
-
-#: composer/e-msg-composer.c:720
-msgid "Save changes to message..."
-msgstr "Shranjujem spremembe sporoèila..."
-
-#: composer/e-msg-composer.c:761
-#, c-format
-msgid "Error saving composition to 'Drafts': %s"
-msgstr "Napaka ob shranjevanju kompozicije v 'Osnutki': %s"
-
-#: composer/e-msg-composer.c:819 evolution.desktop.in.h:1
+#: composer/e-msg-composer.c:791 evolution.desktop.in.h:1
 #: shell/e-shell-view-menu.c:192
 msgid "Evolution"
 msgstr "Evolucija"
 
-#: composer/e-msg-composer.c:825
+#: composer/e-msg-composer.c:797
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -4317,27 +4312,27 @@ msgstr ""
 "\n"
 "®elite shraniti spremembe?"
 
-#: composer/e-msg-composer.c:850
+#: composer/e-msg-composer.c:822
 msgid "Open file"
 msgstr "Odpri datoteko"
 
-#: composer/e-msg-composer.c:976
+#: composer/e-msg-composer.c:948
 msgid "That file does not exist."
 msgstr "Datoteka ne obstaja."
 
-#: composer/e-msg-composer.c:986
+#: composer/e-msg-composer.c:958
 msgid "That is not a regular file."
 msgstr "To ni obièajna datoteka."
 
-#: composer/e-msg-composer.c:996
+#: composer/e-msg-composer.c:968
 msgid "That file exists but is not readable."
 msgstr "Ta datoteka obstaja a ni berljiva."
 
-#: composer/e-msg-composer.c:1006
+#: composer/e-msg-composer.c:978
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Datoteka se je zdela dostopna a open(2) ni uspel."
 
-#: composer/e-msg-composer.c:1028
+#: composer/e-msg-composer.c:1000
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -4345,19 +4340,27 @@ msgstr ""
 "Datoteka je zelo velika (èez 100K).\n"
 "Ste preprièani,da jo ¾elite vstaviti?"
 
-#: composer/e-msg-composer.c:1049
+#: composer/e-msg-composer.c:1021
 msgid "An error occurred while reading the file."
 msgstr "Ob branju datoteke se je zgodila napaka."
 
-#: composer/e-msg-composer.c:1292 composer/e-msg-composer.c:1527
+#: composer/e-msg-composer.c:1264 composer/e-msg-composer.c:1499
 msgid "Compose a message"
 msgstr "Sestavi novo sporoèilo"
 
-#: composer/e-msg-composer.c:1608
+#: composer/e-msg-composer.c:1580
 msgid "Could not create composer window."
 msgstr "Nisem mogel ustvariti okna skladatelja."
 
-#: composer/evolution-composer.c:359
+#: composer/evolution-composer.c:352
+msgid ""
+"Could not create composer window, because you have not yet\n"
+"configured any identities in the mail component."
+msgstr ""
+"Nisem mogel ustvariti okna skladatelja, ker ¹e niste nastavili\n"
+"identitet v komponenti po¹te."
+
+#: composer/evolution-composer.c:367
 msgid "Cannot initialize Evolution's composer."
 msgstr "Ne morem inicializirati Evolucijinega skladatelja."
 
@@ -4647,8 +4650,8 @@ msgstr "sedaj"
 msgid "<click here to select a date>"
 msgstr "<kliknite tukaj za izbiro datuma>"
 
-#: filter/filter-editor.c:160 mail/mail-autofilter.c:286
-#: mail/mail-autofilter.c:335
+#: filter/filter-editor.c:160 mail/mail-autofilter.c:332
+#: mail/mail-autofilter.c:354
 msgid "Add Filter Rule"
 msgstr "Filtru dodaj pravilo"
 
@@ -4715,35 +4718,35 @@ msgstr ""
 msgid "Test"
 msgstr "Preizkus"
 
-#: filter/filter-rule.c:530
+#: filter/filter-rule.c:545
 msgid "Rule name: "
 msgstr "Ime pravila: "
 
-#: filter/filter-rule.c:534
+#: filter/filter-rule.c:549
 msgid "Untitled"
 msgstr "Neimenovan"
 
-#: filter/filter-rule.c:550
+#: filter/filter-rule.c:565
 msgid "If"
 msgstr "Èe"
 
-#: filter/filter-rule.c:567
+#: filter/filter-rule.c:582
 msgid "Execute actions"
 msgstr "Izvr¹i dejanja"
 
-#: filter/filter-rule.c:571
+#: filter/filter-rule.c:586
 msgid "if all criteria are met"
 msgstr "èe je zado¹èeno vsem pogojem"
 
-#: filter/filter-rule.c:576
+#: filter/filter-rule.c:591
 msgid "if any criteria are met"
 msgstr "èe je zado¹èeno kateremukoli pogoju"
 
-#: filter/filter-rule.c:587
+#: filter/filter-rule.c:602
 msgid "Add criterion"
 msgstr "Dodaj pogoj"
 
-#: filter/filter-rule.c:593
+#: filter/filter-rule.c:608
 msgid "Remove criterion"
 msgstr "Odstrani pogoj"
 
@@ -4785,157 +4788,205 @@ msgstr "Virtualne mape"
 msgid "vFolder Sources"
 msgstr "Viri vMap"
 
-#. Automatically generated. Do not edit.
-#: filter/libfilter-i18n.h:2
+#: filter/libfilter-i18n.h:7 mail/message-list.c:624
+msgid "Answered"
+msgstr "Odgovorjeno"
+
+#: filter/libfilter-i18n.h:14
 msgid "Assign Colour"
 msgstr "Pripi¹i barvo"
 
-#: filter/libfilter-i18n.h:3
+#: filter/libfilter-i18n.h:15
 msgid "Assign Score"
 msgstr "Pripi¹i toèke"
 
-#: filter/libfilter-i18n.h:4
+#: filter/libfilter-i18n.h:16
 msgid "Copy to Folder"
 msgstr "Kopiraj v mapo"
 
-#: filter/libfilter-i18n.h:5
+#: filter/libfilter-i18n.h:17
 msgid "Date received"
 msgstr "Sprejeto dne"
 
-#: filter/libfilter-i18n.h:6
+#: filter/libfilter-i18n.h:18
 msgid "Date sent"
 msgstr "Poslano dne"
 
-#: filter/libfilter-i18n.h:8
+#: filter/libfilter-i18n.h:24
+msgid "Deleted"
+msgstr "Zbrisano"
+
+#: filter/libfilter-i18n.h:25
+msgid "Draft"
+msgstr "Osnutek"
+
+#: filter/libfilter-i18n.h:28 filter/libfilter-i18n.h:83
 msgid "Expression"
 msgstr "Izraz"
 
-#: filter/libfilter-i18n.h:9
+#: filter/libfilter-i18n.h:29 mail/message-list.c:1171
+msgid "Flagged"
+msgstr "Oznaèeno"
+
+#: filter/libfilter-i18n.h:30 filter/libfilter-i18n.h:84
 msgid "Forward to Address"
 msgstr "Posreduj na naslove"
 
-#: filter/libfilter-i18n.h:10
+#: filter/libfilter-i18n.h:31
+msgid "Mailing list"
+msgstr "Dopisni seznam"
+
+#: filter/libfilter-i18n.h:32 filter/libfilter-i18n.h:98
 msgid "Message Body"
 msgstr "Jedro sporoèila"
 
-#: filter/libfilter-i18n.h:11
+#: filter/libfilter-i18n.h:33
 msgid "Message Header"
 msgstr "Glava sporoèila"
 
-#: filter/libfilter-i18n.h:12
+#: filter/libfilter-i18n.h:34 filter/libfilter-i18n.h:99
 msgid "Message was received"
 msgstr "Sporoèilo je bilo sprejeto"
 
-#: filter/libfilter-i18n.h:13
+#: filter/libfilter-i18n.h:35 filter/libfilter-i18n.h:100
 msgid "Message was sent"
 msgstr "Sporoèilo je bilo poslano"
 
-#: filter/libfilter-i18n.h:14
+#: filter/libfilter-i18n.h:36 filter/libfilter-i18n.h:101
 msgid "Move to Folder"
 msgstr "Prestavi v mapo"
 
-#: filter/libfilter-i18n.h:15
+#: filter/libfilter-i18n.h:41 filter/libfilter-i18n.h:114
 msgid "Recipients"
 msgstr "Prejemnik"
 
-#: filter/libfilter-i18n.h:16
+#: filter/libfilter-i18n.h:42 filter/libfilter-i18n.h:117
 msgid "Regex Match"
 msgstr "Regularni izraz"
 
-#: filter/libfilter-i18n.h:17 filter/score-rule.c:192 filter/score-rule.c:194
-#: mail/message-list.c:1167
+#: filter/libfilter-i18n.h:44 mail/message-list.c:621
+msgid "Seen"
+msgstr "Videno"
+
+#: filter/libfilter-i18n.h:46 filter/score-rule.c:192 filter/score-rule.c:194
+#: mail/message-list.c:1171
 msgid "Score"
 msgstr "Toèke"
 
-#: filter/libfilter-i18n.h:19
+#: filter/libfilter-i18n.h:50
+msgid "Set Flag"
+msgstr "Postavi oznaèbo"
+
+#: filter/libfilter-i18n.h:52 filter/libfilter-i18n.h:122
 msgid "Set Status"
 msgstr "Nastavi stanje"
 
-#: filter/libfilter-i18n.h:20
+#: filter/libfilter-i18n.h:54 filter/libfilter-i18n.h:125
+#: mail/mail-config.glade.h:71
 msgid "Source"
 msgstr "Vir"
 
-#: filter/libfilter-i18n.h:21
+#: filter/libfilter-i18n.h:55 filter/libfilter-i18n.h:126
 msgid "Specific header"
 msgstr "Doloèena glava"
 
-#: filter/libfilter-i18n.h:23
+#: filter/libfilter-i18n.h:60 filter/libfilter-i18n.h:136
 msgid "Stop Processing"
 msgstr "Prenehaj z obdelavo"
 
-#: filter/libfilter-i18n.h:24 mail/message-list.c:1168
+#: filter/libfilter-i18n.h:61 filter/libfilter-i18n.h:137
+#: mail/message-list.c:1172
 msgid "Subject"
 msgstr "Zadeva"
 
-#: filter/libfilter-i18n.h:27
+#: filter/libfilter-i18n.h:65 filter/libfilter-i18n.h:141
 msgid "contains"
 msgstr "vsebuje"
 
-#: filter/libfilter-i18n.h:28
+#: filter/libfilter-i18n.h:67 filter/libfilter-i18n.h:75
+#: filter/libfilter-i18n.h:142
 msgid "does not contain"
 msgstr "ne vsebuje"
 
-#: filter/libfilter-i18n.h:29
+#: filter/libfilter-i18n.h:68 filter/libfilter-i18n.h:76
+#: filter/libfilter-i18n.h:143
 msgid "does not end with"
 msgstr "se ne konèa z"
 
-#: filter/libfilter-i18n.h:30
+#: filter/libfilter-i18n.h:69 filter/libfilter-i18n.h:77
+#: filter/libfilter-i18n.h:144
 msgid "does not exist"
 msgstr "ne obstaja"
 
-#: filter/libfilter-i18n.h:31
+#: filter/libfilter-i18n.h:70 filter/libfilter-i18n.h:78
+#: filter/libfilter-i18n.h:145
 msgid "does not sound like"
 msgstr "ne zveni kot"
 
-#: filter/libfilter-i18n.h:32
+#: filter/libfilter-i18n.h:71 filter/libfilter-i18n.h:79
+#: filter/libfilter-i18n.h:146
 msgid "does not start with"
 msgstr "se ne zaène z"
 
-#: filter/libfilter-i18n.h:33
+#: filter/libfilter-i18n.h:72 filter/libfilter-i18n.h:80
+#: filter/libfilter-i18n.h:147
 msgid "ends with"
 msgstr "se konèa z"
 
-#: filter/libfilter-i18n.h:34
+#: filter/libfilter-i18n.h:73 filter/libfilter-i18n.h:81
+#: filter/libfilter-i18n.h:148
 msgid "exists"
 msgstr "obstaja"
 
-#: filter/libfilter-i18n.h:35
-msgid "is greater than"
-msgstr "je veèje"
-
-#: filter/libfilter-i18n.h:36
-msgid "is less than"
-msgstr "je manj¹e"
-
-#: filter/libfilter-i18n.h:37
-msgid "is not"
-msgstr "ni"
-
-#: filter/libfilter-i18n.h:38
+#: filter/libfilter-i18n.h:86 filter/libfilter-i18n.h:93
+#: filter/libfilter-i18n.h:104 filter/libfilter-i18n.h:152
 msgid "is"
 msgstr "je"
 
-#: filter/libfilter-i18n.h:39
+#: filter/libfilter-i18n.h:87 filter/libfilter-i18n.h:94
+#: filter/libfilter-i18n.h:149
+msgid "is greater than"
+msgstr "je veèje"
+
+#: filter/libfilter-i18n.h:88 filter/libfilter-i18n.h:95
+#: filter/libfilter-i18n.h:150
+msgid "is less than"
+msgstr "je manj¹e"
+
+#: filter/libfilter-i18n.h:89 filter/libfilter-i18n.h:96
+#: filter/libfilter-i18n.h:151
+msgid "is not"
+msgstr "ni"
+
+#: filter/libfilter-i18n.h:91
+msgid "matches regex"
+msgstr "ustreza regularnemu izrazu"
+
+#: filter/libfilter-i18n.h:106 filter/libfilter-i18n.h:110
+#: filter/libfilter-i18n.h:153
 msgid "on or after"
 msgstr "na ali po"
 
-#: filter/libfilter-i18n.h:40
+#: filter/libfilter-i18n.h:107 filter/libfilter-i18n.h:111
+#: filter/libfilter-i18n.h:154
 msgid "on or before"
 msgstr "na ali pred"
 
-#: filter/libfilter-i18n.h:41
+#: filter/libfilter-i18n.h:123 filter/libfilter-i18n.h:129
+#: filter/libfilter-i18n.h:155
 msgid "sounds like"
 msgstr "zveni kot"
 
-#: filter/libfilter-i18n.h:42
+#: filter/libfilter-i18n.h:131 filter/libfilter-i18n.h:133
+#: filter/libfilter-i18n.h:156
 msgid "starts with"
 msgstr "se zaène z"
 
-#: filter/libfilter-i18n.h:43
+#: filter/libfilter-i18n.h:158
 msgid "was after"
 msgstr "je bilo po"
 
-#: filter/libfilter-i18n.h:44
+#: filter/libfilter-i18n.h:159
 msgid "was before"
 msgstr "je bilo pred"
 
@@ -4955,140 +5006,119 @@ msgstr "Dodaj pravilo vMape"
 msgid "Edit VFolder Rule"
 msgstr "Uredi pravilo vMape"
 
-#. mail_msg_wait (mail_get_trash ("file:/", got_folder, &trash_folder));
-#: mail/component-factory.c:218 mail/mail-ops.c:1765
-msgid "Trash"
-msgstr "Smeti"
-
-#: mail/component-factory.c:304
+#: mail/component-factory.c:302
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Ne morem inicializirati Evolucijine komponente za po¹to."
 
-#: mail/component-factory.c:384
+#: mail/component-factory.c:375
 msgid "Cannot register storage with shell"
 msgstr "Ne morem registrirati shrambe z lupino"
 
-#: mail/folder-browser.c:225
+#: mail/folder-browser.c:218
 msgid "Store search as vFolder"
 msgstr "Shrani iskanje kot vMapo"
 
-#: mail/folder-browser.c:239
-msgid "Body or subject contains"
-msgstr "Telo ali zadeva vsebuje"
-
-#: mail/folder-browser.c:240
-msgid "Body contains"
-msgstr "Telo vsebuje"
-
-#: mail/folder-browser.c:241
-msgid "Subject contains"
-msgstr "Zadeva vsebuje"
-
-#: mail/folder-browser.c:242
-msgid "Body does not contain"
-msgstr "Telo ne vsebuje"
-
-#: mail/folder-browser.c:243
-msgid "Subject does not contain"
-msgstr "Zadeva ne vsebuje"
-
-#: mail/folder-browser.c:244
-msgid "Sender contains"
-msgstr "Po¹iljatelj vsebuje"
-
-#: mail/folder-browser.c:656
+#: mail/folder-browser.c:506
 msgid "VFolder on Subject"
 msgstr "vMapa glede na Zadevo"
 
-#: mail/folder-browser.c:657
+#: mail/folder-browser.c:507
 msgid "VFolder on Sender"
 msgstr "vMapa glede na Po¹iljatelja"
 
-#: mail/folder-browser.c:658
+#: mail/folder-browser.c:508
 msgid "VFolder on Recipients"
 msgstr "vMapa glede na Prejemnika"
 
-#: mail/folder-browser.c:660
+#: mail/folder-browser.c:509 mail/folder-browser.c:627
+msgid "VFolder on Mailing List"
+msgstr "vMapa glede na Po¹tni seznam"
+
+#: mail/folder-browser.c:511
 msgid "Filter on Subject"
 msgstr "Filter glede na Zadevo"
 
-#: mail/folder-browser.c:661
+#: mail/folder-browser.c:512
 msgid "Filter on Sender"
 msgstr "Filter glede na Po¹iljatelja"
 
-#: mail/folder-browser.c:662
+#: mail/folder-browser.c:513
 msgid "Filter on Recipients"
 msgstr "Filter glede na Prejemnike"
 
-#: mail/folder-browser.c:663 mail/folder-browser.c:777
+#: mail/folder-browser.c:514 mail/folder-browser.c:626
 msgid "Filter on Mailing List"
 msgstr "Filter glede na Po¹tni seznam"
 
-#: mail/folder-browser.c:669 ui/evolution-calendar.xml.h:17
+#: mail/folder-browser.c:520 ui/evolution-calendar.xml.h:17
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Odpri"
 
-#: mail/folder-browser.c:671
+#: mail/folder-browser.c:522
 msgid "Save As..."
 msgstr "Shrani kot..."
 
-#: mail/folder-browser.c:672 mail/mail-view.c:148
+#: mail/folder-browser.c:523 mail/mail-view.c:148
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-calendar.xml.h:20
 #: ui/evolution-mail.xml.h:26 ui/evolution-tasks.xml.h:4
 msgid "Print"
 msgstr "Natisni"
 
-#: mail/folder-browser.c:674
+#: mail/folder-browser.c:525
 msgid "Reply to Sender"
 msgstr "Odgovori po¹iljatelju"
 
-#: mail/folder-browser.c:675 mail/mail-view.c:141 ui/evolution-mail.xml.h:32
+#: mail/folder-browser.c:526 mail/mail-view.c:141 ui/evolution-mail.xml.h:32
 msgid "Reply to All"
 msgstr "Odgovori vsem"
 
-#: mail/folder-browser.c:676 mail/mail-view.c:144 ui/evolution-mail.xml.h:12
+#: mail/folder-browser.c:527 mail/mail-view.c:144 ui/evolution-mail.xml.h:12
 msgid "Forward"
 msgstr "Posreduj naprej"
 
-#: mail/folder-browser.c:677 ui/evolution-mail.xml.h:13
+#: mail/folder-browser.c:528 ui/evolution-mail.xml.h:13
 msgid "Forward inline"
 msgstr "Posreduj naprej kot del sporoèila"
 
-#: mail/folder-browser.c:679
+#: mail/folder-browser.c:530
 msgid "Mark as Read"
 msgstr "Oznaèi kot prebrano"
 
-#: mail/folder-browser.c:680
+#: mail/folder-browser.c:531
 msgid "Mark as Unread"
 msgstr "Oznaèi kot neprebrano"
 
-#: mail/folder-browser.c:682
+#: mail/folder-browser.c:533
 msgid "Move to Folder..."
 msgstr "Prestavi v mapo..."
 
-#: mail/folder-browser.c:683
+#: mail/folder-browser.c:534
 msgid "Copy to Folder..."
 msgstr "Kopiraj v mapo..."
 
-#: mail/folder-browser.c:685
+#: mail/folder-browser.c:536
 msgid "Undelete"
 msgstr "Odbri¹i"
 
 #. { _("Add Sender to Address Book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),   NULL,  0 },
 #. { "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-#: mail/folder-browser.c:689
+#: mail/folder-browser.c:540
 msgid "Apply Filters"
 msgstr "Uveljavi filtre"
 
-#: mail/folder-browser.c:691
+#: mail/folder-browser.c:542
 msgid "Create Rule From Message"
 msgstr "Iz sporoèila ustvari pravilo"
 
-#: mail/folder-browser.c:779
+#: mail/folder-browser.c:629
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Filter glede na Po¹tni seznam (%s)"
+
+#: mail/folder-browser.c:630
+msgid "VFolder on Mailing List (%s)"
+msgstr "vMapa glede na Po¹tni seznam (%s)"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:1
 msgid "Evolution component for handling mail."
@@ -5173,24 +5203,32 @@ msgid "mh"
 msgstr "mh"
 
 #. add a "None" option to the stores menu
-#: mail/mail-account-editor.c:695 mail/mail-account-editor.c:697
-#: mail/mail-account-editor.c:777 mail/mail-accounts.c:114
-#: mail/mail-config-druid.c:916 mail/mail-config.glade.h:44
+#: mail/mail-account-editor.c:707 mail/mail-account-editor.c:709
+#: mail/mail-account-editor.c:798 mail/mail-accounts.c:115
+#: mail/mail-config-druid.c:922 mail/mail-config.glade.h:45
 #: shell/e-shell-view.c:1119 widgets/misc/e-dateedit.c:421
 #: widgets/misc/e-dateedit.c:1330 widgets/misc/e-dateedit.c:1445
 msgid "None"
 msgstr "Brez"
 
-#: mail/mail-accounts.c:115
+#: mail/mail-accounts.c:116
 msgid " (default)"
 msgstr " (privzeto)"
 
+#: mail/mail-accounts.c:224 mail/mail-accounts.c:228
+msgid "Are you sure you want to delete this account?"
+msgstr "Ste preprièani, da ¾elite zbrisati ta raèun?"
+
+#: mail/mail-accounts.c:334 mail/mail-accounts.c:338
+msgid "Are you sure you want to delete this news account?"
+msgstr "Ste preprièani, ¾elite zbrisati ta novièarski raèun?"
+
 #. give our dialog an OK button and title
-#: mail/mail-accounts.c:367
+#: mail/mail-accounts.c:423
 msgid "Evolution Account Manager"
 msgstr "Upravljalnik Evolucijinih raèunov"
 
-#: mail/mail-account-editor.c:286
+#: mail/mail-account-editor.c:290
 msgid ""
 "One or more of your servers are not configured correctly.\n"
 "Do you wish to save anyway?"
@@ -5199,7 +5237,7 @@ msgstr ""
 "Vseeno shrani?"
 
 #. give our dialog an OK button and title
-#: mail/mail-account-editor.c:646
+#: mail/mail-account-editor.c:658
 msgid "Evolution Account Editor"
 msgstr "Urejevalnik Evolucijinih raèunov"
 
@@ -5218,7 +5256,7 @@ msgstr "Zadeva je %s"
 msgid "Mail from %s"
 msgstr "Po¹ta od %s"
 
-#: mail/mail-autofilter.c:331
+#: mail/mail-autofilter.c:284
 #, c-format
 msgid "%s mailing list"
 msgstr "%s po¹tnih seznamov"
@@ -5235,7 +5273,7 @@ msgstr ""
 "ali skladate po¹to.\n"
 "Bi ga ¾eleli nastaviti sedaj?"
 
-#: mail/mail-callbacks.c:134
+#: mail/mail-callbacks.c:136
 msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
@@ -5243,7 +5281,7 @@ msgstr ""
 "Nastaviti morate sovjo identiteto\n"
 "preden lahko skladate po¹to."
 
-#: mail/mail-callbacks.c:146
+#: mail/mail-callbacks.c:148
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
@@ -5251,11 +5289,11 @@ msgstr ""
 "Nastaviti morate naèin prenosa po¹te\n"
 "preden lahko skladate po¹to."
 
-#: mail/mail-callbacks.c:190
+#: mail/mail-callbacks.c:192
 msgid "You have not set a mail transport method"
 msgstr "Niste nastavili postopka prena¹anja po¹te"
 
-#: mail/mail-callbacks.c:223
+#: mail/mail-callbacks.c:225
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -5263,32 +5301,32 @@ msgstr ""
 "To poroèilo nima 'zadeve'.\n"
 "Resnièno po¹lji?"
 
-#: mail/mail-callbacks.c:290
+#: mail/mail-callbacks.c:292
 msgid "You must configure an account before you can send this email."
 msgstr "Nastaviti morate raèun preden lahko po¹ljete to e-po¹to."
 
-#: mail/mail-callbacks.c:310
+#: mail/mail-callbacks.c:314
 msgid "You must specify recipients in order to send this message."
 msgstr "Navesti morate naslovnike, èe ¾eliti poslati sporoèilo."
 
-#: mail/mail-callbacks.c:571
+#: mail/mail-callbacks.c:577
 #, c-format
 msgid "On %s, %s wrote:\n"
 msgstr "Na %s, je %s zapisal:\n"
 
-#: mail/mail-callbacks.c:727
+#: mail/mail-callbacks.c:735
 msgid "Forwarded message:\n"
 msgstr "Posredovano sporoèilo:\n"
 
-#: mail/mail-callbacks.c:812
+#: mail/mail-callbacks.c:820
 msgid "Move message(s) to"
 msgstr "Prestavi sporoèilo(a) v"
 
-#: mail/mail-callbacks.c:814
+#: mail/mail-callbacks.c:822
 msgid "Copy message(s) to"
 msgstr "Kopiraj sporoèilo(a) v"
 
-#: mail/mail-callbacks.c:949
+#: mail/mail-callbacks.c:957
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -5296,11 +5334,11 @@ msgstr ""
 "Urejate lahko le sporoèila shranjena\n"
 "v mapi Osnutki."
 
-#: mail/mail-callbacks.c:982 mail/mail-display.c:83
+#: mail/mail-callbacks.c:990 mail/mail-display.c:83
 msgid "Overwrite file?"
 msgstr "Prepi¹i datoteko?"
 
-#: mail/mail-callbacks.c:986 mail/mail-display.c:87
+#: mail/mail-callbacks.c:994 mail/mail-display.c:87
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -5308,15 +5346,15 @@ msgstr ""
 "Mapa z enakim imenom ¾e obstaja.\n"
 "Naj jo prepi¹em?"
 
-#: mail/mail-callbacks.c:1030
+#: mail/mail-callbacks.c:1038
 msgid "Save Message As..."
 msgstr "Shrani sporoèilo kot..."
 
-#: mail/mail-callbacks.c:1032
+#: mail/mail-callbacks.c:1040
 msgid "Save Messages As..."
 msgstr "Shrani sporoèila kot..."
 
-#: mail/mail-callbacks.c:1140
+#: mail/mail-callbacks.c:1148
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -5325,21 +5363,13 @@ msgstr ""
 "Napaka ob nalaganju podatkov o filtrih:\n"
 "%s"
 
-#: mail/mail-callbacks.c:1189
+#: mail/mail-callbacks.c:1197
 msgid "Print Message"
 msgstr "Natisni sporoèilo"
 
-#: mail/mail-callbacks.c:1236
+#: mail/mail-callbacks.c:1244
 msgid "Printing of message failed"
 msgstr "Tiskanje sporoèila ni uspelo"
-
-#: mail/mail-config.c:835
-msgid "Connecting to server"
-msgstr "Vzpostavljam povezavo s stre¾nikom"
-
-#: mail/mail-config.c:837
-msgid "Connect to server"
-msgstr "Pove¾i se s stre¾nikom"
 
 #: mail/mail-config.glade.h:1
 msgid "Account"
@@ -5430,138 +5460,154 @@ msgid "Identity"
 msgstr "Identiteta"
 
 #: mail/mail-config.glade.h:32
+msgid "Include in \"Get Mail\" operations."
+msgstr "Vkljuèuj v operacije \"Dobi po¹to\"."
+
+#: mail/mail-config.glade.h:33
 msgid "Incoming Mail Server"
 msgstr "Stre¾nik dohodne po¹te"
 
-#: mail/mail-config.glade.h:33
+#: mail/mail-config.glade.h:34
 msgid "Keep mail on server"
 msgstr "Ohrani po¹to na stre¾niku"
 
-#: mail/mail-config.glade.h:34
+#: mail/mail-config.glade.h:35
 msgid "Kerberos"
 msgstr "Kerberos"
 
-#: mail/mail-config.glade.h:35
+#: mail/mail-config.glade.h:36
 msgid "Mail"
 msgstr "Po¹ta"
 
-#: mail/mail-config.glade.h:36
+#: mail/mail-config.glade.h:37
 msgid "Mail Account"
 msgstr "Po¹tni raèun"
 
-#: mail/mail-config.glade.h:37
+#: mail/mail-config.glade.h:38
 msgid "Mail Configuration"
 msgstr "Nastavitev po¹te"
 
-#: mail/mail-config.glade.h:38
+#: mail/mail-config.glade.h:39
 msgid "Mail Configuration Druid"
 msgstr "Druid za nastavitev po¹te"
 
-#: mail/mail-config.glade.h:39
+#: mail/mail-config.glade.h:40
 msgid "Make this my default account"
 msgstr "Naj bo to moj privzet raèun"
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:41
 msgid "Mark messages as \"Read\" after:"
 msgstr "Oznaèi sporoèila kot \"Prebrana\" po:"
 
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:42
 msgid "Miscellaneous"
 msgstr "Razno"
 
-#: mail/mail-config.glade.h:43
+#: mail/mail-config.glade.h:44
 msgid "News"
 msgstr "Novice"
 
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:46
 msgid "Optional"
 msgstr "Dodatno"
 
-#: mail/mail-config.glade.h:46
+#: mail/mail-config.glade.h:47
 msgid "Organization:"
 msgstr "Organizacija:"
 
-#: mail/mail-config.glade.h:48
+#: mail/mail-config.glade.h:49
 msgid "Outgoing Mail Server"
 msgstr "Stre¾nik odhodne po¹te"
 
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:50
+msgid "PGP binary path:"
+msgstr "Pot do izvr¹ljive datoteke PGP"
+
+#: mail/mail-config.glade.h:51
 msgid "Password:"
 msgstr "Geslo:"
 
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:53
 msgid "Plain Text"
 msgstr "Ne¹ifrirano"
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:54
 msgid "Receiving Email"
 msgstr "Sprejemanje e-po¹te"
 
-#: mail/mail-config.glade.h:53
+#: mail/mail-config.glade.h:55
 msgid "Remember my password"
 msgstr "Zapomni si geslo"
 
-#: mail/mail-config.glade.h:54 mail/mail-format.c:629
+#: mail/mail-config.glade.h:56 mail/mail-format.c:629
 msgid "Reply-To:"
 msgstr "Odgovori-na:"
 
-#: mail/mail-config.glade.h:55
+#: mail/mail-config.glade.h:57
 msgid "Required"
 msgstr "Potrebno"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:59
 msgid "Save password"
 msgstr "Shrani geslo"
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:60
+msgid "Select PGP binary"
+msgstr "Izberi datoteko PGP"
+
+#: mail/mail-config.glade.h:61
 msgid "Select signature file"
 msgstr "Izberi datoteko s podpisom"
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:62
 msgid "Send mail in HTML format by default."
 msgstr "Privzeto po¹lji po¹to v HTML obliki."
 
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:63
 msgid "Sending Email"
 msgstr "Po¹iljam e-po¹to"
 
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:65
 msgid "Server Configuration"
 msgstr "Nastavitev stre¾nika"
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:66
 msgid "Server Type: "
 msgstr "Vrsta stre¾nika:"
 
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:67
 msgid "Server requires authentication"
 msgstr "Stre¾nik zahteva avtentifikacijo"
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:68
 msgid "Servers"
 msgstr "Stre¾niki"
 
-#: mail/mail-config.glade.h:66
+#: mail/mail-config.glade.h:69
 msgid "Signature file:"
 msgstr "Datoteka s podpisom:"
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:70
 msgid "Signature:"
 msgstr "Podpis:"
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:72
 msgid "Sources"
 msgstr "Viri"
 
-#: mail/mail-config.glade.h:69
+#: mail/mail-config.glade.h:73
 msgid "This server requires a secure connection (SSL)"
 msgstr "Ta stre¾nik zahteva varno povezavo (SSL)"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:74
+msgid "Transport"
+msgstr "Prenos"
+
+#: mail/mail-config.glade.h:75
 msgid "Type"
 msgstr "Vrsta"
 
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:76
 msgid ""
 "Type the name by which you would like to refer to these servers. For "
 "example: \"Work\" or \"Home\"."
@@ -5569,15 +5615,15 @@ msgstr ""
 "Vpi¹ite ime s katerimi ¾elite nazivati te stre¾nike. Na primer:\"slu¾beni\" "
 "ali \"domaèi\"."
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:78
 msgid "User Information"
 msgstr "Podatki o uporabniku"
 
-#: mail/mail-config.glade.h:74
+#: mail/mail-config.glade.h:79
 msgid "Username:"
 msgstr "Uporabni¹ko ime:"
 
-#: mail/mail-config.glade.h:75
+#: mail/mail-config.glade.h:80
 msgid ""
 "Welcome to the Evolution Mail Configuration Druid.\n"
 "\n"
@@ -5587,11 +5633,11 @@ msgstr ""
 "\n"
 "Kliknite \"Naprej\" za zaèetek. "
 
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:83
 msgid "minutes."
 msgstr "minut."
 
-#: mail/mail-config-druid.c:399
+#: mail/mail-config-druid.c:401
 #, c-format
 msgid ""
 "Failed to verify the incoming mail configuration.\n"
@@ -5600,11 +5646,11 @@ msgstr ""
 "Nisem uspel preveriti nastavitve dohodne po¹te.\n"
 "Morda boste naleteli na probleme ob dobivanju po¹te z %s"
 
-#: mail/mail-config-druid.c:489
+#: mail/mail-config-druid.c:495
 msgid "Namespace:"
 msgstr "Imenski prostor:"
 
-#: mail/mail-config-druid.c:677
+#: mail/mail-config-druid.c:683
 #, c-format
 msgid ""
 "Failed to verify the outgoing mail configuration.\n"
@@ -5614,7 +5660,7 @@ msgstr ""
 "Morda boste naleteli na probleme ob po¹iljanju po¹te preko %s"
 
 #. set window title
-#: mail/mail-config-druid.c:1036
+#: mail/mail-config-druid.c:1042
 msgid "Evolution Account Wizard"
 msgstr "Evolucijin èarovnik za raèune"
 
@@ -5674,88 +5720,75 @@ msgstr "©ifrirano sporoèilo"
 msgid "Click icon to decrypt."
 msgstr "Kliknite ikono za de¹ifriranje."
 
-#: mail/mail-format.c:1019 mail/mail-format.c:1399
+#: mail/mail-format.c:1019 mail/mail-format.c:1406
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "To sporoèilo ima elektronski podpis in je ugotovljeno za avtentièno."
 
-#: mail/mail-format.c:1027 mail/mail-format.c:1407
+#: mail/mail-format.c:1027 mail/mail-format.c:1414
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 "To sporoèilo ima elektronski podpis, a se ne, da dokazati da je avtentièno."
 
-#: mail/mail-format.c:1611
+#: mail/mail-format.c:1627
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Kazalec na FTP povezavo (%s)"
 
-#: mail/mail-format.c:1623
+#: mail/mail-format.c:1639
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Kazalec na krajevno datoteko (%s) veljaven na stre¾niku \"%s\""
 
-#: mail/mail-format.c:1627
+#: mail/mail-format.c:1643
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Kazalec na lokalno datoteko (%s)"
 
-#: mail/mail-format.c:1661
+#: mail/mail-format.c:1677
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Kazalec na neznane zunanje podatke (tip \"%s\")"
 
-#: mail/mail-format.c:1666
+#: mail/mail-format.c:1682
 msgid "Malformed external-body part."
 msgstr "Napaèno oblikovano dodatno telo sporoèila."
 
-#: mail/mail-local.c:444
-msgid "Registering local folder"
-msgstr "Registriam krajevno mapo"
+#: mail/mail-local.c:456
+msgid "Opening '%s'"
+msgstr "Odpiram '%s'"
 
-#: mail/mail-local.c:446
-msgid "Register local folder"
-msgstr "Registriaj krajevno mapo"
-
-#: mail/mail-local.c:553
-#, c-format
-msgid ""
-"Unable to register folder '%s':\n"
-"%s"
-msgstr ""
-"Nisem mogel registriati mape '%s':\n"
-"%s"
-
-#: mail/mail-local.c:717
+#: mail/mail-local.c:738
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "Spreminjam obliko zapisa mape iz \"%s\" v \"%s\""
 
-#: mail/mail-local.c:721
+#: mail/mail-local.c:742
 #, c-format
 msgid "Change folder \"%s\" to \"%s\" format"
 msgstr "Spremeni obliko zapisa mape iz \"%s\" v \"%s\""
 
-#: mail/mail-local.c:752
+#: mail/mail-local.c:766
 msgid "Reconfiguring folder"
 msgstr "Prenastavljam mapo"
 
 #. first, 'close' the old folder
-#: mail/mail-local.c:781
+#: mail/mail-local.c:795
 msgid "Closing current folder"
 msgstr "Zapiram trenutno mapo"
 
-#: mail/mail-local.c:813
+#: mail/mail-local.c:827
 msgid "Renaming old folder and opening"
 msgstr "Preimenujem in odpiram staro mapo"
 
-#: mail/mail-local.c:831
+#: mail/mail-local.c:845
 msgid "Creating new folder"
 msgstr "Ustvari novo mapo"
 
-#: mail/mail-local.c:845
+#: mail/mail-local.c:859
 msgid "Copying messages"
 msgstr "Kopiram sporoèilo"
 
-#: mail/mail-local.c:866
+#: mail/mail-local.c:880
 #, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
@@ -5764,7 +5797,7 @@ msgstr ""
 "Nisem mogel shraniti meta podatkov mape; verjetno ne boste veè mogli odpreti "
 "te mape: %s"
 
-#: mail/mail-local.c:898
+#: mail/mail-local.c:919
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -5772,7 +5805,7 @@ msgstr ""
 "Èe ne morete veè odpreti tega po¹tnega predala, potem\n"
 "ga boste morda morali popraviti roèno."
 
-#: mail/mail-mt.c:88
+#: mail/mail-mt.c:177
 #, c-format
 msgid ""
 "Error while '%s':\n"
@@ -5781,7 +5814,7 @@ msgstr ""
 "Napaka ob '%s':\n"
 "%s"
 
-#: mail/mail-mt.c:90
+#: mail/mail-mt.c:179
 #, c-format
 msgid ""
 "Error while performing operation:\n"
@@ -5790,121 +5823,90 @@ msgstr ""
 "Napaka ob opravljanju dejanja:\n"
 "%s"
 
-#: mail/mail-mt.c:386 mail/mail-mt.c:415
+#: mail/mail-mt.c:502 mail/mail-mt.c:531 mail/mail-mt.c:789
 msgid "Working"
 msgstr "Delam"
 
-#: mail/mail-ops.c:519
+#: mail/mail-mt.c:771
+msgid "Evolution progress"
+msgstr "Napredek evolucije"
+
+#: mail/mail-ops.c:516
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Po¹iljam \"%s\""
 
-#: mail/mail-ops.c:521
+#: mail/mail-ops.c:518
 msgid "Sending message"
 msgstr "Po¹iljam sporoèilo"
 
-#: mail/mail-ops.c:749 mail/mail-ops.c:756
-#, c-format
-msgid "Appending \"%s\""
-msgstr "Dodajam \"%s\""
+#: mail/mail-ops.c:744
+msgid "Saving message to folder"
+msgstr "Shranjujem sporoèilo v mapo"
 
-#: mail/mail-ops.c:753 mail/mail-ops.c:759
-msgid "Appending a message without a subject"
-msgstr "Dodajam sporoèilo brez navedene zadeve"
+#: mail/mail-ops.c:817
+msgid "Moving messages to %s"
+msgstr "Prestavljam sporoèila v %s"
 
-#: mail/mail-ops.c:841
-#, c-format
-msgid "Moving messages from \"%s\" into \"%s\""
-msgstr "Prestavljam sporoèila iz \"%s\" v \"%s\""
+#: mail/mail-ops.c:817
+msgid "Copying messages to %s"
+msgstr "Kopiram sporoèia v %s"
 
-#: mail/mail-ops.c:843
-#, c-format
-msgid "Copying messages from \"%s\" into \"%s\""
-msgstr "Kopiram sporoèila iz \"%s\" v \"%s\""
-
-#: mail/mail-ops.c:846
-#, c-format
-msgid "Move messages from \"%s\" into \"%s\""
-msgstr "Prestavi sporoèilo iz \"%s\" v \"%s\""
-
-#: mail/mail-ops.c:848
-#, c-format
-msgid "Copy messages from \"%s\" into \"%s\""
-msgstr "Kopiraj sporoèilo iz \"%s\" v \"%s\""
-
-#: mail/mail-ops.c:879
+#: mail/mail-ops.c:834
 msgid "Moving"
 msgstr "Prestavljam"
 
-#: mail/mail-ops.c:882
+#: mail/mail-ops.c:837
 msgid "Copying"
 msgstr "Kopiram"
 
-#: mail/mail-ops.c:902
+#: mail/mail-ops.c:848
 #, c-format
 msgid "%s message %d of %d (uid \"%s\")"
 msgstr "%s sporoèilo %d od %d (uid \"%s\")"
 
-#: mail/mail-ops.c:977
+#: mail/mail-ops.c:919
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Osve¾ujem mape v \"%s\""
 
-#: mail/mail-ops.c:1043 mail/subscribe-dialog.c:359
-msgid "(No description)"
-msgstr "(ni opisa)"
-
-#: mail/mail-ops.c:1108
+#: mail/mail-ops.c:1068
 msgid "Forwarded messages"
 msgstr "Posredovana sporoèila"
 
-#: mail/mail-ops.c:1149 mail/mail-ops.c:1283
+#: mail/mail-ops.c:1109 mail/mail-ops.c:1247
 #, c-format
 msgid "Opening folder %s"
 msgstr "Odpiram mapo %s"
 
-#: mail/mail-ops.c:1214
+#: mail/mail-ops.c:1176
 #, c-format
 msgid "Opening store %s"
 msgstr "Odpiram shrambo %s"
 
-#: mail/mail-ops.c:1395
+#: mail/mail-ops.c:1363
 msgid "Expunging folder"
 msgstr "Unièujem mapo"
 
-#: mail/mail-ops.c:1444
+#: mail/mail-ops.c:1412
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Prena¹am sporoèilo %s"
 
-#: mail/mail-ops.c:1511
+#: mail/mail-ops.c:1479
 msgid "Retrieving messages"
 msgstr "Prena¹am sporoèilo"
 
-#: mail/mail-ops.c:1521
+#: mail/mail-ops.c:1489
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr "Prena¹am sporoèilo ¹tevilka %d od %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1673
-msgid "Opening Trash folder for %s"
-msgstr "Odpiram mapo Smeti za %s"
-
-#: mail/mail-ops.c:1828
-#, c-format
-msgid "Loading %s Folder for %s"
-msgstr "Nalagam mapo %s za %s"
-
-#: mail/mail-ops.c:1830
-#, c-format
-msgid "Load %s Folder for %s"
-msgstr "Nalo¾i mapo %s za %s"
-
-#: mail/mail-ops.c:1988
+#: mail/mail-ops.c:1563
 msgid "Saving messages"
 msgstr "Shranjujem sporoèila"
 
-#: mail/mail-ops.c:2067
+#: mail/mail-ops.c:1642
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -5913,12 +5915,12 @@ msgstr ""
 "Nisem mogel ustvariti izhodne datoteke: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2080
+#: mail/mail-ops.c:1655
 #, c-format
 msgid "Saving message %d of %d (uid \"%s\")"
 msgstr "Shranjujem sporoèilo %d od %d (uid \"%s\")"
 
-#: mail/mail-ops.c:2094
+#: mail/mail-ops.c:1669
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -5927,11 +5929,11 @@ msgstr ""
 "Napaka ob shranjevanju sporoèil v: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2168
+#: mail/mail-ops.c:1743
 msgid "Saving attachment"
 msgstr "Shranjujem prilogo"
 
-#: mail/mail-ops.c:2183
+#: mail/mail-ops.c:1758
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -5940,7 +5942,7 @@ msgstr ""
 "Nisem mogel ustvariti izhodne datoteke: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2211
+#: mail/mail-ops.c:1786
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Nisem model pisati podatkov: %s"
@@ -5949,113 +5951,70 @@ msgstr "Nisem model pisati podatkov: %s"
 msgid "_Search"
 msgstr "_Iskanje"
 
-#: mail/mail-send-recv.c:127
+#: mail/mail-send-recv.c:136
 msgid "Cancelling ..."
 msgstr "Preklicujem ..."
 
-#: mail/mail-send-recv.c:218
+#: mail/mail-send-recv.c:231
 msgid "Send & Receive mail"
 msgstr "Oddaja in sprejem po¹te"
 
-#: mail/mail-send-recv.c:221
+#: mail/mail-send-recv.c:234
 msgid "Receiving"
 msgstr "Sprejemam"
 
-#: mail/mail-send-recv.c:267
+#: mail/mail-send-recv.c:283
 msgid "Updating ..."
 msgstr "Posodabljam ..."
 
-#: mail/mail-send-recv.c:269 mail/mail-send-recv.c:313
+#: mail/mail-send-recv.c:285 mail/mail-send-recv.c:331
 msgid "Waiting ..."
 msgstr "Èakam ..."
 
-#: mail/mail-send-recv.c:288
+#: mail/mail-send-recv.c:304
 msgid "Sending"
 msgstr "Po¹iljam"
 
-#: mail/mail-send-recv.c:483
+#: mail/mail-send-recv.c:469
 msgid "Cancelled."
 msgstr "Preklicano."
 
-#: mail/mail-send-recv.c:487
+#: mail/mail-send-recv.c:473
 msgid "Complete."
 msgstr "Konèano."
 
-#: mail/mail-summary.c:111 mail/mail-threads.c:734
+#: mail/mail-summary.c:111
 msgid "Incomplete message written on pipe!"
 msgstr "V cev je bilo zapisano nepopolno sporoèilo!"
 
-#: mail/mail-threads.c:302
-#, c-format
-msgid ""
-"Error while preparing to %s:\n"
-"%s"
-msgstr ""
-"Napaka ob pripravljanju na %s:\n"
-"%s"
-
-#: mail/mail-threads.c:681
-#, c-format
-msgid ""
-"Error while `%s':\n"
-"%s"
-msgstr ""
-"Napaka ob '%s':\n"
-"%s"
-
-#: mail/mail-threads.c:738
-msgid "Error reading commands from dispatching thread."
-msgstr "Napaka ob branju ukazov iz razpo¹iljalne niti."
-
-#: mail/mail-threads.c:803
-msgid "Corrupted message from dispatching thread?"
-msgstr "Prispelo pokvarjeno sporoèilo iz razpo¹iljalne niti?"
-
-#: mail/mail-threads.c:922
-msgid "Could not create dialog box."
-msgstr "Nisem mogel ustvariti dialoga."
-
-#: mail/mail-threads.c:933
-msgid "User cancelled query."
-msgstr "Uporabnik je preklical poizvedbo."
-
-#: mail/mail-tools.c:198
+#: mail/mail-tools.c:146
 #, c-format
 msgid "Couldn't create temporary mbox `%s': %s"
 msgstr "Nisem mogel ustvariti zaèasnega po¹tnega predala `%s': %s"
 
-#: mail/mail-tools.c:256
+#: mail/mail-tools.c:199
 #, c-format
 msgid "[%s] (forwarded message)"
 msgstr "[%s] (posredovano sporoèilo)"
 
-#: mail/mail-tools.c:266
+#: mail/mail-tools.c:209
 msgid "Fwd: (no subject)"
 msgstr "Posreduj: (ni zadeve)"
 
-#: mail/mail-tools.c:283
+#: mail/mail-tools.c:226
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Posredovano sporoèilo %s"
 
-#: mail/mail-tools.c:285
+#: mail/mail-tools.c:228
 msgid "Forwarded message (no subject)"
 msgstr "Posredovano sporoèilo (brez navedene zadeve)"
 
-#: mail/mail-tools.c:357
-#, c-format
-msgid ""
-"Cannot open location `%s':\n"
-"%s"
-msgstr ""
-"Nisem mogel odpreti URIja `%s':\n"
-"%s"
-
-#: mail/mail-vfolder.c:150
+#: mail/mail-vfolder.c:170
 msgid "VFolders"
 msgstr "vMape"
 
-#: mail/mail-vfolder.c:303
+#: mail/mail-vfolder.c:335
 msgid "New VFolder"
 msgstr "Nova vMapa"
 
@@ -6089,14 +6048,6 @@ msgstr "Zbri¹i to sporèilo"
 msgid "Unseen"
 msgstr "Nevideno"
 
-#: mail/message-list.c:621
-msgid "Seen"
-msgstr "Videno"
-
-#: mail/message-list.c:624
-msgid "Answered"
-msgstr "Odgovorjeno"
-
 #: mail/message-list.c:627
 msgid "Multiple Unseen Messages"
 msgstr "veè nevidenih sporoèil"
@@ -6105,145 +6056,125 @@ msgstr "veè nevidenih sporoèil"
 msgid "Multiple Messages"
 msgstr "Veè sporoèil"
 
-#: mail/message-list.c:948
+#: mail/message-list.c:952
 #, c-format
 msgid "[ %s ]"
 msgstr "[ %s ]"
 
 #. well, we could scan more children, build up a (more accurate) list, but this should do ok
-#: mail/message-list.c:960 mail/message-list.c:976
+#: mail/message-list.c:964 mail/message-list.c:980
 #, c-format
 msgid "%s, et al."
 msgstr "%s, et al."
 
-#: mail/message-list.c:963 mail/message-list.c:979
+#: mail/message-list.c:967 mail/message-list.c:983
 msgid "<unknown>"
 msgstr "<neznan>"
 
-#: mail/message-list.c:1031
+#: mail/message-list.c:1035
 msgid "?"
 msgstr "?"
 
-#: mail/message-list.c:1038
+#: mail/message-list.c:1042
 msgid "Today %l:%M %p"
 msgstr "Danes %l:%M %p"
 
-#: mail/message-list.c:1047
+#: mail/message-list.c:1051
 msgid "Yesterday %l:%M %p"
 msgstr "Vèeraj %l:%M %p"
 
-#: mail/message-list.c:1059
+#: mail/message-list.c:1063
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: mail/message-list.c:1067
+#: mail/message-list.c:1071
 msgid "%b %d %l:%M %p"
 msgstr "%d %b %l:%M %p"
 
-#: mail/message-list.c:1069
+#: mail/message-list.c:1073
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:1167
-msgid "Flagged"
-msgstr "Oznaèeno"
-
-#: mail/message-list.c:1168
+#: mail/message-list.c:1172
 msgid "From"
 msgstr "Od"
 
-#: mail/message-list.c:1168
+#: mail/message-list.c:1172
 msgid "Date"
 msgstr "Datum"
 
-#: mail/message-list.c:1168
+#: mail/message-list.c:1172
 msgid "Received"
 msgstr "Sprejeto"
 
-#: mail/message-list.c:1169
+#: mail/message-list.c:1173
 msgid "To"
 msgstr "Za"
 
-#: mail/message-list.c:1169
+#: mail/message-list.c:1173
 msgid "Size"
 msgstr "Velikost"
 
-#: mail/openpgp-utils.c:77
+#: mail/openpgp-utils.c:89
 #, c-format
 msgid "Please enter your %s passphrase for %s"
 msgstr "Prosim vpi¹ite svoje %s geslo za %s"
 
-#: mail/openpgp-utils.c:80
+#: mail/openpgp-utils.c:92
 #, c-format
 msgid "Please enter your %s passphrase"
 msgstr "Prosim vpi¹ite svoje %s geslo"
 
-#: mail/openpgp-utils.c:431 mail/openpgp-utils.c:534 mail/openpgp-utils.c:738
-#: mail/openpgp-utils.c:887 mail/openpgp-utils.c:1043
+#: mail/openpgp-utils.c:452 mail/openpgp-utils.c:558 mail/openpgp-utils.c:760
+#: mail/openpgp-utils.c:913 mail/openpgp-utils.c:1071
 msgid "No GPG/PGP program available."
 msgstr "GPG/PGP program ni na voljo."
 
-#: mail/openpgp-utils.c:438 mail/openpgp-utils.c:543 mail/openpgp-utils.c:745
-#: mail/openpgp-utils.c:894
+#: mail/openpgp-utils.c:459 mail/openpgp-utils.c:567 mail/openpgp-utils.c:767
+#: mail/openpgp-utils.c:920
 msgid "No password provided."
 msgstr "Geslo ni bilo dano."
 
-#: mail/openpgp-utils.c:444 mail/openpgp-utils.c:551 mail/openpgp-utils.c:752
-#: mail/openpgp-utils.c:901 mail/openpgp-utils.c:1049
+#: mail/openpgp-utils.c:467 mail/openpgp-utils.c:574 mail/openpgp-utils.c:773
+#: mail/openpgp-utils.c:928 mail/openpgp-utils.c:1077
 #, c-format
 msgid "Couldn't create pipe to GPG/PGP: %s"
 msgstr "Nisem mogel ustvariti cevi do GPG/PGP: %s"
 
-#: mail/openpgp-utils.c:562 mail/openpgp-utils.c:607 mail/openpgp-utils.c:646
+#: mail/openpgp-utils.c:588
 msgid "No recipients specified"
 msgstr "Prejemniki niso navedeni"
 
-#: mail/openpgp-utils.c:1060
+#: mail/openpgp-utils.c:1088
 #, c-format
 msgid "Couldn't create temp file: %s"
 msgstr "Nisem mogel ustvariti zaèasne datoteke: %s"
 
-#: mail/subscribe-dialog.c:62 shell/e-storage-set-view.c:44
+#: mail/subscribe-dialog.c:64 shell/e-storage-set-view.c:44
 msgid "Folder"
 msgstr "Mapa"
 
-#: mail/subscribe-dialog.c:63
+#: mail/subscribe-dialog.c:65
 msgid "Store"
 msgstr "Shramba"
 
-#: mail/subscribe-dialog.c:145
+#: mail/subscribe-dialog.c:147
 msgid "Display folders starting with:"
 msgstr "Prika¾i mape, ki se zaènejo z:"
 
-#: mail/subscribe-dialog.c:178
+#: mail/subscribe-dialog.c:177
 #, c-format
 msgid "Getting store for \"%s\""
 msgstr "Dobivam shrambo za \"%s\""
 
-#: mail/subscribe-dialog.c:181
-#, c-format
-msgid "Get store for \"%s\""
-msgstr "Dobi shrambo za \"%s\""
-
-#: mail/subscribe-dialog.c:292
+#: mail/subscribe-dialog.c:280
 #, c-format
 msgid "Subscribing to folder \"%s\""
 msgstr "Naroèam se na mapo \"%s\""
 
-#: mail/subscribe-dialog.c:296
-#, c-format
-msgid "Unsubscribing from folder \"%s\""
+#: mail/subscribe-dialog.c:282
+msgid "Unsubscribing to folder \"%s\""
 msgstr "Preklicujem naroènino na mapo \"%s\""
-
-#: mail/subscribe-dialog.c:300
-#, c-format
-msgid "Subscribe to folder \"%s\""
-msgstr "Naroèi se na mapo \"%s\""
-
-#: mail/subscribe-dialog.c:303
-#, c-format
-msgid "Unsubscribe from folder \"%s\""
-msgstr "Preklièi naroènino na mapo \"%s\""
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
@@ -6259,7 +6190,7 @@ msgstr "Navedi kje naj se ustvarimapa:"
 
 #. Importer isn't ready yet.
 #. Wait 5 seconds and try again.
-#: shell/importer/importer.c:155
+#: shell/importer/importer.c:157
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -6270,7 +6201,7 @@ msgstr ""
 "Uvoznik ni pripravljen.\n"
 "Èakam 5 sekund na nov poskus."
 
-#: shell/importer/importer.c:173 shell/importer/importer.c:200
+#: shell/importer/importer.c:175 shell/importer/importer.c:202
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -6279,7 +6210,7 @@ msgstr ""
 "Uva¾am %s\n"
 "Uva¾am predmet %d."
 
-#: shell/importer/importer.c:307
+#: shell/importer/importer.c:309
 #, c-format
 msgid ""
 "There is no importer that is able to handle\n"
@@ -6288,11 +6219,11 @@ msgstr ""
 "Ni uvoznika, ki bi lahko obravnaval\n"
 " %s"
 
-#: shell/importer/importer.c:317
+#: shell/importer/importer.c:319
 msgid "Importing"
 msgstr "Uva¾am"
 
-#: shell/importer/importer.c:325
+#: shell/importer/importer.c:327
 #, c-format
 msgid ""
 "Importing %s.\n"
@@ -6301,12 +6232,12 @@ msgstr ""
 "Uva¾am %s.\n"
 "Prièenjam %s"
 
-#: shell/importer/importer.c:340
+#: shell/importer/importer.c:342
 #, c-format
 msgid "Error loading %s"
 msgstr "Napaka ob nalaganju %s"
 
-#: shell/importer/importer.c:355
+#: shell/importer/importer.c:357
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -6315,27 +6246,27 @@ msgstr ""
 "Uva¾am %s\n"
 "Uva¾am predmet 1."
 
-#: shell/importer/importer.c:426
+#: shell/importer/importer.c:428
 msgid "Automatic"
 msgstr "Samodeno"
 
-#: shell/importer/importer.c:476
+#: shell/importer/importer.c:478
 msgid "Filename:"
 msgstr "Ime datoteke:"
 
-#: shell/importer/import.glade.h:5 shell/importer/importer.c:481
+#: shell/importer/import.glade.h:5 shell/importer/importer.c:483
 msgid "Select a file"
 msgstr "Izberi datoteko"
 
-#: shell/importer/importer.c:491
+#: shell/importer/importer.c:493
 msgid "File type:"
 msgstr "Vrsta datoteke:"
 
-#: shell/importer/import.glade.h:4 shell/importer/importer.c:572
+#: shell/importer/import.glade.h:4 shell/importer/importer.c:574
 msgid "Import"
 msgstr "Uvozi"
 
-#: shell/importer/importer.c:605
+#: shell/importer/importer.c:609
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list.\n"
@@ -6626,51 +6557,51 @@ msgstr "_Pogled"
 msgid "View the selected folder"
 msgstr "Poglej izbrane mape"
 
-#: shell/e-storage.c:160
+#: shell/e-storage.c:178
 msgid "(No name)"
 msgstr "(Brez imena)"
 
-#: shell/e-storage.c:411
+#: shell/e-storage.c:429
 msgid "No error"
 msgstr "Brez napak"
 
-#: shell/e-storage.c:413
+#: shell/e-storage.c:431
 msgid "Generic error"
 msgstr "Generièna napaka"
 
-#: shell/e-storage.c:415
+#: shell/e-storage.c:433
 msgid "A folder with the same name already exists"
 msgstr "Mapa z enakim imenom ¾e obstaja"
 
-#: shell/e-storage.c:417
+#: shell/e-storage.c:435
 msgid "The specified folder type is not valid"
 msgstr "Izbran tip mape ni veljaven"
 
-#: shell/e-storage.c:419
+#: shell/e-storage.c:437
 msgid "I/O error"
 msgstr "V/I napaka"
 
-#: shell/e-storage.c:421
+#: shell/e-storage.c:439
 msgid "Not enough space to create the folder"
 msgstr "Ni dovolj prostora za ustvaritev mape"
 
-#: shell/e-storage.c:423
+#: shell/e-storage.c:441
 msgid "The specified folder was not found"
 msgstr "Izbrana mapa ni bila najdena"
 
-#: shell/e-storage.c:425
+#: shell/e-storage.c:443
 msgid "Function not implemented in this storage"
 msgstr "Funkcija ni implementirana v tem hranilniku"
 
-#: shell/e-storage.c:427
+#: shell/e-storage.c:445
 msgid "Permission denied"
 msgstr "Nimate dovoljenja"
 
-#: shell/e-storage.c:429
+#: shell/e-storage.c:447
 msgid "Operation not supported"
 msgstr "Operacija ni podprta"
 
-#: shell/e-storage.c:431
+#: shell/e-storage.c:449
 msgid "The specified type is not supported in this storage"
 msgstr "Izbran tip ni podprt v tem hranilniku"
 
@@ -6680,46 +6611,40 @@ msgstr "Evolucijina lupina."
 
 #: shell/main.c:74
 msgid ""
-"Hi.  Thanks for taking the time to download this preview release\n"
+"Hi.  Thanks for taking the time to download this PREVIEW RELEASE\n"
 "of the Evolution groupware suite.\n"
 "\n"
-"Over the time since the past release, our focus has been on making\n"
-"Evolution usable.  Many of the Evolution developers are now using\n"
-"Evolution to read their mail full time. You could too. (Just\n"
-"be sure to keep a backup.)\n"
+"Evolution is not yet complete. It's getting close, but there are\n"
+"places where features are either missing or only half working. If\n"
+"you can't figure out how to do something, it's probably because\n"
+"there's no way to do it yet! :-)\n"
 "\n"
-"But while we have fixed many bugs affecting its stability and\n"
-"security, you still get the disclaimer:  Evolution will: crash,\n"
-"lose your mail when you don't want it to, refuse to delete your\n"
-"mail when you do want it to, leave stray processes running,\n"
-"consume 100% CPU, race, lock, send HTML mail to random mailing\n"
-"lists, and embarass you in front of your friends and co-workers.\n"
-"Use only as directed.\n"
+"We hope Evolution will be usable for you, but we still feel the\n"
+"need to warn you that it may: crash, lose your mail, leave stray\n"
+"processes running, consume 100% of your CPU, send non-\n"
+"compliant commands to your servers, and generally embarass you\n"
+"in front of your friends and co-workers. Use only as directed.\n"
 "\n"
-"We hope that you enjoy the results of our hard work, and we eagerly\n"
-"await your contributions!\n"
+"We hope that you enjoy the results of our hard work, and we\n"
+"eagerly await your contributions!\n"
 msgstr ""
-"Zdravo.  Hvala, ker ste si vzeli èas za prenos te predizdaje\n"
+"Zdravo.  Hvala, ker ste si vzeli èas za prenos te predogledne\n"
 "programja za delovne skupine Evolucija.\n"
 "\n"
-"Zadnje èase smo se trudili Evolucijo narediti uporabno. Veliko \n"
-"razvijalcev Evolutiona ga ¾e exkluzivno uporablja za branje svoje \n"
-"po¹te. Tudi vi ga lahko. (le ne pozabite na varnostne kopije.)\n"
+"Evolucija ¹e ni konèana. ©e vedno so kraji, kjer funkcionalnost manjka ali\n" 
+"deluje le polovièno. Èe ne morete ugotoviti kako nekaj narediti, je to\n"
+"verjetno zato, ker se tega zaenkrat ¹ne da narediti\n"
 "\n"
-"Kljub temu, da smo popravili veliko hro¹èev, ki vplivajo na stabilnost \n"
-"in varnost vseeno opozarjamo:  Evolucija se bo: sesula, izgubila va¹o \n"
-"po¹to, ko tega ne boste hoteli, zavrnila brisanje va¹e po¹te, ko boste to \n"
-"¾eleli, pustila teèi mrtve procese, porabila 100% procesorja, se zaklenila, "
-"\n"
-"poslala HTML na nakljuène dopisne sezname in vas osramotila pred prijatelji "
-"\n"
-"in sodelavci. \n"
-"Uporabljajte jo le tako kot je predvideno.\n"
+"Upamo, da vam bo Evolucija uporabna, a ¹e vedno vas moramo opozoriti, da se\n"
+"lahko: sesuje, izgubi va¹o po¹to, pusti teèi mrtve procese, porabi 100% \n"
+"procesorskega èasa, po¹lje neveljavne ukaze na va¹e stre¾nike in vas na \n"
+"splo¹no osramoti pred prijatelji in sodelavci. Uporabljajte jo le tako \n"
+"kot je predvideno.\n"
 "\n"
 "Upamo, da boste u¾ivali sadove na¹ega trdega dela in nestrpno\n"
 "prièakujemo va¹e prispevke!\n"
 
-#: shell/main.c:101
+#: shell/main.c:99
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -6727,15 +6652,15 @@ msgstr ""
 "Hvala!\n"
 "Skupina Evolucije\n"
 
-#: shell/main.c:132
+#: shell/main.c:130
 msgid "Cannot initialize the Evolution shell."
 msgstr "Ne morem inicializirati lupine Evolucije."
 
-#: shell/main.c:178
+#: shell/main.c:176
 msgid "Disable."
 msgstr "Izkljuèeno."
 
-#: shell/main.c:198
+#: shell/main.c:196
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Ne morem inicializirati komponentnega sistema Bonobo."
 
@@ -7951,7 +7876,7 @@ msgstr "Sporoèilo"
 msgid "Don't show this message again."
 msgstr "Tega sporoèila ne ka¾i veè."
 
-#: widgets/misc/e-search-bar.c:135
+#: widgets/misc/e-search-bar.c:140
 msgid "Sear_ch"
 msgstr "_Iskanje"
 
@@ -7963,21 +7888,145 @@ msgstr "Stre¾nik osebnega adresarja"
 msgid "The Personal Calendar Server; calendar factory"
 msgstr "Stre¾nik osebnega koledarja; tovarna koledarjal"
 
-#: wombat/wombat.c:182
+#: wombat/wombat.c:153
 msgid "setup_vfs(): could not initialize GNOME-VFS"
 msgstr "setup_vfs(): nisem mogel inicializirati GNOME-VFS"
 
-#: wombat/wombat.c:194
+#: wombat/wombat.c:165
 msgid "init_corba(): could not initialize GNOME"
 msgstr "init_corba(): nisem mogel inicializirati GNOMEa"
 
-#: wombat/wombat.c:207
+#: wombat/wombat.c:178
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): nisem mogel inicializirati Bonoba"
 
 #: evolution.desktop.in.h:2
 msgid "The Evolution groupware suite"
 msgstr "Evolucijino programje za delo v skupini"
+
+#~ msgid "No such message: %s"
+#~ msgstr "Ni tak¹nega sporoèila: %s"
+
+#~ msgid "Saving changes to message..."
+#~ msgstr "Shranjujem spremembe sporoèila..."
+
+#~ msgid "Save changes to message..."
+#~ msgstr "Shranjujem spremembe sporoèila..."
+
+#~ msgid "Error saving composition to 'Drafts': %s"
+#~ msgstr "Napaka ob shranjevanju kompozicije v 'Osnutki': %s"
+
+#~ msgid "Trash"
+#~ msgstr "Smeti"
+
+#~ msgid "Body or subject contains"
+#~ msgstr "Telo ali zadeva vsebuje"
+
+#~ msgid "Body contains"
+#~ msgstr "Telo vsebuje"
+
+#~ msgid "Subject contains"
+#~ msgstr "Zadeva vsebuje"
+
+#~ msgid "Body does not contain"
+#~ msgstr "Telo ne vsebuje"
+
+#~ msgid "Subject does not contain"
+#~ msgstr "Zadeva ne vsebuje"
+
+#~ msgid "Sender contains"
+#~ msgstr "Po¹iljatelj vsebuje"
+
+#~ msgid "Connecting to server"
+#~ msgstr "Vzpostavljam povezavo s stre¾nikom"
+
+#~ msgid "Connect to server"
+#~ msgstr "Pove¾i se s stre¾nikom"
+
+#~ msgid "Registering local folder"
+#~ msgstr "Registriam krajevno mapo"
+
+#~ msgid "Register local folder"
+#~ msgstr "Registriaj krajevno mapo"
+
+#~ msgid ""
+#~ "Unable to register folder '%s':\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Nisem mogel registriati mape '%s':\n"
+#~ "%s"
+
+#~ msgid "Appending \"%s\""
+#~ msgstr "Dodajam \"%s\""
+
+#~ msgid "Appending a message without a subject"
+#~ msgstr "Dodajam sporoèilo brez navedene zadeve"
+
+#~ msgid "Moving messages from \"%s\" into \"%s\""
+#~ msgstr "Prestavljam sporoèila iz \"%s\" v \"%s\""
+
+#~ msgid "Copying messages from \"%s\" into \"%s\""
+#~ msgstr "Kopiram sporoèila iz \"%s\" v \"%s\""
+
+#~ msgid "Move messages from \"%s\" into \"%s\""
+#~ msgstr "Prestavi sporoèilo iz \"%s\" v \"%s\""
+
+#~ msgid "Copy messages from \"%s\" into \"%s\""
+#~ msgstr "Kopiraj sporoèilo iz \"%s\" v \"%s\""
+
+#~ msgid "(No description)"
+#~ msgstr "(ni opisa)"
+
+#~ msgid "Opening Trash folder for %s"
+#~ msgstr "Odpiram mapo Smeti za %s"
+
+#~ msgid "Loading %s Folder for %s"
+#~ msgstr "Nalagam mapo %s za %s"
+
+#~ msgid "Load %s Folder for %s"
+#~ msgstr "Nalo¾i mapo %s za %s"
+
+#~ msgid ""
+#~ "Error while preparing to %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Napaka ob pripravljanju na %s:\n"
+#~ "%s"
+
+#~ msgid ""
+#~ "Error while `%s':\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Napaka ob '%s':\n"
+#~ "%s"
+
+#~ msgid "Error reading commands from dispatching thread."
+#~ msgstr "Napaka ob branju ukazov iz razpo¹iljalne niti."
+
+#~ msgid "Corrupted message from dispatching thread?"
+#~ msgstr "Prispelo pokvarjeno sporoèilo iz razpo¹iljalne niti?"
+
+#~ msgid "Could not create dialog box."
+#~ msgstr "Nisem mogel ustvariti dialoga."
+
+#~ msgid "User cancelled query."
+#~ msgstr "Uporabnik je preklical poizvedbo."
+
+#~ msgid ""
+#~ "Cannot open location `%s':\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Nisem mogel odpreti URIja `%s':\n"
+#~ "%s"
+
+#~ msgid "Get store for \"%s\""
+#~ msgstr "Dobi shrambo za \"%s\""
+
+#~ msgid "Subscribe to folder \"%s\""
+#~ msgstr "Naroèi se na mapo \"%s\""
+
+#~ msgid "Unsubscribe from folder \"%s\""
+#~ msgstr "Preklièi naroènino na mapo \"%s\""
 
 #~ msgid "All Folders"
 #~ msgstr "Vse mape"
@@ -8617,20 +8666,8 @@ msgstr "Evolucijino programje za delo v skupini"
 #~ msgid "MH folders may not be nested."
 #~ msgstr "MH mape ne morejo biti gnezdene"
 
-#~ msgid "Deleted"
-#~ msgstr "Zbrisano"
-
-#~ msgid "Draft"
-#~ msgstr "Osnutek"
-
-#~ msgid "Set Flag"
-#~ msgstr "Postavi oznaèbo"
-
 #~ msgid "does not match regex"
 #~ msgstr "ne ustreza z regularnemu izrazu"
-
-#~ msgid "matches regex"
-#~ msgstr "ustreza regularnemu izrazu"
 
 #~ msgid "Cannot initialize Evolution's mail storage hash."
 #~ msgstr ""
