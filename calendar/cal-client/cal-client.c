@@ -1376,7 +1376,8 @@ build_alarm_instance_list (CalComponent *comp, GNOME_Evolution_Calendar_CalAlarm
 		instance = g_new (CalAlarmInstance, 1);
 		instance->auid = auid;
 		instance->trigger = corba_instance->trigger;
-		instance->occur = corba_instance->occur;
+		instance->occur_start = corba_instance->occur_start;
+		instance->occur_end = corba_instance->occur_end;
 
 		alarms = g_slist_prepend (alarms, instance);
 	}

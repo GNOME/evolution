@@ -83,7 +83,8 @@ module Calendar {
 	struct CalAlarmInstance {
 		CalAlarmUID auid;
 		Time_t trigger;
-		Time_t occur;
+		Time_t occur_start;
+		Time_t occur_end;
 	};
 
 	/* Used to represent a list of alarm triggers for a single component */

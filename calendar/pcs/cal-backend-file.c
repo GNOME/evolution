@@ -1240,7 +1240,8 @@ add_alarm_occurrences_cb (CalComponent *comp, time_t start, time_t end, gpointer
 		instance = g_new (CalAlarmInstance, 1);
 		instance->auid = auid;
 		instance->trigger = trigger_time;
-		instance->occur = occur_time;
+		instance->occur_start = start;
+		instance->occur_end = end;
 
 		aod->triggers = g_slist_prepend (aod->triggers, instance);
 		aod->n_triggers++;
@@ -1254,6 +1255,10 @@ static void
 generate_absolute_triggers (CalComponent *comp, struct alarm_occurrence_data *aod)
 {
 	GList *l;
+	CalComponentDateTime dt_start, dt_end;
+
+	cal_component_get_dtstart (comp, &dt_start);
+	cal_component_get_dtend (comp, &dt_end);
 
 	for (l = aod->alarm_uids; l; l = l->next) {
 		const char *auid;
@@ -1280,11 +1285,25 @@ generate_absolute_triggers (CalComponent *comp, struct alarm_occurrence_data *ao
 		instance = g_new (CalAlarmInstance, 1);
 		instance->auid = auid;
 		instance->trigger = abs_time;
-		instance->occur = abs_time; /* No particular occurrence, so just use the same time */
+
+		/* No particular occurrence, so just use the times from the component */
+
+		if (dt_start.value)
+			instance->occur_start = icaltime_as_timet (*dt_start.value);
+		else
+			instance->occur_start = -1;
+
+		if (dt_end.value)
+			instance->occur_end = icaltime_as_timet (*dt_end.value);
+		else
+			instance->occur_end = -1;
 
 		aod->triggers = g_slist_prepend (aod->triggers, instance);
 		aod->n_triggers++;
 	}
+
+	cal_component_free_datetime (&dt_start);
+	cal_component_free_datetime (&dt_end);
 }
 
 /* Compares two alarm instances; called from g_slist_sort() */
@@ -1396,7 +1415,8 @@ fill_alarm_instances_seq (GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq, GSL
 
 		corba_instance->auid = CORBA_string_dup (instance->auid);
 		corba_instance->trigger = (long) instance->trigger;
-		corba_instance->occur = (long) instance->occur;
+		corba_instance->occur_start = (long) instance->occur_start;
+		corba_instance->occur_end = (long) instance->occur_end;
 	}
 }
 

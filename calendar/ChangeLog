@@ -1,3 +1,37 @@
+2001-06-26  Federico Mena Quintero  <federico@ximian.com>
+
+	* idl/evolution-calendar.idl (CalAlarmInstance): Renamed the occur
+	field to occur_start; added an occur_end field.  This way we can
+	present the complete times for the occurrence from the server.
+
+	* cal-util/cal-component.h (CalAlarmInstance): Likewise.
+
+	* pcs/cal-backend-file.c (add_alarm_occurrences_cb): Fill the new
+	fields appropriately.
+	(generate_absolute_triggers): Likewise; we use -1 in case the
+	component has no DTSTART or DTEND because there are no meaningful
+	occurrence dates here.
+	(fill_alarm_instances_seq): Fill in the new fields.
+
+	* cal-client/cal-client.c (build_alarm_instance_list): Likewise.
+
+	* gui/alarm-notify/alarm-notify-dialog.c (alarm_notify_dialog):
+	Take in both the occur_start and occur_end times.
+
+	* gui/goto.c (goto_dialog): Free the dlg structure on the bail-out
+	cases.
+
+	* gui/dialogs/event-page.c (get_widgets): Do not assert if we
+	cannot find the main widget; just return FALSE.
+
+	* gui/dialogs/alarm-page.c (get_widgets): Likewise.
+
+	* gui/dialogs/task-page.c (get_widgets): Likewise.
+
+	* gui/dialogs/task-details-page.c (get_widgets): Likewise.
+
+	* gui/dialogs/meeting-page.c (get_widgets): Likewise.
+
 2001-06-25  Peter Williams  <peterw@ximian.com>
 
 	* conduits/calendar/Makefile.am (INCLUDES): Fixes for

@@ -184,11 +184,13 @@ goto_dialog (GnomeCalendar *gcal)
 	dlg->xml = glade_xml_new (EVOLUTION_GLADEDIR "/goto-dialog.glade", NULL);
 	if (!dlg->xml) {
 		g_message ("goto_dialog(): Could not load the Glade XML file!");
+		g_free (dlg);
 		return;
 	}
 
 	if (!get_widgets (dlg)) {
 		g_message ("goto_dialog(): Could not find all widgets in the XML file!");
+		g_free (dlg);
 		return;
 	}
 	dlg->gcal = gcal;

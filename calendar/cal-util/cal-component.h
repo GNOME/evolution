@@ -364,7 +364,8 @@ typedef struct {
 	time_t trigger;
 
 	/* Actual event occurrence to which this trigger corresponds */
-	time_t occur;
+	time_t occur_start;
+	time_t occur_end;
 } CalAlarmInstance;
 
 /* Alarm trigger instances for a particular component */

@@ -163,8 +163,6 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	CalComponent *comp;
 	GSList *l;
 	QueuedAlarm *qa;
-	const char *auid;
-	time_t occur;
 
 	cqa = data;
 	comp = cqa->alarms->comp;
@@ -181,15 +179,9 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 
 	g_assert (qa != NULL);
 
-	/* Fetch the alarm information.  We use the trigger time passed to us
-	 * instead of the one in the instance structure because this may not be
-	 * the actual computed trigger but a snoozed one instead.
-	 */
-
-	auid = qa->instance->auid;
-	occur = qa->instance->occur;
-
-	if (!alarm_notify_dialog (trigger, occur, comp, notify_dialog_cb, comp))
+	if (!alarm_notify_dialog (trigger,
+				  qa->instance->occur_start, qa->instance->occur_end,
+				  comp, notify_dialog_cb, comp))
 		g_message ("alarm_trigger_cb(): Could not create the alarm notify dialog");
 }
 

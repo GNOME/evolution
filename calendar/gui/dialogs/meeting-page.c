@@ -373,7 +373,9 @@ get_widgets (MeetingPage *mpage)
 #define GW(name) glade_xml_get_widget (priv->xml, name)
 
 	priv->main = GW ("meeting-page");
-	g_assert (priv->main);
+	if (!priv->main)
+		return FALSE;
+
 	gtk_widget_ref (priv->main);
 	gtk_widget_unparent (priv->main);
 

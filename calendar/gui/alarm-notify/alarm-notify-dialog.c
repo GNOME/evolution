@@ -120,10 +120,106 @@ edit_clicked_cb (GtkWidget *widget, gpointer data)
 	gtk_widget_destroy (an->dialog);
 }
 
+/* Creates a heading for the alarm notification dialog */
+static char *
+make_heading (CalComponent *comp, time_t occur_start, time_t occur_end)
+{
+	CalComponentVType vtype;
+	char *buf;
+	char s[128], e[128];
+
+	vtype = cal_component_get_vtype (comp);
+
+	if (occur_start != -1) {
+		struct tm tm;
+
+		tm = *localtime (&occur_start);
+		strftime (s, sizeof (s), "%A %b %d %Y %H:%M", &tm);
+	}
+
+	if (occur_end != -1) {
+		struct tm tm;
+
+		tm = *localtime (&occur_end);
+		strftime (e, sizeof (e), "%A %b %d %Y %H:%M", &tm);
+	}
+
+	/* I love combinatorial explosion */
+
+	switch (vtype) {
+	case CAL_COMPONENT_EVENT:
+		if (occur_start != -1) {
+			if (occur_end != -1)
+				buf = g_strdup_printf (_("Notification about your appointment "
+							 "starting on %s and ending on %s"),
+						       s, e);
+			else
+				buf = g_strdup_printf (_("Notification about your appointment "
+							"starting on %s"),
+						      s);
+		} else {
+			if (occur_end != -1)
+				buf = g_strdup_printf (_("Notification about your appointment "
+							 "ending on %s"),
+						       e);
+			else
+				buf = g_strdup_printf (_("Notification about your appointment"));
+		}
+		break;
+
+	case CAL_COMPONENT_TODO:
+		if (occur_start != -1) {
+			if (occur_end != -1)
+				buf = g_strdup_printf (_("Notification about your task "
+							 "starting on %s and ending on %s"),
+						       s, e);
+			else
+				buf = g_strdup_printf (_("Notification about your task "
+							"starting on %s"),
+						      s);
+		} else {
+			if (occur_end != -1)
+				buf = g_strdup_printf (_("Notification about your task "
+							 "ending on %s"),
+						       e);
+			else
+				buf = g_strdup_printf (_("Notification about your task"));
+		}
+		break;
+
+	case CAL_COMPONENT_JOURNAL:
+		if (occur_start != -1) {
+			if (occur_end != -1)
+				buf = g_strdup_printf (_("Notification about your journal entry "
+							 "starting on %s and ending on %s"),
+						       s, e);
+			else
+				buf = g_strdup_printf (_("Notification about your journal entry "
+							"starting on %s"),
+						      s);
+		} else {
+			if (occur_end != -1)
+				buf = g_strdup_printf (_("Notification about your journal entry "
+							 "ending on %s"),
+						       e);
+			else
+				buf = g_strdup_printf (_("Notification about your journal entry"));
+		}
+		break;
+
+	default:
+		g_assert_not_reached();
+		return NULL;
+	}
+
+	return buf;
+}
+
 /**
  * alarm_notify_dialog:
  * @trigger: Trigger time for the alarm.
- * @occur: Occurrence time for the event.
+ * @occur_start: Start of occurrence time for the event.
+ * @occur_end: End of occurrence time for the event.
  * @comp: Calendar component object which corresponds to the alarm.
  * @func: Function to be called when a dialog action is invoked.
  * @func_data: Closure data for @func.
@@ -134,17 +230,17 @@ edit_clicked_cb (GtkWidget *widget, gpointer data)
  * Return value: TRUE on success, FALSE if the dialog could not be created.
  **/
 gboolean
-alarm_notify_dialog (time_t trigger, time_t occur, CalComponent *comp,
+alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
+		     CalComponent *comp,
 		     AlarmNotifyFunc func, gpointer func_data)
 {
 	AlarmNotify *an;
 	char buf[256];
+	char *heading;
 	struct tm tm_trigger;
-	struct tm tm_occur;
 	CalComponentText summary;
 
 	g_return_val_if_fail (trigger != -1, FALSE);
-	g_return_val_if_fail (occur != -1, FALSE);
 	g_return_val_if_fail (comp != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
 	g_return_val_if_fail (func != NULL, FALSE);
@@ -191,11 +287,9 @@ alarm_notify_dialog (time_t trigger, time_t occur, CalComponent *comp,
 
 	/* Heading */
 
-	tm_occur = *localtime (&occur);
-	strftime (buf, sizeof (buf),
-		  _("Notification about your appointment on %A %b %d %Y %H:%M"),
-		  &tm_occur);
-	gtk_label_set_text (GTK_LABEL (an->heading), buf);
+	heading = make_heading (comp, occur_start, occur_end);
+	gtk_label_set_text (GTK_LABEL (an->heading), heading);
+	g_free (heading);
 
 	/* Summary */
 
