@@ -1621,10 +1621,6 @@ emfv_enable_menus(EMFolderView *emfv)
 	if (emfv->folder) {
 		t = em_folder_view_get_popup_target(emfv);
 		disable_mask = t->mask;
-
-		printf("\nenabling menu's\n");
-		printf("selected = %d\n", t->data.select.uids->len);
-
 		em_popup_target_free(t);
 	} else {
 		disable_mask = ~0;

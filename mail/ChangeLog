@@ -1,3 +1,10 @@
+2004-05-24  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-view.c (emfv_enable_menus): remove some debug.
+
+	* em-format-html.c (efh_format_header): output commas between
+	newsgroups, and also append_printf.
+
 2004-05-24  Sivaiah Nallagatla <snallagatla@novell.com>
 	
 	* mail-account-gui.c (mail_account_gui_build_extra_conf) : added empty 

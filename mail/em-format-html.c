@@ -1576,8 +1576,10 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 		html = g_string_new("");
 		scan = ng;
 		while (scan) {
-			g_string_printf(html, "<a href=\"news:%s\">%s</a>", scan->newsgroup, scan->newsgroup);
+			g_string_append_printf(html, "<a href=\"news:%s\">%s</a>", scan->newsgroup, scan->newsgroup);
 			scan = scan->next;
+			if (scan)
+				g_string_append_printf(html, ", ");
 		}
 		camel_header_newsgroups_free(ng);
 
