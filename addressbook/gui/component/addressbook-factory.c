@@ -12,7 +12,7 @@
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
 #include <bonobo.h>
-
+#include <glade/glade.h>
 #include "addressbook.h"
 
 CORBA_Environment ev;
@@ -30,6 +30,8 @@ init_bonobo (int argc, char **argv)
 
 	if (bonobo_init (orb, NULL, NULL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
+
+	glade_gnome_init ();
 }
 
 int

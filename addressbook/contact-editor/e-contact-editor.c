@@ -254,6 +254,8 @@ e_contact_editor_new (ECard *card)
 	gtk_object_set (GTK_OBJECT(widget),
 			"card", card,
 			NULL);
+
+	E_CONTACT_EDITOR (widget)->card = card;
 	return widget;
 }
 

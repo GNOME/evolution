@@ -5,6 +5,7 @@ INCLUDES =					\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/addressbook/gui/minicard	\
+	-I$(top_srcdir)/addressbook/contact-editor	\
 	-I$(top_srcdir)/addressbook/backend/ebook	\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
@@ -28,6 +29,7 @@ evolution_addressbook_LDADD =				\
 	$(top_builddir)/widgets/e-text/libetext.a	\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
+	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/libversit/libversit.la
 
 evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf`

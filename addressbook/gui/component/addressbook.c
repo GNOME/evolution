@@ -1,19 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * folder-browser-factory.c: A Bonobo Control factory for Folder Browsers
+ * addressbook.c: 
  *
  * Author:
- *   Miguel de Icaza (miguel@helixcode.com)
+ *   Chris Lahey (clahey@helixcode.com)
  *
  * (C) 2000 Helix Code, Inc.
- */
-/*
- * bonobo-clock-control.c
- *
- * Copyright 1999, Helix Code, Inc.
- *
- * Author:
- *   Nat Friedman (nat@nat.org)
  */
 
 #include <config.h>
@@ -26,6 +18,7 @@
 #include "e-book.h"
 #include "e-canvas.h"
 #include "e-minicard-view.h"
+#include "e-contact-editor.h"
 
 static void
 control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
@@ -42,9 +35,81 @@ do_nothing_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	printf ("Yow! I am called back!\n");
 }
+ 
+
+#define BLANK_VCARD        \
+"BEGIN:VCARD
+"            \
+"FN:
+"                    \
+"N:
+"                     \
+"BDAY:
+"                  \
+"TEL;WORK:
+"              \
+"TEL;CELL:
+"              \
+"EMAIL;INTERNET:
+"        \
+"EMAIL;INTERNET:
+"        \
+"ADR;WORK;POSTAL:
+"       \
+"ADR;HOME;POSTAL;INTL:
+"  \
+"END:VCARD
+"              \
+"
+"
+
+
+static void
+card_added_cb (EBook* book, EBookStatus status, const char *id,
+	    gpointer user_data)
+{
+	g_print ("%s: %s(): a card was added\n", __FILE__, __FUNCTION__);
+}
+
+
+static void
+new_contact_cb (BonoboUIHandler *uih, EBook *book, const char *path)
+{
+	gint result;
+	GtkWidget* contact_editor =
+		e_contact_editor_new(e_card_new(BLANK_VCARD));
+		
+	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
+
+	g_assert (E_IS_BOOK (book));
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox),
+			    contact_editor, TRUE, TRUE, 0);
+
+	gtk_widget_show_all (dlg);
+
+	gnome_dialog_close_hides (GNOME_DIALOG (dlg), TRUE);
+	result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+
+	
+	/* If the user clicks "okay"...*/
+	if (result == 0) {
+		g_assert (contact_editor);
+		g_assert (GTK_IS_OBJECT (contact_editor));
+		
+		/* Add the card in the contact editor to our ebook */
+		e_book_add_card (
+			book,
+			E_CONTACT_EDITOR(contact_editor)->card,
+			card_added_cb,
+			NULL);
+	}
+	
+}
+
 
 static GnomeUIInfo gnome_toolbar [] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new contact"), do_nothing_cb, GNOME_STOCK_PIXMAP_NEW),
+	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new contact"), new_contact_cb, GNOME_STOCK_PIXMAP_NEW),
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -57,9 +122,8 @@ static GnomeUIInfo gnome_toolbar [] = {
 
 
 
-
 static void
-control_activate (BonoboControl *control, BonoboUIHandler *uih)
+control_activate (BonoboControl *control, BonoboUIHandler *uih, EBook *book)
 {
 	Bonobo_UIHandler  remote_uih;
 	GtkWidget *toolbar;
@@ -77,9 +141,9 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
 
-	gnome_app_fill_toolbar (GTK_TOOLBAR (toolbar),
-				gnome_toolbar, 
-				NULL);
+	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (toolbar),
+					  gnome_toolbar, 
+					  NULL, book);
 	
 	gtk_widget_show_all (toolbar);
 
@@ -96,7 +160,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 static void
 control_activate_cb (BonoboControl *control, 
 		     gboolean activate, 
-		     gpointer user_data)
+		     EBook* book)
 {
 	BonoboUIHandler  *uih;
 
@@ -104,7 +168,7 @@ control_activate_cb (BonoboControl *control,
 	g_assert (uih);
 	
 	if (activate)
-		control_activate (control, uih);
+		control_activate (control, uih, book);
 	else
 		control_deactivate (control, uih);
 }
@@ -261,7 +325,7 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 	control = bonobo_control_new(vbox);
 	
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
-			    control_activate_cb, NULL);	
+			    control_activate_cb, book);	
 
 	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();	

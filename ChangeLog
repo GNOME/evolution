@@ -1,5 +1,32 @@
 2000-04-09  Matt Loper  <matt@helixcode.com>
 
+	* addressbook/Makefile.am: Compile contact-editor, _then_ gui,
+	since the gui now depends on the contact editor (shouldn't the
+	contact-editor directory be moved into 'gui'?).
+
+	* addressbook/gui/component/addressbook.c (card_added_cb): New
+	function. Gets called when a card is successfully added via the
+	contact-editor.
+	(new_contact_cb): New function. Gets called when a user clicks the
+	"new contact" button on the toolbar, and creates a contact-editor
+	to edit a new contact entry.
+	(control_activate): Call gnome_app_fill_toolbar_with_data()
+	instead of gnome_app_fill_toolbar(), so that our toolbar can find
+	the right book to add a new card to.
+	(addressbook_factory): On an "activate" signal, send the book up
+	to control_activate_cb.
+
+	* addressbook/gui/component/addressbook-factory.c (init_bonobo):
+	Call glade_gnome_init(), so that our contact-editor (which
+	requires glade) doesn't barf.
+
+	* addressbook/gui/component/Makefile.am: added the contact-editor
+	to our libraries and include files.
+
+	* addressbook/contact-editor/e-contact-editor.c
+	(e_contact_editor_new): Set "card" gtk property to the passed-in
+	card property.
+
 	* addressbook/gui/component/addressbook.c (addressbook_factory):
 	Added gtk_widget_push/pop_colormap/visual, which I assume is
 	necessary for canvas use.
