@@ -128,14 +128,35 @@ config_read				(void)
 
 	CORBA_exception_free (&ev);
 
+	CORBA_exception_init (&ev);
 	config->default_uri = bonobo_config_get_string (db,
-		"/Calendar/DefaultUri", NULL);
+		"/Calendar/DefaultUri", &ev);
+	if (BONOBO_USER_EX (&ev, ex_Bonobo_ConfigDatabase_NotFound))
+		config->default_uri = NULL;
+	else if (BONOBO_EX (&ev))
+		g_message ("config_read(): Could not get the /Calendar/DefaultUri");
 
+	CORBA_exception_free (&ev);
+
+	CORBA_exception_init (&ev);
 	config->default_tasks_uri = bonobo_config_get_string (db,
-		"/Calendar/DefaultTasksUri", NULL);
+		"/Calendar/DefaultTasksUri", &ev);
+	if (BONOBO_USER_EX (&ev, ex_Bonobo_ConfigDatabase_NotFound))
+		config->default_tasks_uri = NULL;
+	else if (BONOBO_EX (&ev))
+		g_message ("config_read(): Could not get the /Calendar/DefaultTasksUri");
 
+	CORBA_exception_free (&ev);
+
+	CORBA_exception_init (&ev);
 	config->timezone =  bonobo_config_get_string (db,
-                "/Calendar/Display/Timezone", NULL);
+                "/Calendar/Display/Timezone", &ev);
+	if (BONOBO_USER_EX (&ev, ex_Bonobo_ConfigDatabase_NotFound))
+		config->timezone = NULL;
+	else if (BONOBO_EX (&ev))
+		g_message ("config_read(): Could not get the /Calendar/Display/Timezone");
+
+	CORBA_exception_free (&ev);
 
  	config->working_days = bonobo_config_get_long_with_default (db,
                 "/Calendar/Display/WorkingDays", CAL_MONDAY | CAL_TUESDAY |

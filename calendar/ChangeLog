@@ -1,3 +1,8 @@
+2001-10-30  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/calendar-config.c (config_read): Do not ignore the
+	exceptions of the cases that do not have defaults.
+
 2001-10-30  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-time-sel.c
