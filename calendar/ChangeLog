@@ -1,3 +1,11 @@
+2004-02-24  JP Rosevear <jpr@ximian.com>
+
+	* gui/migration.c (migrate_calendars): fix float type pane
+	position keys (we migrated these improperly in the past), just use
+	the default value
+
+	Fixes #53087
+
 2004-02-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-notify.c (free_client_hash): remove the client
@@ -136,9 +144,11 @@
 
 	* Convert the calendar_config_get_timezone and
 	icaltimezone_get_builtin_timezone pair to just
-	calendar_config_get_icaltimezone, this guarantees we will have
-	some timezone
+	calendar_config_get_icaltimezone, this also guarantees we will
+	have some timezone (even if its just UTC)
 
+	Fixes #53754
+	
 2004-02-05  JP Rosevear <jpr@ximian.com>
 
 	* gui/calendar-config.h: add proto

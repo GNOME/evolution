@@ -33,6 +33,7 @@
 #include <libecal/e-cal.h>
 #include <e-util/e-bconf-map.h>
 #include <e-util/e-folder-map.h>
+#include "calendar-config-keys.h"
 #include "migration.h"
 
 static e_gconf_map_t calendar_display_map[] = {
@@ -600,6 +601,30 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 			g_object_unref (group);
 			
 			e_source_list_sync (calendar_component_peek_source_list (component), NULL);
+		}
+
+		if (minor == 5 && revision < 5) {
+			GConfClient *gconf;	
+			GConfValue *gconf_val;
+			int i;
+			const char *keys[] = {
+				CALENDAR_CONFIG_HPANE_POS,
+				CALENDAR_CONFIG_VPANE_POS,
+				CALENDAR_CONFIG_MONTH_HPANE_POS,
+				CALENDAR_CONFIG_MONTH_VPANE_POS,
+				NULL
+			};
+			
+			gconf = gconf_client_get_default ();
+			
+			for (i = 0; keys[i]; i++) {
+				gconf_val = gconf_client_get (gconf, keys[i], NULL);
+				if (gconf_val->type != GCONF_VALUE_INT)
+					gconf_client_unset (gconf, keys[i], NULL);
+				gconf_value_free (gconf_val);
+			}
+			
+			g_object_unref (gconf);
 		}
 
 	}
