@@ -1618,6 +1618,19 @@ camel_object_class_dump_tree(CamelType root)
 	object_class_dump_tree_rec(root, 0);
 }
 
+/**
+ * camel_object_bag_new:
+ * @hash: 
+ * @equal: 
+ * @keycopy: 
+ * @keyfree: 
+ * 
+ * Allocate a new object bag.  Object bag's are key'd hash tables of
+ * camel-objects which can be updated atomically using transaction
+ * semantics.
+ * 
+ * Return value: 
+ **/
 CamelObjectBag *
 camel_object_bag_new (GHashFunc hash, GEqualFunc equal, CamelCopyFunc keycopy, GFreeFunc keyfree)
 {
@@ -1689,6 +1702,15 @@ co_bag_unreserve(CamelObjectBag *bag, const void *key)
 	}
 }
 
+/**
+ * camel_object_bag_add:
+ * @bag: 
+ * @key: 
+ * @vo: 
+ * 
+ * Add an object @vo to the object bag @bag.  The @key MUST have
+ * previously been reserved using camel_object_bag_reserve().
+ **/
 void
 camel_object_bag_add (CamelObjectBag *bag, const void *key, void *vo)
 {
@@ -1729,6 +1751,18 @@ camel_object_bag_add (CamelObjectBag *bag, const void *key, void *vo)
 	camel_object_unget_hooks(o);
 }
 
+/**
+ * camel_object_bag_get:
+ * @bag: 
+ * @key: 
+ * 
+ * Lookup an object by @key.  If the key is currently reserved, then
+ * wait until the key has been committed before continuing.
+ * 
+ * Return value: NULL if the object corresponding to @key is not
+ * in the bag.  Otherwise a ref'd object pointer which the caller owns
+ * the ref to.
+ **/
 void *
 camel_object_bag_get (CamelObjectBag *bag, const void *key)
 {
@@ -1774,10 +1808,24 @@ camel_object_bag_get (CamelObjectBag *bag, const void *key)
 	return o;
 }
 
-/* like get, but also reserve a spot for key if it isn't there */
-/* After calling reserve, you MUST call bag_abort or bag_add */
-/* Also note that currently you can only reserve a single key
-   at any one time in a given thread */
+/**
+ * camel_object_bag_reserve:
+ * @bag: 
+ * @key: 
+ * 
+ * Reserve a key in the object bag.  If the key is already reserved in
+ * another thread, then wait until the reservation has been committed.
+ *
+ * After reserving a key, you either get a reffed pointer to the
+ * object corresponding to the key, similar to object_bag_get, or you
+ * get NULL, signifying that you then MIST call either object_bag_add
+ * or object_bag_abort.
+ *
+ * You may reserve multiple keys from the same thread, but they should
+ * always be reserved in the same order, to avoid deadlocks.
+ * 
+ * Return value: 
+ **/
 void *
 camel_object_bag_reserve (CamelObjectBag *bag, const void *key)
 {
@@ -1832,7 +1880,13 @@ camel_object_bag_reserve (CamelObjectBag *bag, const void *key)
 	return o;
 }
 
-/* abort a reserved key */
+/**
+ * camel_object_bag_abort:
+ * @bag: 
+ * @key: 
+ * 
+ * Abort a key reservation.
+ **/
 void
 camel_object_bag_abort (CamelObjectBag *bag, const void *key)
 {

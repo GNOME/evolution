@@ -1,3 +1,14 @@
+2004-01-21  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #52996.
+
+	* camel-data-cache.c (camel_data_cache_add): put a do-loop around
+	the object_bag_reserve stuff, otherwise we can add/abort out of
+	sync (i.e. when object_bag_reserve returned a pointer we mustn't
+	call add/abort).
+
+	* camel-object.c (camel_object_bag_*): Added some inline doco.
+
 2004-01-20  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #52817.

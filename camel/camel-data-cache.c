@@ -287,12 +287,17 @@ camel_data_cache_add(CamelDataCache *cdc, const char *path, const char *key, Cam
 	CamelStream *stream;
 
 	real = data_cache_path(cdc, TRUE, path, key);
-	stream = camel_object_bag_reserve(cdc->priv->busy_bag, real);
-	if (stream) {
-		unlink(real);
-		camel_object_bag_remove(cdc->priv->busy_bag, stream);
-		camel_object_unref(stream);
-	}
+	/* need to loop 'cause otherwise we can call bag_add/bag_abort
+	 * after bag_reserve returned a pointer, which is an invalid
+	 * sequence. */
+	do {
+		stream = camel_object_bag_reserve(cdc->priv->busy_bag, real);
+		if (stream) {
+			unlink(real);
+			camel_object_bag_remove(cdc->priv->busy_bag, stream);
+			camel_object_unref(stream);
+		}
+	} while (stream != NULL);
 
 	stream = camel_stream_fs_new_with_name(real, O_RDWR|O_CREAT|O_TRUNC, 0600);
 	if (stream)
