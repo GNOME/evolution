@@ -1,5 +1,8 @@
 2002-11-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c (g_string_append_len): Removed. Glib2 has
+	this function.
+
 	* providers/local/camel-local-store.c (delete_folder): Use
 	g_path_get_basename instead of g_strdup (g_basename (filename)).
 

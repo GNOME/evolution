@@ -1093,18 +1093,6 @@ rfc2047_decode_word(const char *in, size_t len)
 	return decoded;
 }
 
-/* grrr, glib should have this ! */
-static GString *
-g_string_append_len(GString *st, const char *s, size_t l)
-{
-	char *tmp;
-
-	tmp = alloca(l+1);
-	tmp[l]=0;
-	memcpy(tmp, s, l);
-	return g_string_append(st, tmp);
-}
-
 /* ok, a lot of mailers are BROKEN, and send iso-latin1 encoded
    headers, when they should just be sticking to US-ASCII
    according to the rfc's.  Anyway, since the conversion to utf-8
