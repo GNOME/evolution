@@ -43,11 +43,9 @@ module Evolution {
 				     out Bonobo::Control statusbar_control)
 			raises (Failed);
 
-		/* Request the component to quit.  The component will reply
-		   with an event named "quit", with a boolean value of TRUE if
-		   the component agrees to quit and FALSE if it doesn't want
-		   to.  */
-		void requestQuit (in Bonobo::Listener listener);
+		/* Request the component to quit.  The component will return TRUE
+		   if it agrees to quit and FALSE if it doesn't want to.  */
+		boolean requestQuit ();
 
 		/* Notify the component of whether the shell is currently
 		   running in interactive mode or not.  (I.e. basically,

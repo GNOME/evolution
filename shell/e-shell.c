@@ -1016,15 +1016,11 @@ e_shell_construct_result_to_string (EShellConstructResult result)
 gboolean
 e_shell_prepare_for_quit (EShell *shell)
 {
-	/* FIXME TODO */
-
-	return TRUE;
-
-#if 0
 	EShellPrivate *priv;
-	GList *component_ids;
+	GSList *component_infos;
 	GList *p;
-	gboolean retval;
+	GSList *sp;
+	CORBA_boolean can_quit;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
@@ -1036,40 +1032,32 @@ e_shell_prepare_for_quit (EShell *shell)
 	for (p = priv->windows; p != NULL; p = p->next)
 		gtk_widget_set_sensitive (GTK_WIDGET (p->data), FALSE);
 
-	component_ids = e_component_registry_get_id_list (priv->component_registry);
+	component_infos = e_component_registry_peek_list (priv->component_registry);
+	can_quit = TRUE;
+	for (sp = component_infos; sp != NULL; sp = sp->next) {
+		EComponentInfo *info = sp->data;
+		CORBA_Environment ev;
 
-	for (p = component_ids; p != NULL; p = p->next) {
-		EvolutionShellComponentClient *client;
-		const char *id;
-		GNOME_Evolution_ShellComponentListener_Result result;
+		CORBA_exception_init (&ev);
 
-		id = (const char *) p->data;
-		client = e_component_registry_get_component_by_id (priv->component_registry, id);
-
-		result = (GNOME_Evolution_ShellComponentListener_Result) -1;
-
-		evolution_shell_component_client_request_quit (client, prepare_for_quit_callback, &result);
-
-		while (result == (GNOME_Evolution_ShellComponentListener_Result) -1)
-			gtk_main_iteration ();
-
-		if (result == GNOME_Evolution_ShellComponentListener_CANCEL) {
-			retval = FALSE;
-			goto end;
+		can_quit = GNOME_Evolution_Component_requestQuit (info->iface, &ev);
+		if (BONOBO_EX (&ev)) {
+			/* The component might not implement the interface, in which case we assume we can quit. */
+			can_quit = TRUE;
 		}
+
+		CORBA_exception_free (&ev);
+
+		if (! can_quit)
+			break;
 	}
 
-	retval = TRUE;
-
- end:
 	/* Restore all the windows to be sensitive.  */
 	for (p = priv->windows; p != NULL; p = p->next)
 		gtk_widget_set_sensitive (GTK_WIDGET (p->data), TRUE);
-	priv->preparing_to_quit = FALSE;
 
-	e_free_string_list (component_ids);
-	return retval;
-#endif
+	priv->preparing_to_quit = FALSE;
+	return can_quit;
 }
 
 
