@@ -23,7 +23,7 @@ gchar *s = N_("Server Configuration");
 gchar *s = N_("Host:");
 gchar *s = N_("Username:");
 gchar *s = N_("Path:");
-gchar *s = N_("Delete mail from server");
+gchar *s = N_("Keep mail on server");
 gchar *s = N_("Authentication");
 gchar *s = N_("Authentication");
 gchar *s = N_("Authentication Type:");
@@ -49,17 +49,14 @@ gchar *s = N_("Account Properties");
 gchar *s = N_("Mail Account");
 gchar *s = N_("Type the name by which you would like to refer to these servers. For example: \"Work\" or \"Home\".");
 gchar *s = N_("User Information");
+gchar *s = N_("Select signature file");
 gchar *s = N_("Name:");
 gchar *s = N_("E-Mail Address:");
 gchar *s = N_("Reply-To:");
 gchar *s = N_("Organization:");
 gchar *s = N_("Signature:");
-gchar *s = N_("Select signature file");
 gchar *s = N_("General");
 gchar *s = N_("Incoming Mail Server");
-gchar *s = N_("Username:");
-gchar *s = N_("Password:");
-gchar *s = N_("Authentication:");
 gchar *s = N_("Save password");
 gchar *s = N_("This server requires a secure connection (SSL)");
 gchar *s = N_("Plain Text\n"
@@ -68,23 +65,27 @@ gchar *s = N_("Plain Text\n"
               "DIGEST-MD5\n"
               "");
 gchar *s = N_("Type:");
-gchar *s = N_("IMAP");
 gchar *s = N_("Hostname:");
-gchar *s = N_("Outgoing Mail Server");
+gchar *s = N_("Username:");
+gchar *s = N_("Password:");
+gchar *s = N_("IMAP");
 gchar *s = N_("Authentication:");
+gchar *s = N_("Outgoing Mail Server");
 gchar *s = N_("This server requires a secure connection (SSL)");
 gchar *s = N_("None\n"
               "CRAM-MD5\n"
               "");
 gchar *s = N_("Type:");
 gchar *s = N_("Hostname:");
+gchar *s = N_("Authentication:");
 gchar *s = N_("Sendmail\n"
               "SMTP\n"
               "");
 gchar *s = N_("Servers");
+gchar *s = N_("Server Timeouts");
+gchar *s = N_("Keep mail on server");
 gchar *s = N_("Automatically check mail every ");
 gchar *s = N_("minute(s)");
-gchar *s = N_("Server Timeouts");
 gchar *s = N_("Advanced");
 gchar *s = N_("Evolution Mail Configuration");
 gchar *s = N_("Account");

@@ -1,3 +1,12 @@
+2001-01-05  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config-druid.c (mail_config_druid_get_incoming_keep_mail):
+	Renamed from _delete_mail
+
+	* mail-config-druid.glade: Changed "Delete mail from server" to
+	"Keep mail on server" as this has a more positive ring to it. Both
+	I and Aaron agree this is the better phrase.
+
 2001-01-04  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config-druid.c: Fixed a few 'Oops'es.

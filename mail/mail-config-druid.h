@@ -66,7 +66,7 @@ struct _MailConfigDruid {
 	GtkEntry *incoming_hostname;
 	GtkEntry *incoming_username;
 	GtkEntry *incoming_path;
-	GtkCheckBox *incoming_delete_mail;
+	GtkCheckBox *incoming_keep_mail;
 	
 	/* authentication */
 	GtkWidget *auth_text;
@@ -120,7 +120,7 @@ char *mail_config_druid_get_incoming_username (MailConfigDruid *druid);
 
 char *mail_config_druid_get_incoming_path (MailConfigDruid *druid);
 
-gboolean mail_config_druid_get_incoming_delete_mail (MailConfigDruid *druid);
+gboolean mail_config_druid_get_incoming_keep_mail (MailConfigDruid *druid);
 
 int mail_config_druid_get_auth_type (MailConfigDruid *druid);
 

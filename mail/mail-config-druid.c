@@ -672,7 +672,7 @@ construct (MailConfigDruid *druid)
 	gtk_signal_connect (GTK_OBJECT (druid->incoming_username), "changed", incoming_changed, druid);
 	druid->incoming_path = GTK_ENTRY (glade_xml_get_widget (gui, "txtIncomingPath"));
 	gtk_signal_connect (GTK_OBJECT (druid->incoming_path), "changed", incoming_changed, druid);
-	druid->incoming_delete_mail = GTK_CHECK_BOX (glade_xml_get_widget (gui, "chkIncomingDeleteMail"));
+	druid->incoming_keep_mail = GTK_CHECK_BOX (glade_xml_get_widget (gui, "chkIncomingKeepMail"));
 	
 	druid->auth_text = glade_xml_get_widget (gui, "htmlAuthentication");
 	druid->auth_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuAuthType"));
@@ -716,7 +716,7 @@ do_check_service (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	check_service_input_t *input = in_data;
 	CamelService *service;
-
+	
 	if (input->authtypes) {
 		service = camel_session_get_service (
 			session, input->url, input->type, ex);
@@ -866,11 +866,11 @@ mail_config_druid_get_incoming_path (MailConfigDruid *druid)
 
 
 gboolean
-mail_config_druid_get_incoming_delete_mail (MailConfigDruid *druid)
+mail_config_druid_get_incoming_keep_mail (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
 	
-	return GTK_TOGGLE_BUTTON (druid->incoming_delete_mail)->active;
+	return GTK_TOGGLE_BUTTON (druid->incoming_keep_mail)->active;
 }
 
 
