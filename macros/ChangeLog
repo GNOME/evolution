@@ -1,3 +1,9 @@
+2000-02-26  James Henstridge  <james@daa.com.au>
+
+	* gnome-gettext.m4: fix up check of LINGUAS variable so that we don't
+	get problems when LINGUAS contains `en' and ALL_LINGUAS contains
+	`en_GB' for instance.
+
 2000-02-22  Martin Baulig  <martin@home-of-linux.org>
 
 	* autogen.sh: Don't run libtoolize when `NO_LIBTOOLIZE' is set.
