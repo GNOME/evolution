@@ -190,6 +190,7 @@ task_widget_show_details_callback (GtkWidget *widget,
 	report_task_event (activity_info, "ShowDetails");
 }
 
+#if 0
 static void
 show_cancellation_popup (ActivityInfo *activity_info,
 			 GtkWidget *task_widget,
@@ -213,6 +214,7 @@ show_cancellation_popup (ActivityInfo *activity_info,
 
 	activity_info->menu = NULL;
 }
+#endif
 
 static int
 task_widget_button_press_event_callback (GtkWidget *widget,
@@ -229,7 +231,8 @@ task_widget_button_press_event_callback (GtkWidget *widget,
 		if (! activity_info->cancellable) {
 			return FALSE;
 		} else {
-			show_cancellation_popup (activity_info, widget, button_event);
+			/* show_cancellation_popup (activity_info, widget, button_event); */
+			/* return TRUE; */
 			return TRUE;
 		}
 	}

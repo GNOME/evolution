@@ -1,5 +1,10 @@
 2001-10-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-activity-handler.c (show_cancellation_popup): #if 0'ed for
+	now, per #7427.
+
+2001-10-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (storage_set_removed_folder_callback): Explicitly
 	deactivate the control frame, and display the default URI before
 	destroying the dead one.
