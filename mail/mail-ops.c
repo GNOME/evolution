@@ -726,7 +726,7 @@ filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 	g_free (system);
 	gnome_dialog_append_buttons (GNOME_DIALOG (fe), GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, 0);
 	gtk_signal_connect (GTK_OBJECT (fe), "clicked", filter_druid_clicked, fb);
-	gtk_widget_show (GTK_OBJECT (fe));
+	gtk_widget_show (GTK_WIDGET (fe));
 }
 
 static void
@@ -792,7 +792,7 @@ vfolder_editor_clicked(FilterEditor *fe, int button, FolderBrowser *fb)
 
 	}
 	if (button != -1) {
-		gnome_dialog_close (GTK_OBJECT (fe));
+		gnome_dialog_close (GNOME_DIALOG (fe));
 	}
 }
 
@@ -811,9 +811,9 @@ vfolder_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 	filter_editor_set_rule_files (fe, system, user);
 	g_free (user);
 	g_free (system);
-	gnome_dialog_append_buttons (GNOME_CONFIG (fe), GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, 0);
+	gnome_dialog_append_buttons (GNOME_DIALOG (fe), GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, 0);
 	gtk_signal_connect (GTK_OBJECT (fe), "clicked", vfolder_editor_clicked, fb);
-	gtk_widget_show (GTK_OBJECT (fe));
+	gtk_widget_show (GTK_WIDGET (fe));
 }
 
 void
