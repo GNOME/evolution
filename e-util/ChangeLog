@@ -1,3 +1,7 @@
+2005-02-14  Rodney Dawes  <dobey@novell.com>
+
+	* e-menu.c (emph_construct): If the plug-in is not enabled, do nothing
+
 2005-02-07  Not Zed  <NotZed@Ximian.com>
 
 	* e-popup.c (emph_construct_menu):

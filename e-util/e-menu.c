@@ -814,6 +814,9 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	d(printf("loading menu hook\n"));
 
+	if (!ep->enabled)
+		return 0;
+
 	if (((EPluginHookClass *)emph_parent_class)->construct(eph, ep, root) == -1)
 		return -1;
 
