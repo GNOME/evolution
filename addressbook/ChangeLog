@@ -1,3 +1,10 @@
+2000-05-03  Chris Toshok  <toshok@helixcode.com>
+
+	* gui/component/addressbook.c (control_deactivate): #ifdef
+	HAVE_LDAP the ldap specific stuff.
+	(null_cb): same.
+	(control_activate): same.
+
 2000-05-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* backend/ebook/Makefile.am (INCLUDES): Add

@@ -33,8 +33,9 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 {
 	/* how to remove a menu item */
 	bonobo_ui_handler_menu_remove (uih, "/Actions/New Contact"); 
+#ifdef HAVE_LDAP
 	bonobo_ui_handler_menu_remove (uih, "/Actions/New Directory Server");
-
+#endif
 	/* remove our toolbar */
 	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
 }
@@ -95,6 +96,7 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	
 }
 
+#ifdef HAVE_LDAP
 static void
 null_cb (EBook *book, EBookStatus status, gpointer closure)
 {
@@ -130,6 +132,7 @@ new_server_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 		g_warning ("error calling load_uri!\n");
 	}
 }
+#endif
 
 static void
 find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
@@ -250,12 +253,14 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 0, 0, new_contact_cb,
 					 (gpointer)minicard_view);
 
+#ifdef HAVE_LDAP
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/New Directory Server",
 					 N_("N_ew Directory Server"),       
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, new_server_cb,
 					 (gpointer)minicard_view);
+#endif
 
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
@@ -274,7 +279,7 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	gtk_box_pack_start (GTK_BOX (hbox),
 			    quick_search_widget,
 			    FALSE, TRUE, 0);
-	
+
 	gtk_widget_show_all (hbox);
 
 	toolbar_control = bonobo_control_new (hbox);
@@ -457,7 +462,7 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 	control = bonobo_control_new(vbox);
 	
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
-			    control_activate_cb, view->view);	
+			    control_activate_cb, view->view);
 
 	gtk_widget_pop_visual ();
 	gtk_widget_pop_colormap ();	
