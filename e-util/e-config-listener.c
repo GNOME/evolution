@@ -382,6 +382,10 @@ e_config_listener_set_long (EConfigListener *cl, const char *key, long value)
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
 
+	/* check that the value is not the same */
+	if (value == e_config_listener_get_long_with_default (cl, key, 0, NULL))
+		return;
+
 	CORBA_exception_init (&ev);
 
 	bonobo_config_set_long (cl->priv->db, key, value, &ev);
@@ -395,9 +399,16 @@ void
 e_config_listener_set_string (EConfigListener *cl, const char *key, const char *value)
 {
 	CORBA_Environment ev;
+	char *s1, *s2;
 
 	g_return_if_fail (E_IS_CONFIG_LISTENER (cl));
 	g_return_if_fail (key != NULL);
+
+	/* check that the value is not the same */
+	s1 = value;
+	s2 = e_config_listener_get_string_with_default (cl, key, NULL, NULL);
+	if (!strcmp (s1 ? s1 : "", s2 ? s2 : ""))
+		return;
 
 	CORBA_exception_init (&ev);
 
