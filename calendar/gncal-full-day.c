@@ -16,6 +16,7 @@
 #define HANDLE_SIZE 3
 #define MIN_WIDTH 200
 #define XOR_RECT_WIDTH 2
+#define UNSELECT_TIMEOUT 150 /* ms */
 
 
 typedef struct {
@@ -46,6 +47,7 @@ struct drag_info {
 	Child *child;
 	int start_row;
 	int rows_used;
+	guint32 click_time;
 };
 
 
@@ -750,7 +752,8 @@ static void
 paint_back (GncalFullDay *fullday, GdkRectangle *area)
 {
 	GtkWidget *widget;
-	GdkRectangle rect, dest;
+	GdkRectangle rect, dest, aarea;
+	struct drag_info *di;
 	int x1, y1, width, height;
 	int labels_width, division_x;
 	int rows, row_height;
@@ -759,6 +762,15 @@ paint_back (GncalFullDay *fullday, GdkRectangle *area)
 	char buf[256];
 
 	widget = GTK_WIDGET (fullday);
+
+	if (!area) {
+		area = &aarea;
+
+		area->x = 0;
+		area->y = 0;
+		area->width = widget->allocation.width;
+		area->height = widget->allocation.height;
+	}
 
 	x1 = widget->style->klass->xthickness;
 	y1 = widget->style->klass->ythickness;
@@ -787,6 +799,28 @@ paint_back (GncalFullDay *fullday, GdkRectangle *area)
 				    dest.x, dest.y,
 				    dest.width, dest.height);
 
+	/* Selected region */
+
+	di = fullday->drag_info;
+
+	get_tm_range (fullday, fullday->lower, fullday->upper, &tm, NULL, NULL, &rows);
+
+	row_height = calc_row_height (fullday);
+
+	if (di->rows_used != 0) {
+		rect.x = x1;
+		rect.y = y1 + row_height * di->start_row;
+		rect.width = width;
+		rect.height = row_height * di->rows_used;
+
+		if (gdk_rectangle_intersect (&rect, area, &dest))
+			gdk_draw_rectangle (widget->window,
+					    widget->style->bg_gc[GTK_STATE_SELECTED],
+					    TRUE,
+					    dest.x, dest.y,
+					    dest.width, dest.height); 
+	}
+
 	/* Vertical division */
 
 	division_x = x1 + 2 * TEXT_BORDER + labels_width;
@@ -798,10 +832,6 @@ paint_back (GncalFullDay *fullday, GdkRectangle *area)
 			division_x);
 
 	/* Horizontal divisions */
-
-	get_tm_range (fullday, fullday->lower, fullday->upper, &tm, NULL, NULL, &rows);
-
-	row_height = calc_row_height (fullday);
 
 	y = y1 + row_height - 1;
 
@@ -818,6 +848,9 @@ paint_back (GncalFullDay *fullday, GdkRectangle *area)
 
 	y = y1 + ((row_height - 1) - (widget->style->font->ascent + widget->style->font->descent)) / 2;
 
+	rect.x = x1;
+	rect.y = y1;
+	rect.width = 2 * TEXT_BORDER + labels_width;
 	rect.height = row_height - 1;
 
 	for (i = 0; i < rows; i++) {
@@ -973,11 +1006,14 @@ draw_xor_rect (GncalFullDay *fullday)
 	struct drag_info *di;
 	int i;
 	int row_height;
+	int ythickness;
 
 	widget = GTK_WIDGET (fullday);
 
 	gdk_gc_set_function (widget->style->white_gc, GDK_INVERT);
 	gdk_gc_set_subwindow (widget->style->white_gc, GDK_INCLUDE_INFERIORS);
+
+	ythickness = widget->style->klass->ythickness;
 
 	di = fullday->drag_info;
 
@@ -988,7 +1024,7 @@ draw_xor_rect (GncalFullDay *fullday)
 				    widget->style->white_gc,
 				    FALSE,
 				    di->child->x + i,
-				    di->start_row * row_height + i,
+				    di->start_row * row_height + ythickness + i,
 				    di->child->width - 2 * i - 1,
 				    di->rows_used * row_height - 2 * i - 2);
 
@@ -1037,9 +1073,6 @@ gncal_full_day_button_press (GtkWidget *widget, GdkEventButton *event)
 	Child *child;
 	struct drag_info *di;
 	gint y;
-	int xthickness, ythickness;
-	int width, height;
-	int xpos, ypos;
 	int row_height;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
@@ -1054,24 +1087,26 @@ gncal_full_day_button_press (GtkWidget *widget, GdkEventButton *event)
 		if (!GTK_WIDGET_HAS_FOCUS (widget))
 			gtk_widget_grab_focus (widget);
 
-		xthickness = widget->style->klass->xthickness;
-		ythickness = widget->style->klass->ythickness;
-
-		width = widget->allocation.width;
-		height = widget->allocation.height;
-
-		xpos = event->x - xthickness;
-		ypos = event->y - ythickness;
-
-		if (!((xpos >= 0) && (xpos < (width - 2 * xthickness))
-		      && (ypos >= 0) && (ypos < (height - 2 * ythickness))))
-			return FALSE;
-
 		/* Prepare for drag */
 
 		di = fullday->drag_info;
 
-		
+		di->drag_mode = DRAG_SELECT;
+
+		di->start_row = get_row_from_y (fullday, event->y, FALSE);
+		di->rows_used = 1;
+
+		di->click_time = event->time;
+
+		gdk_pointer_grab (widget->window, FALSE,
+				  (GDK_BUTTON_MOTION_MASK
+				   | GDK_POINTER_MOTION_HINT_MASK
+				   | GDK_BUTTON_RELEASE_MASK),
+				  NULL,
+				  NULL,
+				  event->time);
+
+		paint_back (fullday, NULL);
 	} else {
 		/* Clicked on a child? */
 
@@ -1209,17 +1244,44 @@ gncal_full_day_button_release (GtkWidget *widget, GdkEventButton *event)
 
 	di = fullday->drag_info;
 
+	gtk_widget_get_pointer (widget, NULL, &y);
+
+	switch (di->drag_mode) {
+	case DRAG_NONE:
+		return FALSE;
+
+	case DRAG_SELECT:
+		if ((event->time - di->click_time) < UNSELECT_TIMEOUT)
+			di->rows_used = 0;
+		else
+			recompute_motion (fullday, y);
+
+		gdk_pointer_ungrab (event->time);
+
+		paint_back (fullday, NULL);
+
+		break;
+
+	case DRAG_MOVE:
+	case DRAG_SIZE:
+		draw_xor_rect (fullday);
+		recompute_motion (fullday, y);
+		gdk_pointer_ungrab (event->time);
+
+		update_from_drag_info (fullday);
+
+		di->rows_used = 0;
+
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
 	if (!di->child || (event->window != di->child->window))
 		return FALSE;
 
-	gtk_widget_get_pointer (widget, NULL, &y);
-
-	draw_xor_rect (fullday);
-	recompute_motion (fullday, y);
-	gdk_pointer_ungrab (event->time);
-
-	update_from_drag_info (fullday);
-
+	di->drag_mode = DRAG_NONE;
 	di->child = NULL;
 
 	return FALSE;
@@ -1239,14 +1301,29 @@ gncal_full_day_motion (GtkWidget *widget, GdkEventMotion *event)
 	fullday = GNCAL_FULL_DAY (widget);
 	di = fullday->drag_info;
 
-	if (!di->child || (event->window != di->child->window))
-		return FALSE;
-
 	gtk_widget_get_pointer (widget, NULL, &y);
 	
-	draw_xor_rect (fullday);
-	recompute_motion (fullday, y);
-	draw_xor_rect (fullday);
+	switch (di->drag_mode) {
+	case DRAG_NONE:
+		break;
+
+	case DRAG_SELECT:
+		recompute_motion (fullday, y);
+		paint_back (fullday, NULL);
+
+		break;
+
+	case DRAG_MOVE:
+	case DRAG_SIZE:
+		draw_xor_rect (fullday);
+		recompute_motion (fullday, y);
+		draw_xor_rect (fullday);
+
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
 
 	return FALSE;
 }

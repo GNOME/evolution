@@ -1,3 +1,9 @@
+1998-04-11  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-full-day.c (recompute_motion): Now we support selecting a
+	range in the main window (by clicking+dragging).  It flickers
+	horribly and is not perfect, but it is a start.
+
 1998-04-09  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal-full-day.c: #include <string.h>
