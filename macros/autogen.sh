@@ -66,7 +66,6 @@ for j in `find $srcdir -name configure.in -print`
 do 
     i=`dirname $j`
     macrodirs=`sed -n -e 's,AM_ACLOCAL_INCLUDE(\(.*\)),\1,gp' < $j`
-    echo "hahaha $macrodirs"
     echo processing $i
     ## debug
     test -n "$macrodirs" && echo \`aclocal\' will also look in \`$macrodirs\'
