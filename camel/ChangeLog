@@ -1,5 +1,12 @@
 2001-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-store.c (delete_folder): Remove any
+	cached messages that belonged to the deleted folder.
+	(subscribe_folder): Don't ever let the info->name be NULL and
+	don't use the stupid concat kludge to generate the URL, just use a
+	CamelURL to do it. This way we don't risk breaking stuff by having
+	a url like imap://fejj@imap//folder
+
 	* camel-charset-map.c (camel_charset_to_iconv): If the charset is
 	x-unknown, return the locale_charset.
 

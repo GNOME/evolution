@@ -40,6 +40,8 @@
 #include "camel-imap-folder.h"
 #include "camel-imap-utils.h"
 #include "camel-imap-command.h"
+#include "camel-imap-summary.h"
+#include "camel-imap-message-cache.h"
 #include "camel-disco-diary.h"
 #include "camel-file-utils.h"
 #include "camel-folder.h"
@@ -1034,6 +1036,45 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 				       folder_name);
 	if (response)
 		camel_imap_response_free (imap_store, response);
+	
+	if (!camel_exception_is_set (ex)) {
+		CamelFolderSummary *summary;
+		CamelImapMessageCache *cache;
+		char *summary_file;
+		char *journal_file;
+		char *folder_dir;
+		
+		folder_dir = e_path_to_physical (imap_store->storage_path, folder_name);
+		if (access (folder_dir, F_OK) != 0) {
+			g_free (folder_dir);
+			return;
+		}
+		
+		summary_file = g_strdup_printf ("%s/summary", folder_dir);
+		summary = camel_imap_summary_new (summary_file);
+		if (!summary) {
+			g_free (summary_file);
+			g_free (folder_dir);
+			return;
+		}
+		
+		cache = camel_imap_message_cache_new (folder_dir, summary, ex);
+		if (cache)
+			camel_imap_message_cache_clear (cache);
+		
+		camel_object_unref (CAMEL_OBJECT (cache));
+		camel_object_unref (CAMEL_OBJECT (summary));
+		
+		unlink (summary_file);
+		g_free (summary_file);
+		
+		journal_file = g_strdup_printf ("%s/summary", folder_dir);
+		unlink (journal_file);
+		g_free (journal_file);
+		
+		rmdir (folder_dir);
+		g_free (folder_dir);
+	}
 }
 
 static CamelFolderInfo *
@@ -1529,32 +1570,41 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelImapResponse *response;
 	CamelFolderInfo *fi;
-	char *name;
-
+	const char *name;
+	CamelURL *url;
+	
 	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
 		return;
 	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
 		return;
-
+	
 	response = camel_imap_command (imap_store, NULL, ex,
 				       "SUBSCRIBE %F", folder_name);
 	if (!response)
 		return;
 	camel_imap_response_free (imap_store, response);
-
+	
 	g_hash_table_insert (imap_store->subscribed_folders,
 			     g_strdup (folder_name), GUINT_TO_POINTER (1));
-
+	
 	name = strrchr (folder_name, imap_store->dir_sep);
 	if (name)
 		name++;
+	else
+		name = folder_name;
+	
+	url = camel_url_new (imap_store->base_url, NULL);
+	g_free (url->path);
+	url->path = g_strdup_printf ("/%s", folder_name);
 	
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = g_strdup (folder_name);
 	fi->name = g_strdup (name);
-	fi->url = g_strdup_printf ("%s/%s", imap_store->base_url, folder_name);
+	fi->url = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	fi->unread_message_count = -1;
 	camel_folder_info_build_path (fi, imap_store->dir_sep);
+	
+	camel_url_free (url);
 	
 	camel_object_trigger_event (CAMEL_OBJECT (store), "folder_created", fi);
 	camel_folder_info_free (fi);
