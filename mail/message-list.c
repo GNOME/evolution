@@ -1078,7 +1078,7 @@ message_list_setup_etree(MessageList *message_list, gboolean outgoing)
 				   GTK_SIGNAL_FUNC(sort_info_changed),
 				   message_list);
 
-		
+		gtk_object_unref((GtkObject *)etstate);
 	}
 }
 

@@ -599,9 +599,7 @@ send_mail_send (struct _mail_msg *mm)
 {
 	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
 	
-	camel_operation_register (mm->cancel);
 	mail_send_message (m->message, m->destination, m->driver, &mm->ex);
-	camel_operation_unregister (mm->cancel);
 }
 
 static void
@@ -1088,11 +1086,9 @@ get_folderinfo_get (struct _mail_msg *mm)
 	if (camel_store_supports_subscriptions (m->store))
 		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	
-	camel_operation_register (mm->cancel);
 	m->info = camel_store_get_folder_info (m->store, NULL, flags, &mm->ex);
 	if (m->info && m->info->url)
 		add_vtrash_info (m->store, m->info);
-	camel_operation_unregister (mm->cancel);
 }
 
 static void
@@ -1257,9 +1253,7 @@ get_folder_get (struct _mail_msg *mm)
 {
 	struct _get_folder_msg *m = (struct _get_folder_msg *)mm;
 	
-	camel_operation_register (mm->cancel);
 	m->folder = mail_tool_uri_to_folder (m->uri, &mm->ex);
-	camel_operation_unregister (mm->cancel);
 }
 
 static void
@@ -1328,9 +1322,7 @@ get_store_get (struct _mail_msg *mm)
 {
 	struct _get_store_msg *m = (struct _get_store_msg *)mm;
 	
-	camel_operation_register (mm->cancel);
 	m->store = camel_session_get_store (session, m->uri, &mm->ex);
-	camel_operation_unregister (mm->cancel);
 }
 
 static void
@@ -1402,11 +1394,9 @@ static void create_folder_get(struct _mail_msg *mm)
 	struct _create_folder_msg *m = (struct _create_folder_msg *)mm;
 
 	/* FIXME: supply a way to make indexes optional */
-	camel_operation_register(mm->cancel);
 	m->folder = mail_tool_get_folder_from_urlname(m->uri, "mbox",
 						      CAMEL_STORE_FOLDER_CREATE|CAMEL_STORE_FOLDER_BODY_INDEX,
 						      &mm->ex);
-	camel_operation_unregister(mm->cancel);
 }
 
 static void create_folder_got(struct _mail_msg *mm)
@@ -1474,8 +1464,6 @@ remove_folder_get (struct _mail_msg *mm)
 	
 	m->removed = FALSE;
 	
-	camel_operation_register (mm->cancel);
-	
 	folder = mail_tool_uri_to_folder (m->uri, &mm->ex);
 	
 	store = camel_folder_get_parent_store (folder);
@@ -1489,8 +1477,6 @@ remove_folder_get (struct _mail_msg *mm)
  done:
 	if (store)
 		camel_object_unref (CAMEL_OBJECT (store));
-	
-	camel_operation_unregister (mm->cancel);
 }
 
 static void
@@ -1549,9 +1535,7 @@ static void sync_folder_sync(struct _mail_msg *mm)
 {
 	struct _sync_folder_msg *m = (struct _sync_folder_msg *)mm;
 
-	camel_operation_register(mm->cancel);
 	camel_folder_sync(m->folder, FALSE, &mm->ex);
-	camel_operation_unregister(mm->cancel);
 }
 
 static void sync_folder_synced(struct _mail_msg *mm)
@@ -1686,9 +1670,7 @@ static void get_message_get(struct _mail_msg *mm)
 {
 	struct _get_message_msg *m = (struct _get_message_msg *)mm;
 
-	camel_operation_register(m->cancel);
 	m->message = camel_folder_get_message(m->folder, m->uid, &mm->ex);
-	camel_operation_unregister(m->cancel);
 }
 
 static void get_message_got(struct _mail_msg *mm)

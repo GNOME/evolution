@@ -1,3 +1,18 @@
+2001-08-08  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (send_mail_send): Dont double-register this
+	operation, mail-mt will do it for us.
+	(get_folderinfo_get):  "
+	(get_folder_get): "
+	(get_store_get): "
+	(create_folder_get): "
+	(remove_folder_get): "
+	(sync_folder_sync): "
+	(get_message_get): "
+
+	* message-list.c (message_list_setup_etree): Free the etstate
+	object after we're done using it.
+
 2001-08-08  Peter Williams  <peterw@ximian.com>
 
 	* subscribe-dialog.c (sc_selection_changed): New function. Set the
