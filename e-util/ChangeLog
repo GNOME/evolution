@@ -1,5 +1,23 @@
 2004-05-19  Jeffrey Stedfast  <fejj@novell.com>
 
+	* e-icon-factory.c: Lots of re-working action. We no longer load a
+	pixbuf for each and every available size when requesting the icon
+	for the first time, instead we simply load the requested icon of
+	the requested size and cache only that.
+	(e_icon_factory_get_icon): Always return a broken image icon if we
+	fail to load the requested icon.
+	(e_icon_factory_get_icon_list): Only bother with adding icons of
+	the sizes that are suggested by ghe gtk documentation for
+	gtk_window_set_icon_list rather than the sizes of the standard
+	icons (since it isn't the same list of sizes).
+	(load_icon): Fall back to EVOLUTION_ICONSDIR/WWxHH/icon_name if
+	the icon-theme lookup fails. Also now takes a 'scale' argument
+	which, if non-zero, allows us to look for images of the same name
+	with a larger size in order to scale them back down to what we
+	need.
+
+2004-05-19  Jeffrey Stedfast  <fejj@novell.com>
+
 	* e-gui-utils.c (e_icon_for_mime_type): We always have
 	GnomeIconTheme nowadays, get rid of the old unused code.
 	(e_create_image_widget): Use E_ICON_SIZE_DIALOG

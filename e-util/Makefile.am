@@ -4,6 +4,7 @@ econdincludedir = $(privincludedir)/e-conduit
 INCLUDES =								\
 	-I$(top_srcdir)							\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
+	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
 	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	$(GNOME_PILOT_CFLAGS)						\
