@@ -112,7 +112,6 @@
 	uids table is not null (if finalised before we ran refresh info).
 	(id_to_fi): Removed.  Use id hash table instead, fixed caller.
 
->>>>>>> 1.1609
 2002-08-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel.c (camel_init): Always set a g_atexit handler to
@@ -214,7 +213,6 @@
 	(email_address_extract): Use is_domain_name_char rather than
 	is_addr_char for the part after the @.
 
->>>>>>> 1.1599
 2002-07-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream.c (camel_tcp_address_new): Update the comment.
