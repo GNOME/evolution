@@ -205,7 +205,7 @@ ets_model_cell_changed (ETableModel *etm, int col, int row, ETableSorter *ets)
 static void
 ets_sort_info_changed (ETableSortInfo *info, ETableSorter *ets)
 {
-	printf ("sort info changed\n");
+	d(g_print ("sort info changed\n"));
 	ets_clean(ets);
 }
 
