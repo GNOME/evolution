@@ -1,3 +1,9 @@
+2004-01-27  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/e-contact-editor-fullname.c
+	(e_contact_editor_fullname_set_property): Handle NULL name. Fixes
+	#53071.
+
 2004-01-27  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-config.c (dialog_to_source): set the

@@ -154,6 +154,7 @@ GtkWidget*
 e_contact_editor_fullname_new (const EContactName *name)
 {
 	GtkWidget *widget = g_object_new (E_TYPE_CONTACT_EDITOR_FULLNAME, NULL);
+
 	g_object_set (widget,
 		      "name", name,
 		      NULL);
@@ -171,8 +172,14 @@ e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
 	switch (prop_id){
 	case PROP_NAME:
 		e_contact_name_free(e_contact_editor_fullname->name);
-		e_contact_editor_fullname->name = e_contact_name_copy(g_value_get_pointer (value));
-		fill_in_info(e_contact_editor_fullname);
+
+		if (g_value_get_pointer (value) != NULL) {
+			e_contact_editor_fullname->name = e_contact_name_copy(g_value_get_pointer (value));
+			fill_in_info(e_contact_editor_fullname);
+		}
+		else {
+			e_contact_editor_fullname->name = NULL;
+		}
 		break;
 	case PROP_EDITABLE: {
 		int i;
