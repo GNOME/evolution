@@ -48,6 +48,8 @@
 #include "camel-mime-filter.h"
 #include "camel-mime-filter-from.h"
 
+#include "camel-lock-client.h"
+
 #define d(x)
 
 #ifdef MOVEMAIL_PATH
@@ -74,19 +76,20 @@ static int camel_movemail_copy(int fromfd, int tofd, off_t start, size_t bytes);
  * readers and writers into a private (presumably Camel-controlled)
  * directory. Dot locking is used on the source file (but not the
  * destination).
+ *
+ * Return Value: Returns -1 on error.
  **/
-void
-camel_movemail (const char *source, const char *dest, CamelException *ex)
+int
+camel_movemail(const char *source, const char *dest, CamelException *ex)
 {
-	gboolean locked;
-	int sfd, dfd, tmpfd;
-	char *locktmpfile, *lockfile;
+	int lockid = -1;
+	int res = -1;
+	int sfd, dfd;
 	struct stat st;
-	time_t now, timeout;
 	int nread, nwrote;
 	char buf[BUFSIZ];
 
-	camel_exception_clear (ex);
+	camel_exception_clear(ex);
 
 	/* Stat and then open the spool file. If it doesn't exist or
 	 * is empty, the user has no mail. (There's technically a race
@@ -102,54 +105,19 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 						"%s: %s"), source,
 					      g_strerror (errno));
 		}
-		return;
+		return -1;
 	}
+
 	if (st.st_size == 0)
-		return;
+		return 0;
 
-	/* Create the unique lock file. */
-	locktmpfile = g_strdup_printf ("%s.lock.XXXXXX", source);
-#ifdef HAVE_MKSTEMP
-	tmpfd = mkstemp (locktmpfile);
-#else
-	if (mktemp (locktmpfile)) {
-		tmpfd = open (locktmpfile, O_RDWR | O_CREAT | O_EXCL,
-			      S_IRUSR | S_IWUSR);
-	} else
-		tmpfd = -1;
-#endif
-	if (tmpfd == -1) {
-		g_free (locktmpfile);
-#ifdef MOVEMAIL_PATH
-		if (errno == EACCES) {
-			/* movemail_external will fail if the dest file
-			 * already exists, so if it does, return now,
-			 * let the fetch code process the mail that's
-			 * already there, and then the user can try again.
-			 */
-			if (stat (dest, &st) == 0)
-				return;
-
-			movemail_external (source, dest, ex);
-			return;
-		}
-#endif
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Could not create lock file "
-					"for %s: %s"), source,
-				      g_strerror (errno));
-		return;
-	}
-	close (tmpfd);
-
+	/* open files */
 	sfd = open (source, O_RDWR);
 	if (sfd == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Could not open mail file %s: %s"),
 				      source, g_strerror (errno));
-		unlink (locktmpfile);
-		g_free (locktmpfile);
-		return;
+		return -1;
 	}
 
 	dfd = open (dest, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
@@ -159,78 +127,16 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 					"file %s: %s"), dest,
 				      g_strerror (errno));
 		close (sfd);
-		unlink (locktmpfile);
-		g_free (locktmpfile);
-		return;
+		return -1;
 	}
 
-	lockfile = g_strdup_printf ("%s.lock", source);
-	locked = FALSE;
-	time (&timeout);
-	timeout += 30;
-
-	/* Loop trying to lock the file for 30 seconds. */
-	while (time (&now) < timeout) {
-		/* Try to make the lock. */
-		if (symlink (locktmpfile, lockfile) == 0) {
-			locked = TRUE;
-			break;
-		}
-
-		/* If we fail for a reason other than that someone
-		 * else has the lock, then abort.
-		 */
-		if (errno != EEXIST) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Could not create lock "
-						"file for %s: %s"), source,
-					      g_strerror (errno));
-			break;
-		}
-
-		/* Check the modtime on the lock file. */
-		if (stat (lockfile, &st) == -1) {
-			/* If the lockfile disappeared, try again. */
-			if (errno == ENOENT)
-				continue;
-
-			/* Some other error. Abort. */
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Could not test lock "
-						"file for %s: %s"), source,
-					      g_strerror (errno));
-			break;
-		}
-
-		/* If the lock file is stale, remove it and try again. */
-		if (st.st_mtime < now - 60) {
-			unlink (lockfile);
-			continue;
-		}
-
-		/* Otherwise, sleep and try again. */
-		sleep (5);
+	/* lock our source mailbox */
+	lockid = camel_lock_helper_lock(source, ex);
+	if (lockid == -1) {
+		close(sfd);
+		close(dfd);
+		return -1;
 	}
-
-	if (!locked) {
-		/* Something has gone awry. */
-		if (now >= timeout) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Timed out trying to get "
-						"lock file on %s. Try again "
-						"later."), source);
-		}
-		g_free (lockfile);
-		unlink (locktmpfile);
-		g_free (locktmpfile);
-		close (sfd);
-		close (dfd);
-		return;
-	}
-
-	/* OK. We have the file locked now. */
-
-	/* FIXME: Set a timer to keep the file locked. */
 
 	while (1) {
 		int written = 0;
@@ -267,9 +173,10 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 	 * close the destination file, then truncate the source file.
 	 */
 	if (!camel_exception_is_set (ex)) {
-		if (close (dfd) == 0)
+		if (close (dfd) == 0) {
 			ftruncate (sfd, 0);
-		else {
+			res = 0;
+		} else {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Failed to store mail in "
 						"temp file %s: %s"), dest,
@@ -279,11 +186,9 @@ camel_movemail (const char *source, const char *dest, CamelException *ex)
 		close (dfd);
 	close (sfd);
 
-	/* Clean up lock files. */
-	unlink (lockfile);
-	g_free (lockfile);
-	unlink (locktmpfile);
-	g_free (locktmpfile);
+	camel_lock_helper_unlock(lockid);
+
+	return res;
 }
 
 #ifdef MOVEMAIL_PATH

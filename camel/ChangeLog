@@ -1,3 +1,11 @@
+2001-06-19  Not Zed  <NotZed@Ximian.com>
+
+	* camel-lock-helper.c (unlock_id): Fixed a bug when not running
+	setuid it wouldn't unlock.
+
+	* camel-movemail.c (camel_movemail): use new
+	locking daemon, also return an error code.
+
 2001-06-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Note: Except for the info_free(), the NULL checks are

@@ -35,7 +35,7 @@ extern "C" {
 
 #include <camel/camel-exception.h>
 
-void camel_movemail (const char *source, const char *dest, CamelException *ex);
+int camel_movemail (const char *source, const char *dest, CamelException *ex);
 
 
 #ifdef __cplusplus

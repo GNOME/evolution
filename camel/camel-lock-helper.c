@@ -225,10 +225,10 @@ static int unlock_id(guint32 lockid)
 					seteuid(lock_root_uid);
 					camel_unlock_dot(info->path);
 					seteuid(lock_real_uid);
-				}
-#else
-				camel_unlock_dot(info->path);
+				} else
 #endif
+					camel_unlock_dot(info->path);
+
 				p->next = info->next;
 				free(info);
 			}
