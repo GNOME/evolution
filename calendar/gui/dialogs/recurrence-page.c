@@ -44,6 +44,27 @@
 
 
 
+enum month_num_options {
+	MONTH_NUM_FIRST,
+	MONTH_NUM_SECOND,
+	MONTH_NUM_THIRD,
+	MONTH_NUM_FOURTH,
+	MONTH_NUM_LAST,
+	MONTH_NUM_DAY,
+	MONTH_NUM_OTHER
+};
+
+static const int month_num_options_map[] = {
+	MONTH_NUM_FIRST,
+	MONTH_NUM_SECOND,
+	MONTH_NUM_THIRD,
+	MONTH_NUM_FOURTH,
+	MONTH_NUM_LAST,
+	MONTH_NUM_DAY,
+	MONTH_NUM_OTHER,
+	-1
+};
+
 enum month_day_options {
 	MONTH_DAY_NTH,
 	MONTH_DAY_MON,
@@ -101,6 +122,40 @@ static const int ending_types_map[] = {
 	-1
 };
 
+static const char *date_suffix[] = {
+	N_("st"),
+	N_("nd"),
+	N_("rd"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("st"),
+	N_("nd"),
+	N_("rd"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("th"),
+	N_("st")
+};
+
 /* Private part of the RecurrencePage structure */
 struct _RecurrencePagePrivate {
 	/* Component we use to expand the recurrence rules for the preview */
@@ -134,12 +189,14 @@ struct _RecurrencePagePrivate {
 	guint8 weekday_blocked_day_mask;
 
 	/* For monthly recurrences, created by hand */
-	GtkWidget *month_index_spin;
 	int month_index;
 
 	GtkWidget *month_day_menu;
 	enum month_day_options month_day;
 
+	GtkWidget *month_num_menu;
+	enum month_num_options month_num;
+	
 	/* For ending date, created by hand */
 	GtkWidget *ending_date_edit;
 	struct icaltimetype ending_date_tt;
@@ -262,8 +319,8 @@ recurrence_page_init (RecurrencePage *rpage)
 	priv->ending_special = NULL;
 	priv->custom_warning_bin = NULL;
 	priv->weekday_picker = NULL;
-	priv->month_index_spin = NULL;
 	priv->month_day_menu = NULL;
+	priv->month_num_menu = NULL;
 	priv->ending_date_edit = NULL;
 	priv->ending_count_spin = NULL;
 	priv->exception_date = NULL;
@@ -364,6 +421,7 @@ clear_widgets (RecurrencePage *rpage)
 	priv->weekday_day_mask = 0;
 
 	priv->month_index = 1;
+	priv->month_num = MONTH_NUM_DAY;
 	priv->month_day = MONTH_DAY_NTH;
 
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->none), rpage);
@@ -661,22 +719,29 @@ simple_recur_to_comp (RecurrencePage *rpage, CalComponent *comp)
 	}
 
 	case ICAL_MONTHLY_RECURRENCE: {
-		int day_index;
+		enum month_num_options month_num;
 		enum month_day_options month_day;
-
+		
 		g_assert (GTK_BIN (priv->special)->child != NULL);
-		g_assert (priv->month_index_spin != NULL);
-		g_assert (GTK_IS_SPIN_BUTTON (priv->month_index_spin));
 		g_assert (priv->month_day_menu != NULL);
 		g_assert (GTK_IS_OPTION_MENU (priv->month_day_menu));
+		g_assert (priv->month_num_menu != NULL);
+		g_assert (GTK_IS_OPTION_MENU (priv->month_num_menu));
 
-		day_index = e_dialog_spin_get_int (priv->month_index_spin);
+		month_num = e_dialog_option_menu_get (priv->month_num_menu,
+						      month_num_options_map );
 		month_day = e_dialog_option_menu_get (priv->month_day_menu,
 						      month_day_options_map);
 
+		if (month_num == MONTH_NUM_LAST)
+			month_num = -1;
+
 		switch (month_day) {
 		case MONTH_DAY_NTH:
-			r.by_month_day[0] = day_index;
+			if (month_num == -1)
+				r.by_month_day[0] = -1;
+			else
+				r.by_month_day[0] = priv->month_index;
 			break;
 
 		/* Outlook 2000 uses BYDAY=TU;BYSETPOS=2, and will not
@@ -684,37 +749,37 @@ simple_recur_to_comp (RecurrencePage *rpage, CalComponent *comp)
 		   by default. */
 		case MONTH_DAY_MON:
 			r.by_day[0] = ICAL_MONDAY_WEEKDAY;
-			r.by_set_pos[0] = day_index;
+			r.by_set_pos[0] = month_num;
 			break;
 
 		case MONTH_DAY_TUE:
 			r.by_day[0] = ICAL_TUESDAY_WEEKDAY;
-			r.by_set_pos[0] = day_index;
+			r.by_set_pos[0] = month_num;
 			break;
 
 		case MONTH_DAY_WED:
 			r.by_day[0] = ICAL_WEDNESDAY_WEEKDAY;
-			r.by_set_pos[0] = day_index;
+			r.by_set_pos[0] = month_num;
 			break;
 
 		case MONTH_DAY_THU:
 			r.by_day[0] = ICAL_THURSDAY_WEEKDAY;
-			r.by_set_pos[0] = day_index;
+			r.by_set_pos[0] = month_num;
 			break;
 
 		case MONTH_DAY_FRI:
 			r.by_day[0] = ICAL_FRIDAY_WEEKDAY;
-			r.by_set_pos[0] = day_index;
+			r.by_set_pos[0] = month_num;
 			break;
 
 		case MONTH_DAY_SAT:
 			r.by_day[0] = ICAL_SATURDAY_WEEKDAY;
-			r.by_set_pos[0] = day_index;
+			r.by_set_pos[0] = month_num;
 			break;
 
 		case MONTH_DAY_SUN:
 			r.by_day[0] = ICAL_SUNDAY_WEEKDAY;
-			r.by_set_pos[0] = day_index;
+			r.by_set_pos[0] = month_num;
 			break;
 
 		default:
@@ -950,6 +1015,103 @@ make_weekly_special (RecurrencePage *rpage)
 			    rpage);
 }
 
+
+static void
+month_num_submenu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
+{
+	GtkWidget *item;
+	int month_index;
+	
+	item = gtk_menu_get_active (GTK_MENU (menu_shell));
+	item = gtk_menu_get_active (GTK_MENU (GTK_MENU_ITEM (item)->submenu));
+
+	month_index = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (item)));
+	gtk_object_set_user_data (GTK_OBJECT (data), GINT_TO_POINTER (month_index));
+}
+
+/* Creates the option menu for the monthly recurrence number */
+static GtkWidget *
+make_recur_month_num_submenu (const char *title, int start, int end)
+{
+	GtkWidget *submenu, *item;
+	int i;
+	
+	submenu = gtk_menu_new ();
+	for (i = start; i < end; i++) {
+		char *date;
+		
+		date = g_strdup_printf ("%d%s", i + 1, _(date_suffix[i]));
+		item = gtk_menu_item_new_with_label (date);
+		g_free (date);
+		gtk_menu_append (GTK_MENU (submenu), item);
+		gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (i + 1));
+		gtk_widget_show (item);
+	}	
+
+	item = gtk_menu_item_new_with_label (_(title));
+	gtk_widget_show (item);
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), submenu);
+
+	return item;
+}
+
+static GtkWidget *
+make_recur_month_num_menu (int month_index)
+{
+	static const char *options[] = {
+		N_("first"),
+		N_("second"),
+		N_("third"),
+		N_("fourth"),
+		N_("last")
+	};
+
+	GtkWidget *menu, *submenu, *item, *submenu_item;
+	GtkWidget *omenu;
+	char *date;
+	int i;
+
+	menu = gtk_menu_new ();
+
+	/* Relation */
+	for (i = 0; i < sizeof (options) / sizeof (options[0]); i++) {
+		item = gtk_menu_item_new_with_label (_(options[i]));
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_widget_show (item);
+	}
+
+	/* Current date */
+	date = g_strdup_printf ("%d%s", month_index, _(date_suffix[month_index - 1]));
+	item = gtk_menu_item_new_with_label (date);
+	g_free (date);
+	gtk_menu_append (GTK_MENU (menu), item);
+	gtk_widget_show (item);
+
+	/* Other Submenu */
+	submenu = gtk_menu_new ();
+	submenu_item = gtk_menu_item_new_with_label (_("Other Date"));
+	gtk_menu_append (GTK_MENU (menu), submenu_item);
+	gtk_widget_show (submenu_item);
+
+	item = make_recur_month_num_submenu ("1st to 10th", 0, 10);
+	gtk_menu_append (GTK_MENU (submenu), item);
+	item = make_recur_month_num_submenu ("11th to 20th", 10, 20);
+	gtk_menu_append (GTK_MENU (submenu), item);
+	item = make_recur_month_num_submenu ("21st to 31st", 20, 31);
+	gtk_menu_append (GTK_MENU (submenu), item);
+
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (submenu_item), submenu);
+	gtk_object_set_user_data (GTK_OBJECT (submenu_item), GINT_TO_POINTER (month_index));
+	gtk_signal_connect (GTK_OBJECT (submenu), "selection_done",
+			    GTK_SIGNAL_FUNC (month_num_submenu_selection_done_cb),
+			    submenu_item);
+
+	omenu = gtk_option_menu_new ();
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+
+	return omenu;
+}
+
 /* Creates the option menu for the monthly recurrence days */
 static GtkWidget *
 make_recur_month_menu (void)
@@ -985,55 +1147,51 @@ make_recur_month_menu (void)
 	return omenu;
 }
 
-/* For monthly recurrences, changes the valid range of the recurrence day index
- * spin button; e.g. month days are 1-31 while the valid range for a Sunday is
- * the 1st through 5th of the month.
- */
 static void
-adjust_day_index_spin (RecurrencePage *rpage)
+month_num_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 {
+	RecurrencePage *rpage;
 	RecurrencePagePrivate *priv;
-	GtkAdjustment *adj;
+	enum month_num_options month_num;
 	enum month_day_options month_day;
 
+	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
-	g_assert (priv->month_day_menu != NULL);
-	g_assert (GTK_IS_OPTION_MENU (priv->month_day_menu));
-	g_assert (priv->month_index_spin != NULL);
-	g_assert (GTK_IS_SPIN_BUTTON (priv->month_index_spin));
-
+	month_num = e_dialog_option_menu_get (priv->month_num_menu,
+					      month_num_options_map);
 	month_day = e_dialog_option_menu_get (priv->month_day_menu,
 					      month_day_options_map);
 
-	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->month_index_spin));
+	if (month_num == MONTH_NUM_OTHER) {
+		GtkWidget *label, *item;
+		char *date;
 
-	switch (month_day) {
-	case MONTH_DAY_NTH:
-		adj->upper = 31;
-		gtk_adjustment_changed (adj);
-		break;
+		item = gtk_menu_get_active (GTK_MENU (menu_shell));
+		priv->month_index = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (item)));
 
-	case MONTH_DAY_MON:
-	case MONTH_DAY_TUE:
-	case MONTH_DAY_WED:
-	case MONTH_DAY_THU:
-	case MONTH_DAY_FRI:
-	case MONTH_DAY_SAT:
-	case MONTH_DAY_SUN:
-		adj->upper = 5;
-		gtk_adjustment_changed (adj);
+		month_num = MONTH_NUM_DAY;
+		e_dialog_option_menu_set (priv->month_num_menu, month_num, month_num_options_map);
 
-		if (adj->value > 5) {
-			adj->value = 5;
-			gtk_adjustment_value_changed (adj);
-		}
+		label = GTK_BIN (priv->month_num_menu)->child;
+		date = g_strdup_printf ("%d%s", priv->month_index, _(date_suffix[priv->month_index - 1]));
+		gtk_label_set_text (GTK_LABEL (label), date);
+		g_free (date);
 
-		break;
-
-	default:
-		g_assert_not_reached ();
+		e_dialog_option_menu_set (priv->month_num_menu, 0, month_num_options_map);
+		e_dialog_option_menu_set (priv->month_num_menu, month_num, month_num_options_map);
 	}
+	
+	if (month_num == MONTH_NUM_DAY && month_day != MONTH_DAY_NTH)
+		e_dialog_option_menu_set (priv->month_day_menu,
+					  MONTH_DAY_NTH,
+					  month_day_options_map);
+	else if (month_num != MONTH_NUM_DAY && month_num != MONTH_NUM_LAST && month_day == MONTH_DAY_NTH)
+		e_dialog_option_menu_set (priv->month_day_menu,
+					  MONTH_DAY_MON,
+					  month_num_options_map);
+	field_changed (rpage);
+	preview_recur (rpage);
 }
 
 /* Callback used when the monthly day selection menu changes.  We need
@@ -1044,10 +1202,25 @@ static void
 month_day_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 {
 	RecurrencePage *rpage;
+	RecurrencePagePrivate *priv;
+	enum month_num_options month_num;
+	enum month_day_options month_day;
 
 	rpage = RECURRENCE_PAGE (data);
-
-	adjust_day_index_spin (rpage);
+	priv = rpage->priv;
+	
+	month_num = e_dialog_option_menu_get (priv->month_num_menu,
+					      month_num_options_map);
+	month_day = e_dialog_option_menu_get (priv->month_day_menu,
+					      month_day_options_map);
+	if (month_day == MONTH_DAY_NTH && month_num != MONTH_NUM_LAST && month_num != MONTH_NUM_DAY)
+		e_dialog_option_menu_set (priv->month_num_menu,
+					  MONTH_NUM_DAY,
+					  month_num_options_map);
+	else if (month_day != MONTH_DAY_NTH && month_num == MONTH_NUM_DAY)
+		e_dialog_option_menu_set (priv->month_num_menu,
+					  MONTH_NUM_FIRST,
+					  month_num_options_map);
 	field_changed (rpage);
 	preview_recur (rpage);
 }
@@ -1077,7 +1250,6 @@ make_monthly_special (RecurrencePage *rpage)
 	priv = rpage->priv;
 
 	g_assert (GTK_BIN (priv->special)->child == NULL);
-	g_assert (priv->month_index_spin == NULL);
 	g_assert (priv->month_day_menu == NULL);
 
 	/* Create the widgets */
@@ -1089,12 +1261,10 @@ make_monthly_special (RecurrencePage *rpage)
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
 	adj = GTK_ADJUSTMENT (gtk_adjustment_new (1, 1, 31, 1, 10, 10));
-	priv->month_index_spin = gtk_spin_button_new (adj, 1, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), priv->month_index_spin,
-			    FALSE, FALSE, 0);
 
-	label = gtk_label_new (_("th"));
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	priv->month_num_menu = make_recur_month_num_menu (priv->month_index);
+	gtk_box_pack_start (GTK_BOX (hbox), priv->month_num_menu,
+			    FALSE, FALSE, 0);
 
 	priv->month_day_menu = make_recur_month_menu ();
 	gtk_box_pack_start (GTK_BOX (hbox), priv->month_day_menu,
@@ -1103,17 +1273,20 @@ make_monthly_special (RecurrencePage *rpage)
 	gtk_widget_show_all (hbox);
 
 	/* Set the options */
-
-	e_dialog_spin_set (priv->month_index_spin, priv->month_index);
+	e_dialog_option_menu_set (priv->month_num_menu,
+				  priv->month_num,
+				  month_num_options_map);
 	e_dialog_option_menu_set (priv->month_day_menu,
 				  priv->month_day,
 				  month_day_options_map);
-	adjust_day_index_spin (rpage);
 
-	gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
-			    GTK_SIGNAL_FUNC (month_index_value_changed_cb),
+	gtk_signal_connect (GTK_OBJECT (adj), "value_changed",			    GTK_SIGNAL_FUNC (month_index_value_changed_cb),
 			    rpage);
 
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->month_num_menu));
+	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
+			    GTK_SIGNAL_FUNC (month_num_menu_selection_done_cb),
+			    rpage);
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->month_day_menu));
 	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
 			    GTK_SIGNAL_FUNC (month_day_menu_selection_done_cb),
@@ -1139,8 +1312,11 @@ make_recurrence_special (RecurrencePage *rpage)
 		gtk_widget_destroy (GTK_BIN (priv->special)->child);
 
 		priv->weekday_picker = NULL;
-		priv->month_index_spin = NULL;
 		priv->month_day_menu = NULL;
+	}
+	if (priv->month_num_menu != NULL) {
+		gtk_widget_destroy (priv->month_num_menu);
+		priv->month_num_menu = NULL;
 	}
 
 	frequency = e_dialog_option_menu_get (priv->interval_unit, freq_map);
@@ -1593,11 +1769,21 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 				goto custom;
 
 			nth = r->by_month_day[0];
-			if (nth < 1)
+			if (nth < 1 && nth != -1)
 				goto custom;
 
-			priv->month_index = nth;
+			if (nth == -1) {
+				CalComponentDateTime dt;
+				
+				cal_component_get_dtstart (comp, &dt);
+				priv->month_index = dt.value->day;
+				priv->month_num = MONTH_NUM_LAST;
+			} else {
+				priv->month_index = nth;
+				priv->month_num = MONTH_NUM_DAY;
+			}
 			priv->month_day = MONTH_DAY_NTH;
+			
 		} else if (n_by_day == 1) {
 			enum icalrecurrencetype_weekday weekday;
 			int pos;
@@ -1651,7 +1837,10 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 				goto custom;
 			}
 
-			priv->month_index = pos;
+			if (pos == -1)
+				priv->month_num = MONTH_NUM_LAST;
+			else 
+				priv->month_num = pos;
 			priv->month_day = month_day;
 		} else
 			goto custom;
@@ -1785,7 +1974,7 @@ recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 		dt.tzid = dates->start->tzid;
 		cal_component_set_dtstart (priv->comp, &dt);
 	}
-
+	
 	if (dates->end) {
 		icaltime = *dates->end->value;
 		dt.tzid = dates->end->tzid;

@@ -1,5 +1,22 @@
 2002-04-18  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/recurrence-page.c (simple_recur_to_comp): properly
+	handle -ve recurrence values
+	(month_num_submenu_selection_done_cb): track the current date in
+	use
+	(make_recur_month_num_submenu): make a submenu of dates
+	(make_recur_month_num_menu): make the date/relation option menu
+	(month_num_menu_selection_done_cb): update the date properly and
+	keep both option menus consistent
+	(month_day_menu_selection_done_cb): keep both option menus
+	consistent
+	(make_monthly_special): listen for selection done signal
+	(make_recurrence_special): destroy old month_num_menu
+	(recurrence_page_fill_widgets): properly handle -ve recurrence
+	values
+
+2002-04-18  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/e-day-view.c (e_day_view_on_settings): show the settings
 
 	* gui/e-week-view.c (e_week_view_on_settings): ditto
