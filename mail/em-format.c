@@ -54,6 +54,24 @@
 
 #define d(x) 
 
+/* Used to cache various data/info for redraws
+   The validity stuff could be cached at a higher level but this is easier
+   This absolutely relies on the partid being _globally unique_
+   This is still kind of yucky, we should maintian a full tree of all this data,
+   along with/as part of the puri tree */
+struct _EMFormatCache {
+	struct _CamelCipherValidity *valid; /* validity copy */
+	struct _CamelMimePart *secured;	/* encrypted subpart */
+
+	unsigned int state:2;		/* inline state */
+
+	char partid[1];
+};
+
+#define INLINE_UNSET (0)
+#define INLINE_ON (1)
+#define INLINE_OFF (2)
+
 static void emf_builtin_init(EMFormatClass *);
 
 static const EMFormatHandler *emf_find_handler(EMFormat *emf, const char *mime_type);
@@ -71,11 +89,35 @@ static guint emf_signals[EMF_LAST_SIGNAL];
 static GObjectClass *emf_parent;
 
 static void
+emf_free_cache(void *key, void *val, void *dat)
+{
+	struct _EMFormatCache *efc = val;
+
+	if (efc->valid)
+		camel_cipher_validity_free(efc->valid);
+	if (efc->secured)
+		camel_object_unref(efc->secured);
+	g_free(efc);
+}
+
+static struct _EMFormatCache *
+emf_insert_cache(EMFormat *emf, const char *partid)
+{
+	struct _EMFormatCache *new;
+
+	new = g_malloc0(sizeof(*new)+strlen(partid));
+	strcpy(new->partid, partid);
+	g_hash_table_insert(emf->inline_table, new->partid, new);
+
+	return new;
+}
+
+static void
 emf_init(GObject *o)
 {
 	EMFormat *emf = (EMFormat *)o;
 	
-	emf->inline_table = g_hash_table_new(NULL, NULL);
+	emf->inline_table = g_hash_table_new(g_str_hash, g_str_equal);
 	e_dlist_init(&emf->header_list);
 	em_format_default_headers(emf);
 	emf->part_id = g_string_new("");
@@ -89,8 +131,8 @@ emf_finalise(GObject *o)
 	if (emf->session)
 		camel_object_unref(emf->session);
 
-	if (emf->inline_table)
-		g_hash_table_destroy(emf->inline_table);
+	g_hash_table_foreach(emf->inline_table, emf_free_cache, NULL);
+	g_hash_table_destroy(emf->inline_table);
 
 	em_format_clear_headers(emf);
 	camel_cipher_validity_free(emf->valid);
@@ -526,7 +568,14 @@ em_format_part(EMFormat *emf, CamelStream *stream, CamelMimePart *part)
 static void
 emf_clone_inlines(void *key, void *val, void *data)
 {
-	g_hash_table_insert(((EMFormat *)data)->inline_table, key, val);
+	struct _EMFormatCache *emfc = val, *new;
+
+	new = emf_insert_cache((EMFormat *)data, emfc->partid);
+	new->state = emfc->state;
+	if (emfc->valid)
+		new->valid = camel_cipher_validity_clone(emfc->valid);
+	if (emfc->secured)
+		camel_object_ref((new->secured = emfc->secured));
 }
 
 static void
@@ -535,8 +584,9 @@ emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeM
 	em_format_clear_puri_tree(emf);
 
 	if (emf != emfsource) {
+		g_hash_table_foreach(emf->inline_table, emf_free_cache, NULL);
 		g_hash_table_destroy(emf->inline_table);
-		emf->inline_table = g_hash_table_new(NULL, NULL);
+		emf->inline_table = g_hash_table_new(g_str_hash, g_str_equal);
 		if (emfsource) {
 			struct _EMFormatHeader *h;
 
@@ -829,6 +879,7 @@ int em_format_is_attachment(EMFormat *emf, CamelMimePart *part)
  * em_format_is_inline:
  * @emf: 
  * @part: 
+ * @partid: format->part_id part id of this part.
  * @handle: handler for this part
  * 
  * Returns true if the part should be displayed inline.  Any part with
@@ -840,16 +891,17 @@ int em_format_is_attachment(EMFormat *emf, CamelMimePart *part)
  * 
  * Return value: 
  **/
-int em_format_is_inline(EMFormat *emf, CamelMimePart *part, const EMFormatHandler *handle)
+int em_format_is_inline(EMFormat *emf, const char *partid, CamelMimePart *part, const EMFormatHandler *handle)
 {
-	void *dummy, *override;
+	struct _EMFormatCache *emfc;
 	const char *tmp;
 
 	if (handle == NULL)
 		return FALSE;
 
-	if (g_hash_table_lookup_extended(emf->inline_table, part, &dummy, &override))
-		return GPOINTER_TO_INT(override);
+	emfc = g_hash_table_lookup(emf->inline_table, partid);
+	if (emfc && emfc->state != INLINE_UNSET)
+		return emfc->state & 1;
 
 	/* some types need to override the disposition, e.g. application/x-pkcs7-mime */
 	if (handle->flags & EM_FORMAT_HANDLER_INLINE_DISPOSITION)
@@ -866,16 +918,27 @@ int em_format_is_inline(EMFormat *emf, CamelMimePart *part, const EMFormatHandle
 /**
  * em_format_set_inline:
  * @emf: 
- * @part: 
+ * @partid: id of part
  * @state: 
  * 
  * Force the attachment @part to be expanded or hidden explictly to match
  * @state.  This is used only to record the change for a redraw or
  * cloned layout render and does not force a redraw.
  **/
-void em_format_set_inline(EMFormat *emf, CamelMimePart *part, int state)
+void em_format_set_inline(EMFormat *emf, const char *partid, int state)
 {
-	g_hash_table_insert(emf->inline_table, part, GINT_TO_POINTER(state));
+	struct _EMFormatCache *emfc;
+
+	emfc = g_hash_table_lookup(emf->inline_table, partid);
+	if (emfc == NULL) {
+		emfc = emf_insert_cache(emf, partid);
+	} else if (emfc->state != INLINE_UNSET && (emfc->state & 1) == state)
+		return;
+
+	emfc->state = state?INLINE_ON:INLINE_OFF;
+
+	if (emf->message)
+		em_format_redraw(emf);
 }
 
 void em_format_format_error(EMFormat *emf, CamelStream *stream, const char *fmt, ...)
@@ -1013,6 +1076,14 @@ emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *pa
 	extern CamelSession *session;
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
+	struct _EMFormatCache *emfc;
+
+	/* should this perhaps run off a key of ".secured" ? */
+	emfc = g_hash_table_lookup(emf->inline_table, emf->part_id->str);
+	if (emfc && emfc->valid) {
+		em_format_format_secure(emf, stream, emfc->secured, camel_cipher_validity_clone(emfc->valid));
+		return;
+	}
 
 	ex = camel_exception_new();
 
@@ -1024,6 +1095,12 @@ emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *pa
 		em_format_format_error(emf, stream, ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
 		em_format_part_as(emf, stream, part, NULL);
 	} else {
+		if (emfc == NULL)
+			emfc = emf_insert_cache(emf, emf->part_id->str);
+
+		emfc->valid = camel_cipher_validity_clone(valid);
+		camel_object_ref((emfc->secured = opart));
+
 		em_format_format_secure(emf, stream, opart, valid);
 	}
 
@@ -1126,6 +1203,14 @@ emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 	const char *protocol;
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
+	struct _EMFormatCache *emfc;
+
+	/* should this perhaps run off a key of ".secured" ? */
+	emfc = g_hash_table_lookup(emf->inline_table, emf->part_id->str);
+	if (emfc && emfc->valid) {
+		em_format_format_secure(emf, stream, emfc->secured, camel_cipher_validity_clone(emfc->valid));
+		return;
+	}
 
 	/* Currently we only handle RFC2015-style PGP encryption. */
 	protocol = camel_content_type_param (((CamelDataWrapper *) part)->mime_type, "protocol");
@@ -1145,9 +1230,16 @@ emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 			em_format_format_error(emf, stream, ex->desc);
 		em_format_part_as(emf, stream, part, "multipart/mixed");
 	} else {
+		if (emfc == NULL)
+			emfc = emf_insert_cache(emf, emf->part_id->str);
+
+		emfc->valid = camel_cipher_validity_clone(valid);
+		camel_object_ref((emfc->secured = opart));
+
 		em_format_format_secure(emf, stream, opart, valid);
 	}
 
+	/* TODO: Make sure when we finalise this part, it is zero'd out */
 	camel_object_unref(opart);
 	camel_object_unref(context);
 	camel_exception_free(ex);
@@ -1272,6 +1364,14 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 	CamelMimePart *cpart;
 	CamelMultipartSigned *mps;
 	CamelCipherContext *cipher = NULL;
+	struct _EMFormatCache *emfc;
+
+	/* should this perhaps run off a key of ".secured" ? */
+	emfc = g_hash_table_lookup(emf->inline_table, emf->part_id->str);
+	if (emfc && emfc->valid) {
+		em_format_format_secure(emf, stream, emfc->secured, camel_cipher_validity_clone(emfc->valid));
+		return;
+	}
 
 	mps = (CamelMultipartSigned *)camel_medium_get_content_object((CamelMedium *)part);
 	if (!CAMEL_IS_MULTIPART_SIGNED(mps)
@@ -1308,6 +1408,12 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 				em_format_format_error(emf, stream, ex->desc);
 			em_format_part_as(emf, stream, part, "multipart/mixed");
 		} else {
+			if (emfc == NULL)
+				emfc = emf_insert_cache(emf, emf->part_id->str);
+
+			emfc->valid = camel_cipher_validity_clone(valid);
+			camel_object_ref((emfc->secured = cpart));
+
 			em_format_format_secure(emf, stream, cpart, valid);
 		}
 

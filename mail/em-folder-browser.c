@@ -556,8 +556,9 @@ static void
 emfb_folder_expunge(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderBrowser *emfb = data;
-	
-	em_utils_expunge_folder(gtk_widget_get_toplevel((GtkWidget *)emfb), emfb->view.folder);
+
+	if (emfb->view.folder)
+		em_utils_expunge_folder(gtk_widget_get_toplevel((GtkWidget *)emfb), emfb->view.folder);
 }
 
 static void
@@ -722,6 +723,7 @@ static const EMFolderViewEnable emfb_enable_map[] = {
 	{ "EditInvertSelection", EM_POPUP_SELECT_FOLDER },
 	{ "EditSelectAll", EM_POPUP_SELECT_FOLDER },
 	{ "EditSelectThread", EM_FOLDER_VIEW_SELECT_THREADED },
+	{ "FolderExpunge", EM_POPUP_SELECT_FOLDER },
 	{ "MailPost", EM_POPUP_SELECT_FOLDER },
 	{ "MessageMarkAllAsRead", EM_POPUP_SELECT_FOLDER },
 	{ "ViewHideSelected", EM_POPUP_SELECT_MANY },

@@ -190,9 +190,10 @@ void em_format_add_header(EMFormat *emf, const char *name, guint32 flags);
    Or maybe it should live with sub-classes? */
 
 int em_format_is_attachment(EMFormat *emf, struct _CamelMimePart *part);
-int em_format_is_inline(EMFormat *emf, struct _CamelMimePart *part, const EMFormatHandler *handle);
-/* FIXME: not sure about this api */
-void em_format_set_inline(EMFormat *emf, struct _CamelMimePart *part, int state);
+
+int em_format_is_inline(EMFormat *emf, const char *partid, struct _CamelMimePart *part, const EMFormatHandler *handle);
+void em_format_set_inline(EMFormat *emf, const char *partid, int state);
+
 char *em_format_describe_part(struct _CamelMimePart *part, const char *mimetype);
 
 /* for implementers */

@@ -1046,38 +1046,7 @@ efhd_attachment_show(GtkWidget *w, struct _attach_puri *info)
 	d(printf("show attachment button called\n"));
 
 	info->shown = ~info->shown;
-	em_format_set_inline(info->puri.format, info->puri.part, info->shown);
-	/* FIXME: do this in an idle handler */
-	em_format_redraw(info->puri.format);
-#if 0
-	/* FIXME: track shown state in parent */
-
-	if (info->shown) {
-		d(printf("hiding\n"));
-		info->shown = FALSE;
-		if (info->frame)
-			gtk_widget_hide((GtkWidget *)info->frame);
-		gtk_widget_show(info->forward);
-		gtk_widget_hide(info->down);
-	} else {
-		d(printf("showing\n"));
-		info->shown = TRUE;
-		if (info->frame)
-			gtk_widget_show((GtkWidget *)info->frame);
-		gtk_widget_hide(info->forward);
-		gtk_widget_show(info->down);
-
-		/* have we decoded it yet? */
-		if (info->output) {
-			info->handle->handler(info->puri.format, info->output, info->puri.part, info->handle);
-			camel_stream_close(info->output);
-			camel_object_unref(info->output);
-			info->output = NULL;
-		}
-	}
-
-	em_format_set_inline(info->puri.format, info->puri.part, info->shown);
-#endif
+	em_format_set_inline(info->puri.format, info->puri.part_id, info->shown);
 }
 
 static EMPopupItem efhd_menu_items[] = {
@@ -1498,7 +1467,7 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	info = (struct _attach_puri *)em_format_add_puri(emf, sizeof(*info), classid, part, efhd_attachment_frame);
 	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_attachment_button);
 	info->handle = handle;
-	info->shown = em_format_is_inline(emf, info->puri.part, handle);
+	info->shown = em_format_is_inline(emf, info->puri.part_id, info->puri.part, handle);
 	info->snoop_mime_type = emf->snoop_mime_type;
 
 	camel_stream_write_string(stream,

@@ -397,7 +397,7 @@ emfq_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart *part)
 static void
 emfq_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const char *mime_type, const EMFormatHandler *handle)
 {
-	if (handle && em_format_is_inline(emf, part, handle)) {
+	if (handle && em_format_is_inline(emf, emf->part_id->str, part, handle)) {
 		char *text, *html;
 
 		camel_stream_write_string(stream,

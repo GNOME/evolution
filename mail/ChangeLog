@@ -1,3 +1,53 @@
+2004-07-09  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-browser.c (emfb_folder_expunge): only call expunge if
+	the folder is set.
+	(emfb_enable_map[]): only enable expunge menu item if we have a
+	valid folder set.
+
+	** See bug #60900.
+
+	* em-format-html.c: convert the text_inline_parts hash to be keyed
+	off the partid.
+	(efh_free_inline_parts): -> efh_free_cache and fix to do it.
+
+	* em-format.c (emf_free_cache): make the inline table cache other
+	info too based on partid, this frees the structure.
+	(emf_clone_inlines): copy all of the cache data.
+	(em_format_is_inline): use the new data structure to determine
+	state.
+	(em_format_set_inline): same for setting.
+	(emf_multipart_signed): cache/lookup the cached part.
+	(emf_insert_cache): helper to add a cache entry.
+	(emf_multipart_encrypted): cache decrypted part.
+	(emf_application_xpkcs7mime): same.
+
+2004-07-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #60900 (related only).
+
+	* em-format-html-display.c (efhd_attachment_show): let set_inline
+	do the redraw itself if required.  kill some dead code.
+
+	* em-format.c (em_format_set_inline): trigger a redraw here like
+	the other em_format_set methods, if the state changed.
+
+	* em-format.c (emf_format_clone): free inline table keys & setup
+	string hash table.
+
+	* em-format-quote.c (emfq_format_attachment): 
+	* em-format-html-display.c (efhd_format_attachment): 
+	* em-format-html.c (efh_format_attachment): is_inline api changes.
+
+	* em-format-html-display.c (efhd_attachment_show): set_inline api
+	changes.
+
+	* em-format.c (em_format_is_inline): make this use the partid
+	rather than the part address as a key, which may change.
+	(emf_init): make the inline talbe a string hashtable.
+	(emf_finalise): free inline keys.
+	(emf_clone_inlines): copy the key string.
+
 2004-07-07  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fix for bug #61199.

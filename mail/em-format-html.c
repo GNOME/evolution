@@ -75,13 +75,19 @@
 
 #define EFH_TABLE_OPEN "<table>"
 
+struct _EMFormatHTMLCache {
+	CamelMultipart *textmp;
+
+	char partid[1];
+};
+
 struct _EMFormatHTMLPrivate {
 	struct _CamelMimeMessage *last_part;	/* not reffed, DO NOT dereference */
 	volatile int format_id;		/* format thread id */
 	guint format_timeout_id;
 	struct _format_msg *format_timeout_msg;
 
-	/* Table that re-maps text parts into a mutlipart/mixed */
+	/* Table that re-maps text parts into a mutlipart/mixed, EMFormatHTMLCache * */
 	GHashTable *text_inline_parts;
 
 	EDList pending_jobs;
@@ -120,7 +126,7 @@ efh_init(GObject *o)
 	e_dlist_init(&efh->priv->pending_jobs);
 	efh->priv->lock = g_mutex_new();
 	efh->priv->format_id = -1;
-	efh->priv->text_inline_parts = g_hash_table_new(NULL, NULL);
+	efh->priv->text_inline_parts = g_hash_table_new(g_str_hash, g_str_equal);
 
 	efh->html = (GtkHTML *)gtk_html_new();
 	gtk_html_set_blocking(efh->html, FALSE);
@@ -163,10 +169,27 @@ efh_gtkhtml_destroy(GtkHTML *html, EMFormatHTML *efh)
 	}
 }
 
-static void
-efh_free_inline_parts(void *key, void *data, void *user)
+static struct _EMFormatHTMLCache *
+efh_insert_cache(EMFormatHTML *efh, const char *partid)
 {
-	camel_object_unref(data);
+	struct _EMFormatHTMLCache *efhc;
+
+	efhc = g_malloc0(sizeof(*efh) + strlen(partid));
+	strcpy(efhc->partid, partid);
+	g_hash_table_insert(efh->priv->text_inline_parts, efhc->partid, efhc);
+
+	return efhc;
+}
+
+
+static void
+efh_free_cache(void *key, void *val, void *dat)
+{
+	struct _EMFormatHTMLCache *efhc = val;
+
+	if (efhc->textmp)
+		camel_object_unref(efhc->textmp);
+	g_free(efhc);
 }
 
 static void
@@ -180,7 +203,7 @@ efh_finalise(GObject *o)
 
 	efh_gtkhtml_destroy(efh->html, efh);
 
-	g_hash_table_foreach(efh->priv->text_inline_parts, efh_free_inline_parts, NULL);
+	g_hash_table_foreach(efh->priv->text_inline_parts, efh_free_cache, NULL);
 	g_hash_table_destroy(efh->priv->text_inline_parts);
 
 	g_free(efh->priv);
@@ -635,7 +658,8 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	const char *format;
 	guint32 flags;
 	int i, count, len;
-	
+	struct _EMFormatHTMLCache *efhc;
+
 	camel_stream_printf (stream,
 			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
 			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
@@ -663,8 +687,8 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	   filters a bit.  Perhaps the superclass should just deal with
 	   html anyway and be done with it ... */
 
-	mp = g_hash_table_lookup(efh->priv->text_inline_parts, part);
-	if (mp == NULL) {
+	efhc = g_hash_table_lookup(efh->priv->text_inline_parts, ((EMFormat *)efh)->part_id->str);
+	if (efhc == NULL || (mp = efhc->textmp) == NULL) {
 		EMInlineFilter *inline_filter;
 		CamelStream *null;
 		CamelContentType *ct;
@@ -685,8 +709,12 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 		camel_data_wrapper_write_to_stream(dw, (CamelStream *)filtered_stream);
 		camel_stream_close((CamelStream *)filtered_stream);
 		camel_object_unref(filtered_stream);
+
 		mp = em_inline_filter_get_multipart(inline_filter);
-		g_hash_table_insert(efh->priv->text_inline_parts, part, mp);
+		if (efhc == NULL)
+			efhc = efh_insert_cache(efh, ((EMFormat *)efh)->part_id->str);
+		efhc->textmp = mp;
+
 		camel_object_unref(inline_filter);
 		camel_content_type_unref(ct);
 	}
@@ -1292,9 +1320,9 @@ efh_format_timeout(struct _format_msg *m)
 						  | GTK_HTML_BEGIN_BLOCK_UPDATES | GTK_HTML_BEGIN_BLOCK_IMAGES);
 		} else {
 			/* clear cache of inline-scanned text parts */
-			g_hash_table_foreach(p->text_inline_parts, efh_free_inline_parts, NULL);
+			g_hash_table_foreach(p->text_inline_parts, efh_free_cache, NULL);
 			g_hash_table_destroy(p->text_inline_parts);
-			p->text_inline_parts = g_hash_table_new(NULL, NULL);
+			p->text_inline_parts = g_hash_table_new(g_str_hash, g_str_equal);
 
 			p->last_part = m->message;
 		}
@@ -1747,7 +1775,7 @@ efh_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 
 	camel_stream_write_string(stream, "</font></td></tr><tr></table>");
 
-	if (handle && em_format_is_inline(emf, part, handle))
+	if (handle && em_format_is_inline(emf, emf->part_id->str, part, handle))
 		handle->handler(emf, stream, part, handle);
 }
 
