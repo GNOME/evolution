@@ -3839,14 +3839,16 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 	GList *to = NULL, *cc = NULL, *bcc = NULL;
 	EDestination **tov, **ccv, **bccv;
 	char *subject = NULL, *body = NULL;
-	const char *p, *header;
+	char *header, *content, *buf;
 	size_t nread, nwritten;
-	char *content;
+	const char *p;
 	int len, clen;
 	CamelURL *url;
 	
+	buf = g_strdup (mailto);
+	
 	/* Parse recipients (everything after ':' until '?' or eos). */
-	p = mailto + 7;
+	p = buf + 7;
 	len = strcspn (p, "?");
 	if (len) {
 		content = g_strndup (p, len);
@@ -3866,7 +3868,8 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 			if (p[len] != '=')
 				break;
 			
-			header = p;
+			header = (char *) p;
+			header[len] = '\0';
 			p += len + 1;
 			
 			clen = strcspn (p, "&");
@@ -3874,13 +3877,13 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 			content = g_strndup (p, clen);
 			camel_url_decode (content);
 			
-			if (!strncasecmp (header, "to", len)) {
+			if (!strcasecmp (header, "to")) {
 				to = add_recipients (to, content, FALSE);
-			} else if (!strncasecmp (header, "cc", len)) {
+			} else if (!strcasecmp (header, "cc")) {
 				cc = add_recipients (cc, content, FALSE);
-			} else if (!strncasecmp (header, "bcc", len)) {
+			} else if (!strcasecmp (header, "bcc")) {
 				bcc = add_recipients (bcc, content, FALSE);
-			} else if (!strncasecmp (header, "subject", len)) {
+			} else if (!strcasecmp (header, "subject")) {
 				g_free (subject);
 				if (g_utf8_validate (content, -1, NULL)) {
 					subject = content;
@@ -3893,7 +3896,7 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 						subject[nwritten] = '\0';
 					}
 				}
-			} else if (!strncasecmp (header, "body", len)) {
+			} else if (!strcasecmp (header, "body")) {
 				g_free (body);
 				if (g_utf8_validate (content, -1, NULL)) {
 					body = content;
@@ -3906,7 +3909,7 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 						body[nwritten] = '\0';
 					}
 				}
-			} else if (!strncasecmp (header, "attach", len)) {
+			} else if (!strcasecmp (header, "attach")) {
 				/*Change file url to absolute path*/
 				if (!strncasecmp (content, "file:", 5)) {
 					url = camel_url_new (content, NULL);
@@ -3917,6 +3920,10 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 					e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
 									      content);
 				}
+			} else if (!strcasecmp (header, "from")) {
+				/* Ignore */
+			} else if (!strcasecmp (header, "reply-to")) {
+				/* ignore */
 			} else {
 				/* add an arbitrary header? */
 				e_msg_composer_add_header (composer, header, content);
@@ -3932,6 +3939,8 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 			}
 		}
 	}
+	
+	g_free (buf);
 	
 	tov  = e_destination_list_to_vector (to);
 	ccv  = e_destination_list_to_vector (cc);
