@@ -251,6 +251,7 @@ about_calendar_cmd (GtkWidget *widget, void *data)
 		"Miguel de Icaza (miguel@kernel.org)",
 		"Federico Mena (federico@gimp.org)",
 		"Arturo Espinosa (arturo@nuclecu.unam.mx)",
+		"Russell Steinthal (rms39@columbia.edu)",
 		NULL
 	};
 

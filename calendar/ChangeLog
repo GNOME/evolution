@@ -1,7 +1,8 @@
 1999-11-22  Russell Steinthal  <rms39@columbia.edu>
 
 	* Merged todo list coloring patch from stable
-
+	* Added myself to AUTHORS, about box (per Miguel)
+	
 1999-11-22  Eskil Heyn Olsen  <deity@eskil.dk>
 
 	* calendar-conduit.c (pre_sync): Writes some warning
