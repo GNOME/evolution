@@ -1,3 +1,10 @@
+2001-01-14  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/Makefile.am: pass -module and -avoid-version to 
+	conduit linker
+
+	* conduits/todo/Makefile.am: ditto
+
 2001-01-14  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/dialogs/task-editor.[hc]: moved #include

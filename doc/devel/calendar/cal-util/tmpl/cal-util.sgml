@@ -14,14 +14,11 @@ Miscellaneous utilities
 
 </para>
 
-<!-- ##### STRUCT CalObjInstance ##### -->
+<!-- ##### TYPEDEF CalObjInstance ##### -->
 <para>
 
 </para>
 
-@uid: 
-@start: 
-@end: 
 
 <!-- ##### FUNCTION cal_obj_instance_list_free ##### -->
 <para>

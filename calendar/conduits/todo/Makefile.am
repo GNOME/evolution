@@ -33,6 +33,7 @@ libetodo_conduit_la_SOURCES = \
 	todo-conduit.h		\
 	todo-conduit-config.h 
 
+libetodo_conduit_la_LDFLAGS = -module -avoid-version
 libetodo_conduit_la_LIBADD = 					\
 	$(top_builddir)/calendar/cal-client/libcal-client-static.la	\
 	$(top_builddir)/calendar/cal-util/libcal-util-static.la		\

@@ -33,6 +33,7 @@ libecalendar_conduit_la_SOURCES = 	\
 	calendar-conduit.h		\
 	calendar-conduit-config.h
 
+libecalendar_conduit_la_LDFLAGS = -module -avoid-version
 libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/calendar/cal-client/libcal-client-static.la	\
 	$(top_builddir)/calendar/cal-util/libcal-util-static.la		\

@@ -128,13 +128,11 @@ RFC 2445 iCalendar component object.
 @CAL_COMPONENT_CLASS_CONFIDENTIAL: 
 @CAL_COMPONENT_CLASS_UNKNOWN: 
 
-<!-- ##### STRUCT CalComponentDateTime ##### -->
+<!-- ##### TYPEDEF CalComponentDateTime ##### -->
   <para>
     This structure defines a date and time value.
   </para>
 
-@value: 
-@tzid: 
 
 <!-- ##### ENUM CalComponentPeriodType ##### -->
   <para>
@@ -144,22 +142,18 @@ RFC 2445 iCalendar component object.
 @CAL_COMPONENT_PERIOD_DATETIME: 
 @CAL_COMPONENT_PERIOD_DURATION: 
 
-<!-- ##### STRUCT CalComponentPeriod ##### -->
+<!-- ##### TYPEDEF CalComponentPeriod ##### -->
   <para>
     This structure defines a period of time.
   </para>
 
-@type: 
-@start: 
 
-<!-- ##### STRUCT CalComponentText ##### -->
+<!-- ##### TYPEDEF CalComponentText ##### -->
   <para>
     This structure defines the value of a text property that may have
     an alternate representation parameter.
   </para>
 
-@value: 
-@altrep: 
 
 <!-- ##### ENUM CalComponentTransparency ##### -->
 <para>
@@ -848,22 +842,17 @@ RFC 2445 iCalendar component object.
 </para>
 
 
-<!-- ##### STRUCT CalAlarmInstance ##### -->
+<!-- ##### TYPEDEF CalAlarmInstance ##### -->
 <para>
 
 </para>
 
-@auid: 
-@trigger: 
-@occur: 
 
-<!-- ##### STRUCT CalComponentAlarms ##### -->
+<!-- ##### TYPEDEF CalComponentAlarms ##### -->
 <para>
 
 </para>
 
-@comp: 
-@alarms: 
 
 <!-- ##### ENUM CalAlarmAction ##### -->
 <para>
@@ -887,12 +876,11 @@ RFC 2445 iCalendar component object.
 @CAL_ALARM_TRIGGER_RELATIVE_END: 
 @CAL_ALARM_TRIGGER_ABSOLUTE: 
 
-<!-- ##### STRUCT CalAlarmTrigger ##### -->
+<!-- ##### TYPEDEF CalAlarmTrigger ##### -->
 <para>
 
 </para>
 
-@type: 
 
 <!-- ##### FUNCTION cal_component_has_alarms ##### -->
 <para>

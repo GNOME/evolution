@@ -1,3 +1,8 @@
+2001-01-14  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/Makefile.am: pass -module and -avoid-version to conduit
+	linker
+
 2001-01-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/addressbook-component.c (factory_fn): Pass NULL as

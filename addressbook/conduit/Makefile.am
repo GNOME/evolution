@@ -33,6 +33,7 @@ libeaddress_conduit_la_SOURCES = \
 	address-conduit.h \
 	address-conduit-config.h
 
+libeaddress_conduit_la_LDFLAGS = -module -avoid-version
 libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/addressbook/backend/ebook/libebook-static.la	\
 	$(top_builddir)/e-util/libeutil-static.la			\

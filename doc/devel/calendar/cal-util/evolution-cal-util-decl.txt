@@ -1,3 +1,128 @@
+<TYPEDEF>
+<NAME>CalObjInstance</NAME>
+typedef struct {
+	char *uid;			/* UID of the object */
+	time_t start;			/* Start time of instance */
+	time_t end;			/* End time of instance */
+} CalObjInstance;
+</TYPEDEF>
+<FUNCTION>
+<NAME>cal_obj_instance_list_free</NAME>
+<RETURNS>void  </RETURNS>
+GList *list
+</FUNCTION>
+<ENUM>
+<NAME>CalObjType</NAME>
+typedef enum {
+	CALOBJ_TYPE_EVENT   = 1 << 0,
+	CALOBJ_TYPE_TODO    = 1 << 1,
+	CALOBJ_TYPE_JOURNAL = 1 << 2,
+	CALOBJ_TYPE_ANY     = 0x07
+} CalObjType;
+</ENUM>
+<FUNCTION>
+<NAME>cal_obj_uid_list_free</NAME>
+<RETURNS>void  </RETURNS>
+GList *list
+</FUNCTION>
+<FUNCTION>
+<NAME>isodate_from_time_t</NAME>
+<RETURNS>char    *</RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_minutes</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t time, int minutes
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_day</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t time, int days
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_week</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t time, int weeks
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_month</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t time, int months
+</FUNCTION>
+<FUNCTION>
+<NAME>time_add_year</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t time, int years
+</FUNCTION>
+<FUNCTION>
+<NAME>time_days_in_month</NAME>
+<RETURNS>int  </RETURNS>
+int year, int month
+</FUNCTION>
+<FUNCTION>
+<NAME>time_from_day</NAME>
+<RETURNS>time_t  </RETURNS>
+int year, int month, int day
+</FUNCTION>
+<FUNCTION>
+<NAME>time_year_begin</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_year_end</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_month_begin</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_month_end</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_week_begin</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_week_end</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_begin</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>time_day_end</NAME>
+<RETURNS>time_t  </RETURNS>
+time_t t
+</FUNCTION>
+<FUNCTION>
+<NAME>print_time_t</NAME>
+<RETURNS>void  </RETURNS>
+time_t t
+</FUNCTION>
+<USER_FUNCTION>
+<NAME>CalRecurInstanceFn</NAME>
+<RETURNS>gboolean </RETURNS>
+CalComponent *comp,
+					 time_t        instance_start,
+					 time_t        instance_end,
+					 gpointer      data
+</USER_FUNCTION>
+<FUNCTION>
+<NAME>cal_recur_generate_instances</NAME>
+<RETURNS>void 	</RETURNS>
+CalComponent		*comp,time_t			 start,time_t			 end,CalRecurInstanceFn	 cb,gpointer                cb_data
+</FUNCTION>
 <MACRO>
 <NAME>CAL_COMPONENT_TYPE</NAME>
 #define CAL_COMPONENT_TYPE            (cal_component_get_type ())
@@ -64,7 +189,7 @@ typedef enum {
 	CAL_COMPONENT_CLASS_UNKNOWN
 } CalComponentClassification;
 </ENUM>
-<STRUCT>
+<TYPEDEF>
 <NAME>CalComponentDateTime</NAME>
 typedef struct {
 	/* Actual date/time value */
@@ -73,7 +198,7 @@ typedef struct {
 	/* Timezone ID */
 	const char *tzid;
 } CalComponentDateTime;
-</STRUCT>
+</TYPEDEF>
 <ENUM>
 <NAME>CalComponentPeriodType</NAME>
 typedef enum {
@@ -81,7 +206,7 @@ typedef enum {
 	CAL_COMPONENT_PERIOD_DURATION
 } CalComponentPeriodType;
 </ENUM>
-<STRUCT>
+<TYPEDEF>
 <NAME>CalComponentPeriod</NAME>
 typedef struct {
 	CalComponentPeriodType type;
@@ -93,8 +218,8 @@ typedef struct {
 		struct icaldurationtype duration;
 	} u;
 } CalComponentPeriod;
-</STRUCT>
-<STRUCT>
+</TYPEDEF>
+<TYPEDEF>
 <NAME>CalComponentText</NAME>
 typedef struct {
 	/* Description string */
@@ -103,7 +228,7 @@ typedef struct {
 	/* Alternate representation URI */
 	const char *altrep;
 } CalComponentText;
-</STRUCT>
+</TYPEDEF>
 <ENUM>
 <NAME>CalComponentTransparency</NAME>
 typedef enum {
@@ -129,12 +254,6 @@ struct CalComponent {
 
 	/* Private data */
 	CalComponentPrivate *priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>CalComponentClass</NAME>
-struct CalComponentClass {
-	GtkObjectClass parent_class;
 };
 </STRUCT>
 <FUNCTION>
@@ -535,7 +654,7 @@ GSList *text_list
 <STRUCT>
 <NAME>CalComponentAlarm</NAME>
 </STRUCT>
-<STRUCT>
+<TYPEDEF>
 <NAME>CalAlarmInstance</NAME>
 typedef struct {
 	/* UID of the alarm that triggered */
@@ -547,8 +666,8 @@ typedef struct {
 	/* Actual event occurrence to which this trigger corresponds */
 	time_t occur;
 } CalAlarmInstance;
-</STRUCT>
-<STRUCT>
+</TYPEDEF>
+<TYPEDEF>
 <NAME>CalComponentAlarms</NAME>
 typedef struct {
 	/* The actual component */
@@ -557,7 +676,7 @@ typedef struct {
 	/* List of CalAlarmInstance structures */
 	GSList *alarms;
 } CalComponentAlarms;
-</STRUCT>
+</TYPEDEF>
 <ENUM>
 <NAME>CalAlarmAction</NAME>
 typedef enum {
@@ -578,7 +697,7 @@ typedef enum {
 	CAL_ALARM_TRIGGER_ABSOLUTE
 } CalAlarmTriggerType;
 </ENUM>
-<STRUCT>
+<TYPEDEF>
 <NAME>CalAlarmTrigger</NAME>
 typedef struct {
 	CalAlarmTriggerType type;
@@ -588,7 +707,7 @@ typedef struct {
 		struct icaltimetype abs_time;
 	} u;
 } CalAlarmTrigger;
-</STRUCT>
+</TYPEDEF>
 <FUNCTION>
 <NAME>cal_component_has_alarms</NAME>
 <RETURNS>gboolean  </RETURNS>
@@ -638,129 +757,4 @@ CalComponentAlarm *alarm, CalAlarmTrigger *trigger
 <NAME>cal_component_alarm_set_trigger</NAME>
 <RETURNS>void  </RETURNS>
 CalComponentAlarm *alarm, CalAlarmTrigger trigger
-</FUNCTION>
-<USER_FUNCTION>
-<NAME>CalRecurInstanceFn</NAME>
-<RETURNS>gboolean </RETURNS>
-CalComponent *comp,
-					 time_t        instance_start,
-					 time_t        instance_end,
-					 gpointer      data
-</USER_FUNCTION>
-<FUNCTION>
-<NAME>cal_recur_generate_instances</NAME>
-<RETURNS>void 	</RETURNS>
-CalComponent		*comp,time_t			 start,time_t			 end,CalRecurInstanceFn	 cb,gpointer                cb_data
-</FUNCTION>
-<STRUCT>
-<NAME>CalObjInstance</NAME>
-typedef struct {
-	char *uid;			/* UID of the object */
-	time_t start;			/* Start time of instance */
-	time_t end;			/* End time of instance */
-} CalObjInstance;
-</STRUCT>
-<FUNCTION>
-<NAME>cal_obj_instance_list_free</NAME>
-<RETURNS>void  </RETURNS>
-GList *list
-</FUNCTION>
-<ENUM>
-<NAME>CalObjType</NAME>
-typedef enum {
-	CALOBJ_TYPE_EVENT   = 1 << 0,
-	CALOBJ_TYPE_TODO    = 1 << 1,
-	CALOBJ_TYPE_JOURNAL = 1 << 2,
-	CALOBJ_TYPE_ANY     = 0x07
-} CalObjType;
-</ENUM>
-<FUNCTION>
-<NAME>cal_obj_uid_list_free</NAME>
-<RETURNS>void  </RETURNS>
-GList *list
-</FUNCTION>
-<FUNCTION>
-<NAME>isodate_from_time_t</NAME>
-<RETURNS>char    *</RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_minutes</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t time, int minutes
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_day</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t time, int days
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_week</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t time, int weeks
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_month</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t time, int months
-</FUNCTION>
-<FUNCTION>
-<NAME>time_add_year</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t time, int years
-</FUNCTION>
-<FUNCTION>
-<NAME>time_days_in_month</NAME>
-<RETURNS>int  </RETURNS>
-int year, int month
-</FUNCTION>
-<FUNCTION>
-<NAME>time_from_day</NAME>
-<RETURNS>time_t  </RETURNS>
-int year, int month, int day
-</FUNCTION>
-<FUNCTION>
-<NAME>time_year_begin</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_year_end</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_month_begin</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_month_end</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_week_begin</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_week_end</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_day_begin</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>time_day_end</NAME>
-<RETURNS>time_t  </RETURNS>
-time_t t
-</FUNCTION>
-<FUNCTION>
-<NAME>print_time_t</NAME>
-<RETURNS>void  </RETURNS>
-time_t t
 </FUNCTION>
