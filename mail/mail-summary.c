@@ -144,7 +144,7 @@ generate_html_summary (MailSummary *summary)
 		char *tmp2; 
 
 		fs = summary->folders[i];
-		tmp2 = g_strdup_printf ("<tr><td><ul><li>%s:</li></ul></td>"
+		tmp2 = g_strdup_printf ("<tr><td>%s:</td>"
 					"<td align=\"right\">%d/%d</td></tr>",
 					fs->name, fs->unread, fs->total);
 

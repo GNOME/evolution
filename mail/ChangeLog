@@ -1,3 +1,8 @@
+2000-10-10  Iain Holmes  <iain@helixcode.com>
+
+	* mail-summary.c (generate_html_summary): Removed the <li> from the
+	HTML.
+ 
 2000-10-10  Cody Russell  <bratsche@gnome.org>
 	* mail-threads.c: Added #include <errno.h>
 
