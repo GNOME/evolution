@@ -216,6 +216,16 @@
     <submenu name="Actions">
       <placeholder name="Component">
         <placeholder name="MailMessageActions">
+          <submenu name="GoTo" _label="Go To">
+            <menuitem name="MailNext" verb="" _label="Next Message"/>
+            <menuitem name="MailNextUnread" verb="" _label="Next Unread Message"/>
+            <menuitem name="MailNextFlagged" verb="" _label="Next Important Message"/>
+            <menuitem name="MailNextThread" verb="" _label="Next Thread"/>
+            <separator/>
+            <menuitem name="MailPrevious" verb="" _label="Previous Message"/>
+            <menuitem name="MailPreviousUnread" verb="" _label="Previous Unread Message"/>
+            <menuitem name="MailPreviousFlagged" verb="" _label="Previous Important Message"/>
+          </submenu>
           <menuitem name="MessageReplySender" verb="" _label="_Reply to Sender"/>
           <menuitem name="MessageReplyList" verb="" _label="Reply to _List"/>
           <menuitem name="MessageReplyAll" verb="" _label="Reply to _All"/>
