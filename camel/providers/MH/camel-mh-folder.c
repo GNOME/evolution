@@ -37,6 +37,7 @@
 #include "camel-stream-fs.h"
 #include "camel-stream-buffered-fs.h"
 #include "camel-folder-summary.h"
+#include "gmime-utils.h"
 
 
 static CamelFolderClass *parent_class=NULL;
@@ -46,7 +47,7 @@ static CamelFolderClass *parent_class=NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 #define CMHS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
-static int copy_reg (const char *src_path, const char *dst_path);
+
 static void _set_name(CamelFolder *folder, const gchar *name);
 static void _init_with_store (CamelFolder *folder, CamelStore *parent_store);
 static gboolean _exists (CamelFolder *folder);
@@ -61,6 +62,9 @@ static void _expunge (CamelFolder *folder);
 static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder);
 static void _open (CamelFolder *folder, CamelFolderOpenMode mode);
 
+
+/* some utility functions */
+static int copy_reg (const char *src_path, const char *dst_path);
 static gboolean _is_a_message_file (const gchar *file_name, const gchar *file_path);
 
 static void
@@ -148,18 +152,51 @@ static void
 _create_summary (CamelFolder *folder)
 {
 	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
+	CamelFolderSummary *summary = folder->summary;
 	CamelMessageInfo *message_info;
-	CamelFolderSummary *subfolder_info;
-
+	CamelFolderInfo *subfolder_info;
+	CamelStream *message_stream;
 	GList *file_list = mh_folder->file_name_list;
 	gchar *filename;
+	gchar *message_fullpath;
+	gchar *directory_path = mh_folder->directory_path;
+	GArray *header_array;
+	Rfc822Header *cur_header;
+	int i;
+
+	summary = folder->summary;
 
 	while (file_list) {
 
 		filename = (gchar *)(file_list->data);
 		message_info = g_new0 (CamelMessageInfo, 1);
-		message_info->subject = NULL;
+		message_fullpath = g_strdup_printf ("%s/%s", directory_path, filename);
+		message_stream = camel_stream_buffered_fs_new_with_name (message_fullpath, 
+									 CAMEL_STREAM_BUFFERED_FS_READ);
+		header_array = get_header_array_from_stream (message_stream);
+		gtk_object_unref (GTK_OBJECT (message_stream));
+
+		for (i=0; i<header_array->len; i++) {
+			cur_header = (Rfc822Header *)header_array->data + i;
+			if (!g_strcasecmp (cur_header->name, "subject")) {
+				message_info->subject = cur_header->value;
+				g_free (cur_header->name);
+			} else if (!g_strcasecmp (cur_header->name, "sender")) {
+				message_info->date = cur_header->value;
+				g_free (cur_header->name);
+			} else if (!g_strcasecmp (cur_header->name, "date")) {
+				message_info->date = cur_header->value;
+				g_free (cur_header->name);
+			} else {
+				g_free (cur_header->name);
+				g_free (cur_header->value);
+			}
+		}		
+		g_array_free (header_array, TRUE);
+
+		message_info->UID = NULL;
 		
+		summary->message_info_list = g_list_append (summary->message_info_list, message_info);
 		file_list = file_list->next;
 	}	
 }
@@ -172,7 +209,8 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode)
 	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
 	struct dirent *dir_entry;
 	DIR *dir_handle;
-
+	
+	
 	if (folder->open_state == FOLDER_OPEN) return;
 
 	
@@ -194,6 +232,7 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode)
 
 	closedir (dir_handle);
 	
+	_create_summary (folder);
 }
 
 /**

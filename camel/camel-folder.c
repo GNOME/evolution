@@ -167,6 +167,10 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 	if (folder->parent_store) gtk_object_unref (GTK_OBJECT (folder->parent_store));
 	folder->parent_store = parent_store;
 	if (parent_store) gtk_object_ref (GTK_OBJECT (parent_store));
+	folder->open_mode = FOLDER_OPEN_UNKNOWN;
+	folder->open_state = FOLDER_CLOSE;
+	folder->name = NULL;
+	folder->full_name = NULL;
 }
 
 
@@ -185,6 +189,13 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode)
 	folder->open_state = FOLDER_OPEN;
 	folder->open_mode = mode;
 }
+
+
+void camel_folder_open (CamelFolder *folder, CamelFolderOpenMode mode)
+{	
+	CF_CLASS(folder)->open (folder, mode);
+}
+
 
 
 /**
@@ -972,7 +983,7 @@ camel_folder_has_summary_capability (CamelFolder *folder)
 }
 
 
-const CamelFolderSummary *
+CamelFolderSummary *
 camel_folder_get_summary (CamelFolder *folder)
 {
 	return folder->summary;

@@ -1,3 +1,19 @@
+1999-09-05  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* tests/ui-tests/store_listing.c (show_folder_messages): 
+	use folder summary instead of opening all messages.
+
+	* camel/providers/MH/camel-mh-folder.c (_create_summary): 
+	basic and highly non-efficient summary implementation.
+	Should be seen as a proof of concept only.
+	subfolder summary still has to be implemented.
+	
+	* camel/providers/maildir/camel-maildir-folder.c (_init_with_store): 
+	hasn't summary for the moment. 
+	* camel/providers/maildir/camel-maildir-folder.c
+	cosmetic changes.
+	
+
 1999-09-04  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/providers/MH/camel-mh-folder.c (_create_summary):

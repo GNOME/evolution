@@ -14,6 +14,7 @@
 #include "camel-mh-folder.h"
 #include "camel-mh-store.h"
 #include "camel.h"
+#include "camel-folder-summary.h"
 
 static GladeXML *xml;
 static CamelSession *_session;
@@ -132,19 +133,22 @@ show_folder_messages (CamelFolder *folder)
 	const gchar *clist_row_text[3];
 	const char *sent_date, *subject, *sender;
 	gint current_row;
+	CamelFolderSummary *summary;
 
 	message_clist = glade_xml_get_widget (xml, "message-clist");
 
 	/* clear old message list */
 	gtk_clist_clear (GTK_CLIST (message_clist));
-
+	
+#if 0
 	folder_message_count = camel_folder_get_message_count (folder);
+	
 	for (i=0; i<folder_message_count; i++) {
-		message = camel_folder_get_message (folder, i);
-		gtk_object_ref (GTK_OBJECT (message));
-		sent_date = camel_mime_message_get_sent_date (message);
-		sender = camel_mime_message_get_from (message);
-		subject = camel_mime_message_get_subject (message);
+  		message = camel_folder_get_message (folder, i); 
+  		gtk_object_ref (GTK_OBJECT (message)); 
+  		sent_date = camel_mime_message_get_sent_date (message); 
+  		sender = camel_mime_message_get_from (message); 
+ 		subject = camel_mime_message_get_subject (message); 
 
 		
 		if (sent_date) clist_row_text [0] = sent_date;
@@ -158,10 +162,30 @@ show_folder_messages (CamelFolder *folder)
 		gtk_clist_set_row_data_full (GTK_CLIST (message_clist), current_row, (gpointer)message, message_destroy_notify);
 	}
 
-	
-	
-}
+#endif 
 
+	if (camel_folder_has_summary_capability (folder)) {
+		const GList *message_info_list;
+		CamelMessageInfo *msg_info;
+
+		printf ("Folder has summary. Good\n");
+		summary = camel_folder_get_summary (folder);
+		message_info_list = camel_folder_summary_get_message_info_list (summary);
+		printf ("message_info_list = %p\n", message_info_list);
+		while (message_info_list) {
+			msg_info = (CamelMessageInfo *)message_info_list->data;
+			clist_row_text [0] = msg_info->date;
+			clist_row_text [1] = msg_info->sender;			
+			clist_row_text [2] = msg_info->subject;
+			printf ("New message : subject = %s\n", msg_info->subject);
+			current_row = gtk_clist_append (GTK_CLIST (message_clist), clist_row_text);
+
+			message_info_list = message_info_list->next;
+		}		
+	} else {
+		printf ("Folder does not have summary. Skipping\n");
+	}
+}
 
 
 /* add a mail store given by its URL */
@@ -200,10 +224,13 @@ add_mail_store (const gchar *store_url)
 
 	/* normally, use get_root_folder */
 	root_folder = camel_store_get_folder (store, "");
+	camel_folder_open (root_folder, FOLDER_OPEN_RW);
 	subfolder_list = camel_folder_list_subfolders (root_folder);
 	while (subfolder_list) {
 		new_tree_text[0] = subfolder_list->data;
 		new_folder = camel_store_get_folder (store, subfolder_list->data);
+		camel_folder_open (new_folder, FOLDER_OPEN_RW);
+
 		new_folder_node = gtk_ctree_insert_node (GTK_CTREE (mailbox_and_store_tree),
 							 new_store_node,
 							 NULL,
