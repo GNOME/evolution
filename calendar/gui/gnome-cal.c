@@ -10,7 +10,7 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <fcntl.h>
-#include "alarm.h"
+/*#include "alarm.h"*/
 #include "calendar.h"
 #include "gnome-cal.h"
 #include "gncal-day-panel.h"

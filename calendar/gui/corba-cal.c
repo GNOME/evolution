@@ -11,7 +11,7 @@
 #include <sys/stat.h>
 #include "calendar.h"
 #include "gnome-cal.h"
-#include "alarm.h"
+/*#include "alarm.h"*/
 #include "cal-util/timeutil.h"
 #include "libversit/vcc.h"
 #include <libgnorba/gnome-factory.h>

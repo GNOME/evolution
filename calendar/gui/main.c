@@ -17,7 +17,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include "calendar.h"
-#include "alarm.h"
+/*#include "alarm.h"*/
 #include "eventedit.h"
 #include "gnome-cal.h"
 #include "main.h"

@@ -1,3 +1,18 @@
+2000-03-05  Seth Alves  <alves@hungry.com>
+
+	* cal-client/cal-client-alarm.c: stubs for client side
+	access to alarm structures.  this will probably change,
+	since i don't know what i'm doing.
+
+	* cal-util/alarm-enums.h: enums for alarms needed by
+	both the client and the server
+
+	* remaining source files in calendar/... have been moved
+	to calendar/gui.
+
+	* gui/alarm.c: start to decouple the view from the model
+	in the alarm editing code
+
 2000-03-03  Seth Alves  <alves@hungry.com>
 
 	* cal-util/Makefile.am: new file -- things shared between

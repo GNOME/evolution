@@ -9,6 +9,7 @@
 #define EVENT_EDITOR_H
 
 #include "gnome-cal.h"
+#include "alarm.h"
 #include <libgnomeui/gnome-dialog.h>
 
 BEGIN_GNOME_DECLS
@@ -57,7 +58,12 @@ typedef struct {
 	GtkWidget  *recur_ex_clist;
 	
 	/* The associated ical object */
-	iCalObject *ical;
+	iCalObject *ical; /* FIX ME -- get rid of this */
+
+	CalendarAlarmUI dalarmui;
+	CalendarAlarmUI aalarmui;
+	CalendarAlarmUI palarmui;
+	CalendarAlarmUI malarmui;
 
 	/* The calendar owner of this event */
         GnomeCalendar *gnome_cal;

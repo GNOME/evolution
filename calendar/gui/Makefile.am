@@ -1,4 +1,4 @@
-SUBDIRS = doc idl cal-util pcs cal-client
+
 
 idldir = $(datadir)/idl
 idl_DATA = 			\
@@ -12,15 +12,16 @@ gnorba_DATA =			\
 
 help_base = $(datadir)/gnome/help/cal
 
+
+bin_PROGRAMS = gnomecal $(extra_pilot_bins)
+
 if HAVE_GNOME_PILOT
 extra_pilot_bins = 				\
 		calendar-conduit-control-applet	\
 		calendar-pilot-sync
 endif
 
-bin_PROGRAMS = gnomecal $(extra_pilot_bins)
-
-ICAL_LINK_FLAGS = ../libical/src/libical/libical.la
+ICAL_LINK_FLAGS = $(top_srcdir)/libical/src/libical/libical.la
 
 INCLUDES = 						\
 	-I$(includedir)					\
@@ -28,6 +29,7 @@ INCLUDES = 						\
 	$(GNOME_CONDUIT_INCLUDEDIR)			\
 	$(PISOCK_INCLUDEDIR)                  		\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
@@ -41,10 +43,10 @@ GNOMECAL_CORBA_GENERATED =	\
 $(GNOMECAL_CORBA_GENERATED): GnomeCal.idl
 	$(ORBIT_IDL) $(idl_flags) $(srcdir)/GnomeCal.idl
 
-corba-cal.c		\
-corba-cal.h		\
-corba-cal-factory.c	\
-corba-cal-factory.h: GnomeCal.h
+#corba-cal.c		\
+#corba-cal.h		\
+#corba-cal-factory.c	\
+#corba-cal-factory.h: GnomeCal.h
 
 gnomecal_SOURCES =				\
 	GnomeCal-common.c			\
@@ -52,7 +54,6 @@ gnomecal_SOURCES =				\
 	GnomeCal.h				\
 	alarm.c					\
 	alarm.h					\
-	calendar-conduit.h			\
 	eventedit.c				\
 	eventedit.h				\
 	corba-cal.c				\
@@ -118,9 +119,10 @@ calendar_pilot_sync_SOURCES =	\
 LINK_FLAGS = \
 	$(BONOBO_VFS_GNOME_LIBS) \
 	$(INTLLIBS) \
-	cal-util/libcalutil.la \
-	../libversit/libversit.la \
-	$(ICAL_LINK_FLAGS)
+	$(top_srcdir)/calendar/cal-util/libcalutil.la \
+	$(top_srcdir)/libversit/libversit.la \
+	$(ICAL_LINK_FLAGS) \
+	$(top_srcdir)/calendar/cal-client/libcal-client.la
 
 calendar_pilot_sync_LDADD =	\
 	$(PISOCK_LIBDIR) $(PISOCK_LIBS)		\
@@ -136,6 +138,7 @@ endif
 libcalendar_conduit_la_SOURCES =		\
 	GnomeCal-common.c			\
 	GnomeCal-stubs.c			\
+	calendar-conduit.h			\
 	calendar-conduit.c			\
 	calobj.c				\
 	alarm.c					\
@@ -234,3 +237,4 @@ Productivity_DATA = gncal.desktop
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(help_base)/C
 	$(mkinstalldirs) $(Conduitsdir)
+

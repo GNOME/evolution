@@ -18,7 +18,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include "calendar.h"
-#include "alarm.h"
+/*#include "alarm.h"*/
 #include "timeutil.h"
 #include "libversit/vcc.h"
 #include "icalendar.h"

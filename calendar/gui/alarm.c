@@ -11,8 +11,8 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/time.h>
-#include "pcs/calobj.h"
 #include "alarm.h"
+#include "cal-util/alarm-enums.h"
 
 /* The pipes used to notify about an alarm */
 int alarm_pipes [2];
@@ -26,7 +26,7 @@ typedef struct {
 	time_t        activation_time;
 	AlarmFunction fn;
 	void          *closure;
-	CalendarAlarm *alarm;
+	CalendarAlarmUI *alarm;
 } AlarmRecord;
 
 enum DebugAction {
@@ -36,7 +36,7 @@ enum DebugAction {
 };
 
 void debug_alarm (AlarmRecord* ar, enum DebugAction action);
-void calendar_notify (time_t time, CalendarAlarm *which, void *data);
+void calendar_notify (time_t time, CalendarAlarmUI *which, void *data);
 extern int debug_alarms;
 
 /*
@@ -125,11 +125,11 @@ alarm_compare_by_time (gconstpointer a, gconstpointer b)
  * Returns TRUE if the alarm was scheduled.
  */
 gboolean
-alarm_add (CalendarAlarm *alarm, AlarmFunction fn, void *closure)
+alarm_add (CalendarAlarmUI *alarm, AlarmFunction fn, void *closure)
 {
 	time_t now = time (NULL);
 	AlarmRecord *ar;
-	time_t alarm_time = alarm->trigger;
+	time_t alarm_time = cal_client_alarm_get_trigger (alarm->alarm_handle);
 
 	ar = g_new0 (AlarmRecord, 1);
 	ar->activation_time = alarm_time;
@@ -215,7 +215,7 @@ void
 debug_alarm (AlarmRecord* ar, enum DebugAction action)
 {
 	time_t now = time (NULL);
-	iCalObject *ico = ar->closure;
+	/* iCalObject *ico = ar->closure; */
 	printf ("%s", ctime(&now));
 	switch (action) {
 	case ALARM_ADDED:
@@ -230,8 +230,8 @@ debug_alarm (AlarmRecord* ar, enum DebugAction action)
 	}
 
 	if (ar->fn!=&calendar_notify) return;
-	printf ("--- Summary: %s\n", ico->summary);
-	switch (ar->alarm->type) {
+	/* printf ("--- Summary: %s\n", ico->summary);*/
+	switch (cal_client_alarm_get_type (ar->alarm->alarm_handle)) {
 	case ALARM_MAIL:
 		printf ("--- Type: Mail\n");
 		break;
@@ -246,5 +246,4 @@ debug_alarm (AlarmRecord* ar, enum DebugAction action)
 		break;
 	}
 }
-
 
