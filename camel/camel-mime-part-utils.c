@@ -44,6 +44,61 @@
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
+static char *
+extract_metatag_charset (GByteArray *buffer)
+{
+	/* example: <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> */
+	const char *slashhead, *data;
+	char *charset = NULL;
+	
+	data = buffer->data;
+	
+	slashhead = strstrcase (data, "</head");
+	if (!slashhead)
+		slashhead = data + buffer->len;
+	
+	/* Yea, this is ugly */
+	while (data < slashhead) {
+		struct _header_param *params;
+		const char *meta, *metaend;
+		const char *val;
+		
+		meta = strstrcase (data, "<meta");
+		if (!meta)
+			break;
+		
+		metaend = strchr (meta, '>');
+		if (!metaend)
+			metaend = slashhead;
+		else
+			metaend++;
+		
+		params = html_meta_param_list_decode (meta, metaend - meta);
+		if (params) {
+			val = header_param (params, "http-equiv");
+			if (val && !g_strcasecmp (val, "Content-Type")) {
+				struct _header_content_type *content_type;
+				
+				val = header_param (params, "content");
+				content_type = header_content_type_decode (val);
+				charset = g_strdup (header_content_type_param (content_type, "charset"));
+				
+				header_content_type_unref (content_type);
+			}
+			
+			header_param_list_free (params);
+			
+			/* break as soon as we find a charset */
+			if (charset)
+				break;
+		}
+		
+		data = metaend;
+	}
+	
+	return charset;
+}
+
 /* simple data wrapper */
 static void
 simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser *mp)
@@ -91,12 +146,35 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	ct = camel_mime_parser_content_type (mp);
 	if (header_content_type_is (ct, "text", "*")) {
 		const char *charset = header_content_type_param (ct, "charset");
+		char *acharset = NULL;  /* to be alloca'd on demand */
 		
 		if (fdec) {
 			d(printf("Adding CRLF conversion filter\n"));
 			fcrlf = (CamelMimeFilter *)camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_DECODE,
 									       CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
 			crlfid = camel_mime_parser_filter_add (mp, fcrlf);
+		}
+		
+		/* Possible Lame Mailer Alert... check the META tags for a charset */
+		if (!charset && header_content_type_is (ct, "text", "html")) {
+			GByteArray *bytes;
+			const char *buf;
+			off_t offset;
+			int len;
+			
+			offset = camel_mime_parser_tell (mp);
+			/* if we can't find the charset within the first 2k, we ain't gonna find it */
+			len = camel_mime_parser_read (mp, &buf, 2048);
+			camel_mime_parser_seek (mp, offset, SEEK_SET);
+			
+			/* we only do this because we need it to be null terminated */
+			bytes = g_byte_array_new ();
+			g_byte_array_append (bytes, buf, len);
+			g_byte_array_append (bytes, "", 1);
+			
+			acharset = extract_metatag_charset (bytes);
+			charset = acharset;
+			g_byte_array_free (bytes, TRUE);
 		}
 		
 		/* if the charset is not us-ascii or utf-8, then we need to convert to utf-8 */
@@ -109,6 +187,8 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 				g_warning ("Cannot convert '%s' to 'UTF-8', message display may be corrupt", charset);
 			}
 		}
+		
+		g_free (acharset);
 	}
 	
 	buffer = g_byte_array_new ();
@@ -193,47 +273,45 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 	CamelDataWrapper *content = NULL;
 	char *buf;
 	int len;
-
-	printf ("camel_mime_part_construct_content_from_parser()\n");
 	
-	switch (camel_mime_parser_state(mp)) {
+	switch (camel_mime_parser_state (mp)) {
 	case HSCAN_HEADER:
 		d(printf("Creating body part\n"));
-		content = camel_data_wrapper_new();
-		simple_data_wrapper_construct_from_parser(content, mp);
+		content = camel_data_wrapper_new ();
+		simple_data_wrapper_construct_from_parser (content, mp);
 		break;
 	case HSCAN_MESSAGE:
 		d(printf("Creating message part\n"));
-		content = (CamelDataWrapper *)camel_mime_message_new();
-		camel_mime_part_construct_from_parser((CamelMimePart *)content, mp);
+		content = (CamelDataWrapper *) camel_mime_message_new ();
+		camel_mime_part_construct_from_parser ((CamelMimePart *)content, mp);
 		break;
 	case HSCAN_MULTIPART: {
 		CamelDataWrapper *bodypart;
-
+		
 #ifndef NO_WARNINGS
 #warning This should use a camel-mime-multipart
 #endif
 		d(printf("Creating multi-part\n"));
-		content = (CamelDataWrapper *)camel_multipart_new();
-
+		content = (CamelDataWrapper *)camel_multipart_new ();
+		
 		/* FIXME: use the real boundary? */
-		camel_multipart_set_boundary((CamelMultipart *)content, NULL);
-		while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_MULTIPART_END) {
-			camel_mime_parser_unstep(mp);
-			bodypart = (CamelDataWrapper *)camel_mime_part_new();
-			camel_mime_part_construct_from_parser((CamelMimePart *)bodypart, mp);
-			camel_multipart_add_part((CamelMultipart *)content, (CamelMimePart *)bodypart);
+		camel_multipart_set_boundary ((CamelMultipart *)content, NULL);
+		while (camel_mime_parser_step (mp, &buf, &len) != HSCAN_MULTIPART_END) {
+			camel_mime_parser_unstep (mp);
+			bodypart = (CamelDataWrapper *)camel_mime_part_new ();
+			camel_mime_part_construct_from_parser ((CamelMimePart *)bodypart, mp);
+			camel_multipart_add_part ((CamelMultipart *)content, (CamelMimePart *)bodypart);
 			camel_object_unref ((CamelObject *)bodypart);
 		}
-
+		
 		/* these are only return valid data in the MULTIPART_END state */
-		camel_multipart_set_preface((CamelMultipart *)content, camel_mime_parser_preface(mp));
-		camel_multipart_set_postface((CamelMultipart *)content, camel_mime_parser_postface(mp));
-
+		camel_multipart_set_preface ((CamelMultipart *)content, camel_mime_parser_preface (mp));
+		camel_multipart_set_postface ((CamelMultipart *)content, camel_mime_parser_postface (mp));
+		
 		d(printf("Created multi-part\n"));
 		break; }
 	default:
-		g_warning("Invalid state encountered???: %d", camel_mime_parser_state(mp));
+		g_warning("Invalid state encountered???: %d", camel_mime_parser_state (mp));
 	}
 	if (content) {
 #ifndef NO_WARNINGS
@@ -242,8 +320,7 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 		/* would you believe you have to set this BEFORE you set the content object???  oh my god !!!! */
 		camel_data_wrapper_set_mime_type_field (content, 
 							camel_mime_part_get_content_type ((CamelMimePart *)dw));
-		camel_medium_set_content_object((CamelMedium *)dw, content);
+		camel_medium_set_content_object ((CamelMedium *)dw, content);
 		camel_object_unref ((CamelObject *)content);
 	}
 }
-

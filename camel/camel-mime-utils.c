@@ -1685,7 +1685,7 @@ header_decode_quoted_string(const char **in)
 			}
 			*outptr++ = c;
 		}
-		*outptr = 0;
+		*outptr = '\0';
 	}
 	*in = inptr;
 	return out;
@@ -2723,6 +2723,7 @@ header_param_list_decode(const char *in)
 struct _header_param *
 html_meta_param_list_decode (const char *in, int inlen)
 {
+	/* example: <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> */
 	struct _header_param *params = NULL, *last = NULL;
 	const char *inptr, *inend;
 	
@@ -2753,6 +2754,7 @@ html_meta_param_list_decode (const char *in, int inlen)
 			break;
 		}
 		
+		inptr++;
 		value = header_decode_value (&inptr);
 		header_decode_lwsp (&inptr);
 		

@@ -1,5 +1,19 @@
 2001-07-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-part-utils.c (extract_metatag_charset): New function
+	to extract a meta-tag charset value if it exists.
+	(simple_data_wrapper_construct_from_parser): Along the same lines
+	as the code I previously ripped out, but this time use the
+	mime-parser's seek ability to help us along. Currently I read up
+	to a 2k buffer size - this is probably overkill, 1k is probably
+	plenty.
+
+	* camel-mime-utils.c (html_meta_param_list_decode): When we get to
+	an `=', we must skip past it before trying to grab the param
+	value. duh.
+
+2001-07-11  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-mime-part-utils.c
 	(simple_data_wrapper_construct_from_parser): Ripped out my code
 	since it was never being used since the mime parser is not using a

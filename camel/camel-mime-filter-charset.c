@@ -221,14 +221,14 @@ camel_mime_filter_charset_init (CamelMimeFilterCharset *obj)
 CamelMimeFilterCharset *
 camel_mime_filter_charset_new (void)
 {
-	CamelMimeFilterCharset *new = CAMEL_MIME_FILTER_CHARSET ( camel_object_new (camel_mime_filter_charset_get_type ()));
+	CamelMimeFilterCharset *new = CAMEL_MIME_FILTER_CHARSET (camel_object_new (camel_mime_filter_charset_get_type ()));
 	return new;
 }
 
 CamelMimeFilterCharset *
 camel_mime_filter_charset_new_convert(const char *from_charset, const char *to_charset)
 {
-	CamelMimeFilterCharset *new = CAMEL_MIME_FILTER_CHARSET ( camel_object_new (camel_mime_filter_charset_get_type ()));
+	CamelMimeFilterCharset *new = CAMEL_MIME_FILTER_CHARSET (camel_object_new (camel_mime_filter_charset_get_type ()));
 
 	new->ic = iconv_open(to_charset, from_charset);
 	if (new->ic == (iconv_t) -1) {
