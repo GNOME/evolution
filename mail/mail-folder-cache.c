@@ -74,7 +74,7 @@ update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 {
 	struct _store_info *si;
 	CamelFolder *folder;
-	int unread;
+	int unread = 0;
 	CORBA_Environment ev;
 	extern CamelFolder *outbox_folder;
 
@@ -88,18 +88,16 @@ update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 		else
 			unread = camel_folder_get_unread_message_count(folder);
 	} else if (info)
-		unread = info->unread_message_count;
-	else
-		unread = -1;
+		unread = (info->unread_message_count==-1)?0:info->unread_message_count;
 	UNLOCK(info_lock);
 
 	if (si->storage == NULL) {
-		d(printf("Updating existing (local) folder: %s\n", mfi->path));
+		d(printf("Updating existing (local) folder: %s (%d unread) folder=%p\n", mfi->path, unread, folder));
 		CORBA_exception_init(&ev);
 		GNOME_Evolution_Storage_updateFolder(si->corba_storage, mfi->path, mfi->name, unread, &ev);
 		CORBA_exception_free(&ev);
 	} else {
-		d(printf("Updating existing folder: %s\n", mfi->path));
+		d(printf("Updating existing folder: %s (%d unread)\n", mfi->path, unread));
 		evolution_storage_update_folder(si->storage, mfi->path, mfi->name, unread);
 	}
 }
@@ -109,7 +107,6 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 {
 	struct _folder_info *mfi;
 	char *type;
-	int unread = fi->unread_message_count;
 
 	LOCK(info_lock);
 	mfi = g_hash_table_lookup(si->folders, fi->full_name);
@@ -118,7 +115,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		update_1folder(mfi, fi);
 	} else {
 		/* always 'add it', but only 'add it' to non-local stores */
-		d(printf("Adding new folder: %s (%s)\n", fi->path, fi->url));
+		d(printf("Adding new folder: %s (%s) %d unread\n", fi->path, fi->url, fi->unread_message_count));
 		mfi = g_malloc0(sizeof(*mfi));
 		mfi->path = g_strdup(fi->path);
 		mfi->name = g_strdup(fi->name);
@@ -128,6 +125,8 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		UNLOCK(info_lock);
 
 		if (si->storage != NULL) {
+			int unread = (fi->unread_message_count==-1)?0:fi->unread_message_count;
+
 			type = (strncmp(fi->url, "vtrash:", 7)==0)?"vtrash":"mail";
 			evolution_storage_new_folder(si->storage, mfi->path, mfi->name, type,
 						     fi->url, mfi->name, unread);
@@ -339,5 +338,5 @@ mail_note_store(CamelStore *store, EvolutionStorage *storage, GNOME_Evolution_St
 
 	UNLOCK(info_lock);
 
-	mail_msg_wait(mail_get_folderinfo(store, update_folders, si));
+	mail_get_folderinfo(store, update_folders, si);
 }

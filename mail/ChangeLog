@@ -1,3 +1,13 @@
+2001-09-20    <NotZed@Ximian.com>
+
+	* component-factory.c (got_folder): trigger a folder changed
+	event, so the folderinfocache stuff has a chance to see if this is
+	the outbox_folder or not.
+
+	* mail-folder-cache.c (update_1folder): If we have -1 unread
+	count, pass that as 0 to the shell so it doesn't go bolding.
+	(setup_folder): Same.
+
 2001-09-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): Only add the account

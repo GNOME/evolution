@@ -615,7 +615,17 @@ got_folder (char *uri, CamelFolder *folder, void *data)
 	
 	if (folder) {
 		*fp = folder;
-		camel_object_ref (CAMEL_OBJECT (folder));
+
+		camel_object_ref(CAMEL_OBJECT (folder));
+
+		/* emit a changed event, this is a little hack so that the folderinfo cache
+		   will update knowing whether this is the outbox_folder or not, etc */
+		if (folder == outbox_folder) {
+			CamelFolderChangeInfo *changes = camel_folder_change_info_new();
+
+			camel_object_trigger_event((CamelObject *)folder, "folder_changed", changes);
+			camel_folder_change_info_free(changes);
+		}
 	}
 }
 
