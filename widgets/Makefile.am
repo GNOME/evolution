@@ -7,6 +7,10 @@ noinst_LIBRARIES =				\
 	libevolutionwidgets.a
 
 libevolutionwidgets_a_SOURCES = 		\
+	e-cell.c				\
+	e-cell.h				\
+	e-cell-text.c				\
+	e-cell-text.h				\
 	e-cursors.c				\
 	e-cursors.h				\
 	e-table-col.c				\
