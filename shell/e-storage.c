@@ -574,9 +574,10 @@ e_storage_new_folder (EStorage *storage,
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (e_folder), "changed", folder_changed_cb,
 					storage, GTK_OBJECT (storage));
-	folder_changed_cb (e_folder, storage);
 
 	gtk_signal_emit (GTK_OBJECT (storage), signals[NEW_FOLDER], path);
+
+	folder_changed_cb (e_folder, storage);
 
 	return TRUE;
 }

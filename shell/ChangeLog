@@ -3,6 +3,8 @@
 	* e-storage.c (e_storage_new_folder): Call folder_changed_cb after
 	adding the new folder so that if it was added highlighted, its
 	parent will get its child_highlight set.
+	(e_storage_new_folder): Move the folder_changed_cb() call to avoid
+	a g_warning.
 
 2001-06-28  Ettore Perazzoli  <ettore@ximian.com>
 
