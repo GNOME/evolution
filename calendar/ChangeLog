@@ -1,3 +1,11 @@
+2004-09-29  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #64683
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct): create
+	a scrolled window for the attendees list, and synchronize it with the
+	scrolling in the F/B area.
+
 2004-09-28  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #66736.

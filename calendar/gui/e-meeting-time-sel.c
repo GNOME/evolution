@@ -266,7 +266,7 @@ void
 e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *ems)
 {
 	char *filename;
-	GtkWidget *hbox, *vbox, *separator, *label, *table;
+	GtkWidget *hbox, *vbox, *separator, *label, *table, *sw;
 	GtkWidget *alignment, *child_hbox, *arrow, *menuitem;
 	GSList *group;
 	GdkVisual *visual;
@@ -332,12 +332,20 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	e_meeting_list_view_column_set_visible (mts->list_view, "RSVP", FALSE);
 	gtk_widget_show (GTK_WIDGET (mts->list_view));
 
+	
+	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
+	gtk_widget_set_child_visible (GTK_SCROLLED_WINDOW (sw)->vscrollbar, FALSE);
+	gtk_widget_show (sw);
+	gtk_container_add (GTK_CONTAINER (sw), GTK_WIDGET (mts->list_view));
+
 #if 0
 	/* FIXME: do we need sorting here */
 	g_signal_connect (real_table->sort_info, "sort_info_changed", G_CALLBACK (sort_info_changed_cb), mts);
 #endif
 
-	gtk_box_pack_start (GTK_BOX (mts->attendees_vbox), GTK_WIDGET (mts->list_view), TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (mts->attendees_vbox), GTK_WIDGET (sw), TRUE, TRUE, 6);
 
 	/* The free/busy information */
 	mts->display_top = gnome_canvas_new ();
@@ -364,6 +372,8 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 			  G_CALLBACK (e_meeting_time_selector_on_canvas_realized), mts);
 	g_signal_connect (mts->display_main, "size_allocate",
 			  G_CALLBACK (e_meeting_time_selector_on_canvas_size_allocate), mts);
+
+	gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW (sw), GTK_LAYOUT (mts->display_main)->vadjustment);
 
 	mts->hscrollbar = gtk_hscrollbar_new (GTK_LAYOUT (mts->display_main)->hadjustment);
 	GTK_LAYOUT (mts->display_main)->hadjustment->step_increment = mts->col_width;
@@ -913,7 +923,7 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 
 	*/	
 
-	gtk_widget_set_usize (mts->attendees_vbox_spacer, 1, mts->row_height * 2 - 4);
+	gtk_widget_set_usize (mts->attendees_vbox_spacer, 1, mts->row_height * 2 - 6);
 
 	GTK_LAYOUT (mts->display_main)->hadjustment->step_increment = mts->col_width;
 	GTK_LAYOUT (mts->display_main)->vadjustment->step_increment = mts->row_height;
