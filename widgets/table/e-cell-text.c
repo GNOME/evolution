@@ -483,7 +483,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	cursor_color = foreground;
 
-	if (ect->color_column != -1) {
+	if (ect->color_column != -1 && ! selected) {
 		color_spec = e_table_model_value_at (ecell_view->e_table_model,
 						     ect->color_column, row);
 		cell_foreground = e_cell_text_get_color (text_view,
