@@ -1,5 +1,8 @@
 2003-09-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* evolution-mbox-upgrade.c (get_local_store): Don't xmlFree (name)
+	until after we've g_strdup'd it.
+
 	Fix for bug #48791 (and also fixes a FIXME)
 
 	* em-format.c (emf_init): Setup a gconf listener for changes to

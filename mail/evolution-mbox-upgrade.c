@@ -194,8 +194,6 @@ get_local_store (CamelSession *session, const char *dirname, const char *metadat
 			buf = g_strdup_printf ("%s:%s", protocol, dirname);
 			xmlFree (protocol);
 			
-			xmlFree (name);
-			
 			if ((store = camel_session_get_store (session, buf, ex)))
 				*namep = g_strdup (name);
 			else
@@ -258,6 +256,8 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 		g_free (name);
 		return;
 	}
+	
+	g_free (name);
 	
 	flags |= (index ? CAMEL_STORE_FOLDER_BODY_INDEX : 0);
 	if (!(new_folder = camel_store_get_folder (session->store, full_name, flags, &ex))) {
