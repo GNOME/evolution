@@ -420,7 +420,8 @@ match_email_hostname (const gchar *addr1, const gchar *addr2)
 static ECardMatchType
 compare_email_addresses (const gchar *addr1, const gchar *addr2)
 {
-	if (addr1 == NULL || addr2 == NULL)
+	if (addr1 == NULL || *addr1 == 0 ||
+	    addr2 == NULL || *addr2 == 0)
 		return E_CARD_MATCH_NOT_APPLICABLE;
 
 	if (match_email_username (addr1, addr2)) 
@@ -598,9 +599,10 @@ use_common_book_cb (EBook *book, gpointer closure)
 		return;
 	}
 
-	if (card->nickname)
+#if 0
+	if (card->nickname && *card->nickname)
 		query_parts[p++] = g_strdup_printf ("(beginswith \"nickname\" \"%s\")", card->nickname);
-
+#endif
 
 	if (card->name->given && strlen (card->name->given) > 1)
 		query_parts[p++] = g_strdup_printf ("(contains \"full_name\" \"%s\")", card->name->given);
@@ -616,7 +618,7 @@ use_common_book_cb (EBook *book, gpointer closure)
 		EIterator *iter = e_list_get_iterator (card->email);
 		while (e_iterator_is_valid (iter) && p < MAX_QUERY_PARTS) {
 			gchar *addr = g_strdup (e_iterator_get (iter));
-			if (addr) {
+			if (addr && *addr) {
 				gchar *s = addr;
 				while (*s) {
 					if (*s == '@') {

@@ -1,3 +1,11 @@
+2002-06-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-compare.c (compare_email_addresses): Made
+	"" compare as not equal to "" for addresses.
+	(use_common_book_cb): Don't bother checking for nickname here
+	since we don't use it as a match later.  Don't add "" as an
+	address to the list of query parts.
+
 2002-06-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (enable_writable_fields):
