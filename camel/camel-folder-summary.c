@@ -1412,15 +1412,15 @@ summary_header_load(CamelFolderSummary *s, FILE *in)
 
 	/* Legacy version check, before version 12 we have no upgrade knowledge */
 	if ((s->version > 0xff) && (s->version & 0xff) < 12) {
-		(printf ("Summary header version mismatch"));
+		io(printf ("Summary header version mismatch"));
 		errno = EINVAL;
 		return -1;
 	}
 
 	if (!(s->version < 0x100 && s->version >= 13))
-		printf("Loading legacy summary\n");
+		io(printf("Loading legacy summary\n"));
 	else
-		printf("loading new-format summary\n");
+		io(printf("loading new-format summary\n"));
 
 	/* legacy version */
 	if (camel_file_util_decode_fixed_int32(in, &s->flags) == -1
