@@ -4,6 +4,7 @@ bin_PROGRAMS = evolution
 
 INCLUDES = 						\
 	-I$(top_srcdir)/widgets				\
+	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)					\
 	$(BONOBO_GNOME_CFLAGS)				\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"		\
@@ -56,12 +57,6 @@ evolution_SOURCES = 			\
 	evolution-service-repository.h  \
 	main.c
 
-evolution_LDADD = 					\
-	../widgets/shortcut-bar/libshortcut-bar.a	\
-	../widgets/e-text/libetext.a			\
-	../e-util/libeutil.la				\
-	$(BONOBO_GNOME_LIBS)				
-
 Evolution-impl.o: Evolution.h
 
 $(EVOLUTION_CORBA_GENERATED): Evolution.idl evolution-service-repository.idl
@@ -70,6 +65,7 @@ $(EVOLUTION_CORBA_GENERATED): Evolution.idl evolution-service-repository.idl
 evolution_LDADD =						\
 	$(top_builddir)/widgets/shortcut-bar/libshortcut-bar.a  \
 	$(top_builddir)/widgets/e-text/libetext.a		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(BONOBO_GNOME_LIBS)
 

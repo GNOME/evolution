@@ -36,6 +36,7 @@
 #include "e-shell.h"
 #include "e-shortcuts-view.h"
 #include "e-storage-set-view.h"
+#include "e-title-bar.h"
 #include "e-util/e-util.h"
 
 #include "e-shell-view.h"
@@ -56,14 +57,22 @@ struct _EShellViewPrivate {
 	char *uri;
 
 	/* The widgetry.  */
-	GtkWidget *hpaned;
-	GtkWidget *shortcut_bar;
-	GtkWidget *storage_set_view;
+	GtkWidget *hpaned1;
+	GtkWidget *hpaned2;
 	GtkWidget *contents;
 	GtkWidget *notebook;
+	GtkWidget *shortcut_bar;
+	GtkWidget *shortcut_bar_box;
+	GtkWidget *storage_set_view;
+	GtkWidget *storage_set_view_box;
 
 	/* The view we have already open.  */
 	GHashTable *uri_to_control;
+
+	/* Position of the handles in the paneds, to be restored when we show elements
+           after hiding them.  */
+	unsigned int hpaned1_position;
+	unsigned int hpaned2_position;
 };
 
 /* FIXME this should probably go somewhere else.  */
@@ -124,6 +133,8 @@ bonobo_widget_is_dead (BonoboWidget *bw)
 }
 
 
+/* Callbacks.  */
+
 /* Callback called when an icon on the shortcut bar gets clicked.  */
 static void
 activate_shortcut_cb (EShortcutsView *shortcut_view,
@@ -154,13 +165,38 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 	g_free (uri);
 }
 
+/* Callback called when the close button on the tree's title bar is clicked.  */
+static void
+storage_set_view_close_button_clicked_cb (ETitleBar *title_bar,
+					  gpointer data)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	e_shell_view_show_folders (shell_view, FALSE);
+}
+
+/* Callback called when the close button on the shorcut bar's title bar is clicked.  */
+static void
+shortcut_bar_close_button_clicked_cb (ETitleBar *title_bar,
+				      gpointer data)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	e_shell_view_show_shortcuts (shell_view, FALSE);
+}
+
 
 static void
 setup_widgets (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
+	GtkWidget *shortcut_bar_title_bar;
+	GtkWidget *storage_set_view_title_bar;
 	GtkWidget *storage_set_view_scrolled_window;
-	GtkWidget *left_paned;
 
 	priv = shell_view->priv;
 
@@ -169,6 +205,19 @@ setup_widgets (EShellView *shell_view)
 	priv->shortcut_bar = e_shortcuts_new_view (e_shell_get_shortcuts (priv->shell));
 	gtk_signal_connect (GTK_OBJECT (priv->shortcut_bar), "activate_shortcut",
 			    GTK_SIGNAL_FUNC (activate_shortcut_cb), shell_view);
+
+	priv->shortcut_bar_box = gtk_vbox_new (FALSE, 0);
+
+	shortcut_bar_title_bar = e_title_bar_new (_("Shortcuts"));
+	gtk_widget_show (shortcut_bar_title_bar);
+
+	gtk_box_pack_start (GTK_BOX (priv->shortcut_bar_box), shortcut_bar_title_bar,
+			    FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->shortcut_bar_box), priv->shortcut_bar,
+			    TRUE, TRUE, 0);
+
+	gtk_signal_connect (GTK_OBJECT (shortcut_bar_title_bar), "close_button_clicked",
+			    GTK_SIGNAL_FUNC (shortcut_bar_close_button_clicked_cb), shell_view);
 
 	/* The storage set view.  */
 
@@ -183,10 +232,16 @@ setup_widgets (EShellView *shell_view)
 	gtk_container_add (GTK_CONTAINER (storage_set_view_scrolled_window),
 			   priv->storage_set_view);
 
-	left_paned = gtk_hpaned_new ();
-	gtk_paned_set_position (GTK_PANED (left_paned), DEFAULT_SHORTCUT_BAR_WIDTH);
-	gtk_paned_add1 (GTK_PANED (left_paned), priv->shortcut_bar);
-	gtk_paned_add2 (GTK_PANED (left_paned), storage_set_view_scrolled_window);
+	priv->storage_set_view_box = gtk_vbox_new (FALSE, 0);
+	storage_set_view_title_bar = e_title_bar_new (_("Folders"));
+
+	gtk_box_pack_start (GTK_BOX (priv->storage_set_view_box), storage_set_view_title_bar,
+			    FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->storage_set_view_box), storage_set_view_scrolled_window,
+			    TRUE, TRUE, 0);
+
+	gtk_signal_connect (GTK_OBJECT (storage_set_view_title_bar), "close_button_clicked",
+			    GTK_SIGNAL_FUNC (storage_set_view_close_button_clicked_cb), shell_view);
 
 	/* The tabless notebook which we used to contain the views.  */
 
@@ -200,23 +255,32 @@ setup_widgets (EShellView *shell_view)
 
 	/* Put things into a paned and the paned into the GnomeApp.  */
 
-	priv->hpaned = gtk_hpaned_new ();
-	gtk_paned_set_position (GTK_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH + DEFAULT_TREE_WIDTH);
+	priv->hpaned2 = gtk_hpaned_new ();
+	gtk_paned_add1 (GTK_PANED (priv->hpaned2), priv->storage_set_view_box);
+	gtk_paned_add2 (GTK_PANED (priv->hpaned2), priv->notebook);
+	gtk_paned_set_position (GTK_PANED (priv->hpaned2), DEFAULT_SHORTCUT_BAR_WIDTH);
 
-	gtk_paned_add1 (GTK_PANED (priv->hpaned), left_paned);
-	gtk_paned_add2 (GTK_PANED (priv->hpaned), priv->notebook);
+	priv->hpaned1 = gtk_hpaned_new ();
+	gtk_paned_add1 (GTK_PANED (priv->hpaned1), priv->shortcut_bar_box);
+	gtk_paned_add2 (GTK_PANED (priv->hpaned1), priv->hpaned2);
+	gtk_paned_set_position (GTK_PANED (priv->hpaned1), DEFAULT_SHORTCUT_BAR_WIDTH);
 
-	gnome_app_set_contents (GNOME_APP (shell_view), priv->hpaned);
+	gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned1), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (priv->hpaned2), 0);
+
+	gnome_app_set_contents (GNOME_APP (shell_view), priv->hpaned1);
 
 	/* Show stuff.  */
 
 	gtk_widget_show (priv->shortcut_bar);
-	gtk_widget_show (priv->notebook);
-	gtk_widget_show (priv->hpaned);
+	gtk_widget_show (priv->shortcut_bar_box);
 	gtk_widget_show (priv->storage_set_view);
-
+	gtk_widget_show (priv->storage_set_view_box);
 	gtk_widget_show (storage_set_view_scrolled_window);
-	gtk_widget_show (left_paned);
+	gtk_widget_show (storage_set_view_title_bar);
+	gtk_widget_show (priv->notebook);
+	gtk_widget_show (priv->hpaned1);
+	gtk_widget_show (priv->hpaned2);
 
 	/* FIXME: Session management and stuff?  */
 	gtk_window_set_default_size (GTK_WINDOW (shell_view), DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -286,14 +350,20 @@ init (EShellView *shell_view)
 
 	priv = g_new (EShellViewPrivate, 1);
 
-	priv->shell            = NULL;
-	priv->uih              = NULL;
-	priv->uri              = NULL;
-	priv->hpaned           = NULL;
-	priv->shortcut_bar     = NULL;
-	priv->storage_set_view = NULL;
-	priv->contents         = NULL;
-	priv->notebook         = NULL;
+	priv->shell                = NULL;
+	priv->uih                  = NULL;
+	priv->uri                  = NULL;
+	priv->hpaned1              = NULL;
+	priv->hpaned2              = NULL;
+	priv->contents             = NULL;
+	priv->notebook             = NULL;
+	priv->storage_set_view     = NULL;
+	priv->storage_set_view_box = NULL;
+	priv->shortcut_bar         = NULL;
+	priv->shortcut_bar_box     = NULL;
+
+	priv->hpaned1_position     = 0;
+	priv->hpaned2_position     = 0;
 
 	priv->uri_to_control = g_hash_table_new (g_str_hash, g_str_equal);
 
@@ -675,6 +745,59 @@ e_shell_view_display_uri (EShellView *shell_view,
  end:
 	update_for_current_uri (shell_view);
 	return retval;
+}
+
+
+void
+e_shell_view_show_shortcuts (EShellView *shell_view,
+			     gboolean show)
+{
+	EShellViewPrivate *priv;
+
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	priv = shell_view->priv;
+
+	if (show) {
+		if (! GTK_WIDGET_VISIBLE (priv->shortcut_bar_box)) {
+			gtk_widget_show (priv->shortcut_bar_box);
+			gtk_paned_set_position (GTK_PANED (priv->hpaned1), priv->hpaned1_position);
+		}
+	} else {
+		if (GTK_WIDGET_VISIBLE (priv->shortcut_bar_box)) {
+			gtk_widget_hide (priv->shortcut_bar_box);
+			/* FIXME this is a private field!  */
+			priv->hpaned1_position = GTK_PANED (priv->hpaned1)->child1_size;
+			gtk_paned_set_position (GTK_PANED (priv->hpaned1), 0);
+		}
+	}
+}
+
+void
+e_shell_view_show_folders (EShellView *shell_view,
+			   gboolean show)
+{
+	EShellViewPrivate *priv;
+
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	priv = shell_view->priv;
+
+	if (show) {
+		if (! GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
+			gtk_widget_show (priv->storage_set_view_box);
+			gtk_paned_set_position (GTK_PANED (priv->hpaned2), priv->hpaned2_position);
+		}
+	} else {
+		if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
+			gtk_widget_hide (priv->storage_set_view_box);
+			/* FIXME this is a private field!  */
+			priv->hpaned2_position = GTK_PANED (priv->hpaned2)->child1_size;
+			gtk_paned_set_position (GTK_PANED (priv->hpaned2), 0);
+		}
+	}
 }
 
 

@@ -67,6 +67,11 @@ GtkWidget *e_shell_view_new          (EShell     *shell);
 gboolean   e_shell_view_display_uri  (EShellView *shell_view,
 				      const char *uri);
 
+void  e_shell_view_show_shortcuts  (EShellView *shell_view,
+				    gboolean    show);
+void  e_shell_view_show_folders    (EShellView *shell_view,
+				    gboolean    show);
+
 EShell    *e_shell_view_get_shell    (EShellView *shell_view);
 
 #ifdef __cplusplus

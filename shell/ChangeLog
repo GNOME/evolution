@@ -1,3 +1,27 @@
+2000-05-16  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view.c: New members `storage_set_view_box',
+	`shortcut_bar_box', `hpaned1_position', `hpaned2_position' in
+	`EShellViewPrivate'.
+	(init): Initialize them.
+	(setup_widgets): Add title bars to the tree and shortcut views.
+	(shortcuts_view_close_button_clicked_cb): New callback function.
+	(setup_widgets): Connect to the "close_button_clicked" signal of
+	the shortcut view's title bar.
+	(storage_set_view_close_button_clicked_cb): New callback function.
+	(setup_widgets): Connect to the "close_button_clicked" signal of
+	the storage set view's title bar.
+	(e_shell_view_show_shortcuts): New function.
+	(e_shell_view_show_folders): New function.
+
+	* e-shell-view.c: New members `hpaned1', `hpaned2' in
+	`EShellViewPrivate'.
+	(init): Initialize both to NULL.
+	(setup_widgets): Invert the parenting order for the GtkHPaneds and
+	store them into the private `hpaned' and `hpaned2' members.
+
+	* Makefile.am (evolution_LDADD): Link with `libemiscwidgets.a'.
+
 2000-05-15  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shortcuts.c
