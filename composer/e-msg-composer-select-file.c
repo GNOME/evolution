@@ -34,9 +34,9 @@
 #include <gtk/gtksignal.h>
 
 #include <libgnomeui/gnome-uidefs.h>
-#include <libgnomeui/gnome-window-icon.h>
 
 #include "e-msg-composer-select-file.h"
+#include <e-util/e-icon-factory.h>
 
 static GtkFileSelection *
 run_selector(EMsgComposer *composer, const char *title, int multi, gboolean *showinline_p)
@@ -44,12 +44,20 @@ run_selector(EMsgComposer *composer, const char *title, int multi, gboolean *sho
 	GtkFileSelection *selection;
 	GtkWidget *showinline = NULL;
 	char *path;
+	GList *icon_list;
 
 	selection = (GtkFileSelection *)gtk_file_selection_new(title);
 	gtk_window_set_transient_for((GtkWindow *)selection, (GtkWindow *)composer);
 	gtk_window_set_wmclass((GtkWindow *)selection, "fileselection", "Evolution:composer");
 	gtk_window_set_modal((GtkWindow *)selection, TRUE);
-	gnome_window_icon_set_from_file((GtkWindow *)selection, EVOLUTION_DATADIR "/images/evolution/compose-message.png");
+	
+	icon_list = e_icon_factory_get_icon_list ("stock_mail-compose");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (selection), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
+	
 	gtk_file_selection_set_select_multiple((GtkFileSelection *)selection, multi);
 
 	/* restore last path used */

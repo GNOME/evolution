@@ -114,8 +114,7 @@
 #include "e-msg-composer-select-file.h"
 
 #include "evolution-shell-component-utils.h"
-
-#include "art/attachment.xpm"
+#include <e-util/e-icon-factory.h>
 
 #include "Editor.h"
 #include "listener.h"
@@ -2020,13 +2019,13 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixcache [] = {
-	E_PIXMAP ("/Toolbar/FileAttach", "buttons/add-attachment.png"),
-	E_PIXMAP ("/Toolbar/FileSend", "buttons/send-24.png"),
+	E_PIXMAP ("/Toolbar/FileAttach", "stock_attach", 24),
+	E_PIXMAP ("/Toolbar/FileSend", "stock_mail-send", 24),
 	
-/*	E_PIXMAP ("/menu/Insert/FileAttach", "buttons/add-attachment.png"), */
-	E_PIXMAP ("/commands/FileSend", "send-16.png"),
-	E_PIXMAP ("/commands/FileSave", "save-16.png"),
-	E_PIXMAP ("/commands/FileSaveAs", "save-as-16.png"),
+/*	E_PIXMAP ("/menu/Insert/FileAttach", "stock_attach", 24), */
+	E_PIXMAP ("/commands/FileSend", "stock_mail-send", 16),
+	E_PIXMAP ("/commands/FileSave", "stock_save", 16),
+	E_PIXMAP ("/commands/FileSaveAs", "stock_save_as", 16),
 	
 	E_PIXMAP_END
 };
@@ -3166,6 +3165,7 @@ create_composer (int visible_mask)
 	CORBA_Environment ev;
 	GConfClient *gconf;
 	int vis;
+	GList *icon_list;
 	BonoboControlFrame *control_frame;
 	GdkPixbuf *attachment_pixbuf;
 	
@@ -3181,8 +3181,12 @@ create_composer (int visible_mask)
 			  G_CALLBACK (msg_composer_destroy_notify),
 			  NULL);
 
-	gnome_window_icon_set_from_file (GTK_WINDOW (composer), EVOLUTION_IMAGESDIR
-					 "/compose-message.png");
+	icon_list = e_icon_factory_get_icon_list ("stock_mail-compose");
+	if (icon_list) {
+		gtk_window_set_icon_list (GTK_WINDOW (composer), icon_list);
+		g_list_foreach (icon_list, (GFunc) g_object_unref, NULL);
+		g_list_free (icon_list);
+	}
 
 	/* DND support */
 	gtk_drag_dest_set (GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,
@@ -3293,7 +3297,7 @@ create_composer (int visible_mask)
 	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_num), 1.0, 0.5);
 	expander_hbox = gtk_hbox_new (FALSE, 0);
 
-	attachment_pixbuf = gdk_pixbuf_new_from_xpm_data (attachment_xpm);
+	attachment_pixbuf = e_icon_factory_get_icon ("stock_attach", 16);
 	composer->attachment_expander_icon = gtk_image_new_from_pixbuf (attachment_pixbuf);
 	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_icon), 1, 0.5);
 	gtk_widget_set_size_request (composer->attachment_expander_icon, 100, -1);
