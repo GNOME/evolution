@@ -1,3 +1,11 @@
+2005-01-04  Harry Lu  <harry.lu@sun.com>
+
+	* widgets/Makefile.am: add ea-combo-button.[ch] to Makefile.
+	* widgets/ea-combo-button.c:
+	* widgets/ea-combo-button.h: implement a11y object for e-combo-button.
+	* widgets/ea-widgets.c: (e_combo_button_a11y_init): set a11y factory.
+	* widgets/ea-widgets.h: add declaration.
+
 2004-12-09  Harry Lu  <harry.lu@sun.com>
 
 	Fix a warning.

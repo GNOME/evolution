@@ -30,5 +30,6 @@
 #define _EA_WIDGETS_H__
 
 void e_calendar_item_a11y_init (void);
+void e_combo_button_a11y_init (void);
 
 #endif /* _EA_WIDGETS_H__ */
